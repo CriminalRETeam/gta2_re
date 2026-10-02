@@ -7186,11 +7186,7 @@ void Ped::ProcessAirborneMovement_468040()
             gDistanceToTarget_678750 <= dword_678780 &&
                 abs_sub_less_than_epislon_45AE40(this->field_1AC_cam.z, this->field_1E4_objective_target_z))
         {
-            if (field_168_game_object->GetCharState_433A80() == 15)
-            {
-                this->field_224 |= 0x10u;
-            }
-            else
+            if (field_168_game_object->GetCharState_433A80() != 15)
             {
                 if ((this->field_224 & 0x10) != 0)
                 {
@@ -7200,20 +7196,25 @@ void Ped::ProcessAirborneMovement_468040()
                 ChangeNextPedState1_45C500(7);
                 ChangeNextPedState2_45C540(14);
             }
+            else
+            {
+                this->field_224 |= 0x10u;
+            }
         }
         else
         {
             if (field_168_game_object->GetCharState_433A80() != 15)
             {
-                if (gDistanceToTarget_678750 <= k_dword_67878C)
+                if (gDistanceToTarget_678750 > k_dword_67878C)
                 {
-                    field_168_game_object->SetMaxSpeed_433920(this->field_1F4);
+                    field_168_game_object->SetMaxSpeed_433920(this->field_1F0_maybe_max_speed);
+                    UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 4);
                 }
                 else
                 {
-                    field_168_game_object->SetMaxSpeed_433920(this->field_1F0_maybe_max_speed);
+                    field_168_game_object->SetMaxSpeed_433920(this->field_1F4);
+                    UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 4);
                 }
-                UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 4);
             }
         }
     }
