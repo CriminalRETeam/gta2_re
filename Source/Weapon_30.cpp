@@ -393,7 +393,7 @@ void Weapon_30::pistol_5DD860()
             gParticle_8_6FD5E8->GunMuzzelFlash_53E970(field_24_pPed->field_168_game_object->field_80_sprite_ptr);
             field_24_pPed->AddThreateningPedToList_46FC70();
 
-            if (field_24_pPed->field_15C_player)
+            if (field_24_pPed->is_player_41B0A0())
             {
                 gShooey_CC_67A4B8->ReportCrimeForPed(2u, this->field_24_pPed);
             }
