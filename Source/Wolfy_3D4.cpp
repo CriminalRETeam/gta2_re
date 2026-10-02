@@ -432,11 +432,10 @@ void Wolfy_30::state_5_541430(Ang16 ang, Fix16 pos)
     }
 }
 
-WIP_FUNC(0x541680)
-Fix16* Wolfy_30::sub_541680(Fix16* a2)
+MATCH_FUNC(0x541680)
+Fix16 Wolfy_30::sub_541680()
 {
-    WIP_IMPLEMENTED;
-    Fix16* result;
+    Fix16 r;
     switch (this->field_10_type_or_state)
     {
         case 18:
@@ -444,28 +443,22 @@ Fix16* Wolfy_30::sub_541680(Fix16* a2)
         case 23:
         case 24:
         case 25:
-            result = a2;
-            *a2 = kFP16Half_6FD39C;
+            r = kFP16Half_6FD39C;
+            break;
+        case 33:
+            r = kFP16ThreeQuarters_6FD370;
             break;
         case 19:
         case 32:
-            result = a2;
-            *a2 = kFP16One_6FD4A0;
+            r = kFP16One_6FD4A0;
             break;
         case 20:
-            result = a2;
-            *a2 = kFP16Two_6FD4A4;
-            break;
-        case 33:
-            result = a2;
-            *a2 = kFP16ThreeQuarters_6FD370;
+            r = kFP16Two_6FD4A4;
             break;
         default:
-            result = a2;
-            //*a2 = a2;
-            break;
+            break; // r stays uninitialised, as in the original
     }
-    return result;
+    return r;
 }
 
 MATCH_FUNC(0x541710)
@@ -523,8 +516,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
 
     Fix16 zoff = Wolfy_30::sub_541710();
 
-    Fix16 f28;
-    Wolfy_30::sub_541680(&f28);
+    Fix16 f28 = Wolfy_30::sub_541680();
 
     this->field_28 = f28;
 
