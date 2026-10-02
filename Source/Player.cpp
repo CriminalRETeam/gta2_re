@@ -169,27 +169,29 @@ void Player::AddCarToHistory_5645B0(Car_BC* pNewCar)
 {
     WIP_IMPLEMENTED;
 
-    Car_BC** ppIter = this->field_54_car_history;
-    Car_BC** pIter = this->field_54_car_history;
+    Car_BC** ppIter = field_54_car_history;
+    Car_BC** pIter = field_54_car_history;
     if (!bStartNetworkGame_7081F0)
     {
-        char_type i = PromoteCarInHistory_564610(pNewCar, false);
+        u8 i = PromoteCarInHistory_564610(pNewCar, false);
         if (!i)
         {
-            while (*pIter)
+            for (; i < 3; pIter++, i++)
             {
-                ++pIter;
-                if ((u8)++i >= 3u)
+                if (!*pIter)
                 {
-                    (*ppIter)->MarkRecycled_443E80();
-                    Car_BC* pCar_2 = ppIter[2];
-                    *ppIter = ppIter[1];
-                    ppIter[1] = pCar_2;
-                    ppIter[2] = pNewCar;
+                    *pIter = pNewCar;
                     return;
                 }
             }
-            *pIter = pNewCar;
+
+            // History full: recycle the oldest car and shift the others down
+            ppIter[0]->MarkRecycled_443E80();
+            Car_BC* pCar_1 = ppIter[1];
+            Car_BC* pCar_2 = ppIter[2];
+            ppIter[0] = pCar_1;
+            ppIter[1] = pCar_2;
+            ppIter[2] = pNewCar;
         }
     }
 }
