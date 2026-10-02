@@ -1221,7 +1221,7 @@ void Weapon_30::sub_5DFB60(char_type a2, Sprite* a3, Ang16 a4)
         if (bHit && !a2)
         {
             field_2C = 1;
-            if (field_24_pPed->IsField238_45EDE0(2) && (rng_dword_67AB34->field_0_rng & 1))
+            if (field_24_pPed->IsField238_45EDE0(2) && (rng_dword_67AB34->get_cur_rng_41CFE0() & 1))
             {
                 DecreaseAmmo_4CCA60();
             }
