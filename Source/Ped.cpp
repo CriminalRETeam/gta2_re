@@ -9988,11 +9988,9 @@ void Ped::sub_46CA70()
         field_16C_car->field_60->field_8_maybe_path_type = 2;
     }
 
-    Car_BC* pBC = this->field_16C_car;
-    pBC->field_7C_uni_num = 5;
-    pBC->field_76_last_seen_timer = 0;
+    this->field_16C_car->sub_421560(5);
     this->field_16C_car->field_60->field_30_ped_to_follow = this->field_14C;
-    this->field_16C_car->field_A6 &= ~0x20u;
+    this->field_16C_car->ClearA6Bit20_421550();
     this->field_16C_car->field_5C_AI->field_74_unk_speed = dword_67866C;
     this->field_16C_car->field_60->field_20 = 1;
 }
