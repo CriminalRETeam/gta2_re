@@ -72,6 +72,12 @@ class Player
         return field_40_arrow_blocker_zone;
     }
 
+    // 9.6f 0x4766A0
+    inline s32 get_multiplier_4766A0()
+    {
+        return field_6BC_multpliers.get_value();
+    }
+
     // 9.6f 0x41DC40
     inline void Add_2D4(s32 score)
     {

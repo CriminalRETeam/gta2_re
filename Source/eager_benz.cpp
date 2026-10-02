@@ -416,7 +416,7 @@ void eager_benz::AddCash_592620(s32 cash)
 WIP_FUNC(0x592660)
 void eager_benz::sub_592660(Ped* pPed1, Ped* pPed2)
 {
-    const s32 multipler = field_368_player->field_6BC_multpliers.field_0_value;
+    const s32 multipler = field_368_player->get_multiplier_4766A0();
     gmp_map_zone* pZone = gMap_0x370_6F6268->sub_4DF6A0(pPed2->get_cam_x().ToInt(), pPed2->get_cam_y().ToInt());
 
     s16 gang_idx;
@@ -437,7 +437,7 @@ void eager_benz::sub_592660(Ped* pPed1, Ped* pPed2)
                              87,
                              pPed1->get_occupation_403980(),
                              gang_idx,
-                             pPed1->field_244_remap,
+                             pPed1->get_remap_433BA0(),
                              pPed1->field_290,
                              pPed2->get_car_model(),
                              pZone);
@@ -692,13 +692,13 @@ scored:
     if (score > 0)
     {
         u32 total = (u8)field_75_score_mult * score;
-        if (!bExplodingScoresOff_67D4FB && bHasB4 && bGiveScore && field_368_player->field_0_bIsUser)
+        if (!bExplodingScoresOff_67D4FB && bHasB4 && bGiveScore && field_368_player->IsUser_41DC70())
         {
-            gExplodingScorePool->PushScore_596890(pPed1->field_1AC_cam.x, pPed1->field_1AC_cam.y, pPed1->field_1AC_cam.z, total * multipler);
+            gExplodingScorePool->PushScore_596890(pPed1->get_cam_x(), pPed1->get_cam_y(), pPed1->get_cam_z(), total * multipler);
         }
         if (bGiveScore)
         {
-            field_368_player->field_2D4_scores.AddCash_592620(total * field_368_player->field_6BC_multpliers.field_0_value);
+            field_368_player->Add_2D4(total);
         }
         if ((u8)field_75_score_mult < 5)
         {
@@ -710,19 +710,19 @@ scored:
     {
         if (bOtherGang)
         {
-            gShooey_CC_67A4B8->ReportCrimeForPed(9, field_368_player->Get_Field_68_Ped());
+            gShooey_CC_67A4B8->ReportCrimeForPed(9, field_368_player->GetPlayerPed_4A5130());
         }
         else if (bCop || bFbi || bArmy || bSwat)
         {
-            gShooey_CC_67A4B8->ReportCrimeForPed(8, field_368_player->Get_Field_68_Ped());
+            gShooey_CC_67A4B8->ReportCrimeForPed(8, field_368_player->GetPlayerPed_4A5130());
         }
         else if (pPed1->field_290 == 1 || pPed1->field_290 == 3)
         {
-            gShooey_CC_67A4B8->ReportCrimeForPed(6, field_368_player->Get_Field_68_Ped());
+            gShooey_CC_67A4B8->ReportCrimeForPed(6, field_368_player->GetPlayerPed_4A5130());
         }
         else
         {
-            gShooey_CC_67A4B8->ReportCrimeForPed(7, field_368_player->Get_Field_68_Ped());
+            gShooey_CC_67A4B8->ReportCrimeForPed(7, field_368_player->GetPlayerPed_4A5130());
         }
     }
 }
