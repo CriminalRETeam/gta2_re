@@ -10381,77 +10381,74 @@ void Ped::RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius)
 {
     WIP_IMPLEMENTED;
 
-    PedGroup* pGroup_; // ecx
-    int z_copy; // ebx
-    Fix16 x; // edi
-    Fix16 y; // ecx
-    Sprite* pSprite; // eax
-    Sprite* pNearest; // eax
-    Char_B4* pB4; // eax
-    Ped* pPed; // edi
-    PedGroup* pGroup; // ecx
-    struct_4 collision_list; // [esp+8h] [ebp-1Ch] BYREF
-    Fix16_Rect rect; // [esp+Ch] [ebp-18h] BYREF
+    struct_4 collision_list;
+    Fix16_Rect rect;
 
     collision_list.field_0_p18 = 0;
-    pGroup_ = this->field_164_ped_group;
-    if (!pGroup_)
+
+    PedGroup* pOwnGroup = field_164_ped_group;
+    s32 max_count;
+    if (pOwnGroup)
+    {
+        max_count = desiredCount;
+        // min(desiredCount, 9)
+        if (desiredCount > 9)
+        {
+            max_count = 9;
+        }
+
+        if (pOwnGroup->field_34_count >= max_count)
+        {
+            return;
+        }
+    }
+    else
     {
         SpawnPedGroupFollowers_46E200(0);
-        z_copy = desiredCount;
-    LABEL_7:
-        x = this->field_1AC_cam.x;
-        // desiredCount = this->field_1AC_cam.z;
-        y = this->field_1AC_cam.y;
-        rect.field_0_left = x - searchRadius / 2;
-        rect.field_4_right = searchRadius / 2 + x;
-        rect.field_C_bottom = y + searchRadius / 2;
-        rect.field_8_top = y - searchRadius / 2;
-        rect.field_10_low_z = searchRadius - k_dword_67845C;
-        rect.field_14_high_z = searchRadius + k_dword_67845C;
-        pSprite = GetSprite_46DF50();
-        if (gPurpleDoom_1_679208->CollectRectCollisions_477F30(&rect, 0, 0, pSprite, &collision_list))
-        {
-            for (pNearest = collision_list.TakeClosestSprite_5A6EA0(this->field_1AC_cam.x, this->field_1AC_cam.y); pNearest;
-                 pNearest = collision_list.TakeClosestSprite_5A6EA0(this->field_1AC_cam.x, this->field_1AC_cam.y))
-            {
-                pB4 = pNearest->AsCharB4_40FEA0();
+        max_count = desiredCount;
+    }
 
-                if (pB4)
+    Fix16 x = field_1AC_cam.x;
+    // NOTE: OG reuses both param slots as scratch for cam.z and the low/high z
+    desiredCount = field_1AC_cam.z.mValue;
+    Fix16 y = field_1AC_cam.y;
+    rect.field_0_left = x - searchRadius / 2;
+    rect.field_4_right = searchRadius / 2 + x;
+    rect.field_C_bottom = y + searchRadius / 2;
+    rect.field_8_top = y - searchRadius / 2;
+    searchRadius = ((const Fix16*)&desiredCount)->Subtract_436A00(k_dword_67845C);
+    rect.field_10_low_z = searchRadius;
+    searchRadius = *(const Fix16*)&desiredCount + k_dword_67845C;
+    rect.field_14_high_z = searchRadius;
+
+    if (gPurpleDoom_1_679208->CollectRectCollisions_477F30(&rect, 0, 0, GetSprite_46DF50(), &collision_list))
+    {
+        for (Sprite* pNearest = collision_list.TakeClosestSprite_5A6EA0(field_1AC_cam.x, field_1AC_cam.y); pNearest;
+             pNearest = collision_list.TakeClosestSprite_5A6EA0(field_1AC_cam.x, field_1AC_cam.y))
+        {
+            Char_B4* pB4 = pNearest->AsCharB4_40FEA0();
+
+            if (pB4)
+            {
+                Ped* pPed = pB4->field_7C_pPed;
+                if (pPed->sub_46E020(field_164_ped_group))
                 {
-                    pPed = pB4->field_7C_pPed;
-                    if (pPed->sub_46E020(this->field_164_ped_group))
+                    PedGroup* pGroup = pPed->field_164_ped_group;
+                    if (pGroup)
                     {
-                        pGroup = pPed->field_164_ped_group;
-                        if (pGroup)
-                        {
-                            pGroup->RemovePed_4C9970(pPed);
-                        }
-                        field_164_ped_group->add_ped_to_end_of_list_4C8F90(pPed);
-                        pPed->SetupFollower_46DF70(this, weapon_type::dual_pistol);
-                        if (this->field_164_ped_group->field_34_count == z_copy)
-                        {
-                            break;
-                        }
+                        pGroup->RemovePed_4C9970(pPed);
+                    }
+                    field_164_ped_group->add_ped_to_end_of_list_4C8F90(pPed);
+                    pPed->SetupFollower_46DF70(this, weapon_type::dual_pistol);
+                    if (field_164_ped_group->field_34_count == max_count)
+                    {
+                        break;
                     }
                 }
             }
         }
-        collision_list.ClearList_5A6E10();
-        return;
     }
-
-    z_copy = desiredCount;
-    // max(desiredCount, 9)
-    if (desiredCount > 9)
-    {
-        z_copy = 9;
-    }
-
-    if (pGroup_->field_34_count < z_copy)
-    {
-        goto LABEL_7;
-    }
+    collision_list.ClearList_5A6E10();
 }
 
 MATCH_FUNC(0x46e200)
