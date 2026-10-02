@@ -2095,19 +2095,14 @@ void CarPhysics_B0::ApplyForwardEngineForce_55EC30()
 }
 
 // https://decomp.me/scratch/foNCl
-WIP_FUNC(0x55ef20)
+MATCH_FUNC(0x55ef20)
 void CarPhysics_B0::ApplyReverseEngineForce_55EF20()
 {
-    WIP_IMPLEMENTED;
 
-    // Only diff left: the original keeps t at 6(%esp), ours at 4(%esp)
     Ang16 theta;
     if (field_94_is_backward_gas_on)
     {
-        Ang16 t = field_58_theta;
-        t.rValue += kAng180_6FE12A.rValue;
-        t.Normalize_406C20();
-        theta = t;
+        theta = field_58_theta + kAng180_6FE12A;
     }
     else
     {
