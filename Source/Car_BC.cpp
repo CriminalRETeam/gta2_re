@@ -2605,7 +2605,7 @@ void Car_BC::sub_43AF40()
     if (field_5C_AI)
     {
         field_5C_AI->field_18 = k_dword_6778E0;
-        field_A6 &= ~0x20u;
+        ClearA6Bit5_421550();
     }
 }
 
