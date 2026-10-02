@@ -2327,8 +2327,9 @@ s32 NetPlay::Send_521E40(s32 pSendData)
     return field_5E4_pDPlay3->Send(field_5D8_player_id, 0, 0, (void*)pData, dataLen);
 }
 
-STUB_FUNC(0x5e4dd0)
+// The atexit destructor VC6 generates for gNetPlay_7071E8, written out
+MATCH_FUNC(0x5e4dd0)
 void NetPlay::static_dtor_5E4DD0()
 {
-    NOT_IMPLEMENTED;
+    gNetPlay_7071E8.NetPlay::~NetPlay();
 }
