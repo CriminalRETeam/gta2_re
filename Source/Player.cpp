@@ -81,7 +81,7 @@ void UnknownDebugClass::DoTest_5B2640(u16 action)
             break;
         case 7:
             gTestArrow_70416C = gHud_2B00_706620->field_1F18.AllocArrow_5D1050();
-            gTestArrow_70416C->field_18.field_18_primary_target.SetTargetCar(gTestArrowCar_7043F0);
+            gTestArrow_70416C->SetArrowTargetCar_476860(gTestArrowCar_7043F0);
             gTestArrow_70416C->SetArrowColour_5D0510(5);
             break;
         case 8:
