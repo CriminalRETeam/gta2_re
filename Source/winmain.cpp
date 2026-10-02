@@ -16,6 +16,7 @@
 #include "jolly_poitras_0x2BC0.hpp"
 #include "keybrd_0x204.hpp"
 #include "lucid_hamilton.hpp"
+#include "crt_stubs.hpp"
 #include "registry.hpp"
 #include "rng.hpp"
 #include "resource.h"
@@ -1152,6 +1153,19 @@ EXPORT void Net_4DA9F0()
             }
         }
     }
+}
+
+// Sum of all the bytes of a file
+MATCH_FUNC(0x4DB120)
+EXPORT s32 __stdcall FileByteSum_4DB120(FILE* hFile)
+{
+    s32 sum = 0;
+    u8 c;
+    while (crt::fread(&c, 1, 1, hFile) > 0)
+    {
+        sum += c;
+    }
+    return sum;
 }
 
 // Fills in the sync check data that is compared between players at the start of a network game
