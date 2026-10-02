@@ -10584,6 +10584,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                     Ped::ChangeNextPedState1_45C500(7);
                     Ped::ChangeNextPedState2_45C540(11);
                     field_21C_bf.b11 = true;
+                    // 9.6f: Char_B4::SetMaxSpeed_433920 (inlined, using it makes the diff worse)
                     field_168_game_object->field_38_velocity = k_dword_678438;
                 }
                 else
