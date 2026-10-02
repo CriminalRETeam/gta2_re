@@ -253,11 +253,9 @@ Object_2C* Weapon_30::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypo
 }
 
 // https://decomp.me/scratch/73olU
-WIP_FUNC(0x5dd0f0)
+MATCH_FUNC(0x5dd0f0)
 void Weapon_30::flamethrower_5DD0F0()
 {
-    WIP_IMPLEMENTED;
-
     Ang16 ped_rot;
     Fix16_Point cartesian_offset;
     Fix16_Point ped_pos_maybe;
