@@ -390,6 +390,7 @@ class sound_obj
     EXPORT u8 GetQueuedRadioWordCount_427310();
     EXPORT void EnqueueRadioCrimeCallout_427340(s32 word_base, u8 xpos, u8 ypos);
     EXPORT void AppendRadioMessageSuffix_4273B0();
+    EXPORT void nullsub_4();
     EXPORT u32 GetCopRadioZoneIndex_427400(u8 x, u8 y, gmp_map_zone** ppZone);
 
     EXPORT void ProcessType7_Weapon_42A500(s32 idx);

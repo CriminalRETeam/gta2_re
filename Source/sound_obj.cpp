@@ -22,6 +22,7 @@
 #include "Weapon_30.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
+#include "Shooey_CC.hpp"
 #include <math.h>
 
 DEFINE_GLOBAL(sound_obj, gSound_obj_66F680, 0x66F680);
@@ -5180,10 +5181,254 @@ void sound_obj::HandleVocalStreamSwitching_57DF10(char_type a2)
     }
 }
 
-STUB_FUNC(0x426790)
+DEFINE_GLOBAL(u16, word_6758A8, 0x6758A8);
+
+// Builds the police radio messages for the player's wanted level and the crimes reported nearby
+MATCH_FUNC(0x426790)
 void sound_obj::PoliceRadioMessageGeneration_426790()
 {
-    NOT_IMPLEMENTED;
+    Ped* pPed = gGame_0x40_67E008->field_38_orf1->GetPlayerPed_41D020();
+    s32 crime_type;
+    Fix16 crime_x;
+    Fix16 crime_y;
+    Fix16 crime_z;
+    s32 best_crime = 0;
+    u8 xpos = 0;
+    u8 ypos = 0;
+
+    while (gShooey_CC_67A4B8->GetLatestReportedCrime(&crime_type, &crime_x, &crime_y, &crime_z) == 1)
+    {
+        if (crime_type)
+        {
+            if (crime_type == 9)
+            {
+                if (best_crime)
+                {
+                    continue;
+                }
+                best_crime = crime_type;
+            }
+            else
+            {
+                if (best_crime >= crime_type)
+                {
+                    continue;
+                }
+                best_crime = crime_type;
+            }
+            xpos = crime_x.ToInt();
+            ypos = crime_y.ToInt();
+        }
+    }
+
+    s16 stars = pPed->get_wanted_star_count_46EF00();
+    if (word_6758A8 > 0)
+    {
+        word_6758A8--;
+    }
+
+    if (stars > 0)
+    {
+        if (field_556A_erv_en_route_timer)
+        {
+            if (--field_556A_erv_en_route_timer == 0)
+            {
+                AppendRadioMessageSuffix_4273B0();
+            }
+        }
+        if (field_556E_timer)
+        {
+            field_556E_timer--;
+        }
+        if (field_5570_timer)
+        {
+            field_5570_timer--;
+        }
+        if (field_556C_timer)
+        {
+            field_556C_timer--;
+        }
+
+        if (best_crime)
+        {
+            if (best_crime == 8 && !field_556A_erv_en_route_timer)
+            {
+                field_5569_crime_ypos = ypos;
+                field_5568_crime_xpos = xpos;
+                field_556A_erv_en_route_timer = (field_1454_anRandomTable[0] % 10 + 15) * 100;
+            }
+
+            if (stars > field_5522_wanted_star_count)
+            {
+                nullsub_4();
+                field_5570_timer = field_1454_anRandomTable[2] % 1067 + 150;
+                field_556C_timer = field_1454_anRandomTable[2] % 1530 + 600;
+                word_6758A8 = field_1454_anRandomTable[3] % 50 + 889;
+                switch (stars)
+                {
+                    case 1:
+                        EnqueueRadioWord_4271B0(120);
+                        EnqueueRadioWord_4271B0(93);
+                        EnqueueRadioWord_4271B0(field_5521_radio_word + 74);
+                        EnqueueRadioCrimeCallout_427340(best_crime, xpos, ypos);
+                        break;
+                    case 2:
+                        if (GetQueuedRadioWordCount_427310() >= 9)
+                        {
+                            EnqueueRadioWord_4271B0(120);
+                            EnqueueRadioWord_4271B0(93);
+                            EnqueueRadioWord_4271B0(field_5521_radio_word + 74);
+                            EnqueueRadioWord_4271B0(72);
+                            EnqueueRadioWord_4271B0(73);
+                            EnqueueRadioWord_4271B0(field_5524_radio_word + 73);
+                            EnqueueRadioLocationPhrase_426E10(xpos, ypos);
+                        }
+                        break;
+                    case 3:
+                        if (GetQueuedRadioWordCount_427310() >= 9)
+                        {
+                            EnqueueRadioWord_4271B0(120);
+                            EnqueueRadioWord_4271B0(92);
+                            if (!(field_1454_anRandomTable[2] & 1))
+                            {
+                                EnqueueRadioWord_4271B0(89);
+                                EnqueueRadioLocationPhrase_426E10(xpos, ypos);
+                                EnqueueRadioWord_4271B0(71);
+                                EnqueueRadioWord_4271B0(73);
+                                EnqueueRadioWord_4271B0(field_5524_radio_word + 73);
+                            }
+                            else
+                            {
+                                EnqueueRadioWord_4271B0(71);
+                                EnqueueRadioWord_4271B0(73);
+                                EnqueueRadioWord_4271B0(field_5524_radio_word + 73);
+                                EnqueueRadioWord_4271B0(88);
+                                EnqueueRadioLocationPhrase_426E10(xpos, ypos);
+                            }
+                        }
+                        break;
+                    case 4:
+                        if (GetQueuedRadioWordCount_427310() >= 6)
+                        {
+                            EnqueueRadioWord_4271B0(120);
+                            EnqueueRadioWord_4271B0(92);
+                            EnqueueRadioWord_4271B0(90);
+                            EnqueueRadioWord_4271B0(120);
+                            EnqueueRadioWord_4271B0(97);
+                            EnqueueRadioWord_4271B0(91);
+                        }
+                        break;
+                    case 5:
+                        if (GetQueuedRadioWordCount_427310() >= 6)
+                        {
+                            EnqueueRadioWord_4271B0(120);
+                            EnqueueRadioWord_4271B0(92);
+                            EnqueueRadioWord_4271B0(90);
+                            EnqueueRadioWord_4271B0(120);
+                            EnqueueRadioWord_4271B0(96);
+                            EnqueueRadioWord_4271B0(91);
+                        }
+                        break;
+                    case 6:
+                        if (GetQueuedRadioWordCount_427310() >= 6)
+                        {
+                            EnqueueRadioWord_4271B0(120);
+                            EnqueueRadioWord_4271B0(92);
+                            EnqueueRadioWord_4271B0(90);
+                            EnqueueRadioWord_4271B0(120);
+                            EnqueueRadioWord_4271B0(94);
+                            EnqueueRadioWord_4271B0(91);
+                        }
+                        break;
+                }
+            }
+            else
+            {
+                Car_BC* pCar = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
+                nullsub_4();
+                switch (field_1454_anRandomTable[3] % 10)
+                {
+                    case 0:
+                        if (!field_556E_timer)
+                        {
+                            GenerateRadioVehicleDescription_426F20(pCar);
+                            field_556E_timer = field_1454_anRandomTable[2] % 1000 + 300;
+                        }
+                        break;
+                    case 1:
+                        if (!word_6758A8)
+                        {
+                            EnqueueRadioCrimeCallout_427340(best_crime, xpos, ypos);
+                            word_6758A8 = field_1454_anRandomTable[3] % 50 + 889;
+                        }
+                        break;
+                    case 2:
+                        if (best_crime == 2 && !field_556C_timer)
+                        {
+                            if (GetQueuedRadioWordCount_427310() > 3)
+                            {
+                                EnqueueRadioWord_4271B0(121);
+                                EnqueueRadioWord_4271B0(98);
+                                EnqueueRadioWord_4271B0(99);
+                                EnqueueRadioWord_4271B0(103);
+                            }
+                            field_556C_timer = field_1454_anRandomTable[2] % 1530 + 600;
+                        }
+                        break;
+                    case 3:
+                        if (!field_5570_timer)
+                        {
+                            if (GetQueuedRadioWordCount_427310() > 6)
+                            {
+                                EnqueueRadioWord_4271B0(121);
+                                EnqueueRadioWord_4271B0(98);
+                                EnqueueRadioWord_4271B0(102);
+                                EnqueueRadioWord_4271B0(88);
+                                EnqueueRadioLocationPhrase_426E10(xpos, ypos);
+                            }
+                            field_5570_timer = field_1454_anRandomTable[2] % 1067 + 150;
+                        }
+                        break;
+                    case 7:
+                        if (!word_6758A8)
+                        {
+                            EnqueueRadioCrimeCallout_427340(best_crime, xpos, ypos);
+                            word_6758A8 = field_1454_anRandomTable[3] % 680 + 628;
+                            field_5570_timer = field_1454_anRandomTable[2] % 1067 + 150;
+                        }
+                        break;
+                }
+            }
+        }
+    }
+    else if (field_5522_wanted_star_count > stars)
+    {
+        ResetRadioMessageState_426750();
+    }
+    else if (best_crime > 0 && !(field_1454_anRandomTable[4] % 15) && !word_6758A8)
+    {
+        EnqueueRadioCrimeCallout_427340(best_crime, xpos, ypos);
+        word_6758A8 = field_1454_anRandomTable[3] % 80 + 228;
+    }
+
+    field_5522_wanted_star_count = stars;
+    if (best_crime > field_5524_radio_word)
+    {
+        if (best_crime != 9)
+        {
+            field_5524_radio_word = best_crime;
+        }
+        else if (!field_5524_radio_word)
+        {
+            field_5524_radio_word = 9;
+        }
+    }
+    ProcessPoliceRadioWordsPlayback_427220();
+}
+
+void sound_obj::nullsub_4()
+{
+    ;
 }
 
 MATCH_FUNC(0x412B80)
