@@ -544,10 +544,9 @@ void sound_obj::ServiceSoundEffects_41A3A0()
 }
 
 // https://decomp.me/scratch/i3zcW
-WIP_FUNC(0x41A730)
+MATCH_FUNC(0x41A730)
 void sound_obj::InterrogateAudioEntities_41A730()
 {
-    WIP_IMPLEMENTED;
     Camera_0xBC* pTmp;
 
     if (field_1478_type5Idx != 0 && (pTmp = field_147C[field_1478_type5Idx].field_4_pObj->field_C_pAny.pCamera_0xBC) != NULL)
