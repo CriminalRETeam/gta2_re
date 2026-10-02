@@ -6785,7 +6785,7 @@ u32 Car_BC::GetEffectiveDriverPedId_444090()
         return a1->field_70_exploder_ped_id;
     }
 
-    if (pDriver->field_200_id > 12u)
+    if (!IsPlayerPedId_420C30(pDriver->field_200_id))
     {
         if (a1->field_70_exploder_ped_id)
         {
