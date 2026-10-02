@@ -3947,19 +3947,17 @@ bool Car_BC::IsSpriteShrunk_43DC00()
         gPixelsToFix16_6F6850.list[gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx)->field_4_width].mValue;
 }
 
-WIP_FUNC(0x43dc80)
+MATCH_FUNC(0x43dc80)
 bool Car_BC::CarShrinkSprite_43DC80(s32 xoff, s32 yoff)
 {
-    WIP_IMPLEMENTED;
-
     car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
-    Fix16 w_fp(pCarInfo->w);
-    Fix16 h_fp(pCarInfo->h);
+    Fix16 w_fp(pCarInfo->w << 14, 0);
+    Fix16 h_fp(pCarInfo->h << 14, 0);
     u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::car_2, pCarInfo->sprite);
     sprite_index* pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
-    return field_50_car_sprite->ShrinkSprite_59E390((gPixelsToFix16_6F6850.list[pSpriteIndex->field_4_width] * xoff) / w_fp,
-                                                    (gPixelsToFix16_6F6850.list[pSpriteIndex->field_5_height] * yoff) / h_fp,
-                                                    0);
+    Fix16 sprite_w = gPixelsToFix16_6F6850.list[pSpriteIndex->field_4_width];
+    Fix16 sprite_h = gPixelsToFix16_6F6850.list[pSpriteIndex->field_5_height];
+    return field_50_car_sprite->ShrinkSprite_59E390((sprite_w * xoff) / w_fp, (sprite_h * yoff) / h_fp, 0);
 }
 
 MATCH_FUNC(0x43dd50)
