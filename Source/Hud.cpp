@@ -771,10 +771,8 @@ void __stdcall DrawAmmo_5D6060(s16 ammo_idx, u8 ammo_count)
 {
     if (ammo_idx != -1)
     {
-        u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, ammo_idx + 85);
-        s32 width = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx)->field_4_width;
-        u16 sprite_idx_2 = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, ammo_idx + 85);
-        s32 height = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx_2)->field_5_height;
+        s32 width = get_sprite_width_4C7220(ammo_idx + 85);
+        s32 height = get_sprite_height_4C7250(ammo_idx + 85);
 
         DrawFigureScaled_5D7670(6, ammo_idx + 85, 638 - width / 2, height / 2 + 44, kAngZero_706610, 2, 0, 0, 0);
 
