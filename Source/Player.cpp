@@ -389,20 +389,10 @@ char_type Player::HasAnyAmmo_564940()
 MATCH_FUNC(0x564960)
 char_type Player::AddWeaponWithAmmo_564960(s32 weapon_kind, u8 ammo)
 {
-    Ped* pPed;
     bool bHasAnyAmmo;
     char bAmmoAdded;
 
-    if (this->field_68 == 2)
-    {
-        pPed = this->field_2C8_unkq;
-    }
-    else
-    {
-        pPed = this->field_2C4_player_ped;
-    }
-
-    if (pPed->get_car_416B60())
+    if (GetPlayerPed_4A5130()->get_car_416B60())
     {
         bHasAnyAmmo = 0;
     }
