@@ -588,7 +588,7 @@ char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* pPed)
             }
         }
 
-        if (!field_2C_ped_leader->IsField238_45EDE0(2) && !field_2C_ped_leader->GetBit2() && !field_2C_ped_leader->field_16C_car &&
+        if (!field_2C_ped_leader->IsField238_45EDE0(2) && !field_2C_ped_leader->GetBit2() && !field_2C_ped_leader->has_car_403B80() &&
             !field_2C_ped_leader->field_21C_bf.b27)
         {
             field_2C_ped_leader->SetObjective2_463830(20, 9999);
@@ -611,7 +611,7 @@ char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* pPed)
                     pMember->SetObjective2_463830(20, 9999);
                     pMember->set_field_14C_403AE0(pTarget);
                     pMember->SetBit2_403950();
-                    if (!pTarget->field_16C_car)
+                    if (!pTarget->has_car_403B80())
                     {
                         pTarget->SetObjective2_463830(20, 9999);
                         pTarget->set_field_14C_403AE0(pMember);
