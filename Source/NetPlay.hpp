@@ -242,6 +242,12 @@ struct NetPlay
     EXPORT s32 Send_521E40(s32 pSendData);
     EXPORT static void static_dtor_5E4DD0();
 
+    // 9.6f 0x409C40
+    inline s32 GetPlayerIdx_409C40()
+    {
+        return field_5D4_player_idx;
+    }
+
     //s32 field_0_vtbl;
     char field_4_bModem;
     char field_5_modem_num;

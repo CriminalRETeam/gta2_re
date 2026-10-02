@@ -942,7 +942,7 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
 
         ClearDebugFlags_4DB170();
 
-        gGame_0x40_67E008 = new Game_0x40(gNetPlay_7071E8.GetMaxPlayers_521350(), gNetPlay_7071E8.field_5D4_player_idx);
+        gGame_0x40_67E008 = new Game_0x40(gNetPlay_7071E8.GetMaxPlayers_521350(), gNetPlay_7071E8.GetPlayerIdx_409C40());
         gNetPlay_7071E8.SetExitGameCallBack_521330((int)ExitGameCallback_4DB0D0, gGame_0x40_67E008);
 
         memset(&gCurrentNetInputs_6F57D8, 0, sizeof(gCurrentNetInputs_6F57D8));
@@ -950,7 +950,7 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
 
         // Here
 
-        gNetworkPlayerIdx_6F56C8 = gNetPlay_7071E8.field_5D4_player_idx;
+        gNetworkPlayerIdx_6F56C8 = gNetPlay_7071E8.GetPlayerIdx_409C40();
         gpInputBuffer_6F58C0 = &gCurrentNetInputs_6F57D8.field_0_inputs[0];
 
         //dword_6F5AC8 = 0;
