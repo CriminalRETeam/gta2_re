@@ -760,17 +760,13 @@ void Camera_0xBC::sub_4364A0(Car_BC* pCar)
 
     if (pCar)
     {
-        Sprite* pCarSprite = pCar->field_50_car_sprite;
-        Fix16 new_x = pCarSprite->field_14_xy.x;
-        Fix16 new_y = pCarSprite->field_14_xy.y;
-        Fix16 new_z = pCarSprite->field_1C_zpos - dword_676820;
-        if (new_z <= dword_67681C)
-        {
-            new_z = dword_67681C;
-        }
+        Fix16 new_x = pCar->get_x_41E430();
+        Fix16 new_y = pCar->get_y_41E440();
+        Fix16 new_z = sub_41E130(pCar->get_z_41E450() - dword_676820, dword_67681C);
 
         AccumulateSuspicionOnDriver_435F90(pCar);
         ApplyCarVelocityCameraOffset_436200(pCar, &new_x, &new_y, &new_z);
+        // 9.6f: SetCamera_41E3D0 (inlined, using it changes the code)
         this->field_10_cam_pos_tgt2.field_0_x = new_x;
         this->field_10_cam_pos_tgt2.field_4_y = new_y;
         this->field_10_cam_pos_tgt2.field_8_z = new_z + field_40_tgt_elevation;
