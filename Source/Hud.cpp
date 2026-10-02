@@ -2230,8 +2230,7 @@ void Hud_Arrow_7C_Array::UpdateArrows_5D0FD0()
 
     for (s32 i = 0; i < GTA2_COUNTOF(field_0_array); i++)
     {
-        if (field_0_array[i].field_18.field_18_primary_target.field_10_target_type ||
-            field_0_array[i].field_18.field_3C_secondary_target.field_10_target_type)
+        if (!field_0_array[i].IsType0_4C6F80())
         {
             field_0_array[i].Service_5D0C60();
         }
