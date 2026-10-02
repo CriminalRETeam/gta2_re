@@ -77,7 +77,7 @@ void UnknownDebugClass::DoTest_5B2640(u16 action)
             gHud_2B00_706620->field_DC.SetHudBrief_5D4400(3, "test3");
             break;
         case 6:
-            gGame_0x40_67E008->field_38_orf1->field_6BC_multpliers.ChangeStatByAmount_4921B0(1);
+            gGame_0x40_67E008->field_38_orf1->ChangeMultipliers_4766B0(1);
             break;
         case 7:
             gTestArrow_70416C = gHud_2B00_706620->field_1F18.AllocArrow_5D1050();
