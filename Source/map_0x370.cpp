@@ -2562,13 +2562,10 @@ gmp_block_info* Map_0x370::FindNonAirBlockAtOrBelowZ_4E4CB0(s32 x, s32 y, s32& z
 MATCH_FUNC(0x4E4D40)
 Fix16 Map_0x370::FindGroundZBelowCoord_4E4D40(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 {
-    gmp_block_info* block_4DFE10;
     u8 slope_byte;
     Fix16 new_z;
 
-    if (z_pos.GetFracValue() == kFpZero_6F610C ||
-        (block_4DFE10 = Map_0x370::get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt())) == NULL ||
-        (slope_byte = block_4DFE10->field_B_slope_type, !is_gradient_slope(slope_byte)) || is_air_type(slope_byte) ||
+    if (z_pos.GetFracValue() == kFpZero_6F610C || !IsGradientSlopeAt_466CF0(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt()) ||
         (new_z = z_pos.GetRoundValue(), Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, new_z), new_z > z_pos))
     {
         s32 v14 = z_pos.ToInt() - 1;
