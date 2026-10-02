@@ -23,7 +23,7 @@
 #include "text_0x14.hpp"
 
 DEFINE_GLOBAL(Hud_2B00*, gHud_2B00_706620, 0x706620);
-DEFINE_GLOBAL(s16, word_706600, 0x706600); //, TODO, 0xUNKNOWN);
+DEFINE_GLOBAL(s16, gDebugFont_706600, 0x706600); //, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL(s16, word_7064B8, 0x7064B8); //, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL(u16, gZoneNameFont_706618, 0x706618); //, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL(s16, gCarNameFont_706508, 0x706508); //, TODO, 0xUNKNOWN);
@@ -49,7 +49,7 @@ DEFINE_GLOBAL_INIT(Ang16, kAngZero_706610, Ang16(0), 0x706610);
 DEFINE_GLOBAL_INIT(Ang16, kAng180_706412, Ang16(720), 0x706412);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_7064C4, Fix16(1), 0x7064C4);
 DEFINE_GLOBAL_INIT(Fix16, kFpEight_7064E8, Fix16(8), 0x7064E8);
-DEFINE_GLOBAL_INIT(Fix16, dword_706300, Fix16(0x1000, 0), 0x706300);
+DEFINE_GLOBAL_INIT(Fix16, kFpQuarter_706300, Fix16(0x1000, 0), 0x706300);
 DEFINE_GLOBAL_INIT(Fix16, kArrowMaxRepositionSpeed_706298, Fix16(0xC00, 0), 0x706298);
 DEFINE_GLOBAL_INIT(Fix16, kArrowRepositionAccel_7065A8, Fix16(0x100, 0), 0x7065A8);
 
@@ -65,7 +65,7 @@ EXTERN_GLOBAL(char_type, gLighting_626A09);
 // TODO: move
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
-EXTERN_GLOBAL_ARRAY(wchar_t, word_67DC8C, 32);
+EXTERN_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 32);
 
 // 9.6f inline
 static inline void DrawFigureScaled_4C71B0(s32 type, s16 pal, Fix16 x_pos, Fix16 y_pos, Ang16 rotation, const s32& drawkind, s16 a8, s32 a9, u8 a10)
@@ -811,7 +811,7 @@ s32 __stdcall DrawPlayerStatsHelper_5D61A0(s32 powerup_idx, s32 base_xpos, u16 o
 }
 
 MATCH_FUNC(0x5d6290)
-void Garox_1118_sub::sub_5D6290()
+void Garox_1118_sub::UpdateRollingDigits_5D6290()
 {
     Player* pPlayerIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0();
     while (pPlayerIter)
@@ -933,7 +933,7 @@ void Garox_1108_sub::DrawHealth_5D0260()
     if (bDo_show_instruments_67D64C)
     {
         swprintf(tmpBuff_67BD9C, L"%d%%", health);
-        DrawText_5D7720(tmpBuff_67BD9C, (u32)551, (u32)34, word_706600, 2, 0, 0, 0);
+        DrawText_5D7720(tmpBuff_67BD9C, (u32)551, (u32)34, gDebugFont_706600, 2, 0, 0, 0);
     }
 }
 
@@ -1009,7 +1009,7 @@ void Garox_27B5_sub::ShowPlayerCoords_5CF970()
         }
         else
         {
-            pZoneName = word_67DC8C;
+            pZoneName = gEmptyWStr_67DC8C;
         }
 
         Car_BC* pCar = pPed->field_16C_car;
@@ -1113,7 +1113,7 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
         {
             s32 v32 = (respect >= 0) + 5;
             swprintf(tmpBuff_67BD9C, L"%d", respect);
-            DrawText_5D7720(tmpBuff_67BD9C, 64, ypos - 7, word_706600, 8, v32, 0, 0);
+            DrawText_5D7720(tmpBuff_67BD9C, 64, ypos - 7, gDebugFont_706600, 8, v32, 0, 0);
         }
     }
 }
@@ -1858,9 +1858,9 @@ bool Hud_Arrow_7C::UpdateTargets_5D0620()
     if (field_18.HasBothTargets_4C6FB0() && field_18.field_18_primary_target.field_20_bIsTargetVisible &&
         field_18.field_3C_secondary_target.field_20_bIsTargetVisible)
     {
-        if (field_18.field_2E > 0)
+        if (field_18.field_2E_target_swap_timer > 0)
         {
-            field_18.field_2E--;
+            field_18.field_2E_target_swap_timer--;
             return false;
         }
 
@@ -1880,7 +1880,7 @@ bool Hud_Arrow_7C::UpdateTargets_5D0620()
             Fix16_Point(xpos - field_18.field_60_curr_target->field_14_aim_x, ypos - field_18.field_60_curr_target->field_18_aim_y)
                 .GetLength_41E260();
 
-        field_18.field_2E = 20;
+        field_18.field_2E_target_swap_timer = 20;
         field_10_radius_pos = distance_2 - distance_1;
     }
     return false;
@@ -1907,7 +1907,7 @@ void Hud_Arrow_7C::UpdateScreenPos_5D0850()
 
     if (field_18.field_60_curr_target->field_20_bIsTargetVisible)
     {
-        intended_radius = distance - dword_706300;
+        intended_radius = distance - kFpQuarter_706300;
         if (intended_radius < kFpZero_7064C0)
         {
             intended_radius = kFpZero_7064C0;
@@ -2151,7 +2151,7 @@ Hud_Arrow_7C::Hud_Arrow_7C()
     field_18.field_3C_secondary_target.init();
 
     field_18.field_60_curr_target = &field_18.field_18_primary_target;
-    field_18.field_2E = 0;
+    field_18.field_2E_target_swap_timer = 0;
     field_18.field_10.field_6_in_use = 0;
 }
 
@@ -3215,7 +3215,7 @@ void Hud_2B00::UpdatePauseSection_5D69C0()
 MATCH_FUNC(0x5d69d0)
 void Hud_2B00::UpdateHUD_5D69D0()
 {
-    field_1118_sub.sub_5D6290();
+    field_1118_sub.UpdateRollingDigits_5D6290();
     field_110C_sub.Update_5CF730();
     field_27B5_show_coords.ShowPlayerCoords_5CF970();
     field_1028_wanted_level.UpdateWantedLevel_5D00B0();
@@ -3269,7 +3269,7 @@ void Hud_2B00::SetFontTypes_5D6B00()
         gBriefFont_7065C4 = 107;
         gPlayerStatsFont_70646C = word_703BAA;
         gMessageFont_7062F0 = 203;
-        word_706600 = 103;
+        gDebugFont_706600 = 103;
         gPauseFont_7063F8 = 201;
         word_7064D8 = 103;
         gPlayerNameFont_7062DC = 103;
@@ -3283,7 +3283,7 @@ void Hud_2B00::SetFontTypes_5D6B00()
         gBriefFont_7065C4 = word_703BAA;
         gPlayerStatsFont_70646C = word_703BAA;
         gMessageFont_7062F0 = word_703D9C;
-        word_706600 = word_703BAA;
+        gDebugFont_706600 = word_703BAA;
         word_7064D8 = word_703BAA;
         gPauseFont_7063F8 = word_703DA4;
         gPlayerNameFont_7062DC = word_703BAA;

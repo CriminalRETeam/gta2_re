@@ -70,13 +70,13 @@ struct sharp_pare_0x15D8
     STexture* field_1004_textures2[48];
     optimistic_moser field_10C4_digit_textures[96];
     STexture* field_1544_pTexture;
-    festive_hopper field_1548_unk;
-    festive_hopper field_155C_unk;
-    festive_hopper field_1570_unk;
-    festive_hopper field_1584_unk;
-    festive_hopper field_1598_unk;
-    festive_hopper field_15AC_unk;
-    festive_hopper field_15C0_unk;
+    festive_hopper field_1548_sprite_textures;
+    festive_hopper field_155C_car_remap_textures;
+    festive_hopper field_1570_ped_remap_textures;
+    festive_hopper field_1584_code_obj_remap_textures;
+    festive_hopper field_1598_map_obj_remap_textures;
+    festive_hopper field_15AC_font_remap_textures;
+    festive_hopper field_15C0_user_remap_textures;
     s16 field_15D4_idx;
     u16 field_15D6_pal_count;
 

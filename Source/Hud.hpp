@@ -120,7 +120,7 @@ class Garox_1118_sub
 {
   public:
     EXPORT void DrawPlayerStats_5D5C80();
-    EXPORT void sub_5D6290();
+    EXPORT void UpdateRollingDigits_5D6290();
     s32 field_1118;
 };
 
@@ -407,7 +407,7 @@ class Garox_20_Sub
     char_type field_27;
     s32 field_28_arrow_colour;
     s16 field_2C_arrow_sprt_idx;
-    u8 field_2E;
+    u8 field_2E_target_swap_timer;
     char_type field_2F;
     Garox_30_Sub field_10;
     ArrowTrace_24 field_18_primary_target;
@@ -651,7 +651,7 @@ class Hud_2B00
 
 EXTERN_GLOBAL(Hud_2B00*, gHud_2B00_706620);
 
-EXTERN_GLOBAL(s16, word_706600);
+EXTERN_GLOBAL(s16, gDebugFont_706600);
 
 EXTERN_GLOBAL_ARRAY(char, gTmpGxtKey_67CE50, 264);
 

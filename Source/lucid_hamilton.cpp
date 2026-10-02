@@ -6,7 +6,7 @@
 #include "registry.hpp"
 
 DEFINE_GLOBAL(lucid_hamilton, gLucid_hamilton_67E8E0, 0x67E8E0);
-EXTERN_GLOBAL_ARRAY(wchar_t, word_67DC8C, 32);
+EXTERN_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 32);
 
 MATCH_FUNC(0x4C53D0)
 void lucid_hamilton::LoadDebugSettings_4C53D0()
@@ -270,7 +270,7 @@ void lucid_hamilton::init_4C5AF0()
         }
         field_490_frags_list[i] = 0;
         field_49C_points_list[i] = 0;
-        wcscpy(field_4B4_player_names[i].field_0_str, word_67DC8C);
+        wcscpy(field_4B4_player_names[i].field_0_str, gEmptyWStr_67DC8C);
     }
 }
 
