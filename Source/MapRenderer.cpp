@@ -1308,7 +1308,7 @@ void MapRenderer::DrawDiagonalWallUpLeft_4EE7D0()
     }
 }
 
-//STUB_FUNC(0x4EE8A0)
+MATCH_FUNC(0x4EE8A0)
 void MapRenderer::DrawDiagonalWallUpRight_4EE8A0()
 {
     if (gBlockLeft_6F62F6)
