@@ -33,7 +33,7 @@ struct Mike_80
         return field_7C / 30;
     }
 
-    // Keeps a running sum of the last 30 samples
+    // 9.6f 0x474450. Keeps a running sum of the last 30 samples
     void AddSample(s32 value)
     {
         field_7C += value - field_0.field_0[field_A0_count];
@@ -61,6 +61,7 @@ struct Mike_8
         field_0 = 0;
         field_4 = 0;
     }
+    // 9.6f 0x474430
     s32 TakeElapsed()
     {
         s32 elapsed = field_4 - field_0;
