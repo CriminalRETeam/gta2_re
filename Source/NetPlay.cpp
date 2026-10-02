@@ -2142,7 +2142,7 @@ char_type NetPlay::ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u
                 *pType = 3;
                 bGotMessage = 1;
                 s32 diff = SeqDiff(seq, field_758_n2.field_8[*pPlayerIdx]);
-                s32 diffLocal = SeqDiff(seq, field_758_n2.field_8[field_5D4_player_idx]);
+                s32 diffLocal = SeqDiff(seq, field_758_n2.field_8[GetPlayerIdx_409C40()]);
                 if (diff < 0)
                 {
                     bGotMessage = 0;
@@ -2180,7 +2180,7 @@ char_type NetPlay::ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u
                 {
                     seq = pPacket[1];
                     s32 diff = SeqDiff(seq, field_758_n2.field_8[*pPlayerIdx]);
-                    s32 diffLocal = SeqDiff(seq, field_758_n2.field_8[field_5D4_player_idx]);
+                    s32 diffLocal = SeqDiff(seq, field_758_n2.field_8[GetPlayerIdx_409C40()]);
                     if (diff < 0)
                     {
                         bGotMessage = 0;
