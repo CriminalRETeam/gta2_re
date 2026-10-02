@@ -107,6 +107,7 @@ struct gmp_compressed_map_32
 {
     EXPORT void ApplyDmapInfos_4E80A0(Map_sub* a2);
 
+    // 9.6f 0x4630B0
     gmp_compressed_map_32()
     {
         field_40008_pColumn = 0;
@@ -149,6 +150,12 @@ struct gmp_dmap_info
 
 struct Map_sub
 {
+    // 9.6f 0x4630A0
+    Map_sub()
+    {
+        field_320_max_idx = 0;
+    }
+
     EXPORT void AddOrUpdateDmapInfo_4E80E0(u8 x, u8 y, u32 column_idx);
 
     gmp_dmap_info field_0_dmap_infos[100];

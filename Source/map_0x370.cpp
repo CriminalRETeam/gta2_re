@@ -4641,7 +4641,6 @@ void Map_0x370::LoadMap_4E95B0(const char_type* pGmpFileName)
 MATCH_FUNC(0x4E9660)
 Map_0x370::Map_0x370()
 {
-    field_4_obj.field_320_max_idx = 0;
     field_328_pZoneData = 0;
     field_32C_pZones = 0;
     field_338_pMapObjects = 0;
@@ -4669,13 +4668,7 @@ Map_0x370::Map_0x370()
     field_36E = 0;
     field_36F = 0;
 
-    gBlockInfo1_6F5F40.field_0_left = 0;
-    gBlockInfo1_6F5F40.field_2_right = 0;
-    gBlockInfo1_6F5F40.field_4_top = 0;
-    gBlockInfo1_6F5F40.field_6_bottom = 0;
-    gBlockInfo1_6F5F40.field_8_lid = 0;
-    gBlockInfo1_6F5F40.field_A_arrows = 0;
-    gBlockInfo1_6F5F40.field_B_slope_type = 0;
+    gBlockInfo1_6F5F40.init_44C840();
 
     gBlockInfo2_6F6028.field_A_arrows = 0;
     gBlockInfo2_6F6028.field_0_left = 3073;
