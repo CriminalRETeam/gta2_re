@@ -2946,6 +2946,7 @@ void CarPhysics_B0::ApplyMovementStep_560F20(Fix16 a2)
         Ang16 tmp = Ang16::Fix16_To_Ang16_40F540(v3 * field_74_ang_vel_rad);
         this->field_58_theta += tmp;
 
+        // 9.6f: Fix16_Point operator+= (0x40F680, inlined, using it makes the diff worse)
         this->field_30_cm1 = field_30_cm1 + (field_40_linvel_1 * v3);
 
         UpdateCp1FromCm1_563280();
