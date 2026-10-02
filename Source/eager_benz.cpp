@@ -917,7 +917,7 @@ void eager_benz::sub_593220()
 MATCH_FUNC(0x593240)
 void eager_benz::sub_593240(Car_BC* pCar)
 {
-    const s32 multipler = field_368_player->field_6BC_multpliers.field_0_value;
+    const s32 multipler = field_368_player->get_multiplier_4766A0();
     gmp_map_zone* pMapZone = gMap_0x370_6F6268->sub_4DF6A0(field_368_player->field_2C4_player_ped->get_cam_x().ToInt(),
                                                            field_368_player->field_2C4_player_ped->get_cam_y().ToInt());
 
@@ -927,16 +927,16 @@ void eager_benz::sub_593240(Car_BC* pCar)
     field_8A_cars_stolen_count++;
 
     const s32 base_score = sub_5925B0(pCar->field_84_car_info_idx, 0);
-    if (!bExplodingScoresOff_67D4FB && field_368_player->field_0_bIsUser)
+    if (!bExplodingScoresOff_67D4FB && field_368_player->IsUser_41DC70())
     {
-        gExplodingScorePool->PushScore_596890(pCar->field_50_car_sprite->GetXPos(),
-                                               pCar->field_50_car_sprite->GetYPos(),
-                                               pCar->field_50_car_sprite->GetZPos(),
+        gExplodingScorePool->PushScore_596890(pCar->get_x_41E430(),
+                                               pCar->get_y_41E440(),
+                                               pCar->get_z_41E450(),
                                                multipler * base_score);
     }
     field_368_player->Add_2D4(base_score);
 
-    gShooey_CC_67A4B8->ReportCrimeForPed(5u, field_368_player->Get_Field_68_Ped());
+    gShooey_CC_67A4B8->ReportCrimeForPed(5u, field_368_player->GetPlayerPed_4A5130());
     sub_592570(1, pCar->field_84_car_info_idx);
 }
 
