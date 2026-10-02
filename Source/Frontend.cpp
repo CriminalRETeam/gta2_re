@@ -2458,8 +2458,7 @@ void Frontend::sub_4B8280()
         }
         else if (v3 == 256)
         {
-            field_C9B3 = 0;
-            goto LABEL_30;
+            goto LABEL_27;
         }
         else if (v3 == DIK_SPACE)
         {
@@ -2485,9 +2484,7 @@ void Frontend::sub_4B8280()
         }
         u16 v5 = gKeybrd_0x204_6F52F4->GetKey_4D5F40(v3);
         v6 = v5;
-        wchar_t v12 = v6;
-        s32 v13 = field_11C;
-        if (gGtx_0x106C_703DD4->GetFontWidth_5AA760((u16*)&v13, &v12) >= 3 && v6)
+        if (GetCharWidth_4539D0(field_11C, v6) >= 3 && v6)
         {
             goto LABEL_12;
         }
@@ -2506,15 +2503,14 @@ void Frontend::sub_4B8280()
     }
 
 LABEL_27:
-    if (v3 != 256)
-    {
-        field_C9B3 = 1;
-    }
-    else
+    if (v3 == 256)
     {
         field_C9B3 = 0;
     }
-LABEL_30:
+    else
+    {
+        field_C9B3 = 1;
+    }
     field_118--;
     if (field_118 <= 0)
     {

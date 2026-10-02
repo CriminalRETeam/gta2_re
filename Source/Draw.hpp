@@ -68,4 +68,11 @@ inline s32 __stdcall GetLineSpacingFromFontType_5D7700_inlined(u16 font_type)
 {
     return (u16)gGtx_0x106C_703DD4->GetLineSpacing_5AA800(&font_type);
 }
+
+// 9.6f 0x4539D0
+inline s32 __stdcall GetCharWidth_4539D0(u16 font_type, wchar_t chr)
+{
+    return (u16)gGtx_0x106C_703DD4->GetFontWidth_5AA760(&font_type, &chr);
+}
+
 EXPORT s32 __stdcall CountLineSpacing_5D8940(wchar_t* a1, u16 a2);
