@@ -812,12 +812,7 @@ Ped* PedManager::SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 
     pPed->SetRotation_433C00(rotation);
     pPed->set_remap_433B90(remap);
 
-    Char_B4* pB4 = pPed->field_168_game_object;
-    pB4->field_5_remap = remap;
-    if (remap != 0xFF)
-    {
-        pB4->field_80_sprite_ptr->SetRemap(remap);
-    }
+    pPed->SetRemap_433C10(remap);
     pPed->field_134_rotation = rotation;
     pPed->field_288_threat_search = 2;
     pPed->field_28C_threat_reaction = 3;
@@ -1000,6 +995,7 @@ Ped* PedManager::sub_470F90(Ped* pSrc)
     if (pSrc->field_168_game_object)
     {
         pDst->AllocCharB4_45C830(pSrc->get_cam_x(), pSrc->get_cam_y(), pSrc->get_cam_z());
+        // 9.6f: SetRemap_433C10(get_remap_433BA0()) (inlined, using it changes the code)
         Char_B4* pCharObj = pDst->field_168_game_object;
         u8 remap = pSrc->field_244_remap;
         pCharObj->field_5_remap = remap;
