@@ -4521,7 +4521,7 @@ void Car_BC::InitCarAIControl_440590()
 {
     SetupCarPhysicsAndSpriteBinding_43BCA0();
 
-    field_58_physics->field_92_is_hand_brake_on = 0;
+    field_58_physics->SetHandBrakeOff_421260();
 
     Ped* pDriver = this->field_54_driver;
     if (pDriver)
@@ -4533,8 +4533,7 @@ void Car_BC::InitCarAIControl_440590()
                 this->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
             }
             this->field_5C_AI->SetCar_453BF0(this);
-            this->field_9C_engine_status = car_engine_status::on_3;
-            sub_43BFE0();
+            sub_426E00();
         }
     }
 }

@@ -101,6 +101,12 @@ class CarPhysics_B0
         return (u32)rng_dword_67AB34->get_cur_rng_41CFE0() < field_8_total_damage_q;
     }
 
+    // 9.6f 0x421260
+    inline void SetHandBrakeOff_421260()
+    {
+        field_92_is_hand_brake_on = 0;
+    }
+
     // 9.6f 0x421250
     inline void SetHandBrakeOn_421250()
     {
