@@ -2614,7 +2614,7 @@ void Car_BC::sub_43AF60()
 {
     if (field_5C_AI)
     {
-        field_A6 |= 0x20u;
+        SetA6Bit5_421540();
     }
 }
 
