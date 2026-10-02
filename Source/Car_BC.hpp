@@ -136,6 +136,18 @@ EXTERN_GLOBAL(Fix16, dword_679E74);
 class Car_6C
 {
   public:
+    // 9.6f 0x421960
+    inline Ped* GetSpareDriver_421960()
+    {
+        return field_4;
+    }
+
+    // 9.6f 0x421970
+    inline void SetSpareDriver_421970(Ped* pPed)
+    {
+        field_4 = pPed;
+    }
+
     void sub_4C39F0()
     {
         if (field_20 != 4)

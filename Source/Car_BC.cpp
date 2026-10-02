@@ -4541,11 +4541,11 @@ void Car_BC::InitCarAIControl_440590()
 MATCH_FUNC(0x4405f0)
 void Car_BC::SpawnDriverPed()
 {
-    Ped* pNextPed = gCar_6C_677930->field_4;
+    Ped* pNextPed = gCar_6C_677930->GetSpareDriver_421960();
     if (!pNextPed)
     {
         pNextPed = gPedManager_6787BC->sub_470CC0(this);
-        gCar_6C_677930->field_4 = pNextPed;
+        gCar_6C_677930->SetSpareDriver_421970(pNextPed);
     }
     SetDriver(pNextPed);
     this->field_7C_uni_num = 3;
