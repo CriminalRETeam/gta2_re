@@ -2633,8 +2633,8 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
         }
     }
     //LABEL_53:
-    Fix16 Velocity = field_40_linvel_1.GetLength_41E260();
-    if (Velocity > FastCarMinVelocity_6FE1CC && field_5C_pCar->field_74_damage != 32001)
+    Fix16 Velocity = GetLinearSpeed_4211A0();
+    if (Velocity > FastCarMinVelocity_6FE1CC && !field_5C_pCar->IsMaxDamage_40F890())
     {
         gParticle_8_6FD5E8->EmitImpactParticles_53FE40(CollisionIntersectionPoint_6FE1A0.x, CollisionIntersectionPoint_6FE1A0.y, field_6C_cp3, -CollisionIntersectionPoint_6FE1A0.x, -CollisionIntersectionPoint_6FE1A0.y);
     }
