@@ -762,7 +762,7 @@ void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
             }
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->field_0_textures1[texture_idx],
+                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           field_D_right_colour);
             ++field_2F00_drawn_tile_count;
