@@ -2252,11 +2252,7 @@ void miss2_0x11C::SCRCMD_POINT_ARROW_3D_508550() //  SCRCMD_POINT_ARROW_3D and S
         pPointer->field_8_arrow = gHud_2B00_706620->field_1F18.AllocArrow_5D1050();
     }
 
-    ArrowTrace_24* pArrow_trace = &pPointer->field_8_arrow->field_18.field_18_primary_target;
-
-    pArrow_trace->set_arrow_aim_from_pos_4767C0(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z);
-
-    pArrow_trace->field_10_target_type = 1;
+    pPointer->field_8_arrow->SetArrowAim_476840(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z);
 
     if (gBasePtr_6F8070->field_2_type == SCRCMD_LEVEL_END_ARROW2)
     {
