@@ -809,7 +809,7 @@ Ped* PedManager::SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 
     {
         return 0;
     }
-    pPed->field_168_game_object->field_40_rotation.rValue = rotation.rValue;
+    pPed->SetRotation_433C00(rotation);
     pPed->set_remap_433B90(remap);
 
     Char_B4* pB4 = pPed->field_168_game_object;
