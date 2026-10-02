@@ -5791,13 +5791,13 @@ void Car_BC::ManageTVAntenna_4425D0()
 {
     WIP_IMPLEMENTED;
 
+    Ang16 towerAng;
     Sprite_18* pSprite = field_0_qq.GetSpriteForModel_5A6A50(149);
     if (pSprite)
     {
-        Ang16 towerAng = GetRadioTowerAngle_442520();
+        towerAng = GetRadioTowerAngle_442520();
         if (pSprite->field_10_rot != towerAng)
         {
-            // TODO: The set up or call to the function is wrong, the parts after are OK
             Fix16 zero = gFix16_6777CC;
             Fix16 spriteAngFp = Ang16::Ang16_to_Fix16(pSprite->field_10_rot);
             SmoothApproachAngle_405CE0(Ang16::Ang16_to_Fix16(towerAng), zero, spriteAngFp, kAngFix16OneDegree_677920, kAngFix16OneDegree_677920);
