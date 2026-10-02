@@ -1947,7 +1947,7 @@ char_type CarPhysics_B0::StepMovementAndCollisions_55E470()
 
     while (1)
     {
-        gRozza_679188.sub_4637B0();
+        gRozza_679188.Reset_4637B0();
         this->field_70_z_vel = 0; // fp 0
         save_physics_state_55A4B0();
         ApplyMovementStep_560F20(k_dword_6FE210);

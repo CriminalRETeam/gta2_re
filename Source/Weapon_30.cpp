@@ -210,7 +210,7 @@ Object_2C* Weapon_30::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypo
 
     p5CSprite->set_ang_lazy_420690(pNewBullet->field_4->field_0);
 
-    p5CSprite->AllocInternal_59F950(pNewBullet->field_8->field_0, kFP16Quarter_706CF4, pNewBullet->field_8->field_8);
+    p5CSprite->AllocInternal_59F950(pNewBullet->field_8->field_0_width, kFP16Quarter_706CF4, pNewBullet->field_8->field_8_depth);
     p5CSprite->SetType_4206F0(pNewBullet->field_4->get_type_416B40());
     p5CSprite->SetObj2C_482A30(pNewBullet->field_4->field_8_object_2C_ptr);
 

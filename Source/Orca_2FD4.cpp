@@ -4,15 +4,15 @@
 #include "map_0x370.hpp"
 #include <string.h>
 
-DEFINE_GLOBAL(u8, byte_6FDEEC, 0x6FDEEC);
-DEFINE_GLOBAL(s16, word_6FDECE, 0x6FDECE);
+DEFINE_GLOBAL(u8, gOrca_SlopeZDelta_6FDEEC, 0x6FDEEC);
+DEFINE_GLOBAL(s16, gOrca_CostAny_6FDECE, 0x6FDECE);
 
 DEFINE_GLOBAL(Orca_2FD4*, gOrca_2FD4_6FDEF0, 0x6FDEF0);
 
-DEFINE_GLOBAL_INIT(Fix16, dword_6FDD98, Fix16(0), 0x6FDD98);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FDD50, Fix16(0x100, 0), 0x6FDD50);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FDC00, Fix16(0.25), 0x6FDC00);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FDCA8, Fix16(0.5), 0x6FDCA8);
+DEFINE_GLOBAL_INIT(Fix16, kFpZero_6FDD98, Fix16(0), 0x6FDD98);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FDD50, Fix16(0x100, 0), 0x6FDD50);
+DEFINE_GLOBAL_INIT(Fix16, kFpQuarter_6FDC00, Fix16(0.25), 0x6FDC00);
+DEFINE_GLOBAL_INIT(Fix16, kFpHalf_6FDCA8, Fix16(0.5), 0x6FDCA8);
 
 DEFINE_GLOBAL(u8, gOrca_Idx1_6FDBF8, 0x6FDBF8);
 DEFINE_GLOBAL(u8, gOrca_idx2_6FDBF9, 0x6FDBF9);
@@ -52,7 +52,7 @@ bool Orca_2FD4::CanMoveInDirection_554080(s32 path_direction)
     if (field_25_xpos > 1u && field_25_xpos < 254u && field_26_ypos > 1u && field_26_ypos < 254u)
     {
         bool result =
-            gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(field_25_xpos, field_26_ypos, field_27_zpos, path_direction, &byte_6FDEEC, 1) ==
+            gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(field_25_xpos, field_26_ypos, field_27_zpos, path_direction, &gOrca_SlopeZDelta_6FDEEC, 1) ==
             0;
         return result;
     }
@@ -73,7 +73,7 @@ char_type Orca_2FD4::Internel_CanMoveDiagonally_554110(u8 desired_xpos, u8 desir
 {
     WIP_IMPLEMENTED;
 
-    byte_6FDEEC = 0;
+    gOrca_SlopeZDelta_6FDEEC = 0;
 
     const char_type xd = desired_xpos - field_25_xpos;
     const char_type yd = desired_ypos - field_26_ypos;
@@ -123,7 +123,7 @@ char_type Orca_2FD4::Internel_CanMoveDiagonally_554110(u8 desired_xpos, u8 desir
                                                                        this->field_26_ypos,
                                                                        this->field_27_zpos,
                                                                        path_direction::down_2,
-                                                                       &byte_6FDEEC,
+                                                                       &gOrca_SlopeZDelta_6FDEEC,
                                                                        1))
                     {
                         return false;
@@ -132,7 +132,7 @@ char_type Orca_2FD4::Internel_CanMoveDiagonally_554110(u8 desired_xpos, u8 desir
                                                                               this->field_26_ypos + 1,
                                                                               this->field_27_zpos,
                                                                               path_direction::right_3,
-                                                                              &byte_6FDEEC,
+                                                                              &gOrca_SlopeZDelta_6FDEEC,
                                                                               1);
                     return bCanMove == 0;
                 }
@@ -155,7 +155,7 @@ char_type Orca_2FD4::Internel_CanMoveDiagonally_554110(u8 desired_xpos, u8 desir
             }
 
             if (gMap_0x370_6F6268
-                    ->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos + 1, this->field_26_ypos, this->field_27_zpos, path_direction::up_1, &byte_6FDEEC, 1))
+                    ->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos + 1, this->field_26_ypos, this->field_27_zpos, path_direction::up_1, &gOrca_SlopeZDelta_6FDEEC, 1))
             {
                 return false;
             }
@@ -165,7 +165,7 @@ char_type Orca_2FD4::Internel_CanMoveDiagonally_554110(u8 desired_xpos, u8 desir
                                                                       this->field_26_ypos - 1,
                                                                       this->field_27_zpos,
                                                                       path_direction::right_3,
-                                                                      &byte_6FDEEC,
+                                                                      &gOrca_SlopeZDelta_6FDEEC,
                                                                       1);
             return bCanMove == 0;
         }
@@ -184,7 +184,7 @@ char_type Orca_2FD4::Internel_CanMoveDiagonally_554110(u8 desired_xpos, u8 desir
 
             if (!CanMoveInDirection_554080(path_direction::up_1) || !CanMoveInDirection_554080(path_direction::left_4) ||
                 gMap_0x370_6F6268
-                    ->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos - 1, this->field_26_ypos, this->field_27_zpos, path_direction::up_1, &byte_6FDEEC, 1))
+                    ->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos - 1, this->field_26_ypos, this->field_27_zpos, path_direction::up_1, &gOrca_SlopeZDelta_6FDEEC, 1))
             {
                 return false;
             }
@@ -194,7 +194,7 @@ char_type Orca_2FD4::Internel_CanMoveDiagonally_554110(u8 desired_xpos, u8 desir
                                                                       this->field_26_ypos - 1,
                                                                       this->field_27_zpos,
                                                                       path_direction::left_4,
-                                                                      &byte_6FDEEC,
+                                                                      &gOrca_SlopeZDelta_6FDEEC,
                                                                       1);
             return bCanMove == 0;
         }
@@ -215,9 +215,9 @@ char_type Orca_2FD4::Internel_CanMoveDiagonally_554110(u8 desired_xpos, u8 desir
         }
 
         return !gMap_0x370_6F6268
-                    ->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos - 1, this->field_26_ypos, this->field_27_zpos, path_direction::down_2, &byte_6FDEEC, 1) &&
+                    ->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos - 1, this->field_26_ypos, this->field_27_zpos, path_direction::down_2, &gOrca_SlopeZDelta_6FDEEC, 1) &&
             gMap_0x370_6F6268
-                ->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos, this->field_26_ypos + 1, this->field_27_zpos, path_direction::left_4, &byte_6FDEEC, 1) == 0;
+                ->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos, this->field_26_ypos + 1, this->field_27_zpos, path_direction::left_4, &gOrca_SlopeZDelta_6FDEEC, 1) == 0;
     }
 
     else if (xd == -1)
@@ -233,13 +233,13 @@ char_type Orca_2FD4::Internel_CanMoveDiagonally_554110(u8 desired_xpos, u8 desir
 MATCH_FUNC(0x5545c0)
 void Orca_2FD4::Internel_ClearGrid_5545C0()
 {
-    memset(this->field_40, 0, sizeof(this->field_40));
+    memset(this->field_40_grid, 0, sizeof(this->field_40_grid));
 }
 
 MATCH_FUNC(0x5545e0)
 void Orca_2FD4::init_5545E0()
 {
-    memset(this->field_40, 0, sizeof(this->field_40));
+    memset(this->field_40_grid, 0, sizeof(this->field_40_grid));
     field_38 = 0;
     field_34 = 1;
     field_36 = 0;
@@ -268,7 +268,7 @@ char_type Orca_2FD4::Internel_EvaluateBehaviorGridCell_554640()
             if (field_22_zpos <= 8)
             {
                 field_1C_f40_idx = field_23_f40_idx1 + 34 * field_24_f40_idx2;
-                Orca_8* p8 = &field_40[field_1C_f40_idx]; // 1122 len
+                Orca_8* p8 = &field_40_grid[field_1C_f40_idx]; // 1122 len
                 if (p8->field_1_idx2 == 0)
                 {
                     return 1;
@@ -326,9 +326,9 @@ void Orca_2FD4::Internel_UpdateBehaviorGrid_554710()
     WIP_IMPLEMENTED;
     u16 v12;
     u8 zpos = field_22_zpos;
-    if (byte_6FDEEC)
+    if (gOrca_SlopeZDelta_6FDEEC)
     {
-        zpos += byte_6FDEEC;
+        zpos += gOrca_SlopeZDelta_6FDEEC;
     }
 
     if (zpos != field_13_zEnd)
@@ -341,8 +341,8 @@ void Orca_2FD4::Internel_UpdateBehaviorGrid_554710()
     }
 
     field_1C_f40_idx = field_23_f40_idx1 + 34 * field_24_f40_idx2;
-    Orca_8* p8 = &field_40[field_1C_f40_idx];
-    if (field_40[field_1C_f40_idx].field_0_idx1 == 1 && zpos == p8->field_2_xpos)
+    Orca_8* p8 = &field_40_grid[field_1C_f40_idx];
+    if (field_40_grid[field_1C_f40_idx].field_0_idx1 == 1 && zpos == p8->field_2_xpos)
     {
         p8->field_0_idx1 = 0;
     }
@@ -359,26 +359,26 @@ void Orca_2FD4::Internel_UpdateBehaviorGrid_554710()
         {
             v7 = field_16;
         }
-        field_8->field_0_idx1 = field_23_f40_idx1;
-        field_8->field_1_idx2 = field_24_f40_idx2;
-        field_8->field_2_xpos = field_20_xpos;
-        field_8->field_3_ypos = field_21_ypos;
-        field_8->field_4_zpos = zpos;
-        field_8->field_6 = v7;
-        ++field_C;
-        ++field_8;
+        field_8_pNode->field_0_idx1 = field_23_f40_idx1;
+        field_8_pNode->field_1_idx2 = field_24_f40_idx2;
+        field_8_pNode->field_2_xpos = field_20_xpos;
+        field_8_pNode->field_3_ypos = field_21_ypos;
+        field_8_pNode->field_4_zpos = zpos;
+        field_8_pNode->field_6_cost = v7;
+        ++field_C_node_count;
+        ++field_8_pNode;
 
         if (p8->field_0_idx1 == 1)
         {
-            p8->field_3_ypos = field_1B;
+            p8->field_3_ypos = field_1B_direction;
             p8->field_4_zpos = zpos;
         }
         else
         {
-            p8->field_1_idx2 = field_1B;
+            p8->field_1_idx2 = field_1B_direction;
             p8->field_2_xpos = zpos;
         }
-        p8->field_6 = field_1E + 1;
+        p8->field_6_cost = field_1E_current_cost + 1;
 
         if (field_24_f40_idx2)
         {
@@ -434,7 +434,7 @@ bool Orca_2FD4::Internal_ProcessBehaviorGrid_5548C0()
         }
         else
         {
-            Orca_8* pOrca = &field_40[field_1C_f40_idx];
+            Orca_8* pOrca = &field_40_grid[field_1C_f40_idx];
             if (pOrca->field_0_idx1 == 1 && pOrca->field_3_ypos == 0)
             {
                 pOrca->field_0_idx1 = 0;
@@ -536,7 +536,7 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 pedId,
     u8 i;
     u16 j;
 
-    field_2E = 100;
+    field_2E_iteration_budget = 100;
     field_0_ped_id = pedId;
     gOrca_idx1_1_6FDBE0 = 0;
     gOrca_idx2_1_6FDBE1 = 0;
@@ -577,21 +577,21 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 pedId,
         {
             field_10_zStart = gMap_0x370_6F6268->sub_4E4D40(Fix16(xCoord1), Fix16(yCoord1), Fix16(zCoord1)).ToUInt8();
         }
-        byte_6FDEEC = 0;
+        gOrca_SlopeZDelta_6FDEEC = 0;
         field_20_xpos = xCoord1;
         field_21_ypos = yCoord1;
-        field_C = 0;
-        field_8 = field_2350;
+        field_C_node_count = 0;
+        field_8_pNode = field_2350_nodes;
         field_22_zpos = zCoord1;
         field_23_f40_idx1 = 16;
         field_24_f40_idx2 = 16;
-        field_1B = 66;
+        field_1B_direction = 66;
         Orca_2FD4::Internel_UpdateBehaviorGrid_554710();
-        field_8 = field_2350;
+        field_8_pNode = field_2350_nodes;
         field_1C_f40_idx = 560;
-        field_40[field_1C_f40_idx].field_6 = 0;
+        field_40_grid[field_1C_f40_idx].field_6_cost = 0;
         field_2FD0_bTimedOut = 0;
-        field_1E = 0;
+        field_1E_current_cost = 0;
         field_18 = 1;
     }
     ++field_2FD1_time_out_counter;
@@ -601,31 +601,31 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 pedId,
         field_38 = 0;
         return 1;
     }
-    if (!field_C)
+    if (!field_C_node_count)
     {
     LABEL_35:
         field_14 = 0;
         xCoord2 = field_25_xpos;
-        field_8 = field_2350;
+        field_8_pNode = field_2350_nodes;
         yCoorda = field_27_zpos;
-        field_8->field_2_xpos = field_25_xpos;
-        field_8->field_3_ypos = field_26_ypos;
-        field_8->field_4_zpos = field_27_zpos;
-        field_C = 1;
-        v40 = &field_40[(gOrca_idx1_any_6FDEC8 + 34 * gOrca_idx2_any_6FDEC9)];
+        field_8_pNode->field_2_xpos = field_25_xpos;
+        field_8_pNode->field_3_ypos = field_26_ypos;
+        field_8_pNode->field_4_zpos = field_27_zpos;
+        field_C_node_count = 1;
+        v40 = &field_40_grid[(gOrca_idx1_any_6FDEC8 + 34 * gOrca_idx2_any_6FDEC9)];
         while (2)
         {
             if (v40->field_0_idx1 == 1)
             {
                 if (abs(yCoorda - (u8)v40->field_4_zpos) < 1)
                 {
-                    field_1B = v40->field_3_ypos;
+                    field_1B_direction = v40->field_3_ypos;
                     field_2_xpos = v40->field_4_zpos;
                     v40->field_0_idx1 = 0;
                 }
                 else
                 {
-                    field_1B = v40->field_1_idx2;
+                    field_1B_direction = v40->field_1_idx2;
                     field_2_xpos = v40->field_2_xpos;
                     v40->field_1_idx2 = v40->field_3_ypos;
                     field_4_zpos = v40->field_4_zpos;
@@ -635,11 +635,11 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 pedId,
             }
             else
             {
-                field_1B = v40->field_1_idx2;
+                field_1B_direction = v40->field_1_idx2;
                 field_2_xpos = v40->field_2_xpos;
                 v40->field_1_idx2 = 0;
             }
-            switch (field_1B)
+            switch (field_1B_direction)
             {
                 case 1:
                     v40 += 34; // 34
@@ -676,35 +676,35 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 pedId,
                 LABEL_51:
                     ++xCoord2;
                 LABEL_52:
-                    field_8++;
-                    field_8->field_2_xpos = xCoord2;
-                    field_8->field_3_ypos = field_26_ypos;
-                    field_8->field_4_zpos = field_2_xpos;
-                    ++field_C;
+                    field_8_pNode++;
+                    field_8_pNode->field_2_xpos = xCoord2;
+                    field_8_pNode->field_3_ypos = field_26_ypos;
+                    field_8_pNode->field_4_zpos = field_2_xpos;
+                    ++field_C_node_count;
                     continue;
                 case 66:
-                    if (field_C > 1)
+                    if (field_C_node_count > 1)
                     {
-                        --field_8;
+                        --field_8_pNode;
                     }
-                    if (field_C > 100)
+                    if (field_C_node_count > 100)
                     {
-                        field_C = 100;
+                        field_C_node_count = 100;
                     }
 
-                    for (i = 0; i < field_C; i++)
+                    for (i = 0; i < field_C_node_count; i++)
                     {
                         Marz_3* pPatrolPoint = &pPed->field_0_patrol_points[i];
-                        pPatrolPoint->field_0 = field_8->field_2_xpos;
-                        pPatrolPoint->field_1 = field_8->field_3_ypos;
-                        pPatrolPoint->field_2 = field_8->field_4_zpos;
-                        --field_8;
+                        pPatrolPoint->field_0_x = field_8_pNode->field_2_xpos;
+                        pPatrolPoint->field_1_y = field_8_pNode->field_3_ypos;
+                        pPatrolPoint->field_2_z = field_8_pNode->field_4_zpos;
+                        --field_8_pNode;
                     }
                     pPatrolPoint_2 = &pPed->field_0_patrol_points[i];
-                    pPatrolPoint_2->field_0 = 0;
-                    pPatrolPoint_2->field_1 = 0;
-                    pPatrolPoint_2->field_2 = 0;
-                    *a11 = field_C;
+                    pPatrolPoint_2->field_0_x = 0;
+                    pPatrolPoint_2->field_1_y = 0;
+                    pPatrolPoint_2->field_2_z = 0;
+                    *a11 = field_C_node_count;
                     field_2FD0_bTimedOut = 1;
                     field_38 = 0;
                     field_2FD1_time_out_counter = 0;
@@ -718,15 +718,15 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 pedId,
     {
         j = 0;
         field_38 = 1;
-        field_8 = field_2350;
-        v23 = field_2350;
+        field_8_pNode = field_2350_nodes;
+        v23 = field_2350_nodes;
 
-        for (j = 0; j < field_C - 1; j++)
+        for (j = 0; j < field_C_node_count - 1; j++)
         {
-            ++field_8;
-            if (field_8->field_6 < v23->field_6)
+            ++field_8_pNode;
+            if (field_8_pNode->field_6_cost < v23->field_6_cost)
             {
-                v23 = field_8;
+                v23 = field_8_pNode;
             }
         }
 
@@ -735,16 +735,16 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 pedId,
         gOrca_XPosAny_6FDECA = v23->field_2_xpos;
         gOrca_YPosAny_6FDECB = v23->field_3_ypos;
         gOrca_ZPosAny_6FDECC = v23->field_4_zpos;
-        word_6FDECE = v23->field_6;
+        gOrca_CostAny_6FDECE = v23->field_6_cost;
         field_1C_f40_idx = gOrca_idx1_any_6FDEC8 + 34 * gOrca_idx2_any_6FDEC9;
-        field_1E = field_40[field_1C_f40_idx].field_6;
-        v23->field_0_idx1 = field_8->field_0_idx1;
-        v23->field_1_idx2 = field_8->field_1_idx2;
-        v23->field_2_xpos = field_8->field_2_xpos;
-        v23->field_3_ypos = field_8->field_3_ypos;
-        v23->field_4_zpos = field_8->field_4_zpos;
-        v23->field_6 = field_8->field_6;
-        --field_C;
+        field_1E_current_cost = field_40_grid[field_1C_f40_idx].field_6_cost;
+        v23->field_0_idx1 = field_8_pNode->field_0_idx1;
+        v23->field_1_idx2 = field_8_pNode->field_1_idx2;
+        v23->field_2_xpos = field_8_pNode->field_2_xpos;
+        v23->field_3_ypos = field_8_pNode->field_3_ypos;
+        v23->field_4_zpos = field_8_pNode->field_4_zpos;
+        v23->field_6_cost = field_8_pNode->field_6_cost;
+        --field_C_node_count;
         field_25_xpos = gOrca_XPosAny_6FDECA;
         field_26_ypos = gOrca_YPosAny_6FDECB;
         field_27_zpos = gOrca_ZPosAny_6FDECC;
@@ -760,7 +760,7 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 pedId,
         field_22_zpos = gOrca_ZPosAny_6FDECC;
         field_23_f40_idx1 = gOrca_idx1_any_6FDEC8;
         field_24_f40_idx2 = gOrca_idx2_any_6FDEC9 - 1;
-        field_1B = 1;
+        field_1B_direction = 1;
 
         if (Orca_2FD4::Internal_ProcessBehaviorGrid_5548C0())
         {
@@ -771,7 +771,7 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 pedId,
         field_22_zpos = gOrca_ZPosAny_6FDECC;
         field_23_f40_idx1 = gOrca_idx1_any_6FDEC8 + 1;
         field_24_f40_idx2 = gOrca_idx2_any_6FDEC9 - 1;
-        field_1B = 5;
+        field_1B_direction = 5;
 
         if (Orca_2FD4::Internal_ProcessBehaviorGrid_5548C0())
         {
@@ -782,7 +782,7 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 pedId,
         field_22_zpos = gOrca_ZPosAny_6FDECC;
         field_23_f40_idx1 = gOrca_idx1_any_6FDEC8 + 1;
         field_24_f40_idx2 = gOrca_idx2_any_6FDEC9;
-        field_1B = 2;
+        field_1B_direction = 2;
 
         if (Orca_2FD4::Internal_ProcessBehaviorGrid_5548C0())
         {
@@ -793,7 +793,7 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 pedId,
         field_22_zpos = gOrca_ZPosAny_6FDECC;
         field_23_f40_idx1 = gOrca_idx1_any_6FDEC8 + 1;
         field_24_f40_idx2 = gOrca_idx2_any_6FDEC9 + 1;
-        field_1B = 6;
+        field_1B_direction = 6;
 
         if (Orca_2FD4::Internal_ProcessBehaviorGrid_5548C0())
         {
@@ -804,7 +804,7 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 pedId,
         field_22_zpos = gOrca_ZPosAny_6FDECC;
         field_23_f40_idx1 = gOrca_idx1_any_6FDEC8;
         field_24_f40_idx2 = gOrca_idx2_any_6FDEC9 + 1;
-        field_1B = 3;
+        field_1B_direction = 3;
         if (Orca_2FD4::Internal_ProcessBehaviorGrid_5548C0())
         {
             goto LABEL_35;
@@ -814,7 +814,7 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 pedId,
         field_22_zpos = gOrca_ZPosAny_6FDECC;
         field_23_f40_idx1 = gOrca_idx1_any_6FDEC8 - 1;
         field_24_f40_idx2 = gOrca_idx2_any_6FDEC9 + 1;
-        field_1B = 7;
+        field_1B_direction = 7;
         if (Orca_2FD4::Internal_ProcessBehaviorGrid_5548C0())
         {
             goto LABEL_35;
@@ -824,7 +824,7 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 pedId,
         field_22_zpos = gOrca_ZPosAny_6FDECC;
         field_23_f40_idx1 = gOrca_idx1_any_6FDEC8 - 1;
         field_24_f40_idx2 = gOrca_idx2_any_6FDEC9;
-        field_1B = 4;
+        field_1B_direction = 4;
         if (Orca_2FD4::Internal_ProcessBehaviorGrid_5548C0())
         {
             goto LABEL_35;
@@ -834,25 +834,25 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 pedId,
         field_22_zpos = gOrca_ZPosAny_6FDECC;
         field_23_f40_idx1 = gOrca_idx1_any_6FDEC8 - 1;
         field_24_f40_idx2 = gOrca_idx2_any_6FDEC9 - 1;
-        field_1B = 8;
+        field_1B_direction = 8;
 
         if (Orca_2FD4::Internal_ProcessBehaviorGrid_5548C0())
         {
             goto LABEL_35;
         }
-        if (!field_C)
+        if (!field_C_node_count)
         {
             break;
         }
         field_14 = 1;
-        if (field_2E == 0)
+        if (field_2E_iteration_budget == 0)
         {
             return 0;
         }
     LABEL_30:
-        if (field_2E > 0)
+        if (field_2E_iteration_budget > 0)
         {
-            --field_2E;
+            --field_2E_iteration_budget;
         }
         if (!field_18)
         {
@@ -885,7 +885,7 @@ bool Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, 
     {
         return 0;
     }
-    u8 default_pos = dword_6FDD98.ToUInt8();
+    u8 default_pos = kFpZero_6FDD98.ToUInt8();
     field_27_zpos = default_pos;
     field_26_ypos = default_pos;
     field_25_xpos = default_pos;
@@ -905,32 +905,32 @@ bool Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, 
     field_11_xEnd = 0;
     field_12_yEnd = 0;
     field_13_zEnd = 0;
-    byte_6FDEEC = 0;
-    field_C = 0;
-    field_8 = field_2350;
+    gOrca_SlopeZDelta_6FDEEC = 0;
+    field_C_node_count = 0;
+    field_8_pNode = field_2350_nodes;
     field_22_zpos = field_10_zStart;
     field_24_f40_idx2 = 16;
     field_23_f40_idx1 = 16;
     field_20_xpos = field_E_xStart;
     field_21_ypos = field_F_yStart;
-    field_1B = 66;
+    field_1B_direction = 66;
     Orca_2FD4::Internel_UpdateBehaviorGrid_554710();
-    field_8 = field_2350;
+    field_8_pNode = field_2350_nodes;
     field_1C_f40_idx = 560;
-    field_40[field_1C_f40_idx].field_6 = field_16;
-    field_1E = 0;
+    field_40_grid[field_1C_f40_idx].field_6_cost = field_16;
+    field_1E_current_cost = 0;
     field_18 = 1;
-    while (field_C)
+    while (field_C_node_count)
     {
-        Orca_8* pIter = field_2350;
-        field_8 = field_2350;
+        Orca_8* pIter = field_2350_nodes;
+        field_8_pNode = field_2350_nodes;
 
-        for (u8 i = 0; i < field_C - 1; i++)
+        for (u8 i = 0; i < field_C_node_count - 1; i++)
         {
-            ++field_8;
-            if (field_8->field_6 < pIter->field_6)
+            ++field_8_pNode;
+            if (field_8_pNode->field_6_cost < pIter->field_6_cost)
             {
-                pIter = field_8;
+                pIter = field_8_pNode;
             }
         }
         gOrca_idx1_any_6FDEC8 = pIter->field_0_idx1;
@@ -938,16 +938,16 @@ bool Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, 
         gOrca_XPosAny_6FDECA = pIter->field_2_xpos;
         gOrca_YPosAny_6FDECB = pIter->field_3_ypos;
         gOrca_ZPosAny_6FDECC = pIter->field_4_zpos;
-        word_6FDECE = pIter->field_6;
+        gOrca_CostAny_6FDECE = pIter->field_6_cost;
         field_1C_f40_idx = gOrca_idx1_any_6FDEC8 + 34 * gOrca_idx2_any_6FDEC9;
-        field_1E = field_40[field_1C_f40_idx].field_6;
-        pIter->field_0_idx1 = field_8->field_0_idx1;
-        pIter->field_1_idx2 = field_8->field_1_idx2;
-        pIter->field_2_xpos = field_8->field_2_xpos;
-        pIter->field_3_ypos = field_8->field_3_ypos;
-        pIter->field_4_zpos = field_8->field_4_zpos;
-        pIter->field_6 = field_8->field_6;
-        --field_C;
+        field_1E_current_cost = field_40_grid[field_1C_f40_idx].field_6_cost;
+        pIter->field_0_idx1 = field_8_pNode->field_0_idx1;
+        pIter->field_1_idx2 = field_8_pNode->field_1_idx2;
+        pIter->field_2_xpos = field_8_pNode->field_2_xpos;
+        pIter->field_3_ypos = field_8_pNode->field_3_ypos;
+        pIter->field_4_zpos = field_8_pNode->field_4_zpos;
+        pIter->field_6_cost = field_8_pNode->field_6_cost;
+        --field_C_node_count;
         field_25_xpos = gOrca_XPosAny_6FDECA;
         field_26_ypos = gOrca_YPosAny_6FDECB;
         field_27_zpos = gOrca_ZPosAny_6FDECC;
@@ -956,14 +956,14 @@ bool Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, 
 
         if (block_type == 5)
         {
-            if (!gMap_0x370_6F6268->sub_4E5640(dword_6FDD50,
-                                               dword_6FDC00,
-                                               dword_6FDD50,
-                                               Fix16(*xpos) + dword_6FDCA8,
-                                               Fix16(*ypos) + dword_6FDCA8,
+            if (!gMap_0x370_6F6268->sub_4E5640(kFpOne64th_6FDD50,
+                                               kFpQuarter_6FDC00,
+                                               kFpOne64th_6FDD50,
+                                               Fix16(*xpos) + kFpHalf_6FDCA8,
+                                               Fix16(*ypos) + kFpHalf_6FDCA8,
                                                Fix16(*zpos),
-                                               Fix16(field_25_xpos) + dword_6FDCA8,
-                                               Fix16(field_26_ypos) + dword_6FDCA8,
+                                               Fix16(field_25_xpos) + kFpHalf_6FDCA8,
+                                               Fix16(field_26_ypos) + kFpHalf_6FDCA8,
                                                Fix16(field_27_zpos)))
             {
                 field_18 = 0;
@@ -998,7 +998,7 @@ bool Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, 
         field_22_zpos = gOrca_ZPosAny_6FDECC;
         field_23_f40_idx1 = gOrca_idx1_any_6FDEC8;
         field_24_f40_idx2 = gOrca_idx2_any_6FDEC9 - 1;
-        field_1B = 1;
+        field_1B_direction = 1;
         if (!Orca_2FD4::Internal_ProcessBehaviorGrid_5548C0())
         {
             field_20_xpos = gOrca_XPosAny_6FDECA + 1;
@@ -1006,7 +1006,7 @@ bool Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, 
             field_22_zpos = gOrca_ZPosAny_6FDECC;
             field_23_f40_idx1 = gOrca_idx1_any_6FDEC8 + 1;
             field_24_f40_idx2 = gOrca_idx2_any_6FDEC9;
-            field_1B = 2;
+            field_1B_direction = 2;
             if (!Orca_2FD4::Internal_ProcessBehaviorGrid_5548C0())
             {
                 field_20_xpos = gOrca_XPosAny_6FDECA;
@@ -1014,7 +1014,7 @@ bool Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, 
                 field_22_zpos = gOrca_ZPosAny_6FDECC;
                 field_23_f40_idx1 = gOrca_idx1_any_6FDEC8;
                 field_24_f40_idx2 = gOrca_idx2_any_6FDEC9 + 1;
-                field_1B = 3;
+                field_1B_direction = 3;
                 if (!Orca_2FD4::Internal_ProcessBehaviorGrid_5548C0())
                 {
                     field_20_xpos = gOrca_XPosAny_6FDECA - 1;
@@ -1022,7 +1022,7 @@ bool Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, 
                     field_22_zpos = gOrca_ZPosAny_6FDECC;
                     field_23_f40_idx1 = gOrca_idx1_any_6FDEC8 - 1;
                     field_24_f40_idx2 = gOrca_idx2_any_6FDEC9;
-                    field_1B = 4;
+                    field_1B_direction = 4;
                     if (!Orca_2FD4::Internal_ProcessBehaviorGrid_5548C0())
                     {
                         ++field_16;
@@ -1030,7 +1030,7 @@ bool Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, 
                         {
                             if (field_18) // line 486
                             {
-                                if (field_C) // line 48f
+                                if (field_C_node_count) // line 48f
                                 {
                                     continue;
                                 }

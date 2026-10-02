@@ -7,13 +7,13 @@ class thirsty_lamarr
   public:
     EXPORT thirsty_lamarr();
     EXPORT void SetupDigitsParams_492110(s16 digit_transition_speed, s32 max_value, s16 palette);
-    EXPORT void sub_492150();
+    EXPORT void InitDigitSprites_492150();
     EXPORT void ChangeStatByAmount_4921B0(s32 amount);
     EXPORT void ColorDigits_4921F0(s32 palette_type, s16 palette);
-    EXPORT s32 sub_492260(s32 a2, s32 a3);
+    EXPORT s32 DrawDigits_492260(s32 a2, s32 a3);
     EXPORT s32 sub_492430(s32 a3, s32 a4);
-    EXPORT char_type sub_4925C0();
-    EXPORT void sub_4925E0();
+    EXPORT char_type IsAnyDigitRolling_4925C0();
+    EXPORT void UpdateRollingDigits_4925E0();
 
     inline s32 get_value()
     {
@@ -21,8 +21,8 @@ class thirsty_lamarr
     }
 
     s32 field_0_value;
-    s32 field_4;
-    char_type field_8;
+    s32 field_4_target_value;
+    char_type field_8_bRollingUp;
     char_type field_9_str[10];
     s8 field_13_offset[10];
     u8 field_1D_buf[10];

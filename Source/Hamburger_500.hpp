@@ -39,7 +39,7 @@ class Hamburger_40
     EXPORT Hamburger_40();
     EXPORT ~Hamburger_40();
 
-    char_type field_0; // bInUse ?
+    char_type field_0_bInUse;
     char_type field_1;
     char_type field_2;
     char_type field_3;
@@ -97,7 +97,7 @@ class Hamburger_500
     EXPORT Hamburger_500();
     EXPORT ~Hamburger_500();
 
-    Hamburger_40 field_0[20];
+    Hamburger_40 field_0_entries[20];
 };
 
 EXTERN_GLOBAL(Hamburger_500*, gHamburger_500_678E30);

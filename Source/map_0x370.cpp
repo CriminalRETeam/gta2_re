@@ -1295,7 +1295,7 @@ bool Map_0x370::SpriteHitsDiagonalWall_4E1520(s32 z_pos)
                         Sprite* pSprt = gObject_5C_6F8F84->GetDirectionalObject_5298E0(slope_type)->field_4;
                         pSprt->set_xyz_lazy_451950(Fix16(x_pos) + kFpHalf_6F5FE0, Fix16(y_pos) + kFpHalf_6F5FE0, Fix16(z_pos));
                         pSprt->UpdateCollisionBoundsIfNeeded_59E9C0();
-                        gRozza_679188.sub_40FEE0(pSprt);
+                        gRozza_679188.SetSprite_40FEE0(pSprt);
                         return true;
                     }
                 }
@@ -2789,7 +2789,7 @@ char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_
     Ang16 angle;
     Fix16_Point pos_diff(x_2 - x_1, y_2 - y_1);
 
-    gRozza_679188.sub_4637B0();
+    gRozza_679188.Reset_4637B0();
 
     angle = Fix16::atan2_fixed_405320(y_2 - y_1, x_2 - x_1);
 

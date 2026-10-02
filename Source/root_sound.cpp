@@ -115,13 +115,13 @@ infallible_turing* root_sound::CreateSoundObject_40EF40(void* pObject, s32 objec
     infallible_turing* pCurrent = field_0_pFreeList;
     field_0_pFreeList = field_0_pFreeList->field_C_pAny.pInfallible_turing;
     pCurrent->field_C_pAny.pAny = pObject;
-    pCurrent->field_8 = 0;
+    pCurrent->field_8_sound_entry = 0;
     pCurrent->field_4_bStatus = 0;
     pCurrent->field_0_object_type = objectType;
 
     if (!bSkip_audio_67D6BE)
     {
-        pCurrent->field_8 = gRoot_sound_66B038.AddSoundObject_40EFB0(pCurrent);
+        pCurrent->field_8_sound_entry = gRoot_sound_66B038.AddSoundObject_40EFB0(pCurrent);
     }
 
     return pCurrent;

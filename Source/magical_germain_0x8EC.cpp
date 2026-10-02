@@ -84,7 +84,7 @@ u8* magical_germain_0x8EC::sub_4D23B0(char_type* a2)
 }
 
 MATCH_FUNC(0x4D2610)
-void magical_germain_0x8EC::sub_4D2610(wchar_t text_char)
+void magical_germain_0x8EC::RenderSmallGlyph_4D2610(wchar_t text_char)
 {
     u16 v2 = text_char;
     if (text_char < 0x100u)
@@ -104,7 +104,7 @@ void magical_germain_0x8EC::sub_4D2610(wchar_t text_char)
 }
 
 MATCH_FUNC(0x4D2690)
-void magical_germain_0x8EC::sub_4D2690(wchar_t text_char)
+void magical_germain_0x8EC::RenderLargeGlyph_4D2690(wchar_t text_char)
 {
     u16 v2 = text_char;
     if (text_char < 0x100u)
@@ -124,7 +124,7 @@ void magical_germain_0x8EC::sub_4D2690(wchar_t text_char)
 }
 
 MATCH_FUNC(0x4D2710)
-STexture* magical_germain_0x8EC::sub_4D2710(wchar_t text_char)
+STexture* magical_germain_0x8EC::GetSmallGlyphTexture_4D2710(wchar_t text_char)
 {
     kanji_0x10* pFound;
     kanji_0x10* pCurrent;
@@ -132,7 +132,7 @@ STexture* magical_germain_0x8EC::sub_4D2710(wchar_t text_char)
 
     for (s32 i = 0; i < 120; i++)
     {
-        pCurrent = &field_0[i];
+        pCurrent = &field_0_small_glyphs[i];
         if (pCurrent->field_2_text_char == text_char && pCurrent->field_0_v1 == field_8E8_v1 && pCurrent->field_1_v2 == field_8E9_v2)
         {
             pCurrent->field_C_id = field_8C0_count++;
@@ -154,13 +154,13 @@ STexture* magical_germain_0x8EC::sub_4D2710(wchar_t text_char)
     pFound->field_2_text_char = text_char;
     pFound->field_C_id = field_8C0_count++;
 
-    sub_4D2610(text_char);
+    RenderSmallGlyph_4D2610(text_char);
 
     return field_8D8_pTexture;
 }
 
 MATCH_FUNC(0x4D27D0)
-STexture* magical_germain_0x8EC::sub_4D27D0(wchar_t text_char)
+STexture* magical_germain_0x8EC::GetLargeGlyphTexture_4D27D0(wchar_t text_char)
 {
     kanji_0x10* pFound;
     kanji_0x10* pCurrent;
@@ -168,7 +168,7 @@ STexture* magical_germain_0x8EC::sub_4D27D0(wchar_t text_char)
 
     for (s32 i = 0; i < 20; i++)
     {
-        pCurrent = &field_780[i];
+        pCurrent = &field_780_large_glyphs[i];
         if (pCurrent->field_2_text_char == text_char && pCurrent->field_0_v1 == field_8E8_v1 && pCurrent->field_1_v2 == field_8E9_v2)
         {
             pCurrent->field_C_id = field_8C0_count++;
@@ -190,7 +190,7 @@ STexture* magical_germain_0x8EC::sub_4D27D0(wchar_t text_char)
     pFound->field_2_text_char = text_char;
     pFound->field_C_id = field_8C0_count++;
 
-    sub_4D2690(text_char);
+    RenderLargeGlyph_4D2690(text_char);
 
     return field_8E4_pTexture;
 }
@@ -325,15 +325,15 @@ void magical_germain_0x8EC::sub_4D29D0(u16 a2)
 }
 
 MATCH_FUNC(0x4D2B40)
-void magical_germain_0x8EC::sub_4D2B40()
+void magical_germain_0x8EC::InitGlyphCaches_4D2B40()
 {
     u16 v2 = gGtx_0x106C_703DD4->GetSpriteIdxFromFont_5AA710(word_703C3E, 0);
     u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::font_7, v2);
     field_8D4_sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
 
-    for (s32 i = 0; i < GTA2_COUNTOF_S(field_0); i++)
+    for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_small_glyphs); i++)
     {
-        kanji_0x10* pKanji = &field_0[i];
+        kanji_0x10* pKanji = &field_0_small_glyphs[i];
         pKanji->field_2_text_char = 0;
         pKanji->field_0_v1 = 0;
         pKanji->field_1_v2 = 0;
@@ -350,9 +350,9 @@ void magical_germain_0x8EC::sub_4D2B40()
 
     field_8E0_sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v9);
 
-    for (s32 j = 0; j < GTA2_COUNTOF_S(field_780); j++)
+    for (s32 j = 0; j < GTA2_COUNTOF_S(field_780_large_glyphs); j++)
     {
-        kanji_0x10* pKanji_2 = &field_780[j];
+        kanji_0x10* pKanji_2 = &field_780_large_glyphs[j];
         pKanji_2->field_2_text_char = 0;
         pKanji_2->field_0_v1 = 0;
         pKanji_2->field_1_v2 = 0;

@@ -5,12 +5,12 @@
 class distracted_einstein_0xC
 {
   public:
-    EXPORT void sub_5BEBF0();
+    EXPORT void AccumulateElapsed_5BEBF0();
 
     EXPORT distracted_einstein_0xC();
     EXPORT ~distracted_einstein_0xC();
 
-    s32 field_0;
-    s32 field_4;
-    s32 field_8;
+    s32 field_0_time_percent;
+    s32 field_4_start_time;
+    s32 field_8_accum_time;
 };

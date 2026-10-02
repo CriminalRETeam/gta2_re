@@ -565,8 +565,8 @@ char_type Ped::Reset_45AFC0()
     field_290 = 0;
     field_264_killer_id_timer = 0;
     field_21C_bf.b14 = 0;
-    field_0_patrol_points[0].field_0 = 0;
-    field_0_patrol_points[0].field_1 = 0;
+    field_0_patrol_points[0].field_0_x = 0;
+    field_0_patrol_points[0].field_1_y = 0;
     field_261 = 0;
     field_18C_current_path_point = 0;
     field_21C &= ~0x18000u;
@@ -4283,11 +4283,11 @@ void Ped::SetObjective(s32 objective, s16 objective_timer)
                 break;
 
             case 42:
-                pMarz_96 = gMarz_1D7E_6FD784->sub_543F10(&field_265);
+                pMarz_96 = gMarz_1D7E_6FD784->AllocPatrolList_543F10(&field_265);
                 field_190_patrol_route = pMarz_96;
-                while (pMarz_96->field_0[0].field_0)
+                while (pMarz_96->field_0_points[0].field_0_x)
                 {
-                    pMarz_96->field_0[0].field_0 = 0;
+                    pMarz_96->field_0_points[0].field_0_x = 0;
                     pMarz_96++;
                 }
                 ChangePedStatesByMode_463300(99u);
@@ -5319,8 +5319,8 @@ void Ped::Threat_Reaction_AI_465270()
                         {
                             if (field_168_game_object->field_10_char_state != 15)
                             {
-                                field_0_patrol_points[0].field_0 = 0;
-                                field_0_patrol_points[0].field_1 = 0;
+                                field_0_patrol_points[0].field_0_x = 0;
+                                field_0_patrol_points[0].field_1_y = 0;
                                 field_21C_bf.b2 = false;
                                 field_21C_bf.b11 = false;
                             }
@@ -6505,12 +6505,12 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
         }
 
         if (field_168_game_object->field_69_is_colliding_with_sprite && field_18C_current_path_point != NULL &&
-            field_1AC_cam.x.ToUInt8() == field_18C_current_path_point->field_0 && field_1AC_cam.y.ToUInt8() == field_18C_current_path_point->field_1)
+            field_1AC_cam.x.ToUInt8() == field_18C_current_path_point->field_0_x && field_1AC_cam.y.ToUInt8() == field_18C_current_path_point->field_1_y)
         {
             field_18C_current_path_point = field_18C_current_path_point + 1;
             bUnk2 = true;
-            field_1C4_x = k_dword_67853C + Fix16(field_18C_current_path_point->field_0);
-            field_1C8_y = k_dword_67853C + Fix16(field_18C_current_path_point->field_1);
+            field_1C4_x = k_dword_67853C + Fix16(field_18C_current_path_point->field_0_x);
+            field_1C8_y = k_dword_67853C + Fix16(field_18C_current_path_point->field_1_y);
         }
         else if (!bUnk1)
         {
@@ -6550,13 +6550,13 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
 
                     while (1)
                     {
-                        if (field_18C_current_path_point->field_0 == 0)
+                        if (field_18C_current_path_point->field_0_x == 0)
                         {
                             field_18C_current_path_point = &field_0_patrol_points[0];
                             break;
                         }
-                        if (field_18C_current_path_point->field_0 == field_1AC_cam.x.ToUInt8() && field_18C_current_path_point->field_1 == field_1AC_cam.y.ToUInt8() &&
-                            field_18C_current_path_point->field_2 == field_1AC_cam.z.ToUInt8())
+                        if (field_18C_current_path_point->field_0_x == field_1AC_cam.x.ToUInt8() && field_18C_current_path_point->field_1_y == field_1AC_cam.y.ToUInt8() &&
+                            field_18C_current_path_point->field_2_z == field_1AC_cam.z.ToUInt8())
                         {
                             break;
                         }
@@ -6564,7 +6564,7 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                     }
 
                     // line 361
-                    if (field_18C_current_path_point->field_0 == 0 && field_18C_current_path_point->field_1 == 0)
+                    if (field_18C_current_path_point->field_0_x == 0 && field_18C_current_path_point->field_1_y == 0)
                     {
                         field_21C_bf.b17 = true;
                         // goto line 3a9
@@ -6574,9 +6574,9 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                     {
                         // goto line 54e
                         //goto LINE_54E;
-                        field_1C4_x = k_dword_67853C + Fix16(field_18C_current_path_point->field_0);
-                        field_1C8_y = k_dword_67853C + Fix16(field_18C_current_path_point->field_1);
-                        field_1CC_z = Fix16(field_18C_current_path_point->field_2);
+                        field_1C4_x = k_dword_67853C + Fix16(field_18C_current_path_point->field_0_x);
+                        field_1C8_y = k_dword_67853C + Fix16(field_18C_current_path_point->field_1_y);
+                        field_1CC_z = Fix16(field_18C_current_path_point->field_2_z);
                         field_21C_bf.b16 = true;
                         byte_61A8A1 = 0;
                         // goto line 3d9
@@ -6589,14 +6589,14 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                 // line 38e
                 if (field_18C_current_path_point)
                 {
-                    if (field_18C_current_path_point->field_0 == 0 && field_18C_current_path_point->field_1 == 0)
+                    if (field_18C_current_path_point->field_0_x == 0 && field_18C_current_path_point->field_1_y == 0)
                     {
                     // line 3a9
                     LINE_3A9:
                         Ped::ChangeNextPedState1_45C500(1);
                         Ped::ChangeNextPedState2_45C540(2);
-                        field_0_patrol_points[0].field_0 = 0;
-                        field_0_patrol_points[0].field_1 = 0;
+                        field_0_patrol_points[0].field_0_x = 0;
+                        field_0_patrol_points[0].field_1_y = 0;
                         field_21C_bf.b15 = false;
                         // goto line 3d1
                     }
@@ -6604,8 +6604,8 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                     {
                         // OBS: THIS CODE BLOCK MUST BE IN line 417
                         // line 216 in 10.5 idb, line 299 in 9.6f idb;
-                        field_1C4_x = Fix16(field_18C_current_path_point->field_0);
-                        field_1C8_y = Fix16(field_18C_current_path_point->field_1);
+                        field_1C4_x = Fix16(field_18C_current_path_point->field_0_x);
+                        field_1C8_y = Fix16(field_18C_current_path_point->field_1_y);
 
                         Fix16 dist_1 = (k_dword_67853C + Fix16(field_1C4_x.ToUInt8())) - field_1AC_cam.x;
                         Fix16 dist_2 = (k_dword_67853C + Fix16(field_1C8_y.ToUInt8())) - field_1AC_cam.y;
@@ -6619,15 +6619,15 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                         if (*pGreater_abs < dword_678790 || ((field_168_game_object->field_58_flags & 0x40) != 0))
                         {
                             field_18C_current_path_point++;
-                            field_1C4_x = k_dword_67853C + Fix16(field_18C_current_path_point->field_0);
-                            field_1C8_y = k_dword_67853C + Fix16(field_18C_current_path_point->field_1);
-                            field_1CC_z = Fix16(field_18C_current_path_point->field_2);
+                            field_1C4_x = k_dword_67853C + Fix16(field_18C_current_path_point->field_0_x);
+                            field_1C8_y = k_dword_67853C + Fix16(field_18C_current_path_point->field_1_y);
+                            field_1CC_z = Fix16(field_18C_current_path_point->field_2_z);
                         }
                         else
                         {
-                            field_1C4_x = k_dword_67853C + Fix16(field_18C_current_path_point->field_0);
-                            field_1C8_y = k_dword_67853C + Fix16(field_18C_current_path_point->field_1);
-                            field_1CC_z = Fix16(field_18C_current_path_point->field_2);
+                            field_1C4_x = k_dword_67853C + Fix16(field_18C_current_path_point->field_0_x);
+                            field_1C8_y = k_dword_67853C + Fix16(field_18C_current_path_point->field_1_y);
+                            field_1CC_z = Fix16(field_18C_current_path_point->field_2_z);
                         }
                         goto LINE_3D9;
                     }
@@ -7498,25 +7498,25 @@ void Ped::PatrolOnFoot_468C70()
                 if (field_226_internal_objective_status)
                 {
                     field_194_current_patrol_point = field_194_current_patrol_point + 1;
-                    if (!field_194_current_patrol_point->field_0)
+                    if (!field_194_current_patrol_point->field_0_x)
                     {
-                        field_194_current_patrol_point = field_190_patrol_route->field_0;
+                        field_194_current_patrol_point = field_190_patrol_route->field_0_points;
                     }
                     Ped::SetObjective2_463830(12, 9999);
-                    field_1D0_internal_target_x = k_dword_67853C + Fix16(field_194_current_patrol_point->field_0);
-                    field_1D4_internal_target_y = k_dword_67853C + Fix16(field_194_current_patrol_point->field_1);
-                    field_1D8_internal_target_z = Fix16(field_194_current_patrol_point->field_2);
+                    field_1D0_internal_target_x = k_dword_67853C + Fix16(field_194_current_patrol_point->field_0_x);
+                    field_1D4_internal_target_y = k_dword_67853C + Fix16(field_194_current_patrol_point->field_1_y);
+                    field_1D8_internal_target_z = Fix16(field_194_current_patrol_point->field_2_z);
                 }
                 field_168_game_object->RegulateVelocity_433970(field_1F4);
             }
         }
         else if (field_21C_bf.b2 == false)
         {
-            field_194_current_patrol_point = field_190_patrol_route->field_0;
+            field_194_current_patrol_point = field_190_patrol_route->field_0_points;
             Ped::SetObjective2_463830(12, 9999);
-            field_1D0_internal_target_x = k_dword_67853C + Fix16(field_194_current_patrol_point->field_0);
-            field_1D4_internal_target_y = k_dword_67853C + Fix16(field_194_current_patrol_point->field_1);
-            field_1D8_internal_target_z = Fix16(field_194_current_patrol_point->field_2);
+            field_1D0_internal_target_x = k_dword_67853C + Fix16(field_194_current_patrol_point->field_0_x);
+            field_1D4_internal_target_y = k_dword_67853C + Fix16(field_194_current_patrol_point->field_1_y);
+            field_1D8_internal_target_z = Fix16(field_194_current_patrol_point->field_2_z);
             field_168_game_object->RegulateVelocity_433970(field_1F4);
         }
     }
@@ -9404,9 +9404,9 @@ void Ped::FollowPathPoints_46C910()
         if (gDistanceToTarget_678750 < dword_6784E8)
         {
             field_18C_current_path_point = field_18C_current_path_point + 1; // next patrol point
-            field_1C4_x = k_dword_67853C + Fix16(field_18C_current_path_point->field_0);
-            field_1C8_y = k_dword_67853C + Fix16(field_18C_current_path_point->field_1);
-            if (field_18C_current_path_point->field_0 == 0)
+            field_1C4_x = k_dword_67853C + Fix16(field_18C_current_path_point->field_0_x);
+            field_1C8_y = k_dword_67853C + Fix16(field_18C_current_path_point->field_1_y);
+            if (field_18C_current_path_point->field_0_x == 0)
             {
                 field_226_internal_objective_status = 1;
                 Ped::SetObjective2_463830(26, 9999);
@@ -10580,7 +10580,7 @@ void Ped::ManageWeapon_46F390()
         {
             if (!field_267_varrok_idx)
             {
-                field_267_varrok_idx = gVarrok_7F8_703398->sub_59B060(field_200_id);
+                field_267_varrok_idx = gVarrok_7F8_703398->AllocForPed_59B060(field_200_id);
             }
             if (!field_21C_bf.b7)
             {
@@ -11364,16 +11364,16 @@ MATCH_FUNC(0x4702A0)
 void Ped::PushPatrolPoint_4702A0(s8 x, s8 y, s8 z)
 {
     // Get a free patrol point
-    Marz_3* pIter = this->field_190_patrol_route->field_0;
-    while (pIter->field_0)
+    Marz_3* pIter = this->field_190_patrol_route->field_0_points;
+    while (pIter->field_0_x)
     {
         ++pIter;
     }
 
     // And populate it
-    pIter->field_0 = x;
-    pIter->field_1 = y;
-    pIter->field_2 = z;
+    pIter->field_0_x = x;
+    pIter->field_1_y = y;
+    pIter->field_2_z = z;
 }
 
 MATCH_FUNC(0x470f00)

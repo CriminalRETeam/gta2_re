@@ -338,7 +338,7 @@ void __stdcall Frontend::create_4ACFA0()
         snd2_67D6F8.field_0_object_type = SoundObjectTypeEnum::infallible_turing_2;
         snd2_67D6F8.field_C_pAny.pInfallible_turing = &snd1_67D818;
         snd2_67D6F8.field_4_bStatus = 0;
-        snd2_67D6F8.field_8 = gRoot_sound_66B038.AddSoundObject_40EFB0(&snd2_67D6F8);
+        snd2_67D6F8.field_8_sound_entry = gRoot_sound_66B038.AddSoundObject_40EFB0(&snd2_67D6F8);
         gRoot_sound_66B038.LoadStyle_40EFF0("data\\fstyle.sty");
         gRoot_sound_66B038.Set3DSound_40F160(0);
     }
@@ -349,10 +349,10 @@ void __stdcall Frontend::create_4ACFA0()
 MATCH_FUNC(0x4AD070)
 void __stdcall Frontend::destroy_4AD070()
 {
-    if (!bSkip_audio_67D6BE && snd2_67D6F8.field_8)
+    if (!bSkip_audio_67D6BE && snd2_67D6F8.field_8_sound_entry)
     {
-        gRoot_sound_66B038.FreeSoundEntry_40EFD0(snd2_67D6F8.field_8);
-        snd2_67D6F8.field_8 = 0;
+        gRoot_sound_66B038.FreeSoundEntry_40EFD0(snd2_67D6F8.field_8_sound_entry);
+        snd2_67D6F8.field_8_sound_entry = 0;
     }
 
     if (gFrontend_67DC84)
@@ -875,7 +875,7 @@ void Frontend::InitSound_4B8680()
         snd2_67D6F8.field_0_object_type = SoundObjectTypeEnum::infallible_turing_2;
         snd2_67D6F8.field_C_pAny.pInfallible_turing = &snd1_67D818;
         snd2_67D6F8.field_4_bStatus = 0;
-        snd2_67D6F8.field_8 = gRoot_sound_66B038.AddSoundObject_40EFB0(&snd2_67D6F8);
+        snd2_67D6F8.field_8_sound_entry = gRoot_sound_66B038.AddSoundObject_40EFB0(&snd2_67D6F8);
     }
 }
 
@@ -1502,9 +1502,9 @@ void Frontend::DrawCredits_4B7AE0()
     s32 draw_kind;
 
     u16 credit_idx = field_1EB38_credits_line_idx;
-    for (Fix16 y = field_1EB34_credits_ypos; y < 480 && credit_idx < 600; credit_idx++, y += field_EE0E_unk.field_2[credit_idx].field_4)
+    for (Fix16 y = field_1EB34_credits_ypos; y < 480 && credit_idx < 600; credit_idx++, y += field_EE0E_unk.field_2_lines[credit_idx].field_4_y_gap)
     {
-        sleepy_stonebraker_0x6C* sleepy = &field_EE0E_unk.field_2[credit_idx];
+        sleepy_stonebraker_0x6C* sleepy = &field_EE0E_unk.field_2_lines[credit_idx];
         switch (sleepy->field_6_string_category)
         {
             case 0: // normal string: white
@@ -1568,10 +1568,10 @@ void Frontend::FreeSound_4B8650()
 {
     if (!bSkip_audio_67D6BE)
     {
-        if (snd2_67D6F8.field_8)
+        if (snd2_67D6F8.field_8_sound_entry)
         {
-            gRoot_sound_66B038.FreeSoundEntry_40EFD0(snd2_67D6F8.field_8);
-            snd2_67D6F8.field_8 = 0;
+            gRoot_sound_66B038.FreeSoundEntry_40EFD0(snd2_67D6F8.field_8_sound_entry);
+            snd2_67D6F8.field_8_sound_entry = 0;
         }
     }
 }
@@ -1856,7 +1856,7 @@ void Frontend::ManageCredits_4B7A10()
         {
             while (++field_1EB38_credits_line_idx != 600)
             {
-                field_1EB34_credits_ypos = Fix16(field_EE0E_unk.field_2[field_1EB38_credits_line_idx].field_4) + field_1EB34_credits_ypos;
+                field_1EB34_credits_ypos = Fix16(field_EE0E_unk.field_2_lines[field_1EB38_credits_line_idx].field_4_y_gap) + field_1EB34_credits_ypos;
 
                 if (field_1EB34_credits_ypos > 262124)
                 {
@@ -3219,7 +3219,7 @@ Frontend::Frontend()
 
     if (gMagical_germain_0x8EC_6F5168)
     {
-        gMagical_germain_0x8EC_6F5168->sub_4D2B40();
+        gMagical_germain_0x8EC_6F5168->InitGlyphCaches_4D2B40();
     }
 
     field_110_state = 1;
@@ -4008,7 +4008,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_136_menu_pages_array[14].field_B8A[0].field_2 = 348; //  TODO: check for wrong var
     field_136_menu_pages_array[14].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[14].field_BC8_default_option_idx = 0;
-    field_EE0E_unk.sub_483F20();
+    field_EE0E_unk.LoadCredits_483F20();
 }
 
 WIP_FUNC(0x4B4440)

@@ -13,7 +13,7 @@ class Rozza_28
   public:
     EXPORT bool IsObj2C_477A10();
 
-    void sub_4637B0()
+    void Reset_4637B0()
     {
         this->field_0_type = 0;
         this->field_20_pSprite = 0;
@@ -48,7 +48,7 @@ class Rozza_28
         return this->field_0_type == 3 && field_20_pSprite->AsCharB4_40FEA0();
     }
 
-    void sub_40FEE0(Sprite* pSprt)
+    void SetSprite_40FEE0(Sprite* pSprt)
     {
         field_0_type = 3;
         field_20_pSprite = pSprt;
@@ -70,21 +70,21 @@ class Rozza_A
 {
   public:
     EXPORT void set_xyz_40B870(Fix16 x, Fix16 y, Fix16 z);
-    EXPORT void sub_40B890(Car_BC* pCar);
-    EXPORT void sub_40B980();
-    EXPORT bool sub_40BA60(Object_2C* pObj);
+    EXPORT void SetupForCar_40B890(Car_BC* pCar);
+    EXPORT void SetupForPed_40B980();
+    EXPORT bool SetupForObject_40BA60(Object_2C* pObj);
 
-    void sub_40FF10(const Fix16& a2)
+    void SetCarPhysicsValue_40FF10(const Fix16& a2)
     {
         this->field_24_car_physics_value = a2;
     }
 
-    s32 field_0;
+    s32 field_0_type;
     Fix16 field_4_x;
     Fix16 field_8_y;
     Fix16 field_C_z;
-    Car_BC* field_10;
-    Car_BC* field_14;
+    Car_BC* field_10_car;
+    Car_BC* field_14_other_car;
     s32 field_18_model_copy;
     s32 field_1C; // also model_copy
     s32 field_20_map_block_spec;

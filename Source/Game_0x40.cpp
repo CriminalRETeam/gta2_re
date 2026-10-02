@@ -141,7 +141,7 @@ void Game_0x40::LoadGameFiles_4B8C40()
     char_type* map_name = gLucid_hamilton_67E8E0.GetMapName_4C5940();
     gMap_0x370_6F6268->LoadMap_4E95B0(map_name);
 
-    gPhi_8CA8_6FCF00->sub_534330();
+    gPhi_8CA8_6FCF00->InitDefinitions_534330();
 
     gSharp_pare_0x15D8_705064->LoadStyleTextures_5B9350();
 
@@ -175,7 +175,7 @@ void Game_0x40::LoadGameFiles_4B8C40()
 
     if (gMagical_germain_0x8EC_6F5168 != NULL)
     {
-        gMagical_germain_0x8EC_6F5168->sub_4D2B40();
+        gMagical_germain_0x8EC_6F5168->InitGlyphCaches_4D2B40();
     }
 }
 
@@ -252,7 +252,7 @@ void Game_0x40::BootGame_4B8EB0()
     PedGroup::ResetAllGroups_4CB080();
     if (bDo_mike_67D5CC)
     {
-        gMike_A80_6F7328->sub_4FF1B0();
+        gMike_A80_6F7328->Init_4FF1B0();
     }
     gCar_214_705F20->Reset_5C8750();
     gMap_0x370_6F6268->alloc_zones_4DFCA0();

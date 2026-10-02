@@ -31,9 +31,9 @@ class Kfc_30
     s16 field_1C;
     char_type field_1E_is_used;
     char_type field_1F;
-    s32 field_20_maybe_type;
+    s32 field_20_crew_type;
     s32 field_24;
-    s32 field_28;
+    s32 field_28_state;
     char_type field_2C;
     char_type field_2D;
     char_type field_2E;
@@ -51,7 +51,7 @@ class Kfc_1E0
     EXPORT void init_5CBB70();
     EXPORT Kfc_30* New_5CBB80();
     EXPORT void Service_5CBBD0();
-    Kfc_30 field_0[10];
+    Kfc_30 field_0_entries[10];
 };
 
 EXTERN_GLOBAL(Kfc_1E0*, gKfc_1E0_706280);

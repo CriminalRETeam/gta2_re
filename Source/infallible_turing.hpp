@@ -28,7 +28,7 @@ class infallible_turing
     char_type field_5;
     char_type field_6;
     char_type field_7;
-    s32 field_8;
+    s32 field_8_sound_entry;
 
     union SoundObjectType
     {

@@ -270,17 +270,17 @@
         "v105_address": "0x40b870"
     },
     {
-        "name": "sub_40B890",
+        "name": "SetupForCar_40B890",
         "v96f_address": null,
         "v105_address": "0x40b890"
     },
     {
-        "name": "sub_40B980",
+        "name": "SetupForPed_40B980",
         "v96f_address": null,
         "v105_address": "0x40b980"
     },
     {
-        "name": "sub_40BA60",
+        "name": "SetupForObject_40BA60",
         "v96f_address": null,
         "v105_address": "0x40ba60"
     },
@@ -4555,12 +4555,12 @@
         "v105_address": "0x483ea0"
     },
     {
-        "name": "xenodochial_morse::sub_483EC0",
+        "name": "xenodochial_morse::ReadNextNonBlankChar_483EC0",
         "v96f_address": null,
         "v105_address": "0x483ec0"
     },
     {
-        "name": "xenodochial_morse::sub_483F20",
+        "name": "xenodochial_morse::LoadCredits_483F20",
         "v96f_address": null,
         "v105_address": "0x483f20"
     },
@@ -4815,7 +4815,7 @@
         "v105_address": "0x492110"
     },
     {
-        "name": "thirsty_lamarr::sub_492150",
+        "name": "thirsty_lamarr::InitDigitSprites_492150",
         "v96f_address": null,
         "v105_address": "0x492150"
     },
@@ -4830,7 +4830,7 @@
         "v105_address": "0x4921f0"
     },
     {
-        "name": "thirsty_lamarr::sub_492260",
+        "name": "thirsty_lamarr::DrawDigits_492260",
         "v96f_address": null,
         "v105_address": "0x492260"
     },
@@ -4840,12 +4840,12 @@
         "v105_address": "0x492430"
     },
     {
-        "name": "thirsty_lamarr::sub_4925C0",
+        "name": "thirsty_lamarr::IsAnyDigitRolling_4925C0",
         "v96f_address": "0x44b370",
         "v105_address": "0x4925c0"
     },
     {
-        "name": "thirsty_lamarr::sub_4925E0",
+        "name": "thirsty_lamarr::UpdateRollingDigits_4925E0",
         "v96f_address": null,
         "v105_address": "0x4925e0"
     },
@@ -6885,22 +6885,22 @@
         "v105_address": "0x4d23b0"
     },
     {
-        "name": "magical_germain_0x8EC::sub_4D2610",
+        "name": "magical_germain_0x8EC::RenderSmallGlyph_4D2610",
         "v96f_address": null,
         "v105_address": "0x4d2610"
     },
     {
-        "name": "magical_germain_0x8EC::sub_4D2690",
+        "name": "magical_germain_0x8EC::RenderLargeGlyph_4D2690",
         "v96f_address": null,
         "v105_address": "0x4d2690"
     },
     {
-        "name": "magical_germain_0x8EC::sub_4D2710",
+        "name": "magical_germain_0x8EC::GetSmallGlyphTexture_4D2710",
         "v96f_address": null,
         "v105_address": "0x4d2710"
     },
     {
-        "name": "magical_germain_0x8EC::sub_4D27D0",
+        "name": "magical_germain_0x8EC::GetLargeGlyphTexture_4D27D0",
         "v96f_address": null,
         "v105_address": "0x4d27d0"
     },
@@ -6915,7 +6915,7 @@
         "v105_address": "0x4d29d0"
     },
     {
-        "name": "magical_germain_0x8EC::sub_4D2B40",
+        "name": "magical_germain_0x8EC::InitGlyphCaches_4D2B40",
         "v96f_address": null,
         "v105_address": "0x4d2b40"
     },
@@ -8100,7 +8100,7 @@
         "v105_address": "0x4fe510"
     },
     {
-        "name": "Mike_A80::sub_4FF1B0",
+        "name": "Mike_A80::Init_4FF1B0",
         "v96f_address": null,
         "v105_address": "0x4ff1b0"
     },
@@ -8230,12 +8230,12 @@
         "v105_address": "0x5031e0"
     },
     {
-        "name": "sub_5031A0",
+        "name": "AllocFrame_5031A0",
         "v96f_address": null,
         "v105_address": "0x5031a0"
     },
     {
-        "name": "sub_5031C0",
+        "name": "FreeFrame_5031C0",
         "v96f_address": null,
         "v105_address": "0x5031c0"
     },
@@ -8255,7 +8255,7 @@
         "v105_address": "0x503410"
     },
     {
-        "name": "miss2_0x11C::sub_5035B0",
+        "name": "miss2_0x11C::PoolAllocate_5035B0",
         "v96f_address": null,
         "v105_address": "0x5035b0"
     },
@@ -8265,7 +8265,7 @@
         "v105_address": "0x5035d0"
     },
     {
-        "name": "sub_503610",
+        "name": "StopThread_503610",
         "v96f_address": null,
         "v105_address": "0x503610"
     },
@@ -8525,7 +8525,7 @@
         "v105_address": "0x506b80"
     },
     {
-        "name": "miss2_0x11C::sub_506BC0",
+        "name": "miss2_0x11C::GetOperationType_506BC0",
         "v96f_address": null,
         "v105_address": "0x506bc0"
     },
@@ -9570,7 +9570,7 @@
         "v105_address": "0x511c60"
     },
     {
-        "name": "miss2_0x11C::sub_511CD0",
+        "name": "miss2_0x11C::DisableBasicKfsFromSave_511CD0",
         "v96f_address": null,
         "v105_address": "0x511cd0"
     },
@@ -11070,17 +11070,17 @@
         "v105_address": "0x532fb0"
     },
     {
-        "name": "Phi_74::sub_533060",
+        "name": "Phi_74::SetDimensions_533060",
         "v96f_address": "0x487f60",
         "v105_address": "0x533060"
     },
     {
-        "name": "Phi_74::sub_533090",
+        "name": "Phi_74::SetDimensionsFromSprite_533090",
         "v96f_address": "0x487fa0",
         "v105_address": "0x533090"
     },
     {
-        "name": "Phi_74::sub_533110",
+        "name": "Phi_74::SetRemap_533110",
         "v96f_address": null,
         "v105_address": "0x533110"
     },
@@ -11105,12 +11105,12 @@
         "v105_address": "0x533220"
     },
     {
-        "name": "Phi_8CA8::sub_5332D0",
+        "name": "Phi_8CA8::AllocDefinitionWithSprite_5332D0",
         "v96f_address": null,
         "v105_address": "0x5332d0"
     },
     {
-        "name": "Phi_8CA8::sub_533300",
+        "name": "Phi_8CA8::CreateMapObjectDefinitions_533300",
         "v96f_address": null,
         "v105_address": "0x533300"
     },
@@ -11125,7 +11125,7 @@
         "v105_address": "0x533420"
     },
     {
-        "name": "Phi_8CA8::sub_533B30",
+        "name": "Phi_8CA8::CreateCodeObjectDefinitions_533B30",
         "v96f_address": "0x488d10",
         "v105_address": "0x533b30"
     },
@@ -11150,7 +11150,7 @@
         "v105_address": "0x5342f0"
     },
     {
-        "name": "Phi_8CA8::sub_534330",
+        "name": "Phi_8CA8::InitDefinitions_534330",
         "v96f_address": null,
         "v105_address": "0x534330"
     },
@@ -11160,12 +11160,12 @@
         "v105_address": "0x534360"
     },
     {
-        "name": "Phi_8CA8::CopyObjectDefinition_534370",
+        "name": "Phi_8CA8::CloneDefinition_534370",
         "v96f_address": null,
         "v105_address": "0x534370"
     },
     {
-        "name": "Phi_8CA8::NewObjectDefinition_5343C0",
+        "name": "Phi_8CA8::AllocDefinition_5343C0",
         "v96f_address": null,
         "v105_address": "0x5343c0"
     },
@@ -11535,7 +11535,7 @@
         "v105_address": "0x543ed0"
     },
     {
-        "name": "Marz_1D7E::sub_543F10",
+        "name": "Marz_1D7E::AllocPatrolList_543F10",
         "v96f_address": null,
         "v105_address": "0x543f10"
     },
@@ -14550,7 +14550,7 @@
         "v105_address": "0x597100"
     },
     {
-        "name": "Varrok_7F8::sub_59B060",
+        "name": "Varrok_7F8::AllocForPed_59B060",
         "v96f_address": null,
         "v105_address": "0x59b060"
     },
@@ -14560,7 +14560,7 @@
         "v105_address": "0x59b0b0"
     },
     {
-        "name": "Varrok_7F8::sub_59B0D0",
+        "name": "Varrok_7F8::DecrementRefCount_59B0D0",
         "v96f_address": null,
         "v105_address": "0x59b0d0"
     },
@@ -15740,7 +15740,7 @@
         "v105_address": "0x5bebd0"
     },
     {
-        "name": "distracted_einstein_0xC::sub_5BEBF0",
+        "name": "distracted_einstein_0xC::AccumulateElapsed_5BEBF0",
         "v96f_address": null,
         "v105_address": "0x5bebf0"
     },
@@ -15770,7 +15770,7 @@
         "v105_address": "0x5becc0"
     },
     {
-        "name": "sharp_bose_0x54::sub_5BECF0",
+        "name": "sharp_bose_0x54::UpdateFpsCounters_5BECF0",
         "v96f_address": null,
         "v105_address": "0x5becf0"
     },

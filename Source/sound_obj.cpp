@@ -4838,7 +4838,7 @@ char_type sound_obj::SelectObjectImpactSound_413120(Rozza_A* pObj, s32 interacti
                 if (interactionType == 3)
                 {
                     rnd_1 = this->field_1454_anRandomTable[1];
-                    if ((pObj->field_10->field_78_flags & 0x100) != 0)
+                    if ((pObj->field_10_car->field_78_flags & 0x100) != 0)
                     {
                         samp_idx = rnd_1 % 3 + 46;
                     }
@@ -5287,7 +5287,7 @@ char_type sound_obj::Type6_412C90(Rozza_A* pObj, u8 a3)
 {
     char_type result;
 
-    switch (pObj->field_0)
+    switch (pObj->field_0_type)
     {
         case 1u:
         case 10u:
@@ -5328,7 +5328,7 @@ char_type sound_obj::Type6_413A10(Rozza_A* pRozzA)
 
     Fix16 div_val;
     u8 sample_base;
-    switch (pRozzA->field_0)
+    switch (pRozzA->field_0_type)
     {
         case 2:
             if (pRozzA->field_24_car_physics_value >= dword_66F3B4)
@@ -5351,11 +5351,11 @@ char_type sound_obj::Type6_413A10(Rozza_A* pRozzA)
             }
             else
             {
-                if (pRozzA->field_10)
+                if (pRozzA->field_10_car)
                 {
                     goto LABEL_20;
                 }
-                pRozzA->field_24_car_physics_value = pRozzA->field_10->GetCarLinearSpeed_43A240();
+                pRozzA->field_24_car_physics_value = pRozzA->field_10_car->GetCarLinearSpeed_43A240();
                 if (pRozzA->field_24_car_physics_value >= dword_66F3C0)
                 {
                     div_val = dword_66F24C;
@@ -5753,7 +5753,7 @@ void sound_obj::InitMusicAndCopRadio_57E960()
         for (s32 i = 0; i < 5; i++)
         {
             field_544C[i].field_0 = 0;
-            field_544C[i].field_8.field_8 = 0;
+            field_544C[i].field_8.field_8_sound_entry = 0;
             //field_544C[i].field_8.field_C_pAny = 0;
             //...
             //...

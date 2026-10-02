@@ -2266,8 +2266,8 @@ void CC ImGuiDebugDraw()
                     if (ImGui::TreeNode("Thirsty_lamarr"))
                     {
                         ImGui::Value("f_0", pPlayer->field_2D4_scores.field_0_money.field_0_value);
-                        ImGui::Value("f_4", pPlayer->field_2D4_scores.field_0_money.field_4);
-                        ImGui::Value("f_8", pPlayer->field_2D4_scores.field_0_money.field_8);
+                        ImGui::Value("f_4", pPlayer->field_2D4_scores.field_0_money.field_4_target_value);
+                        ImGui::Value("f_8", pPlayer->field_2D4_scores.field_0_money.field_8_bRollingUp);
 
                         ImGui::Value("f_2A", pPlayer->field_2D4_scores.field_0_money.field_2A_max_num_of_digits);
                         ImGui::InputS16("f_2C", &pPlayer->field_2D4_scores.field_0_money.field_2C_digit_transition_speed, 1, 1);
@@ -2671,8 +2671,8 @@ void CC ImGuiDebugDraw()
             {
                 for (s32 i = 0; i < 20; i++)
                 {
-                    Hamburger_40& hb = gHamburger_500_678E30->field_0[i];
-                    ImGui::Value("field_0", hb.field_0);
+                    Hamburger_40& hb = gHamburger_500_678E30->field_0_entries[i];
+                    ImGui::Value("field_0", hb.field_0_bInUse);
                 }
             }
             ImGui::TreePop();
@@ -2695,22 +2695,22 @@ void CC ImGuiDebugDraw()
 
                 //static s32 phi_74_id = 0;
                 //ImGui::SliderInt("Phi_74 id", &phi_74_id, 0, 299);
-                //Phi_74* phi = gPhi_8CA8_6FCF00->field_87F4_idx_to_def[phi_74_id];
+                //Phi_74* phi = gPhi_8CA8_6FCF00->field_87F4_definition_by_idx[phi_74_id];
                 if (ImGui::TreeNode("Spawned object"))
                 {
                     if (spawned_obj)
                     {
                         Phi_74* phi = spawned_obj->field_8;
 
-                        ImGui::InputInt("field_0", &phi->field_0.mValue, 1, 1);
-                        ImGui::InputInt("field_4", &phi->field_4.mValue, 1, 1);
-                        ImGui::InputInt("field_8", &phi->field_8.mValue, 1, 1);
-                        ImGui::InputInt("field_C", &phi->field_C.mValue, 1, 1);
-                        ImGui::InputInt("field_10", &phi->field_10.mValue, 1, 1);
+                        ImGui::InputInt("field_0", &phi->field_0_width.mValue, 1, 1);
+                        ImGui::InputInt("field_4", &phi->field_4_height.mValue, 1, 1);
+                        ImGui::InputInt("field_8", &phi->field_8_depth.mValue, 1, 1);
+                        ImGui::InputInt("field_C", &phi->field_C_min_size.mValue, 1, 1);
+                        ImGui::InputInt("field_10", &phi->field_10_speed.mValue, 1, 1);
                         ImGui::InputInt("field_14_friction", &phi->field_14_friction.mValue, 1, 1);
                         ImGui::InputInt("field_18", &phi->field_18_mass.mValue, 1, 1);
                         ImGui::SliderS16("field_1C_remap", &phi->field_1C_remap, 0, 50);
-                        ImGui::Input_char_type("field_20", &phi->field_20, 1, 1);
+                        ImGui::Input_char_type("field_20", &phi->field_20_sprite_flags, 1, 1);
                         ImGui::Input_char_type("field_21", &phi->field_21, 1, 1);
                         ImGui::Input_char_type("field_22", &phi->field_22, 1, 1);
                         ImGui::Input_char_type("field_23", &phi->field_23, 1, 1);
@@ -2751,7 +2751,7 @@ void CC ImGuiDebugDraw()
                         ImGui::Input_char_type("field_6D", &phi->field_6D, 1, 1);
                         ImGui::Input_char_type("field_6E", &phi->field_6E, 1, 1);
                         ImGui::Input_char_type("field_6F", &phi->field_6F, 1, 1);
-                        ImGui::InputInt("field_70", &phi->field_70, 1, 1);
+                        ImGui::InputInt("field_70", &phi->field_70_has_sound, 1, 1);
                     }
                     ImGui::TreePop();
                 }
@@ -3244,18 +3244,18 @@ void CC ImGuiDebugDraw()
                     xenodochial_morse* pCreditsStruct = &gFrontend_67DC84->field_EE0E_unk;
                     if (pCreditsStruct)
                     {
-                        ImGui::InputS16("Xeno field_0", &pCreditsStruct->field_0, 1, 1);
+                        ImGui::InputS16("Xeno field_0", &pCreditsStruct->field_0_line_count, 1, 1);
 
                         static s32 credit_line;
                         ImGui::InputInt("Credit line", &credit_line, 1, 1);
 
-                        sleepy_stonebraker_0x6C* pCreditLine = &pCreditsStruct->field_2[credit_line];
+                        sleepy_stonebraker_0x6C* pCreditLine = &pCreditsStruct->field_2_lines[credit_line];
                         if (pCreditLine)
                         {
                             ImGui::SliderS8("Sleepy field_0", &pCreditLine->field_0, -127, 127);
                             ImGui::SliderS8("Sleepy field_1", &pCreditLine->field_1, -127, 127);
                             ImGui::InputS16("Sleepy field_2", &pCreditLine->field_2, 1, 1);
-                            ImGui::InputU16("Sleepy field_4", &pCreditLine->field_4, 1, 1);
+                            ImGui::InputU16("Sleepy field_4", &pCreditLine->field_4_y_gap, 1, 1);
                             ImGui::InputU16("Sleepy field_6", &pCreditLine->field_6_string_category, 1, 1);
                         }
                     }
@@ -3397,25 +3397,25 @@ void CC ImGuiDebugDraw()
                 Phi_54* phi_54 = &Phi_54_array_006FC5F8[Phi_54_idx];
                 if (phi_54)
                 {
-                    ImGui::Value("field_0", phi_54->field_0);
-                    ImGui::Value("field_4", phi_54->field_4);
-                    ImGui::Value("field_8", phi_54->field_8);
+                    ImGui::Value("field_0", phi_54->field_0_definition_idx);
+                    ImGui::Value("field_4", phi_54->field_4_behavior_type);
+                    ImGui::Value("field_8", phi_54->field_8_next_definition_idx);
                     ImGui::Value("field_C", phi_54->field_C);
                     ImGui::Value("field_10", phi_54->field_10);
                     ImGui::Value("field_14", phi_54->field_14);
-                    ImGui::Value("field_18", phi_54->field_18);
-                    ImGui::Value("field_1C", phi_54->field_1C.mValue);
-                    ImGui::Value("field_20", phi_54->field_20.mValue);
+                    ImGui::Value("field_18", phi_54->field_18_collision_bucket_category);
+                    ImGui::Value("field_1C", phi_54->field_1C_speed.mValue);
+                    ImGui::Value("field_20", phi_54->field_20_friction.mValue);
                     ImGui::Value("field_24", phi_54->field_24);
                     ImGui::Value("field_28", phi_54->field_28);
                     ImGui::Value("field_2C", phi_54->field_2C);
-                    ImGui::Value("field_30", phi_54->field_30);
+                    ImGui::Value("field_30", phi_54->field_30_next_frame_max);
                     ImGui::Value("field_34", phi_54->field_34);
-                    ImGui::Value("field_38", phi_54->field_38.mValue);
+                    ImGui::Value("field_38", phi_54->field_38_mass.mValue);
                     ImGui::Value("field_3C", phi_54->field_3C);
-                    ImGui::Value("field_40", phi_54->field_40);
-                    ImGui::Value("field_44", phi_54->field_44);
-                    ImGui::Value("field_48", phi_54->field_48);
+                    ImGui::Value("field_40", phi_54->field_40_sprite_flags);
+                    ImGui::Value("field_44", phi_54->field_44_has_sound);
+                    ImGui::Value("field_48", phi_54->field_48_has_shadows);
                     ImGui::Value("field_4C", phi_54->field_4C);
                     ImGui::Value("field_50", phi_54->field_50);
                 }

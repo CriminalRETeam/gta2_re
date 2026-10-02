@@ -454,13 +454,13 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
                 else
                 {
                     pSprIdx = gMagical_germain_0x8EC_6F5168->field_8E0_sprite_index;
-                    pTextureToUse = gMagical_germain_0x8EC_6F5168->sub_4D27D0(text_char);
+                    pTextureToUse = gMagical_germain_0x8EC_6F5168->GetLargeGlyphTexture_4D27D0(text_char);
                 }
             }
             else
             {
                 pSprIdx = gMagical_germain_0x8EC_6F5168->field_8D4_sprite_index;
-                pTextureToUse = gMagical_germain_0x8EC_6F5168->sub_4D2710(text_char);
+                pTextureToUse = gMagical_germain_0x8EC_6F5168->GetSmallGlyphTexture_4D2710(text_char);
             }
 
             STexture* pTexture = pTextureToUse;
