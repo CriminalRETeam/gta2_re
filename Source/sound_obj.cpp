@@ -4942,12 +4942,12 @@ void sound_obj::HandleTrainCabRollingFrictionSound_4143A0(Sound_Params_8* a2)
     }
 }
 
-WIP_FUNC(0x4140C0)
+MATCH_FUNC(0x4140C0)
 void sound_obj::HandleTrainEngineSound_4140C0(Sound_Params_8* a2)
 {
-    WIP_IMPLEMENTED;
-
-    Fix16 v4 = a2->field_0_pObj->field_8_car_bc_ptr->GetCarLinearSpeed_43A240();
+    Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
+    Fix16 v4;
+    v4 = pCar->GetCarLinearSpeed_43A240();
     Fix16 max_speed = gCarInfo_48_6FE258->field_28_max_speed;
 
     if (v4 > kFpZero_66F3F0 && max_speed > kFpZero_66F3F0)
@@ -4955,10 +4955,10 @@ void sound_obj::HandleTrainEngineSound_4140C0(Sound_Params_8* a2)
         if (CalculateDistance_419020(Fix16(0x4204000, 0)))
         {
             //s32 vol = (int)(((0x104000LL * (int)(((__int64)v4 << 14) / max_speed)) >> 14) + 0x2000) >> 14;
-            s32 vol = (v4 / max_speed * Fix16(0x104000, 0) + Fix16(0x2000, 0)).ToInt();
-            if ((u8)vol)
+            u8 vol = (v4 / max_speed * Fix16(0x104000, 0) + Fix16(0x2000, 0)).ToInt();
+            if (vol > 0)
             {
-                if (VolCalc_419070((u8)vol, 1064960, a2->field_5_bHasSolidAbove))
+                if (VolCalc_419070(vol, Fix16(1064960, 0), a2->field_5_bHasSolidAbove))
                 {
                     this->field_30_sQueueSample.field_54_sound_intensity = Fix16(1064960, 0);
                     this->field_30_sQueueSample.field_60_nEmittingVolume = vol;
