@@ -102,7 +102,7 @@ class Object_2C
     EXPORT void RequestRemovalWhenOffScreen_5290B0();
     EXPORT void Dealloc_5291B0();
     EXPORT void PoolGiveAndMarkDone_5291D0();
-    EXPORT void PoolGiveAndSetDone_5291E0(u8 a2);
+    EXPORT void PoolGiveAndSetDone_5291E0(s32 a2);
     EXPORT bool IsNotModel_174_529200();
     EXPORT ~Object_2C();
     EXPORT void EnsureObject3C_52A650();

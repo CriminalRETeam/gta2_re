@@ -1240,10 +1240,9 @@ LABEL_48:
 }
 
 // https://decomp.me/scratch/jLuSq
-WIP_FUNC(0x525190)
+MATCH_FUNC(0x525190)
 void Object_2C::sub_525190(u8 varrok_idx)
 {
-    WIP_IMPLEMENTED;
 
     if (IsDefinitionIdx39To42_482400(field_8->field_3C_next_definition_idx))
     {
@@ -2860,7 +2859,7 @@ void Object_2C::PoolGiveAndMarkDone_5291D0()
 }
 
 MATCH_FUNC(0x5291E0)
-void Object_2C::PoolGiveAndSetDone_5291E0(u8 a2)
+void Object_2C::PoolGiveAndSetDone_5291E0(s32 a2)
 {
     PoolGive_522340();
     field_24_bDoneThisFrame = a2;
