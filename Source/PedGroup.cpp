@@ -218,11 +218,9 @@ bool PedGroup::IsLeaderEnteringCarOrUnknown5_4C9220()
     return true;
 }
 
-WIP_FUNC(0x4c9240)
+MATCH_FUNC(0x4c9240)
 void PedGroup::KillEntireGroup_4C9240()
 {
-    WIP_IMPLEMENTED;
-
     field_2C_ped_leader->ClearGroupAndGroupIdx_403A30();
     field_2C_ped_leader->Kill_46F9D0();
     for (char_type i = 0; i < field_34_count; i++)
