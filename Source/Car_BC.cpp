@@ -6875,7 +6875,7 @@ Car_BC::Car_BC()
     field_64_pTrailer = 0;
     field_78_flags = 0;
     this->field_0_qq.DestroyAllSprites_5A7010();
-    field_A7_horn = 0;
+    ClearHorn_421460();
     field_80 = 0;
     field_A0_car_kind = 0;
     field_8D = 0;
