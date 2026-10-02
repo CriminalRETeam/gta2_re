@@ -1288,13 +1288,13 @@ bool Map_0x370::SpriteHitsDiagonalWall_4E1520(s32 z_pos)
                     if (slope_type == DIAGONAL_WALL_UP_LEFT || slope_type == DIAGONAL_WALL_DOWN_RIGHT ||
                         slope_type == TRIANGULAR_SIDES_DIAGONAL_UP_LEFT || slope_type == TRIANGULAR_SIDES_DIAGONAL_DOWN_RIGHT)
                     {
-                        point = Fix16_Point(Fix16(x_pos), Fix16(y_pos + 1));
-                        unk_point = Fix16_Point(Fix16(left), Fix16(y_pos));
+                        point.SetXY_432860(Fix16(x_pos), Fix16(y_pos + 1));
+                        unk_point.SetXY_432860(left, Fix16(y_pos));
                     }
                     else
                     {
-                        point = Fix16_Point(Fix16(x_pos), Fix16(y_pos));
-                        unk_point = Fix16_Point(Fix16(left), Fix16(y_pos + 1));
+                        point.SetXY_432860(Fix16(x_pos), Fix16(y_pos));
+                        unk_point.SetXY_432860(left, Fix16(y_pos + 1));
                     }
 
                     if (gSprite_6F61E8->PointInsideRotatedBounds_5A1490(point, unk_point))
