@@ -2193,8 +2193,7 @@ char_type Hud_Arrow_7C_Array::IsThereAnyMissionPhoneArrowForGang_5D0F40(Gang_144
     Hud_Arrow_7C* pIter = &field_0_array[0];
     for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_array); i++, pIter++)
     {
-        if ((pIter->field_18.field_18_primary_target.field_10_target_type ||
-             pIter->field_18.field_3C_secondary_target.field_10_target_type) &&
+        if (!pIter->IsType0_4C6F80() &&
             (pIter->field_18.field_10.field_30_gang == pArgGang &&
              pIter->field_18.field_60_curr_target->field_10_target_type != ArrowTargetType::InfoPhone_5))
         {
