@@ -88,7 +88,7 @@ u8 rng::get_uint8_4F7B70(const u8& max_rnd)
         {
             this->field_0_rng = rand() % max_rnd;
         }
-        sprintf(gTmpBuffer_67C598, "%d: random (get_uint8) %d", gpRng_67AB34->field_0_rng, (u8)field_0_rng);
+        sprintf(gTmpBuffer_67C598, "%d: random (get_uint8) %d", gpRng_67AB34->get_cur_rng_41CFE0(), (u8)field_0_rng);
         gFile_67C530.Write_4D9620(gTmpBuffer_67C598);
         return (u8)this->field_0_rng;
     }
