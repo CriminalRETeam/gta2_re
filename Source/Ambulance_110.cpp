@@ -244,7 +244,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                     {
                         bBusy = 0;
                     }
-                    if (dword_6F6D60->field_225_objective_status == 1)
+                    if (dword_6F6D60->sub_450CB0() == 1)
                     {
                         pCar->sub_43AF60();
                         field_4_paramedics_crew->field_28 = 6;
@@ -378,7 +378,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                 break;
 
             case 28:
-                if (dword_6F6D60->field_225_objective_status)
+                if (dword_6F6D60->sub_450CB0())
                 {
                     dword_6F6D60->field_278_ped_state_1 = 0;
                     dword_6F6D60->field_27C_ped_state_2 = 0;
@@ -397,7 +397,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                 break;
 
             case 36:
-                if (dword_6F6D60->field_225_objective_status)
+                if (dword_6F6D60->sub_450CB0())
                 {
                     dword_6F6D60->SetObjective2_463830(0, 9999);
                     dword_6F6D60->SetObjective(16, 9999);
@@ -409,7 +409,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
             case 16:
             {
                 Ped* pVictim = dword_6F6D60->get_objective_target_ped_403AD0();
-                if (dword_6F6D60->field_225_objective_status)
+                if (dword_6F6D60->sub_450CB0())
                 {
                     if (++field_1D == 50)
                     {
