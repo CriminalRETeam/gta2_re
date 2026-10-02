@@ -253,7 +253,7 @@ void Kfc_30::UpdateStateMachine_5CBD50()
                 {
                     j->field_240_occupation = ped_ocupation_enum::dummy;
                     j->field_164_ped_group = 0;
-                    j->field_23C = 0;
+                    j->field_23C_group_idx = 0;
                     j->Deallocate_45EB60();
                     ++v42;
                 }

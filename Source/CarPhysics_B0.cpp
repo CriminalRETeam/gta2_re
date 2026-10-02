@@ -2853,7 +2853,7 @@ void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
     if (pCarDriver)
     {
         pCharB4->field_7C_pPed->field_204_killer_id = pCarDriver->field_200_id;
-        pCharB4->field_7C_pPed->field_264 = 50;
+        pCharB4->field_7C_pPed->field_264_killer_id_timer = 50;
 
         Ped* pPed = pCharB4->field_7C_pPed;
         if (pPed->field_140 == this->field_5C_pCar)
@@ -2884,7 +2884,7 @@ void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
                         if (pTruckCabDriver)
                         {
                             pCharB4->field_7C_pPed->field_204_killer_id = pTruckCabDriver->field_200_id;
-                            pCharB4->field_7C_pPed->field_264 = 50;
+                            pCharB4->field_7C_pPed->field_264_killer_id_timer = 50;
 
                             Ped* pPed = pCharB4->field_7C_pPed;
                             if (pPed->field_140 == this->field_5C_pCar->field_64_pTrailer->field_8_truck_cab)

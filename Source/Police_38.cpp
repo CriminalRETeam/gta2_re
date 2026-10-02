@@ -310,7 +310,7 @@ void PoliceCrew_38::sub_571350()
             for (Ped* pPedIter = field_10_subObj->field_4_ped; pPedIter; pPedIter = field_10_subObj->field_8_group->field_4_ped_list[v7++])
             {
                 pPedIter->field_164_ped_group = 0;
-                pPedIter->field_23C = 0;
+                pPedIter->field_23C_group_idx = 0;
                 pPedIter->Deallocate_45EB60();
                 if (!field_10_subObj->field_8_group)
                 {
@@ -327,7 +327,7 @@ void PoliceCrew_38::sub_571350()
         Ped* v6 = field_10_subObj->field_4_ped;
         if (v6)
         {
-            if (v6->field_20e >= 0x1Eu)
+            if (v6->field_20e_offscreen_counter >= 0x1Eu)
             {
                 v6->Deallocate_45EB60();
                 field_10_subObj->field_28 = 5;
@@ -526,7 +526,7 @@ void PoliceCrew_38::State3_AlertedSearch_572340()
                                 field_28 = 1;
                                 break;
                             case objectives_enum::no_obj_0:
-                                if (pPed->field_23C == 99)
+                                if (pPed->field_23C_group_idx == 99)
                                 {
                                     if (pPed->field_16C_car)
                                     {
@@ -951,7 +951,7 @@ void PoliceCrew_38::sub_575210()
 {
     if (field_10_subObj->field_24)
     {
-        if (pPed_6FEDDC->sub_450CB0())
+        if (pPed_6FEDDC->GetObjectiveStatus_450CB0())
         {
             pPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
             pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
@@ -973,7 +973,7 @@ void PoliceCrew_38::sub_575270()
 {
     if (field_10_subObj->field_24)
     {
-        if (pPed_6FEDDC->sub_450CB0())
+        if (pPed_6FEDDC->GetObjectiveStatus_450CB0())
         {
             pPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
             pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
@@ -1012,7 +1012,7 @@ void PoliceCrew_38::Service_575590()
         Ped* pPed = field_10_subObj->field_4_ped;
         if (pPed)
         {
-            if (!pPed->field_20e && pPed->field_278_ped_state_1 != ped_state_1::dead_9 
+            if (!pPed->field_20e_offscreen_counter && pPed->field_278_ped_state_1 != ped_state_1::dead_9 
                 && (pPed->field_21C & 1) != 0)
             {
                 gPolice_7B8_6FEE40->field_7B4 = 1;
@@ -1364,7 +1364,7 @@ void PoliceRoadblock_A4::Update_5757B0()
                 }
                 else
                 {
-                    if (field_88_guard_1->field_20e < 0x50u)
+                    if (field_88_guard_1->field_20e_offscreen_counter < 0x50u)
                     {
                         v31 = 0;
                     }
@@ -1379,7 +1379,7 @@ void PoliceRoadblock_A4::Update_5757B0()
                 }
                 else
                 {
-                    if (field_8C_guard_2->field_20e < 0x50u)
+                    if (field_8C_guard_2->field_20e_offscreen_counter < 0x50u)
                     {
                         v31 = 0;
                     }
@@ -1394,7 +1394,7 @@ void PoliceRoadblock_A4::Update_5757B0()
                 }
                 else
                 {
-                    if (field_90_guard_3->field_20e < 0x50u)
+                    if (field_90_guard_3->field_20e_offscreen_counter < 0x50u)
                     {
                         v31 = 0;
                     }
@@ -1409,7 +1409,7 @@ void PoliceRoadblock_A4::Update_5757B0()
                 }
                 else
                 {
-                    if (field_94_guard_4->field_20e < 0x50u)
+                    if (field_94_guard_4->field_20e_offscreen_counter < 0x50u)
                     {
                         v31 = 0;
                     }
@@ -1424,7 +1424,7 @@ void PoliceRoadblock_A4::Update_5757B0()
                 }
                 else
                 {
-                    if (field_98_guard_5->field_20e < 0x50u)
+                    if (field_98_guard_5->field_20e_offscreen_counter < 0x50u)
                     {
                         v31 = 0;
                     }
@@ -1439,7 +1439,7 @@ void PoliceRoadblock_A4::Update_5757B0()
                 }
                 else
                 {
-                    if (field_9C_guard_6->field_20e < 0x50u)
+                    if (field_9C_guard_6->field_20e_offscreen_counter < 0x50u)
                     {
                         field_E = 0;
                         return;
@@ -1668,7 +1668,7 @@ void PoliceRoadblock_A4::RemoveRoadblock_575CA0()
 
     if (field_88_guard_1)
     {
-        if (field_88_guard_1->field_20e)
+        if (field_88_guard_1->field_20e_offscreen_counter)
         {
             field_88_guard_1->Deallocate_45EB60();
         }
@@ -1681,7 +1681,7 @@ void PoliceRoadblock_A4::RemoveRoadblock_575CA0()
 
     if (field_8C_guard_2)
     {
-        if (field_8C_guard_2->field_20e)
+        if (field_8C_guard_2->field_20e_offscreen_counter)
         {
             field_8C_guard_2->Deallocate_45EB60();
         }
@@ -1694,7 +1694,7 @@ void PoliceRoadblock_A4::RemoveRoadblock_575CA0()
 
     if (field_90_guard_3)
     {
-        if (field_90_guard_3->field_20e)
+        if (field_90_guard_3->field_20e_offscreen_counter)
         {
             field_90_guard_3->Deallocate_45EB60();
         }
@@ -1707,7 +1707,7 @@ void PoliceRoadblock_A4::RemoveRoadblock_575CA0()
 
     if (field_94_guard_4)
     {
-        if (field_94_guard_4->field_20e)
+        if (field_94_guard_4->field_20e_offscreen_counter)
         {
             field_94_guard_4->Deallocate_45EB60();
         }
@@ -1720,7 +1720,7 @@ void PoliceRoadblock_A4::RemoveRoadblock_575CA0()
 
     if (field_98_guard_5)
     {
-        if (field_98_guard_5->field_20e)
+        if (field_98_guard_5->field_20e_offscreen_counter)
         {
             field_98_guard_5->Deallocate_45EB60();
         }
@@ -1733,7 +1733,7 @@ void PoliceRoadblock_A4::RemoveRoadblock_575CA0()
 
     if (field_9C_guard_6)
     {
-        if (field_9C_guard_6->field_20e)
+        if (field_9C_guard_6->field_20e_offscreen_counter)
         {
             field_9C_guard_6->Deallocate_45EB60();
             field_9C_guard_6 = 0;

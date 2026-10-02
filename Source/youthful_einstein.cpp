@@ -40,7 +40,7 @@ void youthful_einstein::SetNewFugitive_516590(Player* pNewFugitive)
     if (field_0_fugitive->GetPlayerPed_41D020() != NULL)
     {
         field_0_fugitive->GetPlayerPed_41D020()->SetVisible();
-        field_0_fugitive->GetPlayerPed_41D020()->sub_45C050();
+        field_0_fugitive->GetPlayerPed_41D020()->ClearInvulnerable_45C050();
         field_0_fugitive->GetPlayerPed_41D020()->clear_bit_26_482080();
     }
 

@@ -837,7 +837,7 @@ void Garox_110C_sub::sub_5CF730()
     Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
     Ped* pPed = gGame_0x40_67E008->field_38_orf1->Get_Field_68_Ped();
 
-    if (!pPed || pPed->sub_470F00())
+    if (!pPed || pPed->IsInTrain_470F00())
     {
         field_284E = 0;
     }

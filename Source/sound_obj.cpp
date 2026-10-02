@@ -4529,7 +4529,7 @@ void sound_obj::ProcessPed_422B70(Sound_Params_8* pType3Entity)
                 animation_frame = pB4->field_68_animation_frame;
                 if ((animation_frame == 1 || animation_frame == 5) && (((u8)pB4 + (this->field_5448_m_FrameCounter & 0xFF)) & 1) != 0)
                 {
-                    switch (pB4->field_7C_pPed->field_254) // field_254_block_spec
+                    switch (pB4->field_7C_pPed->field_254_block_spec) // field_254_block_spec
                     {
                         case 1:
                         case 3:

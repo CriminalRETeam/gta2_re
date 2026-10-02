@@ -243,8 +243,8 @@ void force_link()
     drawUnk.sub_58CF10(1, 1);
 
     Ped cn;
-    cn.sub_45B550();
-    cn.sub_45B560(NULL, 0);
+    cn.SetRecentCrimeTimer_45B550();
+    cn.SetPlayer_45B560(NULL, 0);
     cn.sub_45B590();
 
     miss2_8 miss2;

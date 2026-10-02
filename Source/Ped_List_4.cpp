@@ -338,7 +338,7 @@ void Ped_List_4::SyncPassengersWithCarState_4716D0(Car_BC* pCar)
     {
         pIter->field_0_char_ped->field_204_killer_id = pCar->field_70_exploder_ped_id;
         pIter->field_0_char_ped->field_290 = pCar->field_90;
-        pIter->field_0_char_ped->field_264 = 50;
+        pIter->field_0_char_ped->field_264_killer_id_timer = 50;
     }
 }
 

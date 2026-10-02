@@ -171,7 +171,7 @@ LABEL_12:
         pPed->ChangeNextPedState1_45C500(0);
         pPed->ChangeNextPedState2_45C540(0);
         pPed->field_238_ped_type = ped_type::dummy_3;
-        pPed->field_20e = 1;
+        pPed->field_20e_offscreen_counter = 1;
         pPed->field_244_remap = 3;
 
         switch (kind)
@@ -742,7 +742,7 @@ PedManager::PedManager()
     gNumberElvisLeadersSpawned_6787CC = 0;
     gNumberWalkingCopsSpawned_6787CD = 0;
     gNumberArmedGangMembers_6787CE = 0;
-    word_6787D0 = 0;
+    gNumPedsCrossingRoad_6787D0 = 0;
     this->field_5_fbi_army_count = 0;
     HIWORD(dword_678654) = word_61A898;
     gPedsServiceTickCount_6787F0 = 0;
@@ -752,7 +752,7 @@ PedManager::PedManager()
     byte_6787D4 = 0;
     spawnSideLocked_6787D5 = 0;
     spawnCountLimit_6787D6 = 0;
-    byte_6787D7 = 0;
+    gTargetSearchMode_6787D7 = 0;
     byte_61A8A0 = 1;
     byte_61A8A1 = 1;
     byte_6787D8 = 0;
@@ -760,7 +760,7 @@ PedManager::PedManager()
     byte_6787D9 = 0;
     bHaveThreateningPeds_6787DA = 0;
     gDistanceToTarget_678750 = k_dword_678660;
-    dword_6787DC = 0;
+    gSearchingPed_6787DC = 0;
     cameraFacingAng_678760 = gDummyPedAng_6787A8;
     byte_61A8A3 = 1;
     byte_61A8A4 = 1;

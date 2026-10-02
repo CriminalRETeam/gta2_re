@@ -2276,7 +2276,7 @@ void Car_BC::sub_43B770()
         {
             pDriver->field_204_killer_id = this->field_70_exploder_ped_id;
             this->field_54_driver->field_290 = this->field_90;
-            this->field_54_driver->field_264 = 50;
+            this->field_54_driver->field_264_killer_id_timer = 50;
         }
     }
     field_4_passengers_list.SyncPassengersWithCarState_4716D0(this);

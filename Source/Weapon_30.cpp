@@ -251,7 +251,7 @@ void Weapon_30::flamethrower_5DD0F0()
 
     ped_rot = field_24_pPed->GetRotation();
 
-    ped_pos_maybe = field_24_pPed->sub_45B520();
+    ped_pos_maybe = field_24_pPed->GetVelocityVector_45B520();
 
     cartesian_offset.FromPolar_41E210(dword_706CF4, ped_rot);
 
@@ -300,7 +300,7 @@ void Weapon_30::shotgun_5DD290()
         y = field_24_pPed->get_cam_y();
         z = field_24_pPed->get_cam_z();
         ped_rotation = field_24_pPed->GetRotation();
-        vector = field_24_pPed->sub_45B520();
+        vector = field_24_pPed->GetVelocityVector_45B520();
         set_field_2C_4CCA80(1);
         if (!field_4)
         {
@@ -359,7 +359,7 @@ void Weapon_30::pistol_5DD860()
             Fix16 y = field_24_pPed->get_cam_y();
             Fix16 z = field_24_pPed->get_cam_z();
             pedRot = field_24_pPed->GetRotation();
-            charPos = field_24_pPed->sub_45B520();
+            charPos = field_24_pPed->GetVelocityVector_45B520();
             charPos.FromPolar_41E210(dword_706CF4, pedRot);
             Fix16 xx = charPos.x + x;
             Fix16 yy = charPos.y + y;
@@ -388,7 +388,7 @@ void Weapon_30::pistol_5DD860()
                                 field_24_pPed->get_cam_y(),
                                 field_24_pPed->get_cam_z(),
                                 field_24_pPed->Get_F12E_4CCA90(),
-                                field_24_pPed->sub_45B520());
+                                field_24_pPed->GetVelocityVector_45B520());
             field_2_reload_speed = 5;
         }
         TickReloadSpeed_5DCF40();
@@ -412,13 +412,13 @@ void Weapon_30::dual_pistol_5DDA70()
 
     if (field_2_reload_speed == 0)
     {
-        vector = field_24_pPed->sub_45B520();
+        vector = field_24_pPed->GetVelocityVector_45B520();
 
         Fix16 x = field_24_pPed->get_cam_x();
         Fix16 y = field_24_pPed->get_cam_y();
         Fix16 z = field_24_pPed->get_cam_z();
         ped_rotation = field_24_pPed->GetRotation();
-        vector3 = field_24_pPed->sub_45B520(); // vector isnt used, but required to match
+        vector3 = field_24_pPed->GetVelocityVector_45B520(); // vector isnt used, but required to match
 
         vector2.FromPolar_41E210(dword_706CF4, ped_rotation);
         Fix16 point_x = x + vector2.x;
@@ -485,14 +485,14 @@ void Weapon_30::smg_5DDD20()
             point = Fix16_Point(-dword_706E7C, dword_706CF0 + dword_706E80);
             point.RotateByAngle_40F6B0(field_24_pPed->field_168_game_object->field_80_sprite_ptr->field_0);
 
-            point = point + field_24_pPed->sub_45B520();
+            point = point + field_24_pPed->GetVelocityVector_45B520();
 
             if (Weapon_30::spawn_bullet_5DCF60(254,
                                                field_24_pPed->get_cam_x() + point.x,
                                                field_24_pPed->get_cam_y() + point.y,
                                                field_24_pPed->get_cam_z(),
                                                AimAngle,
-                                               field_24_pPed->sub_45B520()))
+                                               field_24_pPed->GetVelocityVector_45B520()))
             {
                 if (field_24_pPed->IsField238_45EDE0(2))
                 {
@@ -518,8 +518,8 @@ void Weapon_30::smg_5DDD20()
                                            field_24_pPed->get_cam_x(),
                                            field_24_pPed->get_cam_y(),
                                            field_24_pPed->get_cam_z(),
-                                           field_24_pPed->field_12E,
-                                           field_24_pPed->sub_45B520());
+                                           field_24_pPed->field_12E_aim_angle,
+                                           field_24_pPed->GetVelocityVector_45B520());
             field_2_reload_speed = 1;
         }
         Weapon_30::TickReloadSpeed_5DCF40();
@@ -554,7 +554,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                                         field_24_pPed->get_cam_y(),
                                         field_24_pPed->get_cam_z(),
                                         field_24_pPed->Get_F12E_4CCA90(),
-                                        field_24_pPed->sub_45B520());
+                                        field_24_pPed->GetVelocityVector_45B520());
                     field_2_reload_speed = 5;
                     field_20 = 1;
                     if (field_24_pPed->is_player_41B0A0())
@@ -613,8 +613,8 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                                                                            field_24_pPed->get_cam_x(),
                                                                            field_24_pPed->get_cam_y(),
                                                                            field_24_pPed->get_cam_z() + dword_706DA8,
-                                                                           field_24_pPed->field_12E,
-                                                                           field_24_pPed->field_12E,
+                                                                           field_24_pPed->field_12E_aim_angle,
+                                                                           field_24_pPed->field_12E_aim_angle,
                                                                            unknown + unknown_2,
                                                                            -dword_706F64,
                                                                            dword_706CF0);
@@ -622,7 +622,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                     {
                         if ((field_24_pPed->field_168_game_object->field_58_flags & 8) == 0)
                         {
-                            vector = field_24_pPed->sub_45B520();
+                            vector = field_24_pPed->GetVelocityVector_45B520();
                             pProjectile->SetMovementVector_5224E0(vector);
                             if (vector.IsNull_420360())
                             {
@@ -679,7 +679,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                                     field_24_pPed->get_cam_y(),
                                     field_24_pPed->get_cam_z(),
                                     field_24_pPed->Get_F12E_4CCA90(),
-                                    field_24_pPed->sub_45B520());
+                                    field_24_pPed->GetVelocityVector_45B520());
             }
         }
         else
@@ -1226,7 +1226,7 @@ void Weapon_30::rocket_5E3850()
                                               field_24_pPed->get_cam_y(),
                                               field_24_pPed->get_cam_z(),
                                               field_24_pPed->Get_F12E_4CCA90(),
-                                              field_24_pPed->sub_45B520());
+                                              field_24_pPed->GetVelocityVector_45B520());
             }
             else
             {
@@ -1237,7 +1237,7 @@ void Weapon_30::rocket_5E3850()
                                         field_24_pPed->get_cam_y(),
                                         field_24_pPed->get_cam_z(),
                                         field_24_pPed->Get_F12E_4CCA90(),
-                                        field_24_pPed->sub_45B520());
+                                        field_24_pPed->GetVelocityVector_45B520());
                     field_2_reload_speed = 5;
                     field_20 = 1;
                     return;
@@ -1248,7 +1248,7 @@ void Weapon_30::rocket_5E3850()
                                               field_24_pPed->get_cam_y(),
                                               field_24_pPed->get_cam_z(),
                                               field_24_pPed->Get_F12E_4CCA90(),
-                                              field_24_pPed->sub_45B520());
+                                              field_24_pPed->GetVelocityVector_45B520());
             }
 
             // People get scared when someone starts firing off rockets
@@ -1278,7 +1278,7 @@ void Weapon_30::rocket_5E3850()
                                 field_24_pPed->get_cam_y(),
                                 field_24_pPed->get_cam_z(),
                                 field_24_pPed->Get_F12E_4CCA90(),
-                                field_24_pPed->sub_45B520());
+                                field_24_pPed->GetVelocityVector_45B520());
             field_2_reload_speed = 5;
             field_20 = 0;
         }

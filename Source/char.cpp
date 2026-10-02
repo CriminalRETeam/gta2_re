@@ -606,7 +606,7 @@ void Char_B4::DrownPed_5459E0()
         if (gPedManager_6787BC->PedById(ped_killer_id))
         {
             field_7C_pPed->field_290 = 5;
-            field_7C_pPed->field_264 = 50;
+            field_7C_pPed->field_264_killer_id_timer = 50;
         }
     }
 }
@@ -1538,7 +1538,7 @@ void Char_B4::UpdateAnimState_546360()
                 if (pDriver->field_17C_pGang)
                 {
                     pDriver->SetObjective2_463830(20, 9999);
-                    pDriver->field_14C = field_7C_pPed;
+                    pDriver->field_14C_internal_target_ped = field_7C_pPed;
                 }
             LABEL_114:
                 pDriver->field_140 = field_84;
@@ -1561,9 +1561,9 @@ void Char_B4::UpdateAnimState_546360()
             pDriver->SetObjective(objectives_enum::no_obj_0, 9999);
 
         LABEL_115:
-            if (field_7C_pPed->field_25C_internal_objective == 35 && field_7C_pPed->field_226 == 1)
+            if (field_7C_pPed->field_25C_internal_objective == 35 && field_7C_pPed->field_226_internal_objective_status == 1)
             {
-                field_7C_pPed->field_226 = 0;
+                field_7C_pPed->field_226_internal_objective_status = 0;
             }
             pDriver->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
             pDriver->ChangeNextPedState2_45C540(17);
@@ -3176,7 +3176,7 @@ void Char_B4::state_0_54DDF0()
                     if (gPedManager_6787BC->PedById(Leader_id))
                     {
                         field_7C_pPed->field_290 = 2;
-                        field_7C_pPed->field_264 = 50;
+                        field_7C_pPed->field_264_killer_id_timer = 50;
                     }
                 }
             }
@@ -4652,7 +4652,7 @@ void Char_B4::state_1_5504F0()
                     if (gPedManager_6787BC->PedById(field_7C_pPed->field_204_killer_id))
                     {
                         field_7C_pPed->field_290 = 2;
-                        field_7C_pPed->field_264 = 50;
+                        field_7C_pPed->field_264_killer_id_timer = 50;
                     }
                 }
             }
@@ -5592,7 +5592,7 @@ void Char_B4::state_7_551CB0()
                             // forget the last ped who harmed this ped after some time?
                             // so in this case the death reason must be shocking if it happens
                             field_7C_pPed->field_290 = 2;
-                            field_7C_pPed->field_264 = 50;
+                            field_7C_pPed->field_264_killer_id_timer = 50;
                         }
                     }
                 }
@@ -6152,7 +6152,7 @@ void Char_B4::state_8_5520A0()
                     {
                         if (!bStartNetworkGame_7081F0)
                         {
-                            field_7C_pPed->field_264 = 0;
+                            field_7C_pPed->field_264_killer_id_timer = 0;
                             field_7C_pPed->field_204_killer_id = 0;
                         }
                         field_8_ped_state_1 = 0;
@@ -6176,7 +6176,7 @@ void Char_B4::state_8_5520A0()
                 {
                     if (field_7C_pPed->field_204_killer_id)
                     {
-                        field_7C_pPed->field_264 = 99;
+                        field_7C_pPed->field_264_killer_id_timer = 99;
                     }
                 }
 
@@ -6493,7 +6493,7 @@ bool Char_B4::OnObjectTouched_553640(Object_2C* p2c)
         case objects::ped_crossing_trigger_258:
             if (field_8_ped_state_1 != ped_state_1::dead_9 && field_8_ped_state_1 != ped_state_1::immobilized_8)
             {
-                field_7C_pPed->sub_45CF20(p2c);
+                field_7C_pPed->HandlePedCrossingTrigger_45CF20(p2c);
             }
             break;
 
