@@ -1037,12 +1037,13 @@ DEFINE_GLOBAL(Network_Unknown_0x30, gNetInputsHistory1_6F56E0, 0x6F56E0);
 DEFINE_GLOBAL(Network_Unknown_0x30, gNetInputsHistory2_6F5798, 0x6F5798);
 DEFINE_GLOBAL_ARRAY(u8, gNetPlayerDropped_6F8470, 6, 0x6F8470);
 
-// TODO: guessed, the target asm for this 64 byte function hasn't been dumped yet.
 // Re-sends our inputs of a previous frame to one player.
-STUB_FUNC(0x4DA9B0)
+MATCH_FUNC(0x4DA9B0)
 EXPORT void __stdcall Net_4DA9B0(Network_InputData_0x8* pInputs, s32 type, u8 player_idx)
 {
-    NOT_IMPLEMENTED;
+    gInputSendData_6F5B18.field_0 = pInputs;
+    gInputSendData_6F5B18.field_4_len = bDo_sync_check_67D6C1 ? sizeof(Network_InputData_0x8) : sizeof(u32);
+    gNetPlay_7071E8.SendToPlayer_521630(&gInputSendData_6F5B18, player_idx, type);
 }
 
 MATCH_FUNC(0x4DA9F0)
