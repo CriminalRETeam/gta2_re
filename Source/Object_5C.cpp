@@ -527,20 +527,18 @@ void Object_2C::ResolveCollisionWithWorld_522B20(Fix16_Point* f18, Fix16_Point* 
     WIP_IMPLEMENTED;
 
     Fix16_Point t;
-    Fix16_Point v9;
     Fix16_Point obj_xy = GetXY_52AE70();
-    v9 = ComputeLineLineIntersection_55F3B0(field_8->field_18_mass,
-                                            k_dword_6F8BE8,
-                                            *speed,
-                                            *a3,
-                                            t,
-                                            obj_xy,
-                                            gZeroVector_6F8EF0,
-                                            k_dword_6F8D38,
-                                            kFpZero_6F8E10,
-                                            k_dword_6F8D3C);
-    Fix16_Point v7 = (v9 / this->field_8->field_18_mass);
-    SetMovementVectorWithRandomState_522640(v7);
+    Fix16_Point v9 = ComputeLineLineIntersection_55F3B0(GetMass_482C80(),
+                                                        k_dword_6F8BE8,
+                                                        *speed,
+                                                        *a3,
+                                                        t,
+                                                        obj_xy,
+                                                        gZeroVector_6F8EF0,
+                                                        k_dword_6F8D38,
+                                                        kFpZero_6F8E10,
+                                                        k_dword_6F8D3C);
+    SetMovementVectorWithRandomState_522640(v9 / GetMass_482C80());
     HandleImpact_528E50(0);
 }
 
