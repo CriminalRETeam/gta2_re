@@ -1213,6 +1213,7 @@ void Ped::RespawnPed_45C350(gmp_map_zone* pZone)
     sub_45C0C0(pZone);
 
     // TODO: missing inlines here, temp var shouldn't be needed
+    // 9.6f: SetRemap_433C10(get_remap_433BA0()) (inlined, using it changes the code)
     Char_B4* pTmp = field_168_game_object;
     const u8 remap = get_remap_433BA0();
     pTmp->field_5_remap = remap;
