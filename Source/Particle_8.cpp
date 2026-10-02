@@ -435,7 +435,7 @@ void Particle_8::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
                 vector_2.x = -dword_6FD464;
                 vector_2.y = dword_6FD468 + dword_6FD2E8;
                 vector_2.RotateByAngle_40F6B0(pSprt->field_0);
-                vector = vector + *(Fix16_Point*)&pSprt->field_8_char_b4_ptr->field_98;
+                vector = vector + *(Fix16_Point*)&pSprt->field_8_char_b4_ptr->field_98_velocity_vector;
                 pParticle->field_30_pNext->set_ang_lazy_420690(pSprt->field_0);
                 vector.x = pSprt->field_14_xy.x + vector.x;
                 vector.y = pSprt->field_14_xy.y + vector.y;

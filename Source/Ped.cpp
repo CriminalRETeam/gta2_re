@@ -693,7 +693,7 @@ char_type Ped::sub_45B4E0()
 MATCH_FUNC(0x45b520)
 Fix16_Point Ped::GetVelocityVector_45B520()
 {
-    return Fix16_Point(field_168_game_object->field_98.x, field_168_game_object->field_98.y);
+    return Fix16_Point(field_168_game_object->field_98_velocity_vector.x, field_168_game_object->field_98_velocity_vector.y);
 }
 
 MATCH_FUNC(0x45b550)
@@ -6678,7 +6678,7 @@ void Ped::FleeOnFootTillSafe_4678E0()
         {
             if (field_168_game_object)
             {
-                if (field_168_game_object->field_44 == 2)
+                if (field_168_game_object->field_44_block_type == 2)
                 {
                     // back to normality
                     Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
@@ -6721,7 +6721,7 @@ void Ped::FleeCharOnFootTillSafe_467960()
     {
         if (gDistanceToTarget_678750 > dword_678520)
         {
-            if (this->field_168_game_object->field_44 == 2)
+            if (this->field_168_game_object->field_44_block_type == 2)
             {
                 Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
                 Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
@@ -8230,7 +8230,7 @@ void Ped::FleeOnFootTillSafe_46A8F0()
         Char_B4* pB4 = field_168_game_object;
         if (pB4)
         {
-            if (field_258_objective || pB4->field_44 == 2)
+            if (field_258_objective || pB4->field_44_block_type == 2)
             {
                 Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
                 Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
@@ -8267,7 +8267,7 @@ void Ped::FleeFromPedTillSafe_46A9C0()
     {
         if (gDistanceToTarget_678750 > dword_678520)
         {
-            if (field_168_game_object->field_44 == 2)
+            if (field_168_game_object->field_44_block_type == 2)
             {
                 Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
                 Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
@@ -9328,7 +9328,7 @@ void Ped::sub_46C770()
 {
     if (field_278_ped_state_1 != ped_state_1::immobilized_8)
     {
-        if (field_168_game_object->field_44 == 2 || field_258_objective == objectives_enum::enter_car_as_driver_35 ||
+        if (field_168_game_object->field_44_block_type == 2 || field_258_objective == objectives_enum::enter_car_as_driver_35 ||
             gDistanceToTarget_678750 < dword_678790)
         {
             Ped::SetObjective2_463830(objectives_enum::no_obj_0, 9999);
@@ -9449,7 +9449,7 @@ void Ped::CrossRoad_46C9B0()
             }
             else
             {
-                if (field_168_game_object->field_44 == 1)
+                if (field_168_game_object->field_44_block_type == 1)
                 {
                     field_168_game_object->field_38_velocity = dword_678448;
                 }

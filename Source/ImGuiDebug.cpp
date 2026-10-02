@@ -2160,7 +2160,7 @@ void CC ImGuiDebugDraw()
                         ImGui::InputU8("B4 f_68", &pPlayerPed->field_168_game_object->field_68_animation_frame, 1, 1);
                         ImGui::InputInt("B4 f_6C", &pPlayerPed->field_168_game_object->field_6C_animation_state, 1, 1);
                         ImGui::Input_char_type("B4 f_70", (char_type*)&pPlayerPed->field_168_game_object->field_70_frame_timer, 1, 1);
-                        ImGui::Input_char_type("B4 f_71", (char_type*)&pPlayerPed->field_168_game_object->field_71, 1, 1);
+                        ImGui::Input_char_type("B4 f_71", (char_type*)&pPlayerPed->field_168_game_object->field_71_frame_delay, 1, 1);
 
                         if (ImGui::TreeNode("Display CharB4 flags"))
                         {
