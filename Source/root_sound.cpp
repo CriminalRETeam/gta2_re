@@ -112,10 +112,8 @@ char_type root_sound::GetAudioDriveLetter_40F150()
 MATCH_FUNC(0x40EF40)
 infallible_turing* root_sound::CreateSoundObject_40EF40(void* pObject, s32 objectType)
 {
-    infallible_turing* pCurrent = field_0;
-    field_0 = field_0->field_C_pAny.pInfallible_turing;
+    infallible_turing* pCurrent = PopFree_410730();
     pCurrent->field_C_pAny.pAny = pObject;
-    pCurrent->field_8 = 0;
     pCurrent->field_4_bStatus = 0;
     pCurrent->field_0_object_type = objectType;
 

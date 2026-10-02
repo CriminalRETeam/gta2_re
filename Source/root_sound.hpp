@@ -20,6 +20,15 @@ class root_sound
         return result;
     }
 
+    // 9.6f 0x410730
+    inline infallible_turing* PopFree_410730()
+    {
+        infallible_turing* pCurrent = field_0;
+        field_0 = pCurrent->field_C_pAny.pInfallible_turing;
+        pCurrent->field_8 = 0; // TODO: 9.6f calls infallible_turing::sub_4106D0 (not dumped)
+        return pCurrent;
+    }
+
     EXPORT infallible_turing* CreateSoundObject_40EF40(void* pObject, s32 objectType);
 
     EXPORT void sub_40EF80();
