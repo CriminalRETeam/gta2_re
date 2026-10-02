@@ -32,6 +32,12 @@ class Frismo_C_Pool
 
     EXPORT ~Frismo_C_Pool();
 
+    // 9.6f 0x476780
+    inline void DeAllocate_476780(Frismo_C* pItem)
+    {
+        field_0_pool.DeAllocate(pItem);
+    }
+
     PoolBasic<Frismo_C, 50> field_0_pool;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Frismo_C_Pool, 0x25C)

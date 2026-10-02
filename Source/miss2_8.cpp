@@ -15,13 +15,10 @@ miss2_8::miss2_8() throw() // 503120
 MATCH_FUNC(0x503130)
 miss2_8::~miss2_8() // 503130
 {
-    Frismo_C_Pool* pGlobal;
     for (Frismo_C* pOld = field_0_current; field_0_current; pOld = field_0_current)
     {
         field_0_current = pOld->mpNext;
-        pGlobal = gFrismo_C_Pool_6F8068;
-        pOld->mpNext = pGlobal->field_0_pool.field_0_pHead;
-        pGlobal->field_0_pool.field_0_pHead = pOld;
+        gFrismo_C_Pool_6F8068->DeAllocate_476780(pOld);
         field_4_count--;
     }
 }
