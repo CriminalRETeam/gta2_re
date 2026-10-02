@@ -250,10 +250,7 @@ void Police_7B8::sub_56F6D0(Car_BC* pCar)
                 pCrew->sub_570AB0();
                 Car_BC* pCrewCar = pCrew->field_10_subObj->field_0_car;
 
-                if (pCrewCar->field_88_despawn_status != 5 && pCrewCar->field_88_despawn_status != 2 && pCrewCar->field_88_despawn_status != 3)
-                {
-                    pCrewCar->field_88_despawn_status = 4;
-                }
+                pCrewCar->sub_421470();
                 pCrew->field_10_subObj->field_28 = 5;
                 pCrew->field_10_subObj->field_2C = 1;
                 pCrew->field_24_state = police_crew_state::shutdown_6;
