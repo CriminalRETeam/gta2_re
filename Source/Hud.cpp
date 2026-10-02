@@ -660,6 +660,12 @@ Hud_Message_1C8::Hud_Message_1C8()
 
 // ----------------------------------------------------
 
+// 9.6f 0x4C7380
+inline s32 youthful_einstein::GetPlayerTime_4C7380(Player* pPlayer)
+{
+    return field_4_time[pPlayer->get_idx_4219D0()];
+}
+
 MATCH_FUNC(0x5d5c80)
 void Garox_1118_sub::DrawPlayerStats_5D5C80()
 {
@@ -711,7 +717,7 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
 
     if (bStartNetworkGame_7081F0)
     {
-        if (gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() == TAG_GAME_3)
+        if (IsTagGame_434B20())
         {
             swprintf(Buffer,
                      L"%2d:%02d",
@@ -738,7 +744,7 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
 
                 DrawFigureScaled_5D7670(6, 16, 8, ypos + 10, kAngZero_706610, pMultiPlayer->field_78C_hud_palette_type, pMultiPlayer->field_790_hud_palette, 0, 0);
 
-                if (gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() == TAG_GAME_3)
+                if (IsTagGame_434B20())
                 {
                     swprintf(Buffer,
                              L"%2d:%02d",
