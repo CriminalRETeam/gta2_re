@@ -31,6 +31,12 @@ class Wolfy_30
     EXPORT void Init_543650();
     EXPORT void Set_Obj2C_543680(Object_2C* a2);
 
+    // 9.6f 0x482A90
+    inline void SetTypeOrState_482A90(s32 type_or_state)
+    {
+        field_10_type_or_state = type_or_state;
+    }
+
     s32 field_0_bIn20Pool;
     u8 field_4_idx;
     u8 field_5;
