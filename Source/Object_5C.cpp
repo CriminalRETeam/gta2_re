@@ -542,11 +542,9 @@ void Object_2C::ResolveCollisionWithWorld_522B20(Fix16_Point* f18, Fix16_Point* 
     HandleImpact_528E50(0);
 }
 
-WIP_FUNC(0x522be0)
+MATCH_FUNC(0x522be0)
 void Object_2C::ResolveCollisionWithMapTile_522BE0(Fix16_Point* a2)
 {
-    WIP_IMPLEMENTED;
-
     Fix16_Point v12;
     Fix16_Point t1;
     Fix16_Point obj_speed;
