@@ -107,7 +107,16 @@ class Camera_0xBC
         return tmp;
     }
 
-    // inline sub_40CF60
+    // 9.6f 0x45AEA0
+    inline bool IsSpriteInBounds_45AEA0(Sprite* pSprite, Fix16 margin)
+    {
+        return pSprite->field_14_xy.x >= field_20_boundaries.field_0_left - margin &&
+            pSprite->field_14_xy.x <= field_20_boundaries.field_4_right + margin &&
+            pSprite->field_14_xy.y >= field_20_boundaries.field_8_top - margin &&
+            pSprite->field_14_xy.y <= field_20_boundaries.field_C_bottom + margin;
+    }
+
+    // 9.6f 0x40CF60
     inline bool check_camera(Fix16 a2_fp, Fix16 a3_fp)
     {
         return a2_fp >= field_78_boundaries_non_neg.field_0_left && a2_fp <= field_78_boundaries_non_neg.field_4_right &&

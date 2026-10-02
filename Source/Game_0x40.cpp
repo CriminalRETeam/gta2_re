@@ -757,31 +757,20 @@ s8 Game_0x40::IsSpriteOnScreen_4B9950(Sprite* pCarSprite, u8 playerIdx, Fix16 ma
 {
     WIP_IMPLEMENTED;
 
-    Player* pPlayer = this->field_4_players[playerIdx];
+    Player*& pPlayer = this->field_4_players[playerIdx]; // a reference: 9.6f keeps the slot address too
     if (!pPlayer->field_8E_bInUse)
     {
         return 0;
     }
 
-    if (pCarSprite->field_14_xy.x >= pPlayer->field_90_game_camera.field_20_boundaries.field_0_left - margin &&
-        pCarSprite->field_14_xy.x <= margin + pPlayer->field_90_game_camera.field_20_boundaries.field_4_right)
+    if (pPlayer->field_90_game_camera.IsSpriteInBounds_45AEA0(pCarSprite, margin))
     {
-        if (pCarSprite->field_14_xy.y >= pPlayer->field_90_game_camera.field_20_boundaries.field_8_top - margin &&
-            pCarSprite->field_14_xy.y <= margin + pPlayer->field_90_game_camera.field_20_boundaries.field_C_bottom)
-        {
-            return 1;
-        }
+        return 1;
     }
 
-    if (pPlayer->field_2D0 && pCarSprite->field_14_xy.x >= pPlayer->field_208_aux_game_camera.field_20_boundaries.field_0_left - margin &&
-        pCarSprite->field_14_xy.x <= margin + pPlayer->field_208_aux_game_camera.field_20_boundaries.field_4_right)
-
+    if (pPlayer->field_2D0 && pPlayer->field_208_aux_game_camera.IsSpriteInBounds_45AEA0(pCarSprite, margin))
     {
-        if (pCarSprite->field_14_xy.y >= pPlayer->field_208_aux_game_camera.field_20_boundaries.field_8_top - margin &&
-            pCarSprite->field_14_xy.y <= margin + pPlayer->field_208_aux_game_camera.field_20_boundaries.field_C_bottom)
-        {
-            return 1;
-        }
+        return 1;
     }
 
     return 0;
