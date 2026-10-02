@@ -3977,7 +3977,7 @@ void Ped::sub_463300(u8 a1)
 }
 
 WIP_FUNC(0x4633e0)
-void Ped::sub_4633E0(char_type bMainObj)
+void Ped::SetStateForObjective_4633E0(char_type bMainObj)
 {
     WIP_IMPLEMENTED;
 
@@ -4407,7 +4407,7 @@ void Ped::ProcessOnFootObjective_463AA0()
                 Ped::sub_467BD0();
                 break;
             case objectives_enum::kill_char_on_foot_20:
-                Ped::sub_467CA0();
+                Ped::KillCharOnFoot_467CA0();
                 break;
             case objectives_enum::kill_char_any_means_19:
                 Ped::KillCharAnyMeans_467E20();
@@ -4696,7 +4696,7 @@ void Ped::ProcessInCarObjective_463FB0()
                 nullsub_14();
                 break;
             case 37:
-                Ped::sub_46D0D0();
+                Ped::EnterTrainStateMachine_46D0D0();
                 break;
             case 38:
                 Ped::sub_46D240();
@@ -4706,7 +4706,7 @@ void Ped::ProcessInCarObjective_463FB0()
                 Ped::sub_46CA70();
                 break;
             case 56:
-                Ped::sub_46D300();
+                Ped::FollowTargetCarOnFoot_46D300();
                 break;
             case 59:
                 Ped::AttackCar_46DB70();
@@ -7035,7 +7035,7 @@ char_type Ped::UpdateMovementTowardsTarget_4672E0(Fix16 a2, s32 a3)
     {
         Char_B4* pB4 = this->field_168_game_object;
         Marz_3* pNode = this->field_18C;
-        if (pB4->field_69 != 0 && pNode != 0
+        if (pB4->field_69_is_colliding_with_sprite != 0 && pNode != 0
             && this->field_1AC_cam.x.ToUInt8() == pNode->field_0
             && this->field_1AC_cam.y.ToUInt8() == pNode->field_1)
         {
@@ -7326,7 +7326,7 @@ void Ped::sub_467BD0()
 }
 
 WIP_FUNC(0x467ca0)
-void Ped::sub_467CA0()
+void Ped::KillCharOnFoot_467CA0()
 {
     WIP_IMPLEMENTED;
 
@@ -9779,7 +9779,7 @@ void Ped::sub_46D0B0()
 }
 
 WIP_FUNC(0x46d0d0)
-void Ped::sub_46D0D0()
+void Ped::EnterTrainStateMachine_46D0D0()
 {
     WIP_IMPLEMENTED;
 
@@ -9912,7 +9912,7 @@ void Ped::sub_46D240()
 }
 
 WIP_FUNC(0x46d300)
-void Ped::sub_46D300()
+void Ped::FollowTargetCarOnFoot_46D300()
 {
     WIP_IMPLEMENTED;
 
@@ -10474,7 +10474,7 @@ void Ped::ManageWeapon_46F390()
 
 // 9.6f 0x434E60
 WIP_FUNC(0x46f490)
-Weapon_30* Ped::sub_46F490()
+Weapon_30* Ped::SelectAttackWeapon_46F490()
 {
     WIP_IMPLEMENTED;
 

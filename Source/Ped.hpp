@@ -107,7 +107,7 @@ class Ped
     EXPORT bool PoolUpdate();
     EXPORT void ProcessObjective_4632E0();
     EXPORT void sub_463300(u8 a1);
-    EXPORT void sub_4633E0(char_type a2);
+    EXPORT void SetStateForObjective_4633E0(char_type bMainObj);
     EXPORT void SetObjective(s32 objective, s16 objective_timer);
     EXPORT void SetObjective2_463830(s32 a2, s16 a3);
     EXPORT void ProcessOnFootObjective_463AA0();
@@ -135,7 +135,7 @@ class Ped
     EXPORT void FleeFromCharOnFootAlways_467A20();
     EXPORT void sub_467AD0();
     EXPORT void sub_467BD0();
-    EXPORT void sub_467CA0();
+    EXPORT void KillCharOnFoot_467CA0();
     EXPORT void KillCharAnyMeans_467E20();
     EXPORT void sub_467FB0();
     EXPORT void sub_467FD0();
@@ -195,9 +195,9 @@ class Ped
     EXPORT void StartPedCrossingAtTrafficLight_X_Backwards_46CEF0();
     EXPORT void sub_46D030();
     EXPORT void sub_46D0B0();
-    EXPORT void sub_46D0D0();
+    EXPORT void EnterTrainStateMachine_46D0D0();
     EXPORT void sub_46D240();
-    EXPORT void sub_46D300();
+    EXPORT void FollowTargetCarOnFoot_46D300();
     EXPORT void AttackTargetStateMachine_46D460(char_type a2);
     EXPORT void AttackPed_46DB60();
     EXPORT void AttackCar_46DB70();
@@ -214,7 +214,7 @@ class Ped
     EXPORT Weapon_30* GetWeaponFromPed_46F110();
     EXPORT void sub_46F1E0(Weapon_30* a2);
     EXPORT void ManageWeapon_46F390();
-    EXPORT Weapon_30* sub_46F490();
+    EXPORT Weapon_30* SelectAttackWeapon_46F490();
     EXPORT void ForceWeapon_46F600(s32 a2);
     EXPORT void GiveWeapon_46F650(s32 a2);
     EXPORT void sub_46F680(Ped* a2);
