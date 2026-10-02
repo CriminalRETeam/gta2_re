@@ -1342,11 +1342,9 @@ Car_BC* Car_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 road_di
 
 // https://decomp.me/scratch/HFGKH
 // 9.6f 0x426AC0
-WIP_FUNC(0x446230)
+MATCH_FUNC(0x446230)
 Car_BC* Car_6C::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, Fix16 maybe_w_scale)
 {
-    WIP_IMPLEMENTED;
-
     if (gCheatMiniCars_67D6C8)
     {
         if (maybe_w_scale == kFP16One_6777D0)
@@ -1394,7 +1392,7 @@ Car_BC* Car_6C::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rota
 
     if (maybe_w_scale != kFP16One_6777D0)
     {
-        pCar->field_50_car_sprite->ApplyScaleToDimensions_59E4C0(maybe_w_scale, 1);
+        pCar->field_50_car_sprite->ApplyScaleToDimensions_59E4C0(pCar->field_68_scale, 1);
     }
 
     gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pCar->field_50_car_sprite);
