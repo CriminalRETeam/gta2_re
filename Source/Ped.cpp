@@ -3973,29 +3973,57 @@ void Ped::sub_463300(u8 a1)
     }
 }
 
-WIP_FUNC(0x4633e0)
+MATCH_FUNC(0x4633e0)
 void Ped::SetStateForObjective_4633E0(char_type bMainObj)
 {
-    WIP_IMPLEMENTED;
-
+    u8 state = 99;
     s32 obj;
     if (bMainObj)
     {
-        obj = this->field_258_objective;
+        obj = field_258_objective;
     }
     else
     {
-        obj = this->field_25C_internal_objective;
+        obj = field_25C_internal_objective;
     }
     switch (obj)
     {
         case objectives_enum::no_obj_0:
-            Ped::sub_463300(this->field_16C_car != 0 ? 5 : 1);
+            state = field_16C_car ? 5 : 1;
             break;
         case objectives_enum::flee_on_foot_till_safe_1:
         case objectives_enum::flee_char_on_foot_till_safe_2:
         case objectives_enum::flee_char_on_foot_always_3:
-            Ped::sub_463300(2u);
+            state = 2;
+            break;
+        case objectives_enum::guard_spot_24:
+        case objectives_enum::guard_area_25:
+        case objectives_enum::wait_on_foot_26:
+        case objectives_enum::objective_29:
+        case objectives_enum::objective_30:
+        case objectives_enum::objective_44:
+        case objectives_enum::objective_45:
+        case objectives_enum::objective_46:
+        case objectives_enum::objective_47:
+            state = 4;
+            break;
+        case objectives_enum::goto_area_in_car_14:
+        case objectives_enum::wait_in_car_27:
+        case objectives_enum::time_waited_in_car_31:
+        case objectives_enum::objective_43:
+        case objectives_enum::objective_52:
+        case objectives_enum::objective_54:
+        case objectives_enum::follow_car_in_car_55:
+        case objectives_enum::fire_at_object_from_vehicle_57:
+            state = 5;
+            break;
+        case objectives_enum::enter_car_as_driver_35:
+        case objectives_enum::enter_train_37:
+            state = 6;
+            break;
+        case objectives_enum::leave_car_36:
+        case objectives_enum::leave_train_38:
+            state = field_168_game_object ? 1 : 7;
             break;
         case objectives_enum::objective_7:
         case objectives_enum::objective_9:
@@ -4011,52 +4039,22 @@ void Ped::SetStateForObjective_4633E0(char_type bMainObj)
         case objectives_enum::follow_car_on_foot_with_offset_56:
         case objectives_enum::destroy_object_58:
         case objectives_enum::destroy_car_59:
-            Ped::sub_463300(3u);
+            state = 3;
             break;
         case objectives_enum::objective_8:
         case objectives_enum::kill_frenzy_22:
         case objectives_enum::objective_49:
         case objectives_enum::objective_51:
-            Ped::sub_463300(1u);
-            break;
-        case objectives_enum::goto_area_in_car_14:
-        case objectives_enum::wait_in_car_27:
-        case objectives_enum::time_waited_in_car_31:
-        case objectives_enum::objective_43:
-        case objectives_enum::objective_52:
-        case objectives_enum::objective_54:
-        case objectives_enum::follow_car_in_car_55:
-        case objectives_enum::fire_at_object_from_vehicle_57:
-            Ped::sub_463300(5u);
-            break;
-        case objectives_enum::guard_spot_24:
-        case objectives_enum::guard_area_25:
-        case objectives_enum::wait_on_foot_26:
-        case objectives_enum::objective_29:
-        case objectives_enum::objective_30:
-        case objectives_enum::objective_44:
-        case objectives_enum::objective_45:
-        case objectives_enum::objective_46:
-        case objectives_enum::objective_47:
-            Ped::sub_463300(4u);
-            break;
-        case objectives_enum::enter_car_as_driver_35:
-        case objectives_enum::enter_train_37:
-            Ped::sub_463300(6u);
-            break;
-        case objectives_enum::leave_car_36:
-        case objectives_enum::leave_train_38:
-            Ped::sub_463300(field_168_game_object != 0 ? 1 : 7);
+            state = 1;
             break;
         case objectives_enum::objective_50:
-            Ped::ChangeNextPedState1_45C500(9);
-            Ped::ChangeNextPedState2_45C540(15);
-            goto LABEL_14;
+            Ped::ChangeNextPedState1_45C500(ped_state_1::dead_9);
+            Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_15);
+            break;
         default:
-        LABEL_14:
-            Ped::sub_463300(99u);
             break;
     }
+    Ped::sub_463300(state);
 }
 
 WIP_FUNC(0x463570)
