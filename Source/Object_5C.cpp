@@ -159,7 +159,7 @@ bool Object_2C::CanCollideWithSpriteByVarrok_522250(Sprite* pSprite)
     const u32 phi_type = this->field_8->field_34_behavior_type;
     if (phi_type != 6 && phi_type != 7 && phi_type != 8 && phi_type != 9 && phi_type != 10 && phi_type != 1 && phi_type != 12)
     {
-        u8 varrok_idx = this->field_26_varrok_idx;
+        u8 varrok_idx = this->get_field_26_420FF0();
         if (varrok_idx > 0)
         {
             if (pSprite)
@@ -271,21 +271,21 @@ char Object_2C::ShouldCollideWith_5223C0(Sprite* pSprite)
             return true;
         case CollisionReaction::OnlyCars_1:
             // Only cars
-            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
+            if (pSprite->get_type_416B40() == sprite_types_enum::car_2)
             {
                 return false;
             }
             break;
         case CollisionReaction::OnlyPeds_2:
             // Only peds
-            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::ped_3)
+            if (pSprite->get_type_416B40() == sprite_types_enum::ped_3)
             {
                 return false;
             }
             break;
         case CollisionReaction::OnlyObjects_3:
             // Only objects?
-            sprite_type = pSprite->field_30_sprite_type_enum;
+            sprite_type = pSprite->get_type_416B40();
             if (sprite_type != sprite_types_enum::code_obj1_4 && sprite_type != sprite_types_enum::map_obj_5 &&
                 sprite_type != sprite_types_enum::unknown_1)
             {
@@ -693,11 +693,11 @@ char_type Object_2C::sub_5233A0(Fix16 a2)
 
         if (this->field_10_obj_3c->field_34 == 1)
         {
-            this->field_4->field_28_num = 29;
+            this->field_4->set_num_40F7B0(29);
         }
         else
         {
-            this->field_4->field_28_num = 6;
+            this->field_4->set_num_40F7B0(6);
         }
         this->field_10_obj_3c->field_C_speed = k_dword_6F8C58;
         this->field_10_obj_3c->field_18_friction = this->field_8->field_14_friction;
@@ -2522,10 +2522,10 @@ void Object_2C::ProcessObjectExplosionImpact_528A20(Object_2C* pObj)
                                                                               this->field_4->field_1C_zpos,
                                                                               kZeroAng_6F8F68,
                                                                               remapped,
-                                                                              gVarrok_7F8_703398->GetPedId_420F10(field_26_varrok_idx));
+                                                                              gVarrok_7F8_703398->GetPedId_420F10(get_field_26_420FF0()));
             if (pExplosion)
             {
-                pExplosion->SetDamageOwner_529080(field_26_varrok_idx);
+                pExplosion->SetDamageOwner_529080(get_field_26_420FF0());
             }
             break;
         }
@@ -2547,7 +2547,7 @@ void Object_2C::ProcessObjectExplosionImpact_528A20(Object_2C* pObj)
     }
 
     Ped* pPed; // eax
-    s32 pedId = gVarrok_7F8_703398->GetPedId_420F10(field_26_varrok_idx);
+    s32 pedId = gVarrok_7F8_703398->GetPedId_420F10(get_field_26_420FF0());
     if (pedId)
     {
         pPed = gPedManager_6787BC->PedById(pedId);
@@ -2607,10 +2607,10 @@ void Object_2C::HandleImpactNoSprite_528BA0()
                                                                               field_4->field_1C_zpos,
                                                                               kZeroAng_6F8F68,
                                                                               sub_528E00(dword_6F8F90),
-                                                                              gVarrok_7F8_703398->GetPedId_420F10(field_26_varrok_idx));
+                                                                              gVarrok_7F8_703398->GetPedId_420F10(get_field_26_420FF0()));
             if (pExplosion)
             {
-                pExplosion->SetDamageOwner_529080(field_26_varrok_idx);
+                pExplosion->SetDamageOwner_529080(get_field_26_420FF0());
             }
             // Fall through
         }
@@ -2642,7 +2642,7 @@ void Object_2C::HandleImpactNoSprite_528BA0()
             return;
     }
 
-    const s32 id = gVarrok_7F8_703398->GetPedId_420F10(field_26_varrok_idx);
+    const s32 id = gVarrok_7F8_703398->GetPedId_420F10(get_field_26_420FF0());
     if (id)
     {
         Ped* pPed = gPedManager_6787BC->PedById(id);
