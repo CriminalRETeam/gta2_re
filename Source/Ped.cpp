@@ -11702,7 +11702,7 @@ void Ped::HandleWeaponFireEnd_46FFF0(s32 model)
         Weapon_30* pWeapon = this->field_174_pWeapon;
         if (pWeapon)
         {
-            pWeapon->field_4 = 0;
+            pWeapon->Set_F4_433810(0);
         }
     }
     else
@@ -11710,7 +11710,7 @@ void Ped::HandleWeaponFireEnd_46FFF0(s32 model)
         Weapon_30* pSelectedWeapon = this->field_170_selected_weapon;
         if (pSelectedWeapon)
         {
-            pSelectedWeapon->field_4 = 0;
+            pSelectedWeapon->Set_F4_433810(0);
         }
     }
 }
