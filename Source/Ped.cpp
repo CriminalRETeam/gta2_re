@@ -7673,11 +7673,9 @@ void Ped::GotoAreaOnFoot_468DE0()
     }
 }
 
-WIP_FUNC(0x468e80)
+MATCH_FUNC(0x468e80)
 void Ped::UpdateFollowPedObjective_468E80()
 {
-    WIP_IMPLEMENTED;
-
     u8 bUnknown1 = 0;
     u8 bUnknown2 = 1;
 
