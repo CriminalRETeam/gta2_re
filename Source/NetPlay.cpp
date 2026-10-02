@@ -1351,13 +1351,13 @@ void NetPlay::OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, 
 }
 
 // Register allocation differs, see docs/match_attempts.md
-WIP_FUNC(0x520040)
+MATCH_FUNC(0x520040)
 s32 NetPlay::MovePlayerToGroup_520040(s32 toFind, Network_Unknown* pStru, Network_Unknown* pDst, u32* pOutIdx)
 {
-    WIP_IMPLEMENTED;
 
     *pOutIdx = 0xEEEEEEEE;
 
+    s32 result = 0;
     u32 i = 0;
     while (1)
     {
@@ -1374,14 +1374,14 @@ s32 NetPlay::MovePlayerToGroup_520040(s32 toFind, Network_Unknown* pStru, Networ
             if (new_idx != 0xEEEEEEEE)
             {
                 *pOutIdx = new_idx;
+                result = 1;
                 FreePlayerSlot_5201A0(i, pStru);
-                return 1;
             }
             break;
         }
         i++;
     }
-    return 0;
+    return result;
 }
 
 MATCH_FUNC(0x5201a0)
