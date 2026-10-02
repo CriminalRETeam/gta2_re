@@ -66,7 +66,7 @@ class nostalgic_ellis_0x28
         field_0.flag = 0x2A2A2A2A;
     }
 
-    void sub_463F50()
+    void Reset_463F50()
     {
         field_0.flag = 0;
         field_14_on_time = 0;

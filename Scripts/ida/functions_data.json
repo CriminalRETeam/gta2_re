@@ -6190,7 +6190,7 @@
         "v105_address": "0x4bed70"
     },
     {
-        "name": "Gang_144::sub_4BEDF0",
+        "name": "Gang_144::IsHostileToGang_4BEDF0",
         "v96f_address": null,
         "v105_address": "0x4bedf0"
     },
@@ -7460,7 +7460,7 @@
         "v105_address": "0x4e4cb0"
     },
     {
-        "name": "Map_0x370::sub_4E4D40",
+        "name": "Map_0x370::FindGroundZBelowCoord_4E4D40",
         "v96f_address": "0x469570",
         "v105_address": "0x4e4d40"
     },
@@ -7470,7 +7470,7 @@
         "v105_address": "0x4e4e50"
     },
     {
-        "name": "Map_0x370::sub_4E4F40",
+        "name": "Map_0x370::GetGroundZBelowCoord_4E4F40",
         "v96f_address": null,
         "v105_address": "0x4e4f40"
     },
@@ -7655,7 +7655,7 @@
         "v105_address": "0x4e8940"
     },
     {
-        "name": "Map_0x370::sub_4E8A10",
+        "name": "Map_0x370::LowerColumn_4E8A10",
         "v96f_address": null,
         "v105_address": "0x4e8a10"
     },
@@ -13410,12 +13410,12 @@
         "v105_address": "0x578300"
     },
     {
-        "name": "Train_58::sub_578330",
+        "name": "Train_58::CloseCarriageDoors_578330",
         "v96f_address": null,
         "v105_address": "0x578330"
     },
     {
-        "name": "Train_58::sub_578360",
+        "name": "Train_58::OpenCarriageDoors_578360",
         "v96f_address": null,
         "v105_address": "0x578360"
     },

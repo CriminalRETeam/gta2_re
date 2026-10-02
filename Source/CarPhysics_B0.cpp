@@ -946,7 +946,7 @@ void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 a2)
             {
                 this->field_6C_cp3 = kMaxZ_6FDF34;
             }
-            map_z = gMap_0x370_6F6268->sub_4E4D40(this->field_38_cp1.x, this->field_38_cp1.y, this->field_6C_cp3);
+            map_z = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(this->field_38_cp1.x, this->field_38_cp1.y, this->field_6C_cp3);
             zpos = this->field_6C_cp3 + ((a2_ * g_ZPos_6FE0AC));
             if (zpos > map_z)
             {
@@ -980,11 +980,11 @@ void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 a2)
                 if (surface_type_ != car_surface_type::slope_northwards_1 && surface_type_ != car_surface_type::slope_southwards_2 && surface_type_ != car_surface_type::slope_westwards_3 && surface_type_ != car_surface_type::slope_eastwards_4 ||
                     (zpos.GetFracValue()) == kFP16Zero_6FE20C || zpos > cp3 + k_dword_6FE210)
                 {
-                    zpos = gMap_0x370_6F6268->sub_4E4D40(this->field_38_cp1.x, this->field_38_cp1.y, zpos - dword_6FE2E0);
+                    zpos = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(this->field_38_cp1.x, this->field_38_cp1.y, zpos - dword_6FE2E0);
 
                     if (zpos > this->field_6C_cp3)
                     {
-                        map_z__ = *gMap_0x370_6F6268->sub_4E4F40(&v20, this->field_38_cp1.x, this->field_38_cp1.y, zpos - dword_6FE2E0);
+                        map_z__ = *gMap_0x370_6F6268->GetGroundZBelowCoord_4E4F40(&v20, this->field_38_cp1.x, this->field_38_cp1.y, zpos - dword_6FE2E0);
                         if (map_z__ > kFP16Zero_6FE20C)
                         {
                             zpos = map_z__;

@@ -66,7 +66,7 @@ RouteFinder_10::RouteFinder_10()
 {
     field_0_idx = 0;
     field_2_cost = -1;
-    field_4 = 0;
+    field_4_expanded = 0;
     field_8_pParent = 0;
     field_C_pNext = 0;
 }
@@ -573,7 +573,7 @@ RouteFinder_10* RouteFinder::NewStartNode_589390(u16 a2)
 
     pNew10->field_2_cost = distance;
     pNew10->field_0_idx = a2;
-    pNew10->field_4 = 0;
+    pNew10->field_4_expanded = 0;
     // field_6 is preserved by the original function.
     pNew10->field_8_pParent = 0;
     pNew10->field_C_pNext = 0;
@@ -701,7 +701,7 @@ RouteFinder_10* RouteFinder::GetFirstUnexpandedNode_589E00()
 {
     RouteFinder_10* pjVar1;
 
-    for (pjVar1 = field_A82C_open_list; pjVar1 != NULL && pjVar1->field_4 != 0; pjVar1 = pjVar1->field_C_pNext)
+    for (pjVar1 = field_A82C_open_list; pjVar1 != NULL && pjVar1->field_4_expanded != 0; pjVar1 = pjVar1->field_C_pNext)
         ;
     return pjVar1;
 }

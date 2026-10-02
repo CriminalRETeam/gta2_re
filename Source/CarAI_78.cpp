@@ -26,8 +26,8 @@ DEFINE_GLOBAL_INIT(Fix16, dword_677AC4, dword_677B5C, 0x677AC4);
 DEFINE_GLOBAL_INIT(Fix16, gF16fOne_677B94, Fix16(1), 0x677B94); // Value = 1.0 in float
 DEFINE_GLOBAL_INIT(Fix16, dword_6779B8, Fix16(0x666, 0), 0x6779B8);
 DEFINE_GLOBAL_INIT(Fix16, dword_677B50, Fix16(163, 0), 0x677B50);
-DEFINE_GLOBAL_INIT(Fix16, dword_677CB4, dword_6779B8, 0x677CB4);
-DEFINE_GLOBAL_INIT(Fix16, dword_6779A4, dword_677B50, 0x6779A4);
+DEFINE_GLOBAL_INIT(Fix16, kDefaultTargetSpeed_677CB4, dword_6779B8, 0x677CB4);
+DEFINE_GLOBAL_INIT(Fix16, kDefaultAcceleration_6779A4, dword_677B50, 0x6779A4);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6779D4, Fix16(0x2CCC, 0), 0x6779D4);
 DEFINE_GLOBAL(CarAI_78_Pool*, gCarAI_78_Pool_677CF8, 0x677CF8);
@@ -5716,8 +5716,8 @@ void CarAI_78::PoolAllocate()
     this->field_A = 0;
     this->field_10_angle = kAng0_677CE8;
     this->field_14_speed = kF16Zero_677B90;
-    this->field_18_target_speed = dword_677CB4;
-    this->field_1C_acceleration = dword_6779A4;
+    this->field_18_target_speed = kDefaultTargetSpeed_677CB4;
+    this->field_1C_acceleration = kDefaultAcceleration_6779A4;
     this->field_20 = 0;
     this->field_56_route_pos = 0;
     this->field_28_junc_idx = -1;
@@ -5764,8 +5764,8 @@ CarAI_78::CarAI_78()
     this->mpNext = 0;
     this->field_10_angle = kAng0_677CE8;
     this->field_14_speed = kF16Zero_677B90;
-    this->field_18_target_speed = dword_677CB4;
-    this->field_1C_acceleration = dword_6779A4;
+    this->field_18_target_speed = kDefaultTargetSpeed_677CB4;
+    this->field_1C_acceleration = kDefaultAcceleration_6779A4;
     this->field_20 = 0;
     this->field_56_route_pos = 0;
     this->field_28_junc_idx = -1;

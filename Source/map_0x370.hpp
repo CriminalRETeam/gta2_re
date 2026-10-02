@@ -390,9 +390,9 @@ class Map_0x370
     EXPORT gmp_block_info* FindPavementBlockForCoord_4E4BB0(s32 x, s32 y, s32& z);
     EXPORT gmp_block_info* FindHighestBlockForCoord_4E4C30(s32 x, s32 y, s32* found_z);
     EXPORT gmp_block_info* FindNonAirBlockAtOrBelowZ_4E4CB0(s32 x, s32 y, s32& z);
-    EXPORT Fix16 sub_4E4D40(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos);
+    EXPORT Fix16 FindGroundZBelowCoord_4E4D40(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos);
     EXPORT Fix16* sub_4E4E50(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos);
-    EXPORT Fix16* sub_4E4F40(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z);
+    EXPORT Fix16* GetGroundZBelowCoord_4E4F40(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z);
     EXPORT Fix16 sub_4E5050(Fix16 x, Fix16 y, Fix16 z, bool& bFound);
     EXPORT bool IsZOnGround_4E5170(Fix16 x, Fix16 y, Fix16 z);
     EXPORT char_type sub_4E52A0(Fix16 x, Fix16 y, Fix16 z);
@@ -422,7 +422,7 @@ class Map_0x370
     EXPORT void ChangeBlock_4E8620(s32 a2, s32 a3, s32 a4, s32 info_type_to_set, u16 info_value);
     EXPORT void AddNewBlock_4E87C0(s32 x, s32 y, s32 z, gmp_block_info* pBlockData);
     EXPORT void RemoveBlock_4E8940(s32 x_pos, s32 y_pos, s32 offset, char_type do_drop);
-    EXPORT void sub_4E8A10(s32 a2, s32 a3);
+    EXPORT void LowerColumn_4E8A10(s32 a2, s32 a3);
     EXPORT void LowerLevel_4E8B70(s32 x_min, s32 x_max, s32 y_min, s32 y_max);
     EXPORT void OnModifiedMapDataLoaded_4E8C00(u32 a2, u32 a3, u32 a4);
     EXPORT void GetModifiedMapData_4E8CF0(u16*** outColumnPtr,
@@ -460,7 +460,7 @@ class Map_0x370
 
     EXPORT ~Map_0x370();
 
-    inline bool sub_4B9F40(s32 x, s32 y, s32 z)
+    inline bool IsWaterBlockAt_4B9F40(s32 x, s32 y, s32 z)
     {
         gmp_block_info* pBlock = get_block_4DFE10(x, y, z);
         return pBlock && gGtx_0x106C_703DD4->IsRemappedWaterTile_49E540(pBlock->field_8_lid & 0x3FF);

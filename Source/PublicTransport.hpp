@@ -17,8 +17,8 @@ class Train_58
     EXPORT ~Train_58();
     EXPORT void sub_5782D0();
     EXPORT void Stop_578300();
-    EXPORT void sub_578330();
-    EXPORT void sub_578360();
+    EXPORT void CloseCarriageDoors_578330();
+    EXPORT void OpenCarriageDoors_578360();
     EXPORT void UpdatePassengerAI_578390();
     EXPORT void ProcessTrainExplosionChain_578670();
     char_type field_0;
