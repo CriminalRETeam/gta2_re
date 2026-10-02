@@ -5365,7 +5365,7 @@
         "v105_address": "0x4ae010"
     },
     {
-        "name": "FreeLoader::sub_4AE0F0",
+        "name": "FreeLoader::GetCityInstalled_4AE0F0",
         "v96f_address": null,
         "v105_address": "0x4ae0f0"
     },
@@ -6840,7 +6840,7 @@
         "v105_address": "0x4ced00"
     },
     {
-        "name": "BurgerKing_67F8B0::sub_4CED90",
+        "name": "BurgerKing_67F8B0::DisplayInputBits_4CED90",
         "v96f_address": null,
         "v105_address": "0x4ced90"
     },
@@ -14225,7 +14225,7 @@
         "v105_address": "0x58e000"
     },
     {
-        "name": "cSampleManager::sub_58E010",
+        "name": "cSampleManager::SetEaxEnvironment_58E010",
         "v96f_address": null,
         "v105_address": "0x58e010"
     },

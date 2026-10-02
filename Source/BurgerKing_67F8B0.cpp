@@ -1107,7 +1107,7 @@ void BurgerKing_67F8B0::save_replay_inputs_4CED00(s32 input_old, s32 input_new)
 }
 
 MATCH_FUNC(0x4ced90)
-void BurgerKing_67F8B0::sub_4CED90()
+void BurgerKing_67F8B0::DisplayInputBits_4CED90()
 {
     s8 i = 0;
     s32 bit_idx = 0;
@@ -1144,5 +1144,5 @@ void BurgerKing_67F8B0::ShowInput_4CEE10()
     {
         gHud_2B00_706620->field_650.DisplayText_5D1F50(L"RECORDING", -1, 0, word_706600, 1);
     }
-    sub_4CED90();
+    DisplayInputBits_4CED90();
 }

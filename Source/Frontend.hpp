@@ -510,7 +510,7 @@ struct Frontend
 class FreeLoader
 {
   public:
-    EXPORT static s32 __stdcall sub_4AE0F0();
+    EXPORT static s32 __stdcall GetCityInstalled_4AE0F0();
     EXPORT static char_type __stdcall sub_4AE1F0(u8 a1);
     EXPORT static LPCSTR __stdcall sub_4AE010(HKEY a1, LPCSTR a2, LPCSTR a3);
 };

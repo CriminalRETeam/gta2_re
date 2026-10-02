@@ -93,7 +93,7 @@ LPCSTR __stdcall FreeLoader::sub_4AE010(HKEY hKey, LPCSTR lpValueName, LPCSTR a3
 }
 
 MATCH_FUNC(0x4AE0F0)
-s32 __stdcall FreeLoader::sub_4AE0F0()
+s32 __stdcall FreeLoader::GetCityInstalled_4AE0F0()
 {
     HKEY phkResult;
     RegOpenKeyA(HKEY_LOCAL_MACHINE, "Software\\freeloader.com\\GTA2", &phkResult);
@@ -105,7 +105,7 @@ s32 __stdcall FreeLoader::sub_4AE0F0()
 MATCH_FUNC(0x4AE1F0)
 EXPORT char_type __stdcall FreeLoader::sub_4AE1F0(u8 a1)
 {
-    if (a1 > FreeLoader::sub_4AE0F0())
+    if (a1 > FreeLoader::GetCityInstalled_4AE0F0())
     {
         ShowWindow(gHwnd_707F04, SW_SHOWMINNOACTIVE);
         PostMessageA(gHwnd_707F04, WM_ACTIVATE, 0, 0);

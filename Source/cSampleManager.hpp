@@ -90,7 +90,7 @@ class cSampleManager
 
     EXPORT void StopChannel3D_58DFC0(s32 samp_idx);
 
-    EXPORT void sub_58E010(s32 a2);
+    EXPORT void SetEaxEnvironment_58E010(s32 env_idx);
 
     EXPORT char_type sub_58E140(s32 a2);
 
@@ -169,7 +169,7 @@ class cSampleManager
     char_type* field_22B4_str[256];
     HPROVIDER field_26B4_env_idx;
     s32 field_26B8_bEaxSupported;
-    s32 field_26BC_k17;
+    s32 field_26BC_eax_environment;
     s32 field_26C0_3d_provider;
     H3DSAMPLE field_26C4_3d_sample[16];
     f32 field_2704_float;

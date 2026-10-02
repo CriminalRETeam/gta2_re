@@ -145,7 +145,7 @@ cSampleManager::cSampleManager()
     field_2704_float = -1.0;
     field_2708_float = -1.0;
     field_270C_float = -1.0;
-    field_26BC_k17 = 0;
+    field_26BC_eax_environment = 0;
     field_2710_3d_provider_count = 0;
     field_2714_bUnknown = 0;
 
@@ -456,7 +456,7 @@ void cSampleManager::Reset3DSamples_58D960()
     field_2704_float = -1.0;
     field_2708_float = -1.0;
     field_270C_float = -1.0;
-    field_26BC_k17 = 0;
+    field_26BC_eax_environment = 0;
 }
 
 MATCH_FUNC(0x58DC30)
@@ -672,12 +672,12 @@ void cSampleManager::StopChannel3D_58DFC0(s32 samp_idx)
 }
 
 MATCH_FUNC(0x58E010)
-void cSampleManager::sub_58E010(s32 a2)
+void cSampleManager::SetEaxEnvironment_58E010(s32 env_idx)
 {
-    if (field_26C0_3d_provider && field_26B8_bEaxSupported && a2 < 26)
+    if (field_26C0_3d_provider && field_26B8_bEaxSupported && env_idx < 26)
     {
-        field_26BC_k17 = a2;
-        AIL_set_3D_provider_preference(field_26C0_3d_provider, "EAX environment selection", &a2);
+        field_26BC_eax_environment = env_idx;
+        AIL_set_3D_provider_preference(field_26C0_3d_provider, "EAX environment selection", &env_idx);
     }
 }
 
@@ -700,7 +700,7 @@ char_type cSampleManager::sub_58E140(s32 envIdx)
         if (envIdx2 != -1)
         {
             field_26B8_bEaxSupported = 1;
-            sub_58E010(17);
+            SetEaxEnvironment_58E010(17);
         }
         return 1;
     }
