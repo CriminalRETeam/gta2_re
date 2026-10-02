@@ -6427,8 +6427,7 @@ MATCH_FUNC(0x4438C0)
 void Car_BC::BuyCarWeapon_4438C0(s32 weapon_kind)
 {
     u8 ammo_capacity;
-    Ped* pDriver = this->field_54_driver;
-    Player* pPlayer = pDriver->field_15C_player;
+    Player* pPlayer = GetDriverPlayer_421870();
     Weapon_30* pWeapon = pPlayer->field_718_weapons[weapon_kind];
     if (pWeapon && pWeapon->is_max_capacity_5DCEA0())
     {

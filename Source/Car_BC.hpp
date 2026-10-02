@@ -977,6 +977,12 @@ class Car_BC
         return field_88_despawn_status == 2 || field_88_despawn_status == 4 || field_88_despawn_status == 3;
     }
 
+    // 9.6f 0x421870
+    inline Player* GetDriverPlayer_421870()
+    {
+        return field_54_driver->field_15C_player;
+    }
+
     // 9.6f 0x421460
     inline void ClearHorn_421460()
     {
