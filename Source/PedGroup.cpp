@@ -1024,7 +1024,7 @@ void PedGroup::UpdateMemberAIState_4CA5E0(u8 idx)
     }
 
     Ped* pLeader = field_2C_ped_leader;
-    if (pLeader->field_168_game_object)
+    if (pLeader->bHasGameObject_403B70())
     {
         if (pMember->field_168_game_object)
         {
@@ -1034,7 +1034,7 @@ void PedGroup::UpdateMemberAIState_4CA5E0(u8 idx)
                 if (pNearest)
                 {
                     pMember->SetObjective2_463830(20, 9999);
-                    pMember->set_field_14C_403AE0(pNearest->field_14C);
+                    pMember->set_field_14C_403AE0(pNearest->Get_F14C_403AF0());
                     pMember->SetBit2_403950();
                 }
                 else if (pMember->get_objective_403A80() != 8)
@@ -1064,7 +1064,7 @@ void PedGroup::UpdateMemberAIState_4CA5E0(u8 idx)
     else if (pMember->GetInternalObjective_403A90() == 9)
     {
         s32 occupation = pMember->get_occupation_403980();
-        if ((occupation < 0x18 || occupation > 0x1B) && pMember->field_14C->field_16C_car && pMember->field_258_objective != 8)
+        if ((occupation < 0x18 || occupation > 0x1B) && pMember->Get_F14C_403AF0()->has_car_403B80() && pMember->field_258_objective != 8)
         {
             pMember->SetObjective(8, 9999);
             pMember->SetObjective2_463830(0, 9999);
