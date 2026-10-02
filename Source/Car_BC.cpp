@@ -2162,10 +2162,10 @@ void Car_BC::AssignRandomRemap_43A7D0()
     car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
     if (pCarInfo->num_remaps)
     {
-        const u32 remap_idx = gRngRemapTable_679320[gCar_6C_677930->field_10_remap_rng.field_0] % (pCarInfo->num_remaps + 1);
+        const u32 remap_idx = gCar_6C_677930->field_10_remap_rng.GetRngValue_4212D0() % (pCarInfo->num_remaps + 1);
         if (remap_idx == pCarInfo->num_remaps)
         {
-            field_50_car_sprite->field_34_palette_type = palette_types_enum::sprites_2;
+            field_50_car_sprite->SetPaletteSprites_420700();
         }
         else
         {
