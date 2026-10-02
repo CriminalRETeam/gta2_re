@@ -159,7 +159,7 @@ char_type Ped_List_4::RemovePedsInSpecificState_471290()
 
             Char_8* pIterOldNext = pIter->mpNext;
 
-            gChar_8_Pool_678b50->field_0_pool.DeAllocate(pIter);
+            gChar_8_Pool_678b50->DeAllocate_445F00(pIter);
             pIter = pIterOldNext;
 
             ++removedCount;
