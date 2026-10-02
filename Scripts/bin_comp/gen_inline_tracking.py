@@ -51,13 +51,32 @@ for f in sorted(glob.glob("../../Source/*.cpp")):
 CORE = re.compile(r"^(Fix16|ang16|Ang16|Fix16_Point|Fix16_2|Fix16_rect)::")
 
 
+# helpers in the headers marked with the 9.6f function they come from ("// 9.6f 0x403A00" on the
+# line of the definition or the line above it): their names count as uses of that 9.6f function
+alias = defaultdict(set)
+for f in sorted(glob.glob("../../Source/*.hpp")):
+    lines = open(f, encoding="utf-8", errors="ignore").read().split("\n")
+    for i, line in enumerate(lines):
+        if "9.6f" not in line and "96f" not in line:
+            continue
+        for x in re.findall(r"0x([0-9A-Fa-f]{6})\b", line):
+            code = line.split("//")[0]
+            if not re.search(r"\w+\s*\(", code) and i + 1 < len(lines):
+                code = lines[i + 1].split("//")[0]
+            mm = re.search(r"(\w+)\s*\(", code)
+            if mm and mm.group(1) not in ("if", "while", "for", "return", "switch"):
+                alias[hex(int(x, 16))].add(mm.group(1))
+
+
 def used_in(a, c):
     """Does the source of 10.5 function a already use the inline for 9.6f function c?"""
     t = body.get(a, "")
     pats = [c[2:]]
     if c in rpairs:
         pats.append(rpairs[c][2:])
-    return any(re.search(r"_" + x + r"(?![0-9A-Fa-f])", t, re.I) for x in pats)
+    if any(re.search(r"_" + x + r"(?![0-9A-Fa-f])", t, re.I) for x in pats):
+        return True
+    return any(re.search(r"\b" + n + r"\s*\(", t) for n in alias.get(c, ()))
 
 
 # 9.6f addresses already noted in Source/ comments ("9.6f 0x401C10", "inlined v9.6f, 0x432850", ...)
