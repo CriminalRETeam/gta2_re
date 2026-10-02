@@ -6966,17 +6966,17 @@ void sound_obj::Tank_414D30(Sound_Params_8* a2)
     }
 }
 
-WIP_FUNC(0x415190)
+MATCH_FUNC(0x415190)
 void sound_obj::Tank_415190(Sound_Params_8* a2)
 {
-    WIP_IMPLEMENTED;
 
     Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
     if (pCar->field_9C_engine_status == car_engine_status::on_3 && (pCar->field_78_flags & 0x2000) != 0)
     {
         if (CalculateDistance_419020(Fix16(921600, 0)))
         {
-            Fix16 vol_mult = pCar->GetCarLinearSpeed_43A240();
+            Fix16 vol_mult;
+            vol_mult = pCar->GetCarLinearSpeed_43A240();
             Fix16 max_speed = gCarInfo_48_6FE258->field_28_max_speed;
             if (max_speed > kFpZero_66F3F0)
             {
@@ -6985,7 +6985,7 @@ void sound_obj::Tank_415190(Sound_Params_8* a2)
                     vol_mult = gCarInfo_48_6FE258->field_28_max_speed;
                 }
 
-                s32 vol = Fix16::Round_To_Int_410BF0((Fix16(1310720, 0) * vol_mult) / max_speed);
+                u8 vol = Fix16::Round_To_Int_410BF0((vol_mult / max_speed) * Fix16(1310720, 0));
 
                 if (VolCalc_419070(vol, Fix16(122880, 0), a2->field_5_bHasSolidAbove))
                 {
