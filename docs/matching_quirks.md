@@ -549,6 +549,15 @@ inline `Fix16_Point::operator*(Fix16&)` (called out of line, but its body is vis
 knows it can't throw); the original calls the exported `Multiply_438FE0`. Check the call target
 address against the csv before chasing the state store.
 
+**Trivial getters and setters are free; a by-value `Fix16` setter is not.** Replacing a raw
+field access with a one-line inline helper (a scalar or pointer field get/set, `field == K`)
+left the code of every matching function unchanged, so those can be used wherever 9.6f calls
+them. Adding these helpers made `Object_2C::sub_526B40` match (`Sprite::get_type_416B40`,
+`Char_B4::get_velocity_41B080`, `Sprite::set_num_40F7B0`). The exception is
+`Char_B4::SetMaxSpeed_433920(Fix16)`: as a by-value `Fix16` parameter it changed six matching
+`Ped` functions (`sub_46C770` and others), although 9.6f calls it there. Those keep the plain
+assignment for now.
+
 **Two different callees for the same constructor mean two types.** If the original calls one
 `Fix16` constructor twice and you call two, an argument has the wrong type (a `u16` position
 that went through `Fix16(u16)` instead of `Fix16(s32)`, `DrawChatMessages_5D16B0`).
