@@ -1602,6 +1602,16 @@ s32 Hud_Pager_C_Array::CreateTimer_5D31F0(s32 seconds) // returns the new Pager 
     return -1;
 }
 
+// 9.6f 0x4C7130
+inline void Hud_Pager_C::SetCounter_4C7130(s32* pCounter)
+{
+    field_4_ptr_counter = pCounter;
+    if (!field_8_sound && !bSkip_audio_67D6BE)
+    {
+        field_8_sound = gRoot_sound_66B038.CreateSoundObject_40EF40(this, SoundObjectTypeEnum::Hud_Pager_C_11);
+    }
+}
+
 MATCH_FUNC(0x5d3220)
 s32 Hud_Pager_C_Array::AddOnScreenCounter_5D3220(s32* pCounter)
 {
@@ -1609,19 +1619,13 @@ s32 Hud_Pager_C_Array::AddOnScreenCounter_5D3220(s32* pCounter)
     for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_pagers_array); i++)
     {
         Hud_Pager_C* pPager = &field_0_pagers_array[i];
-        if (!pPager->field_4_ptr_counter && (pPager->field_0_timer >= 0 || targetIdx == -1))
+        if (pPager->no_ptr_counter_4C7160() && (!pPager->IsTimerOff_4C7170() || targetIdx == -1))
         {
             targetIdx = i;
         }
     }
 
-    Hud_Pager_C* pTargetPager = &field_0_pagers_array[targetIdx];
-    infallible_turing* pSound = pTargetPager->field_8_sound;
-    pTargetPager->field_4_ptr_counter = pCounter;
-    if (!pSound && !bSkip_audio_67D6BE)
-    {
-        pTargetPager->field_8_sound = gRoot_sound_66B038.CreateSoundObject_40EF40(pTargetPager, SoundObjectTypeEnum::Hud_Pager_C_11);
-    }
+    field_0_pagers_array[targetIdx].SetCounter_4C7130(pCounter);
 
     return targetIdx;
 }
