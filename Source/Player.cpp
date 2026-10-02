@@ -1690,7 +1690,7 @@ void Player::ShowDebugInfo_566EE0(char_type bDoNothing)
 
         if (gShow_cycle_67D6BD)
         {
-            rng_dword_67AB34->ShowCycle_48B920();
+            gpRng_67AB34->ShowCycle_48B920();
         }
 
         if (gDo_show_input_67D576)

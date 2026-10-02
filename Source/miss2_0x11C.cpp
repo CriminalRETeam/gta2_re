@@ -235,7 +235,7 @@ void miss2_0x11C::Log_5035D0()
 {
     if (gDo_miss_logging_67D6BC)
     {
-        sprintf(gTmpBuffer_67C598, "%d:\t\t%d ", rng_dword_67AB34->field_0_rng, (s16)field_4_next_cmd);
+        sprintf(gTmpBuffer_67C598, "%d:\t\t%d ", gpRng_67AB34->field_0_rng, (s16)field_4_next_cmd);
         gMiss2Log_6F7698.Write_Log_4D9650(gTmpBuffer_67C598);
     }
 }
@@ -5218,7 +5218,7 @@ void miss2_0x11C::SCRCMD_DO_SAVE_GAME_50D3C0()
         SCR_DO_SAVE_GAME* pCmd = (SCR_DO_SAVE_GAME*)gBasePtr_6F8070;
         miss2_0x11C::DisableThread_505790(pCmd->field_8_triggername);
 
-        if ((u32)rng_dword_67AB34->field_0_rng > 0)
+        if ((u32)gpRng_67AB34->field_0_rng > 0)
         {
             u32* mission_flag = (u32*)gfrosty_pasteur_6F8060->field_344_mission_flag;
             if (!mission_flag || *mission_flag)

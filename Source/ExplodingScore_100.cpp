@@ -436,7 +436,7 @@ void ExplodingScorePool::PushScore_596890(Fix16 xpos, Fix16 ypos, Fix16 zpos, u3
             }
             else
             {
-                field_4_pool.unknown_func(pIter);
+                field_4_pool.FindAndDeAllocate(pIter);
                 ++this->field_2_free_scores;
                 break;
             }

@@ -507,10 +507,10 @@ class Ped
 
     inline void sub_433E50()
     {
-        if (rng_dword_67AB34->get_cur_rng_41CFE0() - field_220 > 5)
+        if (gpRng_67AB34->get_cur_rng_41CFE0() - field_220 > 5)
         {
             Set_F250_IfBit_433DD0(25);
-            field_220 = rng_dword_67AB34->get_cur_rng_41CFE0();
+            field_220 = gpRng_67AB34->get_cur_rng_41CFE0();
         }
     }
 

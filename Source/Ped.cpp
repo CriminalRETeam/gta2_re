@@ -1459,13 +1459,13 @@ void Ped::HandleClosePedInteraction_45CAA0()
                         pNearPed_->field_250 = 7;
                     }
                 }
-                else if ((u32)(rng_dword_67AB34->field_0_rng - pNearPed_->field_220) > 5)
+                else if ((u32)(gpRng_67AB34->field_0_rng - pNearPed_->field_220) > 5)
                 {
                     if ((pNearPed_->field_21C & 0x1000000) == 0)
                     {
                         pNearPed_->field_250 = 25;
                     }
-                    pNearPed_->field_220 = rng_dword_67AB34->field_0_rng;
+                    pNearPed_->field_220 = gpRng_67AB34->field_0_rng;
                 }
                 pNearPed_->field_204_killer_id = this->field_200_id;
                 pNearPed_->field_290 = 10;

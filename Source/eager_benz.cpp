@@ -247,9 +247,9 @@ void eager_benz::Service_591C70()
     }
 
     // Handle the previous LABEL_63 section
-    const s32 field_0_rng = rng_dword_67AB34->field_0_rng; // TODO: inline
+    const s32 field_0_rng = gpRng_67AB34->field_0_rng; // TODO: inline
 
-    if ((u32)(rng_dword_67AB34->field_0_rng - field_70_last_car_kill_time) > 15)
+    if ((u32)(gpRng_67AB34->field_0_rng - field_70_last_car_kill_time) > 15)
     {
         field_74_car_kill_combo = 1;
     }
@@ -445,13 +445,13 @@ void eager_benz::OnCarDestroyed_592DD0(Car_BC* pCar, Ped* pPed)
         }
     }
 
-    s32 cur_rng_2 = rng_dword_67AB34->field_0_rng;
+    s32 cur_rng_2 = gpRng_67AB34->field_0_rng;
     if (pCar->field_84_car_info_idx == car_model_enum::FIRETRUK || pCar->field_84_car_info_idx == car_model_enum::COPCAR ||
         pCar->field_84_car_info_idx == car_model_enum::MEDICAR || pCar->field_84_car_info_idx == car_model_enum::SWATVAN ||
         pCar->field_84_car_info_idx == car_model_enum::EDSELFBI)
     {
 
-        if ((unsigned int)(rng_dword_67AB34->field_0_rng - field_1A0_last_emergency_car_kill_time) > 150)
+        if ((unsigned int)(gpRng_67AB34->field_0_rng - field_1A0_last_emergency_car_kill_time) > 150)
         {
             field_1A4_killed_cars_flags = 0;
         }

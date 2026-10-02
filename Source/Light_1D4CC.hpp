@@ -112,7 +112,7 @@ class Light_1D4CC : public LightBase
         if (pLight->field_14_on_time)
         {
             //RemoveFromUpdateListAndFree_47F450(pLight);
-            field_0_pool.unknown_func(pLight);
+            field_0_pool.FindAndDeAllocate(pLight);
         }
         else
         {

@@ -306,7 +306,7 @@ void CarPhysics_B0::SpinOutOnOil_559BA0()
             }
         }
         this->field_A4_oil_spin_timer = 30;
-        const u32 new_val = rng_dword_67AB34->field_0_rng + 30;
+        const u32 new_val = gpRng_67AB34->field_0_rng + 30;
         if (new_val > field_8_total_damage_q)
         {
             this->field_8_total_damage_q = new_val;
@@ -385,7 +385,7 @@ void CarPhysics_B0::ApplyObjectImpact_559E20(Object_2C* pObj)
     UnpackSignedNibbles_529050(pObj->field_26_varrok_idx, &v1, &v2);
     stru_6FDF50.x += dword_6FE2E0 * v1;
     stru_6FDF50.y += dword_6FE2E0 * v2;
-    u32 rng = rng_dword_67AB34->field_0_rng + 15;
+    u32 rng = gpRng_67AB34->field_0_rng + 15;
     if (rng > this->field_8_total_damage_q)
     {
         this->field_8_total_damage_q = rng;
@@ -2373,7 +2373,7 @@ Fix16 CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce
             ApplyForceWithTrailerRedirect_55F740(&PointOfForce, &NewImpulse);
 
             // TODO: many inlines here
-            s32 v14 = base_dmg + rng_dword_67AB34->field_0_rng;
+            s32 v14 = base_dmg + gpRng_67AB34->field_0_rng;
             if (v14 > field_8_total_damage_q)
             {
                 field_8_total_damage_q = v14;
@@ -2407,7 +2407,7 @@ void CarPhysics_B0::AccumulateImpulse_55FC30(Fix16_Point& arg0, s32 base_dmg)
 
         ApplyImpulseWithTrailerRedirect_55FA10(&a2);
 
-        u32 rng_damage = base_dmg + rng_dword_67AB34->field_0_rng;
+        u32 rng_damage = base_dmg + gpRng_67AB34->field_0_rng;
         if (rng_damage > this->field_8_total_damage_q)
         {
             this->field_8_total_damage_q = rng_damage;

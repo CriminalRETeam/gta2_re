@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-DEFINE_GLOBAL(rng*, rng_dword_67AB34, 0x67AB34);
+DEFINE_GLOBAL(rng*, gpRng_67AB34, 0x67AB34);
 DEFINE_GLOBAL(rng, gRng_6F6784, 0x6F6784);
 
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
@@ -61,7 +61,7 @@ s16 rng::get_int_4F7AE0(const s16& max_rnd)
         {
             this->field_0_rng = rand() % max_rnd;
         }
-        sprintf(gTmpBuffer_67C598, "%d: random (get_int) %d", rng_dword_67AB34->field_0_rng, (s16)this->field_0_rng);
+        sprintf(gTmpBuffer_67C598, "%d: random (get_int) %d", gpRng_67AB34->field_0_rng, (s16)this->field_0_rng);
         gFile_67C530.Write_4D9620(gTmpBuffer_67C598);
         return (s16)this->field_0_rng;
     }
@@ -91,7 +91,7 @@ u8 rng::get_uint8_4F7B70(const u8& max_rnd)
         {
             this->field_0_rng = rand() % max_rnd;
         }
-        sprintf(gTmpBuffer_67C598, "%d: random (get_uint8) %d", rng_dword_67AB34->field_0_rng, (u8)field_0_rng);
+        sprintf(gTmpBuffer_67C598, "%d: random (get_uint8) %d", gpRng_67AB34->field_0_rng, (u8)field_0_rng);
         gFile_67C530.Write_4D9620(gTmpBuffer_67C598);
         return (u8)this->field_0_rng;
     }

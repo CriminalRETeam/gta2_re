@@ -4857,7 +4857,7 @@ void Car_BC::UpdateRoofLightFlasher_441B50()
 MATCH_FUNC(0x441c00)
 void Car_BC::sub_441C00()
 {
-    if (!(rng_dword_67AB34->field_0_rng % 3u))
+    if (!(gpRng_67AB34->field_0_rng % 3u))
     {
         if (field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDoor1_11))
         {
@@ -4906,7 +4906,7 @@ void Car_BC::sub_441C00()
 MATCH_FUNC(0x441d40)
 void Car_BC::sub_441D40()
 {
-    if (!(rng_dword_67AB34->field_0_rng % 3u))
+    if (!(gpRng_67AB34->field_0_rng % 3u))
     {
         if ((this->field_A4_light_flags & 4) != 0)
         {
@@ -5387,7 +5387,7 @@ void Car_BC::TryHitchTrailer_442810()
                     else
                     {
                         pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
-                        if (rng_dword_67AB34->field_0_rng >= (u32)pCar->field_58_physics->field_8_total_damage_q)
+                        if (gpRng_67AB34->field_0_rng >= (u32)pCar->field_58_physics->field_8_total_damage_q)
                         {
                             Fix16_Point v16 = (pCar->field_50_car_sprite->get_x_y_443580() + (v6.NormalizeSafe_442AD0() * dword_677888));
                             s32 a5 = 1;

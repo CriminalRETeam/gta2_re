@@ -251,7 +251,7 @@ class Pool
         }
     }
 
-    PoolType* unknown_func(PoolType* pToFind)
+    PoolType* FindAndDeAllocate(PoolType* pToFind)
     {
         PoolType* pLast = 0;
 
