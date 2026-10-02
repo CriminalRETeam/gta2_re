@@ -2912,9 +2912,7 @@ void Hud_MapZone_98::DrawZoneName_5D5900()
 {
     if (field_0_timer)
     {
-        sprite_index* sprite_index_5AA440 =
-            gGtx_0x106C_703DD4->get_sprite_index_5AA440(gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, 159));
-        s32 width = sprite_index_5AA440->field_4_width;
+        s32 width = get_sprite_width_4C7220(159);
 
         DrawFigureScaled_5D7670(6, 159, (u32)(320 - (width / 2) - width), (u32)27, kAngZero_706610, 2, 0, field_90_alpha_flag, field_94_transparency);
 
