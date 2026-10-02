@@ -2613,10 +2613,51 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
     */
 }
 
-STUB_FUNC(0x5A4DA0)
+// World to screen pixels. DrawCollisionBox_5A4DA0 expands the inline, except for its last call, which
+// is the out-of-line copy sub_5A5690.
+static inline void ProjectToScreen_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
+{
+    z = dword_7035C4 / ((dword_7035E4 - z) + gViewCamera_676978->field_98_cam_pos2.field_8_z);
+    *pOut1 = (((x - gViewCamera_676978->field_98_cam_pos2.field_0_x) * gViewCamera_676978->field_60.x) * z) +
+        Fix16(gViewCamera_676978->field_70_screen_px_center_x);
+    *pOut2 = (((y - gViewCamera_676978->field_98_cam_pos2.field_4_y) * gViewCamera_676978->field_60.x) * z) +
+        Fix16(gViewCamera_676978->field_74_screen_px_center_y);
+}
+
+DEFINE_GLOBAL(u16, gDebugColour_626260, 0x626260);
+
+WIP_FUNC(0x5A4DA0)
 void Sprite_4C::DrawCollisionBox_5A4DA0(Fix16 zpos)
 {
-    NOT_IMPLEMENTED;
+    if (field_48_bBoxUpToDate)
+    {
+        Fix16 x1;
+        Fix16 y1;
+        Fix16 x2;
+        Fix16 y2;
+        Fix16 x3;
+        Fix16 y3;
+        Fix16 x4;
+        Fix16 y4;
+        ProjectToScreen_5A5690(field_30_boundingBox.field_0_left, field_30_boundingBox.field_8_top, zpos, &x1, &y1);
+        ProjectToScreen_5A5690(field_30_boundingBox.field_4_right, field_30_boundingBox.field_8_top, zpos, &x2, &y2);
+        ProjectToScreen_5A5690(field_30_boundingBox.field_4_right, field_30_boundingBox.field_C_bottom, zpos, &x3, &y3);
+        ProjectToScreen_5A5690(field_30_boundingBox.field_0_left, field_30_boundingBox.field_C_bottom, zpos, &x4, &y4);
+        DrawDebugLine_5D7DD0((s16)x1.ToInt(), (s16)y1.ToInt(), (s16)x2.ToInt(), (s16)y2.ToInt(), gDebugColour_626260);
+        DrawDebugLine_5D7DD0((s16)x2.ToInt(), (s16)y2.ToInt(), (s16)x3.ToInt(), (s16)y3.ToInt(), gDebugColour_626260);
+        DrawDebugLine_5D7DD0((s16)x3.ToInt(), (s16)y3.ToInt(), (s16)x4.ToInt(), (s16)y4.ToInt(), gDebugColour_626260);
+        DrawDebugLine_5D7DD0((s16)x4.ToInt(), (s16)y4.ToInt(), (s16)x1.ToInt(), (s16)y1.ToInt(), gDebugColour_626260);
+
+        gDebugColour_626260 = 0xFFFF;
+        ProjectToScreen_5A5690(field_C_renderingRect[0].x, field_C_renderingRect[0].y, zpos, &x1, &y1);
+        ProjectToScreen_5A5690(field_C_renderingRect[1].x, field_C_renderingRect[1].y, zpos, &x2, &y2);
+        ProjectToScreen_5A5690(field_C_renderingRect[2].x, field_C_renderingRect[2].y, zpos, &x3, &y3);
+        sub_5A5690(field_C_renderingRect[3].x, field_C_renderingRect[3].y, zpos, &x4, &y4);
+        DrawDebugLine_5D7DD0((s16)x1.ToInt(), (s16)y1.ToInt(), (s16)x2.ToInt(), (s16)y2.ToInt(), gDebugColour_626260);
+        DrawDebugLine_5D7DD0((s16)x2.ToInt(), (s16)y2.ToInt(), (s16)x3.ToInt(), (s16)y3.ToInt(), gDebugColour_626260);
+        DrawDebugLine_5D7DD0((s16)x3.ToInt(), (s16)y3.ToInt(), (s16)x4.ToInt(), (s16)y4.ToInt(), gDebugColour_626260);
+        DrawDebugLine_5D7DD0((s16)x4.ToInt(), (s16)y4.ToInt(), (s16)x1.ToInt(), (s16)y1.ToInt(), gDebugColour_626260);
+    }
 }
 
 MATCH_FUNC(0x5a5860)
