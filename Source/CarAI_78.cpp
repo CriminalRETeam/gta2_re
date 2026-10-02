@@ -325,7 +325,7 @@ void CarAI_78::DoShortcutsUsingJunctions_447970()
                             if ((u8)v7 <= (u8)(gCurrCarAI_xpos_677C38.ToInt()))
                             {
                             LABEL_13:
-                                this->field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
+                                this->field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
                                 this->field_0_car->field_60->field_22 = 0;
                                 this->field_0_car->sub_43AF60();
                                 this->field_0_car->field_60->field_26 = 1;
@@ -355,6 +355,7 @@ void CarAI_78::DoShortcutsUsingJunctions_447970()
             }
 
             s32 v14 = gCurrCarAI_ypos_677C30.ToInt();
+            // 9.6f: Junction_10::ContainsPoint (0x40CEE0, inlined, using it changes the code)
             if ((s16)(gCurrCarAI_xpos_677C38.ToInt()) < Junction_58A0B0->field_C_min_x ||
                 (s16)(gCurrCarAI_xpos_677C38.ToInt()) > Junction_58A0B0->field_E_max_x || (s16)v14 < Junction_58A0B0->field_D_min_y ||
                 (s16)v14 > Junction_58A0B0->field_F_max_y)

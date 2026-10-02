@@ -41,6 +41,7 @@ class Junction_10
     EXPORT char_type sub_588580(s32 a2);
     EXPORT u16 sub_5885C0(u16 a2);
 
+    // 9.6f 0x40CEE0
     inline bool ContainsPoint(s16 x, s16 y)
     {
         return x >= field_C_min_x && x <= field_E_max_x && y >= field_D_min_y && y <= field_F_max_y;
