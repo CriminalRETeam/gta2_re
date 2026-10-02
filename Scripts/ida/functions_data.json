@@ -4755,22 +4755,22 @@
         "v105_address": "0x48e780"
     },
     {
-        "name": "sub_48F5A0",
+        "name": "MarkUsed_48F5A0",
         "v96f_address": null,
         "v105_address": "0x48f5a0"
     },
     {
-        "name": "sub_48F5C0",
+        "name": "ClearMask_48F5C0",
         "v96f_address": null,
         "v105_address": "0x48f5c0"
     },
     {
-        "name": "Sprite_3CC::sub_48F600",
+        "name": "Sprite_3CC::FindCachedMask_48F600",
         "v96f_address": null,
         "v105_address": "0x48f600"
     },
     {
-        "name": "Sprite_3CC::sub_48F690",
+        "name": "Sprite_3CC::FindLeastRecentlyUsed_48F690",
         "v96f_address": null,
         "v105_address": "0x48f690"
     },
@@ -14635,7 +14635,7 @@
         "v105_address": "0x59e300"
     },
     {
-        "name": "Sprite::sub_59E320",
+        "name": "Sprite::IncreaseZoom_59E320",
         "v96f_address": null,
         "v105_address": "0x59e320"
     },
@@ -14695,7 +14695,7 @@
         "v105_address": "0x59e930"
     },
     {
-        "name": "Sprite::sub_59E960",
+        "name": "Sprite::SetDefaultNumBySpriteType_59E960",
         "v96f_address": null,
         "v105_address": "0x59e960"
     },
@@ -14710,7 +14710,7 @@
         "v105_address": "0x59ea00"
     },
     {
-        "name": "Sprite::sub_59EAA0",
+        "name": "Sprite::GetTruePalette_59EAA0",
         "v96f_address": null,
         "v105_address": "0x59eaa0"
     },
@@ -14830,7 +14830,7 @@
         "v105_address": "0x5a1eb0"
     },
     {
-        "name": "sub_5A21F0",
+        "name": "CheckMapZCollision_5A21F0",
         "v96f_address": null,
         "v105_address": "0x5a21f0"
     },
@@ -14850,7 +14850,7 @@
         "v105_address": "0x5a2500"
     },
     {
-        "name": "sub_5A26E0",
+        "name": "GetNegatedAngle_5A26E0",
         "v96f_address": null,
         "v105_address": "0x5a26e0"
     },

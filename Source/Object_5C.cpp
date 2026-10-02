@@ -850,7 +850,7 @@ char_type Object_2C::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite
         field_10_obj_3c->field_1C = kFpZero_6F8E10;
     }
 
-    if (pSprite->sub_5A21F0())
+    if (pSprite->CheckMapZCollision_5A21F0())
     {
         *a5 = 1;
         field_10_obj_3c->field_10 = kFpZero_6F8E10;
@@ -1089,7 +1089,7 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
     v5->set_ang_lazy_420690(field_4->field_0);
     v5->AllocInternal_59F950(this->field_8->field_0, this->field_8->field_4, this->field_8->field_8);
     v5->field_30_sprite_type_enum = this->field_4->field_30_sprite_type_enum;
-    v5->sub_59E960();
+    v5->SetDefaultNumBySpriteType_59E960();
     v5->field_8_pSprite = this->field_4->field_8_pSprite;
 
     Fix16 v11;
@@ -2443,7 +2443,7 @@ void Object_2C::HandleWaterDeath_528900()
 
     if ((rng_dword_67AB34->field_0_rng & 3) == 0)
     {
-        field_4->sub_59E320(1);
+        field_4->IncreaseZoom_59E320(1);
         if (field_4->ShrinkSprite_59E390(dword_6F8F5C, dword_6F8F5C, 0))
         {
             // inline - because has to be a local here?

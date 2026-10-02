@@ -270,7 +270,7 @@ void Wolfy_30::state_3_12_540D30(Fix16 speed, Ang16 a2)
         pParticle->field_2C_counter = 32;
         pParticle->field_2E = 32;
         pNext->field_30_sprite_type_enum = 8;
-        pNext->sub_59E960();
+        pNext->SetDefaultNumBySpriteType_59E960();
         pParticle->field_38_state = 3;
 
         Sprite* v19 = pParticle->field_30_pNext;

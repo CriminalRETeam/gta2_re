@@ -671,7 +671,7 @@ void Phi_74::ApplyDefinitionToSprite_5331A0(Sprite* pSprite)
     s32 f40; // eax
 
     pSprite->field_30_sprite_type_enum = this->field_28_sprite_type;
-    pSprite->sub_59E960();
+    pSprite->SetDefaultNumBySpriteType_59E960();
     f1E = this->field_1E_sprite_palette;
 
     if (pSprite->field_22_sprite_id != f1E)

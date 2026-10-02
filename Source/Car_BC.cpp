@@ -3443,7 +3443,7 @@ void Car_BC::sub_43DD60()
     bUnknown = 0;
 
     sub_43DBD0();
-    field_50_car_sprite->sub_59E320(1);
+    field_50_car_sprite->IncreaseZoom_59E320(1);
     field_0_qq.sub_5A6BD0();
 
     if (CarShrinkSprite_43DC80(2, 2))
