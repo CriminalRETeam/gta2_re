@@ -475,7 +475,7 @@ void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3
 
 // 9.6f 0x4867E0
 WIP_FUNC(0x5229b0)
-void Object_2C::ResolveCollisionWithPed_5229B0(Char_B4* pB4, Fix16_Point* pPoint, s32 not_used)
+void Object_2C::ResolveCollisionWithPed_5229B0(Char_B4* pB4, Fix16_Point* pPoint, u8 not_used)
 {
     WIP_IMPLEMENTED;
 
