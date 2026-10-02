@@ -854,7 +854,7 @@ gmp_block_info* Map_0x370::GetBlockClamped_4DFEE0(s32 x_coord, s32 y_coord, s32 
     }
 
     field_0_pDmap = this->field_0_pDmap;
-    pColInfo = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y_coord][x_coord]];
+    pColInfo = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[*field_0_pDmap->get_base_42A830(y_coord, x_coord)];
 
     if (z_coord < (u8)pColInfo->field_0_height)
     {
