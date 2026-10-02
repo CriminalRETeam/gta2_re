@@ -8948,28 +8948,30 @@ void Ped::FollowCarOnFootWithOffset_46A350()
     }
 }
 
-WIP_FUNC(0x46a530)
+MATCH_FUNC(0x46a530)
 void Ped::FireAtObject_46A530()
 {
-    WIP_IMPLEMENTED;
+    Sprite_18* pRoofGun = field_16C_car->field_0_qq.GetSpriteForModel_5A6A50(148);
+    Sprite* pGunSprite = pRoofGun->field_0;
+    Fix16 gun_x = pGunSprite->field_14_xy.x;
+    Fix16 gun_y = pGunSprite->field_14_xy.y;
 
-    Sprite_18* pSprite_148 = field_16C_car->field_0_qq.GetSpriteForModel_5A6A50(148);
-    Sprite* pSprite_18 = pSprite_148->field_0;
-    Fix16 x_v = pSprite_18->field_14_xy.x;
-    Fix16 y_v = pSprite_18->field_14_xy.y;
-    Fix16 xd = field_1A0_objective_target_object->field_4->field_14_xy.x - x_v;
-    Fix16 yd = field_1A0_objective_target_object->field_4->field_14_xy.y - y_v;
-    Ang16 v7 = Fix16::atan2_fixed_405320(yd, xd);
+    Ang16 aim_angle;
+    {
+        Fix16 xd = field_1A0_objective_target_object->field_4->field_14_xy.x - gun_x;
+        Fix16 yd = field_1A0_objective_target_object->field_4->field_14_xy.y - gun_y;
+        aim_angle = Fix16::atan2_fixed_405320(yd, xd);
+    }
 
     field_21C |= 0x80;
 
-    if (field_16C_car->RotateRoofObjectTowardTarget_440C10(v7) == 0)
+    if (field_16C_car->RotateRoofObjectTowardTarget_440C10(aim_angle))
     {
-        field_21C &= ~0x80; // TODO: check values
+        field_21C |= 0x800;
     }
     else
     {
-        field_21C |= 0x80;
+        field_21C &= ~0x800;
     }
 }
 
