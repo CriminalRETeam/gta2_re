@@ -133,6 +133,12 @@ class Char_B4
     Fix16 field_AC_zpos;
     s32 field_B0;
 
+    // 9.6f 0x48A4C0
+    inline s32 get_ped_state_1_48A4C0()
+    {
+        return field_8_ped_state_1;
+    }
+
     // 9.6f 0x492180
     inline void Set_F8_ped_state_1_433910(s32 a2)
     {

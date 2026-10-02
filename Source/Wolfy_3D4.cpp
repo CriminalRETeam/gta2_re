@@ -565,10 +565,10 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
             Char_B4* pB4 = pCollisionSprite->AsCharB4_40FEA0();
             if (pB4)
             {
-                if (timerVal > 50u && pB4->field_8_ped_state_1 != ped_state_1::immobilized_8)
+                if (timerVal > 50u && pB4->get_ped_state_1_48A4C0() != ped_state_1::immobilized_8)
                 {
                     Ped* pPed = pB4->field_7C_pPed;
-                    s32 ped_id = gVarrok_7F8_703398->field_0[this->field_14->field_26_varrok_idx].field_0_ped_id;
+                    s32 ped_id = gVarrok_7F8_703398->GetPedId_420F10(this->field_14->field_26_varrok_idx);
                     if (ped_id)
                     {
                         pPed->field_204_killer_id = ped_id;
@@ -585,13 +585,10 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
 
                     Ang16 ang = Fix16::atan2_fixed_405320(pMaybeX_FP16, pMaybeY_FP16);
 
-                    Fix16 xd_abs = field_14->field_4->field_14_xy.x - pCollisionSprite->field_14_xy.x;
-                    Fix16 yd_abs = field_14->field_4->field_14_xy.y - pCollisionSprite->field_14_xy.y;
-
-                    Fix16 v48 = Fix16::Abs_436A50(yd_abs);
-                    Fix16 v27 = Fix16::Abs_436A50(xd_abs);
-
-                    Fix16 cur_max = Fix16::Max_44E540(v27, v48);
+                    Fix16 cur_max = Fix16::MaxAbsDistance_42A6B0(pCollisionSprite->field_14_xy.x,
+                                                                 pCollisionSprite->field_14_xy.y,
+                                                                 field_14->field_4->field_14_xy.x,
+                                                                 field_14->field_4->field_14_xy.y);
                     if (cur_max <= this->field_28)
                     {
                         char_type a5;
@@ -623,15 +620,10 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                     {
                         if (timerVal == 99)
                         {
-                            Sprite* v41 = this->field_14->field_4;
-
-                            Fix16 xd__1 = v41->field_14_xy.x - pCollisionSprite->field_14_xy.x;
-                            Fix16 yd__1 = v41->field_14_xy.y - pCollisionSprite->field_14_xy.y;
-
-                            Fix16 v55 = Fix16::Abs(yd__1);
-                            Fix16 v56 = Fix16::Abs(xd__1);
-
-                            if (Fix16::Max_44E540(v56, v55) <= this->field_28)
+                            if (Fix16::MaxAbsDistance_42A6B0(pCollisionSprite->field_14_xy.x,
+                                                             pCollisionSprite->field_14_xy.y,
+                                                             this->field_14->field_4->field_14_xy.x,
+                                                             this->field_14->field_4->field_14_xy.y) <= this->field_28)
                             {
                                 Fix16_Point tmp = this->field_14->field_4->get_x_y_443580();
                                 pCar->sub_443710(&tmp);
@@ -642,6 +634,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                     {
                         if (!pCar->IsTrainModel_403BA0() && !pCar->sub_43B850(field_10_type_or_state))
                         {
+                            // 9.6f: Fix16::MaxAbsDistance_42A6B0 (inlined, using it here makes the diff worse)
                             Sprite* v33 = this->field_14->field_4;
                             Fix16 xd_ = v33->field_14_xy.x - pCollisionSprite->field_14_xy.x;
                             Fix16 yd_ = v33->field_14_xy.y - pCollisionSprite->field_14_xy.y;
@@ -655,6 +648,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                             }
                             else
                             {
+                                // 9.6f: Varrok_7F8::GetPedId_420F10 (inlined, using it here makes the diff worse)
                                 s32 ped_id_ = gVarrok_7F8_703398->field_0[this->field_14->field_26_varrok_idx].field_0_ped_id;
                                 if (ped_id_)
                                 {
