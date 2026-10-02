@@ -2895,7 +2895,7 @@ void Car_BC::sub_43B770()
     Ped* pDriver = this->field_54_driver;
     if (pDriver)
     {
-        if (pDriver->field_240_occupation != 4)
+        if (pDriver->get_occupation_403980() != 4)
         {
             pDriver->field_204_killer_id = this->field_70_exploder_ped_id;
             this->field_54_driver->field_290 = this->field_90;
@@ -3837,7 +3837,7 @@ void Car_BC::HandleCarExplosion_43D840(s32 a2)
 
         if (field_54_driver)
         {
-            if (field_54_driver->field_240_occupation == ped_ocupation_enum::unknown_2)
+            if (field_54_driver->get_occupation_403980() == ped_ocupation_enum::unknown_2)
             {
                 bOcc2 = 1;
             }
@@ -3883,7 +3883,7 @@ void Car_BC::HandleCarExplosion_43D840(s32 a2)
                     if (zone_idx != -1)
                     {
                         pZone = gGangPool_CA8_67E274->GangByIdx_4BF1C0(zone_idx);
-                        pZone->sub_4BEF70(pExploder->field_15C_player->field_2E_idx, 1u);
+                        pZone->sub_4BEF70(pExploder->field_15C_player->get_idx_4219D0(), 1u);
                     }
                     if (pExploder->field_15C_player)
                     {
@@ -3974,7 +3974,7 @@ void Car_BC::KillContainedPeds_43DB80()
     pDriver = this->field_54_driver;
     if (pDriver)
     {
-        if (pDriver->field_240_occupation != 4)
+        if (pDriver->get_occupation_403980() != 4)
         {
             if (pDriver->field_15C_player)
             {
@@ -4074,7 +4074,7 @@ void Car_BC::sub_43DD60()
         field_54_driver = this->field_54_driver;
         if (field_54_driver)
         {
-            bUnknown = field_54_driver->field_240_occupation == ped_ocupation_enum::unknown_2;
+            bUnknown = field_54_driver->get_occupation_403980() == ped_ocupation_enum::unknown_2;
         }
         exploder_ped_id = this->field_70_exploder_ped_id;
         if (exploder_ped_id)
@@ -4102,7 +4102,7 @@ void Car_BC::sub_43DD60()
                     if (gang_idx != -1)
                     {
                         pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(gang_idx);
-                        pGang->sub_4BEF70(pPed->field_15C_player->field_2E_idx, 1u);
+                        pGang->sub_4BEF70(pPed->field_15C_player->get_idx_4219D0(), 1u);
                     }
                     if (pPed->field_15C_player)
                     {
@@ -4660,16 +4660,16 @@ void Car_BC::sub_4406E0(Ped* pPed)
     }
     if (pPlayer)
     {
-        if (pPlayer->field_0_bIsUser)
+        if (pPlayer->IsUser_41DC70())
         {
-            if (field_54_driver->field_240_occupation != ped_ocupation_enum::empty)
+            if (field_54_driver->get_occupation_403980() != ped_ocupation_enum::empty)
             {
                 gHud_2B00_706620->sub_5D5240(GetCarStr_439F80());
             }
         }
         sub_443E50();
         pPlayer->sub_5645B0(this);
-        if (field_54_driver->field_240_occupation != ped_ocupation_enum::empty)
+        if (field_54_driver->get_occupation_403980() != ped_ocupation_enum::empty)
         {
             pPlayer->sub_564AD0(this);
         }
@@ -4692,9 +4692,9 @@ void Car_BC::ClearDriver_4407F0()
     Player* pPlayer = field_54_driver->field_15C_player;
     if (pPlayer)
     {
-        if (field_54_driver->field_240_occupation != 1)
+        if (field_54_driver->get_occupation_403980() != 1)
         {
-            if (pPlayer->field_0_bIsUser)
+            if (pPlayer->IsUser_41DC70())
             {
                 gHud_2B00_706620->field_0.field_0_display_time = 0;
             }
@@ -5385,7 +5385,7 @@ void Car_BC::sub_441A70()
     for (i = 0; i < *pRemapCount; i++)
     {
         field_C_doors[i].sub_439E40(i);
-        field_C_doors[i].field_8_pObj = 0;
+        field_C_doors[i].set_ped_421380(0);
     }
 
     for (i = *pRemapCount; i < 4; i++)
@@ -6496,7 +6496,7 @@ void Car_BC::BuyCarWeapon_4438C0(s32 weapon_kind)
     if (pWeapon && pWeapon->is_max_capacity_5DCEA0())
     {
         // Ammo full
-        if (pPlayer->field_0_bIsUser)
+        if (pPlayer->IsUser_41DC70())
         {
             gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, "arig");
         }
@@ -6512,7 +6512,7 @@ void Car_BC::BuyCarWeapon_4438C0(s32 weapon_kind)
 
         if (car_weapon_cost <= pPlayer->field_2D4_scores.GetScore_592370())
         {
-            if (pPlayer->field_0_bIsUser)
+            if (pPlayer->IsUser_41DC70())
             {
                 gHud_2B00_706620->field_DC.SetHudBrief_5D3F10(1, "bdone", car_weapon_cost);
             }
@@ -6557,7 +6557,7 @@ void Car_BC::BuyCarWeapon_4438C0(s32 weapon_kind)
 MATCH_FUNC(0x443AB0)
 void __stdcall Car_BC::sub_443AB0(Player* pPlayer, s32 weapon_cost)
 {
-    if (pPlayer->field_0_bIsUser)
+    if (pPlayer->IsUser_41DC70())
     {
         gHud_2B00_706620->field_DC.SetHudBrief_5D3F10(1, "nspraya", weapon_cost);
     }
@@ -6570,7 +6570,7 @@ void Car_BC::ResprayOrChangePlates(u8 remap)
     const s32 cost = gCar_6C_677930->field_69_do_free_shopping != 0 ? 0 : 5000;
     if (cost <= pPlayer->field_2D4_scores.GetScore_592370())
     {
-        if (pPlayer->field_0_bIsUser)
+        if (pPlayer->IsUser_41DC70())
         {
             if (remap == 0xFD) // clean plates only
             {
@@ -6618,7 +6618,7 @@ void Car_BC::ResprayOrCleanPlates(u8 remap)
             ResprayOrChangePlates(0xFD); // change plates
         }
     }
-    else if (field_54_driver->field_15C_player->field_0_bIsUser)
+    else if (field_54_driver->field_15C_player->IsUser_41DC70())
     {
         // I ain't touching that get outta here!
         gHud_2B00_706620->field_DC.SetHudBrief_5D4400(1, "nespray");
@@ -6786,7 +6786,7 @@ u32 Car_BC::GetEffectiveDriverPedId_444090()
     }
 
     Ped* pDriver = a1->field_54_driver;
-    if (pDriver->field_240_occupation == 4)
+    if (pDriver->get_occupation_403980() == 4)
     {
         return a1->field_70_exploder_ped_id;
     }
