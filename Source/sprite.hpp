@@ -25,6 +25,8 @@ class Object_2C;
 class infallible_turing;
 class Ped;
 
+EXPORT void __stdcall sub_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2);
+
 class Sprite_4C
 {
   public:

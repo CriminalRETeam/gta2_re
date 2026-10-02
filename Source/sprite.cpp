@@ -2690,6 +2690,16 @@ Sprite_18_Pool::~Sprite_18_Pool()
     field_0_pool.field_0_pHead = 0;
 }
 
+MATCH_FUNC(0x5A5690)
+EXPORT void __stdcall sub_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
+{
+    z = dword_7035C4 / ((dword_7035E4 - z) + gViewCamera_676978->field_98_cam_pos2.field_8_z);
+    *pOut1 = (((x - gViewCamera_676978->field_98_cam_pos2.field_0_x) * gViewCamera_676978->field_60.x) * z) +
+        Fix16(gViewCamera_676978->field_70_screen_px_center_x);
+    *pOut2 = (((y - gViewCamera_676978->field_98_cam_pos2.field_4_y) * gViewCamera_676978->field_60.x) * z) +
+        Fix16(gViewCamera_676978->field_74_screen_px_center_y);
+}
+
 MATCH_FUNC(0x5a57a0)
 s32 Sprite_4C::PoolAllocate()
 {
