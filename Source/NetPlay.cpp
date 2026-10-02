@@ -2241,7 +2241,7 @@ s32 NetPlay::NoRefs_Send_521BE0(Network_8* pSendData, s32 a3)
     memset(&pStru, 0, sizeof(pStru));
     pStru.header.field_4_sub_type = 3;
     pStru.header.field_0_type = 1;
-    pStru.field_8 = field_758_n2.field_8[field_5D4_player_idx] - (char_type)a3;
+    pStru.field_8 = field_758_n2.field_8[GetPlayerIdx_409C40()] - (char_type)a3;
     pStru.field_9 = 1;
     pStru.field_D = (s32)pSendData->field_0;
     pStru.field_11_len = pSendData->field_4_len;
