@@ -4458,7 +4458,7 @@ u8 Frontend::GetPrevUnlockedStageBonusCode_4B7800(player_stats_0xA4* pStats)
             }
             if (pStats->field_0_plyr_stage_stats[stage][bonus_].field_0_is_stage_unlocked == 1 && bonus)
             {
-                return bonus | (0x10 * stage_);
+                return gLucid_hamilton_67E8E0.EncodeStage_453A40(stage_, bonus);
             }
         }
         if (stage_)
