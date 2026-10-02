@@ -10,7 +10,7 @@ class Firefighter_28
 {
   public:
     // inline
-    void sub_450C10()
+    void Clear_450C10()
     {
         field_C_target_car = 0;
         field_8_state = 0;
@@ -26,7 +26,7 @@ class Firefighter_28
     EXPORT void init_4A85C0();
     EXPORT void Reset_4A85E0();
 
-    s16 field_0;
+    s16 field_0_id;
     s16 field_2;
     s32 field_4_bActive;
     s32 field_8_state;
@@ -47,9 +47,9 @@ class FirefighterPool_54
     {
         for (s32 i = 0; i < 2; i++)
         {
-            field_0[i].init_4A85C0();
+            field_0_firefighters[i].init_4A85C0();
         }
-        sub_4A88D0();
+        ResetCount_4A88D0();
     }
 
     ~FirefighterPool_54()
@@ -57,13 +57,13 @@ class FirefighterPool_54
         // TODO: Should this be empty?
     }
 
-    EXPORT void sub_4A85F0();
-    EXPORT Firefighter_28* sub_4A8620(Car_BC* a2, Fix16 x, Fix16 y, Fix16 z);
+    EXPORT void FireEnginesService_4A85F0();
+    EXPORT Firefighter_28* DispatchFirefighters_4A8620(Car_BC* a2, Fix16 x, Fix16 y, Fix16 z);
     EXPORT Firefighter_28* New28_4A8800();
-    EXPORT char_type sub_4A8820(Car_BC* a2);
-    EXPORT void sub_4A88D0();
+    EXPORT char_type TryDispatchFirefightersToCar_4A8820(Car_BC* a2);
+    EXPORT void ResetCount_4A88D0();
 
-    Firefighter_28 field_0[2];
+    Firefighter_28 field_0_firefighters[2];
     s16 field_50_count;
     s16 field_52;
 };

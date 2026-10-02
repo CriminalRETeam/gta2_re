@@ -22,21 +22,21 @@ class Police_7B8
   public:
     Police_7B8()
     {
-        sub_56F400();
+        Init_56F400();
     }
 
     EXPORT ~Police_7B8();
-    EXPORT void sub_56F400();
-    EXPORT bool sub_56F4D0(Ped* a2);
+    EXPORT void Init_56F400();
+    EXPORT bool HandlePedDeath_56F4D0(Ped* a2);
     EXPORT PoliceCrew_38* New_56F560();
     EXPORT Ped* SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
     EXPORT void sub_56F6D0(Car_BC* a2);
     EXPORT bool HasCriminalBeenFound_56F800(Ped* a2);
     EXPORT bool IsPedActiveCriminal_56F880(Ped* a2);
     EXPORT void SetArrestedPed_56F8E0(Ped* a2, Ped* a3);
-    EXPORT void sub_56F940(Ped* pCriminal);
+    EXPORT void RegisterCriminal_56F940(Ped* pCriminal);
     EXPORT void sub_56FA40();
-    EXPORT char_type sub_56FAA0(Police_7C* a2);
+    EXPORT char_type DispatchNewCrewToService_56FAA0(Police_7C* a2);
     EXPORT void sub_56FBD0();
     EXPORT void Service_570270();
     EXPORT void SpawnWalkingGuard_570320(Ped* pPed, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
@@ -56,7 +56,7 @@ class Police_7B8
     Police_7C field_464_services[4]; // array of calls for service
     s32 field_654_wanted_level;
     u8 field_658_count;
-    char_type field_659;
+    char_type field_659_max_count;
     char_type field_65A;
     char_type field_65B;
     s32 field_65C_highest_crew_type_on_service;

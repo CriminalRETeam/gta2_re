@@ -3839,7 +3839,7 @@ void miss2_0x11C::SCRCMD_IS_CHAR_FIRE_ONSCREEN_50B3D0()
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     Ped* pPed = pPointer->field_8_char;
     BitSet32 flag = pPed->field_21C;
-    if (flag.check_bit(11) && pPed->field_20e == 0 && pPed->field_170_selected_weapon)
+    if (flag.check_bit(11) && pPed->field_20e_offscreen_counter == 0 && pPed->field_170_selected_weapon)
     {
         field_8 = true;
     }
@@ -4224,7 +4224,7 @@ void miss2_0x11C::SCRCMD_CHAR_GROUP_50BD10()
     switch (gBasePtr_6F8070->field_2_type)
     {
         case SCRCMD_MAKE_LEADER:
-            pPtr2->field_8_char->sub_4702D0(pChar);
+            pPtr2->field_8_char->BecomeLeaderOfGroup_4702D0(pChar);
             break;
 
         case SCRCMD_REMOVE_CHAR:
@@ -6197,7 +6197,7 @@ void miss2_0x11C::SCRCMD_CHAR_INTO_CAR_50F060()
     SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_char_idx);
     SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10_car_idx);
 
-    Ped* pNewPed = gPedManager_6787BC->sub_470F30();
+    Ped* pNewPed = gPedManager_6787BC->AllocatePed_470F30();
     pParam1->field_8_char = pNewPed;
 
     if (pNewPed)

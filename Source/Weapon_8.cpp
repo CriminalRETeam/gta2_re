@@ -104,8 +104,8 @@ char_type Weapon_8::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car_BC* pCar)
     {
         if (pCar->field_54_driver)
         {
-            pCar->field_54_driver->field_178 = gWeapon_8_707018->allocate_5E3C10(weapon_kind, pCar->field_54_driver, 99u);
-            pCar->field_54_driver->field_178->field_14_car = pCar;
+            pCar->field_54_driver->field_178_car_weapon = gWeapon_8_707018->allocate_5E3C10(weapon_kind, pCar->field_54_driver, 99u);
+            pCar->field_54_driver->field_178_car_weapon->field_14_car = pCar;
         }
     }
 

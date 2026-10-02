@@ -175,7 +175,7 @@ void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
                     break;
 
                 default:
-                    pPed->sub_45B550();
+                    pPed->SetRecentCrimeTimer_45B550();
                     ReportCrime(crime_type, pPed->field_200_id);
                     if (pPed->field_15C_player)
                     {

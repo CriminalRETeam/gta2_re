@@ -156,7 +156,7 @@ bool PedGroup::PurgeMembersInCars_4C9040()
 }
 
 MATCH_FUNC(0x4c9150)
-char_type PedGroup::sub_4C9150()
+char_type PedGroup::AreAllMembersOffScreen_4C9150()
 {
     if (field_2C_ped_leader->field_168_game_object == NULL || field_2C_ped_leader->get_field_20e() < 0x28)
     {
@@ -218,7 +218,7 @@ void PedGroup::KillEntireGroup_4C9240()
 
     Ped* p2CPed = this->field_2C_ped_leader;
     p2CPed->field_164_ped_group = 0;
-    p2CPed->field_23C = 0;
+    p2CPed->field_23C_group_idx = 0;
     p2CPed->Kill_46F9D0();
     char_type i = 0;
     if (this->field_34_count)
@@ -228,7 +228,7 @@ void PedGroup::KillEntireGroup_4C9240()
         {
             Ped* pPed = this->field_4_ped_list[last_i];
             pPed->field_164_ped_group = 0;
-            pPed->field_23C = 0;
+            pPed->field_23C_group_idx = 0;
             pPed->Kill_46F9D0();
             last_i = ++i;
         } while (i < (s32)this->field_34_count);
@@ -343,7 +343,7 @@ void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
             this->field_2C_ped_leader->SetObjective(objectives_enum::flee_char_on_foot_always_3, 9999);
             this->field_2C_ped_leader->field_148_objective_target_ped = pAttacker;
             this->field_2C_ped_leader->SetObjective2_463830(3, 9999);
-            this->field_2C_ped_leader->field_14C = pAttacker;
+            this->field_2C_ped_leader->field_14C_internal_target_ped = pAttacker;
             this->field_2C_ped_leader->field_21C |= 4u;
             this->field_2C_ped_leader->field_228 = 0;
             this->field_2C_ped_leader->field_168_game_object->field_3C_run_or_jump_speed = k_dword_67EEE4;
@@ -367,7 +367,7 @@ void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
                 this->field_4_ped_list[i]->SetObjective(objectives_enum::flee_char_on_foot_always_3, 9999);
                 this->field_4_ped_list[i]->field_148_objective_target_ped = pAttacker;
                 this->field_4_ped_list[i]->SetObjective2_463830(3, 9999);
-                this->field_4_ped_list[i]->field_14C = pAttacker;
+                this->field_4_ped_list[i]->field_14C_internal_target_ped = pAttacker;
                 this->field_4_ped_list[i]->field_21C |= 4u;
                 this->field_4_ped_list[i]->field_228 = 0;
                 this->field_4_ped_list[i]->field_168_game_object->field_3C_run_or_jump_speed = k_dword_67EEE4;
@@ -466,11 +466,11 @@ void PedGroup::UpdateFormation_4CA4B0()
             {
                 if (i == 0)
                 {
-                    pIter->field_14C = field_2C_ped_leader;
+                    pIter->field_14C_internal_target_ped = field_2C_ped_leader;
                 }
                 else
                 {
-                    pIter->field_14C = field_4_ped_list[i - 1];
+                    pIter->field_14C_internal_target_ped = field_4_ped_list[i - 1];
                 }
             }
             else if (pIter->field_278_ped_state_1 != 9)
@@ -480,28 +480,28 @@ void PedGroup::UpdateFormation_4CA4B0()
                     switch (i)
                     {
                         case 3u:
-                            pIter->field_14C = this->field_4_ped_list[0];
+                            pIter->field_14C_internal_target_ped = this->field_4_ped_list[0];
                             break;
                         case 4u:
-                            pIter->field_14C = this->field_4_ped_list[1];
+                            pIter->field_14C_internal_target_ped = this->field_4_ped_list[1];
                             break;
                         case 5u:
-                            pIter->field_14C = this->field_4_ped_list[2];
+                            pIter->field_14C_internal_target_ped = this->field_4_ped_list[2];
                             break;
                         case 6u:
-                            pIter->field_14C = this->field_4_ped_list[3];
+                            pIter->field_14C_internal_target_ped = this->field_4_ped_list[3];
                             break;
                         case 7u:
-                            pIter->field_14C = this->field_4_ped_list[4];
+                            pIter->field_14C_internal_target_ped = this->field_4_ped_list[4];
                             break;
                         default:
-                            pIter->field_14C = field_2C_ped_leader;
+                            pIter->field_14C_internal_target_ped = field_2C_ped_leader;
                             break;
                     }
                 }
                 else
                 {
-                    pIter->field_14C = field_2C_ped_leader;
+                    pIter->field_14C_internal_target_ped = field_2C_ped_leader;
                 }
             }
             pIter->inline_clear_bit();

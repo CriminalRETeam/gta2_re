@@ -328,7 +328,7 @@ void Train_58::UpdatePassengerAI_578390()
 {
     WIP_IMPLEMENTED;
 
-    if (!bSkip_trains_67D550 && !bSkip_dummies_67D4EF && gPedManager_6787BC->field_2 < 50u)
+    if (!bSkip_trains_67D550 && !bSkip_dummies_67D4EF && gPedManager_6787BC->field_2_num_dummy_chars < 50u)
     {
         if (this->field_8 == 2)
         {

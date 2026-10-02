@@ -2276,7 +2276,7 @@ void Car_BC::sub_43B770()
         {
             pDriver->field_204_killer_id = this->field_70_exploder_ped_id;
             this->field_54_driver->field_290 = this->field_90;
-            this->field_54_driver->field_264 = 50;
+            this->field_54_driver->field_264_killer_id_timer = 50;
         }
     }
     field_4_passengers_list.SyncPassengersWithCarState_4716D0(this);
@@ -2463,7 +2463,7 @@ void Car_BC::SpawnFire_43BBC0()
 {
     WIP_IMPLEMENTED;
 
-    if (gFirefighterPool_54_67D4C0->sub_4A8820(this))
+    if (gFirefighterPool_54_67D4C0->TryDispatchFirefightersToCar_4A8820(this))
     {
         Sprite* pCarSprite = this->field_50_car_sprite;
         s32 pedId = this->field_70_exploder_ped_id;
@@ -3993,7 +3993,7 @@ void Car_BC::SpawnDriverPed()
     Ped* pNextPed = gCar_6C_677930->field_4;
     if (!pNextPed)
     {
-        pNextPed = gPedManager_6787BC->sub_470CC0(this);
+        pNextPed = gPedManager_6787BC->CreateDummyDriver_470CC0(this);
         gCar_6C_677930->field_4 = pNextPed;
     }
     SetDriver(pNextPed);
@@ -7126,8 +7126,8 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                 {
                     if (car_model_idx == car_model_enum::COPCAR) // 12
                     {
-                        // OBS: field_659 of Police_7B8 is u8 type
-                        if (gPolice_7B8_6FEE40->field_658_count >= (u32)gPolice_7B8_6FEE40->field_659 || bSkip_police_67D4F9)
+                        // OBS: field_659_max_count of Police_7B8 is u8 type
+                        if (gPolice_7B8_6FEE40->field_658_count >= (u32)gPolice_7B8_6FEE40->field_659_max_count || bSkip_police_67D4F9)
                         {
                             car_model_idx = gCar_6C_677930->SelectTrafficCarModel_444AB0(this->field_C_player,
                                                                                          this->field_10_zone,

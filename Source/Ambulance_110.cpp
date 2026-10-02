@@ -11,12 +11,12 @@
 DEFINE_GLOBAL(Ambulance_110*, gAmbulance_110_6F70A8, 0x6F70A8);
 
 DEFINE_GLOBAL(class Ped*, dword_6F6D60, 0x6F6D60);
-DEFINE_GLOBAL_INIT(Fix16, dword_6F6DD4, Fix16(0x1999, 0), 0x6F6DD4);
+DEFINE_GLOBAL_INIT(Fix16, gParamedicRunSpeed_6F6DD4, Fix16(0x1999, 0), 0x6F6DD4);
 
 MATCH_FUNC(0x4beab0)
 Ambulance_20::Ambulance_20()
 {
-    field_10.ClearList_420E90();
+    field_10_patients.ClearList_420E90();
     ClearTask_4FA7D0();
 }
 
@@ -28,13 +28,13 @@ Ambulance_20::~Ambulance_20()
 MATCH_FUNC(0x4fa7d0)
 void Ambulance_20::ClearTask_4FA7D0()
 {
-    field_10.ClearList_420E90();
-    field_0 = 0;
-    field_1 = 0;
-    field_2 = 0;
+    field_10_patients.ClearList_420E90();
+    field_0_target_x = 0;
+    field_1_target_y = 0;
+    field_2_target_z = 0;
     field_14_count = 0;
     field_16 = 0;
-    field_18 = 0;
+    field_18_in_use = 0;
     field_1C = 0;
     field_4_paramedics_crew = NULL;
     field_8 = NULL;
@@ -45,7 +45,7 @@ void Ambulance_20::ClearTask_4FA7D0()
 MATCH_FUNC(0x4fa800)
 void Ambulance_20::AddPassenger_4FA800(Ped* pPed)
 {
-    field_10.AddPed_471140(pPed);
+    field_10_patients.AddPed_471140(pPed);
     field_14_count++;
 }
 
@@ -63,7 +63,7 @@ bool Ambulance_20::SpawnParamedicCrew_4FA820()
         return false;
     }
 
-    Ped* pPed1 = gPedManager_6787BC->sub_470F30();
+    Ped* pPed1 = gPedManager_6787BC->AllocatePed_470F30();
     if (!pPed1)
     {
         return false;
@@ -73,16 +73,16 @@ bool Ambulance_20::SpawnParamedicCrew_4FA820()
     pPed1->field_230 = 2;
     pPed1->SpawnPedInCar_45C730(field_4_paramedics_crew->field_0_car);
     pPed1->SetObjective(objectives_enum::goto_area_in_car_14, 0);
-    pPed1->field_1DC_objective_target_x = (unsigned __int8)this->field_0 << 14;
-    pPed1->field_1E0_objective_target_y = (unsigned __int8)this->field_1 << 14;
-    pPed1->field_1E4_objective_target_z = (unsigned __int8)this->field_2 << 14;
+    pPed1->field_1DC_objective_target_x = (unsigned __int8)this->field_0_target_x << 14;
+    pPed1->field_1E0_objective_target_y = (unsigned __int8)this->field_1_target_y << 14;
+    pPed1->field_1E4_objective_target_z = (unsigned __int8)this->field_2_target_z << 14;
     pPed1->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
     pPed1->field_288_threat_search = threat_search_enum::no_threats_0;
     pPed1->field_244_remap = 16;
     pPed1->field_26C_graphic_type = 0;
-    pPed1->field_1F8_run_speed = dword_6F6DD4;
+    pPed1->field_1F8_run_speed = gParamedicRunSpeed_6F6DD4;
 
-    Ped* pPed2 = gPedManager_6787BC->sub_470F30();
+    Ped* pPed2 = gPedManager_6787BC->AllocatePed_470F30();
     if (!pPed2)
     {
         return false;
@@ -186,7 +186,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
 WIP_FUNC(0x4fb330)
 void Ambulance_20::UpdateState_4FB330()
 {
-    field_10.RemovePedsInSpecificState_471290();
+    field_10_patients.RemovePedsInSpecificState_471290();
     switch (field_4_paramedics_crew->field_28)
     {
         case 3:
@@ -229,9 +229,9 @@ void Ambulance_20::UpdateState_4FB330()
         }
         case 5:
         {
-            while (field_10.field_0_pFirstPed)
+            while (field_10_patients.field_0_pFirstPed)
             {
-                Ped* pPed = field_10.RemoveFirstPed_471320();
+                Ped* pPed = field_10_patients.RemoveFirstPed_471320();
                 gAmbulance_110_6F70A8->TryAddPatient_4FA470(pPed);
             }
 
@@ -268,7 +268,7 @@ void Ambulance_110::init_4FA310()
 {
     field_0 = 1;
     field_1_f8_idx = 0;
-    field_4.ClearList_420E90();
+    field_4_patient_queue.ClearList_420E90();
 
     for (s32 i = 0; i < 25; i++)
     {
@@ -282,8 +282,8 @@ bool Ambulance_110::HandlePedDeath_4FA330(Ped* pDeadPed)
 {
     for (u8 i = 0; i < 2; i++)
     {
-        Ambulance_20* pIter = &field_D0[i];
-        if (pIter->field_18)
+        Ambulance_20* pIter = &field_D0_tasks[i];
+        if (pIter->field_18_in_use)
         {
             if (pIter->field_4_paramedics_crew->field_4_ped == pDeadPed) // the dead person is one of the paramedics?
             {
@@ -350,7 +350,7 @@ char_type Ambulance_110::TryAddPatient_4FA470(Ped* pPed)
         return 0;
     }
 
-    field_4.AddPed_471140(pPed);
+    field_4_patient_queue.AddPed_471140(pPed);
     field_1_f8_idx++;
 
     return 1;
@@ -361,9 +361,9 @@ Ambulance_20* Ambulance_110::AllocateTaskSlot_4FA4B0()
 {
     for (u8 i = 0; i < 2; i++)
     {
-        if (!field_D0[i].field_18)
+        if (!field_D0_tasks[i].field_18_in_use)
         {
-            return &field_D0[i];
+            return &field_D0_tasks[i];
         }
     }
     return 0;
@@ -385,9 +385,9 @@ void Ambulance_110::AmbulancesService_4FA790()
 
     for (s32 i = 0; i < 2; i++)
     {
-        if (field_D0[i].field_18 == 1)
+        if (field_D0_tasks[i].field_18_in_use == 1)
         {
-            field_D0[i].UpdateState_4FB330();
+            field_D0_tasks[i].UpdateState_4FB330();
         }
     }
 }

@@ -243,8 +243,8 @@ void force_link()
     drawUnk.IsPointInBoundaries_58CF10(1, 1);
 
     Ped cn;
-    cn.sub_45B550();
-    cn.sub_45B560(NULL, 0);
+    cn.SetRecentCrimeTimer_45B550();
+    cn.SetPlayer_45B560(NULL, 0);
     cn.sub_45B590();
 
     miss2_8 miss2;
@@ -291,7 +291,7 @@ void force_link()
     Shooey_CC shooey_CC;
 
     Firefighter_28 tango_28;
-    tango_28.sub_450C10();
+    tango_28.Clear_450C10();
 
     FirefighterPool_54 tango_54;
 

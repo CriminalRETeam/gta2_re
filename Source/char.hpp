@@ -322,6 +322,6 @@ class Char_B4
 EXPORT void __stdcall sub_544F70();
 EXPORT void __stdcall sub_553F90();
 
-EXTERN_GLOBAL(u8, unk_6787EF);
+EXTERN_GLOBAL(u8, bThreateningPedAdded_6787EF);
 
 EXTERN_GLOBAL(u16, gNumPedsOnScreen_6787EC);

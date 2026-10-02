@@ -1540,9 +1540,9 @@ void CC ImGuiDebugDraw()
         {
             //if (gFirefighterPool_54_67D4C0)
             {
-                if (ImGui::Button("sub_4A8820"))
+                if (ImGui::Button("TryDispatchFirefightersToCar_4A8820"))
                 {
-                    gFirefighterPool_54_67D4C0->sub_4A8820(0);
+                    gFirefighterPool_54_67D4C0->TryDispatchFirefightersToCar_4A8820(0);
                 }
             }
             ImGui::TreePop();
@@ -1665,7 +1665,7 @@ void CC ImGuiDebugDraw()
     */
                     //gPedManager_6787BC->SpawnTrainLeaver_470E30();
 
-                    //gFirefighterPool_54_67D4C0->sub_4A8820(pNewCar);
+                    //gFirefighterPool_54_67D4C0->TryDispatchFirefightersToCar_4A8820(pNewCar);
 
                     //pNewPed->SpawnDriverRunAway_45C650(pNewCar, 0);
                 }
@@ -2223,7 +2223,7 @@ void CC ImGuiDebugDraw()
                                 pPlayerPed->get_cam_y(),
                                 pPlayerPed->get_cam_z(),
                                 pPlayerPed->Get_F12E_4CCA90(),
-                                pPlayerPed->sub_45B520());
+                                pPlayerPed->GetVelocityVector_45B520());
                         }
                     }
 
@@ -2476,10 +2476,10 @@ void CC ImGuiDebugDraw()
                     gPedManager_6787BC->DoIanTest_471060(10);
                 }
 
-                ImGui::Text("field_0 %d", gPedManager_6787BC->field_0); // spawn rate ?
-                ImGui::Input_char_type("field_2", &gPedManager_6787BC->field_2, 1, 1); // total spawned ?
-                ImGui::Input_char_type("field_3", &gPedManager_6787BC->field_3, 1, 1); // something to do with total ped count also
-                ImGui::Input_char_type("field_4", &gPedManager_6787BC->field_4, 1, 1); // ??
+                ImGui::Text("field_0 %d", gPedManager_6787BC->field_0_max_dummy_chars); // spawn rate ?
+                ImGui::Input_char_type("field_2", &gPedManager_6787BC->field_2_num_dummy_chars, 1, 1); // total spawned ?
+                ImGui::Input_char_type("field_3", &gPedManager_6787BC->field_3_num_peds_updated, 1, 1); // something to do with total ped count also
+                ImGui::Input_char_type("field_4", &gPedManager_6787BC->field_4_num_script_created_peds, 1, 1); // ??
                 ImGui::InputU8("field_5", &gPedManager_6787BC->field_5_fbi_army_count, 1, 1); // ??
                 ImGui::Text("Num peds on screen %d", gPedManager_6787BC->field_6_num_peds_on_screen);
                 ImGui::Input_char_type("field_7_make_all_muggers", &gPedManager_6787BC->field_7_make_all_muggers, 1, 1);
@@ -2650,7 +2650,7 @@ void CC ImGuiDebugDraw()
 
                 for (i = 0; i < 2; i++)
                 {
-                    Ambulance_20& a20 = gAmbulance_110_6F70A8->field_D0[i];
+                    Ambulance_20& a20 = gAmbulance_110_6F70A8->field_D0_tasks[i];
                 }
 
                 /*

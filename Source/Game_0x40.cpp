@@ -299,7 +299,7 @@ void Game_0x40::ShowCounters_4B8FF0()
     swprintf(tmpBuff_67BD9C, L"cars:%d", gCar_BC_Pool_67792C->field_0_pool.field_X_count);
     gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 96, word_706600, 1);
 
-    swprintf(tmpBuff_67BD9C, L"dummy_chars : %d", (unsigned __int8)gPedManager_6787BC->field_2);
+    swprintf(tmpBuff_67BD9C, L"dummy_chars : %d", (unsigned __int8)gPedManager_6787BC->field_2_num_dummy_chars);
     gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 112, word_706600, 1);
 
     Player* field_38_orf1 = gGame_0x40_67E008->field_38_orf1;
@@ -504,7 +504,7 @@ void Game_0x40::UpdateGame_4B9410()
     gHud_2B00_706620->UpdateHUD_5D69D0();
     rng_dword_67AB34->AdvanceCycle_48B900(); // rng
     gDoor_4D4_67BD2C->DoorsService_49D460();
-    gFirefighterPool_54_67D4C0->sub_4A85F0(); // fire engines
+    gFirefighterPool_54_67D4C0->FireEnginesService_4A85F0(); // fire engines
 
     if (!bExplodingScoresOff_67D4FB)
     {

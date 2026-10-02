@@ -584,7 +584,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                         pPed->field_204_killer_id = this->field_2C_ped_id;
                     }
                     pB4->field_7C_pPed->field_290 = 4;
-                    pB4->field_7C_pPed->field_264 = 50;
+                    pB4->field_7C_pPed->field_264_killer_id_timer = 50;
 
                     Fix16 pMaybeY_FP16 = pCollisionSprite->field_14_xy.x - this->field_14->field_4->field_14_xy.x;
                     Fix16 pMaybeX_FP16 = pCollisionSprite->field_14_xy.y - this->field_14->field_4->field_14_xy.y;

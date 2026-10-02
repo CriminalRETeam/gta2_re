@@ -16,9 +16,9 @@ DEFINE_GLOBAL_INIT(Ang16, word_67D2D6, Ang16(720), 0x67D2D6);
 DEFINE_GLOBAL_INIT(Ang16, word_67D2FC, Ang16(1080), 0x67D2FC);
 
 MATCH_FUNC(0x4a85f0)
-void FirefighterPool_54::sub_4A85F0()
+void FirefighterPool_54::FireEnginesService_4A85F0()
 {
-    Firefighter_28* p = field_0;
+    Firefighter_28* p = field_0_firefighters;
     if (!bSkip_fire_engines_67D53A)
     {
         for (u32 i = 0; i < 2; i++)
@@ -33,7 +33,7 @@ void FirefighterPool_54::sub_4A85F0()
 }
 
 MATCH_FUNC(0x4a8620)
-Firefighter_28* FirefighterPool_54::sub_4A8620(Car_BC* pCar, Fix16 xpos, Fix16 ypos, Fix16 zpos)
+Firefighter_28* FirefighterPool_54::DispatchFirefighters_4A8620(Car_BC* pCar, Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
     if (bSkip_fire_engines_67D53A)
     {
@@ -65,7 +65,7 @@ Firefighter_28* FirefighterPool_54::sub_4A8620(Car_BC* pCar, Fix16 xpos, Fix16 y
     {
         return NULL;
     }
-    pNewFireFighter->field_0 = field_50_count;
+    pNewFireFighter->field_0_id = field_50_count;
     ++field_50_count;
     pNewFireFighter->field_10_xpos = dword_67D1F0 + Fix16(xpos_int);
     pNewFireFighter->field_14_ypos = dword_67D1F0 + Fix16(ypos_int);
@@ -80,7 +80,7 @@ Firefighter_28* FirefighterPool_54::sub_4A8620(Car_BC* pCar, Fix16 xpos, Fix16 y
 MATCH_FUNC(0x4a8800)
 Firefighter_28* FirefighterPool_54::New28_4A8800()
 {
-    Firefighter_28* p = field_0;
+    Firefighter_28* p = field_0_firefighters;
     for (s16 i = 0; i < 2; i++)
     {
         if (!p->field_4_bActive)
@@ -93,7 +93,7 @@ Firefighter_28* FirefighterPool_54::New28_4A8800()
 }
 
 MATCH_FUNC(0x4a8820)
-char_type FirefighterPool_54::sub_4A8820(Car_BC* pCar)
+char_type FirefighterPool_54::TryDispatchFirefightersToCar_4A8820(Car_BC* pCar)
 {
     if (!pCar)
     {
@@ -111,7 +111,7 @@ char_type FirefighterPool_54::sub_4A8820(Car_BC* pCar)
     }
 
     Firefighter_28* pFoundCar =
-        sub_4A8620(pCar, pCar->field_50_car_sprite->GetXPos(), pCar->field_50_car_sprite->GetYPos(), pCar->field_50_car_sprite->GetZPos());
+        DispatchFirefighters_4A8620(pCar, pCar->field_50_car_sprite->GetXPos(), pCar->field_50_car_sprite->GetYPos(), pCar->field_50_car_sprite->GetZPos());
 
     if (!pFoundCar)
     {
@@ -122,7 +122,7 @@ char_type FirefighterPool_54::sub_4A8820(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x4a88d0)
-void FirefighterPool_54::sub_4A88D0()
+void FirefighterPool_54::ResetCount_4A88D0()
 {
     field_50_count = 0;
 }
@@ -255,7 +255,7 @@ void Firefighter_28::sub_4A81F0()
 MATCH_FUNC(0x4a85c0)
 void Firefighter_28::init_4A85C0()
 {
-    sub_450C10();
+    Clear_450C10();
 }
 
 MATCH_FUNC(0x4a85e0)
