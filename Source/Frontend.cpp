@@ -1502,9 +1502,9 @@ void Frontend::DrawCredits_4B7AE0()
     s32 draw_kind;
 
     u16 credit_idx = field_1EB38;
-    for (Fix16 y = field_1EB34; y < 480 && credit_idx < 600; credit_idx++, y += field_EE0E_unk.field_2[credit_idx].field_4)
+    for (Fix16 y = field_1EB34; y < 480 && credit_idx < 600; credit_idx++, y += field_EE0E_unk.field_2_lines[credit_idx].field_4_y_gap)
     {
-        sleepy_stonebraker_0x6C* sleepy = &field_EE0E_unk.field_2[credit_idx];
+        sleepy_stonebraker_0x6C* sleepy = &field_EE0E_unk.field_2_lines[credit_idx];
         switch (sleepy->field_6_string_category)
         {
             case 0: // normal string: white
@@ -1856,7 +1856,7 @@ void Frontend::ManageCredits_4B7A10()
         {
             while (++field_1EB38 != 600)
             {
-                field_1EB34 = Fix16(field_EE0E_unk.field_2[field_1EB38].field_4) + field_1EB34;
+                field_1EB34 = Fix16(field_EE0E_unk.field_2_lines[field_1EB38].field_4_y_gap) + field_1EB34;
 
                 if (field_1EB34 > 262124)
                 {
@@ -4008,7 +4008,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_136_menu_pages_array[14].field_B8A[0].field_2 = 348; //  TODO: check for wrong var
     field_136_menu_pages_array[14].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[14].field_BC8 = 0;
-    field_EE0E_unk.sub_483F20();
+    field_EE0E_unk.LoadCredits_483F20();
 }
 
 WIP_FUNC(0x4B4440)

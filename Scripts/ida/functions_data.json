@@ -4555,12 +4555,12 @@
         "v105_address": "0x483ea0"
     },
     {
-        "name": "xenodochial_morse::sub_483EC0",
+        "name": "xenodochial_morse::ReadNextNonBlankChar_483EC0",
         "v96f_address": null,
         "v105_address": "0x483ec0"
     },
     {
-        "name": "xenodochial_morse::sub_483F20",
+        "name": "xenodochial_morse::LoadCredits_483F20",
         "v96f_address": null,
         "v105_address": "0x483f20"
     },
