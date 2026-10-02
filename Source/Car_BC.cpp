@@ -2730,7 +2730,7 @@ bool Car_BC::sub_43B2B0(Ped* pPed)
             return pPed->IsField238_45EDE0(2);
         }
         if (pPed->IsField238_45EDE0(2) ||
-            (pPed->IsField238_45EDE0(5) && pPed->field_25C_internal_objective == 35 && pPed->field_154_target_to_enter == this))
+            (pPed->IsField238_45EDE0(5) && pPed->GetInternalObjective_403A90() == 35 && pPed->get_target_to_enter_403B10() == this))
         {
             useLabel12Branch = 1;
         }
