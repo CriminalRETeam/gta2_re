@@ -5566,12 +5566,12 @@ void Ped::sub_465B20()
 {
     WIP_IMPLEMENTED;
 
-    if (field_144->isDead_403B60() || (field_144->field_21C & 1) == 0)
+    if (field_144->isDead_403B60() || !field_144->CheckBit0_433B40())
     {
         this->field_144 = 0;
         this->field_21C &= ~4;
     }
-    else if ((field_144->field_21C & 0x2000000) == 0 || !field_144->field_168_game_object)
+    else if (!field_144->sub_433DA0())
     {
         Gang_144* pZone = this->field_17C_pGang;
         if (pZone && pZone == field_144->field_17C_pGang)
@@ -5599,9 +5599,9 @@ void Ped::sub_465B20()
                             {
                                 if (pGroup)
                                 {
-                                    if (pGroup->field_2C_ped_leader->field_15C_player &&
+                                    if (pGroup->field_2C_ped_leader->is_player_41B0A0() &&
                                         (field_144->field_20e || this->field_20C >= 5u ||
-                                         Fix16::Abs(field_144->field_1AC_cam.z - field_1AC_cam.z) >= k_dword_678664))
+                                         Fix16::Abs(field_144->get_cam_z() - field_1AC_cam.z) >= k_dword_678664))
                                     {
                                         this->field_144 = 0;
                                     }
