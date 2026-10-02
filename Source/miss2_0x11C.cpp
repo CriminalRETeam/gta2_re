@@ -4554,6 +4554,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_50C5A0()
         }
         case 3:
         {
+            // 9.6f: Object_2C::get_x_4340D0/get_y_4340E0/get_z_4340F0 (inlined, using them changes the code)
             Sprite* pSprite = pPointer->field_8_obj->field_4;
 
             gObject_5C_6F8F84
