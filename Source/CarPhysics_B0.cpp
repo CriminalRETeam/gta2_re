@@ -2269,6 +2269,8 @@ void CarPhysics_B0::StepPhysics_55F330()
 MATCH_FUNC(0x55f360)
 char_type CarPhysics_B0::CheckPendingCollision_55F360()
 {
+    // 9.6f: Car_BC flag helpers 0x414F70 (IsFlagSet_411930(0x2000)) and 0x49EFD0 (clear 0x2000)
+    // (inlined, using IsFlagSet_411930 here changes the code)
     if ((this->field_5C_pCar->field_78_flags & 0x2000) != 0)
     {
         gCar_6C_677930->field_60 = 1;
