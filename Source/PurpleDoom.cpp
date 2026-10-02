@@ -436,7 +436,7 @@ void PurpleDoom::AddToDrawList_478240(s32 left, s32 right, s32 top, s32 bottom)
                 {
                     for (Collide_8* p8Iter = pXItem->field_4_p8; p8Iter; p8Iter = p8Iter->mpNext)
                     {
-                        if (p8Iter->field_0_sprt->field_30_sprite_type_enum > sprite_types_enum::unknown_1)
+                        if (p8Iter->field_0_sprt->IsTypeAbove1_446950())
                         {
                             gMontana_67B580->DisplayAdd_495510(p8Iter->field_0_sprt);
                         }
