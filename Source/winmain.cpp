@@ -2618,7 +2618,7 @@ EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 
         gLucid_hamilton_67E8E0.SetMultiplayerParams_4C5B80(gNetworkGameSettings_707098.field_20198_game_type,
                                                            gNetworkGameSettings_707098.field_20194_frag_limit,
-                                                           gNetPlay_7071E8.field_5D4_player_idx,
+                                                           gNetPlay_7071E8.GetPlayerIdx_409C40(),
                                                            gNetPlay_7071E8.GetMaxPlayers_521350(),
                                                            gNetworkGameSettings_707098.field_201A4_game_time_limit);
     }
