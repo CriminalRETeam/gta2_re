@@ -1375,32 +1375,32 @@
         "v105_address": "0x4397d0"
     },
     {
-        "name": "Car_Door_10::sub_439CD0",
+        "name": "Car_Door_10::AnimateOpening_439CD0",
         "v96f_address": null,
         "v105_address": "0x439cd0"
     },
     {
-        "name": "Car_Door_10::sub_439D40",
+        "name": "Car_Door_10::AnimateClosing_439D40",
         "v96f_address": null,
         "v105_address": "0x439d40"
     },
     {
-        "name": "Car_Door_10::sub_439DA0",
+        "name": "Car_Door_10::Service_439DA0",
         "v96f_address": null,
         "v105_address": "0x439da0"
     },
     {
-        "name": "Car_Door_10::sub_439E40",
+        "name": "Car_Door_10::Init_439E40",
         "v96f_address": null,
         "v105_address": "0x439e40"
     },
     {
-        "name": "Car_Door_10::sub_439E60",
+        "name": "Car_Door_10::Open_439E60",
         "v96f_address": null,
         "v105_address": "0x439e60"
     },
     {
-        "name": "Car_Door_10::sub_439EA0",
+        "name": "Car_Door_10::Close_439EA0",
         "v96f_address": null,
         "v105_address": "0x439ea0"
     },

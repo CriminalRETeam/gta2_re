@@ -3966,7 +3966,7 @@ void sound_obj::HandleCarDoorSounds_4182E0(Sound_Params_8* a2)
         }
 
         if (!bQueued1 && pCar->field_C_doors[i].field_4_state == 2 && !pCar->field_C_doors[i].field_0_animation_frame &&
-            !pCar->field_C_doors[i].field_1)
+            !pCar->field_C_doors[i].field_1_frame_delay)
         {
             bQueued1 = 1;
             if (CalculateDistance_419020(Fix16(0xE1000, 0)))

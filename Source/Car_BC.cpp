@@ -2162,7 +2162,7 @@ void Car_BC::sub_43B380()
     for (u8 i = 0; i < *pRemap; i++)
     {
         Car_Door_10* pDoor = GetDoor(i);
-        pDoor->sub_439E60();
+        pDoor->Open_439E60();
     }
 }
 
@@ -2173,7 +2173,7 @@ void Car_BC::sub_43B3D0()
     for (u8 i = 0; i < *pRemap; i++)
     {
         Car_Door_10* pDoor = GetDoor(i);
-        pDoor->sub_439EA0();
+        pDoor->Close_439EA0();
     }
 }
 
@@ -4767,7 +4767,7 @@ void Car_BC::sub_441A70()
     u8 i;
     for (i = 0; i < *pRemapCount; i++)
     {
-        field_C_doors[i].sub_439E40(i);
+        field_C_doors[i].Init_439E40(i);
         field_C_doors[i].field_8_pObj = 0;
     }
 
@@ -4783,7 +4783,7 @@ void Car_BC::sub_441B00()
     Car_Door_10* p = field_C_doors;
     for (s32 i = 0; i < 4; i++)
     {
-        p->sub_439DA0(&field_8_damaged_areas.m_var);
+        p->Service_439DA0(&field_8_damaged_areas.m_var);
         p++;
     }
 }

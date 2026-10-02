@@ -1032,7 +1032,7 @@ void Char_B4::UpdateAnimState_546360()
                     if ((this->field_58_flags & 0x10) != 0)
                     {
                         pDoor = field_84->GetDoor(field_7C_pPed->field_24C_target_car_door);
-                        pDoor->sub_439E60();
+                        pDoor->Open_439E60();
                         newId_ = baseId + (u8)this->field_68_animation_frame;
                         v124 = 0;
                         CarDoorAlignmentSolver_545AF0(0, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
@@ -1179,7 +1179,7 @@ void Char_B4::UpdateAnimState_546360()
                     pDoor = field_84->GetDoor(field_7C_pPed->field_24C_target_car_door);
                     if ((this->field_58_flags & 0x10) == 0)
                     {
-                        pDoor->sub_439EA0();
+                        pDoor->Close_439EA0();
                     }
 
                     pDoor->field_8_pObj = 0;
@@ -1403,7 +1403,7 @@ void Char_B4::UpdateAnimState_546360()
             if ((this->field_58_flags & 0x10) != 0)
             {
                 v124 = 1;
-                pDoor__->sub_439E60();
+                pDoor__->Open_439E60();
                 newId_ = baseId + (u8)field_68_animation_frame;
                 CarDoorAlignmentSolver_545AF0(7, field_84, field_7C_pPed->field_24C_target_car_door, newx, newy, field_40_rotation);
             }
@@ -1622,7 +1622,7 @@ void Char_B4::UpdateAnimState_546360()
                 if ((this->field_58_flags & 0x10) == 0)
                 {
                 LABEL_139:
-                    pDoor->sub_439E60();
+                    pDoor->Open_439E60();
                     pDoor->field_8_pObj = field_7C_pPed;
                 }
             }
