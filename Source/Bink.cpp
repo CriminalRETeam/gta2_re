@@ -103,13 +103,22 @@ void Bink::ResetBufferOffset_513720()
     }
 }
 
-WIP_FUNC(0x513240)
+MATCH_FUNC(0x513240)
 char_type Bink::TickFrame_513240()
 {
-    WIP_IMPLEMENTED;
 
-    BINK* hbink = (gBinkActiveSlot_6F83FF == 1) ? gBinkHandleSlot1_6F8168 : gBinkHandleSlot2_6F83B0;
-    BINKBUFFER* hbinkbuffer = (gBinkActiveSlot_6F83FF == 1) ? gBinkBufferSlot1_6F8170 : gBinkBufferSlot2_6F80C4;
+    BINK* hbink;
+    BINKBUFFER* hbinkbuffer;
+    if (gBinkActiveSlot_6F83FF == 1)
+    {
+        hbink = gBinkHandleSlot1_6F8168;
+        hbinkbuffer = gBinkBufferSlot1_6F8170;
+    }
+    else
+    {
+        hbink = gBinkHandleSlot2_6F83B0;
+        hbinkbuffer = gBinkBufferSlot2_6F80C4;
+    }
 
     if (BinkWait(hbink) != 0)
     {
@@ -131,7 +140,7 @@ char_type Bink::TickFrame_513240()
                          gBinkPixelFormat_6F81B0 | 0x4000000);
         FreeSurface_5D7DC0();
         pVid_FlipBuffers(gVidSys_7071D0);
-        pVid_ClearScreen(gVidSys_7071D0, 0, 0, 0, 0, 0, gVidSys_7071D0->field_74, gVidSys_7071D0->field_4C_rect_bottom);
+        pVid_ClearScreen(gVidSys_7071D0, 0, 0, 0, 0, 0, gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
     }
     else
     {
