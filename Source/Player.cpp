@@ -641,7 +641,7 @@ void Player::sub_564CF0()
     }
     if (field_6F4_power_up_timers[power_up_indices::Electrofingers_9])
     {
-        field_2C4_player_ped->field_21C &= ~ped_bit_status_enum::k_ped_0x04000000;
+        field_2C4_player_ped->clear_bit_26_482080();
     }
     if (field_6F4_power_up_timers[power_up_indices::Invisibility_11])
     {
