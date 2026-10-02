@@ -4,6 +4,7 @@
 #include "ang16.hpp"
 #include "gbh_graphics.hpp"
 #include "fix16.hpp"
+#include "gtx_0x106C.hpp"
 
 struct QuadVerts // TODO: Same as Verts in gbh header (d3ddll)
 {
@@ -62,5 +63,9 @@ EXPORT void __stdcall sub_5D8470(STexture* pTexture,
 
 EXPORT void __stdcall sub_495470(STexture* pTexture, Fix16 x_pos, Fix16 y_pos, u8 width, u8 height, Ang16 rotation, s32 a7, u8 a8);
 
-EXPORT inline s32 __stdcall GetLineSpacingFromFontType_5D7700_inlined(u16 a1);
+// 9.6f 0x4539B0, the inlined copy of GetLineSpacingFromFontType_5D7700
+inline s32 __stdcall GetLineSpacingFromFontType_5D7700_inlined(u16 font_type)
+{
+    return (u16)gGtx_0x106C_703DD4->GetLineSpacing_5AA800(&font_type);
+}
 EXPORT s32 __stdcall CountLineSpacing_5D8940(wchar_t* a1, u16 a2);
