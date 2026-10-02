@@ -3665,6 +3665,7 @@ bool Car_BC::IsAreaDamaged_43D1C0(s32 damage_area)
     return false;
 }
 
+// 9.6f: the field_78_flags test is Car_BC::sub_411930 (inlined, as a bool helper it changes the code)
 MATCH_FUNC(0x43d2c0)
 void Car_BC::TryDamageArea_43D2C0(u8 damage_area, s32 damageAmount)
 {
