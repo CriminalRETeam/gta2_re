@@ -2262,11 +2262,9 @@ s32 NetPlay::NoRefs_Send_521C80(s32 pSendData)
     return field_5E4_pDPlay3->Send(field_5D8_player_id, 0, 0, (void*)pData, dataLen);
 }
 
-// Store scheduling differs, see docs/match_attempts.md
-WIP_FUNC(0x521d20)
+MATCH_FUNC(0x521d20)
 s32 NetPlay::SendKeepAlive_521D20()
 {
-    WIP_IMPLEMENTED;
 
     u32 dataLen;
     s32 pData;
@@ -2274,12 +2272,12 @@ s32 NetPlay::SendKeepAlive_521D20()
     char_type keep_alive;
 
     memset(&pStru, 0, sizeof(pStru));
-    pStru.header.field_4_sub_type = 2;
-    keep_alive = 2;
     pStru.header.field_0_type = 1;
+    keep_alive = 2;
+    pStru.header.field_4_sub_type = 2;
     pStru.field_9 = 1;
-    pStru.field_11_len = 1;
     pStru.field_D = (s32)&keep_alive;
+    pStru.field_11_len = 1;
     NetPlay::MakeSendData_51F420(&pStru, &pData, &dataLen);
     return field_5E4_pDPlay3->Send(field_5D8_player_id, 0, 0, (void*)pData, dataLen);
 }
