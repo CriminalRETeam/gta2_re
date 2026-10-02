@@ -2697,9 +2697,9 @@ char_type Char_B4::CanMoveOntoSlope_54C1A0(s32 path_direction)
             }
 
             field_58_flags &= ~1;
-            field_80_sprite_ptr->field_1C_zpos += Fix16(1);
+            field_80_sprite_ptr->field_1C_zpos++;
             result = CanMoveOntoSlope_54C1A0(path_direction);
-            field_80_sprite_ptr->field_1C_zpos -= Fix16(1);
+            field_80_sprite_ptr->field_1C_zpos--;
             field_58_flags |= 1u;
             break;
         case ROAD:
