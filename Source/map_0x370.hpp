@@ -617,6 +617,21 @@ class Map_0x370
         return 0;
     }
 
+    // 9.6f 0x433430
+    inline bool IsSlopeB4ToD0At_433430(s32 xpos, s32 ypos, s32 zpos)
+    {
+        gmp_block_info* pBlock = get_block_4DFE10(xpos, ypos, zpos);
+        if (pBlock)
+        {
+            u32 slope_type = pBlock->field_B_slope_type & 0xFC;
+            if (slope_type >= 0xB4 && slope_type <= 0xD0)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     inline bool IsGradientSlopeAt_466CF0(s32 xpos, s32 ypos, s32 zpos)
     {
         gmp_block_info* block_4DFE10 = get_block_4DFE10(xpos, ypos, zpos);

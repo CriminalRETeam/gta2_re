@@ -460,7 +460,6 @@ void PedManager::SpawnDummies_46EB60(Camera_0xBC* pCam)
     Ang16 rot; // ax
     s32 last_count__; // esi
     gmp_zone_info* pZoneInfo; // eax
-    u32 slope_type; // eax
 
     // stack
     s32 zpos;
@@ -604,9 +603,7 @@ void PedManager::SpawnDummies_46EB60(Camera_0xBC* pCam)
                         pSprite->AllocInternal_59F950(gDummyW_678530, gDummyH_678584, gDummyZ_67841C);
                         if (!gGame_0x40_67E008->is_point_on_screen_4B9A80(pSprite->field_14_xy.x, pSprite->field_14_xy.y))
                         {
-                            gmp_block_info* pBlock =
-                                gMap_0x370_6F6268->get_block_4DFE10((u8)(xpos.ToInt()), (u8)(ypos.ToInt()), (u8)zpos + 1);
-                            if (!pBlock || (slope_type = pBlock->field_B_slope_type & 0xFC, slope_type < 0xB4) || slope_type > 0xD0)
+                            if (!gMap_0x370_6F6268->IsSlopeB4ToD0At_433430((u8)(xpos.ToInt()), (u8)(ypos.ToInt()), (u8)zpos + 1))
                             {
                                 SpawnPedestrianAt_46E380(xpos, ypos, zpos + 1, rotation);
                             }
