@@ -73,12 +73,6 @@ DEFINE_GLOBAL_INIT(Ang16, word_6F603E, Ang16(720), 0x6F603E);
 
 Fix16 kFpOne_6F6110 = Fix16(1); // = 0x4000; // todo
 
-static inline bool Overlaps(gmp_map_zone* pZone, u8 x, u8 y)
-{
-    return x >= pZone->field_1_x && y >= pZone->field_2_y && x < pZone->field_1_x + pZone->field_3_w &&
-        y < pZone->field_2_y + pZone->field_4_h;
-}
-
 static inline s32 clamp_z_from_column(s32 height, s32 offset, s32 z_pos)
 {
     if (z_pos >= height)
@@ -446,7 +440,7 @@ gmp_map_zone* Map_0x370::zone_by_pos_and_type_4DF4D0(u8 zone_x, u8 zone_y, u8 zo
         for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < field_32C_pZones->field_0_num_zones; field_364_cur_zone_idx++)
         {
             gmp_map_zone* pZone = get_zone_4DFB30(field_364_cur_zone_idx);
-            if (pZone->field_0_zone_type == field_368_zone_type && Overlaps(pZone, field_36A_zone_x, field_36B_zone_y))
+            if (pZone->field_0_zone_type == field_368_zone_type && pZone->ContainsPoint_463020(field_36A_zone_x, field_36B_zone_y))
             {
                 return pZone;
             }
@@ -469,7 +463,7 @@ gmp_map_zone* Map_0x370::nav_zone_by_pos_4DF5C0(u8 zone_x, u8 zone_y)
             if ((pZone->field_0_zone_type == Information_10 
                 || pZone->field_0_zone_type == Navigation_1 
                 || pZone->field_0_zone_type == Local_Navigation_15) &&
-                Overlaps(pZone, field_36A_zone_x, field_36B_zone_y))
+                pZone->ContainsPoint_463020(field_36A_zone_x, field_36B_zone_y))
             {
                 return pZone;
             }
@@ -492,7 +486,7 @@ gmp_map_zone* Map_0x370::first_zone_by_pos_4DF6A0(u8 zone_x, u8 zone_y)
         for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < field_32C_pZones->field_0_num_zones; field_364_cur_zone_idx++)
         {
             pZone = Map_0x370::get_zone_4DFB30(this->field_364_cur_zone_idx);
-            if (Overlaps(pZone, this->field_36A_zone_x, this->field_36B_zone_y))
+            if (pZone->ContainsPoint_463020(this->field_36A_zone_x, this->field_36B_zone_y))
             {
                 return pZone;
             }
@@ -516,7 +510,7 @@ gmp_map_zone* Map_0x370::next_zone_4DF770()
             }
             pZoneIter = Map_0x370::get_zone_4DFB30(field_364_cur_zone_idx);
             if (pZoneIter->field_0_zone_type == this->field_368_zone_type &&
-                (!this->field_36C_bMatchPos || Overlaps(pZoneIter, field_36A_zone_x, field_36B_zone_y)))
+                (!this->field_36C_bMatchPos || pZoneIter->ContainsPoint_463020(field_36A_zone_x, field_36B_zone_y)))
             {
                 return pZoneIter;
             }

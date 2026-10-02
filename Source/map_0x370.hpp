@@ -168,6 +168,12 @@ class gmp_map_zone
 
     EXPORT s8 IsZoneVisibleToAnyPlayer_4DEF40();
     EXPORT wchar_t* get_zone_str_4DEF00();
+
+    // 9.6f 0x463020
+    inline bool ContainsPoint_463020(u8 x, u8 y)
+    {
+        return x >= field_1_x && y >= field_2_y && x < field_1_x + field_3_w && y < field_2_y + field_4_h;
+    }
 };
 
 struct gmp_zone_info
