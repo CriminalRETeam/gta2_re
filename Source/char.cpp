@@ -2141,7 +2141,7 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
 
         //
 
-        if ((field_7C_pPed->field_230 == 2 || field_5C) && field_10_char_state != Char_B4_state::Jumping_15)
+        if ((field_7C_pPed->get_field_230_492C20() == 2 || field_5C) && field_10_char_state != Char_B4_state::Jumping_15)
         {
             if (!bUnk51)
             {

@@ -650,6 +650,12 @@ class Ped
         field_230 = value;
     }
 
+    // 9.6f 0x492C20
+    inline s32 get_field_230_492C20()
+    {
+        return field_230;
+    }
+
     inline void sub_433BC0(s32 value)
     {
         field_22C = value;
