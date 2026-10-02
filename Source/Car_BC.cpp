@@ -1831,11 +1831,9 @@ Car_6C::~Car_6C()
     field_4 = 0;
 }
 
-WIP_FUNC(0x4451E0)
+MATCH_FUNC(0x4451E0)
 bool Car_BC::sub_4451E0(Ped* pPed)
 {
-    WIP_IMPLEMENTED;
-
     Ped* pDriver = this->field_54_driver;
     if (pDriver && !this->IsMediCar() &&
         pDriver->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
