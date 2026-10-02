@@ -1877,15 +1877,13 @@ EXPORT s16 Car_BC::ApplyImpactDamage_43D5D0(Fix16 damage)
     return 0;
 }
 
-WIP_FUNC(0x4403a0)
+MATCH_FUNC(0x4403a0)
 Ang16 Car_BC::GetCornerAngle_4403A0()
 {
-    WIP_IMPLEMENTED;
-
     car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
     Fix16 w_fp = Fix16(pCarInfo->w) / 2;
     Fix16 h_fp = Fix16(pCarInfo->h) / 2;
-    return Fix16::atan2_fixed_405320(h_fp, w_fp);
+    return Ang16(Fix16::atan2_fixed_405320(h_fp, w_fp).rValue);
 }
 
 MATCH_FUNC(0x439ec0)
