@@ -2283,28 +2283,27 @@ char_type CarPhysics_B0::CheckPendingCollision_55F360()
     return 0;
 }
 
-WIP_FUNC(0x55f740)
+MATCH_FUNC(0x55f740)
 void CarPhysics_B0::ApplyForceWithTrailerRedirect_55F740(Fix16_Point* a2, Fix16_Point* a3)
 {
-    WIP_IMPLEMENTED;
 
     if (field_5C_pCar->is_on_trailer_421720())
     {
         CarPhysics_B0* pB0 = field_5C_pCar->field_64_pTrailer->field_8_truck_cab->field_58_physics;
         pB0->SetCurrentCarInfoAndModelPhysics_562EF0();
-        pB0->ApplyForceAndIntegrate_55F7A0(a2, *a3);
+        pB0->ApplyForceAndIntegrate_55F7A0(a2, *(Fix16_Point_ByValue*)a3);
         SetCurrentCarInfoAndModelPhysics_562EF0();
     }
     else
     {
-        ApplyForceAndIntegrate_55F7A0(a2, *a3);
+        ApplyForceAndIntegrate_55F7A0(a2, *(Fix16_Point_ByValue*)a3);
     }
 }
 
 MATCH_FUNC(0x55f7a0)
-void CarPhysics_B0::ApplyForceAndIntegrate_55F7A0(Fix16_Point* a2, Fix16_Point a3)
+void CarPhysics_B0::ApplyForceAndIntegrate_55F7A0(Fix16_Point* a2, Fix16_Point_ByValue a3)
 {
-    ApplyForceAtPoint_55F800(a2, &a3, 0);
+    ApplyForceAtPoint_55F800(a2, (Fix16_Point*)&a3, 0);
     UpdateLinearAndAngularAccel_560EB0();
     IntegrateAndClampVelocities_5610B0();
 }

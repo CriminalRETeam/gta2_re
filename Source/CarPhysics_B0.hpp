@@ -48,6 +48,16 @@ enum
 };
 } // namespace car_turn_direction
                                                                 
+// A point passed by value that the caller copies bitwise (two pushes) but the callee
+// destroys (EH frame): Fix16_Point without the user-defined copy constructor.
+class Fix16_Point_ByValue : public Fix16_Point_POD
+{
+  public:
+    ~Fix16_Point_ByValue()
+    {
+    }
+};
+
 class CarPhysics_B0
 {
   public:
@@ -183,7 +193,7 @@ class CarPhysics_B0
     EXPORT void StepPhysics_55F330();
     EXPORT char_type CheckPendingCollision_55F360();
     EXPORT void ApplyForceWithTrailerRedirect_55F740(Fix16_Point* a2, Fix16_Point* a3);
-    EXPORT void ApplyForceAndIntegrate_55F7A0(Fix16_Point* a2, Fix16_Point a3);
+    EXPORT void ApplyForceAndIntegrate_55F7A0(Fix16_Point* a2, Fix16_Point_ByValue a3);
     EXPORT void ApplyForceAtPoint_55F800(Fix16_Point* a2, Fix16_Point* a3, s32 a4);
     EXPORT void AccumulateImpulse_55F930(Fix16_Point* a2);
     EXPORT void ApplyAngularImpulse_55F970(Fix16 a2);
