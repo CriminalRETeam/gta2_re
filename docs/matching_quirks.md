@@ -40,6 +40,11 @@ with `dword_6FD508 * dword_6FD554` while the original multiplies `dword_6FD554 *
 (the two globals were swapped, the instructions identical). Comparing the referenced
 globals per instruction catches this.
 
+**A build that hangs after "Built target" while the permuter runs.** Wine starts
+`explorer.exe /desktop` on demand. When a build happens to start it, it inherits `build.py`'s
+output pipe, and `build.py` waits for EOF forever. Kill the `explorer.exe /desktop` process,
+and the build carries on with correct results.
+
 ## Control flow and layout
 
 **Case bodies are laid out in source order.** If the original's `mov $N,%eax; ret` blocks come
@@ -57,6 +62,23 @@ repeats the epilogue after each check, early returns are right (`Particle_4C::Up
 `switch (notify) { case 1: ... }` loads the value and tests it with `dec %eax; jne`. Use
 the switch form when the original has the load and `dec`
 (`Network_20324::OnWmCommand_519FE0`).
+
+**A redundant null test that VC6 doesn't fold.** The original tests the driver twice in a
+row (`cmp %ebx,%ecx; je; cmp %ebx,0x15C(%ecx); je; cmp %ebx,%ecx; jne`). Testing the same
+local twice folds away. Reloading the pointer through another path keeps the second test:
+`if (pCar->is_driven_by_player()) { if (!pTrain->field_C_carriages[0]->field_54_driver) ...`.
+VC6 CSEs the load into the same register but doesn't thread the branch
+(`PublicTransport_181C::PublicTransportService_57A7A0`).
+
+**Invert an `if`/`else` to let a case share a block with a later case.** In
+`Police_7B8::sub_56FBD0`, case 0's `field_8_state = 3` is a `jne` into an identical block in
+case 5. With `if (n) { state = 3; } else { ... }`, VC6 kept its own copy. With
+`if (!n) { ... } else { state = 3; }`, the block moves to the end and merges (0.690 -> 0.802).
+
+**Case groups out of numeric order.** The same function lays out state 5 before state 4, and
+the case's own `if`/`else` follows the source too (`if (occ != 43) { angle } else { reset }`
+in `Char_B4::HandlePedCollision_548BD0`). Read the jump table targets in address order to get
+the source order of the cases.
 
 **`if/else` around a call vs a ternary argument.** `f(x == 0 ? 1 : 0)` gives `sete`, but
 two `push`es that branch to one `call` come from `if (x == 0) f(1); else f(0);`
@@ -148,6 +170,15 @@ comparison (`RouteFinder_10::field_2` is `u16`).
 **`test al,al; jbe`** on a byte means `if (x > 0)` with an unsigned `x`, not `if (x)`
 (`Cooldown_4236C0`).
 
+**`mov mem,%edx; and $1,%edx; cmp $1,%dl` is `(x & 1) == 1` with no cast.** A `(u8)` or
+`(char)` cast, or an inline returning `char`, narrows the load to `mov mem,%dl; and $1,%dl`.
+`!(x & 1)` gives `testb $1,mem` (`sound_obj::HandlePedVoiceEvent_423080`). Likewise,
+`(field_21C & 0x20) == 0x20` (`Police_7B8::sub_56FBD0`).
+
+**Unsigned compares on `char_type` counters.** `cmp $1,%al; jae` or `test %al,%al; ja` on a
+counter field means the field is `u8`. `Police_7C`'s `field_70`..`field_73` crew counts were
+`char_type`, and changing them to `u8` moved no other function.
+
 **`and $0xFFFF,%eax` vs `movswl`** is a `u16` vs `s16` parameter (`PedManager::DoIanTest_471060`).
 
 **Return width.** `xor al,al`/`mov $1,al` returns a byte; `xor eax,eax`/`mov $1,eax` returns
@@ -190,6 +221,26 @@ reordering statements and using the existing inline accessors.
 **`memcmp`/`operator==` operand order picks `esi`/`edi`.** For an inlined 16-byte compare
 (`repe cmpsl`), the left operand goes in `esi` and the right in `edi`. Swap the sides
 of `==` if they are the wrong way round (`NetPlay::InitializeConnection_51E5C0`).
+
+**`a > b ? a : b` on `Fix16` goes through memory.** VC6 picks the address of the larger
+operand (`lea ...; jg; lea ...; mov (%eax),%edx`). `Fix16::Max` and `MaxAbsDistance_42A6B0`
+do the same. Keep it in registers with `if (!(dx > dy)) { dx = dy; }`, which gives the
+original's `cmp %eax,%edx; jg; mov %eax,%edx` (`Police_7B8::sub_56FBD0`, 0.924 -> match).
+
+**A value picked by an `if`/`else` chain vs a ternary chain moves a later sum to another
+register.** In `sound_obj::HandlePedVoiceEvent_423080`,
+`else { vol = voice == 4 ? 35 : bTank ? 62 : 40; }` instead of two more `else if`s fixed which
+register the following `rate + RandomDisplacement(...)` used. The permuter found it.
+
+**One expression can forward a field across a call.**
+`field_20 = Get(samp) + Disp(field_14_samp_idx)`, right after `field_14_samp_idx = samp`,
+pushes `samp`'s register for `Disp`. Split into
+`s32 rate = Get(samp); field_20 = rate + Disp(field_14_samp_idx);` and `field_14` is
+reloaded after the call, as in the original (`sound_obj::HandlePedVoiceEvent_423080`).
+
+**Put the zero-initialised accumulator first.** `xor %ebp,%ebp` before two `mov %bl,mem`
+stores means the `s32` was declared before the two `u8 = 0`s
+(`sound_obj::PoliceRadioMessageGeneration_426790`).
 
 **Field-index locals: try every declaration order.** Four `u16` locals loaded from the same
 struct (the junction link indices) gave 0.930, 0.585 or a match depending only on their
@@ -365,6 +416,18 @@ together (`RouteFinder::NoRefs_589210`: a local's type and the order of two assi
 return, cast to `u8` at the call: `if ((u8)sub_405E20(...) || (u8)sub_405E20(...))`. With a
 `bool` return, VC6 emits `mov $1,%al` in the callee instead (`sub_405E20`, `sub_405E80`).
 
+**A member that ignores `ecx`.** `frosty_pasteur_0xC1EA8::sub_511A70` is called with
+`ecx = gfrosty_pasteur_6F8060`, but reads the global (`mov 0x6F8060,%eax`) instead of `this`.
+Write the body against the global. Similarly, `Police_7B8::sub_56FBD0` calls
+`gPolice_7B8_6FEE40->sub_56FAA0(...)` and writes `gPolice_7B8_6FEE40->field_65C` while using
+`this` for everything else.
+
+**A byte load from a live parameter's slot is an uninitialised local.** In
+`sound_obj::HandlePedVoiceEvent_423080`, `mov 0x1C(%esp),%bl` (the `Sound_Params_8*`
+argument) on the player path is the `bTank` flag. Only the non-player path assigns it, and VC6
+reads the "value" from wherever the variable's home is. Declare it without an initialiser and
+assign it on the one path.
+
 **Tail-call thunks.** A tiny original function that is just `mov ...,%ecx; jmp <addr>` or
 `if (x) jmp A; else jmp B` means the real code is a separate function the decomp had
 inlined. Split the body into its own function at the jump target address and call it:
@@ -458,6 +521,17 @@ tried are in the WIP status report.
   `SetDlgItemTextA` call where we share one tail. 200 permuter compiles found nothing.
 - An `s16` parameter returned with a 32-bit `mov` in `default` (`gtx_0x106C::GetSpriteTrueIndex_5AA460`).
 - Global load register choice in a run of similar statements (`Camera_0xBC::sub_435B90`).
+- A dead parameter slot given to a different local. In `Car_6C::SpawnCarOnRoadNetwork_4458B0`
+  the original puts an unused `u8` out byte in `xpos`'s slot and the y integer in `ypos`'s.
+  Ours gives `found_z` the `xpos` slot, which shifts the frame (0x34 vs 0x30). Declaration
+  order, passing `(u8*)&xpos` and the permuter didn't help.
+- Every inlined angle computation with its own stack slots, so the frame is 0x4C where ours is
+  0x14 (`Char_B4::HandlePedCollision_548BD0`). Named locals, an inline helper,
+  temporaries bound straight to `atan2`'s references, and function-scope locals for each site
+  all either shared the slots or lost elsewhere.
+- One register left in `sound_obj::HandlePedVoiceEvent_423080`: `add %eax,%edi` (the sum stays
+  in `edi`, stored after `xor %eax,%eax`) where ours does `add %edi,%eax`. Six spellings of the
+  sum and 3,000 permuter iterations didn't find it.
 - Error blocks that cross-jump into each other's identical `ret` tail
   (`DMA_Video_LoadDll_5EB970`: the `load_gbh_func` failure blocks). With `/O2` our VC6 keeps
   every block separate. No compiler flag reproduces it:

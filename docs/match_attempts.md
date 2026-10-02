@@ -1102,3 +1102,88 @@ Still different:
 - The call sequence is almost the target's. The distance is computed three times, the first `atan2` result is dead, and `rng(2)` is called and dropped.
 - The EH state is 0xA at entry and never changes. So 10 `Fix16_Point` locals are declared at the top, plus the by-value `a1`. That took it from 0.075 to 0.149.
 - What's left is VC6's inline budget. Our build calls `Fix16_Point_POD()` out of line for the first two locals. The original instead inlines the loop-1 `mid /= k; mid += cur` with `Fix16 /=` as calls (0x539F90), and calls the copies at 0x5E40E0/0x5E40C0 in loop 2. Using inline `Fix16_Point` operators for both loops gave the right loop-1 code but inlined loop 2 and left 6 ctor calls (0.072). Writing the length out by hand gave 2 calls (0.067). See the ctor note in matching_quirks.md.
+
+## Round: remaining non-CRT stubs (Oct 2)
+
+### Net_4DA9B0 (0x4DA9B0): MATCH, first try
+- Re-sends one earlier frame's inputs to one player: fills `gInputSendData_6F5B18` (length 8
+  with the sync check, else 4) and calls `NetPlay::SendToPlayer_521630`.
+
+### frosty_pasteur_0xC1EA8::sub_511A70 (0x511A70): MATCH
+- Looks a car model up in the script's car list (`field_340_car_list`, read as bytes) and sets
+  the generator's type from `byte_6212F0` (0x41 when it isn't in the list). The second argument
+  is a `Generator_2C`, not a `SCR_CMD_HEADER`.
+- It uses `gfrosty_pasteur_6F8060` instead of `this`. 0.957 to match by writing the compare as
+  `car_model == *pList` and the increments as `pList++, i++`.
+
+### FileByteSum_4DB120, sub_4DB2E0, FatalErrorMsg_4DB410, CompareRemotePlayers_4DB440: MATCH, first try
+- The network sync check. `sub_4DB2E0` fills a packed 0x1F-byte `SyncCheckData_1F`: debug
+  flags, level file size from `_stat`, byte sums of the script and `data\nyc.gci`, language and
+  player index. `CompareRemotePlayers_4DB440` quits through `FatalErrorMsg_4DB410` (video off,
+  message box, `exit(1)`) naming the player and file that differ. The original passes an extra
+  unused argument to the last `sprintf`.
+- The format strings and the two helpers needed the asm dump. `dump_target_asm.py` on
+  `claude/target-asm-request` now also dumps strings (and other data) referenced by
+  `push $imm`/`mov $imm` into `target_data.json`, cut at the NUL when it looks like text.
+
+### PublicTransport_181C::PublicTransportService_57A7A0 (0x57A7A0): WIP 0.710
+- Buses, then for each train: the player driving it controls it. `field_50` (the train's
+  motion state) gives whether it's stopped, and `field_48` steps through approach, stop,
+  doors, wait, leave for the current station.
+- The redundant driver null test needed a reload through `field_C_carriages[0]` (see
+  matching_quirks.md). `field_4C` is read once into a local when moving to the next station.
+- Left: register choice in the "train at zone" checks. 10,000 permuter iterations only shuffled
+  scopes (188 -> 140).
+
+### sound_obj::HandlePedVoiceEvent_423080 (0x423080): WIP 0.992
+- Picks a ped's voice sample by voice event (`Ped::field_250`), with cooldown bytes
+  `byte_67554A/B/C` and `word_675548` for repeated shouts (Elvis gets his own), then queues it.
+  `bTank` (tank driver, or `Ped::sub_45B4E0`) is uninitialised on the player path, as in the
+  original.
+- 0.809 -> 0.974: the entity index is used unsigned (`(u32)... % 5`). 0.974 -> 0.987: split the
+  rate sum so `field_14` is reloaded. 0.987 -> 0.992: the permuter's ternary for the volume and
+  a plain `(x & 1) == 1`. One register is left, see matching_quirks.md.
+
+### Car_6C::SpawnCarOnRoadNetwork_4458B0 (0x4458B0): WIP 0.580
+- Finds a junction near the point (`RouteFinder::sub_58A130`, whose `s16` result the original
+  narrows to `char`), heads out of it, then walks the road like `SpawnBusAtValidRoadPosition_4453E0`
+  until a free, off-screen spot is found. The car gets an AI following the route.
+- Left: the dead-parameter-slot assignment (see matching_quirks.md). A `dir` local for the
+  junction switch, `ToInt()` written inline and the permuter all made it worse.
+
+### sound_obj::PoliceRadioMessageGeneration_426790 (0x426790): MATCH
+- Picks the most serious crime reported this frame (`Shooey_CC::GetLatestReportedCrime`, crime 9
+  only when nothing else was reported), counts down the radio timers, then queues the dispatcher
+  lines for a new wanted level or one random chatter line.
+- 0.998 on the first build. It matched once `best_crime = 0` was declared before the two
+  `u8 = 0`s. It also needed the empty `sound_obj::nullsub_4` (0x427330) and Shooey_CC.hpp.
+
+### Police_7B8::sub_56FBD0 (0x56FBD0): MATCH
+- Updates each call for service: wanted level from the criminal's stars, then the state
+  (send crews, add SWAT at 4 stars, stand down at 5/6, clean up when the criminal is gone, and
+  case 5 re-sends crews when the criminal gets away from the searched spot).
+- 0.590 -> 0.629: share one `count` and one index `j` across the loops (the frame was 0x2C).
+  0.690: state 5 before state 4. 0.802: case 0's inverted `if`. 0.924: the distance check
+  written out. Match: `if (!(dx > dy)) dx = dy;` instead of the ternary.
+
+### eager_benz::sub_592660 (0x592660): WIP 0.343
+- Scores a ped kill, the ped counterpart of `sub_592DD0`. Points depend on the victim's
+  occupation (cop, army, SWAT, FBI, gang members, Elvis with his own counter) and the kill type
+  (`field_290`); network kills of players use a separate table. Then the exploding score, cash
+  and the crime report (6/7/8/9).
+- The original lays the kill-type switch out inside the occupation switch, and the Elvis case
+  jumps past it. There's a `goto` for now. The six occupation flags live in two dead parameter
+  slots and two stack bytes. `this` and the victim ped get each other's registers.
+
+### Char_B4::HandlePedCollision_548BD0 (0x548BD0): WIP 0.592
+- A 5x5 switch on both peds' `field_238` types. It covers Elvis followers, pushing the other ped
+  away (`atan2` + 180 degrees, with `sub_406C20` or the inline `Normalize`), slowing down,
+  turning 30 degrees, stepping back to the saved position, and cops arresting a wanted ped.
+- 0.457 -> 0.592: case order from the jump tables, the `occ != 43` branch first, and the
+  differences passed straight to `atan2`. The frame-size difference is under "Still
+  unexplained".
+
+### sub_5DE910 (0x5DE910): moving the arc into an inline helper is wrong
+- The permuter scored nested scopes for the `Fix16_Point` locals (836 -> 542). An inline helper
+  owning the arc locals gave 0.056: the original constructs all ten locals at entry
+  (`movl $0xA` EH state), so they belong to the function itself.
