@@ -6852,13 +6852,13 @@ void miss2_0x11C::SCRCMD_DO_BASIC_KF_510280()
             SCR_POINTER* pBonusType = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_bonusname);
             SCR_POINTER* pCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_12_countername);
             pCounter->field_8_counter = pCmd->field_14_target_total -
-                (u8)gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_bonuses.field_0_bonuses[pBonusType->field_8_index].field_26_count;
+                gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_bonuses.get_bonus_count_476660(pBonusType->field_8_index);
 
             Ped* pPed = pPlayerPedCmdPointer->field_8_char;
 
             if (pPed->GetPedState_403990() == ped_state_1::dead_9 || pPed->field_21C_bf.b5 != 0)
             {
-                gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_bonuses.field_0_bonuses[pBonusType->field_8_index].Deactivate_431DB0();
+                gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_bonuses.DeactivateBonus_476680(pBonusType->field_8_index);
                 pPlayerPedCmdPointer->field_8_char->field_15C_player->ClearKFWeapon_5647D0();
             }
         }
@@ -6875,7 +6875,7 @@ void miss2_0x11C::SCRCMD_DO_BASIC_KF_510280()
             if (miss2_0x11C::GetBonusResult_505EA0(pCmd->field_8_bonusname) == -3)
             {
                 gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("kfpass"), 3);
-                pPlayerPedCmdPointer->field_8_char->field_20A_wanted_points = 0;
+                pPlayerPedCmdPointer->field_8_char->ClearWantedPoints_420B80();
                 ++*gfrosty_pasteur_6F8060->field_338_secrets_passed;
 
                 if (pCmd->field_1A_rewardtype == 1)
@@ -6885,8 +6885,7 @@ void miss2_0x11C::SCRCMD_DO_BASIC_KF_510280()
                 }
                 else if (pCmd->field_1A_rewardtype == 2)
                 {
-                    pPlayerPedCmdPointer->field_8_char->field_15C_player->field_6BC_multpliers.ChangeStatByAmount_4921B0(
-                        pCmd->field_1C_rewardvalue);
+                    pPlayerPedCmdPointer->field_8_char->field_15C_player->ChangeMultipliers_4766B0(pCmd->field_1C_rewardvalue);
                     gRoot_sound_66B038.PlayVoice_40F090(19);
                 }
                 else

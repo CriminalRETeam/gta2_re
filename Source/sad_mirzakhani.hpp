@@ -37,6 +37,18 @@ class silly_saha_0x2C
 class sad_mirzakhani
 {
   public:
+    // 9.6f 0x476660
+    inline u8 get_bonus_count_476660(u16 idx)
+    {
+        return field_0_bonuses[idx].field_26_count;
+    }
+
+    // 9.6f 0x476680
+    inline void DeactivateBonus_476680(u16 idx)
+    {
+        field_0_bonuses[idx].Deactivate_431DB0();
+    }
+
     EXPORT sad_mirzakhani(); // 0x431DC0
     EXPORT ~sad_mirzakhani(); // 0x431DF0
     EXPORT void Init_431E10(class eager_benz* a2);
