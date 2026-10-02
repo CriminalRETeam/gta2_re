@@ -9273,7 +9273,7 @@ void Ped::MeleeAttackStateMachine_46B670()
         }
         field_168_game_object->SetMaxSpeed_433920(field_14C->GetPedVelocity_45C920());
         if (field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15 &&
-            field_168_game_object->field_38_velocity == k_dword_678660)
+            field_168_game_object->get_velocity_41B080() == k_dword_678660)
         {
             Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
             Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
@@ -9287,8 +9287,7 @@ void Ped::MeleeAttackStateMachine_46B670()
             {
                 if (field_14C->IsField238_45EDE0(2) && field_240_occupation == ped_ocupation_enum::mugger)
                 {
-                    field_14C->field_15C_player->field_2D4_scores.AddCash_592620(
-                        -10 * field_14C->field_15C_player->field_6BC_multpliers.field_0_value);
+                    field_14C->field_15C_player->Add_2D4(-10);
                     ++field_229;
                     if (field_229 > 9)
                     {
@@ -9320,8 +9319,7 @@ void Ped::MeleeAttackStateMachine_46B670()
 
                     if (field_14C->IsField238_45EDE0(2) && field_240_occupation == ped_ocupation_enum::mugger)
                     {
-                        field_14C->field_15C_player->field_2D4_scores.AddCash_592620(
-                            -10 * field_14C->field_15C_player->field_6BC_multpliers.field_0_value);
+                        field_14C->field_15C_player->Add_2D4(-10);
                         ++field_229;
                         if (field_229 > 9)
                         {
@@ -9382,10 +9380,7 @@ void Ped::MeleeAttackStateMachine_46B670()
             }
 
             field_14C->field_21C_bf.b5 = true;
-            if (!field_21C_bf.b24)
-            {
-                field_250 = 18;
-            }
+            Set_F250_IfBit_433DD0(18);
             return;
         }
         else
@@ -9400,8 +9395,7 @@ void Ped::MeleeAttackStateMachine_46B670()
                 {
                     if (field_240_occupation == ped_ocupation_enum::mugger)
                     {
-                        field_14C->field_15C_player->field_2D4_scores.AddCash_592620(
-                            -10 * field_14C->field_15C_player->field_6BC_multpliers.field_0_value);
+                        field_14C->field_15C_player->Add_2D4(-10);
                         ++field_229;
                         if (field_229 > 9)
                         {
@@ -9438,7 +9432,7 @@ void Ped::MeleeAttackStateMachine_46B670()
         {
             if (field_14C->field_148_objective_target_ped == this || field_14C->field_14C == this)
             {
-                field_168_game_object->field_38_velocity = field_1F4;
+                field_168_game_object->SetMaxSpeed_433920(field_1F4);
             }
             else
             {
