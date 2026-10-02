@@ -358,7 +358,7 @@ void Police_7B8::sub_56FA40()
 {
     if (field_464_services[0].field_0_criminal_ped)
     {
-        if ((field_464_services[0].field_0_criminal_ped->field_21C & 1) == 0 
+        if (!field_464_services[0].field_0_criminal_ped->CheckBit0_433B40() 
             || field_464_services[0].field_0_criminal_ped->isDead_403B60())
         {
             field_464_services[0].field_8_state = 4;
