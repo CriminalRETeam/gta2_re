@@ -1349,6 +1349,12 @@ class TrailerPool
        field_0_pool.field_0_pHead = 0;
     }
 
+    // 9.6f 0x425580
+    inline void Remove_425580(Trailer* pTrailer)
+    {
+        field_0_pool.DeAllocate(pTrailer);
+    }
+
     PoolBasic<Trailer, 10> field_0_pool;
 };
 

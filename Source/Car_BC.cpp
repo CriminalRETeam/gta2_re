@@ -5856,10 +5856,10 @@ MATCH_FUNC(0x442760)
 void Car_BC::DetachTrailer_442760()
 {
     Trailer* p = field_64_pTrailer;
-    gCar_BC_Pool_67792C->field_0_pool.UpdateNextPrev(field_64_pTrailer->field_C_pCarOnTrailer);
+    gCar_BC_Pool_67792C->UpdateNextPrev(field_64_pTrailer->field_C_pCarOnTrailer);
     field_64_pTrailer->field_C_pCarOnTrailer->field_64_pTrailer = 0;
     field_64_pTrailer->field_8_truck_cab->field_64_pTrailer = 0;
-    gTrailerPool_66AC80->field_0_pool.DeAllocate(p);
+    gTrailerPool_66AC80->Remove_425580(p);
 }
 
 WIP_FUNC(0x4427a0)
