@@ -284,7 +284,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
     switch (pEntry->field_8_type)
     {
         case 1:
-            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
+            if (pSprite->get_type_416B40() == sprite_types_enum::car_2)
             {
                 pEntry->field_14 = 0;
                 pCar = pSprite->AsCar_40FEB0();
@@ -292,7 +292,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
             break;
 
         case 2:
-            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
+            if (pSprite->get_type_416B40() == sprite_types_enum::car_2)
             {
                 pCar = pSprite->field_8_car_bc_ptr;
                 pCmd = (Car_18_Cmd*)pEntry->field_0;
@@ -305,9 +305,9 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
             break;
 
         case 4:
-            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::ped_3)
+            if (pSprite->get_type_416B40() == sprite_types_enum::ped_3)
             {
-                pPed = pSprite->field_8_char_b4_ptr->field_7C_pPed;
+                pPed = pSprite->field_8_char_b4_ptr->get_ped_433A20();
                 pCmd = (Car_18_Cmd*)pEntry->field_0;
                 if (pCmd->field_2_type == 0xD4)
                 {
@@ -337,9 +337,9 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
             break;
 
         case 3:
-            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::ped_3)
+            if (pSprite->get_type_416B40() == sprite_types_enum::ped_3)
             {
-                pPed = pSprite->field_8_char_b4_ptr->field_7C_pPed;
+                pPed = pSprite->field_8_char_b4_ptr->get_ped_433A20();
                 if (pPed)
                 {
                     pCmd = (Car_18_Cmd*)pEntry->field_0;
@@ -357,10 +357,10 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                     }
                 }
             }
-            else if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
+            else if (pSprite->get_type_416B40() == sprite_types_enum::car_2)
             {
                 pCar = pSprite->field_8_car_bc_ptr;
-                pPed = pCar->field_54_driver;
+                pPed = pCar->get_driver_4118B0();
                 if (pPed)
                 {
                     pCmd = (Car_18_Cmd*)pEntry->field_0;
@@ -381,10 +381,10 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
             break;
 
         case 5:
-            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
+            if (pSprite->get_type_416B40() == sprite_types_enum::car_2)
             {
                 pCar = pSprite->field_8_car_bc_ptr;
-                pPed = pCar->field_54_driver;
+                pPed = pCar->get_driver_4118B0();
                 if (pPed)
                 {
                     pCmd = (Car_18_Cmd*)pEntry->field_0;
@@ -398,9 +398,9 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
             break;
 
         case 7:
-            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::ped_3)
+            if (pSprite->get_type_416B40() == sprite_types_enum::ped_3)
             {
-                pPed = pSprite->field_8_char_b4_ptr->field_7C_pPed;
+                pPed = pSprite->field_8_char_b4_ptr->get_ped_433A20();
                 if (pPed)
                 {
                     pCmd = (Car_18_Cmd*)pEntry->field_0;
@@ -415,9 +415,9 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
             break;
 
         case 6:
-            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::ped_3)
+            if (pSprite->get_type_416B40() == sprite_types_enum::ped_3)
             {
-                pPed = pSprite->field_8_char_b4_ptr->field_7C_pPed;
+                pPed = pSprite->field_8_char_b4_ptr->get_ped_433A20();
                 if (pPed)
                 {
                     pCmd = (Car_18_Cmd*)pEntry->field_0;
@@ -429,10 +429,10 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                     }
                 }
             }
-            else if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
+            else if (pSprite->get_type_416B40() == sprite_types_enum::car_2)
             {
                 pCar = pSprite->field_8_car_bc_ptr;
-                pPed = pCar->field_54_driver;
+                pPed = pCar->get_driver_4118B0();
                 if (pPed)
                 {
                     pCmd = (Car_18_Cmd*)pEntry->field_0;
@@ -447,10 +447,10 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
             break;
 
         case 8:
-            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
+            if (pSprite->get_type_416B40() == sprite_types_enum::car_2)
             {
                 pCar = pSprite->field_8_car_bc_ptr;
-                pPed = pCar->field_54_driver;
+                pPed = pCar->get_driver_4118B0();
                 if (pPed)
                 {
                     pCmd = (Car_18_Cmd*)pEntry->field_0;
@@ -2285,7 +2285,7 @@ void Car_BC::SetDriver(Ped* pNewDriver)
             Ped* pOldDriver = this->field_54_driver;
             if (pOldDriver && pOldDriver->field_15C_player)
             {
-                hand_brake_on = pCarPhysics->field_92_is_hand_brake_on;
+                hand_brake_on = pCarPhysics->get_is_hand_brake_on_421270();
             }
             else
             {
@@ -2565,7 +2565,7 @@ void Car_BC::ProcessCarToCarImpact_43ADC0(Sprite* pSprite)
 
                     if (score > 200)
                     {
-                        Ped* pDriver = pCar->field_54_driver;
+                        Ped* pDriver = pCar->get_driver_4118B0();
                         if (pDriver)
                         {
                             Player* pPlayer = pDriver->field_15C_player;
@@ -4228,11 +4228,11 @@ bool Car_BC::OnObjectTouched_43EA60(Object_2C* pObj)
             return 1;
 
         case objects::crane_base_137:
-            gCranePool_D9C_679FD4->PickUpCar_480E00(this, pObj->field_26_varrok_idx);
+            gCranePool_D9C_679FD4->PickUpCar_480E00(this, pObj->get_field_26_420FF0());
             break;
 
         case objects::crusher_central_spot_143:
-            gCrusherPool_94_67A830->CrushCarWithCrusher_4887D0(this, pObj->field_26_varrok_idx);
+            gCrusherPool_94_67A830->CrushCarWithCrusher_4887D0(this, pObj->get_field_26_420FF0());
             break;
 
         case objects::animating_oil_8:
@@ -4255,7 +4255,7 @@ bool Car_BC::OnObjectTouched_43EA60(Object_2C* pObj)
             break;
 
         case objects::maybe_door_trigger_167: // try open door? for garage?
-            gDoor_4D4_67BD2C->sub_49D340(this, pObj->field_26_varrok_idx);
+            gDoor_4D4_67BD2C->sub_49D340(this, pObj->get_field_26_420FF0());
             break;
 
         default:
@@ -4578,7 +4578,7 @@ void Car_BC::InitCarAIControl_440590()
     Ped* pDriver = this->field_54_driver;
     if (pDriver)
     {
-        if (pDriver->field_238_ped_type != ped_type::player_2)
+        if (pDriver->GetPedType_420B70() != ped_type::player_2)
         {
             if (this->field_5C_AI == 0)
             {
@@ -4639,7 +4639,7 @@ void Car_BC::sub_4406E0(Ped* pPed)
     Player* pPlayer = pPed->field_15C_player;
     SetDriver(pPed);
     InitCarAIControl_440590();
-    field_7C_uni_num = pPed->field_238_ped_type;
+    field_7C_uni_num = pPed->GetPedType_420B70();
     field_76_last_seen_timer = 0;
     if (pPed->IsField238_45EDE0(2))
     {
@@ -4858,7 +4858,7 @@ void Car_BC::sub_440F90(char_type instant_bomb)
 {
     if (instant_bomb)
     {
-        s32 ped_id = gVarrok_7F8_703398->field_0[field_54_driver->field_267_varrok_idx].field_0_ped_id;
+        s32 ped_id = gVarrok_7F8_703398->field_0[field_54_driver->get_varrok_idx_420B50()].field_0_ped_id;
         if (ped_id)
         {
             this->field_70_exploder_ped_id = ped_id;
@@ -4877,7 +4877,7 @@ void Car_BC::sub_440F90(char_type instant_bomb)
         Ped* pDriver = this->field_54_driver;
         if (pDriver)
         {
-            pNew2C->SetDamageOwner_529080(pDriver->field_267_varrok_idx);
+            pNew2C->SetDamageOwner_529080(pDriver->get_varrok_idx_420B50());
         }
         field_50_car_sprite->DispatchCollisionEvent_5A3100(pNew2C->field_4, gFix16_6777CC, gFix16_6777CC, word_67791C);
     }
@@ -6530,16 +6530,16 @@ void Car_BC::BuyCarWeapon_4438C0(s32 weapon_kind)
             switch (weapon_kind)
             {
                 case weapon_type::car_bomb:
-                    this->field_B4_weapon_kind = 4;
+                    this->set_weapon_kind_421950(4);
                     break;
                 case weapon_type::car_mines:
-                    this->field_B4_weapon_kind = 5;
+                    this->set_weapon_kind_421950(5);
                     break;
                 case weapon_type::oil_stain:
-                    this->field_B4_weapon_kind = 6;
+                    this->set_weapon_kind_421950(6);
                     break;
                 case weapon_type::car_smg:
-                    this->field_B4_weapon_kind = 7;
+                    this->set_weapon_kind_421950(7);
                     break;
                 default:
                     FatalError_4A38C0(0x431, "C:\\Splitting\\Gta2\\Source\\car.cpp", 6107, 0);
@@ -6549,7 +6549,7 @@ void Car_BC::BuyCarWeapon_4438C0(s32 weapon_kind)
         {
             // Can't afford weapon
             Car_BC::sub_443AB0(pPlayer, car_weapon_cost);
-            this->field_B4_weapon_kind = 8;
+            this->set_weapon_kind_421950(8);
         }
     }
 }
@@ -6636,7 +6636,7 @@ void Car_BC::HandleShops_443C40(Object_2C* pObj)
         {
             if (pDriver->field_240_occupation != 1 && pObj->field_18_model == objects::car_shop_130)
             {
-                const u8 idx = pObj->field_26_varrok_idx;
+                const u8 idx = pObj->get_field_26_420FF0();
                 if (idx >= objects::shop_car_smg_250 && (idx <= objects::shop_car_mines_252 || idx == objects::machine_gun_bullet_254))
                 {
                     Car_BC::BuyCarWeapon_4438C0(pPlayer->ObjectTypeToWeaponType_443CB0(idx));
@@ -7085,7 +7085,7 @@ void Trailer::UpdateTrailerAlignment_407CE0()
     Fix16_Point pos = hitch - offset;
     field_C_pCarOnTrailer->field_58_physics->field_38_cp1.x = pos.x;
     field_C_pCarOnTrailer->field_58_physics->field_38_cp1.y = pos.y;
-    pTrailerPhys->field_6C_cp3 = field_8_truck_cab->field_58_physics->field_6C_cp3;
+    pTrailerPhys->set_cp3_40F810(field_8_truck_cab->field_58_physics->get_cp3_40F800());
     pTrailerPhys->UpdateCenterOfMassPoint_563350();
 }
 
@@ -7172,7 +7172,7 @@ s32 Trailer::sub_408220()
             }
         }
 
-        field_8_truck_cab->field_50_car_sprite->field_28_num = 15;
+        field_8_truck_cab->field_50_car_sprite->set_num_40F7B0(15);
 
         field_8_truck_cab->sub_4426D0();
         field_C_pCarOnTrailer->sub_4426D0();
@@ -7842,7 +7842,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
 
                     if (v119 == 5)
                     {
-                        gang_curr_location = this->field_C_player->field_34_gang_curr_location;
+                        gang_curr_location = this->field_C_player->get_gang_curr_location_4766D0();
                         if (gang_curr_location && gang_curr_location->field_139_kill_respect_change > 0)
                         {
                             car_model_idx = gang_curr_location->field_13C_gang_car_model;
