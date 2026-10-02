@@ -328,11 +328,12 @@ s8 GangPool_CA8::get_gang_idx_by_name_4BF210(const char* gangName)
     }
 }
 
-WIP_FUNC(0x4BF230);
+MATCH_FUNC(0x4BF230);
 void GangPool_CA8::SwapGangSlots_4BF230(Gang_144* pGang, u8 gang_idx)
 {
-    WIP_IMPLEMENTED;
-    Gang_144 zone;
+    // The original only calls init_4BED70 on this local, no Gang_144 ctor/dtor
+    u8 zone_buf[sizeof(Gang_144)];
+    Gang_144& zone = *(Gang_144*)zone_buf;
     zone.init_4BED70();
     if (pGang->field_1_gang_idx != gang_idx)
     {
