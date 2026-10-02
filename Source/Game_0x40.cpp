@@ -818,22 +818,16 @@ s8 Game_0x40::IsRectVisibleToAnyPlayer_4B9B10(Fix16_Rect* pBounds)
 {
     WIP_IMPLEMENTED;
     // wip
-    for (u8 i = 0; i < field_23_num_players; i++)
+    for (s32 i = 0; i < field_23_num_players; i++)
     {
         Player* pCurPlayer = field_4_players[i];
         if (pCurPlayer->field_8E_bInUse)
         {
-            if (pBounds->field_8_top <= pCurPlayer->field_90_game_camera.field_20_boundaries.field_C_bottom &&
-                pBounds->field_C_bottom >= pCurPlayer->field_90_game_camera.field_20_boundaries.field_8_top &&
-                pBounds->field_0_left <= pCurPlayer->field_90_game_camera.field_20_boundaries.field_4_right &&
-                pBounds->field_4_right >= pCurPlayer->field_90_game_camera.field_20_boundaries.field_0_left)
+            if (pCurPlayer->field_90_game_camera.IsRectInBounds_45AF40(pBounds))
             {
                 return 1;
             }
-            if (pCurPlayer->field_2D0 && pBounds->field_8_top <= pCurPlayer->field_208_aux_game_camera.field_20_boundaries.field_C_bottom &&
-                pBounds->field_C_bottom >= pCurPlayer->field_208_aux_game_camera.field_20_boundaries.field_8_top &&
-                pBounds->field_0_left <= pCurPlayer->field_208_aux_game_camera.field_20_boundaries.field_4_right &&
-                pBounds->field_4_right >= pCurPlayer->field_208_aux_game_camera.field_20_boundaries.field_0_left)
+            if (pCurPlayer->field_2D0 && pCurPlayer->field_208_aux_game_camera.IsRectInBounds_45AF40(pBounds))
             {
                 return 1;
             }
