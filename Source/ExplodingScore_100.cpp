@@ -464,7 +464,7 @@ MATCH_FUNC(0x5969e0)
 void ExplodingScorePool::DrawExplodingScores_5969E0()
 {
     // TODO: Would there have been an iterator object ??
-    ExplodingScore_50* pIter = field_4_pool.field_4_pPrev;
+    ExplodingScore_50* pIter = field_4_pool.GetFirstUsed_4B8FD0();
     while (pIter)
     {
         pIter->DrawNumbers_596C90();
