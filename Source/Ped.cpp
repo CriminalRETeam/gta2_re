@@ -3170,7 +3170,7 @@ void Ped::RoadBlockTank_AI_4619F0()
     }
     else
     {
-        field_16C_car->field_A6 |= 0x20u;
+        field_16C_car->SetA6Bit20_421540();
     }
 
     if (this->field_28C_threat_reaction != threat_reaction_enum::react_as_emergency_1 || gPolice_7B8_6FEE40->field_654_wanted_level == 6)
