@@ -187,7 +187,9 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
         flags |= 0x20000u;
     }
 
-    Fix16_Point point(-v12, -v13);
+    Fix16_Point point;
+
+    point.SetXY_432860(-v12, -v13);
     point.RotateByAngle_40F6B0(rotation);
     point.x += x_pos;
     point.y += y_pos;
@@ -196,31 +198,31 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
     gQuadVerts_706B88.field_0_verts[0].y = point.y.ToFloat();
     gQuadVerts_706B88.field_0_verts[0].z = 0.000099999997f;
 
-    Fix16_Point point2(v12, -v13);
-    point2.RotateByAngle_40F6B0(rotation);
-    point2.x += x_pos;
-    point2.y += y_pos;
+    point.SetXY_432860(v12, -v13);
+    point.RotateByAngle_40F6B0(rotation);
+    point.x += x_pos;
+    point.y += y_pos;
 
-    gQuadVerts_706B88.field_0_verts[1].x = point2.x.ToFloat();
-    gQuadVerts_706B88.field_0_verts[1].y = point2.y.ToFloat();
+    gQuadVerts_706B88.field_0_verts[1].x = point.x.ToFloat();
+    gQuadVerts_706B88.field_0_verts[1].y = point.y.ToFloat();
     gQuadVerts_706B88.field_0_verts[1].z = 0.000099999997f;
 
-    Fix16_Point point3(v12, v13);
-    point3.RotateByAngle_40F6B0(rotation);
-    point3.x += x_pos;
-    point3.y += y_pos;
+    point.SetXY_432860(v12, v13);
+    point.RotateByAngle_40F6B0(rotation);
+    point.x += x_pos;
+    point.y += y_pos;
 
-    gQuadVerts_706B88.field_0_verts[2].x = point3.x.ToFloat();
-    gQuadVerts_706B88.field_0_verts[2].y = point3.y.ToFloat();
+    gQuadVerts_706B88.field_0_verts[2].x = point.x.ToFloat();
+    gQuadVerts_706B88.field_0_verts[2].y = point.y.ToFloat();
     gQuadVerts_706B88.field_0_verts[2].z = 0.000099999997f;
 
-    Fix16_Point point4(-v12, v13);
-    point4.RotateByAngle_40F6B0(rotation);
-    point4.x += x_pos;
-    point4.y += y_pos;
+    point.SetXY_432860(-v12, v13);
+    point.RotateByAngle_40F6B0(rotation);
+    point.x += x_pos;
+    point.y += y_pos;
 
-    gQuadVerts_706B88.field_0_verts[3].x = point4.x.ToFloat();
-    gQuadVerts_706B88.field_0_verts[3].y = point4.y.ToFloat();
+    gQuadVerts_706B88.field_0_verts[3].x = point.x.ToFloat();
+    gQuadVerts_706B88.field_0_verts[3].y = point.y.ToFloat();
     gQuadVerts_706B88.field_0_verts[3].z = 0.000099999997f;
 
     //  u & v
