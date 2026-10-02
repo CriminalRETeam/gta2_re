@@ -311,60 +311,62 @@ s8 sad_mirzakhani::sub_432170(int a2, int a3)
     return 1;
 }
 
-WIP_FUNC(0x432240);
+MATCH_FUNC(0x432240);
 s8 sad_mirzakhani::IsOccupationInGroup_432240(int occupation, int a3)
 {
-    WIP_IMPLEMENTED;
-    switch (a3)
+    if (a3 == 46)
     {
-        case 46:
-            switch (occupation)
-            {
-                case ped_ocupation_enum::police:
-                case ped_ocupation_enum::swat:
-                case ped_ocupation_enum::fbi:
-                case ped_ocupation_enum::army_army:
-                case ped_ocupation_enum::walking_guard_29:
-                case ped_ocupation_enum::unknown_cop_occu_30:
-                case ped_ocupation_enum::unknown_cop_occu_31:
-                case ped_ocupation_enum::tank_driver:
-                case ped_ocupation_enum::roadblock_cop_37:
-                case ped_ocupation_enum::road_block_tank_man:
-                    return 1;
-                default:
-                    return 0;
-            }
-        case 47:
-            switch (occupation)
-            {
-                case ped_ocupation_enum::paramedic_23:
-                case ped_ocupation_enum::police:
-                case ped_ocupation_enum::swat:
-                case ped_ocupation_enum::fbi:
-                case ped_ocupation_enum::army_army:
-                case ped_ocupation_enum::walking_guard_29:
-                case ped_ocupation_enum::unknown_cop_occu_30:
-                case ped_ocupation_enum::unknown_cop_occu_31:
-                case ped_ocupation_enum::tank_driver:
-                case ped_ocupation_enum::roadblock_cop_37:
-                case ped_ocupation_enum::fireman:
-                case ped_ocupation_enum::road_block_tank_man:
-                    return 1;
-                default:
-                    return 0;
-            }
-        case 48:
-            if (occupation == ped_ocupation_enum::armed_gang_member_19 || occupation == ped_ocupation_enum::guard || occupation == ped_ocupation_enum::gang_driver_42)
-            {
+        switch (occupation)
+        {
+            case ped_ocupation_enum::police:
+            case ped_ocupation_enum::swat:
+            case ped_ocupation_enum::fbi:
+            case ped_ocupation_enum::army_army:
+            case ped_ocupation_enum::walking_guard_29:
+            case ped_ocupation_enum::unknown_cop_occu_30:
+            case ped_ocupation_enum::unknown_cop_occu_31:
+            case ped_ocupation_enum::tank_driver:
+            case ped_ocupation_enum::roadblock_cop_37:
+            case ped_ocupation_enum::road_block_tank_man:
                 return 1;
-            }
-            break;
-        default:
-            if (a3 == 49 && (occupation == ped_ocupation_enum::elvis || occupation == ped_ocupation_enum::elvis_leader))
-            {
+            default:
+                return 0;
+        }
+    }
+    else if (a3 == 47)
+    {
+        switch (occupation)
+        {
+            case ped_ocupation_enum::paramedic_23:
+            case ped_ocupation_enum::police:
+            case ped_ocupation_enum::swat:
+            case ped_ocupation_enum::fbi:
+            case ped_ocupation_enum::army_army:
+            case ped_ocupation_enum::walking_guard_29:
+            case ped_ocupation_enum::unknown_cop_occu_30:
+            case ped_ocupation_enum::unknown_cop_occu_31:
+            case ped_ocupation_enum::tank_driver:
+            case ped_ocupation_enum::roadblock_cop_37:
+            case ped_ocupation_enum::fireman:
+            case ped_ocupation_enum::road_block_tank_man:
                 return 1;
-            }
-            break;
+            default:
+                return 0;
+        }
+    }
+    else if (a3 == 48)
+    {
+        if (occupation == ped_ocupation_enum::armed_gang_member_19 || occupation == ped_ocupation_enum::guard || occupation == ped_ocupation_enum::gang_driver_42)
+        {
+            return 1;
+        }
+    }
+    else if (a3 == 49)
+    {
+        if (occupation == ped_ocupation_enum::elvis || occupation == ped_ocupation_enum::elvis_leader)
+        {
+            return 1;
+        }
     }
     return 0;
 }
