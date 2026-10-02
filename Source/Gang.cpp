@@ -261,7 +261,7 @@ Gang_144* GangPool_CA8::sub_4BECE0()
 {
     while (++gGangIdx_6206B8 < GTA2_COUNTOF_S(field_0_gang_list))
     {
-        if (field_0_gang_list[gGangIdx_6206B8].field_0_used && field_0_gang_list[gGangIdx_6206B8].field_139_kill_respect_change > 0)
+        if (field_0_gang_list[gGangIdx_6206B8].field_0_used && field_0_gang_list[gGangIdx_6206B8].HasKillRespectChange_45DD50())
         {
             return &field_0_gang_list[gGangIdx_6206B8];
         }
