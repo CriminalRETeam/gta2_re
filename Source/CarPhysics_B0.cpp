@@ -1706,99 +1706,68 @@ void CarPhysics_B0::ReplayAndDispatchCollision_55CBB0(Fix16 a2, Fix16 a3)
     }
 }
 
-WIP_FUNC(0x55D490)
+MATCH_FUNC(0x55D490)
 EXPORT s32 __stdcall get_skid_obj_type_55D490(s32 surface, Fix16 box_idx)
 {
-    WIP_IMPLEMENTED;
-
-    int result; // eax
-
-    if (box_idx > kFP16One16th_6FE270)
+    if (box_idx <= kFP16One16th_6FE270)
     {
-        if (box_idx > kFP16Quarter_6FDFD4)
+        switch (surface)
         {
-            if (box_idx > dword_6FE178)
-            {
-                switch (surface)
-                {
-                    case 0:
-                        result = 147;
-                        break;
-                    case 1:
-                        result = 144;
-                        break;
-                    case 2:
-                        result = 146;
-                        break;
-                    case 3:
-                        result = 145;
-                        break;
-                    default:
-                    LABEL_13:
-                        result = 117;
-                        break;
-                }
-            }
-            else
-            {
-                switch (surface)
-                {
-                    case 0:
-                        result = 250;
-                        break;
-                    case 1:
-                        result = 253;
-                        break;
-                    case 2:
-                        result = 249;
-                        break;
-                    case 3:
-                        result = 124;
-                        break;
-                    default:
-                        goto LABEL_13;
-                }
-            }
+            case 0:
+                return 117;
+            case 2:
+                return 116;
+            case 1:
+                return 118;
+            case 3:
+                return 126;
         }
-        else
+    }
+    else if (box_idx <= kFP16Quarter_6FDFD4)
+    {
+        switch (surface)
         {
-            switch (surface)
-            {
-                case 0:
-                    result = 120;
-                    break;
-                case 1:
-                    result = 121;
-                    break;
-                case 2:
-                    result = 119;
-                    break;
-                case 3:
-                    result = 125;
-                    break;
-                default:
-                    FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\Gta2\\Source\\physics.cpp", 2331, surface);
-            }
+            case 0:
+                return 120;
+            case 2:
+                return 119;
+            case 1:
+                return 121;
+            case 3:
+                return 125;
+            default:
+                FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\Gta2\\Source\\physics.cpp", 2331, surface);
+        }
+    }
+    else if (box_idx <= dword_6FE178)
+    {
+        switch (surface)
+        {
+            case 0:
+                return 250;
+            case 2:
+                return 249;
+            case 1:
+                return 253;
+            case 3:
+                return 124;
         }
     }
     else
     {
         switch (surface)
         {
-            case 1:
-                result = 118;
-                break;
+            case 0:
+                return 147;
             case 2:
-                result = 116;
-                break;
+                return 146;
+            case 1:
+                return 144;
             case 3:
-                result = 126;
-                break;
-            default:
-                goto LABEL_13;
+                return 145;
         }
     }
-    return result;
+    return 117;
 }
 
 // 9.6f 0x4A0120
