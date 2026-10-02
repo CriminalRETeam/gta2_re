@@ -7745,7 +7745,7 @@
         "v105_address": "0x4e9770"
     },
     {
-        "name": "MapRenderer::sub_4E9D50",
+        "name": "MapRenderer::SetAmbientLevel_4E9D50",
         "v96f_address": null,
         "v105_address": "0x4e9d50"
     },
@@ -7780,12 +7780,12 @@
         "v105_address": "0x4ead90"
     },
     {
-        "name": "MapRenderer::sub_4EAE00",
+        "name": "MapRenderer::ProjectVertTop_4EAE00",
         "v96f_address": null,
         "v105_address": "0x4eae00"
     },
     {
-        "name": "MapRenderer::sub_4EAEA0",
+        "name": "MapRenderer::ProjectVertBottom_4EAEA0",
         "v96f_address": "0x46BDF0",
         "v105_address": "0x4eaea0"
     },
@@ -7795,7 +7795,7 @@
         "v105_address": "0x4eaf40"
     },
     {
-        "name": "sub_4EB940",
+        "name": "ProjectVert_4EB940",
         "v96f_address": null,
         "v105_address": "0x4eb940"
     },
@@ -7805,22 +7805,22 @@
         "v105_address": "0x4eba60"
     },
     {
-        "name": "MapRenderer::sub_4EC450",
+        "name": "MapRenderer::DrawDiagonalUpLeftFace_4EC450",
         "v96f_address": null,
         "v105_address": "0x4ec450"
     },
     {
-        "name": "MapRenderer::sub_4EC7A0",
+        "name": "MapRenderer::DrawDiagonalUpRightFace_4EC7A0",
         "v96f_address": null,
         "v105_address": "0x4ec7a0"
     },
     {
-        "name": "MapRenderer::sub_4ECAF0",
+        "name": "MapRenderer::DrawDiagonalDownLeftFace_4ECAF0",
         "v96f_address": null,
         "v105_address": "0x4ecaf0"
     },
     {
-        "name": "MapRenderer::sub_4ECE40",
+        "name": "MapRenderer::DrawDiagonalDownRightFace_4ECE40",
         "v96f_address": null,
         "v105_address": "0x4ece40"
     },
@@ -7925,17 +7925,17 @@
         "v105_address": "0x4f4190"
     },
     {
-        "name": "MapRenderer::sub_4F4250",
+        "name": "MapRenderer::draw_right_4F4250",
         "v96f_address": null,
         "v105_address": "0x4f4250"
     },
     {
-        "name": "MapRenderer::sub_4F4600",
+        "name": "MapRenderer::draw_top_4F4600",
         "v96f_address": null,
         "v105_address": "0x4f4600"
     },
     {
-        "name": "MapRenderer::sub_4F49B0",
+        "name": "MapRenderer::draw_bottom_4F49B0",
         "v96f_address": null,
         "v105_address": "0x4f49b0"
     },

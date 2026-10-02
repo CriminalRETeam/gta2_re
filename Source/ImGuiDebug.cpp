@@ -58,7 +58,7 @@ EXTERN_GLOBAL(car_rng_list, dword_676988);
 EXTERN_GLOBAL(car_rng_list, dword_677384);
 
 EXTERN_GLOBAL(u8, byte_6FEB48);
-EXTERN_GLOBAL(Fix16_Point, stru_6F6484);
+EXTERN_GLOBAL(Fix16_Point, kZeroOnePoint_6F6484);
 
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
@@ -1437,44 +1437,44 @@ void CC ImGuiDebugDraw()
                 if (ImGui::TreeNode("Colours"))
                 {
                     ImGui::Value("field C", gpMapRenderer_6F66E4->field_C_colour_t1);
-                    ImGui::Value("field D", gpMapRenderer_6F66E4->field_D);
+                    ImGui::Value("field D", gpMapRenderer_6F66E4->field_D_right_colour);
                     ImGui::Value("field E", gpMapRenderer_6F66E4->field_E_colour_t2);
                     ImGui::Value("field F", gpMapRenderer_6F66E4->field_F_colour_t3);
-                    ImGui::Value("field 10", gpMapRenderer_6F66E4->field_10);
-                    ImGui::Value("field 11", gpMapRenderer_6F66E4->field_11);
-                    ImGui::Value("field 12", gpMapRenderer_6F66E4->field_12);
-                    ImGui::Value("field 13", gpMapRenderer_6F66E4->field_13);
+                    ImGui::Value("field 10", gpMapRenderer_6F66E4->field_10_diag_up_left_colour);
+                    ImGui::Value("field 11", gpMapRenderer_6F66E4->field_11_diag_up_right_colour);
+                    ImGui::Value("field 12", gpMapRenderer_6F66E4->field_12_diag_down_left_colour);
+                    ImGui::Value("field 13", gpMapRenderer_6F66E4->field_13_diag_down_right_colour);
                     ImGui::Value("field 14", gpMapRenderer_6F66E4->field_14_dcolour);
-                    ImGui::Value("field 15", gpMapRenderer_6F66E4->field_15);
-                    ImGui::Value("field 16", gpMapRenderer_6F66E4->field_16);
-                    ImGui::Value("field 17", gpMapRenderer_6F66E4->field_17);
+                    ImGui::Value("field 15", gpMapRenderer_6F66E4->field_15_slope_south_colour);
+                    ImGui::Value("field 16", gpMapRenderer_6F66E4->field_16_slope_west_colour);
+                    ImGui::Value("field 17", gpMapRenderer_6F66E4->field_17_slope_east_colour);
                     ImGui::Value("field 18", gpMapRenderer_6F66E4->field_18_color);
-                    ImGui::Value("field 19", gpMapRenderer_6F66E4->field_19);
-                    ImGui::Value("field 1A", gpMapRenderer_6F66E4->field_1A);
-                    ImGui::Value("field 1B", gpMapRenderer_6F66E4->field_1B);
+                    ImGui::Value("field 19", gpMapRenderer_6F66E4->field_19_tri_diag_up_right_colour);
+                    ImGui::Value("field 1A", gpMapRenderer_6F66E4->field_1A_tri_diag_down_left_colour);
+                    ImGui::Value("field 1B", gpMapRenderer_6F66E4->field_1B_tri_diag_down_right_colour);
                     ImGui::TreePop();
                 }
                 if (ImGui::TreeNode("Globals"))
                 {
-                    ImGui::SliderInt("stru_6F6484.x", &stru_6F6484.x.mValue, 0, 32768);
-                    ImGui::SliderInt("stru_6F6484.y", &stru_6F6484.y.mValue, 16, 32768);
+                    ImGui::SliderInt("kZeroOnePoint_6F6484.x", &kZeroOnePoint_6F6484.x.mValue, 0, 32768);
+                    ImGui::SliderInt("kZeroOnePoint_6F6484.y", &kZeroOnePoint_6F6484.y.mValue, 16, 32768);
 
                     if (ImGui::Button("Return to default values"))
                     {
-                        stru_6F6484.x = Fix16(0);
-                        stru_6F6484.y = Fix16(1);
+                        kZeroOnePoint_6F6484.x = Fix16(0);
+                        kZeroOnePoint_6F6484.y = Fix16(1);
                     }
 
                     if (ImGui::Button("Test 1,1"))
                     {
-                        stru_6F6484.x = Fix16(1);
-                        stru_6F6484.y = Fix16(1);
+                        kZeroOnePoint_6F6484.x = Fix16(1);
+                        kZeroOnePoint_6F6484.y = Fix16(1);
                     }
 
                     if (ImGui::Button("Test 0,2"))
                     {
-                        stru_6F6484.x = Fix16(0);
-                        stru_6F6484.y = Fix16(2);
+                        kZeroOnePoint_6F6484.x = Fix16(0);
+                        kZeroOnePoint_6F6484.y = Fix16(2);
                     }
                     ImGui::TreePop();
                 }

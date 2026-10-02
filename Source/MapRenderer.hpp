@@ -26,12 +26,12 @@ EXTERN_GLOBAL(Fix16, gYCoord_6F63B8);
 EXTERN_GLOBAL(s32, gZCoord_6F63E0);
 
 
-EXTERN_GLOBAL(gmp_map_slope, dword_6F646C);
+EXTERN_GLOBAL(gmp_map_slope, gCurrentSlope_6F646C);
 
 
-EXTERN_GLOBAL(u32, dword_6F6480);
+EXTERN_GLOBAL(u32, gGradientSize_6F6480);
 
-EXTERN_GLOBAL(u32, dword_6F647C);
+EXTERN_GLOBAL(u32, gGradientLevel_6F647C);
 
 class MapRenderer
 {
@@ -39,27 +39,27 @@ class MapRenderer
     MapRenderer()
     {
         field_0_ambient = dword_67DCCC;
-        field_4 = dword_67DCCC;
-        field_8.mValue = 0;
+        field_4_target_ambient = dword_67DCCC;
+        field_8_ambient_step.mValue = 0;
         field_2F00_drawn_tile_count = 0;
         field_2EFC_curr_draw_layer_size = 0;
         set_shading_lev_4E9DB0(15u);
     }
 
-    EXPORT void sub_4E9D50(s32& a2, u16& a3);
+    EXPORT void SetAmbientLevel_4E9D50(s32& a2, u16& a3);
     EXPORT void set_shading_lev_4E9DB0(u8 shading_lev);
     EXPORT void draw_4E9EE0(u16& word_side, const bool& bUnk, u8& colour);
     EXPORT void ambient_light_tick_4E9EA0();
     EXPORT void draw_4EA190(u16& rotation_and_flip);
     EXPORT void DrawLeftSide_4EA390(u16& left_word);
-    EXPORT void sub_4EAE00(Fix16& xpos, Fix16& ypos, Vert* pVert);
-    EXPORT void sub_4EAEA0(Fix16& xCoord, Fix16& yCoord, Vert* pVert);
+    EXPORT void ProjectVertTop_4EAE00(Fix16& xpos, Fix16& ypos, Vert* pVert);
+    EXPORT void ProjectVertBottom_4EAEA0(Fix16& xCoord, Fix16& yCoord, Vert* pVert);
     EXPORT void DrawRightSide_4EAF40(u16& right_word);
     EXPORT void DrawTopSide_4EBA60(u16& top_word);
-    EXPORT void sub_4EC450(u16& left_word);
-    EXPORT void sub_4EC7A0(u16& right_word);
-    EXPORT void sub_4ECAF0(u16& left_word);
-    EXPORT void sub_4ECE40(u16& right_word);
+    EXPORT void DrawDiagonalUpLeftFace_4EC450(u16& left_word);
+    EXPORT void DrawDiagonalUpRightFace_4EC7A0(u16& right_word);
+    EXPORT void DrawDiagonalDownLeftFace_4ECAF0(u16& left_word);
+    EXPORT void DrawDiagonalDownRightFace_4ECE40(u16& right_word);
     EXPORT void draw_bottom_4ED290(u16& a2);
     EXPORT void draw_lid_4EE130();
 
@@ -94,9 +94,9 @@ class MapRenderer
     EXPORT void DrawGradientSlopeWestwards_4F22F0();
     EXPORT void DrawGradientSlopeEastwards_4F33B0();
     EXPORT void draw_left_4F3C00(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4);
-    EXPORT void sub_4F4250(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4);
-    EXPORT void sub_4F4600(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4);
-    EXPORT void sub_4F49B0(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4);
+    EXPORT void draw_right_4F4250(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4);
+    EXPORT void draw_top_4F4600(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4);
+    EXPORT void draw_bottom_4F49B0(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4);
     EXPORT void draw_lid_4F4D60(Fix16& unk1, Fix16& unk2, Fix16& unk3, Fix16& unk4);
     EXPORT void DrawPartialBlocks_4F6580();
     EXPORT void DrawGradientSlope_4F6630();
@@ -107,13 +107,13 @@ class MapRenderer
 
     inline u32 update_and_get_gradient_direction(u32 idx)
     {
-        dword_6F6480 = byte_6F5BA8[idx].field_1_gradient_size;
-        dword_6F647C = byte_6F5BA8[idx].field_2_gradient_level;
-        dword_6F646C.field_0_gradient_direction = byte_6F5BA8[idx].field_0_gradient_direction;
-        return dword_6F646C.field_0_gradient_direction;
+        gGradientSize_6F6480 = byte_6F5BA8[idx].field_1_gradient_size;
+        gGradientLevel_6F647C = byte_6F5BA8[idx].field_2_gradient_level;
+        gCurrentSlope_6F646C.field_0_gradient_direction = byte_6F5BA8[idx].field_0_gradient_direction;
+        return gCurrentSlope_6F646C.field_0_gradient_direction;
     }
 
-    inline u8 sub_46B5E0(s32 a1)
+    inline u8 GetColour_46B5E0(s32 a1)
     {
         //u8 diffuseColour;
         switch (a1)
@@ -137,13 +137,13 @@ class MapRenderer
         //return diffuseColour;
     }
 
-    inline void sub_46BB90(s32& maybe_x, s32& maybe_y)
+    inline void AddToDrawList_46BB90(s32& maybe_x, s32& maybe_y)
     {
-        Nanobotz_8* pPos = &field_1C[field_2EFC_curr_draw_layer_size];
+        Nanobotz_8* pPos = &field_1C_draw_list[field_2EFC_curr_draw_layer_size];
         pPos->field_0_x = maybe_x;
         pPos->field_4_y = maybe_y;
         
-        Nanobotz_8* pIter = &field_1C[field_2EFC_curr_draw_layer_size-1];
+        Nanobotz_8* pIter = &field_1C_draw_list[field_2EFC_curr_draw_layer_size-1];
         for (s32 i = field_2EFC_curr_draw_layer_size - 1; i >= 0; i--, pIter--)
         {
             if (pIter->IsEqual_46BB60(pPos))
@@ -160,32 +160,32 @@ class MapRenderer
     }
 
     Fix16 field_0_ambient;
-    Fix16 field_4;
-    Fix16 field_8;
+    Fix16 field_4_target_ambient;
+    Fix16 field_8_ambient_step;
     u8 field_C_colour_t1;
-    u8 field_D;
+    u8 field_D_right_colour;
     u8 field_E_colour_t2;
     u8 field_F_colour_t3;
-    u8 field_10;
-    u8 field_11;
-    u8 field_12;
-    u8 field_13;
+    u8 field_10_diag_up_left_colour;
+    u8 field_11_diag_up_right_colour;
+    u8 field_12_diag_down_left_colour;
+    u8 field_13_diag_down_right_colour;
     u8 field_14_dcolour;
-    u8 field_15;
-    u8 field_16;
-    u8 field_17;
+    u8 field_15_slope_south_colour;
+    u8 field_16_slope_west_colour;
+    u8 field_17_slope_east_colour;
     u8 field_18_color;
-    u8 field_19;
-    u8 field_1A;
-    u8 field_1B;
-    Nanobotz_8 field_1C[1500];
+    u8 field_19_tri_diag_up_right_colour;
+    u8 field_1A_tri_diag_down_left_colour;
+    u8 field_1B_tri_diag_down_right_colour;
+    Nanobotz_8 field_1C_draw_list[1500];
     s32 field_2EFC_curr_draw_layer_size;
     s32 field_2F00_drawn_tile_count;
 };
 
 EXPORT void __stdcall set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert* pVerts);
 
-EXPORT void __stdcall sub_4EB940(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert);
+EXPORT void __stdcall ProjectVert_4EB940(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert);
 
 EXPORT void __stdcall draw_4F3FB0(s32 arg);
 
