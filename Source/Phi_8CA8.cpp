@@ -749,7 +749,7 @@ Phi_8CA8::~Phi_8CA8()
 MATCH_FUNC(0x5332d0)
 Phi_74* Phi_8CA8::sub_5332D0(s32 idx, s32 a3, s16 a4, u8 a5)
 {
-    Phi_74* result = sub_5343C0(idx);
+    Phi_74* result = NewObjectDefinition_5343C0(idx);
     result->field_28_sprite_type = a3;
     result->field_1E_sprite_palette = a4;
     result->field_6C_sprite_anim_speed = a5;
@@ -816,7 +816,7 @@ void Phi_8CA8::sub_533420()
 {
     Phi_74* pAVar1;
 
-    sub_534370(0x97, 6);
+    CopyObjectDefinition_534370(0x97, 6);
     pAVar1 = GetObjectDefinition_534360(0x97);
     pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34_behavior_type = object_behavior_type::behavior_2;
@@ -828,7 +828,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_65 = '\x01';
     pAVar1->field_61 = '\x01';
 
-    pAVar1 = sub_534370(0x98, 6);
+    pAVar1 = CopyObjectDefinition_534370(0x98, 6);
     pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
     pAVar1->field_34_behavior_type = object_behavior_type::static_object_0;
     pAVar1->field_38 = 0;
@@ -837,7 +837,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_44 = 0;
     pAVar1->field_61 = '\0';
 
-    pAVar1 = sub_534370(0x34, 4);
+    pAVar1 = CopyObjectDefinition_534370(0x34, 4);
     pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
     pAVar1->field_34_behavior_type = object_behavior_type::static_object_0;
     pAVar1->field_38 = 0;
@@ -846,7 +846,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_44 = 0;
     pAVar1->field_61 = '\0';
 
-    sub_534370(0x32, 0xc);
+    CopyObjectDefinition_534370(0x32, 0xc);
     pAVar1 = GetObjectDefinition_534360(0x32);
     pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34_behavior_type = object_behavior_type::behavior_2;
@@ -858,7 +858,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_65 = '\x01';
     pAVar1->field_61 = '\x01';
 
-    pAVar1 = sub_534370(0x33, 0xc);
+    pAVar1 = CopyObjectDefinition_534370(0x33, 0xc);
     pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
     pAVar1->field_34_behavior_type = object_behavior_type::static_object_0;
     pAVar1->field_38 = 0;
@@ -867,7 +867,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_44 = 0;
     pAVar1->field_61 = '\0';
 
-    pAVar1 = sub_534370(0x9b, 3);
+    pAVar1 = CopyObjectDefinition_534370(0x9b, 3);
     pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
     pAVar1->field_64_next_frame_max = 1;
@@ -883,10 +883,10 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_65 = -1;
     pAVar1->field_58 = 1;
 
-    pAVar1 = sub_534370(0x35, 3);
+    pAVar1 = CopyObjectDefinition_534370(0x35, 3);
     pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
 
-    pAVar1 = sub_534370(0x7b, 0xb);
+    pAVar1 = CopyObjectDefinition_534370(0x7b, 0xb);
     pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
     pAVar1->field_64_next_frame_max = '\x01';
@@ -902,10 +902,10 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_65 = -1;
     pAVar1->field_58 = 1;
 
-    pAVar1 = sub_534370(0x37, 0xb);
+    pAVar1 = CopyObjectDefinition_534370(0x37, 0xb);
     pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
 
-    pAVar1 = sub_534370(0x9c, 5);
+    pAVar1 = CopyObjectDefinition_534370(0x9c, 5);
     pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
     pAVar1->field_64_next_frame_max = '\x01';
@@ -921,10 +921,10 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_65 = -1;
     pAVar1->field_58 = 1;
 
-    pAVar1 = sub_534370(0x36, 5);
+    pAVar1 = CopyObjectDefinition_534370(0x36, 5);
     pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
 
-    pAVar1 = sub_534370(0x38, 0xd);
+    pAVar1 = CopyObjectDefinition_534370(0x38, 0xd);
     pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
     pAVar1->field_64_next_frame_max = '\x01';
@@ -940,7 +940,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_65 = -1;
     pAVar1->field_58 = 1;
 
-    pAVar1 = sub_534370(0x39, 0xe);
+    pAVar1 = CopyObjectDefinition_534370(0x39, 0xe);
     pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
     pAVar1->field_64_next_frame_max = '\x01';
@@ -956,10 +956,10 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_65 = -1;
     pAVar1->field_58 = 1;
 
-    pAVar1 = sub_534370(0x3a, 0xe);
+    pAVar1 = CopyObjectDefinition_534370(0x3a, 0xe);
     pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
 
-    pAVar1 = sub_534370(0x3b, 0xf);
+    pAVar1 = CopyObjectDefinition_534370(0x3b, 0xf);
     pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
     pAVar1->field_64_next_frame_max = '\x01';
@@ -975,10 +975,10 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_65 = -1;
     pAVar1->field_58 = 1;
 
-    pAVar1 = sub_534370(0x3c, 0xf);
+    pAVar1 = CopyObjectDefinition_534370(0x3c, 0xf);
     pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
 
-    pAVar1 = sub_534370(0x3d, 0x10);
+    pAVar1 = CopyObjectDefinition_534370(0x3d, 0x10);
     pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
     pAVar1->field_64_next_frame_max = '\x01';
@@ -994,10 +994,10 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_65 = -1;
     pAVar1->field_58 = 1;
 
-    pAVar1 = sub_534370(0x3e, 0x10);
+    pAVar1 = CopyObjectDefinition_534370(0x3e, 0x10);
     pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
 
-    pAVar1 = sub_534370(0x31, 0x12);
+    pAVar1 = CopyObjectDefinition_534370(0x31, 0x12);
     pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
     pAVar1->field_64_next_frame_max = '\x01';
@@ -1013,7 +1013,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_65 = -1;
     pAVar1->field_58 = 1;
 
-    pAVar1 = sub_534370(0x2d, 0x16);
+    pAVar1 = CopyObjectDefinition_534370(0x2d, 0x16);
     pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
     pAVar1->field_64_next_frame_max = '\x01';
@@ -1029,10 +1029,10 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_65 = -1;
     pAVar1->field_58 = 1;
 
-    pAVar1 = sub_534370(0x2e, 0x16);
+    pAVar1 = CopyObjectDefinition_534370(0x2e, 0x16);
     pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
 
-    pAVar1 = sub_534370(0x2f, 0x15);
+    pAVar1 = CopyObjectDefinition_534370(0x2f, 0x15);
     pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
     pAVar1->field_64_next_frame_max = '\x01';
@@ -1048,10 +1048,10 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_65 = -1;
     pAVar1->field_58 = 1;
 
-    pAVar1 = sub_534370(0x30, 0x15);
+    pAVar1 = CopyObjectDefinition_534370(0x30, 0x15);
     pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
 
-    pAVar1 = sub_534370(0x3f, 0x11);
+    pAVar1 = CopyObjectDefinition_534370(0x3f, 0x11);
     pAVar1->field_38 = 0x11;
     pAVar1->field_34_behavior_type = object_behavior_type::bullet_type_3;
     pAVar1->field_3C_next_definition_idx = 0x11;
@@ -1064,7 +1064,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_61 = '\x01';
     pAVar1->field_58 = 1;
 
-    pAVar1 = sub_534370(0x2b, 0x17);
+    pAVar1 = CopyObjectDefinition_534370(0x2b, 0x17);
     pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
     pAVar1->field_64_next_frame_max = '\x01';
@@ -1080,10 +1080,10 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_65 = -1;
     pAVar1->field_58 = 1;
 
-    pAVar1 = sub_534370(0x2c, 0x17);
+    pAVar1 = CopyObjectDefinition_534370(0x2c, 0x17);
     pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
 
-    pAVar1 = sub_534370(0x9d, 7);
+    pAVar1 = CopyObjectDefinition_534370(0x9d, 7);
     pAVar1->field_4C = 2;
     pAVar1->field_34_behavior_type = object_behavior_type::bullet_type_3;
     pAVar1->field_14_friction = -DAT_006fcdd8;
@@ -1094,7 +1094,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_61 = '\x01';
     pAVar1->field_58 = 1;
 
-    pAVar1 = sub_534370(0x9e, 1);
+    pAVar1 = CopyObjectDefinition_534370(0x9e, 1);
     pAVar1->field_34_behavior_type = object_behavior_type::bullet_type_3;
     pAVar1->field_4C = 2;
     pAVar1->field_14_friction = -DAT_006fcdd8;
@@ -1163,50 +1163,50 @@ MATCH_FUNC(0x533c90)
 void Phi_8CA8::sub_533C90()
 {
     Phi_74* tmp;
-    tmp = sub_534370(0x93, 0x90);
+    tmp = CopyObjectDefinition_534370(0x93, 0x90);
     tmp->sub_533110(4);
-    tmp = sub_534370(0xfa, 0xfd);
+    tmp = CopyObjectDefinition_534370(0xfa, 0xfd);
     tmp->sub_533110(4);
-    tmp = sub_534370(0x78, 0x79);
+    tmp = CopyObjectDefinition_534370(0x78, 0x79);
     tmp->sub_533110(4);
-    tmp = sub_534370(0x75, 0x76);
+    tmp = CopyObjectDefinition_534370(0x75, 0x76);
     tmp->sub_533110(4);
-    tmp = sub_534370(0x92, 0x90);
+    tmp = CopyObjectDefinition_534370(0x92, 0x90);
     tmp->sub_533110(3);
-    tmp = sub_534370(0xf9, 0xfd);
+    tmp = CopyObjectDefinition_534370(0xf9, 0xfd);
     tmp->sub_533110(3);
-    tmp = sub_534370(0x77, 0x79);
+    tmp = CopyObjectDefinition_534370(0x77, 0x79);
     tmp->sub_533110(3);
-    tmp = sub_534370(0x74, 0x76);
+    tmp = CopyObjectDefinition_534370(0x74, 0x76);
     tmp->sub_533110(3);
-    tmp = sub_534370(0x91, 0x90);
+    tmp = CopyObjectDefinition_534370(0x91, 0x90);
     tmp->sub_533110(5);
     tmp->field_64_next_frame_max = 3;
 
-    tmp = sub_534370(0x7c, 0xfd);
+    tmp = CopyObjectDefinition_534370(0x7c, 0xfd);
     tmp->sub_533110(5);
     tmp->field_64_next_frame_max = 3;
-    tmp = sub_534370(0x7d, 0x79);
+    tmp = CopyObjectDefinition_534370(0x7d, 0x79);
     tmp->sub_533110(5);
     tmp->field_64_next_frame_max = 3;
-    tmp = sub_534370(0x7e, 0x76);
+    tmp = CopyObjectDefinition_534370(0x7e, 0x76);
     tmp->sub_533110(5);
     tmp->field_64_next_frame_max = 3;
 
-    tmp = sub_534370(0x9a, 0xfe);
+    tmp = CopyObjectDefinition_534370(0x9a, 0xfe);
     if (bDo_show_imaginary_67D588 == false)
     {
         tmp->field_40_collision_bucket_category = collision_bucket_category::purple_doom_none_2;
     }
-    sub_534370(0x109, 0xfe);
-    tmp = sub_534370(0x9f, 0x80);
+    CopyObjectDefinition_534370(0x109, 0xfe);
+    tmp = CopyObjectDefinition_534370(0x9f, 0x80);
     if (bDo_show_imaginary_67D588 == false)
     {
         tmp->field_40_collision_bucket_category = collision_bucket_category::purple_doom_none_2;
     }
 
-    sub_534370(0x115, 0xfe);
-    tmp = sub_534370(0x6e, 0x9b);
+    CopyObjectDefinition_534370(0x115, 0xfe);
+    tmp = CopyObjectDefinition_534370(0x6e, 0x9b);
     tmp->field_38 = 0x6e;
     tmp->field_3C_next_definition_idx = 0x6e;
     tmp->field_54_react_to_collisions_with = CollisionReaction::OnlyPeds_2;
@@ -1224,7 +1224,7 @@ void Phi_8CA8::sub_533C90()
     tmp->field_58 = 1;
     tmp->field_50 = 1;
 
-    tmp = sub_534370(0x7f, 0x9b);
+    tmp = CopyObjectDefinition_534370(0x7f, 0x9b);
     tmp->field_38 = 0;
     tmp->field_3C_next_definition_idx = 0;
     tmp->field_54_react_to_collisions_with = CollisionReaction::OnlyPeds_2;
@@ -1242,7 +1242,7 @@ void Phi_8CA8::sub_533C90()
     tmp->field_58 = 1;
     tmp->field_50 = 1;
 
-    tmp = sub_534370(0xc1, 0xc0);
+    tmp = CopyObjectDefinition_534370(0xc1, 0xc0);
     tmp->field_38 = 0;
     tmp->field_3C_next_definition_idx = 0;
     if (bDo_show_imaginary_67D588 == '\0')
@@ -1250,14 +1250,14 @@ void Phi_8CA8::sub_533C90()
         tmp->field_40_collision_bucket_category = collision_bucket_category::purple_doom_none_2;
     }
 
-    tmp = sub_534370(0xb9, 0xa3);
+    tmp = CopyObjectDefinition_534370(0xb9, 0xa3);
     tmp->field_38 = 0xb8;
     tmp->field_3C_next_definition_idx = 0xb8;
     tmp->field_44 = 4;
     tmp->field_40_collision_bucket_category = collision_bucket_category::purple_doom_2_region_bucket_3;
     tmp->field_61 = '\x01';
 
-    tmp = sub_534370(0xb8, 0xa3);
+    tmp = CopyObjectDefinition_534370(0xb8, 0xa3);
     tmp->field_38 = 0xb9;
     tmp->field_3C_next_definition_idx = 0xa4;
     tmp->field_65 = 'd';
@@ -1268,7 +1268,7 @@ void Phi_8CA8::sub_533C90()
     tmp->field_40_collision_bucket_category = collision_bucket_category::purple_doom_2_region_bucket_3;
     tmp->field_44 = 5;
 
-    tmp = sub_534370(0xb0, 0xa3);
+    tmp = CopyObjectDefinition_534370(0xb0, 0xa3);
     tmp->sub_533110(1);
     tmp->field_38 = 0xb1;
     tmp->field_3C_next_definition_idx = 0xb1;
@@ -1278,7 +1278,7 @@ void Phi_8CA8::sub_533C90()
         tmp->field_38 = 0xae;
         tmp->field_3C_next_definition_idx = 0xae;
     }
-    tmp = sub_534370(0xb1, 0xa4);
+    tmp = CopyObjectDefinition_534370(0xb1, 0xa4);
     tmp->sub_533110(1);
     if (bDo_kill_phones_on_answer_67D6E8 == '\0')
     {
@@ -1286,44 +1286,44 @@ void Phi_8CA8::sub_533C90()
         tmp->field_3C_next_definition_idx = 0xbb;
     }
 
-    tmp = sub_534370(0xbb, 0xb9);
+    tmp = CopyObjectDefinition_534370(0xbb, 0xb9);
     tmp->sub_533110(1);
     tmp->field_38 = 0xba;
     tmp->field_3C_next_definition_idx = 0xba;
 
-    tmp = sub_534370(0xba, 0xb8);
+    tmp = CopyObjectDefinition_534370(0xba, 0xb8);
     tmp->sub_533110(1);
     tmp->field_38 = 0xbb;
     tmp->field_3C_next_definition_idx = 0xb1;
 
-    tmp = sub_534370(0xb2, 0xa3);
+    tmp = CopyObjectDefinition_534370(0xb2, 0xa3);
     tmp->sub_533110(2);
     tmp->field_38 = 0xb3;
     tmp->field_3C_next_definition_idx = 0xb3;
 
-    tmp = sub_534370(0xb3, 0xa4);
+    tmp = CopyObjectDefinition_534370(0xb3, 0xa4);
     tmp->sub_533110(2);
     if (bDo_kill_phones_on_answer_67D6E8 == '\0')
     {
         tmp->field_38 = 0xbd;
         tmp->field_3C_next_definition_idx = 0xbd;
     }
-    tmp = sub_534370(0xbd, 0xb9);
+    tmp = CopyObjectDefinition_534370(0xbd, 0xb9);
     tmp->sub_533110(2);
     tmp->field_38 = 0xbc;
     tmp->field_3C_next_definition_idx = 0xbc;
 
-    tmp = sub_534370(0xbc, 0xb8);
+    tmp = CopyObjectDefinition_534370(0xbc, 0xb8);
     tmp->sub_533110(2);
     tmp->field_38 = 0xbd;
     tmp->field_3C_next_definition_idx = 0xb3;
 
-    tmp = sub_534370(0xb4, 0xa3);
+    tmp = CopyObjectDefinition_534370(0xb4, 0xa3);
     tmp->sub_533110(0);
     tmp->field_38 = 0xb5;
     tmp->field_3C_next_definition_idx = 0xb5;
 
-    tmp = sub_534370(0xb5, 0xa4);
+    tmp = CopyObjectDefinition_534370(0xb5, 0xa4);
     tmp->sub_533110(0);
     if (bDo_kill_phones_on_answer_67D6E8 == '\0')
     {
@@ -1331,20 +1331,20 @@ void Phi_8CA8::sub_533C90()
         tmp->field_3C_next_definition_idx = 0xbf;
     }
 
-    tmp = sub_534370(0xbf, 0xb9);
+    tmp = CopyObjectDefinition_534370(0xbf, 0xb9);
     tmp->sub_533110(0);
     tmp->field_38 = 0xbe;
     tmp->field_3C_next_definition_idx = 0xbe;
 
-    tmp = sub_534370(0xbe, 0xb8);
+    tmp = CopyObjectDefinition_534370(0xbe, 0xb8);
     tmp->sub_533110(0);
     tmp->field_38 = 0xbf;
     tmp->field_3C_next_definition_idx = 0xb5;
 
-    tmp = sub_534370(0xae, 0xa3);
+    tmp = CopyObjectDefinition_534370(0xae, 0xa3);
     tmp->field_44 = 0;
 
-    tmp = sub_534370(0xb6, 0xb7);
+    tmp = CopyObjectDefinition_534370(0xb6, 0xb7);
     tmp->field_38 = 0xb7;
     tmp->field_34_behavior_type = object_behavior_type::behavior_2;
     tmp->field_44 = 2;
@@ -1358,7 +1358,7 @@ void Phi_8CA8::sub_533C90()
 
     for(s32 iVar3 = 200; iVar3 - 200 <= 44; iVar3++)
     {
-        tmp = sub_534370(iVar3 - 0x88, iVar3);
+        tmp = CopyObjectDefinition_534370(iVar3 - 0x88, iVar3);
         tmp->field_38 = iVar3;
         tmp->field_34_behavior_type = tmp->field_34_behavior_type == object_behavior_type::behavior_6 ? object_behavior_type::behavior_7 : object_behavior_type::behavior_9;
         tmp->field_14_friction = -DAT_006fcdd8;
@@ -1415,25 +1415,25 @@ void Phi_8CA8::sub_534330()
 MATCH_FUNC(0x534360)
 Phi_74* Phi_8CA8::GetObjectDefinition_534360(s32 idx)
 {
-    return field_87F4[idx];
+    return field_87F4_idx_to_def[idx];
 }
 
 MATCH_FUNC(0x534370)
-Phi_74* Phi_8CA8::sub_534370(s32 idx1, s32 idx2)
+Phi_74* Phi_8CA8::CopyObjectDefinition_534370(s32 dst_idx, s32 src_idx)
 {
     Phi_74* result = &field_4[field_0_next_idx];
-    field_87F4[idx1] = result;
+    field_87F4_idx_to_def[dst_idx] = result;
     ++field_0_next_idx;
-    memcpy(result, field_87F4[idx2], sizeof(Phi_74));
-    result->field_24_idx = idx1;
+    memcpy(result, field_87F4_idx_to_def[src_idx], sizeof(Phi_74));
+    result->field_24_idx = dst_idx;
     return result;
 }
 
 MATCH_FUNC(0x5343c0)
-Phi_74* Phi_8CA8::sub_5343C0(s32 idx)
+Phi_74* Phi_8CA8::NewObjectDefinition_5343C0(s32 idx)
 {
     Phi_74* result = &field_4[field_0_next_idx];
-    field_87F4[idx] = result;
+    field_87F4_idx_to_def[idx] = result;
     ++field_0_next_idx;
     result->field_24_idx = idx;
     return result;
@@ -1442,9 +1442,9 @@ Phi_74* Phi_8CA8::sub_5343C0(s32 idx)
 MATCH_FUNC(0x5343f0)
 Phi_8CA8::Phi_8CA8()
 {
-    for (s32 i = 0; i < GTA2_COUNTOF(field_87F4); i++)
+    for (s32 i = 0; i < GTA2_COUNTOF(field_87F4_idx_to_def); i++)
     {
-        field_87F4[i] = 0;
+        field_87F4_idx_to_def[i] = 0;
     }
     field_0_next_idx = 0;
     field_8CA4 = 99;

@@ -116,7 +116,7 @@ class RouteFinder
     char_type field_3;
     s16 field_4;
     s16 field_6;
-    Junction_10 field_8[545];
+    Junction_10 field_8_junctions[545];
     RouteFinder_200 field_2218[50];
     u16 field_8618_idx;
     u16 field_861A;

@@ -84,8 +84,8 @@ void RouteFinder::RoadOff_588810(u8 x, u8 y, u8 z)
     const u16 r2 = RouteFinder::sub_588E60(x, y, z, 1, GREEN_OR_RED_3);
     if (r1 && r2)
     {
-        Junction_10* j1 = &field_8[r1];
-        Junction_10* j2 = &field_8[r2];
+        Junction_10* j1 = &field_8_junctions[r1];
+        Junction_10* j2 = &field_8_junctions[r2];
         if ((j1->field_4_e.GetIndex_0040CE90()) == r2)
         {
             j1->field_4_e.Disable_40CEC0();
@@ -103,8 +103,8 @@ void RouteFinder::RoadOff_588810(u8 x, u8 y, u8 z)
         const u16 r4 = RouteFinder::sub_588F30(x, y, z, 1, GREEN_OR_RED_3);
         if (r3 && r4)
         {
-            Junction_10* j1 = &field_8[r3];
-            Junction_10* j2 = &field_8[r4];
+            Junction_10* j1 = &field_8_junctions[r3];
+            Junction_10* j2 = &field_8_junctions[r4];
 
             if ((j1->field_2_s.GetIndex_0040CE90()) == r4)
             {
@@ -128,8 +128,8 @@ void RouteFinder::RoadOn_588950(u8 x, u8 y, u8 z)
     const u16 r2 = RouteFinder::sub_588E60(x, y, z, 1, GREEN_OR_RED_3);
     if (r1 && r2)
     {
-        Junction_10* j1 = &field_8[r1];
-        Junction_10* j2 = &field_8[r2];
+        Junction_10* j1 = &field_8_junctions[r1];
+        Junction_10* j2 = &field_8_junctions[r2];
         if ((j1->field_4_e.GetIndex_0040CE90()) == r2)
         {
             j1->field_4_e.Enable_40CEB0();
@@ -146,8 +146,8 @@ void RouteFinder::RoadOn_588950(u8 x, u8 y, u8 z)
     const u16 r4 = RouteFinder::sub_588F30(x, y, z, 1, GREEN_OR_RED_3);
     if (r3 && r4)
     {
-        Junction_10* j1 = &field_8[r3];
-        Junction_10* j2 = &field_8[r4];
+        Junction_10* j1 = &field_8_junctions[r3];
+        Junction_10* j2 = &field_8_junctions[r4];
 
         if ((j1->field_2_s.GetIndex_0040CE90()) == r4)
         {
@@ -177,8 +177,8 @@ u16 RouteFinder::IsPointInJunctionBounds_588AA0(u8 x, u8 y, u16 junc_idx1, u16 j
     u8 y2;
     u8 x2;
 
-    Junction_10* pJ1 = &this->field_8[junc_idx1];
-    Junction_10* pJ2 = &this->field_8[junc_idx2];
+    Junction_10* pJ1 = &this->field_8_junctions[junc_idx1];
+    Junction_10* pJ2 = &this->field_8_junctions[junc_idx2];
 
     if (pJ1->field_C_min_x <= pJ2->field_C_min_x)
     {
@@ -226,7 +226,7 @@ u16 RouteFinder::IsPointInJunctionBounds_588AA0(u8 x, u8 y, u16 junc_idx1, u16 j
 MATCH_FUNC(0x588b30)
 void RouteFinder::Load_RGEN_588B30()
 {
-    File::Global_Read_4A71C0(field_8, 0x2210);
+    File::Global_Read_4A71C0(field_8_junctions, 0x2210);
     File::Global_Read_4A71C0(this->field_A830, 0x1108);
     File::Global_Read_4A71C0(this->field_B938, 0x1108);
     File::Global_Read_4A71C0(&this->field_4, 2);
@@ -242,15 +242,15 @@ void RouteFinder::Load_RGEN_588B30()
             sprintf(gTmpBuffer_67C598,
                     "Junc: %d (%d, %d) n %d s %d w %d e %d",
                     iVar2,
-                    field_8[iVar2].field_C_min_x,
-                    field_8[iVar2].field_D_min_y,
-                    field_8[iVar2].field_0_n.GetIndex_0040CE90(),
-                    field_8[iVar2].field_2_s.GetIndex_0040CE90(),
-                    field_8[iVar2].field_6_w.GetIndex_0040CE90(),
-                    field_8[iVar2].field_4_e.GetIndex_0040CE90());
+                    field_8_junctions[iVar2].field_C_min_x,
+                    field_8_junctions[iVar2].field_D_min_y,
+                    field_8_junctions[iVar2].field_0_n.GetIndex_0040CE90(),
+                    field_8_junctions[iVar2].field_2_s.GetIndex_0040CE90(),
+                    field_8_junctions[iVar2].field_6_w.GetIndex_0040CE90(),
+                    field_8_junctions[iVar2].field_4_e.GetIndex_0040CE90());
             gErrorLog_67C530.Write_4D9620(gTmpBuffer_67C598);
 
-            if (iVar2 > 0 && field_8[iVar2].field_C_min_x == 0 && field_8[iVar2].field_D_min_y == 0)
+            if (iVar2 > 0 && field_8_junctions[iVar2].field_C_min_x == 0 && field_8_junctions[iVar2].field_D_min_y == 0)
             {
                 break;
             }
@@ -504,9 +504,9 @@ u16 RouteFinder::sub_589000(u8 x_coord, u8 y_coord, u8 z_coord, char_type a5, s3
 MATCH_FUNC(0x5890d0)
 void RouteFinder::sub_5890D0(u16 junction_idx, s32 direction, u8* xpos, u8* ypos)
 {
-    for (u8 y = field_8[junction_idx].field_D_min_y; y <= field_8[junction_idx].field_F_max_y; y++)
+    for (u8 y = field_8_junctions[junction_idx].field_D_min_y; y <= field_8_junctions[junction_idx].field_F_max_y; y++)
     {
-        for (u8 x = field_8[junction_idx].field_C_min_x; x <= field_8[junction_idx].field_E_max_x; x++)
+        for (u8 x = field_8_junctions[junction_idx].field_C_min_x; x <= field_8_junctions[junction_idx].field_E_max_x; x++)
         {
             s32 z;
             gmp_block_info* block = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x, y, &z);
@@ -519,9 +519,9 @@ void RouteFinder::sub_5890D0(u16 junction_idx, s32 direction, u8* xpos, u8* ypos
         }
     }
 
-    for (u8 y_pos = field_8[junction_idx].field_D_min_y; y_pos <= field_8[junction_idx].field_F_max_y; y_pos++)
+    for (u8 y_pos = field_8_junctions[junction_idx].field_D_min_y; y_pos <= field_8_junctions[junction_idx].field_F_max_y; y_pos++)
     {
-        for (u8 x_pos = field_8[junction_idx].field_C_min_x; x_pos <= field_8[junction_idx].field_E_max_x; x_pos++)
+        for (u8 x_pos = field_8_junctions[junction_idx].field_C_min_x; x_pos <= field_8_junctions[junction_idx].field_E_max_x; x_pos++)
         {
             s32 z;
             gmp_block_info* block = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x_pos, y_pos, &z);
@@ -549,8 +549,8 @@ RouteFinder_10* RouteFinder::sub_5892F0(RouteFinder_10* a2, u16 idx, s16 a4)
 
     RouteFinder_10* pNew10 = &this->field_861C[this->field_CC66_545_count++];
 
-    Junction_10* junc1 = &this->field_8[this->field_861A];
-    Junction_10* junc2 = &this->field_8[idx];
+    Junction_10* junc1 = &this->field_8_junctions[this->field_861A];
+    Junction_10* junc2 = &this->field_8_junctions[idx];
 
     s32 dx = abs((u8)junc2->field_C_min_x - (u8)junc1->field_C_min_x);
     s32 dy = abs((u8)junc2->field_D_min_y - (u8)junc1->field_D_min_y);
@@ -568,8 +568,8 @@ MATCH_FUNC(0x589390)
 RouteFinder_10* RouteFinder::sub_589390(u16 a2)
 {
     RouteFinder_10* pNew10 = &field_861C[field_CC66_545_count++];
-    s32 distance = abs(field_8[a2].field_C_min_x - field_8[field_861A].field_C_min_x) +
-        abs(field_8[a2].field_D_min_y - field_8[field_861A].field_D_min_y);
+    s32 distance = abs(field_8_junctions[a2].field_C_min_x - field_8_junctions[field_861A].field_C_min_x) +
+        abs(field_8_junctions[a2].field_D_min_y - field_8_junctions[field_861A].field_D_min_y);
 
     pNew10->field_2 = distance;
     pNew10->field_0_idx = a2;
@@ -617,7 +617,7 @@ char_type RouteFinder::sub_589480(u8 a2, u8 a3, u8 a4, u8 a5, u8 a6, u8 a7, s32 
     }
 
     u16 initialIdx = field_8618_idx;
-    Junction_10* pJunction = &field_8[initialIdx];
+    Junction_10* pJunction = &field_8_junctions[initialIdx];
     if (a2 < pJunction->field_C_min_x || a2 > pJunction->field_E_max_x || a3 < pJunction->field_D_min_y || a3 > pJunction->field_F_max_y)
     {
         field_8618_idx = sub_589000(a2, a3, a4, 1, a8);
@@ -820,10 +820,10 @@ void RouteFinder::DebugPrintRoute_58A020(char_type junc_idx)
         sprintf(gTmpBuffer_67C598,
                 "Junc: %d : (%d, %d)(%d, %d)",
                 i,
-                this->field_8[i].field_C_min_x,
-                this->field_8[i].field_D_min_y,
-                this->field_8[i].field_E_max_x,
-                this->field_8[i].field_F_max_y);
+                this->field_8_junctions[i].field_C_min_x,
+                this->field_8_junctions[i].field_D_min_y,
+                this->field_8_junctions[i].field_E_max_x,
+                this->field_8_junctions[i].field_F_max_y);
         gFile_67C530.Write_4D9620(gTmpBuffer_67C598);
         ++v3;
         i = this->field_2218[junc_idx].field_0[(u16)v3];
@@ -833,7 +833,7 @@ void RouteFinder::DebugPrintRoute_58A020(char_type junc_idx)
 MATCH_FUNC(0x58a0b0)
 Junction_10* RouteFinder::GetJunction_58A0B0(u16 jIdx)
 {
-    return &field_8[jIdx];
+    return &field_8_junctions[jIdx];
 }
 
 MATCH_FUNC(0x58a0d0)
@@ -876,7 +876,7 @@ RouteFinder::RouteFinder()
     field_0 = 0;
     field_2 = 0;
     field_4 = 0;
-    memset(field_8, 0, sizeof(field_8));
+    memset(field_8_junctions, 0, sizeof(field_8_junctions));
     memset(field_2218, 0, sizeof(field_2218));
     field_8618_idx = 0;
     field_861A = 0;

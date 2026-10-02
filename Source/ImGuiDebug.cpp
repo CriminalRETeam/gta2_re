@@ -2695,7 +2695,7 @@ void CC ImGuiDebugDraw()
 
                 //static s32 phi_74_id = 0;
                 //ImGui::SliderInt("Phi_74 id", &phi_74_id, 0, 299);
-                //Phi_74* phi = gPhi_8CA8_6FCF00->field_87F4[phi_74_id];
+                //Phi_74* phi = gPhi_8CA8_6FCF00->field_87F4_idx_to_def[phi_74_id];
                 if (ImGui::TreeNode("Spawned object"))
                 {
                     if (spawned_obj)

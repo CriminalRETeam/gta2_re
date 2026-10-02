@@ -332,14 +332,14 @@ class Phi_8CA8
     EXPORT void sub_5342F0(s32 idx);
     EXPORT void sub_534330();
     EXPORT Phi_74* GetObjectDefinition_534360(s32 idx);
-    EXPORT Phi_74* sub_534370(s32 idx1, s32 idx2);
-    EXPORT Phi_74* sub_5343C0(s32 idx);
+    EXPORT Phi_74* CopyObjectDefinition_534370(s32 dst_idx, s32 src_idx);
+    EXPORT Phi_74* NewObjectDefinition_5343C0(s32 idx);
     EXPORT Phi_8CA8();
 
     u16 field_0_next_idx;
     s16 field_2;
     Phi_74 field_4[300];
-    Phi_74* field_87F4[300];
+    Phi_74* field_87F4_idx_to_def[300];
     s16 field_8CA4;
     s16 field_8CA6;
 };
