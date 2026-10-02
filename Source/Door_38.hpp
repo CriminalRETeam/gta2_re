@@ -82,6 +82,7 @@ class Door_38
     */
 
     // inlined in 0x476990
+    // 9.6f 0x476990
     inline void set_field_20(u32 v)
     {
         field_20_state = v;

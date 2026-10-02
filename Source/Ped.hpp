@@ -385,6 +385,7 @@ class Ped
         field_164_ped_group = ptr;
     }
 
+    // 9.6f 0x403940
     void set_ped_group_id(s8 param_1)
     {
         field_23C = param_1;
@@ -427,6 +428,7 @@ class Ped
         field_21C &= ~ped_bit_status_enum::k_ped_0x00000004;
     }
 
+    // 9.6f 0x403AA0
     void set_field_150_target_objective_car(Car_BC* ptr)
     {
         field_150_target_objective_car = ptr;
@@ -442,16 +444,19 @@ class Ped
         field_238_ped_type = param_1;
     }
 
+    // 9.6f 0x403A00
     inline Fix16 get_cam_x()
     {
         return field_1AC_cam.x;
     }
 
+    // 9.6f 0x403A10
     inline Fix16 get_cam_y()
     {
         return field_1AC_cam.y;
     }
 
+    // 9.6f 0x416B50
     inline Fix16 get_cam_z()
     {
         return field_1AC_cam.z;
@@ -490,6 +495,7 @@ class Ped
         return field_16C_car;
     }
 
+    // 9.6f 0x420B60, 0x4C4F20
     u32 get_id() const
     {
         return field_200_id;
