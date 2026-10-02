@@ -2263,7 +2263,7 @@ s32 NetPlay::NoRefs_Send_521C80(s32 pSendData)
     pStru.field_D = pSendData;
     pStru.field_11_len = 0xE;
     NetPlay::MakeSendData_51F420(&pStru, &pData, &dataLen);
-    ((char_type*)pData)[1] = field_758_n2.field_8[field_5D4_player_idx];
+    ((char_type*)pData)[1] = field_758_n2.field_8[GetPlayerIdx_409C40()];
     return field_5E4_pDPlay3->Send(field_5D8_player_id, 0, 0, (void*)pData, dataLen);
 }
 
