@@ -2852,9 +2852,8 @@ void miss2_0x11C::SCRCMD_IS_CHAR_IN_MODEL_509C90()
     SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
 
     Ped* pPed = pParam1->field_8_char;
-    Car_BC* pCarCurrent;
 
-    if (pPed != NULL && (pCarCurrent = pPed->get_car_416B60()) != NULL && pCarCurrent->field_84_car_info_idx == pCmd->field_A_signed_2)
+    if (pPed != NULL && pPed->has_car_403B80() && pPed->get_car_416B60()->GetCarInfoIdx_411940() == pCmd->field_A_signed_2)
     {
         field_8 = true;
     }
