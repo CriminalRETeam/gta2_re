@@ -829,7 +829,7 @@ MATCH_FUNC(0x593030)
 void eager_benz::sub_593030(Car_BC* pCar, s16 score_default)
 {
     bool bAddScore = true;
-    s32 mutipler = this->field_368_player->field_6BC_multpliers.field_0_value;
+    s32 mutipler = field_368_player->get_multiplier_4766A0();
 
     if (bIsFrench_67D53C)
     {
@@ -858,9 +858,9 @@ void eager_benz::sub_593030(Car_BC* pCar, s16 score_default)
             {
                 if (this->field_368_player->IsUser_41DC70())
                 {
-                    gExplodingScorePool->PushScore_596890(pCar->field_50_car_sprite->GetXPos(),
-                                                           pCar->field_50_car_sprite->GetYPos(),
-                                                           pCar->field_50_car_sprite->GetZPos(),
+                    gExplodingScorePool->PushScore_596890(pCar->get_x_41E430(),
+                                                           pCar->get_y_41E440(),
+                                                           pCar->get_z_41E450(),
                                                            mutipler * base_score);
                 }
             }
@@ -868,13 +868,13 @@ void eager_benz::sub_593030(Car_BC* pCar, s16 score_default)
 
         if (bAddScore)
         {
-            field_368_player->field_2D4_scores.AddCash_592620(base_score * field_368_player->field_6BC_multpliers.field_0_value);
+            field_368_player->Add_2D4(base_score);
         }
 
         field_368_player->field_644_unk.sub_484FA0(mutipler * base_score);
         if (gShooey_CC_67A4B8->sub_485090(pCar, field_368_player))
         {
-            gShooey_CC_67A4B8->ReportCrimeForPed(1u, field_368_player->Get_Field_68_Ped());
+            gShooey_CC_67A4B8->ReportCrimeForPed(1u, field_368_player->GetPlayerPed_4A5130());
         }
     }
 }
