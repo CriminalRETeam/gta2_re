@@ -891,7 +891,7 @@ Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
 
     Car_BC* pRet = 0;
     Fix16 smallestDist = Fix16(0xC00000, 0);
-    Car_BC* pCarIter = gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev;
+    Car_BC* pCarIter = gCar_BC_Pool_67792C->GetFirstCar_420E50();
     Car_BC* pNearestCar = 0;
     if (pCarIter)
     {
@@ -901,7 +901,7 @@ Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
                 (bIgnorePedRestrictions || !pCarIter->sub_43B2B0(pPed)) && !pCarIter->sub_43A230() && !pCarIter->sub_4214D0() &&
                 !pCarIter->IsCarInAir_43A3C0())
             {
-                if (pCarIter->GetCarInfoIdx_411940() == car_model_enum::TRAINFB && (!bMatchDriverless || !pCarIter->field_54_driver))
+                if (pCarIter->GetCarInfoIdx_411940() != car_model_enum::TRAINFB && (!bMatchDriverless || !pCarIter->field_54_driver))
                 {
                     Sprite* pCarSprite = pCarIter->field_50_car_sprite;
                     Fix16 zd = Fix16::Abs(pCarSprite->field_1C_zpos - zpos);

@@ -1267,6 +1267,12 @@ struct Car_BC_Pool
         field_0_pool.DeAllocate(pCar);
     }
 
+    // 9.6f 0x420E50
+    inline Car_BC* GetFirstCar_420E50()
+    {
+        return field_0_pool.field_4_pPrev;
+    }
+
     // FUNCTION: 96f 0x420f20
     void UpdateNextPrev(Car_BC* pItem)
     {
