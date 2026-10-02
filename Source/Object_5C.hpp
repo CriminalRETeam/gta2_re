@@ -11,6 +11,8 @@
 
 EXTERN_GLOBAL(s32, gObj2C_id_623EC0);
 
+EXPORT void __stdcall sub_529050(u8 a1, s8* a2, s8* a3);
+
 class Object_2C;
 class Sprite;
 class Sprite_4C;
@@ -263,6 +265,12 @@ class Object_2C
 
     // 9.6f 0x482C10, defined in Object_5C.cpp (needs Object_8)
     inline bool IsAnimFinished_482C10();
+
+    // 9.6f 0x493090
+    inline void GetConveyorDirection_493090(s8* pX, s8* pY)
+    {
+        sub_529050(get_field_26_420FF0(), pX, pY);
+    }
 
     // 9.6f 0x482BF0
     void sub_482BF0()

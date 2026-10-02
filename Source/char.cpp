@@ -6731,7 +6731,7 @@ bool Char_B4::OnObjectTouched_553640(Object_2C* p2c)
             break;
 
         case objects::conveyor_139:
-            sub_529050(p2c->get_field_26_420FF0(), &v6, &v7); // TODO: Ang8 or something ???
+            p2c->GetConveyorDirection_493090(&v6, &v7); // TODO: Ang8 or something ???
             this->field_4C = k_dword_6FDA9C * v6;
             this->field_50 = k_dword_6FDA9C * v7;
             break;
