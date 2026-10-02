@@ -328,7 +328,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 313
 | 0x56A0F0 | `Player::RestoreCarsFromSave_56A0F0` | 0x4A6A80 | `EnqueueRadioLocationPhrase_426E10`, `GetRaw_4A5190`, `sub_4A51B0` | todo |  |
 | 0x56C010 | `jolly_poitras_0x2BC0::sub_56C010` | 0x4A90A0 | `sub_453A60` | todo |  |
 | 0x5707B0 | `Police_7B8::PromptCrewAtCarToPurseCriminal_5707B0` | 0x4AABB0 | ✓ `sub_41B0A0` | todo |  |
-| 0x571540 | `PoliceCrew_38::sub_571540` | 0x4AB400 | `sub_4A9AD0`, `cool_nash_0x294::sub_403A30`, ✓ `sub_421470`, `cool_nash_0x294::sub_4039F0` | todo |  |
+| 0x571540 | `PoliceCrew_38::sub_571540` | 0x4AB400 | `sub_4A9AD0`, `cool_nash_0x294::sub_403A30`, ✓ `sub_421470`, `cool_nash_0x294::sub_4039F0` | matched | Third car branch is `sub_421470()` + the shared 28/2C tail; Get_F76/Get_F20E/ClearGroupAndGroupIdx inlines |
 | 0x571A30 | `PoliceCrew_38::sub_571A30` | 0x4AB610 | `sub_4A9AD0`, `cool_nash_0x294::sub_403920`, `cool_nash_0x294::sub_403A30`, ✓ `sub_421470`, `cool_nash_0x294::sub_4039F0` | todo |  |
 | 0x572210 | `PoliceCrew_38::sub_572210` | 0x4AB930 | `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), `cool_nash_0x294::get_cam_x_403A00`, ✓ `MaxAbsDistance_42A6B0` | todo |  |
 | 0x572920 | `PoliceCrew_38::State5_Searching_572920` | 0x4AC580 | `sub_421470`, `cool_nash_0x294::get_cam_x_403A00`, `cool_nash_0x294::sub_416B50`, `cool_nash_0x294::get_objective_403A80`, `cool_nash_0x294::set_objective_target_ped_403AC0`, `sub_4048A0`, `cool_nash_0x294::set_target_objective_car_403AA0`, `sub_403960`, `cool_nash_0x294::sub_403AF0`, `cool_nash_0x294::sub_403AE0`, `cool_nash_0x294::get_objective_target_ped_403AD0`, `sub_450CB0`, `MaxAbsDistance_42A6B0`, `Car_BC::sub_421D90`, `cool_nash_0x294::sub_403990` | todo |  |
