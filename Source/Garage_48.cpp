@@ -74,7 +74,8 @@ u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
         field_3E++;
     }
 
-    field_40 = pCar->field_50_car_sprite->field_C_sprite_4c_ptr->field_4_height > dword_6FD124;
+    // 9.6f: Car_BC::sub_447ED0 (inlined, but here with dword_6FD124 where Car_BC.hpp uses dword_679E74)
+    field_40 = pCar->field_50_car_sprite->GetH_447E70() > dword_6FD124;
 
     u8 x;
     u8 y;
@@ -94,10 +95,11 @@ u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
         w2 = w1;
     }
 
+    // 9.6f: the field_18/1C and field_20/24 pairs are set with a two Fix16 setter (0x432860), so they may be a struct
     switch (field_38)
     {
         case 1:
-            if (field_10->field_0_primary_door_data && field_10->field_4_secondary_door_data)
+            if (field_10->IsDoubleDoor_489600())
             {
                 field_1C = Fix16(y) - dword_6FD124 - w1;
                 field_18 = Fix16(x);
@@ -115,7 +117,7 @@ u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
         case 2:
             field_18 = Fix16(x) - w2;
             field_1C = Fix16(y) - w1;
-            if (field_10->field_0_primary_door_data && field_10->field_4_secondary_door_data)
+            if (field_10->IsDoubleDoor_489600())
             {
                 field_20 = dword_6FD124 + Fix16(x);
                 field_24 = dword_6FD128 + Fix16(y) + w1;
@@ -131,7 +133,7 @@ u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
         case 3:
             field_18 = Fix16(x) - w1;
             field_1C = Fix16(y);
-            if (field_10->field_0_primary_door_data && field_10->field_4_secondary_door_data)
+            if (field_10->IsDoubleDoor_489600())
             {
                 field_24 = dword_6FD124 + Fix16(y) + w2;
                 field_20 = dword_6FD128 + Fix16(x) + w1;
@@ -145,7 +147,7 @@ u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
             field_30_target_x = Fix16(x) + dword_6FCF98;
             break;
         case 4:
-            if (field_10->field_0_primary_door_data && field_10->field_4_secondary_door_data)
+            if (field_10->IsDoubleDoor_489600())
             {
                 field_18 = Fix16(x) - dword_6FD124 - w1;
             }
