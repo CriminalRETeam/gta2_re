@@ -3135,6 +3135,26 @@ u8 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_
     return 0;
 }
 
+MATCH_FUNC(0x4E5D10)
+void Map_0x370::sub_4E5D10(Fix16* pX, Fix16* pY, Fix16 dist, s32 direction)
+{
+    switch (direction)
+    {
+        case road_direction::up_1:
+            *pY -= dist;
+            break;
+        case road_direction::down_2:
+            *pY += dist;
+            break;
+        case road_direction::left_4:
+            *pX -= dist;
+            break;
+        case road_direction::right_3:
+            *pX += dist;
+            break;
+    }
+}
+
 // https://decomp.me/scratch/9rRLR
 WIP_FUNC(0x4E5E90)
 char_type Map_0x370::sub_4E5E90(gmp_block_info* pBlock, s32 direction, char_type a3)
