@@ -19,11 +19,9 @@ void rng::sub_48B900()
     field_4_rnd = stru_6F6784.rand_4F7C00();
 }
 
-WIP_FUNC(0x48B920)
+MATCH_FUNC(0x48B920)
 void rng::ShowCycle_48B920()
 {
-    WIP_IMPLEMENTED;
-
     if (gBurgerKing_67F8B0.inlined_check())
     {
         swprintf(tmpBuff_67BD9C,
