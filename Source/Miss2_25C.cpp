@@ -38,10 +38,10 @@ void Miss2_25C::MissionCleanUp_502DC0()
         if (gStoredCar_6F7560->field_6C_maybe_id == gStoredCarId_6F78B4)
         {
             gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
-            gStoredCar_6F7560->sub_421560(3);
+            gStoredCar_6F7560->SetUniNum_421560(3);
             if (!gStoredCar_6F7560->sub_4214D0())
             {
-                gStoredCar_6F7560->sub_421470();
+                gStoredCar_6F7560->MarkForDespawn_421470();
             }
             gStoredCar_6F7560 = 0;
             gStoredCarId_6F78B4 = 0;
@@ -77,10 +77,10 @@ void Miss2_25C::MissionCleanUp_502DC0()
                     if (pIter->field_0_car->field_6C_maybe_id == pIter->field_8_uni2)
                     {
                         gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(pIter->field_0_car);
-                        pIter->field_0_car->sub_421560(3);
+                        pIter->field_0_car->SetUniNum_421560(3);
                         if (!pIter->field_0_car->sub_4214D0())
                         {
-                            pIter->field_0_car->sub_421470();
+                            pIter->field_0_car->MarkForDespawn_421470();
                         }
                     }
                     break;

@@ -640,7 +640,7 @@ bool Police_7B8::FBI_Army_5703E0(Car_BC* pCar)
     pKfc->field_4_ped = pNewPed1;
     pKfc->field_18 = 0;
     pKfc->field_28 = 6;
-    pKfc->field_0_car->sub_421560(5);
+    pKfc->field_0_car->SetUniNum_421560(5);
     pKfc->field_0_car->InitCarAIControl_440590();
     pKfc->field_0_car->sub_43AF40();
     ++field_658_count;

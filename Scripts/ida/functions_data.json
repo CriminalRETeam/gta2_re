@@ -140,7 +140,7 @@
         "v105_address": "0x405c60"
     },
     {
-        "name": "sub_405CE0",
+        "name": "SmoothApproachAngle_405CE0",
         "v96f_address": "0x40ECB0",
         "v105_address": "0x405ce0"
     },
@@ -200,12 +200,12 @@
         "v105_address": "0x4081b0"
     },
     {
-        "name": "Trailer::sub_4081D0",
+        "name": "Trailer::ExplodeBothIfOneDestroyed_4081D0",
         "v96f_address": null,
         "v105_address": "0x4081d0"
     },
     {
-        "name": "Trailer::sub_408220",
+        "name": "Trailer::Update_408220",
         "v96f_address": "0x40FBE0",
         "v105_address": "0x408220"
     },
@@ -1075,12 +1075,12 @@
         "v105_address": "0x430ac0"
     },
     {
-        "name": "sub_430B10",
+        "name": "ReadToken_430B10",
         "v96f_address": null,
         "v105_address": "0x430b10"
     },
     {
-        "name": "sub_430C70",
+        "name": "ParseTokenAndPush_430C70",
         "v96f_address": "0x41D620",
         "v105_address": "0x430c70"
     },
@@ -1375,32 +1375,32 @@
         "v105_address": "0x4397d0"
     },
     {
-        "name": "Car_Door_10::sub_439CD0",
+        "name": "Car_Door_10::AnimateOpening_439CD0",
         "v96f_address": null,
         "v105_address": "0x439cd0"
     },
     {
-        "name": "Car_Door_10::sub_439D40",
+        "name": "Car_Door_10::AnimateClosing_439D40",
         "v96f_address": null,
         "v105_address": "0x439d40"
     },
     {
-        "name": "Car_Door_10::sub_439DA0",
+        "name": "Car_Door_10::Service_439DA0",
         "v96f_address": null,
         "v105_address": "0x439da0"
     },
     {
-        "name": "Car_Door_10::sub_439E40",
+        "name": "Car_Door_10::Init_439E40",
         "v96f_address": null,
         "v105_address": "0x439e40"
     },
     {
-        "name": "Car_Door_10::sub_439E60",
+        "name": "Car_Door_10::Open_439E60",
         "v96f_address": null,
         "v105_address": "0x439e60"
     },
     {
-        "name": "Car_Door_10::sub_439EA0",
+        "name": "Car_Door_10::Close_439EA0",
         "v96f_address": null,
         "v105_address": "0x439ea0"
     },
@@ -1425,7 +1425,7 @@
         "v105_address": "0x439f80"
     },
     {
-        "name": "Car_BC::sub_439FB0",
+        "name": "Car_BC::GetHitchPoint_439FB0",
         "v96f_address": null,
         "v105_address": "0x439fb0"
     },
@@ -1450,7 +1450,7 @@
         "v105_address": "0x43a1f0"
     },
     {
-        "name": "Car_BC::sub_43A230",
+        "name": "Car_BC::HasSpriteZoom_43A230",
         "v96f_address": null,
         "v105_address": "0x43a230"
     },
@@ -1485,7 +1485,7 @@
         "v105_address": "0x43a590"
     },
     {
-        "name": "Car_BC::sub_43A5B0",
+        "name": "Car_BC::GetMinDimension_43A5B0",
         "v96f_address": null,
         "v105_address": "0x43a5b0"
     },
@@ -1585,7 +1585,7 @@
         "v105_address": "0x43b140"
     },
     {
-        "name": "Car_BC::sub_43B2B0",
+        "name": "Car_BC::IsDoorLockedForPed_43B2B0",
         "v96f_address": null,
         "v105_address": "0x43b2b0"
     },
@@ -1600,12 +1600,12 @@
         "v105_address": "0x43b360"
     },
     {
-        "name": "Car_BC::sub_43B380",
+        "name": "Car_BC::OpenAllDoors_43B380",
         "v96f_address": null,
         "v105_address": "0x43b380"
     },
     {
-        "name": "Car_BC::sub_43B3D0",
+        "name": "Car_BC::CloseAllDoors_43B3D0",
         "v96f_address": null,
         "v105_address": "0x43b3d0"
     },
@@ -1680,7 +1680,7 @@
         "v105_address": "0x43bd00"
     },
     {
-        "name": "Car_BC::sub_43BD40",
+        "name": "Car_BC::FlashHeadlights_43BD40",
         "v96f_address": null,
         "v105_address": "0x43bd40"
     },
@@ -1695,12 +1695,12 @@
         "v105_address": "0x43bf70"
     },
     {
-        "name": "Car_BC::sub_43BFE0",
+        "name": "Car_BC::HeadlightsOn_43BFE0",
         "v96f_address": null,
         "v105_address": "0x43bfe0"
     },
     {
-        "name": "Car_BC::sub_43C0C0",
+        "name": "Car_BC::HeadlightsOff_43C0C0",
         "v96f_address": null,
         "v105_address": "0x43c0c0"
     },
@@ -1765,7 +1765,7 @@
         "v105_address": "0x43ca80"
     },
     {
-        "name": "Car_BC::sub_43CBE0",
+        "name": "Car_BC::StopLightFlashing_43CBE0",
         "v96f_address": null,
         "v105_address": "0x43cbe0"
     },
@@ -1790,7 +1790,7 @@
         "v105_address": "0x43d2c0"
     },
     {
-        "name": "Car_BC::sub_43D400",
+        "name": "Car_BC::RepairDamage_43D400",
         "v96f_address": "0x425F20",
         "v105_address": "0x43d400"
     },
@@ -1825,7 +1825,7 @@
         "v105_address": "0x43db80"
     },
     {
-        "name": "Car_BC::sub_43DBD0",
+        "name": "Car_BC::StopMovement_43DBD0",
         "v96f_address": null,
         "v105_address": "0x43dbd0"
     },
@@ -1875,7 +1875,7 @@
         "v105_address": "0x43f130"
     },
     {
-        "name": "CarPhysics_B0::sub_4403A0",
+        "name": "CarPhysics_B0::GetCornerAngle_4403A0",
         "v96f_address": null,
         "v105_address": "0x4403a0"
     },
@@ -1915,7 +1915,7 @@
         "v105_address": "0x4406b0"
     },
     {
-        "name": "Car_BC::sub_4406E0",
+        "name": "Car_BC::AssignDriver_4406E0",
         "v96f_address": null,
         "v105_address": "0x4406e0"
     },
@@ -1930,7 +1930,7 @@
         "v105_address": "0x440840"
     },
     {
-        "name": "sub_440860",
+        "name": "SignedPixelsToFix16_440860",
         "v96f_address": null,
         "v105_address": "0x440860"
     },
@@ -1995,7 +1995,7 @@
         "v105_address": "0x441360"
     },
     {
-        "name": "Car_BC::sub_441380",
+        "name": "Car_BC::StartWreckCountdown_441380",
         "v96f_address": null,
         "v105_address": "0x441380"
     },
@@ -2005,7 +2005,7 @@
         "v105_address": "0x4413b0"
     },
     {
-        "name": "Car_BC::sub_441520",
+        "name": "Car_BC::UpdateEngineStatus_441520",
         "v96f_address": null,
         "v105_address": "0x441520"
     },
@@ -2020,17 +2020,17 @@
         "v105_address": "0x441600"
     },
     {
-        "name": "Car_BC::sub_4416D0",
+        "name": "Car_BC::TryHonkHorn_4416D0",
         "v96f_address": null,
         "v105_address": "0x4416d0"
     },
     {
-        "name": "Car_BC::sub_4417D0",
+        "name": "Car_BC::UpdateHorn_4417D0",
         "v96f_address": null,
         "v105_address": "0x4417d0"
     },
     {
-        "name": "Car_BC::sub_4417F0",
+        "name": "Car_BC::HonkHorn_4417F0",
         "v96f_address": null,
         "v105_address": "0x4417f0"
     },
@@ -2065,22 +2065,22 @@
         "v105_address": "0x441a10"
     },
     {
-        "name": "Car_BC::sub_441A40",
+        "name": "Car_BC::AreAllDoorsClosed_441A40",
         "v96f_address": null,
         "v105_address": "0x441a40"
     },
     {
-        "name": "Car_BC::sub_441A70",
+        "name": "Car_BC::InitDoors_441A70",
         "v96f_address": null,
         "v105_address": "0x441a70"
     },
     {
-        "name": "Car_BC::sub_441B00",
+        "name": "Car_BC::ServiceDoors_441B00",
         "v96f_address": null,
         "v105_address": "0x441b00"
     },
     {
-        "name": "Car_BC::sub_441B20",
+        "name": "Car_BC::UpdateTaxiLight_441B20",
         "v96f_address": null,
         "v105_address": "0x441b20"
     },
@@ -2100,7 +2100,7 @@
         "v105_address": "0x441d40"
     },
     {
-        "name": "Car_BC::sub_441E70",
+        "name": "Car_BC::UpdateLights_441E70",
         "v96f_address": "0x426140",
         "v105_address": "0x441e70"
     },
@@ -2115,12 +2115,12 @@
         "v105_address": "0x442190"
     },
     {
-        "name": "Car_BC::sub_4421B0",
+        "name": "Car_BC::IsMissionRelated_4421B0",
         "v96f_address": null,
         "v105_address": "0x4421b0"
     },
     {
-        "name": "Car_BC::sub_442200",
+        "name": "Car_BC::CanDespawn_442200",
         "v96f_address": null,
         "v105_address": "0x442200"
     },
@@ -2160,7 +2160,7 @@
         "v105_address": "0x4427a0"
     },
     {
-        "name": "Car_BC::sub_442810",
+        "name": "Car_BC::TryHitchTrailer_442810",
         "v96f_address": null,
         "v105_address": "0x442810"
     },
@@ -2245,7 +2245,7 @@
         "v105_address": "0x443a50"
     },
     {
-        "name": "sub_443AB0",
+        "name": "ShowCantAffordMessage_443AB0",
         "v96f_address": null,
         "v105_address": "0x443ab0"
     },
@@ -2270,7 +2270,7 @@
         "v105_address": "0x443cb0"
     },
     {
-        "name": "Car_BC::sub_443D00",
+        "name": "Car_BC::SetPosition_443D00",
         "v96f_address": null,
         "v105_address": "0x443d00"
     },
@@ -2285,32 +2285,32 @@
         "v105_address": "0x443da0"
     },
     {
-        "name": "Car_BC::sub_443E50",
+        "name": "Car_BC::MarkProtoRecycled_443E50",
         "v96f_address": null,
         "v105_address": "0x443e50"
     },
     {
-        "name": "Car_BC::sub_443E80",
+        "name": "Car_BC::MarkRecycled_443E80",
         "v96f_address": null,
         "v105_address": "0x443e80"
     },
     {
-        "name": "Car_BC::sub_443EB0",
+        "name": "Car_BC::ReassignCarStats_443EB0",
         "v96f_address": null,
         "v105_address": "0x443eb0"
     },
     {
-        "name": "Car_BC::sub_443EE0",
+        "name": "Car_BC::ReassignAllocatedCarType_443EE0",
         "v96f_address": null,
         "v105_address": "0x443ee0"
     },
     {
-        "name": "Car_BC::sub_443F30",
+        "name": "Car_BC::AttachLight_443F30",
         "v96f_address": "0x420950",
         "v105_address": "0x443f30"
     },
     {
-        "name": "Car_BC::sub_444020",
+        "name": "Car_BC::UpdateExploderTimer_444020",
         "v96f_address": null,
         "v105_address": "0x444020"
     },
@@ -2490,7 +2490,7 @@
         "v105_address": "0x447350"
     },
     {
-        "name": "Car_BC::sub_447360",
+        "name": "Car_BC::ClearHeadlightDeltas_447360",
         "v96f_address": null,
         "v105_address": "0x447360"
     },
@@ -2785,7 +2785,7 @@
         "v105_address": "0x454a00"
     },
     {
-        "name": "CarInfo_808::sub_454A50",
+        "name": "CarInfo_808::Reload_454A50",
         "v96f_address": null,
         "v105_address": "0x454a50"
     },
@@ -4370,32 +4370,32 @@
         "v105_address": "0x47e840"
     },
     {
-        "name": "Crane_15C::sub_47E920",
+        "name": "Crane_15C::IsDropPositionClear_47E920",
         "v96f_address": "0x448090",
         "v105_address": "0x47e920"
     },
     {
-        "name": "Crane_15C::sub_47EB00",
+        "name": "Crane_15C::IsTarget1PositionClear_47EB00",
         "v96f_address": null,
         "v105_address": "0x47eb00"
     },
     {
-        "name": "Crane_15C::sub_47ECC0",
+        "name": "Crane_15C::DropHookedCar_47ECC0",
         "v96f_address": "0x4481f0",
         "v105_address": "0x47ecc0"
     },
     {
-        "name": "Crane_15C::sub_47ED60",
+        "name": "Crane_15C::DropHookedCarOnTransporter_47ED60",
         "v96f_address": "0x448290",
         "v105_address": "0x47ed60"
     },
     {
-        "name": "Crane_15C::sub_47EDF0",
+        "name": "Crane_15C::HookTransporterCargo_47EDF0",
         "v96f_address": "0x448300",
         "v105_address": "0x47edf0"
     },
     {
-        "name": "Crane_15C::sub_47EF80",
+        "name": "Crane_15C::HookPickupCar_47EF80",
         "v96f_address": "0x448450",
         "v105_address": "0x47ef80"
     },
@@ -4405,32 +4405,32 @@
         "v105_address": "0x47f170"
     },
     {
-        "name": "Crane_15C::sub_47F220",
+        "name": "Crane_15C::SetTransporterCargoTarget_47F220",
         "v96f_address": "0x4485d0",
         "v105_address": "0x47f220"
     },
     {
-        "name": "Crane_15C::sub_47F290",
+        "name": "Crane_15C::SetDropTransporterTarget_47F290",
         "v96f_address": "0x448650",
         "v105_address": "0x47f290"
     },
     {
-        "name": "Crane_15C::sub_47F2F0",
+        "name": "Crane_15C::SetPickupCarTarget_47F2F0",
         "v96f_address": "0x4486c0",
         "v105_address": "0x47f2f0"
     },
     {
-        "name": "Crane_15C::sub_47F350",
+        "name": "Crane_15C::IsTransporterCargoTargetValid_47F350",
         "v96f_address": "0x448730",
         "v105_address": "0x47f350"
     },
     {
-        "name": "Crane_15C::sub_47F3D0",
+        "name": "Crane_15C::IsPickupCarTargetValid_47F3D0",
         "v96f_address": "0x4487d0",
         "v105_address": "0x47f3d0"
     },
     {
-        "name": "Crane_15C::sub_47F450",
+        "name": "Crane_15C::IsDropTransporterTargetValid_47F450",
         "v96f_address": "0x448870",
         "v105_address": "0x47f450"
     },
@@ -4445,7 +4445,7 @@
         "v105_address": "0x47f6c0"
     },
     {
-        "name": "Crane_15C::sub_47F7F0",
+        "name": "Crane_15C::TargetTransporter_47F7F0",
         "v96f_address": null,
         "v105_address": "0x47f7f0"
     },
@@ -4455,17 +4455,17 @@
         "v105_address": "0x47f930"
     },
     {
-        "name": "Crane_15C::sub_47FB40",
+        "name": "Crane_15C::TryNextDropPosition_47FB40",
         "v96f_address": "0x448c00",
         "v105_address": "0x47fb40"
     },
     {
-        "name": "Crane_15C::sub_47FBA0",
+        "name": "Crane_15C::MoveTowardsTargets_47FBA0",
         "v96f_address": "0x448C60",
         "v105_address": "0x47fba0"
     },
     {
-        "name": "Crane_15C::sub_47FD10",
+        "name": "Crane_15C::ReleaseHookedCar_47FD10",
         "v96f_address": "0x448df0",
         "v105_address": "0x47fd10"
     },
@@ -8000,7 +8000,7 @@
         "v105_address": "0x4f78f0"
     },
     {
-        "name": "sub_4F7940",
+        "name": "DirectionToAng16_4F7940",
         "v96f_address": null,
         "v105_address": "0x4f7940"
     },
@@ -12575,12 +12575,12 @@
         "v105_address": "0x563970"
     },
     {
-        "name": "sub_5639C0",
+        "name": "ClearCarInfoGlobals_5639C0",
         "v96f_address": null,
         "v105_address": "0x5639c0"
     },
     {
-        "name": "Car_BC::sub_564300",
+        "name": "Car_BC::IsDrivenByNonPlayer_564300",
         "v96f_address": null,
         "v105_address": "0x564300"
     },
@@ -13665,7 +13665,7 @@
         "v105_address": "0x582480"
     },
     {
-        "name": "Car_14::sub_583260",
+        "name": "Car_14::SpawnTrafficCarFacing_583260",
         "v96f_address": "0x4B4A00",
         "v105_address": "0x583260"
     },
@@ -13685,7 +13685,7 @@
         "v105_address": "0x583750"
     },
     {
-        "name": "Car_14::sub_583870",
+        "name": "Car_14::IsFlatRoadAt_583870",
         "v96f_address": null,
         "v105_address": "0x583870"
     },
@@ -15870,17 +15870,17 @@
         "v105_address": "0x5c5f90"
     },
     {
-        "name": "Car_214::sub_5C8680",
+        "name": "Car_214::FreeTrigger_5C8680",
         "v96f_address": null,
         "v105_address": "0x5c8680"
     },
     {
-        "name": "Car_214::sub_5C86C0",
+        "name": "Car_214::AddThreadTrigger_5C86C0",
         "v96f_address": null,
         "v105_address": "0x5c86c0"
     },
     {
-        "name": "Car_214::sub_5C8750",
+        "name": "Car_214::Reset_5C8750",
         "v96f_address": null,
         "v105_address": "0x5c8750"
     },

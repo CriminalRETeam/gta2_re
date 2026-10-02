@@ -131,7 +131,7 @@ void Kfc_30::UpdateStateMachine_5CBD50()
             {
                 v36 = 1;
             }
-            if (field_0_car->sub_43A230())
+            if (field_0_car->HasSpriteZoom_43A230())
             {
                 v36 = 1;
             }
@@ -395,7 +395,7 @@ void Kfc_30::CleanupExpiredEntities_5CC1C0()
         {
             if (field_0_car->Get_F76_4A9AD0() > this->field_1A)
             {
-                field_0_car->sub_421470();
+                field_0_car->MarkForDespawn_421470();
                 bClearRouteAndTryClearOthers = 1;
             }
         }

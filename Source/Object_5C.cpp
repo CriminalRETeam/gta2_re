@@ -1830,7 +1830,7 @@ void Object_2C::TriggerCarExplosionIfApplicable_526790(Sprite* pSprite)
                         {
                             pCar->field_70_exploder_ped_id = id;
                             pCar->field_90 = 12;
-                            pCar->field_94 = 50;
+                            pCar->field_94_exploder_timer = 50;
                         }
                     }
                     s32 t = sub_526830(field_8->field_3C_next_definition_idx);

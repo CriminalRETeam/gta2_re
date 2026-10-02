@@ -298,7 +298,7 @@ void Train_58::sub_578330()
             {
                 if (field_C_carriages[i + 1]->field_84_car_info_idx == car_model_enum::TRAIN)
                 {
-                    field_C_carriages[i + 1]->sub_43B3D0();
+                    field_C_carriages[i + 1]->CloseAllDoors_43B3D0();
                 }
             }
         }
@@ -316,7 +316,7 @@ void Train_58::sub_578360()
             {
                 if (field_C_carriages[i + 1]->field_84_car_info_idx == car_model_enum::TRAIN)
                 {
-                    field_C_carriages[i + 1]->sub_43B380();
+                    field_C_carriages[i + 1]->OpenAllDoors_43B380();
                 }
             }
         }

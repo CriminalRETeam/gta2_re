@@ -183,10 +183,10 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(s32 animPhase, Car_BC* pCar,
     Fix16 offset = gCharB4_WorldCollisionOffset_6FD8D8;
 
     s8 x_in_scale = car_door_info_array[2 * doorId + 1];
-    Fix16 x_pos = dword_6F6850.sub_41FE70(x_in_scale);
+    Fix16 x_pos = dword_6F6850.SignedPixelsToFix16_41FE70(x_in_scale);
 
     s8 y_in_scale = car_door_info_array[2 * doorId + 2];
-    Fix16 y_pos = dword_6F6850.sub_41FE70(y_in_scale);
+    Fix16 y_pos = dword_6F6850.SignedPixelsToFix16_41FE70(y_in_scale);
 
     bool bUnk = false;
 
@@ -751,7 +751,7 @@ void Ped::TeleportToCoord_45BC10(Fix16 xpos, Fix16 ypos)
     Car_BC* pCar = field_16C_car;
     if (pCar)
     {
-        pCar->sub_443D00(xpos, ypos, zpos);
+        pCar->SetPosition_443D00(xpos, ypos, zpos);
     }
     else
     {
@@ -817,7 +817,7 @@ bool Ped::sub_45BD20(Car_BC* pCar)
         return true;
     }
     Car_Door_10* Door = field_154_target_to_enter->GetDoor(field_24C_target_car_door);
-    Door->sub_439EA0();
+    Door->Close_439EA0();
 
     field_168_game_object->HandleGenericImpact_553E00(word_6784FC + pCar->field_50_car_sprite->field_0,
                                                       dword_678634 + dword_678480,
@@ -2540,7 +2540,7 @@ void Ped::TaxiCustomer_AI_460820()
             }
             else
             {
-                if (target_objective_car->field_8C >= 3u)
+                if (target_objective_car->field_8C_fire_level >= 3u)
                 {
                     this->field_21C |= 0x20000000u;
                 }
@@ -2754,7 +2754,7 @@ void Ped::BusCustomer_AI_461290()
                 else
                 {
                     pDoor = pTargetCar->GetDoor(this->field_24C_target_car_door);
-                    pDoor->sub_439E60();
+                    pDoor->Open_439E60();
                 }
             }
             return;
@@ -3790,7 +3790,7 @@ void Ped::sub_462B80()
             field_168_game_object = NULL;
             if (!field_248_enter_car_as_passenger)
             {
-                field_16C_car->sub_4406E0(this);
+                field_16C_car->AssignDriver_4406E0(this);
             }
             else
             {
@@ -3817,7 +3817,7 @@ void Ped::sub_462B80()
                 Car_Door_10* Door = field_16C_car->GetDoor(field_24C_target_car_door);
                 if (field_240_occupation != ped_ocupation_enum::bus_customer_8 && field_240_occupation != ped_ocupation_enum::train_customer_9)
                 {
-                    Door->sub_439EA0();
+                    Door->Close_439EA0();
                 }
                 Door->set_ped_421380(NULL);
             }
@@ -4345,7 +4345,7 @@ void Ped::SetObjective2_463830(s32 car_state, s16 a3)
                 }
             }
             pDoor_ = pDoor;
-            pDoor->sub_439EA0();
+            pDoor->Close_439EA0();
             pDoor_->field_8_pObj = 0;
         }
 
@@ -6339,7 +6339,7 @@ char_type Ped::FindUsableCarDoor_467090()
         if ((pTargetToEnter->GetVelocity_43A4C0() <= vel_to_check // car going slow enough?
              || this->field_25C_internal_objective == 36 || this->field_27C_ped_state_2 == ped_state_2::Unknown_17) &&
             pTargetToEnter->field_88_despawn_status != 5 && pTargetToEnter->field_74_damage != 32001 &&
-            (this->field_278_ped_state_1 == ped_state_1::exiting_car_4 || !pTargetToEnter->sub_43B2B0(this)) // can enter this car?
+            (this->field_278_ped_state_1 == ped_state_1::exiting_car_4 || !pTargetToEnter->IsDoorLockedForPed_43B2B0(this)) // can enter this car?
             && pTargetToEnter->field_88_despawn_status != 7)
         {
             enter_car_as_passenger = this->field_248_enter_car_as_passenger;
@@ -6352,7 +6352,7 @@ char_type Ped::FindUsableCarDoor_467090()
                     while (!pTargetToEnter->IsDoorAccessible_43AFE0(target_door_counter))
                     {
                         Door = pTargetToEnter->GetDoor(this->field_24C_target_car_door);
-                        Door->sub_439EA0();
+                        Door->Close_439EA0();
                         Door->field_8_pObj = 0;
                         if (this->field_27C_ped_state_2 == ped_state_2::ped2_entering_a_car_6)
                         {
@@ -6389,7 +6389,7 @@ char_type Ped::FindUsableCarDoor_467090()
                 while (!pTargetToEnter->IsDoorAccessible_43AFE0(target_door_counter))
                 {
                     pDoor = pTargetToEnter->GetDoor(this->field_24C_target_car_door);
-                    pDoor->sub_439EA0();
+                    pDoor->Close_439EA0();
                     pDoor->field_8_pObj = 0;
                     ped_state_2 = this->field_27C_ped_state_2;
                     if (ped_state_2 == ped_state_2::ped2_entering_a_car_6 || ped_state_2 == ped_state_2::ped2_getting_out_a_car_7)
@@ -7807,7 +7807,7 @@ void Ped::sub_469E50()
             field_16C_car->field_60->field_4_ped_owner = this;
         }
         field_16C_car->field_60->field_8_maybe_path_type = 4;
-        field_16C_car->sub_421560(5);
+        field_16C_car->SetUniNum_421560(5);
         field_16C_car->field_60->field_30_ped_to_follow = field_148_objective_target_ped;
         field_16C_car->field_A6 &= ~0x20u;
         field_16C_car->field_5C_AI->field_74_unk_speed = dword_67866C;
@@ -7835,7 +7835,7 @@ void Ped::sub_469F30()
         field_16C_car->field_60->field_4_ped_owner = this;
     }
     field_16C_car->field_60->field_8_maybe_path_type = 2;
-    field_16C_car->sub_421560(5);
+    field_16C_car->SetUniNum_421560(5);
     field_16C_car->field_60->field_30_ped_to_follow = field_148_objective_target_ped;
     field_16C_car->field_A6 &= ~0x20u;
     field_16C_car->field_5C_AI->field_74_unk_speed = dword_67866C;
@@ -7986,7 +7986,7 @@ void Ped::FollowCarInCurrCar_46A290()
             field_16C_car->field_60->field_4_ped_owner = this;
         }
         field_16C_car->field_60->field_8_maybe_path_type = 2;
-        field_16C_car->sub_421560(5);
+        field_16C_car->SetUniNum_421560(5);
         field_16C_car->field_60->field_30_ped_to_follow = field_150_target_objective_car->field_54_driver;
         field_16C_car->field_A6 &= ~0x20u;
         field_16C_car->field_5C_AI->field_74_unk_speed = dword_67866C;
@@ -8625,7 +8625,7 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
                         {
                             field_168_game_object->field_68_animation_frame = 4;
                             Car_Door_10* Door = pCar->GetDoor(field_24C_target_car_door);
-                            Door->sub_439EA0();
+                            Door->Close_439EA0();
                             Door->field_8_pObj = 0;
                             Ped::ChangeNextPedState2_45C540(14);
                         }
@@ -8904,7 +8904,7 @@ void Ped::MeleeAttackStateMachine_46B670()
         if (field_27C_ped_state_2 == ped_state_2::Unknown_9)
         {
             Car_Door_10* pDoor = field_168_game_object->field_84->GetDoor(field_24C_target_car_door);
-            pDoor->sub_439EA0();
+            pDoor->Close_439EA0();
             pDoor->field_8_pObj = 0;
         }
         Ped::UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 0);
@@ -8995,7 +8995,7 @@ void Ped::EnterCarStateMachine_46BDC0()
     if (!FindUsableCarDoor_467090())
     {
         Car_Door_10* pDoor = field_154_target_to_enter->GetDoor(this->field_24C_target_car_door);
-        pDoor->sub_439EA0();
+        pDoor->Close_439EA0();
         if (this->field_27C_ped_state_2 == ped_state_2::ped2_entering_a_car_6)
         {
             Sprite* pCarSprite = this->field_154_target_to_enter->field_50_car_sprite;

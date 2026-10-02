@@ -53,9 +53,9 @@ EXTERN_GLOBAL(Collide_C*, gCollide_C_6791FC);
 EXTERN_GLOBAL(FirefighterPool_54*, gFirefighterPool_54_67D4C0);
 EXTERN_GLOBAL(Orca_2FD4*, gOrca_2FD4_6FDEF0);
 
-EXTERN_GLOBAL(car_rng_list, dword_676DB4);
-EXTERN_GLOBAL(car_rng_list, dword_676988);
-EXTERN_GLOBAL(car_rng_list, dword_677384);
+EXTERN_GLOBAL(car_rng_list, gAverageCarModels_676DB4);
+EXTERN_GLOBAL(car_rng_list, gBadCarModels_676988);
+EXTERN_GLOBAL(car_rng_list, gGoodCarModels_677384);
 
 EXTERN_GLOBAL(u8, byte_6FEB48);
 EXTERN_GLOBAL(Fix16_Point, stru_6F6484);
@@ -1635,17 +1635,17 @@ void CC ImGuiDebugDraw()
 
                     pNewCar->field_7C_uni_num = 5;
                     pNewCar->field_76_last_seen_timer = 0;
-                    if (pNewCar->field_98 != 4)
+                    if (pNewCar->field_98_door_lock != 4)
                     {
-                        pNewCar->field_98 = 2;
+                        pNewCar->field_98_door_lock = 2;
                     }
 
                     //pNewCar->field_9C = 3;
-                    //pNewCar->sub_43BFE0();
+                    //pNewCar->HeadlightsOn_43BFE0();
                     //pNewCar->field_5C->field_74 = DAT_006FF570;
 
                     // prevents player entering when 4
-                    //pNewCar->field_98 = 3;
+                    //pNewCar->field_98_door_lock = 3;
 
                     pNewCar->field_78_flags |= 0x10u;
 
@@ -1707,7 +1707,7 @@ void CC ImGuiDebugDraw()
 
             if (gCar_6C_677930)
             {
-                ImGui::SliderInt("F1C", &gCar_6C_677930->field_1C, -30, 30);
+                ImGui::SliderInt("F1C", &gCar_6C_677930->field_1C_explosion_offset_cycle, -30, 30);
 
                 if (ImGui::TreeNode("Draw debug stuff"))
                 {
@@ -2059,8 +2059,8 @@ void CC ImGuiDebugDraw()
                                     //ImGui::Value("Center of Mass y", pPhysics->field_30_cm1.y.ToFloat(), "%.2f");
                                     //ImGui::Value("Center of ??? x", pPhysics->field_38_cp1.x.ToFloat(), "%.2f");
                                     //ImGui::Value("Center of ??? y", pPhysics->field_38_cp1.y.ToFloat(), "%.2f");
-                                    ImGui::Value("Physics fA0", pPhysics->field_A0);
-                                    ImGui::SliderInt("Physics fA0", &pPhysics->field_A0, 0, 3);
+                                    ImGui::Value("Physics fA0", pPhysics->field_A0_oil_spin_dir);
+                                    ImGui::SliderInt("Physics fA0", &pPhysics->field_A0_oil_spin_dir, 0, 3);
                                     ImGui::Value("Physics fAD", pPhysics->field_AD_turn_direction);
                                     ImGui::Value("Surface type", pPhysics->field_98_surface_type);
                                     //pPhysics->field_95 = 1;
@@ -3381,9 +3381,9 @@ void CC ImGuiDebugDraw()
             static u8 idx = 0;
             ImGui::SliderU8("idx", &idx, 0, 255);
 
-            ImGui::Value("dword_676DB8", dword_676DB4.values[idx]);
-            ImGui::Value("dword_67698C", dword_676988.values[idx]);
-            ImGui::Value("dword_677388", dword_677384.values[idx]);
+            ImGui::Value("dword_676DB8", gAverageCarModels_676DB4.values[idx]);
+            ImGui::Value("dword_67698C", gBadCarModels_676988.values[idx]);
+            ImGui::Value("dword_677388", gGoodCarModels_677384.values[idx]);
             ImGui::TreePop();
         }
 

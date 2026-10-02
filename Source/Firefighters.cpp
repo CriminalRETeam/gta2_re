@@ -162,7 +162,7 @@ bool Firefighter_28::sub_4A7FC0()
     if (field_C_target_car)
     {
         if (field_C_target_car->field_88_despawn_status == 6 || field_C_target_car->field_88_despawn_status == 7 ||
-            field_C_target_car->IsDespawning_4215B0() || field_C_target_car->sub_4214B0())
+            field_C_target_car->IsDespawning_4215B0() || field_C_target_car->IsMarkedForDespawn_4214B0())
         {
             if (field_20_ped)
             {
