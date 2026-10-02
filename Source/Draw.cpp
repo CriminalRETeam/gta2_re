@@ -111,22 +111,22 @@ void __stdcall DrawTextScaled_5D77A0(wchar_t* pText, Fix16 xpos, Fix16 ypos, u16
 WIP_FUNC(0x5D7CB0)
 void __stdcall ConvertColourBanks_5D7CB0()
 {
+    // The original has a 10 byte `jmp +8; nop...` gap after this call, likely a binary patch
+    // in the OG exe, so only the rest can match.
     WIP_IMPLEMENTED;
     s32 colour = pgbh_SetColourDepth();
     if (gGtx_0x106C_703DD4 && gGtx_0x106C_703DD4->field_6A_palettes_converted == 0)
     {
-        u32 phys_pal_len = gGtx_0x106C_703DD4->get_physical_palettes_len_5AA900();
-        u32 max_idx = phys_pal_len / 64;
+        s32 phys_pal_len = gGtx_0x106C_703DD4->get_physical_palettes_len_5AA900();
+        u32 max_idx = (u32)phys_pal_len / 64;
 
-        if ((phys_pal_len & 0x8000003F) != 0)
+        if (phys_pal_len % 64 != 0)
         {
             ++max_idx;
         }
-        u16 unk = 0;
-        for (u32 i = 0; i < max_idx; i++)
+        for (u16 i = 0; i < max_idx; i++)
         {
-            pConvertColourBank(gGtx_0x106C_703DD4->GetPalData_5AA6A0(unk));
-            unk += 64;
+            pConvertColourBank(gGtx_0x106C_703DD4->GetPalData_5AA6A0(i * 64));
         }
         gGtx_0x106C_703DD4->field_6A_palettes_converted = 1;
     }
