@@ -3170,7 +3170,7 @@ void Ped::RoadBlockTank_AI_4619F0()
     }
     else
     {
-        field_16C_car->SetA6Bit20_421540();
+        field_16C_car->SetA6Bit5_421540();
     }
 
     if (this->field_28C_threat_reaction != threat_reaction_enum::react_as_emergency_1 || gPolice_7B8_6FEE40->field_654_wanted_level == 6)
@@ -7270,7 +7270,7 @@ void Ped::GotoAreaInCar_468310()
             this->field_16C_car->field_60->field_14_target_x = this->field_1DC_objective_target_x;
             this->field_16C_car->field_60->field_18_target_y = this->field_1E0_objective_target_y;
             this->field_16C_car->field_60->field_1C_target_z = this->field_1E4_objective_target_z;
-            this->field_16C_car->ClearA6Bit20_421550();
+            this->field_16C_car->ClearA6Bit5_421550();
 
             pDriver = this->field_16C_car->field_54_driver;
             if (pDriver)
@@ -7294,7 +7294,7 @@ void Ped::GotoAreaInCar_468310()
                 this->field_225_objective_status = objective_status::passed_1;
                 gHamburger_500_678E30->FreeEntry_474CC0(pCar_->field_60);
                 this->field_16C_car->field_60 = 0;
-                this->field_16C_car->SetA6Bit20_421540();
+                this->field_16C_car->SetA6Bit5_421540();
                 this->field_1A0_objective_target_object = dword_678558; // TODO: Never written so part of a bigger global obj?
             }
             else
@@ -7305,7 +7305,7 @@ void Ped::GotoAreaInCar_468310()
                     this->field_225_objective_status = objective_status::passed_1;
                     gHamburger_500_678E30->FreeEntry_474CC0(pCar__->field_60);
                     this->field_16C_car->field_60 = 0;
-                    this->field_16C_car->SetA6Bit20_421540();
+                    this->field_16C_car->SetA6Bit5_421540();
                 }
                 else if (pCar__)
                 {
@@ -8344,7 +8344,7 @@ void Ped::sub_469E50()
         field_16C_car->field_60->field_8_maybe_path_type = 4;
         field_16C_car->SetUniNum_421560(5);
         field_16C_car->field_60->field_30_ped_to_follow = field_148_objective_target_ped;
-        field_16C_car->ClearA6Bit20_421550();
+        field_16C_car->ClearA6Bit5_421550();
         field_16C_car->field_5C_AI->field_74_unk_speed = kFpThree_67866C;
         field_16C_car->field_60->field_20 = 1;
         if (field_16C_car->field_84_car_info_idx == car_model_enum::JEEP)
@@ -8372,7 +8372,7 @@ void Ped::FollowPedInCar_469F30()
     field_16C_car->field_60->field_8_maybe_path_type = 2;
     field_16C_car->SetUniNum_421560(5);
     field_16C_car->field_60->field_30_ped_to_follow = field_148_objective_target_ped;
-    field_16C_car->ClearA6Bit20_421550();
+    field_16C_car->ClearA6Bit5_421550();
     field_16C_car->field_5C_AI->field_74_unk_speed = kFpThree_67866C;
 }
 
@@ -8523,7 +8523,7 @@ void Ped::FollowCarInCurrCar_46A290()
         field_16C_car->field_60->field_8_maybe_path_type = 2;
         field_16C_car->SetUniNum_421560(5);
         field_16C_car->field_60->field_30_ped_to_follow = field_150_target_objective_car->field_54_driver;
-        field_16C_car->ClearA6Bit20_421550();
+        field_16C_car->ClearA6Bit5_421550();
         field_16C_car->field_5C_AI->field_74_unk_speed = kFpThree_67866C;
     }
 }
@@ -9972,7 +9972,7 @@ void Ped::FollowPedInCar_46CA70()
 
     this->field_16C_car->SetUniNum_421560(5);
     this->field_16C_car->field_60->field_30_ped_to_follow = this->field_14C_internal_target_ped;
-    this->field_16C_car->ClearA6Bit20_421550();
+    this->field_16C_car->ClearA6Bit5_421550();
     this->field_16C_car->field_5C_AI->field_74_unk_speed = kFpThree_67866C;
     this->field_16C_car->field_60->field_20 = 1;
 }

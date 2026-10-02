@@ -1402,7 +1402,7 @@ void PoliceCrew_38::State1_Patrol_574F10()
     }
     else
     {
-        pCarUnk->ClearA6Bit20_421550();
+        pCarUnk->ClearA6Bit5_421550();
         if (field_10_subObj->field_28_state == 6)
         {
             PoliceCrew_38::sub_5720C0();
@@ -1538,7 +1538,7 @@ void PoliceCrew_38::sub_575210()
         }
         else
         {
-            field_10_subObj->field_0_car->SetA6Bit20_421540();
+            field_10_subObj->field_0_car->SetA6Bit5_421540();
         }
     }
     else

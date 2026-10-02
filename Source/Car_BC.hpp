@@ -1215,18 +1215,6 @@ class Car_BC
         return field_76_last_seen_timer;
     }
 
-    // 9.6f 0x421540
-    inline void SetA6Bit20_421540()
-    {
-        field_A6 |= 0x20u;
-    }
-
-    // 9.6f 0x421550
-    inline void ClearA6Bit20_421550()
-    {
-        field_A6 &= ~0x20u;
-    }
-
     // FUNCTION: 96f 0x4215b0
     bool IsDespawning_4215B0()
     {
