@@ -277,16 +277,16 @@ void Weapon_30::flamethrower_5DD0F0()
 
     if (!field_4)
     {
-        field_2C = 1;
+        set_field_2C_4CCA80(1);
         bAllowFlameSegment_706D60 = 0;
         Weapon_30::spawn_bullet_5DCF60(154, xpos, ypos, cam_z, ped_rot, ped_pos_maybe);
         if (bAllowFlameSegment_706D60)
         {
             gParticle_8_6FD5E8->EmitFlameStreamSegment_53F4C0(field_24_pPed->field_168_game_object->field_80_sprite_ptr);
 
-            if (field_24_pPed->IsField238_45EDE0(2) && field_0_ammo != 0xFFFF)
+            if (field_24_pPed->IsField238_45EDE0(2))
             {
-                --field_0_ammo;
+                DecreaseAmmo_4CCA60();
             }
             field_24_pPed->AddThreateningPedToList_46FC70();
             if (field_24_pPed->is_player_41B0A0())
