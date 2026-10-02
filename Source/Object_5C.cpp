@@ -2399,13 +2399,7 @@ void Object_2C::HandleWaterDeath_528900()
         field_4->sub_59E320(1);
         if (field_4->ShrinkSprite_59E390(dword_6F8F5C, dword_6F8F5C, 0))
         {
-            // inline - because has to be a local here?
-            Sprite* pSprite = this->field_4;
-            if (pSprite->field_1C_zpos != kFpZero_6F8E10)
-            {
-                pSprite->field_1C_zpos = kFpZero_6F8E10;
-                pSprite->ResetZCollisionAndDebugBoxes_59E7B0();
-            }
+            field_4->set_z_lazy_420660(kFpZero_6F8E10);
             sub_5290A0();
         }
     }
