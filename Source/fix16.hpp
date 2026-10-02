@@ -232,7 +232,7 @@ class Fix16
         mValue = value << 14;
     }
 
-    explicit Fix16(f32 v) : mValue(static_cast<s32>(v * 16384.0))
+    explicit Fix16(f32 v) : mValue(static_cast<s32>(v * 16384.0f))
     {
     }
 
