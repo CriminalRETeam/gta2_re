@@ -2208,8 +2208,7 @@ void Hud_Arrow_7C_Array::ClearOrphanInfoPhoneArrows_5D0F80()
 {
     for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_array); i++)
     {
-        if (field_0_array[i].field_18.field_18_primary_target.field_10_target_type ||
-            field_0_array[i].field_18.field_3C_secondary_target.field_10_target_type)
+        if (!field_0_array[i].IsType0_4C6F80())
         {
             if (field_0_array[i].field_18.field_10.field_30_gang)
             {
