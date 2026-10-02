@@ -680,7 +680,7 @@ void Phi_74::ApplyDefinitionToSprite_5331A0(Sprite* pSprite)
         pSprite->UpdateDimensionsFromSpriteIndex_59FA40();
     }
 
-    pSprite->field_28_num = this->field_2C;
+    pSprite->set_num_40F7B0(this->field_2C);
     pSprite->field_2C_flags = this->field_20;
 
     if (this->field_30 != 2)
