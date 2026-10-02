@@ -55,7 +55,7 @@ Weapon_30* Weapon_8::allocate_5E3CE0(s32 weapon_kind, Car_BC* pCar, u8 ammo)
 MATCH_FUNC(0x5e3d20)
 Weapon_30* Weapon_8::find_5E3D20(Car_BC* pCar, s32 weapon_kind)
 {
-    Weapon_30* result = gWeapon_30_Pool_707014->field_0_pool.field_4_pPrev;
+    Weapon_30* result = gWeapon_30_Pool_707014->get_next_4CC9B0();
     if (!result)
     {
         return 0;
