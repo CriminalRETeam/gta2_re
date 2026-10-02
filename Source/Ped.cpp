@@ -7240,11 +7240,9 @@ void Ped::TimeWaitedInCar_4682A0()
     }
 }
 
-WIP_FUNC(0x468310)
+MATCH_FUNC(0x468310)
 void Ped::GotoAreaInCar_468310()
 {
-    NOT_IMPLEMENTED;
-
     Ped* pDriver;
     Car_BC* pCar;
     Car_BC* pCar_;
@@ -7307,7 +7305,11 @@ void Ped::GotoAreaInCar_468310()
                     this->field_16C_car->field_60 = 0;
                     this->field_16C_car->SetA6Bit5_421540();
                 }
-                else if (pCar__)
+                else if (!pCar__)
+                {
+                    this->field_218_objective_timer = 9999;
+                }
+                else
                 {
                     if (pCar__->GetVelocity_43A4C0() == kFpZero_678660)
                     {
@@ -7321,10 +7323,6 @@ void Ped::GotoAreaInCar_468310()
                     {
                         this->field_218_objective_timer = 9999;
                     }
-                }
-                else
-                {
-                    this->field_218_objective_timer = 9999;
                 }
             }
         }
