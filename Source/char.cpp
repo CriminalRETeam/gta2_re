@@ -5962,7 +5962,7 @@ void Char_B4::state_8_5520A0()
     s16 v76 = 0;
     s16 v77 = 0;
 
-    field_7C_pPed->field_21C_bf.b11 = false;
+    field_7C_pPed->ClearBit11_403A40();
     if (field_16 == 1)
     {
         field_16 = 0;
@@ -6127,7 +6127,7 @@ void Char_B4::state_8_5520A0()
                         }
                         else
                         {
-                            if (field_7C_pPed->field_216_health == 0)
+                            if (field_7C_pPed->get_health_433B70() == 0)
                             {
                                 field_7C_pPed->Kill_46F9D0();
                             }
@@ -6246,6 +6246,7 @@ void Char_B4::state_8_5520A0()
 
                             field_7C_pPed->ChangeNextPedState1_45C500(8);
                             field_7C_pPed->ChangeNextPedState2_45C540(26);
+                            // 9.6f: Ped::Set_B4_F16_To_1_433B50 here and below (inlined, using it makes the diff worse)
                             field_7C_pPed->field_168_game_object->field_16 = 1;
                             return;
                         }
