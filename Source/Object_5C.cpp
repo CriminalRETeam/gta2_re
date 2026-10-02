@@ -1087,7 +1087,7 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
 
     v5->set_xyz_lazy_420600(field_4->field_14_xy.x, field_4->field_14_xy.y, field_4->field_1C_zpos);
     v5->set_ang_lazy_420690(field_4->field_0);
-    v5->AllocInternal_59F950(this->field_8->field_0, this->field_8->field_4, this->field_8->field_8);
+    v5->AllocInternal_59F950(this->field_8->field_0_width, this->field_8->field_4_height, this->field_8->field_8_depth);
     v5->field_30_sprite_type_enum = this->field_4->field_30_sprite_type_enum;
     v5->sub_59E960();
     v5->field_8_pSprite = this->field_4->field_8_pSprite;
@@ -1101,7 +1101,7 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
     }
     else
     {
-        v11 = (a2) / this->field_8->field_C;
+        v11 = (a2) / this->field_8->field_C_min_size;
         v52 = (a2) / v11;
     }
 
@@ -3061,7 +3061,7 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
         gRozza_679188.sub_4637B0();
         pSprt->set_xyz_lazy_420600(field_4->field_14_xy.x, field_4->field_14_xy.y, field_4->field_1C_zpos);
         pSprt->set_ang_lazy_420690(field_4->field_0);
-        pSprt->AllocInternal_59F950(field_8->field_0, field_8->field_4, field_8->field_8);
+        pSprt->AllocInternal_59F950(field_8->field_0_width, field_8->field_4_height, field_8->field_8_depth);
         pSprt->SetType_4206F0(field_4->get_type_416B40());
         pSprt->SetObj2C_482A30(field_4->field_8_object_2C_ptr);
         field_10_obj_3c->field_2F = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(pSprt->field_14_xy.x.ToInt(),
@@ -3071,7 +3071,7 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
         Fix16 unk_z;
         if (mov_speed_copy != kFpZero_6F8E10)
         {
-            v15 = mov_speed_copy / field_8->field_C;
+            v15 = mov_speed_copy / field_8->field_C_min_size;
             radius = mov_speed_copy / v15;
             unk_z = field_10_obj_3c->field_10 / v15;
         }
@@ -3595,7 +3595,7 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             pNew3C = gObject_3C_Pool_6F8F7C->Allocate();
             pNew2C->field_10_obj_3c = pNew3C;
             pNew3C->field_20 = pNew2C->field_14_id;
-            pNew2C->field_10_obj_3c->field_C_speed = pNew2C->field_8->field_10;
+            pNew2C->field_10_obj_3c->field_C_speed = pNew2C->field_8->field_10_speed;
             pNew2C->field_10_obj_3c->field_18_friction = pPhi->field_14_friction;
             pNew2C->field_10_obj_3c->field_4_angle = rotation;
             pNew2C->field_10_obj_3c->field_28 = pNew2C->field_8->field_65;
@@ -3611,7 +3611,7 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             pNew3C = gObject_3C_Pool_6F8F7C->Allocate();
             pNew2C->field_10_obj_3c = pNew3C;
             pNew3C->field_20 = pNew2C->field_14_id;
-            pNew2C->field_10_obj_3c->field_C_speed = pNew2C->field_8->field_10;
+            pNew2C->field_10_obj_3c->field_C_speed = pNew2C->field_8->field_10_speed;
             pNew2C->field_10_obj_3c->field_18_friction = pPhi->field_14_friction;
             pNew2C->field_10_obj_3c->field_10 = kFpZero_6F8E10;
             pNew2C->field_10_obj_3c->field_1C = kFpZero_6F8E10;

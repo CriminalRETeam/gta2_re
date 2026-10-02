@@ -141,7 +141,7 @@ void Game_0x40::LoadGameFiles_4B8C40()
     char_type* map_name = gLucid_hamilton_67E8E0.GetMapName_4C5940();
     gMap_0x370_6F6268->LoadMap_4E95B0(map_name);
 
-    gPhi_8CA8_6FCF00->sub_534330();
+    gPhi_8CA8_6FCF00->InitDefinitions_534330();
 
     gSharp_pare_0x15D8_705064->sub_5B9350();
 

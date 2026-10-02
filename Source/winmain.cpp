@@ -126,7 +126,7 @@ static void LoadBeginSceneCBPtr()
 void force_link()
 {
     Phi_8CA8 phi_8ca8;
-    phi_8ca8.sub_5332D0(0, 0, 0, 0);
+    phi_8ca8.AllocDefinitionWithSprite_5332D0(0, 0, 0, 0);
 
     Ambulance_20 jaw_20;
     jaw_20.field_14_count = 1;
