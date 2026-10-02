@@ -25,6 +25,8 @@
 #include <ddraw.h>
 #include <direct.h>
 #include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <windows.h>
 //#include <dmusics.h>
 
@@ -1155,6 +1157,24 @@ EXPORT void Net_4DA9F0()
     }
 }
 
+#pragma pack(push, 1)
+// What each player sends at the start of a network game, so everyone can check they run the same
+// game, data files and settings
+struct SyncCheckData_1F
+{
+    u8 field_0_type; // 5
+    u32 field_1_flags; // 1: log random extra, 2: sync check, 4: log random
+    s32 field_5_map_size;
+    s32 field_9;
+    s32 field_D_script_sum;
+    s32 field_11_exe_a;
+    s32 field_15_exe_b;
+    s32 field_19_gci_sum;
+    u8 field_1D_bFrench;
+    u8 field_1E_player_idx;
+};
+#pragma pack(pop)
+
 // Sum of all the bytes of a file
 MATCH_FUNC(0x4DB120)
 EXPORT s32 __stdcall FileByteSum_4DB120(FILE* hFile)
@@ -1169,10 +1189,54 @@ EXPORT s32 __stdcall FileByteSum_4DB120(FILE* hFile)
 }
 
 // Fills in the sync check data that is compared between players at the start of a network game
-STUB_FUNC(0x4DB2E0)
+MATCH_FUNC(0x4DB2E0)
 EXPORT void __stdcall sub_4DB2E0(u8* pSyncData)
 {
-    NOT_IMPLEMENTED;
+    SyncCheckData_1F* pData = (SyncCheckData_1F*)pSyncData;
+    struct _stat st;
+
+    memset(pData, 0, sizeof(SyncCheckData_1F));
+    pData->field_0_type = 5;
+    if (gCar_6C_677930)
+    {
+        gCar_6C_677930->field_69_do_free_shopping = bDo_free_shopping_67D6CD;
+    }
+
+    pData->field_1_flags = 0;
+    pData->field_1_flags = bLog_random_extra_67D5BC != 0;
+    pData->field_1_flags |= bDo_sync_check_67D6C1 ? 2 : 0;
+    pData->field_1_flags |= bLog_random_67D5FC ? 4 : 0;
+    pData->field_11_exe_a = -1;
+    pData->field_15_exe_b = 0;
+
+    if (_stat(gLucid_hamilton_67E8E0.GetMapName_4C5940(), &st) == 0)
+    {
+        pData->field_5_map_size = st.st_size;
+    }
+
+    FILE* hFile = crt::fopen(gLucid_hamilton_67E8E0.GetScriptName_4C5960(), "rb");
+    if (hFile)
+    {
+        pData->field_D_script_sum = FileByteSum_4DB120(hFile);
+        crt::fclose(hFile);
+    }
+
+    hFile = crt::fopen("data\\nyc.gci", "rb");
+    if (hFile)
+    {
+        pData->field_19_gci_sum = FileByteSum_4DB120(hFile);
+        crt::fclose(hFile);
+    }
+
+    if (bIsFrench_67D53C)
+    {
+        pData->field_1D_bFrench = 1;
+    }
+    else
+    {
+        pData->field_1D_bFrench = 0;
+    }
+    pData->field_1E_player_idx = gNetworkPlayerIdx_6F56C8;
 }
 
 STUB_FUNC(0x4DB440)
