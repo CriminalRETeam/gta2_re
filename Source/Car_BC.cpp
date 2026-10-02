@@ -3706,7 +3706,7 @@ void Car_BC::sub_43D400()
     {
         if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2))
         {
-            if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags_2 & 2) == 2)
+            if (inline_check_0x2_info_421700())
             {
                 field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopRightDoor1_11);
             }
@@ -3718,7 +3718,7 @@ void Car_BC::sub_43D400()
 
         if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomLeftDamage_3))
         {
-            if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags_2 & 2) == 2)
+            if (inline_check_0x2_info_421700())
             {
                 field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopLeftDoor1_28);
             }
@@ -3728,7 +3728,7 @@ void Car_BC::sub_43D400()
             }
         }
 
-        if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 4) == 4)
+        if (inline_check_0x4_info_421660())
         {
             this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
         }
@@ -3748,11 +3748,7 @@ void Car_BC::sub_43D400()
     }
 
     field_0_qq.CleanupSpriteList_5A7080();
-
-    if (this->field_9C_engine_status == 6 || this->field_9C_engine_status == 5)
-    {
-        this->field_9C_engine_status = 1;
-    }
+    sub_421570();
 }
 
 WIP_FUNC(0x43d690)
