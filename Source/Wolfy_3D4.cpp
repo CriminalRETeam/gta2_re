@@ -101,7 +101,7 @@ void Wolfy_7A8::sub_543690()
                     goto update_smallest;
                 case 18:
                 case 33:
-                    if (pObj->field_1A < 82u)
+                    if (pObj->field_1A_timer < 82u)
                     {
                         currentVal1 = 3;
                     }
@@ -109,7 +109,7 @@ void Wolfy_7A8::sub_543690()
                 case 19:
                 case 20:
                 case 32:
-                    if (pObj->field_1A < 50u)
+                    if (pObj->field_1A_timer < 50u)
                     {
                         goto set_cur_to_3;
                     }
@@ -128,13 +128,13 @@ void Wolfy_7A8::sub_543690()
                     }
                     break;
                 default:
-                    this->field_0[last_idx].field_1A = 0;
+                    this->field_0[last_idx].field_1A_timer = 0;
                     return;
             }
         }
         last_idx = ++next_idx;
     } while (next_idx < 40u);
-    this->field_0[smallestVal_idx].field_1A = 0;
+    this->field_0[smallestVal_idx].field_1A_timer = 0;
 }
 
 WIP_FUNC(0x543800)
@@ -214,9 +214,9 @@ Wolfy_30::Wolfy_30()
     this->field_22 = 0;
     this->field_4_idx = 0;
     this->field_10_type_or_state = 0;
-    this->field_14 = 0;
+    this->field_14_pObj2C = 0;
     this->field_18 = 0;
-    this->field_1A = 0;
+    this->field_1A_timer = 0;
     this->field_8 = kFP16Zero_6FD49C;
     this->field_20 = kAngZero_6FD5D4;
     this->field_22 = kAngZero_6FD5D4;
@@ -231,7 +231,7 @@ Wolfy_30::Wolfy_30()
 MATCH_FUNC(0x540a10)
 Wolfy_30::~Wolfy_30()
 {
-    field_14 = 0;
+    field_14_pObj2C = 0;
     field_1C = 0;
 }
 
@@ -279,7 +279,7 @@ void Wolfy_30::state_3_12_540D30(Fix16 speed, Ang16 a2)
 
         pParticle->field_30_pNext->field_2C_flags |= 4u;
         Sprite* v21 = pParticle->field_30_pNext;
-        Sprite* v22 = this->field_14->field_4;
+        Sprite* v22 = this->field_14_pObj2C->field_4;
 
         v21->set_xyz_lazy_420600(v22->field_14_xy.x, v22->field_14_xy.y, v22->field_1C_zpos);
 
@@ -323,9 +323,9 @@ void Wolfy_30::state_4_540F90(Ang16 ang, Fix16 pos)
         pNew->field_38_state = 4;
         pNew->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4);
         pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
-        pNew->field_30_pNext->set_xyz_lazy_420600(field_14->field_4->field_14_xy.x,
-                                                  field_14->field_4->field_14_xy.y,
-                                                  field_14->field_4->field_1C_zpos);
+        pNew->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x,
+                                                  field_14_pObj2C->field_4->field_14_xy.y,
+                                                  field_14_pObj2C->field_4->field_1C_zpos);
 
         gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
         field_18 = stru_6F6784.get_int_4F7AE0(2);
@@ -379,7 +379,7 @@ void Wolfy_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
         pNew->field_38_state = 36;
         pNew->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4);
         pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
-        pNew->field_30_pNext->set_xyz_lazy_420600(field_14->field_4->field_14_xy.x, field_14->field_4->field_14_xy.y, field_14->field_4->field_1C_zpos);
+        pNew->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
         gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
         this->field_18 = stru_6F6784.get_int_4F7AE0(2);
     }
@@ -402,9 +402,9 @@ void Wolfy_30::state_5_541430(Ang16 ang, Fix16 pos)
     this->field_8 = pos;
     this->field_C = ang;
 
-    if (field_14->sub_5290F0() == kFP16Zero_6FD49C && this->field_1A == 9999)
+    if (field_14_pObj2C->sub_5290F0() == kFP16Zero_6FD49C && this->field_1A_timer == 9999)
     {
-        this->field_1A = 20;
+        this->field_1A_timer = 20;
     }
 
     if (this->field_18)
@@ -427,9 +427,9 @@ void Wolfy_30::state_5_541430(Ang16 ang, Fix16 pos)
             pNew->field_30_pNext->SetType_4206F0(8);
             pNew->field_38_state = 5;
             pNew->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 96);
-            pNew->field_30_pNext->set_xyz_lazy_420600(field_14->field_4->field_14_xy.x,
-                                                      field_14->field_4->field_14_xy.y,
-                                                      field_14->field_4->field_1C_zpos);
+            pNew->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x,
+                                                      field_14_pObj2C->field_4->field_14_xy.y,
+                                                      field_14_pObj2C->field_4->field_1C_zpos);
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
             this->field_18 = stru_6F6784.get_int_4F7AE0(2);
             pNew->field_30_pNext->field_2C_flags = 0xA2;
@@ -511,9 +511,9 @@ void Wolfy_30::sub_541760()
             pNew->field_30_pNext->SetType_4206F0(8);
             pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
             pNew->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 37);
-            pNew->field_30_pNext->set_xyz_lazy_420600(field_14->field_4->field_14_xy.x,
-                                                      field_14->field_4->field_14_xy.y,
-                                                      field_14->field_4->field_1C_zpos);
+            pNew->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x,
+                                                      field_14_pObj2C->field_4->field_14_xy.y,
+                                                      field_14_pObj2C->field_4->field_1C_zpos);
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
             pNew->field_48_timer = 10;
         }
@@ -536,7 +536,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
 
     Fix16 v4 = (field_28 * kFP16Two_6FD4A4);
 
-    Sprite* v5 = this->field_14->field_4;
+    Sprite* v5 = this->field_14_pObj2C->field_4;
     Fix16 new_bottom = v4 + v5->field_14_xy.y;
     Fix16 new_left = v4 - v5->field_14_xy.x;
     Fix16 new_right = v4 + v5->field_14_xy.x;
@@ -548,7 +548,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
     //v55 = zm;
     //v56 = zp;
 
-    if (this->field_1A == 99 && unk_6FD5F6 == 1)
+    if (this->field_1A_timer == 99 && unk_6FD5F6 == 1)
     {
         sub_541760();
         //zp = v56;
@@ -563,7 +563,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
     rect.field_8_top = new_top;
     rect.field_C_bottom = new_bottom;
 
-    if (gPurpleDoom_1_679208->CollectRectCollisions_477F30(&rect, 0, 0, field_14->field_4, &collision_list))
+    if (gPurpleDoom_1_679208->CollectRectCollisions_477F30(&rect, 0, 0, field_14_pObj2C->field_4, &collision_list))
     {
         while (collision_list.field_0_p18)
         {
@@ -574,7 +574,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                 if (timerVal > 50u && pB4->field_8_ped_state_1 != ped_state_1::immobilized_8)
                 {
                     Ped* pPed = pB4->field_7C_pPed;
-                    s32 ped_id = gVarrok_7F8_703398->field_0[this->field_14->field_26_varrok_idx].field_0_ped_id;
+                    s32 ped_id = gVarrok_7F8_703398->field_0[this->field_14_pObj2C->field_26_varrok_idx].field_0_ped_id;
                     if (ped_id)
                     {
                         pPed->field_204_killer_id = ped_id;
@@ -586,13 +586,13 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                     pB4->field_7C_pPed->field_290 = 4;
                     pB4->field_7C_pPed->field_264 = 50;
 
-                    Fix16 pMaybeY_FP16 = pCollisionSprite->field_14_xy.x - this->field_14->field_4->field_14_xy.x;
-                    Fix16 pMaybeX_FP16 = pCollisionSprite->field_14_xy.y - this->field_14->field_4->field_14_xy.y;
+                    Fix16 pMaybeY_FP16 = pCollisionSprite->field_14_xy.x - this->field_14_pObj2C->field_4->field_14_xy.x;
+                    Fix16 pMaybeX_FP16 = pCollisionSprite->field_14_xy.y - this->field_14_pObj2C->field_4->field_14_xy.y;
 
                     Ang16 ang = Fix16::atan2_fixed_405320(pMaybeX_FP16, pMaybeY_FP16);
 
-                    Fix16 xd_abs = field_14->field_4->field_14_xy.x - pCollisionSprite->field_14_xy.x;
-                    Fix16 yd_abs = field_14->field_4->field_14_xy.y - pCollisionSprite->field_14_xy.y;
+                    Fix16 xd_abs = field_14_pObj2C->field_4->field_14_xy.x - pCollisionSprite->field_14_xy.x;
+                    Fix16 yd_abs = field_14_pObj2C->field_4->field_14_xy.y - pCollisionSprite->field_14_xy.y;
 
                     Fix16 v48 = Fix16::Abs_436A50(yd_abs);
                     Fix16 v27 = Fix16::Abs_436A50(xd_abs);
@@ -629,7 +629,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                     {
                         if (timerVal == 99)
                         {
-                            Sprite* v41 = this->field_14->field_4;
+                            Sprite* v41 = this->field_14_pObj2C->field_4;
 
                             Fix16 xd__1 = v41->field_14_xy.x - pCollisionSprite->field_14_xy.x;
                             Fix16 yd__1 = v41->field_14_xy.y - pCollisionSprite->field_14_xy.y;
@@ -639,7 +639,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
 
                             if (Fix16::Max_44E540(v56, v55) <= this->field_28)
                             {
-                                Fix16_Point tmp = this->field_14->field_4->get_x_y_443580();
+                                Fix16_Point tmp = this->field_14_pObj2C->field_4->get_x_y_443580();
                                 pCar->sub_443710(&tmp);
                             }
                         }
@@ -648,7 +648,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                     {
                         if (!pCar->IsTrainModel_403BA0() && !pCar->sub_43B850(field_10_type_or_state))
                         {
-                            Sprite* v33 = this->field_14->field_4;
+                            Sprite* v33 = this->field_14_pObj2C->field_4;
                             Fix16 xd_ = v33->field_14_xy.x - pCollisionSprite->field_14_xy.x;
                             Fix16 yd_ = v33->field_14_xy.y - pCollisionSprite->field_14_xy.y;
 
@@ -661,7 +661,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                             }
                             else
                             {
-                                s32 ped_id_ = gVarrok_7F8_703398->field_0[this->field_14->field_26_varrok_idx].field_0_ped_id;
+                                s32 ped_id_ = gVarrok_7F8_703398->field_0[this->field_14_pObj2C->field_26_varrok_idx].field_0_ped_id;
                                 if (ped_id_)
                                 {
                                     pCar->field_70_exploder_ped_id = ped_id_;
@@ -696,7 +696,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                     Object_2C* o2C = pCollisionSprite->As2C_40FEC0();
                     if (timerVal > 50u && timerVal < 60u)
                     {
-                        o2C->sub_525190(this->field_14->field_26_varrok_idx);
+                        o2C->sub_525190(this->field_14_pObj2C->field_26_varrok_idx);
                     }
                 }
             }
@@ -712,12 +712,12 @@ void Wolfy_30::state_18_33_541D60()
 
     if (gParticle_4C_Pool_6FD5E4->field_0_pStart)
     {
-        if ((u16)field_1A > 0x52u)
+        if ((u16)field_1A_timer > 0x52u)
         {
-            if ((u16)field_1A <= 0x5Au)
+            if ((u16)field_1A_timer <= 0x5Au)
             {
-                stru_6FD388 = this->field_14->field_4->field_14_xy.x;
-                stru_6FD38C = this->field_14->field_4->field_14_xy.y;
+                stru_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x;
+                stru_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y;
 
                 Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
                 pNew4C->field_46_sub_state = 0;
@@ -726,7 +726,7 @@ void Wolfy_30::state_18_33_541D60()
                 pNew4C->field_30_pNext->SetType_4206F0(8);
                 pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
                 pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 20);
-                pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14->field_4->field_1C_zpos);
+                pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
                 gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
                 pNew4C->field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16Quarter_6FD2EC, 0);
                 pNew4C->field_48_timer = 5;
@@ -742,8 +742,8 @@ void Wolfy_30::state_18_33_541D60()
                 //stru_6FD38C = (radius * gCos_table_669260[field_22.rValue]);
 
                 // NOTE: This proves these 2 vars are not a Fix16_Point
-                stru_6FD388 += this->field_14->field_4->field_14_xy.x;
-                stru_6FD38C += this->field_14->field_4->field_14_xy.y;
+                stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
+                stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
 
                 Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
                 pNew4C->field_46_sub_state = 0;
@@ -752,7 +752,7 @@ void Wolfy_30::state_18_33_541D60()
                 pNew4C->field_30_pNext->SetType_4206F0(8);
                 pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
                 pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 20);
-                pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14->field_4->field_1C_zpos);
+                pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
                 gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
                 pNew4C->field_48_timer = 1;
             }
@@ -767,10 +767,10 @@ void Wolfy_30::state_19_32_542060()
 
     if (gParticle_4C_Pool_6FD5E4->field_0_pStart)
     {
-        if (this->field_1A <= 8u)
+        if (this->field_1A_timer <= 8u)
         {
-            stru_6FD388 = this->field_14->field_4->field_14_xy.x;
-            stru_6FD38C = this->field_14->field_4->field_14_xy.y;
+            stru_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x;
+            stru_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y;
 
             Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
             pNew4C->field_46_sub_state = 0;
@@ -779,7 +779,7 @@ void Wolfy_30::state_19_32_542060()
             pNew4C->field_30_pNext->SetType_4206F0(8);
             pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
             pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 20);
-            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14->field_4->field_1C_zpos);
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
             pNew4C->field_48_timer = 5;
         }
@@ -791,8 +791,8 @@ void Wolfy_30::state_19_32_542060()
             stru_6FD388 = (v24 * gSin_table_667A80[this->field_22.rValue]);
             stru_6FD38C = (v24 * gCos_table_669260[this->field_22.rValue]);
 
-            stru_6FD388 += this->field_14->field_4->field_14_xy.x;
-            stru_6FD38C += this->field_14->field_4->field_14_xy.y;
+            stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
+            stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
 
             Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
             pNew4C->field_46_sub_state = 0;
@@ -802,7 +802,7 @@ void Wolfy_30::state_19_32_542060()
             pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
             pNew4C->field_40_pUnknown = this;
             pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 20);
-            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, this->field_14->field_4->field_1C_zpos);
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, this->field_14_pObj2C->field_4->field_1C_zpos);
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
             pNew4C->field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16Half_6FD39C + kFP16One_6FD4A0, 0);
             pNew4C->field_48_timer = 1;
@@ -817,10 +817,10 @@ void Wolfy_30::state_20_542340()
 
     if (gParticle_4C_Pool_6FD5E4->field_0_pStart)
     {
-        if (this->field_1A <= 8u)
+        if (this->field_1A_timer <= 8u)
         {
-            stru_6FD388 = this->field_14->field_4->field_14_xy.x;
-            stru_6FD38C = this->field_14->field_4->field_14_xy.y;
+            stru_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x;
+            stru_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y;
 
             Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
             pNew4C->field_46_sub_state = 0;
@@ -829,7 +829,7 @@ void Wolfy_30::state_20_542340()
             pNew4C->field_30_pNext->SetType_4206F0(8);
             pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
             pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 56);
-            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14->field_4->field_1C_zpos);
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
             pNew4C->field_48_timer = 5;
         }
@@ -841,8 +841,8 @@ void Wolfy_30::state_20_542340()
             stru_6FD388 = (v24 * gSin_table_667A80[this->field_22.rValue]);
             stru_6FD38C = (v24 * gCos_table_669260[this->field_22.rValue]);
 
-            stru_6FD388 += this->field_14->field_4->field_14_xy.x;
-            stru_6FD38C += this->field_14->field_4->field_14_xy.y;
+            stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
+            stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
 
             Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
             pNew4C->field_46_sub_state = 0;
@@ -851,7 +851,7 @@ void Wolfy_30::state_20_542340()
             pNew4C->field_30_pNext->SetType_4206F0(8);
             pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
             pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 56);
-            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14->field_4->field_1C_zpos);
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
             pNew4C->field_48_timer = 1;
         }
@@ -864,9 +864,9 @@ void Wolfy_30::state_18_19_20_32_33_542790()
     WIP_IMPLEMENTED;
 
     bool isOnScreen = true;
-    if (this->field_1A < 90u)
+    if (this->field_1A_timer < 90u)
     {
-        if (!gGame_0x40_67E008->is_point_on_screen_4B9A80(this->field_14->field_4->field_14_xy.x, this->field_14->field_4->field_14_xy.y))
+        if (!gGame_0x40_67E008->is_point_on_screen_4B9A80(this->field_14_pObj2C->field_4->field_14_xy.x, this->field_14_pObj2C->field_4->field_14_xy.y))
         {
             isOnScreen = false;
         }
@@ -894,7 +894,7 @@ void Wolfy_30::state_18_19_20_32_33_542790()
                 break;
         }
 
-        switch (this->field_1A)
+        switch (this->field_1A_timer)
         {
             case 59:
             case 69:
@@ -905,9 +905,9 @@ void Wolfy_30::state_18_19_20_32_33_542790()
                 if (pExplosion)
                 {
                     Object_2C* pBlast = gObject_5C_6F8F84->NewUnknown_52A240(127,
-                                                                             field_14->field_4->field_14_xy.x,
-                                                                             field_14->field_4->field_14_xy.y,
-                                                                             field_14->field_4->field_1C_zpos,
+                                                                             field_14_pObj2C->field_4->field_14_xy.x,
+                                                                             field_14_pObj2C->field_4->field_14_xy.y,
+                                                                             field_14_pObj2C->field_4->field_1C_zpos,
                                                                              this->field_22,
                                                                              kAngZero_6FD5D4,
                                                                              dword_6FD484,
@@ -926,7 +926,7 @@ void Wolfy_30::state_18_19_20_32_33_542790()
         }
     }
 
-    if (this->field_1A > 0x1Eu)
+    if (this->field_1A_timer > 0x1Eu)
     {
         Fix16 v21 = (dword_6FD448 * kFP16Two_6FD4A4);
         if (this->field_24 > v21)
@@ -944,25 +944,25 @@ void Wolfy_30::state_18_19_20_32_33_542790()
         this->field_24 -= (dword_6FD540 / kFP16Two_6FD4A4);
     }
 
-    if (this->field_1A > 50u)
+    if (this->field_1A_timer > 50u)
     {
-        TimerAfter50Handler_541850(this->field_1A);
+        TimerAfter50Handler_541850(this->field_1A_timer);
     }
 
-    if (this->field_1A == 99)
+    if (this->field_1A_timer == 99)
     {
         // TODO: Arg order correct?
-        gGame_0x40_67E008->sub_4B9790(8, this->field_14->field_4->field_14_xy.x, this->field_14->field_4->field_14_xy.y);
+        gGame_0x40_67E008->sub_4B9790(8, this->field_14_pObj2C->field_4->field_14_xy.x, this->field_14_pObj2C->field_4->field_14_xy.y);
     }
 
-    if (this->field_1A != 9999)
+    if (this->field_1A_timer != 9999)
     {
-        this->field_1A--;
+        this->field_1A_timer--;
     }
 
-    if (this->field_1A > 9999u)
+    if (this->field_1A_timer > 9999u)
     {
-        this->field_1A = 1;
+        this->field_1A_timer = 1;
     }
 }
 
@@ -971,7 +971,7 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
 {
     WIP_IMPLEMENTED;
 
-    Sprite* p2CSprite = this->field_14->field_4;
+    Sprite* p2CSprite = this->field_14_pObj2C->field_4;
     if (p2CSprite->field_14_xy.x < Fix16(0x3F8000, 0) && p2CSprite->field_14_xy.x > kFP16One_6FD4A0 &&
         p2CSprite->field_14_xy.y < Fix16(0x3F8000, 0) && p2CSprite->field_14_xy.y > kFP16One_6FD4A0)
     {
@@ -982,26 +982,26 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
         LABEL_27:
             if ((u8)++v42 >= 2u)
             {
-                if (this->field_1A == 99)
+                if (this->field_1A_timer == 99)
                 {
-                    gGame_0x40_67E008->sub_4B9790(8, field_14->field_4->field_14_xy.x, field_14->field_4->field_14_xy.y);
+                    gGame_0x40_67E008->sub_4B9790(8, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y);
                 }
 
-                if (this->field_1A > 50u)
+                if (this->field_1A_timer > 50u)
                 {
-                    TimerAfter50Handler_541850(this->field_1A);
+                    TimerAfter50Handler_541850(this->field_1A_timer);
                 }
 
-                if (this->field_1A != 9999)
+                if (this->field_1A_timer != 9999)
                 {
-                    if (this->field_1A > 60u)
+                    if (this->field_1A_timer > 60u)
                     {
-                        this->field_1A--;
+                        this->field_1A_timer--;
                     }
 
-                    if (this->field_1A > 9999u)
+                    if (this->field_1A_timer > 9999u)
                     {
-                        this->field_1A = 1;
+                        this->field_1A_timer = 1;
                     }
                 }
                 return;
@@ -1024,8 +1024,8 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
                 stru_6FD388 = (gSin_table_667A80[field_22.rValue] * dword_6FD540);
                 stru_6FD38C = (gCos_table_669260[field_22.rValue] * dword_6FD540);
 
-                stru_6FD388 += this->field_14->field_4->field_14_xy.x;
-                stru_6FD38C += this->field_14->field_4->field_14_xy.y;
+                stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
+                stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
                 break;
             }
 
@@ -1039,8 +1039,8 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
                 stru_6FD388 = (gSin_table_667A80[field_22.rValue] * dword_6FD540);
                 stru_6FD38C = (gCos_table_669260[field_22.rValue] * dword_6FD540);
 
-                stru_6FD388 += this->field_14->field_4->field_14_xy.x;
-                stru_6FD38C += this->field_14->field_4->field_14_xy.y;
+                stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
+                stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
                 break;
             }
 
@@ -1055,8 +1055,8 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
                 stru_6FD388 = (gSin_table_667A80[field_22.rValue] * dword_6FD540);
                 stru_6FD38C = (gCos_table_669260[field_22.rValue] * dword_6FD540);
 
-                stru_6FD388 += this->field_14->field_4->field_14_xy.x;
-                stru_6FD38C += this->field_14->field_4->field_14_xy.y;
+                stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
+                stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
                 break;
             }
 
@@ -1070,8 +1070,8 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
                 stru_6FD388 = (gSin_table_667A80[field_22.rValue] * dword_6FD540);
                 stru_6FD38C = (gCos_table_669260[field_22.rValue] * dword_6FD540);
 
-                stru_6FD388 += this->field_14->field_4->field_14_xy.x;
-                stru_6FD38C += this->field_14->field_4->field_14_xy.y;
+                stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
+                stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
                 break;
             }
 
@@ -1085,21 +1085,21 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
         pNew4C->field_46_sub_state = 0;
         pNew4C->field_24_angle = this->field_22;
 
-        if (this->field_1A <= 29u)
+        if (this->field_1A_timer <= 29u)
         {
             v42 = 4;
         }
 
-        pNew4C->field_20 = (dword_6FD548 * Fix16(stru_6F6784.get_int_4F7AE0(field_1A)));
+        pNew4C->field_20 = (dword_6FD548 * Fix16(stru_6F6784.get_int_4F7AE0(field_1A_timer)));
         pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 40);
 
-        if (field_14->field_4->field_1C_zpos + kFP16One_6FD4A0 < kFP16Eight_6FD4C0)
+        if (field_14_pObj2C->field_4->field_1C_zpos + kFP16One_6FD4A0 < kFP16Eight_6FD4C0)
         {
-            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14->field_4->field_1C_zpos + kFP16One_6FD4A0);
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos + kFP16One_6FD4A0);
         }
         else
         {
-            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14->field_4->field_1C_zpos);
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
         }
         gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
         pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
@@ -1112,17 +1112,17 @@ char_type Wolfy_30::Update_5434A0(Fix16 speed, Ang16 ang)
 {
     WIP_IMPLEMENTED;
 
-    s16 timer = this->field_1A;
+    s16 timer = this->field_1A_timer;
     if (timer != 9999)
     {
         if (timer)
         {
-            this->field_1A = timer - 1;
+            this->field_1A_timer = timer - 1;
         }
     }
 
     char_type result;
-    if (this->field_1A)
+    if (this->field_1A_timer)
     {
         if (bSkip_particles_67D64D)
         {
@@ -1226,8 +1226,8 @@ void Wolfy_30::Init_543650()
     this->field_18 = 0;
     this->field_24 = 0;
     this->field_22 = kAngZero_6FD5D4;
-    this->field_1A = 200;
-    this->field_14 = 0;
+    this->field_1A_timer = 200;
+    this->field_14_pObj2C = 0;
     this->field_2C_ped_id = 0;
     this->field_0_bIn20Pool = 0;
 }
@@ -1235,7 +1235,7 @@ void Wolfy_30::Init_543650()
 MATCH_FUNC(0x543680)
 void Wolfy_30::Set_Obj2C_543680(Object_2C* a2)
 {
-    this->field_14 = a2;
+    this->field_14_pObj2C = a2;
 }
 
 MATCH_FUNC(0x543980)

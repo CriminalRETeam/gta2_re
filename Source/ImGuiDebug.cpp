@@ -1147,7 +1147,7 @@ void CC ImGuiDebugDraw()
                 test.field_28_x = pPlayerSprite->GetXPos();
                 test.field_2C_y = pPlayerSprite->GetYPos();
                 test.field_30_z = pPlayerSprite->GetZPos();
-                test.field_34 = 9; // 9-13
+                test.field_34_palette = 9; // 9-13
                 test.field_36 = 25;
                 test.field_38 = 2;
                 test.field_3C = 1;

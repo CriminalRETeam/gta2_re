@@ -70,13 +70,13 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
     {
         if (field_2C_counter > 60)
         {
-            field_40_pUnknown->field_14;
-            if (field_40_pUnknown->field_14->field_4)
+            field_40_pUnknown->field_14_pObj2C;
+            if (field_40_pUnknown->field_14_pObj2C->field_4)
             {
-                field_20 = field_40_pUnknown->field_14->field_4->field_8_object_2C_ptr->sub_5290F0();
-                field_24_angle = field_40_pUnknown->field_14->field_4->field_8_object_2C_ptr->field_10_obj_3c->field_4_angle;
+                field_20 = field_40_pUnknown->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
+                field_24_angle = field_40_pUnknown->field_14_pObj2C->field_4->field_8_object_2C_ptr->field_10_obj_3c->field_4_angle;
             }
-            if (field_40_pUnknown->field_1A == 1)
+            if (field_40_pUnknown->field_1A_timer == 1)
             {
                 field_40_pUnknown = NULL;
             }

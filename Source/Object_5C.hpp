@@ -196,7 +196,7 @@ class Object_2C
         field_26_varrok_idx = 99;
         field_10_obj_3c = 0;
         field_C_pAny.o8 = 0;
-        field_1C = 0;
+        field_1C_bHasExplosion = 0;
         field_4 = 0;
         field_18_model = 0;
     }
@@ -249,7 +249,7 @@ class Object_2C
     Object_3C* field_10_obj_3c;
     s32 field_14_id;
     s32 field_18_model;
-    char_type field_1C;
+    char_type field_1C_bHasExplosion;
     char_type field_1D;
     char_type field_1E;
     char_type field_1F;

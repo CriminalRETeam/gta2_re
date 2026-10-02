@@ -112,7 +112,7 @@ Object_2C::Object_2C()
     field_20 = 0;
     field_27 = 0;
     field_28 = -51;
-    field_1C = 0;
+    field_1C_bHasExplosion = 0;
 }
 
 MATCH_FUNC(0x522180)
@@ -2102,7 +2102,7 @@ void Object_2C::ReleaseSubObjects_527F10()
         {
             gLight_1D4CC_6F5520->DeallocLight_47F4F0(field_C_pAny.pLight);
         }
-        else if (this->field_1C)
+        else if (this->field_1C_bHasExplosion)
         {
             field_C_pAny.pExplosion->DeInit_543610();
         }
@@ -3566,7 +3566,7 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             pNew2C->field_C_pAny.pExplosion = pNew30;
             if (pNew30) // 225
             {
-                pNew2C->field_1C = 1;
+                pNew2C->field_1C_bHasExplosion = 1;
             }
             else
             {
@@ -3747,7 +3747,7 @@ Object_2C* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 ro
     Object_2C* pNew2C = NewPhysicsObj_5299B0(objects::explosion_113, x, y, z, rot);
     if (pNew2C)
     {
-        pNew2C->field_1C = 1;
+        pNew2C->field_1C_bHasExplosion = 1;
 
         if (!pNew2C->field_C_pAny.pExplosion)
         {
@@ -3774,11 +3774,11 @@ Object_2C* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 ro
             case 25:
             case 32:
             case 33:
-                pNew2C->field_C_pAny.pExplosion->field_1A = 100;
+                pNew2C->field_C_pAny.pExplosion->field_1A_timer = 100;
                 pNew2C->field_C_pAny.pExplosion->field_24 = 0;
                 break;
             default:
-                pNew2C->field_C_pAny.pExplosion->field_1A = 9999;
+                pNew2C->field_C_pAny.pExplosion->field_1A_timer = 9999;
                 break;
         }
 
