@@ -1478,15 +1478,16 @@ char_type CarPhysics_B0::TestCollision_55C150()
 }
 
 // https://decomp.me/scratch/Mht60 stack size issue remaining
-WIP_FUNC(0x55c3b0)
+MATCH_FUNC(0x55c3b0)
 char_type CarPhysics_B0::SweepTestMovementForCollision_55C3B0(Fix16* outHitStep, Fix16* outNoHitStep)
 {
     save_state_55A600();
 
-    Fix16 movement = ComputeRequiredSweepSteps_55A6A0();
+    Fix16 movement;
+    movement = ComputeRequiredSweepSteps_55A6A0();
 
-    *outHitStep = kFP16Zero_6FE20C;
     *outNoHitStep = kFP16Zero_6FE20C;
+    *outHitStep = kFP16Zero_6FE20C;
 
     if (movement > k_dword_6FE210)
     {
