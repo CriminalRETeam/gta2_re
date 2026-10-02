@@ -1415,8 +1415,8 @@ EXPORT void __stdcall do_network_and_local_inputs_4DAF30()
                 {
                     if ((gNetInUsePlayerBits_6F56B8 & 1) != 0)
                     {
-                        Player* pPlayer = gGame_0x40_67E008->field_4_players[(u8)player_idx];
-                        if (pPlayer && pPlayer->field_8E_bInUse)
+                        Player* pPlayer = gGame_0x40_67E008->get_player_4219E0(player_idx);
+                        if (pPlayer && pPlayer->GetInUse_461DB0())
                         {
                             gNetPlay_7071E8.DeletePlayerFromGroup_521000(player_idx);
                             ShowPlayerLeftMessage_4DB070(player_idx);
