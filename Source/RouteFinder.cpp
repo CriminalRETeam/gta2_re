@@ -414,10 +414,9 @@ bool RouteFinder::HasBlockDesiredArrow_588CA0(gmp_block_info* block, s32 arrow_t
     return false;
 }
 
-WIP_FUNC(0x588de0)
+MATCH_FUNC(0x588de0)
 char_type RouteFinder::sub_588DE0(gmp_block_info* pBlock, s32 arrow_type, s32 road_direction)
 {
-    WIP_IMPLEMENTED;
 
     char_type result = 0;
     switch (road_direction)
@@ -428,14 +427,12 @@ char_type RouteFinder::sub_588DE0(gmp_block_info* pBlock, s32 arrow_type, s32 ro
         case road_direction::down_2:
             result = HasBlockDesiredArrow_588CA0(pBlock, arrow_type, DOWN_2);
             break;
-        case road_direction::right_3:
-            result = HasBlockDesiredArrow_588CA0(pBlock, arrow_type, RIGHT_4);
-            break;
         case road_direction::left_4:
             result = HasBlockDesiredArrow_588CA0(pBlock, arrow_type, LEFT_3);
             break;
-        default:
-            return result;
+        case road_direction::right_3:
+            result = HasBlockDesiredArrow_588CA0(pBlock, arrow_type, RIGHT_4);
+            break;
     }
     return result;
 }
