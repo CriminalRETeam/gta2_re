@@ -257,7 +257,7 @@ void frosty_pasteur_0xC1EA8::SaveGame_511E10(char_type* pFileName)
            &gObject_5C_6F8F84->field_20_bUnCollectedTokens,
            50u);
 
-    gGameSave_6F78C8.field_5E4_object_data.field_160_secret_tokens_collected = gLucid_hamilton_67E8E0.field_574_secret_tokens_collected;
+    gGameSave_6F78C8.field_5E4_object_data.field_160_secret_tokens_collected = gLucid_hamilton_67E8E0.get_secret_tokens_collected_453A80();
 
     gMap_0x370_6F6268->sub_4E8CF0(&pColData, &colBytes, &pBlockInfo, &blockInfoBytes, &pMapSub, &mapSubBytes);
 
