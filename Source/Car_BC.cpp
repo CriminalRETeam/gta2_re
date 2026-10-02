@@ -5714,10 +5714,9 @@ inline Fix16 __stdcall WrapAngle_40E790(Fix16& unk) // 9.6f inlined func
 // 9.6f 0x40ECB0
 // TODO: Move
 // https://decomp.me/scratch/GnD4O
-WIP_FUNC(0x405CE0)
+MATCH_FUNC(0x405CE0)
 EXPORT void __stdcall SmoothApproachAngle_405CE0(Fix16& a1, Fix16& a2, Fix16& a3, Fix16& a4, Fix16& a5)
 {
-    WIP_IMPLEMENTED;
     if (a1 - a3 > kAngFix16HalfCircle_6691EC)
     {
         a3 += kAngFix16FullCircle_66A8E4;
@@ -5769,6 +5768,10 @@ EXPORT void __stdcall SmoothApproachAngle_405CE0(Fix16& a1, Fix16& a2, Fix16& a3
                 {
                     a2 = -a5;
                 }
+            }
+            else
+            {
+                a2 = a1_m_a3;
             }
         }
     }
