@@ -679,6 +679,7 @@ class Map_0x370
         return false;
     }
 
+    // 9.6f 0x463480 (the name's 0x4634B0 is the north/south one)
     bool IsWestOrEastGradSlope_4634B0(gmp_block_info* pBlock) 
     {
         gmp_map_slope* gradient_slope = &gGmpSlopes_6F5BA8[pBlock->field_B_slope_type >> 2];
