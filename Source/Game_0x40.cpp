@@ -915,7 +915,7 @@ void Game_0x40::sub_4B9D60(Sprite* a2, Player* pExclude)
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_4_players); i++)
     {
-        Player* p = gGame_0x40_67E008->field_4_players[i];
+        Player* p = gGame_0x40_67E008->get_player_4219E0(i);
         if (p && p != pExclude)
         {
             if (gGame_0x40_67E008->IsSpriteOnScreen_4B9950(a2, i, dword_67DFB4))
