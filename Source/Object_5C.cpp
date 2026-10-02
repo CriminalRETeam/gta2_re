@@ -323,7 +323,7 @@ char_type Object_2C::SelectCollisionSprite_522460(Sprite* a2)
     byte_6F8F94 = 0;
 
     Sprite* pSprite = a2->QuerySpriteCollision_59E7D0(2);
-    if (pSprite && dword_6F8F8C && pSprite->field_30_sprite_type_enum == 2 // IsCar
+    if (pSprite && dword_6F8F8C && pSprite->get_type_416B40() == 2 // IsCar
         || !ShouldCollideWithSprite_522430(pSprite) || pSprite == dword_6F8F8C)
     {
         return 0;
@@ -333,8 +333,7 @@ char_type Object_2C::SelectCollisionSprite_522460(Sprite* a2)
     {
         byte_6F8F94 = 1;
     }
-    gRozza_679188.field_20_pSprite = pSprite;
-    gRozza_679188.field_0_type = 3;
+    gRozza_679188.sub_40FEE0(pSprite);
     return 1;
 }
 
