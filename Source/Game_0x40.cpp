@@ -372,8 +372,7 @@ void Game_0x40::DebugShowCarStatsAndFrameSkip_4B9270()
     if (field_30_bLimitFramerate)
     {
         Garox_C4* pC4 = gHud_2B00_706620->field_650.DisplayText_5D1F50(L"FF", 0, 440, word_706600, 1);
-        pC4->field_B0_drawKind = 8;
-        pC4->field_B4 = 6;
+        pC4->SetDrawKind8_45AFD0(6);
     }
 }
 
