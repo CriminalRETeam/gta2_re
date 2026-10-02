@@ -390,14 +390,8 @@ void Wolfy_30::state_5_541430(Ang16 ang, Fix16 pos)
 {
     WIP_IMPLEMENTED;
 
-    Fix16 xpos = pos;
-    Fix16 ypos = pos;
-    Ang16 ang_idx = ang + word_6FD3EE;
-    Fix16 oldx = xpos;
-    Fix16 sin_v = gSin_table_667A80[ang_idx.rValue];
-    Fix16 cos_v = gCos_table_669260[ang_idx.rValue];
-    xpos = ((xpos * cos_v) + (ypos * sin_v));
-    ypos = ((-oldx * sin_v) + (ypos * cos_v));
+    Fix16_Point p(pos, pos);
+    p.RotateByAngle_40F6B0(ang + word_6FD3EE);
 
     this->field_8 = pos;
     this->field_C = ang;
@@ -407,18 +401,14 @@ void Wolfy_30::state_5_541430(Ang16 ang, Fix16 pos)
         this->field_1A = 20;
     }
 
-    if (this->field_18)
+    if (!this->field_18)
     {
-        this->field_18--;
-    }
-    else
-    {
-        Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(xpos, ypos, dword_6FD330, xpos, ypos, 0);
+        Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(p.x, p.y, dword_6FD330, p.x, p.y, 0);
         if (pNew)
         {
             pNew->field_40_pUnknown = this;
-            pNew->field_20 = pos;
             pNew->field_44 = field_6_id;
+            pNew->field_20 = pos;
             pNew->field_24_angle = ang;
             pNew->field_34 = 0;
             pNew->field_46_sub_state = 0;
@@ -432,9 +422,13 @@ void Wolfy_30::state_5_541430(Ang16 ang, Fix16 pos)
                                                       field_14->field_4->field_1C_zpos);
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
             this->field_18 = stru_6F6784.get_int_4F7AE0(2);
-            pNew->field_30_pNext->field_2C_flags = 0xA2;
+            pNew->field_30_pNext->SetFlags_4337D0(2, 20);
             pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
         }
+    }
+    else
+    {
+        this->field_18--;
     }
 }
 
