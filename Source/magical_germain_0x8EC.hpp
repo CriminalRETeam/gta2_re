@@ -32,8 +32,8 @@ struct kanji_0x20
 class magical_germain_0x8EC
 {
   public:
-    kanji_0x10 field_0[120];
-    kanji_0x10 field_780[20];
+    kanji_0x10 field_0_small_glyphs[120];
+    kanji_0x10 field_780_large_glyphs[20];
     s32 field_8C0_count;
     u16* field_8C4_pKidX;
     BYTE* field_8C8_pKBIT;
@@ -53,13 +53,13 @@ class magical_germain_0x8EC
     EXPORT void sub_4D2150(s32 a2, u16 a3, u16 a4);
     EXPORT u8* sub_4D2240(char_type* a2);
     EXPORT u8* sub_4D23B0(char_type* a2);
-    EXPORT void sub_4D2610(wchar_t text_char);
-    EXPORT void sub_4D2690(wchar_t text_char);
-    EXPORT STexture* sub_4D2710(wchar_t text_char);
-    EXPORT STexture* sub_4D27D0(wchar_t a2);
+    EXPORT void RenderSmallGlyph_4D2610(wchar_t text_char);
+    EXPORT void RenderLargeGlyph_4D2690(wchar_t text_char);
+    EXPORT STexture* GetSmallGlyphTexture_4D2710(wchar_t text_char);
+    EXPORT STexture* GetLargeGlyphTexture_4D27D0(wchar_t a2);
     EXPORT void sub_4D28A0(u16 a2);
     EXPORT void sub_4D29D0(u16 a2);
-    EXPORT void sub_4D2B40();
+    EXPORT void InitGlyphCaches_4D2B40();
     EXPORT magical_germain_0x8EC();
     EXPORT ~magical_germain_0x8EC();
 };

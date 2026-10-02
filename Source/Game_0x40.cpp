@@ -175,7 +175,7 @@ void Game_0x40::LoadGameFiles_4B8C40()
 
     if (gMagical_germain_0x8EC_6F5168 != NULL)
     {
-        gMagical_germain_0x8EC_6F5168->sub_4D2B40();
+        gMagical_germain_0x8EC_6F5168->InitGlyphCaches_4D2B40();
     }
 }
 
