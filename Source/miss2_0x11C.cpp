@@ -2899,12 +2899,12 @@ void miss2_0x11C::SCRCMD_ADD_SCORE_509D90()
 
     if (pPed != NULL)
     {
-        Player* pPlayer = pPed->field_15C_player;
-        if (pPlayer != NULL)
+        if (pPed->is_player_41B0A0())
         {
+            Player* pPlayer = pPed->field_15C_player;
             if (gBasePtr_6F8070->field_2_type == SCRCMD_ADD_SCORE1)
             {
-                pPlayer->field_2D4_scores.AddCash_592620(pCmd->field_C_s32 * pPlayer->field_6BC_multpliers.field_0_value);
+                pPlayer->Add_2D4(pCmd->field_C_s32);
             }
             else
             {
