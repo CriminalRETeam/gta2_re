@@ -29,6 +29,13 @@ Fix16 Fix16::Multiply_408680(const Fix16& in) const
     return Fix16(value, 0);
 }
 
+MATCH_FUNC(0x436A00)
+Fix16 Fix16::Subtract_436A00(const Fix16& in) const
+{
+    s32 value = mValue - in.mValue;
+    return Fix16(value, 0);
+}
+
 MATCH_FUNC(0x4086A0)
 Fix16 Fix16::Negate_4086A0() const
 {
