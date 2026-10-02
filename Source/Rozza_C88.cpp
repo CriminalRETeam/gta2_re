@@ -177,7 +177,7 @@ bool Rozza_A::SetupForObject_40BA60(Object_2C* pObj)
             else
             {
                 Object_2C* o2c = gRozza_679188.field_20_pSprite->As2C_40FEC0();
-                if (!o2c->field_8->field_63)
+                if (!o2c->GetDefField63_40FF00())
                 {
                     return 0;
                 }
