@@ -166,6 +166,7 @@ class Player
         field_44_death_type = type;
     }
 
+    // 9.6f 0x4A5100
     bool sub_4A5100()
     {
         s32 occupation;

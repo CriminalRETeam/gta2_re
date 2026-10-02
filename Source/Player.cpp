@@ -2327,21 +2327,14 @@ void Player::sub_5695A0()
     if (!field_28)
     {
         field_68 = 0;
-        if (field_2D0)
+        if (sub_4A5100())
         {
-            Ped* pPed = field_2C8_unkq;
-            if (pPed)
-            {
-                if (pPed->field_240_occupation == 1)
-                {
-                    sub_569530();
-                }
-            }
+            sub_569530();
         }
         field_2C8_unkq = 0;
         field_2CC = 0;
         field_2D0 = 0;
-        field_90_game_camera.field_3C_followed_ped_id = 1;
+        field_90_game_camera.inline_set_ped_id_to_1_475B60();
     }
 }
 
