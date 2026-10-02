@@ -3286,7 +3286,7 @@ void Car_BC::PrepareForExplosion_43C1C0()
 
     this->field_A4 = 0;
 
-    if (inline_info_flags_bit2() || is_FBI_car_411920())
+    if (sub_414F20())
     {
         Car_BC::DeactivateEmergencyLights_43C9D0();
     }
