@@ -3351,16 +3351,13 @@ Fix16 CarPhysics_B0::CalculateRearWheelForce_5620D0()
     return ApplyDriveForce_5615D0(wheel_point, tt, v25, v5);
 }
 
-WIP_FUNC(0x562480)
+MATCH_FUNC(0x562480)
 void CarPhysics_B0::ApplyThrottleInput_562480()
 {
-    WIP_IMPLEMENTED;
-
     if (this->field_93_is_forward_gas_on)
     {
-        Fix16 gasT1 = k_dword_6FE3A0 + this->field_60_gas_pedal;
-        this->field_60_gas_pedal = gasT1;
-        if (gasT1 > k_dword_6FDEFC)
+        this->field_60_gas_pedal += k_dword_6FE3A0;
+        if (this->field_60_gas_pedal > k_dword_6FDEFC)
         {
             this->field_60_gas_pedal = k_dword_6FDEFC;
         }
@@ -3375,9 +3372,8 @@ void CarPhysics_B0::ApplyThrottleInput_562480()
     }
     else
     {
-        Fix16 gasT2 = this->field_60_gas_pedal - k_dword_6FE364;
-        this->field_60_gas_pedal = gasT2;
-        if (gasT2 < k_dword_6FE290)
+        this->field_60_gas_pedal -= k_dword_6FE364;
+        if (this->field_60_gas_pedal < k_dword_6FE290)
         {
             this->field_60_gas_pedal = k_dword_6FE290;
         }
