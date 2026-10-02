@@ -272,7 +272,7 @@ bool BurgerKing_1::game_pad_read_498D20()
         HRESULT jres = gGamePadDevice_67B6C0->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), NULL, &num_items, DIGDD_PEEK);
         if (jres >= DI_OK)
         {
-            sprintf(gTmpBuffer_67C598, "%d: num_items = %d jres = %d", rng_dword_67AB34->get_cur_rng_41CFE0(), num_items, jres);
+            sprintf(gTmpBuffer_67C598, "%d: num_items = %d jres = %d", gpRng_67AB34->get_cur_rng_41CFE0(), num_items, jres);
         }
     }
     else
@@ -360,7 +360,7 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                     {
                         sprintf(gTmpBuffer_67C598,
                                 "%d: input num_items = %d dwOfs = %d; data = %d",
-                                rng_dword_67AB34->field_0_rng,
+                                gpRng_67AB34->field_0_rng,
                                 status,
                                 gGamePadDeviceData_67B5B0.dwOfs,
                                 gGamePadDeviceData_67B5B0.dwData);
@@ -589,7 +589,7 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                     bUnk_1 = false;
                     if (bLog_directinput_67D6C0)
                     {
-                        field_0_rng = rng_dword_67AB34->field_0_rng;
+                        field_0_rng = gpRng_67AB34->field_0_rng;
                         if ((gKeyboardDeviceData_67B610.dwData & 0x80) != 0)
                         {
                             sprintf(gTmpBuffer_67C598, "%d: KEY OFF: %d", field_0_rng, gKeyboardDeviceData_67B610.dwOfs);
@@ -666,8 +666,8 @@ void BurgerKing_67F8B0::save_replay_record_4CDE20(u32 inputs)
         if (field_75340_rec_buf_idx < 40000 && field_38_replay_state == Live_0)
         {
             field_3C_rec_buff[field_75340_rec_buf_idx].field_4_inputs = inputs;
-            field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx = rng_dword_67AB34->field_0_rng;
-            field_3C_rec_buff[field_75340_rec_buf_idx].field_8_rng_rnd = rng_dword_67AB34->field_4_rnd;
+            field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx = gpRng_67AB34->field_0_rng;
+            field_3C_rec_buff[field_75340_rec_buf_idx].field_8_rng_rnd = gpRng_67AB34->field_4_rnd;
 
             if (bConstant_replay_save_67D5C4 == 1)
             {
@@ -924,7 +924,7 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
     switch (replay_state)
     {
         case Unkn_1:
-            if (rng_dword_67AB34->field_0_rng >= (u32)field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx)
+            if (gpRng_67AB34->field_0_rng >= (u32)field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx)
             {
                 inputs = field_3C_rec_buff[field_75340_rec_buf_idx].field_4_inputs;
                 field_75340_rec_buf_idx++;
@@ -970,7 +970,7 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
             break;
 
         case Replay_3:
-            if (rng_dword_67AB34->field_0_rng >= (u32)field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx)
+            if (gpRng_67AB34->field_0_rng >= (u32)field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx)
             {
                 inputs = field_3C_rec_buff[field_75340_rec_buf_idx].field_4_inputs;
                 field_75340_rec_buf_idx++;
@@ -1032,7 +1032,7 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
     {
         if (*control_status != saved_input)
         {
-            sprintf(gTmpBuffer_67C598, "%d: control_status = %d", rng_dword_67AB34->field_0_rng, *control_status);
+            sprintf(gTmpBuffer_67C598, "%d: control_status = %d", gpRng_67AB34->field_0_rng, *control_status);
             gFile_67C530.Write_4D9620(gTmpBuffer_67C598);
         }
     }

@@ -234,7 +234,7 @@ char_type struct_4::TagSpriteWithRng_5A6C10(Sprite* toFind)
         {
             if (pNext->field_0 == toFind)
             {
-                pNext->field_14_rng = rng_dword_67AB34->field_0_rng;
+                pNext->field_14_rng = gpRng_67AB34->field_0_rng;
                 return 1;
             }
         }

@@ -2441,7 +2441,7 @@ void Object_2C::HandleWaterDeath_528900()
         field_10_obj_3c->field_30_bSkipAnim = 1;
     }
 
-    if ((rng_dword_67AB34->field_0_rng & 3) == 0)
+    if ((gpRng_67AB34->field_0_rng & 3) == 0)
     {
         field_4->IncreaseZoom_59E320(1);
         if (field_4->ShrinkSprite_59E390(dword_6F8F5C, dword_6F8F5C, 0))
@@ -3532,7 +3532,7 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
     {
         if (pNew2C->field_20 == 1) // 154: ~> cmpl    $0x1,0x0(%ebp)
         {
-            gObject_2C_Pool_6F8F80->unknown_func(pNew2C);
+            gObject_2C_Pool_6F8F80->FindAndDeAllocate(pNew2C);
         }
         else
         {

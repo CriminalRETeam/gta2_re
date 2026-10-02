@@ -72,7 +72,7 @@ void sad_mirzakhani::Init_431E10(eager_benz* a2)
 MATCH_FUNC(0x431E30);
 void sad_mirzakhani::Service_431E30()
 {
-    field_1BC_cur_time = rng_dword_67AB34->field_0_rng;
+    field_1BC_cur_time = gpRng_67AB34->field_0_rng;
 
     silly_saha_0x2C* pIter = &field_0_bonuses[0];
     for (s32 i = GTA2_COUNTOF(field_0_bonuses) - 1; i >= 0; i--)
@@ -215,7 +215,7 @@ s16 sad_mirzakhani::alloc_next_431FE0(s16 f_4,
     field_0_bonuses[idx].field_14 = f_14;
     field_0_bonuses[idx].field_18_alt_car_model = f_18;
     field_0_bonuses[idx].field_0_pZone = pZone;
-    field_0_bonuses[idx].field_20_counterVal = rng_dword_67AB34->field_0_rng;
+    field_0_bonuses[idx].field_20_counterVal = gpRng_67AB34->field_0_rng;
     field_0_bonuses[idx].field_1C_time_limit = f_1c;
     field_0_bonuses[idx].field_24 = f_24;
     field_0_bonuses[idx].field_25_target_count = f_25;

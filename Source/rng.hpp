@@ -29,6 +29,6 @@ class rng
     s32 field_4_rnd;
 };
 
-EXTERN_GLOBAL(rng*, rng_dword_67AB34);
+EXTERN_GLOBAL(rng*, gpRng_67AB34);
 
 EXTERN_GLOBAL(rng, gRng_6F6784);

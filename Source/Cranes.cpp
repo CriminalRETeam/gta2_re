@@ -788,7 +788,7 @@ MATCH_FUNC(0x480310)
 void Crane_15C::Service_480310()
 {
     field_159_hooked_car_this_frame = 0;
-    field_28_strct4.RemoveByRngValue_5A6C40(rng_dword_67AB34->get_cur_rng_41CFE0() - 1);
+    field_28_strct4.RemoveByRngValue_5A6C40(gpRng_67AB34->get_cur_rng_41CFE0() - 1);
     if (field_74_pSprite_on_hook)
     {
         gPurpleDoom_3_679210->Remove_477B00(field_74_pSprite_on_hook);

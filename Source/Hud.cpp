@@ -283,7 +283,7 @@ void Garox_2A25_sub::DrawChatMessages_5D16B0()
         {
             if (pPlayerIter->field_794_is_chatting)
             {
-                if ((rng_dword_67AB34->get_cur_rng_41CFE0() & 7u) < 4)
+                if ((gpRng_67AB34->get_cur_rng_41CFE0() & 7u) < 4)
                 {
                     swprintf(tmpBuff_67BD9C, L"%s:%s_", pPlayerIter->field_83C_player_name, pPlayerIter->field_796_chat_text);
                 }
@@ -1042,7 +1042,7 @@ void Garox_27B5_sub::ShowPlayerCoords_5CF970()
 WIP_FUNC(0x5cfa70)
 void Garox_107C_sub::DrawGangRespectBars_5CFA70()
 {
-    u32 random_num = rng_dword_67AB34->field_0_rng & 0xF;
+    u32 random_num = gpRng_67AB34->field_0_rng & 0xF;
     u8 PlayerIdx = gGame_0x40_67E008->field_38_orf1->field_2E_idx;
     bool bPlusSignDark = random_num > 7u;
 
@@ -2003,7 +2003,7 @@ void Hud_Arrow_7C::DrawArrow_5D0C90()
     {
         if (field_18.field_10.field_5_is_visible)
         {
-            if (field_18.field_28_arrow_colour != 5 || ((u32)rng_dword_67AB34->field_0_rng % 6 >= 3))
+            if (field_18.field_28_arrow_colour != 5 || ((u32)gpRng_67AB34->field_0_rng % 6 >= 3))
             {
                 drawKind_ = 2;
             }
