@@ -523,7 +523,7 @@ void Car_6C::DistributeCarsByRating_444980()
 
     for (; i < 256; i++)
     {
-        if (gGtx_0x106C_703DD4->field_5C_cari->field_0[(u8)i])
+        if (gGtx_0x106C_703DD4->does_car_exist((u8)i))
         {
             if (bStartNetworkGame_7081F0 || gGtx_0x106C_703DD4->IsCarModelInRecycleList_5AB380(i))
             {
