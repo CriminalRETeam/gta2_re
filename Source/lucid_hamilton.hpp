@@ -183,3 +183,9 @@ struct lucid_hamilton
 };
 
 EXTERN_GLOBAL(lucid_hamilton, gLucid_hamilton_67E8E0);
+
+// 9.6f 0x434B20
+inline bool IsTagGame_434B20()
+{
+    return gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() == 3; // TAG_GAME_3
+}

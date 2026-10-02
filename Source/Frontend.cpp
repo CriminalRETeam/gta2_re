@@ -372,6 +372,26 @@ void __stdcall Frontend::destroy_4AD070()
     Bink::CloseSlot2_513390();
 }
 
+// 9.6f 0x453AB0: index of the tag game player with the longest time (that hasn't quit)
+inline s32 youthful_einstein::GetLeaderIdx_453AB0()
+{
+    s32 leader_idx = -1;
+    s32 leader_time = -1;
+    if (IsTagGame_434B20())
+    {
+        for (u8 i = 0; i < 6; i++)
+        {
+            if (field_4_time[i] > leader_time && !field_20[i])
+            {
+                leader_time = field_4_time[i];
+                leader_idx = i;
+            }
+        }
+        return leader_idx;
+    }
+    return gLucid_hamilton_67E8E0.sub_4C5C20();
+}
+
 WIP_FUNC(0x4B3170)
 void Frontend::sub_4B3170(u16 menu_page_idx)
 {
@@ -507,9 +527,9 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
             goto LABEL_30;
 
         case MENUPAGE_BONUS_AREA:
-            v7 = gLucid_hamilton_67E8E0.GetStage_4C5990();
-            main_stage_idx = v7 >> 4;
-            swprintf(tmpBuff_67BD9C, L"%d", v57->field_0_plyr_stage_stats[main_stage_idx][v7 & 0xF].field_8_stage_latest_score);
+            gLucid_hamilton_67E8E0.DecodeStage_453A60(gLucid_hamilton_67E8E0.GetStage_4C5990(), &v7, &v11);
+            main_stage_idx = v7;
+            swprintf(tmpBuff_67BD9C, L"%d", v57->field_0_plyr_stage_stats[main_stage_idx][v11].field_8_stage_latest_score);
             wcsncpy(field_136_menu_pages_array[6].field_518_elements_array[2].field_6_element_name_str, tmpBuff_67BD9C, 0x32u);
             if (gLucid_hamilton_67E8E0.sub_4C5AE0() || main_stage_idx >= (u8)field_1EB50_num_main_stages - 1 ||
                 !v57->field_0_plyr_stage_stats[main_stage_idx + 1][0].field_0_is_stage_unlocked)
@@ -533,6 +553,7 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
             v67 = *((BYTE*)v9 + 60907);
             if (gLucid_hamilton_67E8E0.sub_4C59A0())
             {
+                // 9.6f: lucid_hamilton::DecodeStage_453A60 here and for v52 below (inlined, using it changes the code)
                 v11 = gLucid_hamilton_67E8E0.GetStage_4C5990();
                 main_level_idx = v11 >> 4;
                 bonus_level_idx = v11 & 0xF;
@@ -578,21 +599,7 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
 
         case MENUPAGE_MULTIPLAYER_RESULTS:
             a2b = gLucid_hamilton_67E8E0.GetMaxPlayers_4C5BF0();
-            v15 = -1;
-            if (gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() == 3)
-            {
-                for (u8 v16 = 0; v16 < 6; v16++)
-                {
-                    if (gYouthful_einstein_6F8450.field_4_time[v16] > v15 && gYouthful_einstein_6F8450.field_20[v16] == 0)
-                    {
-                        v15 = gYouthful_einstein_6F8450.field_4_time[v16];
-                    }
-                }
-            }
-            else
-            {
-                gLucid_hamilton_67E8E0.sub_4C5C20();
-            }
+            gYouthful_einstein_6F8450.GetLeaderIdx_453AB0();
 
             v65 = (unsigned __int8)gLucid_hamilton_67E8E0.GetUserPlayerIdx_4C5BE0();
             v68 = gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0();
@@ -640,7 +647,7 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
                 else
                 {
                     *(v23 - 660) = 1;
-                    *v23 = gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() != 3;
+                    *v23 = !IsTagGame_434B20();
                 }
                 ++v22;
                 v23 += 110;
@@ -656,7 +663,7 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
                 field_6_wstr_buf = field_136_menu_pages_array[7].field_518_elements_array[1].field_6_element_name_str;
                 do
                 {
-                    if (gYouthful_einstein_6F8450.field_20[v26] != 0)
+                    if (gYouthful_einstein_6F8450.HasQuit_453A90(v26))
                     {
                         v48 = gText_0x14_704DFC->Find_5B5F90("mult_q"); //  quit
                         v28 = gLucid_hamilton_67E8E0.sub_4C5C60(v25);
@@ -685,7 +692,7 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
 
             v30 = -1;
 
-            if (*((BYTE*)&gYouthful_einstein_6F8450.field_20 + v65))
+            if (gYouthful_einstein_6F8450.HasQuit_453A90(v65))
             {
                 v3 = menu_page_idx;
                 goto LABEL_105;
@@ -701,7 +708,7 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
                         do
                         {
                             if (v31 != v65 //  not this player (i.e. an opponent)
-                                && gYouthful_einstein_6F8450.field_20[v31] == 0 //  not quit?
+                                && !gYouthful_einstein_6F8450.HasQuit_453A90(v31) //  not quit?
                                 &&
                                 (s16)(&gLucid_hamilton_67E8E0)->GetFragsForPlayerIdx_4C5D60(a3a) > v30) // v30 = highest frag from opponents
                             {
@@ -721,7 +728,7 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
                         do
                         {
                             if (v34 != v65 //  not you
-                                && gYouthful_einstein_6F8450.field_20[v34] == 0 //  not quit?
+                                && !gYouthful_einstein_6F8450.HasQuit_453A90(v34) //  not quit?
                                 && (s16)(&gLucid_hamilton_67E8E0)->GetPointsForPlayerIdx_4C5CB0(a3b) >
                                     v30) // v30 = highest score from opponents
                             {
@@ -741,9 +748,9 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
                         do
                         {
                             if (v35 != v65 //  not you
-                                && gYouthful_einstein_6F8450.field_20[v35] == 0) //  not quit?
+                                && !gYouthful_einstein_6F8450.HasQuit_453A90(v35)) //  not quit?
                             {
-                                v39 = gYouthful_einstein_6F8450.field_4_time[v35]; //  get opponent time
+                                v39 = gYouthful_einstein_6F8450.GetTime_453AA0(v35); //  get opponent time
                                 if (v39 > v30) //  v30 = highest opponent tag time
                                 {
                                     v30 = v39; //  update highest opponent tag time
@@ -753,7 +760,7 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
                             --v38;
                         } while (v38 < a2b);
                     }
-                    v33 = gYouthful_einstein_6F8450.field_4_time[v65]; //  get your time
+                    v33 = gYouthful_einstein_6F8450.GetTime_453AA0(v65); //  get your time
                     break;
                 default:
                     v3 = menu_page_idx;

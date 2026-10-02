@@ -24,6 +24,21 @@ class youthful_einstein
     // 9.6f 0x434B60, defined in Player.hpp
     inline bool IsFugitivePed_434B60(Ped* pPed);
 
+    // 9.6f 0x453A90
+    inline u8 HasQuit_453A90(s32 player_idx)
+    {
+        return field_20[player_idx];
+    }
+
+    // 9.6f 0x453AA0
+    inline s32 GetTime_453AA0(s32 player_idx)
+    {
+        return field_4_time[player_idx];
+    }
+
+    // 9.6f 0x453AB0, defined in Frontend.cpp
+    inline s32 GetLeaderIdx_453AB0();
+
     Player* field_0_fugitive;  //  the player who is "IT"
     s32 field_4_time[6]; //  it may be the timer of each player in tag mode
     s32 field_1C_tick_timer;
