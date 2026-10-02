@@ -242,23 +242,26 @@ void MapRenderer::set_shading_lev_4E9DB0(u8 shading_lev)
     WIP_IMPLEMENTED;
     u8 v6 = 2 * shading_lev / 3;
     u8 v2 = 255 - 4 * shading_lev;
-    u8 v7 = v2 + 2 * v6;
     u8 shading_leva = 5 * (51 - shading_lev);
+    u8 v7 = v2 + 2 * v6;
+    u8 v2_v6 = v6 + v2;
+    u8 lev_v6 = shading_leva - v6;
+    u8 lev_v6_2 = shading_leva - 2 * v6;
 
     field_E_colour_t2 = v2;
     field_10_diag_up_left_colour = v2;
-    field_C_colour_t1 = v2 + 2 * v6;
+    field_C_colour_t1 = v7;
     field_D_right_colour = shading_leva - 3 * v6;
-    field_F_colour_t3 = shading_leva - v6;
-    field_11_diag_up_right_colour = shading_leva - 2 * v6;
-    field_12_diag_down_left_colour = v6 + v2;
-    field_13_diag_down_right_colour = shading_leva - v6;
+    field_F_colour_t3 = lev_v6;
+    field_11_diag_up_right_colour = lev_v6_2;
+    field_12_diag_down_left_colour = v2_v6;
+    field_13_diag_down_right_colour = lev_v6;
     field_17_slope_east_colour = v2 + 3 * v6;
-    field_14_dcolour = v6 + v2;
-    field_18_color = v6 + v2;
+    field_14_dcolour = v2_v6;
+    field_18_color = v2_v6;
     field_15_slope_south_colour = shading_leva;
-    field_19_tri_diag_up_right_colour = shading_leva - v6;
-    field_16_slope_west_colour = shading_leva - 2 * v6;
+    field_19_tri_diag_up_right_colour = lev_v6;
+    field_16_slope_west_colour = lev_v6_2;
     field_1A_tri_diag_down_left_colour = v7;
     field_1B_tri_diag_down_right_colour = shading_leva;
 }
