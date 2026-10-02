@@ -207,7 +207,7 @@ CarPhysics_B0::~CarPhysics_B0()
 {
 }
 
-DEFINE_GLOBAL_ARRAY(wchar_t, gThetaText_66A8EC, 32, 0x66A8EC);
+wchar_t gThetaText_66A8EC[32]; //DEFINE_GLOBAL_ARRAY(wchar_t, gThetaText_66A8EC, 32, 0x66A8EC); // global crashing standalone
 
 // https://decomp.me/scratch/xqLh0
 // 9.6f 0x49E240
