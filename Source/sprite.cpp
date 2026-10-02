@@ -1754,11 +1754,11 @@ void Sprite::ResolveZOrder_5A1B30(Sprite* pOther)
     ComputeZLayer_5A1BD0();
     if (their_z < field_39_z_col)
     {
-        pOther->field_39_z_col = field_39_z_col;
+        pOther->set_z_col_4BA220(field_39_z_col);
     }
     else
     {
-        this->field_39_z_col = their_z;
+        this->set_z_col_4BA220(their_z);
     }
 }
 
