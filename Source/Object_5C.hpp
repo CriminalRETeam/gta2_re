@@ -27,6 +27,12 @@ class nostalgic_ellis_0x28;
 class Object_2C
 {
   public:
+    // 9.6f 0x4C4F10
+    inline void set_field_27_4C4F10(char_type v)
+    {
+        field_27 = v;
+    }
+
     EXPORT Object_2C();
     EXPORT void PoolDeallocate();
     EXPORT bool CanCollideWithSpriteByVarrok_522250(Sprite* a2);

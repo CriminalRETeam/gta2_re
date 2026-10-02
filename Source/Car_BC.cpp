@@ -227,7 +227,7 @@ char_type Car_214::sub_5C86C0(const s32& pType, const s32& f_C, SCR_THREAD* f_0,
                                                                          a8,
                                                                          a9,
                                                                          dword_705DDC);
-            pIter->field_4_O2C->field_27 = idx;
+            pIter->field_4_O2C->set_field_27_4C4F10(idx);
             field_210_count++;
             return idx;
         }
