@@ -1199,7 +1199,7 @@ char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
     Char_B4* pB4 = pSprite->field_8_char_b4_ptr;
 
     Ped* pPed = pB4->get_ped_433A20();
-    if (!pPed || !pPed->check_bit_0())
+    if (!pPed || !pPed->CheckBit0_433B40())
     {
         return true;
     }
@@ -1228,26 +1228,26 @@ char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
                     Fix16 radius = dword_6FD540 * dword_6FD4A8;
                     angle.rValue = field_28_pSprite->field_0.rValue + angle.rValue;
                     angle.sub_406C20();
-                    offset.FromPolar_41E210(radius, angle);
+                    Ang16::PolarToCartesian_41FC20(angle, radius, offset.x, offset.y);
                 }
-                field_30_pNext->field_2C_flags = 0x51;
+                field_30_pNext->SetFlags_4337D0(1, 10);
                 field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 17);
                 zpos += dword_6FD470;
             }
             else
             {
                 Fix16 radius = dword_6FD4A0 * dword_6FD540;
-                offset.FromPolar_41E210(radius, field_30_pNext->field_0);
+                Ang16::PolarToCartesian_41FC20(field_30_pNext->field_0, radius, offset.x, offset.y);
                 field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 17);
-                field_30_pNext->field_2C_flags = 0x29;
+                field_30_pNext->SetFlags_4337D0(1, 5);
                 zpos += dword_6FD470;
             }
         }
         else
         {
             Fix16 radius = dword_6FD540 * dword_6FD4A8;
-            offset.FromPolar_41E210(radius, field_28_pSprite->field_0);
-            field_30_pNext->field_2C_flags = 0xA1;
+            Ang16::PolarToCartesian_41FC20(field_28_pSprite->field_0, radius, offset.x, offset.y);
+            field_30_pNext->SetFlags_4337D0(1, 20);
             field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4 + 17);
         }
         stru_6FD388 += offset.x;
