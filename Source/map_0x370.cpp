@@ -4244,8 +4244,8 @@ s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
 MATCH_FUNC(0x4E8620)
 void Map_0x370::ChangeBlock_4E8620(s32 x, s32 y, s32 z, s32 info_type_to_set, u16 info_value)
 {
-    s32 column_idx = Map_0x370::CloneOriginalColumn_4E81D0(field_0_pDmap->field_0_base[y][x]);
-    field_0_pDmap->field_0_base[y][x] = column_idx;
+    s32 column_idx = Map_0x370::CloneOriginalColumn_4E81D0(*field_0_pDmap->get_base_42A830(y, x));
+    *field_0_pDmap->get_base_42A830(y, x) = column_idx;
     field_4_obj.AddOrUpdateDmapInfo_4E80E0(x, y, column_idx);
 
     gmp_col_info* pColumn = (gmp_col_info*)&this->field_0_pDmap->field_40008_pColumn[column_idx];
