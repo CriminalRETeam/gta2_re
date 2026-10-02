@@ -7686,9 +7686,10 @@ void Ped::UpdateFollowPedObjective_468E80()
     u8 bUnknown2 = 1;
 
     Ped* objective_target_ped = this->field_148_objective_target_ped;
-    if (objective_target_ped->GetPedState_403990() == ped_state_1::dead_9)
+    if (objective_target_ped->GetPedState_403990() == ped_state_1::dead_9 &&
+        objective_target_ped->get_objective_403A80() != objectives_enum::objective_28)
     {
-        bUnknown1 = objective_target_ped->get_objective_403A80() != objectives_enum::objective_28;
+        bUnknown1 = 1;
     }
 
     if (!objective_target_ped->CheckBit0_433B40() || bUnknown1)
@@ -7714,11 +7715,7 @@ void Ped::UpdateFollowPedObjective_468E80()
                 gDistanceToTarget_678750 <= dword_678780 &&
                     abs_sub_less_than_epislon_45AE40(this->field_1AC_cam.z, objective_target_ped->get_cam_z()))
             {
-                if (field_168_game_object->GetCharState_433A80() == 15)
-                {
-                    this->field_224 |= 0x10u;
-                }
-                else
+                if (field_168_game_object->GetCharState_433A80() != 15)
                 {
                     if ((this->field_224 & 0x10) != 0)
                     {
@@ -7728,6 +7725,10 @@ void Ped::UpdateFollowPedObjective_468E80()
                     Ped::ChangeNextPedState1_45C500(7);
                     Ped::ChangeNextPedState2_45C540(14);
                     this->field_225_objective_status = 1;
+                }
+                else
+                {
+                    this->field_224 |= 0x10u;
                 }
             }
             else
@@ -7739,16 +7740,14 @@ void Ped::UpdateFollowPedObjective_468E80()
                         this->field_225_objective_status = 1;
                     }
 
-                    Fix16 new_vel;
-                    if (gDistanceToTarget_678750 >= dword_678790)
+                    if (gDistanceToTarget_678750 < dword_678790)
                     {
-                        new_vel = this->field_1F0_maybe_max_speed;
+                        field_168_game_object->SetMaxSpeed_433920(this->field_1F4);
                     }
                     else
                     {
-                        new_vel = this->field_1F4;
+                        field_168_game_object->SetMaxSpeed_433920(this->field_1F0_maybe_max_speed);
                     }
-                    field_168_game_object->SetMaxSpeed_433920(new_vel);
                     Ped::UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 3);
                 }
             }
