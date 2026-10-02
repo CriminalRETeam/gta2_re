@@ -253,7 +253,7 @@ void frosty_pasteur_0xC1EA8::SaveGame_511E10(char_type* pFileName)
 MATCH_FUNC(0x5120C0)
 miss2_0x11C* frosty_pasteur_0xC1EA8::sub_5120C0(s16 a1, char_type a2)
 {
-    miss2_0x11C* pThread = miss2_0x11C_Pool_6F8064->sub_4767A0();
+    miss2_0x11C* pThread = miss2_0x11C_Pool_6F8064->Allocate_4767A0();
     pThread->InitThread_511930(a2, a1);
     return pThread;
 }
@@ -286,7 +286,7 @@ void frosty_pasteur_0xC1EA8::Update_512160()
 {
     if (!bSkip_mission_67D4E5)
     {
-        miss2_0x11C* pf_0 = miss2_0x11C_Pool_6F8064->sub_4767A0();
+        miss2_0x11C* pf_0 = miss2_0x11C_Pool_6F8064->Allocate_4767A0();
         SCR_CMD_HEADER* pLevelStart = sub_512100(59, 0);
         if (!pLevelStart)
         {
@@ -539,11 +539,11 @@ bool frosty_pasteur_0xC1EA8::sub_512910(s32 a2, s32 a3)
     if (pThread)
     {
         SCR_THREAD* pPtr = (SCR_THREAD*)GetBasePointer_512770(pThread->field_8_cmd_line);
-        pPtr->field_8_script_thread = sub_5120C0(pPtr->field_E, 0);
+        pPtr->field_8_script_thread = sub_5120C0(pPtr->field_E_thread_start_cmd, 0);
 
         if (pPtr->field_8_script_thread)
         {
-            pPtr->field_C_unknown = pPtr->field_8_script_thread->field_11A;
+            pPtr->field_C_thread_id = pPtr->field_8_script_thread->field_11A_thread_id;
             pThread->field_0_unk = 0;
             pThread->field_4_obj_f14 = 0;
             pThread->field_8_cmd_line = 0;
@@ -596,13 +596,13 @@ bool frosty_pasteur_0xC1EA8::AnswerPhone_5129F0(s32 ped_idx, s32 phone_idx)
         {
             case SCRCMD_ANSWER_PHONE:
                 pTriggerCmd = (SCR_ANSWER_PHONE*)pPtr;
-                pTriggerCmd->field_12 = 1;
+                pTriggerCmd->field_12_answered = 1;
                 return 1;
             case SCRCMD_THREAD_DECLARE4:
-                pPtr->field_8_script_thread = sub_5120C0(pPtr->field_E, 0);
+                pPtr->field_8_script_thread = sub_5120C0(pPtr->field_E_thread_start_cmd, 0);
                 if (pPtr->field_8_script_thread)
                 {
-                    pPtr->field_C_unknown = pPtr->field_8_script_thread->field_11A;
+                    pPtr->field_C_thread_id = pPtr->field_8_script_thread->field_11A_thread_id;
                 }
                 return 1;
             default:

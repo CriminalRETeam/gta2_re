@@ -129,8 +129,8 @@ EXTERN_GLOBAL(Ang16, dword_6F804C);
 
 EXTERN_GLOBAL(Ang16, word_6F771E);
 
-EXTERN_GLOBAL(Fix16, dword_6F77C0);
-EXTERN_GLOBAL(Fix16, dword_6F77C4);
+EXTERN_GLOBAL(Fix16, kFpZero_6F77C0);
+EXTERN_GLOBAL(Fix16, kFpOne_6F77C4);
 EXTERN_GLOBAL(Fix16, dword_679E74);
 
 class Car_6C
@@ -186,7 +186,7 @@ class Car_6C
     // 9.6f inlined
     inline Car_BC* SpawnCar_426E10(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx)
     {
-        return SpawnCarAt_446230(xpos, ypos, zpos, rotation, car_info_idx, dword_6F77C4);
+        return SpawnCarAt_446230(xpos, ypos, zpos, rotation, car_info_idx, kFpOne_6F77C4);
     }
 
     // 9.6f inlined
@@ -198,7 +198,7 @@ class Car_6C
     // unknown inlined function
     inline Car_BC* SpawnCar_shortened(s32 car_info_idx)
     {
-        return SpawnCarAt_446230(dword_6F77D4, dword_6F77D4, dword_6F77C0, dword_6F804C, car_info_idx, dword_6F77C4);
+        return SpawnCarAt_446230(dword_6F77D4, dword_6F77D4, kFpZero_6F77C0, dword_6F804C, car_info_idx, kFpOne_6F77C4);
     }
 
     inline Car_BC* SpawnCarAtCorrectZ_426E40(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_model)
