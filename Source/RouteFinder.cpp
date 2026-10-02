@@ -1085,22 +1085,21 @@ s16 RouteFinder::sub_589F70()
     return sVar2;
 }
 
-WIP_FUNC(0x58a020)
+MATCH_FUNC(0x58a020)
 void RouteFinder::DebugPrintRoute_58A020(char_type junc_idx)
 {
-    WIP_IMPLEMENTED;
-
     s32 v3 = 0;
     u16 i = this->field_2218_routes[junc_idx].field_0_junctions[(u16)v3];
     while (i)
     {
+        Junction_10* pJunc = &this->field_8_junctions[i];
         sprintf(gTmpBuffer_67C598,
                 "Junc: %d : (%d, %d)(%d, %d)",
                 i,
-                this->field_8_junctions[i].field_C_min_x,
-                this->field_8_junctions[i].field_D_min_y,
-                this->field_8_junctions[i].field_E_max_x,
-                this->field_8_junctions[i].field_F_max_y);
+                pJunc->field_C_min_x,
+                pJunc->field_D_min_y,
+                pJunc->field_E_max_x,
+                pJunc->field_F_max_y);
         gFile_67C530.Write_4D9620(gTmpBuffer_67C598);
         ++v3;
         i = this->field_2218_routes[junc_idx].field_0_junctions[(u16)v3];
