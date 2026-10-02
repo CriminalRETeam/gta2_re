@@ -879,7 +879,7 @@ void Ped::ManageShocking_45BC70()
                 {
                     ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
                     ChangeNextPedState2_45C540(ped_state_2::electrocuted_27);
-                    field_168_game_object->field_16 = 1;
+                    Set_B4_F16_To_1_433B50();
                 }
 
                 if (field_210_shock_counter > 0)
