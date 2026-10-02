@@ -3158,58 +3158,60 @@ void Hud_2B00::DrawGui_5D6860()
     }
 }
 
-WIP_FUNC(0x5d69c0)
-void Hud_2B00::UpdatePauseSection_5D69C0()
+// 0x5D6300: not in og_function_data_v105.csv (no marker); only reached through the
+// UpdatePauseSection_5D69C0 thunk below.
+void Garox_12E4_sub::UpdatePauseSection_5D6300()
 {
-    WIP_IMPLEMENTED;
-
-    // TODO: This whole thing is another func
-
-    Garox_12E4_sub* pSub = &this->field_12E4_sub;
     if (!gLucid_hamilton_67E8E0.IsBonusStage_4C59A0())
     {
-        pSub->field_1_timer--;
-        if (pSub->field_1_timer == 0)
+        field_1_timer--;
+        if (field_1_timer == 0)
         {
-            pSub->field_1_timer = 45;
-            pSub->field_0_current_pause_section++;
+            field_1_timer = 45;
+            field_0_current_pause_section++;
 
-            if (pSub->field_0_current_pause_section > 6)
+            if (field_0_current_pause_section > 6)
             {
-                pSub->field_0_current_pause_section = 0;
+                field_0_current_pause_section = 0;
             }
 
-            if (pSub->field_0_current_pause_section == HudPauseSection::gang_1_missions_done_1)
+            if (field_0_current_pause_section == HudPauseSection::gang_1_missions_done_1)
             {
                 if (!gGangPool_CA8_67E274->FirstGang_4BECA0())
                 {
-                    pSub->field_0_current_pause_section = HudPauseSection::all_missions_done_4;
+                    field_0_current_pause_section = HudPauseSection::all_missions_done_4;
                 }
                 return;
             }
 
-            if (pSub->field_0_current_pause_section == HudPauseSection::gang_2_missions_done_2)
+            if (field_0_current_pause_section == HudPauseSection::gang_2_missions_done_2)
             {
                 if (gGangPool_CA8_67E274->FirstGang_4BECA0())
                 {
                     if (!gGangPool_CA8_67E274->NextGang_4BECE0())
                     {
-                        pSub->field_0_current_pause_section = HudPauseSection::all_missions_done_4;
+                        field_0_current_pause_section = HudPauseSection::all_missions_done_4;
                     }
                     return;
                 }
-                pSub->field_0_current_pause_section = HudPauseSection::all_missions_done_4;
+                field_0_current_pause_section = HudPauseSection::all_missions_done_4;
                 return;
             }
 
-            if (pSub->field_0_current_pause_section == HudPauseSection::gang_3_missions_done_3 &&
+            if (field_0_current_pause_section == HudPauseSection::gang_3_missions_done_3 &&
                 (!gGangPool_CA8_67E274->FirstGang_4BECA0() || !gGangPool_CA8_67E274->NextGang_4BECE0() || !gGangPool_CA8_67E274->NextGang_4BECE0()))
             {
-                pSub->field_0_current_pause_section = HudPauseSection::all_missions_done_4;
+                field_0_current_pause_section = HudPauseSection::all_missions_done_4;
                 return;
             }
         }
     }
+}
+
+MATCH_FUNC(0x5d69c0)
+void Hud_2B00::UpdatePauseSection_5D69C0()
+{
+    field_12E4_sub.UpdatePauseSection_5D6300();
 }
 
 MATCH_FUNC(0x5d69d0)

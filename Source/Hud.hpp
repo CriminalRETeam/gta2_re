@@ -95,6 +95,7 @@ class Garox_12E4_sub
         field_1_timer = 45;
     }
     EXPORT void DrawPause_5D63B0();
+    EXPORT void UpdatePauseSection_5D6300();
     u8 field_0_current_pause_section;
     char_type field_1_timer;
 };
