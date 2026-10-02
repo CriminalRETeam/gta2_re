@@ -29,28 +29,28 @@ DEFINE_GLOBAL(Sprite_3CC*, gSprite_3CC_67AF1C, 0x67AF1C);
 DEFINE_GLOBAL(Sprite_18_Pool*, gSprite_18_Pool_703B80, 0x703B80);
 DEFINE_GLOBAL(Sprite*, gSprite_703814, 0x703814);
 DEFINE_GLOBAL(Sprite*, gSprite_6F61E8, 0x6F61E8);
-DEFINE_GLOBAL_INIT(Fix16, dword_7035C4, Fix16(1), 0x7035C4);
+DEFINE_GLOBAL_INIT(Fix16, kFP16One_7035C4, Fix16(1), 0x7035C4);
 DEFINE_GLOBAL_INIT(Fix16, gFix16_7035C0, Fix16(0), 0x7035C0);
 DEFINE_GLOBAL_INIT(Ang16, gAng16_703804, Ang16(0), 0x703804);
 DEFINE_GLOBAL(UnknownList, dword_6F6850, 0x6F6850);
 DEFINE_GLOBAL_INIT(Fix16, dword_703424, Fix16(0xCCC, 0), 0x703424);
-DEFINE_GLOBAL_INIT(Fix16, dword_7035E4, Fix16(8), 0x7035E4);
+DEFINE_GLOBAL_INIT(Fix16, kFP16Eight_7035E4, Fix16(8), 0x7035E4);
 DEFINE_GLOBAL_INIT(Fix16, dword_703578, Fix16(256, 0), 0x703578);
 DEFINE_GLOBAL_INIT(Fix16, dword_703678, dword_703578, 0x703678);
-DEFINE_GLOBAL_INIT(Fix16, k_dword_7033C0, dword_7035E4 - dword_703678, 0x7033C0);
-DEFINE_GLOBAL_INIT(Ang16, word_70344C, Ang16(360), 0x70344C);
-DEFINE_GLOBAL_INIT(Ang16, word_70351E, Ang16(720), 0x70351E);
-DEFINE_GLOBAL_INIT(Ang16, word_703544, Ang16(1080), 0x703544);
+DEFINE_GLOBAL_INIT(Fix16, k_dword_7033C0, kFP16Eight_7035E4 - dword_703678, 0x7033C0);
+DEFINE_GLOBAL_INIT(Ang16, kAng90_70344C, Ang16(360), 0x70344C);
+DEFINE_GLOBAL_INIT(Ang16, kAng180_70351E, Ang16(720), 0x70351E);
+DEFINE_GLOBAL_INIT(Ang16, kAng270_703544, Ang16(1080), 0x703544);
 DEFINE_GLOBAL_ARRAY(Vert, gTileVerts_7036D0, 8, 0x7036D0);
 DEFINE_GLOBAL_INIT(u32, kGlobalMask0_61A9AC, 0x0C00060, 0x61A9AC); // BitSet32 flag
 DEFINE_GLOBAL_INIT(u32, kGlobalMask1_61A9A8, 0x0C70060, 0x61A9A8); // BitSet32 flag
 DEFINE_GLOBAL_INIT(u32, kGlobalMask2_61A9A4, 0x0C78060, 0x61A9A4); // BitSet32 flag
 DEFINE_GLOBAL(u32, gFlags_67ACF8, 0x67ACF8); // BitSet32 flag
-DEFINE_GLOBAL_INIT(Fix16, dword_703A38, Fix16(0), 0x703A38);
+DEFINE_GLOBAL_INIT(Fix16, kFP16Zero_703A38, Fix16(0), 0x703A38);
 
 DEFINE_GLOBAL_INIT(Fix16, k_dword_7033B4, Fix16(0x3FC000, 0), 0x7033B4);
 DEFINE_GLOBAL_INIT(Fix16, dword_7035DC, Fix16(0x1C000, 0), 0x7035DC);
-DEFINE_GLOBAL_INIT(Fix16, dword_7035C8, Fix16(2), 0x7035C8);
+DEFINE_GLOBAL_INIT(Fix16, kFP16Two_7035C8, Fix16(2), 0x7035C8);
 
 EXTERN_GLOBAL(s32, window_width_706630);
 EXTERN_GLOBAL(s32, window_height_706B50);
@@ -284,7 +284,7 @@ s32 Sprite::IsOnWater_59E1D0()
     const Fix16 zpos = field_1C_zpos;
     if (zpos > gFix16_7035C0)
     {
-        pBlock = gMap_0x370_6F6268->get_block_4DFE10(field_14_xy.x.ToInt(), field_14_xy.y.ToInt(), (zpos - dword_7035C4).ToInt());
+        pBlock = gMap_0x370_6F6268->get_block_4DFE10(field_14_xy.x.ToInt(), field_14_xy.y.ToInt(), (zpos - kFP16One_7035C4).ToInt());
     }
     else
     {
@@ -306,7 +306,7 @@ MATCH_FUNC(0x59E250)
 u8 Sprite::GetWaterCornerMask_59E250()
 {
     u8 bits = 0;
-    Fix16 zpos_delta = this->field_1C_zpos - dword_7035C4;
+    Fix16 zpos_delta = this->field_1C_zpos - kFP16One_7035C4;
     UpdateCollisionBoundsIfNeeded_59E9C0();
 
     Fix16_Point_POD* pBBox = field_C_sprite_4c_ptr->field_C_renderingRect;
@@ -1415,7 +1415,7 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& 
     }
     else if (abs_2 == least_abs)
     {
-        a3.x = (a3.x + RenderingRect[1].x) / dword_7035C8;
+        a3.x = (a3.x + RenderingRect[1].x) / kFP16Two_7035C8;
         a4 = 5;
     }
 
@@ -1437,7 +1437,7 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& 
     }
     else if (abs_3 == least_abs)
     {
-        a3.x = (a3.x + RenderingRect[2].x) / dword_7035C8;
+        a3.x = (a3.x + RenderingRect[2].x) / kFP16Two_7035C8;
         a4 = 5;
     }
 
@@ -1458,7 +1458,7 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& 
     }
     else if (abs_4 == least_abs)
     {
-        a3.x = (a3.x + RenderingRect[3].x) / dword_7035C8;
+        a3.x = (a3.x + RenderingRect[3].x) / kFP16Two_7035C8;
         a4 = 5;
     }
 
@@ -1522,7 +1522,7 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 a2, Fix16_Point& a3
     }
     else if (abs_2 == least_abs)
     {
-        a3.y = (a3.y + RenderingRect[1].y) / dword_7035C8;
+        a3.y = (a3.y + RenderingRect[1].y) / kFP16Two_7035C8;
         a4 = 5;
     }
 
@@ -1547,7 +1547,7 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 a2, Fix16_Point& a3
     }
     else if (abs_3 == least_abs)
     {
-        a3.y = (a3.y + RenderingRect[2].y) / dword_7035C8;
+        a3.y = (a3.y + RenderingRect[2].y) / kFP16Two_7035C8;
         a4 = 5;
     }
 
@@ -1569,7 +1569,7 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 a2, Fix16_Point& a3
     }
     else if (abs_4 == least_abs)
     {
-        a3.y = (a3.y + RenderingRect[3].y) / dword_7035C8;
+        a3.y = (a3.y + RenderingRect[3].y) / kFP16Two_7035C8;
         a4 = 5;
     }
 
@@ -1708,11 +1708,11 @@ char_type Sprite::ComputeZLayer_5A1BD0()
     {
         if (this->field_30_sprite_type_enum == sprite_types_enum::car_2 && field_8_car_bc_ptr->IsTrainModel_403BA0())
         {
-            this->field_39_z_col = (this->field_1C_zpos - dword_7035C4).ToInt();
+            this->field_39_z_col = (this->field_1C_zpos - kFP16One_7035C4).ToInt();
         }
         else
         {
-            this->field_39_z_col = (this->field_1C_zpos - dword_7035C4).ToInt() + sub_5A1A60();
+            this->field_39_z_col = (this->field_1C_zpos - kFP16One_7035C4).ToInt() + sub_5A1A60();
         }
     }
     return field_39_z_col;
@@ -1939,9 +1939,9 @@ char_type Sprite::CheckSpriteMovementRegion_5A2500()
 
     if (field_1C_zpos >= dword_7035DC)
     {
-        if (field_14_xy.x < dword_7035C4)
+        if (field_14_xy.x < kFP16One_7035C4)
         {
-            gRozza_679188.sub_4BA280(dword_7035C4, (field_14_xy.y.GetRoundValue()) + dword_7035C4, field_14_xy.y.GetRoundValue());
+            gRozza_679188.sub_4BA280(kFP16One_7035C4, (field_14_xy.y.GetRoundValue()) + kFP16One_7035C4, field_14_xy.y.GetRoundValue());
             gRozza_679188.SetMapZ_4BA2B0(field_1C_zpos);
             return 1;
         }
@@ -1953,16 +1953,16 @@ char_type Sprite::CheckSpriteMovementRegion_5A2500()
             return 1;
         }
 
-        if (field_14_xy.y < dword_7035C4)
+        if (field_14_xy.y < kFP16One_7035C4)
         {
-            gRozza_679188.sub_4BA250(field_14_xy.x.GetRoundValue(), (field_14_xy.x.GetRoundValue()) + dword_7035C4, dword_7035C4);
+            gRozza_679188.sub_4BA250(field_14_xy.x.GetRoundValue(), (field_14_xy.x.GetRoundValue()) + kFP16One_7035C4, kFP16One_7035C4);
             gRozza_679188.SetMapZ_4BA2B0(field_1C_zpos);
             return 1;
         }
 
         if (field_14_xy.y > k_dword_7033B4)
         {
-            gRozza_679188.sub_4BA250(field_14_xy.x.GetRoundValue(), (field_14_xy.x.GetRoundValue()) + dword_7035C4, k_dword_7033B4);
+            gRozza_679188.sub_4BA250(field_14_xy.x.GetRoundValue(), (field_14_xy.x.GetRoundValue()) + kFP16One_7035C4, k_dword_7033B4);
             gRozza_679188.SetMapZ_4BA2B0(field_1C_zpos);
             return 1;
         }
@@ -2444,7 +2444,7 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
         field_30_boundingBox = Fix16_Rect();
         field_30_boundingBox.SetRect_41E350(xpos - width_over_2, xpos + width_over_2, ypos - height_over_2, ypos + height_over_2);
     }
-    else if (rotation == word_70344C) // = 360
+    else if (rotation == kAng90_70344C) // = 360
     {
         // okay
         Fix16_Point southwest = Fix16_Point(-height_over_2, width_over_2);
@@ -2460,7 +2460,7 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
         field_30_boundingBox = Fix16_Rect();
         field_30_boundingBox.SetRect_41E350(xpos - height_over_2, xpos + height_over_2, ypos - width_over_2, ypos + width_over_2);
     }
-    else if (rotation == word_70351E) // = 720
+    else if (rotation == kAng180_70351E) // = 720
     {
         // okay
         Fix16_Point southeast = Fix16_Point(width_over_2, height_over_2);
@@ -2476,7 +2476,7 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
         field_30_boundingBox = Fix16_Rect();
         field_30_boundingBox.SetRect_41E350(xpos - width_over_2, xpos + width_over_2, ypos - height_over_2, ypos + height_over_2);
     }
-    else if (rotation == word_703544) // = 1080
+    else if (rotation == kAng270_703544) // = 1080
     {
         // okay
         Fix16_Point northeast = Fix16_Point(height_over_2, -width_over_2);
@@ -2720,7 +2720,7 @@ bool Sprite_18::PoolUpdate_5A6910(Sprite* a2)
         {
             Char_B4* cB4 = field_0->AsCharB4_40FEA0();
             bRet = 0;
-            cB4->Update_545720(dword_703A38);
+            cB4->Update_545720(kFP16Zero_703A38);
         }
     }
     return bRet;
