@@ -1227,3 +1227,67 @@ Still different:
   get back in the car when the criminal is far away or fast. The crew-state check goes in the
   sibling's order (`!= 3` first). Left: the original puts the two "timer ran out" blocks at
   the end of the function, and the case tails merge differently.
+
+### Map_0x370::sub_4E5D10, sub_4E5D70, sub_4E5E00: match
+- Small road helpers of the two road followers below: move x or y along a road direction, and
+  the distance to the block edge across or along an angle's face. Their bytes came from the
+  dump's extra address list. They take `this` but don't use it, so they're members. Their csv
+  rows got the `Map_0x370::` prefix.
+
+### Map_0x370::sub_4E6660 (0x4E6660): WIP, one instruction pair off
+- Moves a point `dist` along the road, following the arrows, and returns the final direction.
+- 0.56 -> 0.99 (registers counted): the "block under or at z" lookup as an inline that writes
+  through a `gmp_block_info*&`. Then the frame: the reversed angle as a temporary through
+  `Ang16::Normalized_406C20()`, the final z in a block scope, and `bTurned` declared before
+  `x`. The early exits jump straight to the shared exit, so they're `goto done` (the
+  original's tail code is shared, not duplicated).
+- Left: in the `side == 0.5` branch, `sub_4E65A0(x, y, &z, 1, 1)` pushes `%ebx`, which still
+  holds the 1 loaded at the top, where the original pushes `$1` twice. Literal type (`true`,
+  `TRUE`, casts), an inline wrapper, a variable for the first 1 and declaration order made no
+  difference. Moving `pPrev = pBlock` before the call fixes the pushes but moves the `mov`.
+  The permuter's best results only shuffled jump offsets.
+
+### Map_0x370::sub_4E7190 (0x4E7190): WIP
+- The reverse road follower. When it runs off the road it looks for a turn in the neighbouring
+  blocks, via `gMap_0x370_6F6268` rather than `this`, and returns the opposite direction.
+- Same helpers as sub_4E6660, plus the null-checking lookup. The function runs out of inline
+  expansions (see matching_quirks.md), so the neighbour z offsets use raw `mValue` arithmetic
+  and the arrow check and `dist` update are written out. Left: `dist` and `pPrev` swap `%ebx`
+  and `%ebp`, the constant cached in `%ebp` before the first switch, and the neighbour arrow
+  check's `xor`/`test`, which needs an inline the budget can't afford.
+
+### PublicTransport_181C::SpawnTrainsFromStations_578860 (0x578860): WIP 0.90
+- For each of the first 10 stations with wagons: takes a train, places the wagons and the engine
+  behind the stop zone along its green arrow, takes the wagons off the car pool's active list,
+  and gives the engine AI, a driver and a light. The spawns are `SpawnCarAtCorrectZ_426E40` with
+  the scale passed in (`Car_6C::SpawnCarAtCorrectZ_Scaled`, with `const&` rotation and scale so
+  the globals are read at the push).
+- Left: the original keeps the byte of the axis that only gets the 0.5 offset in a stack temp
+  across `GetWagonType_577f80` and adds it after the call. That's 4 temps, the 16-byte frame
+  difference.
+
+### PoliceRoadblock_A4::CreateRoadblock_575FF0 (0x575FF0): WIP 0.80
+- Scans for the road's edges along y (orientation 2) or x, checks the rect, then fills the lanes:
+  cars on the odd lanes, barrier pairs and guards on the even ones. Three inline "first free slot"
+  helpers.
+- 0.73 -> 0.80: z passed to the barrier and guard spawns as a plain `u8` (see matching_quirks.md).
+  Left: the scan switches' case layout, the register for `dist`-like temps, and parts of the
+  barrier and guard position arithmetic.
+
+### Sprite_4C::DrawCollisionBox_5A4DA0 (0x5A4DA0): WIP 0.97
+- Projects the bounding box corners and the rendering rect points with a static inline copy of
+  the projection and joins them with `DrawDebugLine_5D7DD0`. Like the original, the function runs
+  out of inline expansions: the projection's `Fix16` operators are calls and the eighth projection
+  is the out-of-line `sub_5A5690`, which matches on its own. Left: the stack slots of the inline's
+  argument copies (4 bytes of frame).
+
+### DrawDebugLine_5D7DD0, sub_5A5690: match
+- See matching_quirks.md for the line plotter's parameter reuse and zero step.
+
+### NoRefs_sub_5B1170 (0x5B1170): match
+- A 5 KB unreferenced test-scene builder. Transcribed with a small interpreter over the listing
+  (track pushes and registers, turn each call into a statement), then one fix: the cab position
+  passed as plain ints.
+
+### Fix16 out-of-line operator copies, Fix16_Rect::MakeRect_4E6280: match
+- See matching_quirks.md. `MakeRect_4E6280` stores left, top, right, bottom in that order.

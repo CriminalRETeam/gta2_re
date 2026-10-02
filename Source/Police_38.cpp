@@ -10,6 +10,7 @@
 #include "Orca_2FD4.hpp"
 #include "Ped.hpp"
 #include "PedGroup.hpp"
+#include "PurpleDoom.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "RouteFinder.hpp"
@@ -2467,11 +2468,555 @@ void PoliceRoadblock_A4::sub_575CA0()
     field_0 = 0;
 }
 
-STUB_FUNC(0x575ff0)
-char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 a2, s32 a3, u8 a4, s32 a5)
+// Roadblock building: the values aren't known yet
+DEFINE_GLOBAL(Fix16, dword_6FECEC, 0x6FECEC);
+DEFINE_GLOBAL(Fix16, dword_6FEDA0, 0x6FEDA0);
+DEFINE_GLOBAL(Fix16, dword_6FED80, 0x6FED80);
+DEFINE_GLOBAL(Fix16, dword_6FED0C, 0x6FED0C);
+DEFINE_GLOBAL(Fix16, dword_6FEBD0, 0x6FEBD0);
+DEFINE_GLOBAL(Fix16, dword_6FEB50, 0x6FEB50);
+DEFINE_GLOBAL(Fix16, dword_6FEB5C, 0x6FEB5C);
+DEFINE_GLOBAL(Ang16, word_6FEE30, 0x6FEE30);
+DEFINE_GLOBAL(Ang16, word_6FEB74, 0x6FEB74);
+DEFINE_GLOBAL(u8, byte_624FBC, 0x624FBC); // the next roadblock lane gets barriers
+DEFINE_GLOBAL(u8, byte_624FBD, 0x624FBD); // the next roadblock lane gets a guard
+
+// Into the first free car slot
+inline void PoliceRoadblock_A4::AddCar(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!field_10_car_1)
+    {
+        field_10_car_1 = pCar;
+    }
+    else if (!field_14_car_2)
+    {
+        field_14_car_2 = pCar;
+    }
+    else if (!field_18_car_3)
+    {
+        field_18_car_3 = pCar;
+    }
+    else if (!field_1C_car_4)
+    {
+        field_1C_car_4 = pCar;
+    }
+    else if (!field_20_car_5)
+    {
+        field_20_car_5 = pCar;
+    }
+    else
+    {
+        field_24_car_6 = pCar;
+    }
+}
+
+// Into the first free pair of barrier slots, with their ids
+inline void PoliceRoadblock_A4::AddBarriers(Object_2C* pBarrier1, Object_2C* pBarrier2)
+{
+    if (!field_28_barrier_1)
+    {
+        field_28_barrier_1 = pBarrier1;
+        field_2C_barrier_2 = pBarrier2;
+        field_58 = pBarrier1->field_14_id;
+        field_5C = pBarrier2->field_14_id;
+    }
+    else if (!field_30_barrier_3)
+    {
+        field_30_barrier_3 = pBarrier1;
+        field_34_barrier_4 = pBarrier2;
+        field_60 = pBarrier1->field_14_id;
+        field_64 = pBarrier2->field_14_id;
+    }
+    else if (!field_38_barrier_5)
+    {
+        field_38_barrier_5 = pBarrier1;
+        field_3C_barrier_6 = pBarrier2;
+        field_68 = pBarrier1->field_14_id;
+        field_6C = pBarrier2->field_14_id;
+    }
+    else if (!field_40_barrier_7)
+    {
+        field_40_barrier_7 = pBarrier1;
+        field_44_barrier_8 = pBarrier2;
+        field_70 = pBarrier1->field_14_id;
+        field_74 = pBarrier2->field_14_id;
+    }
+    else if (!field_48_barrier_9)
+    {
+        field_48_barrier_9 = pBarrier1;
+        field_4C_barrier_10 = pBarrier2;
+        field_78 = pBarrier1->field_14_id;
+        field_7C = pBarrier2->field_14_id;
+    }
+    else if (!field_50_barrier_11)
+    {
+        field_50_barrier_11 = pBarrier1;
+        field_54_barrier_12 = pBarrier2;
+        field_80 = pBarrier1->field_14_id;
+        field_84 = pBarrier2->field_14_id;
+    }
+}
+
+// Into the first free guard slot
+inline void PoliceRoadblock_A4::AddGuard(Ped* pGuard)
+{
+    if (!field_88_guard_1)
+    {
+        field_88_guard_1 = pGuard;
+    }
+    else if (!field_8C_guard_2)
+    {
+        field_8C_guard_2 = pGuard;
+    }
+    else if (!field_90_guard_3)
+    {
+        field_90_guard_3 = pGuard;
+    }
+    else if (!field_94_guard_4)
+    {
+        field_94_guard_4 = pGuard;
+    }
+    else if (!field_98_guard_5)
+    {
+        field_98_guard_5 = pGuard;
+    }
+    else if (!field_9C_guard_6)
+    {
+        field_9C_guard_6 = pGuard;
+    }
+}
+WIP_FUNC(0x575ff0)
+char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
+{
+    Car_BC* pCar = 0;
+    u8 bEdge = 0;
+    u8 tries = 0;
+    char_type bFound;
+    u8 width;
+    u8 lane;
+
+    if (orientation == 2)
+    {
+        // Find the road's edges along y
+        s32 z_below = z - 1;
+        do
+        {
+            y--;
+            bFound = 0;
+            switch (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x, y, z_below))
+            {
+                case AIR:
+                    y++;
+                    bFound = 1;
+                    break;
+                case PAVEMENT:
+                case FIELD:
+                    if (!bEdge)
+                    {
+                        bEdge = 1;
+                    }
+                    else
+                    {
+                        bFound = 1;
+                    }
+                    break;
+                case ROAD:
+                    break;
+                case 4:
+                    return 0;
+                default:
+                    return 0;
+            }
+            if (++tries > 12)
+            {
+                return 0;
+            }
+        } while (!bFound);
+
+        width = 0;
+        if (bEdge == 1)
+        {
+            width = 1;
+            y++;
+        }
+        u8 y_start = y;
+        bEdge = 0;
+        tries = 0;
+        do
+        {
+            y++;
+            bFound = 0;
+            switch (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x, y, z_below))
+            {
+                case AIR:
+                    bFound = 1;
+                    break;
+                case PAVEMENT:
+                case FIELD:
+                    if (!bEdge)
+                    {
+                        bEdge = 1;
+                        width++;
+                    }
+                    else
+                    {
+                        bFound = 1;
+                    }
+                    break;
+                case ROAD:
+                    width++;
+                    break;
+                case 4:
+                    return 0;
+                default:
+                    return 0;
+            }
+            if (++tries > 12)
+            {
+                return 0;
+            }
+        } while (!bFound);
+
+        if (width > 12)
+        {
+            return 0;
+        }
+
+        Fix16 xpos = Fix16(x);
+        Fix16 centre_x = xpos + dword_6FEBF4;
+        Fix16 zpos = Fix16((s32)z);
+        Fix16 y_end = Fix16(y_start + width + 1);
+        field_A0_rect->SetRect_41E350(centre_x - dword_6FEBF4, centre_x + dword_6FEBF4, Fix16(y_start), y_end);
+        field_A0_rect->SetHiLowZ_41E370(zpos - dword_6FECEC, zpos + dword_6FECEC);
+        if (gPurpleDoom_1_679208->CheckRectForCollisions_477F60(field_A0_rect, 0, 0, 0))
+        {
+            return 0;
+        }
+        if (gMap_0x370_6F6268->sub_4E18A0((centre_x - dword_6FEBF4).ToInt(),
+                                          (centre_x + dword_6FEBF4 - dword_6FEDA0).ToInt(),
+                                          y_start,
+                                          (y_end - dword_6FEDA0).ToInt(),
+                                          zpos.ToInt()))
+        {
+            return 0;
+        }
+
+        sub_575710();
+        for (lane = 0; lane < width; lane++)
+        {
+            s32 y_lane = y_start + lane;
+            if (lane % 2)
+            {
+                Ang16 angle;
+                if (lane > 0 && lane < width - 1)
+                {
+                    s16 max = 32;
+                    angle = Ang16::Fix16_To_Ang16_40F540((Fix16(stru_6F6784.get_int_4F7AE0(max)) - dword_6FED80) * dword_6FEB88) +
+                        word_6FEE30;
+                }
+                else
+                {
+                    angle = word_6FEE30;
+                }
+
+                if (gCar_6C_677930->CanAllocateOfType_446930(7))
+                {
+                    switch (gRoadblockGuardType_6FEDB8)
+                    {
+                        case 1:
+                            pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(xpos + dword_6FEBF4,
+                                                                             Fix16(y_lane) + dword_6FEBF4,
+                                                                             angle,
+                                                                             car_model_enum::COPCAR,
+                                                                             dword_6FECEC);
+                            byte_624FBC = 1;
+                            byte_624FBD = 1;
+                            break;
+                        case 2:
+                            pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(xpos + dword_6FEBF4,
+                                                                             Fix16(y_lane) + dword_6FEBF4,
+                                                                             angle,
+                                                                             car_model_enum::COPCAR,
+                                                                             dword_6FECEC);
+                            byte_624FBC = 1;
+                            byte_624FBD = 1;
+                            break;
+                        case 3:
+                            pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(xpos + dword_6FEBF4,
+                                                                             Fix16(y_lane) + dword_6FEBF4,
+                                                                             angle,
+                                                                             car_model_enum::EDSELFBI,
+                                                                             dword_6FECEC);
+                            byte_624FBC = 1;
+                            byte_624FBD = 1;
+                            break;
+                        case 4:
+                            if (lane != width - 1)
+                            {
+                                pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(xpos + dword_6FEBF4,
+                                                                                 Fix16(y_lane) + dword_6FEBD0,
+                                                                                 angle,
+                                                                                 car_model_enum::TANK,
+                                                                                 dword_6FECEC);
+                                byte_624FBC = 0;
+                                byte_624FBD = 0;
+                                Ped* pDriver = gPedManager_6787BC->SpawnDriver_470B00(pCar);
+                                pDriver->field_238_ped_type = 5;
+                                pDriver->field_240_occupation = 0x27;
+                                pDriver->field_28C_threat_reaction = 1;
+                                pCar->field_0_qq.GetSpriteForModel_5A6A50(148)->field_10 = word_6FEB74;
+                            }
+                            break;
+                    }
+                    if (pCar)
+                    {
+                        pCar->sub_421560(4);
+                        pCar->IncrementCarStats_443D70(7);
+                        if (pCar->inline_info_flags_bit2() || pCar->field_84_car_info_idx == car_model_enum::EDSELFBI)
+                        {
+                            pCar->ActivateEmergencyLights_43C920();
+                        }
+                        AddCar(pCar);
+                    }
+                }
+            }
+            else
+            {
+                if (byte_624FBC)
+                {
+                    Object_2C* pBarrier1 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
+                                                                                   Fix16(x) + dword_6FEB50,
+                                                                                   Fix16(y_lane) + dword_6FEBF4,
+                                                                                   z,
+                                                                                   word_6FEB74);
+                    Object_2C* pBarrier2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
+                                                                                   Fix16(x) + dword_6FEB68,
+                                                                                   Fix16(y_lane) + dword_6FEBF4,
+                                                                                   z,
+                                                                                   word_6FEB74);
+                    AddBarriers(pBarrier1, pBarrier2);
+                }
+                if (byte_624FBD)
+                {
+                    AddGuard(gPolice_7B8_6FEE40->SpawnRoadblockGuard_56F5C0(Fix16(x) + dword_6FEB5C,
+                                                                            Fix16(y_lane) + dword_6FEBF4,
+                                                                            z,
+                                                                            word_6FEB74));
+                }
+            }
+        }
+    }
+    else
+    {
+        // Find the road's edges along x
+        s32 z_below = z - 1;
+        do
+        {
+            x--;
+            bFound = 0;
+            switch (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x, y, z_below))
+            {
+                case AIR:
+                    x++;
+                    bFound = 1;
+                    break;
+                case PAVEMENT:
+                case FIELD:
+                    if (!bEdge)
+                    {
+                        bEdge = 1;
+                    }
+                    else
+                    {
+                        bFound = 1;
+                    }
+                    break;
+                case ROAD:
+                    break;
+                case 4:
+                    return 0;
+                default:
+                    return 0;
+            }
+            if (++tries > 12)
+            {
+                return 0;
+            }
+        } while (!bFound);
+
+        width = 0;
+        if (bEdge == 1)
+        {
+            width = 1;
+            x++;
+        }
+        u8 x_start = x;
+        bEdge = 0;
+        tries = 0;
+        do
+        {
+            x++;
+            bFound = 0;
+            switch (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x, y, z_below))
+            {
+                case AIR:
+                    bFound = 1;
+                    break;
+                case PAVEMENT:
+                case FIELD:
+                    if (!bEdge)
+                    {
+                        bEdge = 1;
+                        width++;
+                    }
+                    else
+                    {
+                        bFound = 1;
+                    }
+                    break;
+                case ROAD:
+                    width++;
+                    break;
+                case 4:
+                    return 0;
+                default:
+                    return 0;
+            }
+            if (++tries > 12)
+            {
+                return 0;
+            }
+        } while (!bFound);
+
+        if (width > 12)
+        {
+            return 0;
+        }
+
+        Fix16 ypos = Fix16(y);
+        Fix16 centre_y = ypos + dword_6FEBF4;
+        Fix16 zpos = Fix16((s32)z);
+        Fix16 x_end = Fix16(x_start + width + 1);
+        field_A0_rect->SetRect_41E350(Fix16(x_start), x_end, centre_y - dword_6FEBF4, centre_y + dword_6FEBF4);
+        field_A0_rect->SetHiLowZ_41E370(zpos - dword_6FECEC, zpos + dword_6FECEC);
+        if (gPurpleDoom_1_679208->CheckRectForCollisions_477F60(field_A0_rect, 0, 0, 0))
+        {
+            return 0;
+        }
+        if (gMap_0x370_6F6268->sub_4E18A0(x_start,
+                                          (x_end - dword_6FEDA0).ToInt(),
+                                          (centre_y - dword_6FEBF4).ToInt(),
+                                          (centre_y + dword_6FEBF4 - dword_6FEDA0).ToInt(),
+                                          zpos.ToInt()))
+        {
+            return 0;
+        }
+
+        sub_575710();
+        for (lane = 0; lane < width; lane++)
+        {
+            s32 x_lane = x_start + lane;
+            if (lane % 2)
+            {
+                Ang16 angle;
+                if (lane > 0 && lane < width - 1)
+                {
+                    s16 max = 16;
+                    angle =
+                        Ang16::Fix16_To_Ang16_40F540((Fix16(stru_6F6784.get_int_4F7AE0(max)) - dword_6FED0C) * dword_6FEB88) + word_6FEB74;
+                }
+                else
+                {
+                    angle = word_6FEB74;
+                }
+
+                if (gCar_6C_677930->CanAllocateOfType_446930(7))
+                {
+                    switch (gRoadblockGuardType_6FEDB8)
+                    {
+                        case 1:
+                            pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_lane) + dword_6FEBF4,
+                                                                             ypos + dword_6FEBF4,
+                                                                             angle,
+                                                                             car_model_enum::COPCAR,
+                                                                             dword_6FECEC);
+                            byte_624FBC = 1;
+                            break;
+                        case 2:
+                            pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_lane) + dword_6FEBF4,
+                                                                             ypos + dword_6FEBF4,
+                                                                             angle,
+                                                                             car_model_enum::COPCAR,
+                                                                             dword_6FECEC);
+                            byte_624FBC = 1;
+                            break;
+                        case 3:
+                            pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_lane) + dword_6FEBF4,
+                                                                             ypos + dword_6FEBF4,
+                                                                             angle,
+                                                                             car_model_enum::EDSELFBI,
+                                                                             dword_6FECEC);
+                            byte_624FBC = 1;
+                            break;
+                        case 4:
+                            if (lane != width - 1)
+                            {
+                                pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_lane) + dword_6FEBD0,
+                                                                                 ypos + dword_6FEBF4,
+                                                                                 angle,
+                                                                                 car_model_enum::TANK,
+                                                                                 dword_6FECEC);
+                                byte_624FBC = 0;
+                                byte_624FBD = 0;
+                                Ped* pDriver = gPedManager_6787BC->SpawnDriver_470B00(pCar);
+                                pDriver->field_238_ped_type = 5;
+                                pDriver->field_240_occupation = 0x27;
+                                pDriver->field_28C_threat_reaction = 1;
+                            }
+                            break;
+                    }
+                    if (pCar)
+                    {
+                        pCar->sub_421560(4);
+                        pCar->IncrementCarStats_443D70(7);
+                        if (pCar->inline_info_flags_bit2() || pCar->field_84_car_info_idx == car_model_enum::EDSELFBI)
+                        {
+                            pCar->ActivateEmergencyLights_43C920();
+                        }
+                        AddCar(pCar);
+                    }
+                }
+            }
+            else
+            {
+                if (byte_624FBC)
+                {
+                    Object_2C* pBarrier1 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
+                                                                                   Fix16(x_lane) + dword_6FEBF4,
+                                                                                   Fix16(y) + dword_6FEB50,
+                                                                                   z,
+                                                                                   word_6FEE30);
+                    Object_2C* pBarrier2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
+                                                                                   Fix16(x_lane) + dword_6FEBF4,
+                                                                                   Fix16(y) + dword_6FEB68,
+                                                                                   z,
+                                                                                   word_6FEE30);
+                    AddBarriers(pBarrier1, pBarrier2);
+                }
+                if (byte_624FBD)
+                {
+                    AddGuard(gPolice_7B8_6FEE40->SpawnRoadblockGuard_56F5C0(Fix16(x_lane) + dword_6FEBF4,
+                                                                            Fix16(y) + dword_6FEB5C,
+                                                                            z,
+                                                                            word_6FEE30));
+                }
+            }
+        }
+    }
+
+    field_0 = 1;
+    field_C = 100;
+    return 1;
 }
 
 MATCH_FUNC(0x577480)

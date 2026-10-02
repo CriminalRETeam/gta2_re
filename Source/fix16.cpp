@@ -29,6 +29,53 @@ Fix16 Fix16::Multiply_408680(const Fix16& in) const
     return Fix16(value, 0);
 }
 
+MATCH_FUNC(0x436A00)
+Fix16 Fix16::Subtract_436A00(const Fix16& in) const
+{
+    s32 value = mValue - in.mValue;
+    return Fix16(value, 0);
+}
+
+MATCH_FUNC(0x436A20)
+Fix16 Fix16::Divide_436A20(const Fix16& in) const
+{
+    s32 value = (s32)(((__int64)mValue << 14) / in.mValue);
+    return Fix16(value, 0);
+}
+
+MATCH_FUNC(0x451670)
+s32 Fix16::IsLess_451670(const Fix16& other) const
+{
+    return mValue < other.mValue;
+}
+
+MATCH_FUNC(0x451690)
+s32 Fix16::IsGreater_451690(const Fix16& other) const
+{
+    return mValue > other.mValue;
+}
+
+MATCH_FUNC(0x539F90)
+Fix16& Fix16::DivideAssign_539F90(const Fix16& rhs)
+{
+    mValue = (s32)(((__int64)mValue << 14) / rhs.mValue);
+    return *this;
+}
+
+MATCH_FUNC(0x561DB0)
+Fix16 Fix16::MultiplyInt_561DB0(const s32& in) const
+{
+    s32 value = mValue * in;
+    return Fix16(value, 0);
+}
+
+MATCH_FUNC(0x562430)
+Fix16& Fix16::MultiplyAssign_562430(const Fix16& rhs)
+{
+    mValue = (s32)((mValue * (__int64)rhs.mValue) >> 14);
+    return *this;
+}
+
 MATCH_FUNC(0x4086A0)
 Fix16 Fix16::Negate_4086A0() const
 {

@@ -434,6 +434,13 @@ slot, e.g. a `u8` index used once and a later `u32 len = sizeof(x)` read-size, a
 bigger, wrap each one in its own `{ }` block. VC6 only overlaps slots for variables in disjoint scopes; the
 original probably had them inside inline helpers. `Frontend::sub_4B4EC0` went 0.867 → 1.0 from this alone.
 
+**A local can live in a parameter's slot.** Once VC6 has a parameter in a register (here
+`hInstance` in `esi`), it may put an address-taken local in that parameter's stack slot
+(`lea 0x7C(%esp)` above the return address). If your frame is 4 bytes too small and one `&local`
+points at the wrong slot, add the out-parameter local the original had instead of passing one
+local twice, and try both declaration orders: one of them goes in the parameter slot
+(`WinMain_5E53F0`: `GetDirectXVersion_4C4EC0(&dxVer, &osKind)` with `dxVer` declared first).
+
 **Try the permuter's depth 2 before hand-editing.** Two changes that are each worse alone can match
 together (`RouteFinder::NoRefs_589210`: a local's type and the order of two assignments). That's
 `Scripts/permute.sh ... -m exhaustive -p <passes> --depth 2`; see docs/permuter.md.
@@ -517,6 +524,57 @@ gave about 0.70 (`UpdateDirectedBurst_state_13_14_36_539480`, `UpdateCircularBur
 `UpdateSkidOrScrapeSpark_state_40_41_53A280`). It is not always better:
 `UpdateDirectedProjectile_state_3_12_5384C0` dropped slightly. Before hand-writing maths,
 grep `Fix16_Point.hpp`, `fix16.hpp` and `ang16.hpp` for an inline that does it.
+
+### Big functions run out of inline expansions
+
+VC6 stops inlining once a function has made a certain number of inline expansions. The calls
+past the limit stay as real calls, for example `call ??GFix16@@QBE?AV0@ABV0@@Z`
+(`Fix16::operator-`) where the original has `sub %ecx,%eax`. Which calls lose out isn't source
+order, and removing one expansion doesn't always free exactly one: test each change. In
+`Map_0x370::sub_4E7190` three `operator-` calls were left out of line until two helper inlines
+were written out by hand (score 825 -> 196). If a big function calls an inline that its
+smaller sibling inlines fine, count the inline helpers you added that the original may not have
+had. Check by grepping the object's relocations for inline member names.
+
+**An inline that writes through a reference keeps the target in a register.**
+`p = GetBlock(x, y, z)` with an inline that returns its own local spilled `pBlock` to the stack
+in `Map_0x370::sub_4E6660`. `SetBlock(pBlock, x, y, z)`, which assigns `pBlock` in both lookups,
+gave the original's `mov %eax,%edi` after each `get_block_4DFE10` and fixed the whole register
+allocation (0.56 -> 0.99). The opposite holds for a value that must not be constant-propagated:
+`if (d != want) d = 0; if (!d)` folds into one `cmp`, but the original's
+`cmp; je; xor; test; jne` comes from an inline that returns `d`.
+
+**Temporaries share slots, named locals don't.** A named `Ang16 back(...)` and a named
+`Fix16 found_z` each got their own stack slot, so the frame was 4-8 bytes too big. The original
+puts both in slots it reuses, including the dead `dist` parameter's slot. A temporary
+(`GetAngleFace_4F78F0(Ang16(...).Normalized_406C20())`, an inline that returns `*this`) and a
+block-scoped `{ Fix16 found_z; ... }` gave the original's frame (`Map_0x370::sub_4E6660`).
+
+**An implicit conversion into a by-value argument calls the constructor out of line.**
+`Call(98, 179)` to a function taking `Fix16` by value builds each argument in its stack slot
+with `mov %esp,%ecx; push $98; call Fix16::FromInt_4369F0` (the `Fix16(s32)` constructor out of
+line), while `Call(Fix16(98), Fix16(179))` gets the constructor inlined and the constant folded.
+The two spellings gave score 0 against 1123 on the 5 KB `NoRefs_sub_5B1170`. The same goes for
+a `u8` passed to a `Fix16` parameter (`FromInt_45C4E0`, the roadblock barriers' z in
+`PoliceRoadblock_A4::CreateRoadblock_575FF0`). When the original has `FromInt_...` calls right
+before a call, pass the plain value.
+
+**Out-of-line operator copies are functions too.** Functions that run out of inline expansions call
+real copies of the `Fix16` inline operators: `operator-` at 0x436A00, `operator/` at 0x436A20,
+`<`/`>` at 0x451670/0x451690, `/=`, `*=` and `*(const s32&)` at 0x539F90, 0x562430 and 0x561DB0.
+Each is matched as an `EXPORT` member with the operator's body (`Fix16::Subtract_436A00`, ...),
+like `Add_408660` and `Multiply_408680`. The `Fix16(s32)` constructor copies (0x41B480, 0x4369F0,
+0x4926F0) can't be written that way.
+
+**Parameters reused as working variables.** If the original stores a computed value into a
+parameter's stack slot and keeps another parameter in a register for the whole function, the
+source probably reassigned the parameters (`x2 -= x1; y2 -= y1;`, then `y2` becomes the y step).
+Locals for the same values gave a register rotation (`DrawDebugLine_5D7DD0`).
+
+**Keep VC6 from folding a known zero.** `if (n == 0) { step = n; } else { step = d / n; }`
+gets the zero folded, and VC6 then keeps 0 in a register for the other zero tests. The original's
+`test`/`mov %ecx,...` came from a small inline returning `count` for a zero count
+(`StepFor_5D7DD0`).
 
 Not checked yet: `CarAI_78.cpp` has many `sine_40F500(a) * r` / `cosine_40F520(a) * r` pairs
 that may be `FromPolar_41E210` or `Ang16::PolarToCartesian_41FC20`.

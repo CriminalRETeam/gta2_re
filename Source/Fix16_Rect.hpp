@@ -57,6 +57,7 @@ class Fix16_Rect
 
     // TODO: None inline version of SetRect_41E350 ??
     EXPORT void SetRect_5A5E30(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom);
+    EXPORT void MakeRect_4E6280(Fix16 x, Fix16 y, Fix16 w, Fix16 h);
 
     void SetHiLowZ_41E370(Fix16 lowZ, Fix16 highZ)
     {

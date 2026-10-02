@@ -6,6 +6,15 @@
 DEFINE_GLOBAL_INIT(Fix16, kSmallWidthEpslion_703450, Fix16(0xCCC, 0), 0x703450);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6771E4, Fix16(0x800, 0), 0x6771E4);
 
+MATCH_FUNC(0x4E6280)
+void Fix16_Rect::MakeRect_4E6280(Fix16 x, Fix16 y, Fix16 w, Fix16 h)
+{
+    field_0_left = x;
+    field_8_top = y;
+    field_4_right = x + w;
+    field_C_bottom = y + h;
+}
+
 MATCH_FUNC(0x59dd60)
 void Fix16_Rect::DoSetCurrentRect_59DD60()
 {

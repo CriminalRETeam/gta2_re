@@ -184,6 +184,7 @@ s32 APIENTRY WinMain(HINSTANCE hInstance,
 
     GetGlobalsRegistry()->CheckVars();
 
+    LoadBeginSceneCBPtr();
     WinMain_5E53F0(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
 
     return 0;

@@ -116,7 +116,8 @@ class DllRaii
     HMODULE mDll;
 };
 
-static void LoadBeginSceneCBPtr()
+// Not in the original: hooks the ImGui debug draw into d3ddll. Called by our entry points before WinMain_5E53F0
+void LoadBeginSceneCBPtr()
 {
     static DllRaii hD3Ddll("d3ddll.dll"); // freed after WinMain return, only if this func is called
 
@@ -2228,12 +2229,9 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
     return DefWindowProcA(hWnd, Msg, wParam, lParam);
 }
 
-//STUB_FUNC(0x5E53F0)
+MATCH_FUNC(0x5E53F0)
 s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
-    NOT_IMPLEMENTED;
-    LoadBeginSceneCBPtr();
-
     //hInstance_ = hInstance;
     gHInstance_708220 = hInstance;
     if (CoInitialize(0) < 0)
@@ -2249,9 +2247,9 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     gMutex_707078 = CreateMutexA(0, 0, "GBH_COOP_MUTEX");
     GetGTA2Version_5E5D60(&gGTA2VersionMajor_708280, &gGTA2VersionMajor_708284);
 
-    // u32 v16;
     u32 dxVer;
-    GetDirectXVersion_4C4EC0(&dxVer, &dxVer); // stack hack
+    u32 osKind;
+    GetDirectXVersion_4C4EC0(&dxVer, &osKind);
 
     if ((u32)dxVer < 0x601)
     {
@@ -2303,8 +2301,8 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     RECT windowRec;
     GetWindowRect(gHwnd_707F04, &windowRec);
 
-    s32 v8 = window_width_706630 + windowRec.right + clientRec.left - clientRec.right - windowRec.left;
-    s32 v9 = window_height_706B50 + windowRec.bottom + clientRec.top - clientRec.bottom - windowRec.top;
+    s32 v8 = window_width_706630 + (windowRec.right - windowRec.left) - (clientRec.right - clientRec.left);
+    s32 v9 = window_height_706B50 + (windowRec.bottom - windowRec.top) - (clientRec.bottom - clientRec.top);
 
     if (bDo_corner_window_67D4EE)
     {
@@ -2497,7 +2495,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                                         break;
 
                                     default:
-                                        continue; // go to PeekMessageA
+                                        break;
                                 }
                                 break; // go to the beginning
                             }

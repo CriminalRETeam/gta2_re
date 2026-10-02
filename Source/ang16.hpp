@@ -172,6 +172,12 @@ class Ang16
 
     EXPORT void sub_406C20();
 
+    inline Ang16& Normalized_406C20()
+    {
+        sub_406C20();
+        return *this;
+    }
+
     // 9.6f 0x401C10
     // https://decomp.me/scratch/bB2VJ
     void Normalize()
