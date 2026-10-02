@@ -117,15 +117,15 @@ void miss2_0x11C::MissionFailOnArrest_503200()
 
         if (gfrosty_pasteur_6F8060->field_348_gang_1_mission_flag && *gfrosty_pasteur_6F8060->field_348_gang_1_mission_flag == 1)
         {
-            msg_id += gfrosty_pasteur_6F8060->field_356 + v;
+            msg_id += gfrosty_pasteur_6F8060->field_356_gang_1_death_base + v;
         }
         else if (gfrosty_pasteur_6F8060->field_34C_gang_2_mission_flag && *gfrosty_pasteur_6F8060->field_34C_gang_2_mission_flag == 1)
         {
-            msg_id += gfrosty_pasteur_6F8060->field_358 + v;
+            msg_id += gfrosty_pasteur_6F8060->field_358_gang_2_death_base + v;
         }
         else if (gfrosty_pasteur_6F8060->field_350_gang_3_mission_flag && *gfrosty_pasteur_6F8060->field_350_gang_3_mission_flag == 1)
         {
-            msg_id += gfrosty_pasteur_6F8060->field_35A + v;
+            msg_id += gfrosty_pasteur_6F8060->field_35A_gang_3_death_base + v;
         }
         else
         {
@@ -1511,15 +1511,15 @@ void miss2_0x11C::SCRCMD_DEC_DEATH_BASE_506010(SCR_FOUR_PARAMS* pCmd)
 {
     if (pCmd->field_2_type == SCRCMD_DEC_DEATH_BASE_1)
     {
-        gfrosty_pasteur_6F8060->field_356 = pCmd->field_C_unsigned_3;
+        gfrosty_pasteur_6F8060->field_356_gang_1_death_base = pCmd->field_C_unsigned_3;
     }
     else if (pCmd->field_2_type == SCRCMD_DEC_DEATH_BASE_2)
     {
-        gfrosty_pasteur_6F8060->field_358 = pCmd->field_C_unsigned_3;
+        gfrosty_pasteur_6F8060->field_358_gang_2_death_base = pCmd->field_C_unsigned_3;
     }
     else if (pCmd->field_2_type == SCRCMD_DEC_DEATH_BASE_3)
     {
-        gfrosty_pasteur_6F8060->field_35A = pCmd->field_C_unsigned_3;
+        gfrosty_pasteur_6F8060->field_35A_gang_3_death_base = pCmd->field_C_unsigned_3;
     }
 }
 
@@ -7052,14 +7052,14 @@ void miss2_0x11C::SCRCMD_SAVE_RESTORE_RESPECT_510780()
     {
         for (; pGang != NULL; pGang = gGangPool_CA8_67E274->NextGang_4BECE0())
         {
-            gfrosty_pasteur_6F8060->field_C1E2F[idx++] = pGang->GetRespectForPlayer_4BEEF0(0);
+            gfrosty_pasteur_6F8060->field_C1E2F_saved_gang_respect[idx++] = pGang->GetRespectForPlayer_4BEEF0(0);
         }
     }
     else
     {
         for (; pGang != NULL; pGang = gGangPool_CA8_67E274->NextGang_4BECE0())
         {
-            pGang->SetRespect_4BEE30(0, gfrosty_pasteur_6F8060->field_C1E2F[idx++]);
+            pGang->SetRespect_4BEE30(0, gfrosty_pasteur_6F8060->field_C1E2F_saved_gang_respect[idx++]);
         }
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);

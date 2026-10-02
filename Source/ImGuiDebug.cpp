@@ -648,7 +648,7 @@ static Camera_0xBC* GetPlayerCam()
             {
                 return &pPlayer->field_14C_view_camera;
             }
-            if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
+            if (pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3)
             {
                 return &pPlayer->field_208_aux_game_camera;
             }
@@ -1087,7 +1087,7 @@ void BootMap(char* mapName, char* styName, char* scrName)
         strcat(fullPath, scrName);
         gLucid_hamilton_67E8E0.SetScriptName_4C58B0(fullPath);
 
-        gLucid_hamilton_67E8E0.sub_4C5AD0(0);
+        gLucid_hamilton_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(0);
 
         if (!HookManagement::GetEnumerateFuncsFn()) // if standalone version
         {
@@ -1653,7 +1653,7 @@ void CC ImGuiDebugDraw()
 
                     pPlayer->AddCarToHistory_5645B0(pNewCar);
 
-                    // gGame_0x40_67E008->sub_4B9D60(pNewCar->field_50_car_sprite, pPlayer);
+                    // gGame_0x40_67E008->ReduceTrafficSpawnCounterOfOtherViewers_4B9D60(pNewCar->field_50_car_sprite, pPlayer);
 
                     //pPlayerPed->GiveWeapon_46F650(weapon_type::flamethrower);
                     /*

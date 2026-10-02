@@ -6020,7 +6020,7 @@
         "v105_address": "0x4b9d10"
     },
     {
-        "name": "Game_0x40::sub_4B9D60",
+        "name": "Game_0x40::ReduceTrafficSpawnCounterOfOtherViewers_4B9D60",
         "v96f_address": null,
         "v105_address": "0x4b9d60"
     },
@@ -6470,12 +6470,12 @@
         "v105_address": "0x4c5ac0"
     },
     {
-        "name": "lucid_hamilton::sub_4C5AD0",
+        "name": "lucid_hamilton::SetStartedFromPlayBonusMenu_4C5AD0",
         "v96f_address": null,
         "v105_address": "0x4c5ad0"
     },
     {
-        "name": "lucid_hamilton::sub_4C5AE0",
+        "name": "lucid_hamilton::IsStartedFromPlayBonusMenu_4C5AE0",
         "v96f_address": null,
         "v105_address": "0x4c5ae0"
     },
@@ -16690,7 +16690,7 @@
         "v105_address": "0x5d8a10"
     },
     {
-        "name": "sub_5D8DF0",
+        "name": "InvalidateCachedScreenDimension_5D8DF0",
         "v96f_address": null,
         "v105_address": "0x5d8df0"
     },

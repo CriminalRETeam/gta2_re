@@ -39,7 +39,7 @@ DEFINE_GLOBAL_INIT(Fix16, kMaxMapCoord_67668C, Fix16(0x3FFFFF, 0), 0x67668C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6768E0, Fix16(0x3000, 0), 0x6768E0);
 DEFINE_GLOBAL_INIT(Fix16, dword_67691C, dword_6768E0, 0x67691C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6766F4, Fix16(0x3000, 0), 0x6766F4);
-DEFINE_GLOBAL_INIT(Fix16, dword_676820, Fix16(2), 0x676820);
+DEFINE_GLOBAL_INIT(Fix16, kTwo_676820, Fix16(2), 0x676820);
 DEFINE_GLOBAL_INIT(Fix16, dword_6767B4, Fix16(0xE333, 0), 0x6767B4);
 DEFINE_GLOBAL_INIT(Fix16, kMaxCamZ_676898, Fix16(14), 0x676898);
 DEFINE_GLOBAL_INIT(Fix16, kZero_6F6C50, Fix16(0), 0x6F6C50);
@@ -57,10 +57,10 @@ DEFINE_GLOBAL_INIT(Fix16, dword_676900, dword_676678, 0x676900);
 DEFINE_GLOBAL_INIT(Fix16, dword_67696C, dword_6768B4, 0x67696C);
 DEFINE_GLOBAL_INIT(Fix16, dword_67674C, kOne_67681C + dword_676678, 0x67674C);
 
-DEFINE_GLOBAL_INIT(Ang16, dword_6766DC, Ang16(0x00B4, 0), 0x6766DC);
-DEFINE_GLOBAL_INIT(Ang16, dword_676790, Ang16(0x021C, 0), 0x676790);
-DEFINE_GLOBAL_INIT(Ang16, word_676764, Ang16(0x0384, 0), 0x676764);
-DEFINE_GLOBAL_INIT(Ang16, word_67679C, Ang16(0x04EC, 0), 0x67679C);
+DEFINE_GLOBAL_INIT(Ang16, kAng45_6766DC, Ang16(0x00B4, 0), 0x6766DC);
+DEFINE_GLOBAL_INIT(Ang16, kAng135_676790, Ang16(0x021C, 0), 0x676790);
+DEFINE_GLOBAL_INIT(Ang16, kAng225_676764, Ang16(0x0384, 0), 0x676764);
+DEFINE_GLOBAL_INIT(Ang16, kAng315_67679C, Ang16(0x04EC, 0), 0x67679C);
 DEFINE_GLOBAL_INIT(Ang16, kAng180_676772, Ang16(720), 0x676772);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_676964, Ang16(0), 0x676964);
 
@@ -112,7 +112,7 @@ char_type Camera_0xBC::IsSpriteInView_435630(Sprite* pSprite, s32 bUnknown)
     WIP_IMPLEMENTED;
 
     Fix16 v5 = ((dword_676840 + this->field_98_cam_pos2.field_8_z - pSprite->field_1C_zpos)) /
-        ((dword_676820 * this->field_98_cam_pos2.field_C_zoom));
+        ((kTwo_676820 * this->field_98_cam_pos2.field_C_zoom));
 
     if (bUnknown == 1)
     {
@@ -715,7 +715,7 @@ void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, F
         {
             Ang16 v16 = Fix16::atan2_fixed_405320(pMaybeX_FP16, pMaybeY_FP16);
             Fix16 v17;
-            if (v16 <= dword_6766DC || v16 >= dword_676790 && (v16 <= word_676764 || v16 >= word_67679C))
+            if (v16 <= kAng45_6766DC || v16 >= kAng135_676790 && (v16 <= kAng225_676764 || v16 >= kAng315_67679C))
             {
                 v17 = Fix16(0x2D0000, 0);
             }
@@ -768,7 +768,7 @@ void Camera_0xBC::UpdateFollowCarCamera_4364A0(Car_BC* pCar)
         Sprite* pCarSprite = pCar->field_50_car_sprite;
         Fix16 new_x = pCarSprite->field_14_xy.x;
         Fix16 new_y = pCarSprite->field_14_xy.y;
-        Fix16 new_z = pCarSprite->field_1C_zpos - dword_676820;
+        Fix16 new_z = pCarSprite->field_1C_zpos - kTwo_676820;
         if (new_z <= kOne_67681C)
         {
             new_z = kOne_67681C;
@@ -801,7 +801,7 @@ void Camera_0xBC::UpdateFollowPedCamera_436540(Ped* pPed)
         {
             xpos = pPed->get_cam_x();
             ypos = pPed->get_cam_y();
-            zpos = pPed->get_cam_z() - dword_676820;
+            zpos = pPed->get_cam_z() - kTwo_676820;
             if (zpos <= kOne_67681C)
             {
                 zpos = kOne_67681C;
@@ -817,7 +817,7 @@ void Camera_0xBC::UpdateFollowPedCamera_436540(Ped* pPed)
         {
             xpos = pCar_2->get_x_41E430();
             ypos = pCar_2->get_y_41E440();
-            zpos = Max_41E130(pCar_2->get_z_41E450() - dword_676820, kOne_67681C);
+            zpos = Max_41E130(pCar_2->get_z_41E450() - kTwo_676820, kOne_67681C);
             zposToUse = zpos;
             Camera_0xBC::AccumulateSuspicionOnDriver_435F90(pCar_2);
             Camera_0xBC::ApplyCarVelocityCameraOffset_436200(pCar_2, &xpos, &ypos, &zposToUse);

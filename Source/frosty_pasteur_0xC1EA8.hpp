@@ -665,9 +665,9 @@ class frosty_pasteur_0xC1EA8
     s32* field_350_gang_3_mission_flag;
     char_type field_354_next_gang_idx;
     char_type field_355_death_arr_state;
-    s16 field_356;
-    s16 field_358;
-    s16 field_35A;
+    s16 field_356_gang_1_death_base;
+    s16 field_358_gang_2_death_base;
+    s16 field_35A_gang_3_death_base;
     char_type field_35C_full_scr_file_name[256];
     char_type field_45C_scr_file_name[9];
     char_type field_465;
@@ -680,13 +680,13 @@ class frosty_pasteur_0xC1EA8
     str_table_normalized* field_13350_pStringTbl;
     BYTE field_13354_mission_script_data[620000];
     BYTE field_AA934_mission_base_pointers[95232];
-    s16 field_C1D34[31];
+    s16 field_C1D34_mission_start_cmd[31];
     s16 field_C1D72_mission_base_ptr_idx[31];
     u32 field_C1DB0_mission_script_data_len[31];
     char_type field_C1E2C_bLoadedFromSave;
     char_type field_C1E2D_bKillFrenzyActive;
     char_type field_C1E2E_death_arrest_flag;
-    char_type field_C1E2F[3];
+    char_type field_C1E2F_saved_gang_respect[3];
     u16 field_C1E32_phone_ids[31];
     u32 field_C1E70_wanted_car_model;
     u16 field_C1E74_basic_kf[25];

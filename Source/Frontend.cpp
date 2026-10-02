@@ -510,7 +510,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
             main_stage_idx = v7 >> 4;
             swprintf(tmpBuff_67BD9C, L"%d", v57->field_0_plyr_stage_stats[main_stage_idx][v7 & 0xF].field_8_stage_latest_score);
             wcsncpy(field_136_menu_pages_array[6].field_518_elements_array[2].field_6_element_name_str, tmpBuff_67BD9C, 0x32u);
-            if (gLucid_hamilton_67E8E0.sub_4C5AE0() || main_stage_idx >= (u8)field_1EB50_num_main_stages - 1 ||
+            if (gLucid_hamilton_67E8E0.IsStartedFromPlayBonusMenu_4C5AE0() || main_stage_idx >= (u8)field_1EB50_num_main_stages - 1 ||
                 !v57->field_0_plyr_stage_stats[main_stage_idx + 1][0].field_0_is_stage_unlocked)
             {
                 field_136_menu_pages_array[6].field_4_options_array[1].field_1_is_unlocked = 0;
@@ -1965,7 +1965,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
                         --v5;
                     }
                     LoadMapFilenames_4B4D00(v19, i);
-                    gLucid_hamilton_67E8E0.sub_4C5AD0(0);
+                    gLucid_hamilton_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(0);
                     goto LABEL_9;
                 case MENUPAGE_GET_READY_TO_PLAY: // 264
                     v8 = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
@@ -1986,7 +1986,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
                         goto LABEL_10;
                     }
                     LoadMapFilenames_4B4D00(v9 >> 4, v9 & 0xF);
-                    gLucid_hamilton_67E8E0.sub_4C5AD0(1);
+                    gLucid_hamilton_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(1);
                 LABEL_9:
                     field_EE08_menu_screen = RedBar_16;
                     field_110_state = FrontendState::Booting_Map_2;
@@ -2831,7 +2831,7 @@ void Frontend::ContinueToNextStage_4B8020()
         }
 
         LoadMapFilenames_4B4D00(main_stage_idx, substage_idx);
-        gLucid_hamilton_67E8E0.sub_4C5AD0(0);
+        gLucid_hamilton_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(0);
         field_EE08_menu_screen = RedBar_16;
         field_110_state = FrontendState::Booting_Map_2;
     }
@@ -4550,7 +4550,7 @@ void Frontend::DrawLastAndBestStats_4B57B0(u16 a3, u16 a5)
     swprintf(tmpBuff_67BD9C, L"$%d", gLucid_hamilton_67E8E0.GetCarDamageCost_4C5A80());
     Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, v4, 1);
 
-    swprintf(tmpBuff_67BD9C, L"$%d", gJolly_poitras_0x2BC0_6FEAC0->field_1878[v39]);
+    swprintf(tmpBuff_67BD9C, L"$%d", gJolly_poitras_0x2BC0_6FEAC0->field_1878_best_car_damage_cost[v39]);
     Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, v4, 1);
 
     //  civilians run down
@@ -4613,7 +4613,7 @@ void Frontend::DrawLastAndBestStats_4B57B0(u16 a3, u16 a5)
     swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.GetEvasionRating_4C5AA0());
     Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, v4, 1);
 
-    swprintf(tmpBuff_67BD9C, L"%d", gJolly_poitras_0x2BC0_6FEAC0->field_1884[v39]);
+    swprintf(tmpBuff_67BD9C, L"%d", gJolly_poitras_0x2BC0_6FEAC0->field_1884_best_evasion_rating[v39]);
     Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, v4, 1);
 }
 

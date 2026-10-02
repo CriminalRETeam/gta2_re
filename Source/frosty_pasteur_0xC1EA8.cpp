@@ -348,7 +348,7 @@ u16 frosty_pasteur_0xC1EA8::LoadMissionScript_512400(const char_type* String1, u
         str_table_entry* pStrEntry = gfrosty_pasteur_6F8060->StrEntryByString_5030B0((char_type*)String1);
         u16 field_2_zone_idx = pStrEntry->field_2_zone_idx;
         Buffer = gfrosty_pasteur_6F8060->field_C1D72_mission_base_ptr_idx[field_2_zone_idx];
-        *a3 = gfrosty_pasteur_6F8060->field_C1D34[field_2_zone_idx];
+        *a3 = gfrosty_pasteur_6F8060->field_C1D34_mission_start_cmd[field_2_zone_idx];
         memcpy(&gfrosty_pasteur_6F8060->field_46C_base_pointers[Buffer],
                &gfrosty_pasteur_6F8060->field_AA934_mission_base_pointers[3072 * field_2_zone_idx],
                0xC00u);
@@ -454,7 +454,7 @@ void frosty_pasteur_0xC1EA8::LoadSubScripts_5125F0()
                 File::Global_Read_4A71C0(&Buffer_16, 2);
                 field_C1D72_mission_base_ptr_idx[j] = Buffer_16;
                 File::Global_Read_4A71C0(&Buffer_16, 2);
-                field_C1D34[j] = Buffer_16;
+                field_C1D34_mission_start_cmd[j] = Buffer_16;
                 File::Global_Read_4A71C0(&Buffer, 4);
                 field_C1DB0_mission_script_data_len[j] = Buffer;
 
@@ -770,7 +770,7 @@ frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
 
     memset(field_13354_mission_script_data, 0, sizeof(field_13354_mission_script_data));
     memset(field_AA934_mission_base_pointers, 0, sizeof(field_AA934_mission_base_pointers));
-    memset(field_C1D34, 0, sizeof(field_C1D34));
+    memset(field_C1D34_mission_start_cmd, 0, sizeof(field_C1D34_mission_start_cmd));
     memset(field_C1D72_mission_base_ptr_idx, 0, sizeof(field_C1D72_mission_base_ptr_idx));
     memset(field_C1DB0_mission_script_data_len, 0, sizeof(field_C1DB0_mission_script_data_len));
     field_344_mission_flag = 0;
@@ -794,9 +794,9 @@ frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
     field_350_gang_3_mission_flag = 0;
     field_354_next_gang_idx = 0;
     field_C1E70_wanted_car_model = 87;
-    field_356 = 0;
-    field_358 = 0;
-    field_35A = 0;
+    field_356_gang_1_death_base = 0;
+    field_358_gang_2_death_base = 0;
+    field_35A_gang_3_death_base = 0;
     field_355_death_arr_state = 0;
     field_C1E2E_death_arrest_flag = 0;
     field_C1E2D_bKillFrenzyActive = 0;
@@ -809,7 +809,7 @@ frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
 
     memset(field_45C_scr_file_name, 0, sizeof(field_45C_scr_file_name));
     memset(field_C1E32_phone_ids, 0, sizeof(field_C1E32_phone_ids));
-    memset(field_C1E2F, 0, sizeof(field_C1E2F));
+    memset(field_C1E2F_saved_gang_respect, 0, sizeof(field_C1E2F_saved_gang_respect));
     memset(field_C1E74_basic_kf, 0, sizeof(field_C1E74_basic_kf));
 
     gStoredCar_6F7560 = NULL;

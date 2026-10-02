@@ -69,7 +69,7 @@ class Game_0x40
     EXPORT Camera_0xBC* IterateNextPlayerCamera_4B9C50();
     EXPORT Player* IterateFirstPlayer_4B9CD0();
     EXPORT Player* IterateNextPlayer_4B9D10();
-    EXPORT void sub_4B9D60(Sprite* a2, Player* pExclude);
+    EXPORT void ReduceTrafficSpawnCounterOfOtherViewers_4B9D60(Sprite* a2, Player* pExclude);
     EXPORT Game_0x40(u8 max_players, s8 player_idx); // 4B9DE0
     EXPORT ~Game_0x40(); // 4BAE30
 
@@ -105,8 +105,8 @@ class Game_0x40
 
 EXTERN_GLOBAL(Game_0x40*, gGame_0x40_67E008);
 
-EXTERN_GLOBAL(Fix16, dword_67DCCC);
+EXTERN_GLOBAL(Fix16, kInitialAmbient_67DCCC);
 
-EXTERN_GLOBAL(s32, dword_706C58);
+EXTERN_GLOBAL(s32, gCachedScreenDimension_706C58);
 
 EXTERN_GLOBAL(class Hamburger_500*, gHamburger_500_678E30);

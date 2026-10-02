@@ -354,8 +354,8 @@ u32 Car_6C::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZoneIn
             v8 = 99;
         }
 
-        pPlayer->field_682 = 100 - v8;
-        if (pPlayer->field_680 < (u16)(100 - v8))
+        pPlayer->field_682_traffic_spawn_threshold = 100 - v8;
+        if (pPlayer->field_680_traffic_spawn_counter < (u16)(100 - v8))
         {
             *pOut = 0;
             return car_model_enum::none;
@@ -7539,17 +7539,17 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                                 pNewCar->HeadlightsOn_43BFE0();
                                 pNewCar->field_5C_AI->field_74_unk_speed = DAT_006FF570;
                             }
-                            gGame_0x40_67E008->sub_4B9D60(pNewCar->field_50_car_sprite, this->field_C_player);
+                            gGame_0x40_67E008->ReduceTrafficSpawnCounterOfOtherViewers_4B9D60(pNewCar->field_50_car_sprite, this->field_C_player);
 
                             pPlayer = this->field_C_player;
-                            if (pPlayer->field_680 <= pPlayer->field_682)
+                            if (pPlayer->field_680_traffic_spawn_counter <= pPlayer->field_682_traffic_spawn_threshold)
                             {
-                                pPlayer->field_680 = 0;
+                                pPlayer->field_680_traffic_spawn_counter = 0;
                                 return 1;
                             }
                             else
                             {
-                                pPlayer->field_680 = pPlayer->field_680 - pPlayer->field_682;
+                                pPlayer->field_680_traffic_spawn_counter = pPlayer->field_680_traffic_spawn_counter - pPlayer->field_682_traffic_spawn_threshold;
                                 return 0;
                             }
                         }

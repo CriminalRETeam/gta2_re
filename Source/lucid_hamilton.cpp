@@ -68,7 +68,7 @@ void lucid_hamilton::LoadDebugSettings_4C53D0()
     field_430_car_damage_cost = 0;
     field_434_evasion_rating = 0;
     field_438_bonus_rating_text_idx = 0;
-    field_43A = 0;
+    field_43A_bStartedFromPlayBonusMenu = 0;
 
     init_4C5AF0();
 }
@@ -242,15 +242,15 @@ s16 lucid_hamilton::GetBonusRatingTextIdx_4C5AC0()
 }
 
 MATCH_FUNC(0x4C5AD0)
-void lucid_hamilton::sub_4C5AD0(char_type a2)
+void lucid_hamilton::SetStartedFromPlayBonusMenu_4C5AD0(char_type a2)
 {
-    field_43A = a2;
+    field_43A_bStartedFromPlayBonusMenu = a2;
 }
 
 MATCH_FUNC(0x4C5AE0)
-char_type lucid_hamilton::sub_4C5AE0()
+char_type lucid_hamilton::IsStartedFromPlayBonusMenu_4C5AE0()
 {
-    return field_43A;
+    return field_43A_bStartedFromPlayBonusMenu;
 }
 
 MATCH_FUNC(0x4C5AF0)

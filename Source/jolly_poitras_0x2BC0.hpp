@@ -1597,8 +1597,8 @@ struct jolly_poitras_0x2BC0
     s32 field_17F8;
     s32 field_17FC;
     struc_221 field_1800_best_stats[3];
-    s32 field_1878[3];
-    s32 field_1884[3];
+    s32 field_1878_best_car_damage_cost[3];
+    s32 field_1884_best_evasion_rating[3];
     high_score_table_0xF0 field_1890_stage_scores[3][4];
     high_score_table_0xF0 field_23D0;
     high_score_table_0xF0 field_24C0;
