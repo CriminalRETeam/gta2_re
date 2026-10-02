@@ -1014,7 +1014,7 @@ void CarAI_78::sub_448770()
                 Sprite* pNearestSpriteOfType = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(obj_5C_f58, 0);
                 if (pNearestSpriteOfType)
                 {
-                    if (pNearestSpriteOfType->field_30_sprite_type_enum == sprite_types_enum::car_2)
+                    if (pNearestSpriteOfType->get_type_416B40() == sprite_types_enum::car_2)
                     {
                         this->field_0_car->DoBreak_43A950();
                         this->field_8 = 0;
