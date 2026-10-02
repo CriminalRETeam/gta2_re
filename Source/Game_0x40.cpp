@@ -269,7 +269,7 @@ void Game_0x40::BootGame_4B8EB0()
     gMap_0x370_6F6268->update_lights_4DFCD0(); // lights
     if (!bSkip_traffic_lights_67D4EC)
     {
-        gTrafficLights_194_705958->sub_5C2AC0();
+        gTrafficLights_194_705958->CreateFromMapZones_5C2AC0();
     }
     gPublicTransport_181C_6FF1D4->SpawnTrainsFromStations_578860(); // trains?
 
