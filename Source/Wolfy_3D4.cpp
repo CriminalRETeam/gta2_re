@@ -236,7 +236,7 @@ Wolfy_30::~Wolfy_30()
 }
 
 WIP_FUNC(0x540d30)
-void Wolfy_30::state_3_12_540D30(Fix16 speed, Ang16 a2)
+void Wolfy_30::state_3_12_540D30(Ang16 a2, Fix16 speed)
 {
     WIP_IMPLEMENTED;
 
@@ -1083,85 +1083,66 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
     }
 }
 
-WIP_FUNC(0x5434a0)
+MATCH_FUNC(0x5434a0)
 char_type Wolfy_30::Update_5434A0(Fix16 speed, Ang16 ang)
 {
-    WIP_IMPLEMENTED;
-
-    s16 timer = this->field_1A_timer;
+    u16 timer = this->field_1A_timer;
     if (timer != 9999)
     {
-        if (timer)
+        if (timer > 0)
         {
             this->field_1A_timer = timer - 1;
         }
     }
 
-    char_type result;
-    if (this->field_1A_timer)
-    {
-        if (bSkip_particles_67D64D)
-        {
-            return 1;
-        }
-        else
-        {
-            switch (this->field_10_type_or_state)
-            {
-                case 3:
-                case 12:
-                    Wolfy_30::state_3_12_540D30(speed, ang);
-                    result = 0;
-                    break;
-                case 4:
-                    Wolfy_30::state_4_540F90(ang, speed);
-                    result = 0;
-                    break;
-                case 5:
-                    Wolfy_30::state_5_541430(ang, speed);
-                    result = 0;
-                    break;
-                case 13:
-                case 14:
-                    Wolfy_30::state_13_14_5411E0(ang, speed);
-                    result = 0;
-                    break;
-                case 18:
-                case 19:
-                case 20:
-                case 32:
-                case 33:
-                    Wolfy_30::state_18_19_20_32_33_542790();
-                    result = 0;
-                    break;
-                case 22:
-                    Wolfy_30::state_22_23_24_25_542E30(3);
-                    goto LABEL_18;
-                case 23:
-                    Wolfy_30::state_22_23_24_25_542E30(2);
-                    result = 0;
-                    break;
-                case 24:
-                    Wolfy_30::state_22_23_24_25_542E30(0);
-                    result = 0;
-                    break;
-                case 25:
-                    Wolfy_30::state_22_23_24_25_542E30(1);
-                    result = 0;
-                    break;
-                default:
-                LABEL_18:
-                    result = 0;
-                    break;
-            }
-        }
-    }
-    else
+    if (!this->field_1A_timer)
     {
         Wolfy_30::DeInit_543610();
         return 1;
     }
-    return result;
+
+    if (bSkip_particles_67D64D)
+    {
+        return 1;
+    }
+
+    switch (this->field_10_type_or_state)
+    {
+        case 3:
+        case 12:
+            Wolfy_30::state_3_12_540D30(ang, speed);
+            return 0;
+        case 13:
+        case 14:
+            Wolfy_30::state_13_14_5411E0(ang, speed);
+            return 0;
+        case 4:
+            Wolfy_30::state_4_540F90(ang, speed);
+            return 0;
+        case 5:
+            Wolfy_30::state_5_541430(ang, speed);
+            return 0;
+        case 18:
+        case 19:
+        case 20:
+        case 32:
+        case 33:
+            Wolfy_30::state_18_19_20_32_33_542790();
+            return 0;
+        case 24:
+            Wolfy_30::state_22_23_24_25_542E30(0);
+            return 0;
+        case 25:
+            Wolfy_30::state_22_23_24_25_542E30(1);
+            return 0;
+        case 23:
+            Wolfy_30::state_22_23_24_25_542E30(2);
+            return 0;
+        case 22:
+            Wolfy_30::state_22_23_24_25_542E30(3);
+            return 0;
+    }
+    return 0;
 }
 
 MATCH_FUNC(0x5435d0)
