@@ -1650,44 +1650,30 @@ bool Car_6C::CanAlloc_446870(s32 type)
     return result;
 }
 
-WIP_FUNC(0x446930)
+MATCH_FUNC(0x446930)
 bool Car_6C::CanAllocateOfType_446930(s32 type)
 {
-    WIP_IMPLEMENTED;
-
-    bool bCanAlloc; // eax
-
     switch (type)
     {
-        case car_kind::recycled_1:
-            bCanAlloc = gCar_6C_677930->field_28_recycled_cars + gCar_6C_677930->field_40_proto_recycled_cars < 16;
-            break;
-        case car_kind::paramedic_car_4:
-            bCanAlloc = this->field_2C_paramedic_cars < 2;
-            break;
         case car_kind::firefighter_5:
-            bCanAlloc = this->field_30_firefighter_cars < 2;
-            break;
+            return this->field_30_firefighter_cars < 2;
+        case car_kind::paramedic_car_4:
+            return this->field_2C_paramedic_cars < 2;
         case car_kind::police_6:
-            bCanAlloc = this->field_34_unit_cars < 6;
-            break;
+            return this->field_34_unit_cars < 6;
         case car_kind::roadblock_car_7:
-            bCanAlloc = this->field_38_roadblock_cars < 12;
-            break;
-        case car_kind::mission_car_8:
-            bCanAlloc = this->field_3C_mission_cars < 24;
-            break;
-        case car_kind::parked_car_9:
-            bCanAlloc = this->field_44_parked_cars < 200;
-            break;
+            return this->field_38_roadblock_cars < 12;
         case car_kind::Unknown_10:
-            bCanAlloc = this->field_48 < 12;
-            break;
+            return this->field_48 < 12;
+        case car_kind::parked_car_9:
+            return this->field_44_parked_cars < 200;
+        case car_kind::recycled_1:
+            return gCar_6C_677930->field_28_recycled_cars + gCar_6C_677930->field_40_proto_recycled_cars < 16;
+        case car_kind::mission_car_8:
+            return this->field_3C_mission_cars < 24;
         default:
-            bCanAlloc = false;
-            break;
+            return false;
     }
-    return bCanAlloc;
 }
 
 WIP_FUNC(0x4469f0)
