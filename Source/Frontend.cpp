@@ -4601,7 +4601,7 @@ void Frontend::sub_4B55F0()
         }
         else // tag game
         {
-            s32 player_time = gYouthful_einstein_6F8450.field_4_time[curr_plyr_idx];
+            s32 player_time = gYouthful_einstein_6F8450.GetTime_453AA0(curr_plyr_idx);
             swprintf(Buffer, L"%2d:%02d", player_time / 60, player_time % 60);
             x_pos = 500;
             y_pos = 20 * curr_plyr_idx + 170;
