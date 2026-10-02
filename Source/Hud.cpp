@@ -2149,9 +2149,9 @@ void Hud_Arrow_7C_Array::DrawArrows_5D0E90()
         // Limit drawn arrows in multiplayer
         for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_array); i++)
         {
-            if (field_0_array[i].field_18.field_18_primary_target.field_C_player == NULL ||
-                field_0_array[i].field_18.field_18_primary_target.field_C_player->GetPlayerPed_41D020() == NULL ||
-                field_0_array[i].field_18.field_18_primary_target.field_C_player->GetPlayerPed_41D020()->field_21C_bf.b25 == 0)
+            if (field_0_array[i].field_18.field_18_primary_target.GetTargetPlayer_4C6F30() == NULL ||
+                field_0_array[i].field_18.field_18_primary_target.GetTargetPlayer_4C6F30()->GetPlayerPed_41D020() == NULL ||
+                field_0_array[i].field_18.field_18_primary_target.GetTargetPlayer_4C6F30()->GetPlayerPed_41D020()->field_21C_bf.b25 == 0)
             {
                 field_0_array[i].DrawArrow_5D0C90();
             }

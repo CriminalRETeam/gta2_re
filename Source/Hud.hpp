@@ -425,6 +425,12 @@ class ArrowTrace_24
         return field_10_target_type == ArrowTargetType::Nothing_0;
     }
     
+    // 9.6f 0x4C6F30
+    inline Player* GetTargetPlayer_4C6F30()
+    {
+        return field_C_player;
+    }
+
     // 9.6f inline 0x4820A0
     inline void SetTargetPlayer_4820A0(Player* player)
     {
