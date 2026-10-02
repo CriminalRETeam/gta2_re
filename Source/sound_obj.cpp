@@ -988,11 +988,9 @@ void sound_obj::sub_41A6F0()
     }
 }
 
-WIP_FUNC(0x41A3F0)
+MATCH_FUNC(0x41A3F0)
 char_type sound_obj::CalcVolume_41A3F0(u8 a1, Fix16 a2, Fix16 a3)
 {
-    WIP_IMPLEMENTED;
-
     if (a2 == dword_674CD8)
     {
         return 0;
