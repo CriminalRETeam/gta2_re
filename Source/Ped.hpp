@@ -418,6 +418,12 @@ class Ped
         field_140 = pCar;
     }
 
+    // 9.6f 0x49EF40
+    inline Car_BC* get_field_140_49EF40()
+    {
+        return field_140;
+    }
+
     // 9.6f inline 0x403AE0
     void set_field_14C_403AE0(Ped* pSrc)
     {

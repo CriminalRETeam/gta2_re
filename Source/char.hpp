@@ -155,16 +155,19 @@ class Char_B4
         field_40_rotation = rotation;
     }
 
+    // 9.6f 0x4339C0
     inline Fix16 get_sprite_xpos()
     {
         return field_80_sprite_ptr->field_14_xy.x;
     }
 
+    // 9.6f 0x4339E0
     inline Fix16 get_sprite_ypos()
     {
         return field_80_sprite_ptr->field_14_xy.y;
     }
 
+    // 9.6f 0x433A00
     inline Fix16 get_sprite_zpos()
     {
         return field_80_sprite_ptr->field_1C_zpos;

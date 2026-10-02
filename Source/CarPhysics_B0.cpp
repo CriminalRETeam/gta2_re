@@ -2835,11 +2835,7 @@ void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
 {
     WIP_IMPLEMENTED;
 
-    Sprite* pSprite = pCharB4->field_80_sprite_ptr;
-
-    Fix16_Point sprite_xy;
-    sprite_xy.x = pSprite->field_14_xy.x;
-    sprite_xy.y = pSprite->field_14_xy.y;
+    Fix16_Point sprite_xy(pCharB4->get_sprite_xpos(), pCharB4->get_sprite_ypos());
 
     Fix16_Point combinedCentreOfmass = ComputeCombinedCenterOfMass_559EC0();
     Fix16_Point relativePointVel = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
@@ -2865,7 +2861,7 @@ void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
     intersect_abs.y = pIntersection.y;
 
     u8 bUnknown =
-        field_98_surface_type == car_surface_type::air_surface_6 && pCharB4->field_80_sprite_ptr->field_1C_zpos != field_5C_pCar->field_50_car_sprite->field_1C_zpos ||
+        field_98_surface_type == car_surface_type::air_surface_6 && pCharB4->get_sprite_zpos() != field_5C_pCar->field_50_car_sprite->field_1C_zpos ||
         hitType == 0;
 
     dword_6FE33C = pIntersection.GetLength_2();
@@ -2882,7 +2878,7 @@ void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
         pCharB4->field_7C_pPed->field_264 = 50;
 
         Ped* pPed = pCharB4->field_7C_pPed;
-        if (pPed->field_140 == this->field_5C_pCar)
+        if (pPed->get_field_140_49EF40() == this->field_5C_pCar)
         {
             pPed->field_290 = 3;
         }
@@ -2913,7 +2909,7 @@ void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
                             pCharB4->field_7C_pPed->field_264 = 50;
 
                             Ped* pPed = pCharB4->field_7C_pPed;
-                            if (pPed->field_140 == this->field_5C_pCar->field_64_pTrailer->field_8_truck_cab)
+                            if (pPed->get_field_140_49EF40() == this->field_5C_pCar->field_64_pTrailer->field_8_truck_cab)
                             {
                                 pPed->field_290 = 3;
                             }
