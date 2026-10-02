@@ -1339,6 +1339,12 @@ struct Car_BC_Pool
         field_0_pool.DeAllocate(pCar);
     }
 
+    // 9.6f 0x45AD30
+    inline s16 get_cars_count_45AD30()
+    {
+        return field_0_pool.field_X_count;
+    }
+
     // 9.6f 0x420E50
     inline Car_BC* GetFirstCar_420E50()
     {
