@@ -3609,55 +3609,33 @@ void sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
     {
         case car_model_enum::VTYPE:
             emitter = FindEmitterByStatus_57F050(5);
-            if (emitter == 127)
-            {
-                emitter = 0;
-            }
             break;
         case car_model_enum::ISETTA:
             emitter = FindEmitterByStatus_57F050(7);
-            if (emitter == 127)
-            {
-                emitter = 0;
-            }
             break;
         case car_model_enum::MIURA:
             emitter = FindEmitterByStatus_57F050(6);
-            if (emitter == 127)
-            {
-                emitter = 0;
-            }
             break;
         case car_model_enum::PICKUP:
             emitter = FindEmitterByStatus_57F050(8);
-            if (emitter == 127)
-            {
-                emitter = 0;
-            }
             break;
         case car_model_enum::STRATOSB:
             emitter = FindEmitterByStatus_57F050(9);
-            if (emitter == 127)
-            {
-                emitter = 0;
-            }
             break;
         case car_model_enum::BUICK:
             emitter = FindEmitterByStatus_57F050(11);
-            if (emitter == 127)
-            {
-                emitter = 0;
-            }
             break;
         case car_model_enum::KRSNABUS:
             emitter = FindEmitterByStatus_57F050(10);
-            if (emitter == 127)
-            {
-                emitter = 0;
-            }
             break;
         default:
+            emitter = 127;
             break;
+    }
+
+    if (emitter == 127)
+    {
+        emitter = 0;
     }
 
     u8 volume = ComputeRadioEmitterVolume_57EB90(emitter, 0);
