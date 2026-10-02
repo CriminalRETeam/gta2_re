@@ -177,7 +177,7 @@ void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
                 default:
                     pPed->SetRecentCrimeTimer_45B550();
                     ReportCrime(crime_type, pPed->field_200_id);
-                    if (pPed->field_15C_player)
+                    if (pPed->is_player_41B0A0())
                     {
                         gPolice_7B8_6FEE40->UpdateCriminalLatestPosition_570940(pPed);
                     }
