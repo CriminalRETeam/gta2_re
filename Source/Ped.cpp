@@ -10679,20 +10679,21 @@ void Ped::RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius)
     struct_4 collision_list; // [esp+8h] [ebp-1Ch] BYREF
     Fix16_Rect rect; // [esp+Ch] [ebp-18h] BYREF
 
-    collision_list.field_0_p18 = 0;
     pGroup_ = this->field_164_ped_group;
     if (!pGroup_)
     {
         SpawnPedGroupFollowers_46E200(0);
         z_copy = desiredCount;
     LABEL_7:
+        // 9.6f: Fix16_Rect::ComputeCollisionPrism_4204D0(x, y, searchRadius, z) (inlined, but here with
+        // k_dword_67845C where the Fix16_Rect.hpp one uses k_dword_6771E4)
         x = this->field_1AC_cam.x;
-        // desiredCount = this->field_1AC_cam.z;
         y = this->field_1AC_cam.y;
         rect.field_0_left = x - searchRadius / 2;
         rect.field_4_right = searchRadius / 2 + x;
         rect.field_C_bottom = y + searchRadius / 2;
         rect.field_8_top = y - searchRadius / 2;
+        searchRadius = this->field_1AC_cam.z;
         rect.field_10_low_z = searchRadius - k_dword_67845C;
         rect.field_14_high_z = searchRadius + k_dword_67845C;
         pSprite = GetSprite_46DF50();
