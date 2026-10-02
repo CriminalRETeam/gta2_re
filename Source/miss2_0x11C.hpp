@@ -174,7 +174,7 @@ struct SCR_THREAD : SCR_CMD_HEADER
         struct
         {
             u16 field_10;
-            u16 field_12;
+            u16 field_12_car_or_phone_idx;
         };
         struct
         {
@@ -182,7 +182,7 @@ struct SCR_THREAD : SCR_CMD_HEADER
             u8 field_12_x;
             u8 field_13_y;
             u8 field_14_z;
-            char_type field_15;
+            char_type field_15_trigger_idx;
             u8 field_16_flag;
         };
     };
@@ -368,13 +368,13 @@ struct SCR_START_BONUS : SCR_CMD_HEADER
 {
     u16 field_8_zone_str_id;
     u8 field_A_subtype;
-    s8 field_B;
-    s8 field_C;
+    s8 field_B_remap;
+    s8 field_C_target_count;
     u8 field_D;
     u16 field_E_id;
-    u16 field_10;
-    s16 field_12;
-    u16 field_14;
+    u16 field_10_time_limit;
+    s16 field_12_alt_car_model;
+    u16 field_14_reward;
     u16 field_16;
     u16 field_18_ptr;
     u8 field_1A;
@@ -927,7 +927,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_DECLARE_CARLIST_505750(SCR_TWO_PARAMS* pCmd);
     EXPORT void DisableThread_505790(u16 idx);
     EXPORT void DeallocOrDeleteItem_505B10(u16 idx);
-    EXPORT s16 sub_505EA0(u16 idx);
+    EXPORT s16 GetBonusResult_505EA0(u16 idx);
     EXPORT void SCRCMD_DISPLAY_MESSAGES_505F50(SCR_TWO_PARAMS* pCmd);
     EXPORT void SCRCMD_DEC_DEATH_BASE_506010(SCR_FOUR_PARAMS* pCmd);
     EXPORT void SCRCMD_DO_CRANE_POWERUP_5060D0(SCR_DECLARE_CRANE_POWERUP* pCmd);

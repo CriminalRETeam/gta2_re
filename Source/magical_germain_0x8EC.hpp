@@ -57,8 +57,8 @@ class magical_germain_0x8EC
     EXPORT void RenderLargeGlyph_4D2690(wchar_t text_char);
     EXPORT STexture* GetSmallGlyphTexture_4D2710(wchar_t text_char);
     EXPORT STexture* GetLargeGlyphTexture_4D27D0(wchar_t a2);
-    EXPORT void sub_4D28A0(u16 a2);
-    EXPORT void sub_4D29D0(u16 a2);
+    EXPORT void SetGlyphParamsFromFont_4D28A0(u16 a2);
+    EXPORT void SetGlyphParamsFromRemap_4D29D0(u16 a2);
     EXPORT void InitGlyphCaches_4D2B40();
     EXPORT magical_germain_0x8EC();
     EXPORT ~magical_germain_0x8EC();

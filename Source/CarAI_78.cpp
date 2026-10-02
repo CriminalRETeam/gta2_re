@@ -3026,7 +3026,7 @@ void CarAI_78::Init_AI_Chase_44E0C0()
 
                         this->field_8 = 0;
                         this->field_24_flags &= ~0x4540u;
-                        this->field_0_car->field_60->field_C = 0;
+                        this->field_0_car->field_60->field_C_relationship_code = 0;
                         this->field_0_car->field_60->field_2A = 0;
                         this->field_0_car->field_80 = 0;
                         field_0_car->RepairDamage_43D400();
@@ -3135,13 +3135,13 @@ void CarAI_78::UpdateStateMachine_44E560()
         {
             if ((field_0_car->field_60->field_8_maybe_path_type - 1) == 1)
             {
-                field_0_car->field_60->field_C = 5;
+                field_0_car->field_60->field_C_relationship_code = 5;
             }
             else
             {
                 if (field_0_car->field_60->field_30_ped_to_follow->field_168_game_object)
                 {
-                    field_0_car->field_60->field_C = 0;
+                    field_0_car->field_60->field_C_relationship_code = 0;
                 }
                 else if (field_0_car->IsPoliceCar_439EC0())
                 {
@@ -3195,7 +3195,7 @@ void CarAI_78::UpdateStateMachine_44E560()
             v12 = dword_6779C0;
         }
 
-        switch (pHam40->field_C)
+        switch (pHam40->field_C_relationship_code)
         {
             case 0:
             {
@@ -3433,7 +3433,7 @@ void CarAI_78::UpdateStateMachine_44E560()
                 {
                     if (v246 != 1)
                     {
-                        pHam40->field_C = 10;
+                        pHam40->field_C_relationship_code = 10;
                         return;
                     }
                     pHam40->field_10 = 1;
@@ -3540,7 +3540,7 @@ void CarAI_78::UpdateStateMachine_44E560()
                 {
                     if (v71 != 1)
                     {
-                        pHam40->field_C = 11;
+                        pHam40->field_C_relationship_code = 11;
                         return;
                     }
                     pHam40->field_10 = 1;
@@ -3633,7 +3633,7 @@ void CarAI_78::UpdateStateMachine_44E560()
                 Fix16 v99 = Fix16::Abs_436A50(gCurrCarAI_TargetX_6779F0 - gCurrCarAI_xpos_677C38);
                 v245 = Fix16::Max_44E540(v99, v234);
                 v248 = Fix16::atan2_fixed_405320(gCurrCarAI_TargetY_6779F4 - gCurrCarAI_ypos_677C30, gCurrCarAI_TargetX_6779F0 - gCurrCarAI_xpos_677C38);
-                if (pHam40->field_C != 13)
+                if (pHam40->field_C_relationship_code != 13)
                 {
                     break;
                 }
@@ -3656,14 +3656,14 @@ void CarAI_78::UpdateStateMachine_44E560()
                     }
                     else
                     {
-                        pHam40->field_C = 15;
+                        pHam40->field_C_relationship_code = 15;
                     }
                 }
                 else
                 {
                     field_0_car->DoBreak_43A950();
                     pHam40->field_2C = 0;
-                    pHam40->field_C = 15;
+                    pHam40->field_C_relationship_code = 15;
                 }
                 return;
             }
@@ -3829,7 +3829,7 @@ LABEL_190:
     {
         field_0_car->DoBreak_43A950();
         pHam40->field_2C = 0;
-        pHam40->field_C = 15;
+        pHam40->field_C_relationship_code = 15;
         return;
     }
 
@@ -3843,25 +3843,25 @@ LABEL_190:
             }
             else if (pHam40->field_8_maybe_path_type != 1)
             {
-                pHam40->field_C = 13;
+                pHam40->field_C_relationship_code = 13;
                 if (gHamburger_500_678E30->FindOwnerForFollowCode_4748A0(0, pHam40->field_30_ped_to_follow))
                 {
-                    pHam40->field_C = 2;
+                    pHam40->field_C_relationship_code = 2;
                 }
                 else
                 {
                     /*
                     v217 = -(gHamburger_500_678E30->FindOwnerForFollowCode_4748A0(5, pHam40->field_30_ped_to_follow) != 0);
                     LOBYTE(v217) = v217 & 0xFE;
-                    pHam40->field_C = v217 + 2;
+                    pHam40->field_C_relationship_code = v217 + 2;
                     */
                     if (gHamburger_500_678E30->FindOwnerForFollowCode_4748A0(5, pHam40->field_30_ped_to_follow))
                     {
-                        pHam40->field_C = 0;
+                        pHam40->field_C_relationship_code = 0;
                     }
                     else
                     {
-                        pHam40->field_C = 2;
+                        pHam40->field_C_relationship_code = 2;
                     }
                 }
                 pHam40->field_2E = 0;
@@ -3877,7 +3877,7 @@ LABEL_190:
 
         dword_677A8C = gCurrCarAI_TargetCar_6779B0->GetCarLinearSpeed_43A240();
 
-        switch (pHam40->field_C)
+        switch (pHam40->field_C_relationship_code)
         {
             case 0:
             case 2:
@@ -3902,18 +3902,18 @@ LABEL_190:
                         {
                             pHam40->field_2A = 100;
                             pHam40->field_2C = 0;
-                            pHam40->field_C = 5;
+                            pHam40->field_C_relationship_code = 5;
                             return;
                         }
 
                         Hamburger_40* v138 = v137->field_16C_car->field_60;
                         if (v138->field_2C > 0xAu)
                         {
-                            v138->field_C = 3;
+                            v138->field_C_relationship_code = 3;
                             v137->field_16C_car->field_60->field_2C = 0;
                             pHam40->field_2A = 100;
                             pHam40->field_2C = 0;
-                            pHam40->field_C = 5;
+                            pHam40->field_C_relationship_code = 5;
                             return;
                         }
                     }
@@ -3975,7 +3975,7 @@ LABEL_190:
                         this->field_70_nearest_entity = NearestSpriteOfType_477E60;
                         if (!NearestSpriteOfType_477E60)
                         {
-                            pHam40->field_C = 6;
+                            pHam40->field_C_relationship_code = 6;
                         }
                     }
                 }
@@ -4059,7 +4059,7 @@ LABEL_190:
                         this->field_70_nearest_entity = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_0_car->field_50_car_sprite, 0);
                         if (!this->field_70_nearest_entity)
                         {
-                            pHam40->field_C = 7;
+                            pHam40->field_C_relationship_code = 7;
                         }
                     }
                 }
@@ -4255,7 +4255,7 @@ LABEL_190:
                                                 gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_0_car->field_50_car_sprite, 0);
                                             if (!this->field_70_nearest_entity)
                                             {
-                                                pHam40->field_C = 7;
+                                                pHam40->field_C_relationship_code = 7;
                                             }
                                         }
                                     }
@@ -4263,7 +4263,7 @@ LABEL_190:
                             }
                             else
                             {
-                                pHam40->field_C = 6;
+                                pHam40->field_C_relationship_code = 6;
                             }
                         }
                         break;
@@ -4283,7 +4283,7 @@ LABEL_190:
                 }
                 else
                 {
-                    pHam40->field_C = 8;
+                    pHam40->field_C_relationship_code = 8;
                 }
                 return;
 
@@ -4295,7 +4295,7 @@ LABEL_190:
                 }
                 else
                 {
-                    pHam40->field_C = 9;
+                    pHam40->field_C_relationship_code = 9;
                 }
                 return;
 
@@ -4336,7 +4336,7 @@ LABEL_190:
             case 11:
                 if (v245 < kFpQuarter_6779BC)
                 {
-                    pHam40->field_C = 12;
+                    pHam40->field_C_relationship_code = 12;
                 }
                 return;
 
@@ -4346,7 +4346,7 @@ LABEL_190:
                 {
                     ++pHam40->field_3C;
                     field_0_car->field_58_physics->ClearDriverInputs_453F90();
-                    pHam40->field_C = 13;
+                    pHam40->field_C_relationship_code = 13;
                 }
                 return;
             default:
@@ -4549,7 +4549,7 @@ void CarAI_78::ReactToNearbyCar_451980()
 
                                 if (field_0_car->field_60)
                                 {
-                                    switch (field_0_car->field_60->field_C)
+                                    switch (field_0_car->field_60->field_C_relationship_code)
                                     {
                                         case 3:
                                         case 6:

@@ -1369,7 +1369,7 @@ char_type Sprite::CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 sca
     {
         gRozza_679188.field_0_type = 1;
         gRozza_679188.field_4_mapx_t1 = scanXMin;
-        gRozza_679188.field_8 = scanXMax;
+        gRozza_679188.field_8_mapx_max_t1 = scanXMax;
         gRozza_679188.field_18_mapy_t1 = scanY;
         gRozza_679188.field_20_pSprite = 0;
         return 1;
@@ -1476,7 +1476,7 @@ char_type Sprite::HitTestVerticalLine_5A0EF0(Fix16 a2, Fix16 a3, Fix16 a4)
     {
         gRozza_679188.field_C_mapy_t2 = a2;
         gRozza_679188.field_0_type = 2;
-        gRozza_679188.field_10 = a3;
+        gRozza_679188.field_10_mapy_max_t2 = a3;
         gRozza_679188.field_14_mapx_t2 = a4;
         gRozza_679188.field_20_pSprite = 0;
         return 1;
@@ -1941,28 +1941,28 @@ char_type Sprite::CheckSpriteMovementRegion_5A2500()
     {
         if (field_14_xy.x < kFP16One_7035C4)
         {
-            gRozza_679188.sub_4BA280(kFP16One_7035C4, (field_14_xy.y.GetRoundValue()) + kFP16One_7035C4, field_14_xy.y.GetRoundValue());
+            gRozza_679188.SetVerticalSegment_4BA280(kFP16One_7035C4, (field_14_xy.y.GetRoundValue()) + kFP16One_7035C4, field_14_xy.y.GetRoundValue());
             gRozza_679188.SetMapZ_4BA2B0(field_1C_zpos);
             return 1;
         }
 
         if (field_14_xy.x > k_dword_7033B4)
         {
-            gRozza_679188.sub_4BA280(k_dword_7033B4, (field_14_xy.y.GetRoundValue()) + k_dword_7033B4, field_14_xy.y.GetRoundValue());
+            gRozza_679188.SetVerticalSegment_4BA280(k_dword_7033B4, (field_14_xy.y.GetRoundValue()) + k_dword_7033B4, field_14_xy.y.GetRoundValue());
             gRozza_679188.SetMapZ_4BA2B0(field_1C_zpos);
             return 1;
         }
 
         if (field_14_xy.y < kFP16One_7035C4)
         {
-            gRozza_679188.sub_4BA250(field_14_xy.x.GetRoundValue(), (field_14_xy.x.GetRoundValue()) + kFP16One_7035C4, kFP16One_7035C4);
+            gRozza_679188.SetHorizontalSegment_4BA250(field_14_xy.x.GetRoundValue(), (field_14_xy.x.GetRoundValue()) + kFP16One_7035C4, kFP16One_7035C4);
             gRozza_679188.SetMapZ_4BA2B0(field_1C_zpos);
             return 1;
         }
 
         if (field_14_xy.y > k_dword_7033B4)
         {
-            gRozza_679188.sub_4BA250(field_14_xy.x.GetRoundValue(), (field_14_xy.x.GetRoundValue()) + kFP16One_7035C4, k_dword_7033B4);
+            gRozza_679188.SetHorizontalSegment_4BA250(field_14_xy.x.GetRoundValue(), (field_14_xy.x.GetRoundValue()) + kFP16One_7035C4, k_dword_7033B4);
             gRozza_679188.SetMapZ_4BA2B0(field_1C_zpos);
             return 1;
         }

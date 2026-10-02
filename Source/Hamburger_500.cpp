@@ -26,7 +26,7 @@ void Hamburger_40::ResetEntry_4747B0()
     field_2A = 0;
     field_2C = 0;
     field_2E = 0;
-    field_C = PedRelationship::Code0;
+    field_C_relationship_code = PedRelationship::Code0;
     field_34 = 0;
     field_4_ped_owner = 0;
     field_38 = 0;
@@ -84,7 +84,7 @@ Ped* Hamburger_500::FindOwnerForFollowCode_4748A0(s32 a2, Ped* pPed)
     for (u8 i = 0; i < 20; i++)
     {
         if (field_0_entries[i].field_0_bInUse == 1 && field_0_entries[i].field_30_ped_to_follow == pPed && ArePedsCompatible_474850(pPed, field_0_entries[i].field_4_ped_owner) &&
-            a2 == field_0_entries[i].field_C)
+            a2 == field_0_entries[i].field_C_relationship_code)
         {
             return field_0_entries[i].field_4_ped_owner;
         }
@@ -131,7 +131,7 @@ char_type Hamburger_500::HasRelationshipCode_13_15_4749B0(Ped* pPed)
         {
             if (ArePedsCompatible_474850(pPed, field_0_entries[i].field_4_ped_owner))
             {
-                switch (field_0_entries[i].field_C)
+                switch (field_0_entries[i].field_C_relationship_code)
                 {
                     case PedRelationship::Code13:
                     case PedRelationship::Code15:
@@ -150,7 +150,7 @@ char_type Hamburger_500::HasRelationshipCode_8_474A20(Ped* pPed)
     {
         if (field_0_entries[i].field_0_bInUse == 1)
         {
-            if (ArePedsCompatible_474850(pPed, field_0_entries[i].field_4_ped_owner) && field_0_entries[i].field_C == 8)
+            if (ArePedsCompatible_474850(pPed, field_0_entries[i].field_4_ped_owner) && field_0_entries[i].field_C_relationship_code == 8)
             {
                 return 1;
             }
@@ -168,7 +168,7 @@ char_type Hamburger_500::HasRelationshipCode_6_8_10_474A80(Ped* pPed)
         {
             if (ArePedsCompatible_474850(pPed, field_0_entries[i].field_4_ped_owner))
             {
-                switch (field_0_entries[i].field_C)
+                switch (field_0_entries[i].field_C_relationship_code)
                 {
                     case PedRelationship::Code6:
                     case PedRelationship::Code8:
@@ -188,7 +188,7 @@ char_type Hamburger_500::HasRelationshipCode_9_474AF0(Ped* pPed)
     {
         if (field_0_entries[i].field_0_bInUse == 1)
         {
-            if (ArePedsCompatible_474850(pPed, field_0_entries[i].field_4_ped_owner) && field_0_entries[i].field_C == 9)
+            if (ArePedsCompatible_474850(pPed, field_0_entries[i].field_4_ped_owner) && field_0_entries[i].field_C_relationship_code == 9)
             {
                 return 1;
             }
@@ -206,7 +206,7 @@ char_type Hamburger_500::HasRelationshipCode_7_9_11_474B50(Ped* pPed)
         {
             if (ArePedsCompatible_474850(pPed, field_0_entries[i].field_4_ped_owner))
             {
-                switch (field_0_entries[i].field_C)
+                switch (field_0_entries[i].field_C_relationship_code)
                 {
                     case PedRelationship::Code7:
                         return 1;
@@ -229,7 +229,7 @@ char_type Hamburger_500::HasRelationshipCode_6_7_8_9_13_474BC0(Ped* pPed)
         {
             if (ArePedsCompatible_474850(pPed, field_0_entries[i].field_4_ped_owner))
             {
-                if (field_0_entries[i].field_C >= PedRelationship::Code6 && (field_0_entries[i].field_C <= PedRelationship::Code9 || field_0_entries[i].field_C == PedRelationship::Code13))
+                if (field_0_entries[i].field_C_relationship_code >= PedRelationship::Code6 && (field_0_entries[i].field_C_relationship_code <= PedRelationship::Code9 || field_0_entries[i].field_C_relationship_code == PedRelationship::Code13))
                 {
                     return 1;
                 }
@@ -248,12 +248,12 @@ char_type Hamburger_500::HasRelationshipCode_4_5_474C30(Ped* pPed)
         {
             if (ArePedsCompatible_474850(pPed, field_0_entries[i].field_4_ped_owner))
             {
-                if (field_0_entries[i].field_C < PedRelationship::Code4)
+                if (field_0_entries[i].field_C_relationship_code < PedRelationship::Code4)
                 {
                     continue;
                 }
 
-                if (field_0_entries[i].field_C <= PedRelationship::Code5)
+                if (field_0_entries[i].field_C_relationship_code <= PedRelationship::Code5)
                 {
                     return 1;
                 }

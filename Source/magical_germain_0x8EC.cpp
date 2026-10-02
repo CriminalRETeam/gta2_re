@@ -196,7 +196,7 @@ STexture* magical_germain_0x8EC::GetLargeGlyphTexture_4D27D0(wchar_t text_char)
 }
 
 MATCH_FUNC(0x4D28A0)
-void magical_germain_0x8EC::sub_4D28A0(u16 font_type)
+void magical_germain_0x8EC::SetGlyphParamsFromFont_4D28A0(u16 font_type)
 {
     switch (font_type)
     {
@@ -237,7 +237,7 @@ void magical_germain_0x8EC::sub_4D28A0(u16 font_type)
 }
 
 STUB_FUNC(0x4D29D0)
-void magical_germain_0x8EC::sub_4D29D0(u16 a2)
+void magical_germain_0x8EC::SetGlyphParamsFromRemap_4D29D0(u16 a2)
 {
     NOT_IMPLEMENTED;
     if (gGame_0x40_67E008)
