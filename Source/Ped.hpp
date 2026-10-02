@@ -128,6 +128,12 @@ class Ped
         field_218_objective_timer = v;
     }
 
+    // 9.6f 0x475B40
+    inline void clear_last_char_punched_475B40()
+    {
+        field_188_last_char_punched = 0;
+    }
+
     // 9.6f 0x475B10
     inline Ped* get_last_char_punched_475B10()
     {

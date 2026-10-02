@@ -4424,7 +4424,7 @@ void miss2_0x11C::SCRCMD_GET_LAST_PUNCHED_50C350()
     SCR_POINTER* pCharPunchedPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2);
 
     pCharPunchedPointer->field_8_char = pCharTargetPointer->field_8_char->get_last_char_punched_475B10();
-    pCharTargetPointer->field_8_char->field_188_last_char_punched = 0; //  reset
+    pCharTargetPointer->field_8_char->clear_last_char_punched_475B40();
 
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
