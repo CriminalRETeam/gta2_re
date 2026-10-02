@@ -1666,7 +1666,7 @@ void Player::sub_566EE0(char_type bDoNothing)
 {
     if (!bDoNothing)
     {
-        Ped* pPed = Get_Field_68_Ped();
+        Ped* pPed = GetPlayerPed_4A5130();
         Car_BC* pCar = pPed->get_car_416B60();
 
         if (pCar)
