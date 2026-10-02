@@ -1413,3 +1413,9 @@ Each was a few asm lines away from the original. What is left and what was tried
 - `MapRenderer::sub_4EC450`, `sub_4ECAF0`, `sub_4ECE40` (and `sub_4EC7A0`): closer 47->28, 49->30, ->28. atan2(dy, dx) order, angle test `> 45 && < 225`, Fix16(f32) via 16384.0f, 4ECE40 uses GetTexture_46BB50. Left: x87 scheduling
 - `MapRenderer::draw_lid_4EE130`: no change
 - `Weapon_30::oil_stain_5E1DC0` matched once the z bound was `k_dword_706EDC - k_dword_706F70` and the half depth/lower bound got named locals (inline budget)
+
+### Near-miss pass, batch H (2026-10-02)
+
+- `MapRenderer::draw_left_4F3C00`, `sub_4F4600`: closer 31->16 with the u8 `T_gbh_DrawTile` colour. Left: the ProjectVertTop_46BD40 scheduling (Still unexplained)
+- `MapRenderer::sub_4F66C0` (0x4F66C0): no change. original loads gBlockRight 16-bit in the draw_right branch and reloads Left/Top in another order after the calls. The `*(u32*)&gBlockBottom` hack there has no effect
+- `sub_4DADA0` (0x4DADA0): no change. original puts the clear block and pager-clear tail in the middle of the show path; inverted if, early returns, bShow at outer scope: same or worse

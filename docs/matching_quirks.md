@@ -243,6 +243,10 @@ found item or NULL. Open-coded loops make VC6 send all the returns to one shared
 `xor eax; mov field,edx; cmp; setl`; setting a bool local gives `cmpl $N,mem; setl` with no `xor`
 (`Car_6C::CanAllocateOfType_446930`, cases in the original block order).
 
+**`if (a || b)` through a `bool` local.** Written directly, VC6 laid the branches out inverted; computing
+`bool aligned = ...; if (aligned)` first gave the original layout (`CarPhysics_B0::HandleUserInputs_55A860`,
+which also inlines `IsVelocityAlignedWithHeading_40F840` and, inside it, `Fix16_Point::atan2_40ACD0`).
+
 ## Types and signedness
 
 **`jae`/`jb` vs `jge`/`jl` means unsigned vs signed.** Fix the field or parameter type, not the
@@ -819,6 +823,10 @@ both copies. Only a meaningless cast changed it.
 - `ebp` pushed only after an early null check (`Hud_Brief_704::ClearAllBriefsWithPriority_5D4890`).
 - x87 instruction scheduling around the inlined vertex helpers in the `MapRenderer::Draw*Sided*`
   functions.
+  The same `ProjectVertTop_46BD40` y line is now nearly the whole diff of `MapRenderer::sub_4EC450`, `sub_4EC7A0`,
+  `sub_4ECAF0`, `sub_4ECE40`, `draw_left_4F3C00` and `sub_4F4600`: the original loads the camera centre y after
+  the multiply and orders the u32 high-dword stores differently. Expression order in either line has no effect.
+  Solving it could match several functions at once.
 - A compare scheduled before a volatile load instead of after it (`cmp $0xF,%al` in
   `sound_obj::ProcessPoliceRadioWordsPlayback_427220`).
 - A store scheduled before the `lea` of an out pointer rather than after it
