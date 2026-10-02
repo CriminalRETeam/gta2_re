@@ -435,7 +435,7 @@ void eager_benz::sub_592660(Ped* pPed1, Ped* pPed2)
 
     field_1A8_unk.sub_4320D0(0,
                              87,
-                             pPed1->field_240_occupation,
+                             pPed1->get_occupation_403980(),
                              gang_idx,
                              pPed1->field_244_remap,
                              pPed1->field_290,
@@ -506,7 +506,7 @@ void eager_benz::sub_592660(Ped* pPed1, Ped* pPed2)
             bOtherGang = 1;
         }
 
-        switch (pPed1->field_240_occupation)
+        switch (pPed1->get_occupation_403980())
         {
             case 23:
             case 24:
@@ -682,7 +682,7 @@ scored:
     char_type bGiveScore = 1;
     if (bIsFrench_67D53C)
     {
-        s32 occupation = pPed1->field_240_occupation;
+        s32 occupation = pPed1->get_occupation_403980();
         if (occupation == 24 || occupation == 29 || occupation == 37 || bSwat || bArmy || bFbi)
         {
             bGiveScore = 0;
@@ -755,13 +755,13 @@ void eager_benz::sub_592DD0(Car_BC* pCar, Ped* pPed)
         }
     }
 
-    s32 cur_rng_2 = rng_dword_67AB34->field_0_rng;
-    if (pCar->field_84_car_info_idx == car_model_enum::FIRETRUK || pCar->IsCopCar_421790() ||
-        pCar->field_84_car_info_idx == car_model_enum::MEDICAR || pCar->field_84_car_info_idx == car_model_enum::SWATVAN ||
-        pCar->field_84_car_info_idx == car_model_enum::EDSELFBI)
+    s32 cur_rng_2 = rng_dword_67AB34->get_cur_rng_41CFE0();
+    if (pCar->IsFireTruck_4118F0() || pCar->IsCopCar_421790() ||
+        pCar->IsMediCar() || pCar->IsSwatVan_4217A0() ||
+        pCar->is_FBI_car_411920())
     {
 
-        if ((unsigned int)(rng_dword_67AB34->field_0_rng - field_1A0) > 150)
+        if ((unsigned int)(rng_dword_67AB34->get_cur_rng_41CFE0() - field_1A0) > 150)
         {
             field_1A4_killed_cars_flags = 0;
         }
