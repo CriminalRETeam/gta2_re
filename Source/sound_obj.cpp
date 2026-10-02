@@ -556,19 +556,17 @@ void sound_obj::InterrogateAudioEntities_41A730()
 
         if (v4 != NULL)
         {
-            Car_BC* field_16C_car = v4->field_16C_car;
+            Car_BC* field_16C_car = v4->get_car_416B60();
             if (field_16C_car != NULL)
             {
-                field_1468_v1 = field_16C_car->field_50_car_sprite->field_14_xy.x;
-                field_146C_v2 = field_16C_car->field_50_car_sprite->field_14_xy.y;
-                field_1470_v3 = field_16C_car->field_50_car_sprite->field_1C_zpos;
-                field_1474 = field_16C_car->field_50_car_sprite->field_0;
+                field_16C_car->GetXYZ_416B80(&field_1468_v1, &field_146C_v2, &field_1470_v3);
+                field_1474 = field_16C_car->get_car_rotation_416BB0();
             }
             else
             {
                 field_1468_v1 = v4->get_cam_x();
                 field_146C_v2 = v4->get_cam_y();
-                field_1470_v3 = v4->field_1AC_cam.z;
+                field_1470_v3 = v4->get_cam_z();
                 field_1474 = v4->GetRotation();
             }
         }

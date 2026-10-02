@@ -994,6 +994,15 @@ class Car_BC
         sub_43BFE0();
     }
 
+    // 9.6f 0x416B80
+    inline void GetXYZ_416B80(Fix16* pX, Fix16* pY, Fix16* pZ)
+    {
+        *pX = field_50_car_sprite->field_14_xy.x;
+        *pY = field_50_car_sprite->field_14_xy.y;
+        *pZ = field_50_car_sprite->field_1C_zpos;
+    }
+
+    // 9.6f 0x416BB0
     inline Ang16 get_car_rotation_416BB0()
     {
         return field_50_car_sprite->field_0;
