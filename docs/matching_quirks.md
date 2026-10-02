@@ -153,7 +153,9 @@ an entry for it, keep the case and put it where the original lays it out
 **A statement duplicated in both branches is hoisted after the test.** If the original
 schedules a store between `test` and `je` (`mov byte,%al; test %al,%al; mov ..; mov ..,(..); je`),
 write the store at the top of both the `if` and the `else` block rather than once before the
-`if` (`Object_2C::HandleSpriteGroundAndCollisionSimple_523770`).
+`if` (`Object_2C::HandleSpriteGroundAndCollisionSimple_523770`). The hoisted value can then share a
+register with one computed for the condition: `a2_ = a2;` at the top of both branches put it in `ebx` with
+the half constant in `CarPhysics_B0::UpdateZPosition_55B4F0`.
 
 **`if/else` block order follows the condition.** The `then` block is usually laid out first.
 If the original has your `else` block first, invert the condition and swap the blocks
@@ -224,6 +226,13 @@ original has (`CarPhysics_B0::vec_len_552DE0`).
 
 **Using the result of `+=` in a compare gives copy-then-compare.** `if ((ypos += gap) > X) break;` reproduced
 the original's loop shape in `Frontend::ManageCredits_4B7A10` (with the `u16` timer/index fields).
+
+**`if (n) { do {...} while (n); test }` skips a post-loop test for an empty loop.** A plain `for` inside an
+`if` doesn't give the original's layout (`PedGroup::FindNearestOtherMember_4CAE80`). There, reading one
+operand through an inline getter (`get_cam_x()`) and the other directly also set the load order of `a - b`.
+
+**A goto loop that returns the same value from several places is a `for` with `continue`.** That gave the
+shared `return 10` in `sad_mirzakhani::find_431EC0` (which also read the wrong field before).
 
 ## Types and signedness
 
@@ -539,6 +548,14 @@ unset in `default` reproduces the original reading the argument slot.
 the original called the exported const one at 0x408660. `Garage_48::ValidateParkCommand_534650` matched with
 the unused sum on a `const Fix16` in its own block, so a later `u8` temporary reuses its stack slot.
 
+**`return T(tmp.field)` copies out of a by-value call's temporary.** The original copies from the temporary
+atan2 returns into, straight into the hidden return slot; a named local copies from its own slot instead
+(`Car_BC::GetCornerAngle_4403A0`: `return Ang16(atan2(...).rValue);`).
+
+**A temporary that only gets an `init` call is raw storage.** `GangPool_CA8::SwapGangSlots_4BF230` calls
+only `init_4BED70` on its swap temporary, with no Gang_144 ctor or dtor: a `u8` buffer plus a reference to
+it, with the init called explicitly.
+
 ## Functions, thunks and calling conventions
 
 **`mov $1,%eax` in the callee but `test %al,%al` in the caller.** That's an `s32` (BOOL-style)
@@ -767,7 +784,9 @@ both copies. Only a meaningless cast changed it.
 - A compare scheduled before a volatile load instead of after it (`cmp $0xF,%al` in
   `sound_obj::ProcessPoliceRadioWordsPlayback_427220`).
 - A store scheduled before the `lea` of an out pointer rather than after it
-  (`sound_obj::InterrogateAudioEntities_41A730`, `Car_14::GetRandomTrafficSpeed_583750`).
+  (`sound_obj::InterrogateAudioEntities_41A730`). In `Car_14::GetRandomTrafficSpeed_583750` it went away
+  once each branch only set lo, hi and the random factor and one shared `*pRet = lo + t*(hi-lo)` ended the
+  function; the final sum is still in `ecx` instead of `eax` there.
 - A `switch` that clobbers its value (`add $-39,%eax`) and reloads the parameter for
   `default`, where ours uses `lea` into another register (`Object_2C::sub_526830`).
   Also `Network_20324::SetGameSpeedTextLabelAndSlider_51CFC0`. There each case also repeats the whole

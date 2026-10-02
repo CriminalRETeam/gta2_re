@@ -1377,3 +1377,14 @@ Each was a few asm lines away from the original. What is left and what was tried
 - `Ped::HandlePickupCollision_45DE80` (0x45DE80): no change. ebx/edi pushed only after the early returns (late push quirk)
 - `Frontend::GetNextUnlockedMainStage_4B7270` (0x4B7270): no change. ours goes branchless and doesn't hoist the loop flag load; 1800 permuter iterations, 54 -> 44 at best
 - `Network_20324::SetGameSpeedTextLabelAndSlider_51CFC0`: skipped, on the Still unexplained list
+
+### Near-miss pass, batch C (2026-10-02)
+
+- `Car_14::GetRandomTrafficSpeed_583750` (0x583750): closer 14->7. shared lo/hi/factor locals and one final lerp. Left: final sum in ecx, orig eax; by-value return, swapped operands, +=, a Lerp inline, `&(*p = x)`: same code
+- `0x442520`: only the EH state stores around `Fix16_Point::operator-` (0x40AC80) differ. `throw()` on it matches this one but changes 5 matched functions (Crane_15C x3, draw_4F3FB0, 0x40AC80), not kept
+- `0x463FB0`: order of two blocks in the switch default; every spelling gives the same layout, 9.6f has the original's
+- `0x4EB940`: the MapRenderer x87 scheduling quirk
+- `0x5AA9A0`: the door part fixes with a separate offset variable, but that shifts registers across the whole function (82 diff lines)
+- `0x4CDF30`: ebx/edi swap, nothing moved it
+- `0x5D4A10`: calls the duplicate Fix16(s32) ctor copy (documented)
+- `0x5213E0`: return block order; while(cond) loop and a result variable also tried, both failed
