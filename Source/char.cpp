@@ -1777,6 +1777,7 @@ void Char_B4::HandleObjectCollision_548840(Object_2C* pObj)
 
     //pObj_ = pObj;
     //out3 = 0;
+    u8 out3 = 0;
     bool bUnknown = 0;
     //v19 = 4;
     //pPhi = pObj->field_8;
@@ -1785,14 +1786,13 @@ void Char_B4::HandleObjectCollision_548840(Object_2C* pObj)
     Fix16_Point point;
     u8 a6;
     u8 out2;
-    u8 out3 = 0;
 
     s32 phi_type = pObj->field_8->field_34_behavior_type;
 
-    if (phi_type == 6 || phi_type == 7 || phi_type == 8 || phi_type == 9 || phi_type == 10 || phi_type == 1 || phi_type == 12 ||
-        (pObj->get_field_26_420FF0()) == 0 || pObj->get_field_26_420FF0() != this->field_7C_pPed->field_267_varrok_idx)
+    if (!pObj->is_not_type6_to_12_421080() || (pObj->get_field_26_420FF0()) == 0 ||
+        pObj->get_field_26_420FF0() != this->field_7C_pPed->field_267_varrok_idx)
     {
-        if (phi_type != 3 && phi_type != 4 && (phi_type > 2 || pObj->field_8->field_44 != 2))
+        if (!pObj->sub_482C90())
         {
             goto LABEL_28;
         }
@@ -1817,7 +1817,7 @@ void Char_B4::HandleObjectCollision_548840(Object_2C* pObj)
             }
         }
 
-        if (pObj->field_8->field_18_mass < dword_6FDAB0)
+        if (pObj->GetMass_482C80() < dword_6FDAB0)
         {
 
             field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
