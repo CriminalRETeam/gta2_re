@@ -3236,6 +3236,7 @@ Fix16 CarPhysics_B0::CalculateFrontWheelForce_561E50()
                 break;
         }
 
+        // 9.6f: Fix16_Point_POD::SetXY_432860 (inlined, using it makes the diff worse)
         Fix16_Point point2(v9, v10 + lodword_v5);
 
         Ang16 rotation = Ang16::Fix16_To_Ang16_40F540(pointing_ang_rad);
