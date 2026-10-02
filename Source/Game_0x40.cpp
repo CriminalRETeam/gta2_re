@@ -218,7 +218,7 @@ DEFINE_GLOBAL(Ped*, gLastTestPed_6787E8, 0x6787E8);
 MATCH_FUNC(0x46DD70)
 EXPORT void __stdcall sub_46DD70(char_type remap, u8 count)
 {
-    Ped* pPlayerPed = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped;
+    Ped* pPlayerPed = gGame_0x40_67E008->field_38_orf1->GetPlayerPed_41D020();
     PedGroup* pGroup = PedGroup::New_4CB0D0();
     pGroup->add_ped_leader_4C9B10(pPlayerPed);
     pGroup->field_36_count = 0;
@@ -227,7 +227,7 @@ EXPORT void __stdcall sub_46DD70(char_type remap, u8 count)
 
     gLastTestPed_6787E8 = gPedPool_6787B8->Allocate();
     gLastTestPed_6787E8->set_occupation_403970(0x11);
-    gLastTestPed_6787E8->field_244_remap = remap;
+    gLastTestPed_6787E8->set_remap_433B90(remap);
     gLastTestPed_6787E8->field_26C_graphic_type = pPlayerPed->field_26C_graphic_type;
     gLastTestPed_6787E8->SetField238_403920(5);
     if (!gLastTestPed_6787E8->AllocCharB4_45C830(pPlayerPed->field_1AC_cam.x, pPlayerPed->field_1AC_cam.y, pPlayerPed->field_1AC_cam.z))
@@ -243,7 +243,7 @@ EXPORT void __stdcall sub_46DD70(char_type remap, u8 count)
     {
         Ped* pPed = gPedPool_6787B8->Allocate();
         pPed->set_occupation_403970(0x11);
-        pPed->field_244_remap = remap;
+        pPed->set_remap_433B90(remap);
         pPed->field_26C_graphic_type = pPlayerPed->field_26C_graphic_type;
         pPed->SetField238_403920(5);
         pPed->AllocCharB4_45C830(pPlayerPed->field_1AC_cam.x, pPlayerPed->field_1AC_cam.y, pPlayerPed->field_1AC_cam.z);
@@ -343,10 +343,10 @@ void Game_0x40::ShowCounters_4B8FF0()
     Player* field_38_orf1 = gGame_0x40_67E008->field_38_orf1;
     if (field_38_orf1)
     {
-        swprintf(tmpBuff_67BD9C, L"accuracy_count : %d", (unsigned __int8)field_38_orf1->field_2D4_scores.field_198_accuracy_count);
+        swprintf(tmpBuff_67BD9C, L"accuracy_count : %d", (unsigned __int8)field_38_orf1->field_2D4_scores.get_accuracy_count_45B0A0());
         gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 128, word_706600, 1);
 
-        swprintf(tmpBuff_67BD9C, L"reverse_count : %d", field_38_orf1->field_2D4_scores.field_19C_reverse_count);
+        swprintf(tmpBuff_67BD9C, L"reverse_count : %d", field_38_orf1->field_2D4_scores.get_reverse_count_45B0B0());
         gHud_2B00_706620->field_650.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 144, word_706600, 1);
 
         // TODO: Seems strange, converted to a local integer point or something ??
