@@ -3467,7 +3467,7 @@ void Char_B4::state_0_54DDF0()
             if (this->field_68_animation_frame == 7 || this->field_7C_pPed->field_21C_bf.b11 != 0)
             {
                 this->field_10_char_state = 1;
-                field_7C_pPed->field_21C_bf.b11 = 0;
+                field_7C_pPed->ClearBit11_403A40();
                 goto LABEL_44;
             }
         }
@@ -3485,7 +3485,7 @@ void Char_B4::state_0_54DDF0()
 
         if (this->field_10_char_state == Char_B4_state::Jumping_15)
         {
-            field_7C_pPed->field_21C_bf.b11 = 0;
+            field_7C_pPed->ClearBit11_403A40();
             if (this->field_6C_animation_state != 5)
             {
                 this->field_6C_animation_state = 5;
