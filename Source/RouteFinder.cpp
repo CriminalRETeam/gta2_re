@@ -620,15 +620,11 @@ RouteFinder_10* RouteFinder::NewChildNode_5892F0(RouteFinder_10* a2, u16 idx, s1
 
     RouteFinder_10* pNew10 = &this->field_861C_nodes[this->field_CC66_545_count++];
 
-    Junction_10* junc1 = &this->field_8_junctions[this->field_861A_dest_idx];
-    Junction_10* junc2 = &this->field_8_junctions[idx];
+    s32 dy = abs((u8)field_8_junctions[idx].field_D_min_y - (u8)field_8_junctions[field_861A_dest_idx].field_D_min_y);
+    s32 dx = abs((u8)field_8_junctions[idx].field_C_min_x - (u8)field_8_junctions[field_861A_dest_idx].field_C_min_x);
 
-    s32 dx = abs((u8)junc2->field_C_min_x - (u8)junc1->field_C_min_x);
-    s32 dy = abs((u8)junc2->field_D_min_y - (u8)junc1->field_D_min_y);
-
- 
     pNew10->field_0_idx = idx;
-    pNew10->field_2_cost = (dx) + (dy) + a4 + a2->field_2_cost;
+    pNew10->field_2_cost = a2->field_2_cost + a4 + (dy + dx);
     pNew10->field_8_pParent = a2;
     pNew10->field_C_pNext = 0;
 
