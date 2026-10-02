@@ -109,19 +109,26 @@ const voc_name gVocNames_5FEA5C[98] = {{"accuracyb.wav"},
                                        {"laughc.wav"},
                                        {"laughd.wav"}};
 
-STUB_FUNC(0x58D400)
+MATCH_FUNC(0x58D430)
 cSampleManager::cSampleManager()
 {
-    NOT_IMPLEMENTED;
     field_1EA8_pAudioBuffer1 = 0;
     field_1EAC_pAudioBuffer2 = 0;
 
-    memset(field_58_hSamples, 0, sizeof(field_58_hSamples));
+    for (s32 k = 0; k < 16; k++)
+    {
+        field_58_hSamples[k] = 0;
+    }
 
-    field_9C_hStreams[0] = 0;
-    field_9C_hStreams[1] = 0;
+    for (s32 j = 0; j < 2; j++)
+    {
+        field_9C_hStreams[j] = 0;
+    }
 
-    memset(field_26C4_3d_sample, 0, sizeof(field_26C4_3d_sample));
+    for (s32 m = 0; m < 16; m++)
+    {
+        field_26C4_3d_sample[m] = 0;
+    }
 
     field_A4_bLoaded = 0;
 
