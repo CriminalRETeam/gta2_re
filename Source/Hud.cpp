@@ -568,7 +568,7 @@ void Garox_12E4_sub::DrawPause_5D63B0()
                 case HudPauseSection::tokens_collected_6:
                     swprintf(tmpBuff_67BD9C,
                              gText_0x14_704DFC->Find_5B5F90("pbon"),
-                             gLucid_hamilton_67E8E0.field_574_secret_tokens_collected,
+                             gLucid_hamilton_67E8E0.get_secret_tokens_collected_453A80(),
                              50);
                     sprite_type = 4;
                     sprite_pal = gPhi_8CA8_6FCF00->GetObjectDefinition_534360(266)->field_1E_sprite_palette;
@@ -1000,7 +1000,7 @@ void Garox_27B5_sub::ShowPlayerCoords_5CF970()
             pPed = pPlayer->field_2C4_player_ped;
         }
 
-        Gang_144* pZone = pPlayer->field_34_gang_curr_location;
+        Gang_144* pZone = pPlayer->get_gang_curr_location_4766D0();
         wchar_t* pZoneName;
         if (pZone)
         {
@@ -1173,7 +1173,7 @@ Hud_CopHead_C::Hud_CopHead_C()
 MATCH_FUNC(0x5d00b0)
 void Hud_CopHead_C_Array::UpdateWantedLevel_5D00B0()
 {
-    Ped* pPed = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped;
+    Ped* pPed = gGame_0x40_67E008->field_38_orf1->GetPlayerPed_41D020();
     field_48_cop_level = pPed->get_wanted_star_count_46EF00();
 
     const bool bShakeHead = gPolice_7B8_6FEE40->HasCriminalBeenFound_56F800(pPed);
@@ -1699,7 +1699,7 @@ void ArrowTrace_24::UpdateAimCoordinates_5D03F0()
             return;
         case ArrowTargetType::Player_6:
             pPlayer = field_C_player;
-            if (pPlayer->field_8E_bInUse)
+            if (pPlayer->GetInUse_461DB0())
             {
                 field_14_aim_x = pPlayer->field_2C4_player_ped->get_cam_x();
                 field_18_aim_y = pPlayer->field_2C4_player_ped->get_cam_y();
@@ -1795,10 +1795,10 @@ bool Hud_Arrow_7C::CheckVisibility_5D0530()
                 return false; // player is on mission, so do not display gang phone arrows
             }
             Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
-            Gang_144* pCurrLocationGang = pPlayer->field_34_gang_curr_location;
+            Gang_144* pCurrLocationGang = pPlayer->get_gang_curr_location_4766D0();
             if (pCurrLocationGang)
             {
-                if (pPlayer->field_40_arrow_blocker_zone)
+                if (pPlayer->get_arrow_blocker_zone_4C7340())
                 {
                     pCurrLocationGang = NULL;
                 }
@@ -2182,8 +2182,8 @@ void Hud_Arrow_7C_Array::DrawArrows_5D0E90()
         for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_array); i++)
         {
             if (field_0_array[i].field_18.field_18_primary_target.field_C_player == NULL ||
-                field_0_array[i].field_18.field_18_primary_target.field_C_player->field_2C4_player_ped == NULL ||
-                field_0_array[i].field_18.field_18_primary_target.field_C_player->field_2C4_player_ped->field_21C_bf.b25 == 0)
+                field_0_array[i].field_18.field_18_primary_target.field_C_player->GetPlayerPed_41D020() == NULL ||
+                field_0_array[i].field_18.field_18_primary_target.field_C_player->GetPlayerPed_41D020()->field_21C_bf.b25 == 0)
             {
                 field_0_array[i].DrawArrow_5D0C90();
             }
