@@ -130,7 +130,7 @@ void FirefighterPool_54::sub_4A88D0()
 }
 
 // https://decomp.me/scratch/X8G5z mov 0x4(%esp) vs mov (%eax)
-WIP_FUNC(0x4a7fc0)
+MATCH_FUNC(0x4a7fc0)
 bool Firefighter_28::sub_4A7FC0()
 {
     if (!field_1C_car->field_58_physics)
@@ -139,7 +139,7 @@ bool Firefighter_28::sub_4A7FC0()
         return 0;
     }
 
-    if (field_1C_car->field_58_physics->field_0_vel_read_only.GetLength_453590() == dword_67D378)
+    if (field_1C_car->field_58_physics->get_car_velocity_4211C0() == dword_67D378)
     {
         if (++field_24_next_state_timer >= 1000)
         {
@@ -163,7 +163,7 @@ bool Firefighter_28::sub_4A7FC0()
 
     if (field_C_target_car)
     {
-        if (field_C_target_car->field_88_despawn_status == 6 || (u8)field_C_target_car->field_88_despawn_status == 7 ||
+        if (field_C_target_car->field_88_despawn_status == 6 || field_C_target_car->field_88_despawn_status == 7 ||
             field_C_target_car->IsDespawning_4215B0() || field_C_target_car->sub_4214B0())
         {
             if (field_20_ped)
