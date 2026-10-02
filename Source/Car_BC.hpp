@@ -368,6 +368,12 @@ class Car_BC
         field_A6 |= 0x20u;
     }
 
+    // 9.6f 0x475C30
+    inline void SetField98To4_475C30()
+    {
+        field_98 = 4;
+    }
+
     // 9.6f 0x42ACA0
     inline void ClearA6Bit0_42ACA0()
     {

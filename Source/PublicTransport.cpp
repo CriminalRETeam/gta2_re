@@ -816,7 +816,7 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
                     pTrain->field_C_carriages[0]->sub_421560(5);
                     Object_2C* pLight = gObject_5C_6F8F84->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
                     pTrain->field_C_carriages[0]->field_0_qq.PushImpactEvent_5A6D00(pLight->field_4, 0, 2, word_6FF1BC);
-                    pTrain->field_C_carriages[0]->field_98 = 4;
+                    pTrain->field_C_carriages[0]->SetField98To4_475C30();
 
                     for (j = 0; j < wagons; j++)
                     {
@@ -826,7 +826,7 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
                         pTrain->field_C_carriages[j + 1]->sub_426E00();
                         if (pTrain->field_C_carriages[j + 1]->field_84_car_info_idx == car_model_enum::TRAINFB)
                         {
-                            pTrain->field_C_carriages[j + 1]->field_98 = 4;
+                            pTrain->field_C_carriages[j + 1]->SetField98To4_475C30();
                         }
                     }
 
