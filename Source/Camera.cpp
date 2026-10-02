@@ -688,8 +688,7 @@ void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, F
     WIP_IMPLEMENTED;
 
     Fix16 ret;
-    Fix16 pMaybeY_FP16;
-    Fix16 pMaybeX_FP16;
+    Fix16_Point v10;
 
     if (pCar->IsTrainModel_403BA0())
     {
@@ -699,9 +698,7 @@ void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, F
     {
         Fix16_Point linvel_43A450 = pCar->get_linvel_43A450();
 
-        Fix16_Point v10 = (linvel_43A450 * dword_67696C);
-        pMaybeY_FP16 = v10.x;
-        pMaybeX_FP16 = v10.y;
+        v10 = (linvel_43A450 * dword_67696C);
 
         // TODO: Uses dword_676818 as kZero
         ret = v10.GetLength_2();
@@ -713,7 +710,7 @@ void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, F
 
         if (!pCar->IsTrainModel_403BA0() && !pCar->IsTank_411900())
         {
-            Ang16 v16 = Fix16::atan2_fixed_405320(pMaybeX_FP16, pMaybeY_FP16);
+            Ang16 v16 = v10.atan2_40F790();
             Fix16 v17;
             if (v16 <= dword_6766DC || v16 >= dword_676790 && (v16 <= word_676764 || v16 >= word_67679C))
             {
@@ -724,13 +721,9 @@ void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, F
                 v17 = Fix16(0x3C0000, 0);
             }
 
-            Trailer* pTrailer = pCar->field_64_pTrailer;
-            if (pTrailer)
+            if (pCar->is_trailer_cab_41E460())
             {
-                if (pTrailer->field_8_truck_cab == pCar)
-                {
-                    v17 = (v17 * dword_6768E0);
-                }
+                v17 = (v17 * dword_6768E0);
             }
 
             u8 f44 = this->field_44;
@@ -749,8 +742,10 @@ void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, F
             }
             Fix16 v25 = Fix16(Fix16::Round_To_Int_410BF0(v17 * (*pZ - pCar->field_50_car_sprite->field_1C_zpos))) / field_60.y;
 
-            *pX += (v25 * Ang16::sine_40F500(v16));
-            *pY += (v25 * Ang16::cosine_40F520(v16));
+            Fix16_Point offset;
+            offset.FromPolar_41E210(v25, v16);
+            *pX += offset.x;
+            *pY += offset.y;
         }
     }
 }
