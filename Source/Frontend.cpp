@@ -1813,8 +1813,13 @@ void Frontend::sub_4B6780()
                     field_EE08 = 7 + gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
                     break;
                 case 4:
-                    field_EE08 = ((u8)gLucid_hamilton_67E8E0.GetStage_4C5990() >> 4) + 3;
+                {
+                    u8 main_stage_idx;
+                    u8 bonus_stage_idx;
+                    gLucid_hamilton_67E8E0.DecodeStage_453A60(gLucid_hamilton_67E8E0.GetStage_4C5990(), &main_stage_idx, &bonus_stage_idx);
+                    field_EE08 = main_stage_idx + 3;
                     break;
+                }
                 default:
                     break;
             }
