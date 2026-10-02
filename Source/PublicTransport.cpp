@@ -117,9 +117,7 @@ void Train_58::ReassignTrainHead_578030()
         this->field_C_carriages[0] = this->field_C_carriages[this->field_43_idx];
         this->field_C_carriages[this->field_43_idx] = pFirst;
 
-        //pFirst_ = this->field_C_carriages[0];
-        //pFirst_->field_4C_next = gCar_BC_Pool_67792C->field_4_firstCar;
-        //gCar_BC_Pool_67792C->field_4_firstCar = pFirst_;
+        gCar_BC_Pool_67792C->UpdateNextPrev(this->field_C_carriages[0]);
 
         gCar_BC_Pool_67792C->field_0_pool.sub_420F30(this->field_C_carriages[this->field_43_idx]);
 
@@ -143,28 +141,28 @@ void Train_58::ReassignTrainHead_578030()
             this->field_C_carriages[0]->AllocCarPhysics_4419E0();
         }
 
-        Ped* pTrainDriver = this->field_C_carriages[0]->field_54_driver;
-        if (pTrainDriver && pTrainDriver->field_15C_player)
+        Car_BC* pHead = this->field_C_carriages[0];
+        if (pHead->is_driven_by_player())
         {
-            this->field_C_carriages[0]->field_58_physics->field_8C_state = 2;
+            pHead->field_58_physics->SetField8C_to_2();
         }
         else
         {
-            this->field_C_carriages[0]->field_58_physics->field_8C_state = 1;
+            pHead->field_58_physics->SetField8C_to_1();
         }
         pFirst->field_54_driver = 0;
 
+        // 9.6f: Car_BC::sub_421510
         if (!this->field_C_carriages[0]->field_5C_AI)
         {
-            gCarAI_78_Pool_677CF8->DeAllocate(this->field_C_carriages[0]->field_5C_AI);
+            this->field_C_carriages[0]->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
         }
 
         this->field_C_carriages[0]->field_5C_AI->SetCar_453BF0(this->field_C_carriages[0]);
 
         pFirst->DeAllocateAI_4446E0();
 
-        this->field_C_carriages[0]->field_76_last_seen_timer = 0;
-        this->field_C_carriages[0]->field_7C_uni_num = this->field_C_carriages[0]->field_54_driver->GetPedType_420B70();
+        this->field_C_carriages[0]->sub_421560(this->field_C_carriages[0]->field_54_driver->GetPedType_420B70());
     }
 }
 
