@@ -1354,7 +1354,7 @@ void MapRenderer::DrawDiagonalWallDownLeft_4EE970()
     }
 }
 
-//STUB_FUNC(0x4EEA40)
+MATCH_FUNC(0x4EEA40)
 void MapRenderer::DrawDiagonalWallDownRight_4EEA40()
 {
     if (gBlockLeft_6F62F6)
