@@ -1308,12 +1308,8 @@ Car_BC* Car_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 road_di
                     if (!gPurpleDoom_1_679208->CheckRectForCollisions_477F60(&rect, 0, 0, 0) && !rect.CanRectEnterMovementRegion_59DE80() &&
                         !gGame_0x40_67E008->IsRectVisibleToAnyPlayer_4B9B10(&rect))
                     {
-                        Car_BC* pCar = SpawnCarAt_446230(x,
-                                                         y,
-                                                         ground_z,
-                                                         ReturnAngleFromRoadDirection_4F7940(&road_direction),
-                                                         car_model_type,
-                                                         dword_6777D0);
+                        Car_BC* pCar =
+                            SpawnCar_426E10_v2(x, y, ground_z, ReturnAngleFromRoadDirection_4F7940(&road_direction), car_model_type);
                         pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
                         if (!pCar->field_5C_AI)
                         {
