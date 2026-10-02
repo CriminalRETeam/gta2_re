@@ -1019,7 +1019,7 @@ void Sprite::UpdateDimensionsFromSpriteIndex_59FA40()
 {
     if (field_4_0x4C_len)
     {
-        const u16 idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
+        const u16 idx = GetTrueSpriteIdx_4BA230();
         sprite_index* pSprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(idx);
 
         const Fix16 height = gPixelsToFix16_6F6850.list[pSprite_index->field_5_height];
