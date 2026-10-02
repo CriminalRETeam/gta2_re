@@ -1060,7 +1060,7 @@ void PoliceCrew_38::sub_572920()
                         pPed_6FEDDC->field_14C = field_14_pService->field_0_criminal_ped;
                     }
                     pPed_6FEDDC->set_objective_target_ped_403AC0(field_14_pService->field_0_criminal_ped);
-                    u8 status = pPed_6FEDDC->field_225_objective_status;
+                    u8 status = pPed_6FEDDC->sub_450CB0();
                     if (status == 1)
                     {
                         byte_6FEB48 = 0;
@@ -1146,7 +1146,7 @@ void PoliceCrew_38::sub_572920()
                 }
 
                 case objectives_enum::objective_28:
-                    if (pPed->field_225_objective_status)
+                    if (pPed->sub_450CB0())
                     {
                         pPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                         pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
