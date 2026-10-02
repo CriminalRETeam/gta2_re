@@ -1187,3 +1187,43 @@ Still different:
 - The permuter scored nested scopes for the `Fix16_Point` locals (836 -> 542). An inline helper
   owning the arc locals gave 0.056: the original constructs all ten locals at entry
   (`movl $0xA` EH state), so they belong to the function itself.
+
+### MapRenderer::DrawDiagonalWall{UpLeft,UpRight,DownLeft,DownRight} (0x4EE7D0..0x4EEA40): MATCH
+- The bodies were already written, but the addresses weren't in the csv, so the markers were
+  commented out. They match the raw bytes in `target_extra.json` (0x64 bytes each). The calls
+  and globals check out. Each now has a csv row and `MATCH_FUNC`.
+
+### sub_5BEED0 (0x5BEED0): MATCH
+- `return (u32)cycles / dword_705334;`. It needed the normaliser fix for `divl mem`.
+
+### arc_tan_table_init_4052D0 (0x4052D0): MATCH
+- The tangent table initialiser. The dump now reads the x87 constants of the `target_extra.json`
+  functions too: pi and 1/720, then 16384 from `Fix16(f64)`. The two multiplies and the
+  separate down counter needed the spellings in matching_quirks.md. Its csv row is new.
+
+### sound_obj::Release_41A290, Char_B4::IsThreatToSearchingPed_553330: now verified
+- Both were `MATCH_FUNC` without a csv row. They're tail-jump thunks and match.
+
+### sound_obj::ProcessObject_Type12_41E850 (0x41E850): WIP 0.970
+- A map object's sound by kind (`Object_2C::field_26`). 40 case blocks set the sample, release,
+  range, distance and volume. VC6 merges their tails, so each case is written out in full, in
+  the jump table's address order. Then come countdowns for the occasional kinds, the sample
+  counter `byte_6751E4`, and the queue.
+- 0.716 -> 0.907: the countdown `if (!w) {...} else { w--; return; }`. 0.970: the countdown
+  cases in address order and an unsigned sample index. One register difference is left.
+
+### Ambulance_20::HandleObjectiveState_4FAAC0 (0x4FAAC0): WIP 0.961
+- The paramedic crew loop. Each ped of the crew, through `dword_6F6D60`, walks to a patient in
+  `field_10`, revives them (cops come back as cops), then gets back in and leaves.
+- 0.485 -> 0.724: case order 14, 0, 28, 36, 16, 35. 0.835: the `field_225 == 1` branch of
+  case 14 first, with an explicit `else` for the no-car path. 0.892: one `field_8 = pPatient`
+  after the whole `field_23C == 99` branch, which VC6 copies into each path without folding the
+  NULL. 0.961: case 35 as three branches. Left: the load order of the distance check (the
+  original loads `y` first) and the copy of the objective target. A `Fix16_Vec` struct copy made
+  that worse.
+
+### PoliceCrew_38::sub_572920 (0x572920): WIP 0.396
+- The chasing crew, built on the matched `sub_572340`. Members follow the criminal on foot, or
+  get back in the car when the criminal is far away or fast. The crew-state check goes in the
+  sibling's order (`!= 3` first). Left: the original puts the two "timer ran out" blocks at
+  the end of the function, and the case tails merge differently.

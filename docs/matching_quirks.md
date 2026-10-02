@@ -40,6 +40,18 @@ with `dword_6FD508 * dword_6FD554` while the original multiplies `dword_6FD554 *
 (the two globals were swapped, the instructions identical). Comparing the referenced
 globals per instruction catches this.
 
+**Single-operand memory instructions weren't normalised.** `divl 0x705334` kept its raw
+address, so dividing by a global could never match. `div`/`idiv`/`mul`/`neg`/`not` are now
+handled. A `target_asm.json` dumped before that fix still has the old `pp` text, so recompute
+`pp` with the current `post_process_asm.py` when one of those instructions is involved
+(`sub_5BEED0`).
+
+**Some `MATCH_FUNC`s were never verified.** `sound_obj::sound_obj` (0x419CD0) and
+`Frontend::sub_4AD0D0`/`sub_4ADDE0` have no csv row. Checked against the raw bytes in
+`target_extra.json`, they are at 0.987, 0.957 and 0.931, so they're not matches.
+`sound_obj::Release_41A290` and `Char_B4::IsThreatToSearchingPed_553330` were real matches and
+now have rows.
+
 **A build that hangs after "Built target" while the permuter runs.** Wine starts
 `explorer.exe /desktop` on demand. When a build happens to start it, it inherits `build.py`'s
 output pipe, and `build.py` waits for EOF forever. Kill the `explorer.exe /desktop` process,
@@ -79,6 +91,22 @@ case 5. With `if (n) { state = 3; } else { ... }`, VC6 kept its own copy. With
 the case's own `if`/`else` follows the source too (`if (occ != 43) { angle } else { reset }`
 in `Char_B4::HandlePedCollision_548BD0`). Read the jump table targets in address order to get
 the source order of the cases.
+
+**A countdown that returns goes in the `else`.** In `sound_obj::ProcessObject_Type12_41E850`,
+each "play only now and then" case is `cmpw $0,w; jne <far>`, then the reload and a fall
+through to the code after the switch. The `w--; return` blocks come at the very end of the
+function. `if (w) { w--; return; } w = ...;` laid the decrement inline (0.716). With
+`if (!w) { w = ...; } else { w--; return; }` the layout matched (0.907).
+
+**Loops that count down separately.** `mov $0x5A0,%edi ... dec %edi; jne`, with the array
+walked by pointer and the value counter kept in memory, is
+`for (s32 i = 1440; i != 0; i--) { ...arg...; arg++; p++; }`. A `for (i = 0; i < 1440; i++)`
+gives a pointer compare against the end (`cmp $end,%esi`), and a separate up-counter gets merged
+with `arg` (`arc_tan_table_init_4052D0`).
+
+**Two constant `fmul`s need two statements.** `i * 3.141592654 * (1.0 / 720.0)` folds into one
+`fmull`. `f64 r = i * 3.141592654; ... tan(r * 0.001388888888888889)` keeps the two
+(`arc_tan_table_init_4052D0`).
 
 **`if/else` around a call vs a ternary argument.** `f(x == 0 ? 1 : 0)` gives `sete`, but
 two `push`es that branch to one `call` come from `if (x == 0) f(1); else f(0);`
@@ -532,6 +560,10 @@ tried are in the WIP status report.
 - One register left in `sound_obj::HandlePedVoiceEvent_423080`: `add %eax,%edi` (the sum stays
   in `edi`, stored after `xor %eax,%eax`) where ours does `add %edi,%eax`. Six spellings of the
   sum and 3,000 permuter iterations didn't find it.
+- In `sound_obj::ProcessObject_Type12_41E850` the original copies the sample index into `eax`
+  for `GetPlayBackRateIdx` (`mov %edi,%eax; push %eax`) and reloads `field_14` for
+  `RandomDisplacement`. Every spelling we tried either pushes `edi` directly or swaps the call
+  order.
 - Error blocks that cross-jump into each other's identical `ret` tail
   (`DMA_Video_LoadDll_5EB970`: the `load_gbh_func` failure blocks). With `/O2` our VC6 keeps
   every block separate. No compiler flag reproduces it:
