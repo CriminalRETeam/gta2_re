@@ -8848,7 +8848,7 @@ void Ped::sub_46AAE0()
 MATCH_FUNC(0x46ab50)
 void Ped::sub_46AB50()
 {
-    if (field_14C->isDead_403B60() || field_14C->field_21C_bf.b0 == false)
+    if (field_14C->isDead_403B60() || !field_14C->CheckBit0_433B40())
     {
         Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
         Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
@@ -8862,7 +8862,7 @@ void Ped::sub_46AB50()
         if (field_278_ped_state_1 != ped_state_1::immobilized_8)
         {
             field_21C_bf.b11 = false;
-            field_14C->field_144 = 0;
+            field_14C->ClearF144_433BE0();
             if (gDistanceToTarget_678750 < dword_6785EC)
             {
                 Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
@@ -8877,7 +8877,7 @@ void Ped::sub_46AB50()
                 Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
                 Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_2);
                 Ped::UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 0);
-                field_168_game_object->field_38_velocity = field_168_game_object->field_3C_run_or_jump_speed; // OBS: inline doesn't match
+                field_168_game_object->UseRunOrJumpSpeed_433930();
             }
         }
     }
