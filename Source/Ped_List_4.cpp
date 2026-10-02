@@ -141,7 +141,7 @@ char_type Ped_List_4::RemovePedsInSpecificState_471290()
     char_type removedCount = 0;
     while (pIter)
     {
-        if ((pIter->field_0_char_ped->field_21C & 1) != 0 && pIter->field_0_char_ped->field_278_ped_state_1 == ped_state_1::dead_9)
+        if (pIter->field_0_char_ped->CheckBit0_433B40() && pIter->field_0_char_ped->field_278_ped_state_1 == ped_state_1::dead_9)
         {
             pLast = pIter;
             pIter = pIter->mpNext;
