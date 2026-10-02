@@ -1934,18 +1934,17 @@ char_type Sprite::IsTouchingSlopeBlock_5A1EB0()
     return 0;
 }
 
-WIP_FUNC(0x5A21F0)
+MATCH_FUNC(0x5A21F0)
 char_type Sprite::CheckMapZCollision_5A21F0()
 {
-    WIP_IMPLEMENTED;
-
-    Fix16 z_4c = this->field_C_sprite_4c_ptr->field_8_depth; // which union type ??
-    Fix16 zToUse = this->field_1C_zpos + z_4c / 2;
-    if (zToUse > k_dword_7033C0)
+    Fix16 half = this->field_C_sprite_4c_ptr->field_8_depth / 2; // which union type ??
+    Fix16 zLow = field_1C_zpos - half;
+    Fix16 zHigh = field_1C_zpos + half;
+    if (zHigh > k_dword_7033C0)
     {
-        zToUse = k_dword_7033C0;
+        zHigh = k_dword_7033C0;
     }
-    return gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(field_14_xy.x, field_14_xy.y, field_1C_zpos - z_4c / 2, zToUse);
+    return gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(field_14_xy.x, field_14_xy.y, zLow, zHigh);
 }
 
 WIP_FUNC(0x5A22B0)
