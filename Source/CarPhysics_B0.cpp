@@ -1474,7 +1474,7 @@ char_type CarPhysics_B0::TestCollision_55C150()
             return 0;
         }
     }
-    gRozza_679188.field_24 = pCarSprite;
+    gRozza_679188.SetField24_49EF10(pCarSprite);
     return 1;
 }
 

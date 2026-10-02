@@ -20,6 +20,12 @@ class Rozza_28
         this->field_24 = 0;
     }
 
+    // 9.6f 0x49EF10
+    void SetField24_49EF10(Sprite* pSprite)
+    {
+        this->field_24 = pSprite;
+    }
+
     // 9.6f 0x482A70
     void SetType4_482A70()
     {
