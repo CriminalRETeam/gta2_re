@@ -1054,7 +1054,7 @@ void PedManager::Dummies_470330()
         for (Camera_0xBC* pCam = gGame_0x40_67E008->IteratePlayerCamera_4B9BC0(); pCam; pCam = gGame_0x40_67E008->sub_4B9C50())
         {
             spawnSideLocked_6787D5 = 0;
-            if (pCam->field_34_ped || pCam->field_38_car)
+            if (pCam->has_camera_car_or_ped_433E90())
             {
                 if (pCam->ReturnOwnerVelocity_435A20() > k_dword_678438)
                 {
