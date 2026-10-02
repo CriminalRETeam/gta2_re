@@ -6243,7 +6243,7 @@ void miss2_0x11C::SCRCMD_WARP_CHAR_50F270() // WARP_FROM_CAR_TO_POINT
         Ang16 rotation = kDegreesToAng16_6F8044 * pCmd->field_A_rotation;
         rotation.Normalize();
 
-        pPointer->field_8_char->field_168_game_object->field_40_rotation = rotation;
+        pPointer->field_8_char->SetRotation_433C00(rotation);
         pCar->ClearDriver_4407F0();
         pCar->field_54_driver = 0;
         gGame_0x40_67E008->field_38_orf1->DisableInputs_569F40();
@@ -6254,7 +6254,7 @@ void miss2_0x11C::SCRCMD_WARP_CHAR_50F270() // WARP_FROM_CAR_TO_POINT
         p_game_camera->CommitCameraTarget_41E410();
 
         gGame_0x40_67E008->field_38_orf1->field_90_game_camera.ResetCameraSmoothing_435DD0();
-        gGame_0x40_67E008->field_38_orf1->field_90_game_camera.field_3C_followed_ped_id = 1;
+        gGame_0x40_67E008->field_38_orf1->field_90_game_camera.inline_set_ped_id_to_1_475B60();
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
