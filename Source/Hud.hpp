@@ -172,6 +172,13 @@ class Garox_27B5_sub
         field_27B5_show_coords = false;
     }
     EXPORT void ShowPlayerCoords_5CF970();
+
+    // 9.6f 0x4A4760
+    inline void ToggleShowCoords_4A4760()
+    {
+        field_27B5_show_coords = field_27B5_show_coords == 0;
+    }
+
     char_type field_27B5_show_coords;
 };
 
@@ -594,6 +601,7 @@ class gmp_map_zone;
 class Hud_MapZone_98
 {
   public:
+    // 9.6f 0x4A4770
     void clear_zones()
     {
         field_88_nav_zone = NULL;

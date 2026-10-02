@@ -1075,14 +1075,14 @@ void Player::Hud_Controls_565890(u16 action)
                 if (bDo_debug_keys_67D6CF)
                 {
                     this->field_68 = 0;
-                    this->field_90_game_camera.field_3C_followed_ped_id = 1;
+                    this->field_90_game_camera.inline_set_ped_id_to_1_475B60();
                 }
                 break;
             case DIK_F12:
                 if (bDo_debug_keys_67D6CF)
                 {
                     this->field_68 = 1;
-                    this->field_90_game_camera.field_3C_followed_ped_id = 2;
+                    this->field_90_game_camera.inline_set_ped_id_to_2();
                 }
                 break;
             case DIK_ADD:
@@ -1094,7 +1094,7 @@ void Player::Hud_Controls_565890(u16 action)
             case DIK_SUBTRACT:
                 if (bDo_debug_keys_67D6CF)
                 {
-                    gGame_0x40_67E008->field_30_bLimitFramerate = !gGame_0x40_67E008->field_30_bLimitFramerate;
+                    gGame_0x40_67E008->ToggleLimitFramerate_4A4750();
                 }
                 break;
             case DIK_NUMPAD2:
@@ -1189,8 +1189,7 @@ void Player::Hud_Controls_565890(u16 action)
                 {
                     if (this->IsUser_41DC70())
                     {
-                        gHud_2B00_706620->field_27B5_show_coords.field_27B5_show_coords =
-                            gHud_2B00_706620->field_27B5_show_coords.field_27B5_show_coords == 0;
+                        gHud_2B00_706620->field_27B5_show_coords.ToggleShowCoords_4A4760();
                     }
                 }
                 break;
@@ -1224,7 +1223,7 @@ void Player::Hud_Controls_565890(u16 action)
                 {
                     if (field_2C4_player_ped)
                     {
-                        field_2C4_player_ped->field_20A_wanted_points = 0;
+                        field_2C4_player_ped->ClearWantedPoints_420B80();
                     }
                 }
                 break;

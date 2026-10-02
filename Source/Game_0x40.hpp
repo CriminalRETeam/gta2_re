@@ -36,6 +36,12 @@ enum GameExitType
 class Game_0x40
 {
   public:
+    // 9.6f 0x4A4750
+    inline void ToggleLimitFramerate_4A4750()
+    {
+        field_30_bLimitFramerate = field_30_bLimitFramerate == 0;
+    }
+
     // 9.6f 0x416BC0
     inline bool Is_game_state_Paused_2_416BC0()
     {

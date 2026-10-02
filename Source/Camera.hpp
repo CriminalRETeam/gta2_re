@@ -89,6 +89,7 @@ class Camera_0xBC
         field_3C_followed_ped_id = 1;
     }
 
+    // 9.6f 0x4A5070
     inline void inline_set_ped_id_to_2()
     {
         field_3C_followed_ped_id = 2;
