@@ -3072,8 +3072,7 @@ void Hud_CarName_4C::DrawCarName_5D4A10()
 
     if (field_0_display_time)
     {
-        u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, 11);
-        s32 sprite_w = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx)->field_4_width;
+        s32 sprite_w = get_sprite_width_4C7220(11);
         if (field_44_xpos_offset > (sprite_w * 2) - 10)
         {
             DrawFigureScaled_5D7670(6, 13, 320 + sprite_w, field_48_ypos, kAngZero_706610, 2, 0, 0, 0);
