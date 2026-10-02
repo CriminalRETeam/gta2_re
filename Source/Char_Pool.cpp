@@ -1031,7 +1031,7 @@ void PedManager::DoIanTest_471060(u16 key)
 MATCH_FUNC(0x4710c0)
 Ped* PedManager::PedById(s32 pedId)
 {
-    for (Ped* pPedIter = gPedPool_6787B8->field_0_pool.field_4_pPrev; pPedIter; pPedIter = pPedIter->mpNext)
+    for (Ped* pPedIter = gPedPool_6787B8->GetFirstPed_435530(); pPedIter; pPedIter = pPedIter->mpNext)
     {
         if (pPedIter->field_200_id == pedId)
         {

@@ -105,9 +105,16 @@ class PedPool
   public:
     EXPORT ~PedPool();
 
+    // 9.6f 0x403890
     Ped* Allocate()
     {
         return field_0_pool.Allocate();
+    }
+
+    // 9.6f 0x435530
+    inline Ped* GetFirstPed_435530()
+    {
+        return field_0_pool.field_4_pPrev;
     }
 
     Pool<Ped, 200> field_0_pool;
