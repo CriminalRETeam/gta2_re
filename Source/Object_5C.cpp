@@ -1642,6 +1642,7 @@ void Object_2C::UpdatePhysicsMovementAndAnimation_525D90()
                 {
                     if (is_not_type6_to_12_421080())
                     {
+                        // 9.6f: Object_2C::get_field_26_420FF0 (inlined, using it changes the code)
                         if (field_26_varrok_idx > 0)
                         {
                             gVarrok_7F8_703398->sub_59B0D0(field_26_varrok_idx);
