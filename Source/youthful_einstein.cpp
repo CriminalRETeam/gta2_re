@@ -79,7 +79,7 @@ void youthful_einstein::ExecuteGamemodeTick_516660()
                 field_1C_tick_timer = 0;
                 if (field_0_fugitive && dword_6F58A4 != 0)
                 {
-                    field_4_time[field_0_fugitive->field_2E_idx]++;
+                    field_4_time[field_0_fugitive->get_idx_4219D0()]++;
                 }
             }
             if (!field_0_fugitive)
