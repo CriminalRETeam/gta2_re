@@ -786,6 +786,13 @@ class Ped
         return field_154_target_to_enter;
     }
 
+    // 9.6f 0x4A5010
+    inline void SetBit11_4A5010()
+    {
+        field_21C_bf.b11 = true;
+    }
+
+    // 9.6f 0x403A40
     inline void ClearBit11_403A40()
     {
         field_21C_bf.b11 = false;

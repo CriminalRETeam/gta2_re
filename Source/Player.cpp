@@ -1478,7 +1478,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
 
     if (field_7C_bNowAttackPressed != 1 || field_28)
     {
-        pPed->field_21C_bf.b11 = 0;
+        pPed->ClearBit11_403A40();
     }
     else
     {
@@ -1486,24 +1486,24 @@ void Player::HandleControls_5668D0(Ped* pPed)
         {
             if (field_788_curr_weapon_idx == -1)
             {
-                pPed->field_21C_bf.b11 = 1;
+                pPed->SetBit11_4A5010();
             }
             else
             {
                 bNoPed = field_718_weapons[field_788_curr_weapon_idx]->sub_5E33C0() == 0;
                 if (!bNoPed)
                 {
-                    pPed->field_21C_bf.b11 = 1;
+                    pPed->SetBit11_4A5010();
                 }
                 else
                 {
-                    pPed->field_21C_bf.b11 = 0;
+                    pPed->ClearBit11_403A40();
                 }
             }
         }
         else
         {
-            pPed->field_21C_bf.b11 = 1;
+            pPed->SetBit11_4A5010();
         }
     }
 
