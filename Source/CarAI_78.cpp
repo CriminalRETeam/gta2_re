@@ -102,11 +102,9 @@ void CarAI_78::MakeAgressiveSirensAndLights_4476F0()
     }
 }
 
-WIP_FUNC(0x447710)
+MATCH_FUNC(0x447710)
 void CarAI_78::sub_447710()
 {
-    WIP_IMPLEMENTED;
-
     s8 v12 = 0;
     if (field_28_junc_idx >= 0)
     {
