@@ -796,7 +796,7 @@ void Camera_0xBC::UpdateFollowPedCamera_436540(Ped* pPed)
         Fix16 xpos;
         Fix16 ypos;
         Fix16 zpos;
-        Car_BC* pCar = pPed->field_16C_car;
+        Car_BC* pCar = pPed->get_car_416B60();
         if (pCar || (pCar_2 = pPed->GetCarBeingEnteredOrExited_45BBF0(), pCar_2 == 0))
         {
             xpos = pPed->get_cam_x();
