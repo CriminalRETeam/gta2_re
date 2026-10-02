@@ -73,13 +73,8 @@ class Door_38
     EXPORT char_type Service_49CE90();
     EXPORT void get_door_xyz_face_49CEE0(u8* pX, u8* pY, u8* pZ, u32* pFace);
     
-    /*
-    // TODO: Causes a circular dependency
-    inline bool sub_44C860()
-    {
-        return field_0_primary_door_data->field_0 == 2;
-    }
-    */
+    // 9.6f 0x44C860, defined in Door_4D4.hpp (needs DoorData_10)
+    inline bool sub_44C860();
 
     // inlined in 0x476990
     // 9.6f 0x476990

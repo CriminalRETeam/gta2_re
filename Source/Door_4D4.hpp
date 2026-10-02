@@ -44,6 +44,11 @@ class DoorData_10 // Contains only position, face and DoorInfo id
     DoorData_10* mpNext;
 };
 
+inline bool Door_38::sub_44C860()
+{
+    return field_0_primary_door_data->field_0 == 2;
+}
+
 class DoorData_10_Pool
 {
   public:

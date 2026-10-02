@@ -207,7 +207,7 @@ Door_38* Door_4D4::sub_49D3A0()
 
 inline bool Door_38_inline_unknown(Door_38* pDoor)
 {
-    if (pDoor->field_0_primary_door_data->field_0 == 2) // TODO: Use sub_44C860()
+    if (pDoor->sub_44C860())
     {
         if (pDoor->field_24 == 3 || pDoor->field_24 == 0)
         {
@@ -241,6 +241,7 @@ char_type Door_4D4::CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx)
     {
         if (!Door_38_inline_unknown(&field_0[door_idx]))
         {
+            // 9.6f: Char_B4::get_ped_433A20 (inlined, using it changes the code)
             if (!field_0[door_idx].sub_49C7F0(pB4->field_7C_pPed))
             {
                 return 1;
