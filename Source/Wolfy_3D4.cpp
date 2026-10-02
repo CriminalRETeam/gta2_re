@@ -753,7 +753,7 @@ void Wolfy_30::state_19_32_542060()
 {
     WIP_IMPLEMENTED;
 
-    if (gParticle_4C_Pool_6FD5E4->field_0_pStart)
+    if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0())
     {
         if (this->field_1A <= 8u)
         {
@@ -774,10 +774,9 @@ void Wolfy_30::state_19_32_542060()
         else
         {
             Fix16 v24 = (this->field_24 * Fix16(stru_6F6784.get_int_4F7AE0(48)));
-            this->field_22 = Ang16::Fix16_To_Ang16_482740(dword_6FD448 * Fix16(stru_6F6784.get_int_4F7AE0(360)));
+            this->field_22 = Ang16::Fix16_To_Ang16_40F540(dword_6FD448 * Fix16(stru_6F6784.get_int_4F7AE0(360)));
 
-            stru_6FD388 = (v24 * gSin_table_667A80[this->field_22.rValue]);
-            stru_6FD38C = (v24 * gCos_table_669260[this->field_22.rValue]);
+            Ang16::PolarToCartesian_41FC20(field_22, v24, stru_6FD388, stru_6FD38C);
 
             stru_6FD388 += this->field_14->field_4->field_14_xy.x;
             stru_6FD38C += this->field_14->field_4->field_14_xy.y;
