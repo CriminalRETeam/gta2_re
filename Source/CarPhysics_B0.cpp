@@ -176,6 +176,15 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE098, k_dword_6FE210, 0x6FE098);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE0F4, k_dword_6FE210, 0x6FE0F4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE0D4, k_dword_6FE210, 0x6FE0D4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDFB8, dword_6FDFD4, 0x6FDFB8);
+// 9.6f 0x49EF50
+inline void CarPhysics_B0::AddDamage_49EF50(s32 damage)
+{
+    u32 new_damage = rng_dword_67AB34->get_cur_rng_41CFE0() + damage;
+    if (new_damage > field_8_total_damage_q)
+    {
+        field_8_total_damage_q = new_damage;
+    }
+}
 
 MATCH_FUNC(0x559E90)
 Fix16 CarPhysics_B0::ComputeZPosition_559E90()
@@ -393,11 +402,7 @@ void CarPhysics_B0::SpinOutOnOil_559BA0()
             }
         }
         this->field_A4 = 30;
-        const u32 new_val = rng_dword_67AB34->field_0_rng + 30;
-        if (new_val > field_8_total_damage_q)
-        {
-            this->field_8_total_damage_q = new_val;
-        }
+        AddDamage_49EF50(30);
     }
 }
 

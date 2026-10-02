@@ -271,6 +271,15 @@ class CarPhysics_B0
         return field_40_linvel_1.GetLength_41E260();
     }
 
+    // 9.6f 0x49EF50, defined in CarPhysics_B0.cpp
+    inline void AddDamage_49EF50(s32 damage);
+
+    // 9.6f 0x421260
+    inline void ClearHandBrake_421260()
+    {
+        field_92_is_hand_brake_on = 0;
+    }
+
     inline char_type is_backward_gas_on_411810()
     {
         return field_94_is_backward_gas_on;
