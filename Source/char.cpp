@@ -1830,8 +1830,8 @@ void Char_B4::HandleObjectCollision_548840(Object_2C* pObj)
     }
 }
 
-DEFINE_GLOBAL(Ang16, word_6FD888, 0x6FD888);
-DEFINE_GLOBAL(Fix16, dword_6FD860, 0x6FD860);
+DEFINE_GLOBAL_INIT(Ang16, word_6FD888, Ang16(64), 0x6FD888);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD860, Fix16(0x80, 0), 0x6FD860);
 
 // The angle from pOther to pMe
 static inline Ang16 AngleFromPed_548BD0(Char_B4* pMe, Char_B4* pOther)

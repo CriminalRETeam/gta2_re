@@ -2649,7 +2649,7 @@ static inline void ProjectToScreen_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut
         Fix16(gViewCamera_676978->field_74_screen_px_center_y);
 }
 
-DEFINE_GLOBAL(u16, gDebugColour_626260, 0x626260);
+DEFINE_GLOBAL_INIT(u16, gDebugColour_626260, 0x1111, 0x626260);
 
 WIP_FUNC(0x5A4DA0)
 void Sprite_4C::DrawCollisionBox_5A4DA0(Fix16 zpos)
