@@ -797,28 +797,14 @@ void Wolfy_30::state_19_32_542060()
 
     if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0())
     {
-        if (this->field_1A_timer <= 8u)
-        {
-            stru_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x;
-            stru_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y;
-
-            Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
-            pNew4C->field_46_sub_state = 0;
-            pNew4C->field_38_state = 19;
-            pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
-            pNew4C->field_30_pNext->SetType_4206F0(8);
-            pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
-            pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 20);
-            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
-            pNew4C->field_48_timer = 5;
-        }
-        else
+        if (this->field_1A_timer > 8u)
         {
             Fix16 v24 = (this->field_24 * Fix16(gRng_6F6784.get_int_4F7AE0(48)));
             this->field_22 = Ang16::Fix16_To_Ang16_40F540(dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(360)));
 
-            Ang16::PolarToCartesian_41FC20(field_22, v24, stru_6FD388, stru_6FD38C);
+            // 9.6f inlined: PolarToCartesian_41FC20 (10.5 expands only the first multiply)
+            stru_6FD388 = v24 * Ang16::sine_40F500(field_22);
+            stru_6FD38C = Ang16::cosine_40F520(field_22).Multiply_408680(v24);
 
             stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
             stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
@@ -835,6 +821,22 @@ void Wolfy_30::state_19_32_542060()
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
             pNew4C->field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16Half_6FD39C + kFP16One_6FD4A0, 0);
             pNew4C->field_48_timer = 1;
+        }
+        else
+        {
+            stru_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x;
+            stru_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y;
+
+            Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
+            pNew4C->field_46_sub_state = 0;
+            pNew4C->field_38_state = 19;
+            pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
+            pNew4C->field_30_pNext->SetType_4206F0(8);
+            pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 20);
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+            pNew4C->field_48_timer = 5;
         }
     }
 }
