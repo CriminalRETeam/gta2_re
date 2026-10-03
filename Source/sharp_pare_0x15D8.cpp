@@ -133,7 +133,7 @@ void sharp_pare_0x15D8::LoadStyleTextures_5B9350()
 }
 
 MATCH_FUNC(0x5B94F0)
-STexture* sharp_pare_0x15D8::GetSpriteTexture_5B94F0(s32 sprite_type, u16 sprite_id, s32 palette_type, s32 remap)
+STexture* sharp_pare_0x15D8::GetSpriteTexture_5B94F0(s32 sprite_type, u16 sprite_id, s32 palette_type, s16 remap)
 {
     STexture* result;
 

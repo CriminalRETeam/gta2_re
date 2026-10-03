@@ -159,7 +159,7 @@ void CarFlags::Delta_48F820(u16& sprite_idx, u8* pArray, u32& a3, u8& width)
 }
 
 MATCH_FUNC(0x48F8B0)
-s16 CarFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, u16& a4, const u32& a5)
+s16 CarFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& a4, const u32& a5)
 {
     if (!m_var)
     {
@@ -795,8 +795,11 @@ void Sprite::Draw_59EFF0()
     sprite_index* pSpriteIndex2;
     u16 pal;
     STexture* pTexture;
+    f32 u;
+    f32 v;
 
     u16 sprite_idx;
+    u32 car_flags;
 
     Sprite::Update_4C_59F990();
     if (field_38_zoom != 0)
@@ -830,17 +833,17 @@ void Sprite::Draw_59EFF0()
         field_4_0x4C_len->UpdateRotatedBoundingBox_5A3550(field_14_xy.x, field_14_xy.y, field_1C_zpos, field_0);
     }
 
-    //Sprite_4C* p4C = field_4_0x4C_len;
+    Fix16_Point* pRect = field_4_0x4C_len->field_C_renderingRect;
 
-    f32 u = pSpriteIndex->field_4_width - 0.30000001f;
-    f32 v = pSpriteIndex->field_5_height - 0.30000001f;
+    u = pSpriteIndex->field_4_width - 0.30000001f;
+    v = pSpriteIndex->field_5_height - 0.30000001f;
 
     Fix16 new_zpos = RoundZToLayer_4B9C70(field_1C_zpos);
 
-    ProjectWorldPointToScreen_4BA4D0(field_4_0x4C_len->field_C_renderingRect[0], &gTileVerts_7036D0[0], new_zpos);
-    ProjectWorldPointToScreen_4BA4D0(field_4_0x4C_len->field_C_renderingRect[1], &gTileVerts_7036D0[1], new_zpos);
-    ProjectWorldPointToScreen_4BA4D0(field_4_0x4C_len->field_C_renderingRect[2], &gTileVerts_7036D0[2], new_zpos);
-    ProjectWorldPointToScreen_4BA4D0(field_4_0x4C_len->field_C_renderingRect[3], &gTileVerts_7036D0[3], new_zpos);
+    ProjectWorldPointToScreen_4BA4D0(pRect[0], &gTileVerts_7036D0[0], new_zpos);
+    ProjectWorldPointToScreen_4BA4D0(pRect[1], &gTileVerts_7036D0[1], new_zpos);
+    ProjectWorldPointToScreen_4BA4D0(pRect[2], &gTileVerts_7036D0[2], new_zpos);
+    ProjectWorldPointToScreen_4BA4D0(pRect[3], &gTileVerts_7036D0[3], new_zpos);
     SetUV_4B9BC0(u, v);
 
     Car_BC* pCar = AsCar_40FEB0();
@@ -850,7 +853,7 @@ void Sprite::Draw_59EFF0()
         {
             gSprite_3CC_67AF1C->InvalidateMasksByType_48F6E0(&sprite_idx);
         }
-        u32 car_flags = pCar->field_8_damaged_areas.GetRaw_4A5190();
+        car_flags = pCar->field_8_damaged_areas.GetRaw_4A5190();
         if (gLighting_626A09)
         {
             if (pCar->inline_check_0x40_info_421680())
@@ -870,9 +873,8 @@ void Sprite::Draw_59EFF0()
             }
             pCar->field_8_damaged_areas.ClearGlobalFlags_4BA340();
         }
-        u16 v25 = Sprite::GetTruePalette_59EAA0();
         u8 bRet;
-        s16 unkDeltaRelated = pCar->field_8_damaged_areas.Delta_48F8B0(sprite_idx, bRet, v25, false);
+        s16 unkDeltaRelated = pCar->field_8_damaged_areas.Delta_48F8B0(sprite_idx, bRet, Sprite::GetTruePalette_59EAA0(), false);
         if (unkDeltaRelated != -1)
         {
             if (bRet)
@@ -935,12 +937,10 @@ void Sprite::Draw_59EFF0()
 
     if (pCar && gLighting_626A09)
     {
-        u32 car_flags = pCar->field_8_damaged_areas.m_var;
         pCar->field_8_damaged_areas.MaskWithGlobalFlags_4BA330();
 
-        u16 unk3 = Sprite::GetTruePalette_59EAA0();
         u8 bRet;
-        s16 unkDeltaRelated = pCar->field_8_damaged_areas.Delta_48F8B0(sprite_idx, bRet, unk3, true);
+        s16 unkDeltaRelated = pCar->field_8_damaged_areas.Delta_48F8B0(sprite_idx, bRet, Sprite::GetTruePalette_59EAA0(), true);
         if (unkDeltaRelated != -1)
         {
             if (bRet)
@@ -2280,7 +2280,7 @@ EXPORT void Sprite_14::ClearMask_48F5C0(u8 xCount, u8 yCount)
 }
 
 MATCH_FUNC(0x48f600)
-Sprite_14* Sprite_3CC::FindCachedMask_48F600(u16& sprite_idx, u32* a3, u32* a4, u16* a5)
+Sprite_14* Sprite_3CC::FindCachedMask_48F600(u16& sprite_idx, u32* a3, u32* a4, const u16* a5)
 {
     s32 final_idx;
     s32 start_idx = 0;
