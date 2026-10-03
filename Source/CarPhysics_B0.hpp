@@ -219,7 +219,7 @@ class CarPhysics_B0
     // FUNCTION: 96f 0x40f840
     bool IsVelocityAlignedWithHeading_40F840()
     {
-        Ang16 v14 = (field_40_linvel_1.atan2_40ACD0() - field_58_theta);
+        Ang16 v14 = (field_40_linvel_1.atan2_40F790() - field_58_theta);
         return v14 <= kAng90_6FE00C || v14 >= kAng270_6FE154;
     }
 
