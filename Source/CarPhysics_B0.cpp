@@ -3100,6 +3100,7 @@ Fix16 CarPhysics_B0::CalculateFrontWheelForce_561E50()
 {
     WIP_IMPLEMENTED;
     Fix16_Point point(Fix16(0), gCarInfo_2C_6FE0E4->field_4_front_wheel_offset);
+    Fix16_Point point2;
 
     if (CarPhysics_B0::IsInAir_55A0B0())
     {
@@ -3135,7 +3136,7 @@ Fix16 CarPhysics_B0::CalculateFrontWheelForce_561E50()
             case 1:
             case 2:
                 lodword_v5 = kFP16Zero_6FE20C;
-                if (hidword_v5 == kFP16Zero_6FE20C)
+                if (hidword_v5.mValue == kFP16Zero_6FE20C.mValue)
                 {
                     pointing_ang_rad = this->field_78_pointing_ang_rad;
                     v9 = kFP16Zero_6FE20C;
@@ -3158,13 +3159,13 @@ Fix16 CarPhysics_B0::CalculateFrontWheelForce_561E50()
                 }
                 break;
             default:
-                lodword_v5 = v6;
-                pointing_ang_rad = field_78_pointing_ang_rad;
+                // The original leaves all four values uninitialised here
                 break;
         }
 
-        // 9.6f: Fix16_Point_POD::SetXY_432860 (inlined, using it makes the diff worse)
-        Fix16_Point point2(v9, v10 + lodword_v5);
+        // 9.6f: Fix16_Point_POD::SetXY_432860 (inlined, using it pushes the Fix16_Point ctor out of line)
+        point2.x = v9;
+        point2.y = v10 + lodword_v5;
 
         Ang16 rotation = Ang16::Fix16_To_Ang16_40F540(pointing_ang_rad);
 
