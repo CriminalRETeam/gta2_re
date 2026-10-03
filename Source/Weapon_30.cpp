@@ -1566,34 +1566,34 @@ void Weapon_30::oil_stain_5E1DC0()
     }
 }
 
-WIP_FUNC(0x5e2550)
+MATCH_FUNC(0x5e2550)
 void Weapon_30::car_mine_5E2550()
 {
-    WIP_IMPLEMENTED;
+    Fix16_Point p;
 
     field_24_pPed = field_14_car->get_driver_4118B0();
 
     Sprite* Sprite_440840 = field_14_car->GetSprite_440840();
 
-    Fix16_Point p;
-    p.y = -(dword_706FF4 + ((dword_706FEC + Sprite_440840->field_C_sprite_4c_ptr->field_4_height)) / kFP16Two_706EC0);
+    p.y = -(dword_706FF4 + (dword_706FEC + Sprite_440840->field_C_sprite_4c_ptr->GetH_447E10()) / kFP16Two_706EC0);
     p.x = dword_706EB8;
 
     p.RotateByAngle_40F6B0(Sprite_440840->field_0);
 
-    Fix16_Point x_y_443580 = Sprite_440840->get_x_y_443580() + p;
+    p += Sprite_440840->get_x_y_443580();
 
-    Fix16 v13 = Sprite_440840->field_C_sprite_4c_ptr->field_8_depth;
-    Fix16 v14 = Sprite_440840->field_1C_zpos + v13 / 2;
-    if (v14 >= k_dword_706EDC)
+    Fix16 half_depth = Sprite_440840->field_C_sprite_4c_ptr->field_8_depth / 2;
+    Fix16 z_low = Sprite_440840->field_1C_zpos - half_depth;
+    Fix16 z_high = Sprite_440840->field_1C_zpos + half_depth;
+    if (z_high >= k_dword_706EDC)
     {
-        v14 = k_dword_706EDC - k_dword_706F70;
+        z_high = k_dword_706EDC - k_dword_706F70;
     }
 
     Fix16 newZ;
-    if (gMap_0x370_6F6268->CanPlaceOilOrMine_4E5480(x_y_443580.x, x_y_443580.y, Sprite_440840->field_1C_zpos - v13 / 2, v14, &newZ))
+    if (gMap_0x370_6F6268->CanPlaceOilOrMine_4E5480(p.x, p.y, z_low, z_high, &newZ))
     {
-        Object_2C* pMine = gObject_5C_6F8F84->NewPhysicsObj_5299B0(10, x_y_443580.x, x_y_443580.y, newZ, Sprite_440840->field_0);
+        Object_2C* pMine = gObject_5C_6F8F84->NewPhysicsObj_5299B0(10, p.x, p.y, newZ, Sprite_440840->field_0);
         pMine->SetDamageOwner_529080(field_24_pPed->field_267_varrok_idx);
 
         decrement_ammo_4CCA30(); // NOTE: Didn't get inlined without __forceinline here, wtf??
