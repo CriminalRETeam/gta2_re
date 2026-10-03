@@ -4332,12 +4332,11 @@ void Ped::SetStatesForObjective_4633E0(char_type bMainObj)
     Ped::ChangePedStatesByMode_463300(state);
 }
 
-WIP_FUNC(0x463570)
+MATCH_FUNC(0x463570)
 void Ped::SetObjective(s32 objective, s16 objective_timer)
 {
-    WIP_IMPLEMENTED;
-
     Marz_96* pMarz_96; // eax
+    Marz_3* pPoint;
 
     if (this->field_278_ped_state_1 != 9 || objective == objectives_enum::objective_28)
     {
@@ -4356,34 +4355,39 @@ void Ped::SetObjective(s32 objective, s16 objective_timer)
         //new_flags = this->field_21C & ~0x400004u;
         //this->field_21C = new_flags;
 
+        u8 mode = 99;
+
         // TODO: Not sure if this is correct
         field_21C_bf.b2 = false;
         field_21C_bf.b22 = false;
 
-        // TODO: Switch case ordering is wrong
         switch (objective)
         {
             case 0:
-                ChangePedStatesByMode_463300(field_16C_car != 0 ? 5 : 1);
+                mode = field_16C_car != 0 ? 5 : 1;
                 break;
 
             case 1:
             case 2:
             case 3:
-                ChangePedStatesByMode_463300(2u);
+                mode = 2;
                 break;
 
-            case 8:
-            case 51:
-                ChangePedStatesByMode_463300(1u);
-                break;
-
-            case 12:
-            case 16:
-            case 32:
-            case 56:
+            case 20:
+            case 23:
+            case 58:
+            case 59:
+                mode = 3;
                 SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                ChangePedStatesByMode_463300(3u);
+                break;
+
+            case 24:
+            case 25:
+            case 26:
+                this->field_1DC_objective_target_x = this->field_1AC_cam.x;
+                this->field_1E0_objective_target_y = this->field_1AC_cam.y;
+                this->field_1E4_objective_target_z = this->field_1AC_cam.z;
+                mode = 4;
                 break;
 
             case 14:
@@ -4396,72 +4400,62 @@ void Ped::SetObjective(s32 objective, s16 objective_timer)
             case 57:
             case 60:
             case 61:
-                ChangePedStatesByMode_463300(5u);
-                break;
-
-            case 20:
-            case 23:
-            case 58:
-            case 59:
-                SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                ChangePedStatesByMode_463300(3u);
-                break;
-
-            case 22:
-                ChangePedStatesByMode_463300(3u);
-                break;
-
-            case 24:
-            case 25:
-            case 26:
-                this->field_1E4_objective_target_z = this->field_1AC_cam.z;
-                this->field_1DC_objective_target_x = this->field_1AC_cam.x;
-                this->field_1E0_objective_target_y = this->field_1AC_cam.y;
-                ChangePedStatesByMode_463300(4u);
-                break;
-
-            case 28:
-                if (gAmbulance_110_6F70A8->TryAddPatient_4FA470(this))
-                {
-                    ChangePedStatesByMode_463300(99u);
-                }
-                else
-                {
-                    this->field_258_objective = objectives_enum::no_obj_0;
-                }
+                mode = 5;
                 break;
 
             case 35:
             case 37:
-                ChangePedStatesByMode_463300(6u);
+                mode = 6;
                 break;
 
             case 36:
             case 38:
-                ChangePedStatesByMode_463300(field_168_game_object != 0 ? 1 : 7);
+                mode = field_168_game_object != 0 ? 1 : 7;
                 break;
 
             case 42:
                 pMarz_96 = gMarz_1D7E_6FD784->AllocPatrolList_543F10(&field_265);
                 field_190_patrol_route = pMarz_96;
-                while (pMarz_96->field_0_points[0].field_0_x)
+                pPoint = pMarz_96->field_0_points;
+                while (pPoint->field_0_x)
                 {
-                    pMarz_96->field_0_points[0].field_0_x = 0;
-                    pMarz_96++;
+                    pPoint->field_0_x = 0;
+                    pPoint++;
                 }
-                ChangePedStatesByMode_463300(99u);
+                break;
+
+            case 12:
+            case 16:
+            case 32:
+            case 56:
+                SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                // fall through
+            case 22:
+                mode = 3;
+                break;
+
+            case 28:
+                if (!gAmbulance_110_6F70A8->TryAddPatient_4FA470(this))
+                {
+                    this->field_258_objective = objectives_enum::no_obj_0;
+                    return;
+                }
+                break;
+
+            case 8:
+            case 51:
+                mode = 1;
                 break;
 
             case 50:
                 ChangeNextPedState1_45C500(ped_state_1::dead_9);
                 ChangeNextPedState2_45C540(ped_state_2::Unknown_15);
-                ChangePedStatesByMode_463300(99u);
                 break;
 
             default:
-                ChangePedStatesByMode_463300(99u);
                 break;
         }
+        ChangePedStatesByMode_463300(mode);
     }
 }
 
