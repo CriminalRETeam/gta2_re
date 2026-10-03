@@ -491,7 +491,7 @@ struct Frontend
                            u16 text_ypos,
                            u16 num_entries,
                            u16 arg_fontType,
-                           u16 palette,
+                           s32 palette,
                            u8 spacing_type);
 };
 

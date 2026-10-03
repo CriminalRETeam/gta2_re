@@ -1001,64 +1001,56 @@ void Frontend::DrawScoreTable_4B5430(score_table_line* pStrings,
                           u16 text_ypos,
                           u16 num_entries,
                           u16 arg_fontType,
-                          u16 palette,
+                          s32 palette,
                           u8 spacing_type)
 {
     WIP_IMPLEMENTED;
-    if (num_entries > 0)
+    u16 new_xpos;
+
+    for (u16 i = 0; i < num_entries; i++)
     {
-        u16 new_xpos;
-        score_table_line* pSmallStringIter = pStrings;
-        u16 og_y_pos = text_ypos;
-
-        for (u16 i = 0; i < num_entries; i++)
+        score_table_line* pIter = &pStrings[i];
+        u16 text_ypos_to_use = text_ypos + 40 * i;
+        if (spacing_type)
         {
-            //pSmallStringIter = pStrings[i];
-            u16 text_ypos_to_use = text_ypos;
-            if (spacing_type)
-            {
-                text_ypos_to_use = og_y_pos;
-            }
-            if (!wcscmp(pSmallStringIter->field_0_player_name, (wchar_t*)&gEmptyWStr_67DC8C))
-            {
-                swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("hi_empt"));
-            }
-            else
-            {
-                swprintf(tmpBuff_67BD9C, L"%s", pSmallStringIter->field_0_player_name);
-            }
-            if (palette == 0xFFFFu)
-            {
-                DrawText_4B87A0(tmpBuff_67BD9C, text_xpos, text_ypos_to_use, arg_fontType, 1);
-            }
-            else
-            {
-                DrawText_5D8A10(tmpBuff_67BD9C, text_xpos, text_ypos_to_use, arg_fontType, 1, 8, palette, false, 0);
-            }
-            if (spacing_type == 0)
-            {
-                new_xpos = text_xpos + 175;
-                text_ypos_to_use = text_ypos + 20;
-            }
-            else
-            {
-                new_xpos = spacing_type == 1 ? text_xpos + 600 : text_xpos + 300;
-            }
-            swprintf(tmpBuff_67BD9C, L"%d", pSmallStringIter->field_14_score);
-
-            if (gText_0x14_704DFC->field_10_lang_code == 'j')
-            {
-                Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, new_xpos, text_ypos_to_use, arg_fontType, palette, 1, 16, true);
-            }
-            else
-            {
-                Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, new_xpos, text_ypos_to_use, arg_fontType, palette, 1, 13, true);
-            }
-
-            ++pSmallStringIter;
-            og_y_pos += 20;
-            text_ypos += 40;
+            text_ypos_to_use = text_ypos + 20 * i;
         }
+        if (!wcscmp(pIter->field_0_player_name, (wchar_t*)&gEmptyWStr_67DC8C))
+        {
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("hi_empt"));
+        }
+        else
+        {
+            swprintf(tmpBuff_67BD9C, L"%s", pIter->field_0_player_name);
+        }
+        if ((u16)palette == 0xFFFFu)
+        {
+            DrawText_4B87A0(tmpBuff_67BD9C, text_xpos, text_ypos_to_use, arg_fontType, 1);
+        }
+        else
+        {
+            DrawText_5D8A10(tmpBuff_67BD9C, text_xpos, text_ypos_to_use, arg_fontType, 1, 8, palette, false, 0);
+        }
+        if (spacing_type == 0)
+        {
+            new_xpos = text_xpos + 175;
+            text_ypos_to_use = text_ypos + 40 * i + 20;
+        }
+        else
+        {
+            new_xpos = spacing_type == 1 ? text_xpos + 600 : text_xpos + 300;
+        }
+        swprintf(tmpBuff_67BD9C, L"%d", pIter->field_14_score);
+
+        if (gText_0x14_704DFC->field_10_lang_code == 'j')
+        {
+            Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, new_xpos, text_ypos_to_use, arg_fontType, palette, 1, 16, true);
+        }
+        else
+        {
+            Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, new_xpos, text_ypos_to_use, arg_fontType, palette, 1, 13, true);
+        }
+
     }
 }
 
