@@ -984,8 +984,8 @@ void CarAI_78::sub_448770()
 
             if (this->field_0_car->IsA6Bit1Set_42AC30())
             {
-                Fix16 new_x = dword_677A74.ToInt();
-                Fix16 new_y = dword_677A80.ToInt();
+                Fix16 new_x = (u8)dword_677A74.ToInt();
+                Fix16 new_y = (u8)dword_677A80.ToInt();
 
                 switch (this->field_4C_curr_direction)
                 {
@@ -1020,7 +1020,7 @@ void CarAI_78::sub_448770()
                     {
                         this->field_0_car->DoBreak_43A950();
                         this->field_8 = 0;
-                        this->field_24_flags &= 0x7F;
+                        this->field_24_flags &= ~0x80u;
                     }
                 }
             }
@@ -1070,15 +1070,15 @@ void CarAI_78::sub_448770()
 
     Fix16 y_v__ = this->field_0_car->field_50_car_sprite->field_14_xy.y + y_off__;
     dword_677A80 = y_v__;
-    if (x_v__ <= kF16Zero_677B90 || y_v__ <= kF16Zero_677B90 || x_v__ >= kFp255_677950 || y_v__ >= kFp255_677950)
-    {
-    }
-    else
+    if (x_v__ > kF16Zero_677B90 && y_v__ > kF16Zero_677B90 && x_v__ < kFp255_677950 && y_v__ < kFp255_677950)
     {
         pBlock_____ =
             gMap_0x370_6F6268->get_block_4DFE10(x_v__.ToInt(), y_v__.ToInt(), this->field_0_car->field_50_car_sprite->field_1C_zpos.ToInt());
-        if (!pBlock_____ || ((pBlock_____->field_B_slope_type & 0xFC) == 0) || (pBlock_____->field_B_slope_type & 0xFCu) >= 0xB4 ||
-            (pBlock_____->field_B_slope_type & 3) == 0)
+        if (pBlock_____ && (pBlock_____->field_B_slope_type & 0xFC) > 0 && (pBlock_____->field_B_slope_type & 0xFC) < 0xB4 &&
+            (pBlock_____->field_B_slope_type & 3) != 0)
+        {
+        }
+        else
         {
             pBlock_____ = gMap_0x370_6F6268->get_block_4DFE10(dword_677A74.ToInt(),
                                                               dword_677A80.ToInt(),
