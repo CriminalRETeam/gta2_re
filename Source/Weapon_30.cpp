@@ -944,19 +944,13 @@ WIP_FUNC(0x5DF270)
 void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped* a5, Sprite* a6)
 {
     Fix16 zpos = a1->field_1C_zpos;
-    a2 = a2 / 2;
     Fix16 xpos = a1->field_14_xy.x;
     Fix16 ypos = a1->field_14_xy.y;
     Ang16 angle = a1->field_0;
     struct_4 hits;
 
     Fix16_Rect rect;
-    rect.field_0_left = xpos - a2;
-    rect.field_4_right = xpos + a2;
-    rect.field_8_top = ypos - a2;
-    rect.field_C_bottom = ypos + a2;
-    rect.field_10_low_z = zpos - dword_706CC8;
-    rect.field_14_high_z = zpos + dword_706CC8;
+    rect.ComputeShockPrism(xpos, ypos, a2, zpos, dword_706CC8);
 
     if (gPurpleDoom_1_679208->CollectRectCollisions_477F30(&rect, 0, 0, a1, &hits))
     {
@@ -966,22 +960,42 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
             pHit = hits.TakeClosestSprite_5A6EA0(xpos, ypos);
             while (pHit)
             {
-                if (pHit->field_30_sprite_type_enum == sprite_types_enum::ped_3 && pHit->field_8_char_b4_ptr && pHit == a6)
+                // The original has the angle check twice (two copies of the code)
+                if (pHit->field_30_sprite_type_enum == sprite_types_enum::ped_3 && pHit->field_8_char_b4_ptr)
                 {
-                    break;
-                }
-                Fix16 dx = pHit->field_14_xy.x - xpos;
-                Fix16 dy = pHit->field_14_xy.y - ypos;
-                Ang16 diff(Fix16::atan2_fixed_405320(dy, dx).rValue - angle.rValue);
-                diff.Normalize_406C20();
-                if (diff < word_706D6C || diff > word_706E28)
-                {
-                    hits.ClearList_5A6E10();
-                    if (a5->field_170_selected_weapon)
+                    if (pHit == a6)
                     {
-                        a5->field_170_selected_weapon->field_4 = 1;
+                        break;
                     }
-                    return;
+                    Fix16 dx = pHit->field_14_xy.x - xpos;
+                    Fix16 dy = pHit->field_14_xy.y - ypos;
+                    Ang16 diff(Fix16::atan2_fixed_405320(dy, dx).rValue - angle.rValue);
+                    diff.Normalize_406C20();
+                    if (diff < word_706D6C || diff > word_706E28)
+                    {
+                        hits.ClearList_5A6E10();
+                        if (a5->field_170_selected_weapon)
+                        {
+                            a5->field_170_selected_weapon->field_4 = 1;
+                        }
+                        return;
+                    }
+                }
+                else
+                {
+                    Fix16 dx = pHit->field_14_xy.x - xpos;
+                    Fix16 dy = pHit->field_14_xy.y - ypos;
+                    Ang16 diff(Fix16::atan2_fixed_405320(dy, dx).rValue - angle.rValue);
+                    diff.Normalize_406C20();
+                    if (diff < word_706D6C || diff > word_706E28)
+                    {
+                        hits.ClearList_5A6E10();
+                        if (a5->field_170_selected_weapon)
+                        {
+                            a5->field_170_selected_weapon->field_4 = 1;
+                        }
+                        return;
+                    }
                 }
                 pHit = hits.TakeClosestSprite_5A6EA0(xpos, ypos);
             }
@@ -1010,8 +1024,10 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
                     bOutside = 1;
                 }
 
+                // Like Fix16::MaxAbsDistance_42A6B0, with the y difference and Abs out of line
+                Fix16 cam_y = a5->field_1AC_cam.y;
                 Fix16 back_x = pB4->field_80_sprite_ptr->field_14_xy.x - a5->field_1AC_cam.x;
-                Fix16 back_y = pB4->field_80_sprite_ptr->field_14_xy.y - a5->field_1AC_cam.y;
+                Fix16 back_y = pB4->field_80_sprite_ptr->field_14_xy.y.Subtract_436A00(cam_y);
                 Fix16 dist = Fix16::Max_44E540(Fix16::Abs_436A50(back_x), Fix16::Abs_436A50(back_y));
 
                 if (bOutside)

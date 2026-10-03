@@ -50,6 +50,20 @@ class Fix16_Rect
         this->field_14_high_z = z + kCollisionPrismHalfHeight_6771E4;
     }
 
+    // Like ComputeCollisionPrism_4204D0, with the out-of-line Fix16 operators (sub_5DF270)
+    void ComputeShockPrism(Fix16 x, Fix16 y, Fix16 offset, Fix16 z, const Fix16& half_z)
+    {
+        offset = offset / 2;
+
+        field_0_left = x.Subtract_436A00(offset);
+        field_4_right = (const Fix16&)x + offset;
+        field_8_top = y.Subtract_436A00(offset);
+        field_C_bottom = (const Fix16&)y + offset;
+
+        field_10_low_z = z.Subtract_436A00(half_z);
+        field_14_high_z = (const Fix16&)z + half_z;
+    }
+
     // 9.6f 0x41E350
     // https://decomp.me/scratch/HVOft
     void SetRect_41E350(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom)
