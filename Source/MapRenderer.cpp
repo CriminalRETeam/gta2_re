@@ -2336,13 +2336,16 @@ void __stdcall draw_4F3FB0(s32 arg)
 }
 
 // https://decomp.me/scratch/NaMFS or https://decomp.me/scratch/hij63
-WIP_FUNC(0x4f4190)
+MATCH_FUNC(0x4f4190)
 void __stdcall Set_UV_4F4190(Fix16& a1, Fix16& a2, const u32& pVertIdx)
 {
-    WIP_IMPLEMENTED;
-    Fix16_Point uv_coords = ((gUVEdge03_6F62A0 * a2) + (gUVEdge01_6F62A8 * a1)) + gUVCorner0_6F6580;
-    gTileVerts_6F65A8[pVertIdx].u = uv_coords.x.ToFloat();
-    gTileVerts_6F65A8[pVertIdx].v = uv_coords.y.ToFloat();
+    Fix16_Point uv_coords = ((gUVEdge01_6F62A8 * a1) + (gUVEdge03_6F62A0 * a2)) + gUVCorner0_6F6580;
+    // Converting through f32 locals (rather than ToFloat()) adds a narrowing step that makes
+    // VC6 schedule the index load before the fmuls, like the original.
+    f32 u = uv_coords.x.mValue;
+    gTileVerts_6F65A8[pVertIdx].u = u / 16384.0f;
+    f32 v = uv_coords.y.mValue;
+    gTileVerts_6F65A8[pVertIdx].v = v / 16384.0f;
 }
 
 // https://decomp.me/scratch/dGqKl
