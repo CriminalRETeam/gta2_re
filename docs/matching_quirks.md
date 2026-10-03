@@ -444,6 +444,21 @@ divisions kept both inline (`Sprite::FindOverlappingBoundingBoxCorners_5A0150`).
 uses them only when the other path returns from the switch: a switch whose default returns, with the
 rest after the switch, replaced a goto into a case (`CarPhysics_B0::ComputeSlopeCorrection_55AB50`).
 
+**Merged case labels and jump tables.** `case 2` plus `case 3: case 4: case 5:` gave a compare chain;
+giving `case 3` its own copy of the body produced the 2..5 jump table, and VC6 still merged the identical
+blocks (`Object_2C::UpdateMovementAndEffects_527070`). Writing each case separately also keeps a
+constant in a register: VC6 counts constant uses before merging (`Wolfy_7A8::sub_543690`).
+
+**Take an inline's `this` into a local before the call** to set the prologue load order and the
+register for a constant (`ExplodingScore_50::DrawNumbers_596C90`, with a private out-of-line copy of
+the 9.6f inline 4B90E0).
+
+**Implicit `u8 -> Fix16` arguments call the ctor out of line** (`FromInt_45C4E0`); `(s32)u8` builds it
+in place inline; an explicit `Fix16(u8)` pushes the value (`TryCreateRoadblockAt_577370`).
+
+**`Fix16(x + 1)` per iteration** is strength-reduced to an induction variable initialised after the
+loop guard (`RectHitsDiagonalWall_4E11E0`, 175 -> ~12).
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 
