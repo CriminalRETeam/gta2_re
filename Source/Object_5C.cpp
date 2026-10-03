@@ -1079,15 +1079,15 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
 
     Fix16 v11;
     Fix16 v52;
-    if (a2 == kFpZero_6F8E10)
-    {
-        v11 = kFpZero_6F8E10;
-        v52 = kFpZero_6F8E10;
-    }
-    else
+    if (a2 != kFpZero_6F8E10)
     {
         v11 = (a2) / this->field_8->field_C_min_size;
         v52 = (a2) / v11;
+    }
+    else
+    {
+        v11 = kFpZero_6F8E10;
+        v52 = kFpZero_6F8E10;
     }
 
     if (v11 < kFP16One_6F8E14)
@@ -1098,13 +1098,14 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
 
     Fix16 v53;
     Fix16 v13;
-    Ang16::PolarToCartesian_41FC20(a3, v52, v53, v13);
+    v53 = Ang16::sine_40F500(a3) * v52;
+    v13 = Ang16::cosine_40F520(a3).Multiply_408680(v52); // 9.6f inlined: PolarToCartesian_41FC20
 
     u8 a2_ = 1;
     //v59.x = v13;
     s32 t = v11.ToInt();
     //    v60.x = v11.ToInt();
-    if (v11.ToInt() < 1)
+    if (t < 1)
     {
     LABEL_56:
         field_4->set_xyz_lazy_420600(v5->field_14_xy.x, v5->field_14_xy.y, v5->field_1C_zpos);
