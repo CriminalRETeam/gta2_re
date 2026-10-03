@@ -281,10 +281,20 @@ void Wolfy_30::state_3_12_540D30(Ang16 a2, Fix16 speed)
 {
     WIP_IMPLEMENTED;
 
-    Ang16 v6 = kAng180_6FD3EE + a2;
+    // the ctor directly: operator+ calls it out of line here, and the Normalize loops
+    // have to be inlined (the original keeps v6 in si)
+    Ang16 v6(kAng180_6FD3EE.rValue + a2.rValue, 0);
 
-    Fix16 v32 = ((speed * gCos_table_669260[v6.rValue]) + (speed * gSin_table_667A80[v6.rValue]));
-    Fix16 v13 = ((-speed * gSin_table_667A80[v6.rValue]) + (speed * speed));
+    Fix16_Point p(speed, speed);
+
+    // Fix16_Point::RotateByAngle_40F6B0 written out: the function ran out of inline
+    // expansions, so the multiplies and adds are the out of line operator copies
+    // (only the y*sin multiply stays inline)
+    Fix16 sin = Ang16::sine_40F500(v6);
+    Fix16 cos = Ang16::cosine_40F520(v6);
+    Fix16 x_old = p.x;
+    p.x = (const Fix16&)p.x.Multiply_408680(cos) + (p.y * sin);
+    p.y = (const Fix16&)(-x_old).Multiply_408680(sin) + p.y.Multiply_408680(cos);
 
     this->field_8_speed = speed;
     this->field_C_angle = a2;
@@ -296,7 +306,7 @@ void Wolfy_30::state_3_12_540D30(Ang16 a2, Fix16 speed)
     else
     {
         //a3 = (int)&v27;
-        Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(v32, v13, dword_6FD330, v32, v13, 0);
+        Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(p.x, p.y, dword_6FD330, p.x, p.y, 0);
         if (!pParticle)
         {
             return;
