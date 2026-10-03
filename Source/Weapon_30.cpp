@@ -351,12 +351,19 @@ void Weapon_30::shotgun_5DD290()
     }
 }
 
+// Fix16_Point::FromPolar_41E210 (9.6f 0x41E210) as it comes out in pistol_5DD860: the x line
+// reads the sine table directly (through Ang16::sine_40F500 VC6 loads the radius first), the
+// y line is the out of line radius * cos
+static inline void FromPolar_41E210_sin_table(Fix16_Point& p, const Fix16& radius, const Ang16& angle)
+{
+    p.x = radius * gSin_table_667A80[angle.rValue];
+    p.y = radius * Ang16::cosine_40F520(angle);
+}
+
 // 9.6f 0x4CE070
-WIP_FUNC(0x5dd860)
+MATCH_FUNC(0x5dd860)
 void Weapon_30::pistol_5DD860()
 {
-    WIP_IMPLEMENTED;
-
     Ang16 pedRot;
     Fix16_Point offset;
     Fix16_Point velocity;
@@ -373,7 +380,7 @@ void Weapon_30::pistol_5DD860()
             Fix16 z = field_24_pPed->get_cam_z();
             pedRot = field_24_pPed->GetRotation();
             velocity = field_24_pPed->GetVelocityVector_45B520();
-            offset.FromPolar_41E210(kFP16Quarter_706CF4, pedRot);
+            FromPolar_41E210_sin_table(offset, kFP16Quarter_706CF4, pedRot);
             Fix16 xx = x + offset.x;
             Fix16 yy = y + offset.y;
             if (spawn_bullet_5DCF60(bullet_type, xx, yy, z, pedRot, velocity))
