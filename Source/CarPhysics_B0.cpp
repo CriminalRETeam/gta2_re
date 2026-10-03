@@ -2397,22 +2397,29 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
 {
     WIP_IMPLEMENTED;
 
+    Fix16_Point RelativeVelocity_1;
+    Fix16_Point RelativeVelocity;
+    Fix16_Point DirectionBetweenCoMs_Scaled;
+    Fix16_Point OtherCoM;
+    Fix16_Point ThisCoM;
+    Fix16_Point ImpulseForce;
+
     Fix16 ThisCarMass = CalculateMass_559FF0();
     pOtherCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
 
     CarPhysics_B0* OtherCarPhysics = pOtherCar->field_58_physics;
 
     OtherCarPhysics->SetCurrentCarInfoAndModelPhysics_562EF0();
-    Fix16_Point RelativeVelocity_1 = OtherCarPhysics->ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
+    RelativeVelocity_1 = OtherCarPhysics->ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
     SetCurrentCarInfoAndModelPhysics_562EF0();
-    Fix16_Point RelativeVelocity_2 = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
-    Fix16_Point ThisCoM = ComputeCombinedCenterOfMass_559EC0();
-    Fix16_Point OtherCoM = OtherCarPhysics->ComputeCombinedCenterOfMass_559EC0();
+    RelativeVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0) - RelativeVelocity_1;
+    ThisCoM = ComputeCombinedCenterOfMass_559EC0();
+    OtherCoM = OtherCarPhysics->ComputeCombinedCenterOfMass_559EC0();
     stru_6FE1F0 = ThisCoM - CollisionIntersectionPoint_6FE1A0;
 
-    Fix16_Point ImpulseForce = ComputeLineLineIntersection_55F3B0(ThisCarMass,
+    ImpulseForce = ComputeLineLineIntersection_55F3B0(ThisCarMass,
                                                                   OtherCarPhysics->CalculateMass_559FF0(),
-                                                                  RelativeVelocity_2 - RelativeVelocity_1,
+                                                                  RelativeVelocity,
                                                                   stru_6FE1F0,
                                                                   CollisionIntersectionPoint_6FE1A0,
                                                                   ThisCoM,
@@ -2431,7 +2438,7 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
             field_68_z_pos = kFP16Zero_6FE20C;
         }
 
-        Fix16_Point DirectionBetweenCoMs_Scaled = (ThisCoM - OtherCoM).NormalizeSafe_442AD0() / 10;
+        DirectionBetweenCoMs_Scaled = (ThisCoM - OtherCoM).NormalizeSafe_442AD0() / 10;
 
         if (field_5C_pCar->sub_49EFE0() && pOtherCar->CanCollideOver_4216E0())
         {
@@ -2453,7 +2460,7 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
     u8 bGreatCollision;
 
     // Implement developments of collision with CopCar
-    if (field_5C_pCar->sub_49EFE0() && !pOtherCar->CanCollideOver_4216E0() && ImpulseForce.GetLength_41E260() > dword_6FDFD8 &&
+    if (field_5C_pCar->sub_49EFE0() && !pOtherCar->CanCollideOver_4216E0() && ImpulseForce.GetLength_all_out_of_line_abs_y_negate() > dword_6FDFD8 &&
         field_40_linvel_1.GetLength_453590() > dword_6FE1C4)
     {
         bGreatCollision = true;
