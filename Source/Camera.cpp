@@ -461,65 +461,49 @@ EXPORT void __stdcall SmoothApproach_4F7540(Fix16& Coord_1, Fix16& Velocity_1, F
 {
     WIP_IMPLEMENTED;
 
+    // 9.6f order (V1 += V2, C2 += V1 everywhere). Left: the original keeps the clamp and delta
+    // stores separate (copy propagated, delta tail-merged with the -V3 clamp).
     Fix16 DeltaCoord = Coord_1 - Coord_2;
     if (DeltaCoord > kZero_6F6C50)
     {
         if (Velocity_1 >= kZero_6F6C50)
         {
-            Fix16 v6 = Velocity_2 + Velocity_1;
-            if (v6 <= DeltaCoord)
+            if (Velocity_1 + Velocity_2 <= DeltaCoord)
             {
-                Velocity_1 = v6;
-                if (Velocity_1 > Velocity_3) // line 38   jle  7e
+                Velocity_1 += Velocity_2;
+                if (Velocity_1 > Velocity_3)
                 {
                     Velocity_1 = Velocity_3;
-                    Coord_2 += Velocity_3;
-                }
-                else
-                {
-                    Coord_2 += Velocity_1;
                 }
             }
             else
             {
                 Velocity_1 = DeltaCoord;
-                Coord_2 += DeltaCoord;
             }
-        }
-        else
-        {
-            Velocity_1 = kZero_6F6C50;
             Coord_2 += Velocity_1;
+            return;
         }
     }
     else if (DeltaCoord < kZero_6F6C50 && Velocity_1 <= kZero_6F6C50)
     {
-        Fix16 DeltaVel = Velocity_1 - Velocity_2;
-        if (DeltaVel >= DeltaCoord)
+        if (Velocity_1 - Velocity_2 >= DeltaCoord)
         {
-            Velocity_1 = DeltaVel;
-            DeltaCoord = -Velocity_3;
-            if (Velocity_1 < DeltaCoord)
+            Velocity_1 -= Velocity_2;
+            if (Velocity_1 < -Velocity_3)
             {
-                Velocity_1 = DeltaCoord;
-                Coord_2 += DeltaCoord;
-            }
-            else
-            {
-                Coord_2 += Velocity_1;
+                Velocity_1 = -Velocity_3;
             }
         }
         else
         {
             Velocity_1 = DeltaCoord;
-            Coord_2 += DeltaCoord;
         }
-    }
-    else
-    {
-        Velocity_1 = kZero_6F6C50;
         Coord_2 += Velocity_1;
+        return;
     }
+
+    Velocity_1 = kZero_6F6C50;
+    Coord_2 += Velocity_1;
 }
 
 // TODO: move
