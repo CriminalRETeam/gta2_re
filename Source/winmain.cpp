@@ -1992,9 +1992,16 @@ EXPORT void __stdcall ToggleStartMode_5D9250()
     gRegistry_6FF968.Set_Screen_Setting_587170("start_mode", gStartMode_626A0C);
 }
 
-WIP_FUNC(0x5E4EE0)
+MATCH_FUNC(0x5E4EE0)
 EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
+    BYTE bSetFocusInput;
+    BYTE bKillFocusInput;
+    BYTE bActiveInput;
+    BYTE bInactiveInput;
+    s32 newX;
+    s32 newY;
+    RECT winRec;
 
     switch (Msg)
     {
@@ -2025,15 +2032,14 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
 
             if (!bDestroyed_6F5B70)
             {
-                //LOBYTE(Msg) = 1;
-                BYTE tmp = 1;
-                Frontend::SetInputEnabled_5E53C0(&tmp);
+                bSetFocusInput = 1;
+                Frontend::SetInputEnabled_5E53C0(&bSetFocusInput);
                 if (!bDoFrontEnd_626B68)
                 {
                     Input_Read_498D10();
                 }
 
-                if (gVidSys_7071D0 && !Bink::IsUsingDDBuffer_513770())
+                if (gVidSys_7071D0 && !(u8)Bink::IsUsingDDBuffer_513770())
                 {
                     SetVideoModeFromSettings_5D92D0();
                     OnVideoModeChanged_5D9680();
@@ -2052,13 +2058,13 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
         case WM_KILLFOCUS: // order ok
             //LOBYTE(hWnd) = 0;
             {
-                BYTE tmp = 0;
-                Frontend::SetInputEnabled_5E53C0(&tmp);
+                bKillFocusInput = 0;
+                Frontend::SetInputEnabled_5E53C0(&bKillFocusInput);
                 Input_ReleaseMouse_5D7C70();
                 gRoot_sound_66B038.Set3DSound_40F160(0);
                 gRoot_sound_66B038.Release_40F130();
 
-                if (gFrontend_67DC84 && Bink::IsDDBufferOpen_513760())
+                if (gFrontend_67DC84 && (u8)Bink::IsDDBufferOpen_513760())
                 {
                     Bink::CloseSlot1_513340();
                     Bink::CloseSlot2_513390();
@@ -2078,21 +2084,21 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
             }
 
         case WM_ACTIVATE: // order ok
-            switch (wParam)
+            switch ((u8)wParam)
             {
                 case WA_ACTIVE:
                 case WA_CLICKACTIVE:
                 {
-                    BYTE tmp = 1;
-                    Frontend::SetInputEnabled_5E53C0(&tmp);
+                    bActiveInput = 1;
+                    Frontend::SetInputEnabled_5E53C0(&bActiveInput);
                     Input_MouseAcquire_5D7C60();
                 }
                 break;
 
                 case WA_INACTIVE:
                 {
-                    BYTE tmp = 0;
-                    Frontend::SetInputEnabled_5E53C0(&tmp);
+                    bInactiveInput = 0;
+                    Frontend::SetInputEnabled_5E53C0(&bInactiveInput);
                     Input_ReleaseMouse_5D7C70();
                 }
                 break;
@@ -2141,8 +2147,8 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
             WINDOWPOS* pPos = reinterpret_cast<WINDOWPOS*>(lParam);
             if (gFrontend_67DC84 && (pPos->flags & 2) == 0)
             {
-                s32 newX = pPos->x;
-                s32 newY = pPos->y;
+                newX = pPos->x;
+                newY = pPos->y;
                 Bink::CheckWindowPos_5136D0(&newX, &newY);
                 pPos->x = newX;
                 pPos->y = newY;
@@ -2206,7 +2212,6 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
         case WM_SIZING:
         {
             RECT* pDragRect = reinterpret_cast<RECT*>(lParam);
-            RECT winRec;
             GetWindowRect(gHwnd_707F04, &winRec);
             pDragRect->left = winRec.left;
             pDragRect->top = winRec.top;
