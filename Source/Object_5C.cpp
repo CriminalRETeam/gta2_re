@@ -507,52 +507,33 @@ void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3
 }
 
 // 9.6f 0x4867E0
-WIP_FUNC(0x5229b0)
+MATCH_FUNC(0x5229b0)
 void Object_2C::ResolveCollisionWithPed_5229B0(Char_B4* pB4, Fix16_Point* pPoint, u8 not_used)
 {
-    WIP_IMPLEMENTED;
-
+    Fix16_Point posDelta;
+    Fix16_Point lineHitPos;
+    Fix16_Point v16;
     Ped* pPed = pB4->field_7C_pPed;
     Fix16_Point camPos(pPed->get_cam_x(), pPed->get_cam_y());
 
-    //LOBYTE(seh) = 3;
     Fix16_Point spritePos = GetXY_52AE70();
-    //LOBYTE(seh) = 4;
-    Fix16_Point posDelta = (spritePos - *pPoint);
+    posDelta = (spritePos - *pPoint);
 
-    Fix16_Point tmp = pB4->sub_545580();
-    //LOBYTE(seh) = 5;
-
-    Fix16_Point lineHitPos = ComputeLineLineIntersection_55F3B0(field_8->field_18_mass,
-                                                                kFP16Half_6F8EE4,
-                                                                tmp,
-                                                                posDelta,
-                                                                *pPoint,
-                                                                spritePos,
-                                                                camPos,
-                                                                kFP16One_6F8D38,
-                                                                kFP16One_6F8CE0,
-                                                                kFP16One_6F8F74);
-    //LOBYTE(seh) = 4;
-    Fix16_Point nrmHitPos = (lineHitPos / field_8->field_18_mass); // TODO: sub_482C80
-    //LOBYTE(seh) = 6;
-    SetMovementVectorWithRandomState_522640(nrmHitPos);
-    //LOBYTE(seh) = 4;
-    Fix16_Point v15 = (-lineHitPos);
-    //LOBYTE(seh) = 7;
-    Fix16_Point v16 = (v15 / kFP16Half_6F8EE4);
-    //mValue = v16->x;
-    //v18 = v16->y;
-    Fix16_Point t;
-    t.x = kFpZero_6F8E10;
-    t.y = kFpZero_6F8E10;
-    if (t.x != kFpZero_6F8E10 && t.y != kFpZero_6F8E10)
-    {
-        pB4->HandleCarImpact_5538A0(0, 0, kFpZero_6F8E10, kFpZero_6F8E10);
-    }
-    //LOBYTE(seh) = 4;
-    //v21 = kFpZero_6F8E10;
-    //v22 = kFpZero_6F8E10;
+    lineHitPos = ComputeLineLineIntersection_55F3B0(GetMass_482C80(),
+                                                    kFP16Half_6F8EE4,
+                                                    pB4->sub_545580(),
+                                                    posDelta,
+                                                    *pPoint,
+                                                    spritePos,
+                                                    camPos,
+                                                    kFP16One_6F8D38,
+                                                    kFP16One_6F8CE0,
+                                                    kFP16One_6F8F74);
+    SetMovementVectorWithRandomState_522640(lineHitPos.Divide_442CB0(GetMass_482C80()));
+    v16 = lineHitPos.Negate_40ACB0().Divide_442CB0(kFP16Half_6F8EE4);
+    // The ped impact was compiled out: v16 is overwritten with zero
+    v16.x = kFpZero_6F8E10;
+    v16.y = kFpZero_6F8E10;
 
     HandleImpact_528E50(pB4->field_80_sprite_ptr); // TODO: sub_4338D0
 }

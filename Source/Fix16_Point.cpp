@@ -27,6 +27,12 @@ Fix16_Point Fix16_Point::operator-(const Fix16_Point& rhs)
     return Fix16_Point(x - rhs.x, y - rhs.y);
 }
 
+MATCH_FUNC(0x40ACB0)
+Fix16_Point Fix16_Point::Negate_40ACB0() const
+{
+    return Fix16_Point(-x, -y);
+}
+
 Fix16_Point Fix16_Point::operator/(Fix16& in)
 {
     return Fix16_Point(x / in, y / in);

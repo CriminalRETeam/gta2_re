@@ -219,6 +219,9 @@ class Fix16_Point : public Fix16_Point_POD
     // 0x40AC80
     Fix16_Point operator-(const Fix16_Point& rhs);
 
+    // Out of line unary minus (Object_2C::ResolveCollisionWithPed_5229B0)
+    EXPORT Fix16_Point Negate_40ACB0() const;
+
     // The same function of GetLength but using another cutoff
     inline Fix16 GetLength_2()
     {
