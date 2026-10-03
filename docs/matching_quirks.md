@@ -518,6 +518,18 @@ original splits elsewhere (110 in `sound_obj::SelectObjectImpactSound_413120`), 
 (`CarAI_78::ManageCollisions_452A20`). Stacked case labels give a `cmp/jl/jle` range test, while separate
 identical case bodies give the `sub/dec/je` chain (`Char_B4::state_7_551CB0`).
 
+**Moving a callee to its own TU brings back EH state stores.** With `GetBoundingBoxCorner_562450` defined earlier
+in sprite.cpp, VC6 knew it couldn't throw and dropped the state stores around its calls in
+`Sprite::FindCollisionIntersectionPoint_5A2710`. Defining it in CarPhysics_B0.cpp (its address range) restored them
+and gave the match. Worth checking in any WIP whose EH state stores are missing.
+
+**EH state at entry counts the destructible locals declared up front.** When the original sets the trylevel to N
+on entry, declare N+1 `Fix16_Point` (or other destructible) locals at the top, even one that stays unused, and copy
+call results into them (`TryHitchTrailer_442810`, `ProcessPedImpact_560B40`, `SpawnSkidSegment_55D200`).
+
+**`__forceinline` on pool constructors.** In `PedManager::PedManager` (0x470650) VC6 stopped inlining the pool
+constructors once out-of-line Fix16 conversions appeared in the function; `__forceinline` on them restored the match.
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 
@@ -833,9 +845,11 @@ callee ends in `ret $N` without reading `ecx`, declare it `static ... __stdcall`
 
 **A variadic member is `__cdecl` with `this` on the stack.** A plain `ret` hints at `...`.
 
-**Duplicate helper copies.** The original has two identical copies of some small functions,
-for example the `Fix16(int)` constructor at `0x4369F0` and `0x4926F0`. Our link has one, so a
-function that calls the "other" copy can't match (`Hud_CarName_4C::DrawCarName_5D4A10`).
+**Duplicate helper copies.** The original has two identical copies of some small functions. For the `Fix16(int)`
+constructor they are really two constructors: `0x4369F0` is `Fix16(s32)` and `0x4926F0` is `Fix16(u32)`, with
+identical code. Passing a `u32` where the original calls `0x4926F0` matched `Garox_12E4_sub::DrawPause_5D63B0`; the
+same probably applies to `Hud_CarName_4C::DrawCarName_5D4A10`, `DrawBrief_5D3B80`, `DrawPlayerStatsHelper_5D61A0` and
+`0x492430`. Check the other duplicate pairs for a type difference before assuming they can't match.
 
 **EH state stores between member destructor calls.** If the original calls several member
 destructors in a row without the `movb $N,X(%esp)` state stores between them, VC6 knew
