@@ -2861,20 +2861,19 @@ void CarPhysics_B0::UpdateLinearAndAngularAccel_560EB0()
     field_80_angular_accel = -field_7C_torque_accum / CarPhysics_B0::GetEffectiveMomentOfInertia_55A050();
 }
 
-WIP_FUNC(0x560f20)
+MATCH_FUNC(0x560f20)
 void CarPhysics_B0::ApplyMovementStep_560F20(Fix16 a2)
 {
-    WIP_IMPLEMENTED;
-
     Fix16 v3 = (gRemainingTimeStep_6FE198 * a2);
 
     if (v3 != kFP16Zero_6FE20C)
     {
-        Ang16 tmp = Ang16::Fix16_To_Ang16_40F540(v3 * field_74_ang_vel_rad);
-        this->field_58_theta += tmp;
+        // 9.6f: Ang16::Fix16_To_Ang16_40F540, written out so Normalize is inlined on a register
+        Ang16 tmp((s16)((v3 * field_74_ang_vel_rad).GetRaw_40F4B0() / 71), (u8)0);
+        this->field_58_theta = Ang16(field_58_theta.rValue + tmp.rValue).Normalized_406C20();
 
-        // 9.6f: Fix16_Point operator+= (0x40F680, inlined, using it makes the diff worse)
-        this->field_30_cm1 = field_30_cm1 + (field_40_linvel_1 * v3);
+        // 9.6f: Fix16_Point operator+= (0x40F680, inlined)
+        this->field_30_cm1 += (field_40_linvel_1 * v3);
 
         UpdateCp1FromCm1_563280();
 
