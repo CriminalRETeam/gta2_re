@@ -231,144 +231,125 @@ void CarAI_78::sub_447710()
     }
 }
 
-WIP_FUNC(0x447970)
+// Inlined in DoShortcutsUsingJunctions_447970 (no 9.6f function)
+inline void CarAI_78::TurnAround_447970()
+{
+    field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
+    field_0_car->field_60->field_22 = 0;
+    field_0_car->sub_43AF60();
+    field_0_car->field_60->field_26 = 1;
+}
+
+MATCH_FUNC(0x447970)
 void CarAI_78::DoShortcutsUsingJunctions_447970()
 {
-    WIP_IMPLEMENTED;
-
     this->field_24_flags &= ~0xC0000u;
 
-    Fix16 field_14_target_x = field_0_car->field_60->field_14_target_x;
-    Fix16 field_18_target_y = field_0_car->field_60->field_18_target_y;
-    s32 v18 = field_0_car->field_60->field_1C_target_z.ToInt();
-    s32 v7 = field_14_target_x.ToInt();
-    s32 v8 = field_18_target_y.ToInt();
-    s32 v19 = v8;
+    u8 x = field_0_car->field_60->field_14_target_x.ToInt();
+    u8 y = field_0_car->field_60->field_18_target_y.ToInt();
+    u8 z = field_0_car->field_60->field_1C_target_z.ToInt();
     if (field_28_junc_idx > 0)
     {
-        u16 v9 = gRouteFinder_6FFDC8->field_2218_routes[field_28_junc_idx].field_0_junctions[this->field_56_route_pos];
-        if (!v9 || (u8)v7 == (u16)(gCurrCarAI_xpos_677C38.ToInt()) && (u8)v8 == (u16)(gCurrCarAI_ypos_677C30.ToInt()))
+        u16 junc = gRouteFinder_6FFDC8->field_2218_routes[field_28_junc_idx].field_0_junctions[(u16)field_56_route_pos];
+        if (!junc || x == (s16)gCurrCarAI_xpos_677C38.ToInt() && y == (s16)gCurrCarAI_ypos_677C30.ToInt())
         {
             gRouteFinder_6FFDC8->CancelRoute_589930(field_28_junc_idx);
-            Car_BC* v17 = this->field_0_car;
             this->field_28_junc_idx = -1;
-            v17->sub_43AF60();
+            this->field_0_car->sub_43AF60();
             this->field_0_car->field_60->field_26 = 1;
+            return;
+        }
+
+        Junction_10* pJunction = gRouteFinder_6FFDC8->GetJunction_58A0B0(junc);
+        if (x > 0)
+        {
+            if (gRouteFinder_6FFDC8->IsPointInJunctionBounds_588AA0(
+                    x,
+                    y,
+                    gRouteFinder_6FFDC8->field_2218_routes[field_28_junc_idx].field_0_junctions[(u16)field_56_route_pos],
+                    gRouteFinder_6FFDC8->field_2218_routes[field_28_junc_idx].field_0_junctions[(u16)field_56_route_pos + 1]) &&
+                z == (s16)(field_0_car->field_50_car_sprite->field_1C_zpos - gF16fOne_677B94).ToInt())
+            {
+                switch ((s16)pJunction->GetDirectionToJunction_5885C0(
+                    gRouteFinder_6FFDC8->field_2218_routes[field_28_junc_idx].field_0_junctions[(u16)field_56_route_pos + 1]))
+                {
+                    case 1:
+                        if (y >= (u8)gCurrCarAI_ypos_677C30.ToInt())
+                        {
+                            TurnAround_447970();
+                            return;
+                        }
+                        if (x > (u8)gCurrCarAI_xpos_677C38.ToInt())
+                        {
+                            field_24_flags |= 0x40000;
+                        }
+                        else if (x < (u8)gCurrCarAI_xpos_677C38.ToInt())
+                        {
+                            field_24_flags |= 0x80000;
+                        }
+                        break;
+                    case 2:
+                        if (y <= (u8)gCurrCarAI_ypos_677C30.ToInt())
+                        {
+                            TurnAround_447970();
+                            return;
+                        }
+                        if (x > (u8)gCurrCarAI_xpos_677C38.ToInt())
+                        {
+                            field_24_flags |= 0x40000;
+                        }
+                        else if (x < (u8)gCurrCarAI_xpos_677C38.ToInt())
+                        {
+                            field_24_flags |= 0x80000;
+                        }
+                        break;
+                    case 3:
+                        if (x >= (u8)gCurrCarAI_xpos_677C38.ToInt())
+                        {
+                            TurnAround_447970();
+                            return;
+                        }
+                        if (y > (u8)gCurrCarAI_ypos_677C30.ToInt())
+                        {
+                            field_24_flags |= 0x80000;
+                        }
+                        else if (y < (u8)gCurrCarAI_ypos_677C30.ToInt())
+                        {
+                            field_24_flags |= 0x40000;
+                        }
+                        break;
+                    case 4:
+                        if (x <= (u8)gCurrCarAI_xpos_677C38.ToInt())
+                        {
+                            TurnAround_447970();
+                            return;
+                        }
+                        if (y > (u8)gCurrCarAI_ypos_677C30.ToInt())
+                        {
+                            field_24_flags |= 0x40000;
+                        }
+                        else if (y < (u8)gCurrCarAI_ypos_677C30.ToInt())
+                        {
+                            field_24_flags |= 0x80000;
+                        }
+                        break;
+                }
+            }
+        }
+
+        // 9.6f: Junction_10::ContainsPoint (0x40CEE0, inlined)
+        if (pJunction->ContainsPoint(gCurrCarAI_xpos_677C38.ToInt(), gCurrCarAI_ypos_677C30.ToInt()))
+        {
+            this->field_24_flags |= 2;
+            sub_447710();
         }
         else
         {
-            Junction_10* Junction_58A0B0 = gRouteFinder_6FFDC8->GetJunction_58A0B0(v9);
-            if ((u8)v7)
+            if ((field_24_flags & 2) != 0)
             {
-                s32 v11 = this->field_56_route_pos + (this->field_28_junc_idx << 8);
-                s32 v12;
-                s32 v13;
-                if (gRouteFinder_6FFDC8->IsPointInJunctionBounds_588AA0(v7,
-                                                                        v19,
-                                                                        gRouteFinder_6FFDC8->field_2218_routes[0].field_0_junctions[v11],
-                                                                        gRouteFinder_6FFDC8->field_2218_routes[0].field_0_junctions[v11 + 1]) &&
-                    v18 == (u16)(field_0_car->field_50_car_sprite->field_1C_zpos - gF16fOne_677B94).ToInt())
-                {
-                    switch (
-                        Junction_58A0B0->GetDirectionToJunction_5885C0(gRouteFinder_6FFDC8->field_2218_routes[this->field_28_junc_idx].field_0_junctions[this->field_56_route_pos + 1]))
-                    {
-                        case 1:
-                            if (v19 >= (u8)(gCurrCarAI_ypos_677C30.ToInt()))
-                            {
-                                goto LABEL_13;
-                            }
-                            v12 = (u8)v7 < (u8)(gCurrCarAI_xpos_677C38.ToInt());
-                            if ((u8)v7 <= (u8)(gCurrCarAI_xpos_677C38.ToInt()))
-                            {
-                                goto LABEL_16;
-                            }
-                            v13 = this->field_24_flags | 0x40000;
-                            goto LABEL_28;
-
-                        case 2:
-                            if (v19 <= (u8)(gCurrCarAI_ypos_677C30.ToInt()))
-                            {
-                                goto LABEL_13;
-                            }
-                            v12 = (u8)v7 < (u8)(gCurrCarAI_xpos_677C38.ToInt());
-                            if ((u8)v7 > (u8)(gCurrCarAI_xpos_677C38.ToInt()))
-                            {
-                                v13 = this->field_24_flags | 0x40000;
-                                goto LABEL_28;
-                            }
-                        LABEL_16:
-                            if (v12)
-                            {
-                                goto LABEL_27;
-                            }
-                            break;
-
-                        case 3:
-                            if ((u8)v7 >= (u8)(gCurrCarAI_xpos_677C38.ToInt()))
-                            {
-                                goto LABEL_13;
-                            }
-                            if (v19 > (u8)(gCurrCarAI_ypos_677C30.ToInt()))
-                            {
-                                goto LABEL_27;
-                            }
-                            if (v19 >= (u8)(gCurrCarAI_ypos_677C30.ToInt()))
-                            {
-                                break;
-                            }
-                            v13 = this->field_24_flags | 0x40000;
-                            goto LABEL_28;
-
-                        case 4:
-                            if ((u8)v7 <= (u8)(gCurrCarAI_xpos_677C38.ToInt()))
-                            {
-                            LABEL_13:
-                                this->field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
-                                this->field_0_car->field_60->field_22 = 0;
-                                this->field_0_car->sub_43AF60();
-                                this->field_0_car->field_60->field_26 = 1;
-                                return;
-                            }
-                            if (v19 <= (u8)(gCurrCarAI_ypos_677C30.ToInt()))
-                            {
-                                if (v19 >= (u8)(gCurrCarAI_ypos_677C30.ToInt()))
-                                {
-                                    break;
-                                }
-                            LABEL_27:
-                                v13 = this->field_24_flags | 0x80000;
-                            }
-                            else
-                            {
-                                v13 = this->field_24_flags | 0x40000;
-                            }
-                        LABEL_28:
-                            this->field_24_flags = v13;
-                            break;
-
-                        default:
-                            break;
-                    }
-                }
+                this->field_24_flags &= ~2;
             }
-
-            s32 v14 = gCurrCarAI_ypos_677C30.ToInt();
-            // 9.6f: Junction_10::ContainsPoint (0x40CEE0, inlined, using it changes the code)
-            if ((s16)(gCurrCarAI_xpos_677C38.ToInt()) < Junction_58A0B0->field_C_min_x ||
-                (s16)(gCurrCarAI_xpos_677C38.ToInt()) > Junction_58A0B0->field_E_max_x || (s16)v14 < Junction_58A0B0->field_D_min_y ||
-                (s16)v14 > Junction_58A0B0->field_F_max_y)
-            {
-                if ((field_24_flags & 2) != 0)
-                {
-                    this->field_24_flags &= 0xFD;
-                }
-                sub_447710();
-            }
-            else
-            {
-                this->field_24_flags |= 2;
-                sub_447710();
-            }
+            sub_447710();
         }
     }
 }
