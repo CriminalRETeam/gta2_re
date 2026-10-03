@@ -362,7 +362,9 @@ doesn't (`Car_BC::IsSwatVanOrBankVan_403BC0` in `PedGroup::CoordinateGroupCarEnt
 `return (a << 4) | b` promotes to int ops (`Frontend::GetNextUnlockedBonusStage_4B7360`).
 
 **`Fix16::operator=` on a member is a scheduling barrier** and blocks constant CSE across it
-(`UpdateCarEngineAudio_57E220`, 6 -> 1 diff lines). By-value Fix16 returns assigned through
+(`UpdateCarEngineAudio_57E220`, 6 -> 1 diff lines). With `field_28_distance = 0;` VC6 can't hoist
+the following `mov ecx, esi` or a constant load above the neighbouring stores; `.mValue = 0` or
+`= Fix16(0, 0)` removes the barrier. `operator=` on a dead local is not a barrier. By-value Fix16 returns assigned through
 `operator=` on a named local give the ecx return slot + `mov eax,ecx` (`Car_14::GetRandomTrafficSpeed_583750`).
 
 **Pick the GetLength variant from the call targets.** Resolve the calls in the og csv: one
@@ -374,6 +376,8 @@ which also needed `Fix16 m; m = f();` to copy the return into a register).
 
 **An EH state above 0 at entry means extra named locals with constructors.** In `pistol_5DD860`
 the frame size and entry state showed two `Fix16_Point` locals where we had one (0.721 -> 0.931).
+
+**An if/else-if chain with nested returns, not a switch returning a compare.** `if (a3 == 1) { if (a2 == N) return 1; } else if ...` with one shared `return 0`, in the original test order (`sad_mirzakhani::sub_432170`).
 
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
