@@ -1833,9 +1833,27 @@ bool Hud_Arrow_7C::CheckVisibility_5D0530()
 }
 
 // https://decomp.me/scratch/pp6SY Fix16 annoying stuff
-WIP_FUNC(0x5d0620)
+// Fix16_Point::GetLength_41E260 with the out-of-line Fix16 helpers and this file's zero constant
+static inline Fix16 GetLength_out_of_line_7064C0(Fix16_Point& p)
+{
+    if (p.x == kFpZero_7064C0)
+    {
+        return Fix16::Abs_negate_out_of_line(p.y);
+    }
+    else if (p.y == kFpZero_7064C0)
+    {
+        return Fix16::Abs_436A50(p.x);
+    }
+    else
+    {
+        return Fix16::SquareRoot_436A70((const Fix16&)p.x.Multiply_408680(p.x) + p.y.Multiply_408680(p.y));
+    }
+}
+
+MATCH_FUNC(0x5d0620)
 bool Hud_Arrow_7C::UpdateTargets_5D0620()
 {
+    Fix16_Point diff;
     field_18.field_18_primary_target.UpdateAimCoordinates_5D03F0();
     field_18.field_3C_secondary_target.UpdateAimCoordinates_5D03F0();
 
@@ -1861,17 +1879,15 @@ bool Hud_Arrow_7C::UpdateTargets_5D0620()
         Fix16 zpos;
         gGame_0x40_67E008->field_38_orf1->get_pos_569920(&xpos, &ypos, &zpos);
 
-        Fix16_Point diff;
         diff.SetXY_432860(xpos - field_18.field_60_curr_target->field_14_aim_x, ypos - field_18.field_60_curr_target->field_18_aim_y);
-        Fix16 distance_1 = diff.GetLength_41E260() - field_10_radius_pos;
+        Fix16 distance_1 = GetLength_out_of_line_7064C0(diff) - field_10_radius_pos;
 
         swap_arrows_4C7060();
 
         diff.SetXY_432860(xpos - field_18.field_60_curr_target->field_14_aim_x, ypos - field_18.field_60_curr_target->field_18_aim_y);
-        Fix16 distance_2 = diff.GetLength_41E260();
-
+        Fix16 new_radius = GetLength_out_of_line_7064C0(diff) - distance_1;
         field_18.field_2E_target_swap_timer = 20;
-        field_10_radius_pos = distance_2 - distance_1;
+        field_10_radius_pos = new_radius;
     }
     return false;
 }
