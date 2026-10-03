@@ -322,7 +322,7 @@ void Particle_8::SpawnParticleSprite_5405D0(Sprite* pSprite)
     }
 }
 
-DEFINE_GLOBAL(Fix16, dword_6FD500, 0x6FD500);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD500, Fix16(0x1, 0), 0x6FD500);
 
 WIP_FUNC(0x540320)
 void Particle_8::EmitElectricArcParticle(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 ang)

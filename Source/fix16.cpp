@@ -251,9 +251,9 @@ EXPORT Fix16 __stdcall sub_405DA0(Fix16 cur, Fix16* pTarget, Fix16* pSpeed)
     return result;
 }
 
-DEFINE_GLOBAL(Fix16, dword_66A924, 0x66A924);
-DEFINE_GLOBAL(Fix16, dword_669140, 0x669140);
-DEFINE_GLOBAL(Fix16, dword_6691FC, 0x6691FC);
+DEFINE_GLOBAL_INIT(Fix16, dword_66A924, Fix16(0x11C, 0), 0x66A924);
+DEFINE_GLOBAL_INIT(Fix16, dword_669140, Fix16(0x63D8, 0), 0x669140);
+DEFINE_GLOBAL_INIT(Fix16, dword_6691FC, Fix16(0x12B88, 0), 0x6691FC);
 
 // Is `*a` within dword_66A924 of `*b`, directly or one turn (kAngFix16FullCircle_66A8E4) either way.
 MATCH_FUNC(0x405E20)

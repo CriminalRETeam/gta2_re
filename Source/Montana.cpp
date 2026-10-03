@@ -225,7 +225,7 @@ EXPORT s32 get_rdtsc_5BEE90()
     return static_cast<s32>(t);
 }
 
-DEFINE_GLOBAL(u32, dword_705334, 0x705334);
+DEFINE_GLOBAL_INIT(u32, dword_705334, 1701493, 0x705334);
 
 // Converts a cycle count from get_rdtsc_5BEE90 for the profiler display (dword_705334 is the
 // number of cycles per unit)
