@@ -3165,44 +3165,38 @@ WIP_FUNC(0x5620d0)
 Fix16 CarPhysics_B0::CalculateRearWheelForce_5620D0()
 {
     WIP_IMPLEMENTED;
-
-    Fix16_Point wheel_point;
-    wheel_point.x = 0;
-    wheel_point.y = gCarInfo_2C_6FE0E4->field_8_rear_wheel_offset;
+    Fix16_Point wheel_point(Fix16(0), gCarInfo_2C_6FE0E4->field_8_rear_wheel_offset);
+    Fix16_Point v25;
 
     if (IsInAir_55A0B0())
     {
         return kFP16Zero_6FE20C;
     }
 
-    Fix16 v5 = gCarInfo_2C_6FE0E4->field_20_front_drive_bias * ComputeEngineTorque_561970();
-    Fix16 v7 = k_dword_6FE210;
+    Fix16 v5 = ComputeEngineTorque_561970() * gCarInfo_2C_6FE0E4->field_20_front_drive_bias;
 
+    Fix16 v7;
     if (field_AD_turn_direction != car_turn_direction::none_0)
     {
         v7 = k_dword_6FE210 - gCarInfo_48_6FE258->field_14_turn_in;
     }
+    else
+    {
+        v7 = k_dword_6FE210;
+    }
 
-    Fix16 pointing_ang_rad;
+    Fix16 new_x;
     Fix16 brake_force1;
     Fix16 brake_force2;
     Fix16 brake_force3;
-    Fix16 new_x;
+    Fix16 pointing_ang_rad;
 
     if (field_A0_oil_spin_dir)
     {
-        if (field_A0_oil_spin_dir <= 0 || field_A0_oil_spin_dir > 2)
-        {
-            // wtf ??
-            //new_x = pOut;
-            //brake_force2 = pOut;
-            //brake_force3 = pOut;
-            //pointing_ang_rad = pOut;
-        }
-        else
+        if (field_A0_oil_spin_dir > 0 && field_A0_oil_spin_dir <= 2)
         {
             brake_force2 = kFP16Zero_6FE20C;
-            if (v5 == kFP16Zero_6FE20C)
+            if (v5.mValue == kFP16Zero_6FE20C.mValue)
             {
                 pointing_ang_rad = this->field_78_pointing_ang_rad;
                 new_x = kFP16Zero_6FE20C;
@@ -3212,21 +3206,19 @@ Fix16 CarPhysics_B0::CalculateRearWheelForce_5620D0()
             }
             else
             {
-                new_x = (v7 * kFP16One_6FE3D0);
+                new_x = kFP16One_6FE3D0 * v7;
                 brake_force1 = dword_6FE3D4;
-                Fix16 v13 = kAngFix16OneDegree_6FE3C4 * 3;
                 if (field_A0_oil_spin_dir == 1)
                 {
-                    pointing_ang_rad = (this->field_78_pointing_ang_rad - kAngFix16OneDegree_6FE3C4 * 30);
+                    pointing_ang_rad = this->field_78_pointing_ang_rad - kAngFix16OneDegree_6FE3C4 * 30;
                     brake_force3 = kFP16Zero_6FE20C;
                     this->field_A8_hand_brake_force = 0;
                 }
-                else // 2 ?
+                else
                 {
-                    pointing_ang_rad = this->field_78_pointing_ang_rad;
+                    pointing_ang_rad = this->field_78_pointing_ang_rad - kAngFix16OneDegree_6FE3C4 * (-30);
+                    brake_force3 = kFP16Zero_6FE20C;
                     this->field_A8_hand_brake_force = 0;
-                    pointing_ang_rad = (pointing_ang_rad + v13 * 10);
-                    brake_force3 = brake_force2;
                 }
             }
         }
@@ -3234,7 +3226,7 @@ Fix16 CarPhysics_B0::CalculateRearWheelForce_5620D0()
     else
     {
         brake_force1 = dword_6FE3D4;
-        brake_force2 = (gBrakeForce_6FE0D8 * dword_6FE2B0);
+        brake_force2 = gBrakeForce_6FE0D8 * dword_6FE2B0;
 
         if (field_92_is_hand_brake_on)
         {
@@ -3242,33 +3234,26 @@ Fix16 CarPhysics_B0::CalculateRearWheelForce_5620D0()
             {
                 field_A8_hand_brake_force++;
             }
-            new_x = (gCarInfo_48_6FE258->field_20_handbrake_slide_value * (v7 * kFP16One_6FE3D0));
-            pointing_ang_rad = this->field_78_pointing_ang_rad;
-            brake_force3 = (gCarInfo_48_6FE258->field_10_brake_friction * this->field_A8_hand_brake_force) / (128);
+            new_x = kFP16One_6FE3D0 * v7 * gCarInfo_48_6FE258->field_20_handbrake_slide_value;
+            brake_force3 = gCarInfo_48_6FE258->field_10_brake_friction * (s32)(u8)field_A8_hand_brake_force / 128;
         }
         else
         {
             this->field_A8_hand_brake_force = 0;
-            Fix16 v16 = (v7 * kFP16One_6FE3D0);
-            pointing_ang_rad = this->field_78_pointing_ang_rad;
-            new_x = v16;
+            new_x = kFP16One_6FE3D0 * v7;
             brake_force3 = kFP16Zero_6FE20C;
         }
+        pointing_ang_rad = this->field_78_pointing_ang_rad;
     }
 
-    Fix16_Point v25;
     v25.SetXY_432860(new_x, brake_force1 + brake_force2 + brake_force3);
-    // 9.6f: Fix16_Point_POD::MultiplyByFix16_49E3A0 (inlined, using it makes the diff worse)
-    v25.x *= gCarInfo_48_6FE258->field_1C_rear_end_stability;
-    v25.y *= gCarInfo_48_6FE258->field_1C_rear_end_stability;
+    v25.MultiplyByFix16_inline_5620D0(gCarInfo_48_6FE258->field_1C_rear_end_stability);
 
-    Fix16 vec_len = field_40_linvel_1.GetLength_2();
-    Fix16 v21 = (dword_6FE228 * dword_6FE340);
-
-    Ang16 t = Ang16::Fix16_To_Ang16_40F540(((dword_6FE228 - vec_len) / v21) * pointing_ang_rad);
-    Ang16 tt = this->field_58_theta - t;
-
-    return ApplyDriveForce_5615D0(wheel_point, tt, v25, v5);
+    // The original computes the subtraction before the product (the product's shared 6FE228 load
+    // is copied for it); here VC6 sinks it to its use.
+    Fix16 v = dword_6FE228 - field_40_linvel_1.GetLength_inline_5620D0();
+    v = v / (dword_6FE228 * dword_6FE340);
+    return ApplyDriveForce_5615D0(wheel_point, this->field_58_theta - Ang16::Fix16_To_Ang16_40F540(pointing_ang_rad * v), v25, v5);
 }
 
 // Defined here (its address range), not in sprite.cpp: with the body visible in sprite.cpp

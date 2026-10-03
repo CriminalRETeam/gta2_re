@@ -532,6 +532,32 @@ class Fix16_Point : public Fix16_Point_POD
         }
     }
 
+    // MultiplyByFix16_49E3A0 as inlined into CarPhysics_B0::CalculateRearWheelForce_5620D0: the
+    // second *= is the out-of-line copy
+    void MultiplyByFix16_inline_5620D0(const Fix16& factor)
+    {
+        x *= factor;
+        y.MultiplyAssign_562430(factor);
+    }
+
+    // GetLength_2 as inlined into CarPhysics_B0::CalculateRearWheelForce_5620D0: Abs out of line,
+    // x*x out of line, y*y inline
+    inline Fix16 GetLength_inline_5620D0()
+    {
+        if (x == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_436A50(y);
+        }
+        else if (y == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_436A50(x);
+        }
+        else
+        {
+            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y * y);
+        }
+    }
+
     // Same, for the scaled point in NormalizeSafe_442AD0
     inline Fix16 GetLength_scaled_inline_442AD0()
     {
