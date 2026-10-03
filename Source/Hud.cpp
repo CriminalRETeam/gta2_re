@@ -101,16 +101,7 @@ void Garox_13C0_sub::DrawPlayerNames_5CFE40()
 
     if (bStartNetworkGame_7081F0 && bShow_player_names_67D54C)
     {
-        Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
-        Camera_0xBC* pCam;
-        if (pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3)
-        {
-            pCam = &pPlayer->field_208_aux_game_camera;
-        }
-        else
-        {
-            pCam = &pPlayer->field_90_game_camera;
-        }
+        Camera_0xBC* pCam = gGame_0x40_67E008->field_38_orf1->get_camera_434900();
 
         for (Player* pIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0(); pIter; pIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
         {
@@ -119,18 +110,19 @@ void Garox_13C0_sub::DrawPlayerNames_5CFE40()
                 Ped* pPlayerPed = pIter->field_2C4_player_ped;
                 if (!pPlayerPed || (pPlayerPed->field_21C & 0x2000000) == 0)
                 {
-                    if (pCam->IsCoordsPosVisible_435A70(pPlayerPed->field_1AC_cam.x,
-                                                        pPlayerPed->field_1AC_cam.y,
-                                                        pPlayerPed->field_1AC_cam.z))
+                    Fix16 x = pPlayerPed->field_1AC_cam.x;
+                    Fix16 y = pPlayerPed->field_1AC_cam.y;
+                    Fix16 z = pPlayerPed->field_1AC_cam.z;
+                    if (pCam->IsCoordsPosVisible_435A70(x, y, z))
                     {
-                        Fix16 zCalc = (kFpOne_7064C4) /
-                            (kFpEight_7064E8 + (pCam->field_98_cam_pos2.field_8_z - pPlayerPed->field_1AC_cam.z)); // kFpOne_7064C4 ??
-
-                        Fix16 xTmp = pCam->field_60.x * (pPlayerPed->field_1AC_cam.x - pCam->field_98_cam_pos2.field_0_x);
-                        Fix16 xCalc = ((zCalc * xTmp)) + Fix16(0x500000, 0);
-
-                        Fix16 yTmp = (pCam->field_60.y * (pPlayerPed->field_1AC_cam.y - pCam->field_98_cam_pos2.field_4_y));
-                        Fix16 yCalc = ((zCalc * yTmp) + Fix16(0x3C0000, 0));
+                        // Camera_0xBC::WorldToScreen_40CFC0, with the y line out of line (inline budget)
+                        Fix16 u = pCam->field_98_cam_pos2.field_8_z - z;
+                        Fix16 t(kFpOne_7064C4 / Fix16(u.mValue + kFpEight_7064E8.mValue, 0));
+                        Fix16 xCalc = (((x - pCam->field_98_cam_pos2.field_0_x) * pCam->field_60.y) * t) + Fix16(320);
+                        Fix16 yCalc = (const Fix16&)y.Subtract_436A00(pCam->field_98_cam_pos2.field_4_y)
+                                          .Multiply_408680(pCam->field_60.y)
+                                          .Multiply_408680(t) +
+                            Fix16(240);
 
                         DrawText_5D8A10(pIter->field_83C_player_name,
                                         (xCalc * gViewCamera_676978->field_A8_ui_scale), // x
