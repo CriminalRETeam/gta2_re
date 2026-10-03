@@ -1539,3 +1539,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 - 0x53F060: closer 489->464. Source bug: the loop rotation must use `angle_2`.
 - 0x53D260 `Particle_4C::PoolUpdate`: closer 0.49->0.885. Case order, lazy set_xyz/set_z inlines, missing `|= 4`. Left: constant 1 kept in bl by the original.
 - 0x5D0850 `Hud_Arrow_7C::UpdateScreenPos`: closer 0.678->0.772. Note: compare_target_asm maps a value to 0 here, so its ratio is unreliable for this function.
+- 0x46C250 `Ped::ExitCarStateMachine`: closer 0.25->0.76. Driver branch first (`if (!passenger)`), driver paths pass `*sub_4E4E50(...)` straight to `AllocCharB4_45C830`. Left: frame one slot bigger, two `SetRemap` sites use `movzbw` in the original.
+- 0x53F4C0 `Particle_8::EmitFlameStreamSegment`: closer 0.414->0.533 with `RotateByAngle_MixOOL_40F6B0` (`y * sin` inline, rest out of line). Call sequence now identical. Left: frame 0x34 vs 0x4C, EH state at entry 1 vs 4, esi/edi swapped.
+- 0x461A60 `Ped::UpdateFacingAngle`: no change. The original lays cases out 2, 3, 1, 7, default with case 3 reusing case 2's atan2 tail; ours merges them into case 1's tail.
+- 0x5E4EE0 `WindowProc`: MATCH. `switch((u8)wParam)`, (u8) casts on Bink BOOL results, locals moved to function scope.
