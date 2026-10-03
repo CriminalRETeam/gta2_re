@@ -4134,8 +4134,8 @@ void Frontend::GetMainAndBonusStagesFromSeqFile_4B4440()
     u8* pBlock; // esi
     char mainOrBonus[256]; // [esp+14h] [ebp-718h] BYREF
     char styName[256]; // [esp+114h] [ebp-618h] BYREF
-    char debugStr[256]; // [esp+214h] [ebp-518h] BYREF
     char mapName[256]; // [esp+314h] [ebp-418h] BYREF
+    char debugStr[256]; // [esp+214h] [ebp-518h] BYREF
     char seqFileName[256]; // [esp+414h] [ebp-318h] BYREF
     _finddata_t findInfo; // [esp+514h] [ebp-218h] BYREF
     char description[256]; // [esp+62Ch] [ebp-100h] BYREF
@@ -4158,11 +4158,10 @@ void Frontend::GetMainAndBonusStagesFromSeqFile_4B4440()
     }
 
     this->field_1EB50_num_main_stages = 0;
-    *(u16*)this->field_1EB51_num_bonus_stages = 0;
-    this->field_1EB51_num_bonus_stages[2] = 0;
+    memset(this->field_1EB51_num_bonus_stages, 0, sizeof(this->field_1EB51_num_bonus_stages));
 
-    u16 main_block_counter = 0;
     bool mainBlockFound = false;
+    u16 main_block_counter = 0;
 
     FILE* hSeqFile = crt::fopen(seqFileName, "rt");
     if (!hSeqFile)
