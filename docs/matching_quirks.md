@@ -348,6 +348,26 @@ check (`CarPhysics_B0::StepMovementAndCollisions_55E470`).
 **Fix16 compares can push a small function over the inline budget.** In `sub_4F76A0` the
 `Fix16_Point()` ctor went out of line until the compares were written on the raw `mValue`.
 
+**Ctor defined earlier in the TU drops the EH frame around `new`.** Same cause as the Hud ctor
+above: with the member/callee ctor body visible earlier, VC6 knows it can't throw. Put the
+definitions in original address order (`Montana_4::ctor_5C5E70`).
+
+**A small constant `memset` looks like field stores.** A separate `xor`'d zero register storing
+three dwords and a word was an inline `memset` of 14 bytes (`InitializeGame_4DA4D0`).
+
+**An inline bool helper as a condition can change block layout** where the expanded `&&` test
+doesn't (`Car_BC::IsSwatVanOrBankVan_403BC0` in `PedGroup::CoordinateGroupCarEntry_4C9F00`).
+
+**u8 shift-or: `a <<= 4; a |= b; return a;`** gives byte ops (`shl %al`, `or %cl,%al`);
+`return (a << 4) | b` promotes to int ops (`Frontend::GetNextUnlockedBonusStage_4B7360`).
+
+**`Fix16::operator=` on a member is a scheduling barrier** and blocks constant CSE across it
+(`UpdateCarEngineAudio_57E220`, 6 -> 1 diff lines). By-value Fix16 returns assigned through
+`operator=` on a named local give the ecx return slot + `mov eax,ecx` (`Car_14::GetRandomTrafficSpeed_583750`).
+
+**Pick the GetLength variant from the call targets.** Resolve the calls in the og csv: one
+variant has out-of-line Negate/Abs/Multiply for x*x and inline y*y (`CarPhysics_B0::ScarePedsOnDrivingFast_559C30`).
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 
