@@ -4683,8 +4683,9 @@ char_type Car_BC::HandleRoofTurretRotation_440D90(char_type bLeftOn)
 {
     WIP_IMPLEMENTED;
 
-    // Each branch returns on its own (no if/else joining before the shared tail): with a join
-    // VC6 keeps the rotation in %di for the second Normalize loop of the += path
+    // Each branch returns on its own (no if/else join): with a join VC6 keeps the rotation in %di
+    // for the second Normalize loop of the += path. Left: the original's += path jumps to the -= path's
+    // return tail when the second loop is skipped (jl to the shared tail); ours has its own copy.
     if (field_84_car_info_idx == car_model_enum::FIRETRUK)
     {
         Sprite_18* pFTruckSprite = field_0_qq.GetSpriteForModel_5A6A50(114);
