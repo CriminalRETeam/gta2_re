@@ -6655,10 +6655,40 @@ Ped* Ped::FindBestTargetPed_Mode5_466BD0(s32 max_x_check)
 }
 
 // https://decomp.me/scratch/jl40w
+// Possibly an inline helper in the original (closer than the loop written in place)
+static inline Ped* FindNearestEnemyPlayerPed_466BF0(Ped* pThis)
+{
+    s32 best = kFpFour_678670.mValue;
+    Ped* bestPed = 0;
+
+    for (Player* p = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0(); p != 0; p = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
+    {
+        Ped* cand = p->field_2C4_player_ped;
+
+        if (cand != 0 && pThis->field_164_ped_group != cand->field_164_ped_group)
+        {
+            Fix16 candY = cand->field_1AC_cam.y;
+            Fix16 thisY = pThis->field_1AC_cam.y;
+            Fix16 dx = cand->field_1AC_cam.x - pThis->field_1AC_cam.x;
+            Fix16 dy;
+            dy = candY.Subtract_436A00(thisY);
+            s32 m = Fix16::Max_44E540(Fix16::Abs_436A50(dx), Fix16::Abs_436A50(dy)).mValue;
+
+            if (m < best)
+            {
+                bestPed = cand;
+                best = m;
+            }
+        }
+    }
+    return bestPed;
+}
+
 WIP_FUNC(0x466bf0)
 Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
 {
     WIP_IMPLEMENTED;
+
 
     gSearchingPed_6787DC = this;
 
@@ -6692,41 +6722,10 @@ Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
 
         if ((u8)bStartNetworkGame_7081F0 != 0 && this->field_164_ped_group != 0)
         {
-            s32 best = kFpFour_678670.mValue;
-            Ped* bestPed = 0;
-
-            Player* p = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0();
-
-            if (p != 0)
+            Ped* bestPed = FindNearestEnemyPlayerPed_466BF0(this);
+            if (bestPed != 0)
             {
-                do
-                {
-                    Ped* cand = p->field_2C4_player_ped;
-
-                    if (cand != 0 && this->field_164_ped_group != cand->field_164_ped_group)
-                    {
-                        Fix16 candY = cand->field_1AC_cam.y;
-                        Fix16 thisY = this->field_1AC_cam.y;
-                        Fix16 dx = cand->field_1AC_cam.x - this->field_1AC_cam.x;
-                        Fix16 dy = candY.Subtract_436A00(thisY);
-                        Fix16 adx = Fix16::Abs_436A50(dx);
-                        Fix16 ady = Fix16::Abs_436A50(dy);
-                        s32 m = Fix16::Max_44E540(adx, ady).mValue;
-
-                        if (m < best)
-                        {
-                            bestPed = cand;
-                            best = m;
-                        }
-                    }
-
-                    p = gGame_0x40_67E008->IterateNextPlayer_4B9D10();
-                } while (p != 0);
-
-                if (bestPed != 0)
-                {
-                    return bestPed;
-                }
+                return bestPed;
             }
         }
 
@@ -6756,10 +6755,7 @@ Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
             Ped* pS = gSearchingPed_6787DC;
             Fix16 dx = pS->field_1AC_cam.x - pClosest->field_1AC_cam.x;
             Fix16 dy = pS->field_1AC_cam.y - pClosest->field_1AC_cam.y;
-            Fix16 adx = Fix16::Abs_436A50(dx);
-            Fix16 ady = Fix16::Abs_436A50(dy);
-
-            if (Fix16::Max_44E540(adx, ady).mValue >= kFpFour_678670.mValue)
+            if (Fix16::Max_44E540(Fix16::Abs_436A50(dx), Fix16::Abs_436A50(dy)).mValue >= kFpFour_678670.mValue)
             {
                 goto ret_zero;
             }
