@@ -4966,10 +4966,9 @@ EXPORT Ang16 __stdcall ReturnAngleFromRoadDirection_4F7940(s32* road_direction)
     }
 }
 
-WIP_FUNC(0x4413b0)
+MATCH_FUNC(0x4413b0)
 void Car_BC::UpdateTrainCarriagesOnTrack_4413B0(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
-    WIP_IMPLEMENTED;
 
     u8 idx = 0;
     Car_BC** pTrainCars = gPublicTransport_181C_6FF1D4->GetCarArrayFromLeadCar_579B40(this);
@@ -4983,15 +4982,19 @@ void Car_BC::UpdateTrainCarriagesOnTrack_4413B0(Fix16 xpos, Fix16 ypos, Fix16 zp
     Fix16 newy;
     Fix16 newz;
 
+    Fix16 x = xpos;
+    Fix16 y = ypos;
+    Fix16 z = zpos;
+
     Fix16 car_angle;
     bool bUnknown = gPublicTransport_181C_6FF1D4->GetTrainSpeed_579B90(this, &car_angle);
 
     for (Car_BC* pTrainCarIter = *pTrainCars; pTrainCarIter; pTrainCarIter = pTrainCars[idx])
     {
 
-        newx = xpos;
-        newy = ypos;
-        newz = zpos;
+        newx = x;
+        newy = y;
+        newz = z;
 
         Ang16 v10;
         if (bUnknown)
@@ -5007,6 +5010,11 @@ void Car_BC::UpdateTrainCarriagesOnTrack_4413B0(Fix16 xpos, Fix16 ypos, Fix16 zp
 
         pTrainCarIter->field_50_car_sprite->set_xyz_lazy_420600(newx, newy, newz);
         pTrainCarIter->field_50_car_sprite->set_ang_lazy_420690(v10);
+
+        // The next carriage follows on from this one
+        x = newx;
+        y = newy;
+        z = newz;
 
         if (pTrainCarIter->field_0_qq.field_0_p18)
         {
