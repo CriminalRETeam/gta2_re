@@ -475,6 +475,7 @@ class Ped
         return field_21C & ped_bit_status_enum::k_ped_0x00000004 ? true : false;
     }
 
+    // 9.6f 0x403960
     void unset_bitset_0x04()
     {
         field_21C &= ~ped_bit_status_enum::k_ped_0x00000004;

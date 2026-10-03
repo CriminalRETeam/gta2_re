@@ -1208,7 +1208,6 @@ WIP_FUNC(0x574720)
 void PoliceCrew_38::State6_ShutDown_574720()
 {
     byte_6FEB48 = 1;
-    u8 i = 0;
     gCurrentCrewPed_6FEDDC = field_10_subObj->field_4_ped;
     if (field_10_subObj->field_0_car)
     {
@@ -1296,6 +1295,10 @@ void PoliceCrew_38::State6_ShutDown_574720()
             {
                 gCurrentCrewPed_6FEDDC->ClearBit11_403A40();
 
+                // Declared here: declared any earlier, VC6 treats the known zero as a value
+                // and keeps it in ebp for every other zero in the function. The original
+                // still stores it at the top of the function.
+                u8 i = 0;
                 for (; gCurrentCrewPed_6FEDDC; ++i)
                 {
                     if (gCurrentCrewPed_6FEDDC->field_278_ped_state_1 != ped_state_1::dead_9 &&
