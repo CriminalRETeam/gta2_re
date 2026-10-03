@@ -5678,10 +5678,11 @@ void Char_B4::state_5_551BB0()
 }
 
 // https://decomp.me/scratch/qNjdM
-WIP_FUNC(0x551CB0)
+MATCH_FUNC(0x551CB0)
 void Char_B4::state_7_551CB0()
 {
-    WIP_IMPLEMENTED;
+    u8 block_type;
+    gmp_block_info* block_4DFE10;
     field_38_velocity = kZeroVelocity_6FD7C0;
     if (field_10_char_state != Char_B4_state::Jumping_15)
     {
@@ -5698,19 +5699,16 @@ void Char_B4::state_7_551CB0()
             SetPedState2_433A50(0);
             return;
         }
-        s32 unk_zpos;
         if (field_58_flags_bf.b0 || gCharB4_Saved_Zpos_6FD7FC.GetFracValue() != kFP16Zero_6FD9E4)
         {
-
-            gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt());
-            unk_zpos = gCharB4_Saved_Zpos_6FD7FC.ToInt();
+            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt());
+            block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt());
         }
         else
         {
-            gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1);
-            unk_zpos = gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1;
+            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1);
+            block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1);
         }
-        gmp_block_info* block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), unk_zpos);
         if (block_4DFE10)
         {
             if (gGtx_0x106C_703DD4->IsElectrifiedFloorType_491F80(block_4DFE10->field_8_lid & 0x3FF))
@@ -5758,20 +5756,20 @@ void Char_B4::state_7_551CB0()
     }
     else
     {
-        s32 unk2_zpos;
+        // Raw compares: the Fix16 operator== inlines push this function over VC6's inline budget
         if (field_58_flags_bf.b0 == false &&
-            (gCharB4_Saved_Zpos_6FD7FC == kFP16One_6FD9E8 || gCharB4_Saved_Zpos_6FD7FC == gFix16_Two_6FD9EC || gCharB4_Saved_Zpos_6FD7FC == kFP16Three_6FD9F0 ||
-             gCharB4_Saved_Zpos_6FD7FC == kFP16Four_6FD9F4 || gCharB4_Saved_Zpos_6FD7FC == kFP16Five_6FD9F8 || gCharB4_Saved_Zpos_6FD7FC == kFP16Six_6FD9FC ||
-             gCharB4_Saved_Zpos_6FD7FC == kFP16Seven_6FDA00))
+            (gCharB4_Saved_Zpos_6FD7FC.mValue == kFP16One_6FD9E8.mValue || gCharB4_Saved_Zpos_6FD7FC.mValue == gFix16_Two_6FD9EC.mValue ||
+             gCharB4_Saved_Zpos_6FD7FC.mValue == kFP16Three_6FD9F0.mValue || gCharB4_Saved_Zpos_6FD7FC.mValue == kFP16Four_6FD9F4.mValue ||
+             gCharB4_Saved_Zpos_6FD7FC.mValue == kFP16Five_6FD9F8.mValue || gCharB4_Saved_Zpos_6FD7FC.mValue == kFP16Six_6FD9FC.mValue ||
+             gCharB4_Saved_Zpos_6FD7FC.mValue == kFP16Seven_6FDA00.mValue))
         {
-            unk2_zpos = gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1;
+            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1);
         }
         else
         {
-            unk2_zpos = gCharB4_Saved_Zpos_6FD7FC.ToInt();
+            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt());
         }
 
-        u8 block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), unk2_zpos);
         if ((u8)Char_B4::IsOnWater_545570())
         {
             field_7C_pPed->PutOutFire();
@@ -5789,10 +5787,6 @@ void Char_B4::state_7_551CB0()
 
     switch (field_C_ped_state_2)
     {
-        case 8:
-        case 9:
-            field_6C_animation_state = 9;
-            break;
         case ped_state_2::ped2_staying_14:
             if (field_7C_pPed->GetBit11_433CA0() == 1) // line 344
             {
@@ -5842,6 +5836,12 @@ void Char_B4::state_7_551CB0()
                     field_6C_animation_state = 2;
                 }
             }
+            break;
+        case 8:
+            field_6C_animation_state = 9;
+            break;
+        case 9:
+            field_6C_animation_state = 9;
             break;
         default:
             field_6C_animation_state = 2;
