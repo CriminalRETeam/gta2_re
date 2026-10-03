@@ -41,6 +41,7 @@ DEFINE_GLOBAL_INIT(Ang16, kAng180_6FD936, Ang16(720), 0x6FD936);
 DEFINE_GLOBAL_INIT(Ang16, kAng315_6FD938, Ang16(1260), 0x6FD938);
 
 DEFINE_GLOBAL(u8, byte_6FDB55, 0x6FDB55);
+DEFINE_GLOBAL(s16, word_6FDB2E, 0x6FDB2E);
 
 DEFINE_GLOBAL(u8, byte_6FDB58, 0x6FDB58);
 DEFINE_GLOBAL(u8, gCharB4_HitByMine_6FDB59, 0x6FDB59);
@@ -5137,12 +5138,12 @@ WIP_FUNC(0x550f60)
 Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 inputAng)
 {
     WIP_IMPLEMENTED;
-    
+
     u8 side_curr = field_40_rotation.ToAng4_405680();
     u8 side_input_ang = inputAng.ToAng4_405680();
 
-    //Ang16 unused;
-    //unused.FromFix16_4516B0(field_38_velocity * word_6FDB2E, 0);
+    Fix16 unused_vel = field_38_velocity * Fix16(word_6FDB2E);
+    Ang16 unused(&unused_vel, 0);
 
     if (field_10_char_state == 10)
     {
@@ -5174,11 +5175,13 @@ Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 inputAng)
             {
                 if (ComputeShortestAngleDelta_4056C0(inputAng, field_40_rotation) > kAng180_6FD936)
                 {
-                    return field_40_rotation + v12;
+                    Ang16 r = field_40_rotation + v12;
+                    return r;
                 }
                 else
                 {
-                    return field_40_rotation - v12;
+                    Ang16 r = field_40_rotation - v12;
+                    return r;
                 }
             }
             break;
@@ -5187,11 +5190,13 @@ Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 inputAng)
             {
                 if (ComputeShortestAngleDelta_4056C0(inputAng, field_40_rotation) > kAng180_6FD936)
                 {
-                    return field_40_rotation + v12;
+                    Ang16 r = field_40_rotation + v12;
+                    return r;
                 }
                 else
                 {
-                    return field_40_rotation - v12;
+                    Ang16 r = field_40_rotation - v12;
+                    return r;
                 }
             }
             break;
@@ -5200,30 +5205,32 @@ Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 inputAng)
             {
                 if (ComputeShortestAngleDelta_4056C0(field_40_rotation, inputAng) < kAng180_6FD936)
                 {
-                    return field_40_rotation - v12;
+                    Ang16 r = field_40_rotation - v12;
+                    return r;
                 }
                 else
                 {
-                    return field_40_rotation + v12;
+                    Ang16 r = field_40_rotation + v12;
+                    return r;
                 }
             }
             break;
         case 0: // south
-            if (side_curr == 2)
+            switch (side_curr)
             {
-                if (ComputeShortestAngleDelta_4056C0(field_40_rotation, inputAng) < kAng180_6FD936)
-                {
-                    return field_40_rotation - v12;
-                }
-                else
-                {
-                    return field_40_rotation + v12;
-                }
-            }
-            else
-            {
-                if (side_curr == 3)
-                {
+                case 2:
+                    if (ComputeShortestAngleDelta_4056C0(field_40_rotation, inputAng) < kAng180_6FD936)
+                    {
+                        Ang16 r = field_40_rotation - v12;
+                        return r;
+                    }
+                    else
+                    {
+                        Ang16 r = field_40_rotation + v12;
+                        return r;
+                    }
+                    break;
+                case 3:
                     if (ComputeShortestAngleDelta_4056C0(inputAng, field_40_rotation) < v12)
                     {
                         return inputAng;
@@ -5232,7 +5239,7 @@ Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 inputAng)
                     {
                         return field_40_rotation + v12;
                     }
-                }
+                    break;
             }
             break;
     }
@@ -5241,7 +5248,8 @@ Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 inputAng)
     {
         if (ComputeShortestAngleDelta_4056C0(inputAng, field_40_rotation) > v12)
         {
-            return field_40_rotation + v12;
+            Ang16 r = field_40_rotation + v12;
+            return r;
         }
         else
         {
@@ -5252,7 +5260,8 @@ Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 inputAng)
     {
         if (ComputeShortestAngleDelta_4056C0(field_40_rotation, inputAng) > v12)
         {
-            return field_40_rotation - v12;
+            Ang16 r = field_40_rotation - v12;
+            return r;
         }
         else
         {
