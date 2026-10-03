@@ -286,13 +286,15 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
 
     field_8_speed_x = field_14_additional_speed_x + off_x + jitter_x;
     field_C_speed_y = field_18_additional_speed_y + off_y + jitter_y;
-    stru_6FD388 = xpos + field_8_speed_x;
-    stru_6FD38C = ypos + field_C_speed_y;
+    xpos += field_8_speed_x;
+    ypos += field_C_speed_y;
+    stru_6FD388 = xpos;
+    stru_6FD38C = ypos;
 
-    if (stru_6FD388 > kFP16One_6FD4A0 && stru_6FD388 < dword_6FD280 - kFP16One_6FD4A0 && stru_6FD38C > kFP16One_6FD4A0 &&
-        stru_6FD38C < dword_6FD280 - kFP16One_6FD4A0)
+    if (xpos > kFP16One_6FD4A0 && xpos < dword_6FD280 - kFP16One_6FD4A0 && ypos > kFP16One_6FD4A0 &&
+        ypos < dword_6FD280 - kFP16One_6FD4A0)
     {
-        field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, zpos);
+        field_30_pNext->set_xyz_lazy_420600(xpos, ypos, zpos);
     }
     else
     {
