@@ -83,6 +83,7 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
                                                     field_30_pNext->field_14_xy.y.ToInt(),
                                                     new_z.ToInt()))
     {
+        rng_1 = field_30_pNext->field_1C_zpos; // dead store in the original
         rng_1 = Fix16(gRng_6F6784.get_int_4F7AE0(61) - 30) / 100;
         rng_2 = Fix16(gRng_6F6784.get_int_4F7AE0(10) - 5) / 100;
         ++field_2C_counter;
@@ -117,7 +118,8 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
     if (field_20_speed == kFP16Zero_6FD49C)
     {
         stru_6FD388 = field_30_pNext->field_14_xy.x + rng_1;
-        stru_6FD38C = field_30_pNext->field_14_xy.y + rng_2;
+        // The original negates dword_6FD45C and adds it (neg; add), not sub
+        stru_6FD38C = field_30_pNext->field_14_xy.y - dword_6FD45C + rng_2;
         if (stru_6FD388 > kFP16One_6FD4A0 && stru_6FD388 < dword_6FD280 - kFP16One_6FD4A0 && stru_6FD38C > kFP16One_6FD4A0 &&
             stru_6FD38C < dword_6FD280 - kFP16One_6FD4A0)
         {
@@ -135,9 +137,13 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
         {
             field_20_speed = kFP16Zero_6FD49C;
         }
-        vector.x = field_20_speed;
-        vector.y = kFP16Zero_6FD49C;
-        vector.RotateByAngle_40F6B0(field_24_angle);
+        Fix16 pos_x = field_30_pNext->field_14_xy.x;
+        Fix16 pos_y = field_30_pNext->field_14_xy.y;
+        vector.y = field_20_speed;
+        vector.x = kFP16Zero_6FD49C;
+        // The original inlines the two multiplies of the x line and calls Add_408660, then
+        // Negate/Multiply/Multiply/Add out of line for the y line; this variant is the closest
+        vector.RotateByAngle_40F6B0_out_of_line(field_24_angle);
 
         field_14_additional_speed_x = vector.x;
         field_18_additional_speed_y = vector.y;
@@ -145,8 +151,8 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
         field_8_speed_x = field_14_additional_speed_x + rng_1;
         field_C_speed_y = field_18_additional_speed_y + rng_2;
 
-        stru_6FD388 = field_30_pNext->field_14_xy.x + rng_1;
-        stru_6FD38C = field_30_pNext->field_14_xy.y + rng_2;
+        stru_6FD388 = pos_x + field_8_speed_x;
+        stru_6FD38C = pos_y + field_C_speed_y;
         if (stru_6FD388 > kFP16One_6FD4A0 && stru_6FD388 < dword_6FD280 - kFP16One_6FD4A0 && stru_6FD38C > kFP16One_6FD4A0 &&
             stru_6FD38C < dword_6FD280 - kFP16One_6FD4A0)
         {
