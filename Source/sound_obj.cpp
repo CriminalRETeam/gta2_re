@@ -2088,9 +2088,7 @@ void sound_obj::ProcessType7_Weapon_42A500(s32 idx)
     char weapon_f2C; // al
     s32 samp_idx; // edi
     int rate; // edi
-    int displacement; // eax
     char bSetF30; // al
-    int f_14_samp_idx; // [esp-4h] [ebp-1Ch]
     u8 vol; // [esp+Ch] [ebp-Ch]
     int rate_adjust; // [esp+10h] [ebp-8h]
     char bHasSolidAbove; // [esp+1Ch] [ebp+4h]
@@ -2111,54 +2109,52 @@ void sound_obj::ProcessType7_Weapon_42A500(s32 idx)
                     case weapon_type::pistol:
                     case weapon_type::dual_pistol:
                         samp_idx = 311;
-                        goto LABEL_15;
+                        break;
+                    case weapon_type::shotgun:
+                        samp_idx = 314;
+                        vol = 44;
+                        rate_adjust = -8000;
+                        break;
                     case weapon_type::smg:
                     case weapon_type::car_smg:
                     case weapon_type::army_gun_jeep:
                         samp_idx = 312;
                         vol = 44;
-                        goto LABEL_15;
-                    case weapon_type::rocket:
-                    case weapon_type::tank_main_gun:
-                        samp_idx = 315;
-                        goto LABEL_15;
-                    case weapon_type::shocker:
-                        samp_idx = 318;
-                        this->field_30_sQueueSample.field_41 = 0;
-                        goto LABEL_15;
-                    case weapon_type::shotgun:
-                        samp_idx = 314;
-                        vol = 44;
-                        rate_adjust = -8000;
-                        goto LABEL_15;
+                        break;
+                    case weapon_type::silence_smg:
+                        samp_idx = 313;
+                        vol = 40;
+                        break;
                     case weapon_type::flamethrower:
                     case weapon_type::fire_truck_flamethrower:
                         samp_idx = 316;
                         vol = 120;
                         this->field_30_sQueueSample.field_41 = 0;
-                        goto LABEL_15;
-                    case weapon_type::silence_smg:
-                        samp_idx = 313;
-                        vol = 40;
-                        goto LABEL_15;
+                        break;
+                    case weapon_type::fire_truck_gun:
+                        samp_idx = 317;
+                        this->field_30_sQueueSample.field_41 = 0;
+                        break;
+                    case weapon_type::shocker:
+                        samp_idx = 318;
+                        this->field_30_sQueueSample.field_41 = 0;
+                        break;
+                    case weapon_type::rocket:
+                    case weapon_type::tank_main_gun:
+                        samp_idx = 315;
+                        break;
                     case weapon_type::car_bomb:
                     case weapon_type::car_mines:
                     case weapon_type::weapon_0x17:
                         samp_idx = 319;
-                        goto LABEL_15;
+                        break;
                     case weapon_type::oil_stain:
                         samp_idx = 61;
-                        goto LABEL_15;
-                    case weapon_type::fire_truck_gun:
-                        samp_idx = 317;
-                        this->field_30_sQueueSample.field_41 = 0;
-
                         break;
                     default:
                         return;
                 }
 
-            LABEL_15:
                 pWeapon->GetSoundPos_5E3F90(&this->field_30_sQueueSample.field_8_obj.field_0_x,
                                             &this->field_30_sQueueSample.field_8_obj.field_4_y,
                                             &this->field_30_sQueueSample.field_8_obj.field_8_z);
@@ -2169,28 +2165,26 @@ void sound_obj::ProcessType7_Weapon_42A500(s32 idx)
                                                                                     field_30_sQueueSample.field_8_obj.field_8_z);
                 this->field_28_dist_related = ComputeEmitterDistanceSquared_4190B0();
                 this->field_2C_distCalculated = 0;
-                if (CalculateDistance_419020(1638400))
+                if (CalculateDistance_419020((Fix16(20) / Fix16(2)) * (Fix16(20) / Fix16(2))))
                 {
-                    if (VolCalc_419070(vol, 163840, bHasSolidAbove))
+                    if (VolCalc_419070(vol, Fix16(20) / Fix16(2), bHasSolidAbove))
                     {
                         this->field_30_sQueueSample.field_60_nEmittingVolume = vol;
                         this->field_30_sQueueSample.field_14_samp_idx = samp_idx;
-                        this->field_30_sQueueSample.field_54_sound_intensity = 163840;
+                        this->field_30_sQueueSample.field_54_sound_intensity = Fix16(20) / Fix16(2);
                         this->field_30_sQueueSample.field_64_max_distance = 20;
                         rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(samp_idx);
-                        displacement = RandomDisplacement_41A650(this->field_30_sQueueSample.field_14_samp_idx);
-                        f_14_samp_idx = this->field_30_sQueueSample.field_14_samp_idx;
+                        this->field_30_sQueueSample.field_20_rate = rate + rate_adjust + RandomDisplacement_41A650(this->field_30_sQueueSample.field_14_samp_idx);
                         this->field_30_sQueueSample.field_58_type = 20;
-                        this->field_30_sQueueSample.field_20_rate = rate + rate_adjust + displacement;
                         this->field_30_sQueueSample.field_3C_speed_multiplier = 0;
                         this->field_30_sQueueSample.field_4_SampleIndex = 0;
                         this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 4;
                         this->field_30_sQueueSample.field_18_bIs2D = 0;
-                        this->field_30_sQueueSample.field_34_loop_start = gSampManager_6FFF00.GetLoopStart_58DC30(f_14_samp_idx);
+                        this->field_30_sQueueSample.field_34_loop_start = gSampManager_6FFF00.GetLoopStart_58DC30(this->field_30_sQueueSample.field_14_samp_idx);
                         bSetF30 = this->field_30_sQueueSample.field_41;
                         this->field_30_sQueueSample.field_38_loop_end = -1;
                         this->field_30_sQueueSample.field_4C_releasing_volume_divider = 5;
-                        if (bSetF30)
+                        if ((u8)bSetF30 > 0)
                         {
                             this->field_30_sQueueSample.field_30_loop_count = 1;
                         }
