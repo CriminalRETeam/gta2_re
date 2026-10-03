@@ -143,25 +143,26 @@ void Gang_144::SetGangKillReaction_4BEF50(u8 gang_idx, char_type kill_reaction_v
 }
 
 // https://decomp.me/scratch/lPPny
-WIP_FUNC(0x4BEF70)
+MATCH_FUNC(0x4BEF70)
 void Gang_144::ApplyKillRespectChange_4BEF70(u8 player_idx, u8 respect)
 {
-    WIP_IMPLEMENTED;
     Gang_144::DecrementRespect_4BEEA0(player_idx, respect * field_139_kill_respect_change);
 
     for (u8 i = 0; i < 10; ++i)
     {
         Gang_144* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(i);
-        if (pGang->field_1_gang_idx != field_1_gang_idx)
+        if (field_1_gang_idx != pGang->field_1_gang_idx)
         {
-            s8 diff = (respect * field_122_gang_kill_reaction[i]) + pGang->field_11C_respect[player_idx];
-            if (diff < pGang->field_11C_respect[player_idx] || diff > 100)
+            // The sum is written out twice in the checks and stored with +=, not kept in a local
+            s8 change = respect * field_122_gang_kill_reaction[i];
+            if ((s8)(pGang->field_11C_respect[player_idx] + change) < pGang->field_11C_respect[player_idx] ||
+                (s8)(pGang->field_11C_respect[player_idx] + change) > 100)
             {
                 pGang->field_11C_respect[player_idx] = 100;
             }
             else
             {
-                pGang->field_11C_respect[player_idx] = diff;
+                pGang->field_11C_respect[player_idx] += change;
             }
         }
     }
