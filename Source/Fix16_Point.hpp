@@ -211,7 +211,7 @@ class Fix16_Point : public Fix16_Point_POD
     }
 
     // MATCH_FUNC(0x40AC50)
-    Fix16_Point operator+(const Fix16_Point& in)
+    Fix16_Point operator+(const Fix16_Point_POD& in)
     {
         return Fix16_Point(x + in.x, y + in.y);
     }
