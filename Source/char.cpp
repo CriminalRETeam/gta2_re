@@ -3062,10 +3062,17 @@ void Char_B4::TurnTowardsAngle_54CAE0()
 }
 
 // https://decomp.me/scratch/RGvHW
-WIP_FUNC(0x54cc40)
+// PolarToCartesian_41FC20 as ApplyMovement_54CC40 expands it: the big function is past the
+// inline budget, so the original calls Multiply_408680 instead of inlining operator*
+static inline void PolarToCartesian_OutOfLineMul(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2)
+{
+    ret1 = Ang16::sine_40F500(angle).Multiply_408680(radius);
+    ret2 = Ang16::cosine_40F520(angle).Multiply_408680(radius);
+}
+
+MATCH_FUNC(0x54cc40)
 void Char_B4::ApplyMovement_54CC40()
 {
-    WIP_IMPLEMENTED;
 
     Fix16 xpos;
     Fix16 ypos;
@@ -3077,64 +3084,104 @@ void Char_B4::ApplyMovement_54CC40()
         case path_direction::up_1:
             switch (octant)
             {
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                    Ang16::PolarToCartesian_41FC20(kAng90_6FDA64, field_38_velocity, xpos, ypos);
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                    PolarToCartesian_OutOfLineMul(kAng270_6FD904, field_38_velocity, xpos, ypos);
                     xpos += gCharB4_Saved_Xpos_6FD7F8;
                     ypos += gCharB4_Saved_Ypos_6FD800;
-                    gAng16_AngleOfCollision_6FD808 = kAng90_6FDA64;
+                    gAng16_AngleOfCollision_6FD808 = kAng270_6FD904;
                     if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
                     {
-                        Ang16::PolarToCartesian_41FC20(kAng90_6FDA64, field_38_velocity / gFix16_Two_6FD9EC, xpos, ypos);
+                        PolarToCartesian_OutOfLineMul(kAng270_6FD904, field_38_velocity / gFix16_Two_6FD9EC, xpos, ypos);
                         field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + xpos,
                                                                  field_80_sprite_ptr->field_14_xy.y + ypos,
                                                                  field_80_sprite_ptr->field_1C_zpos);
                     }
                     else
                     {
-                        Ang16::PolarToCartesian_41FC20(word_6FDB3C, field_38_velocity, xpos, ypos);
+                        PolarToCartesian_OutOfLineMul(word_6FDB3C, field_38_velocity, xpos, ypos);
                         xpos += gCharB4_Saved_Xpos_6FD7F8;
                         ypos += gCharB4_Saved_Ypos_6FD800;
                         gAng16_AngleOfCollision_6FD808 = word_6FDB3C;
                         if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
                         {
-                            Ang16::PolarToCartesian_41FC20(word_6FDB3C, field_38_velocity / gFix16_Two_6FD9EC, xpos, ypos);
+                            PolarToCartesian_OutOfLineMul(word_6FDB3C, field_38_velocity / gFix16_Two_6FD9EC, xpos, ypos);
                             field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + xpos,
                                                                      field_80_sprite_ptr->field_14_xy.y + ypos,
                                                                      field_80_sprite_ptr->field_1C_zpos);
                         }
                     }
                     break;
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                    Ang16::PolarToCartesian_41FC20(kAng270_6FD904, field_38_velocity, xpos, ypos);
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                    PolarToCartesian_OutOfLineMul(kAng90_6FDA64, field_38_velocity, xpos, ypos);
                     xpos += gCharB4_Saved_Xpos_6FD7F8;
                     ypos += gCharB4_Saved_Ypos_6FD800;
-                    gAng16_AngleOfCollision_6FD808 = kAng270_6FD904;
+                    gAng16_AngleOfCollision_6FD808 = kAng90_6FDA64;
                     if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
                     {
-                        Ang16::PolarToCartesian_41FC20(kAng270_6FD904, field_38_velocity / gFix16_Two_6FD9EC, xpos, ypos);
+                        PolarToCartesian_OutOfLineMul(kAng90_6FDA64, field_38_velocity / gFix16_Two_6FD9EC, xpos, ypos);
                         field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + xpos,
                                                                  field_80_sprite_ptr->field_14_xy.y + ypos,
                                                                  field_80_sprite_ptr->field_1C_zpos);
                     }
                     else
                     {
-                        Ang16::PolarToCartesian_41FC20(word_6FDB3C, field_38_velocity, xpos, ypos);
+                        PolarToCartesian_OutOfLineMul(word_6FDB3C, field_38_velocity, xpos, ypos);
                         xpos += gCharB4_Saved_Xpos_6FD7F8;
                         ypos += gCharB4_Saved_Ypos_6FD800;
                         gAng16_AngleOfCollision_6FD808 = word_6FDB3C;
                         if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
                         {
-                            Ang16::PolarToCartesian_41FC20(word_6FDB3C, field_38_velocity / gFix16_Two_6FD9EC, xpos, ypos);
+                            PolarToCartesian_OutOfLineMul(word_6FDB3C, field_38_velocity / gFix16_Two_6FD9EC, xpos, ypos);
                             field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + xpos,
                                                                      field_80_sprite_ptr->field_14_xy.y + ypos,
                                                                      field_80_sprite_ptr->field_1C_zpos);
                         }
+                    }
+                    break;
+                default:
+                    return;
+            }
+            break;
+
+        case path_direction::right_3:
+            switch (octant)
+            {
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                    PolarToCartesian_OutOfLineMul(kAng180_6FD8E8, field_38_velocity, xpos, ypos);
+                    xpos += gCharB4_Saved_Xpos_6FD7F8;
+                    ypos += gCharB4_Saved_Ypos_6FD800;
+                    gAng16_AngleOfCollision_6FD808 = kAng180_6FD8E8;
+                    if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
+                    {
+                        PolarToCartesian_OutOfLineMul(kAng180_6FD8E8, field_38_velocity / gFix16_Two_6FD9EC, xpos, ypos);
+                        field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + xpos,
+                                                                 field_80_sprite_ptr->field_14_xy.y + ypos,
+                                                                 field_80_sprite_ptr->field_1C_zpos);
+                    }
+                    break;
+                case 0:
+                case 1:
+                case 6:
+                case 7:
+                    PolarToCartesian_OutOfLineMul(word_6FDB3C, field_38_velocity, xpos, ypos);
+                    xpos += gCharB4_Saved_Xpos_6FD7F8;
+                    ypos += gCharB4_Saved_Ypos_6FD800;
+                    gAng16_AngleOfCollision_6FD808 = word_6FDB3C;
+                    if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
+                    {
+                        PolarToCartesian_OutOfLineMul(word_6FDB3C, field_38_velocity / gFix16_Two_6FD9EC, xpos, ypos);
+                        field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + xpos,
+                                                                 field_80_sprite_ptr->field_14_xy.y + ypos,
+                                                                 field_80_sprite_ptr->field_1C_zpos);
                     }
                     break;
                 default:
@@ -3149,26 +3196,26 @@ void Char_B4::ApplyMovement_54CC40()
                 case 1:
                 case 2:
                 case 3:
-                    Ang16::PolarToCartesian_41FC20(kAng90_6FDA64, field_38_velocity, xpos, ypos);
+                    PolarToCartesian_OutOfLineMul(kAng90_6FDA64, field_38_velocity, xpos, ypos);
                     xpos += gCharB4_Saved_Xpos_6FD7F8;
                     ypos += gCharB4_Saved_Ypos_6FD800;
                     gAng16_AngleOfCollision_6FD808 = kAng90_6FDA64;
                     if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
                     {
-                        Ang16::PolarToCartesian_41FC20(kAng90_6FDA64, field_38_velocity / gFix16_Two_6FD9EC, xpos, ypos);
+                        PolarToCartesian_OutOfLineMul(kAng90_6FDA64, field_38_velocity / gFix16_Two_6FD9EC, xpos, ypos);
                         field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + xpos,
                                                                  field_80_sprite_ptr->field_14_xy.y + ypos,
                                                                  field_80_sprite_ptr->field_1C_zpos);
                     }
                     else
                     {
-                        Ang16::PolarToCartesian_41FC20(kAng180_6FD8E8, field_38_velocity, xpos, ypos);
+                        PolarToCartesian_OutOfLineMul(kAng180_6FD8E8, field_38_velocity, xpos, ypos);
                         xpos += gCharB4_Saved_Xpos_6FD7F8;
                         ypos += gCharB4_Saved_Ypos_6FD800;
                         gAng16_AngleOfCollision_6FD808 = kAng180_6FD8E8;
                         if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
                         {
-                            Ang16::PolarToCartesian_41FC20(kAng180_6FD8E8, field_38_velocity / gFix16_Two_6FD9EC, xpos, ypos);
+                            PolarToCartesian_OutOfLineMul(kAng180_6FD8E8, field_38_velocity / gFix16_Two_6FD9EC, xpos, ypos);
                             field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + xpos,
                                                                      field_80_sprite_ptr->field_14_xy.y + ypos,
                                                                      field_80_sprite_ptr->field_1C_zpos);
@@ -3179,26 +3226,26 @@ void Char_B4::ApplyMovement_54CC40()
                 case 5:
                 case 6:
                 case 7:
-                    Ang16::PolarToCartesian_41FC20(kAng270_6FD904, field_38_velocity, xpos, ypos);
+                    PolarToCartesian_OutOfLineMul(kAng270_6FD904, field_38_velocity, xpos, ypos);
                     xpos += gCharB4_Saved_Xpos_6FD7F8;
                     ypos += gCharB4_Saved_Ypos_6FD800;
                     gAng16_AngleOfCollision_6FD808 = kAng270_6FD904;
                     if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
                     {
-                        Ang16::PolarToCartesian_41FC20(kAng270_6FD904, field_38_velocity / gFix16_Two_6FD9EC, xpos, ypos);
+                        PolarToCartesian_OutOfLineMul(kAng270_6FD904, field_38_velocity / gFix16_Two_6FD9EC, xpos, ypos);
                         field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + xpos,
                                                                  field_80_sprite_ptr->field_14_xy.y + ypos,
                                                                  field_80_sprite_ptr->field_1C_zpos);
                     }
                     else
                     {
-                        Ang16::PolarToCartesian_41FC20(kAng180_6FD8E8, field_38_velocity, xpos, ypos);
+                        PolarToCartesian_OutOfLineMul(kAng180_6FD8E8, field_38_velocity, xpos, ypos);
                         xpos += gCharB4_Saved_Xpos_6FD7F8;
                         ypos += gCharB4_Saved_Ypos_6FD800;
                         gAng16_AngleOfCollision_6FD808 = kAng180_6FD8E8;
                         if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
                         {
-                            Ang16::PolarToCartesian_41FC20(kAng180_6FD8E8, field_38_velocity / gFix16_Two_6FD9EC, xpos, ypos);
+                            PolarToCartesian_OutOfLineMul(kAng180_6FD8E8, field_38_velocity / gFix16_Two_6FD9EC, xpos, ypos);
                             field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + xpos,
                                                                      field_80_sprite_ptr->field_14_xy.y + ypos,
                                                                      field_80_sprite_ptr->field_1C_zpos);
@@ -3206,46 +3253,6 @@ void Char_B4::ApplyMovement_54CC40()
                     }
                     break;
 
-                default:
-                    return;
-            }
-            break;
-
-        case path_direction::right_3:
-            switch (octant)
-            {
-                case 0:
-                case 1:
-                case 6:
-                case 7:
-                    Ang16::PolarToCartesian_41FC20(word_6FDB3C, field_38_velocity, xpos, ypos);
-                    xpos += gCharB4_Saved_Xpos_6FD7F8;
-                    ypos += gCharB4_Saved_Ypos_6FD800;
-                    gAng16_AngleOfCollision_6FD808 = word_6FDB3C;
-                    if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
-                    {
-                        Ang16::PolarToCartesian_41FC20(word_6FDB3C, field_38_velocity / gFix16_Two_6FD9EC, xpos, ypos);
-                        field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + xpos,
-                                                                 field_80_sprite_ptr->field_14_xy.y + ypos,
-                                                                 field_80_sprite_ptr->field_1C_zpos);
-                    }
-                    break;
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                    Ang16::PolarToCartesian_41FC20(kAng180_6FD8E8, field_38_velocity, xpos, ypos);
-                    xpos += gCharB4_Saved_Xpos_6FD7F8;
-                    ypos += gCharB4_Saved_Ypos_6FD800;
-                    gAng16_AngleOfCollision_6FD808 = kAng180_6FD8E8;
-                    if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
-                    {
-                        Ang16::PolarToCartesian_41FC20(kAng180_6FD8E8, field_38_velocity / gFix16_Two_6FD9EC, xpos, ypos);
-                        field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + xpos,
-                                                                 field_80_sprite_ptr->field_14_xy.y + ypos,
-                                                                 field_80_sprite_ptr->field_1C_zpos);
-                    }
-                    break;
                 default:
                     return;
             }
@@ -3254,6 +3261,22 @@ void Char_B4::ApplyMovement_54CC40()
         case path_direction::left_4:
             switch (octant)
             {
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                    PolarToCartesian_OutOfLineMul(kAng180_6FD8E8, field_38_velocity, xpos, ypos);
+                    xpos += gCharB4_Saved_Xpos_6FD7F8;
+                    ypos += gCharB4_Saved_Ypos_6FD800;
+                    gAng16_AngleOfCollision_6FD808 = kAng180_6FD8E8;
+                    if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
+                    {
+                        PolarToCartesian_OutOfLineMul(kAng180_6FD8E8, field_38_velocity / gFix16_Two_6FD9EC, xpos, ypos);
+                        field_80_sprite_ptr->set_xyz_lazy_451950(field_80_sprite_ptr->field_14_xy.x + xpos,
+                                                                 field_80_sprite_ptr->field_14_xy.y + ypos,
+                                                                 field_80_sprite_ptr->field_1C_zpos);
+                    }
+                    break;
                 case 0:
                 case 1:
                 case 6:
@@ -3264,25 +3287,10 @@ void Char_B4::ApplyMovement_54CC40()
                     gAng16_AngleOfCollision_6FD808 = word_6FDB3C;
                     if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
                     {
-                        Ang16::PolarToCartesian_451730(word_6FDB3C, field_38_velocity / gFix16_Two_6FD9EC, xpos, ypos);
-                        field_80_sprite_ptr->set_xyz_lazy_451950(field_80_sprite_ptr->field_14_xy.x + xpos,
-                                                                 field_80_sprite_ptr->field_14_xy.y + ypos,
-                                                                 field_80_sprite_ptr->field_1C_zpos);
-                    }
-                    break;
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                    Ang16::PolarToCartesian_41FC20(kAng180_6FD8E8, field_38_velocity, xpos, ypos);
-                    xpos += gCharB4_Saved_Xpos_6FD7F8;
-                    ypos += gCharB4_Saved_Ypos_6FD800;
-                    gAng16_AngleOfCollision_6FD808 = kAng180_6FD8E8;
-                    if (Char_B4::CanStepDiagonal_54EF60(xpos.ToInt(), ypos.ToInt()))
-                    {
-                        Ang16::PolarToCartesian_41FC20(kAng180_6FD8E8, field_38_velocity / gFix16_Two_6FD9EC, xpos, ypos);
-                        field_80_sprite_ptr->set_xyz_lazy_451950(field_80_sprite_ptr->field_14_xy.x + xpos,
-                                                                 field_80_sprite_ptr->field_14_xy.y + ypos,
+                        // Out-of-line operators (inline budget)
+                        Ang16::PolarToCartesian_451730(word_6FDB3C, field_38_velocity.Divide_436A20(gFix16_Two_6FD9EC), xpos, ypos);
+                        field_80_sprite_ptr->set_xyz_lazy_451950((const Fix16&)field_80_sprite_ptr->field_14_xy.x + xpos,
+                                                                 (const Fix16&)field_80_sprite_ptr->field_14_xy.y + ypos,
                                                                  field_80_sprite_ptr->field_1C_zpos);
                     }
                     break;
