@@ -4399,39 +4399,34 @@ u8 Frontend::GetPrevUnlockedStageIndex_4B77B0(player_stats_0xA4* a2)
     return result;
 }
 
-WIP_FUNC(0x4B7800)
+MATCH_FUNC(0x4B7800)
 u8 Frontend::GetPrevUnlockedStageBonusCode_4B7800(player_stats_0xA4* pStats)
 {
-    WIP_IMPLEMENTED;
-
     u8 stage = Frontend::GetPrevUnlockedStageIndex_4B77B0(pStats);
-    u8 bonus;
+    u8 bonus = field_1EB51_num_bonus_stages[stage] - 1;
     while (1)
     {
-        bonus = this->field_1EB51_num_bonus_stages[stage] - 1;
-        if (bonus != 0)
+        if (bonus == 0)
         {
-            while (1)
+            if (stage == 0)
             {
-                while (!pStats->field_0_plyr_stage_stats[stage][bonus].field_0_is_stage_unlocked && bonus > 0)
-                {
-                    bonus--;
-                }
-                if (pStats->field_0_plyr_stage_stats[stage][bonus].field_0_is_stage_unlocked == 1 && bonus > 0)
-                {
-                    // The original's found block comes after the -1 return, out of both loops
-                    goto found;
-                }
+                return -1;
+            }
+            stage--;
+            bonus = field_1EB51_num_bonus_stages[stage] - 1;
+        }
+        else
+        {
+            while (!pStats->field_0_plyr_stage_stats[stage][bonus].field_0_is_stage_unlocked && bonus > 0)
+            {
+                bonus--;
+            }
+            if (pStats->field_0_plyr_stage_stats[stage][bonus].field_0_is_stage_unlocked == 1 && bonus > 0)
+            {
+                break;
             }
         }
-        if (stage == 0)
-        {
-            return -1;
-        }
-        stage--;
     }
-
-found:
     return gLucid_hamilton_67E8E0.EncodeStage_453A40(stage, bonus);
 }
 
@@ -4751,18 +4746,14 @@ WIP_FUNC(0x4B7270)
 u8 Frontend::GetNextUnlockedMainStage_4B7270(char_type main_stage_idx)
 {
     WIP_IMPLEMENTED;
-    u8 result;
 
     player_stats_0xA4* pStats = GetCurrPlayerStats_4B43E0();
+    u8 result = main_stage_idx;
     if (main_stage_idx == 2)
     {
         if (bIsLeftRightLoopEnabled_67DA80)
         {
             return 0;
-        }
-        else
-        {
-            return 2;
         }
     }
     else
@@ -4854,11 +4845,9 @@ void Frontend::StripPlayerNameToCurrLength_4B42B0()
 }
 
 // https://decomp.me/scratch/2DKTF
-WIP_FUNC(0x4B7120)
+MATCH_FUNC(0x4B7120)
 char_type Frontend::GetPreviousUnlockedBonusStage_4B7120(u8 a2)
 {
-    WIP_IMPLEMENTED;
-
     player_stats_0xA4* player_stats = Frontend::GetCurrPlayerStats_4B43E0();
 
     u8 main_stage_idx;
@@ -4876,20 +4865,23 @@ char_type Frontend::GetPreviousUnlockedBonusStage_4B7120(u8 a2)
         {
             do
             {
-                if (main_stage_idx != 0)
+                if (main_stage_idx == 0)
                 {
-                    --main_stage_idx;
-                    bonus_stage_idx = field_1EB51_num_bonus_stages[main_stage_idx] - 1;
-                }
-                else if (bIsLeftRightLoopEnabled_67DA80)
-                {
-                    main_stage_idx = field_1EB50_num_main_stages - 1;
-                    bonus_stage_idx = field_1EB51_num_bonus_stages[main_stage_idx] - 1;
+                    if (bIsLeftRightLoopEnabled_67DA80)
+                    {
+                        main_stage_idx = field_1EB50_num_main_stages - 1;
+                        bonus_stage_idx = field_1EB51_num_bonus_stages[main_stage_idx] - 1;
+                    }
+                    else
+                    {
+                        main_stage_idx = main_og;
+                        bonus_stage_idx = bonus_og;
+                    }
                 }
                 else
                 {
-                    bonus_stage_idx = bonus_og;
-                    main_stage_idx = main_og;
+                    --main_stage_idx;
+                    bonus_stage_idx = field_1EB51_num_bonus_stages[main_stage_idx] - 1;
                 }
             } while (bonus_stage_idx == 0);
         }
