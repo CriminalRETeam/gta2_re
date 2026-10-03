@@ -1607,44 +1607,38 @@ bool Sprite::PointInsideRotatedBounds_5A1490(Fix16_Point& point1, Fix16_Point& p
     Fix16 half_width;
     Fix16 half_height;
     field_C_sprite_4c_ptr->HalfWH_4BA0A0(&half_width, &half_height);
-    Fix16 pRotTransX;
-    Fix16 pRotTransY;
 
     // TODO: this is just "negate" but inlined
     Ang16 negated_ang(-field_0.rValue);
     Ang16 normalized_ang;
     normalized_ang.AssignNormalized_409300(negated_ang, 0);
 
-    RotateAndTranslatePoint_42A720(point1.x, point1.y, normalized_ang, field_14_xy.x, field_14_xy.y, pRotTransX, pRotTransY);
+    RotateAndTranslatePoint_42A720(point1.x, point1.y, normalized_ang, field_14_xy.x, field_14_xy.y, rotated_1.x, rotated_1.y);
 
-    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    if (rotated_1.x >= -half_width && rotated_1.x <= half_width)
     {
-        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        if (rotated_1.y >= -half_height && rotated_1.y <= half_height)
         {
             return true;
         }
     }
 
-    Fix16 pRotTransX_2;
-    Fix16 pRotTransY_2;
 
     // TODO: this is just "negate" but inlined
     Ang16 negated_ang2(-field_0.rValue);
     Ang16 normalized_ang2;
     normalized_ang2.AssignNormalized_409300(negated_ang2, 0);
 
-    RotateAndTranslatePoint_42A720(point2.x, point2.y, normalized_ang2, field_14_xy.x, field_14_xy.y, pRotTransX_2, pRotTransY_2);
+    RotateAndTranslatePoint_42A720(point2.x, point2.y, normalized_ang2, field_14_xy.x, field_14_xy.y, rotated_2.x, rotated_2.y);
 
-    if (pRotTransX_2 >= -half_width && pRotTransX_2 <= half_width)
+    if (rotated_2.x >= -half_width && rotated_2.x <= half_width)
     {
-        if (pRotTransY_2 >= -half_height && pRotTransY_2 <= half_height)
+        if (rotated_2.y >= -half_height && rotated_2.y <= half_height)
         {
             return true;
         }
     }
 
-    rotated_1 = Fix16_Point(pRotTransX, pRotTransY);
-    rotated_2 = Fix16_Point(pRotTransX_2, pRotTransY_2);
 
     if (ComputeScanlineIntersectionX_4F77D0(-half_height, half_height, -half_width, rotated_1, rotated_2) ||
         ComputeScanlineIntersectionX_4F77D0(-half_height, half_height, half_width, rotated_1, rotated_2) ||
