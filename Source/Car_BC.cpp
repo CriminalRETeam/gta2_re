@@ -2335,52 +2335,92 @@ char_type Car_BC::IsThreatToSearchingPed_43AAE0()
     }
 }
 
-WIP_FUNC(0x43aaf0)
+MATCH_FUNC(0x43aaf0)
 char_type Car_BC::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
 {
-    WIP_IMPLEMENTED;
 
     s32 sprite_type; // eax
     Car_BC* cBC; // edi
-    s16 our_flags; // dx
-    s16 their_flags; // cx
+    u16 our_flags; // dx
+    u16 their_flags; // cx
     char_type bUnknown; // bl
     s32 f_88; // eax
     Object_2C* o2c; // ecx
     Phi_74* pPhi; // edx
     s32 phi_type; // eax
     s32 field_18_model; // eax
-    s32 varrok_idx; // edx
     Ped* pPed; // eax
     Char_B4* pB4; // eax
     Ped* pB4Ped; // eax
     Trailer* pTrailer; // eax
 
-    if (!pSprite)
+    if (pSprite)
     {
-        if (gCollide_C_6791FC->field_8_bUnknown == 1)
+        if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
         {
-            pTrailer = this->field_64_pTrailer;
-            if (pTrailer)
+            cBC = pSprite->field_8_car_bc_ptr;
+            if (cBC)
             {
-                if (pTrailer->field_C_pCarOnTrailer == this)
+                if (gPublicTransport_181C_6FF1D4->AreCarsInDifferentTrains_57B740(cBC, this))
                 {
                     return 0;
                 }
+
+                our_flags = this->field_78_flags;
+                their_flags = cBC->field_78_flags;
+                if ((((u8)their_flags ^ (u8)our_flags) & 0x10) != 0)
+                {
+                    return 0;
+                }
+                if ((their_flags & 0x40) != 0 && this->field_74_damage == 32001 && (our_flags & 0x40) == 0 ||
+                    (our_flags & 0x40) != 0 && cBC->field_74_damage == 32001 && (their_flags & 0x40) == 0)
+                {
+                    return 0;
+                }
+                if ((their_flags & 0x2000) != 0 && (gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->info_flags_2 & 1) != 1 ||
+                    (this->field_78_flags & 0x2000) != 0 &&
+                        (gGtx_0x106C_703DD4->get_car_info_5AA3B0(cBC->field_84_car_info_idx)->info_flags_2 & 1) != 1)
+                {
+                    return 0;
+                }
+
+                if (this->field_64_pTrailer)
+                {
+                    return 1;
+                }
+
+                if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->info_flags & 8) == 8 && !cBC->field_64_pTrailer &&
+                    (gGtx_0x106C_703DD4->get_car_info_5AA3B0(cBC->field_84_car_info_idx)->info_flags & 0x10) == 0x10)
+                {
+                    return field_50_car_sprite->CheckDirectionalSliceCollision_59E680(k_dword_6778C8, pSprite);
+                }
+
+                if (this->field_64_pTrailer || (gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->info_flags & 0x10) != 0x10 ||
+                    cBC->field_64_pTrailer || (gGtx_0x106C_703DD4->get_car_info_5AA3B0(cBC->field_84_car_info_idx)->info_flags & 8) != 8)
+                {
+                    return 1;
+                }
+
+                bUnknown = pSprite->CheckDirectionalSliceCollision_59E680(k_dword_6778C8, this->field_50_car_sprite);
+                if (!HasSpriteZoom_43A230() && this->field_74_damage != 32001)
+                {
+                    f_88 = this->field_88_despawn_status;
+                    if (f_88 != 2 && f_88 != 4 && f_88 != 3 && f_88 != 5)
+                    {
+                        stru_67727C.PushSprite_5A6D40(this->field_50_car_sprite);
+                    }
+                }
+                return bUnknown;
             }
         }
-        return 1;
-    }
 
-    sprite_type = pSprite->field_30_sprite_type_enum;
-    if (sprite_type != sprite_types_enum::car_2 || (cBC = pSprite->field_8_car_bc_ptr) == 0)
-    {
+        sprite_type = pSprite->field_30_sprite_type_enum;
         if ((sprite_type == 4 || sprite_type == 5 || sprite_type == 1) && (o2c = pSprite->field_8_object_2C_ptr) != 0)
         {
             pPhi = o2c->field_8;
             phi_type = pPhi->field_34_behavior_type;
             if (phi_type == 6 || phi_type == 7 || phi_type == 8 || phi_type == 9 || phi_type == 10 || phi_type == 1 || phi_type == 12 ||
-                (field_18_model = o2c->field_18_model, field_18_model == objects::rocket_bullet_128) || field_18_model == objects::grenade_obj_183)
+                (field_18_model = o2c->field_18_model, field_18_model == 182) || field_18_model == objects::grenade_obj_183)
             {
                 if (pPhi->field_40_collision_bucket_category == 3)
                 {
@@ -2389,10 +2429,9 @@ char_type Car_BC::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
             }
             else
             {
-                varrok_idx = o2c->field_26_varrok_idx;
-                if (gVarrok_7F8_703398->field_0_entries[varrok_idx].field_0_ped_id)
+                if (gVarrok_7F8_703398->field_0_entries[o2c->field_26_varrok_idx].field_0_ped_id)
                 {
-                    pPed = gPedManager_6787BC->PedById(gVarrok_7F8_703398->field_0_entries[varrok_idx].field_0_ped_id);
+                    pPed = gPedManager_6787BC->PedById(gVarrok_7F8_703398->field_0_entries[o2c->field_26_varrok_idx].field_0_ped_id);
                     if (pPed)
                     {
                         if (pPed->field_16C_car == this)
@@ -2417,57 +2456,21 @@ char_type Car_BC::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
         }
         return 1;
     }
-
-    if (gPublicTransport_181C_6FF1D4->AreCarsInDifferentTrains_57B740(cBC, this))
+    else
     {
-        return 0;
-    }
-
-    our_flags = this->field_78_flags;
-    their_flags = cBC->field_78_flags;
-    if ((((u8)their_flags ^ (u8)our_flags) & 0x10) != 0)
-    {
-        return 0;
-    }
-    if ((their_flags & 0x40) != 0 && this->field_74_damage == 32001 && (our_flags & 0x40) == 0 ||
-        (our_flags & 0x40) != 0 && cBC->field_74_damage == 32001 && (their_flags & 0x40) == 0)
-    {
-        return 0;
-    }
-    if ((their_flags & 0x2000) != 0 && (gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->info_flags_2 & 1) != 1 ||
-        (this->field_78_flags & 0x2000) != 0 &&
-            (gGtx_0x106C_703DD4->get_car_info_5AA3B0(cBC->field_84_car_info_idx)->info_flags_2 & 1) != 1)
-    {
-        return 0;
-    }
-
-    if (this->field_64_pTrailer)
-    {
-        return 1;
-    }
-
-    if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->info_flags & 8) == 8 && !cBC->field_64_pTrailer &&
-        (gGtx_0x106C_703DD4->get_car_info_5AA3B0(cBC->field_84_car_info_idx)->info_flags & 0x10) == 0x10)
-    {
-        return field_50_car_sprite->CheckDirectionalSliceCollision_59E680(k_dword_6778C8, pSprite);
-    }
-
-    if (this->field_64_pTrailer || (gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->info_flags & 0x10) != 0x10 ||
-        cBC->field_64_pTrailer || (gGtx_0x106C_703DD4->get_car_info_5AA3B0(cBC->field_84_car_info_idx)->info_flags & 8) != 8)
-    {
-        return 1;
-    }
-
-    bUnknown = pSprite->CheckDirectionalSliceCollision_59E680(k_dword_6778C8, this->field_50_car_sprite);
-    if (!HasSpriteZoom_43A230() && this->field_74_damage != 32001)
-    {
-        f_88 = this->field_88_despawn_status;
-        if (f_88 != 2 && f_88 != 4 && f_88 != 3 && f_88 != 5)
+        if (gCollide_C_6791FC->field_8_bUnknown == 1)
         {
-            stru_67727C.PushSprite_5A6D40(this->field_50_car_sprite);
+            pTrailer = this->field_64_pTrailer;
+            if (pTrailer)
+            {
+                if (pTrailer->field_C_pCarOnTrailer == this)
+                {
+                    return 0;
+                }
+            }
         }
+        return 1;
     }
-    return bUnknown;
 }
 
 MATCH_FUNC(0x43adc0)
