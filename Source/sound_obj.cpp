@@ -6523,106 +6523,52 @@ char_type sound_obj::SelectObjectImpactSound_413120(Rozza_A* pObj, s32 interacti
 {
     WIP_IMPLEMENTED;
 
-    s32 model_copy; // eax
-    char_type result; // al
-    u32 rnd1_mod; // et2
-    s32 rate__; // edi MAPDST
-    s32 rate_plus_displacement; // edi
-    s32 rnd_samp_idx; // eax
-    s32 samp_idx; // edx
-    u32 rnd_1; // eax MAPDST
-    u32 rnd_0; // eax MAPDST
-    u32 rnd_0_mod; // et2 MAPDST
-    s32 rate; // eax
+    // The original keeps the samp 37 block of 281/282 in front of the 110 code and jumps back to it
+    // (cmp/jne); VC6 merges our three copies into the one inside the 110 case instead.
+    s32 samp_idx;
 
-    model_copy = pObj->field_18_model_copy;
-    if (model_copy > 110)
+    if (pObj->field_18_model_copy <= 110)
     {
-        switch (model_copy)
+        if (pObj->field_18_model_copy == 110)
         {
-            case 166:
-            case 169:
-            case 294:
-                this->field_30_sQueueSample.field_14_samp_idx = 37;
-                this->field_30_sQueueSample.field_18_bIs2D = 0;
-                this->field_30_sQueueSample.field_20_rate =
-                    RandomDisplacement_41A650(37u) + gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(37);
-                return 1;
-
-            case 182:
-            case 183:
-                goto skip_switch_2;
-
-            case 192:
-            case 254:
-            case 265:
-                if (interactionType == 3)
-                {
-                    rnd_1 = this->field_1454_anRandomTable[1];
-                    // 9.6f: Car_BC::sub_414F60 (field_78_flags & 0x100 via sub_411930, inlined, a bool helper changes the code)
-                    if ((pObj->field_10_car->field_78_flags & 0x100) != 0)
-                    {
-                        samp_idx = rnd_1 % 3 + 46;
-                    }
-                    else
-                    {
-                        samp_idx = rnd_1 % 3 + 43;
-                    }
-                }
-                else
-                {
-                    if (interactionType == 7)
-                    {
-                        this->field_30_sQueueSample.field_14_samp_idx = 42;
-                        goto exit_switch_1;
-                    }
-                    samp_idx = this->field_1454_anRandomTable[1] % 3u + 49;
-                }
-                this->field_30_sQueueSample.field_14_samp_idx = samp_idx;
-                break;
-
-            case 266:
-                this->field_30_sQueueSample.field_14_samp_idx = 34;
-                rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(34);
-                goto set_rate;
-
-            case 281:
-            case 282:
-                goto set_samp_idx_rnd_rate;
-
-            case 295:
-                this->field_30_sQueueSample.field_14_samp_idx = 33;
-                rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(33);
-            set_rate:
-                this->field_30_sQueueSample.field_20_rate = rate;
-                this->field_30_sQueueSample.field_18_bIs2D = 1;
-                return 1;
-
-            default:
-                return 0;
+            // 110 shares the code of models 182 and 183
+            goto case_110;
         }
-        goto exit_switch_1;
-    }
 
-    if (model_copy != 110)
-    {
-        switch (model_copy)
+        switch (pObj->field_18_model_copy)
         {
             case 1:
             case 18:
-                rnd_0 = this->field_1454_anRandomTable[0];
-                this->field_30_sQueueSample.field_14_samp_idx = 55;
-                rnd_0_mod = rnd_0 % 2000;
-                this->field_30_sQueueSample.field_18_bIs2D = 0;
-                result = 1;
-                this->field_30_sQueueSample.field_20_rate = rnd_0_mod + 23000;
-                return result;
-            case 2:
-            case 15:
-            case 19:
-            case 20:
-            case 60:
-                goto set_samp_idx_rnd_rate;
+                field_30_sQueueSample.field_14_samp_idx = 55;
+                field_30_sQueueSample.field_18_bIs2D = 0;
+                field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[0] % 2000 + 23000;
+                return 1;
+
+            case 7:
+                field_30_sQueueSample.field_14_samp_idx = 55;
+                goto rate_20000;
+
+            case 16:
+            case 25:
+            case 62:
+                field_30_sQueueSample.field_14_samp_idx = 55;
+                field_30_sQueueSample.field_18_bIs2D = 0;
+                field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[0] % 2000 + 15000;
+                return 1;
+
+            case 4:
+            case 23:
+            case 44:
+                field_30_sQueueSample.field_14_samp_idx = 54;
+                // Shares the rate code of the next group, VC6 doesn't merge case tails by itself
+                goto rate_17000;
+
+            case 6:
+                field_30_sQueueSample.field_14_samp_idx = 52;
+                field_30_sQueueSample.field_18_bIs2D = 0;
+                field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[0] % 600 + 16000;
+                return 1;
+
             case 3:
             case 5:
             case 11:
@@ -6631,126 +6577,152 @@ char_type sound_obj::SelectObjectImpactSound_413120(Rozza_A* pObj, s32 interacti
             case 53:
             case 54:
             case 55:
-                this->field_30_sQueueSample.field_14_samp_idx = 56;
-                goto LABEL_10;
-            case 4:
-            case 23:
-            case 44:
-                this->field_30_sQueueSample.field_14_samp_idx = 54;
-            LABEL_10:
-                rnd_0 = this->field_1454_anRandomTable[0];
-                this->field_30_sQueueSample.field_18_bIs2D = 0;
-                rnd_0_mod = rnd_0 % 2000;
-                result = 1;
-                this->field_30_sQueueSample.field_20_rate = rnd_0_mod + 17000;
-                break;
-            case 6:
-                rnd_0 = this->field_1454_anRandomTable[0];
-                this->field_30_sQueueSample.field_14_samp_idx = 52;
-                rnd_0_mod = rnd_0 % 600;
-                this->field_30_sQueueSample.field_18_bIs2D = 0;
-                result = 1;
-                this->field_30_sQueueSample.field_20_rate = rnd_0_mod + 16000;
-                break;
-            case 7:
-                this->field_30_sQueueSample.field_14_samp_idx = 55;
-                goto exit_switch_1;
-            case 12:
-            case 14:
-            case 58:
-                rnd_0 = this->field_1454_anRandomTable[0];
-                this->field_30_sQueueSample.field_14_samp_idx = 53;
-                rnd_0_mod = rnd_0 % 2000;
-                this->field_30_sQueueSample.field_18_bIs2D = 0;
-                result = 1;
-                this->field_30_sQueueSample.field_20_rate = rnd_0_mod + 18000;
-                break;
-            case 16:
-            case 25:
-            case 62:
-                rnd_0 = this->field_1454_anRandomTable[0];
-                this->field_30_sQueueSample.field_14_samp_idx = 55;
-                rnd_0_mod = rnd_0 % 2000;
-                this->field_30_sQueueSample.field_18_bIs2D = 0;
-                result = 1;
-                this->field_30_sQueueSample.field_20_rate = rnd_0_mod + 15000;
-                break;
+                field_30_sQueueSample.field_14_samp_idx = 56;
+            rate_17000:
+                field_30_sQueueSample.field_18_bIs2D = 0;
+                field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[0] % 2000 + 17000;
+                return 1;
+
             case 21:
             case 22:
             case 46:
             case 48:
-                rnd_0 = this->field_1454_anRandomTable[0];
-                this->field_30_sQueueSample.field_14_samp_idx = 53;
-                rnd_0_mod = rnd_0 % 1000;
-                this->field_30_sQueueSample.field_18_bIs2D = 0;
-                result = 1;
-                this->field_30_sQueueSample.field_20_rate = rnd_0_mod + 15500;
-                break;
+                field_30_sQueueSample.field_14_samp_idx = 53;
+                field_30_sQueueSample.field_18_bIs2D = 0;
+                field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[0] % 1000 + 15500;
+                return 1;
+
+            case 12:
+            case 14:
+            case 58:
+                field_30_sQueueSample.field_14_samp_idx = 53;
+                field_30_sQueueSample.field_18_bIs2D = 0;
+                field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[0] % 2000 + 18000;
+                return 1;
+
+            case 2:
+            case 15:
+            case 19:
+            case 20:
+            case 60:
+                field_30_sQueueSample.field_14_samp_idx = 37;
+                goto rate_20000;
+
             default:
                 return 0;
         }
-        return result;
     }
 
-    // model is 110 here, or via goto
-
-skip_switch_2:
-    if (interactionType != 1)
+    switch (pObj->field_18_model_copy)
     {
-    set_samp_idx_rnd_rate:
-        this->field_30_sQueueSample.field_14_samp_idx = 37;
-    exit_switch_1:
-        rnd_0 = this->field_1454_anRandomTable[0];
-        this->field_30_sQueueSample.field_18_bIs2D = 0;
-        rnd_0_mod = rnd_0 % 2000;
-        result = 1;
-        this->field_30_sQueueSample.field_20_rate = rnd_0_mod + 20000;
-        return result;
-    }
+        case 166:
+        case 169:
+        case 294:
+        {
+            field_30_sQueueSample.field_14_samp_idx = 37;
+            s32 rate = RandomDisplacement_41A650(37) + gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(37);
+            field_30_sQueueSample.field_18_bIs2D = 0;
+            field_30_sQueueSample.field_20_rate = rate;
+            return 1;
+        }
 
-    switch (pObj->field_20_map_block_spec)
-    {
-        case 1:
-        case 3:
-            this->field_30_sQueueSample.field_14_samp_idx = 198;
+        case 281:
+        case 282:
+            field_30_sQueueSample.field_14_samp_idx = 37;
+            goto rate_20000;
+
+        case 182:
+        case 183:
+        case_110:
+            if (interactionType != 1)
+            {
+                field_30_sQueueSample.field_14_samp_idx = 37;
+                goto rate_20000;
+            }
+
+            switch (pObj->field_20_map_block_spec)
+            {
+                case 1:
+                case 3:
+                    field_30_sQueueSample.field_14_samp_idx = 198;
+                    break;
+                case 2:
+                case 7:
+                case 10:
+                    field_30_sQueueSample.field_14_samp_idx = 202;
+                    break;
+                case 5:
+                case 6:
+                case 8:
+                case 9:
+                    field_30_sQueueSample.field_14_samp_idx = 194;
+                    break;
+                case 4:
+                    field_30_sQueueSample.field_14_samp_idx = 68;
+                    break;
+                default:
+                    return 0;
+            }
+
+            if (pObj->field_20_map_block_spec == 4)
+            {
+                field_30_sQueueSample.field_18_bIs2D = 0;
+                field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[1] % 4000 + 28000;
+                return 1;
+            }
+
+            field_30_sQueueSample.field_20_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(field_30_sQueueSample.field_14_samp_idx) +
+                RandomDisplacement_41A650(field_30_sQueueSample.field_14_samp_idx);
+            field_30_sQueueSample.field_14_samp_idx += field_1454_anRandomTable[3] & 3;
+            field_30_sQueueSample.field_18_bIs2D = 0;
+            return 1;
+
+        case 192:
+        case 254:
+        case 265:
+            switch (interactionType)
+            {
+                case 3:
+                    // 9.6f: Car_BC::sub_414F60 (field_78_flags & 0x100 via sub_411930, inlined, a bool helper changes the code)
+                    if ((pObj->field_10_car->field_78_flags & 0x100) != 0)
+                    {
+                        samp_idx = field_1454_anRandomTable[1] % 3 + 46;
+                    }
+                    else
+                    {
+                        samp_idx = field_1454_anRandomTable[1] % 3 + 43;
+                    }
+                    break;
+                case 7:
+                    field_30_sQueueSample.field_14_samp_idx = 42;
+                    goto rate_20000;
+                default:
+                    samp_idx = field_1454_anRandomTable[1] % 3 + 49;
+                    break;
+            }
+            field_30_sQueueSample.field_14_samp_idx = samp_idx;
             break;
-        case 2:
-        case 7:
-        case 10:
-            this->field_30_sQueueSample.field_14_samp_idx = 202;
-            break;
-        case 4:
-            this->field_30_sQueueSample.field_14_samp_idx = 68;
-            break;
-        case 5:
-        case 6:
-        case 8:
-        case 9:
-            this->field_30_sQueueSample.field_14_samp_idx = 194;
-            break;
+
+        case 295:
+            field_30_sQueueSample.field_14_samp_idx = 33;
+            field_30_sQueueSample.field_20_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(33);
+            field_30_sQueueSample.field_18_bIs2D = 1;
+            return 1;
+
+        case 266:
+            field_30_sQueueSample.field_14_samp_idx = 34;
+            field_30_sQueueSample.field_20_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(34);
+            field_30_sQueueSample.field_18_bIs2D = 1;
+            return 1;
+
         default:
             return 0;
     }
 
-    if (pObj->field_20_map_block_spec == 4)
-    {
-        rnd_1 = this->field_1454_anRandomTable[1];
-        this->field_30_sQueueSample.field_18_bIs2D = 0;
-        rnd1_mod = rnd_1 % 4000;
-        result = 1;
-        this->field_30_sQueueSample.field_20_rate = rnd1_mod + 28000;
-    }
-    else
-    {
-        rate__ = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(field_30_sQueueSample.field_14_samp_idx);
-        rate_plus_displacement = RandomDisplacement_41A650(field_30_sQueueSample.field_14_samp_idx) + rate__;
-        rnd_samp_idx = (this->field_1454_anRandomTable[3] & 3) + field_30_sQueueSample.field_14_samp_idx;
-        this->field_30_sQueueSample.field_20_rate = rate_plus_displacement;
-        this->field_30_sQueueSample.field_14_samp_idx = rnd_samp_idx;
-        this->field_30_sQueueSample.field_18_bIs2D = 0;
-        return 1;
-    }
-    return result;
+rate_20000:
+    field_30_sQueueSample.field_18_bIs2D = 0;
+    field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[0] % 2000 + 20000;
+    return 1;
 }
 
 MATCH_FUNC(0x414A50)
