@@ -3745,9 +3745,12 @@ void CarPhysics_B0::UpdateCenterOfMassPoint_563350()
 {
     WIP_IMPLEMENTED;
 
+    // The function runs out of inline expansions inside RotateByAngle_40F6B0: the original inlines
+    // x and y * cos (__allmul on shared sign extensions) and calls -x_old, * sin and + out of line.
+    // A Fix16_Point local leaves y * cos out of line too, this POD one inlines -x_old as well.
     const CarInfo_2C* info = gCarInfo_808_678098->GetInfoAtIdx_454840(field_5C_pCar->GetCarModelForPhysics_43A850());
 
-    Fix16_Point point = info->field_C_center_of_mass_offset;
+    Fix16_Point_POD point = info->field_C_center_of_mass_offset;
     point.RotateByAngle_40F6B0(field_58_theta);
 
     field_30_cm1 = field_38_cp1 + point;
