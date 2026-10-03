@@ -554,7 +554,7 @@ class Fix16_Point : public Fix16_Point_POD
         }
         else
         {
-            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y * y);
+            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + Fix16((s32)((y.mValue * (__int64)y.mValue) >> 14), 0));
         }
     }
 

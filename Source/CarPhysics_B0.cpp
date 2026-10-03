@@ -3167,6 +3167,7 @@ Fix16 CarPhysics_B0::CalculateRearWheelForce_5620D0()
     WIP_IMPLEMENTED;
     Fix16_Point wheel_point(Fix16(0), gCarInfo_2C_6FE0E4->field_8_rear_wheel_offset);
     Fix16_Point v25;
+    Fix16 v;
 
     if (IsInAir_55A0B0())
     {
@@ -3198,10 +3199,10 @@ Fix16 CarPhysics_B0::CalculateRearWheelForce_5620D0()
             brake_force2 = kFP16Zero_6FE20C;
             if (v5.mValue == kFP16Zero_6FE20C.mValue)
             {
-                pointing_ang_rad = this->field_78_pointing_ang_rad;
                 new_x = kFP16Zero_6FE20C;
                 brake_force1 = kFP16Zero_6FE20C;
                 brake_force3 = kFP16Zero_6FE20C;
+                pointing_ang_rad = this->field_78_pointing_ang_rad;
                 this->field_A8_hand_brake_force = 0;
             }
             else
@@ -3249,11 +3250,17 @@ Fix16 CarPhysics_B0::CalculateRearWheelForce_5620D0()
     v25.SetXY_432860(new_x, brake_force1 + brake_force2 + brake_force3);
     v25.MultiplyByFix16_inline_5620D0(gCarInfo_48_6FE258->field_1C_rear_end_stability);
 
-    // The original computes the subtraction before the product (the product's shared 6FE228 load
-    // is copied for it); here VC6 sinks it to its use.
-    Fix16 v = dword_6FE228 - field_40_linvel_1.GetLength_inline_5620D0();
-    v = v / (dword_6FE228 * dword_6FE340);
-    return ApplyDriveForce_5615D0(wheel_point, this->field_58_theta - Ang16::Fix16_To_Ang16_40F540(pointing_ang_rad * v), v25, v5);
+    // The function is at VC6's inline budget: Fix16_To_Ang16_40F540 / Ang16 - Ang16 here push the Ang16
+    // constructors and y * y out of line, so the angle is built and normalised (Normalize_406C20) by hand.
+    v = dword_6FE228 - field_40_linvel_1.GetLength_inline_5620D0();
+    v = v / (dword_6FE340 * dword_6FE228);
+    {
+        Ang16 ang((pointing_ang_rad * v).GetRaw_40F4B0() / 71);
+        ang.Normalize_406C20();
+        Ang16 steer(field_58_theta.rValue - ang.rValue);
+        steer.Normalize_406C20();
+        return ApplyDriveForce_5615D0(wheel_point, steer, v25, v5);
+    }
 }
 
 // Defined here (its address range), not in sprite.cpp: with the body visible in sprite.cpp
