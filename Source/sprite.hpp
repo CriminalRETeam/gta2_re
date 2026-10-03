@@ -143,10 +143,8 @@ class Sprite_4C
 
     void HalfWH_4BA0A0(Fix16* pHalfW, Fix16* pHalfH)
     {
-        s32 t1 = 2;
-        *pHalfW = (field_0_width / t1);
-        s32 t2 = 2;
-        *pHalfH = (field_4_height / t2);
+        *pHalfW = (field_0_width / 2);
+        *pHalfH = (field_4_height / 2);
     }
 
     void ScaleWidthHeight_4BA1A0(Fix16 scale)

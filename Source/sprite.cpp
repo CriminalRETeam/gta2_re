@@ -1221,11 +1221,23 @@ char_type Sprite::CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollision
 }
 
 // https://decomp.me/scratch/5emc4
-WIP_FUNC(0x5a0380)
+// RotateAndTranslatePoint_42A720 as RotatedRectCollisionSAT_5A0380 gets it once it has run out of
+// inline expansions: the unary minus is the out-of-line copy (Negate_4086A0)
+static inline void __stdcall RotateAndTranslatePoint_NegOOL_42A720(Fix16& pInX,
+                                                                  Fix16& pInY,
+                                                                  Ang16& pRotAng,
+                                                                  Fix16& pTransX,
+                                                                  Fix16& pTransY,
+                                                                  Fix16& pRotTransX,
+                                                                  Fix16& pRotTransY)
+{
+    pRotTransX = (((pInX - pTransX) * Ang16::cosine_40F520(pRotAng)) + ((pInY - pTransY) * Ang16::sine_40F500(pRotAng)));
+    pRotTransY = (((pInX - pTransX).Negate_4086A0() * Ang16::sine_40F500(pRotAng)) + ((pInY - pTransY) * Ang16::cosine_40F520(pRotAng)));
+}
+
+MATCH_FUNC(0x5a0380)
 bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* pOther)
 {
-    WIP_IMPLEMENTED;
-
     if (field_C_sprite_4c_ptr->IsZeroWidth_41E390())
     {
         return field_C_sprite_4c_ptr->field_30_boundingBox.IntersectsSpriteRenderingRect_59DDF0(pOther);
@@ -1242,7 +1254,7 @@ bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* pOther)
     Fix16 pRotTransY;
 
     // First rotation
-    RotateAndTranslatePoint_42A720(pOtherRenderRect[0].x,
+    RotateAndTranslatePoint_NegOOL_42A720(pOtherRenderRect[0].x,
                                    pOtherRenderRect[0].y,
                                    -field_0,
                                    field_14_xy.x,
@@ -1259,7 +1271,7 @@ bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* pOther)
     }
 
     // Second rotation
-    RotateAndTranslatePoint_42A720(pOtherRenderRect[1].x,
+    RotateAndTranslatePoint_NegOOL_42A720(pOtherRenderRect[1].x,
                                    pOtherRenderRect[1].y,
                                    -field_0,
                                    field_14_xy.x,
@@ -1276,7 +1288,7 @@ bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* pOther)
     }
 
     // Third rotation
-    RotateAndTranslatePoint_42A720(pOtherRenderRect[2].x,
+    RotateAndTranslatePoint_NegOOL_42A720(pOtherRenderRect[2].x,
                                    pOtherRenderRect[2].y,
                                    -field_0,
                                    field_14_xy.x,
@@ -1293,7 +1305,7 @@ bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* pOther)
     }
 
     // Fourth rotation
-    RotateAndTranslatePoint_42A720(pOtherRenderRect[3].x,
+    RotateAndTranslatePoint_NegOOL_42A720(pOtherRenderRect[3].x,
                                    pOtherRenderRect[3].y,
                                    -field_0,
                                    field_14_xy.x,
@@ -1301,26 +1313,27 @@ bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* pOther)
                                    pRotTransX,
                                    pRotTransY);
 
-    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    if (pRotTransX >= half_width.Negate_4086A0() && pRotTransX <= half_width)
     {
-        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        if (pRotTransY >= half_height.Negate_4086A0() && pRotTransY <= half_height)
         {
             return true;
         }
     }
 
     // Last rotation (it's different)
-    RotateAndTranslatePoint_42A720(pOther->field_14_xy.x,
-                                   pOther->field_14_xy.y,
-                                   -field_0,
-                                   field_14_xy.x,
-                                   field_14_xy.y,
-                                   pRotTransX,
-                                   pRotTransY);
+    // Out-of-line copies: the function has run out of inline expansions
+    ProjectOntoAxis_5A5AA0(pOther->field_14_xy.x,
+                           pOther->field_14_xy.y,
+                           GetNegatedAngle_5A26E0(),
+                           field_14_xy.x,
+                           field_14_xy.y,
+                           pRotTransX,
+                           pRotTransY);
 
-    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    if (pRotTransX >= half_width.Negate_4086A0() && pRotTransX <= half_width)
     {
-        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        if (pRotTransY >= half_height.Negate_4086A0() && pRotTransY <= half_height)
         {
             return true;
         }
