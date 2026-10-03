@@ -1039,7 +1039,7 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
     // 64 and the bar x go through the Fix16(u32) constructor (out-of-line copy 0x4926F0)
     s32 ypos = 11;
 
-    for (Gang_144* pGang = gGangPool_CA8_67E274->FirstGang_4BECA0(); pGang; pGang = gGangPool_CA8_67E274->NextGang_4BECE0(), ypos += 27)
+    for (Gang_144* pGang = gGangPool_CA8_67E274->FirstGang_4BECA0(); pGang; ypos += 27, pGang = gGangPool_CA8_67E274->NextGang_4BECE0())
     {
         s8 respect = pGang->GetRespectForPlayer_4BEEF0(PlayerIdx);
 
