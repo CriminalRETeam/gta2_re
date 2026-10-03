@@ -368,6 +368,13 @@ doesn't (`Car_BC::IsSwatVanOrBankVan_403BC0` in `PedGroup::CoordinateGroupCarEnt
 **Pick the GetLength variant from the call targets.** Resolve the calls in the og csv: one
 variant has out-of-line Negate/Abs/Multiply for x*x and inline y*y (`CarPhysics_B0::ScarePedsOnDrivingFast_559C30`).
 
+**`A + B` in one return expression evaluates the right operand first** for a member
+`operator+`, which can be the original order (`CarPhysics_B0::ComputeCombinedCenterOfMass_559EC0`,
+which also needed `Fix16 m; m = f();` to copy the return into a register).
+
+**An EH state above 0 at entry means extra named locals with constructors.** In `pistol_5DD860`
+the frame size and entry state showed two `Fix16_Point` locals where we had one (0.721 -> 0.931).
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 
