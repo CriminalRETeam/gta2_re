@@ -7,7 +7,7 @@ template<typename PoolType, s32 PoolSize>
 class PoolBasic
 {
   public:
-    PoolBasic()
+    __forceinline PoolBasic()
     {
         PoolType* pIter = &field_4_pool[0];
         for (s32 i = 0; i < PoolSize - 1; i++)
@@ -68,7 +68,7 @@ class Pool
         return field_4_pPrev;
     }
 
-    Pool()
+    __forceinline Pool()
     {
         PoolType* pIter = field_8_pool;
         for (s32 i = 0; i < PoolSize - 1; i++)

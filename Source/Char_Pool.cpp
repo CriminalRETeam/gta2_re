@@ -19,6 +19,30 @@
 
 #include <DINPUT.H>
 
+// Defined in Ped.cpp
+EXTERN_GLOBAL(s16, k_word_678656);
+EXTERN_GLOBAL(Ang16, word_6784F0);
+EXTERN_GLOBAL(u8, byte_61A8A0);
+EXTERN_GLOBAL(s8, byte_61A8A3);
+EXTERN_GLOBAL(u8, byte_61A8A4);
+EXTERN_GLOBAL(Fix16, kFpZero_678660);
+EXTERN_GLOBAL(Fix16, gDistanceToTarget_678750);
+EXTERN_GLOBAL(Ped*, gLastProcessedPed_6787C0);
+EXTERN_GLOBAL(u8, gNumberArmedGangMembers_6787CE);
+EXTERN_GLOBAL(s16, gNumPedsCrossingRoad_6787D0);
+EXTERN_GLOBAL(u8, gNewTaxiCustomersThisTick_6787D2);
+EXTERN_GLOBAL(char_type, gNumberBusCustomers_6787D3);
+EXTERN_GLOBAL(u8, byte_6787D4);
+EXTERN_GLOBAL(u8, gTargetSearchMode_6787D7);
+EXTERN_GLOBAL(u8, byte_6787D8);
+EXTERN_GLOBAL(u8, byte_6787D9);
+EXTERN_GLOBAL(Ped*, gSearchingPed_6787DC);
+EXTERN_GLOBAL(u16, gNumPedsUpdated_6787E0);
+EXTERN_GLOBAL(u8, gNumDummyChars_6787E2);
+EXTERN_GLOBAL(u8, gNumScriptCreatedPeds_6787E3);
+
+// Initial value not verified (assumed to be k_word_678656's default, which PedManager resets from it)
+DEFINE_GLOBAL_INIT(s16, word_61A898, 40, 0x61A898);
 DEFINE_GLOBAL(PedManager*, gPedManager_6787BC, 0x6787BC);
 DEFINE_GLOBAL(PedPool*, gPedPool_6787B8, 0x6787B8);
 DEFINE_GLOBAL(Char_B4_Pool*, gChar_B4_Pool_6FDB44, 0x6FDB44);
@@ -688,7 +712,7 @@ void PedManager::PedsService_4703F0()
 }
 
 // https://decomp.me/scratch/P1OvR
-WIP_FUNC(0x470650)
+MATCH_FUNC(0x470650)
 PedManager::PedManager()
 {
     field_8 = 0;
@@ -720,6 +744,10 @@ PedManager::PedManager()
     }
 
     field_8 = gSprite_Pool_703818->get_new_sprite();
+    // Plain 0s: implicit Fix16 conversions, out of line (Fix16::FromInt_4369F0) once the inline budget runs out
+    field_8->set_xyz_lazy_451950(0, 0, 0); // 9.6f inlined set_xyz_lazy_420600
+    field_8->set_ang_lazy_420690(gDummyPedAng_6787A8);
+    field_8->AllocInternal_59F950(0, 0, 0);
 
     field_2_num_dummy_chars = 0;
     field_3_num_peds_updated = 0;
@@ -727,24 +755,24 @@ PedManager::PedManager()
     field_6_num_peds_on_screen = 0;
     field_0_max_dummy_chars = 50;
     field_7_make_all_muggers = false;
-    /*
+
     gPedId_61A89C = 7;
     gLastProcessedPed_6787C0 = 0;
-    word_6787C6 = 0;
-    byte_6787C8 = 0;
-    byte_6787C9 = 0;
+    gSpawnCounter_6787C6 = 0;
+    gSpawnSide_6787C8 = 0;
+    gSpawnIndex_6787C9 = 0;
     gNumberMuggersSpawned_6787CA = 0;
     gNumberCarThiefsSpawned_6787CB = 0;
     gNumberElvisLeadersSpawned_6787CC = 0;
     gNumberWalkingCopsSpawned_6787CD = 0;
     gNumberArmedGangMembers_6787CE = 0;
     gNumPedsCrossingRoad_6787D0 = 0;
-    this->field_5_fbi_army_count = 0;
-    HIWORD(dword_678654) = word_61A898;
+    field_5_fbi_army_count = 0;
+    k_word_678656 = word_61A898;
     gPedsServiceTickCount_6787F0 = 0;
     gNewTaxiCustomersThisTick_6787D2 = 0;
     gNumberBusCustomers_6787D3 = 0;
-    HIWORD(dword_6784EE) = gDummyPedAng_6787A8;
+    word_6784F0 = gDummyPedAng_6787A8;
     byte_6787D4 = 0;
     spawnSideLocked_6787D5 = 0;
     spawnCountLimit_6787D6 = 0;
@@ -765,7 +793,6 @@ PedManager::PedManager()
     gNumScriptCreatedPeds_6787E3 = 0;
     gNumPedsOnScreen_6787EC = 0;
     bThreateningPedAdded_6787EF = 0;
-    */
     ResetCharStatics_553F90();
     gThreateningPedsList_678468.ClearList_420E90();
 }
