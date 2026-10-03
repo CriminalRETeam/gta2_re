@@ -571,6 +571,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
     Fix16_Point vector;
     Fix16 unknown;
     Fix16 unknown_2;
+    Object_2C* pProjectile;
 
     if (a3)
     {
@@ -617,19 +618,8 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                                 gShooey_CC_67A4B8->ReportCrimeForPed(2, field_24_pPed);
                             }
 
-                            // LABEL_36:
-                            if (field_24_pPed->is_player_41B0A0())
-                            {
-                                field_2_reload_speed = 4;
-                            }
-                            else
-                            {
-                                field_2_reload_speed = 50;
-                            }
-                            field_24_pPed->field_21C_bf.b22 = true;
-                            field_21 = 1;
-                            Weapon_30::TickReloadSpeed_5DCF40();
-                            return;
+                            // goto: the original shares the reload block below with the throw path
+                            goto thrown;
                         }
                         unknown = (dword_706CF0 + dword_706E80) * (Fix16(a3) / Fix16(60));
                         unknown_2 = dword_706E74;
@@ -642,7 +632,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                     gObject_5C_6F8F84->SetPendingDamageOwner_52A210(field_24_pPed->get_varrok_idx_420B50());
 
                     // field_24_pPed->Get_F12E_4CCA90()
-                    Object_2C* pProjectile = gObject_5C_6F8F84->sub_52A280(obj_idx,
+                    pProjectile = gObject_5C_6F8F84->sub_52A280(obj_idx,
                                                                            field_24_pPed->get_cam_x(),
                                                                            field_24_pPed->get_cam_y(),
                                                                            field_24_pPed->get_cam_z() + kFP16Half_706DA8,
@@ -691,7 +681,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                         field_24_pPed->AddThreateningPedToList_46FC70();
                     }
 
-                    // goto LABEL_36;
+                thrown:
                     if (field_24_pPed->is_player_41B0A0())
                     {
                         field_2_reload_speed = 4;
