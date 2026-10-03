@@ -563,6 +563,8 @@ directly in the first check keeps the original jump target (`Car_BC::CanCarColli
 
 **`if (c) goto ok; return;` gives an inline epilogue copy, `if (!c) return;` jumps to the shared one.** A return that is the fall-through statement after a conditional goto gets its own epilogue; use it when the original repeats `pop/ret` per check (`Garage_48::GaragesService_5349D0`, corner checks).
 
+**Returns without RVO.** Where the original copies a call's result into the return slot (`mov (%eax),%eax; mov %eax,(%ecx)`) instead of building it in place, `return Fix16(x.mValue, 0);` or `Ang16 r = ...; return r;` reproduces it (`ComputeEngineTorque_561970`, `GetNextRotationToward_550F60`).
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 
@@ -1115,8 +1117,13 @@ both copies. Only a meaningless cast changed it.
     same stack layout (draw_lid_4F4D60), and late in sub_4EC450 but early in draw_left. That looks like a scheduler
     tie-break. In `Set_UV_4F4190` (one `fmuls`/`mov (%eax),%ecx` swap, the smallest case) /G6 flips exactly that
     pair but breaks push order elsewhere. Our toolchain mixes C2.DLL 12.00.8799, C1XX 12.00.8867 and CL 12.00.8804.
-    Next step: read the 10.5.exe Rich header build numbers and try other VC6 service pack c2.dll builds on cut-down
-    repros of draw_left (8 normalised lines) and Set_UV (2 lines).
+    Rich headers (`Scripts/bin_comp/rich_header.py`, dumped by the target-asm CI as `rich.txt`): 10.5.exe's game
+    objects are Utc12_CPP build 8799 (102) and 8797 (11), Utc12_C 8797, Linker600 8447, the same builds as
+    our build (Utc12_CPP 8799 x110, 8797 x11, Utc12_C 8797, Linker600 8447). So the back end (C2.DLL 8799,
+    which stamps @comp.id) and the linker match, and a different c2.dll is ruled out. The Rich header does
+    not record the C1XX front-end build (ours is 12.00.8867), so a different front end, which could hand c2
+    the IL in a different order, is the remaining compiler-side possibility. Otherwise the cause is in the
+    source or TU context (declaration order, what else is in MapRenderer.cpp).
 - A compare scheduled before a volatile load instead of after it (`cmp $0xF,%al` in
   `sound_obj::ProcessPoliceRadioWordsPlayback_427220`).
 - A store scheduled before the `lea` of an out pointer rather than after it
