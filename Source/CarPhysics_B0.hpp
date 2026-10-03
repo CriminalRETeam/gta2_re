@@ -16,6 +16,7 @@ class CarAI_78;
 struct Fix16_Point_POD;
 
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
+EXTERN_GLOBAL(Fix16, dword_6FD120);
 EXTERN_GLOBAL(ModelPhysics_48*, gCarInfo_48_6FE258);
 EXTERN_GLOBAL(Ang16, kAng90_6FE00C);
 EXTERN_GLOBAL(Ang16, kAng270_6FE154);
@@ -107,6 +108,13 @@ class CarPhysics_B0
     {
         field_40_linvel_1.x = v.x;
         field_40_linvel_1.y = v.y;
+    }
+
+    // 9.6f 0x4895D0
+    inline void StopMoving_4895D0()
+    {
+        field_74_ang_vel_rad = dword_6FD120;
+        field_40_linvel_1.clear_41E1E0();
     }
 
     // 9.6f 0x4211E0

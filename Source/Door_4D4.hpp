@@ -49,6 +49,21 @@ inline bool Door_38::IsOpen_44C860()
     return field_0_primary_door_data->field_0_state == 2;
 }
 
+inline void Door_38::CloseDoors_476A30()
+{
+    if (field_28)
+    {
+        if (field_0_primary_door_data)
+        {
+            field_0_primary_door_data->Close_49C590(0);
+        }
+        if (field_4_secondary_door_data)
+        {
+            field_4_secondary_door_data->Close_49C590(field_2A_bDoFlip);
+        }
+    }
+}
+
 class DoorData_10_Pool
 {
   public:
