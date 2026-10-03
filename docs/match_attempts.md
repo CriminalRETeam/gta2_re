@@ -1495,3 +1495,4 @@ Each was a few asm lines away from the original. What is left and what was tried
 - Closer: `RegisterDoubleDoorNoCheck_49CFA0` 178->65 (case order 2,3,1,4), `Ped::sub_469FE0` 0.313->0.608, `Wolfy_30::state_4_540F90` 0.406->0.663, `SetObjective2_463830` 185->151 (left: VC6 copies the call + epilogue into each case, original shares one tail), `Car_6C::ctor_4469F0` 239->234 (CarAI_78 array is `??_H` in ours, a loop in the original)
 - `RectHitsDiagonalWall_4E11E0` (~12 lines): only `return 1` jumping into the shared EH epilogue is left, same unexplained case as `Start_NetworkGame_5E5A30`
 - No change: `46F1E0` (original tests the angle with jns right after the 16-bit sub/add)
+- `EmitElectricArcParticle_540320`: 202->21 (explicit Multiply/Negate rotation, block scope). Left: one operand order in MultiplyByFix16_401CB0

@@ -482,6 +482,13 @@ global was loaded before the pointer chain (`Weapon_30::car_mine_5E2550`, `GetH_
 `ComputeRelativePointVelocity_561130` has none, which suggests `operator-` (0x40AC80) and `Normalize_406C20`
 were known not to throw in that file; marking ours `throw()` breaks 5 matches, so it stays WIP.
 
+**A block scope around a written-out rotation** (`{ Fix16 sin, cos, x_old; ... }`) lets the sin/cos
+temporaries share stack slots with the argument temporaries (`EmitElectricArcParticle_540320`, 202 -> 21).
+
+**`Fix16(rng(3) - 1)` in the Particle_4C jitter** is `movswl; add $0x3FFFF; shl $0xE` in all five
+originals; ours is `shl; sub $0x4000`. Only an inline taking `s32` that does `v * 16384` gave the
+`add` form, and only when VC6 hoisted the value (still unexplained).
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 
