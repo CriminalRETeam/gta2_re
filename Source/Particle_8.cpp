@@ -337,7 +337,14 @@ void Particle_8::EmitElectricArcParticle(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang
         vector.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + dword_6FD558) * dword_6FD500;
 
         angle = word_6FD5CC.MultiplyByFix16_401CB0(Fix16(gRng_6F6784.get_int_4F7AE0(360)));
-        vector.RotateByAngle_40F6B0(angle);
+        // RotateByAngle_40F6B0, but x * cos, the y line and both sums use the out-of-line Fix16 operators
+        {
+            Fix16 sin = Ang16::sine_40F500(angle);
+            Fix16 cos = Ang16::cosine_40F520(angle);
+            Fix16 x_old = vector.x;
+            vector.x = (const Fix16&)vector.x.Multiply_408680(cos) + (vector.y * sin);
+            vector.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + vector.y.Multiply_408680(cos);
+        }
 
         Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(vector.x, vector.y, dword_6FD330, 0, 0, 0);
         if (pNew4C)
