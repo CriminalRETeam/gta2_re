@@ -141,7 +141,7 @@ void TrafficLight_20::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
     {
         Fix16 xIter1(x);
 
-        for (u8 i = 0; i < w; i++)
+        for (s32 i = 0; i < w; i++)
         {
             gmp_block_info* pBlock1 = gMap_0x370_6F6268->get_block_4DFE10((xIter1 + kFpHalf_705714).ToInt(),
                                                                           (Fix16(y) - dword_705660).ToInt(),
@@ -157,7 +157,7 @@ void TrafficLight_20::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
     if (field_4_south_headlight_obj)
     {
         Fix16 xIter2(x);
-        for (u8 i = 0; i < w; i++)
+        for (s32 i = 0; i < w; i++)
         {
             gmp_block_info* pBlock2 = gMap_0x370_6F6268->get_block_4DFE10((xIter2 + kFpHalf_705714).ToInt(),
                                                                           (Fix16(y + h) + dword_705660).ToInt(),
@@ -173,7 +173,7 @@ void TrafficLight_20::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
     if (field_C_east_headlight_obj)
     {
         Fix16 yOff(y);
-        for (u8 i = 0; i < h; h++)
+        for (s32 i = 0; i < h; i++)
         {
             gmp_block_info* pBlock3 = gMap_0x370_6F6268->get_block_4DFE10((Fix16(x + w) + dword_705660).ToInt(),
                                                                           (yOff + kFpHalf_705714).ToInt(),
@@ -189,7 +189,7 @@ void TrafficLight_20::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
     if (field_8_west_headlight_obj)
     {
         Fix16 yOff(y);
-        for (u8 i = 0; i < h; h++)
+        for (s32 i = 0; i < h; i++)
         {
             gmp_block_info* pBlock4 = gMap_0x370_6F6268->get_block_4DFE10((Fix16(x) - (dword_705660)).ToInt(),
                                                                           (yOff + kFpHalf_705714).ToInt(),
