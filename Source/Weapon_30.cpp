@@ -306,21 +306,18 @@ void Weapon_30::shotgun_5DD290()
     WIP_IMPLEMENTED;
     Ang16 ped_rotation;
     Fix16_Point vector;
-    Fix16 x;
-    Fix16 y;
-    Fix16 z;
     if (field_2_reload_speed == 0)
     {
-        x = field_24_pPed->get_cam_x();
-        y = field_24_pPed->get_cam_y();
-        z = field_24_pPed->get_cam_z();
+        Fix16 x = field_24_pPed->get_cam_x();
+        Fix16 y = field_24_pPed->get_cam_y();
+        Fix16 z = field_24_pPed->get_cam_z();
         ped_rotation = field_24_pPed->GetRotation();
         vector = field_24_pPed->GetVelocityVector_45B520();
         set_field_2C_4CCA80(1);
         if (!field_4)
         {
-            Object_2C* pBullet_1 = Weapon_30::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, ped_rotation + word_706D5E, vector);
-            Object_2C* pBullet_2 = Weapon_30::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, ped_rotation + word_707002, vector);
+            Object_2C* pBullet_1 = Weapon_30::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, word_706D5E + ped_rotation, vector);
+            Object_2C* pBullet_2 = Weapon_30::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, word_707002 + ped_rotation, vector);
             Object_2C* pBullet_3 = Weapon_30::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, ped_rotation, vector);
             Object_2C* pBullet_4 = Weapon_30::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, ped_rotation - word_707002, vector);
             Object_2C* pBullet_5 = Weapon_30::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, ped_rotation - word_706D5E, vector);
@@ -339,8 +336,8 @@ void Weapon_30::shotgun_5DD290()
         }
         else
         {
-            Weapon_30::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, ped_rotation + word_706D5C, vector);
-            Weapon_30::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, ped_rotation + word_706D5E, vector);
+            Weapon_30::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, word_706D5C + ped_rotation, vector);
+            Weapon_30::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, word_706D5E + ped_rotation, vector);
             Weapon_30::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, ped_rotation, vector);
             Weapon_30::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, ped_rotation - word_706D5E, vector);
             Weapon_30::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, ped_rotation - word_706D5C, vector);
