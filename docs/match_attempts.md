@@ -1548,3 +1548,5 @@ Each was a few asm lines away from the original. What is left and what was tried
 - 0x4482C0 `CarAI_78`: closer 0.287->0.691. Source bugs: the loops must move the probe sprite, and the flag clear is `&= ~0x80`. gotos rewritten as early-out and loops.
 - 0x541850 `TimerAfter50Handler`: closer 0.275->0.351. Source bug: rect left/top were `r - x`/`r - y`.
 - 0x55F3B0 `ComputeLineLineIntersection`: closer 0.101->0.354. Out-of-line operators, `DotProductOOL_49E500`, three Fix16_Point locals up front (EH state 2).
+- 0x5620D0 `CalculateRearWheelForce`: closer 0.234->0.933. `Fix16_Point(Fix16(0), y)` and v25 up front (EH state 1), uninitialised locals declared in the order the default path loads them, helpers `GetLength_inline_5620D0` and `MultiplyByFix16_inline_5620D0`. Left: `v25.x *= stability` register form and the `(6FE228 - len)` schedule; any extra inline in the tail pushes GetLength's `y*y` out of line. Permuter best (0.715) was worse than the hand version.
+- 0x5DDFC0 `throwable`: 0.470->0.485. The `a4 == 96` branch jumps to the shared "thrown" reload block with a goto (the original's LABEL_36). Left: ours keeps 0 in ebx, the original keeps 1 in bl.

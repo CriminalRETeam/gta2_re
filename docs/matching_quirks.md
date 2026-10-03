@@ -561,6 +561,8 @@ directly in the first check keeps the original jump target (`Car_BC::CanCarColli
 
 **Hoisting a rotation angle into a local changes evaluation order.** Storing the spread angle in the Ang16 local 9.6f uses gave the original's left-first `(A + ang) - B` (`EmitBloodBurst_53E450`, `EmitWaterSplash_53F060`).
 
+**`if (c) goto ok; return;` gives an inline epilogue copy, `if (!c) return;` jumps to the shared one.** A return that is the fall-through statement after a conditional goto gets its own epilogue; use it when the original repeats `pop/ret` per check (`Garage_48::GaragesService_5349D0`, corner checks).
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 
