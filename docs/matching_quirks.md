@@ -389,6 +389,17 @@ original's induction variables and slots; hand-written running sums don't (`Draw
 the same result (`Bink::OpenSlot2_5133E0`, `OpenSlot1_513560`). IDA cuts such functions off after the
 `FatalError` call when the error path is the else branch laid out last.
 
+**A store repeated in each branch vs once after the if/else.** Writing `field_C = 0` in both
+branches changed which register holds zero and gave per-exit stores like the original
+(`Object_2C::ReleaseSubObjects_527F10`).
+
+**Ang16 Normalize inlined on a register turns into a closed form.** With an `Ang16(s16, u8)`
+by-value ctor VC6 replaces the Normalize loops with `(1439 - v) / 1440 * 1440`; the const-ref
+`Fix16_To_Ang16_40F540` ctor left Normalize out of line (`CarPhysics_B0::ApplyMovementStep_560F20`).
+
+**A car_info flag method instead of `(flags & N) == N` inline** removed a `sete` in a `!a && !b`
+chain (`PickUpCar_47F930`, closer).
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 

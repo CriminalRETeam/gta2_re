@@ -1458,3 +1458,15 @@ Each was a few asm lines away from the original. What is left and what was tried
 - `CanStepForwardWithRegionCheck_54ECB0`: 0.752->0.931 (case order 1,3,2,4 from the jump table, one shared check after the switch; fixed an inverted bit-0 test and `&= ~1u`). Left: shared return blocks in the other order
 - `Bink::OpenSlot2_5133E0`: 0.443->0.838 (BinkOpen failure as the else). Left: `mov $2,%ebx` not hoisted above the `je`
 - `Car_BC::GetDoorWorldPosition_43B5A0`: no change; the explicit out-of-line y line (as in 407BD0) made it worse locally and did nothing inside RotateVector_41FC90
+
+### Near-miss pass, batches O, P, Q, R (2026-10-03, partial)
+
+- Matched: `Hud_CopHead_C_Array::DrawWantedLevel_5D0110` (inline DrawFigureScaled_4C71B0 rotation by const&, explicit pointer loop), `Object_2C::ReleaseSubObjects_527F10` (field_C = 0 in each branch), `Crane_15C::ComputeHookOffset_47E840` (RotateByAngle_40F6B0 with out-of-line Multiply/Add), `Object_3C::GetMovementSpeedAndAngle_521FD0` (Fix16_Point local declared at the top, out-of-line GetSpeedVector_52ADF0, file-local GetLength variant), `CarPhysics_B0::ApplyMovementStep_560F20` (Ang16(s16,u8) by value)
+- `ProcessType7_Weapon_42A500`: 111->28. Left: rate add reassociation and GetLoopStart arg load order
+- `Ped::RecruitNearbyPeds_46E080`: 116->56. sub_4204D0 inline stays a comment (worse). Left: z stored in desiredCount's param slot
+- `DoorData_10::Init_49C340`: 116->16 (flip flag is 0x3C00, old source had 0x2C00). Left: v8 stored before the tile load
+- `Frontend::DrawCredits_4B7AE0`: draw_x u16. Left: case 0 jumps into case 1's tail; goto duplicates it
+- `PickUpCar_47F930`: closer (car_info::is_0x10). Left: EH epilogue copied into 3 exits
+- `Ped::BusCustomer_AI_461290`: 134->41 (case order 38,35,31,34). Left: whole-function register rotation
+- `Type6_413A10`: 136->69. Left: pRozzA esi/edi swap and the final imul operand
+- No change: `571A30` (shared ret block placement), `51F210` (register allocation)
