@@ -4703,6 +4703,8 @@ char_type Car_BC::HandleRoofTurretRotation_440D90(char_type bLeftOn)
 {
     WIP_IMPLEMENTED;
 
+    // Left: in the first written rotation of each block VC6 keeps rot in %di for the
+    // second Normalize loop; the original works on memory in both.
     if (field_84_car_info_idx == car_model_enum::FIRETRUK)
     {
         Sprite_18* pFTruckSprite = field_0_qq.GetSpriteForModel_5A6A50(114);
@@ -4736,13 +4738,13 @@ char_type Car_BC::HandleRoofTurretRotation_440D90(char_type bLeftOn)
     if (field_84_car_info_idx == car_model_enum::GUNJEEP)
     {
         Sprite_18* pGunJeepSprite = field_0_qq.GetSpriteForModel_5A6A50(248);
-        if (!bLeftOn)
+        if (bLeftOn)
         {
-            pGunJeepSprite->field_10_rot -= kGunJeepTurretRotSpeed_677810;
+            pGunJeepSprite->field_10_rot += kGunJeepTurretRotSpeed_677810;
         }
         else
         {
-            pGunJeepSprite->field_10_rot += kGunJeepTurretRotSpeed_677810;
+            pGunJeepSprite->field_10_rot -= kGunJeepTurretRotSpeed_677810;
         }
 
         this->field_B8_turret_rotated = 1;
