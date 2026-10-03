@@ -13,21 +13,6 @@ DEFINE_GLOBAL_INIT(Fix16, kFpOne_67B434, Fix16(1), 0x67B434);
 DEFINE_GLOBAL_INIT(Fix16, kFp96_705B80, Fix16(0x180000, 0), 0x705B80);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_705AC4, Fix16(0), 0x705AC4);
 
-MATCH_FUNC(0x5c5f60)
-Montana_2EE4::Montana_2EE4()
-{
-    for (s32 i = 0; i < GTA2_COUNTOF(field_0_entries); i++)
-    {
-        field_0_entries[i].field_0_sprt = 0;
-    }
-    Reset_4C4B70();
-}
-
-MATCH_FUNC(0x5c5f90)
-Montana_2EE4::~Montana_2EE4()
-{
-}
-
 // https://decomp.me/scratch/qyVgM reg swap
 WIP_FUNC(0x5c5cf0)
 void Montana_4::AddSprite_5C5CF0(Sprite* pSprite)
@@ -161,10 +146,9 @@ void Montana_4::Reset_5C5E50()
 }
 
 // TODO: Doesn't match due to SEH stuff
-WIP_FUNC(0x5c5e70)
+MATCH_FUNC(0x5c5e70)
 Montana_4::Montana_4()
 {
-    WIP_IMPLEMENTED;
     if (!gMontana_2EE4_705BBC)
     {
         gMontana_2EE4_705BBC = new Montana_2EE4();
@@ -192,6 +176,21 @@ Montana_4::~Montana_4()
     {
         GTA2_DELETE_AND_NULL(gMontana_FA4_705BC0);
     }
+}
+
+MATCH_FUNC(0x5c5f60)
+Montana_2EE4::Montana_2EE4()
+{
+    for (s32 i = 0; i < GTA2_COUNTOF(field_0_entries); i++)
+    {
+        field_0_entries[i].field_0_sprt = 0;
+    }
+    Reset_4C4B70();
+}
+
+MATCH_FUNC(0x5c5f90)
+Montana_2EE4::~Montana_2EE4()
+{
 }
 
 MATCH_FUNC(0x4954f0)
