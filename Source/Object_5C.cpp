@@ -2040,26 +2040,27 @@ void Object_2C::RemoveFromCollisionBuckets_527D00()
 }
 
 // 9.6f 0x484760
-WIP_FUNC(0x527f10)
+MATCH_FUNC(0x527f10)
 void Object_2C::ReleaseSubObjects_527F10()
 {
-    WIP_IMPLEMENTED;
 
     if (field_C_pAny.o8)
     {
         if (this->field_8->field_34_behavior_type == object_behavior_type::light_type_11)
         {
             gLight_1D4CC_6F5520->DeallocLight_47F4F0(field_C_pAny.pLight);
+            this->field_C_pAny.o8 = 0;
         }
         else if (this->field_1C_bHasExplosion)
         {
             field_C_pAny.pExplosion->DeInit_543610();
+            this->field_C_pAny.o8 = 0;
         }
         else
         {
             gObject_8_Pool_6F8F78->DeAllocate(field_C_pAny.o8);
+            this->field_C_pAny.o8 = 0;
         }
-        this->field_C_pAny.o8 = 0;
     }
 
     if (field_10_obj_3c)
