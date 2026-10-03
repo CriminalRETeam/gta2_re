@@ -3657,29 +3657,9 @@ void Ped::sub_462620()
     }
 }
 
-WIP_FUNC(0x4626b0)
+MATCH_FUNC(0x4626b0)
 char_type Ped::StateMachineTick_4626B0()
 {
-    WIP_IMPLEMENTED;
-
-    Weapon_30* pWeapon; // eax
-    s32 occupation; // eax
-    Player* field_15C_player; // ecx
-    Car_BC* field_16C_car; // edx
-    Sprite* field_50_car_sprite; // eax
-    Char_B4* pB4_; // eax
-    s32 occupation_; // eax
-    u16 f20E; // dx
-    s32 occupation__; // eax
-    PedGroup* pGroup; // ecx
-    Car_BC* pCar_; // eax
-    Sprite* pCarSprite_; // eax
-    Car_BC* pCar__; // eax
-    Char_B4* pB4; // eax
-    s32 f278_; // ecx
-    Car_BC* pCar; // edx
-    Sprite* pCarSprite; // eax
-
     switch (this->field_238_ped_type)
     {
         case ped_type::player_2:
@@ -3688,230 +3668,207 @@ char_type Ped::StateMachineTick_4626B0()
                 this->field_208_invulnerability = 9999;
             }
 
-            pWeapon = this->field_170_selected_weapon;
-
-            if (pWeapon)
+            if (this->field_170_selected_weapon)
             {
-                pWeapon->Set_F4_433810(0);
+                this->field_170_selected_weapon->Set_F4_433810(0);
             }
 
-            occupation = this->field_240_occupation;
             this->field_288_threat_search = threat_search_enum::no_threats_0;
             this->field_28C_threat_reaction = threat_reaction_enum::no_reaction_0;
 
-            if ((unsigned int)occupation >= ped_ocupation_enum::unknown_1)
+            if (this->field_240_occupation != ped_ocupation_enum::empty && this->field_240_occupation != ped_ocupation_enum::player)
             {
                 this->field_240_occupation = ped_ocupation_enum::player;
             }
-            field_15C_player = this->field_15C_player;
             this->field_230 = 2;
-            field_15C_player->field_64_bJumping = 0;
+            this->field_15C_player->field_64_bJumping = 0;
 
-            if (!this->field_168_game_object)
+            if (this->field_168_game_object)
             {
-                this->field_210_shock_counter = 0;
-                goto LABEL_37;
-            }
-
-            if (this->field_225_objective_status == 2)
-            {
-                Ped::SetObjective(objectives_enum::no_obj_0, 9999);
-                Ped::SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-            }
-
-            if (this->field_258_objective == objectives_enum::leave_car_36 &&
-                (this->field_225_objective_status == 1 || this->field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15))
-            {
-                Ped::SetObjective(objectives_enum::no_obj_0, 9999);
-                Ped::SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-            }
-            ++gNumPedsOnScreen_6787EC;
-            ++this->field_20e_offscreen_counter;
-            byte_6787C4 = 1;
-            if (this->field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15)
-            {
-                byte_61A8A4 = this->field_278_ped_state_1 == ped_state_1::entering_car_3;
-            }
-
-            if (field_278_ped_state_1 == ped_state_1::dead_9 || field_278_ped_state_1 == ped_state_1::immobilized_8)
-            {
-                byte_61A8A4 = 0;
-            }
-            else
-            {
-                this->field_168_game_object->SetSpriteNum_4338F0(25);
-            }
-            if (field_168_game_object->IsOnScreen_545700())
-            {
-                this->field_20e_offscreen_counter = 0;
-            }
-            if (Ped::get_fieldC_45C9B0() == kFpZero_678660 && Ped::get_field8_45C900() == gDummyPedAng_6787A8)
-            {
-                if (field_278_ped_state_1 == ped_state_1::walking_0 && GetCharVelocity_433C20() == kFpZero_678660)
+                if (this->field_225_objective_status == 2)
                 {
-                    Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
-                    Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
-                }
-            }
-            else
-            {
-                if (this->field_278_ped_state_1 == ped_state_1::standing_still_7)
-                {
-                    Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
-                    Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
-                }
-                if (this->field_278_ped_state_1 == ped_state_1::entering_car_3 &&
-                    this->field_27C_ped_state_2 == ped_state_2::ped2_following_a_car_4)
-                {
-                    Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
-                    Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
                     Ped::SetObjective(objectives_enum::no_obj_0, 9999);
                     Ped::SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                 }
-            }
-            if (this->field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15)
-            {
-                this->field_15C_player->field_64_bJumping = 1;
-            }
-            return 1;
 
-        case ped_type::dummy_3:
-            pB4 = this->field_168_game_object;
-            this->field_212_electrocution_threshold = 100;
-            if (pB4)
-            {
-                f278_ = this->field_278_ped_state_1;
+                if (this->field_258_objective == objectives_enum::leave_car_36 &&
+                    (this->field_225_objective_status == 1 || this->field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15))
+                {
+                    Ped::SetObjective(objectives_enum::no_obj_0, 9999);
+                    Ped::SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                }
+                ++gNumPedsOnScreen_6787EC;
                 ++this->field_20e_offscreen_counter;
-                if (f278_ == 1)
+                byte_6787C4 = 1;
+                if (this->field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15)
                 {
-                    if (this->field_20e_offscreen_counter != 200)
-                    {
-                        goto LABEL_42;
-                    }
+                    byte_61A8A4 = this->field_278_ped_state_1 == ped_state_1::entering_car_3;
                 }
-                else if (this->field_20e_offscreen_counter < k_word_678656)
+
+                if (field_278_ped_state_1 == ped_state_1::dead_9 || field_278_ped_state_1 == ped_state_1::immobilized_8)
                 {
-                    goto LABEL_42;
+                    byte_61A8A4 = 0;
                 }
-                goto LABEL_77;
-            }
-            pCar = this->field_16C_car;
-            ++this->field_20e_offscreen_counter;
-            pCarSprite = pCar->field_50_car_sprite;
-            if (pCarSprite)
-            {
-                if (gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(pCarSprite, kFpZero_678660))
+                else
+                {
+                    this->field_168_game_object->SetSpriteNum_4338F0(25);
+                }
+                if (field_168_game_object->IsOnScreen_545700() == 1)
                 {
                     this->field_20e_offscreen_counter = 0;
                 }
+                if (Ped::get_fieldC_45C9B0() == kFpZero_678660 && Ped::get_field8_45C900() == gDummyPedAng_6787A8)
+                {
+                    if (field_278_ped_state_1 == ped_state_1::walking_0 && GetCharVelocity_433C20() == kFpZero_678660)
+                    {
+                        Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
+                        Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
+                    }
+                }
+                else
+                {
+                    if (this->field_278_ped_state_1 == ped_state_1::standing_still_7)
+                    {
+                        Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
+                        Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
+                    }
+                    if (this->field_278_ped_state_1 == ped_state_1::entering_car_3 &&
+                        this->field_27C_ped_state_2 == ped_state_2::ped2_following_a_car_4)
+                    {
+                        Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
+                        Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
+                        Ped::SetObjective(objectives_enum::no_obj_0, 9999);
+                        Ped::SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                    }
+                }
+                if (this->field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15)
+                {
+                    this->field_15C_player->field_64_bJumping = 1;
+                }
+                return 1;
             }
-            if (this->field_240_occupation == ped_ocupation_enum::unknown_2)
+            this->field_210_shock_counter = 0;
+            ++this->field_20e_offscreen_counter;
+            if (this->field_16C_car->field_50_car_sprite &&
+                gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(this->field_16C_car->field_50_car_sprite, kFpZero_678660))
             {
-                return 0;
+                this->field_20e_offscreen_counter = 0;
             }
-            if (this->field_16C_car->IsDespawning_4215B0())
+            return 1;
+
+        case ped_type::script_created_5:
+            this->field_212_electrocution_threshold = 100;
+            this->field_230 = 2;
+            if (this->field_168_game_object)
             {
-                goto LABEL_77;
+                ++this->field_20e_offscreen_counter;
+                Ped::sub_462620();
+                return 1;
             }
-            if (this->field_278_ped_state_1 == ped_state_1::dead_9)
+            ++this->field_20e_offscreen_counter;
+            if (this->field_16C_car->field_50_car_sprite &&
+                gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(this->field_16C_car->field_50_car_sprite, kFpZero_678660))
             {
-                goto LABEL_79;
+                this->field_20e_offscreen_counter = 0;
             }
             return 1;
 
         case ped_type::special_ped_4:
         case ped_type::dummy_with_occupation_6:
-            occupation_ = this->field_240_occupation;
             this->field_212_electrocution_threshold = 100;
-            if (occupation_ == ped_ocupation_enum::armed_gang_member_19 && this->field_278_ped_state_1 == ped_state_1::dead_9)
+            if (this->field_240_occupation == ped_ocupation_enum::armed_gang_member_19 && this->field_278_ped_state_1 == ped_state_1::dead_9)
             {
                 --gNumberArmedGangMembers_6787CE;
                 this->field_240_occupation = ped_ocupation_enum::dummy;
             }
             if (this->field_168_game_object)
             {
-                f20E = ++this->field_20e_offscreen_counter;
-                if (f20E <= 100u)
+                ++this->field_20e_offscreen_counter;
+                if (this->field_20e_offscreen_counter > 100u)
                 {
-                    goto LABEL_42;
-                }
-                occupation__ = this->field_240_occupation;
-                if (occupation__ != ped_ocupation_enum::elvis_leader)
-                {
-                    if (occupation__ != ped_ocupation_enum::special_groups_member && !Ped::sub_45B590())
+                    if (this->field_240_occupation == ped_ocupation_enum::elvis_leader)
                     {
-                        goto LABEL_77;
+                        if (!this->field_164_ped_group)
+                        {
+                            // The original jumps to the last Deallocate block of the dummy_3 case here.
+                            goto deallocate_dead;
+                        }
+                        if (this->field_20e_offscreen_counter > 500u && this->field_164_ped_group->AreAllMembersOffScreen_4C9150())
+                        {
+                            Ped::Deallocate_45EB60();
+                            return 0;
+                        }
                     }
-                LABEL_42:
-                    Ped::sub_462620();
-                    return 1;
-                }
-                pGroup = this->field_164_ped_group;
-                if (pGroup)
-                {
-                    if (f20E > 500u && pGroup->AreAllMembersOffScreen_4C9150())
+                    else if (this->field_240_occupation != ped_ocupation_enum::special_groups_member && !Ped::sub_45B590())
                     {
-                    LABEL_77:
                         Ped::Deallocate_45EB60();
                         return 0;
                     }
-                    goto LABEL_42;
                 }
-            LABEL_79:
+                Ped::sub_462620();
+                return 1;
+            }
+            ++this->field_20e_offscreen_counter;
+            if (this->field_16C_car && this->field_16C_car->field_50_car_sprite &&
+                gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(this->field_16C_car->field_50_car_sprite, kFpZero_678660))
+            {
+                this->field_20e_offscreen_counter = 0;
+            }
+            if (this->field_20e_offscreen_counter > 60u && this->field_16C_car && this->field_240_occupation == ped_ocupation_enum::car_thief)
+            {
+                this->field_16C_car->field_7C_uni_num = 3;
+            }
+            if (this->field_278_ped_state_1 == ped_state_1::dead_9)
+            {
                 Ped::Deallocate_45EB60();
                 return 0;
             }
-            else
+            return 1;
+
+        case ped_type::dummy_3:
+            this->field_212_electrocution_threshold = 100;
+            if (this->field_168_game_object)
             {
-                pCar_ = this->field_16C_car;
-                ++this->field_20e_offscreen_counter;
-                if (pCar_)
+                u16 f20E = ++this->field_20e_offscreen_counter;
+                if (this->field_278_ped_state_1 == 1)
                 {
-                    pCarSprite_ = pCar_->field_50_car_sprite;
-                    if (pCarSprite_)
+                    if (f20E == 200)
                     {
-                        if (gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(pCarSprite_, kFpZero_678660))
-                        {
-                            this->field_20e_offscreen_counter = 0;
-                        }
+                        Ped::Deallocate_45EB60();
+                        return 0;
                     }
                 }
-                if (this->field_20e_offscreen_counter > 60u)
+                else if (f20E >= k_word_678656)
                 {
-                    pCar__ = this->field_16C_car;
-                    if (pCar__)
-                    {
-                        if (this->field_240_occupation == ped_ocupation_enum::car_thief)
-                        {
-                            pCar__->field_7C_uni_num = 3;
-                        }
-                    }
+                    Ped::Deallocate_45EB60();
+                    return 0;
+                }
+                Ped::sub_462620();
+                return 1;
+            }
+            ++this->field_20e_offscreen_counter;
+            if (this->field_16C_car->field_50_car_sprite &&
+                gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(this->field_16C_car->field_50_car_sprite, kFpZero_678660))
+            {
+                this->field_20e_offscreen_counter = 0;
+            }
+            if (this->field_240_occupation != ped_ocupation_enum::unknown_2)
+            {
+                if (this->field_16C_car->IsDespawning_4215B0())
+                {
+                    Ped::Deallocate_45EB60();
+                    return 0;
                 }
                 if (this->field_278_ped_state_1 == ped_state_1::dead_9)
                 {
-                    goto LABEL_77;
+                deallocate_dead:
+                    Ped::Deallocate_45EB60();
+                    return 0;
                 }
                 return 1;
             }
-        case ped_type::script_created_5:
-            pB4_ = this->field_168_game_object;
-            this->field_212_electrocution_threshold = 100;
-            this->field_230 = 2;
-            if (pB4_)
-            {
-                ++this->field_20e_offscreen_counter;
-                goto LABEL_42;
-            }
-        LABEL_37:
-            field_16C_car = this->field_16C_car;
-            ++this->field_20e_offscreen_counter;
-            field_50_car_sprite = field_16C_car->field_50_car_sprite;
-            if (field_50_car_sprite && gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(field_50_car_sprite, kFpZero_678660))
-            {
-                this->field_20e_offscreen_counter = 0;
-                return 1;
-            }
-            return 1;
+            return 0;
+
         default:
             return 1;
     }
