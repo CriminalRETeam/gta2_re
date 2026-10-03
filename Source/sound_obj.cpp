@@ -7120,87 +7120,75 @@ char_type sound_obj::Type6_413A10(Rozza_A* pRozzA)
     WIP_IMPLEMENTED;
 
     Fix16 div_val;
-    u8 sample_base;
     switch (pRozzA->field_0_type)
     {
         case 2:
-            if (pRozzA->field_24_car_physics_value >= dword_66F3B4)
+            if (pRozzA->field_24_car_physics_value < dword_66F3B4)
             {
-                div_val = dword_66F3F8;
-                if (pRozzA->field_24_car_physics_value > dword_66F3F8)
-                {
-                    pRozzA->field_24_car_physics_value = dword_66F3F8;
-                    div_val = dword_66F3F8;
-                }
-                goto LABEL_23;
+                return 0;
             }
-            sample_base = 0;
+            div_val = dword_66F3F8;
+            if (pRozzA->field_24_car_physics_value > div_val)
+            {
+                pRozzA->field_24_car_physics_value = dword_66F3F8;
+                div_val = dword_66F3F8;
+            }
             break;
 
         case 3:
             if (pRozzA->field_18_model_copy == 192 || pRozzA->field_18_model_copy == 254 || pRozzA->field_18_model_copy == 265)
             {
-                sample_base = 37;
+                return 37;
             }
-            else
+            if (!pRozzA->field_10_car)
             {
-                if (!pRozzA->field_10_car)
-                {
-                    goto LABEL_20;
-                }
-                pRozzA->field_24_car_physics_value = pRozzA->field_10_car->GetCarLinearSpeed_43A240();
-                if (pRozzA->field_24_car_physics_value >= dword_66F3C0)
-                {
-                    div_val = dword_66F24C;
-                    if (pRozzA->field_24_car_physics_value > dword_66F24C)
-                    {
-                        pRozzA->field_24_car_physics_value = dword_66F24C;
-                        div_val = dword_66F24C;
-                    }
-                    goto LABEL_23;
-                }
-                sample_base = 0;
+                // Shares case 5's return block
+                goto return_zero;
+            }
+            pRozzA->field_24_car_physics_value = pRozzA->field_10_car->GetCarLinearSpeed_43A240();
+            if (pRozzA->field_24_car_physics_value < dword_66F3C0)
+            {
+                return 0;
+            }
+            div_val = dword_66F24C;
+            if (pRozzA->field_24_car_physics_value > div_val)
+            {
+                pRozzA->field_24_car_physics_value = dword_66F24C;
+                div_val = dword_66F24C;
             }
             break;
 
         case 4:
-            if (pRozzA->field_24_car_physics_value >= dword_66F490)
+            if (pRozzA->field_24_car_physics_value < dword_66F490)
             {
-                div_val = dword_66F2FC;
-                if (pRozzA->field_24_car_physics_value > dword_66F2FC)
-                {
-                    pRozzA->field_24_car_physics_value = dword_66F2FC;
-                    div_val = dword_66F2FC;
-                }
-                goto LABEL_23;
+                return 0;
             }
-            sample_base = 0;
+            div_val = dword_66F2FC;
+            if (pRozzA->field_24_car_physics_value > div_val)
+            {
+                pRozzA->field_24_car_physics_value = dword_66F2FC;
+                div_val = dword_66F2FC;
+            }
             break;
 
         case 5:
-            if (pRozzA->field_24_car_physics_value >= dword_66F3B4)
+            if (pRozzA->field_24_car_physics_value < dword_66F3B4)
             {
-                div_val = dword_66F3FC;
-                if (pRozzA->field_24_car_physics_value > dword_66F3FC)
-                {
-                    pRozzA->field_24_car_physics_value = dword_66F3FC;
-                    div_val = dword_66F3FC;
-                }
-            LABEL_23:
-                sample_base = Fix16::Round_To_Int_410BF0((pRozzA->field_24_car_physics_value / div_val) * dword_66F1CC);
+            return_zero:
+                return 0;
             }
-            else
+            div_val = dword_66F3FC;
+            if (pRozzA->field_24_car_physics_value > div_val)
             {
-            LABEL_20:
-                sample_base = 0;
+                pRozzA->field_24_car_physics_value = dword_66F3FC;
+                div_val = dword_66F3FC;
             }
             break;
 
         default:
-            sample_base = this->field_1454_anRandomTable[(u8)++byte_66F542 % 5] % 0xAu + 5;
-            break;
+            return this->field_1454_anRandomTable[(u8)++byte_66F542 % 5] % 0xAu + 5;
     }
-    return sample_base;
+    return Fix16::Round_To_Int_410BF0((pRozzA->field_24_car_physics_value / div_val) * dword_66F1CC);
 }
 
 MATCH_FUNC(0x413040)
