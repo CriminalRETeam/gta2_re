@@ -1127,6 +1127,12 @@ class Car_BC
         return field_84_car_info_idx == car_model_enum::SWATVAN;
     }
 
+    // 9.6f 0x403BC0
+    inline bool IsSwatVanOrBankVan_403BC0()
+    {
+        return field_84_car_info_idx == car_model_enum::SWATVAN || field_84_car_info_idx == car_model_enum::bank_van;
+    }
+
     // 9.6f 0x4119F0
     inline char_type get_B8_4119F0()
     {

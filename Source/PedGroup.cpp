@@ -680,7 +680,7 @@ Ped* PedGroup::sub_4C9ED0()
     return 0;
 }
 
-WIP_FUNC(0x4c9f00)
+MATCH_FUNC(0x4c9f00)
 void PedGroup::CoordinateGroupCarEntry_4C9F00()
 {
     s8 i;
@@ -743,41 +743,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
                 byte_620838 = i + 1;
                 u8 maxDoor = pTargetCar->GetRemap() - 1;
                 char_type searching;
-                if (pTargetCar->field_84_car_info_idx != car_model_enum::SWATVAN && pTargetCar->field_84_car_info_idx != car_model_enum::bank_van)
-                {
-                    do
-                    {
-                        searching = 1;
-                        do
-                        {
-                            if (byte_620838 > maxDoor)
-                            {
-                                byte_620838 -= maxDoor;
-                            }
-                        } while (byte_620838 > maxDoor);
-
-                        if (pTargetCar->IsDoorAccessible_43AFE0(byte_620838))
-                        {
-                            searching = 0;
-                        }
-                        else
-                        {
-                            byte_620838++;
-                        }
-
-                        if (++tries == maxDoor + 1)
-                        {
-                            byte_620838 = maxDoor;
-                            if (pTargetCar->IsDoorAccessible_43AFE0(0))
-                            {
-                                byte_620838 = 0;
-                            }
-                            break;
-                        }
-                    } while (searching);
-                }
-
-                else
+                if (pTargetCar->IsSwatVanOrBankVan_403BC0())
                 {
                     byte_620838 = i + 2;
                     do
@@ -810,6 +776,39 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
                             else if (pTargetCar->IsDoorAccessible_43AFE0(1))
                             {
                                 byte_620838 = 1;
+                            }
+                            break;
+                        }
+                    } while (searching);
+                }
+                else
+                {
+                    do
+                    {
+                        searching = 1;
+                        do
+                        {
+                            if (byte_620838 > maxDoor)
+                            {
+                                byte_620838 -= maxDoor;
+                            }
+                        } while (byte_620838 > maxDoor);
+
+                        if (pTargetCar->IsDoorAccessible_43AFE0(byte_620838))
+                        {
+                            searching = 0;
+                        }
+                        else
+                        {
+                            byte_620838++;
+                        }
+
+                        if (++tries == maxDoor + 1)
+                        {
+                            byte_620838 = maxDoor;
+                            if (pTargetCar->IsDoorAccessible_43AFE0(0))
+                            {
+                                byte_620838 = 0;
                             }
                             break;
                         }
