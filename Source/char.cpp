@@ -3834,12 +3834,22 @@ LABEL_152:
     Char_B4::sub_54DD70();
 }
 
+// Inline helper: written out in the caller, VC6 lays the out-of-range `return false` inline and
+// merges the later `return false` into it. As an inline returning true/false it keeps the original's
+// inline `return true` and one shared `return false` at the end.
+static inline bool IsBlockTypeInRange_1_4(u8 block_type)
+{
+    if (block_type > 0 && block_type <= 4)
+    {
+        return true;
+    }
+    return false;
+}
+
 // https://decomp.me/scratch/Zk9Eh
-WIP_FUNC(0x54ecb0)
+MATCH_FUNC(0x54ecb0)
 bool Char_B4::CanStepForwardWithRegionCheck_54ECB0(s32 direction)
 {
-    WIP_IMPLEMENTED;
-
     u8 u8_unk;
 
     Fix16 xpos = field_80_sprite_ptr->field_14_xy.x;
@@ -3896,11 +3906,7 @@ bool Char_B4::CanStepForwardWithRegionCheck_54ECB0(s32 direction)
 
     if (block_type != AIR)
     {
-        if (block_type > 0 && block_type <= 4)
-        {
-            return true;
-        }
-        return false;
+        return IsBlockTypeInRange_1_4(block_type);
     }
 
     if ((field_58_flags & 1) == 1)
@@ -4487,11 +4493,7 @@ bool Char_B4::CanStepForward_54FEC0(s32 direction)
 
             if (block_type != AIR)
             {
-                if (block_type > 0 && block_type <= 4)
-                {
-                    return true;
-                }
-                return false;
+                return IsBlockTypeInRange_1_4(block_type);
             }
 
             if ((field_58_flags & 1) == 1)
@@ -5988,7 +5990,8 @@ void Char_B4::state_8_5520A0()
 
                 if (field_C_ped_state_2 != 24)
                 {
-                    field_40_rotation = field_7C_pPed->field_184_pObj2C->field_4->field_0;
+                    Ang16 rot = field_7C_pPed->field_184_pObj2C->field_4->field_0;
+                    field_40_rotation = rot;
                 }
                 if (!field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_34)
                 {
