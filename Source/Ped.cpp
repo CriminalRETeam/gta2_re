@@ -9238,10 +9238,9 @@ void Ped::sub_46AB50()
 }
 
 // https://decomp.me/scratch/ahbj8
-WIP_FUNC(0x46ac20)
+MATCH_FUNC(0x46ac20)
 void Ped::FollowTargetStateMachine_46AC20()
 {
-    WIP_IMPLEMENTED;
     bool bUnknown = false;
     if (field_14C_internal_target_ped->isDead_403B60() || !field_14C_internal_target_ped->CheckBit0_433B40())
     {
@@ -9296,15 +9295,15 @@ void Ped::FollowTargetStateMachine_46AC20()
             }
             else if (gDistanceToTarget_678750 > kFpThreeEighths_67878C)
             {
-                field_168_game_object->RegulateVelocity_433970(kFpThreeSixtyFourths_678444);
+                field_168_game_object->RegulateVelocityByRef_433970(kFpThreeSixtyFourths_678444);
             }
             else if (gDistanceToTarget_678750 > kFpFiveSixteenths_678784)
             {
-                field_168_game_object->RegulateVelocity_433970(kFpOneThirtySecond_678434);
+                field_168_game_object->RegulateVelocityByRef_433970(kFpOneThirtySecond_678434);
             }
             else
             {
-                field_168_game_object->RegulateVelocity_433970(kFpOne64th_678430);
+                field_168_game_object->RegulateVelocityByRef_433970(kFpOne64th_678430);
             }
 
             if (byte_6787C4)
@@ -9313,16 +9312,16 @@ void Ped::FollowTargetStateMachine_46AC20()
                 {
                     if (field_14C_internal_target_ped->GetPedVelocity_45C920() == kFpZero_678660)
                     {
-                        field_168_game_object->RegulateVelocity_433970(kFpOne64th_678430);
+                        field_168_game_object->RegulateVelocityByRef_433970(kFpOne64th_678430);
                     }
                     else
                     {
-                        field_168_game_object->RegulateVelocity_433970(kFpOne64th_678430 + field_14C_internal_target_ped->GetPedVelocity_45C920());
+                        field_168_game_object->RegulateVelocityByRef_433970(kFpOne64th_678430 + field_14C_internal_target_ped->GetPedVelocity_45C920());
                     }
                 }
                 else
                 {
-                    field_168_game_object->RegulateVelocity_433970(kFpFiveSixtyFourths_67843C);
+                    field_168_game_object->RegulateVelocityByRef_433970(kFpFiveSixtyFourths_67843C);
                 }
             }
             Ped::UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 0);
@@ -9331,33 +9330,27 @@ void Ped::FollowTargetStateMachine_46AC20()
         {
             if (field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15)
             {
-                if (!byte_6787C4)
+                if (byte_6787C4)
                 {
-                    Ped::ChangeNextPedState1_45C500(7);
-                    Ped::ChangeNextPedState2_45C540(14);
-                    field_168_game_object->RegulateVelocity_433970(kFpZero_678438);
-                }
-                else if ((field_224 & 0x10) != 0)
-                {
-                    Ped::ChangeNextPedState1_45C500(7);
-                    Ped::ChangeNextPedState2_45C540(14);
-                    field_168_game_object->RegulateVelocity_433970(kFpZero_678438);
-                }
-                else
-                {
-                    if (gDistanceToTarget_678750 > kFpOneThirtySecond_6784CC)
+                    if ((field_224 & 0x10) != 0)
+                    {
+                        Ped::ChangeNextPedState1_45C500(7);
+                        Ped::ChangeNextPedState2_45C540(14);
+                        field_168_game_object->RegulateVelocityByRef_433970(kFpZero_678438);
+                    }
+                    else if (gDistanceToTarget_678750 > kFpOneThirtySecond_6784CC)
                     {
                         if (field_14C_internal_target_ped->GetPedVelocity_45C920() == kFpZero_678660)
                         {
-                            field_168_game_object->RegulateVelocity_433970(kFpOne64th_678430);
+                            field_168_game_object->RegulateVelocityByRef_433970(kFpOne64th_678430);
                         }
                         else if (gDistanceToTarget_678750 > kFpThreeSixteenths_678780)
                         {
-                            field_168_game_object->RegulateVelocity_433970(kFpFiveSixtyFourths_67843C);
+                            field_168_game_object->RegulateVelocityByRef_433970(kFpFiveSixtyFourths_67843C);
                         }
                         else
                         {
-                            field_168_game_object->RegulateVelocity_433970(field_14C_internal_target_ped->GetPedVelocity_45C920());
+                            field_168_game_object->RegulateVelocityByRef_433970(field_14C_internal_target_ped->GetPedVelocity_45C920());
                         }
                     }
                     else
@@ -9366,13 +9359,19 @@ void Ped::FollowTargetStateMachine_46AC20()
                         {
                             Ped::ChangeNextPedState1_45C500(7);
                             Ped::ChangeNextPedState2_45C540(14);
-                            field_168_game_object->RegulateVelocity_433970(kFpZero_678438);
+                            field_168_game_object->RegulateVelocityByRef_433970(kFpZero_678438);
                         }
                         else
                         {
-                            field_168_game_object->RegulateVelocity_433970(field_14C_internal_target_ped->GetPedVelocity_45C920());
+                            field_168_game_object->RegulateVelocityByRef_433970(field_14C_internal_target_ped->GetPedVelocity_45C920());
                         }
                     }
+                }
+                else
+                {
+                    Ped::ChangeNextPedState1_45C500(7);
+                    Ped::ChangeNextPedState2_45C540(14);
+                    field_168_game_object->RegulateVelocityByRef_433970(kFpZero_678438);
                 }
             }
             else
