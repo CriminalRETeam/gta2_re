@@ -868,6 +868,7 @@ Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
 {
     WIP_IMPLEMENTED;
 
+    // 9.6f calls sub_421D80 and sub_421DF0 here, which are HasSpriteZoom_43A230 and IsCarInAir_43A3C0 (not inlined in 10.5)
     Car_BC* pRet = 0;
     Fix16 smallestDist = Fix16(0xC00000, 0);
     Car_BC* pCarIter = gCar_BC_Pool_67792C->GetFirstCar_420E50();
@@ -896,11 +897,11 @@ Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
 
                     if (pCarIter->IsTrainModel_403BA0())
                     {
-                        s32 train_car_idx = 0;
+                        u8 train_car_idx = 0;
                         Car_BC** pTrainCars = gPublicTransport_181C_6FF1D4->GetCarArrayFromLeadCar_579B40(pCarIter);
                         for (Car_BC* pTrainIter = *pTrainCars; pTrainIter; pTrainIter = pTrainCars[train_car_idx])
                         {
-                            if (train_car_idx >= 2u)
+                            if (train_car_idx >= 2)
                             {
                                 break;
                             }
@@ -910,12 +911,13 @@ Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
                             Fix16 train_yd = Fix16::Abs(pTrainSprite->field_14_xy.y - ypos);
                             Fix16 train_xd = Fix16::Abs(pTrainSprite->field_14_xy.x - xpos);
 
-                            Fix16 trainDistance = train_xd + train_yd + train_zd;
-                            if (trainDistance < currentDistance)
+                            Fix16 trainDistance = train_yd + train_xd + train_zd;
+                            if (trainDistance < smallestDist)
                             {
                                 smallestDist = trainDistance;
                                 pNearestCar = pTrainIter;
                             }
+                            train_car_idx++;
                         }
                     }
                 }
