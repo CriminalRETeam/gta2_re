@@ -755,10 +755,9 @@ void Sprite::ShowId_59EB30(f32& x, f32& y)
 
 // 9.6f inline
 
-WIP_FUNC(0x59ee40)
+MATCH_FUNC(0x59ee40)
 void Sprite::ShowHorn_59EE40(f32& x, f32& y)
 {
-    WIP_IMPLEMENTED;
 
     // 0x4BAEF0 9.6f
     if (bDo_show_horn_67D4F2)
@@ -766,12 +765,8 @@ void Sprite::ShowHorn_59EE40(f32& x, f32& y)
         Car_BC* pCar = AsCar_40FEB0();
         if (pCar)
         {
-            // TODO: Code is actually too "good" here so doesn't match
-            f32 screen_x = (x / (f32)window_width_706630) * 640.0f;
-            f32 screen_y = (y / (f32)window_height_706B50) * 480.0f;
-
-            Fix16 xpos(screen_x);
-            Fix16 ypos(screen_y);
+            Fix16 xpos((s32)((x / (f32)(u32)window_width_706630) * 640.0f));
+            Fix16 ypos((s32)((y / (f32)(u32)window_height_706B50) * 480.0f));
 
             if (pCar->IsEmittingHorn_411970())
             {
