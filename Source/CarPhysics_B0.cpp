@@ -2375,10 +2375,16 @@ void CarPhysics_B0::AccumulateImpulse_55FC30(Fix16_Point& arg0, s32 base_dmg)
 }
 
 // https://decomp.me/scratch/qCXRd
-WIP_FUNC(0x55fd00)
+// Takes the direction by reference, so the negated point is read through the pointer the
+// negation returns (a named local reads it from its stack slot instead)
+static inline void EmitImpact_55FD00(Fix16& z, const Fix16_Point& dir)
+{
+    gParticle_8_6FD5E8->EmitImpactParticles_53FE40(CollisionIntersectionPoint_6FE1A0.x, CollisionIntersectionPoint_6FE1A0.y, z, dir.x, dir.y);
+}
+
+MATCH_FUNC(0x55fd00)
 void CarPhysics_B0::HandleWorldCollision_55FD00(Fix16_Point& pHitPoint)
 {
-    WIP_IMPLEMENTED;
 
     Fix16_Point Impulse = ComputeLineLineIntersection_55F3B0(CalculateMass_559FF0(),
                                                              kFP16MinusOne_6FDF1C,
@@ -2401,27 +2407,20 @@ void CarPhysics_B0::HandleWorldCollision_55FD00(Fix16_Point& pHitPoint)
         }
     }
 
-    Fix16 damage = ApplyImpactForcesAndDamage_55FA60(CollisionIntersectionPoint_6FE1A0, Impulse, 15);
-    gCollisionDamage_6FE33C = damage;
+    Fix16 damage;
+    gCollisionDamage_6FE33C = damage = ApplyImpactForcesAndDamage_55FA60(CollisionIntersectionPoint_6FE1A0, Impulse, 15);
     if (field_98_surface_type == car_surface_type::air_surface_6 && field_70_z_vel == kFP16Zero_6FE20C && field_68_z_pos == kFP16Zero_6FE20C &&
         field_40_linvel_1.IsNull() && damage < kFP16One_6FE098)
     {
         damage = kFP16One_6FE098;
-        gCollisionDamage_6FE33C = kFP16One_6FE098;
+        gCollisionDamage_6FE33C = damage;
     }
     field_5C_pCar->ApplyImpactDamage_43D5D0(damage);
-    Fix16 Velocity = field_40_linvel_1.GetLength_41E260();
-
-    if (Velocity > FastCarMinVelocity_6FE1CC)
+    if (field_40_linvel_1.GetLength_all_out_of_line_abs_y_negate_2() > FastCarMinVelocity_6FE1CC)
     {
         if (!field_5C_pCar->IsMaxDamage_40F890())
         {
-            Fix16_Point HitPointNegative = -pHitPoint;
-            gParticle_8_6FD5E8->EmitImpactParticles_53FE40(CollisionIntersectionPoint_6FE1A0.x,
-                                                           CollisionIntersectionPoint_6FE1A0.y,
-                                                           field_6C_cp3,
-                                                           HitPointNegative.x,
-                                                           HitPointNegative.y);
+            EmitImpact_55FD00(field_6C_cp3, -pHitPoint);
         }
         field_5C_pCar->TryDamageArea_43D2C0(gCollisionArea_6FDFC4, gCollisionDamage_6FE33C.mValue);
     }
