@@ -4876,45 +4876,37 @@ char_type Frontend::GetPreviousUnlockedBonusStage_4B7120(u8 a2)
 
     player_stats_0xA4* player_stats = Frontend::GetCurrPlayerStats_4B43E0();
 
-    u8 bFirstIteration = true;
-
     u8 main_stage_idx;
     u8 bonus_stage_idx;
     gLucid_hamilton_67E8E0.DecodeStage_453A60(a2, &main_stage_idx, &bonus_stage_idx);
 
     u8 main_og = main_stage_idx;
     u8 bonus_og = bonus_stage_idx;
+    u8 bFirstIteration = true;
 
     while (!player_stats->field_0_plyr_stage_stats[main_stage_idx][bonus_stage_idx].field_0_is_stage_unlocked || bFirstIteration)
     {
         bFirstIteration = false;
         if (bonus_stage_idx == 1)
         {
-            if (main_stage_idx == 0)
+            do
             {
-                while (main_stage_idx == 0)
+                if (main_stage_idx != 0)
                 {
-                    if (bIsLeftRightLoopEnabled_67DA80)
-                    {
-                        main_stage_idx = field_1EB50_num_main_stages - 1;
-                        bonus_stage_idx = field_1EB51_num_bonus_stages[main_stage_idx] - 1;
-                    }
-                    else
-                    {
-                        bonus_stage_idx = bonus_og;
-                        main_stage_idx = main_og;
-                    }
-                    if (bonus_stage_idx > 0)
-                    {
-                        break;
-                    }
+                    --main_stage_idx;
+                    bonus_stage_idx = field_1EB51_num_bonus_stages[main_stage_idx] - 1;
                 }
-            }
-            else
-            {
-                --main_stage_idx;
-                bonus_stage_idx = field_1EB51_num_bonus_stages[main_stage_idx] - 1;
-            }
+                else if (bIsLeftRightLoopEnabled_67DA80)
+                {
+                    main_stage_idx = field_1EB50_num_main_stages - 1;
+                    bonus_stage_idx = field_1EB51_num_bonus_stages[main_stage_idx] - 1;
+                }
+                else
+                {
+                    bonus_stage_idx = bonus_og;
+                    main_stage_idx = main_og;
+                }
+            } while (bonus_stage_idx == 0);
         }
         else
         {
