@@ -476,23 +476,21 @@ void CarPhysics_B0::ApplyObjectImpact_559E20(Object_2C* pObj)
     AddDamage_49EF50(15);
 }
 
-WIP_FUNC(0x559ec0)
+MATCH_FUNC(0x559ec0)
 Fix16_Point CarPhysics_B0::ComputeCombinedCenterOfMass_559EC0()
 {
-    WIP_IMPLEMENTED;
 
     if (field_5C_pCar->field_64_pTrailer)
     {
-        Fix16 cab_mass = field_5C_pCar->field_64_pTrailer->field_8_truck_cab->get_mass_43A120();
-        Fix16 trailer_mass = field_5C_pCar->field_64_pTrailer->field_C_pCarOnTrailer->get_mass_43A120();
+        Fix16 cab_mass;
+        Fix16 trailer_mass;
+        cab_mass = field_5C_pCar->field_64_pTrailer->field_8_truck_cab->get_mass_43A120();
+        trailer_mass = field_5C_pCar->field_64_pTrailer->field_C_pCarOnTrailer->get_mass_43A120();
 
         Fix16 total_mass = trailer_mass + cab_mass;
 
-        Fix16_Point v10 =
+        return field_5C_pCar->field_64_pTrailer->field_8_truck_cab->field_58_physics->field_30_cm1 * (cab_mass / total_mass) +
             field_5C_pCar->field_64_pTrailer->field_C_pCarOnTrailer->field_58_physics->field_30_cm1 * (trailer_mass / total_mass);
-        Fix16_Point v9 = field_5C_pCar->field_64_pTrailer->field_8_truck_cab->field_58_physics->field_30_cm1 * (cab_mass / total_mass);
-
-        return v9 + v10;
     }
     else
     {
