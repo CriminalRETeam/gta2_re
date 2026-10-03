@@ -613,6 +613,11 @@ does `fildl x; flds 630.0; fsub %st(1),%st` and later pops the unused `x` with
 `fstp %st(0)`, ours folds it into `fsubrs`. Tried: an `f32` parameter (0.812),
 `630.0f - x` written twice with no `left` local (0.812).
 
+**MATCH.** `f32 fx = x; left = 630.0f - fx; right = 630.0f - fx + 1.0f;`: the kept `x` is the
+second use of `fx`, folded away by CSE (see matching_quirks.md, x87 code). The clamp is
+`count = field_A7C_count < 100 ? field_A7C_count : 100`: with `if (count >= 100)` the `jl` skips the
+`count` reload, the ternary makes it land on it.
+
 ## Mike_A80::DebugDrawProfiling_4FF250 (WIP, was STUB)
 
 The profiler overlay: per texture-size cache stats, totals, polys/texture swaps, memory,
@@ -1597,3 +1602,12 @@ Each was a few asm lines away from the original. What is left and what was tried
   - 0x55FF20 `HandleCarCollision`: 0.281->0.408. Entry EH state 5 = six `Fix16_Point` locals up front; `GetLength_all_out_of_line_abs_y_negate` for the impulse length. Left: the original stores no EH state for the `ComputeRelativePointVelocity` temporary, one extra frame slot, the second half.
   - 0x43F130 `Car_BC::HandleCarHitByObject`: 0.130->0.090 by the ratio, kept because the frame (0x118), EH numbering, compare-tree case order (128/138, 10, 194, 210, default, 265, 198) and the first case's calls now match; the ratio sees one big hunk either way. New inline `const Fix16_Point&` overload of `AccumulateDamage_43DA90`. Left: damage in ebx, RotateByAngle operator variants, tail merges.
   - 0x5A3550 `Sprite_4C::UpdateRotatedBoundingBox`, 0x4E0130 `CanMoveOntoSlopeTile`: not attempted (>2 KB, ratio <0.04).
+
+## x87 scheduling pass (MapRenderer)
+
+- 0x4F4190 `Set_UV_4F4190`: **MATCH**. Products summed as `Edge01*a1 + Edge03*a2` (right operand
+  first), u/v converted through `f32` locals (a rounding node that moves `fmuls` after the index load).
+- 0x4FFD90 `Mike_A80::sub_4FFD90`: **MATCH** (see its section).
+- The Draw*Sided* / ProjectVert cluster: still unexplained. All VC6 builds (RTM to SP6, Processor Pack)
+  give the same code, about 150 helper and call-site variants scored over every MapRenderer WIP: details
+  in matching_quirks.md, "Still unexplained".

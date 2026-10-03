@@ -875,6 +875,28 @@ flips which angle range the face tests (`MapRenderer::sub_4EC450` and siblings).
 **`Fix16(f32)` multiplies by `16384.0f`.** The original uses `fmuls` with a float constant; the constructor in
 `fix16.hpp` now does too (no matched function changed).
 
+### x87 code: rounding points and kept values decide the schedule
+
+VC6's x87 scheduler is deterministic: it only reorders what the IL gives it, so flags and compiler builds
+don't change it (see the MapRenderer note under "Still unexplained"). What changes it is the shape of the
+float expression tree:
+
+- **Assigning to an `f32` local adds a rounding node, even if the local is optimised away.** That makes
+  the next x87 op one step deeper, so the scheduler fills the gap with integer work. `Set_UV_4F4190`
+  only matched with `f32 u = uv.x.mValue; ... = u / 16384.0f;`: `Fix16::ToFloat()` (`mValue / 16384.0f`)
+  put `fmuls` before the index load `mov (%eax),%ecx`, the local put it after. An explicit `(f32)` cast
+  of the int does not add the node; `(f32)(a * b)` of a product does. Changing `ToFloat()` itself
+  breaks `ProjectVertTop_4EAE00`/`Bottom_4EAEA0`, so the original used both forms.
+- **`fild x; flds c; fsub %st(1),%st` ... `fstp %st(0)`** (a converted int kept on the x87 stack and
+  popped unused later) means the same float value appears twice in the tree and one use was folded by
+  CSE. `Mike_A80::sub_4FFD90` matched with `left = 630.0f - fx; right = 630.0f - fx + 1.0f;`: the second
+  `630 - fx` becomes the stored `left`, the kept `fx` is popped. `right = left + 1.0f` gives `fsubrs`.
+- Operand order of commutative `*` and `+` makes no difference (the compiler canonicalises it), and
+  neither do (u32)/(unsigned)/`*(u32*)&` variants of the u32 -> float conversion.
+
+A quick way to test such variants: compile a preprocessed copy of the TU straight with `CL.EXE /O2 /GX`
+under wine (about 3 seconds) and diff one function, instead of a full build.
+
 ## Functions, thunks and calling conventions
 
 **`mov $1,%eax` in the callee but `test %al,%al` in the caller.** That's an `s32` (BOOL-style)
@@ -1176,6 +1198,20 @@ both copies. Only a meaningless cast changed it.
       params) and the member `ProjectVertTop_4EAE00`/`Bottom_4EAEA0`, `__forceinline`, const refs: none better.
     - Alias: gTileVerts extern, volatile global pointers, template-index stores: no effect. Dropping the
       `GLOBAL()` registrations (which take the address of every global in the TU) changes only other functions.
+  - Third attempt (fast single-TU harness, about 400 compiles):
+    - **Not the compiler build.** decomp.me's VC6 packages were compiled against the same TU: RTM (8168),
+      SP3 (c1xx 8472, c2 8447), SP4 (c1xx 8867, c2 8799: byte-identical to ours), SP5 (8964/8966) and SP6
+      (9782) give the same code for the cluster; the Processor Pack c2 is worse. The scheduler is
+      deterministic on its input and doesn't depend on TU-global counters (dummy functions before it).
+    - The y-line difference: the original issues `mov 0x74(%eax),%edx; mov %esi,0x1C(%esp)` (centre load
+      and the dead zero high dword of the u32 -> float temp) only after `fstps x; fildl y; fmuls; fmul`,
+      ours right after the x `fiaddl`. In the original the high-dword store waits for the load, as if it
+      depended on it; in ours it is independent. Even the out-of-line `ProjectVertTop_4EAE00` stores it
+      before `fstps (%esi)`, so it isn't pointer aliasing.
+    - Helper forms that help other functions (scored over all 30 MapRenderer WIPs):
+      `pVert->y = (f32)(y * scale) + c` or an `f32` local for the y product: -79 to -88 lines in total, but
+      7 functions get worse (`DrawTopSide_4EBA60` +32); a local `Camera_0xBC*`: -94 (4EAF40 -67, 4ED290
+      -60, 4EBA60 +32). None fixes the 0.93 cluster, so none is committed.
   - Lead: probably the compiler build rather than the source. The original isn't self-consistent the way a source
     cause would be: the same inlined Top stores the zero hi dword early at one site and late at another with the
     same stack layout (draw_lid_4F4D60), and late in sub_4EC450 but early in draw_left. That looks like a scheduler
