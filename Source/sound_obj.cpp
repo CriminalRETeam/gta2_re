@@ -3879,29 +3879,18 @@ s32 sound_obj::GetVehicleAudioClass_417BA0(s32 car_model)
     return result;
 }
 
-WIP_FUNC(0x4157C0)
+MATCH_FUNC(0x4157C0)
 void sound_obj::HandleCarEngineSound_4157C0(Sound_Params_8* a2)
 {
-    WIP_IMPLEMENTED;
-
     Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
-
-    Fix16 div_factor;
-    Fix16 v8;
-    Fix16 v9;
-    Fix16 gear2_speed;
-    Fix16 gear3_speed;
 
     if (pCar->field_9C_engine_status == car_engine_status::on_3 && CalculateDistance_419020(Fix16(0x90000, 0)))
     {
-        Fix16 gas_pedal = pCar->GetCarLinearSpeed_43A240();
+        Fix16 gas_pedal;
+        gas_pedal = pCar->GetCarLinearSpeed_43A240();
         Fix16 max_speed = gCarInfo_48_6FE258->field_28_max_speed;
         u8 emitting_vol;
-        if (max_speed <= kFpZero_66F3F0)
-        {
-            emitting_vol = 20;
-        }
-        else
+        if (max_speed > kFpZero_66F3F0)
         {
             if (gas_pedal == kFpZero_66F3F0)
             {
@@ -3916,53 +3905,47 @@ void sound_obj::HandleCarEngineSound_4157C0(Sound_Params_8* a2)
                     max_speed = dword_66F1D0;
                 }
                 gas_pedal = pCar->field_58_physics->field_60_gas_pedal;
-                goto LABEL_9;
+                emitting_vol = Fix16::Round_To_Int_410BF0(Fix16(573440, 0) * (gas_pedal / max_speed)) + 25;
             }
-
-            if (gas_pedal > max_speed)
+            else
             {
-                gas_pedal = gCarInfo_48_6FE258->field_28_max_speed;
-            }
-
-            if (pCar->field_84_car_info_idx == car_model_enum::TANK || pCar->field_58_physics->field_94_is_backward_gas_on)
-            {
-            LABEL_9:
-                v8 = gas_pedal;
-                div_factor = max_speed;
-                goto LABEL_10;
-            }
-
-            if (pCar->field_68_scale == kFpOne_66F3F4)
-            {
-                gear2_speed = gCarInfo_48_6FE258->field_40_gear2_speed;
-                gear3_speed = gCarInfo_48_6FE258->field_44_gear3_speed;
-                if (gas_pedal >= gear2_speed)
+                if (gas_pedal > max_speed)
                 {
-                    if (gas_pedal >= gear3_speed)
-                    {
-                        v9 = (Fix16(573440, 0) * dword_66F258) * (gas_pedal - gear3_speed) / (max_speed - gear3_speed);
-                        goto LABEL_11;
-                    }
-                    v8 = (gas_pedal - gear2_speed);
-                    div_factor = gear3_speed - gear2_speed;
+                    gas_pedal = max_speed;
+                }
+
+                if (pCar->field_84_car_info_idx == car_model_enum::TANK || pCar->field_58_physics->field_94_is_backward_gas_on)
+                {
+                    emitting_vol = Fix16::Round_To_Int_410BF0(Fix16(573440, 0) * (gas_pedal / max_speed)) + 25;
+                }
+                else if (pCar->field_68_scale != kFpOne_66F3F4)
+                {
+                    emitting_vol = Fix16::Round_To_Int_410BF0(Fix16(655360, 0) * (gas_pedal / max_speed));
                 }
                 else
                 {
-                    v8 = gas_pedal;
-                    div_factor = gear2_speed;
+                    Fix16 gear2_speed = gCarInfo_48_6FE258->field_40_gear2_speed;
+                    Fix16 gear3_speed = gCarInfo_48_6FE258->field_44_gear3_speed;
+                    if (gas_pedal < gear2_speed)
+                    {
+                        emitting_vol = Fix16::Round_To_Int_410BF0(Fix16(573440, 0) * (gas_pedal / gear2_speed)) + 25;
+                    }
+                    else if (gas_pedal < gear3_speed)
+                    {
+                        emitting_vol = Fix16::Round_To_Int_410BF0(Fix16(573440, 0) * ((gas_pedal - gear2_speed) / (gear3_speed - gear2_speed))) + 25;
+                    }
+                    else
+                    {
+                        emitting_vol = Fix16::Round_To_Int_410BF0((Fix16(573440, 0) * dword_66F258) * ((gas_pedal - gear3_speed) / (max_speed - gear3_speed))) + 25;
+                    }
                 }
-
-            LABEL_10:
-                v9 = Fix16(573440, 0) * (v8 / div_factor);
-
-            LABEL_11:
-                emitting_vol = Fix16::Round_To_Int_410BF0(v9) + 25;
-                goto LABEL_24;
             }
-            emitting_vol = Fix16::Round_To_Int_410BF0((Fix16(655360, 0) * gas_pedal) / max_speed);
+        }
+        else
+        {
+            emitting_vol = 20;
         }
 
-    LABEL_24:
         if (VolCalc_419070(emitting_vol, Fix16(98304, 0), a2->field_5_bHasSolidAbove))
         {
             this->field_30_sQueueSample.field_54_sound_intensity = Fix16(98304, 0);
