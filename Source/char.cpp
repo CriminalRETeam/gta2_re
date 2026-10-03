@@ -4436,7 +4436,7 @@ bool Char_B4::CanStepForward_54FEC0(s32 direction)
     s8 v18 = 0;
     s32 zpos_int = field_1C_zpos.ToInt();
 
-    s8 v9 = zpos_int - 1;
+    s32 v9 = zpos_int - 1;
 
     if ((field_58_flags & 1) == 1)
     {
@@ -4446,82 +4446,42 @@ bool Char_B4::CanStepForward_54FEC0(s32 direction)
     if (gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(xpos.ToInt(), ypos.ToInt(), zpos_int, direction, (u8*)&v18, 0))
     {
         gCharB4_PathDirection_623F44 = direction;
-        return 0;
+        return false;
     }
     else
     {
-        s32 new_z_int = v18 + v9;
+        v9 += v18;
 
-        if (new_z_int < 0)
+        if (v9 < 0)
         {
             return 0;
         }
         else
         {
+            block_type = AIR;
             switch (direction)
             {
                 case 1:
-                    block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() - 1, new_z_int);
-                    if (block_type == AIR)
-                    {
-                        break;
-                    }
-                    else if (block_type > 0 && block_type <= 4)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                    break;
-                case 2:
-                    block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() + 1, new_z_int);
-                    if (block_type == AIR)
-                    {
-                        break;
-                    }
-                    else if (block_type > 0 && block_type <= 4)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() - 1, v9);
                     break;
                 case 3:
-                    block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt() + 1, ypos.ToInt(), new_z_int);
-                    if (block_type == AIR)
-                    {
-                        break;
-                    }
-                    else if (block_type > 0 && block_type <= 4)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt() + 1, ypos.ToInt(), v9);
+                    break;
+                case 2:
+                    block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() + 1, v9);
                     break;
                 case 4:
-                    block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt() - 1, ypos.ToInt(), new_z_int);
-                    if (block_type == AIR)
-                    {
-                        break;
-                    }
-                    else if (block_type > 0 && block_type <= 4)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt() - 1, ypos.ToInt(), v9);
                     break;
-                default:
-                    break;
+            }
+
+            if (block_type != AIR)
+            {
+                if (block_type > 0 && block_type <= 4)
+                {
+                    return true;
+                }
+                return false;
             }
 
             if ((field_58_flags & 1) == 1)
@@ -4529,7 +4489,7 @@ bool Char_B4::CanStepForward_54FEC0(s32 direction)
                 v16 = field_1C_zpos.GetFracValue();
                 if (v16 < kFP16Half_6FD8E4)
                 {
-                    field_58_flags &= 0xFE;
+                    field_58_flags &= ~1u;
                     result = Char_B4::CanStepForward_54FEC0(direction);
                     field_58_flags |= 1u;
                     return result;
