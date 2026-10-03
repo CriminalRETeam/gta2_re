@@ -2638,8 +2638,9 @@ void Object_2C::HandleImpact_528E50(Sprite* pSprite)
 {
     WIP_IMPLEMENTED;
 
-    // Mostly bad switch ordering I think
-
+    // Cases in the original's layout order. Remaining diff: VC6 merges case 1/2 into the shared
+    // "if (!done) return; PoolGive" tail and places that tail after case 4/5; the original keeps
+    // case 1/2 separate and the tail after case 7/8 (a goto from 3 and 4/5 gave the same code).
     if (!this->field_24_bDoneThisFrame && (!pSprite || ShouldCollideWith_5223C0(pSprite)))
     {
         this->field_24_bDoneThisFrame = 1;
@@ -2648,6 +2649,36 @@ void Object_2C::HandleImpact_528E50(Sprite* pSprite)
             case 1:
             case 2:
                 PoolGive_522340(); // destroy
+                break;
+
+            case 7:
+            case 8:
+                if (pSprite)
+                {
+                    this->field_24_bDoneThisFrame = HandleObjectHit_528990(pSprite);
+                }
+                else
+                {
+                    HandleImpactNoSprite_528BA0();
+                }
+
+                if (!field_24_bDoneThisFrame)
+                {
+                    return;
+                }
+                PoolGive_522340();
+                break;
+
+            case 6:
+                this->field_24_bDoneThisFrame = OnObjectTouched_5288B0(pSprite);
+                if (field_24_bDoneThisFrame)
+                {
+                    PoolGive_522340(); // destroy
+                }
+                break;
+
+            case 9:
+                this->field_24_bDoneThisFrame = OnObjectTouched_5288B0(pSprite);
                 break;
 
             case 3:
@@ -2683,36 +2714,6 @@ void Object_2C::HandleImpact_528E50(Sprite* pSprite)
                     return;
                 }
                 PoolGive_522340();
-                break;
-
-            case 6:
-                this->field_24_bDoneThisFrame = OnObjectTouched_5288B0(pSprite);
-                if (field_24_bDoneThisFrame)
-                {
-                    PoolGive_522340(); // destroy
-                }
-                break;
-
-            case 7:
-            case 8:
-                if (pSprite)
-                {
-                    this->field_24_bDoneThisFrame = HandleObjectHit_528990(pSprite);
-                }
-                else
-                {
-                    HandleImpactNoSprite_528BA0();
-                }
-
-                if (!field_24_bDoneThisFrame)
-                {
-                    return;
-                }
-                PoolGive_522340();
-                break;
-
-            case 9:
-                this->field_24_bDoneThisFrame = OnObjectTouched_5288B0(pSprite);
                 break;
 
             case 10:
