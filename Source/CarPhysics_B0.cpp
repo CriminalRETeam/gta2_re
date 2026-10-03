@@ -2658,6 +2658,12 @@ static inline Fix16 __stdcall DotProductInlined_49E500(Fix16_Point& Vector1, Fix
     return (Vector1.x * Vector2.x) + (Vector1.y * Vector2.y);
 }
 
+// DotProductInlined_49E500 with the out-of-line Fix16 operator copies
+static inline Fix16 __stdcall DotProductOOL_49E500(Fix16_Point& Vector1, Fix16_Point& Vector2)
+{
+    return (const Fix16&)Vector1.x.Multiply_408680(Vector2.x) + Vector1.y.Multiply_408680(Vector2.y);
+}
+
 // TODO: Probably move & Rename to ComputeImpulse or something
 // https://decomp.me/scratch/dN85v
 WIP_FUNC(0x55F3B0)
@@ -2674,54 +2680,58 @@ EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 OwnerMass,
 {
     WIP_IMPLEMENTED;
 
+    // The original enters EH state 2: three Fix16_Point locals are constructed up front
+    Fix16_Point DistOrthogonalToCollision;
+    Fix16_Point DirectionFromCoM_to_Collision;
+    Fix16_Point Impulse;
+
     if (RelativeVelocity.IsNull_420360() || DistToCollision_ByRef.IsNull_420360())
     {
         return stru_6FE300;
     }
 
+    // The function runs out of inline expansions: most Fix16 operators are the out-of-line copies
     Fix16 OwnerMassFactor = ((k_dword_6FE210) / OwnerMass);
-    Fix16_Point DistToCollision = (CollisionIntersectPoint - CoM_related);
-    Fix16_Point DistOrthogonalToCollision = DistToCollision.Rotate90CCW_5605E0();
-    Fix16_Point DirectionFromCoM_to_Collision = DistToCollision_ByRef.NormalizeSafe_442AD0(); // vector unit 1, supposedly
+    DistOrthogonalToCollision = (CollisionIntersectPoint - CoM_related).Rotate90CCW_5605E0();
+    DirectionFromCoM_to_Collision = DistToCollision_ByRef.NormalizeSafe_442AD0(); // vector unit 1, supposedly
 
-    Fix16 RelVelComponentAtCollisionDir = DotProductInlined_49E500(RelativeVelocity, DirectionFromCoM_to_Collision);
+    Fix16 RelVelComponentAtCollisionDir = DotProductOOL_49E500(RelativeVelocity, DirectionFromCoM_to_Collision);
 
     Fix16 MassFactor;
 
     Fix16 VelocityFactor = (-(k_dword_6FE210 + offset) * RelVelComponentAtCollisionDir);
     if (TargetMass == kFP16MinusOne_6FDF1C) // Fix16(262143) = infinite mass?
     {
-        Fix16 __a4 = DotProductInlined_49E500(DistOrthogonalToCollision, DirectionFromCoM_to_Collision);
-        Fix16 _a7 = (__a4 * __a4);
+        Fix16 __a4 = DotProductOOL_49E500(DistOrthogonalToCollision, DirectionFromCoM_to_Collision);
+        Fix16 _a7 = __a4.Multiply_408680(__a4);
         Fix16 v17 = (_a7) / OwnerMomOfInertia;
 
-        Fix16 _a6 = DotProductInlined_49E500(DirectionFromCoM_to_Collision, DirectionFromCoM_to_Collision);
+        Fix16 _a6 = DotProductOOL_49E500(DirectionFromCoM_to_Collision, DirectionFromCoM_to_Collision);
         MassFactor = v17 + ((OwnerMassFactor * _a6));
     }
     else
     {
         Fix16 TargetMassFactor = ((k_dword_6FE210) / TargetMass);
-        Fix16_Point v19 = (CollisionIntersectPoint - a8);
-
-        Fix16_Point v19r = v19.Rotate90CCW_5605E0();
+        Fix16_Point v19r = (CollisionIntersectPoint - a8).Rotate90CCW_5605E0();
 
         Fix16 v20 = DotProduct_560680(v19r, DirectionFromCoM_to_Collision);
-        Fix16 __a4 = (v20 * v20);
+        Fix16 __a4 = v20.Multiply_408680(v20);
 
         Fix16 v21 = DotProduct_560680(DistOrthogonalToCollision, DirectionFromCoM_to_Collision);
-        Fix16 _a7 = (v21 * v21);
+        Fix16 _a7 = v21.Multiply_408680(v21);
 
-        Fix16 v34 = (__a4 / TargetMomOfInertia);
-        Fix16 v30 = (_a7 / OwnerMomOfInertia);
-        Fix16 SumMassFactors = (OwnerMassFactor + TargetMassFactor);
+        Fix16 v34 = __a4.Divide_436A20(TargetMomOfInertia);
+        Fix16 v30 = _a7.Divide_436A20(OwnerMomOfInertia);
+        Fix16 SumMassFactors = ((const Fix16&)OwnerMassFactor + TargetMassFactor);
         Fix16 v22 = DotProduct_560680(DirectionFromCoM_to_Collision, DirectionFromCoM_to_Collision);
-        Fix16 v23 = (v22 * SumMassFactors);
-        Fix16 v24 = (v23 + v30);
-        MassFactor = (v24 + v34);
+        Fix16 v23 = v22.Multiply_408680(SumMassFactors);
+        Fix16 v24 = ((const Fix16&)v23 + v30);
+        MassFactor = ((const Fix16&)v24 + v34);
     }
 
     // scale vector norm by factors, so direction is kept
-    Fix16_Point Impulse = (DirectionFromCoM_to_Collision * (VelocityFactor / MassFactor));
+    Fix16 scale = VelocityFactor.Divide_436A20(MassFactor);
+    Impulse = DirectionFromCoM_to_Collision.Multiply_438FE0(scale);
     return Impulse;
 }
 
