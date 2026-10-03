@@ -111,7 +111,7 @@ WIP_FUNC(0x435630)
 char_type Camera_0xBC::IsSpriteInView_435630(Sprite* pSprite, s32 bUnknown)
 {
     WIP_IMPLEMENTED;
-
+    // TODO: the original computes the numerator first (kept in esi) and spills the denominator
     Fix16 v5 = ((dword_676840 + this->field_98_cam_pos2.field_8_z - pSprite->field_1C_zpos)) /
         ((kTwo_676820 * this->field_98_cam_pos2.field_C_zoom));
 
@@ -127,37 +127,17 @@ char_type Camera_0xBC::IsSpriteInView_435630(Sprite* pSprite, s32 bUnknown)
     rect.field_14_high_z = pSprite->field_1C_zpos;
     rect.field_8_top = field_98_cam_pos2.field_4_y - v6;
     rect.field_C_bottom = field_98_cam_pos2.field_4_y + v6;
+    rect.field_4_right = field_98_cam_pos2.field_0_x + v5;
+    rect.field_0_left = field_98_cam_pos2.field_0_x - v5;
 
-    Fix16 left_bound = field_98_cam_pos2.field_0_x + v5;
-    Fix16 right_bound = field_98_cam_pos2.field_0_x - v5;
-    rect.field_0_left = right_bound;
-    rect.field_4_right = left_bound;
-
-    Sprite_4C* p4C = pSprite->field_C_sprite_4c_ptr;
-    Fix16_Rect* pBox = &p4C->field_30_boundingBox;
-    if (right_bound >= pBox->field_0_left)
+    Fix16_Rect* pBox = &pSprite->field_C_sprite_4c_ptr->field_30_boundingBox;
+    if (rect.field_0_left.IntervalIntersectsRange_438FB0_inline(rect.field_4_right, pBox->field_0_left, pBox->field_4_right) &&
+        IntervalIntersectsRange_438FB0(rect.field_8_top, rect.field_C_bottom, pBox->field_8_top, pBox->field_C_bottom) &&
+        IntervalIntersectsRange_438FB0(rect.field_10_low_z, rect.field_14_high_z, pBox->field_10_low_z, pBox->field_14_high_z))
     {
-        if (right_bound > pBox->field_4_right)
-        {
-            return 0;
-        }
-    }
-    else if (left_bound < pBox->field_0_left)
-    {
-        return 0;
-    }
-
-    if (rect.field_C_bottom.IntervalIntersectsRange_438FB0_inline(rect.field_C_bottom, pBox->field_8_top, pBox->field_C_bottom) &&
-        rect.field_14_high_z.IntervalIntersectsRange_438FB0_inline(rect.field_14_high_z, pBox->field_10_low_z, pBox->field_14_high_z))
-    {
-        Sprite_4C* p4C_ = pSprite->field_C_sprite_4c_ptr;
-        if (p4C_->field_0_width == p4C_->field_4_height && p4C_->field_0_width <= dword_676694)
-        {
-            return 1;
-        }
-
+        Sprite_4C* p4C = pSprite->field_C_sprite_4c_ptr;
         Ang16 ang = pSprite->field_0;
-        if (pSprite->field_0.rValue == 0 || ang == 360 || ang == 720 || ang == 1080 || pSprite->IntersectsRectSAT_59FB10(&rect) ||
+        if ((p4C->field_0_width == p4C->field_4_height && p4C->field_0_width <= dword_676694) || pSprite->field_0.rValue == 0 || ang == 360 || ang == 720 || ang == 1080 || pSprite->IntersectsRectSAT_59FB10(&rect) ||
             rect.IntersectsSpriteRenderingRect_59DDF0(pSprite))
         {
             return 1;
