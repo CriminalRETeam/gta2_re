@@ -5245,28 +5245,43 @@ void CarAI_78::ManageCollisions_452A20()
 }
 
 // https://decomp.me/scratch/uZlwP
-WIP_FUNC(0x452df0)
+// Fix16_Point::GetLength_2 with kF16Zero_677B90 as the zero (CarAI_78::sub_452DF0)
+static inline Fix16 GetLength_677B90(Fix16_Point& p)
+{
+    if (p.x == kF16Zero_677B90)
+    {
+        return Fix16::Abs(p.y);
+    }
+    else if (p.y == kF16Zero_677B90)
+    {
+        return Fix16::Abs(p.x);
+    }
+    else
+    {
+        return Fix16::SquareRoot(p.x * p.x + p.y * p.y);
+    }
+}
+
+MATCH_FUNC(0x452df0)
 void CarAI_78::sub_452DF0()
 {
-    WIP_IMPLEMENTED;
 
     byte_677A5D = 1;
     bool bUpdateStateMachine = false;
     gCurrCarAI_xpos_677C38 = field_0_car->field_50_car_sprite->field_14_xy.x;
     gCurrCarAI_ypos_677C30 = field_0_car->field_50_car_sprite->field_14_xy.y;
-    Fix16 zpos = field_0_car->field_50_car_sprite->field_1C_zpos;
+    gCurrCarAI_zpos_677C48 = field_0_car->field_50_car_sprite->field_1C_zpos;
     gCurrCarAI_TargetCar_6779B0 = 0;
-    gCurrCarAI_zpos_677C48 = zpos;
     byte_677CA8 = 0;
 
-    if (!field_0_car->field_60 || field_3C)
-    {
-        byte_677BBC = 0;
-    }
-    else
+    if (field_0_car->field_60 && !field_3C)
     {
         Init_AI_Chase_44E0C0();
         byte_677CA8 = 1;
+    }
+    else
+    {
+        byte_677BBC = 0;
     }
 
     gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(field_0_car->field_50_car_sprite->field_14_xy.x.ToInt(),
@@ -5364,10 +5379,9 @@ void CarAI_78::sub_452DF0()
 
     sub_452060();
 
-    // TODO: Use dword_677B90  as Kzero
-    if (gCurrCarAI_Velocity_677B00 != kFP16Zero_6FE20C)
+    if (gCurrCarAI_Velocity_677B00 != kF16Zero_677B90)
     {
-        if (field_0_car->field_58_physics->field_0_vel_read_only.GetLength_2() == kFP16Zero_6FE20C)
+        if (GetLength_677B90(field_0_car->field_58_physics->field_0_vel_read_only) == kF16Zero_677B90)
         {
             ++field_2A_stopped_timer;
         }
