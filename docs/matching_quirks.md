@@ -585,6 +585,8 @@ directly in the first check keeps the original jump target (`Car_BC::CanCarColli
 
 **The EH entry state counts every object with a destructor or EH-tracked ctor, used or not.** When only the initial `mov [ebp-4], N` differs, add the missing object (an unused `Fix16_Point` local in `Weapon_30::car_smg_5E2940`). If that shifts registers, move declarations around: there `Ang16` first, the temporaries at function scope and an `Ang16` copy before the first call fixed them. The permuter found the order.
 
+**Large functions can hit the VC6 inline budget.** When normally inlined ctors (`Ang16`, `Fix16_Point_POD`) or a small multiply show up as calls only in one big function, and moving code pushes *other* inlines out of line, the function is at the budget. Free budget by writing the helper body out by hand (`Ang16(...)` and `Normalize_406C20()` in a block scope, `y*y` written out) in `CarPhysics_B0::CalculateRearWheelForce_5620D0` (0.715 to 0.976). See also 538AC0.
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 
