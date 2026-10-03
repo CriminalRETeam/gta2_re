@@ -2513,7 +2513,9 @@ char_type Char_B4::ContinueMovementAfterCollision_54B8F0()
         {
             field_80_sprite_ptr->set_xy_lazy_447E20(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
             field_40_rotation = field_28;
-            Ang16::PolarToCartesian_41FC20((field_28 + field_2A) + kAng180_6FD936, field_38_velocity * kFP16Four_6FD9F4, x_vec, y_vec);
+            Ang16 back_angle = (field_28 + field_2A) + kAng180_6FD936;
+            Fix16 back_dist = field_38_velocity * kFP16Four_6FD9F4;
+            Ang16::PolarToCartesian_41FC20(back_angle, back_dist, x_vec, y_vec);
             field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + x_vec,
                                                      field_80_sprite_ptr->field_14_xy.y + y_vec,
                                                      field_80_sprite_ptr->field_1C_zpos);
@@ -2522,6 +2524,8 @@ char_type Char_B4::ContinueMovementAfterCollision_54B8F0()
             {
                 field_80_sprite_ptr->set_xy_lazy_447E20(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
                 field_28 += field_2A + kAng180_6FD936;
+                field_24 = 2;
+                field_40_rotation = field_28;
                 Ang16::PolarToCartesian_41FC20(field_40_rotation, field_38_velocity * gFix16_Two_6FD9EC, x_vec, y_vec);
                 field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + x_vec,
                                                          field_80_sprite_ptr->field_14_xy.y + y_vec,
@@ -2544,7 +2548,8 @@ char_type Char_B4::ContinueMovementAfterCollision_54B8F0()
                         return v26;
                     }
                 }
-                return 1;
+                v26 = true;
+                return v26;
             }
         }
         else
@@ -2563,7 +2568,8 @@ char_type Char_B4::ContinueMovementAfterCollision_54B8F0()
             return v26;
         }
     }
-    return 1;
+    v26 = true;
+    return v26;
 }
 
 MATCH_FUNC(0x54c090)
