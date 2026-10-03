@@ -848,10 +848,9 @@ void Garox_110C_sub::Update_5CF730()
 {
     WIP_IMPLEMENTED;
 
-    Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
     Ped* pPed = gGame_0x40_67E008->field_38_orf1->Get_Field_68_Ped();
 
-    if (!pPed || pPed->IsInTrain_470F00())
+    if (!pPed || (u8)pPed->IsInTrain_470F00())
     {
         field_284E_ped_under_solid = 0;
     }
@@ -861,13 +860,13 @@ void Garox_110C_sub::Update_5CF730()
             gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(pPed->field_1AC_cam.x, pPed->field_1AC_cam.y, pPed->field_1AC_cam.z);
         if (field_284E_ped_under_solid)
         {
-            this->field_1114_rotation = kAng180_706412 + pPed->GetRotation();
+            this->field_1114_rotation = Ang16(pPed->GetRotation().rValue + kAng180_706412.rValue, 0);
 
-            Fix16 camx = pPed->field_1AC_cam.x;
             Fix16 camy = pPed->field_1AC_cam.y;
             Fix16 camz = pPed->field_1AC_cam.z;
+            Fix16 camx = pPed->field_1AC_cam.x;
 
-            Player* pPlayer_ = gGame_0x40_67E008->field_38_orf1;
+            Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
             Camera_0xBC* pCam;
             if (pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3)
             {
@@ -883,7 +882,7 @@ void Garox_110C_sub::Update_5CF730()
             this->field_110C_screen_x =
                 Fix16(pCam->field_70_screen_px_center_x) + ((pCam->field_60.x * (camx - pCam->field_98_cam_pos2.field_0_x)) * tmp);
             this->field_1110_screen_y =
-                Fix16(pCam->field_74_screen_px_center_y) + ((pCam->field_60.x * (camy - pCam->field_98_cam_pos2.field_4_y)) * tmp);
+                ((const Fix16&)((pCam->field_60.x * (camy - pCam->field_98_cam_pos2.field_4_y)) * tmp)) + Fix16(pCam->field_74_screen_px_center_y);
         }
     }
 }
