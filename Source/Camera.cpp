@@ -634,13 +634,38 @@ void Camera_0xBC::SetScreenSize_4361B0(u32 x_pos, u32 y_pos)
     field_A8_ui_scale = Fix16(x_pos) / 640;
 }
 
+// FromPolar_41E210 with the out of line multiply
+static inline void FromPolar_408680(Fix16_Point& p, const Fix16& radius, const Ang16& angle)
+{
+    p.x = radius.Multiply_408680(Ang16::sine_40F500(angle));
+    p.y = radius.Multiply_408680(Ang16::cosine_40F520(angle));
+}
+
+// Fix16_Point length with the out of line Fix16 helpers, compared against this TU's kZero_676818
+static inline Fix16 GetLength_676818(Fix16_Point& p)
+{
+    if (p.x.mValue == kZero_676818.mValue)
+    {
+        return Fix16::Abs_436A50(p.y);
+    }
+    else if (p.y.mValue == kZero_676818.mValue)
+    {
+        return Fix16::Abs_436A50(p.x);
+    }
+    else
+    {
+        return Fix16::SquareRoot_436A70((const Fix16&)p.x.Multiply_408680(p.x) + p.y.Multiply_408680(p.y));
+    }
+}
+
 WIP_FUNC(0x436200)
 void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, Fix16* pY, Fix16* pZ)
 {
     WIP_IMPLEMENTED;
 
-    Fix16 ret;
     Fix16_Point v10;
+    Fix16_Point offset;
+    Fix16 ret;
 
     if (pCar->IsTrainModel_403BA0())
     {
@@ -648,29 +673,28 @@ void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, F
     }
     else
     {
-        Fix16_Point linvel_43A450 = pCar->get_linvel_43A450();
+        v10 = (pCar->get_linvel_43A450() * dword_67696C);
 
-        v10 = (linvel_43A450 * dword_67696C);
-
-        // TODO: Uses kZero_676818 as kZero
-        ret = v10.GetLength_2();
+        ret = GetLength_676818(v10);
     }
 
-    if (ret > dword_67674C)
+    if (ret.mValue > dword_67674C.mValue)
     {
-        *pZ += ret;
+        pZ->mValue += ret.mValue;
 
         if (!pCar->IsTrainModel_403BA0() && !pCar->IsTank_411900())
         {
-            Ang16 v16 = v10.atan2_40F790();
+            // 9.6f inlined: sub_40F790 (atan2_40F790). Written out, and the compares below on raw values,
+            // so the Fix16_Point ctors stay inline (VC6 inline budget)
+            Ang16 v16 = Fix16::atan2_fixed_405320(v10.y, v10.x);
             Fix16 v17;
-            if (v16 <= kAng45_6766DC || v16 >= kAng135_676790 && (v16 <= kAng225_676764 || v16 >= kAng315_67679C))
+            if ((v16.rValue <= kAng45_6766DC.rValue || v16.rValue >= kAng135_676790.rValue) && (v16.rValue <= kAng225_676764.rValue || v16.rValue >= kAng315_67679C.rValue))
             {
-                v17 = Fix16(0x2D0000, 0);
+                v17.mValue = 0x2D0000;
             }
             else
             {
-                v17 = Fix16(0x3C0000, 0);
+                v17.mValue = 0x3C0000;
             }
 
             if (pCar->is_trailer_cab_41E460())
@@ -682,22 +706,21 @@ void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, F
             if (f44)
             {
                 Fix16 v20;
-                if ((u8)f44 <= 64u)
-                {
-                    v20 = Fix16(this->field_44_suspicion);
-                }
-                else
+                if ((u8)f44 > 64u)
                 {
                     v20 = dword_6768E4;
                 }
+                else
+                {
+                    v20 = Fix16(this->field_44_suspicion);
+                }
                 v17 = (v17 * (kOne_67681C - v20 / 128));
             }
-            Fix16 v25 = Fix16(Fix16::Round_To_Int_410BF0(v17 * (*pZ - pCar->field_50_car_sprite->field_1C_zpos))) / field_60.y;
+            Fix16 v25 = v17 * (*pZ - pCar->field_50_car_sprite->field_1C_zpos + Fix16(8)) / field_60.y;
 
-            Fix16_Point offset;
-            offset.FromPolar_41E210(v25, v16);
-            *pX += offset.x;
-            *pY += offset.y;
+            FromPolar_408680(offset, v25, v16);
+            pX->mValue += offset.x.mValue;
+            pY->mValue += offset.y.mValue;
         }
     }
 }
