@@ -6707,198 +6707,196 @@ char_type Char_B4::HandlePedObjectHit_5537F0(Object_2C* p2c)
     }
 }
 
+// GetLength_2 as inlined into HandleCarImpact_5538A0: kFP16Zero_6FD9E4 as the zero, out of line helpers
+static inline Fix16 GetLength_inline_5538A0(Fix16_Point& p)
+{
+    if (p.x == kFP16Zero_6FD9E4)
+    {
+        return Fix16::Abs_negate_out_of_line(p.y);
+    }
+    else if (p.y == kFP16Zero_6FD9E4)
+    {
+        return Fix16::Abs_negate_out_of_line(p.x);
+    }
+    else
+    {
+        return Fix16::SquareRoot_436A70((const Fix16&)p.x.Multiply_408680(p.x) + p.y.Multiply_408680(p.y));
+    }
+}
+
 WIP_FUNC(0x5538A0)
+#define SPAWN_KNOCKDOWN_OBJ(speed) \
+    gObject_5C_6F8F84->NewUnknown_52A240(110, \
+                                         this->field_80_sprite_ptr->field_14_xy.x, \
+                                         this->field_80_sprite_ptr->field_14_xy.y, \
+                                         this->field_80_sprite_ptr->field_1C_zpos, \
+                                         tanVec, \
+                                         this->field_80_sprite_ptr->field_0, \
+                                         speed, \
+                                         -kFpPoint1_6FD824, \
+                                         kFP16Zero_6FD9E4)
 void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, u8 bUnknown, Fix16 x, Fix16 y)
 {
     WIP_IMPLEMENTED;
 
     Fix16_Point p(x, y);
-    Fix16 vecLen = p.GetLength_2(); // TODO: Uses kFP16Zero_6FD9E4 as KZero
-    Ang16 tanVec = p.atan2_40F790();
+    Fix16 vecLen = GetLength_inline_5538A0(p);
+    Ang16 tanVec;
+    tanVec = p.atan2_40F790();
 
-    if (this->field_7C_pPed->field_208_invulnerability)
+    if (this->field_7C_pPed->field_208_invulnerability > 0)
     {
         DoJump_5454D0();
-        return;
-    }
-
-    if (vecLen < gRunOrJumpSpeed_6FD7D0)
-    {
-        vecLen = gRunOrJumpSpeed_6FD7D0;
-    }
-
-    if (!this->field_7C_pPed->field_267_varrok_idx)
-    {
-        this->field_7C_pPed->field_267_varrok_idx = gVarrok_7F8_703398->AllocForPed_59B060(this->field_7C_pPed->field_200_id);
-    }
-
-    this->field_6C_animation_state = 12;
-    this->field_68_animation_frame = 0;
-
-    if (pCar->field_54_driver)
-    {
-        if ((pCar->field_54_driver->field_21C & 8) == 0 && pCar->field_54_driver->IsField238_45EDE0(3))
-        {
-            if (pCar->field_5C_AI)
-            {
-                pCar->field_5C_AI->field_30_forced_stop_timer = 100;
-            }
-        }
-    }
-
-    if (vecLen < kFpPoint1_6FD824)
-    {
-        if (this->field_C_ped_state_2 != ped_state_2::lying_on_floor_22)
-        {
-            this->field_7C_pPed->field_184_pObj2C = gObject_5C_6F8F84->NewUnknown_52A240(110,
-                                                                                         this->field_80_sprite_ptr->field_14_xy.x,
-                                                                                         this->field_80_sprite_ptr->field_14_xy.y,
-                                                                                         this->field_80_sprite_ptr->field_1C_zpos,
-                                                                                         tanVec,
-                                                                                         this->field_80_sprite_ptr->field_0,
-                                                                                         vecLen,
-                                                                                         -kFpPoint1_6FD824,
-                                                                                         kFP16Zero_6FD9E4);
-            this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = kFP16Zero_6FD9E4;
-            this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_varrok_idx);
-            this->field_7C_pPed->ChangeNextPedState1_45C500(8);
-            this->field_7C_pPed->ChangeNextPedState2_45C540(24);
-            this->field_C_ped_state_2 = ped_state_2::Unknown_24;
-            return;
-        }
-        this->field_7C_pPed->Kill_46F9D0();
-        return;
-    }
-
-    if (this->field_7C_pPed->IsField238_45EDE0(3))
-    {
-        this->field_7C_pPed->Kill_46F9D0();
-        gParticle_8_6FD5E8->EmitBloodBurst_53E450(this->field_80_sprite_ptr->field_14_xy.x,
-                                                  this->field_80_sprite_ptr->field_14_xy.y,
-                                                  this->field_80_sprite_ptr->field_1C_zpos,
-                                                  tanVec);
-        return;
-    }
-
-    if (vecLen >= kFpPoint3_6FD830)
-    {
-        if (this->field_7C_pPed->field_208_invulnerability)
-        {
-            this->field_7C_pPed->field_184_pObj2C = gObject_5C_6F8F84->NewUnknown_52A240(110,
-                                                                                         this->field_80_sprite_ptr->field_14_xy.x,
-                                                                                         this->field_80_sprite_ptr->field_14_xy.y,
-                                                                                         this->field_80_sprite_ptr->field_1C_zpos,
-                                                                                         tanVec,
-                                                                                         this->field_80_sprite_ptr->field_0,
-                                                                                         (vecLen) / gFix16_Two_6FD9EC,
-                                                                                         -kFpPoint1_6FD824,
-                                                                                         kFP16Zero_6FD9E4);
-            this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = kFP16Zero_6FD9E4;
-            this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_varrok_idx);
-            this->field_7C_pPed->ChangeNextPedState1_45C500(8);
-            this->field_7C_pPed->ChangeNextPedState2_45C540(24);
-            this->field_C_ped_state_2 = ped_state_2::Unknown_24;
-        }
-        else
-        {
-            this->field_7C_pPed->Kill_46F9D0();
-        }
-        gParticle_8_6FD5E8->EmitBloodBurst_53E450(this->field_80_sprite_ptr->field_14_xy.x,
-                                                  this->field_80_sprite_ptr->field_14_xy.y,
-                                                  this->field_80_sprite_ptr->field_1C_zpos,
-                                                  tanVec);
     }
     else
     {
-        if (vecLen < dword_6FD82C)
+        if (vecLen < gRunOrJumpSpeed_6FD7D0)
         {
-            if (this->field_C_ped_state_2 != ped_state_2::lying_on_floor_22)
-            {
-                this->field_7C_pPed->field_184_pObj2C = gObject_5C_6F8F84->NewUnknown_52A240(110,
-                                                                                             this->field_80_sprite_ptr->field_14_xy.x,
-                                                                                             this->field_80_sprite_ptr->field_14_xy.y,
-                                                                                             this->field_80_sprite_ptr->field_1C_zpos,
-                                                                                             tanVec,
-                                                                                             this->field_80_sprite_ptr->field_0,
-                                                                                             (vecLen) / gFix16_Two_6FD9EC,
-                                                                                             -kFpPoint1_6FD824,
-                                                                                             kFP16Zero_6FD9E4);
-                this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = dword_6FD9B0;
-                this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_2A_bAirborne = 1;
-                this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_varrok_idx);
-                this->field_7C_pPed->ChangeNextPedState1_45C500(8);
-
-                if (this->field_7C_pPed->field_208_invulnerability)
-                {
-                    this->field_7C_pPed->ChangeNextPedState2_45C540(24);
-                }
-                else if (pCar->field_7C_uni_num == 2)
-                {
-                    this->field_7C_pPed->ChangeNextPedState2_45C540(26);
-                }
-                else
-                {
-                    this->field_7C_pPed->ChangeNextPedState2_45C540(25);
-                }
-
-                this->field_C_ped_state_2 = ped_state_2::Unknown_24;
-
-                gParticle_8_6FD5E8->EmitBloodBurst_53E450(this->field_80_sprite_ptr->field_14_xy.x,
-                                                          this->field_80_sprite_ptr->field_14_xy.y,
-                                                          this->field_80_sprite_ptr->field_1C_zpos,
-                                                          tanVec);
-                return;
-            }
-            this->field_7C_pPed->Kill_46F9D0();
-            return;
+            vecLen = gRunOrJumpSpeed_6FD7D0;
         }
 
-        if (!this->field_7C_pPed->IsField238_45EDE0(2) || pCar->field_7C_uni_num == 2)
+        if (!this->field_7C_pPed->field_267_varrok_idx)
+        {
+            this->field_7C_pPed->field_267_varrok_idx = gVarrok_7F8_703398->AllocForPed_59B060(this->field_7C_pPed->field_200_id);
+        }
+
+        this->field_6C_animation_state = 12;
+        this->field_68_animation_frame = 0;
+
+        if (pCar->field_54_driver)
+        {
+            if ((pCar->field_54_driver->field_21C & 8) == 0 && pCar->field_54_driver->IsField238_45EDE0(3))
+            {
+                if (pCar->field_5C_AI)
+                {
+                    pCar->field_5C_AI->field_30_forced_stop_timer = 100;
+                }
+            }
+        }
+
+        if (vecLen < kFpPoint1_6FD824)
+        {
+            if (this->field_C_ped_state_2 == ped_state_2::lying_on_floor_22)
+            {
+                this->field_7C_pPed->Kill_46F9D0();
+            }
+            else
+            {
+                this->field_7C_pPed->field_184_pObj2C = SPAWN_KNOCKDOWN_OBJ(vecLen);
+                this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = kFP16Zero_6FD9E4;
+                this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_varrok_idx);
+                this->field_7C_pPed->ChangeNextPedState1_45C500(8);
+                this->field_7C_pPed->ChangeNextPedState2_45C540(24);
+                this->field_C_ped_state_2 = ped_state_2::Unknown_24;
+            }
+        }
+        else if (this->field_7C_pPed->IsField238_45EDE0(3))
         {
             this->field_7C_pPed->Kill_46F9D0();
             gParticle_8_6FD5E8->EmitBloodBurst_53E450(this->field_80_sprite_ptr->field_14_xy.x,
                                                       this->field_80_sprite_ptr->field_14_xy.y,
                                                       this->field_80_sprite_ptr->field_1C_zpos,
                                                       tanVec);
-            return;
         }
-
-        if (this->field_C_ped_state_2 == ped_state_2::lying_on_floor_22)
+        else if (vecLen < kFpPoint3_6FD830)
         {
-            this->field_7C_pPed->Kill_46F9D0();
-            return;
-        }
+            if (vecLen < dword_6FD82C)
+            {
+                if (this->field_C_ped_state_2 == ped_state_2::lying_on_floor_22)
+                {
+                    this->field_7C_pPed->Kill_46F9D0();
+                }
+                else
+                {
+                    this->field_7C_pPed->field_184_pObj2C = SPAWN_KNOCKDOWN_OBJ(vecLen / gFix16_Two_6FD9EC);
+                    this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = dword_6FD9B0;
+                    this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_2A_bAirborne = 1;
+                    this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_varrok_idx);
+                    this->field_7C_pPed->ChangeNextPedState1_45C500(8);
 
-        this->field_7C_pPed->ChangeNextPedState1_45C500(8);
-        this->field_7C_pPed->field_184_pObj2C = gObject_5C_6F8F84->NewUnknown_52A240(110,
-                                                                                     this->field_80_sprite_ptr->field_14_xy.x,
-                                                                                     this->field_80_sprite_ptr->field_14_xy.y,
-                                                                                     this->field_80_sprite_ptr->field_1C_zpos,
-                                                                                     tanVec,
-                                                                                     this->field_80_sprite_ptr->field_0,
-                                                                                     (vecLen) / gFix16_Two_6FD9EC,
-                                                                                     -kFpPoint1_6FD824,
-                                                                                     kFP16Zero_6FD9E4);
-        this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = kFpPoint1_6FD824;
-        this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_2A_bAirborne = 1;
-        this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_varrok_idx);
-        if (field_7C_pPed->field_208_invulnerability)
-        {
-            field_7C_pPed->ChangeNextPedState2_45C540(24);
+                    if (this->field_7C_pPed->field_208_invulnerability > 0)
+                    {
+                        this->field_7C_pPed->ChangeNextPedState2_45C540(24);
+                    }
+                    else if (pCar->field_7C_uni_num == 2)
+                    {
+                        this->field_7C_pPed->ChangeNextPedState2_45C540(26);
+                    }
+                    else
+                    {
+                        this->field_7C_pPed->ChangeNextPedState2_45C540(25);
+                    }
+
+                    this->field_C_ped_state_2 = ped_state_2::Unknown_24;
+
+                    gParticle_8_6FD5E8->EmitBloodBurst_53E450(this->field_80_sprite_ptr->field_14_xy.x,
+                                                              this->field_80_sprite_ptr->field_14_xy.y,
+                                                              this->field_80_sprite_ptr->field_1C_zpos,
+                                                              tanVec);
+                }
+            }
+            else if (this->field_7C_pPed->IsField238_45EDE0(2) && pCar->field_7C_uni_num != 2)
+            {
+                if (this->field_C_ped_state_2 == ped_state_2::lying_on_floor_22)
+                {
+                    this->field_7C_pPed->Kill_46F9D0();
+                }
+                else
+                {
+                    this->field_7C_pPed->ChangeNextPedState1_45C500(8);
+                    this->field_7C_pPed->field_184_pObj2C = SPAWN_KNOCKDOWN_OBJ(vecLen / gFix16_Two_6FD9EC);
+                    this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = kFpPoint1_6FD824;
+                    this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_2A_bAirborne = 1;
+                    this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_varrok_idx);
+                    if (field_7C_pPed->field_208_invulnerability > 0)
+                    {
+                        field_7C_pPed->ChangeNextPedState2_45C540(24);
+                    }
+                    else
+                    {
+                        field_7C_pPed->ChangeNextPedState2_45C540(25);
+                    }
+
+                    this->field_C_ped_state_2 = ped_state_2::Unknown_24;
+
+                    gParticle_8_6FD5E8->EmitBloodBurst_53E450(this->field_80_sprite_ptr->field_14_xy.x,
+                                                              this->field_80_sprite_ptr->field_14_xy.y,
+                                                              this->field_80_sprite_ptr->field_1C_zpos,
+                                                              tanVec);
+                }
+            }
+            else
+            {
+                this->field_7C_pPed->Kill_46F9D0();
+                gParticle_8_6FD5E8->EmitBloodBurst_53E450(this->field_80_sprite_ptr->field_14_xy.x,
+                                                          this->field_80_sprite_ptr->field_14_xy.y,
+                                                          this->field_80_sprite_ptr->field_1C_zpos,
+                                                          tanVec);
+            }
         }
         else
         {
-            field_7C_pPed->ChangeNextPedState2_45C540(25);
+            if (this->field_7C_pPed->field_208_invulnerability > 0)
+            {
+                this->field_7C_pPed->field_184_pObj2C = SPAWN_KNOCKDOWN_OBJ(vecLen / gFix16_Two_6FD9EC);
+                this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = kFP16Zero_6FD9E4;
+                this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_varrok_idx);
+                this->field_7C_pPed->ChangeNextPedState1_45C500(8);
+                this->field_7C_pPed->ChangeNextPedState2_45C540(24);
+                this->field_C_ped_state_2 = ped_state_2::Unknown_24;
+            }
+            else
+            {
+                this->field_7C_pPed->Kill_46F9D0();
+            }
+            gParticle_8_6FD5E8->EmitBloodBurst_53E450(this->field_80_sprite_ptr->field_14_xy.x,
+                                                      this->field_80_sprite_ptr->field_14_xy.y,
+                                                      this->field_80_sprite_ptr->field_1C_zpos,
+                                                      tanVec);
         }
-
-        this->field_C_ped_state_2 = ped_state_2::Unknown_24;
-
-        gParticle_8_6FD5E8->EmitBloodBurst_53E450(this->field_80_sprite_ptr->field_14_xy.x,
-                                                  this->field_80_sprite_ptr->field_14_xy.y,
-                                                  this->field_80_sprite_ptr->field_1C_zpos,
-                                                  tanVec);
     }
 }
+#undef SPAWN_KNOCKDOWN_OBJ
 
 MATCH_FUNC(0x553E00)
 void Char_B4::HandleGenericImpact_553E00(Ang16 ang, Fix16 a3, Fix16 a4, char_type a5)
