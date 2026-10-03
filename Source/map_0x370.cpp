@@ -1225,36 +1225,31 @@ char_type Map_0x370::RectHitsDiagonalWall_4E11E0(Fix16_Rect* pRect)
 
     s32 z_calc = pRect->GetMidZ_463760();
 
-    s32 y_count = gPurple_top_6F6108;
-    while (y_count <= gPurple_bottom_6F5F38)
+    for (s32 y_count = gPurple_top_6F6108; y_count <= gPurple_bottom_6F5F38; y_count++)
     {
-        s32 x_count = gPurple_left_6F5FD4;
-        Fix16 left = (gPurple_left_6F5FD4 + 1); // Fix16()
-        while (x_count <= gPurple_right_6F5B80)
+        for (s32 x_count = gPurple_left_6F5FD4; x_count <= gPurple_right_6F5B80; x_count++)
         {
             gmp_block_info* pBlock = get_block_4DFE10(x_count, y_count, z_calc);
             if (pBlock)
             {
-                u8 slope_mask = pBlock->field_B_slope_type & 0xFC;
+                s32 slope_mask = pBlock->field_B_slope_type & 0xFC;
                 if (slope_mask >= 0xB4 && slope_mask <= 0xD0)
                 {
-
                     // 9.6f: Fix16_Point::SetXY_432860 for p1/p2 (inlined, using it changes the code)
                     if (slope_mask == 0xB4 || slope_mask == 0xC0 || slope_mask == 0xC4 || slope_mask == 0xD0)
                     {
-                        p1.x = x_count; // Fix16()
-                        p1.y = (y_count + 1); // Fix16()
-                        p2.x = left;
-                        p2.y = y_count; // Fix16()
+                        p1.x = Fix16(x_count);
+                        p1.y = Fix16(y_count + 1);
+                        p2.x = Fix16(x_count + 1);
+                        p2.y = Fix16(y_count);
                     }
                     else
                     {
-                        p1.x = x_count; // Fix16()
-                        p1.y = y_count; // Fix16()
-                        p2.x = left;
-                        p2.y = y_count + 1; // Fix16()
+                        p1.x = Fix16(x_count);
+                        p1.y = Fix16(y_count);
+                        p2.x = Fix16(x_count + 1);
+                        p2.y = Fix16(y_count + 1);
                     }
-                   
 
                     if (pRect->EdgesCrossSegment_463690(p1, p2))
                     {
@@ -1262,10 +1257,7 @@ char_type Map_0x370::RectHitsDiagonalWall_4E11E0(Fix16_Rect* pRect)
                     }
                 }
             }
-            ++x_count;
-            left += Fix16(0x4000, 0);
         }
-        ++y_count;
     }
     return 0;
 }
