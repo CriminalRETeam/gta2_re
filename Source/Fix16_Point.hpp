@@ -327,6 +327,23 @@ class Fix16_Point : public Fix16_Point_POD
         }
     }
 
+    // Needed for CarPhysics_B0::ScarePedsOnDrivingFast_559C30.
+    inline Fix16 GetLength_out_of_line_x_squared()
+    {
+        if (x == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_negate_out_of_line(y);
+        }
+        else if (y == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_436A50(x);
+        }
+        else
+        {
+            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y * y);
+        }
+    }
+
     Fix16_Point operator+(Fix16_Point& in)
     {
         return Fix16_Point(x + in.x, y + in.y);

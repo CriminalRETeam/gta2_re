@@ -403,10 +403,9 @@ void CarPhysics_B0::SpinOutOnOil_559BA0()
 }
 
 // https://decomp.me/scratch/yM7OA Fix16 annoying inlined stuff
-WIP_FUNC(0x559c30)
+MATCH_FUNC(0x559c30)
 void CarPhysics_B0::ScarePedsOnDrivingFast_559C30()
 {
-    WIP_IMPLEMENTED;
     Fix16 cp3 = field_6C_cp3;
 
     if (!gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_38_cp1.x.ToInt(), field_38_cp1.y.ToInt(), cp3.ToInt()))
@@ -427,7 +426,7 @@ void CarPhysics_B0::ScarePedsOnDrivingFast_559C30()
                     //Fix16 linvel_length = get_car_lin_vel_4754D0();
                     // 9.6f: CarPhysics_B0::GetLinearSpeed_4211A0 (inlined, using it makes the diff worse)
 
-                    if (field_40_linvel_1.GetLength_2() > FastCarMinVelocity_6FE1CC || field_5C_pCar->IsEmittingHorn_411970())
+                    if (field_40_linvel_1.GetLength_out_of_line_x_squared() > FastCarMinVelocity_6FE1CC || field_5C_pCar->IsEmittingHorn_411970())
                     {
                         field_5C_pCar->field_54_driver->AddThreateningPedToList_46FC70();
                     }
