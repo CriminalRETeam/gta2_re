@@ -4419,43 +4419,35 @@ u8 Frontend::GetPrevUnlockedStageBonusCode_4B7800(player_stats_0xA4* pStats)
 {
     WIP_IMPLEMENTED;
 
-    u8 stage_; // al
-    u8 bonus; // dl
-    u8 bonus_; // di
-    s32 stage; // esi
-
-    stage_ = Frontend::GetPrevUnlockedStageIndex_4B77B0(pStats);
-    while (2)
+    u8 stage = Frontend::GetPrevUnlockedStageIndex_4B77B0(pStats);
+    u8 bonus;
+    while (1)
     {
-        bonus = this->field_1EB51_num_bonus_stages[stage_] - 1;
-        bonus_ = bonus;
-        while (bonus)
+        bonus = this->field_1EB51_num_bonus_stages[stage] - 1;
+        if (bonus != 0)
         {
-            stage = stage_;
-            if (!pStats->field_0_plyr_stage_stats[stage][bonus_].field_0_is_stage_unlocked)
+            while (1)
             {
-                do
+                while (!pStats->field_0_plyr_stage_stats[stage][bonus].field_0_is_stage_unlocked && bonus > 0)
                 {
-                    if (!bonus)
-                    {
-                        break;
-                    }
-                    bonus_ = --bonus;
-                } while (!pStats->field_0_plyr_stage_stats[stage][bonus].field_0_is_stage_unlocked);
-            }
-            if (pStats->field_0_plyr_stage_stats[stage][bonus_].field_0_is_stage_unlocked == 1 && bonus)
-            {
-                return gLucid_hamilton_67E8E0.EncodeStage_453A40(stage_, bonus);
+                    bonus--;
+                }
+                if (pStats->field_0_plyr_stage_stats[stage][bonus].field_0_is_stage_unlocked == 1 && bonus > 0)
+                {
+                    // The original's found block comes after the -1 return, out of both loops
+                    goto found;
+                }
             }
         }
-        if (stage_)
+        if (stage == 0)
         {
-            --stage_;
-            continue;
+            return -1;
         }
-        break;
+        stage--;
     }
-    return -1;
+
+found:
+    return gLucid_hamilton_67E8E0.EncodeStage_453A40(stage, bonus);
 }
 
 EXTERN_GLOBAL(bool, bDoFrontEnd_626B68);
