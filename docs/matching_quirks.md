@@ -946,7 +946,21 @@ both copies. Only a meaningless cast changed it.
   The same `ProjectVertTop_46BD40` y line is now nearly the whole diff of `MapRenderer::sub_4EC450`, `sub_4EC7A0`,
   `sub_4ECAF0`, `sub_4ECE40`, `draw_left_4F3C00` and `sub_4F4600`: the original loads the camera centre y after
   the multiply and orders the u32 high-dword stores differently. Expression order in either line has no effect.
-  Solving it could match several functions at once.
+  Solving it could match several functions at once (also the Draw3Sided*/Draw4Sided* functions, 22-42 lines each).
+  Details from a focused attempt (8 functions, about 22 rebuilds):
+  - The u32 -> float conversion of the camera centre is a lo store, a zero hi store (`mov %ebx,0x1C(%esp)`) and
+    `fiaddl`. Ours hoists the hi store as early as byte-level aliasing allows; the original places it differently
+    per site (after `lo; fmuls; fmul` when the temp shares a slot with the by-ref x temp in draw_left, between
+    `mov 0x74(%eax),%edx` and `fmuls` in sub_4EC450, right before `fiaddl` in Draw4SidedDiagonalUpLeft_4EF880).
+  - The original also hoists the next statement's integer code (param loads, `xor %eax,%eax`, global loads,
+    pushes of the next inline call) above `fstps vert.y/z`, the uv stores to gTileVerts and stack temp stores.
+    Ours never moves a load above a store to a different global or stack slot. It looks like the original
+    had more precise alias information for globals and stack slots in this TU.
+  - No effect or worse: operand order in Top/Bottom, a local `f32` scale, a local camera pointer, pre-converted
+    `f32` centre locals, by-value params, swapped (y, x) params, gTileVerts by index or template index, per-file
+    flags /G3-/G6 /Oa /Ow /Os /Ot /Op /Oi- /Oy- /Og-. 9.6f has the same helper shapes; no 9.6f pairs for these.
+  - Untested: compiling the Draw* functions with the member `ProjectVertTop_4EAE00`/`Bottom_4EAEA0` inlined instead
+    of separate helpers, and whether something in the TU (an address-taken global, a pragma) lowers alias precision.
 - A compare scheduled before a volatile load instead of after it (`cmp $0xF,%al` in
   `sound_obj::ProcessPoliceRadioWordsPlayback_427220`).
 - A store scheduled before the `lea` of an out pointer rather than after it
