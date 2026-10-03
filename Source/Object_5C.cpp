@@ -2985,11 +2985,12 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
 {
     WIP_IMPLEMENTED;
     Fix16_Point point;
-    char_type v33;
+    Fix16_Point point2;
     Ang16 unk_angle(0);
-    u8 bUnk = false;
     u8 v73 = 0;
     u8 bUnk2 = 0;
+    u8 bUnk = false;
+    char_type v33 = 0;
     Fix16 v15;
     Sprite* pSprt = gObject_5C_6F8F84->field_58_collision_probe_sprite;
     Fix16 mov_speed_copy = mov_speed;
@@ -3007,9 +3008,14 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
         pSprt->AllocInternal_59F950(field_8->field_0_width, field_8->field_4_height, field_8->field_8_depth);
         pSprt->SetType_4206F0(field_4->get_type_416B40());
         pSprt->SetObj2C_482A30(field_4->field_8_object_2C_ptr);
-        field_10_obj_3c->field_2F_bOnSlope = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(pSprt->field_14_xy.x.ToInt(),
-                                                                                pSprt->field_14_xy.y.ToInt(),
-                                                                                pSprt->field_1C_zpos.ToInt());
+        if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(pSprt->field_14_xy.x.ToInt(), pSprt->field_14_xy.y.ToInt(), pSprt->field_1C_zpos.ToInt()))
+        {
+            field_10_obj_3c->field_2F_bOnSlope = true;
+        }
+        else
+        {
+            field_10_obj_3c->field_2F_bOnSlope = false;
+        }
         Fix16 radius;
         Fix16 unk_z;
         if (mov_speed_copy != kFpZero_6F8E10)
@@ -3033,10 +3039,16 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
 
         Fix16 unk_x;
         Fix16 unk_y;
+        Fix16 prev_x;
+        Fix16 prev_y;
+        Fix16 prev_z;
         Ang16::PolarToCartesian_41FC20(angle, radius, unk_x, unk_y);
 
         for (u8 i = 1; i <= v15.ToInt(); i++)
         {
+            prev_x = pSprt->field_14_xy.x;
+            prev_y = pSprt->field_14_xy.y;
+            prev_z = pSprt->field_1C_zpos;
             unk_angle = pSprt->field_0;
             Fix16 found_z;
             found_z = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(pSprt->field_14_xy.x, pSprt->field_14_xy.y, pSprt->field_1C_zpos);
@@ -3081,9 +3093,9 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
         }
         else
         {
-            gObj2C_LastValidX_6F8F00 = pSprt->field_14_xy.x;
-            gObj2C_LastValidY_6F8EF8 = pSprt->field_14_xy.y;
-            gObj2C_LastValidZ_6F8EFC = pSprt->field_1C_zpos;
+            gObj2C_LastValidX_6F8F00 = prev_x;
+            gObj2C_LastValidY_6F8EF8 = prev_y;
+            gObj2C_LastValidZ_6F8EFC = prev_z;
             gObj2C_LastValidAng_6F8D1C = unk_angle;
             Fix16 tmp_radius = radius;
             pSprt->set_xyz_lazy_420600(gObj2C_LastValidX_6F8F00, gObj2C_LastValidY_6F8EF8, gObj2C_LastValidZ_6F8EFC);
@@ -3094,7 +3106,7 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
             for (s32 j = 0; j < 3; j++)
             {
                 tmp_radius = tmp_radius / 2;
-                Ang16::PolarToCartesian_41FC20(angle, tmp_radius / 2, unk_x, unk_y);
+                Ang16::PolarToCartesian_41FC20(angle, tmp_radius, unk_x, unk_y);
                 pSprt->set_xyz_lazy_420600(pSprt->field_14_xy.x + unk_x, pSprt->field_14_xy.y + unk_y, pSprt->field_1C_zpos);
                 pSprt->set_ang_lazy_420690(angle);
                 Object_2C::Sprite_UpdateZFromSlopeAndTile_522FA0(pSprt);
