@@ -2905,48 +2905,36 @@ char_type sound_obj::Type_1_6_416260(sound_0x68* a2)
     return 0;
 }
 
-WIP_FUNC(0x4174C0)
+MATCH_FUNC(0x4174C0)
 char_type sound_obj::Type_3_HandleCarImpactSound_4174C0(sound_0x68* a2)
 {
-    WIP_IMPLEMENTED;
-
     Car_BC* pCar;
     if (GetCar_4145E0(a2->field_0_EntityIndex, &pCar))
     {
         s32 car_field = pCar->field_84_car_info_idx;
         // ??? makes no sense on car model
-        s32 new_rate_base;
-        s32 new_rate;
-
-        // Remaining diff: cases 1 and 0 keep the multiply in ecx, the original uses edx
         switch (car_field & 3)
         {
             default:
                 a2->field_14_samp_idx = 13;
                 a2->field_20_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(13) + 30 * car_field;
-                goto set_loop;
+                break;
 
             case 2:
                 a2->field_14_samp_idx = 12;
-                new_rate = 29 * car_field + gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(12);
-                goto set_rate;
+                a2->field_20_rate = 29 * car_field + gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(12);
+                break;
 
             case 1:
                 a2->field_14_samp_idx = 13;
-                new_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(13);
-                new_rate_base = car_field * 0x7FFFFFE3;
+                a2->field_20_rate = 2 * (gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(13) - 29 * car_field);
                 break;
 
             case 0:
                 a2->field_14_samp_idx = 12;
-                new_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(12);
-                new_rate_base = car_field * 0x7FFFFFE7;
+                a2->field_20_rate = 2 * (gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(12) - 25 * car_field);
                 break;
         }
-        new_rate = 2 * (new_rate + new_rate_base);
-    set_rate:
-        a2->field_20_rate = new_rate;
-    set_loop:
         a2->field_3C_speed_multiplier = 800;
         a2->field_4C_releasing_volume_divider = 3;
         a2->field_30_loop_count = 0;
@@ -6501,13 +6489,11 @@ char_type sound_obj::SelectObjectImpactSound_1_10_412D30(Rozza_A* pObj)
     return SelectObjectImpactSound_413120(pObj, 1);
 }
 
-WIP_FUNC(0x413120)
+MATCH_FUNC(0x413120)
 char_type sound_obj::SelectObjectImpactSound_413120(Rozza_A* pObj, s32 interactionType)
 {
-    WIP_IMPLEMENTED;
-
-    // The original keeps the samp 37 block of 281/282 in front of the 110 code and jumps back to it
-    // (cmp/jne); VC6 merges our three copies into the one inside the 110 case instead.
+    // Models 2..60 share the samp 37 code of 281/282 (one switch in the original, split at 110 by VC6).
+    // The 110 case keeps its own copy after the if, which VC6 tail-merges back into the 281/282 block.
     s32 samp_idx;
 
     if (pObj->field_18_model_copy <= 110)
@@ -6588,8 +6574,8 @@ char_type sound_obj::SelectObjectImpactSound_413120(Rozza_A* pObj, s32 interacti
             case 19:
             case 20:
             case 60:
-                field_30_sQueueSample.field_14_samp_idx = 37;
-                goto rate_20000;
+                // Same code as 281/282
+                goto samp_37;
 
             default:
                 return 0;
@@ -6611,54 +6597,54 @@ char_type sound_obj::SelectObjectImpactSound_413120(Rozza_A* pObj, s32 interacti
 
         case 281:
         case 282:
+        samp_37:
             field_30_sQueueSample.field_14_samp_idx = 37;
             goto rate_20000;
 
         case 182:
         case 183:
         case_110:
-            if (interactionType != 1)
+            if (interactionType == 1)
             {
-                field_30_sQueueSample.field_14_samp_idx = 37;
-                goto rate_20000;
-            }
+                switch (pObj->field_20_map_block_spec)
+                {
+                    case 1:
+                    case 3:
+                        field_30_sQueueSample.field_14_samp_idx = 198;
+                        break;
+                    case 2:
+                    case 7:
+                    case 10:
+                        field_30_sQueueSample.field_14_samp_idx = 202;
+                        break;
+                    case 5:
+                    case 6:
+                    case 8:
+                    case 9:
+                        field_30_sQueueSample.field_14_samp_idx = 194;
+                        break;
+                    case 4:
+                        field_30_sQueueSample.field_14_samp_idx = 68;
+                        break;
+                    default:
+                        return 0;
+                }
 
-            switch (pObj->field_20_map_block_spec)
-            {
-                case 1:
-                case 3:
-                    field_30_sQueueSample.field_14_samp_idx = 198;
-                    break;
-                case 2:
-                case 7:
-                case 10:
-                    field_30_sQueueSample.field_14_samp_idx = 202;
-                    break;
-                case 5:
-                case 6:
-                case 8:
-                case 9:
-                    field_30_sQueueSample.field_14_samp_idx = 194;
-                    break;
-                case 4:
-                    field_30_sQueueSample.field_14_samp_idx = 68;
-                    break;
-                default:
-                    return 0;
-            }
+                if (pObj->field_20_map_block_spec == 4)
+                {
+                    field_30_sQueueSample.field_18_bIs2D = 0;
+                    field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[1] % 4000 + 28000;
+                    return 1;
+                }
 
-            if (pObj->field_20_map_block_spec == 4)
-            {
+                field_30_sQueueSample.field_20_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(field_30_sQueueSample.field_14_samp_idx) +
+                    RandomDisplacement_41A650(field_30_sQueueSample.field_14_samp_idx);
+                field_30_sQueueSample.field_14_samp_idx += field_1454_anRandomTable[3] & 3;
                 field_30_sQueueSample.field_18_bIs2D = 0;
-                field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[1] % 4000 + 28000;
                 return 1;
             }
-
-            field_30_sQueueSample.field_20_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(field_30_sQueueSample.field_14_samp_idx) +
-                RandomDisplacement_41A650(field_30_sQueueSample.field_14_samp_idx);
-            field_30_sQueueSample.field_14_samp_idx += field_1454_anRandomTable[3] & 3;
-            field_30_sQueueSample.field_18_bIs2D = 0;
-            return 1;
+            field_30_sQueueSample.field_14_samp_idx = 37;
+            goto rate_20000;
 
         case 192:
         case 254:
