@@ -2719,6 +2719,8 @@ void Char_B4::sub_54C3E0()
 {
     WIP_IMPLEMENTED;
 
+    // Remaining diff: esi/edi swapped (this vs face), and the tail merge of the
+    // ReturnAngleFromRoadDirection_4F7940 calls picks other registers.
     bool unknown = 0;
     const s32 face = Ang16::GetAngleFace_4F78F0(field_40_rotation);
     if (!CanMoveOntoSlope_54C1A0(face))
@@ -2729,11 +2731,14 @@ void Char_B4::sub_54C3E0()
             case 1:
                 face_mapped = 4;
                 break;
+            case 3:
+                face_mapped = 1;
+                break;
             case 2:
                 face_mapped = 3;
                 break;
-            case 3:
-                face_mapped = 1;
+            case 4:
+                face_mapped = 2;
                 break;
             default:
                 face_mapped = 2;
@@ -2757,6 +2762,9 @@ void Char_B4::sub_54C3E0()
             case 4:
                 mapped_val = 1;
                 break;
+            case 3:
+                mapped_val = 2;
+                break;
             default:
                 mapped_val = 2;
                 break;
@@ -2764,33 +2772,33 @@ void Char_B4::sub_54C3E0()
 
         if (CanMoveOntoSlope_54C1A0(mapped_val) == 1)
         {
-            if (unknown != 1)
-            {
-                this->field_14_target_rotation = ReturnAngleFromRoadDirection_4F7940(&face_mapped);
-                this->field_10_char_state = 25;
-                this->field_46_timer = 255;
-                return;
-            }
-            else
+            if (unknown == 1)
             {
                 if (!(gCharB4_UpdateCounter_6FDB48 % 2))
+                {
+                    this->field_14_target_rotation = ReturnAngleFromRoadDirection_4F7940(&mapped_val);
+                    this->field_10_char_state = 25;
+                    this->field_46_timer = 255;
+                }
+                else
                 {
                     this->field_14_target_rotation = ReturnAngleFromRoadDirection_4F7940(&face_mapped);
                     this->field_10_char_state = 25;
                     this->field_46_timer = 255;
-                    return;
                 }
             }
-        }
-        else
-        {
-            if (unknown == 1)
+            else
             {
-                this->field_14_target_rotation = ReturnAngleFromRoadDirection_4F7940(&face_mapped);
+                this->field_14_target_rotation = ReturnAngleFromRoadDirection_4F7940(&mapped_val);
                 this->field_10_char_state = 25;
                 this->field_46_timer = 255;
-                return;
             }
+        }
+        else if (unknown == 1)
+        {
+            this->field_14_target_rotation = ReturnAngleFromRoadDirection_4F7940(&face_mapped);
+            this->field_10_char_state = 25;
+            this->field_46_timer = 255;
         }
     }
 }
