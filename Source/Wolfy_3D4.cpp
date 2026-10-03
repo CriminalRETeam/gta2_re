@@ -389,27 +389,25 @@ void Wolfy_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
 {
     WIP_IMPLEMENTED;
 
-    Ang16 new_ang = ang + kAng180_6FD3EE;
-    Fix16 xpos = pos;
-    Fix16 ypos = pos;
+    // Fix16_Point (has a destructor): the original sets an EH state for it
+    Fix16_Point point(pos, pos);
+    // ang + kAng180_6FD3EE leaves Normalize out of line
+    Ang16 new_ang(ang.rValue + kAng180_6FD3EE.rValue, 0);
 
     Fix16 sin_v = gSin_table_667A80[new_ang.rValue];
     Fix16 cos_v = gCos_table_669260[new_ang.rValue];
 
-    xpos = ((xpos * cos_v) + (pos * sin_v));
-    ypos = ((-pos * sin_v) + (ypos * cos_v));
+    Fix16 x_old = point.x;
+    point.x = (const Fix16&)point.x.Multiply_408680(cos_v) + (point.y * sin_v);
+    point.y = (const Fix16&)(-x_old).Multiply_408680(sin_v) + point.y.Multiply_408680(cos_v);
 
     this->field_8_speed = pos;
     this->field_C_angle = ang;
 
-    if (this->field_18_particle_cooldown)
-    {
-        this->field_18_particle_cooldown--;
-    }
-    else
+    if (this->field_18_particle_cooldown == 0)
     {
         //pos = (int)&v27; // TODO: Field_20 wrong val ??
-        Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(xpos, ypos, dword_6FD330, xpos, ypos, 0);
+        Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(point.x, point.y, dword_6FD330, point.x, point.y, 0);
         if (!pNew)
         {
             return;
@@ -430,6 +428,10 @@ void Wolfy_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
         pNew->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
         gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
         this->field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
+    }
+    else
+    {
+        this->field_18_particle_cooldown--;
     }
 }
 
