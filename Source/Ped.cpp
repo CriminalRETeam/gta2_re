@@ -2857,15 +2857,8 @@ void Ped::BusCustomer_AI_461290()
 {
     WIP_IMPLEMENTED;
 
-    Car_BC* pCar;
-    Ped* field_54_driver;
-    Car_BC* pTargetCar;
-    Car_Door_10* pDoor;
     Car_BC* pCar_;
-    Fix16 y;
-    Car_BC* pBus;
-    Char_B4* game_object;
-    Car_BC* target_to_enter;
+    u8 door;
 
     if (this->field_25C_internal_objective == 2 && this->field_226_internal_objective_status == 1)
     {
@@ -2874,6 +2867,57 @@ void Ped::BusCustomer_AI_461290()
 
     switch (this->field_258_objective)
     {
+        case objectives_enum::leave_train_38:
+            if (this->field_225_objective_status != objective_status::not_finished_0)
+            {
+                goto LABEL_21;
+            }
+            if (this->field_150_target_objective_car->field_88_despawn_status == 5)
+            {
+                Kill_46F9D0();
+            }
+            break;
+
+        case objectives_enum::enter_car_as_driver_35:
+            if (this->field_225_objective_status == objective_status::passed_1)
+            {
+                if (--gNumberBusCustomers_6787D3 < 0)
+                {
+                    gNumberBusCustomers_6787D3 = 0;
+                }
+                Car_BC* pCar = this->field_16C_car;
+                Ped* field_54_driver = pCar->field_54_driver;
+                if (field_54_driver && field_54_driver->field_15C_player)
+                {
+                    gPublicTransport_181C_6FF1D4->IncrementBusPassengerCount_579B10();
+                    SetObjective(objectives_enum::time_waited_in_car_31, 0);
+                }
+                else
+                {
+                    pCar->field_4_passengers_list.RemovePed_471240(this);
+                    Kill_46F9D0();
+                }
+            }
+            else
+            {
+                Car_BC* pTargetCar = this->field_150_target_objective_car;
+                if (pTargetCar->field_88_despawn_status == 5)
+                {
+                    pTargetCar->sub_43AF40();
+                    SetObjective(objectives_enum::no_obj_0, 9999);
+                    SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                    this->field_240_occupation = ped_ocupation_enum::dummy;
+                    this->field_238_ped_type = ped_type::dummy_3;
+                }
+                else
+                {
+                    door = get_target_car_door_403A60();
+                    Car_Door_10* pDoor = pTargetCar->GetDoor(door);
+                    pDoor->Open_439E60();
+                }
+            }
+            return;
+
         case objectives_enum::time_waited_in_car_31:
             pCar_ = this->field_16C_car;
             goto LABEL_23;
@@ -2881,7 +2925,14 @@ void Ped::BusCustomer_AI_461290()
         case objectives_enum::objective_34:
             if (this->field_25C_internal_objective == 36 && this->field_226_internal_objective_status == 1)
             {
-                goto LABEL_21;
+            LABEL_21:
+                this->field_238_ped_type = ped_type::dummy_3;
+                SetOccupation_45EE00(3);
+                SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                SetObjective(objectives_enum::flee_on_foot_till_safe_1, 9999);
+                this->field_1B8_target_x = this->field_1AC_cam.x;
+                this->field_1BC_target_y = this->field_1AC_cam.y;
+                break;
             }
 
             pCar_ = this->field_16C_car;
@@ -2896,70 +2947,14 @@ void Ped::BusCustomer_AI_461290()
             }
             break;
 
-        case objectives_enum::enter_car_as_driver_35:
-            if (this->field_225_objective_status == objective_status::passed_1)
-            {
-                if (--gNumberBusCustomers_6787D3 < 0)
-                {
-                    gNumberBusCustomers_6787D3 = 0;
-                }
-                pCar = this->field_16C_car;
-                field_54_driver = pCar->field_54_driver;
-                if (field_54_driver && field_54_driver->field_15C_player)
-                {
-                    gPublicTransport_181C_6FF1D4->IncrementBusPassengerCount_579B10();
-                    SetObjective(objectives_enum::time_waited_in_car_31, 0);
-                }
-                else
-                {
-                    pCar->field_4_passengers_list.RemovePed_471240(this);
-                    Kill_46F9D0();
-                }
-            }
-            else
-            {
-                pTargetCar = this->field_150_target_objective_car;
-                if (pTargetCar->field_88_despawn_status == 5)
-                {
-                    pTargetCar->sub_43AF40();
-                    SetObjective(objectives_enum::no_obj_0, 9999);
-                    SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                    this->field_240_occupation = ped_ocupation_enum::dummy;
-                    this->field_238_ped_type = ped_type::dummy_3;
-                }
-                else
-                {
-                    pDoor = pTargetCar->GetDoor(this->field_24C_target_car_door);
-                    pDoor->Open_439E60();
-                }
-            }
-            return;
-
-        case objectives_enum::leave_train_38:
-            if (this->field_225_objective_status != objective_status::not_finished_0)
-            {
-            LABEL_21:
-                this->field_238_ped_type = ped_type::dummy_3;
-                SetOccupation_45EE00(3);
-                SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                SetObjective(objectives_enum::flee_on_foot_till_safe_1, 9999);
-                y = this->field_1AC_cam.y;
-                this->field_1B8_target_x = this->field_1AC_cam.x;
-                this->field_1BC_target_y = y;
-            }
-            else if (this->field_150_target_objective_car->field_88_despawn_status == 5)
-            {
-                Kill_46F9D0();
-            }
-            break;
         default:
-            pBus = gPublicTransport_181C_6FF1D4->sub_579AD0();
+            Car_BC* pBus = gPublicTransport_181C_6FF1D4->sub_579AD0();
             if (pBus)
             {
                 SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                 SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
-                game_object = this->field_168_game_object;
-                target_to_enter = this->field_154_target_to_enter;
+                Char_B4* game_object = this->field_168_game_object;
+                Car_BC* target_to_enter = this->field_154_target_to_enter;
                 this->field_150_target_objective_car = pBus;
                 game_object->field_84_target_car = target_to_enter;
                 this->field_168_game_object->field_38_velocity = kFpZero_678660;
