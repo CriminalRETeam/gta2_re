@@ -547,7 +547,8 @@ directly in the first check keeps the original jump target (`Car_BC::CanCarColli
 
 **Default-constructed `Fix16_Point` locals count against the inline budget** (`SpawnCabAndTrailerHelper_408370`).
 
-- **Block-scoped locals in different switch cases share a stack slot; function-scope ones get their own.** If the original gives each case's temporary a separate slot, move the declarations to the top of the function. Example: `WindowProc_5E4EE0`.
+**Block-scoped locals in different switch cases share a stack slot; function-scope ones get their own.** If the original gives each case's temporary a separate slot, move the declarations to the top of the function. Example: `WindowProc_5E4EE0`.
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 
