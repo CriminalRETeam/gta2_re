@@ -1432,77 +1432,68 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& 
     UpdateCollisionBoundsIfNeeded_59E9C0();
     Fix16_Point* RenderingRect = field_C_sprite_4c_ptr->field_C_renderingRect;
 
-    Fix16 diff_1 = RenderingRect[0].y - a2;
-
-    Fix16 sign_1 = Sign_4B9C20(diff_1.mValue);
-    Fix16 abs_1 = Fix16::Abs(diff_1);
-
-    Fix16 least_abs = abs_1;
+    Fix16 diff = RenderingRect[0].y - a2;
+    Fix16 sign = Sign_4B9C20(diff.mValue);
+    Fix16 least_abs = Fix16::Abs(diff);
 
     a3.x = RenderingRect[0].x;
     a3.y = RenderingRect[0].y;
     a4 = 0;
 
-    Fix16 diff_2 = RenderingRect[1].y - a2;
-
-    Fix16 sign_2 = Sign_4B9C20(diff_2.mValue);
-    if (sign_2 != sign_1)
+    diff = RenderingRect[1].y - a2;
+    if (Sign_4B9C20(diff.mValue) != sign)
     {
         return false;
     }
 
-    Fix16 abs_2 = Fix16::Abs(diff_2);
-    if (abs_2 < least_abs)
+    diff = Fix16::Abs(diff);
+    if (diff < least_abs)
     {
         a3.x = RenderingRect[1].x;
         a3.y = RenderingRect[1].y;
-        least_abs = abs_2;
+        least_abs = diff;
         a4 = 1;
     }
-    else if (abs_2 == least_abs)
+    else if (diff == least_abs)
     {
         a3.x = (a3.x + RenderingRect[1].x) / kFP16Two_7035C8;
         a4 = 5;
     }
 
-    Fix16 diff_3 = RenderingRect[2].y - a2;
-    Fix16 sign_3 = Sign_4B9C20(diff_3.mValue);
-
-    if (sign_3 != sign_1)
+    diff = RenderingRect[2].y - a2;
+    if (Sign_4B9C20(diff.mValue) != sign)
     {
         return false;
     }
-    Fix16 abs_3 = Fix16::Abs(diff_3);
 
-    if (abs_3 < least_abs)
+    diff = Fix16::Abs(diff);
+    if (diff < least_abs)
     {
         a3.x = RenderingRect[2].x;
         a3.y = RenderingRect[2].y;
-        least_abs = abs_3;
+        least_abs = diff;
         a4 = 2;
     }
-    else if (abs_3 == least_abs)
+    else if (diff == least_abs)
     {
         a3.x = (a3.x + RenderingRect[2].x) / kFP16Two_7035C8;
         a4 = 5;
     }
 
-    Fix16 diff_4 = RenderingRect[3].y - a2;
-    Fix16 sign_4 = Sign_4B9C20(diff_4.mValue);
-
-    if (sign_4 != sign_1)
+    diff = RenderingRect[3].y - a2;
+    if (Sign_4B9C20(diff.mValue) != sign)
     {
         return false;
     }
-    Fix16 abs_4 = Fix16::Abs(diff_4);
 
-    if (abs_4 < least_abs)
+    diff = Fix16::Abs(diff);
+    if (diff < least_abs)
     {
         a3.x = RenderingRect[3].x;
         a3.y = RenderingRect[3].y;
         a4 = 3;
     }
-    else if (abs_4 == least_abs)
+    else if (diff == least_abs)
     {
         a3.x = (a3.x + RenderingRect[3].x) / kFP16Two_7035C8;
         a4 = 5;
