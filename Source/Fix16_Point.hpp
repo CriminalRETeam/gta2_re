@@ -330,6 +330,23 @@ class Fix16_Point : public Fix16_Point_POD
         }
     }
 
+    // Needed for CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60.
+    inline Fix16 GetLength_out_of_line_abs_x_squared()
+    {
+        if (x == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_436A50(y);
+        }
+        else if (y == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_436A50(x);
+        }
+        else
+        {
+            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y * y);
+        }
+    }
+
     // Needed for CarPhysics_B0::ScarePedsOnDrivingFast_559C30 and UpdateSteeringAngle_562560.
     inline Fix16 GetLength_out_of_line_x_squared()
     {

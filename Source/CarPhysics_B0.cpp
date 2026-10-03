@@ -2298,16 +2298,14 @@ Fix16 CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce
 {
     WIP_IMPLEMENTED;
 
-    Fix16 ImpulseIntensity = Impulse.GetLength_2();
-    Fix16 Mass = CalculateMass_559FF0();
+    Fix16_Point NewImpulse;
+    Fix16 ImpulseIntensity = Impulse.GetLength_out_of_line_abs_x_squared();
 
-    if ((ImpulseIntensity / Mass) > dword_6FE37C)
+    if ((ImpulseIntensity / CalculateMass_559FF0()) > dword_6FE37C)
     {
-        Fix16_Point NewImpulse = Impulse;
+        NewImpulse = Impulse;
 
-        // TODO: many inlines here
-
-        if (field_5C_pCar->IsFlagSet_411930(0x800))
+        if (field_5C_pCar->field_78_flags & 0x800)
         {
             if (!field_5C_pCar->is_driven_by_player())
             {
@@ -2321,17 +2319,16 @@ Fix16 CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce
 
         field_5C_pCar->ApplyVisualDamage_43A9F0();
 
-        if (!field_5C_pCar->IsFlagSet_411930(2))
+        if (!(field_5C_pCar->field_78_flags & 2))
         {
             ApplyForceWithTrailerRedirect_55F740(&PointOfForce, &NewImpulse);
-
-            // TODO: many inlines here
             AddDamage_49EF50(base_dmg);
 
             if (!field_5C_pCar->is_driven_by_player())
             {
                 ClearHandBrake_421260();
             }
+            return ImpulseIntensity;
         }
     }
     return ImpulseIntensity;
