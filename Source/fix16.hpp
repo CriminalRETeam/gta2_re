@@ -407,6 +407,17 @@ class Fix16
         return result;
     }
 
+    // MaxAbsDistance_42A6B0 with the out-of-line Negate_4086A0 for x (Kfc_30::UpdateStateMachine_5CBD50)
+    inline static Fix16 __stdcall MaxAbsDistanceNegOOL_42A6B0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
+    {
+        Fix16 diff_x = x2 - x1;
+        Fix16 diff_y = y2 - y1;
+
+        Fix16 result;
+        result = Fix16::Max_44E540(Fix16::Abs_negate_out_of_line(diff_x), Fix16::Abs(diff_y));
+        return result;
+    }
+
     // NOTE: 9.6f 0x42A6B0 - inlined in 10.5
     inline static Fix16 __stdcall MaxAbsDistanceByRef_42A6B0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
     {
