@@ -379,6 +379,7 @@ WIP_FUNC(0x447d40)
 char_type CarAI_78::sub_447D40(gmp_block_info* pBlock)
 {
     WIP_IMPLEMENTED;
+    Ang16 angle = this->field_10_angle;
 
     switch (this->field_4C_curr_direction)
     {
@@ -387,7 +388,7 @@ char_type CarAI_78::sub_447D40(gmp_block_info* pBlock)
             {
                 if ((this->field_0_car->field_A6 & 2) == 2)
                 {
-                    if ((pBlock->field_A_arrows & 2) != 0 && ComputeShortestAngleDelta_4056C0(kAng90_6779E4, this->field_10_angle) > kAng45_677A38)
+                    if ((pBlock->field_A_arrows & 2) != 0 && ComputeShortestAngleDelta_4056C0(kAng90_6779E4, angle) > kAng45_677A38)
                     {
                         this->field_44_target_direction = car_ai_target_direction::eastwards_3;
                         return 1;
@@ -395,7 +396,7 @@ char_type CarAI_78::sub_447D40(gmp_block_info* pBlock)
                 }
                 else
                 {
-                    if ((pBlock->field_A_arrows & 1) != 0 && ComputeShortestAngleDelta_4056C0(kAng270_677B08, this->field_10_angle) > kAng45_677A38)
+                    if ((pBlock->field_A_arrows & 1) != 0 && ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) > kAng45_677A38)
                     {
                         this->field_44_target_direction = car_ai_target_direction::westwards_4;
                         return 1;
@@ -410,7 +411,7 @@ char_type CarAI_78::sub_447D40(gmp_block_info* pBlock)
                     return 0;
                 }
 
-                if (ComputeShortestAngleDelta_4056C0(kAng90_6779E4, this->field_10_angle) <= kAng45_677A38)
+                if (ComputeShortestAngleDelta_4056C0(kAng90_6779E4, angle) <= kAng45_677A38)
                 {
                     return 0;
                 }
@@ -418,7 +419,7 @@ char_type CarAI_78::sub_447D40(gmp_block_info* pBlock)
                 return 1;
             }
 
-            if (ComputeShortestAngleDelta_4056C0(kAng270_677B08, this->field_10_angle) <= kAng45_677A38)
+            if (ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) <= kAng45_677A38)
             {
                 return 0;
             }
@@ -434,7 +435,7 @@ char_type CarAI_78::sub_447D40(gmp_block_info* pBlock)
                     {
                         if ((pBlock->field_A_arrows & 0x11) != 0)
                         {
-                            if (ComputeShortestAngleDelta_4056C0(kAng270_677B08, this->field_10_angle) > kAng45_677A38)
+                            if (ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) > kAng45_677A38)
                             {
                                 this->field_44_target_direction = car_ai_target_direction::westwards_4;
                                 return 1;
@@ -448,7 +449,7 @@ char_type CarAI_78::sub_447D40(gmp_block_info* pBlock)
                             goto LABEL_40;
                         }
 
-                        if (ComputeShortestAngleDelta_4056C0(kAng270_677B08, this->field_10_angle) > kAng45_677A38)
+                        if (ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) > kAng45_677A38)
                         {
                             this->field_44_target_direction = car_ai_target_direction::westwards_4;
                             return 1;
@@ -460,7 +461,7 @@ char_type CarAI_78::sub_447D40(gmp_block_info* pBlock)
                     if (byte_677CA8)
                     {
                         if ((pBlock->field_A_arrows & 0x22) != 0 &&
-                            ComputeShortestAngleDelta_4056C0(kAng270_677B08, this->field_10_angle) > kAng45_677A38)
+                            ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) > kAng45_677A38)
                         {
                             this->field_44_target_direction = car_ai_target_direction::eastwards_3;
                             return 1;
@@ -472,7 +473,7 @@ char_type CarAI_78::sub_447D40(gmp_block_info* pBlock)
                         {
                             goto LABEL_40;
                         }
-                        if (ComputeShortestAngleDelta_4056C0(kAng90_6779E4, this->field_10_angle) > kAng45_677A38)
+                        if (ComputeShortestAngleDelta_4056C0(kAng90_6779E4, angle) > kAng45_677A38)
                         {
                             this->field_44_target_direction = car_ai_target_direction::eastwards_3;
                             return 1;
@@ -489,7 +490,7 @@ char_type CarAI_78::sub_447D40(gmp_block_info* pBlock)
                     {
                         if ((pBlock->field_A_arrows & 0xF0) == 0x10)
                         {
-                            if (ComputeShortestAngleDelta_4056C0(kAng270_677B08, this->field_10_angle) <= kAng45_677A38)
+                            if (ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) <= kAng45_677A38)
                             {
                                 return 0;
                             }
@@ -502,7 +503,7 @@ char_type CarAI_78::sub_447D40(gmp_block_info* pBlock)
                             return 0;
                         }
 
-                        if (ComputeShortestAngleDelta_4056C0(kAng90_6779E4, this->field_10_angle) <= kAng45_677A38)
+                        if (ComputeShortestAngleDelta_4056C0(kAng90_6779E4, angle) <= kAng45_677A38)
                         {
                             return 0;
                         }
@@ -524,7 +525,7 @@ char_type CarAI_78::sub_447D40(gmp_block_info* pBlock)
                     return 0;
                 }
 
-                if (ComputeShortestAngleDelta_4056C0(kAng90_6779E4, this->field_10_angle) <= kAng45_677A38)
+                if (ComputeShortestAngleDelta_4056C0(kAng90_6779E4, angle) <= kAng45_677A38)
                 {
                     return 0;
                 }
@@ -532,7 +533,7 @@ char_type CarAI_78::sub_447D40(gmp_block_info* pBlock)
                 return 1;
             }
 
-            if (ComputeShortestAngleDelta_4056C0(kAng270_677B08, this->field_10_angle) <= kAng45_677A38)
+            if (ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) <= kAng45_677A38)
             {
                 return 0;
             }
@@ -544,7 +545,7 @@ char_type CarAI_78::sub_447D40(gmp_block_info* pBlock)
             {
                 if ((this->field_0_car->field_A6) == 2)
                 {
-                    if ((pBlock->field_A_arrows & 8) != 0 && ComputeShortestAngleDelta_4056C0(kAng0_677CE8, this->field_10_angle) > kAng45_677A38)
+                    if ((pBlock->field_A_arrows & 8) != 0 && ComputeShortestAngleDelta_4056C0(kAng0_677CE8, angle) > kAng45_677A38)
                     {
                         this->field_44_target_direction = car_ai_target_direction::southwards_2;
                         return 1;
@@ -552,7 +553,7 @@ char_type CarAI_78::sub_447D40(gmp_block_info* pBlock)
                 }
                 else
                 {
-                    if ((pBlock->field_A_arrows & 4) != 0 && ComputeShortestAngleDelta_4056C0(kAng180_677ADE, this->field_10_angle) > kAng45_677A38)
+                    if ((pBlock->field_A_arrows & 4) != 0 && ComputeShortestAngleDelta_4056C0(kAng180_677ADE, angle) > kAng45_677A38)
                     {
                         this->field_44_target_direction = car_ai_target_direction::northwards_1;
                         return 1;
@@ -562,7 +563,7 @@ char_type CarAI_78::sub_447D40(gmp_block_info* pBlock)
 
             if ((pBlock->field_A_arrows & 0xF) == 8)
             {
-                if (ComputeShortestAngleDelta_4056C0(kAng0_677CE8, this->field_10_angle) <= kAng45_677A38)
+                if (ComputeShortestAngleDelta_4056C0(kAng0_677CE8, angle) <= kAng45_677A38)
                 {
                     return 0;
                 }
@@ -571,7 +572,7 @@ char_type CarAI_78::sub_447D40(gmp_block_info* pBlock)
             }
             else
             {
-                if ((pBlock->field_A_arrows & 0xF) != 4 || ComputeShortestAngleDelta_4056C0(kAng180_677ADE, this->field_10_angle) <= kAng45_677A38)
+                if ((pBlock->field_A_arrows & 0xF) != 4 || ComputeShortestAngleDelta_4056C0(kAng180_677ADE, angle) <= kAng45_677A38)
                 {
                     return 0;
                 }
@@ -584,7 +585,7 @@ char_type CarAI_78::sub_447D40(gmp_block_info* pBlock)
             {
                 if ((this->field_0_car->field_A6 & 2) == 2)
                 {
-                    if ((pBlock->field_A_arrows & 4) != 0 && ComputeShortestAngleDelta_4056C0(kAng180_677ADE, this->field_10_angle) > kAng45_677A38)
+                    if ((pBlock->field_A_arrows & 4) != 0 && ComputeShortestAngleDelta_4056C0(kAng180_677ADE, angle) > kAng45_677A38)
                     {
                         this->field_44_target_direction = car_ai_target_direction::northwards_1;
                         return 1;
@@ -592,7 +593,7 @@ char_type CarAI_78::sub_447D40(gmp_block_info* pBlock)
                 }
                 else
                 {
-                    if ((pBlock->field_A_arrows & 8) != 0 && ComputeShortestAngleDelta_4056C0(kAng0_677CE8, this->field_10_angle) > kAng45_677A38)
+                    if ((pBlock->field_A_arrows & 8) != 0 && ComputeShortestAngleDelta_4056C0(kAng0_677CE8, angle) > kAng45_677A38)
                     {
                         this->field_44_target_direction = car_ai_target_direction::southwards_2;
                         return 1;
@@ -602,7 +603,7 @@ char_type CarAI_78::sub_447D40(gmp_block_info* pBlock)
 
             if ((pBlock->field_A_arrows & 0xF) == 8)
             {
-                if (ComputeShortestAngleDelta_4056C0(kAng0_677CE8, this->field_10_angle) <= kAng45_677A38)
+                if (ComputeShortestAngleDelta_4056C0(kAng0_677CE8, angle) <= kAng45_677A38)
                 {
                     return 0;
                 }
@@ -611,7 +612,7 @@ char_type CarAI_78::sub_447D40(gmp_block_info* pBlock)
             }
             else
             {
-                if ((pBlock->field_A_arrows & 0xF) != 4 || ComputeShortestAngleDelta_4056C0(kAng180_677ADE, this->field_10_angle) <= kAng45_677A38)
+                if ((pBlock->field_A_arrows & 0xF) != 4 || ComputeShortestAngleDelta_4056C0(kAng180_677ADE, angle) <= kAng45_677A38)
                 {
                     return 0;
                 }
