@@ -341,6 +341,13 @@ after the switch lets VC6 jump-thread the default (`ChooseRadioEmitterForVehicle
 **Fix16 constant parameter by `const Fix16&` in an inline helper.** A per-TU `Fix16(1)` passed by
 value reorders the loads; a const reference matches (`Player::RestoreCarsFromSave_56A0F0`).
 
+**Indexed store vs pointer local in a loop.** `arr[idx++] = v` puts the strength-reduced `lea`
+in the preheader, after the loop entry check; an explicit pointer local is initialised before the
+check (`CarPhysics_B0::StepMovementAndCollisions_55E470`).
+
+**Fix16 compares can push a small function over the inline budget.** In `sub_4F76A0` the
+`Fix16_Point()` ctor went out of line until the compares were written on the raw `mValue`.
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 
