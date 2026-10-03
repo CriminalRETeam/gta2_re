@@ -3859,94 +3859,45 @@ bool Char_B4::CanStepForwardWithRegionCheck_54ECB0(s32 direction)
     {
         case 1:
             block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() - 1, new_zpos);
-            if (block_type == AIR)
-            {
-                break;
-            }
-            else if (block_type > 0 && block_type <= 4)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
             break;
-
-        case 2:
-            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() + 1, new_zpos);
-            if (block_type == AIR)
-            {
-                break;
-            }
-            else if (block_type > 0 && block_type <= 4)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-            break;
-
         case 3:
             block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt() + 1, ypos.ToInt(), new_zpos);
-            if (block_type == AIR)
-            {
-                break;
-            }
-            else if (block_type > 0 && block_type <= 4)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
             break;
-
+        case 2:
+            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() + 1, new_zpos);
+            break;
         case 4:
             block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt() - 1, ypos.ToInt(), new_zpos);
-            if (block_type == AIR)
-            {
-                break;
-            }
-            else if (block_type > 0 && block_type <= 4)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
             break;
-
         default:
+            block_type = AIR;
             break;
     }
 
-    if ((field_58_flags & 1) != 0)
+    if (block_type != AIR)
     {
-        return true;
-    }
-    else if (zpos.GetFracValue() < dword_6FD91C)
-    {
-        field_58_flags = field_58_flags & 0xFE;
-        bool result = Char_B4::CanStepForward_54FEC0(direction);
-        field_58_flags |= 1u;
-        return result;
-    }
-    else
-    {
-        if (field_7C_pPed->IsField238_45EDE0(2))
+        if (block_type > 0 && block_type <= 4)
         {
             return true;
         }
-        else
+        return false;
+    }
+
+    if ((field_58_flags & 1) == 1)
+    {
+        if (zpos.GetFracValue() < dword_6FD91C)
+        {
+            field_58_flags &= ~1u;
+            bool result = Char_B4::CanStepForward_54FEC0(direction);
+            field_58_flags |= 1u;
+            return result;
+        }
+        if (!field_7C_pPed->IsField238_45EDE0(2))
         {
             return false;
         }
     }
+    return true;
 }
 
 // https://decomp.me/scratch/Ub1EN
