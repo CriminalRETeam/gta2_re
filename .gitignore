@@ -43,4 +43,4 @@ Scripts/bin_comp/fingerprints.json
 Scripts/bin_comp/match_96f.json
 Scripts/bin_comp/target_96f.json
 Scripts/bin_comp/dump_96f_addrs.txt
-Source/_tu_harness_tmp.cpp
+Source/_tu_harness_tmp*.cpp

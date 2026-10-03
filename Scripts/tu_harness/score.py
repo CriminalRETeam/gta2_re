@@ -6,7 +6,7 @@ unmodified file, then on each variant; prints per-function deltas against the ba
 """
 import sys, os, re, json, difflib, subprocess, shutil
 HERE = os.path.dirname(os.path.abspath(__file__)); REPO = os.path.dirname(os.path.dirname(HERE))
-WORK = os.path.join(REPO, 'build_vc6', 'tu_harness')
+WORK = os.environ.get('TU_WORK') or os.path.join(REPO, 'build_vc6', 'tu_harness')
 sys.path.insert(0, os.path.join(REPO, 'Scripts', 'bin_comp'))
 import permuter_score as ps
 src_path = sys.argv[1]; save = '--save' in sys.argv

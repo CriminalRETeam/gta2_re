@@ -5,7 +5,7 @@
 # stack offsets ignored). Use diff.py for the diff itself.
 . "$(dirname "$0")/common.sh"
 S=$(realpath "$1"); shift
-tmp=$REPO/Source/_tu_harness_tmp.cpp
+tmp=$REPO/Source/_tu_harness_tmp_$$.cpp
 sed -E 's/^\s*(WIP|NOT)_IMPLEMENTED;\s*$//' "$S" > $tmp
 T=$REPO/3rdParty/gta2_re_compile_tools
 export WINEDEBUG=-all WINEPATH="$(winpath $T/VC98/Bin);$(winpath $T/Common/MSDev98/Bin)" INCLUDE="$(winpath $T/VC98/Include)"
