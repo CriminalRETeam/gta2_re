@@ -5958,7 +5958,7 @@ char_type Car_BC::TrainUpdate_442D70()
 {
     WIP_IMPLEMENTED;
 
-    s32 train_car_idx_ = 0;
+    u8 train_car_idx_ = 0;
     if (GetCarLinearSpeed_43A240() > gFix16_6777CC)
     {
         Fix16 player_x;
@@ -5966,21 +5966,38 @@ char_type Car_BC::TrainUpdate_442D70()
         Fix16 player_z;
         gGame_0x40_67E008->field_38_orf1->get_pos_569920(&player_x, &player_y, &player_z);
 
-        if (Fix16::Abs(field_50_car_sprite->field_14_xy.x - player_x) >= Fix16(0x28000, 0) ||
+        if (Fix16::Abs_negate_out_of_line(field_50_car_sprite->field_14_xy.x - player_x) >= Fix16(0x28000, 0) ||
             Fix16::Abs(field_50_car_sprite->field_14_xy.y - player_y) >= Fix16(0x28000, 0))
         {
             field_A8_horn_cooldown = 0;
         }
         else
         {
-            Fix16 sprite_x;
-            Fix16 sprite_y;
-            Fix16 sprite_z;
             Fix16_Rect rect;
+            // Cases 2, 1 and 3 call the out-of-line const Fix16::operator+ for high_z, case 4 inlines it
             switch (Ang16::GetAngleFace_4F78F0(field_50_car_sprite->field_0))
             {
+                case 2:
+                {
+                    Fix16 sprite_x;
+                    Fix16 sprite_y;
+                    sprite_y = field_50_car_sprite->field_14_xy.y;
+                    const Fix16 sprite_z = field_50_car_sprite->field_1C_zpos;
+                    sprite_x = field_50_car_sprite->field_14_xy.x;
+                    rect.field_8_top = sprite_y;
+                    rect.field_0_left = sprite_x - Fix16(0x4000, 0);
+                    rect.field_4_right = sprite_x + Fix16(0x4000, 0);
+                    rect.field_C_bottom = sprite_y + Fix16(0x28000, 0);
+                    rect.field_10_low_z = sprite_z - kCollisionPrismHalfHeight_6771E4;
+                    rect.field_14_high_z = sprite_z + kCollisionPrismHalfHeight_6771E4;
+                    break;
+                }
+
                 case 1:
-                    sprite_z = field_50_car_sprite->field_1C_zpos;
+                {
+                    Fix16 sprite_x;
+                    Fix16 sprite_y;
+                    const Fix16 sprite_z = field_50_car_sprite->field_1C_zpos;
                     sprite_y = field_50_car_sprite->field_14_xy.y.mValue;
                     sprite_x = field_50_car_sprite->field_14_xy.x.mValue;
                     rect.field_C_bottom = sprite_y;
@@ -5990,21 +6007,14 @@ char_type Car_BC::TrainUpdate_442D70()
                     rect.field_10_low_z = sprite_z - kCollisionPrismHalfHeight_6771E4;
                     rect.field_14_high_z = sprite_z + kCollisionPrismHalfHeight_6771E4;
                     break;
-                case 2:
-                    sprite_y = field_50_car_sprite->field_14_xy.y;
-                    sprite_z = field_50_car_sprite->field_1C_zpos;
-                    sprite_x = field_50_car_sprite->field_14_xy.x;
-                    rect.field_8_top = sprite_y;
-                    rect.field_0_left = sprite_x - Fix16(0x4000, 0);
-                    rect.field_4_right = sprite_x + Fix16(0x4000, 0);
-                    rect.field_C_bottom = sprite_y + Fix16(0x28000, 0);
-                    rect.field_10_low_z = sprite_z - kCollisionPrismHalfHeight_6771E4;
-                    rect.field_14_high_z = sprite_z + kCollisionPrismHalfHeight_6771E4;
-                    break;
+                }
 
                 case 3:
+                {
+                    Fix16 sprite_x;
+                    Fix16 sprite_y;
                     sprite_y = field_50_car_sprite->field_14_xy.y.mValue;
-                    sprite_z = field_50_car_sprite->field_1C_zpos;
+                    const Fix16 sprite_z = field_50_car_sprite->field_1C_zpos;
                     sprite_x = field_50_car_sprite->field_14_xy.x.mValue;
                     rect.field_C_bottom = sprite_y + Fix16(0x4000, 0);
                     rect.field_10_low_z = sprite_z - kCollisionPrismHalfHeight_6771E4;
@@ -6013,8 +6023,13 @@ char_type Car_BC::TrainUpdate_442D70()
                     rect.field_8_top = sprite_y - Fix16(0x4000, 0);
                     rect.field_14_high_z = sprite_z + kCollisionPrismHalfHeight_6771E4;
                     break;
+                }
 
                 case 4:
+                {
+                    Fix16 sprite_x;
+                    Fix16 sprite_y;
+                    Fix16 sprite_z;
                     sprite_y = field_50_car_sprite->field_14_xy.y;
                     sprite_z = field_50_car_sprite->field_1C_zpos;
                     rect.field_4_right = field_50_car_sprite->field_14_xy.x;
@@ -6024,6 +6039,7 @@ char_type Car_BC::TrainUpdate_442D70()
                     rect.field_10_low_z = sprite_z - kCollisionPrismHalfHeight_6771E4;
                     rect.field_14_high_z = sprite_z + kCollisionPrismHalfHeight_6771E4;
                     break;
+                }
 
                 default:
                     FatalError_4A38C0(0x431, "C:\\Splitting\\Gta2\\Source\\car.cpp", 5458, 0);
@@ -6090,14 +6106,14 @@ char_type Car_BC::TrainUpdate_442D70()
         gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_50_car_sprite);
     }
 
-    Car_BC* pTrainCarIter = *pTrainCarsArray;
-    for (s32 train_car_idx = 0; pTrainCarIter; pTrainCarIter = pTrainCarsArray[train_car_idx])
+    train_car_idx_ = 0;
+    for (Car_BC* pTrainCarIter = *pTrainCarsArray; pTrainCarIter; pTrainCarIter = pTrainCarsArray[train_car_idx_])
     {
         if (pTrainCarIter->field_88_despawn_status != 5)
         {
             gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pTrainCarIter->field_50_car_sprite);
         }
-        ++train_car_idx;
+        ++train_car_idx_;
     }
 
     LightUpdate_442D10();
