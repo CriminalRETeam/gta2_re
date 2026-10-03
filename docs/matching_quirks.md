@@ -459,6 +459,16 @@ in place inline; an explicit `Fix16(u8)` pushes the value (`TryCreateRoadblockAt
 **`Fix16(x + 1)` per iteration** is strength-reduced to an induction variable initialised after the
 loop guard (`RectHitsDiagonalWall_4E11E0`, 175 -> ~12).
 
+**One call after the switch, not one per case.** VC6 duplicates the call + ret tail back into each
+case itself (`Ped::SetObjective_463570`, with a u8 mode local) or tail-merges the calls
+(`Ped::SpawnWeaponOnDeath_45E080`). In 45E080 reading `field_1AC_cam.x/y/z` directly instead of the
+by-value getters gave the per-case register rotation.
+
+**EH state stores around temporaries depend on how the callee is defined.** VC6 dropped the state store
+before a call to our inline `operator-()` that wasn't inlined; the original calls a real out-of-line
+function and keeps it (`Object_2C::ResolveCollisionWithPed_5229B0`). `ApplyExplosionImpulse_443710` is
+the reverse: `throw()` on `Divide_442CB0` would fix it but breaks Divide's own match.
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 
