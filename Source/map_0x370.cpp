@@ -1380,6 +1380,12 @@ bool Map_0x370::sub_4E1A30(s32 tileX_min, s32 tileX_max, s32 tileY_min, s32 tile
 {
     WIP_IMPLEMENTED;
 
+    // Left: the original loads the mask with a 16-bit `mov %cx` and does `test %cx, face`; VC6 here
+    // loads the face into cx and the mask with a 32-bit mov (same with u16/s16, either operand order,
+    // a u16 local, a u16 result cast, other names or defining the global in another TU).
+    // The hit tests take (u32)y -> Fix16(u32) 0x4926F0, y + 1 -> Fix16(s32) 0x4369F0 and the
+    // face coordinate x + 1 / y + 1 (inlined, strength reduced for x).
+
     for (s32 y = tileY_min; y <= tileY_max; y++)
     {
         for (s32 x = tileX_min; x <= tileX_max; x++)
@@ -1393,7 +1399,7 @@ bool Map_0x370::sub_4E1A30(s32 tileX_min, s32 tileX_max, s32 tileY_min, s32 tile
                     {
                         if (!IsNorthOrSouthGradSlope_4634B0(pBlock1))
                         {
-                            if (gSprite_6F61E8->HitTestVerticalLine_5A0EF0(y, y + 1, zLevel + 1))
+                            if (gSprite_6F61E8->HitTestVerticalLine_5A0EF0((u32)y, y + 1, x + 1))
                             {
                                 return true;
                             }
@@ -1407,7 +1413,7 @@ bool Map_0x370::sub_4E1A30(s32 tileX_min, s32 tileX_max, s32 tileY_min, s32 tile
                     {
                         if (!IsNorthOrSouthGradSlope_4634B0(pBlock2))
                         {
-                            if (gSprite_6F61E8->HitTestVerticalLine_5A0EF0(y, y + 1, zLevel))
+                            if (gSprite_6F61E8->HitTestVerticalLine_5A0EF0((u32)y, y + 1, x + 1))
                             {
                                 return true;
                             }
@@ -1425,7 +1431,7 @@ bool Map_0x370::sub_4E1A30(s32 tileX_min, s32 tileX_max, s32 tileY_min, s32 tile
                     {
                         if (!IsWestOrEastGradSlope_4634B0(pBlock3))
                         {
-                            if (gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(x, x + 1, zLevel + 1))
+                            if (gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970((u32)x, x + 1, y + 1))
                             {
                                 return true;
                             }
@@ -1440,7 +1446,7 @@ bool Map_0x370::sub_4E1A30(s32 tileX_min, s32 tileX_max, s32 tileY_min, s32 tile
                     {
                         if (!IsWestOrEastGradSlope_4634B0(pBlock4))
                         {
-                            if (gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(x, x + 1, zLevel))
+                            if (gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970((u32)x, x + 1, y + 1))
                             {
                                 return true;
                             }
