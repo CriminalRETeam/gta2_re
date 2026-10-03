@@ -1605,15 +1605,15 @@ void PoliceCrew_38::sub_575310()
     Fix16 player_y = gCurrentCrewPed_6FEDDC->field_1AC_cam.y;
     Fix16 player_x = gCurrentCrewPed_6FEDDC->get_cam_x();
     Ped* pCriminal = field_14_pService->field_0_criminal_ped;
-    Char_B4* pB4 = pCriminal->field_168_game_object;
-    Fix16 criminal_y = pCriminal->field_1AC_cam.y;
     Fix16 criminal_x = pCriminal->get_cam_x();
+    Fix16 criminal_y = pCriminal->field_1AC_cam.y;
 
-    if (pB4)
+    if (pCriminal->field_168_game_object)
     {
-        Fix16 dy = criminal_y - player_y;
         Fix16 dx = criminal_x - player_x;
-        Fix16 dist = Fix16::Max_44E540(Fix16::Abs_436A50(dx), Fix16::Abs_436A50(dy));
+        Fix16 dy = criminal_y - player_y;
+        Fix16 dist;
+        dist = Fix16::Max_44E540(Fix16::Abs_436A50(dx), Fix16::Abs_436A50(dy));
         if (dist < dword_6FECF0 + dword_6FEBF4)
         {
             gCurrentCrewPed_6FEDDC->SetObjective(27, 9999);
@@ -1627,55 +1627,61 @@ void PoliceCrew_38::sub_575310()
         {
             field_24_state = 3;
         }
-        return;
     }
-
-    Fix16 dy = criminal_y - player_y;
-    Fix16 dx = criminal_x - player_x;
-    Fix16 dist = Fix16::Max_44E540(Fix16::Abs_negate_out_of_line(dx), Fix16::Abs_negate_out_of_line(dy));
-
-    Car_BC* pCar = field_10_subObj->field_0_car;
-    Hamburger_40* pHamburger = pCar->field_60;
-    if (!pHamburger)
+    else
     {
-        return;
-    }
+        Fix16 dx = criminal_x - player_x;
+        Fix16 dy = criminal_y - player_y;
+        Fix16 dist;
+        dist = Fix16::Max_44E540(Fix16::Abs_negate_out_of_line(dx), Fix16::Abs_negate_out_of_line(dy));
 
-    switch (pHamburger->field_C_relationship_code)
-    {
-        case 15:
-            pCar->field_5C_AI->field_24_flags |= 0x100000;
+        Car_BC* pCar = field_10_subObj->field_0_car;
+        Hamburger_40* pHamburger = pCar->field_60;
+        if (!pHamburger)
+        {
+            return;
+        }
+
+        if (pHamburger->field_C_relationship_code == 15)
+        {
+                pCar->field_5C_AI->field_24_flags |= 0x100000;
+                gCurrentCrewPed_6FEDDC->SetObjective(27, 9999);
+                field_14_pService->field_E += field_10_subObj->field_0_car->field_60->field_3C;
+                if (field_10_subObj->field_0_car->field_60)
+                {
+                    gHamburger_500_678E30->FreeEntry_474CC0(field_10_subObj->field_0_car->field_60);
+                    field_10_subObj->field_0_car->field_60 = 0;
+                }
+                return;
+        }
+
+        switch (pHamburger->field_C_relationship_code)
+        {
+            case 0:
+            case 1:
+            case 2:
+            case 14:
+            case 15:
+                break;
+            default:
+                field_14_pService->field_78 = 1;
+                break;
+        }
+
+        if ((u8)field_14_pService->field_E > 0)
+        {
+            field_10_subObj->field_0_car->field_60->field_3C = field_14_pService->field_E;
+        }
+
+        if (dist < dword_6FECF4 && field_10_subObj->field_0_car->GetVelocity_43A4C0() < dword_6FEDE0 &&
+            field_14_pService->field_0_criminal_ped->field_16C_car->GetVelocity_43A4C0() < dword_6FEDE0)
+        {
             gCurrentCrewPed_6FEDDC->SetObjective(27, 9999);
-            field_14_pService->field_E += field_10_subObj->field_0_car->field_60->field_3C;
             if (field_10_subObj->field_0_car->field_60)
             {
                 gHamburger_500_678E30->FreeEntry_474CC0(field_10_subObj->field_0_car->field_60);
                 field_10_subObj->field_0_car->field_60 = 0;
             }
-            return;
-        case 0:
-        case 1:
-        case 2:
-        case 14:
-            break;
-        default:
-            field_14_pService->field_78 = 1;
-            break;
-    }
-
-    if ((u8)field_14_pService->field_E > 0)
-    {
-        field_10_subObj->field_0_car->field_60->field_3C = field_14_pService->field_E;
-    }
-
-    if (dist < dword_6FECF4 && field_10_subObj->field_0_car->GetVelocity_43A4C0() < dword_6FEDE0 &&
-        field_14_pService->field_0_criminal_ped->field_16C_car->GetVelocity_43A4C0() < dword_6FEDE0)
-    {
-        gCurrentCrewPed_6FEDDC->SetObjective(27, 9999);
-        if (field_10_subObj->field_0_car->field_60)
-        {
-            gHamburger_500_678E30->FreeEntry_474CC0(field_10_subObj->field_0_car->field_60);
-            field_10_subObj->field_0_car->field_60 = 0;
         }
     }
 }
