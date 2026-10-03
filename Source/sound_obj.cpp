@@ -76,6 +76,11 @@ static inline s32 Min(s32 a, s32 b)
     return a < b ? a : b;
 }
 
+static inline u8 MinU8(u8 a, u8 b)
+{
+    return a < b ? a : b;
+}
+
 static inline s32 Max(s32 a, s32 b)
 {
     return a > b ? a : b;
@@ -751,16 +756,14 @@ void sound_obj::ProcessActiveQueues_41AB80()
             {
                 if (field_1D_b3d_sound)
                 {
-                    s32 emittingVol = field_1A_bDoubleVolume ? 2 * Min(Sample.field_60_nEmittingVolume, 63) : Sample.field_24_nVolume;
+                    s32 emittingVol = field_1A_bDoubleVolume ? 2 * (Sample.field_60_nEmittingVolume < 63 ? Sample.field_60_nEmittingVolume : 63) : Sample.field_60_nEmittingVolume;
 
                     gSampManager_6FFF00.SetChannel3DFrequency_58DF00(j, Sample.field_20_rate);
-                    gSampManager_6FFF00.SetChannel3DVolume_58DE80(j,
-                                                                  (emittingVol * field_24_sfx_vol) >>
-                                                                      7); // (u8)((field_60_nEmittingVolume * this->field_24_sfx_vol) >> 7)
+                    gSampManager_6FFF00.SetChannel3DVolume_58DE80(j, (u8)((emittingVol * field_24_sfx_vol) >> 7));
                 }
                 else
                 {
-                    s32 emittingVol = field_1A_bDoubleVolume ? 2 * Min(Sample.field_60_nEmittingVolume, 63) : Sample.field_24_nVolume;
+                    s32 emittingVol = field_1A_bDoubleVolume ? 2 * (Sample.field_24_nVolume < 63 ? Sample.field_24_nVolume : 63) : Sample.field_24_nVolume;
 
                     gSampManager_6FFF00.SetChannelFrequency_58DD20(j, Sample.field_20_rate);
                     gSampManager_6FFF00.SetChannelVolume_58DCE0(j, (emittingVol * field_24_sfx_vol) >> 7);
@@ -770,13 +773,11 @@ void sound_obj::ProcessActiveQueues_41AB80()
                 break;
             }
 
-            t.field_28_distance = Sample.field_28_distance;
-            // v25
+            s32 new_dist = Sample.field_28_distance.ToInt();
+            s32 old_dist = t.field_28_distance.ToInt();
+            t.field_28_distance = new_dist;
             // doppler effect?
-            Sample.field_20_rate = sound_obj::AdjustPlaybackRate_41A580(Sample.field_20_rate,
-                                                                        t.field_28_distance,
-                                                                        Sample.field_28_distance,
-                                                                        Sample.field_3C_speed_multiplier); // v64, field_3C = Fix16 ?
+            Sample.field_20_rate = sound_obj::AdjustPlaybackRate_41A580(Sample.field_20_rate, old_dist, new_dist, Sample.field_3C_speed_multiplier);
             if (Sample.field_20_rate != t.field_20_rate)
             {
                 u32 freq = Clamp2((s32)Sample.field_20_rate, (s32)t.field_20_rate, 6000);
@@ -923,7 +924,7 @@ void sound_obj::ProcessActiveQueues_41AB80()
             if (field_1D_b3d_sound)
             {
             AUDIO_3D:
-                s32 emittingVol = field_1A_bDoubleVolume ? 2 * Min(63, Samp.field_60_nEmittingVolume) : Samp.field_60_nEmittingVolume;
+                s32 emittingVol = field_1A_bDoubleVolume ? 2 * (Samp.field_60_nEmittingVolume < 63 ? Samp.field_60_nEmittingVolume : 63) : Samp.field_60_nEmittingVolume;
 
                 gSampManager_6FFF00.InitialiseChannel3D_58DDF0(m, Samp.field_14_samp_idx, Samp.field_20_rate);
                 gSampManager_6FFF00.SetChannel3DFrequency_58DF00(m, Samp.field_20_rate);
@@ -954,7 +955,7 @@ void sound_obj::ProcessActiveQueues_41AB80()
             }
             else
             {
-                s32 emittingVol = field_1A_bDoubleVolume ? 2 * Min(63, Samp.field_24_nVolume) : Samp.field_24_nVolume;
+                s32 emittingVol = field_1A_bDoubleVolume ? 2 * (Samp.field_24_nVolume < 63 ? Samp.field_24_nVolume : 63) : Samp.field_24_nVolume;
                 gSampManager_6FFF00.InitialiseChannel_58DC90(m, Samp.field_14_samp_idx);
                 gSampManager_6FFF00.SetChannelFrequency_58DD20(m, Samp.field_20_rate);
                 gSampManager_6FFF00.SetChannelVolume_58DCE0(m, (u8)((emittingVol * field_24_sfx_vol) >> 7));

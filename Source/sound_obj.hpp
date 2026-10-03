@@ -85,13 +85,13 @@ struct sound_0x68
     char_type field_6;
     char_type field_7;
     serene_brattain field_8_obj;
-    s32 field_14_samp_idx;
+    u32 field_14_samp_idx;
     char_type field_18_bIs2D;
     char_type field_19;
     char_type field_1A;
     char_type field_1B;
     u32 field_1C_ReleasingVolumeModificator;
-    s32 field_20_rate;
+    u32 field_20_rate;
     u8 field_24_nVolume;
     char_type field_25;
     char_type field_26;
@@ -101,7 +101,7 @@ struct sound_0x68
     char_type field_2D_bIsPlayingFinished;
     char_type field_2E;
     char_type field_2F;
-    s32 field_30_loop_count;
+    u32 field_30_loop_count;
     s32 field_34_loop_start;
     s32 field_38_loop_end;
     s32 field_3C_speed_multiplier;
