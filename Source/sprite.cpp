@@ -1147,11 +1147,9 @@ bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect)
     return false;
 }
 
-WIP_FUNC(0x5a0150)
+MATCH_FUNC(0x5a0150)
 char_type Sprite::FindOverlappingBoundingBoxCorners_5A0150(Sprite* pOther, u8* pOut1, u8* pOut2)
 {
-    WIP_IMPLEMENTED;
-
     u8 i = 0;
 
     char_type counter = 0;
@@ -1160,8 +1158,10 @@ char_type Sprite::FindOverlappingBoundingBoxCorners_5A0150(Sprite* pOther, u8* p
 
     Fix16 pHalfW;
     Fix16 pHalfH;
-    // TODO: This inline seems to be breaking the match
-    field_C_sprite_4c_ptr->HalfWH_4BA0A0(&pHalfW, &pHalfH);
+    // Written out: calling HalfWH_4BA0A0 costs an inline expansion and leaves the second
+    // division out of line
+    pHalfW = field_C_sprite_4c_ptr->field_0_width / 2;
+    pHalfH = field_C_sprite_4c_ptr->field_4_height / 2;
 
     for (i = 0; i < 4; i++)
     {
