@@ -10019,7 +10019,7 @@ void Ped::EnterCarStateMachine_46BDC0()
             {
                 UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 2);
             }
-            else if (gDistanceToTarget_678750 > kFpThreeQuarters_678794 && (field_168_game_object->field_58_flags & 1))
+            else if (gDistanceToTarget_678750 > kFpThreeQuarters_678794 && field_168_game_object->field_58_flags_bf.b0 == 1)
             {
                 UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 2);
             }
@@ -10055,7 +10055,7 @@ void Ped::EnterCarStateMachine_46BDC0()
         {
             if (field_168_game_object->field_6C_animation_state == 6)
             {
-                if (field_168_game_object->field_68_animation_frame == 2 && this->field_15C_player &&
+                if (field_168_game_object->field_68_animation_frame == 2 && is_player_41B0A0() &&
                     !field_154_target_to_enter->CanBeEnteredByPed_4451E0(this))
                 {
                     SetObjective2_463830(objectives_enum::no_obj_0, 9999);
@@ -10072,7 +10072,7 @@ void Ped::EnterCarStateMachine_46BDC0()
                             field_15C_player->field_2D4_scores.OnCarHijacked_593240(field_154_target_to_enter);
 
                             // Is it gang car?
-                            const s8 gang_car_model =
+                            const s16 gang_car_model =
                                 gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(field_154_target_to_enter->field_84_car_info_idx);
                             if (gang_car_model != -1)
                             {

@@ -15,12 +15,17 @@ inline bool __stdcall IntervalsOverlap_41E160(const Fix16& ourMin, const Fix16& 
 {
     if (ourMin < otherMin)
     {
-        return ((ourMax < otherMin)) ? false : true;
+        if (ourMax < otherMin)
+        {
+            return false;
+        }
+        return true;
     }
-    else
+    if (ourMin <= otherMax)
     {
-        return (ourMin <= otherMax) ? true : false;
+        return true;
     }
+    return false;
 }
 
 class Fix16_Rect
