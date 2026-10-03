@@ -327,7 +327,7 @@ class Fix16_Point : public Fix16_Point_POD
         }
     }
 
-    // Needed for CarPhysics_B0::ScarePedsOnDrivingFast_559C30.
+    // Needed for CarPhysics_B0::ScarePedsOnDrivingFast_559C30 and UpdateSteeringAngle_562560.
     inline Fix16 GetLength_out_of_line_x_squared()
     {
         if (x == kFP16Zero_6FE20C)

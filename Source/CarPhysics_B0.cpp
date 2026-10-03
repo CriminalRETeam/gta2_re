@@ -3343,8 +3343,8 @@ void CarPhysics_B0::UpdateSteeringAngle_562560()
     }
     else
     {
-        Fix16 v6 = dword_6FE228 - field_40_linvel_1.GetLength_2();
-        if (v6 < dword_6FE374)
+        Fix16 v6 = dword_6FE228 - field_40_linvel_1.GetLength_out_of_line_x_squared();
+        if (v6.mValue < dword_6FE374.mValue)
         {
             v6 = dword_6FE374;
         }
