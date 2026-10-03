@@ -11339,26 +11339,31 @@ Weapon_30* Ped::GetWeaponFromPed_46F110()
     return 0;
 }
 
-WIP_FUNC(0x46f1e0)
+MATCH_FUNC(0x46f1e0)
 void Ped::ApplyAimJitter_46F1E0(Weapon_30* a2)
 {
-    WIP_IMPLEMENTED;
-
     u8 rng_val = 0;
+    // Named locals: the original gives each max a stack slot of its own (temporaries share the param slot)
+    s16 max_still;
+    s16 max_moving;
+    s16 max_moving_retry;
     if (a2->field_1C_idx >= weapon_type::pistol && a2->field_1C_idx <= weapon_type::smg)
     {
         if (field_270 == 0)
         {
             if (GetPedVelocity_45C920() == kFpZero_678660)
             {
-                rng_val = gRng_6F6784.get_int_4F7AE0(3);
+                max_still = 3;
+                rng_val = gRng_6F6784.get_int_4F7AE0(max_still);
             }
             else
             {
-                rng_val = gRng_6F6784.get_int_4F7AE0(5);
+                max_moving = 5;
+                rng_val = gRng_6F6784.get_int_4F7AE0(max_moving);
                 if (rng_val == 0)
                 {
-                    rng_val = gRng_6F6784.get_int_4F7AE0(5);
+                    max_moving_retry = 5;
+                    rng_val = gRng_6F6784.get_int_4F7AE0(max_moving_retry);
                 }
             }
         }
@@ -11370,61 +11375,17 @@ void Ped::ApplyAimJitter_46F1E0(Weapon_30* a2)
         switch (rng_val)
         {
             case 1:
-            {
-                s16 ang = field_12E_aim_angle.rValue - kAng10_6784C8.rValue;
-                if (ang < 0)
-                {
-                    ang += 1440 * ((1439 - ang) / 0x5A0u);
-                }
-                if (ang >= 1440)
-                {
-                    ang -= 1440 * (ang / 0x5A0u);
-                }
-                field_12E_aim_angle.rValue = ang;
+                field_12E_aim_angle = field_12E_aim_angle - kAng10_6784C8;
                 break;
-            }
             case 2:
-            {
-                s16 ang = field_12E_aim_angle.rValue + kAng10_6784C8.rValue;
-                if (ang < 0)
-                {
-                    ang += 1440 * ((1439 - ang) / 0x5A0u);
-                }
-                if (ang >= 1440)
-                {
-                    ang -= 1440 * (ang / 0x5A0u);
-                }
-                field_12E_aim_angle.rValue = ang;
+                field_12E_aim_angle = field_12E_aim_angle + kAng10_6784C8;
                 break;
-            }
             case 3:
-            {
-                s16 ang = field_12E_aim_angle.rValue - kAng16_6784E4.rValue;
-                if (ang < 0)
-                {
-                    ang += 1440 * ((1439 - ang) / 0x5A0u);
-                }
-                if (ang >= 1440)
-                {
-                    ang -= 1440 * (ang / 0x5A0u);
-                }
-                field_12E_aim_angle.rValue = ang;
+                field_12E_aim_angle = field_12E_aim_angle - kAng16_6784E4;
                 break;
-            }
             case 4:
-            {
-                s16 ang = field_12E_aim_angle.rValue + kAng16_6784E4.rValue;
-                if (ang < 0)
-                {
-                    ang += 1440 * ((1439 - ang) / 0x5A0u);
-                }
-                if (ang >= 1440)
-                {
-                    ang -= 1440 * (ang / 0x5A0u);
-                }
-                field_12E_aim_angle.rValue = ang;
+                field_12E_aim_angle = field_12E_aim_angle + kAng16_6784E4;
                 break;
-            }
             default:
                 break;
         }
