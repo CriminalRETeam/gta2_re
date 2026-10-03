@@ -16,14 +16,14 @@ DEFINE_GLOBAL_INIT(Ang16, kAng90_667A7C, Ang16(360), 0x667A7C);
 DEFINE_GLOBAL_INIT(Ang16, kAng270_66916C, Ang16(1080), 0x66916C);
 
 MATCH_FUNC(0x408660)
-Fix16 Fix16::operator+(const Fix16& rhs) const
+Fix16 Fix16::operator+(const Fix16& rhs) const throw()
 {
     s32 value = mValue + rhs.mValue;
     return Fix16(value, 0);
 }
 
 MATCH_FUNC(0x408680)
-Fix16 Fix16::Multiply_408680(const Fix16& in) const
+Fix16 Fix16::Multiply_408680(const Fix16& in) const throw()
 {
     s32 value = (s32)((mValue * (__int64)in.mValue) >> 14);
     return Fix16(value, 0);
@@ -77,7 +77,7 @@ Fix16& Fix16::MultiplyAssign_562430(const Fix16& rhs)
 }
 
 MATCH_FUNC(0x4086A0)
-Fix16 Fix16::Negate_4086A0() const
+Fix16 Fix16::Negate_4086A0() const throw()
 {
     return Fix16(-mValue, 0);
 }

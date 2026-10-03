@@ -320,8 +320,10 @@ class Fix16
     EXPORT static Fix16 __stdcall Max_44E540(Fix16& pLhs, Fix16& pRhs);
     EXPORT static Fix16 __stdcall Abs_436A50(Fix16& a2);
     EXPORT static Fix16 __stdcall SquareRoot_436A70(Fix16& a2);
-    EXPORT Fix16 operator+(const Fix16& rhs) const;
-    EXPORT Fix16 Multiply_408680(const Fix16& in) const;
+    // throw(): the original calls these out-of-line copies without an EH frame (their inline
+    // bodies were visible there), see CarPhysics_B0::UpdateReferencePoint_563460
+    EXPORT Fix16 operator+(const Fix16& rhs) const throw();
+    EXPORT Fix16 Multiply_408680(const Fix16& in) const throw();
     // Out-of-line copies of operators, which big functions call once they run out of inline
     // expansions (Sprite_4C::DrawCollisionBox_5A4DA0)
     EXPORT Fix16 Subtract_436A00(const Fix16& in) const;
@@ -331,7 +333,7 @@ class Fix16
     EXPORT Fix16& DivideAssign_539F90(const Fix16& rhs);
     EXPORT Fix16 MultiplyInt_561DB0(const s32& in) const;
     EXPORT Fix16& MultiplyAssign_562430(const Fix16& rhs);
-    EXPORT Fix16 Negate_4086A0() const;
+    EXPORT Fix16 Negate_4086A0() const throw();
 
     // Needed this for a GetLength variant used by miss2_0x11C::GetSpeed_50E190.
     inline static Fix16 __stdcall Abs_negate_out_of_line(Fix16& input)
