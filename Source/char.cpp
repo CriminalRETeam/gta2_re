@@ -3024,7 +3024,7 @@ void Char_B4::TurnTowardsAngle_54CAE0()
 
     if (field_14_target_rotation > field_40_rotation)
     {
-        if ((field_40_rotation - field_14_target_rotation <= kAng180_6FD920))
+        if (field_14_target_rotation - field_40_rotation <= kAng180_6FD920)
         {
             this->field_40_rotation += word_6FDA54;
         }
@@ -3035,7 +3035,7 @@ void Char_B4::TurnTowardsAngle_54CAE0()
     }
     else
     {
-        if (field_14_target_rotation - field_40_rotation <= kAng180_6FD920)
+        if (field_40_rotation - field_14_target_rotation > kAng180_6FD920)
         {
             this->field_40_rotation += word_6FDA54;
         }
