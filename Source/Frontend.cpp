@@ -1544,7 +1544,7 @@ void Frontend::DrawCredits_4B7AE0()
             else
             {
                 s32 v7 = Frontend::GetMaxTextWidth_5D8990(pStrBuf, font_type);
-                u32 draw_x = (640 - v7) / 2;
+                u16 draw_x = (640 - v7) / 2;
                 DrawText_5D8A10(pStrBuf, draw_x, y, font_type, 1, draw_kind, palette, 0, 0);
             }
         }
