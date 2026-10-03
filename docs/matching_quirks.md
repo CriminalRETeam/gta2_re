@@ -1082,6 +1082,13 @@ kept the rest inlined (0.476 -> 0.843). It matched `Crane_15C::ComputeHookPos_47
 `_47E730`. `GetDoorWorldPos_43B420` has the same shape, and it may help `fire_truck_gun_5E0E70`
 and the `EmitBloodBurst`/`EmitWaterSplash` siblings.
 
+**Use one out-of-line callee per operator throughout the function.** Past the budget VC6 calls a
+COMDAT copy of `operator*`, which is a different target from the original's `Multiply_408680`.
+Mixing the two fails, so every site in the function must go through the named helper: a local
+inline `PolarToCartesian` that calls `Multiply_408680`, and `Normalize_406C20`, `Subtract_436A00`,
+`Add_408660`, `Negate_4086A0`, `Divide_436A20` instead of the operators
+(`Char_B4::ApplyMovement_54CC40`, `HandleGenericCollision_54A530`).
+
 ## Inline asm
 
 **16-bit `pushaw`/`popaw`.** The inline assembler can't spell them. Put `_emit 0x66` before
