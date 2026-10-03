@@ -539,6 +539,14 @@ line (operator+ -> ctor -> Normalize is too deep); the ctor form `Ang16(a.rValue
 (`Wolfy_30::state_13_14_5411E0`). To force the rotation operators out of line, write `Multiply_408680`/`Negate_4086A0`
 calls explicitly and pass `(const Fix16&)` to get the const out-of-line `operator+` 0x408660.
 
+**A shared local in the first test makes VC6 skip the whole chain.** When one local feeds both the first type check
+and a later chain of type checks, VC6 jumps past the entire chain when the first test fails. Reading the field
+directly in the first check keeps the original jump target (`Car_BC::CanCarCollideWithSprite_43AAF0`).
+
+**`xor eax,eax; mov ax,..; mov al,..` is a 3-byte `memset(arr, 0, 3)`** (`GetMainAndBonusStagesFromSeqFile_4B4440`).
+
+**Default-constructed `Fix16_Point` locals count against the inline budget** (`SpawnCabAndTrailerHelper_408370`).
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 
