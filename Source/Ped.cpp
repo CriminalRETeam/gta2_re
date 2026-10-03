@@ -4436,116 +4436,114 @@ void Ped::SetObjective2_463830(s32 car_state, s16 a3)
     Car_Door_10* pDoor; // eax
     Char_B4* game_object; // eax
     Car_Door_10* pDoor_; // edi
-    u8 tmp; // [esp+4h] [ebp-10h]
+    u8 mode; // [esp+4h] [ebp-10h]
     u8 x_int; // [esp+8h] [ebp-Ch] BYREF
     u8 y_int; // [esp+Ch] [ebp-8h] BYREF
     u8 z_int; // [esp+10h] [ebp-4h] BYREF
 
-    tmp = 99;
-    if (this->field_278_ped_state_1 != ped_state_1::dead_9)
+    mode = 99;
+    if (this->field_278_ped_state_1 == ped_state_1::dead_9)
     {
-        ped_state_2 = this->field_27C_ped_state_2;
-        if (ped_state_2 == ped_state_2::ped2_entering_a_car_6 || ped_state_2 == ped_state_2::ped2_getting_out_a_car_7)
+        return;
+    }
+
+    ped_state_2 = this->field_27C_ped_state_2;
+    if (ped_state_2 == ped_state_2::ped2_entering_a_car_6 || ped_state_2 == ped_state_2::ped2_getting_out_a_car_7)
+    {
+        target_to_enter = this->field_154_target_to_enter;
+        if (target_to_enter)
         {
-            target_to_enter = this->field_154_target_to_enter;
-            if (target_to_enter)
+            pDoor = target_to_enter->GetDoor(this->field_24C_target_car_door);
+        }
+        else
+        {
+            game_object = this->field_168_game_object;
+            if (game_object)
             {
-                pDoor = target_to_enter->GetDoor(this->field_24C_target_car_door);
+                pDoor = game_object->field_84_target_car->GetDoor(this->field_24C_target_car_door);
             }
             else
             {
-                game_object = this->field_168_game_object;
-                if (game_object)
-                {
-                    pDoor = game_object->field_84_target_car->GetDoor(this->field_24C_target_car_door);
-                }
-                else
-                {
-                    pDoor = this->field_16C_car->GetDoor(this->field_24C_target_car_door);
-                }
+                pDoor = this->field_16C_car->GetDoor(this->field_24C_target_car_door);
             }
-            pDoor_ = pDoor;
-            pDoor->Close_439EA0();
-            pDoor_->set_ped_421380(0);
         }
-
-        this->field_21A_car_state_timer = a3;
-        this->field_25C_internal_objective = car_state;
-        this->field_1C4_x = Fix16(-16384, 0);
-        this->field_1C8_y = Fix16(-16384, 0);
-        this->field_1CC_z = Fix16(-16384, 0);
-        this->field_1D0_internal_target_x = kFpZero_678660;
-        this->field_1D4_internal_target_y = kFpZero_678660;
-        this->field_1D8_internal_target_z = kFpZero_678660;
-        this->field_14C_internal_target_ped = 0;
-        this->field_154_target_to_enter = 0;
-        this->field_1A4_internal_target_object = 0;
-        this->field_226_internal_objective_status = 0;
-        switch (car_state)
-        {
-            case objectives_enum::no_obj_0:
-            case objectives_enum::kill_frenzy_22:
-            case objectives_enum::objective_49:
-                tmp = 1;
-                Ped::ChangePedStatesByMode_463300(tmp);
-                break;
-            case objectives_enum::flee_on_foot_till_safe_1:
-            case objectives_enum::flee_char_on_foot_till_safe_2:
-            case objectives_enum::flee_char_on_foot_always_3:
-                Ped::ChangePedStatesByMode_463300(2);
-                return;
-            case objectives_enum::objective_7:
-            case objectives_enum::objective_9:
-            case objectives_enum::objective_11:
-            case objectives_enum::goto_area_on_foot_12:
-            case objectives_enum::objective_18:
-            case objectives_enum::kill_char_on_foot_20:
-            case objectives_enum::punch_char_23:
-            case objectives_enum::objective_48:
-                Ped::ChangePedStatesByMode_463300(3);
-                return;
-            case objectives_enum::goto_area_in_car_14:
-                Ped::ChangePedStatesByMode_463300(5);
-                return;
-            case objectives_enum::objective_17:
-                x_int = this->field_1AC_cam.x.ToUInt8();
-                y_int = this->field_1AC_cam.y.ToUInt8();
-                z_int = this->field_1AC_cam.z.ToUInt8();
-                gMap_0x370_6F6268->FindNearbyBlockOfType_4E4930(&x_int, &y_int, &z_int, 2);
-                this->field_1D0_internal_target_x = kFpHalf_67853C + Fix16(x_int);
-                this->field_1D4_internal_target_y = kFpHalf_67853C + Fix16(y_int);
-                this->field_1D8_internal_target_z = kFpOne_678664 + Fix16(z_int);
-                Ped::ChangePedStatesByMode_463300(3);
-                return;
-            case objectives_enum::wait_on_foot_26:
-            case objectives_enum::objective_29:
-            case objectives_enum::objective_30:
-            case objectives_enum::objective_44:
-            case objectives_enum::objective_45:
-            case objectives_enum::objective_46:
-            case objectives_enum::objective_47:
-                Ped::ChangePedStatesByMode_463300(4);
-                return;
-            case objectives_enum::enter_car_as_driver_35:
-                Ped::ChangePedStatesByMode_463300(6);
-                return;
-            case objectives_enum::leave_car_36:
-                Ped::ChangePedStatesByMode_463300(7);
-                return;
-            case objectives_enum::enter_train_37:
-                Ped::ChangeNextPedState1_45C500(ped_state_1::unknown_5);
-                Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_5);
-                goto LABEL_21;
-            case objectives_enum::leave_train_38:
-                Ped::ChangeNextPedState1_45C500(ped_state_1::unknown_6);
-                Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_driving_10); // ??
-                goto LABEL_21;
-            default:
-            LABEL_21:
-                Ped::ChangePedStatesByMode_463300(tmp);
-                break;
-        }
+        pDoor_ = pDoor;
+        pDoor->Close_439EA0();
+        pDoor_->set_ped_421380(0);
     }
+
+    this->field_21A_car_state_timer = a3;
+    this->field_25C_internal_objective = car_state;
+    this->field_1C4_x = Fix16(-16384, 0);
+    this->field_1C8_y = Fix16(-16384, 0);
+    this->field_1CC_z = Fix16(-16384, 0);
+    this->field_1D0_internal_target_x = kFpZero_678660;
+    this->field_1D4_internal_target_y = kFpZero_678660;
+    this->field_1D8_internal_target_z = kFpZero_678660;
+    this->field_14C_internal_target_ped = 0;
+    this->field_154_target_to_enter = 0;
+    this->field_1A4_internal_target_object = 0;
+    this->field_226_internal_objective_status = 0;
+    switch (car_state)
+    {
+        case objectives_enum::flee_on_foot_till_safe_1:
+        case objectives_enum::flee_char_on_foot_till_safe_2:
+        case objectives_enum::flee_char_on_foot_always_3:
+            mode = 2;
+            break;
+        case objectives_enum::objective_7:
+        case objectives_enum::objective_9:
+        case objectives_enum::objective_11:
+        case objectives_enum::goto_area_on_foot_12:
+        case objectives_enum::objective_18:
+        case objectives_enum::kill_char_on_foot_20:
+        case objectives_enum::punch_char_23:
+        case objectives_enum::objective_48:
+            mode = 3;
+            break;
+        case objectives_enum::enter_car_as_driver_35:
+            mode = 6;
+            break;
+        case objectives_enum::enter_train_37:
+            Ped::ChangeNextPedState1_45C500(ped_state_1::unknown_5);
+            Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_5);
+            break;
+        case objectives_enum::leave_train_38:
+            Ped::ChangeNextPedState1_45C500(ped_state_1::unknown_6);
+            Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_driving_10); // ??
+            break;
+        case objectives_enum::leave_car_36:
+            mode = 7;
+            break;
+        case objectives_enum::objective_17:
+            x_int = this->field_1AC_cam.x.ToUInt8();
+            y_int = this->field_1AC_cam.y.ToUInt8();
+            z_int = this->field_1AC_cam.z.ToUInt8();
+            gMap_0x370_6F6268->FindNearbyBlockOfType_4E4930(&x_int, &y_int, &z_int, 2);
+            this->field_1D0_internal_target_x = kFpHalf_67853C + Fix16(x_int);
+            this->field_1D4_internal_target_y = kFpHalf_67853C + Fix16(y_int);
+            this->field_1D8_internal_target_z = kFpOne_678664 + Fix16(z_int);
+            mode = 3;
+            break;
+        case objectives_enum::goto_area_in_car_14:
+            mode = 5;
+            break;
+        case objectives_enum::wait_on_foot_26:
+        case objectives_enum::objective_29:
+        case objectives_enum::objective_30:
+        case objectives_enum::objective_44:
+        case objectives_enum::objective_45:
+        case objectives_enum::objective_46:
+        case objectives_enum::objective_47:
+            mode = 4;
+            break;
+        case objectives_enum::no_obj_0:
+        case objectives_enum::kill_frenzy_22:
+        case objectives_enum::objective_49:
+            mode = 1;
+            break;
+    }
+    Ped::ChangePedStatesByMode_463300(mode);
 }
 
 MATCH_FUNC(0x463aa0)
