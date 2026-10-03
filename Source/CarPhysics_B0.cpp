@@ -1284,6 +1284,9 @@ char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* 
 {
     WIP_IMPLEMENTED;
 
+    // The original has an EH state from entry for an object with a destructor that has no storage
+    Fix16_Point unused_point;
+
     Sprite* pSprite = this->field_5C_pCar->field_50_car_sprite;
     s32 corner_idx_ = 0;
     this->field_AB_tpa = 0;
@@ -1296,13 +1299,7 @@ char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* 
         }
     }
 
-    if (gMap_0x370_6F6268->IsZOnGround_4E5170(this->field_38_cp1.x, this->field_38_cp1.y, this->field_6C_cp3))
-    {
-        *check_mask = 0;
-        this->field_9C_block_spec =
-            gMap_0x370_6F6268->GetBlockSpec_4E00A0(this->field_38_cp1.x, this->field_38_cp1.y, this->field_6C_cp3 - k_dword_6FE210);
-    }
-    else
+    if (!gMap_0x370_6F6268->IsZOnGround_4E5170(this->field_38_cp1.x, this->field_38_cp1.y, this->field_6C_cp3))
     {
         this->field_9C_block_spec = 0;
         u32 v29;
@@ -1312,28 +1309,7 @@ char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* 
             this->field_AB_tpa = 1;
         }
 
-        if (*check_mask)
-        {
-            Trailer* pTrailer = this->field_5C_pCar->field_64_pTrailer;
-            if (!pTrailer || pTrailer->GetCabOrLoadedCar_407B90(field_5C_pCar)->field_58_physics->field_98_surface_type == car_surface_type::air_surface_6)
-            {
-                u8 mask_ = 1;
-                do
-                {
-                    if (((u8)mask_ & (u8)*check_mask) != mask_)
-                    {
-                        Fix16 v28 = Fix16(0xC8000, 0);
-                        Fix16_Point pCorner_ = pSprite->GetBoundingBoxCorner_562450(corner_idx_);
-                        Fix16_Point v10 = (pCorner_ - field_30_cm1);
-                        Fix16_Point v11 = (v10 / v28);
-                        ApplyImpulseWithTrailerRedirect_55FA10(&v11);
-                    }
-                    ++corner_idx_;
-                    mask_ *= 2;
-                } while (corner_idx_ < 4);
-            }
-        }
-        else
+        if (!*check_mask)
         {
             if (field_98_surface_type != car_surface_type::slope_northwards_1 && field_98_surface_type != car_surface_type::slope_southwards_2 && field_98_surface_type != car_surface_type::slope_westwards_3 && field_98_surface_type != car_surface_type::slope_eastwards_4)
             {
@@ -1348,6 +1324,31 @@ char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* 
                 return result;
             }
         }
+        else
+        {
+            Trailer* pTrailer = this->field_5C_pCar->field_64_pTrailer;
+            if (!pTrailer || pTrailer->GetCabOrLoadedCar_407B90(field_5C_pCar)->field_58_physics->field_98_surface_type == car_surface_type::air_surface_6)
+            {
+                u8 mask_ = 1;
+                do
+                {
+                    if (((u8)mask_ & (u8)*check_mask) != mask_)
+                    {
+                        Fix16 v28 = Fix16(0xC8000, 0);
+                        // Temporaries chained: corner, corner - cm1, / v28, each with its own EH state
+                        ApplyImpulseWithTrailerRedirect_55FA10(&(pSprite->GetBoundingBoxCorner_562450(corner_idx_) - field_30_cm1).Divide_442CB0(v28));
+                    }
+                    ++corner_idx_;
+                    mask_ *= 2;
+                } while (corner_idx_ < 4);
+            }
+        }
+    }
+    else
+    {
+        *check_mask = 0;
+        this->field_9C_block_spec =
+            gMap_0x370_6F6268->GetBlockSpec_4E00A0(this->field_38_cp1.x, this->field_38_cp1.y, this->field_6C_cp3 - k_dword_6FE210);
     }
 
     Fix16 cp3 = this->field_6C_cp3;
@@ -1386,10 +1387,7 @@ char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* 
                     if (((u8)mask & (u8)water_mask) != mask)
                     {
                         Fix16 v28_ = Fix16(819200, 0);
-                        Fix16_Point pCorner = pSprite->GetBoundingBoxCorner_562450(corner_idx);
-                        Fix16_Point v24 = field_30_cm1 - pCorner;
-                        Fix16_Point v25 = v24 / v28_;
-                        ApplyImpulseWithTrailerRedirect_55FA10(&v25);
+                        ApplyImpulseWithTrailerRedirect_55FA10(&(field_30_cm1 - pSprite->GetBoundingBoxCorner_562450(corner_idx)).Divide_442CB0(v28_));
                         water_mask = water_mask_;
                     }
                     ++corner_idx;
