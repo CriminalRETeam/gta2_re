@@ -285,7 +285,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x5CFA70 | `Garox_107C_sub::DrawGangRespectBars_5CFA70` | 0x4C74F0 | ✓ `angry_lewin_0x85C::sub_4219D0`, ✓ `rng::get_cur_rng_41CFE0` | done | all 9.6f inlines used |
 | 0x5D0620 | `Hud_Arrow_7C::sub_5D0620` | 0x4C7E60 | ✓ `sub_4C6F20`, ✓ `sub_4C7060`, ✓ `sub_4C6FB0`, ✓ `sub_432860` | matched | SetXY_432860 on one point x2; 67->53 |
 | 0x5D1B10 | `Garox_C4::FormatAndSetupText_5D1B10` | 0x4C8AA0 | ✓ `Garox_C4::sub_4C70E0` | done | new Garox_C4::ClearAlpha_4C70E0 (byte store matches now); 15 unchanged |
-| 0x5D2AB0 | `Hud_Pager_C::DrawPager_5D2AB0` | 0x4C9040 | ✓ `sub_4C7250`, `sub_4C8CA0` | checked | sub_4C8CA0 pairs with 10.5 out-of-line 5D2380/5D2680 (called) |
+| 0x5D2AB0 | `Hud_Pager_C::DrawPager_5D2AB0` | 0x4C9040 | matched | checked | sub_4C8CA0 pairs with 10.5 out-of-line 5D2380/5D2680 (called) |
 | 0x5D3B80 | `Hud_Brief_704::DrawBrief_5D3B80` | 0x4C9430 | matched | done | GetLineSpacingFromFontType_5D7700_inlined + s32 ypos; 20->0 CANDIDATE MATCH (w.sh only) |
 | 0x5D4A10 | `Hud_CarName_4C::sub_5D4A10` | 0x4C94F0 | matched | done | get_sprite_width_4C7220; stays 0 (candidate, w.sh only) |
 | 0x5D61A0 | `DrawPlayerStatsHelper_5D61A0` | 0x4C9B40 | ✓ `sub_420220` | done | all 9.6f inlines used |
