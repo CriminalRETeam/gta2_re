@@ -1638,13 +1638,13 @@ WIP_FUNC(0x44a1f0)
 void CarAI_78::sub_44A1F0()
 {
     WIP_IMPLEMENTED;
-
     Ang16 v2 = kAng0_677CE8;
     Ang16 v3 = kAng0_677CE8;
     Fix16 vec_x;
-    Fix16 vec_y = kF16Zero_677B90;
+    Fix16 vec_y;
 
     field_24_flags &= ~0x2000u;
+    vec_y = kF16Zero_677B90;
 
     s32 v34 = field_0_car->field_50_car_sprite->field_1C_zpos.ToInt();
     Ang16 v39 = v3;
@@ -1697,9 +1697,9 @@ void CarAI_78::sub_44A1F0()
 
                         if (v12 <= dword_6779C8) // 9.6f idb line 131
                         {
-                            if (v3 > v39 - dword_677A08) // 9.6f idb line 134
+                            if (v3 > Ang16(v39.rValue - dword_677A08.rValue, 0)) // 9.6f idb line 134
                             {
-                                if (v3 < v2 - word_677CE2)
+                                if (v3 < Ang16(v2.rValue - word_677CE2.rValue, 0))
                                 {
                                     field_0_car->field_58_physics->SetGoStraight_42ABB0();
                                 }
@@ -1714,9 +1714,9 @@ void CarAI_78::sub_44A1F0()
                             }
                         }
                         // 9.6f idb line 139
-                        else if (v3 < v39 + dword_677A08)
+                        else if (v3 < Ang16(v39.rValue + dword_677A08.rValue, 0))
                         {
-                            if (v3 > v2 + word_677CE2)
+                            if (v3 > Ang16(v2.rValue + word_677CE2.rValue, 0))
                             {
                                 field_0_car->field_58_physics->SetGoStraight_42ABB0();
                             }
@@ -1859,10 +1859,10 @@ void CarAI_78::sub_44A1F0()
                         if (v17 <= dword_6779C8)
                         {
                             // 9.6f idb line 217
-                            if (v3 < v2 - word_677CE2)
+                            if (v3 < Ang16(v2.rValue - word_677CE2.rValue, 0))
                             {
                                 // 9.6f idb line 225
-                                if (v3 > v39 - dword_677A08)
+                                if (v3 > Ang16(v39.rValue - dword_677A08.rValue, 0))
                                 {
                                     field_0_car->field_58_physics->SetGoStraight_42ABB0();
                                 }
@@ -1879,9 +1879,9 @@ void CarAI_78::sub_44A1F0()
                         else
                         {
                             // 9.6f idb line 235
-                            if (v3 > v2 + word_677CE2)
+                            if (v3 > Ang16(v2.rValue + word_677CE2.rValue, 0))
                             {
-                                if (v3 < dword_677A08 + v39)
+                                if (v3 < Ang16(dword_677A08.rValue + v39.rValue, 0))
                                 {
                                     field_0_car->field_58_physics->SetGoStraight_42ABB0();
                                 }
