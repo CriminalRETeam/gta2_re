@@ -727,14 +727,13 @@ WIP_FUNC(0x5de4f0)
 void Weapon_30::sub_5DE4F0()
 {
     Sprite* pBeam = gObject_5C_6F8F84->field_58_collision_probe_sprite;
-    Fix16_Point delta;
-    delta.x = field_24_pPed->field_198->field_1AC_cam.x - field_24_pPed->field_1AC_cam.x;
-    delta.y = field_24_pPed->field_198->field_1AC_cam.y - field_24_pPed->field_1AC_cam.y;
+    Fix16_Point delta(field_24_pPed->field_198->get_cam_x() - field_24_pPed->get_cam_x(),
+                      field_24_pPed->field_198->get_cam_y() - field_24_pPed->get_cam_y());
     gRozza_679188.Reset_4637B0();
 
-    Fix16 dx = field_24_pPed->field_198->field_1AC_cam.x - field_24_pPed->field_1AC_cam.x;
-    Fix16 dy = field_24_pPed->field_198->field_1AC_cam.y - field_24_pPed->field_1AC_cam.y;
-    Ang16 angle = Fix16::atan2_fixed_405320(dy, dx);
+    Ang16 angle;
+    angle = Fix16::atan2_fixed_405320(field_24_pPed->field_198->get_cam_y() - field_24_pPed->get_cam_y(),
+                                      field_24_pPed->field_198->get_cam_x() - field_24_pPed->get_cam_x());
 
     Fix16 dist;
     if (delta.x == dword_706EB8)
@@ -747,7 +746,7 @@ void Weapon_30::sub_5DE4F0()
     }
     else
     {
-        dist = Fix16::SquareRoot_436A70(delta.x * delta.x + delta.y * delta.y);
+        dist = Fix16::SquareRoot_436A70((const Fix16&)delta.x.Multiply_408680(delta.x) + delta.y * delta.y);
     }
 
     if (dist > dword_706EC4)
@@ -779,8 +778,10 @@ void Weapon_30::sub_5DE4F0()
         step_len = dist;
     }
 
-    Fix16 step_x = Ang16::sine_40F500(angle) * step_len;
-    Fix16 step_y = Ang16::cosine_40F520(angle) * step_len;
+    Fix16 step_x;
+    Fix16 step_y;
+    step_x = Ang16::sine_40F500(angle) * step_len;
+    step_y = Ang16::cosine_40F520(angle).Multiply_408680(step_len);
     s32 count = steps.ToInt();
     for (u8 i = 1; i <= count; i++)
     {
@@ -826,10 +827,9 @@ void Weapon_30::sub_5DE4F0()
         gPolice_7B8_6FEE40->field_7B0 = field_24_pPed;
     }
 
-    Fix16 zpos = field_24_pPed->field_1AC_cam.z;
-    sub_5DE910(field_24_pPed->field_198->field_168_game_object->field_80_sprite_ptr->get_x_y_443580(),
+    sub_5DE910(field_24_pPed->field_168_game_object->field_80_sprite_ptr->get_x_y_443580(),
                field_24_pPed->field_198->field_168_game_object->field_80_sprite_ptr->get_x_y_443580(),
-               zpos);
+               field_24_pPed->get_cam_z());
 }
 
 DEFINE_GLOBAL(Fix16, dword_706CF8, 0x706CF8);
