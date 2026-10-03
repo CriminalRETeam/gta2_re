@@ -242,10 +242,9 @@ s16 sad_mirzakhani::GetBonusResult_432080(u16 idx)
     }
 }
 
-WIP_FUNC(0x4320D0);
+MATCH_FUNC(0x4320D0);
 void sad_mirzakhani::ProcessBonusEvent_4320D0(s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s32 f_14, s32 f_18, gmp_map_zone* pZone)
 {
-    WIP_IMPLEMENTED;
     for (u16 i = 0; i < 10u; i++)
     {
         i = find_431EC0(i, f_4, f_8, f_c, f_10, f_12, f_14, f_18, pZone);
@@ -255,7 +254,7 @@ void sad_mirzakhani::ProcessBonusEvent_4320D0(s16 f_4, s32 f_8, s32 f_c, s16 f_1
         }
         silly_saha_0x2C* pFound = &field_0_bonuses[i];
         field_0_bonuses[i].field_26_count++;
-        if (pFound->field_26_count == pFound->field_25_target_count)
+        if (get_bonus_count_476660(i) == pFound->field_25_target_count)
         {
             field_1B8_pScores->field_368_player->Add_2D4(pFound->field_28_reward);
             pFound->Deactivate_431DB0();
