@@ -312,7 +312,7 @@ class Hud_Pager_C
     EXPORT void Service_5D2320();
     EXPORT void DrawCounterDigits_5D2380(s32 a2, s32 a3);
     EXPORT void DrawDigits_5D2680(s32 a2, s32 a3);
-    EXPORT void DrawPager_5D2AB0(s32 xpos, s32 ypos);
+    EXPORT void DrawPager_5D2AB0(u32 xpos, s32 ypos);
 
     EXPORT Hud_Pager_C();
     s32 field_0_timer;

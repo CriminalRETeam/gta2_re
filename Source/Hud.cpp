@@ -1506,59 +1506,49 @@ void Hud_Pager_C::DrawDigits_5D2680(s32 xpos, s32 ypos)
 }
 
 // https://decomp.me/scratch/3IY3c
-WIP_FUNC(0x5d2ab0)
-void Hud_Pager_C::DrawPager_5D2AB0(s32 xpos, s32 ypos)
+MATCH_FUNC(0x5d2ab0)
+void Hud_Pager_C::DrawPager_5D2AB0(u32 xpos, s32 ypos)
 {
-    WIP_IMPLEMENTED;
     const s32 palette_type = palette_types_enum::sprites_2;
-    if (field_0_timer < 0)
+    if (field_0_timer < 0 && !field_4_ptr_counter)
     {
-        if (!field_4_ptr_counter)
-        {
-            return;
-        }
-        if (field_0_timer < 0)
-        {
-            goto LABEL_8;
-        }
+        return;
     }
-    if (field_4_ptr_counter)
+
+    if (field_0_timer >= 0 && field_4_ptr_counter)
     {
         s32 v9 = get_sprite_height_4C7250(117);
         s32 v45 = get_sprite_height_4C7250(118);
         s32 v10 = get_sprite_height_4C7250(119);
 
-        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - v9 / 2 - (v10 >> 1), kAngZero_706610, palette_type, 0, 0, 0);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - v9 / 2 - v10 / 2, kAngZero_706610, palette_type, 0, 0, 0);
 
-        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 119, xpos, ypos, kAngZero_706610, palette_type, 0, 0, 0);
+        // The middle sprite's y goes through the Fix16(u32) constructor (out-of-line copy 0x4926F0) like x does
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 119, xpos, (u32)ypos, kAngZero_706610, palette_type, 0, 0, 0);
 
-        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + (v10 >> 1) + v45 / 2, kAngZero_706610, palette_type, 0, 0, 0);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + v10 / 2 + v45 / 2, kAngZero_706610, palette_type, 0, 0, 0);
         Hud_Pager_C::DrawCounterDigits_5D2380(xpos, ypos - 6);
         Hud_Pager_C::DrawDigits_5D2680(xpos, ypos + 6);
     }
+    else if (field_0_timer >= 0)
+    {
+        s32 v20 = get_sprite_height_4C7250(117);
+        s32 v22 = get_sprite_height_4C7250(118);
+
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - v20 / 2, kAngZero_706610, palette_type, 0, 0, 0);
+
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + v22 / 2, kAngZero_706610, palette_type, 0, 0, 0);
+        Hud_Pager_C::DrawDigits_5D2680(xpos, ypos);
+    }
     else
     {
-        if (field_0_timer < 0)
-        {
-        LABEL_8:
-            s32 v29 = get_sprite_height_4C7250(117);
-            s32 v31 = get_sprite_height_4C7250(118);
+        s32 v29 = get_sprite_height_4C7250(117);
+        s32 v31 = get_sprite_height_4C7250(118);
 
-            DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - v29 / 2, kAngZero_706610, palette_type, 0, 0, 0);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - v29 / 2, kAngZero_706610, palette_type, 0, 0, 0);
 
-            DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + v31 / 2, kAngZero_706610, palette_type, 0, 0, 0);
-            Hud_Pager_C::DrawCounterDigits_5D2380(xpos, ypos);
-        }
-        else
-        {
-            s32 v20 = get_sprite_height_4C7250(117);
-            s32 v22 = get_sprite_height_4C7250(118);
-
-            DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - v20 / 2, kAngZero_706610, palette_type, 0, 0, 0);
-
-            DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + v22 / 2, kAngZero_706610, palette_type, 0, 0, 0);
-            Hud_Pager_C::DrawDigits_5D2680(xpos, ypos);
-        }
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + v31 / 2, kAngZero_706610, palette_type, 0, 0, 0);
+        Hud_Pager_C::DrawCounterDigits_5D2380(xpos, ypos);
     }
 }
 
