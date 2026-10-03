@@ -1117,6 +1117,8 @@ bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect)
     // Last rotation
     // In 9.6f, it's RotateAndTranslatePoint_42A720.
     // Either this was changed in 10.5 or, for some reason, it doesn't get inlined
+    // Out-of-line copies: the function has run out of inline expansions. The original also calls
+    // the out-of-line operator/ (0x53E860) for both / 2 and Add_408660 for the x sum
     ProjectOntoAxis_5A5AA0((pOtherRect->get_left_45ADB0() + pOtherRect->get_right_45ADA0()) / 2,
                            (pOtherRect->get_bottom_45ADC0() + pOtherRect->get_top_45ADD0()) / 2,
                            -field_0,
@@ -1125,9 +1127,9 @@ bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect)
                            pRotTransX,
                            pRotTransY);
 
-    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    if (pRotTransX >= half_width.Negate_4086A0() && pRotTransX <= half_width)
     {
-        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        if (pRotTransY >= half_height.Negate_4086A0() && pRotTransY <= half_height)
         {
             return true;
         }
