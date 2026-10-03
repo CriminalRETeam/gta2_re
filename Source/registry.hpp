@@ -58,7 +58,7 @@ class Registry
 
     EXPORT DWORD Create_Player_Setting_587810(const char_type* lpValueName);
 
-    EXPORT void Set_Player_Setting_5878C0(const char_type* lpValueName, BYTE Data);
+    EXPORT void Set_Player_Setting_5878C0(const char_type* lpValueName, DWORD Data);
 
     EXPORT void Set_Screen_Setting_587170(const char_type* lpValueName, s32 Data);
 

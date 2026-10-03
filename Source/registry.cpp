@@ -530,12 +530,12 @@ DWORD Registry::Create_Player_Setting_587810(const char_type* lpValueName)
 }
 
 MATCH_FUNC(0x5878C0)
-void Registry::Set_Player_Setting_5878C0(const char_type* lpValueName, BYTE Data)
+void Registry::Set_Player_Setting_5878C0(const char_type* lpValueName, DWORD Data)
 {
     HKEY hKey;
     if (Open_Player_Root_5877A0(&hKey))
     {
-        if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, &Data, sizeof(DWORD)) != ERROR_SUCCESS)
+        if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, (BYTE*)&Data, sizeof(DWORD)) != ERROR_SUCCESS)
         {
             FatalError_4A38C0(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1171);
         }

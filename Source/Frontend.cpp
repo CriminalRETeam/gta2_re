@@ -1907,9 +1907,8 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
     player_stats_0xA4* v3; // ebp
     u16 target_page_idx; // ax
     u8 v5; // bl
-    char_type main_stage_idx; // al
-    u8 v7; // bl
-    u8 v8; // di
+    u8 main_stage_idx; // al
+    u8 v7;
     u16 field_BC6_nifty_idx; // cx
     menu_option_0x82* v11; // edi
     bool v12; // bl
@@ -1917,11 +1916,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
     u16 v14; // cx
     menu_option_0x82* v15; // edi
     bool v16; // bl
-    bool v17; // al
     MenuPage_0xBCA* v18; // [esp+10h] [ebp-Ch]
-    u8 v19; // [esp+14h] [ebp-8h]
-    s32 v20; // [esp+18h] [ebp-4h]
-    u8 i; // [esp+18h] [ebp-4h]
     u8 stage_main_idx;
     u8 stage_bonus_idx;
 
@@ -1930,11 +1925,73 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
     v3 = GetCurrPlayerStats_4B43E0();
     if (field_C9D0_return_pressed)
     {
-        if (pBorg->field_4_options_array[pBorg->field_BC6_current_option_idx].field_0_option_type == STRING_TEXT_1)
+        menu_option_0x82* pOption = &pBorg->field_4_options_array[pBorg->field_BC6_current_option_idx];
+        if (pOption->field_0_option_type == STRING_TEXT_1)
         {
-            target_page_idx = pBorg->field_4_options_array[pBorg->field_BC6_current_option_idx].field_80_menu_page_target;
+            target_page_idx = pOption->field_80_menu_page_target;
             switch (target_page_idx)
             {
+                case 263u:
+                    stage_main_idx = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
+                    v5 = 3;
+                    for (stage_bonus_idx = 3; !v3->field_0_plyr_stage_stats[stage_main_idx][stage_bonus_idx].field_0_is_stage_unlocked || v5 >= field_1EB51_num_bonus_stages[stage_main_idx]; stage_bonus_idx = v5)
+                    {
+                        --v5;
+                    }
+                    LoadMapFilenames_4B4D00(stage_main_idx, stage_bonus_idx);
+                    gLucid_hamilton_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(0);
+                    field_EE08_menu_screen = RedBar_16;
+                    field_110_state = FrontendState::Booting_Map_2;
+                    snd1_67D818.field_0_object_type = 5;
+                    break;
+                case MENUPAGE_PLAY_NEXT_AREA: // 261
+                    if (!gLucid_hamilton_67E8E0.IsBonusStage_4C59A0())
+                    {
+                        main_stage_idx = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
+                    }
+                    else
+                    {
+                        main_stage_idx = (u8)gLucid_hamilton_67E8E0.GetStage_4C5990() >> 4;
+                    }
+
+                    stage_main_idx = main_stage_idx + 1;
+                    if (FreeLoader::CheckCityInstalled_4AE1F0(main_stage_idx + 1))
+                    {
+                        if (stage_main_idx >= field_1EB50_num_main_stages)
+                        {
+                            FatalError_4A38C0(Gta2Error::InvalidLevelAdvancement, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1543);
+                        }
+
+                        if (!v3->field_0_plyr_stage_stats[stage_main_idx][0].field_0_is_stage_unlocked)
+                        {
+                            FatalError_4A38C0(Gta2Error::LevelNotOpened, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1548);
+                        }
+                        LoadMapFilenames_4B4D00(stage_main_idx, 0);
+                        field_EE08_menu_screen = RedBar_16;
+                        field_110_state = FrontendState::Booting_Map_2;
+                    }
+                    snd1_67D818.field_0_object_type = 5;
+                    break;
+                case MENUPAGE_REPLAY_PREVIOUS_AREA: // 259
+                    gLucid_hamilton_67E8E0.DebugStr_4C58D0("");
+                    field_EE08_menu_screen = RedBar_16;
+                    field_110_state = FrontendState::Booting_Map_2;
+                    snd1_67D818.field_0_object_type = 5;
+                    break;
+                case MENUPAGE_LOADING_SAVE: // 260
+                    stage_bonus_idx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
+                    if (PlySlotSvgExists_4B5370(stage_bonus_idx))
+                    {
+                        sub_4B4EC0();
+                    }
+                    else
+                    {
+                        gLucid_hamilton_67E8E0.DebugStr_4C58D0("");
+                    }
+                    field_EE08_menu_screen = RedBar_16;
+                    field_110_state = FrontendState::Booting_Map_2;
+                    snd1_67D818.field_0_object_type = 5;
+                    break;
                 case MENUPAGE_GTA2MANAGER: // 257
                     Start_GTA2Manager_5E4DE0();
                     snd1_67D818.field_0_object_type = 5;
@@ -1943,84 +2000,25 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
                     field_108_winmain_next_state = Quit_1;
                     snd1_67D818.field_0_object_type = 5;
                     break;
-                case MENUPAGE_REPLAY_PREVIOUS_AREA: // 259
-                    goto LABEL_21;
-                case MENUPAGE_LOADING_SAVE: // 260
-                    v20 = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0(); //  LOBYTE(v20) =
-                    if (PlySlotSvgExists_4B5370(v20))
-                    {
-                        sub_4B4EC0();
-                    }
-                    else
-                    {
-                    }
-                LABEL_21:
-                    gLucid_hamilton_67E8E0.DebugStr_4C58D0("");
-                    goto LABEL_28;
-                case MENUPAGE_PLAY_NEXT_AREA: // 261
-                    if (gLucid_hamilton_67E8E0.IsBonusStage_4C59A0())
-                    {
-                        gLucid_hamilton_67E8E0.DecodeStage_453A60(gLucid_hamilton_67E8E0.GetStage_4C5990(), &stage_main_idx, &stage_bonus_idx);
-                        main_stage_idx = stage_main_idx;
-                    }
-                    else
-                    {
-                        main_stage_idx = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
-                    }
-
-                    v7 = main_stage_idx + 1;
-                    if (!FreeLoader::CheckCityInstalled_4AE1F0(main_stage_idx + 1))
-                    {
-                        goto LABEL_10;
-                    }
-
-                    if (v7 >= (u32)field_1EB50_num_main_stages)
-                    {
-                        FatalError_4A38C0(Gta2Error::InvalidLevelAdvancement, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1543);
-                    }
-
-                    if (!v3->field_0_plyr_stage_stats[v7][0].field_0_is_stage_unlocked)
-                    {
-                        FatalError_4A38C0(Gta2Error::LevelNotOpened, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1548);
-                    }
-                    LoadMapFilenames_4B4D00(v7, 0);
-                    goto LABEL_9;
-                case 263u:
-                    v19 = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
-                    v5 = 3;
-                    for (i = 3; !v3->field_0_plyr_stage_stats[v19][i].field_0_is_stage_unlocked || v5 >= field_1EB51_num_bonus_stages[v19]; i = v5)
-                    {
-                        --v5;
-                    }
-                    LoadMapFilenames_4B4D00(v19, i);
-                    gLucid_hamilton_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(0);
-                    goto LABEL_9;
                 case MENUPAGE_GET_READY_TO_PLAY: // 264
-                    v8 = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
-                    if (!FreeLoader::CheckCityInstalled_4AE1F0(v8))
+                    stage_main_idx = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
+                    if (FreeLoader::CheckCityInstalled_4AE1F0(stage_main_idx))
                     {
-                        goto LABEL_11;
+                        LoadMapFilenames_4B4D00(stage_main_idx, 0);
+                        field_EE08_menu_screen = RedBar_16;
+                        field_110_state = FrontendState::Booting_Map_2;
                     }
-                    LoadMapFilenames_4B4D00(v8, 0);
-                LABEL_28:
-                    field_EE08_menu_screen = RedBar_16;
-                    field_110_state = FrontendState::Booting_Map_2;
                     snd1_67D818.field_0_object_type = 5;
                     break;
                 case MENUPAGE_GET_READY_TO_PLAY_BONUS: // 265
                     gLucid_hamilton_67E8E0.DecodeStage_453A60(gLucid_hamilton_67E8E0.GetStage_4C5990(), &stage_main_idx, &stage_bonus_idx);
-                    if (!FreeLoader::CheckCityInstalled_4AE1F0(stage_main_idx))
+                    if (FreeLoader::CheckCityInstalled_4AE1F0(stage_main_idx))
                     {
-                        goto LABEL_10;
+                        LoadMapFilenames_4B4D00(stage_main_idx, stage_bonus_idx);
+                        gLucid_hamilton_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(1);
+                        field_EE08_menu_screen = RedBar_16;
+                        field_110_state = FrontendState::Booting_Map_2;
                     }
-                    LoadMapFilenames_4B4D00(stage_main_idx, stage_bonus_idx);
-                    gLucid_hamilton_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(1);
-                LABEL_9:
-                    field_EE08_menu_screen = RedBar_16;
-                    field_110_state = FrontendState::Booting_Map_2;
-                LABEL_10:
-                    pBorg = v18;
-                LABEL_11:
                     snd1_67D818.field_0_object_type = 5;
                     break;
                 case MENUPAGE_CONTINUE_NEXT_STAGE: // 266
@@ -2028,7 +2026,8 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
                     snd1_67D818.field_0_object_type = 5;
                     break;
                 case 268u:
-                    goto LABEL_11;
+                    snd1_67D818.field_0_object_type = 5;
+                    break;
                 default:
                     ChangeMenuPage_4B3170(target_page_idx);
                     snd1_67D818.field_0_object_type = 5;
@@ -2091,11 +2090,11 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
         v11 = &pBorg->field_4_options_array[field_BC6_nifty_idx];
         if (v11->field_0_option_type == STRING_TEXT_2)
         {
-            v12 = pBorg->field_4_options_array[pBorg->field_BC6_current_option_idx].SelectPrevHorizontalIdx_4B6390();
+            v12 = v11->SelectPrevHorizontalIdx_4B6390();
             if (field_132_f136_idx == MENUPAGE_PLAY && !v18->field_BC6_current_option_idx)
             {
                 gLucid_hamilton_67E8E0.SetPlySlotIdx_4C5920(v11->field_6E_horizontal_selected_idx);
-                UpdateMenuForCurrPlayer_4B42E0(); // this
+                UpdateMenuForCurrPlayer_4B42E0();
                 gRegistry_6FF968.Set_Player_Setting_5878C0("plyrslot", v11->field_6E_horizontal_selected_idx);
                 if (v12)
                 {
@@ -2111,13 +2110,9 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
                     snd1_67D818.field_0_object_type = 3;
                 }
             }
-
-        LABEL_59:
             pBorg = v18;
-            goto LABEL_60;
         }
-
-        if (field_132_f136_idx == MENUPAGE_PLAY)
+        else if (field_132_f136_idx == MENUPAGE_PLAY)
         {
             if (field_BC6_nifty_idx == 3)
             {
@@ -2132,18 +2127,13 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
             }
         }
     }
-    else
+    else if (field_C9CD_right_pressed)
     {
-        if (!field_C9CD_right_pressed)
-        {
-            goto LABEL_60;
-        }
-
         v14 = pBorg->field_BC6_current_option_idx;
         v15 = &pBorg->field_4_options_array[v14];
         if (v15->field_0_option_type == STRING_TEXT_2)
         {
-            v16 = pBorg->field_4_options_array[pBorg->field_BC6_current_option_idx].SelectNextHorizontalIdx_4B6330(); // this
+            v16 = v15->SelectNextHorizontalIdx_4B6330();
             if (field_132_f136_idx == MENUPAGE_PLAY && !v18->field_BC6_current_option_idx)
             {
                 gLucid_hamilton_67E8E0.SetPlySlotIdx_4C5920(v15->field_6E_horizontal_selected_idx);
@@ -2162,32 +2152,23 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
                     snd1_67D818.field_0_object_type = 4;
                 }
             }
-            goto LABEL_59;
+            pBorg = v18;
         }
-
-        if (field_132_f136_idx == MENUPAGE_PLAY)
+        else if (field_132_f136_idx == MENUPAGE_PLAY)
         {
             if (v14 == 3)
             {
-                v17 = ChangeMainStageToNext_4B7200();
-            }
-            else
-            {
-                if (v14 != 4)
+                if (ChangeMainStageToNext_4B7200())
                 {
-                    goto LABEL_60;
+                    snd1_67D818.field_0_object_type = 4;
                 }
-                v17 = ChangeBonusStageToNext_4B72F0();
             }
-
-            if (v17)
+            else if (v14 == 4 && ChangeBonusStageToNext_4B72F0())
             {
                 snd1_67D818.field_0_object_type = 4;
             }
         }
     }
-
-LABEL_60:
     if (field_C9D2_delete_pressed && field_132_f136_idx == MENUPAGE_PLAY && !pBorg->field_BC6_current_option_idx)
     {
         field_110_state = 4;
