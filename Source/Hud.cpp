@@ -809,8 +809,10 @@ s32 __stdcall DrawPlayerStatsHelper_5D61A0(s32 powerup_idx, s32 base_xpos, u16 o
     if (powerup_idx == power_up_indices::Armor_3)
     {
         swprintf(tmpBuff_67BD9C, L"%d", optional_number);
-        // A u32 x_offset local swaps ebx/ebp for width and base_xpos; inline, the ternary is scheduled late
-        DrawText_5D7720(tmpBuff_67BD9C, base_xpos - (optional_number < 10 ? 18 : 22), 127, gPlayerStatsFont_70646C, 8, 6, 0, 0);
+        // The x goes through the Fix16(u32) constructor (out-of-line copy 0x4926F0), hence 18u/22u.
+        // A u32 x_offset local (ternary) swaps ebx/ebp for width and base_xpos; an if/else local keeps the
+        // registers but branches; inline, the ternary is scheduled late
+        DrawText_5D7720(tmpBuff_67BD9C, base_xpos - (optional_number < 10 ? 18u : 22u), 127, gPlayerStatsFont_70646C, 8, 6, 0, 0);
     }
     return base_xpos - width;
 }
