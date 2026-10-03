@@ -454,10 +454,9 @@ void Garox_4::ShowPrevNumberedBrief_5CF6B0()
 // ----------------------------------------------------
 
 // https://decomp.me/scratch/Uq97l
-WIP_FUNC(0x5d63b0)
+MATCH_FUNC(0x5d63b0)
 void Garox_12E4_sub::DrawPause_5D63B0()
 {
-    WIP_IMPLEMENTED;
 
     u32 sprite_type;
     u16 sprite_pal = 0;
@@ -470,7 +469,8 @@ void Garox_12E4_sub::DrawPause_5D63B0()
         wchar_t* pWMessage = gText_0x14_704DFC->Find_5B5F90("pause");
         s32 max_width = Frontend::GetMaxTextWidth_5D8990(pWMessage, gPauseFont_7063F8);
 
-        s32 y_offset = (gText_0x14_704DFC->field_10_lang_code != 'j') ? 158 : 164;
+        // u32: converts with the Fix16(u32) constructor, whose out-of-line copy is 0x4926F0
+        u32 y_offset = (gText_0x14_704DFC->field_10_lang_code != 'j') ? 158 : 164;
 
         DrawText_5D7720(pWMessage, (640 - max_width) / 2, y_offset, gPauseFont_7063F8, 2, 0, 0, 0);
 
@@ -590,21 +590,20 @@ void Garox_12E4_sub::DrawPause_5D63B0()
 
             s32 max_width_2 = Frontend::GetMaxTextWidth_5D8990(tmpBuff_67BD9C, word_7064D8);
             s32 v28;
-            s32 v27;
             if (sprite_pal != 0)
             {
                 u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_type, sprite_pal);
                 s32 icon_width = gGtx_0x106C_703DD4->get_sprite_width_420220(sprite_idx) + 10;
-                s32 xpos = (640 - icon_width - max_width_2) / 2;
-                DrawFigureScaled_5D7670(sprite_type, sprite_pal, xpos + icon_width / 2, 235, kAngZero_706610, 2, 0, 0, 0);
-                v28 = icon_width + xpos;
+                v28 = (640 - icon_width - max_width_2) / 2;
+                DrawFigureScaled_5D7670(sprite_type, sprite_pal, v28 + icon_width / 2, 235, kAngZero_706610, 2, 0, 0, 0);
+                v28 += icon_width;
             }
             else
             {
-                v27 = 640 - max_width_2 - ((640 - max_width_2) >> 31);
                 v28 = (640 - max_width_2) / 2;
             }
-            DrawText_5D7720(tmpBuff_67BD9C, v28, 220, word_7064D8, 8, 6, 0, 0);
+            // (u32): Fix16(u32) constructor (0x4926F0), the 220 goes through Fix16(s32) (0x4369F0)
+            DrawText_5D7720(tmpBuff_67BD9C, (u32)v28, 220, word_7064D8, 8, 6, 0, 0);
         }
     }
 }
