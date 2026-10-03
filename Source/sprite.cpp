@@ -1333,42 +1333,31 @@ EXPORT bool __stdcall ComputeScanlineIntersectionX_4F77D0(Fix16& minX, Fix16& mi
 {
     WIP_IMPLEMENTED;
 
+    // Same shape as ComputeScanlineIntersectionY_4F76A0, same leftover diff.
     Fix16_Point pd;
-
-    Fix16 p0_x = p0.x;
-    Fix16 p1_x = p1.x;
 
     if (p0.x == p1.x)
     {
         return 0;
     }
 
-    if (p0_x > scanLineX)
+    if (p0.x <= scanLineX && p1.x >= scanLineX)
     {
-        if (p1_x > scanLineX)
+        pd = p1 - p0;
+        Fix16 y = p0.y + (((scanLineX - p0.x) * ((pd.y) / pd.x)));
+        if (y.mValue >= minX.mValue && y.mValue <= minY.mValue)
         {
-            return 0;
-        }
-    }
-    else if (p1_x >= scanLineX)
-    {
-        pd = (p1 - p0);
-        Fix16 p0_y = p0.y + (((scanLineX - p0.x) * ((pd.y) / pd.x)));
-        if (p0_y >= minX && p0_y <= minY)
-        {
-            gRozza_679188.field_18_mapy_t1 = p0_y;
+            gRozza_679188.field_18_mapy_t1 = y;
             return 1;
         }
-        return 0;
     }
-
-    if (p0_x >= scanLineX)
+    else if (p1.x <= scanLineX && p0.x >= scanLineX)
     {
-        pd = (p0 - p1);
-        Fix16 p1_y = p1.y + (((scanLineX - p1.x) * ((pd.y) / pd.x)));
-        if (p1_y >= minX && p1_y <= minY)
+        pd = p0 - p1;
+        Fix16 y = p1.y + (((scanLineX - p1.x) * ((pd.y) / pd.x)));
+        if (y.mValue >= minX.mValue && y.mValue <= minY.mValue)
         {
-            gRozza_679188.field_18_mapy_t1 = p1_y;
+            gRozza_679188.field_18_mapy_t1 = y;
             return 1;
         }
     }
