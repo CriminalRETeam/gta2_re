@@ -996,109 +996,103 @@ void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 a2)
     WIP_IMPLEMENTED;
 
     Fix16 a2_ = a2;
-    s32 surface_type = this->field_98_surface_type;
-
-    Fix16 map_z;
     Fix16 zpos;
-    Fix16 v20;
     Fix16 cp3;
-    s32 surface_type_;
-    Fix16 map_z__;
-    Fix16 a2__;
-    Fix16* new_z;
 
-    switch (surface_type)
+    if (field_98_surface_type == car_surface_type::air_surface_6)
     {
-        case car_surface_type::air_surface_6:
-            if (this->field_6C_cp3 > kMaxZ_6FDF34)
+        if (field_6C_cp3 > kMaxZ_6FDF34)
+        {
+            field_6C_cp3 = kMaxZ_6FDF34;
+        }
+        Fix16 map_z;
+        map_z = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(field_38_cp1.x, field_38_cp1.y, field_6C_cp3);
+        zpos = field_6C_cp3 + (a2_ * g_ZPos_6FE0AC);
+        if (zpos <= map_z)
+        {
+            zpos = map_z;
+        }
+        else if (zpos > kMaxZ_6FDF34)
+        {
+            zpos = kMaxZ_6FDF34;
+        }
+    }
+    else
+    {
+        if (field_98_surface_type == car_surface_type::unknown_surface_7 ||
+            field_98_surface_type == car_surface_type::water_surface_8)
+        {
+            goto reset_z;
+        }
+
+        zpos = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_38_cp1.x, field_38_cp1.y);
+        if (zpos == kFP16Zero_6FE20C)
+        {
+            zpos = k_dword_6FE210;
+        }
+
+        cp3 = field_6C_cp3;
+        if (zpos >= cp3 + kFP16Half_6FE0C0)
+        {
+            if (field_98_surface_type != car_surface_type::slope_northwards_1 &&
+                    field_98_surface_type != car_surface_type::slope_southwards_2 &&
+                    field_98_surface_type != car_surface_type::slope_westwards_3 &&
+                    field_98_surface_type != car_surface_type::slope_eastwards_4 ||
+                zpos.GetFracValue() == kFP16Zero_6FE20C || zpos > cp3 + k_dword_6FE210)
             {
-                this->field_6C_cp3 = kMaxZ_6FDF34;
-            }
-            map_z = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(this->field_38_cp1.x, this->field_38_cp1.y, this->field_6C_cp3);
-            zpos = this->field_6C_cp3 + ((a2_ * g_ZPos_6FE0AC));
-            if (zpos > map_z)
-            {
-                if (zpos > kMaxZ_6FDF34)
+                zpos = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(field_38_cp1.x, field_38_cp1.y, zpos - kFP16One64th_6FE2E0);
+                if (zpos > field_6C_cp3)
                 {
-                    zpos = kMaxZ_6FDF34;
-                }
-            }
-            else
-            {
-                zpos = map_z;
-            }
-            break;
-
-        case car_surface_type::unknown_surface_7:
-            goto LABEL_36;
-
-        case car_surface_type::water_surface_8:
-            goto LABEL_36;
-
-        default:
-            zpos = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_38_cp1.x, field_38_cp1.y);
-            if (zpos == kFP16Zero_6FE20C)
-            {
-                zpos = k_dword_6FE210;
-            }
-            cp3 = this->field_6C_cp3;
-            if (zpos >= cp3 + kFP16Half_6FE0C0)
-            {
-                surface_type_ = this->field_98_surface_type;
-                if (surface_type_ != car_surface_type::slope_northwards_1 && surface_type_ != car_surface_type::slope_southwards_2 && surface_type_ != car_surface_type::slope_westwards_3 && surface_type_ != car_surface_type::slope_eastwards_4 ||
-                    (zpos.GetFracValue()) == kFP16Zero_6FE20C || zpos > cp3 + k_dword_6FE210)
-                {
-                    zpos = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(this->field_38_cp1.x, this->field_38_cp1.y, zpos - kFP16One64th_6FE2E0);
-
-                    if (zpos > this->field_6C_cp3)
+                    Fix16 tmp;
+                    Fix16 below = *gMap_0x370_6F6268->GetGroundZBelowCoord_4E4F40(&tmp,
+                                                                                    field_38_cp1.x,
+                                                                                    field_38_cp1.y,
+                                                                                    zpos - kFP16One64th_6FE2E0);
+                    if (below > kFP16Zero_6FE20C)
                     {
-                        map_z__ = *gMap_0x370_6F6268->GetGroundZBelowCoord_4E4F40(&v20, this->field_38_cp1.x, this->field_38_cp1.y, zpos - kFP16One64th_6FE2E0);
-                        if (map_z__ > kFP16Zero_6FE20C)
-                        {
-                            zpos = map_z__;
-                        }
-                    }
-
-                    cp3 = this->field_6C_cp3;
-                    if (zpos >= cp3 + k_dword_6FE210)
-                    {
-                        zpos = this->field_6C_cp3;
+                        zpos = below;
                     }
                 }
+
+                        cp3 = field_6C_cp3;
+                if (zpos >= cp3 + k_dword_6FE210)
+                {
+                    zpos = cp3;
+                }
             }
-            if (zpos <= cp3 - kFP16Half_6FE0C0 || zpos < cp3 && this->field_AA_sbw && this->field_AB_tpa)
+        }
+
+        if (zpos <= cp3 - kFP16Half_6FE0C0 || zpos < cp3 && field_AA_sbw && field_AB_tpa)
+        {
+            Fix16 tmp;
+            field_68_z_pos = *ComputeSlopeCorrection_55AB50(&tmp, &a2);
+            zpos = a2 + field_6C_cp3;
+            if (a2_ != kFP16Zero_6FE20C)
             {
-                new_z = ComputeSlopeCorrection_55AB50(&v20, &a2);
-                a2__ = a2;
-                this->field_68_z_pos = *new_z;
-
-                zpos = this->field_6C_cp3 + a2__;
-                if (a2_ != kFP16Zero_6FE20C)
-                {
-                    this->field_68_z_pos = field_68_z_pos / a2_;
-                }
-
-                if (zpos > kMaxZ_6FDF34)
-                {
-                    zpos = kMaxZ_6FDF34;
-                }
+                field_68_z_pos /= a2_;
             }
 
-            if (zpos < this->field_6C_cp3)
+            if (zpos > kMaxZ_6FDF34)
             {
-                UpdateSpriteFromPhysics_563670();
-
-                field_5C_pCar->field_50_car_sprite->set_xyz_lazy_420600(field_5C_pCar->field_50_car_sprite->field_14_xy.x,
-                                                                        field_5C_pCar->field_50_car_sprite->field_14_xy.y,
-                                                                        zpos);
-
-                if (field_5C_pCar->field_50_car_sprite->CheckSpriteMovementRegion_5A2500())
-                {
-                LABEL_36:
-                    zpos = this->field_6C_cp3;
-                }
+                zpos = kMaxZ_6FDF34;
             }
-            break;
+        }
+
+        if (zpos < field_6C_cp3)
+        {
+            UpdateSpriteFromPhysics_563670();
+
+            field_5C_pCar->field_50_car_sprite->set_xyz_lazy_420600(field_5C_pCar->field_50_car_sprite->field_14_xy.x,
+                                                                    field_5C_pCar->field_50_car_sprite->field_14_xy.y,
+                                                                    zpos);
+
+            if (field_5C_pCar->field_50_car_sprite->CheckSpriteMovementRegion_5A2500())
+            {
+            // shared with the unknown/water surface case
+            reset_z:
+                zpos = field_6C_cp3;
+            }
+        }
     }
 
     if ((this->field_5C_pCar->field_78_flags & 0x2000) != 0)
@@ -1125,7 +1119,7 @@ void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 a2)
     this->field_6C_cp3 += field_70_z_vel;
     if (a2_ != kFP16Zero_6FE20C)
     {
-        this->field_70_z_vel = field_70_z_vel / a2_;
+        this->field_70_z_vel /= a2_;
     }
 }
 
