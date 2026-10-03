@@ -31,7 +31,7 @@ per = {}; changed = []
 for kind, a in marks:
     n = '_%X@' % int(a, 16)
     try: ours = fasm(c, n)
-    except Exception: continue
+    except BaseException: continue
     if kind == 'WIP':
         t = T.get(hex(int(a, 16)))
         if not t: continue
@@ -41,7 +41,7 @@ for kind, a in marks:
     elif b:
         try:
             if fasm(b, n) != ours: changed.append(a)
-        except Exception: pass
+        except BaseException: pass
 print('total', sum(per.values()), 'zero', [a for a, d in per.items() if d == 0], 'changed', changed)
 if save:
     shutil.copy(os.path.join(WORK, 'q.obj'), base_obj); json.dump(per, open(base_json, 'w'))
