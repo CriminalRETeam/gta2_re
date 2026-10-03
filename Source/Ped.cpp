@@ -2665,62 +2665,27 @@ void Ped::TaxiCustomer_AI_460820()
     Car_BC* pTargetObjCar; // ecx
     Car_BC* pTargetObjCar_; // ecx
     Car_BC* pTargetObjCar__; // ecx
+    Fix16 dx_;
     Car_BC* target_objective_car; // eax
-    Car_BC* pCar_; // ecx
-    Car_BC* pNearestTaxi; // eax
-    Car_BC* pTargetCar; // edi
-    Sprite* pSprite; // eax
+    Car_BC* pNearestTaxi; // edi
+    Car_BC* pTargetCar; // eax
 
-    if (this->field_25C_internal_objective == objectives_enum::flee_char_on_foot_till_safe_2 && this->field_226_internal_objective_status == 1)
+    Sprite* pSprite;
+    Car_BC* pCar_;
+    Fix16 dy_;
+    if (this->field_25C_internal_objective == objectives_enum::flee_char_on_foot_till_safe_2)
     {
-        SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+        if (this->field_226_internal_objective_status == 1)
+        {
+            SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+        }
     }
 
     objective = this->field_258_objective;
-    if (objective) // any objective other than no_obj_0
+    switch (objective)
     {
-        if (objective == objectives_enum::time_waited_in_car_31)
-        {
-            // It is in the taxi
-            if (field_150_target_objective_car->GetVelocity_43A4C0() != kFpZero_678660)
-            {
-                field_218_objective_timer = 0; // taxi is moving, reset timer
-            }
-            target_objective_car = this->field_150_target_objective_car;
-            if (target_objective_car->IsDespawning_4215B0())
-            {
-                Kill_46F9D0(); // taxi is wreck/destroyed, kill the passenger
-            }
-            else
-            {
-                if (target_objective_car->field_8C_damage_level >= 3)
-                {
-                    this->field_21C |= 0x20000000u;
-                }
-                if (!target_objective_car->field_54_driver || (this->field_21C & 0x20000000) != 0)
-                {
-                    // taxi without driver -> exit
-                    SetObjective(objectives_enum::leave_car_36, 9999);
-                    SetOccupation_45EE00(3);
-                    pCar_ = this->field_16C_car;
-                    this->SetField238_403920(ped_type::dummy_3);
-                    this->field_150_target_objective_car = pCar_;
-                }
-                else if (this->field_218_objective_timer == 150)
-                {
-                    // taxi is stopped long enough, exit the car
-                    SetObjective(objectives_enum::flee_char_always_once_car_stopped_6, 9999);
-                    this->field_148_objective_target_ped = this->field_16C_car->field_54_driver;
-                }
-            }
-        }
-        else
-        {
+        case objectives_enum::enter_car_as_driver_35: // TODO: shouldn't it be enter car as passenger?
             // It is on foot
-            if (objective != objectives_enum::enter_car_as_driver_35) // TODO: shouldn't it be enter car as passenger?
-            {
-                return;
-            }
             objectiveStatus = this->field_225_objective_status;
             if (objectiveStatus == objective_status::passed_1)
             {
@@ -2729,7 +2694,6 @@ void Ped::TaxiCustomer_AI_460820()
                 if (pTargetObjCar->IsDespawning_4215B0())
                 {
                     // Taxi is wreck, kill it
-                    // kill_and_ret:
                     Kill_46F9D0();
                     return;
                 }
@@ -2756,71 +2720,114 @@ void Ped::TaxiCustomer_AI_460820()
                 else if (field_278_ped_state_1 != ped_state_1::in_car_10)
                 {
                     // It not entered the taxi yet
-                    Fix16 dx_ = this->field_1B8_target_x - this->field_1AC_cam.x;
-                    Fix16 dy_ = this->field_1BC_target_y - this->field_1AC_cam.y;
+                    dx_ = this->field_1B8_target_x - this->field_1AC_cam.x;
+                    dy_ = this->field_1BC_target_y - this->field_1AC_cam.y;
 
                     dx_ = Fix16::Abs(dx_);
                     dy_ = Fix16::Abs(dy_);
 
                     // TODO: Might be Min()?
-                    if (Fix16::Max_44E540(dx_, dy_) > kFpTwo_678658 || (this->field_21C & 0x20000) != 0)
+                    if (!(Fix16::Max(dx_, dy_) > kFpTwo_678658 || (this->field_21C & 0x20000) != 0))
                     {
                         pTargetObjCar__ = this->field_150_target_objective_car;
+                        if (pTargetObjCar__->field_4_passengers_list.IsEmpty_420EA0())
+                        {
+                            if (!pTargetObjCar__->IsDespawning_4215B0())
+                            {
+                                break;
+                            }
+                        }
+                        pTargetObjCar__->sub_43AF40();
+                        SetObjective(objectives_enum::no_obj_0, 9999);
                     }
                     else
                     {
-                        pTargetObjCar__ = this->field_150_target_objective_car;
-                        if (pTargetObjCar__->field_4_passengers_list.IsEmpty_420EA0() && !pTargetObjCar__->IsDespawning_4215B0())
-                        {
-                            return;
-                        }
+                        this->field_150_target_objective_car->sub_43AF40();
+                        SetObjective(objectives_enum::no_obj_0, 9999);
                     }
-                    pTargetObjCar__->sub_43AF40();
-                    SetObjective(objectives_enum::no_obj_0, 9999);
                     SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                     this->set_occupation_403970(ped_ocupation_enum::dummy);
                     this->SetField238_403920(ped_type::dummy_3);
                 }
                 else if (this->field_150_target_objective_car->IsDespawning_4215B0())
                 {
-                    //goto kill_and_ret;
                     Kill_46F9D0();
                 }
             }
-        }
-    }
-    // It has no objective:
-    else if (field_20e_offscreen_counter)
-    {
-        // Set a little timer before looking for a taxi
-        field_218_objective_timer = 40;
-        ChangeNextPedState1_45C500(ped_state_1::walking_0);
-        ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
-    }
-    else if (field_218_objective_timer == 0)
-    {
-        // Look for a near taxi
-        pNearestTaxi = gTaxi_4_704130->GetTaxiNear_457BF0(this->field_1AC_cam.x, this->field_1AC_cam.y);
-        pTargetCar = pNearestTaxi;
-        if (pNearestTaxi)
-        {
-            pSprite = pNearestTaxi->field_50_car_sprite;
-            // 9.6f: Fix16::MaxAbsDistance_42A6B0 (inlined, using it makes the diff worse)
-            Fix16 dx = pSprite->field_14_xy.x - this->field_1AC_cam.x;
-            Fix16 dy = pSprite->field_14_xy.y - this->field_1AC_cam.y;
-            Fix16 dy_abs = Fix16::Abs(dy);
-            Fix16 dx_abs = Fix16::Abs(dx);
-            if (Fix16::Max_44E540(dx_abs, dy_abs) < kFpTwo_678658)
+            break;
+
+        case objectives_enum::time_waited_in_car_31:
+            // It is in the taxi
+            if (field_150_target_objective_car->GetVelocity_43A4C0() != kFpZero_678660)
             {
-                Set_F250_IfBit_433DD0(5);
-                SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
-                this->field_150_target_objective_car = pTargetCar;
-                this->field_248_enter_car_as_passenger = 1;
-                this->field_24C_target_car_door = 3;
-                pTargetCar->sub_43AF60();
+                field_218_objective_timer = 0; // taxi is moving, reset timer
             }
-        }
+            target_objective_car = this->field_150_target_objective_car;
+            if (target_objective_car->IsDespawning_4215B0())
+            {
+                Kill_46F9D0(); // taxi is wreck/destroyed, kill the passenger
+            }
+            else
+            {
+                if (target_objective_car->field_8C_damage_level >= 3)
+                {
+                    this->field_21C |= 0x20000000u;
+                }
+                if (target_objective_car->field_54_driver && (this->field_21C & 0x20000000) == 0)
+                {
+                    if (this->field_218_objective_timer == 150)
+                    {
+                        // taxi is stopped long enough, exit the car
+                        SetObjective(objectives_enum::flee_char_always_once_car_stopped_6, 9999);
+                        this->field_148_objective_target_ped = this->field_16C_car->field_54_driver;
+                    }
+                }
+                else
+                {
+                    // taxi without driver -> exit
+                    SetObjective(objectives_enum::leave_car_36, 9999);
+                    SetOccupation_45EE00(3);
+                    pCar_ = this->field_16C_car;
+                    this->SetField238_403920(ped_type::dummy_3);
+                    this->field_150_target_objective_car = pCar_;
+                }
+            }
+            break;
+
+        case objectives_enum::no_obj_0:
+            // It has no objective
+            if (!field_20e_offscreen_counter)
+            {
+                if (field_218_objective_timer == 0)
+                {
+                    // Look for a near taxi
+                    pNearestTaxi = gTaxi_4_704130->GetTaxiNear_457BF0(this->field_1AC_cam.x, this->field_1AC_cam.y);
+                    pTargetCar = pNearestTaxi;
+                    if (pNearestTaxi)
+                    {
+                        pSprite = pNearestTaxi->field_50_car_sprite;
+                        // 9.6f: Fix16::MaxAbsDistance_42A6B0, inlined here with its Subtract/Abs/Max calls out of line
+                        if (Fix16::MaxAbsDistanceByRef_42A6B0(this->field_1AC_cam.x, this->field_1AC_cam.y, pSprite->GetXPos(), pSprite->field_14_xy.y) < kFpTwo_678658)
+                        {
+                            Set_F250_IfBit_433DD0(5);
+                            SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                            SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
+                            this->field_150_target_objective_car = pTargetCar;
+                            this->field_248_enter_car_as_passenger = 1;
+                            this->field_24C_target_car_door = 3;
+                            pTargetCar->sub_43AF60();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // Set a little timer before looking for a taxi
+                field_218_objective_timer = 40;
+                ChangeNextPedState1_45C500(ped_state_1::walking_0);
+                ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
+            }
+            break;
     }
 }
 
