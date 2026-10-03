@@ -295,8 +295,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
             if (pSprite->get_type_416B40() == sprite_types_enum::car_2)
             {
                 pCar = pSprite->field_8_car_bc_ptr;
-                pCmd = (Car_18_Cmd*)pEntry->field_0_pScriptCmd;
-                pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
+                pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((Car_18_Cmd*)pEntry->field_0_pScriptCmd)->field_8_idx);
                 if (pCar->field_6C_maybe_id == pPointer->field_8_car->field_6C_maybe_id)
                 {
                     pEntry->field_14_enable_state = 0;
@@ -312,26 +311,18 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                 if (pCmd->field_2_type == 0xD4)
                 {
                     pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10_idx);
-                    if (pPed->get_id() == pPointer->field_8_char->get_id())
-                    {
-                        pEntry->field_14_enable_state = 0;
-                    }
                 }
                 else if (pCmd->field_2_type == 0xD6)
                 {
                     pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_24_idx);
-                    if (pPed->get_id() == pPointer->field_8_char->get_id())
-                    {
-                        pEntry->field_14_enable_state = 0;
-                    }
                 }
                 else
                 {
                     pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
-                    if (pPed->get_id() == pPointer->field_8_char->get_id())
-                    {
-                        pEntry->field_14_enable_state = 0;
-                    }
+                }
+                if (pPed->get_id() == pPointer->field_8_char->get_id())
+                {
+                    pEntry->field_14_enable_state = 0;
                 }
             }
             break;
