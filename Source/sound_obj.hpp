@@ -42,7 +42,7 @@ struct sound_unknown_0xC
 struct vigilant_maxwell
 {
     char_type field_0_bUsed;
-    char_type field_1_age;
+    u8 field_1_age;
     char_type field_2;
     char_type field_3;
     infallible_turing* field_4_pObj;
