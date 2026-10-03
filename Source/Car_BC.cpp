@@ -4807,90 +4807,82 @@ char_type Car_BC::CountConsecutiveArrowBlocks_4410D0(Ang16 ang, s8* pRet, Fix16 
 {
     WIP_IMPLEMENTED;
 
-    s32 y_coord_add = 0;
-    s32 x_coord_add = 0;
-    s32 mask1 = 0;
-    s32 mask2 = 0;
+    u8 x_add = 0;
+    u8 y_add = 0;
+    u8 mask1 = 0;
+    u8 mask2 = 0;
     s32 angleFace = Ang16::GetAngleFace_4F78F0(ang);
-    s32 ypos_int = spritex.ToInt();
-    s32 ypos_int_ = spritex.ToInt();
-    s32 y_coord__ = spritey.ToInt();
-    s32 sprite_y_int = spritey.ToInt();
-
-    u8 spritez = (this->field_50_car_sprite->field_1C_zpos.ToInt()) - 1;
+    s32 x_int = spritex.ToInt();
+    u8 x = x_int;
+    s32 y_int = spritey.ToInt();
+    u8 y = y_int;
+    u8 z = field_50_car_sprite->field_1C_zpos.ToInt() - 1;
 
     switch (angleFace)
     {
         case 1:
-            x_coord_add = -1;
+            x_add = -1;
             mask1 = 4;
             mask2 = 0x40;
             break;
         case 2:
-            x_coord_add = 1;
+            x_add = 1;
             mask1 = 8;
             mask2 = 0x80;
             break;
-        case 3:
-            y_coord_add = -1;
-            mask1 = 2;
-            mask2 = 0x20;
-            break;
         case 4:
-            y_coord_add = 1;
+            y_add = 1;
             mask2 = 0x10;
             mask1 = 1;
+            break;
+        case 3:
+            y_add = -1;
+            mask1 = 2;
+            mask2 = 0x20;
             break;
         default:
             break;
     }
 
-    u8 z_coord = (u8)spritez;
-    gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(ypos_int_, sprite_y_int, (u8)spritez);
-    if (pBlock && (((pBlock->field_A_arrows & (u8)mask1) != 0) || (pBlock->field_A_arrows & (u8)mask2) != 0))
+    gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(x, y, z);
+    if (pBlock && ((pBlock->field_A_arrows & mask1) || (pBlock->field_A_arrows & mask2)))
     {
-        s32 y_coord = y_coord_add + sprite_y_int;
-        s32 x_coord = x_coord_add + ypos_int_;
+        y += y_add;
+        x += x_add;
 
-        spritez = 0;
-        for (gmp_block_info* pBlockIter = gMap_0x370_6F6268->get_block_4DFE10(x_coord, y_coord, z_coord); pBlockIter;
-             pBlockIter = gMap_0x370_6F6268->get_block_4DFE10(x_coord, y_coord, z_coord))
+        u8 count = 0;
+        for (pBlock = gMap_0x370_6F6268->get_block_4DFE10(x, y, z); pBlock; pBlock = gMap_0x370_6F6268->get_block_4DFE10(x, y, z))
         {
-            u8 arrows = pBlockIter->field_A_arrows;
-            if ((arrows & (u8)mask1) == 0 && (arrows & (u8)mask2) == 0)
+            if (!(pBlock->field_A_arrows & mask1) && !(pBlock->field_A_arrows & mask2))
             {
                 break;
             }
-            spritez++;
-            y_coord += y_coord_add;
-            x_coord += x_coord_add;
+            count++;
+            y += y_add;
+            x += x_add;
         }
 
-        s32 x_coord_ = ypos_int;
-        s32 y_coord_ = y_coord__;
+        x = x_int;
+        y = y_int;
+        x_add = -x_add;
+        y_add = -y_add;
 
-        s32 x_inc = -x_coord_add;
-        s32 y_inc = -y_coord_add;
-        for (gmp_block_info* pBlockIter_ = gMap_0x370_6F6268->get_block_4DFE10((u8)ypos_int, (u8)y_coord__, z_coord); pBlockIter_;
-             pBlockIter_ = gMap_0x370_6F6268->get_block_4DFE10(x_coord_, y_coord_, z_coord))
+        for (pBlock = gMap_0x370_6F6268->get_block_4DFE10(x, y, z); pBlock; pBlock = gMap_0x370_6F6268->get_block_4DFE10(x, y, z))
         {
-            u8 arrows_1 = pBlockIter_->field_A_arrows;
-            if ((arrows_1 & (u8)mask1) == 0 && (arrows_1 & (u8)mask2) == 0)
+            if (!(pBlock->field_A_arrows & mask1) && !(pBlock->field_A_arrows & mask2))
             {
                 break;
             }
-            x_coord_ += x_inc;
-            y_coord_ += y_inc;
-            spritez++;
+            x += x_add;
+            y += y_add;
+            count++;
         }
-        *pRet = spritez;
-        return spritez;
+        *pRet = count;
+        return count;
     }
-    else
-    {
-        *pRet = -1;
-        return -1;
-    }
+
+    *pRet = -1;
+    return -1;
 }
 
 MATCH_FUNC(0x441330)
