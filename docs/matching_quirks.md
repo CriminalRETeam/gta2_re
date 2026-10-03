@@ -894,8 +894,9 @@ float expression tree:
 - Operand order of commutative `*` and `+` makes no difference (the compiler canonicalises it), and
   neither do (u32)/(unsigned)/`*(u32*)&` variants of the u32 -> float conversion.
 
-A quick way to test such variants: compile a preprocessed copy of the TU straight with `CL.EXE /O2 /GX`
-under wine (about 3 seconds) and diff one function, instead of a full build.
+A quick way to test such variants: `Scripts/tu_harness/tu.sh` compiles a preprocessed copy of the TU
+(about 3 seconds) and diffs single functions, `score.py` scores a whole TU. Status and next steps for the
+MapRenderer cluster, and how to check helpers against 9.6f with VC7: `docs/x87_handoff.md`.
 
 ## Functions, thunks and calling conventions
 
