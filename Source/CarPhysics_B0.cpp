@@ -1580,12 +1580,13 @@ void CarPhysics_B0::HandleMapBoundaryCollisionX_55C820(Fix16_Point& pPoint, Ang1
 {
     WIP_IMPLEMENTED;
 
+    Fix16_Point RelativePointVelocity;
     if (field_5C_pCar->field_50_car_sprite->GetNearestVerticalEdgeToCoordinate_5A1030(gRozza_679188.field_14_mapx_t2,
                                                                                       CollisionIntersectionPoint_6FE1A0,
                                                                                       gCollisionArea_6FDFC4))
     {
         stru_6FE1F0.SetXY_432860(field_38_cp1.x - gRozza_679188.field_14_mapx_t2, Fix16(0));
-        Fix16_Point RelativePointVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
+        RelativePointVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
         CarPhysics_B0::HandleWorldCollision_55FD00(RelativePointVelocity);
     }
     else
@@ -1605,7 +1606,7 @@ void CarPhysics_B0::HandleMapBoundaryCollisionX_55C820(Fix16_Point& pPoint, Ang1
         {
             CollisionIntersectionPoint_6FE1A0.y = gRozza_679188.field_10_mapy_max_t2;
         }
-        Fix16_Point RelativePointVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
+        RelativePointVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
         if (field_38_cp1.x < CollisionIntersectionPoint_6FE1A0.x)
         {
             stru_6FE1F0.SetXY_432860(-k_dword_6FE210, Fix16(0));
