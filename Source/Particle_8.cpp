@@ -254,13 +254,13 @@ void Particle_8::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang1
     {
         velocity.x = Fix16(0);
         velocity.y = Fix16(gRng_6F6784.get_int_4F7AE0(50) + 25) * dword_6FD548;
-        velocity.RotateByAngle_40F6B0(rotation);
+        velocity.RotateByAngle_40F6B0_out_of_line(rotation);
 
         for (u8 i = 0; i < 6; i++)
         {
             if (bRandomRot)
             {
-                angle_2 = word_6FD5CC.MultiplyByFix16_401CB0(Fix16(gRng_6F6784.get_int_4F7AE0(360)));
+                angle_2 = Ang16(Fix16(word_6FD5CC.rValue).Multiply_408680(Fix16(gRng_6F6784.get_int_4F7AE0(360))), 0);
             }
             else
             {
@@ -270,13 +270,21 @@ void Particle_8::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang1
             velocity.x = Fix16(0);
             velocity.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + dword_6FD558) * dword_6FD4EC;
 
-            velocity.RotateByAngle_40F6B0((word_6FD5CC.MultiplyByFix16_401CB0(Fix16(gRng_6F6784.get_int_4F7AE0(16))) + rotation) -
-                                          word_6FD5CC.MultiplyByFix16_401CB0(Fix16(8)));
+            // 9.6f: MultiplyByFix16_401CB0 (inlined). Here the original inlines the multiply and calls
+            // the Ang16 constructor out of line (FromFix16_4516B0); the rotation uses angle_2
+            {
+                Fix16 spread = Fix16(word_6FD5CC.rValue) * Fix16(gRng_6F6784.get_int_4F7AE0(16));
+                angle_1 = Ang16(&spread, 0);
+                Fix16 half = Fix16(word_6FD5CC.rValue) * Fix16(8);
+                velocity.RotateByAngle_NegOOL_40F6B0((angle_1 + angle_2) - Ang16(&half, 0));
+            }
 
-            Fix16 x_dir = velocity.x / 15;
-            Fix16 y_dir = velocity.y / 15;
-
-            Particle_4C* pWaterSplashParticle = gParticle_8_6FD5E8->New_53E3C0(velocity.x, velocity.y, dword_6FD330, -x_dir, -y_dir, 0);
+            Particle_4C* pWaterSplashParticle = gParticle_8_6FD5E8->New_53E3C0(velocity.x,
+                                                                               velocity.y,
+                                                                               dword_6FD330,
+                                                                               (velocity.x / 15).Negate_4086A0(),
+                                                                               (velocity.y / 15).Negate_4086A0(),
+                                                                               0);
 
             if (pWaterSplashParticle)
             {
