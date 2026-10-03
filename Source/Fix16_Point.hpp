@@ -367,6 +367,40 @@ class Fix16_Point : public Fix16_Point_POD
     // 10.0 0x442CB0
     EXPORT Fix16_Point operator/(Fix16& in);
 
+    // GetLength_41E260 as inlined into NormalizeSafe_442AD0 (out of line helpers where the inline budget ran out)
+    inline Fix16 GetLength_inline_442AD0()
+    {
+        if (x == gFix16_6777CC)
+        {
+            return Fix16::Abs_negate_out_of_line(y);
+        }
+        else if (y == gFix16_6777CC)
+        {
+            return Fix16::Abs_436A50(x);
+        }
+        else
+        {
+            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y * y);
+        }
+    }
+
+    // Same, for the scaled point in NormalizeSafe_442AD0
+    inline Fix16 GetLength_scaled_inline_442AD0()
+    {
+        if (x == gFix16_6777CC)
+        {
+            return Fix16::Abs_negate_out_of_line(y);
+        }
+        else if (y == gFix16_6777CC)
+        {
+            return Fix16::Abs_negate_out_of_line(x);
+        }
+        else
+        {
+            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y.Multiply_408680(y));
+        }
+    }
+
     EXPORT Fix16_Point NormalizeSafe_442AD0();
 
     EXPORT Ang16 atan2_40ACD0();

@@ -42,15 +42,16 @@ WIP_FUNC(0x442AD0)
 Fix16_Point Fix16_Point::NormalizeSafe_442AD0()
 {
     WIP_IMPLEMENTED;
-    Fix16 length = GetLength_41E260();
+    Fix16 length = GetLength_inline_442AD0();
     if (length == gFix16_6777CC)
     {
         Fix16_Point scaled = MultBy_442C80(128);
-        return scaled / scaled.GetLength_41E260();
+        length = scaled.GetLength_scaled_inline_442AD0();
+        return scaled / length;
     }
     else
     {
-        return Fix16_Point(x, y) / length; // TODO: *this / length;
+        return *this / length;
     }
 }
 
