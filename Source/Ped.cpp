@@ -43,6 +43,7 @@
 DEFINE_GLOBAL_INIT(s8, byte_61A8A3, 1, 0x61A8A3);
 DEFINE_GLOBAL_INIT(Ang16, kAng0_6FDB34, Ang16(0), 0x6FDB34);
 DEFINE_GLOBAL_INIT(Ang16, gDummyPedAng_6787A8, Ang16(0), 0x6787A8);
+DEFINE_GLOBAL_INIT(Ang16, gPedAng_6787A0, Ang16(0), 0x6787A0);
 DEFINE_GLOBAL_INIT(Fix16, kFpThree_67866C, Fix16(0xC000, 0), 0x67866C); // TODO: Fix16? Static init to, 0xC000, 0xUNKNOWN);
 DEFINE_GLOBAL_INIT(s32, gPedId_61A89C, 0x7, 0x61A89C);
 DEFINE_GLOBAL_INIT(u8, gNumberMuggersSpawned_6787CA, 0, 0x6787CA);
@@ -505,7 +506,8 @@ Ped::~Ped()
 WIP_FUNC(0x45afc0)
 char_type Ped::Reset_45AFC0()
 {
-    field_21C_bf.b2 = 0;
+    field_21C_bf.b0 = 0;
+    field_21C_bf.b1 = 0;
     field_234_timer = 0;
     field_238_ped_type = ped_type::dummy_3;
     field_23C_group_idx = 0;
@@ -524,8 +526,9 @@ char_type Ped::Reset_45AFC0()
     field_230 = 1;
     field_270 = 1;
     field_12E_aim_angle = gDummyPedAng_6787A8;
+    field_21C_bf.b2 = 0;
     field_144_attacker = 0;
-    field_130 = Ang16(0); //-dword_6787A0;
+    field_130 = -gPedAng_6787A0;
     field_225_objective_status = 0;
     field_226_internal_objective_status = 0;
     field_258_objective = objectives_enum::no_obj_0;
