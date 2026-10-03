@@ -1263,40 +1263,52 @@ char_type Map_0x370::RectHitsDiagonalWall_4E11E0(Fix16_Rect* pRect)
 }
 
 // https://decomp.me/scratch/jaBFe
+// The original calls the out-of-line Fix16(int) and const operator+ (Add_408660) for the
+// x/y block centre, so the sum goes through a const Fix16
+static inline Fix16 BlockCentre_4E1520(s32 v)
+{
+    const Fix16 f = v;
+    return f + kFpHalf_6F5FE0;
+}
+
 WIP_FUNC(0x4E1520)
 bool Map_0x370::SpriteHitsDiagonalWall_4E1520(s32 z_pos)
 {
     WIP_IMPLEMENTED;
+    Fix16_Point point;
+    Fix16_Point unk_point;
     for (s32 y_pos = gPurple_top_6F6108; y_pos <= gPurple_bottom_6F5F38; y_pos++)
     {
-        Fix16 left = Fix16(gPurple_left_6F5FD4 + 1);
-        for (s32 x_pos = gPurple_left_6F5FD4; x_pos <= gPurple_right_6F5B80; x_pos++, left += Fix16(1))
+        for (s32 x_pos = gPurple_left_6F5FD4; x_pos <= gPurple_right_6F5B80; x_pos++)
         {
-            Fix16_Point point;
-            Fix16_Point unk_point;
             gmp_block_info* pBlock = Map_0x370::get_block_4DFE10(x_pos, y_pos, z_pos);
 
             if (pBlock != NULL)
             {
-                u8 slope_type = pBlock->field_B_slope_type & 0xFC;
+                u32 slope_type = pBlock->field_B_slope_type & 0xFC;
                 if (slope_type >= 0xB4 && slope_type <= 0xD0)
                 {
+                    // 9.6f: Fix16_Point::SetXY_432860 for both points (inlined, using it changes the code)
                     if (slope_type == DIAGONAL_WALL_UP_LEFT || slope_type == DIAGONAL_WALL_DOWN_RIGHT ||
                         slope_type == TRIANGULAR_SIDES_DIAGONAL_UP_LEFT || slope_type == TRIANGULAR_SIDES_DIAGONAL_DOWN_RIGHT)
                     {
-                        point.SetXY_432860(Fix16(x_pos), Fix16(y_pos + 1));
-                        unk_point.SetXY_432860(left, Fix16(y_pos));
+                        point.x = Fix16(x_pos);
+                        point.y = Fix16(y_pos + 1);
+                        unk_point.x = Fix16(x_pos + 1);
+                        unk_point.y = Fix16(y_pos);
                     }
                     else
                     {
-                        point.SetXY_432860(Fix16(x_pos), Fix16(y_pos));
-                        unk_point.SetXY_432860(left, Fix16(y_pos + 1));
+                        point.x = Fix16(x_pos);
+                        point.y = Fix16(y_pos);
+                        unk_point.x = Fix16(x_pos + 1);
+                        unk_point.y = Fix16(y_pos + 1);
                     }
 
                     if (gSprite_6F61E8->PointInsideRotatedBounds_5A1490(point, unk_point))
                     {
                         Sprite* pSprt = gObject_5C_6F8F84->GetDirectionalObject_5298E0(slope_type)->field_4;
-                        pSprt->set_xyz_lazy_451950(Fix16(x_pos) + kFpHalf_6F5FE0, Fix16(y_pos) + kFpHalf_6F5FE0, Fix16(z_pos));
+                        pSprt->set_xyz_lazy_451950(BlockCentre_4E1520(x_pos), BlockCentre_4E1520(y_pos), Fix16(z_pos));
                         pSprt->UpdateCollisionBoundsIfNeeded_59E9C0();
                         gRozza_679188.SetSprite_40FEE0(pSprt);
                         return true;
