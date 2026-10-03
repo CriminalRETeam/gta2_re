@@ -415,6 +415,18 @@ keeps in a zero register is initialised from that register; earlier-declared one
 **A default that sets a value plus one check after the switch** (`if (cur == 1) {...; return;}`) lets
 jump threading produce the original's `cmp $1; je` (`Wolfy_7A8::sub_543690`, 113 -> 12).
 
+**By-value returns: stack slot or eax.** If the original reads a by-value (hidden pointer) return
+back from its stack slot, use a named local in its own block; it gets built in a dead parameter slot
+(`Object_2C::NewObj3C_528130`). If it reads it through eax, write `T x; x = call();` or pass the
+temporary to an inline taking `const T&`; a `const T&` local doesn't work (`HandleWorldCollision_55FD00`).
+
+**Some TUs inline GetLength with their own zero constant** and their own mix of out-of-line
+Negate/Abs/Multiply/Add; give them file-local helpers (`Object_2C::SetMovementVector_5224E0`, 528130).
+
+**Jump tables need the explicit cases plus a separate default.** `case 4: default:` merged gives a
+dec chain (`Char_B4::sub_54C3E0`). Paths that all jump to one shared `xor al; ret` are a `break` out of
+the switch to a `return 0` after it (`Object_2C::ShouldCollideWithSprite_525370`).
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 
