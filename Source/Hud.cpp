@@ -1036,6 +1036,7 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
     u8 PlayerIdx = gGame_0x40_67E008->field_38_orf1->get_idx_4219D0();
     bool bPlusSignDark = random_num > 7u;
 
+    // 64 and the bar x go through the Fix16(u32) constructor (out-of-line copy 0x4926F0)
     s32 ypos = 11;
 
     for (Gang_144* pGang = gGangPool_CA8_67E274->FirstGang_4BECA0(); pGang; pGang = gGangPool_CA8_67E274->NextGang_4BECE0(), ypos += 27)
@@ -1043,17 +1044,17 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
         s8 respect = pGang->GetRespectForPlayer_4BEEF0(PlayerIdx);
 
         s32 arrow_colour = pGang->field_138_arrow_colour - 1;
-        DrawFigureScaled_5D7670(6, arrow_colour + 64, 16, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, arrow_colour + 64, 16, (u32)(ypos + 2), kAngZero_706610, 2, 0, 0, 0);
 
-        DrawFigureScaled_5D7670(6, arrow_colour + 78, 64, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, arrow_colour + 78, 64u, (u32)(ypos + 2), kAngZero_706610, 2, 0, 0, 0);
 
-        DrawFigureScaled_5D7670(6, arrow_colour + 71, 64, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, arrow_colour + 71, 64u, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
 
         // Draw positive respect
         s32 curr_bar_respect = 20;
         for (s32 i = 69; i <= 84 && respect >= curr_bar_respect; i += 5)
         {
-            DrawFigureScaled_5D7670(6, arrow_colour + 71, i, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, arrow_colour + 71, (u32)i, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
             curr_bar_respect += 20;
         }
 
@@ -1061,7 +1062,7 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
         curr_bar_respect = -20;
         for (s32 j = 59; j >= 44 && respect <= curr_bar_respect; j -= 5)
         {
-            DrawFigureScaled_5D7670(6, arrow_colour + 71, j, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, arrow_colour + 71, (u32)j, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
             curr_bar_respect -= 20;
         }
 
@@ -1083,19 +1084,19 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
         // green mission respect
         if (respect >= -19)
         {
-            DrawFigureScaled_5D7670(6, 46, 64, ypos + 8, kAngZero_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 46, 64u, ypos + 9, kAngZero_706610, 2, 0, 0, 0);
         }
 
         // yellow mission respect
         if (respect >= 40)
         {
-            DrawFigureScaled_5D7670(6, 47, 74, ypos + 8, kAngZero_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 47, 74, ypos + 9, kAngZero_706610, 2, 0, 0, 0);
         }
 
         // red mission respect
         if (respect >= 80)
         {
-            DrawFigureScaled_5D7670(6, 48, 84, ypos + 8, kAngZero_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 48, 84, ypos + 9, kAngZero_706610, 2, 0, 0, 0);
         }
 
         // debug stuff
@@ -1103,7 +1104,7 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
         {
             s32 v32 = (respect >= 0) + 5;
             swprintf(tmpBuff_67BD9C, L"%d", respect);
-            DrawText_5D7720(tmpBuff_67BD9C, 64, ypos - 7, gDebugFont_706600, 8, v32, 0, 0);
+            DrawText_5D7720(tmpBuff_67BD9C, 64u, ypos - 6, gDebugFont_706600, 8, v32, 0, 0);
         }
     }
 }
