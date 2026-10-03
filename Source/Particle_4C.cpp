@@ -268,11 +268,13 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
 
     // 9.6f: Fix16_Point::RotateByAngle_40F6B0 (inlined). The original calls the out-of-line
     // Multiply_408680/Negate_4086A0/const operator+ copies for all but y * sin
-    Fix16 sin = Ang16::sine_40F500(field_24_angle);
-    Fix16 cos = Ang16::cosine_40F520(field_24_angle);
-    Fix16 old_x = dir.x;
-    dir.x = (const Fix16&)dir.x.Multiply_408680(cos) + dir.y * sin;
-    dir.y = (const Fix16&)old_x.Negate_4086A0().Multiply_408680(sin) + dir.y.Multiply_408680(cos);
+    {
+        Fix16 sin = Ang16::sine_40F500(field_24_angle);
+        Fix16 cos = Ang16::cosine_40F520(field_24_angle);
+        Fix16 old_x = dir.x;
+        dir.x = (const Fix16&)dir.x.Multiply_408680(cos) + dir.y * sin;
+        dir.y = (const Fix16&)old_x.Negate_4086A0().Multiply_408680(sin) + dir.y.Multiply_408680(cos);
+    }
     field_14_additional_speed_x = dir.x;
     field_18_additional_speed_y = dir.y;
 
