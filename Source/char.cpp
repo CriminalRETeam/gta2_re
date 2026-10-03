@@ -622,7 +622,7 @@ void Char_B4::UpdateAnimState_546360()
 
     s32 newId_ = 0;
     Ped* pPed = field_7C_pPed;
-    s32 v124 = 0;
+    s8 v124 = 0;
 
     field_70_frame_timer++;
 
@@ -630,7 +630,7 @@ void Char_B4::UpdateAnimState_546360()
     Fix16 newx = kFP16Zero_6FD9E4;
     Fix16 newy = kFP16Zero_6FD9E4;
 
-    s32 bUnknown = 0;
+    u8 bUnknown = 0;
     s32 baseId;
 
     gmp_block_info* pBlock_;
@@ -657,12 +657,12 @@ void Char_B4::UpdateAnimState_546360()
         case 0:
             baseId = 0;
             break;
-
+        case 1:
+            baseId = 158;
+            break;
         case 2:
             baseId = 316;
             break;
-
-        case 1:
         default:
             baseId = 158;
             break;
