@@ -489,6 +489,20 @@ temporaries share stack slots with the argument temporaries (`EmitElectricArcPar
 originals; ours is `shl; sub $0x4000`. Only an inline taking `s32` that does `v * 16384` gave the
 `add` form, and only when VC6 hoisted the value (still unexplained).
 
+**Implicit `s32 -> Fix16` by-value argument is built in the argument slot** (`push ecx; mov esp,eax;
+shl; mov ecx,(eax)`); an explicit `Fix16(z)` is computed before the pushes
+(`Car_BC::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0`).
+
+**`IsFlagSet_411930(N)` vs `field & N`.** The helper gives `mov/shr/test $1`; the direct test gives the
+original's `testb` (`ApplyImpactForcesAndDamage_55FA60`, 205 -> 19).
+
+**A decrement in each branch, not once after.** Writing `--timer` in both branches gave the shared
+`decb mem` tail and all pushes at entry; once after the if/else gave `mov/dec/mov` and late pushes
+(`Train_58::UpdatePassengerAI_578390`, also a logic fix: an inverted `field_1818` test).
+
+**Parameter slots reused as locals.** When the original keeps grid indices or loop counters in a
+parameter's stack slot, assign them to the parameter (`Orca_2FD4::ComputePath_554AB0`, 216 -> 48).
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 
