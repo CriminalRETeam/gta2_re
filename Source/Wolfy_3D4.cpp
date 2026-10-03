@@ -583,10 +583,10 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
     Fix16 v4 = (field_28 * kFP16Two_6FD4A4);
 
     Sprite* v5 = this->field_14_pObj2C->field_4;
-    Fix16 new_bottom = v4 + v5->field_14_xy.y;
-    Fix16 new_left = v4 - v5->field_14_xy.x;
-    Fix16 new_right = v4 + v5->field_14_xy.x;
-    Fix16 new_top = v4 - v5->field_14_xy.y;
+    Fix16 new_bottom = v5->field_14_xy.y + v4;
+    Fix16 new_left = v5->field_14_xy.x - v4;
+    Fix16 new_right = v5->field_14_xy.x + v4;
+    Fix16 new_top = v5->field_14_xy.y - v4;
 
     Fix16 zm = v5->field_1C_zpos - zoff;
     Fix16 zp = v5->field_1C_zpos + zoff;
@@ -672,10 +672,12 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                     {
                         if (timerVal == 99)
                         {
-                            if (Fix16::MaxAbsDistance_42A6B0(pCollisionSprite->field_14_xy.x,
-                                                             pCollisionSprite->field_14_xy.y,
-                                                             this->field_14_pObj2C->field_4->field_14_xy.x,
-                                                             this->field_14_pObj2C->field_4->field_14_xy.y) <= this->field_28)
+                            // 9.6f: Fix16::MaxAbsDistance_42A6B0 (inlined), with Abs inlined and its
+                            // unary minus out of line
+                            Fix16 dx = this->field_14_pObj2C->field_4->field_14_xy.x - pCollisionSprite->field_14_xy.x;
+                            Fix16 dy = this->field_14_pObj2C->field_4->field_14_xy.y - pCollisionSprite->field_14_xy.y;
+                            if (Fix16::Max_44E540(Fix16::Abs_negate_out_of_line(dx), Fix16::Abs_negate_out_of_line(dy)) <=
+                                this->field_28)
                             {
                                 Fix16_Point tmp = this->field_14_pObj2C->field_4->get_x_y_443580();
                                 pCar->ApplyExplosionImpulse_443710(&tmp);
@@ -691,8 +693,8 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                             Fix16 xd_ = v33->field_14_xy.x - pCollisionSprite->field_14_xy.x;
                             Fix16 yd_ = v33->field_14_xy.y - pCollisionSprite->field_14_xy.y;
 
-                            Fix16 v53 = Fix16::Abs(xd_);
-                            Fix16 v36 = Fix16::Abs(yd_);
+                            Fix16 v53 = Fix16::Abs_negate_out_of_line(xd_);
+                            Fix16 v36 = Fix16::Abs_436A50(yd_);
 
                             if (Fix16::Max_44E540(v36, v53) > this->field_28)
                             {
