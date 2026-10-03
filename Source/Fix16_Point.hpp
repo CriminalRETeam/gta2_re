@@ -432,6 +432,23 @@ class Fix16_Point : public Fix16_Point_POD
         }
     }
 
+    // GetLength_41E260 as inlined into Car_BC::TryHitchTrailer_442810 (out of line helpers)
+    inline Fix16 GetLength_inline_442810()
+    {
+        if (x == gFix16_6777CC)
+        {
+            return Fix16::Abs_436A50(y);
+        }
+        else if (y == gFix16_6777CC)
+        {
+            return Fix16::Abs_436A50(x);
+        }
+        else
+        {
+            return Fix16::SquareRoot((const Fix16&)x.Multiply_408680(x) + y.Multiply_408680(y));
+        }
+    }
+
     // Same, for the scaled point in NormalizeSafe_442AD0
     inline Fix16 GetLength_scaled_inline_442AD0()
     {

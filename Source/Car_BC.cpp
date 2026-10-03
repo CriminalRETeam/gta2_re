@@ -5858,6 +5858,11 @@ void Car_BC::TryHitchTrailer_442810()
 {
     WIP_IMPLEMENTED;
 
+    Fix16_Point hitch_this;
+    Fix16_Point hitch_car;
+    Fix16_Point v6;
+    Fix16_Point unused; // the original sets EH state 3 up front: 4 points constructed
+
     field_50_car_sprite->set_num_40F7B0(15);
 
     if (!HasSpriteZoom_43A230() && !IsMaxDamage_40F890() && !IsMarkedForDespawn_4214B0() && !IsDespawning_4215B0())
@@ -5879,8 +5884,10 @@ void Car_BC::TryHitchTrailer_442810()
             }
 
             Car_BC* pCar = v4->AsCar_40FEB0();
-            Fix16_Point v6 = (GetHitchPoint_439FB0() - pCar->GetHitchPoint_439FB0());
-            Fix16 v6_len = v6.GetLength_41E260();
+            hitch_car = pCar->GetHitchPoint_439FB0();
+            hitch_this = GetHitchPoint_439FB0();
+            v6 = hitch_this - hitch_car;
+            Fix16 v6_len = v6.GetLength_inline_442810();
 
             Fix16 z_delta = Fix16::Abs(v4->field_1C_zpos - field_50_car_sprite->field_1C_zpos);
 
@@ -5898,7 +5905,7 @@ void Car_BC::TryHitchTrailer_442810()
                         pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
                         if (!pCar->field_58_physics->IsRngBelowDamage_421130())
                         {
-                            Fix16_Point v16 = (pCar->field_50_car_sprite->get_x_y_443580() + (v6.NormalizeSafe_442AD0() * kFpOne64th_677888));
+                            Fix16_Point_POD v16 = (pCar->field_50_car_sprite->get_x_y_443580() + (v6.NormalizeSafe_442AD0() * kFpOne64th_677888));
                             s32 a5 = 1;
                             pCar->field_58_physics->SetVelocityTowardTarget_55A1D0(
                                 v16.x,
