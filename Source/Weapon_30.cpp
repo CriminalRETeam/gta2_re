@@ -1503,7 +1503,11 @@ void Weapon_30::army_gun_jeep_5E13E0()
 {
     WIP_IMPLEMENTED;
 
+
     Ang16 gun_ang;
+    Fix16_Point bullet_pos;
+    Fix16_Point v41;
+    Fix16_Point v42;
     if (field_2_reload_speed == 0)
     {
         field_24_pPed = field_14_car->field_54_driver;
@@ -1511,17 +1515,15 @@ void Weapon_30::army_gun_jeep_5E13E0()
         Sprite* pGunSprite = field_14_car->field_0_qq.GetSpriteForModel_5A6A50(248)->field_0;
         gun_ang = pGunSprite->field_0;
 
-        Fix16_Point bullet_pos;
         bullet_pos.SetXY_432860(Fix16(0), dword_706EA4);
         bullet_pos.RotateByAngle_40F6B0(gun_ang);
 
-        Fix16_Point v41;
         v41.SetXY_432860(Fix16(0), dword_706EE8);
         v41.RotateByAngle_40F6B0(field_14_car->field_50_car_sprite->field_0);
 
         bullet_pos += (v41 + field_14_car->field_50_car_sprite->get_x_y_443580());
 
-        Fix16_Point v42 = field_14_car->field_58_physics->GetPointVelocity_561350(&v41);
+        v42 = field_14_car->field_58_physics->GetPointVelocity_561350(&v41);
 
         set_field_2C_4CCA80(1);
 
