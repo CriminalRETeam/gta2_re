@@ -6693,7 +6693,7 @@ char_type Char_B4::HandlePedObjectHit_5537F0(Object_2C* p2c)
 }
 
 WIP_FUNC(0x5538A0)
-void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, s32 bUnknown, Fix16 x, Fix16 y)
+void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, u8 bUnknown, Fix16 x, Fix16 y)
 {
     WIP_IMPLEMENTED;
 

@@ -381,7 +381,7 @@ class Char_B4
     EXPORT bool PhoneTouched_5535B0(Object_2C* p2c);
     EXPORT char_type OnObjectTouched_553640(Object_2C* p2c);
     EXPORT char_type HandlePedObjectHit_5537F0(Object_2C* p2c);
-    EXPORT void HandleCarImpact_5538A0(Car_BC* pCar, s32 a3, Fix16 a4, Fix16 a5);
+    EXPORT void HandleCarImpact_5538A0(Car_BC* pCar, u8 a3, Fix16 a4, Fix16 a5);
     EXPORT void HandleGenericImpact_553E00(Ang16 ang, Fix16 a3, Fix16 a4, char_type a5);
 
     EXPORT void nullsub_28();

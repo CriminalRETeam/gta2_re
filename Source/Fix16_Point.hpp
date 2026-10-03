@@ -462,6 +462,23 @@ class Fix16_Point : public Fix16_Point_POD
         }
     }
 
+    // GetLength_2 as inlined into CarPhysics_B0::ProcessPedImpact_560B40 (out of line helpers)
+    inline Fix16 GetLength_inline_560B40()
+    {
+        if (x == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_negate_out_of_line(y);
+        }
+        else if (y == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_436A50(x);
+        }
+        else
+        {
+            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y.Multiply_408680(y));
+        }
+    }
+
     // GetLength_41E260 as inlined into Car_BC::TryHitchTrailer_442810 (out of line helpers)
     inline Fix16 GetLength_inline_442810()
     {

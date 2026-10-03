@@ -2750,41 +2750,44 @@ void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
 {
     WIP_IMPLEMENTED;
 
+    Fix16_Point_POD v16;
+    Fix16_Point unused; // the original constructs 4 points up front (EH state 3 before the first call)
+    Fix16_Point pIntersection;
+    Fix16_Point relativePointVel;
     Fix16_Point sprite_xy(pCharB4->get_sprite_xpos(), pCharB4->get_sprite_ypos());
 
     Fix16_Point combinedCentreOfmass = ComputeCombinedCenterOfMass_559EC0();
-    Fix16_Point relativePointVel = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
+    relativePointVel = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
 
     stru_6FE1F0 = combinedCentreOfmass - CollisionIntersectionPoint_6FE1A0;
 
-    Fix16 effectiveMomentOfInertia = GetEffectiveMomentOfInertia_55A050();
-    Fix16 carMass = CalculateMass_559FF0();
+    pIntersection = ComputeLineLineIntersection_55F3B0(CalculateMass_559FF0(),
+                                                       kFP16Half_6FE2F8,
+                                                       relativePointVel,
+                                                       stru_6FE1F0,
+                                                       CollisionIntersectionPoint_6FE1A0,
+                                                       combinedCentreOfmass,
+                                                       sprite_xy,
+                                                       GetEffectiveMomentOfInertia_55A050(),
+                                                       kFP16One_6FE070,
+                                                       kFP16One_6FE3DC);
 
-    Fix16_Point pIntersection = ComputeLineLineIntersection_55F3B0(carMass,
-                                                                   kFP16Half_6FE2F8,
-                                                                   relativePointVel,
-                                                                   stru_6FE1F0,
-                                                                   CollisionIntersectionPoint_6FE1A0,
-                                                                   combinedCentreOfmass,
-                                                                   sprite_xy,
-                                                                   effectiveMomentOfInertia,
-                                                                   kFP16One_6FE070,
-                                                                   kFP16One_6FE3DC);
+    u8 bUnknown;
+    if (field_98_surface_type == car_surface_type::air_surface_6 && pCharB4->get_sprite_zpos() != field_5C_pCar->field_50_car_sprite->field_1C_zpos ||
+        hitType == 0)
+    {
+        bUnknown = 1;
+    }
+    else
+    {
+        bUnknown = 0;
+    }
 
-    Fix16_Point intersect_abs;
-    intersect_abs.x = pIntersection.x;
-    intersect_abs.y = pIntersection.y;
-
-    u8 bUnknown =
-        field_98_surface_type == car_surface_type::air_surface_6 && pCharB4->get_sprite_zpos() != field_5C_pCar->field_50_car_sprite->field_1C_zpos ||
-        hitType == 0;
-
-    gCollisionDamage_6FE33C = pIntersection.GetLength_2();
+    gCollisionDamage_6FE33C = pIntersection.GetLength_inline_560B40();
 
     Car_BC* pCar = this->field_5C_pCar;
 
-    Fix16_Point v15 = -intersect_abs;
-    Fix16_Point v16 = v15 / kFP16Half_6FE2F8;
+    v16 = pIntersection.Negate_40ACB0() / kFP16Half_6FE2F8;
 
     Ped* pCarDriver = field_5C_pCar->field_54_driver;
     if (pCarDriver)
