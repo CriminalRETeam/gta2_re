@@ -1566,42 +1566,9 @@ char_type Particle_4C::PoolUpdate()
     --this->field_2C_counter;
     switch (state - 1)
     {
-        case 0:
-            return UpdateSimpleBallisticMotion_state_1_53ABA0();
-        case 2:
-        case 11:
-            return UpdateDirectedProjectile_state_3_12_5384C0();
-
-        case 3:
-            return UpdateDirectedBurstSweep_state_4_539040();
-
-        case 4:
-            return UpdateCircularBurst_state_5_539890();
-
-        case 5:
-        case 14:
-        case 15:
-        case 16:
-            return UpdateFloatingParticle_state_6_15_16_17_538060();
-
-        case 6:
-            return UpdateDebrisArc_state_7_53B1A0();
-
-        case 7:
-            return true;
-
-        case 8:
-        case 9:
-            return UpdateAttachedEmitter_state_9_10_53B670();
-
-        case 12:
-        case 13:
-        case 35:
-            return UpdateDirectedBurst_state_13_14_36_539480();
-
         case 17:
         case 32:
-            if (field_48_timer)
+            if (field_48_timer > 0)
             {
                 this->field_48_timer--;
                 return false;
@@ -1615,34 +1582,32 @@ char_type Particle_4C::PoolUpdate()
                 }
 
                 gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
-                if (field_46_sub_state <= 15u)
+                if (field_46_sub_state > 15u)
                 {
-                    field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 20);
-                    if (field_30_pNext->field_1C_zpos + dword_6FD2F0 < dword_6FD28C)
-                    {
-                        field_30_pNext->set_xyz_lazy_420600(field_30_pNext->field_14_xy.x,
-                                                            field_30_pNext->field_14_xy.y,
-                                                            field_30_pNext->field_1C_zpos + dword_6FD2E8);
-                    }
+                    return 1;
+                }
 
-                    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
-                    if (this->field_46_sub_state == 2)
-                    {
-                        this->field_30_pNext->field_2C_flags = 0xA2; // sub_4337D0
-                    }
-                    this->field_30_pNext->field_2C_flags |= 4u;
-                    return false;
-                }
-                else
+                field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 20);
+                if (field_30_pNext->field_1C_zpos + dword_6FD2F0 < dword_6FD28C)
                 {
-                    return true;
+                    field_30_pNext->set_xyz_lazy_420600(field_30_pNext->field_14_xy.x,
+                                                        field_30_pNext->field_14_xy.y,
+                                                        field_30_pNext->field_1C_zpos + dword_6FD2E8);
                 }
+
+                gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
+                if (this->field_46_sub_state == 2)
+                {
+                    this->field_30_pNext->field_2C_flags = 0xA2; // sub_4337D0
+                }
+                this->field_30_pNext->field_2C_flags |= 4u;
+                return false;
             }
             break;
 
         case 18:
         case 31:
-            if (field_48_timer)
+            if (field_48_timer > 0)
             {
                 this->field_48_timer--;
                 return false;
@@ -1656,33 +1621,31 @@ char_type Particle_4C::PoolUpdate()
                 }
 
                 gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
-                if (field_46_sub_state <= 15u)
+                if (field_46_sub_state > 15u)
                 {
-                    field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 20);
-
-                    if (field_30_pNext->field_1C_zpos + dword_6FD2F0 < dword_6FD28C)
-                    {
-                        field_30_pNext->set_xyz_lazy_420600(field_30_pNext->field_14_xy.x, field_30_pNext->field_14_xy.y, field_30_pNext->field_1C_zpos + dword_6FD2E8);
-                    }
-
-                    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
-                    if (this->field_46_sub_state == 2)
-                    {
-                        this->field_30_pNext->field_2C_flags = 0xA2;
-                    }
-                    field_30_pNext->field_2C_flags |= 4u;
-                    field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16One_6FD4A0 + kFP16Half_6FD39C, 0);
-                    return false;
+                    return 1;
                 }
-                else
+
+                field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 20);
+
+                if (field_30_pNext->field_1C_zpos + dword_6FD2F0 < dword_6FD28C)
                 {
-                    return true;
+                    field_30_pNext->set_xyz_lazy_420600(field_30_pNext->field_14_xy.x, field_30_pNext->field_14_xy.y, field_30_pNext->field_1C_zpos + dword_6FD2E8);
                 }
+
+                gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
+                if (this->field_46_sub_state == 2)
+                {
+                    this->field_30_pNext->field_2C_flags = 0xA2;
+                }
+                field_30_pNext->field_2C_flags |= 4u;
+                field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16One_6FD4A0 + kFP16Half_6FD39C, 0);
+                return false;
             }
             break;
 
         case 19:
-            if (field_48_timer)
+            if (field_48_timer > 0)
             {
                 this->field_48_timer--;
                 return false;
@@ -1696,31 +1659,29 @@ char_type Particle_4C::PoolUpdate()
                 }
 
                 gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
-                if (field_46_sub_state <= 0xFu)
+                if (field_46_sub_state > 15u)
                 {
-                    field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 56);
-
-                    if (field_30_pNext->field_1C_zpos + dword_6FD2E8 + dword_6FD2F0 < dword_6FD28C)
-                    {
-                        field_30_pNext->set_xyz_lazy_451950(field_30_pNext->field_14_xy.x,
-                                                            field_30_pNext->field_14_xy.y,
-                                                            field_30_pNext->field_1C_zpos + dword_6FD2E8);
-                    }
-
-                    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
-                    if (this->field_46_sub_state == 2)
-                    {
-                        this->field_30_pNext->field_2C_flags = -94;
-                    }
-
-                    field_30_pNext->field_2C_flags |= 4u;
-                    field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16Two_6FD4A4, 0);
-                    return false;
+                    return 1;
                 }
-                else
+
+                field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 56);
+
+                if (field_30_pNext->field_1C_zpos + dword_6FD2F0 < dword_6FD28C)
                 {
-                    return true;
+                    field_30_pNext->set_xyz_lazy_420600(field_30_pNext->field_14_xy.x,
+                                                        field_30_pNext->field_14_xy.y,
+                                                        field_30_pNext->field_1C_zpos + dword_6FD2E8);
                 }
+
+                gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
+                if (this->field_46_sub_state == 2)
+                {
+                    this->field_30_pNext->field_2C_flags = -94;
+                }
+
+                field_30_pNext->field_2C_flags |= 4u;
+                field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16Two_6FD4A4, 0);
+                return false;
             }
             break;
 
@@ -1728,7 +1689,7 @@ char_type Particle_4C::PoolUpdate()
         case 22:
         case 23:
         case 24:
-            if (field_48_timer)
+            if (field_48_timer > 0)
             {
                 this->field_48_timer--;
                 return false;
@@ -1744,26 +1705,25 @@ char_type Particle_4C::PoolUpdate()
 
             field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 147);
 
-            stru_6FD388 = (gSin_table_667A80[this->field_24_angle.rValue] * this->field_20_speed);
-            stru_6FD38C = (gCos_table_669260[this->field_24_angle.rValue] * this->field_20_speed);
+            stru_6FD388 = this->field_20_speed * Ang16::sine_40F500(this->field_24_angle);
+            stru_6FD38C = this->field_20_speed * Ang16::cosine_40F520(this->field_24_angle);
 
             stru_6FD388 = this->field_30_pNext->field_14_xy.x + stru_6FD388;
             stru_6FD38C = this->field_30_pNext->field_14_xy.y + stru_6FD38C;
 
 
-            if (this->field_46_sub_state >= 9u)
+            if (this->field_46_sub_state < 9u)
             {
-                field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_30_pNext->field_1C_zpos + dword_6FD46C);
+                field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_30_pNext->field_1C_zpos + dword_6FD2E8);
             }
             else
             {
-                field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_30_pNext->field_1C_zpos + dword_6FD2E8);
+                field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_30_pNext->field_1C_zpos + dword_6FD46C);
             }
 
             if (field_30_pNext->field_1C_zpos > dword_6FD28C)
             {
-                field_30_pNext->field_1C_zpos = dword_6FD28C;
-                field_30_pNext->ResetZCollisionAndDebugBoxes_59E7B0();
+                field_30_pNext->set_z_lazy_420660(dword_6FD28C);
             }
 
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
@@ -1771,19 +1731,56 @@ char_type Particle_4C::PoolUpdate()
             field_30_pNext->field_2C_flags |= 4u;
             return false;
 
+        case 5:
+        case 14:
+        case 15:
+        case 16:
+            return UpdateFloatingParticle_state_6_15_16_17_538060();
+
+        case 2:
+        case 11:
+            return UpdateDirectedProjectile_state_3_12_5384C0();
+
+        case 12:
+        case 13:
+        case 35:
+            return UpdateDirectedBurst_state_13_14_36_539480();
+
+        case 3:
+            return UpdateDirectedBurstSweep_state_4_539040();
+
+        case 4:
+            return UpdateCircularBurst_state_5_539890();
+
+        case 6:
+            return UpdateDebrisArc_state_7_53B1A0();
+
+        case 8:
+        case 9:
+            return UpdateAttachedEmitter_state_9_10_53B670();
+
+        case 0:
+            return UpdateSimpleBallisticMotion_state_1_53ABA0();
+
+        case 36:
+            return UpdateShortAnim_state_37_53B580();
+
+        case 34:
+            return UpdateLargeBallisticDebris_state_35_53AE60();
+
+        case 7:
+            return true;
+
         case 25:
             gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
-            if (this->field_2C_counter)
-            {
-                field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette);
-                gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
-                return false;
-            }
-            else
+            if (!this->field_2C_counter)
             {
                 return true;
             }
-            break;
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
+            field_30_pNext->field_2C_flags |= 4u;
+            return false;
 
         case 28:
         case 29:
@@ -1792,12 +1789,6 @@ char_type Particle_4C::PoolUpdate()
         case 30:
         case 33:
             return UpdateCollisionBurst_state_31_34_53BAC0();
-
-        case 34:
-            return UpdateLargeBallisticDebris_state_35_53AE60();
-
-        case 36:
-            return UpdateShortAnim_state_37_53B580();
 
         case 37:
             return UpdateObjectBeamLink_state_38_538AC0();
