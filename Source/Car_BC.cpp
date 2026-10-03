@@ -749,20 +749,15 @@ char Car_BC::SnapCarToGreenArrow_444E40(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     return 0;
 }
 
-WIP_FUNC(0x445EC0)
+MATCH_FUNC(0x445EC0)
 char Car_BC::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, Fix16 ypos, s32 maybe_direction)
 {
-    WIP_IMPLEMENTED;
-
-    Fix16 pos_x = xpos;
-    Fix16 pos_y = ypos;
-    Fix16 pos_z;
 
     s32 time_out_counter = 0;
     s32 zTmpInt = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(xpos, ypos).ToInt();
     while (1)
     {
-        gmp_block_info* pBlock = gMap_0x370_6F6268->FindNonAirBlockAtOrBelowZ_4E4CB0(pos_x.ToInt(), pos_y.ToInt(), zTmpInt);
+        gmp_block_info* pBlock = gMap_0x370_6F6268->FindNonAirBlockAtOrBelowZ_4E4CB0(xpos.ToInt(), ypos.ToInt(), zTmpInt);
         ++zTmpInt;
         if (pBlock)
         {
@@ -792,22 +787,21 @@ char Car_BC::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, F
                     }
                 }
 
-                if (!gGame_0x40_67E008->is_point_on_screen_4B9A80(pos_x, pos_y))
+                if (!gGame_0x40_67E008->is_point_on_screen_4B9A80(xpos, ypos))
                 {
-                    pos_z = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(pos_x, pos_y, Fix16(zTmpInt));
+                    Fix16 pos_z = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(xpos, ypos, zTmpInt);
                     car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
                     Fix16 w_val = gPixelsToFix16_6F6850.list[pInfo->w];
                     Fix16 h_val = gPixelsToFix16_6F6850.list[pInfo->h];
                     SwapIf3or4_41FE40(maybe_direction, w_val, h_val);
                     Fix16_Rect rect;
-                    rect.SetRect_41E350(pos_x - w_val, w_val + pos_x, pos_y - h_val, h_val + pos_y);
+                    rect.SetRect_41E350(xpos - w_val, w_val + xpos, ypos - h_val, h_val + ypos);
                     rect.SetHiLowZ_41E370(pos_z - kFP16One_6777D0, kFP16One_6777D0 + pos_z);
                     if (!gPurpleDoom_1_679208->CheckRectForCollisions_477F60(&rect, 0, 0, 0) && !rect.CanRectEnterMovementRegion_59DE80())
                     {
-                        field_50_car_sprite->set_xyz_lazy_420600(pos_x, pos_y, pos_z);
+                        field_50_car_sprite->set_xyz_lazy_420600(xpos, ypos, pos_z);
 
-                        Ang16 ang = ReturnAngleFromRoadDirection_4F7940(&maybe_direction);
-                        field_50_car_sprite->set_ang_lazy_420690(ang);
+                        field_50_car_sprite->set_ang_lazy_420690(ReturnAngleFromRoadDirection_4F7940(&maybe_direction));
 
                         if (field_58_physics)
                         {
@@ -824,22 +818,22 @@ char Car_BC::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, F
         switch (maybe_direction)
         {
             case 1:
-                pos_y += kFP16One_6777D0;
+                ypos += kFP16One_6777D0;
                 break;
             case 2:
-                pos_y -= kFP16One_6777D0;
+                ypos -= kFP16One_6777D0;
                 break;
             case 3:
-                pos_x -= kFP16One_6777D0;
+                xpos -= kFP16One_6777D0;
                 break;
             case 4:
-                pos_x += kFP16One_6777D0;
+                xpos += kFP16One_6777D0;
                 break;
             default:
                 break;
         }
 
-        if (pos_x < gFix16_6777CC || pos_x > kFp255_676D98 || pos_y < gFix16_6777CC || pos_y > kFp255_676D98 || zTmpInt >= 8)
+        if (xpos < gFix16_6777CC || xpos > kFp255_676D98 || ypos < gFix16_6777CC || ypos > kFp255_676D98 || zTmpInt < 0 || zTmpInt > 7)
         {
             time_out_counter = 200;
         }
