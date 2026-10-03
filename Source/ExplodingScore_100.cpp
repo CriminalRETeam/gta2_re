@@ -310,27 +310,27 @@ char_type ExplodingScore_50::PoolUpdate()
 }
 
 // 9.6f 0x4B92B0
-WIP_FUNC(0x597100)
+MATCH_FUNC(0x597100)
 void ExplodingScore_50::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub)
 {
-    WIP_IMPLEMENTED;
 
-    Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+    Camera_0xBC* pCam = &gGame_0x40_67E008->field_38_orf1->field_14C_view_camera;
 
     Fix16 proj_x;
     Fix16 proj_y;
 
     s32 x_base;
-    if (number_to_draw == 1)
+    switch (number_to_draw)
     {
-        x_base = 4;
-    }
-    else
-    {
-        x_base = 0;
+        case 1:
+            x_base = 4;
+            break;
+        default:
+            x_base = 0;
+            break;
     }
 
-    pPlayer->field_14C_view_camera.ProjectWorldToScreen_4B90E0(field_28_x, field_2C_y, field_30_z, &proj_x, &proj_y);
+    pCam->ProjectWorldToScreen_4B90E0(field_28_x, field_2C_y, field_30_z, &proj_x, &proj_y);
 
     Fix16 base_scale;
     s32 x_off;
@@ -360,7 +360,7 @@ void ExplodingScore_50::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub
                 if (y_to_use <= Fix16(480))
                 {
                     s32 drawKind = 7;
-                    Fix16 finalScale = pPlayer->field_14C_view_camera.field_A8_ui_scale * base_scale;
+                    Fix16 finalScale = pCam->field_A8_ui_scale * base_scale;
                     DrawFigure_5D7EC0(6, // type
                                       number_to_draw + 163, // pal
                                       x_to_use, // x
