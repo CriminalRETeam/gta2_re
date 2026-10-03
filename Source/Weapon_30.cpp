@@ -1625,6 +1625,9 @@ WIP_FUNC(0x5e2940)
 void Weapon_30::car_smg_5E2940()
 {
     WIP_IMPLEMENTED;
+    // Only the EH entry state is left (original 4, ours 3): the original has a fifth destructible
+    // local declared up front. An unused Fix16_Point gives state 4 but perturbs the registers of the
+    // inline + in RotateByAngle (0.925), a used one changes the frame.
     Fix16_Point left;
     Fix16_Point right;
     Fix16_Point left_point_velocity;
@@ -1642,11 +1645,11 @@ void Weapon_30::car_smg_5E2940()
         Fix16 tmpy = dword_706FD0 + field_14_car->get_car_height() / 2;
 
         left.SetXY_432860(tmpx, tmpy);
-        left.RotateByAngle_40F6B0(sprite_ang);
+        left.RotateByAngle_40F6B0_out_of_line(sprite_ang);
         left += pCarSprite->get_x_y_443580();
 
         right.SetXY_432860(-tmpx, tmpy);
-        right.RotateByAngle_40F6B0(sprite_ang);
+        right.RotateByAngle_40F6B0_out_of_line(sprite_ang);
         right += pCarSprite->get_x_y_443580();
 
         left_point_velocity = field_14_car->field_58_physics->GetPointVelocity_561350(&left);
