@@ -2930,7 +2930,13 @@ Fix16_Point CarPhysics_B0::ComputePointVelocity_561380(Fix16_Point& point)
     v12.x = v4.x;
     v12.y = v4.y;
 
-    v12.RotateByAngle_40F6B0(field_58_theta);
+    // Both RotateByAngle_40F6B0 written out: the function ran out of inline expansions,
+    // so the multiplies and adds (and the second negate) are the out of line operator copies
+    Fix16 sin = Ang16::sine_40F500(field_58_theta);
+    Fix16 cos = Ang16::cosine_40F520(field_58_theta);
+    Fix16 x_old = v12.x;
+    v12.x = (const Fix16&)v12.x.Multiply_408680(cos) + v12.y.Multiply_408680(sin);
+    v12.y = (const Fix16&)(-x_old).Multiply_408680(sin) + v12.y.Multiply_408680(cos);
     v12 = v12 + field_30_cm1;
 
     Fix16_Point v13;
@@ -2938,9 +2944,14 @@ Fix16_Point CarPhysics_B0::ComputePointVelocity_561380(Fix16_Point& point)
     v13.y = v4.y;
 
     Ang16 v7 = Ang16::Fix16_To_Ang16_40F540(field_74_ang_vel_rad);
-    v13.RotateByAngle_40F6B0(field_58_theta + v7);
+    Ang16 v8 = field_58_theta + v7;
+    Fix16 sin2 = Ang16::sine_40F500(v8);
+    Fix16 cos2 = Ang16::cosine_40F520(v8);
+    Fix16 x_old2 = v13.x;
+    v13.x = (const Fix16&)v13.x.Multiply_408680(cos2) + v13.y.Multiply_408680(sin2);
+    v13.y = (const Fix16&)x_old2.Negate_4086A0().Multiply_408680(sin2) + v13.y.Multiply_408680(cos2);
 
-    Fix16_Point v9 = field_30_cm1 + field_40_linvel_1;
+    Fix16_Point v9 = field_30_cm1 + (const Fix16_Point_POD&)field_40_linvel_1;
     v13 = v13 + v9;
     return v13 - v12;
 }
