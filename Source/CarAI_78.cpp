@@ -5159,42 +5159,41 @@ void CarAI_78::ManageCollisions_452A20()
                                        rotX,
                                        rotY);
 
-        Fix16 v21 = field_0_car->field_50_car_sprite->field_14_xy.x + rotX;
+        Fix16 v21 = rotX + field_0_car->field_50_car_sprite->field_14_xy.x;
 
         Ped* pDriver = field_68_car_in_collision->field_54_driver;
 
-        if (pDriver && pDriver->IsField238_45EDE0(2))
+        if (pDriver && pDriver->IsField238_45EDE0(2) && field_24_bf.b21 == false)
         {
-            if (field_24_bf.b21 == false)
-            {
-                field_0_car->field_58_physics->NeutralGear_42AC00();
-                byte_677A5D = 0;
-                return;
-            }
-            goto LABEL_18;
+            field_0_car->field_58_physics->NeutralGear_42AC00();
+            byte_677A5D = 0;
+            return;
         }
-        else if (field_24_bf.b21 == false)
+
+        if (field_24_bf.b21)
         {
-            u8 v26;
-            if (field_2A_stopped_timer)
+            if (v21 > field_0_car->field_50_car_sprite->field_14_xy.x)
             {
-                v26 = field_2A_stopped_timer <= 20;
-                if (field_2A_stopped_timer < 20)
-                {
-                    goto LABEL_18;
-                }
+                field_0_car->field_58_physics->TurnClockwise_42ABA0();
             }
             else
             {
-                v26 = 1;
+                field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
             }
-
-            if (v26)
+        }
+        else if (field_2A_stopped_timer > 0 && field_2A_stopped_timer < 20)
+        {
+            if (v21 > field_0_car->field_50_car_sprite->field_14_xy.x)
             {
-                field_0_car->field_58_physics->NeutralGear_42AC00();
-                return;
+                field_0_car->field_58_physics->TurnClockwise_42ABA0();
             }
-
+            else
+            {
+                field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
+            }
+        }
+        else if (field_2A_stopped_timer > 20)
+        {
             if (v21 > field_0_car->field_50_car_sprite->field_14_xy.x)
             {
                 field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
@@ -5206,20 +5205,20 @@ void CarAI_78::ManageCollisions_452A20()
         }
         else
         {
-        LABEL_18:
-            if (v21 > field_0_car->field_50_car_sprite->field_14_xy.x)
+            field_0_car->field_58_physics->NeutralGear_42AC00();
+            return;
+        }
+
+        if (field_70_nearest_entity)
+        {
+            if (field_70_nearest_entity->field_8_car_bc_ptr == field_68_car_in_collision)
             {
-                field_0_car->field_58_physics->TurnClockwise_42ABA0();
+                field_0_car->field_58_physics->Accelerate_421210();
             }
             else
             {
-                field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
+                field_0_car->field_58_physics->NeutralGear_42AC00();
             }
-        }
-
-        if (field_70_nearest_entity && field_70_nearest_entity->field_8_car_bc_ptr == field_68_car_in_collision)
-        {
-            field_0_car->field_58_physics->Accelerate_421210();
         }
         else
         {
