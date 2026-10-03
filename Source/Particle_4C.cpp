@@ -817,7 +817,15 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
             break;
     }
 
-    dir.RotateByAngle_40F6B0(field_24_angle);
+    // 9.6f: Fix16_Point::RotateByAngle_40F6B0 (inlined). The original calls the out-of-line
+    // const operator+/Multiply_408680/Negate_4086A0 copies for all but x * cos and y * sin
+    {
+        Fix16 sin = Ang16::sine_40F500(field_24_angle);
+        Fix16 cos = Ang16::cosine_40F520(field_24_angle);
+        Fix16 old_x = dir.x;
+        dir.x = (const Fix16&)(dir.x * cos) + dir.y * sin;
+        dir.y = (const Fix16&)old_x.Negate_4086A0().Multiply_408680(sin) + dir.y.Multiply_408680(cos);
+    }
     field_14_additional_speed_x = dir.x;
     field_18_additional_speed_y = dir.y;
 
@@ -831,13 +839,15 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
 
     field_8_speed_x = field_14_additional_speed_x + jitter_x;
     field_C_speed_y = field_18_additional_speed_y + off_y + jitter_y;
-    stru_6FD388 = xpos + field_8_speed_x;
-    stru_6FD38C = ypos + field_C_speed_y;
+    xpos += field_8_speed_x;
+    ypos += field_C_speed_y;
+    stru_6FD388 = xpos;
+    stru_6FD38C = ypos;
 
-    if (stru_6FD388 > kFP16One_6FD4A0 && stru_6FD388 < dword_6FD280 - kFP16One_6FD4A0 && stru_6FD38C > kFP16One_6FD4A0 &&
-        stru_6FD38C < dword_6FD280 - kFP16One_6FD4A0)
+    if (xpos > kFP16One_6FD4A0 && xpos < dword_6FD280 - kFP16One_6FD4A0 && ypos > kFP16One_6FD4A0 &&
+        ypos < dword_6FD280 - kFP16One_6FD4A0)
     {
-        field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, zpos);
+        field_30_pNext->set_xyz_lazy_420600(xpos, ypos, zpos);
     }
     else
     {
