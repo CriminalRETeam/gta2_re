@@ -510,7 +510,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 263
 | 0x462E70 | `Ped::Update_462E70` | 0x4454E0 | ✓ `sub_433C90`, ✓ `cool_nash_0x294::sub_433DD0`, ✓ `sub_4215B0`, ✓ `cool_nash_0x294::sub_433B50`, ✓ `Char_B4::sub_433A80`, ✓ `cool_nash_0x294::sub_416B50`, ✓ `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), ✓ `cool_nash_0x294::get_cam_x_403A00` | done | code unchanged |
 | 0x4633E0 | `Ped::sub_4633E0` | 0x433650 | `cool_nash_0x294::sub_433580` | checked | cool_nash_0x294::sub_433580 is ChangePedStatesByMode_463300, which 10.5 calls (pairing noise) |
 | 0x463AA0 | `Ped::ProcessOnFootObjective_463AA0` | 0x443170 | ✓ `cool_nash_0x294::get_cam_x_403A00`, ✓ `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), ✓ `cool_nash_0x294::sub_416B50`, ✓ `sub_4215B0`, `sub_493940`, `sub_4340D0`, `sub_4340E0`, `sub_4340F0`, `sub_433EB0`, `sub_433F40`, `sub_433FE0`, `sub_43BEE0`, `sub_43BF60`, `sub_4388E0`, `sub_434380`, `sub_439640` | checked | the big callees (433EB0..439640, 493940) are case bodies already open-coded in the matching switch; Object_2C getters already used |
-| 0x466B70 | `sub_466B70` | 0x466B70 | `sub_4653C0` (10.5 0x4DFE10), `sub_42A630`, `sub_4634E0` | todo |  |
+| 0x466B70 | `sub_466B70` | 0x466B70 | `sub_4653C0` (10.5 0x4DFE10), `sub_42A630`, `sub_4634E0` | checked | pairing miss: 10.5 0x466B70 is the small Ped::sub_466B70 flag test, 9.6f 0x466B70 is an unrelated map function |
 | 0x466FB0 | `Ped::FindNearbyPed_466FB0` | 0x433D00 | `MaxAbsDistance_42A6B0`, ✓ `sub_40FEA0` | done | diff 55->23 (rest: abs order / Max_44E540 call form inside MaxAbsDistance) |
 | 0x467E20 | `Ped::KillCharAnyMeans_467E20` | 0x43FD10 | ✓ `cool_nash_0x294::sub_433B40`, ✓ `cool_nash_0x294::sub_403990`, ✓ `cool_nash_0x294::sub_433DA0`, ✓ `cool_nash_0x294::get_cam_x_403A00`, ✓ `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), ✓ `cool_nash_0x294::sub_416B50` | done | all 9.6f inlines used |
 | 0x467FD0 | `Ped::sub_467FD0` | 0x438A30 | ✓ `cool_nash_0x294::sub_433B40`, ✓ `cool_nash_0x294::sub_403990` | done | code unchanged |
@@ -977,7 +977,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 263
 | 0x5647D0 | `Player::ClearKFWeapon_5647D0` | 0x4A5300 | ✓ `sub_433820`, ✓ `sub_4A4FF0`, ✓ `Weapon_30_Pool::sub_4A4F20` | done | all 9.6f inlines used |
 | 0x564960 | `Player::AddWeaponWithAmmo_564960` | 0x4A5400 | ✓ `angry_lewin_0x85C::Get_Field_68_Ped_4A5130`, ✓ `cool_nash_0x294::get_car_416B60`, `sub_4A53D0` | done | GetPlayerPed_4A5130; sub_4A53D0 = HasAnyAmmo_564940 (already called); code unchanged |
 | 0x5649D0 | `Player::SelectNextOrPrevWeapon_5649D0` | 0x4A5460 | ✓ `angry_lewin_0x85C::Get_Field_68_Ped_4A5130`, ✓ `cool_nash_0x294::get_car_416B60`, ✓ `keen_bhaskara_0x30::sub_4A4F80` | done | all 9.6f inlines used |
-| 0x564C00 | `Player::sub_564C00` | 0x4A5640 | `angry_lewin_0x85C::sub_4A5600` | todo |  |
+| 0x564C00 | `Player::sub_564C00` | 0x4A5640 | `angry_lewin_0x85C::sub_4A5600` | checked | 4A5600 = CleanupEmptyAmmoWeapons_564B80, called out of line in 10.5 too; no inline missing |
 | 0x564C50 | `Player::RemovePlayerWeapons_564C50` | 0x4A5690 | ✓ `keen_bhaskara_0x30::sub_4A4F80` | done | Weapon_30::HasAmmo_4A4F80; code unchanged |
 | 0x564CF0 | `Player::sub_564CF0` | 0x4A5710 | `cool_nash_0x294::sub_435F00`, ✓ `sub_482080` | done | Ped::clear_bit_26_482080; sub_435F00 = Ped::sub_45C050 (still called); code unchanged |
 | 0x564D60 | `Player::CollectPowerUp_564D60` | 0x4A5780 | ✓ `thirsty_lamarr::sub_41DC30`, ✓ `sub_4766B0`, `sub_4A4D50`, ✓ `sub_433B70`, ✓ `sub_4A5050`, ✓ `cool_nash_0x294::get_wanted_points_433DC0` (10.5 0x592370), ✓ `cool_nash_0x294::sub_420B80`, ✓ `sub_4A5060`, ✓ `sub_4A5020` | done | Player::ChangeMultipliers_4766B0, Ped::SetFullHealth_4A5050, set_bit_26_4A5060 (new), get_value x2, get_health_433B70, ClearWantedPoints_420B80; sub_4A4D50 = ChangeLifeCountByAmount_5699F0 (still called); code unchanged |
@@ -1387,7 +1387,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 263
 | 0x461DC0 | `sub_461DC0` | 7 |  | Source/lucid_hamilton.hpp:96 | 2/0 | todo |  |
 | 0x462E40 | `Map_0x370::sub_462E40` | 22 |  |  | 2/7 | todo |  |
 | 0x4634E0 | `sub_4634E0` | 76 |  | Source/map_0x370.hpp:559 | 2/1 | todo |  |
-| 0x466B70 | `sub_466B70` | 361 | 0x466B70 MATCH |  | 2/9 | todo |  |
+| 0x466B70 | `sub_466B70` | 361 | 0x466B70 MATCH | checked | pairing miss: 10.5 0x466B70 is the small Ped::sub_466B70 flag test, 9.6f 0x466B70 is an unrelated map function |
 | 0x475C30 | `sub_475C30` | 11 |  | Source/Car_BC.hpp:390, Source/Car_BC.hpp:901 | 2/2 | todo |  |
 | 0x481DF0 | `sub_481DF0` | 11 |  | Source/Bink.cpp:12 | 2/0 | todo |  |
 | 0x482400 | `sub_482400` | 16 |  | Source/Object_5C.hpp:276 | 2/1 | todo |  |
