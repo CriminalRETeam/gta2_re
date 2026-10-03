@@ -10025,7 +10025,64 @@ void Ped::ExitCarStateMachine_46C250()
             this->field_16C_car->field_60 = 0;
         }
 
-        if (this->field_248_enter_car_as_passenger)
+        if (!this->field_248_enter_car_as_passenger)
+        {
+            if (this->field_258_objective != objectives_enum::objective_33)
+            {
+                field_154_target_to_enter->ClearDriver_4407F0();
+            }
+
+            if (FindUsableCarDoor_467090())
+            {
+                Fix16 char_x;
+                Fix16 char_y;
+                field_154_target_to_enter->GetDoorWorldPosition_43B5A0(field_24C_target_car_door, &char_x, &char_y);
+                Fix16 zTmp;
+                AllocCharB4_45C830(char_x,
+                                   char_y,
+                                   *gMap_0x370_6F6268->sub_4E4E50(&zTmp,
+                                                                  char_x,
+                                                                  char_y,
+                                                                  this->field_154_target_to_enter->field_50_car_sprite->field_1C_zpos));
+
+                SetRemap_433C10(field_244_remap);
+
+                ChangeNextPedState2_45C540(7);
+                ChangeNextPedState1_45C500(4);
+
+                this->field_16C_car = 0;
+                field_168_game_object->Set_F84_433900(field_154_target_to_enter);
+                this->field_154_target_to_enter = 0;
+                return;
+            }
+
+            Fix16 zpos;
+            Sprite* pCarSprite = field_154_target_to_enter->field_50_car_sprite;
+            if (!AllocCharB4_45C830(pCarSprite->field_14_xy.x,
+                                    pCarSprite->field_14_xy.y,
+                                    *gMap_0x370_6F6268->sub_4E4E50(&zpos,
+                                                                   pCarSprite->field_14_xy.x,
+                                                                   pCarSprite->field_14_xy.y,
+                                                                   pCarSprite->field_1C_zpos)))
+            {
+                FatalError_4A38C0(1, "C:\\Splitting\\Gta2\\Source\\char.cpp", 11894);
+            }
+
+            SetRemap_433C10(field_244_remap);
+
+            ChangeNextPedState2_45C540(0);
+            ChangeNextPedState1_45C500(0);
+
+            this->field_168_game_object->SetMaxSpeed_433920(kFpZero_678438);
+            field_168_game_object->DoJump_5454D0();
+            field_168_game_object->field_80_sprite_ptr->field_0 = field_154_target_to_enter->field_50_car_sprite->field_0;
+            this->field_168_game_object->set_rotation_433A30(this->field_154_target_to_enter->field_50_car_sprite->field_0);
+            this->field_16C_car = 0;
+            this->field_226_internal_objective_status = 1;
+            field_168_game_object->Set_F84_433900(field_154_target_to_enter);
+            this->field_154_target_to_enter = 0;
+        }
+        else
         {
             if (FindUsableCarDoor_467090())
             {
@@ -10085,62 +10142,6 @@ void Ped::ExitCarStateMachine_46C250()
                 this->field_154_target_to_enter = 0;
                 this->field_226_internal_objective_status = 1;
             }
-        }
-        else
-        {
-            if (this->field_258_objective != objectives_enum::objective_33)
-            {
-                field_154_target_to_enter->ClearDriver_4407F0();
-            }
-
-            if (FindUsableCarDoor_467090())
-            {
-                Fix16 char_x;
-                Fix16 char_y;
-                field_154_target_to_enter->GetDoorWorldPosition_43B5A0(field_24C_target_car_door, &char_x, &char_y);
-                Fix16 zTmp;
-                zTmp = *gMap_0x370_6F6268->sub_4E4E50(&zTmp,
-                                                      char_x,
-                                                      char_y,
-                                                      this->field_154_target_to_enter->field_50_car_sprite->field_1C_zpos);
-                AllocCharB4_45C830(char_x, char_y, zTmp);
-
-                SetRemap_433C10(field_244_remap);
-
-                ChangeNextPedState2_45C540(7);
-                ChangeNextPedState1_45C500(4);
-
-                this->field_16C_car = 0;
-                field_168_game_object->Set_F84_433900(field_154_target_to_enter);
-                this->field_154_target_to_enter = 0;
-                return;
-            }
-
-            Fix16 zpos;
-            zpos = *gMap_0x370_6F6268->sub_4E4E50(&zpos,
-                                                  field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
-                                                  field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
-                                                  field_154_target_to_enter->field_50_car_sprite->field_1C_zpos);
-            if (!AllocCharB4_45C830(field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
-                                    field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
-                                    zpos))
-            {
-                FatalError_4A38C0(1, "C:\\Splitting\\Gta2\\Source\\char.cpp", 11894);
-            }
-
-            SetRemap_433C10(field_244_remap);
-
-            ChangeNextPedState2_45C540(0);
-            ChangeNextPedState1_45C500(0);
-
-            this->field_168_game_object->SetMaxSpeed_433920(kFpZero_678438);
-            field_168_game_object->DoJump_5454D0();
-            field_168_game_object->field_80_sprite_ptr->field_0 = field_154_target_to_enter->field_50_car_sprite->field_0;
-            this->field_168_game_object->set_rotation_433A30(this->field_154_target_to_enter->field_50_car_sprite->field_0);
-            this->field_16C_car = 0;
-            this->field_226_internal_objective_status = 1;
-            field_168_game_object->Set_F84_433900(field_154_target_to_enter);
-            this->field_154_target_to_enter = 0;
         }
     }
 
