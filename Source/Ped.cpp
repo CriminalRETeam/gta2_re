@@ -4725,10 +4725,9 @@ void Ped::ProcessOnFootObjective_463AA0()
 }
 
 // https://decomp.me/scratch/0fIeI
-WIP_FUNC(0x463fb0)
+MATCH_FUNC(0x463fb0)
 void Ped::ProcessInCarObjective_463FB0()
 {
-    WIP_IMPLEMENTED;
     Ang16 UnkAng(0);
 
     if (field_226_internal_objective_status == 2)
@@ -4755,15 +4754,15 @@ void Ped::ProcessInCarObjective_463FB0()
                 default:
                     if (byte_6787C4)
                     {
-                        // Problem here
-                        if (v4->field_168_game_object && this->field_278_ped_state_1 != ped_state_1::entering_car_3)
-                        {
-                            Ped::sub_4645B0();
-                        }
-                        else
+                        // Through a bool local with an early break: written directly, VC6 lays the
+                        // clear after the call and doesn't share it with the case 11/18/20/23 block
+                        bool bStop = v4->field_168_game_object == NULL || this->field_278_ped_state_1 == ped_state_1::entering_car_3;
+                        if (bStop)
                         {
                             byte_6787C4 = 0;
+                            break;
                         }
+                        Ped::sub_4645B0();
                     }
                     break;
             }
@@ -5664,34 +5663,20 @@ char_type Ped::sub_466B70()
     return 0;
 }
 
-WIP_FUNC(0x4614e0)
-Fix16* __stdcall sub_4614E0(Fix16* out, Fix16* a1, Fix16* a2, Fix16* a3, Fix16* a4)
+// Returns Fix16 by value (hidden out pointer, ret $0x14). Max of the two Abs written out with
+// the y abs first: Fix16::Max takes references and spills both to the stack.
+MATCH_FUNC(0x4614e0)
+Fix16 __stdcall sub_4614E0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
 {
-    WIP_IMPLEMENTED;
-
-    s32 d1 = a3->mValue - a1->mValue;
-    s32 d2 = a4->mValue - a2->mValue;
-
-    if (d2 <= 0)
+    Fix16 diff_x = x2 - x1;
+    Fix16 diff_y = y2 - y1;
+    Fix16 ay = Fix16::Abs(diff_y);
+    Fix16 ax = Fix16::Abs(diff_x);
+    if (ax > ay)
     {
-        d2 = -d2;
+        return ax;
     }
-
-    if (d1 <= 0)
-    {
-        d1 = -d1;
-    }
-
-    if (d1 > d2)
-    {
-        out->mValue = d1;
-    }
-    else
-    {
-        out->mValue = d2;
-    }
-
-    return out;
+    return ay;
 }
 
 // https://decomp.me/scratch/Fh1iq
@@ -6204,9 +6189,8 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
 
                             Fix16 candY = this->field_1AC_cam.y;
                             Fix16 candX = this->field_1AC_cam.x;
-                            Fix16 result;
 
-                            if (sub_4614E0(&result, &pSearcher->field_1AC_cam.x, &pSearcher->field_1AC_cam.y, &candX, &candY)->mValue <=
+                            if (sub_4614E0(pSearcher->field_1AC_cam.x, pSearcher->field_1AC_cam.y, candX, candY).mValue <=
                                 kFpOne_678798.mValue)
                             {
                                 goto ret_true;
