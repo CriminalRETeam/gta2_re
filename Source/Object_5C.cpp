@@ -337,16 +337,49 @@ char_type Object_2C::SelectCollisionSprite_522460(Sprite* a2)
     return 1;
 }
 
-WIP_FUNC(0x5224e0)
+// Fix16_Point::GetLength_41E260 as inlined here: this TU's zero constant, out of line
+// Negate for y and SquareRoot_436A70
+static inline Fix16 GetLength_528130(Fix16_Point& p)
+{
+    if (p.x == kFpZero_6F8E10)
+    {
+        return Fix16::Abs_negate_out_of_line(p.y);
+    }
+    else if (p.y == kFpZero_6F8E10)
+    {
+        return Fix16::Abs(p.x);
+    }
+    else
+    {
+        return Fix16::SquareRoot_436A70(p.x * p.x + p.y * p.y);
+    }
+}
+
+// Same, with out of line Negate for both and the out of line Multiply/Add for the sum
+static inline Fix16 GetLength_5224E0(Fix16_Point& p)
+{
+    if (p.x == kFpZero_6F8E10)
+    {
+        return Fix16::Abs_negate_out_of_line(p.y);
+    }
+    else if (p.y == kFpZero_6F8E10)
+    {
+        return Fix16::Abs_negate_out_of_line(p.x);
+    }
+    else
+    {
+        return Fix16::SquareRoot_436A70((const Fix16&)p.x.Multiply_408680(p.x) + p.y * p.y);
+    }
+}
+
+MATCH_FUNC(0x5224e0)
 void Object_2C::SetMovementVector_5224E0(Fix16_Point& speed)
 {
-    WIP_IMPLEMENTED;
-
+    Fix16_Point v5;
     if (field_10_obj_3c)
     {
-        Fix16_Point v5 = (GetSpeedVector_52AE90() + speed);
-        Fix16 v5_len = v5.GetLength_2(); // TODO: Should be using kFpZero_6F8E10
-        this->field_10_obj_3c->field_C_speed = v5_len;
+        v5 = (GetSpeedVector_52AE90() + speed);
+        this->field_10_obj_3c->field_C_speed = GetLength_5224E0(v5);
         this->field_10_obj_3c->field_4_angle = v5.atan2_40F790();
         this->field_10_obj_3c->field_18_friction = this->field_8->field_14_friction;
     }
@@ -2067,24 +2100,6 @@ void Object_2C::ReleaseSubObjects_527F10()
 
         gObject_3C_Pool_6F8F7C->DeAllocate(field_10_obj_3c);
         field_10_obj_3c = 0;
-    }
-}
-
-// Fix16_Point::GetLength_41E260 as inlined here: this TU's zero constant, out of line
-// Negate for y and SquareRoot_436A70
-static inline Fix16 GetLength_528130(Fix16_Point& p)
-{
-    if (p.x == kFpZero_6F8E10)
-    {
-        return Fix16::Abs_negate_out_of_line(p.y);
-    }
-    else if (p.y == kFpZero_6F8E10)
-    {
-        return Fix16::Abs(p.x);
-    }
-    else
-    {
-        return Fix16::SquareRoot_436A70(p.x * p.x + p.y * p.y);
     }
 }
 
