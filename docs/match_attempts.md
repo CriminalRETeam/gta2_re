@@ -1479,3 +1479,6 @@ Each was a few asm lines away from the original. What is left and what was tried
 - Matched: `CarPhysics_B0::UpdateReferencePoint_563460` and `UpdateCenterOfMassPoint_563350` (rotation written out, out-of-line y line, `throw()` on the out-of-line Fix16 copies), `Sprite::FindOverlappingBoundingBoxCorners_5A0150` (HalfWH written out), `Ped_List_4::FindClosestPedInViewCone_4713C0` (by-ref MaxAbsDistance, re-read pIter->ped)
 - `Object_2C::UpdateMovementAndEffects_527070`: 0.723->0.973 (case split for a jump table). Left: eax/ecx/edx rotation in the tail. `Object_2C::HandleImpact_528E50`: 119->99 (case 1/2 fold into the shared PoolGive tail elsewhere)
 - No change: `446530` (x/y/rotation loaded before the train check), `492430` (original re-tests after the continue test instead of threading)
+- Matched: `CarPhysics_B0::ComputeSlopeCorrection_55AB50` (switch with returning default instead of a goto into a case)
+- `ApplyExplosionImpulse_443710`: 151->114 (out-of-line GetLength helper, Divide_442CB0, locals at top). Left: no EH state for the NormalizeSafe temp across Divide_442CB0
+- `CarPhysics_B0::ApplyDriveForce_5615D0`: no change; only the two `Fix16_Point()` ctors called out of line (inline budget)

@@ -440,6 +440,10 @@ divisions kept both inline (`Sprite::FindOverlappingBoundingBoxCorners_5A0150`).
 **Byte bit read: `((u8)field & 1) == 1`** gives `mov %cl; and $1,%cl; cmp $1,%cl`
 (`Ped_List_4::FindClosestPedInViewCone_4713C0`).
 
+**Callee-saved pushes in the middle of a function.** VC6 sinks `push ebx/edi` to the path that
+uses them only when the other path returns from the switch: a switch whose default returns, with the
+rest after the switch, replaced a goto into a case (`CarPhysics_B0::ComputeSlopeCorrection_55AB50`).
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 
