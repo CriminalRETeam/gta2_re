@@ -4319,7 +4319,6 @@ WIP_FUNC(0x451980)
 void CarAI_78::ReactToNearbyCar_451980()
 {
     WIP_IMPLEMENTED;
-    
     Fix16 v2 = gF16fOne_677B94;
     bool flag1 = false;
     u8 bUnknown = 0;
@@ -4330,10 +4329,6 @@ void CarAI_78::ReactToNearbyCar_451980()
         if (ComputeShortestAngleDelta_4056C0(cBC->field_50_car_sprite->field_0, field_0_car->field_50_car_sprite->field_0) > kAng90_6779E4)
         {
             flag1 = true;
-        }
-        else
-        {
-            flag1 = false;
         }
     }
 
@@ -4348,10 +4343,10 @@ void CarAI_78::ReactToNearbyCar_451980()
         }
     }
 
-    Fix16 v8 = Fix16::MaxAbsDistance_42A6B0(gCurrCarAI_xpos_677C38,
-                                            gCurrCarAI_ypos_677C30,
-                                            cBC->field_50_car_sprite->field_14_xy.x,
-                                            cBC->field_50_car_sprite->field_14_xy.y);
+    Fix16 v8 = Fix16::MaxAbsDistanceOOL_42A6B0(gCurrCarAI_xpos_677C38,
+                                               gCurrCarAI_ypos_677C30,
+                                               cBC->field_50_car_sprite->field_14_xy.x,
+                                               cBC->field_50_car_sprite->field_14_xy.y);
     Ang16 v9;
 
     if (v8 > kFpTwo_677B98)
@@ -4532,14 +4527,14 @@ void CarAI_78::ReactToNearbyCar_451980()
                                 Ang16 v26 = field_10_angle;
                                 Ang16 v27;
 
-                                if (field_4C_curr_direction == car_ai_direction::south_2)
+                                if (field_4C_curr_direction != car_ai_direction::south_2)
                                 {
-                                    v26 += kAng180_677ADE;
-                                    v27 = v21 + kAng180_677ADE;
+                                    v27 = v21;
                                 }
                                 else
                                 {
-                                    v27 = v21;
+                                    v26 += kAng180_677ADE;
+                                    v27 = kAng180_677ADE + v21;
                                 }
 
                                 if (v26 < v27)
