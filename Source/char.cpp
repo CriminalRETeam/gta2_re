@@ -2255,114 +2255,10 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
         if (unk_ang2 < -unk_ang)
         {
             v131_unk = 3;
-            if (unk_ang2 < kAng90_6FD854 + unk_ang)
+            if (unk_ang2 < kAng180_6FD936 + unk_ang)
             {
-                //
-                //
-                if (vec3_y < new_ypos)
-                {
-                    if (field_2A != kAng90_6FD8A2)
-                    {
-                        field_28 = pSprt->field_0;
-                        field_2A = kAng270_6FD94C;
-                        //goto _96f_LABEL_52;
-                    }
-                }
-                else
-                {
-                    if (field_2A != kAng90_6FD8A2)
-                    {
-                        field_28 = pSprt->field_0;
-                        field_2A = kAng270_6FD94C;
-                        //goto _96f_LABEL_52;
-                    }
-                    else
-                    {
-                        field_28 = pSprt->field_0 + kAng180_6FD936;
-                        field_2A = kAng90_6FD8A2;
-                    }
-                }
-
-            LABEL_52_96F:
-                field_69_is_colliding_with_sprite = true;
-                field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
-
-                // maybe not !
-                if (!field_7C_pPed->IsField238_45EDE0(2))
-                {
-                    if (field_7C_pPed->GetInternalObjective_403A90() != objectives_enum::enter_car_as_driver_35 ||
-                        gGarage_48_6FD26C->IsMaybeParkingCar_493540(field_7C_pPed->get_target_to_enter_403B10()))
-                    {
-                        return;
-                    }
-                }
-                // TODO: line 239 on 9.6f IDA idb
-                // Ang16::table_mul_41FC20(v35, &this->field_38_velocity, &v63, &pToAdd);
-                Ang16::PolarToCartesian_41FC20(field_28, field_38_velocity, x_polar, y_polar);
-                field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + x_polar,
-                                                         field_80_sprite_ptr->field_14_xy.y + y_polar,
-                                                         field_80_sprite_ptr->field_1C_zpos);
-
-                Char_B4::DispatchCollision_548670(byte_623F48);
-
-                if (field_18_collided_entity)
-                {
-                    switch (v131_unk)
-                    {
-                        case 1:
-                            field_28 = pSprt->field_0 - kAng90_6FD854;
-                            break;
-                        case 2:
-                            field_28 = pSprt->field_0;
-                            break;
-                        case 3:
-                            field_28 = pSprt->field_0 - kAng90_6FD854;
-                            break;
-                        default:
-                            break;
-                    }
-
-                    if (field_10_char_state != Char_B4_state::Jumping_15)
-                    {
-                        field_80_sprite_ptr->set_xy_lazy_447E20(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
-                    }
-                    else
-                    {
-                        if (field_68_animation_frame >= 5)
-                        {
-                            field_68_animation_frame = 5;
-                            field_71_frame_delay = 2;
-                            field_70_frame_timer = 0;
-                        }
-                    }
-                }
-
-                if (pCar)
-                {
-                    field_1C_prev_collided_entity = pCar;
-                    field_18_collided_entity = pCar;
-                }
-                else
-                {
-                    if (pObj)
-                    {
-                        field_1C_prev_collided_entity = pObj;
-                        field_18_collided_entity = pObj;
-                    }
-                    else
-                    {
-                        field_1C_prev_collided_entity = pChar;
-                        field_18_collided_entity = pChar;
-                    }
-                }
-                //return; // not needed
-            }
-            else
-            {
-                // TODO: check this mess
-                // line 282 on 9.6f ida idb
                 v131_unk = 2;
-                if (unk_ang2 < kAng90_6FD854 - unk_ang) // TODO: check this word_xxxx
+                if (unk_ang2 < kAng180_6FD936 - unk_ang)
                 {
                     v131_unk = 1;
                     if (unk_ang2 < unk_ang)
@@ -2407,8 +2303,109 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
                         field_2A = kAng270_6FD94C;
                     }
                 }
-                goto LABEL_52_96F;
             }
+            else
+            {
+                if (vec3_y < new_ypos)
+                {
+                    if (field_2A == kAng90_6FD8A2)
+                    {
+                        field_28 = pSprt->field_0 + kAng180_6FD936;
+                        field_2A = kAng90_6FD8A2;
+                    }
+                    else
+                    {
+                        field_28 = pSprt->field_0;
+                        field_2A = kAng270_6FD94C;
+                    }
+                }
+                else
+                {
+                    if (field_2A == kAng90_6FD8A2)
+                    {
+                        field_28 = pSprt->field_0 + kAng180_6FD936;
+                        field_2A = kAng90_6FD8A2;
+                    }
+                    else
+                    {
+                        field_28 = pSprt->field_0;
+                        field_2A = kAng270_6FD94C;
+                    }
+                }
+            }
+
+            field_69_is_colliding_with_sprite = true;
+            field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
+
+            // maybe not !
+            if (!field_7C_pPed->IsField238_45EDE0(2))
+            {
+                if (field_7C_pPed->GetInternalObjective_403A90() != objectives_enum::enter_car_as_driver_35 ||
+                    gGarage_48_6FD26C->IsMaybeParkingCar_493540(field_7C_pPed->get_target_to_enter_403B10()))
+                {
+                    return;
+                }
+            }
+            // TODO: line 239 on 9.6f IDA idb
+            // Ang16::table_mul_41FC20(v35, &this->field_38_velocity, &v63, &pToAdd);
+            Ang16::PolarToCartesian_41FC20(field_28, field_38_velocity, x_polar, y_polar);
+            field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + x_polar,
+                                                     field_80_sprite_ptr->field_14_xy.y + y_polar,
+                                                     field_80_sprite_ptr->field_1C_zpos);
+
+            Char_B4::DispatchCollision_548670(byte_623F48);
+
+            if (field_18_collided_entity)
+            {
+                switch (v131_unk)
+                {
+                    case 1:
+                        field_28 = pSprt->field_0 - kAng90_6FD854;
+                        break;
+                    case 2:
+                        field_28 = pSprt->field_0;
+                        break;
+                    case 3:
+                        field_28 = pSprt->field_0 - kAng90_6FD854;
+                        break;
+                    default:
+                        break;
+                }
+
+                if (field_10_char_state != Char_B4_state::Jumping_15)
+                {
+                    field_80_sprite_ptr->set_xy_lazy_447E20(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
+                }
+                else
+                {
+                    if (field_68_animation_frame >= 5)
+                    {
+                        field_68_animation_frame = 5;
+                        field_71_frame_delay = 2;
+                        field_70_frame_timer = 0;
+                    }
+                }
+            }
+
+            if (pCar)
+            {
+                field_1C_prev_collided_entity = pCar;
+                field_18_collided_entity = pCar;
+            }
+            else
+            {
+                if (pObj)
+                {
+                    field_1C_prev_collided_entity = pObj;
+                    field_18_collided_entity = pObj;
+                }
+                else
+                {
+                    field_1C_prev_collided_entity = pChar;
+                    field_18_collided_entity = pChar;
+                }
+            }
+            //return; // not needed
         }
     }
     else
