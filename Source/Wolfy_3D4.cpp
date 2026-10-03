@@ -142,51 +142,41 @@ Wolfy_30* Wolfy_7A8::New_40_543800()
 {
     WIP_IMPLEMENTED;
 
-    s32 k20Idx = 0;
-    s32 k40Idx;
-    s32 _20IdxCopy = 0;
-    s32 idx_to_use;
-
-    while (1)
+    // 9.6f has the init block twice, 10.5 merges both into one block
+    Wolfy_30* pNew;
+    u8 idx;
+    for (idx = 0; idx < 20; idx++)
     {
-        idx_to_use = _20IdxCopy;
-        if (!this->field_780_bUsed[_20IdxCopy])
+        if (!this->field_780_bUsed[idx])
         {
-            // Found a free entry
-            break;
-        }
-
-        _20IdxCopy = ++k20Idx;
-        if (k20Idx >= 20u)
-        {
-            sub_543690();
-            k20Idx = 0;
-            k40Idx = 0;
-            while (1)
-            {
-                idx_to_use = k40Idx;
-                if (!this->field_780_bUsed[k40Idx])
-                {
-                    break;
-                }
-                k40Idx = ++k20Idx;
-                if (k20Idx >= 40u)
-                {
-                    return 0;
-                }
-            }
-            break;
+            pNew = &this->field_0[idx];
+            pNew->Init_543650();
+            pNew->field_4_idx = idx;
+            pNew->field_6_id = gWolfyId_40_pool_623F18;
+            pNew->field_0_bIn20Pool = 0;
+            gWolfyId_40_pool_623F18++;
+            this->field_780_bUsed[idx] = 1;
+            return pNew;
         }
     }
 
-    Wolfy_30* pNew = &this->field_0[idx_to_use];
-    pNew->Init_543650();
-    pNew->field_4_idx = k20Idx;
-    pNew->field_6_id = gWolfyId_40_pool_623F18;
-    pNew->field_0_bIn20Pool = 0;
-    gWolfyId_40_pool_623F18++;
-    this->field_780_bUsed[idx_to_use] = 1;
-    return pNew;
+    sub_543690();
+
+    for (idx = 0; idx < 40; idx++)
+    {
+        if (!this->field_780_bUsed[idx])
+        {
+            pNew = &this->field_0[idx];
+            pNew->Init_543650();
+            pNew->field_4_idx = idx;
+            pNew->field_6_id = gWolfyId_40_pool_623F18;
+            pNew->field_0_bIn20Pool = 0;
+            gWolfyId_40_pool_623F18++;
+            this->field_780_bUsed[idx] = 1;
+            return pNew;
+        }
+    }
+    return 0;
 }
 
 MATCH_FUNC(0x5438b0)
