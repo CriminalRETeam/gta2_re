@@ -325,6 +325,11 @@ shifts at the use; `Fix16(v << 14, 0)` shifts at once like the original (`Car_BC
 **Declaration order of `Fix16` locals picks which product goes first.** In `Trailer::sub_407BD0`
 swapping the operands of `+` didn't change the multiply order, declaring `cos` before `sin` did.
 
+**Call arguments are evaluated right to left, inline expressions included.** Writing the
+offset math inside the call (`set_xyz_lazy_420600(x + sin*v, y + cos*v, z)`) gives the original's
+y-first order and early load of z. A separate `PolarToCartesian` statement into locals computes x
+first (`Char_B4::state_1_5504F0`).
+
 **Ctor EH frame missing when the member ctors come first in the TU.** If the member
 constructors are defined earlier in the same .cpp, VC6 infers they can't throw and drops the
 ctor's EH frame. Moving the ctor above them restored it (`Hud_2B00::ctor_5D6CD0`).
