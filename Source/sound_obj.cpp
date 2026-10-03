@@ -4342,8 +4342,7 @@ void sound_obj::HandleCarTireScrubSound_418720(Sound_Params_8* a2)
 {
     WIP_IMPLEMENTED;
 
-    s32 emitVol = 0;
-    s32 emitVol_ = 0;
+    u8 emitVol = 0;
 
     Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
     CarPhysics_B0* pPhysics = pCar->field_58_physics;
@@ -4351,93 +4350,71 @@ void sound_obj::HandleCarTireScrubSound_418720(Sound_Params_8* a2)
     if (pPhysics)
     {
         s32 f9C = pPhysics->field_9C_block_spec;
-        if (f9C)
+        if (f9C && f9C != 4)
         {
-            if (f9C != 4)
+            if (pPhysics->field_AC_drive_wheels_locked_q > 0)
             {
-                Fix16 tmp;
-                Fix16 v10;
-                Fix16 v11;
-                Fix16 v16;
-                u8 tmpVol1;
-
-                if (pPhysics->field_AC_drive_wheels_locked_q)
+                if (gCarInfo_48_6FE258->field_28_max_speed > kFpZero_66F3F0)
                 {
-                    if (gCarInfo_48_6FE258->field_28_max_speed <= kFpZero_66F3F0)
-                    {
-                        emitVol = 10;
-                        emitVol_ = 10;
-
-                    LABEL_21:
-                        if (CalculateDistance_419020(Fix16(409600, 0)))
-                        {
-                            if (VolCalc_419070(emitVol_, Fix16(81920, 0), a2->field_5_bHasSolidAbove))
-                            {
-                                this->field_30_sQueueSample.field_54_sound_intensity = Fix16(81920, 0);
-                                this->field_30_sQueueSample.field_60_nEmittingVolume = emitVol;
-                                this->field_30_sQueueSample.field_64_max_distance = 10;
-                                this->field_30_sQueueSample.field_58_type = 10;
-                                this->field_30_sQueueSample.field_4_SampleIndex = 13;
-                                this->field_30_sQueueSample.field_41 = 0;
-                                this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 5;
-                                this->field_30_sQueueSample.field_18_bIs2D = 0;
-                                AddSampleToRequestedQueue_41A850();
-                            }
-                        }
-                        return;
-                    }
-                    emitVol = Fix16::Round_To_Int_410BF0(Fix16(983040, 0) * (pCar->GetCarLinearSpeed_43A240() / gCarInfo_48_6FE258->field_28_max_speed)) + 10;
+                    Fix16 speed;
+                    speed = pCar->GetCarLinearSpeed_43A240();
+                    speed /= gCarInfo_48_6FE258->field_28_max_speed;
+                    emitVol = Fix16::Round_To_Int_410BF0(Fix16(983040, 0) * speed) + 10;
                 }
                 else
                 {
-                    pCar->field_58_physics->SetCarInfoGlobal_562ED0();
-                    if (pPhysics->field_84_front_skid <= gCarInfo_2C_6FE0E4->field_24_skid_threshhold_1)
-                    {
-                        v11 = kFpOne_66F3F4;
-                    }
-                    else
-                    {
-                        tmp = (pPhysics->field_84_front_skid - gCarInfo_2C_6FE0E4->field_24_skid_threshhold_1);
-                        v10 = tmp / gCarInfo_2C_6FE0E4->field_24_skid_threshhold_1;
-                        v11 = kFpOne_66F3F4;
-                        if (v10 > kFpOne_66F3F4)
-                        {
-                            v10 = kFpOne_66F3F4;
-                        }
-
-                        u8 v12 = Fix16::Round_To_Int_410BF0(Fix16(1146880, 0) * v10);
-                        if ((u8)v12)
-                        {
-                            emitVol = v12;
-                            emitVol_ = v12;
-                        }
-                    }
-
-                    if (pPhysics->field_88_rear_skid <= gCarInfo_2C_6FE0E4->field_28_skid_threshhold_2)
-                    {
-                        goto LABEL_20;
-                    }
-                    tmp = (pPhysics->field_88_rear_skid - gCarInfo_2C_6FE0E4->field_28_skid_threshhold_2);
-                    v16 = tmp / gCarInfo_2C_6FE0E4->field_28_skid_threshhold_2;
-                    if (v16 > v11)
-                    {
-                        v16 = v11;
-                    }
-
-                    tmpVol1 = Fix16::Round_To_Int_410BF0(Fix16(1146880, 0) * v16);
-                    if ((u8)tmpVol1 <= emitVol)
-                    {
-                    LABEL_20:
-                        if (!emitVol)
-                        {
-                            return;
-                        }
-                        goto LABEL_21;
-                    }
-                    emitVol = tmpVol1;
+                    emitVol = 10;
                 }
-                emitVol_ = emitVol;
-                goto LABEL_20;
+            }
+            else
+            {
+                pPhysics->SetCarInfoGlobal_562ED0();
+                if (pPhysics->field_84_front_skid > gCarInfo_2C_6FE0E4->field_24_skid_threshhold_1)
+                {
+                    Fix16 v10 = (pPhysics->field_84_front_skid - gCarInfo_2C_6FE0E4->field_24_skid_threshhold_1) / gCarInfo_2C_6FE0E4->field_24_skid_threshhold_1;
+                    if (v10 > kFpOne_66F3F4)
+                    {
+                        v10 = kFpOne_66F3F4;
+                    }
+                    u8 tmpVol = Fix16::Round_To_Int_410BF0(Fix16(1146880, 0) * v10);
+                    if (tmpVol > emitVol)
+                    {
+                        emitVol = tmpVol;
+                    }
+                }
+
+                if (pPhysics->field_88_rear_skid > gCarInfo_2C_6FE0E4->field_28_skid_threshhold_2)
+                {
+                    Fix16 v16 = (pPhysics->field_88_rear_skid - gCarInfo_2C_6FE0E4->field_28_skid_threshhold_2) / gCarInfo_2C_6FE0E4->field_28_skid_threshhold_2;
+                    if (v16 > kFpOne_66F3F4)
+                    {
+                        v16 = kFpOne_66F3F4;
+                    }
+                    u8 tmpVol = Fix16::Round_To_Int_410BF0(Fix16(1146880, 0) * v16);
+                    if (tmpVol > emitVol)
+                    {
+                        emitVol = tmpVol;
+                    }
+                }
+            }
+
+            if (emitVol > 0)
+            {
+                if (CalculateDistance_419020(Fix16(409600, 0)))
+                {
+                    if (VolCalc_419070(emitVol, Fix16(81920, 0), a2->field_5_bHasSolidAbove))
+                    {
+                        this->field_30_sQueueSample.field_54_sound_intensity = Fix16(81920, 0);
+                        this->field_30_sQueueSample.field_60_nEmittingVolume = emitVol;
+                        this->field_30_sQueueSample.field_64_max_distance = 10;
+                        this->field_30_sQueueSample.field_58_type = 10;
+                        this->field_30_sQueueSample.field_4_SampleIndex = 13;
+                        this->field_30_sQueueSample.field_41 = 0;
+                        this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 5;
+                        this->field_30_sQueueSample.field_18_bIs2D = 0;
+                        AddSampleToRequestedQueue_41A850();
+                    }
+                }
             }
         }
     }
