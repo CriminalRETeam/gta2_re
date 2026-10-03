@@ -361,7 +361,8 @@ void Weapon_30::pistol_5DD860()
     WIP_IMPLEMENTED;
 
     Ang16 pedRot;
-    Fix16_Point charPos;
+    Fix16_Point offset;
+    Fix16_Point velocity;
 
     if (field_2_reload_speed == 0)
     {
@@ -374,11 +375,11 @@ void Weapon_30::pistol_5DD860()
             Fix16 y = field_24_pPed->get_cam_y();
             Fix16 z = field_24_pPed->get_cam_z();
             pedRot = field_24_pPed->GetRotation();
-            charPos = field_24_pPed->GetVelocityVector_45B520();
-            charPos.FromPolar_41E210(kFP16Quarter_706CF4, pedRot);
-            Fix16 xx = charPos.x + x;
-            Fix16 yy = charPos.y + y;
-            if (spawn_bullet_5DCF60(bullet_type, xx, yy, z, pedRot, charPos))
+            velocity = field_24_pPed->GetVelocityVector_45B520();
+            offset.FromPolar_41E210(kFP16Quarter_706CF4, pedRot);
+            Fix16 xx = x + offset.x;
+            Fix16 yy = y + offset.y;
+            if (spawn_bullet_5DCF60(bullet_type, xx, yy, z, pedRot, velocity))
             {
                 if (field_24_pPed->IsField238_45EDE0(2))
                 {
