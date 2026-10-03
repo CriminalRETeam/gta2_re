@@ -995,16 +995,15 @@ s32 Frontend::Run_4AEDB0()
 }
 
 // https://decomp.me/scratch/ci11a
-WIP_FUNC(0x4B5430)
+MATCH_FUNC(0x4B5430)
 void Frontend::DrawScoreTable_4B5430(score_table_line* pStrings,
                           u16 text_xpos,
                           u16 text_ypos,
                           u16 num_entries,
                           u16 arg_fontType,
-                          s32 palette,
+                          u16 palette,
                           u8 spacing_type)
 {
-    WIP_IMPLEMENTED;
     u16 new_xpos;
 
     for (u16 i = 0; i < num_entries; i++)
@@ -5253,14 +5252,16 @@ menu_option_0x82::~menu_option_0x82()
     field_80_menu_page_target = 0;
 }
 
-WIP_FUNC(0x4B6330)
+MATCH_FUNC(0x4B6330)
 bool menu_option_0x82::SelectNextHorizontalIdx_4B6330()
 {
-    WIP_IMPLEMENTED;
     BYTE tmp = bIsLeftRightLoopEnabled_67DA80;
     u16 old_count = field_6E_horizontal_selected_idx;
     u16 new_count = old_count;
     char_type bFound = 0;
+    // Reading field_6E through a reference stops VC6 from reusing old_count's register for it in the
+    // loop condition; with no register left to hoist it into, it is reloaded each pass like the original.
+    u16& selected_idx = field_6E_horizontal_selected_idx;
     do
     {
         new_count++;
@@ -5281,7 +5282,7 @@ bool menu_option_0x82::SelectNextHorizontalIdx_4B6330()
             bFound = 1;
         }
 
-    } while (new_count != old_count && !bFound); // note: field_6E_count being reg cached instead of re-read from this
+    } while (new_count != selected_idx && !bFound);
 
     field_6E_horizontal_selected_idx = new_count;
 
