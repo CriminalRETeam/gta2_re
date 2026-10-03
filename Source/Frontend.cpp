@@ -1061,7 +1061,7 @@ EXTERN_GLOBAL(s32, gGTA2VersionMajor_708284);
 
 // sub_457920 in 9.6f
 // https://decomp.me/scratch/jchxT
-WIP_FUNC(0x4AD140)
+MATCH_FUNC(0x4AD140)
 void Frontend::DrawMenu_4AD140()
 {
     const s32 v98 = gText_0x14_704DFC->field_10_lang_code != 'j' ? 14 : 16;
@@ -1158,12 +1158,12 @@ void Frontend::DrawMenu_4AD140()
         }
     }
 
-    u8 main_level_idx;
-    u8 bonus_stage_idx;
-
     if (field_132_f136_idx == MENUPAGE_DEAD || field_132_f136_idx == MENUPAGE_AREA_COMPLETE || field_132_f136_idx == MENUPAGE_BONUS_AREA ||
         field_132_f136_idx == MENUPAGE_RESULTS_PLAYER_QUIT)
     {
+        u8 main_level_idx;
+        u8 bonus_stage_idx;
+
         if (!gLucid_hamilton_67E8E0.IsBonusStage_4C59A0())
         {
             main_level_idx = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
@@ -1178,7 +1178,7 @@ void Frontend::DrawMenu_4AD140()
             s32 unk_offset = (3 * main_level_idx) + bonus_stage_idx + 64;
             swprintf(tmpBuff_67BD9C, L"%s %c", gText_0x14_704DFC->Find_5B5F90("bonslev"), unk_offset);
             wcsncpy(pMenuPage->field_518_elements_array[0].field_6_element_name_str, tmpBuff_67BD9C, 0x32u);
-            //Frontend::sub_4B7D60();
+            sub_4B7D60();
         }
 
         Frontend::DrawScoreTable_4B5430((score_table_line*)&gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[main_level_idx][bonus_stage_idx]
@@ -1362,10 +1362,11 @@ void Frontend::DrawMenu_4AD140()
         } // end else
     } //  end FOR
 
-    u8 bonus_level_idx;
-
     if (chosen_option_idx == 3 || chosen_option_idx == 4)
     {
+        u8 main_level_idx;
+        u8 bonus_level_idx;
+
         if (chosen_option_idx == 3) //  START PLAY IN AREA
         {
             main_level_idx = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
@@ -2850,6 +2851,12 @@ void Frontend::ContinueToNextStage_4B8020()
         field_EE08_menu_screen = RedBar_16;
         field_110_state = FrontendState::Booting_Map_2;
     }
+}
+
+STUB_FUNC(0x4B7D60)
+void Frontend::sub_4B7D60()
+{
+    NOT_IMPLEMENTED;
 }
 
 // TODO: the text keys are guesses, only code is compared
@@ -4510,7 +4517,7 @@ s32 __stdcall Frontend::GetMaxTextWidth_5D8990(wchar_t* pStr, u16 font_type)
 }
 
 MATCH_FUNC(0x4B78B0)
-void Frontend::DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, s32 palette, u16 scale, u16 a7, u8 pStr)
+void Frontend::DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, u16 palette, u16 scale, u16 a7, u8 pStr)
 {
     u16 text_xbase;
 

@@ -53,7 +53,7 @@ struct menu_element_0x6E
 
     EXPORT ~menu_element_0x6E();
 
-    char_type field_0_element_type;
+    u8 field_0_element_type;
     char_type field_1_is_it_displayed;
     s16 field_2_xpos;
     s16 field_4_ypos;
@@ -124,7 +124,7 @@ struct MenuPage_0xBCA
     EXPORT bool SelectNextOption_4B6200();
 
     u16 field_0_number_of_options;
-    s16 field_2_number_of_elements;
+    u16 field_2_number_of_elements;
     menu_option_0x82 field_4_options_array[10];
     menu_element_0x6E field_518_elements_array[15];
     kind_beaver_6 field_B8A[10];
@@ -378,6 +378,7 @@ struct Frontend
 
     EXPORT void ContinueToNextStage_4B8020();
 
+    EXPORT void sub_4B7D60();
     EXPORT int sub_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_ypos, u16 fontType, s32 palette);
 
     EXPORT char_type AreAllStagesUnlocked_4B7FB0();
@@ -484,7 +485,7 @@ struct Frontend
 
     EXPORT void DrawLastAndBestStats_4B57B0(u16 a3, u16 a5);
 
-    EXPORT void DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, s32 palette, u16 scale, u16 a7, u8 pStr);
+    EXPORT void DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, u16 palette, u16 scale, u16 a7, u8 pStr);
 
     EXPORT void Frontend::DrawScoreTable_4B5430(score_table_line* pStrings,
                            u16 text_xpos,
