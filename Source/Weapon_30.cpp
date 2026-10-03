@@ -1328,12 +1328,12 @@ DEFINE_GLOBAL(Fix16, dword_706CD8, 0x706CD8);
 WIP_FUNC(0x5e0b10)
 void Weapon_30::fire_truck_flamethrower_5E0B10()
 {
-    field_24_pPed = field_14_car->field_54_driver;
-
     Ang16 gun_ang;
     Fix16_Point bullet_pos;
     Fix16_Point offset;
     Fix16_Point velocity;
+
+    field_24_pPed = field_14_car->field_54_driver;
 
     Sprite_18* pTurret = field_14_car->field_0_qq.GetSpriteForModel_5A6A50(114);
     if (pTurret)
@@ -1376,21 +1376,27 @@ void Weapon_30::fire_truck_flamethrower_5E0B10()
 WIP_FUNC(0x5e0e70)
 void Weapon_30::fire_truck_gun_5E0E70()
 {
+    Fix16_Point bullet_pos;
+    Fix16_Point offset;
+    Fix16_Point velocity;
+
     field_24_pPed = field_14_car->field_54_driver;
 
-    Ang16 gun_ang = field_14_car->field_0_qq.GetSpriteForModel_5A6A50(114)->field_0->field_0 + word_706DFA;
+    // Ang16 operator+ with Normalize out of line. The plain operator+ gets the start right but
+    // moves the registers of the rotations.
+    Ang16 gun_ang = field_14_car->field_0_qq.GetSpriteForModel_5A6A50(114)->field_0->field_0;
+    gun_ang.rValue += word_706DFA.rValue;
+    gun_ang.Normalize_406C20();
 
-    Fix16_Point bullet_pos;
     bullet_pos.SetXY_432860(Fix16(0), dword_706CDC);
-    bullet_pos.RotateByAngle_40F6B0(gun_ang);
+    bullet_pos.RotateByAngle_OOL_40F6B0(gun_ang);
 
-    Fix16_Point offset;
     offset.SetXY_432860(Fix16(0), dword_706CD8);
-    offset.RotateByAngle_40F6B0(field_14_car->field_50_car_sprite->field_0);
+    offset.RotateByAngle_NegOOL_40F6B0(field_14_car->field_50_car_sprite->field_0);
 
-    bullet_pos += (offset + field_14_car->field_50_car_sprite->get_x_y_443580());
+    bullet_pos += offset.Add_40AC50(field_14_car->field_50_car_sprite->get_x_y_443580());
 
-    Fix16_Point velocity = field_14_car->field_58_physics->GetPointVelocity_561350(&offset);
+    velocity = field_14_car->field_58_physics->GetPointVelocity_561350(&bullet_pos);
 
     set_field_2C_4CCA80(1);
 

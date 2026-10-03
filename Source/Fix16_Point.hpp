@@ -95,13 +95,12 @@ struct Fix16_Point_POD
     // the Fix16 operators are the out-of-line copies (Weapon_30::fire_truck_flamethrower_5E0B10)
     inline void RotateByAngle_OOL_40F6B0(const Ang16& angle)
     {
+        Fix16 x_old = x;
         Fix16 sin = Ang16::sine_40F500(angle);
         Fix16 cos = Ang16::cosine_40F520(angle);
 
-        Fix16 x_old = x;
-
-        x = x.Multiply_408680(cos) + y.Multiply_408680(sin);
-        y = (-x_old).Multiply_408680(sin) + y.Multiply_408680(cos);
+        x = (const Fix16&)x.Multiply_408680(cos) + y.Multiply_408680(sin);
+        y = (const Fix16&)(-x_old).Multiply_408680(sin) + y.Multiply_408680(cos);
     }
 
     // As above, with the unary minus out of line too
@@ -111,8 +110,8 @@ struct Fix16_Point_POD
         Fix16 sin = Ang16::sine_40F500(angle);
         Fix16 cos = Ang16::cosine_40F520(angle);
 
-        x = x.Multiply_408680(cos) + y.Multiply_408680(sin);
-        y = x_old.Negate_4086A0().Multiply_408680(sin) + y.Multiply_408680(cos);
+        x = (const Fix16&)x.Multiply_408680(cos) + y.Multiply_408680(sin);
+        y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + y.Multiply_408680(cos);
     }
 
     void FromPolar_41E210(const Fix16& radius, const Ang16& angle)
