@@ -1248,7 +1248,7 @@ class Car_BC
 
     bool CanBeLiftedByCrane_447F00()
     {
-        return !IsCab_421620() && !inline_check_0x10_info_421640() && !IsTrainModel_403BA0() && !IsLongerThanOneBlock_447ED0();
+        return !IsCab_421620() && !gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->is_0x10() && !IsTrainModel_403BA0() && !IsLongerThanOneBlock_447ED0();
     }
 
     void sub_426E00()
