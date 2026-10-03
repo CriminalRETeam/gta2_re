@@ -1133,10 +1133,6 @@ void Police_7B8::TryCreateRoadblockAt_577370(u8 x, u8 y, s32 roadblock_type)
             field_664_roadblock_1.CreateRoadblock_575FF0(x, y, z, 3);
             return;
         }
-        else if (field_708_roadblock_2.field_0_bActive)
-        {
-            return;
-        }
     }
     else
     {
@@ -1145,10 +1141,9 @@ void Police_7B8::TryCreateRoadblockAt_577370(u8 x, u8 y, s32 roadblock_type)
             field_664_roadblock_1.CreateRoadblock_575FF0(x, y, z, 2);
             return;
         }
-        else if (field_708_roadblock_2.field_0_bActive)
-        {
-            return;
-        }
     }
-    field_708_roadblock_2.CreateRoadblock_575FF0(x, y, z, 3);
+    if (!field_708_roadblock_2.field_0_bActive)
+    {
+        field_708_roadblock_2.CreateRoadblock_575FF0(x, y, z, 3);
+    }
 }
