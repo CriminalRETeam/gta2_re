@@ -277,7 +277,7 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
                                  s32 a8,
                                  u8 a9)
 {
-
+    Fix16_Point point;
     u32 flags;
     if (scale != kFpOne_706A6C || (flags = 0x10000, rotation != kAngZero_706C3C))
     {
@@ -289,62 +289,60 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
 
     // point 1
 
-    Fix16_Point_POD point(-v12, -v13);
-    point.RotateByAngle_40F6B0(rotation);
-    point.x += x_pos;
-    point.y += y_pos;
+    point.x = -v12;
+    point.y = -v13;
+    point.RotateByAngle_40F6B0_all_out_of_line(rotation);
 
-    gQuadVerts_706B88.field_0_verts[0].x = point.x.ToFloat();
-    gQuadVerts_706B88.field_0_verts[0].y = point.y.ToFloat();
+    // Remaining diff: the original inlines the Fix16_Point constructor, here it's out of line
+    // (inline budget, see matching_quirks.md). The copy of x_pos is from the permuter.
+    Fix16 tmp = x_pos;
+    gQuadVerts_706B88.field_0_verts[0].x = (point.x + tmp).ToFloat();
+    gQuadVerts_706B88.field_0_verts[0].y = (point.y + y_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[0].z = 0.000099999997f;
 
     // point 2
 
-    Fix16_Point_POD point2(v12, -v13);
-    point2.RotateByAngle_40F6B0(rotation);
-    point2.x += x_pos;
-    point2.y += y_pos;
+    point.x = v12;
+    point.y = -v13;
+    point.RotateByAngle_40F6B0_all_out_of_line(rotation);
 
-    gQuadVerts_706B88.field_0_verts[1].x = point2.x.ToFloat();
-    gQuadVerts_706B88.field_0_verts[1].y = point2.y.ToFloat();
+    gQuadVerts_706B88.field_0_verts[1].x = (point.x + x_pos).ToFloat();
+    gQuadVerts_706B88.field_0_verts[1].y = (point.y + y_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[1].z = 0.000099999997f;
 
     // point 3
 
-    Fix16_Point_POD point3(v12, v13);
-    point3.RotateByAngle_40F6B0(rotation);
-    point3.x += x_pos;
-    point3.y += y_pos;
+    point.x = v12;
+    point.y = v13;
+    point.RotateByAngle_40F6B0_all_out_of_line(rotation);
 
-    gQuadVerts_706B88.field_0_verts[2].x = point3.x.ToFloat();
-    gQuadVerts_706B88.field_0_verts[2].y = point3.y.ToFloat();
+    gQuadVerts_706B88.field_0_verts[2].x = (point.x + x_pos).ToFloat();
+    gQuadVerts_706B88.field_0_verts[2].y = (point.y + y_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[2].z = 0.000099999997f;
 
     // point 4
 
-    Fix16_Point_POD point4(-v12, v13);
-    point4.RotateByAngle_40F6B0(rotation);
-    point4.x += x_pos;
-    point4.y += y_pos;
+    point.y = v13;
+    point.x = -v12;
+    point.RotateByAngle_40F6B0_all_out_of_line(rotation);
 
-    gQuadVerts_706B88.field_0_verts[3].x = point4.x.ToFloat();
-    gQuadVerts_706B88.field_0_verts[3].y = point4.y.ToFloat();
-    gQuadVerts_706B88.field_0_verts[3].z = 0.000099999997f;
-
-    //  u & v
-
+    gQuadVerts_706B88.field_0_verts[3].x = (point.x + x_pos).ToFloat();
+    gQuadVerts_706B88.field_0_verts[3].y = (point.y + y_pos).ToFloat();
+    // u & v, with z interleaved (store order found by the permuter)
     gQuadVerts_706B88.field_0_verts[0].u = 0.0;
     gQuadVerts_706B88.field_0_verts[0].v = 0.0;
+    gQuadVerts_706B88.field_0_verts[3].z = 0.000099999997f;
     gQuadVerts_706B88.field_0_verts[1].v = 0.0;
     gQuadVerts_706B88.field_0_verts[3].u = 0.0;
 
-    gQuadVerts_706B88.field_0_verts[1].u = width - 0.000099999997f;
-    gQuadVerts_706B88.field_0_verts[2].u = width - 0.000099999997f;
-    gQuadVerts_706B88.field_0_verts[2].v = height - 0.000099999997f;
-    gQuadVerts_706B88.field_0_verts[3].v = height - 0.000099999997f;
+    f32 u = width - 0.000099999997f;
+    f32 v = height - 0.000099999997f;
+    gQuadVerts_706B88.field_0_verts[1].u = u;
+    gQuadVerts_706B88.field_0_verts[2].u = u;
+    gQuadVerts_706B88.field_0_verts[2].v = v;
+    gQuadVerts_706B88.field_0_verts[3].v = v;
 
-    //s32 sub_flags = CalcQuadFlags_5D83E0(a8, a9);
-    pgbh_DrawQuad(flags | CalcQuadFlags_5D83E0(a8, a9), pTexture, gQuadVerts_706B88.field_0_verts, 255);
+    pgbh_DrawQuad(flags | CalcQuadFlags_5D83E0(a8, a9) | 0x20000, pTexture, gQuadVerts_706B88.field_0_verts, 255);
 }
 
 // https://decomp.me/scratch/HX0q9
