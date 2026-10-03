@@ -1085,7 +1085,6 @@ void Frontend::DrawMenu_4AD140()
             pMenuPage->field_518_elements_array[9].field_1_is_it_displayed = false;
 
             // NOTE: field_124_font_type is u16
-            // NOTE: sub_4B7E10 is a static __stdcall (no this)
 
             last_xpos = sub_4B7E10(2, 0x12Cu, 0x1B8u, field_124_font_type, 0xFFFF); // text: ENTER
             last_xpos = sub_4B7E10(11, last_xpos + 300, 0x1B8u, field_124_font_type, 0xFFFF); // text: : ENTER NAME
@@ -2854,8 +2853,8 @@ void Frontend::ContinueToNextStage_4B8020()
 }
 
 // TODO: the text keys are guesses, only code is compared
-WIP_FUNC(0x4B7E10)
-EXPORT int __stdcall Frontend::sub_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_ypos, s32 fontType, s32 palette)
+MATCH_FUNC(0x4B7E10)
+EXPORT int Frontend::sub_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_ypos, u16 fontType, s32 palette)
 {
     switch (str_id_idx)
     {
