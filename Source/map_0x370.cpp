@@ -1514,7 +1514,7 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
         gBlockInfo0_6F5EB0 = &gBlockInfo1_6F5F40;
     }
 
-    s32 gradient_direction_;
+    u8 gradient_direction_;
     gmp_map_slope* pSlopeType = &gGmpSlopes_6F5BA8[pBlock2->field_B_slope_type >> 2];
     dword_6F5EC8 = pSlopeType;
     if (!pSlopeType->field_0_gradient_direction || pSlopeType->field_2_gradient_level)
@@ -1524,7 +1524,7 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
     else
     {
         gradient_direction_ = pSlopeType->field_0_gradient_direction;
-        switch (pSlopeType->field_0_gradient_direction)
+        switch (gradient_direction_)
         {
             case 1u:
                 ++dword_6F5FAC;
@@ -1549,41 +1549,23 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
         goto LABEL_39;
     }
 
-    if (gradient_direction_ != 1)
+    if (gradient_direction_ == 1)
     {
-        if (((u16)gFaceCollisionMask_6F6002 & gBlockInfo0_6F5EB0->field_4_top) == 0)
+        if (dword_6F6054 && (dword_6F6054->field_4_top & gFaceCollisionMask_6F6002))
         {
-            goto LABEL_32;
-        }
-        if (dword_6F5EC8->field_0_gradient_direction == 3)
-        {
-            goto LABEL_32;
-        }
-        if (dword_6F5EC8->field_0_gradient_direction == 4)
-        {
-            goto LABEL_32;
-        }
-        if (gSprite_6F61E8)
-        {
-            if (!gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX, tileX + 1, tileY))
+            if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX, tileX + 1, tileY))
             {
-                goto LABEL_32;
+                return 1;
             }
         }
-        return 1;
     }
-    if (!dword_6F6054 || ((u16)gFaceCollisionMask_6F6002 & dword_6F6054->field_4_top) == 0)
+    else if ((gBlockInfo0_6F5EB0->field_4_top & gFaceCollisionMask_6F6002) && dword_6F5EC8->field_0_gradient_direction != 3 &&
+             dword_6F5EC8->field_0_gradient_direction != 4)
     {
-        goto LABEL_32;
-    }
-    if (!gSprite_6F61E8)
-    {
-        return 1;
-    }
-
-    if (gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX, tileX + 1, tileY))
-    {
-        return 1;
+        if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX, tileX + 1, tileY))
+        {
+            return 1;
+        }
     }
 
 LABEL_32:
