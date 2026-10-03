@@ -3475,14 +3475,14 @@ void CarPhysics_B0::StabilizeVelocityAtSpeed_562910()
         else
         {
             field_40_linvel_1.RotateByAngle_40F6B0(-field_58_theta);
-            field_40_linvel_1.x = field_40_linvel_1.x * dword_6FE334;
-            if (!field_5C_pCar->field_64_pTrailer)
+            field_40_linvel_1.x *= dword_6FE334;
+            if (field_5C_pCar->field_64_pTrailer)
             {
-                field_40_linvel_1.y = field_40_linvel_1.y * dword_6FE330;
+                field_40_linvel_1.y *= dword_6FE240;
             }
             else
             {
-                field_40_linvel_1.y = field_40_linvel_1.y * dword_6FE240;
+                field_40_linvel_1.y *= dword_6FE330;
             }
             field_40_linvel_1.RotateByAngle_40F6B0(field_58_theta);
             field_74_ang_vel_rad = field_74_ang_vel_rad * dword_6FDF18;
@@ -3497,14 +3497,16 @@ void CarPhysics_B0::StabilizeVelocityAtSpeed_562910()
         else
         {
             field_40_linvel_1.RotateByAngle_40F6B0(-field_58_theta);
-            field_40_linvel_1.x = field_40_linvel_1.x * dword_6FE100;
-            if (!field_5C_pCar->field_64_pTrailer)
+            field_40_linvel_1.x *= dword_6FE100;
+            // TODO: the original inlines this *= and calls the out-of-line copy (0x562430) only in
+            // the else branch; here both stay calls (inline budget).
+            if (field_5C_pCar->field_64_pTrailer)
             {
-                field_40_linvel_1.y = field_40_linvel_1.y * dword_6FE0FC;
+                field_40_linvel_1.y *= dword_6FDFBC;
             }
             else
             {
-                field_40_linvel_1.y = field_40_linvel_1.y * dword_6FDFBC;
+                field_40_linvel_1.y *= dword_6FE0FC;
             }
             field_40_linvel_1.RotateByAngle_40F6B0(field_58_theta);
             field_74_ang_vel_rad = field_74_ang_vel_rad * dword_6FE318;
@@ -3512,17 +3514,17 @@ void CarPhysics_B0::StabilizeVelocityAtSpeed_562910()
     }
 }
 
-// TODO: Actually Fix16_Point method its RotateByAngle_40F6B0
+// Out-of-line copy of Fix16_Point_POD::RotateByAngle_40F6B0
 MATCH_FUNC(0x562c20)
-void CarPhysics_B0::RotateVelocity_562C20(const Ang16& angle)
+void Fix16_Point_POD::RotateVelocity_562C20(const Ang16& angle)
 {
     const Fix16 sin = Ang16::sine_40F500(angle);
     const Fix16 cos = Ang16::cosine_40F520(angle);
 
-    const Fix16 x_old = field_0_vel_read_only.x;
+    const Fix16 x_old = x;
 
-    field_0_vel_read_only.x = (sin * field_0_vel_read_only.y) + (cos * field_0_vel_read_only.x);
-    field_0_vel_read_only.y = (cos * field_0_vel_read_only.y) + ((-x_old) * sin);
+    x = (sin * y) + (cos * x);
+    y = (cos * y) + ((-x_old) * sin);
 }
 
 // https://decomp.me/scratch/0X4pK

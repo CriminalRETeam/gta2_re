@@ -271,7 +271,6 @@ class CarPhysics_B0
     EXPORT Fix16 MinGasPedalPressure_5626C0();
     EXPORT void ApplyArrowSteerAssist_5626F0();
     EXPORT void StabilizeVelocityAtSpeed_562910();
-    EXPORT void RotateVelocity_562C20(const Ang16& a2);
     EXPORT void EnforceGearSensitiveMaxSpeed_562D00();
     EXPORT void SetModelPhysicsGlobal_562EB0();
     EXPORT void SetCarInfoGlobal_562ED0();

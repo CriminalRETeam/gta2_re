@@ -120,11 +120,15 @@ struct Fix16_Point_POD
     }
 
     // Operator* for Fix16 ?
-    void MultiplyByFix16_49E3A0(Fix16 factor)
+    Fix16_Point_POD& MultiplyByFix16_49E3A0(const Fix16& factor)
     {
-        x = x * factor;
-        y = y * factor;
+        x *= factor;
+        y *= factor;
+        return *this;
     }
+
+    // Out-of-line copy of RotateByAngle_40F6B0, emitted in CarPhysics_B0.cpp
+    EXPORT void RotateVelocity_562C20(const Ang16& angle);
 
     EXPORT Fix16_Point Multiply_438FE0(Fix16& a1);
     EXPORT Fix16_Point Divide_442CB0(Fix16& a1);
