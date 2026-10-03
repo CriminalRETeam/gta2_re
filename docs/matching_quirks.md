@@ -379,6 +379,16 @@ the frame size and entry state showed two `Fix16_Point` locals where we had one 
 
 **An if/else-if chain with nested returns, not a switch returning a compare.** `if (a3 == 1) { if (a2 == N) return 1; } else if ...` with one shared `return 0`, in the original test order (`sad_mirzakhani::sub_432170`).
 
+**Write `base + k*i`, not a running local.** VC6's strength reduction of `ypos + 40*i` gives the
+original's induction variables and slots; hand-written running sums don't (`DrawScoreTable_4B5430`).
+
+**`and al,0xFE` comes from `&= ~1u` on a 32-bit field.** `x & 0xFE` also clears the upper bytes
+(`CanStepForwardWithRegionCheck_54ECB0`, also a bug fix).
+
+**A dead `cmp $6; mov 0x6C(...)` with no test after it** is a condition folded into a default with
+the same result (`Bink::OpenSlot2_5133E0`, `OpenSlot1_513560`). IDA cuts such functions off after the
+`FatalError` call when the error path is the else branch laid out last.
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 
