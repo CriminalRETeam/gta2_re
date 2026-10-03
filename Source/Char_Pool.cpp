@@ -42,7 +42,7 @@ EXTERN_GLOBAL(u8, gNumDummyChars_6787E2);
 EXTERN_GLOBAL(u8, gNumScriptCreatedPeds_6787E3);
 
 // Initial value not verified (assumed to be k_word_678656's default, which PedManager resets from it)
-DEFINE_GLOBAL_INIT(s16, word_61A898, 40, 0x61A898);
+DEFINE_GLOBAL_INIT(s16, word_61A898, 40, 0x61A898); // TODO: initial value 40 is a guess, check it against 10.5.exe
 DEFINE_GLOBAL(PedManager*, gPedManager_6787BC, 0x6787BC);
 DEFINE_GLOBAL(PedPool*, gPedPool_6787B8, 0x6787B8);
 DEFINE_GLOBAL(Char_B4_Pool*, gChar_B4_Pool_6FDB44, 0x6FDB44);
