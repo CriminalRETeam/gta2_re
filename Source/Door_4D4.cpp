@@ -39,61 +39,57 @@ Door_38* Door_4D4::RegisterDoubleDoorNoCheck_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, 
 {
     WIP_IMPLEMENTED;
 
-    Door_38* pNewDoor; // eax
-    Door_38* pDoor; // ebx
-    u8 x_; // al
-    Fix16 v12; // ebp
-    Fix16 v13; // esi
-    Fix16 v14; // edi
-    char_type y_; // [esp+30h] [ebp+1Ch]
-    Fix16 tmp;
+    Door_38* pDoor = GetNextFreeDoor_49D3A0();
+    field_4D0_count++;
+    pDoor->field_2B_bReversed = reversed;
+    pDoor->field_2A_bDoFlip = flip;
 
-    pNewDoor = GetNextFreeDoor_49D3A0();
-    ++this->field_4D0_count;
-    pDoor = pNewDoor;
-    pNewDoor->field_2B_bReversed = reversed;
-    pNewDoor->field_2A_bDoFlip = flip;
-    x_ = x;
-    y_ = y;
+    Fix16 check_z = Fix16(z);
+    u8 x2 = x;
+    u8 y2 = y;
+    Fix16 check_x;
+    Fix16 check_y;
+    Fix16 check_width;
+    Fix16 check_height;
     switch (face)
     {
-        case 1:
-            v12 = kFpOne_67BBE4;
-            y_ = y - 1;
-            tmp = kFpTwo_67BBE8;
-            v13 = Fix16(x) - kFpHalf_67BA20;
-            v14 = Fix16(y);
-            break;
         case 2:
-            v12 = kFpOne_67BBE4;
-            v13 = kFpHalf_67BA20 + Fix16(x + 1);
-            y_ = y + 1;
-            tmp = kFpTwo_67BBE8;
-            v14 = Fix16(y + 1);
+            check_x = Fix16(x + 1) + kFpHalf_67BA20;
+            check_width = kFpOne_67BBE4;
+            y2 = y + 1;
+            check_height = kFpTwo_67BBE8;
+            check_y = Fix16(y + 1);
             break;
         case 3:
-            v12 = kFpTwo_67BBE8;
-            ++x;
-            tmp = kFpOne_67BBE4;
-            v13 = Fix16(x_ + 1);
-            v14 = Fix16(y) - kFpHalf_67BA20;
+            check_width = kFpTwo_67BBE8;
+            x2 = x + 1;
+            check_height = kFpOne_67BBE4;
+            check_x = Fix16(x + 1);
+            check_y = Fix16(y) - kFpHalf_67BA20;
+            break;
+        case 1:
+            check_width = kFpOne_67BBE4;
+            y2 = y - 1;
+            check_height = kFpTwo_67BBE8;
+            check_x = Fix16(x) - kFpHalf_67BA20;
+            check_y = Fix16(y);
             break;
         case 4:
-            v12 = kFpTwo_67BBE8;
-            v13 = Fix16(x);
-            tmp = kFpOne_67BBE4;
-            v14 = kFpHalf_67BA20 + Fix16(y + 1);
-            --x;
+            check_x = Fix16(x);
+            check_width = kFpTwo_67BBE8;
+            check_height = kFpOne_67BBE4;
+            check_y = Fix16(y + 1) + kFpHalf_67BA20;
+            x2 = x - 1;
             break;
         default:
-            v13 = tmp;
-            v14 = tmp;
-            v12 = tmp;
+            check_x = check_height;
+            check_y = check_height;
+            check_width = check_height;
             break;
     }
-    pDoor->AddDoorData_49CA50(gr_id, x_, y, z, face);
-    pDoor->AddDoorData_49CA50(gr_id, x, y_, z, face);
-    pDoor->InitDouble_49CC00(pDoor->field_0_primary_door_data, 1, (u8)(this->field_4D0_count) - 1, v13, v14, Fix16(z), v12, tmp);
+    pDoor->AddDoorData_49CA50(gr_id, x, y, z, face);
+    pDoor->AddDoorData_49CA50(gr_id, x2, y2, z, face);
+    pDoor->InitDouble_49CC00(pDoor->field_0_primary_door_data, 1, field_4D0_count - 1, check_x, check_y, check_z, check_width, check_height);
     return pDoor;
 }
 
