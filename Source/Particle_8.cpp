@@ -87,21 +87,19 @@ void Particle_8::EmitBloodBurst_53E450(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
     if (!bSkip_particles_67D64D)
     {
         vector.x = Fix16(0);
-        vector.y = Fix16(gRng_6F6784.get_int_4F7AE0(50)) * dword_6FD548;
-        vector.RotateByAngle_40F6B0(ang);
+        vector.y = Fix16(gRng_6F6784.get_int_4F7AE0(50) + 25) * dword_6FD548;
+        vector.RotateByAngle_OOL_40F6B0(ang);
 
         for (u8 i = 0; i < 6; i++)
         {
             vector.x = Fix16(0);
             vector.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + dword_6FD558) * dword_6FD4EC;
 
-            vector.RotateByAngle_40F6B0((word_6FD5CC.MultiplyByFix16_401CB0(Fix16(gRng_6F6784.get_int_4F7AE0(16))) + ang) -
-                                        word_6FD5CC.MultiplyByFix16_401CB0(Fix16(8)));
+            angle = word_6FD5CC.MultiplyByFix16_401CB0(Fix16(gRng_6F6784.get_int_4F7AE0(16)));
+            vector.RotateByAngle_NegOOL_40F6B0((angle + ang) - word_6FD5CC.MultiplyByFix16_401CB0(Fix16(8)));
 
-            Fix16 x_dir = vector.x / 15;
-            Fix16 y_dir = vector.y / 15;
-
-            Particle_4C* pBloodParticle = gParticle_8_6FD5E8->New_53E3C0(vector.x, vector.y, dword_6FD330, -x_dir, -y_dir, 0);
+            Particle_4C* pBloodParticle =
+                gParticle_8_6FD5E8->New_53E3C0(vector.x, vector.y, dword_6FD330, (vector.x / 15).Negate_4086A0(), (vector.y / 15).Negate_4086A0(), 0);
 
             if (pBloodParticle)
             {
