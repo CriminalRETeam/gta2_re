@@ -62,7 +62,8 @@ def main():
         path = str(src_file)
 
         # exclude folders and other unwanted files  (no define globals in headers)
-        if path.endswith(".cpp"):
+        # _tu_harness_tmp*.cpp: transient copies made by Scripts/tu_harness/tu.sh
+        if path.endswith(".cpp") and not src_file.name.startswith("_tu_harness_tmp"):
             
             with open(path, "r") as file:
 

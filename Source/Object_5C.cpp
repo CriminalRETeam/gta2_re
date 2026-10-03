@@ -1791,31 +1791,22 @@ void Object_2C::TriggerCarExplosionIfApplicable_526790(Sprite* pSprite)
     }
 }
 
-WIP_FUNC(0x526830)
+MATCH_FUNC(0x526830)
 s32 __stdcall Object_2C::sub_526830(s32 a1)
 {
-    WIP_IMPLEMENTED;
-
-    int result;
     switch (a1)
     {
         case 39:
-            result = 18;
-            break;
+            return 18;
         case 40:
-            result = 33;
-            break;
+            return 33;
         case 41:
-            result = 19;
-            break;
+            return 19;
         case 42:
-            result = 20;
-            break;
-        default:
-            result = a1;
-            break;
+            return 20;
     }
-    return result;
+    // The original reloads a1 from its stack slot here instead of keeping it in a register
+    return *(volatile s32*)&a1;
 }
 
 MATCH_FUNC(0x526b40)

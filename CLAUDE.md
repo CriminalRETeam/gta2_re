@@ -155,6 +155,8 @@ Two things to try early when a function is close but won't match:
   so far. `docs/inlines_96f.md` pairs each function with its 9.6f version and tracks, per
   WIP and matched function, which 9.6f calls became inlines and which ones `Source/` still
   lacks. Work through the WIPs first, in the hope of extra matches.
+  9.6f was built with VC7.0 13.00.9466 and `/O2 /Ob0 /G5 /GX`, so a recovered inline can be checked
+  exactly against its 9.6f version: see `Scripts/tu_harness/` and `docs/x87_handoff.md`.
 
 **Avoid `goto` where possible.** VC6 block layout can often be forced with a `goto`, but
 the result reads badly and is rarely what the original source did. First try restructuring:

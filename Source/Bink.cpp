@@ -180,10 +180,11 @@ void __stdcall Bink::SetActiveSlot_5137A0(char_type slot)
     gBinkActiveSlot_6F83FF = slot;
 }
 
-WIP_FUNC(0x5133E0)
+// The csv size (0x166) stops after the last FatalError call: the shared slot store and epilogue
+// after it are not compared
+MATCH_FUNC(0x5133E0)
 void __stdcall Bink::OpenSlot2_5133E0(const char_type* pFileName, HDIGDRIVER a2)
 {
-    WIP_IMPLEMENTED;
     BinkSetSoundSystem((void*)BinkOpenMiles, (s32)a2);
     BinkSetIOSize(600000);
 
@@ -243,18 +244,17 @@ void __stdcall Bink::OpenSlot2_5133E0(const char_type* pFileName, HDIGDRIVER a2)
         {
             gBinkDDState_6F83FE = 0;
             FatalError_4A38C0(Gta2Error::BinkBufferOpenError, "C:\\Splitting\\Gta2\\Source\\movie2.cpp", 360);
-            gBinkActiveSlot_6F83FF = 2;
-            return;
         }
-
-        gBinkDDState_6F83FE = 2;
-        gBinkActiveSlot_6F83FF = 2;
+        else
+        {
+            gBinkDDState_6F83FE = 2;
+        }
     }
     else
     {
         FatalError_4A38C0(Gta2Error::BinkOpenError, "C:\\Splitting\\Gta2\\Source\\movie2.cpp", 376);
-        gBinkActiveSlot_6F83FF = 2;
     }
+    gBinkActiveSlot_6F83FF = 2;
 }
 
 MATCH_FUNC(0x5137B0)

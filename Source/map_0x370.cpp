@@ -317,10 +317,9 @@ gmp_map_zone* Map_0x370::first_zone_by_type_4DF1D0(u8 zone_type)
 }
 
 // https://decomp.me/scratch/MqQPJ
-WIP_FUNC(0x4DF240)
+MATCH_FUNC(0x4DF240)
 gmp_map_zone* Map_0x370::GetNearestZoneOfType_4DF240(u8 xpos, u8 ypos, u8 zone_type)
 {
-    WIP_IMPLEMENTED;
     Fix16 v21 = kFp255_6F5B8C;
     Fix16 v5 = kFp255_6F5B8C;
 
@@ -351,9 +350,9 @@ gmp_map_zone* Map_0x370::GetNearestZoneOfType_4DF240(u8 xpos, u8 ypos, u8 zone_t
             {
                 if (v13 > kFpTen_6F6184) // v13 < 10.0
                 {
-                    pChosenZone = pOtherZone;
                     if (pOtherZone) //  line 101
                     {
+                        pChosenZone = pOtherZone;
                         v5 = v21;
                     }
                     else

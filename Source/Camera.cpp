@@ -287,79 +287,60 @@ s32 Camera_0xBC::IsCoordsPosVisible_435A70(Fix16 x, Fix16 y, Fix16 z)
 }
 
 // https://decomp.me/scratch/YoPmg Is field_60 really a Fix16_Point ?
-WIP_FUNC(0x435B90)
+MATCH_FUNC(0x435B90)
 void Camera_0xBC::UpdateBoundaries_435B90()
 {
-    WIP_IMPLEMENTED;
-
     field_60.x = Fix16(field_68_screen_px_width) * field_98_cam_pos2.field_C_zoom;
     field_60.y = Fix16(640) * field_98_cam_pos2.field_C_zoom;
 
-    Fix16 v3 = dword_67671C * ((dword_676838 + field_98_cam_pos2.field_8_z) * (kOne_67681C / field_98_cam_pos2.field_C_zoom));
-    Fix16 v5 = dword_67671C * ((dword_676838 + field_98_cam_pos2.field_8_z) * (kOne_67681C / field_98_cam_pos2.field_C_zoom));
+    Fix16 v = (dword_676838 + field_98_cam_pos2.field_8_z) * (kOne_67681C / field_98_cam_pos2.field_C_zoom) * dword_67671C;
 
-    Fix16 x_pos = field_98_cam_pos2.field_0_x;
-
-    field_78_boundaries_non_neg.field_0_left = x_pos - v3;
-
+    field_78_boundaries_non_neg.field_0_left = field_98_cam_pos2.field_0_x - v;
     if (field_78_boundaries_non_neg.field_0_left < kZero_676818)
     {
-        field_78_boundaries_non_neg.field_0_left = 0;
+        field_78_boundaries_non_neg.field_0_left = Fix16(0);
     }
-    else
+    else if (field_78_boundaries_non_neg.field_0_left > kMaxMapCoord_67668C)
     {
-        if (field_78_boundaries_non_neg.field_0_left > kMaxMapCoord_67668C)
-        {
-            field_78_boundaries_non_neg.field_0_left = kMaxMapCoord_67668C;
-        }
+        field_78_boundaries_non_neg.field_0_left = kMaxMapCoord_67668C;
     }
 
-    field_78_boundaries_non_neg.field_4_right = x_pos + v5;
-    if (x_pos + v5 < kZero_676818)
+    field_78_boundaries_non_neg.field_4_right = field_98_cam_pos2.field_0_x + v;
+    if (field_78_boundaries_non_neg.field_4_right < kZero_676818)
     {
-        field_78_boundaries_non_neg.field_4_right = 0;
+        field_78_boundaries_non_neg.field_4_right = Fix16(0);
     }
-    else
+    else if (field_78_boundaries_non_neg.field_4_right > kMaxMapCoord_67668C)
     {
-        if (x_pos + v5 > kMaxMapCoord_67668C)
-        {
-            field_78_boundaries_non_neg.field_4_right = kMaxMapCoord_67668C;
-        }
+        field_78_boundaries_non_neg.field_4_right = kMaxMapCoord_67668C;
     }
 
-    Fix16 v7 = v5 * dword_6768E0;
-    Fix16 v7_high = field_98_cam_pos2.field_4_y;
-    field_78_boundaries_non_neg.field_8_top = v7_high - v7;
+    v *= dword_6768E0;
 
+    field_78_boundaries_non_neg.field_8_top = field_98_cam_pos2.field_4_y - v;
     if (field_78_boundaries_non_neg.field_8_top < kZero_676818)
     {
-        field_78_boundaries_non_neg.field_8_top = 0;
+        field_78_boundaries_non_neg.field_8_top = Fix16(0);
     }
-    else
+    else if (field_78_boundaries_non_neg.field_8_top > kMaxMapCoord_67668C)
     {
-        if (field_78_boundaries_non_neg.field_8_top > kMaxMapCoord_67668C)
-        {
-            field_78_boundaries_non_neg.field_8_top = kMaxMapCoord_67668C;
-        }
+        field_78_boundaries_non_neg.field_8_top = kMaxMapCoord_67668C;
     }
 
-    field_78_boundaries_non_neg.field_C_bottom = v7_high + v7;
+    field_78_boundaries_non_neg.field_C_bottom = field_98_cam_pos2.field_4_y + v;
     if (field_78_boundaries_non_neg.field_C_bottom < kZero_676818)
     {
-        field_78_boundaries_non_neg.field_C_bottom = 0;
+        field_78_boundaries_non_neg.field_C_bottom = Fix16(0);
     }
-    else
+    else if (field_78_boundaries_non_neg.field_C_bottom > kMaxMapCoord_67668C)
     {
-        if (field_78_boundaries_non_neg.field_C_bottom > kMaxMapCoord_67668C)
-        {
-            field_78_boundaries_non_neg.field_C_bottom = kMaxMapCoord_67668C;
-        }
+        field_78_boundaries_non_neg.field_C_bottom = kMaxMapCoord_67668C;
     }
 
     field_20_boundaries.field_0_left = field_78_boundaries_non_neg.field_0_left - dword_67691C;
-    field_20_boundaries.field_4_right = dword_67691C + field_78_boundaries_non_neg.field_4_right;
+    field_20_boundaries.field_4_right = field_78_boundaries_non_neg.field_4_right + dword_67691C;
     field_20_boundaries.field_8_top = field_78_boundaries_non_neg.field_8_top - dword_67691C;
-    field_20_boundaries.field_C_bottom = dword_67691C + field_78_boundaries_non_neg.field_C_bottom;
+    field_20_boundaries.field_C_bottom = field_78_boundaries_non_neg.field_C_bottom + dword_67691C;
 }
 
 MATCH_FUNC(0x435D20)

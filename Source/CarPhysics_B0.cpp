@@ -2784,7 +2784,7 @@ void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
 
     Car_BC* pCar = this->field_5C_pCar;
 
-    v16 = pIntersection.Negate_40ACB0() / kFP16Half_6FE2F8;
+    v16 = pIntersection.Negate_40ACB0().Divide_442CB0(kFP16Half_6FE2F8);
 
     Ped* pCarDriver = field_5C_pCar->field_54_driver;
     if (pCarDriver)
@@ -3468,19 +3468,37 @@ void CarPhysics_B0::ApplyArrowSteerAssist_5626F0()
 }
 
 // https://decomp.me/scratch/vdIqi
+// Fix16::operator*= with the product in a temporary (StabilizeVelocityAtSpeed_562910)
+static inline void MultiplyAssign_ProductTemp(Fix16& value, const Fix16& factor)
+{
+    __int64 product = (__int64)value.mValue * factor.mValue;
+    value.mValue = (s32)(product >> 14);
+}
+
+// Fix16::Multiply_408680 through an inline wrapper: a direct call changes the inline budget
+static inline Fix16 Multiply_inline_408680(const Fix16& a, const Fix16& b)
+{
+    return (const Fix16&)a.Multiply_408680(b);
+}
+
+// Harness diff 0 with `field_74_ang_vel_rad * dword_6FE318` below, but that calls the operator*
+// COMDAT while the rotations call Multiply_408680 (one callee, 0x408680, in the original), which the
+// verifier's call renaming rejects. The wrapper keeps one callee; left: the result is read from
+// its stack temporary instead of through %eax.
 WIP_FUNC(0x562910)
 void CarPhysics_B0::StabilizeVelocityAtSpeed_562910()
 {
     WIP_IMPLEMENTED;
     if (CarPhysics_B0::IsInAir_55A0B0())
     {
-        if (Fix16::Abs(field_40_linvel_1.x) <= kFP16One128th_6FDFDC && Fix16::Abs(field_40_linvel_1.y) <= kFP16One128th_6FDFDC)
+        if (Fix16::Abs_negate_out_of_line(field_40_linvel_1.x) <= kFP16One128th_6FDFDC &&
+            Fix16::Abs_negate_out_of_line(field_40_linvel_1.y) <= kFP16One128th_6FDFDC)
         {
             field_40_linvel_1.MultiplyByFix16_49E3A0(dword_6FE334);
         }
         else
         {
-            field_40_linvel_1.RotateByAngle_40F6B0(-field_58_theta);
+            field_40_linvel_1.RotateByAngle_40F6B0_all_out_of_line(-field_58_theta);
             field_40_linvel_1.x *= dword_6FE334;
             if (field_5C_pCar->field_64_pTrailer)
             {
@@ -3490,13 +3508,14 @@ void CarPhysics_B0::StabilizeVelocityAtSpeed_562910()
             {
                 field_40_linvel_1.y *= dword_6FE330;
             }
-            field_40_linvel_1.RotateByAngle_40F6B0(field_58_theta);
+            field_40_linvel_1.RotateByAngle_40F6B0_all_out_of_line(field_58_theta);
             field_74_ang_vel_rad = field_74_ang_vel_rad * dword_6FDF18;
         }
     }
     else
     {
-        if (Fix16::Abs(field_40_linvel_1.x) <= kFP16One128th_6FDFDC && Fix16::Abs(field_40_linvel_1.y) <= kFP16One128th_6FDFDC)
+        if (Fix16::Abs_negate_out_of_line(field_40_linvel_1.x) <= kFP16One128th_6FDFDC &&
+            Fix16::Abs_negate_out_of_line(field_40_linvel_1.y) <= kFP16One128th_6FDFDC)
         {
             field_40_linvel_1.MultiplyByFix16_49E3A0(dword_6FE100);
         }
@@ -3504,18 +3523,19 @@ void CarPhysics_B0::StabilizeVelocityAtSpeed_562910()
         {
             field_40_linvel_1.RotateByAngle_40F6B0(-field_58_theta);
             field_40_linvel_1.x *= dword_6FE100;
-            // TODO: the original inlines this *= and calls the out-of-line copy (0x562430) only in
-            // the else branch; here both stay calls (inline budget).
+            // 9.6f has `*=` (0x41E0D0) in both branches. 10.5 inlines it here and calls the
+            // out-of-line copy (0x562430) in the else branch, past the inline budget. Only this
+            // helper gives the original operand order (y in eax) and budget use.
             if (field_5C_pCar->field_64_pTrailer)
             {
-                field_40_linvel_1.y *= dword_6FDFBC;
+                MultiplyAssign_ProductTemp(field_40_linvel_1.y, dword_6FDFBC);
             }
             else
             {
                 field_40_linvel_1.y *= dword_6FE0FC;
             }
             field_40_linvel_1.RotateByAngle_40F6B0(field_58_theta);
-            field_74_ang_vel_rad = field_74_ang_vel_rad * dword_6FE318;
+            field_74_ang_vel_rad = Multiply_inline_408680(field_74_ang_vel_rad, dword_6FE318);
         }
     }
 }
@@ -3726,15 +3746,26 @@ bool CarPhysics_B0::ProcessCarPhysicsStateMachine_562FE0()
 }
 
 // https://decomp.me/scratch/Uxers
-WIP_FUNC(0x563280)
+// 9.6f 0x40F760: negates a point in place (inlined in 10.5)
+static inline void NegateInPlace_40F760(Fix16_Point& p)
+{
+    p.x = -p.x;
+    p.y = -p.y;
+}
+
+// 9.6f 0x49ED00
+MATCH_FUNC(0x563280)
 void CarPhysics_B0::UpdateCp1FromCm1_563280()
 {
-    WIP_IMPLEMENTED;
-
     Fix16_Point point = gCarInfo_2C_6FE0E4->field_C_center_of_mass_offset;
-    point.x = -point.x;
-    point.y = -gCarInfo_2C_6FE0E4->field_C_center_of_mass_offset.y;
-    point.RotateByAngle_40F6B0(field_58_theta);
+    NegateInPlace_40F760(point);
+
+    // RotateByAngle_40F6B0, but the y part uses the out-of-line Fix16 operators
+    Fix16 sin = Ang16::sine_40F500(field_58_theta);
+    Fix16 cos = Ang16::cosine_40F520(field_58_theta);
+    Fix16 x_old = point.x;
+    point.x = (point.x * cos) + (point.y * sin);
+    point.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + point.y.Multiply_408680(cos);
 
     field_38_cp1 = field_30_cm1 + point;
 }

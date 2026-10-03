@@ -1051,8 +1051,9 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
         DrawFigureScaled_5D7670(6, arrow_colour + 71, 64u, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
 
         // Draw positive respect
+        s32 respect_i = respect;
         s32 curr_bar_respect = 20;
-        for (s32 i = 69; i <= 84 && respect >= curr_bar_respect; i += 5)
+        for (s32 i = 69; i <= 84 && respect_i >= curr_bar_respect; i += 5)
         {
             DrawFigureScaled_5D7670(6, arrow_colour + 71, (u32)i, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
             curr_bar_respect += 20;
@@ -1060,7 +1061,7 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
 
         // Draw negative respect
         curr_bar_respect = -20;
-        for (s32 j = 59; j >= 44 && respect <= curr_bar_respect; j -= 5)
+        for (s32 j = 59; j >= 44 && respect_i <= curr_bar_respect; j -= 5)
         {
             DrawFigureScaled_5D7670(6, arrow_colour + 71, (u32)j, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
             curr_bar_respect -= 20;
@@ -1226,29 +1227,34 @@ void Garox_C4::FormatAndSetupText_5D1B10(const wchar_t* pStr, s16 xpos, s16 ypos
         /*v7 =*/gText_0x14_704DFC->StrToUpper_5B5B80(field_0_str_buf);
     }
 
-    s16 xTmp = xpos;
+    // Remaining diff: the original keeps 0 in ebx for the three zero stores (VC6 only does that from four
+    // uses of 0 here; adding any fourth zero store gives the register)
     this->field_B0_drawKind = 2;
     this->field_B4_palette = 0;
 
     if (xpos == -1)
     {
-        xTmp = ((640 - Frontend::GetMaxTextWidth_5D8990(field_0_str_buf, this->field_AC_fontType)) / 2);
+        this->field_A8_x = (640 - Frontend::GetMaxTextWidth_5D8990(field_0_str_buf, this->field_AC_fontType)) / 2;
     }
-    this->field_A8_x = xTmp;
+    else
+    {
+        this->field_A8_x = xpos;
+    }
 
-    s16 yTmp = ypos;
     if (ypos == -1)
     {
-        yTmp = ((480 - CountLineSpacing_5D8940(field_0_str_buf, field_AC_fontType)) / 2);
+        this->field_AA_y = (480 - CountLineSpacing_5D8940(field_0_str_buf, field_AC_fontType)) / 2;
     }
-    this->field_AA_y = yTmp;
+    else
+    {
+        this->field_AA_y = ypos;
+    }
 
-    s32 calcDisplayTime = displayTime;
     if (displayTime == -2)
     {
-        calcDisplayTime = gHud_2B00_706620->field_13C4_text_speed * wcslen(field_0_str_buf);
+        displayTime = gHud_2B00_706620->field_13C4_text_speed * wcslen(field_0_str_buf);
     }
-    this->field_A4_display_time = calcDisplayTime;
+    this->field_A4_display_time = displayTime;
 
     ClearAlpha_4C70E0();
 }

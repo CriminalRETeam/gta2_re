@@ -3026,7 +3026,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_BUILDING_509F60()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-WIP_FUNC(0x509fd0)
+MATCH_FUNC(0x509fd0)
 void miss2_0x11C::Locate_509FD0()
 {
     SCR_ONEVAR_RECT* pCmd = (SCR_ONEVAR_RECT*)gBasePtr_6F8070;
@@ -3072,10 +3072,9 @@ void miss2_0x11C::Locate_509FD0()
                     {
                         field_8_cond_result = true;
                     }
-                    else if (pPointer->field_8_char->field_16C_car)
+                    else if (pPointer->field_8_char->field_16C_car && pPointer->field_8_char->GetPedVelocity_45C920() == kFpZero_6F77C0)
                     {
-                        vel = pPointer->field_8_char->GetPedVelocity_45C920();
-                        goto vel_test;
+                        field_8_cond_result = true;
                     }
 
                     break;
@@ -3083,7 +3082,6 @@ void miss2_0x11C::Locate_509FD0()
                     if (pPointer->field_8_char->field_168_game_object)
                     {
                         vel = pPointer->field_8_char->field_168_game_object->field_38_velocity;
-                    vel_test:
                         if (vel == kFpZero_6F77C0)
                         {
                             field_8_cond_result = true;

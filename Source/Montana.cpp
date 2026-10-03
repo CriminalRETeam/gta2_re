@@ -161,15 +161,17 @@ Montana_4::Montana_4()
     Reset_5C5E50();
 }
 
-// TODO: target loads gMontana_2EE4_705BBC into ecx and pushes esi inside the if
-WIP_FUNC(0x5c5f10)
+MATCH_FUNC(0x5c5f10)
 Montana_4::~Montana_4()
 {
-    WIP_IMPLEMENTED;
-
-    if (gMontana_2EE4_705BBC)
+    // An explicit dtor call through the global plus operator delete on a saved copy gives the original's
+    // test in ecx with esi pushed and loaded inside the if; `delete` keeps the pointer in esi throughout
+    if (gMontana_2EE4_705BBC != NULL)
     {
-        GTA2_DELETE_AND_NULL(gMontana_2EE4_705BBC);
+        Montana_2EE4* p = gMontana_2EE4_705BBC;
+        gMontana_2EE4_705BBC->~Montana_2EE4();
+        operator delete(p);
+        gMontana_2EE4_705BBC = 0;
     }
 
     if (gMontana_FA4_705BC0)

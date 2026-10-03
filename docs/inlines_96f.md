@@ -1606,7 +1606,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x46BC70 | `sub_46BC70` | 207 |  |  | 1/0 | todo |  |
 | 0x46BD40 | `Nanobotz::sub_46BD40` | 168 | 0x4EAE00 MATCH |  | 1/0 | todo |  |
 | 0x46BEA0 | `sub_46BEA0` | 531 | 0x4F3FB0 MATCH |  | 1/0 | todo |  |
-| 0x46C0C0 | `Nanobotz::Set_UV_46C0C0` | 115 | 0x4F4190 WIP |  | 1/0 | todo |  |
+| 0x46C0C0 | `Nanobotz::Set_UV_46C0C0` | 115 | 0x4F4190 MATCH |  | 1/0 | matched |  |
 | 0x46C2C0 | `Nanobotz::sub_46C2C0` | 1324 |  |  | 1/0 | todo |  |
 | 0x46C7F0 | `Nanobotz::sub_46C7F0` | 1600 |  |  | 1/0 | todo |  |
 | 0x46CE30 | `Nanobotz::sub_46CE30` | 1325 |  |  | 1/0 | todo |  |

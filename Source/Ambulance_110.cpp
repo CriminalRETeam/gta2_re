@@ -184,7 +184,7 @@ EXTERN_GLOBAL(Fix16, dword_6F6FC0);
 // Runs the paramedic crew (the leader, then each group member, in gParamedicCrewPed_6F6D60): pick up the
 // patients in field_10_patients one by one, revive them, then drive off. Sets field_1C when nobody had
 // anything left to do.
-WIP_FUNC(0x4faac0)
+MATCH_FUNC(0x4faac0)
 void Ambulance_20::HandleObjectiveState_4FAAC0()
 {
     u8 bBusy = 0;
@@ -251,9 +251,11 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                     }
                     else
                     {
-                        Fix16 dx = Fix16((u8)field_0_target_x) - gParamedicCrewPed_6F6D60->field_1AC_cam.x;
-                        Fix16 dy = Fix16((u8)field_1_target_y) - gParamedicCrewPed_6F6D60->field_1AC_cam.y;
-                        if (Fix16::Max_44E540(Fix16::Abs_436A50(dx), Fix16::Abs_436A50(dy)) >= dword_6F6FC0)
+                        // 9.6f calls MaxAbsDistance_42A6B0(get_cam_x(), get_cam_y(), ...)
+                        if (Fix16::MaxAbsDistanceOOL_42A6B0(gParamedicCrewPed_6F6D60->get_cam_x(),
+                                                            gParamedicCrewPed_6F6D60->get_cam_y(),
+                                                            Fix16((u8)field_0_target_x),
+                                                            Fix16((u8)field_1_target_y)) >= dword_6F6FC0)
                         {
                             break;
                         }
@@ -731,9 +733,10 @@ Ambulance_20* Ambulance_110::AllocateTaskSlot_4FA4B0()
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6F6FC0, Fix16(8), 0x6F6FC0);
 
-WIP_FUNC(0x4fa500)
+MATCH_FUNC(0x4fa500)
 void Ambulance_110::ProcessPatientQueue_4FA500()
 {
+    u8 x, y, z;
     field_1_f8_idx -= field_4_patient_queue.RemovePedsInSpecificState_471290();
     if (field_1_f8_idx == 0)
     {
@@ -749,9 +752,9 @@ void Ambulance_110::ProcessPatientQueue_4FA500()
     }
 
     {
-        u8 x = pPed->field_1AC_cam.x.ToInt();
-        u8 y = pPed->field_1AC_cam.y.ToInt();
-        u8 z = pPed->field_1AC_cam.z.ToInt();
+        x = pPed->field_1AC_cam.x.ToInt();
+        y = pPed->field_1AC_cam.y.ToInt();
+        z = pPed->field_1AC_cam.z.ToInt();
         if (!gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &x, &y, &z, 0))
         {
             field_1_f8_idx--;

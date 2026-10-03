@@ -1853,39 +1853,33 @@ char_type Sprite::CheckMapZCollision_5A21F0()
     return gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(field_14_xy.x, field_14_xy.y, zLow, zHigh);
 }
 
-// Writing the min update through a reference keeps xy_pos_max in a register like the original
-static inline void KeepMin_5A22B0(Fix16& cur, const Fix16& v)
+// 10.5 inlines MaxAbsDistance_42A6B0 here twice: once with only x's negate out of line, then in the
+// loop with both negates out of line
+static inline Fix16 __stdcall MaxAbsDistanceBothOOL_5A22B0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
 {
-    if (v < cur)
-    {
-        cur = v;
-    }
+    Fix16 diff_x = x2 - x1;
+    Fix16 diff_y = y2 - y1;
+
+    Fix16 result;
+    result = Fix16::Max_44E540(Fix16::Abs_negate_out_of_line(diff_x), Fix16::Abs_negate_out_of_line(diff_y));
+    return result;
 }
 
-WIP_FUNC(0x5A22B0)
+MATCH_FUNC(0x5A22B0)
 Fix16 Sprite::MinDistanceToAnySpriteBBoxCorner_5A22B0(Sprite* pOther)
 {
-    WIP_IMPLEMENTED;
-
-
-    // Remaining diff: the loop in the original loads both corner coords before subtracting.
-    // The first block's names are block-scoped so their slots are reused (the counter takes xd's).
-    Fix16 xy_pos_max;
-    {
-        Fix16 xd = pOther->field_14_xy.x - field_14_xy.x;
-        Fix16 yd = pOther->field_14_xy.y - field_14_xy.y;
-        xy_pos_max = Fix16::Max_44E540(Fix16::Abs_negate_out_of_line(xd), Fix16::Abs(yd));
-    }
+    Fix16 xy_pos_max = Fix16::MaxAbsDistanceNegOOL_42A6B0(field_14_xy.x, field_14_xy.y, pOther->field_14_xy.x, pOther->field_14_xy.y);
 
     s32 box_idx = 0;
     s32 k4Counter = 4;
     do
     {
         Sprite_4C* p4C = pOther->field_C_sprite_4c_ptr;
-
-        Fix16 xd2 = p4C->field_C_renderingRect[box_idx].x - field_14_xy.x;
-        Fix16 yd2 = p4C->field_C_renderingRect[box_idx].y - field_14_xy.y;
-        KeepMin_5A22B0(xy_pos_max, Fix16::Max_44E540(Fix16::Abs_negate_out_of_line(xd2), Fix16::Abs_negate_out_of_line(yd2)));
+        Fix16 d = MaxAbsDistanceBothOOL_5A22B0(field_14_xy.x, field_14_xy.y, p4C->field_C_renderingRect[box_idx].x, p4C->field_C_renderingRect[box_idx].y);
+        if (d < xy_pos_max)
+        {
+            xy_pos_max = d;
+        }
 
         ++box_idx;
         --k4Counter;
