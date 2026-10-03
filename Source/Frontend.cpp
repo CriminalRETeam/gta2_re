@@ -4998,11 +4998,9 @@ bool Frontend::ExistsPreviousBonusStage_4B74F0()
 }
 
 // https://decomp.me/scratch/kyxJQ
-WIP_FUNC(0x4B7360)
+MATCH_FUNC(0x4B7360)
 char_type Frontend::GetNextUnlockedBonusStage_4B7360(u8 a2)
 {
-    WIP_IMPLEMENTED;
-
     player_stats_0xA4* player_stats = GetCurrPlayerStats_4B43E0();
 
     u8 main_stage_idx;
@@ -5020,24 +5018,26 @@ char_type Frontend::GetNextUnlockedBonusStage_4B7360(u8 a2)
         if (bonus_stage_idx == field_1EB51_num_bonus_stages[main_stage_idx] - 1)
         {
             bonus_stage_idx = 1;
-            if (main_stage_idx != field_1EB50_num_main_stages - 1)
+            if (main_stage_idx == field_1EB50_num_main_stages - 1)
             {
-                main_stage_idx++;
-            }
-            else if (bIsLeftRightLoopEnabled_67DA80)
-            {
-                main_stage_idx = 0;
+                if (bIsLeftRightLoopEnabled_67DA80)
+                {
+                    main_stage_idx = 0;
+                }
+                else
+                {
+                    main_stage_idx = og_main_stage_idx;
+                    bonus_stage_idx = og_bonus_stage_idx;
+                }
             }
             else
             {
-                main_stage_idx = og_main_stage_idx;
-                bonus_stage_idx = og_bonus_stage_idx;
+                main_stage_idx++;
             }
 
-            u8 main_idx = main_stage_idx;
-            if (field_1EB51_num_bonus_stages[main_idx] == 1)
+            while (field_1EB51_num_bonus_stages[main_stage_idx] == 1)
             {
-                while (main_idx == field_1EB50_num_main_stages - 1)
+                if (main_stage_idx == field_1EB50_num_main_stages - 1)
                 {
                     if (bIsLeftRightLoopEnabled_67DA80)
                     {
@@ -5048,17 +5048,12 @@ char_type Frontend::GetNextUnlockedBonusStage_4B7360(u8 a2)
                         main_stage_idx = og_main_stage_idx;
                         bonus_stage_idx = og_bonus_stage_idx;
                     }
-
-                    main_idx = main_stage_idx;
-                    if (field_1EB51_num_bonus_stages[main_idx] != 1)
-                    {
-                        break;
-                    }
+                }
+                else
+                {
                     main_stage_idx++;
                 }
-                // nothing here
             }
-            // nothing here
         }
         else
         {
