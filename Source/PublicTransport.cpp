@@ -877,7 +877,7 @@ void PublicTransport_181C::SetupTrainAndBusStops_5794B0()
     dword_6FF1D0 = 0;
     if (!bSkip_trains_67D550)
     {
-        for (u8 station_zone_kind = 0; station_zone_kind < 5; station_zone_kind++)
+        for (u32 station_zone_kind = 0; station_zone_kind < 5; station_zone_kind++)
         {
             switch (station_zone_kind)
             {
