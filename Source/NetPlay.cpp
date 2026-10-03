@@ -1906,12 +1906,10 @@ void NetPlay::Send_521370()
     field_5E4_pDPlay3->Send(field_5D8_player_id, 0, 0, (void*)pData, pDataLen);
 }
 
-// Return block order differs, see docs/match_attempts.md
-WIP_FUNC(0x5213e0)
+// The timeout test in the loop condition gives the shared return false block
+MATCH_FUNC(0x5213e0)
 bool NetPlay::WaitForPlayersSync_5213E0()
 {
-    WIP_IMPLEMENTED;
-
     unsigned long senderId;
     s32 pData;
     DWORD startTime;
@@ -1936,22 +1934,8 @@ bool NetPlay::WaitForPlayersSync_5213E0()
         }
     }
 
-    while (1)
+    while ((waitingForSync || waitingForAck) && !bTimedOut)
     {
-        if (!waitingForSync && !waitingForAck)
-        {
-            if (!bTimedOut)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        if (bTimedOut)
-        {
-            return false;
-        }
-
         if (Receive_51F010(&pData, &dataLen, &recvId, &senderId))
         {
             u8* pPacket = (u8*)pData;
@@ -1977,6 +1961,11 @@ bool NetPlay::WaitForPlayersSync_5213E0()
         }
         bTimedOut = timeGetTime() - startTime > 20000;
     }
+    if (bTimedOut)
+    {
+        return false;
+    }
+    return true;
 }
 
 MATCH_FUNC(0x5215b0)
