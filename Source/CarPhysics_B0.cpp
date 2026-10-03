@@ -3008,38 +3008,33 @@ Fix16 CarPhysics_B0::ComputeEngineTorque_561970()
     {
         if (this->field_8C_state == 2)
         {
-            // TODO: SquareRoot getting inlined when we don't want it to be
-            Fix16 vel_len = field_40_linvel_1.GetLength_2();
+            Fix16 vel_len = field_40_linvel_1.GetLength_no_sqrt_inline();
 
             if (field_94_is_backward_gas_on)
             {
                 if (vel_len != kFP16Zero_6FE20C || !this->field_92_is_hand_brake_on)
                 {
-                    return (-(gCarInfo_2C_6FE0E4->field_14_half_thrust + ComputeTorqueUnknown_49E8E0()) *
-                            gCarInfo_48_6FE258->field_34_gear1_multiplier);
+                    return -ComputeTorqueUnknown_49E8E0_ool() * gCarInfo_48_6FE258->field_34_gear1_multiplier;
                 }
             }
             else if (field_93_is_forward_gas_on)
             {
                 if (vel_len != kFP16Zero_6FE20C || !this->field_92_is_hand_brake_on)
                 {
-                    if (vel_len <= gCarInfo_48_6FE258->field_44_gear3_speed)
+                    if (vel_len > gCarInfo_48_6FE258->field_44_gear3_speed)
                     {
-                        if (vel_len <= gCarInfo_48_6FE258->field_40_gear2_speed)
-                        {
-                            // Gear 1
-                            return ((ComputeTorqueUnknown_49E8E0()) * gCarInfo_48_6FE258->field_34_gear1_multiplier);
-                        }
-                        else
-                        {
-                            // Gear 2
-                            return ((inline_ComputeTorqueFromThrottle_561DD0()) * gCarInfo_48_6FE258->field_38_gear2_multiplier);
-                        }
+                        // Gear 3
+                        return inline_ComputeTorqueFromThrottle_561DD0_ool() * gCarInfo_48_6FE258->field_3C_gear3_multiplier;
+                    }
+                    else if (vel_len > gCarInfo_48_6FE258->field_40_gear2_speed)
+                    {
+                        // Gear 2
+                        return inline_ComputeTorqueFromThrottle_561DD0_ool() * gCarInfo_48_6FE258->field_38_gear2_multiplier;
                     }
                     else
                     {
-                        // Gear 3
-                        return ((inline_ComputeTorqueFromThrottle_561DD0()) * gCarInfo_48_6FE258->field_3C_gear3_multiplier);
+                        // Gear 1
+                        return ComputeTorqueUnknown_49E8E0_ool() * gCarInfo_48_6FE258->field_34_gear1_multiplier;
                     }
                 }
             }
@@ -3048,12 +3043,12 @@ Fix16 CarPhysics_B0::ComputeEngineTorque_561970()
         {
             if (this->field_93_is_forward_gas_on)
             {
-                return ComputeTorqueFromThrottle_561DD0();
+                return Fix16(ComputeTorqueFromThrottle_561DD0().mValue, 0);
             }
 
             if (this->field_94_is_backward_gas_on)
             {
-                return -ComputeTorqueFromThrottle_561DD0();
+                return Fix16(ComputeTorqueFromThrottle_561DD0().Negate_4086A0().mValue, 0);
             }
         }
     }
