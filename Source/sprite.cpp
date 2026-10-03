@@ -1877,16 +1877,29 @@ char_type Sprite::CheckMapZCollision_5A21F0()
     return gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(field_14_xy.x, field_14_xy.y, zLow, zHigh);
 }
 
+// Writing the min update through a reference keeps xy_pos_max in a register like the original
+static inline void KeepMin_5A22B0(Fix16& cur, const Fix16& v)
+{
+    if (v < cur)
+    {
+        cur = v;
+    }
+}
+
 WIP_FUNC(0x5A22B0)
 Fix16 Sprite::MinDistanceToAnySpriteBBoxCorner_5A22B0(Sprite* pOther)
 {
     WIP_IMPLEMENTED;
 
-    Fix16 yd = pOther->field_14_xy.y - field_14_xy.y;
-    Fix16 xd = pOther->field_14_xy.x - field_14_xy.x;
-    Fix16 yd_abs = Fix16::Abs(yd);
-    Fix16 xd_abs = Fix16::Abs(xd);
-    Fix16 xy_pos_max = Fix16::Max_44E540(yd_abs, xd_abs);
+
+    // Remaining diff: the loop in the original loads both corner coords before subtracting.
+    // The first block's names are block-scoped so their slots are reused (the counter takes xd's).
+    Fix16 xy_pos_max;
+    {
+        Fix16 xd = pOther->field_14_xy.x - field_14_xy.x;
+        Fix16 yd = pOther->field_14_xy.y - field_14_xy.y;
+        xy_pos_max = Fix16::Max_44E540(Fix16::Abs_negate_out_of_line(xd), Fix16::Abs(yd));
+    }
 
     s32 box_idx = 0;
     s32 k4Counter = 4;
@@ -1894,15 +1907,9 @@ Fix16 Sprite::MinDistanceToAnySpriteBBoxCorner_5A22B0(Sprite* pOther)
     {
         Sprite_4C* p4C = pOther->field_C_sprite_4c_ptr;
 
-        Fix16 yd2 = p4C->field_C_renderingRect[box_idx].y - field_14_xy.y;
         Fix16 xd2 = p4C->field_C_renderingRect[box_idx].x - field_14_xy.x;
-        Fix16 yd_abs2 = Fix16::Abs(yd2);
-        Fix16 xd_abs2 = Fix16::Abs(xd2);
-        Fix16 v14 = Fix16::Max_44E540(yd_abs2, xd_abs2);
-        if (v14 < xy_pos_max)
-        {
-            xy_pos_max = v14;
-        }
+        Fix16 yd2 = p4C->field_C_renderingRect[box_idx].y - field_14_xy.y;
+        KeepMin_5A22B0(xy_pos_max, Fix16::Max_44E540(Fix16::Abs_negate_out_of_line(xd2), Fix16::Abs_negate_out_of_line(yd2)));
 
         ++box_idx;
         --k4Counter;
