@@ -1313,12 +1313,9 @@ void Network_20324::OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 a3)
 }
 
 // https://decomp.me/scratch/tQkqa
-// Stack slot order differs, see docs/match_attempts.md
-WIP_FUNC(0x51bfa0)
+MATCH_FUNC(0x51bfa0)
 void Network_20324::EnumerateMaps_51BFA0()
 {
-    WIP_IMPLEMENTED;
-
     CHAR FileName[260];
     _WIN32_FIND_DATAA findFileData;
     Network_Enumerated_Map tmp;
@@ -1334,21 +1331,18 @@ void Network_20324::EnumerateMaps_51BFA0()
     {
         map_count = 1;
         strcpy(maps[0].field_410_mmp_name, findFileData.cFileName);
-        Network_Enumerated_Map* pIter = &maps[1];
         while (FindNextFileA(hFindFile, &findFileData))
         {
             if (map_count >= 100)
             {
                 break;
             }
-            strcpy(pIter->field_410_mmp_name, findFileData.cFileName);
-            pIter++;
+            strcpy(maps[map_count].field_410_mmp_name, findFileData.cFileName);
             map_count++;
         }
         FindClose(hFindFile);
     }
 
-    Network_Enumerated_Map* pOutIter = field_4_maps;
     for (u32 i = 0; i < map_count; i++)
     {
         strcpy(FileName, "data\\");
@@ -1368,7 +1362,7 @@ void Network_20324::EnumerateMaps_51BFA0()
             {
                 if (GetFileAttributesA(maps[i].field_208_script_name) != -1)
                 {
-                    OutputDebugStringA(pOutIter->field_0_map_name);
+                    OutputDebugStringA(field_4_maps[i].field_0_map_name);
                     memcpy(&field_4_maps[field_1FD64_total_map_count], &maps[i], sizeof(Network_Enumerated_Map));
                     field_1FD64_total_map_count++;
                 }
@@ -1387,7 +1381,6 @@ void Network_20324::EnumerateMaps_51BFA0()
             Network_20324::ShowUnableToOpenFileError_51CAD0(maps[i].field_410_mmp_name, maps[i].field_0_map_name);
         }
         _chdir("..");
-        pOutIter++;
     }
 
     // Bubble sort by description
@@ -1493,7 +1486,7 @@ char_type* Network_20324::GetMapScrName_51CA90()
 }
 
 MATCH_FUNC(0x51cad0)
-void Network_20324::ShowUnableToOpenFileError_51CAD0(const char_type* pMmpName, const char_type* pFileName)
+void __stdcall Network_20324::ShowUnableToOpenFileError_51CAD0(const char_type* pMmpName, const char_type* pFileName)
 {
     char Text[256];
     sprintf(Text, "Unable to open file: %s in mmpfile: %s", pFileName, pMmpName);
@@ -1599,27 +1592,31 @@ void Network_20324::SetFragsNumberAndLabel_51CDC0(s32 gameType, s32 fragLimit, H
 }
 
 // https://decomp.me/scratch/gzeUC
-WIP_FUNC(0x51cfc0)
+// The original leaves pText uninitialised for an unknown speed (it pushes whatever is in the
+// argument slot), and that is what gives each case its own copy of the call.
+#pragma warning(push)
+#pragma warning(disable : 4701) // local variable 'pText' may be used without having been initialized
+MATCH_FUNC(0x51cfc0)
 void Network_20324::SetGameSpeedTextLabelAndSlider_51CFC0(LPARAM game_speed, HWND hDlg)
 {
     SendDlgItemMessageA(hDlg, 1031, 0x405, 1u, game_speed); // 0x405 = TBM_SETPOS
 
+    LPCSTR pText;
     switch (game_speed)
     {
         case 2:
-            SetDlgItemTextA(hDlg, LABEL_GAME_SPEED_TEXT_1032, GetString_519A00("netui12"));
+            pText = GetString_519A00("netui12");
             break;
         case 1:
-            SetDlgItemTextA(hDlg, LABEL_GAME_SPEED_TEXT_1032, GetString_519A00("netui11"));
+            pText = GetString_519A00("netui11");
             break;
         case 0:
-            SetDlgItemTextA(hDlg, LABEL_GAME_SPEED_TEXT_1032, GetString_519A00("netui10"));
-            break;
-        default:
-            SetDlgItemTextA(hDlg, LABEL_GAME_SPEED_TEXT_1032, (LPCSTR)game_speed);
+            pText = GetString_519A00("netui10");
             break;
     }
+    SetDlgItemTextA(hDlg, LABEL_GAME_SPEED_TEXT_1032, pText);
 }
+#pragma warning(pop)
 
 MATCH_FUNC(0x51d0c0)
 void Network_20324::SetJoinedGameTypeAndFragLimitText_51D0C0(s32 game_type, s32 frag_limit, HWND hDlg)
