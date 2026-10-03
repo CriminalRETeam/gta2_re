@@ -2492,10 +2492,9 @@ void Ped::Mugger_AI_45F360()
     }
 }
 
-WIP_FUNC(0x45ff60)
+MATCH_FUNC(0x45ff60)
 void Ped::CarThief_AI_45FF60()
 {
-    WIP_IMPLEMENTED;
 
     Car_BC* pNearestSteal; // eax
     Car_BC* pNearestSteal_; // edi
@@ -2518,7 +2517,8 @@ void Ped::CarThief_AI_45FF60()
                 {
                     if (field_150_target_objective_car->IsDespawning_4215B0())
                     {
-                        goto kill_and_ret;
+                        Kill_46F9D0();
+                        return;
                     }
                 }
                 else
@@ -2527,88 +2527,62 @@ void Ped::CarThief_AI_45FF60()
                     this->field_240_occupation = ped_ocupation_enum::dummy;
                 }
             }
-            if (this->field_20e_offscreen_counter)
+            if (!this->field_20e_offscreen_counter)
             {
-                this->field_218_objective_timer = 40;
-                ChangeNextPedState1_45C500(0);
-                ChangeNextPedState2_45C540(0);
-            }
-            else if (!this->field_218_objective_timer)
-            {
-                pNearestSteal = gCar_6C_677930->GetNearestEnterableCarFromCoord_444FA0(this->field_1AC_cam.x,
-                                                                                       this->field_1AC_cam.y,
-                                                                                       this->field_1AC_cam.z,
-                                                                                       this);
-                pNearestSteal_ = pNearestSteal;
-                if (pNearestSteal)
+                if (!this->field_218_objective_timer)
                 {
-                    if (pNearestSteal->field_7C_uni_num != 2)
+                    pNearestSteal = gCar_6C_677930->GetNearestEnterableCarFromCoord_444FA0(this->field_1AC_cam.x,
+                                                                                           this->field_1AC_cam.y,
+                                                                                           this->field_1AC_cam.z,
+                                                                                           this);
+                    pNearestSteal_ = pNearestSteal;
+                    if (pNearestSteal)
                     {
-                        if (!pNearestSteal->IsTrainModel_403BA0() && !pNearestSteal_->IsPoliceCar_439EC0() &&
-                            !pNearestSteal_->is_bus_43A1F0() && pNearestSteal_->field_4_passengers_list.IsEmpty_420EA0() &&
-                            pNearestSteal_->field_7C_uni_num == 3)
+                        if (pNearestSteal->field_7C_uni_num != 2)
                         {
-                            SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
-                            this->field_150_target_objective_car = pNearestSteal_;
-                            this->field_248_enter_car_as_passenger = 0;
-                            this->field_24C_target_car_door = 0;
+                            if (!pNearestSteal->IsTrainModel_403BA0() && !pNearestSteal_->IsPoliceCar_439EC0() &&
+                                pNearestSteal_->field_84_car_info_idx != car_model_enum::BUS &&
+                                pNearestSteal_->field_4_passengers_list.IsEmpty_420EA0() && pNearestSteal_->field_7C_uni_num == 3)
+                            {
+                                SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
+                                this->field_150_target_objective_car = pNearestSteal_;
+                                this->field_248_enter_car_as_passenger = 0;
+                                this->field_24C_target_car_door = 0;
+                            }
                         }
                     }
                 }
             }
-            return;
-
-        case objectives_enum::flee_on_foot_till_safe_1:
-            if (this->field_225_objective_status == 1)
-            {
-                goto LABEL_52;
-            }
-            return;
-
-        case objectives_enum::time_waited_in_car_31:
-            pCar = this->field_16C_car;
-            if (pCar)
-            {
-                if (pCar->IsDespawning_4215B0())
-                {
-                    goto kill_and_ret;
-                }
-                if (this->field_218_objective_timer > 0x258u)
-                {
-                    SetObjective(objectives_enum::leave_car_36, 9999);
-                    this->field_150_target_objective_car = this->field_16C_car;
-                }
-            }
             else
             {
-            LABEL_52:
-                SetObjective(objectives_enum::no_obj_0, 40);
+                this->field_218_objective_timer = 40;
+                ChangeNextPedState1_45C500(0);
+                ChangeNextPedState2_45C540(0);
             }
             return;
 
         case objectives_enum::enter_car_as_driver_35:
             if (field_225_objective_status == 1)
             {
-                if (!this->field_150_target_objective_car->IsDespawning_4215B0())
+                if (this->field_150_target_objective_car->IsDespawning_4215B0())
                 {
-                    if (this->field_27C_ped_state_2 == ped_state_2::Unknown_17)
-                    {
-                        SetObjective(objectives_enum::no_obj_0, 40);
-                        SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                    }
-                    else
-                    {
-                        Set_F250_IfBit_433DD0(15);
-                        SetObjective(objectives_enum::time_waited_in_car_31, 0);
-                        pCar_ = this->field_16C_car;
-                        this->field_150_target_objective_car = pCar_;
-                        pCar_->InitCarAIControl_440590();
-                        field_150_target_objective_car->sub_43AF40();
-                    }
+                    Kill_46F9D0();
                     return;
                 }
-            kill_and_ret:
-                Kill_46F9D0();
+                if (this->field_27C_ped_state_2 == ped_state_2::Unknown_17)
+                {
+                    SetObjective(objectives_enum::no_obj_0, 40);
+                    SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                }
+                else
+                {
+                    Set_F250_IfBit_433DD0(15);
+                    SetObjective(objectives_enum::time_waited_in_car_31, 0);
+                    pCar_ = this->field_16C_car;
+                    this->field_150_target_objective_car = pCar_;
+                    pCar_->InitCarAIControl_440590();
+                    field_150_target_objective_car->sub_43AF40();
+                }
                 return;
             }
 
@@ -2619,7 +2593,8 @@ void Ped::CarThief_AI_45FF60()
             }
             else if (this->field_16C_car && this->field_150_target_objective_car->IsDespawning_4215B0())
             {
-                goto kill_and_ret;
+                Kill_46F9D0();
+                return;
             }
 
             xd = this->field_1B8_target_x - this->field_1AC_cam.x;
@@ -2627,12 +2602,30 @@ void Ped::CarThief_AI_45FF60()
 
             xd = Fix16::Abs(xd);
             yd = Fix16::Abs(yd);
-            // TODO: Might be min?
-            if (Fix16::Max_44E540(xd, yd) > kFpFour_678680)
+            // The larger of the two, picked through a pointer
+            if (*(xd > yd ? &xd : &yd) > kFpFour_678680)
             {
                 SetObjective(objectives_enum::no_obj_0, 9999);
                 SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                 this->field_218_objective_timer = 40;
+            }
+            return;
+
+        case objectives_enum::time_waited_in_car_31:
+            pCar = this->field_16C_car;
+            if (!pCar)
+            {
+                goto set_no_obj; // shared with flee_on_foot_till_safe_1
+            }
+            if (pCar->IsDespawning_4215B0())
+            {
+                Kill_46F9D0();
+                return;
+            }
+            if (this->field_218_objective_timer > 0x258u)
+            {
+                SetObjective(objectives_enum::leave_car_36, 9999);
+                this->field_150_target_objective_car = this->field_16C_car;
             }
             return;
 
@@ -2645,6 +2638,15 @@ void Ped::CarThief_AI_45FF60()
                 this->field_1C0_target_z = this->field_1AC_cam.z;
             }
             return;
+
+        case objectives_enum::flee_on_foot_till_safe_1:
+            if (this->field_225_objective_status == 1)
+            {
+            set_no_obj:
+                SetObjective(objectives_enum::no_obj_0, 40);
+            }
+            return;
+
         default:
             return;
     }
