@@ -10722,9 +10722,9 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
     WIP_IMPLEMENTED;
     Fix16 v6;
 
-    u8 v3 = 0;
     u8 v40 = 0;
     u8 v41 = 0;
+    u8 v3 = 0;
     u8 v39 = 0;
 
     field_21C_bf.b13 = false;
