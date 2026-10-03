@@ -551,15 +551,21 @@ EXPORT Fix16 __stdcall ComputeCarMassAndInertia_454410(Fix16 width, Fix16 height
     Fix16 heightXConstant = (height * kQuarter_677D78);
     Fix16 frontMass = (mass * frontMassBias);
     Fix16 frontI = (frontMass * inertiaBase);
-    Fix16 negHeightXConstant = (-height * kQuarter_677D78);
+    // Negated by hand: one inline expansion less, so both front (cg - h) subtractions stay inline (budget)
+    Fix16 nh;
+    nh.mValue = -height.mValue;
+    Fix16 negHeightXConstant = (nh * kQuarter_677D78);
 
     Fix16 rearMass = (mass * (kOne_677F54 - frontMassBias));
     Fix16 rearI = (rearMass * inertiaBase);
 
     *outCgHeight = (((heightXConstant * frontMass) + (negHeightXConstant * rearMass)) / mass);
 
-    Fix16 frontTotal = frontI + ((frontMass * (*outCgHeight - heightXConstant)) * (*outCgHeight - heightXConstant));
-    return frontTotal + (rearI + ((rearMass * (*outCgHeight - negHeightXConstant)) * (*outCgHeight - negHeightXConstant)));
+    Fix16 frontTotal;
+    frontTotal = frontI + ((frontMass * (*outCgHeight - heightXConstant)) * (*outCgHeight - heightXConstant));
+    Fix16 rearTotal;
+    rearTotal = rearI + ((rearMass * (*outCgHeight - negHeightXConstant)) * (*outCgHeight - negHeightXConstant));
+    return frontTotal + rearTotal;
 }
 
 MATCH_FUNC(0x5618F0)
