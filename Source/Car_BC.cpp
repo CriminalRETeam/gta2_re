@@ -1748,12 +1748,9 @@ Car_6C::Car_6C()
     field_69_do_free_shopping = bDo_free_shopping_67D6CD;
 }
 
-// Some SEH stuff, prob needs some dtors moving to or from another file
-WIP_FUNC(0x446dc0)
+MATCH_FUNC(0x446dc0)
 Car_6C::~Car_6C()
 {
-    // WIP_IMPLEMENTED;
-
     if (gCar_BC_Pool_67792C)
     {
         GTA2_DELETE_AND_NULL(gCar_BC_Pool_67792C);
@@ -1779,9 +1776,14 @@ Car_6C::~Car_6C()
         GTA2_DELETE_AND_NULL(gTrailerPool_66AC80);
     }
 
-    if (gSprite_Unused_677938)
+    // An explicit dtor call through the global plus operator delete on a saved copy gives the original's
+    // test in ecx with the copy moved to esi inside the if (as in Montana_4::~Montana_4)
+    if (gSprite_Unused_677938 != NULL)
     {
-        GTA2_DELETE_AND_NULL(gSprite_Unused_677938);
+        Sprite* p = gSprite_Unused_677938;
+        gSprite_Unused_677938->~Sprite();
+        operator delete(p);
+        gSprite_Unused_677938 = 0;
     }
 
     field_4 = 0;
