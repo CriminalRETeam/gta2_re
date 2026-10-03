@@ -583,7 +583,9 @@ void Particle_8::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
         {
             field_0_fire_hit_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::fire_hitting_194, 0, 0, 0, kAngZero_6FD5D4);
         }
-        Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(Fix16(0), Fix16(0), dword_6FD330, 0, 0, Fix16(0));
+        vector.x = Fix16(0);
+        vector.y = Fix16(0);
+        Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(vector.x, vector.y, dword_6FD330, 0, 0, 0);
         if (pParticle)
         {
             pParticle->field_4_flags |= 1;
@@ -594,7 +596,9 @@ void Particle_8::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
             pParticle->field_38_state = 31;
             Fix16 vec_x;
             Fix16 vec_y;
-            Ang16::PolarToCartesian_41FC20(pSprt->field_0, dword_6FD2E8, vec_x, vec_y);
+            // Ang16::PolarToCartesian_41FC20 with the second multiply out of line
+            vec_x = Ang16::sine_40F500(pSprt->field_0) * dword_6FD2E8;
+            vec_y = Ang16::cosine_40F520(pSprt->field_0).Multiply_408680(dword_6FD2E8);
             pParticle->field_2C_counter = 100;
             pParticle->field_46_sub_state = 0;
             pParticle->field_48_timer = 0;
@@ -608,7 +612,7 @@ void Particle_8::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
                 {
                     angle = pSprt18->field_0->field_0 + kAng180_6FD3EE;
                     vector.SetXY_432860(Fix16(0), dword_6FD2D4);
-                    vector.RotateByAngle_40F6B0(angle);
+                    vector.RotateByAngle_MixOOL_40F6B0(angle);
                     zero = Fix16(0);
                     unknown = kFP16Eighth_6FD2D0;
                 }
@@ -617,27 +621,26 @@ void Particle_8::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
                     Sprite_18* pSprt18_2 = pSprt->field_8_car_bc_ptr->field_0_qq.GetSpriteForModel_5A6A50(248);
                     angle = pSprt18_2->field_0->field_0;
                     vector.SetXY_432860(Fix16(0), dword_6FD48C);
-                    vector.RotateByAngle_40F6B0(angle);
+                    vector.RotateByAngle_MixOOL_40F6B0(angle);
                     zero = Fix16(0);
                     unknown = dword_6FD4CC;
                 }
                 vector_2.SetXY_432860(zero, unknown);
                 pParticle->field_30_pNext->set_ang_lazy_420690(angle);
-                vector_2.RotateByAngle_40F6B0(pSprt->field_0);
-                vector += vector_2 + pSprt->get_x_y_443580();
+                vector_2.RotateByAngle_MixOOL_40F6B0(pSprt->field_0);
+                vector += vector_2.Add_40AC50(pSprt->get_x_y_443580());
                 pSprt->field_8_car_bc_ptr->field_58_physics->GetPointVelocity_561350(&vector); // not used?
+                pParticle->field_30_pNext->set_xyz_lazy_420600(vector.x, vector.y, zpos);
             }
             else
             {
                 vector_2.x = -dword_6FD464;
                 vector_2.y = dword_6FD468 + dword_6FD2E8;
-                vector_2.RotateByAngle_40F6B0(pSprt->field_0);
-                vector = vector + *(Fix16_Point*)&pSprt->field_8_char_b4_ptr->field_98_velocity_vector;
+                vector_2.RotateByAngle_MixOOL_40F6B0(pSprt->field_0);
+                vector = vector_2.Add_40AC50(*(Fix16_Point*)&pSprt->field_8_char_b4_ptr->field_98_velocity_vector);
                 pParticle->field_30_pNext->set_ang_lazy_420690(pSprt->field_0);
-                vector.x = pSprt->field_14_xy.x + vector.x;
-                vector.y = pSprt->field_14_xy.y + vector.y;
+                pParticle->field_30_pNext->set_xyz_lazy_420600(pSprt->field_14_xy.x + vector.x, pSprt->field_14_xy.y + vector.y, zpos);
             }
-            pParticle->field_30_pNext->set_xyz_lazy_420600(vector.x, vector.y, zpos);
             pParticle->field_28_pSprite = pSprt;
             if (pParticle->field_30_pNext->CheckSpriteMovementRegion_5A2500())
             {

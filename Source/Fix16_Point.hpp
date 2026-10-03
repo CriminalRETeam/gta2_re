@@ -140,6 +140,17 @@ struct Fix16_Point_POD
         y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + y.Multiply_408680(cos);
     }
 
+    // As above, with y * sin inlined (Particle_8::EmitFlameStreamSegment_53F4C0)
+    inline void RotateByAngle_MixOOL_40F6B0(const Ang16& angle)
+    {
+        Fix16 x_old = x;
+        Fix16 sin = Ang16::sine_40F500(angle);
+        Fix16 cos = Ang16::cosine_40F520(angle);
+
+        x = (const Fix16&)x.Multiply_408680(cos) + y * sin;
+        y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + y.Multiply_408680(cos);
+    }
+
     void FromPolar_41E210(const Fix16& radius, const Ang16& angle)
     {
 
