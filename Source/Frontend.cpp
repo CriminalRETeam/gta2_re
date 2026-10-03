@@ -396,7 +396,6 @@ WIP_FUNC(0x4B3170)
 void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
 {
     WIP_IMPLEMENTED;
-    u16 v3; // bp
     u8 v4; // bl
     u8 v5; // al
     stage_stats* v6; // ecx
@@ -459,12 +458,10 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
     wchar_t Destination[50]; // [esp+34h] [ebp-E4h] BYREF
     wchar_t Buffer[64]; // [esp+98h] [ebp-80h] BYREF
 
-    v3 = menu_page_idx;
     v57 = GetCurrPlayerStats_4B43E0();
     field_132_f136_idx = menu_page_idx;
-    switch (menu_page_idx)
+    if (menu_page_idx == MENUPAGE_PARENTAL_CONTROL)
     {
-        case MENUPAGE_PARENTAL_CONTROL:
             field_110_state = 5;
             field_C9CA_password_length = 0;
             field_C9CB_wrong_password_shown = 0;
@@ -474,14 +471,18 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
             field_C9B6_key_repeat_timer = 5;
             goto LABEL_116;
 
-        case MENUPAGE_CREDITS:
+    }
+    else if (menu_page_idx == MENUPAGE_CREDITS)
+    {
             field_1EB34_credits_ypos = 0x668000;
             field_1EB30_credits_scroll_timer = 0;
             field_1EB38_credits_line_idx = 0;
             field_C9B3_key_held = 1;
             goto LABEL_116;
 
-        case MENUPAGE_AREA_COMPLETE:
+    }
+    else if (menu_page_idx == MENUPAGE_AREA_COMPLETE)
+    {
             a2 = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
             v51 = gLucid_hamilton_67E8E0.GetLevelFinishBonusType_4C59C0();
             if (gLucid_hamilton_67E8E0.get_secret_tokens_collected_453A80() == 50)
@@ -526,7 +527,9 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
             a2a = 1;
             goto LABEL_30;
 
-        case MENUPAGE_BONUS_AREA:
+    }
+    else if (menu_page_idx == MENUPAGE_BONUS_AREA)
+    {
             gLucid_hamilton_67E8E0.DecodeStage_453A60(gLucid_hamilton_67E8E0.GetStage_4C5990(), &v7, &v11);
             main_stage_idx = v7;
             swprintf(tmpBuff_67BD9C, L"%d", v57->field_0_plyr_stage_stats[main_stage_idx][v11].field_8_stage_latest_score);
@@ -543,8 +546,9 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
                 field_136_menu_pages_array[6].field_B8A[1].field_4_is_option_unlocked = 1;
             }
             goto LABEL_116;
-        case MENUPAGE_DEAD:
-        case MENUPAGE_RESULTS_PLAYER_QUIT:
+    }
+    else if (menu_page_idx == MENUPAGE_DEAD || menu_page_idx == MENUPAGE_RESULTS_PLAYER_QUIT)
+    {
             a2a = 0;
         LABEL_30:
             v9 = &(&field_0_pDInput)[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()];
@@ -584,20 +588,18 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
                 v13->field_4_options_array[a2a].field_1_is_unlocked = 0;
                 v13->field_B8A[a2a].field_4_is_option_unlocked = 0;
             }
-            break;
     }
-
-    switch (menu_page_idx)
+    else if (menu_page_idx == MENUPAGE_PLAY)
     {
-        case MENUPAGE_PLAY:
             playerSlotSetting = gRegistry_6FF968.Create_Player_Setting_587810("plyrslot");
             field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx = playerSlotSetting;
             field_136_menu_pages_array[1].field_4_options_array[0].field_70 = playerSlotSetting;
             gLucid_hamilton_67E8E0.SetPlySlotIdx_4C5920(playerSlotSetting);
             UpdateMenuForCurrPlayer_4B42E0();
-            break;
 
-        case MENUPAGE_MULTIPLAYER_RESULTS:
+    }
+    else if (menu_page_idx == MENUPAGE_MULTIPLAYER_RESULTS)
+    {
             a2b = gLucid_hamilton_67E8E0.GetMaxPlayers_4C5BF0();
             gYouthful_einstein_6F8450.GetLeaderIdx_453AB0();
 
@@ -694,7 +696,6 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
 
             if (gYouthful_einstein_6F8450.HasQuit_453A90(v65))
             {
-                v3 = menu_page_idx;
                 goto LABEL_105;
             }
 
@@ -763,18 +764,16 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
                     v33 = gYouthful_einstein_6F8450.GetTime_453AA0(v65); //  get your time
                     break;
                 default:
-                    v3 = menu_page_idx;
                     goto LABEL_107;
             }
 
-            v3 = menu_page_idx;
             v40 = v33 - v30; //  v33 = your frag/score/time, v30 = highest opponent frag/score/time
 
             if (v40 > 0)
             {
                 v41 = gText_0x14_704DFC->Find_5B5F90("mult_w"); //  win
                 wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[0].field_6_element_name_str, v41, 0x32u);
-                break;
+                goto LABEL_116;
             }
 
             if (v40 < 0)
@@ -782,15 +781,16 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
             LABEL_105:
                 v42 = gText_0x14_704DFC->Find_5B5F90("mult_l"); //  lose
                 wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[0].field_6_element_name_str, v42, 0x32u);
-                break;
+                goto LABEL_116;
             }
 
         LABEL_107:
             v43 = gText_0x14_704DFC->Find_5B5F90("mult_d"); //  draw
             wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[0].field_6_element_name_str, v43, 0x32u);
-            break;
 
-        case MENUPAGE_PLAY_INTRO:
+    }
+    else if (menu_page_idx == MENUPAGE_PLAY_INTRO)
+    {
             if (bIsFrench_67D53C)
             {
                 FreeSound_4B8650();
@@ -808,16 +808,16 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
                 v45 = gFrontend_67DC84->intro_bik_4B5E50();
                 Bink::OpenSlot2_5133E0(v45, v50);
             }
-            break;
 
-        case MENUPAGE_START_MENU:
+    }
+    else if (menu_page_idx == MENUPAGE_START_MENU)
+    {
             field_C9E4_last_input_time = timeGetTime();
-            break;
     }
 
 LABEL_116:
-    field_132_f136_idx = v3;
-    field_136_menu_pages_array[v3].field_BC6_current_option_idx = field_136_menu_pages_array[v3].field_BC8_default_option_idx;
+    field_132_f136_idx = menu_page_idx;
+    field_136_menu_pages_array[menu_page_idx].field_BC6_current_option_idx = field_136_menu_pages_array[menu_page_idx].field_BC8_default_option_idx;
     local_field_132_f136_idx = field_132_f136_idx;
     v47 = &field_136_menu_pages_array[local_field_132_f136_idx];
     if (!v47->field_4_options_array[field_136_menu_pages_array[local_field_132_f136_idx].field_BC6_current_option_idx].field_1_is_unlocked)
