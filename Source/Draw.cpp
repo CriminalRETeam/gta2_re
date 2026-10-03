@@ -172,9 +172,10 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
 
     u16 idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_type, sprite_idx);
     sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(idx);
+    Fix16_Point point;
 
-    Fix16 v12 = (Fix16(sprite_index_5AA440->field_4_width) / 2) * scale;
-    Fix16 v13 = (Fix16(sprite_index_5AA440->field_5_height) / 2) * scale;
+    Fix16 v12 = (Fix16((s32)sprite_index_5AA440->field_4_width) / 2) * scale;
+    Fix16 v13 = (Fix16((s32)sprite_index_5AA440->field_5_height) / 2) * scale;
 
     s32 flags;
 
@@ -186,8 +187,6 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
     {
         flags |= 0x20000u;
     }
-
-    Fix16_Point point;
 
     point.SetXY_432860(-v12, -v13);
     point.RotateByAngle_40F6B0(rotation);
@@ -227,18 +226,15 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
 
     //  u & v
 
-    u32 field_5_height = sprite_index_5AA440->field_5_height;
     u32 field_4_width = sprite_index_5AA440->field_4_width;
 
-    gQuadVerts_706B88.field_0_verts[0].u = 0.0;
-    gQuadVerts_706B88.field_0_verts[0].v = 0.0;
-    gQuadVerts_706B88.field_0_verts[1].v = 0.0;
-    gQuadVerts_706B88.field_0_verts[3].u = 0.0;
+    gQuadVerts_706B88.field_0_verts[0].u = gQuadVerts_706B88.field_0_verts[0].v = gQuadVerts_706B88.field_0_verts[1].v =
+        gQuadVerts_706B88.field_0_verts[3].u = 0.0;
 
-    gQuadVerts_706B88.field_0_verts[1].u = field_4_width - 0.000099999997f;
-    gQuadVerts_706B88.field_0_verts[2].u = field_4_width - 0.000099999997f;
-    gQuadVerts_706B88.field_0_verts[2].v = field_5_height - 0.000099999997f;
-    gQuadVerts_706B88.field_0_verts[3].v = field_5_height - 0.000099999997f;
+    u32 field_5_height = sprite_index_5AA440->field_5_height;
+
+    gQuadVerts_706B88.field_0_verts[1].u = gQuadVerts_706B88.field_0_verts[2].u = field_4_width - 0.000099999997f;
+    gQuadVerts_706B88.field_0_verts[2].v = gQuadVerts_706B88.field_0_verts[3].v = field_5_height - 0.000099999997f;
 
     STexture* pTexture = gSharp_pare_0x15D8_705064->GetSpriteTexture_5B94F0(sprite_type, sprite_idx, palette_type, palette);
     s32 v44 = CalcQuadFlags_5D83E0(alpha_value, og_flags);
