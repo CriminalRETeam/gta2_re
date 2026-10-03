@@ -2033,7 +2033,10 @@ void CarAI_78::sub_44AF00()
     if ((this->field_24_flags & 0x100) != 0)
     {
         byte_677A5D = 0;
-        char_type v2 = this->field_0_car->CountConsecutiveArrowBlocks_4410D0(this->field_10_angle, &v72, gCurrCarAI_xpos_677C38, gCurrCarAI_ypos_677C30);
+        char_type v2 = this->field_0_car->CountConsecutiveArrowBlocks_4410D0(this->field_10_angle,
+                                                                             &v72,
+                                                                             gCurrCarAI_xpos_677C38,
+                                                                             gCurrCarAI_ypos_677C30);
         Fix16 v3 = gCurrCarAI_zpos_677C48;
         Fix16 v4 = gCurrCarAI_ypos_677C30;
 
@@ -2045,8 +2048,14 @@ void CarAI_78::sub_44AF00()
             {
                 case car_ai_direction::north_1:
                 {
-                    Fix16 v11 = this->field_0_car->field_50_car_sprite->field_14_xy.x - ((this->field_0_car->field_50_car_sprite->field_14_xy.x));
-                    if (v11 < dword_6779C8)
+                    Fix16 v11 = this->field_0_car->field_50_car_sprite->field_14_xy.x -
+                        Fix16(this->field_0_car->field_50_car_sprite->field_14_xy.x.ToUInt8());
+                    if (v11 >= dword_6779C8 && v11 <= dword_6779D0)
+                    {
+                        byte_677A5D = 1;
+                        this->field_24_flags |= 0x10000u;
+                    }
+                    else if (v11 < dword_6779C8)
                     {
                         if (this->field_10_angle > kAng180_677ADE - dword_677A2E)
                         {
@@ -2060,12 +2069,7 @@ void CarAI_78::sub_44AF00()
                     }
                     else
                     {
-                        if (v11 <= dword_6779D0)
-                        {
-                            byte_677A5D = 1;
-                            this->field_24_flags |= 0x10000u;
-                        }
-                        else if (this->field_10_angle < kAng180_677ADE + dword_677A2E)
+                        if (this->field_10_angle < kAng180_677ADE + dword_677A2E)
                         {
                             this->field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
                         }
@@ -2080,8 +2084,14 @@ void CarAI_78::sub_44AF00()
 
                 case car_ai_direction::south_2:
                 {
-                    Fix16 v13 = this->field_0_car->field_50_car_sprite->field_14_xy.x - ((this->field_0_car->field_50_car_sprite->field_14_xy.x));
-                    if (v13 < dword_6779C8)
+                    Fix16 v13 = this->field_0_car->field_50_car_sprite->field_14_xy.x -
+                        Fix16(this->field_0_car->field_50_car_sprite->field_14_xy.x.ToUInt8());
+                    if (v13 >= dword_6779C8 && v13 <= dword_6779D0)
+                    {
+                        byte_677A5D = 1;
+                        this->field_24_flags |= 0x10000u;
+                    }
+                    else if (v13 < dword_6779C8)
                     {
                         if (this->field_10_angle >= dword_677A2E)
                         {
@@ -2093,7 +2103,7 @@ void CarAI_78::sub_44AF00()
                             this->field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
                         }
                     }
-                    else if (v13 > dword_6779D0)
+                    else
                     {
                         if (this->field_10_angle <= kAng0_677CE8 - dword_677A2E)
                         {
@@ -2105,18 +2115,19 @@ void CarAI_78::sub_44AF00()
                             this->field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::clockwise_m1;
                         }
                     }
-                    else
-                    {
-                        byte_677A5D = 1;
-                        this->field_24_flags |= 0x10000u;
-                    }
                     break;
                 }
 
                 case car_ai_direction::east_3:
                 {
-                    Fix16 v15 = this->field_0_car->field_50_car_sprite->field_14_xy.y - ((this->field_0_car->field_50_car_sprite->field_14_xy.y));
-                    if (v15 <= dword_6779C8)
+                    Fix16 v15 = this->field_0_car->field_50_car_sprite->field_14_xy.y -
+                        Fix16(this->field_0_car->field_50_car_sprite->field_14_xy.y.ToUInt8());
+                    if (v15 > dword_6779C8 && v15 < dword_6779D0)
+                    {
+                        byte_677A5D = 1;
+                        this->field_24_flags |= 0x10000u;
+                    }
+                    else if (v15 <= dword_6779C8)
                     {
                         if (this->field_10_angle <= kAng90_6779E4 - dword_677A2E)
                         {
@@ -2130,22 +2141,14 @@ void CarAI_78::sub_44AF00()
                     }
                     else
                     {
-                        if (v15 >= dword_6779D0)
+                        if (this->field_10_angle < dword_677A2E + kAng90_6779E4)
                         {
-                            if (this->field_10_angle < dword_677A2E + kAng90_6779E4)
-                            {
-                                this->field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
-                            }
-                            else
-                            {
-                                this->field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::none_0;
-                                this->field_0_car->field_58_physics->field_78_pointing_ang_rad = kF16Zero_677B90;
-                            }
+                            this->field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
                         }
                         else
                         {
-                            byte_677A5D = 1;
-                            this->field_24_flags |= 0x10000u;
+                            this->field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::none_0;
+                            this->field_0_car->field_58_physics->field_78_pointing_ang_rad = kF16Zero_677B90;
                         }
                     }
                     break;
@@ -2153,8 +2156,14 @@ void CarAI_78::sub_44AF00()
 
                 case car_ai_direction::west_4:
                 {
-                    Fix16 v17 = this->field_0_car->field_50_car_sprite->field_14_xy.y - ((this->field_0_car->field_50_car_sprite->field_14_xy.y));
-                    if (v17 <= dword_6779C8)
+                    Fix16 v17 = this->field_0_car->field_50_car_sprite->field_14_xy.y -
+                        Fix16(this->field_0_car->field_50_car_sprite->field_14_xy.y.ToUInt8());
+                    if (v17 > dword_6779C8 && v17 < dword_6779D0)
+                    {
+                        byte_677A5D = 1;
+                        this->field_24_flags |= 0x10000u;
+                    }
+                    else if (v17 <= dword_6779C8)
                     {
                         if (this->field_10_angle < kAng270_677B08 - dword_677A2E)
                         {
@@ -2168,12 +2177,7 @@ void CarAI_78::sub_44AF00()
                     }
                     else
                     {
-                        if (v17 < dword_6779D0)
-                        {
-                            byte_677A5D = 1;
-                            this->field_24_flags |= 0x10000u;
-                        }
-                        else if (this->field_10_angle > dword_677A2E + kAng270_677B08)
+                        if (this->field_10_angle > dword_677A2E + kAng270_677B08)
                         {
                             this->field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::clockwise_m1;
                         }
@@ -2203,8 +2207,10 @@ void CarAI_78::sub_44AF00()
             {
                 case car_ai_direction::north_1:
                 {
-                    Fix16 v42 = this->field_0_car->field_50_car_sprite->field_14_xy.x + (gSin_table_667A80[kAng90_6779E4.rValue] * kFpHalf_6779CC);
-                    Fix16 v43 = this->field_0_car->field_50_car_sprite->field_14_xy.y + (gCos_table_669260[kAng90_6779E4.rValue] * kFpHalf_6779CC);
+                    Fix16 v42 =
+                        this->field_0_car->field_50_car_sprite->field_14_xy.x + (gSin_table_667A80[kAng90_6779E4.rValue] * kFpHalf_6779CC);
+                    Fix16 v43 =
+                        this->field_0_car->field_50_car_sprite->field_14_xy.y + (gCos_table_669260[kAng90_6779E4.rValue] * kFpHalf_6779CC);
 
                     this->field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v42, v43, field_0_car->field_50_car_sprite->field_1C_zpos);
 
