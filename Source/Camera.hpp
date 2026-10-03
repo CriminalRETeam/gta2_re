@@ -92,6 +92,18 @@ class Camera_0xBC
             Fix16(field_74_screen_px_center_y);
     }
 
+    // ProjectWorldToScreen_4B90E0 with the scale inlined and the rest out of line (Hud_Arrow_7C::UpdateScreenPos_5D0850)
+    void ProjectWorldToScreen_OutOfLineXY_4B90E0(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
+    {
+        Fix16 scale = dword_702DE4 / ((dword_702E04 - z) + field_98_cam_pos2.field_8_z);
+
+        *pOut1 = static_cast<const Fix16&>(x.Subtract_436A00(field_98_cam_pos2.field_0_x).Multiply_408680(field_60.x).Multiply_408680(scale)) +
+            Fix16(field_70_screen_px_center_x);
+
+        *pOut2 = static_cast<const Fix16&>(y.Subtract_436A00(field_98_cam_pos2.field_4_y).Multiply_408680(field_60.x).Multiply_408680(scale)) +
+            Fix16(field_74_screen_px_center_y);
+    }
+
     inline void inline_set_ped_id_to_1_475B60()
     {
         field_3C_followed_ped_id = 1;

@@ -1843,6 +1843,23 @@ static inline Fix16 GetLength_out_of_line_7064C0(Fix16_Point& p)
     }
 }
 
+// Same, with Abs_436A50 for both axes (Hud_Arrow_7C::UpdateScreenPos_5D0850)
+static inline Fix16 GetLength_abs_7064C0(Fix16_Point_POD& p)
+{
+    if (p.x == kFpZero_7064C0)
+    {
+        return Fix16::Abs_436A50(p.y);
+    }
+    else if (p.y == kFpZero_7064C0)
+    {
+        return Fix16::Abs_436A50(p.x);
+    }
+    else
+    {
+        return Fix16::SquareRoot_436A70((const Fix16&)p.x.Multiply_408680(p.x) + p.y.Multiply_408680(p.y));
+    }
+}
+
 MATCH_FUNC(0x5d0620)
 bool Hud_Arrow_7C::UpdateTargets_5D0620()
 {
@@ -1901,7 +1918,7 @@ void Hud_Arrow_7C::UpdateScreenPos_5D0850()
 
     field_8_rotation = displacement.atan2_40F790();
 
-    Fix16 distance = displacement.GetLength_41E260();
+    Fix16 distance = GetLength_abs_7064C0(displacement);
     Fix16 intended_radius;
 
     if (field_18.field_60_curr_target->field_20_bIsTargetVisible)
@@ -1969,7 +1986,7 @@ void Hud_Arrow_7C::UpdateScreenPos_5D0850()
         zpos_2 = field_18.field_60_curr_target->field_1C_aim_z +
             ((field_10_radius_pos / distance) * (field_18.field_60_curr_target->field_1C_aim_z - player_zpos));
     }
-    pCamera->ProjectWorldToScreen_4B90E0(player_xpos - (Ang16::sine_40F500(field_8_rotation) * projected_radius),
+    pCamera->ProjectWorldToScreen_OutOfLineXY_4B90E0(player_xpos - (Ang16::sine_40F500(field_8_rotation) * projected_radius),
                                          player_ypos - (Ang16::cosine_40F520(field_8_rotation) * projected_radius),
                                          zpos_2,
                                          &field_0_screen_pos_x,
