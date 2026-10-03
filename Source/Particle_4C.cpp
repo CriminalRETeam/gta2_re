@@ -376,6 +376,7 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
     Fix16_Point delta;
     Fix16_Point cur;
     Fix16_Point prev;
+    Fix16_Point mid;
 
     ++field_46_sub_state;
     gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
@@ -386,24 +387,24 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
         dst.x = field_28_pSprite->field_14_xy.x;
         dst.y = field_28_pSprite->field_14_xy.y;
         delta = dst - src;
-        Ang16 beam_angle = Fix16::atan2_fixed_405320(delta.y, delta.x);
+        Fix16::atan2_fixed_405320(delta.y, delta.x);
         Fix16 abs_x = Fix16::Abs_436A50(delta.x);
         Fix16 abs_y = Fix16::Abs_436A50(delta.y);
-        Fix16 segments = (abs_x > abs_y ? abs_x : abs_y) / dword_6FD364;
+        Fix16 segments = Fix16(abs_x.mValue > abs_y.mValue ? abs_x.mValue : abs_y.mValue, 0) / dword_6FD364;
 
         if (segments != kFP16Zero_6FD49C)
         {
-            delta.x /= segments;
-            delta.y /= segments;
+            delta.x.DivideAssign_539F90(segments);
+            delta.y.DivideAssign_539F90(segments);
             prev = src;
             cur = src;
             for (s32 i = 1; i <= segments.ToInt(); i++)
             {
                 cur.x = prev.x + delta.x;
                 cur.y = prev.y + delta.y;
-                Fix16_Point mid = cur - prev;
-                mid.x /= kFP16Two_6FD4A4;
-                mid.y /= kFP16Two_6FD4A4;
+                mid = cur - prev;
+                mid.x.DivideAssign_539F90(kFP16Two_6FD4A4);
+                mid.y.DivideAssign_539F90(kFP16Two_6FD4A4);
                 mid.x += prev.x;
                 mid.y += prev.y;
 
@@ -428,7 +429,7 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
 
         Fix16 target_x = field_28_pSprite->field_14_xy.x;
         Fix16 target_y = field_28_pSprite->field_14_xy.y;
-        Ang16 jitter(&(Fix16(word_6FD5CC.rValue) * Fix16(gRng_6F6784.get_int_4F7AE0(16) - 8)), 0);
+        Ang16 jitter(&(Fix16(word_6FD5CC.rValue).Multiply_408680(Fix16(gRng_6F6784.get_int_4F7AE0(16) - 8))), 0);
 
         switch (field_46_sub_state)
         {
@@ -436,20 +437,20 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
             case 2:
             case 3:
             {
-                Ang16 ang(field_28_pSprite->field_0 + kAng180_6FD3EE, 0);
+                Ang16 ang(Ang16(field_28_pSprite->field_0.rValue + kAng180_6FD3EE.rValue), 0);
                 Fix16 radius = Fix16(field_46_sub_state) * dword_6FD46C;
-                src.x = radius * Ang16::sine_40F500(ang);
-                src.y = radius * Ang16::cosine_40F520(ang);
+                src.x = radius.Multiply_408680(Ang16::sine_40F500(ang));
+                src.y = radius.Multiply_408680(Ang16::cosine_40F520(ang));
                 break;
             }
             case 4:
             case 5:
             {
-                Ang16 base(field_28_pSprite->field_0 + kAng180_6FD3EE, 0);
-                Ang16 ang(base + jitter, 0);
+                Ang16 base(Ang16(field_28_pSprite->field_0.rValue + kAng180_6FD3EE.rValue), 0);
+                Ang16 ang(Ang16(base.rValue + jitter.rValue), 0);
                 Fix16 radius = Fix16(field_46_sub_state) * dword_6FD46C + dword_6FD45C;
-                src.x = radius * Ang16::sine_40F500(ang);
-                src.y = radius * Ang16::cosine_40F520(ang);
+                src.x = radius.Multiply_408680(Ang16::sine_40F500(ang));
+                src.y = radius.Multiply_408680(Ang16::cosine_40F520(ang));
                 break;
             }
         }
