@@ -1524,3 +1524,18 @@ Each was a few asm lines away from the original. What is left and what was tried
 - No change: `MakeTrafficForCurrCamera_5832C0` (original multiplies with width loaded first into edx; ours ends up 2 bytes short)
 - Systemic: in `5606C0` and `ProcessPedImpact_560B40` the original sets no EH state around binary `operator-` (0x40AC80) temporaries; `throw()` on it fixes those but breaks 5-6 matches
 - Closer (Fable): `Map_0x370::sub_4E1A30` 366->40 (the hit-test arguments were wrong: x+1/y+1 face coordinates, and a u32 first argument for the Fix16(u32) copy), `Car_BC::SpawnDamageFireEffect_43B870` 0.20->0.82 (logic fixes: both x/y scaled after the switch, case 2 condition, default uses the raw argument), `ProcessGroundCollisionAndSurfaceType_55B970` 0.26->0.47, `Particle_4C::sub_538060` 0.44->0.55 (position/rotation logic fixed)
+
+### Near-miss pass, batches AJ-AN (2026-10-03, partial)
+
+- 0x5349D0 `Garage_48::GaragesService_5349D0`: MATCH. Index locals and the `Fix16_Point car_pos` declared at the top (EH state 0 at entry), inlines `Door_38::CloseDoors_476A30`, `CarPhysics_B0::StopMoving_4895D0`, `Garage_48::Reset_489650`, u8 collision flag, `field_44` u32. The corner checks return through separate inline epilogues, done with a goto.
+- 0x561970 `ComputeEngineTorque`: closer 572->543. Out-of-line torque helpers, gear order inverted, logic fix (half thrust was added twice). Left: inline budget (gear 1 multiply goes out of line) and tail merging.
+- 0x550F60 `GetNextRotationToward`: closer 576->513. Unused `Ang16(&Fix16,0)` from 9.6f, case 0 is a nested switch. Left: register/slot choices.
+- 0x542E30 `state_22_23_24_25`: closer 595->439. Left: the original runs out of inline budget in cases 2/3 (out-of-line Ang16 ctor 0x409300).
+- 0x4E5640: closer 596->464. Static inline GetLength/PolarToCartesian with out-of-line helpers. Left: Fix16_Point_POD ctor out of line (inline budget).
+- 0x498DA0 `read_input_device`: closer 461->356. `acquire_input_device_498730` is a thiscall member, Poll() not Acquire(). Left: zero register held across the whole function.
+- 0x422B70 `ProcessPed`: closer 445->165. Case order from the jump table, case 26 falls into default. Left: ebx vs ebp allocation.
+- 0x539890 `UpdateCircularBurst_state_5`: closer 0.543->0.769 (5384C0 shape). Left: identical cases 4/5 not cross-jumped.
+- 0x53E450 `EmitBloodBurst`: closer 0.148->0.495. Source bug: `rng(50) + 25` was missing.
+- 0x53F060: closer 489->464. Source bug: the loop rotation must use `angle_2`.
+- 0x53D260 `Particle_4C::PoolUpdate`: closer 0.49->0.885. Case order, lazy set_xyz/set_z inlines, missing `|= 4`. Left: constant 1 kept in bl by the original.
+- 0x5D0850 `Hud_Arrow_7C::UpdateScreenPos`: closer 0.678->0.772. Note: compare_target_asm maps a value to 0 here, so its ratio is unreliable for this function.
