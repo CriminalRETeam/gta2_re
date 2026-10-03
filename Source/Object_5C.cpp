@@ -1358,22 +1358,20 @@ bool Object_2C::ShouldStopAtTrafficLight_525290(Sprite* pSprite)
     return false;
 }
 
-WIP_FUNC(0x525370)
+MATCH_FUNC(0x525370)
 char Object_2C::ShouldCollideWithSprite_525370(Sprite* pSprite)
 {
-    WIP_IMPLEMENTED;
-
     switch (this->field_18_model)
     {
         case objects::pedestrian_crossing_marker_122:
-            if (!pSprite)
+            if (pSprite)
             {
-                return 0;
+                return ShouldStopAtTrafficLight_525290(pSprite);
             }
-            return ShouldStopAtTrafficLight_525290(pSprite);
+            break;
 
         case objects::conveyor_139:
-            return 0;
+            break;
 
         case objects::door_unknown_169:
             if (pSprite)
@@ -1404,77 +1402,74 @@ char Object_2C::ShouldCollideWithSprite_525370(Sprite* pSprite)
                 }
             }
 
-            if (!field_10_obj_3c)
+            if (field_10_obj_3c)
             {
-                goto LABEL_35;
-            }
+                if (field_10_obj_3c->field_34 != 2)
+                {
+                    return 0;
+                }
 
-            if (field_10_obj_3c->field_34 != 2)
-            {
-                return 0;
-            }
+                if (pSprite)
+                {
+                    if (pSprite->get_type_416B40() != sprite_types_enum::ped_3)
+                    {
+                        if (field_8->field_4C == 3)
+                        {
+                            return 0;
+                        }
 
-            if (pSprite)
-            {
-                if (pSprite->get_type_416B40() != sprite_types_enum::ped_3)
+                        if (field_8->field_4C == 0)
+                        {
+                            return 0;
+                        }
+                    }
+                }
+                else
                 {
                     if (field_8->field_4C == 3)
                     {
                         return 0;
                     }
-
                     if (field_8->field_4C == 0)
                     {
                         return 0;
                     }
                 }
+            }
 
-            LABEL_35:
-                if (pSprite)
+            if (pSprite)
+            {
+                Object_2C* pObj2C = pSprite->As2C_40FEC0();
+                if (pObj2C)
                 {
-                    Object_2C* pObj2C = pSprite->As2C_40FEC0();
-                    if (pObj2C)
+                    if (pObj2C->field_8->field_44 == 7 || pObj2C->field_8->field_44 == 8)
                     {
-                        if (pObj2C->field_8->field_44 != 7 && pObj2C->field_8->field_44 != 8)
+                        switch (field_8->field_48)
                         {
-                            goto LABEL_44;
-                        }
-
-                        if (!field_8->field_48)
-                        {
-                            return 0;
-                        }
-
-                        if ((u32)(field_8->field_48 - 12) >= 2)
-                        {
-                        LABEL_44:
-                            if (pObj2C->field_18_model == objects::conveyor_139)
-                            {
+                            case 0:
                                 return 0;
-                            }
-
-                            // Don't collide shops, I guess
-                            if (pObj2C->check_is_shop_421060() && !check_is_shop_421060())
-                            {
-                                return 0;
-                            }
+                            case 12:
+                                return 1;
+                            case 13:
+                                return 1;
                         }
                     }
-                }
-            }
-            else
-            {
-                if (field_8->field_4C == 3)
-                {
-                    return 0;
-                }
-                if (field_8->field_4C == 0)
-                {
-                    return 0;
+
+                    if (pObj2C->field_18_model == objects::conveyor_139)
+                    {
+                        break;
+                    }
+
+                    // Don't collide shops, I guess
+                    if (pObj2C->check_is_shop_421060() && !check_is_shop_421060())
+                    {
+                        return 0;
+                    }
                 }
             }
             return 1;
     }
+    return 0;
 }
 
 MATCH_FUNC(0x525AE0)
