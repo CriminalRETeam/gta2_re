@@ -330,40 +330,42 @@ void DoorData_10::Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
     this->field_7_gr_id = id;
     this->field_0_state = 1;
 
-    gGtx_0x106C_703DD4->SetTileRemap_5AA930(gDoorAnimInfo_67BB38[id].field_4_internal_tile_idx, gDoorAnimInfo_67BB38[id].field_0_start_frame);
+    DoorAnimInfo_A* pInfo = &gDoorAnimInfo_67BB38[id];
+    gGtx_0x106C_703DD4->SetTileRemap_5AA930(pInfo->field_4_internal_tile_idx, pInfo->field_0_start_frame);
 
-    s32 v8 = gDoorAnimInfo_67BB38[id].field_4_internal_tile_idx | 0x1C00; // wall, bullet wall and flat
+    u16 v8 = pInfo->field_4_internal_tile_idx | 0x1C00; // wall, bullet wall and flat
     if (bDoFlip)
     {
-        v8 = gDoorAnimInfo_67BB38[id].field_4_internal_tile_idx | 0x2C00; // flip
+        v8 |= 0x2000; // flip
     }
 
     if (gMap_0x370_6F6268->get_block_4DFE10(this->field_4_x, this->field_5_y, this->field_6_z))
     {
         gMap_0x370_6F6268->ChangeBlock_4E8620(this->field_4_x, this->field_5_y, this->field_6_z, this->field_8_face, v8);
-        gMap_0x370_6F6268->ChangeBlock_4E8620(this->field_4_x, this->field_5_y, this->field_6_z, GetOppositeFace_4DEEB0(this->field_8_face), gDoorAnimInfo_67BB38[id].field_4_internal_tile_idx);
+        gMap_0x370_6F6268->ChangeBlock_4E8620(this->field_4_x, this->field_5_y, this->field_6_z, GetOppositeFace_4DEEB0(this->field_8_face), pInfo->field_4_internal_tile_idx);
     }
     else
     {
         blockData.init_44C840();
 
+        // Remaining diff: the original stores v8 before loading the tile idx in each case
         switch (field_8_face)
         {
             case 1:
                 blockData.field_0_left = v8;
-                blockData.field_2_right = gDoorAnimInfo_67BB38[id].field_4_internal_tile_idx;
+                blockData.field_2_right = pInfo->field_4_internal_tile_idx;
                 break;
             case 2:
                 blockData.field_2_right = v8;
-                blockData.field_0_left = gDoorAnimInfo_67BB38[id].field_4_internal_tile_idx;
+                blockData.field_0_left = pInfo->field_4_internal_tile_idx;
                 break;
             case 3:
                 blockData.field_4_top = v8;
-                blockData.field_6_bottom = gDoorAnimInfo_67BB38[id].field_4_internal_tile_idx;
+                blockData.field_6_bottom = pInfo->field_4_internal_tile_idx;
                 break;
             case 4:
                 blockData.field_6_bottom = v8;
-                blockData.field_4_top = gDoorAnimInfo_67BB38[id].field_4_internal_tile_idx;
+                blockData.field_4_top = pInfo->field_4_internal_tile_idx;
                 break;
             default:
                 break;
