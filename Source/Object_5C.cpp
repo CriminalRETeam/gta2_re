@@ -2168,18 +2168,22 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
 {
     WIP_IMPLEMENTED;
 
-    if (obj_type)
+    Fix16_Point dir;
+
+    if (!obj_type)
+    {
+        Object_2C::RequestRemoval_5290A0();
+    }
+    else
     {
         if (IsDefinitionIdx39To42_482400(obj_type))
         {
-            s32 ped_id = gVarrok_7F8_703398->GetPedId_420F10(field_26_varrok_idx);
-            s32 type_or_state = sub_526830(obj_type);
             Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(field_4->field_14_xy.x,
                                                                               field_4->field_14_xy.y,
                                                                               field_4->field_1C_zpos,
                                                                               kZeroAng_6F8F68,
-                                                                              type_or_state,
-                                                                              ped_id);
+                                                                              sub_526830(obj_type),
+                                                                              gVarrok_7F8_703398->GetPedId_420F10(field_26_varrok_idx));
             if (pExplosion)
             {
                 pExplosion->SetDamageOwner_529080(this->field_26_varrok_idx);
@@ -2190,7 +2194,6 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
         {
             if (obj_type == 259)
             {
-                Fix16_Point dir;
                 dir.SetFromPolar_41E210(k_dword_6F8C9C, field_4->field_0);
                 gParticle_8_6FD5E8->EmitImpactParticles_53FE40(field_4->field_14_xy.x,
                                                                field_4->field_14_xy.y,
@@ -2213,21 +2216,30 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
 
                     switch (pPhi->field_34_behavior_type)
                     {
-                        case object_behavior_type::static_object_0:
-                        case object_behavior_type::behavior_1:
-                        case object_behavior_type::behavior_6:
-                        case object_behavior_type::behavior_10:
-                        case object_behavior_type::behavior_12:
-                            Object_2C::ReleaseSubObjects_527F10();
+                        case object_behavior_type::bullet_type_3:
+                        case object_behavior_type::behavior_7:
+                            if (!this->field_10_obj_3c)
+                            {
+                                Object_3C* pNew3C_ = gObject_3C_Pool_6F8F7C->Allocate();
+                                pNew3C_->field_20_obj2c_id = field_14_id;
+                                this->field_10_obj_3c = pNew3C_;
+                            }
+
+                            if (field_C_pAny.o8)
+                            {
+                                gObject_8_Pool_6F8F78->DeAllocate(field_C_pAny.o8);
+                                this->field_C_pAny.o8 = 0;
+                            }
+
+                            this->field_10_obj_3c->field_18_friction = pPhi->field_14_friction;
+                            this->field_10_obj_3c->field_1C_z_accel = kFpZero_6F8E10;
+                            this->field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
+                            this->field_10_obj_3c->field_28_next_definition_timer = pPhi->field_65;
                             Object_2C::InitializeObject_527630(obj_type,
                                                                this->field_4->field_14_xy.x,
                                                                this->field_4->field_14_xy.y,
                                                                this->field_4->field_1C_zpos,
                                                                this->field_4->field_0);
-                            if (this->field_10_obj_3c)
-                            {
-                                return;
-                            }
                             break;
 
                         case object_behavior_type::behavior_2:
@@ -2272,32 +2284,6 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                             field_4->set_id_lazy_4206C0(this->field_8->field_1E_sprite_palette + this->field_C_pAny.o8->field_7_anim_speed_counter);
                             break;
                         }
-
-                        case object_behavior_type::bullet_type_3:
-                        case object_behavior_type::behavior_7:
-                            if (!this->field_10_obj_3c)
-                            {
-                                Object_3C* pNew3C_ = gObject_3C_Pool_6F8F7C->Allocate();
-                                pNew3C_->field_20_obj2c_id = field_14_id;
-                                this->field_10_obj_3c = pNew3C_;
-                            }
-
-                            if (field_C_pAny.o8)
-                            {
-                                gObject_8_Pool_6F8F78->DeAllocate(field_C_pAny.o8);
-                                this->field_C_pAny.o8 = 0;
-                            }
-
-                            this->field_10_obj_3c->field_18_friction = pPhi->field_14_friction;
-                            this->field_10_obj_3c->field_1C_z_accel = kFpZero_6F8E10;
-                            this->field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
-                            this->field_10_obj_3c->field_28_next_definition_timer = pPhi->field_65;
-                            Object_2C::InitializeObject_527630(obj_type,
-                                                               this->field_4->field_14_xy.x,
-                                                               this->field_4->field_14_xy.y,
-                                                               this->field_4->field_1C_zpos,
-                                                               this->field_4->field_0);
-                            break;
 
                         case object_behavior_type::maybe_moving_obj_4:
                         case object_behavior_type::behavior_9:
@@ -2344,6 +2330,23 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                             break;
                         }
 
+                        case object_behavior_type::static_object_0:
+                        case object_behavior_type::behavior_1:
+                        case object_behavior_type::behavior_6:
+                        case object_behavior_type::behavior_10:
+                        case object_behavior_type::behavior_12:
+                            Object_2C::ReleaseSubObjects_527F10();
+                            Object_2C::InitializeObject_527630(obj_type,
+                                                               this->field_4->field_14_xy.x,
+                                                               this->field_4->field_14_xy.y,
+                                                               this->field_4->field_1C_zpos,
+                                                               this->field_4->field_0);
+                            if (this->field_10_obj_3c)
+                            {
+                                return;
+                            }
+                            break;
+
                         default:
                             break;
                     }
@@ -2362,10 +2365,6 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                 }
             }
         }
-    }
-    else
-    {
-        Object_2C::RequestRemoval_5290A0();
     }
 }
 
