@@ -612,18 +612,18 @@ s32 RouteFinder::NoRefs_589210(u8 x, u8 y, s32 a4, u8 direction, s32 a6, u16 jun
 }
 #pragma warning(pop)
 
-WIP_FUNC(0x5892f0)
+MATCH_FUNC(0x5892f0)
 RouteFinder_10* RouteFinder::NewChildNode_5892F0(RouteFinder_10* a2, u16 idx, s16 a4)
 {
-    WIP_IMPLEMENTED;
-
     RouteFinder_10* pNew10 = &this->field_861C_nodes[this->field_CC66_545_count++];
 
     s32 dy = abs((u8)field_8_junctions[idx].field_D_min_y - (u8)field_8_junctions[field_861A_dest_idx].field_D_min_y);
     s32 dx = abs((u8)field_8_junctions[idx].field_C_min_x - (u8)field_8_junctions[field_861A_dest_idx].field_C_min_x);
+    s16 dist = dy + dx;
+    s16 cost = a2->field_2_cost + a4;
 
     pNew10->field_0_idx = idx;
-    pNew10->field_2_cost = a2->field_2_cost + a4 + (dy + dx);
+    pNew10->field_2_cost = cost + dist;
     pNew10->field_8_pParent = a2;
     pNew10->field_C_pNext = 0;
 
@@ -950,12 +950,10 @@ RouteFinder_10* RouteFinder::GetFirstUnexpandedNode_589E00()
     return pjVar1;
 }
 
-WIP_FUNC(0x589e20)
+MATCH_FUNC(0x589e20)
 char_type RouteFinder::sub_589E20(s32 a2)
 {
-    WIP_IMPLEMENTED;
-
-    bool bRet = 0;
+    bool bRet = false;
     RouteFinder_10* f_A82C = this->field_A82C_open_list;
     if (f_A82C->field_0_idx == this->field_861A_dest_idx)
     {
@@ -964,8 +962,14 @@ char_type RouteFinder::sub_589E20(s32 a2)
 
     if (f_A82C)
     {
-        while (!bRet)
+        // while (true) + break keeps the original's dead test of bRet on loop entry, while (!bRet) drops it
+        while (true)
         {
+            if (bRet)
+            {
+                break;
+            }
+
             RouteFinder_10* p10 = GetFirstUnexpandedNode_589E00();
             if (!p10)
             {
