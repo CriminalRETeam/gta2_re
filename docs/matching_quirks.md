@@ -1037,6 +1037,24 @@ both copies. Only a meaningless cast changed it.
     flags /G3-/G6 /Oa /Ow /Os /Ot /Op /Oi- /Oy- /Og-. 9.6f has the same helper shapes; no 9.6f pairs for these.
   - Untested: compiling the Draw* functions with the member `ProjectVertTop_4EAE00`/`Bottom_4EAEA0` inlined instead
     of separate helpers, and whether something in the TU (an address-taken global, a pragma) lowers alias precision.
+  - A second focused experiment (17 probes, 303 diff lines in total, draw_left_4F3C00 at 16) found nothing that
+    gets closer:
+    - Flags: about 40 per-file combinations. /G3 /G4 /G5 /GB give identical code, as do /QIfist /Ob1 /Ob2 /Ox /Ot
+      /Oi- /QIfdiv /Zp. /Op /Oa /Ow /G6 /Oy- /Os are much worse.
+    - float vs double: `(__int64)`, `(f32)` and `(f32)(f64)` casts of the u32 centre give identical code;
+      `(double)(u32)` gives `fildll; faddp` (worse); the sum or product in double is worse; `* (1/16384.0f)` is
+      the same as `/ 16384.0f`.
+    - 192 variants of the Top helper (operand order, local camera pointer, local scale, by-value or by-ref
+      params) and the member `ProjectVertTop_4EAE00`/`Bottom_4EAEA0`, `__forceinline`, const refs: none better.
+    - Alias: gTileVerts extern, volatile global pointers, template-index stores: no effect. Dropping the
+      `GLOBAL()` registrations (which take the address of every global in the TU) changes only other functions.
+  - Lead: probably the compiler build rather than the source. The original isn't self-consistent the way a source
+    cause would be: the same inlined Top stores the zero hi dword early at one site and late at another with the
+    same stack layout (draw_lid_4F4D60), and late in sub_4EC450 but early in draw_left. That looks like a scheduler
+    tie-break. In `Set_UV_4F4190` (one `fmuls`/`mov (%eax),%ecx` swap, the smallest case) /G6 flips exactly that
+    pair but breaks push order elsewhere. Our toolchain mixes C2.DLL 12.00.8799, C1XX 12.00.8867 and CL 12.00.8804.
+    Next step: read the 10.5.exe Rich header build numbers and try other VC6 service pack c2.dll builds on cut-down
+    repros of draw_left (8 normalised lines) and Set_UV (2 lines).
 - A compare scheduled before a volatile load instead of after it (`cmp $0xF,%al` in
   `sound_obj::ProcessPoliceRadioWordsPlayback_427220`).
 - A store scheduled before the `lea` of an out pointer rather than after it
