@@ -248,7 +248,7 @@ void Firefighter_28::deinit_4A81A0()
 }
 
 // https://decomp.me/scratch/ZcdAk
-DEFINE_GLOBAL(Fix16, dword_67D384, 0x67D384);
+DEFINE_GLOBAL_INIT(Fix16, dword_67D384, Fix16(3), 0x67D384);
 
 WIP_FUNC(0x4a81f0)
 void Firefighter_28::Update_4A81F0()

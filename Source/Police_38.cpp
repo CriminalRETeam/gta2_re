@@ -831,9 +831,9 @@ void PoliceCrew_38::State3_AlertedSearch_572340()
 }
 
 EXTERN_GLOBAL(Fix16, kFpFour_6FECF8);
-DEFINE_GLOBAL(Fix16, dword_6FEB44, 0x6FEB44);
-DEFINE_GLOBAL(Fix16, dword_6FED08, 0x6FED08);
-DEFINE_GLOBAL(Fix16, dword_6FECB8, 0x6FECB8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FEB44, Fix16(0x666, 0), 0x6FEB44);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FED08, Fix16(4), 0x6FED08);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FECB8, Fix16(0x147, 0), 0x6FECB8);
 
 // The crew chasing the criminal: like State3_AlertedSearch_572340, then each member follows the criminal on foot
 // or in the car depending on how far away and how fast the criminal is
@@ -1594,10 +1594,10 @@ void PoliceCrew_38::sub_5752C0()
     byte_6FEB48 = 1;
 }
 
-DEFINE_GLOBAL(Fix16, dword_6FECF0, 0x6FECF0);
-DEFINE_GLOBAL(Fix16, dword_6FEBF4, 0x6FEBF4);
-DEFINE_GLOBAL(Fix16, dword_6FECF4, 0x6FECF4);
-DEFINE_GLOBAL(Fix16, dword_6FEDE0, 0x6FEDE0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FECF0, Fix16(2), 0x6FECF0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FEBF4, Fix16(0.5), 0x6FEBF4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FECF4, Fix16(3), 0x6FECF4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FEDE0, Fix16(0x1EB, 0), 0x6FEDE0);
 
 WIP_FUNC(0x575310)
 void PoliceCrew_38::sub_575310()
@@ -2433,17 +2433,17 @@ void PoliceRoadblock_A4::RemoveRoadblock_575CA0()
 }
 
 // Roadblock building: the values aren't known yet
-DEFINE_GLOBAL(Fix16, dword_6FECEC, 0x6FECEC);
-DEFINE_GLOBAL(Fix16, dword_6FEDA0, 0x6FEDA0);
-DEFINE_GLOBAL(Fix16, dword_6FED80, 0x6FED80);
-DEFINE_GLOBAL(Fix16, dword_6FED0C, 0x6FED0C);
-DEFINE_GLOBAL(Fix16, dword_6FEBD0, 0x6FEBD0);
-DEFINE_GLOBAL(Fix16, dword_6FEB50, 0x6FEB50);
-DEFINE_GLOBAL(Fix16, dword_6FEB5C, 0x6FEB5C);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FECEC, Fix16(1), 0x6FECEC);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FEDA0, Fix16(0x100, 0), 0x6FEDA0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FED80, Fix16(16), 0x6FED80);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FED0C, Fix16(8), 0x6FED0C);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FEBD0, Fix16(0.75), 0x6FEBD0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FEB50, Fix16(0xCCC, 0), 0x6FEB50);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FEB5C, Fix16(0.5), 0x6FEB5C);
 DEFINE_GLOBAL(Ang16, word_6FEE30, 0x6FEE30);
-DEFINE_GLOBAL(Ang16, word_6FEB74, 0x6FEB74);
-DEFINE_GLOBAL(u8, byte_624FBC, 0x624FBC); // the next roadblock lane gets barriers
-DEFINE_GLOBAL(u8, byte_624FBD, 0x624FBD); // the next roadblock lane gets a guard
+DEFINE_GLOBAL_INIT(Ang16, word_6FEB74, Ang16(360), 0x6FEB74);
+DEFINE_GLOBAL_INIT(u8, byte_624FBC, 1, 0x624FBC); // the next roadblock lane gets barriers
+DEFINE_GLOBAL_INIT(u8, byte_624FBD, 1, 0x624FBD); // the next roadblock lane gets a guard
 
 // Into the first free car slot
 inline void PoliceRoadblock_A4::AddCar(Car_BC* pCar)

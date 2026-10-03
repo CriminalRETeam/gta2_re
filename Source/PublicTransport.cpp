@@ -28,13 +28,14 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FF04C, Fix16(0x333, 0), 0x6FF04C);
 Fix16 kFpHalf_6FEEE8 = Fix16(0.5); //DEFINE_GLOBAL_INIT(Fix16, kFpHalf_6FEEE8, Fix16(0.5), 0x6FEEE8);
 Ang16 kAng0_6FF1BC = Ang16(0); //DEFINE_GLOBAL_INIT(Ang16, kAng0_6FF1BC, Ang16(0), 0x6FF1BC);
 
-// Train spawning: the values aren't known yet
-DEFINE_GLOBAL(Fix16, dword_6FEF88, 0x6FEF88); // offset into the stop block
-DEFINE_GLOBAL(Fix16, dword_6FF088, 0x6FF088); // wagon spacing along x
-DEFINE_GLOBAL(Fix16, dword_6FF080, 0x6FF080); // wagon spacing along y
-DEFINE_GLOBAL(Ang16, word_6FEFFE, 0x6FEFFE);
-DEFINE_GLOBAL(Ang16, word_6FEF04, 0x6FEF04);
-DEFINE_GLOBAL(Ang16, word_6FEFD6, 0x6FEFD6);
+// Train spawning values. 
+// TrainStationList dword_6FEE68 is allocating too much space, so these globals crash standalone. TODO: fix TrainStationList struct
+Fix16 dword_6FEF88 = Fix16(0.5); //DEFINE_GLOBAL_INIT(Fix16, dword_6FEF88, Fix16(0.5), 0x6FEF88); // offset into the stop block
+Fix16 dword_6FF088 = Fix16(4); // DEFINE_GLOBAL_INIT(Fix16, dword_6FF088, Fix16(4), 0x6FF088); // wagon spacing along x
+Fix16 dword_6FF080 = Fix16(2); // DEFINE_GLOBAL_INIT(Fix16, dword_6FF080, Fix16(2), 0x6FF080); // wagon spacing along y
+Ang16 word_6FEFFE = Ang16(1080); // DEFINE_GLOBAL_INIT(Ang16, word_6FEFFE, Ang16(1080), 0x6FEFFE);
+Ang16 word_6FEF04 = Ang16(360); // DEFINE_GLOBAL_INIT(Ang16, word_6FEF04, Ang16(360), 0x6FEF04);
+Ang16 word_6FEFD6 = Ang16(720); // DEFINE_GLOBAL_INIT(Ang16, word_6FEFD6, Ang16(720), 0x6FEFD6);
 
 Fix16 kTrainSpeedState0_6FEEE0 = Fix16(0x1333, 0); //DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState0_6FEEE0, Fix16(0x1333, 0), 0x6FEEE0);
 Fix16 kTrainSpeedState1And3_6FEED4 = Fix16(0x666, 0); //DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState1And3_6FEED4, Fix16(0x666, 0), 0x6FEED4);

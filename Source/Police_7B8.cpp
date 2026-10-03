@@ -418,7 +418,7 @@ char_type Police_7B8::DispatchNewCrewToService_56FAA0(Police_7C* p7C)
     return 0;
 }
 
-DEFINE_GLOBAL(Fix16, dword_6FECFC, 0x6FECFC);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FECFC, Fix16(5), 0x6FECFC);
 
 // Updates every call for service: its wanted level from the criminal's stars, then its state
 // (send crews, escalate, give up, clean up when the criminal is gone).

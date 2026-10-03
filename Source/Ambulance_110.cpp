@@ -729,7 +729,7 @@ Ambulance_20* Ambulance_110::AllocateTaskSlot_4FA4B0()
     return 0;
 }
 
-DEFINE_GLOBAL(Fix16, dword_6F6FC0, 0x6F6FC0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F6FC0, Fix16(8), 0x6F6FC0);
 
 WIP_FUNC(0x4fa500)
 void Ambulance_110::ProcessPatientQueue_4FA500()
