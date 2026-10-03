@@ -388,7 +388,9 @@ class Fix16
         Fix16 diff_x = x2 - x1;
         Fix16 diff_y = y2 - y1;
 
-        return Fix16::Max(Fix16::Abs(diff_x), Fix16::Abs(diff_y));
+        Fix16 result;
+        result = Fix16::Max_44E540(Fix16::Abs(diff_x), Fix16::Abs(diff_y));
+        return result;
     }
 
     // NOTE: 9.6f 0x42A6B0 - inlined in 10.5
