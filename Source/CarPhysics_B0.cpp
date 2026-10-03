@@ -848,12 +848,11 @@ void CarPhysics_B0::HandleUserInputs_55A860(char_type bForwardGasOn,
     this->field_AD_turn_direction = car_turn_direction::none_0;
 }
 
-WIP_FUNC(0x55aa00)
+MATCH_FUNC(0x55aa00)
 void CarPhysics_B0::HandleGravityOnSlope_55AA00()
 {
-    WIP_IMPLEMENTED;
 
-    Fix16_Point_POD force;
+    Fix16_Point force;
 
     // On a slope and no brake inputs
     if (field_A5_current_slope_length != 1 || field_92_is_hand_brake_on || field_91_is_foot_brake_on)
@@ -872,30 +871,28 @@ void CarPhysics_B0::HandleGravityOnSlope_55AA00()
         case car_surface_type::slope_northwards_1:
             force.x = kFP16Zero_6FE20C;
             force.y = (dword_6FDF3C * kFP16One_6FDF7C);
-            ApplyForceScaledByMass_55F9A0(force);
             break;
 
         case car_surface_type::slope_southwards_2:
             force.x = kFP16Zero_6FE20C;
             force.y = (kFP16One_6FDF7C * -dword_6FDF3C);
-            ApplyForceScaledByMass_55F9A0(force);
             break;
 
         case car_surface_type::slope_westwards_3:
             force.x = (dword_6FDF3C * kFP16One_6FDF7C);
             force.y = kFP16Zero_6FE20C;
-            ApplyForceScaledByMass_55F9A0(force);
             break;
 
         case car_surface_type::slope_eastwards_4:
             force.x = (kFP16One_6FDF7C * -dword_6FDF3C);
             force.y = kFP16Zero_6FE20C;
-            ApplyForceScaledByMass_55F9A0(force);
             break;
 
         default:
             return;
     }
+
+    ApplyForceScaledByMass_55F9A0(force);
 }
 
 WIP_FUNC(0x55ab50)
