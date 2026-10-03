@@ -2974,7 +2974,7 @@ void Ped::RobbedDriver_AI_461630()
 {
     WIP_IMPLEMENTED;
 
-    s16 rng_val; // ax
+    u16 rng_val; // ax
     Ped* f180_; // ecx
     Ped* f180; // edx
     Ped* f180__; // ecx
@@ -2997,13 +2997,16 @@ void Ped::RobbedDriver_AI_461630()
                     {
                         rng_val = 6;
                     }
-                    if (field_180_car_thief->field_20e_offscreen_counter)
+                    if (!field_180_car_thief->field_20e_offscreen_counter)
+                    {
+                        if (field_17C_pGang)
+                        {
+                            rng_val = 19;
+                        }
+                    }
+                    else
                     {
                         rng_val = 6;
-                    }
-                    else if (field_17C_pGang)
-                    {
-                        rng_val = 19;
                     }
 
                     switch (rng_val)
@@ -3077,29 +3080,34 @@ void Ped::RobbedDriver_AI_461630()
             return;
 
         case ped_ocupation_enum::angry_armed_robbed_driver_12:
-            if (field_225_objective_status != objective_status::passed_1)
+            if (field_225_objective_status == objective_status::passed_1)
             {
-                goto LABEL_40;
-            }
-
-            target_objective_car = this->field_150_target_objective_car;
-            if (target_objective_car->IsDespawning_4215B0())
-            {
-                Kill_46F9D0();
-            }
-            else
-            {
-                this->field_240_occupation = ped_ocupation_enum::driver;
-                this->SetField238_403920(ped_type::dummy_3);
-                if (target_objective_car)
+                target_objective_car = this->field_150_target_objective_car;
+                if (target_objective_car->IsDespawning_4215B0())
                 {
-                    target_objective_car->SetUniNum_421560(3);
-                    SetObjective(objectives_enum::no_obj_0, 9999);
+                    Kill_46F9D0();
                 }
                 else
                 {
-                    SetObjective(objectives_enum::no_obj_0, 9999);
+                    this->field_240_occupation = ped_ocupation_enum::driver;
+                    this->SetField238_403920(ped_type::dummy_3);
+                    if (target_objective_car)
+                    {
+                        target_objective_car->SetUniNum_421560(3);
+                        SetObjective(objectives_enum::no_obj_0, 9999);
+                    }
+                    else
+                    {
+                        SetObjective(objectives_enum::no_obj_0, 9999);
+                    }
                 }
+            }
+            else if (field_225_objective_status == objective_status::failed_2)
+            {
+                this->field_240_occupation = ped_ocupation_enum::dummy;
+                SetObjective(objectives_enum::no_obj_0, 9999);
+                SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                this->SetField238_403920(ped_type::dummy_3);
             }
             return;
 
@@ -3114,32 +3122,34 @@ void Ped::RobbedDriver_AI_461630()
                     this->field_248_enter_car_as_passenger = 0;
                     this->field_150_target_objective_car = field_140_stolen_car;
                     this->field_24C_target_car_door = 0;
-                    return;
                 }
-                goto LABEL_41;
+                else
+                {
+                    this->field_240_occupation = ped_ocupation_enum::dummy;
+                    SetObjective(objectives_enum::no_obj_0, 9999);
+                    SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                    this->SetField238_403920(ped_type::dummy_3);
+                }
             }
-
-            if (!field_140_stolen_car)
+            else
             {
-                if (field_140_stolen_car->IsDespawning_4215B0())
+                if (field_140_stolen_car && field_140_stolen_car->IsDespawning_4215B0())
                 {
                     this->field_140_stolen_car = 0;
                 }
-            }
 
-            if (!this->field_140_stolen_car)
-            {
-                this->field_225_objective_status = objective_status::not_finished_0;
-            }
+                if (!this->field_140_stolen_car)
+                {
+                    this->field_225_objective_status = objective_status::not_finished_0;
+                }
 
-        LABEL_40:
-            if (field_225_objective_status == objective_status::failed_2)
-            {
-            LABEL_41:
-                this->field_240_occupation = ped_ocupation_enum::dummy;
-                SetObjective(objectives_enum::no_obj_0, 9999);
-                SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                this->SetField238_403920(ped_type::dummy_3);
+                if (field_225_objective_status == objective_status::failed_2)
+                {
+                    this->field_240_occupation = ped_ocupation_enum::dummy;
+                    SetObjective(objectives_enum::no_obj_0, 9999);
+                    SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                    this->SetField238_403920(ped_type::dummy_3);
+                }
             }
             return;
 
