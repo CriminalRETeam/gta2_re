@@ -183,11 +183,13 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(s32 animPhase, Car_BC* pCar,
     u8* car_door_info_array = gGtx_0x106C_703DD4->get_car_remap_5AA3D0(pCar->field_84_car_info_idx);
     Fix16 offset = gCharB4_WorldCollisionOffset_6FD8D8;
 
+    Fix16 x_pos;
+    Fix16 y_pos;
     s8 x_in_scale = car_door_info_array[2 * doorId + 1];
-    Fix16 x_pos = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(x_in_scale);
+    x_pos = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(x_in_scale);
 
     s8 y_in_scale = car_door_info_array[2 * doorId + 2];
-    Fix16 y_pos = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(y_in_scale);
+    y_pos = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(y_in_scale);
 
     bool bUnk = false;
 
@@ -202,10 +204,6 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(s32 animPhase, Car_BC* pCar,
         {
             x_pos += dword_6FDB20;
             bUnk = true;
-        }
-        else
-        {
-            bUnk = false;
         }
     }
 
@@ -242,22 +240,23 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(s32 animPhase, Car_BC* pCar,
                     default:
                         break;
                 }
+                // Original adds field_0 + kAng180 raw and calls the out-of-line Normalize_406C20 (tail merged)
                 outAng = kAng180_6FD936 + pCar->field_50_car_sprite->field_0;
             }
             else
             {
-                if (x_pos >= kFP16Zero_6FD9E4)
+                if (x_pos < kFP16Zero_6FD9E4)
                 {
-                    x_pos += offset;
+                    x_pos -= offset;
                 }
                 else
                 {
-                    x_pos -= offset;
+                    x_pos += offset;
                 }
                 if (bUnk)
                 {
                     y_pos -= kFpPoint1_6FD824;
-                    switch (animPhase)
+                    switch ((u8)animPhase)
                     {
                         case 0:
                             x_pos -= dword_6FD82C;
