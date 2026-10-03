@@ -1408,8 +1408,8 @@ void Weapon_30::tank_main_gun_5E10E0()
     WIP_IMPLEMENTED;
     Ang16 cannon_angle;
     Fix16_Point cannon_pos;
-    Fix16_Point car_box_or_car_velocity;
-    Fix16_Point vector3;
+    Fix16_Point offset;
+    Fix16_Point velocity;
 
     if (field_2_reload_speed == 0)
     {
@@ -1419,19 +1419,18 @@ void Weapon_30::tank_main_gun_5E10E0()
         cannon_pos.SetXY_432860(Fix16(0), gTankCannonLength_706E20);
         cannon_pos.RotateByAngle_40F6B0(cannon_angle);
 
-        car_box_or_car_velocity.SetXY_432860(Fix16(0), dword_706D88);
-        car_box_or_car_velocity.RotateByAngle_40F6B0(field_14_car->field_50_car_sprite->field_0);
+        offset.SetXY_432860(Fix16(0), dword_706D88);
+        offset.RotateByAngle_40F6B0(field_14_car->field_50_car_sprite->field_0);
 
-        vector3 = field_14_car->field_50_car_sprite->get_x_y_443580() + car_box_or_car_velocity;
-        cannon_pos += vector3;
+        cannon_pos += offset + field_14_car->field_50_car_sprite->get_x_y_443580();
 
         if (field_14_car->field_58_physics)
         {
-            car_box_or_car_velocity = field_14_car->field_58_physics->GetPointVelocity_561350(&vector3);
+            velocity = field_14_car->field_58_physics->GetPointVelocity_561350(&cannon_pos);
         }
         else
         {
-            car_box_or_car_velocity.reset();
+            velocity.reset();
         }
         set_field_2C_4CCA80(1);
         if (!field_4)
@@ -1441,7 +1440,7 @@ void Weapon_30::tank_main_gun_5E10E0()
                                                cannon_pos.y,
                                                field_14_car->field_50_car_sprite->field_1C_zpos,
                                                cannon_angle,
-                                               car_box_or_car_velocity))
+                                               velocity))
             {
                 if (field_24_pPed->IsField238_45EDE0(2))
                 {
@@ -1462,7 +1461,7 @@ void Weapon_30::tank_main_gun_5E10E0()
                                            cannon_pos.y,
                                            field_14_car->field_50_car_sprite->field_1C_zpos,
                                            cannon_angle,
-                                           car_box_or_car_velocity);
+                                           velocity);
             field_2_reload_speed = 5;
         }
         Weapon_30::TickReloadSpeed_5DCF40();
