@@ -1599,20 +1599,21 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FEBF4, Fix16(0.5), 0x6FEBF4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FECF4, Fix16(3), 0x6FECF4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FEDE0, Fix16(0x1EB, 0), 0x6FEDE0);
 
-WIP_FUNC(0x575310)
+MATCH_FUNC(0x575310)
 void PoliceCrew_38::sub_575310()
 {
     byte_6FEB48 = 1;
     gCurrentCrewPed_6FEDDC->set_objective_target_ped_403AC0(field_14_pService->field_0_criminal_ped);
 
-    Fix16 player_y = gCurrentCrewPed_6FEDDC->field_1AC_cam.y;
-    Fix16 player_x = gCurrentCrewPed_6FEDDC->get_cam_x();
     Ped* pCriminal = field_14_pService->field_0_criminal_ped;
-    Fix16 criminal_x = pCriminal->get_cam_x();
-    Fix16 criminal_y = pCriminal->field_1AC_cam.y;
-
+    // Each branch reads the positions itself (in 9.6f's MaxAbsDistance_42A6B0 argument order);
+    // VC6 hoists the common loads above the branch.
     if (pCriminal->field_168_game_object)
     {
+        Fix16 criminal_y = pCriminal->get_cam_y();
+        Fix16 criminal_x = pCriminal->get_cam_x();
+        Fix16 player_y = gCurrentCrewPed_6FEDDC->get_cam_y();
+        Fix16 player_x = gCurrentCrewPed_6FEDDC->get_cam_x();
         Fix16 dx = criminal_x - player_x;
         Fix16 dy = criminal_y - player_y;
         Fix16 dist;
@@ -1633,6 +1634,10 @@ void PoliceCrew_38::sub_575310()
     }
     else
     {
+        Fix16 criminal_y = pCriminal->get_cam_y();
+        Fix16 criminal_x = pCriminal->get_cam_x();
+        Fix16 player_y = gCurrentCrewPed_6FEDDC->get_cam_y();
+        Fix16 player_x = gCurrentCrewPed_6FEDDC->get_cam_x();
         Fix16 dx = criminal_x - player_x;
         Fix16 dy = criminal_y - player_y;
         Fix16 dist;
@@ -1741,11 +1746,9 @@ void PoliceCrew_38::Service_575590()
 }
 
 // TODO: logic matches, but the original keeps field_75_count in bl and i in cl
-WIP_FUNC(0x575650)
+MATCH_FUNC(0x575650)
 void PoliceCrew_38::sub_575650()
 {
-    WIP_IMPLEMENTED;
-
     Police_7C* pService = field_14_pService;
     if (pService)
     {
@@ -1756,13 +1759,14 @@ void PoliceCrew_38::sub_575650()
                 if (i == pService->field_75_count - 1)
                 {
                     pService->field_20_crews[i] = NULL;
+                    pService->field_75_count--;
                 }
                 else
                 {
                     pService->field_20_crews[i] = pService->field_20_crews[pService->field_75_count - 1];
+                    pService->field_20_crews[pService->field_75_count - 1] = NULL;
+                    pService->field_75_count--;
                 }
-                pService->field_20_crews[pService->field_75_count - 1] = NULL;
-                pService->field_75_count--;
 
                 switch (field_10_subObj->field_20_crew_type)
                 {
