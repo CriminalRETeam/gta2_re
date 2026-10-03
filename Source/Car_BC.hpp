@@ -531,7 +531,8 @@ class Car_BC
     EXPORT void AssignDriverBlameForExplosion_43B7B0(Car_BC* a2);
     EXPORT bool sub_43B850(s32 a2);
     EXPORT void SpawnDamageFireEffect_43B870(s32 a2, Fix16_Point* a3);
-    EXPORT s32 sub_43BB90(u8 a1);
+    // Called without this in SpawnDamageFireEffect_43B870: a static __stdcall
+    EXPORT static s32 __stdcall sub_43BB90(u8 a1);
     EXPORT void SpawnFire_43BBC0();
     EXPORT void SetupCarPhysicsAndSpriteBinding_43BC30();
     EXPORT void SetupCarPhysicsAndSpriteBinding_43BCA0();

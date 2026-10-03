@@ -2917,76 +2917,90 @@ void Car_BC::SpawnDamageFireEffect_43B870(s32 k1Or2, Fix16_Point* pPos)
 {
     WIP_IMPLEMENTED;
 
+
     car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
 
     Fix16 x_hit;
     Fix16 y_hit;
+    Fix16_Point rot_point; // function scope: the original has its EH state 0 from entry
+
     if (pPos->IsNull_420360())
     {
         switch ((u8)k1Or2)
         {
             case 1u: // small fire
-                y_hit = gPixelsToFix16_6F6850.SignedPixelsToFix16_440860(pCarInfo->rear_window_offset);
+                {
+                    // A named local: the original copies y_hit from the call's own slot, not through eax
+                    Fix16 off = gPixelsToFix16_6F6850.SignedPixelsToFix16_440860(pCarInfo->rear_window_offset);
+                    y_hit = off;
+                }
                 if (gCar_6C_677930->field_1A_fire_effect_cycle && gCar_6C_677930->field_1A_fire_effect_cycle != 2)
                 {
-                    x_hit = (gFix16_6777CC * field_68_scale);
+                    x_hit = gFix16_6777CC;
                 }
                 else
                 {
-                    x_hit = ((dword_677214 * gPixelsToFix16_6F6850.list[pCarInfo->w]) * field_68_scale);
+                    x_hit = dword_677214 * gPixelsToFix16_6F6850.list[pCarInfo->w];
                 }
                 break;
 
             case 2u: // huge fire
-            {
-                Fix16 v7 = -(dword_677214 * gPixelsToFix16_6F6850.list[pCarInfo->w]);
-                if (!gCar_6C_677930->field_1A_fire_effect_cycle || gCar_6C_677930->field_1A_fire_effect_cycle == 3)
+                x_hit = -(dword_677214 * gPixelsToFix16_6F6850.list[pCarInfo->w]);
+                if (gCar_6C_677930->field_1A_fire_effect_cycle && gCar_6C_677930->field_1A_fire_effect_cycle != 3)
                 {
-                    y_hit = gPixelsToFix16_6F6850.SignedPixelsToFix16_440860(pCarInfo->rear_window_offset);
+                    {
+                        // A named local: the original copies y_hit from the call's own slot, not through eax
+                        Fix16 off = gPixelsToFix16_6F6850.SignedPixelsToFix16_440860(pCarInfo->front_window_offset);
+                        y_hit = off;
+                    }
                 }
                 else
                 {
-                    y_hit = gPixelsToFix16_6F6850.SignedPixelsToFix16_440860(pCarInfo->front_window_offset);
+                    {
+                        // A named local: the original copies y_hit from the call's own slot, not through eax
+                        Fix16 off = gPixelsToFix16_6F6850.SignedPixelsToFix16_440860(pCarInfo->rear_window_offset);
+                        y_hit = off;
+                    }
                 }
-                x_hit = (v7 * field_68_scale);
                 break;
-            }
 
             case 3u: // also a big fire but never used?
-                y_hit = gPixelsToFix16_6F6850.SignedPixelsToFix16_440860(pCarInfo->front_window_offset);
+                {
+                    // A named local: the original copies y_hit from the call's own slot, not through eax
+                    Fix16 off = gPixelsToFix16_6F6850.SignedPixelsToFix16_440860(pCarInfo->front_window_offset);
+                    y_hit = off;
+                }
                 if (gCar_6C_677930->field_1A_fire_effect_cycle && gCar_6C_677930->field_1A_fire_effect_cycle != 2)
                 {
-                    x_hit = (gFix16_6777CC * field_68_scale);
+                    x_hit = gFix16_6777CC;
                 }
                 else
                 {
-                    x_hit = ((dword_677214 * gPixelsToFix16_6F6850.list[pCarInfo->w]) * field_68_scale);
+                    x_hit = dword_677214 * gPixelsToFix16_6F6850.list[pCarInfo->w];
                 }
                 break;
 
             default:
-                // ??
-                x_hit = (field_68_scale * k1Or2);
+                // The raw argument bits, scaled below like the others
+                x_hit.mValue = k1Or2;
                 break;
         }
+        x_hit = x_hit * field_68_scale;
+        y_hit = y_hit * field_68_scale;
     }
     else
     {
-        Fix16_Point x_y_443580 = field_50_car_sprite->get_x_y_443580();
-        Fix16_Point tmpSub = *pPos - x_y_443580;
-
-        Fix16_Point rot_point = tmpSub;
-        rot_point.RotateByAngle_40F6B0(field_50_car_sprite->field_0);
+        rot_point = *pPos - field_50_car_sprite->get_x_y_443580();
+        rot_point.RotateByAngle_OneMulInline_40F6B0(field_50_car_sprite->field_0);
         x_hit = rot_point.x;
         y_hit = rot_point.y;
     }
 
-    const s32 wolfy_state = Car_BC::sub_43BB90(k1Or2);
     Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(field_50_car_sprite->field_14_xy.x,
                                                                       field_50_car_sprite->field_14_xy.y,
-                                                                      Fix16(2),
+                                                                      2, // implicit: the out-of-line Fix16(s32) ctor
                                                                       kAngZero_67791C,
-                                                                      wolfy_state,
+                                                                      Car_BC::sub_43BB90(k1Or2),
                                                                       field_70_exploder_ped_id);
     if (pExplosion)
     {
@@ -2999,7 +3013,7 @@ void Car_BC::SpawnDamageFireEffect_43B870(s32 k1Or2, Fix16_Point* pPos)
 }
 
 MATCH_FUNC(0x43bb90)
-s32 Car_BC::sub_43BB90(u8 a1)
+s32 __stdcall Car_BC::sub_43BB90(u8 a1)
 {
     switch (a1)
     {
