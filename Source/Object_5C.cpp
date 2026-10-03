@@ -1905,19 +1905,23 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
 
     if (!field_25_removal_state)
     {
+        Fix16 xpos;
+        Fix16 ypos;
         if (x == kFpZero_6F8E10 && y == kFpZero_6F8E10)
         {
-            x = pSprite->field_14_xy.x;
-            y = pSprite->field_14_xy.y;
+            xpos = pSprite->field_14_xy.x;
+            ypos = pSprite->field_14_xy.y;
         }
         else
         {
-            Ang16::RotateVector_41FC90(x, y, pSprite->field_0);
-            x += pSprite->field_14_xy.x;
-            y += pSprite->field_14_xy.y;
+            xpos = x;
+            ypos = y;
+            Ang16::RotateVector_41FC90(xpos, ypos, pSprite->field_0);
+            xpos += pSprite->field_14_xy.x;
+            ypos += pSprite->field_14_xy.y;
         }
 
-        field_4->set_xyz_lazy_420600(x, y, pSprite->field_1C_zpos);
+        field_4->set_xyz_lazy_420600(xpos, ypos, pSprite->field_1C_zpos);
         field_4->set_ang_lazy_420690(pSprite->field_0 + rot);
 
         switch (field_8->field_34_behavior_type)
@@ -1932,6 +1936,23 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
                 {
                     switch (pSprite->get_type_416B40())
                     {
+                        case sprite_types_enum::ped_3:
+                            if (field_C_pAny.pExplosion->Update_5434A0(field_10_obj_3c->field_C_speed, field_10_obj_3c->field_4_angle))
+                            {
+                                byte_6F8C68 = 0;
+                                return 1;
+                            }
+                            break;
+
+                        case sprite_types_enum::code_obj1_4:
+                        case sprite_types_enum::map_obj_5:
+                            if (field_C_pAny.pExplosion->Update_5434A0(field_10_obj_3c->field_C_speed, field_10_obj_3c->field_4_angle))
+                            {
+                                byte_6F8C68 = 0;
+                                return 1;
+                            }
+                            break;
+
                         case sprite_types_enum::car_2:
                             if (field_C_pAny.pExplosion->IsState_5435D0())
                             {
@@ -1941,16 +1962,6 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
 
                             field_C_pAny.pExplosion->field_1C = pSprite;
 
-                            if (field_C_pAny.pExplosion->Update_5434A0(field_10_obj_3c->field_C_speed, field_10_obj_3c->field_4_angle))
-                            {
-                                byte_6F8C68 = 0;
-                                return 1;
-                            }
-                            break;
-
-                        case sprite_types_enum::ped_3:
-                        case sprite_types_enum::code_obj1_4:
-                        case sprite_types_enum::map_obj_5:
                             if (field_C_pAny.pExplosion->Update_5434A0(field_10_obj_3c->field_C_speed, field_10_obj_3c->field_4_angle))
                             {
                                 byte_6F8C68 = 0;
@@ -1973,15 +1984,12 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
                 break;
         }
 
-        if (field_10_obj_3c)
+        if (field_10_obj_3c && field_10_obj_3c->field_0.field_0_p18)
         {
-            if (field_10_obj_3c->field_0.field_0_p18)
-            {
-                field_10_obj_3c->field_0.PoolUpdate_5A6F70(field_4);
-            }
+            field_10_obj_3c->field_0.PoolUpdate_5A6F70(field_4);
         }
 
-        if (field_8->field_34_behavior_type != 11)
+        if (field_8->field_34_behavior_type != object_behavior_type::light_type_11)
         {
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_4);
         }
