@@ -7334,10 +7334,9 @@ void Car_14::GenerateTraffic_583670()
     }
 }
 
-WIP_FUNC(0x583750)
-Fix16* __stdcall Car_14::GetRandomTrafficSpeed_583750(Fix16* pRetF16, Fix16 max_speed, u8* pOut)
+MATCH_FUNC(0x583750)
+Fix16 __stdcall Car_14::GetRandomTrafficSpeed_583750(Fix16 max_speed, u8* pOut)
 {
-    WIP_IMPLEMENTED;
 
     Fix16 v7;
     Fix16 lo;
@@ -7369,8 +7368,11 @@ Fix16* __stdcall Car_14::GetRandomTrafficSpeed_583750(Fix16* pRetF16, Fix16 max_
         lo = dword_6FF6A4;
         hi = dword_6FF724;
     }
-    *pRetF16 = lo + v7 * (hi - lo);
-    return pRetF16;
+    // Fix16::operator= (not the copy ctor) on the result: it loads the return slot
+    // into ecx before the add and gives the trailing `mov eax, ecx`.
+    Fix16 result;
+    result = lo + v7 * (hi - lo);
+    return result;
 }
 
 // TODO: Broken in patched, many cars spawn in wrong directions :)
@@ -7747,7 +7749,8 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                 }
 
                 pModelPhysics = gCarInfo_808_678098->GetModelPhysicsFromIdx_4546B0(car_model_idx);
-                v34 = Car_14::GetRandomTrafficSpeed_583750(&v133, pModelPhysics->field_28_max_speed, &v107);
+                v133 = Car_14::GetRandomTrafficSpeed_583750(pModelPhysics->field_28_max_speed, &v107);
+                v34 = &v133;
                 v35 = y_coord - val3;
                 v36 = x_coord - val2;
                 gTrafficCarSpeed_6FF570 = *v34;
@@ -7874,7 +7877,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                         v126 = v70;
                         v121 = v69;
                         v124 = v70;
-                        gTrafficCarSpeed_6FF570 = *Car_14::GetRandomTrafficSpeed_583750(v134, dword_6FF6A4, &v107);
+                        gTrafficCarSpeed_6FF570 = Car_14::GetRandomTrafficSpeed_583750(dword_6FF6A4, &v107);
                         break;
                     case 2:
                         v71 = v120;
@@ -7918,7 +7921,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                         v126 = v70;
                         v121 = v69;
                         v124 = v70;
-                        gTrafficCarSpeed_6FF570 = *Car_14::GetRandomTrafficSpeed_583750(&v134, dword_6FF6A4, &v107);
+                        gTrafficCarSpeed_6FF570 = Car_14::GetRandomTrafficSpeed_583750(dword_6FF6A4, &v107);
                         break;
                     case 2:
                         v69 = x_coord + val2 * Car_14::sub_5838E0(v120);
