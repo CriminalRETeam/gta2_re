@@ -78,6 +78,10 @@ DEFINE_GLOBAL(s32, gNetTimeLimit_6F573C, 0x6F573C); // TODO: move
 DEFINE_GLOBAL(s32, gHudTimerIdx_6F5860, 0x6F5860); // TODO: move
 EXTERN_GLOBAL(s32, gNetTimeLimitEnabled_6F58A4); // TODO: move
 DEFINE_GLOBAL(s32, dword_6F58A0, 0x6F58A0); // TODO: move
+DEFINE_GLOBAL_ARRAY(u8, byte_6F5AC8, 14, 0x6F5AC8); // TODO: move
+DEFINE_GLOBAL(u32, dword_6F5B00, 0x6F5B00); // TODO: move
+DEFINE_GLOBAL(u32, dword_6F580C, 0x6F580C); // TODO: move
+DEFINE_GLOBAL(u32, dword_6F5AC0, 0x6F5AC0); // TODO: move
 DEFINE_GLOBAL(s32, dword_6F5858, 0x6F5858); // TODO: move
 DEFINE_GLOBAL(s32, dword_6F5B74, 0x6F5B74);
 DEFINE_GLOBAL(s32, dword_6F5944, 0x6F5944);
@@ -920,7 +924,7 @@ void __stdcall ExitGameCallback_4DB0D0(Game_0x40* pGame, int reason)
 
 // todo move to another file for ordering
 // https://decomp.me/scratch/VazoB
-WIP_FUNC(0x4DA4D0)
+MATCH_FUNC(0x4DA4D0)
 EXPORT void __stdcall InitializeGame_4DA4D0()
 {
     if (bReplayMode_6F5B71)
@@ -948,25 +952,18 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
         memset(&gCurrentNetInputs_6F57D8, 0, sizeof(gCurrentNetInputs_6F57D8));
         memset(&gPrevNetInputs_6F5B28, 0, sizeof(gPrevNetInputs_6F5B28));
 
-        // Here
-
+        memset(byte_6F5AC8, 0, sizeof(byte_6F5AC8));
         gNetworkPlayerIdx_6F56C8 = gNetPlay_7071E8.GetPlayerIdx_409C40();
         gpInputBuffer_6F58C0 = &gCurrentNetInputs_6F57D8.field_0_inputs[0];
-
-        //dword_6F5AC8 = 0;
-        //dword_6F5ACC = 0;
-        //dword_6F5AD0 = 0;
-        //word_6F5AD4 = 0;
-
         gCurrentInputsBufferSize_6F58C4 = 48;
-        //dword_6F5B00 = 0;
+        dword_6F5B00 = 0;
         bRecordStartTime_6F593C = 1;
         gPlayerQuit_6F5AEC = false;
         gNetInUsePlayerBits_6F56B8 = 0;
         gNetworkFrameCounter_6F5868 = 0;
-        //dword_6F580C = 0;
+        dword_6F580C = 0;
         gTotalNetworkTime_6F5980 = 0;
-        //dword_6F5AC0 = 0;
+        dword_6F5AC0 = 0;
         gNetTimeLimit_6F573C = gLucid_hamilton_67E8E0.GetTimeLimit_461DC0();
         if (gNetTimeLimit_6F573C > 60)
         {
