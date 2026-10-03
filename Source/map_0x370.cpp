@@ -26,7 +26,10 @@ DEFINE_GLOBAL(gmp_block_info, gBlockInfo1_6F5F40, 0x6F5F40);
 DEFINE_GLOBAL(gmp_block_info, gBlockInfo2_6F6028, 0x6F6028);
 DEFINE_GLOBAL_ARRAY(gmp_map_slope, gGmpSlopes_6F5BA8, 64, 0x6F5BA8);
 DEFINE_GLOBAL(gmp_map_slope*, dword_6F5EC8, 0x6F5EC8);
-DEFINE_GLOBAL(s16, gFaceCollisionMask_6F6002, 0x6F6002);
+// Defined in sprite.cpp: with the definition in this TU VC6 reads the s16 mask with a 32-bit mov
+// (it knows the padding is safe to read), while the original's `mov 0x6F6002,%cx; test %cx,face`
+// needs an extern declaration (Map_0x370::sub_4E1A30, CanSpriteEnterTile_4E1E00).
+EXTERN_GLOBAL(s16, gFaceCollisionMask_6F6002);
 DEFINE_GLOBAL(s32, gPurple_right_6F5B80, 0x6F5B80);
 DEFINE_GLOBAL(s32, gPurple_left_6F5FD4, 0x6F5FD4);
 DEFINE_GLOBAL(s32, dword_6F620C, 0x6F620C);
@@ -390,11 +393,13 @@ gmp_map_zone* Map_0x370::GetNearestZoneOfType_4DF240(u8 xpos, u8 ypos, u8 zone_t
     return pOtherZone;
 }
 
-WIP_FUNC(0x4DF3E0)
+MATCH_FUNC(0x4DF3E0)
 gmp_map_zone* Map_0x370::sub_4DF3E0(u8 xpos, u8 ypos, u8 zone_type)
 {
-    Fix16 best_dist = kFp255_6F5B8C;
+    // pBestZone declared before best_dist (prologue order) and ternary abs values (the compare uses the
+    // dist copy, not diff_y)
     gmp_map_zone* pBestZone = 0;
+    Fix16 best_dist = kFp255_6F5B8C;
 
     if (field_328_pZoneData == 0)
     {
@@ -408,18 +413,12 @@ gmp_map_zone* Map_0x370::sub_4DF3E0(u8 xpos, u8 ypos, u8 zone_type)
         {
             s32 diff_x = (xpos << 14) - ((pZone->field_1_x << 14) + ((pZone->field_3_w >> 1) << 14));
             s32 diff_y = (ypos << 14) - ((pZone->field_2_y << 14) + ((pZone->field_4_h >> 1) << 14));
-            if (diff_y <= 0)
+            s32 abs_y = diff_y > 0 ? diff_y : -diff_y;
+            s32 abs_x = diff_x > 0 ? diff_x : -diff_x;
+            Fix16 dist(abs_y, 0);
+            if (abs_x > dist.mValue)
             {
-                diff_y = -diff_y;
-            }
-            Fix16 dist(diff_y, 0);
-            if (diff_x <= 0)
-            {
-                diff_x = -diff_x;
-            }
-            if (diff_x > dist.mValue)
-            {
-                dist.mValue = diff_x;
+                dist.mValue = abs_x;
             }
             if (dist < best_dist)
             {
@@ -1372,16 +1371,9 @@ bool Map_0x370::HasWallInArea_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max,
     return false;
 }
 
-// It is not working for some reason :(
-// https://decomp.me/scratch/X2qgz
-WIP_FUNC(0x4E1A30)
+MATCH_FUNC(0x4E1A30)
 bool Map_0x370::sub_4E1A30(s32 tileX_min, s32 tileX_max, s32 tileY_min, s32 tileY_max, s32 zLevel)
 {
-    WIP_IMPLEMENTED;
-
-    // Left: the original loads the mask with a 16-bit `mov %cx` and does `test %cx, face`; VC6 here
-    // loads the face into cx and the mask with a 32-bit mov (same with u16/s16, either operand order,
-    // a u16 local, a u16 result cast, other names or defining the global in another TU).
     // The hit tests take (u32)y -> Fix16(u32) 0x4926F0, y + 1 -> Fix16(s32) 0x4369F0 and the
     // face coordinate x + 1 / y + 1 (inlined, strength reduced for x).
 
@@ -3478,8 +3470,11 @@ s32 Map_0x370::sub_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
     SetRoadBlockAt_4E6660(pBlock, x, y, z);
     s32 direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 1);
 
-    Fix16 tmp;
-    Fix16 side = *sub_4E5D70(&tmp, x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
+    Fix16 side;
+    {
+        Fix16 tmp;
+        side = *sub_4E5D70(&tmp, x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
+    }
     if (side > kFpHalf_6F5F18)
     {
         switch (direction)
@@ -3520,6 +3515,7 @@ s32 Map_0x370::sub_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
     gmp_block_info* pPrev;
     if (side != kFpHalf_6F5F18)
     {
+        Fix16 tmp;
         Fix16 to_centre = *sub_4E5E00(&tmp, x, y, ReturnAngleFromRoadDirection_4F7940(&direction)) - kFpHalf_6F5F18;
         if (to_centre > kFpZero_6F610C)
         {
@@ -3561,6 +3557,7 @@ s32 Map_0x370::sub_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
     }
     else
     {
+        Fix16 tmp;
         Fix16 to_edge = *sub_4E5E00(&tmp, x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
         if (to_edge > kFpZero_6F610C)
         {
@@ -3609,6 +3606,7 @@ s32 Map_0x370::sub_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
             if (!HasGreenArrowForPathDirection_4E5E90(pBlock, direction, 1))
             {
                 pPrev = pBlock;
+                Fix16 tmp;
                 Fix16 to_edge = *sub_4E5E00(&tmp, x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
                 sub_4E5D10(&x,
                            &y,
