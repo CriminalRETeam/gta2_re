@@ -747,11 +747,19 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
 }
 
 // 9.6f 0x48EB00
-WIP_FUNC(0x541d60)
+// Ang16::PolarToCartesian_41FC20 as these states expand it: the sine multiply inline and the
+// cosine multiply through the out-of-line Multiply_408680. Forced inline (like the
+// Fix16_To_Ang16_inlined_40F540 they use): as a plain inline, VC6 runs out of inline expansions
+// and calls the sine multiply out of line too.
+INLINE_MODE static void PolarToCartesian_SinInline_41FC20(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2)
+{
+    ret1 = Ang16::sine_40F500(angle) * radius;
+    ret2 = Ang16::cosine_40F520(angle).Multiply_408680(radius);
+}
+
+MATCH_FUNC(0x541d60)
 void Wolfy_30::state_18_33_541D60()
 {
-    WIP_IMPLEMENTED;
-
     if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0())
     {
         if ((u16)field_1A_timer > 0x52u)
@@ -760,13 +768,10 @@ void Wolfy_30::state_18_33_541D60()
             {
                 Fix16 radius = (this->field_24 * Fix16(gRng_6F6784.get_int_4F7AE0(8)));
 
-                this->field_22 = Ang16::Fix16_To_Ang16_40F540(dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(360)));
+                this->field_22 = Ang16::Fix16_To_Ang16_inlined_40F540(dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(360)));
 
-                // Ang16::PolarToCartesian_41FC20 (9.6f) written out: the function ran
-                // out of inline expansions, so the second multiply is the out of line
-                // operator* (with the helper neither multiply gets inlined here)
-                stru_6FD388 = Ang16::sine_40F500(field_22) * radius;
-                stru_6FD38C = Ang16::cosine_40F520(field_22).Multiply_408680(radius);
+                // 9.6f calls Ang16::PolarToCartesian_41FC20
+                PolarToCartesian_SinInline_41FC20(field_22, radius, stru_6FD388, stru_6FD38C);
 
                 // NOTE: This proves these 2 vars are not a Fix16_Point
                 stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
@@ -804,21 +809,18 @@ void Wolfy_30::state_18_33_541D60()
     }
 }
 
-WIP_FUNC(0x542060)
+MATCH_FUNC(0x542060)
 void Wolfy_30::state_19_32_542060()
 {
-    WIP_IMPLEMENTED;
-
     if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0())
     {
         if (this->field_1A_timer > 8u)
         {
             Fix16 v24 = (this->field_24 * Fix16(gRng_6F6784.get_int_4F7AE0(48)));
-            this->field_22 = Ang16::Fix16_To_Ang16_40F540(dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(360)));
+            this->field_22 = Ang16::Fix16_To_Ang16_inlined_40F540(dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(360)));
 
-            // 9.6f inlined: PolarToCartesian_41FC20 (10.5 expands only the first multiply)
-            stru_6FD388 = v24 * Ang16::sine_40F500(field_22);
-            stru_6FD38C = Ang16::cosine_40F520(field_22).Multiply_408680(v24);
+            // 9.6f calls Ang16::PolarToCartesian_41FC20
+            PolarToCartesian_SinInline_41FC20(field_22, v24, stru_6FD388, stru_6FD38C);
 
             stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
             stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
@@ -855,21 +857,18 @@ void Wolfy_30::state_19_32_542060()
     }
 }
 
-WIP_FUNC(0x542340)
+MATCH_FUNC(0x542340)
 void Wolfy_30::state_20_542340()
 {
-    WIP_IMPLEMENTED;
-
     if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0())
     {
         if (this->field_1A_timer > 8u)
         {
             Fix16 v24 = (this->field_24 * Fix16(gRng_6F6784.get_int_4F7AE0(80)));
-            this->field_22 = Ang16::Fix16_To_Ang16_40F540(dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(360)));
+            this->field_22 = Ang16::Fix16_To_Ang16_inlined_40F540(dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(360)));
 
-            // PolarToCartesian_41FC20, with the second multiply out of line (inline budget)
-            stru_6FD388 = Ang16::sine_40F500(field_22) * v24;
-            stru_6FD38C = Ang16::cosine_40F520(field_22).Multiply_408680(v24);
+            // 9.6f calls Ang16::PolarToCartesian_41FC20
+            PolarToCartesian_SinInline_41FC20(field_22, v24, stru_6FD388, stru_6FD38C);
 
             stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
             stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
