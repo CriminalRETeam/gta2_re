@@ -2685,11 +2685,9 @@ void Hud_Brief_704::StartCurrentBrief_5D39D0()
 }
 
 // https://decomp.me/scratch/exFU8
-WIP_FUNC(0x5d3b80)
+MATCH_FUNC(0x5d3b80)
 void Hud_Brief_704::DrawBrief_5D3B80()
 {
-    WIP_IMPLEMENTED;
-
     if (field_6F8_curr_brief)
     {
         DrawFigureScaled_5D7670(6, // type
@@ -2702,7 +2700,8 @@ void Hud_Brief_704::DrawBrief_5D3B80()
                    0,
                    0);
 
-        s32 first_line_ypos = 480 - GetLineSpacingFromFontType_5D7700_inlined(gBriefFont_7065C4) * field_508_num_lines;
+        // u32: converts with the Fix16(u32) constructor, whose out-of-line copy is 0x4926F0
+        u32 first_line_ypos = 480 - GetLineSpacingFromFontType_5D7700_inlined(gBriefFont_7065C4) * field_508_num_lines;
         DrawText_5D7720(field_0_str, // str
                         (64), // x
                         first_line_ypos, // y
