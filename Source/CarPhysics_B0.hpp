@@ -53,6 +53,16 @@ enum
 class Fix16_Point_ByValue : public Fix16_Point_POD
 {
   public:
+    Fix16_Point_ByValue()
+    {
+    }
+
+    Fix16_Point_ByValue(const Fix16& a1, const Fix16& a2)
+    {
+        x = a1;
+        y = a2;
+    }
+
     ~Fix16_Point_ByValue()
     {
     }
@@ -180,7 +190,7 @@ class CarPhysics_B0
     EXPORT void HandleMapBoundaryCollisionX_55C820(Fix16_Point& a2, Ang16 a3);
     EXPORT void DispatchCollision_55CA70(Fix16_Point& a2, Ang16 a3);
     EXPORT void ReplayAndDispatchCollision_55CBB0(Fix16 a2, Fix16 a3);
-    EXPORT void SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 surface);
+    EXPORT void SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point_ByValue arg_4_, s32 surface);
     EXPORT void UpdateWheelSkidEffects_55DC00();
     EXPORT void DoSkidmarks_55E260();
     EXPORT char_type StepMovementAndCollisions_55E470();

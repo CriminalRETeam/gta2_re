@@ -1760,9 +1760,11 @@ EXPORT s32 __stdcall get_skid_obj_type_55D490(s32 surface, Fix16 box_idx)
 
 // 9.6f 0x4A0120
 WIP_FUNC(0x55d200)
-void CarPhysics_B0::SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 surface)
+void CarPhysics_B0::SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point_ByValue arg_4_, s32 surface)
 {
     WIP_IMPLEMENTED;
+
+    Fix16_Point& arg_4 = *(Fix16_Point*)&arg_4_;
 
     Fix16_Point t;
     Fix16_Point v15;
@@ -1809,44 +1811,32 @@ void CarPhysics_B0::SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 
 }
 
 // https://decomp.me/scratch/y9UHj
-WIP_FUNC(0x55dc00)
+MATCH_FUNC(0x55dc00)
 void CarPhysics_B0::UpdateWheelSkidEffects_55DC00()
 {
-    WIP_IMPLEMENTED;
 
     if (field_5C_pCar->IsOnScreenForAnyPlayer_43B730())
     {
-        Fix16_Point rear_point;
-        
-        s32 b_d9C;
-        if (field_9C_block_spec == 2 || field_9C_block_spec == 10)
-        {
-            b_d9C = 2;
-        }
-        else
-        {
-            b_d9C = 0;
-        }
-        
+        Fix16 rear_wheel_offset_;
+        Fix16 front_wheel_offset_;
+
+        s32 b_d9C = (field_9C_block_spec == 2 || field_9C_block_spec == 10) ? 2 : 0;
+
         Fix16 half_width = field_5C_pCar->get_car_width() * dword_6FE004;
-        Fix16 rear_wheel_offset_ = field_5C_pCar->ApplyScale_421910(gCarInfo_2C_6FE0E4->field_8_rear_wheel_offset);
-        Fix16 front_wheel_offset_ = field_5C_pCar->ApplyScale_421910(gCarInfo_2C_6FE0E4->field_4_front_wheel_offset);
+        rear_wheel_offset_ = field_5C_pCar->ApplyScale_421910(gCarInfo_2C_6FE0E4->field_8_rear_wheel_offset);
+        front_wheel_offset_ = field_5C_pCar->ApplyScale_421910(gCarInfo_2C_6FE0E4->field_4_front_wheel_offset);
 
         if (field_98_surface_type == car_surface_type::unknown_surface_7 || field_98_surface_type == car_surface_type::water_surface_8 || field_98_surface_type == car_surface_type::unknown_surface_9)
         {
-            rear_point = Fix16_Point(-half_width, rear_wheel_offset_);
-            SpawnSkidSegment_55D200(0, rear_point, 3); // spawns the skid obj?
-            rear_point = Fix16_Point(half_width, rear_wheel_offset_);
-            SpawnSkidSegment_55D200(1, rear_point, 3);
+            SpawnSkidSegment_55D200(0, Fix16_Point_ByValue(-half_width, rear_wheel_offset_), 3); // spawns the skid obj?
+            SpawnSkidSegment_55D200(1, Fix16_Point_ByValue(half_width, rear_wheel_offset_), 3);
         }
         else if ((field_88_rear_skid >= gCarInfo_2C_6FE0E4->field_28_skid_threshhold_2 ||
                  field_AC_drive_wheels_locked_q > 0 && gCarInfo_2C_6FE0E4->field_20_front_drive_bias > kFP16Zero_6FE20C) &&
                 field_98_surface_type != car_surface_type::air_surface_6)
         {
-            rear_point = Fix16_Point(-half_width, rear_wheel_offset_);
-            SpawnSkidSegment_55D200(0, rear_point, b_d9C);
-            rear_point = Fix16_Point(half_width, rear_wheel_offset_);
-            SpawnSkidSegment_55D200(1, rear_point, b_d9C);
+            SpawnSkidSegment_55D200(0, Fix16_Point_ByValue(-half_width, rear_wheel_offset_), b_d9C);
+            SpawnSkidSegment_55D200(1, Fix16_Point_ByValue(half_width, rear_wheel_offset_), b_d9C);
         }
         else
         {
@@ -1854,23 +1844,17 @@ void CarPhysics_B0::UpdateWheelSkidEffects_55DC00()
             field_10_last_skid_pos[1].reset();
         }
 
-        Fix16_Point front_point;
-
         if (field_98_surface_type == car_surface_type::unknown_surface_7 || field_98_surface_type == car_surface_type::water_surface_8 || field_98_surface_type == car_surface_type::unknown_surface_9)
         {
-            front_point = Fix16_Point(-half_width, front_wheel_offset_);
-            SpawnSkidSegment_55D200(3, front_point, 3);
-            front_point = Fix16_Point(half_width, front_wheel_offset_);
-            SpawnSkidSegment_55D200(2, front_point, 3);
+            SpawnSkidSegment_55D200(3, Fix16_Point_ByValue(-half_width, front_wheel_offset_), 3);
+            SpawnSkidSegment_55D200(2, Fix16_Point_ByValue(half_width, front_wheel_offset_), 3);
         }
-        else if (field_84_front_skid >= gCarInfo_2C_6FE0E4->field_24_skid_threshhold_1 ||
-                     (field_AC_drive_wheels_locked_q > 0 && gCarInfo_48_6FE258->field_8_front_drive_bias > kFP16Zero_6FE20C) &&
+        else if ((field_84_front_skid >= gCarInfo_2C_6FE0E4->field_24_skid_threshhold_1 ||
+                  field_AC_drive_wheels_locked_q > 0 && gCarInfo_48_6FE258->field_8_front_drive_bias > kFP16Zero_6FE20C) &&
                  field_98_surface_type != car_surface_type::air_surface_6)
         {
-            front_point = Fix16_Point(-half_width, front_wheel_offset_);
-            SpawnSkidSegment_55D200(3, front_point, b_d9C);
-            front_point = Fix16_Point(half_width, front_wheel_offset_);
-            SpawnSkidSegment_55D200(2, front_point, b_d9C);
+            SpawnSkidSegment_55D200(3, Fix16_Point_ByValue(-half_width, front_wheel_offset_), b_d9C);
+            SpawnSkidSegment_55D200(2, Fix16_Point_ByValue(half_width, front_wheel_offset_), b_d9C);
         }
         else
         {
