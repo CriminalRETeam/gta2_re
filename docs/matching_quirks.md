@@ -469,6 +469,12 @@ before a call to our inline `operator-()` that wasn't inlined; the original call
 function and keeps it (`Object_2C::ResolveCollisionWithPed_5229B0`). `ApplyExplosionImpulse_443710` is
 the reverse: `throw()` on `Divide_442CB0` would fix it but breaks Divide's own match.
 
+**A pointer local can be rematerialised while a repeated expression is CSE'd into a slot.** In
+`Ped::FollowCarOnFootWithOffset_46A350` a `Sprite*` local was recomputed from `field_150->field_50`
+each use; writing the expression out each time gave the original's stack slot.
+
+**A one-case switch gives `dec; je`** where an `if` gives `sbb` (`ExplodingScore_50::DrawSingleNumber_597100`).
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 
