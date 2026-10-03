@@ -475,6 +475,13 @@ each use; writing the expression out each time gave the original's stack slot.
 
 **A one-case switch gives `dec; je`** where an `if` gives `sbb` (`ExplodingScore_50::DrawSingleNumber_597100`).
 
+**A trivial inline getter instead of a direct field read changes load order**: with the getter the
+global was loaded before the pointer chain (`Weapon_30::car_mine_5E2550`, `GetH_447E10`).
+
+**Calling a non-`throw()` function while a `Fix16_Point` is alive creates the EH frame.** The original
+`ComputeRelativePointVelocity_561130` has none, which suggests `operator-` (0x40AC80) and `Normalize_406C20`
+were known not to throw in that file; marking ours `throw()` breaks 5 matches, so it stays WIP.
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 
