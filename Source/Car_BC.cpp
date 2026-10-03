@@ -6335,12 +6335,31 @@ void Car_BC::sub_4435F0()
 }
 
 // 9.6f 0x426580
+// 10.5 calls the out of line Fix16 helpers here (Abs_436A50, Multiply_408680, operator+, SquareRoot_436A70)
+static inline Fix16 GetLength_out_of_line_443710(Fix16_Point& v)
+{
+    if (v.x == gFix16_6777CC)
+    {
+        return Fix16::Abs_436A50(v.y);
+    }
+    else if (v.y == gFix16_6777CC)
+    {
+        return Fix16::Abs_436A50(v.x);
+    }
+    else
+    {
+        return Fix16::SquareRoot_436A70((const Fix16&)v.x.Multiply_408680(v.x) + v.y.Multiply_408680(v.y));
+    }
+}
+
 WIP_FUNC(0x443710)
 void Car_BC::ApplyExplosionImpulse_443710(Fix16_Point* xy)
 {
     WIP_IMPLEMENTED;
 
     Fix16_Point v16;
+    Fix16_Point v4;
+    Fix16_Point v9;
 
     if (!sub_4214D0())
     {
@@ -6350,13 +6369,16 @@ void Car_BC::ApplyExplosionImpulse_443710(Fix16_Point* xy)
         v16.x += kFpQuarter_677208 * gCar_6C_677930->field_1C_explosion_offset_cycle - kFpHalf_6772D0;
         v16.y += kFpQuarter_677208 * gCar_6C_677930->field_1C_explosion_offset_cycle - kFpHalf_6772D0;
 
-        Fix16_Point v4 = (v16 - *xy);
-        Fix16 vecLen = v4.GetLength_41E260();
+        v4 = (v16 - *xy);
+        Fix16 vecLen = GetLength_out_of_line_443710(v4);
 
         if (vecLen != gFix16_6777CC)
         {
             vecLen = vecLen * 4;
-            Fix16_Point v9 = (v4.NormalizeSafe_442AD0() / vecLen);
+            // TODO: the original has no EH state around the NormalizeSafe temp during this call, as if
+            // VC6 knew Divide_442CB0 can't throw. Declaring it throw() gets within 14 lines, but that
+            // drops the return flag store from Divide_442CB0 itself (breaks its match).
+            v9 = v4.NormalizeSafe_442AD0().Divide_442CB0(vecLen);
             field_58_physics->SetCurrentCarInfoAndModelPhysics_562EF0();
             vecLen = field_58_physics->ApplyImpactForcesAndDamage_55FA60(v16, v9, 10);
         }
