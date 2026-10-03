@@ -84,6 +84,18 @@ class Camera_0xBC
         *pOut2 = ((yd * field_60.x) * z) + Fix16(field_74_screen_px_center_y);
     }
 
+    // ProjectWorldToScreen_4B90E0 with the out-of-line Fix16 helpers (ExplodingScore_50::DrawNumbers_596C90)
+    void ProjectWorldToScreen_OutOfLine_4B90E0(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
+    {
+        Fix16 scale = dword_702DE4.Divide_436A20((field_98_cam_pos2.field_8_z - z) + dword_702E04);
+
+        *pOut1 = static_cast<const Fix16&>(x.Subtract_436A00(field_98_cam_pos2.field_0_x).Multiply_408680(field_60.x).Multiply_408680(scale)) +
+            Fix16(field_70_screen_px_center_x);
+
+        *pOut2 = static_cast<const Fix16&>(y.Subtract_436A00(field_98_cam_pos2.field_4_y).Multiply_408680(field_60.x).Multiply_408680(scale)) +
+            Fix16(field_74_screen_px_center_y);
+    }
+
     inline void inline_set_ped_id_to_1_475B60()
     {
         field_3C_followed_ped_id = 1;
