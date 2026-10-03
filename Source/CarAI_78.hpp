@@ -41,6 +41,7 @@ class CarAI_78
     EXPORT void MakeAgressiveSirensAndLights_4476F0();
     EXPORT void sub_447710();
     EXPORT void DoShortcutsUsingJunctions_447970();
+    inline void TurnAround_447970();
     EXPORT bool GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 maybe_direction);
     EXPORT char_type sub_447D40(gmp_block_info* a2);
     EXPORT bool IsClockwiseTurning_448270();
@@ -98,7 +99,7 @@ class CarAI_78
 
     char_type field_28_junc_idx;
     char_type field_29;
-    char_type field_2A_stopped_timer;
+    u8 field_2A_stopped_timer;
     u8 field_2B_ticks_since_alloc;
     char_type field_2C;
     char_type field_2D;

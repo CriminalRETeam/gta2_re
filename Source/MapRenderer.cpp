@@ -242,23 +242,26 @@ void MapRenderer::set_shading_lev_4E9DB0(u8 shading_lev)
     WIP_IMPLEMENTED;
     u8 v6 = 2 * shading_lev / 3;
     u8 v2 = 255 - 4 * shading_lev;
-    u8 v7 = v2 + 2 * v6;
     u8 shading_leva = 5 * (51 - shading_lev);
+    u8 v7 = v2 + 2 * v6;
+    u8 v2_v6 = v6 + v2;
+    u8 lev_v6 = shading_leva - v6;
+    u8 lev_v6_2 = shading_leva - 2 * v6;
 
     field_E_colour_t2 = v2;
     field_10_diag_up_left_colour = v2;
-    field_C_colour_t1 = v2 + 2 * v6;
+    field_C_colour_t1 = v7;
     field_D_right_colour = shading_leva - 3 * v6;
-    field_F_colour_t3 = shading_leva - v6;
-    field_11_diag_up_right_colour = shading_leva - 2 * v6;
-    field_12_diag_down_left_colour = v6 + v2;
-    field_13_diag_down_right_colour = shading_leva - v6;
+    field_F_colour_t3 = lev_v6;
+    field_11_diag_up_right_colour = lev_v6_2;
+    field_12_diag_down_left_colour = v2_v6;
+    field_13_diag_down_right_colour = lev_v6;
     field_17_slope_east_colour = v2 + 3 * v6;
-    field_14_dcolour = v6 + v2;
-    field_18_color = v6 + v2;
+    field_14_dcolour = v2_v6;
+    field_18_color = v2_v6;
     field_15_slope_south_colour = shading_leva;
-    field_19_tri_diag_up_right_colour = shading_leva - v6;
-    field_16_slope_west_colour = shading_leva - 2 * v6;
+    field_19_tri_diag_up_right_colour = lev_v6;
+    field_16_slope_west_colour = lev_v6_2;
     field_1A_tri_diag_down_left_colour = v7;
     field_1B_tri_diag_down_right_colour = shading_leva;
 }
@@ -940,8 +943,8 @@ void MapRenderer::DrawDiagonalUpLeftFace_4EC450(u16& left_word)
     ProjectVertBottom_46BDF0(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
     ProjectVertTop_46BD40(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
 
-    rotation = Fix16::atan2_fixed_405320(Fix16(gTileVerts_6F65A8[1].x - gTileVerts_6F65A8[0].x),
-                                         Fix16(gTileVerts_6F65A8[1].y - gTileVerts_6F65A8[0].y));
+    rotation = Fix16::atan2_fixed_405320(Fix16(gTileVerts_6F65A8[1].y - gTileVerts_6F65A8[0].y),
+                                         Fix16(gTileVerts_6F65A8[1].x - gTileVerts_6F65A8[0].x));
 
     if (rotation < kAng135_6F6414 || rotation > kAng315_6F6420)
     {
@@ -970,10 +973,10 @@ void MapRenderer::DrawDiagonalUpRightFace_4EC7A0(u16& right_word)
     ProjectVertTop_46BD40(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
     ProjectVertBottom_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
 
-    rotation = Fix16::atan2_fixed_405320(Fix16(gTileVerts_6F65A8[1].x - gTileVerts_6F65A8[0].x),
-                                         Fix16(gTileVerts_6F65A8[1].y - gTileVerts_6F65A8[0].y));
+    rotation = Fix16::atan2_fixed_405320(Fix16(gTileVerts_6F65A8[1].y - gTileVerts_6F65A8[0].y),
+                                         Fix16(gTileVerts_6F65A8[1].x - gTileVerts_6F65A8[0].x));
 
-    if (rotation < kAng45_6F637C || rotation > kAng225_6F63EC)
+    if (rotation > kAng45_6F637C && rotation < kAng225_6F63EC)
     {
         ProjectVertBottom_46BDF0(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8 + kZeroOnePoint_6F6484.y, &gTileVerts_6F65A8[2]);
         ProjectVertTop_46BD40(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8 + kZeroOnePoint_6F6484.y, &gTileVerts_6F65A8[3]);
@@ -1000,10 +1003,10 @@ void MapRenderer::DrawDiagonalDownLeftFace_4ECAF0(u16& left_word)
     ProjectVertBottom_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
     ProjectVertTop_46BD40(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
 
-    angle = Fix16::atan2_fixed_405320(Fix16(gTileVerts_6F65A8[1].x - gTileVerts_6F65A8[0].x),
-                                      Fix16(gTileVerts_6F65A8[1].y - gTileVerts_6F65A8[0].y));
+    angle = Fix16::atan2_fixed_405320(Fix16(gTileVerts_6F65A8[1].y - gTileVerts_6F65A8[0].y),
+                                      Fix16(gTileVerts_6F65A8[1].x - gTileVerts_6F65A8[0].x));
 
-    if (angle < kAng45_6F637C || angle > kAng225_6F63EC)
+    if (angle > kAng45_6F637C && angle < kAng225_6F63EC)
     {
         ProjectVertTop_46BD40(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8 + kZeroOnePoint_6F6484.y, &gTileVerts_6F65A8[2]);
         ProjectVertBottom_46BDF0(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8 + kZeroOnePoint_6F6484.y, &gTileVerts_6F65A8[3]);
@@ -1029,20 +1032,19 @@ void MapRenderer::DrawDiagonalDownRightFace_4ECE40(u16& right_word)
     ProjectVertTop_46BD40(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
     ProjectVertBottom_46BDF0(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
 
-    angle = Fix16::atan2_fixed_405320(Fix16(gTileVerts_6F65A8[1].x - gTileVerts_6F65A8[0].x), 
-                                     Fix16(gTileVerts_6F65A8[1].y - gTileVerts_6F65A8[0].y));
+    angle = Fix16::atan2_fixed_405320(Fix16(gTileVerts_6F65A8[1].y - gTileVerts_6F65A8[0].y),
+                                     Fix16(gTileVerts_6F65A8[1].x - gTileVerts_6F65A8[0].x));
 
     if (angle < kAng135_6F6414 || angle > kAng315_6F6420)
     {
         ProjectVertBottom_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8 + kZeroOnePoint_6F6484.y, &gTileVerts_6F65A8[2]);
         ProjectVertTop_46BD40(gXCoord_6F63AC, gYCoord_6F63B8 + kZeroOnePoint_6F6484.y, &gTileVerts_6F65A8[3]);
         gTileDrawFlags_6F6560 = dword_621004[right_word >> 13];
-        u32 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(right_word & 1023);
-        u16 tmp = texture_idx;
-        if (tmp)
+        u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(right_word & 1023);
+        if (texture_idx)
         {
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->field_0_textures1[texture_idx],
+                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           field_13_diag_down_right_colour);
             ++field_2F00_drawn_tile_count;

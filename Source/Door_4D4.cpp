@@ -39,61 +39,57 @@ Door_38* Door_4D4::RegisterDoubleDoorNoCheck_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, 
 {
     WIP_IMPLEMENTED;
 
-    Door_38* pNewDoor; // eax
-    Door_38* pDoor; // ebx
-    u8 x_; // al
-    Fix16 v12; // ebp
-    Fix16 v13; // esi
-    Fix16 v14; // edi
-    char_type y_; // [esp+30h] [ebp+1Ch]
-    Fix16 tmp;
+    Door_38* pDoor = GetNextFreeDoor_49D3A0();
+    field_4D0_count++;
+    pDoor->field_2B_bReversed = reversed;
+    pDoor->field_2A_bDoFlip = flip;
 
-    pNewDoor = GetNextFreeDoor_49D3A0();
-    ++this->field_4D0_count;
-    pDoor = pNewDoor;
-    pNewDoor->field_2B_bReversed = reversed;
-    pNewDoor->field_2A_bDoFlip = flip;
-    x_ = x;
-    y_ = y;
+    Fix16 check_z = Fix16(z);
+    u8 x2 = x;
+    u8 y2 = y;
+    Fix16 check_x;
+    Fix16 check_y;
+    Fix16 check_width;
+    Fix16 check_height;
     switch (face)
     {
-        case 1:
-            v12 = kFpOne_67BBE4;
-            y_ = y - 1;
-            tmp = kFpTwo_67BBE8;
-            v13 = Fix16(x) - kFpHalf_67BA20;
-            v14 = Fix16(y);
-            break;
         case 2:
-            v12 = kFpOne_67BBE4;
-            v13 = kFpHalf_67BA20 + Fix16(x + 1);
-            y_ = y + 1;
-            tmp = kFpTwo_67BBE8;
-            v14 = Fix16(y + 1);
+            check_x = Fix16(x + 1) + kFpHalf_67BA20;
+            check_width = kFpOne_67BBE4;
+            y2 = y + 1;
+            check_height = kFpTwo_67BBE8;
+            check_y = Fix16(y + 1);
             break;
         case 3:
-            v12 = kFpTwo_67BBE8;
-            ++x;
-            tmp = kFpOne_67BBE4;
-            v13 = Fix16(x_ + 1);
-            v14 = Fix16(y) - kFpHalf_67BA20;
+            check_width = kFpTwo_67BBE8;
+            x2 = x + 1;
+            check_height = kFpOne_67BBE4;
+            check_x = Fix16(x + 1);
+            check_y = Fix16(y) - kFpHalf_67BA20;
+            break;
+        case 1:
+            check_width = kFpOne_67BBE4;
+            y2 = y - 1;
+            check_height = kFpTwo_67BBE8;
+            check_x = Fix16(x) - kFpHalf_67BA20;
+            check_y = Fix16(y);
             break;
         case 4:
-            v12 = kFpTwo_67BBE8;
-            v13 = Fix16(x);
-            tmp = kFpOne_67BBE4;
-            v14 = kFpHalf_67BA20 + Fix16(y + 1);
-            --x;
+            check_x = Fix16(x);
+            check_width = kFpTwo_67BBE8;
+            check_height = kFpOne_67BBE4;
+            check_y = Fix16(y + 1) + kFpHalf_67BA20;
+            x2 = x - 1;
             break;
         default:
-            v13 = tmp;
-            v14 = tmp;
-            v12 = tmp;
+            check_x = check_height;
+            check_y = check_height;
+            check_width = check_height;
             break;
     }
-    pDoor->AddDoorData_49CA50(gr_id, x_, y, z, face);
-    pDoor->AddDoorData_49CA50(gr_id, x, y_, z, face);
-    pDoor->InitDouble_49CC00(pDoor->field_0_primary_door_data, 1, (u8)(this->field_4D0_count) - 1, v13, v14, Fix16(z), v12, tmp);
+    pDoor->AddDoorData_49CA50(gr_id, x, y, z, face);
+    pDoor->AddDoorData_49CA50(gr_id, x2, y2, z, face);
+    pDoor->InitDouble_49CC00(pDoor->field_0_primary_door_data, 1, field_4D0_count - 1, check_x, check_y, check_z, check_width, check_height);
     return pDoor;
 }
 
@@ -330,40 +326,42 @@ void DoorData_10::Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
     this->field_7_gr_id = id;
     this->field_0_state = 1;
 
-    gGtx_0x106C_703DD4->SetTileRemap_5AA930(gDoorAnimInfo_67BB38[id].field_4_internal_tile_idx, gDoorAnimInfo_67BB38[id].field_0_start_frame);
+    DoorAnimInfo_A* pInfo = &gDoorAnimInfo_67BB38[id];
+    gGtx_0x106C_703DD4->SetTileRemap_5AA930(pInfo->field_4_internal_tile_idx, pInfo->field_0_start_frame);
 
-    s32 v8 = gDoorAnimInfo_67BB38[id].field_4_internal_tile_idx | 0x1C00; // wall, bullet wall and flat
+    u16 v8 = pInfo->field_4_internal_tile_idx | 0x1C00; // wall, bullet wall and flat
     if (bDoFlip)
     {
-        v8 = gDoorAnimInfo_67BB38[id].field_4_internal_tile_idx | 0x2C00; // flip
+        v8 |= 0x2000; // flip
     }
 
     if (gMap_0x370_6F6268->get_block_4DFE10(this->field_4_x, this->field_5_y, this->field_6_z))
     {
         gMap_0x370_6F6268->ChangeBlock_4E8620(this->field_4_x, this->field_5_y, this->field_6_z, this->field_8_face, v8);
-        gMap_0x370_6F6268->ChangeBlock_4E8620(this->field_4_x, this->field_5_y, this->field_6_z, GetOppositeFace_4DEEB0(this->field_8_face), gDoorAnimInfo_67BB38[id].field_4_internal_tile_idx);
+        gMap_0x370_6F6268->ChangeBlock_4E8620(this->field_4_x, this->field_5_y, this->field_6_z, GetOppositeFace_4DEEB0(this->field_8_face), pInfo->field_4_internal_tile_idx);
     }
     else
     {
         blockData.init_44C840();
 
+        // Remaining diff: the original stores v8 before loading the tile idx in each case
         switch (field_8_face)
         {
             case 1:
                 blockData.field_0_left = v8;
-                blockData.field_2_right = gDoorAnimInfo_67BB38[id].field_4_internal_tile_idx;
+                blockData.field_2_right = pInfo->field_4_internal_tile_idx;
                 break;
             case 2:
                 blockData.field_2_right = v8;
-                blockData.field_0_left = gDoorAnimInfo_67BB38[id].field_4_internal_tile_idx;
+                blockData.field_0_left = pInfo->field_4_internal_tile_idx;
                 break;
             case 3:
                 blockData.field_4_top = v8;
-                blockData.field_6_bottom = gDoorAnimInfo_67BB38[id].field_4_internal_tile_idx;
+                blockData.field_6_bottom = pInfo->field_4_internal_tile_idx;
                 break;
             case 4:
                 blockData.field_6_bottom = v8;
-                blockData.field_4_top = gDoorAnimInfo_67BB38[id].field_4_internal_tile_idx;
+                blockData.field_4_top = pInfo->field_4_internal_tile_idx;
                 break;
             default:
                 break;

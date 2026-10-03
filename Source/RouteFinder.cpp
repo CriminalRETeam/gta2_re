@@ -95,24 +95,26 @@ static inline Fix16_Point_POD ProjectToScreen(Camera_0xBC* pCam, Fix16 x, Fix16 
 WIP_FUNC(0x588620)
 void RouteFinder::ShowJunctionIds_588620()
 {
-    for (u16 i = 1; i < GTA2_COUNTOF(field_8_junctions); i++)
+    Junction_10* pJunction = &field_8_junctions[1];
+    for (u16 i = 1; i < GTA2_COUNTOF(field_8_junctions); i++, pJunction++)
     {
-        Junction_10* pJunction = &field_8_junctions[i];
-        if (pJunction->field_C_min_x)
+        if (!pJunction->field_C_min_x)
         {
-            if (gGame_0x40_67E008->field_38_orf1->field_14C_view_camera.IsPointInBoundaries_58CF10(Fix16(pJunction->field_C_min_x),
-                                                                                  Fix16(pJunction->field_D_min_y)))
-            {
-                u8 x = pJunction->field_C_min_x;
-                u8 y = pJunction->field_D_min_y;
-                Fix16 z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(Fix16(x), Fix16(y));
+            break;
+        }
 
-                Fix16_Point_POD screen =
-                    ProjectToScreen(&gGame_0x40_67E008->field_38_orf1->field_14C_view_camera, Fix16(x), Fix16(y), z);
+        if (gGame_0x40_67E008->field_38_orf1->field_14C_view_camera.IsPointInBoundaries_58CF10(pJunction->field_C_min_x,
+                                                                                              (s32)pJunction->field_D_min_y))
+        {
+            u8 x = pJunction->field_C_min_x;
+            u8 y = pJunction->field_D_min_y;
+            Fix16_Point_POD screen = ProjectToScreen(&gGame_0x40_67E008->field_38_orf1->field_14C_view_camera,
+                                                     Fix16(x),
+                                                     Fix16(y),
+                                                     gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(Fix16(x), Fix16(y)));
 
-                swprintf(tmpBuff_67BD9C, L"%d", i);
-                gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, screen.x.ToInt(), screen.y.ToInt(), word_703BAA, 1);
-            }
+            swprintf(tmpBuff_67BD9C, L"%d", i);
+            gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, screen.x.ToInt(), screen.y.ToInt(), word_703BAA, 1);
         }
     }
 }

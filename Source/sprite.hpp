@@ -143,10 +143,8 @@ class Sprite_4C
 
     void HalfWH_4BA0A0(Fix16* pHalfW, Fix16* pHalfH)
     {
-        s32 t1 = 2;
-        *pHalfW = (field_0_width / t1);
-        s32 t2 = 2;
-        *pHalfH = (field_4_height / t2);
+        *pHalfW = (field_0_width / 2);
+        *pHalfH = (field_4_height / 2);
     }
 
     void ScaleWidthHeight_4BA1A0(Fix16 scale)
@@ -632,7 +630,7 @@ class Sprite_14
 class Sprite_3CC
 {
   public:
-    EXPORT Sprite_14* FindCachedMask_48F600(u16& sprite_idx, u32* a3, u32* a4, u16* a5);
+    EXPORT Sprite_14* FindCachedMask_48F600(u16& sprite_idx, u32* a3, u32* a4, const u16* a5);
     EXPORT Sprite_14* FindLeastRecentlyUsed_48F690(u32* a2);
     EXPORT void InvalidateMasksByType_48F6E0(u16* sprite_idx);
     EXPORT void InvalidateAllMasks_48F710();

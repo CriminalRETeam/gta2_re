@@ -33,6 +33,21 @@ class Garage_48
         return pCar == field_0 && field_3D;
     }
 
+    // 9.6f 0x489650
+    inline void Reset_489650()
+    {
+        field_10 = NULL;
+        field_C = 0;
+        field_28_push_dir.x = 0;
+        field_28_push_dir.y = 0;
+        field_18_park_x_min = 0;
+        field_1C_park_y_min = 0;
+        field_20_park_x_max = 0;
+        field_24_park_y_max = 0;
+        field_30_target_x = 0;
+        field_34_target_y = 0;
+    }
+
     bool IsMaybeParkingCar_493540(Car_BC* pCar)
     {
         if (pCar == field_0)
@@ -64,7 +79,7 @@ class Garage_48
     char_type field_41;
     char_type field_42;
     char_type field_43;
-    s32 field_44;
+    u32 field_44;
 };
 
 EXTERN_GLOBAL(Garage_48*, gGarage_48_6FD26C);

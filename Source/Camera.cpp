@@ -111,7 +111,7 @@ WIP_FUNC(0x435630)
 char_type Camera_0xBC::IsSpriteInView_435630(Sprite* pSprite, s32 bUnknown)
 {
     WIP_IMPLEMENTED;
-
+    // TODO: the original computes the numerator first (kept in esi) and spills the denominator
     Fix16 v5 = ((dword_676840 + this->field_98_cam_pos2.field_8_z - pSprite->field_1C_zpos)) /
         ((kTwo_676820 * this->field_98_cam_pos2.field_C_zoom));
 
@@ -127,37 +127,17 @@ char_type Camera_0xBC::IsSpriteInView_435630(Sprite* pSprite, s32 bUnknown)
     rect.field_14_high_z = pSprite->field_1C_zpos;
     rect.field_8_top = field_98_cam_pos2.field_4_y - v6;
     rect.field_C_bottom = field_98_cam_pos2.field_4_y + v6;
+    rect.field_4_right = field_98_cam_pos2.field_0_x + v5;
+    rect.field_0_left = field_98_cam_pos2.field_0_x - v5;
 
-    Fix16 left_bound = field_98_cam_pos2.field_0_x + v5;
-    Fix16 right_bound = field_98_cam_pos2.field_0_x - v5;
-    rect.field_0_left = right_bound;
-    rect.field_4_right = left_bound;
-
-    Sprite_4C* p4C = pSprite->field_C_sprite_4c_ptr;
-    Fix16_Rect* pBox = &p4C->field_30_boundingBox;
-    if (right_bound >= pBox->field_0_left)
+    Fix16_Rect* pBox = &pSprite->field_C_sprite_4c_ptr->field_30_boundingBox;
+    if (rect.field_0_left.IntervalIntersectsRange_438FB0_inline(rect.field_4_right, pBox->field_0_left, pBox->field_4_right) &&
+        IntervalIntersectsRange_438FB0(rect.field_8_top, rect.field_C_bottom, pBox->field_8_top, pBox->field_C_bottom) &&
+        IntervalIntersectsRange_438FB0(rect.field_10_low_z, rect.field_14_high_z, pBox->field_10_low_z, pBox->field_14_high_z))
     {
-        if (right_bound > pBox->field_4_right)
-        {
-            return 0;
-        }
-    }
-    else if (left_bound < pBox->field_0_left)
-    {
-        return 0;
-    }
-
-    if (rect.field_C_bottom.IntervalIntersectsRange_438FB0_inline(rect.field_C_bottom, pBox->field_8_top, pBox->field_C_bottom) &&
-        rect.field_14_high_z.IntervalIntersectsRange_438FB0_inline(rect.field_14_high_z, pBox->field_10_low_z, pBox->field_14_high_z))
-    {
-        Sprite_4C* p4C_ = pSprite->field_C_sprite_4c_ptr;
-        if (p4C_->field_0_width == p4C_->field_4_height && p4C_->field_0_width <= dword_676694)
-        {
-            return 1;
-        }
-
+        Sprite_4C* p4C = pSprite->field_C_sprite_4c_ptr;
         Ang16 ang = pSprite->field_0;
-        if (pSprite->field_0.rValue == 0 || ang == 360 || ang == 720 || ang == 1080 || pSprite->IntersectsRectSAT_59FB10(&rect) ||
+        if ((p4C->field_0_width == p4C->field_4_height && p4C->field_0_width <= dword_676694) || pSprite->field_0.rValue == 0 || ang == 360 || ang == 720 || ang == 1080 || pSprite->IntersectsRectSAT_59FB10(&rect) ||
             rect.IntersectsSpriteRenderingRect_59DDF0(pSprite))
         {
             return 1;
@@ -461,70 +441,54 @@ EXPORT void __stdcall SmoothApproach_4F7540(Fix16& Coord_1, Fix16& Velocity_1, F
 {
     WIP_IMPLEMENTED;
 
+    // 9.6f order (V1 += V2, C2 += V1 everywhere). Left: the original keeps the clamp and delta
+    // stores separate (copy propagated, delta tail-merged with the -V3 clamp).
     Fix16 DeltaCoord = Coord_1 - Coord_2;
     if (DeltaCoord > kZero_6F6C50)
     {
         if (Velocity_1 >= kZero_6F6C50)
         {
-            Fix16 v6 = Velocity_2 + Velocity_1;
-            if (v6 <= DeltaCoord)
+            if (Velocity_1 + Velocity_2 <= DeltaCoord)
             {
-                Velocity_1 = v6;
-                if (Velocity_1 > Velocity_3) // line 38   jle  7e
+                Velocity_1 += Velocity_2;
+                if (Velocity_1 > Velocity_3)
                 {
                     Velocity_1 = Velocity_3;
-                    Coord_2 += Velocity_3;
-                }
-                else
-                {
-                    Coord_2 += Velocity_1;
                 }
             }
             else
             {
                 Velocity_1 = DeltaCoord;
-                Coord_2 += DeltaCoord;
             }
-        }
-        else
-        {
-            Velocity_1 = kZero_6F6C50;
             Coord_2 += Velocity_1;
+            return;
         }
     }
     else if (DeltaCoord < kZero_6F6C50 && Velocity_1 <= kZero_6F6C50)
     {
-        Fix16 DeltaVel = Velocity_1 - Velocity_2;
-        if (DeltaVel >= DeltaCoord)
+        if (Velocity_1 - Velocity_2 >= DeltaCoord)
         {
-            Velocity_1 = DeltaVel;
-            DeltaCoord = -Velocity_3;
-            if (Velocity_1 < DeltaCoord)
+            Velocity_1 -= Velocity_2;
+            if (Velocity_1 < -Velocity_3)
             {
-                Velocity_1 = DeltaCoord;
-                Coord_2 += DeltaCoord;
-            }
-            else
-            {
-                Coord_2 += Velocity_1;
+                Velocity_1 = -Velocity_3;
             }
         }
         else
         {
             Velocity_1 = DeltaCoord;
-            Coord_2 += DeltaCoord;
         }
-    }
-    else
-    {
-        Velocity_1 = kZero_6F6C50;
         Coord_2 += Velocity_1;
+        return;
     }
+
+    Velocity_1 = kZero_6F6C50;
+    Coord_2 += Velocity_1;
 }
 
 // TODO: move
 // https://decomp.me/scratch/kwM8W
-WIP_FUNC(0x4F75D0)
+MATCH_FUNC(0x4F75D0)
 EXPORT void __stdcall SmoothApproachClamped_4F75D0(Fix16* target_coord,
                                                    Fix16* coord_velocity,
                                                    Fix16* curr_coord,
@@ -533,66 +497,53 @@ EXPORT void __stdcall SmoothApproachClamped_4F75D0(Fix16* target_coord,
                                                    Fix16* velocity_3,
                                                    Fix16* maybe_decrement)
 {
-    WIP_IMPLEMENTED;
     Fix16 DeltaCoord = *target_coord - *curr_coord;
     if (DeltaCoord > kZero_6F6C50)
     {
         if (*coord_velocity >= kZero_6F6C50)
         {
-            Fix16 v8 = *velocity_1 + *coord_velocity;
-            if (v8 <= DeltaCoord)
+            if (*coord_velocity + *velocity_1 <= DeltaCoord)
             {
-                *coord_velocity = v8;
-                if (v8 > *velocity_2)
+                *coord_velocity += *velocity_1;
+                if (*coord_velocity > *velocity_2)
                 {
                     *coord_velocity = *velocity_2;
-                    *curr_coord += *velocity_2;
-                }
-                else
-                {
-                    *curr_coord += *coord_velocity;
                 }
             }
             else
             {
                 *coord_velocity = DeltaCoord;
-                *curr_coord += DeltaCoord;
             }
         }
         else
         {
             *coord_velocity = kZero_6F6C50;
-            *curr_coord += *coord_velocity;
         }
-    }
-    else if (DeltaCoord >= kZero_6F6C50 || *coord_velocity > kZero_6F6C50)
-    {
-        *coord_velocity = kZero_6F6C50;
-        *curr_coord += *coord_velocity;
     }
     else
     {
-        Fix16 DeltaVel = *coord_velocity - *velocity_3;
-        if (DeltaVel < DeltaCoord)
+        if (DeltaCoord >= kZero_6F6C50 || *coord_velocity > kZero_6F6C50)
         {
-            *coord_velocity = DeltaCoord;
-            *curr_coord += DeltaCoord;
+            *coord_velocity = kZero_6F6C50;
         }
         else
         {
-            *coord_velocity = DeltaVel;
-            DeltaCoord = -*maybe_decrement;
-            if (DeltaVel < DeltaCoord)
+            if (*coord_velocity - *velocity_3 >= DeltaCoord)
             {
-                *coord_velocity = DeltaCoord;
-                *curr_coord += DeltaCoord;
+                *coord_velocity -= *velocity_3;
+                if (*coord_velocity < -*maybe_decrement)
+                {
+                    *coord_velocity = -*maybe_decrement;
+                }
             }
             else
             {
-                *curr_coord += *coord_velocity;
+                *coord_velocity = DeltaCoord;
             }
         }
     }
+
+    *curr_coord += *coord_velocity;
 }
 
 MATCH_FUNC(0x435FF0)
@@ -683,13 +634,38 @@ void Camera_0xBC::SetScreenSize_4361B0(u32 x_pos, u32 y_pos)
     field_A8_ui_scale = Fix16(x_pos) / 640;
 }
 
+// FromPolar_41E210 with the out of line multiply
+static inline void FromPolar_408680(Fix16_Point& p, const Fix16& radius, const Ang16& angle)
+{
+    p.x = radius.Multiply_408680(Ang16::sine_40F500(angle));
+    p.y = radius.Multiply_408680(Ang16::cosine_40F520(angle));
+}
+
+// Fix16_Point length with the out of line Fix16 helpers, compared against this TU's kZero_676818
+static inline Fix16 GetLength_676818(Fix16_Point& p)
+{
+    if (p.x.mValue == kZero_676818.mValue)
+    {
+        return Fix16::Abs_436A50(p.y);
+    }
+    else if (p.y.mValue == kZero_676818.mValue)
+    {
+        return Fix16::Abs_436A50(p.x);
+    }
+    else
+    {
+        return Fix16::SquareRoot_436A70((const Fix16&)p.x.Multiply_408680(p.x) + p.y.Multiply_408680(p.y));
+    }
+}
+
 WIP_FUNC(0x436200)
 void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, Fix16* pY, Fix16* pZ)
 {
     WIP_IMPLEMENTED;
 
-    Fix16 ret;
     Fix16_Point v10;
+    Fix16_Point offset;
+    Fix16 ret;
 
     if (pCar->IsTrainModel_403BA0())
     {
@@ -697,29 +673,28 @@ void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, F
     }
     else
     {
-        Fix16_Point linvel_43A450 = pCar->get_linvel_43A450();
+        v10 = (pCar->get_linvel_43A450() * dword_67696C);
 
-        v10 = (linvel_43A450 * dword_67696C);
-
-        // TODO: Uses kZero_676818 as kZero
-        ret = v10.GetLength_2();
+        ret = GetLength_676818(v10);
     }
 
-    if (ret > dword_67674C)
+    if (ret.mValue > dword_67674C.mValue)
     {
-        *pZ += ret;
+        pZ->mValue += ret.mValue;
 
         if (!pCar->IsTrainModel_403BA0() && !pCar->IsTank_411900())
         {
-            Ang16 v16 = v10.atan2_40F790();
+            // 9.6f inlined: sub_40F790 (atan2_40F790). Written out, and the compares below on raw values,
+            // so the Fix16_Point ctors stay inline (VC6 inline budget)
+            Ang16 v16 = Fix16::atan2_fixed_405320(v10.y, v10.x);
             Fix16 v17;
-            if (v16 <= kAng45_6766DC || v16 >= kAng135_676790 && (v16 <= kAng225_676764 || v16 >= kAng315_67679C))
+            if ((v16.rValue <= kAng45_6766DC.rValue || v16.rValue >= kAng135_676790.rValue) && (v16.rValue <= kAng225_676764.rValue || v16.rValue >= kAng315_67679C.rValue))
             {
-                v17 = Fix16(0x2D0000, 0);
+                v17.mValue = 0x2D0000;
             }
             else
             {
-                v17 = Fix16(0x3C0000, 0);
+                v17.mValue = 0x3C0000;
             }
 
             if (pCar->is_trailer_cab_41E460())
@@ -731,22 +706,21 @@ void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, F
             if (f44)
             {
                 Fix16 v20;
-                if ((u8)f44 <= 64u)
-                {
-                    v20 = Fix16(this->field_44_suspicion);
-                }
-                else
+                if ((u8)f44 > 64u)
                 {
                     v20 = dword_6768E4;
                 }
+                else
+                {
+                    v20 = Fix16(this->field_44_suspicion);
+                }
                 v17 = (v17 * (kOne_67681C - v20 / 128));
             }
-            Fix16 v25 = Fix16(Fix16::Round_To_Int_410BF0(v17 * (*pZ - pCar->field_50_car_sprite->field_1C_zpos))) / field_60.y;
+            Fix16 v25 = v17 * (*pZ - pCar->field_50_car_sprite->field_1C_zpos + Fix16(8)) / field_60.y;
 
-            Fix16_Point offset;
-            offset.FromPolar_41E210(v25, v16);
-            *pX += offset.x;
-            *pY += offset.y;
+            FromPolar_408680(offset, v25, v16);
+            pX->mValue += offset.x.mValue;
+            pY->mValue += offset.y.mValue;
         }
     }
 }

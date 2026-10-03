@@ -129,67 +129,53 @@ WIP_FUNC(0x492260)
 s32 thirsty_lamarr::DrawDigits_492260(s32 base_xpos, s32 base_ypos)
 {
     WIP_IMPLEMENTED;
-    u8 height = base_ypos;
+
     s32 curr_xpos = base_xpos;
-    s16 curr_idx = field_2E_non_used_digits;
-    bool bUnk = true;
+    bool bFirst = true;
     s32 ypos_default = base_ypos + (field_28_sprite_h_calc >> 1);
 
-    // draw from right to left
-    // last digit to the first one
-
-    s16 v8 = 9 - field_2E_non_used_digits;
-    for (; curr_idx < 9; curr_idx++, v8--)
+    // The x of each digit counts back from the last one
+    s32 digits_left = 9 - field_2E_non_used_digits;
+    for (s32 idx = field_2E_non_used_digits; idx < 9; idx++, digits_left--)
     {
-        s32 v9 = field_13_offset[curr_idx];
-        if (bUnk)
+        s32 offset = field_13_offset[idx];
+        if (bFirst)
         {
-            char curr_char = field_9_str[curr_idx];
-
-            if (curr_char == '0')
+            char_type curr_char = field_9_str[idx];
+            if (curr_char == '0' && idx != 8 && !field_13_offset[idx])
             {
-                if (curr_idx == 8 || field_13_offset[curr_idx] != 0)
-                {
-                    if (curr_idx == 8)
-                    {
-                        height = field_28_sprite_h_calc;
-                    }
-                    else
-                    {
-                        height = field_13_offset[curr_idx];
-                    }
-                }
-                else
-                {
-                    continue;
-                }
+                continue;
             }
-            else
+
+            u8 height;
+            if (curr_char != '0' || idx == 8)
             {
                 height = field_28_sprite_h_calc;
             }
+            else
+            {
+                height = field_13_offset[idx];
+            }
 
-            u16 unknown = field_28_sprite_h_calc * (58 - curr_char) - v9;
-            curr_xpos = base_xpos + (field_27_sprite_w >> 1) - field_27_sprite_w * v8;
-            DrawTextureScaled_495470(gSharp_pare_0x15D8_705064->GetDigitTexture_5B95F0(curr_idx + field_34_first_digit_texture_idx - field_2E_non_used_digits,
-                                                             unknown,
-                                                             height),
+            u16 v = field_28_sprite_h_calc * (58 - curr_char) - offset;
+            curr_xpos = (field_27_sprite_w >> 1) - field_27_sprite_w * digits_left + base_xpos;
+            DrawTextureScaled_495470(gSharp_pare_0x15D8_705064->GetDigitTexture_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits, v, height),
                        curr_xpos,
-                       base_ypos + height / 2,
+                       base_ypos + (s8)height / 2,
                        field_27_sprite_w,
                        height,
                        kAngZero_67B210,
                        0,
                        0);
-            bUnk = false;
+            bFirst = false;
         }
         else
         {
-            u16 v16 = field_28_sprite_h_calc * (58 - field_9_str[curr_idx]) - v9;
-            DrawTextureScaled_495470(gSharp_pare_0x15D8_705064->GetDigitTexture_5B95F0(curr_idx + field_34_first_digit_texture_idx - field_2E_non_used_digits,
-                                                             v16,
+            u16 v = field_28_sprite_h_calc * (58 - field_9_str[idx]) - offset;
+            DrawTextureScaled_495470(gSharp_pare_0x15D8_705064->GetDigitTexture_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits,
+                                                             v,
                                                              field_28_sprite_h_calc),
-                       base_xpos + ((field_27_sprite_w >> 1) - (field_27_sprite_w * v8)),
+                       (field_27_sprite_w >> 1) - field_27_sprite_w * digits_left + base_xpos,
                        ypos_default,
                        field_27_sprite_w,
                        field_28_sprite_h_calc,
@@ -205,9 +191,10 @@ s32 thirsty_lamarr::DrawDigits_492260(s32 base_xpos, s32 base_ypos)
 WIP_FUNC(0x492430)
 s32 thirsty_lamarr::sub_492430(s32 base_xpos, s32 base_ypos)
 {
-    s32 curr_xpos = base_xpos + (field_27_sprite_w >> 1);
+    // u32: converts with the Fix16(u32) constructor, whose out-of-line copy is 0x4926F0
+    u32 curr_xpos = base_xpos + (field_27_sprite_w >> 1);
     bool bFirst = true;
-    s32 ypos_default = base_ypos + (field_28_sprite_h_calc >> 1);
+    u32 ypos_default = base_ypos + (field_28_sprite_h_calc >> 1);
 
     for (s32 idx = field_2E_non_used_digits; idx < 9; idx++)
     {
@@ -233,7 +220,7 @@ s32 thirsty_lamarr::sub_492430(s32 base_xpos, s32 base_ypos)
             u16 v = field_28_sprite_h_calc * (58 - curr_char) - offset;
             DrawTextureScaled_495470(gSharp_pare_0x15D8_705064->GetDigitTexture_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits, v, height),
                        curr_xpos,
-                       base_ypos + (s8)height / 2,
+                       (u32)(base_ypos + (s8)height / 2),
                        field_27_sprite_w,
                        height,
                        kAngZero_67B210,

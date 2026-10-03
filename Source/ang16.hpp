@@ -304,6 +304,14 @@ class Ang16
         return Ang16(Fix16(rValue) * a2, 0);
     }
 
+    // MultiplyByFix16_401CB0 with the multiply and the Fix16* constructor out of line
+    // (Particle_8::EmitImpactParticles_53FE40)
+    Ang16 MultiplyByFix16_401CB0_out_of_line(const Fix16& a2)
+    {
+        Fix16 tmp = Fix16(rValue).Multiply_408680(a2);
+        return Ang16(&tmp, 0);
+    }
+
     Fix16 divideBy_40E640(const Ang16& scale) const
     {
         return Fix16(rValue) / scale.rValue;

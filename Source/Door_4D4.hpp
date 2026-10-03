@@ -49,6 +49,21 @@ inline bool Door_38::IsOpen_44C860()
     return field_0_primary_door_data->field_0_state == 2;
 }
 
+inline void Door_38::CloseDoors_476A30()
+{
+    if (field_28)
+    {
+        if (field_0_primary_door_data)
+        {
+            field_0_primary_door_data->Close_49C590(0);
+        }
+        if (field_4_secondary_door_data)
+        {
+            field_4_secondary_door_data->Close_49C590(field_2A_bDoFlip);
+        }
+    }
+}
+
 class DoorData_10_Pool
 {
   public:
@@ -73,9 +88,10 @@ class DoorData_10_Pool
     {
     }
 
-    // 0x44C7F0
+    // 9.6f 0x44C7F0
     ~DoorData_10_Pool()
     {
+        field_0_pool.field_0_pHead = 0;
     }
 
     PoolBasic<DoorData_10, 44> field_0_pool;

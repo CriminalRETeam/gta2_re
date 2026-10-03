@@ -198,20 +198,33 @@ Ped* Ped_List_4::RemoveFirstPed_471320()
 }
 
 // 9.6f 0x445C30
-WIP_FUNC(0x471340)
+// 9.6f calls MaxAbsDistance_42A6B0 here. By value, with the y difference first, VC6 keeps
+// both differences and the max in registers as the original does.
+static inline Fix16 MaxAbsDistance_471340(Fix16 x1, Fix16 y1, Fix16 x2, Fix16 y2)
+{
+    Fix16 dy = y2 - y1;
+    Fix16 dx = x2 - x1;
+    dy = Fix16::Abs(dy);
+    dx = Fix16::Abs(dx);
+    if (dx > dy)
+    {
+        dy = dx;
+    }
+    return dy;
+}
+
+MATCH_FUNC(0x471340)
 Ped* Ped_List_4::GetFromListClosestPedToPoint_471340(Fix16 x, Fix16 y)
 {
-    WIP_IMPLEMENTED;
-    
     Fix16 smallest(99999);
-    Ped* pNearest = 0;
     Char_8* pIter = this->field_0_pFirstPed;
+    Ped* pNearest = 0;
     while (pIter)
     {
         Ped* pPed = pIter->field_0_char_ped;
         if (pIter->field_0_char_ped->CheckBit0_433B40() == 1)
         {
-            Fix16 curr = Fix16::MaxAbsDistance_42A6B0(x, y, pPed->get_cam_x(), pPed->get_cam_y());
+            Fix16 curr = MaxAbsDistance_471340(x, y, pPed->get_cam_x(), pPed->get_cam_y());
             if (curr < smallest)
             {
                 pNearest = pPed;
@@ -224,10 +237,9 @@ Ped* Ped_List_4::GetFromListClosestPedToPoint_471340(Fix16 x, Fix16 y)
 }
 
 // https://decomp.me/scratch/GJ2JR
-WIP_FUNC(0x4713C0)
+MATCH_FUNC(0x4713C0)
 Ped* Ped_List_4::FindClosestPedInViewCone_4713C0(Fix16 x, Fix16 y, Ang16 ang1, Ang16 ang2)
 {
-    WIP_IMPLEMENTED;
     Fix16 distance;
     Ang16 ang_delta;
     Ang16 v13;
@@ -238,13 +250,12 @@ Ped* Ped_List_4::FindClosestPedInViewCone_4713C0(Fix16 x, Fix16 y, Ang16 ang1, A
 
     for (; pIter; pIter = pIter->mpNext)
     {
-        Ped* pCurPed = pIter->field_0_char_ped;
-        if (pIter->field_0_char_ped->field_21C_bf.b0 == true)
+        if (((u8)pIter->field_0_char_ped->field_21C & 1) == 1) // byte read: mov 0x21C,%cl; and $1,%cl
         {
             bool withinCone = false;
-            distance = Fix16::MaxAbsDistance_42A6B0(x, y, pCurPed->get_cam_x(), pCurPed->get_cam_y());
+            distance = Fix16::MaxAbsDistanceByRef_42A6B0(x, y, pIter->field_0_char_ped->get_cam_x(), pIter->field_0_char_ped->get_cam_y());
 
-            ang_delta = Fix16::atan2_fixed_405320(pCurPed->get_cam_y() - y, pCurPed->get_cam_x() - x) - ang1;
+            ang_delta = Fix16::atan2_fixed_405320(pIter->field_0_char_ped->get_cam_y() - y, pIter->field_0_char_ped->get_cam_x() - x) - ang1;
 
             v13 = kAng0_678B40 - ang2;
 
@@ -254,8 +265,8 @@ Ped* Ped_List_4::FindClosestPedInViewCone_4713C0(Fix16 x, Fix16 y, Ang16 ang1, A
             }
             if (distance < smallestValue && withinCone)
             {
-                smallestValue = distance;
                 pLastPed = pIter->field_0_char_ped;
+                smallestValue = distance;
             }
         }
     }

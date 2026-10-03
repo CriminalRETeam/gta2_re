@@ -209,6 +209,13 @@ class Car_6C
         return SpawnCarAt_446230(xpos, ypos, zpos, rotation, car_info_idx, kFpOne_6F77C4);
     }
 
+    // SpawnCar_426E10 with the scale passed in: 10.5 loads a different Fix16(1) global per TU
+    // (kFpOne_6F77C4 in miss2_0x11C, kOne_6FE614 in Player)
+    inline Car_BC* SpawnCar_426E10(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, const Fix16& scale)
+    {
+        return SpawnCarAt_446230(xpos, ypos, zpos, rotation, car_info_idx, scale);
+    }
+
     // 9.6f inlined
     inline Car_BC* SpawnCar_4764A0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx)
     {
@@ -331,7 +338,7 @@ class Trailer
     }
 
     //Inlined in Car_6C constructor 9.6f -> 0x4212d0
-    Trailer()
+    __forceinline Trailer()
     {
         mpNext = NULL;
         field_8_truck_cab = NULL;
@@ -524,7 +531,8 @@ class Car_BC
     EXPORT void AssignDriverBlameForExplosion_43B7B0(Car_BC* a2);
     EXPORT bool sub_43B850(s32 a2);
     EXPORT void SpawnDamageFireEffect_43B870(s32 a2, Fix16_Point* a3);
-    EXPORT s32 sub_43BB90(u8 a1);
+    // Called without this in SpawnDamageFireEffect_43B870: a static __stdcall
+    EXPORT static s32 __stdcall sub_43BB90(u8 a1);
     EXPORT void SpawnFire_43BBC0();
     EXPORT void SetupCarPhysicsAndSpriteBinding_43BC30();
     EXPORT void SetupCarPhysicsAndSpriteBinding_43BCA0();
@@ -556,6 +564,11 @@ class Car_BC
     EXPORT void TriggerExplosion_43D7B0(s32 a2);
     EXPORT void HandleCarExplosion_43D840(s32 a2);
     EXPORT s16 AccumulateDamage_43DA90(s16 a2, Fix16_Point* a3);
+    // HandleCarHitByObject_43F130 passes the operator temporaries straight in (push %eax of the result)
+    inline s16 AccumulateDamage_43DA90(s16 a2, const Fix16_Point& a3)
+    {
+        return AccumulateDamage_43DA90(a2, (Fix16_Point*)&a3);
+    }
     EXPORT void KillContainedPeds_43DB80();
     EXPORT void StopMovement_43DBD0();
     EXPORT bool IsSpriteShrunk_43DC00();
@@ -1120,6 +1133,12 @@ class Car_BC
         return field_84_car_info_idx == car_model_enum::SWATVAN;
     }
 
+    // 9.6f 0x403BC0
+    inline bool IsSwatVanOrBankVan_403BC0()
+    {
+        return field_84_car_info_idx == car_model_enum::SWATVAN || field_84_car_info_idx == car_model_enum::bank_van;
+    }
+
     // 9.6f 0x4119F0
     inline char_type get_B8_4119F0()
     {
@@ -1235,7 +1254,7 @@ class Car_BC
 
     bool CanBeLiftedByCrane_447F00()
     {
-        return !IsCab_421620() && !inline_check_0x10_info_421640() && !IsTrainModel_403BA0() && !IsLongerThanOneBlock_447ED0();
+        return !IsCab_421620() && !gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->is_0x10() && !IsTrainModel_403BA0() && !IsLongerThanOneBlock_447ED0();
     }
 
     void sub_426E00()
@@ -1418,7 +1437,7 @@ struct Car_14
     EXPORT void GenerateTraffic_583670();
 
     // TODO: Prob just returns Fix16 and isn't static or stdcall
-    EXPORT static Fix16* __stdcall GetRandomTrafficSpeed_583750(Fix16* pRetF16, Fix16 a2, u8* pOut);
+    EXPORT static Fix16 __stdcall GetRandomTrafficSpeed_583750(Fix16 a2, u8* pOut);
 
     EXPORT char_type SpawnTrafficCar_582480(s32 xpos, s32 ypos, s32 zpos);
 

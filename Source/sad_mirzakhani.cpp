@@ -106,7 +106,7 @@ u16 sad_mirzakhani::next_free_idx_431E90()
     return GTA2_COUNTOF(field_0_bonuses);
 }
 
-WIP_FUNC(0x431EC0);
+MATCH_FUNC(0x431EC0);
 u16 sad_mirzakhani::find_431EC0(u16 idx,
                                 s16 f_4,
                                 s32 car_info_idx,
@@ -117,8 +117,6 @@ u16 sad_mirzakhani::find_431EC0(u16 idx,
                                 s32 f_18,
                                 gmp_map_zone* pZone)
 {
-    WIP_IMPLEMENTED;
-
     u16 local_idx; // bp
     silly_saha_0x2C* pItem; // esi
     s16 l_4; // ax
@@ -129,26 +127,21 @@ u16 sad_mirzakhani::find_431EC0(u16 idx,
     s32 l_14; // eax
     s32 l_18; // eax
 
-    local_idx = idx;
-    if (idx >= 10u)
-    {
-        return 10;
-    }
-    while (1)
+    for (local_idx = idx; local_idx < 10u; local_idx++)
     {
         pItem = &this->field_0_bonuses[local_idx];
         if (!pItem->field_2A_bUsed)
         {
-            goto inc_idx;
+            continue;
         }
         if (!pItem->field_2B_bActive)
         {
-            goto inc_idx;
+            continue;
         }
         l_4 = pItem->field_4_event_type;
         if (l_4 != f_4 && l_4 != -1)
         {
-            goto inc_idx;
+            continue;
         }
         l_c = pItem->field_C_occupation;
         if (l_c == occupation || l_c == 51 || IsOccupationInGroup_432240(occupation, pItem->field_C_occupation))
@@ -165,7 +158,7 @@ u16 sad_mirzakhani::find_431EC0(u16 idx,
                         l_14 = pItem->field_14;
                         if (l_14 == f_14 || l_14 == 23 || sub_432170(f_14, pItem->field_14))
                         {
-                            l_18 = pItem->field_8_car_model;
+                            l_18 = pItem->field_18_alt_car_model;
                             if ((l_18 == f_18 || l_18 == 87) && (pItem->field_0_pZone == pZone || !pItem->field_0_pZone))
                             {
                                 return local_idx;
@@ -179,12 +172,8 @@ u16 sad_mirzakhani::find_431EC0(u16 idx,
         {
             field_0_bonuses[local_idx].Deactivate_431DB0();
         }
-    inc_idx:
-        if (++local_idx >= 10u)
-        {
-            return 10;
-        }
     }
+    return 10;
 }
 
 MATCH_FUNC(0x431FE0);
@@ -257,17 +246,15 @@ WIP_FUNC(0x4320D0);
 void sad_mirzakhani::ProcessBonusEvent_4320D0(s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s32 f_14, s32 f_18, gmp_map_zone* pZone)
 {
     WIP_IMPLEMENTED;
-    u16 found_idx = 0;
-    for (s16 i = 0; i < 10u; i = found_idx + 1)
+    for (u16 i = 0; i < 10u; i++)
     {
-        found_idx = find_431EC0(i, f_4, f_8, f_c, f_10, f_12, f_14, f_18, pZone);
-        // _found_idx = found_idx;
-        if (found_idx >= 10u)
+        i = find_431EC0(i, f_4, f_8, f_c, f_10, f_12, f_14, f_18, pZone);
+        if (i >= 10u)
         {
             break;
         }
-        silly_saha_0x2C* pFound = &field_0_bonuses[found_idx];
-        pFound->field_26_count++;
+        silly_saha_0x2C* pFound = &field_0_bonuses[i];
+        field_0_bonuses[i].field_26_count++;
         if (pFound->field_26_count == pFound->field_25_target_count)
         {
             field_1B8_pScores->field_368_player->Add_2D4(pFound->field_28_reward);
@@ -276,106 +263,134 @@ void sad_mirzakhani::ProcessBonusEvent_4320D0(s16 f_4, s32 f_8, s32 f_c, s16 f_1
     }
 }
 
-WIP_FUNC(0x432170);
+MATCH_FUNC(0x432170);
 s8 sad_mirzakhani::sub_432170(int a2, int a3)
 {
-    WIP_IMPLEMENTED;
-    switch (a3)
+    if (a3 == 1)
     {
-        case 1:
-            return a2 == 3;
-        case 12:
-            return a2 == 4;
-        case 21:
-            return a2 == 4;
-        case 15:
-            return a2 == 4;
-        case 16:
-            return a2 == 4;
-        case 17:
-            return a2 == 4;
-        case 14:
-            return a2 == 13;
+        if (a2 == 3)
+        {
+            return 1;
+        }
     }
-
-    if (a3 != 22)
+    else if (a3 == 12)
     {
-        return 0;
+        if (a2 == 4)
+        {
+            return 1;
+        }
     }
-
-    switch (a2)
+    else if (a3 == 21)
     {
-        case 4:
-        case 10:
-        case 11:
-        case 13:
-        case 14:
-        case 15:
-        case 16:
-        case 17:
-        case 18:
-        case 19:
-            break;
-        default:
-            return 0;
+        if (a2 == 4)
+        {
+            return 1;
+        }
     }
-    return 1;
+    else if (a3 == 15)
+    {
+        if (a2 == 4)
+        {
+            return 1;
+        }
+    }
+    else if (a3 == 16)
+    {
+        if (a2 == 4)
+        {
+            return 1;
+        }
+    }
+    else if (a3 == 17)
+    {
+        if (a2 == 4)
+        {
+            return 1;
+        }
+    }
+    else if (a3 == 14)
+    {
+        if (a2 == 13)
+        {
+            return 1;
+        }
+    }
+    else if (a3 == 22)
+    {
+        switch (a2)
+        {
+            case 4:
+            case 10:
+            case 11:
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+            case 17:
+            case 18:
+            case 19:
+                return 1;
+        }
+    }
+    return 0;
 }
 
-WIP_FUNC(0x432240);
+MATCH_FUNC(0x432240);
 s8 sad_mirzakhani::IsOccupationInGroup_432240(int occupation, int a3)
 {
-    WIP_IMPLEMENTED;
-    switch (a3)
+    if (a3 == 46)
     {
-        case 46:
-            switch (occupation)
-            {
-                case ped_ocupation_enum::police:
-                case ped_ocupation_enum::swat:
-                case ped_ocupation_enum::fbi:
-                case ped_ocupation_enum::army_army:
-                case ped_ocupation_enum::walking_guard_29:
-                case ped_ocupation_enum::unknown_cop_occu_30:
-                case ped_ocupation_enum::unknown_cop_occu_31:
-                case ped_ocupation_enum::tank_driver:
-                case ped_ocupation_enum::roadblock_cop_37:
-                case ped_ocupation_enum::road_block_tank_man:
-                    return 1;
-                default:
-                    return 0;
-            }
-        case 47:
-            switch (occupation)
-            {
-                case ped_ocupation_enum::paramedic_23:
-                case ped_ocupation_enum::police:
-                case ped_ocupation_enum::swat:
-                case ped_ocupation_enum::fbi:
-                case ped_ocupation_enum::army_army:
-                case ped_ocupation_enum::walking_guard_29:
-                case ped_ocupation_enum::unknown_cop_occu_30:
-                case ped_ocupation_enum::unknown_cop_occu_31:
-                case ped_ocupation_enum::tank_driver:
-                case ped_ocupation_enum::roadblock_cop_37:
-                case ped_ocupation_enum::fireman:
-                case ped_ocupation_enum::road_block_tank_man:
-                    return 1;
-                default:
-                    return 0;
-            }
-        case 48:
-            if (occupation == ped_ocupation_enum::armed_gang_member_19 || occupation == ped_ocupation_enum::guard || occupation == ped_ocupation_enum::gang_driver_42)
-            {
+        switch (occupation)
+        {
+            case ped_ocupation_enum::police:
+            case ped_ocupation_enum::swat:
+            case ped_ocupation_enum::fbi:
+            case ped_ocupation_enum::army_army:
+            case ped_ocupation_enum::walking_guard_29:
+            case ped_ocupation_enum::unknown_cop_occu_30:
+            case ped_ocupation_enum::unknown_cop_occu_31:
+            case ped_ocupation_enum::tank_driver:
+            case ped_ocupation_enum::roadblock_cop_37:
+            case ped_ocupation_enum::road_block_tank_man:
                 return 1;
-            }
-            break;
-        default:
-            if (a3 == 49 && (occupation == ped_ocupation_enum::elvis || occupation == ped_ocupation_enum::elvis_leader))
-            {
+            default:
+                return 0;
+        }
+    }
+    else if (a3 == 47)
+    {
+        switch (occupation)
+        {
+            case ped_ocupation_enum::paramedic_23:
+            case ped_ocupation_enum::police:
+            case ped_ocupation_enum::swat:
+            case ped_ocupation_enum::fbi:
+            case ped_ocupation_enum::army_army:
+            case ped_ocupation_enum::walking_guard_29:
+            case ped_ocupation_enum::unknown_cop_occu_30:
+            case ped_ocupation_enum::unknown_cop_occu_31:
+            case ped_ocupation_enum::tank_driver:
+            case ped_ocupation_enum::roadblock_cop_37:
+            case ped_ocupation_enum::fireman:
+            case ped_ocupation_enum::road_block_tank_man:
                 return 1;
-            }
-            break;
+            default:
+                return 0;
+        }
+    }
+    else if (a3 == 48)
+    {
+        if (occupation == ped_ocupation_enum::armed_gang_member_19 || occupation == ped_ocupation_enum::guard || occupation == ped_ocupation_enum::gang_driver_42)
+        {
+            return 1;
+        }
+    }
+    else if (a3 == 49)
+    {
+        if (occupation == ped_ocupation_enum::elvis || occupation == ped_ocupation_enum::elvis_leader)
+        {
+            return 1;
+        }
     }
     return 0;
 }

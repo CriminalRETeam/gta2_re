@@ -341,7 +341,11 @@ gmp_map_zone* Map_0x370::GetNearestZoneOfType_4DF240(u8 xpos, u8 ypos, u8 zone_t
         if (pZone->field_0_zone_type == zone_type
             && !pZone->IsZoneVisibleToAnyPlayer_4DEF40())
         {
-            Fix16 v13 = Fix16::MaxAbsDistance_42A6B0(pZone->field_1_x, pZone->field_2_y, xpos, ypos);
+            // 9.6f inlined: MaxAbsDistance_42A6B0, here with Abs inline but Negate/Max out of line
+            Fix16 diff_x = Fix16(xpos) - Fix16(pZone->field_1_x);
+            Fix16 diff_y = Fix16(ypos) - Fix16(pZone->field_2_y);
+            Fix16 v13;
+            v13 = Fix16::Max_44E540(Fix16::Abs_negate_out_of_line(diff_x), Fix16::Abs_negate_out_of_line(diff_y));
 
             if (v13 < v21)
             {
@@ -1221,36 +1225,31 @@ char_type Map_0x370::RectHitsDiagonalWall_4E11E0(Fix16_Rect* pRect)
 
     s32 z_calc = pRect->GetMidZ_463760();
 
-    s32 y_count = gPurple_top_6F6108;
-    while (y_count <= gPurple_bottom_6F5F38)
+    for (s32 y_count = gPurple_top_6F6108; y_count <= gPurple_bottom_6F5F38; y_count++)
     {
-        s32 x_count = gPurple_left_6F5FD4;
-        Fix16 left = (gPurple_left_6F5FD4 + 1); // Fix16()
-        while (x_count <= gPurple_right_6F5B80)
+        for (s32 x_count = gPurple_left_6F5FD4; x_count <= gPurple_right_6F5B80; x_count++)
         {
             gmp_block_info* pBlock = get_block_4DFE10(x_count, y_count, z_calc);
             if (pBlock)
             {
-                u8 slope_mask = pBlock->field_B_slope_type & 0xFC;
+                s32 slope_mask = pBlock->field_B_slope_type & 0xFC;
                 if (slope_mask >= 0xB4 && slope_mask <= 0xD0)
                 {
-
                     // 9.6f: Fix16_Point::SetXY_432860 for p1/p2 (inlined, using it changes the code)
                     if (slope_mask == 0xB4 || slope_mask == 0xC0 || slope_mask == 0xC4 || slope_mask == 0xD0)
                     {
-                        p1.x = x_count; // Fix16()
-                        p1.y = (y_count + 1); // Fix16()
-                        p2.x = left;
-                        p2.y = y_count; // Fix16()
+                        p1.x = Fix16(x_count);
+                        p1.y = Fix16(y_count + 1);
+                        p2.x = Fix16(x_count + 1);
+                        p2.y = Fix16(y_count);
                     }
                     else
                     {
-                        p1.x = x_count; // Fix16()
-                        p1.y = y_count; // Fix16()
-                        p2.x = left;
-                        p2.y = y_count + 1; // Fix16()
+                        p1.x = Fix16(x_count);
+                        p1.y = Fix16(y_count);
+                        p2.x = Fix16(x_count + 1);
+                        p2.y = Fix16(y_count + 1);
                     }
-                   
 
                     if (pRect->EdgesCrossSegment_463690(p1, p2))
                     {
@@ -1258,49 +1257,58 @@ char_type Map_0x370::RectHitsDiagonalWall_4E11E0(Fix16_Rect* pRect)
                     }
                 }
             }
-            ++x_count;
-            left += Fix16(0x4000, 0);
         }
-        ++y_count;
     }
     return 0;
 }
 
 // https://decomp.me/scratch/jaBFe
+// The original calls the out-of-line Fix16(int) and const operator+ (Add_408660) for the
+// x/y block centre, so the sum goes through a const Fix16
+static inline Fix16 BlockCentre_4E1520(s32 v)
+{
+    const Fix16 f = v;
+    return f + kFpHalf_6F5FE0;
+}
+
 WIP_FUNC(0x4E1520)
 bool Map_0x370::SpriteHitsDiagonalWall_4E1520(s32 z_pos)
 {
     WIP_IMPLEMENTED;
+    Fix16_Point point;
+    Fix16_Point unk_point;
     for (s32 y_pos = gPurple_top_6F6108; y_pos <= gPurple_bottom_6F5F38; y_pos++)
     {
-        Fix16 left = Fix16(gPurple_left_6F5FD4 + 1);
-        for (s32 x_pos = gPurple_left_6F5FD4; x_pos <= gPurple_right_6F5B80; x_pos++, left += Fix16(1))
+        for (s32 x_pos = gPurple_left_6F5FD4; x_pos <= gPurple_right_6F5B80; x_pos++)
         {
-            Fix16_Point point;
-            Fix16_Point unk_point;
             gmp_block_info* pBlock = Map_0x370::get_block_4DFE10(x_pos, y_pos, z_pos);
 
             if (pBlock != NULL)
             {
-                u8 slope_type = pBlock->field_B_slope_type & 0xFC;
+                u32 slope_type = pBlock->field_B_slope_type & 0xFC;
                 if (slope_type >= 0xB4 && slope_type <= 0xD0)
                 {
+                    // 9.6f: Fix16_Point::SetXY_432860 for both points (inlined, using it changes the code)
                     if (slope_type == DIAGONAL_WALL_UP_LEFT || slope_type == DIAGONAL_WALL_DOWN_RIGHT ||
                         slope_type == TRIANGULAR_SIDES_DIAGONAL_UP_LEFT || slope_type == TRIANGULAR_SIDES_DIAGONAL_DOWN_RIGHT)
                     {
-                        point.SetXY_432860(Fix16(x_pos), Fix16(y_pos + 1));
-                        unk_point.SetXY_432860(left, Fix16(y_pos));
+                        point.x = Fix16(x_pos);
+                        point.y = Fix16(y_pos + 1);
+                        unk_point.x = Fix16(x_pos + 1);
+                        unk_point.y = Fix16(y_pos);
                     }
                     else
                     {
-                        point.SetXY_432860(Fix16(x_pos), Fix16(y_pos));
-                        unk_point.SetXY_432860(left, Fix16(y_pos + 1));
+                        point.x = Fix16(x_pos);
+                        point.y = Fix16(y_pos);
+                        unk_point.x = Fix16(x_pos + 1);
+                        unk_point.y = Fix16(y_pos + 1);
                     }
 
                     if (gSprite_6F61E8->PointInsideRotatedBounds_5A1490(point, unk_point))
                     {
                         Sprite* pSprt = gObject_5C_6F8F84->GetDirectionalObject_5298E0(slope_type)->field_4;
-                        pSprt->set_xyz_lazy_451950(Fix16(x_pos) + kFpHalf_6F5FE0, Fix16(y_pos) + kFpHalf_6F5FE0, Fix16(z_pos));
+                        pSprt->set_xyz_lazy_451950(BlockCentre_4E1520(x_pos), BlockCentre_4E1520(y_pos), Fix16(z_pos));
                         pSprt->UpdateCollisionBoundsIfNeeded_59E9C0();
                         gRozza_679188.SetSprite_40FEE0(pSprt);
                         return true;
@@ -1372,6 +1380,12 @@ bool Map_0x370::sub_4E1A30(s32 tileX_min, s32 tileX_max, s32 tileY_min, s32 tile
 {
     WIP_IMPLEMENTED;
 
+    // Left: the original loads the mask with a 16-bit `mov %cx` and does `test %cx, face`; VC6 here
+    // loads the face into cx and the mask with a 32-bit mov (same with u16/s16, either operand order,
+    // a u16 local, a u16 result cast, other names or defining the global in another TU).
+    // The hit tests take (u32)y -> Fix16(u32) 0x4926F0, y + 1 -> Fix16(s32) 0x4369F0 and the
+    // face coordinate x + 1 / y + 1 (inlined, strength reduced for x).
+
     for (s32 y = tileY_min; y <= tileY_max; y++)
     {
         for (s32 x = tileX_min; x <= tileX_max; x++)
@@ -1385,7 +1399,7 @@ bool Map_0x370::sub_4E1A30(s32 tileX_min, s32 tileX_max, s32 tileY_min, s32 tile
                     {
                         if (!IsNorthOrSouthGradSlope_4634B0(pBlock1))
                         {
-                            if (gSprite_6F61E8->HitTestVerticalLine_5A0EF0(y, y + 1, zLevel + 1))
+                            if (gSprite_6F61E8->HitTestVerticalLine_5A0EF0((u32)y, y + 1, x + 1))
                             {
                                 return true;
                             }
@@ -1399,7 +1413,7 @@ bool Map_0x370::sub_4E1A30(s32 tileX_min, s32 tileX_max, s32 tileY_min, s32 tile
                     {
                         if (!IsNorthOrSouthGradSlope_4634B0(pBlock2))
                         {
-                            if (gSprite_6F61E8->HitTestVerticalLine_5A0EF0(y, y + 1, zLevel))
+                            if (gSprite_6F61E8->HitTestVerticalLine_5A0EF0((u32)y, y + 1, x + 1))
                             {
                                 return true;
                             }
@@ -1417,7 +1431,7 @@ bool Map_0x370::sub_4E1A30(s32 tileX_min, s32 tileX_max, s32 tileY_min, s32 tile
                     {
                         if (!IsWestOrEastGradSlope_4634B0(pBlock3))
                         {
-                            if (gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(x, x + 1, zLevel + 1))
+                            if (gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970((u32)x, x + 1, y + 1))
                             {
                                 return true;
                             }
@@ -1432,7 +1446,7 @@ bool Map_0x370::sub_4E1A30(s32 tileX_min, s32 tileX_max, s32 tileY_min, s32 tile
                     {
                         if (!IsWestOrEastGradSlope_4634B0(pBlock4))
                         {
-                            if (gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(x, x + 1, zLevel))
+                            if (gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970((u32)x, x + 1, y + 1))
                             {
                                 return true;
                             }
@@ -1500,7 +1514,7 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
         gBlockInfo0_6F5EB0 = &gBlockInfo1_6F5F40;
     }
 
-    s32 gradient_direction_;
+    u8 gradient_direction_;
     gmp_map_slope* pSlopeType = &gGmpSlopes_6F5BA8[pBlock2->field_B_slope_type >> 2];
     dword_6F5EC8 = pSlopeType;
     if (!pSlopeType->field_0_gradient_direction || pSlopeType->field_2_gradient_level)
@@ -1510,7 +1524,7 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
     else
     {
         gradient_direction_ = pSlopeType->field_0_gradient_direction;
-        switch (pSlopeType->field_0_gradient_direction)
+        switch (gradient_direction_)
         {
             case 1u:
                 ++dword_6F5FAC;
@@ -1535,41 +1549,23 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
         goto LABEL_39;
     }
 
-    if (gradient_direction_ != 1)
+    if (gradient_direction_ == 1)
     {
-        if (((u16)gFaceCollisionMask_6F6002 & gBlockInfo0_6F5EB0->field_4_top) == 0)
+        if (dword_6F6054 && (dword_6F6054->field_4_top & gFaceCollisionMask_6F6002))
         {
-            goto LABEL_32;
-        }
-        if (dword_6F5EC8->field_0_gradient_direction == 3)
-        {
-            goto LABEL_32;
-        }
-        if (dword_6F5EC8->field_0_gradient_direction == 4)
-        {
-            goto LABEL_32;
-        }
-        if (gSprite_6F61E8)
-        {
-            if (!gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX, tileX + 1, tileY))
+            if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX, tileX + 1, tileY))
             {
-                goto LABEL_32;
+                return 1;
             }
         }
-        return 1;
     }
-    if (!dword_6F6054 || ((u16)gFaceCollisionMask_6F6002 & dword_6F6054->field_4_top) == 0)
+    else if ((gBlockInfo0_6F5EB0->field_4_top & gFaceCollisionMask_6F6002) && dword_6F5EC8->field_0_gradient_direction != 3 &&
+             dword_6F5EC8->field_0_gradient_direction != 4)
     {
-        goto LABEL_32;
-    }
-    if (!gSprite_6F61E8)
-    {
-        return 1;
-    }
-
-    if (gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX, tileX + 1, tileY))
-    {
-        return 1;
+        if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX, tileX + 1, tileY))
+        {
+            return 1;
+        }
     }
 
 LABEL_32:
@@ -2883,6 +2879,30 @@ gmp_map_slope::gmp_map_slope(u8 gradient_direction, u8 gradient_size, u8 gradien
 }
 
 // https://decomp.me/scratch/zXDWw
+// GetLength_453590 as inlined into sub_4E5640 (out of line helpers)
+static inline Fix16 GetLength_inline_4E5640(Fix16_Point& p)
+{
+    if (p.x == kFpZero_6F610C)
+    {
+        return Fix16::Abs_436A50(p.y);
+    }
+    else if (p.y == kFpZero_6F610C)
+    {
+        return Fix16::Abs_436A50(p.x);
+    }
+    else
+    {
+        return Fix16::SquareRoot_436A70((const Fix16&)p.x.Multiply_408680(p.x) + p.y.Multiply_408680(p.y));
+    }
+}
+
+// Ang16::PolarToCartesian_41FC20 as inlined into sub_4E5640 (out of line multiplies)
+static inline void PolarToCartesian_inline_4E5640(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2)
+{
+    ret1 = Ang16::sine_40F500(angle).Multiply_408680(radius);
+    ret2 = Ang16::cosine_40F520(angle).Multiply_408680(radius);
+}
+
 WIP_FUNC(0x4E5640)
 char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_1, Fix16 y_1, Fix16 z_1, Fix16 x_2, Fix16 y_2, Fix16 z_2)
 {
@@ -2896,7 +2916,7 @@ char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_
 
     angle = Fix16::atan2_fixed_405320(y_2 - y_1, x_2 - x_1);
 
-    Fix16 distance = pos_diff.GetLength_2(); // GetLength_453590
+    Fix16 distance = GetLength_inline_4E5640(pos_diff);
     pObjSprt->set_xyz_lazy_420600(x_1, y_1, z_1);
     pObjSprt->set_ang_lazy_420690(angle);
     pObjSprt->AllocInternal_59F950(width, height, depth);
@@ -2927,7 +2947,7 @@ char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_
     Fix16 vec_x;
     Fix16 vec_y;
 
-    Ang16::PolarToCartesian_41FC20(angle, value_2, vec_x, vec_y);
+    PolarToCartesian_inline_4E5640(angle, value_2, vec_x, vec_y);
 
     for (u8 i = 1; i <= value_1.ToInt(); i++)
     {
@@ -2961,7 +2981,7 @@ char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_
                                                                   pObjSprt->field_14_xy.y.ToInt(),
                                                                   (pObjSprt->field_1C_zpos + kFpHalf_6F5FE0).ToInt()) != AIR)
                 {
-                    if (!IsGradientSlopeAt_466CF0(pObjSprt->field_14_xy.x.ToInt(),
+                    if (!gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(pObjSprt->field_14_xy.x.ToInt(),
                                                   pObjSprt->field_14_xy.y.ToInt(),
                                                   pObjSprt->field_1C_zpos.ToInt()))
                     {
@@ -2983,7 +3003,7 @@ char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_
                                               pObjSprt->field_14_xy.y + vec_y,
                                               pObjSprt->field_1C_zpos + value_3);
 
-                if (IsGradientSlopeAt_466CF0(pObjSprt->field_14_xy.x.ToInt(),
+                if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(pObjSprt->field_14_xy.x.ToInt(),
                                              pObjSprt->field_14_xy.y.ToInt(),
                                              pObjSprt->field_1C_zpos.ToInt()))
                 {

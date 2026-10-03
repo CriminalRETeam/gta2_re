@@ -88,6 +88,8 @@ void sharp_pare_0x15D8::ReadTextures_5B92E0()
         STexture** p = field_0_textures1;
         for (u16 i = 0; i < GTA2_COUNTOF(field_0_textures1); i++, p++)
         {
+            // Not in the original: guards its out-of-range tile read, which crashes standalone. This guard is
+            // the only difference from 10.5; without it the function matches (see docs/match_attempts.md).
             if (i > 992) // avoid original bug crashing standalone
             {
                 return;
@@ -131,7 +133,7 @@ void sharp_pare_0x15D8::LoadStyleTextures_5B9350()
 }
 
 MATCH_FUNC(0x5B94F0)
-STexture* sharp_pare_0x15D8::GetSpriteTexture_5B94F0(s32 sprite_type, u16 sprite_id, s32 palette_type, s32 remap)
+STexture* sharp_pare_0x15D8::GetSpriteTexture_5B94F0(s32 sprite_type, u16 sprite_id, s32 palette_type, s16 remap)
 {
     STexture* result;
 

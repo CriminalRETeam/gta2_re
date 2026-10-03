@@ -993,64 +993,68 @@ bool Police_7B8::AssignCrewToService_570790(PoliceCrew_38* pCrew, Police_7C* pSe
 }
 
 // https://decomp.me/scratch/pfRaI
-WIP_FUNC(0x5707b0)
+// Inlined search helpers: their NULL results are tested by the caller
+static inline Police_7C* FindServiceForCriminal_5707B0(Police_7B8* pThis, Ped* pCriminal)
+{
+    for (u8 i = 0; i < GTA2_COUNTOF(pThis->field_464_services); i++)
+    {
+        if (pThis->field_464_services[i].field_0_criminal_ped == pCriminal)
+        {
+            return &pThis->field_464_services[i];
+        }
+    }
+    return NULL;
+}
+
+static inline PoliceCrew_38* FindCrewInCar_5707B0(Police_7B8* pThis, Car_BC* pCar)
+{
+    for (u8 j = 0; j < GTA2_COUNTOF(pThis->field_4_cop_crew); j++)
+    {
+        PoliceCrew_38* pCrew = &pThis->field_4_cop_crew[j];
+        if (pCrew->field_1C_used && pCrew->field_10_subObj->field_0_car == pCar)
+        {
+            return pCrew;
+        }
+    }
+    return NULL;
+}
+
+MATCH_FUNC(0x5707b0)
 bool Police_7B8::PromptCrewAtCarToPurseCriminal_5707B0(Car_BC* pCar, Ped* pCriminal)
 {
-    WIP_IMPLEMENTED;
-
     if (!pCriminal->is_player_41B0A0())
     {
         return false;
     }
 
-    for (u8 i = 0; i < GTA2_COUNTOF(field_464_services); i++)
+    Police_7C* p7C = FindServiceForCriminal_5707B0(this, pCriminal);
+    if (p7C == NULL)
     {
-        // finding the instance in which pCriminal is
-        if (field_464_services[i].field_0_criminal_ped != pCriminal)
-        {
-            continue;
-        }
-
-        if (&field_464_services[i] == NULL)
-        {
-            return false;
-        }
-
-        Police_7C* p7C = &field_464_services[i];
-        for (u8 j = 0; j < GTA2_COUNTOF(field_4_cop_crew); j++)
-        {
-            PoliceCrew_38* pCrew = &field_4_cop_crew[j];
-            if (pCrew->field_1C_used && pCrew->field_10_subObj->field_0_car == pCar)
-            {
-                if (pCrew == NULL)
-                {
-                    return false;
-                }
-
-                if (pCrew->field_10_subObj->field_20_crew_type != crew_type::army_6 && p7C->field_4_wanted_level == 6)
-                {
-                    return false;
-                }
-
-                p7C->field_8_state = 3;
-                pCrew->field_14_pService = &field_464_services[i];
-                pCrew->field_24_state = police_crew_state::pursue_or_chase_5;
-                pCrew->AddToService_570A10();
-
-                if (pCrew->field_10_subObj->field_20_crew_type != crew_type::army_6)
-                {
-                    pCrew->field_10_subObj->field_0_car->ActivateEmergencyLights_43C920();
-                }
-
-                return true;
-            }
-        }
-
         return false;
+    }
 
-    } // end for
+    PoliceCrew_38* pCrew = FindCrewInCar_5707B0(this, pCar);
+    if (pCrew == NULL)
+    {
+        return false;
+    }
 
-    return false;
+    if (pCrew->field_10_subObj->field_20_crew_type != crew_type::army_6 && p7C->field_4_wanted_level == 6)
+    {
+        return false;
+    }
+
+    p7C->field_8_state = 3;
+    pCrew->field_14_pService = p7C;
+    pCrew->field_24_state = police_crew_state::pursue_or_chase_5;
+    pCrew->AddToService_570A10();
+
+    if (pCrew->field_10_subObj->field_20_crew_type != crew_type::army_6)
+    {
+        pCrew->field_10_subObj->field_0_car->ActivateEmergencyLights_43C920();
+    }
+
+    return true;
 }
 
 MATCH_FUNC(0x5708c0)
@@ -1102,6 +1106,8 @@ void Police_7B8::TryCreateRoadblockAt_577370(u8 x, u8 y, s32 roadblock_type)
     switch (field_654_wanted_level)
     {
         case 3:
+            gRoadblockGuardType_6FEDB8 = 1;
+            break;
         case 4:
             gRoadblockGuardType_6FEDB8 = 1;
             break;
@@ -1118,17 +1124,18 @@ void Police_7B8::TryCreateRoadblockAt_577370(u8 x, u8 y, s32 roadblock_type)
         bBothSides = true;
     }
 
-    u8 z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(Fix16(x), Fix16(y)).ToUInt8();
+    u8 z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(x, (s32)y).ToUInt8();
 
     if (bBothSides)
     {
         if (!field_664_roadblock_1.field_0_bActive)
         {
             field_664_roadblock_1.CreateRoadblock_575FF0(x, y, z, 3);
+            return;
         }
-        else if (!field_708_roadblock_2.field_0_bActive)
+        else if (field_708_roadblock_2.field_0_bActive)
         {
-            field_708_roadblock_2.CreateRoadblock_575FF0(x, y, z, 3);
+            return;
         }
     }
     else
@@ -1136,10 +1143,12 @@ void Police_7B8::TryCreateRoadblockAt_577370(u8 x, u8 y, s32 roadblock_type)
         if (!field_664_roadblock_1.field_0_bActive)
         {
             field_664_roadblock_1.CreateRoadblock_575FF0(x, y, z, 2);
+            return;
         }
-        else if (!field_708_roadblock_2.field_0_bActive)
+        else if (field_708_roadblock_2.field_0_bActive)
         {
-            field_708_roadblock_2.CreateRoadblock_575FF0(x, y, z, 3);
+            return;
         }
     }
+    field_708_roadblock_2.CreateRoadblock_575FF0(x, y, z, 3);
 }

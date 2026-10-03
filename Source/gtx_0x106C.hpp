@@ -104,6 +104,13 @@ class car_info
         return (this->info_flags & 8) == 8;
     }
 
+    // Like is_0x8_41FEA0; going through a car_info method keeps the check a plain branch in
+    // Car_BC::CanBeLiftedByCrane_447F00 (a direct `(flags & 0x10) == 0x10` there gives a sete)
+    bool is_0x10() const
+    {
+        return (this->info_flags & 0x10) == 0x10;
+    }
+
     bool is_0x1_41FF00() const
     {
         return (this->info_flags_2 & 1) == 1;

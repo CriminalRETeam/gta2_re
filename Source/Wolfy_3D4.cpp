@@ -62,74 +62,125 @@ void Wolfy_7A8::sub_543690()
 {
     WIP_IMPLEMENTED;
 
-    u8 currentVal1 = 0;
-    u8 next_idx = 0;
     u8 smallestVal = 99;
     u8 smallestVal_idx = 99;
+    u8 currentVal1 = 0;
+    u8 next_idx = 0;
     u8 last_idx = 0;
     do
     {
         if (this->field_780_bUsed[last_idx] == 1)
         {
             Wolfy_30* pObj = &this->field_0[last_idx];
+            // Each case written out on its own: merged labels give a byte index table, the
+            // original has one dword entry per case. Cases 1 and 39 keep the range.
             switch (pObj->field_10_type_or_state)
             {
                 case 2:
+                    break;
                 case 3:
+                    break;
                 case 4:
+                    break;
                 case 21:
+                    break;
                 case 31:
+                    break;
                 case 34:
-                    goto update_smallest;
+                    break;
                 case 5:
+                    currentVal1 = 2;
+                    break;
                 case 28:
+                    currentVal1 = 2;
+                    break;
                 case 29:
+                    currentVal1 = 2;
+                    break;
                 case 30:
                     currentVal1 = 2;
-                    goto update_smallest;
-                case 12:
-                case 14:
-                case 15:
-                    currentVal1 = 5;
-                    goto update_smallest;
+                    break;
                 case 13:
                     currentVal1 = 4;
-                    goto update_smallest;
+                    break;
+                case 12:
+                    currentVal1 = 5;
+                    break;
+                case 14:
+                    currentVal1 = 5;
+                    break;
+                case 15:
+                    currentVal1 = 5;
+                    break;
                 case 16:
+                    currentVal1 = 6;
+                    break;
                 case 17:
                     currentVal1 = 6;
-                    goto update_smallest;
+                    break;
                 case 18:
+                    if (pObj->field_1A_timer < 82u)
+                    {
+                        currentVal1 = 3;
+                    }
+                    break;
                 case 33:
                     if (pObj->field_1A_timer < 82u)
                     {
                         currentVal1 = 3;
                     }
-                    goto update_smallest;
+                    break;
                 case 19:
+                    if (pObj->field_1A_timer < 50u)
+                    {
+                        currentVal1 = 3;
+                    }
+                    break;
                 case 20:
+                    if (pObj->field_1A_timer < 50u)
+                    {
+                        currentVal1 = 3;
+                    }
+                    break;
                 case 32:
                     if (pObj->field_1A_timer < 50u)
                     {
-                        goto set_cur_to_3;
-                    }
-                    goto update_smallest;
-                case 22:
-                case 23:
-                case 24:
-                case 25:
-                set_cur_to_3:
-                    currentVal1 = 3;
-                update_smallest:
-                    if (currentVal1 < smallestVal)
-                    {
-                        smallestVal = currentVal1;
-                        smallestVal_idx = next_idx;
+                        currentVal1 = 3;
                     }
                     break;
+                case 22:
+                    currentVal1 = 3;
+                    break;
+                case 23:
+                    currentVal1 = 3;
+                    break;
+                case 24:
+                    currentVal1 = 3;
+                    break;
+                case 25:
+                    currentVal1 = 3;
+                    break;
+                case 1:
+                    currentVal1 = 1;
+                    break;
+                case 39:
+                    currentVal1 = 1;
+                    break;
                 default:
-                    this->field_0[last_idx].field_1A_timer = 0;
-                    return;
+                    currentVal1 = 1;
+                    break;
+            }
+
+            if (currentVal1 == 1)
+            {
+                this->field_0[last_idx].field_1A_timer = 0;
+                return;
+            }
+
+            if (currentVal1 < smallestVal)
+            {
+                smallestVal = currentVal1;
+                smallestVal_idx = next_idx;
             }
         }
         last_idx = ++next_idx;
@@ -142,51 +193,41 @@ Wolfy_30* Wolfy_7A8::New_40_543800()
 {
     WIP_IMPLEMENTED;
 
-    s32 k20Idx = 0;
-    s32 k40Idx;
-    s32 _20IdxCopy = 0;
-    s32 idx_to_use;
-
-    while (1)
+    // 9.6f has the init block twice, 10.5 merges both into one block
+    Wolfy_30* pNew;
+    u8 idx;
+    for (idx = 0; idx < 20; idx++)
     {
-        idx_to_use = _20IdxCopy;
-        if (!this->field_780_bUsed[_20IdxCopy])
+        if (!this->field_780_bUsed[idx])
         {
-            // Found a free entry
-            break;
-        }
-
-        _20IdxCopy = ++k20Idx;
-        if (k20Idx >= 20u)
-        {
-            sub_543690();
-            k20Idx = 0;
-            k40Idx = 0;
-            while (1)
-            {
-                idx_to_use = k40Idx;
-                if (!this->field_780_bUsed[k40Idx])
-                {
-                    break;
-                }
-                k40Idx = ++k20Idx;
-                if (k20Idx >= 40u)
-                {
-                    return 0;
-                }
-            }
-            break;
+            pNew = &this->field_0[idx];
+            pNew->Init_543650();
+            pNew->field_4_idx = idx;
+            pNew->field_6_id = gWolfyId_40_pool_623F18;
+            pNew->field_0_bIn20Pool = 0;
+            gWolfyId_40_pool_623F18++;
+            this->field_780_bUsed[idx] = 1;
+            return pNew;
         }
     }
 
-    Wolfy_30* pNew = &this->field_0[idx_to_use];
-    pNew->Init_543650();
-    pNew->field_4_idx = k20Idx;
-    pNew->field_6_id = gWolfyId_40_pool_623F18;
-    pNew->field_0_bIn20Pool = 0;
-    gWolfyId_40_pool_623F18++;
-    this->field_780_bUsed[idx_to_use] = 1;
-    return pNew;
+    sub_543690();
+
+    for (idx = 0; idx < 40; idx++)
+    {
+        if (!this->field_780_bUsed[idx])
+        {
+            pNew = &this->field_0[idx];
+            pNew->Init_543650();
+            pNew->field_4_idx = idx;
+            pNew->field_6_id = gWolfyId_40_pool_623F18;
+            pNew->field_0_bIn20Pool = 0;
+            gWolfyId_40_pool_623F18++;
+            this->field_780_bUsed[idx] = 1;
+            return pNew;
+        }
+    }
+    return 0;
 }
 
 MATCH_FUNC(0x5438b0)
@@ -236,14 +277,24 @@ Wolfy_30::~Wolfy_30()
 }
 
 WIP_FUNC(0x540d30)
-void Wolfy_30::state_3_12_540D30(Fix16 speed, Ang16 a2)
+void Wolfy_30::state_3_12_540D30(Ang16 a2, Fix16 speed)
 {
     WIP_IMPLEMENTED;
 
-    Ang16 v6 = kAng180_6FD3EE + a2;
+    // the ctor directly: operator+ calls it out of line here, and the Normalize loops
+    // have to be inlined (the original keeps v6 in si)
+    Ang16 v6(kAng180_6FD3EE.rValue + a2.rValue, 0);
 
-    Fix16 v32 = ((speed * gCos_table_669260[v6.rValue]) + (speed * gSin_table_667A80[v6.rValue]));
-    Fix16 v13 = ((-speed * gSin_table_667A80[v6.rValue]) + (speed * speed));
+    Fix16_Point p(speed, speed);
+
+    // Fix16_Point::RotateByAngle_40F6B0 written out: the function ran out of inline
+    // expansions, so the multiplies and adds are the out of line operator copies
+    // (only the y*sin multiply stays inline)
+    Fix16 sin = Ang16::sine_40F500(v6);
+    Fix16 cos = Ang16::cosine_40F520(v6);
+    Fix16 x_old = p.x;
+    p.x = (const Fix16&)p.x.Multiply_408680(cos) + (p.y * sin);
+    p.y = (const Fix16&)(-x_old).Multiply_408680(sin) + p.y.Multiply_408680(cos);
 
     this->field_8_speed = speed;
     this->field_C_angle = a2;
@@ -255,7 +306,7 @@ void Wolfy_30::state_3_12_540D30(Fix16 speed, Ang16 a2)
     else
     {
         //a3 = (int)&v27;
-        Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(v32, v13, dword_6FD330, v32, v13, 0);
+        Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(p.x, p.y, dword_6FD330, p.x, p.y, 0);
         if (!pParticle)
         {
             return;
@@ -299,7 +350,14 @@ void Wolfy_30::state_4_540F90(Ang16 ang, Fix16 pos)
     point.x = pos;
     point.y = pos;
 
-    point.RotateByAngle_40F6B0(ang + kAng180_6FD3EE);
+    Ang16 rot = kAng180_6FD3EE;
+    rot += ang;
+    // RotateByAngle_40F6B0, but using the out-of-line Fix16 operators
+    Fix16 sin = Ang16::sine_40F500(rot);
+    Fix16 cos = Ang16::cosine_40F520(rot);
+    Fix16 x_old = point.x;
+    point.x = (const Fix16&)point.x.Multiply_408680(cos) + (point.y * sin);
+    point.y = (const Fix16&)(-x_old).Multiply_408680(sin) + point.y.Multiply_408680(cos);
 
     this->field_8_speed = pos;
     this->field_C_angle = ang;
@@ -341,27 +399,25 @@ void Wolfy_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
 {
     WIP_IMPLEMENTED;
 
-    Ang16 new_ang = ang + kAng180_6FD3EE;
-    Fix16 xpos = pos;
-    Fix16 ypos = pos;
+    // Fix16_Point (has a destructor): the original sets an EH state for it
+    Fix16_Point point(pos, pos);
+    // ang + kAng180_6FD3EE leaves Normalize out of line
+    Ang16 new_ang(ang.rValue + kAng180_6FD3EE.rValue, 0);
 
     Fix16 sin_v = gSin_table_667A80[new_ang.rValue];
     Fix16 cos_v = gCos_table_669260[new_ang.rValue];
 
-    xpos = ((xpos * cos_v) + (pos * sin_v));
-    ypos = ((-pos * sin_v) + (ypos * cos_v));
+    Fix16 x_old = point.x;
+    point.x = (const Fix16&)point.x.Multiply_408680(cos_v) + (point.y * sin_v);
+    point.y = (const Fix16&)(-x_old).Multiply_408680(sin_v) + point.y.Multiply_408680(cos_v);
 
     this->field_8_speed = pos;
     this->field_C_angle = ang;
 
-    if (this->field_18_particle_cooldown)
-    {
-        this->field_18_particle_cooldown--;
-    }
-    else
+    if (this->field_18_particle_cooldown == 0)
     {
         //pos = (int)&v27; // TODO: Field_20 wrong val ??
-        Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(xpos, ypos, dword_6FD330, xpos, ypos, 0);
+        Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(point.x, point.y, dword_6FD330, point.x, point.y, 0);
         if (!pNew)
         {
             return;
@@ -382,6 +438,10 @@ void Wolfy_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
         pNew->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
         gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
         this->field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
+    }
+    else
+    {
+        this->field_18_particle_cooldown--;
     }
 }
 
@@ -523,10 +583,10 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
     Fix16 v4 = (field_28 * kFP16Two_6FD4A4);
 
     Sprite* v5 = this->field_14_pObj2C->field_4;
-    Fix16 new_bottom = v4 + v5->field_14_xy.y;
-    Fix16 new_left = v4 - v5->field_14_xy.x;
-    Fix16 new_right = v4 + v5->field_14_xy.x;
-    Fix16 new_top = v4 - v5->field_14_xy.y;
+    Fix16 new_bottom = v5->field_14_xy.y + v4;
+    Fix16 new_left = v5->field_14_xy.x - v4;
+    Fix16 new_right = v5->field_14_xy.x + v4;
+    Fix16 new_top = v5->field_14_xy.y - v4;
 
     Fix16 zm = v5->field_1C_zpos - zoff;
     Fix16 zp = v5->field_1C_zpos + zoff;
@@ -612,10 +672,12 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                     {
                         if (timerVal == 99)
                         {
-                            if (Fix16::MaxAbsDistance_42A6B0(pCollisionSprite->field_14_xy.x,
-                                                             pCollisionSprite->field_14_xy.y,
-                                                             this->field_14_pObj2C->field_4->field_14_xy.x,
-                                                             this->field_14_pObj2C->field_4->field_14_xy.y) <= this->field_28)
+                            // 9.6f: Fix16::MaxAbsDistance_42A6B0 (inlined), with Abs inlined and its
+                            // unary minus out of line
+                            Fix16 dx = this->field_14_pObj2C->field_4->field_14_xy.x - pCollisionSprite->field_14_xy.x;
+                            Fix16 dy = this->field_14_pObj2C->field_4->field_14_xy.y - pCollisionSprite->field_14_xy.y;
+                            if (Fix16::Max_44E540(Fix16::Abs_negate_out_of_line(dx), Fix16::Abs_negate_out_of_line(dy)) <=
+                                this->field_28)
                             {
                                 Fix16_Point tmp = this->field_14_pObj2C->field_4->get_x_y_443580();
                                 pCar->ApplyExplosionImpulse_443710(&tmp);
@@ -631,8 +693,8 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                             Fix16 xd_ = v33->field_14_xy.x - pCollisionSprite->field_14_xy.x;
                             Fix16 yd_ = v33->field_14_xy.y - pCollisionSprite->field_14_xy.y;
 
-                            Fix16 v53 = Fix16::Abs(xd_);
-                            Fix16 v36 = Fix16::Abs(yd_);
+                            Fix16 v53 = Fix16::Abs_negate_out_of_line(xd_);
+                            Fix16 v36 = Fix16::Abs_436A50(yd_);
 
                             if (Fix16::Max_44E540(v36, v53) > this->field_28)
                             {
@@ -694,32 +756,17 @@ void Wolfy_30::state_18_33_541D60()
     {
         if ((u16)field_1A_timer > 0x52u)
         {
-            if ((u16)field_1A_timer <= 0x5Au)
-            {
-                stru_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x;
-                stru_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y;
-
-                Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
-                pNew4C->field_46_sub_state = 0;
-                pNew4C->field_38_state = 18;
-                pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
-                pNew4C->field_30_pNext->SetType_4206F0(8);
-                pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
-                pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 20);
-                pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
-                gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
-                pNew4C->field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16Quarter_6FD2EC, 0);
-                pNew4C->field_48_timer = 5;
-            }
-            else
+            if ((u16)field_1A_timer > 0x5Au)
             {
                 Fix16 radius = (this->field_24 * Fix16(gRng_6F6784.get_int_4F7AE0(8)));
 
                 this->field_22 = Ang16::Fix16_To_Ang16_40F540(dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(360)));
 
-                Ang16::PolarToCartesian_41FC20(field_22, radius, stru_6FD388, stru_6FD38C);
-                //stru_6FD388 = (radius * gSin_table_667A80[field_22.rValue]);
-                //stru_6FD38C = (radius * gCos_table_669260[field_22.rValue]);
+                // Ang16::PolarToCartesian_41FC20 (9.6f) written out: the function ran
+                // out of inline expansions, so the second multiply is the out of line
+                // operator* (with the helper neither multiply gets inlined here)
+                stru_6FD388 = Ang16::sine_40F500(field_22) * radius;
+                stru_6FD38C = Ang16::cosine_40F520(field_22).Multiply_408680(radius);
 
                 // NOTE: This proves these 2 vars are not a Fix16_Point
                 stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
@@ -736,6 +783,23 @@ void Wolfy_30::state_18_33_541D60()
                 gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
                 pNew4C->field_48_timer = 1;
             }
+            else
+            {
+                stru_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x;
+                stru_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y;
+
+                Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
+                pNew4C->field_46_sub_state = 0;
+                pNew4C->field_38_state = 18;
+                pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
+                pNew4C->field_30_pNext->SetType_4206F0(8);
+                pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+                pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 20);
+                pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
+                gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+                pNew4C->field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16Quarter_6FD2EC, 0);
+                pNew4C->field_48_timer = 5;
+            }
         }
     }
 }
@@ -747,28 +811,14 @@ void Wolfy_30::state_19_32_542060()
 
     if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0())
     {
-        if (this->field_1A_timer <= 8u)
-        {
-            stru_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x;
-            stru_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y;
-
-            Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
-            pNew4C->field_46_sub_state = 0;
-            pNew4C->field_38_state = 19;
-            pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
-            pNew4C->field_30_pNext->SetType_4206F0(8);
-            pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
-            pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 20);
-            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
-            pNew4C->field_48_timer = 5;
-        }
-        else
+        if (this->field_1A_timer > 8u)
         {
             Fix16 v24 = (this->field_24 * Fix16(gRng_6F6784.get_int_4F7AE0(48)));
             this->field_22 = Ang16::Fix16_To_Ang16_40F540(dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(360)));
 
-            Ang16::PolarToCartesian_41FC20(field_22, v24, stru_6FD388, stru_6FD38C);
+            // 9.6f inlined: PolarToCartesian_41FC20 (10.5 expands only the first multiply)
+            stru_6FD388 = v24 * Ang16::sine_40F500(field_22);
+            stru_6FD38C = Ang16::cosine_40F520(field_22).Multiply_408680(v24);
 
             stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
             stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
@@ -786,6 +836,22 @@ void Wolfy_30::state_19_32_542060()
             pNew4C->field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16Half_6FD39C + kFP16One_6FD4A0, 0);
             pNew4C->field_48_timer = 1;
         }
+        else
+        {
+            stru_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x;
+            stru_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y;
+
+            Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
+            pNew4C->field_46_sub_state = 0;
+            pNew4C->field_38_state = 19;
+            pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
+            pNew4C->field_30_pNext->SetType_4206F0(8);
+            pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 20);
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+            pNew4C->field_48_timer = 5;
+        }
     }
 }
 
@@ -796,28 +862,14 @@ void Wolfy_30::state_20_542340()
 
     if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0())
     {
-        if (this->field_1A_timer <= 8u)
-        {
-            stru_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x;
-            stru_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y;
-
-            Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
-            pNew4C->field_46_sub_state = 0;
-            pNew4C->field_38_state = 20;
-            pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
-            pNew4C->field_30_pNext->SetType_4206F0(8);
-            pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
-            pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 56);
-            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
-            pNew4C->field_48_timer = 5;
-        }
-        else
+        if (this->field_1A_timer > 8u)
         {
             Fix16 v24 = (this->field_24 * Fix16(gRng_6F6784.get_int_4F7AE0(80)));
             this->field_22 = Ang16::Fix16_To_Ang16_40F540(dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(360)));
 
-            Ang16::PolarToCartesian_41FC20(field_22, v24, stru_6FD388, stru_6FD38C);
+            // PolarToCartesian_41FC20, with the second multiply out of line (inline budget)
+            stru_6FD388 = Ang16::sine_40F500(field_22) * v24;
+            stru_6FD38C = Ang16::cosine_40F520(field_22).Multiply_408680(v24);
 
             stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
             stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
@@ -833,14 +885,28 @@ void Wolfy_30::state_20_542340()
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
             pNew4C->field_48_timer = 1;
         }
+        else
+        {
+            stru_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x;
+            stru_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y;
+
+            Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
+            pNew4C->field_46_sub_state = 0;
+            pNew4C->field_38_state = 20;
+            pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
+            pNew4C->field_30_pNext->SetType_4206F0(8);
+            pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 56);
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+            pNew4C->field_48_timer = 5;
+        }
     }
 }
 
-WIP_FUNC(0x542790)
+MATCH_FUNC(0x542790)
 void Wolfy_30::state_18_19_20_32_33_542790()
 {
-    WIP_IMPLEMENTED;
-
     bool isOnScreen = true;
     if (this->field_1A_timer < 90u)
     {
@@ -879,7 +945,7 @@ void Wolfy_30::state_18_19_20_32_33_542790()
             case 79:
             case 89:
             {
-                Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(113, 145, 2, kAngZero_6FD5D4, 5, field_2C_ped_id);
+                Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(Fix16(113), Fix16(145), 2, kAngZero_6FD5D4, 5, field_2C_ped_id);
                 if (pExplosion)
                 {
                     Object_2C* pBlast = gObject_5C_6F8F84->NewUnknown_52A240(127,
@@ -989,18 +1055,18 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
         Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
         pNew4C->field_46_sub_state = 0;
 
-        switch (a2)
+        switch ((u8)a2)
         {
             case 0:
             {
                 pNew4C->field_38_state = 24;
-                Ang16 v47 = Ang16::Fix16_To_Ang16_482740((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(45))));
+                Ang16 v47 = Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(45))));
                 Ang16 v48 = kAng135_6FD40C + dword_6FD350;
                 Ang16 v43 = v48 + v47;
                 this->field_22 = v43;
 
-                stru_6FD388 = (gSin_table_667A80[field_22.rValue] * dword_6FD540);
-                stru_6FD38C = (gCos_table_669260[field_22.rValue] * dword_6FD540);
+                stru_6FD388 = Ang16::sine_40F500(field_22).Multiply_408680(dword_6FD540);
+                stru_6FD38C = Ang16::cosine_40F520(field_22).Multiply_408680(dword_6FD540);
 
                 stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
                 stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
@@ -1010,12 +1076,12 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
             case 1:
             {
                 pNew4C->field_38_state = 25;
-                Ang16 v49 = Ang16::Fix16_To_Ang16_482740((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90))));
+                Ang16 v49 = Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90))));
                 Ang16 v50 = dword_6FD350 + kAng315_6FD418;
                 Ang16 v44 = v50 + v49;
                 this->field_22 = v44;
-                stru_6FD388 = (gSin_table_667A80[field_22.rValue] * dword_6FD540);
-                stru_6FD38C = (gCos_table_669260[field_22.rValue] * dword_6FD540);
+                stru_6FD388 = Ang16::sine_40F500(field_22).Multiply_408680(dword_6FD540);
+                stru_6FD38C = Ang16::cosine_40F520(field_22).Multiply_408680(dword_6FD540);
 
                 stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
                 stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
@@ -1025,13 +1091,13 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
             case 2:
             {
                 pNew4C->field_38_state = 23;
-                Ang16 v51 = Ang16::Fix16_To_Ang16_482740((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90))));
+                Ang16 v51 = Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90))));
                 Ang16 v52 = dword_6FD350 + kAng225_6FD3E0;
                 Ang16 v54 = v52 + v51;
                 this->field_22 = v54;
 
-                stru_6FD388 = (gSin_table_667A80[field_22.rValue] * dword_6FD540);
-                stru_6FD38C = (gCos_table_669260[field_22.rValue] * dword_6FD540);
+                stru_6FD388 = Ang16::sine_40F500(field_22).Multiply_408680(dword_6FD540);
+                stru_6FD38C = Ang16::cosine_40F520(field_22).Multiply_408680(dword_6FD540);
 
                 stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
                 stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
@@ -1041,12 +1107,12 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
             case 3:
             {
                 pNew4C->field_38_state = 22;
-                Ang16 v54 = Ang16::Fix16_To_Ang16_482740((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90))));
+                Ang16 v54 = Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90))));
                 Ang16 v58 = dword_6FD350 + kAng45_6FD35C;
                 Ang16 v12 = v58 + v54;
                 this->field_22 = v12;
-                stru_6FD388 = (gSin_table_667A80[field_22.rValue] * dword_6FD540);
-                stru_6FD38C = (gCos_table_669260[field_22.rValue] * dword_6FD540);
+                stru_6FD388 = Ang16::sine_40F500(field_22).Multiply_408680(dword_6FD540);
+                stru_6FD38C = Ang16::cosine_40F520(field_22).Multiply_408680(dword_6FD540);
 
                 stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
                 stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
@@ -1063,7 +1129,7 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
         pNew4C->field_46_sub_state = 0;
         pNew4C->field_24_angle = this->field_22;
 
-        if (this->field_1A_timer <= 29u)
+        if (this->field_1A_timer < 60u && this->field_1A_timer < 30u)
         {
             v42 = 4;
         }
@@ -1071,13 +1137,13 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
         pNew4C->field_20_speed = (dword_6FD548 * Fix16(gRng_6F6784.get_int_4F7AE0(field_1A_timer)));
         pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 40);
 
-        if (field_14_pObj2C->field_4->field_1C_zpos + kFP16One_6FD4A0 < kFP16Eight_6FD4C0)
+        if (field_14_pObj2C->field_4->field_1C_zpos + kFP16One_6FD4A0 >= kFP16Eight_6FD4C0)
         {
-            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos + kFP16One_6FD4A0);
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
         }
         else
         {
-            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos + kFP16One_6FD4A0);
         }
         gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
         pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
@@ -1085,85 +1151,66 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
     }
 }
 
-WIP_FUNC(0x5434a0)
+MATCH_FUNC(0x5434a0)
 char_type Wolfy_30::Update_5434A0(Fix16 speed, Ang16 ang)
 {
-    WIP_IMPLEMENTED;
-
-    s16 timer = this->field_1A_timer;
+    u16 timer = this->field_1A_timer;
     if (timer != 9999)
     {
-        if (timer)
+        if (timer > 0)
         {
             this->field_1A_timer = timer - 1;
         }
     }
 
-    char_type result;
-    if (this->field_1A_timer)
-    {
-        if (bSkip_particles_67D64D)
-        {
-            return 1;
-        }
-        else
-        {
-            switch (this->field_10_type_or_state)
-            {
-                case 3:
-                case 12:
-                    Wolfy_30::state_3_12_540D30(speed, ang);
-                    result = 0;
-                    break;
-                case 4:
-                    Wolfy_30::state_4_540F90(ang, speed);
-                    result = 0;
-                    break;
-                case 5:
-                    Wolfy_30::state_5_541430(ang, speed);
-                    result = 0;
-                    break;
-                case 13:
-                case 14:
-                    Wolfy_30::state_13_14_5411E0(ang, speed);
-                    result = 0;
-                    break;
-                case 18:
-                case 19:
-                case 20:
-                case 32:
-                case 33:
-                    Wolfy_30::state_18_19_20_32_33_542790();
-                    result = 0;
-                    break;
-                case 22:
-                    Wolfy_30::state_22_23_24_25_542E30(3);
-                    goto LABEL_18;
-                case 23:
-                    Wolfy_30::state_22_23_24_25_542E30(2);
-                    result = 0;
-                    break;
-                case 24:
-                    Wolfy_30::state_22_23_24_25_542E30(0);
-                    result = 0;
-                    break;
-                case 25:
-                    Wolfy_30::state_22_23_24_25_542E30(1);
-                    result = 0;
-                    break;
-                default:
-                LABEL_18:
-                    result = 0;
-                    break;
-            }
-        }
-    }
-    else
+    if (!this->field_1A_timer)
     {
         Wolfy_30::DeInit_543610();
         return 1;
     }
-    return result;
+
+    if (bSkip_particles_67D64D)
+    {
+        return 1;
+    }
+
+    switch (this->field_10_type_or_state)
+    {
+        case 3:
+        case 12:
+            Wolfy_30::state_3_12_540D30(ang, speed);
+            return 0;
+        case 13:
+        case 14:
+            Wolfy_30::state_13_14_5411E0(ang, speed);
+            return 0;
+        case 4:
+            Wolfy_30::state_4_540F90(ang, speed);
+            return 0;
+        case 5:
+            Wolfy_30::state_5_541430(ang, speed);
+            return 0;
+        case 18:
+        case 19:
+        case 20:
+        case 32:
+        case 33:
+            Wolfy_30::state_18_19_20_32_33_542790();
+            return 0;
+        case 24:
+            Wolfy_30::state_22_23_24_25_542E30(0);
+            return 0;
+        case 25:
+            Wolfy_30::state_22_23_24_25_542E30(1);
+            return 0;
+        case 23:
+            Wolfy_30::state_22_23_24_25_542E30(2);
+            return 0;
+        case 22:
+            Wolfy_30::state_22_23_24_25_542E30(3);
+            return 0;
+    }
+    return 0;
 }
 
 MATCH_FUNC(0x5435d0)

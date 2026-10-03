@@ -89,32 +89,46 @@ Crane_15C::Crane_15C()
     field_7C_sound = 0;
 }
 
-WIP_FUNC(0x47e620)
+MATCH_FUNC(0x47e620)
 void Crane_15C::ComputeHookPos_47E620(Fix16 radius, Ang16 ang, Fix16_Point* pOutPoint)
 {
-    WIP_IMPLEMENTED;
     pOutPoint->SetXY_432860(kZero_679E70, radius);
-    pOutPoint->RotateByAngle_40F6B0(ang);
+
+    // RotateByAngle_40F6B0, but the y part uses the out-of-line Fix16 operators
+    Fix16 sin = Ang16::sine_40F500(ang);
+    Fix16 cos = Ang16::cosine_40F520(ang);
+    Fix16 x_old = pOutPoint->x;
+    pOutPoint->x = (pOutPoint->x * cos) + (pOutPoint->y * sin);
+    pOutPoint->y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + (pOutPoint->y * cos);
+
     *pOutPoint += field_2C_rotor_obj->field_4->get_x_y_443580();
 }
 
-WIP_FUNC(0x47e730)
+MATCH_FUNC(0x47e730)
 void Crane_15C::ComputeHookPos_47E730(Ang16 radius, Fix16 ang, Fix16_Point* pOutPoint)
 {
-    WIP_IMPLEMENTED;
     pOutPoint->SetXY_432860(kZero_679E70, ang);
-    pOutPoint->RotateByAngle_40F6B0(radius);
+    // Inlined RotateByAngle_40F6B0, but with the y part using the out-of-line Fix16 operators
+    Fix16 sin = Ang16::sine_40F500(radius);
+    Fix16 cos = Ang16::cosine_40F520(radius);
+    Fix16 x_old = pOutPoint->x;
+    pOutPoint->x = (pOutPoint->x * cos) + (pOutPoint->y * sin);
+    pOutPoint->y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + (pOutPoint->y * cos);
     *pOutPoint += field_2C_rotor_obj->field_4->get_x_y_443580();
 }
 
 // 9.6f 0x448030
-WIP_FUNC(0x47e840)
+MATCH_FUNC(0x47e840)
 void Crane_15C::ComputeHookOffset_47E840(Ang16 ang, Fix16_Point* pOutPoint)
 {
-    WIP_IMPLEMENTED;
 
     pOutPoint->SetXY_432860(kZero_679E70, -kFpHalf_679D64);
-    pOutPoint->RotateByAngle_40F6B0(ang);
+    // RotateByAngle_40F6B0, but the y part uses the out-of-line Fix16 operators
+    Fix16 sin = Ang16::sine_40F500(ang);
+    Fix16 cos = Ang16::cosine_40F520(ang);
+    Fix16 x_old = pOutPoint->x;
+    pOutPoint->x = (pOutPoint->x * cos) + (pOutPoint->y * sin);
+    pOutPoint->y = (const Fix16&)(-x_old).Multiply_408680(sin) + pOutPoint->y.Multiply_408680(cos);
     *pOutPoint += field_2C_rotor_obj->field_4->get_x_y_443580();
 }
 

@@ -16,6 +16,7 @@ class CarAI_78;
 struct Fix16_Point_POD;
 
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
+EXTERN_GLOBAL(Fix16, dword_6FD120);
 EXTERN_GLOBAL(ModelPhysics_48*, gCarInfo_48_6FE258);
 EXTERN_GLOBAL(Ang16, kAng90_6FE00C);
 EXTERN_GLOBAL(Ang16, kAng270_6FE154);
@@ -53,6 +54,16 @@ enum
 class Fix16_Point_ByValue : public Fix16_Point_POD
 {
   public:
+    Fix16_Point_ByValue()
+    {
+    }
+
+    Fix16_Point_ByValue(const Fix16& a1, const Fix16& a2)
+    {
+        x = a1;
+        y = a2;
+    }
+
     ~Fix16_Point_ByValue()
     {
     }
@@ -97,6 +108,13 @@ class CarPhysics_B0
     {
         field_40_linvel_1.x = v.x;
         field_40_linvel_1.y = v.y;
+    }
+
+    // 9.6f 0x4895D0
+    inline void StopMoving_4895D0()
+    {
+        field_74_ang_vel_rad = dword_6FD120;
+        field_40_linvel_1.clear_41E1E0();
     }
 
     // 9.6f 0x4211E0
@@ -180,7 +198,7 @@ class CarPhysics_B0
     EXPORT void HandleMapBoundaryCollisionX_55C820(Fix16_Point& a2, Ang16 a3);
     EXPORT void DispatchCollision_55CA70(Fix16_Point& a2, Ang16 a3);
     EXPORT void ReplayAndDispatchCollision_55CBB0(Fix16 a2, Fix16 a3);
-    EXPORT void SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 surface);
+    EXPORT void SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point_ByValue arg_4_, s32 surface);
     EXPORT void UpdateWheelSkidEffects_55DC00();
     EXPORT void DoSkidmarks_55E260();
     EXPORT char_type StepMovementAndCollisions_55E470();
@@ -219,7 +237,7 @@ class CarPhysics_B0
     // FUNCTION: 96f 0x40f840
     bool IsVelocityAlignedWithHeading_40F840()
     {
-        Ang16 v14 = (field_40_linvel_1.atan2_40ACD0() - field_58_theta);
+        Ang16 v14 = (field_40_linvel_1.atan2_40F790() - field_58_theta);
         return v14 <= kAng90_6FE00C || v14 >= kAng270_6FE154;
     }
 
@@ -234,6 +252,36 @@ class CarPhysics_B0
         {
             return gCarInfo_2C_6FE0E4->field_14_half_thrust +
                 ((field_60_gas_pedal * ((gDamageSpeedFactor_6FE348 * gCarInfo_2C_6FE0E4->field_18_fith_thrust))));
+        }
+    }
+
+    // ComputeTorqueFromThrottle_561DD0 as inlined into ComputeEngineTorque_561970 (out of line operators)
+    Fix16 inline_ComputeTorqueFromThrottle_561DD0_ool()
+    {
+        if (get_revs_561940() != 0)
+        {
+            return (const Fix16&)gCarInfo_2C_6FE0E4->field_14_half_thrust +
+                gCarInfo_2C_6FE0E4->field_18_fith_thrust.Multiply_408680(gDamageSpeedFactor_6FE348).Multiply_408680(field_60_gas_pedal).MultiplyInt_561DB0(2);
+        }
+        else
+        {
+            return (const Fix16&)gCarInfo_2C_6FE0E4->field_14_half_thrust +
+                gCarInfo_2C_6FE0E4->field_18_fith_thrust.Multiply_408680(gDamageSpeedFactor_6FE348).Multiply_408680(field_60_gas_pedal);
+        }
+    }
+
+    // ComputeTorqueUnknown_49E8E0 as inlined into ComputeEngineTorque_561970 (out of line operators)
+    Fix16 ComputeTorqueUnknown_49E8E0_ool()
+    {
+        if (get_revs_561940())
+        {
+            return (const Fix16&)gCarInfo_2C_6FE0E4->field_14_half_thrust +
+                gCarInfo_2C_6FE0E4->field_18_fith_thrust.Multiply_408680(field_60_gas_pedal).MultiplyInt_561DB0(2);
+        }
+        else
+        {
+            return (const Fix16&)gCarInfo_2C_6FE0E4->field_14_half_thrust +
+                gCarInfo_2C_6FE0E4->field_18_fith_thrust.Multiply_408680(field_60_gas_pedal);
         }
     }
 
@@ -271,7 +319,6 @@ class CarPhysics_B0
     EXPORT Fix16 MinGasPedalPressure_5626C0();
     EXPORT void ApplyArrowSteerAssist_5626F0();
     EXPORT void StabilizeVelocityAtSpeed_562910();
-    EXPORT void RotateVelocity_562C20(const Ang16& a2);
     EXPORT void EnforceGearSensitiveMaxSpeed_562D00();
     EXPORT void SetModelPhysicsGlobal_562EB0();
     EXPORT void SetCarInfoGlobal_562ED0();
@@ -470,9 +517,9 @@ class CarPhysics_B0
     s32 field_9C_block_spec;
     s32 field_A0_oil_spin_dir;
     char_type field_A4_oil_spin_timer;
-    char_type field_A5_current_slope_length;
+    u8 field_A5_current_slope_length;
     char_type field_A6_current_slope_left_tiles;
-    char_type field_A7_current_tile_z;
+    u8 field_A7_current_tile_z;
     char_type field_A8_hand_brake_force;
     char_type field_A9_car_model;
     char_type field_AA_sbw;

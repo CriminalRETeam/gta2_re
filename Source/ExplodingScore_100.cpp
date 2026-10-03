@@ -167,55 +167,40 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
     this->field_40 = 1;
 }
 
-WIP_FUNC(0x596c90)
+MATCH_FUNC(0x596c90)
 void ExplodingScore_50::DrawNumbers_596C90()
 {
-    WIP_IMPLEMENTED;
-
-    Player* field_38_orf1 = gGame_0x40_67E008->field_38_orf1;
-
     Fix16 a3;
     Fix16 v12;
     Fix16 v6;
     Fix16 v7;
-    field_38_orf1->field_14C_view_camera.ProjectWorldToScreen_4B90E0(field_28_x, field_2C_y, field_30_z, &a3, &v12);
+    Camera_0xBC* pCamera = &gGame_0x40_67E008->field_38_orf1->field_14C_view_camera;
+    pCamera->ProjectWorldToScreen_OutOfLine_4B90E0(field_28_x, field_2C_y, field_30_z, &a3, &v12);
     if (a3 < dword_702C6C)
     {
         a3 = dword_702C6C - a3;
         v6 = a3 / dword_702BC4;
+        field_28_x += v6;
     }
-    else
+    else if (a3 > dword_702F10)
     {
-        if (!(a3 > dword_702F10))
-        {
-            goto LABEL_6;
-        }
         a3 = dword_702F10 - a3;
         v6 = a3 / dword_702BC4;
+        field_28_x += v6;
     }
-    field_28_x += v6;
 
-LABEL_6:
     if (v12 < dword_702C74)
     {
         v12 = dword_702C74 - v12;
         v7 = v12 / dword_702BC4;
+        field_2C_y += v7;
     }
-    else
+    else if (v12 > dword_702C08)
     {
-        if (!(v12 > dword_702C08))
-        {
-            goto LABEL_11;
-        }
-        else
-        {
-            v12 = dword_702C08 - v12;
-            v7 = v12 / dword_702BC4;
-        }
+        v12 = dword_702C08 - v12;
+        v7 = v12 / dword_702BC4;
+        field_2C_y += v7;
     }
-    field_2C_y += v7;
-
-LABEL_11:
 
     switch (this->field_0_numbers_count)
     {
@@ -325,27 +310,27 @@ char_type ExplodingScore_50::PoolUpdate()
 }
 
 // 9.6f 0x4B92B0
-WIP_FUNC(0x597100)
+MATCH_FUNC(0x597100)
 void ExplodingScore_50::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub)
 {
-    WIP_IMPLEMENTED;
 
-    Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+    Camera_0xBC* pCam = &gGame_0x40_67E008->field_38_orf1->field_14C_view_camera;
 
     Fix16 proj_x;
     Fix16 proj_y;
 
     s32 x_base;
-    if (number_to_draw == 1)
+    switch (number_to_draw)
     {
-        x_base = 4;
-    }
-    else
-    {
-        x_base = 0;
+        case 1:
+            x_base = 4;
+            break;
+        default:
+            x_base = 0;
+            break;
     }
 
-    pPlayer->field_14C_view_camera.ProjectWorldToScreen_4B90E0(field_28_x, field_2C_y, field_30_z, &proj_x, &proj_y);
+    pCam->ProjectWorldToScreen_4B90E0(field_28_x, field_2C_y, field_30_z, &proj_x, &proj_y);
 
     Fix16 base_scale;
     s32 x_off;
@@ -375,7 +360,7 @@ void ExplodingScore_50::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub
                 if (y_to_use <= Fix16(480))
                 {
                     s32 drawKind = 7;
-                    Fix16 finalScale = pPlayer->field_14C_view_camera.field_A8_ui_scale * base_scale;
+                    Fix16 finalScale = pCam->field_A8_ui_scale * base_scale;
                     DrawFigure_5D7EC0(6, // type
                                       number_to_draw + 163, // pal
                                       x_to_use, // x

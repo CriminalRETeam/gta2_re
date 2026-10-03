@@ -50,21 +50,40 @@ Fix16_Point Object_3C::GetSpeedVector_52ADF0()
     return p;
 }
 
+// GetLength_41E260 with the out-of-line Negate/Abs/Multiply/SquareRoot
+static inline Fix16 GetLength_41E260_out_of_line(Fix16_Point& p)
+{
+    if (p.x == kFpZero_6F8E10)
+    {
+        return Fix16::Abs_negate_out_of_line(p.y);
+    }
+    else if (p.y == kFpZero_6F8E10)
+    {
+        return Fix16::Abs_436A50(p.x);
+    }
+    else
+    {
+        return Fix16::SquareRoot_436A70((const Fix16&)p.x.Multiply_408680(p.x) + p.y.Multiply_408680(p.y));
+    }
+}
+
 // 10.5 https://decomp.me/scratch/kj3y3
 // 9.6f 0x482D90
-WIP_FUNC(0x521FD0)
+MATCH_FUNC(0x521FD0)
 void Object_3C::GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle)
 {
-    WIP_IMPLEMENTED;
     s8 x_related;
     s8 y_related;
+    Fix16_Point point;
+    Fix16_Point unk;
     if (field_38_conveyor_speed)
     {
         UnpackSignedNibbles_529050(field_38_conveyor_speed, &x_related, &y_related);
-        Fix16_Point unk(dword_6F8ECC * x_related, dword_6F8ECC * y_related);
-        Fix16_Point point = unk + GetSpeedVector_482BA0();
+        unk.x = dword_6F8ECC * x_related;
+        unk.y = dword_6F8ECC * y_related;
+        point = unk + GetSpeedVector_52ADF0();
 
-        Speed = point.GetLength_41E260();
+        Speed = GetLength_41E260_out_of_line(point);
         Angle = point.atan2_40F790();
         ClearF38_482BD0();
     }

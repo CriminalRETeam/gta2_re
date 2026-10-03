@@ -79,6 +79,44 @@ struct Fix16_Point_POD
         y = Ang16::cosine_40F520(angle) * radius;
     }
 
+    // RotateByAngle_40F6B0 in a function that ran out of inline expansions: every operator but
+    // the first + is called out of line (CarPhysics_B0::SpawnSkidSegment_55D200)
+    inline void RotateByAngle_40F6B0_out_of_line(const Ang16& angle)
+    {
+        Fix16 sin = Ang16::sine_40F500(angle);
+        Fix16 cos = Ang16::cosine_40F520(angle);
+
+        Fix16 x_old = x;
+
+        x = x.Multiply_408680(cos) + y.Multiply_408680(sin);
+        y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + y.Multiply_408680(cos);
+    }
+
+    // RotateByAngle_40F6B0 in a function whose inline budget ran out after the first multiply
+    // (y * sin, evaluated first): the rest are the out-of-line copies (Car_BC::SpawnDamageFireEffect_43B870)
+    inline void RotateByAngle_OneMulInline_40F6B0(const Ang16& angle)
+    {
+        Fix16 sin = Ang16::sine_40F500(angle);
+        Fix16 cos = Ang16::cosine_40F520(angle);
+
+        Fix16 x_old = x;
+
+        x = (const Fix16&)x.Multiply_408680(cos) + (y * sin);
+        y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + y.Multiply_408680(cos);
+    }
+
+    // RotateByAngle_40F6B0 with every operator called out of line (Particle_8::EmitImpactParticles_53FE40)
+    inline void RotateByAngle_40F6B0_all_out_of_line(const Ang16& angle)
+    {
+        Fix16 sin = Ang16::sine_40F500(angle);
+        Fix16 cos = Ang16::cosine_40F520(angle);
+
+        Fix16 x_old = x;
+
+        x = (const Fix16&)x.Multiply_408680(cos) + y.Multiply_408680(sin);
+        y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + y.Multiply_408680(cos);
+    }
+
     // Matching impl at RotateVelocity_562C20
     inline void RotateByAngle_40F6B0(const Ang16& angle)
     {
@@ -89,6 +127,40 @@ struct Fix16_Point_POD
 
         x = (x * cos) + (y * sin);
         y = ((-x_old) * sin) + (y * cos);
+    }
+
+    // RotateByAngle_40F6B0 as big functions get it once they run out of inline expansions:
+    // the Fix16 operators are the out-of-line copies (Weapon_30::fire_truck_flamethrower_5E0B10)
+    inline void RotateByAngle_OOL_40F6B0(const Ang16& angle)
+    {
+        Fix16 x_old = x;
+        Fix16 sin = Ang16::sine_40F500(angle);
+        Fix16 cos = Ang16::cosine_40F520(angle);
+
+        x = (const Fix16&)x.Multiply_408680(cos) + y.Multiply_408680(sin);
+        y = (const Fix16&)(-x_old).Multiply_408680(sin) + y.Multiply_408680(cos);
+    }
+
+    // As above, with the unary minus out of line too
+    inline void RotateByAngle_NegOOL_40F6B0(const Ang16& angle)
+    {
+        Fix16 x_old = x;
+        Fix16 sin = Ang16::sine_40F500(angle);
+        Fix16 cos = Ang16::cosine_40F520(angle);
+
+        x = (const Fix16&)x.Multiply_408680(cos) + y.Multiply_408680(sin);
+        y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + y.Multiply_408680(cos);
+    }
+
+    // As above, with y * sin inlined (Particle_8::EmitFlameStreamSegment_53F4C0)
+    inline void RotateByAngle_MixOOL_40F6B0(const Ang16& angle)
+    {
+        Fix16 x_old = x;
+        Fix16 sin = Ang16::sine_40F500(angle);
+        Fix16 cos = Ang16::cosine_40F520(angle);
+
+        x = (const Fix16&)x.Multiply_408680(cos) + y * sin;
+        y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + y.Multiply_408680(cos);
     }
 
     void FromPolar_41E210(const Fix16& radius, const Ang16& angle)
@@ -120,11 +192,15 @@ struct Fix16_Point_POD
     }
 
     // Operator* for Fix16 ?
-    void MultiplyByFix16_49E3A0(Fix16 factor)
+    Fix16_Point_POD& MultiplyByFix16_49E3A0(const Fix16& factor)
     {
-        x = x * factor;
-        y = y * factor;
+        x *= factor;
+        y *= factor;
+        return *this;
     }
+
+    // Out-of-line copy of RotateByAngle_40F6B0, emitted in CarPhysics_B0.cpp
+    EXPORT void RotateVelocity_562C20(const Ang16& angle);
 
     EXPORT Fix16_Point Multiply_438FE0(Fix16& a1);
     EXPORT Fix16_Point Divide_442CB0(Fix16& a1);
@@ -211,13 +287,20 @@ class Fix16_Point : public Fix16_Point_POD
     }
 
     // MATCH_FUNC(0x40AC50)
-    Fix16_Point operator+(const Fix16_Point& in)
+    Fix16_Point operator+(const Fix16_Point_POD& in)
     {
         return Fix16_Point(x + in.x, y + in.y);
     }
 
     // 0x40AC80
     Fix16_Point operator-(const Fix16_Point& rhs);
+
+    // Out of line operator+ (CarPhysics_B0::SpawnSkidSegment_55D200; Weapon_30::fire_truck_flamethrower_5E0B10 keeps the EH state of
+    // the get_x_y_443580 temporary around this call)
+    EXPORT Fix16_Point Add_40AC50(const Fix16_Point_POD& in);
+
+    // Out of line unary minus (Object_2C::ResolveCollisionWithPed_5229B0)
+    EXPORT Fix16_Point Negate_40ACB0() const;
 
     // The same function of GetLength but using another cutoff
     inline Fix16 GetLength_2()
@@ -327,6 +410,57 @@ class Fix16_Point : public Fix16_Point_POD
         }
     }
 
+    // Needed for CarPhysics_B0::SpawnSkidSegment_55D200.
+    inline Fix16 GetLength_all_out_of_line_abs()
+    {
+        if (x == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_436A50(y);
+        }
+        else if (y == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_436A50(x);
+        }
+        else
+        {
+            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y.Multiply_408680(y));
+        }
+    }
+
+    // Needed for CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60.
+    inline Fix16 GetLength_out_of_line_abs_x_squared()
+    {
+        if (x == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_436A50(y);
+        }
+        else if (y == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_436A50(x);
+        }
+        else
+        {
+            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y * y);
+        }
+    }
+
+    // Needed for CarPhysics_B0::ScarePedsOnDrivingFast_559C30 and UpdateSteeringAngle_562560.
+    inline Fix16 GetLength_out_of_line_x_squared()
+    {
+        if (x == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_negate_out_of_line(y);
+        }
+        else if (y == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_436A50(x);
+        }
+        else
+        {
+            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y * y);
+        }
+    }
+
     Fix16_Point operator+(Fix16_Point& in)
     {
         return Fix16_Point(x + in.x, y + in.y);
@@ -346,6 +480,100 @@ class Fix16_Point : public Fix16_Point_POD
 
     // 10.0 0x442CB0
     EXPORT Fix16_Point operator/(Fix16& in);
+
+    // GetLength_41E260 as inlined into NormalizeSafe_442AD0 (out of line helpers where the inline budget ran out)
+    inline Fix16 GetLength_inline_442AD0()
+    {
+        if (x == gFix16_6777CC)
+        {
+            return Fix16::Abs_negate_out_of_line(y);
+        }
+        else if (y == gFix16_6777CC)
+        {
+            return Fix16::Abs_436A50(x);
+        }
+        else
+        {
+            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y * y);
+        }
+    }
+
+    // GetLength_2 as inlined into CarPhysics_B0::ProcessPedImpact_560B40 (out of line helpers)
+    inline Fix16 GetLength_inline_560B40()
+    {
+        if (x == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_negate_out_of_line(y);
+        }
+        else if (y == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_436A50(x);
+        }
+        else
+        {
+            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y.Multiply_408680(y));
+        }
+    }
+
+    // GetLength_41E260 as inlined into Car_BC::TryHitchTrailer_442810 (out of line helpers)
+    inline Fix16 GetLength_inline_442810()
+    {
+        if (x == gFix16_6777CC)
+        {
+            return Fix16::Abs_436A50(y);
+        }
+        else if (y == gFix16_6777CC)
+        {
+            return Fix16::Abs_436A50(x);
+        }
+        else
+        {
+            return Fix16::SquareRoot((const Fix16&)x.Multiply_408680(x) + y.Multiply_408680(y));
+        }
+    }
+
+    // MultiplyByFix16_49E3A0 as inlined into CarPhysics_B0::CalculateRearWheelForce_5620D0: the
+    // second *= is the out-of-line copy
+    void MultiplyByFix16_inline_5620D0(const Fix16& factor)
+    {
+        x *= factor;
+        y.MultiplyAssign_562430(factor);
+    }
+
+    // GetLength_2 as inlined into CarPhysics_B0::CalculateRearWheelForce_5620D0: Abs out of line,
+    // x*x out of line, y*y inline
+    inline Fix16 GetLength_inline_5620D0()
+    {
+        if (x == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_436A50(y);
+        }
+        else if (y == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_436A50(x);
+        }
+        else
+        {
+            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + Fix16((s32)((y.mValue * (__int64)y.mValue) >> 14), 0));
+        }
+    }
+
+    // Same, for the scaled point in NormalizeSafe_442AD0
+    inline Fix16 GetLength_scaled_inline_442AD0()
+    {
+        if (x == gFix16_6777CC)
+        {
+            return Fix16::Abs_negate_out_of_line(y);
+        }
+        else if (y == gFix16_6777CC)
+        {
+            return Fix16::Abs_negate_out_of_line(x);
+        }
+        else
+        {
+            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y.Multiply_408680(y));
+        }
+    }
 
     EXPORT Fix16_Point NormalizeSafe_442AD0();
 

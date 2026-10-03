@@ -71,7 +71,7 @@ EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 EXTERN_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 32);
 
 // 9.6f inline
-static inline void DrawFigureScaled_4C71B0(s32 type, s16 pal, Fix16 x_pos, Fix16 y_pos, Ang16 rotation, const s32& drawkind, s16 a8, s32 a9, u8 a10)
+static inline void DrawFigureScaled_4C71B0(s32 type, s16 pal, Fix16 x_pos, Fix16 y_pos, const Ang16& rotation, const s32& drawkind, s16 a8, s32 a9, u8 a10)
 {
     DrawFigure_5D7EC0(type,
                       pal,
@@ -86,6 +86,14 @@ static inline void DrawFigureScaled_4C71B0(s32 type, s16 pal, Fix16 x_pos, Fix16
                       0);
 }
 
+// Defined before the member ctors it calls: when VC6 has already compiled them in this TU (and seen
+// that they can't throw) it drops the EH frame and the state for the pager array that the original has.
+MATCH_FUNC(0x5d6cd0)
+Hud_2B00::Hud_2B00()
+{
+    field_13C4_text_speed = 0;
+}
+
 WIP_FUNC(0x5cfe40)
 void Garox_13C0_sub::DrawPlayerNames_5CFE40()
 {
@@ -93,16 +101,7 @@ void Garox_13C0_sub::DrawPlayerNames_5CFE40()
 
     if (bStartNetworkGame_7081F0 && bShow_player_names_67D54C)
     {
-        Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
-        Camera_0xBC* pCam;
-        if (pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3)
-        {
-            pCam = &pPlayer->field_208_aux_game_camera;
-        }
-        else
-        {
-            pCam = &pPlayer->field_90_game_camera;
-        }
+        Camera_0xBC* pCam = gGame_0x40_67E008->field_38_orf1->get_camera_434900();
 
         for (Player* pIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0(); pIter; pIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
         {
@@ -111,18 +110,19 @@ void Garox_13C0_sub::DrawPlayerNames_5CFE40()
                 Ped* pPlayerPed = pIter->field_2C4_player_ped;
                 if (!pPlayerPed || (pPlayerPed->field_21C & 0x2000000) == 0)
                 {
-                    if (pCam->IsCoordsPosVisible_435A70(pPlayerPed->field_1AC_cam.x,
-                                                        pPlayerPed->field_1AC_cam.y,
-                                                        pPlayerPed->field_1AC_cam.z))
+                    Fix16 x = pPlayerPed->field_1AC_cam.x;
+                    Fix16 y = pPlayerPed->field_1AC_cam.y;
+                    Fix16 z = pPlayerPed->field_1AC_cam.z;
+                    if (pCam->IsCoordsPosVisible_435A70(x, y, z))
                     {
-                        Fix16 zCalc = (kFpOne_7064C4) /
-                            (kFpEight_7064E8 + (pCam->field_98_cam_pos2.field_8_z - pPlayerPed->field_1AC_cam.z)); // kFpOne_7064C4 ??
-
-                        Fix16 xTmp = pCam->field_60.x * (pPlayerPed->field_1AC_cam.x - pCam->field_98_cam_pos2.field_0_x);
-                        Fix16 xCalc = ((zCalc * xTmp)) + Fix16(0x500000, 0);
-
-                        Fix16 yTmp = (pCam->field_60.y * (pPlayerPed->field_1AC_cam.y - pCam->field_98_cam_pos2.field_4_y));
-                        Fix16 yCalc = ((zCalc * yTmp) + Fix16(0x3C0000, 0));
+                        // Camera_0xBC::WorldToScreen_40CFC0, with the y line out of line (inline budget)
+                        Fix16 u = pCam->field_98_cam_pos2.field_8_z - z;
+                        Fix16 t(kFpOne_7064C4 / Fix16(u.mValue + kFpEight_7064E8.mValue, 0));
+                        Fix16 xCalc = (((x - pCam->field_98_cam_pos2.field_0_x) * pCam->field_60.y) * t) + Fix16(320);
+                        Fix16 yCalc = (const Fix16&)y.Subtract_436A00(pCam->field_98_cam_pos2.field_4_y)
+                                          .Multiply_408680(pCam->field_60.y)
+                                          .Multiply_408680(t) +
+                            Fix16(240);
 
                         DrawText_5D8A10(pIter->field_83C_player_name,
                                         (xCalc * gViewCamera_676978->field_A8_ui_scale), // x
@@ -446,10 +446,9 @@ void Garox_4::ShowPrevNumberedBrief_5CF6B0()
 // ----------------------------------------------------
 
 // https://decomp.me/scratch/Uq97l
-WIP_FUNC(0x5d63b0)
+MATCH_FUNC(0x5d63b0)
 void Garox_12E4_sub::DrawPause_5D63B0()
 {
-    WIP_IMPLEMENTED;
 
     u32 sprite_type;
     u16 sprite_pal = 0;
@@ -462,7 +461,8 @@ void Garox_12E4_sub::DrawPause_5D63B0()
         wchar_t* pWMessage = gText_0x14_704DFC->Find_5B5F90("pause");
         s32 max_width = Frontend::GetMaxTextWidth_5D8990(pWMessage, gPauseFont_7063F8);
 
-        s32 y_offset = (gText_0x14_704DFC->field_10_lang_code != 'j') ? 158 : 164;
+        // u32: converts with the Fix16(u32) constructor, whose out-of-line copy is 0x4926F0
+        u32 y_offset = (gText_0x14_704DFC->field_10_lang_code != 'j') ? 158 : 164;
 
         DrawText_5D7720(pWMessage, (640 - max_width) / 2, y_offset, gPauseFont_7063F8, 2, 0, 0, 0);
 
@@ -582,21 +582,20 @@ void Garox_12E4_sub::DrawPause_5D63B0()
 
             s32 max_width_2 = Frontend::GetMaxTextWidth_5D8990(tmpBuff_67BD9C, word_7064D8);
             s32 v28;
-            s32 v27;
             if (sprite_pal != 0)
             {
                 u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_type, sprite_pal);
                 s32 icon_width = gGtx_0x106C_703DD4->get_sprite_width_420220(sprite_idx) + 10;
-                s32 xpos = (640 - icon_width - max_width_2) / 2;
-                DrawFigureScaled_5D7670(sprite_type, sprite_pal, xpos + icon_width / 2, 235, kAngZero_706610, 2, 0, 0, 0);
-                v28 = icon_width + xpos;
+                v28 = (640 - icon_width - max_width_2) / 2;
+                DrawFigureScaled_5D7670(sprite_type, sprite_pal, v28 + icon_width / 2, 235, kAngZero_706610, 2, 0, 0, 0);
+                v28 += icon_width;
             }
             else
             {
-                v27 = 640 - max_width_2 - ((640 - max_width_2) >> 31);
                 v28 = (640 - max_width_2) / 2;
             }
-            DrawText_5D7720(tmpBuff_67BD9C, v28, 220, word_7064D8, 8, 6, 0, 0);
+            // (u32): Fix16(u32) constructor (0x4926F0), the 220 goes through Fix16(s32) (0x4369F0)
+            DrawText_5D7720(tmpBuff_67BD9C, (u32)v28, 220, word_7064D8, 8, 6, 0, 0);
         }
     }
 }
@@ -810,8 +809,10 @@ s32 __stdcall DrawPlayerStatsHelper_5D61A0(s32 powerup_idx, s32 base_xpos, u16 o
     if (powerup_idx == power_up_indices::Armor_3)
     {
         swprintf(tmpBuff_67BD9C, L"%d", optional_number);
-        u32 x_offset = optional_number < 10 ? 18 : 22;
-        DrawText_5D7720(tmpBuff_67BD9C, (u32)(base_xpos - x_offset), 127, gPlayerStatsFont_70646C, 8, 6, 0, 0);
+        // The x goes through the Fix16(u32) constructor (out-of-line copy 0x4926F0), hence 18u/22u.
+        // A u32 x_offset local (ternary) swaps ebx/ebp for width and base_xpos; an if/else local keeps the
+        // registers but branches; inline, the ternary is scheduled late
+        DrawText_5D7720(tmpBuff_67BD9C, base_xpos - (optional_number < 10 ? 18u : 22u), 127, gPlayerStatsFont_70646C, 8, 6, 0, 0);
     }
     return base_xpos - width;
 }
@@ -840,10 +841,9 @@ void Garox_110C_sub::Update_5CF730()
 {
     WIP_IMPLEMENTED;
 
-    Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
     Ped* pPed = gGame_0x40_67E008->field_38_orf1->Get_Field_68_Ped();
 
-    if (!pPed || pPed->IsInTrain_470F00())
+    if (!pPed || (u8)pPed->IsInTrain_470F00())
     {
         field_284E_ped_under_solid = 0;
     }
@@ -853,13 +853,13 @@ void Garox_110C_sub::Update_5CF730()
             gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(pPed->field_1AC_cam.x, pPed->field_1AC_cam.y, pPed->field_1AC_cam.z);
         if (field_284E_ped_under_solid)
         {
-            this->field_1114_rotation = kAng180_706412 + pPed->GetRotation();
+            this->field_1114_rotation = Ang16(pPed->GetRotation().rValue + kAng180_706412.rValue, 0);
 
-            Fix16 camx = pPed->field_1AC_cam.x;
             Fix16 camy = pPed->field_1AC_cam.y;
             Fix16 camz = pPed->field_1AC_cam.z;
+            Fix16 camx = pPed->field_1AC_cam.x;
 
-            Player* pPlayer_ = gGame_0x40_67E008->field_38_orf1;
+            Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
             Camera_0xBC* pCam;
             if (pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3)
             {
@@ -875,7 +875,7 @@ void Garox_110C_sub::Update_5CF730()
             this->field_110C_screen_x =
                 Fix16(pCam->field_70_screen_px_center_x) + ((pCam->field_60.x * (camx - pCam->field_98_cam_pos2.field_0_x)) * tmp);
             this->field_1110_screen_y =
-                Fix16(pCam->field_74_screen_px_center_y) + ((pCam->field_60.x * (camy - pCam->field_98_cam_pos2.field_4_y)) * tmp);
+                ((const Fix16&)((pCam->field_60.x * (camy - pCam->field_98_cam_pos2.field_4_y)) * tmp)) + Fix16(pCam->field_74_screen_px_center_y);
         }
     }
 }
@@ -1036,24 +1036,25 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
     u8 PlayerIdx = gGame_0x40_67E008->field_38_orf1->get_idx_4219D0();
     bool bPlusSignDark = random_num > 7u;
 
+    // 64 and the bar x go through the Fix16(u32) constructor (out-of-line copy 0x4926F0)
     s32 ypos = 11;
 
-    for (Gang_144* pGang = gGangPool_CA8_67E274->FirstGang_4BECA0(); pGang; pGang = gGangPool_CA8_67E274->NextGang_4BECE0(), ypos += 27)
+    for (Gang_144* pGang = gGangPool_CA8_67E274->FirstGang_4BECA0(); pGang; ypos += 27, pGang = gGangPool_CA8_67E274->NextGang_4BECE0())
     {
         s8 respect = pGang->GetRespectForPlayer_4BEEF0(PlayerIdx);
 
         s32 arrow_colour = pGang->field_138_arrow_colour - 1;
-        DrawFigureScaled_5D7670(6, arrow_colour + 64, 16, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, arrow_colour + 64, 16, (u32)(ypos + 2), kAngZero_706610, 2, 0, 0, 0);
 
-        DrawFigureScaled_5D7670(6, arrow_colour + 78, 64, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, arrow_colour + 78, 64u, (u32)(ypos + 2), kAngZero_706610, 2, 0, 0, 0);
 
-        DrawFigureScaled_5D7670(6, arrow_colour + 71, 64, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(6, arrow_colour + 71, 64u, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
 
         // Draw positive respect
         s32 curr_bar_respect = 20;
         for (s32 i = 69; i <= 84 && respect >= curr_bar_respect; i += 5)
         {
-            DrawFigureScaled_5D7670(6, arrow_colour + 71, i, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, arrow_colour + 71, (u32)i, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
             curr_bar_respect += 20;
         }
 
@@ -1061,7 +1062,7 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
         curr_bar_respect = -20;
         for (s32 j = 59; j >= 44 && respect <= curr_bar_respect; j -= 5)
         {
-            DrawFigureScaled_5D7670(6, arrow_colour + 71, j, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, arrow_colour + 71, (u32)j, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
             curr_bar_respect -= 20;
         }
 
@@ -1083,19 +1084,19 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
         // green mission respect
         if (respect >= -19)
         {
-            DrawFigureScaled_5D7670(6, 46, 64, ypos + 8, kAngZero_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 46, 64u, ypos + 9, kAngZero_706610, 2, 0, 0, 0);
         }
 
         // yellow mission respect
         if (respect >= 40)
         {
-            DrawFigureScaled_5D7670(6, 47, 74, ypos + 8, kAngZero_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 47, 74, ypos + 9, kAngZero_706610, 2, 0, 0, 0);
         }
 
         // red mission respect
         if (respect >= 80)
         {
-            DrawFigureScaled_5D7670(6, 48, 84, ypos + 8, kAngZero_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 48, 84, ypos + 9, kAngZero_706610, 2, 0, 0, 0);
         }
 
         // debug stuff
@@ -1103,7 +1104,7 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
         {
             s32 v32 = (respect >= 0) + 5;
             swprintf(tmpBuff_67BD9C, L"%d", respect);
-            DrawText_5D7720(tmpBuff_67BD9C, 64, ypos - 7, gDebugFont_706600, 8, v32, 0, 0);
+            DrawText_5D7720(tmpBuff_67BD9C, 64u, ypos - 6, gDebugFont_706600, 8, v32, 0, 0);
         }
     }
 }
@@ -1179,16 +1180,17 @@ void Hud_CopHead_C_Array::UpdateWantedLevel_5D00B0()
 }
 
 // https://decomp.me/scratch/QYlEW
-WIP_FUNC(0x5d0110)
+MATCH_FUNC(0x5d0110)
 void Hud_CopHead_C_Array::DrawWantedLevel_5D0110()
 {
     Fix16 xpos = (Fix16(640) - (field_4C_w_fp * field_48_cop_level)) / 2;
     Fix16 y_base = field_50_h_fp / 2;
 
-    for (s32 cop_head_idx = 0; cop_head_idx < field_48_cop_level; cop_head_idx++, xpos += field_4C_w_fp)
+    s32 cop_head_idx = 0;
+    Hud_CopHead_C* pHead = field_1028_cop_heads;
+    for (; cop_head_idx < field_48_cop_level; cop_head_idx++, pHead++, xpos += field_4C_w_fp)
     {
-        Fix16 ypos = y_base + Fix16(field_1028_cop_heads[cop_head_idx].field_4_height);
-        DrawFigureScaled_4C71B0(6, field_1028_cop_heads[cop_head_idx].field_0_frame + 14, xpos, ypos, kAngZero_706610, 2, 0, 0, 0);
+        DrawFigureScaled_4C71B0(6, pHead->field_0_frame + 14, xpos, y_base + Fix16(pHead->field_4_height), kAngZero_706610, 2, 0, 0, 0);
     }
 }
 
@@ -1504,59 +1506,49 @@ void Hud_Pager_C::DrawDigits_5D2680(s32 xpos, s32 ypos)
 }
 
 // https://decomp.me/scratch/3IY3c
-WIP_FUNC(0x5d2ab0)
-void Hud_Pager_C::DrawPager_5D2AB0(s32 xpos, s32 ypos)
+MATCH_FUNC(0x5d2ab0)
+void Hud_Pager_C::DrawPager_5D2AB0(u32 xpos, s32 ypos)
 {
-    WIP_IMPLEMENTED;
     const s32 palette_type = palette_types_enum::sprites_2;
-    if (field_0_timer < 0)
+    if (field_0_timer < 0 && !field_4_ptr_counter)
     {
-        if (!field_4_ptr_counter)
-        {
-            return;
-        }
-        if (field_0_timer < 0)
-        {
-            goto LABEL_8;
-        }
+        return;
     }
-    if (field_4_ptr_counter)
+
+    if (field_0_timer >= 0 && field_4_ptr_counter)
     {
         s32 v9 = get_sprite_height_4C7250(117);
         s32 v45 = get_sprite_height_4C7250(118);
         s32 v10 = get_sprite_height_4C7250(119);
 
-        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - v9 / 2 - (v10 >> 1), kAngZero_706610, palette_type, 0, 0, 0);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - v9 / 2 - v10 / 2, kAngZero_706610, palette_type, 0, 0, 0);
 
-        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 119, xpos, ypos, kAngZero_706610, palette_type, 0, 0, 0);
+        // The middle sprite's y goes through the Fix16(u32) constructor (out-of-line copy 0x4926F0) like x does
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 119, xpos, (u32)ypos, kAngZero_706610, palette_type, 0, 0, 0);
 
-        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + (v10 >> 1) + v45 / 2, kAngZero_706610, palette_type, 0, 0, 0);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + v10 / 2 + v45 / 2, kAngZero_706610, palette_type, 0, 0, 0);
         Hud_Pager_C::DrawCounterDigits_5D2380(xpos, ypos - 6);
         Hud_Pager_C::DrawDigits_5D2680(xpos, ypos + 6);
     }
+    else if (field_0_timer >= 0)
+    {
+        s32 v20 = get_sprite_height_4C7250(117);
+        s32 v22 = get_sprite_height_4C7250(118);
+
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - v20 / 2, kAngZero_706610, palette_type, 0, 0, 0);
+
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + v22 / 2, kAngZero_706610, palette_type, 0, 0, 0);
+        Hud_Pager_C::DrawDigits_5D2680(xpos, ypos);
+    }
     else
     {
-        if (field_0_timer < 0)
-        {
-        LABEL_8:
-            s32 v29 = get_sprite_height_4C7250(117);
-            s32 v31 = get_sprite_height_4C7250(118);
+        s32 v29 = get_sprite_height_4C7250(117);
+        s32 v31 = get_sprite_height_4C7250(118);
 
-            DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - v29 / 2, kAngZero_706610, palette_type, 0, 0, 0);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - v29 / 2, kAngZero_706610, palette_type, 0, 0, 0);
 
-            DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + v31 / 2, kAngZero_706610, palette_type, 0, 0, 0);
-            Hud_Pager_C::DrawCounterDigits_5D2380(xpos, ypos);
-        }
-        else
-        {
-            s32 v20 = get_sprite_height_4C7250(117);
-            s32 v22 = get_sprite_height_4C7250(118);
-
-            DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - v20 / 2, kAngZero_706610, palette_type, 0, 0, 0);
-
-            DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + v22 / 2, kAngZero_706610, palette_type, 0, 0, 0);
-            Hud_Pager_C::DrawDigits_5D2680(xpos, ypos);
-        }
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + v31 / 2, kAngZero_706610, palette_type, 0, 0, 0);
+        Hud_Pager_C::DrawCounterDigits_5D2380(xpos, ypos);
     }
 }
 
@@ -1824,9 +1816,44 @@ bool Hud_Arrow_7C::CheckVisibility_5D0530()
 }
 
 // https://decomp.me/scratch/pp6SY Fix16 annoying stuff
-WIP_FUNC(0x5d0620)
+// Fix16_Point::GetLength_41E260 with the out-of-line Fix16 helpers and this file's zero constant
+static inline Fix16 GetLength_out_of_line_7064C0(Fix16_Point& p)
+{
+    if (p.x == kFpZero_7064C0)
+    {
+        return Fix16::Abs_negate_out_of_line(p.y);
+    }
+    else if (p.y == kFpZero_7064C0)
+    {
+        return Fix16::Abs_436A50(p.x);
+    }
+    else
+    {
+        return Fix16::SquareRoot_436A70((const Fix16&)p.x.Multiply_408680(p.x) + p.y.Multiply_408680(p.y));
+    }
+}
+
+// Same, with Abs_436A50 for both axes (Hud_Arrow_7C::UpdateScreenPos_5D0850)
+static inline Fix16 GetLength_abs_7064C0(Fix16_Point_POD& p)
+{
+    if (p.x == kFpZero_7064C0)
+    {
+        return Fix16::Abs_436A50(p.y);
+    }
+    else if (p.y == kFpZero_7064C0)
+    {
+        return Fix16::Abs_436A50(p.x);
+    }
+    else
+    {
+        return Fix16::SquareRoot_436A70((const Fix16&)p.x.Multiply_408680(p.x) + p.y.Multiply_408680(p.y));
+    }
+}
+
+MATCH_FUNC(0x5d0620)
 bool Hud_Arrow_7C::UpdateTargets_5D0620()
 {
+    Fix16_Point diff;
     field_18.field_18_primary_target.UpdateAimCoordinates_5D03F0();
     field_18.field_3C_secondary_target.UpdateAimCoordinates_5D03F0();
 
@@ -1852,17 +1879,15 @@ bool Hud_Arrow_7C::UpdateTargets_5D0620()
         Fix16 zpos;
         gGame_0x40_67E008->field_38_orf1->get_pos_569920(&xpos, &ypos, &zpos);
 
-        Fix16_Point diff;
         diff.SetXY_432860(xpos - field_18.field_60_curr_target->field_14_aim_x, ypos - field_18.field_60_curr_target->field_18_aim_y);
-        Fix16 distance_1 = diff.GetLength_41E260() - field_10_radius_pos;
+        Fix16 distance_1 = GetLength_out_of_line_7064C0(diff) - field_10_radius_pos;
 
         swap_arrows_4C7060();
 
         diff.SetXY_432860(xpos - field_18.field_60_curr_target->field_14_aim_x, ypos - field_18.field_60_curr_target->field_18_aim_y);
-        Fix16 distance_2 = diff.GetLength_41E260();
-
+        Fix16 new_radius = GetLength_out_of_line_7064C0(diff) - distance_1;
         field_18.field_2E_target_swap_timer = 20;
-        field_10_radius_pos = distance_2 - distance_1;
+        field_10_radius_pos = new_radius;
     }
     return false;
 }
@@ -1883,7 +1908,7 @@ void Hud_Arrow_7C::UpdateScreenPos_5D0850()
 
     field_8_rotation = displacement.atan2_40F790();
 
-    Fix16 distance = displacement.GetLength_41E260();
+    Fix16 distance = GetLength_abs_7064C0(displacement);
     Fix16 intended_radius;
 
     if (field_18.field_60_curr_target->field_20_bIsTargetVisible)
@@ -1951,7 +1976,7 @@ void Hud_Arrow_7C::UpdateScreenPos_5D0850()
         zpos_2 = field_18.field_60_curr_target->field_1C_aim_z +
             ((field_10_radius_pos / distance) * (field_18.field_60_curr_target->field_1C_aim_z - player_zpos));
     }
-    pCamera->ProjectWorldToScreen_4B90E0(player_xpos - (Ang16::sine_40F500(field_8_rotation) * projected_radius),
+    pCamera->ProjectWorldToScreen_OutOfLineXY_4B90E0(player_xpos - (Ang16::sine_40F500(field_8_rotation) * projected_radius),
                                          player_ypos - (Ang16::cosine_40F520(field_8_rotation) * projected_radius),
                                          zpos_2,
                                          &field_0_screen_pos_x,
@@ -2670,11 +2695,9 @@ void Hud_Brief_704::StartCurrentBrief_5D39D0()
 }
 
 // https://decomp.me/scratch/exFU8
-WIP_FUNC(0x5d3b80)
+MATCH_FUNC(0x5d3b80)
 void Hud_Brief_704::DrawBrief_5D3B80()
 {
-    WIP_IMPLEMENTED;
-
     if (field_6F8_curr_brief)
     {
         DrawFigureScaled_5D7670(6, // type
@@ -2687,7 +2710,8 @@ void Hud_Brief_704::DrawBrief_5D3B80()
                    0,
                    0);
 
-        s32 first_line_ypos = 480 - GetLineSpacingFromFontType_5D7700_inlined(gBriefFont_7065C4) * field_508_num_lines;
+        // u32: converts with the Fix16(u32) constructor, whose out-of-line copy is 0x4926F0
+        u32 first_line_ypos = 480 - GetLineSpacingFromFontType_5D7700_inlined(gBriefFont_7065C4) * field_508_num_lines;
         DrawText_5D7720(field_0_str, // str
                         (64), // x
                         first_line_ypos, // y
@@ -2699,58 +2723,49 @@ void Hud_Brief_704::DrawBrief_5D3B80()
     }
 }
 
-WIP_FUNC(0x5d3f10)
+MATCH_FUNC(0x5d3f10)
 void Hud_Brief_704::SetHudBrief_5D3F10(s32 priority, const char_type* pText, s32 cost_param)
 {
-    WIP_IMPLEMENTED;
-
     Garox_18* v5 = AllocBrief_5D33F0();
     strcpy(v5->field_0_brief_id_str, pText);
     v5->field_8_brief_priority = priority;
     v5->field_10_was_displayed = 0;
     v5->field_14_cost_param = cost_param;
 
-    Garox_18* pIter = this->field_6F8_curr_brief;
-    if (pIter)
+    if (!this->field_6F8_curr_brief)
     {
-        if (pIter->field_8_brief_priority < priority || priority == 3)
+        this->field_6F8_curr_brief = v5;
+        v5->field_C_pNext = 0;
+        StartCurrentBrief_5D39D0();
+    }
+    else if (this->field_6F8_curr_brief->field_8_brief_priority >= priority && priority != 3)
+    {
+        Garox_18* pIter = this->field_6F8_curr_brief;
+        while (pIter->field_C_pNext && pIter->field_C_pNext->field_8_brief_priority >= priority)
         {
-            if (pIter->field_10_was_displayed)
-            {
-                MoveCurrentBriefToPrev_5D3370();
-            }
-            v5->field_C_pNext = this->field_6F8_curr_brief;
-            this->field_6F8_curr_brief = v5;
-            StartCurrentBrief_5D39D0();
+            pIter = pIter->field_C_pNext;
+        }
+
+        Garox_18* v8 = pIter->field_C_pNext;
+        if (v8)
+        {
+            v5->field_C_pNext = v8;
+            pIter->field_C_pNext = v5;
         }
         else
         {
-            for (Garox_18* i = pIter->field_C_pNext; i; i = i->field_C_pNext)
-            {
-                if (i->field_8_brief_priority < priority)
-                {
-                    break;
-                }
-                pIter = i;
-            }
-
-            Garox_18* v8 = pIter->field_C_pNext;
-            if (v8)
-            {
-                v5->field_C_pNext = v8;
-                pIter->field_C_pNext = v5;
-            }
-            else
-            {
-                pIter->field_C_pNext = v5;
-                v5->field_C_pNext = 0;
-            }
+            pIter->field_C_pNext = v5;
+            v5->field_C_pNext = 0;
         }
     }
     else
     {
+        if (this->field_6F8_curr_brief->field_10_was_displayed)
+        {
+            MoveCurrentBriefToPrev_5D3370();
+        }
+        v5->field_C_pNext = this->field_6F8_curr_brief;
         this->field_6F8_curr_brief = v5;
-        v5->field_C_pNext = 0;
         StartCurrentBrief_5D39D0();
     }
 }
@@ -3040,24 +3055,23 @@ Hud_2B00::~Hud_2B00()
 }
 
 // TODO: Calls 2 Fix16 ctors that are exactly the same but are 2 unique functions ??
-WIP_FUNC(0x5d4a10)
+MATCH_FUNC(0x5d4a10)
 void Hud_CarName_4C::DrawCarName_5D4A10()
 {
-    WIP_IMPLEMENTED;
-
     if (field_0_display_time)
     {
-        s32 sprite_w = get_sprite_width_4C7220(11);
-        if (field_44_xpos_offset > (sprite_w * 2) - 10)
+        // u32: converts with the Fix16(u32) constructor, whose out-of-line copy is 0x4926F0
+        u32 sprite_w = get_sprite_width_4C7220(11);
+        if (field_44_xpos_offset > (s32)(sprite_w * 2 - 10))
         {
-            DrawFigureScaled_5D7670(6, 13, 320 + sprite_w, field_48_ypos, kAngZero_706610, 2, 0, 0, 0);
-            DrawFigureScaled_5D7670(6, 12, 320, field_48_ypos, kAngZero_706610, 2, 0, 0, 0);
-            DrawFigureScaled_5D7670(6, 11, 320 - sprite_w, field_48_ypos, kAngZero_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 13, 320 + sprite_w, (u32)field_48_ypos, kAngZero_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 12, 320, (u32)field_48_ypos, kAngZero_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 11, 320 - sprite_w, (u32)field_48_ypos, kAngZero_706610, 2, 0, 0, 0);
         }
         else
         {
-            DrawFigureScaled_5D7670(6, 11, 320 - (sprite_w / 2), field_48_ypos, kAngZero_706610, 2, 0, 0, 0);
-            DrawFigureScaled_5D7670(6, 13, 320 + (sprite_w / 2), field_48_ypos, kAngZero_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 11, 320 - ((s32)sprite_w / 2), (u32)field_48_ypos, kAngZero_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 13, 320 + ((s32)sprite_w / 2), (u32)field_48_ypos, kAngZero_706610, 2, 0, 0, 0);
         }
 
         DrawTextScaled_5D77A0(field_2_car_name, ((640 - field_44_xpos_offset) / 2), (field_48_ypos - GetLineSpacingFromFontType_5D7700(gCarNameFont_706508) / 2), gCarNameFont_706508);
@@ -3293,10 +3307,3 @@ bool Hud_2B00::IsQuitMessageInputKey_5D6CB0(s32 action)
     return field_12EC_sub.IsQuitMessageKey_5D15A0(action);
 }
 
-// https://decomp.me/scratch/Y4V1E it matches on decompme
-WIP_FUNC(0x5d6cd0)
-Hud_2B00::Hud_2B00()
-{
-    WIP_IMPLEMENTED;
-    field_13C4_text_speed = 0;
-}

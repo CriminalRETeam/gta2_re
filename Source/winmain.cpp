@@ -78,6 +78,10 @@ DEFINE_GLOBAL(s32, gNetTimeLimit_6F573C, 0x6F573C); // TODO: move
 DEFINE_GLOBAL(s32, gHudTimerIdx_6F5860, 0x6F5860); // TODO: move
 EXTERN_GLOBAL(s32, gNetTimeLimitEnabled_6F58A4); // TODO: move
 DEFINE_GLOBAL(s32, dword_6F58A0, 0x6F58A0); // TODO: move
+DEFINE_GLOBAL_ARRAY(u8, byte_6F5AC8, 14, 0x6F5AC8); // TODO: move
+DEFINE_GLOBAL(u32, dword_6F5B00, 0x6F5B00); // TODO: move
+DEFINE_GLOBAL(u32, dword_6F580C, 0x6F580C); // TODO: move
+DEFINE_GLOBAL(u32, dword_6F5AC0, 0x6F5AC0); // TODO: move
 DEFINE_GLOBAL(s32, dword_6F5858, 0x6F5858); // TODO: move
 DEFINE_GLOBAL(s32, dword_6F5B74, 0x6F5B74);
 DEFINE_GLOBAL(s32, dword_6F5944, 0x6F5944);
@@ -920,7 +924,7 @@ void __stdcall ExitGameCallback_4DB0D0(Game_0x40* pGame, int reason)
 
 // todo move to another file for ordering
 // https://decomp.me/scratch/VazoB
-WIP_FUNC(0x4DA4D0)
+MATCH_FUNC(0x4DA4D0)
 EXPORT void __stdcall InitializeGame_4DA4D0()
 {
     if (bReplayMode_6F5B71)
@@ -948,25 +952,18 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
         memset(&gCurrentNetInputs_6F57D8, 0, sizeof(gCurrentNetInputs_6F57D8));
         memset(&gPrevNetInputs_6F5B28, 0, sizeof(gPrevNetInputs_6F5B28));
 
-        // Here
-
+        memset(byte_6F5AC8, 0, sizeof(byte_6F5AC8));
         gNetworkPlayerIdx_6F56C8 = gNetPlay_7071E8.GetPlayerIdx_409C40();
         gpInputBuffer_6F58C0 = &gCurrentNetInputs_6F57D8.field_0_inputs[0];
-
-        //dword_6F5AC8 = 0;
-        //dword_6F5ACC = 0;
-        //dword_6F5AD0 = 0;
-        //word_6F5AD4 = 0;
-
         gCurrentInputsBufferSize_6F58C4 = 48;
-        //dword_6F5B00 = 0;
+        dword_6F5B00 = 0;
         bRecordStartTime_6F593C = 1;
         gPlayerQuit_6F5AEC = false;
         gNetInUsePlayerBits_6F56B8 = 0;
         gNetworkFrameCounter_6F5868 = 0;
-        //dword_6F580C = 0;
+        dword_6F580C = 0;
         gTotalNetworkTime_6F5980 = 0;
-        //dword_6F5AC0 = 0;
+        dword_6F5AC0 = 0;
         gNetTimeLimit_6F573C = gLucid_hamilton_67E8E0.GetTimeLimit_461DC0();
         if (gNetTimeLimit_6F573C > 60)
         {
@@ -1995,9 +1992,16 @@ EXPORT void __stdcall ToggleStartMode_5D9250()
     gRegistry_6FF968.Set_Screen_Setting_587170("start_mode", gStartMode_626A0C);
 }
 
-WIP_FUNC(0x5E4EE0)
+MATCH_FUNC(0x5E4EE0)
 EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
+    BYTE bSetFocusInput;
+    BYTE bKillFocusInput;
+    BYTE bActiveInput;
+    BYTE bInactiveInput;
+    s32 newX;
+    s32 newY;
+    RECT winRec;
 
     switch (Msg)
     {
@@ -2028,15 +2032,14 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
 
             if (!bDestroyed_6F5B70)
             {
-                //LOBYTE(Msg) = 1;
-                BYTE tmp = 1;
-                Frontend::SetInputEnabled_5E53C0(&tmp);
+                bSetFocusInput = 1;
+                Frontend::SetInputEnabled_5E53C0(&bSetFocusInput);
                 if (!bDoFrontEnd_626B68)
                 {
                     Input_Read_498D10();
                 }
 
-                if (gVidSys_7071D0 && !Bink::IsUsingDDBuffer_513770())
+                if (gVidSys_7071D0 && !(u8)Bink::IsUsingDDBuffer_513770())
                 {
                     SetVideoModeFromSettings_5D92D0();
                     OnVideoModeChanged_5D9680();
@@ -2055,13 +2058,13 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
         case WM_KILLFOCUS: // order ok
             //LOBYTE(hWnd) = 0;
             {
-                BYTE tmp = 0;
-                Frontend::SetInputEnabled_5E53C0(&tmp);
+                bKillFocusInput = 0;
+                Frontend::SetInputEnabled_5E53C0(&bKillFocusInput);
                 Input_ReleaseMouse_5D7C70();
                 gRoot_sound_66B038.Set3DSound_40F160(0);
                 gRoot_sound_66B038.Release_40F130();
 
-                if (gFrontend_67DC84 && Bink::IsDDBufferOpen_513760())
+                if (gFrontend_67DC84 && (u8)Bink::IsDDBufferOpen_513760())
                 {
                     Bink::CloseSlot1_513340();
                     Bink::CloseSlot2_513390();
@@ -2081,21 +2084,21 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
             }
 
         case WM_ACTIVATE: // order ok
-            switch (wParam)
+            switch ((u8)wParam)
             {
                 case WA_ACTIVE:
                 case WA_CLICKACTIVE:
                 {
-                    BYTE tmp = 1;
-                    Frontend::SetInputEnabled_5E53C0(&tmp);
+                    bActiveInput = 1;
+                    Frontend::SetInputEnabled_5E53C0(&bActiveInput);
                     Input_MouseAcquire_5D7C60();
                 }
                 break;
 
                 case WA_INACTIVE:
                 {
-                    BYTE tmp = 0;
-                    Frontend::SetInputEnabled_5E53C0(&tmp);
+                    bInactiveInput = 0;
+                    Frontend::SetInputEnabled_5E53C0(&bInactiveInput);
                     Input_ReleaseMouse_5D7C70();
                 }
                 break;
@@ -2144,8 +2147,8 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
             WINDOWPOS* pPos = reinterpret_cast<WINDOWPOS*>(lParam);
             if (gFrontend_67DC84 && (pPos->flags & 2) == 0)
             {
-                s32 newX = pPos->x;
-                s32 newY = pPos->y;
+                newX = pPos->x;
+                newY = pPos->y;
                 Bink::CheckWindowPos_5136D0(&newX, &newY);
                 pPos->x = newX;
                 pPos->y = newY;
@@ -2209,7 +2212,6 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
         case WM_SIZING:
         {
             RECT* pDragRect = reinterpret_cast<RECT*>(lParam);
-            RECT winRec;
             GetWindowRect(gHwnd_707F04, &winRec);
             pDragRect->left = winRec.left;
             pDragRect->top = winRec.top;

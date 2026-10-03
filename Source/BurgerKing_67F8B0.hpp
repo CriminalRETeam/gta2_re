@@ -34,6 +34,7 @@ class BurgerKing_1
     EXPORT void set_game_pad_device_properties_4989C0();
     EXPORT void __stdcall input_devices_init_498C40(HINSTANCE hInstance);
     EXPORT void SetAltKeyState_498CB0(u32 a1);
+    EXPORT bool acquire_input_device_498730(struct IDirectInputDeviceA* pGamePadDevice);
     EXPORT bool game_pad_read_498D20();
     EXPORT void AddKeyToInputBits_498C80(s32* a1, DIDEVICEOBJECTDATA* device_data_keys);
     EXPORT void read_input_device_498DA0(s32* input_bits, u8 bUnk);
@@ -101,7 +102,7 @@ class BurgerKing_67F8B0
     // 9.6f 0x44C050
     inline bool IsInputSet_44C050(s32 mask_idx)
     {
-        return (field_4_input_bits & field_8_input_masks[mask_idx]) != 0;
+        return (u32)(field_4_input_bits & field_8_input_masks[mask_idx]) > 0;
     }
 
     // 9.6f 0x44AA80

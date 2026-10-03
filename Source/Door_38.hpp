@@ -76,6 +76,9 @@ class Door_38
     // 9.6f 0x44C860, defined in Door_4D4.hpp (needs DoorData_10)
     inline bool IsOpen_44C860();
 
+    // 9.6f 0x476A30, defined in Door_4D4.hpp (needs DoorData_10)
+    inline void CloseDoors_476A30();
+
     // 9.6f 0x4895F0
     inline void ClearF2C_4895F0()
     {

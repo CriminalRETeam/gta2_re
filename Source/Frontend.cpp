@@ -396,7 +396,6 @@ WIP_FUNC(0x4B3170)
 void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
 {
     WIP_IMPLEMENTED;
-    u16 v3; // bp
     u8 v4; // bl
     u8 v5; // al
     stage_stats* v6; // ecx
@@ -459,12 +458,10 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
     wchar_t Destination[50]; // [esp+34h] [ebp-E4h] BYREF
     wchar_t Buffer[64]; // [esp+98h] [ebp-80h] BYREF
 
-    v3 = menu_page_idx;
     v57 = GetCurrPlayerStats_4B43E0();
     field_132_f136_idx = menu_page_idx;
-    switch (menu_page_idx)
+    if (menu_page_idx == MENUPAGE_PARENTAL_CONTROL)
     {
-        case MENUPAGE_PARENTAL_CONTROL:
             field_110_state = 5;
             field_C9CA_password_length = 0;
             field_C9CB_wrong_password_shown = 0;
@@ -474,14 +471,18 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
             field_C9B6_key_repeat_timer = 5;
             goto LABEL_116;
 
-        case MENUPAGE_CREDITS:
+    }
+    else if (menu_page_idx == MENUPAGE_CREDITS)
+    {
             field_1EB34_credits_ypos = 0x668000;
             field_1EB30_credits_scroll_timer = 0;
             field_1EB38_credits_line_idx = 0;
             field_C9B3_key_held = 1;
             goto LABEL_116;
 
-        case MENUPAGE_AREA_COMPLETE:
+    }
+    else if (menu_page_idx == MENUPAGE_AREA_COMPLETE)
+    {
             a2 = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
             v51 = gLucid_hamilton_67E8E0.GetLevelFinishBonusType_4C59C0();
             if (gLucid_hamilton_67E8E0.get_secret_tokens_collected_453A80() == 50)
@@ -526,7 +527,9 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
             a2a = 1;
             goto LABEL_30;
 
-        case MENUPAGE_BONUS_AREA:
+    }
+    else if (menu_page_idx == MENUPAGE_BONUS_AREA)
+    {
             gLucid_hamilton_67E8E0.DecodeStage_453A60(gLucid_hamilton_67E8E0.GetStage_4C5990(), &v7, &v11);
             main_stage_idx = v7;
             swprintf(tmpBuff_67BD9C, L"%d", v57->field_0_plyr_stage_stats[main_stage_idx][v11].field_8_stage_latest_score);
@@ -543,8 +546,9 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
                 field_136_menu_pages_array[6].field_B8A[1].field_4_is_option_unlocked = 1;
             }
             goto LABEL_116;
-        case MENUPAGE_DEAD:
-        case MENUPAGE_RESULTS_PLAYER_QUIT:
+    }
+    else if (menu_page_idx == MENUPAGE_DEAD || menu_page_idx == MENUPAGE_RESULTS_PLAYER_QUIT)
+    {
             a2a = 0;
         LABEL_30:
             v9 = &(&field_0_pDInput)[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()];
@@ -584,20 +588,18 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
                 v13->field_4_options_array[a2a].field_1_is_unlocked = 0;
                 v13->field_B8A[a2a].field_4_is_option_unlocked = 0;
             }
-            break;
     }
-
-    switch (menu_page_idx)
+    else if (menu_page_idx == MENUPAGE_PLAY)
     {
-        case MENUPAGE_PLAY:
             playerSlotSetting = gRegistry_6FF968.Create_Player_Setting_587810("plyrslot");
             field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx = playerSlotSetting;
             field_136_menu_pages_array[1].field_4_options_array[0].field_70 = playerSlotSetting;
             gLucid_hamilton_67E8E0.SetPlySlotIdx_4C5920(playerSlotSetting);
             UpdateMenuForCurrPlayer_4B42E0();
-            break;
 
-        case MENUPAGE_MULTIPLAYER_RESULTS:
+    }
+    else if (menu_page_idx == MENUPAGE_MULTIPLAYER_RESULTS)
+    {
             a2b = gLucid_hamilton_67E8E0.GetMaxPlayers_4C5BF0();
             gYouthful_einstein_6F8450.GetLeaderIdx_453AB0();
 
@@ -694,7 +696,6 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
 
             if (gYouthful_einstein_6F8450.HasQuit_453A90(v65))
             {
-                v3 = menu_page_idx;
                 goto LABEL_105;
             }
 
@@ -763,18 +764,16 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
                     v33 = gYouthful_einstein_6F8450.GetTime_453AA0(v65); //  get your time
                     break;
                 default:
-                    v3 = menu_page_idx;
                     goto LABEL_107;
             }
 
-            v3 = menu_page_idx;
             v40 = v33 - v30; //  v33 = your frag/score/time, v30 = highest opponent frag/score/time
 
             if (v40 > 0)
             {
                 v41 = gText_0x14_704DFC->Find_5B5F90("mult_w"); //  win
                 wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[0].field_6_element_name_str, v41, 0x32u);
-                break;
+                goto LABEL_116;
             }
 
             if (v40 < 0)
@@ -782,15 +781,16 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
             LABEL_105:
                 v42 = gText_0x14_704DFC->Find_5B5F90("mult_l"); //  lose
                 wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[0].field_6_element_name_str, v42, 0x32u);
-                break;
+                goto LABEL_116;
             }
 
         LABEL_107:
             v43 = gText_0x14_704DFC->Find_5B5F90("mult_d"); //  draw
             wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[0].field_6_element_name_str, v43, 0x32u);
-            break;
 
-        case MENUPAGE_PLAY_INTRO:
+    }
+    else if (menu_page_idx == MENUPAGE_PLAY_INTRO)
+    {
             if (bIsFrench_67D53C)
             {
                 FreeSound_4B8650();
@@ -808,16 +808,16 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
                 v45 = gFrontend_67DC84->intro_bik_4B5E50();
                 Bink::OpenSlot2_5133E0(v45, v50);
             }
-            break;
 
-        case MENUPAGE_START_MENU:
+    }
+    else if (menu_page_idx == MENUPAGE_START_MENU)
+    {
             field_C9E4_last_input_time = timeGetTime();
-            break;
     }
 
 LABEL_116:
-    field_132_f136_idx = v3;
-    field_136_menu_pages_array[v3].field_BC6_current_option_idx = field_136_menu_pages_array[v3].field_BC8_default_option_idx;
+    field_132_f136_idx = menu_page_idx;
+    field_136_menu_pages_array[menu_page_idx].field_BC6_current_option_idx = field_136_menu_pages_array[menu_page_idx].field_BC8_default_option_idx;
     local_field_132_f136_idx = field_132_f136_idx;
     v47 = &field_136_menu_pages_array[local_field_132_f136_idx];
     if (!v47->field_4_options_array[field_136_menu_pages_array[local_field_132_f136_idx].field_BC6_current_option_idx].field_1_is_unlocked)
@@ -1001,64 +1001,56 @@ void Frontend::DrawScoreTable_4B5430(score_table_line* pStrings,
                           u16 text_ypos,
                           u16 num_entries,
                           u16 arg_fontType,
-                          u16 palette,
+                          s32 palette,
                           u8 spacing_type)
 {
     WIP_IMPLEMENTED;
-    if (num_entries > 0)
+    u16 new_xpos;
+
+    for (u16 i = 0; i < num_entries; i++)
     {
-        u16 new_xpos;
-        score_table_line* pSmallStringIter = pStrings;
-        u16 og_y_pos = text_ypos;
-
-        for (u16 i = 0; i < num_entries; i++)
+        score_table_line* pIter = &pStrings[i];
+        u16 text_ypos_to_use = text_ypos + 40 * i;
+        if (spacing_type)
         {
-            //pSmallStringIter = pStrings[i];
-            u16 text_ypos_to_use = text_ypos;
-            if (spacing_type)
-            {
-                text_ypos_to_use = og_y_pos;
-            }
-            if (!wcscmp(pSmallStringIter->field_0_player_name, (wchar_t*)&gEmptyWStr_67DC8C))
-            {
-                swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("hi_empt"));
-            }
-            else
-            {
-                swprintf(tmpBuff_67BD9C, L"%s", pSmallStringIter->field_0_player_name);
-            }
-            if (palette == 0xFFFFu)
-            {
-                DrawText_4B87A0(tmpBuff_67BD9C, text_xpos, text_ypos_to_use, arg_fontType, 1);
-            }
-            else
-            {
-                DrawText_5D8A10(tmpBuff_67BD9C, text_xpos, text_ypos_to_use, arg_fontType, 1, 8, palette, false, 0);
-            }
-            if (spacing_type == 0)
-            {
-                new_xpos = text_xpos + 175;
-                text_ypos_to_use = text_ypos + 20;
-            }
-            else
-            {
-                new_xpos = spacing_type == 1 ? text_xpos + 600 : text_xpos + 300;
-            }
-            swprintf(tmpBuff_67BD9C, L"%d", pSmallStringIter->field_14_score);
-
-            if (gText_0x14_704DFC->field_10_lang_code == 'j')
-            {
-                Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, new_xpos, text_ypos_to_use, arg_fontType, palette, 1, 16, true);
-            }
-            else
-            {
-                Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, new_xpos, text_ypos_to_use, arg_fontType, palette, 1, 13, true);
-            }
-
-            ++pSmallStringIter;
-            og_y_pos += 20;
-            text_ypos += 40;
+            text_ypos_to_use = text_ypos + 20 * i;
         }
+        if (!wcscmp(pIter->field_0_player_name, (wchar_t*)&gEmptyWStr_67DC8C))
+        {
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("hi_empt"));
+        }
+        else
+        {
+            swprintf(tmpBuff_67BD9C, L"%s", pIter->field_0_player_name);
+        }
+        if ((u16)palette == 0xFFFFu)
+        {
+            DrawText_4B87A0(tmpBuff_67BD9C, text_xpos, text_ypos_to_use, arg_fontType, 1);
+        }
+        else
+        {
+            DrawText_5D8A10(tmpBuff_67BD9C, text_xpos, text_ypos_to_use, arg_fontType, 1, 8, palette, false, 0);
+        }
+        if (spacing_type == 0)
+        {
+            new_xpos = text_xpos + 175;
+            text_ypos_to_use = text_ypos + 40 * i + 20;
+        }
+        else
+        {
+            new_xpos = spacing_type == 1 ? text_xpos + 600 : text_xpos + 300;
+        }
+        swprintf(tmpBuff_67BD9C, L"%d", pIter->field_14_score);
+
+        if (gText_0x14_704DFC->field_10_lang_code == 'j')
+        {
+            Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, new_xpos, text_ypos_to_use, arg_fontType, palette, 1, 16, true);
+        }
+        else
+        {
+            Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, new_xpos, text_ypos_to_use, arg_fontType, palette, 1, 13, true);
+        }
+
     }
 }
 
@@ -1069,7 +1061,7 @@ EXTERN_GLOBAL(s32, gGTA2VersionMajor_708284);
 
 // sub_457920 in 9.6f
 // https://decomp.me/scratch/jchxT
-WIP_FUNC(0x4AD140)
+MATCH_FUNC(0x4AD140)
 void Frontend::DrawMenu_4AD140()
 {
     const s32 v98 = gText_0x14_704DFC->field_10_lang_code != 'j' ? 14 : 16;
@@ -1093,7 +1085,6 @@ void Frontend::DrawMenu_4AD140()
             pMenuPage->field_518_elements_array[9].field_1_is_it_displayed = false;
 
             // NOTE: field_124_font_type is u16
-            // NOTE: sub_4B7E10 is a static __stdcall (no this)
 
             last_xpos = sub_4B7E10(2, 0x12Cu, 0x1B8u, field_124_font_type, 0xFFFF); // text: ENTER
             last_xpos = sub_4B7E10(11, last_xpos + 300, 0x1B8u, field_124_font_type, 0xFFFF); // text: : ENTER NAME
@@ -1167,12 +1158,12 @@ void Frontend::DrawMenu_4AD140()
         }
     }
 
-    u8 main_level_idx;
-    u8 bonus_stage_idx;
-
     if (field_132_f136_idx == MENUPAGE_DEAD || field_132_f136_idx == MENUPAGE_AREA_COMPLETE || field_132_f136_idx == MENUPAGE_BONUS_AREA ||
         field_132_f136_idx == MENUPAGE_RESULTS_PLAYER_QUIT)
     {
+        u8 main_level_idx;
+        u8 bonus_stage_idx;
+
         if (!gLucid_hamilton_67E8E0.IsBonusStage_4C59A0())
         {
             main_level_idx = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
@@ -1187,7 +1178,7 @@ void Frontend::DrawMenu_4AD140()
             s32 unk_offset = (3 * main_level_idx) + bonus_stage_idx + 64;
             swprintf(tmpBuff_67BD9C, L"%s %c", gText_0x14_704DFC->Find_5B5F90("bonslev"), unk_offset);
             wcsncpy(pMenuPage->field_518_elements_array[0].field_6_element_name_str, tmpBuff_67BD9C, 0x32u);
-            //Frontend::sub_4B7D60();
+            sub_4B7D60();
         }
 
         Frontend::DrawScoreTable_4B5430((score_table_line*)&gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[main_level_idx][bonus_stage_idx]
@@ -1371,10 +1362,11 @@ void Frontend::DrawMenu_4AD140()
         } // end else
     } //  end FOR
 
-    u8 bonus_level_idx;
-
     if (chosen_option_idx == 3 || chosen_option_idx == 4)
     {
+        u8 main_level_idx;
+        u8 bonus_level_idx;
+
         if (chosen_option_idx == 3) //  START PLAY IN AREA
         {
             main_level_idx = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
@@ -1552,7 +1544,7 @@ void Frontend::DrawCredits_4B7AE0()
             else
             {
                 s32 v7 = Frontend::GetMaxTextWidth_5D8990(pStrBuf, font_type);
-                u32 draw_x = (640 - v7) / 2;
+                u16 draw_x = (640 - v7) / 2;
                 DrawText_5D8A10(pStrBuf, draw_x, y, font_type, 1, draw_kind, palette, 0, 0);
             }
         }
@@ -1915,9 +1907,8 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
     player_stats_0xA4* v3; // ebp
     u16 target_page_idx; // ax
     u8 v5; // bl
-    char_type main_stage_idx; // al
-    u8 v7; // bl
-    u8 v8; // di
+    u8 main_stage_idx; // al
+    u8 v7;
     u16 field_BC6_nifty_idx; // cx
     menu_option_0x82* v11; // edi
     bool v12; // bl
@@ -1925,11 +1916,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
     u16 v14; // cx
     menu_option_0x82* v15; // edi
     bool v16; // bl
-    bool v17; // al
     MenuPage_0xBCA* v18; // [esp+10h] [ebp-Ch]
-    u8 v19; // [esp+14h] [ebp-8h]
-    s32 v20; // [esp+18h] [ebp-4h]
-    u8 i; // [esp+18h] [ebp-4h]
     u8 stage_main_idx;
     u8 stage_bonus_idx;
 
@@ -1938,11 +1925,73 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
     v3 = GetCurrPlayerStats_4B43E0();
     if (field_C9D0_return_pressed)
     {
-        if (pBorg->field_4_options_array[pBorg->field_BC6_current_option_idx].field_0_option_type == STRING_TEXT_1)
+        menu_option_0x82* pOption = &pBorg->field_4_options_array[pBorg->field_BC6_current_option_idx];
+        if (pOption->field_0_option_type == STRING_TEXT_1)
         {
-            target_page_idx = pBorg->field_4_options_array[pBorg->field_BC6_current_option_idx].field_80_menu_page_target;
+            target_page_idx = pOption->field_80_menu_page_target;
             switch (target_page_idx)
             {
+                case 263u:
+                    stage_main_idx = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
+                    v5 = 3;
+                    for (stage_bonus_idx = 3; !v3->field_0_plyr_stage_stats[stage_main_idx][stage_bonus_idx].field_0_is_stage_unlocked || v5 >= field_1EB51_num_bonus_stages[stage_main_idx]; stage_bonus_idx = v5)
+                    {
+                        --v5;
+                    }
+                    LoadMapFilenames_4B4D00(stage_main_idx, stage_bonus_idx);
+                    gLucid_hamilton_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(0);
+                    field_EE08_menu_screen = RedBar_16;
+                    field_110_state = FrontendState::Booting_Map_2;
+                    snd1_67D818.field_0_object_type = 5;
+                    break;
+                case MENUPAGE_PLAY_NEXT_AREA: // 261
+                    if (!gLucid_hamilton_67E8E0.IsBonusStage_4C59A0())
+                    {
+                        main_stage_idx = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
+                    }
+                    else
+                    {
+                        main_stage_idx = (u8)gLucid_hamilton_67E8E0.GetStage_4C5990() >> 4;
+                    }
+
+                    stage_main_idx = main_stage_idx + 1;
+                    if (FreeLoader::CheckCityInstalled_4AE1F0(main_stage_idx + 1))
+                    {
+                        if (stage_main_idx >= field_1EB50_num_main_stages)
+                        {
+                            FatalError_4A38C0(Gta2Error::InvalidLevelAdvancement, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1543);
+                        }
+
+                        if (!v3->field_0_plyr_stage_stats[stage_main_idx][0].field_0_is_stage_unlocked)
+                        {
+                            FatalError_4A38C0(Gta2Error::LevelNotOpened, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1548);
+                        }
+                        LoadMapFilenames_4B4D00(stage_main_idx, 0);
+                        field_EE08_menu_screen = RedBar_16;
+                        field_110_state = FrontendState::Booting_Map_2;
+                    }
+                    snd1_67D818.field_0_object_type = 5;
+                    break;
+                case MENUPAGE_REPLAY_PREVIOUS_AREA: // 259
+                    gLucid_hamilton_67E8E0.DebugStr_4C58D0("");
+                    field_EE08_menu_screen = RedBar_16;
+                    field_110_state = FrontendState::Booting_Map_2;
+                    snd1_67D818.field_0_object_type = 5;
+                    break;
+                case MENUPAGE_LOADING_SAVE: // 260
+                    stage_bonus_idx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
+                    if (PlySlotSvgExists_4B5370(stage_bonus_idx))
+                    {
+                        sub_4B4EC0();
+                    }
+                    else
+                    {
+                        gLucid_hamilton_67E8E0.DebugStr_4C58D0("");
+                    }
+                    field_EE08_menu_screen = RedBar_16;
+                    field_110_state = FrontendState::Booting_Map_2;
+                    snd1_67D818.field_0_object_type = 5;
+                    break;
                 case MENUPAGE_GTA2MANAGER: // 257
                     Start_GTA2Manager_5E4DE0();
                     snd1_67D818.field_0_object_type = 5;
@@ -1951,84 +2000,25 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
                     field_108_winmain_next_state = Quit_1;
                     snd1_67D818.field_0_object_type = 5;
                     break;
-                case MENUPAGE_REPLAY_PREVIOUS_AREA: // 259
-                    goto LABEL_21;
-                case MENUPAGE_LOADING_SAVE: // 260
-                    v20 = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0(); //  LOBYTE(v20) =
-                    if (PlySlotSvgExists_4B5370(v20))
-                    {
-                        sub_4B4EC0();
-                    }
-                    else
-                    {
-                    }
-                LABEL_21:
-                    gLucid_hamilton_67E8E0.DebugStr_4C58D0("");
-                    goto LABEL_28;
-                case MENUPAGE_PLAY_NEXT_AREA: // 261
-                    if (gLucid_hamilton_67E8E0.IsBonusStage_4C59A0())
-                    {
-                        gLucid_hamilton_67E8E0.DecodeStage_453A60(gLucid_hamilton_67E8E0.GetStage_4C5990(), &stage_main_idx, &stage_bonus_idx);
-                        main_stage_idx = stage_main_idx;
-                    }
-                    else
-                    {
-                        main_stage_idx = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
-                    }
-
-                    v7 = main_stage_idx + 1;
-                    if (!FreeLoader::CheckCityInstalled_4AE1F0(main_stage_idx + 1))
-                    {
-                        goto LABEL_10;
-                    }
-
-                    if (v7 >= (u32)field_1EB50_num_main_stages)
-                    {
-                        FatalError_4A38C0(Gta2Error::InvalidLevelAdvancement, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1543);
-                    }
-
-                    if (!v3->field_0_plyr_stage_stats[v7][0].field_0_is_stage_unlocked)
-                    {
-                        FatalError_4A38C0(Gta2Error::LevelNotOpened, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1548);
-                    }
-                    LoadMapFilenames_4B4D00(v7, 0);
-                    goto LABEL_9;
-                case 263u:
-                    v19 = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
-                    v5 = 3;
-                    for (i = 3; !v3->field_0_plyr_stage_stats[v19][i].field_0_is_stage_unlocked || v5 >= field_1EB51_num_bonus_stages[v19]; i = v5)
-                    {
-                        --v5;
-                    }
-                    LoadMapFilenames_4B4D00(v19, i);
-                    gLucid_hamilton_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(0);
-                    goto LABEL_9;
                 case MENUPAGE_GET_READY_TO_PLAY: // 264
-                    v8 = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
-                    if (!FreeLoader::CheckCityInstalled_4AE1F0(v8))
+                    stage_main_idx = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
+                    if (FreeLoader::CheckCityInstalled_4AE1F0(stage_main_idx))
                     {
-                        goto LABEL_11;
+                        LoadMapFilenames_4B4D00(stage_main_idx, 0);
+                        field_EE08_menu_screen = RedBar_16;
+                        field_110_state = FrontendState::Booting_Map_2;
                     }
-                    LoadMapFilenames_4B4D00(v8, 0);
-                LABEL_28:
-                    field_EE08_menu_screen = RedBar_16;
-                    field_110_state = FrontendState::Booting_Map_2;
                     snd1_67D818.field_0_object_type = 5;
                     break;
                 case MENUPAGE_GET_READY_TO_PLAY_BONUS: // 265
                     gLucid_hamilton_67E8E0.DecodeStage_453A60(gLucid_hamilton_67E8E0.GetStage_4C5990(), &stage_main_idx, &stage_bonus_idx);
-                    if (!FreeLoader::CheckCityInstalled_4AE1F0(stage_main_idx))
+                    if (FreeLoader::CheckCityInstalled_4AE1F0(stage_main_idx))
                     {
-                        goto LABEL_10;
+                        LoadMapFilenames_4B4D00(stage_main_idx, stage_bonus_idx);
+                        gLucid_hamilton_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(1);
+                        field_EE08_menu_screen = RedBar_16;
+                        field_110_state = FrontendState::Booting_Map_2;
                     }
-                    LoadMapFilenames_4B4D00(stage_main_idx, stage_bonus_idx);
-                    gLucid_hamilton_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(1);
-                LABEL_9:
-                    field_EE08_menu_screen = RedBar_16;
-                    field_110_state = FrontendState::Booting_Map_2;
-                LABEL_10:
-                    pBorg = v18;
-                LABEL_11:
                     snd1_67D818.field_0_object_type = 5;
                     break;
                 case MENUPAGE_CONTINUE_NEXT_STAGE: // 266
@@ -2036,7 +2026,8 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
                     snd1_67D818.field_0_object_type = 5;
                     break;
                 case 268u:
-                    goto LABEL_11;
+                    snd1_67D818.field_0_object_type = 5;
+                    break;
                 default:
                     ChangeMenuPage_4B3170(target_page_idx);
                     snd1_67D818.field_0_object_type = 5;
@@ -2099,11 +2090,11 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
         v11 = &pBorg->field_4_options_array[field_BC6_nifty_idx];
         if (v11->field_0_option_type == STRING_TEXT_2)
         {
-            v12 = pBorg->field_4_options_array[pBorg->field_BC6_current_option_idx].SelectPrevHorizontalIdx_4B6390();
+            v12 = v11->SelectPrevHorizontalIdx_4B6390();
             if (field_132_f136_idx == MENUPAGE_PLAY && !v18->field_BC6_current_option_idx)
             {
                 gLucid_hamilton_67E8E0.SetPlySlotIdx_4C5920(v11->field_6E_horizontal_selected_idx);
-                UpdateMenuForCurrPlayer_4B42E0(); // this
+                UpdateMenuForCurrPlayer_4B42E0();
                 gRegistry_6FF968.Set_Player_Setting_5878C0("plyrslot", v11->field_6E_horizontal_selected_idx);
                 if (v12)
                 {
@@ -2119,13 +2110,9 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
                     snd1_67D818.field_0_object_type = 3;
                 }
             }
-
-        LABEL_59:
             pBorg = v18;
-            goto LABEL_60;
         }
-
-        if (field_132_f136_idx == MENUPAGE_PLAY)
+        else if (field_132_f136_idx == MENUPAGE_PLAY)
         {
             if (field_BC6_nifty_idx == 3)
             {
@@ -2140,18 +2127,13 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
             }
         }
     }
-    else
+    else if (field_C9CD_right_pressed)
     {
-        if (!field_C9CD_right_pressed)
-        {
-            goto LABEL_60;
-        }
-
         v14 = pBorg->field_BC6_current_option_idx;
         v15 = &pBorg->field_4_options_array[v14];
         if (v15->field_0_option_type == STRING_TEXT_2)
         {
-            v16 = pBorg->field_4_options_array[pBorg->field_BC6_current_option_idx].SelectNextHorizontalIdx_4B6330(); // this
+            v16 = v15->SelectNextHorizontalIdx_4B6330();
             if (field_132_f136_idx == MENUPAGE_PLAY && !v18->field_BC6_current_option_idx)
             {
                 gLucid_hamilton_67E8E0.SetPlySlotIdx_4C5920(v15->field_6E_horizontal_selected_idx);
@@ -2170,32 +2152,23 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
                     snd1_67D818.field_0_object_type = 4;
                 }
             }
-            goto LABEL_59;
+            pBorg = v18;
         }
-
-        if (field_132_f136_idx == MENUPAGE_PLAY)
+        else if (field_132_f136_idx == MENUPAGE_PLAY)
         {
             if (v14 == 3)
             {
-                v17 = ChangeMainStageToNext_4B7200();
-            }
-            else
-            {
-                if (v14 != 4)
+                if (ChangeMainStageToNext_4B7200())
                 {
-                    goto LABEL_60;
+                    snd1_67D818.field_0_object_type = 4;
                 }
-                v17 = ChangeBonusStageToNext_4B72F0();
             }
-
-            if (v17)
+            else if (v14 == 4 && ChangeBonusStageToNext_4B72F0())
             {
                 snd1_67D818.field_0_object_type = 4;
             }
         }
     }
-
-LABEL_60:
     if (field_C9D2_delete_pressed && field_132_f136_idx == MENUPAGE_PLAY && !pBorg->field_BC6_current_option_idx)
     {
         field_110_state = 4;
@@ -2861,9 +2834,15 @@ void Frontend::ContinueToNextStage_4B8020()
     }
 }
 
+STUB_FUNC(0x4B7D60)
+void Frontend::sub_4B7D60()
+{
+    NOT_IMPLEMENTED;
+}
+
 // TODO: the text keys are guesses, only code is compared
-WIP_FUNC(0x4B7E10)
-EXPORT int __stdcall Frontend::sub_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_ypos, s32 fontType, s32 palette)
+MATCH_FUNC(0x4B7E10)
+EXPORT int Frontend::sub_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_ypos, u16 fontType, s32 palette)
 {
     switch (str_id_idx)
     {
@@ -4142,8 +4121,8 @@ void Frontend::GetMainAndBonusStagesFromSeqFile_4B4440()
     u8* pBlock; // esi
     char mainOrBonus[256]; // [esp+14h] [ebp-718h] BYREF
     char styName[256]; // [esp+114h] [ebp-618h] BYREF
-    char debugStr[256]; // [esp+214h] [ebp-518h] BYREF
     char mapName[256]; // [esp+314h] [ebp-418h] BYREF
+    char debugStr[256]; // [esp+214h] [ebp-518h] BYREF
     char seqFileName[256]; // [esp+414h] [ebp-318h] BYREF
     _finddata_t findInfo; // [esp+514h] [ebp-218h] BYREF
     char description[256]; // [esp+62Ch] [ebp-100h] BYREF
@@ -4166,11 +4145,10 @@ void Frontend::GetMainAndBonusStagesFromSeqFile_4B4440()
     }
 
     this->field_1EB50_num_main_stages = 0;
-    *(u16*)this->field_1EB51_num_bonus_stages = 0;
-    this->field_1EB51_num_bonus_stages[2] = 0;
+    memset(this->field_1EB51_num_bonus_stages, 0, sizeof(this->field_1EB51_num_bonus_stages));
 
-    u16 main_block_counter = 0;
     bool mainBlockFound = false;
+    u16 main_block_counter = 0;
 
     FILE* hSeqFile = crt::fopen(seqFileName, "rt");
     if (!hSeqFile)
@@ -4427,43 +4405,35 @@ u8 Frontend::GetPrevUnlockedStageBonusCode_4B7800(player_stats_0xA4* pStats)
 {
     WIP_IMPLEMENTED;
 
-    u8 stage_; // al
-    u8 bonus; // dl
-    u8 bonus_; // di
-    s32 stage; // esi
-
-    stage_ = Frontend::GetPrevUnlockedStageIndex_4B77B0(pStats);
-    while (2)
+    u8 stage = Frontend::GetPrevUnlockedStageIndex_4B77B0(pStats);
+    u8 bonus;
+    while (1)
     {
-        bonus = this->field_1EB51_num_bonus_stages[stage_] - 1;
-        bonus_ = bonus;
-        while (bonus)
+        bonus = this->field_1EB51_num_bonus_stages[stage] - 1;
+        if (bonus != 0)
         {
-            stage = stage_;
-            if (!pStats->field_0_plyr_stage_stats[stage][bonus_].field_0_is_stage_unlocked)
+            while (1)
             {
-                do
+                while (!pStats->field_0_plyr_stage_stats[stage][bonus].field_0_is_stage_unlocked && bonus > 0)
                 {
-                    if (!bonus)
-                    {
-                        break;
-                    }
-                    bonus_ = --bonus;
-                } while (!pStats->field_0_plyr_stage_stats[stage][bonus].field_0_is_stage_unlocked);
-            }
-            if (pStats->field_0_plyr_stage_stats[stage][bonus_].field_0_is_stage_unlocked == 1 && bonus)
-            {
-                return gLucid_hamilton_67E8E0.EncodeStage_453A40(stage_, bonus);
+                    bonus--;
+                }
+                if (pStats->field_0_plyr_stage_stats[stage][bonus].field_0_is_stage_unlocked == 1 && bonus > 0)
+                {
+                    // The original's found block comes after the -1 return, out of both loops
+                    goto found;
+                }
             }
         }
-        if (stage_)
+        if (stage == 0)
         {
-            --stage_;
-            continue;
+            return -1;
         }
-        break;
+        stage--;
     }
-    return -1;
+
+found:
+    return gLucid_hamilton_67E8E0.EncodeStage_453A40(stage, bonus);
 }
 
 EXTERN_GLOBAL(bool, bDoFrontEnd_626B68);
@@ -4528,7 +4498,7 @@ s32 __stdcall Frontend::GetMaxTextWidth_5D8990(wchar_t* pStr, u16 font_type)
 }
 
 MATCH_FUNC(0x4B78B0)
-void Frontend::DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, s32 palette, u16 scale, u16 a7, u8 pStr)
+void Frontend::DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, u16 palette, u16 scale, u16 a7, u8 pStr)
 {
     u16 text_xbase;
 
@@ -4892,45 +4862,37 @@ char_type Frontend::GetPreviousUnlockedBonusStage_4B7120(u8 a2)
 
     player_stats_0xA4* player_stats = Frontend::GetCurrPlayerStats_4B43E0();
 
-    u8 bFirstIteration = true;
-
     u8 main_stage_idx;
     u8 bonus_stage_idx;
     gLucid_hamilton_67E8E0.DecodeStage_453A60(a2, &main_stage_idx, &bonus_stage_idx);
 
     u8 main_og = main_stage_idx;
     u8 bonus_og = bonus_stage_idx;
+    u8 bFirstIteration = true;
 
     while (!player_stats->field_0_plyr_stage_stats[main_stage_idx][bonus_stage_idx].field_0_is_stage_unlocked || bFirstIteration)
     {
         bFirstIteration = false;
         if (bonus_stage_idx == 1)
         {
-            if (main_stage_idx == 0)
+            do
             {
-                while (main_stage_idx == 0)
+                if (main_stage_idx != 0)
                 {
-                    if (bIsLeftRightLoopEnabled_67DA80)
-                    {
-                        main_stage_idx = field_1EB50_num_main_stages - 1;
-                        bonus_stage_idx = field_1EB51_num_bonus_stages[main_stage_idx] - 1;
-                    }
-                    else
-                    {
-                        bonus_stage_idx = bonus_og;
-                        main_stage_idx = main_og;
-                    }
-                    if (bonus_stage_idx > 0)
-                    {
-                        break;
-                    }
+                    --main_stage_idx;
+                    bonus_stage_idx = field_1EB51_num_bonus_stages[main_stage_idx] - 1;
                 }
-            }
-            else
-            {
-                --main_stage_idx;
-                bonus_stage_idx = field_1EB51_num_bonus_stages[main_stage_idx] - 1;
-            }
+                else if (bIsLeftRightLoopEnabled_67DA80)
+                {
+                    main_stage_idx = field_1EB50_num_main_stages - 1;
+                    bonus_stage_idx = field_1EB51_num_bonus_stages[main_stage_idx] - 1;
+                }
+                else
+                {
+                    bonus_stage_idx = bonus_og;
+                    main_stage_idx = main_og;
+                }
+            } while (bonus_stage_idx == 0);
         }
         else
         {
@@ -5014,11 +4976,9 @@ bool Frontend::ExistsPreviousBonusStage_4B74F0()
 }
 
 // https://decomp.me/scratch/kyxJQ
-WIP_FUNC(0x4B7360)
+MATCH_FUNC(0x4B7360)
 char_type Frontend::GetNextUnlockedBonusStage_4B7360(u8 a2)
 {
-    WIP_IMPLEMENTED;
-
     player_stats_0xA4* player_stats = GetCurrPlayerStats_4B43E0();
 
     u8 main_stage_idx;
@@ -5036,24 +4996,26 @@ char_type Frontend::GetNextUnlockedBonusStage_4B7360(u8 a2)
         if (bonus_stage_idx == field_1EB51_num_bonus_stages[main_stage_idx] - 1)
         {
             bonus_stage_idx = 1;
-            if (main_stage_idx != field_1EB50_num_main_stages - 1)
+            if (main_stage_idx == field_1EB50_num_main_stages - 1)
             {
-                main_stage_idx++;
-            }
-            else if (bIsLeftRightLoopEnabled_67DA80)
-            {
-                main_stage_idx = 0;
+                if (bIsLeftRightLoopEnabled_67DA80)
+                {
+                    main_stage_idx = 0;
+                }
+                else
+                {
+                    main_stage_idx = og_main_stage_idx;
+                    bonus_stage_idx = og_bonus_stage_idx;
+                }
             }
             else
             {
-                main_stage_idx = og_main_stage_idx;
-                bonus_stage_idx = og_bonus_stage_idx;
+                main_stage_idx++;
             }
 
-            u8 main_idx = main_stage_idx;
-            if (field_1EB51_num_bonus_stages[main_idx] == 1)
+            while (field_1EB51_num_bonus_stages[main_stage_idx] == 1)
             {
-                while (main_idx == field_1EB50_num_main_stages - 1)
+                if (main_stage_idx == field_1EB50_num_main_stages - 1)
                 {
                     if (bIsLeftRightLoopEnabled_67DA80)
                     {
@@ -5064,17 +5026,12 @@ char_type Frontend::GetNextUnlockedBonusStage_4B7360(u8 a2)
                         main_stage_idx = og_main_stage_idx;
                         bonus_stage_idx = og_bonus_stage_idx;
                     }
-
-                    main_idx = main_stage_idx;
-                    if (field_1EB51_num_bonus_stages[main_idx] != 1)
-                    {
-                        break;
-                    }
+                }
+                else
+                {
                     main_stage_idx++;
                 }
-                // nothing here
             }
-            // nothing here
         }
         else
         {
