@@ -3283,6 +3283,15 @@ Fix16 CarPhysics_B0::CalculateRearWheelForce_5620D0()
     return ApplyDriveForce_5615D0(wheel_point, tt, v25, v5);
 }
 
+// Defined here (its address range), not in sprite.cpp: with the body visible in sprite.cpp
+// VC6 knows it cannot throw and drops the EH state updates around its calls in
+// Sprite::FindCollisionIntersectionPoint_5A2710
+MATCH_FUNC(0x562450)
+Fix16_Point Sprite::GetBoundingBoxCorner_562450(s32 idx)
+{
+    return Fix16_Point(field_C_sprite_4c_ptr->field_C_renderingRect[idx].x, field_C_sprite_4c_ptr->field_C_renderingRect[idx].y);
+}
+
 MATCH_FUNC(0x562480)
 void CarPhysics_B0::ApplyThrottleInput_562480()
 {

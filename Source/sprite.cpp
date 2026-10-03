@@ -203,12 +203,6 @@ s16 CarFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& a4, const u32& 
     return pSprt14->field_10_idx;
 }
 
-MATCH_FUNC(0x562450)
-Fix16_Point Sprite::GetBoundingBoxCorner_562450(s32 idx)
-{
-    return Fix16_Point(field_C_sprite_4c_ptr->field_C_renderingRect[idx].x, field_C_sprite_4c_ptr->field_C_renderingRect[idx].y);
-}
-
 // 9.6f 0x4207B0
 MATCH_FUNC(0x443580)
 Fix16_Point Sprite::get_x_y_443580()
@@ -2010,7 +2004,7 @@ Ang16 Sprite::GetNegatedAngle_5A26E0()
 }
 
 // https://decomp.me/scratch/tc76b
-WIP_FUNC(0x5a2710)
+MATCH_FUNC(0x5a2710)
 Fix16_Point Sprite::FindCollisionIntersectionPoint_5A2710(Sprite* pOther,
                                                           Fix16_Point& newPos,
                                                           Ang16 newAng,
@@ -2018,12 +2012,12 @@ Fix16_Point Sprite::FindCollisionIntersectionPoint_5A2710(Sprite* pOther,
                                                           u8& bOutSideOther,
                                                           u8& pOutHitType)
 {
-    WIP_IMPLEMENTED;
-    
     u8 idx1;
     u8 idx2;
+    Fix16_Point result;
 
     Fix16_Point SpritePos = get_x_y_443580();
+    Ang16 SpriteAng = field_0;
 
     bOutSideSelf = 5;
     bOutSideOther = 5;
@@ -2037,16 +2031,16 @@ Fix16_Point Sprite::FindCollisionIntersectionPoint_5A2710(Sprite* pOther,
     if (pOutHitType != 0)
     {
         set_xyz_lazy_420600(SpritePos.x, SpritePos.y, field_1C_zpos);
-        set_ang_lazy_420690(newAng);
+        set_ang_lazy_420690(SpriteAng);
         UpdateCollisionBoundsIfNeeded_59E9C0();
         if (pOutHitType == 1)
         {
-            bOutSideOther = idx1;
-            return GetBoundingBoxCorner_562450(idx1);
+            result = GetBoundingBoxCorner_562450(idx1);
+            bOutSideSelf = idx1;
         }
         else
         {
-            return (GetBoundingBoxCorner_562450(idx1) + GetBoundingBoxCorner_562450(idx2)) / 2;
+            result = (GetBoundingBoxCorner_562450(idx1) + (const Fix16_Point_POD&)GetBoundingBoxCorner_562450(idx2)) / 2;
         }
     }
     else
@@ -2054,27 +2048,28 @@ Fix16_Point Sprite::FindCollisionIntersectionPoint_5A2710(Sprite* pOther,
         // pOutHitType == 0
         pOutHitType = FindOverlappingBoundingBoxCorners_5A0150(pOther, &idx1, &idx2);
         set_xyz_lazy_420600(SpritePos.x, SpritePos.y, field_1C_zpos);
-        set_ang_lazy_420690(newAng);
+        set_ang_lazy_420690(SpriteAng);
 
         if (pOutHitType != 0)
         {
             if (pOutHitType == 1)
             {
-                bOutSideSelf = idx1;
-                return GetBoundingBoxCorner_562450(idx1);
+                result = pOther->GetBoundingBoxCorner_562450(idx1);
+                bOutSideOther = idx1;
             }
             else
             {
                 // not 0, not 1
-                return (GetBoundingBoxCorner_562450(idx1) + GetBoundingBoxCorner_562450(idx2)) / 2;
+                result = (pOther->GetBoundingBoxCorner_562450(idx1) + (const Fix16_Point_POD&)pOther->GetBoundingBoxCorner_562450(idx2)) / 2;
             }
         }
         else
         {
             // pOutHitType == 0
-            return (SpritePos + get_x_y_443580()) / 2;
+            result = (pOther->get_x_y_443580() + (const Fix16_Point_POD&)SpritePos) / 2;
         }
     }
+    return result;
 }
 
 MATCH_FUNC(0x5a29d0)
