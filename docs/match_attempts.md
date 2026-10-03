@@ -1583,3 +1583,8 @@ Each was a few asm lines away from the original. What is left and what was tried
   - 0x54A530 `HandleGenericCollision`: 0.358->0.339, kept because it fixes the logic (compare against `kAng180` not `kAng90`, cascade nested the other way, missing `field_2A == kAng90` branch); the call sequence now equals the original, the rest is frame and registers.
   - 0x54EF60 `CanStepDiagonal`: 0.532->0.587 (permuter). Left: the original keeps `sprite_zpos` in ebp and pushes the direction constants as immediates.
   - 0x545AF0 `CarDoorAlignmentSolver`: 0.077->0.249. Left: the first inner case sits before the else block; temporaries reuse dead argument slots.
+  - 0x4B3170 `Frontend::ChangeMenuPage`: 0.223->0.295. Both switches became one else-if chain (the original has no jump table). Left: the 2||11 (DEAD/QUIT) body is placed at the end in ours, inline in the original; frame 0x100 vs 0x108.
+  - 0x44A1F0 `CarAI_78::sub_44A1F0`: 0.448->0.573. Angle compares as `Ang16(a.rValue ± b.rValue, 0)` so Normalize inlines. Left: register allocation of the three kAng0 copies; the permuter's gains changed behaviour.
+  - 0x546360 `Char_B4::UpdateAnimState`: 0.108->0.117. Separate `case 1`, `s8`/`u8` locals. Still far.
+  - 0x469060 `Ped::GotoAreaByAnyMeans`: no change. All four MaxAbsDistance sites use out-of-line `Abs_436A50`; switching to `MaxAbsDistanceOOL_42A6B0` fixes those blocks but shrinks the frame 0x24->0x20 (0.348->0.253).
+  - 0x54DDF0 `Char_B4::state_0`: no change (0.459 without WIP_IMPLEMENTED), diffs spread over the whole 3.7 KB.

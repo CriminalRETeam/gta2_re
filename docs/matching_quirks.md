@@ -1089,6 +1089,18 @@ inline `PolarToCartesian` that calls `Multiply_408680`, and `Normalize_406C20`, 
 `Add_408660`, `Negate_4086A0`, `Divide_436A20` instead of the operators
 (`Char_B4::ApplyMovement_54CC40`, `HandleGenericCollision_54A530`).
 
+**No jump table and compares in source order mean an if-chain, not a switch.** If the original
+tests the value in one else-if chain (14, 9, 3, 6, 2||11, ...) and builds no jump table, write the
+chain; a switch reorders the compares (`Frontend::ChangeMenuPage_4B3170`).
+
+**`case 1:` sharing a label with `default:` loses its test.** VC6 drops the compare for a case that
+falls into `default`. Give it its own body, even an identical one, to keep it in the compare chain
+(`Char_B4::UpdateAnimState_546360`).
+
+**One shared loop counter and flag across separate loops.** Separate variables get separate stack
+slots; reusing one `u8 idx` for four loops and one flag for several checks gave the original's frame
+(`Kfc_30::UpdateStateMachine_5CBD50`).
+
 ## Inline asm
 
 **16-bit `pushaw`/`popaw`.** The inline assembler can't spell them. Put `_emit 0x66` before
