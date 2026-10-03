@@ -836,11 +836,9 @@ void Garox_1118_sub::UpdateRollingDigits_5D6290()
 
 // ----------------------------------------------------
 
-WIP_FUNC(0x5cf730)
+MATCH_FUNC(0x5cf730)
 void Garox_110C_sub::Update_5CF730()
 {
-    WIP_IMPLEMENTED;
-
     Ped* pPed = gGame_0x40_67E008->field_38_orf1->Get_Field_68_Ped();
 
     if (!pPed || (u8)pPed->IsInTrain_470F00())
@@ -850,13 +848,13 @@ void Garox_110C_sub::Update_5CF730()
     else
     {
         field_284E_ped_under_solid =
-            gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(pPed->field_1AC_cam.x, pPed->field_1AC_cam.y, pPed->field_1AC_cam.z);
+            gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(pPed->get_cam_x(), pPed->get_cam_y(), pPed->get_cam_z());
         if (field_284E_ped_under_solid)
         {
             this->field_1114_rotation = Ang16(pPed->GetRotation().rValue + kAng180_706412.rValue, 0);
 
-            Fix16 camy = pPed->field_1AC_cam.y;
             Fix16 camz = pPed->field_1AC_cam.z;
+            Fix16 camy = pPed->field_1AC_cam.y;
             Fix16 camx = pPed->field_1AC_cam.x;
 
             Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
