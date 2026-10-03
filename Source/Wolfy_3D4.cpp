@@ -62,74 +62,125 @@ void Wolfy_7A8::sub_543690()
 {
     WIP_IMPLEMENTED;
 
-    u8 currentVal1 = 0;
-    u8 next_idx = 0;
     u8 smallestVal = 99;
     u8 smallestVal_idx = 99;
+    u8 currentVal1 = 0;
+    u8 next_idx = 0;
     u8 last_idx = 0;
     do
     {
         if (this->field_780_bUsed[last_idx] == 1)
         {
             Wolfy_30* pObj = &this->field_0[last_idx];
+            // Each case written out on its own: merged labels give a byte index table, the
+            // original has one dword entry per case. Cases 1 and 39 keep the range.
             switch (pObj->field_10_type_or_state)
             {
                 case 2:
+                    break;
                 case 3:
+                    break;
                 case 4:
+                    break;
                 case 21:
+                    break;
                 case 31:
+                    break;
                 case 34:
-                    goto update_smallest;
+                    break;
                 case 5:
+                    currentVal1 = 2;
+                    break;
                 case 28:
+                    currentVal1 = 2;
+                    break;
                 case 29:
+                    currentVal1 = 2;
+                    break;
                 case 30:
                     currentVal1 = 2;
-                    goto update_smallest;
-                case 12:
-                case 14:
-                case 15:
-                    currentVal1 = 5;
-                    goto update_smallest;
+                    break;
                 case 13:
                     currentVal1 = 4;
-                    goto update_smallest;
+                    break;
+                case 12:
+                    currentVal1 = 5;
+                    break;
+                case 14:
+                    currentVal1 = 5;
+                    break;
+                case 15:
+                    currentVal1 = 5;
+                    break;
                 case 16:
+                    currentVal1 = 6;
+                    break;
                 case 17:
                     currentVal1 = 6;
-                    goto update_smallest;
+                    break;
                 case 18:
+                    if (pObj->field_1A_timer < 82u)
+                    {
+                        currentVal1 = 3;
+                    }
+                    break;
                 case 33:
                     if (pObj->field_1A_timer < 82u)
                     {
                         currentVal1 = 3;
                     }
-                    goto update_smallest;
+                    break;
                 case 19:
+                    if (pObj->field_1A_timer < 50u)
+                    {
+                        currentVal1 = 3;
+                    }
+                    break;
                 case 20:
+                    if (pObj->field_1A_timer < 50u)
+                    {
+                        currentVal1 = 3;
+                    }
+                    break;
                 case 32:
                     if (pObj->field_1A_timer < 50u)
                     {
-                        goto set_cur_to_3;
-                    }
-                    goto update_smallest;
-                case 22:
-                case 23:
-                case 24:
-                case 25:
-                set_cur_to_3:
-                    currentVal1 = 3;
-                update_smallest:
-                    if (currentVal1 < smallestVal)
-                    {
-                        smallestVal = currentVal1;
-                        smallestVal_idx = next_idx;
+                        currentVal1 = 3;
                     }
                     break;
+                case 22:
+                    currentVal1 = 3;
+                    break;
+                case 23:
+                    currentVal1 = 3;
+                    break;
+                case 24:
+                    currentVal1 = 3;
+                    break;
+                case 25:
+                    currentVal1 = 3;
+                    break;
+                case 1:
+                    currentVal1 = 1;
+                    break;
+                case 39:
+                    currentVal1 = 1;
+                    break;
                 default:
-                    this->field_0[last_idx].field_1A_timer = 0;
-                    return;
+                    currentVal1 = 1;
+                    break;
+            }
+
+            if (currentVal1 == 1)
+            {
+                this->field_0[last_idx].field_1A_timer = 0;
+                return;
+            }
+
+            if (currentVal1 < smallestVal)
+            {
+                smallestVal = currentVal1;
+                smallestVal_idx = next_idx;
             }
         }
         last_idx = ++next_idx;
