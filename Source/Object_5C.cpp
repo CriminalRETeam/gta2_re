@@ -422,53 +422,41 @@ void Object_2C::SetConveyorPush_5226A0(char_type varrok_idx)
     field_10_obj_3c->field_38_conveyor_speed = varrok_idx;
 }
 
-WIP_FUNC(0x522710)
+MATCH_FUNC(0x522710)
 void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3)
 {
-    WIP_IMPLEMENTED;
+    Fix16_Point v26;
+    Fix16_Point v27;
+    Fix16_Point v28;
 
     Fix16_Point v30 = a2->GetXY_52AE70();
     Fix16_Point v29 = GetXY_52AE70();
 
-    Ang16 v25;
-    Fix16_Point v6 = (v29 - *a3);
-    Fix16_Point v26;
-    v26.x = v6.x;
-    v26.y = v6.y;
+    Ang16 v25 = 0;
+    v26 = (v29 - *a3);
 
-    Fix16_Point v28;
     if (a2->sub_482C90())
     {
-        Fix16_Point v11 = (GetSpeedVector_52AE90() - a2->GetSpeedVector_52AE90());
-        Fix16_Point v27;
-        v27.x = v11.x;
-        v27.y = v11.y;
-        Fix16_Point v13 = ComputeLineLineIntersection_55F3B0(GetMass_482C80(),
-                                                             a2->GetMass_482C80(),
-                                                             v27,
-                                                             v26,
-                                                             *a3,
-                                                             v29,
-                                                             v30,
-                                                             kFP16One_6F8D38,
-                                                             kFP16One_6F8D38,
-                                                             kFP16One_6F8D24);
+        v27 = (GetSpeedVector_52AE90() - a2->GetSpeedVector_52AE90());
+        v28 = ComputeLineLineIntersection_55F3B0(GetMass_482C80(),
+                                                 a2->GetMass_482C80(),
+                                                 v27,
+                                                 v26,
+                                                 *a3,
+                                                 v29,
+                                                 v30,
+                                                 kFP16One_6F8D38,
+                                                 kFP16One_6F8D38,
+                                                 kFP16One_6F8D24);
 
-        v28.x = v13.x;
-        v28.y = v13.y;
-        Fix16_Point v17 = (-v28 / a2->GetMass_482C80());
-        a2->SetMovementVectorWithRandomState_522640(v17);
+        a2->SetMovementVectorWithRandomState_522640(v28.Negate_40ACB0() / a2->GetMass_482C80());
     }
     else
     {
-        Fix16_Point v18 = GetSpeedVector_52AE90();
-        Fix16_Point v27;
-        v27.x = v18.x;
-        v27.y = v18.y;
+        v27 = GetSpeedVector_52AE90();
         if (v26.x == kFpZero_6F8E10 && v26.y == kFpZero_6F8E10)
         {
-            v26.x = v18.x;
-            v26.y = v18.y;
+            v26 = v27;
         }
 
         v28 = ComputeLineLineIntersection_55F3B0(GetMass_482C80(),
@@ -488,8 +476,7 @@ void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3
         v25 = field_10_obj_3c->field_4_angle;
     }
 
-    Fix16_Point v22 = (v28 / GetMass_482C80());
-    SetMovementVectorWithRandomState_522640(v22);
+    SetMovementVectorWithRandomState_522640(v28 / GetMass_482C80());
 
     if (gObject2C_HitWallOrDoor_6F8F94)
     {
@@ -497,7 +484,9 @@ void Object_2C::ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3
         {
             if (ComputeShortestAngleDelta_4056C0(field_10_obj_3c->field_4_angle, v25) < kAng90_6F8C88)
             {
-                field_10_obj_3c->field_4_angle += kAng180_6F8D62;
+                Ang16& angle = field_10_obj_3c->field_4_angle;
+                angle.rValue += kAng180_6F8D62.rValue;
+                angle.Normalize_406C20();
             }
         }
     }
