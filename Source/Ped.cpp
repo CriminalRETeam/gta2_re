@@ -1947,10 +1947,9 @@ bool Ped::HandlePickupCollision_45DE80(Object_2C* pPickUp)
     }
 }
 
-WIP_FUNC(0x45e080)
+MATCH_FUNC(0x45e080)
 void Ped::SpawnWeaponOnDeath_45E080()
 {
-    WIP_IMPLEMENTED;
     Object_2C* v2; // eax
 
     if ((this->field_224 & 0x20) != 0 && !this->field_16C_car)
@@ -1962,87 +1961,55 @@ void Ped::SpawnWeaponOnDeath_45E080()
                 switch (this->field_170_selected_weapon->field_1C_idx)
                 {
                     case weapon_type::pistol:
-                    case weapon_type::electro_batton:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(200, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
-                        if (v2)
-                        {
-                            v2->SetO8Timer_434130(9);
-                        }
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(200, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
                         break;
 
                     case weapon_type::smg:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(201, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
-                        if (v2)
-                        {
-                            v2->SetO8Timer_434130(9);
-                        }
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(201, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
                         break;
 
                     case weapon_type::rocket:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(202, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
-                        if (v2)
-                        {
-                            v2->SetO8Timer_434130(9);
-                        }
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(202, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
                         break;
 
                     case weapon_type::shocker:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(203, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
-                        if (v2)
-                        {
-                            v2->SetO8Timer_434130(9);
-                        }
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(203, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
                         break;
 
                     case weapon_type::molotov:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(204, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
-                        if (v2)
-                        {
-                            v2->SetO8Timer_434130(9);
-                        }
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(204, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
                         break;
 
                     case weapon_type::grenade:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(205, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
-                        if (v2)
-                        {
-                            v2->SetO8Timer_434130(9);
-                        }
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(205, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
                         break;
 
                     case weapon_type::shotgun:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(206, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
-                        if (v2)
-                        {
-                            v2->SetO8Timer_434130(9);
-                        }
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(206, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
+                        break;
+
+                    case weapon_type::electro_batton:
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(200, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
                         break;
 
                     case weapon_type::flamethrower:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(208, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
-                        if (v2)
-                        {
-                            v2->SetO8Timer_434130(9);
-                        }
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(208, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
                         break;
 
                     case weapon_type::silence_smg:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(209, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
-                        if (v2)
-                        {
-                            v2->SetO8Timer_434130(9);
-                        }
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(209, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
                         break;
 
                     case weapon_type::dual_pistol:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(210, get_cam_x(), get_cam_y(), get_cam_z(), gDummyPedAng_6787A8);
-                        if (v2)
-                        {
-                            v2->SetO8Timer_434130(9);
-                        }
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(210, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
                         break;
                     default:
                         return;
+                }
+
+                if (v2)
+                {
+                    v2->SetO8Timer_434130(9);
                 }
             }
         }
