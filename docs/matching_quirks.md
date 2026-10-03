@@ -503,6 +503,21 @@ original's `testb` (`ApplyImpactForcesAndDamage_55FA60`, 205 -> 19).
 **Parameter slots reused as locals.** When the original keeps grid indices or loop counters in a
 parameter's stack slot, assign them to the parameter (`Orca_2FD4::ComputePath_554AB0`, 216 -> 48).
 
+**A zero-initialised local declared at the top becomes a zero register.** In
+`PoliceCrew_38::State6_ShutDown_574720`, `u8 i = 0;` at the top made VC6 keep 0 in `ebp` for every null test,
+zero store and `push 0` in the function. Declaring it just before its loop removed the zero register (410->119).
+
+**`Fix16(s32)` and `Fix16(u32)` are separate out-of-line copies.** 0x4369F0 and 0x4926F0 have identical code but
+are distinct COMDATs; passing a u32 where the original calls 0x4926F0 matched `Garox_12E4_sub::DrawPause_5D63B0`.
+
+**A switch split on an odd value was two switches.** VC6 splits a sparse switch on the median case. When the
+original splits elsewhere (110 in `sound_obj::SelectObjectImpactSound_413120`), write `if (x <= 110) { switch } else
+{ switch }`.
+
+**Identical bodies in an else-if chain are tail-merged** with a `jmp` into the first copy
+(`CarAI_78::ManageCollisions_452A20`). Stacked case labels give a `cmp/jl/jle` range test, while separate
+identical case bodies give the `sub/dec/je` chain (`Char_B4::state_7_551CB0`).
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 
