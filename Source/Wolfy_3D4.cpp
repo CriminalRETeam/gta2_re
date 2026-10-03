@@ -277,131 +277,16 @@ Wolfy_30::~Wolfy_30()
 }
 
 WIP_FUNC(0x540d30)
-void Wolfy_30::state_3_12_540D30(Ang16 a2, Fix16 speed)
+void Wolfy_30::state_3_12_540D30(Ang16 ang, Fix16 pos)
 {
     WIP_IMPLEMENTED;
 
-    // the ctor directly: operator+ calls it out of line here, and the Normalize loops
-    // have to be inlined (the original keeps v6 in si)
-    Ang16 v6(kAng180_6FD3EE.rValue + a2.rValue, 0);
-
-    Fix16_Point p(speed, speed);
-
-    // Fix16_Point::RotateByAngle_40F6B0 written out: the function ran out of inline
-    // expansions, so the multiplies and adds are the out of line operator copies
-    // (only the y*sin multiply stays inline)
-    Fix16 sin = Ang16::sine_40F500(v6);
-    Fix16 cos = Ang16::cosine_40F520(v6);
-    Fix16 x_old = p.x;
-    p.x = (const Fix16&)p.x.Multiply_408680(cos) + (p.y * sin);
-    p.y = (const Fix16&)(-x_old).Multiply_408680(sin) + p.y.Multiply_408680(cos);
-
-    this->field_8_speed = speed;
-    this->field_C_angle = a2;
-
-    if (field_18_particle_cooldown)
-    {
-        field_18_particle_cooldown--;
-    }
-    else
-    {
-        //a3 = (int)&v27;
-        Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(p.x, p.y, dword_6FD330, p.x, p.y, 0);
-        if (!pParticle)
-        {
-            return;
-        }
-        Sprite* pNext = pParticle->field_30_pNext;
-        pParticle->field_40_pUnknown = this;
-        pParticle->field_20_speed = speed; // F16
-        pParticle->field_44 = field_6_id;
-        pParticle->field_24_angle = a2;
-        pParticle->field_34 = 0;
-        pParticle->field_46_sub_state = 0;
-        pParticle->field_2C_counter = 32;
-        pParticle->field_2E = 32;
-        pNext->field_30_sprite_type_enum = 8;
-        pNext->SetDefaultNumBySpriteType_59E960();
-        pParticle->field_38_state = 3;
-
-        Sprite* v19 = pParticle->field_30_pNext;
-
-        v19->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 96);
-
-        pParticle->field_30_pNext->field_2C_flags |= 4u;
-        Sprite* v21 = pParticle->field_30_pNext;
-        Sprite* v22 = this->field_14_pObj2C->field_4;
-
-        v21->set_xyz_lazy_420600(v22->field_14_xy.x, v22->field_14_xy.y, v22->field_1C_zpos);
-
-        gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
-        field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
-    }
-}
-
-// 9.6f 0x48E5F0
-WIP_FUNC(0x540f90)
-void Wolfy_30::state_4_540F90(Ang16 ang, Fix16 pos)
-{
-    WIP_IMPLEMENTED;
-
-    Fix16_Point point(0, 0);
-
+    // Fix16_Point (has a destructor): the original sets an EH state for it. Zero-constructed
+    // then assigned as in 9.6f: the pos stores are scheduled after the angle add.
+    Fix16_Point point(Fix16(0), Fix16(0));
     point.x = pos;
     point.y = pos;
-
-    Ang16 rot = kAng180_6FD3EE;
-    rot += ang;
-    // RotateByAngle_40F6B0, but using the out-of-line Fix16 operators
-    Fix16 sin = Ang16::sine_40F500(rot);
-    Fix16 cos = Ang16::cosine_40F520(rot);
-    Fix16 x_old = point.x;
-    point.x = (const Fix16&)point.x.Multiply_408680(cos) + (point.y * sin);
-    point.y = (const Fix16&)(-x_old).Multiply_408680(sin) + point.y.Multiply_408680(cos);
-
-    this->field_8_speed = pos;
-    this->field_C_angle = ang;
-
-    if (field_18_particle_cooldown == 0)
-    {
-        Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(point.x, point.y, dword_6FD330, point.x, point.y, 0);
-        if (!pNew)
-        {
-            return;
-        }
-
-        pNew->field_40_pUnknown = this;
-        pNew->field_20_speed = pos;
-        pNew->field_24_angle = ang;
-        pNew->field_34 = 0;
-        pNew->field_46_sub_state = 0;
-        pNew->field_2C_counter = 32;
-        pNew->field_2E = 32;
-        pNew->field_30_pNext->SetType_4206F0(8);
-        pNew->field_38_state = 4;
-        pNew->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette);
-        pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
-        pNew->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x,
-                                                  field_14_pObj2C->field_4->field_14_xy.y,
-                                                  field_14_pObj2C->field_4->field_1C_zpos);
-
-        gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
-        field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
-    }
-    else
-    {
-        field_18_particle_cooldown--;
-    }
-}
-
-WIP_FUNC(0x5411e0)
-void Wolfy_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
-{
-    WIP_IMPLEMENTED;
-
-    // Fix16_Point (has a destructor): the original sets an EH state for it
-    Fix16_Point point(pos, pos);
-    // ang + kAng180_6FD3EE leaves Normalize out of line
+    // The ctor directly: ang + kAng180_6FD3EE (operator+) leaves Normalize out of line
     Ang16 new_ang(ang.rValue + kAng180_6FD3EE.rValue, 0);
 
     Fix16 sin_v = gSin_table_667A80[new_ang.rValue];
@@ -424,8 +309,118 @@ void Wolfy_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
         }
 
         pNew->field_40_pUnknown = this;
-        pNew->field_20_speed = pos;
         pNew->field_44 = this->field_6_id;
+        pNew->field_20_speed = pos;
+        pNew->field_24_angle = ang;
+        pNew->field_34 = 0;
+        pNew->field_46_sub_state = 0;
+        pNew->field_2C_counter = 32;
+        pNew->field_2E = 32;
+        pNew->field_30_pNext->SetType_4206F0(8);
+        pNew->field_38_state = 3;
+        pNew->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 96);
+        pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+        pNew->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
+        gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
+        this->field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
+    }
+    else
+    {
+        this->field_18_particle_cooldown--;
+    }
+}
+
+
+// 9.6f 0x48E5F0
+WIP_FUNC(0x540f90)
+void Wolfy_30::state_4_540F90(Ang16 ang, Fix16 pos)
+{
+    WIP_IMPLEMENTED;
+
+    // Fix16_Point (has a destructor): the original sets an EH state for it. Zero-constructed
+    // then assigned as in 9.6f: the pos stores are scheduled after the angle add.
+    Fix16_Point point(Fix16(0), Fix16(0));
+    point.x = pos;
+    point.y = pos;
+    // The ctor directly: ang + kAng180_6FD3EE (operator+) leaves Normalize out of line
+    Ang16 new_ang(ang.rValue + kAng180_6FD3EE.rValue, 0);
+
+    Fix16 sin_v = gSin_table_667A80[new_ang.rValue];
+    Fix16 cos_v = gCos_table_669260[new_ang.rValue];
+
+    Fix16 x_old = point.x;
+    point.x = (const Fix16&)point.x.Multiply_408680(cos_v) + (point.y * sin_v);
+    point.y = (const Fix16&)(-x_old).Multiply_408680(sin_v) + point.y.Multiply_408680(cos_v);
+
+    this->field_8_speed = pos;
+    this->field_C_angle = ang;
+
+    if (this->field_18_particle_cooldown == 0)
+    {
+        //pos = (int)&v27; // TODO: Field_20 wrong val ??
+        Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(point.x, point.y, dword_6FD330, point.x, point.y, 0);
+        if (!pNew)
+        {
+            return;
+        }
+
+        pNew->field_40_pUnknown = this;
+        pNew->field_44 = this->field_6_id;
+        pNew->field_20_speed = pos;
+        pNew->field_24_angle = ang;
+        pNew->field_34 = 0;
+        pNew->field_46_sub_state = 0;
+        pNew->field_2C_counter = 32;
+        pNew->field_2E = 32;
+        pNew->field_30_pNext->SetType_4206F0(8);
+        pNew->field_38_state = 4;
+        pNew->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette);
+        pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+        pNew->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
+        gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
+        this->field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
+    }
+    else
+    {
+        this->field_18_particle_cooldown--;
+    }
+}
+
+WIP_FUNC(0x5411e0)
+void Wolfy_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
+{
+    WIP_IMPLEMENTED;
+
+    // Fix16_Point (has a destructor): the original sets an EH state for it. Zero-constructed
+    // then assigned as in 9.6f: the pos stores are scheduled after the angle add.
+    Fix16_Point point(Fix16(0), Fix16(0));
+    point.x = pos;
+    point.y = pos;
+    // The ctor directly: ang + kAng180_6FD3EE (operator+) leaves Normalize out of line
+    Ang16 new_ang(ang.rValue + kAng180_6FD3EE.rValue, 0);
+
+    Fix16 sin_v = gSin_table_667A80[new_ang.rValue];
+    Fix16 cos_v = gCos_table_669260[new_ang.rValue];
+
+    Fix16 x_old = point.x;
+    point.x = (const Fix16&)point.x.Multiply_408680(cos_v) + (point.y * sin_v);
+    point.y = (const Fix16&)(-x_old).Multiply_408680(sin_v) + point.y.Multiply_408680(cos_v);
+
+    this->field_8_speed = pos;
+    this->field_C_angle = ang;
+
+    if (this->field_18_particle_cooldown == 0)
+    {
+        //pos = (int)&v27; // TODO: Field_20 wrong val ??
+        Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(point.x, point.y, dword_6FD330, point.x, point.y, 0);
+        if (!pNew)
+        {
+            return;
+        }
+
+        pNew->field_40_pUnknown = this;
+        pNew->field_44 = this->field_6_id;
+        pNew->field_20_speed = pos;
         pNew->field_24_angle = ang;
         pNew->field_34 = 0;
         pNew->field_46_sub_state = 0;
@@ -450,7 +445,9 @@ void Wolfy_30::state_5_541430(Ang16 ang, Fix16 pos)
 {
     WIP_IMPLEMENTED;
 
-    Fix16_Point p(pos, pos);
+    Fix16_Point p(Fix16(0), Fix16(0));
+    p.x = pos;
+    p.y = pos;
     p.RotateByAngle_40F6B0(ang + kAng180_6FD3EE);
 
     this->field_8_speed = pos;
