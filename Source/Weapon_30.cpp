@@ -1333,14 +1333,17 @@ void Weapon_30::fire_truck_flamethrower_5E0B10()
     Ang16 gun_ang;
     Fix16_Point bullet_pos;
     Fix16_Point offset;
+    Fix16_Point velocity;
 
     Sprite_18* pTurret = field_14_car->field_0_qq.GetSpriteForModel_5A6A50(114);
     if (pTurret)
     {
-        gun_ang = Ang16(pTurret->field_0->field_0 + word_706DFA, 0);
+        // The original calls this constructor out of line (AssignNormalized_409300), but that
+        // spelling (or operator+) moves the registers of the whole branch.
+        gun_ang = Ang16((s16)(pTurret->field_0->field_0.rValue + word_706DFA.rValue), 0);
 
         bullet_pos.SetXY_432860(Fix16(0), dword_706CDC);
-        bullet_pos.RotateByAngle_40F6B0(gun_ang);
+        bullet_pos.RotateByAngle_NegOOL_40F6B0(gun_ang);
         offset.SetXY_432860(Fix16(0), dword_706CD8);
     }
     else
@@ -1348,15 +1351,15 @@ void Weapon_30::fire_truck_flamethrower_5E0B10()
         gun_ang = field_14_car->field_0_qq.GetSpriteForModel_5A6A50(248)->field_0->field_0;
 
         bullet_pos.SetXY_432860(Fix16(0), dword_706EA4);
-        bullet_pos.RotateByAngle_40F6B0(gun_ang);
+        bullet_pos.RotateByAngle_OOL_40F6B0(gun_ang);
         offset.SetXY_432860(Fix16(0), dword_706EE8);
     }
 
-    offset.RotateByAngle_40F6B0(field_14_car->field_50_car_sprite->field_0);
+    offset.RotateByAngle_NegOOL_40F6B0(field_14_car->field_50_car_sprite->field_0);
 
-    bullet_pos += (offset + field_14_car->field_50_car_sprite->get_x_y_443580());
+    bullet_pos += offset.Add_40AC50(field_14_car->field_50_car_sprite->get_x_y_443580());
 
-    Fix16_Point velocity = field_14_car->field_58_physics->GetPointVelocity_561350(&offset);
+    velocity = field_14_car->field_58_physics->GetPointVelocity_561350(&bullet_pos);
 
     set_field_2C_4CCA80(1);
 
