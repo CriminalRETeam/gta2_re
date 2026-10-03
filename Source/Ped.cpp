@@ -4966,6 +4966,13 @@ void Ped::ProcessInCarObjective_463FB0()
 }
 
 // https://decomp.me/scratch/cMSHI
+// Polar to cartesian with the out-of-line Fix16 multiply
+static inline void PolarToCartesianMul_4645B0(Ang16& angle, Fix16& radius, Fix16& x, Fix16& y)
+{
+    x = Ang16::sine_40F500(angle).Multiply_408680(radius);
+    y = Ang16::cosine_40F520(angle).Multiply_408680(radius);
+}
+
 WIP_FUNC(0x4645b0)
 void Ped::sub_4645B0()
 {
@@ -4979,8 +4986,8 @@ void Ped::sub_4645B0()
 
     if (field_14C_internal_target_ped->GetPedVelocity_45C920() > kFpZero_678660)
     {
-        angle = field_14C_internal_target_ped->field_168_game_object->get_rotation_433A40();
-        angle += kAng180_6785A6;
+        angle = kAng180_6785A6;
+        angle += field_14C_internal_target_ped->field_168_game_object->field_40_rotation;
         radius = kFpThreeEighths_67878C;
     }
     else
@@ -5010,6 +5017,9 @@ void Ped::sub_4645B0()
                     angle += kAng180_6785A6;
                     radius = kFpThreeQuarters_678794;
                 }
+                PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
+                field_1C4_x += vec_x;
+                field_1C8_y += vec_y;
                 break;
             case 1:
                 angle += kAng270_6785D0;
@@ -5018,6 +5028,9 @@ void Ped::sub_4645B0()
                     angle += kAng180_6785A6;
                     radius = kFpThreeQuarters_678794;
                 }
+                PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
+                field_1C4_x += vec_x;
+                field_1C8_y += vec_y;
                 break;
             case 2:
                 angle = angle + kAng180_6785A6;
@@ -5026,9 +5039,15 @@ void Ped::sub_4645B0()
                     angle += kAng180_6785A6;
                     radius = kFpThreeQuarters_678794;
                 }
+                PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
+                field_1C4_x += vec_x;
+                field_1C8_y += vec_y;
                 break;
 
             case 3:
+                PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
+                field_1C4_x += vec_x;
+                field_1C8_y += vec_y;
                 break;
 
             case 4:
@@ -5042,6 +5061,9 @@ void Ped::sub_4645B0()
                 {
                     radius = kFpThreeEighths_67878C;
                 }
+                PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
+                field_1C4_x += vec_x;
+                field_1C8_y += vec_y;
                 break;
 
             case 5:
@@ -5055,6 +5077,9 @@ void Ped::sub_4645B0()
                 {
                     radius = kFpThreeEighths_67878C;
                 }
+                PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
+                field_1C4_x += vec_x;
+                field_1C8_y += vec_y;
                 break;
 
             case 6:
@@ -5068,6 +5093,9 @@ void Ped::sub_4645B0()
                 {
                     radius = kFpThreeEighths_67878C;
                 }
+                PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
+                field_1C4_x += vec_x;
+                field_1C8_y += vec_y;
                 break;
 
             case 7:
@@ -5081,6 +5109,9 @@ void Ped::sub_4645B0()
                 {
                     radius = kFpThreeEighths_67878C;
                 }
+                PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
+                field_1C4_x += vec_x;
+                field_1C8_y += vec_y;
                 break;
 
             default:
@@ -5094,12 +5125,12 @@ void Ped::sub_4645B0()
                 {
                     radius = kFpThreeEighths_67878C;
                 }
+                PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
+                field_1C4_x += vec_x;
+                field_1C8_y += vec_y;
                 break;
         }
 
-        Ang16::PolarToCartesian_41FC20(angle, radius, vec_x, vec_y);
-        field_1C4_x += vec_x;
-        field_1C8_y += vec_y;
         field_130 = Fix16::atan2_fixed_405320(field_1AC_cam.y - field_14C_internal_target_ped->get_cam_y(), field_1AC_cam.x - field_14C_internal_target_ped->get_cam_x());
     }
     else
@@ -5129,7 +5160,7 @@ void Ped::sub_4645B0()
                 radius = kFpFiveSixteenths_678784;
                 break;
         }
-        Ang16::PolarToCartesian_41FC20(angle, radius, vec_x, vec_y);
+        PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
         field_1C4_x += vec_x;
         field_1C8_y += vec_y;
     }
