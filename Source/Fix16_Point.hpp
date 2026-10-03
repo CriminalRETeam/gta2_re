@@ -105,6 +105,18 @@ struct Fix16_Point_POD
         y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + y.Multiply_408680(cos);
     }
 
+    // RotateByAngle_40F6B0 with every operator called out of line (Particle_8::EmitImpactParticles_53FE40)
+    inline void RotateByAngle_40F6B0_all_out_of_line(const Ang16& angle)
+    {
+        Fix16 sin = Ang16::sine_40F500(angle);
+        Fix16 cos = Ang16::cosine_40F520(angle);
+
+        Fix16 x_old = x;
+
+        x = (const Fix16&)x.Multiply_408680(cos) + y.Multiply_408680(sin);
+        y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + y.Multiply_408680(cos);
+    }
+
     // Matching impl at RotateVelocity_562C20
     inline void RotateByAngle_40F6B0(const Ang16& angle)
     {

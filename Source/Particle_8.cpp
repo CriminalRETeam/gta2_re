@@ -524,33 +524,31 @@ void Particle_8::EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16 sin
 {
     WIP_IMPLEMENTED;
 
-    Ang16 ang1;
-    Ang16 ang2;
     Fix16_Point t(Fix16(0), Fix16(0));
     Ang16 tanAng = Fix16::atan2_fixed_405320(cosv, sinv);
 
-    //Fix16 k15_1(15, 0);
-    //Fix16 k15_2(15, 0);
-
-    for (u32 i = 0; i < 6; ++i)
+    for (u8 i = 0; i < 6; ++i)
     {
         t.x = Fix16(0);
         t.y = (dword_6FD4EC * (dword_6FD558 + Fix16(gRng_6F6784.get_int_4F7AE0(100))));
         if (i < 4)
         {
-            ang1 = word_6FD5CC.MultiplyByFix16_401CB0(gRng_6F6784.get_int_4F7AE0(32));
-            ang2 = word_6FD5CC.MultiplyByFix16_401CB0(Fix16(16));
+            Ang16 ang1 = word_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(gRng_6F6784.get_int_4F7AE0(32)));
+            Ang16 ang2 = word_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(16));
+            Ang16 sum = ang1 + tanAng;
+            Ang16 rot(Ang16(sum.rValue - ang2.rValue), 0);
+            t.RotateByAngle_40F6B0_all_out_of_line(rot);
         }
         else
         {
-            ang1 = word_6FD5CC.MultiplyByFix16_401CB0(gRng_6F6784.get_int_4F7AE0(360));
-            ang2 = word_6FD5CC.MultiplyByFix16_401CB0(Fix16(180));
+            Ang16 ang1 = word_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(gRng_6F6784.get_int_4F7AE0(360)));
+            Ang16 ang2 = word_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(180));
+            Ang16 sum(Ang16(ang1.rValue + tanAng.rValue), 0);
+            Ang16 rot(Ang16(sum.rValue - ang2.rValue), 0);
+            t.RotateByAngle_40F6B0_all_out_of_line(rot);
         }
 
-        ang1 = ang1 + tanAng - ang2;
-        t.RotateByAngle_40F6B0(ang1);
-
-        Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(t.x, t.y, dword_6FD330, 0, 0, Fix16(0)); // TODO
+        Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(t.x, t.y, dword_6FD330, t.x.DivideInt_53E860(15).Negate_4086A0(), t.y.DivideInt_53E860(15).Negate_4086A0(), Fix16(0));
         if (pNew4C)
         {
             pNew4C->field_34 = 1;
