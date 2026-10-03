@@ -1081,26 +1081,13 @@ void Weapon_30::sub_5DFB60(char_type a2, Sprite* a3, Ang16 a4)
     char_type bHit = 0;
 
     Fix16_Rect rect;
-    if (!a2)
-    {
-        rect.SetRect_41E350(a3->field_14_xy.x - kFP16Two_706EC0,
-                            a3->field_14_xy.x + kFP16Two_706EC0,
-                            a3->field_14_xy.y - kFP16Two_706EC0,
-                            a3->field_14_xy.y + kFP16Two_706EC0);
-    }
-    else
-    {
-        rect.SetRect_41E350(a3->field_14_xy.x - dword_706EBC,
-                            a3->field_14_xy.x + dword_706EBC,
-                            a3->field_14_xy.y - dword_706EBC,
-                            a3->field_14_xy.y + dword_706EBC);
-    }
+    Fix16 w = !a2 ? kFP16Two_706EC0 : dword_706EBC;
+    rect.SetRect_41E350(a3->field_14_xy.x - w, a3->field_14_xy.x + w, a3->field_14_xy.y - w, a3->field_14_xy.y + w);
     rect.SetHiLowZ_41E370(a3->field_1C_zpos - dword_706EBC, a3->field_1C_zpos + dword_706EBC);
 
     word_707004 = field_24_pPed->field_168_game_object->field_80_sprite_ptr->field_0;
-    Fix16_Point vel = field_24_pPed->GetVelocityVector_45B520();
-    stru_706E58.x = vel.x;
-    stru_706E58.y = vel.y;
+    // The original copies the returned point through the return pointer, as a struct assignment
+    reinterpret_cast<Fix16_Point&>(stru_706E58) = field_24_pPed->GetVelocityVector_45B520();
 
     if (gPurpleDoom_1_679208->CollectRectCollisions_477F30(&rect, 0, 0, a3, &hits) && hits.field_0_p18)
     {
