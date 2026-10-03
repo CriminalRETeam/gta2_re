@@ -3046,24 +3046,23 @@ Hud_2B00::~Hud_2B00()
 }
 
 // TODO: Calls 2 Fix16 ctors that are exactly the same but are 2 unique functions ??
-WIP_FUNC(0x5d4a10)
+MATCH_FUNC(0x5d4a10)
 void Hud_CarName_4C::DrawCarName_5D4A10()
 {
-    WIP_IMPLEMENTED;
-
     if (field_0_display_time)
     {
-        s32 sprite_w = get_sprite_width_4C7220(11);
-        if (field_44_xpos_offset > (sprite_w * 2) - 10)
+        // u32: converts with the Fix16(u32) constructor, whose out-of-line copy is 0x4926F0
+        u32 sprite_w = get_sprite_width_4C7220(11);
+        if (field_44_xpos_offset > (s32)(sprite_w * 2 - 10))
         {
-            DrawFigureScaled_5D7670(6, 13, 320 + sprite_w, field_48_ypos, kAngZero_706610, 2, 0, 0, 0);
-            DrawFigureScaled_5D7670(6, 12, 320, field_48_ypos, kAngZero_706610, 2, 0, 0, 0);
-            DrawFigureScaled_5D7670(6, 11, 320 - sprite_w, field_48_ypos, kAngZero_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 13, 320 + sprite_w, (u32)field_48_ypos, kAngZero_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 12, 320, (u32)field_48_ypos, kAngZero_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 11, 320 - sprite_w, (u32)field_48_ypos, kAngZero_706610, 2, 0, 0, 0);
         }
         else
         {
-            DrawFigureScaled_5D7670(6, 11, 320 - (sprite_w / 2), field_48_ypos, kAngZero_706610, 2, 0, 0, 0);
-            DrawFigureScaled_5D7670(6, 13, 320 + (sprite_w / 2), field_48_ypos, kAngZero_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 11, 320 - ((s32)sprite_w / 2), (u32)field_48_ypos, kAngZero_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(6, 13, 320 + ((s32)sprite_w / 2), (u32)field_48_ypos, kAngZero_706610, 2, 0, 0, 0);
         }
 
         DrawTextScaled_5D77A0(field_2_car_name, ((640 - field_44_xpos_offset) / 2), (field_48_ypos - GetLineSpacingFromFontType_5D7700(gCarNameFont_706508) / 2), gCarNameFont_706508);
