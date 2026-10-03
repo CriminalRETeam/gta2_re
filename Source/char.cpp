@@ -1774,8 +1774,6 @@ void Char_B4::HandleObjectCollision_548840(Object_2C* pObj)
 
     //pObj_ = pObj;
     //out3 = 0;
-    u8 out3 = 0;
-    bool bUnknown = 0;
     //v19 = 4;
     //pPhi = pObj->field_8;
     //phi_type = pPhi->field_34_type;
@@ -1783,6 +1781,8 @@ void Char_B4::HandleObjectCollision_548840(Object_2C* pObj)
     Fix16_Point point;
     u8 a6;
     u8 out2;
+    u8 out3 = 0;
+    bool bUnknown = 0;
 
     s32 phi_type = pObj->field_8->field_34_behavior_type;
 
@@ -3029,32 +3029,28 @@ void Char_B4::TickMovementStateMachine_54C900()
     }
 }
 
-WIP_FUNC(0x54cae0)
+MATCH_FUNC(0x54cae0)
 void Char_B4::TurnTowardsAngle_54CAE0()
 {
-    WIP_IMPLEMENTED;
-
+    // Each half jumps into the other half's add block (shared blocks in the original layout),
+    // which VC6 only reproduces with these gotos.
     if (field_14_target_rotation > field_40_rotation)
     {
         if (field_14_target_rotation - field_40_rotation <= kAng180_6FD920)
         {
-            this->field_40_rotation += word_6FDA54;
+            goto add_6FDA54;
         }
-        else
-        {
-            this->field_40_rotation += dword_6FD9D8;
-        }
+    add_6FD9D8:
+        this->field_40_rotation += dword_6FD9D8;
     }
     else
     {
-        if (field_40_rotation - field_14_target_rotation > kAng180_6FD920)
+        if (field_40_rotation - field_14_target_rotation <= kAng180_6FD920)
         {
-            this->field_40_rotation += word_6FDA54;
+            goto add_6FD9D8;
         }
-        else
-        {
-            this->field_40_rotation += dword_6FD9D8;
-        }
+    add_6FDA54:
+        this->field_40_rotation += word_6FDA54;
     }
 }
 
