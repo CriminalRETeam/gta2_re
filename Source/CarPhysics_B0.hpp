@@ -470,9 +470,9 @@ class CarPhysics_B0
     s32 field_9C_block_spec;
     s32 field_A0_oil_spin_dir;
     char_type field_A4_oil_spin_timer;
-    char_type field_A5_current_slope_length;
+    u8 field_A5_current_slope_length;
     char_type field_A6_current_slope_left_tiles;
-    char_type field_A7_current_tile_z;
+    u8 field_A7_current_tile_z;
     char_type field_A8_hand_brake_force;
     char_type field_A9_car_model;
     char_type field_AA_sbw;

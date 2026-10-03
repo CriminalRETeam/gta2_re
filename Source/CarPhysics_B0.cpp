@@ -893,12 +893,12 @@ void CarPhysics_B0::HandleGravityOnSlope_55AA00()
     ApplyForceScaledByMass_55F9A0(force);
 }
 
-WIP_FUNC(0x55ab50)
+MATCH_FUNC(0x55ab50)
 Fix16* CarPhysics_B0::ComputeSlopeCorrection_55AB50(Fix16* pOutX, Fix16* pOutY)
 {
-    WIP_IMPLEMENTED;
 
     Fix16_Point point_to_sub;
+    Fix16_Point sub_point;
     if (field_5C_pCar->is_on_trailer_421720())
     {
         point_to_sub = gTrailer_cp1_6FE3A8;
@@ -907,13 +907,9 @@ Fix16* CarPhysics_B0::ComputeSlopeCorrection_55AB50(Fix16* pOutX, Fix16* pOutY)
     {
         point_to_sub = g_cp1_6FDF00;
     }
-    Fix16_Point sub_point = field_38_cp1 - point_to_sub;
+    sub_point = field_38_cp1 - point_to_sub;
     Fix16 x_val = sub_point.x;
     Fix16 y_val = sub_point.y;
-
-    //s32 surface_type_m1 = this-> - 1;
-    Fix16 x_val_ = x_val;
-    Fix16 y_val_ = y_val;
 
     Fix16 slope_val;
     Fix16 lower;
@@ -924,75 +920,72 @@ Fix16* CarPhysics_B0::ComputeSlopeCorrection_55AB50(Fix16* pOutX, Fix16* pOutY)
     {
         case car_surface_type::slope_northwards_1:
             y_val = -y_val;
-            goto LABEL_7;
-
+            // fall through
         case car_surface_type::slope_southwards_2:
-        LABEL_7:
             x_val = y_val;
-            goto LABEL_9;
+            break;
 
         case car_surface_type::slope_westwards_3:
             x_val = -x_val;
-            goto LABEL_9;
+            break;
 
         case car_surface_type::slope_eastwards_4:
-        LABEL_9:
-            switch (this->field_A5_current_slope_length)
-            {
-                case 1:
-                    slope_val = kFP16One_6FDF7C;
-                    break;
-                case 2:
-                    slope_val = dword_6FE064;
-                    break;
-                case 8:
-                    slope_val = dword_6FE350;
-                    break;
-                default:
-                    slope_val = kFP16Zero_6FE20C;
-                    break;
-            }
-            lower = (x_val * slope_val);
-            if (!this->field_A6_current_slope_left_tiles && lower > kFP16Zero_6FE20C &&
-                    (u8)(this->field_6C_cp3.ToInt()) == this->field_A7_current_tile_z ||
-                this->field_AA_sbw && this->field_AB_tpa)
-            {
-                upper = k_dword_6FE210 - (this->field_6C_cp3.GetFracValue());
-                if (lower >= upper)
-                {
-                    *pOutY = lower;
-                }
-                else
-                {
-                    *pOutY = upper;
-                }
-                result = pOutX;
-                *pOutX = lower;
-            }
-            else
-            {
-                if (lower > kFP16Zero_6FE20C)
-                {
-                    if (field_5C_pCar->field_64_pTrailer)
-                    {
-                        if (field_5C_pCar->field_64_pTrailer->GetCabOrLoadedCar_407B90(field_5C_pCar)
-                                ->field_58_physics->field_98_surface_type != car_surface_type::air_surface_6)
-                        {
-                            lower = kFP16Zero_6FE20C;
-                        }
-                    }
-                }
-                result = pOutX;
-                *pOutY = lower;
-                *pOutX = lower;
-            }
             break;
 
         default:
             *pOutY = kFP16Zero_6FE20C;
-            result = pOutX;
             *pOutX = kFP16Zero_6FE20C;
+            return pOutX;
+    }
+
+    switch (this->field_A5_current_slope_length)
+    {
+        case 1:
+            slope_val = kFP16One_6FDF7C;
             break;
+        case 2:
+            slope_val = dword_6FE064;
+            break;
+        case 8:
+            slope_val = dword_6FE350;
+            break;
+        default:
+            slope_val = kFP16Zero_6FE20C;
+            break;
+    }
+    lower = (x_val * slope_val);
+    if (!this->field_A6_current_slope_left_tiles && lower > kFP16Zero_6FE20C &&
+            (u8)(this->field_6C_cp3.ToInt()) == this->field_A7_current_tile_z ||
+        this->field_AA_sbw && this->field_AB_tpa)
+    {
+        upper = k_dword_6FE210 - (this->field_6C_cp3.GetFracValue());
+        if (lower < upper)
+        {
+            *pOutY = upper;
+        }
+        else
+        {
+            *pOutY = lower;
+        }
+        result = pOutX;
+        *pOutX = lower;
+    }
+    else
+    {
+        if (lower > kFP16Zero_6FE20C)
+        {
+            if (field_5C_pCar->field_64_pTrailer)
+            {
+                if (field_5C_pCar->field_64_pTrailer->GetCabOrLoadedCar_407B90(field_5C_pCar)
+                        ->field_58_physics->field_98_surface_type != car_surface_type::air_surface_6)
+                {
+                    lower = kFP16Zero_6FE20C;
+                }
+            }
+        }
+        result = pOutX;
+        *pOutY = lower;
+        *pOutX = lower;
     }
     return result;
 }
