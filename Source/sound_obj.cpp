@@ -4055,18 +4055,14 @@ void sound_obj::HandleAICarEngineSound_418190(Sound_Params_8* a2)
     }
 }
 
-WIP_FUNC(0x413D10)
+MATCH_FUNC(0x413D10)
 void sound_obj::HandleAICarHornBeep_413D10(Sound_Params_8* a2)
 {
-    WIP_IMPLEMENTED;
 
     Car_BC* pCar; // eax
     s32 fAC; // ecx
     s32 samp_idx; // edx
     u8 emit_vol; // bl
-    s32 f14_samp_idx; // ecx
-    s32 rate; // edi
-    s32 displacement; // eax
 
     pCar = a2->field_0_pObj->field_8_car_bc_ptr;
     fAC = pCar->TakeFieldAC_411950();
@@ -4092,23 +4088,26 @@ void sound_obj::HandleAICarHornBeep_413D10(Sound_Params_8* a2)
                 }
 
                 // TODO: Prob a switch or something here
-                if (fAC <= 2)
-                {
-                    samp_idx = (this->field_1454_anRandomTable[this->field_30_sQueueSample.field_0_EntityIndex % 5u] & 7) + 257;
-                }
-                else
+                if (fAC > 2)
                 {
                     if (fAC != 3)
                     {
                         return;
                     }
-                    if (byte_66F543)
+                    if (!byte_66F543)
+                    {
+                        byte_66F543 = 8;
+                        samp_idx = this->field_1454_anRandomTable[this->field_30_sQueueSample.field_0_EntityIndex % 5u] % 7u + 265;
+                    }
+                    else
                     {
                         --byte_66F543;
                         return;
                     }
-                    byte_66F543 = 8;
-                    samp_idx = this->field_1454_anRandomTable[this->field_30_sQueueSample.field_0_EntityIndex % 5u] % 7u + 265;
+                }
+                else
+                {
+                    samp_idx = (this->field_1454_anRandomTable[this->field_30_sQueueSample.field_0_EntityIndex % 5u] & 7) + 257;
                 }
 
                 this->field_30_sQueueSample.field_14_samp_idx = samp_idx;
@@ -4118,14 +4117,12 @@ void sound_obj::HandleAICarHornBeep_413D10(Sound_Params_8* a2)
                     emit_vol = this->field_1454_anRandomTable[this->field_30_sQueueSample.field_0_EntityIndex % 5u] % 30u + 50;
                     if (VolCalc_419070(emit_vol, Fix16(172032, 0), a2->field_5_bHasSolidAbove))
                     {
-                        f14_samp_idx = this->field_30_sQueueSample.field_14_samp_idx;
                         this->field_30_sQueueSample.field_54_sound_intensity = Fix16(172032, 0);
                         this->field_30_sQueueSample.field_60_nEmittingVolume = emit_vol;
                         this->field_30_sQueueSample.field_64_max_distance = 21;
-                        rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(f14_samp_idx);
-                        displacement = RandomDisplacement_41A650(field_30_sQueueSample.field_14_samp_idx);
+                        this->field_30_sQueueSample.field_20_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(field_30_sQueueSample.field_14_samp_idx) +
+                            RandomDisplacement_41A650(field_30_sQueueSample.field_14_samp_idx);
                         this->field_30_sQueueSample.field_58_type = 20;
-                        this->field_30_sQueueSample.field_20_rate = displacement + rate;
                         this->field_30_sQueueSample.field_3C_speed_multiplier = 0;
                         this->field_30_sQueueSample.field_4_SampleIndex = gSoundSampleIdx_61A684;
                         this->field_30_sQueueSample.field_41 = 1;
