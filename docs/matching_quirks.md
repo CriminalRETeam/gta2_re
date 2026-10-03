@@ -569,6 +569,10 @@ directly in the first check keeps the original jump target (`Car_BC::CanCarColli
 
 **Use the labelled per-file asm for control flow.** Branch targets in `target_asm.json` are numeric offsets; `asm/<File>.cpp.asm` on the `claude/target-asm` branch has labels and is much easier for rebuilding loops and gotos (`read_input_device_498DA0`).
 
+**Out-of-line Fix16 operators whose `this` is a copy point to a by-value inline helper.** If the out-of-line `Subtract_436A00`/`Add_408660` are called on a stack copy of the variable rather than the variable itself, the original passed it to an inline helper by value (`Fix16_Rect::ComputeShockPrism` in `sub_5DF270`).
+
+**Constant registers in big functions** (ebp = 0 from a pointer local initialised to 0, ebx = 2, edi = 0xF) are often all that is left; they come from the original holding a local or constant across a region (`Ped::Threat_Reaction_AI_465270`, `Particle_4C::PoolUpdate_53D260`). No source form found yet.
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 
