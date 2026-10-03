@@ -1387,7 +1387,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 263
 | 0x461DC0 | `sub_461DC0` | 7 |  | Source/lucid_hamilton.hpp:96 | 2/0 | todo |  |
 | 0x462E40 | `Map_0x370::sub_462E40` | 22 |  |  | 2/7 | todo |  |
 | 0x4634E0 | `sub_4634E0` | 76 |  | Source/map_0x370.hpp:559 | 2/1 | todo |  |
-| 0x466B70 | `sub_466B70` | 361 | 0x466B70 MATCH | checked | pairing miss: 10.5 0x466B70 is the small Ped::sub_466B70 flag test, 9.6f 0x466B70 is an unrelated map function |
+| 0x466B70 | `sub_466B70` | 361 | 0x466B70 MATCH |  | 2/9 | todo |  |
 | 0x475C30 | `sub_475C30` | 11 |  | Source/Car_BC.hpp:390, Source/Car_BC.hpp:901 | 2/2 | todo |  |
 | 0x481DF0 | `sub_481DF0` | 11 |  | Source/Bink.cpp:12 | 2/0 | todo |  |
 | 0x482400 | `sub_482400` | 16 |  | Source/Object_5C.hpp:276 | 2/1 | todo |  |
