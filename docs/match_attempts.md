@@ -1588,3 +1588,8 @@ Each was a few asm lines away from the original. What is left and what was tried
   - 0x546360 `Char_B4::UpdateAnimState`: 0.108->0.117. Separate `case 1`, `s8`/`u8` locals. Still far.
   - 0x469060 `Ped::GotoAreaByAnyMeans`: no change. All four MaxAbsDistance sites use out-of-line `Abs_436A50`; switching to `MaxAbsDistanceOOL_42A6B0` fixes those blocks but shrinks the frame 0x24->0x20 (0.348->0.253).
   - 0x54DDF0 `Char_B4::state_0`: no change (0.459 without WIP_IMPLEMENTED), diffs spread over the whole 3.7 KB.
+  - 0x554110 `Orca_2FD4::Internel_CanMoveDiagonally`: MATCH (fable). A flat if chain, `IsGradientSlopeAt_466CF0` on the SW/NW branches, the `yd == 1` branch first, negations written `f() ? false : true`.
+  - 0x5C1D00 `TrafficLight_20::Init`: 0.410->0.557. Logic fix: two loops did `h++` instead of `i++`; s32 countdown counters. Left: register allocation.
+  - 0x41AB80 `sound_obj::ProcessActiveQueues`: 0.265->0.353. Doppler logic fix (old distance passed, new one stored, both truncated); `sound_0x68` fields 14/20/30 u32. Left: register allocation.
+  - 0x44AF00 `CarAI_78::sub_44AF00`: 0.189->0.265. Logic fix: lane offset was `x - x`. Left: `Ang16 a - b` is a 16-bit `sub` from memory in the original.
+  - 0x4E1E00 `Map_0x370::CanSpriteEnterTile`: 2022->2018 diff lines. `!gSprite || Check()` for all 23 checks gets the size right but VC6 then shares one `return 1`; the original also uses two copies of the Fix16 int ctor (`FromInt_4369F0`, `FromInt_4926F0`).

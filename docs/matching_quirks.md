@@ -1101,6 +1101,24 @@ falls into `default`. Give it its own body, even an identical one, to keep it in
 slots; reusing one `u8 idx` for four loops and one flag for several checks gave the original's frame
 (`Kfc_30::UpdateStateMachine_5CBD50`).
 
+**Write switch cases in jump-table order and let VC6 merge the tails.** It merges shared tails
+itself, even across different call arguments (`push 1; jmp` into a shared call). Gotos into another
+case's block wreck register allocation (`Frontend::UpdatePageFromUserInput_4AE2D0`).
+
+**Test the in-range case first.** `if (v >= lo && v <= hi) mid; else if (v < lo) A; else B;` gives
+`cmp lo; jl A; cmp hi; jg B` with `mid` as the fallthrough (`CarAI_78::sub_44AF00`).
+
+**A `dec; jne` countdown loop needs an int counter.** A u8 counter gives a compare instead
+(`TrafficLight_20::Init_5C1D00`).
+
+**A u8 min against a constant, written inline.** Two arms that each zero-extend and double with a
+byte compare come from `x < 63 ? x : 63` written out; an s32 or u8 `Min` helper gives another shape
+(`sound_obj::ProcessActiveQueues_41AB80`).
+
+**`f() ? false : true` gives `test/sete`; `!f()` gives `neg/sbb/inc`.** A flat if chain lets VC6
+thread repeated register tests, which can move a case to the end of the function as in the original
+(`Orca_2FD4::Internel_CanMoveDiagonally_554110`).
+
 ## Inline asm
 
 **16-bit `pushaw`/`popaw`.** The inline assembler can't spell them. Put `_emit 0x66` before
