@@ -427,6 +427,19 @@ Negate/Abs/Multiply/Add; give them file-local helpers (`Object_2C::SetMovementVe
 dec chain (`Char_B4::sub_54C3E0`). Paths that all jump to one shared `xor al; ret` are a `break` out of
 the switch to a `return 0` after it (`Object_2C::ShouldCollideWithSprite_525370`).
 
+**An inline helper whose operators stay out of line can't be called as is.** Our build would call
+its own local copy of the operator, not the original's `Negate_4086A0`; use a copy of the helper with
+the explicit `..._4086A0` call (`Sprite::RotatedRectCollisionSAT_5A0380`). Explicit calls to
+declared-only `EXPORT` functions add an EH frame while an object with a destructor is alive; `throw()`
+on those declarations removes it (`CarPhysics_B0::UpdateReferencePoint_563460`).
+
+**Calling a small inline helper costs an inline expansion.** Writing out `HalfWH_4BA0A0`'s two
+divisions kept both inline (`Sprite::FindOverlappingBoundingBoxCorners_5A0150`). A Fix16 multiply is
+`imul` when it is the only inline one, `__allmul` when several share a sign-extended operand.
+
+**Byte bit read: `((u8)field & 1) == 1`** gives `mov %cl; and $1,%cl; cmp $1,%cl`
+(`Ped_List_4::FindClosestPedInViewCone_4713C0`).
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 
