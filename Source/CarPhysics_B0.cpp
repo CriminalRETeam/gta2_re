@@ -1764,10 +1764,14 @@ void CarPhysics_B0::SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 
 {
     WIP_IMPLEMENTED;
 
-    arg_4.RotateByAngle_40F6B0(field_58_theta);
+    Fix16_Point t;
+    Fix16_Point v15;
+
+    arg_4.RotateByAngle_40F6B0_out_of_line(field_58_theta);
+
     arg_4 += this->field_38_cp1;
 
-    s32 map_ret = gMap_0x370_6F6268->sub_4E52A0(arg_4.x, arg_4.y, field_6C_cp3);
+    char_type map_ret = gMap_0x370_6F6268->sub_4E52A0(arg_4.x, arg_4.y, field_6C_cp3);
     if (map_ret == 5 || surface == 3 && map_ret != 7)
     {
         Fix16_Point* pBoxCorner_ = &this->field_10_last_skid_pos[(u8)box_idx];
@@ -1778,24 +1782,18 @@ void CarPhysics_B0::SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 
         Fix16_Point* pBoxCorner = &this->field_10_last_skid_pos[(u8)box_idx];
         if (!pBoxCorner->IsNull_420360())
         {
-            Fix16_Point v13 = (arg_4 - *pBoxCorner);
-            Fix16_Point t;
-            t.x = v13.x;
-            t.y = v13.y;
+            t = arg_4 - *pBoxCorner;
             box_idx = 2;
-            Fix16_Point v14 = (*pBoxCorner + arg_4);
-            //LOBYTE(seh) = 3;
-            Fix16_Point v15 = (v14 / box_idx);
+            v15 = pBoxCorner->Add_40AC50(arg_4) / box_idx;
             Fix16 obj_x = v15.x;
             Fix16 obj_y = v15.y;
 
-            //LOBYTE(seh) = 2;
             Ang16 r = t.atan2_40F790();
-            Fix16 len = t.GetLength_2();
+            Fix16 len = t.GetLength_all_out_of_line_abs();
             if (len > kFP16Zero_6FE20C)
             {
-                s32 obj_type = get_skid_obj_type_55D490(surface, len);
-                Object_2C* pObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(obj_type, obj_x, obj_y, field_6C_cp3, r);
+                Object_2C* pObj =
+                    gObject_5C_6F8F84->NewPhysicsObj_5299B0(get_skid_obj_type_55D490(surface, len), obj_x, obj_y, field_6C_cp3, r);
                 if (pObj)
                 {
                     if (pObj->field_4->sub_5A19C0())

@@ -79,6 +79,19 @@ struct Fix16_Point_POD
         y = Ang16::cosine_40F520(angle) * radius;
     }
 
+    // RotateByAngle_40F6B0 in a function that ran out of inline expansions: every operator but
+    // the first + is called out of line (CarPhysics_B0::SpawnSkidSegment_55D200)
+    inline void RotateByAngle_40F6B0_out_of_line(const Ang16& angle)
+    {
+        Fix16 sin = Ang16::sine_40F500(angle);
+        Fix16 cos = Ang16::cosine_40F520(angle);
+
+        Fix16 x_old = x;
+
+        x = x.Multiply_408680(cos) + y.Multiply_408680(sin);
+        y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + y.Multiply_408680(cos);
+    }
+
     // Matching impl at RotateVelocity_562C20
     inline void RotateByAngle_40F6B0(const Ang16& angle)
     {
@@ -246,7 +259,7 @@ class Fix16_Point : public Fix16_Point_POD
     // 0x40AC80
     Fix16_Point operator-(const Fix16_Point& rhs);
 
-    // Out of line operator+ (Weapon_30::fire_truck_flamethrower_5E0B10 keeps the EH state of
+    // Out of line operator+ (CarPhysics_B0::SpawnSkidSegment_55D200; Weapon_30::fire_truck_flamethrower_5E0B10 keeps the EH state of
     // the get_x_y_443580 temporary around this call)
     EXPORT Fix16_Point Add_40AC50(const Fix16_Point_POD& in);
 
@@ -350,6 +363,23 @@ class Fix16_Point : public Fix16_Point_POD
         if (x == kFP16Zero_6FE20C)
         {
             return Fix16::Abs_negate_out_of_line(y);
+        }
+        else if (y == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_436A50(x);
+        }
+        else
+        {
+            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y.Multiply_408680(y));
+        }
+    }
+
+    // Needed for CarPhysics_B0::SpawnSkidSegment_55D200.
+    inline Fix16 GetLength_all_out_of_line_abs()
+    {
+        if (x == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_436A50(y);
         }
         else if (y == kFP16Zero_6FE20C)
         {
