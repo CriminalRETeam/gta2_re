@@ -8948,10 +8948,9 @@ void Ped::FollowCarInCurrCar_46A290()
     }
 }
 
-WIP_FUNC(0x46a350)
+MATCH_FUNC(0x46a350)
 void Ped::FollowCarOnFootWithOffset_46A350()
 {
-    WIP_IMPLEMENTED;
 
     if (field_150_target_objective_car->field_88_despawn_status == 5)
     {
@@ -8959,8 +8958,8 @@ void Ped::FollowCarOnFootWithOffset_46A350()
     }
     else
     {
-        Sprite* pCarSprite = field_150_target_objective_car->field_50_car_sprite;
-        Ang16 ang = pCarSprite->field_0 - field_132_follow_car_offset_angle;
+        Ang16 ang = field_150_target_objective_car->field_50_car_sprite->field_0;
+        ang -= field_132_follow_car_offset_angle;
         Fix16 sin_v = Ang16::sine_40F500(ang) * this->field_1FC_follow_car_offset_distance;
         Fix16 cos_v = Ang16::cosine_40F520(ang) * this->field_1FC_follow_car_offset_distance;
 
@@ -8970,24 +8969,20 @@ void Ped::FollowCarOnFootWithOffset_46A350()
             {
                 if (field_25C_internal_objective == objectives_enum::follow_car_on_foot_with_offset_56)
                 {
-                    this->field_1D0_internal_target_x = sin_v + pCarSprite->field_14_xy.x;
+                    this->field_1D0_internal_target_x = sin_v + field_150_target_objective_car->field_50_car_sprite->field_14_xy.x;
                     this->field_1D4_internal_target_y = cos_v + field_150_target_objective_car->field_50_car_sprite->field_14_xy.y;
                     this->field_1D8_internal_target_z = field_150_target_objective_car->field_50_car_sprite->field_1C_zpos;
                     if (this->field_226_internal_objective_status == 1)
                     {
-                        if (field_168_game_object->field_38_velocity >= kFpZero_678660)
-                        {
-                            if (field_168_game_object->field_38_velocity > kFpZero_678660)
-                            {
-                                field_168_game_object->field_38_velocity -= kFpOne256th_678620;
-                            }
-                            this->field_226_internal_objective_status = 0;
-                        }
-                        else
+                        if (field_168_game_object->field_38_velocity < kFpZero_678660)
                         {
                             field_168_game_object->field_38_velocity += kFpOne256th_678620;
-                            this->field_226_internal_objective_status = 0;
                         }
+                        else if (field_168_game_object->field_38_velocity > kFpZero_678660)
+                        {
+                            field_168_game_object->field_38_velocity -= kFpOne256th_678620;
+                        }
+                        this->field_226_internal_objective_status = 0;
                     }
                 }
             }
