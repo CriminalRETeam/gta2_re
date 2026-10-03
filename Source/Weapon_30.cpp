@@ -1621,19 +1621,19 @@ void Weapon_30::car_mine_5E2550()
 
 // 9.6f 0x4D0230
 // 10.5 https://decomp.me/scratch/odtu0
-WIP_FUNC(0x5e2940)
+MATCH_FUNC(0x5e2940)
 void Weapon_30::car_smg_5E2940()
 {
-    WIP_IMPLEMENTED;
-    // Only the EH entry state is left (original 4, ours 3): the original has a fifth destructible
-    // local declared up front. An unused Fix16_Point gives state 4 but perturbs the registers of the
-    // inline + in RotateByAngle (0.925), a used one changes the frame.
+    // The original has a fifth destructible local up front (EH entry state 4), hence unused_5.
+    // Declaration order, tmpx/tmpy at function scope and the Ang16 copy below are needed to match.
+    Ang16 sprite_ang;
+    Fix16_Point unused_5;
     Fix16_Point left;
     Fix16_Point right;
     Fix16_Point left_point_velocity;
     Fix16_Point right_point_velocity;
-
-    Ang16 sprite_ang;
+    Fix16 tmpy;
+    Fix16 tmpx;
     if (field_2_reload_speed == 0)
     {
         field_24_pPed = field_14_car->get_driver_4118B0();
@@ -1641,8 +1641,8 @@ void Weapon_30::car_smg_5E2940()
         Sprite* pCarSprite = field_14_car->field_50_car_sprite;
         sprite_ang = field_14_car->field_50_car_sprite->field_0;
 
-        Fix16 tmpx = dword_706DCC + field_14_car->get_car_width() / 2;
-        Fix16 tmpy = dword_706FD0 + field_14_car->get_car_height() / 2;
+        tmpx = dword_706DCC + field_14_car->get_car_width() / 2;
+        tmpy = dword_706FD0 + field_14_car->get_car_height() / 2;
 
         left.SetXY_432860(tmpx, tmpy);
         left.RotateByAngle_40F6B0_out_of_line(sprite_ang);
@@ -1686,7 +1686,8 @@ void Weapon_30::car_smg_5E2940()
         }
         else
         {
-            spawn_bullet_5DCF60(objects::flamethrower_fire_154, left.x, left.y, pCarSprite->field_1C_zpos, sprite_ang, left_point_velocity);
+            Ang16 tmp = sprite_ang;
+            spawn_bullet_5DCF60(objects::flamethrower_fire_154, left.x, left.y, pCarSprite->field_1C_zpos, tmp, left_point_velocity);
             spawn_bullet_5DCF60(objects::flamethrower_fire_154,
                                 right.x,
                                 right.y,
