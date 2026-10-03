@@ -6223,11 +6223,9 @@ void Car_BC::sub_443330()
     Car_BC::CountDownToWreck_441360();
 }
 
-WIP_FUNC(0x443360)
+MATCH_FUNC(0x443360)
 bool Car_BC::UpdateAttachedToSprite_443360(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot)
 {
-    WIP_IMPLEMENTED;
-
     gPurpleDoom_3_679210->Remove_477B00(field_50_car_sprite);
 
     Fix16 sprite_x;
@@ -6235,10 +6233,17 @@ bool Car_BC::UpdateAttachedToSprite_443360(Sprite* pSprite, Fix16 x, Fix16 y, An
 
     if (x != gFix16_6777CC || y != gFix16_6777CC)
     {
-        Ang16::RotateVector_41FC90(x, y, rot);
+        sprite_x = x;
+        sprite_y = y;
+        // RotateVector_41FC90 by the sprite's angle, but using the out-of-line Fix16 operators
+        Fix16 old_x = sprite_x;
+        sprite_x = (const Fix16&)sprite_x.Multiply_408680(Ang16::cosine_40F520(pSprite->field_0)) +
+            sprite_y * Ang16::sine_40F500(pSprite->field_0);
+        sprite_y = (const Fix16&)(-old_x).Multiply_408680(Ang16::sine_40F500(pSprite->field_0)) +
+            sprite_y.Multiply_408680(Ang16::cosine_40F520(pSprite->field_0));
 
-        sprite_x = pSprite->field_14_xy.x + x;
-        sprite_y = pSprite->field_14_xy.y + y;
+        sprite_x = pSprite->field_14_xy.x + sprite_x;
+        sprite_y = pSprite->field_14_xy.y + sprite_y;
     }
     else
     {
