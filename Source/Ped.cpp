@@ -9433,11 +9433,11 @@ void Ped::ChaseTargetStateMachine_46B170()
 }
 
 // https://decomp.me/scratch/1MwH3
-WIP_FUNC(0x46b2f0)
+MATCH_FUNC(0x46b2f0)
 void Ped::PullDriverOutOfCarStateMachine_46B2F0()
 {
-    WIP_IMPLEMENTED;
 
+    u8 door_num;
     Car_BC* pCar = field_14C_internal_target_ped->field_16C_car;
     field_24C_target_car_door = 0;
     if (field_14C_internal_target_ped->field_168_game_object)
@@ -9455,7 +9455,7 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
         return;
     }
 
-    for (u8 door_num = 0; door_num < (u8)pCar->GetRemap(); door_num++)
+    for (door_num = 0; door_num < (u8)pCar->GetRemap(); door_num++)
     {
         if (pCar->IsDoorAccessible_43AFE0(door_num))
         {
@@ -9464,23 +9464,22 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
             field_1CC_z = field_14C_internal_target_ped->field_1AC_cam.z;
             field_168_game_object->Set_F84_433900(pCar);
 
-            Fix16 d_x_abs = Fix16::Abs(field_1C4_x - field_1AC_cam.x);
-            Fix16 d_y_abs = Fix16::Abs(field_1C8_y - field_1AC_cam.y);
-            if (d_x_abs > d_y_abs)
-            {
-                gDistanceToTarget_678750 = d_x_abs;
-            }
-            else
-            {
-                gDistanceToTarget_678750 = d_y_abs;
-            }
+            Fix16 d_x = field_1C4_x - field_1AC_cam.x;
+            Fix16 d_y = field_1C8_y - field_1AC_cam.y;
+            Fix16 d_x_abs = Fix16::Abs(d_x);
+            Fix16 d_y_abs = Fix16::Abs(d_y);
+            gDistanceToTarget_678750 = Fix16::Max(d_x_abs, d_y_abs);
 
             if (field_14C_internal_target_ped->field_16C_car->field_84_car_info_idx == car_model_enum::BUS && field_27C_ped_state_2 == ped_state_2::Unknown_8)
             {
                 gDistanceToTarget_678750 = kFpOne64th_6784C4;
             }
-            Fix16 v14 = kFpPoint2_67856C;
-            if (Ped::IsLawEnforcement_45B4E0())
+            Fix16 v14;
+            if (!Ped::IsLawEnforcement_45B4E0())
+            {
+                v14 = kFpPoint2_67856C;
+            }
+            else
             {
                 v14 = kFpPoint1_678428;
             }
@@ -9489,7 +9488,7 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
                  !abs_sub_less_than_epislon_45AE40(field_1AC_cam.z, field_14C_internal_target_ped->field_1AC_cam.z) ||
                  field_278_ped_state_1 == ped_state_1::immobilized_8))
             {
-                field_168_game_object->SetMaxSpeed_433920(kFpOneSixteenth_678448);
+                field_168_game_object->SetMaxSpeedByRef_433920(kFpOneSixteenth_678448);
                 Ped::UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, 0);
             }
             else
@@ -9512,7 +9511,7 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
                                 field_168_game_object->field_68_animation_frame = 9;
                             }
                             field_168_game_object->SetCharState_433A60(36);
-                            field_168_game_object->SetMaxSpeed_433920(kFpZero_678438);
+                            field_168_game_object->SetMaxSpeedByRef_433920(kFpZero_678438);
                         }
                         break;
 
@@ -9530,7 +9529,7 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
                             field_21C_bf.b27 = true;
                         }
                         field_168_game_object->SetCharState_433A60(36);
-                        field_168_game_object->SetMaxSpeed_433920(kFpZero_678438);
+                        field_168_game_object->SetMaxSpeedByRef_433920(kFpZero_678438);
                         break;
 
                     default:
@@ -9549,7 +9548,7 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
                             Ped::ChangeNextPedState1_45C500(7);
                             Ped::ChangeNextPedState2_45C540(8);
                             field_168_game_object->SetCharState_433A60(36);
-                            field_168_game_object->SetMaxSpeed_433920(kFpZero_678438);
+                            field_168_game_object->SetMaxSpeedByRef_433920(kFpZero_678438);
                         }
                         break;
                 }
