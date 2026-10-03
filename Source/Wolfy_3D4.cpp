@@ -340,7 +340,14 @@ void Wolfy_30::state_4_540F90(Ang16 ang, Fix16 pos)
     point.x = pos;
     point.y = pos;
 
-    point.RotateByAngle_40F6B0(ang + kAng180_6FD3EE);
+    Ang16 rot = kAng180_6FD3EE;
+    rot += ang;
+    // RotateByAngle_40F6B0, but using the out-of-line Fix16 operators
+    Fix16 sin = Ang16::sine_40F500(rot);
+    Fix16 cos = Ang16::cosine_40F520(rot);
+    Fix16 x_old = point.x;
+    point.x = (const Fix16&)point.x.Multiply_408680(cos) + (point.y * sin);
+    point.y = (const Fix16&)(-x_old).Multiply_408680(sin) + point.y.Multiply_408680(cos);
 
     this->field_8_speed = pos;
     this->field_C_angle = ang;
