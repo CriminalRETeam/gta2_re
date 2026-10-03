@@ -26,10 +26,10 @@ EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 // Otherwise using DIDEVICEOBJECTDATA (size 0x14) makes gGamePadDeviceData_67B5B0 overlaps gKeyboardDevice_67B5C0
 struct mini_device_obj_data
 {
-    u32 dwOfs;
-    u32 dwData;
-    u32 dwTimeStamp;
-    u32 dwSequence;
+    s32 dwOfs;
+    s32 dwData;
+    s32 dwTimeStamp;
+    s32 dwSequence;
 };
 
 DEFINE_GLOBAL(BurgerKing_67F8B0, gBurgerKing_67F8B0, 0x67F8B0);
@@ -256,7 +256,7 @@ bool BurgerKing_1::game_pads_init_498BA0()
 }
 
 MATCH_FUNC(0x498730)
-EXPORT bool __stdcall acquire_input_device_498730(LPDIRECTINPUTDEVICEA pGamePadDevice)
+bool BurgerKing_1::acquire_input_device_498730(LPDIRECTINPUTDEVICEA pGamePadDevice)
 {
     if (!pGamePadDevice)
     {
@@ -376,12 +376,10 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
     s32 v5_edi;
     s32 v6_edx;
     s32 input;
-    s32* field_8_input_masks;
     bool bUnk_2_unk;
+    bool bPressed;
+    bool bReleased;
     s32 unk_input;
-    s32 v12;
-    s32 field_4_input_bits;
-    s32 field_0_rng;
     s32 bUnk_3;
     s32 status;
     s32 keyb_dev_data;
@@ -402,7 +400,7 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
         gGamePadDeviceData_67B5B0.dwSequence = 0;
         if (acquire_input_device_498730(gGamePadDevice_67B6C0))
         {
-            gGamePadDevice_67B6C0->Acquire();
+            ((LPDIRECTINPUTDEVICE2A)gGamePadDevice_67B6C0)->Poll();
         }
         while (BurgerKing_1::game_pad_read_498D20() || bUnk_1)
         {
@@ -466,27 +464,23 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
             {
                 v5_edi = gGamePadDeviceData_67B5B0.dwOfs;
                 v6_edx = gGamePadDeviceData_67B5B0.dwData;
-                field_8_input_masks = gBurgerKing_67F8B0.field_8_input_masks;
 
                 // Check for player controls (up, down, shoot etc)
-                for (input = 0; input < 12; input++, ++field_8_input_masks)
+                for (input = 0; input < 12; input++)
                 {
-                    // line 217 or 21b
                     bUnk_2_unk = false;
                     if (keyb_dev_data == 0 && gMaybeDeviceType_67B91C[input] == 0 &&
                         gPlayerControlsBinding_67B6E8[input] == gKeyboardDeviceData_67B610.dwOfs)
                     {
                         // PC binding
                         bUnk_2_unk = true;
-                        if ((gKeyboardDeviceData_67B610.dwData & 0x80) != 0) // line 243
+                        if ((gKeyboardDeviceData_67B610.dwData & 0x80) != 0)
                         {
                             if (bUnknown)
                             {
                                 gBurgerKing_67F8B0.set_input_4CDCF0(input);
-                            }
-                            else
-                            {
-                                continue;
+                                v5_edi = gGamePadDeviceData_67B5B0.dwOfs;
+                                v6_edx = gGamePadDeviceData_67B5B0.dwData;
                             }
                         }
                         else
@@ -494,159 +488,107 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                             if (bUnknown)
                             {
                                 gBurgerKing_67F8B0.clear_input_4CDD10(input);
-                            }
-                            else
-                            {
-                                continue;
+                                v5_edi = gGamePadDeviceData_67B5B0.dwOfs;
+                                v6_edx = gGamePadDeviceData_67B5B0.dwData;
                             }
                         }
-                        v5_edi = gGamePadDeviceData_67B5B0.dwOfs;
-                        v6_edx = gGamePadDeviceData_67B5B0.dwData;
                     }
-                    else
+                    else if (device_data == 0 && gMaybeDeviceType_67B91C[input] == 1)
                     {
-                        // Maybe gamepad binding
-                        // line 294
-                        if (device_data == 0 && gMaybeDeviceType_67B91C[input] == 1)
+                        // Gamepad binding
+                        unk_input = gPlayerControlsBinding_67B6E8[input];
+                        bUnk_3 = 0;
+                        bPressed = false;
+                        bReleased = false;
+                        switch (unk_input)
                         {
-                            unk_input = gPlayerControlsBinding_67B6E8[input];
-                            bUnk_3 = false;
-                            switch (unk_input)
-                            {
-                                case 224:
-                                    if (v5_edi == 0)
+                            case 224:
+                                if (v5_edi == 0)
+                                {
+                                    if (v6_edx <= -750)
                                     {
-                                        if (v6_edx <= -750)
-                                        {
-                                            bUnk_2_unk = true;
-                                            if (bUnknown)
-                                            {
-                                                gBurgerKing_67F8B0.set_input_4CDCF0(input);
-                                                v5_edi = gGamePadDeviceData_67B5B0.dwOfs;
-                                                v6_edx = gGamePadDeviceData_67B5B0.dwData;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            // jump here
-                                            bUnk_3 = true;
-                                            if (bUnknown)
-                                            {
-                                                if (gBurgerKing_67F8B0.IsInputSet_44C050(input))
-                                                {
-                                                    gBurgerKing_67F8B0.clear_input_4CDD10(input);
-                                                    v5_edi = gGamePadDeviceData_67B5B0.dwOfs;
-                                                    v6_edx = gGamePadDeviceData_67B5B0.dwData;
-                                                }
-                                            }
-                                            bUnk_2_unk = true;
-                                        }
+                                        bPressed = true;
                                     }
-                                    break;
+                                    else
+                                    {
+                                        bReleased = true;
+                                    }
+                                }
+                                break;
+                            case 225:
+                                if (v5_edi == 0)
+                                {
+                                    if (v6_edx >= 750)
+                                    {
+                                        bPressed = true;
+                                    }
+                                    else
+                                    {
+                                        bReleased = true;
+                                    }
+                                }
+                                break;
+                            case 226:
+                                if (v5_edi == 4)
+                                {
+                                    if (v6_edx <= -750)
+                                    {
+                                        bPressed = true;
+                                    }
+                                    else if (gBurgerKing_67F8B0.IsInputSet_44C050(input))
+                                    {
+                                        bReleased = true;
+                                    }
+                                }
+                                break;
+                            case 227:
+                                if (v5_edi == 4)
+                                {
+                                    if (v6_edx >= 750)
+                                    {
+                                        bPressed = true;
+                                    }
+                                    else if (gBurgerKing_67F8B0.IsInputSet_44C050(input))
+                                    {
+                                        bReleased = true;
+                                    }
+                                }
+                                break;
+                            default:
+                                if (v5_edi == unk_input + 48)
+                                {
+                                    if ((v6_edx & 0x80) != 0)
+                                    {
+                                        bPressed = true;
+                                    }
+                                    else
+                                    {
+                                        bReleased = true;
+                                    }
+                                }
+                                break;
+                        }
 
-                                case 225:
-                                    // 2ec ?
-                                    if (v5_edi == 0)
-                                    {
-                                        if (v6_edx >= 750)
-                                        {
-                                            bUnk_2_unk = true;
-                                            if (bUnknown)
-                                            {
-                                                gBurgerKing_67F8B0.set_input_4CDCF0(input);
-                                                v5_edi = gGamePadDeviceData_67B5B0.dwOfs;
-                                                v6_edx = gGamePadDeviceData_67B5B0.dwData;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            bUnk_3 = true;
-                                            if (bUnknown)
-                                            {
-                                                if (gBurgerKing_67F8B0.IsInputSet_44C050(input))
-                                                {
-                                                    gBurgerKing_67F8B0.clear_input_4CDD10(input);
-                                                    v5_edi = gGamePadDeviceData_67B5B0.dwOfs;
-                                                    v6_edx = gGamePadDeviceData_67B5B0.dwData;
-                                                }
-                                            }
-                                            bUnk_2_unk = true;
-                                        }
-                                    }
-                                    break;
-                                case 226:
-                                    if (v5_edi == 4)
-                                    {
-                                        if (v6_edx <= -750)
-                                        {
-                                            goto LABEL_63;
-                                        }
-                                        v12 = *field_8_input_masks;
-                                        field_4_input_bits = gBurgerKing_67F8B0.field_4_input_bits;
-                                        goto LABEL_50;
-                                    }
-                                    break;
-                                case 227:
-                                    if (v5_edi == 4)
-                                    {
-                                        if (v6_edx >= 750)
-                                        {
-                                            goto LABEL_63;
-                                        }
-                                        else
-                                        {
-                                            field_4_input_bits = gBurgerKing_67F8B0.field_4_input_bits;
-                                            v12 = *field_8_input_masks;
-                                        LABEL_50:
-                                            if ((field_4_input_bits & v12) != 0)
-                                            {
-                                                //goto LABEL_51;
-                                                bUnk_3 = 1;
-                                                if (bUnknown)
-                                                {
-                                                    if (gBurgerKing_67F8B0.IsInputSet_44C050(input))
-                                                    {
-                                                        gBurgerKing_67F8B0.clear_input_4CDD10(input);
-                                                        v5_edi = gGamePadDeviceData_67B5B0.dwOfs;
-                                                        v6_edx = gGamePadDeviceData_67B5B0.dwData;
-                                                    }
-                                                }
-                                                bUnk_2_unk = true;
-                                            }
-                                        }
-                                    }
-                                    break;
-                                default:
-                                    if (v5_edi == unk_input + 48)
-                                    {
-                                        if ((v6_edx & 0x80u) != 0)
-                                        {
-                                        LABEL_63:
-                                            bUnk_2_unk = true;
-                                            if (bUnknown)
-                                            {
-                                                gBurgerKing_67F8B0.set_input_4CDCF0(input);
-                                                v5_edi = gGamePadDeviceData_67B5B0.dwOfs;
-                                                v6_edx = gGamePadDeviceData_67B5B0.dwData;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            bUnk_3 = true;
-                                            if (bUnknown)
-                                            {
-                                                if (gBurgerKing_67F8B0.IsInputSet_44C050(input))
-                                                {
-                                                    gBurgerKing_67F8B0.clear_input_4CDD10(input);
-                                                    v5_edi = gGamePadDeviceData_67B5B0.dwOfs;
-                                                    v6_edx = gGamePadDeviceData_67B5B0.dwData;
-                                                }
-                                            }
-                                            bUnk_2_unk = true;
-                                        }
-                                    }
-                                    break;
+                        if (bPressed)
+                        {
+                            bUnk_2_unk = true;
+                            if (bUnknown)
+                            {
+                                gBurgerKing_67F8B0.set_input_4CDCF0(input);
+                                v5_edi = gGamePadDeviceData_67B5B0.dwOfs;
+                                v6_edx = gGamePadDeviceData_67B5B0.dwData;
                             }
+                        }
+                        else if (bReleased)
+                        {
+                            bUnk_3 = 1;
+                            if (bUnknown && gBurgerKing_67F8B0.IsInputSet_44C050(input))
+                            {
+                                gBurgerKing_67F8B0.clear_input_4CDD10(input);
+                                v5_edi = gGamePadDeviceData_67B5B0.dwOfs;
+                                v6_edx = gGamePadDeviceData_67B5B0.dwData;
+                            }
+                            bUnk_2_unk = true;
                         }
                     }
                 }
@@ -654,30 +596,28 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                 if (bUnk_2_unk)
                 {
                     bUnk_1 = false;
+                    continue;
                 }
             }
-            //else
+
+            if (bUnk_3)
             {
-                if (!bUnk_3)
+                bUnk_1 = false;
+            }
+            else
+            {
+                BurgerKing_1::AddKeyToInputBits_498C80(input_bits, &gKeyboardDeviceData_67B610);
+                bUnk_1 = false;
+                if (bLog_directinput_67D6C0)
                 {
-                    BurgerKing_1::AddKeyToInputBits_498C80(input_bits, &gKeyboardDeviceData_67B610);
-                    bUnk_1 = false;
-                    if (bLog_directinput_67D6C0)
+                    if ((gKeyboardDeviceData_67B610.dwData & 0x80) != 0)
                     {
-                        field_0_rng = gpRng_67AB34->get_cur_rng_41CFE0();
-                        if ((gKeyboardDeviceData_67B610.dwData & 0x80) != 0)
-                        {
-                            sprintf(gTmpBuffer_67C598, "%d: KEY OFF: %d", field_0_rng, gKeyboardDeviceData_67B610.dwOfs);
-                        }
-                        else
-                        {
-                            sprintf(gTmpBuffer_67C598, "%d: KEY ON : %d", field_0_rng, gKeyboardDeviceData_67B610.dwOfs);
-                        }
+                        sprintf(gTmpBuffer_67C598, "%d: KEY OFF: %d", gpRng_67AB34->get_cur_rng_41CFE0(), gKeyboardDeviceData_67B610.dwOfs);
                     }
-                }
-                else
-                {
-                    bUnk_1 = false;
+                    else
+                    {
+                        sprintf(gTmpBuffer_67C598, "%d: KEY ON : %d", gpRng_67AB34->get_cur_rng_41CFE0(), gKeyboardDeviceData_67B610.dwOfs);
+                    }
                 }
             }
         }
