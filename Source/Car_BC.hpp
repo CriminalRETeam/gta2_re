@@ -564,6 +564,11 @@ class Car_BC
     EXPORT void TriggerExplosion_43D7B0(s32 a2);
     EXPORT void HandleCarExplosion_43D840(s32 a2);
     EXPORT s16 AccumulateDamage_43DA90(s16 a2, Fix16_Point* a3);
+    // HandleCarHitByObject_43F130 passes the operator temporaries straight in (push %eax of the result)
+    inline s16 AccumulateDamage_43DA90(s16 a2, const Fix16_Point& a3)
+    {
+        return AccumulateDamage_43DA90(a2, (Fix16_Point*)&a3);
+    }
     EXPORT void KillContainedPeds_43DB80();
     EXPORT void StopMovement_43DBD0();
     EXPORT bool IsSpriteShrunk_43DC00();

@@ -4281,11 +4281,11 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
 {
     WIP_IMPLEMENTED;
 
-    s32 v2 = 0;
+    s16 v2 = 0;
     s32 sinv = 0;
     s32 cosv = 0;
-    //seh = 1;
     Fix16_Point a4;
+    Fix16_Point v78;
 
     Ped* pFoundPed;
     if (pObj->get_field_26_420FF0())
@@ -4328,9 +4328,7 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
 
     gfrosty_pasteur_6F8060->RecordWeaponHit_512C00(field_6C_maybe_id, pObj->field_18_model, 0);
 
-    s32 model = pObj->field_18_model;
-
-    switch (model)
+    switch (pObj->field_18_model)
     {
 
         case 128:
@@ -4338,8 +4336,7 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
         {
             if ((this->field_78_flags & 0x200) == 0 && this->field_74_damage != 32001)
             {
-                a4 = ((pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * kFpHalf_677218);
-                v2 = AccumulateDamage_43DA90(32000, &a4);
+                v2 = AccumulateDamage_43DA90(32000, (pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * kFpHalf_677218);
                 if (this->field_74_damage != 32001)
                 {
                     a4 = (pObj->field_4->get_x_y_443580() - field_50_car_sprite->get_x_y_443580());
@@ -4360,10 +4357,8 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
         {
             if ((this->field_78_flags & 0x400) == 0)
             {
-                Fix16_Point v78 = ((pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * kFpHalf_677218);
-
                 s16 v60 = GetDamageMultiplier_45CF90(pFoundPed);
-                v2 = AccumulateDamage_43DA90(100 * v60, &v78);
+                v2 = AccumulateDamage_43DA90(100 * v60, (pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * kFpHalf_677218);
             }
             break;
         }
@@ -4379,9 +4374,7 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
 
                     if ((this->field_78_flags & 0x200) == 0)
                     {
-                        Fix16_Point a4 = ((pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * kFpHalf_677218);
-
-                        v2 = AccumulateDamage_43DA90(32000, &a4);
+                        v2 = AccumulateDamage_43DA90(32000, (pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * kFpHalf_677218);
                     }
 
                     if (this->field_74_damage != 32001)
@@ -4395,58 +4388,56 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
             break;
         }
 
+        case 210:
+            break;
+
+        default:
+        {
+            if ((this->field_78_flags & 0x100) == 0)
+            {
+                s16 v67 = GetDamageMultiplier_45CF90(pFoundPed);
+                v2 = AccumulateDamage_43DA90(800 * v67, (pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * kFpHalf_677218);
+            }
+
+            gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pObj->field_4->field_14_xy.x,
+                                                           pObj->field_4->field_14_xy.y,
+                                                           pObj->field_4->field_1C_zpos,
+                                                           sinv,
+                                                           cosv);
+
+            break;
+        }
+        case 265:
+        {
+            if ((this->field_78_flags & 0x100) == 0)
+            {
+                s16 v71 = GetDamageMultiplier_45CF90(pFoundPed);
+                v2 = AccumulateDamage_43DA90(1600 * v71, (pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * kFpHalf_677218);
+            }
+
+            gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pObj->field_4->field_14_xy.x,
+                                                           pObj->field_4->field_14_xy.y,
+                                                           pObj->field_4->field_1C_zpos,
+                                                           sinv,
+                                                           cosv);
+
+            break;
+        }
+
         case 198:
         {
             field_0_qq.CleanupSpriteList_5A7080();
             break;
         }
 
-        case 265:
-        {
-            if ((this->field_78_flags & 0x100) == 0)
-            {
-                a4 = ((pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * kFpHalf_677218);
-
-                s16 v71 = GetDamageMultiplier_45CF90(pFoundPed);
-                v2 = AccumulateDamage_43DA90(1600 * v71, &a4);
-            }
-
-            gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pObj->field_4->field_14_xy.x,
-                                                           pObj->field_4->field_14_xy.y,
-                                                           pObj->field_4->field_1C_zpos,
-                                                           sinv,
-                                                           cosv);
-
-            break;
-        }
-
-        case 210:
-        default:
-        {
-            if ((this->field_78_flags & 0x100) == 0)
-            {
-                a4 = ((pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * kFpHalf_677218);
-
-                s16 v67 = GetDamageMultiplier_45CF90(pFoundPed);
-                v2 = AccumulateDamage_43DA90(800 * v67, &a4);
-            }
-
-            gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pObj->field_4->field_14_xy.x,
-                                                           pObj->field_4->field_14_xy.y,
-                                                           pObj->field_4->field_1C_zpos,
-                                                           sinv,
-                                                           cosv);
-
-            break;
-        }
     }
 
-    if (model == 192 || model == 254 || model == 265)
+    if (pObj->field_18_model == 192 || pObj->field_18_model == 254 || pObj->field_18_model == 265)
     {
         this->field_AC = 3;
     }
 
-    if (model != 198 && v2 > 0)
+    if (pObj->field_18_model != 198 && v2 > 0)
     {
         if (pFoundPed && pFoundPed->IsField238_45EDE0(2))
         {
