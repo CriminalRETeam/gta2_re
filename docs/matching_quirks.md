@@ -400,6 +400,21 @@ by-value ctor VC6 replaces the Normalize loops with `(1439 - v) / 1440 * 1440`; 
 **A car_info flag method instead of `(flags & N) == N` inline** removed a `sete` in a `!a && !b`
 chain (`PickUpCar_47F930`, closer).
 
+**A parameter slot reused for a local means a logic bug can be hiding.** In
+`Car_BC::UpdateTrainCarriagesOnTrack_4413B0` the original reused a param slot and reloaded registers
+from the out-params at the end of the loop: each carriage starts where the previous one was placed
+(params copied into x/y/z locals before the loop, updated each pass).
+
+**Zero-initialised byte locals and declaration order.** A byte local declared right after one VC6
+keeps in a zero register is initialised from that register; earlier-declared ones get `movb $0`
+(`Ped::AttackTargetStateMachine_46D460`, closer).
+
+**10.5 can call the real function where 9.6f inlined a copy** (`GetSpeedVector_52ADF0`, not 9.6f's
+482BA0, in `Object_3C::GetMovementSpeedAndAngle_521FD0`).
+
+**A default that sets a value plus one check after the switch** (`if (cur == 1) {...; return;}`) lets
+jump threading produce the original's `cmp $1; je` (`Wolfy_7A8::sub_543690`, 113 -> 12).
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 

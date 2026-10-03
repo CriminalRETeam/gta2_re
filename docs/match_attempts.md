@@ -1470,3 +1470,6 @@ Each was a few asm lines away from the original. What is left and what was tried
 - `Ped::BusCustomer_AI_461290`: 134->41 (case order 38,35,31,34). Left: whole-function register rotation
 - `Type6_413A10`: 136->69. Left: pRozzA esi/edi swap and the final imul operand
 - No change: `571A30` (shared ret block placement), `51F210` (register allocation)
+- Matched: `Sprite::RotatedRectCollisionSAT_5A0380` (inline budget: last point via out-of-line ProjectOntoAxis_5A5AA0/GetNegatedAngle_5A26E0), `Car_BC::UpdateTrainCarriagesOnTrack_4413B0` (logic fix, carriage positions chain), `Object_2C::NewObj3C_528130` (file-local GetLength, block-scoped Ang16 local for the atan2 result)
+- `Wolfy_7A8::sub_543690`: 113->12. `Sprite::MinDistanceToAnySpriteBBoxCorner_5A22B0`: 116->4 (only the first Abs inline, the others out of line; KeepMin helper). `Ped::AttackTargetStateMachine_46D460`: closer (declaration order). Left: shared `b11 = false` block placement
+- `Firefighter_28::Service_4A81F0`: no change (by-value MaxAbsDistance helper fixes the zero reg but then Abs stays out of line)
