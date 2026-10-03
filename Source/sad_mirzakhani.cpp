@@ -263,50 +263,76 @@ void sad_mirzakhani::ProcessBonusEvent_4320D0(s16 f_4, s32 f_8, s32 f_c, s16 f_1
     }
 }
 
-WIP_FUNC(0x432170);
+MATCH_FUNC(0x432170);
 s8 sad_mirzakhani::sub_432170(int a2, int a3)
 {
-    WIP_IMPLEMENTED;
-    switch (a3)
+    if (a3 == 1)
     {
-        case 1:
-            return a2 == 3;
-        case 12:
-            return a2 == 4;
-        case 21:
-            return a2 == 4;
-        case 15:
-            return a2 == 4;
-        case 16:
-            return a2 == 4;
-        case 17:
-            return a2 == 4;
-        case 14:
-            return a2 == 13;
+        if (a2 == 3)
+        {
+            return 1;
+        }
     }
-
-    if (a3 != 22)
+    else if (a3 == 12)
     {
-        return 0;
+        if (a2 == 4)
+        {
+            return 1;
+        }
     }
-
-    switch (a2)
+    else if (a3 == 21)
     {
-        case 4:
-        case 10:
-        case 11:
-        case 13:
-        case 14:
-        case 15:
-        case 16:
-        case 17:
-        case 18:
-        case 19:
-            break;
-        default:
-            return 0;
+        if (a2 == 4)
+        {
+            return 1;
+        }
     }
-    return 1;
+    else if (a3 == 15)
+    {
+        if (a2 == 4)
+        {
+            return 1;
+        }
+    }
+    else if (a3 == 16)
+    {
+        if (a2 == 4)
+        {
+            return 1;
+        }
+    }
+    else if (a3 == 17)
+    {
+        if (a2 == 4)
+        {
+            return 1;
+        }
+    }
+    else if (a3 == 14)
+    {
+        if (a2 == 13)
+        {
+            return 1;
+        }
+    }
+    else if (a3 == 22)
+    {
+        switch (a2)
+        {
+            case 4:
+            case 10:
+            case 11:
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+            case 17:
+            case 18:
+            case 19:
+                return 1;
+        }
+    }
+    return 0;
 }
 
 MATCH_FUNC(0x432240);
