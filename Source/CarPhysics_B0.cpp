@@ -1925,28 +1925,19 @@ void CarPhysics_B0::DoSkidmarks_55E260()
     }
 }
 
-WIP_FUNC(0x55e470)
+MATCH_FUNC(0x55e470)
 char_type CarPhysics_B0::StepMovementAndCollisions_55E470()
 {
-    WIP_IMPLEMENTED;
-
     s32 sprites_array_idx = 0;
     char_type ret_val = 0;
     s32 k2Counter = 2;
 
-    if (gRemainingTimeStep_6FE198 < kFP16Eighth_6FE370)
-    {
-        return ret_val;
-    }
-
     Sprite* sprites_array[4];
-    Sprite** pSpriteIter = sprites_array;
 
     Fix16 a2;
     Fix16 a3;
-    s32 i;
 
-    while (1)
+    while (gRemainingTimeStep_6FE198 >= kFP16Eighth_6FE370)
     {
         gRozza_679188.Reset_4637B0();
         this->field_70_z_vel = 0; // fp 0
@@ -1955,14 +1946,31 @@ char_type CarPhysics_B0::StepMovementAndCollisions_55E470()
         UpdateTrailerPhysicsFromTowingCar_559A40();
         if (SweepTestMovementForCollision_55C3B0(&a2, &a3))
         {
-            break;
+            ret_val = 1;
+            if (gRozza_679188.field_20_pSprite)
+            {
+                for (s32 i = 0; i < sprites_array_idx; i++)
+                {
+                    if (sprites_array[i] == gRozza_679188.field_20_pSprite)
+                    {
+                        restore_saved_physics_state_55A400();
+                        UpdateCarAndTrailerSpriteFromPhysics_5636C0();
+                        ProcessGroundCollisionAndEmitImpactParticles_55BFE0();
+                        return 1;
+                    }
+                }
+            }
+
+            BinarySearchCollisionTime_55C560(a2, a3);
+            if (field_5C_pCar->IsTrainModel_403BA0() && !field_40_linvel_1.HasZeroComponent_49E450())
+            {
+                a3 = kFP16Zero_6FE20C;
+            }
+            ReplayAndDispatchCollision_55CBB0(a2, a3);
         }
 
-    LABEL_17:
         gRemainingTimeStep_6FE198 = (gRemainingTimeStep_6FE198 * (k_dword_6FE210 - a3));
-        *pSpriteIter = gRozza_679188.field_20_pSprite;
-        ++sprites_array_idx;
-        ++pSpriteIter;
+        sprites_array[sprites_array_idx++] = gRozza_679188.field_20_pSprite;
 
         if ((gRozza_679188.IsCharB4_49EF20() || gRozza_679188.IsObj2C_477A10()) && k2Counter < 4)
         {
@@ -1971,41 +1979,12 @@ char_type CarPhysics_B0::StepMovementAndCollisions_55E470()
 
         ProcessGroundCollisionAndEmitImpactParticles_55BFE0();
 
-        if (sprites_array_idx >= k2Counter || gRemainingTimeStep_6FE198 < kFP16Eighth_6FE370)
+        if (sprites_array_idx >= k2Counter)
         {
-            return ret_val;
+            break;
         }
     }
-
-    ret_val = 1;
-
-    if (!gRozza_679188.field_20_pSprite || (i = 0, sprites_array_idx <= 0))
-    {
-    LABEL_9:
-        BinarySearchCollisionTime_55C560(a2, a3);
-        if (field_5C_pCar->IsTrainModel_403BA0() && !field_40_linvel_1.HasZeroComponent_49E450())
-        {
-            a3 = kFP16Zero_6FE20C;
-        }
-        ReplayAndDispatchCollision_55CBB0(a2, a3);
-        goto LABEL_17;
-    }
-
-    Sprite** pIter = sprites_array;
-    while (*pIter != gRozza_679188.field_20_pSprite)
-    {
-        ++i;
-        ++pIter;
-        if (i >= sprites_array_idx)
-        {
-            goto LABEL_9;
-        }
-    }
-
-    restore_saved_physics_state_55A400();
-    UpdateCarAndTrailerSpriteFromPhysics_5636C0();
-    ProcessGroundCollisionAndEmitImpactParticles_55BFE0();
-    return 1;
+    return ret_val;
 }
 
 MATCH_FUNC(0x55eb80)
