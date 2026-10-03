@@ -309,14 +309,10 @@ void Mike_A80::sub_4FFA90()
     field_A7C_count++;
 }
 
-WIP_FUNC(0x4ffd90)
+MATCH_FUNC(0x4ffd90)
 void Mike_A80::sub_4FFD90()
 {
-    s32 count = field_A7C_count;
-    if (count >= 100)
-    {
-        count = 100;
-    }
+    s32 count = field_A7C_count < 100 ? field_A7C_count : 100;
 
     for (s32 i = 0; i < count; i++)
     {
