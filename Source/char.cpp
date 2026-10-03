@@ -3920,15 +3920,16 @@ WIP_FUNC(0x54ef60)
 bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
 {
     WIP_IMPLEMENTED;
+    Fix16 sprite_zpos = field_80_sprite_ptr->field_1C_zpos;
+    Fix16 sprite_ypos = field_80_sprite_ptr->field_14_xy.y;
+
     bool bIsNearXposBlockBoundary = true;
     bool bIsNearYposBlockBoundary = true;
+    Fix16 ztmp;
 
     Fix16 sprite_xpos = field_80_sprite_ptr->field_14_xy.x;
-    Fix16 sprite_ypos = field_80_sprite_ptr->field_14_xy.y;
-    Fix16 sprite_zpos = field_80_sprite_ptr->field_1C_zpos;
 
     u8 old_f45 = field_45_slope_gradient_direction;
-
     byte_6FDB57 = 1;
     Fix16 xpos, ypos;
     Ang16::PolarToCartesian_41FC20(gAng16_AngleOfCollision_6FD808, gFP16_CollisionCheckRadius_6FDACC, xpos, ypos);
@@ -4121,7 +4122,6 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
                     field_80_sprite_ptr->field_14_xy.y.add_one_491EF0();
                     if ((field_58_flags & 1) != 0)
                     {
-                        Fix16 ztmp;
                         field_80_sprite_ptr->field_1C_zpos =
                             gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x,
                                                                           field_80_sprite_ptr->field_14_xy.y);
@@ -4257,8 +4257,8 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
                         else
                         {
                             // line 728
-                            gCharB4_PathDirection_623F44 = path_direction::up_1;
                             bUnk_1 = true;
+                            gCharB4_PathDirection_623F44 = path_direction::up_1;
                             if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::up_1) && !gMap_0x370_6F6268->sub_4E0110())
                             {
                                 bUnk_1 = false;
@@ -4312,8 +4312,8 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
                     }
                     if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::down_2) && !gMap_0x370_6F6268->sub_4E0110())
                     {
-                        gCharB4_PathDirection_623F44 = path_direction::down_2;
                         bUnk_1 = false;
+                        gCharB4_PathDirection_623F44 = path_direction::down_2;
                     }
                     field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
                     field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
@@ -4355,14 +4355,12 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
                             if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::down_2) && !gMap_0x370_6F6268->sub_4E0110())
                             {
                                 bUnk_1 = false;
-                                field_45_slope_gradient_direction = old_f45;
                             }
                             else
                             {
-                                // line 93d
                                 gCharB4_PathDirection_623F44 = path_direction::right_3;
-                                field_45_slope_gradient_direction = old_f45;
                             }
+                            field_45_slope_gradient_direction = old_f45;
                         }
                         return bUnk_1;
                     }
