@@ -7070,77 +7070,65 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
         switch (gOrca_2FD4_6FDEF0->IsFirstPassenger_554A90(this))
         {
             case 1:
-                if (gOrca_2FD4_6FDEF0->ComputePath_554AB0(field_200_id,
-                                                          this,
-                                                          field_1AC_cam.x.ToUInt8(),
-                                                          field_1AC_cam.y.ToUInt8(),
-                                                          field_1AC_cam.z.ToUInt8(),
-                                                          x.ToInt(),
-                                                          y.ToInt(),
-                                                          z.ToInt(),
-                                                          Ang16::GetAngleFace_4F78F0(angle),
-                                                          &this->field_266))
+                if (!gOrca_2FD4_6FDEF0->ComputePath_554AB0(field_200_id,
+                                                           this,
+                                                           field_1AC_cam.x.ToUInt8(),
+                                                           field_1AC_cam.y.ToUInt8(),
+                                                           field_1AC_cam.z.ToUInt8(),
+                                                           x.ToInt(),
+                                                           y.ToInt(),
+                                                           z.ToInt(),
+                                                           Ang16::GetAngleFace_4F78F0(angle),
+                                                           &this->field_266))
                 {
-                    gOrca_2FD4_6FDEF0->field_3C_ped_list.RemovePed_4711F0(this);
-                    field_18C_current_path_point = &field_0_patrol_points[0];
-                    field_21C_bf.b14 = false;
-
-                    while (1)
-                    {
-                        if (field_18C_current_path_point->field_0_x == 0)
-                        {
-                            field_18C_current_path_point = &field_0_patrol_points[0];
-                            break;
-                        }
-                        if (field_18C_current_path_point->field_0_x == field_1AC_cam.x.ToUInt8() && field_18C_current_path_point->field_1_y == field_1AC_cam.y.ToUInt8() &&
-                            field_18C_current_path_point->field_2_z == field_1AC_cam.z.ToUInt8())
-                        {
-                            break;
-                        }
-                        field_18C_current_path_point++;
-                    }
-
-                    // line 361
-                    if (field_18C_current_path_point->field_0_x == 0 && field_18C_current_path_point->field_1_y == 0)
-                    {
-                        field_21C_bf.b17 = true;
-                        // goto line 3a9
-                        goto LINE_3A9;
-                    }
-                    else
-                    {
-                        // goto line 54e
-                        //goto LINE_54E;
-                        field_1C4_x = kFpHalf_67853C + Fix16(field_18C_current_path_point->field_0_x);
-                        field_1C8_y = kFpHalf_67853C + Fix16(field_18C_current_path_point->field_1_y);
-                        field_1CC_z = Fix16(field_18C_current_path_point->field_2_z);
-                        field_21C_bf.b16 = true;
-                        byte_61A8A1 = 0;
-                        // goto line 3d9
-                        goto LINE_3D9;
-                    }
+                    goto LINE_38E;
                 }
-                // line 38e  (else from ComputePath_554AB0 and case 0)
-                //break; // no break here?
+
+                gOrca_2FD4_6FDEF0->field_3C_ped_list.RemovePed_4711F0(this);
+                field_18C_current_path_point = &field_0_patrol_points[0];
+                field_21C_bf.b14 = false;
+
+                while (1)
+                {
+                    if (field_18C_current_path_point->field_0_x == 0)
+                    {
+                        field_18C_current_path_point = &field_0_patrol_points[0];
+                        break;
+                    }
+                    if (field_18C_current_path_point->field_0_x == field_1AC_cam.x.ToUInt8() &&
+                        field_18C_current_path_point->field_1_y == field_1AC_cam.y.ToUInt8() &&
+                        field_18C_current_path_point->field_2_z == field_1AC_cam.z.ToUInt8())
+                    {
+                        break;
+                    }
+                    field_18C_current_path_point++;
+                }
+                // fall through
+
+            default:
+                // line 361
+                if (field_18C_current_path_point->field_0_x != 0 || field_18C_current_path_point->field_1_y != 0)
+                {
+                    goto LINE_54E;
+                }
+                field_21C_bf.b17 = true;
+                goto LINE_3A9;
+
             case 0:
-                // line 38e
+            LINE_38E:
                 if (field_18C_current_path_point)
                 {
                     if (field_18C_current_path_point->field_0_x == 0 && field_18C_current_path_point->field_1_y == 0)
                     {
-                    // line 3a9
                     LINE_3A9:
                         Ped::ChangeNextPedState1_45C500(1);
                         Ped::ChangeNextPedState2_45C540(2);
+                        field_21C_bf.b15 = false;
                         field_0_patrol_points[0].field_0_x = 0;
                         field_0_patrol_points[0].field_1_y = 0;
-                        field_21C_bf.b15 = false;
-                        // goto line 3d1
                     }
                     else
                     {
-                        // OBS: THIS CODE BLOCK MUST BE IN line 417
-                        // line 216 in 10.5 idb, line 299 in 9.6f idb;
                         field_1C4_x = Fix16(field_18C_current_path_point->field_0_x);
                         field_1C8_y = Fix16(field_18C_current_path_point->field_1_y);
 
@@ -7168,33 +7156,37 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                         }
                         goto LINE_3D9;
                     }
-                    // line 3d1
-                    if (bUnk2)
-                    {
-                    // line 3d9
-                    LINE_3D9:
-                        if (type >= 3 && (type <= 5 || type == 7))
-                        {
-                            field_1B8_target_x = field_1C4_x;
-                            field_1BC_target_y = field_1C8_y;
-                            field_1C0_target_z = field_1CC_z;
-                            // return
-                        }
-                    }
                 }
                 else
                 {
+                    field_0_patrol_points[0].field_0_x = 0;
+                    field_0_patrol_points[0].field_1_y = 0;
                     Ped::ChangeNextPedState1_45C500(1);
                     Ped::ChangeNextPedState2_45C540(2);
                     field_21C_bf.b15 = false;
-                    // goto 3d1
+                }
+
+                if (bUnk2)
+                {
+                LINE_3D9:
+                    if (type >= 3 && (type <= 5 || type == 7))
+                    {
+                        field_1B8_target_x = field_1C4_x;
+                        field_1BC_target_y = field_1C8_y;
+                        field_1C0_target_z = field_1CC_z;
+                    }
                 }
                 break;
-            default:
-                break;
-        }
 
-        // goto line 3d1
+            // Line 361's else, placed at the end in the original
+            LINE_54E:
+                field_1C4_x = kFpHalf_67853C + Fix16(field_18C_current_path_point->field_0_x);
+                field_1C8_y = kFpHalf_67853C + Fix16(field_18C_current_path_point->field_1_y);
+                field_1CC_z = Fix16(field_18C_current_path_point->field_2_z);
+                field_21C_bf.b16 = true;
+                byte_61A8A1 = 0;
+                goto LINE_3D9;
+        }
     }
     else
     {
