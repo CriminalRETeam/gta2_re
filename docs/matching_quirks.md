@@ -530,6 +530,15 @@ call results into them (`TryHitchTrailer_442810`, `ProcessPedImpact_560B40`, `Sp
 **`__forceinline` on pool constructors.** In `PedManager::PedManager` (0x470650) VC6 stopped inlining the pool
 constructors once out-of-line Fix16 conversions appeared in the function; `__forceinline` on them restored the match.
 
+**A by-reference argument stops tail merging of inlined calls.** In `Ped::FollowTargetStateMachine_46AC20` two
+inlined velocity regulators with different arguments were merged into one tail by VC6; passing the argument by
+reference (`RegulateVelocityByRef_433970`) kept them separate like the original.
+
+**Normalize out of line from inline depth, not budget.** `ang + k` through `Ang16::operator+` leaves `Normalize` out of
+line (operator+ -> ctor -> Normalize is too deep); the ctor form `Ang16(a.rValue + k.rValue, 0)` inlines it
+(`Wolfy_30::state_13_14_5411E0`). To force the rotation operators out of line, write `Multiply_408680`/`Negate_4086A0`
+calls explicitly and pass `(const Fix16&)` to get the const out-of-line `operator+` 0x408660.
+
 **Store and load order follows the source statement order** and inline getters, so try
 reordering statements and using the existing inline accessors.
 
