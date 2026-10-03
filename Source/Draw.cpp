@@ -486,7 +486,6 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
             gQuadVerts_706B88.field_0_verts[3].z = 0.0001f;
 
             Fix16 letterW((float)(pSprIdx->field_4_width - 0.0001));
-            cur_xpos += letterW;
             Fix16 spriteH((float)(pSprIdx->field_5_height - 0.0001));
 
             gQuadVerts_706B88.field_0_verts[0].u = 0.0;
@@ -502,6 +501,10 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
             gQuadVerts_706B88.field_0_verts[3].v = letterW.ToFloat();
 
             pgbh_DrawQuad(new_Flags, pTexture, &gQuadVerts_706B88.field_0_verts[0], 255);
+
+            // the original advances by the scaled sprite width (kept in edi from the
+            // vertex setup), not by letterW
+            cur_xpos += sprite_xoff;
         }
         pText++;
     }
