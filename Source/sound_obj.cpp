@@ -4202,12 +4202,14 @@ void sound_obj::HandleCarDoorSounds_4182E0(Sound_Params_8* a2)
     Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
     bool bQueued1 = 0;
     bool bQueued2 = 0;
-    BYTE* car_remap_5AA3D0 = gGtx_0x106C_703DD4->get_car_remap_5AA3D0(pCar->field_84_car_info_idx);
-    for (s32 i = 0; i < pCar->GetRemap(); ++i)
+    s32 model = pCar->field_84_car_info_idx;
+    BYTE* car_remap_5AA3D0 = gGtx_0x106C_703DD4->get_car_remap_5AA3D0(model);
+    for (u8 i = 0; i < (u8)pCar->GetRemap(); ++i)
     {
         bool bTrainOrBus = 0;
-        BYTE remap = car_remap_5AA3D0[2 * i + 1];
-        if ((remap > 64 || remap < -64) && !pCar->IsTrainModel_403BA0() && !pCar->is_bus_43A1F0())
+        s8 remap = car_remap_5AA3D0[2 * i + 1];
+        if ((remap > 64 || remap < -64) && model != car_model_enum::TRAIN && model != car_model_enum::TRAINCAB &&
+            model != car_model_enum::TRAINFB && model != car_model_enum::boxcar && model != car_model_enum::BUS)
         {
             bTrainOrBus = 1;
         }
@@ -4242,7 +4244,7 @@ void sound_obj::HandleCarDoorSounds_4182E0(Sound_Params_8* a2)
                     s32 new_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(samp_idx_for_car);
                     this->field_30_sQueueSample.field_30_loop_count = 1;
                     this->field_30_sQueueSample.field_34_loop_start = 0;
-                    this->field_30_sQueueSample.field_20_rate = new_rate + displacement;
+                    this->field_30_sQueueSample.field_20_rate = displacement + new_rate;
                     this->field_30_sQueueSample.field_38_loop_end = -1;
                     AddSampleToRequestedQueue_41A850();
                 }
@@ -4256,7 +4258,7 @@ void sound_obj::HandleCarDoorSounds_4182E0(Sound_Params_8* a2)
                 bQueued2 = 1;
                 if (CalculateDistance_419020(Fix16(0xE1000, 0)))
                 {
-                    if (VolCalc_419070(0x32u, 0x1E000, a2->field_5_bHasSolidAbove))
+                    if (VolCalc_419070(0x32u, Fix16(0x1E000, 0), a2->field_5_bHasSolidAbove))
                     {
                         this->field_30_sQueueSample.field_54_sound_intensity = Fix16(0x1E000, 0);
                         this->field_30_sQueueSample.field_60_nEmittingVolume = 50;
@@ -4278,7 +4280,7 @@ void sound_obj::HandleCarDoorSounds_4182E0(Sound_Params_8* a2)
                         this->field_30_sQueueSample.field_3C_speed_multiplier = 0;
                         s32 rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(samp_idx);
                         this->field_30_sQueueSample.field_20_rate =
-                            RandomDisplacement_41A650(this->field_30_sQueueSample.field_14_samp_idx) + rate;
+                            rate + RandomDisplacement_41A650(this->field_30_sQueueSample.field_14_samp_idx);
                         this->field_30_sQueueSample.field_30_loop_count = 1;
                         this->field_30_sQueueSample.field_34_loop_start = 0;
                         this->field_30_sQueueSample.field_38_loop_end = -1;
