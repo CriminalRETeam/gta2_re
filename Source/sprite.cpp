@@ -1380,42 +1380,32 @@ EXPORT char_type __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16& minX, Fix1
 {
     WIP_IMPLEMENTED;
 
+    // Raw compares: with Fix16 operators VC6 runs out of inline budget and calls the Fix16_Point ctor
+    // out of line. Remaining diff: the original does not tail-merge the two success stores.
     Fix16_Point pd;
 
-    Fix16 p0_y = p0.y;
-    Fix16 p1_y = p1.y;
-
-    if (p0_y == p1_y)
+    if (p0.y == p1.y)
     {
         return 0;
     }
 
-    if (p0_y > scanLineY)
+    if (p0.y <= scanLineY && p1.y >= scanLineY)
     {
-        if (p1_y > scanLineY)
+        pd = p1 - p0;
+        Fix16 x = p0.x + (((scanLineY - p0.y) * ((pd.x) / pd.y)));
+        if (x.mValue >= minX.mValue && x.mValue <= minY.mValue)
         {
-            return 0;
-        }
-    }
-    else if (p1_y >= scanLineY)
-    {
-        pd = (p1 - p0);
-        Fix16 p0_x = p0.x + (((scanLineY - p0.y) * ((pd.x) / pd.y)));
-        if (p0_x >= minX && p0_x <= minY)
-        {
-            gRozza_679188.field_14_mapx_t2 = p0_x;
+            gRozza_679188.field_14_mapx_t2 = x;
             return 1;
         }
-        return 0;
     }
-
-    if (p0_y >= scanLineY)
+    else if (p1.y <= scanLineY && p0.y >= scanLineY)
     {
-        pd = (p0 - p1);
-        Fix16 p1_x = p1.x + (((scanLineY - p1.y) * ((pd.x) / pd.y)));
-        if (p1_x >= minX && p1_x <= minY)
+        pd = p0 - p1;
+        Fix16 x = p1.x + (((scanLineY - p1.y) * ((pd.x) / pd.y)));
+        if (x.mValue >= minX.mValue && x.mValue <= minY.mValue)
         {
-            gRozza_679188.field_14_mapx_t2 = p1_x;
+            gRozza_679188.field_14_mapx_t2 = x;
             return 1;
         }
     }
