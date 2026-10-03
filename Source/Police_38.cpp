@@ -2424,17 +2424,17 @@ void PoliceRoadblock_A4::RemoveRoadblock_575CA0()
 }
 
 // Roadblock building: the values aren't known yet
-DEFINE_GLOBAL(Fix16, dword_6FECEC, 0x6FECEC);
-DEFINE_GLOBAL(Fix16, dword_6FEDA0, 0x6FEDA0);
-DEFINE_GLOBAL(Fix16, dword_6FED80, 0x6FED80);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FECEC, Fix16(1), 0x6FECEC);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FEDA0, Fix16(0x100, 0), 0x6FEDA0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FED80, Fix16(16), 0x6FED80);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FED0C, Fix16(8), 0x6FED0C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FEBD0, Fix16(0.75), 0x6FEBD0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FEB50, Fix16(0xCCC, 0), 0x6FEB50);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FEB5C, Fix16(0.5), 0x6FEB5C);
 DEFINE_GLOBAL(Ang16, word_6FEE30, 0x6FEE30);
 DEFINE_GLOBAL_INIT(Ang16, word_6FEB74, Ang16(360), 0x6FEB74);
-DEFINE_GLOBAL(u8, byte_624FBC, 0x624FBC); // the next roadblock lane gets barriers
-DEFINE_GLOBAL(u8, byte_624FBD, 0x624FBD); // the next roadblock lane gets a guard
+DEFINE_GLOBAL_INIT(u8, byte_624FBC, 1, 0x624FBC); // the next roadblock lane gets barriers
+DEFINE_GLOBAL_INIT(u8, byte_624FBD, 1, 0x624FBD); // the next roadblock lane gets a guard
 
 // Into the first free car slot
 inline void PoliceRoadblock_A4::AddCar(Car_BC* pCar)
