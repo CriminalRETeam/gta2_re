@@ -7456,6 +7456,7 @@ DEFINE_GLOBAL(s32, gCarRadioTuneRate_625014, 0x625014);
 WIP_FUNC(0x57E220)
 void sound_obj::UpdateCarEngineAudio_57E220()
 {
+    WIP_IMPLEMENTED;
     Car_BC* pCar = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
     u32 rate;
     if (!pCar)
@@ -7572,14 +7573,16 @@ void sound_obj::UpdateCarEngineAudio_57E220()
 
                 u32 rnd = field_1454_anRandomTable[1] % 140;
                 // Fix16::operator= on a member acts as a scheduling barrier (the first
-                // sample above writes mValue directly for that reason). Here it has to
-                // come before the other stores so the 0x81020409 load can be hoisted,
-                // and it stops VC6 from sharing the 20 (type) constant with the first
-                // sample. The original has this store after field_18_bIs2D.
-                field_30_sQueueSample.field_28_distance = 0;
+                // sample above writes mValue directly for that reason). Without a
+                // barrier here VC6 hoists the stores above the div and shares the 20
+                // (type) constant with the first sample in ebp. With it, the only
+                // difference left is the 0x81020409 load, which the original schedules
+                // right after the div, above these stores. A plain Fix16 ctor, a Fix16
+                // local or a static inline helper around the % 140 are not barriers.
                 field_30_sQueueSample.field_4_SampleIndex = 1;
                 field_30_sQueueSample.field_14_samp_idx = 138;
                 field_30_sQueueSample.field_18_bIs2D = 1;
+                field_30_sQueueSample.field_28_distance = 0;
                 field_30_sQueueSample.field_40_pan = 64;
                 field_30_sQueueSample.field_58_type = 20;
                 field_30_sQueueSample.field_20_rate = tune_rate + rnd;
