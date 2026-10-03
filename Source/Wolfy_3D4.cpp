@@ -1053,18 +1053,18 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
         Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
         pNew4C->field_46_sub_state = 0;
 
-        switch (a2)
+        switch ((u8)a2)
         {
             case 0:
             {
                 pNew4C->field_38_state = 24;
-                Ang16 v47 = Ang16::Fix16_To_Ang16_482740((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(45))));
+                Ang16 v47 = Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(45))));
                 Ang16 v48 = kAng135_6FD40C + dword_6FD350;
                 Ang16 v43 = v48 + v47;
                 this->field_22 = v43;
 
-                stru_6FD388 = (gSin_table_667A80[field_22.rValue] * dword_6FD540);
-                stru_6FD38C = (gCos_table_669260[field_22.rValue] * dword_6FD540);
+                stru_6FD388 = Ang16::sine_40F500(field_22).Multiply_408680(dword_6FD540);
+                stru_6FD38C = Ang16::cosine_40F520(field_22).Multiply_408680(dword_6FD540);
 
                 stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
                 stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
@@ -1074,12 +1074,12 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
             case 1:
             {
                 pNew4C->field_38_state = 25;
-                Ang16 v49 = Ang16::Fix16_To_Ang16_482740((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90))));
+                Ang16 v49 = Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90))));
                 Ang16 v50 = dword_6FD350 + kAng315_6FD418;
                 Ang16 v44 = v50 + v49;
                 this->field_22 = v44;
-                stru_6FD388 = (gSin_table_667A80[field_22.rValue] * dword_6FD540);
-                stru_6FD38C = (gCos_table_669260[field_22.rValue] * dword_6FD540);
+                stru_6FD388 = Ang16::sine_40F500(field_22).Multiply_408680(dword_6FD540);
+                stru_6FD38C = Ang16::cosine_40F520(field_22).Multiply_408680(dword_6FD540);
 
                 stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
                 stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
@@ -1089,13 +1089,13 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
             case 2:
             {
                 pNew4C->field_38_state = 23;
-                Ang16 v51 = Ang16::Fix16_To_Ang16_482740((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90))));
+                Ang16 v51 = Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90))));
                 Ang16 v52 = dword_6FD350 + kAng225_6FD3E0;
                 Ang16 v54 = v52 + v51;
                 this->field_22 = v54;
 
-                stru_6FD388 = (gSin_table_667A80[field_22.rValue] * dword_6FD540);
-                stru_6FD38C = (gCos_table_669260[field_22.rValue] * dword_6FD540);
+                stru_6FD388 = Ang16::sine_40F500(field_22).Multiply_408680(dword_6FD540);
+                stru_6FD38C = Ang16::cosine_40F520(field_22).Multiply_408680(dword_6FD540);
 
                 stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
                 stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
@@ -1105,12 +1105,12 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
             case 3:
             {
                 pNew4C->field_38_state = 22;
-                Ang16 v54 = Ang16::Fix16_To_Ang16_482740((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90))));
+                Ang16 v54 = Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90))));
                 Ang16 v58 = dword_6FD350 + kAng45_6FD35C;
                 Ang16 v12 = v58 + v54;
                 this->field_22 = v12;
-                stru_6FD388 = (gSin_table_667A80[field_22.rValue] * dword_6FD540);
-                stru_6FD38C = (gCos_table_669260[field_22.rValue] * dword_6FD540);
+                stru_6FD388 = Ang16::sine_40F500(field_22).Multiply_408680(dword_6FD540);
+                stru_6FD38C = Ang16::cosine_40F520(field_22).Multiply_408680(dword_6FD540);
 
                 stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
                 stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
@@ -1127,7 +1127,7 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
         pNew4C->field_46_sub_state = 0;
         pNew4C->field_24_angle = this->field_22;
 
-        if (this->field_1A_timer <= 29u)
+        if (this->field_1A_timer < 60u && this->field_1A_timer < 30u)
         {
             v42 = 4;
         }
@@ -1135,13 +1135,13 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
         pNew4C->field_20_speed = (dword_6FD548 * Fix16(gRng_6F6784.get_int_4F7AE0(field_1A_timer)));
         pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 40);
 
-        if (field_14_pObj2C->field_4->field_1C_zpos + kFP16One_6FD4A0 < kFP16Eight_6FD4C0)
+        if (field_14_pObj2C->field_4->field_1C_zpos + kFP16One_6FD4A0 >= kFP16Eight_6FD4C0)
         {
-            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos + kFP16One_6FD4A0);
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
         }
         else
         {
-            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
+            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos + kFP16One_6FD4A0);
         }
         gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
         pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
