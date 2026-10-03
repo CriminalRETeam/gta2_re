@@ -527,18 +527,16 @@ void Object_2C::ResolveCollisionWithPed_5229B0(Char_B4* pB4, Fix16_Point* pPoint
     HandleImpact_528E50(pB4->field_80_sprite_ptr); // TODO: sub_4338D0
 }
 
-WIP_FUNC(0x522b20)
+MATCH_FUNC(0x522b20)
 void Object_2C::ResolveCollisionWithWorld_522B20(Fix16_Point* f18, Fix16_Point* a3, Fix16_Point* speed)
 {
-    WIP_IMPLEMENTED;
-
-    Fix16_Point obj_xy = GetXY_52AE70();
+    // GetXY_52AE70() is a temporary argument, not a local: that gives the original EH states (0, 2, 3) and frame
     Fix16_Point v9 = ComputeLineLineIntersection_55F3B0(GetMass_482C80(),
                                                         kFP16MinusOne_6F8BE8,
                                                         *speed,
                                                         *a3,
                                                         *f18,
-                                                        obj_xy,
+                                                        GetXY_52AE70(),
                                                         gZeroVector_6F8EF0,
                                                         kFP16One_6F8D38,
                                                         kFpZero_6F8E10,
@@ -646,14 +644,14 @@ void Object_2C::HandleCollision_522E10(Fix16_Point* a4)
             if (pCar)
             {
                 pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
-                pCar->field_58_physics->HandleObjectCollisionAt_482CC0(this, v13, a9);
+                pCar->field_58_physics->HandleObjectCollisionAt_482CC0(this, v13, a8);
             }
             else
             {
                 Char_B4* pChar = gRozza_679188.field_20_pSprite->AsCharB4_40FEA0();
                 if (pChar)
                 {
-                    ResolveCollisionWithPed_5229B0(pChar, &v13, a8);
+                    ResolveCollisionWithPed_5229B0(pChar, &v13, a9);
                     HandleImpact_528E50(gRozza_679188.field_20_pSprite);
                 }
                 else
