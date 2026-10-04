@@ -2716,19 +2716,23 @@ void Car_BC::CloseAllDoors_43B3D0()
     }
 }
 
-WIP_FUNC(0x43b420)
+MATCH_FUNC(0x43b420)
 void Car_BC::GetDoorWorldPos_43B420(u8 door_idx, Fix16* pXPos, Fix16* pYPos)
 {
     door_info* pDoor = (door_info*)(gGtx_0x106C_703DD4->get_car_remap_5AA3D0(field_84_car_info_idx) + 1) + door_idx;
     Fix16 door_x = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(pDoor->rx);
     Fix16 door_y = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(pDoor->ry);
 
-    Ang16 angle = field_50_car_sprite->field_0;
-    // x_off declared then assigned (not initialised) and door_y rotated in place: the original
-    // computes x_off up front and stores the new door_y back into its slot; Add_408660 out of line
+    // Ang16::RotateVector_41FC90 written out: old_xpos copy and an Ang16& to the sprite angle as in the
+    // inline, the new x kept in x_off, and the y line through the out-of-line Multiply_408680 and
+    // operator+ (0x408660) like Trailer::sub_407BD0. An Ang16 copy of the angle swaps which of
+    // sin/cos stays in a register.
+    Fix16 old_xpos = door_x;
+    Ang16& rotation = field_50_car_sprite->field_0;
     Fix16 x_off;
-    x_off = Ang16::sine_40F500(angle) * door_y + Ang16::cosine_40F520(angle) * door_x;
-    door_y = (const Fix16&)(-door_x).Multiply_408680(Ang16::sine_40F500(angle)) + door_y.Multiply_408680(Ang16::cosine_40F520(angle));
+    x_off = door_x * Ang16::cosine_40F520(rotation) + door_y * Ang16::sine_40F500(rotation);
+    door_y = (const Fix16&)(-old_xpos).Multiply_408680(Ang16::sine_40F500(rotation)) +
+        door_y.Multiply_408680(Ang16::cosine_40F520(rotation));
 
     *pXPos = field_50_car_sprite->field_14_xy.x + x_off;
     *pYPos = field_50_car_sprite->field_14_xy.y + door_y;
@@ -7249,7 +7253,8 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
         Fix16 h = field_0_cam->GetBoundariesHeight_4B3130();
         Fix16 t = h * w;
         t = t / Fix16(86);
-        // TODO: the original sets field_9 after the dword_6FF7E8 store (with the constant 1 loaded later)
+        // TODO: the original sets field_9 after the dword_6FF7E8 store (with the constant 1 loaded later),
+        // but that order makes VC6 compute the height first and reschedule the rng call setup
         this->field_9 = 1;
         dword_6FF7E8 = (t)*wanted_related;
         this->field_A = 1;
