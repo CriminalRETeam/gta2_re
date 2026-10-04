@@ -170,8 +170,8 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
 {
     WIP_IMPLEMENTED;
 
-    u16 idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_type, sprite_idx);
-    sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(idx);
+    sprite_index* sprite_index_5AA440 =
+        gGtx_0x106C_703DD4->get_sprite_index_5AA440(gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_type, sprite_idx));
     Fix16_Point point;
 
     Fix16 v12 = (Fix16((s32)sprite_index_5AA440->field_4_width) / 2) * scale;
@@ -189,56 +189,60 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
     }
 
     point.SetXY_432860(-v12, -v13);
-    point.RotateByAngle_40F6B0(rotation);
-    point.x += x_pos;
-    point.y += y_pos;
+    point.RotateByAngle_40F6B0_all_out_of_line(rotation);
 
-    gQuadVerts_706B88.field_0_verts[0].x = point.x.ToFloat();
-    gQuadVerts_706B88.field_0_verts[0].y = point.y.ToFloat();
+    gQuadVerts_706B88.field_0_verts[0].x = (point.x + x_pos).ToFloat();
+    gQuadVerts_706B88.field_0_verts[0].y = (point.y + y_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[0].z = 0.000099999997f;
 
     point.SetXY_432860(v12, -v13);
-    point.RotateByAngle_40F6B0(rotation);
-    point.x += x_pos;
-    point.y += y_pos;
+    // Only this point keeps the unary minus inline (inline budget): the original takes -x_old
+    // from the -v12 it already holds in a register instead of calling Negate_4086A0.
+    {
+        Fix16 sin = Ang16::sine_40F500(rotation);
+        Fix16 cos = Ang16::cosine_40F520(rotation);
+        Fix16 x_old = point.x;
+        point.x = (const Fix16&)point.x.Multiply_408680(cos) + point.y.Multiply_408680(sin);
+        point.y = (const Fix16&)(-x_old).Multiply_408680(sin) + point.y.Multiply_408680(cos);
+    }
 
-    gQuadVerts_706B88.field_0_verts[1].x = point.x.ToFloat();
-    gQuadVerts_706B88.field_0_verts[1].y = point.y.ToFloat();
+    gQuadVerts_706B88.field_0_verts[1].x = (point.x + x_pos).ToFloat();
+    gQuadVerts_706B88.field_0_verts[1].y = (point.y + y_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[1].z = 0.000099999997f;
 
     point.SetXY_432860(v12, v13);
-    point.RotateByAngle_40F6B0(rotation);
-    point.x += x_pos;
-    point.y += y_pos;
+    point.RotateByAngle_40F6B0_all_out_of_line(rotation);
 
-    gQuadVerts_706B88.field_0_verts[2].x = point.x.ToFloat();
-    gQuadVerts_706B88.field_0_verts[2].y = point.y.ToFloat();
+    gQuadVerts_706B88.field_0_verts[2].x = (point.x + x_pos).ToFloat();
+    gQuadVerts_706B88.field_0_verts[2].y = (point.y + y_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[2].z = 0.000099999997f;
 
     point.SetXY_432860(-v12, v13);
-    point.RotateByAngle_40F6B0(rotation);
-    point.x += x_pos;
-    point.y += y_pos;
+    point.RotateByAngle_40F6B0_all_out_of_line(rotation);
 
-    gQuadVerts_706B88.field_0_verts[3].x = point.x.ToFloat();
-    gQuadVerts_706B88.field_0_verts[3].y = point.y.ToFloat();
+    gQuadVerts_706B88.field_0_verts[3].x = (point.x + x_pos).ToFloat();
+    gQuadVerts_706B88.field_0_verts[3].y = (point.y + y_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[3].z = 0.000099999997f;
 
     //  u & v
 
-    u32 field_4_width = sprite_index_5AA440->field_4_width;
+    s32 width = sprite_index_5AA440->field_4_width;
+    s32 height = sprite_index_5AA440->field_5_height;
+    f32 u = width - 0.000099999997f;
+    f32 v = height - 0.000099999997f;
+    gQuadVerts_706B88.field_0_verts[0].u = 0.0;
+    gQuadVerts_706B88.field_0_verts[0].v = 0.0;
+    gQuadVerts_706B88.field_0_verts[1].v = 0.0;
+    gQuadVerts_706B88.field_0_verts[3].u = 0.0;
+    gQuadVerts_706B88.field_0_verts[1].u = u;
+    gQuadVerts_706B88.field_0_verts[2].u = u;
+    gQuadVerts_706B88.field_0_verts[2].v = v;
+    gQuadVerts_706B88.field_0_verts[3].v = v;
 
-    gQuadVerts_706B88.field_0_verts[0].u = gQuadVerts_706B88.field_0_verts[0].v = gQuadVerts_706B88.field_0_verts[1].v =
-        gQuadVerts_706B88.field_0_verts[3].u = 0.0;
-
-    u32 field_5_height = sprite_index_5AA440->field_5_height;
-
-    gQuadVerts_706B88.field_0_verts[1].u = gQuadVerts_706B88.field_0_verts[2].u = field_4_width - 0.000099999997f;
-    gQuadVerts_706B88.field_0_verts[2].v = gQuadVerts_706B88.field_0_verts[3].v = field_5_height - 0.000099999997f;
-
-    STexture* pTexture = gSharp_pare_0x15D8_705064->GetSpriteTexture_5B94F0(sprite_type, sprite_idx, palette_type, palette);
-    s32 v44 = CalcQuadFlags_5D83E0(alpha_value, og_flags);
-    pgbh_DrawQuad(flags | v44, pTexture, &gQuadVerts_706B88.field_0_verts[0], 255);
+    pgbh_DrawQuad(flags | CalcQuadFlags_5D83E0(alpha_value, og_flags),
+                  gSharp_pare_0x15D8_705064->GetSpriteTexture_5B94F0(sprite_type, sprite_idx, palette_type, palette),
+                  gQuadVerts_706B88.field_0_verts,
+                  255);
 }
 
 MATCH_FUNC(0x5D83E0);
