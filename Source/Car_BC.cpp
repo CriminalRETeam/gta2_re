@@ -6959,43 +6959,49 @@ Fix16_Point Trailer::sub_407BD0()
 WIP_FUNC(0x407ce0)
 void Trailer::UpdateTrailerAlignment_407CE0()
 {
+    // The four points are declared up front: the original enters with EH state 3. The 9.6f getters and
+    // setters (get/set_theta_40F820/40F830, set_cp1_40F7E0, get/set_cp3) are written as field accesses
+    // and the Ang16 compares on rValue, otherwise the inline budget pushes these ctors out of line.
+    Fix16_Point rear;
+    Fix16_Point hitch;
+    Fix16_Point delta;
+    Fix16_Point offset;
+
     CarPhysics_B0* pTrailerPhys = field_C_pCarOnTrailer->field_58_physics;
     CarPhysics_B0* pCabPhys = field_8_truck_cab->field_58_physics;
-    Fix16 trailer_theta = Ang16::Ang16_to_Fix16(pTrailerPhys->get_theta_40F820());
+    Fix16 trailer_theta = Ang16::Ang16_to_Fix16(pTrailerPhys->field_58_theta);
 
-    Fix16_Point rear = field_C_pCarOnTrailer->get_rear_wheel_offset_43A0E0();
-    rear.RotateByAngle_40F6B0(pTrailerPhys->get_theta_40F820());
-    Fix16_Point cp = pTrailerPhys->get_cp1_40B560();
-    rear += cp;
+    rear = field_C_pCarOnTrailer->get_rear_wheel_offset_43A0E0();
+    rear.RotateByAngle_40F6B0_all_out_of_line(pTrailerPhys->field_58_theta);
+    rear += pTrailerPhys->get_cp1_40B560();
 
-    Fix16_Point hitch = gTrailerHitchOffset_66AAC8;
-    Ang16 cab_theta = Ang16::Fix16_To_Ang16_40F540(Ang16::Ang16_to_Fix16(pCabPhys->get_theta_40F820()));
-    hitch.RotateByAngle_40F6B0(cab_theta);
-    cp = pCabPhys->get_cp1_40B560();
-    hitch += cp;
+    hitch = gTrailerHitchOffset_66AAC8;
+    Fix16 cab_theta = Ang16::Ang16_to_Fix16(pCabPhys->field_58_theta);
+    hitch.RotateByAngle_40F6B0_all_out_of_line(Ang16::Fix16_To_Ang16_ool_40F540(cab_theta));
+    hitch += pCabPhys->get_cp1_40B560();
 
-    Fix16_Point delta = hitch - rear;
-    Fix16 target_theta = Ang16::Ang16_to_Fix16(delta.atan2_40F790());
-    Fix16 new_theta = trailer_theta;
-    field_0 = sub_405E80(&target_theta, &new_theta);
+    // The trailer points along hitch - rear, kept within a window around the cab's angle
+    delta = hitch - rear;
+    Fix16 new_theta = Ang16::Ang16_to_Fix16(delta.atan2_40F790());
+    field_0 = sub_405E80(&cab_theta, &new_theta);
 
-    if (new_theta != target_theta && new_theta == trailer_theta)
+    if (new_theta != cab_theta && new_theta == trailer_theta)
     {
         // 9.6f: CarPhysics_B0::IsVelocityAlignedWithHeading_40F840 (but it compares against other globals here)
         Ang16 drift = pCabPhys->field_40_linvel_1.atan2_40ACD0().SubtractNormalized_409340(pCabPhys->field_58_theta);
-        if ((drift <= word_66A9C8 || drift >= word_66AABC) && pCabPhys->IsGasPedalPressedEnough_5626A0())
+        if ((drift.rValue <= word_66A9C8.rValue || drift.rValue >= word_66AABC.rValue) && pCabPhys->IsGasPedalPressedEnough_5626A0())
         {
             Fix16 speed = field_8_truck_cab->sub_440510();
-            new_theta = sub_405DA0(new_theta, &target_theta, &speed);
+            new_theta = sub_405DA0(new_theta, &cab_theta, &speed);
         }
     }
 
-    pTrailerPhys->set_theta_40F830(Ang16::Fix16_To_Ang16_40F540(new_theta));
+    pTrailerPhys->field_58_theta = Ang16::Fix16_To_Ang16_ool_40F540(new_theta);
 
-    Fix16_Point offset = gTrailerCabOffset_66AAE0;
-    offset.RotateByAngle_40F6B0(Ang16::Fix16_To_Ang16_40F540(new_theta));
-    field_C_pCarOnTrailer->field_58_physics->set_cp1_40F7E0(hitch - offset);
-    pTrailerPhys->set_cp3_40F810(field_8_truck_cab->field_58_physics->get_cp3_40F800());
+    offset = gTrailerCabOffset_66AAE0;
+    offset.RotateByAngle_40F6B0_all_out_of_line(Ang16::Fix16_To_Ang16_ool_40F540(new_theta));
+    field_C_pCarOnTrailer->field_58_physics->field_38_cp1 = hitch - offset;
+    pTrailerPhys->field_6C_cp3 = field_8_truck_cab->field_58_physics->field_6C_cp3;
     pTrailerPhys->UpdateCenterOfMassPoint_563350();
 }
 

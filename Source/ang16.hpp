@@ -254,6 +254,15 @@ class Ang16
         return Ang16(a2.GetRaw_40F4B0() / 71, 0);
     }
 
+    // Fix16_To_Ang16_40F540 with the normalizing Ang16 ctor called out of line (AssignNormalized_409300),
+    // Trailer::UpdateTrailerAlignment_407CE0
+    inline static Ang16 __stdcall Fix16_To_Ang16_ool_40F540(const Fix16& a2)
+    {
+        // The quotient is stored as a dword, like 9.6f's 0x40F540 passing it to 0x401C60
+        s32 value = a2.GetRaw_40F4B0() / 71;
+        return Ang16((Ang16&)value, 0);
+    }
+
     // 9.6f 0x41E110
     // https://decomp.me/scratch/RKAuT
     bool IsAxisAligned_41E110() const
