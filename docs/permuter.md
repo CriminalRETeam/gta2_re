@@ -29,8 +29,13 @@ Scripts/permute.sh Source/Foo.cpp Foo::Bar_123456 123456 --base-only   # just pr
   the inline-budget problems (see matching_quirks.md). `cast_operand` tries integer casts on the
   operands of `/ % >> < > + -`, for signedness problems.
 - Each improvement's `score_output.txt` has the unified diff of target vs candidate asm.
-- The submodule is on the `claude/named-op-cast-operand` branch of cpp_permuter. That branch adds
-  `named_op`, `cast_operand` and `score_output.txt`.
+- `cache_member` (a member path read into a local: by value, `T&` or `T*`, typed from the member
+  declarations in the included headers), `ref_local` (`T x = e` vs `const T& x = e`), `incdec`,
+  `cond_temp` and `pow2_shift` are the rewrites most often tried by hand.
+- Every run keeps a checkpoint in `permuter_out/`. Run the same command again with `--resume` to
+  carry on after a timeout or Ctrl-C (`-n` then counts the new run's compiles). With `-j 1` a seed
+  always gives the same candidates.
+- Run one permuter at a time if you share the machine: `flock -o /tmp/permute.lock Scripts/permute.sh ...`.
 
 ## Rejected candidates
 
