@@ -2243,11 +2243,9 @@ void Car_BC::ApplyVisualDamage_43A9F0()
     }
 }
 
-WIP_FUNC(0x43CAC0)
+MATCH_FUNC(0x43CAC0)
 void Car_BC::StartLightFlashing_43CAC0()
 {
-    WIP_IMPLEMENTED;
-
     if ((field_A4_light_flags & 0x1C) == 0)
     {
         field_A5_flash_phase_counter = 12;
@@ -2282,7 +2280,7 @@ void Car_BC::StartLightFlashing_43CAC0()
             field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
         }
 
-        if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2))
+        if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1))
         {
             field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BackRightBrakeLight_5);
         }
@@ -2296,7 +2294,8 @@ void Car_BC::StartLightFlashing_43CAC0()
     }
 }
 
-// NOTE: function chunk at 0x43AA20, tail called from Ped::sub_470300
+// Not in IDA's function list: tail called from Ped::BecomeDummyOnPlayerDisconnect_470300
+MATCH_FUNC(0x43AA20)
 void Car_BC::sub_43AA20()
 {
     const s32 info_idx = field_84_car_info_idx;
@@ -2321,20 +2320,15 @@ void Car_BC::Deactivate_43AA60()
     SetF_88_4214E0();
 }
 
-WIP_FUNC(0x43AAE0)
+MATCH_FUNC(0x43AAE0)
 char_type Car_BC::IsThreatToSearchingPed_43AAE0()
 {
-    WIP_IMPLEMENTED;
-
     Ped* pDriver = this->field_54_driver;
-    if (pDriver)
-    {
-        return pDriver->IsThreatToSearchingPed_4661F0();
-    }
-    else
+    if (!pDriver)
     {
         return 0;
     }
+    return pDriver->IsThreatToSearchingPed_4661F0();
 }
 
 MATCH_FUNC(0x43aaf0)
@@ -2716,19 +2710,23 @@ void Car_BC::CloseAllDoors_43B3D0()
     }
 }
 
-WIP_FUNC(0x43b420)
+MATCH_FUNC(0x43b420)
 void Car_BC::GetDoorWorldPos_43B420(u8 door_idx, Fix16* pXPos, Fix16* pYPos)
 {
     door_info* pDoor = (door_info*)(gGtx_0x106C_703DD4->get_car_remap_5AA3D0(field_84_car_info_idx) + 1) + door_idx;
     Fix16 door_x = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(pDoor->rx);
     Fix16 door_y = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(pDoor->ry);
 
-    Ang16 angle = field_50_car_sprite->field_0;
-    // x_off declared then assigned (not initialised) and door_y rotated in place: the original
-    // computes x_off up front and stores the new door_y back into its slot; Add_408660 out of line
+    // Ang16::RotateVector_41FC90 written out: old_xpos copy and an Ang16& to the sprite angle as in the
+    // inline, the new x kept in x_off, and the y line through the out-of-line Multiply_408680 and
+    // operator+ (0x408660) like Trailer::sub_407BD0. An Ang16 copy of the angle swaps which of
+    // sin/cos stays in a register.
+    Fix16 old_xpos = door_x;
+    Ang16& rotation = field_50_car_sprite->field_0;
     Fix16 x_off;
-    x_off = Ang16::sine_40F500(angle) * door_y + Ang16::cosine_40F520(angle) * door_x;
-    door_y = (const Fix16&)(-door_x).Multiply_408680(Ang16::sine_40F500(angle)) + door_y.Multiply_408680(Ang16::cosine_40F520(angle));
+    x_off = door_x * Ang16::cosine_40F520(rotation) + door_y * Ang16::sine_40F500(rotation);
+    door_y = (const Fix16&)(-old_xpos).Multiply_408680(Ang16::sine_40F500(rotation)) +
+        door_y.Multiply_408680(Ang16::cosine_40F520(rotation));
 
     *pXPos = field_50_car_sprite->field_14_xy.x + x_off;
     *pYPos = field_50_car_sprite->field_14_xy.y + door_y;
@@ -4889,13 +4887,12 @@ void Car_BC::CountDownToWreck_441360()
     }
 }
 
-WIP_FUNC(0x4436A0)
+MATCH_FUNC(0x4436A0)
 void Car_BC::TurnToWreck_4436A0()
 {
-    WIP_IMPLEMENTED;
-
     car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
-    field_50_car_sprite->field_22_sprite_id = gGtx_0x106C_703DD4->get_car_info_5AA3B0(pCarInfo->wreck + 72)->sprite;
+    s32 wreck_idx = pCarInfo->wreck + 72;
+    field_50_car_sprite->field_22_sprite_id = gGtx_0x106C_703DD4->get_car_info_5AA3B0(wreck_idx)->sprite;
     field_50_car_sprite->sub_59E2E0();
     field_50_car_sprite->field_34_palette_type = palette_types_enum::sprites_2;
     field_8_damaged_areas.m_var = 0;
@@ -7209,10 +7206,10 @@ char Car_14::sub_582360(int param_1, Fix16 param_2, Fix16 param_3)
 }
 
 // 9.6f 0x4B4A60
-WIP_FUNC(0x5832C0)
+MATCH_FUNC(0x5832C0)
 void Car_14::MakeTrafficForCurrCamera_5832C0()
 {
-    WIP_IMPLEMENTED;
+    Fix16 w;
 
     Fix16 wanted_related;
     if ((!bLimit_recycling_67D4CA || gCar_6C_677930->field_28_recycled_cars < 2) &&
@@ -7245,13 +7242,14 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
         }
 
         // 9.6f: width and height into locals first, then multiplied
-        Fix16 w = field_0_cam->GetBoundariesWidth_4B3110();
+        w = field_0_cam->GetBoundariesWidth_4B3110();
         Fix16 h = field_0_cam->GetBoundariesHeight_4B3130();
         Fix16 t = h * w;
         t = t / Fix16(86);
-        // TODO: the original sets field_9 after the dword_6FF7E8 store (with the constant 1 loaded later)
-        this->field_9 = 1;
+        // w is declared at the top of the function: with it declared here, the field_9 store after
+        // dword_6FF7E8 (as in 9.6f) made VC6 compute the height first
         dword_6FF7E8 = (t)*wanted_related;
+        this->field_9 = 1;
         this->field_A = 1;
 
         u8 rng_int = gRng_6F6784.get_uint8_4F7B70(5);

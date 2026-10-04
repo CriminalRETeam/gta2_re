@@ -401,22 +401,6 @@ doesn't happen.
 Tried: splitting the `FindGroundZ` call and `.ToUInt8()` into two statements (0.367);
 `x` as `s32` so it uses `Fix16(s32)` (0.367).
 
-## Car_BC::GetDoorWorldPos_43B420 (WIP, was sub_43B420)
-
-World position of door `door_idx`: the door offset from `get_car_remap_5AA3D0` (+1 skips
-`num_doors`, then `door_info[]`), turned into `Fix16` with `gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70`,
-rotated by the sprite angle and added to the sprite position.
-
-Ratio 0.564. The first rotated coordinate uses the inline `Fix16 operator*` (`__allshr`) and
-computes `sin * door_y` first. The second calls the out-of-line `Multiply_408680` twice and
-the out-of-line `operator+` (0x408660). Tracing the arguments gives
-`(-door_x).Multiply(sin_copy) + door_y.Multiply(cos_copy)`, with the right-hand side done
-first and copies of sin/cos made into temporaries (cos into the `door_idx` arg slot).
-
-Tried: `sin`/`cos` locals (0.411/0.464, depending on the operand order of the first sum);
-`Ang16::sine_40F500`/`cosine_40F520` at every use (0.564); the traced operand order for the
-second sum (0.553).
-
 ## Ped::sub_45EA00 (WIP)
 
 Removes a ped that has been off screen for a while (`get_field_20e() > 30`, compared
@@ -618,33 +602,6 @@ second use of `fx`, folded away by CSE (see matching_quirks.md, x87 code). The c
 `count = field_A7C_count < 100 ? field_A7C_count : 100`: with `if (count >= 100)` the `jl` skips the
 `count` reload, the ternary makes it land on it.
 
-## Mike_A80::DebugDrawProfiling_4FF250 (WIP, was STUB)
-
-The profiler overlay: per texture-size cache stats, totals, polys/texture swaps, memory,
-the 30 frame averages, a "LARGE" flash, the Montana display timings, then
-`sub_4FFD90` for the history bars. Ratio 0.992.
-
-What it needed:
-- `DrawText_4B87A0(buf, 0, ypos, word_703BAA, 1)` with plain ints: the implicit
-  conversion builds each `Fix16` argument in place through the out-of-line `Fix16(s32)`
-  (`0x4369F0`) like the original. `Fix16(0)` written out is constructed and pushed instead.
-- The row loop runs on `ypos` (20..260), with a separate row counter. VC6 then tests
-  `ypos < 140` for the size shift.
-- The averages are recomputed for each print (no named locals, 0.171 with them); the total
-  is one sum of the five.
-- `large_timer = total > 30 ? 15 : g; if (large_timer) { g = large_timer - 1; print; }`:
-  the original never stores the 15.
-- `Mike_A80::sub_4FF970` is a static `__stdcall` (the caller doesn't set `ecx`). It still
-  matches.
-
-Still different: only the load order of the five averages in the total. Ours loads
-m80_1, m80_5, m80_4, m80_2, m80_3 whatever the source order or grouping (tried 8
-orderings and groupings and an inline `Average()`); the original loads 1, 2, 3, 5, 4.
-
-Two things are guessed: the wide format strings at 0x621100 and 0x6210DC (not in
-`reccmp/widechar.csv`), and `sub_5BEED0` (15 bytes, near `get_rdtsc_5BEE90`, never dumped,
-see "Functions without target asm" below).
-
 ## Functions without target asm
 
 These are called by stubs worked on above but have no entry in the target asm dump,
@@ -830,18 +787,6 @@ Still different:
   locals set in both branches.
 - The original stores the zeros and ones at the top from `eax`/`ebx`, ours uses
   immediates (it doesn't use `ebx` at all).
-
-## sound_obj::UpdateCarEngineAudio_57E220 (WIP, was STUB)
-
-- 0.884 after one cpp_permuter run (400 random candidates). It wrapped everything after the `!pCar`
-  return in an `else` (early_return pass) and hoisted `u32 rate` to the top. Before that it was 0.856. Added globals 0x6FF540 (u8 static volume), 0x6FF542 (u16 timer), 0x625010 / 0x625014 (u32 rates).
-  `field_54F4` is `field_54F2[2]`.
-- The vocal volume and both rates must be unsigned (`shr`, not `sar`, on `>>`). The second sample's volume
-  needs `(u8)(a / 254) + (u8)(rand % 3)` to get the byte `add dl,cl`.
-- Remaining diff 1: block layout of `paused ? 0 : min(127 - v, 100)`. The target places the `0` branch after
-  the ±5/−10 smoothing code and tail-merges the store. `if (paused)` / `== 0` / ternaries were all the same or worse.
-- Remaining diff 2: target keeps 0 in ebx across the whole function, while ours re-materialises it in ebp
-  after the first sample. The register-allocation knock-on also covers the sample field stores.
 
 ## SpawnCabAndTrailerHelper_408370 (WIP, was STUB)
 
@@ -1147,15 +1092,6 @@ Still different:
 - Left: register choice in the "train at zone" checks. 10,000 permuter iterations only shuffled
   scopes (188 -> 140).
 
-### sound_obj::HandlePedVoiceEvent_423080 (0x423080): WIP 0.992
-- Picks a ped's voice sample by voice event (`Ped::field_250`), with cooldown bytes
-  `byte_67554A/B/C` and `word_675548` for repeated shouts (Elvis gets his own), then queues it.
-  `bTank` (tank driver, or `Ped::IsLawEnforcement_45B4E0`) is uninitialised on the player path, as in the
-  original.
-- 0.809 -> 0.974: the entity index is used unsigned (`(u32)... % 5`). 0.974 -> 0.987: split the
-  rate sum so `field_14` is reloaded. 0.987 -> 0.992: the permuter's ternary for the volume and
-  a plain `(x & 1) == 1`. One register is left, see matching_quirks.md.
-
 ### Car_6C::SpawnCarOnRoadNetwork_4458B0 (0x4458B0): WIP 0.580
 - Finds a junction near the point (`RouteFinder::sub_58A130`, whose `s16` result the original
   narrows to `char`), heads out of it, then walks the road like `SpawnBusAtValidRoadPosition_4453E0`
@@ -1319,14 +1255,12 @@ Each was a few asm lines away from the original. What is left and what was tried
 - `MapRenderer::Set_UV_4F4190` (0x4f4190): fmuls (1/16384) scheduled after the idx load in orig; AsFloat/ToFloat/mValue*k/local float, 400 permuter iters (x87 scheduling, cf. Draw*Sided* note).
 - `Hud_Brief_704::ClearAllBriefsWithPriority_5D4890` (0x5d4890): known: ebp shrink-wrap (pushed after null check). Code otherwise identical. Tried if+do/while, early return, break, if(pIter) Start(), decl order, 500 permuter iters. VC6 does shrink-wrap in similar matched loops (struct_4::RemoveByRngValue_5A6C40).
 - `Car_BC::sub_43B850` (0x43b850): known: u16 load then test $6,%ch; tried IsFlagSet_411930 inline, local copy, shifts, casts, != 0.
-- `Map_0x370::sub_4E8C00` (0x4e8c00): add operand order (result in the field's reg, edx); 9.6f has our order. Tried operand swaps, locals, param reassign, pDmap local, inline getters, /4 and /12 spellings, 400 permuter iters.
 - `RouteFinder::sub_589E20` (0x589e20): known: loop-top test of a flag known 0 on entry (unrotated while). Tried for(;;)+break, && condition, if/else, return in loop, char/s32 flag.
 - `Object_2C::sub_526830` (0x526830): known: switch clobbers value (add $-39) and reloads param in default; tried direct returns, default return, param reassign, switch(a1-39), (u32) switch, result=a1 init.
 - `Map_0x370::do_process_loaded_zone_data_4E8E30` (0x4e8e30): base+index operand order in two places (zone-info loop: offset reg then add field_334; mov %bl,(base,idx)); 9.6f has our order. Tried + operand swaps, byte offsets, for loop, local placement.
 
 ### Near-miss pass, batches A2 and B2 (2026-10-02)
 
-- `sound_obj::HandlePedVoiceEvent_423080` (0x423080): no change. skipped: documented unexplained (add %eax,%edi; 3000 permuter iterations)
 - `Camera_0xBC::UpdateBoundaries_435B90` (0x435b90): no change. only diff: reg alloc in final field_20 = field_78 +/- dword_67691C block (right: field in eax/dword in edi swapped); operand order swaps have no effect; 9.6f-style rewrite (one v, checks on fields, v*=) much worse
 - `Car_BC::HandleUserInput_4418D0` (0x4418d0): no change. only diff: 'cmp %bl,%al' (bl=0) vs our 'test %al,%al' after HandleRoofTurretRotation call; tried !=0, !=(char)0, ==true, !=field_B8, local zero var, combined condition; same in 9.6f
 - `Car_6C::dtor_446DC0` (0x446dc0): no change. only diff: last delete (gSprite_Unused_677938) loads ptr into ecx then mov ecx->esi, ours esi then esi->ecx (Car_14 delete just above uses esi in both). Dropping the if made it worse
@@ -1336,7 +1270,6 @@ Each was a few asm lines away from the original. What is left and what was tried
 - `MapRenderer::Draw4SidedDiagonalUpLeft_4EF880` (0x4ef880): no change. (skipped) known MapRenderer Draw*Sided* x87/vertex store scheduling, not attempted
 - `Ambulance_110::ProcessPatientQueue_4FA500` (0x4fa500): no change. only diff: original interleaves load/sar/store for x,y,z (as if stores may alias), ours hoists the 3 loads; tried separate decl/assign, ToUInt8, stores through u8* pointers
 - `Ambulance_20::UpdateState_4FB330` (0x4fb330): no change. only diff: case 3 '>500' false path should jle back to shared epilogue (0x3F) rather than the adjacent duplicate pop/ret; tried return after state=5, inverted if, break in default
-- `Mike_A80::DebugDrawProfiling_4FF250` (0x4ff250): no change. skipped: documented (load order of five averages; 8 orderings tried before)
 - `youthful_einstein::SetNewFugitive_516590` (0x516590): no change. original reloads field_0 into edx (not esi/ecx) before SetPlayerArrowColour; with local pPlayer VC6 reuses esi, without it uses ecx and the else branch's gHud reg shifts too. Tried field/GetPlayerPed/pPed local/ref
 - `NetPlay::EnumSessions_51E650` (0x51e650): closer, 18->7. wrong flag (orig 0x80 RETURNSTATUS, not STOPASYNC); else only fails on hr<0; nested success + single return -1. Left: else jge into the modem's shared return-count block
 - `NetPlay::RemovePlayerByName_520F80` (0x520f80): no change. original spills bRemoved=0 to a stack slot (not const-propagated), found path returns ebx=1; tried bRemoved=1 after the call, while(!bRemoved && i<count) loop: VC6 const-props both
@@ -1601,7 +1534,7 @@ Each was a few asm lines away from the original. What is left and what was tried
   - 0x4626B0 `Ped::StateMachineTick` (fable): one goto kept, the null-ped-group exit into dummy_3's last `Deallocate` block; no structured spelling produced that forward jump.
   - 0x55FF20 `HandleCarCollision`: 0.281->0.408. Entry EH state 5 = six `Fix16_Point` locals up front; `GetLength_all_out_of_line_abs_y_negate` for the impulse length. Left: the original stores no EH state for the `ComputeRelativePointVelocity` temporary, one extra frame slot, the second half.
   - 0x43F130 `Car_BC::HandleCarHitByObject`: 0.130->0.090 by the ratio, kept because the frame (0x118), EH numbering, compare-tree case order (128/138, 10, 194, 210, default, 265, 198) and the first case's calls now match; the ratio sees one big hunk either way. New inline `const Fix16_Point&` overload of `AccumulateDamage_43DA90`. Left: damage in ebx, RotateByAngle operator variants, tail merges.
-  - 0x5A3550 `Sprite_4C::UpdateRotatedBoundingBox`, 0x4E0130 `CanMoveOntoSlopeTile`: not attempted (>2 KB, ratio <0.04).
+  - 0x5A3550 `Sprite_4C::UpdateRotatedBoundingBox`: not attempted (>2 KB, ratio <0.04).
 
 ## x87 scheduling pass (MapRenderer)
 
@@ -1611,3 +1544,81 @@ Each was a few asm lines away from the original. What is left and what was tried
 - The Draw*Sided* / ProjectVert cluster: still unexplained. All VC6 builds (RTM to SP6, Processor Pack)
   give the same code, about 150 helper and call-site variants scored over every MapRenderer WIP: details
   in matching_quirks.md, "Still unexplained".
+
+## Near-miss pass, 9.6f compare and exhaustive permuter (Oct 4)
+
+Matched here: `StabilizeVelocityAtSpeed_562910`, `OnModifiedMapDataLoaded_4E8C00`,
+`UpdateCarEngineAudio_57E220`, `HandlePedVoiceEvent_423080`, `GetDoorWorldPos_43B420`,
+`DebugDrawProfiling_4FF250`, `do_process_loaded_zone_data_4E8E30`, `MakeTrafficForCurrCamera_5832C0` (see matching_quirks.md and the commit messages). Random-mode
+permuter runs of 6 minutes (2700-4100 compiles) made no progress on 418720, 57E220, 4E6660,
+516590, 427220, 56BA60, 4D6000, 414710, 4B6390 or 440D90. An exhaustive depth 1 run (every
+single pass) also gave nothing on 418720. Scores are differing lines from `permuter_score.py`.
+
+- `CarPhysics_B0::EnforceGearSensitiveMaxSpeed_562D00` (26): with the 9.6f nested ifs in
+  `Fix16_Point::ClampTowardsZero_49E480`, VC6 copies the y store and the epilogue into the first
+  branch. `(y >= 0 && y > lim.y) || (y < 0 && y < lim.y)` gives 14, but it re-tests `y < 0`, so
+  it was not kept. A ternary gives 20 (`setg`/`setl`). A per-component helper goes out of line
+  (inline budget), and `__forceinline` brings it back at 26.
+- `CarPhysics_B0::CalculateRearWheelForce_5620D0` (10): in `v25.x *= stability`, x is already in
+  ecx. The original does `mov %ecx,%eax; imull (%edi)`. Every spelling stays at 10: both operand
+  orders, product temp, reference/pointer locals, `MultiplyAssign_562430`.
+- `CarPhysics_B0::ShowPhysicsDebug_559430` (8): only the scheduling of `lea 0x818` (this for
+  field_650). No change from a `pFront` local or a `const Ang16&` param on ThetaText_49E240.
+- `CarPhysics_B0::ProcessPedImpact_560B40` (16): EH state around the `Negate_40ACB0` temporary
+  before `Divide_442CB0`. A visible inline body called out of line keeps the state. 9.6f
+  0x40F640 is Fix16_Point negate and 0x4202E0 Fix16_Point divide by Fix16; inlines_96f maps
+  0x40F640 to 0x43D5D0, which is wrong (that is ApplyImpactDamage).
+- `Map_0x370::sub_4E6660` (4): `mov %edi,%ebx` (pPrev) before the `sub_4E65A0(x,y,&z,1,1)` call.
+  Written after the call, VC6 pushes ebx (constant 1) for the two 1s (48). The a5/a6 types
+  (s32/u8/bool/u32) and a block-local pOld don't change it.
+
+- `Map_0x370::RectHitsDiagonalWall_4E11E0` (22): `return 1` gets its own EH epilogue copy. A
+  `goto` to a single `return result` gets one too.
+- `Map_0x370::sub_4E6190` (60): the original cross-jumps case 3/4's inner switch tails into
+  case 1/2; ours does the reverse. Inner case order has no effect, and outer orders only move
+  the layout (4321: 76, 3412: 68, 2143: 62).
+- `ProjectVert_4EB940` (22): `Camera::field_70/74` as u32 had no effect.
+- `sound_obj::ProcessType7_Weapon_42A500` (32): the add order of `rate + rate_adjust + random`.
+  No change from regrouping, `+=`, u32/s16 types, a random local, or a dead store (the trick
+  that matched 423080).
+- `sound_obj::HandleCarTireScrubSound_418720` (4): the original sign-extends the divisor first,
+  then reads the dividend through the call's returned pointer. A const ref plus an `__int64`
+  divisor first gets the order right but reads from the stack slot (8).
+- `sound_obj::ProcessPoliceRadioWordsPlayback_427220` (4): `cmp $0xF,%al` lands after the
+  volatile load whatever the local's type or placement. Non-volatile locals lose the store (40).
+- `sound_obj::TrainCab_414710` (6): storing in both branches fixes the epilogue jumps, but VC6
+  merges the stores and drops the else's `field_13C = 0` (10).
+- `Car_BC::HandleRoofTurretRotation_440D90` (6): 9.6f 0x423720 uses IsFireTruck/IsTank/IsGunJeep
+  and `Ang16&`-returning `compound_add_41FA70`/`compound_subtract_41FA90`. The target layout
+  implies an if/else join with a shared `field_B8 = 1; return 1`, but every join form keeps the
+  angle in `%di` (106).
+- `Car_BC::GetRadioTowerAngle_442520` (12): the EH state around the out-of-line
+  `Fix16_Point::operator-` (0x40AC80) for the `get_x_y_443580` temporary. Untested idea:
+  `get_x_y_443580` returns a POD in the original (about 60 callers).
+
+- `Weapon_30::smg_5DDD20` (14): the original loads `y*sin` first in the x-line add. No change
+  from a `__forceinline` add helper or an s32 temp; swapped operands give 22.
+- `Weapon_30::fire_truck_gun_5E0E70` (10): one register left, the sprite pointer in eax (ours ecx).
+
+## Map_0x370::CanMoveOntoSlopeTile_4E0130 (WIP)
+
+Rewritten from the original asm: ratio 0.029 -> 0.509 (permuter score 1606 -> 528). The case layout
+matches now. One `switch (path_direction)`; `break` means blocked and lands on a shared
+`return true` after the switch (a `return true` in a then-block gets its own epilogue copy; one
+reached by a jump is shared, like the original's `je 992`). Up/down dispatch with
+`if (dir != NORTH) {...} else`, right/left with a `switch (dir)` (cases EAST/WEST, then NORTH/SOUTH,
+default). `pSlope`/`pBaseSlope` start at 0 (the original's two zeroed slots). The below-block test is
+`dir > NO_GRADIENT_SLOPE_0` (`test; jbe`), not `>= NORTH_1`. 9.6f 0x4656D0 is the same function with
+no extra helper.
+
+Left:
+- y/z registers swapped (original: z in ebp, y in edi). Moving single uses between x, y and z flips
+  the allocation with no obvious rule.
+- After the first GetEffectiveBlock call the original uses the block from eax; ours reloads it.
+- Up case: the below-block check should jump into the down case's identical code (`jmp 47B`).
+- Right case, east climb wall check: should jump to the shared `return true`; ours gets an
+  epilogue (no `break` possible inside the inner switch).
+
+Renames: `field_36E` -> `field_36E_bBlockedByTerrain` (no usable ground ahead, as opposed to a wall),
+`field_36F` -> `field_36F_bLowerBlockHasArrows`, params `bByRefUnk` -> `pSlopeZDelta` (1 stepping up,
+0xFF stepping down onto a slope) and `bNotifyByRefRet` -> `bReportStepUp`.

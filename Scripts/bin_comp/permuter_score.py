@@ -27,7 +27,7 @@ import post_process_asm  # noqa: E402
 
 IMAGE_REL_I386_DIR32 = 0x06
 IMAGE_REL_I386_REL32 = 0x14
-FAKE_BASE = 0x10000000
+FAKE_BASE = 0x7E000000  # not a power of two, so a bit mask immediate (1 << 28) is never taken for a symbol
 
 
 class Coff:

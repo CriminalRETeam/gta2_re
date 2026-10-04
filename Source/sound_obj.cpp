@@ -91,7 +91,10 @@ static inline s32 Clamp2(s32 v, s32 center, s32 radius)
     return v > center ? Min(v, center + radius) : Max(v, center - radius);
 }
 
-MATCH_FUNC(0x419CD0)
+// Was marked as a match, but 0x419CD0 wasn't in og_function_data_v105.csv, so it was never
+// verified. The original loads ecx (mov %esi,%ecx) for GenerateIntegerRandomNumberTable_41BA90
+// before the four field_1450..field_1470 stores, ours after them.
+WIP_FUNC(0x419CD0)
 sound_obj::sound_obj()
 {
     field_1474_rotation = 0;
@@ -2153,8 +2156,8 @@ void sound_obj::ProcessType7_Weapon_42A500(s32 idx)
                         this->field_30_sQueueSample.field_54_sound_intensity = Fix16(20) / Fix16(2);
                         this->field_30_sQueueSample.field_64_max_distance = 20;
                         rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(samp_idx);
-                        this->field_30_sQueueSample.field_20_rate = rate + rate_adjust + RandomDisplacement_41A650(this->field_30_sQueueSample.field_14_samp_idx);
                         this->field_30_sQueueSample.field_58_type = 20;
+                        this->field_30_sQueueSample.field_20_rate = rate + rate_adjust + RandomDisplacement_41A650(this->field_30_sQueueSample.field_14_samp_idx);
                         this->field_30_sQueueSample.field_3C_speed_multiplier = 0;
                         this->field_30_sQueueSample.field_4_SampleIndex = 0;
                         this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 4;
@@ -4480,10 +4483,9 @@ DEFINE_GLOBAL(u8, byte_67554C, 0x67554C);
 EXPORT bool Cooldown_4236C0();
 
 // Plays what a ped says for the voice event in Ped::field_250 (shouts, screams, ...)
-WIP_FUNC(0x423080)
+MATCH_FUNC(0x423080)
 void sound_obj::HandlePedVoiceEvent_423080(Sound_Params_8* a2)
 {
-    WIP_IMPLEMENTED;
     Char_B4* pB4 = a2->field_0_pObj->field_8_char_b4_ptr;
     Ped* pPed = pB4->field_7C_pPed;
     s32 voice = pPed->TakeF250_41B0B0();
@@ -4700,6 +4702,10 @@ void sound_obj::HandlePedVoiceEvent_423080(Sound_Params_8* a2)
             field_30_sQueueSample.field_64_max_distance = 18;
             s32 rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(samp);
             rate += RandomDisplacement_41A650(field_30_sQueueSample.field_14_samp_idx);
+            // The repeated type store is dropped as dead, but it makes VC6 keep the sum in
+            // edi (add %eax,%edi) and free eax for the zero stores, as in the original.
+            // Any dead store to the sample here does the same.
+            field_30_sQueueSample.field_58_type = 20;
             field_30_sQueueSample.field_20_rate = rate;
             field_30_sQueueSample.field_58_type = 20;
             field_30_sQueueSample.field_3C_speed_multiplier = 0;
@@ -7338,10 +7344,9 @@ DEFINE_GLOBAL(u16, gCarRadioStaticTimer_6FF542, 0x6FF542);
 DEFINE_GLOBAL_INIT(s32, gCarRadioStaticRate_625010, 11025, 0x625010);
 DEFINE_GLOBAL_INIT(s32, gCarRadioTuneRate_625014, 11025, 0x625014);
 
-WIP_FUNC(0x57E220)
+MATCH_FUNC(0x57E220)
 void sound_obj::UpdateCarEngineAudio_57E220()
 {
-    WIP_IMPLEMENTED;
     Car_BC* pCar = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
     u32 rate;
     if (!pCar)
@@ -7430,9 +7435,7 @@ void sound_obj::UpdateCarEngineAudio_57E220()
             field_30_sQueueSample.field_34_loop_start = 0;
             field_30_sQueueSample.field_38_loop_end = -1;
             field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 0;
-            // mValue: Fix16::operator= here would stop the `mov ecx, esi` for the call
-            // below from being scheduled before these stores.
-            field_30_sQueueSample.field_28_distance.mValue = 0;
+            field_30_sQueueSample.field_28_distance = Fix16(0);
             field_30_sQueueSample.field_40_pan = 64;
             field_30_sQueueSample.field_41 = 0;
             field_30_sQueueSample.field_30_loop_count = 0;
@@ -7457,22 +7460,17 @@ void sound_obj::UpdateCarEngineAudio_57E220()
                 gCarRadioTuneRate_625014 = tune_rate;
 
                 u32 rnd = field_1454_anRandomTable[1] % 140;
-                // Fix16::operator= on a member acts as a scheduling barrier (the first
-                // sample above writes mValue directly for that reason). Without a
-                // barrier here VC6 hoists the stores above the div and shares the 20
-                // (type) constant with the first sample in ebp. With it, the only
-                // difference left is the 0x81020409 load, which the original schedules
-                // right after the div, above these stores. A plain Fix16 ctor, a Fix16
-                // local or a static inline helper around the % 140 are not barriers.
+                // Same store order as 9.6f (0x4B1E40): rate, volume, then the distance
+                // through the Fix16(s32) ctor, pan and type.
                 field_30_sQueueSample.field_4_SampleIndex = 1;
                 field_30_sQueueSample.field_14_samp_idx = 138;
                 field_30_sQueueSample.field_18_bIs2D = 1;
-                field_30_sQueueSample.field_28_distance = 0;
-                field_30_sQueueSample.field_40_pan = 64;
-                field_30_sQueueSample.field_58_type = 20;
                 field_30_sQueueSample.field_20_rate = tune_rate + rnd;
                 field_30_sQueueSample.field_24_nVolume =
                     (u8)((u8)((static_volume * field_25_cdVol) / 254) + (u8)(field_1454_anRandomTable[2] % 3)) >> 2;
+                field_30_sQueueSample.field_28_distance = Fix16(0);
+                field_30_sQueueSample.field_40_pan = 64;
+                field_30_sQueueSample.field_58_type = 20;
                 AddSampleToRequestedQueue_41A850();
             }
         }
@@ -7584,34 +7582,33 @@ void sound_obj::UpdateVocalStream_57E510()
     }
 }
 
-WIP_FUNC(0x57E960)
+MATCH_FUNC(0x57E960)
 void sound_obj::InitMusicAndCopRadio_57E960()
 {
-    WIP_IMPLEMENTED;
     if (!gSoundVocalsInited_6FF538)
     {
         gSoundSwitchRadioCoolDown_6FF539 = 0;
         gSoundVocalsInited_6FF538 = true;
-        for (s32 i = 0; i < 5; i++)
+        for (u8 i = 1; i <= 5; i++)
         {
-            field_544C[i].field_0 = 0;
-            field_544C[i].field_8.field_8_sound_entry = 0;
-            //field_544C[i].field_8.field_C_pAny = 0;
-            //...
-            //...
+            RadioEmitter(i).field_0_bUsed = 0;
+            RadioEmitter(i).field_10 = 0;
+            RadioEmitter(i).field_12 = 0;
+            RadioEmitter(i).field_14 = 0;
+            RadioEmitter(i).field_18 = 0;
         }
-        gSound_obj_66F680.field_54F2[2] = 0;
-        gSound_obj_66F680.field_54F7[1] = 1;
-        gSound_obj_66F680.field_54F7[0] = 1;
-        gSound_obj_66F680.field_5504_radio_station_change_mode = 0;
-        gSound_obj_66F680.field_551C = 0;
-        gSound_obj_66F680.DeclareRadioStation_57ECB0(1, 0, 0);
-        if (gSound_obj_66F680.field_5508_radio_entity_idx == 0)
+        field_54F2[2] = 0;
+        field_54F7[1] = 1;
+        field_54F7[0] = 1;
+        field_5504_radio_station_change_mode = 0;
+        field_551C = 0;
+        DeclareRadioStation_57ECB0(1, Fix16(0, 0), Fix16(0, 0));
+        if (field_5508_radio_entity_idx == 0)
         {
-            gSound_obj_66F680.field_550C_radio_entity.field_C_pAny.pAny = NULL;
-            gSound_obj_66F680.field_550C_radio_entity.field_0_object_type = SoundObjectTypeEnum::Radio_3;
-            gSound_obj_66F680.field_550C_radio_entity.field_4_bStatus = false;
-            gSound_obj_66F680.field_5508_radio_entity_idx = gSound_obj_66F680.AddSoundObject_419FA0(&gSound_obj_66F680.field_550C_radio_entity);
+            field_550C_radio_entity.field_C_pAny.pAny = NULL;
+            field_550C_radio_entity.field_0_object_type = SoundObjectTypeEnum::Radio_3;
+            field_550C_radio_entity.field_4_bStatus = false;
+            field_5508_radio_entity_idx = AddSoundObject_419FA0(&field_550C_radio_entity);
         }
     }
 }

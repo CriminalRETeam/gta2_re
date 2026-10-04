@@ -3172,20 +3172,19 @@ void Object_2C::Sprite_UpdateZFromSlopeAndTile_522FA0(Sprite* pSprite)
     pSprite->set_z_lazy_420660(z_val);
 }
 
-WIP_FUNC(0x525100)
+MATCH_FUNC(0x525100)
 void Object_2C::sub_525100()
 {
-    WIP_IMPLEMENTED;
-
-    if (field_8->field_34_behavior_type <= 1u)
+    const s32 behavior = field_8->field_34_behavior_type;
+    if (behavior >= 0 && behavior <= 1)
     {
-        if (get_model_40FEF0() == 148)
+        if (field_18_model != objects::small_brown_skid_148)
         {
-            SetSpriteIdOffset_5290C0(1u);
+            RequestRemoval_5290A0();
         }
         else
         {
-            RequestRemoval_5290A0();
+            SetSpriteIdOffset_5290C0(1u);
         }
     }
 }

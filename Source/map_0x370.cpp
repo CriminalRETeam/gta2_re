@@ -25,6 +25,10 @@ DEFINE_GLOBAL(gmp_block_info*, gBlockInfo0_6F5EB0, 0x6F5EB0);
 DEFINE_GLOBAL(gmp_block_info, gBlockInfo1_6F5F40, 0x6F5F40);
 DEFINE_GLOBAL(gmp_block_info, gBlockInfo2_6F6028, 0x6F6028);
 DEFINE_GLOBAL_ARRAY(gmp_map_slope, gGmpSlopes_6F5BA8, 64, 0x6F5BA8);
+// Used by MapRenderer.cpp. Defined here, not there: with the definition in MapRenderer.cpp VC6 loads
+// them 32-bit where the original has a 16-bit mov (MapRenderer::DrawPartialBlockTop_4F5560 etc.).
+DEFINE_GLOBAL(u16, gBlockLeft_6F62F6, 0x6F62F6);
+DEFINE_GLOBAL(u16, gBlockRight_6F63C6, 0x6F63C6);
 DEFINE_GLOBAL(gmp_map_slope*, dword_6F5EC8, 0x6F5EC8);
 // Defined in sprite.cpp: with the definition in this TU VC6 reads the s16 mask with a 32-bit mov
 // (it knows the padding is safe to read), while the original's `mov 0x6F6002,%cx; test %cx,face`
@@ -929,8 +933,8 @@ MATCH_FUNC(0x4E0110)
 char_type Map_0x370::sub_4E0110()
 {
     char result;
-    result = field_36E;
-    field_36E = 0;
+    result = field_36E_bBlockedByTerrain;
+    field_36E_bBlockedByTerrain = 0;
     return result;
 }
 
@@ -938,267 +942,677 @@ MATCH_FUNC(0x4E0120)
 char_type Map_0x370::sub_4E0120()
 {
     char result;
-    result = this->field_36F;
-    this->field_36F = 0;
+    result = this->field_36F_bLowerBlockHasArrows;
+    this->field_36F_bLowerBlockHasArrows = 0;
     return result;
 }
 
 // https://decomp.me/scratch/RMgzo
+// Returns true when moving from block (x, y, z) one step in path_direction is blocked, false when the move is allowed.
+// 0x400 in a block face word is the wall bit.
+// field_36E_bBlockedByTerrain is set when the move fails because there is no usable ground ahead (a missing block,
+// a slope that doesn't join up, a drop), rather than because of a wall. If the block below the target is an air
+// block with arrows, the drop is allowed and field_36F_bLowerBlockHasArrows is set.
+// *pSlopeZDelta gets 1 when the move steps up onto the next z level (only written if bReportStepUp) and
+// 0xFF (-1) when it steps down onto a slope one level below.
+// Inside the switch a `break` means "blocked": it leaves the switch for the final `return true`.
+// (Matching needs these as breaks: a then-branch `return true` gets its own inline epilogue.)
 WIP_FUNC(0x4E0130)
-bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direction, u8* bByRefUnk, char_type bNotifyByRefRet)
+bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direction, u8* pSlopeZDelta, char_type bReportStepUp)
 {
     WIP_IMPLEMENTED;
-    gmp_map_slope* pCurrent_XYZ_Slope;
-    gmp_block_info* pEffectiveBlock;
-    u8 slope_byte;
-    field_36E = 0;
-    gmp_block_info* pCurrBlock = Map_0x370::GetEffectiveBlock_4DFE60(x, y, z);
-    if (pCurrBlock)
+
+    gmp_block_info* pBlock;
+    gmp_map_slope* pSlope = 0;
+    gmp_map_slope* pBaseSlope = 0;
+    gmp_block_info* pNext;
+    gmp_block_info* pBelow;
+    gmp_map_slope* pNextSlope;
+
+    field_36E_bBlockedByTerrain = 0;
+
+    pBlock = GetEffectiveBlock_4DFE60(x, y, z);
+    if (pBlock)
     {
-        pCurrent_XYZ_Slope = get_slope_struct(pCurrBlock->field_B_slope_type);
+        pBaseSlope = get_slope_struct(pBlock->field_B_slope_type);
     }
     else if (z > 0)
     {
-        gmp_block_info* pBelowCurrBlock = Map_0x370::GetEffectiveBlock_4DFE60(x, y, z - 1);
-        if (pBelowCurrBlock)
+        gmp_block_info* pBlockBelow = GetEffectiveBlock_4DFE60(x, y, z - 1);
+        if (pBlockBelow)
         {
-            pCurrent_XYZ_Slope = get_slope_struct(pBelowCurrBlock->field_B_slope_type);
+            pBaseSlope = get_slope_struct(pBlockBelow->field_B_slope_type);
         }
     }
+
     switch (path_direction)
     {
         case path_direction::up_1:
-
-            if (pCurrBlock)
+            if (pBlock)
             {
-                if (y != 0)
+                if (y == 0)
                 {
-                    pCurrent_XYZ_Slope = get_slope_struct(pCurrBlock->field_B_slope_type);
-                    if (pCurrent_XYZ_Slope)
+                    break;
+                }
+
+                pSlope = get_slope_struct(pBlock->field_B_slope_type);
+                if (pSlope)
+                {
+                    if (pSlope->field_0_gradient_direction != NORTH_1)
                     {
-                        if (pCurrent_XYZ_Slope->field_0_gradient_direction != NORTH_1)
+                        if (pSlope->field_0_gradient_direction > SOUTH_2 && pSlope->field_0_gradient_direction <= EAST_4)
                         {
-                            if (pCurrent_XYZ_Slope->field_0_gradient_direction > SOUTH_2 &&
-                                pCurrent_XYZ_Slope->field_0_gradient_direction <= EAST_4)
+                            if (y <= 0)
                             {
-                                // Current block is a Gradient to the left or right
-                                if (y > 0)
+                                field_36E_bBlockedByTerrain = 1;
+                                break;
+                            }
+                            pNext = GetEffectiveBlock_4DFE60(x, y - 1, z);
+                            if (!pNext)
+                            {
+                                field_36E_bBlockedByTerrain = 1;
+                                break;
+                            }
+                            if (is_gradient_slope(pNext->field_B_slope_type) && !is_air_type(pNext->field_B_slope_type))
+                            {
+                                pNextSlope = get_slope_struct(pNext->field_B_slope_type);
+                                if (pNextSlope->field_2_gradient_level != pSlope->field_2_gradient_level &&
+                                    pSlope->field_0_gradient_direction != pNextSlope->field_0_gradient_direction)
                                 {
-                                    // now check effective block at north
-                                    pEffectiveBlock = Map_0x370::GetEffectiveBlock_4DFE60(x, y - 1, z);
-                                    if (pEffectiveBlock)
-                                    {
-                                        slope_byte = pEffectiveBlock->field_B_slope_type;
-                                        if (is_gradient_slope(slope_byte) && !is_air_type(slope_byte))
-                                        {
-                                            gmp_map_slope* north_block_slope = get_slope_struct(slope_byte);
-
-                                            if (north_block_slope->field_2_gradient_level != pCurrent_XYZ_Slope->field_2_gradient_level &&
-                                                pCurrent_XYZ_Slope->field_0_gradient_direction !=
-                                                    north_block_slope->field_0_gradient_direction)
-                                            {
-                                                field_36E = 1;
-                                                return true; // slope gradient at north doesnt match with current block slope -> cannot move
-                                            }
-                                        }
-
-                                        if ((pCurrBlock->field_4_top & 0x400) != 0)
-                                        {
-                                            return true; // current block has a wall on top side, cannot move
-                                        }
-                                    }
-                                    else
-                                    {
-                                        // fall or no ground ?
-                                        field_36E = 1;
-                                        return true; // cannot move
-                                    }
-                                }
-                                else
-                                {
-                                    //y is not greater than 0
-                                    field_36E = 1;
-                                    return 1; // cannot move
+                                    field_36E_bBlockedByTerrain = 1;
+                                    return true;
                                 }
                             }
                         }
-                        else
+                        else if (pBlock->field_4_top & 0x400)
                         {
-                            // the current block gradient direction is North
-                            if (pCurrent_XYZ_Slope->field_2_gradient_level != 0)
-                            {
-                                // it is not the highest slope, prob another higher slope ahead or flat block
-                                // LABEL_30
-
-                                if ((pCurrBlock->field_4_top & 0x400) != 0)
-                                {
-                                    return true; // current block has a wall on top side, cannot move
-                                }
-                                // collapse
-                            }
-                            else
-                            {
-                                // it is the highest slope: it's expected a flat block (in z+1) or another North gradient ahead
-                                gmp_block_info* pNorthUpperBlock = Map_0x370::GetEffectiveBlock_4DFE60(x, y - 1, z + 1);
-                                if (pNorthUpperBlock && (pNorthUpperBlock->field_6_bottom & 0x400) != 0)
-                                {
-                                    return true; // a wall ahead, cannot walk
-                                }
-                                if (Map_0x370::GetEffectiveBlock_4DFE60(x, y - 1, z + 1))
-                                {
-                                    if (bNotifyByRefRet)
-                                    {
-                                        *bByRefUnk = true;
-                                    }
-                                    return false; // can walk
-                                }
-                                gmp_block_info* pBlockU = Map_0x370::GetEffectiveBlock_4DFE60(x, y - 1, z);
-                                if (!pBlockU)
-                                {
-                                    field_36E = 1;
-                                    return true;
-                                }
-                                else if (!is_air_type(pBlockU->field_B_slope_type)) //((v19->field_B_slope_type & 3) != 0)
-                                {
-                                    if (bNotifyByRefRet)
-                                    {
-                                        *bByRefUnk = true;
-                                    }
-                                    return false; // can walk
-                                }
-                                else
-                                {
-                                    this->field_36E = 1;
-                                    return true;
-                                }
-                            }
+                            return true;
                         }
                     }
+                    else if (pSlope->field_2_gradient_level == 0)
+                    {
+                        pNext = GetEffectiveBlock_4DFE60(x, y - 1, z + 1);
+                        if (pNext && (pNext->field_6_bottom & 0x400))
+                        {
+                            break;
+                        }
+                        if (GetEffectiveBlock_4DFE60(x, y - 1, z + 1))
+                        {
+                            if (bReportStepUp)
+                            {
+                                *pSlopeZDelta = 1;
+                            }
+                            return false;
+                        }
+                        pNext = GetEffectiveBlock_4DFE60(x, y - 1, z);
+                        if (!pNext)
+                        {
+                            field_36E_bBlockedByTerrain = 1;
+                            break;
+                        }
+                        if (is_air_type(pNext->field_B_slope_type))
+                        {
+                            field_36E_bBlockedByTerrain = 1;
+                            return true;
+                        }
+                        if (bReportStepUp)
+                        {
+                            *pSlopeZDelta = 1;
+                        }
+                        return false;
+                    }
+
+                    if (pBlock->field_4_top & 0x400)
+                    {
+                        break;
+                    }
                 }
-                else
-                {
-                    return true; // cannot move in y == 0
-                }
-                // nothing here
             }
 
-            pEffectiveBlock = Map_0x370::GetEffectiveBlock_4DFE60(x, y - 1, z);
-            
-            if (pEffectiveBlock)
+            pNext = GetEffectiveBlock_4DFE60(x, y - 1, z);
+            if (pNext)
             {
-                // now check the north block bottom side
-                if ((pEffectiveBlock->field_6_bottom & 0x400) != 0)
+                if (pNext->field_6_bottom & 0x400)
                 {
-                    return true; // north block has a wall on bottom side, cannot move
+                    break;
                 }
-
-                slope_byte = pEffectiveBlock->field_B_slope_type;
-
-                if (is_gradient_slope(slope_byte) && !is_air_type(slope_byte))
+                if (is_gradient_slope(pNext->field_B_slope_type) && !is_air_type(pNext->field_B_slope_type))
                 {
-                    gmp_map_slope* north_block_slope = get_slope_struct(slope_byte);
-                    switch (north_block_slope->field_0_gradient_direction)
+                    pNextSlope = get_slope_struct(pNext->field_B_slope_type);
+                    switch (pNextSlope->field_0_gradient_direction)
                     {
                         case NORTH_1:
                         case SOUTH_2:
-                            return false; // can move
-
+                            return false;
                         case WEST_3:
                         case EAST_4:
-
-                            if (pCurrent_XYZ_Slope)
+                            if (pSlope)
                             {
-                                if (north_block_slope->field_2_gradient_level == pCurrent_XYZ_Slope->field_2_gradient_level ||
-                                    pCurrent_XYZ_Slope->field_0_gradient_direction == north_block_slope->field_0_gradient_direction)
+                                if (pNextSlope->field_2_gradient_level == pSlope->field_2_gradient_level ||
+                                    pSlope->field_0_gradient_direction == pNextSlope->field_0_gradient_direction)
                                 {
                                     return false;
                                 }
-                                else
-                                {
-                                    return true;
-                                }
+                                return true;
                             }
                             else
                             {
                                 return true;
                             }
                         default:
-                            return true; // no gradient or weird direction: cannot move
+                            return true;
                     }
                 }
             }
 
             if (z > 0)
             {
-                // now check the block below the north block
-                gmp_block_info* pNorthBelowBlock = Map_0x370::GetEffectiveBlock_4DFE60(x, y - 1, z - 1);
-                if (pNorthBelowBlock && !is_air_type(pNorthBelowBlock->field_B_slope_type))
+                pBelow = GetEffectiveBlock_4DFE60(x, y - 1, z - 1);
+                if (pBelow && !is_air_type(pBelow->field_B_slope_type))
                 {
-                    if (!is_gradient_slope(pNorthBelowBlock->field_B_slope_type))
+                    if (!is_gradient_slope(pBelow->field_B_slope_type))
                     {
-                        return false; // can move
+                        return false;
                     }
-                    else
+                    pNextSlope = get_slope_struct(pBelow->field_B_slope_type);
+                    if (pNextSlope->field_0_gradient_direction > NO_GRADIENT_SLOPE_0 && pNextSlope->field_0_gradient_direction <= SOUTH_2)
                     {
-                        // is a gradient slope. Verify if it's on the right direction
-                        gmp_map_slope* north_block_below_slope = get_slope_struct(pNorthBelowBlock->field_B_slope_type);
-                        if (north_block_below_slope &&
-                            north_block_below_slope->field_0_gradient_direction <= 2) // NO_GRADIENT_SLOPE_0, NORTH_1 or SOUTH_2
+                        *pSlopeZDelta = 0xFF;
+                        return false;
+                    }
+                    if (pBaseSlope && pBaseSlope->field_0_gradient_direction == pNextSlope->field_0_gradient_direction)
+                    {
+                        return false;
+                    }
+                    field_36E_bBlockedByTerrain = 1;
+                    break;
+                }
+            }
+            else
+            {
+                pBelow = 0;
+            }
+            field_36E_bBlockedByTerrain = 1;
+            if (pBelow && pBelow->field_A_arrows)
+            {
+                field_36F_bLowerBlockHasArrows = 1;
+                return false;
+            }
+            return true;
+
+        case path_direction::down_2:
+            if (pBlock)
+            {
+                if (y == 0xFF)
+                {
+                    break;
+                }
+
+                pSlope = get_slope_struct(pBlock->field_B_slope_type);
+                if (pSlope)
+                {
+                    if (pSlope->field_0_gradient_direction != SOUTH_2)
+                    {
+                        if (pSlope->field_0_gradient_direction > SOUTH_2 && pSlope->field_0_gradient_direction <= EAST_4)
                         {
-                            *bByRefUnk = -1;
-                            return false; // gradient is north or south: can walk upon
-                        }
-                        else
-                        {
-                            if (pCurrent_XYZ_Slope && north_block_below_slope
-                                && pCurrent_XYZ_Slope->field_0_gradient_direction == north_block_below_slope->field_0_gradient_direction)
+                            pNext = GetEffectiveBlock_4DFE60(x, y + 1, z);
+                            if (!pNext)
                             {
-                                return false; // slope matches the direction with the current one: can walk
+                                field_36E_bBlockedByTerrain = 1;
+                                break;
+                            }
+                            if (is_gradient_slope(pNext->field_B_slope_type) && !is_air_type(pNext->field_B_slope_type))
+                            {
+                                pNextSlope = get_slope_struct(pNext->field_B_slope_type);
+                                if (pNextSlope->field_2_gradient_level != pSlope->field_2_gradient_level &&
+                                    pSlope->field_0_gradient_direction != pNextSlope->field_0_gradient_direction)
+                                {
+                                    field_36E_bBlockedByTerrain = 1;
+                                    return true;
+                                }
+                            }
+                        }
+                        else if (pBlock->field_6_bottom & 0x400)
+                        {
+                            return true;
+                        }
+                    }
+                    else if (pSlope->field_2_gradient_level == 0)
+                    {
+                        pNext = GetEffectiveBlock_4DFE60(x, y + 1, z + 1);
+                        if (pNext && (pNext->field_4_top & 0x400))
+                        {
+                            break;
+                        }
+                        if (GetEffectiveBlock_4DFE60(x, y + 1, z + 1))
+                        {
+                            if (bReportStepUp)
+                            {
+                                *pSlopeZDelta = 1;
+                            }
+                            return false;
+                        }
+                        pNext = GetEffectiveBlock_4DFE60(x, y + 1, z);
+                        if (!pNext)
+                        {
+                            field_36E_bBlockedByTerrain = 1;
+                            break;
+                        }
+                        if (is_air_type(pNext->field_B_slope_type))
+                        {
+                            field_36E_bBlockedByTerrain = 1;
+                            break;
+                        }
+                        if (bReportStepUp)
+                        {
+                            *pSlopeZDelta = 1;
+                        }
+                        return false;
+                    }
+
+                    if (pBlock->field_6_bottom & 0x400)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            pNext = GetEffectiveBlock_4DFE60(x, y + 1, z);
+            if (pNext)
+            {
+                if (pNext->field_4_top & 0x400)
+                {
+                    break;
+                }
+                if (is_gradient_slope(pNext->field_B_slope_type) && !is_air_type(pNext->field_B_slope_type))
+                {
+                    pNextSlope = get_slope_struct(pNext->field_B_slope_type);
+                    switch (pNextSlope->field_0_gradient_direction)
+                    {
+                        case NORTH_1:
+                        case SOUTH_2:
+                            return false;
+                        case WEST_3:
+                        case EAST_4:
+                            if (pSlope)
+                            {
+                                if (pNextSlope->field_2_gradient_level == pSlope->field_2_gradient_level ||
+                                    pSlope->field_0_gradient_direction == pNextSlope->field_0_gradient_direction)
+                                {
+                                    return false;
+                                }
+                                return true;
                             }
                             else
                             {
-                                field_36E = 1;
-                                return true; // cannot walk: different directions
+                                return true;
                             }
-                        }
+                        default:
+                            return true;
                     }
-                }
-                else
-                {
-                    // there is no block below the one at north
-                    // not sure about this part
-                    field_36E = 1;
-                    if (pEffectiveBlock && pEffectiveBlock->field_A_arrows)
-                    {
-                        field_36F = 1;
-                        return false; // can walk
-                    }
-                    return true; // cannot walk
                 }
             }
+
+            if (z > 0)
+            {
+                pBelow = GetEffectiveBlock_4DFE60(x, y + 1, z - 1);
+                if (pBelow && !is_air_type(pBelow->field_B_slope_type))
+                {
+                    if (!is_gradient_slope(pBelow->field_B_slope_type))
+                    {
+                        return false;
+                    }
+                    pNextSlope = get_slope_struct(pBelow->field_B_slope_type);
+                    if (pNextSlope->field_0_gradient_direction > NO_GRADIENT_SLOPE_0 && pNextSlope->field_0_gradient_direction <= SOUTH_2)
+                    {
+                        *pSlopeZDelta = 0xFF;
+                        return false;
+                    }
+                    if (pBaseSlope && pBaseSlope->field_0_gradient_direction == pNextSlope->field_0_gradient_direction)
+                    {
+                        return false;
+                    }
+                    field_36E_bBlockedByTerrain = 1;
+                    break;
+                }
+            }
+            else
+            {
+                pBelow = 0;
+            }
+            field_36E_bBlockedByTerrain = 1;
+            if (pBelow && pBelow->field_A_arrows)
+            {
+                field_36F_bLowerBlockHasArrows = 1;
+                return false;
+            }
             return true;
-            break;
-
-        case path_direction::down_2:
-
-            return false;
-
-            break;
 
         case path_direction::right_3:
+            if (pBlock)
+            {
+                if (x == 0xFF)
+                {
+                    break;
+                }
 
-            return false;
+                pSlope = get_slope_struct(pBlock->field_B_slope_type);
+                if (pSlope)
+                {
+                    switch (pSlope->field_0_gradient_direction)
+                    {
+                        case EAST_4:
+                            if (pSlope->field_2_gradient_level == 0)
+                            {
+                                pNext = GetEffectiveBlock_4DFE60(x + 1, y, z + 1);
+                                if (pNext && (pNext->field_0_left & 0x400))
+                                {
+                                    return true;
+                                }
+                                if (GetEffectiveBlock_4DFE60(x + 1, y, z + 1))
+                                {
+                                    if (bReportStepUp)
+                                    {
+                                        *pSlopeZDelta = 1;
+                                    }
+                                    return false;
+                                }
+                                pNext = GetEffectiveBlock_4DFE60(x + 1, y, z);
+                                if (pNext)
+                                {
+                                    if (is_air_type(pNext->field_B_slope_type))
+                                    {
+                                        field_36E_bBlockedByTerrain = 1;
+                                        return true;
+                                    }
+                                    if (bReportStepUp)
+                                    {
+                                        *pSlopeZDelta = 1;
+                                    }
+                                    return false;
+                                }
+                                else
+                                {
+                                    field_36E_bBlockedByTerrain = 1;
+                                    return true;
+                                }
+                            }
+                            break;
+                        case NORTH_1:
+                        case SOUTH_2:
+                            pNext = GetEffectiveBlock_4DFE60(x + 1, y, z);
+                            if (pNext)
+                            {
+                                if (is_gradient_slope(pNext->field_B_slope_type) && !is_air_type(pNext->field_B_slope_type))
+                                {
+                                    pNextSlope = get_slope_struct(pNext->field_B_slope_type);
+                                    if (pNextSlope->field_2_gradient_level != pSlope->field_2_gradient_level &&
+                                        pSlope->field_0_gradient_direction != pNextSlope->field_0_gradient_direction)
+                                    {
+                                        field_36E_bBlockedByTerrain = 1;
+                                        return true;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                field_36E_bBlockedByTerrain = 1;
+                                return true;
+                            }
+                            break;
+                        default:
+                            if (!(pBlock->field_2_right & 0x400))
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                return true;
+                            }
+                    }
 
-            break;
+                    if (pBlock->field_2_right & 0x400)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            pNext = GetEffectiveBlock_4DFE60(x + 1, y, z);
+            if (pNext)
+            {
+                if (pNext->field_0_left & 0x400)
+                {
+                    break;
+                }
+                if (is_gradient_slope(pNext->field_B_slope_type) && !is_air_type(pNext->field_B_slope_type))
+                {
+                    pNextSlope = get_slope_struct(pNext->field_B_slope_type);
+                    switch (pNextSlope->field_0_gradient_direction)
+                    {
+                        case NORTH_1:
+                        case SOUTH_2:
+                            if (pSlope)
+                            {
+                                if (pNextSlope->field_2_gradient_level == pSlope->field_2_gradient_level ||
+                                    pSlope->field_0_gradient_direction == pNextSlope->field_0_gradient_direction)
+                                {
+                                    return false;
+                                }
+                                return true;
+                            }
+                            else
+                            {
+                                return true;
+                            }
+                        case WEST_3:
+                        case EAST_4:
+                            return false;
+                        default:
+                            return true;
+                    }
+                }
+            }
+
+            if (z > 0)
+            {
+                pBelow = GetEffectiveBlock_4DFE60(x + 1, y, z - 1);
+                if (pBelow && !is_air_type(pBelow->field_B_slope_type))
+                {
+                    if (!is_gradient_slope(pBelow->field_B_slope_type))
+                    {
+                        return false;
+                    }
+                    pNextSlope = get_slope_struct(pBelow->field_B_slope_type);
+                    if (pNextSlope->field_0_gradient_direction >= WEST_3 && pNextSlope->field_0_gradient_direction <= EAST_4)
+                    {
+                        *pSlopeZDelta = 0xFF;
+                        return false;
+                    }
+                    if (pBaseSlope && pBaseSlope->field_0_gradient_direction == pNextSlope->field_0_gradient_direction)
+                    {
+                        return false;
+                    }
+                    field_36E_bBlockedByTerrain = 1;
+                    break;
+                }
+            }
+            else
+            {
+                pBelow = 0;
+            }
+            field_36E_bBlockedByTerrain = 1;
+            if (pBelow && pBelow->field_A_arrows)
+            {
+                field_36F_bLowerBlockHasArrows = 1;
+                return false;
+            }
+            return true;
 
         case path_direction::left_4:
+            if (pBlock)
+            {
+                if (x == 0)
+                {
+                    return true;
+                }
 
-            return false;
+                pSlope = get_slope_struct(pBlock->field_B_slope_type);
+                if (pSlope)
+                {
+                    switch (pSlope->field_0_gradient_direction)
+                    {
+                        case WEST_3:
+                            if (pSlope->field_2_gradient_level == 0)
+                            {
+                                pNext = GetEffectiveBlock_4DFE60(x - 1, y, z + 1);
+                                if (pNext && (pNext->field_2_right & 0x400))
+                                {
+                                    return true;
+                                }
+                                if (GetEffectiveBlock_4DFE60(x - 1, y, z + 1))
+                                {
+                                    if (bReportStepUp)
+                                    {
+                                        *pSlopeZDelta = 1;
+                                    }
+                                    return false;
+                                }
+                                pNext = GetEffectiveBlock_4DFE60(x - 1, y, z);
+                                if (pNext)
+                                {
+                                    if (is_air_type(pNext->field_B_slope_type))
+                                    {
+                                        field_36E_bBlockedByTerrain = 1;
+                                        return true;
+                                    }
+                                    if (bReportStepUp)
+                                    {
+                                        *pSlopeZDelta = 1;
+                                    }
+                                    return false;
+                                }
+                                else
+                                {
+                                    field_36E_bBlockedByTerrain = 1;
+                                    return true;
+                                }
+                            }
+                            break;
+                        case NORTH_1:
+                        case SOUTH_2:
+                            pNext = GetEffectiveBlock_4DFE60(x - 1, y, z);
+                            if (pNext)
+                            {
+                                if (is_gradient_slope(pNext->field_B_slope_type) && !is_air_type(pNext->field_B_slope_type))
+                                {
+                                    pNextSlope = get_slope_struct(pNext->field_B_slope_type);
+                                    if (pNextSlope->field_2_gradient_level != pSlope->field_2_gradient_level &&
+                                        pSlope->field_0_gradient_direction != pNextSlope->field_0_gradient_direction)
+                                    {
+                                        field_36E_bBlockedByTerrain = 1;
+                                        return true;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                field_36E_bBlockedByTerrain = 1;
+                                return true;
+                            }
+                            break;
+                        default:
+                            if (pBlock->field_0_left & 0x400)
+                            {
+                                return true;
+                            }
+                            break;
+                    }
 
-            break;
+                    if (pBlock->field_0_left & 0x400)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            pNext = GetEffectiveBlock_4DFE60(x - 1, y, z);
+            if (pNext)
+            {
+                if (pNext->field_2_right & 0x400)
+                {
+                    return true;
+                }
+                if (is_gradient_slope(pNext->field_B_slope_type) && !is_air_type(pNext->field_B_slope_type))
+                {
+                    pNextSlope = get_slope_struct(pNext->field_B_slope_type);
+                    switch (pNextSlope->field_0_gradient_direction)
+                    {
+                        case NORTH_1:
+                        case SOUTH_2:
+                            if (pSlope)
+                            {
+                                if (pNextSlope->field_2_gradient_level == pSlope->field_2_gradient_level ||
+                                    pSlope->field_0_gradient_direction == pNextSlope->field_0_gradient_direction)
+                                {
+                                    return false;
+                                }
+                                return true;
+                            }
+                            else
+                            {
+                                return true;
+                            }
+                        case WEST_3:
+                        case EAST_4:
+                            return false;
+                        default:
+                            return true;
+                    }
+                }
+            }
+
+            if (z > 0)
+            {
+                pBelow = GetEffectiveBlock_4DFE60(x - 1, y, z - 1);
+                if (pBelow && !is_air_type(pBelow->field_B_slope_type))
+                {
+                    if (!is_gradient_slope(pBelow->field_B_slope_type))
+                    {
+                        return false;
+                    }
+                    pNextSlope = get_slope_struct(pBelow->field_B_slope_type);
+                    if (pNextSlope->field_0_gradient_direction >= WEST_3 && pNextSlope->field_0_gradient_direction <= EAST_4)
+                    {
+                        field_36E_bBlockedByTerrain = 1;
+                        *pSlopeZDelta = 0xFF;
+                        return false;
+                    }
+                    if (pBaseSlope && pBaseSlope->field_0_gradient_direction == pNextSlope->field_0_gradient_direction)
+                    {
+                        return false;
+                    }
+                    field_36E_bBlockedByTerrain = 1;
+                    break;
+                }
+            }
+            else
+            {
+                pBelow = 0;
+            }
+            field_36E_bBlockedByTerrain = 1;
+            if (pBelow && pBelow->field_A_arrows)
+            {
+                field_36F_bLowerBlockHasArrows = 1;
+                return false;
+            }
+            return true;
+
         default:
             return false;
     }
+
+    return true;
 }
 
 // 9.6f 0x463690: does the segment p1-p2 cross any edge of the rect
@@ -4326,11 +4740,9 @@ void Map_0x370::LowerLevel_4E8B70(s32 x_min, s32 x_max, s32 y_min, s32 y_max)
     }
 }
 
-WIP_FUNC(0x4E8C00)
+MATCH_FUNC(0x4E8C00)
 void Map_0x370::OnModifiedMapDataLoaded_4E8C00(u32 a2, u32 a3, u32 a4)
 {
-    WIP_IMPLEMENTED;
-
     this->field_360_column_words = (a2 >> 2) + this->field_0_pDmap->field_40000_column_words;
     this->field_354_num_blocks = a3 / 0xC + field_0_pDmap->field_40004_num_blocks;
     this->field_4_obj.field_320_max_idx = a4 >> 3;
@@ -4363,12 +4775,13 @@ void Map_0x370::GetModifiedMapData_4E8CF0(u16*** outColumnPtr,
 }
 
 // https://decomp.me/scratch/eGx1i
-WIP_FUNC(0x4E8E30)
+MATCH_FUNC(0x4E8E30)
 void Map_0x370::do_process_loaded_zone_data_4E8E30()
 {
-    WIP_IMPLEMENTED;
     u16 v16 = 0;
-    u16 zonesSize = field_328_pZoneData ? field_32C_pZones->field_0_num_zones : 0;
+    // The original reads the zone count before the null test.
+    u16 num_zones = field_32C_pZones->field_0_num_zones;
+    u16 zonesSize = field_328_pZoneData ? num_zones : 0;
     if (zonesSize)
     {
         field_330_pZoneArray = (u8*)Memory::malloc_4FE4D0(zonesSize);
@@ -4676,8 +5089,8 @@ Map_0x370::Map_0x370()
     field_366 = 0;
     field_369 = 0xff; // dl
     field_36D = 0;
-    field_36E = 0;
-    field_36F = 0;
+    field_36E_bBlockedByTerrain = 0;
+    field_36F_bLowerBlockHasArrows = 0;
 
     gBlockInfo1_6F5F40.init_44C840();
 

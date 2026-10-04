@@ -68,15 +68,15 @@ class MapRenderer
     void DrawDiagonalWallUpRight_4EE8A0();
     void DrawDiagonalWallDownLeft_4EE970();
     void DrawDiagonalWallDownRight_4EEA40();
-    void DrawPartialBlockLeft();
-    void DrawPartialBlockRight();
-    void DrawPartialBlockTop();
-    void DrawPartialBlockBottom();
-    void DrawPartialBlockTopLeftCorner();
-    void DrawPartialBlockTopRightCorner();
-    void DrawPartialBlockBottomRightCorner();
-    void DrawPartialBlockBottomLeftCorner();
-    void DrawPartialCentreBlock();
+    EXPORT void DrawPartialBlockLeft_4F5160();
+    EXPORT void DrawPartialBlockRight_4F5360();
+    EXPORT void DrawPartialBlockTop_4F5560();
+    EXPORT void DrawPartialBlockBottom_4F5760();
+    EXPORT void DrawPartialBlockTopLeftCorner_4F5960();
+    EXPORT void DrawPartialBlockTopRightCorner_4F5B70();
+    EXPORT void DrawPartialBlockBottomRightCorner_4F5D80();
+    EXPORT void DrawPartialBlockBottomLeftCorner_4F5FD0();
+    EXPORT void DrawPartialCentreBlock_4F6350();
 
     EXPORT void Draw3SidedDiagonalUpLeft_4EEAF0();
     EXPORT void Draw3SidedDiagonalUpRight_4EEE60();

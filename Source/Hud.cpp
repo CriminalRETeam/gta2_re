@@ -3147,8 +3147,8 @@ void Hud_2B00::DrawGui_5D6860()
     }
 }
 
-// 0x5D6300: not in og_function_data_v105.csv (no marker); only reached through the
-// UpdatePauseSection_5D69C0 thunk below.
+// Not in IDA's function list: only reached through the UpdatePauseSection_5D69C0 thunk below.
+MATCH_FUNC(0x5D6300)
 void Garox_12E4_sub::UpdatePauseSection_5D6300()
 {
     if (!gLucid_hamilton_67E8E0.IsBonusStage_4C59A0())

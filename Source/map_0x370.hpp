@@ -402,7 +402,7 @@ class Map_0x370
     EXPORT s32 GetBlockSpec_4E00A0(Fix16 x, Fix16 y, Fix16 z);
     EXPORT char_type sub_4E0110();
     EXPORT char_type sub_4E0120();
-    EXPORT bool CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direction, u8* bByRefUnk, char_type bNotifyByRefRet);
+    EXPORT bool CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direction, u8* pSlopeZDelta, char_type bReportStepUp);
     EXPORT char_type RectHitsDiagonalWall_4E11E0(Fix16_Rect* a2);
     EXPORT bool SpriteHitsDiagonalWall_4E1520(s32 z_pos);
     EXPORT bool HasWallInArea_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z);
@@ -676,7 +676,7 @@ class Map_0x370
 
     inline void Clear_F36E_492130()
     {
-        field_36E = 0;
+        field_36E_bBlockedByTerrain = 0;
     }
 
     bool IsNorthOrSouthGradSlope_4634B0(gmp_block_info* pBlock) 
@@ -766,10 +766,10 @@ class Map_0x370
     s32 field_348_num_lights;
     s32 field_34C_num_blocks;
     s32 field_350_num_blocks_extra;
-    s32 field_354_num_blocks;
+    u32 field_354_num_blocks; // u32: OnModifiedMapDataLoaded_4E8C00 matches only with these two unsigned
     s32 field_358_column_words;
     s32 field_35C_column_word_extra;
-    s32 field_360_column_words;
+    u32 field_360_column_words;
     u16 field_364_cur_zone_idx;
     s16 field_366;
     u8 field_368_zone_type;
@@ -778,8 +778,8 @@ class Map_0x370
     u8 field_36B_zone_y;
     char_type field_36C_bMatchPos;
     char_type field_36D;
-    char_type field_36E;
-    char_type field_36F;
+    char_type field_36E_bBlockedByTerrain;
+    char_type field_36F_bLowerBlockHasArrows;
 };
 
 EXTERN_GLOBAL(Map_0x370*, gMap_0x370_6F6268);

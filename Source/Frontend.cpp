@@ -2965,10 +2965,15 @@ void Frontend::DrawLoading_4AD0D0()
 MATCH_FUNC(0x4ADDE0)
 void Frontend::DrawDeletePlayerDialog_4ADDE0()
 {
-    if (field_EE0C_dialog_type == 1)
+    // A one-case switch: the original zero-extends the type and tests it with `dec`.
+    switch (field_EE0C_dialog_type)
     {
-        u16 ypos = gText_0x14_704DFC->field_10_lang_code != 'j' ? 12 : 16;
-        DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("clrchar"), (u16)275, ypos, field_126, 1);
+        case 1:
+        {
+            u16 ypos = gText_0x14_704DFC->field_10_lang_code != 'j' ? 12 : 16;
+            DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("clrchar"), (u16)275, ypos, field_126, 1);
+            break;
+        }
     }
 
     if (field_EE0A_dialog_cursor_ypos == 190)
@@ -4704,10 +4709,10 @@ void Frontend::DrawLastAndBestStats_4B57B0(u16 a3, u16 a5)
 }
 
 MATCH_FUNC(0x4B0190)
-u16 Frontend::GetCenteredXPos_4B0190(wchar_t* pText, s16 fontType, s32 width)
+u16 Frontend::GetCenteredXPos_4B0190(wchar_t* pText, u16 fontType, s32 width)
 {
     u16 v4;
-    if (fontType != -1)
+    if (fontType != 0xFFFF)
     {
         v4 = ((u16)GetMaxTextWidth_5D8990(pText, fontType)) / 2;
     }

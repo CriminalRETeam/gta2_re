@@ -8,6 +8,11 @@ Add to this file when you find something new. Keep entries short and point at a 
 
 ## Before you start: things that hide or fake a match
 
+**A marker at an address that isn't in `og_function_data_v105.csv` is never verified.** Three
+`MATCH_FUNC`s at unlisted addresses (0x419CD0, 0x4AD0D0, 0x4ADDE0) turned out not to match. Add
+the address to the csv (size from the target asm dump: `dump_target_asm.py` dumps the bytes of
+marked unlisted addresses into `target_extra.json`) before trusting the marker.
+
 **`WIP_IMPLEMENTED` and `NOT_IMPLEMENTED` add code.** The macros inject a static flag and a
 logging `call` into the function body, so a function containing one can never match. Remove
 the line (or compile it out locally) before comparing. Several WIP functions were already
@@ -265,6 +270,10 @@ that file it emits the original's code, so move the definition to another .cpp t
 (`kAng180_6FD3EE` moved from `Wolfy_3D4.cpp` to `Particle_4C.cpp`: `Wolfy_30::state_3_12_540D30`
 181 -> 32 lines). It can go the other way too (`gFaceCollisionMask_6F6002` and `kAng180_676772`
 had to move *into* `sprite.cpp`), so compare the load width in the target first.
+The move can also fix the order in which globals are reloaded after a call, not only the load
+width: moving `gBlockLeft_6F62F6`/`gBlockRight_6F63C6` to `map_0x370.cpp` matched all nine
+`MapRenderer::DrawPartialBlock*` functions. Try each global separately: there, moving
+`gBlockTop` changed nothing and moving `gBlockBottom` made it worse.
 
 **A flag returned with no `setne` is `char_type`, not `bool`.** If the original returns a
 `char` local as is, a `bool` return makes VC6 normalise it (`Ped::HandlePickupCollision_45DE80`).
@@ -334,6 +343,55 @@ indexed addressing, and hand-written pointers merge into one pointer and a diffe
 `lea (%ecx,%eax)`, with no other difference, can come from a local copy of `*p`
 (`Fix16 t = *pTarget; ... t + k`). Using `*pTarget` directly each time fixed the operand order
 in `sub_405E80`. The permuter found it.
+
+**Assigning wrapper vs returning wrapper for an out-of-line by-value call.** An inline wrapper
+`a = a.Multiply_408680(b);` reads the result through `%eax` (`mov (%eax),%eax`), while a wrapper
+that returns the product by value copies it from its stack temporary. A direct call also reads
+through eax but saves one inline expansion, which can push another helper over the inline budget.
+And `x *= f` loads the factor into eax, while a product temporary
+(`(__int64)x.mValue * f.mValue`) loads `x` into eax first and does `imull f`. That holds only
+while `x` isn't already in a register (`CalculateRearWheelForce_5620D0` didn't move).
+Both were needed in `CarPhysics_B0::StabilizeVelocityAtSpeed_562910`.
+
+**The destination's signedness can pick the add order.** In `field = (u32 expr) + s32 field`,
+an `s32` destination adds a u32->s32 conversion, and that decides which register holds the sum
+(and so the add operand order and where the store goes). No spelling of the expression moved
+it; making the two destination fields `u32` matched `Map_0x370::OnModifiedMapDataLoaded_4E8C00`.
+When an add's operand order won't move, check the destination field's type.
+
+**Copy the 9.6f store order for a run of field stores.** VC6 doesn't reorder independent
+stores much, so their source order shows in the scheduling. `UpdateCarEngineAudio_57E220`
+matched once the second sample's stores followed 9.6f exactly (rate, volume, `Fix16(0)`
+distance, pan, type). Earlier `operator=` "barrier" workarounds were no longer needed.
+
+**A dead store can change register allocation.** In `HandlePedVoiceEvent_423080`, a repeated
+`field_58_type = 20;` just before the rate store is deleted by VC6, but the sum then stays in
+edi like the original. Any dead store to the sample works. 9.6f has none, so treat it as a
+last-resort workaround and say so in a comment. It did not help the similar 42A500.
+
+**Write out `RotateVector_41FC90` with an `Ang16&`.** Taking the sprite angle as `Ang16&`
+(not a copy) keeps sin in ebp and spills cos, as in `GetDoorWorldPos_43B420`. Also keep the
+`old_xpos` copy and write `x*cos + y*sin`. A static inline version doesn't match.
+
+**A tail call after a null test comes from an early return.** `test; jne L; xor al,al; ret;
+L: jmp callee` is `if (!p) return 0; return p->F();`, not if/else, which puts the `jmp` elsewhere
+(`Car_BC::IsThreatToSearchingPed_43AAE0`, `Object_2C::sub_525100`).
+
+**`u8 + int` passed to a `u8` parameter is added in a byte register.** An `s32` temporary keeps
+the `mov cl; mov eax,ecx; add eax` shape (`Car_BC::TurnToWreck_4436A0`).
+
+**`Fix16(0, 0)` vs `Fix16(0)` as a by-value argument.** `Fix16(0)` goes through the
+out-of-line `Fix16(s32)` ctor with stack temporaries; `Fix16(0, 0)` is an `xor` and a push
+(`sound_obj::InitMusicAndCopRadio_57E960`).
+
+**A one-case `switch` on a byte: `xor eax,eax; mov al,[x]; dec eax; jne`.** An `if (x == 1)`
+gives `cmpb $1` instead (`Frontend::DrawDeletePlayerDialog_4ADDE0`).
+
+**A `const T&` local can move its load.** `Mike_A80::DebugDrawProfiling_4FF250` loaded the five
+frame averages in the wrong order whatever the order or grouping of the sum. The fix was in an
+unrelated statement above it: `const s32& polys_drawn = pGlobals[0];` instead of
+`s32 polys_drawn = pGlobals[0];` defers that load, which frees the register the sum needs.
+The permuter's `ref_local` pass found it (exhaustive, depth 1).
 
 **Both calls run, first result kept: `b = f(); b |= g();`.** When the original calls both
 helpers and keeps the first result in a byte register, `f() || g()` short-circuits and a single
