@@ -4202,7 +4202,9 @@ s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
 {
     u16** pColumns = field_0_pDmap->field_40008_pColumn;
     gmp_col_info* pColumn = (gmp_col_info*)&pColumns[column_idx];
-    if (z >= pColumn->field_0_height || z < pColumn->field_1_offset)
+    u8 height = pColumn->field_0_height;
+    s32 offset;
+    if (z >= height || z < (offset = pColumn->field_1_offset))
     {
         return -1;
     }
@@ -4213,7 +4215,7 @@ s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
         gmp_col_info* pNew = (gmp_col_info*)&pColumns[new_idx];
         if (do_drop)
         {
-            if (z == pColumn->field_0_height - 1)
+            if (z == height - 1)
             {
                 pNew->field_0_height = pColumn->field_0_height - 1;
                 pNew->field_1_offset = pColumn->field_1_offset;
@@ -4239,7 +4241,7 @@ s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
         }
         else
         {
-            if (z == pColumn->field_0_height - 1)
+            if (z == height - 1)
             {
                 pNew->field_0_height = pColumn->field_0_height - 1;
                 pNew->field_1_offset = pColumn->field_1_offset;
@@ -4248,7 +4250,7 @@ s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
                     pNew->field_4_blockd[i] = pColumn->field_4_blockd[i];
                 }
             }
-            else if (z == pColumn->field_1_offset)
+            else if (z == offset)
             {
                 pNew->field_0_height = pColumn->field_0_height - 1;
                 pNew->field_1_offset = pColumn->field_1_offset + 1;
@@ -4274,19 +4276,19 @@ s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
 
     if (do_drop)
     {
-        for (s32 i = z - pColumn->field_1_offset; i < pColumn->field_0_height - pColumn->field_1_offset - 1; i++)
+        for (s32 i = z - offset; i < pColumn->field_0_height - pColumn->field_1_offset - 1; i++)
         {
             pColumn->field_4_blockd[i] = pColumn->field_4_blockd[i + 1];
         }
         pColumn->field_0_height--;
     }
-    else if (z == pColumn->field_0_height - 1)
+    else if (z == height - 1)
     {
         pColumn->field_0_height--;
     }
     else
     {
-        pColumn->field_4_blockd[z - pColumn->field_1_offset] = 0;
+        pColumn->field_4_blockd[z - offset] = 0;
     }
     return column_idx;
 }
