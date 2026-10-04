@@ -335,6 +335,12 @@ indexed addressing, and hand-written pointers merge into one pointer and a diffe
 (`Fix16 t = *pTarget; ... t + k`). Using `*pTarget` directly each time fixed the operand order
 in `sub_405E80`. The permuter found it.
 
+**A `const T&` local can move its load.** `Mike_A80::DebugDrawProfiling_4FF250` loaded the five
+frame averages in the wrong order whatever the order or grouping of the sum. The fix was in an
+unrelated statement above it: `const s32& polys_drawn = pGlobals[0];` instead of
+`s32 polys_drawn = pGlobals[0];` defers that load, which frees the register the sum needs.
+The permuter's `ref_local` pass found it (exhaustive, depth 1).
+
 **Both calls run, first result kept: `b = f(); b |= g();`.** When the original calls both
 helpers and keeps the first result in a byte register, `f() || g()` short-circuits and a single
 `f() | g()` defers the first compare. Two statements match (`Sprite::ShrinkSprite_59E390`).

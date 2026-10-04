@@ -618,33 +618,6 @@ second use of `fx`, folded away by CSE (see matching_quirks.md, x87 code). The c
 `count = field_A7C_count < 100 ? field_A7C_count : 100`: with `if (count >= 100)` the `jl` skips the
 `count` reload, the ternary makes it land on it.
 
-## Mike_A80::DebugDrawProfiling_4FF250 (WIP, was STUB)
-
-The profiler overlay: per texture-size cache stats, totals, polys/texture swaps, memory,
-the 30 frame averages, a "LARGE" flash, the Montana display timings, then
-`sub_4FFD90` for the history bars. Ratio 0.992.
-
-What it needed:
-- `DrawText_4B87A0(buf, 0, ypos, word_703BAA, 1)` with plain ints: the implicit
-  conversion builds each `Fix16` argument in place through the out-of-line `Fix16(s32)`
-  (`0x4369F0`) like the original. `Fix16(0)` written out is constructed and pushed instead.
-- The row loop runs on `ypos` (20..260), with a separate row counter. VC6 then tests
-  `ypos < 140` for the size shift.
-- The averages are recomputed for each print (no named locals, 0.171 with them); the total
-  is one sum of the five.
-- `large_timer = total > 30 ? 15 : g; if (large_timer) { g = large_timer - 1; print; }`:
-  the original never stores the 15.
-- `Mike_A80::sub_4FF970` is a static `__stdcall` (the caller doesn't set `ecx`). It still
-  matches.
-
-Still different: only the load order of the five averages in the total. Ours loads
-m80_1, m80_5, m80_4, m80_2, m80_3 whatever the source order or grouping (tried 8
-orderings and groupings and an inline `Average()`); the original loads 1, 2, 3, 5, 4.
-
-Two things are guessed: the wide format strings at 0x621100 and 0x6210DC (not in
-`reccmp/widechar.csv`), and `sub_5BEED0` (15 bytes, near `get_rdtsc_5BEE90`, never dumped,
-see "Functions without target asm" below).
-
 ## Functions without target asm
 
 These are called by stubs worked on above but have no entry in the target asm dump,
@@ -1336,7 +1309,6 @@ Each was a few asm lines away from the original. What is left and what was tried
 - `MapRenderer::Draw4SidedDiagonalUpLeft_4EF880` (0x4ef880): no change. (skipped) known MapRenderer Draw*Sided* x87/vertex store scheduling, not attempted
 - `Ambulance_110::ProcessPatientQueue_4FA500` (0x4fa500): no change. only diff: original interleaves load/sar/store for x,y,z (as if stores may alias), ours hoists the 3 loads; tried separate decl/assign, ToUInt8, stores through u8* pointers
 - `Ambulance_20::UpdateState_4FB330` (0x4fb330): no change. only diff: case 3 '>500' false path should jle back to shared epilogue (0x3F) rather than the adjacent duplicate pop/ret; tried return after state=5, inverted if, break in default
-- `Mike_A80::DebugDrawProfiling_4FF250` (0x4ff250): no change. skipped: documented (load order of five averages; 8 orderings tried before)
 - `youthful_einstein::SetNewFugitive_516590` (0x516590): no change. original reloads field_0 into edx (not esi/ecx) before SetPlayerArrowColour; with local pPlayer VC6 reuses esi, without it uses ecx and the else branch's gHud reg shifts too. Tried field/GetPlayerPed/pPed local/ref
 - `NetPlay::EnumSessions_51E650` (0x51e650): closer, 18->7. wrong flag (orig 0x80 RETURNSTATUS, not STOPASYNC); else only fails on hr<0; nested success + single return -1. Left: else jge into the modem's shared return-count block
 - `NetPlay::RemovePlayerByName_520F80` (0x520f80): no change. original spills bRemoved=0 to a stack slot (not const-propagated), found path returns ebx=1; tried bRemoved=1 after the call, while(!bRemoved && i<count) loop: VC6 const-props both

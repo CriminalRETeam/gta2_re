@@ -47,7 +47,7 @@ DEFINE_GLOBAL(u32, gMemTotal_6F7360, 0x6F7360);
 DEFINE_GLOBAL(s32, gMemTotalCounter_6F7550, 0x6F7550);
 DEFINE_GLOBAL(s32, gLargeFrameTimer_6F754C, 0x6F754C);
 
-WIP_FUNC(0x4ff250)
+MATCH_FUNC(0x4ff250)
 void Mike_A80::DebugDrawProfiling_4FF250()
 {
     s32 total_textures_used = 0;
@@ -71,7 +71,7 @@ void Mike_A80::DebugDrawProfiling_4FF250()
         total_cache_used += cache_used[i];
     }
 
-    s32 polys_drawn = pGlobals[0];
+    const s32& polys_drawn = pGlobals[0];
     s32 texture_swaps = pGlobals[1];
 
     s32 row = 0;
