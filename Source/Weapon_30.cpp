@@ -968,8 +968,27 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
             pHit = hits.TakeClosestSprite_5A6EA0(xpos, ypos);
             while (pHit)
             {
-                // The original has the angle check twice (two copies of the code)
-                if (pHit->field_30_sprite_type_enum == sprite_types_enum::ped_3 && pHit->field_8_char_b4_ptr)
+                // The original has the angle check twice (two copies of the code). 9.6f writes
+                // `Ang16 diff = atan2 - angle` (0x40E5D0, whose ctor 0x401C60 normalizes); 10.5 does a
+                // 16-bit subtract and calls Normalize_406C20 out of line, so it's written out here.
+                if (!pHit->AsCharB4_40FEA0())
+                {
+                    Fix16 dx = pHit->field_14_xy.x - xpos;
+                    Fix16 dy = pHit->field_14_xy.y - ypos;
+                    Ang16 diff;
+                    diff.rValue = Fix16::atan2_fixed_405320(dy, dx).rValue - angle.rValue;
+                    diff.Normalize_406C20();
+                    if (diff < word_706D6C || diff > word_706E28)
+                    {
+                        hits.ClearList_5A6E10();
+                        if (a5->field_170_selected_weapon)
+                        {
+                            a5->field_170_selected_weapon->Set_F4_433810(1);
+                        }
+                        return;
+                    }
+                }
+                else
                 {
                     if (pHit == a6)
                     {
@@ -977,30 +996,15 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
                     }
                     Fix16 dx = pHit->field_14_xy.x - xpos;
                     Fix16 dy = pHit->field_14_xy.y - ypos;
-                    Ang16 diff(Fix16::atan2_fixed_405320(dy, dx).rValue - angle.rValue);
+                    Ang16 diff;
+                    diff.rValue = Fix16::atan2_fixed_405320(dy, dx).rValue - angle.rValue;
                     diff.Normalize_406C20();
                     if (diff < word_706D6C || diff > word_706E28)
                     {
                         hits.ClearList_5A6E10();
                         if (a5->field_170_selected_weapon)
                         {
-                            a5->field_170_selected_weapon->field_4 = 1;
-                        }
-                        return;
-                    }
-                }
-                else
-                {
-                    Fix16 dx = pHit->field_14_xy.x - xpos;
-                    Fix16 dy = pHit->field_14_xy.y - ypos;
-                    Ang16 diff(Fix16::atan2_fixed_405320(dy, dx).rValue - angle.rValue);
-                    diff.Normalize_406C20();
-                    if (diff < word_706D6C || diff > word_706E28)
-                    {
-                        hits.ClearList_5A6E10();
-                        if (a5->field_170_selected_weapon)
-                        {
-                            a5->field_170_selected_weapon->field_4 = 1;
+                            a5->field_170_selected_weapon->Set_F4_433810(1);
                         }
                         return;
                     }
@@ -1015,15 +1019,16 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
 
         while (pHit)
         {
-            Char_B4* pB4;
-            if (pHit->field_30_sprite_type_enum == sprite_types_enum::ped_3 && (pB4 = pHit->field_8_char_b4_ptr) != NULL)
+            Char_B4* pB4 = pHit->AsCharB4_40FEA0();
+            if (pB4)
             {
                 char_type bOutside;
                 if (a3)
                 {
                     Fix16 dx = pHit->field_14_xy.x - xpos;
                     Fix16 dy = pHit->field_14_xy.y - ypos;
-                    Ang16 diff(Fix16::atan2_fixed_405320(dy, dx).rValue - angle.rValue);
+                    Ang16 diff;
+                    diff.rValue = Fix16::atan2_fixed_405320(dy, dx).rValue - angle.rValue;
                     diff.Normalize_406C20();
                     bOutside = diff < word_706D6C || diff > word_706E28;
                 }
@@ -1050,24 +1055,18 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
                                                       pHit->field_14_xy.y,
                                                       pHit->field_1C_zpos))
                     {
-                        pB4->field_7C_pPed->field_144_attacker = a5;
+                        pB4->field_7C_pPed->SetAttacker_433BF0(a5);
                         pB4->field_7C_pPed->field_204_killer_id = a5->field_200_id;
                         pB4->field_7C_pPed->field_290 = 18;
                         pB4->field_7C_pPed->field_264_killer_id_timer = 50;
-                        if (a4)
+                        if (!a4)
                         {
-                            Fix16 z = pHit->field_1C_zpos;
-                            if (zpos > z)
+                            Fix16 z;
+                            if (pHit->field_1C_zpos > zpos)
                             {
-                                z = zpos;
+                                z = pHit->field_1C_zpos;
                             }
-                            sub_5DE910(a1->get_x_y_443580(), pHit->get_x_y_443580(), z);
-                            pB4->field_7C_pPed->TakeDamage(3);
-                        }
-                        else
-                        {
-                            Fix16 z = pHit->field_1C_zpos;
-                            if (zpos > z)
+                            else
                             {
                                 z = zpos;
                             }
@@ -1079,6 +1078,20 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
                             }
                             hits.ClearList_5A6E10();
                             return;
+                        }
+                        else
+                        {
+                            Fix16 z;
+                            if (pHit->field_1C_zpos > zpos)
+                            {
+                                z = pHit->field_1C_zpos;
+                            }
+                            else
+                            {
+                                z = zpos;
+                            }
+                            sub_5DE910(a1->get_x_y_443580(), pHit->get_x_y_443580(), z);
+                            pB4->field_7C_pPed->TakeDamage(3);
                         }
                     }
                 }
@@ -1098,7 +1111,6 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
     }
 }
 
-// 9.6f 0x4CF380. Chain lightning of the shocker: arcs to every ped/car in front of `a3`, recursing once.
 MATCH_FUNC(0x5dfb60)
 void Weapon_30::sub_5DFB60(u8 a2, Sprite* a3, Ang16 a4)
 {
