@@ -1310,6 +1310,31 @@ thread repeated register tests, which can move a case to the end of the function
 - **Identical bytes in 9.6f and 10.5** (different compilers) mean prebuilt library code, which VC6 likely
   can't reproduce (`DMA_Video_LoadDll_5EB970`).
 
+### More from the third round of broken WIPs
+
+- **IDA's function-scope locals cost a lot.** Declaring locals where they are used (and deleting
+  IDA temporaries) moved the zero register and was most of the match in
+  `Ped::RobbedDriver_AI_461630` (310 -> 50) and `SpawnPedestrianAt_46E380`.
+- **`T x; x = Fix16(...)` vs `T x(...)`** for locals built from float conversions changed the register
+  allocation of the whole function (`Sprite::ShowId_59EB30`, 463 -> 74). Declaring a variable at the top and
+  assigning it later also kept a value in one register across a loop (`Car_14::SpawnTrafficCar_582480`,
+  1805 -> 467).
+- **Helpers that 9.6f writes out were not inline functions.** 9.6f (`/Ob0`) shows real calls for real
+  helpers; plain code there means plain code in the source. Turning such code into inline helpers spends
+  inline budget (`PoliceRoadblock_A4::CreateRoadblock_575FF0`: removing three such helpers let Normalize
+  inline again, 751 -> 529).
+- **A global moved to another TU** gives 16-bit `mov`/`sub` from memory for `Ang16` constants
+  (`CarAI_78::sub_44AF00`: kAng0/90/180/270 now live in `Car_10.cpp`).
+- **Statement order picks `inc mem` vs load/inc/store.** `bFound = 1; y++;` gives load/inc/store,
+  `y++; bFound = 1;` gives `incb mem`, and then lets VC6 cross-jump the tail (575FF0).
+- **Tail merging between identical case tails** (575FF0, 582480): two jump-target copies merge into the
+  later one; a fallthrough copy and a later jump-target copy merge into the fallthrough; a jump target and a
+  later fallthrough don't merge. Blocks with the same final asm but a different statement order don't merge.
+- **`u8 r = rng(); if (r < 4) r += 18; else r += 27; f(r);`** matches where the ternary argument spills
+  (46E380).
+- **Saved globals:** `CarAI_78::UpdateStateMachine_44E560` saves `gCurrCarAI_TargetX/Y` at entry and restores
+  them twice; a missing restore is a logic bug that leaks offsets into the global.
+
 ## Inline asm
 
 **16-bit `pushaw`/`popaw`.** The inline assembler can't spell them. Put `_emit 0x66` before
