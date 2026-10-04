@@ -7582,34 +7582,33 @@ void sound_obj::UpdateVocalStream_57E510()
     }
 }
 
-WIP_FUNC(0x57E960)
+MATCH_FUNC(0x57E960)
 void sound_obj::InitMusicAndCopRadio_57E960()
 {
-    WIP_IMPLEMENTED;
     if (!gSoundVocalsInited_6FF538)
     {
         gSoundSwitchRadioCoolDown_6FF539 = 0;
         gSoundVocalsInited_6FF538 = true;
-        for (s32 i = 0; i < 5; i++)
+        for (u8 i = 1; i <= 5; i++)
         {
-            field_544C[i].field_0 = 0;
-            field_544C[i].field_8.field_8_sound_entry = 0;
-            //field_544C[i].field_8.field_C_pAny = 0;
-            //...
-            //...
+            RadioEmitter(i).field_0_bUsed = 0;
+            RadioEmitter(i).field_10 = 0;
+            RadioEmitter(i).field_12 = 0;
+            RadioEmitter(i).field_14 = 0;
+            RadioEmitter(i).field_18 = 0;
         }
-        gSound_obj_66F680.field_54F2[2] = 0;
-        gSound_obj_66F680.field_54F7[1] = 1;
-        gSound_obj_66F680.field_54F7[0] = 1;
-        gSound_obj_66F680.field_5504_radio_station_change_mode = 0;
-        gSound_obj_66F680.field_551C = 0;
-        gSound_obj_66F680.DeclareRadioStation_57ECB0(1, 0, 0);
-        if (gSound_obj_66F680.field_5508_radio_entity_idx == 0)
+        field_54F2[2] = 0;
+        field_54F7[1] = 1;
+        field_54F7[0] = 1;
+        field_5504_radio_station_change_mode = 0;
+        field_551C = 0;
+        DeclareRadioStation_57ECB0(1, Fix16(0, 0), Fix16(0, 0));
+        if (field_5508_radio_entity_idx == 0)
         {
-            gSound_obj_66F680.field_550C_radio_entity.field_C_pAny.pAny = NULL;
-            gSound_obj_66F680.field_550C_radio_entity.field_0_object_type = SoundObjectTypeEnum::Radio_3;
-            gSound_obj_66F680.field_550C_radio_entity.field_4_bStatus = false;
-            gSound_obj_66F680.field_5508_radio_entity_idx = gSound_obj_66F680.AddSoundObject_419FA0(&gSound_obj_66F680.field_550C_radio_entity);
+            field_550C_radio_entity.field_C_pAny.pAny = NULL;
+            field_550C_radio_entity.field_0_object_type = SoundObjectTypeEnum::Radio_3;
+            field_550C_radio_entity.field_4_bStatus = false;
+            field_5508_radio_entity_idx = AddSoundObject_419FA0(&field_550C_radio_entity);
         }
     }
 }
