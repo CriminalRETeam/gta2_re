@@ -1534,7 +1534,7 @@ Each was a few asm lines away from the original. What is left and what was tried
   - 0x4626B0 `Ped::StateMachineTick` (fable): one goto kept, the null-ped-group exit into dummy_3's last `Deallocate` block; no structured spelling produced that forward jump.
   - 0x55FF20 `HandleCarCollision`: 0.281->0.408. Entry EH state 5 = six `Fix16_Point` locals up front; `GetLength_all_out_of_line_abs_y_negate` for the impulse length. Left: the original stores no EH state for the `ComputeRelativePointVelocity` temporary, one extra frame slot, the second half.
   - 0x43F130 `Car_BC::HandleCarHitByObject`: 0.130->0.090 by the ratio, kept because the frame (0x118), EH numbering, compare-tree case order (128/138, 10, 194, 210, default, 265, 198) and the first case's calls now match; the ratio sees one big hunk either way. New inline `const Fix16_Point&` overload of `AccumulateDamage_43DA90`. Left: damage in ebx, RotateByAngle operator variants, tail merges.
-  - 0x5A3550 `Sprite_4C::UpdateRotatedBoundingBox`, 0x4E0130 `CanMoveOntoSlopeTile`: not attempted (>2 KB, ratio <0.04).
+  - 0x5A3550 `Sprite_4C::UpdateRotatedBoundingBox`: not attempted (>2 KB, ratio <0.04).
 
 ## x87 scheduling pass (MapRenderer)
 
@@ -1600,3 +1600,26 @@ single pass) also gave nothing on 418720. Scores are differing lines from `permu
 - `Weapon_30::smg_5DDD20` (14): the original loads `y*sin` first in the x-line add. No change
   from a `__forceinline` add helper or an s32 temp; swapped operands give 22.
 - `Weapon_30::fire_truck_gun_5E0E70` (10): one register left, the sprite pointer in eax (ours ecx).
+
+## Map_0x370::CanMoveOntoSlopeTile_4E0130 (WIP)
+
+Rewritten from the original asm: ratio 0.029 -> 0.509 (permuter score 1606 -> 528). The case layout
+matches now. One `switch (path_direction)`; `break` means blocked and lands on a shared
+`return true` after the switch (a `return true` in a then-block gets its own epilogue copy; one
+reached by a jump is shared, like the original's `je 992`). Up/down dispatch with
+`if (dir != NORTH) {...} else`, right/left with a `switch (dir)` (cases EAST/WEST, then NORTH/SOUTH,
+default). `pSlope`/`pBaseSlope` start at 0 (the original's two zeroed slots). The below-block test is
+`dir > NO_GRADIENT_SLOPE_0` (`test; jbe`), not `>= NORTH_1`. 9.6f 0x4656D0 is the same function with
+no extra helper.
+
+Left:
+- y/z registers swapped (original: z in ebp, y in edi). Moving single uses between x, y and z flips
+  the allocation with no obvious rule.
+- After the first GetEffectiveBlock call the original uses the block from eax; ours reloads it.
+- Up case: the below-block check should jump into the down case's identical code (`jmp 47B`).
+- Right case, east climb wall check: should jump to the shared `return true`; ours gets an
+  epilogue (no `break` possible inside the inner switch).
+
+Renames: `field_36E` -> `field_36E_bBlockedByTerrain` (no usable ground ahead, as opposed to a wall),
+`field_36F` -> `field_36F_bLowerBlockHasArrows`, params `bByRefUnk` -> `pSlopeZDelta` (1 stepping up,
+0xFF stepping down onto a slope) and `bNotifyByRefRet` -> `bReportStepUp`.
