@@ -475,7 +475,7 @@ struct Frontend
 
     EXPORT void FreeSound_4B8650();
 
-    EXPORT bool pre_intro_bik_exists_4B6030();
+    EXPORT static bool pre_intro_bik_exists_4B6030();
 
     EXPORT char_type* pre_intro_bik_4B5F20();
 
