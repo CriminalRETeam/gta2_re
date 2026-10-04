@@ -59,6 +59,15 @@ and the build carries on with correct results.
 
 ## Control flow and layout
 
+**`if (flag) call(); return flag;` after an if/else, not a call in each branch.** With one shared
+tail, VC6 keeps the flag in a dead parameter slot and reloads it, and pushes `ebx`/`edi` late, as
+in `Ped::HandlePickupCollision_45DE80`. A call plus `return 1` in each branch lets it propagate
+the constant instead.
+
+**`||` of a range test and an equality follows the grouping.** `(s >= 7 && s <= 8) || s == 11`
+and `s >= 7 && (s <= 8 || s == 11)` are the same logic but branch differently: in the second the
+`jl` on `cmp $7` skips the `== 11` test (`sound_obj::ChooseRadioEmitterForVehicle_57E6C0`).
+
 **Case bodies are laid out in source order.** If the original's `mov $N,%eax; ret` blocks come
 in a different order from yours, reorder the `case` groups to match (`sub_417AC0`,
 `sub_417BA0`, `GetExplosionTypeForWallSide_528E00`).
@@ -248,6 +257,17 @@ found item or NULL. Open-coded loops make VC6 send all the returns to one shared
 which also inlines `IsVelocityAlignedWithHeading_40F840` and, inside it, `Fix16_Point::atan2_40ACD0`).
 
 ## Types and signedness
+
+**A 2-byte global defined in the same file loads as 32 bits.** With the `DEFINE_GLOBAL` of an
+`Ang16`/`s16`/`u16` global in the function's own .cpp, VC6 can load it with a 32-bit `mov` and
+add it with `lea`, where the original has a 16-bit `mov`/`add`. With only an `EXTERN_GLOBAL` in
+that file it emits the original's code, so move the definition to another .cpp that uses it
+(`kAng180_6FD3EE` moved from `Wolfy_3D4.cpp` to `Particle_4C.cpp`: `Wolfy_30::state_3_12_540D30`
+181 -> 32 lines). It can go the other way too (`gFaceCollisionMask_6F6002` and `kAng180_676772`
+had to move *into* `sprite.cpp`), so compare the load width in the target first.
+
+**A flag returned with no `setne` is `char_type`, not `bool`.** If the original returns a
+`char` local as is, a `bool` return makes VC6 normalise it (`Ped::HandlePickupCollision_45DE80`).
 
 **`jae`/`jb` vs `jge`/`jl` means unsigned vs signed.** Fix the field or parameter type, not the
 comparison (`RouteFinder_10::field_2` is `u16`).
@@ -899,6 +919,16 @@ A quick way to test such variants: `Scripts/tu_harness/tu.sh` compiles a preproc
 MapRenderer cluster, and how to check helpers against 9.6f with VC7: `docs/x87_handoff.md`.
 
 ## Functions, thunks and calling conventions
+
+**An EH frame for a member in only one owner's ctor.** If one class's ctor has an EH frame for
+a member and the other owners of that member type have none, the member's type has a
+destructor only there: give that member a derived type with an empty destructor
+(`struct_4_dtor` in `char.hpp`, `Char_B4::ctor_544FF0`). An empty destructor on `struct_4`
+itself adds frames to the `Car_BC`, `Object_5C` and `Weapon_8` ctors and dtors.
+
+**A store through a reference keeps a later load after it.** Clearing a bitfield through an
+inline helper that takes the bitfield by reference stops VC6 from hoisting the next field load
+above the store (`Ped::Deallocate_45EB60`).
 
 **`mov $1,%eax` in the callee but `test %al,%al` in the caller.** That's an `s32` (BOOL-style)
 return, cast to `u8` at the call: `if ((u8)sub_405E20(...) || (u8)sub_405E20(...))`. With a
