@@ -4480,10 +4480,9 @@ DEFINE_GLOBAL(u8, byte_67554C, 0x67554C);
 EXPORT bool Cooldown_4236C0();
 
 // Plays what a ped says for the voice event in Ped::field_250 (shouts, screams, ...)
-WIP_FUNC(0x423080)
+MATCH_FUNC(0x423080)
 void sound_obj::HandlePedVoiceEvent_423080(Sound_Params_8* a2)
 {
-    WIP_IMPLEMENTED;
     Char_B4* pB4 = a2->field_0_pObj->field_8_char_b4_ptr;
     Ped* pPed = pB4->field_7C_pPed;
     s32 voice = pPed->TakeF250_41B0B0();
@@ -4700,6 +4699,10 @@ void sound_obj::HandlePedVoiceEvent_423080(Sound_Params_8* a2)
             field_30_sQueueSample.field_64_max_distance = 18;
             s32 rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(samp);
             rate += RandomDisplacement_41A650(field_30_sQueueSample.field_14_samp_idx);
+            // The repeated type store is dropped as dead, but it makes VC6 keep the sum in
+            // edi (add %eax,%edi) and free eax for the zero stores, as in the original.
+            // Any dead store to the sample here does the same.
+            field_30_sQueueSample.field_58_type = 20;
             field_30_sQueueSample.field_20_rate = rate;
             field_30_sQueueSample.field_58_type = 20;
             field_30_sQueueSample.field_3C_speed_multiplier = 0;
