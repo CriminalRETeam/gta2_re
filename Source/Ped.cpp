@@ -3206,11 +3206,9 @@ void Ped::RoadBlockTank_AI_4619F0()
 }
 
 // For entering a car angles the player ped towards the car door
-WIP_FUNC(0x461a60)
+MATCH_FUNC(0x461a60)
 void Ped::UpdateFacingAngle_461A60()
 {
-    WIP_IMPLEMENTED;
-
     if (this->field_258_objective)
     {
         if (!this->field_25C_internal_objective)
@@ -3223,102 +3221,82 @@ void Ped::UpdateFacingAngle_461A60()
 
     switch (this->field_278_ped_state_1)
     {
+        case ped_state_1::findind_path_2:
+        {
+            Fix16 x = this->field_1C4_x;
+            Fix16 y = this->field_1C8_y;
+            this->field_130 = Fix16::atan2_fixed_405320(y - this->field_1AC_cam.y, x - this->field_1AC_cam.x);
+            break;
+        }
+
+        case ped_state_1::entering_car_3:
+        {
+            this->field_130 = Fix16::atan2_fixed_405320(this->field_1C8_y - this->field_1AC_cam.y, this->field_1C4_x - this->field_1AC_cam.x);
+            break;
+        }
+
         case ped_state_1::flee_or_running_1:
         {
             if (this->field_27C_ped_state_2 == ped_state_2::Unknown_3)
             {
-                Fix16 v32 = this->field_1AC_cam.x - this->field_1C4_x;
-                Fix16 v33 = this->field_1AC_cam.y - this->field_1C8_y;
-                this->field_130 = Fix16::atan2_fixed_405320(v33, v32);
+                this->field_130 = Fix16::atan2_fixed_405320(this->field_1AC_cam.y - this->field_1C8_y, this->field_1AC_cam.x - this->field_1C4_x);
             }
 
-            if (this->field_27C_ped_state_2 != ped_state_2::Unknown_2)
+            if (this->field_27C_ped_state_2 == ped_state_2::Unknown_2)
             {
-                //goto LABEL_37;
-                this->field_12E_aim_angle = this->field_130;
-                return;
-            }
+                this->field_130 = Fix16::atan2_fixed_405320(this->field_1C8_y - this->field_1AC_cam.y, this->field_1C4_x - this->field_1AC_cam.x);
 
-            field_1C8_y = this->field_1C8_y;
+                if (byte_6787C4 && this->field_14C_internal_target_ped && gDistanceToTarget_678750 < kFpThreeSixteenths_678780 &&
+                    ComputeShortestAngleDelta_4056C0(field_130, field_12C) > kAng90_6784B0)
+                {
+                    field_130 = this->field_12C;
+                    this->field_168_game_object->SetMaxSpeed_433920(field_14C_internal_target_ped->GetPedVelocity_45C920() -
+                                                                     kFpOne64th_678430);
+                    return;
+                }
 
-            Fix16 v34 = field_1C4_x - this->field_1AC_cam.x;
-            Fix16 v35 = field_1C8_y - this->field_1AC_cam.y;
-
-            this->field_130 = Fix16::atan2_fixed_405320(v35, v34);
-
-            if (!byte_6787C4 || !this->field_14C_internal_target_ped || gDistanceToTarget_678750 >= kFpThreeSixteenths_678780 ||
-                ComputeShortestAngleDelta_4056C0(field_130, field_12C) <= kAng90_6784B0)
-            {
                 if (byte_6787D4 == 1)
                 {
                     this->field_168_game_object->field_6A = 1;
+                    Ang16 jitter;
                     if ((this->field_200_id & 1) != 0)
                     {
-                        Ang16 v17 = Ang16::Fix16_To_Ang16_40F540(kFpOne64th_6784C4 * Fix16(gRng_6F6784.get_int_4F7AE0(45)));
-                        Ang16 v12 = field_130 + kAng90_6784B0;
-                        Ang16 v18 = v17 + v12;
-                        this->field_168_game_object->field_74 = v18;
+                        jitter = Ang16::Fix16_To_Ang16_40F540(kFpOne64th_6784C4 * Fix16(gRng_6F6784.get_int_4F7AE0(45)));
+                        this->field_168_game_object->field_74 = field_130 + kAng90_6784B0 + jitter;
                     }
                     else
                     {
-                        Ang16 v13 = Ang16::Fix16_To_Ang16_40F540(kFpOne64th_6784C4 * Fix16(gRng_6F6784.get_int_4F7AE0(45)));
-                        Ang16 v14 = field_130 - kAng90_6784B0;
-                        Ang16 v19 = v14 - v13;
-                        this->field_168_game_object->field_74 = v19;
+                        // 9.6f uses Fix16_To_Ang16 and operator- here too, but 10.5 needs the
+                        // conversion written out and the subtraction split to inline like the original
+                        jitter.rValue = (kFpOne64th_6784C4 * Fix16(gRng_6F6784.get_int_4F7AE0(45))).GetRaw_40F4B0() / 71;
+                        jitter.Normalize();
+                        Ang16 tmp = field_130 - kAng90_6784B0;
+                        tmp = tmp - jitter;
+                        this->field_168_game_object->field_74 = tmp;
                     }
                 }
                 else if (GetPedVelocity_45C920() < kFpZero_678660)
                 {
                     field_130 += kAng180_6785A6;
                 }
-                //goto LABEL_37;
-                this->field_12E_aim_angle = this->field_130;
-                return;
             }
-            field_130 = this->field_12C;
-            this->field_168_game_object->SetMaxSpeed_433920(field_14C_internal_target_ped->GetPedVelocity_45C920() - kFpOne64th_678430);
-            return;
-        }
-
-        case ped_state_1::findind_path_2:
-        {
-            Fix16 pMaybeY_FP16 = this->field_1C4_x - this->field_1AC_cam.x;
-            Fix16 pMaybeX_FP16 = this->field_1C8_y - this->field_1AC_cam.y;
-            this->field_130 = Fix16::atan2_fixed_405320(pMaybeX_FP16, pMaybeY_FP16);
-            //goto LABEL_37;
-            this->field_12E_aim_angle = this->field_130;
-            return;
-        }
-
-        case ped_state_1::entering_car_3:
-        {
-            Fix16 v30 = this->field_1C4_x - this->field_1AC_cam.x;
-            Fix16 v31 = this->field_1C8_y - this->field_1AC_cam.y;
-            //LABEL_6:
-            this->field_130 = Fix16::atan2_fixed_405320(v31, v30);
-            //goto LABEL_37;
-            this->field_12E_aim_angle = this->field_130;
-            return;
+            break;
         }
 
         case ped_state_1::standing_still_7:
         {
             if (this->field_27C_ped_state_2 == 11) // ped_state_2::Unknown_11)
             {
-                Fix16 v38 = this->field_1C4_x - this->field_1AC_cam.x;
-                Fix16 v39 = this->field_1C8_y - this->field_1AC_cam.y;
-                this->field_130 = Fix16::atan2_fixed_405320(v39, v38);
+                this->field_130 = Fix16::atan2_fixed_405320(this->field_1C8_y - this->field_1AC_cam.y, this->field_1C4_x - this->field_1AC_cam.x);
             }
-            //goto LABEL_37;
-            this->field_12E_aim_angle = this->field_130;
-            return;
+            break;
         }
 
+        // Needed for the case 3 -> case 2 tail merge
         default:
-            //LABEL_37:
-            this->field_12E_aim_angle = this->field_130;
-            return;
+            break;
     }
+    this->field_12E_aim_angle = this->field_130;
 }
 
 MATCH_FUNC(0x461f20)
