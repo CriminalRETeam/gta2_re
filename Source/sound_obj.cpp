@@ -3492,12 +3492,9 @@ void sound_obj::sub_57EDB0(sound_f16_pos_0x1C* pEmitter, s32 type)
             break;
     }
 }
-// One jl target left: the original's lands 5 bytes later
-WIP_FUNC(0x57E6C0)
+MATCH_FUNC(0x57E6C0)
 void sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
 {
-    WIP_IMPLEMENTED;
-
     Car_BC* pCar = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
     if (IsPoliceOrServiceVehicle_57F090(pCar) == true)
     {
@@ -3581,7 +3578,7 @@ void sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
                 while (1)
                 {
                     s32 status = *(u32*)&field_544C[i + 1].field_8.field_4_bStatus;
-                    if ((status >= 7 && status <= 8) || status == 11)
+                    if (status >= 7 && (status <= 8 || status == 11))
                     {
                         field_54F7[0] = i;
                         break;
@@ -4486,6 +4483,7 @@ EXPORT bool Cooldown_4236C0();
 WIP_FUNC(0x423080)
 void sound_obj::HandlePedVoiceEvent_423080(Sound_Params_8* a2)
 {
+    WIP_IMPLEMENTED;
     Char_B4* pB4 = a2->field_0_pObj->field_8_char_b4_ptr;
     Ped* pPed = pB4->field_7C_pPed;
     s32 voice = pPed->TakeF250_41B0B0();
