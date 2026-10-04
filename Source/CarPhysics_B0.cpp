@@ -3016,60 +3016,74 @@ bool CarPhysics_B0::get_revs_561940()
 
 // https://decomp.me/scratch/0MzjM
 // 9.6f 0x4A0F30
-WIP_FUNC(0x561970)
+MATCH_FUNC(0x561970)
 Fix16 CarPhysics_B0::ComputeEngineTorque_561970()
 {
-    WIP_IMPLEMENTED;
-
-    if (field_5C_pCar->field_9C_engine_status == car_engine_status::on_3 && field_98_surface_type != car_surface_type::unknown_surface_7 && field_98_surface_type != car_surface_type::water_surface_8)
+    Fix16 torque;
+    if (field_5C_pCar->Is_engine_status_on_3_4118C0() && field_98_surface_type != car_surface_type::unknown_surface_7 && field_98_surface_type != car_surface_type::water_surface_8)
     {
         if (this->field_8C_state == 2)
         {
-            Fix16 vel_len = field_40_linvel_1.GetLength_no_sqrt_inline();
+            // Assigned, not initialised: the slot is then free for the temporaries of each branch
+            Fix16 vel_len;
+            vel_len = field_40_linvel_1.GetLength_ool_abs_mul();
 
             if (field_94_is_backward_gas_on)
             {
-                if (vel_len != kFP16Zero_6FE20C || !this->field_92_is_hand_brake_on)
+                if (vel_len == kFP16Zero_6FE20C && this->field_92_is_hand_brake_on)
                 {
-                    return -ComputeTorqueUnknown_49E8E0_ool() * gCarInfo_48_6FE258->field_34_gear1_multiplier;
+                    torque = kFP16Zero_6FE20C;
+                }
+                else
+                {
+                    torque = -ComputeTorqueUnknown_49E8E0_ool() * gCarInfo_48_6FE258->field_34_gear1_multiplier;
                 }
             }
             else if (field_93_is_forward_gas_on)
             {
-                if (vel_len != kFP16Zero_6FE20C || !this->field_92_is_hand_brake_on)
+                if (vel_len == kFP16Zero_6FE20C && this->field_92_is_hand_brake_on)
                 {
-                    if (vel_len > gCarInfo_48_6FE258->field_44_gear3_speed)
-                    {
-                        // Gear 3
-                        return inline_ComputeTorqueFromThrottle_561DD0_ool() * gCarInfo_48_6FE258->field_3C_gear3_multiplier;
-                    }
-                    else if (vel_len > gCarInfo_48_6FE258->field_40_gear2_speed)
-                    {
-                        // Gear 2
-                        return inline_ComputeTorqueFromThrottle_561DD0_ool() * gCarInfo_48_6FE258->field_38_gear2_multiplier;
-                    }
-                    else
-                    {
-                        // Gear 1
-                        return ComputeTorqueUnknown_49E8E0_ool() * gCarInfo_48_6FE258->field_34_gear1_multiplier;
-                    }
+                    torque = kFP16Zero_6FE20C;
+                }
+                else if (vel_len > gCarInfo_48_6FE258->field_44_gear3_speed)
+                {
+                    // Gear 3
+                    torque = inline_ComputeTorqueFromThrottle_561DD0_ool() * gCarInfo_48_6FE258->field_3C_gear3_multiplier;
+                }
+                else if (vel_len > gCarInfo_48_6FE258->field_40_gear2_speed)
+                {
+                    // Gear 2
+                    torque = inline_ComputeTorqueFromThrottle_561DD0_ool() * gCarInfo_48_6FE258->field_38_gear2_multiplier;
+                }
+                else
+                {
+                    // Gear 1. The original inlines this multiply, ours goes out of line (inline budget), so it's written out
+                    torque.mValue = (s32)((ComputeTorqueUnknown_49E8E0_ool().mValue * (__int64)gCarInfo_48_6FE258->field_34_gear1_multiplier.mValue) >> 14);
                 }
             }
+            else
+            {
+                torque = kFP16Zero_6FE20C;
+            }
+        }
+        else if (this->field_93_is_forward_gas_on)
+        {
+            torque = ComputeTorqueFromThrottle_561DD0();
+        }
+        else if (this->field_94_is_backward_gas_on)
+        {
+            torque = ComputeTorqueFromThrottle_561DD0().Negate_4086A0();
         }
         else
         {
-            if (this->field_93_is_forward_gas_on)
-            {
-                return Fix16(ComputeTorqueFromThrottle_561DD0().mValue, 0);
-            }
-
-            if (this->field_94_is_backward_gas_on)
-            {
-                return Fix16(ComputeTorqueFromThrottle_561DD0().Negate_4086A0().mValue, 0);
-            }
+            torque = kFP16Zero_6FE20C;
         }
     }
-    return kFP16Zero_6FE20C;
+    else
+    {
+        torque = kFP16Zero_6FE20C;
+    }
+    return torque;
 }
 
 MATCH_FUNC(0x561dd0)
@@ -3088,10 +3102,9 @@ Fix16 CarPhysics_B0::ComputeTorqueFromThrottle_561DD0()
 }
 
 // https://decomp.me/scratch/46zAM
-WIP_FUNC(0x561e50)
+MATCH_FUNC(0x561e50)
 Fix16 CarPhysics_B0::CalculateFrontWheelForce_561E50()
 {
-    WIP_IMPLEMENTED;
     Fix16_Point point(Fix16(0), gCarInfo_2C_6FE0E4->field_4_front_wheel_offset);
     Fix16_Point point2;
 
@@ -3102,8 +3115,7 @@ Fix16 CarPhysics_B0::CalculateFrontWheelForce_561E50()
     else
     {
         Fix16 v6;
-        Fix16 lodword_v5;
-        Fix16 hidword_v5 = CarPhysics_B0::ComputeEngineTorque_561970() * gCarInfo_48_6FE258->field_8_front_drive_bias;
+        Fix16 front_torque = CarPhysics_B0::ComputeEngineTorque_561970() * gCarInfo_48_6FE258->field_8_front_drive_bias;
 
         if (field_AD_turn_direction != car_turn_direction::none_0)
         {
@@ -3114,41 +3126,43 @@ Fix16 CarPhysics_B0::CalculateFrontWheelForce_561E50()
             v6 = k_dword_6FE210;
         }
 
-        Fix16 pointing_ang_rad;
+        // The declaration order picks the registers of the default case's loads
         Fix16 v9;
         Fix16 v10;
+        Fix16 lodword_v5;
+        Fix16 pointing_ang_rad;
 
         switch (field_A0_oil_spin_dir)
         {
             case 0:
-                v9 = v6 * kFP16One_6FE3D0;
+                v9 = kFP16One_6FE3D0 * v6;
                 v10 = dword_6FE3D4;
                 lodword_v5 = gBrakeForce_6FE0D8 * dword_6FE320;
                 pointing_ang_rad = this->field_78_pointing_ang_rad;
                 break;
             case 1:
             case 2:
-                lodword_v5 = kFP16Zero_6FE20C;
-                if (hidword_v5.mValue == kFP16Zero_6FE20C.mValue)
+                if (front_torque.mValue == kFP16Zero_6FE20C.mValue)
                 {
+                    // Copying the zero from lodword_v5 keeps kFP16Zero_6FE20C out of a register
+                    lodword_v5 = kFP16Zero_6FE20C;
+                    v9 = lodword_v5;
+                    v10 = lodword_v5;
                     pointing_ang_rad = this->field_78_pointing_ang_rad;
-                    v9 = kFP16Zero_6FE20C;
-                    v10 = kFP16Zero_6FE20C;
                 }
                 else
                 {
+                    v9 = kFP16One_6FE3D0 * v6;
                     v10 = dword_6FE3D4;
-                    v9 = v6 * kFP16One_6FE3D0;
                     if (field_A0_oil_spin_dir == 1)
                     {
-                        lodword_v5 = kFP16Zero_6FE20C;
                         pointing_ang_rad = this->field_78_pointing_ang_rad + kAngFix16OneDegree_6FE3C4 * 30;
                     }
                     else
                     {
-                        pointing_ang_rad = this->field_78_pointing_ang_rad - kAngFix16OneDegree_6FE3C4 * 30;
-                        lodword_v5 = kFP16Zero_6FE20C;
+                        pointing_ang_rad = this->field_78_pointing_ang_rad + kAngFix16OneDegree_6FE3C4 * -30;
                     }
+                    lodword_v5 = kFP16Zero_6FE20C;
                 }
                 break;
             default:
@@ -3156,15 +3170,15 @@ Fix16 CarPhysics_B0::CalculateFrontWheelForce_561E50()
                 break;
         }
 
-        // 9.6f: Fix16_Point_POD::SetXY_432860 (inlined, using it pushes the Fix16_Point ctor out of line)
+        // 9.6f: Fix16_Point_POD::SetXY_432860
         point2.x = v9;
         point2.y = v10 + lodword_v5;
 
-        Ang16 rotation = Ang16::Fix16_To_Ang16_40F540(pointing_ang_rad);
+        // 9.6f: theta + Fix16_To_Ang16_40F540(pointing_ang_rad). Written with the Ang16 ctor directly,
+        // since Normalize is too deep to inline through those helpers
+        Ang16 rotation(pointing_ang_rad.GetRaw_40F4B0() / 71, 0);
 
-        Ang16 final_rotation = rotation + field_58_theta;
-
-        return CarPhysics_B0::ApplyDriveForce_5615D0(point, final_rotation, point2, hidword_v5);
+        return CarPhysics_B0::ApplyDriveForce_5615D0(point, Ang16(field_58_theta.rValue + rotation.rValue, 0), point2, front_torque);
     }
 }
 
