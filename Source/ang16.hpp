@@ -321,6 +321,14 @@ class Ang16
         return Ang16(&tmp, 0);
     }
 
+    // MultiplyByFix16_401CB0 with the multiply inline and the Fix16* constructor out of line
+    // (Particle_8::EmitWaterSplash_53F060)
+    Ang16 MultiplyByFix16_401CB0_ctor_ool(const Fix16& a2)
+    {
+        Fix16 tmp = Fix16(rValue) * a2;
+        return Ang16(&tmp, 0);
+    }
+
     Fix16 divideBy_40E640(const Ang16& scale) const
     {
         return Fix16(rValue) / scale.rValue;

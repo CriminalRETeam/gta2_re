@@ -259,13 +259,21 @@ void Particle_8::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang1
     {
         velocity.x = Fix16(0);
         velocity.y = Fix16(gRng_6F6784.get_int_4F7AE0(50) + 25) * dword_6FD548;
-        velocity.RotateByAngle_40F6B0_out_of_line(rotation);
+        // RotateByAngle_40F6B0 (9.6f calls it for both rotations). Written out here: as a nested
+        // inline the first + goes out of line, but the original has it inline.
+        {
+            Fix16 sin = Ang16::sine_40F500(rotation);
+            Fix16 cos = Ang16::cosine_40F520(rotation);
+            Fix16 x_old = velocity.x;
+            velocity.x = velocity.x.Multiply_408680(cos) + velocity.y.Multiply_408680(sin);
+            velocity.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + velocity.y.Multiply_408680(cos);
+        }
 
         for (u8 i = 0; i < 6; i++)
         {
             if (bRandomRot)
             {
-                angle_2 = Ang16(Fix16(word_6FD5CC.rValue).Multiply_408680(Fix16(gRng_6F6784.get_int_4F7AE0(360))), 0);
+                angle_2 = Ang16(Fix16(word_6FD5CC.rValue).Multiply_408680(Fix16(gRng_6F6784.get_int_4F7AE0(360)))).Normalized_406C20();
             }
             else
             {
@@ -275,20 +283,21 @@ void Particle_8::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang1
             velocity.x = Fix16(0);
             velocity.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + dword_6FD558) * dword_6FD4EC;
 
-            // 9.6f: MultiplyByFix16_401CB0 (inlined). Here the original inlines the multiply and calls
-            // the Ang16 constructor out of line (FromFix16_4516B0); the rotation uses angle_2
+            // 9.6f: MultiplyByFix16_401CB0, angle_plus_40E5A0, subtraction_40E5D0 (all inlined). The
+            // original calls Normalize_406C20 out of line for every Ang16 here; the rotation uses angle_2
+            angle_1 = word_6FD5CC.MultiplyByFix16_401CB0_ctor_ool(Fix16(gRng_6F6784.get_int_4F7AE0(16)));
             {
-                Fix16 spread = Fix16(word_6FD5CC.rValue) * Fix16(gRng_6F6784.get_int_4F7AE0(16));
-                angle_1 = Ang16(&spread, 0);
-                Fix16 half = Fix16(word_6FD5CC.rValue) * Fix16(8);
-                velocity.RotateByAngle_NegOOL_40F6B0((angle_1 + angle_2) - Ang16(&half, 0));
+                Ang16 half_ang = word_6FD5CC.MultiplyByFix16_401CB0_ctor_ool(Fix16(8));
+                velocity.RotateByAngle_NegOOL_40F6B0(
+                    Ang16(Ang16(angle_1.rValue + angle_2.rValue).Normalized_406C20().rValue - half_ang.rValue).Normalized_406C20());
             }
 
+            // last arg: plain 0 (the original builds this Fix16 arg in place; Fix16(0) gives a plain push and costs ebp)
             Particle_4C* pWaterSplashParticle = gParticle_8_6FD5E8->New_53E3C0(velocity.x,
                                                                                velocity.y,
                                                                                dword_6FD330,
-                                                                               (velocity.x / 15).Negate_4086A0(),
-                                                                               (velocity.y / 15).Negate_4086A0(),
+                                                                               velocity.x.DivideInt_53E860(15).Negate_4086A0(),
+                                                                               velocity.y.DivideInt_53E860(15).Negate_4086A0(),
                                                                                0);
 
             if (pWaterSplashParticle)
