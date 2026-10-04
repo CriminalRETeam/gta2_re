@@ -269,6 +269,12 @@ had to move *into* `sprite.cpp`), so compare the load width in the target first.
 **A flag returned with no `setne` is `char_type`, not `bool`.** If the original returns a
 `char` local as is, a `bool` return makes VC6 normalise it (`Ped::HandlePickupCollision_45DE80`).
 
+**`int` and `long` compile the same; only the symbol changes.** Under VC6 both are 32 bits, and
+`int`/`long` (and `unsigned int`/`unsigned long`) give identical code for division, shifts,
+compares and multiplies. The mangled name does differ (`H`/`J`, `I`/`K`), which matters for a
+declaration's signature but not for a local. So a permuter `local_type` candidate that only swaps
+`int` for `long` scores the same and changes nothing: keep the codebase's `s32`/`u32`.
+
 **`jae`/`jb` vs `jge`/`jl` means unsigned vs signed.** Fix the field or parameter type, not the
 comparison (`RouteFinder_10::field_2` is `u16`).
 
