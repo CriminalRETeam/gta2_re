@@ -1335,6 +1335,37 @@ thread repeated register tests, which can move a case to the end of the function
 - **Saved globals:** `CarAI_78::UpdateStateMachine_44E560` saves `gCurrCarAI_TargetX/Y` at entry and restores
   them twice; a missing restore is a logic bug that leaks offsets into the global.
 
+### More from the fourth round
+
+- **Early returns cost inline budget through destructors.** In an EH function with `Fix16_Point` locals,
+  each early return expands their destructors; nesting with one shared `return true` brought the
+  `Fix16_Point` ctors back inline (`Sprite::PointInsideRotatedBounds_5A1490`, 296 -> 60). Fix16 compares
+  (`a >= -b`) cost several expansions; raw `mValue` compares are cheap.
+- **Named exports inside file-local `_ool` helpers:** `static_cast<const Fix16&>(t) + x` reaches the const
+  `operator+` export (0x408660), `DivideInt_53E860(2)` the divide export; otherwise the COMDAT copies are
+  called, which `permuter_score.py` scores as 0 but the exe never matches.
+- **Ang16 sum forms:** `Ang16(s16, u8)` gives a 16-bit add + `jns`; `operator+` (`const s16&` ctor) a 32-bit
+  `lea` + `test/jge`; `Ang16(x).Normalized_406C20()` an out-of-line Normalize after a 16-bit store;
+  `s16 v = ...; Ang16((Ang16&)v, 0)` a dword store and an `AssignNormalized_409300` call
+  (`Weapon_30::shotgun_5DD290`, `Char_B4::HandleGenericCollision_54A530`).
+- **0x4516B0 is a constructor** (`Ang16(Fix16*, s32)`): called out of line, its constant argument is pushed
+  before a complex pointer argument is evaluated (`EmitImpactParticles_53FE40`).
+- **A method call on `ecx=&param` in 9.6f** means the parameters are one by-value struct
+  (`EmitImpactParticles_53FE40` takes a `Fix16_Point`).
+- **A local flag can replace a goto.** A `u8` flag set on several paths and tested once is threaded into
+  direct jumps (`PoliceCrew_38::State5_PursueOrChase_572920`). A jump that skips a test of a value already
+  known false is VC6 threading, not an IDA goto (`CarAI_78::sub_447D40`).
+- **An inline helper with every value as a by-value parameter** evaluates all arguments before any store,
+  giving a load-all-then-store schedule (`Car_BC::TrainUpdate_442D70`'s `SetPrism`).
+- **Mixed if-chain forms decide tail merging:** some cases needed early returns, others nested
+  if/else-if (447D40).
+- **Function-scope temporaries shared across inline sites** (`abs_x/abs_y` for three `Fix16::Max`) fixed the
+  slot order (`Ped::Threat_Reaction_AI_465270`). Reusing one `u8 i, j` pair across sequential loops did the
+  same (`sound_obj::ProcessActiveQueues_41AB80`).
+- **Two `memset`s of small globals** give two interleaved zero registers (`read_input_device_498DA0`).
+- **A ternary pointer argument after shared pushes** can be two calls whose tails VC6 merged
+  (`Ped::FindBestTargetPed_466BF0`).
+
 ## Inline asm
 
 **16-bit `pushaw`/`popaw`.** The inline assembler can't spell them. Put `_emit 0x66` before
