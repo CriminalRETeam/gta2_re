@@ -8,6 +8,11 @@ Add to this file when you find something new. Keep entries short and point at a 
 
 ## Before you start: things that hide or fake a match
 
+**A marker at an address that isn't in `og_function_data_v105.csv` is never verified.** Three
+`MATCH_FUNC`s at unlisted addresses (0x419CD0, 0x4AD0D0, 0x4ADDE0) turned out not to match. Add
+the address to the csv (size from the target asm dump: `dump_target_asm.py` dumps the bytes of
+marked unlisted addresses into `target_extra.json`) before trusting the marker.
+
 **`WIP_IMPLEMENTED` and `NOT_IMPLEMENTED` add code.** The macros inject a static flag and a
 logging `call` into the function body, so a function containing one can never match. Remove
 the line (or compile it out locally) before comparing. Several WIP functions were already
@@ -367,6 +372,20 @@ last-resort workaround and say so in a comment. It did not help the similar 42A5
 **Write out `RotateVector_41FC90` with an `Ang16&`.** Taking the sprite angle as `Ang16&`
 (not a copy) keeps sin in ebp and spills cos, as in `GetDoorWorldPos_43B420`. Also keep the
 `old_xpos` copy and write `x*cos + y*sin`. A static inline version doesn't match.
+
+**A tail call after a null test comes from an early return.** `test; jne L; xor al,al; ret;
+L: jmp callee` is `if (!p) return 0; return p->F();`, not if/else, which puts the `jmp` elsewhere
+(`Car_BC::IsThreatToSearchingPed_43AAE0`, `Object_2C::sub_525100`).
+
+**`u8 + int` passed to a `u8` parameter is added in a byte register.** An `s32` temporary keeps
+the `mov cl; mov eax,ecx; add eax` shape (`Car_BC::TurnToWreck_4436A0`).
+
+**`Fix16(0, 0)` vs `Fix16(0)` as a by-value argument.** `Fix16(0)` goes through the
+out-of-line `Fix16(s32)` ctor with stack temporaries; `Fix16(0, 0)` is an `xor` and a push
+(`sound_obj::InitMusicAndCopRadio_57E960`).
+
+**A one-case `switch` on a byte: `xor eax,eax; mov al,[x]; dec eax; jne`.** An `if (x == 1)`
+gives `cmpb $1` instead (`Frontend::DrawDeletePlayerDialog_4ADDE0`).
 
 **A `const T&` local can move its load.** `Mike_A80::DebugDrawProfiling_4FF250` loaded the five
 frame averages in the wrong order whatever the order or grouping of the sum. The fix was in an
