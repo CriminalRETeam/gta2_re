@@ -6752,14 +6752,16 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                     goto ret_false;
                 }
 
-                Fix16 dx = this->field_1AC_cam.x.Subtract_436A00(pS->field_1AC_cam.x);
-                Fix16 dy = this->field_1AC_cam.y.Subtract_436A00(pS->field_1AC_cam.y);
-                Fix16 adx = Fix16::Abs_436A50(dx);
-                Fix16 ady = Fix16::Abs_436A50(dy);
+                Fix16 sy = pS->field_1AC_cam.y;
+                Fix16 sx = pS->field_1AC_cam.x;
+                Fix16 dx;
+                dx = sx.Subtract_436A00(this->field_1AC_cam.x);
+                Fix16 dy;
+                dy = sy.Subtract_436A00(this->field_1AC_cam.y);
 
-                if (Fix16::Max_44E540(adx, ady).mValue > kFpQuarter_678788.mValue)
+                if (Fix16::Max_44E540(Fix16::Abs_436A50(dx), Fix16::Abs_436A50(dy)).mValue > kFpQuarter_678788.mValue)
                 {
-                    return 0;
+                    goto ret_false;
                 }
 
                 return 1;
@@ -6791,25 +6793,16 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
 
                 Fix16 dx = this->field_1AC_cam.x - pS->field_1AC_cam.x;
                 Fix16 dy = this->field_1AC_cam.y - pS->field_1AC_cam.y;
-                Ang16 angleTo = Fix16::atan2_fixed_405320(dy, dx);
-                Ang16 myRot = pS->GetRotation();
-                Ang16 relIn = Ang16(angleTo.rValue - myRot.rValue);
-                Ang16 rel;
-                rel.AssignNormalized_409300(relIn, 0);
-                Ang16 rangeIn = Ang16(gDummyPedAng_6787A8.rValue - word_6784F0.rValue);
-                Ang16 range;
-                range.AssignNormalized_409300(rangeIn, 0);
+                Ang16 rel(Ang16(Fix16::atan2_fixed_405320(dy, dx).rValue - gSearchingPed_6787DC->GetRotation().rValue), 0);
+                Ang16 range(Ang16(gDummyPedAng_6787A8.rValue - word_6784F0.rValue), 0);
 
-                if (rel < word_6784F0)
+                if (!(rel < word_6784F0))
                 {
-                    return 1;
+                    if (rel <= range)
+                    {
+                        goto ret_false;
+                    }
                 }
-
-                if (rel <= range)
-                {
-                    return 0;
-                }
-
                 return 1;
             }
 
@@ -6858,7 +6851,7 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                 {
                     if (!pCam->IsSpriteInView_435630(gSearchingPed_6787DC->field_16C_car->field_50_car_sprite, 1))
                     {
-                        return 0;
+                        goto ret_false;
                     }
                 }
             }
@@ -6867,16 +6860,16 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
 
             {
                 Ped* pS = gSearchingPed_6787DC;
+
+                if (pS == this)
+                {
+                    goto ret_false;
+                }
+
                 Fix16 dx = this->field_1AC_cam.x - pS->field_1AC_cam.x;
                 Fix16 dy = this->field_1AC_cam.y - pS->field_1AC_cam.y;
-                Ang16 angleTo = Fix16::atan2_fixed_405320(dy, dx);
-                Ang16 myRot = gSearchingPed_6787DC->GetRotation();
-                Ang16 relIn = Ang16(angleTo.rValue - myRot.rValue);
-                Ang16 rel;
-                rel.AssignNormalized_409300(relIn, 0);
-                Ang16 rangeIn = Ang16(gDummyPedAng_6787A8.rValue - word_6784F0.rValue);
-                Ang16 range;
-                range.AssignNormalized_409300(rangeIn, 0);
+                Ang16 rel(Ang16(Fix16::atan2_fixed_405320(dy, dx).rValue - gSearchingPed_6787DC->GetRotation().rValue), 0);
+                Ang16 range(Ang16(gDummyPedAng_6787A8.rValue - word_6784F0.rValue), 0);
 
                 if (!(rel < word_6784F0))
                 {
@@ -6913,13 +6906,18 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                 Fix16 sx = pS->field_1AC_cam.x;
                 Fix16 sy = pS->field_1AC_cam.y;
                 Fix16 sz = pS->field_1AC_cam.z;
-                Fix16 cx = this->field_1AC_cam.x;
-                Fix16 cy = this->field_1AC_cam.y;
-                Fix16 cz = this->field_1AC_cam.z;
 
                 if (field_238_ped_type == 2)
                 {
-                    if (gMap_0x370_6F6268->sub_4E5640(kFpQuarter_678484, kFpQuarter_678484, gSpawnJitterScale_678618, sx, sy, sz, cx, cy, cz))
+                    if (gMap_0x370_6F6268->sub_4E5640(kFpQuarter_678484,
+                                                      kFpQuarter_678484,
+                                                      gSpawnJitterScale_678618,
+                                                      sx,
+                                                      sy,
+                                                      sz,
+                                                      this->field_1AC_cam.x,
+                                                      this->field_1AC_cam.y,
+                                                      this->field_1AC_cam.z))
                     {
                         gSearchingPed_6787DC->field_21C |= 0x800000;
                         return gSearchingPed_6787DC->IsPedAThreat_465D00(this);
@@ -6929,8 +6927,15 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                     return 0;
                 }
 
-                return gMap_0x370_6F6268
-                    ->sub_4E5640(gSpawnJitterScale_678618 * 2, kFpQuarter_678484, gSpawnJitterScale_678618, sx, sy, sz, cx, cy, cz);
+                return gMap_0x370_6F6268->sub_4E5640(gSpawnJitterScale_678618 * 2,
+                                                     kFpQuarter_678484,
+                                                     gSpawnJitterScale_678618,
+                                                     sx,
+                                                     sy,
+                                                     sz,
+                                                     this->field_1AC_cam.x,
+                                                     this->field_1AC_cam.y,
+                                                     this->field_1AC_cam.z);
             }
     }
 
