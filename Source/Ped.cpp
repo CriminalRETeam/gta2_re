@@ -5445,91 +5445,73 @@ void Ped::sub_4645B0()
 }
 
 // https://decomp.me/scratch/LvHfw
-WIP_FUNC(0x465270)
+MATCH_FUNC(0x465270)
 void Ped::Threat_Reaction_AI_465270()
 {
-    WIP_IMPLEMENTED;
+    Ped* pTarget = 0;
+    bool bGiveUp = false;
+    bool bLineOfSightChecked = false;
+    Fix16 abs_x;
+    Fix16 abs_y;
 
-    Ped* BestTargetPed_Mode1_466B90 = 0;
-    bool bUnk2 = false;
-    bool bUnk = false;
-    s32 old_threat_search;
     switch (field_28C_threat_reaction)
     {
         case threat_reaction_enum::no_reaction_0:
-            old_threat_search = field_288_threat_search;
+        {
+            s32 old_threat_search = field_288_threat_search;
             if ((field_288_threat_search == threat_search_enum::line_of_sight_1 ||
                  field_288_threat_search == threat_search_enum::line_of_sight_player_only_6 ||
                  field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4) &&
-                field_21C_bf.b19 == false && byte_61A8A2 == 1)
+                !field_21C_bf.b19 && byte_61A8A2 == 1)
             {
                 field_288_threat_search = threat_search_enum::line_of_sight_player_only_6;
-                Ped* BestTargetPed_Mode5_466BD0 = Ped::FindBestTargetPed_Mode5_466BD0(3);
-                if (BestTargetPed_Mode5_466BD0)
+                Ped* pPlayerPed = Ped::FindBestTargetPed_Mode5_466BD0(3);
+                if (pPlayerPed && pPlayerPed->IsField238_45EDE0(2))
                 {
-                    if (BestTargetPed_Mode5_466BD0->IsField238_45EDE0(2))
-                    {
-                        field_21C_bf.b23 = true;
-                    }
+                    field_21C_bf.b23 = true;
                 }
                 field_288_threat_search = old_threat_search;
             }
-            return;
+            break;
+        }
 
         case threat_reaction_enum::run_away_3:
             if (field_168_game_object)
             {
-                if (bHaveThreateningPeds_6787DA)
+                if (bHaveThreateningPeds_6787DA && field_25C_internal_objective != objectives_enum::flee_char_on_foot_till_safe_2 &&
+                    !field_21C_bf.b27)
                 {
-                    if (field_25C_internal_objective != 2 && field_21C_bf.b27 == 0) // 0x8000000
+                    Ped* pDangerousPed = gThreateningPedsList_678468.GetFromListClosestPedToPoint_471340(field_1AC_cam.x, field_1AC_cam.y);
+                    if (pDangerousPed && (pDangerousPed->field_170_selected_weapon || pDangerousPed->field_16C_car) && pDangerousPed != this)
                     {
-                        Ped* pDangerousPed =
-                            gThreateningPedsList_678468.GetFromListClosestPedToPoint_471340(field_1AC_cam.x, field_1AC_cam.y);
-                        if (pDangerousPed)
+                        abs_x = Fix16::Abs(pDangerousPed->get_cam_x() - field_1AC_cam.x);
+                        abs_y = Fix16::Abs(pDangerousPed->get_cam_y() - field_1AC_cam.y);
+                        if (Fix16::Max(abs_x, abs_y) < kFpFour_678680)
                         {
-                            if ((pDangerousPed->field_170_selected_weapon || pDangerousPed->field_16C_car) && pDangerousPed != this)
+                            if (pDangerousPed->field_16C_car)
                             {
-                                Fix16 abs_x = Fix16::Abs(pDangerousPed->get_cam_x() - field_1AC_cam.x);
-                                Fix16 abs_y = Fix16::Abs(pDangerousPed->get_cam_y() - field_1AC_cam.y);
-
-                                // TODO: remove pointer hack
-                                Fix16* max = &abs_x;
-                                if (!(abs_x > abs_y))
-                                {
-                                    max = &abs_y;
-                                }
-
-                                if (*max < kFpFour_678680)
-                                {
-                                    if (pDangerousPed->field_16C_car)
-                                    {
-                                        Set_F250_IfBit_433DD0(1);
-                                    }
-                                    else
-                                    {
-                                        if (pDangerousPed->field_170_selected_weapon->GetWeaponType_41CC90() == weapon_type::pistol ||
-                                            pDangerousPed->field_170_selected_weapon->GetWeaponType_41CC90() == weapon_type::smg ||
-                                            pDangerousPed->field_170_selected_weapon->GetWeaponType_41CC90() == weapon_type::shotgun ||
-                                            pDangerousPed->field_170_selected_weapon->GetWeaponType_41CC90() == weapon_type::car_smg ||
-                                            pDangerousPed->field_170_selected_weapon->GetWeaponType_41CC90() == weapon_type::silence_smg ||
-                                            pDangerousPed->field_170_selected_weapon->GetWeaponType_41CC90() == weapon_type::dual_pistol)
-                                        {
-                                            Set_F250_IfBit_433DD0(3);
-                                        }
-                                        else
-                                        {
-                                            Set_F250_IfBit_433DD0(2);
-                                        }
-                                    }
-                                    Ped::SetObjective2_463830(2, 9999);
-                                    set_field_14C_403AE0(pDangerousPed);
-
-                                    field_130 = Fix16::atan2_fixed_405320(field_1AC_cam.y - pDangerousPed->get_cam_y(),
-                                                                          field_1AC_cam.x - pDangerousPed->get_cam_x());
-                                    field_168_game_object->set_rotation_433A30(field_130);
-                                    field_21C_bf.b2 = true;
-                                }
+                                Set_F250_IfBit_433DD0(1);
                             }
+                            else if (pDangerousPed->field_170_selected_weapon->GetWeaponType_41CC90() == weapon_type::pistol ||
+                                     pDangerousPed->field_170_selected_weapon->GetWeaponType_41CC90() == weapon_type::smg ||
+                                     pDangerousPed->field_170_selected_weapon->GetWeaponType_41CC90() == weapon_type::shotgun ||
+                                     pDangerousPed->field_170_selected_weapon->GetWeaponType_41CC90() == weapon_type::car_smg ||
+                                     pDangerousPed->field_170_selected_weapon->GetWeaponType_41CC90() == weapon_type::silence_smg ||
+                                     pDangerousPed->field_170_selected_weapon->GetWeaponType_41CC90() == weapon_type::dual_pistol)
+                            {
+                                Set_F250_IfBit_433DD0(3);
+                            }
+                            else
+                            {
+                                Set_F250_IfBit_433DD0(2);
+                            }
+                            Ped::SetObjective2_463830(objectives_enum::flee_char_on_foot_till_safe_2, 9999);
+                            set_field_14C_403AE0(pDangerousPed);
+
+                            field_130 = Fix16::atan2_fixed_405320(field_1AC_cam.y - pDangerousPed->get_cam_y(),
+                                                                  field_1AC_cam.x - pDangerousPed->get_cam_x());
+                            field_168_game_object->set_rotation_433A30(field_130);
+                            field_21C_bf.b2 = true;
                         }
                     }
                 }
@@ -5539,40 +5521,33 @@ void Ped::Threat_Reaction_AI_465270()
                 {
                     Ped::SetObjective(objectives_enum::no_obj_0, 9999);
                 }
-                if (field_25C_internal_objective == 2 && field_226_internal_objective_status == 1)
+                if (field_25C_internal_objective == objectives_enum::flee_char_on_foot_till_safe_2 &&
+                    field_226_internal_objective_status == 1)
                 {
-                    Ped::SetObjective2_463830(0, 9999);
+                    Ped::SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                     field_21C_bf.b2 = false;
                 }
             }
-            return;
+            break;
 
         case threat_reaction_enum::react_as_emergency_1:
         case threat_reaction_enum::react_as_normal_2:
             if (field_240_occupation == ped_ocupation_enum::paramedic_23)
             {
-                return;
+                break;
             }
+
             if (field_16C_car)
             {
                 if (field_28C_threat_reaction == threat_reaction_enum::react_as_normal_2)
                 {
-                    if (field_258_objective)
+                    if (field_258_objective && !field_21C_bf.b4 && field_218_objective_timer > 50 &&
+                        Ped::FindBestTargetPed_Mode1_466B90(3) && field_16C_car->GetVelocity_43A4C0() == kFpZero_678660)
                     {
-                        if (field_21C_bf.b4 == false && field_218_objective_timer > 0x32u)
-                        {
-                            if (Ped::FindBestTargetPed_Mode1_466B90(3))
-                            {
-                                if (field_16C_car->GetVelocity_43A4C0() == kFpZero_678660)
-                                {
-                                    field_21C_bf.b2 = true; // |= k_ped_0x00000004;
-                                    Ped::SetObjective2_463830(36, 9999);
-                                    field_16C_car = field_16C_car;
-                                    field_218_objective_timer = 0;
-                                    set_target_to_enter_403B00(field_16C_car);
-                                }
-                            }
-                        }
+                        field_21C_bf.b2 = true;
+                        Ped::SetObjective2_463830(objectives_enum::leave_car_36, 9999);
+                        field_218_objective_timer = 0;
+                        set_target_to_enter_403B00(field_16C_car);
                     }
                 }
                 else
@@ -5580,289 +5555,244 @@ void Ped::Threat_Reaction_AI_465270()
                     field_288_threat_search = threat_search_enum::line_of_sight_1;
                     Ped::FindBestTargetPed_Mode1_466B90(3);
                 }
-                //return;
             }
-            else
+            else if (field_25C_internal_objective == objectives_enum::kill_char_on_foot_20 || field_25C_internal_objective == 23 ||
+                     field_25C_internal_objective == 32)
             {
-                // line 138 9.6f IDA
-
-                if (field_25C_internal_objective == 20 || field_25C_internal_objective == 23 || field_25C_internal_objective == 32)
+                if (field_288_threat_search == threat_search_enum::line_of_sight_1 ||
+                    field_288_threat_search == threat_search_enum::line_of_sight_player_only_6 ||
+                    field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4)
                 {
-                    if (field_288_threat_search == threat_search_enum::line_of_sight_1 ||
-                        field_288_threat_search == threat_search_enum::line_of_sight_player_only_6 ||
-                        field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4)
+                    if (!field_21C_bf.b19 && byte_61A8A2 == 1)
                     {
-                        if (field_21C_bf.b19 == false && byte_61A8A2 == 1)
+                        pTarget = Ped::FindBestTargetPed_Mode5_466BD0(3);
+                        bLineOfSightChecked = true;
+                    }
+                }
+                else
+                {
+                    pTarget = Ped::FindBestTargetPed_Mode1_466B90(3);
+                }
+
+                if (field_28C_threat_reaction == threat_reaction_enum::react_as_normal_2)
+                {
+                    if (pTarget && pTarget != field_14C_internal_target_ped)
+                    {
+                        field_14C_internal_target_ped = pTarget;
+                    }
+                }
+                else
+                {
+                    if (pTarget && pTarget != field_14C_internal_target_ped)
+                    {
+                        Fix16 diff_x = pTarget->get_cam_x() - field_1AC_cam.x;
+                        Fix16 diff_y = pTarget->get_cam_y() - field_1AC_cam.y;
+                        abs_x = Fix16::Abs(diff_x);
+                        abs_y = Fix16::Abs(diff_y);
+                        if (Fix16::Max(abs_x, abs_y) < kFpTwo_678668)
                         {
-                            BestTargetPed_Mode1_466B90 = Ped::FindBestTargetPed_Mode5_466BD0(3);
-                            bUnk = true;
+                            field_14C_internal_target_ped = pTarget;
                         }
                     }
-                    else
+                    if (field_25C_internal_objective == 32 && (pTarget == field_14C_internal_target_ped || !pTarget))
                     {
-                        BestTargetPed_Mode1_466B90 = Ped::FindBestTargetPed_Mode1_466B90(3);
+                        break;
                     }
-                    if (field_28C_threat_reaction == threat_reaction_enum::react_as_normal_2)
+                }
+
+                Fix16 diff_x = field_1C4_x - field_1AC_cam.x;
+                Fix16 diff_y = field_1C8_y - field_1AC_cam.y;
+                abs_x = Fix16::Abs(diff_x);
+                abs_y = Fix16::Abs(diff_y);
+                Fix16 dist = Fix16::Max(abs_x, abs_y);
+
+                if (field_164_ped_group && field_23C_group_idx != 99)
+                {
+                    if (field_164_ped_group->IsMemberTooFarFromLeader_4CAC20(field_23C_group_idx))
                     {
-                        if (BestTargetPed_Mode1_466B90)
-                        {
-                            if (BestTargetPed_Mode1_466B90 != field_14C_internal_target_ped)
-                            {
-                                field_14C_internal_target_ped = BestTargetPed_Mode1_466B90;
-                            }
-                        }
+                        Ped::SetObjective2_463830(objectives_enum::objective_7, 9999);
+                        set_field_14C_403AE0(field_164_ped_group->field_2C_ped_leader);
+                        SetBit2_403950();
                     }
-                    else
+                    if (field_164_ped_group->IsLeaderEnteringCarOrUnknown5_4C9220() && field_164_ped_group->IsLeaderCloseToTargetCar_4CAD40())
                     {
-                        if (BestTargetPed_Mode1_466B90)
-                        {
-                            if (BestTargetPed_Mode1_466B90 != field_14C_internal_target_ped)
-                            {
-                                Fix16 diff_x = BestTargetPed_Mode1_466B90->get_cam_x() - field_1AC_cam.x;
-                                Fix16 diff_y = BestTargetPed_Mode1_466B90->get_cam_y() - field_1AC_cam.y;
-
-                                Fix16 abs_x = Fix16::Abs(diff_x);
-                                Fix16 abs_y = Fix16::Abs(diff_y);
-
-                                // TODO: remove pointer hack
-                                Fix16* max = &abs_x;
-                                if (!(abs_x > abs_y))
-                                {
-                                    max = &abs_y;
-                                }
-
-                                if (*max < kFpTwo_678668)
-                                {
-                                    field_14C_internal_target_ped = BestTargetPed_Mode1_466B90;
-                                }
-                            }
-                        }
-                        if (field_25C_internal_objective == 32 && (BestTargetPed_Mode1_466B90 == field_14C_internal_target_ped || !BestTargetPed_Mode1_466B90))
-                        {
-                            return;
-                        }
+                        Ped::SetObjective2_463830(objectives_enum::objective_7, 9999);
+                        set_field_14C_403AE0(field_164_ped_group->field_2C_ped_leader);
+                        SetBit2_403950();
                     }
+                }
 
-                    // line 175 9.6f IDA
-
-                    Fix16 diff_x_2 = field_1C4_x - field_1AC_cam.x;
-                    Fix16 diff_y_2 = field_1C8_y - field_1AC_cam.y;
-
-                    Fix16 abs_x_2 = Fix16::Abs(diff_x_2);
-                    Fix16 abs_y_2 = Fix16::Abs(diff_y_2);
-
-                    // TODO: remove pointer hack
-                    Fix16* unk_2 = &abs_x_2;
-                    if (!(abs_x_2 > abs_y_2))
+                if (dist <= kFpSix_678520)
+                {
+                    if (field_288_threat_search != threat_search_enum::line_of_sight_1 &&
+                        field_288_threat_search != threat_search_enum::line_of_sight_player_only_6 &&
+                        field_288_threat_search != threat_search_enum::line_of_sight_player_threat_only_4)
                     {
-                        unk_2 = &abs_y_2;
+                        field_20C = 0;
                     }
-                    Fix16 maximum = *unk_2;
-
-                    if (field_164_ped_group)
+                    else if (!field_21C_bf.b19 && byte_61A8A2 == 1)
                     {
-                        if (field_23C_group_idx != 99)
-                        {
-                            if (field_164_ped_group->IsMemberTooFarFromLeader_4CAC20(field_23C_group_idx)) // OBS: arg is u8 type
-                            {
-                                Ped::SetObjective2_463830(7, 9999);
-                                set_field_14C_403AE0(field_164_ped_group->field_2C_ped_leader);
-                                SetBit2_403950();
-                            }
-                            if (field_164_ped_group->IsLeaderEnteringCarOrUnknown5_4C9220() &&
-                                field_164_ped_group->IsLeaderCloseToTargetCar_4CAD40())
-                            {
-                                Ped::SetObjective2_463830(7, 9999);
-                                set_field_14C_403AE0(field_164_ped_group->field_2C_ped_leader);
-                                SetBit2_403950();
-                            }
-                        }
-                    }
-
-                    if (maximum <= kFpSix_678520)
-                    {
-                        if (field_288_threat_search != threat_search_enum::line_of_sight_1 &&
-                            field_288_threat_search != threat_search_enum::line_of_sight_player_only_6 &&
-                            field_288_threat_search != threat_search_enum::line_of_sight_player_threat_only_4)
-                        {
-                            field_20C = 0;
-                        }
-                        else if (field_21C_bf.b19 == false == 0 && byte_61A8A2 == 1)
-                        {
-                            if (!gMap_0x370_6F6268->sub_4E5640(gSpawnJitterScale_678618,
-                                                               kFpQuarter_678484,
-                                                               gSpawnJitterScale_678618,
-                                                               field_1AC_cam.x,
-                                                               field_1AC_cam.y,
-                                                               field_1AC_cam.z,
-                                                               field_14C_internal_target_ped->get_cam_x(),
-                                                               field_14C_internal_target_ped->get_cam_y(),
-                                                               field_14C_internal_target_ped->get_cam_z()))
-                            {
-                                ++field_20C;
-                            }
-                            else
-                            {
-                                field_20C = 0;
-                            }
-                            bUnk = 1;
-                        }
-                        else
+                        if (!gMap_0x370_6F6268->sub_4E5640(gSpawnJitterScale_678618,
+                                                           kFpQuarter_678484,
+                                                           gSpawnJitterScale_678618,
+                                                           field_1AC_cam.x,
+                                                           field_1AC_cam.y,
+                                                           field_1AC_cam.z,
+                                                           field_14C_internal_target_ped->get_cam_x(),
+                                                           field_14C_internal_target_ped->get_cam_y(),
+                                                           field_14C_internal_target_ped->get_cam_z()))
                         {
                             ++field_20C;
                         }
+                        else
+                        {
+                            field_20C = 0;
+                        }
+                        bLineOfSightChecked = true;
                     }
                     else
                     {
                         ++field_20C;
                     }
+                }
+                else
+                {
+                    ++field_20C;
+                }
+
+                if ((field_288_threat_search == threat_search_enum::line_of_sight_1 ||
+                     field_288_threat_search == threat_search_enum::line_of_sight_player_only_6 ||
+                     field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4) &&
+                    bLineOfSightChecked == true)
+                {
+                    field_21C_bf.b19 = true;
+                    byte_61A8A2 = 0;
+                }
+
+                if (field_20C > 15)
+                {
+                    bGiveUp = true;
+                }
+                if (field_14C_internal_target_ped->sub_433DA0())
+                {
+                    bGiveUp = true;
+                }
+                if (field_226_internal_objective_status == 1)
+                {
+                    bGiveUp = true;
+                }
+                if (field_226_internal_objective_status == 2)
+                {
+                    bGiveUp = true;
+                }
+                if (field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
+                {
+                    if (field_14C_internal_target_ped->get_wanted_star_count_46EF00() == 0 && field_14C_internal_target_ped->is_player_41B0A0())
+                    {
+                        bGiveUp = true;
+                    }
+                    if (field_258_objective == objectives_enum::enter_car_as_driver_35)
+                    {
+                        bGiveUp = true;
+                    }
+                }
+
+                if (bGiveUp == true)
+                {
+                    if (field_14C_internal_target_ped != field_148_objective_target_ped)
+                    {
+                        if (field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15)
+                        {
+                            field_0_patrol_points[0].field_0_x = 0;
+                            field_0_patrol_points[0].field_1_y = 0;
+                            field_21C_bf.b2 = false;
+                            field_21C_bf.b11 = false;
+                        }
+                        Ped::SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                    }
+                    else
+                    {
+                        field_226_internal_objective_status = 2;
+                    }
+                }
+            }
+            else
+            {
+                field_20C = 0;
+                if (field_21C_bf.b27)
+                {
+                    field_21C_bf.b2 = false;
+                }
+                else if (!field_164_ped_group ||
+                         (!field_164_ped_group->IsLeaderEnteringCarOrUnknown5_4C9220() && !field_164_ped_group->IsLeaderInCar_4C9210()))
+                {
+                    if (field_288_threat_search == threat_search_enum::line_of_sight_1 ||
+                        field_288_threat_search == threat_search_enum::line_of_sight_player_only_6 ||
+                        field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4)
+                    {
+                        if (!field_21C_bf.b19 && byte_61A8A2 == 1)
+                        {
+                            pTarget = Ped::FindBestTargetPed_Mode5_466BD0(3);
+                            bLineOfSightChecked = true;
+                        }
+                    }
+                    else
+                    {
+                        pTarget = Ped::FindBestTargetPed_Mode1_466B90(3);
+                    }
+
+                    if (pTarget && pTarget->field_21C_bf.b0)
+                    {
+                        if (field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
+                        {
+                            Set_F250_IfBit_433DD0(17);
+                        }
+                        if (!pTarget->get_car_416B60())
+                        {
+                            if (field_164_ped_group)
+                            {
+                                field_164_ped_group->MergeWithOtherGroup_4C9B60(pTarget);
+                            }
+                            else if (field_258_objective != objectives_enum::goto_area_any_means_13)
+                            {
+                                field_21C_bf.b2 = true;
+                                Ped::SetObjective2_463830(objectives_enum::kill_char_on_foot_20, 9999);
+                                field_14C_internal_target_ped = pTarget;
+                                pTarget->field_144_attacker = this;
+                                field_20C = 0;
+                            }
+                        }
+                        else if (!field_164_ped_group)
+                        {
+                            field_21C_bf.b2 = true;
+                            Ped::SetObjective2_463830(objectives_enum::kill_char_on_foot_20, 9999);
+                            field_14C_internal_target_ped = pTarget;
+                            field_20C = 0;
+                        }
+                        else
+                        {
+                            field_164_ped_group->MergeWithOtherGroup_4C9B60(pTarget);
+                        }
+                    }
+                    else
+                    {
+                        field_21C_bf.b2 = false;
+                    }
 
                     if ((field_288_threat_search == threat_search_enum::line_of_sight_1 ||
                          field_288_threat_search == threat_search_enum::line_of_sight_player_only_6 ||
                          field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4) &&
-                        bUnk == 1)
+                        bLineOfSightChecked == true)
                     {
                         field_21C_bf.b19 = true;
                         byte_61A8A2 = 0;
                     }
-                    if (field_20C > 15)
-                    {
-                        bUnk2 = 1;
-                    }
-
-                    if (field_14C_internal_target_ped->sub_433DA0())
-                    {
-                        bUnk2 = 1;
-                    }
-
-                    if (field_226_internal_objective_status == 1)
-                    {
-                        bUnk2 = 1;
-                    }
-                    if (field_226_internal_objective_status == 2)
-                    {
-                        bUnk2 = 1;
-                    }
-
-                    if (field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
-                    {
-                        if (field_14C_internal_target_ped->get_wanted_star_count_46EF00() == 0 && field_14C_internal_target_ped->is_player_41B0A0())
-                        {
-                            bUnk2 = 1;
-                        }
-                        if (field_258_objective == objectives_enum::enter_car_as_driver_35)
-                        {
-                            bUnk2 = 1;
-                        }
-                    }
-                    if (bUnk2 == 1)
-                    {
-                        if (field_14C_internal_target_ped != field_148_objective_target_ped)
-                        {
-                            if (field_168_game_object->GetCharState_433A80() != 15)
-                            {
-                                field_0_patrol_points[0].field_0_x = 0;
-                                field_0_patrol_points[0].field_1_y = 0;
-                                field_21C_bf.b2 = false;
-                                field_21C_bf.b11 = false;
-                            }
-                            Ped::SetObjective2_463830(0, 9999);
-                        }
-                        else
-                        {
-                            field_226_internal_objective_status = 2;
-                        }
-                    }
-                }
-                else
-                {
-                    field_20C = 0;
-                    if (field_21C_bf.b27)
-                    {
-                        field_21C_bf.b2 = false;
-                    }
-                    else
-                    {
-                        Ped* pPed;
-                        // line 308 in 9.6f IDA idb
-                        if (!field_164_ped_group ||
-                            !field_164_ped_group->IsLeaderEnteringCarOrUnknown5_4C9220() && !field_164_ped_group->IsLeaderInCar_4C9210())
-                        {
-                            if (field_288_threat_search == threat_search_enum::line_of_sight_1 ||
-                                field_288_threat_search == threat_search_enum::line_of_sight_player_only_6 ||
-                                field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4)
-                            {
-                                if (field_21C_bf.b19 || byte_61A8A2 != 1)
-                                {
-                                    goto LABEL_82;
-                                }
-                                else
-                                {
-                                    pPed = Ped::FindBestTargetPed_Mode5_466BD0(3);
-                                    bUnk = 1;
-                                }
-                            }
-                            else
-                            {
-                                pPed = Ped::FindBestTargetPed_Mode1_466B90(3);
-                            }
-                            if (pPed && pPed->field_21C_bf.b0) // 9.6f line 323
-                            {
-                                if (field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
-                                {
-                                    Set_F250_IfBit_433DD0(17);
-                                }
-                                PedGroup* pGroup1 = field_164_ped_group;
-                                if (pPed->get_car_416B60() == NULL)
-                                {
-                                    if (pGroup1)
-                                    {
-                                        pGroup1->MergeWithOtherGroup_4C9B60(pPed);
-                                    }
-                                    else
-                                    {
-                                        if (field_258_objective != objectives_enum::goto_area_any_means_13)
-                                        {
-                                            field_21C_bf.b2 = true;
-                                            Ped::SetObjective2_463830(20, 9999);
-                                            field_14C_internal_target_ped = pPed;
-                                            pPed->field_144_attacker = this;
-                                            field_20C = 0;
-                                        }
-                                    }
-                                }
-                                else if (!pGroup1)
-                                {
-                                    field_21C_bf.b2 = true;
-                                    Ped::SetObjective2_463830(20, 9999);
-                                    field_14C_internal_target_ped = pPed;
-                                    field_20C = 0;
-                                }
-                                else
-                                {
-                                    pGroup1->MergeWithOtherGroup_4C9B60(pPed);
-                                }
-                            }
-                            else
-                            {
-                            LABEL_82:
-                                field_21C_bf.b2 = false;
-                            }
-                            if ((field_288_threat_search == threat_search_enum::line_of_sight_1 ||
-                                 field_288_threat_search == threat_search_enum::line_of_sight_player_only_6 ||
-                                 field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4) &&
-                                bUnk == 1)
-                            {
-                                field_21C_bf.b19 = true;
-                                byte_61A8A2 = 0;
-                            }
-                        }
-                    }
                 }
             }
-            return;
+            break;
+
         default:
-            return;
+            break;
     }
 }
 
@@ -7004,116 +6934,105 @@ Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
 {
     WIP_IMPLEMENTED;
 
-
     gSearchingPed_6787DC = this;
 
-    Sprite* pNear = gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(
-        sprite_types_enum::ped_3,
-        sprite_types_enum::car_2,
-        this->field_168_game_object != 0 ? this->field_168_game_object->field_80_sprite_ptr : this->field_16C_car->field_50_car_sprite,
-        a2,
-        0,
-        0);
+    // Two calls: VC6 merges their identical tails
+    Sprite* pNear;
+    if (field_168_game_object)
+    {
+        pNear = gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::ped_3,
+                                                                            sprite_types_enum::car_2,
+                                                                            field_168_game_object->field_80_sprite_ptr,
+                                                                            a2,
+                                                                            0,
+                                                                            0);
+    }
+    else
+    {
+        pNear = gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::ped_3,
+                                                                            sprite_types_enum::car_2,
+                                                                            field_16C_car->field_50_car_sprite,
+                                                                            a2,
+                                                                            0,
+                                                                            0);
+    }
 
-    if (pNear == 0)
+    if (!pNear)
     {
         Ped* pClosest;
-        s32 zd;
-        if (this->field_164_ped_group != 0)
+        if (field_164_ped_group)
         {
-            if (this->field_164_ped_group->field_2C_ped_leader->field_15C_player != 0)
+            if (field_164_ped_group->field_2C_ped_leader->field_15C_player)
             {
                 pClosest = 0;
             }
             else
             {
-                pClosest = gThreateningPedsList_678468.GetFromListClosestPedToPoint_471340(this->field_1AC_cam.x, this->field_1AC_cam.y);
+                pClosest = gThreateningPedsList_678468.GetFromListClosestPedToPoint_471340(field_1AC_cam.x, field_1AC_cam.y);
             }
         }
         else
         {
-            pClosest = gThreateningPedsList_678468.GetFromListClosestPedToPoint_471340(this->field_1AC_cam.x, this->field_1AC_cam.y);
+            pClosest = gThreateningPedsList_678468.GetFromListClosestPedToPoint_471340(field_1AC_cam.x, field_1AC_cam.y);
         }
 
-        if ((u8)bStartNetworkGame_7081F0 != 0 && this->field_164_ped_group != 0)
+        if ((u8)bStartNetworkGame_7081F0 && field_164_ped_group)
         {
             Ped* bestPed = FindNearestEnemyPlayerPed_466BF0(this);
-            if (bestPed != 0)
+            if (bestPed)
             {
                 return bestPed;
             }
         }
 
-        if (pClosest == 0)
+        if (pClosest)
         {
-            goto ret_zero;
-        }
-
-        zd = this->field_1AC_cam.z.mValue - pClosest->field_1AC_cam.z.mValue;
-
-        if (zd <= 0)
-        {
-            zd = -zd;
-        }
-
-        if (zd >= kFpOne_678664.mValue)
-        {
-            goto ret_zero;
-        }
-
-        if (pClosest == gSearchingPed_6787DC)
-        {
-            goto ret_zero;
-        }
-
-        {
-            Ped* pS = gSearchingPed_6787DC;
-            Fix16 dx = pS->field_1AC_cam.x - pClosest->field_1AC_cam.x;
-            Fix16 dy = pS->field_1AC_cam.y - pClosest->field_1AC_cam.y;
-            if (Fix16::Max_44E540(Fix16::Abs_436A50(dx), Fix16::Abs_436A50(dy)).mValue >= kFpFour_678670.mValue)
+            s32 zd = field_1AC_cam.z.mValue - pClosest->field_1AC_cam.z.mValue;
+            if (zd <= 0)
             {
-                goto ret_zero;
-            }
-        }
-
-        if (pClosest->IsField238_45EDE0(2))
-        {
-            Player* pPlayer = pClosest->field_15C_player;
-            Camera_0xBC* pCam;
-
-            if (pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3)
-            {
-                pCam = &pPlayer->field_208_aux_game_camera;
-            }
-            else
-            {
-                pCam = &pPlayer->field_90_game_camera;
+                zd = -zd;
             }
 
-            Char_B4* pObj = gSearchingPed_6787DC->field_168_game_object;
-
-            if (pObj != 0)
+            if (zd < kFpOne_678664.mValue && pClosest != gSearchingPed_6787DC)
             {
-                if (!pCam->IsSpriteInView_435630(pObj->field_80_sprite_ptr, 1))
+                Ped* pSearching = gSearchingPed_6787DC;
+                Fix16 dx = pSearching->field_1AC_cam.x - pClosest->field_1AC_cam.x;
+                Fix16 dy = pSearching->field_1AC_cam.y - pClosest->field_1AC_cam.y;
+                if (Fix16::Max_44E540(Fix16::Abs_436A50(dx), Fix16::Abs_436A50(dy)) < kFpFour_678670)
                 {
-                    goto ret_zero;
-                }
-            }
-            else
-            {
-                if (!pCam->IsSpriteInView_435630(gSearchingPed_6787DC->field_16C_car->field_50_car_sprite, 1))
-                {
-                    goto ret_zero;
+                    if (pClosest->IsField238_45EDE0(2))
+                    {
+                        Player* pPlayer = pClosest->field_15C_player;
+                        Camera_0xBC* pCam;
+                        if (pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3)
+                        {
+                            pCam = &pPlayer->field_208_aux_game_camera;
+                        }
+                        else
+                        {
+                            pCam = &pPlayer->field_90_game_camera;
+                        }
+
+                        if (gSearchingPed_6787DC->field_168_game_object)
+                        {
+                            if (!pCam->IsSpriteInView_435630(gSearchingPed_6787DC->field_168_game_object->field_80_sprite_ptr, 1))
+                            {
+                                return 0;
+                            }
+                        }
+                        else if (!pCam->IsSpriteInView_435630(gSearchingPed_6787DC->field_16C_car->field_50_car_sprite, 1))
+                        {
+                            return 0;
+                        }
+                    }
+
+                    if (IsPedAThreat_465D00(pClosest))
+                    {
+                        return pClosest;
+                    }
                 }
             }
         }
-
-        if (this->IsPedAThreat_465D00(pClosest))
-        {
-            return pClosest;
-        }
-
-    ret_zero:
         return 0;
     }
 
@@ -7124,7 +7043,6 @@ Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
         case sprite_types_enum::ped_3:
             return pNear->field_8_char_b4_ptr->field_7C_pPed;
     }
-
     return 0;
 }
 
@@ -8473,93 +8391,25 @@ WIP_FUNC(0x469060)
 void Ped::GotoAreaByAnyMeans_469060()
 {
     WIP_IMPLEMENTED;
-    Sprite* v5;
-    Sprite* pCarSprite;
-    Ped* v15;
-    Car_BC* TaxiNear_457BF0;
-    Sprite* v25;
-    Gang_144* v34;
 
-    s8 gang_idx;
-    u8 xpos_u8;
-    u8 ypos_u8;
-    u8 zpos_u8;
+    u8 bCanAllocate;
+    u8 xpos;
+    u8 ypos;
+    u8 zpos;
+    u8 target_x;
+    u8 target_y;
+    u8 target_z;
 
-    if (gDistanceToTarget_678750 <= kFpFour_678680 || field_21C_bf.b2)
-    {
-        if (!field_21C_bf.b2)
-        {
-            if (field_258_objective == objectives_enum::kill_char_any_means_19)
-            {
-                if (field_16C_car)
-                {
-                    if (field_16C_car->GetVelocity_43A4C0() < kFpPoint02_678630 && !field_21C_bf.b4)
-                    {
-                        Ped::SetObjective2_463830(36, 9999);
-                        field_218_objective_timer = 0;
-                        field_154_target_to_enter = field_16C_car;
-                        if (field_16C_car->field_60)
-                        {
-                            gHamburger_500_678E30->FreeEntry_474CC0(field_16C_car->field_60);
-                            field_16C_car->field_60 = 0;
-                        }
-                        field_16C_car->SetUniNum_421560(3);
-                        field_16C_car->field_76_last_seen_timer = 0;
-                    }
-                }
-                else if (field_148_objective_target_ped->field_16C_car)
-                {
-                    if (gDistanceToTarget_678750 > kFpFour_678680 && field_158_unk_car)
-                    {
-                        Ped::SetObjective2_463830(35, 9999);
-                        field_154_target_to_enter = field_158_unk_car;
-                    }
-                    else
-                    {
-                        Ped::SetObjective2_463830(0, 9999);
-                    }
-                }
-            }
-            else if (gDistanceToTarget_678750 >= kFpOneEighth_6784E8 || field_16C_car)
-            {
-                if (field_16C_car)
-                {
-                    if (field_16C_car->GetVelocity_43A4C0() == kFpZero_678660)
-                    {
-                        if ((field_21C & 0x40) != 0)
-                        {
-                            field_16C_car->SetUniNum_421560(3);
-                        }
-                        Ped::SetObjective2_463830(36, 9999);
-                        field_218_objective_timer = 0;
-                        field_154_target_to_enter = field_16C_car;
-                    }
-                }
-                else
-                {
-                    Ped::SetObjective2_463830(12, 9999);
-                    field_1D0_internal_target_x = field_1DC_objective_target_x;
-                    field_1D4_internal_target_y = field_1E0_objective_target_y;
-                    field_1D8_internal_target_z = field_1E4_objective_target_z;
-                }
-            }
-            else
-            {
-                field_225_objective_status = 1;
-                Ped::SetObjective2_463830(26, 9999);
-            }
-        }
-    }
-    else
+    if (gDistanceToTarget_678750 > kFpFour_678680 && !field_21C_bf.b2)
     {
         if (!field_16C_car)
         {
             switch (field_25C_internal_objective)
             {
-                case objectives_enum::enter_car_as_driver_35: //0x23:
+                case objectives_enum::enter_car_as_driver_35:
                     if (field_154_target_to_enter->IsDespawning_4215B0())
                     {
-                        Ped::SetObjective2_463830(12, 128);
+                        Ped::SetObjective2_463830(objectives_enum::goto_area_on_foot_12, 128);
                         field_158_unk_car = 0;
                         field_1D0_internal_target_x = field_1DC_objective_target_x;
                         field_1D4_internal_target_y = field_1E0_objective_target_y;
@@ -8567,9 +8417,8 @@ void Ped::GotoAreaByAnyMeans_469060()
                     }
                     else
                     {
-                        v5 = field_154_target_to_enter->field_50_car_sprite;
-
-                        if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, v5->field_14_xy.x, v5->field_14_xy.y) >
+                        Sprite* pSprite = field_154_target_to_enter->field_50_car_sprite;
+                        if (Fix16::MaxAbsDistanceOOL_42A6B0(field_1AC_cam.x, field_1AC_cam.y, pSprite->field_14_xy.x, pSprite->field_14_xy.y) >
                             kFpTwo_678658)
                         {
                             if (field_144_attacker)
@@ -8578,38 +8427,38 @@ void Ped::GotoAreaByAnyMeans_469060()
                             }
                             field_144_attacker = 0;
                         }
-                        if (field_25C_internal_objective == 35 && (field_154_target_to_enter->IsDespawning_4215B0() || field_226_internal_objective_status == 2))
+                        if (field_25C_internal_objective == objectives_enum::enter_car_as_driver_35 &&
+                            (field_154_target_to_enter->IsDespawning_4215B0() || field_226_internal_objective_status == 2))
                         {
-                            Ped::SetObjective2_463830(12, 64);
+                            Ped::SetObjective2_463830(objectives_enum::goto_area_on_foot_12, 64);
                             field_1D0_internal_target_x = field_1DC_objective_target_x;
                             field_1D4_internal_target_y = field_1E0_objective_target_y;
                             field_1D8_internal_target_z = field_1E4_objective_target_z;
                         }
                     }
+                    break;
 
-                    return;
-
-                case objectives_enum::leave_car_36: //0x24:
+                case objectives_enum::leave_car_36:
                     if (field_226_internal_objective_status == 1)
                     {
-                        Ped::SetObjective2_463830(12, 128);
+                        Ped::SetObjective2_463830(objectives_enum::goto_area_on_foot_12, 128);
                         field_1D0_internal_target_x = field_1DC_objective_target_x;
                         field_1D4_internal_target_y = field_1E0_objective_target_y;
                         field_1D8_internal_target_z = field_1E4_objective_target_z;
                     }
-                    return;
+                    break;
 
-                case objectives_enum::goto_area_on_foot_12: //0xC:
+                case objectives_enum::goto_area_on_foot_12:
                     if (field_226_internal_objective_status == 1)
                     {
                         field_226_internal_objective_status = 0;
-                        Ped::SetObjective2_463830(0, 9999);
+                        Ped::SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                     }
                     else
                     {
                         if (gDistanceToTarget_678750 > kFpSix_678678)
                         {
-                            Ped::SetObjective2_463830(0, 9999);
+                            Ped::SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                         }
                         if (field_144_attacker)
                         {
@@ -8617,299 +8466,330 @@ void Ped::GotoAreaByAnyMeans_469060()
                         }
                         field_144_attacker = 0;
                     }
+                    break;
 
-                    return;
-
-                case objectives_enum::flee_char_on_foot_till_safe_2: //2:
+                case objectives_enum::flee_char_on_foot_till_safe_2:
                     if (field_158_unk_car)
                     {
-                        pCarSprite = field_158_unk_car->field_50_car_sprite;
-                        if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x,
-                                                         field_1AC_cam.y,
-                                                         pCarSprite->field_14_xy.x,
-                                                         pCarSprite->field_14_xy.y) < kFpFour_678680 ||
+                        Sprite* pSprite = field_158_unk_car->field_50_car_sprite;
+                        if (Fix16::MaxAbsDistanceOOL_42A6B0(field_1AC_cam.x, field_1AC_cam.y, pSprite->field_14_xy.x, pSprite->field_14_xy.y) <
+                                kFpFour_678680 ||
                             field_226_internal_objective_status == 1)
                         {
-                            Ped::SetObjective2_463830(35, 9999);
+                            Ped::SetObjective2_463830(objectives_enum::enter_car_as_driver_35, 9999);
                             field_154_target_to_enter = field_158_unk_car;
                         }
                     }
                     else
                     {
-                        Ped::SetObjective2_463830(0, 9999);
+                        Ped::SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                     }
+                    break;
 
-                    return;
-
-                case objectives_enum::kill_char_on_foot_20: //0x14:
-                    v15 = field_14C_internal_target_ped;
-                    // 9.6f: get_cam_x/get_cam_y on v15 (inlined, using them makes the diff worse)
-
-                    if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, v15->field_1AC_cam.x, v15->field_1AC_cam.y) >
+                case objectives_enum::kill_char_on_foot_20:
+                {
+                    if (Fix16::MaxAbsDistanceOOL_42A6B0(field_1AC_cam.x, field_1AC_cam.y, field_14C_internal_target_ped->field_1AC_cam.x, field_14C_internal_target_ped->field_1AC_cam.y) >
                             kFpTwo_678658 ||
                         field_226_internal_objective_status == 1)
                     {
                         field_21C_bf.b11 = false;
-                        if (field_158_unk_car)
+                        if (field_158_unk_car && field_158_unk_car->field_54_driver)
                         {
-                            if (field_158_unk_car->field_54_driver)
-                            {
-                                field_158_unk_car = 0;
-                            }
+                            field_158_unk_car = 0;
                         }
                         if (field_158_unk_car)
                         {
-                            Ped::SetObjective2_463830(35, 9999);
+                            Ped::SetObjective2_463830(objectives_enum::enter_car_as_driver_35, 9999);
                             field_154_target_to_enter = field_158_unk_car;
                         }
                         else
                         {
-                            Ped::SetObjective2_463830(0, 9999);
+                            Ped::SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                         }
                     }
-                    return;
+                    break;
+                }
 
-                case objectives_enum::objective_9: //9:
+                case objectives_enum::objective_9:
                     if (field_164_ped_group->Get_F3C_433370() != 1)
                     {
                         if (field_158_unk_car)
                         {
-                            Ped::SetObjective2_463830(35, 9999);
+                            Ped::SetObjective2_463830(objectives_enum::enter_car_as_driver_35, 9999);
                             field_154_target_to_enter = field_158_unk_car;
                         }
                         else
                         {
-                            Ped::SetObjective2_463830(0, 9999);
+                            Ped::SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                         }
                     }
-                    return;
+                    break;
 
                 default:
+                {
+                    Car_BC* pCar;
                     if (!field_21C_bf.b6)
                     {
-                        TaxiNear_457BF0 =
-                            gCar_6C_677930->GetNearestEnterableCarFromCoord_444FA0(field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, this);
-                        //TaxiNear_457BF0 = NearestEnterableCarFromCoord_444FA0;
-                        if (TaxiNear_457BF0)
+                        pCar = gCar_6C_677930->GetNearestEnterableCarFromCoord_444FA0(field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, this);
+                        if (pCar)
                         {
-                            v25 = TaxiNear_457BF0->field_50_car_sprite;
-
-                            if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, v25->field_14_xy.x, v25->field_14_xy.y) <=
+                            Sprite* pSprite = pCar->field_50_car_sprite;
+                            if (Fix16::MaxAbsDistanceOOL_42A6B0(field_1AC_cam.x, field_1AC_cam.y, pSprite->field_14_xy.x, pSprite->field_14_xy.y) >
                                 kFpFour_678680)
                             {
-                            LABEL_69:
-                                if (!TaxiNear_457BF0->field_80 && !TaxiNear_457BF0->IsDespawning_4215B0())
-                                {
-                                    Ped::SetObjective2_463830(35, 9999);
-                                    if ((field_21C & 0x40) != 0)
-                                    {
-                                        field_248_enter_car_as_passenger = 1;
-                                        TaxiNear_457BF0->sub_43AF60();
-                                        field_24C_target_car_door = 2;
-                                    }
-                                    else
-                                    {
-                                        field_248_enter_car_as_passenger = 0;
-                                    }
-                                    field_154_target_to_enter = TaxiNear_457BF0;
-                                    field_158_unk_car = TaxiNear_457BF0;
-                                    // 9.6f: Char_B4::Set_F84_433900 (inlined, using it makes the diff worse)
-                                    field_168_game_object->field_84_target_car = TaxiNear_457BF0;
-                                    return;
-                                }
-                                goto LABEL_57;
+                                pCar = 0;
                             }
                         }
 
-                        xpos_u8 = field_1AC_cam.x.ToUInt8();
-                        ypos_u8 = field_1AC_cam.y.ToUInt8();
-                        zpos_u8 = field_1AC_cam.z.ToUInt8();
+                        if (!pCar)
+                        {
+                            xpos = field_1AC_cam.x.ToUInt8();
+                            ypos = field_1AC_cam.y.ToUInt8();
+                            zpos = field_1AC_cam.z.ToUInt8();
 
-                        u8 v74 = gCar_6C_677930->CanAllocateOfType_446930(1);
-                        if (!v74 || !gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos_u8, &ypos_u8, &zpos_u8, 1))
-                        {
-                            if (gDistanceToTarget_678750 < kFpFour_678680)
+                            bCanAllocate = gCar_6C_677930->CanAllocateOfType_446930(1);
+                            if (bCanAllocate && gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, 1))
                             {
-                                Ped::SetObjective2_463830(12, 9999);
-                                field_1D0_internal_target_x = field_1DC_objective_target_x;
-                                field_1D4_internal_target_y = field_1E0_objective_target_y;
-                                ;
-                                field_1D8_internal_target_z = field_1E4_objective_target_z;
-                            }
-                            if (!v74)
-                            {
-                                gCar_6C_677930->field_54 = 2;
-                            }
-                        }
-                        else
-                        {
-                            TaxiNear_457BF0 =
-                                gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(field_274_gang_car_model, xpos_u8, ypos_u8, zpos_u8);
-                            if (TaxiNear_457BF0)
-                            {
-                                TaxiNear_457BF0->IncrementCarStats_443D70(1);
-                                if (field_140_stolen_car)
+                                pCar = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(field_274_gang_car_model, xpos, ypos, zpos);
+                                if (pCar)
                                 {
-                                    if (!field_140_stolen_car->field_54_driver)
+                                    pCar->IncrementCarStats_443D70(1);
+                                    if (field_140_stolen_car && !field_140_stolen_car->field_54_driver)
                                     {
                                         field_140_stolen_car->SetUniNum_421560(3);
                                     }
-                                }
-                                gang_idx = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(field_274_gang_car_model);
-                                if (gang_idx > -1)
-                                {
-                                    v34 = gGangPool_CA8_67E274->GangByIdx_4BF1C0(gang_idx);
-                                    TaxiNear_457BF0->AttachGangIcon_440660(v34->field_138_arrow_colour);
-                                    if (v34->field_140_gang_car_remap > -1)
+                                    s8 gang_idx = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(field_274_gang_car_model);
+                                    if (gang_idx > -1)
                                     {
-                                        TaxiNear_457BF0->SetCarRemap(v34->field_140_gang_car_remap);
+                                        Gang_144* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(gang_idx);
+                                        pCar->AttachGangIcon_440660(pGang->field_138_arrow_colour);
+                                        if (pGang->field_140_gang_car_remap > -1)
+                                        {
+                                            pCar->SetCarRemap(pGang->field_140_gang_car_remap);
+                                        }
                                     }
+                                    pCar->SetUniNum_421560(6);
+                                    field_140_stolen_car = pCar;
                                 }
-                                TaxiNear_457BF0->field_7C_uni_num = 6;
-                                TaxiNear_457BF0->field_76_last_seen_timer = 0;
-                                field_140_stolen_car = TaxiNear_457BF0;
-                                goto LABEL_68;
+                            }
+                            else
+                            {
+                                if (gDistanceToTarget_678750 < kFpFour_678680)
+                                {
+                                    Ped::SetObjective2_463830(objectives_enum::goto_area_on_foot_12, 9999);
+                                    field_1D0_internal_target_x = field_1DC_objective_target_x;
+                                    field_1D4_internal_target_y = field_1E0_objective_target_y;
+                                    field_1D8_internal_target_z = field_1E4_objective_target_z;
+                                }
+                                if (!bCanAllocate)
+                                {
+                                    gCar_6C_677930->field_54 = 2;
+                                }
                             }
                         }
                     }
                     else
                     {
-                        TaxiNear_457BF0 = gTaxi_4_704130->GetTaxiNear_457BF0(field_1AC_cam.x, field_1AC_cam.y);
-                        if (!TaxiNear_457BF0)
+                        pCar = gTaxi_4_704130->GetTaxiNear_457BF0(field_1AC_cam.x, field_1AC_cam.y);
+                        if (!pCar)
                         {
-                            xpos_u8 = field_1AC_cam.x.ToUInt8();
-                            ypos_u8 = field_1AC_cam.y.ToUInt8();
-                            zpos_u8 = field_1AC_cam.z.ToUInt8();
+                            xpos = field_1AC_cam.x.ToUInt8();
+                            ypos = field_1AC_cam.y.ToUInt8();
+                            zpos = field_1AC_cam.z.ToUInt8();
 
                             if (gCar_6C_677930->CanAllocateOfType_446930(1) &&
-                                gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos_u8, &ypos_u8, &zpos_u8, 1))
+                                gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, 1))
                             {
-                                TaxiNear_457BF0 =
-                                    gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(Ped::sub_469010(), xpos_u8, ypos_u8, zpos_u8);
-                                if (TaxiNear_457BF0)
+                                pCar = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(Ped::sub_469010(), xpos, ypos, zpos);
+                                if (pCar)
                                 {
-                                    TaxiNear_457BF0->IncrementCarStats_443D70(1);
+                                    pCar->IncrementCarStats_443D70(1);
                                 }
                             }
                         }
 
-                        if (TaxiNear_457BF0)
+                        if (pCar)
                         {
-                            // 9.6f: Car_BC::sub_421510 (inlined, allocates field_5C_AI if needed)
-                            if (!TaxiNear_457BF0->field_5C_AI)
+                            // 9.6f: Car_BC::sub_421510 (allocates field_5C_AI if needed)
+                            if (!pCar->field_5C_AI)
                             {
-                                TaxiNear_457BF0->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate(); //field_0_pFirst;
+                                pCar->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
                             }
-                            TaxiNear_457BF0->field_5C_AI->SetCar_453BF0(TaxiNear_457BF0);
-                            TaxiNear_457BF0->SpawnDriverPed();
-                            // 9.6f: Car_BC::SetUniNum_421560 and sub_426E00 (inlined, using them makes the diff worse)
-                            TaxiNear_457BF0->field_7C_uni_num = 6;
-                            TaxiNear_457BF0->field_76_last_seen_timer = 0;
-                            TaxiNear_457BF0->InitCarAIControl_440590();
-                            TaxiNear_457BF0->field_9C_engine_status = 3;
-                            TaxiNear_457BF0->HeadlightsOn_43BFE0();
-                            TaxiNear_457BF0->sub_43AF60();
-                        LABEL_68:
-                            if (TaxiNear_457BF0)
-                            {
-                                goto LABEL_69;
-                            }
+                            pCar->field_5C_AI->SetCar_453BF0(pCar);
+                            pCar->SpawnDriverPed();
+                            pCar->SetUniNum_421560(6);
+                            pCar->InitCarAIControl_440590();
+                            // 9.6f: Car_BC::sub_426E00
+                            pCar->field_9C_engine_status = 3;
+                            pCar->HeadlightsOn_43BFE0();
+                            pCar->sub_43AF60();
                         }
                     }
-                LABEL_57:
-                    if (gDistanceToTarget_678750 < kFpFour_678680)
+
+                    if (pCar && !pCar->field_80 && !pCar->IsDespawning_4215B0())
                     {
-                        Ped::SetObjective2_463830(12, 128);
+                        Ped::SetObjective2_463830(objectives_enum::enter_car_as_driver_35, 9999);
+                        if (field_21C_bf.b6)
+                        {
+                            field_248_enter_car_as_passenger = 1;
+                            pCar->sub_43AF60();
+                            field_24C_target_car_door = 2;
+                        }
+                        else
+                        {
+                            field_248_enter_car_as_passenger = 0;
+                        }
+                        field_154_target_to_enter = pCar;
+                        field_158_unk_car = pCar;
+                        // 9.6f: Char_B4::Set_F84_433900
+                        field_168_game_object->field_84_target_car = pCar;
+                    }
+                    else if (gDistanceToTarget_678750 < kFpFour_678680)
+                    {
+                        Ped::SetObjective2_463830(objectives_enum::goto_area_on_foot_12, 128);
                         field_1D0_internal_target_x = field_1DC_objective_target_x;
                         field_1D4_internal_target_y = field_1E0_objective_target_y;
                         field_1D8_internal_target_z = field_1E4_objective_target_z;
                     }
-                    return;
+                    break;
+                }
             }
         }
-
-        if (!field_21C_bf.b6 || field_16C_car->field_54_driver)
+        else if (field_21C_bf.b6 && !field_16C_car->field_54_driver)
         {
-            if (field_25C_internal_objective == 14)
+            field_16C_car->field_80 = 1;
+            field_16C_car->SetUniNum_421560(3);
+            Ped::SetObjective2_463830(objectives_enum::leave_car_36, 9999);
+            field_218_objective_timer = 0;
+            field_154_target_to_enter = field_16C_car;
+            field_158_unk_car = 0;
+        }
+        else if (field_25C_internal_objective == objectives_enum::goto_area_in_car_14)
+        {
+            if (field_16C_car->field_8C_damage_level >= 4)
             {
-                if (field_16C_car->field_8C_damage_level >= 4)
+                field_16C_car->field_80 = 1;
+                field_16C_car->SetUniNum_421560(3);
+                Ped::SetObjective2_463830(objectives_enum::leave_car_36, 9999);
+                field_218_objective_timer = 0;
+                field_154_target_to_enter = field_16C_car;
+                field_158_unk_car = 0;
+            }
+            else if (field_16C_car->GetVelocity_43A4C0() == kFpZero_678660)
+            {
+                if (++field_218_objective_timer > 500)
                 {
                     field_16C_car->field_80 = 1;
-                    field_16C_car->field_7C_uni_num = 3;
-                    field_16C_car->field_76_last_seen_timer = 0;
-                    Ped::SetObjective2_463830(36, 9999);
+                    field_16C_car->SetUniNum_421560(3);
+                    Ped::SetObjective2_463830(objectives_enum::leave_car_36, 9999);
                     field_218_objective_timer = 0;
                     field_154_target_to_enter = field_16C_car;
                     field_158_unk_car = 0;
                 }
+            }
+            else if (field_16C_car->GetVelocity_43A4C0() > kFpZero_678660)
+            {
+                field_218_objective_timer = 0;
+            }
+        }
+        else
+        {
+            if (field_21C_bf.b6)
+            {
+                field_16C_car->SetUniNum_421560(6);
+            }
+            bool bGroupReady = field_23C_group_idx != 99 || field_164_ped_group->IsAllMembersInSomeCar_4CAA20();
+            if (bGroupReady)
+            {
+                if (field_258_objective == objectives_enum::kill_char_any_means_19)
+                {
+                    Ped::SetObjective2_463830(objectives_enum::objective_52, 9999);
+                    // 9.6f: set_field_14C_403AE0
+                    field_14C_internal_target_ped = field_148_objective_target_ped;
+                }
                 else
                 {
-                    if (field_16C_car->GetVelocity_43A4C0() == kFpZero_678660)
+                    Ped::SetObjective2_463830(objectives_enum::goto_area_in_car_14, 9999);
+
+                    target_x = field_1DC_objective_target_x.ToUInt8();
+                    target_y = field_1E0_objective_target_y.ToUInt8();
+                    target_z = field_1E4_objective_target_z.ToUInt8();
+
+                    field_218_objective_timer = 0;
+                    if (!gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &target_x, &target_y, &target_z, 0))
                     {
-                        if (++field_218_objective_timer > 0x1F4u)
-                        {
-                            field_16C_car->field_80 = 1;
-                            field_16C_car->SetUniNum_421560(3);
-                            Ped::SetObjective2_463830(36, 9999);
-                            field_218_objective_timer = 0;
-                            field_154_target_to_enter = field_16C_car;
-                            field_158_unk_car = 0;
-                        }
-                    }
-                    else if (field_16C_car->GetVelocity_43A4C0() > kFpZero_678660)
-                    {
+                        field_16C_car->field_80 = 1;
+                        field_16C_car->SetUniNum_421560(3);
+                        Ped::SetObjective2_463830(objectives_enum::leave_car_36, 9999);
                         field_218_objective_timer = 0;
+                        field_154_target_to_enter = field_16C_car;
+                        field_158_unk_car = 0;
                     }
                 }
             }
             else
             {
-                if (field_21C_bf.b6)
+                field_16C_car->sub_43AF60();
+            }
+        }
+    }
+    else if (!field_21C_bf.b2)
+    {
+        if (field_258_objective == objectives_enum::kill_char_any_means_19)
+        {
+            if (field_16C_car)
+            {
+                if (field_16C_car->GetVelocity_43A4C0() < kFpPoint02_678630 && !field_21C_bf.b4)
                 {
-                    field_16C_car->SetUniNum_421560(6);
+                    Ped::SetObjective2_463830(objectives_enum::leave_car_36, 9999);
+                    field_218_objective_timer = 0;
+                    field_154_target_to_enter = field_16C_car;
+                    if (field_16C_car->field_60)
+                    {
+                        gHamburger_500_678E30->FreeEntry_474CC0(field_16C_car->field_60);
+                        field_16C_car->field_60 = 0;
+                    }
+                    field_16C_car->SetUniNum_421560(3);
+                    field_16C_car->field_76_last_seen_timer = 0;
                 }
-                if (field_23C_group_idx != 99 || field_164_ped_group->IsAllMembersInSomeCar_4CAA20())
+            }
+            else if (field_148_objective_target_ped->field_16C_car)
+            {
+                if (gDistanceToTarget_678750 > kFpFour_678680 && field_158_unk_car)
                 {
-                    if (field_258_objective == objectives_enum::kill_char_any_means_19)
-                    {
-                        Ped::SetObjective2_463830(52, 9999);
-                        // 9.6f: set_field_14C_403AE0 (inlined, using it makes the diff worse)
-                        field_14C_internal_target_ped = field_148_objective_target_ped;
-                    }
-                    else
-                    {
-                        Ped::SetObjective2_463830(14, 9999);
-
-                        xpos_u8 = field_1DC_objective_target_x.ToUInt8();
-                        ypos_u8 = field_1E0_objective_target_y.ToUInt8();
-                        zpos_u8 = field_1E4_objective_target_z.ToUInt8();
-
-                        field_218_objective_timer = 0;
-                        if (!gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos_u8, &ypos_u8, &zpos_u8, 0))
-                        {
-                            field_16C_car->field_80 = 1;
-                            field_16C_car->SetUniNum_421560(3);
-                            Ped::SetObjective2_463830(36, 9999);
-                            field_218_objective_timer = 0;
-                            field_154_target_to_enter = field_16C_car;
-                            field_158_unk_car = 0;
-                        }
-                    }
+                    Ped::SetObjective2_463830(objectives_enum::enter_car_as_driver_35, 9999);
+                    field_154_target_to_enter = field_158_unk_car;
                 }
                 else
                 {
-                    field_16C_car->sub_43AF60();
+                    Ped::SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                 }
+            }
+        }
+        else if (gDistanceToTarget_678750 < kFpOneEighth_6784E8 && !field_16C_car)
+        {
+            field_225_objective_status = 1;
+            Ped::SetObjective2_463830(objectives_enum::wait_on_foot_26, 9999);
+        }
+        else if (field_16C_car)
+        {
+            if (field_16C_car->GetVelocity_43A4C0() == kFpZero_678660)
+            {
+                if (field_21C_bf.b6)
+                {
+                    field_16C_car->SetUniNum_421560(3);
+                }
+                Ped::SetObjective2_463830(objectives_enum::leave_car_36, 9999);
+                field_218_objective_timer = 0;
+                field_154_target_to_enter = field_16C_car;
             }
         }
         else
         {
-            field_16C_car->field_80 = 1;
-            field_16C_car->SetUniNum_421560(3);
-            Ped::SetObjective2_463830(36, 9999);
-            field_218_objective_timer = 0;
-            field_154_target_to_enter = field_16C_car;
-            field_158_unk_car = 0;
+            Ped::SetObjective2_463830(objectives_enum::goto_area_on_foot_12, 9999);
+            field_1D0_internal_target_x = field_1DC_objective_target_x;
+            field_1D4_internal_target_y = field_1E0_objective_target_y;
+            field_1D8_internal_target_z = field_1E4_objective_target_z;
         }
     }
 }
