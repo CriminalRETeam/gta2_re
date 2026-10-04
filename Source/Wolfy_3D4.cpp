@@ -20,7 +20,10 @@ EXTERN_GLOBAL(u16, gParticleInstCount_6FD5F4);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Zero_6FD49C, Fix16(0), 0x6FD49C);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_6FD5D4, Ang16(0), 0x6FD5D4);
 
-DEFINE_GLOBAL_INIT(Ang16, kAng180_6FD3EE, Ang16(720), 0x6FD3EE);
+// Defined in Particle_4C.cpp: with the definition (and its dynamic initialiser) in this TU, VC6
+// loads it with a 32-bit mov and adds with lea in the state_3/4/5/13 functions instead of the
+// original's 16-bit mov/add (540D30 181 -> 32 diff lines).
+EXTERN_GLOBAL(Ang16, kAng180_6FD3EE);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD448, Fix16(0x100, 0), 0x6FD448);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD328, dword_6FD448, 0x6FD328);

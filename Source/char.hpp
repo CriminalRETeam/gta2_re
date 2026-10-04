@@ -24,6 +24,16 @@ EXTERN_GLOBAL(Ang16, word_6FD8F8);
 EXPORT void __stdcall UnpackSignedNibbles_529050(u8 a1, s8* a2, s8* a3);
 EXPORT Ang16 __stdcall ComputeShortestAngleDelta_4056C0(Ang16& a2, Ang16& a3);
 
+// struct_4 with a (trivial) destructor: the original Char_B4 ctor has an EH frame for this member,
+// while other owners of a struct_4 (Car_BC, Object_5C, Weapon_8) have none.
+class struct_4_dtor : public struct_4
+{
+  public:
+    ~struct_4_dtor()
+    {
+    }
+};
+
 class Char_B4
 {
   public:
@@ -130,7 +140,7 @@ class Char_B4
     Ped* field_7C_pPed;
     Sprite* field_80_sprite_ptr; // TODO: Or sprite_3c, are they the same type ??
     Car_BC* field_84_target_car;
-    struct_4 field_88_obj_2c;
+    struct_4_dtor field_88_obj_2c;
     Fix16 field_8C_jump_base_z;
     Fix16 field_90_fall_speed;
     Fix16 field_94_fall_z_speed;

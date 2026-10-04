@@ -170,7 +170,7 @@ void __stdcall ResetCharUpdateGlobals_544F70()
 }
 
 // https://decomp.me/scratch/ZsDjc
-WIP_FUNC(0x544ff0)
+MATCH_FUNC(0x544ff0)
 Char_B4::Char_B4()
 {
     field_0_id = 0;
@@ -205,10 +205,10 @@ Char_B4::Char_B4()
     field_80_sprite_ptr = 0;
     field_68_animation_frame = 0;
     field_69_is_colliding_with_sprite = 0;
-    field_58_flags_bf.b0 = 0;
     field_74 = kAng0_6FDB34;
     field_6A = 0;
     field_84_target_car = 0;
+    field_58_flags_bf.b0 = 0;
     field_88_obj_2c.DestroyAllSprites_5A7010();
     field_8C_jump_base_z = kFP16Zero_6FD9E4;
     field_58_flags_bf.b2 = 0;

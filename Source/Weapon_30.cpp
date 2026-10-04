@@ -59,7 +59,9 @@ DEFINE_GLOBAL_INIT(Fix16, k_dword_706E6C, k_dword_706F70 * 10, 0x706E6C);
 DEFINE_GLOBAL_INIT(Fix16, gTankCannonLength_706E20, k_dword_706F70 * 30, 0x706E20);
 DEFINE_GLOBAL_INIT(Fix16, dword_706D88, k_dword_706F70 * 8, 0x706D88);
 
-DEFINE_GLOBAL_INIT(Ang16, word_706D5E, Ang16(48), 0x706D5E);
+// Defined in Weapon_8.cpp: with the definition (and its dynamic initialiser) in this TU, VC6
+// loads it with a 32-bit mov in dual_pistol_5DDA70 instead of the original's 16-bit mov/sub.
+EXTERN_GLOBAL(Ang16, word_706D5E);
 DEFINE_GLOBAL_INIT(Ang16, word_707002, Ang16(24), 0x707002);
 DEFINE_GLOBAL_INIT(Ang16, word_706D5C, Ang16(96), 0x706D5C);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_707006, Ang16(0), 0x707006);
@@ -420,7 +422,7 @@ void Weapon_30::pistol_5DD860()
 }
 
 // It matches on decompme: https://decomp.me/scratch/dAQ5C
-WIP_FUNC(0x5dda70)
+MATCH_FUNC(0x5dda70)
 void Weapon_30::dual_pistol_5DDA70()
 {
     Ang16 ped_rotation;

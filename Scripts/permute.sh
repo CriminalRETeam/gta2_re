@@ -34,7 +34,10 @@ esac
 
 export GTA2_RE="$ROOT"
 export WINEDEBUG=-all
-wineserver -p 2>/dev/null || true
+# Start the persistent wineserver without our open files (fds above 2): if it inherited the
+# fd of a lock the caller holds around this script (flock), it would keep it after we exit.
+(for fd in /proc/self/fd/*; do n=${fd##*/}; [ "$n" -gt 2 ] 2>/dev/null && eval "exec $n>&-"; done
+ exec wineserver -p) 2>/dev/null || true
 
 PY="$ROOT/venv/bin/python3"
 [ -x "$PY" ] || PY=python3
