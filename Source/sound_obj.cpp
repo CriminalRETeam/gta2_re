@@ -7338,10 +7338,9 @@ DEFINE_GLOBAL(u16, gCarRadioStaticTimer_6FF542, 0x6FF542);
 DEFINE_GLOBAL_INIT(s32, gCarRadioStaticRate_625010, 11025, 0x625010);
 DEFINE_GLOBAL_INIT(s32, gCarRadioTuneRate_625014, 11025, 0x625014);
 
-WIP_FUNC(0x57E220)
+MATCH_FUNC(0x57E220)
 void sound_obj::UpdateCarEngineAudio_57E220()
 {
-    WIP_IMPLEMENTED;
     Car_BC* pCar = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
     u32 rate;
     if (!pCar)
@@ -7430,9 +7429,7 @@ void sound_obj::UpdateCarEngineAudio_57E220()
             field_30_sQueueSample.field_34_loop_start = 0;
             field_30_sQueueSample.field_38_loop_end = -1;
             field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 0;
-            // mValue: Fix16::operator= here would stop the `mov ecx, esi` for the call
-            // below from being scheduled before these stores.
-            field_30_sQueueSample.field_28_distance.mValue = 0;
+            field_30_sQueueSample.field_28_distance = Fix16(0);
             field_30_sQueueSample.field_40_pan = 64;
             field_30_sQueueSample.field_41 = 0;
             field_30_sQueueSample.field_30_loop_count = 0;
@@ -7457,22 +7454,17 @@ void sound_obj::UpdateCarEngineAudio_57E220()
                 gCarRadioTuneRate_625014 = tune_rate;
 
                 u32 rnd = field_1454_anRandomTable[1] % 140;
-                // Fix16::operator= on a member acts as a scheduling barrier (the first
-                // sample above writes mValue directly for that reason). Without a
-                // barrier here VC6 hoists the stores above the div and shares the 20
-                // (type) constant with the first sample in ebp. With it, the only
-                // difference left is the 0x81020409 load, which the original schedules
-                // right after the div, above these stores. A plain Fix16 ctor, a Fix16
-                // local or a static inline helper around the % 140 are not barriers.
+                // Same store order as 9.6f (0x4B1E40): rate, volume, then the distance
+                // through the Fix16(s32) ctor, pan and type.
                 field_30_sQueueSample.field_4_SampleIndex = 1;
                 field_30_sQueueSample.field_14_samp_idx = 138;
                 field_30_sQueueSample.field_18_bIs2D = 1;
-                field_30_sQueueSample.field_28_distance = 0;
-                field_30_sQueueSample.field_40_pan = 64;
-                field_30_sQueueSample.field_58_type = 20;
                 field_30_sQueueSample.field_20_rate = tune_rate + rnd;
                 field_30_sQueueSample.field_24_nVolume =
                     (u8)((u8)((static_volume * field_25_cdVol) / 254) + (u8)(field_1454_anRandomTable[2] % 3)) >> 2;
+                field_30_sQueueSample.field_28_distance = Fix16(0);
+                field_30_sQueueSample.field_40_pan = 64;
+                field_30_sQueueSample.field_58_type = 20;
                 AddSampleToRequestedQueue_41A850();
             }
         }
