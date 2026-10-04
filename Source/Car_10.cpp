@@ -3,6 +3,9 @@
 
 const u8 kDoorFirstDeltaIdx_61A808[] = {7, 24, 11, 28};
 
+// Read only in CarAI_78.cpp, defined here: see the comment there.
+DEFINE_GLOBAL_INIT(Ang16, word_677CE2, Ang16(0x10), 0x677CE2);
+
 // 9.6f: the bit ops are BitSet32::clear_bit/set_bit (0x420DE0/0x420DC0) on a maybe_flags, here a u32*
 MATCH_FUNC(0x439CD0)
 void Car_Door_10::AnimateOpening_439CD0(u32* pRet)
