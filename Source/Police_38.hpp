@@ -76,7 +76,7 @@ class PoliceCrew_38
     char_type field_2F;
     s32 field_30;
     char_type field_34;
-    char_type field_35;
+    u8 field_35;
     char_type field_36;
     char_type field_37;
 };
