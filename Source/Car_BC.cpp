@@ -2296,7 +2296,8 @@ void Car_BC::StartLightFlashing_43CAC0()
     }
 }
 
-// NOTE: function chunk at 0x43AA20, tail called from Ped::sub_470300
+// Not in IDA's function list: tail called from Ped::BecomeDummyOnPlayerDisconnect_470300
+MATCH_FUNC(0x43AA20)
 void Car_BC::sub_43AA20()
 {
     const s32 info_idx = field_84_car_info_idx;
