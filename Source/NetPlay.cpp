@@ -2094,12 +2094,10 @@ void NetPlay::Remove_521870(s32 idx)
     field_8F8_packets[idx].field_10_used = 0;
 }
 
-// Stack frame and registers differ, see docs/match_attempts.md
 WIP_FUNC(0x521890)
 char_type NetPlay::ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u32* pType)
 {
     WIP_IMPLEMENTED;
-
     char_type bGotMessage;
     char_type bCheckBuffered;
     char_type seq;
@@ -2120,68 +2118,65 @@ char_type NetPlay::ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u
             break;
         }
 
-        if (bCheckBuffered)
+        u32 slot;
+        if (bCheckBuffered && (slot = sub_521770(pOut, &seq, (u32*)pPlayerIdx)) != -1)
         {
-            // Take the oldest buffered (out of order) packet
-            u32 slot = sub_521770(pOut, &seq, (u32*)pPlayerIdx);
-            if (slot != -1)
+            // The oldest buffered (out of order) packet
+            *pType = 3;
+            bGotMessage = 1;
+            s32 diff = SeqDiff(seq, field_758_n2.field_8[*pPlayerIdx]);
+            s32 diffLocal = SeqDiff(seq, field_758_n2.field_8[GetPlayerIdx_409C40()]);
+            if (diff < 0)
             {
-                *pType = 3;
-                bGotMessage = 1;
-                s32 diff = SeqDiff(seq, field_758_n2.field_8[*pPlayerIdx]);
-                s32 diffLocal = SeqDiff(seq, field_758_n2.field_8[GetPlayerIdx_409C40()]);
-                if (diff < 0)
-                {
-                    bGotMessage = 0;
-                    Remove_521870(slot);
-                }
-                else if (diff == 0 && diffLocal < 0)
-                {
-                    Remove_521870(slot);
-                    sub_521820((s32**)pOut, *pPlayerIdx);
-                    field_758_n2.field_8[*pPlayerIdx] = ((u8)field_758_n2.field_8[*pPlayerIdx] + 1) % 256;
-                }
-                else
-                {
-                    bGotMessage = 0;
-                    bCheckBuffered = 0;
-                }
+                bGotMessage = 0;
+                Remove_521870(slot);
+            }
+            else if (diff <= 0 && diffLocal < 0)
+            {
+                Remove_521870(slot);
+                sub_521820((s32**)pOut, *pPlayerIdx);
+                field_758_n2.field_8[*pPlayerIdx] = ((u8)field_758_n2.field_8[*pPlayerIdx] + 1) % 256;
             }
             else
             {
+                // Not the next one yet: read new packets until it is
                 bGotMessage = 0;
                 bCheckBuffered = 0;
             }
         }
-        else if (Receive_51F010(&pData, &dataLen, &recvId, &senderId))
+        else
         {
-            u8* pPacket = (u8*)pData;
-            *pType = pPacket[3];
-            *pPlayerIdx = IndexOf_520E30(senderId, &field_758_n2);
-            if (*pPlayerIdx != 0xEEEEEEEE)
+            // No buffered packet: try a new one in the same pass (bCheckBuffered stays set)
+            if (Receive_51F010(&pData, &dataLen, &recvId, &senderId))
             {
-                bGotMessage = 1;
-                pOut->field_4_len = pPacket[4];
-                pOut->field_0 = pPacket + 5;
-                if (*pType == 3)
+                u8* pPacket = (u8*)pData;
+                *pType = pPacket[3];
+                *pPlayerIdx = IndexOf_520E30(senderId, &field_758_n2);
+                if (*pPlayerIdx != 0xEEEEEEEE)
                 {
-                    seq = pPacket[1];
-                    s32 diff = SeqDiff(seq, field_758_n2.field_8[*pPlayerIdx]);
-                    s32 diffLocal = SeqDiff(seq, field_758_n2.field_8[GetPlayerIdx_409C40()]);
-                    if (diff < 0)
+                    bGotMessage = 1;
+                    pOut->field_4_len = pPacket[4];
+                    pOut->field_0 = pPacket + 5;
+                    if (*pType == 3)
                     {
-                        bGotMessage = 0;
-                    }
-                    else if (diff == 0 && diffLocal < 0)
-                    {
-                        sub_521820((s32**)pOut, *pPlayerIdx);
-                        field_758_n2.field_8[*pPlayerIdx] = ((u8)field_758_n2.field_8[*pPlayerIdx] + 1) % 256;
-                    }
-                    else
-                    {
-                        // Not the next one in sequence yet: buffer it
-                        Add_5216E0(pOut, *pPlayerIdx, seq);
-                        bGotMessage = 0;
+                        u8 packetSeq = pPacket[1];
+                        s32 diff = SeqDiff(packetSeq, field_758_n2.field_8[*pPlayerIdx]);
+                        s32 diffLocal = SeqDiff(packetSeq, field_758_n2.field_8[GetPlayerIdx_409C40()]);
+                        if (diff < 0)
+                        {
+                            bGotMessage = 0;
+                        }
+                        else if (diff <= 0 && diffLocal < 0)
+                        {
+                            sub_521820((s32**)pOut, *pPlayerIdx);
+                            field_758_n2.field_8[*pPlayerIdx] = ((u8)field_758_n2.field_8[*pPlayerIdx] + 1) % 256;
+                        }
+                        else
+                        {
+                            // Not the next one in sequence yet: buffer it
+                            bGotMessage = 0;
+                            Add_5216E0(pOut, *pPlayerIdx, packetSeq);
+                        }
                     }
                 }
             }
