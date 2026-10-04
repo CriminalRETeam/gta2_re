@@ -7206,10 +7206,10 @@ char Car_14::sub_582360(int param_1, Fix16 param_2, Fix16 param_3)
 }
 
 // 9.6f 0x4B4A60
-WIP_FUNC(0x5832C0)
+MATCH_FUNC(0x5832C0)
 void Car_14::MakeTrafficForCurrCamera_5832C0()
 {
-    WIP_IMPLEMENTED;
+    Fix16 w;
 
     Fix16 wanted_related;
     if ((!bLimit_recycling_67D4CA || gCar_6C_677930->field_28_recycled_cars < 2) &&
@@ -7242,14 +7242,14 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
         }
 
         // 9.6f: width and height into locals first, then multiplied
-        Fix16 w = field_0_cam->GetBoundariesWidth_4B3110();
+        w = field_0_cam->GetBoundariesWidth_4B3110();
         Fix16 h = field_0_cam->GetBoundariesHeight_4B3130();
         Fix16 t = h * w;
         t = t / Fix16(86);
-        // TODO: the original sets field_9 after the dword_6FF7E8 store (with the constant 1 loaded later),
-        // but that order makes VC6 compute the height first and reschedule the rng call setup
-        this->field_9 = 1;
+        // w is declared at the top of the function: with it declared here, the field_9 store after
+        // dword_6FF7E8 (as in 9.6f) made VC6 compute the height first
         dword_6FF7E8 = (t)*wanted_related;
+        this->field_9 = 1;
         this->field_A = 1;
 
         u8 rng_int = gRng_6F6784.get_uint8_4F7B70(5);

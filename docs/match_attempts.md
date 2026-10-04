@@ -1549,7 +1549,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 
 Matched here: `StabilizeVelocityAtSpeed_562910`, `OnModifiedMapDataLoaded_4E8C00`,
 `UpdateCarEngineAudio_57E220`, `HandlePedVoiceEvent_423080`, `GetDoorWorldPos_43B420`,
-`DebugDrawProfiling_4FF250`, `do_process_loaded_zone_data_4E8E30` (see matching_quirks.md and the commit messages). Random-mode
+`DebugDrawProfiling_4FF250`, `do_process_loaded_zone_data_4E8E30`, `MakeTrafficForCurrCamera_5832C0` (see matching_quirks.md and the commit messages). Random-mode
 permuter runs of 6 minutes (2700-4100 compiles) made no progress on 418720, 57E220, 4E6660,
 516590, 427220, 56BA60, 4D6000, 414710, 4B6390 or 440D90. An exhaustive depth 1 run (every
 single pass) also gave nothing on 418720. Scores are differing lines from `permuter_score.py`.
@@ -1595,8 +1595,7 @@ single pass) also gave nothing on 418720. Scores are differing lines from `permu
 - `Car_BC::GetRadioTowerAngle_442520` (12): the EH state around the out-of-line
   `Fix16_Point::operator-` (0x40AC80) for the `get_x_y_443580` temporary. Untested idea:
   `get_x_y_443580` returns a POD in the original (about 60 callers).
-- `Car_14::MakeTrafficForCurrCamera_5832C0` (10): `field_9 = 1` after `dword_6FF7E8` (as in
-  9.6f 0x4B4A60) makes VC6 compute the height first, and the function becomes 2 bytes shorter.
+
 - `Weapon_30::smg_5DDD20` (14): the original loads `y*sin` first in the x-line add. No change
   from a `__forceinline` add helper or an s32 temp; swapped operands give 22.
 - `Weapon_30::fire_truck_gun_5E0E70` (10): one register left, the sprite pointer in eax (ours ecx).
