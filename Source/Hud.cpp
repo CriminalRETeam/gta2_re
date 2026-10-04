@@ -1837,23 +1837,6 @@ static inline Fix16 GetLength_out_of_line_7064C0(Fix16_Point& p)
     }
 }
 
-// Same, with Abs_436A50 for both axes (Hud_Arrow_7C::UpdateScreenPos_5D0850)
-static inline Fix16 GetLength_abs_7064C0(Fix16_Point_POD& p)
-{
-    if (p.x == kFpZero_7064C0)
-    {
-        return Fix16::Abs_436A50(p.y);
-    }
-    else if (p.y == kFpZero_7064C0)
-    {
-        return Fix16::Abs_436A50(p.x);
-    }
-    else
-    {
-        return Fix16::SquareRoot_436A70((const Fix16&)p.x.Multiply_408680(p.x) + p.y.Multiply_408680(p.y));
-    }
-}
-
 MATCH_FUNC(0x5d0620)
 bool Hud_Arrow_7C::UpdateTargets_5D0620()
 {
@@ -1896,15 +1879,29 @@ bool Hud_Arrow_7C::UpdateTargets_5D0620()
     return false;
 }
 
+// Camera_0xBC::ProjectWorldToScreen_4B90E0 (9.6f 0x4B90E0, inlined in 10.5) with this file's copies of the
+// 1 and 8 constants and the out-of-line Fix16 helpers (Hud_Arrow_7C::UpdateScreenPos_5D0850)
+static inline void ProjectWorldToScreen_Hud_4B90E0(Camera_0xBC* pCam, Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
+{
+    Fix16 scale = kFpOne_7064C4 / ((kFpEight_7064E8 - z) + pCam->field_98_cam_pos2.field_8_z);
+
+    *pOut1 = static_cast<const Fix16&>(x.Subtract_436A00(pCam->field_98_cam_pos2.field_0_x).Multiply_408680(pCam->field_60.x).Multiply_408680(scale)) +
+        Fix16(pCam->field_70_screen_px_center_x);
+
+    *pOut2 = static_cast<const Fix16&>(y.Subtract_436A00(pCam->field_98_cam_pos2.field_4_y).Multiply_408680(pCam->field_60.x).Multiply_408680(scale)) +
+        Fix16(pCam->field_74_screen_px_center_y);
+}
+
 // https://decomp.me/scratch/CoKn3
 WIP_FUNC(0x5d0850)
 void Hud_Arrow_7C::UpdateScreenPos_5D0850()
 {
     WIP_IMPLEMENTED;
-    Fix16_Point displacement;
+    // displacement declared after the positions: declared first, its Fix16_Point_POD ctor is called out of line
     Fix16 player_xpos;
     Fix16 player_ypos;
     Fix16 player_zpos;
+    Fix16_Point displacement;
 
     gGame_0x40_67E008->field_38_orf1->get_pos_569920(&player_xpos, &player_ypos, &player_zpos);
     displacement.SetXY_432860(player_xpos - field_18.field_60_curr_target->field_14_aim_x,
@@ -1912,7 +1909,12 @@ void Hud_Arrow_7C::UpdateScreenPos_5D0850()
 
     field_8_rotation = displacement.atan2_40F790();
 
-    Fix16 distance = GetLength_abs_7064C0(displacement);
+    // GetLength_41E260 with this file's zero and the out-of-line helpers. Written out as a ternary: as an
+    // inline the function runs out of inline expansions (Fix16_Point_POD ctor and one operator/ out of line).
+    Fix16 distance = displacement.x == kFpZero_7064C0 ? Fix16::Abs_436A50(displacement.y) :
+        displacement.y == kFpZero_7064C0              ? Fix16::Abs_436A50(displacement.x) :
+                                                        Fix16::SquareRoot_436A70((const Fix16&)displacement.x.Multiply_408680(displacement.x) +
+                                                                                 displacement.y.Multiply_408680(displacement.y));
     Fix16 intended_radius;
 
     if (field_18.field_60_curr_target->field_20_bIsTargetVisible)
@@ -1938,6 +1940,20 @@ void Hud_Arrow_7C::UpdateScreenPos_5D0850()
         if (field_10_radius_pos <= intended_radius)
         {
             field_10_radius_pos = intended_radius;
+            field_14_reposition_speed = kArrowBaseRepositionSpeed_7063B0;
+        }
+        else if (field_14_reposition_speed < kArrowMaxRepositionSpeed_706298) // below the maximum
+        {
+            field_14_reposition_speed += kArrowRepositionAccel_7065A8;
+        }
+    }
+    else if (field_10_radius_pos < intended_radius)
+    {
+        field_10_radius_pos += field_14_reposition_speed;
+        if (field_10_radius_pos >= intended_radius)
+        {
+            field_10_radius_pos = intended_radius;
+            field_14_reposition_speed = kArrowBaseRepositionSpeed_7063B0;
         }
         else if (field_14_reposition_speed < kArrowMaxRepositionSpeed_706298) // below the maximum
         {
@@ -1946,45 +1962,30 @@ void Hud_Arrow_7C::UpdateScreenPos_5D0850()
     }
     else
     {
-        if (field_10_radius_pos < intended_radius)
-        {
-            field_10_radius_pos += field_14_reposition_speed;
-            if (field_10_radius_pos >= intended_radius)
-            {
-                field_10_radius_pos = intended_radius;
-            }
-            else if (field_14_reposition_speed < kArrowMaxRepositionSpeed_706298) // below the maximum
-            {
-                field_14_reposition_speed += kArrowRepositionAccel_7065A8;
-            }
-        }
-        else
-        {
-            field_14_reposition_speed = kArrowBaseRepositionSpeed_7063B0; // reset speed?
-        }
+        field_14_reposition_speed = kArrowBaseRepositionSpeed_7063B0;
     }
 
     Camera_0xBC* pCamera = gGame_0x40_67E008->field_38_orf1->get_camera_434900();
 
-    Fix16 factor = (kFpOne_7064C4 / (kFpEight_7064E8 + pCamera->field_98_cam_pos2.field_8_z - field_18.field_60_curr_target->field_1C_aim_z));
-    // line 217: multiply by 64
+    Fix16 factor = kFpOne_7064C4 / ((kFpEight_7064E8 - field_18.field_60_curr_target->field_1C_aim_z) + pCamera->field_98_cam_pos2.field_8_z);
+    // multiply by 64
     Fix16 projected_radius = ((field_10_radius_pos * 64) / (pCamera->field_60.x * factor)) * pCamera->field_A8_ui_scale;
 
     Fix16 zpos_2;
-    if (distance == kFpZero_7064C0 || field_18.field_60_curr_target->field_20_bIsTargetVisible)
+    if (distance != kFpZero_7064C0 && !field_18.field_60_curr_target->field_20_bIsTargetVisible)
     {
-        zpos_2 = field_18.field_60_curr_target->field_1C_aim_z;
+        zpos_2 = player_zpos + ((field_10_radius_pos / distance) * (field_18.field_60_curr_target->field_1C_aim_z - player_zpos));
     }
     else
     {
-        zpos_2 = field_18.field_60_curr_target->field_1C_aim_z +
-            ((field_10_radius_pos / distance) * (field_18.field_60_curr_target->field_1C_aim_z - player_zpos));
+        zpos_2 = field_18.field_60_curr_target->field_1C_aim_z;
     }
-    pCamera->ProjectWorldToScreen_OutOfLineXY_4B90E0(player_xpos - (Ang16::sine_40F500(field_8_rotation) * projected_radius),
-                                         player_ypos - (Ang16::cosine_40F520(field_8_rotation) * projected_radius),
-                                         zpos_2,
-                                         &field_0_screen_pos_x,
-                                         &field_4_screen_pos_y);
+    ProjectWorldToScreen_Hud_4B90E0(pCamera,
+                                    player_xpos - (Ang16::sine_40F500(field_8_rotation) * projected_radius),
+                                    player_ypos - (Ang16::cosine_40F520(field_8_rotation) * projected_radius),
+                                    zpos_2,
+                                    &field_0_screen_pos_x,
+                                    &field_4_screen_pos_y);
 }
 
 MATCH_FUNC(0x5d0c60)
