@@ -5912,17 +5912,28 @@ void Car_BC::LightUpdate_442D10()
     }
 }
 
-WIP_FUNC(0x442d70)
+// Not in 9.6f (no pair for TrainUpdate_442D70). The const z makes high_z call the
+// out-of-line Fix16::operator+ (0x408660) as the original does; all the arguments are
+// evaluated before any store, which gives the original's schedule.
+static inline void SetPrism(Fix16_Rect& rect, Fix16 left, Fix16 right, Fix16 top, Fix16 bottom, const Fix16 z)
+{
+    rect.field_0_left = left;
+    rect.field_4_right = right;
+    rect.field_8_top = top;
+    rect.field_C_bottom = bottom;
+    rect.field_10_low_z = z - kCollisionPrismHalfHeight_6771E4;
+    rect.field_14_high_z = z + kCollisionPrismHalfHeight_6771E4;
+}
+
+MATCH_FUNC(0x442d70)
 char_type Car_BC::TrainUpdate_442D70()
 {
-    WIP_IMPLEMENTED;
-
     u8 train_car_idx_ = 0;
+    Fix16 player_x;
+    Fix16 player_y;
+    Fix16 player_z;
     if (GetCarLinearSpeed_43A240() > gFix16_6777CC)
     {
-        Fix16 player_x;
-        Fix16 player_y;
-        Fix16 player_z;
         gGame_0x40_67E008->field_38_orf1->get_pos_569920(&player_x, &player_y, &player_z);
 
         if (Fix16::Abs_negate_out_of_line(field_50_car_sprite->field_14_xy.x - player_x) >= Fix16(0x28000, 0) ||
@@ -5933,70 +5944,45 @@ char_type Car_BC::TrainUpdate_442D70()
         else
         {
             Fix16_Rect rect;
-            // Cases 2, 1 and 3 call the out-of-line const Fix16::operator+ for high_z, case 4 inlines it
             switch (Ang16::GetAngleFace_4F78F0(field_50_car_sprite->field_0))
             {
                 case 2:
                 {
-                    Fix16 sprite_x;
-                    Fix16 sprite_y;
-                    sprite_y = field_50_car_sprite->field_14_xy.y;
-                    const Fix16 sprite_z = field_50_car_sprite->field_1C_zpos;
-                    sprite_x = field_50_car_sprite->field_14_xy.x;
-                    rect.field_8_top = sprite_y;
-                    rect.field_0_left = sprite_x - Fix16(0x4000, 0);
-                    rect.field_4_right = sprite_x + Fix16(0x4000, 0);
-                    rect.field_C_bottom = sprite_y + Fix16(0x28000, 0);
-                    rect.field_10_low_z = sprite_z - kCollisionPrismHalfHeight_6771E4;
-                    rect.field_14_high_z = sprite_z + kCollisionPrismHalfHeight_6771E4;
+                    Fix16 y = field_50_car_sprite->field_14_xy.y;
+                    Fix16 z = field_50_car_sprite->field_1C_zpos;
+                    Fix16 x = field_50_car_sprite->field_14_xy.x;
+                    SetPrism(rect, x - Fix16(0x4000, 0), x + Fix16(0x4000, 0), y, y + Fix16(0x28000, 0), z);
                     break;
                 }
 
                 case 1:
                 {
-                    Fix16 sprite_x;
-                    Fix16 sprite_y;
-                    const Fix16 sprite_z = field_50_car_sprite->field_1C_zpos;
-                    sprite_y = field_50_car_sprite->field_14_xy.y.mValue;
-                    sprite_x = field_50_car_sprite->field_14_xy.x.mValue;
-                    rect.field_C_bottom = sprite_y;
-                    rect.field_0_left = sprite_x - Fix16(0x4000, 0);
-                    rect.field_4_right = sprite_x + Fix16(0x4000, 0);
-                    rect.field_8_top = sprite_y - Fix16(0x28000, 0);
-                    rect.field_10_low_z = sprite_z - kCollisionPrismHalfHeight_6771E4;
-                    rect.field_14_high_z = sprite_z + kCollisionPrismHalfHeight_6771E4;
+                    Fix16 z = field_50_car_sprite->field_1C_zpos;
+                    Fix16 y = field_50_car_sprite->field_14_xy.y;
+                    Fix16 x = field_50_car_sprite->field_14_xy.x;
+                    SetPrism(rect, x - Fix16(0x4000, 0), x + Fix16(0x4000, 0), y - Fix16(0x28000, 0), y, z);
                     break;
                 }
 
                 case 3:
                 {
-                    Fix16 sprite_x;
-                    Fix16 sprite_y;
-                    sprite_y = field_50_car_sprite->field_14_xy.y.mValue;
-                    const Fix16 sprite_z = field_50_car_sprite->field_1C_zpos;
-                    sprite_x = field_50_car_sprite->field_14_xy.x.mValue;
-                    rect.field_C_bottom = sprite_y + Fix16(0x4000, 0);
-                    rect.field_10_low_z = sprite_z - kCollisionPrismHalfHeight_6771E4;
-                    rect.field_0_left = sprite_x;
-                    rect.field_4_right = sprite_x + Fix16(0x28000, 0);
-                    rect.field_8_top = sprite_y - Fix16(0x4000, 0);
-                    rect.field_14_high_z = sprite_z + kCollisionPrismHalfHeight_6771E4;
+                    Fix16 y = field_50_car_sprite->field_14_xy.y;
+                    Fix16 z = field_50_car_sprite->field_1C_zpos;
+                    Fix16 x = field_50_car_sprite->field_14_xy.x;
+                    SetPrism(rect, x, x + Fix16(0x28000, 0), y - Fix16(0x4000, 0), y + Fix16(0x4000, 0), z);
                     break;
                 }
 
                 case 4:
                 {
-                    Fix16 sprite_x;
-                    Fix16 sprite_y;
-                    Fix16 sprite_z;
-                    sprite_y = field_50_car_sprite->field_14_xy.y;
-                    sprite_z = field_50_car_sprite->field_1C_zpos;
-                    rect.field_4_right = field_50_car_sprite->field_14_xy.x;
-                    rect.field_8_top = sprite_y - Fix16(0x4000, 0);
-                    rect.field_0_left = rect.field_4_right - Fix16(0x28000, 0);
-                    rect.field_C_bottom = sprite_y + Fix16(0x4000, 0);
-                    rect.field_10_low_z = sprite_z - kCollisionPrismHalfHeight_6771E4;
-                    rect.field_14_high_z = sprite_z + kCollisionPrismHalfHeight_6771E4;
+                    // Written out: here the original inlines operator+ for high_z
+                    Fix16 z = field_50_car_sprite->field_1C_zpos;
+                    rect.SetRect_41E350(field_50_car_sprite->field_14_xy.x - Fix16(0x28000, 0),
+                                        field_50_car_sprite->field_14_xy.x,
+                                        field_50_car_sprite->field_14_xy.y - Fix16(0x4000, 0),
+                                        field_50_car_sprite->field_14_xy.y + Fix16(0x4000, 0));
+                    rect.field_10_low_z = z - kCollisionPrismHalfHeight_6771E4;
+                    rect.field_14_high_z = z + kCollisionPrismHalfHeight_6771E4;
                     break;
                 }
 
