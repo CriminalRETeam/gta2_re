@@ -378,7 +378,7 @@ struct Frontend
 
     EXPORT void ContinueToNextStage_4B8020();
 
-    EXPORT void sub_4B7D60();
+    EXPORT void DrawBonusRating_4B7D60();
     EXPORT int sub_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_ypos, u16 fontType, s32 palette);
 
     EXPORT char_type AreAllStagesUnlocked_4B7FB0();

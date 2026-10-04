@@ -1177,7 +1177,7 @@ void Frontend::DrawMenu_4AD140()
             s32 unk_offset = (3 * main_level_idx) + bonus_stage_idx + 64;
             swprintf(tmpBuff_67BD9C, L"%s %c", gText_0x14_704DFC->Find_5B5F90("bonslev"), unk_offset);
             wcsncpy(pMenuPage->field_518_elements_array[0].field_6_element_name_str, tmpBuff_67BD9C, 0x32u);
-            sub_4B7D60();
+            DrawBonusRating_4B7D60();
         }
 
         Frontend::DrawScoreTable_4B5430((score_table_line*)&gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[main_level_idx][bonus_stage_idx]
@@ -2833,10 +2833,21 @@ void Frontend::ContinueToNextStage_4B8020()
     }
 }
 
-STUB_FUNC(0x4B7D60)
-void Frontend::sub_4B7D60()
+MATCH_FUNC(0x4B7D60)
+void Frontend::DrawBonusRating_4B7D60()
 {
-    NOT_IMPLEMENTED;
+    u16 font_type = field_11E;
+    char_type text_id[12];
+    wchar_t text[256];
+    GetLineSpacingFromFontType_5D7700_inlined(font_type);
+    u16 rating_idx = gLucid_hamilton_67E8E0.GetBonusRatingTextIdx_4C5AC0();
+    _itoa(rating_idx, text_id, 10);
+    if (rating_idx)
+    {
+        wchar_t* pRatingStr = gText_0x14_704DFC->Find_5B5F90(text_id);
+        text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(text, pRatingStr, 560, font_type);
+        DrawText_4B87A0(text, 40, 270, font_type, 1);
+    }
 }
 
 // TODO: the text keys are guesses, only code is compared
