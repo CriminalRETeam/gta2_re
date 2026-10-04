@@ -376,16 +376,25 @@ void Particle_8::EmitElectricArcParticle(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang
     }
 }
 
-// 9.6f 0x48E060
-WIP_FUNC(0x5406b0)
+// Ang16::PolarToCartesian_41FC20 with the cosine multiply written as the out-of-line Multiply_408680
+// the original calls (past the inline budget VC6 would call a COMDAT copy of operator* instead).
+static inline void PolarToCartesian_OutOfLineCos(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2)
+{
+    ret1 = Ang16::sine_40F500(angle) * radius;
+    ret2 = Ang16::cosine_40F520(angle).Multiply_408680(radius);
+}
+
+// 9.6f 0x48E060. Fix16_Point vel has a dtor, which gives the EH frame; its fields are zeroed again
+// before the call, and the two other zero args go through the out-of-line Fix16(s32) ctor.
+MATCH_FUNC(0x5406b0)
 void Particle_8::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type bUnknown)
 {
-    WIP_IMPLEMENTED;
-
+    Fix16_Point vel(Fix16(0), Fix16(0));
     if (!bSkip_particles_67D64D)
     {
-        Fix16 zero(0);
-        Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(zero, zero, dword_6FD330, 0, 0, 0);
+        vel.x = Fix16(0);
+        vel.y = Fix16(0);
+        Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
         if (pNew4C)
         {
             pNew4C->field_34 = 1;
@@ -405,20 +414,22 @@ void Particle_8::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type bUnkn
             pNew4C->field_30_pNext->SetType_4206F0(8);
             pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 3);
 
-            //v11 = pSprite->field_0 * 4;
-
+            Fix16 x;
+            Fix16 y;
             if (bUnknown)
             {
-                Ang16::PolarToCartesian_41FC20(pSprite->field_0, dword_6FD474, stru_6FD388, stru_6FD38C);
+                PolarToCartesian_OutOfLineCos(pSprite->field_0, dword_6FD474, x, y);
             }
             else
             {
-                Ang16::PolarToCartesian_41FC20(pSprite->field_0, dword_6FD46C, stru_6FD388, stru_6FD38C);
+                PolarToCartesian_OutOfLineCos(pSprite->field_0, dword_6FD46C, x, y);
             }
+            stru_6FD388 = x;
+            stru_6FD38C = y;
 
             Fix16 v16;
             Fix16 v17;
-            Ang16::PolarToCartesian_41FC20(pSprite->field_0 - kAng90_6FD314, dword_6FD468, v16, v17);
+            PolarToCartesian_OutOfLineCos(Ang16((s32)(pSprite->field_0.rValue - kAng90_6FD314.rValue)).Normalized_406C20(), dword_6FD468, v16, v17);
 
             stru_6FD388 += v16 + pSprite->field_14_xy.x;
             stru_6FD38C += v17 + pSprite->field_14_xy.y;
