@@ -173,7 +173,10 @@ def target_lines(target):
 def main():
     obj, addr = sys.argv[1], int(sys.argv[2], 16)
     here = os.path.dirname(os.path.abspath(__file__))
-    target = json.load(open(os.path.join(here, "target_asm.json")))[hex(addr)]
+    target = json.load(open(os.path.join(here, "target_asm.json"))).get(hex(addr))
+    if target is None:
+        # A MATCH_FUNC: its asm in a verified build is the original's (dump_matched_asm.py).
+        target = json.load(open(os.path.join(here, "matched_asm.json")))[hex(addr)]
     needle = sys.argv[3] if len(sys.argv) > 3 else target["name"].split("::")[-1]
     coff = Coff(open(obj, "rb").read())
     ml = function_lines(coff, find_function(coff, needle))
