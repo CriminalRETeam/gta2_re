@@ -2035,10 +2035,12 @@ void Ped::StartCrossingRoad_45E4A0()
 
     s8 direction;
 
+    // 9.6f: 0x433470/0x4334A0/0x4334D0/0x433500 (N/E/S/W). The first two rng results are
+    // tested as u8 (test al,al; ja), the last two as s16 (test ax,ax; jg), in both builds.
     if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(x, y - 1, z))
     {
         direction = 0;
-        if (gRng_6F6784.get_int_4F7AE0(2))
+        if ((u8)gRng_6F6784.get_int_4F7AE0(2) > 0)
         {
             goto dispatch;
         }
@@ -2047,7 +2049,7 @@ void Ped::StartCrossingRoad_45E4A0()
     if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(x + 1, y, z))
     {
         direction = 1;
-        if (gRng_6F6784.get_int_4F7AE0(2))
+        if ((u8)gRng_6F6784.get_int_4F7AE0(2) > 0)
         {
             goto dispatch;
         }
@@ -2056,7 +2058,7 @@ void Ped::StartCrossingRoad_45E4A0()
     if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(x, y + 1, z))
     {
         direction = 2;
-        if (gRng_6F6784.get_int_4F7AE0(2))
+        if (gRng_6F6784.get_int_4F7AE0(2) > 0)
         {
             goto dispatch;
         }
@@ -2065,7 +2067,7 @@ void Ped::StartCrossingRoad_45E4A0()
     if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(x - 1, y, z))
     {
         direction = 3;
-        if (gRng_6F6784.get_int_4F7AE0(2))
+        if (gRng_6F6784.get_int_4F7AE0(2) > 0)
         {
             goto dispatch;
         }
