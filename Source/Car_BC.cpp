@@ -6951,21 +6951,24 @@ void Trailer::SetTruckCabAndTrailerCar_407BB0(Car_BC* pTruckCab, Car_BC* pTraile
     this->field_0 = 0;
 }
 
-WIP_FUNC(0x407bd0)
+MATCH_FUNC(0x407bd0)
 Fix16_Point Trailer::sub_407BD0()
 {
     // The y line calls the out-of-line Negate/Multiply/operator+ in the original, as if it
     // were written with them; with the inline RotateByAngle_40F6B0 the tail stops inlining.
     // Assigning a constructed point (not a copy) loads y before x as in the original.
-    // Left: the x_old store is scheduled after the angle load instead of before it.
+    // The rotation's locals live in their own block (as if from an inline rotate): without it the
+    // x_old store is scheduled after the angle load.
     Fix16_Point offset;
     offset = Fix16_Point(gTrailerHitchOffset_66AAC8.x, gTrailerHitchOffset_66AAC8.y);
     Ang16 angle = field_8_truck_cab->field_58_physics->field_58_theta;
-    Fix16 sin = Ang16::sine_40F500(angle);
-    Fix16 cos = Ang16::cosine_40F520(angle);
-    Fix16 x_old = offset.x;
-    offset.x = (offset.x * cos) + (offset.y * sin);
-    offset.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + offset.y.Multiply_408680(cos);
+    {
+        Fix16 sin = Ang16::sine_40F500(angle);
+        Fix16 cos = Ang16::cosine_40F520(angle);
+        Fix16 x_old = offset.x;
+        offset.x = (offset.x * cos) + (offset.y * sin);
+        offset.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + offset.y.Multiply_408680(cos);
+    }
     offset += field_8_truck_cab->field_58_physics->get_cp1_40B560();
     return offset;
 }
