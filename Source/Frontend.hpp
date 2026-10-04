@@ -433,7 +433,7 @@ struct Frontend
 
     EXPORT static s32 __stdcall GetMaxTextWidth_5D8990(wchar_t* pStr, u16 a2);
 
-    EXPORT u16 GetCenteredXPos_4B0190(wchar_t* a2, s16 a3, s32 a4);
+    EXPORT u16 GetCenteredXPos_4B0190(wchar_t* a2, u16 fontType, s32 width);
 
     EXPORT u8 GetPreviousUnlockedMainStage_4B7060(u8 a2);
 
