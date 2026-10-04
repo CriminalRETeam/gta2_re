@@ -841,7 +841,7 @@ void Weapon_30::sub_5DE4F0()
 DEFINE_GLOBAL_INIT(Fix16, dword_706CF8, Fix16(0xCCC, 0), 0x706CF8);
 DEFINE_GLOBAL_INIT(Fix16, dword_706D34, Fix16(0x100, 0), 0x706D34);
 
-// Length of `d`, with dword_706EB8 as the zero.
+// Length of `d`, with dword_706EB8 as the zero (the operators are the out-of-line copies).
 static inline Fix16 BeamLength_5DE910(Fix16_Point& d)
 {
     if (d.x == dword_706EB8)
@@ -854,29 +854,34 @@ static inline Fix16 BeamLength_5DE910(Fix16_Point& d)
     }
     else
     {
-        return Fix16::SquareRoot_436A70(d.x * d.x + d.y * d.y);
+        return Fix16::SquareRoot_436A70((const Fix16&)d.x.Multiply_408680(d.x) + d.y.Multiply_408680(d.y));
     }
 }
 
-// `a1` is the base type: callers pass a get_x_y_443580() temporary, which is sliced (copied) into it.
 // Draws the electro beam from `a1` (or the gun muzzle when byte_706C94 is clear) to `a2` at height
 // `a3`: kFP16Quarter_706CF4 long segments with a random kink each, then straight segments for the rest.
+// `a1` is the base type: callers pass a get_x_y_443580() temporary, which is sliced into it
+// (Fix16_Point here breaks the caller sub_5DFB60). 9.6f: sub_4CCBD0.
+// The EH state is 0xA at entry and never changes: 11 Fix16_Point locals, two of them unused
+// (likely the original's by-value a1 is one of them). `d` is reused for the rest of the way and
+// `len` for the straight segment count, as the original's frame shows.
 WIP_FUNC(0x5de910)
 void __stdcall sub_5DE910(Fix16_Point_POD a1, Fix16_Point& a2, Fix16 a3)
 {
-    Fix16_Point start;
     Fix16_Point d;
-    Fix16_Point from;
-    Fix16_Point to;
-    Fix16_Point d3;
+    Fix16_Point start;
     Fix16_Point cur;
+    Fix16_Point mid;
     Fix16_Point next;
     Fix16_Point step;
-    Fix16_Point mid;
-    Fix16_Point rest;
+    Fix16_Point d3;
+    Fix16_Point from;
+    Fix16_Point to;
+    Fix16_Point unused_eh_1;
+    Fix16_Point unused_eh_2;
 
     Fix16 seg_len = kFP16Quarter_706CF4;
-    if (byte_706C94)
+    if (byte_706C94 > 0)
     {
         start.x = a1.x;
         start.y = a1.y;
@@ -884,18 +889,23 @@ void __stdcall sub_5DE910(Fix16_Point_POD a1, Fix16_Point& a2, Fix16 a3)
     else
     {
         start.x = -dword_706E7C;
-        start.y = dword_706E80 + dword_706CF8;
-        start.RotateByAngle_40F6B0(word_707004);
-        start = start + a1;
+        start.y = dword_706CF8 + dword_706E80;
+        start.RotateByAngle_40F6B0_all_out_of_line(word_707004);
+        start = start.Add_40AC50(a1);
         start.x += stru_706E58.x;
         start.y += stru_706E58.y;
     }
 
     Fix16 len;
+    Ang16 angle;
+    Ang16 seg_angle;
+    // The first length and angle are dead, like 9.6f's (it only kept the atan2 call)
     d = a2 - start;
     len = BeamLength_5DE910(d);
-    Ang16 angle = Fix16::atan2_fixed_405320(d.y, d.x);
+    d.atan2_40F790();
 
+    to = a2;
+    from = start;
     d = a2 - start;
     len = BeamLength_5DE910(d);
     gRng_6F6784.get_int_4F7AE0(2);
@@ -905,40 +915,41 @@ void __stdcall sub_5DE910(Fix16_Point_POD a1, Fix16_Point& a2, Fix16 a3)
     d3 = to - from;
     len = BeamLength_5DE910(d3);
     u8 count = (len / seg_len).ToInt();
-    angle = Fix16::atan2_fixed_405320(d3.y, d3.x);
+    angle = d3.atan2_40F790();
 
     cur = from;
-    Ang16 seg_angle;
     for (u8 i = 0; i < count; i++)
     {
+        // 9.6f: Fix16(s16) 0x401AE0 minus Fix16(u16) 0x41F990, times dword_706D34
         u16 spread = (gRng_6F6784.get_int_4F7AE0(4) + 1) * 32;
-        Fix16 kink = (Fix16(gRng_6F6784.get_int_4F7AE0(spread)) - Fix16(spread / 2)) * dword_706D34;
-        Ang16 jitter(Ang16(kink.GetRaw_40F4B0() / 71), 0);
+        Fix16 kink = (Fix16(gRng_6F6784.get_int_4F7AE0(spread)) - Fix16((u16)(spread >> 1))) * dword_706D34;
+        Ang16 jitter = Ang16::Fix16_To_Ang16_ool_40F540(kink);
 
-        step.FromPolar_41E210(seg_len, angle);
-        step.RotateByAngle_40F6B0(jitter);
-        seg_angle = Fix16::atan2_fixed_405320(step.y, step.x);
+        step.x = seg_len.Multiply_408680(Ang16::sine_40F500(angle));
+        step.y = seg_len.Multiply_408680(Ang16::cosine_40F520(angle));
+        step.RotateByAngle_40F6B0_all_out_of_line(jitter);
+        seg_angle = step.atan2_40F790();
 
-        next = cur + step;
+        next = cur.Add_40AC50(step);
         mid = next - cur;
-        mid.x /= kFP16Two_706EC0;
-        mid.y /= kFP16Two_706EC0;
+        mid.x.DivideAssign_539F90(kFP16Two_706EC0);
+        mid.y.DivideAssign_539F90(kFP16Two_706EC0);
         mid.x += cur.x;
         mid.y += cur.y;
         gParticle_8_6FD5E8->EmitElectricArcParticle(mid.x, mid.y, a3, seg_angle);
         cur = next;
     }
 
-    rest = a2 - cur;
-    seg_angle = Fix16::atan2_fixed_405320(rest.y, rest.x);
-    Fix16 steps = rest.MaxAbs_5E4140() / seg_len;
-    if (steps != dword_706EB8)
+    d = a2 - cur;
+    seg_angle = d.atan2_40F790();
+    len = d.MaxAbs_5E4140() / seg_len;
+    if (len != dword_706EB8)
     {
-        rest.DivAssign_5E40E0(steps);
+        d.DivAssign_5E40E0(len);
         cur = next;
-        for (s32 j = 1; j <= steps.ToInt(); j++)
+        for (s32 j = 1; j <= len.ToInt(); j++)
         {
-            next.AddAssign_5E40C0(rest);
+            next.AddAssign_5E40C0(d);
             mid = next - cur;
             mid.DivAssign_5E40E0(kFP16Two_706EC0);
             mid.AddAssign_5E40C0(cur);
