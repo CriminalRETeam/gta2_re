@@ -58,8 +58,8 @@ DEFINE_GLOBAL(u8, bHaveThreateningPeds_6787DA, 0x6787DA);
 DEFINE_GLOBAL(u8, spawnSideLocked_6787D5, 0x6787D5);
 DEFINE_GLOBAL(u8, spawnCountLimit_6787D6, 0x6787D6);
 DEFINE_GLOBAL_INIT(Ang16, cameraFacingAng_678760, Ang16(0), 0x678760);
-DEFINE_GLOBAL(u8, gSpawnSide_6787C8, 0x6787C8);
-DEFINE_GLOBAL(u8, gSpawnIndex_6787C9, 0x6787C9);
+DEFINE_GLOBAL(s8, gSpawnSide_6787C8, 0x6787C8);
+DEFINE_GLOBAL(s8, gSpawnIndex_6787C9, 0x6787C9);
 
 EXTERN_GLOBAL(Fix16, gDummyW_678530);
 EXTERN_GLOBAL(Fix16, gDummyZ_67841C);
@@ -469,182 +469,133 @@ LABEL_12:
     }
 }
 
-WIP_FUNC(0x46eb60)
+// Not in 9.6f (0x440CC0 calls Fix16::multiply_401BD0 directly), but written inline the product
+// lands in ebx directly instead of through eax like 10.5.
+static inline Fix16 GetSpawnJitter()
+{
+    return gSpawnJitterScale_678618 * (gRng_6F6784.get_int_4F7AE0(32) + 8);
+}
+
+MATCH_FUNC(0x46eb60)
 void PedManager::SpawnDummies_46EB60(Camera_0xBC* pCam)
 {
-    WIP_IMPLEMENTED;
-
-    // regs
-    char_type spawn_side; // dl
-    Fix16 xpos; // esi
-    Fix16 ypos; // edi
-    char_type last_count; // al
-    s16 bound_max; // cx
-    s32 last_count_; // edi
-    Ang16 rot; // ax
-    s32 last_count__; // esi
-    gmp_zone_info* pZoneInfo; // eax
-
-    // stack
+    Fix16 xpos;
+    Fix16 ypos;
     s32 zpos;
-
     Ang16 rotation;
 
     Sprite* pSprite = this->field_8;
 
-    Fix16 left = pCam->field_78_boundaries_non_neg.field_0_left - kFpHalf_67853C;
-    Fix16 right = pCam->field_78_boundaries_non_neg.field_4_right + kFpHalf_67853C;
-    Fix16 top = pCam->field_78_boundaries_non_neg.field_8_top - kFpHalf_67853C;
-    s32 bottom = (pCam->field_78_boundaries_non_neg.field_C_bottom + kFpHalf_67853C).ToInt(); // >> 14 to int
+    s16 tileLeft;
+    s16 tileRight;
+    s16 tileTop;
+    s16 bottom;
+    tileLeft = (pCam->field_78_boundaries_non_neg.field_0_left - kFpHalf_67853C).ToInt();
+    tileRight = (pCam->field_78_boundaries_non_neg.field_4_right + kFpHalf_67853C).ToInt();
+    tileTop = (pCam->field_78_boundaries_non_neg.field_8_top - kFpHalf_67853C).ToInt();
+    bottom = (pCam->field_78_boundaries_non_neg.field_C_bottom + kFpHalf_67853C).ToInt();
 
-    s32 tileLeft = left.ToInt();
-    s32 tileTop = top.ToInt();
-
-    //s32 tileLeft_ = tileLeft;
-    s32 tileRight = right.ToInt();
-    //s32 tileTop_ = tileTop;
-    s16 bound_max_ = 0;
+    s16 bound_max = 0;
 
     if (spawnSideLocked_6787D5)
     {
         switch (Ang16::GetAngleFace_4F78F0(cameraFacingAng_678760))
         {
             case 1:
-                spawn_side = 1;
                 gSpawnSide_6787C8 = 1;
                 break;
-            case 2:
-                spawn_side = 3;
-                gSpawnSide_6787C8 = 3;
-                break;
             case 3:
-                spawn_side = 2;
                 gSpawnSide_6787C8 = 2;
                 break;
+            case 2:
+                gSpawnSide_6787C8 = 3;
+                break;
             case 4:
-                spawn_side = 0;
                 gSpawnSide_6787C8 = 0;
                 break;
-            default:
-                goto LABEL_7;
         }
     }
-    else
-    {
-    LABEL_7:
-        spawn_side = gSpawnSide_6787C8;
-    }
 
-    u8 pCam_v = 0;
-    if (spawnCountLimit_6787D6)
+    for (u8 i = 0; i < spawnCountLimit_6787D6; i++)
     {
-        xpos = pCam_v; // s32 cast?
-        ypos = pCam_v; // s32 cast?
-        last_count = gSpawnIndex_6787C9;
-
-        while (1)
+        switch (gSpawnSide_6787C8)
         {
-            switch (spawn_side)
-            {
-                case 0:
-                case 2:
-                    bound_max = bottom - tileTop;
-                    //goto LABEL_14;
-                    bound_max_ = bound_max;
-                    break;
-                case 1:
-                case 3:
-                    bound_max = tileRight - tileLeft;
-                    //LABEL_14:
-                    bound_max_ = bound_max;
-                    break;
-                default:
-                    break;
-            }
+            case 0:
+            case 2:
+                bound_max = bottom - tileTop;
+                break;
+            case 1:
+            case 3:
+                bound_max = tileRight - tileLeft;
+                break;
+        }
 
-            if (last_count > bound_max_)
+        if (gSpawnIndex_6787C9 > bound_max)
+        {
+            gSpawnIndex_6787C9 = 0;
+            if (!spawnSideLocked_6787D5)
             {
-                last_count = 0;
-                gSpawnIndex_6787C9 = 0;
-                if (!spawnSideLocked_6787D5)
+                if (++gSpawnSide_6787C8 > 3)
                 {
-                    gSpawnSide_6787C8 = ++spawn_side;
-                    if (spawn_side > 3)
-                    {
-                        spawn_side = 0;
-                        gSpawnSide_6787C8 = 0;
-                    }
+                    gSpawnSide_6787C8 = 0;
                 }
             }
+        }
 
-            switch (spawn_side)
+        switch (gSpawnSide_6787C8)
+        {
+            case 0:
+                xpos = Fix16((s16)tileLeft);
+                ypos = Fix16((s16)tileTop + gSpawnIndex_6787C9);
+                rotation = gSpawnRotationLeft_6786E0;
+                break;
+
+            case 1:
+                ypos = Fix16((s16)tileTop);
+                xpos = Fix16((s16)tileLeft + gSpawnIndex_6787C9);
+                rotation = gSpawnRotationTop_6787B0;
+                break;
+
+            case 2:
+                xpos = Fix16((s16)tileRight);
+                ypos = Fix16((s16)tileTop + gSpawnIndex_6787C9);
+                rotation = gSpawnRotationRight_678578;
+                break;
+
+            case 3:
+                ypos = Fix16((s16)bottom);
+                xpos = Fix16((s16)tileLeft + gSpawnIndex_6787C9);
+                rotation = gSpawnRotationBottom_678540;
+                break;
+        }
+
+        Fix16 jitterX = GetSpawnJitter();
+        Fix16 jitterY = GetSpawnJitter();
+        xpos += jitterX;
+        ypos += jitterY;
+
+        if (xpos > kFpOne_678664 && xpos < kFp255_678414 - kFpOne_678664 && ypos > kFpOne_678664 &&
+            ypos < kFp255_678414 - kFpOne_678664)
+        {
+            gmp_zone_info* pZoneInfo = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(xpos.ToInt(), ypos.ToInt());
+            if ((u8)field_6_num_peds_on_screen < (u16)pZoneInfo->field_A_ped_density / 25)
             {
-                case 0:
-                    last_count_ = last_count;
-                    rot = gSpawnRotationLeft_6786E0;
-                    xpos = Fix16((s16)tileLeft); // ToFix16
-                    ypos = Fix16(((s16)tileTop + last_count_)); // ToFix16
-                    goto LABEL_24;
-
-                case 1:
-                    rotation = gSpawnRotationTop_6787B0;
-                    ypos = Fix16((s16)tileTop); // ToFix16
-                    xpos = Fix16(((s16)tileLeft + last_count)); // ToFix16
-                    break;
-
-                case 2:
-                    rotation = gSpawnRotationRight_678578;
-                    xpos = Fix16((s16)tileRight); // ToFix16
-                    ypos = Fix16(((s16)tileTop + last_count)); // ToFix16
-                    break;
-
-                case 3:
-                    last_count__ = last_count;
-                    rot = gSpawnRotationBottom_678540;
-                    ypos = Fix16((s16)bottom); // ToFix16
-                    xpos = Fix16(((s16)tileLeft + last_count__)); // ToFix16
-                LABEL_24:
-                    rotation = rot;
-                    break;
-
-                default:
-                    break;
-            }
-
-            xpos += gSpawnJitterScale_678618 * (gRng_6F6784.get_int_4F7AE0(32) + 8);
-            ypos += gSpawnJitterScale_678618 * (gRng_6F6784.get_int_4F7AE0(32) + 8);
-
-            if (xpos > kFpOne_678664 && xpos < kFp255_678414 - kFpOne_678664 && ypos > kFpOne_678664 &&
-                ypos < kFp255_678414 - kFpOne_678664)
-            {
-                pZoneInfo = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(xpos.ToInt(), ypos.ToInt());
-                if ((u8)field_6_num_peds_on_screen < (u16)pZoneInfo->field_A_ped_density / 25)
+                if (gMap_0x370_6F6268->FindPavementBlockForCoord_4E4BB0(xpos.ToInt(), ypos.ToInt(), zpos))
                 {
-                    if (gMap_0x370_6F6268->FindPavementBlockForCoord_4E4BB0(xpos.ToInt(), ypos.ToInt(), zpos))
+                    pSprite->set_xyz_lazy_451950(xpos, ypos, (zpos + 1));
+                    pSprite->set_ang_lazy_420690(gDummyPedAng_6787A8);
+                    pSprite->AllocInternal_59F950(gDummyW_678530, gDummyH_678584, gDummyZ_67841C);
+                    if (!gGame_0x40_67E008->is_point_on_screen_4B9A80(pSprite->field_14_xy.x, pSprite->field_14_xy.y))
                     {
-                        pSprite->set_xyz_lazy_451950(xpos, ypos, (zpos + 1));
-                        pSprite->set_ang_lazy_420690(gDummyPedAng_6787A8);
-                        pSprite->AllocInternal_59F950(gDummyW_678530, gDummyH_678584, gDummyZ_67841C);
-                        if (!gGame_0x40_67E008->is_point_on_screen_4B9A80(pSprite->field_14_xy.x, pSprite->field_14_xy.y))
+                        if (!gMap_0x370_6F6268->IsSlopeB4ToD0At_433430((u8)(xpos.ToInt()), (u8)(ypos.ToInt()), (u8)zpos + 1))
                         {
-                            if (!gMap_0x370_6F6268->IsSlopeB4ToD0At_433430((u8)(xpos.ToInt()), (u8)(ypos.ToInt()), (u8)zpos + 1))
-                            {
-                                SpawnPedestrianAt_46E380(xpos, ypos, zpos + 1, rotation);
-                            }
+                            SpawnPedestrianAt_46E380(xpos, ypos, Fix16(zpos + 1), rotation);
                         }
                     }
                 }
-                //LOWORD(tileLeft) = tileLeft_;
             }
-            last_count = ++gSpawnIndex_6787C9;
-            pCam_v++;
-            if ((u8)pCam_v >= (u8)spawnCountLimit_6787D6)
-            {
-                break;
-            }
-            spawn_side = gSpawnSide_6787C8;
-            //LOWORD(tileTop) = tileTop_;
         }
+        ++gSpawnIndex_6787C9;
     }
 }
 
