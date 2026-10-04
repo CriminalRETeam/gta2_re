@@ -91,7 +91,10 @@ static inline s32 Clamp2(s32 v, s32 center, s32 radius)
     return v > center ? Min(v, center + radius) : Max(v, center - radius);
 }
 
-MATCH_FUNC(0x419CD0)
+// Was marked as a match, but 0x419CD0 wasn't in og_function_data_v105.csv, so it was never
+// verified. The original loads ecx (mov %esi,%ecx) for GenerateIntegerRandomNumberTable_41BA90
+// before the four field_1450..field_1470 stores, ours after them.
+WIP_FUNC(0x419CD0)
 sound_obj::sound_obj()
 {
     field_1474_rotation = 0;
