@@ -1280,6 +1280,36 @@ thread repeated register tests, which can move a case to the end of the function
   `Fix16_Point_POD` (`sub_5DE910`).
 - **`default: break;`** changes which case keeps a shared tail when cases cross-jump (461A60).
 
+### More from rebuilding broken WIPs
+
+- **Case source order is visible in the binary.** The case bodies' layout and the EH state numbers of
+  case temporaries both follow source order, even when the jump table doesn't
+  (`Char_B4::UpdateAnimState_546360`, `Car_BC::HandleCarHitByObject_43F130`). Reordering the cases fixed
+  most of the structural drift in both.
+- **A user-defined `Fix16_Point` copy ctor costs inline budget; the implicit one doesn't.** Removing it
+  matched `SpawnCabAndTrailerHelper_408370` with no other function changing.
+- **Byte parameters:** a caller pushing a byte register without zero-extending means a `u8` parameter
+  (`CarDoorAlignmentSolver_545AF0`).
+- **`Fix16(u32)` vs `Fix16(s32)` per argument:** a plain int variable converts through 0x4926F0, a computed
+  one (`x + 1`) through 0x4369F0 (`Map_0x370::CanSpriteEnterTile_4E1E00`).
+- **`x = obj.inlineWrapper();` into a declared local** keeps the variable out of memory; initialising it or
+  a direct call pins it to the stack (`sub_5DE910`).
+- **Inline `const T&` overload forwarding to a `T*` export** evaluates all arguments before pushing; the
+  original pushes `&rvalue` first. Pass `&expr` to the pointer overload (43F130).
+- **Two identical blocks the original keeps apart:** write them slightly differently (a local in one,
+  the expression in the other), or VC6 merges them (`Ped::HandlePedHitByObject_45D000`). Changing the
+  condition form (`if (a == 1 && f()) {...} return;` vs `if (a != 1 || !f()) return;`) can also stop
+  cross-jumping (`Ped::MeleeAttackStateMachine_46B670`).
+- **One inline, two bodies:** the original can inline a function in one caller with different nested
+  inlining than its out-of-line copy (`IsPedAThreat` in 45D000 vs 0x465D00). Use a separate inline copy.
+- **`mov <global>,%ecx` before a call to a "static" member** means it's `__thiscall`
+  (`Map_0x370::FindNearbyBlockOfType_4E4930`).
+- **`flags &= 0xF7` on a u32 where the original has `and al,0xF7`** is a bug: write `&= ~8`.
+- **Two locals with the same constant:** assign the constant to each; `b = a` merges them into one
+  register (`Garage_48::ParkCarAtDoor_534700`).
+- **Identical bytes in 9.6f and 10.5** (different compilers) mean prebuilt library code, which VC6 likely
+  can't reproduce (`DMA_Video_LoadDll_5EB970`).
+
 ## Inline asm
 
 **16-bit `pushaw`/`popaw`.** The inline assembler can't spell them. Put `_emit 0x66` before
