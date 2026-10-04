@@ -5150,14 +5150,13 @@ Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 inputAng)
     u8 side_input_ang = inputAng.ToAng4_405680();
 
     Fix16 unused_vel = field_38_velocity * Fix16(word_6FDB2E);
-    Ang16 unused(&unused_vel, 0);
+    // 9.6f has no trace of this; 10.5 constructs the step angle from it and then overwrites it
+    Ang16 v12(&unused_vel, 0);
 
     if (field_10_char_state == 10)
     {
         return inputAng;
     }
-
-    Ang16 v12;
 
     if (field_38_velocity > kZeroVelocity_6FD7C0)
     {
@@ -5182,13 +5181,11 @@ Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 inputAng)
             {
                 if (ComputeShortestAngleDelta_4056C0(inputAng, field_40_rotation) > kAng180_6FD936)
                 {
-                    Ang16 r = field_40_rotation + v12;
-                    return r;
+                    return Ang16(field_40_rotation + v12);
                 }
                 else
                 {
-                    Ang16 r = field_40_rotation - v12;
-                    return r;
+                    return Ang16(field_40_rotation - v12);
                 }
             }
             break;
@@ -5197,13 +5194,11 @@ Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 inputAng)
             {
                 if (ComputeShortestAngleDelta_4056C0(inputAng, field_40_rotation) > kAng180_6FD936)
                 {
-                    Ang16 r = field_40_rotation + v12;
-                    return r;
+                    return Ang16(field_40_rotation + v12);
                 }
                 else
                 {
-                    Ang16 r = field_40_rotation - v12;
-                    return r;
+                    return Ang16(field_40_rotation - v12);
                 }
             }
             break;
@@ -5212,13 +5207,11 @@ Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 inputAng)
             {
                 if (ComputeShortestAngleDelta_4056C0(field_40_rotation, inputAng) < kAng180_6FD936)
                 {
-                    Ang16 r = field_40_rotation - v12;
-                    return r;
+                    return Ang16(field_40_rotation - v12);
                 }
                 else
                 {
-                    Ang16 r = field_40_rotation + v12;
-                    return r;
+                    return Ang16(field_40_rotation + v12);
                 }
             }
             break;
@@ -5228,13 +5221,11 @@ Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 inputAng)
                 case 2:
                     if (ComputeShortestAngleDelta_4056C0(field_40_rotation, inputAng) < kAng180_6FD936)
                     {
-                        Ang16 r = field_40_rotation - v12;
-                        return r;
+                        return Ang16(field_40_rotation - v12);
                     }
                     else
                     {
-                        Ang16 r = field_40_rotation + v12;
-                        return r;
+                        return Ang16(field_40_rotation + v12);
                     }
                     break;
                 case 3:
@@ -5251,30 +5242,31 @@ Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 inputAng)
             break;
     }
 
+    // Close enough to the target: snap to it (the original returns inputAng here, not field_40_rotation)
+    Ang16 result;
     if (inputAng > field_40_rotation)
     {
         if (ComputeShortestAngleDelta_4056C0(inputAng, field_40_rotation) > v12)
         {
-            Ang16 r = field_40_rotation + v12;
-            return r;
+            result = field_40_rotation + v12;
         }
         else
         {
-            return field_40_rotation;
+            result = inputAng;
         }
     }
     else
     {
         if (ComputeShortestAngleDelta_4056C0(field_40_rotation, inputAng) > v12)
         {
-            Ang16 r = field_40_rotation - v12;
-            return r;
+            result = field_40_rotation - v12;
         }
         else
         {
-            return field_40_rotation;
+            result = inputAng;
         }
     }
+    return result;
 }
 
 MATCH_FUNC(0x551350)
