@@ -1777,8 +1777,17 @@ MapRenderer::draw_right_4F4250,0x4f4250,0xf4250,0x3ad
 MapRenderer::draw_top_4F4600,0x4f4600,0xf4600,0x3ae
 MapRenderer::draw_bottom_4F49B0,0x4f49b0,0xf49b0,0x3a6
 MapRenderer::draw_lid_4F4D60,0x4f4d60,0xf4d60,0x3ed
+MapRenderer::DrawPartialBlockLeft_4F5160,0x4f5160,0xf5160,0x1fa
+MapRenderer::DrawPartialBlockRight_4F5360,0x4f5360,0xf5360,0x1fa
+MapRenderer::DrawPartialBlockTop_4F5560,0x4f5560,0xf5560,0x1fa
+MapRenderer::DrawPartialBlockBottom_4F5760,0x4f5760,0xf5760,0x1fa
+MapRenderer::DrawPartialBlockTopLeftCorner_4F5960,0x4f5960,0xf5960,0x209
+MapRenderer::DrawPartialBlockTopRightCorner_4F5B70,0x4f5b70,0xf5b70,0x209
+MapRenderer::DrawPartialBlockBottomRightCorner_4F5D80,0x4f5d80,0xf5d80,0x209
 nullsub_208,0x4f5fc0,0xf5fc0,0x1
+MapRenderer::DrawPartialBlockBottomLeftCorner_4F5FD0,0x4f5fd0,0xf5fd0,0x209
 nullsub_209,0x4f6210,0xf6210,0x1
+MapRenderer::DrawPartialCentreBlock_4F6350,0x4f6350,0xf6350,0x209
 MapRenderer::DrawPartialBlocks_4F6580,0x4f6580,0xf6580,0x5b
 MapRenderer::DrawGradientSlope_4F6630,0x4f6630,0xf6630,0x75
 MapRenderer::RenderFlatBlock_4F66C0,0x4f66c0,0xf66c0,0x1c0
