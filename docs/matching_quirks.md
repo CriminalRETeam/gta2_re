@@ -1236,6 +1236,136 @@ byte compare come from `x < 63 ? x : 63` written out; an s32 or u8 `Min` helper 
 thread repeated register tests, which can move a case to the end of the function as in the original
 (`Orca_2FD4::Internel_CanMoveDiagonally_554110`).
 
+### Inline budget: more patterns (round of 9.6f recoveries)
+
+- **Declaration order picks the losers.** With several default-constructed `Fix16_Point` locals,
+  the first declared ones get their `Fix16_Point_POD()` ctor outlined once the budget runs out
+  (`Hud_Arrow_7C::UpdateScreenPos_5D0850`: declaring the point after three `Fix16`s brought its
+  ctor back inline). Turning inline getters/setters into plain field accesses also freed ctors
+  (`Trailer::UpdateTrailerAlignment_407CE0`).
+- **A ternary costs less than an inline function.** The same `GetLength` as a ternary freed budget;
+  the same ternary wrapped in a static inline did not (5D0850). Writing `Abs_436A50`/`Multiply_408680`
+  calls out by hand freed it too (`CarPhysics_B0::ComputeEngineTorque_561970`).
+- **The same `Ang16` operator can normalise out of line in one branch and inline in the next**
+  (`Weapon_30::sub_5DFB60`): write both the same way and let the budget decide.
+- **Unused calls past the budget stay.** An unused `PolarToCartesian_41FC20` or `x = sin * r` is
+  dropped while inlined, but past the budget its `Multiply_408680` calls remain, as in the original
+  (`Particle_8::GunMuzzelFlash_53E970`).
+- **Outlined ctors must be the named function.** Past the budget an `Ang16` ctor becomes the COMDAT
+  `??0Ang16@@...`/`?Normalize@Ang16`, which scores 0 in `permuter_score.py` (symbols are masked) but
+  can't match the exe. The original calls `AssignNormalized_409300`, see
+  `Ang16::Fix16_To_Ang16_ool_40F540`. Check call relocations by name before claiming a match.
+
+### Locals, temporaries and the shape of returns
+
+- **One result local, one return.** `T r; ... r = X; ... return r;` gives the per-path
+  `mov ret,%ecx; mov %eax,(%ecx)` epilogue and stops VC6 merging identical tails
+  (`ComputeEngineTorque_561970`). `return Ang16(expr);` gives each return its own temporary slot
+  (`Char_B4::GetNextRotationToward_550F60`).
+- **`T x; x = f();` is not `T x = f();`.** Assigning lets the slot be reused by later temporaries,
+  shrinking the frame (561970). For `Ang16`, `result = a + b;` into an existing local inlines the
+  whole operator including Normalize; initialising or returning leaves Normalize out of line (550F60).
+- **Temporaries get their own slots; sibling named locals share one.** Pass `atan2` arguments as
+  temporaries when the original has a slot per case (`Ped::UpdateFacingAngle_461A60`).
+- **Copying a constant through a local** (`lodword = kZero; v9 = lodword;`) keeps VC6 from caching
+  the global in a callee-saved register (`CalculateFrontWheelForce_561E50`).
+- **Free-style vs member add.** A static `Fix16::Add_ref(a, b)` loads the left operand into the
+  result register; member `operator+` loads the right one (561970).
+- **`x += dx; y += dy;` order** decides whether both loads come before both stores in a `u8` pair
+  update (`Car_BC::CountConsecutiveArrowBlocks_4410D0`).
+- **EH states reveal source order.** A path with lower EH state numbers comes first in the source even
+  when the block layout puts it last (`sub_5DF270`). The EH state at entry tells how many destructible
+  locals are declared at the top (`Sprite_4C::UpdateRotatedBoundingBox_5A3550`).
+- **A by-value `Fix16_Point` argument copied as two dwords from a temporary** means the parameter is
+  `Fix16_Point_POD` (`sub_5DE910`).
+- **`default: break;`** changes which case keeps a shared tail when cases cross-jump (461A60).
+
+### More from rebuilding broken WIPs
+
+- **Case source order is visible in the binary.** The case bodies' layout and the EH state numbers of
+  case temporaries both follow source order, even when the jump table doesn't
+  (`Char_B4::UpdateAnimState_546360`, `Car_BC::HandleCarHitByObject_43F130`). Reordering the cases fixed
+  most of the structural drift in both.
+- **A user-defined `Fix16_Point` copy ctor costs inline budget; the implicit one doesn't.** Removing it
+  matched `SpawnCabAndTrailerHelper_408370` with no other function changing.
+- **Byte parameters:** a caller pushing a byte register without zero-extending means a `u8` parameter
+  (`CarDoorAlignmentSolver_545AF0`).
+- **`Fix16(u32)` vs `Fix16(s32)` per argument:** a plain int variable converts through 0x4926F0, a computed
+  one (`x + 1`) through 0x4369F0 (`Map_0x370::CanSpriteEnterTile_4E1E00`).
+- **`x = obj.inlineWrapper();` into a declared local** keeps the variable out of memory; initialising it or
+  a direct call pins it to the stack (`sub_5DE910`).
+- **Inline `const T&` overload forwarding to a `T*` export** evaluates all arguments before pushing; the
+  original pushes `&rvalue` first. Pass `&expr` to the pointer overload (43F130).
+- **Two identical blocks the original keeps apart:** write them slightly differently (a local in one,
+  the expression in the other), or VC6 merges them (`Ped::HandlePedHitByObject_45D000`). Changing the
+  condition form (`if (a == 1 && f()) {...} return;` vs `if (a != 1 || !f()) return;`) can also stop
+  cross-jumping (`Ped::MeleeAttackStateMachine_46B670`).
+- **One inline, two bodies:** the original can inline a function in one caller with different nested
+  inlining than its out-of-line copy (`IsPedAThreat` in 45D000 vs 0x465D00). Use a separate inline copy.
+- **`mov <global>,%ecx` before a call to a "static" member** means it's `__thiscall`
+  (`Map_0x370::FindNearbyBlockOfType_4E4930`).
+- **`flags &= 0xF7` on a u32 where the original has `and al,0xF7`** is a bug: write `&= ~8`.
+- **Two locals with the same constant:** assign the constant to each; `b = a` merges them into one
+  register (`Garage_48::ParkCarAtDoor_534700`).
+- **Identical bytes in 9.6f and 10.5** (different compilers) mean prebuilt library code, which VC6 likely
+  can't reproduce (`DMA_Video_LoadDll_5EB970`).
+
+### More from the third round of broken WIPs
+
+- **IDA's function-scope locals cost a lot.** Declaring locals where they are used (and deleting
+  IDA temporaries) moved the zero register and was most of the match in
+  `Ped::RobbedDriver_AI_461630` (310 -> 50) and `SpawnPedestrianAt_46E380`.
+- **`T x; x = Fix16(...)` vs `T x(...)`** for locals built from float conversions changed the register
+  allocation of the whole function (`Sprite::ShowId_59EB30`, 463 -> 74). Declaring a variable at the top and
+  assigning it later also kept a value in one register across a loop (`Car_14::SpawnTrafficCar_582480`,
+  1805 -> 467).
+- **Helpers that 9.6f writes out were not inline functions.** 9.6f (`/Ob0`) shows real calls for real
+  helpers; plain code there means plain code in the source. Turning such code into inline helpers spends
+  inline budget (`PoliceRoadblock_A4::CreateRoadblock_575FF0`: removing three such helpers let Normalize
+  inline again, 751 -> 529).
+- **A global moved to another TU** gives 16-bit `mov`/`sub` from memory for `Ang16` constants
+  (`CarAI_78::sub_44AF00`: kAng0/90/180/270 now live in `Car_10.cpp`).
+- **Statement order picks `inc mem` vs load/inc/store.** `bFound = 1; y++;` gives load/inc/store,
+  `y++; bFound = 1;` gives `incb mem`, and then lets VC6 cross-jump the tail (575FF0).
+- **Tail merging between identical case tails** (575FF0, 582480): two jump-target copies merge into the
+  later one; a fallthrough copy and a later jump-target copy merge into the fallthrough; a jump target and a
+  later fallthrough don't merge. Blocks with the same final asm but a different statement order don't merge.
+- **`u8 r = rng(); if (r < 4) r += 18; else r += 27; f(r);`** matches where the ternary argument spills
+  (46E380).
+- **Saved globals:** `CarAI_78::UpdateStateMachine_44E560` saves `gCurrCarAI_TargetX/Y` at entry and restores
+  them twice; a missing restore is a logic bug that leaks offsets into the global.
+
+### More from the fourth round
+
+- **Early returns cost inline budget through destructors.** In an EH function with `Fix16_Point` locals,
+  each early return expands their destructors; nesting with one shared `return true` brought the
+  `Fix16_Point` ctors back inline (`Sprite::PointInsideRotatedBounds_5A1490`, 296 -> 60). Fix16 compares
+  (`a >= -b`) cost several expansions; raw `mValue` compares are cheap.
+- **Named exports inside file-local `_ool` helpers:** `static_cast<const Fix16&>(t) + x` reaches the const
+  `operator+` export (0x408660), `DivideInt_53E860(2)` the divide export; otherwise the COMDAT copies are
+  called, which `permuter_score.py` scores as 0 but the exe never matches.
+- **Ang16 sum forms:** `Ang16(s16, u8)` gives a 16-bit add + `jns`; `operator+` (`const s16&` ctor) a 32-bit
+  `lea` + `test/jge`; `Ang16(x).Normalized_406C20()` an out-of-line Normalize after a 16-bit store;
+  `s16 v = ...; Ang16((Ang16&)v, 0)` a dword store and an `AssignNormalized_409300` call
+  (`Weapon_30::shotgun_5DD290`, `Char_B4::HandleGenericCollision_54A530`).
+- **0x4516B0 is a constructor** (`Ang16(Fix16*, s32)`): called out of line, its constant argument is pushed
+  before a complex pointer argument is evaluated (`EmitImpactParticles_53FE40`).
+- **A method call on `ecx=&param` in 9.6f** means the parameters are one by-value struct
+  (`EmitImpactParticles_53FE40` takes a `Fix16_Point`).
+- **A local flag can replace a goto.** A `u8` flag set on several paths and tested once is threaded into
+  direct jumps (`PoliceCrew_38::State5_PursueOrChase_572920`). A jump that skips a test of a value already
+  known false is VC6 threading, not an IDA goto (`CarAI_78::sub_447D40`).
+- **An inline helper with every value as a by-value parameter** evaluates all arguments before any store,
+  giving a load-all-then-store schedule (`Car_BC::TrainUpdate_442D70`'s `SetPrism`).
+- **Mixed if-chain forms decide tail merging:** some cases needed early returns, others nested
+  if/else-if (447D40).
+- **Function-scope temporaries shared across inline sites** (`abs_x/abs_y` for three `Fix16::Max`) fixed the
+  slot order (`Ped::Threat_Reaction_AI_465270`). Reusing one `u8 i, j` pair across sequential loops did the
+  same (`sound_obj::ProcessActiveQueues_41AB80`).
+- **Two `memset`s of small globals** give two interleaved zero registers (`read_input_device_498DA0`).
+- **A ternary pointer argument after shared pushes** can be two calls whose tails VC6 merged
+  (`Ped::FindBestTargetPed_466BF0`).
+
 ## Inline asm
 
 **16-bit `pushaw`/`popaw`.** The inline assembler can't spell them. Put `_emit 0x66` before

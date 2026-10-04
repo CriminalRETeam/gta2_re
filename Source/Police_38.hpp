@@ -76,7 +76,7 @@ class PoliceCrew_38
     char_type field_2F;
     s32 field_30;
     char_type field_34;
-    char_type field_35;
+    u8 field_35;
     char_type field_36;
     char_type field_37;
 };
@@ -132,9 +132,6 @@ class PoliceRoadblock_A4
     EXPORT void RemoveRoadblock_575CA0();
     EXPORT char_type CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation);
 
-    inline void AddCar(Car_BC* pCar);
-    inline void AddBarriers(Object_2C* pBarrier1, Object_2C* pBarrier2);
-    inline void AddGuard(Ped* pGuard);
     EXPORT PoliceRoadblock_A4();
     EXPORT ~PoliceRoadblock_A4();
     char_type field_0_bActive;

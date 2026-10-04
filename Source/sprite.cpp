@@ -685,32 +685,48 @@ static inline void __stdcall DrawTextScaled_4BA2C0(const wchar_t* pStr, Fix16 x,
     DrawText_5D8A10(pStr, x * gViewCamera_676978->field_A8_ui_scale, scale_y, font, gViewCamera_676978->field_A8_ui_scale, palette_type, 0, 0, 0);
 }
 
-WIP_FUNC(0x59eb30)
+// DrawTextScaled_4BA2C0 in ShowId_59EB30, where the x multiply is the out-of-line Multiply_408680
+static inline void __stdcall DrawTextScaled_4BA2C0_ool(const wchar_t* pStr, Fix16 x, Fix16 y, u16 font)
+{
+    s32 palette_type = palette_types_enum::sprites_2;
+    Fix16 scale_y = y * gViewCamera_676978->field_A8_ui_scale;
+    DrawText_5D8A10(pStr,
+                    x.Multiply_408680(gViewCamera_676978->field_A8_ui_scale),
+                    scale_y,
+                    font,
+                    gViewCamera_676978->field_A8_ui_scale,
+                    palette_type,
+                    0,
+                    0,
+                    0);
+}
+
+MATCH_FUNC(0x59EB30)
 void Sprite::ShowId_59EB30(f32& x, f32& y)
 {
-    s32 palette_type;
     if (bDo_show_ids_67D559)
     {
-        if (field_30_sprite_type_enum == sprite_types_enum::car_2)
+        Car_BC* pCar = AsCar_40FEB0();
+        if (pCar)
         {
-            Car_BC* pCar = field_8_car_bc_ptr;
-            if (pCar)
-            {
-                Fix16 xpos((s32)((x / (f32)(u32)window_width_706630) * 640.0f));
-                Fix16 ypos((s32)((y / (f32)(u32)window_height_706B50) * 480.0f));
-                swprintf(tmpBuff_67BD9C, L"%d", pCar->field_6C_maybe_id);
-                DrawTextScaled_4BA2C0(tmpBuff_67BD9C, xpos, ypos, word_703BAA);
-            }
+            Fix16 xpos;
+            xpos = Fix16((s32)((x / (f32)(u32)window_width_706630) * 640.0f));
+            Fix16 ypos;
+            ypos = Fix16((s32)((y / (f32)(u32)window_height_706B50) * 480.0f));
+            swprintf(tmpBuff_67BD9C, L"%d", pCar->field_6C_maybe_id);
+            DrawTextScaled_4BA2C0_ool(tmpBuff_67BD9C, xpos, ypos, word_703BAA);
         }
-        else if (field_30_sprite_type_enum == sprite_types_enum::ped_3)
+        else
         {
-            Char_B4* pB4 = field_8_char_b4_ptr;
+            Char_B4* pB4 = AsCharB4_40FEA0();
             if (pB4)
             {
-                Fix16 xpos((s32)((x / (f32)(u32)window_width_706630) * 640.0f));
-                Fix16 ypos((s32)((y / (f32)(u32)window_height_706B50) * 480.0f));
+                Fix16 xpos;
+            xpos = Fix16((s32)((x / (f32)(u32)window_width_706630) * 640.0f));
+                Fix16 ypos;
+            ypos = Fix16((s32)((y / (f32)(u32)window_height_706B50) * 480.0f));
                 swprintf(tmpBuff_67BD9C, L"%d", pB4->field_7C_pPed->field_200_id);
-                palette_type = 2;
+                s32 palette_type = 2;
                 DrawText_5D8A10(tmpBuff_67BD9C,
                                 xpos * gViewCamera_676978->field_A8_ui_scale,
                                 ypos * gViewCamera_676978->field_A8_ui_scale,
@@ -726,26 +742,24 @@ void Sprite::ShowId_59EB30(f32& x, f32& y)
 
     if (bDo_show_object_ids_67D6CA)
     {
-        if (field_30_sprite_type_enum == sprite_types_enum::code_obj1_4 || field_30_sprite_type_enum == sprite_types_enum::map_obj_5 ||
-            field_30_sprite_type_enum == sprite_types_enum::unknown_1)
+        Object_2C* pObj = As2C_40FEC0();
+        if (pObj)
         {
-            Object_2C* pObj = field_8_object_2C_ptr;
-            if (pObj)
-            {
-                Fix16 xpos((s32)((x / (f32)(u32)window_width_706630) * 640.0f));
-                Fix16 ypos((s32)((y / (f32)(u32)window_height_706B50) * 480.0f));
-                swprintf(tmpBuff_67BD9C, L"%d:%d", pObj->field_18_model, pObj->field_14_id);
-                palette_type = 2;
-                DrawText_5D8A10(tmpBuff_67BD9C,
-                                xpos * gViewCamera_676978->field_A8_ui_scale,
-                                ypos * gViewCamera_676978->field_A8_ui_scale,
-                                word_703BAA,
-                                gViewCamera_676978->field_A8_ui_scale,
-                                palette_type,
-                                0,
-                                0,
-                                0);
-            }
+            Fix16 xpos;
+            xpos = Fix16((s32)((x / (f32)(u32)window_width_706630) * 640.0f));
+            Fix16 ypos;
+            ypos = Fix16((s32)((y / (f32)(u32)window_height_706B50) * 480.0f));
+            swprintf(tmpBuff_67BD9C, L"%d:%d", pObj->field_18_model, pObj->field_14_id);
+            s32 palette_type = 2;
+            DrawText_5D8A10(tmpBuff_67BD9C,
+                            xpos * gViewCamera_676978->field_A8_ui_scale,
+                            ypos * gViewCamera_676978->field_A8_ui_scale,
+                            word_703BAA,
+                            gViewCamera_676978->field_A8_ui_scale,
+                            palette_type,
+                            0,
+                            0,
+                            0);
         }
     }
 }
@@ -1601,6 +1615,35 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 a2, Fix16_Point& a3
     return true;
 }
 
+// 9.6f 0x401C80: Ang16::operator-(), the normalizing ctor called out of line (AssignNormalized_409300)
+static inline Ang16 NegateAng16_401C80(const Ang16& angle)
+{
+    s16 value = -angle.rValue;
+    return Ang16((Ang16&)value, 0);
+}
+
+// RotateAndTranslatePoint_42A720 with the out-of-line Fix16 operator copies
+static inline void __stdcall RotateAndTranslatePoint_ool_42A720(Fix16& pInX,
+                                                                Fix16& pInY,
+                                                                Ang16& pRotAng,
+                                                                Fix16& pTransX,
+                                                                Fix16& pTransY,
+                                                                Fix16& pRotTransX,
+                                                                Fix16& pRotTransY)
+{
+    pRotTransX = static_cast<const Fix16&>(pInX.Subtract_436A00(pTransX).Multiply_408680(Ang16::cosine_40F520(pRotAng))) +
+        pInY.Subtract_436A00(pTransY).Multiply_408680(Ang16::sine_40F500(pRotAng));
+    pRotTransY = static_cast<const Fix16&>(pInX.Subtract_436A00(pTransX).Negate_4086A0().Multiply_408680(Ang16::sine_40F500(pRotAng))) +
+        pInY.Subtract_436A00(pTransY).Multiply_408680(Ang16::cosine_40F520(pRotAng));
+}
+
+// Sprite_4C::HalfWH_4BA0A0 with the out-of-line Fix16 / s32 copy
+static inline void HalfWH_ool_4BA0A0(Sprite_4C* pThis, Fix16* pHalfW, Fix16* pHalfH)
+{
+    *pHalfW = pThis->field_0_width.DivideInt_53E860(2);
+    *pHalfH = pThis->field_4_height.DivideInt_53E860(2);
+}
+
 // https://decomp.me/scratch/2RoLd
 WIP_FUNC(0x5a1490)
 bool Sprite::PointInsideRotatedBounds_5A1490(Fix16_Point& point1, Fix16_Point& point2)
@@ -1611,48 +1654,30 @@ bool Sprite::PointInsideRotatedBounds_5A1490(Fix16_Point& point1, Fix16_Point& p
     Fix16_Point rotated_2;
     Fix16 half_width;
     Fix16 half_height;
-    field_C_sprite_4c_ptr->HalfWH_4BA0A0(&half_width, &half_height);
+    HalfWH_ool_4BA0A0(field_C_sprite_4c_ptr, &half_width, &half_height);
 
-    // TODO: this is just "negate" but inlined
-    Ang16 negated_ang(-field_0.rValue);
-    Ang16 normalized_ang;
-    normalized_ang.AssignNormalized_409300(negated_ang, 0);
-
-    RotateAndTranslatePoint_42A720(point1.x, point1.y, normalized_ang, field_14_xy.x, field_14_xy.y, rotated_1.x, rotated_1.y);
-
-    if (rotated_1.x >= -half_width && rotated_1.x <= half_width)
+    // Nested, with one shared "return true": early returns give every return its own epilogue copy and
+    // destructor calls, and run out of inline expansions (the Fix16_Point ctors then go out of line).
+    // The plain mValue compares are cheaper than the Fix16 operators for the same reason.
+    RotateAndTranslatePoint_ool_42A720(point1.x, point1.y, NegateAng16_401C80(field_0), field_14_xy.x, field_14_xy.y, rotated_1.x, rotated_1.y);
+    if (!(rotated_1.x.mValue >= -half_width.mValue && rotated_1.x.mValue <= half_width.mValue && rotated_1.y.mValue >= -half_height.mValue && rotated_1.y.mValue <= half_height.mValue))
     {
-        if (rotated_1.y >= -half_height && rotated_1.y <= half_height)
+        RotateAndTranslatePoint_ool_42A720(point2.x, point2.y, NegateAng16_401C80(field_0), field_14_xy.x, field_14_xy.y, rotated_2.x, rotated_2.y);
+        if (!(rotated_2.x.mValue >= -half_width.mValue && rotated_2.x.mValue <= half_width.mValue && rotated_2.y.mValue >= -half_height.mValue && rotated_2.y.mValue <= half_height.mValue))
         {
-            return true;
+            if (!ComputeScanlineIntersectionX_4F77D0(-half_height, half_height, -half_width, rotated_1, rotated_2))
+            {
+                if (!ComputeScanlineIntersectionX_4F77D0(-half_height, half_height, half_width, rotated_1, rotated_2))
+                {
+                    if (!ComputeScanlineIntersectionY_4F76A0(-half_width, half_width, -half_height, rotated_1, rotated_2))
+                    {
+                        return ComputeScanlineIntersectionY_4F76A0(-half_width, half_width, half_height, rotated_1, rotated_2) ? true : false;
+                    }
+                }
+            }
         }
     }
-
-
-    // TODO: this is just "negate" but inlined
-    Ang16 negated_ang2(-field_0.rValue);
-    Ang16 normalized_ang2;
-    normalized_ang2.AssignNormalized_409300(negated_ang2, 0);
-
-    RotateAndTranslatePoint_42A720(point2.x, point2.y, normalized_ang2, field_14_xy.x, field_14_xy.y, rotated_2.x, rotated_2.y);
-
-    if (rotated_2.x >= -half_width && rotated_2.x <= half_width)
-    {
-        if (rotated_2.y >= -half_height && rotated_2.y <= half_height)
-        {
-            return true;
-        }
-    }
-
-
-    if (ComputeScanlineIntersectionX_4F77D0(-half_height, half_height, -half_width, rotated_1, rotated_2) ||
-        ComputeScanlineIntersectionX_4F77D0(-half_height, half_height, half_width, rotated_1, rotated_2) ||
-        ComputeScanlineIntersectionY_4F76A0(-half_width, half_width, -half_height, rotated_1, rotated_2) ||
-        ComputeScanlineIntersectionY_4F76A0(-half_width, half_width, half_height, rotated_1, rotated_2))
-    {
-        return true;
-    }
-    return false;
+    return true;
 }
 
 MATCH_FUNC(0x5a19c0)
@@ -2397,116 +2422,123 @@ WIP_FUNC(0x5A3550)
 void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {
     WIP_IMPLEMENTED;
+
+    // The five points are constructed up front (EH state 4 at the start), in this order to get the
+    // original's stack slots, and the corners
+    // (renderingRect[i] = point + corner_i) are shared by every branch.
+    Fix16_Point corner1;
+    Fix16_Point corner2;
+    Fix16_Point corner3;
+    Fix16_Point corner0;
+    Fix16_Point point;
+
     Fix16 width_over_2 = field_0_width / 2;
     Fix16 height_over_2 = field_4_height / 2;
-    Fix16 unk_over_2 = field_8_depth / 2;
+    Fix16 depth_over_2 = field_8_depth / 2;
 
-    Fix16_Point point;
     point.SetXY_432860(xpos, ypos);
 
     if (rotation == gAng16_703804) // = 0
     {
-        // okay
-        Fix16_Point northwest;
-        northwest.SetXY_432860(-width_over_2, -height_over_2);
-        Fix16_Point northeast;
-        northeast.SetXY_432860(width_over_2, -height_over_2);
-        Fix16_Point southeast;
-        southeast.SetXY_432860(width_over_2, height_over_2);
-        Fix16_Point southwest;
-        southwest.SetXY_432860(-width_over_2, height_over_2);
+        corner0.SetXY_432860(-width_over_2, -height_over_2);
+        corner1.SetXY_432860(width_over_2, -height_over_2);
+        corner2.SetXY_432860(width_over_2, height_over_2);
+        corner3.SetXY_432860(-width_over_2, height_over_2);
 
-        field_C_renderingRect[0] = point + northwest;
-        field_C_renderingRect[1] = point + northeast;
-        field_C_renderingRect[2] = point + southeast;
-        field_C_renderingRect[3] = point + southwest;
+        field_C_renderingRect[0] = point.Add_40AC50(corner0);
+        field_C_renderingRect[1] = point.Add_40AC50(corner1);
+        field_C_renderingRect[2] = point.Add_40AC50(corner2);
+        field_C_renderingRect[3] = point.Add_40AC50(corner3);
 
-        field_30_boundingBox = Fix16_Rect();
         field_30_boundingBox.SetRect_41E350(xpos - width_over_2, xpos + width_over_2, ypos - height_over_2, ypos + height_over_2);
     }
     else if (rotation == kAng90_70344C) // = 360
     {
-        // okay
-        Fix16_Point southwest;
-        southwest.SetXY_432860(-height_over_2, width_over_2);
-        Fix16_Point northwest;
-        northwest.SetXY_432860(-height_over_2, -width_over_2);
-        Fix16_Point northeast;
-        northeast.SetXY_432860(height_over_2, -width_over_2);
-        Fix16_Point southeast;
-        southeast.SetXY_432860(height_over_2, width_over_2);
+        corner0.SetXY_432860(-height_over_2, width_over_2);
+        corner1.SetXY_432860(-height_over_2, -width_over_2);
+        corner2.SetXY_432860(height_over_2, -width_over_2);
+        corner3.SetXY_432860(height_over_2, width_over_2);
 
-        field_C_renderingRect[0] = point + southwest;
-        field_C_renderingRect[1] = point + northwest;
-        field_C_renderingRect[2] = point + northeast;
-        field_C_renderingRect[3] = point + southeast;
+        field_C_renderingRect[0] = point.Add_40AC50(corner0);
+        field_C_renderingRect[1] = point.Add_40AC50(corner1);
+        field_C_renderingRect[2] = point.Add_40AC50(corner2);
+        field_C_renderingRect[3] = point.Add_40AC50(corner3);
 
-        field_30_boundingBox = Fix16_Rect();
         field_30_boundingBox.SetRect_41E350(xpos - height_over_2, xpos + height_over_2, ypos - width_over_2, ypos + width_over_2);
     }
     else if (rotation == kAng180_70351E) // = 720
     {
-        // okay
-        Fix16_Point southeast;
-        southeast.SetXY_432860(width_over_2, height_over_2);
-        Fix16_Point southwest;
-        southwest.SetXY_432860(-width_over_2, height_over_2);
-        Fix16_Point northwest;
-        northwest.SetXY_432860(-width_over_2, -height_over_2);
-        Fix16_Point northeast;
-        northeast.SetXY_432860(width_over_2, -height_over_2);
+        corner0.SetXY_432860(width_over_2, height_over_2);
+        corner1.SetXY_432860(-width_over_2, height_over_2);
+        corner2.SetXY_432860(-width_over_2, -height_over_2);
+        corner3.SetXY_432860(width_over_2, -height_over_2);
 
-        field_C_renderingRect[0] = point + southeast;
-        field_C_renderingRect[1] = point + southwest;
-        field_C_renderingRect[2] = point + northwest;
-        field_C_renderingRect[3] = point + northeast;
+        field_C_renderingRect[0] = point.Add_40AC50(corner0);
+        field_C_renderingRect[1] = point.Add_40AC50(corner1);
+        field_C_renderingRect[2] = point.Add_40AC50(corner2);
+        field_C_renderingRect[3] = point.Add_40AC50(corner3);
 
-        field_30_boundingBox = Fix16_Rect();
         field_30_boundingBox.SetRect_41E350(xpos - width_over_2, xpos + width_over_2, ypos - height_over_2, ypos + height_over_2);
     }
     else if (rotation == kAng270_703544) // = 1080
     {
-        // okay
-        Fix16_Point northeast;
-        northeast.SetXY_432860(height_over_2, -width_over_2);
-        Fix16_Point southeast;
-        southeast.SetXY_432860(height_over_2, width_over_2);
-        Fix16_Point southwest;
-        southwest.SetXY_432860(-height_over_2, width_over_2);
-        Fix16_Point northwest;
-        northwest.SetXY_432860(-height_over_2, -width_over_2);
+        corner0.SetXY_432860(height_over_2, -width_over_2);
+        corner1.SetXY_432860(height_over_2, width_over_2);
+        corner2.SetXY_432860(-height_over_2, width_over_2);
+        corner3.SetXY_432860(-height_over_2, -width_over_2);
 
-        field_C_renderingRect[0] = point + northeast;
-        field_C_renderingRect[1] = point + southeast;
-        field_C_renderingRect[2] = point + southwest;
-        field_C_renderingRect[3] = point + northwest;
+        field_C_renderingRect[0] = point.Add_40AC50(corner0);
+        field_C_renderingRect[1] = point.Add_40AC50(corner1);
+        field_C_renderingRect[2] = point.Add_40AC50(corner2);
+        field_C_renderingRect[3] = point.Add_40AC50(corner3);
 
-        field_30_boundingBox = Fix16_Rect();
         field_30_boundingBox.SetRect_41E350(xpos - height_over_2, xpos + height_over_2, ypos - width_over_2, ypos + width_over_2);
     }
     else
     {
-        //
-        Fix16_Point northwest;
-        northwest.SetXY_432860(-width_over_2, -height_over_2);
-        Fix16_Point northeast;
-        northeast.SetXY_432860(width_over_2, -height_over_2);
-        Fix16_Point southeast;
-        southeast.SetXY_432860(width_over_2, height_over_2);
-        Fix16_Point southwest;
-        southwest.SetXY_432860(-width_over_2, height_over_2);
+        corner0.SetXY_432860(-width_over_2, -height_over_2);
+        corner1.SetXY_432860(width_over_2, -height_over_2);
+        corner2.SetXY_432860(width_over_2, height_over_2);
+        corner3.SetXY_432860(-width_over_2, height_over_2);
 
-        northwest.RotateByAngle_40F6B0(rotation);
-        northeast.RotateByAngle_40F6B0(rotation);
-        southeast.RotateByAngle_40F6B0(rotation);
-        southwest.RotateByAngle_40F6B0(rotation);
+        // RotateByAngle_40F6B0 with the operators out of line, written out by hand: going through an
+        // inline helper (RotateByAngle_40F6B0_all_out_of_line) uses up the inline budget and pushes the
+        // first Fix16_Point ctor out of line.
+        {
+            Fix16 sin = Ang16::sine_40F500(rotation);
+            Fix16 cos = Ang16::cosine_40F520(rotation);
+            Fix16 x_old = corner0.x;
+            corner0.x = (const Fix16&)corner0.x.Multiply_408680(cos) + corner0.y.Multiply_408680(sin);
+            corner0.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + corner0.y.Multiply_408680(cos);
+        }
+        {
+            Fix16 sin = Ang16::sine_40F500(rotation);
+            Fix16 cos = Ang16::cosine_40F520(rotation);
+            Fix16 x_old = corner1.x;
+            corner1.x = (const Fix16&)corner1.x.Multiply_408680(cos) + corner1.y.Multiply_408680(sin);
+            corner1.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + corner1.y.Multiply_408680(cos);
+        }
+        {
+            Fix16 sin = Ang16::sine_40F500(rotation);
+            Fix16 cos = Ang16::cosine_40F520(rotation);
+            Fix16 x_old = corner2.x;
+            corner2.x = (const Fix16&)corner2.x.Multiply_408680(cos) + corner2.y.Multiply_408680(sin);
+            corner2.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + corner2.y.Multiply_408680(cos);
+        }
+        {
+            Fix16 sin = Ang16::sine_40F500(rotation);
+            Fix16 cos = Ang16::cosine_40F520(rotation);
+            Fix16 x_old = corner3.x;
+            corner3.x = (const Fix16&)corner3.x.Multiply_408680(cos) + corner3.y.Multiply_408680(sin);
+            corner3.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + corner3.y.Multiply_408680(cos);
+        }
 
-        field_C_renderingRect[0] = point + northwest;
-        field_C_renderingRect[1] = point + northeast;
-        field_C_renderingRect[2] = point + southeast;
-        field_C_renderingRect[3] = point + southwest;
+        field_C_renderingRect[0] = point.Add_40AC50(corner0);
+        field_C_renderingRect[1] = point.Add_40AC50(corner1);
+        field_C_renderingRect[2] = point.Add_40AC50(corner2);
+        field_C_renderingRect[3] = point.Add_40AC50(corner3);
 
-        // 9.6f: Fix16_Rect::get_left_45ADB0/right/top/bottom here (inlined, using them changes the code: 638 -> 648)
+        // 9.6f: Fix16_Rect::get_left_45ADB0/right/top/bottom here
         Fix16 left = field_30_boundingBox.field_0_left;
         Fix16 right = field_30_boundingBox.field_4_right;
         Fix16 top = field_30_boundingBox.field_8_top;
@@ -2528,35 +2560,37 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
 
         field_30_boundingBox.SetRect_5A5E30(left, right, top, bottom);
     }
-    field_30_boundingBox.SetHiLowZ_41E370(zpos - unk_over_2, zpos + unk_over_2);
-    field_48_bBoxUpToDate = true; // line 745
+    field_30_boundingBox.SetHiLowZ_41E370(zpos.Subtract_436A00(depth_over_2), (const Fix16&)zpos + depth_over_2);
+    field_48_bBoxUpToDate = true;
 
-    return;
-    /*
-    // ????????????????????
-    // not on 9.6f function:
-    Fix16 y_negated = -ypos;
-    Fix16 x_negated = -xpos;
-    Fix16_Point_POD unk1 = Fix16_Point_POD(y_negated, x_negated); // ??
-    Fix16_Point_POD unk2 = Fix16_Point_POD(y_negated, x_negated); // ??
-    Fix16_Point_POD unk3 = Fix16_Point_POD(y_negated, x_negated); // ??
-    Fix16_Point_POD unk4 = Fix16_Point_POD(y_negated, x_negated); // ??
+    // Not in 9.6f: the corners are set and rotated again, and the results are never used.
+    corner0.SetXY_432860(width_over_2.Negate_4086A0(), height_over_2.Negate_4086A0());
+    corner1.SetXY_432860(width_over_2, height_over_2.Negate_4086A0());
+    corner2.SetXY_432860(width_over_2, height_over_2);
+    corner3.SetXY_432860(width_over_2.Negate_4086A0(), height_over_2);
 
-    unk1.Rotate_562C20(rotation);
-    unk2.Rotate_562C20(rotation);
-    unk3.Rotate_562C20(rotation);
-    unk4.Rotate_562C20(rotation);
-    */
+    corner0.RotateVelocity_562C20(rotation);
+    corner1.RotateVelocity_562C20(rotation);
+    corner2.RotateVelocity_562C20(rotation);
+    corner3.RotateVelocity_562C20(rotation);
 }
 
 // World to screen pixels. DrawCollisionBox_5A4DA0 expands the inline, except for its last call, which
 // is the out-of-line copy sub_5A5690.
+// Like the original, the function runs out of inline expansions, so the Fix16 operators are the
+// out-of-line copies.
 static inline void ProjectToScreen_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
 {
-    z = kFP16One_7035C4 / ((kFP16Eight_7035E4 - z) + gViewCamera_676978->field_98_cam_pos2.field_8_z);
-    *pOut1 = (((x - gViewCamera_676978->field_98_cam_pos2.field_0_x) * gViewCamera_676978->field_60.x) * z) +
+    Fix16 scale;
+    scale = kFP16One_7035C4.Divide_436A20(
+        static_cast<const Fix16&>(kFP16Eight_7035E4.Subtract_436A00(z)) + gViewCamera_676978->field_98_cam_pos2.field_8_z);
+    *pOut1 = static_cast<const Fix16&>(x.Subtract_436A00(gViewCamera_676978->field_98_cam_pos2.field_0_x)
+                                           .Multiply_408680(gViewCamera_676978->field_60.x)
+                                           .Multiply_408680(scale)) +
         Fix16(gViewCamera_676978->field_70_screen_px_center_x);
-    *pOut2 = (((y - gViewCamera_676978->field_98_cam_pos2.field_4_y) * gViewCamera_676978->field_60.x) * z) +
+    *pOut2 = static_cast<const Fix16&>(y.Subtract_436A00(gViewCamera_676978->field_98_cam_pos2.field_4_y)
+                                           .Multiply_408680(gViewCamera_676978->field_60.x)
+                                           .Multiply_408680(scale)) +
         Fix16(gViewCamera_676978->field_74_screen_px_center_y);
 }
 

@@ -235,6 +235,7 @@ class Ped
     EXPORT void ReactToAttacker_465B20();
     EXPORT bool sub_465CD0();
     EXPORT bool IsPedAThreat_465D00(Ped* pTargetPed);
+    inline bool IsPedAThreat_Inline_465D00(Ped* pTargetPed);
     EXPORT char_type sub_466B70();
     EXPORT char_type IsThreatToSearchingPed_4661F0();
     EXPORT Ped* FindBestTargetPed_Mode1_466B90(s32 max_x_check);
@@ -988,7 +989,7 @@ class Ped
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Ped, 0x294)
 
-EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(s32 a1, Car_BC* a2, u8 a3, Fix16& a4, Fix16& a5, Ang16& a6);
+EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 a1, Car_BC* a2, u8 a3, Fix16& a4, Fix16& a5, Ang16& a6);
 
 EXTERN_GLOBAL(s32, gPedId_61A89C);
 

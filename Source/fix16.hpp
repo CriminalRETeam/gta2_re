@@ -303,6 +303,13 @@ class Fix16
         return Fix16(a1 << 7, 0);
     }
 
+    // Non-member style add of two references. Unlike the member operator+ it loads the left
+    // operand into the result register first (CarPhysics_B0::ComputeEngineTorque_561970's length).
+    inline static Fix16 Add_ref(const Fix16& lhs, const Fix16& rhs)
+    {
+        return Fix16(lhs.mValue + rhs.mValue, 0);
+    }
+
     inline static Fix16 Max(const Fix16& diff_x, const Fix16& diff_y)
     {
         return (diff_x > diff_y) ? diff_x : diff_y;
@@ -426,6 +433,18 @@ class Fix16
         Fix16 diff_y;
         Fix16 result;
         result = Fix16::Max_44E540(Fix16::Abs_436A50(diff_x), Fix16::Abs_436A50(diff_y = y2.Subtract_436A00(y1)));
+        return result;
+    }
+
+    // MaxAbsDistanceByRef_42A6B0 with diff_y computed before the Abs calls (CarAI_78::UpdateStateMachine_44E560)
+    inline static Fix16 __stdcall MaxAbsDistanceByRefYFirst_42A6B0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
+    {
+        Fix16 diff_x;
+        diff_x = x2 - x1;
+        Fix16 diff_y;
+        diff_y = y2.Subtract_436A00(y1);
+        Fix16 result;
+        result = Fix16::Max_44E540(Fix16::Abs_436A50(diff_x), Fix16::Abs_436A50(diff_y));
         return result;
     }
 

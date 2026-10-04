@@ -159,14 +159,28 @@ def score_lines(tl, ml):
     return score
 
 
+def target_lines(target):
+    # A self-recursive call is dumped as "call 0" (relative to the function start), and
+    # post-processing then names the bare "0" and rewrites every 0 in the stored "pp".
+    # Re-process the raw asm with that call pointed at a fake address instead.
+    asm = target["asm"].split("\n")
+    if "call 0" not in asm:
+        return target["pp"].split("\n")
+    asm = ["call 0x%X" % (FAKE_BASE - 0x10) if l == "call 0" else l for l in asm]
+    return post_process_asm.post_process_asm("\n".join(asm)).split("\n")
+
+
 def main():
     obj, addr = sys.argv[1], int(sys.argv[2], 16)
     here = os.path.dirname(os.path.abspath(__file__))
-    target = json.load(open(os.path.join(here, "target_asm.json")))[hex(addr)]
+    target = json.load(open(os.path.join(here, "target_asm.json"))).get(hex(addr))
+    if target is None:
+        # A MATCH_FUNC: its asm in a verified build is the original's (dump_matched_asm.py).
+        target = json.load(open(os.path.join(here, "matched_asm.json")))[hex(addr)]
     needle = sys.argv[3] if len(sys.argv) > 3 else target["name"].split("::")[-1]
     coff = Coff(open(obj, "rb").read())
     ml = function_lines(coff, find_function(coff, needle))
-    tl = target["pp"].split("\n")
+    tl = target_lines(target)
     score = score_lines(tl, ml)
     # cpp_permuter keeps this output as score_output.txt next to each improvement.
     print("\n".join(difflib.unified_diff(tl, ml, "target", "candidate", lineterm="", n=2)))

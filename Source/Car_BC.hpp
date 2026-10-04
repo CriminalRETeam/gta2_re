@@ -248,6 +248,21 @@ class Car_6C
         }
     }
 
+    // As SpawnCarAtCorrectZ_426E40 but with the scale passed in (Car_14::SpawnTrafficCar_582480 passes its own kFpOne_6FF778)
+    inline Car_BC* SpawnCarAtCorrectZ_WithScale(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_model, const Fix16& scale)
+    {
+        Fix16 temp_z;
+        if (car_model == car_model_enum::TRAIN || car_model == car_model_enum::TRAINCAB || car_model == car_model_enum::TRAINFB ||
+            car_model == car_model_enum::boxcar)
+        {
+            return SpawnCarAt_446230(xpos, ypos, *gMap_0x370_6F6268->GetRailwayZCoordAtXY_4E6510(&temp_z, xpos, ypos), rotation, car_model, scale);
+        }
+        else
+        {
+            return SpawnCarAt_446230(xpos, ypos, gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(xpos, ypos), rotation, car_model, scale);
+        }
+    }
+
     inline Car_BC* SpawnCarAtCorrectZ_426E40(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_model)
     {
         Fix16 temp_z;
@@ -1436,10 +1451,10 @@ struct Car_14
     EXPORT char_type SpawnTrafficCarFacing_583260(s32 angle_face);
     EXPORT void GenerateTraffic_583670();
 
-    // TODO: Prob just returns Fix16 and isn't static or stdcall
-    EXPORT static Fix16 __stdcall GetRandomTrafficSpeed_583750(Fix16 a2, u8* pOut);
+    // 9.6f 0x4B3230. A thiscall member: SpawnTrafficCar_582480 sets ecx = this before calling it
+    EXPORT Fix16 GetRandomTrafficSpeed_583750(Fix16 a2, u8* pOut);
 
-    EXPORT char_type SpawnTrafficCar_582480(s32 xpos, s32 ypos, s32 zpos);
+    EXPORT char_type SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4);
 
     EXPORT char_type IsFlatRoadAt_583870(Fix16 xpos, Fix16 ypos);
 

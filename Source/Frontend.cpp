@@ -379,7 +379,7 @@ inline s32 youthful_einstein::GetLeaderIdx_453AB0()
     s32 leader_time = -1;
     if (IsTagGame_434B20())
     {
-        for (u8 i = 0; i < 6; i++)
+        for (s32 i = 0; i < 6; i++)
         {
             if (field_4_time[i] > leader_time && !field_20[i])
             {
@@ -396,434 +396,340 @@ WIP_FUNC(0x4B3170)
 void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
 {
     WIP_IMPLEMENTED;
-    u8 v4; // bl
-    u8 v5; // al
-    stage_stats* v6; // ecx
-    u8 v7; // al
-    s32 main_stage_idx; // edi
-    LPDIRECTINPUTA* v9; // eax
-    char_type main_level_idx; // bl
-    u8 v11; // al
-    char_type v12; // al
-    MenuPage_0xBCA* v13; // ecx
-    s16 playerSlotSetting; // ax
-    s32 v15; // edi
-    //s32 v16; // edx
-    wchar_t* v18; // eax
-    s16 v19; // ax
-    wchar_t* v20; // eax
-    wchar_t* _5B5F90; // eax
-    u8 v22; // bl
-    char_type* v23; // edi
-    u8 v24; // al
-    u8 v25; // bl
-    s32 v26; // edi
-    wchar_t* field_6_wstr_buf; // ebp
-    blissful_ganguly_0x20* v28; // eax
-    blissful_ganguly_0x20* v29; // eax
-    s32 v30; // edi
-    s32 v31; // ebp
-    s32 v33; // eax
-    s32 v34; // ebp
-    s32 v35; // ebx
-    s32 v38; // eax
-    s32 v39; // ecx
-    s32 v40; // eax
-    wchar_t* v41; // eax
-    wchar_t* v42; // eax
-    wchar_t* v43; // eax
-    char_type* v44; // eax
-    const char_type* v45; // eax
-    u16 local_field_132_f136_idx; // cx
-    MenuPage_0xBCA* v47; // edi
-    wchar_t* v48; // [esp-4h] [ebp-11Ch]
-    HDIGDRIVER field_0_hDriver; // [esp-4h] [ebp-11Ch]
-    HDIGDRIVER v50; // [esp-4h] [ebp-11Ch]
-    u8 v51; // [esp+13h] [ebp-105h]
-    u8 v52; // [esp+13h] [ebp-105h]
-    char_type v53; // [esp+13h] [ebp-105h]
-    u8 a2; // [esp+14h] [ebp-104h]
-    u8 a2a; // [esp+14h] [ebp-104h]
-    u8 a2b; // [esp+14h] [ebp-104h]
-    player_stats_0xA4* v57; // [esp+18h] [ebp-100h]
-    char_type bonus_level_idx; // [esp+1Fh] [ebp-F9h]
-    u8 a3; // [esp+20h] [ebp-F8h]
-    u8 a3a; // [esp+20h] [ebp-F8h]
-    u8 a3b; // [esp+20h] [ebp-F8h]
-    s32 v65; // [esp+24h] [ebp-F4h]
-    char_type v66; // [esp+2Ah] [ebp-EEh]
-    char_type v67; // [esp+2Bh] [ebp-EDh]
-    char_type v68; // [esp+2Ch] [ebp-ECh]
-    u8 v69; // [esp+30h] [ebp-E8h]
-    wchar_t Destination[50]; // [esp+34h] [ebp-E4h] BYREF
-    wchar_t Buffer[64]; // [esp+98h] [ebp-80h] BYREF
+    u8 bonus_count;
+    u8 stage_idx;
+    u8 i;
+    u8 saved_main_stage;
+    u8 saved_is_bonus;
+    u8 main_stage_idx;
+    u8 bonus_stage_idx;
+    u8 game_mode;
+    u8 opponent_idx;
+    u8 player;
+    s32 user_idx;
+    wchar_t player_name[50];
+    wchar_t quit_name[64];
 
-    v57 = GetCurrPlayerStats_4B43E0();
+    player_stats_0xA4* pStats = GetCurrPlayerStats_4B43E0();
     field_132_f136_idx = menu_page_idx;
+
     if (menu_page_idx == MENUPAGE_PARENTAL_CONTROL)
     {
-            field_110_state = 5;
-            field_C9CA_password_length = 0;
-            field_C9CB_wrong_password_shown = 0;
-            StripPasswordToCurrLength_4B8530();
-            field_C9B3_key_held = 1;
-            field_C9B4_last_key = DIK_RETURN;
-            field_C9B6_key_repeat_timer = 5;
-            goto LABEL_116;
-
+        field_110_state = 5;
+        field_C9CA_password_length = 0;
+        field_C9CB_wrong_password_shown = 0;
+        StripPasswordToCurrLength_4B8530();
+        field_C9B3_key_held = 1;
+        field_C9B4_last_key = DIK_RETURN;
+        field_C9B6_key_repeat_timer = 5;
+        goto select_option;
     }
     else if (menu_page_idx == MENUPAGE_CREDITS)
     {
-            field_1EB34_credits_ypos = 0x668000;
-            field_1EB30_credits_scroll_timer = 0;
-            field_1EB38_credits_line_idx = 0;
-            field_C9B3_key_held = 1;
-            goto LABEL_116;
-
+        field_1EB34_credits_ypos = 0x668000;
+        field_1EB30_credits_scroll_timer = 0;
+        field_1EB38_credits_line_idx = 0;
+        field_C9B3_key_held = 1;
+        goto select_option;
     }
     else if (menu_page_idx == MENUPAGE_AREA_COMPLETE)
     {
-            a2 = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
-            v51 = gLucid_hamilton_67E8E0.GetLevelFinishBonusType_4C59C0();
-            if (gLucid_hamilton_67E8E0.get_secret_tokens_collected_453A80() == 50)
-            {
-                v51 = 3;
-            }
+        stage_idx = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
+        bonus_count = gLucid_hamilton_67E8E0.GetLevelFinishBonusType_4C59C0();
+        if (gLucid_hamilton_67E8E0.get_secret_tokens_collected_453A80() == 50)
+        {
+            bonus_count = 3;
+        }
 
-            v4 = 1;
-            for (a3 = 1; v4 <= v51; a3 = v4)
+        for (i = 1; i <= bonus_count; i++)
+        {
+            if (i < field_1EB51_num_bonus_stages[stage_idx])
             {
-                if (v4 < field_1EB51_num_bonus_stages[a2])
-                {
-                    gJolly_poitras_0x2BC0_6FEAC0->UnlockStage_56BBD0(a2, a3);
-                }
-                ++v4;
+                gJolly_poitras_0x2BC0_6FEAC0->UnlockStage_56BBD0(stage_idx, i);
             }
-            if (a2 == (u8)field_1EB50_num_main_stages - 1)
-            {
-                field_136_menu_pages_array[3].field_4_options_array[0].field_1_is_unlocked = 0;
-                field_136_menu_pages_array[3].field_B8A[0].field_4_is_option_unlocked = 0;
-            }
-            else
-            {
-                gJolly_poitras_0x2BC0_6FEAC0->UnlockStage_56BBD0(a2 + 1, 0);
-                field_136_menu_pages_array[3].field_4_options_array[0].field_1_is_unlocked = 1;
-                field_136_menu_pages_array[3].field_B8A[0].field_4_is_option_unlocked = 1;
-            }
-            field_136_menu_pages_array[3].field_4_options_array[3].field_1_is_unlocked = 0;
-            field_136_menu_pages_array[3].field_B8A[3].field_4_is_option_unlocked = 0;
-            v5 = 1;
-            v6 = &v57->field_0_plyr_stage_stats[a2][1];
-            do
-            {
-                if (v6->field_0_is_stage_unlocked && v5 < field_1EB51_num_bonus_stages[a2])
-                {
-                    field_136_menu_pages_array[3].field_4_options_array[3].field_1_is_unlocked = 1;
-                    field_136_menu_pages_array[3].field_B8A[3].field_4_is_option_unlocked = 1;
-                }
-                ++v5;
-                ++v6;
-            } while (v5 < 4u);
-            a2a = 1;
-            goto LABEL_30;
+        }
 
+        if (stage_idx == (u8)field_1EB50_num_main_stages - 1)
+        {
+            field_136_menu_pages_array[3].field_4_options_array[0].field_1_is_unlocked = 0;
+            field_136_menu_pages_array[3].field_B8A[0].field_4_is_option_unlocked = 0;
+        }
+        else
+        {
+            gJolly_poitras_0x2BC0_6FEAC0->UnlockStage_56BBD0(stage_idx + 1, 0);
+            field_136_menu_pages_array[3].field_4_options_array[0].field_1_is_unlocked = 1;
+            field_136_menu_pages_array[3].field_B8A[0].field_4_is_option_unlocked = 1;
+        }
+
+        field_136_menu_pages_array[3].field_4_options_array[3].field_1_is_unlocked = 0;
+        field_136_menu_pages_array[3].field_B8A[3].field_4_is_option_unlocked = 0;
+        for (i = 1; i < 4; i++)
+        {
+            if (pStats->field_0_plyr_stage_stats[stage_idx][i].field_0_is_stage_unlocked && i < field_1EB51_num_bonus_stages[stage_idx])
+            {
+                field_136_menu_pages_array[3].field_4_options_array[3].field_1_is_unlocked = 1;
+                field_136_menu_pages_array[3].field_B8A[3].field_4_is_option_unlocked = 1;
+            }
+        }
+        // the option to check is "continue" (1) here, and 0 on the dead/quit pages
+        stage_idx = 1;
+        goto check_continue_option;
     }
     else if (menu_page_idx == MENUPAGE_BONUS_AREA)
     {
-            gLucid_hamilton_67E8E0.DecodeStage_453A60(gLucid_hamilton_67E8E0.GetStage_4C5990(), &v7, &v11);
-            main_stage_idx = v7;
-            swprintf(tmpBuff_67BD9C, L"%d", v57->field_0_plyr_stage_stats[main_stage_idx][v11].field_8_stage_latest_score);
-            wcsncpy(field_136_menu_pages_array[6].field_518_elements_array[2].field_6_element_name_str, tmpBuff_67BD9C, 0x32u);
-            if (gLucid_hamilton_67E8E0.IsStartedFromPlayBonusMenu_4C5AE0() || main_stage_idx >= (u8)field_1EB50_num_main_stages - 1 ||
-                !v57->field_0_plyr_stage_stats[main_stage_idx + 1][0].field_0_is_stage_unlocked)
-            {
-                field_136_menu_pages_array[6].field_4_options_array[1].field_1_is_unlocked = 0;
-                field_136_menu_pages_array[6].field_B8A[1].field_4_is_option_unlocked = 0;
-            }
-            else
-            {
-                field_136_menu_pages_array[6].field_4_options_array[1].field_1_is_unlocked = 1;
-                field_136_menu_pages_array[6].field_B8A[1].field_4_is_option_unlocked = 1;
-            }
-            goto LABEL_116;
+        gLucid_hamilton_67E8E0.DecodeStage_453A60(gLucid_hamilton_67E8E0.GetStage_4C5990(), &stage_idx, &bonus_count);
+        swprintf(tmpBuff_67BD9C, L"%d", pStats->field_0_plyr_stage_stats[stage_idx][bonus_count].field_8_stage_latest_score);
+        wcsncpy(field_136_menu_pages_array[6].field_518_elements_array[2].field_6_element_name_str, tmpBuff_67BD9C, 50);
+        if (gLucid_hamilton_67E8E0.IsStartedFromPlayBonusMenu_4C5AE0() || stage_idx >= (u8)field_1EB50_num_main_stages - 1 ||
+            !pStats->field_0_plyr_stage_stats[stage_idx + 1][0].field_0_is_stage_unlocked)
+        {
+            field_136_menu_pages_array[6].field_4_options_array[1].field_1_is_unlocked = 0;
+            field_136_menu_pages_array[6].field_B8A[1].field_4_is_option_unlocked = 0;
+        }
+        else
+        {
+            field_136_menu_pages_array[6].field_4_options_array[1].field_1_is_unlocked = 1;
+            field_136_menu_pages_array[6].field_B8A[1].field_4_is_option_unlocked = 1;
+        }
+        goto select_option;
     }
     else if (menu_page_idx == MENUPAGE_DEAD || menu_page_idx == MENUPAGE_RESULTS_PLAYER_QUIT)
     {
-            a2a = 0;
-        LABEL_30:
-            v9 = &(&field_0_pDInput)[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()];
-            v66 = *((BYTE*)v9 + 60905);
-            v52 = *((BYTE*)v9 + 60906);
-            v67 = *((BYTE*)v9 + 60907);
-            if (gLucid_hamilton_67E8E0.IsBonusStage_4C59A0())
-            {
-                // 9.6f: lucid_hamilton::DecodeStage_453A60 here and for v52 below (inlined, using it changes the code)
-                v11 = gLucid_hamilton_67E8E0.GetStage_4C5990();
-                main_level_idx = v11 >> 4;
-                bonus_level_idx = v11 & 0xF;
-            }
-            else
-            {
-                main_level_idx = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
-                bonus_level_idx = 0;
-            }
-            if (v67)
-            {
-                v12 = v52 >> 4;
-                v53 = v52 & 0xF;
-            }
-            else
-            {
-                v12 = v66;
-                v53 = 0;
-            }
-            v13 = &field_136_menu_pages_array[menu_page_idx];
-            if (main_level_idx == v12 && bonus_level_idx == v53)
-            {
-                v13->field_4_options_array[a2a].field_1_is_unlocked = 1;
-                v13->field_B8A[a2a].field_4_is_option_unlocked = 1;
-            }
-            else
-            {
-                v13->field_4_options_array[a2a].field_1_is_unlocked = 0;
-                v13->field_B8A[a2a].field_4_is_option_unlocked = 0;
-            }
-    }
-    else if (menu_page_idx == MENUPAGE_PLAY)
-    {
-            playerSlotSetting = gRegistry_6FF968.Create_Player_Setting_587810("plyrslot");
-            field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx = playerSlotSetting;
-            field_136_menu_pages_array[1].field_4_options_array[0].field_70 = playerSlotSetting;
-            gLucid_hamilton_67E8E0.SetPlySlotIdx_4C5920(playerSlotSetting);
-            UpdateMenuForCurrPlayer_4B42E0();
+        stage_idx = 0;
+    check_continue_option:
+        game_mode = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
+        saved_main_stage = field_EDE8_plySlots[game_mode].field_1_last_saved_stage;
+        bonus_count = field_EDE8_plySlots[game_mode].field_2_last_saved_bonus_stage_code;
+        saved_is_bonus = field_EDE8_plySlots[game_mode].field_3_last_saved_is_bonus;
+        if (!gLucid_hamilton_67E8E0.IsBonusStage_4C59A0())
+        {
+            main_stage_idx = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
+            bonus_stage_idx = 0;
+        }
+        else
+        {
+            // 9.6f: lucid_hamilton::DecodeStage_453A60 here and below (inlined, using it changes the code)
+            u8 stage = gLucid_hamilton_67E8E0.GetStage_4C5990();
+            main_stage_idx = stage >> 4;
+            bonus_stage_idx = stage & 0xF;
+        }
 
+        u8 saved_main;
+        if (!saved_is_bonus)
+        {
+            saved_main = saved_main_stage;
+            bonus_count = 0;
+        }
+        else
+        {
+            saved_main = bonus_count >> 4;
+            bonus_count = bonus_count & 0xF;
+        }
+
+        MenuPage_0xBCA* pPage = &field_136_menu_pages_array[menu_page_idx];
+        if (main_stage_idx == saved_main && bonus_stage_idx == bonus_count)
+        {
+            pPage->field_4_options_array[stage_idx].field_1_is_unlocked = 1;
+            pPage->field_B8A[stage_idx].field_4_is_option_unlocked = 1;
+        }
+        else
+        {
+            pPage->field_4_options_array[stage_idx].field_1_is_unlocked = 0;
+            pPage->field_B8A[stage_idx].field_4_is_option_unlocked = 0;
+        }
+    }
+
+    if (menu_page_idx == MENUPAGE_PLAY)
+    {
+        s16 playerSlotSetting = gRegistry_6FF968.Create_Player_Setting_587810("plyrslot");
+        field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx = playerSlotSetting;
+        field_136_menu_pages_array[1].field_4_options_array[0].field_70 = playerSlotSetting;
+        gLucid_hamilton_67E8E0.SetPlySlotIdx_4C5920(playerSlotSetting);
+        UpdateMenuForCurrPlayer_4B42E0();
     }
     else if (menu_page_idx == MENUPAGE_MULTIPLAYER_RESULTS)
     {
-            a2b = gLucid_hamilton_67E8E0.GetMaxPlayers_4C5BF0();
-            gYouthful_einstein_6F8450.GetLeaderIdx_453AB0();
+        stage_idx = gLucid_hamilton_67E8E0.GetMaxPlayers_4C5BF0();
+        gYouthful_einstein_6F8450.GetLeaderIdx_453AB0();
+        user_idx = (u8)gLucid_hamilton_67E8E0.GetUserPlayerIdx_4C5BE0();
+        game_mode = gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0();
 
-            v65 = (unsigned __int8)gLucid_hamilton_67E8E0.GetUserPlayerIdx_4C5BE0();
-            v68 = gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0();
-            switch (v68)
+        switch (game_mode)
+        {
+            case FRAG_GAME_1:
+                wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[13].field_6_element_name_str,
+                        gText_0x14_704DFC->Find_5B5F90("frags_h"),
+                        50);
+                field_136_menu_pages_array[7].field_518_elements_array[13].field_2_xpos =
+                    GetCenteredXPos_4B0190(field_136_menu_pages_array[7].field_518_elements_array[13].field_6_element_name_str,
+                                              field_136_menu_pages_array[7].field_518_elements_array[13].field_6A_font_type,
+                                              320);
+                break;
+
+            case POINTS_GAME_2:
+                wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[13].field_6_element_name_str,
+                        gText_0x14_704DFC->Find_5B5F90("pnts_h"),
+                        50);
+                field_136_menu_pages_array[7].field_518_elements_array[13].field_2_xpos =
+                    GetCenteredXPos_4B0190(field_136_menu_pages_array[7].field_518_elements_array[13].field_6_element_name_str,
+                                              field_136_menu_pages_array[7].field_518_elements_array[13].field_6A_font_type,
+                                              320);
+                break;
+
+            case TAG_GAME_3:
+                wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[13].field_6_element_name_str,
+                        gText_0x14_704DFC->Find_5B5F90("times_h"),
+                        50);
+                field_136_menu_pages_array[7].field_518_elements_array[13].field_2_xpos =
+                    GetCenteredXPos_4B0190(field_136_menu_pages_array[7].field_518_elements_array[13].field_6_element_name_str,
+                                              field_136_menu_pages_array[7].field_518_elements_array[13].field_6A_font_type,
+                                              320);
+                break;
+
+            default:
+                FatalError_4A38C0(Gta2Error::InvalidMultiplayerGameType,
+                                  "C:\\Splitting\\GTA2\\Source\\frontend2.cpp",
+                                  4079); // Multiplayer game type should be frag, tag or score (but isn't)
+                break;
+        }
+
+        for (player = 0; player < 6; player++)
+        {
+            if (player < stage_idx)
             {
-                case FRAG_GAME_1:
-                    _5B5F90 = gText_0x14_704DFC->Find_5B5F90("frags_h");
-                    wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[13].field_6_element_name_str, _5B5F90, 0x32u);
-                    v19 = GetCenteredXPos_4B0190(field_136_menu_pages_array[7].field_518_elements_array[13].field_6_element_name_str,
-                                     field_136_menu_pages_array[7].field_518_elements_array[13].field_6A_font_type,
-                                     320);
-                    break;
-
-                case POINTS_GAME_2:
-                    v20 = gText_0x14_704DFC->Find_5B5F90("pnts_h");
-                    wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[13].field_6_element_name_str, v20, 50u);
-                    v19 = GetCenteredXPos_4B0190(field_136_menu_pages_array[7].field_518_elements_array[13].field_6_element_name_str,
-                                     field_136_menu_pages_array[7].field_518_elements_array[13].field_6A_font_type,
-                                     320);
-                    break;
-
-                case TAG_GAME_3:
-                    v18 = gText_0x14_704DFC->Find_5B5F90("times_h");
-                    wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[13].field_6_element_name_str, v18, 0x32u);
-                    v19 = GetCenteredXPos_4B0190(field_136_menu_pages_array[7].field_518_elements_array[13].field_6_element_name_str,
-                                     field_136_menu_pages_array[7].field_518_elements_array[13].field_6A_font_type,
-                                     320);
-                    break;
-                default:
-                    FatalError_4A38C0(Gta2Error::InvalidMultiplayerGameType,
-                                      "C:\\Splitting\\GTA2\\Source\\frontend2.cpp",
-                                      4079); // Multiplayer game type should be frag, tag or score (but isn't)
-            }
-
-            field_136_menu_pages_array[7].field_518_elements_array[13].field_2_xpos = v19;
-            v22 = 0;
-            v23 = &field_136_menu_pages_array[7].field_518_elements_array[7].field_1_is_it_displayed;
-            do
-            {
-                if (v22 >= a2b)
-                {
-                    *(v23 - 660) = 0;
-                    *v23 = 0;
-                }
-                else
-                {
-                    *(v23 - 660) = 1;
-                    *v23 = !IsTagGame_434B20();
-                }
-                ++v22;
-                v23 += 110;
-            } while (v22 < 6u);
-
-            v24 = a2b;
-            v25 = 0;
-            v69 = 0;
-
-            if (a2b)
-            {
-                v26 = 0;
-                field_6_wstr_buf = field_136_menu_pages_array[7].field_518_elements_array[1].field_6_element_name_str;
-                do
-                {
-                    if (gYouthful_einstein_6F8450.HasQuit_453A90(v26))
-                    {
-                        v48 = gText_0x14_704DFC->Find_5B5F90("mult_q"); //  quit
-                        v28 = gLucid_hamilton_67E8E0.GetPlayerName_4C5C60(v25);
-                        swprintf(Buffer, L"%s (%s)", v28->field_0_str, v48);
-                        wcscpy(Destination, Buffer);
-                    }
-                    else
-                    {
-                        v29 = gLucid_hamilton_67E8E0.GetPlayerName_4C5C60(v25);
-                        wcsncpy(Destination, v29->field_0_str, 0x32u);
-                    }
-                    gText_0x14_704DFC->StrToUpper_5B5B80(Destination);
-                    wcsncpy(field_6_wstr_buf, Destination, 0x32u);
-                    if (v26 != v65)
-                    {
-                        wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[v69++ + 8].field_6_element_name_str,
-                                Destination,
-                                0x32u);
-                    }
-                    ++v25;
-                    ++v26;
-                    v24 = a2b;
-                    field_6_wstr_buf += 55;
-                } while (v25 < a2b);
-            }
-
-            v30 = -1;
-
-            if (gYouthful_einstein_6F8450.HasQuit_453A90(v65))
-            {
-                goto LABEL_105;
-            }
-
-            switch (v68)
-            {
-                case FRAG_GAME_1:
-                    a3a = 0;
-                    if (v24)
-                    {
-                        v31 = 0;
-                        do
-                        {
-                            if (v31 != v65 //  not this player (i.e. an opponent)
-                                && !gYouthful_einstein_6F8450.HasQuit_453A90(v31) //  not quit?
-                                &&
-                                (s16)(&gLucid_hamilton_67E8E0)->GetFragsForPlayerIdx_4C5D60(a3a) > v30) // v30 = highest frag from opponents
-                            {
-                                v30 = (s16)(&gLucid_hamilton_67E8E0)->GetFragsForPlayerIdx_4C5D60(a3a); // update highest frag
-                            }
-                            ++v31;
-                            ++a3a;
-                        } while (a3a < a2b);
-                    }
-                    v33 = (s16)gLucid_hamilton_67E8E0.GetFragsForPlayerIdx_4C5D60(v65);
-                    break;
-                case POINTS_GAME_2:
-                    a3b = 0;
-                    if (v24)
-                    {
-                        v34 = 0;
-                        do
-                        {
-                            if (v34 != v65 //  not you
-                                && !gYouthful_einstein_6F8450.HasQuit_453A90(v34) //  not quit?
-                                && (s16)(&gLucid_hamilton_67E8E0)->GetPointsForPlayerIdx_4C5CB0(a3b) >
-                                    v30) // v30 = highest score from opponents
-                            {
-                                v30 = (s16)(&gLucid_hamilton_67E8E0)->GetPointsForPlayerIdx_4C5CB0(a3b); // update highest opponent score
-                            }
-                            ++v34;
-                            ++a3b;
-                        } while (a3b < a2b);
-                    }
-                    v33 = gLucid_hamilton_67E8E0.GetPointsForPlayerIdx_4C5CB0(v65);
-                    break;
-                case TAG_GAME_3:
-                    if (v24)
-                    {
-                        v35 = 0;
-                        v38 = a2b;
-                        do
-                        {
-                            if (v35 != v65 //  not you
-                                && !gYouthful_einstein_6F8450.HasQuit_453A90(v35)) //  not quit?
-                            {
-                                v39 = gYouthful_einstein_6F8450.GetTime_453AA0(v35); //  get opponent time
-                                if (v39 > v30) //  v30 = highest opponent tag time
-                                {
-                                    v30 = v39; //  update highest opponent tag time
-                                }
-                            }
-                            ++v35;
-                            --v38;
-                        } while (v38 < a2b);
-                    }
-                    v33 = gYouthful_einstein_6F8450.GetTime_453AA0(v65); //  get your time
-                    break;
-                default:
-                    goto LABEL_107;
-            }
-
-            v40 = v33 - v30; //  v33 = your frag/score/time, v30 = highest opponent frag/score/time
-
-            if (v40 > 0)
-            {
-                v41 = gText_0x14_704DFC->Find_5B5F90("mult_w"); //  win
-                wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[0].field_6_element_name_str, v41, 0x32u);
-                goto LABEL_116;
-            }
-
-            if (v40 < 0)
-            {
-            LABEL_105:
-                v42 = gText_0x14_704DFC->Find_5B5F90("mult_l"); //  lose
-                wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[0].field_6_element_name_str, v42, 0x32u);
-                goto LABEL_116;
-            }
-
-        LABEL_107:
-            v43 = gText_0x14_704DFC->Find_5B5F90("mult_d"); //  draw
-            wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[0].field_6_element_name_str, v43, 0x32u);
-
-    }
-    else if (menu_page_idx == MENUPAGE_PLAY_INTRO)
-    {
-            if (bIsFrench_67D53C)
-            {
-                FreeSound_4B8650();
-            }
-
-            if (pre_intro_bik_exists_4B6030())
-            {
-                field_0_hDriver = gSampManager_6FFF00.field_0_hDriver;
-                v44 = gFrontend_67DC84->pre_intro_bik_4B5F20();
-                Bink::OpenSlot1_513560(v44, field_0_hDriver);
+                field_136_menu_pages_array[7].field_518_elements_array[player + 1].field_1_is_it_displayed = 1;
+                field_136_menu_pages_array[7].field_518_elements_array[player + 7].field_1_is_it_displayed = !IsTagGame_434B20();
             }
             else
             {
-                v50 = gSampManager_6FFF00.field_0_hDriver;
-                v45 = gFrontend_67DC84->intro_bik_4B5E50();
-                Bink::OpenSlot2_5133E0(v45, v50);
+                field_136_menu_pages_array[7].field_518_elements_array[player + 1].field_1_is_it_displayed = 0;
+                field_136_menu_pages_array[7].field_518_elements_array[player + 7].field_1_is_it_displayed = 0;
             }
+        }
 
+        opponent_idx = 0;
+        for (player = 0; player < stage_idx; player++)
+        {
+            if (gYouthful_einstein_6F8450.HasQuit_453A90(player))
+            {
+                swprintf(quit_name,
+                         L"%s (%s)",
+                         gLucid_hamilton_67E8E0.GetPlayerName_4C5C60(player)->field_0_str,
+                         gText_0x14_704DFC->Find_5B5F90("mult_q"));
+                wcscpy(player_name, quit_name);
+            }
+            else
+            {
+                wcsncpy(player_name, gLucid_hamilton_67E8E0.GetPlayerName_4C5C60(player)->field_0_str, 50);
+            }
+            gText_0x14_704DFC->StrToUpper_5B5B80(player_name);
+            wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[player + 1].field_6_element_name_str, player_name, 50);
+            if (player != user_idx)
+            {
+                wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[opponent_idx + 8].field_6_element_name_str, player_name, 50);
+                opponent_idx++;
+            }
+        }
+
+        s32 best_opponent = -1;
+        s32 user_value;
+        if (gYouthful_einstein_6F8450.HasQuit_453A90(user_idx))
+        {
+            goto lose;
+        }
+
+        if (game_mode == FRAG_GAME_1)
+        {
+            for (i = 0; i < stage_idx; i++)
+            {
+                if (i != user_idx && !gYouthful_einstein_6F8450.HasQuit_453A90(i) &&
+                    (s16)gLucid_hamilton_67E8E0.GetFragsForPlayerIdx_4C5D60(i) > best_opponent)
+                {
+                    best_opponent = (s16)gLucid_hamilton_67E8E0.GetFragsForPlayerIdx_4C5D60(i);
+                }
+            }
+            user_value = (s16)gLucid_hamilton_67E8E0.GetFragsForPlayerIdx_4C5D60(user_idx);
+        }
+        else if (game_mode == POINTS_GAME_2)
+        {
+            for (i = 0; i < stage_idx; i++)
+            {
+                if (i != user_idx && !gYouthful_einstein_6F8450.HasQuit_453A90(i) &&
+                    gLucid_hamilton_67E8E0.GetPointsForPlayerIdx_4C5CB0(i) > best_opponent)
+                {
+                    best_opponent = gLucid_hamilton_67E8E0.GetPointsForPlayerIdx_4C5CB0(i);
+                }
+            }
+            user_value = gLucid_hamilton_67E8E0.GetPointsForPlayerIdx_4C5CB0(user_idx);
+        }
+        else if (game_mode == TAG_GAME_3)
+        {
+            for (i = 0; i < stage_idx; i++)
+            {
+                if (i != user_idx && !gYouthful_einstein_6F8450.HasQuit_453A90(i))
+                {
+                    s32 time = gYouthful_einstein_6F8450.GetTime_453AA0(i);
+                    best_opponent = time > best_opponent ? time : best_opponent;
+                }
+            }
+            user_value = gYouthful_einstein_6F8450.GetTime_453AA0(user_idx);
+        }
+        else
+        {
+            goto draw;
+        }
+
+        user_value -= best_opponent;
+        if (user_value > 0)
+        {
+            wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[0].field_6_element_name_str,
+                    gText_0x14_704DFC->Find_5B5F90("mult_w"),
+                    50);
+        }
+        else if (user_value < 0)
+        {
+        lose:
+            wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[0].field_6_element_name_str,
+                    gText_0x14_704DFC->Find_5B5F90("mult_l"),
+                    50);
+        }
+        else
+        {
+        draw:
+            wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[0].field_6_element_name_str,
+                    gText_0x14_704DFC->Find_5B5F90("mult_d"),
+                    50);
+        }
+    }
+    else if (menu_page_idx == MENUPAGE_PLAY_INTRO)
+    {
+        if (bIsFrench_67D53C)
+        {
+            FreeSound_4B8650();
+        }
+
+        if (pre_intro_bik_exists_4B6030())
+        {
+            Bink::OpenSlot1_513560(gFrontend_67DC84->pre_intro_bik_4B5F20(), gSampManager_6FFF00.field_0_hDriver);
+        }
+        else
+        {
+            Bink::OpenSlot2_5133E0(gFrontend_67DC84->intro_bik_4B5E50(), gSampManager_6FFF00.field_0_hDriver);
+        }
     }
     else if (menu_page_idx == MENUPAGE_START_MENU)
     {
-            field_C9E4_last_input_time = timeGetTime();
+        field_C9E4_last_input_time = timeGetTime();
     }
 
-LABEL_116:
+select_option:
     field_132_f136_idx = menu_page_idx;
     field_136_menu_pages_array[menu_page_idx].field_BC6_current_option_idx = field_136_menu_pages_array[menu_page_idx].field_BC8_default_option_idx;
-    local_field_132_f136_idx = field_132_f136_idx;
-    v47 = &field_136_menu_pages_array[local_field_132_f136_idx];
-    if (!v47->field_4_options_array[field_136_menu_pages_array[local_field_132_f136_idx].field_BC6_current_option_idx].field_1_is_unlocked)
+    MenuPage_0xBCA* pCurPage = &field_136_menu_pages_array[field_132_f136_idx];
+    if (!pCurPage->field_4_options_array[pCurPage->field_BC6_current_option_idx].field_1_is_unlocked)
     {
-        v47->SelectNextOption_4B6200();
-        if (!v47->field_4_options_array[v47->field_BC6_current_option_idx].field_1_is_unlocked)
+        pCurPage->SelectNextOption_4B6200();
+        if (!pCurPage->field_4_options_array[pCurPage->field_BC6_current_option_idx].field_1_is_unlocked)
         {
             FatalError_4A38C0(Gta2Error::FreeloaderEpisodeUnknown,
                               "C:\\Splitting\\GTA2\\Source\\frontend2.cpp",
@@ -1177,7 +1083,7 @@ void Frontend::DrawMenu_4AD140()
             s32 unk_offset = (3 * main_level_idx) + bonus_stage_idx + 64;
             swprintf(tmpBuff_67BD9C, L"%s %c", gText_0x14_704DFC->Find_5B5F90("bonslev"), unk_offset);
             wcsncpy(pMenuPage->field_518_elements_array[0].field_6_element_name_str, tmpBuff_67BD9C, 0x32u);
-            sub_4B7D60();
+            DrawBonusRating_4B7D60();
         }
 
         Frontend::DrawScoreTable_4B5430((score_table_line*)&gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[main_level_idx][bonus_stage_idx]
@@ -2833,10 +2739,21 @@ void Frontend::ContinueToNextStage_4B8020()
     }
 }
 
-STUB_FUNC(0x4B7D60)
-void Frontend::sub_4B7D60()
+MATCH_FUNC(0x4B7D60)
+void Frontend::DrawBonusRating_4B7D60()
 {
-    NOT_IMPLEMENTED;
+    u16 font_type = field_11E;
+    char_type text_id[12];
+    wchar_t text[256];
+    GetLineSpacingFromFontType_5D7700_inlined(font_type);
+    u16 rating_idx = gLucid_hamilton_67E8E0.GetBonusRatingTextIdx_4C5AC0();
+    _itoa(rating_idx, text_id, 10);
+    if (rating_idx)
+    {
+        wchar_t* pRatingStr = gText_0x14_704DFC->Find_5B5F90(text_id);
+        text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(text, pRatingStr, 560, font_type);
+        DrawText_4B87A0(text, 40, 270, font_type, 1);
+    }
 }
 
 // TODO: the text keys are guesses, only code is compared

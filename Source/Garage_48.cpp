@@ -85,80 +85,70 @@ u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
     Fix16 w2;
     if (field_40)
     {
+        // Assigned separately: `w2 = w1` lets VC6 merge the two and lose the second register (ebp)
         w1 = kFpTwo_6FD128;
-        w2 = w1;
+        w2 = kFpTwo_6FD128;
     }
     else
     {
         w1 = dword_6FD124;
-        w2 = w1;
+        w2 = dword_6FD124;
     }
 
-    // 9.6f: the field_18_park_x_min/1C and field_20_park_x_max/24 pairs are set with a two Fix16 setter (0x432860), so they may be a struct
+    // 9.6f: the park rectangle corners (field_18/1C, field_20/24) and the target (field_30/34) are
+    // Fix16 pairs set with Fix16_Point_POD::SetXY_432860
+    Fix16_Point_POD* pMin = (Fix16_Point_POD*)&field_18_park_x_min;
+    Fix16_Point_POD* pMax = (Fix16_Point_POD*)&field_20_park_x_max;
+    Fix16_Point_POD* pTarget = (Fix16_Point_POD*)&field_30_target_x;
     switch (field_38)
     {
         case 1:
             if (field_10->IsDoubleDoor_489600())
             {
-                field_1C_park_y_min = Fix16(y) - dword_6FD124 - w1;
-                field_18_park_x_min = Fix16(x);
+                pMin->SetXY_432860(Fix16(x), Fix16(y) - dword_6FD124 - w1);
             }
             else
             {
-                field_18_park_x_min = Fix16(x);
-                field_1C_park_y_min = Fix16(y) - w1;
+                pMin->SetXY_432860(Fix16(x), Fix16(y) - w1);
             }
-            field_24_park_y_max = Fix16(y) + dword_6FD124 + w1;
-            field_20_park_x_max = Fix16(x) + dword_6FD124 + w2;
-            field_34_target_y = Fix16(y) + dword_6FCF98;
-            field_30_target_x = Fix16(x) - dword_6FD218;
+            pMax->SetXY_432860(Fix16(x) + dword_6FD124 + w2, Fix16(y) + dword_6FD124 + w1);
+            pTarget->SetXY_432860(Fix16(x) - dword_6FD218, Fix16(y) + dword_6FCF98);
             break;
         case 2:
-            field_18_park_x_min = Fix16(x) - w2;
-            field_1C_park_y_min = Fix16(y) - w1;
+            pMin->SetXY_432860(Fix16(x) - w2, Fix16(y) - w1);
             if (field_10->IsDoubleDoor_489600())
             {
-                field_20_park_x_max = dword_6FD124 + Fix16(x);
-                field_24_park_y_max = kFpTwo_6FD128 + Fix16(y) + w1;
+                pMax->SetXY_432860(dword_6FD124 + Fix16(x), kFpTwo_6FD128 + Fix16(y) + w1);
             }
             else
             {
-                field_20_park_x_max = Fix16(x) + dword_6FD124;
-                field_24_park_y_max = Fix16(y) + dword_6FD124 + w1;
+                pMax->SetXY_432860(Fix16(x) + dword_6FD124, Fix16(y) + dword_6FD124 + w1);
             }
-            field_34_target_y = dword_6FCF98 + Fix16(y);
-            field_30_target_x = Fix16(x) + dword_6FD218 + dword_6FD124;
+            pTarget->SetXY_432860(Fix16(x) + dword_6FD218 + dword_6FD124, dword_6FCF98 + Fix16(y));
             break;
         case 3:
-            field_18_park_x_min = Fix16(x) - w1;
-            field_1C_park_y_min = Fix16(y);
+            pMin->SetXY_432860(Fix16(x) - w1, Fix16(y));
             if (field_10->IsDoubleDoor_489600())
             {
-                field_24_park_y_max = dword_6FD124 + Fix16(y) + w2;
-                field_20_park_x_max = kFpTwo_6FD128 + Fix16(x) + w1;
+                pMax->SetXY_432860(kFpTwo_6FD128 + Fix16(x) + w1, dword_6FD124 + Fix16(y) + w2);
             }
             else
             {
-                field_24_park_y_max = Fix16(y) + dword_6FD124 + w2;
-                field_20_park_x_max = dword_6FD124 + Fix16(x) + w1;
+                pMax->SetXY_432860(dword_6FD124 + Fix16(x) + w1, Fix16(y) + dword_6FD124 + w2);
             }
-            field_34_target_y = Fix16(y) - dword_6FD218;
-            field_30_target_x = Fix16(x) + dword_6FCF98;
+            pTarget->SetXY_432860(Fix16(x) + dword_6FCF98, Fix16(y) - dword_6FD218);
             break;
         case 4:
             if (field_10->IsDoubleDoor_489600())
             {
-                field_18_park_x_min = Fix16(x) - dword_6FD124 - w1;
+                pMin->SetXY_432860(Fix16(x) - dword_6FD124 - w1, Fix16(y) - w2);
             }
             else
             {
-                field_18_park_x_min = Fix16(x) - w1;
+                pMin->SetXY_432860(Fix16(x) - w1, Fix16(y) - w2);
             }
-            field_1C_park_y_min = Fix16(y) - w2;
-            field_24_park_y_max = Fix16(y) + dword_6FD124;
-            field_20_park_x_max = dword_6FD124 + Fix16(x) + w1;
-            field_34_target_y = dword_6FD218 + Fix16(y) + dword_6FD124;
-            field_30_target_x = Fix16(x) + dword_6FCF98;
+            pMax->SetXY_432860(dword_6FD124 + Fix16(x) + w1, Fix16(y) + dword_6FD124);
+            pTarget->SetXY_432860(Fix16(x) + dword_6FCF98, dword_6FD218 + Fix16(y) + dword_6FD124);
             break;
     }
 

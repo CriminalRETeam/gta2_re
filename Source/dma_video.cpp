@@ -115,6 +115,7 @@ EXPORT s32 __stdcall DMA_Video_LoadDll_5EB970(const char_type* lpLibFileName)
     hDmaVideoDll_7085E8 = LoadLibraryA(lpLibFileName);
     if (hDmaVideoDll_7085E8)
     {
+        load_gbh_func(pVid_GetVersion, T_Vid_GetVersion, "Vid_GetVersion");
         load_gbh_func(pVid_Init_SYS, T_Vid_Init_SYS, "Vid_Init_SYS");
         load_gbh_func(pVid_CheckMode, T_Vid_CheckMode, "Vid_CheckMode");
         load_gbh_func(pVid_FindMode, T_Vid_FindMode, "Vid_FindMode");
@@ -136,7 +137,6 @@ EXPORT s32 __stdcall DMA_Video_LoadDll_5EB970(const char_type* lpLibFileName)
         load_gbh_func(pVid_SetDevice, T_Vid_SetDevice, "Vid_SetDevice");
         load_gbh_func(pVid_WindowProc, T_Vid_WindowProc, "Vid_WindowProc");
         load_gbh_func(pVid_SetGamma, T_Vid_SetGamma, "Vid_SetGamma");
-            
 
         pVid_InitDLL(hDmaVideoDll_7085E8, &gVidFuncs_708600);
         return 0;

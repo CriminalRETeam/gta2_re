@@ -5,6 +5,11 @@ const u8 kDoorFirstDeltaIdx_61A808[] = {7, 24, 11, 28};
 
 // Read only in CarAI_78.cpp, defined here: see the comment there.
 DEFINE_GLOBAL_INIT(Ang16, word_677CE2, Ang16(0x10), 0x677CE2);
+DEFINE_GLOBAL_INIT(Ang16, kAng0_677CE8, Ang16(0), 0x677CE8);
+DEFINE_GLOBAL_INIT(Ang16, kAng180_677ADE, Ang16(720), 0x677ADE);
+DEFINE_GLOBAL_INIT(Ang16, kAng90_6779E4, Ang16(360), 0x6779E4);
+DEFINE_GLOBAL_INIT(Ang16, dword_677A2E, Ang16(0x30), 0x677A2E);
+DEFINE_GLOBAL_INIT(Ang16, kAng270_677B08, Ang16(1080), 0x677B08);
 
 // 9.6f: the bit ops are BitSet32::clear_bit/set_bit (0x420DE0/0x420DC0) on a maybe_flags, here a u32*
 MATCH_FUNC(0x439CD0)

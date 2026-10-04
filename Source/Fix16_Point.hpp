@@ -246,13 +246,10 @@ class Fix16_Point : public Fix16_Point_POD
     {
     }
 
-    // 9.6f 0x401D20
-    Fix16_Point(const Fix16_Point& rhs)
-    {
-        x = (rhs.x);
-        y = (rhs.y);
-    }
+    // No user-defined copy ctor: 9.6f copies points with plain movs (no call even at /Ob0), and the
+    // implicit one does not use up VC6's inline budget (SpawnCabAndTrailerHelper_408370 needs that).
 
+    // 9.6f 0x401D20
     Fix16_Point(const Fix16& a1, const Fix16& a2)
     {
         x = a1;
@@ -407,6 +404,23 @@ class Fix16_Point : public Fix16_Point_POD
         else
         {
             return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y.Multiply_408680(y));
+        }
+    }
+
+    // Needed for CarPhysics_B0::ComputeEngineTorque_561970: out-of-line Abs and multiplies, inline add.
+    inline Fix16 GetLength_ool_abs_mul()
+    {
+        if (x == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_436A50(y);
+        }
+        else if (y == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs_436A50(x);
+        }
+        else
+        {
+            return Fix16::SquareRoot_436A70(Fix16::Add_ref(x.Multiply_408680(x), y.Multiply_408680(y)));
         }
     }
 

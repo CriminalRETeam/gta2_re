@@ -58,8 +58,8 @@ DEFINE_GLOBAL(u8, bHaveThreateningPeds_6787DA, 0x6787DA);
 DEFINE_GLOBAL(u8, spawnSideLocked_6787D5, 0x6787D5);
 DEFINE_GLOBAL(u8, spawnCountLimit_6787D6, 0x6787D6);
 DEFINE_GLOBAL_INIT(Ang16, cameraFacingAng_678760, Ang16(0), 0x678760);
-DEFINE_GLOBAL(u8, gSpawnSide_6787C8, 0x6787C8);
-DEFINE_GLOBAL(u8, gSpawnIndex_6787C9, 0x6787C9);
+DEFINE_GLOBAL(s8, gSpawnSide_6787C8, 0x6787C8);
+DEFINE_GLOBAL(s8, gSpawnIndex_6787C9, 0x6787C9);
 
 EXTERN_GLOBAL(Fix16, gDummyW_678530);
 EXTERN_GLOBAL(Fix16, gDummyZ_67841C);
@@ -97,83 +97,42 @@ EXTERN_GLOBAL(u8, gNumberArmedGangMembers_6787CE);
 EXPORT Ped* __stdcall SpawnPedChainGroupAt_46DB90(char_type remap, u8 number_followers, Fix16 xpos, Fix16 ypos, Fix16 zpos);
 
 // TODO: Prob a method of PedManager?
-WIP_FUNC(0x46E380)
+MATCH_FUNC(0x46E380)
 EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {
-    WIP_IMPLEMENTED;
+    u8 kind = 0;
+    s16 rng_val = gRng_6F6784.get_int_4F7AE0(1000);
 
-    char_type rng_kind; // bl
-    s16 rng_val; // di
-    Ped* pPed; // esi
-    gmp_zone_info* pZone; // eax
-    s32 v11; // edx
-    gmp_map_zone* v14; // eax
-    Gang_144* pGang; // edi
-    char_type v16; // al
-    Gang_144* field_17C_pZone; // ecx
-    s32 GangCurrWeapon_4BF0C0; // eax
-    Weapon_30* field_170_selected_weapon; // eax
-    s32 occupation_; // eax
-    char_type v21; // al
-    s32 wanted_level_; // eax
-    u8 v25; // al
-    char_type v26; // al
-    u8 kind; // [esp+10h] [ebp-18h]
-    s32 y_int; // [esp+20h] [ebp-8h] BYREF
-    s32 x_int; // [esp+24h] [ebp-4h] BYREF
-
-    rng_kind = 0;
-    kind = 0;
-    rng_val = gRng_6F6784.get_int_4F7AE0(1000);
-
-    pPed = gPedPool_6787B8->Allocate();
+    Ped* pPed = gPedPool_6787B8->Allocate();
 
     ++gSpawnCounter_6787C6;
 
-    x_int = xpos.ToInt();
-    y_int = ypos.ToInt();
-
-    pZone = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(x_int, y_int);
-
-    v11 = rng_val;
+    gmp_zone_info* pZone = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(xpos.ToInt(), ypos.ToInt());
 
     if (rng_val < (u16)pZone->field_C_mugger_ratio)
     {
         kind = 1; // mugger
     }
-    else if (rng_val < (u16)pZone->field_E_carthief_ratio + (u16)pZone->field_C_mugger_ratio)
+    else if (rng_val < (u16)pZone->field_C_mugger_ratio + (u16)pZone->field_E_carthief_ratio)
     {
         kind = 2; // car thief
     }
     else if (rng_val < (u16)pZone->field_C_mugger_ratio + (u16)pZone->field_E_carthief_ratio + (u16)pZone->field_10_elvis_ratio)
     {
         // 1 in 50 chance of elvis
-        if (gRng_6F6784.get_int_4F7AE0(50) == 25)
-        {
-            kind = 3;
-        }
-        else
-        {
-            kind = 0;
-        }
-        goto LABEL_12;
+        kind = gRng_6F6784.get_int_4F7AE0(50) == 25 ? 3 : 0;
     }
-    else if (rng_val < (u16)pZone->field_C_mugger_ratio + (u16)pZone->field_E_carthief_ratio + (u16)pZone->field_12_gangchar_ratio +
-                 (u16)pZone->field_10_elvis_ratio)
+    else if (rng_val < (u16)pZone->field_C_mugger_ratio + (u16)pZone->field_E_carthief_ratio + (u16)pZone->field_10_elvis_ratio +
+                 (u16)pZone->field_12_gangchar_ratio)
     {
         // Gang member, limited to 8
         kind = (u8)gNumberArmedGangMembers_6787CE < 8u ? 4 : 0;
     }
-    else if (rng_val >= (u16)pZone->field_C_mugger_ratio + (u16)pZone->field_E_carthief_ratio + (u16)pZone->field_10_elvis_ratio +
+    else if (rng_val < (u16)pZone->field_C_mugger_ratio + (u16)pZone->field_E_carthief_ratio + (u16)pZone->field_10_elvis_ratio +
                  (u16)pZone->field_12_gangchar_ratio + (u16)pZone->field_14_policeped_ratio)
-    {
-        goto LABEL_12;
-    }
-    else
     {
         kind = 5;
     }
-LABEL_12:
 
     if (gCheatOnlyElvisPeds_67D4ED)
     {
@@ -246,38 +205,32 @@ LABEL_12:
                 break;
 
             case 4:
-                v14 = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(x_int, y_int, 14u);
-                if (v14)
+            {
+                gmp_map_zone* pMapZone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(xpos.ToInt(), ypos.ToInt(), 14u);
+                if (pMapZone)
                 {
-                    pGang = gGangPool_CA8_67E274->gang_by_name_4BF100(v14->field_6_name);
+                    Gang_144* pGang = gGangPool_CA8_67E274->gang_by_name_4BF100(pMapZone->field_6_name);
                     if ((u8)gNumberArmedGangMembers_6787CE < 4u)
                     {
                         ++gNumberArmedGangMembers_6787CE;
                         pPed->SetField238_403920(ped_type::special_ped_4);
                         pPed->set_occupation_403970(ped_ocupation_enum::armed_gang_member_19);
                         pPed->field_17C_pGang = pGang;
-                        v16 = pGang->field_101_remap;
-                        pPed->set_remap_433B90(v16);
-                        if (v16 == 5)
+                        pPed->set_remap_433B90(pGang->field_101_remap);
+                        if (pPed->get_remap_433BA0() == 5)
                         {
                             if (!gRng_6F6784.get_int_4F7AE0(2))
                             {
                                 pPed->set_remap_433B90(6);
                             }
                         }
-                        field_17C_pZone = pPed->field_17C_pGang;
                         pPed->field_26C_graphic_type = 1;
                         pPed->sub_433BC0(1);
-                        GangCurrWeapon_4BF0C0 = field_17C_pZone->GetGangCurrWeapon_4BF0C0();
-                        pPed->ForceWeapon_46F600(GangCurrWeapon_4BF0C0);
-                        field_170_selected_weapon = pPed->field_170_selected_weapon;
-                        if (field_170_selected_weapon)
+                        pPed->ForceWeapon_46F600(pPed->field_17C_pGang->GetGangCurrWeapon_4BF0C0());
+                        if (pPed->field_170_selected_weapon && pPed->field_170_selected_weapon->field_1C_idx)
                         {
-                            if (field_170_selected_weapon->field_1C_idx)
-                            {
-                                pPed->field_21C |= 0x10000000u;
-                                pGang->field_141 = 1;
-                            }
+                            pPed->field_21C |= 0x10000000u;
+                            pGang->field_141 = 1;
                         }
                         pPed->GiveWeapon_46F650(weapon_type::pistol);
                         pPed->field_270 = 0;
@@ -292,10 +245,9 @@ LABEL_12:
                         pPed->SetField238_403920(ped_type::dummy_3);
                         pPed->field_288_threat_search = threat_search_enum::area_2;
                         pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
-                        v21 = pGang->field_101_remap;
+                        pPed->set_remap_433B90(pGang->field_101_remap);
                         pPed->field_26C_graphic_type = 1;
-                        pPed->set_remap_433B90(v21);
-                        if (v21 == 5)
+                        if (pPed->get_remap_433BA0() == 5)
                         {
                             if (!gRng_6F6784.get_int_4F7AE0(2))
                             {
@@ -332,7 +284,7 @@ LABEL_12:
                     }
                 }
                 break;
-
+            }
             case 5:
                 if (gNumberWalkingCopsSpawned_6787CD || bSkip_police_67D4F9 || gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service == crew_type::army_6)
                 {
@@ -344,8 +296,7 @@ LABEL_12:
                 gNumberWalkingCopsSpawned_6787CD = 1;
                 pPed->field_288_threat_search = threat_search_enum::line_of_sight_1;
                 pPed->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
-                wanted_level_ = gPolice_7B8_6FEE40->field_654_wanted_level;
-                switch (wanted_level_)
+                switch (gPolice_7B8_6FEE40->field_654_wanted_level)
                 {
                     case 2:
                         pPed->GiveWeapon_46F650(weapon_type::pistol);
@@ -353,7 +304,7 @@ LABEL_12:
                         pPed->field_1F0_maybe_max_speed = (kFpOneSixteenth_678448 * kFpPoint8_6784A0);
                         pPed->field_26C_graphic_type = 2;
                         break;
-                    case 0: // wanted_level_ <= 1 but not negative
+                    case 0:
                     case 1:
                         pPed->field_170_selected_weapon = 0;
                         pPed->GiveWeapon_46F650(weapon_type::pistol);
@@ -363,12 +314,9 @@ LABEL_12:
                         break;
 
                     default:
-                        if (wanted_level_ < 0)
-                        {
-                            pPed->GiveWeapon_46F650(weapon_type::pistol);
-                            pPed->set_health_4039A0(100);
-                            pPed->field_26C_graphic_type = 2;
-                        }
+                        pPed->GiveWeapon_46F650(weapon_type::pistol);
+                        pPed->set_health_4039A0(100);
+                        pPed->field_26C_graphic_type = 2;
                         break;
                 } // End switch
                 break;
@@ -397,23 +345,23 @@ LABEL_12:
                     }
                     else
                     {
-                        v25 = gRng_6F6784.get_int_4F7AE0(25);
-                        if (v25 < 4u)
+                        u8 remap = gRng_6F6784.get_int_4F7AE0(25);
+                        if (remap < 4u)
                         {
-                            v26 = v25 + 18;
+                            remap += 18;
                         }
                         else
                         {
-                            v26 = v25 + 27;
+                            remap += 27;
                         }
-                        pPed->set_remap_433B90(v26);
+                        pPed->set_remap_433B90(remap);
                     }
                 }
                 break;
         } // End switch
 
-        occupation_ = pPed->get_occupation_403980();
-        if (occupation_ != ped_ocupation_enum::walking_guard_29 && occupation_ != ped_ocupation_enum::unknown_cop_occu_31)
+        if (pPed->get_occupation_403980() != ped_ocupation_enum::walking_guard_29 &&
+            pPed->get_occupation_403980() != ped_ocupation_enum::unknown_cop_occu_31)
         {
             pPed->AllocCharB4_45C830(xpos, ypos, zpos);
         }
@@ -469,182 +417,133 @@ LABEL_12:
     }
 }
 
-WIP_FUNC(0x46eb60)
+// Not in 9.6f (0x440CC0 calls Fix16::multiply_401BD0 directly), but written inline the product
+// lands in ebx directly instead of through eax like 10.5.
+static inline Fix16 GetSpawnJitter()
+{
+    return gSpawnJitterScale_678618 * (gRng_6F6784.get_int_4F7AE0(32) + 8);
+}
+
+MATCH_FUNC(0x46eb60)
 void PedManager::SpawnDummies_46EB60(Camera_0xBC* pCam)
 {
-    WIP_IMPLEMENTED;
-
-    // regs
-    char_type spawn_side; // dl
-    Fix16 xpos; // esi
-    Fix16 ypos; // edi
-    char_type last_count; // al
-    s16 bound_max; // cx
-    s32 last_count_; // edi
-    Ang16 rot; // ax
-    s32 last_count__; // esi
-    gmp_zone_info* pZoneInfo; // eax
-
-    // stack
+    Fix16 xpos;
+    Fix16 ypos;
     s32 zpos;
-
     Ang16 rotation;
 
     Sprite* pSprite = this->field_8;
 
-    Fix16 left = pCam->field_78_boundaries_non_neg.field_0_left - kFpHalf_67853C;
-    Fix16 right = pCam->field_78_boundaries_non_neg.field_4_right + kFpHalf_67853C;
-    Fix16 top = pCam->field_78_boundaries_non_neg.field_8_top - kFpHalf_67853C;
-    s32 bottom = (pCam->field_78_boundaries_non_neg.field_C_bottom + kFpHalf_67853C).ToInt(); // >> 14 to int
+    s16 tileLeft;
+    s16 tileRight;
+    s16 tileTop;
+    s16 bottom;
+    tileLeft = (pCam->field_78_boundaries_non_neg.field_0_left - kFpHalf_67853C).ToInt();
+    tileRight = (pCam->field_78_boundaries_non_neg.field_4_right + kFpHalf_67853C).ToInt();
+    tileTop = (pCam->field_78_boundaries_non_neg.field_8_top - kFpHalf_67853C).ToInt();
+    bottom = (pCam->field_78_boundaries_non_neg.field_C_bottom + kFpHalf_67853C).ToInt();
 
-    s32 tileLeft = left.ToInt();
-    s32 tileTop = top.ToInt();
-
-    //s32 tileLeft_ = tileLeft;
-    s32 tileRight = right.ToInt();
-    //s32 tileTop_ = tileTop;
-    s16 bound_max_ = 0;
+    s16 bound_max = 0;
 
     if (spawnSideLocked_6787D5)
     {
         switch (Ang16::GetAngleFace_4F78F0(cameraFacingAng_678760))
         {
             case 1:
-                spawn_side = 1;
                 gSpawnSide_6787C8 = 1;
                 break;
-            case 2:
-                spawn_side = 3;
-                gSpawnSide_6787C8 = 3;
-                break;
             case 3:
-                spawn_side = 2;
                 gSpawnSide_6787C8 = 2;
                 break;
+            case 2:
+                gSpawnSide_6787C8 = 3;
+                break;
             case 4:
-                spawn_side = 0;
                 gSpawnSide_6787C8 = 0;
                 break;
-            default:
-                goto LABEL_7;
         }
     }
-    else
-    {
-    LABEL_7:
-        spawn_side = gSpawnSide_6787C8;
-    }
 
-    u8 pCam_v = 0;
-    if (spawnCountLimit_6787D6)
+    for (u8 i = 0; i < spawnCountLimit_6787D6; i++)
     {
-        xpos = pCam_v; // s32 cast?
-        ypos = pCam_v; // s32 cast?
-        last_count = gSpawnIndex_6787C9;
-
-        while (1)
+        switch (gSpawnSide_6787C8)
         {
-            switch (spawn_side)
-            {
-                case 0:
-                case 2:
-                    bound_max = bottom - tileTop;
-                    //goto LABEL_14;
-                    bound_max_ = bound_max;
-                    break;
-                case 1:
-                case 3:
-                    bound_max = tileRight - tileLeft;
-                    //LABEL_14:
-                    bound_max_ = bound_max;
-                    break;
-                default:
-                    break;
-            }
+            case 0:
+            case 2:
+                bound_max = bottom - tileTop;
+                break;
+            case 1:
+            case 3:
+                bound_max = tileRight - tileLeft;
+                break;
+        }
 
-            if (last_count > bound_max_)
+        if (gSpawnIndex_6787C9 > bound_max)
+        {
+            gSpawnIndex_6787C9 = 0;
+            if (!spawnSideLocked_6787D5)
             {
-                last_count = 0;
-                gSpawnIndex_6787C9 = 0;
-                if (!spawnSideLocked_6787D5)
+                if (++gSpawnSide_6787C8 > 3)
                 {
-                    gSpawnSide_6787C8 = ++spawn_side;
-                    if (spawn_side > 3)
-                    {
-                        spawn_side = 0;
-                        gSpawnSide_6787C8 = 0;
-                    }
+                    gSpawnSide_6787C8 = 0;
                 }
             }
+        }
 
-            switch (spawn_side)
+        switch (gSpawnSide_6787C8)
+        {
+            case 0:
+                xpos = Fix16((s16)tileLeft);
+                ypos = Fix16((s16)tileTop + gSpawnIndex_6787C9);
+                rotation = gSpawnRotationLeft_6786E0;
+                break;
+
+            case 1:
+                ypos = Fix16((s16)tileTop);
+                xpos = Fix16((s16)tileLeft + gSpawnIndex_6787C9);
+                rotation = gSpawnRotationTop_6787B0;
+                break;
+
+            case 2:
+                xpos = Fix16((s16)tileRight);
+                ypos = Fix16((s16)tileTop + gSpawnIndex_6787C9);
+                rotation = gSpawnRotationRight_678578;
+                break;
+
+            case 3:
+                ypos = Fix16((s16)bottom);
+                xpos = Fix16((s16)tileLeft + gSpawnIndex_6787C9);
+                rotation = gSpawnRotationBottom_678540;
+                break;
+        }
+
+        Fix16 jitterX = GetSpawnJitter();
+        Fix16 jitterY = GetSpawnJitter();
+        xpos += jitterX;
+        ypos += jitterY;
+
+        if (xpos > kFpOne_678664 && xpos < kFp255_678414 - kFpOne_678664 && ypos > kFpOne_678664 &&
+            ypos < kFp255_678414 - kFpOne_678664)
+        {
+            gmp_zone_info* pZoneInfo = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(xpos.ToInt(), ypos.ToInt());
+            if ((u8)field_6_num_peds_on_screen < (u16)pZoneInfo->field_A_ped_density / 25)
             {
-                case 0:
-                    last_count_ = last_count;
-                    rot = gSpawnRotationLeft_6786E0;
-                    xpos = Fix16((s16)tileLeft); // ToFix16
-                    ypos = Fix16(((s16)tileTop + last_count_)); // ToFix16
-                    goto LABEL_24;
-
-                case 1:
-                    rotation = gSpawnRotationTop_6787B0;
-                    ypos = Fix16((s16)tileTop); // ToFix16
-                    xpos = Fix16(((s16)tileLeft + last_count)); // ToFix16
-                    break;
-
-                case 2:
-                    rotation = gSpawnRotationRight_678578;
-                    xpos = Fix16((s16)tileRight); // ToFix16
-                    ypos = Fix16(((s16)tileTop + last_count)); // ToFix16
-                    break;
-
-                case 3:
-                    last_count__ = last_count;
-                    rot = gSpawnRotationBottom_678540;
-                    ypos = Fix16((s16)bottom); // ToFix16
-                    xpos = Fix16(((s16)tileLeft + last_count__)); // ToFix16
-                LABEL_24:
-                    rotation = rot;
-                    break;
-
-                default:
-                    break;
-            }
-
-            xpos += gSpawnJitterScale_678618 * (gRng_6F6784.get_int_4F7AE0(32) + 8);
-            ypos += gSpawnJitterScale_678618 * (gRng_6F6784.get_int_4F7AE0(32) + 8);
-
-            if (xpos > kFpOne_678664 && xpos < kFp255_678414 - kFpOne_678664 && ypos > kFpOne_678664 &&
-                ypos < kFp255_678414 - kFpOne_678664)
-            {
-                pZoneInfo = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(xpos.ToInt(), ypos.ToInt());
-                if ((u8)field_6_num_peds_on_screen < (u16)pZoneInfo->field_A_ped_density / 25)
+                if (gMap_0x370_6F6268->FindPavementBlockForCoord_4E4BB0(xpos.ToInt(), ypos.ToInt(), zpos))
                 {
-                    if (gMap_0x370_6F6268->FindPavementBlockForCoord_4E4BB0(xpos.ToInt(), ypos.ToInt(), zpos))
+                    pSprite->set_xyz_lazy_451950(xpos, ypos, (zpos + 1));
+                    pSprite->set_ang_lazy_420690(gDummyPedAng_6787A8);
+                    pSprite->AllocInternal_59F950(gDummyW_678530, gDummyH_678584, gDummyZ_67841C);
+                    if (!gGame_0x40_67E008->is_point_on_screen_4B9A80(pSprite->field_14_xy.x, pSprite->field_14_xy.y))
                     {
-                        pSprite->set_xyz_lazy_451950(xpos, ypos, (zpos + 1));
-                        pSprite->set_ang_lazy_420690(gDummyPedAng_6787A8);
-                        pSprite->AllocInternal_59F950(gDummyW_678530, gDummyH_678584, gDummyZ_67841C);
-                        if (!gGame_0x40_67E008->is_point_on_screen_4B9A80(pSprite->field_14_xy.x, pSprite->field_14_xy.y))
+                        if (!gMap_0x370_6F6268->IsSlopeB4ToD0At_433430((u8)(xpos.ToInt()), (u8)(ypos.ToInt()), (u8)zpos + 1))
                         {
-                            if (!gMap_0x370_6F6268->IsSlopeB4ToD0At_433430((u8)(xpos.ToInt()), (u8)(ypos.ToInt()), (u8)zpos + 1))
-                            {
-                                SpawnPedestrianAt_46E380(xpos, ypos, zpos + 1, rotation);
-                            }
+                            SpawnPedestrianAt_46E380(xpos, ypos, Fix16(zpos + 1), rotation);
                         }
                     }
                 }
-                //LOWORD(tileLeft) = tileLeft_;
             }
-            last_count = ++gSpawnIndex_6787C9;
-            pCam_v++;
-            if ((u8)pCam_v >= (u8)spawnCountLimit_6787D6)
-            {
-                break;
-            }
-            spawn_side = gSpawnSide_6787C8;
-            //LOWORD(tileTop) = tileTop_;
         }
+        ++gSpawnIndex_6787C9;
     }
 }
 

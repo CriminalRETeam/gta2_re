@@ -159,8 +159,12 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
             pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 197);
             pParticle->field_34 = 0;
             pParticle->field_38_state = 40;
-            Fix16 unused = Ang16::sine_40F500(a2->field_0) * dword_6FD2E8;
-            unused = Ang16::cosine_40F520(a2->field_0) * dword_6FD2E8;
+            // Results unused (as in the ped branch, which uses them). Past the inline budget, so the
+            // two multiplies stay as out-of-line Multiply_408680 calls; written as `x = sin * r`
+            // they were inlined and removed.
+            Fix16 dx;
+            Fix16 dy;
+            Ang16::PolarToCartesian_41FC20(a2->field_0, dword_6FD2E8, dx, dy);
             pParticle->field_46_sub_state = 0;
             pParticle->field_48_timer = 0;
 
@@ -188,8 +192,9 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
         pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 197);
         pParticle->field_34 = 0;
         pParticle->field_38_state = 41;
-        Fix16 unused = Ang16::sine_40F500(a2->field_0) * dword_6FD2E8;
-        unused = Ang16::cosine_40F520(a2->field_0) * dword_6FD2E8;
+        Fix16 dx;
+        Fix16 dy;
+        Ang16::PolarToCartesian_41FC20(a2->field_0, dword_6FD2E8, dx, dy);
         pParticle->field_46_sub_state = 0;
         pParticle->field_48_timer = 0;
 
@@ -230,7 +235,7 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
         offset.x = -dword_6FD464;
         offset.y = dword_6FD468 + dword_6FD2E8;
         offset.RotateByAngle_40F6B0(a2->field_0);
-        offset = offset + *(Fix16_Point*)&pB4->field_98_velocity_vector;
+        offset = offset + pB4->field_98_velocity_vector;
 
         pParticle->field_30_pNext->set_ang_lazy_420690(a2->field_0);
         pParticle->field_30_pNext->set_xyz_lazy_420600(a2->field_14_xy.x + offset.x, a2->field_14_xy.y + offset.y, zpos);
@@ -254,13 +259,21 @@ void Particle_8::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang1
     {
         velocity.x = Fix16(0);
         velocity.y = Fix16(gRng_6F6784.get_int_4F7AE0(50) + 25) * dword_6FD548;
-        velocity.RotateByAngle_40F6B0_out_of_line(rotation);
+        // RotateByAngle_40F6B0 (9.6f calls it for both rotations). Written out here: as a nested
+        // inline the first + goes out of line, but the original has it inline.
+        {
+            Fix16 sin = Ang16::sine_40F500(rotation);
+            Fix16 cos = Ang16::cosine_40F520(rotation);
+            Fix16 x_old = velocity.x;
+            velocity.x = velocity.x.Multiply_408680(cos) + velocity.y.Multiply_408680(sin);
+            velocity.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + velocity.y.Multiply_408680(cos);
+        }
 
         for (u8 i = 0; i < 6; i++)
         {
             if (bRandomRot)
             {
-                angle_2 = Ang16(Fix16(word_6FD5CC.rValue).Multiply_408680(Fix16(gRng_6F6784.get_int_4F7AE0(360))), 0);
+                angle_2 = Ang16(Fix16(word_6FD5CC.rValue).Multiply_408680(Fix16(gRng_6F6784.get_int_4F7AE0(360)))).Normalized_406C20();
             }
             else
             {
@@ -270,20 +283,21 @@ void Particle_8::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang1
             velocity.x = Fix16(0);
             velocity.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + dword_6FD558) * dword_6FD4EC;
 
-            // 9.6f: MultiplyByFix16_401CB0 (inlined). Here the original inlines the multiply and calls
-            // the Ang16 constructor out of line (FromFix16_4516B0); the rotation uses angle_2
+            // 9.6f: MultiplyByFix16_401CB0, angle_plus_40E5A0, subtraction_40E5D0 (all inlined). The
+            // original calls Normalize_406C20 out of line for every Ang16 here; the rotation uses angle_2
+            angle_1 = word_6FD5CC.MultiplyByFix16_401CB0_ctor_ool(Fix16(gRng_6F6784.get_int_4F7AE0(16)));
             {
-                Fix16 spread = Fix16(word_6FD5CC.rValue) * Fix16(gRng_6F6784.get_int_4F7AE0(16));
-                angle_1 = Ang16(&spread, 0);
-                Fix16 half = Fix16(word_6FD5CC.rValue) * Fix16(8);
-                velocity.RotateByAngle_NegOOL_40F6B0((angle_1 + angle_2) - Ang16(&half, 0));
+                Ang16 half_ang = word_6FD5CC.MultiplyByFix16_401CB0_ctor_ool(Fix16(8));
+                velocity.RotateByAngle_NegOOL_40F6B0(
+                    Ang16(Ang16(angle_1.rValue + angle_2.rValue).Normalized_406C20().rValue - half_ang.rValue).Normalized_406C20());
             }
 
+            // last arg: plain 0 (the original builds this Fix16 arg in place; Fix16(0) gives a plain push and costs ebp)
             Particle_4C* pWaterSplashParticle = gParticle_8_6FD5E8->New_53E3C0(velocity.x,
                                                                                velocity.y,
                                                                                dword_6FD330,
-                                                                               (velocity.x / 15).Negate_4086A0(),
-                                                                               (velocity.y / 15).Negate_4086A0(),
+                                                                               velocity.x.DivideInt_53E860(15).Negate_4086A0(),
+                                                                               velocity.y.DivideInt_53E860(15).Negate_4086A0(),
                                                                                0);
 
             if (pWaterSplashParticle)
@@ -371,16 +385,25 @@ void Particle_8::EmitElectricArcParticle(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang
     }
 }
 
-// 9.6f 0x48E060
-WIP_FUNC(0x5406b0)
+// Ang16::PolarToCartesian_41FC20 with the cosine multiply written as the out-of-line Multiply_408680
+// the original calls (past the inline budget VC6 would call a COMDAT copy of operator* instead).
+static inline void PolarToCartesian_OutOfLineCos(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2)
+{
+    ret1 = Ang16::sine_40F500(angle) * radius;
+    ret2 = Ang16::cosine_40F520(angle).Multiply_408680(radius);
+}
+
+// 9.6f 0x48E060. Fix16_Point vel has a dtor, which gives the EH frame; its fields are zeroed again
+// before the call, and the two other zero args go through the out-of-line Fix16(s32) ctor.
+MATCH_FUNC(0x5406b0)
 void Particle_8::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type bUnknown)
 {
-    WIP_IMPLEMENTED;
-
+    Fix16_Point vel(Fix16(0), Fix16(0));
     if (!bSkip_particles_67D64D)
     {
-        Fix16 zero(0);
-        Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(zero, zero, dword_6FD330, 0, 0, 0);
+        vel.x = Fix16(0);
+        vel.y = Fix16(0);
+        Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
         if (pNew4C)
         {
             pNew4C->field_34 = 1;
@@ -400,20 +423,22 @@ void Particle_8::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type bUnkn
             pNew4C->field_30_pNext->SetType_4206F0(8);
             pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 3);
 
-            //v11 = pSprite->field_0 * 4;
-
+            Fix16 x;
+            Fix16 y;
             if (bUnknown)
             {
-                Ang16::PolarToCartesian_41FC20(pSprite->field_0, dword_6FD474, stru_6FD388, stru_6FD38C);
+                PolarToCartesian_OutOfLineCos(pSprite->field_0, dword_6FD474, x, y);
             }
             else
             {
-                Ang16::PolarToCartesian_41FC20(pSprite->field_0, dword_6FD46C, stru_6FD388, stru_6FD38C);
+                PolarToCartesian_OutOfLineCos(pSprite->field_0, dword_6FD46C, x, y);
             }
+            stru_6FD388 = x;
+            stru_6FD38C = y;
 
             Fix16 v16;
             Fix16 v17;
-            Ang16::PolarToCartesian_41FC20(pSprite->field_0 - kAng90_6FD314, dword_6FD468, v16, v17);
+            PolarToCartesian_OutOfLineCos(Ang16((s32)(pSprite->field_0.rValue - kAng90_6FD314.rValue)).Normalized_406C20(), dword_6FD468, v16, v17);
 
             stru_6FD388 += v16 + pSprite->field_14_xy.x;
             stru_6FD38C += v17 + pSprite->field_14_xy.y;
@@ -520,20 +545,25 @@ void Particle_8::EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite)
 
 // https://decomp.me/scratch/wfzEd
 WIP_FUNC(0x53FE40)
-void Particle_8::EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16 sinv, Fix16 cosv)
+void Particle_8::EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16_Point dir)
 {
     WIP_IMPLEMENTED;
 
+    // 9.6f declares both angles up front. dir is destroyed by the callee; the unused point gives
+    // the EH state 2 that the original sets once t is built.
+    Ang16 ang1;
+    Ang16 tanAng;
+    Fix16_Point unused;
     Fix16_Point t(Fix16(0), Fix16(0));
-    Ang16 tanAng = Fix16::atan2_fixed_405320(cosv, sinv);
+    tanAng = dir.atan2_40F790();
 
     for (u8 i = 0; i < 6; ++i)
     {
         t.x = Fix16(0);
-        t.y = (dword_6FD4EC * (dword_6FD558 + Fix16(gRng_6F6784.get_int_4F7AE0(100))));
+        t.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + dword_6FD558) * dword_6FD4EC;
         if (i < 4)
         {
-            Ang16 ang1 = word_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(gRng_6F6784.get_int_4F7AE0(32)));
+            ang1 = word_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(gRng_6F6784.get_int_4F7AE0(32)));
             Ang16 ang2 = word_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(16));
             Ang16 sum = ang1 + tanAng;
             Ang16 rot(Ang16(sum.rValue - ang2.rValue), 0);
@@ -541,14 +571,14 @@ void Particle_8::EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16 sin
         }
         else
         {
-            Ang16 ang1 = word_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(gRng_6F6784.get_int_4F7AE0(360)));
+            ang1 = word_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(gRng_6F6784.get_int_4F7AE0(360)));
             Ang16 ang2 = word_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(180));
             Ang16 sum(Ang16(ang1.rValue + tanAng.rValue), 0);
             Ang16 rot(Ang16(sum.rValue - ang2.rValue), 0);
-            t.RotateByAngle_40F6B0_all_out_of_line(rot);
+            t.RotateByAngle_NegOOL_40F6B0(rot);
         }
 
-        Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(t.x, t.y, dword_6FD330, t.x.DivideInt_53E860(15).Negate_4086A0(), t.y.DivideInt_53E860(15).Negate_4086A0(), Fix16(0));
+        Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(t.x, t.y, dword_6FD330, t.x.DivideInt_53E860(15).Negate_4086A0(), t.y.DivideInt_53E860(15).Negate_4086A0(), 0);
         if (pNew4C)
         {
             pNew4C->field_34 = 1;
