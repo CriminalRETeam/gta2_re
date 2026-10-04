@@ -29,16 +29,19 @@ void Taxi_4::PopAll_457BC0()
 }
 
 // https://decomp.me/scratch/tPr1q
-WIP_FUNC(0x457bf0)
+MATCH_FUNC(0x457bf0)
 Car_BC* Taxi_4::GetTaxiNear_457BF0(Fix16 xpos, Fix16 ypos)
 {
-    WIP_IMPLEMENTED;
     Car_BC* pCarRet = NULL;
     Fix16 smallest(99999);
 
     for (Taxi_8* pIter = field_0_pFirst; pIter; pIter = pIter->mpNext)
     {
-        Fix16 distance = Fix16::MaxAbsDistance_42A6B0(xpos, ypos, pIter->field_0_pCar->get_x_41E430(), pIter->field_0_pCar->get_y_41E440());
+        // 9.6f passes references to the sprite position, not get_x/get_y copies
+        Fix16 distance = Fix16::MaxAbsDistanceNegOOL_42A6B0(xpos,
+                                                             ypos,
+                                                             pIter->field_0_pCar->field_50_car_sprite->field_14_xy.x,
+                                                             pIter->field_0_pCar->field_50_car_sprite->field_14_xy.y);
         if (distance < smallest)
         {
             pCarRet = pIter->field_0_pCar;

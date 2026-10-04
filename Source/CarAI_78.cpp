@@ -2907,11 +2907,9 @@ LABEL_90:
     }
 }
 
-WIP_FUNC(0x44e0c0)
+MATCH_FUNC(0x44e0c0)
 void CarAI_78::Init_AI_Chase_44E0C0()
 {
-    WIP_IMPLEMENTED;
-
     byte_677BBC = 1;
     u8 t_x;
     u8 t_y;
@@ -3052,9 +3050,9 @@ void CarAI_78::Init_AI_Chase_44E0C0()
                 return;
             }
 
-            gCurrCarAI_TargetZ_6779F8 = Fix16(t_z);
-            gCurrCarAI_TargetY_6779F4 = Fix16(t_y);
             gCurrCarAI_TargetX_6779F0 = Fix16(t_x);
+            gCurrCarAI_TargetY_6779F4 = Fix16(t_y);
+            gCurrCarAI_TargetZ_6779F8 = Fix16(t_z);
             gmp_block_info* pBlock_ = gMap_0x370_6F6268->get_block_4DFE10(gCurrCarAI_TargetX_6779F0.ToInt(), gCurrCarAI_TargetY_6779F4.ToInt(), gCurrCarAI_TargetZ_6779F8.ToInt());
             maybe_z = gCurrCarAI_TargetZ_6779F8;
             if (!(pBlock_ && (pBlock_->field_B_slope_type & 0xFC) > 0 && (pBlock_->field_B_slope_type & 0xFC) < 0xB4 &&

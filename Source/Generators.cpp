@@ -28,15 +28,15 @@ s32 Generator_2C::next_cycle_4C1AB0()
 {
     WIP_IMPLEMENTED;
 
-    const s16 min = field_12_min_delay;
-    const s16 max = field_14_max_delay;
+    s16 min = field_12_min_delay;
+    s16 max = field_14_max_delay;
     if (min == max)
     {
         return min + gpRng_67AB34->get_cur_rng_41CFE0();
     }
-    s16 mix_max_delta_m4 = 4 * (max - min);
-    s16 rng = gRng_6F6784.get_int_4F7AE0(mix_max_delta_m4);
-    return rng + 4 * min + gpRng_67AB34->get_cur_rng_41CFE0();
+    s16 delta = 4 * (max - min);
+    s16 rnd = gRng_6F6784.get_int_4F7AE0(delta);
+    return rnd + 4 * field_12_min_delay + gpRng_67AB34->get_cur_rng_41CFE0();
 }
 
 MATCH_FUNC(0x4C1B10)

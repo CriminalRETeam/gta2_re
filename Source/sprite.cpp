@@ -27,6 +27,9 @@
 #include "winmain.hpp" // TODO: only because of gLighting_626A09
 
 DEFINE_GLOBAL(Sprite_8*, gSprite_8_703820, 0x703820);
+// Used by map_0x370.cpp and Camera.cpp, which must only see them as extern (see the notes there)
+DEFINE_GLOBAL(s16, gFaceCollisionMask_6F6002, 0x6F6002);
+DEFINE_GLOBAL_INIT(Ang16, kAng180_676772, Ang16(720), 0x676772);
 DEFINE_GLOBAL(Sprite_4C_Pool*, gSprite_4C_Pool_70381C, 0x70381C);
 DEFINE_GLOBAL(Sprite_Pool*, gSprite_Pool_703818, 0x703818);
 DEFINE_GLOBAL(Sprite_3CC*, gSprite_3CC_67AF1C, 0x67AF1C);
@@ -1426,17 +1429,17 @@ char_type Sprite::CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 sca
 }
 
 // https://decomp.me/scratch/EK1Y2
-WIP_FUNC(0x5A0A70)
+MATCH_FUNC(0x5A0A70)
 bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& a3, u8& a4)
 {
-    WIP_IMPLEMENTED;
-
+    // Same as GetNearestVerticalEdgeToCoordinate_5A1030
     UpdateCollisionBoundsIfNeeded_59E9C0();
     Fix16_Point* RenderingRect = field_C_sprite_4c_ptr->field_C_renderingRect;
 
     Fix16 diff = RenderingRect[0].y - a2;
     Fix16 sign = Sign_4B9C20(diff.mValue);
-    Fix16 least_abs = Fix16::Abs(diff);
+    Fix16 least_abs;
+    least_abs = Fix16::Abs_negate_out_of_line(diff);
 
     a3.x = RenderingRect[0].x;
     a3.y = RenderingRect[0].y;
@@ -1448,12 +1451,12 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& 
         return false;
     }
 
-    diff = Fix16::Abs(diff);
+    diff = Fix16::Abs_negate_out_of_line(diff);
     if (diff < least_abs)
     {
+        least_abs = diff;
         a3.x = RenderingRect[1].x;
         a3.y = RenderingRect[1].y;
-        least_abs = diff;
         a4 = 1;
     }
     else if (diff == least_abs)
@@ -1468,12 +1471,12 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& 
         return false;
     }
 
-    diff = Fix16::Abs(diff);
+    diff = Fix16::Abs_negate_out_of_line(diff);
     if (diff < least_abs)
     {
+        least_abs = diff;
         a3.x = RenderingRect[2].x;
         a3.y = RenderingRect[2].y;
-        least_abs = diff;
         a4 = 2;
     }
     else if (diff == least_abs)
@@ -1488,7 +1491,7 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& 
         return false;
     }
 
-    diff = Fix16::Abs(diff);
+    diff = Fix16::Abs_negate_out_of_line(diff);
     if (diff < least_abs)
     {
         a3.x = RenderingRect[3].x;
@@ -1520,17 +1523,17 @@ char_type Sprite::HitTestVerticalLine_5A0EF0(Fix16 a2, Fix16 a3, Fix16 a4)
 }
 
 // https://decomp.me/scratch/ScgaC
-WIP_FUNC(0x5a1030)
+MATCH_FUNC(0x5a1030)
 bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 a2, Fix16_Point& a3, u8& a4)
 {
-    WIP_IMPLEMENTED;
-
+    // least_abs assigned (not initialised) so it lives in a register, Abs through Negate_4086A0
     Fix16_Point* RenderingRect = field_C_sprite_4c_ptr->field_C_renderingRect;
     UpdateCollisionBoundsIfNeeded_59E9C0();
 
     Fix16 diff = RenderingRect[0].x - a2;
     Fix16 sign = Sign_4B9C20(diff.mValue);
-    Fix16 least_abs = Fix16::Abs(diff);
+    Fix16 least_abs;
+    least_abs = Fix16::Abs_negate_out_of_line(diff);
 
     a3.x = RenderingRect[0].x;
     a3.y = RenderingRect[0].y;
@@ -1542,12 +1545,12 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 a2, Fix16_Point& a3
         return false;
     }
 
-    diff = Fix16::Abs(diff);
+    diff = Fix16::Abs_negate_out_of_line(diff);
     if (diff < least_abs)
     {
+        least_abs = diff;
         a3.x = RenderingRect[1].x;
         a3.y = RenderingRect[1].y;
-        least_abs = diff;
         a4 = 1;
     }
     else if (diff == least_abs)
@@ -1562,12 +1565,12 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 a2, Fix16_Point& a3
         return false;
     }
 
-    diff = Fix16::Abs(diff);
+    diff = Fix16::Abs_negate_out_of_line(diff);
     if (diff < least_abs)
     {
+        least_abs = diff;
         a3.x = RenderingRect[2].x;
         a3.y = RenderingRect[2].y;
-        least_abs = diff;
         a4 = 2;
     }
     else if (diff == least_abs)
@@ -1582,7 +1585,7 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 a2, Fix16_Point& a3
         return false;
     }
 
-    diff = Fix16::Abs(diff);
+    diff = Fix16::Abs_negate_out_of_line(diff);
     if (diff < least_abs)
     {
         a3.x = RenderingRect[3].x;

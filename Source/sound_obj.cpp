@@ -1813,7 +1813,7 @@ void sound_obj::ProcessEntity_4123A0(s32 id)
     }
 }
 
-WIP_FUNC(0x57DD50)
+MATCH_FUNC(0x57DD50)
 void sound_obj::ProcessType3_CopRadioAndMusic_57DD50()
 {
     if (gSoundSwitchRadioCoolDown_6FF539 > 0)
@@ -1848,7 +1848,12 @@ void sound_obj::ProcessType3_CopRadioAndMusic_57DD50()
     Car_BC* pCar = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
     if (pCar)
     {
-        if (!IsTrainOrBoxcar_57F120(pCar) && !pCar->IsMaxDamage_40F890())
+        // An array keeps VC6 from folding the damage check into the branch: the original computes both
+        // flags (sete) before testing either.
+        bool flags[2];
+        flags[0] = IsTrainOrBoxcar_57F120(pCar);
+        flags[1] = pCar->IsMaxDamage_40F890();
+        if (!flags[0] && !flags[1])
         {
             field_54F2[3] = 1;
             if (!field_54F2[2])
@@ -3487,9 +3492,12 @@ void sound_obj::sub_57EDB0(sound_f16_pos_0x1C* pEmitter, s32 type)
             break;
     }
 }
+// One jl target left: the original's lands 5 bytes later
 WIP_FUNC(0x57E6C0)
 void sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
 {
+    WIP_IMPLEMENTED;
+
     Car_BC* pCar = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
     if (IsPoliceOrServiceVehicle_57F090(pCar) == true)
     {
@@ -3546,33 +3554,45 @@ void sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
         u8 i;
         switch ((u8)(field_1454_anRandomTable[0] % 5))
         {
+            // The search loops return when they run out (jae ret; jmp top). A hit stores and breaks
+            // out, and VC6 shares that block between case 0 and case 1.
             case 0:
-                for (i = 0; i < 5; i++)
+                i = 0;
+                while (1)
                 {
                     s32 status = *(u32*)&field_544C[i + 1].field_8.field_4_bStatus;
                     if (status == 6 || (status > 8 && status <= 10))
                     {
                         field_54F7[0] = i;
-                        return;
+                        break;
                     }
                     if (i == 4)
                     {
                         field_54F7[0] = FindEmitterByStatus_57F050(1);
                     }
+                    if (++i >= 5)
+                    {
+                        return;
+                    }
                 }
                 break;
             case 1:
-                for (i = 0; i < 5; i++)
+                i = 0;
+                while (1)
                 {
                     s32 status = *(u32*)&field_544C[i + 1].field_8.field_4_bStatus;
                     if ((status >= 7 && status <= 8) || status == 11)
                     {
                         field_54F7[0] = i;
-                        return;
+                        break;
                     }
                     if (i == 4)
                     {
                         field_54F7[0] = FindEmitterByStatus_57F050(1);
+                    }
+                    if (++i >= 5)
+                    {
+                        return;
                     }
                 }
                 break;
@@ -3601,8 +3621,8 @@ void sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
     }
     else
     {
-        field_54F2[4] = volume;
         field_54F7[0] = emitter;
+        field_54F2[4] = volume;
     }
 }
 
@@ -6010,18 +6030,6 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
             }
             switch (pExplosion->field_10_type_or_state)
             {
-                case 4:
-                case 12:
-                    samp_idx = 190;
-                    volume = 50;
-                    bLoop = 0;
-                    sample_index = 1;
-                    emit_distance = Fix16(0x1C000, 0);
-                    max_distance = 14;
-                    calc_distance = Fix16(0xC4000, 0);
-                    release_mod = 15;
-                    break;
-
                 case 18:
                 case 33:
                     if (field_147C_audio_entities[field_30_sQueueSample.field_0_EntityIndex].field_1_age == 2)
@@ -6107,6 +6115,18 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
                     }
                     dword_61A6CC = 50;
                     dword_61A6D0 = 321;
+                    break;
+
+                case 4:
+                case 12:
+                    samp_idx = 190;
+                    volume = 50;
+                    bLoop = 0;
+                    sample_index = 1;
+                    emit_distance = Fix16(0x1C000, 0);
+                    max_distance = 14;
+                    calc_distance = Fix16(0xC4000, 0);
+                    release_mod = 15;
                     break;
 
                 case 13:

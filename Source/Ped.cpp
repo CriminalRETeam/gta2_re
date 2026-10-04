@@ -10980,17 +10980,26 @@ bool Ped::CanBeRecruitedToGroup_46E020(PedGroup* pGroup)
         false;
 }
 
-WIP_FUNC(0x46e080)
+// 9.6f: Fix16_Rect::ComputeCollisionPrism_4204D0(x, y, offset, z), inlined. The 10.5 version uses
+// kFpOneEighth_67845C (the Fix16_Rect.hpp one uses kCollisionPrismHalfHeight_6771E4), inline x/y
+// arithmetic and the out-of-line Subtract_436A00/operator+ for z. The by-value z parameter is what
+// puts z in desiredCount's dead stack slot.
+static inline void ComputeRecruitPrism(Fix16_Rect& r, Fix16 x, Fix16 y, Fix16 offset, Fix16 z)
+{
+    s32 half = offset.mValue / 2;
+    r.field_0_left.mValue = x.mValue - half;
+    r.field_4_right.mValue = half + x.mValue;
+    r.field_8_top.mValue = y.mValue - half;
+    r.field_C_bottom.mValue = y.mValue + half;
+    r.field_10_low_z = z.Subtract_436A00(kFpOneEighth_67845C);
+    r.field_14_high_z = static_cast<const Fix16&>(z) + kFpOneEighth_67845C;
+}
+
+MATCH_FUNC(0x46e080)
 void Ped::RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius)
 {
-    WIP_IMPLEMENTED;
-
     PedGroup* pGroup_; // ecx
-    int z_copy; // ebx
-    Fix16 z;
-    Fix16 x; // edi
-    Fix16 y; // ecx
-    Sprite* pSprite; // eax
+    s32 maxCount; // ebx
     Sprite* pNearest; // eax
     Char_B4* pB4; // eax
     Ped* pPed; // edi
@@ -11001,14 +11010,14 @@ void Ped::RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius)
     pGroup_ = this->field_164_ped_group;
     if (pGroup_)
     {
-        z_copy = desiredCount;
+        maxCount = desiredCount;
         // max(desiredCount, 9)
         if (desiredCount > 9)
         {
-            z_copy = 9;
+            maxCount = 9;
         }
 
-        if (pGroup_->field_34_count >= z_copy)
+        if (pGroup_->field_34_count >= maxCount)
         {
             return;
         }
@@ -11016,24 +11025,11 @@ void Ped::RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius)
     else
     {
         SpawnPedGroupFollowers_46E200(0);
-        z_copy = desiredCount;
+        maxCount = desiredCount;
     }
 
-    // 9.6f: Fix16_Rect::ComputeCollisionPrism_4204D0(x, y, searchRadius, z) (inlined, but here with
-    // kFpOneEighth_67845C where the Fix16_Rect.hpp one uses kCollisionPrismHalfHeight_6771E4).
-    // The z ops are the out-of-line Subtract_436A00/Add_408660. Remaining diff: the original keeps z
-    // in desiredCount's stack slot, here it gets its own slot.
-    z = this->field_1AC_cam.z;
-    x = this->field_1AC_cam.x;
-    y = this->field_1AC_cam.y;
-    rect.field_0_left = x - searchRadius / 2;
-    rect.field_4_right = searchRadius / 2 + x;
-    rect.field_C_bottom = y + searchRadius / 2;
-    rect.field_8_top = y - searchRadius / 2;
-    rect.field_10_low_z = z.Subtract_436A00(kFpOneEighth_67845C);
-    rect.field_14_high_z = static_cast<const Fix16&>(z) + kFpOneEighth_67845C;
-    pSprite = GetSprite_46DF50();
-    if (gPurpleDoom_1_679208->CollectRectCollisions_477F30(&rect, 0, 0, pSprite, &collision_list))
+    ComputeRecruitPrism(rect, this->field_1AC_cam.x, this->field_1AC_cam.y, searchRadius, this->field_1AC_cam.z);
+    if (gPurpleDoom_1_679208->CollectRectCollisions_477F30(&rect, 0, 0, GetSprite_46DF50(), &collision_list))
     {
         for (pNearest = collision_list.TakeClosestSprite_5A6EA0(this->field_1AC_cam.x, this->field_1AC_cam.y); pNearest;
              pNearest = collision_list.TakeClosestSprite_5A6EA0(this->field_1AC_cam.x, this->field_1AC_cam.y))
@@ -11052,7 +11048,7 @@ void Ped::RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius)
                     }
                     field_164_ped_group->add_ped_to_end_of_list_4C8F90(pPed);
                     pPed->SetupFollower_46DF70(this, weapon_type::dual_pistol);
-                    if (this->field_164_ped_group->field_34_count == z_copy)
+                    if (this->field_164_ped_group->field_34_count == maxCount)
                     {
                         break;
                     }
@@ -11339,26 +11335,31 @@ Weapon_30* Ped::GetWeaponFromPed_46F110()
     return 0;
 }
 
-WIP_FUNC(0x46f1e0)
+MATCH_FUNC(0x46f1e0)
 void Ped::ApplyAimJitter_46F1E0(Weapon_30* a2)
 {
-    WIP_IMPLEMENTED;
-
     u8 rng_val = 0;
+    // Named locals: the original gives each max a stack slot of its own (temporaries share the param slot)
+    s16 max_still;
+    s16 max_moving;
+    s16 max_moving_retry;
     if (a2->field_1C_idx >= weapon_type::pistol && a2->field_1C_idx <= weapon_type::smg)
     {
         if (field_270 == 0)
         {
             if (GetPedVelocity_45C920() == kFpZero_678660)
             {
-                rng_val = gRng_6F6784.get_int_4F7AE0(3);
+                max_still = 3;
+                rng_val = gRng_6F6784.get_int_4F7AE0(max_still);
             }
             else
             {
-                rng_val = gRng_6F6784.get_int_4F7AE0(5);
+                max_moving = 5;
+                rng_val = gRng_6F6784.get_int_4F7AE0(max_moving);
                 if (rng_val == 0)
                 {
-                    rng_val = gRng_6F6784.get_int_4F7AE0(5);
+                    max_moving_retry = 5;
+                    rng_val = gRng_6F6784.get_int_4F7AE0(max_moving_retry);
                 }
             }
         }
@@ -11370,61 +11371,17 @@ void Ped::ApplyAimJitter_46F1E0(Weapon_30* a2)
         switch (rng_val)
         {
             case 1:
-            {
-                s16 ang = field_12E_aim_angle.rValue - kAng10_6784C8.rValue;
-                if (ang < 0)
-                {
-                    ang += 1440 * ((1439 - ang) / 0x5A0u);
-                }
-                if (ang >= 1440)
-                {
-                    ang -= 1440 * (ang / 0x5A0u);
-                }
-                field_12E_aim_angle.rValue = ang;
+                field_12E_aim_angle = field_12E_aim_angle - kAng10_6784C8;
                 break;
-            }
             case 2:
-            {
-                s16 ang = field_12E_aim_angle.rValue + kAng10_6784C8.rValue;
-                if (ang < 0)
-                {
-                    ang += 1440 * ((1439 - ang) / 0x5A0u);
-                }
-                if (ang >= 1440)
-                {
-                    ang -= 1440 * (ang / 0x5A0u);
-                }
-                field_12E_aim_angle.rValue = ang;
+                field_12E_aim_angle = field_12E_aim_angle + kAng10_6784C8;
                 break;
-            }
             case 3:
-            {
-                s16 ang = field_12E_aim_angle.rValue - kAng16_6784E4.rValue;
-                if (ang < 0)
-                {
-                    ang += 1440 * ((1439 - ang) / 0x5A0u);
-                }
-                if (ang >= 1440)
-                {
-                    ang -= 1440 * (ang / 0x5A0u);
-                }
-                field_12E_aim_angle.rValue = ang;
+                field_12E_aim_angle = field_12E_aim_angle - kAng16_6784E4;
                 break;
-            }
             case 4:
-            {
-                s16 ang = field_12E_aim_angle.rValue + kAng16_6784E4.rValue;
-                if (ang < 0)
-                {
-                    ang += 1440 * ((1439 - ang) / 0x5A0u);
-                }
-                if (ang >= 1440)
-                {
-                    ang -= 1440 * (ang / 0x5A0u);
-                }
-                field_12E_aim_angle.rValue = ang;
+                field_12E_aim_angle = field_12E_aim_angle + kAng16_6784E4;
                 break;
-            }
             default:
                 break;
         }
