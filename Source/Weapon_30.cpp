@@ -1400,7 +1400,8 @@ void Weapon_30::fire_truck_gun_5E0E70()
 
     // Ang16 operator+ with Normalize out of line. The plain operator+ gets the start right but
     // moves the registers of the rotations.
-    Ang16 gun_ang = field_14_car->field_0_qq.GetSpriteForModel_5A6A50(114)->field_0->field_0;
+    Sprite_18* pTurret = field_14_car->field_0_qq.GetSpriteForModel_5A6A50(114);
+    Ang16 gun_ang = pTurret->field_0->field_0;
     gun_ang.rValue += word_706DFA.rValue;
     gun_ang.Normalize_406C20();
 
