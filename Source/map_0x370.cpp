@@ -4361,12 +4361,13 @@ void Map_0x370::GetModifiedMapData_4E8CF0(u16*** outColumnPtr,
 }
 
 // https://decomp.me/scratch/eGx1i
-WIP_FUNC(0x4E8E30)
+MATCH_FUNC(0x4E8E30)
 void Map_0x370::do_process_loaded_zone_data_4E8E30()
 {
-    WIP_IMPLEMENTED;
     u16 v16 = 0;
-    u16 zonesSize = field_328_pZoneData ? field_32C_pZones->field_0_num_zones : 0;
+    // The original reads the zone count before the null test.
+    u16 num_zones = field_32C_pZones->field_0_num_zones;
+    u16 zonesSize = field_328_pZoneData ? num_zones : 0;
     if (zonesSize)
     {
         field_330_pZoneArray = (u8*)Memory::malloc_4FE4D0(zonesSize);

@@ -1549,7 +1549,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 
 Matched here: `StabilizeVelocityAtSpeed_562910`, `OnModifiedMapDataLoaded_4E8C00`,
 `UpdateCarEngineAudio_57E220`, `HandlePedVoiceEvent_423080`, `GetDoorWorldPos_43B420`,
-`DebugDrawProfiling_4FF250` (see matching_quirks.md and the commit messages). Random-mode
+`DebugDrawProfiling_4FF250`, `do_process_loaded_zone_data_4E8E30` (see matching_quirks.md and the commit messages). Random-mode
 permuter runs of 6 minutes (2700-4100 compiles) made no progress on 418720, 57E220, 4E6660,
 516590, 427220, 56BA60, 4D6000, 414710, 4B6390 or 440D90. An exhaustive depth 1 run (every
 single pass) also gave nothing on 418720. Scores are differing lines from `permuter_score.py`.
@@ -1571,9 +1571,7 @@ single pass) also gave nothing on 418720. Scores are differing lines from `permu
 - `Map_0x370::sub_4E6660` (4): `mov %edi,%ebx` (pPrev) before the `sub_4E65A0(x,y,&z,1,1)` call.
   Written after the call, VC6 pushes ebx (constant 1) for the two 1s (48). The a5/a6 types
   (s32/u8/bool/u32) and a block-local pOld don't change it.
-- `Map_0x370::do_process_loaded_zone_data_4E8E30` (14): `offset + field_334` vs ours
-  `field_334 + offset`, and base/index order in the "found" store. No change from v8 types,
-  index spellings, `field_330` as `char*`, loop counter types, or a `SetDefaults()` inline.
+
 - `Map_0x370::RectHitsDiagonalWall_4E11E0` (22): `return 1` gets its own EH epilogue copy. A
   `goto` to a single `return result` gets one too.
 - `Map_0x370::sub_4E6190` (60): the original cross-jumps case 3/4's inner switch tails into
