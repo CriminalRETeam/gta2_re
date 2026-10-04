@@ -97,83 +97,42 @@ EXTERN_GLOBAL(u8, gNumberArmedGangMembers_6787CE);
 EXPORT Ped* __stdcall SpawnPedChainGroupAt_46DB90(char_type remap, u8 number_followers, Fix16 xpos, Fix16 ypos, Fix16 zpos);
 
 // TODO: Prob a method of PedManager?
-WIP_FUNC(0x46E380)
+MATCH_FUNC(0x46E380)
 EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {
-    WIP_IMPLEMENTED;
+    u8 kind = 0;
+    s16 rng_val = gRng_6F6784.get_int_4F7AE0(1000);
 
-    char_type rng_kind; // bl
-    s16 rng_val; // di
-    Ped* pPed; // esi
-    gmp_zone_info* pZone; // eax
-    s32 v11; // edx
-    gmp_map_zone* v14; // eax
-    Gang_144* pGang; // edi
-    char_type v16; // al
-    Gang_144* field_17C_pZone; // ecx
-    s32 GangCurrWeapon_4BF0C0; // eax
-    Weapon_30* field_170_selected_weapon; // eax
-    s32 occupation_; // eax
-    char_type v21; // al
-    s32 wanted_level_; // eax
-    u8 v25; // al
-    char_type v26; // al
-    u8 kind; // [esp+10h] [ebp-18h]
-    s32 y_int; // [esp+20h] [ebp-8h] BYREF
-    s32 x_int; // [esp+24h] [ebp-4h] BYREF
-
-    rng_kind = 0;
-    kind = 0;
-    rng_val = gRng_6F6784.get_int_4F7AE0(1000);
-
-    pPed = gPedPool_6787B8->Allocate();
+    Ped* pPed = gPedPool_6787B8->Allocate();
 
     ++gSpawnCounter_6787C6;
 
-    x_int = xpos.ToInt();
-    y_int = ypos.ToInt();
-
-    pZone = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(x_int, y_int);
-
-    v11 = rng_val;
+    gmp_zone_info* pZone = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(xpos.ToInt(), ypos.ToInt());
 
     if (rng_val < (u16)pZone->field_C_mugger_ratio)
     {
         kind = 1; // mugger
     }
-    else if (rng_val < (u16)pZone->field_E_carthief_ratio + (u16)pZone->field_C_mugger_ratio)
+    else if (rng_val < (u16)pZone->field_C_mugger_ratio + (u16)pZone->field_E_carthief_ratio)
     {
         kind = 2; // car thief
     }
     else if (rng_val < (u16)pZone->field_C_mugger_ratio + (u16)pZone->field_E_carthief_ratio + (u16)pZone->field_10_elvis_ratio)
     {
         // 1 in 50 chance of elvis
-        if (gRng_6F6784.get_int_4F7AE0(50) == 25)
-        {
-            kind = 3;
-        }
-        else
-        {
-            kind = 0;
-        }
-        goto LABEL_12;
+        kind = gRng_6F6784.get_int_4F7AE0(50) == 25 ? 3 : 0;
     }
-    else if (rng_val < (u16)pZone->field_C_mugger_ratio + (u16)pZone->field_E_carthief_ratio + (u16)pZone->field_12_gangchar_ratio +
-                 (u16)pZone->field_10_elvis_ratio)
+    else if (rng_val < (u16)pZone->field_C_mugger_ratio + (u16)pZone->field_E_carthief_ratio + (u16)pZone->field_10_elvis_ratio +
+                 (u16)pZone->field_12_gangchar_ratio)
     {
         // Gang member, limited to 8
         kind = (u8)gNumberArmedGangMembers_6787CE < 8u ? 4 : 0;
     }
-    else if (rng_val >= (u16)pZone->field_C_mugger_ratio + (u16)pZone->field_E_carthief_ratio + (u16)pZone->field_10_elvis_ratio +
+    else if (rng_val < (u16)pZone->field_C_mugger_ratio + (u16)pZone->field_E_carthief_ratio + (u16)pZone->field_10_elvis_ratio +
                  (u16)pZone->field_12_gangchar_ratio + (u16)pZone->field_14_policeped_ratio)
-    {
-        goto LABEL_12;
-    }
-    else
     {
         kind = 5;
     }
-LABEL_12:
 
     if (gCheatOnlyElvisPeds_67D4ED)
     {
@@ -246,38 +205,32 @@ LABEL_12:
                 break;
 
             case 4:
-                v14 = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(x_int, y_int, 14u);
-                if (v14)
+            {
+                gmp_map_zone* pMapZone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(xpos.ToInt(), ypos.ToInt(), 14u);
+                if (pMapZone)
                 {
-                    pGang = gGangPool_CA8_67E274->gang_by_name_4BF100(v14->field_6_name);
+                    Gang_144* pGang = gGangPool_CA8_67E274->gang_by_name_4BF100(pMapZone->field_6_name);
                     if ((u8)gNumberArmedGangMembers_6787CE < 4u)
                     {
                         ++gNumberArmedGangMembers_6787CE;
                         pPed->SetField238_403920(ped_type::special_ped_4);
                         pPed->set_occupation_403970(ped_ocupation_enum::armed_gang_member_19);
                         pPed->field_17C_pGang = pGang;
-                        v16 = pGang->field_101_remap;
-                        pPed->set_remap_433B90(v16);
-                        if (v16 == 5)
+                        pPed->set_remap_433B90(pGang->field_101_remap);
+                        if (pPed->get_remap_433BA0() == 5)
                         {
                             if (!gRng_6F6784.get_int_4F7AE0(2))
                             {
                                 pPed->set_remap_433B90(6);
                             }
                         }
-                        field_17C_pZone = pPed->field_17C_pGang;
                         pPed->field_26C_graphic_type = 1;
                         pPed->sub_433BC0(1);
-                        GangCurrWeapon_4BF0C0 = field_17C_pZone->GetGangCurrWeapon_4BF0C0();
-                        pPed->ForceWeapon_46F600(GangCurrWeapon_4BF0C0);
-                        field_170_selected_weapon = pPed->field_170_selected_weapon;
-                        if (field_170_selected_weapon)
+                        pPed->ForceWeapon_46F600(pPed->field_17C_pGang->GetGangCurrWeapon_4BF0C0());
+                        if (pPed->field_170_selected_weapon && pPed->field_170_selected_weapon->field_1C_idx)
                         {
-                            if (field_170_selected_weapon->field_1C_idx)
-                            {
-                                pPed->field_21C |= 0x10000000u;
-                                pGang->field_141 = 1;
-                            }
+                            pPed->field_21C |= 0x10000000u;
+                            pGang->field_141 = 1;
                         }
                         pPed->GiveWeapon_46F650(weapon_type::pistol);
                         pPed->field_270 = 0;
@@ -292,10 +245,9 @@ LABEL_12:
                         pPed->SetField238_403920(ped_type::dummy_3);
                         pPed->field_288_threat_search = threat_search_enum::area_2;
                         pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
-                        v21 = pGang->field_101_remap;
+                        pPed->set_remap_433B90(pGang->field_101_remap);
                         pPed->field_26C_graphic_type = 1;
-                        pPed->set_remap_433B90(v21);
-                        if (v21 == 5)
+                        if (pPed->get_remap_433BA0() == 5)
                         {
                             if (!gRng_6F6784.get_int_4F7AE0(2))
                             {
@@ -332,7 +284,7 @@ LABEL_12:
                     }
                 }
                 break;
-
+            }
             case 5:
                 if (gNumberWalkingCopsSpawned_6787CD || bSkip_police_67D4F9 || gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service == crew_type::army_6)
                 {
@@ -344,8 +296,7 @@ LABEL_12:
                 gNumberWalkingCopsSpawned_6787CD = 1;
                 pPed->field_288_threat_search = threat_search_enum::line_of_sight_1;
                 pPed->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
-                wanted_level_ = gPolice_7B8_6FEE40->field_654_wanted_level;
-                switch (wanted_level_)
+                switch (gPolice_7B8_6FEE40->field_654_wanted_level)
                 {
                     case 2:
                         pPed->GiveWeapon_46F650(weapon_type::pistol);
@@ -353,7 +304,7 @@ LABEL_12:
                         pPed->field_1F0_maybe_max_speed = (kFpOneSixteenth_678448 * kFpPoint8_6784A0);
                         pPed->field_26C_graphic_type = 2;
                         break;
-                    case 0: // wanted_level_ <= 1 but not negative
+                    case 0:
                     case 1:
                         pPed->field_170_selected_weapon = 0;
                         pPed->GiveWeapon_46F650(weapon_type::pistol);
@@ -363,12 +314,9 @@ LABEL_12:
                         break;
 
                     default:
-                        if (wanted_level_ < 0)
-                        {
-                            pPed->GiveWeapon_46F650(weapon_type::pistol);
-                            pPed->set_health_4039A0(100);
-                            pPed->field_26C_graphic_type = 2;
-                        }
+                        pPed->GiveWeapon_46F650(weapon_type::pistol);
+                        pPed->set_health_4039A0(100);
+                        pPed->field_26C_graphic_type = 2;
                         break;
                 } // End switch
                 break;
@@ -397,23 +345,23 @@ LABEL_12:
                     }
                     else
                     {
-                        v25 = gRng_6F6784.get_int_4F7AE0(25);
-                        if (v25 < 4u)
+                        u8 remap = gRng_6F6784.get_int_4F7AE0(25);
+                        if (remap < 4u)
                         {
-                            v26 = v25 + 18;
+                            remap += 18;
                         }
                         else
                         {
-                            v26 = v25 + 27;
+                            remap += 27;
                         }
-                        pPed->set_remap_433B90(v26);
+                        pPed->set_remap_433B90(remap);
                     }
                 }
                 break;
         } // End switch
 
-        occupation_ = pPed->get_occupation_403980();
-        if (occupation_ != ped_ocupation_enum::walking_guard_29 && occupation_ != ped_ocupation_enum::unknown_cop_occu_31)
+        if (pPed->get_occupation_403980() != ped_ocupation_enum::walking_guard_29 &&
+            pPed->get_occupation_403980() != ped_ocupation_enum::unknown_cop_occu_31)
         {
             pPed->AllocCharB4_45C830(xpos, ypos, zpos);
         }
