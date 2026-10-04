@@ -159,8 +159,12 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
             pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 197);
             pParticle->field_34 = 0;
             pParticle->field_38_state = 40;
-            Fix16 unused = Ang16::sine_40F500(a2->field_0) * dword_6FD2E8;
-            unused = Ang16::cosine_40F520(a2->field_0) * dword_6FD2E8;
+            // Results unused (as in the ped branch, which uses them). Past the inline budget, so the
+            // two multiplies stay as out-of-line Multiply_408680 calls; written as `x = sin * r`
+            // they were inlined and removed.
+            Fix16 dx;
+            Fix16 dy;
+            Ang16::PolarToCartesian_41FC20(a2->field_0, dword_6FD2E8, dx, dy);
             pParticle->field_46_sub_state = 0;
             pParticle->field_48_timer = 0;
 
@@ -188,8 +192,9 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
         pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 197);
         pParticle->field_34 = 0;
         pParticle->field_38_state = 41;
-        Fix16 unused = Ang16::sine_40F500(a2->field_0) * dword_6FD2E8;
-        unused = Ang16::cosine_40F520(a2->field_0) * dword_6FD2E8;
+        Fix16 dx;
+        Fix16 dy;
+        Ang16::PolarToCartesian_41FC20(a2->field_0, dword_6FD2E8, dx, dy);
         pParticle->field_46_sub_state = 0;
         pParticle->field_48_timer = 0;
 
@@ -230,7 +235,7 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
         offset.x = -dword_6FD464;
         offset.y = dword_6FD468 + dword_6FD2E8;
         offset.RotateByAngle_40F6B0(a2->field_0);
-        offset = offset + *(Fix16_Point*)&pB4->field_98_velocity_vector;
+        offset = offset + pB4->field_98_velocity_vector;
 
         pParticle->field_30_pNext->set_ang_lazy_420690(a2->field_0);
         pParticle->field_30_pNext->set_xyz_lazy_420600(a2->field_14_xy.x + offset.x, a2->field_14_xy.y + offset.y, zpos);
