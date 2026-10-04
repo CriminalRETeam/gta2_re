@@ -2243,11 +2243,9 @@ void Car_BC::ApplyVisualDamage_43A9F0()
     }
 }
 
-WIP_FUNC(0x43CAC0)
+MATCH_FUNC(0x43CAC0)
 void Car_BC::StartLightFlashing_43CAC0()
 {
-    WIP_IMPLEMENTED;
-
     if ((field_A4_light_flags & 0x1C) == 0)
     {
         field_A5_flash_phase_counter = 12;
@@ -2282,7 +2280,7 @@ void Car_BC::StartLightFlashing_43CAC0()
             field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
         }
 
-        if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2))
+        if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1))
         {
             field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BackRightBrakeLight_5);
         }
@@ -2322,20 +2320,15 @@ void Car_BC::Deactivate_43AA60()
     SetF_88_4214E0();
 }
 
-WIP_FUNC(0x43AAE0)
+MATCH_FUNC(0x43AAE0)
 char_type Car_BC::IsThreatToSearchingPed_43AAE0()
 {
-    WIP_IMPLEMENTED;
-
     Ped* pDriver = this->field_54_driver;
-    if (pDriver)
-    {
-        return pDriver->IsThreatToSearchingPed_4661F0();
-    }
-    else
+    if (!pDriver)
     {
         return 0;
     }
+    return pDriver->IsThreatToSearchingPed_4661F0();
 }
 
 MATCH_FUNC(0x43aaf0)
@@ -4894,13 +4887,12 @@ void Car_BC::CountDownToWreck_441360()
     }
 }
 
-WIP_FUNC(0x4436A0)
+MATCH_FUNC(0x4436A0)
 void Car_BC::TurnToWreck_4436A0()
 {
-    WIP_IMPLEMENTED;
-
     car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
-    field_50_car_sprite->field_22_sprite_id = gGtx_0x106C_703DD4->get_car_info_5AA3B0(pCarInfo->wreck + 72)->sprite;
+    s32 wreck_idx = pCarInfo->wreck + 72;
+    field_50_car_sprite->field_22_sprite_id = gGtx_0x106C_703DD4->get_car_info_5AA3B0(wreck_idx)->sprite;
     field_50_car_sprite->sub_59E2E0();
     field_50_car_sprite->field_34_palette_type = palette_types_enum::sprites_2;
     field_8_damaged_areas.m_var = 0;
