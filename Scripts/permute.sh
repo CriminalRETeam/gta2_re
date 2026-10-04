@@ -46,5 +46,5 @@ NEEDLE="${FUNC##*::}"
 exec "$BIN" -s "$SRC" -f "$FUNC" \
     -c "$PERMUTER_DIR/examples/gta2/compile.sh {src} {obj}" \
     --score-cmd "$PY $ROOT/Scripts/bin_comp/permuter_score.py {obj} $ADDR $NEEDLE" \
-    --op-alias "*=Multiply_408680" --op-alias "neg=Negate_4086A0" \
+    --op-alias "*=Multiply_408680" --op-alias "neg=Negate_4086A0" --extern-globals \
     "$@"
