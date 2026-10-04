@@ -734,7 +734,7 @@ class Hud_2B00
     EXPORT void SetFontTypes_5D6B00();
     EXPORT void Init_5D6BE0();
     EXPORT bool IsBusy_5D6C20(s32 action, Player* pPlayer);
-    EXPORT s32 IsInputKeyConsumed_5D6C70(s32 a1);
+    EXPORT bool IsInputKeyConsumed_5D6C70(s32 a1);
     EXPORT bool IsQuitMessageInputKey_5D6CB0(s32 a1);
     EXPORT Hud_2B00();
 

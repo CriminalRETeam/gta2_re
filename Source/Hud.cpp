@@ -3301,7 +3301,7 @@ bool Hud_2B00::IsBusy_5D6C20(s32 action, Player* pPlayer)
 }
 
 MATCH_FUNC(0x5d6c70)
-s32 Hud_2B00::IsInputKeyConsumed_5D6C70(s32 action)
+bool Hud_2B00::IsInputKeyConsumed_5D6C70(s32 action)
 {
     return field_12EC_sub.IsQuitMessageKey_5D15A0(action) || field_2A25_sub.IsChatInputKey_5D17D0(action);
 }
