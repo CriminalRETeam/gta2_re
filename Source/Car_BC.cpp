@@ -860,64 +860,51 @@ Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
     WIP_IMPLEMENTED;
 
     // 9.6f calls sub_421D80 and sub_421DF0 here, which are HasSpriteZoom_43A230 and IsCarInAir_43A3C0 (not inlined in 10.5)
-    Car_BC* pRet = 0;
-    Fix16 smallestDist = Fix16(0xC00000, 0);
-    Car_BC* pCarIter = gCar_BC_Pool_67792C->GetFirstCar_420E50();
+    Fix16 smallestDist = Fix16(0x300);
     Car_BC* pNearestCar = 0;
-    if (pCarIter)
+    for (Car_BC* pCarIter = gCar_BC_Pool_67792C->GetFirstCar_420E50(); pCarIter; pCarIter = pCarIter->mpNext)
     {
-        do
+        if (!pCarIter->IsMaxDamage_40F890() && !pCarIter->inline_check_0x10_info_421640() &&
+            (bIgnorePedRestrictions || !pCarIter->IsDoorLockedForPed_43B2B0(pPed)) && !pCarIter->HasSpriteZoom_43A230() && !pCarIter->sub_4214D0() &&
+            !pCarIter->IsCarInAir_43A3C0() && pCarIter->GetCarInfoIdx_411940() != car_model_enum::TRAINFB &&
+            (!bMatchDriverless || !pCarIter->field_54_driver))
         {
-            if (!pCarIter->IsMaxDamage_40F890() && !pCarIter->inline_check_0x10_info_421640() &&
-                (bIgnorePedRestrictions || !pCarIter->IsDoorLockedForPed_43B2B0(pPed)) && !pCarIter->HasSpriteZoom_43A230() && !pCarIter->sub_4214D0() &&
-                !pCarIter->IsCarInAir_43A3C0())
+            Fix16 currentDistance = Fix16::Abs(pCarIter->field_50_car_sprite->field_14_xy.x - xpos) +
+                Fix16::Abs(pCarIter->field_50_car_sprite->field_14_xy.y - ypos) + Fix16::Abs(pCarIter->field_50_car_sprite->field_1C_zpos - zpos);
+            if (currentDistance < smallestDist)
             {
-                if (pCarIter->GetCarInfoIdx_411940() != car_model_enum::TRAINFB && (!bMatchDriverless || !pCarIter->field_54_driver))
+                smallestDist = currentDistance;
+                pNearestCar = pCarIter;
+            }
+
+            if (pCarIter->IsTrainModel_403BA0())
+            {
+                u8 train_car_idx = 0;
+                Car_BC** pTrainCars = gPublicTransport_181C_6FF1D4->GetCarArrayFromLeadCar_579B40(pCarIter);
+                for (Car_BC* pTrainIter = *pTrainCars; pTrainIter; pTrainIter = pTrainCars[train_car_idx])
                 {
-                    Sprite* pCarSprite = pCarIter->field_50_car_sprite;
-                    Fix16 zd = Fix16::Abs(pCarSprite->field_1C_zpos - zpos);
-                    Fix16 yd = Fix16::Abs(pCarSprite->field_14_xy.y - ypos);
-                    Fix16 xd = Fix16::Abs(pCarSprite->field_14_xy.x - xpos);
-
-                    Fix16 currentDistance = xd + yd + zd;
-                    if (currentDistance < smallestDist)
+                    if (train_car_idx >= 2)
                     {
-                        smallestDist = currentDistance;
-                        pNearestCar = pCarIter;
+                        break;
                     }
 
-                    if (pCarIter->IsTrainModel_403BA0())
+                    // The original calls Negate_4086A0 and the const operator+ (0x408660) here but inlines
+                    // yd + xd; ours runs out of inline expansions and calls that + out of line too
+                    Fix16 train_zd = Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_1C_zpos - zpos);
+                    Fix16 train_yd = Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_14_xy.y - ypos);
+                    Fix16 train_xd = Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_14_xy.x - xpos);
+                    Fix16 trainDistance = static_cast<const Fix16&>(train_yd + train_xd) + train_zd;
+                    if (trainDistance < smallestDist)
                     {
-                        u8 train_car_idx = 0;
-                        Car_BC** pTrainCars = gPublicTransport_181C_6FF1D4->GetCarArrayFromLeadCar_579B40(pCarIter);
-                        for (Car_BC* pTrainIter = *pTrainCars; pTrainIter; pTrainIter = pTrainCars[train_car_idx])
-                        {
-                            if (train_car_idx >= 2)
-                            {
-                                break;
-                            }
-
-                            Sprite* pTrainSprite = pTrainIter->field_50_car_sprite;
-                            Fix16 train_zd = Fix16::Abs(pTrainSprite->field_1C_zpos - zpos);
-                            Fix16 train_yd = Fix16::Abs(pTrainSprite->field_14_xy.y - ypos);
-                            Fix16 train_xd = Fix16::Abs(pTrainSprite->field_14_xy.x - xpos);
-
-                            Fix16 trainDistance = train_yd + train_xd + train_zd;
-                            if (trainDistance < smallestDist)
-                            {
-                                smallestDist = trainDistance;
-                                pNearestCar = pTrainIter;
-                            }
-                            train_car_idx++;
-                        }
+                        smallestDist = trainDistance;
+                        pNearestCar = pTrainIter;
                     }
+                    train_car_idx++;
                 }
             }
-            pCarIter = pCarIter->mpNext;
-        } while (pCarIter);
-        return pNearestCar;
+        }
     }
-    return pRet;
+    return pNearestCar;
 }
 
 MATCH_FUNC(0x445210)
@@ -4781,20 +4768,17 @@ void Car_BC::GotoBlock_441080(u8 x, u8 y, u8 z, s32 maybe_direction)
     field_5C_AI->GoToBlock_447CA0(x, y, z, maybe_direction);
 }
 
-WIP_FUNC(0x4410d0)
+// 9.6f 0x41FF90
+MATCH_FUNC(0x4410d0)
 char_type Car_BC::CountConsecutiveArrowBlocks_4410D0(Ang16 ang, s8* pRet, Fix16 spritex, Fix16 spritey)
 {
-    WIP_IMPLEMENTED;
-
     u8 x_add = 0;
     u8 y_add = 0;
     u8 mask1 = 0;
     u8 mask2 = 0;
     s32 angleFace = Ang16::GetAngleFace_4F78F0(ang);
-    s32 x_int = spritex.ToInt();
-    u8 x = x_int;
-    s32 y_int = spritey.ToInt();
-    u8 y = y_int;
+    u8 x = spritex.ToInt();
+    u8 y = spritey.ToInt();
     u8 z = field_50_car_sprite->field_1C_zpos.ToInt() - 1;
 
     switch (angleFace)
@@ -4826,8 +4810,8 @@ char_type Car_BC::CountConsecutiveArrowBlocks_4410D0(Ang16 ang, s8* pRet, Fix16 
     gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(x, y, z);
     if (pBlock && ((pBlock->field_A_arrows & mask1) || (pBlock->field_A_arrows & mask2)))
     {
-        y += y_add;
         x += x_add;
+        y += y_add;
 
         u8 count = 0;
         for (pBlock = gMap_0x370_6F6268->get_block_4DFE10(x, y, z); pBlock; pBlock = gMap_0x370_6F6268->get_block_4DFE10(x, y, z))
@@ -4837,12 +4821,14 @@ char_type Car_BC::CountConsecutiveArrowBlocks_4410D0(Ang16 ang, s8* pRet, Fix16 
                 break;
             }
             count++;
-            y += y_add;
             x += x_add;
+            y += y_add;
         }
 
-        x = x_int;
-        y = y_int;
+        // Returns the count ahead; *pRet gets the count both ways
+        char_type count_ahead = count;
+        x = spritex.ToInt();
+        y = spritey.ToInt();
         x_add = -x_add;
         y_add = -y_add;
 
@@ -4857,7 +4843,7 @@ char_type Car_BC::CountConsecutiveArrowBlocks_4410D0(Ang16 ang, s8* pRet, Fix16 
             count++;
         }
         *pRet = count;
-        return count;
+        return count_ahead;
     }
 
     *pRet = -1;
