@@ -3175,8 +3175,7 @@ void CC ImGuiDebugDraw()
                 gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pPlayerSprite->field_14_xy.x,
                                                                pPlayerSprite->field_14_xy.y,
                                                                pPlayerSprite->field_1C_zpos,
-                                                               0,
-                                                               0);
+                                                               Fix16_Point(0, 0));
             }
             ImGui::TreePop();
         }

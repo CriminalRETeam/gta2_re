@@ -1244,7 +1244,7 @@ void CarPhysics_B0::EmitImpactParticles_55B7E0(u8 apply_to_corners_mask)
             if ((apply_to_corners_mask & box_corner_mask) == box_corner_mask)
             {
                 box_xy = pCarSprite->GetBoundingBoxCorner_562450(box_idx);
-                gParticle_8_6FD5E8->EmitImpactParticles_53FE40(box_xy.x, box_xy.y, field_6C_cp3, field_40_linvel_1.x, field_40_linvel_1.y);
+                gParticle_8_6FD5E8->EmitImpactParticles_53FE40(box_xy.x, box_xy.y, field_6C_cp3, field_40_linvel_1);
             }
             box_idx++;
             box_corner_mask *= 2;
@@ -2344,7 +2344,7 @@ void CarPhysics_B0::AccumulateImpulse_55FC30(Fix16_Point& arg0, s32 base_dmg)
 // negation returns (a named local reads it from its stack slot instead)
 static inline void EmitImpact_55FD00(Fix16& z, const Fix16_Point& dir)
 {
-    gParticle_8_6FD5E8->EmitImpactParticles_53FE40(CollisionIntersectionPoint_6FE1A0.x, CollisionIntersectionPoint_6FE1A0.y, z, dir.x, dir.y);
+    gParticle_8_6FD5E8->EmitImpactParticles_53FE40(CollisionIntersectionPoint_6FE1A0.x, CollisionIntersectionPoint_6FE1A0.y, z, dir);
 }
 
 MATCH_FUNC(0x55fd00)
@@ -2534,7 +2534,7 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
     Fix16 Velocity = GetLinearSpeed_4211A0();
     if (Velocity > FastCarMinVelocity_6FE1CC && !field_5C_pCar->IsMaxDamage_40F890())
     {
-        gParticle_8_6FD5E8->EmitImpactParticles_53FE40(CollisionIntersectionPoint_6FE1A0.x, CollisionIntersectionPoint_6FE1A0.y, field_6C_cp3, -CollisionIntersectionPoint_6FE1A0.x, -CollisionIntersectionPoint_6FE1A0.y);
+        gParticle_8_6FD5E8->EmitImpactParticles_53FE40(CollisionIntersectionPoint_6FE1A0.x, CollisionIntersectionPoint_6FE1A0.y, field_6C_cp3, Fix16_Point(-CollisionIntersectionPoint_6FE1A0.x, -CollisionIntersectionPoint_6FE1A0.y));
     }
 
     if (gCollisionDamage_6FE33C > dword_6FDFE4)
@@ -2647,8 +2647,7 @@ void CarPhysics_B0::HandleObjectCollision_5606C0(Object_2C* p2C, char_type damag
             gParticle_8_6FD5E8->EmitImpactParticles_53FE40(CollisionIntersectionPoint_6FE1A0.x,
                                                            CollisionIntersectionPoint_6FE1A0.y,
                                                            field_6C_cp3,
-                                                           NegatedVelocity.x,
-                                                           NegatedVelocity.y);
+                                                           NegatedVelocity);
         }
         field_5C_pCar->TryDamageArea_43D2C0(damage_area, gCollisionDamage_6FE33C.mValue);
     }

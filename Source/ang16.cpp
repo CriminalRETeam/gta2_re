@@ -69,11 +69,10 @@ Ang16 Ang16::SubtractNormalized_409340(const Ang16& toSub)
 }
 
 MATCH_FUNC(0x4516B0)
-Ang16* Ang16::FromFix16_4516B0(Fix16* a2, s32 a3)
+Ang16::Ang16(Fix16* a2, s32 a3)
 {
     rValue = a2->ToInt();
     Normalize();
-    return this;
 }
 
 MATCH_FUNC(0x482740)

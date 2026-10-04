@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "Particle_4C.hpp"
 #include "ang16.hpp"
+#include "Fix16_Point.hpp"
 #include "Pool.hpp"
 
 class Fix16;
@@ -28,7 +29,7 @@ class Particle_8
     EXPORT ~Particle_8();
 
     EXPORT void EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite);
-    EXPORT void EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16 sinv, Fix16 cosv);
+    EXPORT void EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16_Point dir);
     EXPORT void EmitFlameStreamSegment_53F4C0(Sprite* pSprite);
 
     Object_2C* field_0_fire_hit_obj;

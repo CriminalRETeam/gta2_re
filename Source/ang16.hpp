@@ -198,7 +198,6 @@ class Ang16
     EXPORT Ang16* AssignNormalized_409300(Ang16& input, s32 a3);
     EXPORT Ang16 SubtractNormalized_409340(const Ang16& toSub);
     EXPORT static Ang16 __stdcall Fix16_To_Ang16_482740(Fix16& a2);
-    EXPORT Ang16* FromFix16_4516B0(Fix16* a2, s32 a3);
 
     // Normalizing copy, needed by Weapon_30::fire_truck_flamethrower_5E0B10
     Ang16(Ang16& input, s32 a3)
@@ -206,11 +205,10 @@ class Ang16
         AssignNormalized_409300(input, a3);
     }
 
-    // Needed by miss2_0x11C::SCRCMD_CRANE_5041C0.
-    Ang16(Fix16* a2, s32 a3)
-    {
-        FromFix16_4516B0(a2, a3);
-    }
+    // The out-of-line copy of Ang16(Fix16& value, u8) (9.6f 0x401C40). A real constructor, not a
+    // method: when it is called out of line its 0 argument is pushed before the Fix16 argument is
+    // evaluated (Particle_8::EmitImpactParticles_53FE40). Also used by miss2_0x11C::SCRCMD_CRANE_5041C0.
+    EXPORT Ang16(Fix16* a2, s32 a3);
 
     inline static Fix16 __stdcall cosine_40F520(const Ang16& angle)
     {
@@ -313,12 +311,12 @@ class Ang16
         return Ang16(Fix16(rValue) * a2, 0);
     }
 
-    // MultiplyByFix16_401CB0 with the multiply and the Fix16* constructor out of line
+    // MultiplyByFix16_401CB0 with the multiply and the Fix16* constructor out of line. The product
+    // goes straight into the constructor call, so its 0 argument is pushed before the multiply
     // (Particle_8::EmitImpactParticles_53FE40)
     Ang16 MultiplyByFix16_401CB0_out_of_line(const Fix16& a2)
     {
-        Fix16 tmp = Fix16(rValue).Multiply_408680(a2);
-        return Ang16(&tmp, 0);
+        return Ang16((Fix16*)&(const Fix16&)Fix16(rValue).Multiply_408680(a2), 0);
     }
 
     // MultiplyByFix16_401CB0 with the multiply inline and the Fix16* constructor out of line

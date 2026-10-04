@@ -2187,8 +2187,7 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                 gParticle_8_6FD5E8->EmitImpactParticles_53FE40(field_4->field_14_xy.x,
                                                                field_4->field_14_xy.y,
                                                                field_4->field_1C_zpos,
-                                                               dir.x,
-                                                               dir.y);
+                                                               dir);
                 Object_2C::RequestRemoval_5290A0();
             }
             else
@@ -2569,8 +2568,7 @@ void Object_2C::HandleImpactNoSprite_528BA0()
             gParticle_8_6FD5E8->EmitImpactParticles_53FE40(field_4->field_14_xy.x,
                                                            field_4->field_14_xy.y,
                                                            field_4->field_1C_zpos,
-                                                           point.x,
-                                                           point.y);
+                                                           point);
             break;
         }
 

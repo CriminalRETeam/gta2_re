@@ -3637,8 +3637,7 @@ void CarAI_78::UpdateStateMachine_44E560()
         // Probe one unit ahead in the direction we are turning to
         field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_xpos_677C38, gCurrCarAI_ypos_677C30, gCurrCarAI_zpos_677C48);
         Fix16 v247 = (Fix16(kAng45_677A38.rValue) * Fix16(this->field_0_car->field_58_physics->field_AD_turn_direction));
-        Ang16 v244;
-        v244.FromFix16_4516B0(&v247, 0);
+        Ang16 v244(&v247, 0);
         Ang16 v240 = v244 + this->field_10_angle;
         Ang16::PolarToCartesian_41FC20(v240, gF16fOne_677B94, dx, dy);
         field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + dx,

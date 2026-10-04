@@ -545,20 +545,25 @@ void Particle_8::EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite)
 
 // https://decomp.me/scratch/wfzEd
 WIP_FUNC(0x53FE40)
-void Particle_8::EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16 sinv, Fix16 cosv)
+void Particle_8::EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16_Point dir)
 {
     WIP_IMPLEMENTED;
 
+    // 9.6f declares both angles up front. dir is destroyed by the callee; the unused point gives
+    // the EH state 2 that the original sets once t is built.
+    Ang16 ang1;
+    Ang16 tanAng;
+    Fix16_Point unused;
     Fix16_Point t(Fix16(0), Fix16(0));
-    Ang16 tanAng = Fix16::atan2_fixed_405320(cosv, sinv);
+    tanAng = dir.atan2_40F790();
 
     for (u8 i = 0; i < 6; ++i)
     {
         t.x = Fix16(0);
-        t.y = (dword_6FD4EC * (dword_6FD558 + Fix16(gRng_6F6784.get_int_4F7AE0(100))));
+        t.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + dword_6FD558) * dword_6FD4EC;
         if (i < 4)
         {
-            Ang16 ang1 = word_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(gRng_6F6784.get_int_4F7AE0(32)));
+            ang1 = word_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(gRng_6F6784.get_int_4F7AE0(32)));
             Ang16 ang2 = word_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(16));
             Ang16 sum = ang1 + tanAng;
             Ang16 rot(Ang16(sum.rValue - ang2.rValue), 0);
@@ -566,14 +571,14 @@ void Particle_8::EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16 sin
         }
         else
         {
-            Ang16 ang1 = word_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(gRng_6F6784.get_int_4F7AE0(360)));
+            ang1 = word_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(gRng_6F6784.get_int_4F7AE0(360)));
             Ang16 ang2 = word_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(180));
             Ang16 sum(Ang16(ang1.rValue + tanAng.rValue), 0);
             Ang16 rot(Ang16(sum.rValue - ang2.rValue), 0);
-            t.RotateByAngle_40F6B0_all_out_of_line(rot);
+            t.RotateByAngle_NegOOL_40F6B0(rot);
         }
 
-        Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(t.x, t.y, dword_6FD330, t.x.DivideInt_53E860(15).Negate_4086A0(), t.y.DivideInt_53E860(15).Negate_4086A0(), Fix16(0));
+        Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(t.x, t.y, dword_6FD330, t.x.DivideInt_53E860(15).Negate_4086A0(), t.y.DivideInt_53E860(15).Negate_4086A0(), 0);
         if (pNew4C)
         {
             pNew4C->field_34 = 1;

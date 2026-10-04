@@ -4370,8 +4370,7 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
             gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pObj->field_4->field_14_xy.x,
                                                            pObj->field_4->field_14_xy.y,
                                                            pObj->field_4->field_1C_zpos,
-                                                           offset.x,
-                                                           offset.y);
+                                                           offset);
             break;
 
         default:
@@ -4384,8 +4383,7 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
             gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pObj->field_4->field_14_xy.x,
                                                            pObj->field_4->field_14_xy.y,
                                                            pObj->field_4->field_1C_zpos,
-                                                           offset.x,
-                                                           offset.y);
+                                                           offset);
             break;
 
         case 198:
