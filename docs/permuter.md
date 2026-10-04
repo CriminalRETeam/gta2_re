@@ -32,6 +32,11 @@ Scripts/permute.sh Source/Foo.cpp Foo::Bar_123456 123456 --base-only   # just pr
 - `cache_member` (a member path read into a local: by value, `T&` or `T*`, typed from the member
   declarations in the included headers), `ref_local` (`T x = e` vs `const T& x = e`), `incdec`,
   `cond_temp` and `pow2_shift` are the rewrites most often tried by hand.
+- `permute.sh` passes `--extern-globals`: each global the function reads can also be switched
+  between its `DEFINE_GLOBAL...` definition and an `EXTERN_GLOBAL` declaration in that file (or the
+  other way, with the definition copied from another .cpp). See the 2-byte global entry in
+  matching_quirks.md. If a candidate wins with a switch, move the definition by hand: an extern
+  needs the `DEFINE_GLOBAL` line in another .cpp that uses the global.
 - Every run keeps a checkpoint in `permuter_out/`. Run the same command again with `--resume` to
   carry on after a timeout or Ctrl-C (`-n` then counts the new run's compiles). With `-j 1` a seed
   always gives the same candidates.
