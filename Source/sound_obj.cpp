@@ -88,7 +88,7 @@ static inline s32 Max(s32 a, s32 b)
 
 static inline s32 Clamp2(s32 v, s32 center, s32 radius)
 {
-    return v > center ? Min(v, center + radius) : Max(v, center - radius);
+    return v > center ? Min(center + radius, v) : Max(center - radius, v);
 }
 
 // Was marked as a match, but 0x419CD0 wasn't in og_function_data_v105.csv, so it was never
@@ -681,111 +681,109 @@ void sound_obj::ProcessActiveQueues_41AB80()
 {
     WIP_IMPLEMENTED;
     serene_brattain position;
+    f32 x;
+    f32 y;
+    f32 z;
+    u8 i;
+    u8 j;
+
     for (u8 idx = 0; idx < field_10_nActiveSamples; idx++)
     {
         field_9C_asSamples[field_98_nActiveSampleQueue][idx].field_2C_bIsBeingPlayed = 0;
         field_DC0_ActiveSamples[idx].field_2C_bIsBeingPlayed = 0;
     }
 
-    for (u8 i = 0; i < field_DBC_SampleRequestQueuesStatus[field_98_nActiveSampleQueue]; i++)
+    for (i = 0; i < field_DBC_SampleRequestQueuesStatus[field_98_nActiveSampleQueue]; i++)
     {
-        sound_0x68& Sample =
+        sound_0x68& sample =
             field_9C_asSamples[field_98_nActiveSampleQueue][field_D9C_abSampleQueueIndexTable[field_98_nActiveSampleQueue][i]];
-        for (u8 j = 0; j < field_10_nActiveSamples; j++)
+        for (j = 0; j < field_10_nActiveSamples; j++)
         {
-            sound_0x68& t = field_DC0_ActiveSamples[j];
+            sound_0x68& active = field_DC0_ActiveSamples[j];
 
-            if (Sample.field_0_EntityIndex != t.field_0_EntityIndex || Sample.field_4_SampleIndex != t.field_4_SampleIndex ||
-                Sample.field_41 == 2 || (t.field_5C != 0 && Sample.field_5C == 0))
+            if (sample.field_0_EntityIndex != active.field_0_EntityIndex || sample.field_4_SampleIndex != active.field_4_SampleIndex ||
+                sample.field_41 == 2 || (active.field_5C && !sample.field_5C))
             {
                 continue;
             }
 
-            // OBS: field_14_samp_idx = u32
-            if (!InitSampleForType_412260(&Sample) || Sample.field_14_samp_idx >= 0x141 || Sample.field_14_samp_idx != t.field_14_samp_idx)
+            if (!InitSampleForType_412260(&sample) || sample.field_14_samp_idx >= 321 || sample.field_14_samp_idx != active.field_14_samp_idx)
             {
                 continue;
             }
 
-            UpdateFramesToPlay_41B490(&Sample);
+            UpdateFramesToPlay_41B490(&sample);
 
-            if (Sample.field_30_loop_count > 0) // OBS: field_30 = u32
+            if (sample.field_30_loop_count > 0)
             {
-                if (t.field_44_frames_to_play == 0)
+                if (active.field_44_frames_to_play == 0)
                 {
-                    bool Channel3DUsedFlag_58DF70;
+                    bool bUsed;
                     if (field_1D_b3d_sound)
                     {
-                        Channel3DUsedFlag_58DF70 = gSampManager_6FFF00.GetChannel3DUsedFlag_58DF70(j); // SLODWORD(v64)
+                        bUsed = gSampManager_6FFF00.GetChannel3DUsedFlag_58DF70(j);
                     }
                     else
                     {
-                        Channel3DUsedFlag_58DF70 = gSampManager_6FFF00.GetChannelUsedFlag_58DD80(j);
+                        bUsed = gSampManager_6FFF00.GetChannelUsedFlag_58DD80(j);
                     }
 
-                    if (!Channel3DUsedFlag_58DF70)
+                    if (!bUsed)
                     {
-                        Sample.field_2D_bIsPlayingFinished = true;
-                        t.field_2D_bIsPlayingFinished = true;
-                        t.field_14_samp_idx = 321;
-                        t.field_0_EntityIndex = 0;
+                        sample.field_2D_bIsPlayingFinished = true;
+                        active.field_2D_bIsPlayingFinished = true;
+                        active.field_14_samp_idx = 321;
+                        active.field_0_EntityIndex = 0;
                         continue;
                     }
-                    else
-                    {
-                        t.field_44_frames_to_play = field_8_frames_per_second *
-                            gSampManager_6FFF00.GetSampleLength_maybe_58DC70(field_DC0_ActiveSamples[j].field_14_samp_idx) /
-                            Sample.field_20_rate;
-                    }
+                    active.field_44_frames_to_play = field_8_frames_per_second *
+                        gSampManager_6FFF00.GetSampleLength_maybe_58DC70(active.field_14_samp_idx) / sample.field_20_rate;
                 }
                 else
                 {
-                    t.field_44_frames_to_play--;
+                    active.field_44_frames_to_play--;
                 }
             }
 
-            Sample.field_2C_bIsBeingPlayed = true;
-            t.field_2C_bIsBeingPlayed = true;
-            Sample.field_50_volume_change = -1; // nVolumeChange
+            sample.field_2C_bIsBeingPlayed = true;
+            active.field_2C_bIsBeingPlayed = true;
+            sample.field_50_volume_change = -1;
 
-            if (Sample.field_41)
+            if (sample.field_41)
             {
-                Sample.field_2C_bIsBeingPlayed = false;
-                t.field_2C_bIsBeingPlayed = false;
+                sample.field_2C_bIsBeingPlayed = false;
+                active.field_2C_bIsBeingPlayed = false;
                 continue;
             }
 
-            if (Sample.field_18_bIs2D) // is2D
+            if (sample.field_18_bIs2D)
             {
                 if (field_1D_b3d_sound)
                 {
-                    s32 emittingVol = field_1A_bDoubleVolume ? 2 * (Sample.field_60_nEmittingVolume < 63 ? Sample.field_60_nEmittingVolume : 63) : Sample.field_60_nEmittingVolume;
-
-                    gSampManager_6FFF00.SetChannel3DFrequency_58DF00(j, Sample.field_20_rate);
+                    s32 emittingVol = field_1A_bDoubleVolume ? 2 * (sample.field_60_nEmittingVolume < 63 ? sample.field_60_nEmittingVolume : 63) : sample.field_60_nEmittingVolume;
+                    gSampManager_6FFF00.SetChannel3DFrequency_58DF00(j, sample.field_20_rate);
                     gSampManager_6FFF00.SetChannel3DVolume_58DE80(j, (u8)((emittingVol * field_24_sfx_vol) >> 7));
                 }
                 else
                 {
-                    s32 emittingVol = field_1A_bDoubleVolume ? 2 * (Sample.field_24_nVolume < 63 ? Sample.field_24_nVolume : 63) : Sample.field_24_nVolume;
-
-                    gSampManager_6FFF00.SetChannelFrequency_58DD20(j, Sample.field_20_rate);
+                    s32 emittingVol = field_1A_bDoubleVolume ? 2 * (sample.field_24_nVolume < 63 ? sample.field_24_nVolume : 63) : sample.field_24_nVolume;
+                    gSampManager_6FFF00.SetChannelFrequency_58DD20(j, sample.field_20_rate);
                     gSampManager_6FFF00.SetChannelVolume_58DCE0(j, (emittingVol * field_24_sfx_vol) >> 7);
-                    gSampManager_6FFF00.SetChannelPan_58DD00(j, (u8)Sample.field_40_pan);
+                    gSampManager_6FFF00.SetChannelPan_58DD00(j, (u8)sample.field_40_pan);
                 }
-
                 break;
             }
 
-            s32 new_dist = Sample.field_28_distance.ToInt();
-            s32 old_dist = t.field_28_distance.ToInt();
-            t.field_28_distance = new_dist;
-            // doppler effect?
-            Sample.field_20_rate = sound_obj::AdjustPlaybackRate_41A580(Sample.field_20_rate, old_dist, new_dist, Sample.field_3C_speed_multiplier);
-            if (Sample.field_20_rate != t.field_20_rate)
+            // Doppler: the old distance is passed, the new one stored, both truncated to whole units
+            s32 old_dist = active.field_28_distance.ToInt();
+            s32 new_dist = sample.field_28_distance.ToInt();
+            active.field_28_distance = Fix16(new_dist);
+            sample.field_20_rate =
+                AdjustPlaybackRate_41A580(sample.field_20_rate, old_dist, new_dist, Fix16(sample.field_3C_speed_multiplier, 0));
+            if (sample.field_20_rate != active.field_20_rate)
             {
-                u32 freq = Clamp2((s32)Sample.field_20_rate, (s32)t.field_20_rate, 6000);
-                t.field_20_rate = freq;
-
+                u32 freq = Clamp2(sample.field_20_rate, active.field_20_rate, 6000);
+                active.field_20_rate = freq;
                 if (field_1D_b3d_sound)
                 {
                     gSampManager_6FFF00.SetChannel3DFrequency_58DF00(j, freq);
@@ -796,181 +794,166 @@ void sound_obj::ProcessActiveQueues_41AB80()
                 }
             }
 
-            s32 volume_1;
-            s32 volume_2;
-
+            s32 oldVolume;
+            s32 newVolume;
             if (field_1D_b3d_sound)
             {
-                volume_1 = t.field_60_nEmittingVolume;
-                volume_2 = Sample.field_60_nEmittingVolume;
+                oldVolume = active.field_60_nEmittingVolume;
+                newVolume = sample.field_60_nEmittingVolume;
             }
             else
             {
-                volume_1 = t.field_24_nVolume;
-                volume_2 = Sample.field_24_nVolume;
+                oldVolume = active.field_24_nVolume;
+                newVolume = sample.field_24_nVolume;
             }
 
-            // volume_1 = v30
-            // volume_2 = v31
-            if (volume_2 != volume_1)
+            if (newVolume != oldVolume)
             {
-                u32 volume = Clamp2(volume_2, volume_1, 10);
-                u32 new_volume = field_1A_bDoubleVolume ? 2 * Min(63, volume) : volume;
+                s32 volume = Clamp2(newVolume, oldVolume, 10);
+                s32 emittingVol = field_1A_bDoubleVolume ? 2 * Min(volume, 63) : volume;
                 if (field_1D_b3d_sound)
                 {
-
-                    gSampManager_6FFF00.SetChannel3DVolume_58DE80(j, (u8)((new_volume * field_24_sfx_vol) >> 7));
-                    t.field_60_nEmittingVolume = volume;
+                    gSampManager_6FFF00.SetChannel3DVolume_58DE80(j, (u8)((emittingVol * field_24_sfx_vol) >> 7));
+                    active.field_60_nEmittingVolume = volume;
                 }
                 else
                 {
-                    gSampManager_6FFF00.SetChannelVolume_58DCE0(j, (u8)((new_volume * field_24_sfx_vol) >> 7));
-                    t.field_24_nVolume = volume;
+                    gSampManager_6FFF00.SetChannelVolume_58DCE0(j, (u8)((emittingVol * field_24_sfx_vol) >> 7));
+                    active.field_24_nVolume = volume;
                 }
             }
 
-            // more stuff here....
-
-            sound_obj::VecDiff_41B4E0(&Sample.field_8_obj, &position);
+            VecDiff_41B4E0(&sample.field_8_obj, &position);
 
             if (field_1D_b3d_sound)
             {
-                f32 x;
-                f32 y;
-                f32 z;
-                sound_obj::FromFix16_41B520(position.field_0_x, &x);
-                sound_obj::FromFix16_41B520(position.field_4_y, &y);
-                sound_obj::FromFix16_41B520(position.field_8_z, &z);
-                gSampManager_6FFF00.SetChannel3DPosition_58DEA0(j, x, y, z);
-                gSampManager_6FFF00.SetChannel3DDistances_58DED0(j, Sample.field_64_max_distance, Sample.field_64_max_distance >> 2);
+                FromFix16_41B520(position.field_0_x, &x);
+                FromFix16_41B520(position.field_4_y, &y);
+                FromFix16_41B520(position.field_8_z, &z);
+                // The original passes 0 for y and -y for z (z is computed but unused)
+                gSampManager_6FFF00.SetChannel3DPosition_58DEA0(j, x, 0.0f, -y);
+                gSampManager_6FFF00.SetChannel3DDistances_58DED0(j,
+                                                                 (u32)sample.field_64_max_distance,
+                                                                 (u32)sample.field_64_max_distance >> 2);
                 break;
             }
 
-            u8 pan = sound_obj::ComputePan_41A4A0(Sample.field_54_sound_intensity, position.field_0_x);
-            if (pan != t.field_40_pan)
+            s32 pan = (u8)active.field_40_pan;
+            s32 newPan = ComputePan_41A4A0(sample.field_54_sound_intensity, position.field_0_x);
+            if (newPan != pan)
             {
-                pan = Clamp2(pan, t.field_40_pan, 10);
-                gSampManager_6FFF00.SetChannelPan_58DD00(j, pan);
-                t.field_40_pan = pan;
+                pan = Clamp2(newPan, pan, 10);
+                gSampManager_6FFF00.SetChannelPan_58DD00(j, (u8)pan);
+                active.field_40_pan = pan;
             }
-
-            // SampleManager.SetChannelReverbFlag(j, sample.m_bReverb);
             break;
-        } // end FOR j
-
-    } // end FOR i
-
-    for (u8 k = 0; k < field_10_nActiveSamples; k++)
-    {
-        sound_0x68& t = field_DC0_ActiveSamples[k];
-        if (t.field_14_samp_idx == 321 || t.field_2C_bIsBeingPlayed)
-        {
-            continue;
         }
-
-        if (field_1D_b3d_sound)
-        {
-            gSampManager_6FFF00.StopChannel3D_58DFC0(k);
-        }
-        else
-        {
-            gSampManager_6FFF00.StopChannel_58DDD0(k);
-        }
-        t.field_14_samp_idx = 321;
-        t.field_0_EntityIndex = 0;
     }
 
-    for (u8 l = 0; l < field_DBC_SampleRequestQueuesStatus[field_98_nActiveSampleQueue]; l++)
+    for (j = 0; j < field_10_nActiveSamples; j++)
     {
-        sound_0x68& Samp =
-            field_9C_asSamples[field_98_nActiveSampleQueue][field_D9C_abSampleQueueIndexTable[field_98_nActiveSampleQueue][l]];
-        if (Samp.field_2C_bIsBeingPlayed || Samp.field_2D_bIsPlayingFinished || !field_147C_audio_entities[Samp.field_0_EntityIndex].field_0_bUsed ||
-            !field_10_nActiveSamples)
+        sound_0x68& active = field_DC0_ActiveSamples[j];
+        if (active.field_14_samp_idx != 321 && !active.field_2C_bIsBeingPlayed)
+        {
+            if (field_1D_b3d_sound)
+            {
+                gSampManager_6FFF00.StopChannel3D_58DFC0(j);
+            }
+            else
+            {
+                gSampManager_6FFF00.StopChannel_58DDD0(j);
+            }
+            active.field_14_samp_idx = 321;
+            active.field_0_EntityIndex = 0;
+        }
+    }
+
+    for (i = 0; i < field_DBC_SampleRequestQueuesStatus[field_98_nActiveSampleQueue]; i++)
+    {
+        sound_0x68& sample =
+            field_9C_asSamples[field_98_nActiveSampleQueue][field_D9C_abSampleQueueIndexTable[field_98_nActiveSampleQueue][i]];
+        if (sample.field_2C_bIsBeingPlayed || sample.field_2D_bIsPlayingFinished ||
+            !field_147C_audio_entities[sample.field_0_EntityIndex].field_0_bUsed)
         {
             continue;
         }
 
-        for (u8 m = 0; m < field_10_nActiveSamples; m++)
+        for (j = 0; j < field_10_nActiveSamples; j++)
         {
-            sound_0x68& t = field_DC0_ActiveSamples[m];
-            if (t.field_2C_bIsBeingPlayed || !sound_obj::InitSampleForType_412260(&Samp) || Samp.field_14_samp_idx >= 0x141u)
+            sound_0x68& active = field_DC0_ActiveSamples[j];
+            if (active.field_2C_bIsBeingPlayed || !InitSampleForType_412260(&sample) || sample.field_14_samp_idx >= 321)
             {
                 continue;
             }
 
-            sound_obj::UpdateFramesToPlay_41B490(&Samp);
+            UpdateFramesToPlay_41B490(&sample);
 
-            if (Samp.field_30_loop_count > 0) // LoopCount
+            if (sample.field_30_loop_count > 0)
             {
-                u32 samplesPerFrame = Samp.field_20_rate / (u32)field_8_frames_per_second;
-                u32 samplesToPlay = Samp.field_30_loop_count * gSampManager_6FFF00.GetSampleLength_maybe_58DC70(Samp.field_14_samp_idx);
-                if (samplesToPlay == 0)
+                u32 samplesPerFrame = sample.field_20_rate / field_8_frames_per_second;
+                u32 samplesToPlay = sample.field_30_loop_count * gSampManager_6FFF00.GetSampleLength_maybe_58DC70(sample.field_14_samp_idx);
+                if (samplesPerFrame == 0)
                 {
                     continue;
                 }
-                Samp.field_4C_releasing_volume_divider = samplesToPlay / samplesPerFrame + 1;
+                sample.field_4C_releasing_volume_divider = samplesToPlay / samplesPerFrame + 1;
             }
-            memcpy(&t, &Samp, sizeof(sound_0x68));
 
-            serene_brattain position2;
-            if (!t.field_18_bIs2D)
+            memcpy(&active, &sample, sizeof(sound_0x68));
+
+            if (!active.field_18_bIs2D)
             {
-
-                sound_obj::VecDiff_41B4E0(&Samp.field_8_obj, &position2);
-                if (field_1D_b3d_sound)
+                VecDiff_41B4E0(&active.field_8_obj, &position);
+                if (!field_1D_b3d_sound)
                 {
-                    goto AUDIO_3D; // TODO: remove this
+                    active.field_40_pan = ComputePan_41A4A0(active.field_54_sound_intensity, position.field_0_x);
                 }
-                Samp.field_40_pan = sound_obj::ComputePan_41A4A0(Samp.field_54_sound_intensity, position2.field_0_x);
             }
 
             if (field_1D_b3d_sound)
             {
-            AUDIO_3D:
-                s32 emittingVol = field_1A_bDoubleVolume ? 2 * (Samp.field_60_nEmittingVolume < 63 ? Samp.field_60_nEmittingVolume : 63) : Samp.field_60_nEmittingVolume;
+                s32 emittingVol = field_1A_bDoubleVolume ? 2 * (active.field_60_nEmittingVolume < 63 ? active.field_60_nEmittingVolume : 63) : active.field_60_nEmittingVolume;
+                gSampManager_6FFF00.InitialiseChannel3D_58DDF0(j, active.field_14_samp_idx, active.field_20_rate);
+                gSampManager_6FFF00.SetChannel3DFrequency_58DF00(j, active.field_20_rate);
+                gSampManager_6FFF00.SetChannel3DVolume_58DE80(j, (u8)((emittingVol * field_24_sfx_vol) >> 7));
+                gSampManager_6FFF00.SetChannel3DLoopCount_58DF50(j, active.field_30_loop_count);
+                gSampManager_6FFF00.SetChannel3DLoopPoints_58DF20(j, active.field_34_loop_start, active.field_38_loop_end);
 
-                gSampManager_6FFF00.InitialiseChannel3D_58DDF0(m, Samp.field_14_samp_idx, Samp.field_20_rate);
-                gSampManager_6FFF00.SetChannel3DFrequency_58DF00(m, Samp.field_20_rate);
-                gSampManager_6FFF00.SetChannel3DVolume_58DE80(m, (u8)((emittingVol * field_24_sfx_vol) >> 7));
-                gSampManager_6FFF00.SetChannel3DLoopCount_58DF50(m, Samp.field_30_loop_count);
-                gSampManager_6FFF00.SetChannel3DLoopPoints_58DF20(m, Samp.field_34_loop_start, Samp.field_38_loop_end);
-
-                f32 xpos;
-                f32 ypos;
-                f32 zpos;
-                if (Samp.field_18_bIs2D)
+                if (active.field_18_bIs2D)
                 {
-                    xpos = 0;
-                    ypos = 0.0;
-                    zpos = 0.0;
-                    Samp.field_54_sound_intensity = 1638400000;
+                    x = 0.0f;
+                    y = 0.0f;
+                    z = 0.0f;
+                    active.field_54_sound_intensity = 1638400000;
                 }
                 else
                 {
-                    sound_obj::FromFix16_41B520(position2.field_0_x, &xpos);
-                    sound_obj::FromFix16_41B520(position2.field_4_y, &ypos);
-                    sound_obj::FromFix16_41B520(position2.field_8_z, &zpos);
+                    FromFix16_41B520(position.field_0_x, &x);
+                    FromFix16_41B520(position.field_4_y, &y);
+                    FromFix16_41B520(position.field_8_z, &z);
                 }
 
-                gSampManager_6FFF00.SetChannel3DPosition_58DEA0(m, xpos, ypos, zpos);
-                gSampManager_6FFF00.SetChannel3DDistances_58DED0(m, Samp.field_64_max_distance, Samp.field_64_max_distance >> 2);
-                gSampManager_6FFF00.StartChannel3D_58DFA0(m);
+                gSampManager_6FFF00.SetChannel3DPosition_58DEA0(j, x, 0.0f, -y);
+                gSampManager_6FFF00.SetChannel3DDistances_58DED0(j,
+                                                                 (u32)active.field_64_max_distance,
+                                                                 (u32)active.field_64_max_distance >> 2);
+                gSampManager_6FFF00.StartChannel3D_58DFA0(j);
             }
             else
             {
-                s32 emittingVol = field_1A_bDoubleVolume ? 2 * (Samp.field_24_nVolume < 63 ? Samp.field_24_nVolume : 63) : Samp.field_24_nVolume;
-                gSampManager_6FFF00.InitialiseChannel_58DC90(m, Samp.field_14_samp_idx);
-                gSampManager_6FFF00.SetChannelFrequency_58DD20(m, Samp.field_20_rate);
-                gSampManager_6FFF00.SetChannelVolume_58DCE0(m, (u8)((emittingVol * field_24_sfx_vol) >> 7));
-                gSampManager_6FFF00.SetChannelPan_58DD00(m, (u8)Samp.field_40_pan);
-                gSampManager_6FFF00.SetChannelLoopCount_58DD60(m, Samp.field_30_loop_count);
-                gSampManager_6FFF00.SetChannelLoopPoints_58DD40(m, Samp.field_34_loop_start, Samp.field_38_loop_end);
-                gSampManager_6FFF00.StartChannel_58DDB0(m);
+                s32 emittingVol = field_1A_bDoubleVolume ? 2 * (active.field_24_nVolume < 63 ? active.field_24_nVolume : 63) : active.field_24_nVolume;
+                gSampManager_6FFF00.InitialiseChannel_58DC90(j, active.field_14_samp_idx);
+                gSampManager_6FFF00.SetChannelFrequency_58DD20(j, active.field_20_rate);
+                gSampManager_6FFF00.SetChannelVolume_58DCE0(j, (u8)((emittingVol * field_24_sfx_vol) >> 7));
+                gSampManager_6FFF00.SetChannelPan_58DD00(j, (u8)active.field_40_pan);
+                gSampManager_6FFF00.SetChannelLoopCount_58DD60(j, active.field_30_loop_count);
+                gSampManager_6FFF00.SetChannelLoopPoints_58DD40(j, active.field_34_loop_start, active.field_38_loop_end);
+                gSampManager_6FFF00.StartChannel_58DDB0(j);
             }
 
-            t.field_2C_bIsBeingPlayed = true;
-            Samp.field_2C_bIsBeingPlayed = true;
-            Samp.field_50_volume_change = -1;
+            active.field_2C_bIsBeingPlayed = true;
+            sample.field_2C_bIsBeingPlayed = true;
+            sample.field_50_volume_change = -1;
             break;
         }
     }
