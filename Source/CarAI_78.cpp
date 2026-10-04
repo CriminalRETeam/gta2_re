@@ -2449,8 +2449,11 @@ void CarAI_78::sub_44D1D0()
 {
     WIP_IMPLEMENTED;
 
-    s32 v2 = 0;
-    s8 v109 = 0;
+    Fix16 x_off;
+    Fix16 y_off;
+    s8 arrow_count = 0;
+    char_type arrow_idx;
+    u8 bSlowerThanTarget = 0;
 
     byte_677A94 = 0;
     if (this->field_0_car->field_84_car_info_idx == car_model_enum::BUS)
@@ -2490,13 +2493,11 @@ void CarAI_78::sub_44D1D0()
     }
     else
     {
-        Fix16 v4 = (gSin_table_667A80[this->field_10_angle.rValue] * kFpThree_677B9C);
-        Fix16 v5 = (gCos_table_669260[this->field_10_angle.rValue] * kFpThree_677B9C);
-
-        Fix16 v8 = v5 + field_0_car->field_50_car_sprite->field_14_xy.y;
-        Fix16 v9 = v4 + field_0_car->field_50_car_sprite->field_14_xy.x;
-
-        this->field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v9, v8, field_0_car->field_50_car_sprite->field_1C_zpos);
+        // Look for a car 3 units ahead
+        Ang16::PolarToCartesian_41FC20(field_10_angle, kFpThree_677B9C, x_off, y_off);
+        field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + x_off,
+                                                              field_0_car->field_50_car_sprite->field_14_xy.y + y_off,
+                                                              field_0_car->field_50_car_sprite->field_1C_zpos);
 
         if (!this->field_70_nearest_entity)
         {
@@ -2504,407 +2505,315 @@ void CarAI_78::sub_44D1D0()
         }
     }
 
-    Sprite* v10 = this->field_70_nearest_entity;
-    if (!v10)
+    if (!this->field_70_nearest_entity)
     {
         return;
     }
 
-    if (v10->field_30_sprite_type_enum != sprite_types_enum::car_2)
+    if (this->field_70_nearest_entity->field_30_sprite_type_enum != sprite_types_enum::car_2)
     {
         return;
     }
 
-    if (byte_677BBC && gCurrCarAI_TargetCar_6779B0 == v10->field_8_car_bc_ptr)
+    if (byte_677BBC && gCurrCarAI_TargetCar_6779B0 == this->field_70_nearest_entity->field_8_car_bc_ptr)
     {
         return;
     }
 
     if (!byte_677A94)
     {
-        if (v10->field_8_car_bc_ptr->GetCarLinearSpeed_43A240() < dword_677A8C)
+        if (field_70_nearest_entity->field_8_car_bc_ptr->GetCarLinearSpeed_43A240() < dword_677A8C)
         {
-            v2 = 1;
+            bSlowerThanTarget = 1;
         }
+
         if (byte_677A6C && this->field_70_nearest_entity->field_8_car_bc_ptr == gCurrCarAI_TargetCar_6779B0)
         {
             return;
         }
 
-        CarAI_78* v11 = this->field_70_nearest_entity->field_8_car_bc_ptr->field_5C_AI;
-        if (v11)
+        CarAI_78* pOtherAI = this->field_70_nearest_entity->field_8_car_bc_ptr->field_5C_AI;
+        if (pOtherAI)
         {
-            if (dword_677A8C > v11->field_74_unk_speed)
+            if (dword_677A8C > pOtherAI->field_74_unk_speed)
             {
-                v2 = 1;
+                bSlowerThanTarget = 1;
             }
-            if ((v11->field_24_flags & 0x100) == 0x100)
+            if ((pOtherAI->field_24_flags & 0x100) == 0x100)
             {
                 return;
             }
         }
-        if (!v2)
+
+        if (!bSlowerThanTarget)
         {
             return;
         }
     }
 
-    s32 v12 = 0;
-    u8 v111 = 0;
-    do
+    // Look for a slope in the 5 blocks in front of the car
+    for (u8 i = 0; i < 5; i++)
     {
-        Fix16 v112 = (gF16fOne_677B94 * (Fix16(v111)));
-        Fix16 v15 = (gSin_table_667A80[field_10_angle.rValue] * v112);
-        Fix16 v16 = (gCos_table_669260[field_10_angle.rValue] * v112);
-        Fix16 v17 = v15 + this->field_0_car->field_50_car_sprite->field_14_xy.x;
-        Fix16 v18 = v16 + this->field_0_car->field_50_car_sprite->field_14_xy.y;
-        dword_677A74 = v17;
-        dword_677A80 = v18;
+        Ang16::PolarToCartesian_41FC20(field_10_angle, gF16fOne_677B94 * Fix16(i), x_off, y_off);
+        dword_677A74 = field_0_car->field_50_car_sprite->field_14_xy.x + x_off;
+        dword_677A80 = field_0_car->field_50_car_sprite->field_14_xy.y + y_off;
 
-        if (v17 > kF16Zero_677B90 && v18 > kF16Zero_677B90 && v17 < kFp255_677950 && v18 < kFp255_677950)
+        if (dword_677A74 > kF16Zero_677B90 && dword_677A80 > kF16Zero_677B90 && dword_677A74 < kFp255_677950 &&
+            dword_677A80 < kFp255_677950)
         {
-            gmp_block_info* block_4DFE10 =
-                gMap_0x370_6F6268->get_block_4DFE10(v17.ToInt(), v18.ToInt(), this->field_0_car->field_50_car_sprite->field_1C_zpos.ToInt());
+            gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(dword_677A74.ToInt(),
+                                                                         dword_677A80.ToInt(),
+                                                                         field_0_car->field_50_car_sprite->field_1C_zpos.ToInt());
 
-            if (!block_4DFE10 || (block_4DFE10->field_B_slope_type & 0xFC) == 0 || (block_4DFE10->field_B_slope_type & 0xFCu) >= 0xB4 ||
-                (block_4DFE10->field_B_slope_type & 3) == 0)
+            if (!pBlock ||
+                !((u8)(pBlock->field_B_slope_type & 0xFC) > 0 && (u8)(pBlock->field_B_slope_type & 0xFC) < 0xB4 &&
+                  (pBlock->field_B_slope_type & 3) != 0))
             {
-                block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(dword_677A74.ToInt(),
-                                                                   dword_677A80.ToInt(),
-                                                                   (this->field_0_car->field_50_car_sprite->field_1C_zpos.ToInt()) - 1);
+                pBlock = gMap_0x370_6F6268->get_block_4DFE10(dword_677A74.ToInt(),
+                                                             dword_677A80.ToInt(),
+                                                             field_0_car->field_50_car_sprite->field_1C_zpos.ToInt() - 1);
             }
 
-            if (block_4DFE10 && sub_447D40(block_4DFE10))
+            if (pBlock && sub_447D40(pBlock))
             {
                 this->field_24_flags &= ~0x100u;
                 return;
             }
         }
-        v111 = ++v12;
-    } while (v12 < 5u);
+    }
 
-    char_type v20 = field_0_car->CountConsecutiveArrowBlocks_4410D0(field_10_angle, &v109, gCurrCarAI_xpos_677C38, gCurrCarAI_ypos_677C30);
-    char_type v110 = v20;
-    if (v109 <= 1)
+    arrow_idx = field_0_car->CountConsecutiveArrowBlocks_4410D0(field_10_angle, &arrow_count, gCurrCarAI_xpos_677C38, gCurrCarAI_ypos_677C30);
+    if (arrow_count <= 1)
     {
         return;
     }
 
-    u8 v21 = byte_677A94;
-    if (byte_677A94)
+    if ((byte_677A94 && (field_24_flags & 0x80000)) || (!byte_677A94 && arrow_idx > 0))
     {
-        if ((this->field_24_flags & 0x80000) == 0)
+        if (arrow_idx != arrow_count - 1)
         {
-            goto LABEL_90;
+            return;
         }
 
-    LABEL_48:
-        if (v20 == v109 - 1)
+        if (!byte_677A94 && !(dword_677A8C > dword_6779C0) &&
+            !(field_70_nearest_entity->field_8_car_bc_ptr->GetCarLinearSpeed_43A240() == kF16Zero_677B90))
         {
-            if (byte_677A94 || dword_677A8C > dword_6779C0 || field_70_nearest_entity->field_8_car_bc_ptr->GetCarLinearSpeed_43A240() == kF16Zero_677B90)
-            {
-                field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_xpos_677C38, gCurrCarAI_ypos_677C30, gCurrCarAI_zpos_677C48);
+            dword_677A8C = field_70_nearest_entity->field_8_car_bc_ptr->GetCarLinearSpeed_43A240();
+            return;
+        }
 
-                switch (this->field_4C_curr_direction)
+        field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_xpos_677C38, gCurrCarAI_ypos_677C30, gCurrCarAI_zpos_677C48);
+
+        switch (this->field_4C_curr_direction)
+        {
+            case car_ai_direction::north_1:
+                Ang16::PolarToCartesian_41FC20(kAng270_677B08, dword_6779D4, x_off, y_off);
+                field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + x_off,
+                                                                      field_0_car->field_50_car_sprite->field_14_xy.y + y_off,
+                                                                      field_0_car->field_50_car_sprite->field_1C_zpos);
+                if (gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
                 {
-                    case car_ai_direction::north_1:
-                    {
-                        Fix16 v26 = (gSin_table_667A80[kAng270_677B08.rValue] * dword_6779D4);
-                        Fix16 v27 = (gCos_table_669260[kAng270_677B08.rValue] * dword_6779D4);
-                        Fix16 v30 = v27 + field_0_car->field_50_car_sprite->field_14_xy.y;
-                        Fix16 v31 = v26 + field_0_car->field_50_car_sprite->field_14_xy.x;
-
-                        field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v31, v30, field_0_car->field_50_car_sprite->field_1C_zpos);
-
-                        if (!gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_0_car->field_50_car_sprite, 0))
-                        {
-                            Fix16 v33 = (kFpTwo_677B98 * gSin_table_667A80[kAng180_677ADE.rValue]);
-                            Fix16 v34 = (kFpTwo_677B98 * gCos_table_669260[kAng180_677ADE.rValue]);
-
-                            Fix16 v37 = v34 + field_0_car->field_50_car_sprite->field_14_xy.y;
-                            Fix16 v38 = v33 + field_0_car->field_50_car_sprite->field_14_xy.x;
-
-                            field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v38, v37, field_0_car->field_50_car_sprite->field_1C_zpos);
-
-                            if (!gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
-                            {
-                                // goto LABEL_89;
-                                this->field_2D = v20;
-                                this->field_2E = v20;
-                                this->field_24_flags |= 0x100;
-                                this->field_2F = v20 - 1;
-                                return;
-                            }
-                        }
-                        break;
-                    }
-
-                    case car_ai_direction::south_2:
-                    {
-                        Fix16 v39 = (dword_6779D4 * gSin_table_667A80[kAng90_6779E4.rValue]);
-                        Fix16 v41 = (dword_6779D4 * gCos_table_669260[kAng90_6779E4.rValue]);
-                        Fix16 v44 = v41 + field_0_car->field_50_car_sprite->field_14_xy.y;
-                        Fix16 v45 = v39 + field_0_car->field_50_car_sprite->field_14_xy.x;
-
-                        field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v45, v44, field_0_car->field_50_car_sprite->field_1C_zpos);
-
-                        if (!gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
-                        {
-                            Fix16 v46 = (kFpTwo_677B98 * gSin_table_667A80[kAng0_677CE8.rValue]);
-                            Fix16 v48 = (kFpTwo_677B98 * gCos_table_669260[kAng0_677CE8.rValue]);
-                            Fix16 v37 = v48 + field_0_car->field_50_car_sprite->field_14_xy.y;
-                            Fix16 v38 = v46 + field_0_car->field_50_car_sprite->field_14_xy.x;
-
-                            field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v38, v37, field_0_car->field_50_car_sprite->field_1C_zpos);
-
-                            // goto LABEL_65;
-                            if (!gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
-                            {
-                                // goto LABEL_89;
-                                this->field_2D = v20;
-                                this->field_2E = v20;
-                                this->field_24_flags |= 0x100;
-                                this->field_2F = v20 - 1;
-                                return;
-                            }
-                        }
-                        break;
-                    }
-
-                    case car_ai_direction::east_3:
-                    {
-                        Fix16 v49 = (dword_6779D4 * gSin_table_667A80[kAng180_677ADE.rValue]);
-                        Fix16 v51 = (dword_6779D4 * gCos_table_669260[kAng180_677ADE.rValue]);
-                        Fix16 v54 = v51 + field_0_car->field_50_car_sprite->field_14_xy.y;
-                        Fix16 v55 = v49 + field_0_car->field_50_car_sprite->field_14_xy.x;
-
-                        field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v55, v54, field_0_car->field_50_car_sprite->field_1C_zpos);
-
-                        if (!gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
-                        {
-                            Fix16 v56 = (gSin_table_667A80[kAng90_6779E4.rValue] * kFpTwo_677B98);
-                            Fix16 v58 = (gCos_table_669260[kAng90_6779E4.rValue] * kFpTwo_677B98);
-
-                            Fix16 v37 = v58 + field_0_car->field_50_car_sprite->field_14_xy.y;
-                            Fix16 v38 = v56 + field_0_car->field_50_car_sprite->field_14_xy.x;
-
-                            field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v38, v37, field_0_car->field_50_car_sprite->field_1C_zpos);
-
-                            // LABEL_65:
-                            if (!gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
-                            {
-                                // goto LABEL_89;
-                                this->field_2D = v20;
-                                this->field_2E = v20;
-                                this->field_24_flags |= 0x100;
-                                this->field_2F = v20 - 1;
-                                return;
-                            }
-                        }
-                        break;
-                    }
-
-                    case car_ai_direction::west_4:
-                    {
-                        Fix16 v59 = (dword_6779D4 * gSin_table_667A80[kAng0_677CE8.rValue]);
-                        Fix16 v61 = (dword_6779D4 * gCos_table_669260[kAng0_677CE8.rValue]);
-                        Fix16 v64 = v61 + field_0_car->field_50_car_sprite->field_14_xy.y;
-                        Fix16 v65 = v59 + field_0_car->field_50_car_sprite->field_14_xy.x;
-
-                        field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v65, v64, field_0_car->field_50_car_sprite->field_1C_zpos);
-
-                        if (!gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
-                        {
-                            Fix16 v66 = (gSin_table_667A80[kAng270_677B08.rValue] * kFpTwo_677B98);
-                            Fix16 v68 = (gCos_table_669260[kAng270_677B08.rValue] * kFpTwo_677B98);
-                            Fix16 v71 = v68 + field_0_car->field_50_car_sprite->field_14_xy.y;
-                            Fix16 v72 = v66 + field_0_car->field_50_car_sprite->field_14_xy.x;
-
-                            field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v72, v71, field_0_car->field_50_car_sprite->field_1C_zpos);
-
-                            if (!gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
-                            {
-                                //LABEL_89:
-                                this->field_2D = v20;
-                                this->field_2E = v20;
-                                this->field_24_flags |= 0x100;
-                                this->field_2F = v20 - 1;
-                            }
-                        }
-                        break;
-                    }
-
-                    default:
-                        return;
+                    return;
                 }
-            }
-            else
-            {
-                dword_677A8C = field_70_nearest_entity->field_8_car_bc_ptr->GetCarLinearSpeed_43A240();
-            }
+                Ang16::PolarToCartesian_41FC20(kAng180_677ADE, kFpTwo_677B98, x_off, y_off);
+                field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + x_off,
+                                                                      field_0_car->field_50_car_sprite->field_14_xy.y + y_off,
+                                                                      field_0_car->field_50_car_sprite->field_1C_zpos);
+                if (gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
+                {
+                    return;
+                }
+                break;
+
+            case car_ai_direction::south_2:
+                Ang16::PolarToCartesian_41FC20(kAng90_6779E4, dword_6779D4, x_off, y_off);
+                field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + x_off,
+                                                                      field_0_car->field_50_car_sprite->field_14_xy.y + y_off,
+                                                                      field_0_car->field_50_car_sprite->field_1C_zpos);
+                if (gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
+                {
+                    return;
+                }
+                Ang16::PolarToCartesian_41FC20(kAng0_677CE8, kFpTwo_677B98, x_off, y_off);
+                field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + x_off,
+                                                                      field_0_car->field_50_car_sprite->field_14_xy.y + y_off,
+                                                                      field_0_car->field_50_car_sprite->field_1C_zpos);
+                if (gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
+                {
+                    return;
+                }
+                break;
+
+            case car_ai_direction::east_3:
+                Ang16::PolarToCartesian_41FC20(kAng180_677ADE, dword_6779D4, x_off, y_off);
+                field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + x_off,
+                                                                      field_0_car->field_50_car_sprite->field_14_xy.y + y_off,
+                                                                      field_0_car->field_50_car_sprite->field_1C_zpos);
+                if (gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
+                {
+                    return;
+                }
+                Ang16::PolarToCartesian_41FC20(kAng90_6779E4, kFpTwo_677B98, x_off, y_off);
+                field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + x_off,
+                                                                      field_0_car->field_50_car_sprite->field_14_xy.y + y_off,
+                                                                      field_0_car->field_50_car_sprite->field_1C_zpos);
+                if (gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
+                {
+                    return;
+                }
+                break;
+
+            case car_ai_direction::west_4:
+                Ang16::PolarToCartesian_41FC20(kAng0_677CE8, dword_6779D4, x_off, y_off);
+                field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + x_off,
+                                                                      field_0_car->field_50_car_sprite->field_14_xy.y + y_off,
+                                                                      field_0_car->field_50_car_sprite->field_1C_zpos);
+                if (gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
+                {
+                    return;
+                }
+                Ang16::PolarToCartesian_41FC20(kAng270_677B08, kFpTwo_677B98, x_off, y_off);
+                field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + x_off,
+                                                                      field_0_car->field_50_car_sprite->field_14_xy.y + y_off,
+                                                                      field_0_car->field_50_car_sprite->field_1C_zpos);
+                if (gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
+                {
+                    return;
+                }
+                break;
+
+            default:
+                return;
         }
+
+        this->field_2D = arrow_idx;
+        this->field_24_flags |= 0x100;
+        this->field_2E = arrow_idx;
+        this->field_2F = arrow_idx - 1;
         return;
     }
 
-    if (v20 > 0)
+    CarAI_78* pOtherAI = field_70_nearest_entity->field_8_car_bc_ptr->field_5C_AI;
+    // goto: the original returns through its own inline epilogue copy here, which VC6 only emits for
+    // `if (c) goto ok; return;` (see docs/matching_quirks.md); `if (timer < 50) return;` jumps to the shared one
+    if (pOtherAI)
     {
-        goto LABEL_48;
+        if (pOtherAI->field_2A_stopped_timer >= 50)
+        {
+            goto probe_sides;
+        }
+        return;
+    }
+    if (field_70_nearest_entity->field_8_car_bc_ptr->GetCarLinearSpeed_43A240() > dword_677B64)
+    {
+        return;
     }
 
-LABEL_90:
-    CarAI_78* v75 = field_70_nearest_entity->field_8_car_bc_ptr->field_5C_AI;
-    if (v75)
-    {
-        if (v75->field_2A_stopped_timer < 50u)
-        {
-            return;
-        }
-    }
-    else
-    {
-        if (field_70_nearest_entity->field_8_car_bc_ptr->GetCarLinearSpeed_43A240() > dword_677B64)
-        {
-            return;
-        }
-        v21 = byte_677A94;
-    }
+probe_sides:
 
-    if (gCurrCarAI_Velocity_677B00 < dword_677B60 || v21)
+    if (gCurrCarAI_Velocity_677B00 < dword_677B60 || byte_677A94)
     {
         field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_xpos_677C38, gCurrCarAI_ypos_677C30, gCurrCarAI_zpos_677C48);
 
         switch (this->field_4C_curr_direction)
         {
             case car_ai_direction::north_1:
-            {
-                Fix16 v81 = (gCos_table_669260[kAng90_6779E4.rValue] * dword_6779D4) + field_0_car->field_50_car_sprite->field_14_xy.y;
-                Fix16 v82 = (gSin_table_667A80[kAng90_6779E4.rValue] * dword_6779D4) + field_0_car->field_50_car_sprite->field_14_xy.x;
-
-                field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v82, v81, field_0_car->field_50_car_sprite->field_1C_zpos);
-
-                if (!gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
+                x_off = Ang16::sine_40F500(kAng90_6779E4) * dword_6779D4;
+                y_off = Ang16::cosine_40F520(kAng90_6779E4) * dword_6779D4;
+                field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + x_off,
+                                                                      field_0_car->field_50_car_sprite->field_14_xy.y + y_off,
+                                                                      field_0_car->field_50_car_sprite->field_1C_zpos);
+                if (gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
                 {
-                    Fix16 v84 = field_0_car->field_50_car_sprite->field_1C_zpos;
-                    Fix16 v85 = (gCos_table_669260[kAng180_677ADE.rValue] * kFpTwo_677B98) + field_0_car->field_50_car_sprite->field_14_xy.y;
-                    Fix16 v86 = (gSin_table_667A80[kAng180_677ADE.rValue] * kFpTwo_677B98) + field_0_car->field_50_car_sprite->field_14_xy.x;
-
-                    field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v86, v85, v84);
-                    //goto LABEL_109;
-                    if (!gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
-                    {
-                        //goto LABEL_132;
-                        this->field_24_flags |= 0x100u;
-                        this->field_2D = 0;
-                        this->field_2E = 0;
-                        this->field_2F = v110 + 1;
-                        if ((s32)!(u8)(v110 + 1) <= (u8)(v109 - 1))
-                        {
-                            this->field_2F = v109 - 1;
-                        }
-                    }
+                    return;
+                }
+                x_off = Ang16::sine_40F500(kAng180_677ADE) * kFpTwo_677B98;
+                y_off = Ang16::cosine_40F520(kAng180_677ADE) * kFpTwo_677B98;
+                field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + x_off,
+                                                                      field_0_car->field_50_car_sprite->field_14_xy.y + y_off,
+                                                                      field_0_car->field_50_car_sprite->field_1C_zpos);
+                if (gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
+                {
+                    return;
                 }
                 break;
-            }
 
             case car_ai_direction::south_2:
-            {
-                Fix16 v89 = (gCos_table_669260[kAng270_677B08.rValue] * dword_6779D4) + field_0_car->field_50_car_sprite->field_14_xy.y;
-                Fix16 v90 = (gSin_table_667A80[kAng270_677B08.rValue] * dword_6779D4) + field_0_car->field_50_car_sprite->field_14_xy.x;
-
-                field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v90, v89, field_0_car->field_50_car_sprite->field_1C_zpos);
-
-                if (!gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
+                x_off = Ang16::sine_40F500(kAng270_677B08) * dword_6779D4;
+                y_off = Ang16::cosine_40F520(kAng270_677B08) * dword_6779D4;
+                field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + x_off,
+                                                                      field_0_car->field_50_car_sprite->field_14_xy.y + y_off,
+                                                                      field_0_car->field_50_car_sprite->field_1C_zpos);
+                if (gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
                 {
-                    Fix16 v111 = (gSin_table_667A80[kAng0_677CE8.rValue] * kFpTwo_677B98);
-                    Fix16 v97 = (gCos_table_669260[kAng0_677CE8.rValue] * kFpTwo_677B98);
-
-                    Fix16 v86 = v111 + field_0_car->field_50_car_sprite->field_14_xy.x;
-                    Fix16 v85 = v97 + field_0_car->field_50_car_sprite->field_14_xy.y;
-
-                    field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v86, v85, field_0_car->field_50_car_sprite->field_1C_zpos);
-
-                    //goto LABEL_109;
-                    if (!gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
-                    {
-                        //goto LABEL_132;
-                        this->field_24_flags |= 0x100u;
-                        this->field_2D = 0;
-                        this->field_2E = 0;
-                        this->field_2F = v110 + 1;
-                        if ((s32)!(u8)(v110 + 1) <= (u8)(v109 - 1))
-                        {
-                            this->field_2F = v109 - 1;
-                        }
-                    }
+                    return;
+                }
+                x_off = Ang16::sine_40F500(kAng0_677CE8) * kFpTwo_677B98;
+                y_off = Ang16::cosine_40F520(kAng0_677CE8) * kFpTwo_677B98;
+                field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + x_off,
+                                                                      field_0_car->field_50_car_sprite->field_14_xy.y + y_off,
+                                                                      field_0_car->field_50_car_sprite->field_1C_zpos);
+                if (gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
+                {
+                    return;
                 }
                 break;
-            }
 
             case car_ai_direction::east_3:
-            {
-                Fix16 v95 = (gSin_table_667A80[kAng0_677CE8.rValue] * dword_6779D4) + field_0_car->field_50_car_sprite->field_14_xy.x;
-                Fix16 v94 = (gCos_table_669260[kAng0_677CE8.rValue] * dword_6779D4) + field_0_car->field_50_car_sprite->field_14_xy.y;
-
-                field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v95, v94, field_0_car->field_50_car_sprite->field_1C_zpos);
-
-                if (!gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_0_car->field_50_car_sprite, 0))
+                x_off = Ang16::sine_40F500(kAng0_677CE8) * dword_6779D4;
+                y_off = Ang16::cosine_40F520(kAng0_677CE8) * dword_6779D4;
+                field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + x_off,
+                                                                      field_0_car->field_50_car_sprite->field_14_xy.y + y_off,
+                                                                      field_0_car->field_50_car_sprite->field_1C_zpos);
+                if (gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
                 {
-                    Fix16 v111 = (gSin_table_667A80[kAng90_6779E4.rValue] * kFpTwo_677B98);
-                    Fix16 v97 = (gCos_table_669260[kAng90_6779E4.rValue] * kFpTwo_677B98);
-                    Fix16 v86 = v111 + field_0_car->field_50_car_sprite->field_14_xy.x;
-                    Fix16 v85 = v97 + field_0_car->field_50_car_sprite->field_14_xy.y;
-
-                    field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v86, v85, field_0_car->field_50_car_sprite->field_1C_zpos);
-
-                    //LABEL_109:
-                    if (!gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
-                    {
-                        //goto LABEL_132;
-                        this->field_24_flags |= 0x100u;
-                        this->field_2D = 0;
-                        this->field_2E = 0;
-                        this->field_2F = v110 + 1;
-                        if ((s32)!(u8)(v110 + 1) <= (u8)(v109 - 1))
-                        {
-                            this->field_2F = v109 - 1;
-                        }
-                    }
+                    return;
+                }
+                x_off = Ang16::sine_40F500(kAng90_6779E4) * kFpTwo_677B98;
+                y_off = Ang16::cosine_40F520(kAng90_6779E4) * kFpTwo_677B98;
+                field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + x_off,
+                                                                      field_0_car->field_50_car_sprite->field_14_xy.y + y_off,
+                                                                      field_0_car->field_50_car_sprite->field_1C_zpos);
+                if (gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
+                {
+                    return;
                 }
                 break;
-            }
 
             case car_ai_direction::west_4:
-            {
-                Fix16 v101 = (gSin_table_667A80[kAng180_677ADE.rValue] * dword_6779D4) + field_0_car->field_50_car_sprite->field_14_xy.x;
-                Fix16 v100 = (gCos_table_669260[kAng180_677ADE.rValue] * dword_6779D4) + field_0_car->field_50_car_sprite->field_14_xy.y;
-
-                field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v101, v100, field_0_car->field_50_car_sprite->field_1C_zpos);
-
-                if (!gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_0_car->field_50_car_sprite, 0))
+                x_off = Ang16::sine_40F500(kAng180_677ADE) * dword_6779D4;
+                y_off = Ang16::cosine_40F520(kAng180_677ADE) * dword_6779D4;
+                field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + x_off,
+                                                                      field_0_car->field_50_car_sprite->field_14_xy.y + y_off,
+                                                                      field_0_car->field_50_car_sprite->field_1C_zpos);
+                if (gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
                 {
-                    Fix16 v105 = (gSin_table_667A80[kAng270_677B08.rValue] * kFpTwo_677B98) + field_0_car->field_50_car_sprite->field_14_xy.x;
-                    Fix16 v104 = ((gCos_table_669260[kAng270_677B08.rValue] * kFpTwo_677B98)) + field_0_car->field_50_car_sprite->field_14_xy.y;
-
-                    field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v105, v104, field_0_car->field_50_car_sprite->field_1C_zpos);
-
-                    if (!gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
-                    {
-                        //LABEL_132:
-                        this->field_24_flags |= 0x100u;
-                        this->field_2D = 0;
-                        this->field_2E = 0;
-                        this->field_2F = v110 + 1;
-                        if ((s32)!(u8)(v110 + 1) <= (u8)(v109 - 1))
-                        {
-                            this->field_2F = v109 - 1;
-                        }
-                    }
+                    return;
+                }
+                x_off = Ang16::sine_40F500(kAng270_677B08) * kFpTwo_677B98;
+                y_off = Ang16::cosine_40F520(kAng270_677B08) * kFpTwo_677B98;
+                field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + x_off,
+                                                                      field_0_car->field_50_car_sprite->field_14_xy.y + y_off,
+                                                                      field_0_car->field_50_car_sprite->field_1C_zpos);
+                if (gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_0_car->field_50_car_sprite, 0))
+                {
+                    return;
                 }
                 break;
-            }
 
             default:
                 return;
+        }
+
+        this->field_24_flags |= 0x100u;
+        this->field_2D = 0;
+        this->field_2E = 0;
+        u8 next_idx = arrow_idx + 1;
+        u8 last_idx = arrow_count - 1;
+        this->field_2F = next_idx;
+        if (last_idx < next_idx)
+        {
+            this->field_2F = last_idx;
         }
     }
 }
