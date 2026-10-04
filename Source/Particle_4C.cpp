@@ -898,16 +898,19 @@ char_type Particle_4C::UpdateStaticAnim_state_39_53A180()
 WIP_FUNC(0x53a280)
 char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
 {
-    Fix16_Point offset;
+    Fix16_Point corner;
 
     gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
+    // The original enters EH state 2 right after Remove_477B00: two more points, one unused
+    Fix16_Point pos;
+    Fix16_Point offset;
+
     stru_6FD388 = field_30_pNext->field_14_xy.x;
     stru_6FD38C = field_30_pNext->field_14_xy.y;
 
-    Sprite* pTarget = field_28_pSprite;
-    if (pTarget->field_30_sprite_type_enum == sprite_types_enum::car_2)
+    if (field_28_pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
     {
-        Car_BC* pCar = pTarget->AsCar_40FEB0();
+        Car_BC* pCar = field_28_pSprite->AsCar_40FEB0();
         if (!pCar || pCar->field_88_despawn_status == 5)
         {
             return true;
@@ -918,49 +921,58 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
             return true;
         }
 
-        Ang16 angle = pTarget->field_0;
-        Sprite_4C* pBox = pCar->field_50_car_sprite->field_C_sprite_4c_ptr;
+        Ang16 angle = field_28_pSprite->field_0;
         Fix16 half_w;
         Fix16 half_h;
         if (field_46_sub_state < 4)
         {
+            Sprite_4C* pBox = pCar->field_50_car_sprite->field_C_sprite_4c_ptr;
             half_w = pBox->field_0_width / 2 + dword_6FD3C0;
             half_h = pBox->field_4_height / 2 + dword_6FD5A8;
         }
         else
         {
+            Sprite_4C* pBox = pCar->field_50_car_sprite->field_C_sprite_4c_ptr;
             half_w = pBox->field_0_width / 2 + dword_6FD3C0;
             half_h = pBox->field_4_height / 2 + dword_6FD2E8 + dword_6FD554;
         }
 
+        // The rotations are written out (RotateByAngle_OOL_40F6B0 shape): with the helper in both
+        // branches the inline budget runs out and the Fix16_Point ctors / unary minus go out of line
         if (field_38_state == 40)
         {
-            offset.x = half_w;
-            offset.y = half_h;
-            offset.RotateByAngle_40F6B0(angle);
+            corner.x = half_w;
+            corner.y = half_h;
+            Fix16 x_old = corner.x;
+            Fix16 sin = Ang16::sine_40F500(angle);
+            Fix16 cos = Ang16::cosine_40F520(angle);
+            corner.x = (const Fix16&)corner.x.Multiply_408680(cos) + corner.y.Multiply_408680(sin);
+            corner.y = (const Fix16&)(-x_old).Multiply_408680(sin) + corner.y.Multiply_408680(cos);
         }
         else
         {
-            offset.y = half_h;
-            offset.x = -half_w;
-            offset.RotateByAngle_40F6B0(angle);
+            corner.x = -half_w;
+            corner.y = half_h;
+            Fix16 x_old = corner.x;
+            Fix16 sin = Ang16::sine_40F500(angle);
+            Fix16 cos = Ang16::cosine_40F520(angle);
+            corner.x = (const Fix16&)corner.x.Multiply_408680(cos) + corner.y.Multiply_408680(sin);
+            corner.y = (const Fix16&)(-x_old).Multiply_408680(sin) + corner.y.Multiply_408680(cos);
         }
 
-        Fix16_Point pos = pTarget->get_x_y_443580();
-        offset.x += pos.x;
-        offset.y += pos.y;
+        corner += field_28_pSprite->get_x_y_443580();
 
         field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 200);
         field_30_pNext->field_2C_flags = 0xA2;
         field_30_pNext->set_ang_lazy_420690(field_28_pSprite->field_0);
-        field_30_pNext->set_xyz_lazy_420600(offset.x, offset.y, field_28_pSprite->field_1C_zpos);
+        field_30_pNext->set_xyz_lazy_420600(corner.x, corner.y, field_28_pSprite->field_1C_zpos);
         field_30_pNext->Set_2C_0x4_Flag_4337F0();
         gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
         return 0;
     }
-    else if (pTarget->field_30_sprite_type_enum == sprite_types_enum::ped_3)
+    else
     {
-        Char_B4* pB4 = pTarget->field_8_char_b4_ptr;
+        Char_B4* pB4 = field_28_pSprite->AsCharB4_40FEA0();
         if (!pB4 || !pB4->field_7C_pPed || !pB4->field_7C_pPed->field_21C_bf.b0)
         {
             return true;
@@ -971,20 +983,18 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
             return true;
         }
 
-        Fix16 dist;
         if (!(pB4->field_58_flags & 8))
         {
-            dist = dword_6FD2F4;
             offset.x = -dword_6FD46C;
+            offset.y = dword_6FD2F4;
         }
         else
         {
-            dist = dword_6FD2F8;
             offset.x = -dword_6FD46C;
+            offset.y = dword_6FD2F8;
         }
-        offset.y = dist;
-        offset.RotateByAngle_40F6B0(pTarget->field_0);
-        offset = offset + Fix16_Point(pB4->field_98_velocity_vector.x, pB4->field_98_velocity_vector.y);
+        offset.RotateByAngle_OneMulInline_40F6B0(field_28_pSprite->field_0);
+        offset = offset.Add_40AC50(pB4->field_98_velocity_vector);
 
         field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 197);
         field_30_pNext->field_2C_flags = 0xA2;
@@ -995,7 +1005,6 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
         gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
         return 0;
     }
-    return true;
 }
 
 MATCH_FUNC(0x53ab70)
@@ -1321,12 +1330,37 @@ char_type Particle_4C::UpdateBurstAnimation_state_29_30_53B9F0()
     return false;
 }
 
+// Fix16_Point::GetLength with the operators out of line, compared against kFP16Zero_6FD49C
+static inline Fix16 GetLength_OOL_6FD49C(Fix16_Point& v)
+{
+    if (v.x == kFP16Zero_6FD49C)
+    {
+        return Fix16::Abs_negate_out_of_line(v.y);
+    }
+    else if (v.y == kFP16Zero_6FD49C)
+    {
+        return Fix16::Abs_436A50(v.x);
+    }
+    else
+    {
+        return Fix16::SquareRoot_436A70((const Fix16&)v.x.Multiply_408680(v.x) + v.y.Multiply_408680(v.y));
+    }
+}
+
+// Polar offset of length dword_6FD2E8 with the Ang16 by value (the original keeps the table index
+// in a register across the first multiply instead of reloading the angle)
+static inline void PolarToXY_6FD2E8(Ang16 angle, Fix16& x, Fix16& y)
+{
+    x = Ang16::sine_40F500(angle) * dword_6FD2E8;
+    y = Ang16::cosine_40F520(angle).Multiply_408680(dword_6FD2E8);
+}
+
 WIP_FUNC(0x53bac0)
 char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
 {
     Char_B4* pB4 = NULL;
     Car_BC* pCar = NULL;
-    Fix16_Point vel(Fix16(0), Fix16(0));
+    Fix16_Point vel;
     Ang16 angle = 0;
 
     gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
@@ -1391,7 +1425,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
         }
     }
 
-    Fix16 spread_val = (Fix16(gRng_6F6784.get_int_4F7AE0(field_46_sub_state)) + Fix16(field_46_sub_state) - dword_6FD4AC) * dword_6FD328;
+    Fix16 spread_val = dword_6FD328 * (Fix16(field_46_sub_state) + Fix16(gRng_6F6784.get_int_4F7AE0((s16)field_46_sub_state)) - dword_6FD4AC);
     Ang16 spread(spread_val.GetRaw_40F4B0() / 71);
     spread.Normalize_406C20();
 
@@ -1403,62 +1437,49 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
     {
         Fix16_Point attach;
         Fix16_Point offset;
+        Ang16 car_angle;
         Sprite_18* pGun = pCar->field_0_qq.GetSpriteForModel_5A6A50(114);
         if (pGun)
         {
-            Ang16 gun_angle = pGun->field_0->field_0 + kAng180_6FD3EE;
+            Ang16 gun_angle = pGun->field_0->field_0;
+            gun_angle += kAng180_6FD3EE.rValue;
             gun_angle.Normalize_406C20();
-            angle = gun_angle;
+            car_angle = gun_angle;
             attach.x = 0;
             attach.y = dword_6FD2D4;
-            attach.RotateByAngle_40F6B0(angle);
+            attach.RotateByAngle_OneMulInline_40F6B0(car_angle);
             offset.x = 0;
             offset.y = kFP16Eighth_6FD2D0;
         }
         else
         {
-            angle = pCar->field_0_qq.GetSpriteForModel_5A6A50(248)->field_0->field_0;
+            car_angle = pCar->field_0_qq.GetSpriteForModel_5A6A50(248)->field_0->field_0;
             attach.x = 0;
             attach.y = dword_6FD48C;
-            attach.RotateByAngle_40F6B0(angle);
+            attach.RotateByAngle_OneMulInline_40F6B0(car_angle);
             offset.x = 0;
             offset.y = dword_6FD4CC;
         }
-        offset.RotateByAngle_40F6B0(pCar->field_50_car_sprite->field_0);
-        Fix16_Point world = offset + pCar->field_50_car_sprite->get_x_y_443580();
-        attach.x += world.x;
-        attach.y += world.y;
+        offset.RotateByAngle_OneMulInline_40F6B0(pCar->field_50_car_sprite->field_0);
+        attach += offset.Add_40AC50(pCar->field_50_car_sprite->get_x_y_443580());
         vel = pCar->field_58_physics->GetPointVelocity_561350(&attach);
+        angle = car_angle;
     }
 
-    Fix16 speed;
-    if (vel.x == kFP16Zero_6FD49C)
-    {
-        speed = Fix16::Abs(vel.y);
-    }
-    else if (vel.y == kFP16Zero_6FD49C)
-    {
-        speed = Fix16::Abs_436A50(vel.x);
-    }
-    else
-    {
-        speed = Fix16::SquareRoot_436A70(vel.x * vel.x + vel.y * vel.y);
-    }
+    GetLength_OOL_6FD49C(vel);
 
     u8 max_sub_state = 12;
     Fix16 dx;
     Fix16 dy;
     if ((field_4_flags & 1) && field_46_sub_state <= max_sub_state)
     {
-        Ang16 dir(spread + angle);
+        Ang16 dir(spread.rValue + angle.rValue);
         dir.Normalize_406C20();
-        dx = Ang16::sine_40F500(dir) * dword_6FD2E8;
-        dy = Ang16::cosine_40F520(dir) * dword_6FD2E8;
+        PolarToXY_6FD2E8(dir, dx, dy);
     }
     else
     {
-        dx = Ang16::sine_40F500(field_30_pNext->field_0) * dword_6FD2E8;
-        dy = Ang16::cosine_40F520(field_30_pNext->field_0) * dword_6FD2E8;
+        PolarToXY_6FD2E8(field_30_pNext->field_0, dx, dy);
     }
     stru_6FD388 = stru_6FD388 + (vel.x + dx);
     stru_6FD38C = stru_6FD38C + (vel.y + dy);
