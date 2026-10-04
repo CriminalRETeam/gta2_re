@@ -22,7 +22,7 @@ Fix16_Point Fix16_Point_POD::Divide_442CB0(Fix16& in)
 }
 
 // The out-of-line copy of the inline operator+
-WIP_FUNC(0x40AC50)
+MATCH_FUNC(0x40AC50)
 Fix16_Point Fix16_Point::Add_40AC50(const Fix16_Point_POD& in)
 {
     return Fix16_Point(x + in.x, y + in.y);
