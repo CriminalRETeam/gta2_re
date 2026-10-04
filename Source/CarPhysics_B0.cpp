@@ -3475,20 +3475,19 @@ static inline void MultiplyAssign_ProductTemp(Fix16& value, const Fix16& factor)
     value.mValue = (s32)(product >> 14);
 }
 
-// Fix16::Multiply_408680 through an inline wrapper: a direct call changes the inline budget
-static inline Fix16 Multiply_inline_408680(const Fix16& a, const Fix16& b)
+// Fix16::Multiply_408680 through an inline `*=`-style wrapper. A direct call frees an inline
+// expansion (MultiplyByFix16_49E3A0 then inlines), and a wrapper returning the product by value
+// reads the result from its stack temporary instead of through %eax.
+static inline void MultiplyAssign_inline_408680(Fix16& a, const Fix16& b)
 {
-    return (const Fix16&)a.Multiply_408680(b);
+    a = a.Multiply_408680(b);
 }
 
-// Harness diff 0 with `field_74_ang_vel_rad * dword_6FE318` below, but that calls the operator*
-// COMDAT while the rotations call Multiply_408680 (one callee, 0x408680, in the original), which the
-// verifier's call renaming rejects. The wrapper keeps one callee; left: the result is read from
-// its stack temporary instead of through %eax.
-WIP_FUNC(0x562910)
+// The rotations call Multiply_408680 (one callee, 0x408680, in the original), so the angular
+// velocity multiply goes through it too rather than the operator* COMDAT.
+MATCH_FUNC(0x562910)
 void CarPhysics_B0::StabilizeVelocityAtSpeed_562910()
 {
-    WIP_IMPLEMENTED;
     if (CarPhysics_B0::IsInAir_55A0B0())
     {
         if (Fix16::Abs_negate_out_of_line(field_40_linvel_1.x) <= kFP16One128th_6FDFDC &&
@@ -3522,7 +3521,8 @@ void CarPhysics_B0::StabilizeVelocityAtSpeed_562910()
         else
         {
             field_40_linvel_1.RotateByAngle_40F6B0(-field_58_theta);
-            field_40_linvel_1.x *= dword_6FE100;
+            // `x *=` gives the factor in eax (imull x); the product-temp form loads x into eax first
+            MultiplyAssign_ProductTemp(field_40_linvel_1.x, dword_6FE100);
             // 9.6f has `*=` (0x41E0D0) in both branches. 10.5 inlines it here and calls the
             // out-of-line copy (0x562430) in the else branch, past the inline budget. Only this
             // helper gives the original operand order (y in eax) and budget use.
@@ -3535,7 +3535,7 @@ void CarPhysics_B0::StabilizeVelocityAtSpeed_562910()
                 field_40_linvel_1.y *= dword_6FE0FC;
             }
             field_40_linvel_1.RotateByAngle_40F6B0(field_58_theta);
-            field_74_ang_vel_rad = Multiply_inline_408680(field_74_ang_vel_rad, dword_6FE318);
+            MultiplyAssign_inline_408680(field_74_ang_vel_rad, dword_6FE318);
         }
     }
 }

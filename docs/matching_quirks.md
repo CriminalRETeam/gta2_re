@@ -335,6 +335,15 @@ indexed addressing, and hand-written pointers merge into one pointer and a diffe
 (`Fix16 t = *pTarget; ... t + k`). Using `*pTarget` directly each time fixed the operand order
 in `sub_405E80`. The permuter found it.
 
+**Assigning wrapper vs returning wrapper for an out-of-line by-value call.** An inline wrapper
+`a = a.Multiply_408680(b);` reads the result through `%eax` (`mov (%eax),%eax`), while a wrapper
+that returns the product by value copies it from its stack temporary. A direct call also reads
+through eax but saves one inline expansion, which can push another helper over the inline budget.
+And `x *= f` loads the factor into eax, while a product temporary
+(`(__int64)x.mValue * f.mValue`) loads `x` into eax first and does `imull f`. That holds only
+while `x` isn't already in a register (`CalculateRearWheelForce_5620D0` didn't move).
+Both were needed in `CarPhysics_B0::StabilizeVelocityAtSpeed_562910`.
+
 **A `const T&` local can move its load.** `Mike_A80::DebugDrawProfiling_4FF250` loaded the five
 frame averages in the wrong order whatever the order or grouping of the sum. The fix was in an
 unrelated statement above it: `const s32& polys_drawn = pGlobals[0];` instead of

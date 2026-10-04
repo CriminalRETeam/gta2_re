@@ -247,7 +247,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x560F20 | `CarPhysics_B0::ApplyMovementStep_560F20` | 0x4A2E30 | ✓ `sub_40F540`, `sub_40F680`, `sub_49ED00`, ✓ `Car_BC::sub_403BA0`, `sub_49FF70` | matched | operator+= (40F680) worse 103->109; 49ED00/49FF70 = UpdateCp1FromCm1/UpdateTrailerAlignment (called) |
 | 0x561E50 | `CarPhysics_B0::CalculateFrontWheelForce_561E50` | 0x4A1130 | `sub_4A0F30`, ✓ `sub_432860`, ✓ `sub_40F540`, `sub_4A0D40` | commented | SetXY_432860 worse (214->216); 4A0F30/4A0D40 = ComputeEngineTorque/ApplyDriveForce (called) |
 | 0x5620D0 | `CarPhysics_B0::CalculateRearWheelForce_5620D0` | 0x4A1360 | `sub_4A0F30`, ✓ `sub_432860`, ✓ `sub_49E3A0`, ✓ `sub_40F540`, `sub_4A0D40` | inlines added | SetXY_432860 used; MultiplyByFix16_49E3A0 commented (196->222); 4A0F30/4A0D40 called; diff 196->196 |
-| 0x562910 | `CarPhysics_B0::StabilizeVelocityAtSpeed_562910` | 0x49EA70 | ✓ `sub_49E3A0`, ✓ `sub_40F6B0` | done | all 9.6f inlines used |
+| 0x562910 | `CarPhysics_B0::StabilizeVelocityAtSpeed_562910` | 0x49EA70 | ✓ `sub_49E3A0`, ✓ `sub_40F6B0` | matched | all 9.6f inlines used; matched with an assigning `Multiply_408680` wrapper and a product-temp `x *=` |
 | 0x562D00 | `CarPhysics_B0::EnforceGearSensitiveMaxSpeed_562D00` | 0x4A1B20 | ✓ `sub_40F840`, ✓ `sub_40F790`, ✓ `sub_41E210`, ✓ `sub_49E480` | inlines added | IsVelocityAlignedWithHeading_40F840 now uses atan2_40F790 (0.699->0.944); all 9.6f inlines used |
 | 0x563350 | `CarPhysics_B0::UpdateCenterOfMassPoint_563350` | 0x49ED60 | ✓ `sub_40F6B0` | matched | all 9.6f inlines used |
 | 0x563460 | `CarPhysics_B0::UpdateReferencePoint_563460` | 0x49EDC0 | ✓ `sub_40F6B0` | matched | all 9.6f inlines used |
