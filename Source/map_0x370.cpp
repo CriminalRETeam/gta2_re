@@ -2761,7 +2761,7 @@ char_type Map_0x370::sub_4E4820(Fix16_Rect* pRect, u8 slope_type)
 
 // Spirals out from (x, y) until it finds a block of the given type and writes its position back
 MATCH_FUNC(0x4E4930)
-void __stdcall Map_0x370::FindNearbyBlockOfType_4E4930(u8* pX, u8* pY, u8* pZ, char_type block_type)
+void Map_0x370::FindNearbyBlockOfType_4E4930(u8* pX, u8* pY, u8* pZ, char_type block_type)
 {
     u16 step = 1;
     s32 direction = 3;

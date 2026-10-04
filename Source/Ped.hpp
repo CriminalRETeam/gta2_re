@@ -235,6 +235,7 @@ class Ped
     EXPORT void ReactToAttacker_465B20();
     EXPORT bool sub_465CD0();
     EXPORT bool IsPedAThreat_465D00(Ped* pTargetPed);
+    inline bool IsPedAThreat_Inline_465D00(Ped* pTargetPed);
     EXPORT char_type sub_466B70();
     EXPORT char_type IsThreatToSearchingPed_4661F0();
     EXPORT Ped* FindBestTargetPed_Mode1_466B90(s32 max_x_check);
