@@ -568,12 +568,9 @@ s32 NetPlay::InitializeConnection_51E5C0()
     return 0;
 }
 
-// Return block layout differs, see docs/match_attempts.md
-WIP_FUNC(0x51e650)
+MATCH_FUNC(0x51e650)
 s32 NetPlay::EnumSessions_51E650()
 {
-    WIP_IMPLEMENTED;
-
     MSG msg;
     DPSESSIONDESC2 desc;
 
@@ -600,18 +597,20 @@ s32 NetPlay::EnumSessions_51E650()
         {
             return 0;
         }
-        if (hr == DP_OK)
+        if (hr != DP_OK)
         {
-            hr = field_5E4_pDPlay3->EnumSessions(&desc, 0, (LPDPENUMSESSIONSCALLBACK2)NetPlay::EnumSessions_cb_51EAE0, this, DPENUMSESSIONS_RETURNSTATUS);
-            if (hr == DPERR_USERCANCEL)
-            {
-                return 0;
-            }
-            if (hr == DP_OK)
-            {
-                return field_C4_sessions.field_5C4_session_count;
-            }
+            goto failed;
         }
+        hr = field_5E4_pDPlay3->EnumSessions(&desc, 0, (LPDPENUMSESSIONSCALLBACK2)NetPlay::EnumSessions_cb_51EAE0, this, DPENUMSESSIONS_RETURNSTATUS);
+        if (hr == DPERR_USERCANCEL)
+        {
+            return 0;
+        }
+        if (hr != DP_OK)
+        {
+            goto failed;
+        }
+        return field_C4_sessions.field_5C4_session_count;
     }
     else
     {
@@ -620,12 +619,16 @@ s32 NetPlay::EnumSessions_51E650()
                                              (LPDPENUMSESSIONSCALLBACK2)NetPlay::EnumSessions_cb_51EAE0,
                                              this,
                                              DPENUMSESSIONS_AVAILABLE | DPENUMSESSIONS_ASYNC);
-        if (hr >= 0)
+        if (hr < 0)
         {
-            return field_C4_sessions.field_5C4_session_count;
+        // Shared failure block, as in the other NetPlay functions (CreateModemAddress_51E2B0, Receive_51F010):
+        // the modem path's failures jump forward into the non-modem path's `return -1`, and the two
+        // `return session_count` blocks are merged. No goto-free form gave this layout.
+        failed:
+            return -1;
         }
+        return field_C4_sessions.field_5C4_session_count;
     }
-    return -1;
 }
 
 MATCH_FUNC(0x51e7a0)
