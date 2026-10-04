@@ -727,7 +727,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
     }
 }
 
-EXPORT void __stdcall sub_5DE910(Fix16_Point a1, Fix16_Point& a2, Fix16 a3);
+EXPORT void __stdcall sub_5DE910(Fix16_Point_POD a1, Fix16_Point& a2, Fix16 a3);
 
 WIP_FUNC(0x5de4f0)
 void Weapon_30::sub_5DE4F0()
@@ -858,10 +858,11 @@ static inline Fix16 BeamLength_5DE910(Fix16_Point& d)
     }
 }
 
+// `a1` is the base type: callers pass a get_x_y_443580() temporary, which is sliced (copied) into it.
 // Draws the electro beam from `a1` (or the gun muzzle when byte_706C94 is clear) to `a2` at height
 // `a3`: kFP16Quarter_706CF4 long segments with a random kink each, then straight segments for the rest.
 WIP_FUNC(0x5de910)
-void __stdcall sub_5DE910(Fix16_Point a1, Fix16_Point& a2, Fix16 a3)
+void __stdcall sub_5DE910(Fix16_Point_POD a1, Fix16_Point& a2, Fix16 a3)
 {
     Fix16_Point start;
     Fix16_Point d;
@@ -877,7 +878,8 @@ void __stdcall sub_5DE910(Fix16_Point a1, Fix16_Point& a2, Fix16 a3)
     Fix16 seg_len = kFP16Quarter_706CF4;
     if (byte_706C94)
     {
-        start = a1;
+        start.x = a1.x;
+        start.y = a1.y;
     }
     else
     {
@@ -1096,15 +1098,34 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
     }
 }
 
-WIP_FUNC(0x5dfb60)
-void Weapon_30::sub_5DFB60(char_type a2, Sprite* a3, Ang16 a4)
+// 9.6f 0x4CF380. Chain lightning of the shocker: arcs to every ped/car in front of `a3`, recursing once.
+MATCH_FUNC(0x5dfb60)
+void Weapon_30::sub_5DFB60(u8 a2, Sprite* a3, Ang16 a4)
 {
     struct_4 hits;
     char_type bHit = 0;
 
+    // Both branches compute the four bounds into registers and share the stores.
     Fix16_Rect rect;
-    Fix16 w = !a2 ? kFP16Two_706EC0 : dword_706EBC;
-    rect.SetRect_41E350(a3->field_14_xy.x - w, a3->field_14_xy.x + w, a3->field_14_xy.y - w, a3->field_14_xy.y + w);
+    Fix16 left;
+    Fix16 right;
+    Fix16 top;
+    Fix16 bottom;
+    if (!a2)
+    {
+        left = a3->field_14_xy.x - kFP16Two_706EC0;
+        right = a3->field_14_xy.x + kFP16Two_706EC0;
+        top = a3->field_14_xy.y - kFP16Two_706EC0;
+        bottom = a3->field_14_xy.y + kFP16Two_706EC0;
+    }
+    else
+    {
+        left = a3->field_14_xy.x - dword_706EBC;
+        right = a3->field_14_xy.x + dword_706EBC;
+        top = a3->field_14_xy.y - dword_706EBC;
+        bottom = a3->field_14_xy.y + dword_706EBC;
+    }
+    rect.SetRect_41E350(left, right, top, bottom);
     rect.SetHiLowZ_41E370(a3->field_1C_zpos - dword_706EBC, a3->field_1C_zpos + dword_706EBC);
 
     word_707004 = field_24_pPed->field_168_game_object->field_80_sprite_ptr->field_0;
@@ -1116,20 +1137,22 @@ void Weapon_30::sub_5DFB60(char_type a2, Sprite* a3, Ang16 a4)
         do
         {
             Sprite* pHit = hits.PopFrontSprite_5A6DA0();
+            // Declared here (9.6f constructs them at the top): both branches share the slots.
+            // The ped branch's `angle - a4` is past the inline budget, so its Normalize is the
+            // out-of-line Normalize_406C20 while the car branch's is inlined.
+            Ang16 angle;
+            Ang16 diff;
             switch (pHit->get_type_416B40())
             {
                 case sprite_types_enum::ped_3:
-                    if (pHit != a3 && !gWeapon_8_707018->field_0.SpriteExists_5A6D80(pHit))
+                    if (a3 != pHit && !gWeapon_8_707018->field_0.SpriteExists_5A6D80(pHit))
                     {
                         Fix16 dx = pHit->field_14_xy.x - a3->field_14_xy.x;
                         Fix16 dy = pHit->field_14_xy.y - a3->field_14_xy.y;
-                        Ang16 angle = Fix16::atan2_fixed_405320(dy, dx);
-                        Fix16 back_x = a3->field_14_xy.x - pHit->field_14_xy.x;
-                        Fix16 back_y = a3->field_14_xy.y - pHit->field_14_xy.y;
-                        Fix16 dist = Fix16::Max_44E540(Fix16::Abs_436A50(back_x), Fix16::Abs_436A50(back_y));
+                        angle = Fix16::atan2_fixed_405320(dy, dx);
+                        Fix16::MaxAbsDistanceByRef_42A6B0(pHit->field_14_xy.x, pHit->field_14_xy.y, a3->field_14_xy.x, a3->field_14_xy.y);
 
-                        Ang16 diff(angle.rValue - a4.rValue);
-                        diff.Normalize_406C20();
+                        diff = angle - a4;
                         if (diff < word_706D6C || diff > word_706E28)
                         {
                             if (gMap_0x370_6F6268->sub_4E5640(dword_706CF0,
@@ -1143,12 +1166,9 @@ void Weapon_30::sub_5DFB60(char_type a2, Sprite* a3, Ang16 a4)
                                                               pHit->field_1C_zpos))
                             {
                                 byte_706C94 = a2;
-                                Fix16 zpos = a3->field_1C_zpos;
-                                if (pHit->field_1C_zpos > zpos)
-                                {
-                                    zpos = pHit->field_1C_zpos;
-                                }
-                                sub_5DE910(a3->get_x_y_443580(), pHit->get_x_y_443580(), zpos);
+                                sub_5DE910(a3->get_x_y_443580(),
+                                           pHit->get_x_y_443580(),
+                                           pHit->field_1C_zpos > a3->field_1C_zpos ? pHit->field_1C_zpos : a3->field_1C_zpos);
                                 gWeapon_8_707018->field_0.PushSprite_5A6D40(pHit);
                                 if (a2 < 1)
                                 {
@@ -1172,16 +1192,14 @@ void Weapon_30::sub_5DFB60(char_type a2, Sprite* a3, Ang16 a4)
                     break;
 
                 case sprite_types_enum::car_2:
-                    if (pHit != a3 && !gWeapon_8_707018->field_0.SpriteExists_5A6D80(pHit))
+                    if (a3 != pHit && !gWeapon_8_707018->field_0.SpriteExists_5A6D80(pHit))
                     {
                         Fix16 dx = pHit->field_14_xy.x - a3->field_14_xy.x;
                         Fix16 dy = pHit->field_14_xy.y - a3->field_14_xy.y;
-                        Ang16 angle = Fix16::atan2_fixed_405320(dy, dx);
-                        Fix16 back_x = a3->field_14_xy.x - pHit->field_14_xy.x;
-                        Fix16 back_y = a3->field_14_xy.y - pHit->field_14_xy.y;
-                        Fix16 dist = Fix16::Max_44E540(Fix16::Abs_436A50(back_x), Fix16::Abs_436A50(back_y));
+                        angle = Fix16::atan2_fixed_405320(dy, dx);
+                        Fix16::MaxAbsDistanceOOL_42A6B0(pHit->field_14_xy.x, pHit->field_14_xy.y, a3->field_14_xy.x, a3->field_14_xy.y);
 
-                        Ang16 diff = angle - a4;
+                        diff = angle - a4;
                         if (diff < word_706D6C || diff > word_706E28)
                         {
                             if (gMap_0x370_6F6268->sub_4E5640(dword_706CF0,
@@ -1195,12 +1213,9 @@ void Weapon_30::sub_5DFB60(char_type a2, Sprite* a3, Ang16 a4)
                                                               pHit->field_1C_zpos))
                             {
                                 byte_706C94 = a2;
-                                Fix16 zpos = a3->field_1C_zpos;
-                                if (pHit->field_1C_zpos > zpos)
-                                {
-                                    zpos = pHit->field_1C_zpos;
-                                }
-                                sub_5DE910(a3->get_x_y_443580(), pHit->get_x_y_443580(), zpos);
+                                sub_5DE910(a3->get_x_y_443580(),
+                                           pHit->get_x_y_443580(),
+                                           pHit->field_1C_zpos > a3->field_1C_zpos ? pHit->field_1C_zpos : a3->field_1C_zpos);
                                 gWeapon_8_707018->field_0.PushSprite_5A6D40(pHit);
                                 if (a2 < 1)
                                 {

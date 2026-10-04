@@ -65,7 +65,7 @@ class Weapon_30
     EXPORT void smg_5DDD20();
     EXPORT void throwable_5DDFC0(s32 a2, s32 a3, s32 a4);
     EXPORT void sub_5DE4F0();
-    EXPORT void sub_5DFB60(char_type a2, Sprite* a3, Ang16 a4);
+    EXPORT void sub_5DFB60(u8 a2, Sprite* a3, Ang16 a4);
     EXPORT void shocker_5E06B0();
     EXPORT void electro_batton_5E0740();
     EXPORT void car_bomb_5E0AB0(char_type a2);
