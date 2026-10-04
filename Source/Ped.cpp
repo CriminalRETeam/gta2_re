@@ -9538,6 +9538,8 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
 }
 
 // https://decomp.me/scratch/aE2Ac
+// Logic follows the 10.5 asm. Only remaining difference: VC6 tail-merges the mugging block of the
+// health >= 20 path into the one in the `target == field_148` path, the original keeps its own copy.
 WIP_FUNC(0x46b670)
 void Ped::MeleeAttackStateMachine_46B670()
 {
@@ -9571,7 +9573,7 @@ void Ped::MeleeAttackStateMachine_46B670()
     }
 
     gDistanceToTarget_678750 =
-        Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, field_14C_internal_target_ped->get_cam_x(), field_14C_internal_target_ped->get_cam_y());
+        Fix16::MaxAbsDistanceOOL_42A6B0(field_1AC_cam.x, field_1AC_cam.y, field_14C_internal_target_ped->get_cam_x(), field_14C_internal_target_ped->get_cam_y());
 
     if (gDistanceToTarget_678750 <= kFpQuarter_678788)
     {
@@ -9610,107 +9612,33 @@ void Ped::MeleeAttackStateMachine_46B670()
         {
             if (field_168_game_object->field_68_animation_frame == 0)
             {
-                if (field_14C_internal_target_ped->IsField238_45EDE0(2) && field_240_occupation == ped_ocupation_enum::mugger)
+                if (field_14C_internal_target_ped->IsField238_45EDE0(2))
                 {
-                    field_14C_internal_target_ped->field_15C_player->Add_2D4(-10);
-                    ++field_229;
-                    if (field_229 > 9)
-                    {
-                        field_226_internal_objective_status = 1;
-                    }
-                }
-                else
-                {
-                    if (field_14C_internal_target_ped->field_240_occupation != ped_ocupation_enum::criminal_type_1)
-                    {
-                        field_14C_internal_target_ped->TakeDamage(10);
-                    }
-                }
-            }
-            return;
-        }
-
-        if (field_14C_internal_target_ped->get_health_433B70() < 20) // line 238
-        {
-            field_188_last_char_punched = field_14C_internal_target_ped;
-            if (field_14C_internal_target_ped == field_148_objective_target_ped)
-            {
-                if (field_258_objective != objectives_enum::punch_char_23 &&
-                    field_28C_threat_reaction != threat_reaction_enum::react_as_emergency_1)
-                {
-                    field_14C_internal_target_ped->field_204_killer_id = field_200_id;
-                    field_14C_internal_target_ped->field_290 = 10;
-                    field_14C_internal_target_ped->field_264_killer_id_timer = 50;
-
-                    if (field_14C_internal_target_ped->IsField238_45EDE0(2) && field_240_occupation == ped_ocupation_enum::mugger)
+                    if (field_240_occupation == ped_ocupation_enum::mugger)
                     {
                         field_14C_internal_target_ped->field_15C_player->Add_2D4(-10);
                         ++field_229;
                         if (field_229 > 9)
                         {
                             field_226_internal_objective_status = 1;
-                            return;
                         }
                     }
-                    else
+                    else if (field_14C_internal_target_ped->field_240_occupation != ped_ocupation_enum::criminal_type_1)
                     {
-                        if (field_14C_internal_target_ped->field_240_occupation != ped_ocupation_enum::criminal_type_1)
-                        {
-                            field_14C_internal_target_ped->TakeDamage(10);
-                        }
+                        field_14C_internal_target_ped->TakeDamage(10);
                     }
                 }
-                else
+                else if (field_14C_internal_target_ped->field_240_occupation != ped_ocupation_enum::criminal_type_1)
                 {
-                    field_14C_internal_target_ped->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
-                    field_14C_internal_target_ped->ChangeNextPedState2_45C540(ped_state_2::lying_on_floor_22);
-                    field_14C_internal_target_ped->Set_B4_F16_To_1_433B50();
-                    field_226_internal_objective_status = 1;
-                    field_144_attacker = 0;
-                    field_228 = 0;
-                    field_21C_bf.b2 = false;
-
-                    if (field_28C_threat_reaction != threat_reaction_enum::react_as_emergency_1 || !field_14C_internal_target_ped->IsField238_45EDE0(2))
-                    {
-                        return;
-                    }
-                    if (bStartNetworkGame_7081F0)
-                    {
-                        field_14C_internal_target_ped->Kill_46F9D0();
-                        return;
-                    }
+                    field_14C_internal_target_ped->TakeDamage(10);
                 }
             }
-            else
-            {
-                // the same here?
-
-                field_14C_internal_target_ped->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
-                field_14C_internal_target_ped->ChangeNextPedState2_45C540(ped_state_2::lying_on_floor_22);
-                field_14C_internal_target_ped->Set_B4_F16_To_1_433B50();
-                field_226_internal_objective_status = 1;
-                field_144_attacker = 0;
-                field_228 = 0;
-                field_21C_bf.b2 = false;
-
-                if (field_28C_threat_reaction != threat_reaction_enum::react_as_emergency_1 || !field_14C_internal_target_ped->IsField238_45EDE0(2))
-                {
-                    return;
-                }
-                if (bStartNetworkGame_7081F0)
-                {
-                    field_14C_internal_target_ped->Kill_46F9D0();
-                    return;
-                }
-            }
-
-            field_14C_internal_target_ped->field_21C_bf.b5 = true;
-            Set_F250_IfBit_433DD0(18);
             return;
         }
-        else
+
+        if (field_14C_internal_target_ped->get_health_433B70() >= 20)
         {
-            if (!field_168_game_object->field_68_animation_frame || field_14C_internal_target_ped->GetPedState2_433B60() == ped_state_2::lying_on_floor_22)
+            if (field_168_game_object->field_68_animation_frame < 1 || field_14C_internal_target_ped->GetPedState2_433B60() == ped_state_2::lying_on_floor_22)
             {
                 field_14C_internal_target_ped->field_204_killer_id = field_200_id;
                 field_14C_internal_target_ped->field_290 = 10;
@@ -9726,17 +9654,96 @@ void Ped::MeleeAttackStateMachine_46B670()
                         {
                             field_226_internal_objective_status = 1;
                         }
-                        return;
+                    }
+                    else
+                    {
+                        field_14C_internal_target_ped->sub_433E50();
+                        if (field_14C_internal_target_ped->field_240_occupation != ped_ocupation_enum::criminal_type_1)
+                        {
+                            field_14C_internal_target_ped->TakeDamage(10);
+                        }
                     }
                 }
-
-                field_14C_internal_target_ped->sub_433E50();
-
-                if (field_14C_internal_target_ped->field_240_occupation != ped_ocupation_enum::criminal_type_1)
+                else
                 {
-                    field_14C_internal_target_ped->TakeDamage(10);
+                    field_14C_internal_target_ped->sub_433E50();
+                    if (field_14C_internal_target_ped->field_240_occupation != ped_ocupation_enum::criminal_type_1)
+                    {
+                        field_14C_internal_target_ped->TakeDamage(10);
+                    }
                 }
             }
+        }
+        else
+        {
+            field_188_last_char_punched = field_14C_internal_target_ped;
+            if (field_14C_internal_target_ped != field_148_objective_target_ped)
+            {
+                field_14C_internal_target_ped->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
+                field_14C_internal_target_ped->ChangeNextPedState2_45C540(ped_state_2::lying_on_floor_22);
+                field_14C_internal_target_ped->Set_B4_F16_To_1_433B50();
+                field_226_internal_objective_status = 1;
+                field_144_attacker = 0;
+                field_228 = 0;
+                field_21C_bf.b2 = false;
+
+                if (field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1 && field_14C_internal_target_ped->IsField238_45EDE0(2))
+                {
+                    if (bStartNetworkGame_7081F0)
+                    {
+                        field_14C_internal_target_ped->Kill_46F9D0();
+                        return;
+                    }
+                    field_14C_internal_target_ped->field_21C_bf.b5 = true;
+                    Set_F250_IfBit_433DD0(18);
+                }
+                return;
+            }
+            else
+            {
+                if (field_258_objective != objectives_enum::punch_char_23 &&
+                    field_28C_threat_reaction != threat_reaction_enum::react_as_emergency_1)
+                {
+                    field_14C_internal_target_ped->field_204_killer_id = field_200_id;
+                    field_14C_internal_target_ped->field_290 = 10;
+                    field_14C_internal_target_ped->field_264_killer_id_timer = 50;
+
+                    if (field_14C_internal_target_ped->IsField238_45EDE0(2) && field_240_occupation == ped_ocupation_enum::mugger)
+                    {
+                        field_14C_internal_target_ped->field_15C_player->Add_2D4(-10);
+                        ++field_229;
+                        if (field_229 > 9)
+                        {
+                            field_226_internal_objective_status = 1;
+                        }
+                    }
+                    else if (field_14C_internal_target_ped->field_240_occupation != ped_ocupation_enum::criminal_type_1)
+                    {
+                        field_14C_internal_target_ped->TakeDamage(10);
+                    }
+                    return;
+                }
+
+                field_14C_internal_target_ped->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
+                field_14C_internal_target_ped->ChangeNextPedState2_45C540(ped_state_2::lying_on_floor_22);
+                field_14C_internal_target_ped->Set_B4_F16_To_1_433B50();
+                field_226_internal_objective_status = 1;
+                field_144_attacker = 0;
+                field_21C_bf.b2 = false;
+                field_228 = 0;
+
+                if (field_28C_threat_reaction != threat_reaction_enum::react_as_emergency_1 || !field_14C_internal_target_ped->IsField238_45EDE0(2))
+                {
+                    return;
+                }
+                if (bStartNetworkGame_7081F0)
+                {
+                    field_14C_internal_target_ped->Kill_46F9D0();
+                    return;
+                }
+            }
+            field_14C_internal_target_ped->field_21C_bf.b5 = true;
+            Set_F250_IfBit_433DD0(18);
         }
     }
     else
@@ -9746,7 +9753,7 @@ void Ped::MeleeAttackStateMachine_46B670()
         {
             if (gDistanceToTarget_678750 < kFpThreeEighths_67878C)
             {
-                field_168_game_object->RegulateVelocity_433970(field_1F4);
+                field_168_game_object->SetMaxSpeed_433920(field_1F4);
             }
             else
             {
