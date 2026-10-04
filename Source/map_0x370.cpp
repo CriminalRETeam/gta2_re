@@ -1860,7 +1860,9 @@ bool Map_0x370::sub_4E1A30(s32 tileX_min, s32 tileX_max, s32 tileY_min, s32 tile
     return false;
 }
 
-WIP_FUNC(0x4E1E00)
+// Each face test passes a plain tile coordinate as u32 (out-of-line Fix16(u32) copy 0x4926F0) and a
+// computed one as s32 (Fix16(s32) copy 0x4369F0); the last argument is converted inline.
+MATCH_FUNC(0x4E1E00)
 char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
                                           s32 regionRight,
                                           s32 regionTop,
@@ -1869,26 +1871,6 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
                                           s32 tileY,
                                           s32 zLevel)
 {
-    WIP_IMPLEMENTED;
-
-    gmp_block_info* pBlock2;
-    gmp_block_info* pBlock3;
-    gmp_block_info* pBlock4;
-    gmp_block_info* pBlock5;
-    gmp_block_info* pBlock6;
-    gmp_block_info* pBlock7;
-    gmp_block_info* pBlock8;
-    gmp_block_info* pBlock9;
-    gmp_block_info* pBlock10;
-
-    s32 v32;
-    s32 v38;
-    s32 v40;
-    s32 v47;
-    s32 v55;
-    s32 v64;
-    s32 v69;
-
     dword_6F5FAC = zLevel;
     dword_6F6248 = zLevel;
     dword_6F620C = zLevel;
@@ -1907,25 +1889,24 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
         }
     }
 
-    pBlock2 = GetEffectiveBlock_4DFE60(tileX, tileY, zLevel);
-    gBlockInfo0_6F5EB0 = pBlock2;
-    if (!pBlock2)
+    gmp_block_info* pBlock = GetEffectiveBlock_4DFE60(tileX, tileY, zLevel);
+    gBlockInfo0_6F5EB0 = pBlock;
+    if (!pBlock)
     {
-        pBlock2 = &gBlockInfo1_6F5F40;
+        pBlock = &gBlockInfo1_6F5F40;
         gBlockInfo0_6F5EB0 = &gBlockInfo1_6F5F40;
     }
 
-    u8 gradient_direction_;
-    gmp_map_slope* pSlopeType = &gGmpSlopes_6F5BA8[pBlock2->field_B_slope_type >> 2];
-    dword_6F5EC8 = pSlopeType;
-    if (!pSlopeType->field_0_gradient_direction || pSlopeType->field_2_gradient_level)
+    u8 gradient_direction;
+    dword_6F5EC8 = &gGmpSlopes_6F5BA8[pBlock->field_B_slope_type >> 2];
+    if (!dword_6F5EC8->field_0_gradient_direction || dword_6F5EC8->field_2_gradient_level)
     {
-        gradient_direction_ = 0;
+        gradient_direction = 0;
     }
     else
     {
-        gradient_direction_ = pSlopeType->field_0_gradient_direction;
-        switch (gradient_direction_)
+        gradient_direction = dword_6F5EC8->field_0_gradient_direction;
+        switch (gradient_direction)
         {
             case 1u:
                 ++dword_6F5FAC;
@@ -1945,623 +1926,305 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
         dword_6F6054 = get_block_4DFE10(tileX, tileY, zLevel + 1);
     }
 
-    if (regionTop >= tileY)
+    // North (y - 1)
+    if (regionTop < tileY)
     {
-        goto LABEL_39;
-    }
-
-    if (gradient_direction_ == 1)
-    {
-        if (dword_6F6054 && (dword_6F6054->field_4_top & gFaceCollisionMask_6F6002))
+        if (gradient_direction == 1)
         {
-            if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX, tileX + 1, tileY))
+            if (dword_6F6054 && ((u16)gFaceCollisionMask_6F6002 & dword_6F6054->field_4_top) != 0)
             {
-                return 1;
-            }
-        }
-    }
-    else if ((gBlockInfo0_6F5EB0->field_4_top & gFaceCollisionMask_6F6002) && dword_6F5EC8->field_0_gradient_direction != 3 &&
-             dword_6F5EC8->field_0_gradient_direction != 4)
-    {
-        if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX, tileX + 1, tileY))
-        {
-            return 1;
-        }
-    }
-
-LABEL_32:
-    pBlock3 = GetEffectiveBlock_4DFE60(tileX, tileY - 1, dword_6F5FAC);
-    dword_6F606C = pBlock3;
-    if (pBlock3)
-    {
-        if (((u16)gFaceCollisionMask_6F6002 & pBlock3->field_6_bottom) != 0)
-        {
-            if (!gSprite_6F61E8)
-            {
-                return 1;
-            }
-
-            if (gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX, tileX + 1, tileY))
-            {
-                return 1;
-            }
-            pBlock3 = dword_6F606C;
-        }
-        dword_6F6084 = &gGmpSlopes_6F5BA8[pBlock3->field_B_slope_type >> 2];
-    }
-
-LABEL_39:
-    if (regionBottom <= tileY)
-    {
-        goto LABEL_59;
-    }
-    if (gradient_direction_ != 2)
-    {
-        if (((u16)gFaceCollisionMask_6F6002 & gBlockInfo0_6F5EB0->field_6_bottom) == 0)
-        {
-            goto LABEL_52;
-        }
-        if (dword_6F5EC8->field_0_gradient_direction == 3)
-        {
-            goto LABEL_52;
-        }
-        if (dword_6F5EC8->field_0_gradient_direction == 4)
-        {
-            goto LABEL_52;
-        }
-        if (gSprite_6F61E8)
-        {
-            if (!gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX, tileX + 1, tileY + 1))
-            {
-                goto LABEL_52;
-            }
-        }
-        return 1;
-    }
-    if (!dword_6F6054)
-    {
-        goto LABEL_52;
-    }
-
-    if (((u16)gFaceCollisionMask_6F6002 & dword_6F6054->field_6_bottom) == 0)
-    {
-        goto LABEL_52;
-    }
-    if (!gSprite_6F61E8)
-    {
-        return 1;
-    }
-
-    if (gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX, tileX + 1, tileY + 1))
-    {
-        return 1;
-    }
-
-LABEL_52:
-    pBlock4 = GetEffectiveBlock_4DFE60(tileX, tileY + 1, dword_6F6248);
-    dword_6F6070 = pBlock4;
-    if (pBlock4)
-    {
-        if (((u16)gFaceCollisionMask_6F6002 & pBlock4->field_4_top) != 0)
-        {
-            if (!gSprite_6F61E8)
-            {
-                return 1;
-            }
-            if (gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX, tileX + 1, tileY + 1))
-            {
-                return 1;
-            }
-            pBlock4 = dword_6F6070;
-        }
-        dword_6F6088 = &gGmpSlopes_6F5BA8[(u32)pBlock4->field_B_slope_type >> 2];
-    }
-
-LABEL_59:
-    if (regionLeft >= tileX)
-    {
-        goto LABEL_142;
-    }
-    if (gradient_direction_ != 3)
-    {
-        if (((u16)gFaceCollisionMask_6F6002 & gBlockInfo0_6F5EB0->field_0_left) == 0)
-        {
-            goto LABEL_72;
-        }
-        if (dword_6F5EC8->field_0_gradient_direction == 1)
-        {
-            goto LABEL_72;
-        }
-        if (dword_6F5EC8->field_0_gradient_direction == 2)
-        {
-            goto LABEL_72;
-        }
-        if (gSprite_6F61E8)
-        {
-            if (!gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY, tileY + 1, tileX))
-            {
-                goto LABEL_72;
-            }
-        }
-        return 1;
-    }
-    if (!dword_6F6054)
-    {
-        goto LABEL_72;
-    }
-
-    if (((u16)gFaceCollisionMask_6F6002 & dword_6F6054->field_0_left) == 0)
-    {
-        goto LABEL_72;
-    }
-    if (!gSprite_6F61E8)
-    {
-        return 1;
-    }
-
-    if (gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY, tileY + 1, tileX))
-    {
-        return 1;
-    }
-
-LABEL_72:
-    pBlock5 = GetEffectiveBlock_4DFE60(tileX - 1, tileY, dword_6F5BA0);
-    dword_6F6078 = pBlock5;
-    if (pBlock5)
-    {
-        if (((u16)gFaceCollisionMask_6F6002 & pBlock5->field_2_right) != 0)
-        {
-            if (!gSprite_6F61E8)
-            {
-                return 1;
-            }
-            if (gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY, tileY + 1, tileX))
-            {
-                return 1;
-            }
-            pBlock5 = dword_6F6078;
-        }
-        dword_6F608C = &gGmpSlopes_6F5BA8[pBlock5->field_B_slope_type >> 2];
-    }
-    if (regionTop >= tileY)
-    {
-        goto LABEL_111;
-    }
-    if (dword_6F606C)
-    {
-        if (dword_6F5BA0 <= dword_6F5FAC && ((u16)gFaceCollisionMask_6F6002 & dword_6F606C->field_0_left) != 0)
-        {
-            if (dword_6F6084->field_0_gradient_direction != 1 && (u8)dword_6F6084->field_0_gradient_direction != 2)
-            {
-                if (!gSprite_6F61E8)
-                {
-                    return 1;
-                }
-                if (gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY - 1, tileY, tileX))
-                {
-                    return 1;
-                }
-                pBlock5 = dword_6F6078;
-            }
-        }
-    }
-
-    if (!pBlock5)
-    {
-    LABEL_97:
-        //v30 = dword_6F5FAC;
-        v32 = dword_6F5BA0;
-        if (dword_6F5FAC <= dword_6F5BA0)
-        {
-            goto LABEL_99;
-        }
-        goto LABEL_98;
-    }
-
-    //v30 = dword_6F5FAC;
-
-    if (dword_6F5FAC <= dword_6F5BA0)
-    {
-        if (((u16)gFaceCollisionMask_6F6002 & pBlock5->field_4_top) != 0 && dword_6F608C->field_0_gradient_direction != 3 &&
-            dword_6F608C->field_0_gradient_direction != 4)
-        {
-            if (!gSprite_6F61E8)
-            {
-                return 1;
-            }
-
-            if (gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX - 1, tileX, tileY))
-            {
-                return 1;
-            }
-        }
-        goto LABEL_97;
-    }
-
-LABEL_98:
-    v32 = dword_6F5FAC; // = v30
-
-LABEL_99:
-    pBlock6 = GetEffectiveBlock_4DFE60(tileX - 1, tileY - 1, v32);
-    dword_6F5F90 = pBlock6;
-    if (pBlock6)
-    {
-        if (((u16)gFaceCollisionMask_6F6002 & pBlock6->field_2_right) != 0)
-        {
-            if (!gSprite_6F61E8)
-            {
-                return 1;
-            }
-
-            if (gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY - 1, tileY, tileX))
-            {
-                return 1;
-            }
-            pBlock6 = dword_6F5F90;
-        }
-
-        if (pBlock6)
-        {
-            if (((u16)gFaceCollisionMask_6F6002 & pBlock6->field_6_bottom) != 0)
-            {
-                if (!gSprite_6F61E8)
-                {
-                    return 1;
-                }
-
-                if (gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX - 1, tileX, tileY))
+                if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970((u32)tileX, tileX + 1, tileY))
                 {
                     return 1;
                 }
             }
         }
-    }
-    pBlock5 = dword_6F6078;
-
-LABEL_111:
-    if (regionBottom <= tileY)
-    {
-        goto LABEL_142;
-    }
-
-    if (dword_6F6070)
-    {
-        if (dword_6F5BA0 <= dword_6F6248 && ((u16)gFaceCollisionMask_6F6002 & dword_6F6070->field_0_left) != 0)
+        else if (((u16)gFaceCollisionMask_6F6002 & gBlockInfo0_6F5EB0->field_4_top) != 0 &&
+                 dword_6F5EC8->field_0_gradient_direction != 3 && dword_6F5EC8->field_0_gradient_direction != 4)
         {
-            if (dword_6F6088->field_0_gradient_direction != 1 && (u8)dword_6F6088->field_0_gradient_direction != 2)
+            if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970((u32)tileX, tileX + 1, tileY))
             {
-                if (!gSprite_6F61E8)
+                return 1;
+            }
+        }
+
+        dword_6F606C = GetEffectiveBlock_4DFE60(tileX, tileY - 1, dword_6F5FAC);
+        if (dword_6F606C)
+        {
+            if (((u16)gFaceCollisionMask_6F6002 & dword_6F606C->field_6_bottom) != 0)
+            {
+                if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970((u32)tileX, tileX + 1, tileY))
                 {
                     return 1;
                 }
-
-                if (gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY + 1, tileY + 2, tileX))
-                {
-                    return 1;
-                }
-                pBlock5 = dword_6F6078;
             }
+            dword_6F6084 = &gGmpSlopes_6F5BA8[dword_6F606C->field_B_slope_type >> 2];
         }
     }
 
-    if (pBlock5)
+    // South (y + 1)
+    if (regionBottom > tileY)
     {
-        v38 = dword_6F6248;
-        if (dword_6F6248 > dword_6F5BA0)
+        if (gradient_direction == 2)
         {
-        LABEL_130:
-            v40 = v38;
-            goto LABEL_131;
-        }
-
-        if (((u16)gFaceCollisionMask_6F6002 & pBlock5->field_6_bottom) != 0 && dword_6F608C->field_0_gradient_direction != 3 &&
-            dword_6F608C->field_0_gradient_direction != 4)
-        {
-            if (!gSprite_6F61E8)
+            if (dword_6F6054 && ((u16)gFaceCollisionMask_6F6002 & dword_6F6054->field_6_bottom) != 0)
             {
-                return 1;
-            }
-
-            if (gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX - 1, tileX, tileY + 1))
-            {
-                return 1;
-            }
-        }
-    }
-
-    v38 = dword_6F6248;
-    v40 = dword_6F5BA0;
-    if (dword_6F6248 > dword_6F5BA0)
-    {
-        goto LABEL_130;
-    }
-
-LABEL_131:
-    pBlock7 = GetEffectiveBlock_4DFE60(tileX - 1, tileY + 1, v40);
-    dword_6F5FB0 = pBlock7;
-    if (pBlock7)
-    {
-        if (((u16)gFaceCollisionMask_6F6002 & pBlock7->field_2_right) != 0)
-        {
-            if (!gSprite_6F61E8)
-            {
-                return 1;
-            }
-            if (gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY + 1, tileY + 2, tileX))
-            {
-                return 1;
-            }
-            pBlock7 = dword_6F5FB0;
-        }
-
-        if (pBlock7)
-        {
-            if (((u16)gFaceCollisionMask_6F6002 & pBlock7->field_4_top) != 0)
-            {
-                if (!gSprite_6F61E8)
-                {
-                    return 1;
-                }
-                if (gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX - 1, tileX, tileY + 1))
+                if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970((u32)tileX, tileX + 1, tileY + 1))
                 {
                     return 1;
                 }
             }
         }
-    }
-LABEL_142:
-    if (regionRight <= tileX)
-    {
-        return 0;
-    }
-    if (gradient_direction_ != 4)
-    {
-        if (((u16)gFaceCollisionMask_6F6002 & gBlockInfo0_6F5EB0->field_2_right) == 0)
+        else if (((u16)gFaceCollisionMask_6F6002 & gBlockInfo0_6F5EB0->field_6_bottom) != 0 &&
+                 dword_6F5EC8->field_0_gradient_direction != 3 && dword_6F5EC8->field_0_gradient_direction != 4)
         {
-            goto LABEL_155;
-        }
-        if (dword_6F5EC8->field_0_gradient_direction == 1)
-        {
-            goto LABEL_155;
-        }
-        if (dword_6F5EC8->field_0_gradient_direction == 2)
-        {
-            goto LABEL_155;
-        }
-
-        if (gSprite_6F61E8)
-        {
-            if (!gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY, tileY + 1, tileX + 1))
-            {
-                goto LABEL_155;
-            }
-        }
-        return 1;
-    }
-
-    if (!dword_6F6054 || ((u16)gFaceCollisionMask_6F6002 & dword_6F6054->field_2_right) == 0)
-    {
-        goto LABEL_155;
-    }
-
-    if (!gSprite_6F61E8)
-    {
-        return 1;
-    }
-
-    if (gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY, tileY + 1, tileX + 1))
-    {
-        return 1;
-    }
-
-LABEL_155:
-    v47 = tileX + 1;
-    pBlock8 = GetEffectiveBlock_4DFE60(tileX + 1, tileY, dword_6F620C);
-    dword_6F6060 = pBlock8;
-    if (pBlock8)
-    {
-        if (((u16)gFaceCollisionMask_6F6002 & pBlock8->field_0_left) != 0)
-        {
-            if (!gSprite_6F61E8)
+            if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970((u32)tileX, tileX + 1, tileY + 1))
             {
                 return 1;
             }
-
-            if (gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY, tileY + 1, v47))
-            {
-                return 1;
-            }
-            pBlock8 = dword_6F6060;
         }
-        dword_6F6080 = &gGmpSlopes_6F5BA8[pBlock8->field_B_slope_type >> 2];
-    }
 
-    if (regionTop >= tileY)
-    {
-        goto LABEL_194;
-    }
-    
-    if (dword_6F606C)
-    {
-        if (dword_6F620C <= dword_6F5FAC && ((u16)gFaceCollisionMask_6F6002 & dword_6F606C->field_2_right) != 0)
+        dword_6F6070 = GetEffectiveBlock_4DFE60(tileX, tileY + 1, dword_6F6248);
+        if (dword_6F6070)
         {
-            if (dword_6F6084->field_0_gradient_direction != 1 && (u8)dword_6F6084->field_0_gradient_direction != 2)
+            if (((u16)gFaceCollisionMask_6F6002 & dword_6F6070->field_4_top) != 0)
             {
-                if (!gSprite_6F61E8)
+                if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970((u32)tileX, tileX + 1, tileY + 1))
                 {
                     return 1;
                 }
-
-                if (gSprite_6F61E8->HitTestVerticalLine_5A0EF0( tileY - 1, tileY, v47))
-                {
-                    return 1;
-                }
-                pBlock8 = dword_6F6060;
             }
+            dword_6F6088 = &gGmpSlopes_6F5BA8[dword_6F6070->field_B_slope_type >> 2];
         }
     }
 
-    if (!pBlock8)
+    // West (x - 1) and the north west / south west corners
+    if (regionLeft < tileX)
     {
-    LABEL_180:
-        //v53 = dword_6F5FAC;
-        v55 = dword_6F620C;
-        if (dword_6F5FAC <= dword_6F620C)
+        if (gradient_direction == 3)
         {
-            goto LABEL_182;
-        }
-        goto LABEL_181;
-    }
-
-    //v53 = dword_6F5FAC;
-
-    if (dword_6F5FAC <= dword_6F620C)
-    {
-        if (((u16)gFaceCollisionMask_6F6002 & pBlock8->field_4_top) != 0 && dword_6F6080->field_0_gradient_direction != 3 &&
-            dword_6F6080->field_0_gradient_direction != 4)
-        {
-            if (!gSprite_6F61E8)
+            if (dword_6F6054 && ((u16)gFaceCollisionMask_6F6002 & dword_6F6054->field_0_left) != 0)
             {
-                return 1;
-            }
-
-            if (gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX + 1, tileX + 2, tileY))
-            {
-                return 1;
-            }
-        }
-        goto LABEL_180;
-    }
-
-LABEL_181:
-    v55 = dword_6F5FAC; // = v53;
-
-LABEL_182:
-    pBlock9 = GetEffectiveBlock_4DFE60(tileX + 1, tileY - 1, v55);
-    dword_6F5F54 = pBlock9;
-
-    if (pBlock9)
-    {
-        if (((u16)gFaceCollisionMask_6F6002 & pBlock9->field_0_left) != 0)
-        {
-            if (!gSprite_6F61E8)
-            {
-                return 1;
-            }
-
-            if (gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY - 1, tileY, v47))
-            {
-                return 1;
-            }
-            pBlock9 = dword_6F5F54;
-        }
-
-        if (pBlock9)
-        {
-            if (((u16)gFaceCollisionMask_6F6002 & pBlock9->field_6_bottom) != 0)
-            {
-                if (!gSprite_6F61E8)
-                {
-                    return 1;
-                }
-
-                if (gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX + 1, tileX + 2, tileY))
+                if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0((u32)tileY, tileY + 1, tileX))
                 {
                     return 1;
                 }
             }
         }
-    }
-    pBlock8 = dword_6F6060;
-
-LABEL_194:
-    if (regionBottom <= tileY)
-    {
-        return 0;
-    }
-    if (dword_6F6070)
-    {
-        if (dword_6F620C <= dword_6F6248 && ((u16)gFaceCollisionMask_6F6002 & dword_6F6070->field_2_right) != 0)
+        else if (((u16)gFaceCollisionMask_6F6002 & gBlockInfo0_6F5EB0->field_0_left) != 0 &&
+                 dword_6F5EC8->field_0_gradient_direction != 1 && dword_6F5EC8->field_0_gradient_direction != 2)
         {
-            if (dword_6F6088->field_0_gradient_direction != 1 && (u8)dword_6F6088->field_0_gradient_direction != 2)
+            if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0((u32)tileY, tileY + 1, tileX))
             {
-                if (!gSprite_6F61E8)
+                return 1;
+            }
+        }
+
+        dword_6F6078 = GetEffectiveBlock_4DFE60(tileX - 1, tileY, dword_6F5BA0);
+        if (dword_6F6078)
+        {
+            if (((u16)gFaceCollisionMask_6F6002 & dword_6F6078->field_2_right) != 0)
+            {
+                if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0((u32)tileY, tileY + 1, tileX))
                 {
                     return 1;
                 }
+            }
+            dword_6F608C = &gGmpSlopes_6F5BA8[dword_6F6078->field_B_slope_type >> 2];
+        }
 
-                if (gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY + 1, tileY + 2, v47))
+        if (regionTop < tileY)
+        {
+            if (dword_6F606C && dword_6F5BA0 <= dword_6F5FAC && ((u16)gFaceCollisionMask_6F6002 & dword_6F606C->field_0_left) != 0 &&
+                dword_6F6084->field_0_gradient_direction != 1 && dword_6F6084->field_0_gradient_direction != 2)
+            {
+                if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY - 1, (u32)tileY, tileX))
                 {
                     return 1;
                 }
-                pBlock8 = dword_6F6060;
-            }
-        }
-    }
-
-    if (pBlock8)
-    {
-        //v62 = dword_6F6248;
-        if (dword_6F6248 > dword_6F620C)
-        {
-        LABEL_213:
-            v64 = dword_6F6248; // = v62;
-            goto LABEL_214;
-        }
-
-        if (((u16)gFaceCollisionMask_6F6002 & pBlock8->field_6_bottom) != 0 && dword_6F6080->field_0_gradient_direction != 3 &&
-            dword_6F6080->field_0_gradient_direction != 4)
-        {
-            if (!gSprite_6F61E8)
-            {
-                return 1;
-            }
-            if (gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX + 1, tileX + 2, tileY + 1))
-            {
-                return 1;
-            }
-        }
-    }
-    //v62 = dword_6F6248;
-    v64 = dword_6F620C;
-    if (dword_6F6248 > dword_6F620C)
-    {
-        goto LABEL_213;
-    }
-
-LABEL_214:
-    //v65 = tileY + 1;
-    pBlock10 = GetEffectiveBlock_4DFE60(tileX + 1, tileY + 1, v64);
-    dword_6F5F98 = pBlock10;
-    if (pBlock10)
-    {
-
-        if ((((u16)gFaceCollisionMask_6F6002) & pBlock10->field_0_left) != 0)
-        {
-            if (!gSprite_6F61E8)
-            {
-                return 1;
             }
 
-            if (gSprite_6F61E8->HitTestVerticalLine_5A0EF0(/*v65*/ tileY + 1, tileY + 2, v47))
+            if (dword_6F6078 && dword_6F5FAC <= dword_6F5BA0 && ((u16)gFaceCollisionMask_6F6002 & dword_6F6078->field_4_top) != 0 &&
+                dword_6F608C->field_0_gradient_direction != 3 && dword_6F608C->field_0_gradient_direction != 4)
             {
-                return 1;
-            }
-            pBlock10 = dword_6F5F98;
-        }
-
-        if (pBlock10)
-        {
-            if (((u16)gFaceCollisionMask_6F6002 & pBlock10->field_4_top) != 0)
-            {
-                if (!gSprite_6F61E8)
+                if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX - 1, (u32)tileX, tileY))
                 {
                     return 1;
                 }
+            }
 
-                if (gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(v69, tileX + 2, /*v65*/ tileY + 1))
+            dword_6F5F90 = GetEffectiveBlock_4DFE60(tileX - 1, tileY - 1, dword_6F5FAC > dword_6F5BA0 ? dword_6F5FAC : dword_6F5BA0);
+            if (dword_6F5F90)
+            {
+                if (((u16)gFaceCollisionMask_6F6002 & dword_6F5F90->field_2_right) != 0)
+                {
+                    if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY - 1, (u32)tileY, tileX))
+                    {
+                        return 1;
+                    }
+                }
+                if (dword_6F5F90 && ((u16)gFaceCollisionMask_6F6002 & dword_6F5F90->field_6_bottom) != 0)
+                {
+                    if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX - 1, (u32)tileX, tileY))
+                    {
+                        return 1;
+                    }
+                }
+            }
+        }
+
+        if (regionBottom > tileY)
+        {
+            if (dword_6F6070 && dword_6F5BA0 <= dword_6F6248 && ((u16)gFaceCollisionMask_6F6002 & dword_6F6070->field_0_left) != 0 &&
+                dword_6F6088->field_0_gradient_direction != 1 && dword_6F6088->field_0_gradient_direction != 2)
+            {
+                if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY + 1, tileY + 2, tileX))
                 {
                     return 1;
+                }
+            }
+
+            if (dword_6F6078 && dword_6F6248 <= dword_6F5BA0 && ((u16)gFaceCollisionMask_6F6002 & dword_6F6078->field_6_bottom) != 0 &&
+                dword_6F608C->field_0_gradient_direction != 3 && dword_6F608C->field_0_gradient_direction != 4)
+            {
+                if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX - 1, (u32)tileX, tileY + 1))
+                {
+                    return 1;
+                }
+            }
+
+            dword_6F5FB0 = GetEffectiveBlock_4DFE60(tileX - 1, tileY + 1, dword_6F6248 > dword_6F5BA0 ? dword_6F6248 : dword_6F5BA0);
+            if (dword_6F5FB0)
+            {
+                if (((u16)gFaceCollisionMask_6F6002 & dword_6F5FB0->field_2_right) != 0)
+                {
+                    if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY + 1, tileY + 2, tileX))
+                    {
+                        return 1;
+                    }
+                }
+                if (dword_6F5FB0 && ((u16)gFaceCollisionMask_6F6002 & dword_6F5FB0->field_4_top) != 0)
+                {
+                    if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX - 1, (u32)tileX, tileY + 1))
+                    {
+                        return 1;
+                    }
+                }
+            }
+        }
+    }
+
+    // East (x + 1) and the north east / south east corners
+    if (regionRight > tileX)
+    {
+        if (gradient_direction == 4)
+        {
+            if (dword_6F6054 && ((u16)gFaceCollisionMask_6F6002 & dword_6F6054->field_2_right) != 0)
+            {
+                if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0((u32)tileY, tileY + 1, tileX + 1))
+                {
+                    return 1;
+                }
+            }
+        }
+        else if (((u16)gFaceCollisionMask_6F6002 & gBlockInfo0_6F5EB0->field_2_right) != 0 &&
+                 dword_6F5EC8->field_0_gradient_direction != 1 && dword_6F5EC8->field_0_gradient_direction != 2)
+        {
+            if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0((u32)tileY, tileY + 1, tileX + 1))
+            {
+                return 1;
+            }
+        }
+
+        dword_6F6060 = GetEffectiveBlock_4DFE60(tileX + 1, tileY, dword_6F620C);
+        if (dword_6F6060)
+        {
+            if (((u16)gFaceCollisionMask_6F6002 & dword_6F6060->field_0_left) != 0)
+            {
+                if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0((u32)tileY, tileY + 1, tileX + 1))
+                {
+                    return 1;
+                }
+            }
+            dword_6F6080 = &gGmpSlopes_6F5BA8[dword_6F6060->field_B_slope_type >> 2];
+        }
+
+        if (regionTop < tileY)
+        {
+            if (dword_6F606C && dword_6F620C <= dword_6F5FAC && ((u16)gFaceCollisionMask_6F6002 & dword_6F606C->field_2_right) != 0 &&
+                dword_6F6084->field_0_gradient_direction != 1 && dword_6F6084->field_0_gradient_direction != 2)
+            {
+                if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY - 1, (u32)tileY, tileX + 1))
+                {
+                    return 1;
+                }
+            }
+
+            if (dword_6F6060 && dword_6F5FAC <= dword_6F620C && ((u16)gFaceCollisionMask_6F6002 & dword_6F6060->field_4_top) != 0 &&
+                dword_6F6080->field_0_gradient_direction != 3 && dword_6F6080->field_0_gradient_direction != 4)
+            {
+                if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX + 1, tileX + 2, tileY))
+                {
+                    return 1;
+                }
+            }
+
+            dword_6F5F54 = GetEffectiveBlock_4DFE60(tileX + 1, tileY - 1, dword_6F5FAC > dword_6F620C ? dword_6F5FAC : dword_6F620C);
+            if (dword_6F5F54)
+            {
+                if (((u16)gFaceCollisionMask_6F6002 & dword_6F5F54->field_0_left) != 0)
+                {
+                    if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY - 1, (u32)tileY, tileX + 1))
+                    {
+                        return 1;
+                    }
+                }
+                if (dword_6F5F54 && ((u16)gFaceCollisionMask_6F6002 & dword_6F5F54->field_6_bottom) != 0)
+                {
+                    if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX + 1, tileX + 2, tileY))
+                    {
+                        return 1;
+                    }
+                }
+            }
+        }
+
+        if (regionBottom > tileY)
+        {
+            if (dword_6F6070 && dword_6F620C <= dword_6F6248 && ((u16)gFaceCollisionMask_6F6002 & dword_6F6070->field_2_right) != 0 &&
+                dword_6F6088->field_0_gradient_direction != 1 && dword_6F6088->field_0_gradient_direction != 2)
+            {
+                if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY + 1, tileY + 2, tileX + 1))
+                {
+                    return 1;
+                }
+            }
+
+            if (dword_6F6060 && dword_6F6248 <= dword_6F620C && ((u16)gFaceCollisionMask_6F6002 & dword_6F6060->field_6_bottom) != 0 &&
+                dword_6F6080->field_0_gradient_direction != 3 && dword_6F6080->field_0_gradient_direction != 4)
+            {
+                if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX + 1, tileX + 2, tileY + 1))
+                {
+                    return 1;
+                }
+            }
+
+            dword_6F5F98 = GetEffectiveBlock_4DFE60(tileX + 1, tileY + 1, dword_6F6248 > dword_6F620C ? dword_6F6248 : dword_6F620C);
+            if (dword_6F5F98)
+            {
+                if (((u16)gFaceCollisionMask_6F6002 & dword_6F5F98->field_0_left) != 0)
+                {
+                    if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY + 1, tileY + 2, tileX + 1))
+                    {
+                        return 1;
+                    }
+                }
+                if (dword_6F5F98 && ((u16)gFaceCollisionMask_6F6002 & dword_6F5F98->field_4_top) != 0)
+                {
+                    if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX + 1, tileX + 2, tileY + 1))
+                    {
+                        return 1;
+                    }
                 }
             }
         }
