@@ -685,32 +685,48 @@ static inline void __stdcall DrawTextScaled_4BA2C0(const wchar_t* pStr, Fix16 x,
     DrawText_5D8A10(pStr, x * gViewCamera_676978->field_A8_ui_scale, scale_y, font, gViewCamera_676978->field_A8_ui_scale, palette_type, 0, 0, 0);
 }
 
-WIP_FUNC(0x59eb30)
+// DrawTextScaled_4BA2C0 in ShowId_59EB30, where the x multiply is the out-of-line Multiply_408680
+static inline void __stdcall DrawTextScaled_4BA2C0_ool(const wchar_t* pStr, Fix16 x, Fix16 y, u16 font)
+{
+    s32 palette_type = palette_types_enum::sprites_2;
+    Fix16 scale_y = y * gViewCamera_676978->field_A8_ui_scale;
+    DrawText_5D8A10(pStr,
+                    x.Multiply_408680(gViewCamera_676978->field_A8_ui_scale),
+                    scale_y,
+                    font,
+                    gViewCamera_676978->field_A8_ui_scale,
+                    palette_type,
+                    0,
+                    0,
+                    0);
+}
+
+MATCH_FUNC(0x59EB30)
 void Sprite::ShowId_59EB30(f32& x, f32& y)
 {
-    s32 palette_type;
     if (bDo_show_ids_67D559)
     {
-        if (field_30_sprite_type_enum == sprite_types_enum::car_2)
+        Car_BC* pCar = AsCar_40FEB0();
+        if (pCar)
         {
-            Car_BC* pCar = field_8_car_bc_ptr;
-            if (pCar)
-            {
-                Fix16 xpos((s32)((x / (f32)(u32)window_width_706630) * 640.0f));
-                Fix16 ypos((s32)((y / (f32)(u32)window_height_706B50) * 480.0f));
-                swprintf(tmpBuff_67BD9C, L"%d", pCar->field_6C_maybe_id);
-                DrawTextScaled_4BA2C0(tmpBuff_67BD9C, xpos, ypos, word_703BAA);
-            }
+            Fix16 xpos;
+            xpos = Fix16((s32)((x / (f32)(u32)window_width_706630) * 640.0f));
+            Fix16 ypos;
+            ypos = Fix16((s32)((y / (f32)(u32)window_height_706B50) * 480.0f));
+            swprintf(tmpBuff_67BD9C, L"%d", pCar->field_6C_maybe_id);
+            DrawTextScaled_4BA2C0_ool(tmpBuff_67BD9C, xpos, ypos, word_703BAA);
         }
-        else if (field_30_sprite_type_enum == sprite_types_enum::ped_3)
+        else
         {
-            Char_B4* pB4 = field_8_char_b4_ptr;
+            Char_B4* pB4 = AsCharB4_40FEA0();
             if (pB4)
             {
-                Fix16 xpos((s32)((x / (f32)(u32)window_width_706630) * 640.0f));
-                Fix16 ypos((s32)((y / (f32)(u32)window_height_706B50) * 480.0f));
+                Fix16 xpos;
+            xpos = Fix16((s32)((x / (f32)(u32)window_width_706630) * 640.0f));
+                Fix16 ypos;
+            ypos = Fix16((s32)((y / (f32)(u32)window_height_706B50) * 480.0f));
                 swprintf(tmpBuff_67BD9C, L"%d", pB4->field_7C_pPed->field_200_id);
-                palette_type = 2;
+                s32 palette_type = 2;
                 DrawText_5D8A10(tmpBuff_67BD9C,
                                 xpos * gViewCamera_676978->field_A8_ui_scale,
                                 ypos * gViewCamera_676978->field_A8_ui_scale,
@@ -726,26 +742,24 @@ void Sprite::ShowId_59EB30(f32& x, f32& y)
 
     if (bDo_show_object_ids_67D6CA)
     {
-        if (field_30_sprite_type_enum == sprite_types_enum::code_obj1_4 || field_30_sprite_type_enum == sprite_types_enum::map_obj_5 ||
-            field_30_sprite_type_enum == sprite_types_enum::unknown_1)
+        Object_2C* pObj = As2C_40FEC0();
+        if (pObj)
         {
-            Object_2C* pObj = field_8_object_2C_ptr;
-            if (pObj)
-            {
-                Fix16 xpos((s32)((x / (f32)(u32)window_width_706630) * 640.0f));
-                Fix16 ypos((s32)((y / (f32)(u32)window_height_706B50) * 480.0f));
-                swprintf(tmpBuff_67BD9C, L"%d:%d", pObj->field_18_model, pObj->field_14_id);
-                palette_type = 2;
-                DrawText_5D8A10(tmpBuff_67BD9C,
-                                xpos * gViewCamera_676978->field_A8_ui_scale,
-                                ypos * gViewCamera_676978->field_A8_ui_scale,
-                                word_703BAA,
-                                gViewCamera_676978->field_A8_ui_scale,
-                                palette_type,
-                                0,
-                                0,
-                                0);
-            }
+            Fix16 xpos;
+            xpos = Fix16((s32)((x / (f32)(u32)window_width_706630) * 640.0f));
+            Fix16 ypos;
+            ypos = Fix16((s32)((y / (f32)(u32)window_height_706B50) * 480.0f));
+            swprintf(tmpBuff_67BD9C, L"%d:%d", pObj->field_18_model, pObj->field_14_id);
+            s32 palette_type = 2;
+            DrawText_5D8A10(tmpBuff_67BD9C,
+                            xpos * gViewCamera_676978->field_A8_ui_scale,
+                            ypos * gViewCamera_676978->field_A8_ui_scale,
+                            word_703BAA,
+                            gViewCamera_676978->field_A8_ui_scale,
+                            palette_type,
+                            0,
+                            0,
+                            0);
         }
     }
 }
