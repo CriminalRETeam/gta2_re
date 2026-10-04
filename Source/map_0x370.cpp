@@ -3459,8 +3459,9 @@ s32 Map_0x370::sub_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
     char_type bTurned = 0;
     Fix16 x = *pX;
     Fix16 y = *pY;
-    Fix16 z = *pZ;
+    Fix16 to_centre;
 
+    Fix16 z = *pZ;
     sub_4E65A0(x, y, &z, 1, 0);
     gmp_block_info* pBlock;
     SetRoadBlockAt_4E6660(pBlock, x, y, z);
@@ -3512,7 +3513,7 @@ s32 Map_0x370::sub_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
     if (side != kFpHalf_6F5F18)
     {
         Fix16 tmp;
-        Fix16 to_centre = *sub_4E5E00(&tmp, x, y, ReturnAngleFromRoadDirection_4F7940(&direction)) - kFpHalf_6F5F18;
+        to_centre = *sub_4E5E00(&tmp, x, y, ReturnAngleFromRoadDirection_4F7940(&direction)) - kFpHalf_6F5F18;
         if (to_centre > kFpZero_6F610C)
         {
             if (dist >= to_centre)
@@ -3557,8 +3558,10 @@ s32 Map_0x370::sub_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
         Fix16 to_edge = *sub_4E5E00(&tmp, x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
         if (to_edge > kFpZero_6F610C)
         {
-            sub_4E65A0(x, y, &z, 1, 1);
+            // Before the call, not after it as the original schedules it: after it, VC6 keeps
+            // the constant 1 in ebx for the pushes instead.
             pPrev = pBlock;
+            sub_4E65A0(x, y, &z, 1, 1);
             sub_4E5D10(&x,
                        &y,
                        kFpOne_6F6110 - to_edge,
