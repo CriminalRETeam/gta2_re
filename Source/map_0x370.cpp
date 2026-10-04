@@ -2967,6 +2967,10 @@ static inline void PolarToCartesian_inline_4E5640(Ang16& angle, Fix16& radius, F
     ret2 = Ang16::cosine_40F520(angle).Multiply_408680(radius);
 }
 
+// Walks the collision probe sprite from (x_1, y_1, z_1) towards (x_2, y_2, z_2) in steps of about `height`,
+// returning 0 as soon as it hits something (line of sight / clear path test).
+// Left: Fix16_Point_POD() for pos_diff goes out of line (inline budget). With it forced inline the
+// diff drops to ~263 (mostly stack slots), so freeing budget is the remaining work.
 WIP_FUNC(0x4E5640)
 char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_1, Fix16 y_1, Fix16 z_1, Fix16 x_2, Fix16 y_2, Fix16 z_2)
 {
@@ -3015,7 +3019,8 @@ char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_
 
     for (u8 i = 1; i <= value_1.ToInt(); i++)
     {
-        Fix16 unk_f16 = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(pObjSprt->field_14_xy.x, pObjSprt->field_14_xy.y, pObjSprt->field_1C_zpos);
+        Fix16 ground_z;
+        ground_z = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(pObjSprt->field_14_xy.x, pObjSprt->field_14_xy.y, pObjSprt->field_1C_zpos);
         if (value_3 == kFpZero_6F610C)
         {
             pObjSprt->set_xyz_lazy_420600(pObjSprt->field_14_xy.x + vec_x,
@@ -3031,29 +3036,30 @@ char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_
         {
             if (value_3 > kFpZero_6F610C)
             {
-                // line 110 of 9.6f idb
+                // Going up
                 pObjSprt->set_xyz_lazy_420600(pObjSprt->field_14_xy.x + vec_x,
                                               pObjSprt->field_14_xy.y + vec_y,
                                               pObjSprt->field_1C_zpos + value_3);
-                if (pObjSprt->field_1C_zpos > kFpSeven_6F6128)
+                Fix16 new_z = pObjSprt->field_1C_zpos;
+                if (new_z > kFpSeven_6F6128)
                 {
                     return 0;
                 }
 
-                if (pObjSprt->field_1C_zpos < kFpSeven_6F6128 &&
+                if (!(pObjSprt->field_1C_zpos < kFpSeven_6F6128) ||
                     gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(pObjSprt->field_14_xy.x.ToInt(),
                                                                   pObjSprt->field_14_xy.y.ToInt(),
-                                                                  (pObjSprt->field_1C_zpos + kFpHalf_6F5FE0).ToInt()) != AIR)
+                                                                  (pObjSprt->field_1C_zpos + kFpHalf_6F5FE0).ToInt()))
                 {
                     if (!gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(pObjSprt->field_14_xy.x.ToInt(),
-                                                  pObjSprt->field_14_xy.y.ToInt(),
-                                                  pObjSprt->field_1C_zpos.ToInt()))
+                                                                     pObjSprt->field_14_xy.y.ToInt(),
+                                                                     pObjSprt->field_1C_zpos.ToInt()))
                     {
                         return 0;
                     }
                 }
 
-                pObjSprt->set_xyz_lazy_420600(pObjSprt->field_14_xy.x, pObjSprt->field_14_xy.y, pObjSprt->field_1C_zpos);
+                pObjSprt->set_xyz_lazy_420600(pObjSprt->field_14_xy.x, pObjSprt->field_14_xy.y, new_z);
 
                 if (pObjSprt->CheckSpriteMovementRegion_5A2500())
                 {
@@ -3062,34 +3068,31 @@ char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_
             }
             else
             {
-                // line 139 of 9.6f idb
+                // Going down
                 pObjSprt->set_xyz_lazy_420600(pObjSprt->field_14_xy.x + vec_x,
                                               pObjSprt->field_14_xy.y + vec_y,
                                               pObjSprt->field_1C_zpos + value_3);
 
                 if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(pObjSprt->field_14_xy.x.ToInt(),
-                                             pObjSprt->field_14_xy.y.ToInt(),
-                                             pObjSprt->field_1C_zpos.ToInt()))
+                                                                pObjSprt->field_14_xy.y.ToInt(),
+                                                                pObjSprt->field_1C_zpos.ToInt()))
                 {
                     if (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(pObjSprt->field_14_xy.x.ToInt(),
                                                                       pObjSprt->field_14_xy.y.ToInt(),
-                                                                      pObjSprt->field_1C_zpos.ToInt()) != AIR)
+                                                                      pObjSprt->field_1C_zpos.ToInt()))
                     {
-                        Fix16 unk2_f16 =
-                            gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(pObjSprt->field_14_xy.x, pObjSprt->field_14_xy.y, pObjSprt->field_1C_zpos);
-                        if (unk2_f16 > pObjSprt->field_1C_zpos)
+                        if (gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(pObjSprt->field_14_xy.x,
+                                                                            pObjSprt->field_14_xy.y,
+                                                                            pObjSprt->field_1C_zpos) > pObjSprt->field_1C_zpos)
                         {
                             return 0;
                         }
                     }
                 }
-                else
+                else if (ground_z > pObjSprt->field_1C_zpos)
                 {
-                    if (unk_f16 > pObjSprt->field_1C_zpos)
-                    {
-                        pObjSprt->set_xyz_lazy_420600(pObjSprt->field_14_xy.x, pObjSprt->field_14_xy.y, unk_f16);
-                        return 0;
-                    }
+                    pObjSprt->set_xyz_lazy_420600(pObjSprt->field_14_xy.x, pObjSprt->field_14_xy.y, ground_z);
+                    return 0;
                 }
             }
 
