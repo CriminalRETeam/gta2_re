@@ -1615,6 +1615,35 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 a2, Fix16_Point& a3
     return true;
 }
 
+// 9.6f 0x401C80: Ang16::operator-(), the normalizing ctor called out of line (AssignNormalized_409300)
+static inline Ang16 NegateAng16_401C80(const Ang16& angle)
+{
+    s16 value = -angle.rValue;
+    return Ang16((Ang16&)value, 0);
+}
+
+// RotateAndTranslatePoint_42A720 with the out-of-line Fix16 operator copies
+static inline void __stdcall RotateAndTranslatePoint_ool_42A720(Fix16& pInX,
+                                                                Fix16& pInY,
+                                                                Ang16& pRotAng,
+                                                                Fix16& pTransX,
+                                                                Fix16& pTransY,
+                                                                Fix16& pRotTransX,
+                                                                Fix16& pRotTransY)
+{
+    pRotTransX = static_cast<const Fix16&>(pInX.Subtract_436A00(pTransX).Multiply_408680(Ang16::cosine_40F520(pRotAng))) +
+        pInY.Subtract_436A00(pTransY).Multiply_408680(Ang16::sine_40F500(pRotAng));
+    pRotTransY = static_cast<const Fix16&>(pInX.Subtract_436A00(pTransX).Negate_4086A0().Multiply_408680(Ang16::sine_40F500(pRotAng))) +
+        pInY.Subtract_436A00(pTransY).Multiply_408680(Ang16::cosine_40F520(pRotAng));
+}
+
+// Sprite_4C::HalfWH_4BA0A0 with the out-of-line Fix16 / s32 copy
+static inline void HalfWH_ool_4BA0A0(Sprite_4C* pThis, Fix16* pHalfW, Fix16* pHalfH)
+{
+    *pHalfW = pThis->field_0_width.DivideInt_53E860(2);
+    *pHalfH = pThis->field_4_height.DivideInt_53E860(2);
+}
+
 // https://decomp.me/scratch/2RoLd
 WIP_FUNC(0x5a1490)
 bool Sprite::PointInsideRotatedBounds_5A1490(Fix16_Point& point1, Fix16_Point& point2)
@@ -1625,48 +1654,30 @@ bool Sprite::PointInsideRotatedBounds_5A1490(Fix16_Point& point1, Fix16_Point& p
     Fix16_Point rotated_2;
     Fix16 half_width;
     Fix16 half_height;
-    field_C_sprite_4c_ptr->HalfWH_4BA0A0(&half_width, &half_height);
+    HalfWH_ool_4BA0A0(field_C_sprite_4c_ptr, &half_width, &half_height);
 
-    // TODO: this is just "negate" but inlined
-    Ang16 negated_ang(-field_0.rValue);
-    Ang16 normalized_ang;
-    normalized_ang.AssignNormalized_409300(negated_ang, 0);
-
-    RotateAndTranslatePoint_42A720(point1.x, point1.y, normalized_ang, field_14_xy.x, field_14_xy.y, rotated_1.x, rotated_1.y);
-
-    if (rotated_1.x >= -half_width && rotated_1.x <= half_width)
+    // Nested, with one shared "return true": early returns give every return its own epilogue copy and
+    // destructor calls, and run out of inline expansions (the Fix16_Point ctors then go out of line).
+    // The plain mValue compares are cheaper than the Fix16 operators for the same reason.
+    RotateAndTranslatePoint_ool_42A720(point1.x, point1.y, NegateAng16_401C80(field_0), field_14_xy.x, field_14_xy.y, rotated_1.x, rotated_1.y);
+    if (!(rotated_1.x.mValue >= -half_width.mValue && rotated_1.x.mValue <= half_width.mValue && rotated_1.y.mValue >= -half_height.mValue && rotated_1.y.mValue <= half_height.mValue))
     {
-        if (rotated_1.y >= -half_height && rotated_1.y <= half_height)
+        RotateAndTranslatePoint_ool_42A720(point2.x, point2.y, NegateAng16_401C80(field_0), field_14_xy.x, field_14_xy.y, rotated_2.x, rotated_2.y);
+        if (!(rotated_2.x.mValue >= -half_width.mValue && rotated_2.x.mValue <= half_width.mValue && rotated_2.y.mValue >= -half_height.mValue && rotated_2.y.mValue <= half_height.mValue))
         {
-            return true;
+            if (!ComputeScanlineIntersectionX_4F77D0(-half_height, half_height, -half_width, rotated_1, rotated_2))
+            {
+                if (!ComputeScanlineIntersectionX_4F77D0(-half_height, half_height, half_width, rotated_1, rotated_2))
+                {
+                    if (!ComputeScanlineIntersectionY_4F76A0(-half_width, half_width, -half_height, rotated_1, rotated_2))
+                    {
+                        return ComputeScanlineIntersectionY_4F76A0(-half_width, half_width, half_height, rotated_1, rotated_2) ? true : false;
+                    }
+                }
+            }
         }
     }
-
-
-    // TODO: this is just "negate" but inlined
-    Ang16 negated_ang2(-field_0.rValue);
-    Ang16 normalized_ang2;
-    normalized_ang2.AssignNormalized_409300(negated_ang2, 0);
-
-    RotateAndTranslatePoint_42A720(point2.x, point2.y, normalized_ang2, field_14_xy.x, field_14_xy.y, rotated_2.x, rotated_2.y);
-
-    if (rotated_2.x >= -half_width && rotated_2.x <= half_width)
-    {
-        if (rotated_2.y >= -half_height && rotated_2.y <= half_height)
-        {
-            return true;
-        }
-    }
-
-
-    if (ComputeScanlineIntersectionX_4F77D0(-half_height, half_height, -half_width, rotated_1, rotated_2) ||
-        ComputeScanlineIntersectionX_4F77D0(-half_height, half_height, half_width, rotated_1, rotated_2) ||
-        ComputeScanlineIntersectionY_4F76A0(-half_width, half_width, -half_height, rotated_1, rotated_2) ||
-        ComputeScanlineIntersectionY_4F76A0(-half_width, half_width, half_height, rotated_1, rotated_2))
-    {
-        return true;
-    }
-    return false;
+    return true;
 }
 
 MATCH_FUNC(0x5a19c0)
@@ -2566,12 +2577,20 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
 
 // World to screen pixels. DrawCollisionBox_5A4DA0 expands the inline, except for its last call, which
 // is the out-of-line copy sub_5A5690.
+// Like the original, the function runs out of inline expansions, so the Fix16 operators are the
+// out-of-line copies.
 static inline void ProjectToScreen_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
 {
-    z = kFP16One_7035C4 / ((kFP16Eight_7035E4 - z) + gViewCamera_676978->field_98_cam_pos2.field_8_z);
-    *pOut1 = (((x - gViewCamera_676978->field_98_cam_pos2.field_0_x) * gViewCamera_676978->field_60.x) * z) +
+    Fix16 scale;
+    scale = kFP16One_7035C4.Divide_436A20(
+        static_cast<const Fix16&>(kFP16Eight_7035E4.Subtract_436A00(z)) + gViewCamera_676978->field_98_cam_pos2.field_8_z);
+    *pOut1 = static_cast<const Fix16&>(x.Subtract_436A00(gViewCamera_676978->field_98_cam_pos2.field_0_x)
+                                           .Multiply_408680(gViewCamera_676978->field_60.x)
+                                           .Multiply_408680(scale)) +
         Fix16(gViewCamera_676978->field_70_screen_px_center_x);
-    *pOut2 = (((y - gViewCamera_676978->field_98_cam_pos2.field_4_y) * gViewCamera_676978->field_60.x) * z) +
+    *pOut2 = static_cast<const Fix16&>(y.Subtract_436A00(gViewCamera_676978->field_98_cam_pos2.field_4_y)
+                                           .Multiply_408680(gViewCamera_676978->field_60.x)
+                                           .Multiply_408680(scale)) +
         Fix16(gViewCamera_676978->field_74_screen_px_center_y);
 }
 

@@ -390,7 +390,7 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
         Fix16::atan2_fixed_405320(delta.y, delta.x);
         Fix16 abs_x = Fix16::Abs_436A50(delta.x);
         Fix16 abs_y = Fix16::Abs_436A50(delta.y);
-        Fix16 segments = Fix16(abs_x.mValue > abs_y.mValue ? abs_x.mValue : abs_y.mValue, 0) / dword_6FD364;
+        Fix16 segments = Fix16::Max(abs_x, abs_y) / dword_6FD364;
 
         if (segments != kFP16Zero_6FD49C)
         {
