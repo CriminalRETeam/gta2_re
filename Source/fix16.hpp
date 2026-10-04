@@ -436,6 +436,18 @@ class Fix16
         return result;
     }
 
+    // MaxAbsDistanceByRef_42A6B0 with diff_y computed before the Abs calls (CarAI_78::UpdateStateMachine_44E560)
+    inline static Fix16 __stdcall MaxAbsDistanceByRefYFirst_42A6B0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
+    {
+        Fix16 diff_x;
+        diff_x = x2 - x1;
+        Fix16 diff_y;
+        diff_y = y2.Subtract_436A00(y1);
+        Fix16 result;
+        result = Fix16::Max_44E540(Fix16::Abs_436A50(diff_x), Fix16::Abs_436A50(diff_y));
+        return result;
+    }
+
     // NOTE: 10.5 function - matched but inlined
     static inline Fix16 __stdcall ClampToRangeFlexible_55EEE0(Fix16& a2, Fix16& a3, Fix16& a4)
     {
