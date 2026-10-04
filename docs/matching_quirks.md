@@ -350,6 +350,20 @@ an `s32` destination adds a u32->s32 conversion, and that decides which register
 it; making the two destination fields `u32` matched `Map_0x370::OnModifiedMapDataLoaded_4E8C00`.
 When an add's operand order won't move, check the destination field's type.
 
+**Copy the 9.6f store order for a run of field stores.** VC6 doesn't reorder independent
+stores much, so their source order shows in the scheduling. `UpdateCarEngineAudio_57E220`
+matched once the second sample's stores followed 9.6f exactly (rate, volume, `Fix16(0)`
+distance, pan, type). Earlier `operator=` "barrier" workarounds were no longer needed.
+
+**A dead store can change register allocation.** In `HandlePedVoiceEvent_423080`, a repeated
+`field_58_type = 20;` just before the rate store is deleted by VC6, but the sum then stays in
+edi like the original. Any dead store to the sample works. 9.6f has none, so treat it as a
+last-resort workaround and say so in a comment. It did not help the similar 42A500.
+
+**Write out `RotateVector_41FC90` with an `Ang16&`.** Taking the sprite angle as `Ang16&`
+(not a copy) keeps sin in ebp and spills cos, as in `GetDoorWorldPos_43B420`. Also keep the
+`old_xpos` copy and write `x*cos + y*sin`. A static inline version doesn't match.
+
 **A `const T&` local can move its load.** `Mike_A80::DebugDrawProfiling_4FF250` loaded the five
 frame averages in the wrong order whatever the order or grouping of the sum. The fix was in an
 unrelated statement above it: `const s32& polys_drawn = pGlobals[0];` instead of

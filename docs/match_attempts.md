@@ -401,22 +401,6 @@ doesn't happen.
 Tried: splitting the `FindGroundZ` call and `.ToUInt8()` into two statements (0.367);
 `x` as `s32` so it uses `Fix16(s32)` (0.367).
 
-## Car_BC::GetDoorWorldPos_43B420 (WIP, was sub_43B420)
-
-World position of door `door_idx`: the door offset from `get_car_remap_5AA3D0` (+1 skips
-`num_doors`, then `door_info[]`), turned into `Fix16` with `gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70`,
-rotated by the sprite angle and added to the sprite position.
-
-Ratio 0.564. The first rotated coordinate uses the inline `Fix16 operator*` (`__allshr`) and
-computes `sin * door_y` first. The second calls the out-of-line `Multiply_408680` twice and
-the out-of-line `operator+` (0x408660). Tracing the arguments gives
-`(-door_x).Multiply(sin_copy) + door_y.Multiply(cos_copy)`, with the right-hand side done
-first and copies of sin/cos made into temporaries (cos into the `door_idx` arg slot).
-
-Tried: `sin`/`cos` locals (0.411/0.464, depending on the operand order of the first sum);
-`Ang16::sine_40F500`/`cosine_40F520` at every use (0.564); the traced operand order for the
-second sum (0.553).
-
 ## Ped::sub_45EA00 (WIP)
 
 Removes a ped that has been off screen for a while (`get_field_20e() > 30`, compared
@@ -804,18 +788,6 @@ Still different:
 - The original stores the zeros and ones at the top from `eax`/`ebx`, ours uses
   immediates (it doesn't use `ebx` at all).
 
-## sound_obj::UpdateCarEngineAudio_57E220 (WIP, was STUB)
-
-- 0.884 after one cpp_permuter run (400 random candidates). It wrapped everything after the `!pCar`
-  return in an `else` (early_return pass) and hoisted `u32 rate` to the top. Before that it was 0.856. Added globals 0x6FF540 (u8 static volume), 0x6FF542 (u16 timer), 0x625010 / 0x625014 (u32 rates).
-  `field_54F4` is `field_54F2[2]`.
-- The vocal volume and both rates must be unsigned (`shr`, not `sar`, on `>>`). The second sample's volume
-  needs `(u8)(a / 254) + (u8)(rand % 3)` to get the byte `add dl,cl`.
-- Remaining diff 1: block layout of `paused ? 0 : min(127 - v, 100)`. The target places the `0` branch after
-  the ±5/−10 smoothing code and tail-merges the store. `if (paused)` / `== 0` / ternaries were all the same or worse.
-- Remaining diff 2: target keeps 0 in ebx across the whole function, while ours re-materialises it in ebp
-  after the first sample. The register-allocation knock-on also covers the sample field stores.
-
 ## SpawnCabAndTrailerHelper_408370 (WIP, was STUB)
 
 - 0.226. Added global `gTrailerCabOffset_66AAE0` (Fix16_Point). The logic is three `RotateByAngle_40F6B0`
@@ -1120,15 +1092,6 @@ Still different:
 - Left: register choice in the "train at zone" checks. 10,000 permuter iterations only shuffled
   scopes (188 -> 140).
 
-### sound_obj::HandlePedVoiceEvent_423080 (0x423080): WIP 0.992
-- Picks a ped's voice sample by voice event (`Ped::field_250`), with cooldown bytes
-  `byte_67554A/B/C` and `word_675548` for repeated shouts (Elvis gets his own), then queues it.
-  `bTank` (tank driver, or `Ped::IsLawEnforcement_45B4E0`) is uninitialised on the player path, as in the
-  original.
-- 0.809 -> 0.974: the entity index is used unsigned (`(u32)... % 5`). 0.974 -> 0.987: split the
-  rate sum so `field_14` is reloaded. 0.987 -> 0.992: the permuter's ternary for the volume and
-  a plain `(x & 1) == 1`. One register is left, see matching_quirks.md.
-
 ### Car_6C::SpawnCarOnRoadNetwork_4458B0 (0x4458B0): WIP 0.580
 - Finds a junction near the point (`RouteFinder::sub_58A130`, whose `s16` result the original
   narrows to `char`), heads out of it, then walks the road like `SpawnBusAtValidRoadPosition_4453E0`
@@ -1298,7 +1261,6 @@ Each was a few asm lines away from the original. What is left and what was tried
 
 ### Near-miss pass, batches A2 and B2 (2026-10-02)
 
-- `sound_obj::HandlePedVoiceEvent_423080` (0x423080): no change. skipped: documented unexplained (add %eax,%edi; 3000 permuter iterations)
 - `Camera_0xBC::UpdateBoundaries_435B90` (0x435b90): no change. only diff: reg alloc in final field_20 = field_78 +/- dword_67691C block (right: field in eax/dword in edi swapped); operand order swaps have no effect; 9.6f-style rewrite (one v, checks on fields, v*=) much worse
 - `Car_BC::HandleUserInput_4418D0` (0x4418d0): no change. only diff: 'cmp %bl,%al' (bl=0) vs our 'test %al,%al' after HandleRoofTurretRotation call; tried !=0, !=(char)0, ==true, !=field_B8, local zero var, combined condition; same in 9.6f
 - `Car_6C::dtor_446DC0` (0x446dc0): no change. only diff: last delete (gSprite_Unused_677938) loads ptr into ecx then mov ecx->esi, ours esi then esi->ecx (Car_14 delete just above uses esi in both). Dropping the if made it worse
@@ -1582,3 +1544,61 @@ Each was a few asm lines away from the original. What is left and what was tried
 - The Draw*Sided* / ProjectVert cluster: still unexplained. All VC6 builds (RTM to SP6, Processor Pack)
   give the same code, about 150 helper and call-site variants scored over every MapRenderer WIP: details
   in matching_quirks.md, "Still unexplained".
+
+## Near-miss pass, 9.6f compare and exhaustive permuter (Oct 4)
+
+Matched here: `StabilizeVelocityAtSpeed_562910`, `OnModifiedMapDataLoaded_4E8C00`,
+`UpdateCarEngineAudio_57E220`, `HandlePedVoiceEvent_423080`, `GetDoorWorldPos_43B420`,
+`DebugDrawProfiling_4FF250` (see matching_quirks.md and the commit messages). Random-mode
+permuter runs of 6 minutes (2700-4100 compiles) made no progress on 418720, 57E220, 4E6660,
+516590, 427220, 56BA60, 4D6000, 414710, 4B6390 or 440D90. An exhaustive depth 1 run (every
+single pass) also gave nothing on 418720. Scores are differing lines from `permuter_score.py`.
+
+- `CarPhysics_B0::EnforceGearSensitiveMaxSpeed_562D00` (26): with the 9.6f nested ifs in
+  `Fix16_Point::ClampTowardsZero_49E480`, VC6 copies the y store and the epilogue into the first
+  branch. `(y >= 0 && y > lim.y) || (y < 0 && y < lim.y)` gives 14, but it re-tests `y < 0`, so
+  it was not kept. A ternary gives 20 (`setg`/`setl`). A per-component helper goes out of line
+  (inline budget), and `__forceinline` brings it back at 26.
+- `CarPhysics_B0::CalculateRearWheelForce_5620D0` (10): in `v25.x *= stability`, x is already in
+  ecx. The original does `mov %ecx,%eax; imull (%edi)`. Every spelling stays at 10: both operand
+  orders, product temp, reference/pointer locals, `MultiplyAssign_562430`.
+- `CarPhysics_B0::ShowPhysicsDebug_559430` (8): only the scheduling of `lea 0x818` (this for
+  field_650). No change from a `pFront` local or a `const Ang16&` param on ThetaText_49E240.
+- `CarPhysics_B0::ProcessPedImpact_560B40` (16): EH state around the `Negate_40ACB0` temporary
+  before `Divide_442CB0`. A visible inline body called out of line keeps the state. 9.6f
+  0x40F640 is Fix16_Point negate and 0x4202E0 Fix16_Point divide by Fix16; inlines_96f maps
+  0x40F640 to 0x43D5D0, which is wrong (that is ApplyImpactDamage).
+- `Map_0x370::sub_4E6660` (4): `mov %edi,%ebx` (pPrev) before the `sub_4E65A0(x,y,&z,1,1)` call.
+  Written after the call, VC6 pushes ebx (constant 1) for the two 1s (48). The a5/a6 types
+  (s32/u8/bool/u32) and a block-local pOld don't change it.
+- `Map_0x370::do_process_loaded_zone_data_4E8E30` (14): `offset + field_334` vs ours
+  `field_334 + offset`, and base/index order in the "found" store. No change from v8 types,
+  index spellings, `field_330` as `char*`, loop counter types, or a `SetDefaults()` inline.
+- `Map_0x370::RectHitsDiagonalWall_4E11E0` (22): `return 1` gets its own EH epilogue copy. A
+  `goto` to a single `return result` gets one too.
+- `Map_0x370::sub_4E6190` (60): the original cross-jumps case 3/4's inner switch tails into
+  case 1/2; ours does the reverse. Inner case order has no effect, and outer orders only move
+  the layout (4321: 76, 3412: 68, 2143: 62).
+- `ProjectVert_4EB940` (22): `Camera::field_70/74` as u32 had no effect.
+- `sound_obj::ProcessType7_Weapon_42A500` (32): the add order of `rate + rate_adjust + random`.
+  No change from regrouping, `+=`, u32/s16 types, a random local, or a dead store (the trick
+  that matched 423080).
+- `sound_obj::HandleCarTireScrubSound_418720` (4): the original sign-extends the divisor first,
+  then reads the dividend through the call's returned pointer. A const ref plus an `__int64`
+  divisor first gets the order right but reads from the stack slot (8).
+- `sound_obj::ProcessPoliceRadioWordsPlayback_427220` (4): `cmp $0xF,%al` lands after the
+  volatile load whatever the local's type or placement. Non-volatile locals lose the store (40).
+- `sound_obj::TrainCab_414710` (6): storing in both branches fixes the epilogue jumps, but VC6
+  merges the stores and drops the else's `field_13C = 0` (10).
+- `Car_BC::HandleRoofTurretRotation_440D90` (6): 9.6f 0x423720 uses IsFireTruck/IsTank/IsGunJeep
+  and `Ang16&`-returning `compound_add_41FA70`/`compound_subtract_41FA90`. The target layout
+  implies an if/else join with a shared `field_B8 = 1; return 1`, but every join form keeps the
+  angle in `%di` (106).
+- `Car_BC::GetRadioTowerAngle_442520` (12): the EH state around the out-of-line
+  `Fix16_Point::operator-` (0x40AC80) for the `get_x_y_443580` temporary. Untested idea:
+  `get_x_y_443580` returns a POD in the original (about 60 callers).
+- `Car_14::MakeTrafficForCurrCamera_5832C0` (10): `field_9 = 1` after `dword_6FF7E8` (as in
+  9.6f 0x4B4A60) makes VC6 compute the height first, and the function becomes 2 bytes shorter.
+- `Weapon_30::smg_5DDD20` (14): the original loads `y*sin` first in the x-line add. No change
+  from a `__forceinline` add helper or an s32 temp; swapped operands give 22.
+- `Weapon_30::fire_truck_gun_5E0E70` (10): one register left, the sprite pointer in eax (ours ecx).
