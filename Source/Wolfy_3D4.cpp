@@ -580,34 +580,22 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
 
     this->field_28 = f28;
 
-    Fix16 v4 = (field_28 * kFP16Two_6FD4A4);
-
-    Sprite* v5 = this->field_14_pObj2C->field_4;
-    Fix16 new_bottom = v5->field_14_xy.y + v4;
-    Fix16 new_left = v5->field_14_xy.x - v4;
-    Fix16 new_right = v5->field_14_xy.x + v4;
-    Fix16 new_top = v5->field_14_xy.y - v4;
-
-    Fix16 zm = v5->field_1C_zpos - zoff;
-    Fix16 zp = v5->field_1C_zpos + zoff;
-
-    //v55 = zm;
-    //v56 = zp;
+    Fix16 v4 = field_28 * kFP16Two_6FD4A4;
+    Fix16 new_left = field_14_pObj2C->field_4->field_14_xy.x - v4;
+    Fix16 new_right = field_14_pObj2C->field_4->field_14_xy.x + v4;
+    Fix16 new_top = field_14_pObj2C->field_4->field_14_xy.y - v4;
+    Fix16 new_bottom = field_14_pObj2C->field_4->field_14_xy.y + v4;
+    Fix16 zm = field_14_pObj2C->field_4->field_1C_zpos - zoff;
+    Fix16 zp = field_14_pObj2C->field_4->field_1C_zpos + zoff;
 
     if (this->field_1A_timer == 99 && unk_6FD5F6 == 1)
     {
         sub_541760();
-        //zp = v56;
-        //zm = v55;
     }
 
     Fix16_Rect rect;
-    rect.field_14_high_z = zp;
-    rect.field_10_low_z = zm;
-    rect.field_0_left = new_left;
-    rect.field_4_right = new_right;
-    rect.field_8_top = new_top;
-    rect.field_C_bottom = new_bottom;
+    rect.SetRect_41E350(new_left, new_right, new_top, new_bottom);
+    rect.SetHiLowZ_41E370(zm, zp);
 
     if (gPurpleDoom_1_679208->CollectRectCollisions_477F30(&rect, 0, 0, field_14_pObj2C->field_4, &collision_list))
     {
@@ -621,45 +609,50 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                 {
                     Ped* pPed = pB4->field_7C_pPed;
                     s32 ped_id = gVarrok_7F8_703398->GetPedId_420F10(this->field_14_pObj2C->field_26_varrok_idx);
-                    if (ped_id)
+                    if (!ped_id)
                     {
-                        pPed->field_204_killer_id = ped_id;
+                        pPed->field_204_killer_id = this->field_2C_ped_id;
                     }
                     else
                     {
-                        pPed->field_204_killer_id = this->field_2C_ped_id;
+                        pPed->field_204_killer_id = ped_id;
                     }
                     pB4->field_7C_pPed->field_290 = 4;
                     pB4->field_7C_pPed->field_264_killer_id_timer = 50;
 
-                    Fix16 pMaybeY_FP16 = pCollisionSprite->field_14_xy.x - this->field_14_pObj2C->field_4->field_14_xy.x;
-                    Fix16 pMaybeX_FP16 = pCollisionSprite->field_14_xy.y - this->field_14_pObj2C->field_4->field_14_xy.y;
+                    Fix16 dx = pCollisionSprite->field_14_xy.x - this->field_14_pObj2C->field_4->field_14_xy.x;
+                    Fix16 dy = pCollisionSprite->field_14_xy.y - this->field_14_pObj2C->field_4->field_14_xy.y;
 
-                    Ang16 ang = Fix16::atan2_fixed_405320(pMaybeX_FP16, pMaybeY_FP16);
+                    Ang16 ang;
+                    ang = Fix16::atan2_fixed_405320(dy, dx);
 
-                    Fix16 cur_max = Fix16::MaxAbsDistance_42A6B0(pCollisionSprite->field_14_xy.x,
-                                                                 pCollisionSprite->field_14_xy.y,
-                                                                 field_14_pObj2C->field_4->field_14_xy.x,
-                                                                 field_14_pObj2C->field_4->field_14_xy.y);
-                    if (cur_max <= this->field_28)
+                    // 9.6f: Fix16::MaxAbsDistance_42A6B0 (inlined, Abs_436A50 out of line). As an inline here
+                    // the function runs out of inline expansions and calls Fix16::operator- out of line.
+                    Fix16 diff_x = field_14_pObj2C->field_4->field_14_xy.x - pCollisionSprite->field_14_xy.x;
+                    Fix16 diff_y = field_14_pObj2C->field_4->field_14_xy.y - pCollisionSprite->field_14_xy.y;
+                    Fix16 cur_max = Fix16::Max_44E540(Fix16::Abs_436A50(diff_x), Fix16::Abs_436A50(diff_y));
+                    if (cur_max > this->field_28)
+                    {
+                        if (timerVal < 70u)
+                        {
+                            pB4->HandleGenericImpact_553E00(ang, dword_6FD2E8 + dword_6FD46C, kFP16Zero_6FD49C, 0);
+                        }
+                    }
+                    else
                     {
                         char_type a5;
                         Fix16 v30;
-                        if (cur_max >= (kFP16Half_6FD39C * this->field_28))
-                        {
-                            v30 = dword_6FD2E8;
-                            a5 = 1;
-                        }
-                        else
+                        if (cur_max < (kFP16Half_6FD39C * this->field_28))
                         {
                             v30 = dword_6FD2F4;
                             a5 = 2;
                         }
+                        else
+                        {
+                            v30 = dword_6FD2E8;
+                            a5 = 1;
+                        }
                         pB4->HandleGenericImpact_553E00(ang, dword_6FD484, v30, a5);
-                    }
-                    else if (timerVal < 70u)
-                    {
-                        pB4->HandleGenericImpact_553E00(ang, dword_6FD2E8 + dword_6FD46C, kFP16Zero_6FD49C, 0);
                     }
                 }
             }
@@ -693,24 +686,17 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                             Fix16 xd_ = v33->field_14_xy.x - pCollisionSprite->field_14_xy.x;
                             Fix16 yd_ = v33->field_14_xy.y - pCollisionSprite->field_14_xy.y;
 
-                            Fix16 v53 = Fix16::Abs_negate_out_of_line(xd_);
-                            Fix16 v36 = Fix16::Abs_436A50(yd_);
-
-                            if (Fix16::Max_44E540(v36, v53) > this->field_28)
-                            {
-                                pCar->ApplyVisualDamage_43A9F0();
-                            }
-                            else
+                            if (Fix16::Max_44E540(Fix16::Abs_436A50(xd_), Fix16::Abs_negate_out_of_line(yd_)) <= this->field_28)
                             {
                                 // 9.6f: Varrok_7F8::GetPedId_420F10 (inlined, using it here makes the diff worse)
                                 s32 ped_id_ = gVarrok_7F8_703398->field_0_entries[this->field_14_pObj2C->field_26_varrok_idx].field_0_ped_id;
-                                if (ped_id_)
+                                if (!ped_id_)
                                 {
-                                    pCar->field_70_exploder_ped_id = ped_id_;
+                                    pCar->field_70_exploder_ped_id = this->field_2C_ped_id;
                                 }
                                 else
                                 {
-                                    pCar->field_70_exploder_ped_id = this->field_2C_ped_id;
+                                    pCar->field_70_exploder_ped_id = ped_id_;
                                 }
                                 pCar->field_90 = 4;
                                 pCar->field_94_exploder_timer = 50;
@@ -729,6 +715,10 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                                         }
                                     }
                                 }
+                            }
+                            else
+                            {
+                                pCar->ApplyVisualDamage_43A9F0();
                             }
                         }
                     }
