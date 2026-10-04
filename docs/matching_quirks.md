@@ -344,6 +344,12 @@ And `x *= f` loads the factor into eax, while a product temporary
 while `x` isn't already in a register (`CalculateRearWheelForce_5620D0` didn't move).
 Both were needed in `CarPhysics_B0::StabilizeVelocityAtSpeed_562910`.
 
+**The destination's signedness can pick the add order.** In `field = (u32 expr) + s32 field`,
+an `s32` destination adds a u32->s32 conversion, and that decides which register holds the sum
+(and so the add operand order and where the store goes). No spelling of the expression moved
+it; making the two destination fields `u32` matched `Map_0x370::OnModifiedMapDataLoaded_4E8C00`.
+When an add's operand order won't move, check the destination field's type.
+
 **A `const T&` local can move its load.** `Mike_A80::DebugDrawProfiling_4FF250` loaded the five
 frame averages in the wrong order whatever the order or grouping of the sum. The fix was in an
 unrelated statement above it: `const s32& polys_drawn = pGlobals[0];` instead of

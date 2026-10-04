@@ -4326,11 +4326,9 @@ void Map_0x370::LowerLevel_4E8B70(s32 x_min, s32 x_max, s32 y_min, s32 y_max)
     }
 }
 
-WIP_FUNC(0x4E8C00)
+MATCH_FUNC(0x4E8C00)
 void Map_0x370::OnModifiedMapDataLoaded_4E8C00(u32 a2, u32 a3, u32 a4)
 {
-    WIP_IMPLEMENTED;
-
     this->field_360_column_words = (a2 >> 2) + this->field_0_pDmap->field_40000_column_words;
     this->field_354_num_blocks = a3 / 0xC + field_0_pDmap->field_40004_num_blocks;
     this->field_4_obj.field_320_max_idx = a4 >> 3;

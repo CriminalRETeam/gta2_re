@@ -766,10 +766,10 @@ class Map_0x370
     s32 field_348_num_lights;
     s32 field_34C_num_blocks;
     s32 field_350_num_blocks_extra;
-    s32 field_354_num_blocks;
+    u32 field_354_num_blocks; // u32: OnModifiedMapDataLoaded_4E8C00 matches only with these two unsigned
     s32 field_358_column_words;
     s32 field_35C_column_word_extra;
-    s32 field_360_column_words;
+    u32 field_360_column_words;
     u16 field_364_cur_zone_idx;
     s16 field_366;
     u8 field_368_zone_type;
