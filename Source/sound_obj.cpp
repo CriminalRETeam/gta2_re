@@ -4207,8 +4207,7 @@ void sound_obj::HandleCarDoorSounds_4182E0(Sound_Params_8* a2)
             bTrainOrBus = 1;
         }
 
-        if (!bQueued1 && pCar->field_C_doors[i].field_4_state == 2 && !pCar->field_C_doors[i].field_0_animation_frame &&
-            !pCar->field_C_doors[i].field_1_frame_delay)
+        if (!bQueued1 && pCar->field_C_doors[i].IsStartingToOpen())
         {
             bQueued1 = 1;
             if (CalculateDistance_419020(Fix16(0xE1000, 0)))
@@ -4246,7 +4245,7 @@ void sound_obj::HandleCarDoorSounds_4182E0(Sound_Params_8* a2)
 
         if (!bQueued2)
         {
-            if (pCar->field_C_doors[i].field_4_state == 3 && pCar->field_C_doors[i].field_0_animation_frame == 1)
+            if (pCar->field_C_doors[i].IsStartingToClose())
             {
                 bQueued2 = 1;
                 if (CalculateDistance_419020(Fix16(0xE1000, 0)))

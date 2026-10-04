@@ -34,6 +34,18 @@ class Car_Door_10
         field_4_state = 0;
     }
 
+    // Inlined in sound_obj::HandleCarDoorSounds_4182E0
+    inline bool IsStartingToOpen()
+    {
+        return field_4_state == 2 && field_0_animation_frame == 0 && field_1_frame_delay == 0;
+    }
+
+    // Inlined in sound_obj::HandleCarDoorSounds_4182E0
+    inline bool IsStartingToClose()
+    {
+        return field_4_state == 3 && field_0_animation_frame == 1;
+    }
+
     // 9.6f inline 0x421380
     inline void set_ped_421380(Ped* pPed)
     {
