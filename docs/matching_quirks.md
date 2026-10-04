@@ -265,6 +265,10 @@ that file it emits the original's code, so move the definition to another .cpp t
 (`kAng180_6FD3EE` moved from `Wolfy_3D4.cpp` to `Particle_4C.cpp`: `Wolfy_30::state_3_12_540D30`
 181 -> 32 lines). It can go the other way too (`gFaceCollisionMask_6F6002` and `kAng180_676772`
 had to move *into* `sprite.cpp`), so compare the load width in the target first.
+The move can also fix the order in which globals are reloaded after a call, not only the load
+width: moving `gBlockLeft_6F62F6`/`gBlockRight_6F63C6` to `map_0x370.cpp` matched all nine
+`MapRenderer::DrawPartialBlock*` functions. Try each global separately: there, moving
+`gBlockTop` changed nothing and moving `gBlockBottom` made it worse.
 
 **A flag returned with no `setne` is `char_type`, not `bool`.** If the original returns a
 `char` local as is, a `bool` return makes VC6 normalise it (`Ped::HandlePickupCollision_45DE80`).
