@@ -2397,116 +2397,123 @@ WIP_FUNC(0x5A3550)
 void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {
     WIP_IMPLEMENTED;
+
+    // The five points are constructed up front (EH state 4 at the start), in this order to get the
+    // original's stack slots, and the corners
+    // (renderingRect[i] = point + corner_i) are shared by every branch.
+    Fix16_Point corner1;
+    Fix16_Point corner2;
+    Fix16_Point corner3;
+    Fix16_Point corner0;
+    Fix16_Point point;
+
     Fix16 width_over_2 = field_0_width / 2;
     Fix16 height_over_2 = field_4_height / 2;
-    Fix16 unk_over_2 = field_8_depth / 2;
+    Fix16 depth_over_2 = field_8_depth / 2;
 
-    Fix16_Point point;
     point.SetXY_432860(xpos, ypos);
 
     if (rotation == gAng16_703804) // = 0
     {
-        // okay
-        Fix16_Point northwest;
-        northwest.SetXY_432860(-width_over_2, -height_over_2);
-        Fix16_Point northeast;
-        northeast.SetXY_432860(width_over_2, -height_over_2);
-        Fix16_Point southeast;
-        southeast.SetXY_432860(width_over_2, height_over_2);
-        Fix16_Point southwest;
-        southwest.SetXY_432860(-width_over_2, height_over_2);
+        corner0.SetXY_432860(-width_over_2, -height_over_2);
+        corner1.SetXY_432860(width_over_2, -height_over_2);
+        corner2.SetXY_432860(width_over_2, height_over_2);
+        corner3.SetXY_432860(-width_over_2, height_over_2);
 
-        field_C_renderingRect[0] = point + northwest;
-        field_C_renderingRect[1] = point + northeast;
-        field_C_renderingRect[2] = point + southeast;
-        field_C_renderingRect[3] = point + southwest;
+        field_C_renderingRect[0] = point.Add_40AC50(corner0);
+        field_C_renderingRect[1] = point.Add_40AC50(corner1);
+        field_C_renderingRect[2] = point.Add_40AC50(corner2);
+        field_C_renderingRect[3] = point.Add_40AC50(corner3);
 
-        field_30_boundingBox = Fix16_Rect();
         field_30_boundingBox.SetRect_41E350(xpos - width_over_2, xpos + width_over_2, ypos - height_over_2, ypos + height_over_2);
     }
     else if (rotation == kAng90_70344C) // = 360
     {
-        // okay
-        Fix16_Point southwest;
-        southwest.SetXY_432860(-height_over_2, width_over_2);
-        Fix16_Point northwest;
-        northwest.SetXY_432860(-height_over_2, -width_over_2);
-        Fix16_Point northeast;
-        northeast.SetXY_432860(height_over_2, -width_over_2);
-        Fix16_Point southeast;
-        southeast.SetXY_432860(height_over_2, width_over_2);
+        corner0.SetXY_432860(-height_over_2, width_over_2);
+        corner1.SetXY_432860(-height_over_2, -width_over_2);
+        corner2.SetXY_432860(height_over_2, -width_over_2);
+        corner3.SetXY_432860(height_over_2, width_over_2);
 
-        field_C_renderingRect[0] = point + southwest;
-        field_C_renderingRect[1] = point + northwest;
-        field_C_renderingRect[2] = point + northeast;
-        field_C_renderingRect[3] = point + southeast;
+        field_C_renderingRect[0] = point.Add_40AC50(corner0);
+        field_C_renderingRect[1] = point.Add_40AC50(corner1);
+        field_C_renderingRect[2] = point.Add_40AC50(corner2);
+        field_C_renderingRect[3] = point.Add_40AC50(corner3);
 
-        field_30_boundingBox = Fix16_Rect();
         field_30_boundingBox.SetRect_41E350(xpos - height_over_2, xpos + height_over_2, ypos - width_over_2, ypos + width_over_2);
     }
     else if (rotation == kAng180_70351E) // = 720
     {
-        // okay
-        Fix16_Point southeast;
-        southeast.SetXY_432860(width_over_2, height_over_2);
-        Fix16_Point southwest;
-        southwest.SetXY_432860(-width_over_2, height_over_2);
-        Fix16_Point northwest;
-        northwest.SetXY_432860(-width_over_2, -height_over_2);
-        Fix16_Point northeast;
-        northeast.SetXY_432860(width_over_2, -height_over_2);
+        corner0.SetXY_432860(width_over_2, height_over_2);
+        corner1.SetXY_432860(-width_over_2, height_over_2);
+        corner2.SetXY_432860(-width_over_2, -height_over_2);
+        corner3.SetXY_432860(width_over_2, -height_over_2);
 
-        field_C_renderingRect[0] = point + southeast;
-        field_C_renderingRect[1] = point + southwest;
-        field_C_renderingRect[2] = point + northwest;
-        field_C_renderingRect[3] = point + northeast;
+        field_C_renderingRect[0] = point.Add_40AC50(corner0);
+        field_C_renderingRect[1] = point.Add_40AC50(corner1);
+        field_C_renderingRect[2] = point.Add_40AC50(corner2);
+        field_C_renderingRect[3] = point.Add_40AC50(corner3);
 
-        field_30_boundingBox = Fix16_Rect();
         field_30_boundingBox.SetRect_41E350(xpos - width_over_2, xpos + width_over_2, ypos - height_over_2, ypos + height_over_2);
     }
     else if (rotation == kAng270_703544) // = 1080
     {
-        // okay
-        Fix16_Point northeast;
-        northeast.SetXY_432860(height_over_2, -width_over_2);
-        Fix16_Point southeast;
-        southeast.SetXY_432860(height_over_2, width_over_2);
-        Fix16_Point southwest;
-        southwest.SetXY_432860(-height_over_2, width_over_2);
-        Fix16_Point northwest;
-        northwest.SetXY_432860(-height_over_2, -width_over_2);
+        corner0.SetXY_432860(height_over_2, -width_over_2);
+        corner1.SetXY_432860(height_over_2, width_over_2);
+        corner2.SetXY_432860(-height_over_2, width_over_2);
+        corner3.SetXY_432860(-height_over_2, -width_over_2);
 
-        field_C_renderingRect[0] = point + northeast;
-        field_C_renderingRect[1] = point + southeast;
-        field_C_renderingRect[2] = point + southwest;
-        field_C_renderingRect[3] = point + northwest;
+        field_C_renderingRect[0] = point.Add_40AC50(corner0);
+        field_C_renderingRect[1] = point.Add_40AC50(corner1);
+        field_C_renderingRect[2] = point.Add_40AC50(corner2);
+        field_C_renderingRect[3] = point.Add_40AC50(corner3);
 
-        field_30_boundingBox = Fix16_Rect();
         field_30_boundingBox.SetRect_41E350(xpos - height_over_2, xpos + height_over_2, ypos - width_over_2, ypos + width_over_2);
     }
     else
     {
-        //
-        Fix16_Point northwest;
-        northwest.SetXY_432860(-width_over_2, -height_over_2);
-        Fix16_Point northeast;
-        northeast.SetXY_432860(width_over_2, -height_over_2);
-        Fix16_Point southeast;
-        southeast.SetXY_432860(width_over_2, height_over_2);
-        Fix16_Point southwest;
-        southwest.SetXY_432860(-width_over_2, height_over_2);
+        corner0.SetXY_432860(-width_over_2, -height_over_2);
+        corner1.SetXY_432860(width_over_2, -height_over_2);
+        corner2.SetXY_432860(width_over_2, height_over_2);
+        corner3.SetXY_432860(-width_over_2, height_over_2);
 
-        northwest.RotateByAngle_40F6B0(rotation);
-        northeast.RotateByAngle_40F6B0(rotation);
-        southeast.RotateByAngle_40F6B0(rotation);
-        southwest.RotateByAngle_40F6B0(rotation);
+        // RotateByAngle_40F6B0 with the operators out of line, written out by hand: going through an
+        // inline helper (RotateByAngle_40F6B0_all_out_of_line) uses up the inline budget and pushes the
+        // first Fix16_Point ctor out of line.
+        {
+            Fix16 sin = Ang16::sine_40F500(rotation);
+            Fix16 cos = Ang16::cosine_40F520(rotation);
+            Fix16 x_old = corner0.x;
+            corner0.x = (const Fix16&)corner0.x.Multiply_408680(cos) + corner0.y.Multiply_408680(sin);
+            corner0.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + corner0.y.Multiply_408680(cos);
+        }
+        {
+            Fix16 sin = Ang16::sine_40F500(rotation);
+            Fix16 cos = Ang16::cosine_40F520(rotation);
+            Fix16 x_old = corner1.x;
+            corner1.x = (const Fix16&)corner1.x.Multiply_408680(cos) + corner1.y.Multiply_408680(sin);
+            corner1.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + corner1.y.Multiply_408680(cos);
+        }
+        {
+            Fix16 sin = Ang16::sine_40F500(rotation);
+            Fix16 cos = Ang16::cosine_40F520(rotation);
+            Fix16 x_old = corner2.x;
+            corner2.x = (const Fix16&)corner2.x.Multiply_408680(cos) + corner2.y.Multiply_408680(sin);
+            corner2.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + corner2.y.Multiply_408680(cos);
+        }
+        {
+            Fix16 sin = Ang16::sine_40F500(rotation);
+            Fix16 cos = Ang16::cosine_40F520(rotation);
+            Fix16 x_old = corner3.x;
+            corner3.x = (const Fix16&)corner3.x.Multiply_408680(cos) + corner3.y.Multiply_408680(sin);
+            corner3.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + corner3.y.Multiply_408680(cos);
+        }
 
-        field_C_renderingRect[0] = point + northwest;
-        field_C_renderingRect[1] = point + northeast;
-        field_C_renderingRect[2] = point + southeast;
-        field_C_renderingRect[3] = point + southwest;
+        field_C_renderingRect[0] = point.Add_40AC50(corner0);
+        field_C_renderingRect[1] = point.Add_40AC50(corner1);
+        field_C_renderingRect[2] = point.Add_40AC50(corner2);
+        field_C_renderingRect[3] = point.Add_40AC50(corner3);
 
-        // 9.6f: Fix16_Rect::get_left_45ADB0/right/top/bottom here (inlined, using them changes the code: 638 -> 648)
+        // 9.6f: Fix16_Rect::get_left_45ADB0/right/top/bottom here
         Fix16 left = field_30_boundingBox.field_0_left;
         Fix16 right = field_30_boundingBox.field_4_right;
         Fix16 top = field_30_boundingBox.field_8_top;
@@ -2528,25 +2535,19 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
 
         field_30_boundingBox.SetRect_5A5E30(left, right, top, bottom);
     }
-    field_30_boundingBox.SetHiLowZ_41E370(zpos - unk_over_2, zpos + unk_over_2);
-    field_48_bBoxUpToDate = true; // line 745
+    field_30_boundingBox.SetHiLowZ_41E370(zpos.Subtract_436A00(depth_over_2), (const Fix16&)zpos + depth_over_2);
+    field_48_bBoxUpToDate = true;
 
-    return;
-    /*
-    // ????????????????????
-    // not on 9.6f function:
-    Fix16 y_negated = -ypos;
-    Fix16 x_negated = -xpos;
-    Fix16_Point_POD unk1 = Fix16_Point_POD(y_negated, x_negated); // ??
-    Fix16_Point_POD unk2 = Fix16_Point_POD(y_negated, x_negated); // ??
-    Fix16_Point_POD unk3 = Fix16_Point_POD(y_negated, x_negated); // ??
-    Fix16_Point_POD unk4 = Fix16_Point_POD(y_negated, x_negated); // ??
+    // Not in 9.6f: the corners are set and rotated again, and the results are never used.
+    corner0.SetXY_432860(width_over_2.Negate_4086A0(), height_over_2.Negate_4086A0());
+    corner1.SetXY_432860(width_over_2, height_over_2.Negate_4086A0());
+    corner2.SetXY_432860(width_over_2, height_over_2);
+    corner3.SetXY_432860(width_over_2.Negate_4086A0(), height_over_2);
 
-    unk1.Rotate_562C20(rotation);
-    unk2.Rotate_562C20(rotation);
-    unk3.Rotate_562C20(rotation);
-    unk4.Rotate_562C20(rotation);
-    */
+    corner0.RotateVelocity_562C20(rotation);
+    corner1.RotateVelocity_562C20(rotation);
+    corner2.RotateVelocity_562C20(rotation);
+    corner3.RotateVelocity_562C20(rotation);
 }
 
 // World to screen pixels. DrawCollisionBox_5A4DA0 expands the inline, except for its last call, which
