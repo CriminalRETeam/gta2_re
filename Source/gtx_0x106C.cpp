@@ -169,10 +169,9 @@ sprite_delta* gtx_0x106C::get_delta_5AA3F0(u16 sprite_idx, u8 delta_idx)
     return pDelta->field_4_len != 0 ? pDelta : 0;
 }
 
-WIP_FUNC(0x5AA460)
+MATCH_FUNC(0x5AA460)
 u16 gtx_0x106C::GetSpriteTrueIndex_5AA460(s32 sprite_type, s16 sprite_idx)
 {
-    WIP_IMPLEMENTED;
     u16 result;
     switch (sprite_type)
     {
@@ -180,7 +179,7 @@ u16 gtx_0x106C::GetSpriteTrueIndex_5AA460(s32 sprite_type, s16 sprite_idx)
             result = sprite_idx + field_14_sprite_base2->field_0_car;
             break;
         case sprite_types_enum::ped_3:
-            result = sprite_idx + field_14_sprite_base2->field_2_ped;
+            result = field_14_sprite_base2->field_2_ped + sprite_idx;
             break;
         case sprite_types_enum::code_obj1_4:
         case sprite_types_enum::code_obj2_8:
@@ -190,13 +189,14 @@ u16 gtx_0x106C::GetSpriteTrueIndex_5AA460(s32 sprite_type, s16 sprite_idx)
             result = sprite_idx + field_14_sprite_base2->field_6_map_obj;
             break;
         case sprite_types_enum::user_6:
-            result = sprite_idx + field_14_sprite_base2->field_8_user;
+            result = sprite_idx + (s16)field_14_sprite_base2->field_8_user;
             break;
         case sprite_types_enum::font_7:
             result = sprite_idx + field_14_sprite_base2->field_A_font;
             break;
         default:
-            result = sprite_idx;
+            // No assignment: VC6 gives result sprite_idx's stack slot, so this returns sprite_idx
+            // with the original's 32-bit load. 'result = sprite_idx;' loads 16 bits.
             break;
     }
     return result;
