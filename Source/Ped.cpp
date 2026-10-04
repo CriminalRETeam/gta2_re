@@ -3337,17 +3337,9 @@ void Ped::TrainCustomer_AI_461530()
     }
 }
 
-WIP_FUNC(0x461630)
+MATCH_FUNC(0x461630)
 void Ped::RobbedDriver_AI_461630()
 {
-    WIP_IMPLEMENTED;
-
-    u16 rng_val; // ax
-    Ped* f180_; // ecx
-    Ped* f180; // edx
-    Ped* f180__; // ecx
-    Car_BC* target_objective_car; // eax
-
     if (field_25C_internal_objective == 2 && field_226_internal_objective_status == 1)
     {
         SetObjective2_463830(objectives_enum::no_obj_0, 9999);
@@ -3360,7 +3352,7 @@ void Ped::RobbedDriver_AI_461630()
             {
                 if (field_278_ped_state_1 != ped_state_1::immobilized_8)
                 {
-                    rng_val = gRng_6F6784.get_int_4F7AE0(40);
+                    u16 rng_val = gRng_6F6784.get_int_4F7AE0(40);
                     if (bDont_get_car_back_67D4F5)
                     {
                         rng_val = 6;
@@ -3406,9 +3398,8 @@ void Ped::RobbedDriver_AI_461630()
                                 this->field_240_occupation = ped_ocupation_enum::fleeing_robbed_driver_11;
                                 ForceDoNothing_462590();
                                 SetObjective(objectives_enum::flee_char_on_foot_till_safe_2, 9999);
-                                f180_ = this->field_180_car_thief;
+                                this->field_148_objective_target_ped = this->field_180_car_thief;
                                 this->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
-                                this->field_148_objective_target_ped = f180_;
                                 this->field_180_car_thief = 0;
                             }
                             else
@@ -3425,9 +3416,8 @@ void Ped::RobbedDriver_AI_461630()
                             this->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
                             ForceDoNothing_462590();
                             SetObjective(objectives_enum::flee_char_on_foot_till_safe_2, 9999);
-                            f180 = this->field_180_car_thief;
+                            this->field_148_objective_target_ped = this->field_180_car_thief;
                             this->field_180_car_thief = 0;
-                            this->field_148_objective_target_ped = f180;
                             break;
                     }
                 }
@@ -3439,9 +3429,8 @@ void Ped::RobbedDriver_AI_461630()
                         this->field_240_occupation = ped_ocupation_enum::fleeing_robbed_driver_11;
                         ForceDoNothing_462590();
                         SetObjective(objectives_enum::flee_char_on_foot_till_safe_2, 9999);
-                        f180__ = this->field_180_car_thief;
+                        this->field_148_objective_target_ped = this->field_180_car_thief;
                         this->field_180_car_thief = 0;
-                        this->field_148_objective_target_ped = f180__;
                     }
                 }
             }
@@ -3450,7 +3439,7 @@ void Ped::RobbedDriver_AI_461630()
         case ped_ocupation_enum::angry_armed_robbed_driver_12:
             if (field_225_objective_status == objective_status::passed_1)
             {
-                target_objective_car = this->field_150_target_objective_car;
+                Car_BC* target_objective_car = this->field_150_target_objective_car;
                 if (target_objective_car->IsDespawning_4215B0())
                 {
                     Kill_46F9D0();
