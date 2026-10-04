@@ -176,7 +176,7 @@ EXTERN_GLOBAL(Ang16, gSpawnRotationBottom_678540);
 // TODO: move
 // https://decomp.me/scratch/BzcQt
 WIP_FUNC(0x545AF0)
-EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(s32 animPhase, Car_BC* pCar, u8 doorId, Fix16& outX, Fix16& outY, Ang16& outAng)
+EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car_BC* pCar, u8 doorId, Fix16& outX, Fix16& outY, Ang16& outAng)
 {
     WIP_IMPLEMENTED;
     // This func is really get_car_remap?? shouldnt be get_car_door_info?
