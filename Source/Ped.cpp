@@ -639,8 +639,8 @@ char_type Ped::Reset_45AFC0()
     field_21C_bf.b10 = 0;
     field_274_gang_car_model = car_model_enum::MERC;
     field_1A8_ped_killer = 0;
-    field_21C_bf.b28 = 0;
     field_224 &= ~0x10u;
+    field_21C_bf.b28 = 0;
     field_21C_bf.b29 = 0;
     field_260 = 0;
     field_224 |= 0x20u;
@@ -1895,11 +1895,9 @@ char_type Ped::AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo)
     return 1;
 }
 
-WIP_FUNC(0x45de80)
-bool Ped::HandlePickupCollision_45DE80(Object_2C* pPickUp)
+MATCH_FUNC(0x45de80)
+char_type Ped::HandlePickupCollision_45DE80(Object_2C* pPickUp)
 {
-    WIP_IMPLEMENTED;
-
     char_type bCollected;
     if (this->field_238_ped_type != ped_type::player_2)
     {
@@ -1918,8 +1916,7 @@ bool Ped::HandlePickupCollision_45DE80(Object_2C* pPickUp)
         // inc counter and remove pick up
         gLucid_hamilton_67E8E0.IncSecretTokensCollected_434A10();
         gObject_5C_6F8F84->field_20_bUnCollectedTokens[pPickUp->get_field_26_420FF0()] = 0;
-        pPickUp->Dealloc_5291B0();
-        return 1;
+        bCollected = 1;
     }
     else
     {
@@ -1943,10 +1940,13 @@ bool Ped::HandlePickupCollision_45DE80(Object_2C* pPickUp)
             {
                 gHud_2B00_706620->field_1080_pickup_text.ShowPickupText_5D5600(model + 56);
             }
-            pPickUp->Dealloc_5291B0();
         }
-        return bCollected != 0;
     }
+    if (bCollected)
+    {
+        pPickUp->Dealloc_5291B0();
+    }
+    return bCollected;
 }
 
 MATCH_FUNC(0x45e080)
@@ -2180,6 +2180,12 @@ void Ped::DeallocateWithGroupCleanup_45EA00()
 }
 
 // https://decomp.me/scratch/jJ6aF
+// Clearing the flag through a reference keeps VC6 from hoisting the field_16C_car load above it.
+static inline void ClearBit0_45EB60(CompilerBitField32& bf)
+{
+    bf.b0 = 0;
+}
+
 WIP_FUNC(0x45eb60)
 void Ped::Deallocate_45EB60()
 {
@@ -2278,9 +2284,8 @@ void Ped::Deallocate_45EB60()
         }
     }
 
-    // Problem Here:
     field_234_timer = 2;
-    field_21C_bf.b0 = false;
+    ClearBit0_45EB60(field_21C_bf);
 
     if (field_16C_car)
     {
@@ -2908,7 +2913,8 @@ void Ped::BusCustomer_AI_461290()
                 SetOccupation_45EE00(3);
                 SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                 SetObjective(objectives_enum::flee_on_foot_till_safe_1, 9999);
-                this->field_1B8_target_x = this->field_1AC_cam.x;
+                Fix16 x = this->field_1AC_cam.x;
+                this->field_1B8_target_x = x;
                 this->field_1BC_target_y = this->field_1AC_cam.y;
                 break;
             }
@@ -2931,10 +2937,8 @@ void Ped::BusCustomer_AI_461290()
             {
                 SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                 SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
-                Char_B4* game_object = this->field_168_game_object;
-                Car_BC* target_to_enter = this->field_154_target_to_enter;
                 this->field_150_target_objective_car = pBus;
-                game_object->field_84_target_car = target_to_enter;
+                this->field_168_game_object->field_84_target_car = this->field_154_target_to_enter;
                 this->field_168_game_object->field_38_velocity = kFpZero_678660;
                 this->field_24C_target_car_door = 1;
             }
