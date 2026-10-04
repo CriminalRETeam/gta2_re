@@ -246,13 +246,10 @@ class Fix16_Point : public Fix16_Point_POD
     {
     }
 
-    // 9.6f 0x401D20
-    Fix16_Point(const Fix16_Point& rhs)
-    {
-        x = (rhs.x);
-        y = (rhs.y);
-    }
+    // No user-defined copy ctor: 9.6f copies points with plain movs (no call even at /Ob0), and the
+    // implicit one does not use up VC6's inline budget (SpawnCabAndTrailerHelper_408370 needs that).
 
+    // 9.6f 0x401D20
     Fix16_Point(const Fix16& a1, const Fix16& a2)
     {
         x = a1;

@@ -1433,7 +1433,7 @@ Car_BC* Car_6C::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rota
     return pCar;
 }
 
-WIP_FUNC(0x408370)
+MATCH_FUNC(0x408370)
 EXPORT void __stdcall SpawnCabAndTrailerHelper_408370(
         Fix16 xpos,
         Fix16 ypos,
@@ -1446,22 +1446,26 @@ EXPORT void __stdcall SpawnCabAndTrailerHelper_408370(
         Ang16 *pOutRot)
 {
     Fix16_Point pos(xpos, ypos);
+    Fix16_Point hitch_pos;
+    Fix16_Point trailer_pos;
     Fix16_Point hitch = gTrailerHitchOffset_66AAC8;
-    Fix16_Point trailer_offset = gTrailerCabOffset_66AAE0;
+    Fix16_Point cab_offset = gTrailerCabOffset_66AAE0;
 
-    hitch.RotateByAngle_40F6B0(rot);
-    Fix16_Point hitch_pos = pos + hitch;
+    hitch.RotateByAngle_40F6B0_out_of_line(rot);
+    hitch_pos = pos.Add_40AC50(hitch);
 
-    trailer_offset.RotateByAngle_40F6B0(rot);
-    trailer_offset = Fix16_Point(-trailer_offset.x, -trailer_offset.y);
-    trailer_offset.RotateByAngle_40F6B0(uknown_rot);
-    Fix16_Point trailer_pos = hitch_pos + trailer_offset;
+    cab_offset.RotateByAngle_40F6B0_all_out_of_line(rot);
+    // 9.6f 0x40F760: negate in place
+    cab_offset.x = cab_offset.x.Negate_4086A0();
+    cab_offset.y = cab_offset.y.Negate_4086A0();
+    cab_offset.RotateByAngle_40F6B0_all_out_of_line(uknown_rot);
+    trailer_pos = hitch_pos.Add_40AC50(cab_offset);
 
     *pOutZ = zpos;
     *pOutX = trailer_pos.x;
     *pOutY = trailer_pos.y;
-    Fix16_Point dir = -trailer_offset;
-    *pOutRot = Fix16::atan2_fixed_405320(dir.y, dir.x);
+    // 9.6f 0x40F640 (unary -) then 0x40F790 (angle of the vector)
+    *pOutRot = cab_offset.Negate_40ACB0().atan2_40F790();
 }
 
 // 9.6f 0x428EC0
