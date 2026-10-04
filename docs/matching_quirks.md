@@ -1236,6 +1236,50 @@ byte compare come from `x < 63 ? x : 63` written out; an s32 or u8 `Min` helper 
 thread repeated register tests, which can move a case to the end of the function as in the original
 (`Orca_2FD4::Internel_CanMoveDiagonally_554110`).
 
+### Inline budget: more patterns (round of 9.6f recoveries)
+
+- **Declaration order picks the losers.** With several default-constructed `Fix16_Point` locals,
+  the first declared ones get their `Fix16_Point_POD()` ctor outlined once the budget runs out
+  (`Hud_Arrow_7C::UpdateScreenPos_5D0850`: declaring the point after three `Fix16`s brought its
+  ctor back inline). Turning inline getters/setters into plain field accesses also freed ctors
+  (`Trailer::UpdateTrailerAlignment_407CE0`).
+- **A ternary costs less than an inline function.** The same `GetLength` as a ternary freed budget;
+  the same ternary wrapped in a static inline did not (5D0850). Writing `Abs_436A50`/`Multiply_408680`
+  calls out by hand freed it too (`CarPhysics_B0::ComputeEngineTorque_561970`).
+- **The same `Ang16` operator can normalise out of line in one branch and inline in the next**
+  (`Weapon_30::sub_5DFB60`): write both the same way and let the budget decide.
+- **Unused calls past the budget stay.** An unused `PolarToCartesian_41FC20` or `x = sin * r` is
+  dropped while inlined, but past the budget its `Multiply_408680` calls remain, as in the original
+  (`Particle_8::GunMuzzelFlash_53E970`).
+- **Outlined ctors must be the named function.** Past the budget an `Ang16` ctor becomes the COMDAT
+  `??0Ang16@@...`/`?Normalize@Ang16`, which scores 0 in `permuter_score.py` (symbols are masked) but
+  can't match the exe. The original calls `AssignNormalized_409300`, see
+  `Ang16::Fix16_To_Ang16_ool_40F540`. Check call relocations by name before claiming a match.
+
+### Locals, temporaries and the shape of returns
+
+- **One result local, one return.** `T r; ... r = X; ... return r;` gives the per-path
+  `mov ret,%ecx; mov %eax,(%ecx)` epilogue and stops VC6 merging identical tails
+  (`ComputeEngineTorque_561970`). `return Ang16(expr);` gives each return its own temporary slot
+  (`Char_B4::GetNextRotationToward_550F60`).
+- **`T x; x = f();` is not `T x = f();`.** Assigning lets the slot be reused by later temporaries,
+  shrinking the frame (561970). For `Ang16`, `result = a + b;` into an existing local inlines the
+  whole operator including Normalize; initialising or returning leaves Normalize out of line (550F60).
+- **Temporaries get their own slots; sibling named locals share one.** Pass `atan2` arguments as
+  temporaries when the original has a slot per case (`Ped::UpdateFacingAngle_461A60`).
+- **Copying a constant through a local** (`lodword = kZero; v9 = lodword;`) keeps VC6 from caching
+  the global in a callee-saved register (`CalculateFrontWheelForce_561E50`).
+- **Free-style vs member add.** A static `Fix16::Add_ref(a, b)` loads the left operand into the
+  result register; member `operator+` loads the right one (561970).
+- **`x += dx; y += dy;` order** decides whether both loads come before both stores in a `u8` pair
+  update (`Car_BC::CountConsecutiveArrowBlocks_4410D0`).
+- **EH states reveal source order.** A path with lower EH state numbers comes first in the source even
+  when the block layout puts it last (`sub_5DF270`). The EH state at entry tells how many destructible
+  locals are declared at the top (`Sprite_4C::UpdateRotatedBoundingBox_5A3550`).
+- **A by-value `Fix16_Point` argument copied as two dwords from a temporary** means the parameter is
+  `Fix16_Point_POD` (`sub_5DE910`).
+- **`default: break;`** changes which case keeps a shared tail when cases cross-jump (461A60).
+
 ## Inline asm
 
 **16-bit `pushaw`/`popaw`.** The inline assembler can't spell them. Put `_emit 0x66` before
