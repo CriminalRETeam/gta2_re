@@ -944,7 +944,9 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
             return true;
         }
 
-        if (++field_46_sub_state == 5)
+        u8 sub = field_46_sub_state + 1;
+        field_46_sub_state = sub;
+        if (sub == 5)
         {
             return true;
         }
@@ -952,7 +954,7 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
         Ang16 angle = field_28_pSprite->field_0;
         Fix16 half_w;
         Fix16 half_h;
-        if (field_46_sub_state < 4)
+        if (sub < 4)
         {
             Sprite_4C* pBox = pCar->field_50_car_sprite->field_C_sprite_4c_ptr;
             half_w = pBox->field_0_width / 2 + dword_6FD3C0;
@@ -966,7 +968,9 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
         }
 
         // The rotations are written out (RotateByAngle_OOL_40F6B0 shape): with the helper in both
-        // branches the inline budget runs out and the Fix16_Point ctors / unary minus go out of line
+        // branches the inline budget runs out and the Fix16_Point ctors / unary minus go out of line.
+        // The original has `corner += get_x_y` in each branch (tail-merged after the lea of its return temp),
+        // and state 41's sin/cos in swapped stack slots (from `x_old = -half_w` before the corner stores).
         if (field_38_state == 40)
         {
             corner.x = half_w;
@@ -976,19 +980,19 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
             Fix16 cos = Ang16::cosine_40F520(angle);
             corner.x = corner.x.Multiply_408680(cos).Add_408660(corner.y.Multiply_408680(sin));
             corner.y = (-x_old).Multiply_408680(sin).Add_408660(corner.y.Multiply_408680(cos));
+            corner += field_28_pSprite->get_x_y_443580();
         }
         else
         {
-            corner.x = -half_w;
+            Fix16 x_old = -half_w;
+            corner.x = x_old;
             corner.y = half_h;
-            Fix16 x_old = corner.x;
             Fix16 sin = Ang16::sine_40F500(angle);
             Fix16 cos = Ang16::cosine_40F520(angle);
             corner.x = corner.x.Multiply_408680(cos).Add_408660(corner.y.Multiply_408680(sin));
             corner.y = (-x_old).Multiply_408680(sin).Add_408660(corner.y.Multiply_408680(cos));
+            corner += field_28_pSprite->get_x_y_443580();
         }
-
-        corner += field_28_pSprite->get_x_y_443580();
 
         field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 200);
         field_30_pNext->field_2C_flags = 0xA2;
