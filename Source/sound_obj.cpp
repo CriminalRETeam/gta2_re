@@ -331,23 +331,27 @@ s32 sound_obj::AdjustPlaybackRate_41A580(s32 snd_rate, Fix16 xpos, Fix16 ypos, F
 
     if (zpos != 0)
     {
-        if (ypos - xpos == kFpZero_674CD8)
+        Fix16 diff = ypos - xpos;
+        if (diff == kFpZero_674CD8)
         {
             return snd_rate;
         }
 
         // zpos is converted from an integer (shl $0xE) and field_C is already fixed point
-        s32 v5 = (((ypos - xpos) * (Fix16(zpos.mValue) / dword_674E18)) / Fix16(field_C, 0)).mValue;
-        s32 a = v5;
-        if (a <= 0)
+        Fix16 v5 = diff * (Fix16(zpos.mValue) / dword_674E18) / Fix16(field_C, 0);
+        s32 a = v5.mValue;
+        if (a < 1)
         {
             a = -a;
         }
-        if (a >= field_4_speed_of_sound)
+        if (a < field_4_speed_of_sound)
+        {
+            return Fix16::Round_To_Int_410BF0(Fix16(snd_rate) * (Fix16(field_4_speed_of_sound) / Fix16(v5.mValue + field_4_speed_of_sound, 0)));
+        }
+        else
         {
             return snd_rate;
         }
-        return Fix16::Round_To_Int_410BF0(Fix16(snd_rate) * (Fix16(field_4_speed_of_sound) / Fix16(v5 + field_4_speed_of_sound, 0)));
     }
 
     return snd_rate;
@@ -3162,11 +3166,11 @@ char_type sound_obj::Type_10_HandleCarSkidSound_418940(sound_0x68* a2)
                 if (gCarInfo_48_6FE258->field_28_max_speed > kFpZero_66F3F0)
                 {
                     v4 = pCar->GetCarLinearSpeed_43A240() / gCarInfo_48_6FE258->field_28_max_speed;
+                    new_rate = rate + Fix16::Round_To_Int_410BF0(Fix16(98304000, 0) * v4);
                 }
                 else
                 {
                     new_rate = rate;
-                    goto set_sample; // skips the speed based rate
                 }
             }
             else
@@ -3197,11 +3201,10 @@ char_type sound_obj::Type_10_HandleCarSkidSound_418940(sound_0x68* a2)
                 {
                     v4 = front_skid;
                 }
+
+                new_rate = rate + Fix16::Round_To_Int_410BF0(Fix16(98304000, 0) * v4);
             }
 
-            new_rate = rate + Fix16::Round_To_Int_410BF0(Fix16(98304000, 0) * v4);
-
-        set_sample:
             a2->field_20_rate = new_rate;
             a2->field_3C_speed_multiplier = 600;
             a2->field_30_loop_count = 0;
@@ -6032,8 +6035,8 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
                     else if (field_147C_audio_entities[field_30_sQueueSample.field_0_EntityIndex].field_1_age > 2)
                     {
                         samp_idx = 190;
-                        bLoop = 0;
                         volume = 50;
+                        bLoop = 0;
                         sample_index = 1;
                         emit_distance = Fix16(0x1C000, 0);
                         max_distance = 14;
@@ -6122,8 +6125,10 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
                     bLoop = 0;
                     sample_index = 1;
                     emit_distance = Fix16(0x1C000, 0);
-                    max_distance = 14;
+                    // TODO: the original stores max_distance first, but then VC6 merges case 4/12's tail
+                    // into this one (the original keeps both, with fire jumping into case 4/12's)
                     calc_distance = Fix16(0xC4000, 0);
+                    max_distance = 14;
                     release_mod = 15;
                     break;
 
@@ -6987,12 +6992,11 @@ char_type sound_obj::Type6_412C90(Rozza_A* pObj, u8 a3)
     return result;
 }
 
-WIP_FUNC(0x413A10)
+MATCH_FUNC(0x413A10)
 char_type sound_obj::Type6_413A10(Rozza_A* pRozzA)
 {
-    WIP_IMPLEMENTED;
-
-    Fix16 div_val;
+    // Each case divides by its own max (9.6f calls div per case); VC6 tail-merges the divisions.
+    Fix16 ratio;
     switch (pRozzA->field_0_type)
     {
         case 2:
@@ -7000,12 +7004,11 @@ char_type sound_obj::Type6_413A10(Rozza_A* pRozzA)
             {
                 return 0;
             }
-            div_val = dword_66F3F8;
-            if (pRozzA->field_24_car_physics_value > div_val)
+            if (pRozzA->field_24_car_physics_value > dword_66F3F8)
             {
                 pRozzA->field_24_car_physics_value = dword_66F3F8;
-                div_val = dword_66F3F8;
             }
+            ratio = pRozzA->field_24_car_physics_value / dword_66F3F8;
             break;
 
         case 3:
@@ -7015,7 +7018,7 @@ char_type sound_obj::Type6_413A10(Rozza_A* pRozzA)
             }
             if (!pRozzA->field_10_car)
             {
-                // Shares case 5's return block
+                // Shares case 5's return block (9.6f jumps to the same block; a plain return doesn't match)
                 goto return_zero;
             }
             pRozzA->field_24_car_physics_value = pRozzA->field_10_car->GetCarLinearSpeed_43A240();
@@ -7023,12 +7026,11 @@ char_type sound_obj::Type6_413A10(Rozza_A* pRozzA)
             {
                 return 0;
             }
-            div_val = dword_66F24C;
-            if (pRozzA->field_24_car_physics_value > div_val)
+            if (pRozzA->field_24_car_physics_value > dword_66F24C)
             {
                 pRozzA->field_24_car_physics_value = dword_66F24C;
-                div_val = dword_66F24C;
             }
+            ratio = pRozzA->field_24_car_physics_value / dword_66F24C;
             break;
 
         case 4:
@@ -7036,12 +7038,11 @@ char_type sound_obj::Type6_413A10(Rozza_A* pRozzA)
             {
                 return 0;
             }
-            div_val = dword_66F2FC;
-            if (pRozzA->field_24_car_physics_value > div_val)
+            if (pRozzA->field_24_car_physics_value > dword_66F2FC)
             {
                 pRozzA->field_24_car_physics_value = dword_66F2FC;
-                div_val = dword_66F2FC;
             }
+            ratio = pRozzA->field_24_car_physics_value / dword_66F2FC;
             break;
 
         case 5:
@@ -7050,18 +7051,17 @@ char_type sound_obj::Type6_413A10(Rozza_A* pRozzA)
             return_zero:
                 return 0;
             }
-            div_val = dword_66F3FC;
-            if (pRozzA->field_24_car_physics_value > div_val)
+            if (pRozzA->field_24_car_physics_value > dword_66F3FC)
             {
                 pRozzA->field_24_car_physics_value = dword_66F3FC;
-                div_val = dword_66F3FC;
             }
+            ratio = pRozzA->field_24_car_physics_value / dword_66F3FC;
             break;
 
         default:
             return this->field_1454_anRandomTable[(u8)++byte_66F542 % 5] % 0xAu + 5;
     }
-    return Fix16::Round_To_Int_410BF0((pRozzA->field_24_car_physics_value / div_val) * dword_66F1CC);
+    return Fix16::Round_To_Int_410BF0(ratio * dword_66F1CC);
 }
 
 MATCH_FUNC(0x413040)

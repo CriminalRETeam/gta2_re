@@ -351,26 +351,29 @@ BOOL NetPlay::EnumAddress_cb_51E030(const GUID& guidDataType, DWORD dwDataSize, 
     WIP_IMPLEMENTED;
 
     LPCSTR pAddress = (LPCSTR)lpData;
-    // The original keeps its "done" flag in lpData's stack slot and doesn't optimise it away
-    volatile BOOL& bDone = *(volatile BOOL*)&lpData;
+    // The original keeps its "done" flag in lpData's stack slot. A plain reference (not volatile)
+    // with a while (!bDone) loop gives the original's registers and pushes; the original tests
+    // the flag once before the loop and loops on lstrlenA only (see docs/match_attempts.md)
+    BOOL& bDone = *(BOOL*)&lpData;
     bDone = FALSE;
     if (guidDataType == DPAID_INet && dwDataSize && lstrlenA(pAddress))
     {
         NetPlay* pThis = (NetPlay*)lpContext;
-        if (!bDone)
+        while (!bDone)
         {
-            do
+            wchar_t* pWide = new wchar_t[lstrlenA(pAddress) + 1];
+            MultiByteToWideChar(0, 0, pAddress, -1, pWide, 2 * lstrlenA(pAddress) + 2);
+            pThis->PushConnection_51E0E0(pWide);
+            delete[] pWide;
+            pAddress += lstrlenA(pAddress) + 1;
+            if (!lstrlenA(pAddress))
             {
-                wchar_t* pWide = new wchar_t[lstrlenA(pAddress) + 1];
-                MultiByteToWideChar(0, 0, pAddress, -1, pWide, 2 * lstrlenA(pAddress) + 2);
-                pThis->PushConnection_51E0E0(pWide);
-                delete[] pWide;
-                pAddress += lstrlenA(pAddress) + 1;
-                if (!lstrlenA(pAddress))
-                {
-                    bDone = TRUE;
-                }
-            } while (lstrlenA(pAddress));
+                bDone = TRUE;
+            }
+            if (!lstrlenA(pAddress))
+            {
+                break;
+            }
         }
     }
     return TRUE;
@@ -1734,14 +1737,11 @@ void NetPlay::Set18_520F50(s32 a2, s32 a3)
 }
 
 // https://decomp.me/scratch/oYBrX
-// Result local isn't kept on the stack as in the original, see docs/match_attempts.md
-WIP_FUNC(0x520f80)
+MATCH_FUNC(0x520f80)
 s32 NetPlay::RemovePlayerByName_520F80(wchar_t* pToRemove)
 {
-    WIP_IMPLEMENTED;
-
-    s32 bRemoved = 0;
     u32 i = 0;
+    s32 bRemoved = 0;
     while (1)
     {
         if (i >= this->field_758_n2.field_4_count)

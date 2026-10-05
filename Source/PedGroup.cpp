@@ -15,10 +15,19 @@ DEFINE_GLOBAL_INIT(Fix16, k_dword_67EEE4, Fix16(0x500, 0), 0x67EEE4);
 DEFINE_GLOBAL_INIT(char_type, byte_620838, 1, 0x620838);
 DEFINE_GLOBAL_INIT(Fix16, dword_67F630, Fix16(4), 0x67F630);
 
-STUB_FUNC(0x4c8e60)
+// The original is the static destructor of pedGroups_67EF20 (a ??_M vector destructor call).
+// A struct wrapping the array gets an implicit destructor with that ??_M call, but VC6 doesn't
+// inline it (not even with an explicit __forceinline destructor), see docs/match_attempts.md.
+struct PedGroupArray_4C8E60
+{
+    PedGroup field_0_groups[20];
+};
+
+WIP_FUNC(0x4c8e60)
 void PedGroup::sub_4C8E60()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+    reinterpret_cast<PedGroupArray_4C8E60*>(pedGroups_67EF20)->~PedGroupArray_4C8E60();
 }
 
 MATCH_FUNC(0x4c8e80)

@@ -272,6 +272,28 @@ class Sprite
 
     EXPORT Sprite();
 
+    // The original ctor is an inline that reads a per-TU static zero Ang16 / Fix16 (car.cpp has its own
+    // copies at 0x67791C / 0x6777CC). This inline takes them as parameters for the TUs that inline it.
+    inline Sprite(const Ang16& kZeroAng, const Fix16& kZero) : field_0(kZeroAng)
+    {
+        field_4_0x4C_len = NULL;
+        field_14_xy.x = kZero;
+        field_14_xy.y = kZero;
+        field_1C_zpos = kZero;
+        field_20_id = 0;
+        field_22_sprite_id = 0;
+        field_24_remap = 0;
+        field_28_num = NULL;
+        field_2C_flags = 0;
+        field_30_sprite_type_enum = 0;
+        field_34_palette_type = 0;
+        field_38_zoom = 0;
+        field_39_z_col = -1;
+        field_8_car_bc_ptr = NULL;
+        mpNext = NULL;
+        field_10_sound = NULL;
+    }
+
     inline bool TypeIs_446940(s32 a2)
     {
         return field_30_sprite_type_enum == a2;

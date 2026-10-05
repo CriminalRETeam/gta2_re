@@ -265,10 +265,10 @@ class Car_6C
 
     inline Car_BC* SpawnCarAtCorrectZ_426E40(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_model)
     {
-        Fix16 temp_z;
         if (car_model == car_model_enum::TRAIN || car_model == car_model_enum::TRAINCAB || car_model == car_model_enum::TRAINFB ||
             car_model == car_model_enum::boxcar)
         {
+            Fix16 temp_z;
             return SpawnCarAt_446230(xpos, ypos, *gMap_0x370_6F6268->GetRailwayZCoordAtXY_4E6510(&temp_z, xpos, ypos), rotation, car_model, kFP16One_6777D0);
         }
         else

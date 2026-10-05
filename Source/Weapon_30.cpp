@@ -215,17 +215,20 @@ void Weapon_30::TickReloadSpeed_5DCF40()
 }
 
 // 9.6f 0x4CDA90
-WIP_FUNC(0x5dcf60)
+MATCH_FUNC(0x5dcf60)
 Object_2C* Weapon_30::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rot, Fix16_Point& speed)
 {
-    WIP_IMPLEMENTED;
+    // probe_x/probe_y are assigned, not initialised: initialised, VC6 folds them into the call
+    // arguments and computes y first
+    Fix16 probe_x;
+    Fix16 probe_y;
 
     Sprite* p5CSprite = gObject_5C_6F8F84->field_58_collision_probe_sprite;
     Object_2C* pNewBullet = gObject_5C_6F8F84->NewPhysicsObj_5299B0(bullet_type, xpos, ypos, zpos, rot);
 
-    p5CSprite->set_xyz_lazy_420600(field_24_pPed->get_cam_x() + (xpos - field_24_pPed->get_cam_x()) / kFP16Two_706EC0,
-                                   field_24_pPed->get_cam_y() + (ypos - field_24_pPed->get_cam_y()) / kFP16Two_706EC0,
-                                   zpos);
+    probe_x = field_24_pPed->get_cam_x() + (xpos - field_24_pPed->get_cam_x()) / kFP16Two_706EC0;
+    probe_y = field_24_pPed->get_cam_y() + (ypos - field_24_pPed->get_cam_y()) / kFP16Two_706EC0;
+    p5CSprite->set_xyz_lazy_420600(probe_x, probe_y, zpos);
 
     p5CSprite->set_ang_lazy_420690(pNewBullet->field_4->field_0);
 
@@ -243,15 +246,15 @@ Object_2C* Weapon_30::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypo
     if (p5CSprite->CheckSpriteMovementRegion_5A2500())
     {
         pNewBullet->RequestRemoval_5290A0();
+        pNewBullet = NULL;
         bAllowFlameSegment_706D60 = 0;
-        return NULL;
     }
     else
     {
         bAllowFlameSegment_706D60 = 1;
         pNewBullet->SetMovementVector_5224E0(speed);
-        return pNewBullet;
     }
+    return pNewBullet;
 }
 
 // https://decomp.me/scratch/73olU
@@ -495,23 +498,21 @@ void Weapon_30::dual_pistol_5DDA70()
 // https://decomp.me/scratch/lAo1H
 // Fix16_Point::RotateByAngle_40F6B0 as VC6 emits it in a caller that has run out of inline
 // expansions: the multiplies, the negate and the y line's add are the out of line operator
-// copies, and sin/cos/x_old are the inline's own locals (below the caller's)
-static inline void RotateByAngle_40F6B0_no_budget(Fix16_Point& p, const Ang16& angle)
+// copies, and sin/cos/x_old are the inline's own locals (below the caller's). The x line's add
+// is the inline operator+, which loads the y*sin product (evaluated first) first
+// (smg_5DDD20, tank_main_gun_5E10E0, army_gun_jeep_5E13E0)
+static inline void RotateByAngle_40F6B0_no_budget2(Fix16_Point& p, const Ang16& angle)
 {
     Fix16 sin = Ang16::sine_40F500(angle);
     Fix16 cos = Ang16::cosine_40F520(angle);
     Fix16 x_old = p.x;
-    // the inline operator+ is not expanded inside this helper, so add the raw values.
-    // Still off: the original loads the y*sin product (evaluated first) first for the add
-    p.x = Fix16(p.x.Multiply_408680(cos).mValue + p.y.Multiply_408680(sin).mValue, 0);
+    p.x = p.x.Multiply_408680(cos) + p.y.Multiply_408680(sin);
     p.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + p.y.Multiply_408680(cos);
 }
 
-WIP_FUNC(0x5ddd20)
+MATCH_FUNC(0x5ddd20)
 void Weapon_30::smg_5DDD20()
 {
-    WIP_IMPLEMENTED;
-
     Fix16_Point point;
     if (field_2_reload_speed == 0)
     {
@@ -524,9 +525,9 @@ void Weapon_30::smg_5DDD20()
             point.x = -dword_706E7C;
             point.y = dword_706CF0 + dword_706E80;
 
-            RotateByAngle_40F6B0_no_budget(point, field_24_pPed->field_168_game_object->field_80_sprite_ptr->field_0);
+            RotateByAngle_40F6B0_no_budget2(point, field_24_pPed->field_168_game_object->field_80_sprite_ptr->field_0);
 
-            point = point + field_24_pPed->GetVelocityVector_45B520();
+            point = point.Add_40AC50(field_24_pPed->GetVelocityVector_45B520());
 
             if (Weapon_30::spawn_bullet_5DCF60(254,
                                                field_24_pPed->get_cam_x() + point.x,
@@ -571,7 +572,7 @@ void Weapon_30::smg_5DDD20()
     }
 }
 
-// Something wrong with minimum force to throw https://decomp.me/scratch/OrmRn
+// https://decomp.me/scratch/OrmRn
 WIP_FUNC(0x5ddfc0)
 void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
 {
@@ -655,7 +656,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                         {
                             vector = field_24_pPed->GetVelocityVector_45B520();
                             pProjectile->SetMovementVector_5224E0(vector);
-                            if (vector.IsNull_420360())
+                            if (vector.x != dword_706EB8 || vector.y != dword_706EB8)
                             {
                                 pProjectile->field_10_obj_3c->field_C_speed += dword_706C8C;
                             }
@@ -711,6 +712,9 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                                     field_24_pPed->get_cam_z(),
                                     field_24_pPed->Get_F12E_4CCA90(),
                                     field_24_pPed->GetVelocityVector_45B520());
+                field_2_reload_speed = 5;
+                field_20 = 0;
+                Weapon_30::TickReloadSpeed_5DCF40();
             }
         }
         else
@@ -731,6 +735,23 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
 
 EXPORT void __stdcall sub_5DE910(Fix16_Point_POD a1, Fix16_Point& a2, Fix16 a3);
 
+// Length of `d`, with dword_706EB8 as the zero (y * y inline)
+static inline Fix16 BeamLength_5DE4F0(Fix16_Point& d)
+{
+    if (d.x == dword_706EB8)
+    {
+        return Fix16::Abs_436A50(d.y);
+    }
+    else if (d.y == dword_706EB8)
+    {
+        return Fix16::Abs_436A50(d.x);
+    }
+    else
+    {
+        return Fix16::SquareRoot_436A70((const Fix16&)d.x.Multiply_408680(d.x) + d.y * d.y);
+    }
+}
+
 WIP_FUNC(0x5de4f0)
 void Weapon_30::sub_5DE4F0()
 {
@@ -739,23 +760,10 @@ void Weapon_30::sub_5DE4F0()
                       field_24_pPed->field_198->get_cam_y() - field_24_pPed->get_cam_y());
     gRozza_679188.Reset_4637B0();
 
-    Ang16 angle;
-    angle = Fix16::atan2_fixed_405320(field_24_pPed->field_198->get_cam_y() - field_24_pPed->get_cam_y(),
-                                      field_24_pPed->field_198->get_cam_x() - field_24_pPed->get_cam_x());
+    Ang16 angle = Fix16::atan2_fixed_405320(field_24_pPed->field_198->get_cam_y() - field_24_pPed->get_cam_y(),
+                                            field_24_pPed->field_198->get_cam_x() - field_24_pPed->get_cam_x());
 
-    Fix16 dist;
-    if (delta.x == dword_706EB8)
-    {
-        dist = Fix16::Abs_436A50(delta.y);
-    }
-    else if (delta.y == dword_706EB8)
-    {
-        dist = Fix16::Abs_436A50(delta.x);
-    }
-    else
-    {
-        dist = Fix16::SquareRoot_436A70((const Fix16&)delta.x.Multiply_408680(delta.x) + delta.y * delta.y);
-    }
+    Fix16 dist = BeamLength_5DE4F0(delta);
 
     if (dist > dword_706EC4)
     {
@@ -806,16 +814,16 @@ void Weapon_30::sub_5DE4F0()
             switch (pHit->field_30_sprite_type_enum)
             {
                 case sprite_types_enum::car_2:
-                    field_24_pPed->field_170_selected_weapon->field_4 = 1;
                     field_24_pPed->field_198 = 0;
+                    field_24_pPed->field_170_selected_weapon->field_4 = 1;
                     return;
 
                 case sprite_types_enum::ped_3:
                 {
-                    Ped* pHitPed = pHit->field_8_char_b4_ptr->field_7C_pPed;
-                    if (pHitPed != field_24_pPed->field_198 && pHitPed != field_24_pPed)
+                    if (pHit->field_8_char_b4_ptr->field_7C_pPed != field_24_pPed->field_198 &&
+                        pHit->field_8_char_b4_ptr->field_7C_pPed != field_24_pPed)
                     {
-                        s32 state = pHitPed->field_278_ped_state_1;
+                        s32 state = pHit->field_8_char_b4_ptr->field_7C_pPed->field_278_ped_state_1;
                         if (state < 8 || state > 9)
                         {
                             field_24_pPed->field_170_selected_weapon->field_4 = 1;
@@ -867,7 +875,7 @@ static inline Fix16 BeamLength_5DE910(Fix16_Point& d)
 // The EH state is 0xA at entry and never changes: 11 Fix16_Point locals, two of them unused
 // (likely the original's by-value a1 is one of them). `d` is reused for the rest of the way and
 // `len` for the straight segment count, as the original's frame shows.
-WIP_FUNC(0x5de910)
+MATCH_FUNC(0x5de910)
 void __stdcall sub_5DE910(Fix16_Point_POD a1, Fix16_Point& a2, Fix16 a3)
 {
     Fix16_Point d;
@@ -902,19 +910,19 @@ void __stdcall sub_5DE910(Fix16_Point_POD a1, Fix16_Point& a2, Fix16 a3)
     Ang16 angle;
     Ang16 seg_angle;
     // The first length and angle are dead, like 9.6f's (it only kept the atan2 call)
-    d = a2 - start;
+    d = a2.Sub_40AC80(start);
     len = BeamLength_5DE910(d);
     d.atan2_40F790();
 
     to = a2;
     from = start;
-    d = a2 - start;
+    d = a2.Sub_40AC80(start);
     len = BeamLength_5DE910(d);
     gRng_6F6784.get_int_4F7AE0(2);
 
     from = start;
     to = a2;
-    d3 = to - from;
+    d3 = to.Sub_40AC80(from);
     len = BeamLength_5DE910(d3);
     u8 count = (len / seg_len).ToInt();
     angle = d3.atan2_40F790();
@@ -922,10 +930,11 @@ void __stdcall sub_5DE910(Fix16_Point_POD a1, Fix16_Point& a2, Fix16 a3)
     cur = from;
     for (u8 i = 0; i < count; i++)
     {
-        // 9.6f: Fix16(s16) 0x401AE0 minus Fix16(u16) 0x41F990, times dword_706D34
+        // 9.6f: Fix16(s16) 0x401AE0 minus Fix16(u16) 0x41F990, times dword_706D34. The kink stays a
+        // temporary (a named local moves the frame slots) and `-=` evaluates the half first.
         u16 spread = (gRng_6F6784.get_int_4F7AE0(4) + 1) * 32;
-        Fix16 kink = (Fix16(gRng_6F6784.get_int_4F7AE0(spread)) - Fix16((u16)(spread >> 1))) * dword_706D34;
-        Ang16 jitter = Ang16::Fix16_To_Ang16_ool_40F540(kink);
+        Ang16 jitter = Ang16::Fix16_To_Ang16_ool_40F540(
+            (Fix16(gRng_6F6784.get_int_4F7AE0(spread)) -= Fix16((u16)(spread >> 1))) * dword_706D34);
 
         step.x = seg_len.Multiply_408680(Ang16::sine_40F500(angle));
         step.y = seg_len.Multiply_408680(Ang16::cosine_40F520(angle));
@@ -933,7 +942,7 @@ void __stdcall sub_5DE910(Fix16_Point_POD a1, Fix16_Point& a2, Fix16 a3)
         seg_angle = step.atan2_40F790();
 
         next = cur.Add_40AC50(step);
-        mid = next - cur;
+        mid = next.Sub_40AC80(cur);
         mid.x.DivideAssign_539F90(kFP16Two_706EC0);
         mid.y.DivideAssign_539F90(kFP16Two_706EC0);
         mid.x += cur.x;
@@ -942,7 +951,7 @@ void __stdcall sub_5DE910(Fix16_Point_POD a1, Fix16_Point& a2, Fix16 a3)
         cur = next;
     }
 
-    d = a2 - cur;
+    d = a2.Sub_40AC80(cur);
     seg_angle = d.atan2_40F790();
     len = d.MaxAbs_5E4140() / seg_len;
     if (len != dword_706EB8)
@@ -952,7 +961,7 @@ void __stdcall sub_5DE910(Fix16_Point_POD a1, Fix16_Point& a2, Fix16 a3)
         for (s32 j = 1; j <= len.ToInt(); j++)
         {
             next.AddAssign_5E40C0(d);
-            mid = next - cur;
+            mid = next.Sub_40AC80(cur);
             mid.DivAssign_5E40E0(kFP16Two_706EC0);
             mid.AddAssign_5E40C0(cur);
             gParticle_8_6FD5E8->EmitElectricArcParticle(mid.x, mid.y, a3, seg_angle);
@@ -1381,7 +1390,14 @@ DEFINE_GLOBAL_INIT(Ang16, word_706DFA, Ang16(720), 0x706DFA);
 DEFINE_GLOBAL_INIT(Fix16, dword_706CDC, Fix16(0xE00, 0), 0x706CDC);
 DEFINE_GLOBAL_INIT(Fix16, dword_706CD8, Fix16(0x800, 0), 0x706CD8);
 
-WIP_FUNC(0x5e0b10)
+// Ang16::operator+ with the normalizing ctor called out of line (AssignNormalized_409300)
+static inline Ang16 AddAng16_ool(const Ang16& a, const Ang16& b)
+{
+    s16 value = a.rValue + b.rValue;
+    return Ang16((Ang16&)value, 0);
+}
+
+MATCH_FUNC(0x5e0b10)
 void Weapon_30::fire_truck_flamethrower_5E0B10()
 {
     Ang16 gun_ang;
@@ -1389,14 +1405,14 @@ void Weapon_30::fire_truck_flamethrower_5E0B10()
     Fix16_Point offset;
     Fix16_Point velocity;
 
-    field_24_pPed = field_14_car->field_54_driver;
+    Sprite_18* pTurret;
+    Ped* pDriver = field_14_car->field_54_driver;
+    field_24_pPed = pDriver;
 
-    Sprite_18* pTurret = field_14_car->field_0_qq.GetSpriteForModel_5A6A50(114);
+    pTurret = field_14_car->field_0_qq.GetSpriteForModel_5A6A50(114);
     if (pTurret)
     {
-        // The original calls this constructor out of line (AssignNormalized_409300), but that
-        // spelling (or operator+) moves the registers of the whole branch.
-        gun_ang = Ang16((s16)(pTurret->field_0->field_0.rValue + word_706DFA.rValue), 0);
+        gun_ang = AddAng16_ool(pTurret->field_0->field_0, word_706DFA);
 
         bullet_pos.SetXY_432860(Fix16(0), dword_706CDC);
         bullet_pos.RotateByAngle_NegOOL_40F6B0(gun_ang);
@@ -1483,12 +1499,12 @@ void Weapon_30::tank_main_gun_5E10E0()
         cannon_angle = field_14_car->field_0_qq.GetSpriteForModel_5A6A50(148)
                            ->field_0->field_0;
         cannon_pos.SetXY_432860(Fix16(0), gTankCannonLength_706E20);
-        cannon_pos.RotateByAngle_40F6B0(cannon_angle);
+        cannon_pos.RotateByAngle_MixOOL_40F6B0(cannon_angle);
 
         offset.SetXY_432860(Fix16(0), dword_706D88);
-        offset.RotateByAngle_40F6B0(field_14_car->field_50_car_sprite->field_0);
+        RotateByAngle_40F6B0_no_budget2(offset, field_14_car->field_50_car_sprite->field_0);
 
-        cannon_pos += offset + field_14_car->field_50_car_sprite->get_x_y_443580();
+        cannon_pos += offset.Add_40AC50(field_14_car->field_50_car_sprite->get_x_y_443580());
 
         if (field_14_car->field_58_physics)
         {
@@ -1556,14 +1572,14 @@ void Weapon_30::army_gun_jeep_5E13E0()
         gun_ang = pGunSprite->field_0;
 
         bullet_pos.SetXY_432860(Fix16(0), dword_706EA4);
-        bullet_pos.RotateByAngle_40F6B0(gun_ang);
+        bullet_pos.RotateByAngle_MixOOL_40F6B0(gun_ang);
 
         v41.SetXY_432860(Fix16(0), dword_706EE8);
-        v41.RotateByAngle_40F6B0(field_14_car->field_50_car_sprite->field_0);
+        RotateByAngle_40F6B0_no_budget2(v41, field_14_car->field_50_car_sprite->field_0);
 
-        bullet_pos += (v41 + field_14_car->field_50_car_sprite->get_x_y_443580());
+        bullet_pos += v41.Add_40AC50(field_14_car->field_50_car_sprite->get_x_y_443580());
 
-        v42 = field_14_car->field_58_physics->GetPointVelocity_561350(&v41);
+        v42 = field_14_car->field_58_physics->GetPointVelocity_561350(&bullet_pos);
 
         set_field_2C_4CCA80(1);
 

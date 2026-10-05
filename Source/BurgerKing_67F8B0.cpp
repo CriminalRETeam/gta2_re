@@ -333,10 +333,12 @@ void __stdcall BurgerKing_1::input_devices_init_498C40(HINSTANCE hInstance)
 }
 
 // https://decomp.me/scratch/LbfoG ridiculous function to match
-STUB_FUNC(0x498CB0)
+WIP_FUNC(0x498CB0)
 void BurgerKing_1::SetAltKeyState_498CB0(u32 a1)
 {
-    gAltKeyDown_67B80C = a1 >> 7;
+    WIP_IMPLEMENTED;
+    // The original loads the whole dword and shifts only al, see docs/match_attempts.md
+    gAltKeyDown_67B80C = (u8)a1 >> 7;
 }
 
 MATCH_FUNC(0x498D20)

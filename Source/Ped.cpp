@@ -505,7 +505,7 @@ Ped::~Ped()
 
 // https://decomp.me/scratch/2yWEK
 WIP_FUNC(0x45afc0)
-char_type Ped::Reset_45AFC0()
+void Ped::Reset_45AFC0()
 {
     field_21C_bf.b0 = 0;
     field_21C_bf.b1 = 0;
@@ -646,7 +646,6 @@ char_type Ped::Reset_45AFC0()
     field_21C_bf.b29 = 0;
     field_260 = 0;
     field_224 |= 0x20u;
-    return 0;
 }
 
 MATCH_FUNC(0x45b440)
@@ -1514,15 +1513,19 @@ Ang16 Ped::ComputeAimAngle_45C9D0()
             best = FindNearestPed_Mode4_466F40(3u);
         }
 
+        // A local stored once after the if/else: the join is then big enough that VC6 doesn't
+        // copy the return tail into the atan2 branch (14 -> 12)
+        Ang16 angle;
         if (best)
         {
-            field_130 = Fix16::atan2_fixed_405320(best->field_1AC_cam.y - field_1AC_cam.y, 
-                                                  best->field_1AC_cam.x - field_1AC_cam.x);
+            angle = Fix16::atan2_fixed_405320(best->field_1AC_cam.y - field_1AC_cam.y,
+                                              best->field_1AC_cam.x - field_1AC_cam.x);
         }
         else
         {
-            field_130 = field_12C;
+            angle = field_12C;
         }
+        field_130 = angle;
     }
     return field_130;
 }
@@ -3086,7 +3089,7 @@ void Ped::TaxiCustomer_AI_460820()
                     dy_ = Fix16::Abs(dy_);
 
                     // TODO: Might be Min()?
-                    if (!(Fix16::Max(dx_, dy_) > kFpTwo_678658 || (this->field_21C & 0x20000) != 0))
+                    if (!(kFpTwo_678658 < Fix16::Max(dx_, dy_) || (this->field_21C & 0x20000) != 0))
                     {
                         pTargetObjCar__ = this->field_150_target_objective_car;
                         if (pTargetObjCar__->field_4_passengers_list.IsEmpty_420EA0())
@@ -3096,14 +3099,9 @@ void Ped::TaxiCustomer_AI_460820()
                                 break;
                             }
                         }
-                        pTargetObjCar__->sub_43AF40();
-                        SetObjective(objectives_enum::no_obj_0, 9999);
                     }
-                    else
-                    {
-                        this->field_150_target_objective_car->sub_43AF40();
-                        SetObjective(objectives_enum::no_obj_0, 9999);
-                    }
+                    this->field_150_target_objective_car->sub_43AF40();
+                    SetObjective(objectives_enum::no_obj_0, 9999);
                     SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                     this->set_occupation_403970(ped_ocupation_enum::dummy);
                     this->SetField238_403920(ped_type::dummy_3);
@@ -5251,6 +5249,27 @@ static inline void PolarToCartesianMul_4645B0(Ang16& angle, Fix16& radius, Fix16
     y = Ang16::cosine_40F520(angle).Multiply_408680(radius);
 }
 
+// Same, with the sine multiply inlined
+static inline void PolarToCartesianMulInlSin_4645B0(Ang16& angle, Fix16& radius, Fix16& x, Fix16& y)
+{
+    x = Ang16::sine_40F500(angle) * radius;
+    y = Ang16::cosine_40F520(angle).Multiply_408680(radius);
+}
+
+// Ang16::operator+= with Normalize called out of line
+static inline void AddAssignAng16_ool_4645B0(Ang16& a, const Ang16& b)
+{
+    a.rValue += b.rValue;
+    a.Normalize_406C20();
+}
+
+// Ang16::operator+ with the normalizing ctor called out of line (AssignNormalized_409300)
+static inline Ang16 AddAng16_ool_4645B0(const Ang16& a, const Ang16& b)
+{
+    s16 value = a.rValue + b.rValue;
+    return Ang16((Ang16&)value, 0);
+}
+
 WIP_FUNC(0x4645b0)
 void Ped::sub_4645B0()
 {
@@ -5264,8 +5283,7 @@ void Ped::sub_4645B0()
 
     if (field_14C_internal_target_ped->GetPedVelocity_45C920() > kFpZero_678660)
     {
-        angle = kAng180_6785A6;
-        angle += field_14C_internal_target_ped->field_168_game_object->field_40_rotation;
+        angle = Ang16(kAng180_6785A6.rValue + field_14C_internal_target_ped->field_168_game_object->field_40_rotation.rValue).Normalized_406C20();
         radius = kFpThreeEighths_67878C;
     }
     else
@@ -5289,10 +5307,10 @@ void Ped::sub_4645B0()
         switch (field_23C_group_idx)
         {
             case 0:
-                angle += kAng90_678502;
+                AddAssignAng16_ool_4645B0(angle, kAng90_678502);
                 if (bUnk)
                 {
-                    angle += kAng180_6785A6;
+                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
                     radius = kFpThreeQuarters_678794;
                 }
                 PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
@@ -5300,10 +5318,10 @@ void Ped::sub_4645B0()
                 field_1C8_y += vec_y;
                 break;
             case 1:
-                angle += kAng270_6785D0;
+                AddAssignAng16_ool_4645B0(angle, kAng270_6785D0);
                 if (bUnk)
                 {
-                    angle += kAng180_6785A6;
+                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
                     radius = kFpThreeQuarters_678794;
                 }
                 PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
@@ -5311,10 +5329,10 @@ void Ped::sub_4645B0()
                 field_1C8_y += vec_y;
                 break;
             case 2:
-                angle = angle + kAng180_6785A6;
+                angle = AddAng16_ool_4645B0(kAng180_6785A6, angle);
                 if (bUnk)
                 {
-                    angle += kAng180_6785A6;
+                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
                     radius = kFpThreeQuarters_678794;
                 }
                 PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
@@ -5324,15 +5342,20 @@ void Ped::sub_4645B0()
 
             case 3:
                 PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
+                if (bUnk)
+                {
+                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
+                    radius = kFpThreeQuarters_678794;
+                }
                 field_1C4_x += vec_x;
                 field_1C8_y += vec_y;
                 break;
 
             case 4:
-                angle += kAng225_6786B8;
+                AddAssignAng16_ool_4645B0(angle, kAng225_6786B8);
                 if (bUnk)
                 {
-                    angle += kAng180_6785A6;
+                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
                     radius = kFpThreeQuarters_678794;
                 }
                 else
@@ -5345,10 +5368,10 @@ void Ped::sub_4645B0()
                 break;
 
             case 5:
-                angle += kAng45_6784E2;
+                AddAssignAng16_ool_4645B0(angle, kAng45_6784E2);
                 if (bUnk)
                 {
-                    angle += kAng180_6785A6;
+                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
                     radius = kFpThreeQuarters_678794;
                 }
                 else
@@ -5361,10 +5384,10 @@ void Ped::sub_4645B0()
                 break;
 
             case 6:
-                angle += kAng315_6785A8;
+                AddAssignAng16_ool_4645B0(angle, kAng315_6785A8);
                 if (bUnk)
                 {
-                    angle += kAng180_6785A6;
+                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
                     radius = kFpThreeQuarters_678794;
                 }
                 else
@@ -5377,33 +5400,33 @@ void Ped::sub_4645B0()
                 break;
 
             case 7:
-                angle += kAng135_67844C;
+                AddAssignAng16_ool_4645B0(angle, kAng135_67844C);
                 if (bUnk)
                 {
-                    angle += kAng180_6785A6;
+                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
                     radius = kFpThreeQuarters_678794;
                 }
                 else
                 {
                     radius = kFpThreeEighths_67878C;
                 }
-                PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
+                PolarToCartesianMulInlSin_4645B0(angle, radius, vec_x, vec_y);
                 field_1C4_x += vec_x;
                 field_1C8_y += vec_y;
                 break;
 
             default:
-                angle += kAng225_6786B8;
+                angle = angle.AddNormalized(kAng225_6786B8);
                 if (bUnk)
                 {
-                    angle += kAng180_6785A6;
+                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
                     radius = kFpThreeQuarters_678794;
                 }
                 else
                 {
                     radius = kFpThreeEighths_67878C;
                 }
-                PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
+                PolarToCartesianMulInlSin_4645B0(angle, radius, vec_x, vec_y);
                 field_1C4_x += vec_x;
                 field_1C8_y += vec_y;
                 break;
@@ -10033,11 +10056,10 @@ char_type Ped::IsOtherPedEnteringAsDriver_46BD50(Car_BC* pCar)
     return 0;
 }
 
-WIP_FUNC(0x46bdc0)
+MATCH_FUNC(0x46bdc0)
 void Ped::EnterCarStateMachine_46BDC0()
 {
-    WIP_IMPLEMENTED;
-
+    Car_Door_10* pDoor;
     if (field_16C_car && this->field_154_target_to_enter == field_16C_car)
     {
         this->field_226_internal_objective_status = 1;
@@ -10072,7 +10094,7 @@ void Ped::EnterCarStateMachine_46BDC0()
 
     if (!FindUsableCarDoor_467090())
     {
-        Car_Door_10* pDoor = field_154_target_to_enter->GetDoor(this->field_24C_target_car_door);
+        pDoor = field_154_target_to_enter->GetDoor(this->field_24C_target_car_door);
         pDoor->Close_439EA0();
         if (this->field_27C_ped_state_2 == ped_state_2::ped2_entering_a_car_6)
         {
@@ -10099,16 +10121,16 @@ void Ped::EnterCarStateMachine_46BDC0()
             &field_154_target_to_enter->field_50_car_sprite->field_C_sprite_4c_ptr->field_30_boundingBox))
     {
         this->field_21C |= 0x8000000u;
-        field_168_game_object->SetMaxSpeed_433920(kFpZero_678438);
+        field_168_game_object->SetMaxSpeedByRef_433920(kFpZero_678438);
         if (field_27C_ped_state_2 == ped_state_2::ped2_staying_14 || field_27C_ped_state_2 == ped_state_2::ped2_following_a_car_4 ||
             field_27C_ped_state_2 == ped_state_2::Unknown_5)
         {
-            Car_Door_10* pDoor_ = field_154_target_to_enter->GetDoor(field_24C_target_car_door);
+            pDoor = field_154_target_to_enter->GetDoor(field_24C_target_car_door);
             ChangeNextPedState2_45C540(6);
             ChangeNextPedState1_45C500(3);
             if (this->field_25C_internal_objective != 37)
             {
-                pDoor_->set_ped_421380(this);
+                pDoor->set_ped_421380(this);
             }
             field_154_target_to_enter->ApplyVisualDamage_43A9F0();
         }
@@ -10149,10 +10171,10 @@ void Ped::EnterCarStateMachine_46BDC0()
         {
             ChangeNextPedState1_45C500(7);
             ChangeNextPedState2_45C540(14);
-            Car_Door_10* pDoor__ = field_154_target_to_enter->GetDoor(this->field_24C_target_car_door);
-            if (pDoor__)
+            pDoor = field_154_target_to_enter->GetDoor(this->field_24C_target_car_door);
+            if (pDoor)
             {
-                pDoor__->set_ped_421380(0);
+                pDoor->set_ped_421380(0);
             }
             //LABEL_54:
             this->field_226_internal_objective_status = 2;
@@ -10196,12 +10218,13 @@ void Ped::EnterCarStateMachine_46BDC0()
     }
 }
 
-WIP_FUNC(0x46c250)
+MATCH_FUNC(0x46c250)
 void Ped::ExitCarStateMachine_46C250()
 {
-    WIP_IMPLEMENTED;
-
     bool bUnknown = 0;
+    // Shared by both door paths; the z temporaries are block scoped (this gives the frame layout)
+    Fix16 char_x;
+    Fix16 char_y;
     this->field_21C |= 0x8000000u;
 
     if (field_27C_ped_state_2 == ped_state_2::ped2_driving_10)
@@ -10221,8 +10244,6 @@ void Ped::ExitCarStateMachine_46C250()
 
             if (FindUsableCarDoor_467090())
             {
-                Fix16 char_x;
-                Fix16 char_y;
                 field_154_target_to_enter->GetDoorWorldPosition_43B5A0(field_24C_target_car_door, &char_x, &char_y);
                 Fix16 zTmp;
                 AllocCharB4_45C830(char_x,
@@ -10232,7 +10253,16 @@ void Ped::ExitCarStateMachine_46C250()
                                                                   char_y,
                                                                   this->field_154_target_to_enter->field_50_car_sprite->field_1C_zpos));
 
-                SetRemap_433C10(field_244_remap);
+                {
+                    // SetRemap_433C10 written out (as in StartPedWalking_470200)
+                    Char_B4* pB4 = field_168_game_object;
+                    u8 remap = field_244_remap;
+                    pB4->field_5_remap = remap;
+                    if (remap != 0xFF)
+                    {
+                        pB4->field_80_sprite_ptr->SetRemap(remap);
+                    }
+                }
 
                 ChangeNextPedState2_45C540(7);
                 ChangeNextPedState1_45C500(4);
@@ -10243,24 +10273,34 @@ void Ped::ExitCarStateMachine_46C250()
                 return;
             }
 
-            Fix16 zpos;
-            Sprite* pCarSprite = field_154_target_to_enter->field_50_car_sprite;
-            if (!AllocCharB4_45C830(pCarSprite->field_14_xy.x,
-                                    pCarSprite->field_14_xy.y,
-                                    *gMap_0x370_6F6268->sub_4E4E50(&zpos,
-                                                                   pCarSprite->field_14_xy.x,
-                                                                   pCarSprite->field_14_xy.y,
-                                                                   pCarSprite->field_1C_zpos)))
             {
-                FatalError_4A38C0(1, "C:\\Splitting\\Gta2\\Source\\char.cpp", 11894);
+                Fix16 zpos;
+                if (!AllocCharB4_45C830(field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
+                                        field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
+                                        *gMap_0x370_6F6268->sub_4E4E50(&zpos,
+                                                                       field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
+                                                                       field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
+                                                                       field_154_target_to_enter->field_50_car_sprite->field_1C_zpos)))
+                {
+                    FatalError_4A38C0(1, "C:\\Splitting\\Gta2\\Source\\char.cpp", 11894);
+                }
             }
 
-            SetRemap_433C10(field_244_remap);
+            {
+                // SetRemap_433C10 written out (as in StartPedWalking_470200)
+                Char_B4* pB4 = field_168_game_object;
+                u8 remap = field_244_remap;
+                pB4->field_5_remap = remap;
+                if (remap != 0xFF)
+                {
+                    pB4->field_80_sprite_ptr->SetRemap(remap);
+                }
+            }
 
             ChangeNextPedState2_45C540(0);
             ChangeNextPedState1_45C500(0);
 
-            this->field_168_game_object->SetMaxSpeed_433920(kFpZero_678438);
+            this->field_168_game_object->SetMaxSpeedByRef_433920(kFpZero_678438);
             field_168_game_object->DoJump_5454D0();
             field_168_game_object->field_80_sprite_ptr->field_0 = field_154_target_to_enter->field_50_car_sprite->field_0;
             this->field_168_game_object->set_rotation_433A30(this->field_154_target_to_enter->field_50_car_sprite->field_0);
@@ -10278,18 +10318,25 @@ void Ped::ExitCarStateMachine_46C250()
                 if (!pDoor->get_pObj_4341B0() || this->field_25C_internal_objective == 38)
                 {
                     field_16C_car->field_4_passengers_list.RemovePed_471240(this);
-                    Fix16 char_x;
-                    Fix16 char_y;
                     field_154_target_to_enter->GetDoorWorldPosition_43B5A0(field_24C_target_car_door, &char_x, &char_y);
 
-                    Fix16 char_z;
-                    char_z = *gMap_0x370_6F6268->sub_4E4E50(&char_z,
-                                                            char_x,
-                                                            char_y,
-                                                            this->field_154_target_to_enter->field_50_car_sprite->field_1C_zpos);
-
-                    AllocCharB4_45C830(char_x, char_y, char_z);
-                    SetRemap_433C10(field_244_remap);
+                    Fix16 zTmp;
+                    AllocCharB4_45C830(char_x,
+                                       char_y,
+                                       *gMap_0x370_6F6268->sub_4E4E50(&zTmp,
+                                                                      char_x,
+                                                                      char_y,
+                                                                      this->field_154_target_to_enter->field_50_car_sprite->field_1C_zpos));
+                    {
+                        // SetRemap_433C10 written out (as in StartPedWalking_470200)
+                        Char_B4* pB4 = field_168_game_object;
+                        u8 remap = field_244_remap;
+                        pB4->field_5_remap = remap;
+                        if (remap != 0xFF)
+                        {
+                            pB4->field_80_sprite_ptr->SetRemap(remap);
+                        }
+                    }
                     ChangeNextPedState2_45C540(7);
                     ChangeNextPedState1_45C500(4);
                     this->field_16C_car = 0;
@@ -10308,16 +10355,25 @@ void Ped::ExitCarStateMachine_46C250()
 
                 field_16C_car->field_4_passengers_list.RemovePed_471240(this);
 
-                Fix16 zpos;
-                zpos = *gMap_0x370_6F6268->sub_4E4E50(&zpos,
-                                                      field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
-                                                      field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
-                                                      field_154_target_to_enter->field_50_car_sprite->field_1C_zpos);
-
-                AllocCharB4_45C830(field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
-                                   field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
-                                   zpos);
-                SetRemap_433C10(field_244_remap);
+                {
+                    Fix16 zpos;
+                    AllocCharB4_45C830(field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
+                                       field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
+                                       *gMap_0x370_6F6268->sub_4E4E50(&zpos,
+                                                                      field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
+                                                                      field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
+                                                                      field_154_target_to_enter->field_50_car_sprite->field_1C_zpos));
+                }
+                {
+                    // SetRemap_433C10 written out (as in StartPedWalking_470200)
+                    Char_B4* pB4 = field_168_game_object;
+                    u8 remap = field_244_remap;
+                    pB4->field_5_remap = remap;
+                    if (remap != 0xFF)
+                    {
+                        pB4->field_80_sprite_ptr->SetRemap(remap);
+                    }
+                }
                 ChangeNextPedState2_45C540(0);
                 ChangeNextPedState1_45C500(0);
                 field_168_game_object->DoJump_5454D0();

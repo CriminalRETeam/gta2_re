@@ -28,8 +28,9 @@ Fix16_Point Fix16_Point::Add_40AC50(const Fix16_Point_POD& in)
     return Fix16_Point(x + in.x, y + in.y);
 }
 
+// The out-of-line copy of the inline operator-
 MATCH_FUNC(0x40AC80)
-Fix16_Point Fix16_Point::operator-(const Fix16_Point& rhs)
+Fix16_Point Fix16_Point::Sub_40AC80(const Fix16_Point& rhs)
 {
     return Fix16_Point(x - rhs.x, y - rhs.y);
 }

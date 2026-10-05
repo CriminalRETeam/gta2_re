@@ -548,11 +548,9 @@ void PedManager::SpawnDummies_46EB60(Camera_0xBC* pCam)
 }
 
 // https://decomp.me/scratch/dQf8H
-WIP_FUNC(0x4703f0)
+MATCH_FUNC(0x4703f0)
 void PedManager::PedsService_4703F0()
 {
-    WIP_IMPLEMENTED;
-
     ++gPedsServiceTickCount_6787F0;
     gNumPedsUpdated_6787E0 = 0;
     gNumDummyChars_6787E2 = 0;
@@ -564,7 +562,7 @@ void PedManager::PedsService_4703F0()
     gNewTaxiCustomersThisTick_6787D2 = 0;
     gNumPolicePedsInRangeScreen_6787EE = 0;
 
-    gPedPool_6787B8->field_0_pool.UpdatePool();
+    gPedPool_6787B8->UpdatePool_445960();
 
     if (bThreateningPedAdded_6787EF) // 11d: je 128
     {

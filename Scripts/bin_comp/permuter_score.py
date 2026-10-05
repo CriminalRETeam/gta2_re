@@ -113,7 +113,7 @@ def function_asm(coff, symidx):
             # Absolute symbol (__except_list for fs:0): the exe has its real value.
             continue
         if name not in fake:
-            fake[name] = FAKE_BASE + len(fake) * 0x10
+            fake[name] = FAKE_BASE + len(fake) * 0x10000  # room for symbol+offset operands
         addend = 0 if rsym["sec"] == sym["sec"] else struct.unpack_from("<i", code, off)[0]
         if typ == IMAGE_REL_I386_DIR32:
             struct.pack_into("<I", code, off, (fake[name] + addend) & 0xFFFFFFFF)

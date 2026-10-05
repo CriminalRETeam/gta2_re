@@ -113,7 +113,8 @@ void Garox_13C0_sub::DrawPlayerNames_5CFE40()
                     Fix16 x = pPlayerPed->field_1AC_cam.x;
                     Fix16 y = pPlayerPed->field_1AC_cam.y;
                     Fix16 z = pPlayerPed->field_1AC_cam.z;
-                    if (pCam->IsCoordsPosVisible_435A70(x, y, z))
+                    // The original tests only al (bool return?)
+                    if ((u8)pCam->IsCoordsPosVisible_435A70(x, y, z))
                     {
                         // Camera_0xBC::WorldToScreen_40CFC0, with the y line out of line (inline budget)
                         Fix16 u = pCam->field_98_cam_pos2.field_8_z - z;
@@ -1027,7 +1028,7 @@ void Garox_27B5_sub::ShowPlayerCoords_5CF970()
 // ----------------------------------------------------
 
 // https://decomp.me/scratch/bd2MO
-WIP_FUNC(0x5cfa70)
+MATCH_FUNC(0x5cfa70)
 void Garox_107C_sub::DrawGangRespectBars_5CFA70()
 {
     u32 random_num = gpRng_67AB34->get_cur_rng_41CFE0() & 0xF;
@@ -1067,23 +1068,24 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
 
         if (respect < -19)
         {
-            if (respect <= -100 && !bPlusSignDark || respect > -100)
+            if (respect > -100 || !bPlusSignDark)
             {
                 DrawFigureScaled_5D7670(6, 2 * arrow_colour + 50, 34, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
             }
         }
         else
         {
-            if (respect >= 100 && !bPlusSignDark || respect < 100)
+            if (respect < 100 || !bPlusSignDark)
             {
                 DrawFigureScaled_5D7670(6, 2 * arrow_colour + 51, 93, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
             }
-        }
 
-        // green mission respect
-        if (respect >= -19)
-        {
-            DrawFigureScaled_5D7670(6, 46, 64u, ypos + 9, kAngZero_706610, 2, 0, 0, 0);
+            // green mission respect
+            // Always true here, but the original re-tests it on this path (written this way VC6 keeps the test)
+            if (-19 <= respect)
+            {
+                DrawFigureScaled_5D7670(6, 46, 64u, ypos + 9, kAngZero_706610, 2, 0, 0, 0);
+            }
         }
 
         // yellow mission respect
@@ -1211,11 +1213,9 @@ void Hud_CopHead_C_Array::Init_5D0210()
 
 // ----------------------------------------------------
 
-WIP_FUNC(0x5d1b10)
+MATCH_FUNC(0x5d1b10)
 void Garox_C4::FormatAndSetupText_5D1B10(const wchar_t* pStr, s16 xpos, s16 ypos, s16 fontType, s32 displayTime)
 {
-    WIP_IMPLEMENTED;
-
     this->field_AC_fontType = fontType;
 
     text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str_buf, pStr, 640, fontType);
@@ -1225,8 +1225,6 @@ void Garox_C4::FormatAndSetupText_5D1B10(const wchar_t* pStr, s16 xpos, s16 ypos
         /*v7 =*/gText_0x14_704DFC->StrToUpper_5B5B80(field_0_str_buf);
     }
 
-    // Remaining diff: the original keeps 0 in ebx for the three zero stores (VC6 only does that from four
-    // uses of 0 here; adding any fourth zero store gives the register)
     this->field_B0_drawKind = 2;
     this->field_B4_palette = 0;
 
@@ -1248,11 +1246,15 @@ void Garox_C4::FormatAndSetupText_5D1B10(const wchar_t* pStr, s16 xpos, s16 ypos
         this->field_AA_y = ypos;
     }
 
+    // Stores in both branches: one store after the if leaves 0 out of a register (ebx)
     if (displayTime == -2)
     {
-        displayTime = gHud_2B00_706620->field_13C4_text_speed * wcslen(field_0_str_buf);
+        this->field_A4_display_time = gHud_2B00_706620->field_13C4_text_speed * wcslen(field_0_str_buf);
     }
-    this->field_A4_display_time = displayTime;
+    else
+    {
+        this->field_A4_display_time = displayTime;
+    }
 
     ClearAlpha_4C70E0();
 }
