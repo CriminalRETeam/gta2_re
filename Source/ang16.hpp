@@ -84,6 +84,14 @@ class Ang16
         return r;
     }
 
+    // operator+ with the normalizing constructor called out of line (AssignNormalized_409300), for
+    // functions that ran out of inline expansions (Wolfy_30::state_22_23_24_25_542E30)
+    Ang16 Add_ool(const Ang16& rhs)
+    {
+        s16 value = rValue + rhs.rValue;
+        return Ang16(&value, 0);
+    }
+
     Ang16 operator-(const Ang16& other)
     {
         return Ang16(rValue - other.rValue, 0);
