@@ -355,14 +355,8 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                 if (pPed)
                 {
                     pCmd = (Car_18_Cmd*)pEntry->field_0_pScriptCmd;
-                    if (pCmd->field_2_type == 0x1B2)
-                    {
-                        pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_24_idx);
-                    }
-                    else
-                    {
-                        pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
-                    }
+                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                        pCmd->field_2_type == 0x1B2 ? pCmd->field_24_idx : pCmd->field_8_idx);
                     if (pPed->get_id() == pPointer->field_8_char->get_id())
                     {
                         pEntry->field_14_enable_state = 0;
@@ -389,21 +383,11 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
             break;
 
         case 7:
-            if (pSprite->get_type_416B40() == sprite_types_enum::ped_3)
+            if (pSprite->get_type_416B40() != sprite_types_enum::ped_3)
             {
-                pPed = pSprite->AsCharB4_40FEA0()->get_ped_433A20();
-                if (pPed)
-                {
-                    pCmd = (Car_18_Cmd*)pEntry->field_0_pScriptCmd;
-                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
-                    if (pPed->GetGameObjectVelocity_433C20() == kZero_705DD8 &&
-                        pPed->get_id() == pPointer->field_8_char->get_id())
-                    {
-                        pEntry->field_14_enable_state = 0;
-                    }
-                }
+                break;
             }
-            break;
+            // fall through: the ped check is the same as case 6
 
         case 6:
             if (pSprite->get_type_416B40() == sprite_types_enum::ped_3)
@@ -411,8 +395,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                 pPed = pSprite->AsCharB4_40FEA0()->get_ped_433A20();
                 if (pPed)
                 {
-                    pCmd = (Car_18_Cmd*)pEntry->field_0_pScriptCmd;
-                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
+                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((Car_18_Cmd*)pEntry->field_0_pScriptCmd)->field_8_idx);
                     if (pPed->GetGameObjectVelocity_433C20() == kZero_705DD8 &&
                         pPed->get_id() == pPointer->field_8_char->get_id())
                     {
@@ -426,8 +409,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                 pPed = pCar->get_driver_4118B0();
                 if (pPed)
                 {
-                    pCmd = (Car_18_Cmd*)pEntry->field_0_pScriptCmd;
-                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
+                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((Car_18_Cmd*)pEntry->field_0_pScriptCmd)->field_8_idx);
                     if (pPed->GetPedVelocity_45C920() == kZero_705DD8 &&
                         pPed->get_id() == pPointer->field_8_char->get_id())
                     {
@@ -444,8 +426,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                 pPed = pCar->get_driver_4118B0();
                 if (pPed)
                 {
-                    pCmd = (Car_18_Cmd*)pEntry->field_0_pScriptCmd;
-                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
+                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((Car_18_Cmd*)pEntry->field_0_pScriptCmd)->field_8_idx);
                     if (pPed->GetPedVelocity_45C920() == kZero_705DD8 &&
                         pPed->get_id() == pPointer->field_8_char->get_id())
                     {
@@ -1126,22 +1107,27 @@ Car_BC* Car_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 road_di
     {
         Junction_10* pJunction = gRouteFinder_6FFDC8->GetJunction_58A0B0(gRouteFinder_6FFDC8->field_2218_routes[route_idx].field_0_junctions[0]);
         u16 junction_idx = gRouteFinder_6FFDC8->field_2218_routes[route_idx].field_0_junctions[0];
+        s32 dir;
         switch ((s16)pJunction->GetDirectionToJunction_5885C0(gRouteFinder_6FFDC8->field_2218_routes[route_idx].field_0_junctions[1]))
         {
             case 1:
-                road_direction = road_direction::up_1;
+                dir = road_direction::up_1;
                 break;
             case 2:
-                road_direction = road_direction::down_2;
+                dir = road_direction::down_2;
                 break;
             case 3:
-                road_direction = road_direction::left_4;
+                dir = road_direction::left_4;
                 break;
             case 4:
-                road_direction = road_direction::right_3;
+                dir = road_direction::right_3;
+                break;
+            default:
+                dir = road_direction;
                 break;
         }
-        gRouteFinder_6FFDC8->FindArrowBlockInJunction_5890D0(junction_idx, road_direction, &x8, &y8);
+        gRouteFinder_6FFDC8->FindArrowBlockInJunction_5890D0(junction_idx, dir, &x8, &y8);
+        road_direction = dir;
         Fix16 x = Fix16(x8) + kFpHalf_6772D0;
         Fix16 y = Fix16(y8) + kFpHalf_6772D0;
 
