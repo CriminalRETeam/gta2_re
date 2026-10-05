@@ -101,7 +101,7 @@ class CarAI_78
     char_type field_29;
     u8 field_2A_stopped_timer;
     u8 field_2B_ticks_since_alloc;
-    char_type field_2C;
+    u8 field_2C;
     char_type field_2D;
     char_type field_2E;
     char_type field_2F;

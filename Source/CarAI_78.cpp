@@ -92,6 +92,8 @@ DEFINE_GLOBAL_INIT(Fix16, kFp255_677950, Fix16(0x3FC000, 0), 0x677950);
 DEFINE_GLOBAL_INIT(Fix16, dword_6779D8, Fix16(0x3333, 0), 0x6779D8);
 DEFINE_GLOBAL_INIT(Fix16, dword_677B64, Fix16(0x28F, 0), 0x677B64);
 DEFINE_GLOBAL_INIT(Ang16, kAng45_677A38, Ang16(180), 0x677A38);
+// TODO: the initial value is unknown (needs 10.5.exe); only CarAI_78::sub_452060 reads it
+DEFINE_GLOBAL_INIT(Ang16, word_677A3A, Ang16(180), 0x677A3A);
 
 EXTERN_GLOBAL(u16, word_677CFC);
 EXTERN_GLOBAL(u8, byte_6771DC);
@@ -4438,13 +4440,14 @@ void CarAI_78::sub_452060()
     {
         field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_xpos_677C38, gCurrCarAI_ypos_677C30, gCurrCarAI_zpos_677C48);
 
-        Fix16 v86 = (Fix16(kAng45_677A38.rValue) * Fix16(this->field_0_car->field_58_physics->field_AD_turn_direction));
+        Fix16 v86 = (Fix16(word_677A3A.rValue) * Fix16(this->field_0_car->field_58_physics->field_AD_turn_direction));
         Ang16 v83(&v86, 0);
 
         Ang16 v82(this->field_10_angle.rValue + v83.rValue);
         v82.Normalize_406C20();
 
-        v9 = Ang16::sine_40F500(v82) * gF16fOne_677B94;
+        // The table read directly (not the sine_40F500 copy) keeps the sine in eax as the imul's left operand
+        v9 = gSin_table_667A80[v82.rValue] * gF16fOne_677B94;
         v10 = Ang16::cosine_40F520(v82).Multiply_408680(gF16fOne_677B94);
         new_x_1 = v9 + field_0_car->field_50_car_sprite->field_14_xy.x;
         new_y_2 = v10 + field_0_car->field_50_car_sprite->field_14_xy.y;
@@ -4662,7 +4665,7 @@ void CarAI_78::sub_452060()
             }
         }
 
-        if (this->field_2C)
+        if (this->field_2C > 0)
         {
             this->field_2C--;
         }
