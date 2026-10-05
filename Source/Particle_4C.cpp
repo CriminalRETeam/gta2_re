@@ -701,6 +701,7 @@ WIP_FUNC(0x539890)
 char_type Particle_4C::UpdateCircularBurst_state_5_539890()
 {
     char_type bJitter = 1;
+    Fix16 jitter_y;
     Fix16_Point dir(Fix16(0), Fix16(0));
 
     gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
@@ -745,9 +746,9 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
         return true;
     }
 
-    Fix16 off_y = -dword_6FD45C;
     Fix16 xpos = field_30_pNext->field_14_xy.x;
     Fix16 ypos = field_30_pNext->field_14_xy.y;
+    Fix16 off_y = -dword_6FD45C;
 
     switch ((u8)(field_2C_counter >> 2))
     {
@@ -851,7 +852,7 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
     field_18_additional_speed_y = dir.y;
 
     Fix16 jitter_x = 0;
-    Fix16 jitter_y = 0;
+    jitter_y = 0;
     if (bJitter)
     {
         Fix16 rx;

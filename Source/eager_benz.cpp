@@ -467,16 +467,6 @@ void eager_benz::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
     {
         switch (pPed1->field_290)
         {
-            case 1:
-                score = 1000;
-                break;
-            case 2:
-            case 5:
-                score = 5000;
-                break;
-            case 3:
-                score = 10000;
-                break;
             case 4:
             case 9:
             case 10:
@@ -491,6 +481,16 @@ void eager_benz::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
             case 19:
             case 20:
                 score = 2000;
+                break;
+            case 1:
+                score = 1000;
+                break;
+            case 3:
+                score = 10000;
+                break;
+            case 2:
+            case 5:
+                score = 5000;
                 break;
         }
     }
