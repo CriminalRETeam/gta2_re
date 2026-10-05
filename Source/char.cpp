@@ -1032,7 +1032,16 @@ void Char_B4::UpdateAnimState_546360()
                         pDriver->field_168_game_object->SetPedState2_433A50(17);
                         pDriver->field_168_game_object->field_84_target_car = pCar;
                         pDriver->field_168_game_object->field_80_sprite_ptr->set_num_40F7B0(6);
-                        pDriver->SetRemap_433C10(pDriver->get_remap_433BA0());
+                        {
+                            // SetRemap_433C10 written out: the inline loads the Char_B4 before the remap
+                            Char_B4* pB4 = pDriver->field_168_game_object;
+                            const u8 remap = pDriver->get_remap_433BA0();
+                            pB4->field_5_remap = remap;
+                            if (remap != 0xFF)
+                            {
+                                pB4->field_80_sprite_ptr->SetRemap(remap);
+                            }
+                        }
                         pDriver->field_16C_car = 0;
                         pDriver->Set_B4_F16_To_1_433B50();
                         if (!pDriver->is_player_41B0A0())
@@ -2088,14 +2097,7 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
         {
             if (!bNoJump)
             {
-                if (field_7C_pPed->IsField238_45EDE0(2))
-                {
-                    if (field_8_ped_state_1 == ped_state_1::entering_car_3)
-                    {
-                        Char_B4::DoJump_5454D0();
-                    }
-                }
-                else if (pChar == NULL)
+                if (field_7C_pPed->IsField238_45EDE0(2) ? field_8_ped_state_1 == ped_state_1::entering_car_3 : pChar == NULL)
                 {
                     Char_B4::DoJump_5454D0();
                 }
