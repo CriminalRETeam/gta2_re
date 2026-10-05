@@ -60,7 +60,7 @@ ErrorLog::ErrorLog(const char* FileName, int a3)
 }
 
 // This func matches but for some reason it's crashing the patched version
-WIP_FUNC(0x4D9690)
+MATCH_FUNC(0x4D9690)
 EXPORT void __cdecl log_on_line_written_cb_4D9690(void* a1)
 {
     ((ostream_type*)a1)->flush();
