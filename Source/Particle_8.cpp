@@ -277,7 +277,7 @@ void Particle_8::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang1
             Fix16 cos = Ang16::cosine_40F520(rotation);
             Fix16 x_old = velocity.x;
             velocity.x = velocity.x.Multiply_408680(cos) + velocity.y.Multiply_408680(sin);
-            velocity.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + velocity.y.Multiply_408680(cos);
+            velocity.y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(velocity.y.Multiply_408680(cos));
         }
 
         for (u8 i = 0; i < 6; i++)
@@ -373,8 +373,8 @@ void Particle_8::EmitElectricArcParticle(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang
             Fix16 sin = Ang16::sine_40F500(angle);
             Fix16 cos = Ang16::cosine_40F520(angle);
             Fix16 x_old = vector.x;
-            vector.x = (const Fix16&)vector.x.Multiply_408680(cos) + (vector.y * sin);
-            vector.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + vector.y.Multiply_408680(cos);
+            vector.x = vector.x.Multiply_408680(cos).Add_408660(vector.y * sin);
+            vector.y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(vector.y.Multiply_408680(cos));
         }
 
         Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(vector.x, vector.y, dword_6FD330, 0, 0, 0);

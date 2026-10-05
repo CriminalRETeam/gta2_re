@@ -120,10 +120,10 @@ void Garox_13C0_sub::DrawPlayerNames_5CFE40()
                         Fix16 u = pCam->field_98_cam_pos2.field_8_z - z;
                         Fix16 t(kFpOne_7064C4 / Fix16(u.mValue + kFpEight_7064E8.mValue, 0));
                         Fix16 xCalc = (((x - pCam->field_98_cam_pos2.field_0_x) * pCam->field_60.y) * t) + Fix16(320);
-                        Fix16 yCalc = (const Fix16&)y.Subtract_436A00(pCam->field_98_cam_pos2.field_4_y)
+                        Fix16 yCalc = y.Subtract_436A00(pCam->field_98_cam_pos2.field_4_y)
                                           .Multiply_408680(pCam->field_60.y)
-                                          .Multiply_408680(t) +
-                            Fix16(240);
+                                          .Multiply_408680(t)
+                                          .Add_408660(Fix16(240));
 
                         DrawText_5D8A10(pIter->field_83C_player_name,
                                         (xCalc * gViewCamera_676978->field_A8_ui_scale), // x
@@ -873,8 +873,8 @@ void Garox_110C_sub::Update_5CF730()
 
             this->field_110C_screen_x =
                 Fix16(pCam->field_70_screen_px_center_x) + ((pCam->field_60.x * (camx - pCam->field_98_cam_pos2.field_0_x)) * tmp);
-            this->field_1110_screen_y =
-                ((const Fix16&)((pCam->field_60.x * (camy - pCam->field_98_cam_pos2.field_4_y)) * tmp)) + Fix16(pCam->field_74_screen_px_center_y);
+            this->field_1110_screen_y = ((pCam->field_60.x * (camy - pCam->field_98_cam_pos2.field_4_y)) * tmp)
+                                            .Add_408660(Fix16(pCam->field_74_screen_px_center_y));
         }
     }
 }
@@ -1835,7 +1835,7 @@ static inline Fix16 GetLength_out_of_line_7064C0(Fix16_Point& p)
     }
     else
     {
-        return Fix16::SquareRoot_436A70((const Fix16&)p.x.Multiply_408680(p.x) + p.y.Multiply_408680(p.y));
+        return Fix16::SquareRoot_436A70(p.x.Multiply_408680(p.x).Add_408660(p.y.Multiply_408680(p.y)));
     }
 }
 
@@ -1887,11 +1887,11 @@ static inline void ProjectWorldToScreen_Hud_4B90E0(Camera_0xBC* pCam, Fix16 x, F
 {
     Fix16 scale = kFpOne_7064C4 / ((kFpEight_7064E8 - z) + pCam->field_98_cam_pos2.field_8_z);
 
-    *pOut1 = static_cast<const Fix16&>(x.Subtract_436A00(pCam->field_98_cam_pos2.field_0_x).Multiply_408680(pCam->field_60.x).Multiply_408680(scale)) +
-        Fix16(pCam->field_70_screen_px_center_x);
+    *pOut1 = (x.Subtract_436A00(pCam->field_98_cam_pos2.field_0_x).Multiply_408680(pCam->field_60.x).Multiply_408680(scale))
+                 .Add_408660(Fix16(pCam->field_70_screen_px_center_x));
 
-    *pOut2 = static_cast<const Fix16&>(y.Subtract_436A00(pCam->field_98_cam_pos2.field_4_y).Multiply_408680(pCam->field_60.x).Multiply_408680(scale)) +
-        Fix16(pCam->field_74_screen_px_center_y);
+    *pOut2 = (y.Subtract_436A00(pCam->field_98_cam_pos2.field_4_y).Multiply_408680(pCam->field_60.x).Multiply_408680(scale))
+                 .Add_408660(Fix16(pCam->field_74_screen_px_center_y));
 }
 
 // https://decomp.me/scratch/CoKn3
@@ -1913,10 +1913,11 @@ void Hud_Arrow_7C::UpdateScreenPos_5D0850()
 
     // GetLength_41E260 with this file's zero and the out-of-line helpers. Written out as a ternary: as an
     // inline the function runs out of inline expansions (Fix16_Point_POD ctor and one operator/ out of line).
-    Fix16 distance = displacement.x == kFpZero_7064C0 ? Fix16::Abs_436A50(displacement.y) :
-        displacement.y == kFpZero_7064C0              ? Fix16::Abs_436A50(displacement.x) :
-                                                        Fix16::SquareRoot_436A70((const Fix16&)displacement.x.Multiply_408680(displacement.x) +
-                                                                                 displacement.y.Multiply_408680(displacement.y));
+    Fix16 distance = displacement.x == kFpZero_7064C0 ?
+        Fix16::Abs_436A50(displacement.y) :
+        displacement.y == kFpZero_7064C0 ?
+        Fix16::Abs_436A50(displacement.x) :
+        Fix16::SquareRoot_436A70(displacement.x.Multiply_408680(displacement.x).Add_408660(displacement.y.Multiply_408680(displacement.y)));
     Fix16 intended_radius;
 
     if (field_18.field_60_curr_target->field_20_bIsTargetVisible)

@@ -721,7 +721,7 @@ reference (`RegulateVelocityByRef_433970`) kept them separate like the original.
 **Normalize out of line from inline depth, not budget.** `ang + k` through `Ang16::operator+` leaves `Normalize` out of
 line (operator+ -> ctor -> Normalize is too deep); the ctor form `Ang16(a.rValue + k.rValue, 0)` inlines it
 (`Wolfy_30::state_13_14_5411E0`). To force the rotation operators out of line, write `Multiply_408680`/`Negate_4086A0`
-calls explicitly and pass `(const Fix16&)` to get the const out-of-line `operator+` 0x408660.
+calls explicitly, and `Add_408660` for the out-of-line `operator+` 0x408660.
 One level shallower also works: the member `Ang16::AddNormalized` inlines Normalize. An inline *member* call on a
 by-value `Ang16` parameter loads it as a dword, a free function taking `const Ang16&` loads a word. That matched
 `Wolfy_30::state_4_540F90`, `state_3_12_540D30` and `state_13_14_5411E0`, with the rotation in its own block.
@@ -1044,9 +1044,10 @@ through the hidden pointer. Assigning one local in each case and `break`ing to a
 the same register in every case block; a `return` per case alternated `ecx`/`edx`. Leaving the local
 unset in `default` reproduces the original reading the argument slot.
 
-**A `const Fix16` picks the out-of-line `operator+`.** On a non-const `Fix16` the inline operator is used;
-the original called the exported const one at 0x408660. `Garage_48::ValidateParkCommand_534650` matched with
-the unused sum on a `const Fix16` in its own block, so a later `u8` temporary reuses its stack slot.
+**`Fix16::Add_408660` is the out-of-line `operator+`.** `a + b` uses the inline operator; where the
+original called the exported copy at 0x408660, write `a.Add_408660(b)`. It used to be a const `operator+`
+overload reached through `(const Fix16&)` casts or `const Fix16` locals. `Garage_48::ValidateParkCommand_534650`
+matched with the unused sum on a `const Fix16` in its own block, so a later `u8` temporary reuses its stack slot.
 
 **`return T(tmp.field)` copies out of a by-value call's temporary.** The original copies from the temporary
 atan2 returns into, straight into the hidden return slot; a named local copies from its own slot instead
@@ -1505,7 +1506,7 @@ thread repeated register tests, which can move a case to the end of the function
   each early return expands their destructors; nesting with one shared `return true` brought the
   `Fix16_Point` ctors back inline (`Sprite::PointInsideRotatedBounds_5A1490`, 296 -> 60). Fix16 compares
   (`a >= -b`) cost several expansions; raw `mValue` compares are cheap.
-- **Named exports inside file-local `_ool` helpers:** `static_cast<const Fix16&>(t) + x` reaches the const
+- **Named exports inside file-local `_ool` helpers:** `t.Add_408660(x)` reaches the
   `operator+` export (0x408660), `DivideInt_53E860(2)` the divide export; otherwise the COMDAT copies are
   called, which `permuter_score.py` scores as 0 but the exe never matches.
 - **Ang16 sum forms:** `Ang16(s16, u8)` gives a 16-bit add + `jns`; `operator+` (`const s16&` ctor) a 32-bit

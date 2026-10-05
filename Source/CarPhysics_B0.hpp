@@ -260,13 +260,15 @@ class CarPhysics_B0
     {
         if (get_revs_561940() != 0)
         {
-            return (const Fix16&)gCarInfo_2C_6FE0E4->field_14_half_thrust +
-                gCarInfo_2C_6FE0E4->field_18_fith_thrust.Multiply_408680(gDamageSpeedFactor_6FE348).Multiply_408680(field_60_gas_pedal).MultiplyInt_561DB0(2);
+            return gCarInfo_2C_6FE0E4->field_14_half_thrust.Add_408660(
+                gCarInfo_2C_6FE0E4->field_18_fith_thrust.Multiply_408680(gDamageSpeedFactor_6FE348)
+                    .Multiply_408680(field_60_gas_pedal)
+                    .MultiplyInt_561DB0(2));
         }
         else
         {
-            return (const Fix16&)gCarInfo_2C_6FE0E4->field_14_half_thrust +
-                gCarInfo_2C_6FE0E4->field_18_fith_thrust.Multiply_408680(gDamageSpeedFactor_6FE348).Multiply_408680(field_60_gas_pedal);
+            return gCarInfo_2C_6FE0E4->field_14_half_thrust.Add_408660(
+                gCarInfo_2C_6FE0E4->field_18_fith_thrust.Multiply_408680(gDamageSpeedFactor_6FE348).Multiply_408680(field_60_gas_pedal));
         }
     }
 
@@ -275,13 +277,13 @@ class CarPhysics_B0
     {
         if (get_revs_561940())
         {
-            return (const Fix16&)gCarInfo_2C_6FE0E4->field_14_half_thrust +
-                gCarInfo_2C_6FE0E4->field_18_fith_thrust.Multiply_408680(field_60_gas_pedal).MultiplyInt_561DB0(2);
+            return gCarInfo_2C_6FE0E4->field_14_half_thrust.Add_408660(
+                gCarInfo_2C_6FE0E4->field_18_fith_thrust.Multiply_408680(field_60_gas_pedal).MultiplyInt_561DB0(2));
         }
         else
         {
-            return (const Fix16&)gCarInfo_2C_6FE0E4->field_14_half_thrust +
-                gCarInfo_2C_6FE0E4->field_18_fith_thrust.Multiply_408680(field_60_gas_pedal);
+            return gCarInfo_2C_6FE0E4->field_14_half_thrust.Add_408660(
+                gCarInfo_2C_6FE0E4->field_18_fith_thrust.Multiply_408680(field_60_gas_pedal));
         }
     }
 

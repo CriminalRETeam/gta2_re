@@ -16,7 +16,7 @@ DEFINE_GLOBAL_INIT(Ang16, kAng90_667A7C, Ang16(360), 0x667A7C);
 DEFINE_GLOBAL_INIT(Ang16, kAng270_66916C, Ang16(1080), 0x66916C);
 
 MATCH_FUNC(0x408660)
-Fix16 Fix16::operator+(const Fix16& rhs) const throw()
+Fix16 Fix16::Add_408660(const Fix16& rhs) const throw()
 {
     s32 value = mValue + rhs.mValue;
     return Fix16(value, 0);

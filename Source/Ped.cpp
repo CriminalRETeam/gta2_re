@@ -11259,7 +11259,7 @@ static inline void ComputeRecruitPrism(Fix16_Rect& r, Fix16 x, Fix16 y, Fix16 of
     r.field_8_top.mValue = y.mValue - half;
     r.field_C_bottom.mValue = y.mValue + half;
     r.field_10_low_z = z.Subtract_436A00(kFpOneEighth_67845C);
-    r.field_14_high_z = static_cast<const Fix16&>(z) + kFpOneEighth_67845C;
+    r.field_14_high_z = (z).Add_408660(kFpOneEighth_67845C);
 }
 
 MATCH_FUNC(0x46e080)

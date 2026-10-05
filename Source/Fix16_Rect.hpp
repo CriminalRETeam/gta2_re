@@ -56,12 +56,12 @@ class Fix16_Rect
         offset = offset / 2;
 
         field_0_left = x.Subtract_436A00(offset);
-        field_4_right = (const Fix16&)x + offset;
+        field_4_right = x.Add_408660(offset);
         field_8_top = y.Subtract_436A00(offset);
-        field_C_bottom = (const Fix16&)y + offset;
+        field_C_bottom = y.Add_408660(offset);
 
         field_10_low_z = z.Subtract_436A00(half_z);
-        field_14_high_z = (const Fix16&)z + half_z;
+        field_14_high_z = z.Add_408660(half_z);
     }
 
     // 9.6f 0x41E350
@@ -87,7 +87,7 @@ class Fix16_Rect
     // 9.6f 0x463760
     inline s32 GetMidZ_463760() const
     {
-        return ((field_10_low_z + field_14_high_z) / 2).ToInt();
+        return (field_10_low_z.Add_408660(field_14_high_z) / 2).ToInt();
     }
 
     // 9.6f 0x463690, defined in map_0x370.cpp

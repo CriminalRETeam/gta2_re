@@ -85,11 +85,11 @@ class Camera_0xBC
     {
         Fix16 scale = dword_702DE4.Divide_436A20((field_98_cam_pos2.field_8_z - z) + dword_702E04);
 
-        *pOut1 = static_cast<const Fix16&>(x.Subtract_436A00(field_98_cam_pos2.field_0_x).Multiply_408680(field_60.x).Multiply_408680(scale)) +
-            Fix16(field_70_screen_px_center_x);
+        *pOut1 = (x.Subtract_436A00(field_98_cam_pos2.field_0_x).Multiply_408680(field_60.x).Multiply_408680(scale))
+                     .Add_408660(Fix16(field_70_screen_px_center_x));
 
-        *pOut2 = static_cast<const Fix16&>(y.Subtract_436A00(field_98_cam_pos2.field_4_y).Multiply_408680(field_60.x).Multiply_408680(scale)) +
-            Fix16(field_74_screen_px_center_y);
+        *pOut2 = (y.Subtract_436A00(field_98_cam_pos2.field_4_y).Multiply_408680(field_60.x).Multiply_408680(scale))
+                     .Add_408660(Fix16(field_74_screen_px_center_y));
     }
 
     inline void inline_set_ped_id_to_1_475B60()

@@ -2029,10 +2029,13 @@ static inline void RotateAndTranslatePoint_OOL_42A720(Fix16& pInX,
                                                       Fix16& pRotTransX,
                                                       Fix16& pRotTransY)
 {
-    pRotTransX = (const Fix16&)pInX.Subtract_436A00(pTransX).Multiply_408680(Ang16::cosine_40F520(pRotAng)) +
-        (pInY - pTransY).Multiply_408680(Ang16::sine_40F500(pRotAng));
-    pRotTransY = (const Fix16&)pInX.Subtract_436A00(pTransX).Negate_4086A0().Multiply_408680(Ang16::sine_40F500(pRotAng)) +
-        pInY.Subtract_436A00(pTransY).Multiply_408680(Ang16::cosine_40F520(pRotAng));
+    pRotTransX = pInX.Subtract_436A00(pTransX)
+                     .Multiply_408680(Ang16::cosine_40F520(pRotAng))
+                     .Add_408660((pInY - pTransY).Multiply_408680(Ang16::sine_40F500(pRotAng)));
+    pRotTransY = pInX.Subtract_436A00(pTransX)
+                     .Negate_4086A0()
+                     .Multiply_408680(Ang16::sine_40F500(pRotAng))
+                     .Add_408660(pInY.Subtract_436A00(pTransY).Multiply_408680(Ang16::cosine_40F520(pRotAng)));
 }
 
 // https://decomp.me/scratch/ph2wn
@@ -2483,8 +2486,8 @@ char_type Char_B4::ContinueMovementAfterCollision_54B8F0()
             {
                 field_80_sprite_ptr->set_xy_lazy_447E20(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
                 PolarToCartesian_OutOfLineMul(field_40_rotation, field_38_velocity, x_vec, y_vec);
-                field_80_sprite_ptr->set_xyz_lazy_451950((const Fix16&)field_80_sprite_ptr->field_14_xy.x + x_vec,
-                                                         (const Fix16&)field_80_sprite_ptr->field_14_xy.y + y_vec,
+                field_80_sprite_ptr->set_xyz_lazy_451950(field_80_sprite_ptr->field_14_xy.x.Add_408660(x_vec),
+                                                         field_80_sprite_ptr->field_14_xy.y.Add_408660(y_vec),
                                                          field_80_sprite_ptr->field_1C_zpos);
                 Char_B4::DispatchCollision_548670(byte_623F48);
                 if (field_18_collided_entity)
@@ -2499,8 +2502,8 @@ char_type Char_B4::ContinueMovementAfterCollision_54B8F0()
             field_69_is_colliding_with_sprite = 0;
             field_80_sprite_ptr->setxy_lazy_54EC80(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
             Ang16::PolarToCartesian_451730(field_40_rotation, field_38_velocity, x_vec, y_vec);
-            field_80_sprite_ptr->set_xyz_lazy_451950((const Fix16&)field_80_sprite_ptr->field_14_xy.x + x_vec,
-                                                     (const Fix16&)field_80_sprite_ptr->field_14_xy.y + y_vec,
+            field_80_sprite_ptr->set_xyz_lazy_451950(field_80_sprite_ptr->field_14_xy.x.Add_408660(x_vec),
+                                                     field_80_sprite_ptr->field_14_xy.y.Add_408660(y_vec),
                                                      field_80_sprite_ptr->field_1C_zpos);
             Char_B4::DispatchCollision_548670(byte_623F48);
             if (field_18_collided_entity)
@@ -3219,8 +3222,8 @@ void Char_B4::ApplyMovement_54CC40()
                     {
                         // Out-of-line operators (inline budget)
                         Ang16::PolarToCartesian_451730(word_6FDB3C, field_38_velocity.Divide_436A20(gFix16_Two_6FD9EC), xpos, ypos);
-                        field_80_sprite_ptr->set_xyz_lazy_451950((const Fix16&)field_80_sprite_ptr->field_14_xy.x + xpos,
-                                                                 (const Fix16&)field_80_sprite_ptr->field_14_xy.y + ypos,
+                        field_80_sprite_ptr->set_xyz_lazy_451950(field_80_sprite_ptr->field_14_xy.x.Add_408660(xpos),
+                                                                 field_80_sprite_ptr->field_14_xy.y.Add_408660(ypos),
                                                                  field_80_sprite_ptr->field_1C_zpos);
                     }
                     break;
@@ -6629,7 +6632,7 @@ static inline Fix16 GetLength_inline_5538A0(Fix16_Point& p)
     }
     else
     {
-        return Fix16::SquareRoot_436A70((const Fix16&)p.x.Multiply_408680(p.x) + p.y.Multiply_408680(p.y));
+        return Fix16::SquareRoot_436A70(p.x.Multiply_408680(p.x).Add_408660(p.y.Multiply_408680(p.y)));
     }
 }
 

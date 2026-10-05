@@ -202,8 +202,8 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
         Fix16 sin = Ang16::sine_40F500(rotation);
         Fix16 cos = Ang16::cosine_40F520(rotation);
         Fix16 x_old = point.x;
-        point.x = (const Fix16&)point.x.Multiply_408680(cos) + point.y.Multiply_408680(sin);
-        point.y = (const Fix16&)(-x_old).Multiply_408680(sin) + point.y.Multiply_408680(cos);
+        point.x = point.x.Multiply_408680(cos).Add_408660(point.y.Multiply_408680(sin));
+        point.y = (-x_old).Multiply_408680(sin).Add_408660(point.y.Multiply_408680(cos));
     }
 
     gQuadVerts_706B88.field_0_verts[1].x = (point.x + x_pos).ToFloat();

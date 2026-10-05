@@ -89,7 +89,7 @@ struct Fix16_Point_POD
         Fix16 x_old = x;
 
         x = x.Multiply_408680(cos) + y.Multiply_408680(sin);
-        y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + y.Multiply_408680(cos);
+        y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(y.Multiply_408680(cos));
     }
 
     // RotateByAngle_40F6B0 in a function whose inline budget ran out after the first multiply
@@ -101,8 +101,8 @@ struct Fix16_Point_POD
 
         Fix16 x_old = x;
 
-        x = (const Fix16&)x.Multiply_408680(cos) + (y * sin);
-        y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + y.Multiply_408680(cos);
+        x = x.Multiply_408680(cos).Add_408660(y * sin);
+        y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(y.Multiply_408680(cos));
     }
 
     // RotateByAngle_40F6B0 with every operator called out of line (Particle_8::EmitImpactParticles_53FE40)
@@ -113,8 +113,8 @@ struct Fix16_Point_POD
 
         Fix16 x_old = x;
 
-        x = (const Fix16&)x.Multiply_408680(cos) + y.Multiply_408680(sin);
-        y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + y.Multiply_408680(cos);
+        x = x.Multiply_408680(cos).Add_408660(y.Multiply_408680(sin));
+        y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(y.Multiply_408680(cos));
     }
 
     // Matching impl at RotateVelocity_562C20
@@ -137,8 +137,8 @@ struct Fix16_Point_POD
         Fix16 sin = Ang16::sine_40F500(angle);
         Fix16 cos = Ang16::cosine_40F520(angle);
 
-        x = (const Fix16&)x.Multiply_408680(cos) + y.Multiply_408680(sin);
-        y = (const Fix16&)(-x_old).Multiply_408680(sin) + y.Multiply_408680(cos);
+        x = x.Multiply_408680(cos).Add_408660(y.Multiply_408680(sin));
+        y = (-x_old).Multiply_408680(sin).Add_408660(y.Multiply_408680(cos));
     }
 
     // As above, with the unary minus out of line too
@@ -148,8 +148,8 @@ struct Fix16_Point_POD
         Fix16 sin = Ang16::sine_40F500(angle);
         Fix16 cos = Ang16::cosine_40F520(angle);
 
-        x = (const Fix16&)x.Multiply_408680(cos) + y.Multiply_408680(sin);
-        y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + y.Multiply_408680(cos);
+        x = x.Multiply_408680(cos).Add_408660(y.Multiply_408680(sin));
+        y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(y.Multiply_408680(cos));
     }
 
     // As above, with y * sin inlined (Particle_8::EmitFlameStreamSegment_53F4C0)
@@ -159,8 +159,8 @@ struct Fix16_Point_POD
         Fix16 sin = Ang16::sine_40F500(angle);
         Fix16 cos = Ang16::cosine_40F520(angle);
 
-        x = (const Fix16&)x.Multiply_408680(cos) + y * sin;
-        y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + y.Multiply_408680(cos);
+        x = x.Multiply_408680(cos).Add_408660(y * sin);
+        y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(y.Multiply_408680(cos));
     }
 
     // As RotateByAngle_40F6B0 with the x line inline and the y line out of line (Car_BC::GetHitchPoint_439FB0)
@@ -172,7 +172,7 @@ struct Fix16_Point_POD
         Fix16 x_old = x;
 
         x = (x * cos) + (y * sin);
-        y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + y.Multiply_408680(cos);
+        y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(y.Multiply_408680(cos));
     }
 
     void FromPolar_41E210(const Fix16& radius, const Ang16& angle)
@@ -398,7 +398,7 @@ class Fix16_Point : public Fix16_Point_POD
         }
         else
         {
-            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y.Multiply_408680(y));
+            return Fix16::SquareRoot_436A70(x.Multiply_408680(x).Add_408660(y.Multiply_408680(y)));
         }
     }
 
@@ -415,7 +415,7 @@ class Fix16_Point : public Fix16_Point_POD
         }
         else
         {
-            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y.Multiply_408680(y));
+            return Fix16::SquareRoot_436A70(x.Multiply_408680(x).Add_408660(y.Multiply_408680(y)));
         }
     }
 
@@ -432,7 +432,7 @@ class Fix16_Point : public Fix16_Point_POD
         }
         else
         {
-            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y.Multiply_408680(y));
+            return Fix16::SquareRoot_436A70(x.Multiply_408680(x).Add_408660(y.Multiply_408680(y)));
         }
     }
 
@@ -466,7 +466,7 @@ class Fix16_Point : public Fix16_Point_POD
         }
         else
         {
-            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y.Multiply_408680(y));
+            return Fix16::SquareRoot_436A70(x.Multiply_408680(x).Add_408660(y.Multiply_408680(y)));
         }
     }
 
@@ -483,7 +483,7 @@ class Fix16_Point : public Fix16_Point_POD
         }
         else
         {
-            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y * y);
+            return Fix16::SquareRoot_436A70(x.Multiply_408680(x).Add_408660(y * y));
         }
     }
 
@@ -500,7 +500,7 @@ class Fix16_Point : public Fix16_Point_POD
         }
         else
         {
-            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y * y);
+            return Fix16::SquareRoot_436A70(x.Multiply_408680(x).Add_408660(y * y));
         }
     }
 
@@ -537,7 +537,7 @@ class Fix16_Point : public Fix16_Point_POD
         }
         else
         {
-            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y.Multiply_408680(y));
+            return Fix16::SquareRoot_436A70(x.Multiply_408680(x).Add_408660(y.Multiply_408680(y)));
         }
     }
 
@@ -554,7 +554,7 @@ class Fix16_Point : public Fix16_Point_POD
         }
         else
         {
-            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y * y);
+            return Fix16::SquareRoot_436A70(x.Multiply_408680(x).Add_408660(y * y));
         }
     }
 
@@ -571,7 +571,7 @@ class Fix16_Point : public Fix16_Point_POD
         }
         else
         {
-            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y.Multiply_408680(y));
+            return Fix16::SquareRoot_436A70(x.Multiply_408680(x).Add_408660(y.Multiply_408680(y)));
         }
     }
 
@@ -588,7 +588,7 @@ class Fix16_Point : public Fix16_Point_POD
         }
         else
         {
-            return Fix16::SquareRoot((const Fix16&)x.Multiply_408680(x) + y.Multiply_408680(y));
+            return Fix16::SquareRoot(x.Multiply_408680(x).Add_408660(y.Multiply_408680(y)));
         }
     }
 
@@ -614,7 +614,7 @@ class Fix16_Point : public Fix16_Point_POD
         }
         else
         {
-            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + Fix16((s32)((y.mValue * (__int64)y.mValue) >> 14), 0));
+            return Fix16::SquareRoot_436A70(x.Multiply_408680(x).Add_408660(Fix16((s32)((y.mValue * (__int64)y.mValue) >> 14), 0)));
         }
     }
 
@@ -631,7 +631,7 @@ class Fix16_Point : public Fix16_Point_POD
         }
         else
         {
-            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y.Multiply_408680(y));
+            return Fix16::SquareRoot_436A70(x.Multiply_408680(x).Add_408660(y.Multiply_408680(y)));
         }
     }
 

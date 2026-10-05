@@ -284,13 +284,13 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
     }
 
     // 9.6f: Fix16_Point::RotateByAngle_40F6B0 (inlined). The original calls the out-of-line
-    // Multiply_408680/Negate_4086A0/const operator+ copies for all but y * sin
+    // Multiply_408680/Negate_4086A0/Add_408660 copies for all but y * sin
     {
         sin = Ang16::sine_40F500(field_24_angle);
         Fix16 cos = Ang16::cosine_40F520(field_24_angle);
         Fix16 old_x = dir.x;
-        dir.x = (const Fix16&)dir.x.Multiply_408680(cos) + dir.y * sin;
-        dir.y = (const Fix16&)old_x.Negate_4086A0().Multiply_408680(sin) + dir.y.Multiply_408680(cos);
+        dir.x = dir.x.Multiply_408680(cos).Add_408660(dir.y * sin);
+        dir.y = old_x.Negate_4086A0().Multiply_408680(sin).Add_408660(dir.y.Multiply_408680(cos));
     }
     field_14_additional_speed_x = dir.x;
     field_18_additional_speed_y = dir.y;
@@ -843,13 +843,13 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
     }
 
     // 9.6f: Fix16_Point::RotateByAngle_40F6B0 (inlined). The original calls the out-of-line
-    // const operator+/Multiply_408680/Negate_4086A0 copies for all but x * cos and y * sin
+    // Add_408660/Multiply_408680/Negate_4086A0 copies for all but x * cos and y * sin
     {
         Fix16 sin = Ang16::sine_40F500(field_24_angle);
         Fix16 cos = Ang16::cosine_40F520(field_24_angle);
         Fix16 old_x = dir.x;
-        dir.x = (const Fix16&)(dir.x * cos) + dir.y * sin;
-        dir.y = (const Fix16&)old_x.Negate_4086A0().Multiply_408680(sin) + dir.y.Multiply_408680(cos);
+        dir.x = (dir.x * cos).Add_408660(dir.y * sin);
+        dir.y = old_x.Negate_4086A0().Multiply_408680(sin).Add_408660(dir.y.Multiply_408680(cos));
     }
     field_14_additional_speed_x = dir.x;
     field_18_additional_speed_y = dir.y;
@@ -974,8 +974,8 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
             Fix16 x_old = corner.x;
             Fix16 sin = Ang16::sine_40F500(angle);
             Fix16 cos = Ang16::cosine_40F520(angle);
-            corner.x = (const Fix16&)corner.x.Multiply_408680(cos) + corner.y.Multiply_408680(sin);
-            corner.y = (const Fix16&)(-x_old).Multiply_408680(sin) + corner.y.Multiply_408680(cos);
+            corner.x = corner.x.Multiply_408680(cos).Add_408660(corner.y.Multiply_408680(sin));
+            corner.y = (-x_old).Multiply_408680(sin).Add_408660(corner.y.Multiply_408680(cos));
         }
         else
         {
@@ -984,8 +984,8 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
             Fix16 x_old = corner.x;
             Fix16 sin = Ang16::sine_40F500(angle);
             Fix16 cos = Ang16::cosine_40F520(angle);
-            corner.x = (const Fix16&)corner.x.Multiply_408680(cos) + corner.y.Multiply_408680(sin);
-            corner.y = (const Fix16&)(-x_old).Multiply_408680(sin) + corner.y.Multiply_408680(cos);
+            corner.x = corner.x.Multiply_408680(cos).Add_408660(corner.y.Multiply_408680(sin));
+            corner.y = (-x_old).Multiply_408680(sin).Add_408660(corner.y.Multiply_408680(cos));
         }
 
         corner += field_28_pSprite->get_x_y_443580();
@@ -1371,7 +1371,7 @@ static inline Fix16 GetLength_OOL_6FD49C(Fix16_Point& v)
     }
     else
     {
-        return Fix16::SquareRoot_436A70((const Fix16&)v.x.Multiply_408680(v.x) + v.y.Multiply_408680(v.y));
+        return Fix16::SquareRoot_436A70(v.x.Multiply_408680(v.x).Add_408660(v.y.Multiply_408680(v.y)));
     }
 }
 

@@ -4753,10 +4753,13 @@ static inline void __stdcall RotateAndTranslatePoint_OOL_452A20(Fix16& pInX,
                                                       Fix16& pRotTransX,
                                                       Fix16& pRotTransY)
 {
-    pRotTransX = (const Fix16&)pInX.Subtract_436A00(pTransX).Multiply_408680(Ang16::cosine_40F520(pRotAng)) +
-        (pInY - pTransY).Multiply_408680(Ang16::sine_40F500(pRotAng));
-    pRotTransY = (const Fix16&)pInX.Subtract_436A00(pTransX).Negate_4086A0().Multiply_408680(Ang16::sine_40F500(pRotAng)) +
-        pInY.Subtract_436A00(pTransY).Multiply_408680(Ang16::cosine_40F520(pRotAng));
+    pRotTransX = pInX.Subtract_436A00(pTransX)
+                     .Multiply_408680(Ang16::cosine_40F520(pRotAng))
+                     .Add_408660((pInY - pTransY).Multiply_408680(Ang16::sine_40F500(pRotAng)));
+    pRotTransY = pInX.Subtract_436A00(pTransX)
+                     .Negate_4086A0()
+                     .Multiply_408680(Ang16::sine_40F500(pRotAng))
+                     .Add_408660(pInY.Subtract_436A00(pTransY).Multiply_408680(Ang16::cosine_40F520(pRotAng)));
 }
 
 // https://decomp.me/scratch/zCa7m

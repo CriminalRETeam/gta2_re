@@ -1534,10 +1534,10 @@ void CarPhysics_B0::HandleMapBoundaryCollisionY_55C5C0(Fix16_Point& pPoint, Ang1
             Fix16 sin = Ang16::sine_40F500(rot_angle);
             Fix16 cos = Ang16::cosine_40F520(rot_angle);
             Fix16 x_old = CollisionIntersectionPoint_6FE1A0.x;
-            CollisionIntersectionPoint_6FE1A0.x = (const Fix16&)CollisionIntersectionPoint_6FE1A0.x.Multiply_408680(cos) +
-                CollisionIntersectionPoint_6FE1A0.y.Multiply_408680(sin);
+            CollisionIntersectionPoint_6FE1A0.x = CollisionIntersectionPoint_6FE1A0.x.Multiply_408680(cos).Add_408660(
+                CollisionIntersectionPoint_6FE1A0.y.Multiply_408680(sin));
             CollisionIntersectionPoint_6FE1A0.y =
-                (const Fix16&)(-x_old).Multiply_408680(sin) + CollisionIntersectionPoint_6FE1A0.y.Multiply_408680(cos);
+                (-x_old).Multiply_408680(sin).Add_408660(CollisionIntersectionPoint_6FE1A0.y.Multiply_408680(cos));
         }
         CollisionIntersectionPoint_6FE1A0.x += field_38_cp1.x;
         CollisionIntersectionPoint_6FE1A0.y = gRozza_679188.field_18_mapy_t1;
@@ -1587,10 +1587,10 @@ void CarPhysics_B0::HandleMapBoundaryCollisionX_55C820(Fix16_Point& pPoint, Ang1
             Fix16 sin = Ang16::sine_40F500(rot_angle);
             Fix16 cos = Ang16::cosine_40F520(rot_angle);
             Fix16 x_old = CollisionIntersectionPoint_6FE1A0.x;
-            CollisionIntersectionPoint_6FE1A0.x = (const Fix16&)CollisionIntersectionPoint_6FE1A0.x.Multiply_408680(cos) +
-                CollisionIntersectionPoint_6FE1A0.y.Multiply_408680(sin);
+            CollisionIntersectionPoint_6FE1A0.x = CollisionIntersectionPoint_6FE1A0.x.Multiply_408680(cos).Add_408660(
+                CollisionIntersectionPoint_6FE1A0.y.Multiply_408680(sin));
             CollisionIntersectionPoint_6FE1A0.y =
-                (const Fix16&)(-x_old).Multiply_408680(sin) + CollisionIntersectionPoint_6FE1A0.y.Multiply_408680(cos);
+                (-x_old).Multiply_408680(sin).Add_408660(CollisionIntersectionPoint_6FE1A0.y.Multiply_408680(cos));
         }
         CollisionIntersectionPoint_6FE1A0.y += field_38_cp1.y;
         CollisionIntersectionPoint_6FE1A0.x = gRozza_679188.field_14_mapx_t2;
@@ -2669,7 +2669,7 @@ static inline Fix16 __stdcall DotProductInlined_49E500(Fix16_Point& Vector1, Fix
 // DotProductInlined_49E500 with the out-of-line Fix16 operator copies
 static inline Fix16 __stdcall DotProductOOL_49E500(Fix16_Point& Vector1, Fix16_Point& Vector2)
 {
-    return (const Fix16&)Vector1.x.Multiply_408680(Vector2.x) + Vector1.y.Multiply_408680(Vector2.y);
+    return Vector1.x.Multiply_408680(Vector2.x).Add_408660(Vector1.y.Multiply_408680(Vector2.y));
 }
 
 // 9.6f 0x49E0E0, inlined in 10.5
@@ -2709,8 +2709,8 @@ EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 OwnerMass,
     DistOrthogonalToCollision = (CollisionIntersectPoint - CoM_related).Rotate90CCW_5605E0();
     DirectionFromCoM_to_Collision = DistToCollision_ByRef.NormalizeSafe_442AD0(); // vector unit 1, supposedly
 
-    Fix16 RelVelComponentAtCollisionDir = (const Fix16&)RelativeVelocity.x.Multiply_408680(DirectionFromCoM_to_Collision.x) +
-        RelativeVelocity.y.Multiply_408680(DirectionFromCoM_to_Collision.y);
+    Fix16 RelVelComponentAtCollisionDir = RelativeVelocity.x.Multiply_408680(DirectionFromCoM_to_Collision.x)
+                                              .Add_408660(RelativeVelocity.y.Multiply_408680(DirectionFromCoM_to_Collision.y));
     Fix16 VelocityFactor = -(k_dword_6FE210 + offset) * RelVelComponentAtCollisionDir;
 
     Fix16 MassFactor;
@@ -2727,11 +2727,13 @@ EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 OwnerMass,
         Fix16_Point TargetOrthogonal = (CollisionIntersectPoint - a8).Rotate90CCW_5605E0();
 
         // DotProduct_49E500 is out of line here (0x560680)
-        MassFactor = (const Fix16&)((const Fix16&)DotProduct_560680(DirectionFromCoM_to_Collision, DirectionFromCoM_to_Collision)
-                                        .Multiply_408680((const Fix16&)OwnerMassFactor + TargetMassFactor) +
-                                    Square_49E0E0(DotProduct_560680(DistOrthogonalToCollision, DirectionFromCoM_to_Collision))
-                                        .Divide_436A20(OwnerMomOfInertia)) +
-            Square_49E0E0(DotProduct_560680(TargetOrthogonal, DirectionFromCoM_to_Collision)).Divide_436A20(TargetMomOfInertia);
+        MassFactor =
+            (DotProduct_560680(DirectionFromCoM_to_Collision, DirectionFromCoM_to_Collision)
+                 .Multiply_408680(OwnerMassFactor.Add_408660(TargetMassFactor))
+                 .Add_408660(Square_49E0E0(DotProduct_560680(DistOrthogonalToCollision, DirectionFromCoM_to_Collision))
+                                 .Divide_436A20(OwnerMomOfInertia)))
+                .Add_408660(
+                    Square_49E0E0(DotProduct_560680(TargetOrthogonal, DirectionFromCoM_to_Collision)).Divide_436A20(TargetMomOfInertia));
     }
 
     // scale vector norm by factors, so direction is kept
@@ -2928,8 +2930,8 @@ Fix16_Point CarPhysics_B0::ComputePointVelocity_561380(Fix16_Point& point)
         Fix16 sin = Ang16::sine_40F500(field_58_theta);
         Fix16 cos = Ang16::cosine_40F520(field_58_theta);
         Fix16 x_old = old_pos.x;
-        old_pos.x = (const Fix16&)old_pos.x.Multiply_408680(cos) + old_pos.y.Multiply_408680(sin);
-        old_pos.y = (const Fix16&)(-x_old).Multiply_408680(sin) + old_pos.y.Multiply_408680(cos);
+        old_pos.x = old_pos.x.Multiply_408680(cos).Add_408660(old_pos.y.Multiply_408680(sin));
+        old_pos.y = (-x_old).Multiply_408680(sin).Add_408660(old_pos.y.Multiply_408680(cos));
     }
     old_pos += field_30_cm1;
 
@@ -3771,7 +3773,7 @@ void CarPhysics_B0::UpdateCp1FromCm1_563280()
     Fix16 cos = Ang16::cosine_40F520(field_58_theta);
     Fix16 x_old = point.x;
     point.x = (point.x * cos) + (point.y * sin);
-    point.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + point.y.Multiply_408680(cos);
+    point.y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(point.y.Multiply_408680(cos));
 
     field_38_cp1 = field_30_cm1 + point;
 }
@@ -3788,7 +3790,7 @@ void CarPhysics_B0::UpdateCenterOfMassPoint_563350()
     Fix16 cos = Ang16::cosine_40F520(field_58_theta);
     Fix16 x_old = point.x;
     point.x = (point.x * cos) + (point.y * sin);
-    point.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + (point.y * cos);
+    point.y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(point.y * cos);
 
     field_30_cm1 = field_38_cp1 + point;
 }
@@ -3805,7 +3807,7 @@ void CarPhysics_B0::UpdateReferencePoint_563460()
     Fix16 cos = Ang16::cosine_40F520(field_58_theta);
     Fix16 x_old = point.x;
     point.x = (point.x * cos) + (point.y * sin);
-    point.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + (point.y * cos);
+    point.y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(point.y * cos);
 
     field_30_cm1 = field_38_cp1 + point;
 }

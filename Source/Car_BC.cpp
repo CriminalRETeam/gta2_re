@@ -887,12 +887,12 @@ Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
                         break;
                     }
 
-                    // Negate_4086A0 and the const operator+ (0x408660) out of line, x + y inline. The train
+                    // Negate_4086A0 and Add_408660 (operator+) out of line, x + y inline. The train
                     // model check above is written out (not IsTrainModel_403BA0) to stay in VC6's inline budget
                     Fix16 trainDistance;
-                    trainDistance = static_cast<const Fix16&>(Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_14_xy.x - xpos) +
-                                                              Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_14_xy.y - ypos)) +
-                        Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_1C_zpos - zpos);
+                    trainDistance = (Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_14_xy.x - xpos) +
+                                     Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_14_xy.y - ypos))
+                                        .Add_408660(Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_1C_zpos - zpos));
                     if (trainDistance < smallestDist)
                     {
                         smallestDist = trainDistance;
@@ -2712,8 +2712,7 @@ void Car_BC::GetDoorWorldPos_43B420(u8 door_idx, Fix16* pXPos, Fix16* pYPos)
     Ang16& rotation = field_50_car_sprite->field_0;
     Fix16 x_off;
     x_off = door_x * Ang16::cosine_40F520(rotation) + door_y * Ang16::sine_40F500(rotation);
-    door_y = (const Fix16&)(-old_xpos).Multiply_408680(Ang16::sine_40F500(rotation)) +
-        door_y.Multiply_408680(Ang16::cosine_40F520(rotation));
+    door_y = (-old_xpos).Multiply_408680(Ang16::sine_40F500(rotation)).Add_408660(door_y.Multiply_408680(Ang16::cosine_40F520(rotation)));
 
     *pXPos = field_50_car_sprite->field_14_xy.x + x_off;
     *pYPos = field_50_car_sprite->field_14_xy.y + door_y;
@@ -4043,7 +4042,7 @@ static inline Fix16 GetSpeed_43E560(Fix16_Point& v)
     }
     else
     {
-        return Fix16::SquareRoot_436A70((const Fix16&)v.x.Multiply_408680(v.x) + v.y.Multiply_408680(v.y));
+        return Fix16::SquareRoot_436A70(v.x.Multiply_408680(v.x).Add_408660(v.y.Multiply_408680(v.y)));
     }
 }
 
@@ -5925,8 +5924,8 @@ void Car_BC::LightUpdate_442D10()
     }
 }
 
-// Not in 9.6f (no pair for TrainUpdate_442D70). The const z makes high_z call the
-// out-of-line Fix16::operator+ (0x408660) as the original does; all the arguments are
+// Not in 9.6f (no pair for TrainUpdate_442D70). high_z calls the out-of-line
+// Fix16::Add_408660 (operator+) as the original does; all the arguments are
 // evaluated before any store, which gives the original's schedule.
 static inline void SetPrism(Fix16_Rect& rect, Fix16 left, Fix16 right, Fix16 top, Fix16 bottom, const Fix16 z)
 {
@@ -5935,7 +5934,7 @@ static inline void SetPrism(Fix16_Rect& rect, Fix16 left, Fix16 right, Fix16 top
     rect.field_8_top = top;
     rect.field_C_bottom = bottom;
     rect.field_10_low_z = z - kCollisionPrismHalfHeight_6771E4;
-    rect.field_14_high_z = z + kCollisionPrismHalfHeight_6771E4;
+    rect.field_14_high_z = z.Add_408660(kCollisionPrismHalfHeight_6771E4);
 }
 
 MATCH_FUNC(0x442d70)
@@ -6214,10 +6213,11 @@ bool Car_BC::UpdateAttachedToSprite_443360(Sprite* pSprite, Fix16 x, Fix16 y, An
         sprite_y = y;
         // RotateVector_41FC90 by the sprite's angle, but using the out-of-line Fix16 operators
         Fix16 old_x = sprite_x;
-        sprite_x = (const Fix16&)sprite_x.Multiply_408680(Ang16::cosine_40F520(pSprite->field_0)) +
-            sprite_y * Ang16::sine_40F500(pSprite->field_0);
-        sprite_y = (const Fix16&)(-old_x).Multiply_408680(Ang16::sine_40F500(pSprite->field_0)) +
-            sprite_y.Multiply_408680(Ang16::cosine_40F520(pSprite->field_0));
+        sprite_x =
+            sprite_x.Multiply_408680(Ang16::cosine_40F520(pSprite->field_0)).Add_408660(sprite_y * Ang16::sine_40F500(pSprite->field_0));
+        sprite_y = (-old_x)
+                       .Multiply_408680(Ang16::sine_40F500(pSprite->field_0))
+                       .Add_408660(sprite_y.Multiply_408680(Ang16::cosine_40F520(pSprite->field_0)));
 
         sprite_x = pSprite->field_14_xy.x + sprite_x;
         sprite_y = pSprite->field_14_xy.y + sprite_y;
@@ -6930,7 +6930,7 @@ Fix16_Point Trailer::sub_407BD0()
         Fix16 cos = Ang16::cosine_40F520(angle);
         Fix16 x_old = offset.x;
         offset.x = (offset.x * cos) + (offset.y * sin);
-        offset.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + offset.y.Multiply_408680(cos);
+        offset.y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(offset.y.Multiply_408680(cos));
     }
     offset += field_8_truck_cab->field_58_physics->get_cp1_40B560();
     return offset;

@@ -329,7 +329,8 @@ class Fix16
     EXPORT static Fix16 __stdcall SquareRoot_436A70(Fix16& a2);
     // throw(): the original calls these out-of-line copies without an EH frame (their inline
     // bodies were visible there), see CarPhysics_B0::UpdateReferencePoint_563460
-    EXPORT Fix16 operator+(const Fix16& rhs) const throw();
+    // Out-of-line copy of operator+ (0x408660)
+    EXPORT Fix16 Add_408660(const Fix16& rhs) const throw();
     EXPORT Fix16 Multiply_408680(const Fix16& in) const throw();
     // Out-of-line copies of operators, which big functions call once they run out of inline
     // expansions (Sprite_4C::DrawCollisionBox_5A4DA0)

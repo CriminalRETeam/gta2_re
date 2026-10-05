@@ -368,7 +368,7 @@ static inline Fix16 GetLength_5224E0(Fix16_Point& p)
     }
     else
     {
-        return Fix16::SquareRoot_436A70((const Fix16&)p.x.Multiply_408680(p.x) + p.y * p.y);
+        return Fix16::SquareRoot_436A70(p.x.Multiply_408680(p.x).Add_408660(p.y * p.y));
     }
 }
 

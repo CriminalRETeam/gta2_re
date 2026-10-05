@@ -291,8 +291,8 @@ void Wolfy_30::state_3_12_540D30(Ang16 ang, Fix16 pos)
         Fix16 cos_v = gCos_table_669260[new_ang.rValue];
 
         Fix16 x_old = point.x;
-        point.x = (const Fix16&)point.x.Multiply_408680(cos_v) + (point.y * sin_v);
-        point.y = (const Fix16&)(-x_old).Multiply_408680(sin_v) + point.y.Multiply_408680(cos_v);
+        point.x = point.x.Multiply_408680(cos_v).Add_408660(point.y * sin_v);
+        point.y = (-x_old).Multiply_408680(sin_v).Add_408660(point.y.Multiply_408680(cos_v));
     }
 
     this->field_8_speed = pos;
@@ -349,8 +349,8 @@ void Wolfy_30::state_4_540F90(Ang16 ang, Fix16 pos)
         Fix16 cos_v = gCos_table_669260[new_ang.rValue];
 
         Fix16 x_old = point.x;
-        point.x = (const Fix16&)point.x.Multiply_408680(cos_v) + (point.y * sin_v);
-        point.y = (const Fix16&)(-x_old).Multiply_408680(sin_v) + point.y.Multiply_408680(cos_v);
+        point.x = point.x.Multiply_408680(cos_v).Add_408660(point.y * sin_v);
+        point.y = (-x_old).Multiply_408680(sin_v).Add_408660(point.y.Multiply_408680(cos_v));
     }
 
     this->field_8_speed = pos;
@@ -403,8 +403,8 @@ void Wolfy_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
         Fix16 cos_v = gCos_table_669260[new_ang.rValue];
 
         Fix16 x_old = point.x;
-        point.x = (const Fix16&)point.x.Multiply_408680(cos_v) + (point.y * sin_v);
-        point.y = (const Fix16&)(-x_old).Multiply_408680(sin_v) + point.y.Multiply_408680(cos_v);
+        point.x = point.x.Multiply_408680(cos_v).Add_408660(point.y * sin_v);
+        point.y = (-x_old).Multiply_408680(sin_v).Add_408660(point.y.Multiply_408680(cos_v));
     }
 
     this->field_8_speed = pos;

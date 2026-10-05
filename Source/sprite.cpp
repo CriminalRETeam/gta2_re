@@ -1059,10 +1059,10 @@ static inline void __stdcall RotateAndTranslatePoint_ool_42A720(Fix16& pInX,
                                                                 Fix16& pRotTransX,
                                                                 Fix16& pRotTransY)
 {
-    pRotTransX = static_cast<const Fix16&>(pInX.Subtract_436A00(pTransX).Multiply_408680(Ang16::cosine_40F520(pRotAng))) +
-        pInY.Subtract_436A00(pTransY).Multiply_408680(Ang16::sine_40F500(pRotAng));
-    pRotTransY = static_cast<const Fix16&>(pInX.Subtract_436A00(pTransX).Negate_4086A0().Multiply_408680(Ang16::sine_40F500(pRotAng))) +
-        pInY.Subtract_436A00(pTransY).Multiply_408680(Ang16::cosine_40F520(pRotAng));
+    pRotTransX = (pInX.Subtract_436A00(pTransX).Multiply_408680(Ang16::cosine_40F520(pRotAng)))
+                     .Add_408660(pInY.Subtract_436A00(pTransY).Multiply_408680(Ang16::sine_40F500(pRotAng)));
+    pRotTransY = (pInX.Subtract_436A00(pTransX).Negate_4086A0().Multiply_408680(Ang16::sine_40F500(pRotAng)))
+                     .Add_408660(pInY.Subtract_436A00(pTransY).Multiply_408680(Ang16::cosine_40F520(pRotAng)));
 }
 
 // Sprite_4C::HalfWH_4BA0A0 with the out-of-line Fix16 / s32 copy
@@ -1155,7 +1155,7 @@ bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect)
     // In 9.6f, it's RotateAndTranslatePoint_42A720. Here the function has run out of inline
     // expansions: the rotation is the out-of-line copy and only the y sum stays inline. The
     // operators are the named out-of-line copies used above, so each has a single callee.
-    ProjectOntoAxis_5A5AA0((static_cast<const Fix16&>(pOtherRect->get_left_45ADB0()) + pOtherRect->get_right_45ADA0()).DivideInt_53E860(2),
+    ProjectOntoAxis_5A5AA0(((pOtherRect->get_left_45ADB0()).Add_408660(pOtherRect->get_right_45ADA0())).DivideInt_53E860(2),
                            (pOtherRect->get_top_45ADD0() + pOtherRect->get_bottom_45ADC0()).DivideInt_53E860(2),
                            -field_0,
                            field_14_xy.x,
@@ -2506,29 +2506,29 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
             Fix16 sin = Ang16::sine_40F500(rotation);
             Fix16 cos = Ang16::cosine_40F520(rotation);
             Fix16 x_old = corner0.x;
-            corner0.x = (const Fix16&)corner0.x.Multiply_408680(cos) + corner0.y.Multiply_408680(sin);
-            corner0.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + corner0.y.Multiply_408680(cos);
+            corner0.x = corner0.x.Multiply_408680(cos).Add_408660(corner0.y.Multiply_408680(sin));
+            corner0.y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(corner0.y.Multiply_408680(cos));
         }
         {
             Fix16 sin = Ang16::sine_40F500(rotation);
             Fix16 cos = Ang16::cosine_40F520(rotation);
             Fix16 x_old = corner1.x;
-            corner1.x = (const Fix16&)corner1.x.Multiply_408680(cos) + corner1.y.Multiply_408680(sin);
-            corner1.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + corner1.y.Multiply_408680(cos);
+            corner1.x = corner1.x.Multiply_408680(cos).Add_408660(corner1.y.Multiply_408680(sin));
+            corner1.y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(corner1.y.Multiply_408680(cos));
         }
         {
             Fix16 sin = Ang16::sine_40F500(rotation);
             Fix16 cos = Ang16::cosine_40F520(rotation);
             Fix16 x_old = corner2.x;
-            corner2.x = (const Fix16&)corner2.x.Multiply_408680(cos) + corner2.y.Multiply_408680(sin);
-            corner2.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + corner2.y.Multiply_408680(cos);
+            corner2.x = corner2.x.Multiply_408680(cos).Add_408660(corner2.y.Multiply_408680(sin));
+            corner2.y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(corner2.y.Multiply_408680(cos));
         }
         {
             Fix16 sin = Ang16::sine_40F500(rotation);
             Fix16 cos = Ang16::cosine_40F520(rotation);
             Fix16 x_old = corner3.x;
-            corner3.x = (const Fix16&)corner3.x.Multiply_408680(cos) + corner3.y.Multiply_408680(sin);
-            corner3.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + corner3.y.Multiply_408680(cos);
+            corner3.x = corner3.x.Multiply_408680(cos).Add_408660(corner3.y.Multiply_408680(sin));
+            corner3.y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(corner3.y.Multiply_408680(cos));
         }
 
         field_C_renderingRect[0] = point.Add_40AC50(corner0);
@@ -2558,7 +2558,7 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
 
         field_30_boundingBox.SetRect_5A5E30(left, right, top, bottom);
     }
-    field_30_boundingBox.SetHiLowZ_41E370(zpos.Subtract_436A00(depth_over_2), (const Fix16&)zpos + depth_over_2);
+    field_30_boundingBox.SetHiLowZ_41E370(zpos.Subtract_436A00(depth_over_2), zpos.Add_408660(depth_over_2));
     field_48_bBoxUpToDate = true;
 
     // Not in 9.6f: the corners are set and rotated again, and the results are never used.
@@ -2580,16 +2580,16 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
 static inline void ProjectToScreen_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
 {
     Fix16 scale;
-    scale = kFP16One_7035C4.Divide_436A20(
-        static_cast<const Fix16&>(kFP16Eight_7035E4.Subtract_436A00(z)) + gViewCamera_676978->field_98_cam_pos2.field_8_z);
-    *pOut1 = static_cast<const Fix16&>(x.Subtract_436A00(gViewCamera_676978->field_98_cam_pos2.field_0_x)
-                                           .Multiply_408680(gViewCamera_676978->field_60.x)
-                                           .Multiply_408680(scale)) +
-        Fix16(gViewCamera_676978->field_70_screen_px_center_x);
-    *pOut2 = static_cast<const Fix16&>(y.Subtract_436A00(gViewCamera_676978->field_98_cam_pos2.field_4_y)
-                                           .Multiply_408680(gViewCamera_676978->field_60.x)
-                                           .Multiply_408680(scale)) +
-        Fix16(gViewCamera_676978->field_74_screen_px_center_y);
+    scale =
+        kFP16One_7035C4.Divide_436A20((kFP16Eight_7035E4.Subtract_436A00(z)).Add_408660(gViewCamera_676978->field_98_cam_pos2.field_8_z));
+    *pOut1 = (x.Subtract_436A00(gViewCamera_676978->field_98_cam_pos2.field_0_x)
+                  .Multiply_408680(gViewCamera_676978->field_60.x)
+                  .Multiply_408680(scale))
+                 .Add_408660(Fix16(gViewCamera_676978->field_70_screen_px_center_x));
+    *pOut2 = (y.Subtract_436A00(gViewCamera_676978->field_98_cam_pos2.field_4_y)
+                  .Multiply_408680(gViewCamera_676978->field_60.x)
+                  .Multiply_408680(scale))
+                 .Add_408660(Fix16(gViewCamera_676978->field_74_screen_px_center_y));
 }
 
 DEFINE_GLOBAL_INIT(u16, gDebugColour_626260, 0x1111, 0x626260);

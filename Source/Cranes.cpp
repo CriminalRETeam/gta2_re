@@ -99,7 +99,7 @@ void Crane_15C::ComputeHookPos_47E620(Fix16 radius, Ang16 ang, Fix16_Point* pOut
     Fix16 cos = Ang16::cosine_40F520(ang);
     Fix16 x_old = pOutPoint->x;
     pOutPoint->x = (pOutPoint->x * cos) + (pOutPoint->y * sin);
-    pOutPoint->y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + (pOutPoint->y * cos);
+    pOutPoint->y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(pOutPoint->y * cos);
 
     *pOutPoint += field_2C_rotor_obj->field_4->get_x_y_443580();
 }
@@ -113,7 +113,7 @@ void Crane_15C::ComputeHookPos_47E730(Ang16 radius, Fix16 ang, Fix16_Point* pOut
     Fix16 cos = Ang16::cosine_40F520(radius);
     Fix16 x_old = pOutPoint->x;
     pOutPoint->x = (pOutPoint->x * cos) + (pOutPoint->y * sin);
-    pOutPoint->y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + (pOutPoint->y * cos);
+    pOutPoint->y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(pOutPoint->y * cos);
     *pOutPoint += field_2C_rotor_obj->field_4->get_x_y_443580();
 }
 
@@ -128,7 +128,7 @@ void Crane_15C::ComputeHookOffset_47E840(Ang16 ang, Fix16_Point* pOutPoint)
     Fix16 cos = Ang16::cosine_40F520(ang);
     Fix16 x_old = pOutPoint->x;
     pOutPoint->x = (pOutPoint->x * cos) + (pOutPoint->y * sin);
-    pOutPoint->y = (const Fix16&)(-x_old).Multiply_408680(sin) + pOutPoint->y.Multiply_408680(cos);
+    pOutPoint->y = (-x_old).Multiply_408680(sin).Add_408660(pOutPoint->y.Multiply_408680(cos));
     *pOutPoint += field_2C_rotor_obj->field_4->get_x_y_443580();
 }
 

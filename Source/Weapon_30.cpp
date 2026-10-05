@@ -507,7 +507,7 @@ static inline void RotateByAngle_40F6B0_no_budget2(Fix16_Point& p, const Ang16& 
     Fix16 cos = Ang16::cosine_40F520(angle);
     Fix16 x_old = p.x;
     p.x = p.x.Multiply_408680(cos) + p.y.Multiply_408680(sin);
-    p.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + p.y.Multiply_408680(cos);
+    p.y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(p.y.Multiply_408680(cos));
 }
 
 MATCH_FUNC(0x5ddd20)
@@ -748,7 +748,7 @@ static inline Fix16 BeamLength_5DE4F0(Fix16_Point& d)
     }
     else
     {
-        return Fix16::SquareRoot_436A70((const Fix16&)d.x.Multiply_408680(d.x) + d.y * d.y);
+        return Fix16::SquareRoot_436A70(d.x.Multiply_408680(d.x).Add_408660(d.y * d.y));
     }
 }
 
@@ -864,7 +864,7 @@ static inline Fix16 BeamLength_5DE910(Fix16_Point& d)
     }
     else
     {
-        return Fix16::SquareRoot_436A70((const Fix16&)d.x.Multiply_408680(d.x) + d.y.Multiply_408680(d.y));
+        return Fix16::SquareRoot_436A70(d.x.Multiply_408680(d.x).Add_408660(d.y.Multiply_408680(d.y)));
     }
 }
 
