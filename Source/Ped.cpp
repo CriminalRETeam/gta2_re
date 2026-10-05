@@ -5269,7 +5269,7 @@ static inline void AddAssignAng16_ool_4645B0(Ang16& a, const Ang16& b)
 static inline Ang16 AddAng16_ool_4645B0(const Ang16& a, const Ang16& b)
 {
     s16 value = a.rValue + b.rValue;
-    return Ang16((Ang16&)value, 0);
+    return Ang16(&value, 0);
 }
 
 WIP_FUNC(0x4645b0)

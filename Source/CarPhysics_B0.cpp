@@ -2938,7 +2938,7 @@ Fix16_Point CarPhysics_B0::ComputePointVelocity_561380(Fix16_Point& point)
     // operator+ with the normalizing ctor out of line (AssignNormalized_409300)
     s16 sum = field_58_theta.rValue + ang_vel.rValue;
     {
-        Ang16 new_theta((Ang16&)sum, 0);
+        Ang16 new_theta(&sum, 0);
         new_pos.RotateByAngle_40F6B0_all_out_of_line(new_theta);
     }
 

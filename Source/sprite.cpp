@@ -1639,7 +1639,7 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 a2, Fix16_Point& a3
 static inline Ang16 NegateAng16_401C80(const Ang16& angle)
 {
     s16 value = -angle.rValue;
-    return Ang16((Ang16&)value, 0);
+    return Ang16(&value, 0);
 }
 
 // https://decomp.me/scratch/2RoLd

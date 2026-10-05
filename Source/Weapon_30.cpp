@@ -1396,7 +1396,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_706CD8, Fix16(0x800, 0), 0x706CD8);
 static inline Ang16 AddAng16_ool(const Ang16& a, const Ang16& b)
 {
     s16 value = a.rValue + b.rValue;
-    return Ang16((Ang16&)value, 0);
+    return Ang16(&value, 0);
 }
 
 MATCH_FUNC(0x5e0b10)

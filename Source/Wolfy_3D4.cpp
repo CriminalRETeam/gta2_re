@@ -1001,7 +1001,7 @@ void Wolfy_30::state_18_19_20_32_33_542790()
 static inline Ang16 AddAng16_ool(const Ang16& a, const Ang16& b)
 {
     s16 value = a.rValue + b.rValue;
-    return Ang16((Ang16&)value, 0);
+    return Ang16(&value, 0);
 }
 
 WIP_FUNC(0x542e30)
