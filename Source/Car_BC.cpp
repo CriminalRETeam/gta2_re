@@ -3692,10 +3692,10 @@ void Car_BC::RepairDamage_43D400()
     sub_421570();
 }
 
-WIP_FUNC(0x43d690)
+MATCH_FUNC(0x43d690)
 void Car_BC::EmitExplosion_43D690(s32 a3, Fix16 x, Fix16 y)
 {
-    WIP_IMPLEMENTED;
+    Fix16_Point unused; // EH frame with state 0 before the first call: the original has a destructible local
 
     Object_2C* p2C = gObject_5C_6F8F84->CreateExplosion_52A3D0(gFix16_6777CC, gFix16_6777CC, 2, kAngZero_67791C, a3, field_70_exploder_ped_id);
     if (p2C)
