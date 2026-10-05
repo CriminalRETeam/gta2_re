@@ -1161,6 +1161,15 @@ Still different:
   and `%ebp`, the constant cached in `%ebp` before the first switch, and the neighbour arrow
   check's `xor`/`test`, which needs an inline the budget can't afford.
 - Oct 5 (196 lines): a ternary keeps the unfolded test but moves things to `ebp` (272).
+- Round 8 (skeleton 4 -> 0, structure 18 -> 6, full 196 -> 218): `KeepDir(d, want)` inline for the
+  neighbour arrow check, paid for by `(last_z - kFpOne_6F6110).mValue >> 14` instead of `.ToInt()` in the
+  four neighbour lookups (with all four `ToInt()` the inline pushes two `operator-` out of line, 756).
+  Left: the original keeps the KeepDir result in `ebp` (`mov %eax,%ebp; cmp $3,%ebp`), ours tests `eax`
+  and copies after; `dist`/`pPrev` swap `ebx`/`ebp` again; the cached switch constant is 2 instead of 1;
+  a few slots. A by-reference KeepDir, a void one, `d = Get(); d = KeepDir(d)` and a result copy inside
+  the inline all fold or change nothing. Case order in the two direction switches is canonicalised
+  (no effect). The fully raw `(last_z.mValue - k.mValue) >> 14` keeps the registers (202) but loads the
+  neighbour args in the wrong order (structure 32).
 
 ### PublicTransport_181C::SpawnTrainsFromStations_578860 (0x578860): WIP 0.90
 - For each of the first 10 stations with wagons: takes a train, places the wagons and the engine
@@ -1405,6 +1414,12 @@ Each was a few asm lines away from the original. What is left and what was tried
 - 0x550F60 `GetNextRotationToward`: closer 576->513. Unused `Ang16(&Fix16,0)` from 9.6f, case 0 is a nested switch. Left: register/slot choices.
 - 0x542E30 `state_22_23_24_25`: closer 595->439. Left: the original runs out of inline budget in cases 2/3 (out-of-line Ang16 ctor 0x409300).
 - 0x4E5640: closer 596->464. Static inline GetLength/PolarToCartesian with out-of-line helpers. Left: Fix16_Point_POD ctor out of line (inline budget).
+  Round 8 (480, skeleton 9): with `Fix16_Point_POD()` forced inline (header experiment only) it's 275 and
+  skeleton 7, and the rest of the skeleton is only the shared `xor %al,%al; jmp epilogue` for `return 0`
+  (ours copies the EH epilogue into the last `return 0`). A `result` local with `break`s gets the skeleton
+  to 5 but spills `result` (313). Not committed: none of these frees the ctor. ToInt -> raw shifts,
+  `__forceinline` on the GetLength/Polar helpers, `set_xyz_lazy_inlined_420600`, moving `pos_diff`, and
+  initialised `vec_x/vec_y/ground_z` all keep it out of line.
 - 0x498DA0 `read_input_device`: closer 461->356. `acquire_input_device_498730` is a thiscall member, Poll() not Acquire(). Left: zero register held across the whole function.
 - 0x422B70 `ProcessPed`: closer 445->165. Case order from the jump table, case 26 falls into default. Left: ebx vs ebp allocation.
 - 0x539890 `UpdateCircularBurst_state_5`: closer 0.543->0.769 (5384C0 shape). Left: identical cases 4/5 not cross-jumped.
@@ -1746,6 +1761,10 @@ Left:
 - Up case: the below-block check should jump into the down case's identical code (`jmp 47B`).
 - Right case, east climb wall check: should jump to the shared `return true`; ours gets an
   epilogue (no `break` possible inside the inner switch).
+- Round 8 (528, unchanged): the up and down below-block sources are identical and in ours VC6 already
+  shares their `pBaseSlope` check block, but not the run from `mov %cl,%al` to the `0xFF` epilogue that the
+  original's up case reaches with `jmp 47B`. `z >= 1`, declaration order and an assignment in the `if`
+  don't move the y/z registers.
 
 Renames: `field_36E` -> `field_36E_bBlockedByTerrain` (no usable ground ahead, as opposed to a wall),
 `field_36F` -> `field_36F_bLowerBlockHasArrows`, params `bByRefUnk` -> `pSlopeZDelta` (1 stepping up,

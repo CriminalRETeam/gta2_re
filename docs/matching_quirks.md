@@ -1585,6 +1585,27 @@ thread repeated register tests, which can move a case to the end of the function
   `pSprite` folds it away (`sub_44AF00`).
 - **`wsprintfA` (import, `call *%esi`) vs `sprintf` (static CRT)** shows only in the call form
   (`Start_NetworkGame_5E5A30`).
+- **A by-value result local in an inline helper** (`Fix16 result; result = Max_44E540(...); return result;`)
+  gives the original's `mov (%eax),%reg` copy of the out-of-line result; `return Max_44E540(...)` builds it
+  in a stack slot instead. Past the inline budget, one helper per call site with the Abs variant each site
+  shows (both `Abs_436A50`, mixed, or a `__forceinline` Abs with `Negate_4086A0` out of line) matched
+  `Wolfy_30::TimerAfter50Handler_541850`, together with the next two points.
+- **Branch order decides slot sharing.** `if ((t > 50 && t < 60) || (t > 80 && t < 90)) {A} else if (t == 99) {B}`
+  (the 9.6f order) let A's locals share slots with B's; the inverted `if (!(...)) { if (t == 99) B } else A`
+  gave A its own slots (frame +16, 541850).
+- **No CSE local for a repeated product.** `x - f * k`, `x + f * k`, ... written out on each line (9.6f
+  recomputes it) gave the original's register order; a named `v4 = f * k` rotated the registers (541850).
+- **Member vs free helper for an out-of-line `Ang16` add.** `a.Add_ool(b)` (`s16 value = rValue + rhs.rValue;
+  return Ang16(&value, 0);`, new in ang16.hpp) gave the original's slot order and load order; the same body as a
+  static `AddAng16_ool(a, b)` swapped both. `(k + d) + Fix16_To_Ang16(...)` with the right operand unnamed gives
+  that operand (computed first) the lower slot; named, it gets the higher one. Matched
+  `Wolfy_30::state_22_23_24_25_542E30` with a file-local `PolarToCartesian` that calls both multiplies out of line.
+- **`(a - b).mValue >> 14` instead of `(a - b).ToInt()`** saves one inline expansion per site with the same code
+  (`Map_0x370::sub_4E7190`: four of them paid for the `KeepDir` inline that keeps `xor; test` unfolded).
+- **`??1Fix16_Point` in an object's relocations can be just the EH unwind funclet** placed after the function,
+  not a call in the body (sub_4E5640). The outlined `Fix16_Point_POD()` there is not a plain expansion count:
+  without the loop, removing any one pre-loop inline brings it back inline, but removing a whole loop branch
+  with ten inlines doesn't.
 - **The shared EH epilogue** (`TickObject_5283C0`, `HandleCarImpact_5538A0`, `Start_NetworkGame_5E5A30`) and
   the shared `return 0` tail (`Ped::SetObjective2_463830`, `FindBestTargetPed_466BF0`) are still not
   reproducible: VC6 copies the tail into each predecessor. A small test file kept copying across every
