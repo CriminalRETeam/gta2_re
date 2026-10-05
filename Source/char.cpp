@@ -1785,6 +1785,12 @@ void Char_B4::HandleObjectCollision_548840(Object_2C* pObj)
 DEFINE_GLOBAL_INIT(Ang16, word_6FD888, Ang16(64), 0x6FD888);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD860, Fix16(0x80, 0), 0x6FD860);
 
+// The angle is a by-value parameter: the original keeps it in memory and adds it as a dword
+static inline Ang16 TurnBy16Deg_548BD0(Ang16 angle)
+{
+    return word_6FD888 + angle;
+}
+
 // What happens when this ped walks into pOther, by the types of both peds (field_238)
 WIP_FUNC(0x548bd0)
 void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
@@ -1859,12 +1865,10 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                         break;
                     }
                     pOther->field_6A = 4;
-                    {
-                        Ang16 angle = Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
-                                                                field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x).rValue + kAng180_6FD936.rValue;
-                        angle.Normalize_406C20();
-                        pOther->field_74 = angle;
-                    }
+                    pOther->field_74 = Ang16(Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
+                                                                       field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x).rValue +
+                                             kAng180_6FD936.rValue)
+                                           .Normalized_406C20();
                     break;
             }
             break;
@@ -1905,10 +1909,9 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                 case 6:
                 {
                     pOther->field_6A = 4;
-                    Ang16 angle = kAng180_6FD936.rValue + Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
-                                                                                    field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x).rValue;
-                    angle.Normalize_406C20();
-                    pOther->field_74 = angle;
+                    pOther->field_74 = Ang16(kAng180_6FD936.rValue + Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
+                                                                                              field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x).rValue)
+                                           .Normalized_406C20();
                     break;
                 }
             }
@@ -1923,6 +1926,8 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                     if (field_10_char_state == 10 || field_7C_pPed->field_200_id >= pOther->field_7C_pPed->field_200_id)
                     {
                         field_10_char_state = 1;
+                        // A return, not a break: the original keeps the type 5 copy of this tail
+                        return;
                     }
                     else if (!field_7C_pPed->field_164_ped_group || field_7C_pPed->field_164_ped_group->field_30)
                     {
@@ -2000,9 +2005,9 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                     if (!field_20)
                     {
                         pOther->field_6A = 4;
-                        Ang16 angle = Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
-                                                                field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x) + kAng180_6FD936;
-                        pOther->field_74 = angle + word_6FD888;
+                        pOther->field_74 = TurnBy16Deg_548BD0(Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
+                                                                                         field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x) +
+                                                              kAng180_6FD936);
                     }
                     break;
             }
@@ -2013,10 +2018,34 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
 
 // PolarToCartesian_41FC20 as ApplyMovement_54CC40 expands it: the big function is past the
 // inline budget, so the original calls Multiply_408680 instead of inlining operator*
-static inline void PolarToCartesian_OutOfLineMul(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2)
+static inline void PolarToCartesian_OutOfLineMul(Ang16& angle, const Fix16& radius, Fix16& ret1, Fix16& ret2)
 {
     ret1 = Ang16::sine_40F500(angle).Multiply_408680(radius);
     ret2 = Ang16::cosine_40F520(angle).Multiply_408680(radius);
+}
+
+// Ang16 operator+ with the normalizing ctor called out of line (AssignNormalized_409300)
+static inline Ang16 AddAngles_ool_54B8F0(const Ang16& a, const Ang16& b)
+{
+    s16 sum = a.rValue + b.rValue;
+    return Ang16((Ang16&)sum, 0);
+}
+
+static inline bool CanJumpOver_54A530(Char_B4* pThis, Char_B4* pChar)
+{
+    if (!pThis->field_7C_pPed->IsField238_45EDE0(2))
+    {
+        if (!pChar)
+        {
+            return true;
+        }
+        return false;
+    }
+    if (pThis->field_8_ped_state_1 == ped_state_1::entering_car_3)
+    {
+        return true;
+    }
+    return false;
 }
 
 // RotateAndTranslatePoint_42A720 as HandleGenericCollision_54A530 expands it: past the inline
@@ -2100,7 +2129,7 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
         {
             if (!bNoJump)
             {
-                if (field_7C_pPed->IsField238_45EDE0(2) ? field_8_ped_state_1 == ped_state_1::entering_car_3 : pChar == NULL)
+                if (CanJumpOver_54A530(this, pChar))
                 {
                     Char_B4::DoJump_5454D0();
                 }
@@ -2133,7 +2162,33 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
         else
         {
             field_2A = kAng90_6FD854;
-            if (!field_7C_pPed->IsField238_45EDE0(2))
+            if (field_7C_pPed->IsField238_45EDE0(2))
+            {
+                if (field_10_char_state != Char_B4_state::Jumping_15 && field_8_ped_state_1 != ped_state_1::entering_car_3)
+                {
+                    field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
+                    field_45_slope_gradient_direction = gCharB4_Saved_SlopeGradDir_6FD7B0.ToInt();
+                    field_10_char_state = Char_B4_state::Colliding_With_Car_27;
+                    return;
+                }
+                else if (field_20 == 1)
+                {
+                    field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
+                    field_40_rotation = Ang16(field_80_sprite_ptr->field_0.rValue + kAng180_6FD936.rValue).Normalized_406C20();
+                    return;
+                }
+                else
+                {
+                    field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
+                    field_40_rotation = pSprt->field_0;
+                    rot_x = Ang16::sine_40F500(field_40_rotation) * field_38_velocity;
+                    rot_y = Ang16::cosine_40F520(field_40_rotation).Multiply_408680(field_38_velocity);
+                    field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + rot_x,
+                                                             field_80_sprite_ptr->field_14_xy.y + rot_y,
+                                                             field_80_sprite_ptr->field_1C_zpos);
+                }
+            }
+            else
             {
                 if (field_10_char_state == Char_B4_state::Jumping_15 && field_68_animation_frame >= 5)
                 {
@@ -2141,29 +2196,6 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
                     field_71_frame_delay = 2;
                     field_70_frame_timer = 0;
                 }
-            }
-            else if (field_10_char_state != Char_B4_state::Jumping_15 && field_8_ped_state_1 != ped_state_1::entering_car_3)
-            {
-                field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
-                field_45_slope_gradient_direction = gCharB4_Saved_SlopeGradDir_6FD7B0.ToInt();
-                field_10_char_state = Char_B4_state::Colliding_With_Car_27;
-                return;
-            }
-            else if (field_20 == 1)
-            {
-                field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
-                field_40_rotation = Ang16(field_80_sprite_ptr->field_0.rValue + kAng180_6FD936.rValue).Normalized_406C20();
-                return;
-            }
-            else
-            {
-                field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
-                field_40_rotation = pSprt->field_0;
-                rot_x = Ang16::sine_40F500(field_40_rotation) * field_38_velocity;
-                rot_y = Ang16::cosine_40F520(field_40_rotation).Multiply_408680(field_38_velocity);
-                field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + rot_x,
-                                                         field_80_sprite_ptr->field_14_xy.y + rot_y,
-                                                         field_80_sprite_ptr->field_1C_zpos);
             }
         }
 
@@ -2181,8 +2213,9 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
         target_y = field_7C_pPed->Get_F1C4_y_492CF0();
         if (target_x == kFP16MinusOne_6FD790 || target_y == kFP16MinusOne_6FD790)
         {
-            target_x = Ang16::sine_40F500(field_40_rotation) * dword_6FDA04;
-            target_y = Ang16::cosine_40F520(field_40_rotation).Multiply_408680(dword_6FDA04);
+            Ang16 rot = field_40_rotation;
+            target_x = Ang16::sine_40F500(rot) * dword_6FDA04;
+            target_y = Ang16::cosine_40F520(rot).Multiply_408680(dword_6FDA04);
             target_x += field_80_sprite_ptr->field_14_xy.x;
             target_y += field_80_sprite_ptr->field_14_xy.y;
         }
@@ -2429,8 +2462,7 @@ char_type Char_B4::ContinueMovementAfterCollision_54B8F0()
     }
     else
     {
-        Fix16 dist = field_38_velocity * gFix16_Two_6FD9EC;
-        PolarToCartesian_OutOfLineMul(field_40_rotation, dist, x_vec, y_vec);
+        PolarToCartesian_OutOfLineMul(field_40_rotation, field_38_velocity * gFix16_Two_6FD9EC, x_vec, y_vec);
         field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + x_vec,
                                                  field_80_sprite_ptr->field_14_xy.y + y_vec,
                                                  field_80_sprite_ptr->field_1C_zpos);
@@ -2441,9 +2473,8 @@ char_type Char_B4::ContinueMovementAfterCollision_54B8F0()
 
             // Try stepping back away from the obstacle
             field_40_rotation = field_28;
-            Ang16 back_angle(Ang16(kAng180_6FD936.rValue + Ang16(Ang16(field_28.rValue + field_2A.rValue), 0).rValue), 0);
-            dist = field_38_velocity * kFP16Four_6FD9F4;
-            PolarToCartesian_OutOfLineMul(back_angle, dist, x_vec, y_vec);
+            Ang16 back_angle = AddAngles_ool_54B8F0(kAng180_6FD936, AddAngles_ool_54B8F0(field_28, field_2A));
+            PolarToCartesian_OutOfLineMul(back_angle, field_38_velocity * kFP16Four_6FD9F4, x_vec, y_vec);
             field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + x_vec,
                                                      field_80_sprite_ptr->field_14_xy.y + y_vec,
                                                      field_80_sprite_ptr->field_1C_zpos);
@@ -2452,12 +2483,11 @@ char_type Char_B4::ContinueMovementAfterCollision_54B8F0()
             {
                 // Free behind: turn around
                 field_80_sprite_ptr->set_xy_lazy_447E20(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
-                field_28.rValue += Ang16(Ang16(kAng180_6FD936.rValue + field_2A.rValue), 0).rValue;
+                field_28.rValue += AddAngles_ool_54B8F0(kAng180_6FD936, field_2A).rValue;
                 field_28.Normalize_406C20();
                 field_24 = 2;
                 field_40_rotation = field_28;
-                dist = field_38_velocity * gFix16_Two_6FD9EC;
-                PolarToCartesian_OutOfLineMul(field_40_rotation, dist, x_vec, y_vec);
+                PolarToCartesian_OutOfLineMul(field_40_rotation, field_38_velocity * gFix16_Two_6FD9EC, x_vec, y_vec);
                 field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + x_vec,
                                                          field_80_sprite_ptr->field_14_xy.y + y_vec,
                                                          field_80_sprite_ptr->field_1C_zpos);
@@ -3492,7 +3522,7 @@ void Char_B4::state_0_54DDF0()
                 {
                     v95 = this->field_40_rotation;
                     this->field_58_flags = this->field_58_flags | 8;
-                    field_40_rotation = field_40_rotation + kAng180_6FD936;
+                    field_40_rotation += kAng180_6FD936;
 
                     if (field_38_velocity == kZeroVelocity_6FD7C0)
                     {
@@ -3857,7 +3887,6 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
     WIP_IMPLEMENTED;
     bool bIsNearXposBlockBoundary = true;
     bool bIsNearYposBlockBoundary = true;
-    Fix16 ztmp;
 
     Fix16 sprite_xpos = field_80_sprite_ptr->field_14_xy.x;
     Fix16 sprite_ypos = field_80_sprite_ptr->field_14_xy.y;
@@ -3900,462 +3929,339 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
         }
     }
 
-    // line 11b
     if (!bIsNearXposBlockBoundary && !bIsNearYposBlockBoundary)
     {
         x_diff = a2 - field_80_sprite_ptr->field_14_xy.x.ToInt();
         y_diff = a3 - field_80_sprite_ptr->field_14_xy.y.ToInt();
-
-        if (x_diff == 0) // line 141
+        if (x_diff == 0 && y_diff == 0)
         {
-            if (y_diff == 0)
-            {
-                return true;
-            }
-            else
-            {
-                goto LABEL_9F1;
-            }
-        }
-        else
-        {
-            goto LABEL_15F;
+            return true;
         }
     }
 
-    // prob supposed to be line 157
-    // cl = x_diff
-    // al = y_diff
-
-    bool bUnk_1;
-    bool bUnk_2;
-    if (x_diff) // line 159, must jump to 9f1: else block
+    if (x_diff != 0 && y_diff != 0)
     {
-    LABEL_15F:
-        if (y_diff) // line 161, must jump to 9c2: different else block
+        // Diagonal step: try both axis neighbours of the target block
+        bool bCanStep;
+        if (x_diff == -1)
         {
-            if (x_diff == -1) // line 167, must jump to 594
+            bCanStep = true;
+            if (y_diff == -1)
             {
-                bUnk_1 = true;
-
-                if (y_diff == -1) // correct, line 17a
+                field_80_sprite_ptr->field_14_xy.x.subtract_one_491F00();
+                if (field_58_flags & 1)
                 {
-                    field_80_sprite_ptr->field_14_xy.x.subtract_one_491F00();
-                    if ((field_58_flags & 1) != 0) // line 193
-                    {
-                        Fix16 ztmp;
-                        field_80_sprite_ptr->field_1C_zpos =
-                            gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x,
-                                                                          field_80_sprite_ptr->field_14_xy.y);
-                    }
-                    Sprite* pSprt_inlined_1 = field_80_sprite_ptr;
-                    if (pSprt_inlined_1->field_1C_zpos == kFP16Zero_6FD9E4)
-                    {
-                        pSprt_inlined_1->field_1C_zpos = sprite_zpos;
-                    }
+                    field_80_sprite_ptr->field_1C_zpos =
+                        gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y);
+                }
+                if (field_80_sprite_ptr->field_1C_zpos == kFP16Zero_6FD9E4)
+                {
+                    field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
+                }
+                if (!CanStepForwardWithRegionCheck_54ECB0(path_direction::up_1) && !gMap_0x370_6F6268->sub_4E0110())
+                {
+                    gCharB4_PathDirection_623F44 = path_direction::up_1;
+                    bCanStep = false;
+                }
+                field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
+                field_80_sprite_ptr->field_14_xy.y.subtract_one_491F00();
+                if (field_58_flags & 1)
+                {
+                    field_80_sprite_ptr->field_1C_zpos =
+                        gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y);
+                }
+                if (field_80_sprite_ptr->field_1C_zpos == kFP16Zero_6FD9E4)
+                {
+                    field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
+                }
+                if (!CanStepForwardWithRegionCheck_54ECB0(path_direction::left_4) && !gMap_0x370_6F6268->sub_4E0110())
+                {
+                    gCharB4_PathDirection_623F44 = path_direction::left_4;
+                    bCanStep = false;
+                }
+                field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
+                field_80_sprite_ptr->field_14_xy.y = sprite_ypos;
+                field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
 
-                    // line 1dc
-                    if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::up_1) && !gMap_0x370_6F6268->sub_4E0110())
+                if (!bCanStep)
+                {
+                    gCharB4_StepXpos_6FD8B8 = gCharB4_Saved_Xpos_6FD7F8;
+                    gCharB4_StepYpos_6FD8BC = gCharB4_Saved_Ypos_6FD800;
+                    if (!CanStepForwardWithRegionCheck_54ECB0(path_direction::left_4) && !gMap_0x370_6F6268->sub_4E0110())
+                    {
+                        gCharB4_PathDirection_623F44 = path_direction::left_4;
+                    }
+                    else
                     {
                         gCharB4_PathDirection_623F44 = path_direction::up_1;
-                        bUnk_1 = false;
-                    }
-                    field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
-                    field_80_sprite_ptr->field_14_xy.y.subtract_one_491F00();
-                    if ((field_58_flags & 1) != 0)
-                    {
-                        field_80_sprite_ptr->field_1C_zpos =
-                            gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x,
-                                                                          field_80_sprite_ptr->field_14_xy.y);
-                    }
-
-                    Sprite* pSprt_inlined_2 = field_80_sprite_ptr;
-                    if (pSprt_inlined_2->field_1C_zpos == kFP16Zero_6FD9E4)
-                    {
-                        pSprt_inlined_2->field_1C_zpos = sprite_zpos;
-                    }
-
-                    // line 26a
-                    if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::left_4) && !gMap_0x370_6F6268->sub_4E0110())
-                    {
-                        gCharB4_PathDirection_623F44 = path_direction::left_4;
-                        bUnk_1 = false;
-                    }
-                    field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
-                    field_80_sprite_ptr->field_14_xy.y = sprite_ypos;
-                    field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
-
-                    if (!bUnk_1) // line 2af
-                    {
-                        gCharB4_StepYpos_6FD8BC = gCharB4_Saved_Ypos_6FD800;
-                        gCharB4_StepXpos_6FD8B8 = gCharB4_Saved_Xpos_6FD7F8;
-
-                        // line 2d3
-                        if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::left_4) && !gMap_0x370_6F6268->sub_4E0110())
+                        bCanStep = true;
+                        if (!CanStepForwardWithRegionCheck_54ECB0(path_direction::up_1) && !gMap_0x370_6F6268->sub_4E0110())
                         {
-                            bUnk_1 = false;
-                            gCharB4_PathDirection_623F44 = path_direction::left_4;
-                            field_45_slope_gradient_direction = old_f45;
-                            return bUnk_1;
+                            bCanStep = false;
                         }
                         else
-                        {
-                            gCharB4_PathDirection_623F44 = path_direction::up_1;
-                            bUnk_1 = true;
-                            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::up_1) && !gMap_0x370_6F6268->sub_4E0110())
-                            {
-                                bUnk_1 = false;
-                                //gCharB4_PathDirection_623F44 = path_direction::left_4;
-                            }
-                        }
-                        field_45_slope_gradient_direction = old_f45;
-                        return bUnk_1;
-                    } // correct
-
-                    // supposed to be line 341
-
-                    if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::left_4) && !gMap_0x370_6F6268->sub_4E0110())
-                    {
-                        bUnk_1 = false;
-                        gCharB4_PathDirection_623F44 = path_direction::left_4;
-                    }
-
-                    // line 369 or 36b
-                    if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::up_1) && !gMap_0x370_6F6268->sub_4E0110())
-                    {
-                        bUnk_1 = false;
-                        gCharB4_PathDirection_623F44 = path_direction::down_2;
-                    }
-                    field_45_slope_gradient_direction = old_f45;
-                    return bUnk_1;
-
-                } // correct
-                else
-                {
-                    // Prob correct
-                    // line 180 on 10.5 idb
-                    // supposed to be line 34a
-                    field_80_sprite_ptr->field_14_xy.x.subtract_one_491F00();
-                    if ((field_58_flags & 1) != 0)
-                    {
-                        field_80_sprite_ptr->field_1C_zpos =
-                            gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x,
-                                                                          field_80_sprite_ptr->field_14_xy.y);
-                    }
-
-                    if (field_80_sprite_ptr->field_1C_zpos == kFP16Zero_6FD9E4)
-                    {
-                        field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
-                    }
-                    if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::down_2) && !gMap_0x370_6F6268->sub_4E0110())
-                    {
-                        gCharB4_PathDirection_623F44 = path_direction::down_2;
-                        bUnk_1 = false;
-                    }
-                    field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
-                    field_80_sprite_ptr->field_14_xy.y.add_one_491EF0();
-                    if ((field_58_flags & 1) != 0)
-                    {
-                        field_80_sprite_ptr->field_1C_zpos =
-                            gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x,
-                                                                          field_80_sprite_ptr->field_14_xy.y);
-                    }
-
-                    Sprite* pSprt_inlined_4 = field_80_sprite_ptr;
-                    if (pSprt_inlined_4->field_1C_zpos == kFP16Zero_6FD9E4)
-                    {
-                        pSprt_inlined_4->field_1C_zpos = sprite_zpos;
-                    }
-
-                    if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::left_4) && !gMap_0x370_6F6268->sub_4E0110())
-                    {
-                        gCharB4_PathDirection_623F44 = path_direction::left_4;
-                        bUnk_1 = false;
-                    }
-                    field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
-                    field_80_sprite_ptr->field_14_xy.y = sprite_ypos;
-                    field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
-                    if (!bUnk_1) // line 4d3
-                    {
-                        gCharB4_StepYpos_6FD8BC = gCharB4_Saved_Ypos_6FD800;
-                        gCharB4_StepXpos_6FD8B8 = gCharB4_Saved_Xpos_6FD7F8;
-
-                        if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::left_4) && !gMap_0x370_6F6268->sub_4E0110())
                         {
                             gCharB4_PathDirection_623F44 = path_direction::left_4;
-                            field_45_slope_gradient_direction = old_f45;
-                            return bUnk_1;
-                        }
-                        else
-                        {
-                            // line 528
-                            gCharB4_PathDirection_623F44 = path_direction::down_2;
-                            bUnk_1 = true;
-                            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::down_2) && !gMap_0x370_6F6268->sub_4E0110())
-                            {
-                                bUnk_1 = false;
-                                field_45_slope_gradient_direction = old_f45;
-                                return bUnk_1;
-                            }
-                            else
-                            {
-                                //line 50b
-                                gCharB4_PathDirection_623F44 = path_direction::left_4;
-                                field_45_slope_gradient_direction = old_f45;
-                                return bUnk_1;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        // line 565
-                        if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::left_4) && !gMap_0x370_6F6268->sub_4E0110())
-                        {
-                            bUnk_1 = false;
-                            gCharB4_PathDirection_623F44 = path_direction::left_4;
-                        }
-
-                        // mysterious backwards jump here
-                        if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::down_2) && !gMap_0x370_6F6268->sub_4E0110())
-                        {
-                            bUnk_1 = false;
-                            gCharB4_PathDirection_623F44 = path_direction::down_2;
-                        }
-                        field_45_slope_gradient_direction = old_f45;
-                        return bUnk_1;
-                    }
-                }
-
-            } // if (y_diff == -1) // line 167, must jump to 594
-            else
-            {
-                // line 260 on 10.5 idb
-                // line 594 and 59c
-
-                // else of (y_diff == -1)  ?
-
-                bUnk_2 = true;
-                if (y_diff == -1)
-                {
-                    field_80_sprite_ptr->field_14_xy.x.add_one_491EF0();
-                    if ((field_58_flags & 1) != 0)
-                    {
-                        Fix16 ztmp;
-                        field_80_sprite_ptr->field_1C_zpos =
-                            gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x,
-                                                                          field_80_sprite_ptr->field_14_xy.y);
-                    }
-                    Sprite* pSprt_inlined_5 = field_80_sprite_ptr;
-                    if (pSprt_inlined_5->field_1C_zpos == kFP16Zero_6FD9E4)
-                    {
-                        pSprt_inlined_5->field_1C_zpos = sprite_zpos;
-                    }
-                    if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::up_1) && !gMap_0x370_6F6268->sub_4E0110())
-                    {
-                        gCharB4_PathDirection_623F44 = path_direction::up_1;
-                        bUnk_1 = false;
-                    }
-                    field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
-                    field_80_sprite_ptr->field_14_xy.y.subtract_one_491F00();
-                    if ((field_58_flags & 1) != 0)
-                    {
-                        Fix16 ztmp;
-                        field_80_sprite_ptr->field_1C_zpos =
-                            gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x,
-                                                                          field_80_sprite_ptr->field_14_xy.y);
-                    }
-                    Sprite* pSprt_inlined_6 = field_80_sprite_ptr;
-                    if (pSprt_inlined_6->field_1C_zpos == kFP16Zero_6FD9E4)
-                    {
-                        pSprt_inlined_6->field_1C_zpos = sprite_zpos;
-                    }
-                    if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::right_3) && !gMap_0x370_6F6268->sub_4E0110())
-                    {
-                        gCharB4_PathDirection_623F44 = path_direction::right_3;
-                        bUnk_1 = false;
-                    }
-                    field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
-                    field_80_sprite_ptr->field_14_xy.y = sprite_ypos;
-                    field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
-                    if (!bUnk_1) // line 6d3
-                    {
-                        gCharB4_StepYpos_6FD8BC = gCharB4_Saved_Ypos_6FD800;
-                        gCharB4_StepXpos_6FD8B8 = gCharB4_Saved_Xpos_6FD7F8;
-
-                        if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::right_3) && !gMap_0x370_6F6268->sub_4E0110())
-                        {
-                            // line 70b
-                            gCharB4_PathDirection_623F44 = path_direction::right_3;
-                            field_45_slope_gradient_direction = old_f45;
-                        }
-                        else
-                        {
-                            // line 728
-                            bUnk_1 = true;
-                            gCharB4_PathDirection_623F44 = path_direction::up_1;
-                            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::up_1) && !gMap_0x370_6F6268->sub_4E0110())
-                            {
-                                bUnk_1 = false;
-                                field_45_slope_gradient_direction = old_f45;
-                            }
-                            else
-                            {
-                                // line 70b
-                                gCharB4_PathDirection_623F44 = path_direction::right_3;
-                                field_45_slope_gradient_direction = old_f45;
-                            }
-                        }
-                        return bUnk_1;
-                    }
-                    else
-                    {
-                        // line 765
-                        if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::right_3) && !gMap_0x370_6F6268->sub_4E0110())
-                        {
-                            bUnk_1 = false;
-                            gCharB4_PathDirection_623F44 = path_direction::right_3;
-                        }
-                        if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::up_1) && !gMap_0x370_6F6268->sub_4E0110())
-                        {
-                            gCharB4_PathDirection_623F44 = path_direction::up_1;
-                            field_45_slope_gradient_direction = old_f45;
-                            return false;
-                        }
-                        else
-                        {
-                            field_45_slope_gradient_direction = old_f45;
-                            return bUnk_1;
                         }
                     }
                 }
                 else
                 {
-                    // line 348 on 10.5 idb
-                    field_80_sprite_ptr->field_14_xy.x.add_one_491EF0();
-                    if ((field_58_flags & 1) != 0)
+                    if (!CanStepForwardWithRegionCheck_54ECB0(path_direction::left_4) && !gMap_0x370_6F6268->sub_4E0110())
                     {
-                        Fix16 ztmp;
-                        field_80_sprite_ptr->field_1C_zpos =
-                            gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x,
-                                                                          field_80_sprite_ptr->field_14_xy.y);
+                        bCanStep = false;
+                        gCharB4_PathDirection_623F44 = path_direction::left_4;
                     }
-                    Sprite* pSprt_inlined_7 = field_80_sprite_ptr;
-                    if (pSprt_inlined_7->field_1C_zpos == kFP16Zero_6FD9E4)
+                    if (!CanStepForwardWithRegionCheck_54ECB0(path_direction::up_1) && !gMap_0x370_6F6268->sub_4E0110())
                     {
-                        pSprt_inlined_7->field_1C_zpos = sprite_zpos;
-                    }
-                    if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::down_2) && !gMap_0x370_6F6268->sub_4E0110())
-                    {
-                        bUnk_1 = false;
+                        bCanStep = false;
                         gCharB4_PathDirection_623F44 = path_direction::down_2;
                     }
-                    field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
-                    field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
-                    field_80_sprite_ptr->field_14_xy.y.add_one_491EF0();
-
-                    Fix16 ztmp;
-                    field_80_sprite_ptr->field_1C_zpos = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x,
-                                                                                                       field_80_sprite_ptr->field_14_xy.y);
-
-                    Sprite* pSprt_inlined_8 = field_80_sprite_ptr;
-                    if (pSprt_inlined_8->field_1C_zpos == kFP16Zero_6FD9E4)
-                    {
-                        pSprt_inlined_8->field_1C_zpos = sprite_zpos;
-                    }
-                    if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::right_3) && !gMap_0x370_6F6268->sub_4E0110())
-                    {
-                        gCharB4_PathDirection_623F44 = path_direction::right_3;
-                        bUnk_1 = false;
-                    }
-                    field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
-                    field_80_sprite_ptr->field_14_xy.y = sprite_ypos;
-                    field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
-                    if (!bUnk_1) // line 901
-                    {
-                        // line 399 on 10.5 idb
-                        gCharB4_StepYpos_6FD8BC = gCharB4_Saved_Ypos_6FD800;
-                        gCharB4_StepXpos_6FD8B8 = gCharB4_Saved_Xpos_6FD7F8;
-
-                        if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::right_3) && !gMap_0x370_6F6268->sub_4E0110())
-                        {
-                            gCharB4_PathDirection_623F44 = path_direction::right_3;
-                            field_45_slope_gradient_direction = old_f45;
-                        }
-                        else
-                        {
-                            // line 956
-                            gCharB4_PathDirection_623F44 = path_direction::down_2;
-                            bUnk_1 = true;
-                            if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::down_2) && !gMap_0x370_6F6268->sub_4E0110())
-                            {
-                                bUnk_1 = false;
-                            }
-                            else
-                            {
-                                gCharB4_PathDirection_623F44 = path_direction::right_3;
-                            }
-                            field_45_slope_gradient_direction = old_f45;
-                        }
-                        return bUnk_1;
-                    }
-                    else
-                    {
-                        // line 993
-                        if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::right_3) && !gMap_0x370_6F6268->sub_4E0110())
-                        {
-                            bUnk_1 = false;
-                            gCharB4_PathDirection_623F44 = path_direction::right_3;
-                        }
-                        if (!Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::down_2) && !gMap_0x370_6F6268->sub_4E0110())
-                        {
-                            bUnk_1 = false;
-                            gCharB4_PathDirection_623F44 = path_direction::down_2;
-                        }
-                        field_45_slope_gradient_direction = old_f45;
-                        return bUnk_1;
-                    }
-
-                } // must be else of y = -1
-            }
-
-        } //if (x_diff) // line 161, must jump to 9c2: different else block
-        else
-        {
-            // 9c2
-            // cl = x_diff
-            // al = y_diff
-            if (x_diff)
-            {
-                if (x_diff == -1)
-                {
-                    return Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::left_4);
                 }
-                else
-                {
-                    return Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::right_3);
-                }
+                field_45_slope_gradient_direction = old_f45;
             }
             else
             {
-                // line a08
-                return Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::down_2);
-            }
-        }
+                field_80_sprite_ptr->field_14_xy.x.subtract_one_491F00();
+                if (field_58_flags & 1)
+                {
+                    field_80_sprite_ptr->field_1C_zpos =
+                        gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y);
+                }
+                if (field_80_sprite_ptr->field_1C_zpos == kFP16Zero_6FD9E4)
+                {
+                    field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
+                }
+                if (!CanStepForwardWithRegionCheck_54ECB0(path_direction::down_2) && !gMap_0x370_6F6268->sub_4E0110())
+                {
+                    gCharB4_PathDirection_623F44 = path_direction::down_2;
+                    bCanStep = false;
+                }
+                field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
+                field_80_sprite_ptr->field_14_xy.y.add_one_491EF0();
+                if (field_58_flags & 1)
+                {
+                    field_80_sprite_ptr->field_1C_zpos =
+                        gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y);
+                }
+                if (field_80_sprite_ptr->field_1C_zpos == kFP16Zero_6FD9E4)
+                {
+                    field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
+                }
+                if (!CanStepForwardWithRegionCheck_54ECB0(path_direction::left_4) && !gMap_0x370_6F6268->sub_4E0110())
+                {
+                    gCharB4_PathDirection_623F44 = path_direction::left_4;
+                    bCanStep = false;
+                }
+                field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
+                field_80_sprite_ptr->field_14_xy.y = sprite_ypos;
+                field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
 
-    } //if (y_diff) // line 159, must jump to 9f1: else block
-    else
-    {
-    // 9f1
-    LABEL_9F1:
-        if (y_diff == -1)
-        {
-            return Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::up_1);
+                if (!bCanStep)
+                {
+                    gCharB4_StepXpos_6FD8B8 = gCharB4_Saved_Xpos_6FD7F8;
+                    gCharB4_StepYpos_6FD8BC = gCharB4_Saved_Ypos_6FD800;
+                    if (!CanStepForwardWithRegionCheck_54ECB0(path_direction::left_4) && !gMap_0x370_6F6268->sub_4E0110())
+                    {
+                        gCharB4_PathDirection_623F44 = path_direction::left_4;
+                    }
+                    else
+                    {
+                        gCharB4_PathDirection_623F44 = path_direction::down_2;
+                        bCanStep = true;
+                        if (!CanStepForwardWithRegionCheck_54ECB0(path_direction::down_2) && !gMap_0x370_6F6268->sub_4E0110())
+                        {
+                            bCanStep = false;
+                        }
+                        else
+                        {
+                            gCharB4_PathDirection_623F44 = path_direction::left_4;
+                        }
+                    }
+                }
+                else
+                {
+                    if (!CanStepForwardWithRegionCheck_54ECB0(path_direction::left_4) && !gMap_0x370_6F6268->sub_4E0110())
+                    {
+                        bCanStep = false;
+                        gCharB4_PathDirection_623F44 = path_direction::left_4;
+                    }
+                    if (!CanStepForwardWithRegionCheck_54ECB0(path_direction::down_2) && !gMap_0x370_6F6268->sub_4E0110())
+                    {
+                        bCanStep = false;
+                        gCharB4_PathDirection_623F44 = path_direction::down_2;
+                    }
+                }
+                field_45_slope_gradient_direction = old_f45;
+            }
         }
         else
         {
-            return Char_B4::CanStepForwardWithRegionCheck_54ECB0(path_direction::down_2);
+            bCanStep = true;
+            if (y_diff == -1)
+            {
+                field_80_sprite_ptr->field_14_xy.x.add_one_491EF0();
+                if (field_58_flags & 1)
+                {
+                    field_80_sprite_ptr->field_1C_zpos =
+                        gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y);
+                }
+                if (field_80_sprite_ptr->field_1C_zpos == kFP16Zero_6FD9E4)
+                {
+                    field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
+                }
+                if (!CanStepForwardWithRegionCheck_54ECB0(path_direction::up_1) && !gMap_0x370_6F6268->sub_4E0110())
+                {
+                    gCharB4_PathDirection_623F44 = path_direction::up_1;
+                    bCanStep = false;
+                }
+                field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
+                field_80_sprite_ptr->field_14_xy.y.subtract_one_491F00();
+                if (field_58_flags & 1)
+                {
+                    field_80_sprite_ptr->field_1C_zpos =
+                        gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y);
+                }
+                if (field_80_sprite_ptr->field_1C_zpos == kFP16Zero_6FD9E4)
+                {
+                    field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
+                }
+                if (!CanStepForwardWithRegionCheck_54ECB0(path_direction::right_3) && !gMap_0x370_6F6268->sub_4E0110())
+                {
+                    gCharB4_PathDirection_623F44 = path_direction::right_3;
+                    bCanStep = false;
+                }
+                field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
+                field_80_sprite_ptr->field_14_xy.y = sprite_ypos;
+                field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
+
+                if (!bCanStep)
+                {
+                    gCharB4_StepXpos_6FD8B8 = gCharB4_Saved_Xpos_6FD7F8;
+                    gCharB4_StepYpos_6FD8BC = gCharB4_Saved_Ypos_6FD800;
+                    if (!CanStepForwardWithRegionCheck_54ECB0(path_direction::right_3) && !gMap_0x370_6F6268->sub_4E0110())
+                    {
+                        gCharB4_PathDirection_623F44 = path_direction::right_3;
+                    }
+                    else
+                    {
+                        gCharB4_PathDirection_623F44 = path_direction::up_1;
+                        bCanStep = true;
+                        if (!CanStepForwardWithRegionCheck_54ECB0(path_direction::up_1) && !gMap_0x370_6F6268->sub_4E0110())
+                        {
+                            bCanStep = false;
+                        }
+                        else
+                        {
+                            gCharB4_PathDirection_623F44 = path_direction::right_3;
+                        }
+                    }
+                }
+                else
+                {
+                    if (!CanStepForwardWithRegionCheck_54ECB0(path_direction::right_3) && !gMap_0x370_6F6268->sub_4E0110())
+                    {
+                        bCanStep = false;
+                        gCharB4_PathDirection_623F44 = path_direction::right_3;
+                    }
+                    if (!CanStepForwardWithRegionCheck_54ECB0(path_direction::up_1) && !gMap_0x370_6F6268->sub_4E0110())
+                    {
+                        gCharB4_PathDirection_623F44 = path_direction::up_1;
+                        bCanStep = false;
+                    }
+                }
+                field_45_slope_gradient_direction = old_f45;
+            }
+            else
+            {
+                field_80_sprite_ptr->field_14_xy.x.add_one_491EF0();
+                if (field_58_flags & 1)
+                {
+                    field_80_sprite_ptr->field_1C_zpos =
+                        gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y);
+                }
+                if (field_80_sprite_ptr->field_1C_zpos == kFP16Zero_6FD9E4)
+                {
+                    field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
+                }
+                if (!CanStepForwardWithRegionCheck_54ECB0(path_direction::down_2) && !gMap_0x370_6F6268->sub_4E0110())
+                {
+                    gCharB4_PathDirection_623F44 = path_direction::down_2;
+                    bCanStep = false;
+                }
+                field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
+                field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
+                field_80_sprite_ptr->field_14_xy.y.add_one_491EF0();
+                field_80_sprite_ptr->field_1C_zpos =
+                    gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y);
+                if (field_80_sprite_ptr->field_1C_zpos == kFP16Zero_6FD9E4)
+                {
+                    field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
+                }
+                if (!CanStepForwardWithRegionCheck_54ECB0(path_direction::right_3) && !gMap_0x370_6F6268->sub_4E0110())
+                {
+                    gCharB4_PathDirection_623F44 = path_direction::right_3;
+                    bCanStep = false;
+                }
+                field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
+                field_80_sprite_ptr->field_14_xy.y = sprite_ypos;
+                field_80_sprite_ptr->field_1C_zpos = sprite_zpos;
+
+                if (!bCanStep)
+                {
+                    gCharB4_StepXpos_6FD8B8 = gCharB4_Saved_Xpos_6FD7F8;
+                    gCharB4_StepYpos_6FD8BC = gCharB4_Saved_Ypos_6FD800;
+                    if (!CanStepForwardWithRegionCheck_54ECB0(path_direction::right_3) && !gMap_0x370_6F6268->sub_4E0110())
+                    {
+                        gCharB4_PathDirection_623F44 = path_direction::right_3;
+                    }
+                    else
+                    {
+                        gCharB4_PathDirection_623F44 = path_direction::down_2;
+                        bCanStep = true;
+                        if (!CanStepForwardWithRegionCheck_54ECB0(path_direction::down_2) && !gMap_0x370_6F6268->sub_4E0110())
+                        {
+                            bCanStep = false;
+                        }
+                        else
+                        {
+                            gCharB4_PathDirection_623F44 = path_direction::right_3;
+                        }
+                    }
+                }
+                else
+                {
+                    if (!CanStepForwardWithRegionCheck_54ECB0(path_direction::right_3) && !gMap_0x370_6F6268->sub_4E0110())
+                    {
+                        bCanStep = false;
+                        gCharB4_PathDirection_623F44 = path_direction::right_3;
+                    }
+                    if (!CanStepForwardWithRegionCheck_54ECB0(path_direction::down_2) && !gMap_0x370_6F6268->sub_4E0110())
+                    {
+                        bCanStep = false;
+                        gCharB4_PathDirection_623F44 = path_direction::down_2;
+                    }
+                }
+                field_45_slope_gradient_direction = old_f45;
+            }
         }
+        return bCanStep;
     }
+
+    // Straight step along one axis
+    if (x_diff != 0)
+    {
+        if (x_diff == -1)
+        {
+            return CanStepForwardWithRegionCheck_54ECB0(path_direction::left_4);
+        }
+        return CanStepForwardWithRegionCheck_54ECB0(path_direction::right_3);
+    }
+    if (y_diff == -1)
+    {
+        return CanStepForwardWithRegionCheck_54ECB0(path_direction::up_1);
+    }
+    return CanStepForwardWithRegionCheck_54ECB0(path_direction::down_2);
 }
 
 // https://decomp.me/scratch/xc0PO
