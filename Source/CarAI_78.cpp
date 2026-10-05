@@ -1629,13 +1629,12 @@ void CarAI_78::sub_44A1F0()
     Fix16 vec_x;
     Fix16 vec_y;
 
-    field_24_flags &= ~0x2000u;
     vec_y = kF16Zero_677B90;
+    field_24_flags &= ~0x2000u;
 
-    s32 v34 = field_0_car->field_50_car_sprite->field_1C_zpos.ToInt();
-    Ang16 v39 = v3;
+    Ang16 v39 = v2;
 
-    gmp_block_info* block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(dword_677A74.ToInt(), dword_677A80.ToInt(), v34);
+    gmp_block_info* block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(dword_677A74.ToInt(), dword_677A80.ToInt(), field_0_car->field_50_car_sprite->field_1C_zpos.ToInt());
     if (!block_4DFE10 || (block_4DFE10->field_B_slope_type & 0xFC) <= 0 || (block_4DFE10->field_B_slope_type & 0xFCu) >= 0xB4 ||
         (block_4DFE10->field_B_slope_type & 3) == 0)
     {
@@ -1644,26 +1643,15 @@ void CarAI_78::sub_44A1F0()
                                                            (field_0_car->field_50_car_sprite->field_1C_zpos.ToInt()) - 1);
     }
 
-    s32 road_direction;
-    if (block_4DFE10)
+    s32 road_direction = block_4DFE10 ? gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(block_4DFE10, 1) : 0;
+    if (road_direction && field_3C)
     {
-        road_direction = gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(block_4DFE10, 1);
-        if (road_direction)
+        field_3C = 0;
+        field_24_flags &= ~0xC0;
+        if (byte_677BBC)
         {
-            if (field_3C)
-            {
-                field_3C = 0;
-                field_24_flags &= ~0xC0;
-                if (byte_677BBC)
-                {
-                    field_0_car->field_60->field_22 = 1;
-                }
-            }
+            field_0_car->field_60->field_22 = 1;
         }
-    }
-    else
-    {
-        road_direction = 0;
     }
 
     field_24_flags &= ~0x400;
@@ -1683,9 +1671,9 @@ void CarAI_78::sub_44A1F0()
 
                         if (v12 <= dword_6779C8) // 9.6f idb line 131
                         {
-                            if (v3 > Ang16(v39.rValue - dword_677A08.rValue, 0)) // 9.6f idb line 134
+                            if (v3 > Ang16(v39.rValue - dword_677A08.rValue).Normalized_406C20()) // 9.6f idb line 134
                             {
-                                if (v3 < Ang16(v2.rValue - word_677CE2.rValue, 0))
+                                if (v3 < Ang16(v2.rValue - word_677CE2.rValue).Normalized_406C20())
                                 {
                                     field_0_car->field_58_physics->SetGoStraight_42ABB0();
                                 }
@@ -1700,9 +1688,9 @@ void CarAI_78::sub_44A1F0()
                             }
                         }
                         // 9.6f idb line 139
-                        else if (v3 < Ang16(v39.rValue + dword_677A08.rValue, 0))
+                        else if (v3 < Ang16(dword_677A08.rValue + v39.rValue).Normalized_406C20())
                         {
-                            if (v3 > Ang16(v2.rValue + word_677CE2.rValue, 0))
+                            if (v3 > Ang16(v2.rValue + word_677CE2.rValue).Normalized_406C20())
                             {
                                 field_0_car->field_58_physics->SetGoStraight_42ABB0();
                             }
@@ -1837,7 +1825,11 @@ void CarAI_78::sub_44A1F0()
                 {
                     Fix16 v17 = field_0_car->field_50_car_sprite->field_14_xy.y -
                         Fix16((field_0_car->field_50_car_sprite->field_14_xy.y.ToUInt8()));
-                    if (v17 <= dword_6779C8 || v17 >= dword_6779D0)
+                    if (v17 > dword_6779C8 && v17 < dword_6779D0)
+                    {
+                        field_0_car->field_58_physics->SetGoStraight_42ABB0();
+                    }
+                    else
                     {
                         field_24_flags &= 0xFFFEDFFF;
 
@@ -1881,10 +1873,6 @@ void CarAI_78::sub_44A1F0()
                                 field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
                             }
                         }
-                    }
-                    else
-                    {
-                        field_0_car->field_58_physics->SetGoStraight_42ABB0();
                     }
                     return;
                 }
@@ -1951,6 +1939,7 @@ void CarAI_78::sub_44A1F0()
             field_24_flags |= 8;
             if (!field_3C)
             {
+                field_3C = 1;
                 for (u8 k = 0; k < 4; k++)
                 {
                     Fix16 xpos = dword_677A74;
@@ -2000,6 +1989,7 @@ void CarAI_78::sub_44A1F0()
                                 field_50 = 3;
                                 break;
                         }
+                        return;
                     }
                 } // end for loop
             }
@@ -4433,16 +4423,18 @@ void CarAI_78::sub_452060()
     //f10 *= 4;
 
 
-    Fix16 v7 = v1 + kFpThreeQuarters_677A4C;
     Fix16 v9;
     Fix16 v10;
-    v9 = Ang16::sine_40F500(this->field_10_angle) * v7;
-    v10 = Ang16::cosine_40F520(this->field_10_angle).Multiply_408680(v7);
+    {
+        Fix16 v7 = v1 + kFpThreeQuarters_677A4C;
+        v9 = Ang16::sine_40F500(this->field_10_angle) * v7;
+        v10 = Ang16::cosine_40F520(this->field_10_angle).Multiply_408680(v7);
 
-    Fix16 new_x = v9 + field_0_car->field_50_car_sprite->field_14_xy.x;
-    Fix16 new_y = v10 + field_0_car->field_50_car_sprite->field_14_xy.y;
+        Fix16 new_x = v9 + field_0_car->field_50_car_sprite->field_14_xy.x;
+        Fix16 new_y = v10 + field_0_car->field_50_car_sprite->field_14_xy.y;
 
-    field_0_car->field_50_car_sprite->set_xyz_lazy_420600(new_x, new_y, new_z);
+        field_0_car->field_50_car_sprite->set_xyz_lazy_420600(new_x, new_y, new_z);
+    }
 
     byte_6771DC = 1;
 

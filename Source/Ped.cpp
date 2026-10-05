@@ -3089,7 +3089,7 @@ void Ped::TaxiCustomer_AI_460820()
                     dy_ = Fix16::Abs(dy_);
 
                     // TODO: Might be Min()?
-                    if (!(Fix16::Max(dx_, dy_) > kFpTwo_678658 || (this->field_21C & 0x20000) != 0))
+                    if (!(kFpTwo_678658 < Fix16::Max(dx_, dy_) || (this->field_21C & 0x20000) != 0))
                     {
                         pTargetObjCar__ = this->field_150_target_objective_car;
                         if (pTargetObjCar__->field_4_passengers_list.IsEmpty_420EA0())
@@ -3099,14 +3099,9 @@ void Ped::TaxiCustomer_AI_460820()
                                 break;
                             }
                         }
-                        pTargetObjCar__->sub_43AF40();
-                        SetObjective(objectives_enum::no_obj_0, 9999);
                     }
-                    else
-                    {
-                        this->field_150_target_objective_car->sub_43AF40();
-                        SetObjective(objectives_enum::no_obj_0, 9999);
-                    }
+                    this->field_150_target_objective_car->sub_43AF40();
+                    SetObjective(objectives_enum::no_obj_0, 9999);
                     SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                     this->set_occupation_403970(ped_ocupation_enum::dummy);
                     this->SetField238_403920(ped_type::dummy_3);
