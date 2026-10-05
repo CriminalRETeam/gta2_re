@@ -1,3 +1,5 @@
+// GetLength_41E260 compares against this TU's zero
+#define FIX16_POINT_ZERO kFpZero_6F8E10
 #include "Object_3C.hpp"
 #include "Car_BC.hpp"
 #include "char.hpp"
@@ -50,23 +52,6 @@ Fix16_Point Object_3C::GetSpeedVector_52ADF0()
     return p;
 }
 
-// GetLength_41E260 with the out-of-line Negate/Abs/Multiply/SquareRoot
-static inline Fix16 GetLength_41E260_out_of_line(Fix16_Point& p)
-{
-    if (p.x == kFpZero_6F8E10)
-    {
-        return Fix16::Abs_negate_out_of_line(p.y);
-    }
-    else if (p.y == kFpZero_6F8E10)
-    {
-        return Fix16::Abs_436A50(p.x);
-    }
-    else
-    {
-        return Fix16::SquareRoot_436A70(p.x.Multiply_408680(p.x).Add_408660(p.y.Multiply_408680(p.y)));
-    }
-}
-
 // 10.5 https://decomp.me/scratch/kj3y3
 // 9.6f 0x482D90
 MATCH_FUNC(0x521FD0)
@@ -81,9 +66,9 @@ void Object_3C::GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle)
         UnpackSignedNibbles_529050(field_38_conveyor_speed, &x_related, &y_related);
         unk.x = dword_6F8ECC * x_related;
         unk.y = dword_6F8ECC * y_related;
-        point = unk + GetSpeedVector_52ADF0();
+        point = unk + GetSpeedVector_482BA0();
 
-        Speed = GetLength_41E260_out_of_line(point);
+        Speed = point.GetLength_41E260();
         Angle = point.atan2_40F790();
         ClearF38_482BD0();
     }

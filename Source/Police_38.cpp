@@ -1630,19 +1630,13 @@ void PoliceCrew_38::sub_575310()
     byte_6FEB48 = 1;
     gCurrentCrewPed_6FEDDC->set_objective_target_ped_403AC0(field_14_pService->field_0_criminal_ped);
 
-    Ped* pCriminal = field_14_pService->field_0_criminal_ped;
-    // Each branch reads the positions itself (in 9.6f's MaxAbsDistance_42A6B0 argument order);
-    // VC6 hoists the common loads above the branch.
-    if (pCriminal->field_168_game_object)
+    if (field_14_pService->field_0_criminal_ped->field_168_game_object)
     {
-        Fix16 criminal_y = pCriminal->get_cam_y();
-        Fix16 criminal_x = pCriminal->get_cam_x();
-        Fix16 player_y = gCurrentCrewPed_6FEDDC->get_cam_y();
-        Fix16 player_x = gCurrentCrewPed_6FEDDC->get_cam_x();
-        Fix16 dx = criminal_x - player_x;
-        Fix16 dy = criminal_y - player_y;
         Fix16 dist;
-        dist = Fix16::Max_44E540(Fix16::Abs_436A50(dx), Fix16::Abs_436A50(dy));
+        dist = Fix16::MaxAbsDistance_42A6B0(gCurrentCrewPed_6FEDDC->get_cam_x(),
+                                            gCurrentCrewPed_6FEDDC->get_cam_y(),
+                                            field_14_pService->field_0_criminal_ped->get_cam_x(),
+                                            field_14_pService->field_0_criminal_ped->get_cam_y());
         if (dist < dword_6FECF0 + dword_6FEBF4)
         {
             gCurrentCrewPed_6FEDDC->SetObjective(27, 9999);
@@ -1659,14 +1653,11 @@ void PoliceCrew_38::sub_575310()
     }
     else
     {
-        Fix16 criminal_y = pCriminal->get_cam_y();
-        Fix16 criminal_x = pCriminal->get_cam_x();
-        Fix16 player_y = gCurrentCrewPed_6FEDDC->get_cam_y();
-        Fix16 player_x = gCurrentCrewPed_6FEDDC->get_cam_x();
-        Fix16 dx = criminal_x - player_x;
-        Fix16 dy = criminal_y - player_y;
         Fix16 dist;
-        dist = Fix16::Max_44E540(Fix16::Abs_negate_out_of_line(dx), Fix16::Abs_negate_out_of_line(dy));
+        dist = Fix16::MaxAbsDistance_42A6B0(gCurrentCrewPed_6FEDDC->get_cam_x(),
+                                            gCurrentCrewPed_6FEDDC->get_cam_y(),
+                                            field_14_pService->field_0_criminal_ped->get_cam_x(),
+                                            field_14_pService->field_0_criminal_ped->get_cam_y());
 
         Car_BC* pCar = field_10_subObj->field_0_car;
         Hamburger_40* pHamburger = pCar->field_60;

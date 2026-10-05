@@ -1,3 +1,4 @@
+#define FIX16_POINT_ZERO kZero_676818
 #include "Camera.hpp"
 #include "Car_BC.hpp"
 #include "CarPhysics_B0.hpp"
@@ -621,30 +622,6 @@ void Camera_0xBC::SetScreenSize_4361B0(u32 x_pos, u32 y_pos)
     field_A8_ui_scale = Fix16(x_pos) / 640;
 }
 
-// FromPolar_41E210 with the out of line multiply
-static inline void FromPolar_408680(Fix16_Point& p, const Fix16& radius, const Ang16& angle)
-{
-    p.x = radius.Multiply_408680(Ang16::sine_40F500(angle));
-    p.y = radius.Multiply_408680(Ang16::cosine_40F520(angle));
-}
-
-// Fix16_Point length with the out of line Fix16 helpers, compared against this TU's kZero_676818
-static inline Fix16 GetLength_676818(Fix16_Point& p)
-{
-    if (p.x.mValue == kZero_676818.mValue)
-    {
-        return Fix16::Abs_436A50(p.y);
-    }
-    else if (p.y.mValue == kZero_676818.mValue)
-    {
-        return Fix16::Abs_436A50(p.x);
-    }
-    else
-    {
-        return Fix16::SquareRoot_436A70(p.x.Multiply_408680(p.x).Add_408660(p.y.Multiply_408680(p.y)));
-    }
-}
-
 WIP_FUNC(0x436200)
 void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, Fix16* pY, Fix16* pZ)
 {
@@ -652,9 +629,10 @@ void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, F
 
     // v25 at function scope: it gets its own slot instead of the dead pZ parameter slot
     Fix16 v25;
+    // ret before the points: one site less after their ctors, which keeps both inline (inline budget)
+    Fix16 ret;
     Fix16_Point v10;
     Fix16_Point offset;
-    Fix16 ret;
 
     if (pCar->IsTrainModel_403BA0())
     {
@@ -664,7 +642,7 @@ void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, F
     {
         v10 = (pCar->get_linvel_43A450() * dword_67696C);
 
-        ret = GetLength_676818(v10);
+        ret = v10.GetLength_41E260();
     }
 
     if (ret.mValue > dword_67674C.mValue)
@@ -713,9 +691,9 @@ void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, F
             }
             v25 = v17 * (*pZ - pCar->field_50_car_sprite->field_1C_zpos + Fix16(8)) / field_60.y;
 
-            FromPolar_408680(offset, v25, v16);
-            pX->mValue += offset.x.mValue;
-            pY->mValue += offset.y.mValue;
+            offset.FromPolar_41E210(v25, v16);
+            *pX += offset.x;
+            *pY += offset.y;
         }
     }
 }

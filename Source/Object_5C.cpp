@@ -1,3 +1,5 @@
+// GetLength_41E260 compares against this TU's zero
+#define FIX16_POINT_ZERO kFpZero_6F8E10
 #include "Object_5C.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
@@ -337,49 +339,14 @@ char_type Object_2C::SelectCollisionSprite_522460(Sprite* a2)
     return 1;
 }
 
-// Fix16_Point::GetLength_41E260 as inlined here: this TU's zero constant, out of line
-// Negate for y and SquareRoot_436A70
-static inline Fix16 GetLength_528130(Fix16_Point& p)
-{
-    if (p.x == kFpZero_6F8E10)
-    {
-        return Fix16::Abs_negate_out_of_line(p.y);
-    }
-    else if (p.y == kFpZero_6F8E10)
-    {
-        return Fix16::Abs(p.x);
-    }
-    else
-    {
-        return Fix16::SquareRoot_436A70(p.x * p.x + p.y * p.y);
-    }
-}
-
-// Same, with out of line Negate for both and the out of line Multiply/Add for the sum
-static inline Fix16 GetLength_5224E0(Fix16_Point& p)
-{
-    if (p.x == kFpZero_6F8E10)
-    {
-        return Fix16::Abs_negate_out_of_line(p.y);
-    }
-    else if (p.y == kFpZero_6F8E10)
-    {
-        return Fix16::Abs_negate_out_of_line(p.x);
-    }
-    else
-    {
-        return Fix16::SquareRoot_436A70(p.x.Multiply_408680(p.x).Add_408660(p.y * p.y));
-    }
-}
-
 MATCH_FUNC(0x5224e0)
 void Object_2C::SetMovementVector_5224E0(Fix16_Point& speed)
 {
     Fix16_Point v5;
     if (field_10_obj_3c)
     {
-        v5 = (GetSpeedVector_52AE90() + speed);
-        this->field_10_obj_3c->field_C_speed = GetLength_5224E0(v5);
+        v5 = GetSpeedVector_482C50() + speed;
+        this->field_10_obj_3c->field_C_speed = v5.GetLength_41E260();
         this->field_10_obj_3c->field_4_angle = v5.atan2_40F790();
         this->field_10_obj_3c->field_18_friction = this->field_8->field_14_friction;
     }
@@ -2078,12 +2045,8 @@ void Object_2C::NewObj3C_528130(Fix16_Point& speed)
     this->field_10_obj_3c = pNewObj;
     pNewObj->field_20_obj2c_id = field_14_id;
 
-    this->field_10_obj_3c->field_C_speed = GetLength_528130(speed);
-    // Own block so angle shares the dead speed parameter slot with GetLength's sum temporary
-    {
-        Ang16 angle = Fix16::atan2_fixed_405320(speed.y, speed.x);
-        this->field_10_obj_3c->field_4_angle = angle;
-    }
+    this->field_10_obj_3c->field_C_speed = speed.GetLength_41E260();
+    this->field_10_obj_3c->field_4_angle = speed.atan2_40F790();
 }
 
 MATCH_FUNC(0x528240)

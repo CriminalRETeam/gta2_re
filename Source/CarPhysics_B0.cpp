@@ -2901,13 +2901,6 @@ Fix16_Point CarPhysics_B0::GetPointVelocity_561350(Fix16_Point* a3)
     return ComputeRelativePointVelocity_561130(a3);
 }
 
-// Ang16 operator+ with the normalizing ctor called out of line (AssignNormalized_409300)
-static inline Ang16 AddAngles_ool_561380(const Ang16& a, const Ang16& b)
-{
-    s16 sum = a.rValue + b.rValue;
-    return Ang16(&sum, 0);
-}
-
 MATCH_FUNC(0x561380)
 Fix16_Point CarPhysics_B0::ComputePointVelocity_561380(Fix16_Point& point)
 {
@@ -2919,7 +2912,7 @@ Fix16_Point CarPhysics_B0::ComputePointVelocity_561380(Fix16_Point& point)
 
     {
         Fix16_Point local_pos;
-        local_pos = point.SubInl_40AC80(gCarInfo_2C_6FE0E4->field_C_center_of_mass_offset);
+        local_pos = point - gCarInfo_2C_6FE0E4->field_C_center_of_mass_offset;
 
         old_pos = local_pos;
         old_pos.RotateByAngle_40F6B0(field_58_theta);
@@ -2927,15 +2920,13 @@ Fix16_Point CarPhysics_B0::ComputePointVelocity_561380(Fix16_Point& point)
 
         new_pos = local_pos;
         // The angle sum and the Fix16_To_Ang16 result are temporaries: they share slots with the
-        // first rotation's sin/cos (cos sits in the dead `point` parameter slot)
-        new_pos.RotateByAngle_40F6B0(
-            AddAngles_ool_561380(field_58_theta, Ang16::Fix16_To_Ang16_ool_40F540(field_74_ang_vel_rad)));
+        // first rotation's sin/cos (cos sits in the dead `point` parameter slot). Past the inline
+        // budget both normalizing Ang16 ctors are called out of line (0x409300).
+        new_pos.RotateByAngle_40F6B0(field_58_theta + Ang16::Fix16_To_Ang16_40F540(field_74_ang_vel_rad));
     }
 
-    // operator+ 0x40AC50 called out of line as the nothrow AddInl_40AC50: no EH state store for the
-    // end of local_pos's scope
-    new_pos += field_30_cm1.AddInl_40AC50(field_40_linvel_1);
-    return new_pos.SubInl_40AC80(old_pos);
+    new_pos += field_30_cm1 + field_40_linvel_1;
+    return new_pos - old_pos;
 }
 
 // https://decomp.me/scratch/5Hj13

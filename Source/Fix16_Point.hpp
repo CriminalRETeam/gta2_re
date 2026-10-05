@@ -19,6 +19,7 @@ EXTERN_GLOBAL(Fix16, kFpZero_6F610C);
 EXTERN_GLOBAL(Fix16, kF16Zero_677B90);
 EXTERN_GLOBAL(Fix16, dword_706EB8);
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FD9E4);
+EXTERN_GLOBAL(Fix16, kZero_676818);
 
 // TODO: Some functions like Camera_0xBC::sub_435A70 won't match unless this is a POD
 // but 9.6f leads me to believe both the POD and non-POD type are the same
@@ -330,13 +331,6 @@ class Fix16_Point : public Fix16_Point_POD
     inline Fix16_Point AddInl_40AC50(const Fix16_Point_POD& in) throw()
     {
         return Fix16_Point(x + in.x, y + in.y);
-    }
-
-    // operator- 0x40AC80 as a nothrow inline that VC6 calls out of line, like AddInl_40AC50
-    // (CarPhysics_B0::ComputePointVelocity_561380)
-    inline Fix16_Point SubInl_40AC80(const Fix16_Point& rhs) throw()
-    {
-        return *this - rhs;
     }
 
     // Out of line unary minus (Object_2C::ResolveCollisionWithPed_5229B0)

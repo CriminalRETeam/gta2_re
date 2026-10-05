@@ -7087,10 +7087,8 @@ Ped* Ped::FindNearbyPed_466FB0()
                                                                                    0);
     if (pNearest)
     {
-        Fix16 xd = pNearest->field_14_xy.x - field_1AC_cam.x;
-        Fix16 abs_yd = Fix16::Abs(pNearest->field_14_xy.y - field_1AC_cam.y);
-        Fix16 abs_xd = Fix16::Abs_negate_out_of_line(xd);
-        if (Fix16::Max_44E540(abs_xd, abs_yd) < kFpQuarter_678788)
+        if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, pNearest->field_14_xy.x, pNearest->field_14_xy.y) <
+            kFpQuarter_678788)
         {
             // @OG_BUG: Null de-ref
             return pNearest->AsCharB4_40FEA0()->field_7C_pPed;
@@ -12153,7 +12151,7 @@ MATCH_FUNC(0x46fe20)
 void Ped::ProcessWeaponHitResponse_46FE20(Object_2C* pObj)
 {
     Weapon_30* pWeapon;
-    Fix16 xd;
+    Fix16 dist;
     if ((field_21C & 0x2000) != 0)
     {
         pWeapon = field_174_pWeapon;
@@ -12165,26 +12163,19 @@ void Ped::ProcessWeaponHitResponse_46FE20(Object_2C* pObj)
 
     if (pWeapon && !Ped::IsField238_45EDE0(2))
     {
-        // NOTE: the raw y load is needed for OG's y-before-x load order
-        Fix16 yd;
-        s32 raw_y = pObj->field_4->field_14_xy.y.mValue;
-        xd = pObj->get_x_4340D0() - field_1AC_cam.x;
-        yd.mValue = raw_y - field_1AC_cam.y.mValue;
-        Fix16 abs_yd = Fix16::Abs_negate_out_of_line(yd);
-
-        s32 xd_yd_abs = Fix16::Max_44E540(Fix16::Abs_436A50(xd), abs_yd).mValue;
+        dist = Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, pObj->get_x_4340D0(), pObj->get_y_4340E0());
 
         if (pObj == field_1A4_internal_target_object)
         {
-            pWeapon->field_4 = 0;
+            pWeapon->Set_F4_433810(0);
         }
-        else if (xd_yd_abs < kFpTwo_678658.mValue)
+        else if (dist < kFpTwo_678658)
         {
-            pWeapon->field_4 = 1;
+            pWeapon->Set_F4_433810(1);
         }
         else if (!pWeapon->IsExplosiveWeapon_5E3BD0())
         {
-            pWeapon->field_4 = 0;
+            pWeapon->Set_F4_433810(0);
         }
     }
 }

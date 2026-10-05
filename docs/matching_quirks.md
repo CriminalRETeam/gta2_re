@@ -1432,6 +1432,22 @@ thread repeated register tests, which can move a case to the end of the function
   `AssignNormalized_409300`/`Normalize_406C20` for the same original callee (see
   `Ang16::Fix16_To_Ang16_ool_40F540`). `Ang16(x, 0)` falls back to the unnamed Normalize copy the same
   way (`fire_truck_gun_5E0E70`).
+- **An inline returning a `Fix16_Point` is charged but never expanded.** `Fix16_Point` has a destructor,
+  so VC6 accepts such an inline (the log shows INLINE, size charged, no nested walk) and then calls its
+  out-of-line copy. Many "exported" `Fix16_Point` getters are those copies of 9.6f inlines: writing the
+  9.6f inline (`Object_2C::GetSpeedVector_482C50`, copy 0x52AE90; `Object_3C::GetSpeedVector_482BA0`,
+  copy 0x52ADF0) in place of the export call adds its size to the caller's charge, which is what let the
+  plain `GetLength_41E260` reproduce the original's half out-of-line expansions in
+  `Object_2C::SetMovementVector_5224E0` and `Object_3C::GetMovementSpeedAndAngle_521FD0`. The same
+  applies to `Fix16_Point::operator+`/`-` (0x40AC50/0x40AC80): an explicit `Add_40AC50(...)` call is not
+  charged, the operator is (81).
+- **`MultiplyByFix16_401CB0` explains the miss2 `Normalize_406C20` calls (almost).** The script
+  rotations (`miss2_0x11C::SCRCMD_OBJ_DECSET_5038D0` and siblings) are 9.6f's
+  `kDegreesToAng16_6F8044.MultiplyByFix16_401CB0(Fix16((u16)rot))`: its normalizing ctor is two levels
+  down, so Normalize goes out of line in the bigger functions. It matches 503680, 503A20, 503FB0 and
+  504420, but 5038D0, 503BC0 and 5041C0 then need about 5 more units for the ctor (simulated: the
+  helper would have to be a free site, size <= 40), so they keep `ConvertAndMultiply` + explicit
+  `Normalize_406C20` for now.
 - **Packed `Ang16` temp slots in compares** (two 2-byte temporaries in one dword) come from
   `Ang16(a.rValue - b.rValue).Normalized_406C20()` inline, not a by-value helper (`CarAI_78` 44A1F0, 452060).
 - **The last MaxAbsDistance variants were missing 9.6f helper calls, not a different inline.**

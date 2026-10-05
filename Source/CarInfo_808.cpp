@@ -562,12 +562,10 @@ EXPORT Fix16 __stdcall ComputeCarMassAndInertia_454410(Fix16 width, Fix16 height
     *outCgHeight = (((heightXConstant * frontMass) + (negHeightXConstant * rearMass)) / mass);
 
     Fix16 frontTotal;
-    // The tail calls the out-of-line operator exports, except the two front subtractions
-    frontTotal = frontI.Add_408660(frontMass.Multiply_408680(*outCgHeight - heightXConstant).Multiply_408680(*outCgHeight - heightXConstant));
+    frontTotal = frontI + frontMass * (*outCgHeight - heightXConstant) * (*outCgHeight - heightXConstant);
     Fix16 rearTotal;
-    rearTotal = rearI.Add_408660(rearMass.Multiply_408680(outCgHeight->Subtract_436A00(negHeightXConstant))
-                                     .Multiply_408680(outCgHeight->Subtract_436A00(negHeightXConstant)));
-    return frontTotal.Add_408660(rearTotal);
+    rearTotal = rearI + rearMass * (*outCgHeight - negHeightXConstant) * (*outCgHeight - negHeightXConstant);
+    return frontTotal + rearTotal;
 }
 
 MATCH_FUNC(0x5618F0)
