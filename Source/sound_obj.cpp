@@ -6199,11 +6199,9 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
     }
 }
 
-WIP_FUNC(0x422B70)
+MATCH_FUNC(0x422B70)
 void sound_obj::ProcessPed_422B70(Sound_Params_8* pType3Entity)
 {
-    WIP_IMPLEMENTED;
-
     u32 animation_state;
     char_type animation_frame;
     s32 v6;
@@ -6212,16 +6210,12 @@ void sound_obj::ProcessPed_422B70(Sound_Params_8* pType3Entity)
     s32 playback_rate;
     s32 base_rate;
     s32 f_B0;
-    u32 rnd_samp;
-    s32 v15;
     s32 samp_idx_;
     s32 releasingMod_;
     Fix16 f_54;
     Fix16 v19;
     Fix16 zpos;
     s32 rate;
-    s32 samp_idx;
-    char_type v24;
     u8 vol;
     s32 max_dist;
     Char_B4* pB4;
@@ -6235,7 +6229,7 @@ void sound_obj::ProcessPed_422B70(Sound_Params_8* pType3Entity)
             if (animation_state == 4 || animation_state == 1 || animation_state == 0)
             {
                 animation_frame = pB4->field_68_animation_frame;
-                if ((animation_frame == 1 || animation_frame == 5) && (((u8)pB4 + (this->field_5448_m_FrameCounter & 0xFF)) & 1) != 0)
+                if ((animation_frame == 1 || animation_frame == 5) && (((s32)pB4 + this->field_5448_m_FrameCounter) & 1) != 0)
                 {
                     switch (pB4->field_7C_pPed->field_254_block_spec)
                     {
@@ -6276,12 +6270,11 @@ void sound_obj::ProcessPed_422B70(Sound_Params_8* pType3Entity)
                                 {
                                     v9 = this->field_1454_anRandomTable[this->field_30_sQueueSample.field_0_EntityIndex % 5u] %
                                         (u32)(v7 - v6 + 1);
+                                    this->field_30_sQueueSample.field_14_samp_idx = v6 + v9;
                                     this->field_30_sQueueSample.field_54_sound_intensity = Fix16(0x8000, 0);
                                     this->field_30_sQueueSample.field_64_max_distance = 4;
-                                    this->field_30_sQueueSample.field_14_samp_idx = v6 + v9;
-                                    samp_idx = this->field_30_sQueueSample.field_14_samp_idx;
                                     this->field_30_sQueueSample.field_60_nEmittingVolume = vol;
-                                    playback_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(samp_idx);
+                                    playback_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(field_30_sQueueSample.field_14_samp_idx);
                                     base_rate = playback_rate + RandomDisplacement_41A650(field_30_sQueueSample.field_14_samp_idx);
                                     this->field_30_sQueueSample.field_58_type = 20;
                                     this->field_30_sQueueSample.field_20_rate = base_rate;
@@ -6325,14 +6318,12 @@ void sound_obj::ProcessPed_422B70(Sound_Params_8* pType3Entity)
                     vol = this->field_1454_anRandomTable[this->field_30_sQueueSample.field_0_EntityIndex % 5u] % 0x17u + 30;
                     if (VolCalc_419070(vol, Fix16(147456, 0), pType3Entity->field_5_bHasSolidAbove))
                     {
-                        rnd_samp = this->field_1454_anRandomTable[this->field_30_sQueueSample.field_0_EntityIndex % 5u] % 6u + 233;
+                        this->field_30_sQueueSample.field_14_samp_idx = this->field_1454_anRandomTable[this->field_30_sQueueSample.field_0_EntityIndex % 5u] % 6u + 233;
                         this->field_30_sQueueSample.field_54_sound_intensity = Fix16(147456, 0);
                         this->field_30_sQueueSample.field_60_nEmittingVolume = vol;
                         this->field_30_sQueueSample.field_64_max_distance = 18;
-                        this->field_30_sQueueSample.field_14_samp_idx = rnd_samp;
-                        v15 = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(rnd_samp);
-                        this->field_30_sQueueSample.field_20_rate =
-                            sound_obj::RandomDisplacement_41A650(this->field_30_sQueueSample.field_14_samp_idx) + v15;
+                        this->field_30_sQueueSample.field_20_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(this->field_30_sQueueSample.field_14_samp_idx) +
+                            sound_obj::RandomDisplacement_41A650(this->field_30_sQueueSample.field_14_samp_idx);
                         this->field_30_sQueueSample.field_58_type = 20;
                         this->field_30_sQueueSample.field_4_SampleIndex = 3;
                         this->field_30_sQueueSample.field_41 = 1;
@@ -6404,18 +6395,17 @@ void sound_obj::ProcessPed_422B70(Sound_Params_8* pType3Entity)
         {
             if (sound_obj::VolCalc_419070(vol, f_54, pType3Entity->field_5_bHasSolidAbove))
             {
-                this->field_30_sQueueSample.field_64_max_distance = max_dist;
-                v24 = this->field_30_sQueueSample.field_41;
                 this->field_30_sQueueSample.field_14_samp_idx = samp_idx_;
                 this->field_30_sQueueSample.field_54_sound_intensity = f_54;
                 this->field_30_sQueueSample.field_60_nEmittingVolume = vol;
+                this->field_30_sQueueSample.field_64_max_distance = max_dist;
                 this->field_30_sQueueSample.field_58_type = 20;
                 this->field_30_sQueueSample.field_3C_speed_multiplier = 700;
                 this->field_30_sQueueSample.field_4_SampleIndex = 1;
                 this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = releasingMod_;
                 this->field_30_sQueueSample.field_18_bIs2D = 0;
                 this->field_30_sQueueSample.field_38_loop_end = -1;
-                if (v24 == 1)
+                if (this->field_30_sQueueSample.field_41 == 1)
                 {
                     this->field_30_sQueueSample.field_30_loop_count = 1;
                     this->field_30_sQueueSample.field_34_loop_start = 0;
