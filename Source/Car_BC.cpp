@@ -849,7 +849,7 @@ Car_BC* Car_6C::GetNearestEnterableCarFromCoord_444FA0(Fix16 x, Fix16 y, Fix16 z
 }
 
 // 9.6f 0x424BD0
-WIP_FUNC(0x444FC0)
+MATCH_FUNC(0x444FC0)
 Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
                                                 Fix16 ypos,
                                                 Fix16 zpos,
@@ -857,8 +857,6 @@ Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
                                                 Ped* pPed,
                                                 char_type bIgnorePedRestrictions)
 {
-    WIP_IMPLEMENTED;
-
     // 9.6f calls sub_421D80 and sub_421DF0 here, which are HasSpriteZoom_43A230 and IsCarInAir_43A3C0 (not inlined in 10.5)
     Fix16 smallestDist = Fix16(0x300);
     Car_BC* pNearestCar = 0;
@@ -877,7 +875,8 @@ Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
                 pNearestCar = pCarIter;
             }
 
-            if (pCarIter->IsTrainModel_403BA0())
+            if (pCarIter->field_84_car_info_idx == car_model_enum::TRAIN || pCarIter->field_84_car_info_idx == car_model_enum::TRAINCAB ||
+                pCarIter->field_84_car_info_idx == car_model_enum::TRAINFB || pCarIter->field_84_car_info_idx == car_model_enum::boxcar)
             {
                 u8 train_car_idx = 0;
                 Car_BC** pTrainCars = gPublicTransport_181C_6FF1D4->GetCarArrayFromLeadCar_579B40(pCarIter);
@@ -888,12 +887,12 @@ Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
                         break;
                     }
 
-                    // The original calls Negate_4086A0 and the const operator+ (0x408660) here but inlines
-                    // yd + xd; ours runs out of inline expansions and calls that + out of line too
-                    Fix16 train_zd = Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_1C_zpos - zpos);
-                    Fix16 train_yd = Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_14_xy.y - ypos);
-                    Fix16 train_xd = Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_14_xy.x - xpos);
-                    Fix16 trainDistance = static_cast<const Fix16&>(train_yd + train_xd) + train_zd;
+                    // Negate_4086A0 and the const operator+ (0x408660) out of line, x + y inline. The train
+                    // model check above is written out (not IsTrainModel_403BA0) to stay in VC6's inline budget
+                    Fix16 trainDistance;
+                    trainDistance = static_cast<const Fix16&>(Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_14_xy.x - xpos) +
+                                                              Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_14_xy.y - ypos)) +
+                        Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_1C_zpos - zpos);
                     if (trainDistance < smallestDist)
                     {
                         smallestDist = trainDistance;
@@ -1873,14 +1872,12 @@ wchar_t* Car_BC::GetCarStr_439F80()
 }
 
 // 9.6f 0x421C40
-WIP_FUNC(0x439fb0)
+MATCH_FUNC(0x439fb0)
 Fix16_Point Car_BC::GetHitchPoint_439FB0()
 {
-    WIP_IMPLEMENTED;
-
     Fix16_Point point;
-    // TODO: Inline breaks the start of the match, why?
-    if (inline_check_0x10_info_421640())
+    car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
+    if ((pInfo->info_flags & 0x10) == 0x10)
     {
         point = kTrailerHitchOffset_677370;
     }
@@ -1889,8 +1886,8 @@ Fix16_Point Car_BC::GetHitchPoint_439FB0()
         point = kCabHitchOffset_677358;
     }
 
-    point.RotateByAngle_40F6B0(field_50_car_sprite->field_0);
-    return point + field_50_car_sprite->get_x_y_443580();
+    point.RotateByAngle_YOOL_40F6B0(field_50_car_sprite->field_0);
+    return point.Add_40AC50(field_50_car_sprite->get_x_y_443580());
 }
 
 MATCH_FUNC(0x43a0e0)

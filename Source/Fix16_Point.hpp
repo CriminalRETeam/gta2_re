@@ -163,6 +163,18 @@ struct Fix16_Point_POD
         y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + y.Multiply_408680(cos);
     }
 
+    // As RotateByAngle_40F6B0 with the x line inline and the y line out of line (Car_BC::GetHitchPoint_439FB0)
+    inline void RotateByAngle_YOOL_40F6B0(const Ang16& angle)
+    {
+        Fix16 sin = Ang16::sine_40F500(angle);
+        Fix16 cos = Ang16::cosine_40F520(angle);
+
+        Fix16 x_old = x;
+
+        x = (x * cos) + (y * sin);
+        y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + y.Multiply_408680(cos);
+    }
+
     void FromPolar_41E210(const Fix16& radius, const Ang16& angle)
     {
 
