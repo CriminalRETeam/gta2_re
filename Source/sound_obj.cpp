@@ -340,7 +340,7 @@ s32 sound_obj::AdjustPlaybackRate_41A580(s32 snd_rate, Fix16 xpos, Fix16 ypos, F
         // zpos is converted from an integer (shl $0xE) and field_C is already fixed point
         Fix16 v5 = diff * (Fix16(zpos.mValue) / dword_674E18) / Fix16(field_C, 0);
         s32 a = v5.mValue;
-        if (a < 1)
+        if (a <= 0)
         {
             a = -a;
         }

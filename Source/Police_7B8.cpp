@@ -1125,6 +1125,7 @@ void Police_7B8::TryCreateRoadblockAt_577370(u8 x, u8 y, s32 roadblock_type)
     }
 
     u8 z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(x, (s32)y).ToUInt8();
+    char_type bRoadblock2Active = field_708_roadblock_2.field_0_bActive;
 
     if (bBothSides)
     {
@@ -1132,7 +1133,7 @@ void Police_7B8::TryCreateRoadblockAt_577370(u8 x, u8 y, s32 roadblock_type)
         {
             field_664_roadblock_1.CreateRoadblock_575FF0(x, y, z, 3);
         }
-        else if (!field_708_roadblock_2.field_0_bActive)
+        else if (!bRoadblock2Active)
         {
             field_708_roadblock_2.CreateRoadblock_575FF0(x, y, z, 3);
         }
@@ -1143,7 +1144,7 @@ void Police_7B8::TryCreateRoadblockAt_577370(u8 x, u8 y, s32 roadblock_type)
         {
             field_664_roadblock_1.CreateRoadblock_575FF0(x, y, z, 2);
         }
-        else if (!field_708_roadblock_2.field_0_bActive)
+        else if (!bRoadblock2Active)
         {
             field_708_roadblock_2.CreateRoadblock_575FF0(x, y, z, 3);
         }
