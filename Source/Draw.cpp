@@ -293,14 +293,12 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
 
     // point 1
 
-    point.x = -v12;
-    point.y = -v13;
+    // Raw negates: two fewer inline expansions keep the Fix16_Point ctor inline (inline budget)
+    point.x.mValue = -v12.mValue;
+    point.y.mValue = -v13.mValue;
     point.RotateByAngle_40F6B0_all_out_of_line(rotation);
 
-    // Remaining diff: the original inlines the Fix16_Point constructor, here it's out of line
-    // (inline budget, see matching_quirks.md). The copy of x_pos is from the permuter.
-    Fix16 tmp = x_pos;
-    gQuadVerts_706B88.field_0_verts[0].x = (point.x + tmp).ToFloat();
+    gQuadVerts_706B88.field_0_verts[0].x = (point.x + x_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[0].y = (point.y + y_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[0].z = 0.000099999997f;
 

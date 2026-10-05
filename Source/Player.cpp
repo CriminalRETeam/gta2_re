@@ -167,10 +167,10 @@ u8 Player::GetIdx_4881E0()
 WIP_FUNC(0x5645B0)
 void Player::AddCarToHistory_5645B0(Car_BC* pNewCar)
 {
-    WIP_IMPLEMENTED;
+    
 
-    Car_BC** ppIter = field_54_car_history;
     Car_BC** pIter = field_54_car_history;
+    Car_BC** ppIter = pIter;
     if (!bStartNetworkGame_7081F0)
     {
         u8 i = PromoteCarInHistory_564610(pNewCar, false);
