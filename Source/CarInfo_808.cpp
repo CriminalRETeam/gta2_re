@@ -547,7 +547,8 @@ EXPORT Fix16 __stdcall ComputeCarMassAndInertia_454410(Fix16 width, Fix16 height
 {
     WIP_IMPLEMENTED;
 
-    Fix16 inertiaBase = ((((height * height) * kQuarter_677D78) + (width * width)) / 12);
+    // const ref: gives the original's stack slots for the sign extended operands (30 -> 22 diff lines)
+    const Fix16& inertiaBase = ((((height * height) * kQuarter_677D78) + (width * width)) / 12);
     Fix16 heightXConstant = (height * kQuarter_677D78);
     Fix16 frontMass = (mass * frontMassBias);
     Fix16 frontI = (frontMass * inertiaBase);
