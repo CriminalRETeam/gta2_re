@@ -33,19 +33,51 @@ def score(coff, addr, symidx):
         s += ps.callee_penalty(coff, symidx, target, addr)[0]
     return s
 
+
+def markers(text):
+    """(kind, addr, symbol needles) per MATCH_FUNC/WIP_FUNC: '_ADDR@' first, then the mangled name
+    of the definition that follows (for symbols without the address, like ctors)."""
+    lines = text.split('\n')
+    out = []
+    for i, l in enumerate(lines):
+        m = re.match(r'\s*(MATCH|WIP)_FUNC\((0x[0-9A-Fa-f]+)\)', l)
+        if not m:
+            continue
+        needles = ['_%X@' % int(m.group(2), 16)]
+        for l2 in lines[i + 1:i + 4]:
+            d = re.search(r'([A-Za-z_]\w*)::(~?)(\w+)\s*\(', l2)
+            if d and not l2.strip().startswith('//'):
+                cls, tilde, fn = d.groups()
+                if fn == cls:
+                    needles.append('??%s%s@@' % ('1' if tilde else '0', cls))
+                else:
+                    needles.append('?%s@%s@@' % (fn, cls))
+                break
+            d = re.search(r'\b([A-Za-z_]\w*)\s*\(', l2)
+            if d and not l2.strip().startswith('//') and d.group(1) not in ('if', 'while', 'for', 'switch'):
+                needles.append('?%s@@' % d.group(1))
+                break
+        out.append((m.group(1), m.group(2), needles))
+    return out
+
 base, mod = sys.argv[1], sys.argv[2]
 NCMP = [0]
 tmp = tempfile.mkdtemp()
 for tu in sys.argv[3:]:
     cb = compile_(os.path.join(base, tu), tmp + '/b.obj'); cm = compile_(os.path.join(mod, tu), tmp + '/m.obj')
     if not cb or not cm: continue
-    marks = re.findall(r'(MATCH|WIP)_FUNC\((0x[0-9A-Fa-f]+)\)', open(os.path.join(mod, tu), encoding='latin-1').read())
-    for kind, a in marks:
-        addr = int(a, 16); n = '_%X@' % addr
-        try:
-            ib = ps.find_function(cb, n); im = ps.find_function(cm, n)
-        except BaseException:
-            continue
+    src_text = open(os.path.join(mod, tu), encoding='latin-1').read()
+    for kind, a, needles in markers(src_text):
+        addr = int(a, 16)
+        ib = im = None
+        for n in needles:
+            try:
+                ib = ps.find_function(cb, n); im = ps.find_function(cm, n)
+                break
+            except BaseException:
+                ib = im = None
+        if ib is None:
+            print(tu, kind, a, 'NOT FOUND in the object (check by hand)'); continue
         NCMP[0] += 1
         if ps.function_lines(cb, ib) == ps.function_lines(cm, im):
             continue
