@@ -1028,7 +1028,7 @@ void Garox_27B5_sub::ShowPlayerCoords_5CF970()
 // ----------------------------------------------------
 
 // https://decomp.me/scratch/bd2MO
-WIP_FUNC(0x5cfa70)
+MATCH_FUNC(0x5cfa70)
 void Garox_107C_sub::DrawGangRespectBars_5CFA70()
 {
     u32 random_num = gpRng_67AB34->get_cur_rng_41CFE0() & 0xF;
@@ -1068,23 +1068,24 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
 
         if (respect < -19)
         {
-            if (respect <= -100 && !bPlusSignDark || respect > -100)
+            if (respect > -100 || !bPlusSignDark)
             {
                 DrawFigureScaled_5D7670(6, 2 * arrow_colour + 50, 34, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
             }
         }
         else
         {
-            if (respect >= 100 && !bPlusSignDark || respect < 100)
+            if (respect < 100 || !bPlusSignDark)
             {
                 DrawFigureScaled_5D7670(6, 2 * arrow_colour + 51, 93, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
             }
-        }
 
-        // green mission respect
-        if (respect >= -19)
-        {
-            DrawFigureScaled_5D7670(6, 46, 64u, ypos + 9, kAngZero_706610, 2, 0, 0, 0);
+            // green mission respect
+            // Always true here, but the original re-tests it on this path (written this way VC6 keeps the test)
+            if (-19 <= respect)
+            {
+                DrawFigureScaled_5D7670(6, 46, 64u, ypos + 9, kAngZero_706610, 2, 0, 0, 0);
+            }
         }
 
         // yellow mission respect
