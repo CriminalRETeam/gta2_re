@@ -1638,9 +1638,7 @@ bool Car_6C::CanAllocateOfType_446930(s32 type)
     }
 }
 
-WIP_FUNC(0x4469f0)
-// There are still something missing here.
-// But the structure it seems to be complete
+MATCH_FUNC(0x4469f0)
 Car_6C::Car_6C()
 {
     if (!gCar_BC_Pool_67792C)
@@ -1718,7 +1716,7 @@ Car_6C::Car_6C()
 
     if (!gSprite_Unused_677938)
     {
-        gSprite_Unused_677938 = new Sprite();
+        gSprite_Unused_677938 = new Sprite(kAngZero_67791C, gFix16_6777CC);
         if (!gSprite_Unused_677938)
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8375);
@@ -1729,7 +1727,8 @@ Car_6C::Car_6C()
     // that initialises the next two fields
     //field_4C = 0;
     //field_50_tv_van_dir = 0;
-    field_4C_tv_van_dir = Fix16_Point(Fix16(0), Fix16(0));
+    field_4C_tv_van_dir.x = Fix16(0);
+    field_4C_tv_van_dir.y = Fix16(0);
     field_54 = 0;
     field_55_visible_cars_count = 0;
     field_58_model_to_check_destroy = car_model_enum::none;
@@ -6935,12 +6934,20 @@ Fix16_Point Trailer::sub_407BD0()
     return offset;
 }
 
-WIP_FUNC(0x407ce0)
+// 9.6f 0x40F840 CarPhysics_B0::IsVelocityAlignedWithHeading_40F840, inlined here with car.cpp's own
+// static copies of the 90/270 degree constants
+static inline bool IsVelocityAlignedWithHeading_40F840(CarPhysics_B0* pPhys)
+{
+    Ang16 drift = pPhys->field_40_linvel_1.atan2_40ACD0().SubtractNormalized_409340(pPhys->field_58_theta);
+    return drift <= word_66A9C8 || drift >= word_66AABC;
+}
+
+MATCH_FUNC(0x407ce0)
 void Trailer::UpdateTrailerAlignment_407CE0()
 {
     // The four points are declared up front: the original enters with EH state 3. The 9.6f getters and
     // setters (get/set_theta_40F820/40F830, set_cp1_40F7E0, get/set_cp3) are written as field accesses
-    // and the Ang16 compares on rValue, otherwise the inline budget pushes these ctors out of line.
+    // and the Fix16 compares on mValue, otherwise the inline budget pushes these ctors out of line.
     Fix16_Point rear;
     Fix16_Point hitch;
     Fix16_Point delta;
@@ -6964,14 +6971,11 @@ void Trailer::UpdateTrailerAlignment_407CE0()
     Fix16 new_theta = Ang16::Ang16_to_Fix16(delta.atan2_40F790());
     field_0 = sub_405E80(&cab_theta, &new_theta);
 
-    if (new_theta != cab_theta && new_theta == trailer_theta)
+    if (new_theta.mValue != cab_theta.mValue && new_theta.mValue == trailer_theta.mValue)
     {
-        // 9.6f: CarPhysics_B0::IsVelocityAlignedWithHeading_40F840 (but it compares against other globals here)
-        Ang16 drift = pCabPhys->field_40_linvel_1.atan2_40ACD0().SubtractNormalized_409340(pCabPhys->field_58_theta);
-        if ((drift.rValue <= word_66A9C8.rValue || drift.rValue >= word_66AABC.rValue) && pCabPhys->IsGasPedalPressedEnough_5626A0())
+        if (IsVelocityAlignedWithHeading_40F840(pCabPhys) && pCabPhys->IsGasPedalPressedEnough_5626A0())
         {
-            Fix16 speed = field_8_truck_cab->sub_440510();
-            new_theta = sub_405DA0(new_theta, &cab_theta, &speed);
+            new_theta = sub_405DA0(new_theta, &cab_theta, &field_8_truck_cab->sub_440510());
         }
     }
 
