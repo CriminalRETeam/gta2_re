@@ -1000,7 +1000,8 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
                     Ang16 diff;
                     diff.rValue = Fix16::atan2_fixed_405320(dy, dx).rValue - angle.rValue;
                     diff.Normalize_406C20();
-                    if (diff < word_706D6C || diff > word_706E28)
+                    bool bOutsideArc = diff < word_706D6C || diff > word_706E28;
+                    if (bOutsideArc)
                     {
                         hits.ClearList_5A6E10();
                         if (a5->field_170_selected_weapon)
@@ -1009,6 +1010,7 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
                         }
                         return;
                     }
+                    pHit = hits.TakeClosestSprite_5A6EA0(xpos, ypos);
                 }
                 else
                 {
@@ -1030,8 +1032,8 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
                         }
                         return;
                     }
+                    pHit = hits.TakeClosestSprite_5A6EA0(xpos, ypos);
                 }
-                pHit = hits.TakeClosestSprite_5A6EA0(xpos, ypos);
             }
         }
         else
