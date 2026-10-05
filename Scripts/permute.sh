@@ -18,6 +18,16 @@ FUNC=$2
 ADDR=$3
 shift 3
 
+# --96f: compile with VC7.0 (Scripts/compile_vc7.sh) and score against the 9.6f build. ADDR is then
+# the 9.6f address (docs/inlines_96f.md, match_96f.json).
+COMPILE="$ROOT/3rdParty/cpp_permuter/examples/gta2/compile.sh {src} {obj}"
+SCORE_FLAG=""
+if [ "$1" = "--96f" ]; then
+    shift
+    COMPILE="$ROOT/Scripts/compile_vc7.sh {src} {obj}"
+    SCORE_FLAG="--96f"
+fi
+
 PERMUTER_DIR="$ROOT/3rdParty/cpp_permuter"
 BIN="$ROOT/build_permuter/cpp_permuter"
 if [ ! -x "$BIN" ] || [ -n "$(find "$PERMUTER_DIR/src" -newer "$BIN" -print -quit)" ]; then
@@ -44,7 +54,7 @@ PY="$ROOT/venv/bin/python3"
 NEEDLE="${FUNC##*::}"
 
 exec "$BIN" -s "$SRC" -f "$FUNC" \
-    -c "$PERMUTER_DIR/examples/gta2/compile.sh {src} {obj}" \
-    --score-cmd "$PY $ROOT/Scripts/bin_comp/permuter_score.py {obj} $ADDR $NEEDLE" \
+    -c "$COMPILE" \
+    --score-cmd "$PY $ROOT/Scripts/bin_comp/permuter_score.py $SCORE_FLAG {obj} $ADDR $NEEDLE" \
     --op-alias "*=Multiply_408680" --op-alias "neg=Negate_4086A0" --extern-globals \
     "$@"

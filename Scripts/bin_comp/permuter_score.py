@@ -9,6 +9,11 @@ reference the same symbol, the same as in the full exe build.
 
 Usage:
     python permuter_score.py <obj> <og_addr> [symbol_substring]
+    python permuter_score.py --96f <obj> <96f_addr> <symbol_substring>
+
+--96f scores against the 9.6f build instead (target_96f.json, built with VC7.0 and no inlining;
+compile the candidate with Scripts/compile_vc7.sh). Its absolute addresses are first rewritten to
+the start-relative form of target_asm.json.
 
 Prints a unified diff of the post processed asm, then the score as the last number: 0 is a
 match (see score_lines for how the rest is counted).
@@ -170,10 +175,32 @@ def target_lines(target):
     return post_process_asm.post_process_asm("\n".join(asm)).split("\n")
 
 
+def target_from_96f(t, addr):
+    # 9.6f lines are "addr: insn" with absolute jump/call targets. target_asm.json has them
+    # relative to the function start, so rewrite them the same way and post process.
+    lines = []
+    for l in t["asm"].split("\n"):
+        l = re.sub(r"^[0-9a-f]+:\s*", "", l).strip()
+        if not l:
+            continue
+        m = re.match(r"^(call|j\w+) 0x([0-9A-Fa-f]+)$", l)
+        if m:
+            l = "%s 0x%08X" % (m.group(1), (int(m.group(2), 16) - addr) & 0xFFFFFFFF)
+        lines.append(l)
+    asm = "\n".join(lines)
+    return {"name": t["name"], "size": t["size"], "asm": asm, "pp": post_process_asm.post_process_asm(asm)}
+
+
 def main():
+    v96 = "--96f" in sys.argv
+    if v96:
+        sys.argv.remove("--96f")
     obj, addr = sys.argv[1], int(sys.argv[2], 16)
     here = os.path.dirname(os.path.abspath(__file__))
-    target = json.load(open(os.path.join(here, "target_asm.json"))).get(hex(addr))
+    if v96:
+        target = target_from_96f(json.load(open(os.path.join(here, "target_96f.json")))[hex(addr)], addr)
+    else:
+        target = json.load(open(os.path.join(here, "target_asm.json"))).get(hex(addr))
     if target is None:
         # A MATCH_FUNC: its asm in a verified build is the original's (dump_matched_asm.py).
         target = json.load(open(os.path.join(here, "matched_asm.json")))[hex(addr)]

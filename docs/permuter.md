@@ -45,6 +45,17 @@ Scripts/permute.sh Source/Foo.cpp Foo::Bar_123456 123456 --base-only   # just pr
   always gives the same candidates.
 - Run one permuter at a time if you share the machine: `flock -o /tmp/permute.lock Scripts/permute.sh ...`.
 
+## Against 9.6f (`--96f`)
+
+`Scripts/permute.sh <File.cpp> <Class::Func> <96f_addr> --96f ...` compiles each candidate with VC7.0
+(`Scripts/compile_vc7.sh`: VC6 preprocesses, VC7 `/O2 /Ob0 /G5 /GX` compiles, about 1 s) and scores it
+against `target_96f.json` (`permuter_score.py --96f`). The 9.6f address of a WIP is in
+`Scripts/bin_comp/match_96f.json` (`pairs`) and `docs/inlines_96f.md`. 9.6f has inlining off, so its
+functions are smaller and the source shape (statement order, helper calls, temporaries) is easier to
+settle there; the same source compiled with VC6 is then the best 10.5 candidate. 9.6f is an older build,
+so a few functions really changed between the versions. Get VC7 once with
+`Scripts/tu_harness/fetch_compilers.sh` (only `msvc7.0` is needed).
+
 ## Related tools
 
 - `Scripts/quick_score.sh <Source/File.cpp> <addr> <symbol_substring> [-q]` compiles one TU into a
