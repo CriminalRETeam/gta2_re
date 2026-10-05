@@ -498,20 +498,9 @@ void Weapon_30::dual_pistol_5DDA70()
 // https://decomp.me/scratch/lAo1H
 // Fix16_Point::RotateByAngle_40F6B0 as VC6 emits it in a caller that has run out of inline
 // expansions: the multiplies, the negate and the y line's add are the out of line operator
-// copies, and sin/cos/x_old are the inline's own locals (below the caller's)
-static inline void RotateByAngle_40F6B0_no_budget(Fix16_Point& p, const Ang16& angle)
-{
-    Fix16 sin = Ang16::sine_40F500(angle);
-    Fix16 cos = Ang16::cosine_40F520(angle);
-    Fix16 x_old = p.x;
-    // the inline operator+ is not expanded inside this helper, so add the raw values.
-    // Still off: the original loads the y*sin product (evaluated first) first for the add
-    p.x = Fix16(p.x.Multiply_408680(cos).mValue + p.y.Multiply_408680(sin).mValue, 0);
-    p.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + p.y.Multiply_408680(cos);
-}
-
-// As above, but the x line's add is the inline operator+ (tank_main_gun_5E10E0, army_gun_jeep_5E13E0):
-// it loads the y*sin product (evaluated first) first, which the raw-value add above can't do
+// copies, and sin/cos/x_old are the inline's own locals (below the caller's). The x line's add
+// is the inline operator+, which loads the y*sin product (evaluated first) first
+// (smg_5DDD20, tank_main_gun_5E10E0, army_gun_jeep_5E13E0)
 static inline void RotateByAngle_40F6B0_no_budget2(Fix16_Point& p, const Ang16& angle)
 {
     Fix16 sin = Ang16::sine_40F500(angle);
@@ -521,11 +510,9 @@ static inline void RotateByAngle_40F6B0_no_budget2(Fix16_Point& p, const Ang16& 
     p.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + p.y.Multiply_408680(cos);
 }
 
-WIP_FUNC(0x5ddd20)
+MATCH_FUNC(0x5ddd20)
 void Weapon_30::smg_5DDD20()
 {
-    WIP_IMPLEMENTED;
-
     Fix16_Point point;
     if (field_2_reload_speed == 0)
     {
@@ -538,9 +525,9 @@ void Weapon_30::smg_5DDD20()
             point.x = -dword_706E7C;
             point.y = dword_706CF0 + dword_706E80;
 
-            RotateByAngle_40F6B0_no_budget(point, field_24_pPed->field_168_game_object->field_80_sprite_ptr->field_0);
+            RotateByAngle_40F6B0_no_budget2(point, field_24_pPed->field_168_game_object->field_80_sprite_ptr->field_0);
 
-            point = point + field_24_pPed->GetVelocityVector_45B520();
+            point = point.Add_40AC50(field_24_pPed->GetVelocityVector_45B520());
 
             if (Weapon_30::spawn_bullet_5DCF60(254,
                                                field_24_pPed->get_cam_x() + point.x,
