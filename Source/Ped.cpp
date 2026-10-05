@@ -1514,15 +1514,19 @@ Ang16 Ped::ComputeAimAngle_45C9D0()
             best = FindNearestPed_Mode4_466F40(3u);
         }
 
+        // A local stored once after the if/else: the join is then big enough that VC6 doesn't
+        // copy the return tail into the atan2 branch (14 -> 12)
+        Ang16 angle;
         if (best)
         {
-            field_130 = Fix16::atan2_fixed_405320(best->field_1AC_cam.y - field_1AC_cam.y, 
-                                                  best->field_1AC_cam.x - field_1AC_cam.x);
+            angle = Fix16::atan2_fixed_405320(best->field_1AC_cam.y - field_1AC_cam.y,
+                                              best->field_1AC_cam.x - field_1AC_cam.x);
         }
         else
         {
-            field_130 = field_12C;
+            angle = field_12C;
         }
+        field_130 = angle;
     }
     return field_130;
 }
