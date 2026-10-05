@@ -454,9 +454,8 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
 
             if (!gHud_2B00_706620->IsInputKeyConsumed_5D6C70(gKeyboardDeviceData_67B610.dwOfs))
             {
-                s32 padOfs = gGamePadDeviceData_67B5B0.dwOfs;
-                s32 padData = gGamePadDeviceData_67B5B0.dwData;
-
+                // The pad fields are read directly: VC6 keeps them in edi/edx across the loop and
+                // reloads them after each set/clear call, as the original does
                 // Check for player controls (up, down, shoot etc)
                 for (s32 input = 0; input < 12; input++)
                 {
@@ -472,8 +471,6 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                             if (bUnknown)
                             {
                                 gBurgerKing_67F8B0.set_input_4CDCF0(input);
-                                padOfs = gGamePadDeviceData_67B5B0.dwOfs;
-                                padData = gGamePadDeviceData_67B5B0.dwData;
                             }
                         }
                         else
@@ -481,8 +478,6 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                             if (bUnknown)
                             {
                                 gBurgerKing_67F8B0.clear_input_4CDD10(input);
-                                padOfs = gGamePadDeviceData_67B5B0.dwOfs;
-                                padData = gGamePadDeviceData_67B5B0.dwData;
                             }
                         }
                     }
@@ -496,9 +491,9 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                         switch (binding)
                         {
                             case 224:
-                                if (padOfs == 0)
+                                if (gGamePadDeviceData_67B5B0.dwOfs == 0)
                                 {
-                                    if (padData > -750)
+                                    if (gGamePadDeviceData_67B5B0.dwData > -750)
                                     {
                                         bRelease = true;
                                     }
@@ -509,9 +504,9 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                                 }
                                 break;
                             case 225:
-                                if (padOfs == 0)
+                                if (gGamePadDeviceData_67B5B0.dwOfs == 0)
                                 {
-                                    if (padData < 750)
+                                    if (gGamePadDeviceData_67B5B0.dwData < 750)
                                     {
                                         bRelease = true;
                                     }
@@ -522,9 +517,9 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                                 }
                                 break;
                             case 226:
-                                if (padOfs == 4)
+                                if (gGamePadDeviceData_67B5B0.dwOfs == 4)
                                 {
-                                    if (padData <= -750)
+                                    if (gGamePadDeviceData_67B5B0.dwData <= -750)
                                     {
                                         bPressed = true;
                                     }
@@ -535,9 +530,9 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                                 }
                                 break;
                             case 227:
-                                if (padOfs == 4)
+                                if (gGamePadDeviceData_67B5B0.dwOfs == 4)
                                 {
-                                    if (padData >= 750)
+                                    if (gGamePadDeviceData_67B5B0.dwData >= 750)
                                     {
                                         bPressed = true;
                                     }
@@ -548,9 +543,9 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                                 }
                                 break;
                             default:
-                                if (padOfs == binding + 48)
+                                if (gGamePadDeviceData_67B5B0.dwOfs == binding + 48)
                                 {
-                                    if (padData & 0x80)
+                                    if (gGamePadDeviceData_67B5B0.dwData & 0x80)
                                     {
                                         bPressed = true;
                                     }
@@ -568,8 +563,6 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                             if (bUnknown)
                             {
                                 gBurgerKing_67F8B0.set_input_4CDCF0(input);
-                                padOfs = gGamePadDeviceData_67B5B0.dwOfs;
-                                padData = gGamePadDeviceData_67B5B0.dwData;
                             }
                         }
                         else if (bRelease)
@@ -578,8 +571,6 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                             if (bUnknown && gBurgerKing_67F8B0.IsInputSet_44C050(input))
                             {
                                 gBurgerKing_67F8B0.clear_input_4CDD10(input);
-                                padOfs = gGamePadDeviceData_67B5B0.dwOfs;
-                                padData = gGamePadDeviceData_67B5B0.dwData;
                             }
                             bHandled = true;
                         }
