@@ -920,19 +920,19 @@ void __stdcall sub_5DE910(Fix16_Point_POD a1, Fix16_Point& a2, Fix16 a3)
     Ang16 angle;
     Ang16 seg_angle;
     // The first length and angle are dead, like 9.6f's (it only kept the atan2 call)
-    d = a2 - start;
+    d = a2.Sub_40AC80(start);
     len = BeamLength_5DE910(d);
     d.atan2_40F790();
 
     to = a2;
     from = start;
-    d = a2 - start;
+    d = a2.Sub_40AC80(start);
     len = BeamLength_5DE910(d);
     gRng_6F6784.get_int_4F7AE0(2);
 
     from = start;
     to = a2;
-    d3 = to - from;
+    d3 = to.Sub_40AC80(from);
     len = BeamLength_5DE910(d3);
     u8 count = (len / seg_len).ToInt();
     angle = d3.atan2_40F790();
@@ -952,7 +952,7 @@ void __stdcall sub_5DE910(Fix16_Point_POD a1, Fix16_Point& a2, Fix16 a3)
         seg_angle = step.atan2_40F790();
 
         next = cur.Add_40AC50(step);
-        mid = next - cur;
+        mid = next.Sub_40AC80(cur);
         mid.x.DivideAssign_539F90(kFP16Two_706EC0);
         mid.y.DivideAssign_539F90(kFP16Two_706EC0);
         mid.x += cur.x;
@@ -961,7 +961,7 @@ void __stdcall sub_5DE910(Fix16_Point_POD a1, Fix16_Point& a2, Fix16 a3)
         cur = next;
     }
 
-    d = a2 - cur;
+    d = a2.Sub_40AC80(cur);
     seg_angle = d.atan2_40F790();
     len = d.MaxAbs_5E4140() / seg_len;
     if (len != dword_706EB8)
@@ -971,7 +971,7 @@ void __stdcall sub_5DE910(Fix16_Point_POD a1, Fix16_Point& a2, Fix16 a3)
         for (s32 j = 1; j <= len.ToInt(); j++)
         {
             next.AddAssign_5E40C0(d);
-            mid = next - cur;
+            mid = next.Sub_40AC80(cur);
             mid.DivAssign_5E40E0(kFP16Two_706EC0);
             mid.AddAssign_5E40C0(cur);
             gParticle_8_6FD5E8->EmitElectricArcParticle(mid.x, mid.y, a3, seg_angle);
