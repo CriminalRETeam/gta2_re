@@ -452,11 +452,12 @@ class ArrowTrace_24
         return field_C_player;
     }
 
-    // 9.6f inline 0x4820A0
+    // 9.6f inline 0x4820A0. The player is stored first (VC7 gives 9.6f's body either way): with the
+    // type store first, SetNewFugitive_516590 schedules and allocates registers differently
     inline void SetTargetPlayer_4820A0(Player* player)
     {
-        field_10_target_type = ArrowTargetType::Player_6;
         field_C_player = player;
+        field_10_target_type = ArrowTargetType::Player_6;
     }
 
     Ped* field_0_ped;
