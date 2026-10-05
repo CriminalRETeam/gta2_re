@@ -651,6 +651,8 @@ void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, F
 {
     WIP_IMPLEMENTED;
 
+    // v25 at function scope: it gets its own slot instead of the dead pZ parameter slot
+    Fix16 v25;
     Fix16_Point v10;
     Fix16_Point offset;
     Fix16 ret;
@@ -674,7 +676,13 @@ void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, F
         {
             // 9.6f inlined: sub_40F790 (atan2_40F790). Written out, and the compares below on raw values,
             // so the Fix16_Point ctors stay inline (VC6 inline budget)
-            Ang16 v16 = Fix16::atan2_fixed_405320(v10.y, v10.x);
+            // The atan2 result goes through a block-scoped copy: once its scope closes, its slot (the dead
+            // pCar parameter) is reused by the sine temp below, and the angle stays in a register.
+            Ang16 v16;
+            {
+                Ang16 t = Fix16::atan2_fixed_405320(v10.y, v10.x);
+                v16 = t;
+            }
             Fix16 v17;
             if ((v16.rValue <= kAng45_6766DC.rValue || v16.rValue >= kAng135_676790.rValue) && (v16.rValue <= kAng225_676764.rValue || v16.rValue >= kAng315_67679C.rValue))
             {
@@ -704,7 +712,7 @@ void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, F
                 }
                 v17 = (v17 * (kOne_67681C - v20 / 128));
             }
-            Fix16 v25 = v17 * (*pZ - pCar->field_50_car_sprite->field_1C_zpos + Fix16(8)) / field_60.y;
+            v25 = v17 * (*pZ - pCar->field_50_car_sprite->field_1C_zpos + Fix16(8)) / field_60.y;
 
             FromPolar_408680(offset, v25, v16);
             pX->mValue += offset.x.mValue;

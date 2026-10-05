@@ -625,10 +625,9 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
 
                     // 9.6f: Fix16::MaxAbsDistance_42A6B0 (inlined, Abs_436A50 out of line). As an inline here
                     // the function runs out of inline expansions and calls Fix16::operator- out of line.
-                    Fix16 diff_x = field_14_pObj2C->field_4->field_14_xy.x - pCollisionSprite->field_14_xy.x;
-                    Fix16 diff_y = field_14_pObj2C->field_4->field_14_xy.y - pCollisionSprite->field_14_xy.y;
-                    Fix16 cur_max;
-                    cur_max = Fix16::Max_44E540(Fix16::Abs_436A50(diff_x), Fix16::Abs_436A50(diff_y));
+                    // The differences as temporaries and the pMe local give the original's load order.
+                    Sprite* pMe = field_14_pObj2C->field_4;
+                    Fix16 cur_max = Fix16::Max_44E540(Fix16::Abs_436A50(pMe->field_14_xy.x - pCollisionSprite->field_14_xy.x), Fix16::Abs_436A50(pMe->field_14_xy.y - pCollisionSprite->field_14_xy.y));
                     if (cur_max > this->field_28)
                     {
                         if (timerVal < 70u)
