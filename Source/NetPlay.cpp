@@ -988,14 +988,15 @@ void NetPlay::ProcessPingOrHandshakeSend_51F110(void* pPacket, s32 a3, s32 a4, s
     }
 }
 
-// Register allocation differs, see docs/match_attempts.md
-WIP_FUNC(0x51f210)
+// The csv size of the original stops at the FatalError_4A38C0 call, the epilogue after it isn't compared
+MATCH_FUNC(0x51f210)
 s32 NetPlay::CalcPacketLen_51F210(s32 pPacket, u32 packetLen)
 {
-    WIP_IMPLEMENTED;
-
     u8 copy[64];
     u8* pBytes = (u8*)pPacket;
+    // The message header (type, length) is written through its own pointer: VC6 then reloads
+    // pMsg[1] after the pBytes[0]/pBytes[1] stores, as the original does
+    u8* pMsg = pBytes + 3;
     u8* pPayload = pBytes + 5;
     s32 len = 0;
 
@@ -1003,42 +1004,42 @@ s32 NetPlay::CalcPacketLen_51F210(s32 pPacket, u32 packetLen)
     switch (copy[0])
     {
         case 9:
-            pBytes[3] = 3;
+            pMsg[0] = 3;
             if (bDo_sync_check_67D6C1)
             {
-                pBytes[4] = 8;
+                pMsg[1] = 8;
             }
             else
             {
-                pBytes[4] = 4;
+                pMsg[1] = 4;
             }
             pBytes[0] = 1;
             pBytes[1] = copy[1];
-            pBytes[2] = pBytes[4] + 2;
+            pBytes[2] = pMsg[1] + 2;
             *(s32*)pPayload = -1;
             if (bDo_sync_check_67D6C1)
             {
                 memcpy(pPayload + 4, &copy[2], packetLen - 2);
             }
-            len = pBytes[4] + 5;
+            len = pMsg[1] + 5;
             break;
 
         case 1:
-            pBytes[3] = 3;
-            pBytes[4] = packetLen - 2;
+            pMsg[0] = 3;
+            pMsg[1] = packetLen - 2;
             pBytes[0] = 1;
             pBytes[1] = copy[1];
-            pBytes[2] = pBytes[4] + 2;
+            pBytes[2] = pMsg[1] + 2;
             memcpy(pPayload, &copy[2], packetLen - 2);
             len = packetLen + 3;
             break;
 
         case 2:
-            pBytes[3] = 1;
-            pBytes[4] = packetLen - 1;
+            pMsg[0] = 1;
+            pMsg[1] = packetLen - 1;
             pBytes[0] = 1;
             pBytes[1] = copy[1];
-            pBytes[2] = pBytes[4] + 2;
+            pBytes[2] = pMsg[1] + 2;
             memcpy(pPayload, &copy[1], packetLen - 1);
             len = packetLen + 4;
             break;
@@ -1050,22 +1051,52 @@ s32 NetPlay::CalcPacketLen_51F210(s32 pPacket, u32 packetLen)
             len = 3;
             break;
 
+        // Separate (identical) cases: with more than 8 paths into the final return, VC6 keeps len in a
+        // register (ebp, zeroed up front) instead of copying the return into each case and folding the
+        // constants. The compiler merges the four bodies again.
         case 3:
-        case 5:
-        case 6:
-        case 7:
-            pBytes[3] = 2;
-            pBytes[4] = packetLen - 1;
+            pMsg[0] = 2;
+            pMsg[1] = packetLen - 1;
             pBytes[0] = 1;
             pBytes[1] = 0;
-            pBytes[2] = pBytes[4] + 2;
+            pBytes[2] = pMsg[1] + 2;
+            memcpy(pPayload, &copy[1], packetLen - 1);
+            len = packetLen + 4;
+            break;
+
+        case 5:
+            pMsg[0] = 2;
+            pMsg[1] = packetLen - 1;
+            pBytes[0] = 1;
+            pBytes[1] = 0;
+            pBytes[2] = pMsg[1] + 2;
+            memcpy(pPayload, &copy[1], packetLen - 1);
+            len = packetLen + 4;
+            break;
+
+        case 6:
+            pMsg[0] = 2;
+            pMsg[1] = packetLen - 1;
+            pBytes[0] = 1;
+            pBytes[1] = 0;
+            pBytes[2] = pMsg[1] + 2;
+            memcpy(pPayload, &copy[1], packetLen - 1);
+            len = packetLen + 4;
+            break;
+
+        case 7:
+            pMsg[0] = 2;
+            pMsg[1] = packetLen - 1;
+            pBytes[0] = 1;
+            pBytes[1] = 0;
+            pBytes[2] = pMsg[1] + 2;
             memcpy(pPayload, &copy[1], packetLen - 1);
             len = packetLen + 4;
             break;
 
         case 8:
-            pBytes[3] = 4;
-            pBytes[4] = 0;
+            pMsg[0] = 4;
+            pMsg[1] = 0;
             pBytes[0] = 1;
             pBytes[1] = 0;
             pBytes[2] = 2;
@@ -2130,7 +2161,8 @@ char_type NetPlay::ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u
             {
                 Remove_521870(slot);
                 sub_521820((s32**)pOut, *pPlayerIdx);
-                field_758_n2.field_8[*pPlayerIdx] = ((u8)field_758_n2.field_8[*pPlayerIdx] + 1) % 256;
+                s32 idx = *pPlayerIdx;
+                field_758_n2.field_8[idx] = ((u8)field_758_n2.field_8[idx] + 1) % 256;
             }
             else
             {
@@ -2144,17 +2176,16 @@ char_type NetPlay::ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u
             // No buffered packet: try a new one in the same pass (bCheckBuffered stays set)
             if (Receive_51F010(&pData, &dataLen, &recvId, &senderId))
             {
-                u8* pPacket = (u8*)pData;
-                *pType = pPacket[3];
+                *pType = ((u8*)pData)[3];
                 *pPlayerIdx = IndexOf_520E30(senderId, &field_758_n2);
                 if (*pPlayerIdx != 0xEEEEEEEE)
                 {
                     bGotMessage = 1;
-                    pOut->field_4_len = pPacket[4];
-                    pOut->field_0 = pPacket + 5;
+                    pOut->field_4_len = ((u8*)pData)[4];
+                    pOut->field_0 = (u8*)pData + 5;
                     if (*pType == 3)
                     {
-                        u8 packetSeq = pPacket[1];
+                        u8 packetSeq = ((u8*)pData)[1];
                         s32 diff = SeqDiff(packetSeq, field_758_n2.field_8[*pPlayerIdx]);
                         s32 diffLocal = SeqDiff(packetSeq, field_758_n2.field_8[GetPlayerIdx_409C40()]);
                         if (diff < 0)
@@ -2164,7 +2195,8 @@ char_type NetPlay::ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u
                         else if (diff <= 0 && diffLocal < 0)
                         {
                             sub_521820((s32**)pOut, *pPlayerIdx);
-                            field_758_n2.field_8[*pPlayerIdx] = ((u8)field_758_n2.field_8[*pPlayerIdx] + 1) % 256;
+                            s32 idx = *pPlayerIdx;
+                            field_758_n2.field_8[idx] = ((u8)field_758_n2.field_8[idx] + 1) % 256;
                         }
                         else
                         {
