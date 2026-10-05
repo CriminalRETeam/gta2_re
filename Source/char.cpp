@@ -4356,11 +4356,9 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
 }
 
 // https://decomp.me/scratch/xc0PO
-WIP_FUNC(0x54fec0)
+MATCH_FUNC(0x54fec0)
 bool Char_B4::CanStepForward_54FEC0(s32 direction)
 {
-    WIP_IMPLEMENTED;
-
     bool result;
 
     Fix16 v16;
@@ -4384,72 +4382,64 @@ bool Char_B4::CanStepForward_54FEC0(s32 direction)
         gCharB4_PathDirection_623F44 = direction;
         return false;
     }
-    else
+
+    v9 += v18;
+
+    if (v9 < 0)
     {
-        v9 += v18;
-
-        if (v9 < 0)
-        {
-            return 0;
-        }
-        else
-        {
-            block_type = AIR;
-            switch (direction)
-            {
-                case 1:
-                    block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() - 1, v9);
-                    break;
-                case 3:
-                    block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt() + 1, ypos.ToInt(), v9);
-                    break;
-                case 2:
-                    block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() + 1, v9);
-                    break;
-                case 4:
-                    block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt() - 1, ypos.ToInt(), v9);
-                    break;
-            }
-
-            if (block_type != AIR)
-            {
-                return IsBlockTypeInRange_1_4(block_type);
-            }
-
-            if ((field_58_flags & 1) == 1)
-            {
-                v16 = field_1C_zpos.GetFracValue();
-                if (v16 < kFP16Half_6FD8E4)
-                {
-                    field_58_flags &= ~1u;
-                    result = Char_B4::CanStepForward_54FEC0(direction);
-                    field_58_flags |= 1u;
-                    return result;
-                }
-                if (field_7C_pPed->IsField238_45EDE0(2))
-                {
-                    return 1;
-                }
-                if (v16 > kFP16Half_6FD8E4)
-                {
-                    field_58_flags &= ~1u;
-                    field_80_sprite_ptr->field_1C_zpos += Fix16(1);
-                    result = Char_B4::CanStepForward_54FEC0(direction);
-                    field_80_sprite_ptr->field_1C_zpos -= Fix16(1);
-                    field_58_flags |= 1u;
-                    return result;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            else
-            {
-                return 1;
-            }
-        }
+        return false;
     }
+
+    switch (direction)
+    {
+        case 1:
+            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() - 1, v9);
+            break;
+        case 3:
+            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt() + 1, ypos.ToInt(), v9);
+            break;
+        case 2:
+            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() + 1, v9);
+            break;
+        case 4:
+            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt() - 1, ypos.ToInt(), v9);
+            break;
+        default:
+            block_type = AIR;
+            break;
+    }
+
+    if (block_type != AIR)
+    {
+        return IsBlockTypeInRange_1_4(block_type);
+    }
+
+    if ((field_58_flags & 1) == 1)
+    {
+        v16 = field_1C_zpos.GetFracValue();
+        if (v16 < kFP16Half_6FD8E4)
+        {
+            field_58_flags &= ~1u;
+            result = Char_B4::CanStepForward_54FEC0(direction);
+            field_58_flags |= 1u;
+            return result;
+        }
+        if (field_7C_pPed->IsField238_45EDE0(2))
+        {
+            return true;
+        }
+        if (v16 > kFP16Half_6FD8E4)
+        {
+            field_58_flags &= ~1u;
+            field_80_sprite_ptr->field_1C_zpos += Fix16(1);
+            result = Char_B4::CanStepForward_54FEC0(direction);
+            field_80_sprite_ptr->field_1C_zpos -= Fix16(1);
+            field_58_flags |= 1u;
+            return result;
+        }
+        return false;
+    }
+    return true;
 }
 
 MATCH_FUNC(0x550090)
