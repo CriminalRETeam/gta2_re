@@ -148,7 +148,7 @@ class Ped
 
     EXPORT Ped(); // 45AE70
     EXPORT ~Ped(); // 45AF00
-    EXPORT char_type Reset_45AFC0();
+    EXPORT void Reset_45AFC0();
     EXPORT void PoolAllocate();
     EXPORT char_type IsLawEnforcement_45B4E0();
     EXPORT Fix16_Point GetVelocityVector_45B520();

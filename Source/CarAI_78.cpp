@@ -665,7 +665,6 @@ void CarAI_78::sub_4482C0()
             this->field_48 = 4;
             this->field_9 = v3.ToInt();
             this->field_A = v4.ToInt();
-            v31 = 0;
         }
         else
         {
@@ -703,9 +702,9 @@ void CarAI_78::sub_4482C0()
                     }
                 }
             }
-            v31 = 0;
         }
 
+        v31 = 0;
         Fix16 v18;
         Fix16 v32;
         Fix16 v19;
@@ -719,15 +718,15 @@ void CarAI_78::sub_4482C0()
                 case car_ai_direction::north_1:
                     v19 += kFpHalf_677A84;
                     v32 = v19;
-                    if (v31)
-                    {
-                        v18 += kFpTwo_677B98;
-                        v33 = 6;
-                    }
-                    else
+                    if (!v31)
                     {
                         v18 -= kFpTwo_677B98;
                         v33 = 3;
+                    }
+                    else
+                    {
+                        v18 += kFpTwo_677B98;
+                        v33 = 6;
                     }
                     this->field_48 = 4;
                     break;
@@ -735,30 +734,30 @@ void CarAI_78::sub_4482C0()
                 case car_ai_direction::south_2:
                     v19 += kFpHalf_677A84;
                     v32 = v19;
-                    if (v31)
-                    {
-                        v33 = 6;
-                        v18 -= gF16fOne_677B94;
-                    }
-                    else
+                    if (!v31)
                     {
                         v33 = 3;
                         v18 += kFpThree_677B9C;
+                    }
+                    else
+                    {
+                        v33 = 6;
+                        v18 -= gF16fOne_677B94;
                     }
                     this->field_48 = 3;
                     break;
 
                 case car_ai_direction::east_3:
                     v18 += kFpHalf_677A84;
-                    if (v31)
-                    {
-                        v19 += kFpTwo_677B98;
-                        v33 = 6;
-                    }
-                    else
+                    if (!v31)
                     {
                         v19 -= kFpTwo_677B98;
                         v33 = 3;
+                    }
+                    else
+                    {
+                        v19 += kFpTwo_677B98;
+                        v33 = 6;
                     }
                     v32 = v19;
                     this->field_48 = 1;
@@ -766,15 +765,15 @@ void CarAI_78::sub_4482C0()
 
                 case car_ai_direction::west_4:
                     v18 += kFpHalf_677A84;
-                    if (v31)
-                    {
-                        v33 = 6;
-                        v19 -= kFpTwo_677B98;
-                    }
-                    else
+                    if (!v31)
                     {
                         v33 = 3;
                         v19 += kFpThree_677B9C;
+                    }
+                    else
+                    {
+                        v33 = 6;
+                        v19 -= kFpTwo_677B98;
                     }
                     v32 = v19;
                     this->field_48 = 2;
@@ -4079,6 +4078,19 @@ void CarAI_78::UpdateStateMachine_44E560()
 }
 
 // https://decomp.me/scratch/Auxlx
+// MaxAbsDistance_42A6B0 past the inline budget: the y difference stays inline, the Abs calls
+// are the out-of-line Abs_436A50
+static inline Fix16 __stdcall MaxAbsDistanceRawY_451980(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
+{
+    Fix16 diff_x = x2 - x1;
+    Fix16 diff_y;
+    diff_y.mValue = y2.mValue - y1.mValue;
+
+    Fix16 result;
+    result = Fix16::Max_44E540(Fix16::Abs_436A50(diff_x), Fix16::Abs_436A50(diff_y));
+    return result;
+}
+
 WIP_FUNC(0x451980)
 void CarAI_78::ReactToNearbyCar_451980()
 {
@@ -4107,10 +4119,10 @@ void CarAI_78::ReactToNearbyCar_451980()
         }
     }
 
-    Fix16 v8 = Fix16::MaxAbsDistanceOOL_42A6B0(gCurrCarAI_xpos_677C38,
-                                               gCurrCarAI_ypos_677C30,
-                                               cBC->field_50_car_sprite->field_14_xy.x,
-                                               cBC->field_50_car_sprite->field_14_xy.y);
+    Fix16 v8 = MaxAbsDistanceRawY_451980(gCurrCarAI_xpos_677C38,
+                                         gCurrCarAI_ypos_677C30,
+                                         cBC->field_50_car_sprite->field_14_xy.x,
+                                         cBC->field_50_car_sprite->field_14_xy.y);
     Ang16 v9;
 
     if (v8 > kFpTwo_677B98)
@@ -4746,11 +4758,26 @@ void CarAI_78::sub_452060()
     }
 }
 
+// RotateAndTranslatePoint_42A720 with the out-of-line Fix16 operator copies (as in
+// Char_B4::HandleGenericCollision_54A530): only the first subtraction stays inline
+static inline void __stdcall RotateAndTranslatePoint_OOL_452A20(Fix16& pInX,
+                                                      Fix16& pInY,
+                                                      Ang16& pRotAng,
+                                                      Fix16& pTransX,
+                                                      Fix16& pTransY,
+                                                      Fix16& pRotTransX,
+                                                      Fix16& pRotTransY)
+{
+    pRotTransX = (const Fix16&)pInX.Subtract_436A00(pTransX).Multiply_408680(Ang16::cosine_40F520(pRotAng)) +
+        (pInY - pTransY).Multiply_408680(Ang16::sine_40F500(pRotAng));
+    pRotTransY = (const Fix16&)pInX.Subtract_436A00(pTransX).Negate_4086A0().Multiply_408680(Ang16::sine_40F500(pRotAng)) +
+        pInY.Subtract_436A00(pTransY).Multiply_408680(Ang16::cosine_40F520(pRotAng));
+}
+
 // https://decomp.me/scratch/zCa7m
-WIP_FUNC(0x452a20)
+MATCH_FUNC(0x452a20)
 void CarAI_78::ManageCollisions_452A20()
 {
-    WIP_IMPLEMENTED;
     Fix16_Point v45;
 
     if (field_24_bf.b12)
@@ -4773,7 +4800,9 @@ void CarAI_78::ManageCollisions_452A20()
             {
                 if (field_0_car->field_60->field_10)
                 {
-                    v45.FromPolar_41E210(kF16Zero_677B90, kAng0_677CE8);
+                    // FromPolar_41E210 past the inline budget: the second multiply is out of line
+                    v45.x = kF16Zero_677B90 * Ang16::sine_40F500(kAng0_677CE8);
+                    v45.y = kF16Zero_677B90.Multiply_408680(Ang16::cosine_40F520(kAng0_677CE8));
                     if (gCurrCarAI_TargetCar_6779B0)
                     {
                         if (gCurrCarAI_TargetCar_6779B0 == field_68_car_in_collision)
@@ -4804,15 +4833,17 @@ void CarAI_78::ManageCollisions_452A20()
 
         Fix16 rotX;
         Fix16 rotY;
-        RotateAndTranslatePoint_42A720(field_68_car_in_collision->field_50_car_sprite->field_14_xy.x,
-                                       field_68_car_in_collision->field_50_car_sprite->field_14_xy.y,
-                                       -field_10_angle,
-                                       gCurrCarAI_xpos_677C38,
-                                       gCurrCarAI_ypos_677C30,
-                                       rotX,
-                                       rotY);
+        // The negated angle is normalised by the out-of-line Normalize_406C20
+        RotateAndTranslatePoint_OOL_452A20(field_68_car_in_collision->field_50_car_sprite->field_14_xy.x,
+                                           field_68_car_in_collision->field_50_car_sprite->field_14_xy.y,
+                                           Ang16(-field_10_angle.rValue).Normalized_406C20(),
+                                           gCurrCarAI_xpos_677C38,
+                                           gCurrCarAI_ypos_677C30,
+                                           rotX,
+                                           rotY);
 
-        Fix16 v21 = rotX + field_0_car->field_50_car_sprite->field_14_xy.x;
+        // rotX is reused for the sum (a separate local moves it to the stack)
+        rotX = rotX + field_0_car->field_50_car_sprite->field_14_xy.x;
 
         Ped* pDriver = field_68_car_in_collision->field_54_driver;
 
@@ -4825,7 +4856,7 @@ void CarAI_78::ManageCollisions_452A20()
 
         if (field_24_bf.b21)
         {
-            if (v21 > field_0_car->field_50_car_sprite->field_14_xy.x)
+            if (rotX > field_0_car->field_50_car_sprite->field_14_xy.x)
             {
                 field_0_car->field_58_physics->TurnClockwise_42ABA0();
             }
@@ -4836,7 +4867,7 @@ void CarAI_78::ManageCollisions_452A20()
         }
         else if (field_2A_stopped_timer > 0 && field_2A_stopped_timer < 20)
         {
-            if (v21 > field_0_car->field_50_car_sprite->field_14_xy.x)
+            if (rotX > field_0_car->field_50_car_sprite->field_14_xy.x)
             {
                 field_0_car->field_58_physics->TurnClockwise_42ABA0();
             }
@@ -4847,7 +4878,7 @@ void CarAI_78::ManageCollisions_452A20()
         }
         else if (field_2A_stopped_timer > 20)
         {
-            if (v21 > field_0_car->field_50_car_sprite->field_14_xy.x)
+            if (rotX > field_0_car->field_50_car_sprite->field_14_xy.x)
             {
                 field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
             }

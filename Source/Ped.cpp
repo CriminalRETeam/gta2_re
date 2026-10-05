@@ -505,7 +505,7 @@ Ped::~Ped()
 
 // https://decomp.me/scratch/2yWEK
 WIP_FUNC(0x45afc0)
-char_type Ped::Reset_45AFC0()
+void Ped::Reset_45AFC0()
 {
     field_21C_bf.b0 = 0;
     field_21C_bf.b1 = 0;
@@ -646,7 +646,6 @@ char_type Ped::Reset_45AFC0()
     field_21C_bf.b29 = 0;
     field_260 = 0;
     field_224 |= 0x20u;
-    return 0;
 }
 
 MATCH_FUNC(0x45b440)
@@ -10037,11 +10036,10 @@ char_type Ped::IsOtherPedEnteringAsDriver_46BD50(Car_BC* pCar)
     return 0;
 }
 
-WIP_FUNC(0x46bdc0)
+MATCH_FUNC(0x46bdc0)
 void Ped::EnterCarStateMachine_46BDC0()
 {
-    WIP_IMPLEMENTED;
-
+    Car_Door_10* pDoor;
     if (field_16C_car && this->field_154_target_to_enter == field_16C_car)
     {
         this->field_226_internal_objective_status = 1;
@@ -10076,7 +10074,7 @@ void Ped::EnterCarStateMachine_46BDC0()
 
     if (!FindUsableCarDoor_467090())
     {
-        Car_Door_10* pDoor = field_154_target_to_enter->GetDoor(this->field_24C_target_car_door);
+        pDoor = field_154_target_to_enter->GetDoor(this->field_24C_target_car_door);
         pDoor->Close_439EA0();
         if (this->field_27C_ped_state_2 == ped_state_2::ped2_entering_a_car_6)
         {
@@ -10103,16 +10101,16 @@ void Ped::EnterCarStateMachine_46BDC0()
             &field_154_target_to_enter->field_50_car_sprite->field_C_sprite_4c_ptr->field_30_boundingBox))
     {
         this->field_21C |= 0x8000000u;
-        field_168_game_object->SetMaxSpeed_433920(kFpZero_678438);
+        field_168_game_object->SetMaxSpeedByRef_433920(kFpZero_678438);
         if (field_27C_ped_state_2 == ped_state_2::ped2_staying_14 || field_27C_ped_state_2 == ped_state_2::ped2_following_a_car_4 ||
             field_27C_ped_state_2 == ped_state_2::Unknown_5)
         {
-            Car_Door_10* pDoor_ = field_154_target_to_enter->GetDoor(field_24C_target_car_door);
+            pDoor = field_154_target_to_enter->GetDoor(field_24C_target_car_door);
             ChangeNextPedState2_45C540(6);
             ChangeNextPedState1_45C500(3);
             if (this->field_25C_internal_objective != 37)
             {
-                pDoor_->set_ped_421380(this);
+                pDoor->set_ped_421380(this);
             }
             field_154_target_to_enter->ApplyVisualDamage_43A9F0();
         }
@@ -10153,10 +10151,10 @@ void Ped::EnterCarStateMachine_46BDC0()
         {
             ChangeNextPedState1_45C500(7);
             ChangeNextPedState2_45C540(14);
-            Car_Door_10* pDoor__ = field_154_target_to_enter->GetDoor(this->field_24C_target_car_door);
-            if (pDoor__)
+            pDoor = field_154_target_to_enter->GetDoor(this->field_24C_target_car_door);
+            if (pDoor)
             {
-                pDoor__->set_ped_421380(0);
+                pDoor->set_ped_421380(0);
             }
             //LABEL_54:
             this->field_226_internal_objective_status = 2;
@@ -10200,12 +10198,13 @@ void Ped::EnterCarStateMachine_46BDC0()
     }
 }
 
-WIP_FUNC(0x46c250)
+MATCH_FUNC(0x46c250)
 void Ped::ExitCarStateMachine_46C250()
 {
-    WIP_IMPLEMENTED;
-
     bool bUnknown = 0;
+    // Shared by both door paths; the z temporaries are block scoped (this gives the frame layout)
+    Fix16 char_x;
+    Fix16 char_y;
     this->field_21C |= 0x8000000u;
 
     if (field_27C_ped_state_2 == ped_state_2::ped2_driving_10)
@@ -10225,8 +10224,6 @@ void Ped::ExitCarStateMachine_46C250()
 
             if (FindUsableCarDoor_467090())
             {
-                Fix16 char_x;
-                Fix16 char_y;
                 field_154_target_to_enter->GetDoorWorldPosition_43B5A0(field_24C_target_car_door, &char_x, &char_y);
                 Fix16 zTmp;
                 AllocCharB4_45C830(char_x,
@@ -10236,7 +10233,16 @@ void Ped::ExitCarStateMachine_46C250()
                                                                   char_y,
                                                                   this->field_154_target_to_enter->field_50_car_sprite->field_1C_zpos));
 
-                SetRemap_433C10(field_244_remap);
+                {
+                    // SetRemap_433C10 written out (as in StartPedWalking_470200)
+                    Char_B4* pB4 = field_168_game_object;
+                    u8 remap = field_244_remap;
+                    pB4->field_5_remap = remap;
+                    if (remap != 0xFF)
+                    {
+                        pB4->field_80_sprite_ptr->SetRemap(remap);
+                    }
+                }
 
                 ChangeNextPedState2_45C540(7);
                 ChangeNextPedState1_45C500(4);
@@ -10247,24 +10253,34 @@ void Ped::ExitCarStateMachine_46C250()
                 return;
             }
 
-            Fix16 zpos;
-            Sprite* pCarSprite = field_154_target_to_enter->field_50_car_sprite;
-            if (!AllocCharB4_45C830(pCarSprite->field_14_xy.x,
-                                    pCarSprite->field_14_xy.y,
-                                    *gMap_0x370_6F6268->sub_4E4E50(&zpos,
-                                                                   pCarSprite->field_14_xy.x,
-                                                                   pCarSprite->field_14_xy.y,
-                                                                   pCarSprite->field_1C_zpos)))
             {
-                FatalError_4A38C0(1, "C:\\Splitting\\Gta2\\Source\\char.cpp", 11894);
+                Fix16 zpos;
+                if (!AllocCharB4_45C830(field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
+                                        field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
+                                        *gMap_0x370_6F6268->sub_4E4E50(&zpos,
+                                                                       field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
+                                                                       field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
+                                                                       field_154_target_to_enter->field_50_car_sprite->field_1C_zpos)))
+                {
+                    FatalError_4A38C0(1, "C:\\Splitting\\Gta2\\Source\\char.cpp", 11894);
+                }
             }
 
-            SetRemap_433C10(field_244_remap);
+            {
+                // SetRemap_433C10 written out (as in StartPedWalking_470200)
+                Char_B4* pB4 = field_168_game_object;
+                u8 remap = field_244_remap;
+                pB4->field_5_remap = remap;
+                if (remap != 0xFF)
+                {
+                    pB4->field_80_sprite_ptr->SetRemap(remap);
+                }
+            }
 
             ChangeNextPedState2_45C540(0);
             ChangeNextPedState1_45C500(0);
 
-            this->field_168_game_object->SetMaxSpeed_433920(kFpZero_678438);
+            this->field_168_game_object->SetMaxSpeedByRef_433920(kFpZero_678438);
             field_168_game_object->DoJump_5454D0();
             field_168_game_object->field_80_sprite_ptr->field_0 = field_154_target_to_enter->field_50_car_sprite->field_0;
             this->field_168_game_object->set_rotation_433A30(this->field_154_target_to_enter->field_50_car_sprite->field_0);
@@ -10282,18 +10298,25 @@ void Ped::ExitCarStateMachine_46C250()
                 if (!pDoor->get_pObj_4341B0() || this->field_25C_internal_objective == 38)
                 {
                     field_16C_car->field_4_passengers_list.RemovePed_471240(this);
-                    Fix16 char_x;
-                    Fix16 char_y;
                     field_154_target_to_enter->GetDoorWorldPosition_43B5A0(field_24C_target_car_door, &char_x, &char_y);
 
-                    Fix16 char_z;
-                    char_z = *gMap_0x370_6F6268->sub_4E4E50(&char_z,
-                                                            char_x,
-                                                            char_y,
-                                                            this->field_154_target_to_enter->field_50_car_sprite->field_1C_zpos);
-
-                    AllocCharB4_45C830(char_x, char_y, char_z);
-                    SetRemap_433C10(field_244_remap);
+                    Fix16 zTmp;
+                    AllocCharB4_45C830(char_x,
+                                       char_y,
+                                       *gMap_0x370_6F6268->sub_4E4E50(&zTmp,
+                                                                      char_x,
+                                                                      char_y,
+                                                                      this->field_154_target_to_enter->field_50_car_sprite->field_1C_zpos));
+                    {
+                        // SetRemap_433C10 written out (as in StartPedWalking_470200)
+                        Char_B4* pB4 = field_168_game_object;
+                        u8 remap = field_244_remap;
+                        pB4->field_5_remap = remap;
+                        if (remap != 0xFF)
+                        {
+                            pB4->field_80_sprite_ptr->SetRemap(remap);
+                        }
+                    }
                     ChangeNextPedState2_45C540(7);
                     ChangeNextPedState1_45C500(4);
                     this->field_16C_car = 0;
@@ -10312,16 +10335,25 @@ void Ped::ExitCarStateMachine_46C250()
 
                 field_16C_car->field_4_passengers_list.RemovePed_471240(this);
 
-                Fix16 zpos;
-                zpos = *gMap_0x370_6F6268->sub_4E4E50(&zpos,
-                                                      field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
-                                                      field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
-                                                      field_154_target_to_enter->field_50_car_sprite->field_1C_zpos);
-
-                AllocCharB4_45C830(field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
-                                   field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
-                                   zpos);
-                SetRemap_433C10(field_244_remap);
+                {
+                    Fix16 zpos;
+                    AllocCharB4_45C830(field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
+                                       field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
+                                       *gMap_0x370_6F6268->sub_4E4E50(&zpos,
+                                                                      field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
+                                                                      field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
+                                                                      field_154_target_to_enter->field_50_car_sprite->field_1C_zpos));
+                }
+                {
+                    // SetRemap_433C10 written out (as in StartPedWalking_470200)
+                    Char_B4* pB4 = field_168_game_object;
+                    u8 remap = field_244_remap;
+                    pB4->field_5_remap = remap;
+                    if (remap != 0xFF)
+                    {
+                        pB4->field_80_sprite_ptr->SetRemap(remap);
+                    }
+                }
                 ChangeNextPedState2_45C540(0);
                 ChangeNextPedState1_45C500(0);
                 field_168_game_object->DoJump_5454D0();
