@@ -19,6 +19,9 @@ Scripts/permute.sh Source/Foo.cpp Foo::Bar_123456 123456 --base-only   # just pr
   candidate `.obj`, patches each relocation to a fake address unique per symbol, post processes it
   like `target_asm.json`, and prints the number of differing lines (0 = match). On every
   `MATCH_FUNC` that has target asm (83 of them), it scores 0 from the build's own objects.
+  The fake addresses are 0x10000 apart. With 0x10, a `symbol+offset` operand
+  (`gTrainStationList+0x10`) could land on the next symbol's fake address and shift every later
+  `stable_name`.
 - Remove `NOT_IMPLEMENTED` / `WIP_IMPLEMENTED` from the function first.
 - Results go to `permuter_out/output-<score>-<n>/` in the current directory: `source.cpp`,
   `function.cpp`, `diff.txt`, `asm_diff.txt`. Copy the function back, then run `build.py` and
@@ -42,10 +45,29 @@ Scripts/permute.sh Source/Foo.cpp Foo::Bar_123456 123456 --base-only   # just pr
   always gives the same candidates.
 - Run one permuter at a time if you share the machine: `flock -o /tmp/permute.lock Scripts/permute.sh ...`.
 
+## Related tools
+
+- `Scripts/quick_score.sh <Source/File.cpp> <addr> <symbol_substring> [-q]` compiles one TU into a
+  private obj and scores one function with `permuter_score.py`, without touching `build_vc6/`, so
+  several can run at once. Use it for hand experiments instead of `build.py --single_cpp`.
+- `Scripts/bin_comp/show_96f.py <addr>` prints the 9.6f version of a 10.5 function and the 9.6f
+  bodies of the callees 10.5 inlined into it.
+- Logic-bug finders (from `Scripts/bin_comp`, after a build and `msvc_dump_new_data.py`):
+  `compare_globals.py` lists globals and float constants a WIP reads where the original reads
+  others (the asm normaliser hides these behind `stable_name` numbers), and
+  `compare_callees_multiset.py` lists calls to real functions that the original makes and ours
+  doesn't, or the reverse. Both found real bugs (`SetupTrainAndBusStops_5794B0`,
+  `Weapon_30::throwable_5DDFC0`). Run them before tuning registers.
+
 ## Rejected candidates
 
 - **`PoliceCrew_38::sub_571A30`, score 129 → 72.** The candidate casts `(s8)pCar->field_76_last_seen_timer <= 200`, which is always true. VC6 then drops the compare and the score falls, but the original does `cmpw $0xC8`. With `(u8)` instead it scores 0.659 (base 0.748).
 - **`MapRenderer::DrawDiagonalDownRightFace_4ECE40`, exhaustive run.** `(s8)right_word >> 13` changes the result from 0–7 to 0 or -1. The random run's candidate (a `u32` temp) was used instead.
 - **`PedGroup::CoordinateGroupCarEntry_4C9F00` and `Ped::IncreaseWantedLevelFromDebugKeys_46EFD0`.** The permuter score went down but the real ratio got worse. Always re-check with the real ratio before committing.
+
+- **`remove_stmt` and `move_stmt` can win by breaking the logic.** On `Map_0x370::sub_4E8370`
+  `remove_stmt` "improved" the score by deleting `field_0_height--`, and on
+  `ProcessOtherObjects_41F520` by deleting `sample_index = 1;`. Read the diff of every candidate
+  from these passes, or leave them out (`-p`).
 
 A cast that narrows a compared value into a range where the compare is always true or always false is a red flag: check the target asm's compare width.
