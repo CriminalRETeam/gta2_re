@@ -1050,21 +1050,41 @@ void Sprite::FreeSprite4CChildren_59FAD0()
     }
 }
 
-WIP_FUNC(0x59FB10)
+// RotateAndTranslatePoint_42A720 with the out-of-line Fix16 operator copies
+static inline void __stdcall RotateAndTranslatePoint_ool_42A720(Fix16& pInX,
+                                                                Fix16& pInY,
+                                                                Ang16& pRotAng,
+                                                                Fix16& pTransX,
+                                                                Fix16& pTransY,
+                                                                Fix16& pRotTransX,
+                                                                Fix16& pRotTransY)
+{
+    pRotTransX = static_cast<const Fix16&>(pInX.Subtract_436A00(pTransX).Multiply_408680(Ang16::cosine_40F520(pRotAng))) +
+        pInY.Subtract_436A00(pTransY).Multiply_408680(Ang16::sine_40F500(pRotAng));
+    pRotTransY = static_cast<const Fix16&>(pInX.Subtract_436A00(pTransX).Negate_4086A0().Multiply_408680(Ang16::sine_40F500(pRotAng))) +
+        pInY.Subtract_436A00(pTransY).Multiply_408680(Ang16::cosine_40F520(pRotAng));
+}
+
+// Sprite_4C::HalfWH_4BA0A0 with the out-of-line Fix16 / s32 copy
+static inline void HalfWH_ool_4BA0A0(Sprite_4C* pThis, Fix16* pHalfW, Fix16* pHalfH)
+{
+    *pHalfW = pThis->field_0_width.DivideInt_53E860(2);
+    *pHalfH = pThis->field_4_height.DivideInt_53E860(2);
+}
+
+MATCH_FUNC(0x59FB10)
 bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect)
 {
-    WIP_IMPLEMENTED;
-
     Fix16 half_width;
     Fix16 half_height;
 
-    field_C_sprite_4c_ptr->HalfWH_4BA0A0(&half_width, &half_height);
+    HalfWH_ool_4BA0A0(field_C_sprite_4c_ptr, &half_width, &half_height);
 
     Fix16 pRotTransX;
     Fix16 pRotTransY;
 
     // First rotation
-    RotateAndTranslatePoint_42A720(pOtherRect->get_left_45ADB0(),
+    RotateAndTranslatePoint_ool_42A720(pOtherRect->get_left_45ADB0(),
                                    pOtherRect->get_top_45ADD0(),
                                    -field_0,
                                    field_14_xy.x,
@@ -1081,7 +1101,7 @@ bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect)
     }
 
     // Second rotation
-    RotateAndTranslatePoint_42A720(pOtherRect->get_right_45ADA0(),
+    RotateAndTranslatePoint_ool_42A720(pOtherRect->get_right_45ADA0(),
                                    pOtherRect->get_top_45ADD0(),
                                    -field_0,
                                    field_14_xy.x,
@@ -1098,7 +1118,7 @@ bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect)
     }
 
     // Third rotation
-    RotateAndTranslatePoint_42A720(pOtherRect->get_right_45ADA0(),
+    RotateAndTranslatePoint_ool_42A720(pOtherRect->get_right_45ADA0(),
                                    pOtherRect->get_bottom_45ADC0(),
                                    -field_0,
                                    field_14_xy.x,
@@ -1115,7 +1135,7 @@ bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect)
     }
 
     // Fourth rotation
-    RotateAndTranslatePoint_42A720(pOtherRect->get_left_45ADB0(),
+    RotateAndTranslatePoint_ool_42A720(pOtherRect->get_left_45ADB0(),
                                    pOtherRect->get_bottom_45ADC0(),
                                    -field_0,
                                    field_14_xy.x,
@@ -1132,12 +1152,11 @@ bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect)
     }
 
     // Last rotation
-    // In 9.6f, it's RotateAndTranslatePoint_42A720.
-    // Either this was changed in 10.5 or, for some reason, it doesn't get inlined
-    // Out-of-line copies: the function has run out of inline expansions. The original also calls
-    // the out-of-line operator/ (0x53E860) for both / 2 and Add_408660 for the x sum
-    ProjectOntoAxis_5A5AA0((pOtherRect->get_left_45ADB0() + pOtherRect->get_right_45ADA0()) / 2,
-                           (pOtherRect->get_bottom_45ADC0() + pOtherRect->get_top_45ADD0()) / 2,
+    // In 9.6f, it's RotateAndTranslatePoint_42A720. Here the function has run out of inline
+    // expansions: the rotation is the out-of-line copy and only the y sum stays inline. The
+    // operators are the named out-of-line copies used above, so each has a single callee.
+    ProjectOntoAxis_5A5AA0((static_cast<const Fix16&>(pOtherRect->get_left_45ADB0()) + pOtherRect->get_right_45ADA0()).DivideInt_53E860(2),
+                           (pOtherRect->get_top_45ADD0() + pOtherRect->get_bottom_45ADC0()).DivideInt_53E860(2),
                            -field_0,
                            field_14_xy.x,
                            field_14_xy.y,
@@ -1620,28 +1639,6 @@ static inline Ang16 NegateAng16_401C80(const Ang16& angle)
 {
     s16 value = -angle.rValue;
     return Ang16((Ang16&)value, 0);
-}
-
-// RotateAndTranslatePoint_42A720 with the out-of-line Fix16 operator copies
-static inline void __stdcall RotateAndTranslatePoint_ool_42A720(Fix16& pInX,
-                                                                Fix16& pInY,
-                                                                Ang16& pRotAng,
-                                                                Fix16& pTransX,
-                                                                Fix16& pTransY,
-                                                                Fix16& pRotTransX,
-                                                                Fix16& pRotTransY)
-{
-    pRotTransX = static_cast<const Fix16&>(pInX.Subtract_436A00(pTransX).Multiply_408680(Ang16::cosine_40F520(pRotAng))) +
-        pInY.Subtract_436A00(pTransY).Multiply_408680(Ang16::sine_40F500(pRotAng));
-    pRotTransY = static_cast<const Fix16&>(pInX.Subtract_436A00(pTransX).Negate_4086A0().Multiply_408680(Ang16::sine_40F500(pRotAng))) +
-        pInY.Subtract_436A00(pTransY).Multiply_408680(Ang16::cosine_40F520(pRotAng));
-}
-
-// Sprite_4C::HalfWH_4BA0A0 with the out-of-line Fix16 / s32 copy
-static inline void HalfWH_ool_4BA0A0(Sprite_4C* pThis, Fix16* pHalfW, Fix16* pHalfH)
-{
-    *pHalfW = pThis->field_0_width.DivideInt_53E860(2);
-    *pHalfH = pThis->field_4_height.DivideInt_53E860(2);
 }
 
 // https://decomp.me/scratch/2RoLd
