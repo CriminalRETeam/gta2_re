@@ -869,10 +869,9 @@ void PublicTransport_181C::InitTrainStations_579440()
 }
 
 // https://decomp.me/scratch/kgg76
-WIP_FUNC(0x5794b0)
+MATCH_FUNC(0x5794b0)
 void PublicTransport_181C::SetupTrainAndBusStops_5794B0()
 {
-    WIP_IMPLEMENTED;
     char Buffer[8];
     byte_6FF1CD = 0;
     dword_6FF1D0 = 0;
@@ -1006,7 +1005,7 @@ void PublicTransport_181C::SetupTrainAndBusStops_5794B0()
                     case 3:
                         if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(xpos.ToInt() - 1, ypos.ToInt(), highest_zpos))
                         {
-                            xpos -= kFpOne_6FF07C;
+                            xpos -= kFpHalf_6FEEE8; // the original moves only half a block west
                             j = 4;
                         }
 
