@@ -62,7 +62,7 @@ class Ped
     // 9.6f 0x4AF860 (0x4AF880 is an identical copy)
     inline void SetTrainStation_4AF860(TrainStation_34* pStation)
     {
-        if (field_13C_pTrainStation != pStation)
+        if (pStation != field_13C_pTrainStation)
         {
             field_13C_pTrainStation = pStation;
         }

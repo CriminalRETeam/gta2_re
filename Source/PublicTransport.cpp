@@ -1676,10 +1676,11 @@ void PublicTransport_181C::PublicTransportService_57A7A0()
                     }
                     else if (pTrain->field_4 == 0)
                     {
+                        pStation = pTrain->field_4C_maybe_train_station;
                         pTrain->field_48 = 6;
                         pTrain->field_4 = 10;
-                        pTrain->field_4C_maybe_train_station->field_18 = pTrain;
-                        pTrain->field_4C_maybe_train_station->field_1C = 4;
+                        pStation->field_18 = pTrain;
+                        pStation->field_1C = 4;
                     }
                     break;
 
@@ -1762,10 +1763,11 @@ void PublicTransport_181C::PublicTransportService_57A7A0()
                         pTrain->field_4--;
                         if (pTrain->field_4 == 0)
                         {
-                            SetDriverStation(pTrain, pTrain->field_4C_maybe_train_station);
+                            pStation = pTrain->field_4C_maybe_train_station;
+                            SetDriverStation(pTrain, pStation);
                             pTrain->field_48 = 9;
                             pTrain->field_4 = 10;
-                            pTrain->field_4C_maybe_train_station->field_1C = 3;
+                            pStation->field_1C = 3;
                         }
                     }
                     break;
