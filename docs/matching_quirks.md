@@ -1284,14 +1284,35 @@ that went through `Fix16(u16)` instead of `Fix16(s32)`, `DrawChatMessages_5D16B0
 
 ### Big functions run out of inline expansions
 
-VC6 stops inlining once a function has made a certain number of inline expansions. The calls
-past the limit stay as real calls, for example `call ??GFix16@@QBE?AV0@ABV0@@Z`
-(`Fix16::operator-`) where the original has `sub %ecx,%eax`. Which calls lose out isn't source
-order, and removing one expansion doesn't always free exactly one: test each change. In
+**The exact rule is known: see [`Scripts/inline_budget/README.md`](../Scripts/inline_budget/README.md).**
+In short, a function's budget is `clamp(2 * size, 1000, 35000)` in front-end size units (`Fix16`
+`operator*` is 57, `Abs` 64, `MaxAbsDistance_42A6B0` 123). Call sites are walked in evaluation order
+(arguments right to left). Callees of size <= 40 are free; a bigger one is inlined if it fits and is
+charged its size. Its own nested calls only get `budget / sites_left`, where `sites_left` counts every
+remaining candidate, free ones included. So an inline's nested helpers (`Abs`, unary `-`) go out of
+line at one call site and not at the next, and a getter versus a field access later in the function
+can move a cut-off. `Scripts/inline_budget/inl.sh <file.cpp> <function>` prints every site's decision,
+size and budget; `inlsim.py --scan/--extra` says how much caller size, or how many sites, the
+original's cut-off needs.
+
+**Don't write per-call-site variants of an inline** (`*_ool`, `*OOL*`, `*_forced`, explicit
+`Multiply_408680` calls in place of `*`). Write the one natural inline (checked against its 9.6f copy)
+and find the source difference that moves the cut-off. With the 9.6f-verified
+`MaxAbsDistance_42A6B0` (by reference, `Fix16 d; d = a - b;`), one inline reproduces the hand variants
+in `Wolfy_30::TimerAfter50Handler_541850`, all 16 `CarAI_78` sites and
+`Sprite::MinDistanceToAnySpriteBBoxCorner_5A22B0`. `Firefighter_28::Update_4A81F0` also needed field
+accesses in place of the `get_driver_4118B0` getters (fewer free sites after the call), and
+`Kfc_30::UpdateStateMachine_5CBD50` the 9.6f `ClearGroupAndGroupIdx_403A30` call (one more).
+
+The older notes below (which calls lose, "freeing budget brings inlines back", "a ternary costs less")
+all follow from this rule.
+
+Example: past the limit a call stays a real call, for example `call ??GFix16@@QBE?AV0@ABV0@@Z`
+(`Fix16::operator-`) where the original has `sub %ecx,%eax`. In
 `Map_0x370::sub_4E7190` three `operator-` calls were left out of line until two helper inlines
 were written out by hand (score 825 -> 196). If a big function calls an inline that its
 smaller sibling inlines fine, count the inline helpers you added that the original may not have
-had. Check by grepping the object's relocations for inline member names. Writing a small check out
+had. Writing a small check out
 by hand can free budget for a later expression (`Car_6C::DoGetNearestCarFromCoord_444FC0`: the train
 check written out let `x + y` inline).
 
