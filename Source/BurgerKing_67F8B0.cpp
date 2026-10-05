@@ -333,12 +333,19 @@ void __stdcall BurgerKing_1::input_devices_init_498C40(HINSTANCE hInstance)
 }
 
 // https://decomp.me/scratch/LbfoG ridiculous function to match
-WIP_FUNC(0x498CB0)
+MATCH_FUNC(0x498CB0)
 void BurgerKing_1::SetAltKeyState_498CB0(u32 a1)
 {
-    WIP_IMPLEMENTED;
-    // The original loads the whole dword and shifts only al, see docs/match_attempts.md
-    gAltKeyDown_67B80C = (u8)a1 >> 7;
+    // An if/else on the DirectInput key state bit: VC6 turns it into a dword load + `shr $7,%al`,
+    // the expression forms all give a byte load or `and $1`
+    if (a1 & 0x80)
+    {
+        gAltKeyDown_67B80C = 1;
+    }
+    else
+    {
+        gAltKeyDown_67B80C = 0;
+    }
 }
 
 MATCH_FUNC(0x498D20)
