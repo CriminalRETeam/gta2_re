@@ -2892,6 +2892,11 @@ static inline Fix16 Get_rear_window_offset(car_info* p)
 {
     return gPixelsToFix16_6F6850.SignedPixelsToFix16_440860(p->rear_window_offset);
 }
+// 9.6f 0x41FF60
+static inline Fix16 Get_half_width(car_info* p)
+{
+    return dword_677214 * gPixelsToFix16_6F6850.list[p->w];
+}
 MATCH_FUNC(0x43b870)
 void Car_BC::SpawnDamageFireEffect_43B870(s32 k1Or2, Fix16_Point* pPos)
 {
@@ -2913,12 +2918,12 @@ void Car_BC::SpawnDamageFireEffect_43B870(s32 k1Or2, Fix16_Point* pPos)
                 }
                 else
                 {
-                    x_hit = dword_677214 * gPixelsToFix16_6F6850.list[pCarInfo->w];
+                    x_hit = Get_half_width(pCarInfo);
                 }
                 break;
 
             case 2u: // huge fire
-                x_hit = -(dword_677214 * gPixelsToFix16_6F6850.list[pCarInfo->w]);
+                x_hit = -(Get_half_width(pCarInfo));
                 if (gCar_6C_677930->field_1A_fire_effect_cycle && gCar_6C_677930->field_1A_fire_effect_cycle != 3)
                 {
                     y_hit = Get_front_window_offset(pCarInfo);
@@ -2937,7 +2942,7 @@ void Car_BC::SpawnDamageFireEffect_43B870(s32 k1Or2, Fix16_Point* pPos)
                 }
                 else
                 {
-                    x_hit = dword_677214 * gPixelsToFix16_6F6850.list[pCarInfo->w];
+                    x_hit = Get_half_width(pCarInfo);
                 }
                 break;
 
@@ -2945,13 +2950,13 @@ void Car_BC::SpawnDamageFireEffect_43B870(s32 k1Or2, Fix16_Point* pPos)
                 // x_hit is left uninitialised here, as in 9.6f (the original reads whatever its slot holds)
                 break;
         }
-        x_hit = x_hit * field_68_scale;
-        y_hit = y_hit * field_68_scale;
+        x_hit *= field_68_scale;
+        y_hit *= field_68_scale;
     }
     else
     {
         rot_point = *pPos - field_50_car_sprite->get_x_y_443580();
-        rot_point.RotateByAngle_OneMulInline_40F6B0(field_50_car_sprite->field_0);
+        rot_point.RotateByAngle_40F6B0(field_50_car_sprite->field_0);
         x_hit = rot_point.x;
         y_hit = rot_point.y;
     }
@@ -4263,22 +4268,18 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
             {
                 damage = AccumulateDamage_43DA90(
                     32000,
-                    &pObj->field_4->get_x_y_443580().Add_40AC50(field_50_car_sprite->get_x_y_443580()).Multiply_438FE0(kFpHalf_677218));
+                    &((pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * kFpHalf_677218));
                 if (this->field_74_damage != 32001)
                 {
                     offset = pObj->field_4->get_x_y_443580() - field_50_car_sprite->get_x_y_443580();
-                    Ang16 rot(-field_50_car_sprite->field_0.rValue);
-                    rot.Normalize_406C20();
-                    offset.RotateByAngle_OOL_40F6B0(rot);
+                    offset.RotateByAngle_40F6B0(-field_50_car_sprite->field_0);
                     EmitExplosion_43D690(18, offset.x, offset.y);
                 }
             }
             else
             {
                 offset = pObj->field_4->get_x_y_443580() - field_50_car_sprite->get_x_y_443580();
-                Ang16 rot(-field_50_car_sprite->field_0.rValue);
-                rot.Normalize_406C20();
-                offset.RotateByAngle_OOL_40F6B0(rot);
+                offset.RotateByAngle_40F6B0(-field_50_car_sprite->field_0);
                 EmitExplosion_43D690(18, offset.x, offset.y);
             }
             break;
@@ -4294,15 +4295,13 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
                     {
                         damage = AccumulateDamage_43DA90(
                             32000,
-                            &pObj->field_4->get_x_y_443580().Add_40AC50(field_50_car_sprite->get_x_y_443580()).Multiply_438FE0(kFpHalf_677218));
+                            &((pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * kFpHalf_677218));
                     }
 
                     if (this->field_74_damage != 32001)
                     {
                         offset = pObj->field_4->get_x_y_443580() - field_50_car_sprite->get_x_y_443580();
-                        Ang16 rot(-field_50_car_sprite->field_0.rValue);
-                        rot.Normalize_406C20();
-                        offset.RotateByAngle_OOL_40F6B0(rot);
+                        offset.RotateByAngle_40F6B0(-field_50_car_sprite->field_0);
                         EmitExplosion_43D690(18, offset.x, offset.y);
                     }
                 }
@@ -4314,7 +4313,7 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
             {
                 damage = AccumulateDamage_43DA90(
                     100 * GetDamageMultiplier_45CF90(pFoundPed),
-                    &pObj->field_4->get_x_y_443580().Add_40AC50(field_50_car_sprite->get_x_y_443580()).Multiply_438FE0(kFpHalf_677218));
+                    &((pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * kFpHalf_677218));
             }
             break;
 
@@ -4323,7 +4322,7 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
             {
                 damage = AccumulateDamage_43DA90(
                     1600 * GetDamageMultiplier_45CF90(pFoundPed),
-                    &pObj->field_4->get_x_y_443580().Add_40AC50(field_50_car_sprite->get_x_y_443580()).Multiply_438FE0(kFpHalf_677218));
+                    &((pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * kFpHalf_677218));
             }
             // Like 9.6f, 265 and default pass `offset`, which only the explosion cases set
             gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pObj->field_4->field_14_xy.x,
@@ -4337,7 +4336,7 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
             {
                 damage = AccumulateDamage_43DA90(
                     800 * GetDamageMultiplier_45CF90(pFoundPed),
-                    &pObj->field_4->get_x_y_443580().Add_40AC50(field_50_car_sprite->get_x_y_443580()).Multiply_438FE0(kFpHalf_677218));
+                    &((pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * kFpHalf_677218));
             }
             gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pObj->field_4->field_14_xy.x,
                                                            pObj->field_4->field_14_xy.y,
@@ -6175,13 +6174,7 @@ bool Car_BC::UpdateAttachedToSprite_443360(Sprite* pSprite, Fix16 x, Fix16 y, An
     {
         sprite_x = x;
         sprite_y = y;
-        // RotateVector_41FC90 by the sprite's angle, but using the out-of-line Fix16 operators
-        Fix16 old_x = sprite_x;
-        sprite_x =
-            sprite_x.Multiply_408680(Ang16::cosine_40F520(pSprite->field_0)).Add_408660(sprite_y * Ang16::sine_40F500(pSprite->field_0));
-        sprite_y = (-old_x)
-                       .Multiply_408680(Ang16::sine_40F500(pSprite->field_0))
-                       .Add_408660(sprite_y.Multiply_408680(Ang16::cosine_40F520(pSprite->field_0)));
+        Ang16::RotateVector_41FC90(sprite_x, sprite_y, pSprite->field_0);
 
         sprite_x = pSprite->field_14_xy.x + sprite_x;
         sprite_y = pSprite->field_14_xy.y + sprite_y;
@@ -6197,7 +6190,7 @@ bool Car_BC::UpdateAttachedToSprite_443360(Sprite* pSprite, Fix16 x, Fix16 y, An
     tmp += rot;
     field_50_car_sprite->set_ang_lazy_420690(tmp);
 
-    switch (pSprite->get_type_416B40())
+    switch (pSprite->field_30_sprite_type_enum)
     {
         case sprite_types_enum::car_2:
             field_50_car_sprite->set_num_40F7B0(18);

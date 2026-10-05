@@ -1,3 +1,4 @@
+#define FIX16_POINT_ZERO kFP16Zero_6FD9E4
 #include "char.hpp"
 #include "CarAI_78.hpp"
 #include "CarPhysics_B0.hpp"
@@ -5913,7 +5914,7 @@ void Char_B4::state_8_5520A0()
                                                                                                field_84_target_car->field_50_car_sprite->field_0,
                                                                                                field_80_sprite_ptr->field_0,
                                                                                                field_84_target_car->field_58_physics->vec_len_552DE0(),
-                                                                                               k_dword_6FD868.Negate_4086A0(),
+                                                                                               -k_dword_6FD868,
                                                                                                0);
                     }
                     else
@@ -5925,7 +5926,7 @@ void Char_B4::state_8_5520A0()
                                                                                                field_84_target_car->field_50_car_sprite->field_0,
                                                                                                field_80_sprite_ptr->field_0,
                                                                                                dword_6FD87C,
-                                                                                               k_dword_6FD868.Negate_4086A0(),
+                                                                                               -k_dword_6FD868,
                                                                                                0);
                     }
 
@@ -6159,26 +6160,7 @@ void Char_B4::state_8_5520A0()
 MATCH_FUNC(0x552DE0)
 Fix16 CarPhysics_B0::vec_len_552DE0() // Weird location, I'm putting this here to preserve ordering
 {
-    if (field_40_linvel_1.x == kFP16Zero_6FD9E4)
-    {
-        if (field_40_linvel_1.y.mValue > 0)
-        {
-            return field_40_linvel_1.y;
-        }
-        return -field_40_linvel_1.y;
-    }
-    else if (field_40_linvel_1.y == kFP16Zero_6FD9E4)
-    {
-        if (field_40_linvel_1.x.mValue > 0)
-        {
-            return field_40_linvel_1.x;
-        }
-        return -field_40_linvel_1.x;
-    }
-    else
-    {
-        return Fix16::SquareRoot(field_40_linvel_1.x * field_40_linvel_1.x + field_40_linvel_1.y * field_40_linvel_1.y);
-    }
+    return field_40_linvel_1.GetLength_41E260();
 }
 
 MATCH_FUNC(0x552E90)

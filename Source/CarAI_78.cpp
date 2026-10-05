@@ -2784,11 +2784,8 @@ void CarAI_78::Init_AI_Chase_44E0C0()
     }
 
     gCurrCarAI_TargetZ_6779F8 = target_z;
-    // 9.6f: MaxAbsDistance_42A6B0, but 10.5 calls Abs_436A50/Max_44E540 out of line here
-    Fix16 diff_x = target_x - gCurrCarAI_xpos_677C38;
-    Fix16 diff_y = target_y - gCurrCarAI_ypos_677C30;
     Fix16 dist;
-    dist = Fix16::Max_44E540(Fix16::Abs_436A50(diff_x), Fix16::Abs_436A50(diff_y));
+    dist = Fix16::MaxAbsDistance_42A6B0(gCurrCarAI_xpos_677C38, gCurrCarAI_ypos_677C30, gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4);
     if (dist < kFpFive_677BA4 && this->field_0_car->field_60->field_8_maybe_path_type != 1)
     {
         if (field_28_junc_idx > 0)
