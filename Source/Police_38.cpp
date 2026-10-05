@@ -2615,6 +2615,8 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                 {
                     switch (gRoadblockGuardType_6FEDB8)
                     {
+                        default:
+                            break;
                         case 1:
                             pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x) + dword_6FEBF4,
                                                                              Fix16(y_start + lane) + dword_6FEBF4,
@@ -2913,6 +2915,8 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                 {
                     switch (gRoadblockGuardType_6FEDB8)
                     {
+                        default:
+                            break;
                         case 1:
                             pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start + lane) + dword_6FEBF4,
                                                                              Fix16(y) + dword_6FEBF4,
