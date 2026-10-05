@@ -542,31 +542,32 @@ CarInfo_2C::~CarInfo_2C()
 {
 }
 
-WIP_FUNC(0x454410)
+MATCH_FUNC(0x454410)
 EXPORT Fix16 __stdcall ComputeCarMassAndInertia_454410(Fix16 width, Fix16 height, Fix16 mass, Fix16 frontMassBias, Fix16* outCgHeight)
 {
-    WIP_IMPLEMENTED;
-
-    // const ref: gives the original's stack slots for the sign extended operands (30 -> 22 diff lines)
+    // The const refs (bound to the product temporaries) give the original's stack slots and the
+    // __allmul operand order of the two inertia products (value locals swap them)
     const Fix16& inertiaBase = ((((height * height) * kQuarter_677D78) + (width * width)) / 12);
-    Fix16 heightXConstant = (height * kQuarter_677D78);
-    Fix16 frontMass = (mass * frontMassBias);
+    const Fix16& heightXConstant = (height * kQuarter_677D78);
+    const Fix16& frontMass = (mass * frontMassBias);
     Fix16 frontI = (frontMass * inertiaBase);
     // Negated by hand: one inline expansion less, so both front (cg - h) subtractions stay inline (budget)
     Fix16 nh;
     nh.mValue = -height.mValue;
     Fix16 negHeightXConstant = (nh * kQuarter_677D78);
 
-    Fix16 rearMass = (mass * (kOne_677F54 - frontMassBias));
+    const Fix16& rearMass = (mass * (kOne_677F54 - frontMassBias));
     Fix16 rearI = (rearMass * inertiaBase);
 
     *outCgHeight = (((heightXConstant * frontMass) + (negHeightXConstant * rearMass)) / mass);
 
     Fix16 frontTotal;
-    frontTotal = frontI + ((frontMass * (*outCgHeight - heightXConstant)) * (*outCgHeight - heightXConstant));
+    // The tail calls the out-of-line operator exports, except the two front subtractions
+    frontTotal = frontI.Add_408660(frontMass.Multiply_408680(*outCgHeight - heightXConstant).Multiply_408680(*outCgHeight - heightXConstant));
     Fix16 rearTotal;
-    rearTotal = rearI + ((rearMass * (*outCgHeight - negHeightXConstant)) * (*outCgHeight - negHeightXConstant));
-    return frontTotal + rearTotal;
+    rearTotal = rearI.Add_408660(rearMass.Multiply_408680(outCgHeight->Subtract_436A00(negHeightXConstant))
+                                     .Multiply_408680(outCgHeight->Subtract_436A00(negHeightXConstant)));
+    return frontTotal.Add_408660(rearTotal);
 }
 
 MATCH_FUNC(0x5618F0)
