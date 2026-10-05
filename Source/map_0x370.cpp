@@ -3253,6 +3253,8 @@ WIP_FUNC(0x4E5E90)
 char_type Map_0x370::HasGreenArrowForPathDirection_4E5E90(gmp_block_info* pBlock, s32 direction, char_type a3)
 {
     WIP_IMPLEMENTED;
+    // No default label (return a3 after the switch): 44 -> 40 structure. Left: the original
+    // cross-jumps case 4's false call into case 3's true call and case 1's false call into its tail.
     switch (direction)
     {
         case 1:
@@ -3291,10 +3293,8 @@ char_type Map_0x370::HasGreenArrowForPathDirection_4E5E90(gmp_block_info* pBlock
             {
                 return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, green_1, RIGHT_4);
             }
-            break;
-        default:
-            return a3;
     }
+    return a3;
 }
 
 MATCH_FUNC(0x4E5FC0)

@@ -1410,7 +1410,8 @@ EXPORT char_type __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16& minX, Fix1
     WIP_IMPLEMENTED;
 
     // Raw compares: with Fix16 operators VC6 runs out of inline budget and calls the Fix16_Point ctor
-    // out of line. Remaining diff: the original does not tail-merge the two success stores.
+    // out of line. The out-of-line Sub_40AC80 gives the original's EH frame for pd. Remaining diff: the
+    // original's success returns are `mov $1,%al; jmp` to one shared epilogue, ours copy the epilogue.
     Fix16_Point pd;
 
     if (p0.y == p1.y)
@@ -1420,7 +1421,7 @@ EXPORT char_type __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16& minX, Fix1
 
     if (p0.y <= scanLineY && p1.y >= scanLineY)
     {
-        pd = p1 - p0;
+        pd = p1.Sub_40AC80(p0);
         Fix16 x = p0.x + (((scanLineY - p0.y) * ((pd.x) / pd.y)));
         if (x.mValue >= minX.mValue && x.mValue <= minY.mValue)
         {
@@ -1430,7 +1431,7 @@ EXPORT char_type __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16& minX, Fix1
     }
     else if (p1.y <= scanLineY && p0.y >= scanLineY)
     {
-        pd = p0 - p1;
+        pd = p0.Sub_40AC80(p1);
         Fix16 x = p1.x + (((scanLineY - p1.y) * ((pd.x) / pd.y)));
         if (x.mValue >= minX.mValue && x.mValue <= minY.mValue)
         {

@@ -1888,3 +1888,25 @@ All counts are `tu.sh` diff lines (stack offsets ignored).
   r2.create(3); } else r1.create(3);` makes VC6 merge the two `r2.create(3)` calls (9 lines), but with the
   wrong block order. Early `return` after each r1 create plus one shared r2 check after the if/else also
   gives 9 (the r2 test isn't copied into the bBothSides arm). The else arm inverted the same way gives 40.
+
+### Round 7 (structure score, control flow and call order)
+Scores are `permuter_score.py --structure` (normal score in brackets).
+- `ComputeScanlineIntersectionY_4F76A0` 46 -> 34 (76 -> 52): `pd = p1.Sub_40AC80(p0)` (operator- called by
+  name) gives the original's EH frame for `pd`. Left: success returns `mov $1,%al; jmp` to the shared EH
+  epilogue (tail duplication class). `4F77D0` scores the same both ways (34), left as is.
+- `HasGreenArrowForPathDirection_4E5E90` 44 -> 40 (56 -> 58): no `default:` label, `return a3` after the switch.
+  `if (a3) return X; return Y;` merges the wrong calls (40 too), `if (!a3)` 46. Original cross-jumps case 4's
+  false call into case 3's true call and case 1's false call into the tail of that block.
+- `sub_4E6190` (48): logic checked against the asm (all four directions correct). No outer default, inner
+  `switch (a5 - 2)` (82), `return 0` vs break: no change; the original jumps case 3/4 into case 2/1's dispatch.
+- `SpriteHitsDiagonalWall_4E1520` (58): the original calls `Fix16::FromInt_4926F0` (out-of-line Fix16(u32))
+  + `Add_408660` for the block centre. `static_cast<const Fix16&>(Fix16((u32)x))` and `SetXY_432860` for the
+  points leave the ctor inline (no change).
+- `DrawDigits_492260` (156): ternary height, `offset_byte` local as in `sub_492430`, `(u8*)` reload of
+  `field_13_offset[idx]`: all still thread the second `c == '0' && idx != 8` test (no change).
+- `DrawBackground_4B6E10` (48): `blitRet =` on the first retry, explicit `return;`: no change.
+- Control flow and calls already match, only scheduling/regalloc left: `IsSpriteInView_435630` (56; num/den
+  locals no change), `SpawnCabAndTrailer_446530` (64; zero kept in a register), `CalcPacketLen_51F210` (124;
+  `mov $3,%ebx`, `pBytes[4]` reloaded after the `pBytes[1]` store), `ShowJunctionIds_588620` (68),
+  `sub_469FE0` (48; original keeps 0 in `ebx` and compares call results with `cmp %eax,%ebx`).
+- `SetObjective2_463830` (146), `PickUpCar_47F930` (54): tail duplication class, not retried.
