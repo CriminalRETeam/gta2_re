@@ -84,14 +84,22 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
                                                     new_z.ToInt()))
     {
         rng_1 = field_30_pNext->field_1C_zpos; // dead store in the original
-        rng_1 = Fix16(gRng_6F6784.get_int_4F7AE0(61) - 30) / 100;
-        rng_2 = Fix16(gRng_6F6784.get_int_4F7AE0(10) - 5) / 100;
+        Fix16 r1;
+        r1 = Fix16(gRng_6F6784.get_int_4F7AE0(61) - 30);
+        rng_1 = r1 / 100;
+        Fix16 r2;
+        r2 = Fix16(gRng_6F6784.get_int_4F7AE0(10) - 5);
+        rng_2 = r2 / 100;
         ++field_2C_counter;
     }
     else
     {
-        rng_1 = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1) / 100;
-        rng_2 = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1) / 100;
+        Fix16 r1;
+        r1 = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
+        rng_1 = r1 / 100;
+        Fix16 r2;
+        r2 = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
+        rng_2 = r2 / 100;
     }
 
     if (field_40_pUnknown)
@@ -288,8 +296,12 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
     Fix16 jitter_y = 0;
     if (bJitter)
     {
-        jitter_x = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1) / 100;
-        jitter_y = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1) / 100;
+        Fix16 rx;
+        rx = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
+        jitter_x = rx / 100;
+        Fix16 ry;
+        ry = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
+        jitter_y = ry / 100;
     }
 
     field_8_speed_x = field_14_additional_speed_x + off_x + jitter_x;
@@ -542,8 +554,12 @@ char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
             field_14_additional_speed_x = dir.x;
             field_18_additional_speed_y = dir.y;
 
-            Fix16 jitter_x = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1) / 30;
-            Fix16 jitter_y = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1) / 30;
+            Fix16 jitter_x;
+            jitter_x = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
+            jitter_x = jitter_x / 30;
+            Fix16 jitter_y;
+            jitter_y = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
+            jitter_y = jitter_y / 30;
 
             field_8_speed_x = field_14_additional_speed_x + off_x + jitter_x;
             field_C_speed_y = field_18_additional_speed_y + off_y + jitter_y;
@@ -645,8 +661,12 @@ char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
             field_14_additional_speed_x = dir.x;
             field_18_additional_speed_y = dir.y;
 
-            Fix16 jitter_x = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1) / 50;
-            Fix16 jitter_y = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1) / 50;
+            Fix16 jitter_x;
+            jitter_x = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
+            jitter_x = jitter_x / 50;
+            Fix16 jitter_y;
+            jitter_y = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
+            jitter_y = jitter_y / 50;
 
             field_8_speed_x = field_14_additional_speed_x + off_x + jitter_x;
             field_C_speed_y = field_18_additional_speed_y + off_y + jitter_y;
@@ -834,8 +854,12 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
     Fix16 jitter_y = 0;
     if (bJitter)
     {
-        jitter_x = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1) / 100;
-        jitter_y = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1) / 100;
+        Fix16 rx;
+        rx = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
+        jitter_x = rx / 100;
+        Fix16 ry;
+        ry = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
+        jitter_y = ry / 100;
     }
 
     field_8_speed_x = field_14_additional_speed_x + jitter_x;

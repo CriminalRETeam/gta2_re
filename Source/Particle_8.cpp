@@ -95,11 +95,22 @@ void Particle_8::EmitBloodBurst_53E450(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
             vector.x = Fix16(0);
             vector.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + dword_6FD558) * dword_6FD4EC;
 
-            angle = word_6FD5CC.MultiplyByFix16_401CB0(Fix16(gRng_6F6784.get_int_4F7AE0(16)));
-            vector.RotateByAngle_NegOOL_40F6B0((angle + ang) - word_6FD5CC.MultiplyByFix16_401CB0(Fix16(8)));
+            // 9.6f: MultiplyByFix16_401CB0, angle_plus_40E5A0, subtraction_40E5D0. The original calls
+            // Multiply_408680 and Normalize_406C20 out of line, and AssignNormalized_409300 for the last ctor
+            angle.rValue = Fix16(word_6FD5CC.rValue).Multiply_408680(Fix16(gRng_6F6784.get_int_4F7AE0(16))).ToInt();
+            angle.Normalize_406C20();
+            {
+                Ang16 eight;
+                eight.rValue = Fix16(word_6FD5CC.rValue).Multiply_408680(Fix16(8)).ToInt();
+                eight.Normalize_406C20();
+                Ang16 sum(angle.rValue + ang.rValue);
+                sum.Normalize_406C20();
+                Ang16 diff(sum.rValue - eight.rValue);
+                vector.RotateByAngle_NegOOL_40F6B0(Ang16(diff, 0));
+            }
 
             Particle_4C* pBloodParticle =
-                gParticle_8_6FD5E8->New_53E3C0(vector.x, vector.y, dword_6FD330, (vector.x / 15).Negate_4086A0(), (vector.y / 15).Negate_4086A0(), 0);
+                gParticle_8_6FD5E8->New_53E3C0(vector.x, vector.y, dword_6FD330, vector.x.DivideInt_53E860(15).Negate_4086A0(), vector.y.DivideInt_53E860(15).Negate_4086A0(), 0);
 
             if (pBloodParticle)
             {
