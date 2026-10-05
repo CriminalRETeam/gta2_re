@@ -5635,13 +5635,10 @@ char_type Car_BC::UpdateCarDespawnStatus_4424C0()
 
 // 9.6f 0x424220
 // https://decomp.me/scratch/vhWKK
-WIP_FUNC(0x442520)
+MATCH_FUNC(0x442520)
 Ang16 Car_BC::GetRadioTowerAngle_442520()
 {
-    WIP_IMPLEMENTED;
-
     Fix16_Point xy;
-    // TODO: SEH around subtract operator is wrong
     xy = gCar_6C_677930->field_4C_tv_van_dir - field_50_car_sprite->get_x_y_443580();
     return xy.atan2_40F790() - field_50_car_sprite->field_0;
 }
@@ -5814,10 +5811,9 @@ void Car_BC::AttachTrailer_4427A0(Car_BC* pToFind)
 }
 
 // 9.6f 0x4262E0
-WIP_FUNC(0x442810)
+MATCH_FUNC(0x442810)
 void Car_BC::TryHitchTrailer_442810()
 {
-    WIP_IMPLEMENTED;
 
     Fix16_Point hitch_this;
     Fix16_Point hitch_car;
@@ -5868,13 +5864,15 @@ void Car_BC::TryHitchTrailer_442810()
                         pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
                         if (!pCar->field_58_physics->IsRngBelowDamage_421130())
                         {
-                            v16 = (pCar->field_50_car_sprite->get_x_y_443580() + (v6.NormalizeSafe_442AD0() * kFpOne64th_677888));
-                            s32 a5 = 1;
-                            pCar->field_58_physics->SetVelocityTowardTarget_55A1D0(
-                                v16.x,
-                                v16.y,
-                                Ang16::Ang16_to_Fix16(pCar->field_58_physics->field_58_theta),
-                                &a5);
+                            v16 = pCar->field_50_car_sprite->get_x_y_443580().AddInl_40AC50(v6.NormalizeSafe_442AD0().MultiplyInl_438FE0(kFpOne64th_677888));
+                            {
+                                s32 a5 = 1;
+                                pCar->field_58_physics->SetVelocityTowardTarget_55A1D0(
+                                    v16.x,
+                                    v16.y,
+                                    Ang16::Ang16_to_Fix16(pCar->field_58_physics->field_58_theta),
+                                    &a5);
+                            }
                         }
                     }
                 }
@@ -6300,28 +6298,9 @@ void Car_BC::sub_4435F0()
 }
 
 // 9.6f 0x426580
-// 10.5 calls the out of line Fix16 helpers here (Abs_436A50, Multiply_408680, operator+, SquareRoot_436A70)
-static inline Fix16 GetLength_out_of_line_443710(Fix16_Point& v)
-{
-    if (v.x == gFix16_6777CC)
-    {
-        return Fix16::Abs_436A50(v.y);
-    }
-    else if (v.y == gFix16_6777CC)
-    {
-        return Fix16::Abs_436A50(v.x);
-    }
-    else
-    {
-        return Fix16::SquareRoot_436A70((const Fix16&)v.x.Multiply_408680(v.x) + v.y.Multiply_408680(v.y));
-    }
-}
-
 WIP_FUNC(0x443710)
 void Car_BC::ApplyExplosionImpulse_443710(Fix16_Point* xy)
 {
-    WIP_IMPLEMENTED;
-
     Fix16_Point v16;
     Fix16_Point v4;
     Fix16_Point v9;
@@ -6335,17 +6314,15 @@ void Car_BC::ApplyExplosionImpulse_443710(Fix16_Point* xy)
         v16.y += kFpQuarter_677208 * gCar_6C_677930->field_1C_explosion_offset_cycle - kFpHalf_6772D0;
 
         v4 = (v16 - *xy);
-        Fix16 vecLen = GetLength_out_of_line_443710(v4);
-
-        if (vecLen != gFix16_6777CC)
         {
-            vecLen = vecLen * 4;
-            // TODO: the original has no EH state around the NormalizeSafe temp during this call, as if
-            // VC6 knew Divide_442CB0 can't throw. Declaring it throw() gets within 14 lines, but that
-            // drops the return flag store from Divide_442CB0 itself (breaks its match).
-            v9 = v4.NormalizeSafe_442AD0().Divide_442CB0(vecLen);
-            field_58_physics->SetCurrentCarInfoAndModelPhysics_562EF0();
-            vecLen = field_58_physics->ApplyImpactForcesAndDamage_55FA60(v16, v9, 10);
+            Fix16 vecLen = v4.GetLength_inline_443710();
+            if (vecLen != gFix16_6777CC)
+            {
+                vecLen = vecLen * 4;
+                v9 = v4.NormalizeSafe_442AD0().DivideInl_442CB0(vecLen);
+                field_58_physics->SetCurrentCarInfoAndModelPhysics_562EF0();
+                field_58_physics->ApplyImpactForcesAndDamage_55FA60(v16, v9, 10);
+            }
         }
     }
 
@@ -6967,7 +6944,7 @@ void Trailer::UpdateTrailerAlignment_407CE0()
     hitch += pCabPhys->get_cp1_40B560();
 
     // The trailer points along hitch - rear, kept within a window around the cab's angle
-    delta = hitch - rear;
+    delta = hitch.Sub_40AC80(rear);
     Fix16 new_theta = Ang16::Ang16_to_Fix16(delta.atan2_40F790());
     field_0 = sub_405E80(&cab_theta, &new_theta);
 
@@ -6983,7 +6960,7 @@ void Trailer::UpdateTrailerAlignment_407CE0()
 
     offset = gTrailerCabOffset_66AAE0;
     offset.RotateByAngle_40F6B0_all_out_of_line(Ang16::Fix16_To_Ang16_ool_40F540(new_theta));
-    field_C_pCarOnTrailer->field_58_physics->field_38_cp1 = hitch - offset;
+    field_C_pCarOnTrailer->field_58_physics->field_38_cp1 = hitch.Sub_40AC80(offset);
     pTrailerPhys->field_6C_cp3 = field_8_truck_cab->field_58_physics->field_6C_cp3;
     pTrailerPhys->UpdateCenterOfMassPoint_563350();
 }
