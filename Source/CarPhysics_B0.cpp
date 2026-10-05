@@ -1780,7 +1780,7 @@ void CarPhysics_B0::SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point_ByValue arg
     else
     {
         Fix16_Point* pBoxCorner = &this->field_10_last_skid_pos[(u8)box_idx];
-        if (!pBoxCorner->IsNull_420360())
+        if (!pBoxCorner->IsNull())
         {
             t = arg_4 - *pBoxCorner;
             box_idx = 2;
