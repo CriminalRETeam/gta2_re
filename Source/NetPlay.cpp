@@ -1734,14 +1734,11 @@ void NetPlay::Set18_520F50(s32 a2, s32 a3)
 }
 
 // https://decomp.me/scratch/oYBrX
-// Result local isn't kept on the stack as in the original, see docs/match_attempts.md
-WIP_FUNC(0x520f80)
+MATCH_FUNC(0x520f80)
 s32 NetPlay::RemovePlayerByName_520F80(wchar_t* pToRemove)
 {
-    WIP_IMPLEMENTED;
-
-    s32 bRemoved = 0;
     u32 i = 0;
+    s32 bRemoved = 0;
     while (1)
     {
         if (i >= this->field_758_n2.field_4_count)

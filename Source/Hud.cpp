@@ -113,7 +113,8 @@ void Garox_13C0_sub::DrawPlayerNames_5CFE40()
                     Fix16 x = pPlayerPed->field_1AC_cam.x;
                     Fix16 y = pPlayerPed->field_1AC_cam.y;
                     Fix16 z = pPlayerPed->field_1AC_cam.z;
-                    if (pCam->IsCoordsPosVisible_435A70(x, y, z))
+                    // The original tests only al (bool return?)
+                    if ((u8)pCam->IsCoordsPosVisible_435A70(x, y, z))
                     {
                         // Camera_0xBC::WorldToScreen_40CFC0, with the y line out of line (inline budget)
                         Fix16 u = pCam->field_98_cam_pos2.field_8_z - z;
