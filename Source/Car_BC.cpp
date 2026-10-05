@@ -6317,7 +6317,7 @@ void Car_BC::sub_4435F0()
 }
 
 // 9.6f 0x426580
-WIP_FUNC(0x443710)
+MATCH_FUNC(0x443710)
 void Car_BC::ApplyExplosionImpulse_443710(Fix16_Point* xy)
 {
     Fix16_Point v16;
@@ -6333,18 +6333,24 @@ void Car_BC::ApplyExplosionImpulse_443710(Fix16_Point* xy)
         v16.y += kFpQuarter_677208 * gCar_6C_677930->field_1C_explosion_offset_cycle - kFpHalf_6772D0;
 
         v4 = (v16 - *xy);
+        // vecLen's scope has to end before the ApplyImpactForcesAndDamage call: its result temp
+        // reuses vecLen's slot (the dead xy param slot), in 9.6f too. Hence the goto: an inline
+        // helper returning bool runs out of inline budget for GetLength_inline_443710, and a bool
+        // flag tested twice isn't merged by VC6.
         {
             Fix16 vecLen = v4.GetLength_inline_443710();
-            if (vecLen != gFix16_6777CC)
+            if (vecLen == gFix16_6777CC)
             {
-                vecLen = vecLen * 4;
-                v9 = v4.NormalizeSafe_442AD0().DivideInl_442CB0(vecLen);
-                field_58_physics->SetCurrentCarInfoAndModelPhysics_562EF0();
-                field_58_physics->ApplyImpactForcesAndDamage_55FA60(v16, v9, 10);
+                goto done;
             }
+            vecLen = vecLen * 4;
+            v9 = v4.NormalizeSafe_442AD0().DivideInl_442CB0(vecLen);
         }
+        field_58_physics->SetCurrentCarInfoAndModelPhysics_562EF0();
+        field_58_physics->ApplyImpactForcesAndDamage_55FA60(v16, v9, 10);
     }
 
+done:
     gCar_6C_677930->field_1C_explosion_offset_cycle++;
     if (gCar_6C_677930->field_1C_explosion_offset_cycle > 4)
     {
