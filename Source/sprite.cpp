@@ -1169,16 +1169,15 @@ char_type Sprite::FindOverlappingBoundingBoxCorners_5A0150(Sprite* pOther, u8* p
 
     Fix16 pHalfW;
     Fix16 pHalfH;
-    // Written out: calling HalfWH_4BA0A0 costs an inline expansion and leaves the second
-    // division out of line
-    pHalfW = field_C_sprite_4c_ptr->field_0_width / 2;
-    pHalfH = field_C_sprite_4c_ptr->field_4_height / 2;
+    // corner_x/y declared up here: two fewer inline candidates after HalfWH_4BA0A0 keep both of its
+    // divisions inline
+    Fix16 corner_x;
+    Fix16 corner_y;
+    field_C_sprite_4c_ptr->HalfWH_4BA0A0(&pHalfW, &pHalfH);
 
     for (i = 0; i < 4; i++)
     {
         Ang16 t = -field_0;
-        Fix16 corner_x;
-        Fix16 corner_y;
         Fix16_Point* pCorner = &pBBox[i];
         RotateAndTranslatePoint_42A720(pCorner->x, pCorner->y, t, field_14_xy.x, field_14_xy.y, corner_x, corner_y);
 
@@ -1457,10 +1456,9 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& 
     Fix16 diff = RenderingRect[0].y - a2;
     Fix16 sign = Sign_4B9C20(diff.mValue);
     Fix16 least_abs;
-    least_abs = Fix16::Abs_negate_out_of_line(diff);
+    least_abs = Fix16::Abs(diff);
 
-    a3.x = RenderingRect[0].x;
-    a3.y = RenderingRect[0].y;
+    a3 = RenderingRect[0];
     a4 = 0;
 
     diff = RenderingRect[1].y - a2;
@@ -1469,7 +1467,7 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& 
         return false;
     }
 
-    diff = Fix16::Abs_negate_out_of_line(diff);
+    diff = Fix16::Abs(diff);
     if (diff < least_abs)
     {
         least_abs = diff;
@@ -1489,7 +1487,7 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& 
         return false;
     }
 
-    diff = Fix16::Abs_negate_out_of_line(diff);
+    diff = Fix16::Abs(diff);
     if (diff < least_abs)
     {
         least_abs = diff;
@@ -1509,7 +1507,7 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& 
         return false;
     }
 
-    diff = Fix16::Abs_negate_out_of_line(diff);
+    diff = Fix16::Abs(diff);
     if (diff < least_abs)
     {
         a3.x = RenderingRect[3].x;
@@ -1544,17 +1542,17 @@ char_type Sprite::HitTestVerticalLine_5A0EF0(Fix16 a2, Fix16 a3, Fix16 a4)
 MATCH_FUNC(0x5a1030)
 bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 a2, Fix16_Point& a3, u8& a4)
 {
-    // least_abs assigned (not initialised) so it lives in a register, Abs through Negate_4086A0
+    // least_abs assigned (not initialised) so it lives in a register. a3 set with one point copy (smaller
+    // than the two field copies): the inline budget then leaves the negation in all four Abs out of line
     Fix16_Point* RenderingRect = field_C_sprite_4c_ptr->field_C_renderingRect;
     UpdateCollisionBoundsIfNeeded_59E9C0();
 
     Fix16 diff = RenderingRect[0].x - a2;
     Fix16 sign = Sign_4B9C20(diff.mValue);
     Fix16 least_abs;
-    least_abs = Fix16::Abs_negate_out_of_line(diff);
+    least_abs = Fix16::Abs(diff);
 
-    a3.x = RenderingRect[0].x;
-    a3.y = RenderingRect[0].y;
+    a3 = RenderingRect[0];
     a4 = 0;
 
     diff = RenderingRect[1].x - a2;
@@ -1563,7 +1561,7 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 a2, Fix16_Point& a3
         return false;
     }
 
-    diff = Fix16::Abs_negate_out_of_line(diff);
+    diff = Fix16::Abs(diff);
     if (diff < least_abs)
     {
         least_abs = diff;
@@ -1583,7 +1581,7 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 a2, Fix16_Point& a3
         return false;
     }
 
-    diff = Fix16::Abs_negate_out_of_line(diff);
+    diff = Fix16::Abs(diff);
     if (diff < least_abs)
     {
         least_abs = diff;
@@ -1603,7 +1601,7 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 a2, Fix16_Point& a3
         return false;
     }
 
-    diff = Fix16::Abs_negate_out_of_line(diff);
+    diff = Fix16::Abs(diff);
     if (diff < least_abs)
     {
         a3.x = RenderingRect[3].x;

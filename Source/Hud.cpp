@@ -86,6 +86,39 @@ static inline void DrawFigureScaled_4C71B0(s32 type, s16 pal, Fix16 x_pos, Fix16
                       0);
 }
 
+// Camera_0xBC::WorldToScreen_40CFC0 (9.6f 0x40CFC0: x/y/z by value, writes through two out pointers)
+// with this file's copies of the 1 and 8 constants
+static inline void WorldToScreen_Hud_40CFC0(Camera_0xBC* pCam, Fix16 x, Fix16 y, Fix16 z, Fix16* pOutX, Fix16* pOutY)
+{
+    Fix16 u = pCam->field_98_cam_pos2.field_8_z - z;
+    Fix16 t(kFpOne_7064C4 / Fix16(u.mValue + kFpEight_7064E8.mValue, 0));
+    *pOutX = (((x - pCam->field_98_cam_pos2.field_0_x) * pCam->field_60.y) * t) + Fix16(320);
+    *pOutY = (((y - pCam->field_98_cam_pos2.field_4_y) * pCam->field_60.y) * t) + Fix16(240);
+}
+
+// 9.6f 0x4C7280: DrawText_5D8A10 at a position and size scaled by the UI scale
+static inline void DrawTextScaled_4C7280(const wchar_t* pStr, Fix16 x, Fix16 y, u16 font, const s32& palette_type, u16 palette, s32 alpha, u8 flags)
+{
+    DrawText_5D8A10(pStr,
+                    x * gViewCamera_676978->field_A8_ui_scale,
+                    y * gViewCamera_676978->field_A8_ui_scale,
+                    font,
+                    gViewCamera_676978->field_A8_ui_scale,
+                    palette_type,
+                    palette,
+                    alpha,
+                    flags);
+}
+
+// Camera_0xBC::ProjectWorldToScreen_4B90E0 (9.6f 0x4B90E0, inlined in 10.5) with this file's copies of the
+// 1 and 8 constants
+static inline void ProjectWorldToScreen_Hud_4B90E0(Camera_0xBC* pCam, Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
+{
+    Fix16 scale = kFpOne_7064C4 / ((kFpEight_7064E8 - z) + pCam->field_98_cam_pos2.field_8_z);
+    *pOut1 = (((x - pCam->field_98_cam_pos2.field_0_x) * pCam->field_60.x) * scale) + Fix16(pCam->field_70_screen_px_center_x);
+    *pOut2 = (((y - pCam->field_98_cam_pos2.field_4_y) * pCam->field_60.x) * scale) + Fix16(pCam->field_74_screen_px_center_y);
+}
+
 // Defined before the member ctors it calls: when VC6 has already compiled them in this TU (and seen
 // that they can't throw) it drops the EH frame and the state for the pager array that the original has.
 MATCH_FUNC(0x5d6cd0)
@@ -116,30 +149,16 @@ void Garox_13C0_sub::DrawPlayerNames_5CFE40()
                     {
                         Fix16 xCalc;
                         Fix16 yCalc;
-                        {
-                            // Camera_0xBC::WorldToScreen_40CFC0 (9.6f, takes x/y/z by value and writes
-                            // through two out pointers), with the y line out of line (inline budget).
-                            // The block scope and the y copy stand in for the inline's own locals and
-                            // parameter: they give the original's registers and stack slot sharing.
-                            Fix16 y2 = y;
-                            Fix16 u = pCam->field_98_cam_pos2.field_8_z - z;
-                            Fix16 t(kFpOne_7064C4 / Fix16(u.mValue + kFpEight_7064E8.mValue, 0));
-                            xCalc = (((x - pCam->field_98_cam_pos2.field_0_x) * pCam->field_60.y) * t) + Fix16(320);
-                            yCalc = y2.Subtract_436A00(pCam->field_98_cam_pos2.field_4_y)
-                                        .Multiply_408680(pCam->field_60.y)
-                                        .Multiply_408680(t)
-                                        .Add_408660(Fix16(240));
-                        }
+                        WorldToScreen_Hud_40CFC0(pCam, x, y, z, &xCalc, &yCalc);
 
-                        DrawText_5D8A10(pIter->field_83C_player_name,
-                                        (xCalc * gViewCamera_676978->field_A8_ui_scale), // x
-                                        (yCalc * gViewCamera_676978->field_A8_ui_scale), // y
-                                        gPlayerNameFont_7062DC, // font
-                                        gViewCamera_676978->field_A8_ui_scale, // scale
-                                        pIter->field_78C_hud_palette_type != 7 ? 2 : 8,
-                                        pIter->field_790_hud_palette - 1,
-                                        0,
-                                        0);
+                        DrawTextScaled_4C7280(pIter->field_83C_player_name,
+                                              xCalc,
+                                              yCalc,
+                                              gPlayerNameFont_7062DC,
+                                              pIter->field_78C_hud_palette_type != 7 ? 2 : 8,
+                                              pIter->field_790_hud_palette - 1,
+                                              0,
+                                              0);
                     }
                 }
             }
@@ -860,29 +879,14 @@ void Garox_110C_sub::Update_5CF730()
             gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(pPed->get_cam_x(), pPed->get_cam_y(), pPed->get_cam_z());
         if (field_284E_ped_under_solid)
         {
-            this->field_1114_rotation = Ang16(pPed->GetRotation().rValue + kAng180_706412.rValue, 0);
+            this->field_1114_rotation = pPed->GetRotation() + kAng180_706412;
 
             Fix16 camz = pPed->field_1AC_cam.z;
             Fix16 camy = pPed->field_1AC_cam.y;
             Fix16 camx = pPed->field_1AC_cam.x;
 
-            Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
-            Camera_0xBC* pCam;
-            if (pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3)
-            {
-                pCam = &pPlayer->field_208_aux_game_camera;
-            }
-            else
-            {
-                pCam = &pPlayer->field_90_game_camera;
-            }
-
-            Fix16 tmp = ((kFpOne_7064C4) / (kFpEight_7064E8 + pCam->field_98_cam_pos2.field_8_z - camz));
-
-            this->field_110C_screen_x =
-                Fix16(pCam->field_70_screen_px_center_x) + ((pCam->field_60.x * (camx - pCam->field_98_cam_pos2.field_0_x)) * tmp);
-            this->field_1110_screen_y = ((pCam->field_60.x * (camy - pCam->field_98_cam_pos2.field_4_y)) * tmp)
-                                            .Add_408660(Fix16(pCam->field_74_screen_px_center_y));
+            Camera_0xBC* pCam = gGame_0x40_67E008->field_38_orf1->get_camera_434900();
+            ProjectWorldToScreen_Hud_4B90E0(pCam, camx, camy, camz, &field_110C_screen_x, &field_1110_screen_y);
         }
     }
 }
@@ -1889,9 +1893,10 @@ bool Hud_Arrow_7C::UpdateTargets_5D0620()
     return false;
 }
 
-// Camera_0xBC::ProjectWorldToScreen_4B90E0 (9.6f 0x4B90E0, inlined in 10.5) with this file's copies of the
-// 1 and 8 constants and the out-of-line Fix16 helpers (Hud_Arrow_7C::UpdateScreenPos_5D0850)
-static inline void ProjectWorldToScreen_Hud_4B90E0(Camera_0xBC* pCam, Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
+// ProjectWorldToScreen_Hud_4B90E0 with the out-of-line Fix16 helpers (Hud_Arrow_7C::UpdateScreenPos_5D0850).
+// With the plain inline and GetLength_41E260 (FIX16_POINT_ZERO kFpZero_7064C0) that WIP gets every original
+// out-of-line call only at a caller size 66..103 bigger (inlsim --scan): the source difference is not found yet.
+static inline void ProjectWorldToScreen_Hud_OutOfLine_4B90E0(Camera_0xBC* pCam, Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
 {
     Fix16 scale = kFpOne_7064C4 / ((kFpEight_7064E8 - z) + pCam->field_98_cam_pos2.field_8_z);
 
@@ -1991,12 +1996,12 @@ void Hud_Arrow_7C::UpdateScreenPos_5D0850()
     {
         zpos_2 = field_18.field_60_curr_target->field_1C_aim_z;
     }
-    ProjectWorldToScreen_Hud_4B90E0(pCamera,
-                                    player_xpos - (Ang16::sine_40F500(field_8_rotation) * projected_radius),
-                                    player_ypos - (Ang16::cosine_40F520(field_8_rotation) * projected_radius),
-                                    zpos_2,
-                                    &field_0_screen_pos_x,
-                                    &field_4_screen_pos_y);
+    ProjectWorldToScreen_Hud_OutOfLine_4B90E0(pCamera,
+                                              player_xpos - (Ang16::sine_40F500(field_8_rotation) * projected_radius),
+                                              player_ypos - (Ang16::cosine_40F520(field_8_rotation) * projected_radius),
+                                              zpos_2,
+                                              &field_0_screen_pos_x,
+                                              &field_4_screen_pos_y);
 }
 
 MATCH_FUNC(0x5d0c60)
