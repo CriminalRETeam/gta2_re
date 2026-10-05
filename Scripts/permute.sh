@@ -60,5 +60,5 @@ NEEDLE="${FUNC##*::}"
 exec "$BIN" -s "$SRC" -f "$FUNC" \
     -c "$COMPILE" \
     --score-cmd "$PY $ROOT/Scripts/bin_comp/permuter_score.py $SCORE_FLAG {obj} $ADDR $NEEDLE" \
-    --op-alias "*=Multiply_408680" --op-alias "neg=Negate_4086A0" --extern-globals \
+    --op-alias "*=Multiply_408680" --op-alias "+=Add_408660" --op-alias "neg=Negate_4086A0" --extern-globals \
     "$@"
