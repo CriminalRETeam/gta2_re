@@ -804,16 +804,18 @@ s32 __stdcall DrawPlayerStatsHelper_5D61A0(s32 powerup_idx, s32 base_xpos, u16 o
 {
     WIP_IMPLEMENTED;
     u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, powerup_idx + 141);
-    s32 width = gGtx_0x106C_703DD4->get_sprite_width_420220(sprite_idx);
+    // s16 (not s32) gives the original's register choice (width in ebx, base_xpos in ebp), but loads
+    // the u8 with movzbw + movswl instead of the original's xor + mov %bl
+    s16 width = gGtx_0x106C_703DD4->get_sprite_width_420220(sprite_idx);
     DrawFigureScaled_5D7670(6, powerup_idx + 141, base_xpos - (width / 2), 117, kAngZero_706610, 2, 0, 0, 0);
 
     if (powerup_idx == power_up_indices::Armor_3)
     {
         swprintf(tmpBuff_67BD9C, L"%d", optional_number);
-        // The x goes through the Fix16(u32) constructor (out-of-line copy 0x4926F0), hence 18u/22u.
-        // A u32 x_offset local (ternary) swaps ebx/ebp for width and base_xpos; an if/else local keeps the
-        // registers but branches; inline, the ternary is scheduled late
-        DrawText_5D7720(tmpBuff_67BD9C, base_xpos - (optional_number < 10 ? 18u : 22u), 127, gPlayerStatsFont_70646C, 8, 6, 0, 0);
+        // The x goes through the Fix16(u32) constructor (out-of-line copy 0x4926F0). The offset is
+        // computed before the y constructor call, so it is a local
+        u32 x_offset = optional_number < 10 ? 18 : 22;
+        DrawText_5D7720(tmpBuff_67BD9C, base_xpos - x_offset, 127, gPlayerStatsFont_70646C, 8, 6, 0, 0);
     }
     return base_xpos - width;
 }
