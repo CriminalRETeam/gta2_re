@@ -500,7 +500,7 @@ void Weapon_30::dual_pistol_5DDA70()
 // expansions: the multiplies, the negate and the y line's add are the out of line operator
 // copies, and sin/cos/x_old are the inline's own locals (below the caller's). The x line's add
 // is the inline operator+, which loads the y*sin product (evaluated first) first
-// (smg_5DDD20, tank_main_gun_5E10E0, army_gun_jeep_5E13E0)
+// (smg_5DDD20; the tank/jeep guns use RotateByAngle_40F6B0_no_budget3 below)
 static inline void RotateByAngle_40F6B0_no_budget2(Fix16_Point& p, const Ang16& angle)
 {
     Fix16 sin = Ang16::sine_40F500(angle);
@@ -1485,11 +1485,35 @@ void Weapon_30::fire_truck_gun_5E0E70()
     }
 }
 
+// Fix16 operator* with the __int64 cast on the left operand: VC6 then keeps the left value (the point's y)
+// in eax for the imul as the original does; with Fix16::operator* sin goes to eax
+// (tank_main_gun_5E10E0, army_gun_jeep_5E13E0)
+static inline Fix16 MultiplyLeftWide(const Fix16& a, const Fix16& b)
+{
+    return Fix16((s32)(((__int64)a.mValue * b.mValue) >> 14), 0);
+}
+
+// Fix16 sum as a free function: the sum lands in ecx (operator+ gives eax)
+static inline Fix16 AddFree(const Fix16& a, const Fix16& b)
+{
+    s32 v = a.mValue + b.mValue;
+    return Fix16(v, 0);
+}
+
+// RotateByAngle_40F6B0_no_budget2 with AddFree for the x line (tank_main_gun_5E10E0, army_gun_jeep_5E13E0)
+static inline void RotateByAngle_40F6B0_no_budget3(Fix16_Point& p, const Ang16& angle)
+{
+    Fix16 sin = Ang16::sine_40F500(angle);
+    Fix16 cos = Ang16::cosine_40F520(angle);
+    Fix16 x_old = p.x;
+    p.x = AddFree(p.x.Multiply_408680(cos), p.y.Multiply_408680(sin));
+    p.y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(p.y.Multiply_408680(cos));
+}
+
 // https://decomp.me/scratch/QliaE
-WIP_FUNC(0x5e10e0)
+MATCH_FUNC(0x5e10e0)
 void Weapon_30::tank_main_gun_5E10E0()
 {
-    WIP_IMPLEMENTED;
     Ang16 cannon_angle;
     Fix16_Point cannon_pos;
     Fix16_Point offset;
@@ -1501,10 +1525,17 @@ void Weapon_30::tank_main_gun_5E10E0()
         cannon_angle = field_14_car->field_0_qq.GetSpriteForModel_5A6A50(148)
                            ->field_0->field_0;
         cannon_pos.SetXY_432860(Fix16(0), gTankCannonLength_706E20);
-        cannon_pos.RotateByAngle_MixOOL_40F6B0(cannon_angle);
+        {
+            // RotateByAngle_MixOOL_40F6B0 written out, y * sin with the left-wide multiply
+            Fix16 x_old = cannon_pos.x;
+            Fix16 sin = Ang16::sine_40F500(cannon_angle);
+            Fix16 cos = Ang16::cosine_40F520(cannon_angle);
+            cannon_pos.x = cannon_pos.x.Multiply_408680(cos).Add_408660(MultiplyLeftWide(cannon_pos.y, sin));
+            cannon_pos.y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(cannon_pos.y.Multiply_408680(cos));
+        }
 
         offset.SetXY_432860(Fix16(0), dword_706D88);
-        RotateByAngle_40F6B0_no_budget2(offset, field_14_car->field_50_car_sprite->field_0);
+        RotateByAngle_40F6B0_no_budget3(offset, field_14_car->field_50_car_sprite->field_0);
 
         cannon_pos += offset.Add_40AC50(field_14_car->field_50_car_sprite->get_x_y_443580());
 
@@ -1556,28 +1587,31 @@ void Weapon_30::tank_main_gun_5E10E0()
     }
 }
 
-WIP_FUNC(0x5e13e0)
+MATCH_FUNC(0x5e13e0)
 void Weapon_30::army_gun_jeep_5E13E0()
 {
-    WIP_IMPLEMENTED;
-
-
     Ang16 gun_ang;
     Fix16_Point bullet_pos;
     Fix16_Point v41;
     Fix16_Point v42;
     if (field_2_reload_speed == 0)
     {
-        field_24_pPed = field_14_car->field_54_driver;
+        field_24_pPed = field_14_car->get_driver_4118B0();
 
-        Sprite* pGunSprite = field_14_car->field_0_qq.GetSpriteForModel_5A6A50(248)->field_0;
-        gun_ang = pGunSprite->field_0;
+        gun_ang = field_14_car->field_0_qq.GetSpriteForModel_5A6A50(248)->field_0->field_0;
 
         bullet_pos.SetXY_432860(Fix16(0), dword_706EA4);
-        bullet_pos.RotateByAngle_MixOOL_40F6B0(gun_ang);
+        {
+            // RotateByAngle_MixOOL_40F6B0 written out, y * sin with the left-wide multiply
+            Fix16 x_old = bullet_pos.x;
+            Fix16 sin = Ang16::sine_40F500(gun_ang);
+            Fix16 cos = Ang16::cosine_40F520(gun_ang);
+            bullet_pos.x = bullet_pos.x.Multiply_408680(cos).Add_408660(MultiplyLeftWide(bullet_pos.y, sin));
+            bullet_pos.y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(bullet_pos.y.Multiply_408680(cos));
+        }
 
         v41.SetXY_432860(Fix16(0), dword_706EE8);
-        RotateByAngle_40F6B0_no_budget2(v41, field_14_car->field_50_car_sprite->field_0);
+        RotateByAngle_40F6B0_no_budget3(v41, field_14_car->field_50_car_sprite->field_0);
 
         bullet_pos += v41.Add_40AC50(field_14_car->field_50_car_sprite->get_x_y_443580());
 
