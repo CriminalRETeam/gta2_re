@@ -324,11 +324,9 @@ u8 sound_obj::ComputePan_41A4A0(Fix16 a1, Fix16 a2) // TODO: Ret type
     }
 }
 
-WIP_FUNC(0x41A580)
+MATCH_FUNC(0x41A580)
 s32 sound_obj::AdjustPlaybackRate_41A580(s32 snd_rate, Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
-    WIP_IMPLEMENTED;
-
     if (zpos != 0)
     {
         Fix16 diff = ypos - xpos;
@@ -338,20 +336,20 @@ s32 sound_obj::AdjustPlaybackRate_41A580(s32 snd_rate, Fix16 xpos, Fix16 ypos, F
         }
 
         // zpos is converted from an integer (shl $0xE) and field_C is already fixed point
-        Fix16 v5 = diff * (Fix16(zpos.mValue) / dword_674E18) / Fix16(field_C, 0);
-        s32 a = v5.mValue;
-        if (a <= 0)
-        {
-            a = -a;
-        }
-        if (a < field_4_speed_of_sound)
-        {
-            return Fix16::Round_To_Int_410BF0(Fix16(snd_rate) * (Fix16(field_4_speed_of_sound) / Fix16(v5.mValue + field_4_speed_of_sound, 0)));
-        }
-        else
+        // q and rate are assigned, not initialised: that keeps them as register locals
+        // (q moved to ecx before the imul, snd_rate << 14 held in esi across the divide)
+        Fix16 q;
+        q = Fix16(zpos.mValue) / dword_674E18;
+        s32 v5 = (((ypos - xpos) * q) / Fix16(field_C, 0)).mValue;
+        s32 a = v5 > 0 ? v5 : -v5;
+        if (a >= field_4_speed_of_sound)
         {
             return snd_rate;
         }
+        Fix16 rate;
+        rate = Fix16(snd_rate);
+        // The speed of sound is not shifted here (raw ratio speed / (v5 + speed))
+        return Fix16::Round_To_Int_410BF0(rate * (Fix16(field_4_speed_of_sound, 0) / Fix16(v5 + field_4_speed_of_sound, 0)));
     }
 
     return snd_rate;
@@ -2769,7 +2767,16 @@ char_type sound_obj::Type_1_6_416260(sound_0x68* a2)
 {
     WIP_IMPLEMENTED;
 
-    a2->field_20_rate = 8000;
+    // Both branches store the same rate: VC6 merges them but keeps the type compare (an orphan
+    // `cmp %ebx,%eax` with ebx = 1 at the top of the original), which also keeps 1 in ebx
+    if (a2->field_58_type == 1)
+    {
+        a2->field_20_rate = 8000;
+    }
+    else
+    {
+        a2->field_20_rate = 8000;
+    }
     Car_BC* pCar;
     if (GetCar_4145E0(a2->field_0_EntityIndex, &pCar) && pCar->field_9C_engine_status == car_engine_status::on_3)
     {
@@ -2792,13 +2799,14 @@ char_type sound_obj::Type_1_6_416260(sound_0x68* a2)
 
                     if (a2->field_58_type == 1)
                     {
-                        speed = pCar->field_58_physics->field_60_gas_pedal;
                         if (pCar->field_68_scale == kFpOne_66F3F4)
                         {
+                            speed = pCar->field_58_physics->field_60_gas_pedal;
                             a2->field_20_rate = Fix16::Round_To_Int_410BF0(Fix16(360448000, 0) * (speed / max_speed)) + 8000;
                         }
                         else
                         {
+                            speed = pCar->field_58_physics->field_60_gas_pedal;
                             a2->field_20_rate = Fix16::Round_To_Int_410BF0(Fix16(311296000, 0) * (speed / max_speed)) + 11000;
                         }
                     }
@@ -2863,7 +2871,7 @@ char_type sound_obj::Type_1_6_416260(sound_0x68* a2)
 
             if (pCar->IsCarInAir_43A3C0())
             {
-                a2->field_20_rate *= 2;
+                a2->field_20_rate <<= 1;
             }
         }
 
@@ -5293,7 +5301,7 @@ DEFINE_GLOBAL(u8, byte_6751E4, 0x6751E4);
 
 // The looping or one-shot sound of a map object, by its object kind. Some kinds only play now and
 // then (word_6751D0..E2 count down between plays) and pick a random sample when they do.
-WIP_FUNC(0x41E850)
+MATCH_FUNC(0x41E850)
 void sound_obj::ProcessObject_Type12_41E850(Sound_Params_8* a2)
 {
     u32 kind = a2->field_0_pObj->field_8_object_2C_ptr->field_26_varrok_idx;
@@ -5889,17 +5897,18 @@ void sound_obj::ProcessObject_Type12_41E850(Sound_Params_8* a2)
         field_30_sQueueSample.field_4_SampleIndex = byte_6751E4;
     }
 
-    u32 samp = field_30_sQueueSample.field_14_samp_idx;
     field_30_sQueueSample.field_60_nEmittingVolume = vol;
-    s32 rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(samp) + RandomDisplacement_41A650(field_30_sQueueSample.field_14_samp_idx);
-    field_30_sQueueSample.field_20_rate = rate + (samp % 10) * 40;
+    // No local for the sample index: with one, VC6 copy-propagates it into the RandomDisplacement
+    // argument, where the original reloads field_14 after the first call
+    field_30_sQueueSample.field_20_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(field_30_sQueueSample.field_14_samp_idx) +
+        RandomDisplacement_41A650(field_30_sQueueSample.field_14_samp_idx) + (field_30_sQueueSample.field_14_samp_idx % 10) * 40;
     if (kind == 45)
     {
         field_30_sQueueSample.field_20_rate += field_30_sQueueSample.field_20_rate;
     }
     field_30_sQueueSample.field_58_type = 20;
     field_30_sQueueSample.field_18_bIs2D = 0;
-    field_30_sQueueSample.field_34_loop_start = gSampManager_6FFF00.GetLoopStart_58DC30(samp);
+    field_30_sQueueSample.field_34_loop_start = gSampManager_6FFF00.GetLoopStart_58DC30(field_30_sQueueSample.field_14_samp_idx);
     field_30_sQueueSample.field_38_loop_end = gSampManager_6FFF00.GetLoopEnd_58DC50(field_30_sQueueSample.field_14_samp_idx);
     AddSampleToRequestedQueue_41A850();
 }
