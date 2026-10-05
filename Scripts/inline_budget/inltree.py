@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Pretty-print the VC6 inliner log (patched C2.DLL, see patch_c2.py) as a tree.
+"""
+Pretty-print the VC6 inliner log (patched C2.DLL, see patch_c2.py) as a tree.
 
 usage: inltree.py LOG [needle] [-a]
   needle: substring of the top-level function name (default: all functions)
@@ -72,8 +73,12 @@ for ln in log:
         pending = p
     elif kind == 'NESTED':
         pass
+    elif kind == 'ABORT' and pending is not None:
+        pending['tag'] = 'CALL(%s)' % body.split()[1]
+        if not pending.get('shown'):
+            pending['idx'] = len(out); out.append(None); pending['shown'] = True
     # render lazily
-    if kind in ('ACCEPT', 'REJECT', 'SKIP', 'ENTER') and pending is not None and pending.get('shown'):
+    if kind in ('ACCEPT', 'REJECT', 'SKIP', 'ENTER', 'ABORT') and pending is not None and pending.get('shown'):
         p = pending
         cost = '' if p['tag'] != 'INLINE' else ' -> %d' % (p['budget'] - p['size'])
         nb = '' if p.get('nb') is None else '  (nested budget %s)' % p['nb']

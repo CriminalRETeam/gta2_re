@@ -39,6 +39,12 @@ at `0x1073b633`.
   EH frame (a `try`, or a local with a non-trivial destructor under `/GX`); the latter are not
   candidates at all.
 
+- **Charged but never expanded** (under `/GX`): an accepted callee that returns a class with a
+  destructor by value (hidden `___$ReturnUdt`, C2 `0x1073b7f7`) is charged like any other site and
+  then called out of line, with no nested walk. All `Fix16_Point` operators are like this. The log has
+  `@I ABORT udt` and `inltree.py` shows `CALL(udt)`. See "Inline calls and EH states" in
+  `docs/matching_quirks.md`.
+
 What follows:
 
 - Nested sites of a big inline only get `budget / sites_left`, so they are cut off long before the

@@ -1412,6 +1412,36 @@ byte compare come from `x < 63 ? x : 63` written out; an s32 or u8 `Min` helper 
 thread repeated register tests, which can move a case to the end of the function as in the original
 (`Orca_2FD4::Internel_CanMoveDiagonally_554110`).
 
+### Inline calls and EH states (`/GX`)
+
+Found by tracing C2.DLL (see `Scripts/inline_budget/`); the instrumented compiler logs these as `@I ABORT`.
+
+- **An inline returning a class with a destructor by value is never expanded.** VC6 accepts and
+  charges the site like any other (budget and total), then sees the hidden `___$ReturnUdt` and calls
+  the out-of-line copy instead (C2 `0x1073b7f7`, only under `/GX`). No nested sites are walked. This
+  covers every `Fix16_Point` operator (`+`, `-`, `*`, unary `-`) and the `*Inl` helpers that return a
+  `Fix16_Point`: each such site costs 77-81 of budget, counts as a site, and is always a call.
+  `inltree.py` shows these sites as `CALL(udt)`. A helper that 10.5 expands inline (for example
+  `Camera::WorldToScreen_40CFC0`) therefore cannot return `Fix16_Point`.
+- **Destructor sites count.** Every local or temporary with a destructor adds a free destructor site
+  at its scope exit, which shrinks `budget / sites_left` for the sites before it. That is why the
+  empty `Fix16_Point()` constructors at the top of big functions end up as calls.
+- **No EH state store for a call C2 knows can't throw.** A callee marked `throw()`, or one already
+  compiled earlier in this TU whose remaining calls are all nothrow, gets no `mov [ebp-4], N` around
+  the call (C2 `0x1073c543`, used at `0x10758678`). C2 compiles a header inline's out-of-line copy
+  right after the first function that calls it, so later callers lose their state stores while earlier
+  ones keep them.
+- **10.5 was built with precompiled headers.** Under `/Yu`, header inline copies are compiled at the end
+  of the TU until C1XX's first IL flush, so in some TUs (Weapon_30) every caller keeps its state stores.
+  We can't reproduce the original flush points: keep the named `EXPORT` copy (`Add_40AC50`) there.
+- **`Fix16_Point` struct members have no destructor in 10.5; locals and temporaries do.** `~Sprite` is a
+  bare `jmp` and the `Char_B4` constructor's EH numbering leaves out `field_98_velocity_vector`, so
+  members stay `Fix16_Point_POD`. Making every point a `Fix16_Point` breaks those two matches and
+  `Camera` 0x435A70, but improves several WIPs that use point locals (CarPhysics 0x5615D0, 0x560B40,
+  Cranes 0x47E5B0), so check locals and temporaries one function at a time.
+- The out-of-line calls to `atan2` (0x40ACD0) in 10.5 come from the normal budget (`Ang16` has no
+  destructor); the plain `atan2_40F790()` inline gives them.
+
 ### Inline budget: more patterns (round of 9.6f recoveries)
 
 - **Declaration order picks the losers.** With several default-constructed `Fix16_Point` locals,

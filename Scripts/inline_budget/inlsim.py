@@ -23,6 +23,9 @@ Model (C2.DLL 0x1073b588 / 0x1073b633):
         used = walk(callee body, depth + 1, budget / sites_left)        (C division)
         if not __forceinline: budget -= used; total += used
   walk returns budget_in - budget_out
+  ReturnUdt rule (C2 0x1073bc97 -> 0x1073b7f7..0x1073b8b3): under /GX, an accepted callee that returns a
+  class with a destructor by value (hidden ___$ReturnUdt) is charged (budget and total) but never
+  expanded: VC6 calls its out-of-line copy and walks no nested sites. Shown as CALL(udt).
 """
 import re, sys
 from collections import Counter
@@ -49,6 +52,7 @@ def parse(path):
     stack = []  # list of site lists being filled; stack[-1] is the current body
     cur_site = []  # per depth: the last SITE seen
     last = None
+    pending_acc = None
     for ln in open(path, errors='replace'):
         m = re.search(r'([^\\/]+)\((\d+)\) : warning C4711: function \'(INLINE|OUTLINE|SKIP)', ln)
         if m and last is not None:
@@ -58,6 +62,12 @@ def parse(path):
             continue
         b = ln[3:].strip()
         kind = b.split()[0]
+        if pending_acc is not None:
+            if not (kind == 'ENTER' and int(dict(re.findall(r'(\w+)=(-?\w+)', b))['depth']) == pending_acc.depth + 1) \
+                    and kind != 'ABORT':
+                pending_acc.logged = 'CALL'
+                UDT.add(pending_acc.name)
+            pending_acc = None
         kv = dict(re.findall(r'(\w+)=(-?\w+)', b))
         if kind == 'ENTER':
             depth = int(kv['depth'])
@@ -84,6 +94,11 @@ def parse(path):
         elif kind == 'ACCEPT':
             last.logged = 'INLINE'
             last_acc_set(last)
+            pending_acc = last
+            continue
+        elif kind == 'ABORT':
+            last.logged = 'CALL'
+            UDT.add(last.name)
         elif kind == 'REJECT':
             last.logged = 'OUT'
         elif kind == 'SKIP':
@@ -92,6 +107,7 @@ def parse(path):
 
 
 last_acc = {}
+UDT = set()   # callees whose accepted sites were never expanded (ReturnUdt rule)
 
 
 def last_acc_set(s):
@@ -152,6 +168,9 @@ class Sim:
                 if size > FREE:
                     budget -= size
                 self.total += size
+            if s.name in UDT:
+                out.append((path + (i,), s, 'CALL', budget, left))
+                continue
             out.append((path + (i,), s, 'INLINE', budget, left))
             body = s.children if s.children is not None else self.cat.get(s.name)
             if body is None:

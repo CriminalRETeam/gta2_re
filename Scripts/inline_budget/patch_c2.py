@@ -37,6 +37,9 @@ strings = {
  'fmt_skip':  b'@I SKIP\n\x00',
  'fmt_used':  b'@I NESTED used=%d\n\x00',
  'fmt_w':     b'depth=%d [%x] %s size=%d flags=%x budget=%d sites_left=%d maxdepth=%d argok=%d total=%d\x00',
+ 'fmt_ab1': b'@I ABORT udt\n\x00',
+ 'fmt_ab2': b'@I ABORT eh1\n\x00',
+ 'fmt_ab3': b'@I ABORT post\n\x00',
 }
 GBUF = 0x1079f800   # unused tail of .bssbe (writable, zero filled)
 WARN = 0x1073ff68   # warning(level, number - 4000, string)
@@ -202,6 +205,42 @@ def build(str_addr):
       mov esi, eax
       mov eax, dword ptr [0x107ac0b4]
       jmp 0x1073bd22
+
+    hook_ab1:
+      pushfd
+      pushad
+      push {S['fmt_ab1']:#x}
+      call logf
+      add esp, 4
+      popad
+      popfd
+      mov ecx, ebp
+      call 0x1075a568
+      jmp 0x1073b8a8
+
+    hook_ab2:
+      pushfd
+      pushad
+      push {S['fmt_ab2']:#x}
+      call logf
+      add esp, 4
+      popad
+      popfd
+      mov ecx, ebp
+      call 0x1075a568
+      jmp 0x10793f25
+
+    hook_ab3:
+      pushfd
+      pushad
+      push {S['fmt_ab3']:#x}
+      call logf
+      add esp, 4
+      popad
+      popfd
+      mov ecx, ebp
+      call 0x1075a568
+      jmp 0x10794019
     """
     return code
 
@@ -227,7 +266,7 @@ def label_addr(lbl):
     return CAVE + len(asm(pre, CAVE))
 
 hooks = {0x1073b633: ('hook_enter', 7), 0x1073bba9: ('hook_site', 7), 0x1073bc02: ('hook_acc', 5),
-         0x1073b6cd: ('hook_rej', 7), 0x10793e62: ('hook_skip', 7), 0x1073bd1b: ('hook_used', 7)}
+         0x1073b6cd: ('hook_rej', 7), 0x10793e62: ('hook_skip', 7), 0x1073bd1b: ('hook_used', 7), 0x1073b8a1: ('hook_ab1', 7), 0x10793f1e: ('hook_ab2', 7), 0x10794012: ('hook_ab3', 7)}
 which = sys.argv[1].split(',') if len(sys.argv) > 1 else None
 for at, (lbl, n) in hooks.items():
     if which and lbl not in which: continue
