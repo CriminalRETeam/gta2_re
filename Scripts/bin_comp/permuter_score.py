@@ -10,6 +10,12 @@ reference the same symbol, the same as in the full exe build.
 Usage:
     python permuter_score.py <obj> <og_addr> [symbol_substring]
     python permuter_score.py --96f <obj> <96f_addr> <symbol_substring>
+    python permuter_score.py --structure [--96f] <obj> <addr> <symbol_substring>
+
+--structure ignores register allocation: register names, stack offsets, jump targets (byte offsets
+that move with any size change) and register-to-register moves are masked or dropped, so what is left
+is the instruction kinds, block layout, call order and the symbols touched. 0 there means the control
+flow and calls match and only register allocation / stack layout differ.
 
 --96f scores against the 9.6f build instead (target_96f.json, built with VC7.0 and no inlining;
 compile the candidate with Scripts/compile_vc7.sh). Its absolute addresses are first rewritten to
@@ -191,7 +197,27 @@ def target_from_96f(t, addr):
     return {"name": t["name"], "size": t["size"], "asm": asm, "pp": post_process_asm.post_process_asm(asm)}
 
 
+REG = re.compile(r"%(e?[abcd]x|[abcd][lh]|e?si|e?di|e?bp)\b")
+STACK = re.compile(r"(-?0x[0-9A-Fa-f]+|-?\d+)?\(%esp(,[^)]*)?\)")
+
+
+def structure_lines(lines):
+    """Masks register allocation: see --structure in the module docstring."""
+    out = []
+    for l in lines:
+        l = re.sub(r"^(j\w+) 0x[0-9A-Fa-f]+$", r"\1 L", l)
+        l = STACK.sub("S", l)
+        l = REG.sub("%r", l)
+        if re.match(r"^(mov|xchg) %r,%r$", l):
+            continue
+        out.append(l)
+    return out
+
+
 def main():
+    structure = "--structure" in sys.argv
+    if structure:
+        sys.argv.remove("--structure")
     v96 = "--96f" in sys.argv
     if v96:
         sys.argv.remove("--96f")
@@ -208,6 +234,8 @@ def main():
     coff = Coff(open(obj, "rb").read())
     ml = function_lines(coff, find_function(coff, needle))
     tl = target_lines(target)
+    if structure:
+        tl, ml = structure_lines(tl), structure_lines(ml)
     score = score_lines(tl, ml)
     # cpp_permuter keeps this output as score_output.txt next to each improvement.
     print("\n".join(difflib.unified_diff(tl, ml, "target", "candidate", lineterm="", n=2)))
