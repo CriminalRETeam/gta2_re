@@ -585,7 +585,7 @@ void Weapon_30::smg_5DDD20()
     }
 }
 
-// Something wrong with minimum force to throw https://decomp.me/scratch/OrmRn
+// https://decomp.me/scratch/OrmRn
 WIP_FUNC(0x5ddfc0)
 void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
 {
@@ -669,7 +669,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                         {
                             vector = field_24_pPed->GetVelocityVector_45B520();
                             pProjectile->SetMovementVector_5224E0(vector);
-                            if (vector.IsNull_420360())
+                            if (vector.x != dword_706EB8 || vector.y != dword_706EB8)
                             {
                                 pProjectile->field_10_obj_3c->field_C_speed += dword_706C8C;
                             }
