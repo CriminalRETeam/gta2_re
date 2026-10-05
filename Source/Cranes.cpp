@@ -273,7 +273,7 @@ void Crane_15C::HookPickupCar_47EF80()
     gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_68_pickup_car);
 
     this->field_74_pSprite_on_hook = this->field_68_pickup_car;
-    this->field_10_hooked_sprite_offset = field_74_pSprite_on_hook->get_x_y_443580() - field_54_hook_obj->field_4->get_x_y_443580();
+    this->field_10_hooked_sprite_offset = field_74_pSprite_on_hook->get_x_y_443580().Sub_40AC80(field_54_hook_obj->field_4->get_x_y_443580());
 
     field_60_probe_sprite->field_C_sprite_4c_ptr->CopyXYZ_447DF0(field_74_pSprite_on_hook->field_C_sprite_4c_ptr);
 
@@ -512,7 +512,7 @@ void Crane_15C::UpdateCraneTargets_47F4C0()
 MATCH_FUNC(0x47f6c0)
 bool Crane_15C::ComputeHookPolar_47F6C0(Fix16_Point& pPoint, Fix16* pOutF16, Fix16* pOutAng)
 {
-    Fix16_Point v10 = (pPoint - field_2C_rotor_obj->field_4->get_x_y_443580());
+    Fix16_Point v10 = (pPoint.Sub_40AC80(field_2C_rotor_obj->field_4->get_x_y_443580()));
     *pOutF16 = v10.GetLength_no_sqrt_inline(); // TODO: Uses kZero_679E70 as Zero
 
     // TODO: 1st check is removed in 9.6f ??

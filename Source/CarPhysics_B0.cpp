@@ -2400,11 +2400,9 @@ void CarPhysics_B0::HandleWorldCollision_55FD00(Fix16_Point& pHitPoint)
 }
 
 // https://decomp.me/scratch/IiClE
-WIP_FUNC(0x55ff20)
+MATCH_FUNC(0x55ff20)
 void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
 {
-    WIP_IMPLEMENTED;
-
     // Entry EH state 5: six Fix16_Point locals up front
     Fix16_Point RelativeVelocity_1;
     Fix16_Point RelativeVelocity;
@@ -2449,7 +2447,7 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
             field_68_z_pos = kFP16Zero_6FE20C;
         }
 
-        DirectionBetweenCoMs_Scaled = (ThisCoM - OtherCoM).NormalizeSafe_442AD0() / 10;
+        DirectionBetweenCoMs_Scaled = (ThisCoM - OtherCoM).NormalizeSafe_442AD0().DivideInl_55F9E0(10);
 
         // sub_49EFE0 and CanCollideOver_4216E0 with get_car_info_5AA3B0 and the driver check out of line
         // (IsDrivenByNonPlayer_564300)
@@ -2574,12 +2572,9 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
 }
 
 // https://decomp.me/scratch/tc7DX
-WIP_FUNC(0x5606c0)
+MATCH_FUNC(0x5606c0)
 void CarPhysics_B0::HandleObjectCollision_5606C0(Object_2C* p2C, char_type damage_area)
 {
-    WIP_IMPLEMENTED;
-
-
     Fix16_Point RelativeVelocity;
     Fix16_Point Impulse;
     Fix16_Point tmp;
@@ -2587,10 +2582,11 @@ void CarPhysics_B0::HandleObjectCollision_5606C0(Object_2C* p2C, char_type damag
     Fix16_Point arg0a;
     Fix16_Point CoM = ComputeCombinedCenterOfMass_559EC0();
     Fix16 CarMass = CalculateMass_559FF0();
+    Fix16 ObjMass;
     stru_6FE1F0 = CoM - CollisionIntersectionPoint_6FE1A0;
     if (p2C->sub_482C90())
     {
-        Fix16 ObjMass = p2C->GetMass_482C80();
+        ObjMass = p2C->GetMass_482C80();
         tmp = p2C->GetSpeedVector_52AE90();
         RelativeVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0) - tmp;
 
@@ -2606,7 +2602,7 @@ void CarPhysics_B0::HandleObjectCollision_5606C0(Object_2C* p2C, char_type damag
                                                      kFP16One_6FE0D4);
 
         // Obj Reaction impulse
-        tmp = Impulse.Negate_40ACB0().Divide_442CB0(ObjMass);
+        tmp = Impulse.Negate_40ACB0().DivideInl_442CB0(ObjMass);
         p2C->SetMovementVectorWithRandomState_522640(tmp);
     }
     else
@@ -2632,7 +2628,7 @@ void CarPhysics_B0::HandleObjectCollision_5606C0(Object_2C* p2C, char_type damag
         {
             field_68_z_pos = kFP16Zero_6FE20C;
         }
-        arg0a = (CoM - ObjPos).NormalizeSafe_442AD0() / 10;
+        arg0a = (CoM - ObjPos).NormalizeSafe_442AD0().DivideInl_55F9E0(10);
         AccumulateImpulse_55FC30(arg0a, 50);
         if (p2C->sub_482C90())
         {
@@ -2895,19 +2891,14 @@ void CarPhysics_B0::IntegrateAndClampVelocities_5610B0()
     field_74_ang_vel_rad = field_74_ang_vel_rad.ApplyDeadZone_482730(field_74_ang_vel_rad);
 }
 
-WIP_FUNC(0x561130)
+MATCH_FUNC(0x561130)
 Fix16_Point CarPhysics_B0::ComputeRelativePointVelocity_561130(Fix16_Point* a3)
 {
-    WIP_IMPLEMENTED;
-
     Fix16_Point v11 = (*a3 - field_38_cp1);
     v11.RotateByAngle_40F6B0(-field_58_theta);
-    v11 = v11 - gCarInfo_2C_6FE0E4->field_C_center_of_mass_offset;
-
-    Ang16 v6 = Ang16::Fix16_To_Ang16_40F540(field_74_ang_vel_rad) + field_58_theta;
-    v11.RotateByAngle_40F6B0(v6);
-
-    v11 = v11 + (field_30_cm1 + field_40_linvel_1);
+    v11 -= gCarInfo_2C_6FE0E4->field_C_center_of_mass_offset;
+    v11.RotateByAngle_40F6B0(Ang16::Fix16_To_Ang16_40F540(field_74_ang_vel_rad) + field_58_theta);
+    v11 += (field_30_cm1 + field_40_linvel_1);
     return v11 - *a3;
 }
 

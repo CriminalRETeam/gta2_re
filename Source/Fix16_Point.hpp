@@ -216,6 +216,7 @@ struct Fix16_Point_POD
 
     EXPORT Fix16_Point Multiply_438FE0(Fix16& a1);
     EXPORT Fix16_Point Divide_442CB0(Fix16& a1);
+    inline Fix16_Point DivideInl_442CB0(Fix16& in) throw();
 
     // Out-of-line copies emitted in Weapon_30.cpp (used by sub_5DE910).
     EXPORT Fix16_Point_POD& AddAssign_5E40C0(const Fix16_Point_POD& other);
@@ -301,8 +302,16 @@ class Fix16_Point : public Fix16_Point_POD
         return Fix16_Point(x + in.x, y + in.y);
     }
 
-    // 0x40AC80
-    Fix16_Point operator-(const Fix16_Point& rhs);
+    // MATCH_FUNC(0x40AC80)
+    Fix16_Point operator-(const Fix16_Point& rhs)
+    {
+        return Fix16_Point(x - rhs.x, y - rhs.y);
+    }
+
+    // The out-of-line copy of the inline operator-. Called by name where the original keeps an EH state
+    // for temporaries around the call (Crane_15C::HookPickupCar_47EF80, ComputeHookPolar_47F6C0); the
+    // inline operator- called out of line gets none (CarPhysics_B0::HandleCarCollision_55FF20)
+    EXPORT Fix16_Point Sub_40AC80(const Fix16_Point& rhs);
 
     // Out of line operator+ (CarPhysics_B0::SpawnSkidSegment_55D200; Weapon_30::fire_truck_flamethrower_5E0B10 keeps the EH state of
     // the get_x_y_443580 temporary around this call)
@@ -614,7 +623,21 @@ class Fix16_Point : public Fix16_Point_POD
     }
 
     EXPORT Fix16_Point operator/(const s32& a3);
+
+    // operator/ 0x55F9E0 as a nothrow inline that VC6 still calls out of line: the original sets no EH
+    // state for the temporaries that live across this call (CarPhysics_B0::HandleCarCollision_55FF20,
+    // HandleObjectCollision_5606C0). throw() on the real operator/ changes 6 matched functions.
+    inline Fix16_Point DivideInl_55F9E0(const s32& a3) throw()
+    {
+        return Fix16_Point(x / a3, y / a3);
+    }
 };
+
+// Divide_442CB0 as a nothrow inline (see DivideInl_55F9E0; CarPhysics_B0::HandleObjectCollision_5606C0)
+inline Fix16_Point Fix16_Point_POD::DivideInl_442CB0(Fix16& in) throw()
+{
+    return Fix16_Point(x / in, y / in);
+}
 
 struct Fix16_Vec
 {
