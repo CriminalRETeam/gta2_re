@@ -530,6 +530,7 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 pedId,
     u8 idx2;
     u8 cur_x;
     u8 cur_z;
+    u8 new_z; // only stored to cur_z on the paths that add a node
     u8 i;
 
     Marz_3* pPatrolPoint_2;
@@ -776,23 +777,23 @@ LABEL_35:
             if (abs(cur_z - (u8)v40->field_4_zpos) < 1)
             {
                 field_1B_direction = v40->field_3_ypos;
-                cur_z = v40->field_4_zpos;
+                new_z = v40->field_4_zpos;
                 v40->field_0_idx1 = 0;
             }
             else
             {
-                field_1B_direction = v40->field_1_idx2;
-                cur_z = v40->field_2_xpos;
-                v40->field_1_idx2 = v40->field_3_ypos;
                 field_4_zpos = v40->field_4_zpos;
-                v40->field_0_idx1 = 0;
+                field_1B_direction = v40->field_1_idx2;
+                new_z = v40->field_2_xpos;
                 v40->field_2_xpos = field_4_zpos;
+                v40->field_1_idx2 = v40->field_3_ypos;
+                v40->field_0_idx1 = 0;
             }
         }
         else
         {
             field_1B_direction = v40->field_1_idx2;
-            cur_z = v40->field_2_xpos;
+            new_z = v40->field_2_xpos;
             v40->field_1_idx2 = 0;
         }
         switch (field_1B_direction)
@@ -833,6 +834,7 @@ LABEL_35:
                 ++cur_x;
             LABEL_52:
                 field_8_pNode++;
+                cur_z = new_z;
                 field_8_pNode->field_2_xpos = cur_x;
                 field_8_pNode->field_3_ypos = yCoord;
                 field_8_pNode->field_4_zpos = cur_z;
