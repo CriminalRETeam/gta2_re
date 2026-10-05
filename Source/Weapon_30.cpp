@@ -578,8 +578,6 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
 {
     WIP_IMPLEMENTED;
     Fix16_Point vector;
-    Fix16 unknown;
-    Fix16 unknown_2;
     Object_2C* pProjectile;
 
     if (a3)
@@ -607,91 +605,92 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                 }
                 else
                 {
-                    if (obj_idx == objects::grenade_obj_183)
+                    if (obj_idx == objects::grenade_obj_183 && a4 == 96)
                     {
-                        if (a4 == 96)
-                        {
-                            // maybe holding the grenade for too long
-                            gObject_5C_6F8F84->CreateExplosion_52A3D0(field_24_pPed->get_cam_x(),
-                                                                      field_24_pPed->get_cam_y(),
-                                                                      field_24_pPed->get_cam_z(),
-                                                                      field_24_pPed->Get_F12E_4CCA90(),
-                                                                      18,
-                                                                      field_24_pPed->field_200_id);
-                            if (field_24_pPed->IsField238_45EDE0(2))
-                            {
-                                decrement_ammo_4CCA30();
-                            }
-                            if (field_24_pPed->is_player_41B0A0())
-                            {
-                                gShooey_CC_67A4B8->ReportCrimeForPed(2, field_24_pPed);
-                            }
-
-                            // goto: the original shares the reload block below with the throw path
-                            goto thrown;
-                        }
-                        unknown = (dword_706CF0 + dword_706E80) * (Fix16(a3) / Fix16(60));
-                        unknown_2 = dword_706E74;
-                    }
-                    else
-                    {
-                        unknown = dword_706CF0 * (Fix16(a3) / Fix16(60));
-                        unknown_2 = dword_706E80;
-                    }
-                    gObject_5C_6F8F84->SetPendingDamageOwner_52A210(field_24_pPed->get_varrok_idx_420B50());
-
-                    // field_24_pPed->Get_F12E_4CCA90()
-                    pProjectile = gObject_5C_6F8F84->sub_52A280(obj_idx,
-                                                                           field_24_pPed->get_cam_x(),
-                                                                           field_24_pPed->get_cam_y(),
-                                                                           field_24_pPed->get_cam_z() + kFP16Half_706DA8,
-                                                                           field_24_pPed->Get_F12E_4CCA90(),
-                                                                           field_24_pPed->Get_F12E_4CCA90(),
-                                                                           unknown + unknown_2,
-                                                                           -dword_706F64,
-                                                                           dword_706CF0);
-                    if (pProjectile)
-                    {
-                        if ((field_24_pPed->field_168_game_object->field_58_flags & 8) == 0)
-                        {
-                            vector = field_24_pPed->GetVelocityVector_45B520();
-                            pProjectile->SetMovementVector_5224E0(vector);
-                            if (vector.x != dword_706EB8 || vector.y != dword_706EB8)
-                            {
-                                pProjectile->field_10_obj_3c->field_C_speed += dword_706C8C;
-                            }
-                        }
-                        if (obj_idx == objects::moving_molotov_138)
-                        {
-                            Object_2C* pLightObj = gObject_5C_6F8F84->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
-                            pProjectile->field_4->DispatchCollisionEvent_5A3100(pLightObj->field_4, 0, 0, kAngZero_707006);
-                            Object_2C* pMaybeExplosionObj =
-                                gObject_5C_6F8F84->CreateExplosion_52A3D0(113, 145, 2, kAngZero_707006, 5, field_24_pPed->field_200_id);
-                            if (pMaybeExplosionObj)
-                            {
-                                pProjectile->field_4->DispatchCollisionEvent_5A3100(pMaybeExplosionObj->field_4, 0, 0, kAngZero_707006);
-                            }
-                        }
-                        else
-                        {
-                            // inline here: sub_434130
-                            pProjectile->SetO8Timer_434130((96 - a4) / 8);
-                        }
-
+                        // maybe holding the grenade for too long
+                        gObject_5C_6F8F84->CreateExplosion_52A3D0(field_24_pPed->get_cam_x(),
+                                                                  field_24_pPed->get_cam_y(),
+                                                                  field_24_pPed->get_cam_z(),
+                                                                  field_24_pPed->Get_F12E_4CCA90(),
+                                                                  18,
+                                                                  field_24_pPed->field_200_id);
                         if (field_24_pPed->IsField238_45EDE0(2))
                         {
                             decrement_ammo_4CCA30();
                         }
-                        field_21 = 1;
                         if (field_24_pPed->is_player_41B0A0())
                         {
                             gShooey_CC_67A4B8->ReportCrimeForPed(2, field_24_pPed);
                         }
-                        field_24_pPed->AddThreateningPedToList_46FC70();
                     }
+                    else
+                    {
+                        Fix16 unknown;
+                        Fix16 unknown_2;
+                        if (obj_idx == objects::grenade_obj_183)
+                        {
+                            unknown = (dword_706CF0 + dword_706E80) * (Fix16(a3) / Fix16(60));
+                            unknown_2 = dword_706E74;
+                        }
+                        else
+                        {
+                            unknown = dword_706CF0 * (Fix16(a3) / Fix16(60));
+                            unknown_2 = dword_706E80;
+                        }
+                        Fix16 speed = unknown + unknown_2;
+                        gObject_5C_6F8F84->SetPendingDamageOwner_52A210(field_24_pPed->get_varrok_idx_420B50());
 
-                thrown:
-                    if (field_24_pPed->is_player_41B0A0())
+                        // field_24_pPed->Get_F12E_4CCA90()
+                        pProjectile = gObject_5C_6F8F84->sub_52A280(obj_idx,
+                                                                               field_24_pPed->get_cam_x(),
+                                                                               field_24_pPed->get_cam_y(),
+                                                                               field_24_pPed->get_cam_z() + kFP16Half_706DA8,
+                                                                               field_24_pPed->Get_F12E_4CCA90(),
+                                                                               field_24_pPed->Get_F12E_4CCA90(),
+                                                                               speed,
+                                                                               -dword_706F64,
+                                                                               dword_706CF0);
+                        if (pProjectile)
+                        {
+                            if ((field_24_pPed->field_168_game_object->field_58_flags & 8) == 0)
+                            {
+                                vector = field_24_pPed->GetVelocityVector_45B520();
+                                pProjectile->SetMovementVector_5224E0(vector);
+                                if (vector.x != dword_706EB8 || vector.y != dword_706EB8)
+                                {
+                                    pProjectile->field_10_obj_3c->field_C_speed += dword_706C8C;
+                                }
+                            }
+                            if (obj_idx == objects::moving_molotov_138)
+                            {
+                                Object_2C* pLightObj = gObject_5C_6F8F84->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
+                                pProjectile->field_4->DispatchCollisionEvent_5A3100(pLightObj->field_4, 0, 0, kAngZero_707006);
+                                Object_2C* pMaybeExplosionObj =
+                                    gObject_5C_6F8F84->CreateExplosion_52A3D0(Fix16(113), Fix16(145), 2, kAngZero_707006, 5, field_24_pPed->field_200_id);
+                                if (pMaybeExplosionObj)
+                                {
+                                    pProjectile->field_4->DispatchCollisionEvent_5A3100(pMaybeExplosionObj->field_4, 0, 0, kAngZero_707006);
+                                }
+                            }
+                            else
+                            {
+                                // inline here: sub_434130
+                                pProjectile->SetO8Timer_434130((96 - a4) / 8);
+                            }
+
+                            if (field_24_pPed->IsField238_45EDE0(2))
+                            {
+                                decrement_ammo_4CCA30();
+                            }
+                            field_21 = 1;
+                            if (field_24_pPed->is_player_41B0A0())
+                            {
+                                gShooey_CC_67A4B8->ReportCrimeForPed(2, field_24_pPed);
+                            }
+                            field_24_pPed->AddThreateningPedToList_46FC70();
+                        }
+                    }
+                    if (field_24_pPed->field_15C_player)
                     {
                         field_2_reload_speed = 4;
                     }
@@ -752,6 +751,13 @@ static inline Fix16 BeamLength_5DE4F0(Fix16_Point& d)
     }
 }
 
+// Ang16::PolarToCartesian_41FC20 with the radius by value
+static inline void PolarToCartesian_5DE4F0(Ang16& angle, Fix16 radius, Fix16& ret1, Fix16& ret2)
+{
+    ret1 = Ang16::sine_40F500(angle) * radius;
+    ret2 = Ang16::cosine_40F520(angle).Multiply_408680(radius);
+}
+
 WIP_FUNC(0x5de4f0)
 void Weapon_30::sub_5DE4F0()
 {
@@ -760,7 +766,8 @@ void Weapon_30::sub_5DE4F0()
                       field_24_pPed->field_198->get_cam_y() - field_24_pPed->get_cam_y());
     gRozza_679188.Reset_4637B0();
 
-    Ang16 angle = Fix16::atan2_fixed_405320(field_24_pPed->field_198->get_cam_y() - field_24_pPed->get_cam_y(),
+    Ang16 angle;
+    angle = Fix16::atan2_fixed_405320(field_24_pPed->field_198->get_cam_y() - field_24_pPed->get_cam_y(),
                                             field_24_pPed->field_198->get_cam_x() - field_24_pPed->get_cam_x());
 
     Fix16 dist = BeamLength_5DE4F0(delta);
@@ -796,10 +803,8 @@ void Weapon_30::sub_5DE4F0()
 
     Fix16 step_x;
     Fix16 step_y;
-    step_x = Ang16::sine_40F500(angle) * step_len;
-    step_y = Ang16::cosine_40F520(angle).Multiply_408680(step_len);
-    s32 count = steps.ToInt();
-    for (u8 i = 1; i <= count; i++)
+    PolarToCartesian_5DE4F0(angle, step_len, step_x, step_y);
+    for (u8 i = 1; i <= steps.ToInt(); i++)
     {
         gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(pBeam->field_14_xy.x, pBeam->field_14_xy.y, pBeam->field_1C_zpos);
         pBeam->set_xy_lazy_447E20(pBeam->field_14_xy.x + step_x, pBeam->field_14_xy.y + step_y);
@@ -814,8 +819,8 @@ void Weapon_30::sub_5DE4F0()
             switch (pHit->field_30_sprite_type_enum)
             {
                 case sprite_types_enum::car_2:
-                    field_24_pPed->field_198 = 0;
                     field_24_pPed->field_170_selected_weapon->field_4 = 1;
+                    field_24_pPed->field_198 = 0;
                     return;
 
                 case sprite_types_enum::ped_3:
@@ -970,6 +975,16 @@ void __stdcall sub_5DE910(Fix16_Point_POD a1, Fix16_Point& a2, Fix16 a3)
     }
 }
 
+// Fix16::MaxAbsDistance_42A6B0 with the second point first and by value, the y difference and Abs out of line
+static inline Fix16 MaxAbsDistance_5DF270(Fix16& x2, Fix16& y2, Fix16 x1, Fix16 y1)
+{
+    Fix16 diff_x;
+    diff_x = x2 - x1;
+    Fix16 diff_y;
+    diff_y = y2.Subtract_436A00(y1);
+    return Fix16::Max_44E540(Fix16::Abs_436A50(diff_x), Fix16::Abs_436A50(diff_y));
+}
+
 WIP_FUNC(0x5DF270)
 void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped* a5, Sprite* a6)
 {
@@ -995,10 +1010,8 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
                 // 16-bit subtract and calls Normalize_406C20 out of line, so it's written out here.
                 if (!pHit->AsCharB4_40FEA0())
                 {
-                    Fix16 dx = pHit->field_14_xy.x - xpos;
-                    Fix16 dy = pHit->field_14_xy.y - ypos;
-                    Ang16 diff;
-                    diff.rValue = Fix16::atan2_fixed_405320(dy, dx).rValue - angle.rValue;
+                    s16 d16 = Fix16::atan2_fixed_405320(pHit->field_14_xy.y - ypos, pHit->field_14_xy.x - xpos).rValue - angle.rValue;
+                    Ang16 diff(d16);
                     diff.Normalize_406C20();
                     bool bOutsideArc = diff < word_706D6C || diff > word_706E28;
                     if (bOutsideArc)
@@ -1018,10 +1031,8 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
                     {
                         break;
                     }
-                    Fix16 dx = pHit->field_14_xy.x - xpos;
-                    Fix16 dy = pHit->field_14_xy.y - ypos;
-                    Ang16 diff;
-                    diff.rValue = Fix16::atan2_fixed_405320(dy, dx).rValue - angle.rValue;
+                    s16 d16 = Fix16::atan2_fixed_405320(pHit->field_14_xy.y - ypos, pHit->field_14_xy.x - xpos).rValue - angle.rValue;
+                    Ang16 diff(d16);
                     diff.Normalize_406C20();
                     if (diff < word_706D6C || diff > word_706E28)
                     {
@@ -1049,10 +1060,8 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
                 char_type bOutside;
                 if (a3)
                 {
-                    Fix16 dx = pHit->field_14_xy.x - xpos;
-                    Fix16 dy = pHit->field_14_xy.y - ypos;
-                    Ang16 diff;
-                    diff.rValue = Fix16::atan2_fixed_405320(dy, dx).rValue - angle.rValue;
+                    s16 d16 = Fix16::atan2_fixed_405320(pHit->field_14_xy.y - ypos, pHit->field_14_xy.x - xpos).rValue - angle.rValue;
+                    Ang16 diff(d16);
                     diff.Normalize_406C20();
                     bOutside = diff < word_706D6C || diff > word_706E28;
                 }
@@ -1061,11 +1070,11 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
                     bOutside = 1;
                 }
 
-                // Like Fix16::MaxAbsDistance_42A6B0, with the y difference and Abs out of line
-                Fix16 cam_y = a5->field_1AC_cam.y;
-                Fix16 back_x = pB4->field_80_sprite_ptr->field_14_xy.x - a5->field_1AC_cam.x;
-                Fix16 back_y = pB4->field_80_sprite_ptr->field_14_xy.y.Subtract_436A00(cam_y);
-                Fix16 dist = Fix16::Max_44E540(Fix16::Abs_436A50(back_x), Fix16::Abs_436A50(back_y));
+                // The result is unused
+                MaxAbsDistance_5DF270(pB4->field_80_sprite_ptr->field_14_xy.x,
+                                      pB4->field_80_sprite_ptr->field_14_xy.y,
+                                      a5->field_1AC_cam.x,
+                                      a5->field_1AC_cam.y);
 
                 if (bOutside)
                 {
