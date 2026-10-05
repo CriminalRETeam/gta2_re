@@ -94,11 +94,9 @@ Hud_2B00::Hud_2B00()
     field_13C4_text_speed = 0;
 }
 
-WIP_FUNC(0x5cfe40)
+MATCH_FUNC(0x5cfe40)
 void Garox_13C0_sub::DrawPlayerNames_5CFE40()
 {
-    WIP_IMPLEMENTED;
-
     if (bStartNetworkGame_7081F0 && bShow_player_names_67D54C)
     {
         Camera_0xBC* pCam = gGame_0x40_67E008->field_38_orf1->get_camera_434900();
@@ -116,14 +114,22 @@ void Garox_13C0_sub::DrawPlayerNames_5CFE40()
                     // The original tests only al (bool return?)
                     if ((u8)pCam->IsCoordsPosVisible_435A70(x, y, z))
                     {
-                        // Camera_0xBC::WorldToScreen_40CFC0, with the y line out of line (inline budget)
-                        Fix16 u = pCam->field_98_cam_pos2.field_8_z - z;
-                        Fix16 t(kFpOne_7064C4 / Fix16(u.mValue + kFpEight_7064E8.mValue, 0));
-                        Fix16 xCalc = (((x - pCam->field_98_cam_pos2.field_0_x) * pCam->field_60.y) * t) + Fix16(320);
-                        Fix16 yCalc = y.Subtract_436A00(pCam->field_98_cam_pos2.field_4_y)
-                                          .Multiply_408680(pCam->field_60.y)
-                                          .Multiply_408680(t)
-                                          .Add_408660(Fix16(240));
+                        Fix16 xCalc;
+                        Fix16 yCalc;
+                        {
+                            // Camera_0xBC::WorldToScreen_40CFC0 (9.6f, takes x/y/z by value and writes
+                            // through two out pointers), with the y line out of line (inline budget).
+                            // The block scope and the y copy stand in for the inline's own locals and
+                            // parameter: they give the original's registers and stack slot sharing.
+                            Fix16 y2 = y;
+                            Fix16 u = pCam->field_98_cam_pos2.field_8_z - z;
+                            Fix16 t(kFpOne_7064C4 / Fix16(u.mValue + kFpEight_7064E8.mValue, 0));
+                            xCalc = (((x - pCam->field_98_cam_pos2.field_0_x) * pCam->field_60.y) * t) + Fix16(320);
+                            yCalc = y2.Subtract_436A00(pCam->field_98_cam_pos2.field_4_y)
+                                        .Multiply_408680(pCam->field_60.y)
+                                        .Multiply_408680(t)
+                                        .Add_408660(Fix16(240));
+                        }
 
                         DrawText_5D8A10(pIter->field_83C_player_name,
                                         (xCalc * gViewCamera_676978->field_A8_ui_scale), // x
