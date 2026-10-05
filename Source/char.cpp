@@ -3850,14 +3850,13 @@ WIP_FUNC(0x54ef60)
 bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
 {
     WIP_IMPLEMENTED;
-    Fix16 sprite_zpos = field_80_sprite_ptr->field_1C_zpos;
-    Fix16 sprite_ypos = field_80_sprite_ptr->field_14_xy.y;
-
     bool bIsNearXposBlockBoundary = true;
     bool bIsNearYposBlockBoundary = true;
     Fix16 ztmp;
 
     Fix16 sprite_xpos = field_80_sprite_ptr->field_14_xy.x;
+    Fix16 sprite_ypos = field_80_sprite_ptr->field_14_xy.y;
+    Fix16 sprite_zpos = field_80_sprite_ptr->field_1C_zpos;
 
     u8 old_f45 = field_45_slope_gradient_direction;
     byte_6FDB57 = 1;

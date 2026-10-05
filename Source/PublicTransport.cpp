@@ -878,7 +878,7 @@ void PublicTransport_181C::SetupTrainAndBusStops_5794B0()
     dword_6FF1D0 = 0;
     if (!bSkip_trains_67D550)
     {
-        for (u32 station_zone_kind = 0; station_zone_kind < 5; station_zone_kind++)
+        for (u8 station_zone_kind = 0; station_zone_kind < 5; station_zone_kind++)
         {
             switch (station_zone_kind)
             {
@@ -900,11 +900,10 @@ void PublicTransport_181C::SetupTrainAndBusStops_5794B0()
                 default:
                     break;
             }
-            gTrainStationList_6FEE68.field_0_list[0] = NULL;
-            gTrainStationList_6FEE68.field_0_list[1] = NULL;
-            gTrainStationList_6FEE68.field_0_list[2] = NULL;
-            gTrainStationList_6FEE68.field_0_list[3] = NULL;
-            gTrainStationList_6FEE68.field_0_list[4] = NULL;
+            for (s32 k = 0; k < 5; k++)
+            {
+                gTrainStationList_6FEE68.field_0_list[k] = NULL;
+            }
             gTrainStationList_6FEE68.field_194_count = 0;
 
             gmp_map_zone* i;
@@ -967,18 +966,14 @@ void PublicTransport_181C::SetupTrainAndBusStops_5794B0()
 
             s32 highest_zpos;
 
+            // called twice?
+            gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(Fix16(pBusStop->field_10_pZone->field_1_x).ToInt(),
+                                                               Fix16(pBusStop->field_10_pZone->field_2_y).ToInt(),
+                                                               &highest_zpos);
+
             Fix16 xpos = Fix16(pBusStop->field_10_pZone->field_1_x);
             Fix16 ypos = Fix16(pBusStop->field_10_pZone->field_2_y);
-
-            // called twice?
-            gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(
-                Fix16(pBusStop->field_10_pZone->field_1_x).ToInt(), //pBusStop->field_10_pZone->field_1_x << 14 >> 14,
-                Fix16(pBusStop->field_10_pZone->field_2_y).ToInt(), //pBusStop->field_10_pZone->field_2_y << 14 >> 14,
-                &highest_zpos);
-            gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(
-                Fix16(pBusStop->field_10_pZone->field_1_x).ToInt(), //pBusStop->field_10_pZone->field_1_x << 14 >> 14,
-                Fix16(pBusStop->field_10_pZone->field_2_y).ToInt(), //pBusStop->field_10_pZone->field_2_y << 14 >> 14,
-                &highest_zpos);
+            gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(xpos.ToInt(), ypos.ToInt(), &highest_zpos);
 
             for (u8 j = 0; j < 4; j++)
             {
@@ -993,7 +988,7 @@ void PublicTransport_181C::SetupTrainAndBusStops_5794B0()
                         break;
 
                     case 1:
-                        if (gMap_0x370_6F6268->IsEastBlockRoadType_4334A0(xpos.ToInt(), ypos.ToInt(), highest_zpos))
+                        if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(xpos.ToInt() + 1, ypos.ToInt(), highest_zpos))
                         {
                             xpos += kFpOne_6FF07C;
                             j = 4;
@@ -1001,7 +996,7 @@ void PublicTransport_181C::SetupTrainAndBusStops_5794B0()
 
                         break;
                     case 2:
-                        if (gMap_0x370_6F6268->IsSouthBlockRoadType_4334D0(xpos.ToInt(), ypos.ToInt(), highest_zpos))
+                        if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(xpos.ToInt(), ypos.ToInt() + 1, highest_zpos))
                         {
                             ypos += kFpOne_6FF07C;
                             j = 4;
@@ -1009,7 +1004,7 @@ void PublicTransport_181C::SetupTrainAndBusStops_5794B0()
 
                         break;
                     case 3:
-                        if (gMap_0x370_6F6268->IsWestBlockRoadType_433500(xpos.ToInt(), ypos.ToInt(), highest_zpos))
+                        if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(xpos.ToInt() - 1, ypos.ToInt(), highest_zpos))
                         {
                             xpos -= kFpOne_6FF07C;
                             j = 4;
