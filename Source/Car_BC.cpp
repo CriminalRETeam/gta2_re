@@ -1920,6 +1920,13 @@ bool Car_BC::HasSpriteZoom_43A230()
     return field_50_car_sprite->field_38_zoom != 0;
 }
 
+// CarPhysics_B0::GetLinearSpeed_4211A0 with the square root forced inline (see
+// Fix16_Point_POD::GetLength_SqrtForced_43A240)
+static inline Fix16 GetLinearSpeed_43A240(CarPhysics_B0* pPhysics)
+{
+    return pPhysics->field_40_linvel_1.GetLength_SqrtForced_43A240();
+}
+
 MATCH_FUNC(0x43a240)
 Fix16 Car_BC::GetCarLinearSpeed_43A240()
 {
@@ -1931,7 +1938,7 @@ Fix16 Car_BC::GetCarLinearSpeed_43A240()
         {
             return gFix16_6777CC;
         }
-        return pPhysics->GetLinearSpeed_4211A0();
+        return GetLinearSpeed_43A240(pPhysics);
     }
     else
     {
@@ -1940,7 +1947,7 @@ Fix16 Car_BC::GetCarLinearSpeed_43A240()
         {
             return gFix16_6777CC;
         }
-        return pPhysics->GetLinearSpeed_4211A0();
+        return GetLinearSpeed_43A240(pPhysics);
     }
 }
 
@@ -4015,40 +4022,10 @@ void Car_BC::sub_43DD60()
     }
 }
 
-// The original's copy of CarPhysics_B0::IsDrowning_421100 calls the out of line Fix16 helpers
-// (Negate_4086A0, Multiply_408680, operator+, SquareRoot_436A70) for the speed
-static inline Fix16 GetSpeed_43E560(Fix16_Point& v)
-{
-    if (v.x == gFix16_6777CC)
-    {
-        return Fix16::Abs_negate_out_of_line(v.y);
-    }
-    else if (v.y == gFix16_6777CC)
-    {
-        return Fix16::Abs_negate_out_of_line(v.x);
-    }
-    else
-    {
-        return Fix16::SquareRoot_436A70(v.x.Multiply_408680(v.x).Add_408660(v.y.Multiply_408680(v.y)));
-    }
-}
-
-static inline bool IsDrowning_43E560(CarPhysics_B0* pPhysics)
-{
-    if (pPhysics->field_98_surface_type == 8)
-    {
-        if (GetSpeed_43E560(pPhysics->field_40_linvel_1) <= kDrowningMaxSpeed_677794)
-        {
-            return 1;
-        }
-    }
-    return 0;
-}
-
 MATCH_FUNC(0x43e560)
 char_type Car_BC::ManageDrowning_43E560()
 {
-    char_type ret = IsDrowning_43E560(field_58_physics);
+    char_type ret = field_58_physics->IsDrowning_421100();
     if (ret)
     {
         if (this->field_94_exploder_timer > 0)
@@ -5851,7 +5828,7 @@ void Car_BC::TryHitchTrailer_442810()
             v6 = hitch_this - hitch_car;
             // Declared, then assigned: keeps the length in eax (Abs results reloaded from their temp)
             Fix16 v6_len;
-            v6_len = v6.GetLength_inline_442810();
+            v6_len = v6.GetLength_41E260();
 
             Fix16 z_delta = Fix16::Abs(v4->field_1C_zpos - field_50_car_sprite->field_1C_zpos);
 
@@ -5875,7 +5852,7 @@ void Car_BC::TryHitchTrailer_442810()
                                 pCar->field_58_physics->SetVelocityTowardTarget_55A1D0(
                                     v16.x,
                                     v16.y,
-                                    Ang16::Ang16_to_Fix16(pCar->field_58_physics->field_58_theta),
+                                    Ang16::Ang16_to_Fix16(pCar->field_58_physics->get_theta_40F820()),
                                     &a5);
                             }
                         }

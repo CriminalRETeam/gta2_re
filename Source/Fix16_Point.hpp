@@ -9,6 +9,15 @@ EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
 EXTERN_GLOBAL(Fix16, kFP16One256th_6FE07C);
 EXTERN_GLOBAL(Fix16, kFpZero_6F77C0);
 
+// GetLength_41E260 compares against a zero constant that each TU of the original has its own copy of
+// (a header static, like 9.6f's single 0x5E3DC8 in vec_len 0x41E260). A TU whose copy isn't
+// gFix16_6777CC defines FIX16_POINT_ZERO to it before its first include.
+#ifndef FIX16_POINT_ZERO
+    #define FIX16_POINT_ZERO gFix16_6777CC
+#endif
+EXTERN_GLOBAL(Fix16, kFpZero_6F610C);
+EXTERN_GLOBAL(Fix16, kF16Zero_677B90);
+
 // TODO: Some functions like Camera_0xBC::sub_435A70 won't match unless this is a POD
 // but 9.6f leads me to believe both the POD and non-POD type are the same
 class Fix16_Point;
@@ -56,20 +65,40 @@ struct Fix16_Point_POD
 
     Fix16 GetLength_453590();
 
-    // None inline exists in 10.5 at 0x453590
+    // 9.6f 0x41E260; the out-of-line copy is GetLength_453590
     inline Fix16 GetLength_41E260()
     {
-        if (x == gFix16_6777CC)
+        if (x == FIX16_POINT_ZERO)
         {
             return Fix16::Abs(y);
         }
-        else if (y == gFix16_6777CC)
+        else if (y == FIX16_POINT_ZERO)
         {
             return Fix16::Abs(x);
         }
         else
         {
             return Fix16::SquareRoot(x * x + y * y);
+        }
+    }
+
+    // GetLength_41E260 with the square root forced inline, for Car_BC::GetCarLinearSpeed_43A240 only. The
+    // original inlines SquareRoot in both of that function's GetLength expansions, but VC6's inline budget
+    // leaves only 21 for it in the first one (SquareRoot is 41) with every GetLength/Abs body that matches
+    // 9.6f. Unexplained: everywhere else SquareRoot is a plain inline (Car_BC::ManageDrowning_43E560).
+    inline Fix16 GetLength_SqrtForced_43A240()
+    {
+        if (x == FIX16_POINT_ZERO)
+        {
+            return Fix16::Abs(y);
+        }
+        else if (y == FIX16_POINT_ZERO)
+        {
+            return Fix16::Abs(x);
+        }
+        else
+        {
+            return Fix16::SquareRoot_forced(x * x + y * y);
         }
     }
 
@@ -311,23 +340,6 @@ class Fix16_Point : public Fix16_Point_POD
     // Out of line unary minus (Object_2C::ResolveCollisionWithPed_5229B0)
     EXPORT Fix16_Point Negate_40ACB0() const;
 
-    // The same function of GetLength but using another cutoff
-    inline Fix16 GetLength_2()
-    {
-        if (x == kFP16Zero_6FE20C)
-        {
-            return Fix16::Abs(y);
-        }
-        else if (y == kFP16Zero_6FE20C)
-        {
-            return Fix16::Abs(x);
-        }
-        else
-        {
-            return Fix16::SquareRoot(x * x + y * y);
-        }
-    }
-
     // OBS: needed for matching Crane_15C::ComputeHookPolar_47F6C0
     inline Fix16 GetLength_no_sqrt_inline()
     {
@@ -336,23 +348,6 @@ class Fix16_Point : public Fix16_Point_POD
             return Fix16::Abs(y);
         }
         else if (y == kFP16Zero_6FE20C)
-        {
-            return Fix16::Abs(x);
-        }
-        else
-        {
-            return Fix16::SquareRoot_436A70(x * x + y * y);
-        }
-    }
-
-    // Needed for miss2_0x11C::SCRCMD_CHECK_CAR_SPEED_50E360.
-    inline Fix16 GetLength_no_sqrt_inline_abs_y_negate()
-    {
-        if (x == kFpZero_6F77C0)
-        {
-            return Fix16::Abs_negate_out_of_line(y);
-        }
-        else if (y == kFpZero_6F77C0)
         {
             return Fix16::Abs(x);
         }
@@ -385,24 +380,7 @@ class Fix16_Point : public Fix16_Point_POD
         }
     }
 
-    // Needed for CarPhysics_B0::ShowSpeedRevsDamage_5597B0.
-    inline Fix16 GetLength_all_out_of_line_abs_negate()
-    {
-        if (x == kFP16Zero_6FE20C)
-        {
-            return Fix16::Abs_negate_out_of_line(y);
-        }
-        else if (y == kFP16Zero_6FE20C)
-        {
-            return Fix16::Abs_negate_out_of_line(x);
-        }
-        else
-        {
-            return Fix16::SquareRoot_436A70(x.Multiply_408680(x).Add_408660(y.Multiply_408680(y)));
-        }
-    }
-
-    // Needed for CarPhysics_B0::ShowSpeedRevsDamage_5597B0.
+    // Needed for CarPhysics_B0::HandleCarCollision_55FF20.
     inline Fix16 GetLength_all_out_of_line_abs_y_negate_2()
     {
         if (x == kFP16Zero_6FE20C)
@@ -450,23 +428,6 @@ class Fix16_Point : public Fix16_Point_POD
         else
         {
             return Fix16::SquareRoot_436A70(x.Multiply_408680(x).Add_408660(y.Multiply_408680(y)));
-        }
-    }
-
-    // Needed for CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60.
-    inline Fix16 GetLength_out_of_line_abs_x_squared()
-    {
-        if (x == kFP16Zero_6FE20C)
-        {
-            return Fix16::Abs_436A50(y);
-        }
-        else if (y == kFP16Zero_6FE20C)
-        {
-            return Fix16::Abs_436A50(x);
-        }
-        else
-        {
-            return Fix16::SquareRoot_436A70(x.Multiply_408680(x).Add_408660(y * y));
         }
     }
 
@@ -541,40 +502,6 @@ class Fix16_Point : public Fix16_Point_POD
         }
     }
 
-    // GetLength_2 as inlined into CarPhysics_B0::ProcessPedImpact_560B40 (out of line helpers)
-    inline Fix16 GetLength_inline_560B40()
-    {
-        if (x == kFP16Zero_6FE20C)
-        {
-            return Fix16::Abs_negate_out_of_line(y);
-        }
-        else if (y == kFP16Zero_6FE20C)
-        {
-            return Fix16::Abs_436A50(x);
-        }
-        else
-        {
-            return Fix16::SquareRoot_436A70(x.Multiply_408680(x).Add_408660(y.Multiply_408680(y)));
-        }
-    }
-
-    // GetLength_41E260 as inlined into Car_BC::TryHitchTrailer_442810 (out of line helpers)
-    inline Fix16 GetLength_inline_442810()
-    {
-        if (x == gFix16_6777CC)
-        {
-            return Fix16::Abs_436A50(y);
-        }
-        else if (y == gFix16_6777CC)
-        {
-            return Fix16::Abs_436A50(x);
-        }
-        else
-        {
-            return Fix16::SquareRoot(x.Multiply_408680(x).Add_408660(y.Multiply_408680(y)));
-        }
-    }
-
     // MultiplyByFix16_49E3A0 as inlined into CarPhysics_B0::CalculateRearWheelForce_5620D0: the
     // second *= is the out-of-line copy
     void MultiplyByFix16_inline_5620D0(const Fix16& factor)
@@ -583,7 +510,7 @@ class Fix16_Point : public Fix16_Point_POD
         y.MultiplyAssign_562430(factor);
     }
 
-    // GetLength_2 as inlined into CarPhysics_B0::CalculateRearWheelForce_5620D0: Abs out of line,
+    // GetLength_41E260 as inlined into CarPhysics_B0::CalculateRearWheelForce_5620D0: Abs out of line,
     // x*x out of line, y*y inline
     inline Fix16 GetLength_inline_5620D0()
     {

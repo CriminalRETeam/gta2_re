@@ -1,3 +1,6 @@
+// This TU's copy of the Fix16_Point length zero (see Fix16_Point.hpp)
+#define FIX16_POINT_ZERO kFpZero_6F77C0
+
 // Force inline off
 //#define INLINE_MODE inline
 #include "miss2_0x11c.hpp"
@@ -5632,7 +5635,7 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_SPEED_50E360()
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
 
     if (pPointer->field_8_car->field_58_physics &&
-        pPointer->field_8_car->field_58_physics->field_0_vel_read_only.GetLength_no_sqrt_inline_abs_y_negate().get_value_4754D0() >
+        pPointer->field_8_car->field_58_physics->get_car_velocity_4211C0().get_value_4754D0() >
             pCmd->field_A_value)
     {
         field_8_cond_result = true;

@@ -1,3 +1,6 @@
+// This TU's copy of the Fix16_Point length zero (see Fix16_Point.hpp)
+#define FIX16_POINT_ZERO kFpZero_6F610C
+
 #include "map_0x370.hpp"
 #include "Fix16_Rect.hpp"
 #include "Function.hpp"
@@ -2942,31 +2945,6 @@ gmp_map_slope::gmp_map_slope(u8 gradient_direction, u8 gradient_size, u8 gradien
     field_8_zpos_higher = zpos_higher;
 }
 
-// https://decomp.me/scratch/zXDWw
-// GetLength_453590 as inlined into sub_4E5640 (out of line helpers)
-static inline Fix16 GetLength_inline_4E5640(Fix16_Point& p)
-{
-    if (p.x == kFpZero_6F610C)
-    {
-        return Fix16::Abs_436A50(p.y);
-    }
-    else if (p.y == kFpZero_6F610C)
-    {
-        return Fix16::Abs_436A50(p.x);
-    }
-    else
-    {
-        return Fix16::SquareRoot_436A70(p.x.Multiply_408680(p.x).Add_408660(p.y.Multiply_408680(p.y)));
-    }
-}
-
-// Ang16::PolarToCartesian_41FC20 as inlined into sub_4E5640 (out of line multiplies)
-static inline void PolarToCartesian_inline_4E5640(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2)
-{
-    ret1 = Ang16::sine_40F500(angle).Multiply_408680(radius);
-    ret2 = Ang16::cosine_40F520(angle).Multiply_408680(radius);
-}
-
 // Walks the collision probe sprite from (x_1, y_1, z_1) towards (x_2, y_2, z_2) in steps of about `height`,
 // returning 0 as soon as it hits something (line of sight / clear path test).
 // Left: Fix16_Point_POD() for pos_diff goes out of line (inline budget). With it forced inline the
@@ -2984,7 +2962,7 @@ char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_
 
     angle = Fix16::atan2_fixed_405320(y_2 - y_1, x_2 - x_1);
 
-    Fix16 distance = GetLength_inline_4E5640(pos_diff);
+    Fix16 distance = pos_diff.GetLength_41E260();
     pObjSprt->set_xyz_lazy_420600(x_1, y_1, z_1);
     pObjSprt->set_ang_lazy_420690(angle);
     pObjSprt->AllocInternal_59F950(width, height, depth);
@@ -3015,7 +2993,7 @@ char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_
     Fix16 vec_x;
     Fix16 vec_y;
 
-    PolarToCartesian_inline_4E5640(angle, value_2, vec_x, vec_y);
+    Ang16::PolarToCartesian_41FC20(angle, value_2, vec_x, vec_y);
 
     for (u8 i = 1; i <= value_1.ToInt(); i++)
     {

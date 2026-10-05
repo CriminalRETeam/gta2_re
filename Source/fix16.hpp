@@ -315,11 +315,15 @@ class Fix16
         return (diff_x > diff_y) ? diff_x : diff_y;
     }
 
-    // NOTE: Force required for sub_43A240 else 2nd call doesn't get inlined
-    // miss2_0x11C.cpp switches this back to regular inlining mode. In 9.6f it seems like
-    // that file actually does have other inline settings as it actually has inlined way more things in the
-    // opcode switch case compared to 10.5 which has inlined nothing.
-    INLINE_MODE static Fix16 __stdcall SquareRoot(Fix16& input)
+    // 9.6f 0x410C10, out-of-line copy SquareRoot_436A70. A plain inline: big functions call 0x436A70 once
+    // they run out of inline budget (Car_BC::ManageDrowning_43E560).
+    inline static Fix16 __stdcall SquareRoot(Fix16& input)
+    {
+        return Fix16(sqrt(input.AsDouble()));
+    }
+
+    // SquareRoot forced inline, only for Fix16_Point_POD::GetLength_SqrtForced_43A240 (unexplained)
+    __forceinline static Fix16 __stdcall SquareRoot_forced(Fix16& input)
     {
         return Fix16(sqrt(input.AsDouble()));
     }

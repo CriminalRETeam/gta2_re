@@ -1,3 +1,6 @@
+// This TU's copy of the Fix16_Point length zero (see Fix16_Point.hpp)
+#define FIX16_POINT_ZERO kF16Zero_677B90
+
 #include "CarAI_78.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
@@ -4872,23 +4875,6 @@ void CarAI_78::ManageCollisions_452A20()
 }
 
 // https://decomp.me/scratch/uZlwP
-// Fix16_Point::GetLength_2 with kF16Zero_677B90 as the zero (CarAI_78::sub_452DF0)
-static inline Fix16 GetLength_677B90(Fix16_Point& p)
-{
-    if (p.x == kF16Zero_677B90)
-    {
-        return Fix16::Abs(p.y);
-    }
-    else if (p.y == kF16Zero_677B90)
-    {
-        return Fix16::Abs(p.x);
-    }
-    else
-    {
-        return Fix16::SquareRoot(p.x * p.x + p.y * p.y);
-    }
-}
-
 MATCH_FUNC(0x452df0)
 void CarAI_78::sub_452DF0()
 {
@@ -5008,7 +4994,7 @@ void CarAI_78::sub_452DF0()
 
     if (gCurrCarAI_Velocity_677B00 != kF16Zero_677B90)
     {
-        if (GetLength_677B90(field_0_car->field_58_physics->field_0_vel_read_only) == kF16Zero_677B90)
+        if (field_0_car->field_58_physics->field_0_vel_read_only.GetLength_41E260() == kF16Zero_677B90)
         {
             ++field_2A_stopped_timer;
         }
@@ -5082,7 +5068,7 @@ MATCH_FUNC(0x453470)
 void CarAI_78::sub_453470()
 {
     this->field_0_car->field_58_physics->SetHandBrakeOff_421260();
-    Fix16 t = field_0_car->field_58_physics->field_40_linvel_1.GetLength_453590();
+    Fix16 t = field_0_car->field_58_physics->GetLinearSpeed_4211A0();
     gCurrCarAI_Velocity_677B00 = t;
 
     if (this->field_0_car->field_80)

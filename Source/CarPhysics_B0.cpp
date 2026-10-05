@@ -1,3 +1,6 @@
+// This TU's copy of the Fix16_Point length zero (see Fix16_Point.hpp)
+#define FIX16_POINT_ZERO kFP16Zero_6FE20C
+
 #include "CarPhysics_B0.hpp"
 #include "CarAI_78.hpp"
 #include "CarInfo_808.hpp"
@@ -293,7 +296,7 @@ void CarPhysics_B0::ShowSpeedRevsDamage_5597B0()
     {
         SetCurrentCarInfoAndModelPhysics_562EF0();
 
-        Fix16 speed = field_40_linvel_1.GetLength_all_out_of_line_abs_negate();
+        Fix16 speed = field_40_linvel_1.GetLength_41E260();
         s32 gear;
         if (speed > gCarInfo_48_6FE258->field_44_gear3_speed)
         {
@@ -304,7 +307,7 @@ void CarPhysics_B0::ShowSpeedRevsDamage_5597B0()
             gear = (speed > gCarInfo_48_6FE258->field_40_gear2_speed) + 1;
         }
 
-        swprintf(tmpBuff_67BD9C, L"speed:%3.3f(%d)", field_40_linvel_1.GetLength_all_out_of_line_abs_y_negate_2().AsDouble(), gear);
+        swprintf(tmpBuff_67BD9C, L"speed:%3.3f(%d)", GetLinearSpeed_4211A0().AsDouble(), gear);
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 16, gDebugFont_706600, 1);
 
         swprintf(tmpBuff_67BD9C, L"revs:%3.3f %c", field_60_gas_pedal.AsDouble(), get_revs_561940() ? 'T' : ' ');
@@ -2266,7 +2269,7 @@ Fix16 CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce
 
     Fix16_Point NewImpulse;
     Fix16 ImpulseIntensity;
-    ImpulseIntensity = Impulse.GetLength_out_of_line_abs_x_squared();
+    ImpulseIntensity = Impulse.GetLength_41E260();
 
     if ((ImpulseIntensity / CalculateMass_559FF0()) > dword_6FE37C)
     {
@@ -2276,7 +2279,7 @@ Fix16 CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce
         {
             if (!field_5C_pCar->is_driven_by_player())
             {
-                Fix16 MaybeVelocity = field_0_vel_read_only.GetLength_453590();
+                Fix16 MaybeVelocity = get_car_velocity_4211C0();
                 if (MaybeVelocity <= dword_6FE1D4 || field_92_is_hand_brake_on)
                 {
                     NewImpulse = (Impulse / kFP16Three_6FE218);
@@ -2375,7 +2378,7 @@ void CarPhysics_B0::HandleWorldCollision_55FD00(Fix16_Point& pHitPoint)
         gCollisionDamage_6FE33C = damage;
     }
     field_5C_pCar->ApplyImpactDamage_43D5D0(damage);
-    if (field_40_linvel_1.GetLength_all_out_of_line_abs_y_negate_2() > FastCarMinVelocity_6FE1CC)
+    if (field_40_linvel_1.GetLength_41E260() > FastCarMinVelocity_6FE1CC)
     {
         if (!field_5C_pCar->IsMaxDamage_40F890())
         {
@@ -2465,7 +2468,7 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
     if (gGtx_0x106C_703DD4->get_car_info_5AA3B0(pThisCar->field_84_car_info_idx)->is_0x1_41FF00() &&
         (pThisCar->IsTank_411900() || !pThisCar->sub_4214F0()) &&
         !gGtx_0x106C_703DD4->get_car_info_5AA3B0(pOtherCar->field_84_car_info_idx)->is_0x1_41FF00() &&
-        ImpulseForce.GetLength_all_out_of_line_abs_y_negate_2() > dword_6FDFD8 && field_40_linvel_1.GetLength_453590_inline_wrap() > dword_6FE1C4)
+        ImpulseForce.GetLength_all_out_of_line_abs_y_negate_2() > dword_6FDFD8 && GetLinearSpeed_4211A0() > dword_6FE1C4)
     {
         bGreatCollision = true;
         field_5C_pCar->sub_49EFC0();
@@ -2765,7 +2768,7 @@ void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
         bUnknown = 0;
     }
 
-    gCollisionDamage_6FE33C = pIntersection.GetLength_inline_560B40();
+    gCollisionDamage_6FE33C = pIntersection.GetLength_41E260();
 
     Car_BC* pCar = this->field_5C_pCar;
 
@@ -3566,7 +3569,7 @@ void CarPhysics_B0::EnforceGearSensitiveMaxSpeed_562D00()
             radius = gCarInfo_48_6FE258->field_40_gear2_speed;
         }
 
-        if (field_40_linvel_1.GetLength_2() > radius)
+        if (field_40_linvel_1.GetLength_41E260() > radius)
         {
             polar.FromPolar_41E210(radius, field_40_linvel_1.atan2_40F790());
             field_40_linvel_1.ClampTowardsZero_49E480(polar);
@@ -3806,7 +3809,7 @@ void CarPhysics_B0::SetSprite_563560(Sprite* a2)
 MATCH_FUNC(0x563590)
 void CarPhysics_B0::SnapVelocityToSpriteDirection_563590(Sprite* pSprt)
 {
-    field_40_linvel_1.SetFromPolar_41E210(field_40_linvel_1.GetLength_2(), pSprt->field_0);
+    field_40_linvel_1.SetFromPolar_41E210(field_40_linvel_1.GetLength_41E260(), pSprt->field_0);
     CarPhysics_B0::SetSprite_563560(pSprt);
 }
 
@@ -3833,7 +3836,7 @@ void CarPhysics_B0::UpdateCarAndTrailerSpriteFromPhysics_5636C0()
 MATCH_FUNC(0x5636e0)
 bool CarPhysics_B0::IsNearlyStopped_5636E0()
 {
-    if (field_40_linvel_1.GetLength_2() < dword_6FE0A8)
+    if (field_40_linvel_1.GetLength_41E260() < dword_6FE0A8)
     {
         return true;
     }

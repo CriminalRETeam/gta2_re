@@ -6525,7 +6525,7 @@ char_type Char_B4::HandlePedObjectHit_5537F0(Object_2C* p2c)
     }
 }
 
-// GetLength_2 as inlined into HandleCarImpact_5538A0: kFP16Zero_6FD9E4 as the zero, out of line helpers
+// GetLength_41E260 as inlined into HandleCarImpact_5538A0: kFP16Zero_6FD9E4 as the zero, out of line helpers
 static inline Fix16 GetLength_inline_5538A0(Fix16_Point& p)
 {
     if (p.x == kFP16Zero_6FD9E4)
