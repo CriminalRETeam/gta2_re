@@ -6897,7 +6897,7 @@ Fix16_Point Trailer::sub_407BD0()
 // static copies of the 90/270 degree constants
 static inline bool IsVelocityAlignedWithHeading_40F840(CarPhysics_B0* pPhys)
 {
-    Ang16 drift = pPhys->field_40_linvel_1.atan2_40ACD0().SubtractNormalized_409340(pPhys->field_58_theta);
+    Ang16 drift = pPhys->field_40_linvel_1.atan2_40F790().SubtractNormalized_409340(pPhys->field_58_theta);
     return drift <= word_66A9C8 || drift >= word_66AABC;
 }
 

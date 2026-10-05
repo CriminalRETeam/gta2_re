@@ -772,12 +772,6 @@ void CarPhysics_B0::ResetForceAccumulators_55A840()
 }
 
 // https://decomp.me/scratch/efo3b
-// Fix16_Point::atan2_40ACD0, inlined here
-static inline Ang16 Linvel_atan2_inline(Fix16_Point& p)
-{
-    return Fix16::atan2_fixed_405320(p.y, p.x);
-}
-
 MATCH_FUNC(0x55a860)
 void CarPhysics_B0::HandleUserInputs_55A860(char_type bForwardGasOn,
                                             char_type bFootBrakeOn,
@@ -794,8 +788,8 @@ void CarPhysics_B0::HandleUserInputs_55A860(char_type bForwardGasOn,
     }
     else
     {
-        // IsVelocityAlignedWithHeading_40F840 with atan2_40ACD0 inlined
-        Ang16 v14 = (Linvel_atan2_inline(field_40_linvel_1) - field_58_theta);
+        // IsVelocityAlignedWithHeading_40F840 inlined
+        Ang16 v14 = (field_40_linvel_1.atan2_40F790() - field_58_theta);
         bool aligned = v14 <= kAng90_6FE00C || v14 >= kAng270_6FE154;
         if (aligned)
         {
