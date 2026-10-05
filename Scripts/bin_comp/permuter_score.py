@@ -219,7 +219,7 @@ def structure_lines(lines):
 
 
 def skeleton_lines(lines):
-    return [l for l in structure_lines(lines) if re.match(r"^(j\w+|call|ret)\b", l)]
+    return [l for l in structure_lines(lines) if re.match(r"^(j\w+|call\w*|ret)\b", l)]  # call\w*: also calll *ptr
 
 
 def main():

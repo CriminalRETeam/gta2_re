@@ -10,28 +10,28 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | skeleton | structure | full | 9.6f struct | Address | Function | File |
 |---|---|---|---|---|---|---|
 | 0 | 0 | 110 | - | 0x561380 | `CarPhysics_B0::ComputePointVelocity_561380` | CarPhysics_B0.cpp |
+| 0 | 0 | 12 | - | 0x461290 | `Ped::BusCustomer_AI_461290` | Ped.cpp |
 | 0 | 0 | 12 | 147 | 0x5520a0 | `Char_B4::state_8_5520A0` | char.cpp |
 | 0 | 0 | 12 | 4 | 0x543690 | `Wolfy_7A8::sub_543690` | Wolfy_3D4.cpp |
-| 0 | 0 | 12 | - | 0x461290 | `Ped::BusCustomer_AI_461290` | Ped.cpp |
 | 0 | 0 | 16 | 0 | 0x5645b0 | `Player::AddCarToHistory_5645B0` | Player.cpp |
 | 0 | 0 | 2 | 0 | 0x498cb0 | `BurgerKing_1::SetAltKeyState_498CB0` | BurgerKing_67F8B0.cpp |
 | 0 | 0 | 2 | 0 | 0x4fb330 | `Ambulance_20::UpdateState_4FB330` | Ambulance_110.cpp |
 | 0 | 0 | 20 | - | 0x540320 | `Particle_8::EmitElectricArcParticle` | Particle_8.cpp |
 | 0 | 0 | 34 | - | 0x452060 | `CarAI_78::sub_452060` | CarAI_78.cpp |
-| 0 | 0 | 4 | 0 | 0x516590 | `youthful_einstein::SetNewFugitive_516590` | youthful_einstein.cpp |
 | 0 | 0 | 4 | - | 0x4e6660 | `Map_0x370::sub_4E6660` | map_0x370.cpp |
+| 0 | 0 | 4 | 0 | 0x516590 | `youthful_einstein::SetNewFugitive_516590` | youthful_einstein.cpp |
 | 0 | 0 | 6 | - | 0x414710 | `sound_obj::TrainCab_414710` | sound_obj.cpp |
 | 0 | 2 | 4 | 2 | 0x4b6390 | `menu_option_0x82::SelectPrevHorizontalIdx_4B6390` | Frontend.cpp |
-| 0 | 4 | 10 | 0 | 0x5d4890 | `Hud_Brief_704::ClearAllBriefsWithPriority_5D4890` | Hud.cpp |
 | 0 | 4 | 10 | - | 0x5e0e70 | `Weapon_30::fire_truck_gun_5E0E70` | Weapon_30.cpp |
+| 0 | 4 | 10 | 0 | 0x5d4890 | `Hud_Brief_704::ClearAllBriefsWithPriority_5D4890` | Hud.cpp |
 | 0 | 4 | 14 | 4 | 0x5d9510 | `SetWindowedMode_5D9510` | winmain.cpp |
 | 0 | 4 | 16 | 24 | 0x560b40 | `CarPhysics_B0::ProcessPedImpact_560B40` | CarPhysics_B0.cpp |
 | 0 | 4 | 22 | - | 0x454410 | `ComputeCarMassAndInertia_454410` | CarInfo_808.cpp |
 | 0 | 4 | 28 | 336 | 0x54fec0 | `Char_B4::CanStepForward_54FEC0` | char.cpp |
-| 0 | 4 | 4 | 18 | 0x427220 | `sound_obj::ProcessPoliceRadioWordsPlayback_427220` | sound_obj.cpp |
-| 0 | 4 | 4 | 4 | 0x56ba60 | `jolly_poitras_0x2BC0::SavePlySlotDat_56BA60` | jolly_poitras_0x2BC0.cpp |
 | 0 | 4 | 4 | - | 0x418720 | `sound_obj::HandleCarTireScrubSound_418720` | sound_obj.cpp |
 | 0 | 4 | 4 | - | 0x4d6000 | `keybrd_0x204::GetLayout_4D6000` | keybrd_0x204.cpp |
+| 0 | 4 | 4 | 18 | 0x427220 | `sound_obj::ProcessPoliceRadioWordsPlayback_427220` | sound_obj.cpp |
+| 0 | 4 | 4 | 4 | 0x56ba60 | `jolly_poitras_0x2BC0::SavePlySlotDat_56BA60` | jolly_poitras_0x2BC0.cpp |
 | 0 | 4 | 46 | 8 | 0x574720 | `PoliceCrew_38::State6_ShutDown_574720` | Police_38.cpp |
 | 0 | 4 | 66 | - | 0x50e190 | `miss2_0x11C::GetSpeed_50E190` | miss2_0x11C.cpp |
 | 0 | 4 | 8 | 430 | 0x539890 | `Particle_4C::UpdateCircularBurst_state_5_539890` | Particle_4C.cpp |
@@ -55,7 +55,10 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 16 | 16 | - | 0x4f4600 | `MapRenderer::draw_top_4F4600` | MapRenderer.cpp |
 | 0 | 16 | 16 | - | 0x4f49b0 | `MapRenderer::draw_bottom_4F49B0` | MapRenderer.cpp |
 | 0 | 16 | 20 | 217 | 0x5d8a10 | `DrawText_5D8A10` | Draw.cpp |
+| 0 | 18 | 36 | - | 0x41a580 | `sound_obj::AdjustPlaybackRate_41A580` | sound_obj.cpp |
+| 0 | 19 | 61 | 41 | 0x528e50 | `Object_2C::HandleImpact_528E50` | Object_5C.cpp |
 | 0 | 22 | 22 | 8 | 0x4eb940 | `ProjectVert_4EB940` | MapRenderer.cpp |
+| 0 | 22 | 30 | 7 | 0x577370 | `Police_7B8::TryCreateRoadblockAt_577370` | Police_7B8.cpp |
 | 0 | 22 | 46 | - | 0x41f520 | `sound_obj::ProcessOtherObjects_41F520` | sound_obj.cpp |
 | 0 | 22 | 96 | 28 | 0x45afc0 | `Ped::Reset_45AFC0` | Ped.cpp |
 | 0 | 24 | 112 | - | 0x53d260 | `Particle_4C::PoolUpdate` | Particle_4C.cpp |
@@ -85,6 +88,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 44 | 116 | 580 | 0x534700 | `Garage_48::ParkCarAtDoor_534700` | Garage_48.cpp |
 | 0 | 44 | 26 | - | 0x4ec450 | `MapRenderer::DrawDiagonalUpLeftFace_4EC450` | MapRenderer.cpp |
 | 0 | 44 | 26 | - | 0x4ece40 | `MapRenderer::DrawDiagonalDownRightFace_4ECE40` | MapRenderer.cpp |
+| 0 | 44 | 56 | - | 0x4e5e90 | `Map_0x370::HasGreenArrowForPathDirection_4E5E90` | map_0x370.cpp |
 | 0 | 46 | 240 | 88 | 0x521890 | `NetPlay::ReceiveGameMessage_521890` | NetPlay.cpp |
 | 0 | 46 | 310 | 324 | 0x5504f0 | `Char_B4::state_1_5504F0` | char.cpp |
 | 0 | 48 | 102 | 56 | 0x469fe0 | `Ped::sub_469FE0` | Ped.cpp |
@@ -116,12 +120,10 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 2 | 10 | 38 | 217 | 0x448770 | `CarAI_78::sub_448770` | CarAI_78.cpp |
 | 2 | 12 | 24 | 72 | 0x5d7cb0 | `ConvertColourBanks_5D7CB0` | Draw.cpp |
 | 2 | 16 | 26 | 0 | 0x562d00 | `CarPhysics_B0::EnforceGearSensitiveMaxSpeed_562D00` | CarPhysics_B0.cpp |
-| 2 | 18 | 36 | - | 0x41a580 | `sound_obj::AdjustPlaybackRate_41A580` | sound_obj.cpp |
 | 2 | 18 | 44 | 45 | 0x562560 | `CarPhysics_B0::UpdateSteeringAngle_562560` | CarPhysics_B0.cpp |
 | 2 | 18 | 52 | 42 | 0x5121e0 | `frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0` | frosty_pasteur_0xC1EA8.cpp |
 | 2 | 22 | 24 | 1810 | 0x582480 | `Car_14::SpawnTrafficCar_582480` | Car_BC.cpp |
 | 2 | 40 | 78 | 22 | 0x5b92e0 | `sharp_pare_0x15D8::ReadTextures_5B92E0` | sharp_pare_0x15D8.cpp |
-| 2 | 48 | 72 | 4 | 0x4b6e10 | `Frontend::DrawBackground_4B6E10` | Frontend.cpp |
 | 2 | 62 | 194 | 359 | 0x541850 | `Wolfy_30::TimerAfter50Handler_541850` | Wolfy_3D4.cpp |
 | 2 | 70 | 452 | 194 | 0x550f60 | `Char_B4::GetNextRotationToward_550F60` | char.cpp |
 | 2 | 84 | 288 | 70 | 0x523bf0 | `Object_2C::IntegrateMovementAndCollisions_523BF0` | Object_5C.cpp |
@@ -137,13 +139,13 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 4 | 18 | 22 | 113 | 0x4e11e0 | `Map_0x370::RectHitsDiagonalWall_4E11E0` | map_0x370.cpp |
 | 4 | 20 | 32 | 52 | 0x55fa60 | `CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60` | CarPhysics_B0.cpp |
 | 4 | 20 | 36 | 0 | 0x548840 | `Char_B4::HandleObjectCollision_548840` | char.cpp |
-| 4 | 22 | 30 | 7 | 0x577370 | `Police_7B8::TryCreateRoadblockAt_577370` | Police_7B8.cpp |
 | 4 | 28 | 80 | 551 | 0x546360 | `Char_B4::UpdateAnimState_546360` | char.cpp |
 | 4 | 30 | 54 | 104 | 0x5552b0 | `Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0` | Orca_2FD4.cpp |
 | 4 | 34 | 108 | 214 | 0x55f3b0 | `ComputeLineLineIntersection_55F3B0` | CarPhysics_B0.cpp |
 | 4 | 36 | 46 | 111 | 0x46d460 | `Ped::AttackTargetStateMachine_46D460` | Ped.cpp |
 | 4 | 46 | 58 | - | 0x55d200 | `CarPhysics_B0::SpawnSkidSegment_55D200` | CarPhysics_B0.cpp |
 | 4 | 48 | 140 | - | 0x44a1f0 | `CarAI_78::sub_44A1F0` | CarAI_78.cpp |
+| 4 | 48 | 72 | 4 | 0x4b6e10 | `Frontend::DrawBackground_4B6E10` | Frontend.cpp |
 | 4 | 156 | 286 | 146 | 0x492260 | `thirsty_lamarr::DrawDigits_492260` | thirsty_lamarr.cpp |
 | 4 | 175 | 574 | - | 0x538ac0 | `Particle_4C::UpdateObjectBeamLink_state_38_538AC0` | Particle_4C.cpp |
 | 4 | 192 | 449 | 361 | 0x4458b0 | `Car_6C::SpawnCarOnRoadNetwork_4458B0` | Car_BC.cpp |
@@ -162,7 +164,6 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 6 | 266 | 627 | - | 0x4f22f0 | `MapRenderer::DrawGradientSlopeWestwards_4F22F0` | MapRenderer.cpp |
 | 7 | 24 | 40 | 0 | 0x522e10 | `Object_2C::HandleCollision_522E10` | Object_5C.cpp |
 | 8 | 44 | 440 | 110 | 0x46b670 | `Ped::MeleeAttackStateMachine_46B670` | Ped.cpp |
-| 8 | 44 | 56 | - | 0x4e5e90 | `Map_0x370::HasGreenArrowForPathDirection_4E5E90` | map_0x370.cpp |
 | 8 | 79 | 428 | 337 | 0x54ddf0 | `Char_B4::state_0_54DDF0` | char.cpp |
 | 8 | 110 | 414 | 73 | 0x45e4a0 | `Ped::StartCrossingRoad_45E4A0` | Ped.cpp |
 | 9 | 58 | 64 | 177 | 0x4e1520 | `Map_0x370::SpriteHitsDiagonalWall_4E1520` | map_0x370.cpp |
@@ -175,7 +176,6 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 13 | 59 | 138 | 127 | 0x572920 | `PoliceCrew_38::State5_PursueOrChase_572920` | Police_38.cpp |
 | 14 | 138 | 367 | - | 0x538060 | `Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060` | Particle_4C.cpp |
 | 14 | 384 | 448 | - | 0x4f6a20 | `MapRenderer::Draw_4F6A20` | MapRenderer.cpp |
-| 15 | 19 | 61 | 41 | 0x528e50 | `Object_2C::HandleImpact_528E50` | Object_5C.cpp |
 | 15 | 106 | 224 | - | 0x466bf0 | `Ped::FindBestTargetPed_466BF0` | Ped.cpp |
 | 16 | 158 | 609 | - | 0x44af00 | `CarAI_78::sub_44AF00` | CarAI_78.cpp |
 | 17 | 14 | 160 | - | 0x53a280 | `Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280` | Particle_4C.cpp |
@@ -196,7 +196,6 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 30 | 102 | 150 | - | 0x44d1d0 | `CarAI_78::sub_44D1D0` | CarAI_78.cpp |
 | 36 | 119 | 403 | 750 | 0x54a530 | `Char_B4::HandleGenericCollision_54A530` | char.cpp |
 | 38 | 153 | 512 | - | 0x5df270 | `sub_5DF270` | Weapon_30.cpp |
-| 38 | 380 | 1580 | 380 | 0x5eb970 | `DMA_Video_LoadDll_5EB970` | dma_video.cpp |
 | 40 | 54 | 90 | 0 | 0x47f930 | `Crane_15C::PickUpCar_47F930` | Cranes.cpp |
 | 42 | 96 | 201 | 191 | 0x498da0 | `BurgerKing_1::read_input_device_498DA0` | BurgerKing_67F8B0.cpp |
 | 44 | 195 | 376 | 358 | 0x592660 | `eager_benz::OnPedKilled_592660` | eager_benz.cpp |
@@ -206,4 +205,5 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 60 | 172 | 376 | 358 | 0x5c8780 | `Car_214::sub_5C8780` | Car_BC.cpp |
 | 60 | 3734 | 5885 | 3175 | 0x44e560 | `CarAI_78::UpdateStateMachine_44E560` | CarAI_78.cpp |
 | 104 | 724 | 875 | - | 0x545af0 | `CarDoorAlignmentSolver_545AF0` | Ped.cpp |
+| 114 | 380 | 1580 | 380 | 0x5eb970 | `DMA_Video_LoadDll_5EB970` | dma_video.cpp |
 | 132 | 576 | 600 | - | 0x57df10 | `sound_obj::HandleVocalStreamSwitching_57DF10` | sound_obj.cpp |
