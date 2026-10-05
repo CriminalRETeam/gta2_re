@@ -2769,8 +2769,8 @@ char_type sound_obj::Type_1_6_416260(sound_0x68* a2)
 {
     WIP_IMPLEMENTED;
 
-    Car_BC* pCar;
     a2->field_20_rate = 8000;
+    Car_BC* pCar;
     if (GetCar_4145E0(a2->field_0_EntityIndex, &pCar) && pCar->field_9C_engine_status == car_engine_status::on_3)
     {
         if (pCar->field_58_physics)
@@ -2840,15 +2840,9 @@ char_type sound_obj::Type_1_6_416260(sound_0x68* a2)
                         }
                         else if (speed < gear3_speed)
                         {
-                            if (a2->field_58_type == 1)
-                            {
-                                a2->field_20_rate =
-                                    Fix16::Round_To_Int_410BF0(Fix16(262144000, 0) * ((speed - gear2_speed) / (gear3_speed - gear2_speed))) + 14600;
-                            }
-                            else
-                            {
-                                a2->field_20_rate = Fix16::Round_To_Int_410BF0(Fix16(541900800, 0) * (speed / max_speed)) + 11025;
-                            }
+                            a2->field_20_rate = a2->field_58_type == 1
+                                ? Fix16::Round_To_Int_410BF0(Fix16(262144000, 0) * ((speed - gear2_speed) / (gear3_speed - gear2_speed))) + 14600
+                                : Fix16::Round_To_Int_410BF0(Fix16(541900800, 0) * (speed / max_speed)) + 11025;
                         }
                         else
                         {

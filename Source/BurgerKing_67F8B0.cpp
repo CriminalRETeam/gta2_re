@@ -491,26 +491,26 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                             case 224:
                                 if (padOfs == 0)
                                 {
-                                    if (padData <= -750)
+                                    if (padData > -750)
                                     {
-                                        bPressed = true;
+                                        bRelease = true;
                                     }
                                     else
                                     {
-                                        bRelease = true;
+                                        bPressed = true;
                                     }
                                 }
                                 break;
                             case 225:
                                 if (padOfs == 0)
                                 {
-                                    if (padData >= 750)
+                                    if (padData < 750)
                                     {
-                                        bPressed = true;
+                                        bRelease = true;
                                     }
                                     else
                                     {
-                                        bRelease = true;
+                                        bPressed = true;
                                     }
                                 }
                                 break;
