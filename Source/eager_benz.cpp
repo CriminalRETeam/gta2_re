@@ -523,16 +523,16 @@ void eager_benz::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
             case 30:
                 bArmy = 1;
                 bSwat = 0;
-                bFbi = 0;
                 bCop = 0;
+                bFbi = 0;
                 bGangA = 0;
                 bGangB = 0;
                 break;
             case 26:
                 bSwat = 1;
                 bArmy = 0;
-                bFbi = 0;
                 bCop = 0;
+                bFbi = 0;
                 bGangA = 0;
                 bGangB = 0;
                 break;
@@ -549,10 +549,10 @@ void eager_benz::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
                 break;
             case 22:
             case 44:
-                bFbi = 0;
                 bCop = 0;
                 bSwat = 0;
                 bArmy = 0;
+                bFbi = 0;
                 score = 100;
                 if ((u32)(rng - field_80) > 15)
                 {
@@ -574,11 +574,11 @@ void eager_benz::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
                 bGangB = 0;
                 break;
             case 16:
-                bFbi = 0;
                 bGangB = 1;
                 bCop = 0;
                 bSwat = 0;
                 bArmy = 0;
+                bFbi = 0;
                 bGangA = 0;
                 break;
             default:
