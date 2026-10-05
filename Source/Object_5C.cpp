@@ -2207,8 +2207,8 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                             if (!this->field_10_obj_3c)
                             {
                                 Object_3C* pNew3C_ = gObject_3C_Pool_6F8F7C->Allocate();
-                                pNew3C_->field_20_obj2c_id = field_14_id;
                                 this->field_10_obj_3c = pNew3C_;
+                                pNew3C_->field_20_obj2c_id = field_14_id;
                             }
 
                             if (field_C_pAny.o8)
@@ -2240,7 +2240,7 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                                 }
                             }
 
-                            s32 bUnknown;
+                            u8 bUnknown;
                             if (this->field_C_pAny.o8)
                             {
                                 bUnknown = 0;
@@ -2277,11 +2277,11 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                             if (!this->field_10_obj_3c)
                             {
                                 Object_3C* pNew3C = gObject_3C_Pool_6F8F7C->Allocate();
-                                pNew3C->field_20_obj2c_id = field_14_id;
                                 this->field_10_obj_3c = pNew3C;
+                                pNew3C->field_20_obj2c_id = field_14_id;
                             }
 
-                            s32 bUnknown2;
+                            u8 bUnknown2;
                             if (this->field_C_pAny.o8)
                             {
                                 bUnknown2 = 0;
@@ -2960,21 +2960,21 @@ void Object_2C::UpdateLight_527A30()
     field_C_pAny.pLight->SetCurrentIntensity_45B2D0(field_C_pAny.pLight->field_18_intensity);
 }
 
-// Not fully working yet https://decomp.me/scratch/2X4Bq
-WIP_FUNC(0x523BF0)
+MATCH_FUNC(0x523BF0)
 void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 angle)
 {
-    WIP_IMPLEMENTED;
-    Fix16_Point point;
-    Fix16_Point point2;
+    // Declaration order matters: the scalars are initialised before the two points are
+    // constructed (EH state 1 is set after the byte stores)
     Ang16 unk_angle(0);
+    Fix16 mov_speed_copy = mov_speed;
     u8 v73 = 0;
     u8 bUnk2 = 0;
     u8 bUnk = false;
     char_type v33 = 0;
+    Fix16_Point point;
+    Fix16_Point point2;
     Fix16 v15;
     Sprite* pSprt = gObject_5C_6F8F84->field_58_collision_probe_sprite;
-    Fix16 mov_speed_copy = mov_speed;
     gObject2C_WallHitSide_6F8F90 = 0;
     sub_482BE0();
     if (Object_2C::sub_5233A0(mov_speed))
@@ -3023,7 +3023,12 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
         Fix16 prev_x;
         Fix16 prev_y;
         Fix16 prev_z;
-        Ang16::PolarToCartesian_41FC20(angle, radius, unk_x, unk_y);
+        {
+            // The original passes a block-scoped copy of radius (9.6f copies it too); its slot is
+            // shared with tmp_radius below
+            Fix16 r = radius;
+            Ang16::PolarToCartesian_41FC20(angle, r, unk_x, unk_y);
+        }
 
         for (u8 i = 1; i <= v15.ToInt(); i++)
         {
@@ -3060,7 +3065,7 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
             field_4->set_ang_lazy_420690(pSprt->field_0);
             if (v73)
             {
-                if (field_4->IsOnWater_59E1D0())
+                if ((u8)field_4->IsOnWater_59E1D0())
                 {
                     field_10_obj_3c->field_C_speed = kFpZero_6F8E10;
                     field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
@@ -3092,9 +3097,9 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
                 pSprt->set_ang_lazy_420690(angle);
                 Object_2C::Sprite_UpdateZFromSlopeAndTile_522FA0(pSprt);
                 bool bUnk5 = false;
-                if (field_10_obj_3c->field_34 == 2)
+                if (field_10_obj_3c->field_34 == 2 && Object_2C::SelectCollisionSprite_522460(pSprt))
                 {
-                    bUnk5 = Object_2C::SelectCollisionSprite_522460(pSprt) != 0;
+                    bUnk5 = true;
                 }
                 if (pSprt->CheckSpriteMovementRegion_5A2500() || bUnk5)
                 {
