@@ -222,9 +222,8 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
 
     gQuadVerts_706B88.field_0_verts[3].x = (point.x + x_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[3].y = (point.y + y_pos).ToFloat();
-    gQuadVerts_706B88.field_0_verts[3].z = 0.000099999997f;
 
-    //  u & v
+    //  u & v, with z interleaved (as in DrawTexture_5D8470)
 
     s32 width = sprite_index_5AA440->field_4_width;
     s32 height = sprite_index_5AA440->field_5_height;
@@ -233,6 +232,7 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
     gQuadVerts_706B88.field_0_verts[0].u = 0.0;
     gQuadVerts_706B88.field_0_verts[0].v = 0.0;
     gQuadVerts_706B88.field_0_verts[1].v = 0.0;
+    gQuadVerts_706B88.field_0_verts[3].z = 0.000099999997f;
     gQuadVerts_706B88.field_0_verts[3].u = 0.0;
     gQuadVerts_706B88.field_0_verts[1].u = u;
     gQuadVerts_706B88.field_0_verts[2].u = u;

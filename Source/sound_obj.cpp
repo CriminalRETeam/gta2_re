@@ -6035,8 +6035,8 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
                     else if (field_147C_audio_entities[field_30_sQueueSample.field_0_EntityIndex].field_1_age > 2)
                     {
                         samp_idx = 190;
-                        bLoop = 0;
                         volume = 50;
+                        bLoop = 0;
                         sample_index = 1;
                         emit_distance = Fix16(0x1C000, 0);
                         max_distance = 14;
@@ -6125,8 +6125,10 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
                     bLoop = 0;
                     sample_index = 1;
                     emit_distance = Fix16(0x1C000, 0);
-                    max_distance = 14;
+                    // TODO: the original stores max_distance first, but then VC6 merges case 4/12's tail
+                    // into this one (the original keeps both, with fire jumping into case 4/12's)
                     calc_distance = Fix16(0xC4000, 0);
+                    max_distance = 14;
                     release_mod = 15;
                     break;
 
