@@ -331,7 +331,7 @@ void Firefighter_28::Update_4A81F0()
             }
             else if (sub_4A7FC0())
             {
-                if (MaxAbsDistance_42A6B0(field_1C_car->get_x_41E430(),
+                if (Fix16::MaxAbsDistance_42A6B0(field_1C_car->get_x_41E430(),
                                           field_1C_car->get_y_41E440(),
                                           field_C_target_car->get_x_41E430(),
                                           field_C_target_car->get_y_41E440()) < dword_67D384 &&
@@ -389,19 +389,19 @@ void Firefighter_28::Update_4A81F0()
             if (field_1C_car && field_1C_car->field_88_despawn_status != 6 && !field_1C_car->IsDespawning_4215B0() &&
                 !field_1C_car->IsMarkedForDespawn_4214B0())
             {
-                if (field_1C_car->get_driver_4118B0())
+                if (field_1C_car->field_54_driver)
                 {
-                    field_1C_car->get_driver_4118B0()->field_21C_bf.b3 = 1;
+                    field_1C_car->field_54_driver->field_21C_bf.b3 = 1;
                 }
                 field_1C_car->SetUniNum_421560(3);
                 field_1C_car->InitCarAIControl_440590();
                 field_1C_car->sub_43AF40();
                 field_1C_car->DeactivateEmergencyLights_43C9D0();
-                if (field_1C_car->get_driver_4118B0())
+                if (field_1C_car->field_54_driver)
                 {
-                    field_1C_car->get_driver_4118B0()->set_field_150_target_objective_car(0);
-                    field_1C_car->get_driver_4118B0()->SetObjective(objectives_enum::no_obj_0, 9999);
-                    field_1C_car->get_driver_4118B0()->field_21C_bf.b11 = 0;
+                    field_1C_car->field_54_driver->set_field_150_target_objective_car(0);
+                    field_1C_car->field_54_driver->SetObjective(objectives_enum::no_obj_0, 9999);
+                    field_1C_car->field_54_driver->field_21C_bf.b11 = 0;
                 }
             }
             Reset_4A85E0();

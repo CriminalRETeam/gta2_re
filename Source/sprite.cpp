@@ -1894,14 +1894,14 @@ static inline Fix16 __stdcall MaxAbsDistanceBothOOL_5A22B0(Fix16& x1, Fix16& y1,
 MATCH_FUNC(0x5A22B0)
 Fix16 Sprite::MinDistanceToAnySpriteBBoxCorner_5A22B0(Sprite* pOther)
 {
-    Fix16 xy_pos_max = Fix16::MaxAbsDistanceNegOOL_42A6B0(field_14_xy.x, field_14_xy.y, pOther->field_14_xy.x, pOther->field_14_xy.y);
+    Fix16 xy_pos_max = Fix16::MaxAbsDistance_42A6B0(field_14_xy.x, field_14_xy.y, pOther->field_14_xy.x, pOther->field_14_xy.y);
 
     s32 box_idx = 0;
     s32 k4Counter = 4;
     do
     {
         Sprite_4C* p4C = pOther->field_C_sprite_4c_ptr;
-        Fix16 d = MaxAbsDistanceBothOOL_5A22B0(field_14_xy.x, field_14_xy.y, p4C->field_C_renderingRect[box_idx].x, p4C->field_C_renderingRect[box_idx].y);
+        Fix16 d = Fix16::MaxAbsDistance_42A6B0(field_14_xy.x, field_14_xy.y, p4C->field_C_renderingRect[box_idx].x, p4C->field_C_renderingRect[box_idx].y);
         if (d < xy_pos_max)
         {
             xy_pos_max = d;

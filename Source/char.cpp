@@ -4765,7 +4765,7 @@ LABEL_65:
         angle = v20;
         if (field_58_flags_bf.b7) // line 434
         {
-            if (Fix16::MaxAbsDistanceOOL_42A6B0(gCharB4_Saved_Xpos_6FD7F8,
+            if (Fix16::MaxAbsDistance_42A6B0(gCharB4_Saved_Xpos_6FD7F8,
                                              gCharB4_Saved_Ypos_6FD800,
                                              kFP16Half_6FD8E4 + Fix16(field_72_next_tile_x),
                                              kFP16Half_6FD8E4 + Fix16(field_73_next_tile_y)) < kFP16Quarter_6FD828)

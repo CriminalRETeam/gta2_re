@@ -8429,7 +8429,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                     else
                     {
                         Sprite* pSprite = field_154_target_to_enter->field_50_car_sprite;
-                        if (Fix16::MaxAbsDistanceOOL_42A6B0(field_1AC_cam.x, field_1AC_cam.y, pSprite->field_14_xy.x, pSprite->field_14_xy.y) >
+                        if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, pSprite->field_14_xy.x, pSprite->field_14_xy.y) >
                             kFpTwo_678658)
                         {
                             if (field_144_attacker)
@@ -8483,7 +8483,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                     if (field_158_unk_car)
                     {
                         Sprite* pSprite = field_158_unk_car->field_50_car_sprite;
-                        if (Fix16::MaxAbsDistanceOOL_42A6B0(field_1AC_cam.x, field_1AC_cam.y, pSprite->field_14_xy.x, pSprite->field_14_xy.y) <
+                        if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, pSprite->field_14_xy.x, pSprite->field_14_xy.y) <
                                 kFpFour_678680 ||
                             field_226_internal_objective_status == 1)
                         {
@@ -8499,7 +8499,7 @@ void Ped::GotoAreaByAnyMeans_469060()
 
                 case objectives_enum::kill_char_on_foot_20:
                 {
-                    if (Fix16::MaxAbsDistanceOOL_42A6B0(field_1AC_cam.x, field_1AC_cam.y, field_14C_internal_target_ped->field_1AC_cam.x, field_14C_internal_target_ped->field_1AC_cam.y) >
+                    if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, field_14C_internal_target_ped->field_1AC_cam.x, field_14C_internal_target_ped->field_1AC_cam.y) >
                             kFpTwo_678658 ||
                         field_226_internal_objective_status == 1)
                     {
@@ -8545,7 +8545,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                         if (pCar)
                         {
                             Sprite* pSprite = pCar->field_50_car_sprite;
-                            if (Fix16::MaxAbsDistanceOOL_42A6B0(field_1AC_cam.x, field_1AC_cam.y, pSprite->field_14_xy.x, pSprite->field_14_xy.y) >
+                            if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, pSprite->field_14_xy.x, pSprite->field_14_xy.y) >
                                 kFpFour_678680)
                             {
                                 pCar = 0;
@@ -9802,7 +9802,7 @@ void Ped::MeleeAttackStateMachine_46B670()
     }
 
     gDistanceToTarget_678750 =
-        Fix16::MaxAbsDistanceOOL_42A6B0(field_1AC_cam.x, field_1AC_cam.y, field_14C_internal_target_ped->get_cam_x(), field_14C_internal_target_ped->get_cam_y());
+        Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, field_14C_internal_target_ped->get_cam_x(), field_14C_internal_target_ped->get_cam_y());
 
     if (gDistanceToTarget_678750 <= kFpQuarter_678788)
     {

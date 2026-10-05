@@ -252,7 +252,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                     else
                     {
                         // 9.6f calls MaxAbsDistance_42A6B0(get_cam_x(), get_cam_y(), ...)
-                        if (Fix16::MaxAbsDistanceOOL_42A6B0(gParamedicCrewPed_6F6D60->get_cam_x(),
+                        if (Fix16::MaxAbsDistance_42A6B0(gParamedicCrewPed_6F6D60->get_cam_x(),
                                                             gParamedicCrewPed_6F6D60->get_cam_y(),
                                                             Fix16((u8)field_0_target_x),
                                                             Fix16((u8)field_1_target_y)) >= dword_6F6FC0)

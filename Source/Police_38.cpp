@@ -1086,7 +1086,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
                         if (pCriminal)
                         {
                             // 9.6f: MaxAbsDistance_42A6B0
-                            field_8 = Fix16::MaxAbsDistanceNegOOL_42A6B0(gCurrentCrewPed_6FEDDC->get_cam_x(),
+                            field_8 = Fix16::MaxAbsDistance_42A6B0(gCurrentCrewPed_6FEDDC->get_cam_x(),
                                                                       gCurrentCrewPed_6FEDDC->field_1AC_cam.y,
                                                                       pCriminal->field_1AC_cam.x,
                                                                       pCriminal->get_cam_y());

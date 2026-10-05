@@ -193,7 +193,7 @@ void Kfc_30::UpdateStateMachine_5CBD50()
                         return;
                     }
 
-                    if (Fix16::MaxAbsDistanceNegOOL_42A6B0(field_4_ped->get_cam_x(),
+                    if (Fix16::MaxAbsDistance_42A6B0(field_4_ped->get_cam_x(),
                                                      field_4_ped->get_cam_y(),
                                                      field_0_car->field_50_car_sprite->field_14_xy.x,
                                                      field_0_car->field_50_car_sprite->field_14_xy.y) > dword_706148)
@@ -238,8 +238,7 @@ void Kfc_30::UpdateStateMachine_5CBD50()
                     for (Ped* j = field_8_group->field_4_ped_list[0]; j; j = field_8_group->field_4_ped_list[idx])
                     {
                         j->set_occupation_403970(ped_ocupation_enum::dummy);
-                        j->field_164_ped_group = 0;
-                        j->field_23C_group_idx = 0;
+                        j->ClearGroupAndGroupIdx_403A30();
                         j->Deallocate_45EB60();
                         ++idx;
                     }

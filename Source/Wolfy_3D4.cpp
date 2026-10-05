@@ -565,47 +565,6 @@ void Wolfy_30::sub_541760()
     }
 }
 
-// Fix16::Abs with the unary minus out of line (Negate_4086A0). Forced inline: as a plain inline,
-// TimerAfter50Handler_541850 runs out of inline expansions and calls it out of line.
-static __forceinline Fix16 Abs_NegateOOL_forced(Fix16& input)
-{
-    if (input.mValue > 0)
-    {
-        return input;
-    }
-    return input.Negate_4086A0();
-}
-
-// 9.6f 0x42A6B0 (Fix16::MaxAbsDistance), inlined in 10.5. TimerAfter50Handler_541850 is past the
-// inline budget, so each of its three call sites expands Abs differently; one variant per site.
-// The `result` local gives the original's copy of the Max_44E540 result through %eax.
-static inline Fix16 MaxAbsDistance_AbsOOL_42A6B0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
-{
-    Fix16 diff_x = x2 - x1;
-    Fix16 diff_y = y2 - y1;
-    Fix16 result;
-    result = Fix16::Max_44E540(Fix16::Abs_436A50(diff_x), Fix16::Abs_436A50(diff_y));
-    return result;
-}
-
-static inline Fix16 MaxAbsDistance_AbsXOOL_42A6B0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
-{
-    Fix16 diff_x = x2 - x1;
-    Fix16 diff_y = y2 - y1;
-    Fix16 result;
-    result = Fix16::Max_44E540(Fix16::Abs_436A50(diff_x), Fix16::Abs_negate_out_of_line(diff_y));
-    return result;
-}
-
-static inline Fix16 MaxAbsDistance_NegateOOL_42A6B0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
-{
-    Fix16 diff_x = x2 - x1;
-    Fix16 diff_y = y2 - y1;
-    Fix16 result;
-    result = Fix16::Max_44E540(Abs_NegateOOL_forced(diff_x), Abs_NegateOOL_forced(diff_y));
-    return result;
-}
-
 MATCH_FUNC(0x541850)
 void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
 {
@@ -661,7 +620,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                     Ang16 ang;
                     ang = Fix16::atan2_fixed_405320(dy, dx);
 
-                    Fix16 cur_max = MaxAbsDistance_AbsOOL_42A6B0(pCollisionSprite->field_14_xy.x, pCollisionSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y);
+                    Fix16 cur_max = Fix16::MaxAbsDistance_42A6B0(pCollisionSprite->field_14_xy.x, pCollisionSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y);
                     if (cur_max > this->field_28)
                     {
                         if (timerVal < 70u)
@@ -696,7 +655,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                     {
                         if (!pCar->IsMaxDamage_40F890() && !pCar->IsTrainModel_403BA0() && !pCar->sub_43B850(field_10_type_or_state))
                         {
-                            if (MaxAbsDistance_AbsXOOL_42A6B0(pCollisionSprite->field_14_xy.x, pCollisionSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y) <= this->field_28)
+                            if (Fix16::MaxAbsDistance_42A6B0(pCollisionSprite->field_14_xy.x, pCollisionSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y) <= this->field_28)
                             {
                                 // 9.6f: Varrok_7F8::GetPedId_420F10 (inlined, using it here makes the diff worse)
                                 s32 ped_id_ = gVarrok_7F8_703398->field_0_entries[this->field_14_pObj2C->field_26_varrok_idx].field_0_ped_id;
@@ -734,7 +693,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                     }
                     else if (timerVal == 99)
                     {
-                        if (MaxAbsDistance_NegateOOL_42A6B0(pCollisionSprite->field_14_xy.x, pCollisionSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y) <= this->field_28)
+                        if (Fix16::MaxAbsDistance_42A6B0(pCollisionSprite->field_14_xy.x, pCollisionSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y) <= this->field_28)
                         {
                             pCar->ApplyExplosionImpulse_443710(&this->field_14_pObj2C->field_4->get_x_y_443580());
                         }

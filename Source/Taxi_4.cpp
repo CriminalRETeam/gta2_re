@@ -38,7 +38,7 @@ Car_BC* Taxi_4::GetTaxiNear_457BF0(Fix16 xpos, Fix16 ypos)
     for (Taxi_8* pIter = field_0_pFirst; pIter; pIter = pIter->mpNext)
     {
         // 9.6f passes references to the sprite position, not get_x/get_y copies
-        Fix16 distance = Fix16::MaxAbsDistanceNegOOL_42A6B0(xpos,
+        Fix16 distance = Fix16::MaxAbsDistance_42A6B0(xpos,
                                                              ypos,
                                                              pIter->field_0_pCar->field_50_car_sprite->field_14_xy.x,
                                                              pIter->field_0_pCar->field_50_car_sprite->field_14_xy.y);
