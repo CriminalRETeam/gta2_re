@@ -13,8 +13,8 @@ DEFINE_GLOBAL_INIT(Fix16, kFpOne_67B434, Fix16(1), 0x67B434);
 DEFINE_GLOBAL_INIT(Fix16, kFp96_705B80, Fix16(0x180000, 0), 0x705B80);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_705AC4, Fix16(0), 0x705AC4);
 
-// https://decomp.me/scratch/qyVgM reg swap
-WIP_FUNC(0x5c5cf0)
+// https://decomp.me/scratch/qyVgM
+MATCH_FUNC(0x5c5cf0)
 void Montana_4::AddSprite_5C5CF0(Sprite* pSprite)
 {
     Montana_C* pFirst = field_0_pFirst;
@@ -91,27 +91,13 @@ void Montana_4::AddSprite_5C5CF0(Sprite* pSprite)
     }
     else
     {
-        if (z_pos >= a2_1)
+        if (z_pos < a2_1 || (z_pos == a2_1 && pSprite->field_28_num < pLastNonNull->field_0_sprt->field_28_num))
         {
-            if (z_pos == a2_1)
-            {
-                if (pSprite->field_28_num >= pLastNonNull->field_0_sprt->field_28_num)
-                {
-                    pLastNonNull->field_8_pRight = pAllocated;
-                }
-                else
-                {
-                    pLastNonNull->mpNext = pAllocated;
-                }
-            }
-            else
-            {
-                pLastNonNull->field_8_pRight = pAllocated;
-            }
+            pLastNonNull->mpNext = pAllocated;
         }
         else
         {
-            pLastNonNull->mpNext = pAllocated;
+            pLastNonNull->field_8_pRight = pAllocated;
         }
     }
 }
