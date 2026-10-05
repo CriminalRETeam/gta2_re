@@ -1475,6 +1475,32 @@ Each was a few asm lines away from the original. What is left and what was tried
 - The Draw*Sided* / ProjectVert cluster: still unexplained. All VC6 builds (RTM to SP6, Processor Pack)
   give the same code, about 150 helper and call-site variants scored over every MapRenderer WIP: details
   in matching_quirks.md, "Still unexplained".
+- Round 5 (tu_harness counts on c783089, total over all MapRenderer WIPs 1246 -> 1235):
+  - `ProjectVert_4EB940` is a `MapRenderer` member (thiscall that ignores ecx): every original call
+    site does `mov %ebp,%ecx` first. Made it a member: 4EAF40 -4, 4ED290 -4, 4F0420/4F1660/4F33B0 -1,
+    no MATCH changed. 4EB940 itself unchanged (11).
+  - Address order says Top/Bottom/set_vert/ProjectVert are inline functions whose out-of-line copies
+    follow the first function that called them out of line: 4EAD90/4EAE00/4EAEA0 sit right after
+    DrawLeftSide_4EA390 (which calls Top/Bottom out of line twice each), 4EB940 right after
+    DrawRightSide_4EAF40 (its only out-of-line caller before it).
+  - DrawTopSide_4EBA60 (MATCH) inlines the same Top: every Top body change breaks it (compound `+=`,
+    x copy, u32 centre locals, z line first), so the helper body is settled and the cluster cause is
+    in the caller or TU context.
+  - No effect on draw_left/right/top/bottom: named x/y locals (either order), `Fix16::Add_ref` or other
+    add forms for every sum, swapped sum operands, inline MapRenderer members PVTop/PVBottom/PV called
+    on this (cluster same, 4EA390 +67), `#pragma optimize("a"/"w")` around draw_left, /GX-.
+  - 4EB940 y line: u32 local, `(f32)` cast, operand orders, local camera pointer: no effect. Plain x line
+    (no `tmp` block) +2, body = `gVertProjector.ProjectVert_46BC70` +55.
+  - ProjectVert_46BC70 signature: const refs no effect; by-value x/y or z break 4EBA60.
+  - Adding member declarations to `MapRenderer` (3-9 dummies) flips `lea (%eax,%ecx)` operand order in
+    4EF880/4EF520/4EEE60/4EFDB0 (+1/+2): register tie-breaks depend on the class's symbol table. No
+    x87 order moved.
+  - What differs, concretely (draw_left): site 1 Top (x temp and the u32 temp share slot 0x18) the
+    original stores the dead zero hi dword of the x conversion after `fmul`, ours before `fildl x`, and
+    the y one right after the x `fiaddl` (ours just before the y `fiaddl`); site 4 the original hoists the
+    next statement's `mov 0x28(%esp),%edi; xor %eax,%eax` above `fstps x`, ours waits for the y temp store.
+    4EB940: the original pops ebx/ebp/esi/edi between the y line's x87 ops and reads the temp as
+    `fiaddl (%esp)`; ours pops after `fiaddl` (VC6 can do it: ProjectVertTop_4EAE00 does).
 
 ## Near-miss pass, 9.6f compare and exhaustive permuter (Oct 4)
 
@@ -1724,3 +1750,106 @@ Left:
 Renames: `field_36E` -> `field_36E_bBlockedByTerrain` (no usable ground ahead, as opposed to a wall),
 `field_36F` -> `field_36F_bLowerBlockHasArrows`, params `bByRefUnk` -> `pSlopeZDelta` (1 stepping up,
 0xFF stepping down onto a slope) and `bNotifyByRefRet` -> `bReportStepUp`.
+
+### Near-miss pass, round 5 (Ped / Char_B4 / Orca_2FD4)
+
+- Matched: `Ped::Deallocate_45EB60` (4 -> 0): the bit 0 clear goes through a file-local
+  `CompilerBitField32 ClearBit0_45EB60(CompilerBitField32 bf)` that takes and returns the flags word by
+  value (`field_21C_bf = ClearBit0_45EB60(field_21C_bf);`). The by-reference helper, a direct
+  `b0 = 0`, `&= ~1` masks and a local copy all keep `and $-2,%edx`; the by-value one loads into `eax`
+  before the timer store and gives the original's `and $0xFE,%al`.
+- `Char_B4::state_8_5520A0` (6, unchanged score, real call fix): the two `-k_dword_6FD868` arguments to
+  `NewUnknown_52A240` are `k_dword_6FD868.Negate_4086A0()` in the original (out-of-line call; the
+  scorer masked the COMDAT `??GFix16` copy). The `-dword_6FD87C` jitter stays inline (`neg`). Tried for
+  the `ped->184` register rotation: a `Sprite*` local for `field_4` (16-27), no `field_184_pObj2C`
+  reassignment (27), `field_40_rotation` set directly / via `Ang16 rot; rot = ...` (17): all worse.
+- `Orca_2FD4::ComputePath_554AB0` (7 -> 4): else branch `t = ypos; dir = idx2; new_z = xpos;
+  idx2 = t; idx1 = 0; xpos = zpos;`. Left: the `ypos` load is the first instruction of both branches so
+  VC6 hoists it above the `jge`; every order that loads `idx2` first (like the original) flips
+  `new_z`/the switch register to `al`/`edx` (32-34). Temp type (u8/char), declaration position, block
+  scope: no effect.
+- `Orca_2FD4::Internel_UpdateBehaviorGrid_554710` (19): distance written as y-part first, `* v12` last,
+  s16/u16/s32 dx/dy temps (37-55), inline `DistSq`/`Sq` helpers with s16/u16/s32/u8 params (37-93): no
+  gain. The late `push ebp` stays.
+- `Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0` (15): not a logic bug (the in-loop empty list
+  returns 0 like the original; ours just places that block last). `for(;;)` after an entry test (23),
+  explicit `return 0`, inverted `++j > 6 && !maybe_timer` early return, `if (!field_18) return 1`
+  first: all 15.
+- `Ped::GotoAreaByAnyMeans_469060` (12): the original compares the `FindNearbyTileMatchingSlopeType`
+  result with `cmp %bl,%al` (zero register) at both sites while the `CanAllocateOfType` result next to
+  it is `test`. Return type u8/char_type (header), `(u8)` cast, `!= 0`, `!= false`, `== true`,
+  assigning into a new u8/bool local (inline, `&&` statement, ternary 67): no change. The 4
+  `FromInt_45C4E0` calls the callee checker reports are the COMDAT `??0Fix16@@QAE@E@Z`.
+- `Ped::ComputeAimAngle_45C9D0` (4): the original stores `field_130` in each branch (`cx`/`dx`) and
+  re-reads it at the join, but per-branch stores make VC6 copy the return tail into the atan2 branch
+  (5); `Ang16&` to the field (5), ternary (15), inverted if (26), return through a local (5-9).
+- `Ped::BusCustomer_AI_461290` (6): `IsDespawning_4215B0()` at any of the three despawn checks, door
+  passed directly / as `field_24C`, door local type and position: no change.
+- `Ped::AttackTargetStateMachine_46D460` (18): `== 15` first at the first jumping test gives 16 but
+  moves the wrong block; at the second test 104.
+- `Char_B4::CanStepForward_54FEC0` (tu.sh 2): the global store after the epilogue pops in the original;
+  an inline `SetPathDir` returning false, `result = false`, dropping the `else`: no change.
+## Near-miss pass, round 5 (Oct 5)
+
+No new matches. Scores below are `permuter_score.py` lines.
+- `sound_obj::HandleCarTireScrubSound_418720`: no 9.6f partner. Tried a static inline helper taking
+  the speed by reference (28: the inline budget pushes `operator*` out of line) or by value (14),
+  `/=` on the returned temporary (47: `lea field_28` before the call), an explicit
+  `((__int64)call().mValue << 14) / max` (14: the dividend is loaded first), `Fix16 speed(call().mValue, 0)`
+  (unchanged), a wrapper returning the call by value (= the `Fix16 speed = call()` form, stack slot read),
+  a user copy constructor in fix16.hpp (19, RVO into the slot), and a const by-value member divide (49: argument
+  evaluated before the call). The original reads the dividend late through the returned pointer, which only a
+  temporary gives, but every temporary form evaluates the divisor's operands too early.
+- `sound_obj::ProcessPoliceRadioWordsPlayback_427220`: the dead store has to be `volatile`. A local array,
+  a `Fix16` local, `(void)&old`, `s32* pOld = &old`, a do-nothing inline taking `s32&`/`s32*`: the store is
+  dropped (13). A `volatile` pointer to it gives 32. The load in both branches of the clamp gives 23/26, a comma in the
+  condition 2, a precomputed `cur >= 15` bool 4, `> 14` 3, a `*(volatile s32*)&old =` store 2. The 9.6f build (0x41C000) has no dead load.
+- `sound_obj::TrainCab_414710` (6): `&&` for the two checks, early returns for each check, `if (!pDriver)
+  return;`, `return` in the else, the else storing `pTrainStation` (null) instead of 0: all 6. Storing in the if
+  branch only: 10.
+- `CarPhysics_B0::ShowPhysicsDebug_559430` (4): `ThetaText_49E240` as an `Ang16` member (9.6f 0x49E240
+  is `__thiscall` on the Ang16): no change.
+- `CarPhysics_B0::CalculateRearWheelForce_5620D0` (10): `MultiplyByFix16_inline_5620D0` returning
+  `Fix16_Point&` (as 9.6f 0x49E3A0 does), explicit `__int64` products in both orders, `x = x * f`, a
+  `const Fix16*` parameter, a file-local helper (16: budget): all unchanged. The original multiplies `imull (%edi)` (the
+  factor through its reference pointer); ours loads the factor into eax from the cached `gCarInfo` base.
+- `CarPhysics_B0::ProcessPedImpact_560B40` (16): declaring `Divide_442CB0` `throw()` drops the EH state
+  stores around it (16 -> 14), but breaks `Object_2C::ResolveCollisionWithPed_5229B0` (MATCH, same
+  `Negate_40ACB0().Divide_442CB0()` pattern with the state stores), so it was not kept. The rest is temp slot placement:
+  ours puts the `ComputeRelativePointVelocity_561130` return temporary in v16's slot (0x20, so v16.y's store is
+  dropped), the original at 0x18. Declaration order of the 4 points and v16 makes no difference. v16 as a `Fix16_Point` in place of
+  `unused` gives 126; an early `v16.x` store changes nothing (16).
+### Near-miss pass, round 5 batch (2026-10-05), no new matches
+
+- `BurgerKing_1::SetAltKeyState_498CB0` (1): still a byte load. Also tried `(u8)(u16)a1`, `(u8)(s16)a1`,
+  `(s32)(u8)a1`, `(u8)(a1 & 0xFFFF)`, store then `>>=` on the global, `u8 v; v = a1; v >>= 7`, static inline
+  helpers taking `const u8&`, `u32`, `s32`, ternaries `((u8)a1 & 0x80) ? 1 : 0`, and `u16`/`s16` parameters
+  (header). `(a1 & 0x80) >> 7` and `(a1 & 0x80) ? 1 : 0` give `shr eax` + `and $1,%al`.
+- `keybrd_0x204::GetLayout_4D6000` (3): `char Buffer[4] = "  "` (21, copies 3 bytes), sscanf in a static
+  inline `HexToInt` returning the value, a `char*` walking pwszKLID+6, an `s32* pV = &v2` argument: all 3.
+- `jolly_poitras_0x2BC0::SavePlySlotDat_56BA60` (2): all locals up top, `len = 126` just before the call (4),
+  outer `do/while(--k)` count-down (18), `size_t len = 126` initialiser: no change.
+- `youthful_einstein::SetNewFugitive_516590` (2): a static inline `SetArrowColour(Hud_Arrow_7C*, Player*)`
+  holding the null check (2), if/else inverted with the message first (24), `Ped* pPed` local / no local /
+  `Player*&` / `this->` + pPed (all 5: reload goes to `ecx` and the else's gHud moves to `edx`).
+- `Wolfy_7A8::sub_543690` (6): `pObj->field_1A_timer = 0` in the in-loop return (14), `field_0[next_idx]`
+  there (38).
+- `Player::AddCarToHistory_5645B0` (8): indexing `field_54_car_history[i]` instead of the iterator (21).
+- `DoorData_10::Init_49C340` (8): a `gmp_block_info* pBlock = &blockData` for the case stores (8, VC6 still
+  hoists the tile load above the v8 store).
+- `PedGroup::sub_4C8E60` (6): it is the `_$E` atexit destructor of `pedGroups_67EF20`; not attempted.
+- `BurgerKing_67F8B0::modify_inputs_4CDF30` (8): the toggle as a static inline `ToggleBits(s32&, s32)` (12).
+- `Car_14::SpawnTrafficCar_582480` (11): both case 1 and case 2 written `if (!field_8) {x_step = 1 ...} else
+  {... x_step = -1}`: with identical statement order VC6 merges the whole case tails (23); with case 1's then
+  block as `x_step = 1; xpos = ...` (or case 2's) the else blocks merge but the surviving `-1` block is
+  case 2's, laid out after case 2 (11, same as now); case 1 normal + case 2 inverted (12). The original keeps
+  case 1's copy. VC6 keeps the later copy in every form tried (also true for case 4 -> case 3).
+- `Frontend::GetNextUnlockedMainStage_4B7270` (7): 9.6f (0x453230) has the same shape as 10.5. Writing the
+  param in place with an `old_idx` copy (21, new slot), `result = main_stage_idx` only on the `== 2` path
+  (20: VC6 propagates the constant 2), `return main_stage_idx` there (20, branchless), testing `result == 2`
+  (7).
+- `gtx_0x106C::BuildCarInfoContainer_5AA9A0` (6): `u32 doors_off = num_remaps + 0xE` indexing
+  `((u8*)p)[doors_off]` twice gives the door code but moves `this` to `ebp` (26), as noted before.
+- `menu_option_0x82::SelectPrevHorizontalIdx_4B6390` (1): the matched sibling's `u16& selected_idx` (+ `BYTE
+  tmp` flag) trick does not carry over (10): here `field_7E` is not hoisted, so `ebp` is free and VC6 copies
+  `si` into `di` instead of reloading. `*(u16*)((u8*)this + 0x6E)` still CSEs (1), `*(volatile u16*)&` (22).

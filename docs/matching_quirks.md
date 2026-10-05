@@ -402,6 +402,12 @@ indexed addressing, and hand-written pointers merge into one pointer and a diffe
 
 ## Evaluation order and registers
 
+**`and $0xFE,%al` on a bitfield word: clear the bit through a by-value helper.** VC6 only uses the
+short 8-bit form when the word is in `eax`. A direct `bf.b0 = 0`, `&= ~1` or a by-reference helper put
+it in `edx` (`and $-2,%edx`) after the neighbouring store; `bf = ClearBit0(bf)` with
+`CompilerBitField32 ClearBit0(CompilerBitField32 bf) { bf.b0 = 0; return bf; }` loads it into `eax`
+first and matched `Ped::Deallocate_45EB60`.
+
 **Read through the pointer, not a local copy.** `lea (%eax,%ecx)` where yours gives
 `lea (%ecx,%eax)`, with no other difference, can come from a local copy of `*p`
 (`Fix16 t = *pTarget; ... t + k`). Using `*pTarget` directly each time fixed the operand order
