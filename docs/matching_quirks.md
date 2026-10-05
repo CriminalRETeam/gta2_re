@@ -66,12 +66,14 @@ handled. A `target_asm.json` dumped before that fix still has the old `pp` text,
 `sound_obj::Release_41A290` and `Char_B4::IsThreatToSearchingPed_553330` were real matches and
 now have rows.
 
-**Score 0 can hide calls to unnamed operator copies.** `permuter_score.py` masks symbol names, so
-once the inline budget runs out a call to the COMDAT copy of `operator*` scores the same as one to
-`Multiply_408680`, but it can never match the exe. Check call relocations by name and call the named
-copies (`Multiply_408680`, `Negate_4086A0`, `Add_40AC50`, `Multiply_438FE0`) where the original does
-(`Sprite::IntersectsRectSAT_59FB10`, `Car_BC::TryHitchTrailer_442810`). See also "Outlined ctors
-must be the named function" below.
+**Calls to unnamed operator copies are fine, mixing them is not.** The verifier (and
+`permuter_score.py`) names call targets per function by first use, so a call to the COMDAT copy of an
+inline (`??DFix16`, `??0Fix16@@QAE@H@Z`, `?Normalize@Ang16`) where the original calls `0x408680`,
+`0x4369F0` or `0x406C20` matches: the original's linker folded those copies to one address. Verified
+matches do this (`Camera_0xBC::IsCoordsPosVisible_435A70` calls `??DFix16`). What fails is one function
+calling both the COMDAT copy and the named export (`Multiply_408680`) for the same original target, or a
+different named function: `permuter_score.py` adds 2 per call to a `Name_ADDRESS` function the original
+doesn't call. See also "Use one out-of-line callee per operator" below.
 
 **Literals can be renumbered too.** The normaliser can turn literals such as `$0x68` into
 `stable_name_N`, so one added or removed call renumbers them and the score jumps without a real
@@ -1350,8 +1352,9 @@ kept the rest inlined (0.476 -> 0.843). It matched `Crane_15C::ComputeHookPos_47
 and the `EmitBloodBurst`/`EmitWaterSplash` siblings.
 
 **Use one out-of-line callee per operator throughout the function.** Past the budget VC6 calls a
-COMDAT copy of `operator*`, which is a different target from the original's `Multiply_408680`.
-Mixing the two fails, so every site in the function must go through the named helper: a local
+COMDAT copy of `operator*`, a different symbol from `Multiply_408680` although the original has one
+function at 0x408680. Mixing the two in one function fails, so where some sites must be the named helper,
+every site must: a local
 inline `PolarToCartesian` that calls `Multiply_408680`, and `Normalize_406C20`, `Subtract_436A00`,
 `Add_408660`, `Negate_4086A0`, `Divide_436A20` instead of the operators
 (`Char_B4::ApplyMovement_54CC40`, `HandleGenericCollision_54A530`). `Sprite::IntersectsRectSAT_59FB10`
@@ -1403,11 +1406,11 @@ thread repeated register tests, which can move a case to the end of the function
 - **Unused calls past the budget stay.** An unused `PolarToCartesian_41FC20` or `x = sin * r` is
   dropped while inlined, but past the budget its `Multiply_408680` calls remain, as in the original
   (`Particle_8::GunMuzzelFlash_53E970`).
-- **Outlined ctors must be the named function.** Past the budget an `Ang16` ctor becomes the COMDAT
-  `??0Ang16@@...`/`?Normalize@Ang16`, which scores 0 in `permuter_score.py` (symbols are masked) but
-  can't match the exe. The original calls `AssignNormalized_409300`, see
-  `Ang16::Fix16_To_Ang16_ool_40F540`. Check call relocations by name before claiming a match.
-  `Ang16(x, 0)` falls back to the unnamed Normalize copy the same way (`fire_truck_gun_5E0E70`).
+- **Outlined ctors: one symbol per original target.** Past the budget an `Ang16` ctor becomes the COMDAT
+  `??0Ang16@@...`/`?Normalize@Ang16`, which matches as long as the function doesn't also call the named
+  `AssignNormalized_409300`/`Normalize_406C20` for the same original callee (see
+  `Ang16::Fix16_To_Ang16_ool_40F540`). `Ang16(x, 0)` falls back to the unnamed Normalize copy the same
+  way (`fire_truck_gun_5E0E70`).
 - **Packed `Ang16` temp slots in compares** (two 2-byte temporaries in one dword) come from
   `Ang16(a.rValue - b.rValue).Normalized_406C20()` inline, not a by-value helper (`CarAI_78` 44A1F0, 452060).
 
@@ -1556,6 +1559,36 @@ thread repeated register tests, which can move a case to the end of the function
 - **Two `memset`s of small globals** give two interleaved zero registers (`read_input_device_498DA0`).
 - **A ternary pointer argument after shared pushes** can be two calls whose tails VC6 merged
   (`Ped::FindBestTargetPed_466BF0`).
+
+### Round 8 (far-off WIPs)
+
+- **Store order before a merge point:** `v32 -= k; v33 = 6;` instead of the reverse stopped VC6 merging the
+  `v32` store with the other branch's copy and matched `CarAI_78::sub_4482C0`.
+- **Scalars declared before `Fix16_Point` locals** move the EH state store after their stores, and a copy
+  passed by reference inside a `{}` block shares its slot by liveness: matched
+  `Object_2C::IntegrateMovementAndCollisions_523BF0`.
+- **`default: break;` first in a switch** keeps a shared tail in the first identical case, and the later
+  cases jump back into it (`CreateRoadblock_575FF0`, skeleton 23 -> 5). `return` instead of `break` in a
+  case picks which copy of a shared tail survives (`HandlePedCollision_548BD0`).
+- **Constant reuse follows IL order:** after `reg = 0` for a register local, later `char = 0` stores use
+  `mov %bl,mem` instead of `movb $0`; zero the stack flags first (`eager_benz::OnPedKilled_592660`).
+- **Each distinct unnamed temporary gets its own slot** (`Ang16(a - b).Normalized_406C20()`), identical ones
+  share it, and a named local inside an inline helper shares one slot across all its call sites
+  (`CarAI_78::sub_44AF00`).
+- **`field += k` vs `field = field + k`** on an `Ang16` member: inline normalise on memory vs a temporary
+  and an out-of-line Normalize (`Char_B4::state_0_54DDF0`, skeleton 8 -> 0).
+- **`?:` as an `if` condition** is materialised with `setcc` when its arms are compares; an inline helper
+  with `if/return true/false` gives branches (`HandleGenericCollision_54A530`).
+- **Swapping an if/else's arms** moves blocks (the `then` arm is laid out first) and the cross-jump
+  direction (`IsThreatToSearchingPed_4661F0`, `ReactToNearbyCar_451980`).
+- **Passing full member chains** to `set_xyz_lazy_420600` keeps the original's self-compare of z; a cached
+  `pSprite` folds it away (`sub_44AF00`).
+- **`wsprintfA` (import, `call *%esi`) vs `sprintf` (static CRT)** shows only in the call form
+  (`Start_NetworkGame_5E5A30`).
+- **The shared EH epilogue** (`TickObject_5283C0`, `HandleCarImpact_5538A0`, `Start_NetworkGame_5E5A30`) and
+  the shared `return 0` tail (`Ped::SetObjective2_463830`, `FindBestTargetPed_466BF0`) are still not
+  reproducible: VC6 copies the tail into each predecessor. A small test file kept copying across every
+  source form tried, except an `int` callee parameter or `/Os`.
 
 ## Inline asm
 
