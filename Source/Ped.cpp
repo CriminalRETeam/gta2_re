@@ -3048,6 +3048,42 @@ void Ped::TaxiCustomer_AI_460820()
     objective = this->field_258_objective;
     switch (objective)
     {
+        // This case comes first: the other cases' inline sites after MaxAbsDistance_42A6B0 leave its
+        // y difference and Abs out of line, as in the original.
+        case objectives_enum::no_obj_0:
+            // It has no objective
+            if (!field_20e_offscreen_counter)
+            {
+                if (field_218_objective_timer == 0)
+                {
+                    // Look for a near taxi
+                    pNearestTaxi = gTaxi_4_704130->GetTaxiNear_457BF0(this->field_1AC_cam.x, this->field_1AC_cam.y);
+                    pTargetCar = pNearestTaxi;
+                    if (pNearestTaxi)
+                    {
+                        pSprite = pNearestTaxi->field_50_car_sprite;
+                        if (Fix16::MaxAbsDistance_42A6B0(this->field_1AC_cam.x, this->field_1AC_cam.y, pSprite->GetXPos(), pSprite->field_14_xy.y) < kFpTwo_678658)
+                        {
+                            Set_F250_IfBit_433DD0(5);
+                            SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                            SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
+                            this->field_150_target_objective_car = pTargetCar;
+                            this->field_248_enter_car_as_passenger = 1;
+                            this->field_24C_target_car_door = 3;
+                            pTargetCar->sub_43AF60();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // Set a little timer before looking for a taxi
+                field_218_objective_timer = 40;
+                ChangeNextPedState1_45C500(ped_state_1::walking_0);
+                ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
+            }
+            break;
+
         case objectives_enum::enter_car_as_driver_35: // TODO: shouldn't it be enter car as passenger?
             // It is on foot
             objectiveStatus = this->field_225_objective_status;
@@ -3150,41 +3186,6 @@ void Ped::TaxiCustomer_AI_460820()
                     this->SetField238_403920(ped_type::dummy_3);
                     this->field_150_target_objective_car = pCar_;
                 }
-            }
-            break;
-
-        case objectives_enum::no_obj_0:
-            // It has no objective
-            if (!field_20e_offscreen_counter)
-            {
-                if (field_218_objective_timer == 0)
-                {
-                    // Look for a near taxi
-                    pNearestTaxi = gTaxi_4_704130->GetTaxiNear_457BF0(this->field_1AC_cam.x, this->field_1AC_cam.y);
-                    pTargetCar = pNearestTaxi;
-                    if (pNearestTaxi)
-                    {
-                        pSprite = pNearestTaxi->field_50_car_sprite;
-                        // 9.6f: Fix16::MaxAbsDistance_42A6B0, inlined here with its Subtract/Abs/Max calls out of line
-                        if (Fix16::MaxAbsDistanceByRef_42A6B0(this->field_1AC_cam.x, this->field_1AC_cam.y, pSprite->GetXPos(), pSprite->field_14_xy.y) < kFpTwo_678658)
-                        {
-                            Set_F250_IfBit_433DD0(5);
-                            SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                            SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
-                            this->field_150_target_objective_car = pTargetCar;
-                            this->field_248_enter_car_as_passenger = 1;
-                            this->field_24C_target_car_door = 3;
-                            pTargetCar->sub_43AF60();
-                        }
-                    }
-                }
-            }
-            else
-            {
-                // Set a little timer before looking for a taxi
-                field_218_objective_timer = 40;
-                ChangeNextPedState1_45C500(ped_state_1::walking_0);
-                ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
             }
             break;
     }
@@ -12121,18 +12122,18 @@ void Ped::HandleShootingAtCar_46FC90(Car_BC* pCar, s32 model)
         }
 
         Fix16 dist_to_cam;
-        dist_to_cam = Fix16::MaxAbsDistanceByRef_42A6B0(field_1AC_cam.x,
+        dist_to_cam = Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x,
                                                         field_1AC_cam.y,
                                                         pCar->field_50_car_sprite->field_14_xy.x,
                                                         pCar->field_50_car_sprite->field_14_xy.y);
 
         if (pCar == field_154_target_to_enter)
         {
-            pWeapon->field_4 = 0;
+            pWeapon->Set_F4_433810(0);
         }
         else if (field_14C_internal_target_ped && field_14C_internal_target_ped->field_16C_car && field_14C_internal_target_ped->field_16C_car == pCar)
         {
-            pWeapon->field_4 = 0;
+            pWeapon->Set_F4_433810(0);
         }
         else
         {
@@ -12140,18 +12141,18 @@ void Ped::HandleShootingAtCar_46FC90(Car_BC* pCar, s32 model)
             max_range = kFpHalf_678790 + kFpOne_678798;
             if (dist_to_cam < max_range && pCar->GetVelocity_43A4C0() < kFpPoint02_678630)
             {
-                pWeapon->field_4 = 1;
+                pWeapon->Set_F4_433810(1);
                 return;
             }
 
             if (!pWeapon->IsExplosiveWeapon_5E3BD0())
             {
-                pWeapon->field_4 = 0;
+                pWeapon->Set_F4_433810(0);
             }
 
-            if (field_14C_internal_target_ped && field_14C_internal_target_ped->field_16C_car && pCar == field_14C_internal_target_ped->field_16C_car)
+            if (field_14C_internal_target_ped && field_14C_internal_target_ped->get_car_416B60() && pCar == field_14C_internal_target_ped->get_car_416B60())
             {
-                pWeapon->field_4 = 0;
+                pWeapon->Set_F4_433810(0);
             }
         }
     }

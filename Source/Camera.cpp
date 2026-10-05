@@ -895,7 +895,16 @@ Camera_0xBC::Camera_0xBC()
     ReturnToDefaultZoom_435830();
     field_98_cam_pos2.field_C_zoom = kDefaultZoom_6766D4;
     SetTarget_4397D0(-1, -1, -1, kDefaultZoom_6766D4);
-    ctor_inline(640, 480);
+    CommitCameraTarget_41E410();
+    field_60.x = Fix16(-1);
+    field_60.y = Fix16(-1);
+    field_AC_cam_velocity.field_0_x = kZero_676818;
+    field_AC_cam_velocity.field_4_y = kZero_676818;
+    field_AC_cam_velocity.field_8_z = kZero_676818;
+    field_3C_followed_ped_id = 0;
+    field_30_shake = kZero_676818;
+    field_34_ped = NULL;
+    SetScreenSize_4361B0(640, 480);
     field_44_suspicion = 0;
     ResetPanning_436830();
 }

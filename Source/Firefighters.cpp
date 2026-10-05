@@ -250,28 +250,6 @@ void Firefighter_28::deinit_4A81A0()
 // https://decomp.me/scratch/ZcdAk
 DEFINE_GLOBAL_INIT(Fix16, dword_67D384, Fix16(3), 0x67D384);
 
-// Fix16::Abs_negate_out_of_line. __forceinline: Update_4A81F0 is out of inline budget by the time
-// MaxAbsDistance_42A6B0 expands, and the original still inlines this one.
-static __forceinline Fix16 __stdcall AbsNegOOL(Fix16& input)
-{
-    if (input.mValue > 0)
-    {
-        return input;
-    }
-    return input.Negate_4086A0();
-}
-
-// 9.6f 0x42A6B0, inlined in 10.5. This copy uses the out-of-line Abs_436A50 for x and Abs_negate_out_of_line for y.
-static inline Fix16 __stdcall MaxAbsDistance_42A6B0(Fix16 x1, Fix16 y1, Fix16 x2, Fix16 y2)
-{
-    Fix16 diff_x = x2 - x1;
-    Fix16 diff_y = y2 - y1;
-
-    Fix16 result;
-    result = Fix16::Max_44E540(Fix16::Abs_436A50(diff_x), AbsNegOOL(diff_y));
-    return result;
-}
-
 MATCH_FUNC(0x4a81f0)
 void Firefighter_28::Update_4A81F0()
 {

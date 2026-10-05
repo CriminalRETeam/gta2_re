@@ -1263,9 +1263,9 @@ suspect too, not just the ones it uses.
 **A by-reference inline helper changes the load order.** When 9.6f calls a helper that takes
 its operands by reference (`MaxAbsDistance_42A6B0(Fix16&, ...)`), VC6 10.5 inlines it but still
 loads all the operands before computing, where the open-coded form interleaves loads and
-subtractions. Returning the result by value adds a temporary copy; writing it through an out
-parameter does not. `struct_4::TakeClosestSprite_5A6EA0` matched with a file-local
-`MaxAbsDistance_5A6EA0(Fix16& out, Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)`.
+subtractions. `struct_4::TakeClosestSprite_5A6EA0` matches with the plain
+`distance = Fix16::MaxAbsDistance_42A6B0(...)` (an earlier file-local copy wrote the result through an
+out parameter; that turned out not to be needed).
 
 **Search loops: put the unlink inside the loop body.** `Car_BC::AttachTrailer_4427A0` matched
 once the search-then-unlink was one `for (p = head; p; p = p->mpNext)` loop with the unlink and
@@ -1434,6 +1434,29 @@ thread repeated register tests, which can move a case to the end of the function
   way (`fire_truck_gun_5E0E70`).
 - **Packed `Ang16` temp slots in compares** (two 2-byte temporaries in one dword) come from
   `Ang16(a.rValue - b.rValue).Normalized_406C20()` inline, not a by-value helper (`CarAI_78` 44A1F0, 452060).
+- **The last MaxAbsDistance variants were missing 9.6f helper calls, not a different inline.**
+  `Weapon_30::sub_5DFB60` takes the plain `Fix16::MaxAbsDistance_42A6B0` at both sites once the car
+  branch calls 9.6f's `Car_BC::is_f78_0x400_425770()` wrapper (one free site after both calls) and
+  passes `atan2_fixed_405320` its differences as temporaries like 9.6f (named `dx`/`dy` locals were 5
+  size units too many: the ped site's nested budget was 104 where its y difference needs < 104).
+  `Ped::HandleShootingAtCar_46FC90` needed the 9.6f `Weapon_30::Set_F4_433810` and
+  `Ped::get_car_416B60` calls after it (free sites), `Ped::TaxiCustomer_AI_460820` has
+  `case no_obj_0` first in its switch (the later cases' sites leave the y difference and Abs out of
+  line; the code layout doesn't change).
+- **`Car_BC::IsFlagSet_411930` is `if (...) return true; return false;`.** The `!= 0` form gives a
+  `shr`/`test $1` for `!IsFlagSet(0x400)`; the if form gives the original's `testb $4,0x79(%eax)`. Both
+  bodies compile to 9.6f 0x411930 with VC7.
+- **10.5 inlines `Max_44E540` in small functions** (`Ped_List_4::GetFromListClosestPedToPoint_471340`,
+  `struct_4::FindClosestSprite_5A6E40`, `PoliceCrew_38::sub_572210` all have the compare and no call),
+  so 0x44E540 is probably the out-of-line copy of 9.6f's `Max_41E130` inline (`if (a > b) return a;
+  else return b;`, size 62, VC7-identical to 9.6f), which `MaxAbsDistance_42A6B0` calls. Making
+  `MaxAbsDistance_42A6B0` call that inline is not consistent yet: the extra nested site leaves
+  `Taxi_4::GetTaxiNear_457BF0`, `Sprite::MinDistanceToAnySpriteBBoxCorner_5A22B0` and
+  `struct_4::TakeClosestSprite_5A6EA0` one unit short for their first Abs's negate (nested 41, needs
+  42) unless Abs loses its `else` (size 58, also VC7-identical to 9.6f 0x403840), which then breaks
+  `Car_BC::GetCarLinearSpeed_43A240` (through `GetLength_41E260`) and needs one more site after the
+  car call in `Weapon_30::sub_5DFB60`. Reusing `diff_x` for the result (size 112) fixes those three
+  but gives `Ped_List_4::FindClosestPedInViewCone_4713C0` other stack slots. Still open.
 
 ### Locals, temporaries and the shape of returns
 

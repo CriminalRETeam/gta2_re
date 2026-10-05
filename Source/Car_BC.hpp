@@ -699,7 +699,17 @@ class Car_BC
     // 9.6f 0x411930
     inline bool IsFlagSet_411930(u16 flag)
     {
-        return (field_78_flags & flag) != 0;
+        if (field_78_flags & flag)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    // 9.6f 0x425770
+    inline bool is_f78_0x400_425770()
+    {
+        return IsFlagSet_411930(0x400);
     }
 
     // FUNCTION: 96f 0x4118d0

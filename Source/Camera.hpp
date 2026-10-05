@@ -151,22 +151,6 @@ class Camera_0xBC
         field_10_cam_pos_tgt2 = field_0_cam_pos_tgt1;
     }
 
-    inline void ctor_inline(s32 x, s32 y)
-    {
-        CommitCameraTarget_41E410();
-        field_60.x = Fix16(-1);
-        field_60.y = Fix16(-1);
-        field_AC_cam_velocity.field_0_x = kZero_676818;
-        field_AC_cam_velocity.field_4_y = kZero_676818;
-        field_AC_cam_velocity.field_8_z = kZero_676818;
-
-        field_3C_followed_ped_id = 0;
-        field_30_shake = kZero_676818;
-        field_34_ped = NULL;
-
-        SetScreenSize_4361B0(x, y);
-    }
-
     // 9.6f inline 0x433E90
     inline bool has_camera_car_or_ped_433E90()
     {

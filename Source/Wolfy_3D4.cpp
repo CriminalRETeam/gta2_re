@@ -975,14 +975,6 @@ void Wolfy_30::state_18_19_20_32_33_542790()
     }
 }
 
-// Ang16::PolarToCartesian_41FC20 with both multiplies out of line (Multiply_408680):
-// state_22_23_24_25_542E30 runs out of inline expansions
-static inline void PolarToCartesian_MulOOL_41FC20(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2)
-{
-    ret1 = Ang16::sine_40F500(angle).Multiply_408680(radius);
-    ret2 = Ang16::cosine_40F520(angle).Multiply_408680(radius);
-}
-
 MATCH_FUNC(0x542e30)
 void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
 {
@@ -1005,7 +997,7 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
                         pNew4C->field_38_state = 24;
                         this->field_22 = (kAng135_6FD40C + dword_6FD350) + Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(45))));
 
-                        PolarToCartesian_MulOOL_41FC20(field_22, dword_6FD540, stru_6FD388, stru_6FD38C);
+                        Ang16::PolarToCartesian_41FC20(field_22, dword_6FD540, stru_6FD388, stru_6FD38C);
 
                         stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
                         stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
@@ -1018,7 +1010,7 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
                         this->field_22 = (kAng315_6FD418 + dword_6FD350) + Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90))));
 
 
-                        PolarToCartesian_MulOOL_41FC20(field_22, dword_6FD540, stru_6FD388, stru_6FD38C);
+                        Ang16::PolarToCartesian_41FC20(field_22, dword_6FD540, stru_6FD388, stru_6FD38C);
 
                         stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
                         stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
@@ -1031,7 +1023,7 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
                         this->field_22 = (kAng225_6FD3E0 + dword_6FD350).Add_ool(Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90)))));
 
 
-                        PolarToCartesian_MulOOL_41FC20(field_22, dword_6FD540, stru_6FD388, stru_6FD38C);
+                        Ang16::PolarToCartesian_41FC20(field_22, dword_6FD540, stru_6FD388, stru_6FD38C);
 
                         stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
                         stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
@@ -1044,7 +1036,7 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
                         this->field_22 = kAng45_6FD35C.Add_ool(dword_6FD350).Add_ool(Ang16::Fix16_To_Ang16_ool_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90)))));
 
 
-                        PolarToCartesian_MulOOL_41FC20(field_22, dword_6FD540, stru_6FD388, stru_6FD38C);
+                        Ang16::PolarToCartesian_41FC20(field_22, dword_6FD540, stru_6FD388, stru_6FD38C);
 
                         stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
                         stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;

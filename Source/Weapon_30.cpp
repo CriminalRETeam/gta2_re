@@ -961,16 +961,6 @@ void __stdcall sub_5DE910(Fix16_Point_POD a1, Fix16_Point& a2, Fix16 a3)
     }
 }
 
-// Fix16::MaxAbsDistance_42A6B0 with the second point first and by value, the y difference and Abs out of line
-static inline Fix16 MaxAbsDistance_5DF270(Fix16& x2, Fix16& y2, Fix16 x1, Fix16 y1)
-{
-    Fix16 diff_x;
-    diff_x = x2 - x1;
-    Fix16 diff_y;
-    diff_y = y2.Subtract_436A00(y1);
-    return Fix16::Max_44E540(Fix16::Abs_436A50(diff_x), Fix16::Abs_436A50(diff_y));
-}
-
 WIP_FUNC(0x5DF270)
 void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped* a5, Sprite* a6)
 {
@@ -1057,10 +1047,7 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
                 }
 
                 // The result is unused
-                MaxAbsDistance_5DF270(pB4->field_80_sprite_ptr->field_14_xy.x,
-                                      pB4->field_80_sprite_ptr->field_14_xy.y,
-                                      a5->field_1AC_cam.x,
-                                      a5->field_1AC_cam.y);
+                Fix16::MaxAbsDistance_42A6B0(a5->field_1AC_cam.x, a5->field_1AC_cam.y, pB4->field_80_sprite_ptr->field_14_xy.x, pB4->field_80_sprite_ptr->field_14_xy.y);
 
                 if (bOutside)
                 {
@@ -1178,10 +1165,8 @@ void Weapon_30::sub_5DFB60(u8 a2, Sprite* a3, Ang16 a4)
                 case sprite_types_enum::ped_3:
                     if (a3 != pHit && !gWeapon_8_707018->field_0.SpriteExists_5A6D80(pHit))
                     {
-                        Fix16 dx = pHit->field_14_xy.x - a3->field_14_xy.x;
-                        Fix16 dy = pHit->field_14_xy.y - a3->field_14_xy.y;
-                        angle = Fix16::atan2_fixed_405320(dy, dx);
-                        Fix16::MaxAbsDistanceByRef_42A6B0(pHit->field_14_xy.x, pHit->field_14_xy.y, a3->field_14_xy.x, a3->field_14_xy.y);
+                        angle = Fix16::atan2_fixed_405320(pHit->field_14_xy.y - a3->field_14_xy.y, pHit->field_14_xy.x - a3->field_14_xy.x);
+                        Fix16::MaxAbsDistance_42A6B0(pHit->field_14_xy.x, pHit->field_14_xy.y, a3->field_14_xy.x, a3->field_14_xy.y);
 
                         diff = angle - a4;
                         if (diff < word_706D6C || diff > word_706E28)
@@ -1225,10 +1210,8 @@ void Weapon_30::sub_5DFB60(u8 a2, Sprite* a3, Ang16 a4)
                 case sprite_types_enum::car_2:
                     if (a3 != pHit && !gWeapon_8_707018->field_0.SpriteExists_5A6D80(pHit))
                     {
-                        Fix16 dx = pHit->field_14_xy.x - a3->field_14_xy.x;
-                        Fix16 dy = pHit->field_14_xy.y - a3->field_14_xy.y;
-                        angle = Fix16::atan2_fixed_405320(dy, dx);
-                        Fix16::MaxAbsDistanceOOL_42A6B0(pHit->field_14_xy.x, pHit->field_14_xy.y, a3->field_14_xy.x, a3->field_14_xy.y);
+                        angle = Fix16::atan2_fixed_405320(pHit->field_14_xy.y - a3->field_14_xy.y, pHit->field_14_xy.x - a3->field_14_xy.x);
+                        Fix16::MaxAbsDistance_42A6B0(pHit->field_14_xy.x, pHit->field_14_xy.y, a3->field_14_xy.x, a3->field_14_xy.y);
 
                         diff = angle - a4;
                         if (diff < word_706D6C || diff > word_706E28)
@@ -1252,10 +1235,9 @@ void Weapon_30::sub_5DFB60(u8 a2, Sprite* a3, Ang16 a4)
                                 {
                                     sub_5DFB60(a2 + 1, pHit, angle);
                                 }
-                                Car_BC* pCar = pHit->field_8_car_bc_ptr;
-                                if (!(pCar->field_78_flags & 0x400))
+                                if (!pHit->field_8_car_bc_ptr->is_f78_0x400_425770())
                                 {
-                                    pCar->field_70_exploder_ped_id = field_24_pPed->field_200_id;
+                                    pHit->field_8_car_bc_ptr->field_70_exploder_ped_id = field_24_pPed->field_200_id;
                                     pHit->field_8_car_bc_ptr->field_90 = 18;
                                     pHit->field_8_car_bc_ptr->field_94_exploder_timer = 50;
                                     s16 damage = pHit->field_8_car_bc_ptr->AccumulateDamage_43DA90(300, &stru_706F90);

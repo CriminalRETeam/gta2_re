@@ -685,22 +685,6 @@ static inline void __stdcall DrawTextScaled_4BA2C0(const wchar_t* pStr, Fix16 x,
     DrawText_5D8A10(pStr, x * gViewCamera_676978->field_A8_ui_scale, scale_y, font, gViewCamera_676978->field_A8_ui_scale, palette_type, 0, 0, 0);
 }
 
-// DrawTextScaled_4BA2C0 in ShowId_59EB30, where the x multiply is the out-of-line Multiply_408680
-static inline void __stdcall DrawTextScaled_4BA2C0_ool(const wchar_t* pStr, Fix16 x, Fix16 y, u16 font)
-{
-    s32 palette_type = palette_types_enum::sprites_2;
-    Fix16 scale_y = y * gViewCamera_676978->field_A8_ui_scale;
-    DrawText_5D8A10(pStr,
-                    x.Multiply_408680(gViewCamera_676978->field_A8_ui_scale),
-                    scale_y,
-                    font,
-                    gViewCamera_676978->field_A8_ui_scale,
-                    palette_type,
-                    0,
-                    0,
-                    0);
-}
-
 MATCH_FUNC(0x59EB30)
 void Sprite::ShowId_59EB30(f32& x, f32& y)
 {
@@ -714,7 +698,7 @@ void Sprite::ShowId_59EB30(f32& x, f32& y)
             Fix16 ypos;
             ypos = Fix16((s32)((y / (f32)(u32)window_height_706B50) * 480.0f));
             swprintf(tmpBuff_67BD9C, L"%d", pCar->field_6C_maybe_id);
-            DrawTextScaled_4BA2C0_ool(tmpBuff_67BD9C, xpos, ypos, word_703BAA);
+            DrawTextScaled_4BA2C0(tmpBuff_67BD9C, xpos, ypos, word_703BAA);
         }
         else
         {
@@ -1877,18 +1861,6 @@ char_type Sprite::CheckMapZCollision_5A21F0()
         zHigh = k_dword_7033C0;
     }
     return gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(field_14_xy.x, field_14_xy.y, zLow, zHigh);
-}
-
-// 10.5 inlines MaxAbsDistance_42A6B0 here twice: once with only x's negate out of line, then in the
-// loop with both negates out of line
-static inline Fix16 __stdcall MaxAbsDistanceBothOOL_5A22B0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
-{
-    Fix16 diff_x = x2 - x1;
-    Fix16 diff_y = y2 - y1;
-
-    Fix16 result;
-    result = Fix16::Max_44E540(Fix16::Abs_negate_out_of_line(diff_x), Fix16::Abs_negate_out_of_line(diff_y));
-    return result;
 }
 
 MATCH_FUNC(0x5A22B0)
