@@ -215,21 +215,23 @@ wchar_t* text_0x14::StrToUpper_5B5B80(wchar_t* pWideStr)
     return pWideStr;
 }
 
+// 9.6f 0x4539D0, file-local copy of GetCharWidth_4539D0 (Draw.hpp): including Draw.hpp changes this file's static init code
+static inline s32 __stdcall GetCharWidth_local_4539D0(u16 font_type, wchar_t chr)
+{
+    return (u16)gGtx_0x106C_703DD4->GetFontWidth_5AA760(&font_type, &chr);
+}
+
 // https://decomp.me/scratch/JzIDq
-WIP_FUNC(0x5B5BC0)
+MATCH_FUNC(0x5B5BC0)
 s32 __stdcall text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(wchar_t* pDestStr, const wchar_t* pSrcStr, s32 max_line_width, u16 font_type)
 {
-    WIP_IMPLEMENTED;
-
     const wchar_t* pSrcStrCopy = pSrcStr;
     wchar_t* pDestStrCopy = pDestStr;
     s32 num_of_lines = 1;
-    s32 current_width = 0;
-    wchar_t* pPrevDestCheckpoint = NULL;
-
     s32 space_width = GetSpaceWidth_4C23D0(font_type);
-
+    s32 current_width = 0;
     const wchar_t* pPrevSrcCheckpoint = NULL;
+    wchar_t* pPrevDestCheckpoint = NULL;
 
     for (; *pSrcStrCopy; pSrcStrCopy++, pDestStrCopy++)
     {
@@ -238,9 +240,9 @@ s32 __stdcall text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(wchar_t* pDestStr
         switch (*pSrcStrCopy)
         {
             case '\n':
-                current_width = 0;
                 pPrevSrcCheckpoint = 0;
                 pPrevDestCheckpoint = NULL;
+                current_width = 0;
                 num_of_lines += 1;
                 break;
             case ' ':
@@ -251,16 +253,15 @@ s32 __stdcall text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(wchar_t* pDestStr
             case '#':
                 break;
             default:
-                // 9.6f: GetCharWidth_4539D0 (Draw.hpp) here and below; including Draw.hpp changes this file's static init code
-                current_width += gGtx_0x106C_703DD4->GetFontWidth_5AA760(&font_type, (wchar_t*)pDestStrCopy);
+                current_width += GetCharWidth_local_4539D0(font_type, *pSrcStrCopy);
                 break;
         }
 
         if (current_width > max_line_width)
         {
-            current_width = 0;
             if (pPrevSrcCheckpoint && pPrevDestCheckpoint)
             {
+                current_width = 0;
                 pDestStrCopy = pPrevDestCheckpoint; // retrocede
                 pSrcStrCopy = pPrevSrcCheckpoint;
                 *pDestStrCopy = '\n';
@@ -273,7 +274,7 @@ s32 __stdcall text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(wchar_t* pDestStr
                 *pDestStrCopy = '\n';
                 pDestStrCopy++;
 
-                current_width = gGtx_0x106C_703DD4->GetFontWidth_5AA760(&font_type, (wchar_t*)pSrcStr);
+                current_width = GetCharWidth_local_4539D0(font_type, *pSrcStrCopy);
                 *pDestStrCopy = *pSrcStrCopy;
             }
             num_of_lines += 1;
