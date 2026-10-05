@@ -2841,7 +2841,7 @@ void Hud_Brief_704::ShowBrief_5D4850()
 }
 
 // https://decomp.me/scratch/N327U
-WIP_FUNC(0x5d4890)
+MATCH_FUNC(0x5d4890)
 void Hud_Brief_704::ClearAllBriefsWithPriority_5D4890(s32 priority)
 {
     Garox_18* pLast = NULL;
@@ -2868,11 +2868,11 @@ void Hud_Brief_704::ClearAllBriefsWithPriority_5D4890(s32 priority)
                     Hud_Brief_704::FreeCurrentBrief_5D3350();
                 }
                 pIter = field_6F8_curr_brief;
-                if (!pIter)
+                // Testing the field rather than pIter lets VC6 push ebp only after the first null check
+                if (field_6F8_curr_brief)
                 {
-                    return;
+                    Hud_Brief_704::StartCurrentBrief_5D39D0();
                 }
-                Hud_Brief_704::StartCurrentBrief_5D39D0();
             }
         }
         else
