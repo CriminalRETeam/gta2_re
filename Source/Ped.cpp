@@ -2539,15 +2539,17 @@ void Ped::DeallocateWithGroupCleanup_45EA00()
 
 // https://decomp.me/scratch/jJ6aF
 // Clearing the flag through a reference keeps VC6 from hoisting the field_16C_car load above it.
-static inline void ClearBit0_45EB60(CompilerBitField32& bf)
+// The flags word is passed and returned by value: VC6 then loads it into eax before the timer store
+// and clears the bit with the short `and al, 0xFE` form, like the original
+static inline CompilerBitField32 ClearBit0_45EB60(CompilerBitField32 bf)
 {
     bf.b0 = 0;
+    return bf;
 }
 
-WIP_FUNC(0x45eb60)
+MATCH_FUNC(0x45eb60)
 void Ped::Deallocate_45EB60()
 {
-    WIP_IMPLEMENTED;
     switch (field_240_occupation)
     {
         case ped_ocupation_enum::mugger:
@@ -2643,7 +2645,7 @@ void Ped::Deallocate_45EB60()
     }
 
     field_234_timer = 2;
-    ClearBit0_45EB60(field_21C_bf);
+    field_21C_bf = ClearBit0_45EB60(field_21C_bf);
 
     if (field_16C_car)
     {
