@@ -325,6 +325,13 @@ class Fix16_Point : public Fix16_Point_POD
         return Fix16_Point(x + in.x, y + in.y);
     }
 
+    // operator- 0x40AC80 as a nothrow inline that VC6 calls out of line, like AddInl_40AC50
+    // (CarPhysics_B0::ComputePointVelocity_561380)
+    inline Fix16_Point SubInl_40AC80(const Fix16_Point& rhs) throw()
+    {
+        return *this - rhs;
+    }
+
     // Out of line unary minus (Object_2C::ResolveCollisionWithPed_5229B0)
     EXPORT Fix16_Point Negate_40ACB0() const;
 

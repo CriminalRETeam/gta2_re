@@ -2783,7 +2783,8 @@ void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
 
     Car_BC* pCar = this->field_5C_pCar;
 
-    v16 = pIntersection.Negate_40ACB0().Divide_442CB0(kFP16Half_6FE2F8);
+    // Nothrow alias: no EH state around the Negate_40ACB0 temporary
+    v16 = pIntersection.Negate_40ACB0().DivideInl_442CB0(kFP16Half_6FE2F8);
 
     Ped* pCarDriver = field_5C_pCar->field_54_driver;
     if (pCarDriver)
@@ -2911,41 +2912,48 @@ Fix16_Point CarPhysics_B0::GetPointVelocity_561350(Fix16_Point* a3)
     return ComputeRelativePointVelocity_561130(a3);
 }
 
-WIP_FUNC(0x561380)
+// Ang16 operator+ with the normalizing ctor called out of line (AssignNormalized_409300)
+static inline Ang16 AddAngles_ool_561380(const Ang16& a, const Ang16& b)
+{
+    s16 sum = a.rValue + b.rValue;
+    return Ang16(&sum, 0);
+}
+
+MATCH_FUNC(0x561380)
 Fix16_Point CarPhysics_B0::ComputePointVelocity_561380(Fix16_Point& point)
 {
-    WIP_IMPLEMENTED;
-
-    // Entry EH state 3: four Fix16_Point locals up front
+    // Entry EH state 3: three points up front plus local_pos in the block below. The block ends
+    // after the second rotation, so later temporaries reuse local_pos's slot.
     Fix16_Point old_pos;
     Fix16_Point new_pos;
-    Fix16_Point local_pos;
     Fix16_Point unused;
 
-    local_pos = point - gCarInfo_2C_6FE0E4->field_C_center_of_mass_offset;
-
-    // RotateByAngle_40F6B0 written out: multiplies and adds are the out-of-line copies, the negate is inline
-    old_pos = local_pos;
     {
-        Fix16 sin = Ang16::sine_40F500(field_58_theta);
-        Fix16 cos = Ang16::cosine_40F520(field_58_theta);
-        Fix16 x_old = old_pos.x;
-        old_pos.x = old_pos.x.Multiply_408680(cos).Add_408660(old_pos.y.Multiply_408680(sin));
-        old_pos.y = (-x_old).Multiply_408680(sin).Add_408660(old_pos.y.Multiply_408680(cos));
-    }
-    old_pos += field_30_cm1;
+        Fix16_Point local_pos;
+        local_pos = point.SubInl_40AC80(gCarInfo_2C_6FE0E4->field_C_center_of_mass_offset);
 
-    new_pos = local_pos;
-    Ang16 ang_vel = Ang16::Fix16_To_Ang16_ool_40F540(field_74_ang_vel_rad);
-    // operator+ with the normalizing ctor out of line (AssignNormalized_409300)
-    s16 sum = field_58_theta.rValue + ang_vel.rValue;
-    {
-        Ang16 new_theta(&sum, 0);
-        new_pos.RotateByAngle_40F6B0_all_out_of_line(new_theta);
+        // RotateByAngle_40F6B0 written out: multiplies and adds are the out-of-line copies, the negate is inline
+        old_pos = local_pos;
+        {
+            Fix16 sin = Ang16::sine_40F500(field_58_theta);
+            Fix16 cos = Ang16::cosine_40F520(field_58_theta);
+            Fix16 x_old = old_pos.x;
+            old_pos.x = old_pos.x.Multiply_408680(cos).Add_408660(old_pos.y.Multiply_408680(sin));
+            old_pos.y = (-x_old).Multiply_408680(sin).Add_408660(old_pos.y.Multiply_408680(cos));
+        }
+        old_pos += field_30_cm1;
+
+        new_pos = local_pos;
+        // The angle sum and the Fix16_To_Ang16 result are temporaries: they share slots with the
+        // first rotation's sin/cos (cos sits in the dead `point` parameter slot)
+        new_pos.RotateByAngle_40F6B0_all_out_of_line(
+            AddAngles_ool_561380(field_58_theta, Ang16::Fix16_To_Ang16_ool_40F540(field_74_ang_vel_rad)));
     }
 
-    new_pos += field_30_cm1.Add_40AC50(field_40_linvel_1);
-    return new_pos - old_pos;
+    // operator+ 0x40AC50 called out of line as the nothrow AddInl_40AC50: no EH state store for the
+    // end of local_pos's scope
+    new_pos += field_30_cm1.AddInl_40AC50(field_40_linvel_1);
+    return new_pos.SubInl_40AC80(old_pos);
 }
 
 // https://decomp.me/scratch/5Hj13
