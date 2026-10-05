@@ -634,6 +634,12 @@ didn't inline (body visible), and keeps one when the callee is a plain extern de
 whose own match needs it extern, add a `throw()` inline alias instead: `DivideInl_442CB0`,
 `DivideInl_55F9E0`, `MultiplyInl_438FE0` and `AddInl_40AC50` call the same code without the state
 (`Car_BC::TryHitchTrailer_442810`). Putting `throw()` on the export itself moves code in other TUs.
+Why this works: VC6 treats a function as nothrow when its (non-inline) definition was compiled
+earlier in the same TU and can't throw. In a test file, `P P::Div(int)` defined above its caller gave
+no state around `a.Neg().Div(3)`, the same body defined below the caller kept the state stores. So
+where the original has no state around an out-of-line call, its TU probably compiled the callee first
+(for 0x442CB0, `ProcessPedImpact_560B40` and `HandleObjectCollision_5606C0` lose the state; moving the
+definition above them works too, but the `DivideInl_442CB0` alias is the convention).
 
 In `sub_5DE910`, `(Fix16(a) -= Fix16(b))` evaluates `b` first, where `Fix16(a) - Fix16(b)` doesn't, and
 an unnamed temporary instead of a named local kept the original's stack slots.
@@ -1435,6 +1441,23 @@ thread repeated register tests, which can move a case to the end of the function
 - **Assign after declaring to stop argument folding.** `T x; x = ...;` keeps VC6 from folding a single-use
   local into the call arguments and keeps left-to-right order (`Weapon_30::spawn_bullet_5DCF60`).
 - **`x = x + y` vs a new `Fix16 v = x + y`** decides whether the value gets a callee-saved register.
+- **`const T& x = a * b;` is a third option next to `T x = ...` and `T x; x = ...`.** The reference
+  binds the product temporary, which VC6 allocates like a temporary: other slots, other CSE spills, and
+  for `Fix16` products another `__allmul` operand order. In `ComputeCarMassAndInertia_454410` the two
+  inertia products pushed their operands swapped whatever the source order; `const Fix16&` on
+  `inertiaBase`, `heightXConstant`, `frontMass` and `rearMass` (found by trying all 128 value/ref
+  combinations of the named locals in a small model of the function) matched it.
+- **A temporary passed straight to an inline can share a slot that a named local can't.** In
+  `ComputePointVelocity_561380` the `Fix16_To_Ang16` result and the angle sum passed directly into the
+  rotation (`Rotate(Add(theta, Fix16_To_Ang16(w)))`) share the first rotation's sin/cos slots (cos even sits
+  in the dead `point` parameter slot); as named locals they took fresh slots (116 -> 78).
+- **A named class local only frees its slot when its scope closes, even if it is dead earlier.** In
+  561380 the original reuses `local_pos`'s slot for the `Negate_4086A0` and `operator+` temporaries
+  after the second rotation; at function scope ours kept the slot to the end. A block from `local_pos`'s
+  declaration to the end of the second rotation matched (78 -> 0), with one more point at function scope
+  for the entry EH state 3, and an inline-bodied `operator+` (out of line, but nothrow, see the EH notes)
+  after the block so the scope end needs no EH state store. Found by brute force over scope ends and
+  the number of top-level points with the fast TU compile.
 - **Block-scoped address-taken locals share frame slots with dead compiler temporaries.** Moving a
   declaration between function and block scope fixes slot order and frame size (`Ped::ExitCarStateMachine_46C250`:
   the z temporaries in their own blocks). A block-scope local's slot is reused by later temporaries (a
