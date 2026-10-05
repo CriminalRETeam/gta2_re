@@ -582,18 +582,15 @@ void gtx_0x106C::BuildCarInfoContainer_5AA9A0(s32 chunk_size)
 
         pCarInfoIter->sprite = total_sprite;
 
-        u8* ptr = (u8*)pCarInfoIter;
-        u32 remap_count = pCarInfoIter->num_remaps;
-        ptr += remap_count;
-        u8 doorCount = *(ptr + 0xE);
-
-        if (doorCount > 5u)
+        // Offset of num_doors. The u16 conversion keeps VC6 from folding the door part into one lea
+        // (the original adds 2 * num_doors + 1 and the offset separately); without it, every form that
+        // shares num_remaps + 0xE also moves this to ebp
+        u32 off = pCarInfoIter->num_remaps + 0xE;
+        if (((u8*)pCarInfoIter)[off] > 5u)
         {
             FatalError_4A38C0(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 842, pCarInfoIter->model);
         }
-
-        // 0xE = remap
-        u32 curr_item_len = *(ptr + 0xE) * sizeof(door_info) + 1 + remap_count + 0xE;
+        u32 curr_item_len = (u16)(((u8*)pCarInfoIter)[off] * sizeof(door_info) + 1) + off;
         total_len += curr_item_len;
 
         pCarInfoIter = (car_info*)((u8*)pCarInfoIter + curr_item_len);
