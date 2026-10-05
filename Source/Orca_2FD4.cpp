@@ -526,6 +526,11 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 pedId,
     Orca_8* v40; // ecx
     char field_4_zpos; // al
     u8 yCoord;
+    u8 idx1;
+    u8 idx2;
+    u8 cur_x;
+    u8 cur_z;
+    u8 i;
 
     Marz_3* pPatrolPoint_2;
     u16 j;
@@ -573,9 +578,9 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 pedId,
         }
         gOrca_SlopeZDelta_6FDEEC = 0;
         field_20_xpos = xCoord1;
-        field_21_ypos = yCoord1;
         field_C_node_count = 0;
         field_8_pNode = field_2350_nodes;
+        field_21_ypos = yCoord1;
         field_22_zpos = zCoord1;
         field_23_f40_idx1 = 16;
         field_24_f40_idx2 = 16;
@@ -753,31 +758,31 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 pedId,
 
 LABEL_35:
     field_14 = 0;
-    yCoord1 = field_27_zpos;
-    zCoord2 = gOrca_idx1_any_6FDEC8;
-    xCoord2 = field_25_xpos;
+    cur_x = field_25_xpos;
     yCoord = field_26_ypos;
-    yCoord2 = gOrca_idx2_any_6FDEC9;
+    cur_z = field_27_zpos;
+    idx1 = gOrca_idx1_any_6FDEC8;
+    idx2 = gOrca_idx2_any_6FDEC9;
     field_8_pNode = field_2350_nodes;
-    field_8_pNode->field_2_xpos = xCoord2;
+    field_8_pNode->field_2_xpos = cur_x;
     field_8_pNode->field_3_ypos = yCoord;
-    field_8_pNode->field_4_zpos = yCoord1;
+    field_8_pNode->field_4_zpos = cur_z;
     field_C_node_count = 1;
-    v40 = &field_40_grid[(s16)(zCoord2 + 34 * yCoord2)];
+    v40 = &field_40_grid[(s16)(idx1 + 34 * idx2)];
     while (2)
     {
         if (v40->field_0_idx1 == 1)
         {
-            if (abs(yCoord1 - (u8)v40->field_4_zpos) < 1)
+            if (abs(cur_z - (u8)v40->field_4_zpos) < 1)
             {
                 field_1B_direction = v40->field_3_ypos;
-                yCoord1 = v40->field_4_zpos;
+                cur_z = v40->field_4_zpos;
                 v40->field_0_idx1 = 0;
             }
             else
             {
                 field_1B_direction = v40->field_1_idx2;
-                yCoord1 = v40->field_2_xpos;
+                cur_z = v40->field_2_xpos;
                 v40->field_1_idx2 = v40->field_3_ypos;
                 field_4_zpos = v40->field_4_zpos;
                 v40->field_0_idx1 = 0;
@@ -787,7 +792,7 @@ LABEL_35:
         else
         {
             field_1B_direction = v40->field_1_idx2;
-            yCoord1 = v40->field_2_xpos;
+            cur_z = v40->field_2_xpos;
             v40->field_1_idx2 = 0;
         }
         switch (field_1B_direction)
@@ -802,7 +807,7 @@ LABEL_35:
                 goto LABEL_52;
             case 2:
                 --v40;
-                xCoord2--;
+                cur_x--;
                 goto LABEL_52;
             case 4:
                 ++v40;
@@ -810,12 +815,12 @@ LABEL_35:
             case 5:
                 ++yCoord;
                 v40 += 33;
-                xCoord2--;
+                cur_x--;
                 goto LABEL_52;
             case 6:
                 --yCoord;
                 v40 -= 35;
-                xCoord2--;
+                cur_x--;
                 goto LABEL_52;
             case 7:
                 --yCoord;
@@ -825,12 +830,12 @@ LABEL_35:
                 ++yCoord;
                 v40 += 35;
             LABEL_51:
-                ++xCoord2;
+                ++cur_x;
             LABEL_52:
                 field_8_pNode++;
-                field_8_pNode->field_2_xpos = xCoord2;
+                field_8_pNode->field_2_xpos = cur_x;
                 field_8_pNode->field_3_ypos = yCoord;
-                field_8_pNode->field_4_zpos = yCoord1;
+                field_8_pNode->field_4_zpos = cur_z;
                 ++field_C_node_count;
                 continue;
             case 66:
@@ -843,15 +848,15 @@ LABEL_35:
                     field_C_node_count = 100;
                 }
 
-                for (xCoord2 = 0; xCoord2 < field_C_node_count; xCoord2++)
+                for (i = 0; i < field_C_node_count; i++)
                 {
-                    Marz_3* pPatrolPoint = &pPed->field_0_patrol_points[xCoord2];
+                    Marz_3* pPatrolPoint = &pPed->field_0_patrol_points[i];
                     pPatrolPoint->field_0_x = field_8_pNode->field_2_xpos;
                     pPatrolPoint->field_1_y = field_8_pNode->field_3_ypos;
                     pPatrolPoint->field_2_z = field_8_pNode->field_4_zpos;
                     --field_8_pNode;
                 }
-                pPatrolPoint_2 = &pPed->field_0_patrol_points[xCoord2];
+                pPatrolPoint_2 = &pPed->field_0_patrol_points[i];
                 pPatrolPoint_2->field_0_x = 0;
                 pPatrolPoint_2->field_1_y = 0;
                 pPatrolPoint_2->field_2_z = 0;
