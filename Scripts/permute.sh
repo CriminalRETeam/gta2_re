@@ -23,8 +23,8 @@ shift 3
 COMPILE="$ROOT/3rdParty/cpp_permuter/examples/gta2/compile.sh {src} {obj}"
 SCORE_FLAG=""
 # --structure: score control flow and call order only (permuter_score.py --structure), ignoring
-# register allocation and stack layout. Either flag can come first.
-while [ "$1" = "--96f" ] || [ "$1" = "--structure" ]; do
+# register allocation and stack layout. --skeleton: only jumps, calls and returns. Any order.
+while [ "$1" = "--96f" ] || [ "$1" = "--structure" ] || [ "$1" = "--skeleton" ]; do
     if [ "$1" = "--96f" ]; then
         COMPILE="$ROOT/Scripts/compile_vc7.sh {src} {obj}"
     fi

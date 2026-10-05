@@ -17,6 +17,10 @@ that move with any size change) and register-to-register moves are masked or dro
 is the instruction kinds, block layout, call order and the symbols touched. 0 there means the control
 flow and calls match and only register allocation / stack layout differ.
 
+--skeleton goes further and keeps only the control flow skeleton: jumps (kind only), calls (with their
+targets, in order) and returns. Instruction scheduling inside a block doesn't count, so 0 means the
+branches, block order and call order match.
+
 --96f scores against the 9.6f build instead (target_96f.json, built with VC7.0 and no inlining;
 compile the candidate with Scripts/compile_vc7.sh). Its absolute addresses are first rewritten to
 the start-relative form of target_asm.json.
@@ -214,7 +218,14 @@ def structure_lines(lines):
     return out
 
 
+def skeleton_lines(lines):
+    return [l for l in structure_lines(lines) if re.match(r"^(j\w+|call|ret)\b", l)]
+
+
 def main():
+    skeleton = "--skeleton" in sys.argv
+    if skeleton:
+        sys.argv.remove("--skeleton")
     structure = "--structure" in sys.argv
     if structure:
         sys.argv.remove("--structure")
@@ -234,7 +245,9 @@ def main():
     coff = Coff(open(obj, "rb").read())
     ml = function_lines(coff, find_function(coff, needle))
     tl = target_lines(target)
-    if structure:
+    if skeleton:
+        tl, ml = skeleton_lines(tl), skeleton_lines(ml)
+    elif structure:
         tl, ml = structure_lines(tl), structure_lines(ml)
     score = score_lines(tl, ml)
     # cpp_permuter keeps this output as score_output.txt next to each improvement.
