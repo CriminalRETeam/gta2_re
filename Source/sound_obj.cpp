@@ -2762,11 +2762,9 @@ char_type sound_obj::InitSampleForType_412260(sound_0x68* pObj)
 }
 
 // Car engine sounds/revs etc of the car we are driving
-WIP_FUNC(0x416260)
+MATCH_FUNC(0x416260)
 char_type sound_obj::Type_1_6_416260(sound_0x68* a2)
 {
-    WIP_IMPLEMENTED;
-
     // Both branches store the same rate: VC6 merges them but keeps the type compare (an orphan
     // `cmp %ebx,%eax` with ebx = 1 at the top of the original), which also keeps 1 in ebx
     if (a2->field_58_type == 1)
@@ -2895,7 +2893,9 @@ char_type sound_obj::Type_1_6_416260(sound_0x68* a2)
 
         a2->field_4C_releasing_volume_divider = 3;
         a2->field_30_loop_count = 0;
-        a2->field_34_loop_start = gSampManager_6FFF00.GetLoopStart_58DC30(a2->field_14_samp_idx);
+        // A local for the first index only: the original loads it into eax before `this` in ecx
+        s32 idx = a2->field_14_samp_idx;
+        a2->field_34_loop_start = gSampManager_6FFF00.GetLoopStart_58DC30(idx);
         a2->field_38_loop_end = gSampManager_6FFF00.GetLoopEnd_58DC50(a2->field_14_samp_idx);
         return 1;
     }
@@ -6176,8 +6176,8 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
                 field_30_sQueueSample.field_54_sound_intensity = emit_distance;
                 field_30_sQueueSample.field_64_max_distance = max_distance;
                 field_30_sQueueSample.field_20_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(samp_idx) + rate_displacement;
-                field_30_sQueueSample.field_4_SampleIndex = sample_index;
                 field_30_sQueueSample.field_58_type = 20;
+                field_30_sQueueSample.field_4_SampleIndex = sample_index;
                 field_30_sQueueSample.field_41 = bLoop;
                 field_30_sQueueSample.field_1C_ReleasingVolumeModificator = release_mod;
                 field_30_sQueueSample.field_18_bIs2D = 0;
