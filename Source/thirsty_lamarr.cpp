@@ -188,39 +188,40 @@ s32 thirsty_lamarr::DrawDigits_492260(s32 base_xpos, s32 base_ypos)
 }
 
 // Draws the digits left to right, skipping leading zeros, and returns the x after the last digit
-WIP_FUNC(0x492430)
+MATCH_FUNC(0x492430)
 s32 thirsty_lamarr::sub_492430(s32 base_xpos, s32 base_ypos)
 {
     // u32: converts with the Fix16(u32) constructor, whose out-of-line copy is 0x4926F0
-    u32 curr_xpos = base_xpos + (field_27_sprite_w >> 1);
     bool bFirst = true;
+    u32 curr_xpos = base_xpos + (field_27_sprite_w >> 1);
     u32 ypos_default = base_ypos + (field_28_sprite_h_calc >> 1);
 
     for (s32 idx = field_2E_non_used_digits; idx < 9; idx++)
     {
-        s32 offset = field_13_offset[idx];
+        char_type offset_byte = field_13_offset[idx];
+        s32 offset = offset_byte;
         if (bFirst)
         {
-            char_type curr_char = field_9_str[idx];
-            if (curr_char == '0' && idx != 8 && !field_13_offset[idx])
+            if (field_9_str[idx] == '0' && idx != 8 && !offset_byte)
             {
                 continue;
             }
 
             u8 height;
-            if (curr_char != '0' || idx == 8)
+            if (field_9_str[idx] != '0' || idx == 8)
             {
                 height = field_28_sprite_h_calc;
             }
             else
             {
-                height = field_13_offset[idx];
+                height = offset_byte;
             }
 
-            u16 v = field_28_sprite_h_calc * (58 - curr_char) - offset;
+            u16 v = field_28_sprite_h_calc * (58 - field_9_str[idx]) - offset;
+            u32 ypos = base_ypos + (s8)height / 2;
             DrawTextureScaled_495470(gSharp_pare_0x15D8_705064->GetDigitTexture_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits, v, height),
                        curr_xpos,
-                       (u32)(base_ypos + (s8)height / 2),
+                       ypos,
                        field_27_sprite_w,
                        height,
                        kAngZero_67B210,
