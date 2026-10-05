@@ -193,7 +193,6 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
     Fix16 off_y = kFP16Zero_6FD49C;
     char_type bJitter = 1;
     Fix16_Point dir(Fix16(0), Fix16(0));
-    Fix16 sin;
 
     gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
     if (field_2C_counter == 0)
@@ -291,15 +290,7 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
             break;
     }
 
-    // 9.6f: Fix16_Point::RotateByAngle_40F6B0 (inlined). The original calls the out-of-line
-    // Multiply_408680/Negate_4086A0/Add_408660 copies for all but y * sin
-    {
-        sin = Ang16::sine_40F500(field_24_angle);
-        Fix16 cos = Ang16::cosine_40F520(field_24_angle);
-        Fix16 old_x = dir.x;
-        dir.x = dir.x.Multiply_408680(cos).Add_408660(dir.y * sin);
-        dir.y = old_x.Negate_4086A0().Multiply_408680(sin).Add_408660(dir.y.Multiply_408680(cos));
-    }
+    dir.RotateByAngle_40F6B0(field_24_angle);
     field_14_additional_speed_x = dir.x;
     field_18_additional_speed_y = dir.y;
 

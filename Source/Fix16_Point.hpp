@@ -130,7 +130,7 @@ struct Fix16_Point_POD
     }
 
     // RotateByAngle_40F6B0 as big functions get it once they run out of inline expansions:
-    // the Fix16 operators are the out-of-line copies (Weapon_30::fire_truck_flamethrower_5E0B10)
+    // the Fix16 operators are the out-of-line copies (Car_BC::HandleCarHitByObject_43F130)
     inline void RotateByAngle_OOL_40F6B0(const Ang16& angle)
     {
         Fix16 x_old = x;
@@ -149,29 +149,6 @@ struct Fix16_Point_POD
         Fix16 cos = Ang16::cosine_40F520(angle);
 
         x = x.Multiply_408680(cos).Add_408660(y.Multiply_408680(sin));
-        y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(y.Multiply_408680(cos));
-    }
-
-    // As above, with y * sin inlined (Particle_8::EmitFlameStreamSegment_53F4C0)
-    inline void RotateByAngle_MixOOL_40F6B0(const Ang16& angle)
-    {
-        Fix16 x_old = x;
-        Fix16 sin = Ang16::sine_40F500(angle);
-        Fix16 cos = Ang16::cosine_40F520(angle);
-
-        x = x.Multiply_408680(cos).Add_408660(y * sin);
-        y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(y.Multiply_408680(cos));
-    }
-
-    // As RotateByAngle_40F6B0 with the x line inline and the y line out of line (Car_BC::GetHitchPoint_439FB0)
-    inline void RotateByAngle_YOOL_40F6B0(const Ang16& angle)
-    {
-        Fix16 sin = Ang16::sine_40F500(angle);
-        Fix16 cos = Ang16::cosine_40F520(angle);
-
-        Fix16 x_old = x;
-
-        x = (x * cos) + (y * sin);
         y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(y.Multiply_408680(cos));
     }
 
@@ -314,8 +291,7 @@ class Fix16_Point : public Fix16_Point_POD
     // inline operator- called out of line gets none (CarPhysics_B0::HandleCarCollision_55FF20)
     EXPORT Fix16_Point Sub_40AC80(const Fix16_Point& rhs);
 
-    // Out of line operator+ (CarPhysics_B0::SpawnSkidSegment_55D200; Weapon_30::fire_truck_flamethrower_5E0B10 keeps the EH state of
-    // the get_x_y_443580 temporary around this call)
+    // Out of line operator+ (CarPhysics_B0::SpawnSkidSegment_55D200)
     EXPORT Fix16_Point Add_40AC50(const Fix16_Point_POD& in);
 
     // operator+ 0x40AC50 as a nothrow inline that VC6 still calls out of line: no EH state for the

@@ -496,20 +496,6 @@ void Weapon_30::dual_pistol_5DDA70()
 }
 
 // https://decomp.me/scratch/lAo1H
-// Fix16_Point::RotateByAngle_40F6B0 as VC6 emits it in a caller that has run out of inline
-// expansions: the multiplies, the negate and the y line's add are the out of line operator
-// copies, and sin/cos/x_old are the inline's own locals (below the caller's). The x line's add
-// is the inline operator+, which loads the y*sin product (evaluated first) first
-// (smg_5DDD20; the tank/jeep guns use RotateByAngle_40F6B0_no_budget3 below)
-static inline void RotateByAngle_40F6B0_no_budget2(Fix16_Point& p, const Ang16& angle)
-{
-    Fix16 sin = Ang16::sine_40F500(angle);
-    Fix16 cos = Ang16::cosine_40F520(angle);
-    Fix16 x_old = p.x;
-    p.x = p.x.Multiply_408680(cos) + p.y.Multiply_408680(sin);
-    p.y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(p.y.Multiply_408680(cos));
-}
-
 MATCH_FUNC(0x5ddd20)
 void Weapon_30::smg_5DDD20()
 {
@@ -525,7 +511,7 @@ void Weapon_30::smg_5DDD20()
             point.x = -dword_706E7C;
             point.y = dword_706CF0 + dword_706E80;
 
-            RotateByAngle_40F6B0_no_budget2(point, field_24_pPed->field_168_game_object->field_80_sprite_ptr->field_0);
+            point.RotateByAngle_40F6B0(field_24_pPed->field_168_game_object->field_80_sprite_ptr->field_0);
 
             point = point.Add_40AC50(field_24_pPed->GetVelocityVector_45B520());
 
@@ -1426,7 +1412,7 @@ void Weapon_30::fire_truck_flamethrower_5E0B10()
         gun_ang = AddAng16_ool(pTurret->field_0->field_0, word_706DFA);
 
         bullet_pos.SetXY_432860(Fix16(0), dword_706CDC);
-        bullet_pos.RotateByAngle_NegOOL_40F6B0(gun_ang);
+        bullet_pos.RotateByAngle_40F6B0(gun_ang);
         offset.SetXY_432860(Fix16(0), dword_706CD8);
     }
     else
@@ -1434,13 +1420,13 @@ void Weapon_30::fire_truck_flamethrower_5E0B10()
         gun_ang = field_14_car->field_0_qq.GetSpriteForModel_5A6A50(248)->field_0->field_0;
 
         bullet_pos.SetXY_432860(Fix16(0), dword_706EA4);
-        bullet_pos.RotateByAngle_OOL_40F6B0(gun_ang);
+        bullet_pos.RotateByAngle_40F6B0(gun_ang);
         offset.SetXY_432860(Fix16(0), dword_706EE8);
     }
 
-    offset.RotateByAngle_NegOOL_40F6B0(field_14_car->field_50_car_sprite->field_0);
+    offset.RotateByAngle_40F6B0(field_14_car->field_50_car_sprite->field_0);
 
-    bullet_pos += offset.Add_40AC50(field_14_car->field_50_car_sprite->get_x_y_443580());
+    bullet_pos += offset + field_14_car->field_50_car_sprite->get_x_y_443580();
 
     velocity = field_14_car->field_58_physics->GetPointVelocity_561350(&bullet_pos);
 
@@ -1509,7 +1495,9 @@ static inline Fix16 AddFree(const Fix16& a, const Fix16& b)
     return Fix16(v, 0);
 }
 
-// RotateByAngle_40F6B0_no_budget2 with AddFree for the x line (tank_main_gun_5E10E0, army_gun_jeep_5E13E0)
+// Fix16_Point::RotateByAngle_40F6B0 as VC6 emits it in a caller that has run out of inline
+// expansions: the multiplies, the negate and the y line's add are the out of line operator
+// copies, and the x line's sum is AddFree (tank_main_gun_5E10E0, army_gun_jeep_5E13E0)
 static inline void RotateByAngle_40F6B0_no_budget3(Fix16_Point& p, const Ang16& angle)
 {
     Fix16 sin = Ang16::sine_40F500(angle);

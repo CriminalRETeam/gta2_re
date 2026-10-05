@@ -605,7 +605,7 @@ void CarPhysics_B0::SetVelocityTowardTarget_55A1D0(Fix16 targetX, Fix16 targetY,
     CarInfo_2C* pCarInfo = gCarInfo_808_678098->GetInfoAtIdx_454840(field_5C_pCar->field_84_car_info_idx);
     offset = pCarInfo->field_C_center_of_mass_offset;
     Fix16_Point worldPoint;
-    offset.RotateByAngle_OneMulInline_40F6B0(field_58_theta);
+    offset.RotateByAngle_40F6B0(field_58_theta);
     worldPoint = local.Add_40AC50(offset);
 
     field_40_linvel_1 = worldPoint - field_30_cm1;
@@ -1530,14 +1530,7 @@ void CarPhysics_B0::HandleMapBoundaryCollisionY_55C5C0(Fix16_Point& pPoint, Ang1
         {
             Ang16 rot_angle(field_58_theta.rValue - angle.rValue);
             rot_angle.Normalize_406C20();
-            // RotateByAngle_40F6B0 written out: multiplies and adds are the out-of-line copies, the negate is inline
-            Fix16 sin = Ang16::sine_40F500(rot_angle);
-            Fix16 cos = Ang16::cosine_40F520(rot_angle);
-            Fix16 x_old = CollisionIntersectionPoint_6FE1A0.x;
-            CollisionIntersectionPoint_6FE1A0.x = CollisionIntersectionPoint_6FE1A0.x.Multiply_408680(cos).Add_408660(
-                CollisionIntersectionPoint_6FE1A0.y.Multiply_408680(sin));
-            CollisionIntersectionPoint_6FE1A0.y =
-                (-x_old).Multiply_408680(sin).Add_408660(CollisionIntersectionPoint_6FE1A0.y.Multiply_408680(cos));
+            CollisionIntersectionPoint_6FE1A0.RotateByAngle_40F6B0(rot_angle);
         }
         CollisionIntersectionPoint_6FE1A0.x += field_38_cp1.x;
         CollisionIntersectionPoint_6FE1A0.y = gRozza_679188.field_18_mapy_t1;
@@ -1583,14 +1576,7 @@ void CarPhysics_B0::HandleMapBoundaryCollisionX_55C820(Fix16_Point& pPoint, Ang1
         {
             Ang16 rot_angle(field_58_theta.rValue - angle.rValue);
             rot_angle.Normalize_406C20();
-            // RotateByAngle_40F6B0 written out: multiplies and adds are the out-of-line copies, the negate is inline
-            Fix16 sin = Ang16::sine_40F500(rot_angle);
-            Fix16 cos = Ang16::cosine_40F520(rot_angle);
-            Fix16 x_old = CollisionIntersectionPoint_6FE1A0.x;
-            CollisionIntersectionPoint_6FE1A0.x = CollisionIntersectionPoint_6FE1A0.x.Multiply_408680(cos).Add_408660(
-                CollisionIntersectionPoint_6FE1A0.y.Multiply_408680(sin));
-            CollisionIntersectionPoint_6FE1A0.y =
-                (-x_old).Multiply_408680(sin).Add_408660(CollisionIntersectionPoint_6FE1A0.y.Multiply_408680(cos));
+            CollisionIntersectionPoint_6FE1A0.RotateByAngle_40F6B0(rot_angle);
         }
         CollisionIntersectionPoint_6FE1A0.y += field_38_cp1.y;
         CollisionIntersectionPoint_6FE1A0.x = gRozza_679188.field_14_mapx_t2;
@@ -2932,21 +2918,14 @@ Fix16_Point CarPhysics_B0::ComputePointVelocity_561380(Fix16_Point& point)
         Fix16_Point local_pos;
         local_pos = point.SubInl_40AC80(gCarInfo_2C_6FE0E4->field_C_center_of_mass_offset);
 
-        // RotateByAngle_40F6B0 written out: multiplies and adds are the out-of-line copies, the negate is inline
         old_pos = local_pos;
-        {
-            Fix16 sin = Ang16::sine_40F500(field_58_theta);
-            Fix16 cos = Ang16::cosine_40F520(field_58_theta);
-            Fix16 x_old = old_pos.x;
-            old_pos.x = old_pos.x.Multiply_408680(cos).Add_408660(old_pos.y.Multiply_408680(sin));
-            old_pos.y = (-x_old).Multiply_408680(sin).Add_408660(old_pos.y.Multiply_408680(cos));
-        }
+        old_pos.RotateByAngle_40F6B0(field_58_theta);
         old_pos += field_30_cm1;
 
         new_pos = local_pos;
         // The angle sum and the Fix16_To_Ang16 result are temporaries: they share slots with the
         // first rotation's sin/cos (cos sits in the dead `point` parameter slot)
-        new_pos.RotateByAngle_40F6B0_all_out_of_line(
+        new_pos.RotateByAngle_40F6B0(
             AddAngles_ool_561380(field_58_theta, Ang16::Fix16_To_Ang16_ool_40F540(field_74_ang_vel_rad)));
     }
 
@@ -3491,29 +3470,27 @@ static inline void MultiplyAssign_ProductTemp(Fix16& value, const Fix16& factor)
     value.mValue = (s32)(product >> 14);
 }
 
-// Fix16::Multiply_408680 through an inline `*=`-style wrapper. A direct call frees an inline
-// expansion (MultiplyByFix16_49E3A0 then inlines), and a wrapper returning the product by value
-// reads the result from its stack temporary instead of through %eax.
+// `a = a * b` through an inline `*=`-style wrapper. The multiply is past the inline budget, so it
+// calls the operator* copy (0x408680), like the rotations' multiplies. Written directly (9.6f has
+// `a = a * b`), the multiply in the else branch's product-temp helper gets the operands swapped.
 static inline void MultiplyAssign_inline_408680(Fix16& a, const Fix16& b)
 {
-    a = a.Multiply_408680(b);
+    a = a * b;
 }
 
-// The rotations call Multiply_408680 (one callee, 0x408680, in the original), so the angular
-// velocity multiply goes through it too rather than the operator* COMDAT.
 MATCH_FUNC(0x562910)
 void CarPhysics_B0::StabilizeVelocityAtSpeed_562910()
 {
     if (CarPhysics_B0::IsInAir_55A0B0())
     {
-        if (Fix16::Abs_negate_out_of_line(field_40_linvel_1.x) <= kFP16One128th_6FDFDC &&
-            Fix16::Abs_negate_out_of_line(field_40_linvel_1.y) <= kFP16One128th_6FDFDC)
+        if (Fix16::Abs(field_40_linvel_1.x) <= kFP16One128th_6FDFDC &&
+            Fix16::Abs(field_40_linvel_1.y) <= kFP16One128th_6FDFDC)
         {
             field_40_linvel_1.MultiplyByFix16_49E3A0(dword_6FE334);
         }
         else
         {
-            field_40_linvel_1.RotateByAngle_40F6B0_all_out_of_line(-field_58_theta);
+            field_40_linvel_1.RotateByAngle_40F6B0(-field_58_theta);
             field_40_linvel_1.x *= dword_6FE334;
             if (field_5C_pCar->field_64_pTrailer)
             {
@@ -3523,14 +3500,14 @@ void CarPhysics_B0::StabilizeVelocityAtSpeed_562910()
             {
                 field_40_linvel_1.y *= dword_6FE330;
             }
-            field_40_linvel_1.RotateByAngle_40F6B0_all_out_of_line(field_58_theta);
+            field_40_linvel_1.RotateByAngle_40F6B0(field_58_theta);
             field_74_ang_vel_rad = field_74_ang_vel_rad * dword_6FDF18;
         }
     }
     else
     {
-        if (Fix16::Abs_negate_out_of_line(field_40_linvel_1.x) <= kFP16One128th_6FDFDC &&
-            Fix16::Abs_negate_out_of_line(field_40_linvel_1.y) <= kFP16One128th_6FDFDC)
+        if (Fix16::Abs(field_40_linvel_1.x) <= kFP16One128th_6FDFDC &&
+            Fix16::Abs(field_40_linvel_1.y) <= kFP16One128th_6FDFDC)
         {
             field_40_linvel_1.MultiplyByFix16_49E3A0(dword_6FE100);
         }
@@ -3776,12 +3753,7 @@ void CarPhysics_B0::UpdateCp1FromCm1_563280()
     Fix16_Point point = gCarInfo_2C_6FE0E4->field_C_center_of_mass_offset;
     NegateInPlace_40F760(point);
 
-    // RotateByAngle_40F6B0, but the y part uses the out-of-line Fix16 operators
-    Fix16 sin = Ang16::sine_40F500(field_58_theta);
-    Fix16 cos = Ang16::cosine_40F520(field_58_theta);
-    Fix16 x_old = point.x;
-    point.x = (point.x * cos) + (point.y * sin);
-    point.y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(point.y.Multiply_408680(cos));
+    point.RotateByAngle_40F6B0(field_58_theta);
 
     field_38_cp1 = field_30_cm1 + point;
 }

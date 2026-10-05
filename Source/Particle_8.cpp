@@ -87,7 +87,7 @@ static inline Ang16 SubAng16_ool(const Ang16& a, const Ang16& b)
 // temporaries get the original's stack slots (written out in place they don't share them).
 static inline Ang16 MulAng16_401CB0(const Ang16& a, const Fix16& f)
 {
-    return Ang16(Fix16(a.rValue).Multiply_408680(f)).Normalized_406C20();
+    return Ang16(Fix16(a.rValue) * f).Normalized_406C20();
 }
 
 // https://decomp.me/scratch/ohbD0
@@ -102,7 +102,7 @@ void Particle_8::EmitBloodBurst_53E450(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
     {
         vector.x = Fix16(0);
         vector.y = Fix16(gRng_6F6784.get_int_4F7AE0(50) + 25) * dword_6FD548;
-        vector.RotateByAngle_OOL_40F6B0(ang);
+        vector.RotateByAngle_40F6B0(ang);
 
         for (u8 i = 0; i < 6; i++)
         {
@@ -112,7 +112,7 @@ void Particle_8::EmitBloodBurst_53E450(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
             // 9.6f: angle = word.MultiplyByFix16_401CB0(..); rotate by (angle + ang) - word.MultiplyByFix16_401CB0(Fix16(8)).
             // One expression: its temporaries don't share slots. The minus calls AssignNormalized_409300.
             angle = MulAng16_401CB0(word_6FD5CC, Fix16(gRng_6F6784.get_int_4F7AE0(16)));
-            vector.RotateByAngle_NegOOL_40F6B0(SubAng16_ool(angle + ang, Ang16(Fix16(word_6FD5CC.rValue).Multiply_408680(Fix16(8)), 0)));
+            vector.RotateByAngle_40F6B0(SubAng16_ool(angle + ang, Ang16(Fix16(word_6FD5CC.rValue) * Fix16(8), 0)));
 
             Particle_4C* pBloodParticle =
                 gParticle_8_6FD5E8->New_53E3C0(vector.x, vector.y, dword_6FD330, vector.x.DivideInt_53E860(15).Negate_4086A0(), vector.y.DivideInt_53E860(15).Negate_4086A0(), 0);
@@ -154,30 +154,6 @@ void Particle_8::SpawnBlood_53E880(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     }
 }
 
-// RotateByAngle_40F6B0 past the inline budget, with the negate still inline
-static inline void RotateByAngle_NegInl_40F6B0(Fix16_Point& p, const Ang16& angle)
-{
-    Fix16 sin = Ang16::sine_40F500(angle);
-    Fix16 cos = Ang16::cosine_40F520(angle);
-
-    Fix16 x_old = p.x;
-
-    p.x = p.x.Multiply_408680(cos).Add_408660(p.y.Multiply_408680(sin));
-    p.y = Fix16(-x_old.mValue, 0).Multiply_408680(sin).Add_408660(p.y.Multiply_408680(cos));
-}
-
-// RotateByAngle_40F6B0 past the inline budget, with the x line's add still inline
-static inline void RotateByAngle_AddInl_40F6B0(Fix16_Point& p, const Ang16& angle)
-{
-    Fix16 sin = Ang16::sine_40F500(angle);
-    Fix16 cos = Ang16::cosine_40F520(angle);
-
-    Fix16 x_old = p.x;
-
-    p.x.mValue = p.x.Multiply_408680(cos).mValue + p.y.Multiply_408680(sin).mValue;
-    p.y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(p.y.Multiply_408680(cos));
-}
-
 WIP_FUNC(0x53e970)
 void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
 {
@@ -215,7 +191,7 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
 
             // One expression: the original loads the sprite's field_C once for both
             corner_1.SetXY_432860(pCar->get_car_width() / 2 + dword_6FD3C0, pCar->get_car_height() / 2 + dword_6FD5A8);
-            RotateByAngle_NegInl_40F6B0(corner_1, a2->field_0);
+            corner_1.RotateByAngle_40F6B0(a2->field_0);
             corner_1 += a2->get_x_y_443580();
 
             pParticle->field_28_pSprite = a2;
@@ -241,7 +217,7 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
         pParticle->field_48_timer = 0;
 
         corner_2.SetXY_432860(-(pCar->get_car_width() / 2 + dword_6FD3C0), pCar->get_car_height() / 2 + dword_6FD5A8);
-        RotateByAngle_AddInl_40F6B0(corner_2, a2->field_0);
+        corner_2.RotateByAngle_40F6B0(a2->field_0);
         corner_2 += a2->get_x_y_443580();
 
         pParticle->field_30_pNext->set_ang_lazy_420690(a2->field_0);
@@ -272,7 +248,7 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
         Char_B4* pB4 = a2->AsCharB4_40FEA0();
         offset.x = -dword_6FD464;
         offset.y = dword_6FD468 + dword_6FD2E8;
-        offset.RotateByAngle_OneMulInline_40F6B0(a2->field_0);
+        offset.RotateByAngle_40F6B0(a2->field_0);
         offset = offset + pB4->field_98_velocity_vector;
 
         pParticle->field_30_pNext->set_ang_lazy_420690(a2->field_0);
@@ -680,7 +656,7 @@ void Particle_8::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
                 {
                     angle = pSprt18->field_0->field_0 + kAng180_6FD3EE;
                     vector.SetXY_432860(Fix16(0), dword_6FD2D4);
-                    vector.RotateByAngle_MixOOL_40F6B0(angle);
+                    vector.RotateByAngle_40F6B0(angle);
                     zero = Fix16(0);
                     unknown = kFP16Eighth_6FD2D0;
                 }
@@ -689,13 +665,13 @@ void Particle_8::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
                     Sprite_18* pSprt18_2 = pSprt->field_8_car_bc_ptr->field_0_qq.GetSpriteForModel_5A6A50(248);
                     angle = pSprt18_2->field_0->field_0;
                     vector.SetXY_432860(Fix16(0), dword_6FD48C);
-                    vector.RotateByAngle_MixOOL_40F6B0(angle);
+                    vector.RotateByAngle_40F6B0(angle);
                     zero = Fix16(0);
                     unknown = dword_6FD4CC;
                 }
                 vector_2.SetXY_432860(zero, unknown);
                 pParticle->field_30_pNext->set_ang_lazy_420690(angle);
-                vector_2.RotateByAngle_MixOOL_40F6B0(pSprt->field_0);
+                vector_2.RotateByAngle_40F6B0(pSprt->field_0);
                 vector += vector_2.Add_40AC50(pSprt->get_x_y_443580());
                 pSprt->field_8_car_bc_ptr->field_58_physics->GetPointVelocity_561350(&vector); // not used?
                 pParticle->field_30_pNext->set_xyz_lazy_420600(vector.x, vector.y, zpos);
@@ -704,7 +680,7 @@ void Particle_8::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
             {
                 vector_2.x = -dword_6FD464;
                 vector_2.y = dword_6FD468 + dword_6FD2E8;
-                vector_2.RotateByAngle_MixOOL_40F6B0(pSprt->field_0);
+                vector_2.RotateByAngle_40F6B0(pSprt->field_0);
                 vector = vector_2.Add_40AC50(*(Fix16_Point*)&pSprt->field_8_char_b4_ptr->field_98_velocity_vector);
                 pParticle->field_30_pNext->set_ang_lazy_420690(pSprt->field_0);
                 pParticle->field_30_pNext->set_xyz_lazy_420600(pSprt->field_14_xy.x + vector.x, pSprt->field_14_xy.y + vector.y, zpos);

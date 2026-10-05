@@ -189,36 +189,28 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
     }
 
     point.SetXY_432860(-v12, -v13);
-    point.RotateByAngle_40F6B0_all_out_of_line(rotation);
+    point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[0].x = (point.x + x_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[0].y = (point.y + y_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[0].z = 0.000099999997f;
 
     point.SetXY_432860(v12, -v13);
-    // Only this point keeps the unary minus inline (inline budget): the original takes -x_old
-    // from the -v12 it already holds in a register instead of calling Negate_4086A0.
-    {
-        Fix16 sin = Ang16::sine_40F500(rotation);
-        Fix16 cos = Ang16::cosine_40F520(rotation);
-        Fix16 x_old = point.x;
-        point.x = point.x.Multiply_408680(cos).Add_408660(point.y.Multiply_408680(sin));
-        point.y = (-x_old).Multiply_408680(sin).Add_408660(point.y.Multiply_408680(cos));
-    }
+    point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[1].x = (point.x + x_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[1].y = (point.y + y_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[1].z = 0.000099999997f;
 
     point.SetXY_432860(v12, v13);
-    point.RotateByAngle_40F6B0_all_out_of_line(rotation);
+    point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[2].x = (point.x + x_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[2].y = (point.y + y_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[2].z = 0.000099999997f;
 
     point.SetXY_432860(-v12, v13);
-    point.RotateByAngle_40F6B0_all_out_of_line(rotation);
+    point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[3].x = (point.x + x_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[3].y = (point.y + y_pos).ToFloat();
@@ -296,7 +288,7 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
     // Raw negates: two fewer inline expansions keep the Fix16_Point ctor inline (inline budget)
     point.x.mValue = -v12.mValue;
     point.y.mValue = -v13.mValue;
-    point.RotateByAngle_40F6B0_all_out_of_line(rotation);
+    point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[0].x = (point.x + x_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[0].y = (point.y + y_pos).ToFloat();
@@ -306,7 +298,7 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
 
     point.x = v12;
     point.y = -v13;
-    point.RotateByAngle_40F6B0_all_out_of_line(rotation);
+    point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[1].x = (point.x + x_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[1].y = (point.y + y_pos).ToFloat();
@@ -316,7 +308,7 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
 
     point.x = v12;
     point.y = v13;
-    point.RotateByAngle_40F6B0_all_out_of_line(rotation);
+    point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[2].x = (point.x + x_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[2].y = (point.y + y_pos).ToFloat();
@@ -326,7 +318,7 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
 
     point.y = v13;
     point.x = -v12;
-    point.RotateByAngle_40F6B0_all_out_of_line(rotation);
+    point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[3].x = (point.x + x_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[3].y = (point.y + y_pos).ToFloat();

@@ -1872,8 +1872,8 @@ Fix16_Point Car_BC::GetHitchPoint_439FB0()
         point = kCabHitchOffset_677358;
     }
 
-    point.RotateByAngle_YOOL_40F6B0(field_50_car_sprite->field_0);
-    return point.Add_40AC50(field_50_car_sprite->get_x_y_443580());
+    point.RotateByAngle_40F6B0(field_50_car_sprite->field_0);
+    return point + field_50_car_sprite->get_x_y_443580();
 }
 
 MATCH_FUNC(0x43a0e0)
@@ -6947,12 +6947,12 @@ void Trailer::UpdateTrailerAlignment_407CE0()
     Fix16 trailer_theta = Ang16::Ang16_to_Fix16(pTrailerPhys->field_58_theta);
 
     rear = field_C_pCarOnTrailer->get_rear_wheel_offset_43A0E0();
-    rear.RotateByAngle_40F6B0_all_out_of_line(pTrailerPhys->field_58_theta);
+    rear.RotateByAngle_40F6B0(pTrailerPhys->field_58_theta);
     rear += pTrailerPhys->get_cp1_40B560();
 
     hitch = gTrailerHitchOffset_66AAC8;
     Fix16 cab_theta = Ang16::Ang16_to_Fix16(pCabPhys->field_58_theta);
-    hitch.RotateByAngle_40F6B0_all_out_of_line(Ang16::Fix16_To_Ang16_ool_40F540(cab_theta));
+    hitch.RotateByAngle_40F6B0(Ang16::Fix16_To_Ang16_ool_40F540(cab_theta));
     hitch += pCabPhys->get_cp1_40B560();
 
     // The trailer points along hitch - rear, kept within a window around the cab's angle
@@ -6971,7 +6971,7 @@ void Trailer::UpdateTrailerAlignment_407CE0()
     pTrailerPhys->field_58_theta = Ang16::Fix16_To_Ang16_ool_40F540(new_theta);
 
     offset = gTrailerCabOffset_66AAE0;
-    offset.RotateByAngle_40F6B0_all_out_of_line(Ang16::Fix16_To_Ang16_ool_40F540(new_theta));
+    offset.RotateByAngle_40F6B0(Ang16::Fix16_To_Ang16_ool_40F540(new_theta));
     field_C_pCarOnTrailer->field_58_physics->field_38_cp1 = hitch.Sub_40AC80(offset);
     pTrailerPhys->field_6C_cp3 = field_8_truck_cab->field_58_physics->field_6C_cp3;
     pTrailerPhys->UpdateCenterOfMassPoint_563350();
