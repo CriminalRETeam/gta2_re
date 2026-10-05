@@ -344,23 +344,22 @@ s32 NetPlay::DirectPlayCreate_51DED0()
     return 1;
 }
 
-// Callee-saved register pushes differ, see docs/match_attempts.md
-WIP_FUNC(0x51e030)
+// The guard's lstrlenA is the rotated entry test of the while loop. VC6 keeps bDone in lpData's
+// stack slot, and the flag test stays at the loop head because it is inside the loop
+MATCH_FUNC(0x51e030)
 BOOL NetPlay::EnumAddress_cb_51E030(const GUID& guidDataType, DWORD dwDataSize, LPCVOID lpData, LPVOID lpContext)
 {
-    WIP_IMPLEMENTED;
-
     LPCSTR pAddress = (LPCSTR)lpData;
-    // The original keeps its "done" flag in lpData's stack slot. A plain reference (not volatile)
-    // with a while (!bDone) loop gives the original's registers and pushes; the original tests
-    // the flag once before the loop and loops on lstrlenA only (see docs/match_attempts.md)
-    BOOL& bDone = *(BOOL*)&lpData;
-    bDone = FALSE;
-    if (guidDataType == DPAID_INet && dwDataSize && lstrlenA(pAddress))
+    BOOL bDone = FALSE;
+    if (guidDataType == DPAID_INet && dwDataSize)
     {
         NetPlay* pThis = (NetPlay*)lpContext;
-        while (!bDone)
+        while (lstrlenA(pAddress))
         {
+            if (bDone)
+            {
+                break;
+            }
             wchar_t* pWide = new wchar_t[lstrlenA(pAddress) + 1];
             MultiByteToWideChar(0, 0, pAddress, -1, pWide, 2 * lstrlenA(pAddress) + 2);
             pThis->PushConnection_51E0E0(pWide);
@@ -369,10 +368,6 @@ BOOL NetPlay::EnumAddress_cb_51E030(const GUID& guidDataType, DWORD dwDataSize, 
             if (!lstrlenA(pAddress))
             {
                 bDone = TRUE;
-            }
-            if (!lstrlenA(pAddress))
-            {
-                break;
             }
         }
     }
