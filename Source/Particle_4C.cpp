@@ -176,13 +176,16 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
     return false;
 }
 
-WIP_FUNC(0x5384c0)
+MATCH_FUNC(0x5384c0)
 char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
 {
+    Fix16 jitter_x;
     Fix16 off_x = kFP16Zero_6FD49C;
+    Fix16 jitter_y;
     Fix16 off_y = kFP16Zero_6FD49C;
     char_type bJitter = 1;
     Fix16_Point dir(Fix16(0), Fix16(0));
+    Fix16 sin;
 
     gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
     if (field_2C_counter == 0)
@@ -283,7 +286,7 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
     // 9.6f: Fix16_Point::RotateByAngle_40F6B0 (inlined). The original calls the out-of-line
     // Multiply_408680/Negate_4086A0/const operator+ copies for all but y * sin
     {
-        Fix16 sin = Ang16::sine_40F500(field_24_angle);
+        sin = Ang16::sine_40F500(field_24_angle);
         Fix16 cos = Ang16::cosine_40F520(field_24_angle);
         Fix16 old_x = dir.x;
         dir.x = (const Fix16&)dir.x.Multiply_408680(cos) + dir.y * sin;
@@ -292,8 +295,8 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
     field_14_additional_speed_x = dir.x;
     field_18_additional_speed_y = dir.y;
 
-    Fix16 jitter_x = 0;
-    Fix16 jitter_y = 0;
+    jitter_x = 0;
+    jitter_y = 0;
     if (bJitter)
     {
         Fix16 rx;
@@ -772,13 +775,13 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
             dir.y = dword_6FD304 * field_20_speed;
             break;
         case 4:
+            // dir.x is still 0 here. Left: the original also stores it in the tail it shares with case 5
             field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 100);
-            dir.x = 0;
             dir.y = dword_6FD308 * field_20_speed;
             break;
         case 5:
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 99);
             dir.x = 0;
+            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 99);
             dir.y = dword_6FD308 * field_20_speed;
             break;
         case 6:
