@@ -3174,10 +3174,9 @@ Fix16 CarPhysics_B0::CalculateFrontWheelForce_561E50()
     }
 }
 
-WIP_FUNC(0x5620d0)
+MATCH_FUNC(0x5620d0)
 Fix16 CarPhysics_B0::CalculateRearWheelForce_5620D0()
 {
-    WIP_IMPLEMENTED;
     Fix16_Point wheel_point(Fix16(0), gCarInfo_2C_6FE0E4->field_8_rear_wheel_offset);
     Fix16_Point v25;
     Fix16 v;
@@ -3187,7 +3186,8 @@ Fix16 CarPhysics_B0::CalculateRearWheelForce_5620D0()
         return kFP16Zero_6FE20C;
     }
 
-    Fix16 v5 = ComputeEngineTorque_561970() * gCarInfo_2C_6FE0E4->field_20_front_drive_bias;
+    Fix16& front_drive_bias = gCarInfo_2C_6FE0E4->field_20_front_drive_bias;
+    Fix16 v5 = ComputeEngineTorque_561970() * front_drive_bias;
 
     Fix16 v7;
     if (field_AD_turn_direction != car_turn_direction::none_0)
