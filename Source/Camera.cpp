@@ -109,12 +109,12 @@ bool Camera_0xBC::IsSpriteTheCameraSubject_4355D0(Sprite* pSprite)
     return false;
 }
 
-WIP_FUNC(0x435630)
+MATCH_FUNC(0x435630)
 char_type Camera_0xBC::IsSpriteInView_435630(Sprite* pSprite, s32 bUnknown)
 {
-    WIP_IMPLEMENTED;
-    // TODO: the original computes the numerator first (kept in esi) and spills the denominator
-    Fix16 v5 = (field_98_cam_pos2.field_8_z - pSprite->field_1C_zpos + dword_676840) / (field_98_cam_pos2.field_C_zoom * kTwo_676820);
+    Fix16 v5;
+    v5 = field_98_cam_pos2.field_8_z - pSprite->field_1C_zpos + dword_676840;
+    v5 = v5 / (field_98_cam_pos2.field_C_zoom * kTwo_676820);
 
     if (bUnknown == 1)
     {
@@ -124,12 +124,11 @@ char_type Camera_0xBC::IsSpriteInView_435630(Sprite* pSprite, s32 bUnknown)
     Fix16 v6 = (v5 * dword_6766F4);
 
     Fix16_Rect rect;
-    rect.field_10_low_z = pSprite->field_1C_zpos;
-    rect.field_14_high_z = pSprite->field_1C_zpos;
-    rect.field_8_top = field_98_cam_pos2.field_4_y - v6;
-    rect.field_C_bottom = field_98_cam_pos2.field_4_y + v6;
-    rect.field_0_left = field_98_cam_pos2.field_0_x - v5;
-    rect.field_4_right = field_98_cam_pos2.field_0_x + v5;
+    rect.SetHiLowZ_41E370(pSprite->field_1C_zpos, pSprite->field_1C_zpos);
+    rect.SetRect_41E350(field_98_cam_pos2.field_0_x - v5,
+                        field_98_cam_pos2.field_0_x + v5,
+                        field_98_cam_pos2.field_4_y - v6,
+                        field_98_cam_pos2.field_4_y + v6);
 
     Fix16_Rect* pBox = &pSprite->field_C_sprite_4c_ptr->field_30_boundingBox;
     if (rect.field_0_left.IntervalIntersectsRange_438FB0_inline(rect.field_4_right, pBox->field_0_left, pBox->field_4_right) &&
