@@ -725,6 +725,9 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                                     field_24_pPed->get_cam_z(),
                                     field_24_pPed->Get_F12E_4CCA90(),
                                     field_24_pPed->GetVelocityVector_45B520());
+                field_2_reload_speed = 5;
+                field_20 = 0;
+                Weapon_30::TickReloadSpeed_5DCF40();
             }
         }
         else
