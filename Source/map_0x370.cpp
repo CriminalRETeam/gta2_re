@@ -3249,12 +3249,11 @@ Fix16* Map_0x370::sub_4E5E00(Fix16* pOut, Fix16 x, Fix16 y, Ang16 angle)
 }
 
 // https://decomp.me/scratch/9rRLR
-WIP_FUNC(0x4E5E90)
+MATCH_FUNC(0x4E5E90)
 char_type Map_0x370::HasGreenArrowForPathDirection_4E5E90(gmp_block_info* pBlock, s32 direction, char_type a3)
 {
-    WIP_IMPLEMENTED;
-    // No default label (return a3 after the switch): 44 -> 40 structure. Left: the original
-    // cross-jumps case 4's false call into case 3's true call and case 1's false call into its tail.
+    // No default label (return a3 after the switch). Cases 2 and 4 are ternaries: that lets VC6
+    // cross-jump their calls into the neighbouring cases' calls like the original.
     switch (direction)
     {
         case 1:
@@ -3267,14 +3266,7 @@ char_type Map_0x370::HasGreenArrowForPathDirection_4E5E90(gmp_block_info* pBlock
                 return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, green_1, DOWN_2);
             }
         case 2:
-            if (a3)
-            {
-                return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, green_1, DOWN_2);
-            }
-            else
-            {
-                return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, green_1, UP_1);
-            }
+            return a3 ? gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, green_1, DOWN_2) : gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, green_1, UP_1);
         case 3:
             if (a3)
             {
@@ -3285,14 +3277,7 @@ char_type Map_0x370::HasGreenArrowForPathDirection_4E5E90(gmp_block_info* pBlock
                 return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, green_1, LEFT_3);
             }
         case 4:
-            if (a3)
-            {
-                return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, green_1, LEFT_3);
-            }
-            else
-            {
-                return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, green_1, RIGHT_4);
-            }
+            return a3 ? gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, green_1, LEFT_3) : gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, green_1, RIGHT_4);
     }
     return a3;
 }
