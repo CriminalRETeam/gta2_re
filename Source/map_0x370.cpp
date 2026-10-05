@@ -3734,6 +3734,18 @@ done:
     return direction;
 }
 
+// The neighbour arrow check of sub_4E7190: the original's `cmp; je; xor; test; jne` (the zero not
+// folded into the following test) comes from an inline returning the direction. Its budget is paid
+// for by the neighbour z offsets skipping ToInt().
+static inline s32 KeepDir(s32 d, s32 want)
+{
+    if (d != want)
+    {
+        d = 0;
+    }
+    return d;
+}
+
 WIP_FUNC(0x4E7190)
 s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
 {
@@ -3899,18 +3911,16 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
                 case road_direction::down_2:
                     pBlock = gMap_0x370_6F6268->get_block_4DFE10((last_x + kFpOne_6F6110).ToInt(),
                                                                  last_y.ToInt(),
-                                                                 (last_z - kFpOne_6F6110).ToInt());
+                                                                 ((last_z - kFpOne_6F6110).mValue >> 14));
                     if (pBlock)
                     {
-                        new_direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
-                        if (new_direction != road_direction::right_3)
-                            new_direction = 0;
+                        new_direction = KeepDir(GetArrowDirectionFromBlock_4E5FC0(pBlock, 0), road_direction::right_3);
                     }
                     if (!new_direction)
                     {
                         pBlock = gMap_0x370_6F6268->get_block_4DFE10((last_x - kFpOne_6F6110).ToInt(),
                                                                      last_y.ToInt(),
-                                                                     (last_z - kFpOne_6F6110).ToInt());
+                                                                     ((last_z - kFpOne_6F6110).mValue >> 14));
                         new_direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
                     }
                     break;
@@ -3918,18 +3928,16 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
                 case road_direction::left_4:
                     pBlock = gMap_0x370_6F6268->get_block_4DFE10(last_x.ToInt(),
                                                                  (last_y + kFpOne_6F6110).ToInt(),
-                                                                 (last_z - kFpOne_6F6110).ToInt());
+                                                                 ((last_z - kFpOne_6F6110).mValue >> 14));
                     if (pBlock)
                     {
-                        new_direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
-                        if (new_direction != road_direction::down_2)
-                            new_direction = 0;
+                        new_direction = KeepDir(GetArrowDirectionFromBlock_4E5FC0(pBlock, 0), road_direction::down_2);
                     }
                     if (!new_direction)
                     {
                         pBlock = gMap_0x370_6F6268->get_block_4DFE10(last_x.ToInt(),
                                                                      (last_y - kFpOne_6F6110).ToInt(),
-                                                                     (last_z - kFpOne_6F6110).ToInt());
+                                                                     ((last_z - kFpOne_6F6110).mValue >> 14));
                         new_direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
                     }
                     break;
