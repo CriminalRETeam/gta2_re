@@ -2596,14 +2596,10 @@ void Object_2C::HandleImpactNoSprite_528BA0()
     }
 }
 
-WIP_FUNC(0x528e50)
+MATCH_FUNC(0x528e50)
 void Object_2C::HandleImpact_528E50(Sprite* pSprite)
 {
-    WIP_IMPLEMENTED;
-
-    // Cases in the original's layout order. Remaining diff: VC6 merges case 1/2 into the shared
-    // "if (!done) return; PoolGive" tail and places that tail after case 4/5; the original keeps
-    // case 1/2 separate and the tail after case 7/8 (a goto from 3 and 4/5 gave the same code).
+    // Case order decides VC6's block layout and tail merging; case 11 has to come before case 3.
     if (!this->field_24_bDoneThisFrame && (!pSprite || ShouldCollideWith_5223C0(pSprite)))
     {
         this->field_24_bDoneThisFrame = 1;
@@ -2642,6 +2638,10 @@ void Object_2C::HandleImpact_528E50(Sprite* pSprite)
 
             case 9:
                 this->field_24_bDoneThisFrame = OnObjectTouched_5288B0(pSprite);
+                break;
+
+            case 11:
+                this->field_24_bDoneThisFrame = 0;
                 break;
 
             case 3:
@@ -2692,10 +2692,6 @@ void Object_2C::HandleImpact_528E50(Sprite* pSprite)
                 {
                     this->field_24_bDoneThisFrame = 0;
                 }
-                break;
-
-            case 11:
-                this->field_24_bDoneThisFrame = 0;
                 break;
 
             default:
