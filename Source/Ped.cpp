@@ -5259,13 +5259,6 @@ static inline void PolarToCartesianMulInlSin_4645B0(Ang16& angle, Fix16& radius,
     y = Ang16::cosine_40F520(angle).Multiply_408680(radius);
 }
 
-// Ang16::operator+= with Normalize called out of line
-static inline void AddAssignAng16_ool_4645B0(Ang16& a, const Ang16& b)
-{
-    a.rValue += b.rValue;
-    a.Normalize_406C20();
-}
-
 // Ang16::operator+ with the normalizing ctor called out of line (AssignNormalized_409300)
 static inline Ang16 AddAng16_ool_4645B0(const Ang16& a, const Ang16& b)
 {
@@ -5286,7 +5279,7 @@ void Ped::sub_4645B0()
 
     if (field_14C_internal_target_ped->GetPedVelocity_45C920() > kFpZero_678660)
     {
-        angle = Ang16(kAng180_6785A6.rValue + field_14C_internal_target_ped->field_168_game_object->field_40_rotation.rValue).Normalized_406C20();
+        angle = kAng180_6785A6 + field_14C_internal_target_ped->field_168_game_object->field_40_rotation;
         radius = kFpThreeEighths_67878C;
     }
     else
@@ -5310,10 +5303,10 @@ void Ped::sub_4645B0()
         switch (field_23C_group_idx)
         {
             case 0:
-                AddAssignAng16_ool_4645B0(angle, kAng90_678502);
+                angle += kAng90_678502;
                 if (bUnk)
                 {
-                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
+                    angle += kAng180_6785A6;
                     radius = kFpThreeQuarters_678794;
                 }
                 PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
@@ -5321,10 +5314,10 @@ void Ped::sub_4645B0()
                 field_1C8_y += vec_y;
                 break;
             case 1:
-                AddAssignAng16_ool_4645B0(angle, kAng270_6785D0);
+                angle += kAng270_6785D0;
                 if (bUnk)
                 {
-                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
+                    angle += kAng180_6785A6;
                     radius = kFpThreeQuarters_678794;
                 }
                 PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
@@ -5335,7 +5328,7 @@ void Ped::sub_4645B0()
                 angle = AddAng16_ool_4645B0(kAng180_6785A6, angle);
                 if (bUnk)
                 {
-                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
+                    angle += kAng180_6785A6;
                     radius = kFpThreeQuarters_678794;
                 }
                 PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
@@ -5347,7 +5340,7 @@ void Ped::sub_4645B0()
                 PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
                 if (bUnk)
                 {
-                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
+                    angle += kAng180_6785A6;
                     radius = kFpThreeQuarters_678794;
                 }
                 field_1C4_x += vec_x;
@@ -5355,10 +5348,10 @@ void Ped::sub_4645B0()
                 break;
 
             case 4:
-                AddAssignAng16_ool_4645B0(angle, kAng225_6786B8);
+                angle += kAng225_6786B8;
                 if (bUnk)
                 {
-                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
+                    angle += kAng180_6785A6;
                     radius = kFpThreeQuarters_678794;
                 }
                 else
@@ -5371,10 +5364,10 @@ void Ped::sub_4645B0()
                 break;
 
             case 5:
-                AddAssignAng16_ool_4645B0(angle, kAng45_6784E2);
+                angle += kAng45_6784E2;
                 if (bUnk)
                 {
-                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
+                    angle += kAng180_6785A6;
                     radius = kFpThreeQuarters_678794;
                 }
                 else
@@ -5387,10 +5380,10 @@ void Ped::sub_4645B0()
                 break;
 
             case 6:
-                AddAssignAng16_ool_4645B0(angle, kAng315_6785A8);
+                angle += kAng315_6785A8;
                 if (bUnk)
                 {
-                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
+                    angle += kAng180_6785A6;
                     radius = kFpThreeQuarters_678794;
                 }
                 else
@@ -5403,10 +5396,10 @@ void Ped::sub_4645B0()
                 break;
 
             case 7:
-                AddAssignAng16_ool_4645B0(angle, kAng135_67844C);
+                angle += kAng135_67844C;
                 if (bUnk)
                 {
-                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
+                    angle += kAng180_6785A6;
                     radius = kFpThreeQuarters_678794;
                 }
                 else
@@ -5419,10 +5412,10 @@ void Ped::sub_4645B0()
                 break;
 
             default:
-                angle = angle.AddNormalized(kAng225_6786B8);
+                angle += kAng225_6786B8;
                 if (bUnk)
                 {
-                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
+                    angle += kAng180_6785A6;
                     radius = kFpThreeQuarters_678794;
                 }
                 else
@@ -5449,8 +5442,6 @@ void Ped::sub_4645B0()
                 angle += kAng45_6784FC;
                 break;
             case 2:
-                break;
-                angle -= kAng45_6784FC;
                 break;
             case 6:
                 angle -= kAng45_6784FC;

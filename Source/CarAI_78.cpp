@@ -1641,9 +1641,9 @@ void CarAI_78::sub_44A1F0()
 
                         if (v12 <= dword_6779C8) // 9.6f idb line 131
                         {
-                            if (v3 > Ang16(v39.rValue - dword_677A08.rValue).Normalized_406C20()) // 9.6f idb line 134
+                            if (v3 > (v39 - dword_677A08)) // 9.6f idb line 134
                             {
-                                if (v3 < Ang16(v2.rValue - word_677CE2.rValue).Normalized_406C20())
+                                if (v3 < (v2 - word_677CE2))
                                 {
                                     field_0_car->field_58_physics->SetGoStraight_42ABB0();
                                 }
@@ -1658,9 +1658,9 @@ void CarAI_78::sub_44A1F0()
                             }
                         }
                         // 9.6f idb line 139
-                        else if (v3 < Ang16(dword_677A08.rValue + v39.rValue).Normalized_406C20())
+                        else if (v3 < (dword_677A08 + v39))
                         {
-                            if (v3 > Ang16(v2.rValue + word_677CE2.rValue).Normalized_406C20())
+                            if (v3 > (v2 + word_677CE2))
                             {
                                 field_0_car->field_58_physics->SetGoStraight_42ABB0();
                             }
@@ -4402,8 +4402,7 @@ void CarAI_78::sub_452060()
         Fix16 v86 = (Fix16(word_677A3A.rValue) * Fix16(this->field_0_car->field_58_physics->field_AD_turn_direction));
         Ang16 v83(&v86, 0);
 
-        Ang16 v82(this->field_10_angle.rValue + v83.rValue);
-        v82.Normalize_406C20();
+        Ang16 v82 = this->field_10_angle + v83;
 
         // The table read directly (not the sine_40F500 copy) keeps the sine in eax as the imul's left operand
         v9 = gSin_table_667A80[v82.rValue] * gF16fOne_677B94;
@@ -4702,25 +4701,6 @@ void CarAI_78::sub_452060()
     }
 }
 
-// RotateAndTranslatePoint_42A720 with the out-of-line Fix16 operator copies (as in
-// Char_B4::HandleGenericCollision_54A530): only the first subtraction stays inline
-static inline void __stdcall RotateAndTranslatePoint_OOL_452A20(Fix16& pInX,
-                                                      Fix16& pInY,
-                                                      Ang16& pRotAng,
-                                                      Fix16& pTransX,
-                                                      Fix16& pTransY,
-                                                      Fix16& pRotTransX,
-                                                      Fix16& pRotTransY)
-{
-    pRotTransX = pInX.Subtract_436A00(pTransX)
-                     .Multiply_408680(Ang16::cosine_40F520(pRotAng))
-                     .Add_408660((pInY - pTransY).Multiply_408680(Ang16::sine_40F500(pRotAng)));
-    pRotTransY = pInX.Subtract_436A00(pTransX)
-                     .Negate_4086A0()
-                     .Multiply_408680(Ang16::sine_40F500(pRotAng))
-                     .Add_408660(pInY.Subtract_436A00(pTransY).Multiply_408680(Ang16::cosine_40F520(pRotAng)));
-}
-
 // https://decomp.me/scratch/zCa7m
 MATCH_FUNC(0x452a20)
 void CarAI_78::ManageCollisions_452A20()
@@ -4747,9 +4727,8 @@ void CarAI_78::ManageCollisions_452A20()
             {
                 if (field_0_car->field_60->field_10)
                 {
-                    // FromPolar_41E210 past the inline budget: the second multiply is out of line
-                    v45.x = kF16Zero_677B90 * Ang16::sine_40F500(kAng0_677CE8);
-                    v45.y = kF16Zero_677B90.Multiply_408680(Ang16::cosine_40F520(kAng0_677CE8));
+                    // Past the inline budget: the second multiply is out of line
+                    v45.FromPolar_41E210(kF16Zero_677B90, kAng0_677CE8);
                     if (gCurrCarAI_TargetCar_6779B0)
                     {
                         if (gCurrCarAI_TargetCar_6779B0 == field_68_car_in_collision)
@@ -4780,14 +4759,14 @@ void CarAI_78::ManageCollisions_452A20()
 
         Fix16 rotX;
         Fix16 rotY;
-        // The negated angle is normalised by the out-of-line Normalize_406C20
-        RotateAndTranslatePoint_OOL_452A20(field_68_car_in_collision->field_50_car_sprite->field_14_xy.x,
-                                           field_68_car_in_collision->field_50_car_sprite->field_14_xy.y,
-                                           Ang16(-field_10_angle.rValue).Normalized_406C20(),
-                                           gCurrCarAI_xpos_677C38,
-                                           gCurrCarAI_ypos_677C30,
-                                           rotX,
-                                           rotY);
+        // Past the inline budget: Normalize and all but the first Fix16 operator go out of line
+        RotateAndTranslatePoint_42A720(field_68_car_in_collision->field_50_car_sprite->field_14_xy.x,
+                                       field_68_car_in_collision->field_50_car_sprite->field_14_xy.y,
+                                       -field_10_angle,
+                                       gCurrCarAI_xpos_677C38,
+                                       gCurrCarAI_ypos_677C30,
+                                       rotX,
+                                       rotY);
 
         // rotX is reused for the sum (a separate local moves it to the stack)
         rotX = rotX + field_0_car->field_50_car_sprite->field_14_xy.x;
@@ -5311,9 +5290,7 @@ void CarAI_78::SetCar_453BF0(Car_BC* a2)
 // their stack slot (as in the original)
 static inline bool IsMovingBackwards_453C00(CarPhysics_B0* pPhysics)
 {
-    Ang16 tanAng(pPhysics->field_40_linvel_1.atan2_40F790());
-    Ang16 v6(tanAng.rValue - pPhysics->field_58_theta.rValue);
-    v6.Normalize_406C20();
+    Ang16 v6 = pPhysics->field_40_linvel_1.atan2_40F790() - pPhysics->field_58_theta;
     return v6 <= kAng90_6779E4 || v6 >= kAng270_677B08;
 }
 

@@ -982,13 +982,11 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
             while (pHit)
             {
                 // The original has the angle check twice (two copies of the code). 9.6f writes
-                // `Ang16 diff = atan2 - angle` (0x40E5D0, whose ctor 0x401C60 normalizes); 10.5 does a
-                // 16-bit subtract and calls Normalize_406C20 out of line, so it's written out here.
+                // `Ang16 diff = atan2 - angle` (0x40E5D0, whose ctor 0x401C60 normalizes); in 10.5 the
+                // operator and its ctor are inlined and Normalize goes out of line.
                 if (!pHit->AsCharB4_40FEA0())
                 {
-                    s16 d16 = Fix16::atan2_fixed_405320(pHit->field_14_xy.y - ypos, pHit->field_14_xy.x - xpos).rValue - angle.rValue;
-                    Ang16 diff(d16);
-                    diff.Normalize_406C20();
+                    Ang16 diff = Fix16::atan2_fixed_405320(pHit->field_14_xy.y - ypos, pHit->field_14_xy.x - xpos) - angle;
                     bool bOutsideArc = diff < word_706D6C || diff > word_706E28;
                     if (bOutsideArc)
                     {
@@ -1007,9 +1005,7 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
                     {
                         break;
                     }
-                    s16 d16 = Fix16::atan2_fixed_405320(pHit->field_14_xy.y - ypos, pHit->field_14_xy.x - xpos).rValue - angle.rValue;
-                    Ang16 diff(d16);
-                    diff.Normalize_406C20();
+                    Ang16 diff = Fix16::atan2_fixed_405320(pHit->field_14_xy.y - ypos, pHit->field_14_xy.x - xpos) - angle;
                     if (diff < word_706D6C || diff > word_706E28)
                     {
                         hits.ClearList_5A6E10();
@@ -1036,9 +1032,7 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
                 char_type bOutside;
                 if (a3)
                 {
-                    s16 d16 = Fix16::atan2_fixed_405320(pHit->field_14_xy.y - ypos, pHit->field_14_xy.x - xpos).rValue - angle.rValue;
-                    Ang16 diff(d16);
-                    diff.Normalize_406C20();
+                    Ang16 diff = Fix16::atan2_fixed_405320(pHit->field_14_xy.y - ypos, pHit->field_14_xy.x - xpos) - angle;
                     bOutside = diff < word_706D6C || diff > word_706E28;
                 }
                 else
@@ -1369,13 +1363,6 @@ DEFINE_GLOBAL_INIT(Ang16, word_706DFA, Ang16(720), 0x706DFA);
 DEFINE_GLOBAL_INIT(Fix16, dword_706CDC, Fix16(0xE00, 0), 0x706CDC);
 DEFINE_GLOBAL_INIT(Fix16, dword_706CD8, Fix16(0x800, 0), 0x706CD8);
 
-// Ang16::operator+ with the normalizing ctor called out of line (AssignNormalized_409300)
-static inline Ang16 AddAng16_ool(const Ang16& a, const Ang16& b)
-{
-    s16 value = a.rValue + b.rValue;
-    return Ang16(&value, 0);
-}
-
 MATCH_FUNC(0x5e0b10)
 void Weapon_30::fire_truck_flamethrower_5E0B10()
 {
@@ -1391,7 +1378,7 @@ void Weapon_30::fire_truck_flamethrower_5E0B10()
     pTurret = field_14_car->field_0_qq.GetSpriteForModel_5A6A50(114);
     if (pTurret)
     {
-        gun_ang = AddAng16_ool(pTurret->field_0->field_0, word_706DFA);
+        gun_ang = pTurret->field_0->field_0 + word_706DFA;
 
         bullet_pos.SetXY_432860(Fix16(0), dword_706CDC);
         bullet_pos.RotateByAngle_40F6B0(gun_ang);
@@ -1433,12 +1420,11 @@ void Weapon_30::fire_truck_gun_5E0E70()
 
     field_24_pPed = field_14_car->field_54_driver;
 
-    // Ang16 operator+ with Normalize out of line. The plain operator+ gets the start right but
+    // operator+= (its Normalize goes out of line). The plain operator+ gets the start right but
     // moves the registers of the rotations.
     Sprite_18* pTurret = field_14_car->field_0_qq.GetSpriteForModel_5A6A50(114);
     Ang16 gun_ang = pTurret->field_0->field_0;
-    gun_ang.rValue += word_706DFA.rValue;
-    gun_ang.Normalize_406C20();
+    gun_ang += word_706DFA;
 
     bullet_pos.SetXY_432860(Fix16(0), dword_706CDC);
     bullet_pos.RotateByAngle_OOL_40F6B0(gun_ang);

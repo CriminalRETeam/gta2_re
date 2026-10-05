@@ -454,7 +454,7 @@ void Particle_8::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type bUnkn
 
             Fix16 v16;
             Fix16 v17;
-            PolarToCartesian_OutOfLineCos(Ang16((s32)(pSprite->field_0.rValue - kAng90_6FD314.rValue)).Normalized_406C20(), dword_6FD468, v16, v17);
+            PolarToCartesian_OutOfLineCos(pSprite->field_0 - kAng90_6FD314, dword_6FD468, v16, v17);
 
             stru_6FD388 += v16 + pSprite->field_14_xy.x;
             stru_6FD38C += v17 + pSprite->field_14_xy.y;
