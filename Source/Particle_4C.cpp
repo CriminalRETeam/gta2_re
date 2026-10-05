@@ -1394,26 +1394,14 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
         return true;
     }
 
-    Fix16 xpos = stru_6FD388 = field_30_pNext->field_14_xy.x;
+    Fix16 start_x = field_30_pNext->field_14_xy.x;
+    Fix16 xpos = stru_6FD388 = start_x;
     Fix16 ypos = stru_6FD38C = field_30_pNext->field_14_xy.y;
     Fix16 zpos = field_30_pNext->field_1C_zpos;
 
     Sprite* pTarget = field_28_pSprite;
     switch (pTarget->field_30_sprite_type_enum)
     {
-        case sprite_types_enum::ped_3:
-            pB4 = pTarget->field_8_char_b4_ptr;
-            if (!pB4 || !pB4->field_7C_pPed || !pB4->field_7C_pPed->field_21C_bf.b0)
-            {
-                return true;
-            }
-            if (!pB4->field_7C_pPed->field_21C_bf.b11)
-            {
-                field_4_flags &= ~1;
-            }
-            angle = pTarget->field_0;
-            break;
-
         case sprite_types_enum::car_2:
             pCar = pTarget->field_8_car_bc_ptr;
             if (!pCar || !pCar->field_54_driver)
@@ -1432,6 +1420,19 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
 
         default:
             return true;
+
+        case sprite_types_enum::ped_3:
+            pB4 = pTarget->field_8_char_b4_ptr;
+            if (!pB4 || !pB4->field_7C_pPed || !pB4->field_7C_pPed->check_bit_0())
+            {
+                return true;
+            }
+            if (!pB4->field_7C_pPed->field_21C_bf.b11)
+            {
+                field_4_flags &= ~1;
+            }
+            angle = pTarget->field_0;
+            break;
     }
 
     if (field_48_timer > 0)
@@ -1460,23 +1461,11 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
     }
     else
     {
-        Fix16_Point attach;
-        Fix16_Point offset;
         Ang16 car_angle;
+        Fix16_Point offset;
         Sprite_18* pGun = pCar->field_0_qq.GetSpriteForModel_5A6A50(114);
-        if (pGun)
-        {
-            Ang16 gun_angle = pGun->field_0->field_0;
-            gun_angle += kAng180_6FD3EE.rValue;
-            gun_angle.Normalize_406C20();
-            car_angle = gun_angle;
-            attach.x = 0;
-            attach.y = dword_6FD2D4;
-            attach.RotateByAngle_OneMulInline_40F6B0(car_angle);
-            offset.x = 0;
-            offset.y = kFP16Eighth_6FD2D0;
-        }
-        else
+        Fix16_Point attach;
+        if (!pGun)
         {
             car_angle = pCar->field_0_qq.GetSpriteForModel_5A6A50(248)->field_0->field_0;
             attach.x = 0;
@@ -1484,6 +1473,20 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
             attach.RotateByAngle_OneMulInline_40F6B0(car_angle);
             offset.x = 0;
             offset.y = dword_6FD4CC;
+        }
+        else
+        {
+            {
+                Ang16 gun_angle = pGun->field_0->field_0;
+                gun_angle += kAng180_6FD3EE.rValue;
+                gun_angle.Normalize_406C20();
+                car_angle = gun_angle;
+            }
+            attach.y = dword_6FD2D4;
+            attach.x = 0;
+            attach.RotateByAngle_OneMulInline_40F6B0(car_angle);
+            offset.x = 0;
+            offset.y = kFP16Eighth_6FD2D0;
         }
         offset.RotateByAngle_OneMulInline_40F6B0(pCar->field_50_car_sprite->field_0);
         attach += offset.Add_40AC50(pCar->field_50_car_sprite->get_x_y_443580());
@@ -1494,8 +1497,8 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
     GetLength_OOL_6FD49C(vel);
 
     u8 max_sub_state = 12;
-    Fix16 dx;
     Fix16 dy;
+    Fix16 dx;
     if ((field_4_flags & 1) && field_46_sub_state <= max_sub_state)
     {
         Ang16 dir(spread.rValue + angle.rValue);
@@ -1506,12 +1509,12 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
     {
         PolarToXY_6FD2E8(field_30_pNext->field_0, dx, dy);
     }
-    stru_6FD388 = stru_6FD388 + (vel.x + dx);
     stru_6FD38C = stru_6FD38C + (vel.y + dy);
+    stru_6FD388 = stru_6FD388 + (vel.x + dx);
 
     if (field_38_state == 31)
     {
-        field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 73);
+        field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 73);
         max_sub_state = 14;
     }
     else
@@ -1572,7 +1575,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
                 {
                     gParticle_8_6FD5E8->field_4->HandleObjectHit_528990(pHit);
                 }
-                if (pHit->field_30_sprite_type_enum == sprite_types_enum::ped_3)
+                if (pHit->get_type_416B40() == sprite_types_enum::ped_3)
                 {
                     pHit->field_8_char_b4_ptr->HandleGenericImpact_553E00(angle, dword_6FD46C + dword_6FD2E8, kFP16Zero_6FD49C, 0);
                     Ped* pHitPed = pHit->field_8_char_b4_ptr->field_7C_pPed;
