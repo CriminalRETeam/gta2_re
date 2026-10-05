@@ -191,26 +191,23 @@ void Wolfy_7A8::sub_543690()
     this->field_0[smallestVal_idx].field_1A_timer = 0;
 }
 
-WIP_FUNC(0x543800)
+MATCH_FUNC(0x543800)
 Wolfy_30* Wolfy_7A8::New_40_543800()
 {
-    WIP_IMPLEMENTED;
-
-    // 9.6f has the init block twice, 10.5 merges both into one block
-    Wolfy_30* pNew;
+    // 9.6f has the init block twice, 10.5 merges both into one block. Indexing field_0 at each
+    // use (no pNew local) gives both copies the same registers, so they merge completely.
     u8 idx;
     for (idx = 0; idx < 20; idx++)
     {
         if (!this->field_780_bUsed[idx])
         {
-            pNew = &this->field_0[idx];
-            pNew->Init_543650();
-            pNew->field_4_idx = idx;
-            pNew->field_6_id = gWolfyId_40_pool_623F18;
-            pNew->field_0_bIn20Pool = 0;
+            this->field_0[idx].Init_543650();
+            this->field_0[idx].field_4_idx = idx;
+            this->field_0[idx].field_6_id = gWolfyId_40_pool_623F18;
+            this->field_0[idx].field_0_bIn20Pool = 0;
             gWolfyId_40_pool_623F18++;
             this->field_780_bUsed[idx] = 1;
-            return pNew;
+            return &this->field_0[idx];
         }
     }
 
@@ -220,14 +217,13 @@ Wolfy_30* Wolfy_7A8::New_40_543800()
     {
         if (!this->field_780_bUsed[idx])
         {
-            pNew = &this->field_0[idx];
-            pNew->Init_543650();
-            pNew->field_4_idx = idx;
-            pNew->field_6_id = gWolfyId_40_pool_623F18;
-            pNew->field_0_bIn20Pool = 0;
+            this->field_0[idx].Init_543650();
+            this->field_0[idx].field_4_idx = idx;
+            this->field_0[idx].field_6_id = gWolfyId_40_pool_623F18;
+            this->field_0[idx].field_0_bIn20Pool = 0;
             gWolfyId_40_pool_623F18++;
             this->field_780_bUsed[idx] = 1;
-            return pNew;
+            return &this->field_0[idx];
         }
     }
     return 0;
@@ -279,25 +275,25 @@ Wolfy_30::~Wolfy_30()
     field_1C = 0;
 }
 
-WIP_FUNC(0x540d30)
+MATCH_FUNC(0x540d30)
 void Wolfy_30::state_3_12_540D30(Ang16 ang, Fix16 pos)
 {
-    WIP_IMPLEMENTED;
-
     // Fix16_Point (has a destructor): the original sets an EH state for it. Zero-constructed
     // then assigned as in 9.6f: the pos stores are scheduled after the angle add.
     Fix16_Point point(Fix16(0), Fix16(0));
     point.x = pos;
     point.y = pos;
-    // The ctor directly: ang + kAng180_6FD3EE (operator+) leaves Normalize out of line
-    Ang16 new_ang(ang.rValue + kAng180_6FD3EE.rValue, 0);
+    // See state_4_540F90
+    Ang16 new_ang = ang.AddNormalized(kAng180_6FD3EE);
 
-    Fix16 sin_v = gSin_table_667A80[new_ang.rValue];
-    Fix16 cos_v = gCos_table_669260[new_ang.rValue];
+    {
+        Fix16 sin_v = gSin_table_667A80[new_ang.rValue];
+        Fix16 cos_v = gCos_table_669260[new_ang.rValue];
 
-    Fix16 x_old = point.x;
-    point.x = (const Fix16&)point.x.Multiply_408680(cos_v) + (point.y * sin_v);
-    point.y = (const Fix16&)(-x_old).Multiply_408680(sin_v) + point.y.Multiply_408680(cos_v);
+        Fix16 x_old = point.x;
+        point.x = (const Fix16&)point.x.Multiply_408680(cos_v) + (point.y * sin_v);
+        point.y = (const Fix16&)(-x_old).Multiply_408680(sin_v) + point.y.Multiply_408680(cos_v);
+    }
 
     this->field_8_speed = pos;
     this->field_C_angle = ang;
@@ -335,25 +331,27 @@ void Wolfy_30::state_3_12_540D30(Ang16 ang, Fix16 pos)
 
 
 // 9.6f 0x48E5F0
-WIP_FUNC(0x540f90)
+MATCH_FUNC(0x540f90)
 void Wolfy_30::state_4_540F90(Ang16 ang, Fix16 pos)
 {
-    WIP_IMPLEMENTED;
-
     // Fix16_Point (has a destructor): the original sets an EH state for it. Zero-constructed
     // then assigned as in 9.6f: the pos stores are scheduled after the angle add.
     Fix16_Point point(Fix16(0), Fix16(0));
     point.x = pos;
     point.y = pos;
-    // The ctor directly: ang + kAng180_6FD3EE (operator+) leaves Normalize out of line
-    Ang16 new_ang(ang.rValue + kAng180_6FD3EE.rValue, 0);
+    // AddNormalized: operator+ leaves Normalize out of line, the ctor directly loads ang as a word
+    Ang16 new_ang = ang.AddNormalized(kAng180_6FD3EE);
 
-    Fix16 sin_v = gSin_table_667A80[new_ang.rValue];
-    Fix16 cos_v = gCos_table_669260[new_ang.rValue];
+    // The inlined RotateByAngle_40F6B0 (first multiply inline, then out of line copies). Its
+    // block scope frees the stack slots the original reuses for the later temporaries.
+    {
+        Fix16 sin_v = gSin_table_667A80[new_ang.rValue];
+        Fix16 cos_v = gCos_table_669260[new_ang.rValue];
 
-    Fix16 x_old = point.x;
-    point.x = (const Fix16&)point.x.Multiply_408680(cos_v) + (point.y * sin_v);
-    point.y = (const Fix16&)(-x_old).Multiply_408680(sin_v) + point.y.Multiply_408680(cos_v);
+        Fix16 x_old = point.x;
+        point.x = (const Fix16&)point.x.Multiply_408680(cos_v) + (point.y * sin_v);
+        point.y = (const Fix16&)(-x_old).Multiply_408680(sin_v) + point.y.Multiply_408680(cos_v);
+    }
 
     this->field_8_speed = pos;
     this->field_C_angle = ang;
@@ -389,25 +387,25 @@ void Wolfy_30::state_4_540F90(Ang16 ang, Fix16 pos)
     }
 }
 
-WIP_FUNC(0x5411e0)
+MATCH_FUNC(0x5411e0)
 void Wolfy_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
 {
-    WIP_IMPLEMENTED;
-
     // Fix16_Point (has a destructor): the original sets an EH state for it. Zero-constructed
     // then assigned as in 9.6f: the pos stores are scheduled after the angle add.
     Fix16_Point point(Fix16(0), Fix16(0));
     point.x = pos;
     point.y = pos;
-    // The ctor directly: ang + kAng180_6FD3EE (operator+) leaves Normalize out of line
-    Ang16 new_ang(ang.rValue + kAng180_6FD3EE.rValue, 0);
+    // See state_4_540F90
+    Ang16 new_ang = ang.AddNormalized(kAng180_6FD3EE);
 
-    Fix16 sin_v = gSin_table_667A80[new_ang.rValue];
-    Fix16 cos_v = gCos_table_669260[new_ang.rValue];
+    {
+        Fix16 sin_v = gSin_table_667A80[new_ang.rValue];
+        Fix16 cos_v = gCos_table_669260[new_ang.rValue];
 
-    Fix16 x_old = point.x;
-    point.x = (const Fix16&)point.x.Multiply_408680(cos_v) + (point.y * sin_v);
-    point.y = (const Fix16&)(-x_old).Multiply_408680(sin_v) + point.y.Multiply_408680(cos_v);
+        Fix16 x_old = point.x;
+        point.x = (const Fix16&)point.x.Multiply_408680(cos_v) + (point.y * sin_v);
+        point.y = (const Fix16&)(-x_old).Multiply_408680(sin_v) + point.y.Multiply_408680(cos_v);
+    }
 
     this->field_8_speed = pos;
     this->field_C_angle = ang;
