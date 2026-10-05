@@ -6014,7 +6014,7 @@ void Char_B4::state_8_5520A0()
                                                                                                field_84_target_car->field_50_car_sprite->field_0,
                                                                                                field_80_sprite_ptr->field_0,
                                                                                                field_84_target_car->field_58_physics->vec_len_552DE0(),
-                                                                                               -k_dword_6FD868,
+                                                                                               k_dword_6FD868.Negate_4086A0(),
                                                                                                0);
                     }
                     else
@@ -6026,7 +6026,7 @@ void Char_B4::state_8_5520A0()
                                                                                                field_84_target_car->field_50_car_sprite->field_0,
                                                                                                field_80_sprite_ptr->field_0,
                                                                                                dword_6FD87C,
-                                                                                               -k_dword_6FD868,
+                                                                                               k_dword_6FD868.Negate_4086A0(),
                                                                                                0);
                     }
 
