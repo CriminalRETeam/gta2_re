@@ -1454,28 +1454,29 @@ EXPORT void __stdcall SpawnCabAndTrailerHelper_408370(
 }
 
 // 9.6f 0x428EC0
-WIP_FUNC(0x446530)
+MATCH_FUNC(0x446530)
 Trailer* Car_6C::SpawnCabAndTrailer_446530(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_model, s32 trailer_model)
 {
-    WIP_IMPLEMENTED;
-    
     Ang16 out_rot;
 
     Car_BC* pCab = SpawnCarAtCorrectZ_426E40(xpos, ypos, rotation, car_model);
 
+    // Separate output locals: VC6 puts them in the dead xpos/ypos arg slots and keeps the
+    // parameters in registers across the first spawn
+    Fix16 trailer_x;
+    Fix16 trailer_y;
     Fix16 zpos;
     SpawnCabAndTrailerHelper_408370(xpos,
                                     ypos,
                                     pCab->field_50_car_sprite->field_1C_zpos,
                                     rotation,
                                     kAngZero_67791C,
-                                    &xpos,
-                                    &ypos,
+                                    &trailer_x,
+                                    &trailer_y,
                                     &zpos,
                                     &out_rot);
 
-    
-    Car_BC* pTrailer = SpawnCarAtCorrectZ_426E40(xpos, ypos, out_rot, trailer_model);
+    Car_BC* pTrailer = SpawnCarAtCorrectZ_426E40(trailer_x, trailer_y, out_rot, trailer_model);
     gCar_BC_Pool_67792C->field_0_pool.UnlinkFromActiveList_420F30(pTrailer);
 
     Trailer* pNewTrailer = gTrailerPool_66AC80->field_0_pool.Allocate();
