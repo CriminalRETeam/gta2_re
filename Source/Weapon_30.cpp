@@ -885,7 +885,7 @@ static inline Fix16 BeamLength_5DE910(Fix16_Point& d)
 // The EH state is 0xA at entry and never changes: 11 Fix16_Point locals, two of them unused
 // (likely the original's by-value a1 is one of them). `d` is reused for the rest of the way and
 // `len` for the straight segment count, as the original's frame shows.
-WIP_FUNC(0x5de910)
+MATCH_FUNC(0x5de910)
 void __stdcall sub_5DE910(Fix16_Point_POD a1, Fix16_Point& a2, Fix16 a3)
 {
     Fix16_Point d;
@@ -940,10 +940,11 @@ void __stdcall sub_5DE910(Fix16_Point_POD a1, Fix16_Point& a2, Fix16 a3)
     cur = from;
     for (u8 i = 0; i < count; i++)
     {
-        // 9.6f: Fix16(s16) 0x401AE0 minus Fix16(u16) 0x41F990, times dword_706D34
+        // 9.6f: Fix16(s16) 0x401AE0 minus Fix16(u16) 0x41F990, times dword_706D34. The kink stays a
+        // temporary (a named local moves the frame slots) and `-=` evaluates the half first.
         u16 spread = (gRng_6F6784.get_int_4F7AE0(4) + 1) * 32;
-        Fix16 kink = (Fix16(gRng_6F6784.get_int_4F7AE0(spread)) - Fix16((u16)(spread >> 1))) * dword_706D34;
-        Ang16 jitter = Ang16::Fix16_To_Ang16_ool_40F540(kink);
+        Ang16 jitter = Ang16::Fix16_To_Ang16_ool_40F540(
+            (Fix16(gRng_6F6784.get_int_4F7AE0(spread)) -= Fix16((u16)(spread >> 1))) * dword_706D34);
 
         step.x = seg_len.Multiply_408680(Ang16::sine_40F500(angle));
         step.y = seg_len.Multiply_408680(Ang16::cosine_40F520(angle));
