@@ -4010,11 +4010,18 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_EE0E_unk.LoadCredits_483F20();
 }
 
-WIP_FUNC(0x4B4440)
+// The GMP/STY/SCR names read from a MAIN or BONUS block of the .seq file. A struct (not three
+// arrays) because its field order fixes the stack layout: STY, GMP, SCR (same in 9.6f).
+struct SeqStageFiles
+{
+    char field_0_sty[256];
+    char field_100_gmp[256];
+    char field_200_scr[256];
+};
+
+MATCH_FUNC(0x4B4440)
 void Frontend::GetMainAndBonusStagesFromSeqFile_4B4440()
 {
-    WIP_IMPLEMENTED;
-
     u8* pBlock; // esi
     char mainOrBonus[256]; // [esp+14h] [ebp-718h] BYREF
     char seqFileName[256]; // [esp+414h] [ebp-318h] BYREF
@@ -4056,9 +4063,7 @@ void Frontend::GetMainAndBonusStagesFromSeqFile_4B4440()
 
     while (strcmp(mainOrBonus, "") != 0)
     {
-        char debugStr[256];
-        char styName[256];
-        char mapName[256];
+        SeqStageFiles files;
         char description[256];
         if (strcmp(mainOrBonus, "MAIN") == 0)
         {
@@ -4073,11 +4078,11 @@ void Frontend::GetMainAndBonusStagesFromSeqFile_4B4440()
             pBlock = &this->field_1EB51_num_bonus_stages[main_block_counter];
             *pBlock = 0;
 
-            GetSeqItem_4B48D0(1, debugStr, hSeqFile);
-            GetSeqItem_4B48D0(2, styName, hSeqFile);
-            GetSeqItem_4B48D0(3, mapName, hSeqFile);
+            GetSeqItem_4B48D0(1, files.field_100_gmp, hSeqFile);
+            GetSeqItem_4B48D0(2, files.field_0_sty, hSeqFile);
+            GetSeqItem_4B48D0(3, files.field_200_scr, hSeqFile);
             GetSeqItem_4B48D0(4, description, hSeqFile);
-            StoreStringsForStage_4B4BC0(main_block_counter, *pBlock, debugStr, styName, mapName);
+            StoreStringsForStage_4B4BC0(main_block_counter, *pBlock, files.field_100_gmp, files.field_0_sty, files.field_200_scr);
             ++*pBlock;
         }
         else if (strcmp(mainOrBonus, "BONUS") == 0)
@@ -4092,11 +4097,11 @@ void Frontend::GetMainAndBonusStagesFromSeqFile_4B4440()
                 FatalError_4A38C0(Gta2Error::TooManyBonusBlocks, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4945);
             }
 
-            GetSeqItem_4B48D0(1, debugStr, hSeqFile);
-            GetSeqItem_4B48D0(2, styName, hSeqFile);
-            GetSeqItem_4B48D0(3, mapName, hSeqFile);
+            GetSeqItem_4B48D0(1, files.field_100_gmp, hSeqFile);
+            GetSeqItem_4B48D0(2, files.field_0_sty, hSeqFile);
+            GetSeqItem_4B48D0(3, files.field_200_scr, hSeqFile);
             GetSeqItem_4B48D0(4, description, hSeqFile);
-            StoreStringsForStage_4B4BC0(main_block_counter, *pBlock, debugStr, styName, mapName);
+            StoreStringsForStage_4B4BC0(main_block_counter, *pBlock, files.field_100_gmp, files.field_0_sty, files.field_200_scr);
             ++*pBlock;
         }
         else
