@@ -222,9 +222,8 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
 
     gQuadVerts_706B88.field_0_verts[3].x = (point.x + x_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[3].y = (point.y + y_pos).ToFloat();
-    gQuadVerts_706B88.field_0_verts[3].z = 0.000099999997f;
 
-    //  u & v
+    //  u & v, with z interleaved (as in DrawTexture_5D8470)
 
     s32 width = sprite_index_5AA440->field_4_width;
     s32 height = sprite_index_5AA440->field_5_height;
@@ -233,6 +232,7 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
     gQuadVerts_706B88.field_0_verts[0].u = 0.0;
     gQuadVerts_706B88.field_0_verts[0].v = 0.0;
     gQuadVerts_706B88.field_0_verts[1].v = 0.0;
+    gQuadVerts_706B88.field_0_verts[3].z = 0.000099999997f;
     gQuadVerts_706B88.field_0_verts[3].u = 0.0;
     gQuadVerts_706B88.field_0_verts[1].u = u;
     gQuadVerts_706B88.field_0_verts[2].u = u;
@@ -293,14 +293,12 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
 
     // point 1
 
-    point.x = -v12;
-    point.y = -v13;
+    // Raw negates: two fewer inline expansions keep the Fix16_Point ctor inline (inline budget)
+    point.x.mValue = -v12.mValue;
+    point.y.mValue = -v13.mValue;
     point.RotateByAngle_40F6B0_all_out_of_line(rotation);
 
-    // Remaining diff: the original inlines the Fix16_Point constructor, here it's out of line
-    // (inline budget, see matching_quirks.md). The copy of x_pos is from the permuter.
-    Fix16 tmp = x_pos;
-    gQuadVerts_706B88.field_0_verts[0].x = (point.x + tmp).ToFloat();
+    gQuadVerts_706B88.field_0_verts[0].x = (point.x + x_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[0].y = (point.y + y_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[0].z = 0.000099999997f;
 
@@ -365,10 +363,12 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
 
     s32 new_Flags = CalcQuadFlags_5D83E0(alpha_value, flags) | 0x20000;
 
-    Fix16 cur_xpos = xpos_fp; // note: new var
+    // The original walks a copy of pText (it reuses pText's stack slot as a float temp)
+    const wchar_t* pIter = pText;
+    Fix16 cur_xpos = xpos_fp;
 
     Fix16 spaceWidth = scale_fp * gGtx_0x106C_703DD4->GetSpaceCharWidth_5AA7B0(&font_type);
-    Fix16 lineHeight = scale_fp * gGtx_0x106C_703DD4->GetLineSpacing_5AA800(&font_type);
+    Fix16 lineHeight = scale_fp * (u16)gGtx_0x106C_703DD4->GetLineSpacing_5AA800(&font_type);
 
     u16 curr_palette = og_palette;
     u32 curr_palette_type = og_palette_type;
@@ -390,9 +390,9 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
         }
     }
 
-    while (*pText != 0)
+    while (*pIter != 0)
     {
-        wchar_t text_char = *pText;
+        wchar_t text_char = *pIter;
 
         if (text_char == L'\n')
         {
@@ -436,7 +436,7 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
         else
         {
             sprite_index* pSprIdx;
-            STexture* pTextureToUse;
+            STexture* pTexture;
             if (font_type < 0x65 || font_type > 107)
             {
                 if (font_type < 0xC9 || font_type > 203)
@@ -444,66 +444,54 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
                     u16 sprt_relative_idx = gGtx_0x106C_703DD4->GetSpriteIdxFromFont_5AA710(font_type, text_char - 33);
                     u16 sprt_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::font_7, sprt_relative_idx);
                     pSprIdx = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprt_idx);
-                    pTextureToUse = gSharp_pare_0x15D8_705064->GetSpriteTexture_5B94F0(sprite_types_enum::font_7, sprt_relative_idx, curr_palette_type, curr_palette);
+                    pTexture = gSharp_pare_0x15D8_705064->GetSpriteTexture_5B94F0(sprite_types_enum::font_7, sprt_relative_idx, curr_palette_type, curr_palette);
                 }
                 else
                 {
                     pSprIdx = gMagical_germain_0x8EC_6F5168->field_8E0_sprite_index;
-                    pTextureToUse = gMagical_germain_0x8EC_6F5168->GetLargeGlyphTexture_4D27D0(text_char);
+                    pTexture = gMagical_germain_0x8EC_6F5168->GetLargeGlyphTexture_4D27D0(text_char);
                 }
             }
             else
             {
                 pSprIdx = gMagical_germain_0x8EC_6F5168->field_8D4_sprite_index;
-                pTextureToUse = gMagical_germain_0x8EC_6F5168->GetSmallGlyphTexture_4D2710(text_char);
+                pTexture = gMagical_germain_0x8EC_6F5168->GetSmallGlyphTexture_4D2710(text_char);
             }
 
-            STexture* pTexture = pTextureToUse;
+            Fix16 sprite_w = Fix16(pSprIdx->field_4_width) * scale_fp;
+            Fix16 sprite_h = Fix16(pSprIdx->field_5_height) * scale_fp;
 
-            Fix16 sprite_xoff = Fix16(pSprIdx->field_4_width) * scale_fp;
-
-            Fix16 sprite_yoff = Fix16(pSprIdx->field_5_height) * scale_fp;
-
+            // Each corner converts its coordinate again: VC6 CSEs the repeated ToFloat()s
+            // (x0/y0 stay on the FPU stack, x1/y1 go through a stack temp like the original)
             gQuadVerts_706B88.field_0_verts[0].x = cur_xpos.ToFloat();
             gQuadVerts_706B88.field_0_verts[0].y = ypos_fp.ToFloat();
-            gQuadVerts_706B88.field_0_verts[0].z = 0.0001f; // line 214
-
-            f32 v_1_2_x = (sprite_xoff + cur_xpos).ToFloat();
-            gQuadVerts_706B88.field_0_verts[1].x = v_1_2_x;
-            gQuadVerts_706B88.field_0_verts[1].y = gQuadVerts_706B88.field_0_verts[0].y;
+            gQuadVerts_706B88.field_0_verts[0].z = 0.0001f;
+            gQuadVerts_706B88.field_0_verts[1].x = (cur_xpos + sprite_w).ToFloat();
+            gQuadVerts_706B88.field_0_verts[1].y = ypos_fp.ToFloat();
             gQuadVerts_706B88.field_0_verts[1].z = 0.0001f;
-
-            gQuadVerts_706B88.field_0_verts[2].x = v_1_2_x;
-            gQuadVerts_706B88.field_0_verts[2].y = (ypos_fp + sprite_yoff).ToFloat();
-
-            s32 v28 = sprite_xoff.mValue + cur_xpos.mValue;
+            gQuadVerts_706B88.field_0_verts[2].x = (cur_xpos + sprite_w).ToFloat();
+            gQuadVerts_706B88.field_0_verts[2].y = (ypos_fp + sprite_h).ToFloat();
             gQuadVerts_706B88.field_0_verts[2].z = 0.0001f;
-
-            gQuadVerts_706B88.field_0_verts[3].x = gQuadVerts_706B88.field_0_verts[0].x;
-            gQuadVerts_706B88.field_0_verts[3].y = (ypos_fp + sprite_yoff).ToFloat();
+            gQuadVerts_706B88.field_0_verts[3].x = cur_xpos.ToFloat();
+            gQuadVerts_706B88.field_0_verts[3].y = (ypos_fp + sprite_h).ToFloat();
             gQuadVerts_706B88.field_0_verts[3].z = 0.0001f;
 
-            Fix16 letterW((float)(pSprIdx->field_4_width - 0.0001));
-            Fix16 spriteH((float)(pSprIdx->field_5_height - 0.0001));
+            Fix16 u(pSprIdx->field_4_width - 0.0001f);
+            Fix16 v(pSprIdx->field_5_height - 0.0001f);
 
-            gQuadVerts_706B88.field_0_verts[0].u = 0.0;
-            gQuadVerts_706B88.field_0_verts[0].v = 0.0;
-
-            gQuadVerts_706B88.field_0_verts[1].u = spriteH.ToFloat();
-            gQuadVerts_706B88.field_0_verts[1].v = 0.0;
-
-            gQuadVerts_706B88.field_0_verts[2].u = spriteH.ToFloat();
-            gQuadVerts_706B88.field_0_verts[2].v = letterW.ToFloat();
-
-            gQuadVerts_706B88.field_0_verts[3].u = 0.0;
-            gQuadVerts_706B88.field_0_verts[3].v = letterW.ToFloat();
+            gQuadVerts_706B88.field_0_verts[0].u = 0.0f;
+            gQuadVerts_706B88.field_0_verts[0].v = 0.0f;
+            gQuadVerts_706B88.field_0_verts[1].v = 0.0f;
+            gQuadVerts_706B88.field_0_verts[3].u = 0.0f;
+            gQuadVerts_706B88.field_0_verts[1].u = u.ToFloat();
+            gQuadVerts_706B88.field_0_verts[2].u = u.ToFloat();
+            gQuadVerts_706B88.field_0_verts[2].v = v.ToFloat();
+            gQuadVerts_706B88.field_0_verts[3].v = v.ToFloat();
 
             pgbh_DrawQuad(new_Flags, pTexture, &gQuadVerts_706B88.field_0_verts[0], 255);
 
-            // the original advances by the scaled sprite width (kept in edi from the
-            // vertex setup), not by letterW
-            cur_xpos += sprite_xoff;
+            cur_xpos += sprite_w;
         }
-        pText++;
+        pIter++;
     }
 }

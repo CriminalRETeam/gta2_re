@@ -163,6 +163,18 @@ struct Fix16_Point_POD
         y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + y.Multiply_408680(cos);
     }
 
+    // As RotateByAngle_40F6B0 with the x line inline and the y line out of line (Car_BC::GetHitchPoint_439FB0)
+    inline void RotateByAngle_YOOL_40F6B0(const Ang16& angle)
+    {
+        Fix16 sin = Ang16::sine_40F500(angle);
+        Fix16 cos = Ang16::cosine_40F520(angle);
+
+        Fix16 x_old = x;
+
+        x = (x * cos) + (y * sin);
+        y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + y.Multiply_408680(cos);
+    }
+
     void FromPolar_41E210(const Fix16& radius, const Ang16& angle)
     {
 
@@ -204,6 +216,8 @@ struct Fix16_Point_POD
 
     EXPORT Fix16_Point Multiply_438FE0(Fix16& a1);
     EXPORT Fix16_Point Divide_442CB0(Fix16& a1);
+    inline Fix16_Point DivideInl_442CB0(Fix16& in) throw();
+    inline Fix16_Point MultiplyInl_438FE0(Fix16& in) throw();
 
     // Out-of-line copies emitted in Weapon_30.cpp (used by sub_5DE910).
     EXPORT Fix16_Point_POD& AddAssign_5E40C0(const Fix16_Point_POD& other);
@@ -289,12 +303,27 @@ class Fix16_Point : public Fix16_Point_POD
         return Fix16_Point(x + in.x, y + in.y);
     }
 
-    // 0x40AC80
-    Fix16_Point operator-(const Fix16_Point& rhs);
+    // MATCH_FUNC(0x40AC80)
+    Fix16_Point operator-(const Fix16_Point& rhs)
+    {
+        return Fix16_Point(x - rhs.x, y - rhs.y);
+    }
+
+    // The out-of-line copy of the inline operator-. Called by name where the original keeps an EH state
+    // for temporaries around the call (Crane_15C::HookPickupCar_47EF80, ComputeHookPolar_47F6C0); the
+    // inline operator- called out of line gets none (CarPhysics_B0::HandleCarCollision_55FF20)
+    EXPORT Fix16_Point Sub_40AC80(const Fix16_Point& rhs);
 
     // Out of line operator+ (CarPhysics_B0::SpawnSkidSegment_55D200; Weapon_30::fire_truck_flamethrower_5E0B10 keeps the EH state of
     // the get_x_y_443580 temporary around this call)
     EXPORT Fix16_Point Add_40AC50(const Fix16_Point_POD& in);
+
+    // operator+ 0x40AC50 as a nothrow inline that VC6 still calls out of line: no EH state for the
+    // temporaries alive across the call (Car_BC::TryHitchTrailer_442810)
+    inline Fix16_Point AddInl_40AC50(const Fix16_Point_POD& in) throw()
+    {
+        return Fix16_Point(x + in.x, y + in.y);
+    }
 
     // Out of line unary minus (Object_2C::ResolveCollisionWithPed_5229B0)
     EXPORT Fix16_Point Negate_40ACB0() const;
@@ -495,6 +524,23 @@ class Fix16_Point : public Fix16_Point_POD
     // 10.0 0x442CB0
     EXPORT Fix16_Point operator/(Fix16& in);
 
+    // GetLength_41E260 as inlined into Car_BC::ApplyExplosionImpulse_443710 (out of line helpers)
+    inline Fix16 GetLength_inline_443710()
+    {
+        if (x == gFix16_6777CC)
+        {
+            return Fix16::Abs_436A50(y);
+        }
+        else if (y == gFix16_6777CC)
+        {
+            return Fix16::Abs_436A50(x);
+        }
+        else
+        {
+            return Fix16::SquareRoot_436A70((const Fix16&)x.Multiply_408680(x) + y.Multiply_408680(y));
+        }
+    }
+
     // GetLength_41E260 as inlined into NormalizeSafe_442AD0 (out of line helpers where the inline budget ran out)
     inline Fix16 GetLength_inline_442AD0()
     {
@@ -602,7 +648,28 @@ class Fix16_Point : public Fix16_Point_POD
     }
 
     EXPORT Fix16_Point operator/(const s32& a3);
+
+    // operator/ 0x55F9E0 as a nothrow inline that VC6 still calls out of line: the original sets no EH
+    // state for the temporaries that live across this call (CarPhysics_B0::HandleCarCollision_55FF20,
+    // HandleObjectCollision_5606C0). throw() on the real operator/ changes 6 matched functions.
+    inline Fix16_Point DivideInl_55F9E0(const s32& a3) throw()
+    {
+        return Fix16_Point(x / a3, y / a3);
+    }
 };
+
+// Divide_442CB0 as a nothrow inline (see DivideInl_55F9E0; CarPhysics_B0::HandleObjectCollision_5606C0,
+// Car_BC::ApplyExplosionImpulse_443710)
+inline Fix16_Point Fix16_Point_POD::DivideInl_442CB0(Fix16& in) throw()
+{
+    return Fix16_Point(x / in, y / in);
+}
+
+// Multiply_438FE0 as a nothrow inline (see DivideInl_55F9E0; Car_BC::TryHitchTrailer_442810)
+inline Fix16_Point Fix16_Point_POD::MultiplyInl_438FE0(Fix16& in) throw()
+{
+    return Fix16_Point(x * in, y * in);
+}
 
 struct Fix16_Vec
 {

@@ -74,6 +74,16 @@ class Ang16
         return Ang16(rValue + rhs.rValue, 0);
     }
 
+    // operator+ with the Normalize call one inline level up: VC6 inlines Normalize here where
+    // operator+ (ctor -> Normalize) leaves it out of line. Called on a by-value parameter it also
+    // loads that parameter as a dword (Wolfy_30::state_4_540F90)
+    Ang16 AddNormalized(const Ang16& rhs)
+    {
+        Ang16 r(rValue + rhs.rValue);
+        r.Normalize();
+        return r;
+    }
+
     Ang16 operator-(const Ang16& other)
     {
         return Ang16(rValue - other.rValue, 0);

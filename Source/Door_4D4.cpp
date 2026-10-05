@@ -34,57 +34,58 @@ Door_38* Door_4D4::RegisterSingleDoorNoCheck_49CF50(u8 gr_id, u8 x, u8 y, u8 z, 
 }
 
 // 9.6f 0x44D430 ?
-WIP_FUNC(0x49cfa0)
+MATCH_FUNC(0x49cfa0)
 Door_38* Door_4D4::RegisterDoubleDoorNoCheck_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 flip, u8 reversed)
 {
-    WIP_IMPLEMENTED;
-
-    Door_38* pDoor = GetNextFreeDoor_49D3A0();
-    field_4D0_count++;
-    pDoor->field_2B_bReversed = reversed;
-    pDoor->field_2A_bDoFlip = flip;
-
-    Fix16 check_z = Fix16(z);
-    u8 x2 = x;
-    u8 y2 = y;
+    Door_38* pDoor;
+    u8 x2;
+    u8 y2;
+    Fix16 check_z;
     Fix16 check_x;
     Fix16 check_y;
     Fix16 check_width;
     Fix16 check_height;
+
+    pDoor = GetNextFreeDoor_49D3A0();
+    field_4D0_count++;
+    pDoor->field_2A_bDoFlip = flip;
+    pDoor->field_2B_bReversed = reversed;
+
+    x2 = x;
+    y2 = y;
+    check_z = Fix16(z);
     switch (face)
     {
         case 2:
+            y2 = y + 1;
             check_x = Fix16(x + 1) + kFpHalf_67BA20;
             check_width = kFpOne_67BBE4;
-            y2 = y + 1;
             check_height = kFpTwo_67BBE8;
             check_y = Fix16(y + 1);
             break;
         case 3:
-            check_width = kFpTwo_67BBE8;
             x2 = x + 1;
             check_height = kFpOne_67BBE4;
+            check_width = kFpTwo_67BBE8;
             check_x = Fix16(x + 1);
             check_y = Fix16(y) - kFpHalf_67BA20;
             break;
         case 1:
-            check_width = kFpOne_67BBE4;
             y2 = y - 1;
             check_height = kFpTwo_67BBE8;
+            check_width = kFpOne_67BBE4;
             check_x = Fix16(x) - kFpHalf_67BA20;
             check_y = Fix16(y);
             break;
         case 4:
-            check_x = Fix16(x);
             check_width = kFpTwo_67BBE8;
+            check_x = Fix16(x);
             check_height = kFpOne_67BBE4;
             check_y = Fix16(y + 1) + kFpHalf_67BA20;
             x2 = x - 1;
             break;
         default:
-            check_x = check_height;
-            check_y = check_height;
-            check_width = check_height;
+            // The original leaves the check rect uninitialised for any other face
             break;
     }
     pDoor->AddDoorData_49CA50(gr_id, x, y, z, face);

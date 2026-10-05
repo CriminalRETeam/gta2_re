@@ -849,7 +849,7 @@ Car_BC* Car_6C::GetNearestEnterableCarFromCoord_444FA0(Fix16 x, Fix16 y, Fix16 z
 }
 
 // 9.6f 0x424BD0
-WIP_FUNC(0x444FC0)
+MATCH_FUNC(0x444FC0)
 Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
                                                 Fix16 ypos,
                                                 Fix16 zpos,
@@ -857,8 +857,6 @@ Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
                                                 Ped* pPed,
                                                 char_type bIgnorePedRestrictions)
 {
-    WIP_IMPLEMENTED;
-
     // 9.6f calls sub_421D80 and sub_421DF0 here, which are HasSpriteZoom_43A230 and IsCarInAir_43A3C0 (not inlined in 10.5)
     Fix16 smallestDist = Fix16(0x300);
     Car_BC* pNearestCar = 0;
@@ -877,7 +875,8 @@ Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
                 pNearestCar = pCarIter;
             }
 
-            if (pCarIter->IsTrainModel_403BA0())
+            if (pCarIter->field_84_car_info_idx == car_model_enum::TRAIN || pCarIter->field_84_car_info_idx == car_model_enum::TRAINCAB ||
+                pCarIter->field_84_car_info_idx == car_model_enum::TRAINFB || pCarIter->field_84_car_info_idx == car_model_enum::boxcar)
             {
                 u8 train_car_idx = 0;
                 Car_BC** pTrainCars = gPublicTransport_181C_6FF1D4->GetCarArrayFromLeadCar_579B40(pCarIter);
@@ -888,12 +887,12 @@ Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
                         break;
                     }
 
-                    // The original calls Negate_4086A0 and the const operator+ (0x408660) here but inlines
-                    // yd + xd; ours runs out of inline expansions and calls that + out of line too
-                    Fix16 train_zd = Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_1C_zpos - zpos);
-                    Fix16 train_yd = Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_14_xy.y - ypos);
-                    Fix16 train_xd = Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_14_xy.x - xpos);
-                    Fix16 trainDistance = static_cast<const Fix16&>(train_yd + train_xd) + train_zd;
+                    // Negate_4086A0 and the const operator+ (0x408660) out of line, x + y inline. The train
+                    // model check above is written out (not IsTrainModel_403BA0) to stay in VC6's inline budget
+                    Fix16 trainDistance;
+                    trainDistance = static_cast<const Fix16&>(Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_14_xy.x - xpos) +
+                                                              Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_14_xy.y - ypos)) +
+                        Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_1C_zpos - zpos);
                     if (trainDistance < smallestDist)
                     {
                         smallestDist = trainDistance;
@@ -1639,9 +1638,7 @@ bool Car_6C::CanAllocateOfType_446930(s32 type)
     }
 }
 
-WIP_FUNC(0x4469f0)
-// There are still something missing here.
-// But the structure it seems to be complete
+MATCH_FUNC(0x4469f0)
 Car_6C::Car_6C()
 {
     if (!gCar_BC_Pool_67792C)
@@ -1719,7 +1716,7 @@ Car_6C::Car_6C()
 
     if (!gSprite_Unused_677938)
     {
-        gSprite_Unused_677938 = new Sprite();
+        gSprite_Unused_677938 = new Sprite(kAngZero_67791C, gFix16_6777CC);
         if (!gSprite_Unused_677938)
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8375);
@@ -1730,7 +1727,8 @@ Car_6C::Car_6C()
     // that initialises the next two fields
     //field_4C = 0;
     //field_50_tv_van_dir = 0;
-    field_4C_tv_van_dir = Fix16_Point(Fix16(0), Fix16(0));
+    field_4C_tv_van_dir.x = Fix16(0);
+    field_4C_tv_van_dir.y = Fix16(0);
     field_54 = 0;
     field_55_visible_cars_count = 0;
     field_58_model_to_check_destroy = car_model_enum::none;
@@ -1873,14 +1871,12 @@ wchar_t* Car_BC::GetCarStr_439F80()
 }
 
 // 9.6f 0x421C40
-WIP_FUNC(0x439fb0)
+MATCH_FUNC(0x439fb0)
 Fix16_Point Car_BC::GetHitchPoint_439FB0()
 {
-    WIP_IMPLEMENTED;
-
     Fix16_Point point;
-    // TODO: Inline breaks the start of the match, why?
-    if (inline_check_0x10_info_421640())
+    car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
+    if ((pInfo->info_flags & 0x10) == 0x10)
     {
         point = kTrailerHitchOffset_677370;
     }
@@ -1889,8 +1885,8 @@ Fix16_Point Car_BC::GetHitchPoint_439FB0()
         point = kCabHitchOffset_677358;
     }
 
-    point.RotateByAngle_40F6B0(field_50_car_sprite->field_0);
-    return point + field_50_car_sprite->get_x_y_443580();
+    point.RotateByAngle_YOOL_40F6B0(field_50_car_sprite->field_0);
+    return point.Add_40AC50(field_50_car_sprite->get_x_y_443580());
 }
 
 MATCH_FUNC(0x43a0e0)
@@ -3696,10 +3692,10 @@ void Car_BC::RepairDamage_43D400()
     sub_421570();
 }
 
-WIP_FUNC(0x43d690)
+MATCH_FUNC(0x43d690)
 void Car_BC::EmitExplosion_43D690(s32 a3, Fix16 x, Fix16 y)
 {
-    WIP_IMPLEMENTED;
+    Fix16_Point unused; // EH frame with state 0 before the first call: the original has a destructible local
 
     Object_2C* p2C = gObject_5C_6F8F84->CreateExplosion_52A3D0(gFix16_6777CC, gFix16_6777CC, 2, kAngZero_67791C, a3, field_70_exploder_ped_id);
     if (p2C)
@@ -4659,53 +4655,72 @@ char_type Car_BC::RotateRoofObjectTowardTarget_440C10(Ang16 targetAngle)
     return 0;
 }
 
-WIP_FUNC(0x440d90)
+// 9.6f 0x41FA70
+static inline Ang16& compound_add_41FA70(Ang16& a, const Ang16& b)
+{
+    a.rValue += b.rValue;
+    a.Normalize();
+    return a;
+}
+
+// 9.6f 0x41FA90
+static inline Ang16& compound_subtract_41FA90(Ang16& a, const Ang16& b)
+{
+    a.rValue -= b.rValue;
+    a.Normalize();
+    return a;
+}
+
+MATCH_FUNC(0x440d90)
 char_type Car_BC::HandleRoofTurretRotation_440D90(char_type bLeftOn)
 {
-    WIP_IMPLEMENTED;
-
-    // Each branch returns on its own (no if/else join): with a join VC6 keeps the rotation in %di
-    // for the second Normalize loop of the += path. Left: the original's += path jumps to the -= path's
-    // return tail when the second loop is skipped (jl to the shared tail); ours has its own copy.
+    // 9.6f joins the three models into one +=/-= pair. Here field_B8 is set in both branches (a
+    // single store after the if/else keeps the angle in %di across the second Normalize loop)
     if (field_84_car_info_idx == car_model_enum::FIRETRUK)
     {
-        Sprite_18* pFTruckSprite = field_0_qq.GetSpriteForModel_5A6A50(114);
+        Sprite_18* pSprite = field_0_qq.GetSpriteForModel_5A6A50(114);
         if (bLeftOn)
         {
-            pFTruckSprite->field_10_rot += kFireTruckCannonRotSpeed_6771C0;
+            compound_add_41FA70(pSprite->field_10_rot, kFireTruckCannonRotSpeed_6771C0);
             this->field_B8_turret_rotated = 1;
-            return 1;
         }
-        pFTruckSprite->field_10_rot -= kFireTruckCannonRotSpeed_6771C0;
-        this->field_B8_turret_rotated = 1;
+        else
+        {
+            compound_subtract_41FA90(pSprite->field_10_rot, kFireTruckCannonRotSpeed_6771C0);
+            this->field_B8_turret_rotated = 1;
+        }
         return 1;
     }
 
     if (field_84_car_info_idx == car_model_enum::TANK)
     {
-        Sprite_18* pTankSprite = field_0_qq.GetSpriteForModel_5A6A50(148);
+        Sprite_18* pSprite = field_0_qq.GetSpriteForModel_5A6A50(148);
         if (bLeftOn)
         {
-            pTankSprite->field_10_rot += kTankTurretRotSpeed_677352;
+            compound_add_41FA70(pSprite->field_10_rot, kTankTurretRotSpeed_677352);
             this->field_B8_turret_rotated = 1;
-            return 1;
         }
-        pTankSprite->field_10_rot -= kTankTurretRotSpeed_677352;
-        this->field_B8_turret_rotated = 1;
+        else
+        {
+            compound_subtract_41FA90(pSprite->field_10_rot, kTankTurretRotSpeed_677352);
+            this->field_B8_turret_rotated = 1;
+        }
         return 1;
     }
 
     if (field_84_car_info_idx == car_model_enum::GUNJEEP)
     {
-        Sprite_18* pGunJeepSprite = field_0_qq.GetSpriteForModel_5A6A50(248);
+        Sprite_18* pSprite = field_0_qq.GetSpriteForModel_5A6A50(248);
         if (bLeftOn)
         {
-            pGunJeepSprite->field_10_rot += kGunJeepTurretRotSpeed_677810;
+            compound_add_41FA70(pSprite->field_10_rot, kGunJeepTurretRotSpeed_677810);
             this->field_B8_turret_rotated = 1;
-            return 1;
         }
-        pGunJeepSprite->field_10_rot -= kGunJeepTurretRotSpeed_677810;
-        this->field_B8_turret_rotated = 1;
+        else
+        {
+            compound_subtract_41FA90(pSprite->field_10_rot, kGunJeepTurretRotSpeed_677810);
+            this->field_B8_turret_rotated = 1;
+        }
         return 1;
     }
 
@@ -5639,13 +5654,10 @@ char_type Car_BC::UpdateCarDespawnStatus_4424C0()
 
 // 9.6f 0x424220
 // https://decomp.me/scratch/vhWKK
-WIP_FUNC(0x442520)
+MATCH_FUNC(0x442520)
 Ang16 Car_BC::GetRadioTowerAngle_442520()
 {
-    WIP_IMPLEMENTED;
-
     Fix16_Point xy;
-    // TODO: SEH around subtract operator is wrong
     xy = gCar_6C_677930->field_4C_tv_van_dir - field_50_car_sprite->get_x_y_443580();
     return xy.atan2_40F790() - field_50_car_sprite->field_0;
 }
@@ -5818,10 +5830,9 @@ void Car_BC::AttachTrailer_4427A0(Car_BC* pToFind)
 }
 
 // 9.6f 0x4262E0
-WIP_FUNC(0x442810)
+MATCH_FUNC(0x442810)
 void Car_BC::TryHitchTrailer_442810()
 {
-    WIP_IMPLEMENTED;
 
     Fix16_Point hitch_this;
     Fix16_Point hitch_car;
@@ -5872,13 +5883,15 @@ void Car_BC::TryHitchTrailer_442810()
                         pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
                         if (!pCar->field_58_physics->IsRngBelowDamage_421130())
                         {
-                            v16 = (pCar->field_50_car_sprite->get_x_y_443580() + (v6.NormalizeSafe_442AD0() * kFpOne64th_677888));
-                            s32 a5 = 1;
-                            pCar->field_58_physics->SetVelocityTowardTarget_55A1D0(
-                                v16.x,
-                                v16.y,
-                                Ang16::Ang16_to_Fix16(pCar->field_58_physics->field_58_theta),
-                                &a5);
+                            v16 = pCar->field_50_car_sprite->get_x_y_443580().AddInl_40AC50(v6.NormalizeSafe_442AD0().MultiplyInl_438FE0(kFpOne64th_677888));
+                            {
+                                s32 a5 = 1;
+                                pCar->field_58_physics->SetVelocityTowardTarget_55A1D0(
+                                    v16.x,
+                                    v16.y,
+                                    Ang16::Ang16_to_Fix16(pCar->field_58_physics->field_58_theta),
+                                    &a5);
+                            }
                         }
                     }
                 }
@@ -6304,28 +6317,9 @@ void Car_BC::sub_4435F0()
 }
 
 // 9.6f 0x426580
-// 10.5 calls the out of line Fix16 helpers here (Abs_436A50, Multiply_408680, operator+, SquareRoot_436A70)
-static inline Fix16 GetLength_out_of_line_443710(Fix16_Point& v)
-{
-    if (v.x == gFix16_6777CC)
-    {
-        return Fix16::Abs_436A50(v.y);
-    }
-    else if (v.y == gFix16_6777CC)
-    {
-        return Fix16::Abs_436A50(v.x);
-    }
-    else
-    {
-        return Fix16::SquareRoot_436A70((const Fix16&)v.x.Multiply_408680(v.x) + v.y.Multiply_408680(v.y));
-    }
-}
-
-WIP_FUNC(0x443710)
+MATCH_FUNC(0x443710)
 void Car_BC::ApplyExplosionImpulse_443710(Fix16_Point* xy)
 {
-    WIP_IMPLEMENTED;
-
     Fix16_Point v16;
     Fix16_Point v4;
     Fix16_Point v9;
@@ -6339,20 +6333,24 @@ void Car_BC::ApplyExplosionImpulse_443710(Fix16_Point* xy)
         v16.y += kFpQuarter_677208 * gCar_6C_677930->field_1C_explosion_offset_cycle - kFpHalf_6772D0;
 
         v4 = (v16 - *xy);
-        Fix16 vecLen = GetLength_out_of_line_443710(v4);
-
-        if (vecLen != gFix16_6777CC)
+        // vecLen's scope has to end before the ApplyImpactForcesAndDamage call: its result temp
+        // reuses vecLen's slot (the dead xy param slot), in 9.6f too. Hence the goto: an inline
+        // helper returning bool runs out of inline budget for GetLength_inline_443710, and a bool
+        // flag tested twice isn't merged by VC6.
         {
+            Fix16 vecLen = v4.GetLength_inline_443710();
+            if (vecLen == gFix16_6777CC)
+            {
+                goto done;
+            }
             vecLen = vecLen * 4;
-            // TODO: the original has no EH state around the NormalizeSafe temp during this call, as if
-            // VC6 knew Divide_442CB0 can't throw. Declaring it throw() gets within 14 lines, but that
-            // drops the return flag store from Divide_442CB0 itself (breaks its match).
-            v9 = v4.NormalizeSafe_442AD0().Divide_442CB0(vecLen);
-            field_58_physics->SetCurrentCarInfoAndModelPhysics_562EF0();
-            vecLen = field_58_physics->ApplyImpactForcesAndDamage_55FA60(v16, v9, 10);
+            v9 = v4.NormalizeSafe_442AD0().DivideInl_442CB0(vecLen);
         }
+        field_58_physics->SetCurrentCarInfoAndModelPhysics_562EF0();
+        field_58_physics->ApplyImpactForcesAndDamage_55FA60(v16, v9, 10);
     }
 
+done:
     gCar_6C_677930->field_1C_explosion_offset_cycle++;
     if (gCar_6C_677930->field_1C_explosion_offset_cycle > 4)
     {
@@ -6938,12 +6936,20 @@ Fix16_Point Trailer::sub_407BD0()
     return offset;
 }
 
-WIP_FUNC(0x407ce0)
+// 9.6f 0x40F840 CarPhysics_B0::IsVelocityAlignedWithHeading_40F840, inlined here with car.cpp's own
+// static copies of the 90/270 degree constants
+static inline bool IsVelocityAlignedWithHeading_40F840(CarPhysics_B0* pPhys)
+{
+    Ang16 drift = pPhys->field_40_linvel_1.atan2_40ACD0().SubtractNormalized_409340(pPhys->field_58_theta);
+    return drift <= word_66A9C8 || drift >= word_66AABC;
+}
+
+MATCH_FUNC(0x407ce0)
 void Trailer::UpdateTrailerAlignment_407CE0()
 {
     // The four points are declared up front: the original enters with EH state 3. The 9.6f getters and
     // setters (get/set_theta_40F820/40F830, set_cp1_40F7E0, get/set_cp3) are written as field accesses
-    // and the Ang16 compares on rValue, otherwise the inline budget pushes these ctors out of line.
+    // and the Fix16 compares on mValue, otherwise the inline budget pushes these ctors out of line.
     Fix16_Point rear;
     Fix16_Point hitch;
     Fix16_Point delta;
@@ -6963,18 +6969,15 @@ void Trailer::UpdateTrailerAlignment_407CE0()
     hitch += pCabPhys->get_cp1_40B560();
 
     // The trailer points along hitch - rear, kept within a window around the cab's angle
-    delta = hitch - rear;
+    delta = hitch.Sub_40AC80(rear);
     Fix16 new_theta = Ang16::Ang16_to_Fix16(delta.atan2_40F790());
     field_0 = sub_405E80(&cab_theta, &new_theta);
 
-    if (new_theta != cab_theta && new_theta == trailer_theta)
+    if (new_theta.mValue != cab_theta.mValue && new_theta.mValue == trailer_theta.mValue)
     {
-        // 9.6f: CarPhysics_B0::IsVelocityAlignedWithHeading_40F840 (but it compares against other globals here)
-        Ang16 drift = pCabPhys->field_40_linvel_1.atan2_40ACD0().SubtractNormalized_409340(pCabPhys->field_58_theta);
-        if ((drift.rValue <= word_66A9C8.rValue || drift.rValue >= word_66AABC.rValue) && pCabPhys->IsGasPedalPressedEnough_5626A0())
+        if (IsVelocityAlignedWithHeading_40F840(pCabPhys) && pCabPhys->IsGasPedalPressedEnough_5626A0())
         {
-            Fix16 speed = field_8_truck_cab->sub_440510();
-            new_theta = sub_405DA0(new_theta, &cab_theta, &speed);
+            new_theta = sub_405DA0(new_theta, &cab_theta, &field_8_truck_cab->sub_440510());
         }
     }
 
@@ -6982,7 +6985,7 @@ void Trailer::UpdateTrailerAlignment_407CE0()
 
     offset = gTrailerCabOffset_66AAE0;
     offset.RotateByAngle_40F6B0_all_out_of_line(Ang16::Fix16_To_Ang16_ool_40F540(new_theta));
-    field_C_pCarOnTrailer->field_58_physics->field_38_cp1 = hitch - offset;
+    field_C_pCarOnTrailer->field_58_physics->field_38_cp1 = hitch.Sub_40AC80(offset);
     pTrailerPhys->field_6C_cp3 = field_8_truck_cab->field_58_physics->field_6C_cp3;
     pTrailerPhys->UpdateCenterOfMassPoint_563350();
 }

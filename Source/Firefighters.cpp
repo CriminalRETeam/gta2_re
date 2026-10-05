@@ -250,7 +250,29 @@ void Firefighter_28::deinit_4A81A0()
 // https://decomp.me/scratch/ZcdAk
 DEFINE_GLOBAL_INIT(Fix16, dword_67D384, Fix16(3), 0x67D384);
 
-WIP_FUNC(0x4a81f0)
+// Fix16::Abs_negate_out_of_line. __forceinline: Update_4A81F0 is out of inline budget by the time
+// MaxAbsDistance_42A6B0 expands, and the original still inlines this one.
+static __forceinline Fix16 __stdcall AbsNegOOL(Fix16& input)
+{
+    if (input.mValue > 0)
+    {
+        return input;
+    }
+    return input.Negate_4086A0();
+}
+
+// 9.6f 0x42A6B0, inlined in 10.5. This copy uses the out-of-line Abs_436A50 for x and Abs_negate_out_of_line for y.
+static inline Fix16 __stdcall MaxAbsDistance_42A6B0(Fix16 x1, Fix16 y1, Fix16 x2, Fix16 y2)
+{
+    Fix16 diff_x = x2 - x1;
+    Fix16 diff_y = y2 - y1;
+
+    Fix16 result;
+    result = Fix16::Max_44E540(Fix16::Abs_436A50(diff_x), AbsNegOOL(diff_y));
+    return result;
+}
+
+MATCH_FUNC(0x4a81f0)
 void Firefighter_28::Update_4A81F0()
 {
     if (!field_4_bActive)
@@ -293,10 +315,11 @@ void Firefighter_28::Update_4A81F0()
                     break;
                 }
 
-                if (++field_24_next_state_timer < 50)
+                if (++field_24_next_state_timer >= 50)
                 {
-                    break;
+                    field_8_state = 6;
                 }
+                break;
             }
             field_8_state = 6;
             break;
@@ -305,31 +328,33 @@ void Firefighter_28::Update_4A81F0()
             if (!field_1C_car->field_58_physics)
             {
                 field_8_state = 6;
-                break;
             }
-            if (sub_4A7FC0())
+            else if (sub_4A7FC0())
             {
-                Fix16 dx = field_C_target_car->field_50_car_sprite->field_14_xy.x - field_1C_car->field_50_car_sprite->field_14_xy.x;
-                Fix16 dy = field_C_target_car->field_50_car_sprite->field_14_xy.y - field_1C_car->field_50_car_sprite->field_14_xy.y;
-                Fix16 abs_dy = Fix16::Abs_negate_out_of_line(dy);
-                if (Fix16::Max_44E540(Fix16::Abs_436A50(dx), abs_dy) < dword_67D384 && field_24_next_state_timer > 100)
+                if (MaxAbsDistance_42A6B0(field_1C_car->get_x_41E430(),
+                                          field_1C_car->get_y_41E440(),
+                                          field_C_target_car->get_x_41E430(),
+                                          field_C_target_car->get_y_41E440()) < dword_67D384 &&
+                    field_24_next_state_timer > 100)
                 {
                     field_8_state = 3;
                 }
 
-                if (!field_20_ped)
+                if (field_20_ped)
+                {
+                    switch (field_20_ped->GetObjectiveStatus_450CB0())
+                    {
+                        case 1:
+                            field_8_state = 3;
+                            break;
+                        case 2:
+                            field_8_state = 6;
+                            break;
+                    }
+                }
+                else
                 {
                     field_8_state = 6;
-                    break;
-                }
-                switch (field_20_ped->GetObjectiveStatus_450CB0())
-                {
-                    case 1:
-                        field_8_state = 3;
-                        break;
-                    case 2:
-                        field_8_state = 6;
-                        break;
                 }
             }
             break;
@@ -349,6 +374,9 @@ void Firefighter_28::Update_4A81F0()
                 switch (field_20_ped->GetObjectiveStatus_450CB0())
                 {
                     case 1:
+                        field_20_ped->SetObjective(objectives_enum::no_obj_0, 9999);
+                        field_8_state = 5;
+                        break;
                     case 2:
                         field_20_ped->SetObjective(objectives_enum::no_obj_0, 9999);
                         field_8_state = 5;

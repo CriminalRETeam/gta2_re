@@ -4203,10 +4203,9 @@ s32 Map_0x370::CloneColumnExtendedToZ_4E8220(u32 column_idx, s32 z)
 WIP_FUNC(0x4E8370)
 s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
 {
-    u16** pColumns = field_0_pDmap->field_40008_pColumn;
-    gmp_col_info* pColumn = (gmp_col_info*)&pColumns[column_idx];
-    u8 height = pColumn->field_0_height;
     s32 offset;
+    gmp_col_info* pColumn = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[column_idx];
+    s32 height = pColumn->field_0_height;
     if (z >= height || z < (offset = pColumn->field_1_offset))
     {
         return -1;
@@ -4215,9 +4214,10 @@ s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
     if (column_idx < field_358_column_words)
     {
         s32 new_idx = field_360_column_words;
-        gmp_col_info* pNew = (gmp_col_info*)&pColumns[new_idx];
+        gmp_col_info* pNew;
         if (do_drop)
         {
+            pNew = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[new_idx];
             if (z == height - 1)
             {
                 pNew->field_0_height = pColumn->field_0_height - 1;
@@ -4226,12 +4226,13 @@ s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
                 {
                     pNew->field_4_blockd[i] = pColumn->field_4_blockd[i];
                 }
+                field_360_column_words += pNew->field_0_height - pNew->field_1_offset + 1;
             }
             else
             {
+                s32 i;
                 pNew->field_0_height = pColumn->field_0_height - 1;
                 pNew->field_1_offset = pColumn->field_1_offset;
-                s32 i;
                 for (i = 0; i < z - pNew->field_1_offset; i++)
                 {
                     pNew->field_4_blockd[i] = pColumn->field_4_blockd[i];
@@ -4240,10 +4241,12 @@ s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
                 {
                     pNew->field_4_blockd[i] = pColumn->field_4_blockd[i + 1];
                 }
+                field_360_column_words += pNew->field_0_height - pNew->field_1_offset + 1;
             }
         }
         else
         {
+            pNew = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[new_idx];
             if (z == height - 1)
             {
                 pNew->field_0_height = pColumn->field_0_height - 1;
@@ -4272,8 +4275,8 @@ s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
                 }
                 pNew->field_4_blockd[z - pColumn->field_1_offset] = 0;
             }
+            field_360_column_words += pNew->field_0_height - pNew->field_1_offset + 1;
         }
-        field_360_column_words += pNew->field_0_height - pNew->field_1_offset + 1;
         return new_idx;
     }
 

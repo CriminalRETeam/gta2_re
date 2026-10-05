@@ -23,20 +23,19 @@ void Generator_2C::Activate_4C1A70()
     }
 }
 
-WIP_FUNC(0x4C1AB0)
+MATCH_FUNC(0x4C1AB0)
 s32 Generator_2C::next_cycle_4C1AB0()
 {
-    WIP_IMPLEMENTED;
-
-    s16 min = field_12_min_delay;
-    s16 max = field_14_max_delay;
-    if (min == max)
+    s32 result;
+    if (field_12_min_delay == field_14_max_delay)
     {
-        return min + gpRng_67AB34->get_cur_rng_41CFE0();
+        result = field_12_min_delay;
     }
-    s16 delta = 4 * (max - min);
-    s16 rnd = gRng_6F6784.get_int_4F7AE0(delta);
-    return rnd + 4 * field_12_min_delay + gpRng_67AB34->get_cur_rng_41CFE0();
+    else
+    {
+        result = gRng_6F6784.get_int_4F7AE0(4 * (field_14_max_delay - field_12_min_delay)) + 4 * field_12_min_delay;
+    }
+    return result + gpRng_67AB34->get_cur_rng_41CFE0();
 }
 
 MATCH_FUNC(0x4C1B10)

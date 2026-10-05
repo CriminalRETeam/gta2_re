@@ -92,6 +92,8 @@ DEFINE_GLOBAL_INIT(Fix16, kFp255_677950, Fix16(0x3FC000, 0), 0x677950);
 DEFINE_GLOBAL_INIT(Fix16, dword_6779D8, Fix16(0x3333, 0), 0x6779D8);
 DEFINE_GLOBAL_INIT(Fix16, dword_677B64, Fix16(0x28F, 0), 0x677B64);
 DEFINE_GLOBAL_INIT(Ang16, kAng45_677A38, Ang16(180), 0x677A38);
+// TODO: the initial value is unknown (needs 10.5.exe); only CarAI_78::sub_452060 reads it
+DEFINE_GLOBAL_INIT(Ang16, word_677A3A, Ang16(180), 0x677A3A);
 
 EXTERN_GLOBAL(u16, word_677CFC);
 EXTERN_GLOBAL(u8, byte_6771DC);
@@ -665,7 +667,6 @@ void CarAI_78::sub_4482C0()
             this->field_48 = 4;
             this->field_9 = v3.ToInt();
             this->field_A = v4.ToInt();
-            v31 = 0;
         }
         else
         {
@@ -703,9 +704,9 @@ void CarAI_78::sub_4482C0()
                     }
                 }
             }
-            v31 = 0;
         }
 
+        v31 = 0;
         Fix16 v18;
         Fix16 v32;
         Fix16 v19;
@@ -719,15 +720,15 @@ void CarAI_78::sub_4482C0()
                 case car_ai_direction::north_1:
                     v19 += kFpHalf_677A84;
                     v32 = v19;
-                    if (v31)
-                    {
-                        v18 += kFpTwo_677B98;
-                        v33 = 6;
-                    }
-                    else
+                    if (!v31)
                     {
                         v18 -= kFpTwo_677B98;
                         v33 = 3;
+                    }
+                    else
+                    {
+                        v18 += kFpTwo_677B98;
+                        v33 = 6;
                     }
                     this->field_48 = 4;
                     break;
@@ -735,30 +736,30 @@ void CarAI_78::sub_4482C0()
                 case car_ai_direction::south_2:
                     v19 += kFpHalf_677A84;
                     v32 = v19;
-                    if (v31)
-                    {
-                        v33 = 6;
-                        v18 -= gF16fOne_677B94;
-                    }
-                    else
+                    if (!v31)
                     {
                         v33 = 3;
                         v18 += kFpThree_677B9C;
+                    }
+                    else
+                    {
+                        v33 = 6;
+                        v18 -= gF16fOne_677B94;
                     }
                     this->field_48 = 3;
                     break;
 
                 case car_ai_direction::east_3:
                     v18 += kFpHalf_677A84;
-                    if (v31)
-                    {
-                        v19 += kFpTwo_677B98;
-                        v33 = 6;
-                    }
-                    else
+                    if (!v31)
                     {
                         v19 -= kFpTwo_677B98;
                         v33 = 3;
+                    }
+                    else
+                    {
+                        v19 += kFpTwo_677B98;
+                        v33 = 6;
                     }
                     v32 = v19;
                     this->field_48 = 1;
@@ -766,15 +767,15 @@ void CarAI_78::sub_4482C0()
 
                 case car_ai_direction::west_4:
                     v18 += kFpHalf_677A84;
-                    if (v31)
-                    {
-                        v33 = 6;
-                        v19 -= kFpTwo_677B98;
-                    }
-                    else
+                    if (!v31)
                     {
                         v33 = 3;
                         v19 += kFpThree_677B9C;
+                    }
+                    else
+                    {
+                        v33 = 6;
+                        v19 -= kFpTwo_677B98;
                     }
                     v32 = v19;
                     this->field_48 = 2;
@@ -1178,8 +1179,10 @@ void CarAI_78::ManageTrafficCarDirection_448CE0()
     Fix16 ypos_1;
 
     Fix16 radius = dword_677C9C / kFpTwo_677B98;
-    
-    Ang16::PolarToCartesian_41FC20(field_10_angle, radius, xpos_1, ypos_1);
+
+    // PolarToCartesian_41FC20 with the second multiply out of line
+    xpos_1 = Ang16::sine_40F500(field_10_angle) * radius;
+    ypos_1 = Ang16::cosine_40F520(field_10_angle).Multiply_408680(radius);
 
     dword_677A74 = xpos_1 + field_0_car->field_50_car_sprite->field_14_xy.x;
     dword_677A80 = ypos_1 + field_0_car->field_50_car_sprite->field_14_xy.y;
@@ -1191,14 +1194,13 @@ void CarAI_78::ManageTrafficCarDirection_448CE0()
     
         Ang16 v79;
         Ang16 ang;
-    
+
         switch (field_4C_curr_direction)
         {
             case car_ai_direction::north_1:
                 if ((field_24_flags & 0x80u) != 0)
                 {
                     field_40 = field_44_target_direction;
-                    
                     if (field_44_target_direction == car_ai_target_direction::northwards_1)
                     {
                         sub_4538B0();
@@ -1212,90 +1214,92 @@ void CarAI_78::ManageTrafficCarDirection_448CE0()
                     {
                         field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
                     }
+                    return;
                 }
-                else
-                {
-                    ang = field_10_angle;
-                    this->field_40 = 1;
-                    v79 = kAng180_677ADE;
 
-                    if (ang > AngSubNorm_44AF00(v79, dword_677A08) && ang < AngAddNorm_44AF00(dword_677A08, v79))
+                ang = field_10_angle;
+                field_40 = 1;
+                v79 = kAng180_677ADE;
+                if (ang > Ang16(v79.rValue - dword_677A08.rValue).Normalized_406C20() &&
+                    ang < Ang16(v79.rValue + dword_677A08.rValue).Normalized_406C20())
+                {
+                    if (byte_677BBC)
                     {
-                        if (byte_677BBC)
+                        field_8 = 0;
+                    }
+
+                    Fix16 off = field_0_car->field_50_car_sprite->field_14_xy.x - Fix16(field_0_car->field_50_car_sprite->field_14_xy.x.ToUInt8());
+                    if (off > dword_6779C8 && off < dword_6779D0)
+                    {
+                        if (field_10_angle == kAng180_677ADE)
                         {
                             field_8 = 0;
+                            field_0_car->field_58_physics->field_8_total_damage_q = 0;
+                            field_24_flags &= ~0x400;
+                            field_24_flags |= 0x10;
                         }
-
-                        Fix16 off = field_0_car->field_50_car_sprite->field_14_xy.x -
-                            Fix16((field_0_car->field_50_car_sprite->field_14_xy.x).ToUInt8());
-                        if (off > dword_6779C8 && off < dword_6779D0)
+                        else
                         {
-                            if (field_10_angle == kAng180_677ADE)
-                            {
-                                field_8 = 0;
-                                field_0_car->field_58_physics->field_8_total_damage_q = 0;
-                                field_24_flags &= ~0x400;
-                                field_24_flags |= 0x10;
-                            }
-                            else
+                            field_0_car->field_58_physics->SetGoStraight_42ABB0();
+                        }
+                        return;
+                    }
+
+                    field_24_flags &= ~0x12000u;
+                    if (off <= dword_6779C8)
+                    {
+                        if (ang > Ang16(v79.rValue - dword_677A08.rValue).Normalized_406C20())
+                        {
+                            if (ang < Ang16(v79.rValue - word_677CE2.rValue).Normalized_406C20())
                             {
                                 field_0_car->field_58_physics->SetGoStraight_42ABB0();
                             }
-                            return;
-                        }
-
-                        this->field_24_flags &= ~0x12000u;
-                        if (off <= dword_6779C8)
-                        {
-                            if (ang <= AngSubNorm_44AF00(v79, dword_677A08))
-                            {
-                                field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
-                            }
-                            else if (ang >= AngSubNorm_44AF00(v79, word_677CE2))
+                            else
                             {
                                 field_0_car->field_58_physics->TurnClockwise_42ABA0();
-                            }
-                            else
-                            {
-                                field_0_car->field_58_physics->SetGoStraight_42ABB0();
                             }
                         }
                         else
                         {
-                            if (ang >= AngAddNorm_44AF00(dword_677A08, v79))
-                            {
-                                field_0_car->field_58_physics->TurnClockwise_42ABA0();
-                            }
-                            else if (ang <= AngAddNorm_44AF00(word_677CE2, v79))
-                            {
-                                field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
-                            }
-                            else
-                            {
-                                field_0_car->field_58_physics->SetGoStraight_42ABB0();
-                            }
+                            field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
                         }
                     }
                     else
                     {
-                        this->field_24_flags &= ~0x12000u;
-                        if (ang <= v79)
+                        if (ang < Ang16(v79.rValue + dword_677A08.rValue).Normalized_406C20())
                         {
-                            field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
+                            if (ang > Ang16(v79.rValue + word_677CE2.rValue).Normalized_406C20())
+                            {
+                                field_0_car->field_58_physics->SetGoStraight_42ABB0();
+                            }
+                            else
+                            {
+                                field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
+                            }
                         }
                         else
                         {
                             field_0_car->field_58_physics->TurnClockwise_42ABA0();
                         }
                     }
+                    return;
+                }
+
+                field_24_flags &= ~0x12000u;
+                if (ang > v79)
+                {
+                    field_0_car->field_58_physics->TurnClockwise_42ABA0();
+                }
+                else
+                {
+                    field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
                 }
                 return;
-    
+
             case car_ai_direction::south_2:
                 if ((field_24_flags & 0x80u) != 0)
                 {
-                    this->field_40 = field_44_target_direction;
-
+                    field_40 = field_44_target_direction;
                     if (field_44_target_direction != car_ai_target_direction::southwards_2)
                     {
                         if (field_44_target_direction == car_ai_target_direction::westwards_4)
@@ -1310,306 +1314,293 @@ void CarAI_78::ManageTrafficCarDirection_448CE0()
                     else
                     {
                         sub_4538B0();
-                        field_24_flags &= 0xFFFDFF7F;
+                        field_24_flags &= ~0x20080;
                     }
-                    
-                }
-                else
-                {
-                    this->field_40 = 2;
-    
-                    Ang16 v64 = this->field_10_angle + kAng90_6779E4;
-                    Ang16 v31 = v64;
-    
-                    Ang16 v32 = kAng90_6779E4;
-    
-                    Ang16 v65 = kAng90_6779E4 - word_677CE2;
-                    Ang16 v67;
-                    Ang16 v68;
-    
-                    if (v64 <= v65 - word_677CE2 || (v67 = v32 + word_677CE2, v68 = v67 + word_677CE2, v64 >= v68))
-                    {
-                        this->field_24_flags &= ~0x12000u;
-                        if (v64 <= v32)
-                        {
-                            field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
-                        }
-                        else
-                        {
-                            this->field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::clockwise_m1;
-                        }
-                        return;
-                    }
-                    if (byte_677BBC)
-                    {
-                        this->field_8 = 0;
-                    }
-    
-                    Fix16 v33 = field_0_car->field_50_car_sprite->field_14_xy.x - Fix16((field_0_car->field_50_car_sprite->field_14_xy.x).ToUInt8());
-                    if (v33 <= dword_6779C8 || v33 >= dword_6779D0)
-                    {
-                        field_24_flags &= ~0x12000u;
-                        if (v33 <= dword_6779C8)
-                        {
-                            if (v64 >= kAng90_6779E4 + dword_677A08)
-                            {
-                                field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::clockwise_m1;
-                            }
-                            else if (v64 <= v32 + word_677CE2)
-                            {
-                                field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
-                            }
-                            else
-                            {
-                                field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::none_0;
-                                field_0_car->field_58_physics->field_78_pointing_ang_rad = kF16Zero_677B90;
-                            }
-                        }
-                        else if (v64 <= kAng90_6779E4 - dword_677A08)
-                        {
-                            this->field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
-                        }
-                        else if (v64 >= v32 - word_677CE2)
-                        {
-                            field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::clockwise_m1;
-                        }
-                        else
-                        {
-                            field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::none_0;
-                            field_0_car->field_58_physics->field_78_pointing_ang_rad = kF16Zero_677B90;
-                        }
-                    }
-                    else if (field_10_angle != kAng0_677CE8 || field_70_nearest_entity)
-                    {
-                        field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::none_0;
-                        field_0_car->field_58_physics->field_78_pointing_ang_rad = kF16Zero_677B90;
-                    }
-                    else
-                    {
-                        field_0_car->field_58_physics->field_8_total_damage_q = 0;
-                        this->field_8 = 0;
-                        this->field_24_flags &= ~0x400;
-                        this->field_24_flags |= 0x10;
-                    }
-                }
-                return;
-    
-            case car_ai_direction::east_3:
-                this->field_40 = 3;
-    
-                //v79 = kAng90_6779E4;
-    
-                if ((field_24_flags & 0x80u) == 0)
-                {
-                    Ang16 v74 = (kAng90_6779E4 - word_677CE2) - word_677CE2;
-                    Ang16 v75;
-                    Ang16 v76;
-    
-                    if (field_10_angle <= v74 || (v75 = kAng90_6779E4 + word_677CE2, v76 = word_677CE2 + v75, field_10_angle >= v76))
-                    {
-                        this->field_24_flags &= ~0x12000u;
-                        if (field_10_angle <= kAng90_6779E4)
-                        {
-                            this->field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
-                            return;
-                        }
-                        else
-                        {
-                            field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::clockwise_m1;
-                        }
-                        return;
-                    }
-    
-                    if (byte_677BBC)
-                    {
-                        this->field_8 = 0;
-                    }
-    
-                    Fix16 v39 = this->field_0_car->field_50_car_sprite->field_14_xy.y - Fix16((field_0_car->field_50_car_sprite->field_14_xy.y).ToUInt8());
-                    if (v39 > dword_6779C8 && v39 < dword_6779D0)
-                    {
-                        if (this->field_10_angle == kAng90_6779E4)
-                        {
-                            field_0_car->field_58_physics->field_8_total_damage_q = 0;
-                            this->field_8 = 0;
-                            this->field_24_flags &= ~0x400;
-                            this->field_24_flags |= 0x10;
-                        }
-                        else
-                        {
-                            field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::none_0;
-                            field_0_car->field_58_physics->field_78_pointing_ang_rad = kF16Zero_677B90;
-                        }
-                        return;
-                    }
-    
-                    this->field_24_flags &= ~0x12000u;
-    
-                    if (v39 > dword_6779C8)
-                    {
-                        if (field_10_angle > kAng90_6779E4 + word_677CE2)
-                        {
-                            if (field_10_angle >= dword_677A08 + kAng90_6779E4)
-                            {
-                                field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::clockwise_m1;
-                                return;
-                            }
-                            field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::none_0;
-                            field_0_car->field_58_physics->field_78_pointing_ang_rad = kF16Zero_677B90;
-                            return;
-                        }
-                        field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
-                    }
-                    else
-                    {
-                        if (field_10_angle >= kAng90_6779E4 - word_677CE2)
-                        {
-                            field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::clockwise_m1;
-                            return;
-                        }
-    
-                        if (field_10_angle > kAng90_6779E4 - dword_677A08)
-                        {
-                            field_0_car->field_58_physics = this->field_0_car->field_58_physics;
-                            field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::none_0;
-                            field_0_car->field_58_physics->field_78_pointing_ang_rad = kF16Zero_677B90;
-                            return;
-                        }
-                        field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
-                        return;
-                    }
-                }
-                else
-                {
-                    this->field_40 = field_44_target_direction;
-                    switch (field_44_target_direction)
-                    {
-                        case car_ai_target_direction::eastwards_3:
-                            sub_4538B0();
-                            this->field_24_flags &= 0xFFFDFF7F;
-                            return;
-                        case car_ai_target_direction::northwards_1:
-                            this->field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
-                            break;
-                        case car_ai_target_direction::southwards_2:
-                            this->field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::clockwise_m1;
-                            break;
-                    }
-                }
-                return;
-    
-            case car_ai_direction::west_4:
-                if ((field_24_flags & 0x80u) == 0)
-                {
-                    this->field_40 = 4;
-                    //v79 = kAng270_677B08;
-    
-                    if (field_10_angle <= (kAng270_677B08 - word_677CE2) - word_677CE2)
-                    {
-                        this->field_24_flags = field_24_flags & ~0x12000u;
-                        if (field_10_angle <= kAng270_677B08)
-                        {
-                            this->field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
-                            return;
-                        }
-                        else
-                        {
-                            field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::clockwise_m1;
-                        }
-                        return;
-                    }
-    
-                    if (field_10_angle >= word_677CE2 + word_677CE2 + kAng270_677B08)
-                    {
-                        this->field_24_flags = field_24_flags & ~0x12000u;
-                        if (field_10_angle <= kAng270_677B08)
-                        {
-                            this->field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
-                            return;
-                        }
-                        else
-                        {
-                            field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::clockwise_m1;
-                        }
-                        return;
-                    }
-                    else
-                    {
-                        if (byte_677BBC)
-                        {
-                            this->field_8 = 0;
-                        }
-    
-                        Fix16 v52 = this->field_0_car->field_50_car_sprite->field_14_xy.y - Fix16((field_0_car->field_50_car_sprite->field_14_xy.y).ToUInt8());
-                        if (v52 > dword_6779C8 && v52 < dword_6779D0)
-                        {
-                            if (field_10_angle == kAng270_677B08)
-                            {
-                                field_0_car->field_58_physics->field_8_total_damage_q = 0;
-                                this->field_8 = 0;
-                                this->field_24_flags &= ~0x400;
-                                this->field_24_flags |= 0x10;
-                            }
-                            else
-                            {
-                                field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::none_0;
-                                field_0_car->field_58_physics->field_78_pointing_ang_rad = kF16Zero_677B90;
-                            }
-                            return;
-                        }
-    
-                        this->field_24_flags &= 0xFFFEDFFF;
-                        if (v52 > dword_6779C8)
-                        {
-                            if (field_10_angle >= kAng270_677B08 - word_677CE2)
-                            {
-                                field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::clockwise_m1;
-                                return;
-                            }
-    
-                            if (field_10_angle <= kAng270_677B08 - dword_677A08)
-                            {
-                                field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
-                                return;
-                            }
-                            field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::none_0;
-                            field_0_car->field_58_physics->field_78_pointing_ang_rad = kF16Zero_677B90;
-                            return;
-                        }
-    
-                        if (field_10_angle <= kAng270_677B08 + word_677CE2)
-                        {
-                            field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
-                            return;
-                        }
-    
-                        if (field_10_angle < dword_677A08 + kAng270_677B08)
-                        {
-                            field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::none_0;
-                            field_0_car->field_58_physics->field_78_pointing_ang_rad = kF16Zero_677B90;
-                            return;
-                        }
-                    }
-    
-                    field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::clockwise_m1;
                     return;
                 }
-    
-                field_40 = field_44_target_direction;
-                switch (field_44_target_direction)
+
+                field_40 = 2;
+                ang = Ang16(field_10_angle.rValue + kAng90_6779E4.rValue).Normalized_406C20();
+                v79 = kAng90_6779E4;
+                if (ang > Ang16(Ang16(v79.rValue - word_677CE2.rValue).Normalized_406C20().rValue - word_677CE2.rValue).Normalized_406C20() &&
+                    ang < Ang16(Ang16(v79.rValue + word_677CE2.rValue).Normalized_406C20().rValue + word_677CE2.rValue).Normalized_406C20())
                 {
-                    case car_ai_target_direction::westwards_4:
-                        sub_4538B0();
-                        this->field_24_flags &= 0xFFFDFF7F;
+                    if (byte_677BBC)
+                    {
+                        field_8 = 0;
+                    }
+
+                    Fix16 off = field_0_car->field_50_car_sprite->field_14_xy.x - Fix16(field_0_car->field_50_car_sprite->field_14_xy.x.ToUInt8());
+                    if (off > dword_6779C8 && off < dword_6779D0)
+                    {
+                        if (field_10_angle == kAng0_677CE8 && !field_70_nearest_entity)
+                        {
+                            field_0_car->field_58_physics->field_8_total_damage_q = 0;
+                            field_24_flags &= ~0x400;
+                            field_8 = 0;
+                            field_24_flags |= 0x10;
+                        }
+                        else
+                        {
+                            field_0_car->field_58_physics->SetGoStraight_42ABB0();
+                        }
                         return;
-                    case car_ai_target_direction::northwards_1:
-                        this->field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::clockwise_m1;
-                        return;
-                    case car_ai_target_direction::southwards_2:
-                        field_0_car->field_58_physics->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
-                        return;
+                    }
+
+                    field_24_flags &= ~0x12000u;
+                    if (off <= dword_6779C8)
+                    {
+                        if (ang < Ang16(v79.rValue + dword_677A08.rValue).Normalized_406C20())
+                        {
+                            if (ang > Ang16(v79.rValue + word_677CE2.rValue).Normalized_406C20())
+                            {
+                                field_0_car->field_58_physics->SetGoStraight_42ABB0();
+                            }
+                            else
+                            {
+                                field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
+                            }
+                        }
+                        else
+                        {
+                            field_0_car->field_58_physics->TurnClockwise_42ABA0();
+                        }
+                    }
+                    else
+                    {
+                        if (ang > Ang16(v79.rValue - dword_677A08.rValue).Normalized_406C20())
+                        {
+                            if (ang < Ang16(v79.rValue - word_677CE2.rValue).Normalized_406C20())
+                            {
+                                field_0_car->field_58_physics->SetGoStraight_42ABB0();
+                            }
+                            else
+                            {
+                                field_0_car->field_58_physics->TurnClockwise_42ABA0();
+                            }
+                        }
+                        else
+                        {
+                            field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
+                        }
+                    }
+                    return;
+                }
+
+                field_24_flags &= ~0x12000u;
+                if (ang > v79)
+                {
+                    field_0_car->field_58_physics->TurnClockwise_42ABA0();
+                }
+                else
+                {
+                    field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
                 }
                 return;
+
+            case car_ai_direction::east_3:
+                ang = field_10_angle;
+                field_40 = 3;
+                v79 = kAng90_6779E4;
+                if ((field_24_flags & 0x80u) != 0)
+                {
+                    field_40 = field_44_target_direction;
+                    if (field_44_target_direction != car_ai_target_direction::eastwards_3)
+                    {
+                        if (field_44_target_direction == car_ai_target_direction::northwards_1)
+                        {
+                            field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
+                        }
+                        else if (field_44_target_direction == car_ai_target_direction::southwards_2)
+                        {
+                            field_0_car->field_58_physics->TurnClockwise_42ABA0();
+                        }
+                    }
+                    else
+                    {
+                        sub_4538B0();
+                        field_24_flags &= ~0x20080;
+                    }
+                    return;
+                }
+
+                if (ang > Ang16(Ang16(v79.rValue - word_677CE2.rValue).Normalized_406C20().rValue - word_677CE2.rValue).Normalized_406C20() &&
+                    ang < Ang16(word_677CE2.rValue + Ang16(v79.rValue + word_677CE2.rValue).Normalized_406C20().rValue).Normalized_406C20())
+                {
+                    if (byte_677BBC)
+                    {
+                        field_8 = 0;
+                    }
+
+                    Fix16 off = field_0_car->field_50_car_sprite->field_14_xy.y - Fix16(field_0_car->field_50_car_sprite->field_14_xy.y.ToUInt8());
+                    if (off > dword_6779C8 && off < dword_6779D0)
+                    {
+                        if (field_10_angle == kAng90_6779E4)
+                        {
+                            field_0_car->field_58_physics->field_8_total_damage_q = 0;
+                            field_24_flags &= ~0x400;
+                            field_8 = 0;
+                            field_24_flags |= 0x10;
+                        }
+                        else
+                        {
+                            field_0_car->field_58_physics->SetGoStraight_42ABB0();
+                        }
+                        return;
+                    }
+
+                    field_24_flags &= ~0x12000u;
+                    if (off <= dword_6779C8)
+                    {
+                        if (ang < Ang16(v79.rValue - word_677CE2.rValue).Normalized_406C20())
+                        {
+                            if (ang > Ang16(v79.rValue - dword_677A08.rValue).Normalized_406C20())
+                            {
+                                field_0_car->field_58_physics->SetGoStraight_42ABB0();
+                            }
+                            else
+                            {
+                                field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
+                            }
+                        }
+                        else
+                        {
+                            field_0_car->field_58_physics->TurnClockwise_42ABA0();
+                        }
+                    }
+                    else
+                    {
+                        if (ang > v79 + word_677CE2)
+                        {
+                            if (ang < v79 + dword_677A08)
+                            {
+                                field_0_car->field_58_physics->SetGoStraight_42ABB0();
+                            }
+                            else
+                            {
+                                field_0_car->field_58_physics->TurnClockwise_42ABA0();
+                            }
+                        }
+                        else
+                        {
+                            field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
+                        }
+                    }
+                    return;
+                }
+
+                field_24_flags &= ~0x12000u;
+                if (ang > v79)
+                {
+                    field_0_car->field_58_physics->TurnClockwise_42ABA0();
+                }
+                else
+                {
+                    field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
+                }
+                return;
+
+            case car_ai_direction::west_4:
+                if ((field_24_flags & 0x80u) != 0)
+                {
+                    field_40 = field_44_target_direction;
+                    if (field_44_target_direction != car_ai_target_direction::westwards_4)
+                    {
+                        if (field_44_target_direction == car_ai_target_direction::northwards_1)
+                        {
+                            field_0_car->field_58_physics->TurnClockwise_42ABA0();
+                        }
+                        else if (field_44_target_direction == car_ai_target_direction::southwards_2)
+                        {
+                            field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
+                        }
+                    }
+                    else
+                    {
+                        sub_4538B0();
+                        field_24_flags &= ~0x20080;
+                    }
+                    return;
+                }
+
+                ang = field_10_angle;
+                field_40 = 4;
+                v79 = kAng270_677B08;
+                if (ang > (v79 - word_677CE2) - word_677CE2 && ang < word_677CE2 + (word_677CE2 + kAng270_677B08))
+                {
+                    if (byte_677BBC)
+                    {
+                        field_8 = 0;
+                    }
+
+                    Fix16 off = field_0_car->field_50_car_sprite->field_14_xy.y - Fix16(field_0_car->field_50_car_sprite->field_14_xy.y.ToUInt8());
+                    if (off > dword_6779C8 && off < dword_6779D0)
+                    {
+                        if (ang == kAng270_677B08)
+                        {
+                            field_0_car->field_58_physics->field_8_total_damage_q = 0;
+                            field_24_flags &= ~0x400;
+                            field_8 = 0;
+                            field_24_flags |= 0x10;
+                        }
+                        else
+                        {
+                            field_0_car->field_58_physics->SetGoStraight_42ABB0();
+                        }
+                        return;
+                    }
+
+                    field_24_flags &= ~0x12000u;
+                    if (off <= dword_6779C8)
+                    {
+                        if (ang > v79 + word_677CE2)
+                        {
+                            if (ang < v79 + dword_677A08)
+                            {
+                                field_0_car->field_58_physics->SetGoStraight_42ABB0();
+                            }
+                            else
+                            {
+                                field_0_car->field_58_physics->TurnClockwise_42ABA0();
+                            }
+                        }
+                        else
+                        {
+                            field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
+                        }
+                    }
+                    else
+                    {
+                        if (ang < v79 - word_677CE2)
+                        {
+                            if (ang > v79 - dword_677A08)
+                            {
+                                field_0_car->field_58_physics->SetGoStraight_42ABB0();
+                            }
+                            else
+                            {
+                                field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
+                            }
+                        }
+                        else
+                        {
+                            field_0_car->field_58_physics->TurnClockwise_42ABA0();
+                        }
+                    }
+                    return;
+                }
+
+                field_24_flags &= ~0x12000u;
+                if (ang > v79)
+                {
+                    field_0_car->field_58_physics->TurnClockwise_42ABA0();
+                }
+                else
+                {
+                    field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
+                }
+                return;
+
             default:
                 return;
         }
@@ -1630,13 +1621,12 @@ void CarAI_78::sub_44A1F0()
     Fix16 vec_x;
     Fix16 vec_y;
 
-    field_24_flags &= ~0x2000u;
     vec_y = kF16Zero_677B90;
+    field_24_flags &= ~0x2000u;
 
-    s32 v34 = field_0_car->field_50_car_sprite->field_1C_zpos.ToInt();
-    Ang16 v39 = v3;
+    Ang16 v39 = v2;
 
-    gmp_block_info* block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(dword_677A74.ToInt(), dword_677A80.ToInt(), v34);
+    gmp_block_info* block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(dword_677A74.ToInt(), dword_677A80.ToInt(), field_0_car->field_50_car_sprite->field_1C_zpos.ToInt());
     if (!block_4DFE10 || (block_4DFE10->field_B_slope_type & 0xFC) <= 0 || (block_4DFE10->field_B_slope_type & 0xFCu) >= 0xB4 ||
         (block_4DFE10->field_B_slope_type & 3) == 0)
     {
@@ -1645,26 +1635,15 @@ void CarAI_78::sub_44A1F0()
                                                            (field_0_car->field_50_car_sprite->field_1C_zpos.ToInt()) - 1);
     }
 
-    s32 road_direction;
-    if (block_4DFE10)
+    s32 road_direction = block_4DFE10 ? gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(block_4DFE10, 1) : 0;
+    if (road_direction && field_3C)
     {
-        road_direction = gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(block_4DFE10, 1);
-        if (road_direction)
+        field_3C = 0;
+        field_24_flags &= ~0xC0;
+        if (byte_677BBC)
         {
-            if (field_3C)
-            {
-                field_3C = 0;
-                field_24_flags &= ~0xC0;
-                if (byte_677BBC)
-                {
-                    field_0_car->field_60->field_22 = 1;
-                }
-            }
+            field_0_car->field_60->field_22 = 1;
         }
-    }
-    else
-    {
-        road_direction = 0;
     }
 
     field_24_flags &= ~0x400;
@@ -1684,9 +1663,9 @@ void CarAI_78::sub_44A1F0()
 
                         if (v12 <= dword_6779C8) // 9.6f idb line 131
                         {
-                            if (v3 > Ang16(v39.rValue - dword_677A08.rValue, 0)) // 9.6f idb line 134
+                            if (v3 > Ang16(v39.rValue - dword_677A08.rValue).Normalized_406C20()) // 9.6f idb line 134
                             {
-                                if (v3 < Ang16(v2.rValue - word_677CE2.rValue, 0))
+                                if (v3 < Ang16(v2.rValue - word_677CE2.rValue).Normalized_406C20())
                                 {
                                     field_0_car->field_58_physics->SetGoStraight_42ABB0();
                                 }
@@ -1701,9 +1680,9 @@ void CarAI_78::sub_44A1F0()
                             }
                         }
                         // 9.6f idb line 139
-                        else if (v3 < Ang16(v39.rValue + dword_677A08.rValue, 0))
+                        else if (v3 < Ang16(dword_677A08.rValue + v39.rValue).Normalized_406C20())
                         {
-                            if (v3 > Ang16(v2.rValue + word_677CE2.rValue, 0))
+                            if (v3 > Ang16(v2.rValue + word_677CE2.rValue).Normalized_406C20())
                             {
                                 field_0_car->field_58_physics->SetGoStraight_42ABB0();
                             }
@@ -1838,7 +1817,11 @@ void CarAI_78::sub_44A1F0()
                 {
                     Fix16 v17 = field_0_car->field_50_car_sprite->field_14_xy.y -
                         Fix16((field_0_car->field_50_car_sprite->field_14_xy.y.ToUInt8()));
-                    if (v17 <= dword_6779C8 || v17 >= dword_6779D0)
+                    if (v17 > dword_6779C8 && v17 < dword_6779D0)
+                    {
+                        field_0_car->field_58_physics->SetGoStraight_42ABB0();
+                    }
+                    else
                     {
                         field_24_flags &= 0xFFFEDFFF;
 
@@ -1882,10 +1865,6 @@ void CarAI_78::sub_44A1F0()
                                 field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
                             }
                         }
-                    }
-                    else
-                    {
-                        field_0_car->field_58_physics->SetGoStraight_42ABB0();
                     }
                     return;
                 }
@@ -1952,6 +1931,7 @@ void CarAI_78::sub_44A1F0()
             field_24_flags |= 8;
             if (!field_3C)
             {
+                field_3C = 1;
                 for (u8 k = 0; k < 4; k++)
                 {
                     Fix16 xpos = dword_677A74;
@@ -2001,6 +1981,7 @@ void CarAI_78::sub_44A1F0()
                                 field_50 = 3;
                                 break;
                         }
+                        return;
                     }
                 } // end for loop
             }
@@ -4079,6 +4060,19 @@ void CarAI_78::UpdateStateMachine_44E560()
 }
 
 // https://decomp.me/scratch/Auxlx
+// MaxAbsDistance_42A6B0 past the inline budget: the y difference stays inline, the Abs calls
+// are the out-of-line Abs_436A50
+static inline Fix16 __stdcall MaxAbsDistanceRawY_451980(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
+{
+    Fix16 diff_x = x2 - x1;
+    Fix16 diff_y;
+    diff_y.mValue = y2.mValue - y1.mValue;
+
+    Fix16 result;
+    result = Fix16::Max_44E540(Fix16::Abs_436A50(diff_x), Fix16::Abs_436A50(diff_y));
+    return result;
+}
+
 WIP_FUNC(0x451980)
 void CarAI_78::ReactToNearbyCar_451980()
 {
@@ -4107,10 +4101,10 @@ void CarAI_78::ReactToNearbyCar_451980()
         }
     }
 
-    Fix16 v8 = Fix16::MaxAbsDistanceOOL_42A6B0(gCurrCarAI_xpos_677C38,
-                                               gCurrCarAI_ypos_677C30,
-                                               cBC->field_50_car_sprite->field_14_xy.x,
-                                               cBC->field_50_car_sprite->field_14_xy.y);
+    Fix16 v8 = MaxAbsDistanceRawY_451980(gCurrCarAI_xpos_677C38,
+                                         gCurrCarAI_ypos_677C30,
+                                         cBC->field_50_car_sprite->field_14_xy.x,
+                                         cBC->field_50_car_sprite->field_14_xy.y);
     Ang16 v9;
 
     if (v8 > kFpTwo_677B98)
@@ -4421,16 +4415,18 @@ void CarAI_78::sub_452060()
     //f10 *= 4;
 
 
-    Fix16 v7 = v1 + kFpThreeQuarters_677A4C;
     Fix16 v9;
     Fix16 v10;
-    v9 = Ang16::sine_40F500(this->field_10_angle) * v7;
-    v10 = Ang16::cosine_40F520(this->field_10_angle).Multiply_408680(v7);
+    {
+        Fix16 v7 = v1 + kFpThreeQuarters_677A4C;
+        v9 = Ang16::sine_40F500(this->field_10_angle) * v7;
+        v10 = Ang16::cosine_40F520(this->field_10_angle).Multiply_408680(v7);
 
-    Fix16 new_x = v9 + field_0_car->field_50_car_sprite->field_14_xy.x;
-    Fix16 new_y = v10 + field_0_car->field_50_car_sprite->field_14_xy.y;
+        Fix16 new_x = v9 + field_0_car->field_50_car_sprite->field_14_xy.x;
+        Fix16 new_y = v10 + field_0_car->field_50_car_sprite->field_14_xy.y;
 
-    field_0_car->field_50_car_sprite->set_xyz_lazy_420600(new_x, new_y, new_z);
+        field_0_car->field_50_car_sprite->set_xyz_lazy_420600(new_x, new_y, new_z);
+    }
 
     byte_6771DC = 1;
 
@@ -4444,13 +4440,14 @@ void CarAI_78::sub_452060()
     {
         field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_xpos_677C38, gCurrCarAI_ypos_677C30, gCurrCarAI_zpos_677C48);
 
-        Fix16 v86 = (Fix16(kAng45_677A38.rValue) * Fix16(this->field_0_car->field_58_physics->field_AD_turn_direction));
+        Fix16 v86 = (Fix16(word_677A3A.rValue) * Fix16(this->field_0_car->field_58_physics->field_AD_turn_direction));
         Ang16 v83(&v86, 0);
 
         Ang16 v82(this->field_10_angle.rValue + v83.rValue);
         v82.Normalize_406C20();
 
-        v9 = Ang16::sine_40F500(v82) * gF16fOne_677B94;
+        // The table read directly (not the sine_40F500 copy) keeps the sine in eax as the imul's left operand
+        v9 = gSin_table_667A80[v82.rValue] * gF16fOne_677B94;
         v10 = Ang16::cosine_40F520(v82).Multiply_408680(gF16fOne_677B94);
         new_x_1 = v9 + field_0_car->field_50_car_sprite->field_14_xy.x;
         new_y_2 = v10 + field_0_car->field_50_car_sprite->field_14_xy.y;
@@ -4668,7 +4665,7 @@ void CarAI_78::sub_452060()
             }
         }
 
-        if (this->field_2C)
+        if (this->field_2C > 0)
         {
             this->field_2C--;
         }
@@ -4746,11 +4743,26 @@ void CarAI_78::sub_452060()
     }
 }
 
+// RotateAndTranslatePoint_42A720 with the out-of-line Fix16 operator copies (as in
+// Char_B4::HandleGenericCollision_54A530): only the first subtraction stays inline
+static inline void __stdcall RotateAndTranslatePoint_OOL_452A20(Fix16& pInX,
+                                                      Fix16& pInY,
+                                                      Ang16& pRotAng,
+                                                      Fix16& pTransX,
+                                                      Fix16& pTransY,
+                                                      Fix16& pRotTransX,
+                                                      Fix16& pRotTransY)
+{
+    pRotTransX = (const Fix16&)pInX.Subtract_436A00(pTransX).Multiply_408680(Ang16::cosine_40F520(pRotAng)) +
+        (pInY - pTransY).Multiply_408680(Ang16::sine_40F500(pRotAng));
+    pRotTransY = (const Fix16&)pInX.Subtract_436A00(pTransX).Negate_4086A0().Multiply_408680(Ang16::sine_40F500(pRotAng)) +
+        pInY.Subtract_436A00(pTransY).Multiply_408680(Ang16::cosine_40F520(pRotAng));
+}
+
 // https://decomp.me/scratch/zCa7m
-WIP_FUNC(0x452a20)
+MATCH_FUNC(0x452a20)
 void CarAI_78::ManageCollisions_452A20()
 {
-    WIP_IMPLEMENTED;
     Fix16_Point v45;
 
     if (field_24_bf.b12)
@@ -4773,7 +4785,9 @@ void CarAI_78::ManageCollisions_452A20()
             {
                 if (field_0_car->field_60->field_10)
                 {
-                    v45.FromPolar_41E210(kF16Zero_677B90, kAng0_677CE8);
+                    // FromPolar_41E210 past the inline budget: the second multiply is out of line
+                    v45.x = kF16Zero_677B90 * Ang16::sine_40F500(kAng0_677CE8);
+                    v45.y = kF16Zero_677B90.Multiply_408680(Ang16::cosine_40F520(kAng0_677CE8));
                     if (gCurrCarAI_TargetCar_6779B0)
                     {
                         if (gCurrCarAI_TargetCar_6779B0 == field_68_car_in_collision)
@@ -4804,15 +4818,17 @@ void CarAI_78::ManageCollisions_452A20()
 
         Fix16 rotX;
         Fix16 rotY;
-        RotateAndTranslatePoint_42A720(field_68_car_in_collision->field_50_car_sprite->field_14_xy.x,
-                                       field_68_car_in_collision->field_50_car_sprite->field_14_xy.y,
-                                       -field_10_angle,
-                                       gCurrCarAI_xpos_677C38,
-                                       gCurrCarAI_ypos_677C30,
-                                       rotX,
-                                       rotY);
+        // The negated angle is normalised by the out-of-line Normalize_406C20
+        RotateAndTranslatePoint_OOL_452A20(field_68_car_in_collision->field_50_car_sprite->field_14_xy.x,
+                                           field_68_car_in_collision->field_50_car_sprite->field_14_xy.y,
+                                           Ang16(-field_10_angle.rValue).Normalized_406C20(),
+                                           gCurrCarAI_xpos_677C38,
+                                           gCurrCarAI_ypos_677C30,
+                                           rotX,
+                                           rotY);
 
-        Fix16 v21 = rotX + field_0_car->field_50_car_sprite->field_14_xy.x;
+        // rotX is reused for the sum (a separate local moves it to the stack)
+        rotX = rotX + field_0_car->field_50_car_sprite->field_14_xy.x;
 
         Ped* pDriver = field_68_car_in_collision->field_54_driver;
 
@@ -4825,7 +4841,7 @@ void CarAI_78::ManageCollisions_452A20()
 
         if (field_24_bf.b21)
         {
-            if (v21 > field_0_car->field_50_car_sprite->field_14_xy.x)
+            if (rotX > field_0_car->field_50_car_sprite->field_14_xy.x)
             {
                 field_0_car->field_58_physics->TurnClockwise_42ABA0();
             }
@@ -4836,7 +4852,7 @@ void CarAI_78::ManageCollisions_452A20()
         }
         else if (field_2A_stopped_timer > 0 && field_2A_stopped_timer < 20)
         {
-            if (v21 > field_0_car->field_50_car_sprite->field_14_xy.x)
+            if (rotX > field_0_car->field_50_car_sprite->field_14_xy.x)
             {
                 field_0_car->field_58_physics->TurnClockwise_42ABA0();
             }
@@ -4847,7 +4863,7 @@ void CarAI_78::ManageCollisions_452A20()
         }
         else if (field_2A_stopped_timer > 20)
         {
-            if (v21 > field_0_car->field_50_car_sprite->field_14_xy.x)
+            if (rotX > field_0_car->field_50_car_sprite->field_14_xy.x)
             {
                 field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
             }

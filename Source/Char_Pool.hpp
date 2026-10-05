@@ -122,6 +122,63 @@ class PedPool
         return field_0_pool.Allocate();
     }
 
+    // 9.6f 0x445960
+    // Pool::UpdatePool with the next item stored in both branches
+    void UpdatePool_445960()
+    {
+        field_0_pool.field_X_count = 0;
+
+        Ped* pPreviousItem = NULL;
+        Ped* pCurrItem = field_0_pool.field_4_pPrev;
+
+        while (pCurrItem)
+        {
+            ++field_0_pool.field_X_count;
+
+            Ped* pNext = pCurrItem->mpNext;
+
+            if (pCurrItem->PoolUpdate())
+            {
+                pCurrItem->PoolDeallocate();
+
+                if (pPreviousItem && pPreviousItem->mpNext != pCurrItem)
+                {
+                    pPreviousItem = NULL;
+                }
+
+                if (pPreviousItem)
+                {
+                    pPreviousItem->mpNext = pCurrItem->mpNext;
+                }
+                else
+                {
+                    if (field_0_pool.field_4_pPrev == pCurrItem)
+                    {
+                        field_0_pool.field_4_pPrev = pCurrItem->mpNext;
+                    }
+                    else
+                    {
+                        pPreviousItem = field_0_pool.field_4_pPrev;
+                        while (pPreviousItem->mpNext != pCurrItem)
+                        {
+                            pPreviousItem = pPreviousItem->mpNext;
+                        }
+                        pPreviousItem->mpNext = pCurrItem->mpNext;
+                    }
+                }
+
+                pCurrItem->mpNext = field_0_pool.field_0_pStart;
+                field_0_pool.field_0_pStart = pCurrItem;
+                pCurrItem = pNext;
+            }
+            else
+            {
+                pPreviousItem = pCurrItem;
+                pCurrItem = pNext;
+            }
+        }
+    }
+
     // 9.6f 0x435530
     inline Ped* GetFirstPed_435530()
     {

@@ -40,6 +40,15 @@ this). Examples it would not catch on its own: `Player::Hud_Controls_565890` cal
 `DoBrianTest_42D870` on the wrong global object, and `Car_BC::DetachTrailer_442760` pushed
 onto the pool's free list instead of the active list.
 
+A different `stable_name` number on a global load usually means the source reads the wrong global.
+Check that before chasing register allocation: `PublicTransport_181C::SetupTrainAndBusStops_5794B0`
+read `kFpOne_6FF07C` where the original reads `kFpHalf_6FEEE8`, and matched once fixed.
+`Scripts/bin_comp/compare_globals.py` lists such pairs for every WIP, and
+`compare_callees_multiset.py` lists calls the original makes that ours doesn't (it found the missing
+reload block in `Weapon_30::throwable_5DDFC0`). See docs/permuter.md, "Related tools", for those and
+for `Scripts/quick_score.sh` (score one function without touching `build_vc6/`) and
+`Scripts/bin_comp/show_96f.py` (9.6f version of a function and its callees).
+
 A case found this way: in `Particle_8::EmitFireTruckSprayParticle_53FAE0` the asm matched
 with `dword_6FD508 * dword_6FD554` while the original multiplies `dword_6FD554 * dword_6FD508`
 (the two globals were swapped, the instructions identical). Comparing the referenced
@@ -56,6 +65,25 @@ handled. A `target_asm.json` dumped before that fix still has the old `pp` text,
 `target_extra.json`, they are at 0.987, 0.957 and 0.931, so they're not matches.
 `sound_obj::Release_41A290` and `Char_B4::IsThreatToSearchingPed_553330` were real matches and
 now have rows.
+
+**Score 0 can hide calls to unnamed operator copies.** `permuter_score.py` masks symbol names, so
+once the inline budget runs out a call to the COMDAT copy of `operator*` scores the same as one to
+`Multiply_408680`, but it can never match the exe. Check call relocations by name and call the named
+copies (`Multiply_408680`, `Negate_4086A0`, `Add_40AC50`, `Multiply_438FE0`) where the original does
+(`Sprite::IntersectsRectSAT_59FB10`, `Car_BC::TryHitchTrailer_442810`). See also "Outlined ctors
+must be the named function" below.
+
+**Literals can be renumbered too.** The normaliser can turn literals such as `$0x68` into
+`stable_name_N`, so one added or removed call renumbers them and the score jumps without a real
+change; count the real differing lines (`Camera_0xBC::ApplyCarVelocityCameraOffset_436200`).
+
+**csv sizes can stop at a call.** When a function ends in a call such as `FatalError_4A38C0`,
+the csv size (and so the target asm) can be cut off right after it, although the real epilogue
+follows. A missing epilogue in the target doesn't mean the callee is `noreturn`
+(`NetPlay::CalcPacketLen_51F210`).
+
+**Target jumps can be near where short would reach.** `target_asm.json` can show a 6-byte
+`jcc` where a 2-byte one would do; don't read a layout difference into that alone.
 
 **A build that hangs after "Built target" while the permuter runs.** Wine starts
 `explorer.exe /desktop` on demand. When a build happens to start it, it inherits `build.py`'s
@@ -135,6 +163,19 @@ not in each branch. VC6 duplicates it, and it pops the callee-saved registers th
 branches used before the copies (`Net_Send_Our_Inputs_4DACB0`: two `SendToAll_521B20`
 calls in the asm, one in the source).
 
+The limit is size, not source shape. A study of about 150 test functions showed VC6 copies a join
+block into every unconditional predecessor when it is about two stores plus the epilogue or less
+(three stores, or one store under an EH frame, is too big). Early return, `goto`, `do/while(0)`,
+`switch`, an inline helper, destructors, dead stores and flags (`/O1 /Os /Ox /Og /Ob2 /G3-/G6`) don't
+change it. So an original that jumps to a shared pure epilogue (`mov $1,%al; jmp epilogue`) can't
+be reproduced by restructuring; no matched function's asm has such a jump. This is what is left in
+`ApplyImpactForcesAndDamage_55FA60`, `RectHitsDiagonalWall_4E11E0`, `sub_4F76A0`/`4F77D0`,
+`PointInsideRotatedBounds_5A1490`, `Start_NetworkGame_5E5A30` and `TrainCab_414710`.
+
+Which copy survives a tail merge can depend on how the copies are reached: VC6 merged a duplicate
+tail into the earlier copy when the later ones were jump targets (else branches), into the later one
+when they were fall-through (`ManageTrafficCarDirection_448CE0`, the `sub_4538B0` path). Not universal.
+
 **A switch range that runs past the last real case.** If the index table covers values
 that all go to `default`, a case at the top of the range exists in the source but does
 nothing. An empty `case N: break;` is dropped, even with an explicit `default`. A dead
@@ -162,7 +203,9 @@ shared return (the last case of the later switch), so case order decides which c
 `default` is dropped from the jump table unless it is written out. When the original table has
 an entry for it, keep the case and put it where the original lays it out
 (`ReturnAngleFromRoadDirection_4F7940`, `ObjectTypeToWeaponType_443CB0`). Register choice
-(`cx` vs `dx`) across case blocks also follows the source order of the cases.
+(`cx` vs `dx`) across case blocks also follows the source order of the cases, and so does the
+register rotation in a shared tail: moving the ped case after the object and car cases matched
+`Object_2C::UpdateMovementAndEffects_527070` (permuter `reorder_cases`).
 
 **A statement duplicated in both branches is hoisted after the test.** If the original
 schedules a store between `test` and `je` (`mov byte,%al; test %al,%al; mov ..; mov ..,(..); je`),
@@ -213,7 +256,10 @@ values are a guess).
 
 **Two returns can turn branchless.** `if (ok) return x; return 0;` came out as `neg/sbb/not/and`. The
 original's `test/je` with two epilogues came from setting `x = 0` on the failure path and returning `x`
-once (`Registry::Get_Int_Setting_5874E0`).
+once (`Registry::Get_Int_Setting_5874E0`). Likewise one result set in an if/else and a single shared
+`return result + rng();` matched `Generator_2C::next_cycle_4C1AB0`, where two returns didn't. A shared
+`return ptr;` after `ptr = NULL` gives `xor eax,eax; mov %al,global`, a separate `return NULL` gives
+`movb $0` (`Weapon_30::spawn_bullet_5DCF60`).
 
 **`if (a > b) {...} else if (a < b) {...}`, not nested `<=`/`<`.** Same compares, different block order
 (`CarPhysics_B0::SyncZWithTrailer_55B3F0`).
@@ -256,6 +302,13 @@ found item or NULL. Open-coded loops make VC6 send all the returns to one shared
 **`return a < N;` per case vs a bool local.** Returning the comparison in each case gives
 `xor eax; mov field,edx; cmp; setl`; setting a bool local gives `cmpl $N,mem; setl` with no `xor`
 (`Car_6C::CanAllocateOfType_446930`, cases in the original block order).
+
+**A pointer local can block cross-jumping.** In `Wolfy_7A8::New_40_543800` a `p = &arr[idx]` local
+changed the registers of two identical init blocks so VC6 no longer merged them; indexing `arr[idx]`
+at each use gave the original's single merged block.
+
+**Merge repeated stores into one condition.** Nested if/else arms that repeat the same stores, written
+as one `||` condition as in 9.6f, fixed an `ebx`/`ebp` swap (`Montana_4::AddSprite_5C5CF0`).
 
 **`if (a || b)` through a `bool` local.** Written directly, VC6 laid the branches out inverted; computing
 `bool aligned = ...; if (aligned)` first gave the original layout (`CarPhysics_B0::HandleUserInputs_55A860`,
@@ -342,6 +395,10 @@ in that order.)
 over two `u16` arrays gives the original's two pointers plus a counter in a stack slot. An `s32` index gives
 indexed addressing, and hand-written pointers merge into one pointer and a difference register
 (`Player::RestorePowerUpsFromSave_5651F0`).
+
+**A `u8` local copy of a byte field gets its own stack slot.** It is zero-extended through memory.
+`s32 h = p->u8field;` instead gives `mov ebx,ebp; and $0xFF` with the byte in `bl` and no extra slot
+(`Map_0x370::sub_4E8370`, which also got its prologue and frame from this).
 
 ## Evaluation order and registers
 
@@ -444,6 +501,11 @@ definitions in original address order (`Montana_4::ctor_5C5E70`).
 **A small constant `memset` looks like field stores.** A separate `xor`'d zero register storing
 three dwords and a word was an inline `memset` of 14 bytes (`InitializeGame_4DA4D0`).
 
+**A shift-down loop can be `rep movsl`.** `for (; i < N; i++, p++) *p = p[1];` becomes `rep movsl`
+with no `movsb` for a variable `N`, or an unrolled load-load-store-store through a copied pointer
+(`mov %esi,%eax` before the stores) for `N = 2`. A `memcpy` adds the `movsb`
+(`Player::PushCarInfo_564680`, `AddCarToHistory_5645B0`).
+
 **An inline bool helper as a condition can change block layout** where the expanded `&&` test
 doesn't (`Car_BC::IsSwatVanOrBankVan_403BC0` in `PedGroup::CoordinateGroupCarEntry_4C9F00`).
 
@@ -480,7 +542,9 @@ the same result (`Bink::OpenSlot2_5133E0`, `OpenSlot1_513560`). IDA cuts such fu
 
 **A store repeated in each branch vs once after the if/else.** Writing `field_C = 0` in both
 branches changed which register holds zero and gave per-exit stores like the original
-(`Object_2C::ReleaseSubObjects_527F10`).
+(`Object_2C::ReleaseSubObjects_527F10`). Assigning `field_A4_display_time` in both branches kept 0
+in `ebx` for three stores (`Garox_C4::FormatAndSetupText_5D1B10`). The number and placement of
+stores is worth trying whenever only a zero or constant register is off.
 
 **Ang16 Normalize inlined on a register turns into a closed form.** With an `Ang16(s16, u8)`
 by-value ctor VC6 replaces the Normalize loops with `(1439 - v) / 1440 * 1440`; the const-ref
@@ -553,10 +617,20 @@ case itself (`Ped::SetObjective_463570`, with a u8 mode local) or tail-merges th
 (`Ped::SpawnWeaponOnDeath_45E080`). In 45E080 reading `field_1AC_cam.x/y/z` directly instead of the
 by-value getters gave the per-case register rotation.
 
-**EH state stores around temporaries depend on how the callee is defined.** VC6 dropped the state store
-before a call to our inline `operator-()` that wasn't inlined; the original calls a real out-of-line
-function and keeps it (`Object_2C::ResolveCollisionWithPed_5229B0`). `ApplyExplosionImpulse_443710` is
-the reverse: `throw()` on `Divide_442CB0` would fix it but breaks Divide's own match.
+**EH state stores around temporaries depend on how the callee is defined.** A by-value class temporary
+used as `this` for an out-of-line call gets no EH state when the callee is an inline function VC6
+didn't inline (body visible), and keeps one when the callee is a plain extern declaration. So
+`Fix16_Point::operator-` now has an inline body (its out-of-line copy is `MATCH_FUNC Sub_40AC80`, like
+`operator+`/`Add_40AC50`). That matched `HandleCarCollision_55FF20`, `HandleObjectCollision_5606C0` and
+`ComputeRelativePointVelocity_561130`; the callers that do keep the state call `Sub_40AC80` by name
+(`Crane_15C::HookPickupCar_47EF80`, `ComputeHookPolar_47F6C0`, `Trailer::UpdateTrailerAlignment_407CE0`,
+`Weapon_30` `sub_5DE910`). `Object_2C::ResolveCollisionWithPed_5229B0` is the same case. For a callee
+whose own match needs it extern, add a `throw()` inline alias instead: `DivideInl_442CB0`,
+`DivideInl_55F9E0`, `MultiplyInl_438FE0` and `AddInl_40AC50` call the same code without the state
+(`Car_BC::TryHitchTrailer_442810`). Putting `throw()` on the export itself moves code in other TUs.
+
+In `sub_5DE910`, `(Fix16(a) -= Fix16(b))` evaluates `b` first, where `Fix16(a) - Fix16(b)` doesn't, and
+an unnamed temporary instead of a named local kept the original's stack slots.
 
 **A pointer local can be rematerialised while a repeated expression is CSE'd into a slot.** In
 `Ped::FollowCarOnFootWithOffset_46A350` a `Sprite*` local was recomputed from `field_150->field_50`
@@ -568,15 +642,23 @@ each use; writing the expression out each time gave the original's stack slot.
 global was loaded before the pointer chain (`Weapon_30::car_mine_5E2550`, `GetH_447E10`).
 
 **Calling a non-`throw()` function while a `Fix16_Point` is alive creates the EH frame.** The original
-`ComputeRelativePointVelocity_561130` has none, which suggests `operator-` (0x40AC80) and `Normalize_406C20`
-were known not to throw in that file; marking ours `throw()` breaks 5 matches, so it stays WIP.
+`ComputeRelativePointVelocity_561130` has none. It matched with the inline-bodied `operator-` above;
+marking the export `throw()` instead broke 5 matches.
 
 **A block scope around a written-out rotation** (`{ Fix16 sin, cos, x_old; ... }`) lets the sin/cos
 temporaries share stack slots with the argument temporaries (`EmitElectricArcParticle_540320`, 202 -> 21).
+In a big function, writing the rotation in its own block with a local `Ang16 r(a - b); r.Normalize_406C20();`
+instead of `RotateByAngle(a - b)` fixed the stack slots (the original reuses dead parameter slots) and gave
+the out-of-line Normalize (`CarPhysics_B0::HandleMapBoundaryCollisionY_55C5C0`/`X_55C820`).
 
 **`Fix16(rng(3) - 1)` in the Particle_4C jitter** is `movswl; add $0x3FFFF; shl $0xE` in all five
-originals; ours is `shl; sub $0x4000`. Only an inline taking `s32` that does `v * 16384` gave the
-`add` form, and only when VC6 hoisted the value (still unexplained).
+originals. Initialising, `FromInt` or an inline helper give `shl; sub $0x4000`. The `add` form comes
+only from assigning (not initialising) `Fix16(rng(n) - k)` into an uninitialised `Fix16` local and
+then dividing it (`Particle_4C` 539480, 539040, 538060, 5384C0, 539890).
+
+**Local declaration order decides how VC6 regroups a `Fix16` sum.** In `a + b + c` the operand order
+doesn't matter; with the jitter/offset locals declared first (assigned later) VC6 adds
+`field_14 + off_x + jitter_x` like the original (`UpdateDirectedProjectile_state_3_12_5384C0`).
 
 **Implicit `s32 -> Fix16` by-value argument is built in the argument slot** (`push ecx; mov esp,eax;
 shl; mov ecx,(eax)`); an explicit `Fix16(z)` is computed before the pushes
@@ -590,7 +672,12 @@ original's `testb` (`ApplyImpactForcesAndDamage_55FA60`, 205 -> 19).
 (`Train_58::UpdatePassengerAI_578390`, also a logic fix: an inverted `field_1818` test).
 
 **Parameter slots reused as locals.** When the original keeps grid indices or loop counters in a
-parameter's stack slot, assign them to the parameter (`Orca_2FD4::ComputePath_554AB0`, 216 -> 48).
+parameter's stack slot, VC6 packs extra locals into dead parameter slots. New locals declared in the
+right order beat assigning to the parameters (`Orca_2FD4::ComputePath_554AB0`: 216 -> 48 assigning to
+params, then down to 12 with new locals, including a `new_z` local for a lazy `cur_z` store). Declaration order
+decides which local gets the slot: in `thirsty_lamarr::sub_492430`, `bFirst` declared first let `height`
+take the dead `base_xpos` slot. The same function re-reads `field_9_str[idx]` at each test instead of
+caching it in a `char` local, which keeps the original's re-test where VC6 would thread the jump.
 
 **A zero-initialised local declared at the top becomes a zero register.** In
 `PoliceCrew_38::State6_ShutDown_574720`, `u8 i = 0;` at the top made VC6 keep 0 in `ebp` for every null test,
@@ -615,6 +702,8 @@ and gave the match. Worth checking in any WIP whose EH state stores are missing.
 **EH state at entry counts the destructible locals declared up front.** When the original sets the trylevel to N
 on entry, declare N+1 `Fix16_Point` (or other destructible) locals at the top, even one that stays unused, and copy
 call results into them (`TryHitchTrailer_442810`, `ProcessPedImpact_560B40`, `SpawnSkidSegment_55D200`).
+An unused `Fix16_Point` local also gives the EH frame (state 0) the original builds around an implicit
+`Fix16(2)` argument (`Car_BC::EmitExplosion_43D690`).
 
 **`__forceinline` on pool constructors.** In `PedManager::PedManager` (0x470650) VC6 stopped inlining the pool
 constructors once out-of-line Fix16 conversions appeared in the function; `__forceinline` on them restored the match.
@@ -627,6 +716,9 @@ reference (`RegulateVelocityByRef_433970`) kept them separate like the original.
 line (operator+ -> ctor -> Normalize is too deep); the ctor form `Ang16(a.rValue + k.rValue, 0)` inlines it
 (`Wolfy_30::state_13_14_5411E0`). To force the rotation operators out of line, write `Multiply_408680`/`Negate_4086A0`
 calls explicitly and pass `(const Fix16&)` to get the const out-of-line `operator+` 0x408660.
+One level shallower also works: the member `Ang16::AddNormalized` inlines Normalize. An inline *member* call on a
+by-value `Ang16` parameter loads it as a dword, a free function taking `const Ang16&` loads a word. That matched
+`Wolfy_30::state_4_540F90`, `state_3_12_540D30` and `state_13_14_5411E0`, with the rotation in its own block.
 
 **A shared local in the first test makes VC6 skip the whole chain.** When one local feeds both the first type check
 and a later chain of type checks, VC6 jumps past the entire chain when the first test fails. Reading the field
@@ -640,7 +732,7 @@ directly in the first check keeps the original jump target (`Car_BC::CanCarColli
 
 **Pass an inline's result straight into the call when the original does.** `mov (%eax),%edx; push %edx` right after the inline means `Call(..., *sub_4E4E50(&tmp, ...))`, not a local assigned first (`Ped::ExitCarStateMachine_46C250`).
 
-**`speed * Ang16::sine_40F500(a)` vs `sine(a) * speed`.** With the by-value temporary on the right, VC6 loads both into registers (`mov table,%ecx; mov speed,%eax; imul %ecx`); the other order or `PolarToCartesian` gives `imull mem` (`Particle_4C::PoolUpdate_53D260`).
+**`speed * Ang16::sine_40F500(a)` vs `sine(a) * speed`.** With the by-value temporary on the right, VC6 loads both into registers (`mov table,%ecx; mov speed,%eax; imul %ecx`); the other order or `PolarToCartesian` gives `imull mem` (`Particle_4C::PoolUpdate_53D260`). The inline `Fix16 * Fix16` keeps its `imul` operand order whatever the source order, but indexing `gSin_table_667A80` directly instead of calling `sine_40F500` changes which operand goes in `eax` (`CarAI_78::sub_452060`).
 
 **Mixed inline/out-of-line operators inside one expression.** When the inline budget runs out mid-expression, some operands of a rotation or length stay inline (`x.Multiply_408680(cos) + y * sin`), so each site may need its own helper variant. The order of the out-of-line calls in the asm shows which operand stayed inline (`EmitFlameStreamSegment_53F4C0`, `SpawnDamageFireEffect_43B870`). Note: `compare_target_asm` can normalise an immediate `0` into a stable name, which makes its ratio unreliable (0x5D0850).
 
@@ -666,9 +758,14 @@ directly in the first check keeps the original jump target (`Car_BC::CanCarColli
 
 **Reading a pointer through a different expression forces a reload.** `field_C_carriages[0]->field_54_driver` instead of a local `pBusCar->field_54_driver` stops VC6 reusing the loaded field (579CA0).
 
-**Values held in registers going into a shared tail were computed per case.** When each case ends with `add %edi,%edx; jmp tail`, do the computation inside each case (`Ped::sub_4645B0`).
+**Values held in registers going into a shared tail were computed per case.** When each case ends with `add %edi,%edx; jmp tail`, do the computation inside each case (`Ped::sub_4645B0`). Same for cases that each divide and then share one multiply: `ratio = v / max; break;` per case into a function-scope local, one multiply after the switch. VC6 tail-merges the divisions and gives `mov eax,ecx; mov global,eax; imul ecx` instead of `imull mem` (`sound_obj::Type6_413A10`).
 
-**A dominated repeated test folds to a jmp.** `if (t < 0) { ...; if (t < 0) goto X; }` loses the second test; `if (t < 0 && !c) return; if (t >= 0 && c) A else if (t >= 0) C else B` keeps the original's test on the fall-through edge (`Hud_Pager_C::DrawPager_5D2AB0`).
+**A value every case assigns: write it once after the switch.** VC6 copies it back into each case like the original; writing it per case changes the tail merges and the constant registers (`Frontend::UpdatePageFromUserInput_4AE2D0`). In the same function a constant-count zeroing loop gave the original's word/byte stores at fixed offsets where `memset` took the address into a register first (also `Frontend::ctor_4AF2A0`: constant-count loops
+store off `esi` with their own `xor` zero register and no `lea`), and a separate `if (page == A || page == B || page == C)` after an else-if chain let VC6 thread the known value without a goto.
+
+**A dominated repeated test folds to a jmp.** `if (t < 0) { ...; if (t < 0) goto X; }` loses the second test; `if (t < 0 && !c) return; if (t >= 0 && c) A else if (t >= 0) C else B` keeps the original's test on the fall-through edge (`Hud_Pager_C::DrawPager_5D2AB0`). VC6 also drops an
+`if` that repeats an earlier identical compare but keeps it with the operands swapped: `-19 <= x` after
+`x < -19` reproduced the original's redundant re-test (`Garox_107C_sub::DrawGangRespectBars_5CFA70`).
 
 **Freeing inline budget brings inlines back.** Writing the out-of-line calls the original makes (`DivideAssign_539F90`, `Multiply_408680`) let the `Fix16_Point_POD` ctors inline again (`UpdateObjectBeamLink_state_38_538AC0`, `EmitImpactParticles_53FE40`).
 
@@ -697,7 +794,9 @@ register the following `rate + RandomDisplacement(...)` used. The permuter found
 `field_20 = Get(samp) + Disp(field_14_samp_idx)`, right after `field_14_samp_idx = samp`,
 pushes `samp`'s register for `Disp`. Split into
 `s32 rate = Get(samp); field_20 = rate + Disp(field_14_samp_idx);` and `field_14` is
-reloaded after the call, as in the original (`sound_obj::HandlePedVoiceEvent_423080`).
+reloaded after the call, as in the original (`sound_obj::HandlePedVoiceEvent_423080`). Splitting
+can also spoil the register allocation: in `ProcessObject_Type12_41E850` it gives the reload but
+swaps registers (score 40 -> 74).
 
 **Put the zero-initialised accumulator first.** `xor %ebp,%ebp` before two `mov %bl,mem`
 stores means the `s32` was declared before the two `u8 = 0`s
@@ -814,6 +913,13 @@ and a slot). `Particle_4C::UpdateLargeBallisticDebris_state_35_53AE60` went from
 in a different order from the original whatever order they're declared in. If the
 original's slots look like one block, try one array. In `FatalError_4A07C0`, six route
 coordinates had to be one `s32[6]` with the second triple stored back to front.
+The source order of stores can decide slots too: in `MapRenderer::set_shading_lev_4E9DB0` the order of
+independent stores to `this` fields moved the slots of spilled byte locals, while their declaration
+order didn't. Storing the fields in offset order matched. In `GetMainAndBonusStagesFromSeqFile_4B4440`
+the slots of tied arrays follow the push order of their `StoreStrings` call; VC6 ignores the declaration
+order of equal-size arrays, and one local struct whose field order sets the layout matched it. Declaration
+order also didn't change the slots of equal-size `Fix16_Point` locals (`ComputePointVelocity_561380`) or
+case locals (`Wolfy_30::state_22_23_24_25_542E30`).
 
 **Copy through a local to get a spill.** `mov (%edx),%eax; mov %eax,X(%esp); fildl X(%esp)`
 instead of `fildl (%edx)` comes from copying the value into a local object first
@@ -975,6 +1081,9 @@ float expression tree:
   popped unused later) means the same float value appears twice in the tree and one use was folded by
   CSE. `Mike_A80::sub_4FFD90` matched with `left = 630.0f - fx; right = 630.0f - fx + 1.0f;`: the second
   `630 - fx` becomes the stored `left`, the kept `fx` is popped. `right = left + 1.0f` gives `fsubrs`.
+- **A float conversion written out at each use is computed once.** `(a + b).ToFloat()` repeated per
+  corner makes VC6 compute it once, keep it in a stack temp and copy it with integer moves, as the
+  original does; a named `f32` local stays on the x87 stack (`DrawText_5D8A10`, 229 -> 20).
 - Operand order of commutative `*` and `+` makes no difference (the compiler canonicalises it), and
   neither do (u32)/(unsigned)/`*(u32*)&` variants of the u32 -> float conversion.
 
@@ -1027,8 +1136,8 @@ callee ends in `ret $N` without reading `ecx`, declare it `static ... __stdcall`
 **Duplicate helper copies.** The original has two identical copies of some small functions. For the `Fix16(int)`
 constructor they are really two constructors: `0x4369F0` is `Fix16(s32)` and `0x4926F0` is `Fix16(u32)`, with
 identical code. Passing a `u32` where the original calls `0x4926F0` matched `Garox_12E4_sub::DrawPause_5D63B0`; the
-same probably applies to `Hud_CarName_4C::DrawCarName_5D4A10`, `DrawBrief_5D3B80`, `DrawPlayerStatsHelper_5D61A0` and
-`0x492430`. Check the other duplicate pairs for a type difference before assuming they can't match.
+same applies to `Hud_CarName_4C::DrawCarName_5D4A10`, `DrawBrief_5D3B80` and `thirsty_lamarr::sub_492430`
+(all matched) and probably `DrawPlayerStatsHelper_5D61A0`. Check the other duplicate pairs for a type difference before assuming they can't match.
 
 **EH state stores between member destructor calls.** If the original calls several member
 destructors in a row without the `movb $N,X(%esp)` state stores between them, VC6 knew
@@ -1039,8 +1148,12 @@ the same TU, so define the destructor after them
 **Array construction: inline loop vs `??_H`.** For an array of objects with a constructor,
 VC6 calls `vector constructor iterator` (`??_H`) when the constructor is out of line, and
 writes an inline loop when the constructor is an inline function whose body it can see
-(calling it, or inlining it when it's small enough). `Car_6C::ctor_4469F0` needs the inline
-loop for `CarAI_78`, see `match_attempts.md`.
+(calling it, or inlining it when it's small enough). `Car_6C::ctor_4469F0` has the inline
+loop for `CarAI_78`.
+
+**Per-TU constants inside an inline ctor.** When the original's inline ctor reads constants of the
+caller's own TU (car.cpp's zero `Ang16`/`Fix16`), an inline overload that takes them as parameters
+reproduces it: `new Sprite(kAngZero_67791C, gFix16_6777CC)` matched `Car_6C::ctor_4469F0`.
 
 **Inline `memset` of 12 bytes.** `lea X(%esi),%ecx; xor %eax,%eax; mov %eax,(%ecx); mov %eax,4(%ecx);
 mov %eax,8(%ecx)` with a second zero register is `memset(arr, 0, sizeof(arr))`, not three
@@ -1091,6 +1204,8 @@ which helper was called and in which order things happened:
 (0x45ADA0-0x45ADD0) return a `Fix16` by value. Returning `Fix16&` gave different scheduling of
 the four rect reads in `Map_0x370::sub_4E4820`; by value, read in the original order (left,
 right, top, bottom), it matched. Check the 9.6f getter's `ret $4` and hidden return pointer.
+Reading the sides through the by-value getters also fixed the argument-copy slots and the inline
+budget of `Sprite_4C::DrawCollisionBox_5A4DA0`.
 
 **A missing EH state store can mean the wrong callee.** `ApplyTurningForce_55F020` lacked the
 `movb $1,N(%esp)` before multiplying the `NormalizeSafe_442AD0()` temporary. The source used the
@@ -1105,7 +1220,8 @@ them. Adding these helpers made `Object_2C::sub_526B40` match (`Sprite::get_type
 `Char_B4::get_velocity_41B080`, `Sprite::set_num_40F7B0`). The exception is
 `Char_B4::SetMaxSpeed_433920(Fix16)`: as a by-value `Fix16` parameter it changed six matching
 `Ped` functions (`sub_46C770` and others), although 9.6f calls it there. Those keep the plain
-assignment for now.
+assignment for now. `SetMaxSpeedByRef_433920` (by reference) changes register choice later in the
+function and matched `Ped::EnterCarStateMachine_46BDC0` and `ExitCarStateMachine_46C250`.
 
 **Adding unused inline methods to a header can still move code in other TUs.** Ten small
 `field_A6` bit helpers added to `Car_BC.hpp` (for `CarAI_78::sub_447710`) leave every
@@ -1146,7 +1262,14 @@ order, and removing one expansion doesn't always free exactly one: test each cha
 `Map_0x370::sub_4E7190` three `operator-` calls were left out of line until two helper inlines
 were written out by hand (score 825 -> 196). If a big function calls an inline that its
 smaller sibling inlines fine, count the inline helpers you added that the original may not have
-had. Check by grepping the object's relocations for inline member names.
+had. Check by grepping the object's relocations for inline member names. Writing a small check out
+by hand can free budget for a later expression (`Car_6C::DoGetNearestCarFromCoord_444FC0`: the train
+check written out let `x + y` inline).
+
+**`__forceinline` on the innermost helper only.** Past the budget, a `Fix16` inline nested inside a
+file-local inline helper goes out of line. `__forceinline` on the innermost helper (an `Abs`) brings it
+back; on the outer helper it doesn't (`Firefighter_28::Update_4A81F0`, with a file-local 9.6f
+`MaxAbsDistance_42A6B0`).
 
 **An inline that writes through a reference keeps the target in a register.**
 `p = GetBlock(x, y, z)` with an inline that returns its own local spilled `pBlock` to the stack
@@ -1204,7 +1327,9 @@ COMDAT copy of `operator*`, which is a different target from the original's `Mul
 Mixing the two fails, so every site in the function must go through the named helper: a local
 inline `PolarToCartesian` that calls `Multiply_408680`, and `Normalize_406C20`, `Subtract_436A00`,
 `Add_408660`, `Negate_4086A0`, `Divide_436A20` instead of the operators
-(`Char_B4::ApplyMovement_54CC40`, `HandleGenericCollision_54A530`).
+(`Char_B4::ApplyMovement_54CC40`, `HandleGenericCollision_54A530`). `Sprite::IntersectsRectSAT_59FB10`
+matched with each operator through one named copy: `RotateAndTranslatePoint_ool_42A720`,
+`HalfWH_ool_4BA0A0`, `Negate_4086A0` and the const `operator+` for the last x sum.
 
 **No jump table and compares in source order mean an if-chain, not a switch.** If the original
 tests the value in one else-if chain (14, 9, 3, 6, 2||11, ...) and builds no jump table, write the
@@ -1255,6 +1380,9 @@ thread repeated register tests, which can move a case to the end of the function
   `??0Ang16@@...`/`?Normalize@Ang16`, which scores 0 in `permuter_score.py` (symbols are masked) but
   can't match the exe. The original calls `AssignNormalized_409300`, see
   `Ang16::Fix16_To_Ang16_ool_40F540`. Check call relocations by name before claiming a match.
+  `Ang16(x, 0)` falls back to the unnamed Normalize copy the same way (`fire_truck_gun_5E0E70`).
+- **Packed `Ang16` temp slots in compares** (two 2-byte temporaries in one dword) come from
+  `Ang16(a.rValue - b.rValue).Normalized_406C20()` inline, not a by-value helper (`CarAI_78` 44A1F0, 452060).
 
 ### Locals, temporaries and the shape of returns
 
@@ -1279,6 +1407,22 @@ thread repeated register tests, which can move a case to the end of the function
 - **A by-value `Fix16_Point` argument copied as two dwords from a temporary** means the parameter is
   `Fix16_Point_POD` (`sub_5DE910`).
 - **`default: break;`** changes which case keeps a shared tail when cases cross-jump (461A60).
+- **Expanded static inline helpers share temp slots across call sites.** The same expression written out
+  at each site gets its own temporaries per site. When the original frame is bigger by about two temps
+  per site, write it out: the `atan2` angle at each site gave `Char_B4::HandlePedCollision_548BD0` the
+  original's 0x4C frame (518 -> 162).
+- **Assign after declaring to stop argument folding.** `T x; x = ...;` keeps VC6 from folding a single-use
+  local into the call arguments and keeps left-to-right order (`Weapon_30::spawn_bullet_5DCF60`).
+- **`x = x + y` vs a new `Fix16 v = x + y`** decides whether the value gets a callee-saved register.
+- **Block-scoped address-taken locals share frame slots with dead compiler temporaries.** Moving a
+  declaration between function and block scope fixes slot order and frame size (`Ped::ExitCarStateMachine_46C250`:
+  the z temporaries in their own blocks). A block-scope local's slot is reused by later temporaries (a
+  struct-return result) only after its scope closes, so end the scope before the call when the original puts
+  the result in the dead local's slot (`Car_BC::ApplyExplosionImpulse_443710`; the atan2 copy in
+  `ApplyCarVelocityCameraOffset_436200` lets the sine temp take the dead `pCar` slot). A store to an
+  otherwise unused local showed up only once a `Fix16_Point` ctor went out of line (address-taken, 436200).
+- **`&f()` on a by-value return passes the hidden return slot straight on** and fixed the frame of
+  `Trailer::UpdateTrailerAlignment_407CE0` (the cab velocity passed directly).
 
 ### More from rebuilding broken WIPs
 
@@ -1347,7 +1491,10 @@ thread repeated register tests, which can move a case to the end of the function
 - **Ang16 sum forms:** `Ang16(s16, u8)` gives a 16-bit add + `jns`; `operator+` (`const s16&` ctor) a 32-bit
   `lea` + `test/jge`; `Ang16(x).Normalized_406C20()` an out-of-line Normalize after a 16-bit store;
   `s16 v = ...; Ang16((Ang16&)v, 0)` a dword store and an `AssignNormalized_409300` call
-  (`Weapon_30::shotgun_5DD290`, `Char_B4::HandleGenericCollision_54A530`).
+  (`Weapon_30::shotgun_5DD290`, `Char_B4::HandleGenericCollision_54A530`). As a file-local helper
+  returning `Ang16((Ang16&)v, 0)` it matched `Weapon_30::fire_truck_flamethrower_5E0B10`.
+- **`p.x.Multiply_408680(cos) + p.y.Multiply_408680(sin)` with an inline non-const `operator+`** loads the
+  `y*sin` product first, as the original x line of out-of-budget rotations does (5E0B10).
 - **0x4516B0 is a constructor** (`Ang16(Fix16*, s32)`): called out of line, its constant argument is pushed
   before a complex pointer argument is evaluated (`EmitImpactParticles_53FE40`).
 - **A method call on `ecx=&param` in 9.6f** means the parameters are one by-value struct
@@ -1449,6 +1596,16 @@ both copies. Only a meaningless cast changed it.
     not record the C1XX front-end build (ours is 12.00.8867), so a different front end, which could hand c2
     the IL in a different order, is the remaining compiler-side possibility. Otherwise the cause is in the
     source or TU context (declaration order, what else is in MapRenderer.cpp).
+  - "Escaped slot" theory (`ProjectVert_4EB940` 22, `draw_left_4F3C00` 16, siblings): in the original the
+    u32 -> float temp's stack slot may be shared with an address-taken variable (the `z_val` copy in 4EB940,
+    the x sum temp passed by reference in draw_left's Top call), so VC6 won't hoist the zero hi store or the
+    `field_74` load above `fstps`. An out-of-line call taking `&z_val` reproduces it but adds code. No
+    code-free marker did: inline member calls, references, pointer locals, a `const Fix16&` param, user copy
+    ctor / `operator=` / dtor / `ToFloat` variants in fix16.hpp, `operator+` forms. Probably in how the
+    original wrote the inlined set_vert/projection helpers.
+- Inline bodies for 25 other `Fix16`/`Fix16_Point` operators (`operator/`, `Multiply_438FE0`, `Divide_442CB0`,
+  `Negate`, `Max`, `Abs`, ...), like the one that helps `Fix16_Point::operator-` (`Sub_40AC80`): no new matches,
+  and most broke existing ones (`Negate_4086A0` -32, `Multiply_408680` -26).
 - A compare scheduled before a volatile load instead of after it (`cmp $0xF,%al` in
   `sound_obj::ProcessPoliceRadioWordsPlayback_427220`).
 - A store scheduled before the `lea` of an out pointer rather than after it
@@ -1465,10 +1622,6 @@ both copies. Only a meaningless cast changed it.
   the original puts an unused `u8` out byte in `xpos`'s slot and the y integer in `ypos`'s.
   Ours gives `found_z` the `xpos` slot, which shifts the frame (0x34 vs 0x30). Declaration
   order, passing `(u8*)&xpos` and the permuter didn't help.
-- Every inlined angle computation with its own stack slots, so the frame is 0x4C where ours is
-  0x14 (`Char_B4::HandlePedCollision_548BD0`). Named locals, an inline helper,
-  temporaries bound straight to `atan2`'s references, and function-scope locals for each site
-  all either shared the slots or lost elsewhere.
 - One register left in `sound_obj::HandlePedVoiceEvent_423080`: `add %eax,%edi` (the sum stays
   in `edi`, stored after `xor %eax,%eax`) where ours does `add %edi,%eax`. Six spellings of the
   sum and 3,000 permuter iterations didn't find it.

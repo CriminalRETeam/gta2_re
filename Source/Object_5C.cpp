@@ -896,7 +896,7 @@ char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* a2, Fix16_Point* a3, 
             v14 = gMap_0x370_6F6268->sub_4E5050(a2->field_14_xy.x, a2->field_14_xy.y, a2->field_1C_zpos, v23);
             if (!v23)
             {
-                if (a2->field_1C_zpos < v14)
+                if (v14 > a2->field_1C_zpos)
                 {
                     a2->set_xyz_lazy_420600(a2->field_14_xy.x, a2->field_14_xy.y, v14);
                     Object_2C::Sprite_UpdateZFromSlopeAndTile_522FA0(a2);
@@ -940,7 +940,7 @@ char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* a2, Fix16_Point* a3, 
     }
     else
     {
-        if (a2->field_1C_zpos < a6)
+        if (a6 > a2->field_1C_zpos)
         {
             a2->set_xyz_lazy_420600(a2->field_14_xy.x, a2->field_14_xy.y, a6);
             Object_2C::Sprite_UpdateZFromSlopeAndTile_522FA0(a2);
@@ -1844,11 +1844,9 @@ void Object_2C::sub_526B40(Sprite* pSprite)
 }
 
 // https://decomp.me/scratch/zqssg
-WIP_FUNC(0x527070)
+MATCH_FUNC(0x527070)
 bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot)
 {
-    WIP_IMPLEMENTED;
-
     byte_6F8C68 = 1;
 
     if (field_10_obj_3c)
@@ -1896,14 +1894,6 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
                 {
                     switch (pSprite->get_type_416B40())
                     {
-                        case sprite_types_enum::ped_3:
-                            if (field_C_pAny.pExplosion->Update_5434A0(field_10_obj_3c->field_C_speed, field_10_obj_3c->field_4_angle))
-                            {
-                                byte_6F8C68 = 0;
-                                return 1;
-                            }
-                            break;
-
                         case sprite_types_enum::code_obj1_4:
                         case sprite_types_enum::map_obj_5:
                             if (field_C_pAny.pExplosion->Update_5434A0(field_10_obj_3c->field_C_speed, field_10_obj_3c->field_4_angle))
@@ -1922,6 +1912,14 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
 
                             field_C_pAny.pExplosion->field_1C = pSprite;
 
+                            if (field_C_pAny.pExplosion->Update_5434A0(field_10_obj_3c->field_C_speed, field_10_obj_3c->field_4_angle))
+                            {
+                                byte_6F8C68 = 0;
+                                return 1;
+                            }
+                            break;
+
+                        case sprite_types_enum::ped_3:
                             if (field_C_pAny.pExplosion->Update_5434A0(field_10_obj_3c->field_C_speed, field_10_obj_3c->field_4_angle))
                             {
                                 byte_6F8C68 = 0;
