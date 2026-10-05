@@ -1868,3 +1868,23 @@ No new matches. Scores below are `permuter_score.py` lines.
   merges case 8 into case 6's GetPedVelocity_45C920 call, ours keeps 2). Tried without effect: 5538A0 branch 3
   with the state/blood-burst tail copied into each arm (482), 528E50 `if (done) { PoolGive; break; } return;`
   (61), 466BF0 `bInView` local set in both arms (224).
+
+### Round 6 (9.6f-at-0 WIPs, tail/epilogue leftovers)
+All counts are `tu.sh` diff lines (stack offsets ignored).
+- `HandleObjectCollision_548840` (9): three extra `Fix16_Point` locals at the top give the original EH state 4
+  (8 lines), the "v19 = 4" in the old Hex-Rays comment agrees. Left: the success path `jmp`s to the shared EH
+  epilogue. `goto END`, if/else around `field_5C = 10`, `point` declared in the block (18, copy elided) don't help.
+- `HandleCollision_522E10` (16): As2C_40FEC0 as a result local or a ternary, and passing `As2C()` straight as
+  the argument (9.6f pushes `&v13` first) change nothing. The matched `DispatchCollision_55CA70` has the same
+  As2C shape and there VC6 copies the call into both arms, as ours does here.
+- `PickUpCar_47F930` (16): only the two `call; jmp shared-EH-epilogue` exits differ (same class as 548840).
+- `DoorData_10::Init_49C340` (8): a `gmp_block_info*` alias, an inline member setter for the pair, `u16` tile
+  idx field, `v8` as s16/s32/u32 (10) don't stop VC6 hoisting the tile-idx load above the v8 store.
+- `ClearAllBriefsWithPriority_5D4890` (4): 10.5 is byte-identical to 9.6f; only `push %ebp` is shrink-wrapped
+  after the `pIter` test in the original. `if (p) do {} while (p)`, `break` for the inner `return`, if around
+  StartCurrentBrief, local order and a `u32` param don't help; `priority == field` is worse (5).
+- `EnforceGearSensitiveMaxSpeed_562D00` (8): only the y clamp store + epilogue copy (see earlier entries).
+- `TryCreateRoadblockAt_577370` (12): writing the bBothSides arm as `if (r1.active) { if (!r2.active)
+  r2.create(3); } else r1.create(3);` makes VC6 merge the two `r2.create(3)` calls (9 lines), but with the
+  wrong block order. Early `return` after each r1 create plus one shared r2 check after the if/else also
+  gives 9 (the r2 test isn't copied into the bBothSides arm). The else arm inverted the same way gives 40.
