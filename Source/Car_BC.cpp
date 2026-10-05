@@ -4655,53 +4655,72 @@ char_type Car_BC::RotateRoofObjectTowardTarget_440C10(Ang16 targetAngle)
     return 0;
 }
 
-WIP_FUNC(0x440d90)
+// 9.6f 0x41FA70
+static inline Ang16& compound_add_41FA70(Ang16& a, const Ang16& b)
+{
+    a.rValue += b.rValue;
+    a.Normalize();
+    return a;
+}
+
+// 9.6f 0x41FA90
+static inline Ang16& compound_subtract_41FA90(Ang16& a, const Ang16& b)
+{
+    a.rValue -= b.rValue;
+    a.Normalize();
+    return a;
+}
+
+MATCH_FUNC(0x440d90)
 char_type Car_BC::HandleRoofTurretRotation_440D90(char_type bLeftOn)
 {
-    WIP_IMPLEMENTED;
-
-    // Each branch returns on its own (no if/else join): with a join VC6 keeps the rotation in %di
-    // for the second Normalize loop of the += path. Left: the original's += path jumps to the -= path's
-    // return tail when the second loop is skipped (jl to the shared tail); ours has its own copy.
+    // 9.6f joins the three models into one +=/-= pair. Here field_B8 is set in both branches (a
+    // single store after the if/else keeps the angle in %di across the second Normalize loop)
     if (field_84_car_info_idx == car_model_enum::FIRETRUK)
     {
-        Sprite_18* pFTruckSprite = field_0_qq.GetSpriteForModel_5A6A50(114);
+        Sprite_18* pSprite = field_0_qq.GetSpriteForModel_5A6A50(114);
         if (bLeftOn)
         {
-            pFTruckSprite->field_10_rot += kFireTruckCannonRotSpeed_6771C0;
+            compound_add_41FA70(pSprite->field_10_rot, kFireTruckCannonRotSpeed_6771C0);
             this->field_B8_turret_rotated = 1;
-            return 1;
         }
-        pFTruckSprite->field_10_rot -= kFireTruckCannonRotSpeed_6771C0;
-        this->field_B8_turret_rotated = 1;
+        else
+        {
+            compound_subtract_41FA90(pSprite->field_10_rot, kFireTruckCannonRotSpeed_6771C0);
+            this->field_B8_turret_rotated = 1;
+        }
         return 1;
     }
 
     if (field_84_car_info_idx == car_model_enum::TANK)
     {
-        Sprite_18* pTankSprite = field_0_qq.GetSpriteForModel_5A6A50(148);
+        Sprite_18* pSprite = field_0_qq.GetSpriteForModel_5A6A50(148);
         if (bLeftOn)
         {
-            pTankSprite->field_10_rot += kTankTurretRotSpeed_677352;
+            compound_add_41FA70(pSprite->field_10_rot, kTankTurretRotSpeed_677352);
             this->field_B8_turret_rotated = 1;
-            return 1;
         }
-        pTankSprite->field_10_rot -= kTankTurretRotSpeed_677352;
-        this->field_B8_turret_rotated = 1;
+        else
+        {
+            compound_subtract_41FA90(pSprite->field_10_rot, kTankTurretRotSpeed_677352);
+            this->field_B8_turret_rotated = 1;
+        }
         return 1;
     }
 
     if (field_84_car_info_idx == car_model_enum::GUNJEEP)
     {
-        Sprite_18* pGunJeepSprite = field_0_qq.GetSpriteForModel_5A6A50(248);
+        Sprite_18* pSprite = field_0_qq.GetSpriteForModel_5A6A50(248);
         if (bLeftOn)
         {
-            pGunJeepSprite->field_10_rot += kGunJeepTurretRotSpeed_677810;
+            compound_add_41FA70(pSprite->field_10_rot, kGunJeepTurretRotSpeed_677810);
             this->field_B8_turret_rotated = 1;
-            return 1;
         }
-        pGunJeepSprite->field_10_rot -= kGunJeepTurretRotSpeed_677810;
-        this->field_B8_turret_rotated = 1;
+        else
+        {
+            compound_subtract_41FA90(pSprite->field_10_rot, kGunJeepTurretRotSpeed_677810);
+            this->field_B8_turret_rotated = 1;
+        }
         return 1;
     }
 
