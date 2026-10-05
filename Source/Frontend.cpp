@@ -39,7 +39,7 @@ void Start_GTA2Manager_5E4DE0();
 
 DEFINE_GLOBAL(Frontend*, gFrontend_67DC84, 0x67DC84);
 DEFINE_GLOBAL_INIT(u32, counter_706C4C, 0, 0x706C4C);
-DEFINE_GLOBAL_INIT(s32, dword_67D930, 0, 0x67D930);
+DEFINE_GLOBAL_INIT(Fix16, dword_67D930, Fix16(0, 0), 0x67D930);
 u16 gTableSize_61FF20 = 25; // Note is constant but can't be marked const
 DEFINE_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 32, 0x67DC8C); // 67DCCC
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_67D9FC, Fix16(1), 0x67D9FC);
@@ -3178,10 +3178,9 @@ void Frontend::Load_tga_4B6520(u16 idx)
 }
 
 // https://decomp.me/scratch/MuqZh
-WIP_FUNC(0x4AF2A0)
+MATCH_FUNC(0x4AF2A0)
 Frontend::Frontend()
 {
-    WIP_IMPLEMENTED;
     SetField10D_453A30(1);
 
     gText_0x14_704DFC = new text_0x14();
@@ -3255,29 +3254,24 @@ Frontend::Frontend()
     field_C9B4_last_key = 256;
     field_C9B6_key_repeat_timer = 5;
 
-    //memset(&field_C9A0_curr_plyr_name, 0, sizeof(field_C9A0_curr_plyr_name));
-
-    *(u32*)field_C9A0_curr_plyr_name = 0;
-    *(u32*)&field_C9A0_curr_plyr_name[2] = 0;
-    *(u32*)&field_C9A0_curr_plyr_name[4] = 0;
-    *(u32*)&field_C9A0_curr_plyr_name[6] = 0;
-    field_C9A0_curr_plyr_name[8] = 0;
-
-    memset(&field_C9B8_password, 0, sizeof(field_C9B8_password));
-    /*
-    *(_DWORD *)field_C9B8_password = 0;
-    *(_DWORD *)&field_C9B8_password[2] = 0;
-    *(_DWORD *)&field_C9B8_password[4] = 0;
-    *(_DWORD *)&field_C9B8_password[6] = 0;
-    *(_WORD *)&field_C9C8 = 0;
-    */
+    // Constant-count zeroing loops: VC6 turns them into dword/word stores at fixed offsets off this,
+    // each with its own zero register, where memset takes the address into a register first
+    for (s32 k = 0; k < 9; k++)
+    {
+        field_C9A0_curr_plyr_name[k] = 0;
+    }
+    for (s32 k2 = 0; k2 < 9; k2++)
+    {
+        field_C9B8_password[k2] = 0;
+    }
     field_C9CA_password_length = 0;
     field_C9CB_wrong_password_shown = 0;
     field_1EB50_num_main_stages = 0;
 
-    field_1EB51_num_bonus_stages[0] = 0; //  lobyte of u16?
-    field_1EB51_num_bonus_stages[1] = 0; //  hibyte of u16?
-    field_1EB51_num_bonus_stages[2] = 0;
+    for (s32 k3 = 0; k3 < 3; k3++)
+    {
+        field_1EB51_num_bonus_stages[k3] = 0;
+    }
 
     GetMainAndBonusStagesFromSeqFile_4B4440();
     LoadPlySlotSvgs_4B53C0();
