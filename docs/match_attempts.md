@@ -1853,3 +1853,18 @@ No new matches. Scores below are `permuter_score.py` lines.
 - `menu_option_0x82::SelectPrevHorizontalIdx_4B6390` (1): the matched sibling's `u16& selected_idx` (+ `BYTE
   tmp` flag) trick does not carry over (10): here `field_7E` is not hoisted, so `ebp` is free and VC6 copies
   `si` into `di` instead of reloading. `*(u16*)((u8*)this + 0x6E)` still CSEs (1), `*(volatile u16*)&` (22).
+
+## Round 6: "missing callee" audit (callee multisets via COFF relocations)
+- Only `TrafficLight_20::Init_5C1D00` called different functions. In 10.5 the pavement checks also go
+  through `get_block_452980` (new inline `Map_0x370::IsBlockPavementTypeAt_452980`), and the four lights
+  call the out-of-line `Light_1D4CC::Alloc_5C2B70` and `sub_5C5CD0` (= out-of-line
+  `LightIntensityRadius::SetRadius_463F10`, now `SetRadius_5C5CD0`, WIP, our body is 26 bytes like the
+  original). New inline `Light_1D4CC::InitOutOfLine_469010`. Callee multiset now equal, 742 -> 738.
+- No missing logic in the others: their source already has every call, VC6 tail-merges identical call tails
+  that the original keeps apart (`MeleeAttackStateMachine_46B670` AddCash 1 vs 2, `HandleCarImpact_5538A0`
+  Kill 5 vs 6 / ChangeNextPedState2 3 vs 5, `HandleImpact_528E50` PoolGive 2 vs 3,
+  `ContinueMovementAfterCollision_54B8F0` set_xyz_lazy_451950 1 vs 2 / DispatchCollision 7 vs 8,
+  `FindBestTargetPed_466BF0` IsSpriteInView 1 vs 2), or the other way (`Car_214::sub_5C8780`: the original
+  merges case 8 into case 6's GetPedVelocity_45C920 call, ours keeps 2). Tried without effect: 5538A0 branch 3
+  with the state/blood-burst tail copied into each arm (482), 528E50 `if (done) { PoolGive; break; } return;`
+  (61), 466BF0 `bInView` local set in both arms (224).

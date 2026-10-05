@@ -609,6 +609,17 @@ class Map_0x370
         return false;
     }
 
+    // Like IsBlockPavementTypeInlined_433530 but via get_block_452980 (TrafficLight_20::Init_5C1D00)
+    inline bool IsBlockPavementTypeAt_452980(u8 x, u8 y, u8 z)
+    {
+        gmp_block_info* pBlock = get_block_452980(x, y, z);
+        if (pBlock)
+        {
+            return (pBlock->field_B_slope_type & 3) == PAVEMENT;
+        }
+        return false;
+    }
+
     inline bool IsBlockRoadType_42A8C0(u8 x, u8 y, u8 z)
     {
         gmp_block_info* pBlock = get_block_452980(x, y, z);

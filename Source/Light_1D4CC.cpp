@@ -24,3 +24,10 @@ nostalgic_ellis_0x28* Light_1D4CC::CreateLight_52B2A0(Fix16 xpos, Fix16 ypos, Fi
 {
     return Init_469010(xpos, ypos, zpos, argb, radius, intensity);
 }
+
+// Out-of-line copy of LightIntensityRadius::SetRadius_463F10 (26 bytes); asm not dumped yet.
+WIP_FUNC(0x5C5CD0)
+void LightIntensityRadius::SetRadius_5C5CD0(Fix16 radius)
+{
+    SetRadius_463F10(radius);
+}
