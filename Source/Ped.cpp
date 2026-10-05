@@ -6472,9 +6472,7 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                         }
 
                         {
-                            u8 player_idx = this->field_15C_player->field_2E_idx;
-
-                            if (pSearcher->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(player_idx))
+                            if (pSearcher->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(this->field_15C_player->field_2E_idx))
                             {
                                 if (gPolice_7B8_6FEE40->field_7B4 == 0)
                                 {
@@ -6836,61 +6834,49 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
             }
 
             {
-                Ped* pS = gSearchingPed_6787DC;
-
-                if (pS->field_164_ped_group != 0 && pS->field_164_ped_group->field_2C_ped_leader->field_15C_player != 0)
+                if (gSearchingPed_6787DC->field_164_ped_group != 0 && gSearchingPed_6787DC->field_164_ped_group->field_2C_ped_leader->field_15C_player != 0)
                 {
-                    Fix16 dz = pS->field_1AC_cam.z - this->field_1AC_cam.z;
-                    Fix16 adz;
+                    Fix16 dz = gSearchingPed_6787DC->field_1AC_cam.z - this->field_1AC_cam.z;
 
-                    if (dz.mValue > 0)
-                    {
-                        adz = dz;
-                    }
-                    else
-                    {
-                        adz = dz.Negate_4086A0();
-                    }
-
-                    if (adz.mValue >= kFpOne_678664.mValue)
+                    if (Fix16::Abs_negate_out_of_line(dz) >= kFpOne_678664)
                     {
                         goto ret_false;
                     }
                 }
 
-                Fix16 sx = pS->field_1AC_cam.x;
-                Fix16 sy = pS->field_1AC_cam.y;
-                Fix16 sz = pS->field_1AC_cam.z;
+                Fix16 sx = gSearchingPed_6787DC->field_1AC_cam.x;
+                Fix16 sy = gSearchingPed_6787DC->field_1AC_cam.y;
+                Fix16 sz = gSearchingPed_6787DC->field_1AC_cam.z;
 
-                if (field_238_ped_type == 2)
+                if (field_238_ped_type != 2)
                 {
-                    if (gMap_0x370_6F6268->sub_4E5640(kFpQuarter_678484,
-                                                      kFpQuarter_678484,
-                                                      gSpawnJitterScale_678618,
-                                                      sx,
-                                                      sy,
-                                                      sz,
-                                                      this->field_1AC_cam.x,
-                                                      this->field_1AC_cam.y,
-                                                      this->field_1AC_cam.z))
-                    {
-                        gSearchingPed_6787DC->field_21C |= 0x800000;
-                        return gSearchingPed_6787DC->IsPedAThreat_465D00(this);
-                    }
-
-                    gSearchingPed_6787DC->field_21C &= ~0x800000;
-                    return 0;
+                    return gMap_0x370_6F6268->sub_4E5640(gSpawnJitterScale_678618 * 2,
+                                                         kFpQuarter_678484,
+                                                         gSpawnJitterScale_678618,
+                                                         sx,
+                                                         sy,
+                                                         sz,
+                                                         this->field_1AC_cam.x,
+                                                         this->field_1AC_cam.y,
+                                                         this->field_1AC_cam.z);
                 }
 
-                return gMap_0x370_6F6268->sub_4E5640(gSpawnJitterScale_678618 * 2,
-                                                     kFpQuarter_678484,
-                                                     gSpawnJitterScale_678618,
-                                                     sx,
-                                                     sy,
-                                                     sz,
-                                                     this->field_1AC_cam.x,
-                                                     this->field_1AC_cam.y,
-                                                     this->field_1AC_cam.z);
+                if (gMap_0x370_6F6268->sub_4E5640(kFpQuarter_678484,
+                                                  kFpQuarter_678484,
+                                                  gSpawnJitterScale_678618,
+                                                  sx,
+                                                  sy,
+                                                  sz,
+                                                  this->field_1AC_cam.x,
+                                                  this->field_1AC_cam.y,
+                                                  this->field_1AC_cam.z))
+                {
+                    gSearchingPed_6787DC->field_21C |= 0x800000;
+                    return gSearchingPed_6787DC->IsPedAThreat_465D00(this);
+                }
+
+                gSearchingPed_6787DC->field_21C &= ~0x800000;
+                return 0;
             }
     }
 
