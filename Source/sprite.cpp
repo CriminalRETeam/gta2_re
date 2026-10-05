@@ -2596,9 +2596,11 @@ static inline void ProjectToScreen_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut
 
 DEFINE_GLOBAL_INIT(u16, gDebugColour_626260, 0x1111, 0x626260);
 
-WIP_FUNC(0x5A4DA0)
+MATCH_FUNC(0x5A4DA0)
 void Sprite_4C::DrawCollisionBox_5A4DA0(Fix16 zpos)
 {
+    // The bounding box sides go through the Fix16_Rect getters (by-value returns): they decide
+    // the argument copies' stack slots and use up the inline budget like the original.
     if (field_48_bBoxUpToDate)
     {
         Fix16 x1;
@@ -2609,10 +2611,10 @@ void Sprite_4C::DrawCollisionBox_5A4DA0(Fix16 zpos)
         Fix16 y3;
         Fix16 x4;
         Fix16 y4;
-        ProjectToScreen_5A5690(field_30_boundingBox.field_0_left, field_30_boundingBox.field_8_top, zpos, &x1, &y1);
-        ProjectToScreen_5A5690(field_30_boundingBox.field_4_right, field_30_boundingBox.field_8_top, zpos, &x2, &y2);
-        ProjectToScreen_5A5690(field_30_boundingBox.field_4_right, field_30_boundingBox.field_C_bottom, zpos, &x3, &y3);
-        ProjectToScreen_5A5690(field_30_boundingBox.field_0_left, field_30_boundingBox.field_C_bottom, zpos, &x4, &y4);
+        ProjectToScreen_5A5690(field_30_boundingBox.get_left_45ADB0(), field_30_boundingBox.get_top_45ADD0(), zpos, &x1, &y1);
+        ProjectToScreen_5A5690(field_30_boundingBox.get_right_45ADA0(), field_30_boundingBox.get_top_45ADD0(), zpos, &x2, &y2);
+        ProjectToScreen_5A5690(field_30_boundingBox.get_right_45ADA0(), field_30_boundingBox.get_bottom_45ADC0(), zpos, &x3, &y3);
+        ProjectToScreen_5A5690(field_30_boundingBox.get_left_45ADB0(), field_30_boundingBox.get_bottom_45ADC0(), zpos, &x4, &y4);
         DrawDebugLine_5D7DD0((s16)x1.ToInt(), (s16)y1.ToInt(), (s16)x2.ToInt(), (s16)y2.ToInt(), gDebugColour_626260);
         DrawDebugLine_5D7DD0((s16)x2.ToInt(), (s16)y2.ToInt(), (s16)x3.ToInt(), (s16)y3.ToInt(), gDebugColour_626260);
         DrawDebugLine_5D7DD0((s16)x3.ToInt(), (s16)y3.ToInt(), (s16)x4.ToInt(), (s16)y4.ToInt(), gDebugColour_626260);
