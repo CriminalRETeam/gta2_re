@@ -4647,18 +4647,16 @@ u8 Frontend::GetPreviousUnlockedMainStage_4B7060(u8 a2)
     }
 }
 
-WIP_FUNC(0x4B7270)
+MATCH_FUNC(0x4B7270)
 u8 Frontend::GetNextUnlockedMainStage_4B7270(char_type main_stage_idx)
 {
-    WIP_IMPLEMENTED;
-
     player_stats_0xA4* pStats = GetCurrPlayerStats_4B43E0();
     u8 result = main_stage_idx;
     if (main_stage_idx == 2)
     {
         if (bIsLeftRightLoopEnabled_67DA80)
         {
-            return 0;
+            result = 0;
         }
     }
     else
