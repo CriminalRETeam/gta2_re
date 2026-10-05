@@ -2724,13 +2724,10 @@ EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 OwnerMass,
     return Impulse;
 }
 
-WIP_FUNC(0x560b40)
+MATCH_FUNC(0x560b40)
 void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
 {
-    WIP_IMPLEMENTED;
-
-    Fix16_Point_POD v16;
-    Fix16_Point unused; // the original constructs 4 points up front (EH state 3 before the first call)
+    Fix16_Point v16; // a local with a destructor: the original constructs 4 points up front (EH state 3)
     Fix16_Point pIntersection;
     Fix16_Point relativePointVel;
     Fix16_Point sprite_xy(pCharB4->get_sprite_xpos(), pCharB4->get_sprite_ypos());
