@@ -1300,12 +1300,10 @@ char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
         {
             if (field_2C_counter > 40)
             {
-                Ang16 angle(Fix16((gRng_6F6784.get_int_4F7AE0(8) - 4) / 2).GetRaw_40F4B0() / 71);
-                angle.Normalize_406C20();
+                Ang16 angle = Ang16::Fix16_To_Ang16_40F540(Fix16((gRng_6F6784.get_int_4F7AE0(8) - 4) / 2));
                 {
                     Fix16 radius = dword_6FD540 * dword_6FD4A8;
-                    angle.rValue = field_28_pSprite->field_0.rValue + angle.rValue;
-                    angle.Normalize_406C20();
+                    angle += field_28_pSprite->field_0;
                     Ang16::PolarToCartesian_41FC20(angle, radius, offset.x, offset.y);
                 }
                 field_30_pNext->SetFlags_4337D0(1, 10);

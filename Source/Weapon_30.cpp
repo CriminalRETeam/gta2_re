@@ -1,3 +1,6 @@
+// This TU's copy of the Fix16_Point length zero (see Fix16_Point.hpp)
+#define FIX16_POINT_ZERO dword_706EB8
+
 #include "Weapon_30.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Object_3C.hpp"
@@ -720,30 +723,6 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
 
 EXPORT void __stdcall sub_5DE910(Fix16_Point_POD a1, Fix16_Point& a2, Fix16 a3);
 
-// Length of `d`, with dword_706EB8 as the zero (y * y inline)
-static inline Fix16 BeamLength_5DE4F0(Fix16_Point& d)
-{
-    if (d.x == dword_706EB8)
-    {
-        return Fix16::Abs_436A50(d.y);
-    }
-    else if (d.y == dword_706EB8)
-    {
-        return Fix16::Abs_436A50(d.x);
-    }
-    else
-    {
-        return Fix16::SquareRoot_436A70(d.x.Multiply_408680(d.x).Add_408660(d.y * d.y));
-    }
-}
-
-// Ang16::PolarToCartesian_41FC20 with the radius by value
-static inline void PolarToCartesian_5DE4F0(Ang16& angle, Fix16 radius, Fix16& ret1, Fix16& ret2)
-{
-    ret1 = Ang16::sine_40F500(angle) * radius;
-    ret2 = Ang16::cosine_40F520(angle).Multiply_408680(radius);
-}
-
 WIP_FUNC(0x5de4f0)
 void Weapon_30::sub_5DE4F0()
 {
@@ -756,7 +735,7 @@ void Weapon_30::sub_5DE4F0()
     angle = Fix16::atan2_fixed_405320(field_24_pPed->field_198->get_cam_y() - field_24_pPed->get_cam_y(),
                                             field_24_pPed->field_198->get_cam_x() - field_24_pPed->get_cam_x());
 
-    Fix16 dist = BeamLength_5DE4F0(delta);
+    Fix16 dist = delta.GetLength_41E260();
 
     if (dist > dword_706EC4)
     {
@@ -789,7 +768,7 @@ void Weapon_30::sub_5DE4F0()
 
     Fix16 step_x;
     Fix16 step_y;
-    PolarToCartesian_5DE4F0(angle, step_len, step_x, step_y);
+    Ang16::PolarToCartesian_41FC20(angle, step_len, step_x, step_y);
     for (u8 i = 1; i <= steps.ToInt(); i++)
     {
         gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(pBeam->field_14_xy.x, pBeam->field_14_xy.y, pBeam->field_1C_zpos);
@@ -1692,15 +1671,15 @@ MATCH_FUNC(0x5e2940)
 void Weapon_30::car_smg_5E2940()
 {
     // The original has a fifth destructible local up front (EH entry state 4), hence unused_5.
-    // Declaration order, tmpx/tmpy at function scope and the Ang16 copy below are needed to match.
+    // Declaration order and the Ang16 copy below are needed to match. tmpx/tmpy are initialised where
+    // they are computed: declared up front and assigned, the caller is too big for the rotations'
+    // inline budget (the first + of each RotateByAngle_40F6B0 is inlined, its other operators aren't).
     Ang16 sprite_ang;
     Fix16_Point unused_5;
     Fix16_Point left;
     Fix16_Point right;
     Fix16_Point left_point_velocity;
     Fix16_Point right_point_velocity;
-    Fix16 tmpy;
-    Fix16 tmpx;
     if (field_2_reload_speed == 0)
     {
         field_24_pPed = field_14_car->get_driver_4118B0();
@@ -1708,15 +1687,15 @@ void Weapon_30::car_smg_5E2940()
         Sprite* pCarSprite = field_14_car->field_50_car_sprite;
         sprite_ang = field_14_car->field_50_car_sprite->field_0;
 
-        tmpx = dword_706DCC + field_14_car->get_car_width() / 2;
-        tmpy = dword_706FD0 + field_14_car->get_car_height() / 2;
+        Fix16 tmpx = dword_706DCC + field_14_car->get_car_width() / 2;
+        Fix16 tmpy = dword_706FD0 + field_14_car->get_car_height() / 2;
 
         left.SetXY_432860(tmpx, tmpy);
-        left.RotateByAngle_40F6B0_out_of_line(sprite_ang);
+        left.RotateByAngle_40F6B0(sprite_ang);
         left += pCarSprite->get_x_y_443580();
 
         right.SetXY_432860(-tmpx, tmpy);
-        right.RotateByAngle_40F6B0_out_of_line(sprite_ang);
+        right.RotateByAngle_40F6B0(sprite_ang);
         right += pCarSprite->get_x_y_443580();
 
         left_point_velocity = field_14_car->field_58_physics->GetPointVelocity_561350(&left);
@@ -1736,9 +1715,9 @@ void Weapon_30::car_smg_5E2940()
                                                     pCarSprite->field_1C_zpos,
                                                     sprite_ang,
                                                     right_point_velocity);
-            if ((pLeft || pRight) && field_24_pPed->IsField238_45EDE0(2) && !is_infinite_ammo_4A4FA0())
+            if ((pLeft || pRight) && field_24_pPed->IsField238_45EDE0(2))
             {
-                field_0_ammo--;
+                DecreaseAmmo_4CCA60();
             }
 
             gParticle_8_6FD5E8->GunMuzzelFlash_53E970(field_14_car->field_50_car_sprite);

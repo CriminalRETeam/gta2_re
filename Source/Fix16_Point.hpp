@@ -17,6 +17,7 @@ EXTERN_GLOBAL(Fix16, kFpZero_6F77C0);
 #endif
 EXTERN_GLOBAL(Fix16, kFpZero_6F610C);
 EXTERN_GLOBAL(Fix16, kF16Zero_677B90);
+EXTERN_GLOBAL(Fix16, dword_706EB8);
 
 // TODO: Some functions like Camera_0xBC::sub_435A70 won't match unless this is a POD
 // but 9.6f leads me to believe both the POD and non-POD type are the same
