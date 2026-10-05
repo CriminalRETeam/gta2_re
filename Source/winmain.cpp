@@ -2611,11 +2611,11 @@ EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
         networkUi.CopyGameSettings_51C7F0(&gNetworkGameSettings_707098);
 
         char_type path[256];
-        sprintf(path, "data\\%s", networkUi.GetMapName_51CA10());
+        wsprintfA(path, "data\\%s", networkUi.GetMapName_51CA10());
         gLucid_hamilton_67E8E0.SetMapName_4C5870(path);
-        sprintf(path, "data\\%s", networkUi.GetMapStyName_51CA50());
+        wsprintfA(path, "data\\%s", networkUi.GetMapStyName_51CA50());
         gLucid_hamilton_67E8E0.SetStyleName_4C5890(path);
-        sprintf(path, "data\\%s", networkUi.GetMapScrName_51CA90());
+        wsprintfA(path, "data\\%s", networkUi.GetMapScrName_51CA90());
         gLucid_hamilton_67E8E0.SetScriptName_4C58B0(path);
 
         gLucid_hamilton_67E8E0.SetMultiplayerParams_4C5B80(gNetworkGameSettings_707098.field_20198_game_type,
