@@ -50,6 +50,11 @@ Scripts/permute.sh Source/Foo.cpp Foo::Bar_123456 123456 --base-only   # just pr
 - `Scripts/quick_score.sh <Source/File.cpp> <addr> <symbol_substring> [-q]` compiles one TU into a
   private obj and scores one function with `permuter_score.py`, without touching `build_vc6/`, so
   several can run at once. Use it for hand experiments instead of `build.py --single_cpp`.
+- `Scripts/decl_shuffle.py <Source/File.cpp> <func_name> <addr> [-n 300] [--seed 1]` tries random
+  orders of the declaration lines at the top of one function (on a temp copy of `Source/`, scored
+  with `quick_score.sh`) and prints the best block. Declaration order decides stack slots and dead
+  parameter slot reuse, and the permuter rarely tries a full shuffle; it took
+  `InsertLineBreaksAndGetNumLines_5B5BC0` from 232 to 56.
 - `Scripts/bin_comp/show_96f.py <addr>` prints the 9.6f version of a 10.5 function and the 9.6f
   bodies of the callees 10.5 inlined into it.
 - Logic-bug finders (from `Scripts/bin_comp`, after a build and `msvc_dump_new_data.py`):
