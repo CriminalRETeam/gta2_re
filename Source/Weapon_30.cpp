@@ -215,17 +215,20 @@ void Weapon_30::TickReloadSpeed_5DCF40()
 }
 
 // 9.6f 0x4CDA90
-WIP_FUNC(0x5dcf60)
+MATCH_FUNC(0x5dcf60)
 Object_2C* Weapon_30::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rot, Fix16_Point& speed)
 {
-    WIP_IMPLEMENTED;
+    // probe_x/probe_y are assigned, not initialised: initialised, VC6 folds them into the call
+    // arguments and computes y first
+    Fix16 probe_x;
+    Fix16 probe_y;
 
     Sprite* p5CSprite = gObject_5C_6F8F84->field_58_collision_probe_sprite;
     Object_2C* pNewBullet = gObject_5C_6F8F84->NewPhysicsObj_5299B0(bullet_type, xpos, ypos, zpos, rot);
 
-    p5CSprite->set_xyz_lazy_420600(field_24_pPed->get_cam_x() + (xpos - field_24_pPed->get_cam_x()) / kFP16Two_706EC0,
-                                   field_24_pPed->get_cam_y() + (ypos - field_24_pPed->get_cam_y()) / kFP16Two_706EC0,
-                                   zpos);
+    probe_x = field_24_pPed->get_cam_x() + (xpos - field_24_pPed->get_cam_x()) / kFP16Two_706EC0;
+    probe_y = field_24_pPed->get_cam_y() + (ypos - field_24_pPed->get_cam_y()) / kFP16Two_706EC0;
+    p5CSprite->set_xyz_lazy_420600(probe_x, probe_y, zpos);
 
     p5CSprite->set_ang_lazy_420690(pNewBullet->field_4->field_0);
 
@@ -243,15 +246,15 @@ Object_2C* Weapon_30::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypo
     if (p5CSprite->CheckSpriteMovementRegion_5A2500())
     {
         pNewBullet->RequestRemoval_5290A0();
+        pNewBullet = NULL;
         bAllowFlameSegment_706D60 = 0;
-        return NULL;
     }
     else
     {
         bAllowFlameSegment_706D60 = 1;
         pNewBullet->SetMovementVector_5224E0(speed);
-        return pNewBullet;
     }
+    return pNewBullet;
 }
 
 // https://decomp.me/scratch/73olU
