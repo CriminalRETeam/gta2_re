@@ -865,6 +865,20 @@ instead two identical blocks use the same slots, declare the locals once at func
 scope (`NetPlay::OnPacketReceived_51F870` for the first, `NetPlay::NetworkTick_51ED00`
 for the second).
 
+**How VC6 orders stack slots.** Declaration order does not matter. Measured on small test
+functions (`/O2`): locals are sorted by size, smallest at the lowest offset (a `short`
+below an `int`, an `int` below an 8-byte struct, which is below a 12-byte one). Within one
+size, the local with more references gets the lower offset, and each field access (`p.x`,
+`p.y`) and each half of a struct copy counts as one reference. Ties go to the local that
+is used first. References inside a loop don't get extra weight, at least not enough for
+one in-loop use to beat two outside uses. So when two same-sized locals sit in each
+other's slots, change how often each one is referenced, not where it is declared. When a
+named local's slot is reused later for a temporary, the original declared it in an inner
+block (see "Block-scoped locals share stack slots" above).
+`Scripts/bin_comp/frame_slots.py` prints a function's asm with `esp` offsets rewritten as
+fixed frame offsets (it tracks pushes and call cleanup), so the slots of the original and
+of a build can be compared line by line.
+
 **Declaration position moves a zero store.** A loop counter declared before an `if` gets its
 `= 0` store scheduled before the test, not inside the block (`Kfc_30::CleanupExpiredEntities_5CC1C0`).
 
