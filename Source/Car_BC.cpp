@@ -7396,9 +7396,10 @@ Fix16 Car_14::GetRandomTrafficSpeed_583750(Fix16 max_speed, u8* pOut)
 }
 
 // 9.6f 0x4B34E0
-// Only diff left: case 1 of the a2 switch. 10.5 keeps the x_step = -1 block as the jump target of
-// case 1 (14D) and case 2 jumps to it. Writing case 1 inverted (as here) gets the merge but lays the
-// -1 block out as the fallthrough instead.
+// Only diff left: case 2 of the a2 switch. 10.5 merges case 2's x_step = -1 block into case 1's
+// (jne to 14D, own +1 block as the fallthrough). Here VC6 merges the +1 blocks instead (case 2's
+// becomes a je to case 1's). VC6 keeps the fallthrough copy of two identical blocks, and when both
+// are jump targets the later one, so case 1's -1 block (a jump target) never survives a merge.
 WIP_FUNC(0x582480)
 char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
 {
@@ -7439,24 +7440,12 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
     Fix16 xpos;
     Fix16 ypos;
     // Case order 1, 2, 4, 3 and the statement orders in cases 1 and 2 follow the 10.5 block layout
-    // and tail merging (case 4 jumps into case 3's tail, case 2's x_step = -1 block is case 1's).
+    // and tail merging (case 4 jumps into case 3's tail). Case 2's x_step = -1 block is written
+    // in a different order so that VC6 does not merge it (merging would keep case 2's copy).
     switch (a2)
     {
         case 1:
             ypos = field_0_cam->field_78_boundaries_non_neg.field_8_top - kFpFive_6FF6D4;
-            if (field_8)
-            {
-                xpos = field_0_cam->field_78_boundaries_non_neg.field_4_right + kFpOne_6FF778;
-                x_step = -1;
-            }
-            else
-            {
-                x_step = 1;
-                xpos = field_0_cam->field_78_boundaries_non_neg.field_0_left - kFpOne_6FF778;
-            }
-            break;
-        case 2:
-            ypos = field_0_cam->field_78_boundaries_non_neg.field_C_bottom + kFpFive_6FF6D4;
             if (!field_8)
             {
                 xpos = field_0_cam->field_78_boundaries_non_neg.field_0_left - kFpOne_6FF778;
@@ -7466,6 +7455,19 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
             {
                 xpos = field_0_cam->field_78_boundaries_non_neg.field_4_right + kFpOne_6FF778;
                 x_step = -1;
+            }
+            break;
+        case 2:
+            ypos = field_0_cam->field_78_boundaries_non_neg.field_C_bottom + kFpFive_6FF6D4;
+            if (field_8)
+            {
+                x_step = -1;
+                xpos = field_0_cam->field_78_boundaries_non_neg.field_4_right + kFpOne_6FF778;
+            }
+            else
+            {
+                xpos = field_0_cam->field_78_boundaries_non_neg.field_0_left - kFpOne_6FF778;
+                x_step = 1;
             }
             break;
         case 4:
