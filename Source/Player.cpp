@@ -187,10 +187,11 @@ void Player::AddCarToHistory_5645B0(Car_BC* pNewCar)
 
             // History full: recycle the oldest car and shift the others down
             ppIter[0]->MarkRecycled_443E80();
-            Car_BC* pCar_1 = ppIter[1];
-            Car_BC* pCar_2 = ppIter[2];
-            ppIter[0] = pCar_1;
-            ppIter[1] = pCar_2;
+            Car_BC** pDst = ppIter;
+            for (s32 j = 0; j < 2; j++, pDst++)
+            {
+                *pDst = pDst[1];
+            }
             ppIter[2] = pNewCar;
         }
     }
@@ -237,35 +238,32 @@ bool Player::PromoteCarInHistory_564610(Car_BC* pCar, bool bDontModify)
     return false;
 }
 
-WIP_FUNC(0x564680)
+MATCH_FUNC(0x564680)
 void Player::PushCarInfo_564680(Car_BC* pCar)
 {
-    WIP_IMPLEMENTED;
-
-    Car_BC** pIter; // eax
-    u8 idx; // dl
-    Car_BC** pCurrent; // ecx
-
-    pIter = this->field_54_car_history;
+    Car_BC** pIter = field_54_car_history;
     if (!bStartNetworkGame_7081F0)
     {
-        idx = 0;
-        while (*pIter != pCar)
+        u8 idx;
+        for (idx = 0; idx < 2; pIter++, idx++)
         {
-            ++pIter;
-            if (++idx >= 2u)
+            if (*pIter == pCar)
             {
-                pCurrent = &this->field_54_car_history[idx];
-                if (*pCurrent == *pIter)
+                *pIter = pIter[1];
+                for (; idx < 2; idx++, pIter++)
                 {
-                    *pCurrent = 0;
+                    *pIter = pIter[1];
                 }
+                *pIter = 0;
                 return;
             }
         }
-        *pIter = pIter[1];
-        memcpy(pIter, pIter + 1, 4 * (2 - idx));
-        pIter[2 - idx] = 0;
+
+        Car_BC** pCurrent = &field_54_car_history[idx];
+        if (*pCurrent == *pIter)
+        {
+            *pCurrent = 0;
+        }
     }
 }
 
