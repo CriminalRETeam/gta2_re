@@ -2519,3 +2519,31 @@ Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 
 - `Ped::HandlePedHitByObject_45D000` scores 137 after the merge (74 before; the merged fix16/ang16 header changes
   moved the inlined IsPedAThreat code).
 
+## Particle pass 2 (9.6f first, bracketed pairs)
+Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 vs 9.6f).
+- New 9.6f pairs by address bracketing between the paired neighbours (added with `add_96f_target.py`):
+  `EmitWaterSplash_53F060` -> 0x48D1F0, `EmitFlameStreamSegment_53F4C0` -> 0x48D4E0,
+  `EmitFireTruckSprayParticle_53FAE0` -> 0x48D8B0.
+- `Particle_8::EmitWaterSplash_53F060` 458 -> 0 (**MATCH**). The plain 9.6f form: `word.MultiplyByFix16_401CB0(
+  Fix16(rng))`, `(angle_1 + angle_2) - word.MultiplyByFix16_401CB0(Fix16(8))`, `RotateByAngle_40F6B0`, a count-down
+  loop (`for (count = 6; count != 0; count--)`), `DivideInt_53E860(15).Negate_4086A0()` for the New_53E3C0 args.
+  That scored 2: the rotations' x_old negate was the COMDAT copy of `operator-` while the arguments called
+  `Negate_4086A0`, and the two are not folded in our build (the build verifier failed on it). A file-local
+  `RotateNegExport_` (operators inline, `x_old.Negate_4086A0()`) gives one symbol for all three: 0.
+  `-v.DivideInt(15)` instead inlines the negates (563); `RotateByAngle_NegOOL_40F6B0` changes the budget (433).
+- `Particle_8::EmitBloodBurst_53E450` (325 / 317): the same plain form scores 524 / 251; with `RotateNegExport_`
+  646. Its original frame is 0x68 vs our 0x54-0x58 and 9.6f (0x48C9C0) aligns the stack (`and $-8`) and keeps the
+  two `15` divisors in dword locals before the loop: it has locals we don't see.
+- `Particle_8::EmitFlameStreamSegment_53F4C0` (710 / 595 -> 685 / 572 with `PolarToCartesian_41FC20` as the real
+  call, `vector += vector_2 + get_x_y()`, `Set_2C_0x4_Flag_4337F0()`): 9.6f constructs only `Ang16 angle` up front
+  (no `Fix16_Point(Fix16(0), Fix16(0))`), builds the New_53E3C0 x/y as two `Fix16(0)` locals, and the car branch
+  `Fix16(0)`s in place; not rewritten.
+- `Particle_8::GunMuzzelFlash_53E970` (428 / 933): 9.6f has no unused sin/cos multiplies in the car branch (ours
+  needs them for the 10.5 Multiply count), `AsCharB4_40FEA0()` inline in the `offset + ...` expression (579 /
+  933), removing the multiplies 998 / 841. Not pursued.
+- `Particle_4C::UpdateObjectBeamLink_state_38_538AC0` 493 -> 343 (9.6f 881 -> 436), see the commit: 9.6f's
+  0x48A270/0x48A250 as `Fix16_Point::MaxAbs_48A270` (with `Abs_436A50`) / `DivideAssign_48A250`, `SetXY_432860`,
+  point operators, `delta.atan2_40F790()`, `SetFlags_4337D0(2, 20)`, u8 `Fix16(field_46_sub_state)` radius.
+  The case bodies keep `NormalizedAng` + `MulInto` (SetFromPolar inline: 578). Left: frame 0x5C vs 0x54 and the
+  slot order of i/segments/the points; `Fix16_Point_POD target` + a named `Ang16` for the atan2 result give the
+  original's frame size by accident (Ang16 temporaries) but not the layout (351).
