@@ -172,7 +172,9 @@ block into every unconditional predecessor when it is about two stores plus the 
 change it. So an original that jumps to a shared pure epilogue (`mov $1,%al; jmp epilogue`) can't
 be reproduced by restructuring; no matched function's asm has such a jump. This is what is left in
 `ApplyImpactForcesAndDamage_55FA60`, `RectHitsDiagonalWall_4E11E0`, `sub_4F76A0`/`4F77D0`,
-`PointInsideRotatedBounds_5A1490`, `Start_NetworkGame_5E5A30` and `TrainCab_414710`.
+`PointInsideRotatedBounds_5A1490`, `Start_NetworkGame_5E5A30` and `TrainCab_414710`. A conversion in the
+join (a `char_type` result returned as `bool`) does keep the jumps, see "A `char_type` result variable keeps
+the jumps to one shared EH epilogue".
 
 Which copy survives a tail merge can depend on how the copies are reached: VC6 merged a duplicate
 tail into the earlier copy when the later ones were jump targets (else branches), into the later one
@@ -403,6 +405,23 @@ indexed addressing, and hand-written pointers merge into one pointer and a diffe
 (`Map_0x370::sub_4E8370`, which also got its prologue and frame from this).
 
 ## Evaluation order and registers
+
+**A computation ahead of a call in one expression: pass it as a by-value argument of an inline.**
+In `Ratio() * turn * (v6 / k)` VC6 always calls `Ratio()` before the inlined `__alldiv`, whatever the
+spelling (separate locals, `/=`, operand order). The original divides first and loads `turn` before
+the division: an inline member `GetScaledTurnRatio(Fix16 scale, s32 turn) { return Ratio() * turn * scale; }`
+called as `GetScaledTurnRatio(v6 / k, field_AD)` gets both, since arguments are evaluated right to
+left before the inlined body (matched `CarPhysics_B0::UpdateSteeringAngle_562560`, 44 -> 0). With the
+parameters the other way round (`turn` first) the turn load moves after the division (26), and a
+`const Fix16&` scale is the same as no helper (48).
+
+**A `char_type` result variable keeps the jumps to one shared EH epilogue.** In
+`Sprite::PointInsideRotatedBounds_5A1490` (returns `bool`) the original ends every true path with
+`mov $1,%al; jmp epilogue`. Early returns, nesting with one `return true`, or a `bool result` all
+give every path its own epilogue copy (60-110 lines), but `char_type result;` set on each path and
+`return result;` keeps the jumps: the `bool` conversion makes the join block more than a pure
+epilogue, so VC6 doesn't copy it (4 lines left: that `test/setne` lands in the shared epilogue
+instead of on the last path). `s32 result` 38-42; a `char_type` return type copies again (106).
 
 **`and $0xFE,%al` on a bitfield word: clear the bit through a by-value helper.** VC6 only uses the
 short 8-bit form when the word is in `eax`. A direct `bf.b0 = 0`, `&= ~1` or a by-reference helper put

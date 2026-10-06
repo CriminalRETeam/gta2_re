@@ -1764,8 +1764,7 @@ void CarPhysics_B0::SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 
         if (!pBoxCorner->IsNull())
         {
             t = arg_4 - *pBoxCorner;
-            box_idx = 2;
-            v15 = pBoxCorner->Add_40AC50(arg_4) / box_idx;
+            v15 = pBoxCorner->Add_40AC50(arg_4) / 2;
             Fix16 obj_x = v15.x;
             Fix16 obj_y = v15.y;
 
@@ -1784,8 +1783,7 @@ void CarPhysics_B0::SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 
                 }
             }
         }
-        pBoxCorner->x = arg_4.x; // setting field_10_last_skid_pos
-        pBoxCorner->y = arg_4.y;
+        *pBoxCorner = arg_4;
     }
 }
 
@@ -3304,10 +3302,9 @@ void CarPhysics_B0::ApplyBrakePhysics_5624F0()
 }
 
 // https://decomp.me/scratch/f2UpJ
-WIP_FUNC(0x562560)
+MATCH_FUNC(0x562560)
 void CarPhysics_B0::UpdateSteeringAngle_562560()
 {
-    WIP_IMPLEMENTED;
     if (field_5C_pCar->field_7C_uni_num != 2)
     {
         field_78_pointing_ang_rad = CarPhysics_B0::GetTrailerAwareTurnRatio_55A100() * field_AD_turn_direction;
@@ -3319,8 +3316,7 @@ void CarPhysics_B0::UpdateSteeringAngle_562560()
         {
             v6 = dword_6FE374;
         }
-        field_78_pointing_ang_rad =
-            CarPhysics_B0::GetTrailerAwareTurnRatio_55A100() * field_AD_turn_direction * (v6 / (dword_6FE228 * dword_6FE104));
+        field_78_pointing_ang_rad = GetScaledTurnRatio(v6 / (dword_6FE228 * dword_6FE104), field_AD_turn_direction);
     }
 }
 

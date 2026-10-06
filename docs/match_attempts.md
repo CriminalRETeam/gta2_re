@@ -2026,3 +2026,49 @@ Scores are `sc.sh` lines. No new matches.
   `Char_B4::state_1_5504F0` 310 -> 396, `CarDoorAlignmentSolver_545AF0` 875 -> 879,
   `Map_0x370::sub_4E7190` 218 -> 655, `Particle_8::EmitWaterSplash_53F060` 458 -> 459;
   `Map_0x370::sub_4E6660` 4 -> 4.
+
+### Near-miss pass (CarPhysics open again)
+Scores are `sc.sh` lines.
+- `CarPhysics_B0::UpdateSteeringAngle_562560` 44 -> 0 (**MATCH**): new inline member
+  `GetScaledTurnRatio(Fix16 scale, s32 turn_direction)` called with the division as the first (by-value)
+  argument, see matching_quirks "A computation ahead of a call in one expression".
+- `Sprite::PointInsideRotatedBounds_5A1490` 60 -> 4: `char_type result` set on every path and returned once
+  (see matching_quirks "A `char_type` result variable keeps the jumps to one shared EH epilogue"). Left: the
+  `bool` conversion sits in the shared epilogue instead of on the last path. `bool`/`s32` result, early
+  returns, `char_type` return type (the only caller is `SpriteHitsDiagonalWall_4E1520`), a `||` chain through
+  an inline "rotate and test" helper (758): worse.
+- `CarPhysics_B0::SpawnSkidSegment_55D200` 58 -> 54: `*pBoxCorner = arg_4` (struct copy: both loads, then both
+  stores) and `/ 2` instead of the `box_idx = 2` IDA artefact (the length then takes the dead `box_idx` slot as
+  in the original). Left: the original also puts the `2` temporary in that slot (ours: a frame slot), and the
+  clear branch falls into the shared EH epilogue while the main path jumps to it (ours copies the epilogue).
+  Inverted condition, `return` after the copy, `return` in the else: same or worse (144). No `obj_x/obj_y`
+  locals, declaring them after `len`: same 54; `len` assigned (136), `len` before `r` (96).
+- `CarPhysics_B0::UpdateZPhysics_55AD90` (84): `Fix16::Add_ref` for the `cp3 + k` compares: no change (the
+  original computes the sum with `lea` into a third register). Permuter 800: best 66, only by using the
+  `get_cp3_40F800()` getter for the first `field_6C_cp3` read (not applied).
+- `ComputeLineLineIntersection_55F3B0` (68): `RelVel * -(k + offset)`, `-(offset + k)`, a `restitution` local:
+  no change (the original loads RelVel into eax and the negated sum into ecx; ours `imull` from memory);
+  the dot product written into the expression or assigned: 283-548 (inline budget).
+- `Char_B4::sub_54C3E0` (58): non-const / `u32` / assigned `face`, `char_type unknown`, `unknown` declared
+  after `face`: 58-66. Permuter 700: nothing. The original's tail copies use different registers per copy
+  (B: ecx/edx, C: eax/ecx), so only one of them cross-jumps one instruction earlier.
+- `Sprite_4C::UpdateRotatedBoundingBox_5A3550` (57): height declared first (302), depth first (782), declare
+  then assign (57). Permuter 600: nothing.
+- `miss2_0x11C::GetSpeed_50E190` (66): no `pChar` local (74), `Fix16` init or the length passed straight to
+  `GetRaw` (66-72). Even with that case body replaced the `Next_503620` argument stays in `edx`. Permuter 800:
+  nothing.
+- `Ped::sub_469FE0` (102): the original keeps 0 in `ebx` (9.6f and VC7 too). `u8 x = 0, y = 0, z = 0;` at the
+  top (then assigned) gives the zero register and 30 lines, but adds three byte stores the original doesn't
+  have; not applied. `pCar = NULL`, `!= 0`/`!= false`/`== true`/casts on the `FBI_Army_5703E0` test: no
+  `cmp %bl,%al` (always `test`).
+- `CarAI_78::ReactToNearbyCar_451980` (96): `kAng180 + field_10_angle` (global as `this` in both sums) 96,
+  global on the right 106; the real gap is `v21` spilled while the original keeps it in `bp` (and spills
+  `field_0_car`), which also makes `kAng180 + v21` a 32-bit add.
+- `Map_0x370::SpriteHitsDiagonalWall_4E1520` (64): `Fix16((u32)x).Add_408660(half)` / `+` (66/234). The
+  original calls the out-of-line Fix16(u32) copy (an argctor) and constructs the z argument in place with
+  `mov %esp,..` (EH arg address), plus the shared-epilogue jump.
+- `Camera_0xBC::ApplyCarVelocityCameraOffset_436200` (58): `offset` declared in the block, `PolarToCartesian`
+  with `offset.x/.y` as the outputs: `offset` stays in registers (62/150), the original keeps it in a frame
+  slot and stores `offset.x` before the second `Multiply_408680` call.
+- `PedGroup::MergeWithOtherGroup_4C9B60` (104): `pOther = pPed->field_164_ped_group` before the test gives
+  the original's `ebx` for it but loses `pPed` in `edi` (132).

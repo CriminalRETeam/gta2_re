@@ -1636,28 +1636,41 @@ bool Sprite::PointInsideRotatedBounds_5A1490(Fix16_Point& point1, Fix16_Point& p
     Fix16 half_height;
     HalfWH_ool_4BA0A0(field_C_sprite_4c_ptr, &half_width, &half_height);
 
-    // Nested, with one shared "return true": early returns give every return its own epilogue copy and
-    // destructor calls, and run out of inline expansions (the Fix16_Point ctors then go out of line).
-    // The plain mValue compares are cheaper than the Fix16 operators for the same reason.
+    // One result variable instead of early returns: each `result = true` path jumps to the shared
+    // epilogue as in the original (early returns, or a bool result, give every return its own epilogue
+    // copy). Left: with a char_type result the bool conversion lands in the epilogue (4 lines).
+    // The plain mValue compares are cheaper than the Fix16 operators (inline budget).
+    char_type result;
     RotateAndTranslatePoint_ool_42A720(point1.x, point1.y, NegateAng16_401C80(field_0), field_14_xy.x, field_14_xy.y, rotated_1.x, rotated_1.y);
-    if (!(rotated_1.x.mValue >= -half_width.mValue && rotated_1.x.mValue <= half_width.mValue && rotated_1.y.mValue >= -half_height.mValue && rotated_1.y.mValue <= half_height.mValue))
+    if (rotated_1.x.mValue >= -half_width.mValue && rotated_1.x.mValue <= half_width.mValue && rotated_1.y.mValue >= -half_height.mValue && rotated_1.y.mValue <= half_height.mValue)
+    {
+        result = true;
+    }
+    else
     {
         RotateAndTranslatePoint_ool_42A720(point2.x, point2.y, NegateAng16_401C80(field_0), field_14_xy.x, field_14_xy.y, rotated_2.x, rotated_2.y);
-        if (!(rotated_2.x.mValue >= -half_width.mValue && rotated_2.x.mValue <= half_width.mValue && rotated_2.y.mValue >= -half_height.mValue && rotated_2.y.mValue <= half_height.mValue))
+        if (rotated_2.x.mValue >= -half_width.mValue && rotated_2.x.mValue <= half_width.mValue && rotated_2.y.mValue >= -half_height.mValue && rotated_2.y.mValue <= half_height.mValue)
         {
-            if (!ComputeScanlineIntersectionX_4F77D0(-half_height, half_height, -half_width, rotated_1, rotated_2))
-            {
-                if (!ComputeScanlineIntersectionX_4F77D0(-half_height, half_height, half_width, rotated_1, rotated_2))
-                {
-                    if (!ComputeScanlineIntersectionY_4F76A0(-half_width, half_width, -half_height, rotated_1, rotated_2))
-                    {
-                        return ComputeScanlineIntersectionY_4F76A0(-half_width, half_width, half_height, rotated_1, rotated_2) ? true : false;
-                    }
-                }
-            }
+            result = true;
+        }
+        else if (ComputeScanlineIntersectionX_4F77D0(-half_height, half_height, -half_width, rotated_1, rotated_2))
+        {
+            result = true;
+        }
+        else if (ComputeScanlineIntersectionX_4F77D0(-half_height, half_height, half_width, rotated_1, rotated_2))
+        {
+            result = true;
+        }
+        else if (ComputeScanlineIntersectionY_4F76A0(-half_width, half_width, -half_height, rotated_1, rotated_2))
+        {
+            result = true;
+        }
+        else
+        {
+            result = ComputeScanlineIntersectionY_4F76A0(-half_width, half_width, half_height, rotated_1, rotated_2) != 0;
         }
     }
-    return true;
+    return result;
 }
 
 MATCH_FUNC(0x5a19c0)

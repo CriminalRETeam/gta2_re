@@ -147,6 +147,12 @@ class CarPhysics_B0
     EXPORT Fix16 GetEffectiveMomentOfInertia_55A050();
     EXPORT u8 IsInAir_55A0B0();
     EXPORT Fix16 GetTrailerAwareTurnRatio_55A100();
+    // Inlined in UpdateSteeringAngle_562560. The scale is computed before the turn ratio call, which
+    // needs it as a by-value argument ahead of the turn direction (arguments are evaluated right to left)
+    inline Fix16 GetScaledTurnRatio(Fix16 scale, s32 turn_direction)
+    {
+        return GetTrailerAwareTurnRatio_55A100() * turn_direction * scale;
+    }
     EXPORT char_type IsFootBrakeOn_55A150();
     EXPORT char_type IsAccelerationOrReverseOn_55A180();
     EXPORT void SetVelocityTowardTarget_55A1D0(Fix16 a2, Fix16 a3, Fix16 a4, s32* a5);
