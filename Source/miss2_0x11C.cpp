@@ -2382,6 +2382,8 @@ void miss2_0x11C::SCRCMD_CHECK_HEALTH_509030()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
+// See docs/match_attempts.md. Both ReassignAllocatedCarType(8) calls take the value just stored to
+// gStoredCar (VC6 forwards it: first load of pParam2->field_8_car in the inner block, pCar in the else).
 WIP_FUNC(0x509180)
 void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
 {
@@ -2400,7 +2402,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
 
             if (gStoredCar_6F7560 != NULL)
             {
-                if (gStoredCar_6F7560 != pCar && gStoredCar_6F7560->field_6C_maybe_id != pCar->field_6C_maybe_id)
+                if (pCar != gStoredCar_6F7560 && gStoredCar_6F7560->field_6C_maybe_id != pCar->field_6C_maybe_id)
                 {
                     s32 four = 4;
 
@@ -2444,7 +2446,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                     gStoredCar_6F7560 = pParam2->field_8_car;
                     gStoredCarId_6F78B4 = pParam2->field_8_car->field_6C_maybe_id;
 
-                    pParam2->field_8_car->ReassignAllocatedCarType_443EE0(8);
+                    gStoredCar_6F7560->ReassignAllocatedCarType_443EE0(8);
 
                     if (!gPublicTransport_181C_6FF1D4->is_bus_579AA0(pParam2->field_8_car) && pParam2->field_8_car->field_98_door_lock != four)
                     {
@@ -2458,7 +2460,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
             {
                 gStoredCar_6F7560 = pCar;
                 gStoredCarId_6F78B4 = pParam2->field_8_car->field_6C_maybe_id;
-                pCar->ReassignAllocatedCarType_443EE0(8);
+                gStoredCar_6F7560->ReassignAllocatedCarType_443EE0(8);
             }
         }
     }
