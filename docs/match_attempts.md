@@ -11,25 +11,6 @@ its entry here and add the trick that did it to `matching_quirks.md`.
 Target asm comes from the `claude/target-asm` branch (`compare_target_asm.py`, see
 `CLAUDE.md`).
 
-## BurgerKing_67F8B0::modify_inputs_4CDF30 (WIP)
-
-Closest: ratio 0.714. The code is right apart from register allocation: the original
-keeps `match_mask` in `ebx` (loaded before `push %esi`) and the loop counter in `edi`,
-ours swaps them. The original also computes the tail as `mov %ebx,%eax; and $0xFFFFF000,%eax`
-after the loop.
-
-Tried, none moved the registers:
-- `if ((match_mask & 0xFFFFF000) != 0) field_4 |= match_mask & 0xFFFFF000;` (tests then
-  ands again, worse).
-- A local `s32 high_bits = match_mask & 0xFFFFF000;` (best so far), `const u32`, and
-  `match_mask &= 0xFFFFF000;` in place.
-- `u32 match_mask` parameter.
-- Loading `field_8_input_masks[i]` into a local once per iteration (worse: changes the
-  `test` operand order and duplicates the store).
-- Walking a pointer with a count-down `for (i = 12; i != 0; i--)` (same as the local).
-
-Oct 5: 18 diff lines, all from the high-bits tail's ebx/edi swap.
-
 ## Network_20324::SetGameSpeedTextLabelAndSlider_51CFC0 (STUB)
 
 The existing body is right. The original has a full copy of the

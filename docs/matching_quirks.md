@@ -2182,6 +2182,21 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   one square and `v12 *` on either side do not change it; a `u16 dx` temp for one difference does flip the
   evaluation but mirrors the copy/in-place squaring (`Internel_UpdateBehaviorGrid_554710`, 8 lines left).
 
+### Global register allocation: priority order, then the register order
+
+Reversed from C2 (`Scripts/regalloc/README.md`, which also has a logging C2.DLL). Values that live
+across blocks get their registers in VC6's colour pass, one live range at a time, highest priority
+first. Each one takes the allowed register with the lowest score, scanning
+**eax, ecx, edx, esi, edi, ebx, ebp**, and the first one wins a tie. The score is 0, minus the value's
+own register preferences, plus those of the live ranges it interferes with.
+
+So when two locals swap registers, compare their priorities. Live ranges of equal priority are
+coloured in tie-break order, and in a loop that follows the order of the statements that update them:
+in `for (...) { a += p[i]; b ^= p[i] * 3; c |= p[i]; }` a gets edx, b esi, c edi, and with the
+statements reversed c gets edx and a edi. Reordering independent statements in a loop body is
+therefore a direct way to rotate registers among equally weighted variables.
+`Scripts/regalloc/ralog.sh` prints each function's decisions.
+
 ## Inline asm
 
 **16-bit `pushaw`/`popaw`.** The inline assembler can't spell them. Put `_emit 0x66` before
@@ -2283,9 +2298,6 @@ tried are in the WIP status report.
   the original puts an unused `u8` out byte in `xpos`'s slot and the y integer in `ypos`'s.
   Ours gives `found_z` the `xpos` slot, which shifts the frame (0x34 vs 0x30). Declaration
   order, passing `(u8*)&xpos` and the permuter didn't help.
-- One register left in `sound_obj::HandlePedVoiceEvent_423080`: `add %eax,%edi` (the sum stays
-  in `edi`, stored after `xor %eax,%eax`) where ours does `add %edi,%eax`. Six spellings of the
-  sum and 3,000 permuter iterations didn't find it.
 - In `sound_obj::ProcessObject_Type12_41E850` the original copies the sample index into `eax`
   for `GetPlayBackRateIdx` (`mov %edi,%eax; push %eax`) and reloads `field_14` for
   `RandomDisplacement`. Every spelling we tried either pushes `edi` directly or swaps the call
