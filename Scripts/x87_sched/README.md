@@ -113,3 +113,8 @@ Scripts/x87_sched/drc/dr.sh ww /tmp/ww.txt 1079f238 probe.cpp  # who writes the 
 
 Keep the probes small: a one-function `.cpp` (Source/ is on the include path) runs in about a second under
 DynamoRIO.
+
+## Troubleshooting
+
+`sched.sh` can hang when wine starts a fresh `winedevice` that inherits its `| tr -d '\r'` pipe. Kill the
+`tr` process to unblock it, or start a persistent wine server first (`wineserver -p`) to avoid it.
