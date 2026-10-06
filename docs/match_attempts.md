@@ -2638,3 +2638,39 @@ Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 
   `decl_shuffle.py` cannot run on it (interleaved declarations). `Fix16 v7;` at the top or outside its block
   (126), `v7` assigned after its declaration, `new_z` or `v9`/`v10` declared at the top: 32. `v85` and `zpos_`
   are live later, so they cannot be dropped.
+### Mid-list pass (Oct 6, Fable worker)
+Scores are `quick_score.sh` lines.
+- Matched `gtx_0x106C::BuildCarInfoContainer_5AA9A0`: `u32 door_len = doors * sizeof(door_info) + 1;` added to
+  `off` at both the total and the pointer advance. One expression folds into a single lea; two uses of
+  `off + door_len` keep the original's lea / add / add and the `this` register (the earlier u16 cast is gone).
+- Matched `sound_obj::sound_obj` (0x419CD0): `field_1468_v1 = Fix16(0)` (the Fix16(s32) constructor) for the three
+  Fix16 fields. `operator=(s32)` returns `*this`, and that reference chained the four stores in the scheduler,
+  so `mov %esi,%ecx` for GenerateIntegerRandomNumberTable_41BA90 landed after three of them. `sched.sh` shows the
+  chain (each store's successors include the next); with the constructor the stores are independent.
+- `Fix16_Point::NormalizeSafe_442AD0` (52): slot map of the original: first GetLength temps yy/Add/xx at
+  0xC/0x10/0x14, and the if-branch reuses them (sqrt temp 0xC, the 128 const 0x10, second yy 0x14, Add 0x18, xx
+  0x1C, `scaled` 0x20). Ours never overlaps the two expansions' temps (0x10..0x18 and 0x1C..0x24, frame +8). The
+  `length = scaled.GetLength()` reassignment is right (the original copies the sqrt temp into slot 8 before the
+  divide). Tried: named `xx`/`yy`/`sum` locals inside either inline (52-182), a `length2` local (86: it takes
+  slot 8), `s32 scale = 128` (58), a static inline for the scaled branch (127), early return (86), plain
+  `GetLength_41E260` (124: budget gives Abs(x) and x*x inline, y*y out of line, the reverse of the original),
+  permuter 1500 (best 40, noise).
+- `DrawPlayerStatsHelper_5D61A0` (10): 9.6f (0x4C9B40) does `and $0xFF,%eax; mov %eax,%ebp` after the width
+  getter and a signed `/2`, so width is an `s32` from a `u8`. With `s32 width` VC6 gives ebp to width and ebx
+  to base_xpos and loads the byte through ecx (32); `s16`/`s8` keep the registers but convert in two steps
+  (10/12); `u8`/`u16` spill or `shr` (58-60). `const s32&`, `register`, a static inline s32 getter, `& 0xFF`,
+  a `half_width` local, `base_xpos -= width`, a `sprite_num` local, `const` param: all 32.
+- `Ambulance_20::UpdateState_4FB330` (2): with `HandleObjectiveState` once after the switch and `return` in
+  the ClearTask paths and the case 3 else arm, the layout is byte for byte the original's except that the
+  conditional jumps to the join / exit go to the end (18): ours lays out [join][inc arm][exit], the original
+  [inc arm][join][exit] (the inc arm ends in `jmp exit`, so dupB's first loop moves join+exit into default's
+  `jmp join`). All 24 case orders, inverted case 3 condition (50), and every break/return mix of the
+  per-case HOS form (2-18) leave the inc arm after the join.
+- `sound_obj::TrainCab_414710` (6): `if (!pTrainStation) { store; return; }` early return inlines the store
+  block after the test (26); `&&` for the two checks, early returns inside the success path, success path
+  `return` + store after the if: 6.
+- `sound_obj::ProcessPoliceRadioWordsPlayback_427220` (4): the original has a 4-byte local (`push %ecx`) that
+  holds `field_552C[cur]` and 9.6f has none. `const s32`, `const s32&`, `old = old`, `*(s32*)&`, `if (old !=
+  old)`: store dropped (40). `volatile u32`: 4.
+- `miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180`: `find_96f_counterparts.py` finds no convincing 9.6f pair (best
+  0.5 on a 139-byte function), so no 9.6f shape to follow.
