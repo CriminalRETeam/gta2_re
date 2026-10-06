@@ -2547,3 +2547,40 @@ Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 
   The case bodies keep `NormalizedAng` + `MulInto` (SetFromPolar inline: 578). Left: frame 0x5C vs 0x54 and the
   slot order of i/segments/the points; `Fix16_Point_POD target` + a named `Ang16` for the atan2 result give the
   original's frame size by accident (Ang16 temporaries) but not the layout (351).
+
+## Small-WIP pass (Oct 6, agent/small)
+Scores are `quick_score.sh` lines. One new match: `LightIntensityRadius::SetRadius_5C5CD0` already compiled to
+the original's 26 bytes, it only had no `target_asm.json` entry (disassembled 0x1c5cd0 from `10.5.exe` by hand).
+- `PedGroup::sub_4C8E60` (12, the `_$E` atexit destructor of `pedGroups_67EF20`): VC6 does map the special name
+  `__ehvec_dtor` to `??_M`, so `void __stdcall __ehvec_dtor(void*, unsigned, int, DtorFn)` declared in a .cpp
+  compiles `__ehvec_dtor(pedGroups_67EF20, 0x44, 20, (DtorFn)0x4CB870)` to exactly the original's five
+  instructions. But the mangled name follows the declared pointer type: the CRT defines `??_M@YGXPAXIHP6EX0@Z@Z`
+  (`P6E` = thiscall pointer) and VC6 has no `__thiscall` keyword (`C4234`, the keyword is ignored, `_thiscall`,
+  `__pascal`, `__fortran`, `__fastcall`, `__stdcall` give `P6A`/`P6I`/`P6G`), so ours is the unresolved
+  `??_M@YGXPAXIHP6AX0@Z@Z`. VC6's link.exe has no `/alternatename` (LNK4044). A destructor's address can't be
+  taken either. Dead end from source without a tool change.
+- `Door_4D4::dtor_49D570` (92): the dropped EH frame reproduces in a 12-line TU: a member array of a class with
+  an out-of-line dtor plus `delete` of a pointer whose class has an *inline* dtor, after `#include <new>`; with an
+  out-of-line pool dtor the frame stays. In Door_4D4.cpp `<new>` comes through Garage_48.hpp -> ... -> Ped.hpp
+  -> char.hpp -> sprite.hpp -> gbh_graphics.hpp -> d3ddll.hpp -> DmaVideo.hpp (`<set>`, `<vector>`), so dropping
+  the Ped.hpp/Object_5C.hpp includes doesn't help. `#define _SET_`/`_VECTOR_` before the includes removes the
+  frame problem in the test TU but DmaVideo.hpp's `Renderer` uses `std::vector`/`std::set` members (line 282),
+  so the TU doesn't compile. Pre-declaring `operator delete` without `throw()` or including `<new.h>` first
+  changes nothing. Only the shared fix in the quirks doc (keep DmaVideo.hpp out of gbh_graphics.hpp) is left.
+- `struct_4::CleanupSpriteList_5A7080` (20): 9.6f 0x4BF070 has the same A / keep / B block order (VC7 even hoists
+  the shared `push %esi` of the two DeAllocate calls). 13 shapes all leave the keep block as the fall-through
+  into the loop test: both `continue` forms with B after the if/else, `goto head_unlink` with the label after
+  `continue`, `for (;;)` + `break`, `if (pIter) while`, `if (!pIter) return` at the end of the body, inverted
+  outer/inner conditions (44-58), B-with-continue before A (44).
+- `Wolfy_7A8::sub_543690` (12): the two `lea` temps are swapped (orig in-loop `edx`, final `eax`); 9.6f lays the
+  final tail first, so the original may have allocated it first. `goto found` with the label after the final
+  store (12), `Wolfy_30* pW` locals in either tail (12), swapped `smallestVal`/`_idx` stores (16), swapped
+  declarations (16).
+- `jolly_poitras_0x2BC0::SavePlySlotDat_56BA60` (4): 9.6f 0x4A89E0 also has `mov $3,%ebp` before the `len` store,
+  so the counter init precedes `len = 126` in the original IL. `s32 k = 0` declared before the memcpy with
+  `for (; k < 3; k++)` or `while (k < 3)` (4: the count-down init still goes to the preheader), `k = 0, len = 126`
+  in the for-init (4), pDst before the memcpy (80), a `stage_stats*` walk (34), count-down with `3 - k` (190).
+- `keybrd_0x204::GetLayout_4D6000` (4), `menu_option_0x82::SelectPrevHorizontalIdx_4B6390` (4): reviewed only, the
+  earlier notes cover every spelling tried.
+- `SetGamma_5D9910`, `sharp_pare_0x15D8::ReadTextures_5B92E0`, `ErrorLog::ErrorLog` (0x4D94E0): maintainer
+  decisions (crashing `Write_4D9620` call, standalone guard, real `ofstream` member), not retried.
