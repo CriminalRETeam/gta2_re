@@ -70,6 +70,35 @@ settle there; the same source compiled with VC6 is then the best 10.5 candidate.
 so a few functions really changed between the versions. Get VC7 once with
 `Scripts/tu_harness/fetch_compilers.sh` (only `msvc7.0` is needed).
 
+### WIPs that `match_96f.json` left unpaired
+
+`match_96f.json` misses some real counterparts. `Scripts/bin_comp/find_96f_counterparts.py` maps a WIP's
+callees through the existing pairs and compares them with the calls of every unpaired 9.6f function;
+`add_96f_target.py <105>=<96f>` then adds the pair and the 9.6f asm to the local `match_96f.json` /
+`target_96f.json`, after which `show_96f.py`, `permuter_score.py --96f` and `permute.sh --96f` work for it
+(both files are git-ignored: rerun it after fetching them again). Found so far (callees shared / mapped):
+
+| 10.5 | 9.6f | shared |
+|---|---|---|
+| `miss2_0x11C::GetSpeed_50E190` (matched) | 0x47D070 | 6/14 |
+| `Ped::FindBestTargetPed_466BF0` | 0x437BE0 | 6/6 |
+| `Ped::BusCustomer_AI_461290` | 0x4427E0 | 14/19 |
+| `Ped::HandlePedHitByObject_45D000` | 0x441A30 | 15/28 |
+| `sub_5DF270` (Weapon_30.cpp) | 0x4CEF40 | 9/13 |
+| `sound_obj::ProcessOtherObjects_41F520` | 0x41A3C0 | 9/9 |
+| `sound_obj::HandleVocalStreamSwitching_57DF10` | 0x4B25D0 | 12/16 |
+| `Sprite::Draw_59EFF0` | 0x4BE060 | 13/16 |
+| `TrafficLight_20::Init_5C1D00` | 0x4C3C70 | 22/26 |
+| `Map_0x370::sub_4E6660` | 0x467110 | 56/56 |
+| `Particle_4C::PoolUpdate` 0x53D260 | 0x490760 | 25/28 |
+| `Particle_4C::UpdateObjectBeamLink_state_38_538AC0` | 0x48F230 | 12/24 |
+| `Particle_8::EmitElectricArcParticle` 0x540320 | 0x48DDC0 | 9/18 |
+
+Matching the source against 9.6f first settles its shape fast (VC7 compiles in about 1 s): for
+`FindBestTargetPed_466BF0`, `Fix16 dz; dz = Abs(...); if (dz >= kFpOne) return 0;` (9.6f calls
+`greater_than_or_equal`, so the source says `>=`) and `Fix16 dist; dist = MaxAbsDistance(...)` took the 9.6f
+score from 201 to 50.
+
 ## Related tools
 
 - `Scripts/quick_score.sh <Source/File.cpp> <addr> <symbol_substring> [-q]` compiles one TU into a

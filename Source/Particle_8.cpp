@@ -90,6 +90,18 @@ static inline Ang16 MulAng16_401CB0(const Ang16& a, const Fix16& f)
     return Ang16(Fix16(a.rValue) * f).Normalized_406C20();
 }
 
+// RotateByAngle_40F6B0 with the x_old negate as the named out-of-line Negate_4086A0: the rotations and the
+// -(v / 15) New_53E3C0 arguments have to reach the same function (the COMDAT copy of operator- and
+// Negate_4086A0 are not folded in our build). The other operators stay the plain inlines.
+static inline void RotateNegExport_(Fix16_Point& v, const Ang16& angle)
+{
+    Fix16 sin = Ang16::sine_40F500(angle);
+    Fix16 cos = Ang16::cosine_40F520(angle);
+    Fix16 x_old = v.x;
+    v.x = (v.x * cos) + (v.y * sin);
+    v.y = (x_old.Negate_4086A0() * sin) + (v.y * cos);
+}
+
 // https://decomp.me/scratch/ohbD0
 WIP_FUNC(0x53E450)
 void Particle_8::EmitBloodBurst_53E450(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
@@ -260,10 +272,11 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
 }
 
 // Something wrong with the velocities https://decomp.me/scratch/2Kz9I
-WIP_FUNC(0x53f060)
+// 9.6f 0x48D1F0 (unpaired before): plain members (MultiplyByFix16_401CB0, +, -, RotateByAngle_40F6B0 as
+// RotateNegExport_), a count-down loop, -(v / 15) through Negate_4086A0.
+MATCH_FUNC(0x53f060)
 void Particle_8::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, char_type bRandomRot)
 {
-    WIP_IMPLEMENTED;
     Ang16 angle_1;
     Ang16 angle_2;
     Fix16_Point velocity(Fix16(0), Fix16(0));
@@ -272,21 +285,13 @@ void Particle_8::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang1
     {
         velocity.x = Fix16(0);
         velocity.y = Fix16(gRng_6F6784.get_int_4F7AE0(50) + 25) * dword_6FD548;
-        // RotateByAngle_40F6B0 (9.6f calls it for both rotations). Written out here: as a nested
-        // inline the first + goes out of line, but the original has it inline.
-        {
-            Fix16 sin = Ang16::sine_40F500(rotation);
-            Fix16 cos = Ang16::cosine_40F520(rotation);
-            Fix16 x_old = velocity.x;
-            velocity.x = velocity.x.Multiply_408680(cos) + velocity.y.Multiply_408680(sin);
-            velocity.y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(velocity.y.Multiply_408680(cos));
-        }
+        RotateNegExport_(velocity, rotation);
 
-        for (u8 i = 0; i < 6; i++)
+        for (s32 count = 6; count != 0; count--)
         {
             if (bRandomRot)
             {
-                angle_2 = MulAng16_401CB0(word_6FD5CC, Fix16(gRng_6F6784.get_int_4F7AE0(360)));
+                angle_2 = word_6FD5CC.MultiplyByFix16_401CB0(Fix16(gRng_6F6784.get_int_4F7AE0(360)));
             }
             else
             {
@@ -296,16 +301,8 @@ void Particle_8::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang1
             velocity.x = Fix16(0);
             velocity.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + dword_6FD558) * dword_6FD4EC;
 
-            // 9.6f: MultiplyByFix16_401CB0, angle_plus_40E5A0, subtraction_40E5D0 (all inlined). The
-            // original calls Normalize_406C20 out of line for every Ang16 here; the rotation uses angle_2
-            angle_1 = word_6FD5CC.MultiplyByFix16_401CB0_ctor_ool(Fix16(gRng_6F6784.get_int_4F7AE0(16)));
-            {
-                // MultiplyByFix16_401CB0_ctor_ool written out: the helper's temporary takes another slot
-                Fix16 t2 = Fix16(word_6FD5CC.rValue) * Fix16(8);
-                Ang16 half_ang = Ang16(&t2, 0);
-                velocity.RotateByAngle_NegOOL_40F6B0(
-                    Ang16(Ang16(angle_1.rValue + angle_2.rValue).Normalized_406C20().rValue - half_ang.rValue).Normalized_406C20());
-            }
+            angle_1 = word_6FD5CC.MultiplyByFix16_401CB0(Fix16(gRng_6F6784.get_int_4F7AE0(16)));
+            RotateNegExport_(velocity, (angle_1 + angle_2) - word_6FD5CC.MultiplyByFix16_401CB0(Fix16(8)));
 
             // last arg: plain 0 (the original builds this Fix16 arg in place; Fix16(0) gives a plain push and costs ebp)
             Particle_4C* pWaterSplashParticle = gParticle_8_6FD5E8->New_53E3C0(velocity.x,
@@ -393,7 +390,7 @@ void Particle_8::EmitElectricArcParticle(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang
             pNew4C->field_30_pNext->set_xyz_lazy_420600(xpos, ypos, zpos);
             pNew4C->field_30_pNext->set_ang_lazy_420690(ang);
             pNew4C->field_30_pNext->set_id_lazy_4206C0(gRng_6F6784.get_int_4F7AE0(4) + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 175);
-            pNew4C->field_30_pNext->field_2C_flags = 0xA2;
+            pNew4C->field_30_pNext->SetFlags_4337D0(2, 20);
             pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
         }

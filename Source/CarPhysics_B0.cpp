@@ -224,13 +224,18 @@ wchar_t gThetaText_66A8EC[32]; //DEFINE_GLOBAL_ARRAY(wchar_t, gThetaText_66A8EC,
 
 // https://decomp.me/scratch/xqLh0
 // 9.6f 0x49E240
-static inline wchar_t* ThetaText_49E240(Ang16& theta)
+inline wchar_t* Ang16::ThetaText_49E240()
 {
-    swprintf(gThetaText_66A8EC, L"%3.2f", theta.rValue * 0.25);
+    swprintf(gThetaText_66A8EC, L"%3.2f", (rValue * 0.25));
     return gThetaText_66A8EC;
 }
 
-WIP_FUNC(0x559430)
+inline f64 Fix16::to_float_410BA0() const
+{
+    return ((mValue / 16384.0));
+}
+
+MATCH_FUNC(0x559430)
 void CarPhysics_B0::ShowPhysicsDebug_559430()
 {
     if (bDo_show_physics_67D54F)
@@ -240,31 +245,31 @@ void CarPhysics_B0::ShowPhysicsDebug_559430()
 
         swprintf(tmpBuff_67BD9C,
                  L"CM = (%3.3f,%3.3f) CP = (%3.3f,%3.3f,%3.3f)",
-                 field_30_cm1.x.AsDouble(),
-                 field_30_cm1.y.AsDouble(),
-                 field_38_cp1.x.AsDouble(),
-                 field_38_cp1.y.AsDouble(),
-                 field_6C_cp3.AsDouble());
+                 field_30_cm1.x.to_float_410BA0(),
+                 field_30_cm1.y.to_float_410BA0(),
+                 field_38_cp1.x.to_float_410BA0(),
+                 field_38_cp1.y.to_float_410BA0(),
+                 field_6C_cp3.to_float_410BA0());
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 64, gDebugFont_706600, 1);
 
         swprintf(tmpBuff_67BD9C,
                  L"linvel = (%3.3f,%3.3f) angvelrad = %3.3f",
-                 field_40_linvel_1.x.AsDouble(),
-                 field_40_linvel_1.y.AsDouble(),
-                 field_74_ang_vel_rad.AsDouble());
+                 field_40_linvel_1.x.to_float_410BA0(),
+                 field_40_linvel_1.y.to_float_410BA0(),
+                 field_74_ang_vel_rad.to_float_410BA0());
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 80, gDebugFont_706600, 1);
 
-        swprintf(tmpBuff_67BD9C, L"theta = %s", ThetaText_49E240(field_58_theta));
+        swprintf(tmpBuff_67BD9C, L"theta = %s", field_58_theta.ThetaText_49E240());
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 96, gDebugFont_706600, 1);
 
         // TODO: the format string at 0x623FFC is a guess
-        swprintf(tmpBuff_67BD9C, L"pointing ang = %3.3f", field_78_pointing_ang_rad.AsDouble());
+        swprintf(tmpBuff_67BD9C, L"pointing ang = %3.3f", field_78_pointing_ang_rad.to_float_410BA0());
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 112, gDebugFont_706600, 1);
 
-        swprintf(tmpBuff_67BD9C, L"mass = %3.3f", CalculateMass_559FF0().AsDouble());
+        swprintf(tmpBuff_67BD9C, L"mass = %3.3f", CalculateMass_559FF0().to_float_410BA0());
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 128, gDebugFont_706600, 1);
 
-        swprintf(tmpBuff_67BD9C, L"front skid = %3.3f", field_84_front_skid.AsDouble());
+        swprintf(tmpBuff_67BD9C, L"front skid = %3.3f", field_84_front_skid.to_float_410BA0());
         pText = gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 144, gDebugFont_706600, 1);
         if (field_84_front_skid >= gCarInfo_2C_6FE0E4->field_24_skid_threshhold_1 ||
             (field_AC_drive_wheels_locked_q > 0 && gCarInfo_48_6FE258->field_8_front_drive_bias > kFP16Zero_6FE20C))
@@ -272,7 +277,7 @@ void CarPhysics_B0::ShowPhysicsDebug_559430()
             pText->SetDrawKind8_45AFD0(5);
         }
 
-        swprintf(tmpBuff_67BD9C, L"rear skid = %3.3f", field_88_rear_skid.AsDouble());
+        swprintf(tmpBuff_67BD9C, L"rear skid = %3.3f", field_88_rear_skid.to_float_410BA0());
         pText = gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 160, gDebugFont_706600, 1);
         if (field_88_rear_skid >= gCarInfo_2C_6FE0E4->field_28_skid_threshhold_2 ||
             (field_AC_drive_wheels_locked_q > 0 && gCarInfo_2C_6FE0E4->field_20_front_drive_bias > kFP16Zero_6FE20C))
@@ -981,14 +986,22 @@ Fix16* CarPhysics_B0::ComputeSlopeCorrection_55AB50(Fix16* pOutX, Fix16* pOutY)
     return result;
 }
 
-WIP_FUNC(0x55ad90)
+// 9.6f 0x42A630 called as a static with the value by reference (its 9.6f copy takes a pointer and a hidden
+// return). Declared in fix16.hpp, defined here so no other TU changes.
+inline Fix16 __stdcall Fix16::GetFracValue_42A630(const Fix16& v)
+{
+    return Fix16(v.mValue & 0x3FFF, 0);
+}
+
+// 9.6f 0x4A2240: field_6C_cp3 read directly everywhere, g_ZPos * a2, IsFlagSet_411930(0x2000),
+// the slope test nested as (slope && frac != 0 && zpos <= cp3 + k), ComputeSlopeCorrection's two outputs.
+MATCH_FUNC(0x55ad90)
 void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 a2)
 {
-    WIP_IMPLEMENTED;
-
+    // a2 is copied into a register at entry; its stack slot is then reused as ComputeSlopeCorrection's second
+    // output (9.6f 0x4A2240 passes a local there and reads the parameter afterwards)
     Fix16 a2_ = a2;
     Fix16 zpos;
-    Fix16 cp3;
 
     if (field_98_surface_type == car_surface_type::air_surface_6)
     {
@@ -998,7 +1011,7 @@ void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 a2)
         }
         Fix16 map_z;
         map_z = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(field_38_cp1.x, field_38_cp1.y, field_6C_cp3);
-        zpos = field_6C_cp3 + (a2_ * g_ZPos_6FE0AC);
+        zpos = field_6C_cp3 + (g_ZPos_6FE0AC * a2_);
         if (zpos <= map_z)
         {
             zpos = map_z;
@@ -1022,14 +1035,13 @@ void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 a2)
             zpos = k_dword_6FE210;
         }
 
-        cp3 = field_6C_cp3;
-        if (zpos >= cp3 + kFP16Half_6FE0C0)
+        if (zpos >= field_6C_cp3 + kFP16Half_6FE0C0)
         {
-            if (field_98_surface_type != car_surface_type::slope_northwards_1 &&
-                    field_98_surface_type != car_surface_type::slope_southwards_2 &&
-                    field_98_surface_type != car_surface_type::slope_westwards_3 &&
-                    field_98_surface_type != car_surface_type::slope_eastwards_4 ||
-                zpos.GetFracValue() == kFP16Zero_6FE20C || zpos > cp3 + k_dword_6FE210)
+            if (!((field_98_surface_type == car_surface_type::slope_northwards_1 ||
+                   field_98_surface_type == car_surface_type::slope_southwards_2 ||
+                   field_98_surface_type == car_surface_type::slope_westwards_3 ||
+                   field_98_surface_type == car_surface_type::slope_eastwards_4) &&
+                  Fix16::GetFracValue_42A630(zpos) != kFP16Zero_6FE20C && zpos <= field_6C_cp3 + k_dword_6FE210))
             {
                 zpos = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(field_38_cp1.x, field_38_cp1.y, zpos - kFP16One64th_6FE2E0);
                 if (zpos > field_6C_cp3)
@@ -1045,19 +1057,18 @@ void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 a2)
                     }
                 }
 
-                        cp3 = field_6C_cp3;
-                if (zpos >= cp3 + k_dword_6FE210)
+                if (zpos >= field_6C_cp3 + k_dword_6FE210)
                 {
-                    zpos = cp3;
+                    zpos = field_6C_cp3;
                 }
             }
         }
 
-        if (zpos <= cp3 - kFP16Half_6FE0C0 || zpos < cp3 && field_AA_sbw && field_AB_tpa)
+        if (zpos <= field_6C_cp3 - kFP16Half_6FE0C0 || zpos < field_6C_cp3 && field_AA_sbw && field_AB_tpa)
         {
-            Fix16 tmp;
-            field_68_z_pos = *ComputeSlopeCorrection_55AB50(&tmp, &a2);
-            zpos = a2 + field_6C_cp3;
+            Fix16 corr_x;
+            field_68_z_pos = *ComputeSlopeCorrection_55AB50(&corr_x, &a2);
+            zpos = field_6C_cp3 + a2;
             if (a2_ != kFP16Zero_6FE20C)
             {
                 field_68_z_pos /= a2_;
@@ -1086,7 +1097,7 @@ void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 a2)
         }
     }
 
-    if ((this->field_5C_pCar->field_78_flags & 0x2000) != 0)
+    if (field_5C_pCar->IsFlagSet_411930(0x2000))
     {
         UpdateSpriteFromPhysics_563670();
 
@@ -1106,11 +1117,11 @@ void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 a2)
         }
     }
 
-    this->field_70_z_vel = zpos - this->field_6C_cp3;
-    this->field_6C_cp3 += field_70_z_vel;
+    field_70_z_vel = zpos - field_6C_cp3;
+    field_6C_cp3 += field_70_z_vel;
     if (a2_ != kFP16Zero_6FE20C)
     {
-        this->field_70_z_vel /= a2_;
+        field_70_z_vel /= a2_;
     }
 }
 
@@ -1237,10 +1248,10 @@ void CarPhysics_B0::EmitImpactParticles_55B7E0(u8 apply_to_corners_mask)
     gRozza_C88_66AFE0->Type4_40BC40(pCarSprite);
 }
 
-// 9.6f 0x49EBE0
-static inline u8 GetBlockSurfaceType_49EBE0(s32 x, s32 y, s32 z, u8* pGradientSize, u8* pGradientLevel)
+// 9.6f 0x49EBE0 (a Map_0x370 method: 9.6f calls it with gMap in ecx)
+inline u8 Map_0x370::GetBlockSurfaceType_49EBE0(s32 x, s32 y, s32 z, u8* pGradientSize, u8* pGradientLevel)
 {
-    gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(x, y, z);
+    gmp_block_info* pBlock = get_block_4DFE10(x, y, z);
     if (pBlock)
     {
         if (gGtx_0x106C_703DD4->IsRemappedWaterTile_49E540(pBlock->field_8_lid & 0x3FF))
@@ -1254,24 +1265,25 @@ static inline u8 GetBlockSurfaceType_49EBE0(s32 x, s32 y, s32 z, u8* pGradientSi
             {
                 return 9;
             }
-            *pGradientSize = gGmpSlopes_6F5BA8[pBlock->field_B_slope_type >> 2].field_1_gradient_size;
-            *pGradientLevel = gGmpSlopes_6F5BA8[pBlock->field_B_slope_type >> 2].field_2_gradient_level;
-            return gGmpSlopes_6F5BA8[pBlock->field_B_slope_type >> 2].field_0_gradient_direction;
+            gmp_map_slope* pSlope = &gGmpSlopes_6F5BA8[pBlock->field_B_slope_type >> 2];
+            *pGradientSize = pSlope->field_1_gradient_size;
+            *pGradientLevel = pSlope->field_2_gradient_level;
+            return pSlope->field_0_gradient_direction;
         }
     }
     return 5;
 }
 
-WIP_FUNC(0x55b970)
+MATCH_FUNC(0x55b970)
 char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* check_mask)
 {
-    WIP_IMPLEMENTED;
-
-    // The original has an EH state from entry for an object with a destructor that has no storage
-    Fix16_Point unused_point;
-
     Sprite* pSprite = this->field_5C_pCar->field_50_car_sprite;
+    // The original has an EH state from entry for an object with a destructor that has no storage
+    // (declared here: declared first it moves the `xor edi` zero above the sprite loads)
+    Fix16_Point unused_point;
     s32 corner_idx_ = 0;
+    u8 mask_;
+    u32 v29;
     this->field_AB_tpa = 0;
 
     if (IsInAir_55A0B0())
@@ -1285,7 +1297,6 @@ char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* 
     if (!gMap_0x370_6F6268->IsZOnGround_4E5170(this->field_38_cp1.x, this->field_38_cp1.y, this->field_6C_cp3))
     {
         this->field_9C_block_spec = 0;
-        u32 v29;
         *check_mask = pSprite->CheckCornerZCollisions_5A1CA0(&v29);
         if (v29 == 1 || v29 == 2)
         {
@@ -1312,14 +1323,13 @@ char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* 
             Trailer* pTrailer = this->field_5C_pCar->field_64_pTrailer;
             if (!pTrailer || pTrailer->GetCabOrLoadedCar_407B90(field_5C_pCar)->field_58_physics->field_98_surface_type == car_surface_type::air_surface_6)
             {
-                u8 mask_ = 1;
+                mask_ = 1;
                 do
                 {
                     if (((u8)mask_ & (u8)*check_mask) != mask_)
                     {
-                        Fix16 v28 = Fix16(0xC8000, 0);
-                        // Temporaries chained: corner, corner - cm1, / v28, each with its own EH state
-                        ApplyImpulseWithTrailerRedirect_55FA10(&(pSprite->GetBoundingBoxCorner_562450(corner_idx_) - field_30_cm1).Divide_442CB0(v28));
+                        // Temporaries chained: corner, corner - cm1, / 50, each with its own EH state
+                        ApplyImpulseWithTrailerRedirect_55FA10(&pSprite->GetBoundingBoxCorner_562450(corner_idx_).Sub_40AC80(field_30_cm1).Divide_442CB0(Fix16(50)));
                     }
                     ++corner_idx_;
                     mask_ *= 2;
@@ -1344,19 +1354,18 @@ char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* 
     s32 cp3_int = cp3.ToInt();
     u8 gradient_level;
     u8 graident_size;
-    u8 v28 = GetBlockSurfaceType_49EBE0(field_38_cp1.x.ToInt(), this->field_38_cp1.y.ToInt(), cp3.ToInt(), &graident_size, &gradient_level);
+    s32 v28 = gMap_0x370_6F6268->GetBlockSurfaceType_49EBE0(field_38_cp1.x.ToInt(), this->field_38_cp1.y.ToInt(), cp3_int, &graident_size, &gradient_level);
 
     //LABEL_37:
     if (v28 != 5)
     {
-        this->field_98_surface_type = (u8)v28;
+        this->field_98_surface_type = v28;
         this->field_A5_current_slope_length = (char)graident_size;
         this->field_A6_current_slope_left_tiles = gradient_level;
         this->field_A7_current_tile_z = cp3_int;
         if (v28 == 7)
         {
-            s32 water_mask = pSprite->GetWaterCornerMask_59E250();
-            s32 water_mask_ = water_mask;
+            u8 water_mask = pSprite->GetWaterCornerMask_59E250();
             if (water_mask == 15)
             {
                 this->field_98_surface_type = car_surface_type::water_surface_8;
@@ -1364,17 +1373,15 @@ char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* 
             else
             {
                 s32 corner_idx = 0;
-                s32 mask = 1;
+                mask_ = 1;
                 do
                 {
-                    if (((u8)mask & (u8)water_mask) != mask)
+                    if ((water_mask & mask_) != mask_)
                     {
-                        Fix16 v28_ = Fix16(819200, 0);
-                        ApplyImpulseWithTrailerRedirect_55FA10(&(field_30_cm1 - pSprite->GetBoundingBoxCorner_562450(corner_idx)).Divide_442CB0(v28_));
-                        water_mask = water_mask_;
+                        ApplyImpulseWithTrailerRedirect_55FA10(&field_30_cm1.Sub_40AC80(pSprite->GetBoundingBoxCorner_562450(corner_idx)).Divide_442CB0(Fix16(50)));
                     }
                     ++corner_idx;
-                    mask *= 2;
+                    mask_ *= 2;
                 } while (corner_idx < 4);
             }
         }
@@ -2250,21 +2257,40 @@ void CarPhysics_B0::ApplyImpulseWithTrailerRedirect_55FA10(Fix16_Point* a2)
     }
 }
 
+// GetLength_41E260 as inlined into ApplyImpactForcesAndDamage_55FA60: both Abs are called out of line
+// (Abs_436A50) although the first multiply is inlined, which the plain inline can't give (Abs and operator*
+// have the same front-end size, 57).
+static inline Fix16 GetLength_AbsOutOfLine_41E260(Fix16_Point& p)
+{
+    if (p.x == FIX16_POINT_ZERO)
+    {
+        return Fix16::Abs_436A50(p.y);
+    }
+    else
+    {
+        if (p.y == FIX16_POINT_ZERO)
+        {
+            return Fix16::Abs_436A50(p.x);
+        }
+        else
+        {
+            return Fix16::SquareRoot(p.x * p.x + p.y * p.y);
+        }
+    }
+}
+
 // https://decomp.me/scratch/TSKLx
-WIP_FUNC(0x55fa60)
+MATCH_FUNC(0x55fa60)
 Fix16 CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce, Fix16_Point& Impulse, s32 base_dmg)
 {
-    WIP_IMPLEMENTED;
-
     Fix16_Point NewImpulse;
-    Fix16 ImpulseIntensity;
-    ImpulseIntensity = Impulse.GetLength_41E260();
+    Fix16 ImpulseIntensity = GetLength_AbsOutOfLine_41E260(Impulse);
 
     if ((ImpulseIntensity / CalculateMass_559FF0()) > dword_6FE37C)
     {
         NewImpulse = Impulse;
 
-        if (field_5C_pCar->field_78_flags & 0x800)
+        if (field_5C_pCar->IsFlagSet_411930(0x800))
         {
             if (!field_5C_pCar->is_driven_by_player())
             {
@@ -2278,7 +2304,7 @@ Fix16 CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce
 
         field_5C_pCar->ApplyVisualDamage_43A9F0();
 
-        if (!(field_5C_pCar->field_78_flags & 2))
+        if (!field_5C_pCar->IsFlagSet_411930(2))
         {
             ApplyForceWithTrailerRedirect_55F740(&PointOfForce, &NewImpulse);
             AddDamage_49EF50(base_dmg);
@@ -2287,9 +2313,7 @@ Fix16 CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce
             {
                 ClearHandBrake_421260();
             }
-            return ImpulseIntensity;
         }
-        return ImpulseIntensity;
     }
     return ImpulseIntensity;
 }
@@ -2658,7 +2682,7 @@ static inline Fix16 __stdcall Square_49E0E0(const Fix16& value)
 
 // TODO: Probably move & Rename to ComputeImpulse or something
 // https://decomp.me/scratch/dN85v
-WIP_FUNC(0x55F3B0)
+MATCH_FUNC(0x55F3B0)
 EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 OwnerMass,
                                                                 Fix16 TargetMass,
                                                                 Fix16_Point& RelativeVelocity,
@@ -2670,8 +2694,6 @@ EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 OwnerMass,
                                                                 Fix16 TargetMomOfInertia,
                                                                 Fix16 offset)
 {
-    WIP_IMPLEMENTED;
-
     // The original enters EH state 2: three Fix16_Point locals are constructed up front
     Fix16_Point DistOrthogonalToCollision;
     Fix16_Point DirectionFromCoM_to_Collision;
@@ -2687,17 +2709,13 @@ EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 OwnerMass,
     DistOrthogonalToCollision = (CollisionIntersectPoint - CoM_related).Rotate90CCW_5605E0();
     DirectionFromCoM_to_Collision = DistToCollision_ByRef.NormalizeSafe_442AD0(); // vector unit 1, supposedly
 
-    Fix16 RelVelComponentAtCollisionDir = RelativeVelocity.x.Multiply_408680(DirectionFromCoM_to_Collision.x)
-                                              .Add_408660(RelativeVelocity.y.Multiply_408680(DirectionFromCoM_to_Collision.y));
-    Fix16 VelocityFactor = -(k_dword_6FE210 + offset) * RelVelComponentAtCollisionDir;
+    Fix16 VelocityFactor = -(k_dword_6FE210 + offset) * DotProductOOL_49E500(RelativeVelocity, DirectionFromCoM_to_Collision);
 
     Fix16 MassFactor;
     if (TargetMass == kFP16MinusOne_6FDF1C) // infinite mass
     {
-        Fix16 orth_dot = DotProductOOL_49E500(DistOrthogonalToCollision, DirectionFromCoM_to_Collision);
-        Fix16 orth_sq = orth_dot.Multiply_408680(orth_dot);
-        Fix16 orth_term = orth_sq / OwnerMomOfInertia;
-        MassFactor = DotProductOOL_49E500(DirectionFromCoM_to_Collision, DirectionFromCoM_to_Collision) * OwnerMassFactor + orth_term;
+        MassFactor = DotProductOOL_49E500(DirectionFromCoM_to_Collision, DirectionFromCoM_to_Collision) * OwnerMassFactor
+            + Square_49E0E0(DotProductOOL_49E500(DistOrthogonalToCollision, DirectionFromCoM_to_Collision)) / OwnerMomOfInertia;
     }
     else
     {
@@ -2715,7 +2733,9 @@ EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 OwnerMass,
     }
 
     // scale vector norm by factors, so direction is kept
-    Impulse = DirectionFromCoM_to_Collision.Multiply_438FE0(VelocityFactor.Divide_436A20(MassFactor));
+    Fix16 ImpulseScale;
+    ImpulseScale = VelocityFactor.Divide_436A20(MassFactor);
+    Impulse = DirectionFromCoM_to_Collision.Multiply_438FE0(ImpulseScale);
     return Impulse;
 }
 

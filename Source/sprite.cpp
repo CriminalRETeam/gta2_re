@@ -79,7 +79,8 @@ static inline void __stdcall SaveUnprojectedVertex_4B9990(f32 xCoord, f32 yCoord
 }
 
 // partially matched: https://decomp.me/scratch/qtmIe
-static inline void ProjectWorldPointToScreen_4BA4D0(Fix16_Point& point, Vert* pVert, Fix16& zpos)
+// 9.6f 0x4BA4D0 takes zpos by value (on the stack, ret $4); the body compiles to the 9.6f code with VC7
+static inline void ProjectWorldPointToScreen_4BA4D0(Fix16_Point& point, Vert* pVert, Fix16 zpos)
 {
     SaveUnprojectedVertex_4B9990(point.x.ToFloat(), point.y.ToFloat(), zpos.ToFloat(), pVert);
     pVert->z = 1.0 / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0 - zpos.ToFloat()));

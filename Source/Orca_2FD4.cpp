@@ -351,9 +351,10 @@ void Orca_2FD4::Internel_UpdateBehaviorGrid_554710()
         u16 v7;
         if (field_4 == 0)
         {
-            v7 = v12 *
-                ((field_20_xpos - field_11_xEnd) * (field_20_xpos - field_11_xEnd) +
-                 (field_21_ypos - field_12_yEnd) * (field_21_ypos - field_12_yEnd));
+            // The sum assigned first and `*= v12` after (one expression keeps v12's multiply in the sum's
+            // register and pushes ebp at the top instead of inside this branch).
+            v7 = (field_21_ypos - field_12_yEnd) * (field_21_ypos - field_12_yEnd) + (field_20_xpos - field_11_xEnd) * (field_20_xpos - field_11_xEnd);
+            v7 *= v12;
         }
         else
         {
@@ -365,8 +366,8 @@ void Orca_2FD4::Internel_UpdateBehaviorGrid_554710()
         field_8_pNode->field_3_ypos = field_21_ypos;
         field_8_pNode->field_4_zpos = zpos;
         field_8_pNode->field_6_cost = v7;
-        ++field_C_node_count;
         ++field_8_pNode;
+        ++field_C_node_count;
 
         if (p8->field_0_idx1 == 1)
         {

@@ -9,6 +9,13 @@ class Sprite;
 EXTERN_GLOBAL(Fix16, kSmallWidthEpslion_703450);
 EXTERN_GLOBAL(Fix16, kCollisionPrismHalfHeight_6771E4);
 
+// ComputeCollisionPrism_4204D0's half height is a header static each TU of the original has its own copy of
+// (9.6f has one, 0x5E4D50). A TU whose copy isn't kCollisionPrismHalfHeight_6771E4 defines
+// FIX16_RECT_HALF_HEIGHT to it (and declares it) before its first include.
+#ifndef FIX16_RECT_HALF_HEIGHT
+    #define FIX16_RECT_HALF_HEIGHT kCollisionPrismHalfHeight_6771E4
+#endif
+
 // 9.6f 0x41E160
 // https://decomp.me/scratch/A4s7c
 inline bool __stdcall IntervalsOverlap_41E160(const Fix16& ourMin, const Fix16& ourMax, const Fix16& otherMin, const Fix16& otherMax)
@@ -46,11 +53,12 @@ class Fix16_Rect
         field_8_top = y - tmp;
         field_C_bottom = y + tmp;
 
-        this->field_10_low_z = z - kCollisionPrismHalfHeight_6771E4;
-        this->field_14_high_z = z + kCollisionPrismHalfHeight_6771E4;
+        this->field_10_low_z = z - FIX16_RECT_HALF_HEIGHT;
+        this->field_14_high_z = z + FIX16_RECT_HALF_HEIGHT;
     }
 
-    // Like ComputeCollisionPrism_4204D0, with the out-of-line Fix16 operators (sub_5DF270)
+    // Unused since sub_5DF270 calls ComputeCollisionPrism_4204D0 with FIX16_RECT_HALF_HEIGHT. Kept because removing
+    // an unused inline can move code in other TUs (docs/matching_quirks.md).
     void ComputeShockPrism(Fix16 x, Fix16 y, Fix16 offset, Fix16 z, const Fix16& half_z)
     {
         offset = offset / 2;

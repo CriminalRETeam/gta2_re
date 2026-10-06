@@ -300,6 +300,25 @@ class Fix16_Point
     EXPORT Fix16_Point& DivAssign_5E40E0(const Fix16& v);
     EXPORT Fix16 MaxAbs_5E4140();
 
+    // 9.6f 0x48A270 (the inline of MaxAbs_5E4140)
+    inline Fix16 MaxAbs_48A270()
+    {
+        Fix16 ax = Fix16::Abs_436A50(x);
+        Fix16 ay = Fix16::Abs_436A50(y);
+        if (ax > ay)
+        {
+            return ax;
+        }
+        return ay;
+    }
+
+    // 9.6f 0x48A250: both components through Fix16::DivideAssign (10.5 0x539F90)
+    inline void DivideAssign_48A250(const Fix16& d)
+    {
+        x.DivideAssign_539F90(d);
+        y.DivideAssign_539F90(d);
+    }
+
     // FUNCTION: 96f 0x41e1e0
     void reset()
     {
@@ -404,13 +423,9 @@ class Fix16_Point
         }
     }
 
-    // Needed for miss2_0x11C::GetSpeed_50E190.
-    inline Fix16 GetLength_453590_inline_wrap()
-    {
-        return GetLength_453590();
-    }
-
-    // Needed for miss2_0x11C::GetSpeed_50E190.
+    // Unused (GetSpeed_50E190 matches with the plain GetLength_41E260), but don't remove it: without it
+    // MapRenderer::Draw4SidedDiagonalUpLeft_4EF880 and Draw3SidedDiagonalDownRight_4EF520 stop matching
+    // (see "Adding unused inline methods to a header" in docs/matching_quirks.md).
     inline Fix16 GetLength_all_out_of_line_abs_y_negate()
     {
         if (x == kFpZero_6F77C0)

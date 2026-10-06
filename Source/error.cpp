@@ -51,11 +51,11 @@ void ErrorLog::Open_4D9470(const char_type* path, s32 a3)
     log_timestamp_4D9540();
 }
 
-// TODO: Does match when ostream is added
-WIP_FUNC(0x4D94E0)
+// The member ofstream's constructor call and EH frame come from the real ofstream member
+// (error.hpp, VC6 only)
+MATCH_FUNC(0x4D94E0)
 ErrorLog::ErrorLog(const char* FileName, int a3)
 {
-    NOT_IMPLEMENTED;
     Open_4D9470(FileName, a3);
 }
 

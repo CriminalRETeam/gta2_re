@@ -164,6 +164,10 @@ class Fix16
         return mValue / 16384.0f;
     }
 
+    // 9.6f 0x410BA0, defined in CarPhysics_B0.cpp (AsDouble with the parentheses of the original: each
+    // pair is a no-op node for VC6's x87 scheduler, see Scripts/x87_sched/README.md)
+    inline f64 to_float_410BA0() const;
+
     inline f64 AsDouble() const
     {
         return mValue / 16384.0;
@@ -276,6 +280,9 @@ class Fix16
         // get the "integer part" of Fix16, since everything less than 0x3FFF is decimal in float
         return Fix16(mValue & 0xFFFFC000, 0); // 0xFFFFC000 = 0xFFFFFFFF - Fix16(1)
     }
+
+    // 9.6f 0x42A630 as a static taking the value by reference; defined in CarPhysics_B0.cpp (UpdateZPhysics_55AD90)
+    static Fix16 __stdcall GetFracValue_42A630(const Fix16& v);
 
     // 9.6f func: 0x42A630
     inline Fix16 GetFracValue() const

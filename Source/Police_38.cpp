@@ -1293,7 +1293,7 @@ void PoliceCrew_38::State6_ShutDown_574720()
                         if (field_10_subObj->field_20_crew_type == 6 ||
                             (field_14_pService->field_4_wanted_level != 6 && field_14_pService->field_4_wanted_level))
                         {
-                            if (gCurrentCrewPed_6FEDDC->field_258_objective == objectives_enum::enter_car_as_driver_35 &&
+                            if (gCurrentCrewPed_6FEDDC->get_objective_403A80() == objectives_enum::enter_car_as_driver_35 &&
                                 !gCurrentCrewPed_6FEDDC->field_21C_bf.b27)
                             {
                                 gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);

@@ -10,7 +10,6 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | skeleton | structure | full | 9.6f struct | Address | Function | File |
 |---|---|---|---|---|---|---|
 | 0 | 0 | 110 | - | 0x561380 | `CarPhysics_B0::ComputePointVelocity_561380` | CarPhysics_B0.cpp |
-| 0 | 0 | 12 | - | 0x461290 | `Ped::BusCustomer_AI_461290` | Ped.cpp |
 | 0 | 0 | 12 | 147 | 0x5520a0 | `Char_B4::state_8_5520A0` | char.cpp |
 | 0 | 0 | 12 | 4 | 0x543690 | `Wolfy_7A8::sub_543690` | Wolfy_3D4.cpp |
 | 0 | 0 | 16 | 0 | 0x5645b0 | `Player::AddCarToHistory_5645B0` | Player.cpp |
@@ -33,13 +32,11 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 4 | 4 | 18 | 0x427220 | `sound_obj::ProcessPoliceRadioWordsPlayback_427220` | sound_obj.cpp |
 | 0 | 4 | 4 | 4 | 0x56ba60 | `jolly_poitras_0x2BC0::SavePlySlotDat_56BA60` | jolly_poitras_0x2BC0.cpp |
 | 0 | 4 | 46 | 8 | 0x574720 | `PoliceCrew_38::State6_ShutDown_574720` | Police_38.cpp |
-| 0 | 4 | 66 | - | 0x50e190 | `miss2_0x11C::GetSpeed_50E190` | miss2_0x11C.cpp |
 | 0 | 4 | 8 | 430 | 0x539890 | `Particle_4C::UpdateCircularBurst_state_5_539890` | Particle_4C.cpp |
 | 0 | 6 | 121 | - | 0x509180 | `miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180` | miss2_0x11C.cpp |
 | 0 | 6 | 40 | - | 0x41e850 | `sound_obj::ProcessObject_Type12_41E850` | sound_obj.cpp |
 | 0 | 6 | 52 | - | 0x442ad0 | `Fix16_Point::NormalizeSafe_442AD0` | Fix16_Point.cpp |
 | 0 | 6 | 58 | 184 | 0x436200 | `Camera_0xBC::ApplyCarVelocityCameraOffset_436200` | Camera.cpp |
-| 0 | 8 | 106 | 263 | 0x57a7a0 | `PublicTransport_181C::PublicTransportService_57A7A0` | PublicTransport.cpp |
 | 0 | 8 | 142 | - | 0x465d00 | `Ped::IsPedAThreat_465D00` | Ped.cpp |
 | 0 | 8 | 20 | 8 | 0x5a7080 | `struct_4::CleanupSpriteList_5A7080` | Object_3C.cpp |
 | 0 | 8 | 30 | - | 0x5e13e0 | `Weapon_30::army_gun_jeep_5E13E0` | Weapon_30.cpp |
@@ -113,7 +110,6 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 494 | 724 | 630 | 0x53f4c0 | `Particle_8::EmitFlameStreamSegment_53F4C0` | Particle_8.cpp |
 | 0 | 784 | 1081 | - | 0x43f130 | `Car_BC::HandleCarHitByObject_43F130` | Car_BC.cpp |
 | 1 | 13 | 137 | - | 0x45d000 | `Ped::HandlePedHitByObject_45D000` | Ped.cpp |
-| 2 | 4 | 12 | 6 | 0x45c9d0 | `Ped::ComputeAimAngle_45C9D0` | Ped.cpp |
 | 2 | 6 | 24 | 12 | 0x4b7270 | `Frontend::GetNextUnlockedMainStage_4B7270` | Frontend.cpp |
 | 2 | 6 | 58 | - | 0x54c3e0 | `Char_B4::sub_54C3E0` | char.cpp |
 | 2 | 6 | 8 | 6 | 0x5d9910 | `SetGamma_5D9910` | Frontend.cpp |
@@ -163,7 +159,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 6 | 247 | 563 | - | 0x4f33b0 | `MapRenderer::DrawGradientSlopeEastwards_4F33B0` | MapRenderer.cpp |
 | 6 | 266 | 627 | - | 0x4f22f0 | `MapRenderer::DrawGradientSlopeWestwards_4F22F0` | MapRenderer.cpp |
 | 7 | 24 | 40 | 0 | 0x522e10 | `Object_2C::HandleCollision_522E10` | Object_5C.cpp |
-| 8 | 44 | 440 | 110 | 0x46b670 | `Ped::MeleeAttackStateMachine_46B670` | Ped.cpp |
+| 8 | 54 | 454 | 104 | 0x46b670 | `Ped::MeleeAttackStateMachine_46B670` | Ped.cpp |
 | 8 | 79 | 428 | 337 | 0x54ddf0 | `Char_B4::state_0_54DDF0` | char.cpp |
 | 8 | 110 | 414 | 73 | 0x45e4a0 | `Ped::StartCrossingRoad_45E4A0` | Ped.cpp |
 | 9 | 58 | 64 | 177 | 0x4e1520 | `Map_0x370::SpriteHitsDiagonalWall_4E1520` | map_0x370.cpp |
@@ -176,7 +172,6 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 13 | 59 | 138 | 127 | 0x572920 | `PoliceCrew_38::State5_PursueOrChase_572920` | Police_38.cpp |
 | 14 | 138 | 367 | - | 0x538060 | `Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060` | Particle_4C.cpp |
 | 14 | 384 | 448 | - | 0x4f6a20 | `MapRenderer::Draw_4F6A20` | MapRenderer.cpp |
-| 15 | 106 | 224 | - | 0x466bf0 | `Ped::FindBestTargetPed_466BF0` | Ped.cpp |
 | 16 | 158 | 609 | - | 0x44af00 | `CarAI_78::sub_44AF00` | CarAI_78.cpp |
 | 17 | 14 | 160 | - | 0x53a280 | `Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280` | Particle_4C.cpp |
 | 19 | 71 | 129 | 56 | 0x571a30 | `PoliceCrew_38::sub_571A30` | Police_38.cpp |

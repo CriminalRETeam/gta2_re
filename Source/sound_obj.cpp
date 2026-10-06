@@ -91,10 +91,10 @@ static inline s32 Clamp2(s32 v, s32 center, s32 radius)
     return v > center ? Min(center + radius, v) : Max(center - radius, v);
 }
 
-// Was marked as a match, but 0x419CD0 wasn't in og_function_data_v105.csv, so it was never
-// verified. The original loads ecx (mov %esi,%ecx) for GenerateIntegerRandomNumberTable_41BA90
-// before the four field_1450..field_1470 stores, ours after them.
-WIP_FUNC(0x419CD0)
+// The three Fix16 fields are set with the Fix16(s32) constructor, not operator=(s32): the
+// operator's returned reference chains the four stores, which pushes the mov %esi,%ecx for
+// GenerateIntegerRandomNumberTable_41BA90 behind them.
+MATCH_FUNC(0x419CD0)
 sound_obj::sound_obj()
 {
     field_1474_rotation = 0;
@@ -117,9 +117,9 @@ sound_obj::sound_obj()
     ClearActivateSamples_41B7A0();
 
     field_1450 = 0;
-    field_1468_v1 = 0;
-    field_146C_v2 = 0;
-    field_1470_v3 = 0;
+    field_1468_v1 = Fix16(0);
+    field_146C_v2 = Fix16(0);
+    field_1470_v3 = Fix16(0);
 
     GenerateIntegerRandomNumberTable_41BA90();
 
@@ -3120,10 +3120,9 @@ char_type sound_obj::Type_5_InitEngineSoundProfile_415730(sound_0x68* a1)
     return 0;
 }
 
-WIP_FUNC(0x418940)
+MATCH_FUNC(0x418940)
 char_type sound_obj::Type_10_HandleCarSkidSound_418940(sound_0x68* a2)
 {
-    WIP_IMPLEMENTED;
     Fix16 front_skid = kFpZero_66F3F0;
     Fix16 rear_skid = kFpZero_66F3F0;
 
@@ -3161,18 +3160,20 @@ char_type sound_obj::Type_10_HandleCarSkidSound_418940(sound_0x68* a2)
             pPhysics->SetModelPhysicsGlobal_562EB0();
 
             Fix16 v4;
-            s32 new_rate;
 
             if (pPhysics->field_AC_drive_wheels_locked_q > 0)
             {
                 if (gCarInfo_48_6FE258->field_28_max_speed > kFpZero_66F3F0)
                 {
-                    v4 = pCar->GetCarLinearSpeed_43A240() / gCarInfo_48_6FE258->field_28_max_speed;
-                    new_rate = rate + Fix16::Round_To_Int_410BF0(Fix16(98304000, 0) * v4);
+                    // Written out: with `GetCarLinearSpeed() / gCarInfo->field_28` VC6 binds the divisor's
+                    // reference before the call (`lea 0x28(%ecx)` held across it); the original reloads
+                    // gCarInfo_48 after the shift, which only the raw expression gives.
+                    v4 = Fix16((s32)(((__int64)pCar->GetCarLinearSpeed_43A240().mValue << 14) / gCarInfo_48_6FE258->field_28_max_speed.mValue), 0);
+                    a2->field_20_rate = rate + Fix16::Round_To_Int_410BF0(Fix16(98304000, 0) * v4);
                 }
                 else
                 {
-                    new_rate = rate;
+                    a2->field_20_rate = rate;
                 }
             }
             else
@@ -3204,10 +3205,9 @@ char_type sound_obj::Type_10_HandleCarSkidSound_418940(sound_0x68* a2)
                     v4 = front_skid;
                 }
 
-                new_rate = rate + Fix16::Round_To_Int_410BF0(Fix16(98304000, 0) * v4);
+                a2->field_20_rate = rate + Fix16::Round_To_Int_410BF0(Fix16(98304000, 0) * v4);
             }
 
-            a2->field_20_rate = new_rate;
             a2->field_3C_speed_multiplier = 600;
             a2->field_30_loop_count = 0;
             a2->field_34_loop_start = gSampManager_6FFF00.GetLoopStart_58DC30(a2->field_14_samp_idx);
@@ -4852,8 +4852,11 @@ void sound_obj::HandleTruckCorneringAudio_417FD0(Sound_Params_8* a2)
     }
 }
 
+// bFastForward is the caller's flag (0x18(%esp) in the original, read before every
+// SetVocalSpeed); the local bAppend is only PlayVocal's append flag.
+// 9.6f 0x4B25D0
 WIP_FUNC(0x57DF10)
-void sound_obj::HandleVocalStreamSwitching_57DF10(char_type a2)
+void sound_obj::HandleVocalStreamSwitching_57DF10(char_type bFastForward)
 {
     bool bFast = false;
     bool bStationChanged = false;
@@ -4873,7 +4876,7 @@ void sound_obj::HandleVocalStreamSwitching_57DF10(char_type a2)
             gSampManager_6FFF00.PlayVocal_58E510(0, 101, bFast);
         }
         gSampManager_6FFF00.SetVocalVolume_58E6D0(0, 0);
-        if (bFast)
+        if (bFastForward)
         {
             gSampManager_6FFF00.SetVocalSpeed_58E700(0, gSampManager_6FFF00.GetVocalSpeed_58E720(0) * 2);
         }
@@ -4926,7 +4929,7 @@ void sound_obj::HandleVocalStreamSwitching_57DF10(char_type a2)
             {
                 gSampManager_6FFF00.PlayVocal_58E510(0, 101, bFast);
             }
-            if (bFast)
+            if (bFastForward)
             {
                 gSampManager_6FFF00.SetVocalSpeed_58E700(0, gSampManager_6FFF00.GetVocalSpeed_58E720(0) * 2);
             }
@@ -4962,7 +4965,7 @@ void sound_obj::HandleVocalStreamSwitching_57DF10(char_type a2)
         gSampManager_6FFF00.PlayVocal_58E510(0, 101, bFast);
     }
     gSampManager_6FFF00.SetVocalVolume_58E6D0(0, 0);
-    if (bFast)
+    if (bFastForward)
     {
         gSampManager_6FFF00.SetVocalSpeed_58E700(0, gSampManager_6FFF00.GetVocalSpeed_58E720(0) * 2);
     }
@@ -6130,8 +6133,9 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
                     bLoop = 0;
                     sample_index = 1;
                     emit_distance = Fix16(0x1C000, 0);
-                    // TODO: the original stores max_distance first, but then VC6 merges case 4/12's tail
-                    // into this one (the original keeps both, with fire jumping into case 4/12's)
+                    // TODO: the original stores max_distance first. With that order both blocks still exist,
+                    // but VC6 then cross-jumps fire's tail into this block (at xor bl,bl) instead of into case
+                    // 4/12's (at the volume store) as the original does; see docs/match_attempts.md
                     calc_distance = Fix16(0xC4000, 0);
                     max_distance = 14;
                     release_mod = 15;

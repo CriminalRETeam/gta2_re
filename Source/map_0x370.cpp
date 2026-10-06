@@ -4179,14 +4179,20 @@ s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
 
     if (column_idx < field_358_column_words)
     {
-        s32 new_idx = field_360_column_words;
+        // new_idx is assigned in both do_drop branches (VC6 hoists the common code): assigned once
+        // before the if, the do_drop test is a `cmpb` scheduled before the new_idx store.
+        s32 new_idx;
+        // The copied height reads through a reference: with `pColumn->field_0_height` directly, both VC6
+        // and VC7 load the two operands of every `height - offset` loop bound below in the other order.
+        const u8& new_height = pColumn->field_0_height;
         gmp_col_info* pNew;
         if (do_drop)
         {
+            new_idx = field_360_column_words;
             pNew = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[new_idx];
             if (z == height - 1)
             {
-                pNew->field_0_height = pColumn->field_0_height - 1;
+                pNew->field_0_height = new_height - 1;
                 pNew->field_1_offset = pColumn->field_1_offset;
                 for (s32 i = 0; i < pNew->field_0_height - pNew->field_1_offset; i++)
                 {
@@ -4197,7 +4203,7 @@ s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
             else
             {
                 s32 i;
-                pNew->field_0_height = pColumn->field_0_height - 1;
+                pNew->field_0_height = new_height - 1;
                 pNew->field_1_offset = pColumn->field_1_offset;
                 for (i = 0; i < z - pNew->field_1_offset; i++)
                 {
@@ -4212,10 +4218,11 @@ s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
         }
         else
         {
+            new_idx = field_360_column_words;
             pNew = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[new_idx];
             if (z == height - 1)
             {
-                pNew->field_0_height = pColumn->field_0_height - 1;
+                pNew->field_0_height = new_height - 1;
                 pNew->field_1_offset = pColumn->field_1_offset;
                 for (s32 i = 0; i < pNew->field_0_height - pNew->field_1_offset; i++)
                 {
@@ -4224,7 +4231,7 @@ s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
             }
             else if (z == offset)
             {
-                pNew->field_0_height = pColumn->field_0_height - 1;
+                pNew->field_0_height = new_height - 1;
                 pNew->field_1_offset = pColumn->field_1_offset + 1;
                 for (s32 i = 0; i < pNew->field_0_height - pNew->field_1_offset; i++)
                 {
@@ -4233,7 +4240,7 @@ s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
             }
             else
             {
-                pNew->field_0_height = pColumn->field_0_height;
+                pNew->field_0_height = new_height;
                 pNew->field_1_offset = pColumn->field_1_offset;
                 for (s32 i = 0; i < pNew->field_0_height - pNew->field_1_offset; i++)
                 {

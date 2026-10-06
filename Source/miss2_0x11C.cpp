@@ -2382,6 +2382,8 @@ void miss2_0x11C::SCRCMD_CHECK_HEALTH_509030()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
+// See docs/match_attempts.md. Both ReassignAllocatedCarType(8) calls take the value just stored to
+// gStoredCar (VC6 forwards it: first load of pParam2->field_8_car in the inner block, pCar in the else).
 WIP_FUNC(0x509180)
 void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
 {
@@ -2400,7 +2402,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
 
             if (gStoredCar_6F7560 != NULL)
             {
-                if (gStoredCar_6F7560 != pCar && gStoredCar_6F7560->field_6C_maybe_id != pCar->field_6C_maybe_id)
+                if (pCar != gStoredCar_6F7560 && gStoredCar_6F7560->field_6C_maybe_id != pCar->field_6C_maybe_id)
                 {
                     s32 four = 4;
 
@@ -2444,7 +2446,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                     gStoredCar_6F7560 = pParam2->field_8_car;
                     gStoredCarId_6F78B4 = pParam2->field_8_car->field_6C_maybe_id;
 
-                    pParam2->field_8_car->ReassignAllocatedCarType_443EE0(8);
+                    gStoredCar_6F7560->ReassignAllocatedCarType_443EE0(8);
 
                     if (!gPublicTransport_181C_6FF1D4->is_bus_579AA0(pParam2->field_8_car) && pParam2->field_8_car->field_98_door_lock != four)
                     {
@@ -2458,7 +2460,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
             {
                 gStoredCar_6F7560 = pCar;
                 gStoredCarId_6F78B4 = pParam2->field_8_car->field_6C_maybe_id;
-                pCar->ReassignAllocatedCarType_443EE0(8);
+                gStoredCar_6F7560->ReassignAllocatedCarType_443EE0(8);
             }
         }
     }
@@ -5556,62 +5558,46 @@ void miss2_0x11C::SCRCMD_MODEL_CHECK_50E150()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-WIP_FUNC(0x50e190)
+MATCH_FUNC(0x50e190)
 void miss2_0x11C::GetSpeed_50E190()
 {
     SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2);
 
-    Fix16 charCarSpeed;
+    // 9.6f 0x47D070. The cases are in ascending order (the layout doesn't follow it): that order gives
+    // the original's inline cut-offs, GetLength_41E260 inlined (with one Abs) for the char's car and
+    // called out of line (0x453590) for the car, behind the get_car_velocity_4211C0 wrappers.
     switch (gBasePtr_6F8070->field_2_type)
     {
-        case SCRCMD_GET_MAX_SPEED:
-        {
-            pParam2->field_8_counter = pPointer->field_8_car->GetMaxSpeed_439F30().GetRaw_40F4B0();
-
-            miss2_0x11C::Next_503620(gBasePtr_6F8070);
-            return;
-        }
-        case SCRCMD_GET_CHAR_CAR_SPEED:
-        {
-            Ped* pChar = pPointer->field_8_char;
-
-            if (pChar->field_16C_car)
+        case SCRCMD_GET_CAR_SPEED:
+            if (pPointer->field_8_car->field_58_physics)
             {
-                if (pChar->field_16C_car->field_58_physics)
+                pParam2->field_8_counter = pPointer->field_8_car->field_58_physics->get_car_velocity_4211C0().get_value_4754D0();
+            }
+            else
+            {
+                pParam2->field_8_counter = kFpZero_6F77C0.ToInt();
+            }
+            break;
+
+        case SCRCMD_GET_CHAR_CAR_SPEED:
+            if (pPointer->field_8_char->has_car_403B80())
+            {
+                if (pPointer->field_8_char->get_car_416B60()->field_58_physics)
                 {
-                    charCarSpeed = pChar->field_16C_car->field_58_physics->field_0_vel_read_only.GetLength_all_out_of_line_abs_y_negate();
-                    pParam2->field_8_counter = charCarSpeed.GetRaw_40F4B0();
+                    pParam2->field_8_counter =
+                        pPointer->field_8_char->get_car_416B60()->field_58_physics->get_car_velocity_4211C0().get_value_4754D0();
                 }
                 else
                 {
                     pParam2->field_8_counter = kFpZero_6F77C0.ToInt();
                 }
-
-                miss2_0x11C::Next_503620(gBasePtr_6F8070);
-                return;
             }
-
             break;
-        }
-        case SCRCMD_GET_CAR_SPEED:
-        {
 
-            if (pPointer->field_8_car->field_58_physics)
-            {
-                Fix16 carSpeed;
-                carSpeed = pPointer->field_8_car->field_58_physics->field_0_vel_read_only.GetLength_453590_inline_wrap();
-                pParam2->field_8_counter = carSpeed.GetRaw_40F4B0();
-
-                miss2_0x11C::Next_503620(gBasePtr_6F8070);
-                return;
-            }
-
-            pParam2->field_8_counter = kFpZero_6F77C0.ToInt();
-            break;
-        }
-        default:
+        case SCRCMD_GET_MAX_SPEED:
+            pParam2->field_8_counter = pPointer->field_8_car->GetMaxSpeed_439F30().get_value_4754D0();
             break;
     }
 

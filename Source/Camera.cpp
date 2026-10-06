@@ -627,68 +627,62 @@ void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, F
 {
     WIP_IMPLEMENTED;
 
-    Fix16_Point v10;
+    // 9.6f 0x41EBF0
+    Ang16 angle;
+    Fix16_Point vel;
     Fix16_Point offset;
-    // v25 at function scope: it gets its own slot instead of the dead pZ parameter slot
-    Fix16 v25;
-    Fix16 ret;
+    Fix16 radius;
+    Fix16 speed;
 
     if (pCar->IsTrainModel_403BA0())
     {
-        ret = dword_676900 * dword_67696C;
+        speed = dword_676900 * dword_67696C;
     }
     else
     {
-        v10 = (pCar->get_linvel_43A450() * dword_67696C);
-
-        ret = v10.GetLength_41E260();
+        vel = pCar->get_linvel_43A450() * dword_67696C;
+        speed = vel.GetLength_41E260();
     }
 
-    if (ret > dword_67674C)
+    if (speed > dword_67674C)
     {
-        *pZ += ret;
+        *pZ += speed;
 
         if (!pCar->IsTrainModel_403BA0() && !pCar->IsTank_411900())
         {
-            // The atan2 result goes through a block-scoped copy: once its scope closes, its slot (the dead
-            // pCar parameter) is reused by the sine temp below, and the angle stays in a register.
-            Ang16 v16;
+            angle = vel.atan2_40F790();
+
+            Fix16 dist;
+            if ((angle > kAng45_6766DC && angle < kAng135_676790) || (angle > kAng225_676764 && angle < kAng315_67679C))
             {
-                Ang16 t = v10.atan2_40F790();
-                v16 = t;
-            }
-            Fix16 v17;
-            if ((v16 <= kAng45_6766DC || v16 >= kAng135_676790) && (v16 <= kAng225_676764 || v16 >= kAng315_67679C))
-            {
-                v17.mValue = 0x2D0000;
+                dist = Fix16(240);
             }
             else
             {
-                v17.mValue = 0x3C0000;
+                dist = Fix16(180);
             }
 
             if (pCar->is_trailer_cab_41E460())
             {
-                v17 = (v17 * dword_6768E0);
+                dist *= dword_6768E0;
             }
 
-            u8 f44 = this->field_44_suspicion;
-            if (f44)
+            if (this->field_44_suspicion)
             {
-                Fix16 v20;
-                if ((u8)f44 > 64u)
+                Fix16 suspicion;
+                if (this->field_44_suspicion > 64u)
                 {
-                    v20 = dword_6768E4;
+                    suspicion = dword_6768E4;
                 }
                 else
                 {
-                    v20 = Fix16(this->field_44_suspicion);
+                    suspicion = Fix16(this->field_44_suspicion);
                 }
-                v17 = (v17 * (kOne_67681C - v20 / 128));
+                dist *= kOne_67681C - suspicion / 128;
             }
-            v25 = v17 * (*pZ - pCar->field_50_car_sprite->field_1C_zpos + Fix16(8)) / field_60.y;
 
-            offset.FromPolar_41E210(v25, v16);
+            radius = dist * (Fix16(8) - pCar->field_50_car_sprite->field_1C_zpos + *pZ) / field_60.y;
+            offset.FromPolar_41E210(radius, angle);
             *pX += offset.x;
             *pY += offset.y;
         }

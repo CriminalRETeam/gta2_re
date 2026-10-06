@@ -155,7 +155,11 @@ void __stdcall MakeScreenTableAndSetWindow_5D7D30()
 }
 
 // https://decomp.me/scratch/Zmms7
-WIP_FUNC(0x5D7EC0)
+// 9.6f 0x4CBA50: v12/v13 are assigned after their declaration (the multiply result is copied into
+// them), the flags test is one equality condition and the widths go through the Fix16(u8) ctor.
+// The ternary, the field reads in u/v and `u32 flags` set the front-end size that gives the
+// original's inline cut-offs: the second rotation's Negate_4086A0 inline, the others out of line.
+MATCH_FUNC(0x5D7EC0)
 void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
                           s16 sprite_idx,
                           Fix16 x_pos,
@@ -168,21 +172,18 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
                           u8 og_flags,
                           char_type a11)
 {
-    WIP_IMPLEMENTED;
-
     sprite_index* sprite_index_5AA440 =
         gGtx_0x106C_703DD4->get_sprite_index_5AA440(gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_type, sprite_idx));
     Fix16_Point point;
 
-    Fix16 v12 = (Fix16((s32)sprite_index_5AA440->field_4_width) / 2) * scale;
-    Fix16 v13 = (Fix16((s32)sprite_index_5AA440->field_5_height) / 2) * scale;
+    Fix16 v12;
+    Fix16 v13;
+    v12 = (Fix16(sprite_index_5AA440->field_4_width) / 2) * scale;
+    v13 = (Fix16(sprite_index_5AA440->field_5_height) / 2) * scale;
 
-    s32 flags;
+    u32 flags;
 
-    if (scale != kFpOne_706A6C || (flags = 0x10000, rotation != kAngZero_706C3C))
-    {
-        flags = 0;
-    }
+    flags = (scale == kFpOne_706A6C && rotation == kAngZero_706C3C) ? 0x10000 : 0;
     if (!a11)
     {
         flags |= 0x20000u;
@@ -191,40 +192,37 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
     point.SetXY_432860(-v12, -v13);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[0].x = (point.x + x_pos).ToFloat();
-    gQuadVerts_706B88.field_0_verts[0].y = (point.y + y_pos).ToFloat();
+    gQuadVerts_706B88.field_0_verts[0].x = ((x_pos + point.x).ToFloat());
+    gQuadVerts_706B88.field_0_verts[0].y = ((y_pos + point.y).ToFloat());
     gQuadVerts_706B88.field_0_verts[0].z = 0.000099999997f;
 
     point.SetXY_432860(v12, -v13);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[1].x = (point.x + x_pos).ToFloat();
-    gQuadVerts_706B88.field_0_verts[1].y = (point.y + y_pos).ToFloat();
+    gQuadVerts_706B88.field_0_verts[1].x = ((x_pos + point.x).ToFloat());
+    gQuadVerts_706B88.field_0_verts[1].y = ((y_pos + point.y).ToFloat());
     gQuadVerts_706B88.field_0_verts[1].z = 0.000099999997f;
 
     point.SetXY_432860(v12, v13);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[2].x = (point.x + x_pos).ToFloat();
-    gQuadVerts_706B88.field_0_verts[2].y = (point.y + y_pos).ToFloat();
+    gQuadVerts_706B88.field_0_verts[2].x = ((x_pos + point.x).ToFloat());
+    gQuadVerts_706B88.field_0_verts[2].y = ((y_pos + point.y).ToFloat());
     gQuadVerts_706B88.field_0_verts[2].z = 0.000099999997f;
 
     point.SetXY_432860(-v12, v13);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[3].x = (point.x + x_pos).ToFloat();
-    gQuadVerts_706B88.field_0_verts[3].y = (point.y + y_pos).ToFloat();
+    gQuadVerts_706B88.field_0_verts[3].x = ((x_pos + point.x).ToFloat());
+    gQuadVerts_706B88.field_0_verts[3].y = ((y_pos + point.y).ToFloat());
+    gQuadVerts_706B88.field_0_verts[3].z = 0.000099999997f;
 
-    //  u & v, with z interleaved (as in DrawTexture_5D8470)
 
-    s32 width = sprite_index_5AA440->field_4_width;
-    s32 height = sprite_index_5AA440->field_5_height;
-    f32 u = width - 0.000099999997f;
-    f32 v = height - 0.000099999997f;
+    f32 u = sprite_index_5AA440->field_4_width - 0.000099999997f;
+    f32 v = sprite_index_5AA440->field_5_height - 0.000099999997f;
     gQuadVerts_706B88.field_0_verts[0].u = 0.0;
     gQuadVerts_706B88.field_0_verts[0].v = 0.0;
     gQuadVerts_706B88.field_0_verts[1].v = 0.0;
-    gQuadVerts_706B88.field_0_verts[3].z = 0.000099999997f;
     gQuadVerts_706B88.field_0_verts[3].u = 0.0;
     gQuadVerts_706B88.field_0_verts[1].u = u;
     gQuadVerts_706B88.field_0_verts[2].u = u;
@@ -275,57 +273,58 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
 {
     Fix16_Point point;
     u32 flags;
-    if (scale != kFpOne_706A6C || (flags = 0x10000, rotation != kAngZero_706C3C))
+    Fix16 v12;
+    Fix16 v13;
+    if (scale == kFpOne_706A6C && rotation == kAngZero_706C3C)
+    {
+        flags = 0x10000;
+    }
+    else
     {
         flags = 0;
     }
 
-    Fix16 v12 = (Fix16(width) / 2) * scale;
-    Fix16 v13 = (Fix16(height) / 2) * scale;
+    v12 = (Fix16(width) / 2) * scale;
+    v13 = (Fix16(height) / 2) * scale;
 
     // point 1
 
-    // Raw negates: two fewer inline expansions keep the Fix16_Point ctor inline (inline budget)
-    point.x.mValue = -v12.mValue;
-    point.y.mValue = -v13.mValue;
+    point.SetXY_432860(-v12, -v13);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[0].x = (point.x + x_pos).ToFloat();
-    gQuadVerts_706B88.field_0_verts[0].y = (point.y + y_pos).ToFloat();
+    gQuadVerts_706B88.field_0_verts[0].x = ((x_pos + point.x).ToFloat());
+    gQuadVerts_706B88.field_0_verts[0].y = ((y_pos + point.y).ToFloat());
     gQuadVerts_706B88.field_0_verts[0].z = 0.000099999997f;
 
     // point 2
 
-    point.x = v12;
-    point.y = -v13;
+    point.SetXY_432860(v12, -v13);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[1].x = (point.x + x_pos).ToFloat();
-    gQuadVerts_706B88.field_0_verts[1].y = (point.y + y_pos).ToFloat();
+    gQuadVerts_706B88.field_0_verts[1].x = ((x_pos + point.x).ToFloat());
+    gQuadVerts_706B88.field_0_verts[1].y = ((y_pos + point.y).ToFloat());
     gQuadVerts_706B88.field_0_verts[1].z = 0.000099999997f;
 
     // point 3
 
-    point.x = v12;
-    point.y = v13;
+    point.SetXY_432860(v12, v13);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[2].x = (point.x + x_pos).ToFloat();
-    gQuadVerts_706B88.field_0_verts[2].y = (point.y + y_pos).ToFloat();
+    gQuadVerts_706B88.field_0_verts[2].x = ((x_pos + point.x).ToFloat());
+    gQuadVerts_706B88.field_0_verts[2].y = ((y_pos + point.y).ToFloat());
     gQuadVerts_706B88.field_0_verts[2].z = 0.000099999997f;
 
     // point 4
 
-    point.y = v13;
-    point.x = -v12;
+    point.SetXY_432860(-v12, v13);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[3].x = (point.x + x_pos).ToFloat();
-    gQuadVerts_706B88.field_0_verts[3].y = (point.y + y_pos).ToFloat();
+    gQuadVerts_706B88.field_0_verts[3].x = ((x_pos + point.x).ToFloat());
+    gQuadVerts_706B88.field_0_verts[3].y = ((y_pos + point.y).ToFloat());
+    gQuadVerts_706B88.field_0_verts[3].z = 0.000099999997f;
     // u & v, with z interleaved (store order found by the permuter)
     gQuadVerts_706B88.field_0_verts[0].u = 0.0;
     gQuadVerts_706B88.field_0_verts[0].v = 0.0;
-    gQuadVerts_706B88.field_0_verts[3].z = 0.000099999997f;
     gQuadVerts_706B88.field_0_verts[1].v = 0.0;
     gQuadVerts_706B88.field_0_verts[3].u = 0.0;
 

@@ -539,7 +539,7 @@ void gtx_0x106C::InitTileMapping_5AA950()
 // https://decomp.me/scratch/IKsR3
 // Current WIP (lower score, but more runtime correct?):
 // https://decomp.me/scratch/CqJJm
-WIP_FUNC(0x5AA9A0)
+MATCH_FUNC(0x5AA9A0)
 void gtx_0x106C::BuildCarInfoContainer_5AA9A0(s32 chunk_size)
 {
     car_info* pCarInfoIter = (car_info*)field_58_car_info;
@@ -582,18 +582,16 @@ void gtx_0x106C::BuildCarInfoContainer_5AA9A0(s32 chunk_size)
 
         pCarInfoIter->sprite = total_sprite;
 
-        // Offset of num_doors. The u16 conversion keeps VC6 from folding the door part into one lea
-        // (the original adds 2 * num_doors + 1 and the offset separately); without it, every form that
-        // shares num_remaps + 0xE also moves this to ebp
+        // Offset of num_doors. The door part (2 * num_doors + 1) is its own local, added to the offset at
+        // both uses: one expression folds it into a single lea, the original keeps lea / add / add.
         u32 off = pCarInfoIter->num_remaps + 0xE;
         if (((u8*)pCarInfoIter)[off] > 5u)
         {
             FatalError_4A38C0(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 842, pCarInfoIter->model);
         }
-        u32 curr_item_len = (u16)(((u8*)pCarInfoIter)[off] * sizeof(door_info) + 1) + off;
-        total_len += curr_item_len;
-
-        pCarInfoIter = (car_info*)((u8*)pCarInfoIter + curr_item_len);
+        u32 door_len = ((u8*)pCarInfoIter)[off] * sizeof(door_info) + 1;
+        total_len += off + door_len;
+        pCarInfoIter = (car_info*)((u8*)pCarInfoIter + off + door_len);
         idx++;
     }
     field_5C_cari->field_400_count = idx;
