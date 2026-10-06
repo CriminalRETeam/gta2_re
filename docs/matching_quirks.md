@@ -1575,6 +1575,21 @@ one unit across several functions, check the brace and const style of the inline
 with VC7 before adding a variant. Still open: the GetLength "x*x out of line, y*y inline" family
 (`GetLength_out_of_line_x_squared`) needs Abs > 57.
 
+**Size windows from the matched set.** Re-simulating every matched function with one callee's size
+changed (inlsim model, all TUs) pins most of the common inlines: Fix16 binary `+`/`-` 52, unary `-` 42,
+`Abs` 57 exactly, `operator*` 56..57, `Ang16(const s16&, s32)` 43..44 (`Ped::UpdateFacingAngle_461A60` and
+`Char_B4::ApplyRandomRotationJitter_54C6C0` break at 45), `Ang16::operator+` 52..58, `Normalize` 60..67,
+`Fix16_To_Ang16_40F540` 41..51, `RotateByAngle_40F6B0` 138..146, `Fix16_Point()` 41..45, `GetLength_41E260`
+159..162, `SquareRoot` 41..49. So a variant of a Fix16 operator or of the Ang16 normalizing ctor can't be
+fixed by the operator's own size; look at the caller (`inlsim --scan`). The free ones were enough for one
+family: `SquareRoot` is 48 (`const f64 value = input.AsDouble(); return Fix16(sqrt(value));`, a cast to
+f64 or a `const` on a local counts too) and `GetLength_41E260` is 162 (nested `if/else` instead of
+`else if`), both identical to 9.6f with VC7. Then the plain GetLength gives the original's out-of-line
+`SquareRoot_436A70` in `Car_BC::ApplyExplosionImpulse_443710` and `Crane_15C::ComputeHookPolar_47F6C0`
+(which reads `kZero_679E70`). A named `Fix16` local (`Fix16 r(...); return r;`) is not 9.6f-identical
+(VC7 copies it to the return slot). Deleting an unused inline from `Fix16_Point.hpp` moves register
+tie-breaks in six matched MapRenderer functions, so the two freed GetLength variants stay, marked unused.
+
 ### Inline budget: more patterns (round of 9.6f recoveries)
 
 - **Declaration order picked the losers** while `Fix16_Point` derived from `Fix16_Point_POD`: the first

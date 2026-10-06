@@ -315,10 +315,14 @@ class Fix16
     }
 
     // 9.6f 0x410C10, out-of-line copy SquareRoot_436A70. A plain inline: big functions call 0x436A70 once
-    // they run out of inline budget (Car_BC::ManageDrowning_43E560).
+    // they run out of inline budget (Car_BC::ManageDrowning_43E560). The const local is on purpose: VC6's
+    // inline budget charges the front-end size, 48 here (41 without the local, 46 with a non-const one).
+    // Car_BC::ApplyExplosionImpulse_443710 needs >= 48 and CarPhysics_B0::EnforceGearSensitiveMaxSpeed_562D00
+    // <= 49; with GetLength_41E260 at 162, Crane_15C::ComputeHookPolar_47F6C0 needs >= 48 too.
     inline static Fix16 __stdcall SquareRoot(Fix16& input)
     {
-        return Fix16(sqrt(input.AsDouble()));
+        const f64 value = input.AsDouble();
+        return Fix16(sqrt(value));
     }
 
     // SquareRoot forced inline, only for Fix16_Point::GetLength_SqrtForced_43A240 (unexplained)

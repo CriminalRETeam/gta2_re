@@ -1,3 +1,5 @@
+// This TU's copy of the Fix16_Point length zero (see Fix16_Point.hpp)
+#define FIX16_POINT_ZERO kZero_679E70
 #include "Cranes.hpp"
 #include "Char_Pool.hpp"
 #include "Globals.hpp"
@@ -510,7 +512,7 @@ MATCH_FUNC(0x47f6c0)
 bool Crane_15C::ComputeHookPolar_47F6C0(Fix16_Point& pPoint, Fix16* pOutF16, Fix16* pOutAng)
 {
     Fix16_Point v10 = (pPoint.Sub_40AC80(field_2C_rotor_obj->field_4->get_x_y_443580()));
-    *pOutF16 = v10.GetLength_no_sqrt_inline(); // TODO: Uses kZero_679E70 as Zero
+    *pOutF16 = v10.GetLength_41E260();
 
     // TODO: 1st check is removed in 9.6f ??
     if (*pOutF16 <= kMaxHookRadius_679F68 && *pOutF16 >= kMinHookRadius_679C3C)

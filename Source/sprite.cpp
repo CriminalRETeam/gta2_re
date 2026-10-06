@@ -1631,7 +1631,7 @@ bool Sprite::PointInsideRotatedBounds_5A1490(Fix16_Point& point1, Fix16_Point& p
     Fix16_Point rotated_2;
     Fix16 half_width;
     Fix16 half_height;
-    HalfWH_ool_4BA0A0(field_C_sprite_4c_ptr, &half_width, &half_height);
+    field_C_sprite_4c_ptr->HalfWH_4BA0A0(&half_width, &half_height);
 
     // The plain mValue compares are cheaper than the Fix16 operators (inline budget).
     RotateAndTranslatePoint_42A720(point1.x, point1.y, NegateAng16_401C80(field_0), field_14_xy.x, field_14_xy.y, rotated_1.x, rotated_1.y);

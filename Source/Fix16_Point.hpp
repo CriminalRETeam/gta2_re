@@ -21,6 +21,7 @@ EXTERN_GLOBAL(Fix16, dword_706EB8);
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FD9E4);
 EXTERN_GLOBAL(Fix16, kZero_676818);
 EXTERN_GLOBAL(Fix16, kFpZero_7064C0);
+EXTERN_GLOBAL(Fix16, kZero_679E70);
 
 class Fix16_Point;
 
@@ -124,20 +125,25 @@ class Fix16_Point
 
     Fix16 GetLength_453590();
 
-    // 9.6f 0x41E260; the out-of-line copy is GetLength_453590
+    // 9.6f 0x41E260; the out-of-line copy is GetLength_453590. The nested if/else (front-end size 162, the
+    // else-if chain is 160) gives the original's cut-offs in Crane_15C::ComputeHookPolar_47F6C0 with
+    // SquareRoot at 48; matched functions allow 159..162.
     inline Fix16 GetLength_41E260()
     {
         if (x == FIX16_POINT_ZERO)
         {
             return Fix16::Abs(y);
         }
-        else if (y == FIX16_POINT_ZERO)
-        {
-            return Fix16::Abs(x);
-        }
         else
         {
-            return Fix16::SquareRoot(x * x + y * y);
+            if (y == FIX16_POINT_ZERO)
+            {
+                return Fix16::Abs(x);
+            }
+            else
+            {
+                return Fix16::SquareRoot(x * x + y * y);
+            }
         }
     }
 
@@ -380,7 +386,8 @@ class Fix16_Point
     // Out of line unary minus (Object_2C::ResolveCollisionWithPed_5229B0)
     EXPORT Fix16_Point Negate_40ACB0() const;
 
-    // OBS: needed for matching Crane_15C::ComputeHookPolar_47F6C0
+    // Unused (ComputeHookPolar_47F6C0 calls GetLength_41E260 now). Kept: deleting any inline from this header
+    // moves register tie-breaks in six matched MapRenderer functions (4EEE60..4F0030)
     inline Fix16 GetLength_no_sqrt_inline()
     {
         if (x == kFP16Zero_6FE20C)
@@ -504,8 +511,8 @@ class Fix16_Point
     // 10.0 0x442CB0
     EXPORT Fix16_Point operator/(Fix16& in);
 
-    // GetLength_41E260 as inlined into Car_BC::ApplyExplosionImpulse_443710: the square root is the named
-    // out-of-line copy (the plain SquareRoot inlines there); Abs and the rest follow the inline budget
+    // Unused (ApplyExplosionImpulse_443710 calls GetLength_41E260 now), kept for the same reason as
+    // GetLength_no_sqrt_inline
     inline Fix16 GetLength_inline_443710()
     {
         if (x == gFix16_6777CC)

@@ -6291,10 +6291,10 @@ void Car_BC::ApplyExplosionImpulse_443710(Fix16_Point* xy)
         v4 = (v16 - *xy);
         // vecLen's scope has to end before the ApplyImpactForcesAndDamage call: its result temp
         // reuses vecLen's slot (the dead xy param slot), in 9.6f too. Hence the goto: an inline
-        // helper returning bool runs out of inline budget for GetLength_inline_443710, and a bool
+        // helper returning bool runs out of inline budget for GetLength_41E260, and a bool
         // flag tested twice isn't merged by VC6.
         {
-            Fix16 vecLen = v4.GetLength_inline_443710();
+            Fix16 vecLen = v4.GetLength_41E260();
             if (vecLen == gFix16_6777CC)
             {
                 goto done;
