@@ -986,14 +986,22 @@ Fix16* CarPhysics_B0::ComputeSlopeCorrection_55AB50(Fix16* pOutX, Fix16* pOutY)
     return result;
 }
 
-WIP_FUNC(0x55ad90)
+// 9.6f 0x42A630 called as a static with the value by reference (its 9.6f copy takes a pointer and a hidden
+// return). Declared in fix16.hpp, defined here so no other TU changes.
+inline Fix16 __stdcall Fix16::GetFracValue_42A630(const Fix16& v)
+{
+    return Fix16(v.mValue & 0x3FFF, 0);
+}
+
+// 9.6f 0x4A2240: field_6C_cp3 read directly everywhere, g_ZPos * a2, IsFlagSet_411930(0x2000),
+// the slope test nested as (slope && frac != 0 && zpos <= cp3 + k), ComputeSlopeCorrection's two outputs.
+MATCH_FUNC(0x55ad90)
 void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 a2)
 {
-    WIP_IMPLEMENTED;
-
+    // a2 is copied into a register at entry; its stack slot is then reused as ComputeSlopeCorrection's second
+    // output (9.6f 0x4A2240 passes a local there and reads the parameter afterwards)
     Fix16 a2_ = a2;
     Fix16 zpos;
-    Fix16 cp3;
 
     if (field_98_surface_type == car_surface_type::air_surface_6)
     {
@@ -1003,7 +1011,7 @@ void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 a2)
         }
         Fix16 map_z;
         map_z = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(field_38_cp1.x, field_38_cp1.y, field_6C_cp3);
-        zpos = field_6C_cp3 + (a2_ * g_ZPos_6FE0AC);
+        zpos = field_6C_cp3 + (g_ZPos_6FE0AC * a2_);
         if (zpos <= map_z)
         {
             zpos = map_z;
@@ -1027,14 +1035,13 @@ void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 a2)
             zpos = k_dword_6FE210;
         }
 
-        cp3 = field_6C_cp3;
-        if (zpos >= cp3 + kFP16Half_6FE0C0)
+        if (zpos >= field_6C_cp3 + kFP16Half_6FE0C0)
         {
-            if (field_98_surface_type != car_surface_type::slope_northwards_1 &&
-                    field_98_surface_type != car_surface_type::slope_southwards_2 &&
-                    field_98_surface_type != car_surface_type::slope_westwards_3 &&
-                    field_98_surface_type != car_surface_type::slope_eastwards_4 ||
-                zpos.GetFracValue() == kFP16Zero_6FE20C || zpos > cp3 + k_dword_6FE210)
+            if (!((field_98_surface_type == car_surface_type::slope_northwards_1 ||
+                   field_98_surface_type == car_surface_type::slope_southwards_2 ||
+                   field_98_surface_type == car_surface_type::slope_westwards_3 ||
+                   field_98_surface_type == car_surface_type::slope_eastwards_4) &&
+                  Fix16::GetFracValue_42A630(zpos) != kFP16Zero_6FE20C && zpos <= field_6C_cp3 + k_dword_6FE210))
             {
                 zpos = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(field_38_cp1.x, field_38_cp1.y, zpos - kFP16One64th_6FE2E0);
                 if (zpos > field_6C_cp3)
@@ -1050,19 +1057,18 @@ void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 a2)
                     }
                 }
 
-                        cp3 = field_6C_cp3;
-                if (zpos >= cp3 + k_dword_6FE210)
+                if (zpos >= field_6C_cp3 + k_dword_6FE210)
                 {
-                    zpos = cp3;
+                    zpos = field_6C_cp3;
                 }
             }
         }
 
-        if (zpos <= cp3 - kFP16Half_6FE0C0 || zpos < cp3 && field_AA_sbw && field_AB_tpa)
+        if (zpos <= field_6C_cp3 - kFP16Half_6FE0C0 || zpos < field_6C_cp3 && field_AA_sbw && field_AB_tpa)
         {
-            Fix16 tmp;
-            field_68_z_pos = *ComputeSlopeCorrection_55AB50(&tmp, &a2);
-            zpos = a2 + field_6C_cp3;
+            Fix16 corr_x;
+            field_68_z_pos = *ComputeSlopeCorrection_55AB50(&corr_x, &a2);
+            zpos = field_6C_cp3 + a2;
             if (a2_ != kFP16Zero_6FE20C)
             {
                 field_68_z_pos /= a2_;
@@ -1091,7 +1097,7 @@ void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 a2)
         }
     }
 
-    if ((this->field_5C_pCar->field_78_flags & 0x2000) != 0)
+    if (field_5C_pCar->IsFlagSet_411930(0x2000))
     {
         UpdateSpriteFromPhysics_563670();
 
@@ -1111,11 +1117,11 @@ void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 a2)
         }
     }
 
-    this->field_70_z_vel = zpos - this->field_6C_cp3;
-    this->field_6C_cp3 += field_70_z_vel;
+    field_70_z_vel = zpos - field_6C_cp3;
+    field_6C_cp3 += field_70_z_vel;
     if (a2_ != kFP16Zero_6FE20C)
     {
-        this->field_70_z_vel /= a2_;
+        field_70_z_vel /= a2_;
     }
 }
 
