@@ -2450,3 +2450,22 @@ Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 
   builds two zero `Fix16` pairs up front (frame 0x30 vs our 0x24); not pursued.
 - `GetNextRotationToward_550F60` (164, 9.6f 437), `Wolfy_7A8::sub_543690` (12, 9.6f 16): looked at only; the
   10.5 diffs are the per-case scratch-register rotation / the `edx`/`eax` temp swap already in the notes.
+
+## winmain / eager_benz / misc owners pass (9.6f first)
+Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 vs 9.6f). No new match.
+- `SetWindowedMode_5D9510` (14 / 14): both compilers put `push $0x316` before the height arithmetic in the
+  original and after both size expressions in ours, so it is source shape, not scheduling. Tried: the
+  original's evaluation order (`window_height - top - bottom + top + bottom`, 34: swaps the two RECT slots),
+  WinMain_5E53F0's matched form `w + (r - l) - (r - l)` inline (14) and as `s32 w, h` locals (85), the flags
+  as a `UINT` local or as `SWP_*` names, both RECTs declared at the top, the call result in a `BOOL`, the
+  sizes through file-local inline helpers (34): nothing moves the push.
+- `eager_benz::OnPedKilled_592660` (77 / 222): 9.6f 0x4B7EB0 lays the whole non-network block (occupation
+  switch with the kill-type switch inside it, flag stores tail-merged across cases in the order
+  bFbi, bCop, bSwat, bArmy, bGangA, bGangB) *after* the scoring block, jumping back to it; the French test
+  calls `get_occupation_403980` once per compare. Writing every case's six flag stores in that fixed order
+  is worse (260 / 300), with the per-compare getters 260 / 232. The current (tuned) store orders stay.
+- Triage by real (non-jump) differing lines: `BurgerKing_1::read_input_device_498DA0` 104 (53 lines, all
+  stack-slot shuffles of the four input dwords, see its entry), `Object_2C::HandleSpriteZCollision_5238B0`
+  146 (82, the `field_50 == 1` branch and tail layout), `NetPlay::ReceiveGameMessage_521890` 168 (115,
+  `call *%edi` through a register and base/index order in `0x760(%esi,%ebp)`). `TagGameHudUpdate_4DADA0`
+  (54 / 58): the first-flash block layout, already covered in its entry.
