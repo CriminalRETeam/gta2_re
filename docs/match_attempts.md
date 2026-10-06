@@ -2442,3 +2442,24 @@ Scores are `permuter_score.py` lines (10.5) and `--96f` lines (9.6f) unless note
   moved up into the `jmp STATION` slot. Tried: `char_type bFast`, a separate `bAppend` local, `eq ? changed :
   bFast` ternary (384), two flat `&&` tests (372), `!=` test first (288), two station copies (388, 508).
 
+
+## char.cpp / Wolfy_3D4 pass (9.6f first)
+Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 vs 9.6f). No new match.
+- `Char_B4::HandlePedCollision_548BD0` (16): the two spots are `kAng180 + atan2` at the type 5 / 3-4-6 site
+  (original `mov kAng180,%cx; add (%eax),%cx`, ours loads the result first) and `word_6FD888 + angle` in
+  `TurnBy16Deg_548BD0` (`lea (%edx,%eax)` vs `(%eax,%edx)`). Operand order at the site (both ways), the
+  result in a named `Ang16`, `atan2() + kAng180` with/without `Normalized_406C20()`, `angle + word` in the
+  helper, the sum written out at the call, and `EXTERN_GLOBAL` declarations for `kAng180_6FD936` /
+  `word_6FD888` (the 2-byte-global quirk): all 16 or worse (84-184). Value numbering ("the operand numbered
+  later is loaded first") does not explain it: the atan2 call result should always be the earlier value.
+- `Char_B4::sub_54C3E0` (58, 9.6f 183): the paired 9.6f 0x4994D0 is a different function (a switch on the
+  face comparing `field_40` against four angle globals, then 0x491F10/0x4725B0); the pairing is wrong, so
+  9.6f gives no shape for this one.
+- `Char_B4::state_0_54DDF0` (188, 9.6f 982): only two real spots, the rest is jump-offset noise. (1) the
+  `pAhead` block type: the original loads `gMap` into `edx` before pushing z and re-tests `bl` after
+  `and $3` (the written-out ternary, the `GetBlockTypeAtCoord_420420` inline (204), an if/else with the null
+  case first, a `u8` temporary (705): no change). (2) the conveyor adds: the original loads `Saved_Xpos`
+  before `field_4C_conveyor_dx` (both `+=` orders: no change). 9.6f default-constructs the two `Ang16`s and
+  builds two zero `Fix16` pairs up front (frame 0x30 vs our 0x24); not pursued.
+- `GetNextRotationToward_550F60` (164, 9.6f 437), `Wolfy_7A8::sub_543690` (12, 9.6f 16): looked at only; the
+  10.5 diffs are the per-case scratch-register rotation / the `edx`/`eax` temp swap already in the notes.
