@@ -40,6 +40,13 @@ this). Examples it would not catch on its own: `Player::Hud_Controls_565890` cal
 `DoBrianTest_42D870` on the wrong global object, and `Car_BC::DetachTrailer_442760` pushed
 onto the pool's free list instead of the active list.
 
+**Forward `jmp` targets inside the function are renamed too.** A `jmp` into the middle of another block
+(a cross-jump) shows as `jmp stable_name_N`, so a candidate that jumps into the *wrong* identical-looking
+block still scores 0. In `sound_obj::ProcessOtherObjects_41F520`, giving the fire case volume 85 made VC6
+cross-jump it into the 13/14 block (volume 85) instead of the 4/12 block (volume 50) the original uses, and
+`quick_score.sh` reported 0 while the game logic (fire volume) was wrong. When a near miss turns into a 0 by
+changing a constant, read the raw jump offsets (`compare_target_asm.py --raw`, objdiff) before believing it.
+
 A different `stable_name` number on a global load usually means the source reads the wrong global.
 Check that before chasing register allocation: `PublicTransport_181C::SetupTrainAndBusStops_5794B0`
 read `kFpOne_6FF07C` where the original reads `kFpHalf_6FEEE8`, and matched once fixed.
@@ -237,6 +244,20 @@ ret, gets the block at `L` (up to its ret or jmp) moved in place of the jump. Th
 up in the middle of a function with the code after it copying it (`Ped::PunchChar_467FD0`; the unmatched
 `TrainCab_414710` and `Ambulance_20::UpdateState_4FB330` look like it too). C2's block layout already puts a
 jmp-ending else arm right before its target, so this needs a cross-jump (FlowOpts) to leave a block like that.
+
+Switch bodies lowered to a `sub/dec; je` chain are laid out (and ordered in the IL) as default first, then the
+cases by value descending, whatever the source order; a jump-table switch keeps the source order. So for a chain
+switch the lowest case's last block always sits right before the function's exit block, and no case order, `break`
+vs `return`, early return, `do {} while (0)`, dead code after the switch or extra low case label moves the exit
+(all tried on `Ambulance_20::UpdateState_4FB330`, where the original's `jle` goes to an earlier exit copy and the
+block falls into its own copy; an if/else chain or a jump-table switch gives that shape at once).
+
+Cross-jumping picks the **last** identical block in layout, not the longest match: in `ProcessOtherObjects_41F520`
+the fire tail matches the 4/12 block for 8 instructions and the 13/14 block for 7, and VC6 jumps into 13/14 even
+when 4/12 is made identical to fire's whole block. It only goes to 4/12 when 13/14 is made to differ
+(`release_mod = 16`), so the original's 13/14 block must have differed from fire's tail at cross-jump time and
+become identical later; what that transient difference was is still open (label order, `default` position,
+`break`/`return` forms and statement orders don't do it).
 
 **A switch range that runs past the last real case.** If the index table covers values
 that all go to `default`, a case at the top of the range exists in the source but does
@@ -1313,6 +1334,33 @@ Other float shapes that change the code:
 A quick way to test such variants: `Scripts/tu_harness/tu.sh` compiles a preprocessed copy of the TU
 (about 3 seconds) and diffs single functions, `score.py` scores a whole TU. Status and next steps for the
 MapRenderer cluster, and how to check helpers against 9.6f with VC7: `docs/x87_handoff.md`.
+
+### Integer scheduling: what the IL order decides
+
+`sched.sh -r` (Scripts/x87_sched) prints the ready list and priorities for integer-only functions too, and most
+"two independent instructions swapped" near misses are a tie on priority decided by IL order:
+
+- **Loop counter init vs a store before the loop.** The loop optimiser appends its preheader code (the count-down
+  counter init, strength-reduced pointer inits) at the *end* of the preheader block, after every statement written
+  before the loop; a hoisted invariant store lands before them too. Both a constant store and `mov $3,%ebp` have
+  priority 4.0, so the store always issues first. The original of `jolly_poitras_0x2BC0::SavePlySlotDat_56BA60`
+  has the counter init first because `len` is an induction variable (`len++ / len += 4` in the loop body, as the
+  matched `SaveHiScores_56BF20` writes it): VC6 folds its final value (126) into one store that it emits with the
+  loop optimiser's code, after the counter init. A plain `len = 126` anywhere never gets there.
+- **A `volatile` store is a barrier for the compare after it.** The scheduler log shows the volatile store with a
+  latency-0 edge to the following `cmp`, so `cmp $0xF,%al` can't move above `mov %edx,4(%esp)` in
+  `sound_obj::ProcessPoliceRadioWordsPlayback_427220`; the original has the compare first, so its dead local
+  isn't volatile, and nothing found so far (address taken, struct/union/array local, `memcpy`, inline taking a
+  reference, pointer store) keeps a non-volatile dead store alive through VC6's DSE. Only a later volatile *read*
+  of the local does, at the cost of a reload.
+- **A returned class pointer used once is dereferenced immediately.** `GetCarLinearSpeed_43A240()` returns its
+  `Fix16` through a hidden pointer in `eax`. With a single use (`speed = call()` or `call().mValue` in an
+  expression) the load `[eax]` carries WAR edges to everything that redefines `eax` and issues right after the call.
+  The original of `HandleCarTireScrubSound_418720` copies the pointer (`mov %eax,%ecx`) and loads it after the
+  divisor's `cltd`; VC6 only copies the pointer when it has two uses, e.g. `operator/=` applied to the temporary
+  through an inline's `Fix16&` parameter (load and store back), which then leaves a store the original lacks.
+  `operator/=` evaluates the divisor first, `operator/` the dividend first (the matched sibling 0x418940 shows the
+  latter), so TireScrub's original is a `/=` whose dividend is read through a kept pointer with no store back.
 
 ## Functions, thunks and calling conventions
 

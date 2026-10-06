@@ -2960,3 +2960,46 @@ store (20), the dword local without the read (72).
 - `Object_2C::IntegrateHorizontalMovementAndCollisions_524630` (584) and `Car_BC::HandleCarHitByObject_43F130`
   (882): scored and looked at only; both differ in register assignment from the first block (`this` in edi vs
   ebx, the zero register) and need a rewrite rather than tweaks.
+## Near-miss pass (Oct 6, worktree agent/near4)
+Scores are `quick_score.sh` lines. One new match.
+- `jolly_poitras_0x2BC0::SavePlySlotDat_56BA60` 4 -> 0 (**MATCH**). `sched.sh -r` showed the `len = 126` store and
+  the outer counter init `mov $3,%ebp` both at priority 4.0, the store first by IL order because the loop optimiser
+  appends the counter init to the preheader. Accumulating `len` in the inner body (`len++; len += 4; len += 4;`,
+  the style of the matched `SaveHiScores_56BF20`) makes VC6 fold the induction variable's final value into a store
+  emitted after the counter init. `len = 126` after the memcpy / in the loop body (hoisted) / in the for-init /
+  before the call / as the declaration initialiser: 4; after the loop or `pDst - this`: 12-18; count-down loops
+  and a running `stage_stats*` pointer break the pointer strength reduction (12-46).
+- `Ambulance_20::UpdateState_4FB330` (2): scratch-TU experiments show chain-lowered switch bodies are laid out and
+  ordered default, 6, 5, 3 whatever the source order, and the exit block always follows the lowest case; tried
+  per-case HOS and HOS-after-switch forms with `return`/`break` mixes in the inc arm (`return` inside the `> 500`
+  if, both, `<= 500 return`), `case 0/2/4: default:`, no default + tail, dead code after the switch, `for (;;)` and
+  `do {} while (0)` wrappers, if/else followed by `break`, then-arm `break` + inc arm after the if: all keep the `jle`
+  on the adjacent exit copy. An if/else chain and a jump-table switch give the original's shape (`jle` far, own
+  `ret` copy after `movl $5`), but with `cmp`/table dispatch.
+- `sound_obj::ProcessOtherObjects_41F520` (4): with the original 13/14 store order the only difference is the fire
+  cross-jump target (13/14 at `xor bl,bl`, the original 4/12 at `movb $0x32`). VC6 takes the last identical block:
+  making 4/12 identical to fire's whole block (`samp_idx = 189`) still goes to 13/14; making 13/14 differ
+  (`release_mod = 16`) goes to 4/12 (2). Fire with volume 85 scores 0 but jumps into the wrong block (verifier blind
+  spot, see matching_quirks.md). Label order, inner/outer `default` position and `break` form, fire after the
+  explosion case, rocket made different: no change.
+- `sound_obj::ProcessPoliceRadioWordsPlayback_427220` (4): the volatile store's barrier edge to the `cmp` is the
+  cause (sched log). Non-volatile forms that might survive DSE: `struct {s32 a;}`, `union`, `Fix16.mValue`,
+  `memcpy(&old, ...)`, `__asm {}`, `const s32&` to the element, `s32* p = &old; *p = ...`, `volatile s32& r = old`
+  (4, same edge), a dead conditional use: all drop the store (40) or keep the edge. A later `*(volatile s32*)&old`
+  read keeps a plain store with the compare in the right place but adds the reload (34-36). `u32 cur` local (56),
+  compare precomputed in a `u8`/`bool`, comma, `| (old & 0)`: 4.
+- `sound_obj::HandleCarTireScrubSound_418720` (4): the `[eax]` load's WAR edges (sched log) force it before the
+  divisor's `eax` use. A `Fix16&` inline parameter bound to the call with `/=` inside copies the pointer and loads
+  late (right order) but stores back (`mov %eax,(%esi)`, 48); with `/` inside (needs budget padding to stay inline,
+  `inl.sh`: nested budget 56 < 57) the dividend is evaluated first (54); `Fix16&`/copy-ctor/NRVO locals read the
+  slot (8); `/=` on the temporary itself evaluates `&max` before the call (120).
+- `keybrd_0x204::GetLayout_4D6000` (4): sched log: the two KLID byte loads (p46/p38) beat `lea &v2` (p28) at the
+  first cycle after the call; `char*` to Buffer, `const char*` to KLID+6, `v2` declared first, `s32*`/`s32&` to v2:
+  4; a 4th sscanf argument: 34.
+- `menu_option_0x82::SelectPrevHorizontalIdx_4B6390` (4): `BYTE tmp` flag alone or with the sibling's `u16&` (28:
+  copies si to di), raw `*(u16*)((u8*)this + 0x6E)` at the top and/or in the condition, `(s16)` compare, `pThis`
+  local, reversed `&&`, `volatile bFound` (30): the loop compare still CSEs to `si`.
+- `sound_obj::TrainCab_414710` (6): `return` in both arms, early `!pDriver` return + then-arm `return` + store after,
+  `return` after the if/else, else `return` + outer `return`: 6.
+- `DrawGradientSlopeSouthwards_4F1660` (4): `regsearch.py` finds no window limit below the stock score, so it is
+  not a window break; not retried after the ~1500-form sweep above. `Car_14::SpawnTrafficCar_582480` (8): not retried.
