@@ -159,9 +159,8 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
 {
     WIP_IMPLEMENTED;
     // The original enters with EH state 4 and sets 7 at the top of the car branch, as five points up
-    // front and three in the car branch would. Declared like that, VC6 calls Fix16_Point_POD() out of
-    // line for each of them here (inline budget; __forceinline on it gives the original's states but
-    // changes 6 matched functions elsewhere), so only the used points are declared.
+    // front and three in the car branch would. Declared like that (unused extras), the ctors stay inline
+    // but the rest of the function moves further away, so only the used points are declared for now.
     Fix16_Point vel(Fix16(0), Fix16(0));
     Fix16_Point offset;
     if (bSkip_particles_67D64D)

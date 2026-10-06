@@ -21,12 +21,66 @@ EXTERN_GLOBAL(Fix16, dword_706EB8);
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FD9E4);
 EXTERN_GLOBAL(Fix16, kZero_676818);
 
-// TODO: Some functions like Camera_0xBC::sub_435A70 won't match unless this is a POD
-// but 9.6f leads me to believe both the POD and non-POD type are the same
 class Fix16_Point;
 
+// A point without a destructor. 10.5 has points that don't take part in EH unwinding: struct members
+// (~Sprite is a bare jmp, the Char_B4 ctor's EH states leave out field_98_velocity_vector), a by-value
+// parameter the caller copies as two dwords (sub_5DE910) and a few locals (CarPhysics_B0 0x55F280,
+// 0x55F800, Camera_0xBC::WorldToScreen_40CFC0's result). Everything else is a Fix16_Point. It is a
+// separate type, not a base of Fix16_Point: 10.5 charges Fix16_Point's ctor as one size-42 inline
+// site at the top level, which a derived class's ctor (base ctor nested in it) doesn't reproduce.
+// 9.6f doesn't tell the two apart.
 struct Fix16_Point_POD
 {
+    Fix16_Point_POD()
+    {
+    }
+
+    Fix16_Point_POD(Fix16& a1, Fix16& a2)
+    {
+        x = a1;
+        y = a2;
+    }
+
+    void SetXY_432860(Fix16& a2, Fix16& a3)
+    {
+        this->x = a2;
+        this->y = a3;
+    }
+
+    inline void SetFromPolar_41E210(Fix16& radius, Ang16& angle)
+    {
+        x = Ang16::sine_40F500(angle) * radius;
+        y = Ang16::cosine_40F520(angle) * radius;
+    }
+
+    // Matching impl at RotateVelocity_562C20
+    inline void RotateByAngle_40F6B0(const Ang16& angle)
+    {
+        Fix16 sin = Ang16::sine_40F500(angle);
+        Fix16 cos = Ang16::cosine_40F520(angle);
+
+        Fix16 x_old = x;
+
+        x = (x * cos) + (y * sin);
+        y = ((-x_old) * sin) + (y * cos);
+    }
+
+    Fix16_Point_POD& operator+=(Fix16_Point& other);
+
+    // Same layout: a POD passed where a Fix16_Point is expected (a free inline site, like the other way)
+    operator Fix16_Point&()
+    {
+        return *(Fix16_Point*)this;
+    }
+
+    Fix16 x;
+    Fix16 y;
+};
+
+class Fix16_Point
+{
+  public:
     void SetXY_432860(Fix16& a2, Fix16& a3)
     {
         this->x = a2;
@@ -191,13 +245,8 @@ struct Fix16_Point_POD
         y = radius * Ang16::cosine_40F520(angle);
     }
 
-    // 9.6f 0x40F5C0
-    Fix16_Point_POD Fix16_Point_POD::operator+(const Fix16_Point_POD& in)
-    {
-        return Fix16_Point_POD(x + in.x, y + in.y);
-    }
 
-    Fix16_Point_POD& Fix16_Point_POD::operator+=(Fix16_Point_POD& other)
+    Fix16_Point& operator+=(Fix16_Point& other)
     {
         x += other.x;
         y += other.y;
@@ -205,7 +254,7 @@ struct Fix16_Point_POD
     }
 
     // FUNCTION: 96f 0x4828c0
-    Fix16_Point_POD& Fix16_Point_POD::operator-=(Fix16_Point_POD& other)
+    Fix16_Point& operator-=(Fix16_Point& other)
     {
         x -= other.x;
         y -= other.y;
@@ -213,7 +262,7 @@ struct Fix16_Point_POD
     }
 
     // Operator* for Fix16 ?
-    Fix16_Point_POD& MultiplyByFix16_49E3A0(const Fix16& factor)
+    Fix16_Point& MultiplyByFix16_49E3A0(const Fix16& factor)
     {
         x *= factor;
         y *= factor;
@@ -225,23 +274,24 @@ struct Fix16_Point_POD
 
     EXPORT Fix16_Point Multiply_438FE0(Fix16& a1);
     EXPORT Fix16_Point Divide_442CB0(Fix16& a1);
-    inline Fix16_Point DivideInl_442CB0(Fix16& in) throw();
-    inline Fix16_Point MultiplyInl_438FE0(Fix16& in) throw();
+
+    // Divide_442CB0 as a nothrow inline (see DivideInl_55F9E0; CarPhysics_B0::HandleObjectCollision_5606C0,
+    // Car_BC::ApplyExplosionImpulse_443710)
+    inline Fix16_Point DivideInl_442CB0(Fix16& in) throw()
+    {
+        return Fix16_Point(x / in, y / in);
+    }
+
+    // Multiply_438FE0 as a nothrow inline (see DivideInl_55F9E0; Car_BC::TryHitchTrailer_442810)
+    inline Fix16_Point MultiplyInl_438FE0(Fix16& in) throw()
+    {
+        return Fix16_Point(x * in, y * in);
+    }
 
     // Out-of-line copies emitted in Weapon_30.cpp (used by sub_5DE910).
-    EXPORT Fix16_Point_POD& AddAssign_5E40C0(const Fix16_Point_POD& other);
-    EXPORT Fix16_Point_POD& DivAssign_5E40E0(const Fix16& v);
+    EXPORT Fix16_Point& AddAssign_5E40C0(const Fix16_Point& other);
+    EXPORT Fix16_Point& DivAssign_5E40E0(const Fix16& v);
     EXPORT Fix16 MaxAbs_5E4140();
-
-    Fix16_Point_POD()
-    {
-    }
-
-    Fix16_Point_POD(Fix16& a1, Fix16& a2)
-    {
-        x = a1;
-        y = a2;
-    }
 
     // FUNCTION: 96f 0x41e1e0
     void reset()
@@ -250,13 +300,6 @@ struct Fix16_Point_POD
         y = Fix16(0);
     }
 
-    Fix16 x;
-    Fix16 y;
-};
-
-class Fix16_Point : public Fix16_Point_POD
-{
-  public:
     // Both inlined and exists as a function... some strange array init behaviour??
     ~Fix16_Point()
     {
@@ -307,7 +350,7 @@ class Fix16_Point : public Fix16_Point_POD
     }
 
     // MATCH_FUNC(0x40AC50)
-    Fix16_Point operator+(const Fix16_Point_POD& in)
+    Fix16_Point operator+(const Fix16_Point& in)
     {
         return Fix16_Point(x + in.x, y + in.y);
     }
@@ -324,11 +367,11 @@ class Fix16_Point : public Fix16_Point_POD
     EXPORT Fix16_Point Sub_40AC80(const Fix16_Point& rhs);
 
     // Out of line operator+ (CarPhysics_B0::SpawnSkidSegment_55D200)
-    EXPORT Fix16_Point Add_40AC50(const Fix16_Point_POD& in);
+    EXPORT Fix16_Point Add_40AC50(const Fix16_Point& in);
 
     // operator+ 0x40AC50 as a nothrow inline that VC6 still calls out of line: no EH state for the
     // temporaries alive across the call (Car_BC::TryHitchTrailer_442810)
-    inline Fix16_Point AddInl_40AC50(const Fix16_Point_POD& in) throw()
+    inline Fix16_Point AddInl_40AC50(const Fix16_Point& in) throw()
     {
         return Fix16_Point(x + in.x, y + in.y);
     }
@@ -444,11 +487,6 @@ class Fix16_Point : public Fix16_Point_POD
         }
     }
 
-    Fix16_Point operator+(Fix16_Point& in)
-    {
-        return Fix16_Point(x + in.x, y + in.y);
-    }
-
     Fix16_Point operator*(Fix16& in)
     {
         return Fix16_Point(x * in, y * in);
@@ -562,19 +600,22 @@ class Fix16_Point : public Fix16_Point_POD
     {
         return Fix16_Point(x / a3, y / a3);
     }
+
+    // Same layout: a point sliced into a Fix16_Point_POD (one free inline site, see sub_5DF270)
+    operator Fix16_Point_POD&()
+    {
+        return *(Fix16_Point_POD*)this;
+    }
+
+    Fix16 x;
+    Fix16 y;
 };
 
-// Divide_442CB0 as a nothrow inline (see DivideInl_55F9E0; CarPhysics_B0::HandleObjectCollision_5606C0,
-// Car_BC::ApplyExplosionImpulse_443710)
-inline Fix16_Point Fix16_Point_POD::DivideInl_442CB0(Fix16& in) throw()
+inline Fix16_Point_POD& Fix16_Point_POD::operator+=(Fix16_Point& other)
 {
-    return Fix16_Point(x / in, y / in);
-}
-
-// Multiply_438FE0 as a nothrow inline (see DivideInl_55F9E0; Car_BC::TryHitchTrailer_442810)
-inline Fix16_Point Fix16_Point_POD::MultiplyInl_438FE0(Fix16& in) throw()
-{
-    return Fix16_Point(x * in, y * in);
+    x += other.x;
+    y += other.y;
+    return *this;
 }
 
 struct Fix16_Vec

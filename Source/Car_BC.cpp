@@ -1921,7 +1921,7 @@ bool Car_BC::HasSpriteZoom_43A230()
 }
 
 // CarPhysics_B0::GetLinearSpeed_4211A0 with the square root forced inline (see
-// Fix16_Point_POD::GetLength_SqrtForced_43A240)
+// Fix16_Point::GetLength_SqrtForced_43A240)
 static inline Fix16 GetLinearSpeed_43A240(CarPhysics_B0* pPhysics)
 {
     return pPhysics->field_40_linvel_1.GetLength_SqrtForced_43A240();

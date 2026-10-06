@@ -2947,8 +2947,7 @@ gmp_map_slope::gmp_map_slope(u8 gradient_direction, u8 gradient_size, u8 gradien
 
 // Walks the collision probe sprite from (x_1, y_1, z_1) towards (x_2, y_2, z_2) in steps of about `height`,
 // returning 0 as soon as it hits something (line of sight / clear path test).
-// Left: Fix16_Point_POD() for pos_diff goes out of line (inline budget). With it forced inline the
-// diff drops to ~263 (mostly stack slots), so freeing budget is the remaining work.
+// Left: mostly stack slots (pos_diff's ctor is inline, like the original's).
 WIP_FUNC(0x4E5640)
 char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_1, Fix16 y_1, Fix16 z_1, Fix16 x_2, Fix16 y_2, Fix16 z_2)
 {

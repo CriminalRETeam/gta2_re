@@ -309,10 +309,10 @@ u8 Sprite::GetWaterCornerMask_59E250()
     Fix16 zpos_delta = this->field_1C_zpos - kFP16One_7035C4;
     UpdateCollisionBoundsIfNeeded_59E9C0();
 
-    Fix16_Point_POD* pBBox = field_C_sprite_4c_ptr->field_C_renderingRect;
+    Fix16_Point* pBBox = field_C_sprite_4c_ptr->field_C_renderingRect;
     for (s32 i = 0; i < 4; i++)
     {
-        Fix16_Point_POD* pIter = &pBBox[i];
+        Fix16_Point* pIter = &pBBox[i];
         if (gMap_0x370_6F6268->IsWaterBlockAt_4B9F40(pIter->x.ToInt(), pIter->y.ToInt(), zpos_delta.ToInt()))
         {
             bits |= 1 << i;
@@ -2004,7 +2004,7 @@ Fix16_Point Sprite::FindCollisionIntersectionPoint_5A2710(Sprite* pOther,
         }
         else
         {
-            result = (GetBoundingBoxCorner_562450(idx1) + (const Fix16_Point_POD&)GetBoundingBoxCorner_562450(idx2)) / 2;
+            result = (GetBoundingBoxCorner_562450(idx1) + GetBoundingBoxCorner_562450(idx2)) / 2;
         }
     }
     else
@@ -2024,13 +2024,13 @@ Fix16_Point Sprite::FindCollisionIntersectionPoint_5A2710(Sprite* pOther,
             else
             {
                 // not 0, not 1
-                result = (pOther->GetBoundingBoxCorner_562450(idx1) + (const Fix16_Point_POD&)pOther->GetBoundingBoxCorner_562450(idx2)) / 2;
+                result = (pOther->GetBoundingBoxCorner_562450(idx1) + pOther->GetBoundingBoxCorner_562450(idx2)) / 2;
             }
         }
         else
         {
             // pOutHitType == 0
-            result = (pOther->get_x_y_443580() + (const Fix16_Point_POD&)SpritePos) / 2;
+            result = (pOther->get_x_y_443580() + SpritePos) / 2;
         }
     }
     return result;

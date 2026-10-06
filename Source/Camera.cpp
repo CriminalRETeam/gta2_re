@@ -627,16 +627,15 @@ void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, F
 {
     WIP_IMPLEMENTED;
 
-    // v25 at function scope: it gets its own slot instead of the dead pZ parameter slot
-    Fix16 v25;
-    // ret before the points: one site less after their ctors, which keeps both inline (inline budget)
-    Fix16 ret;
     Fix16_Point v10;
     Fix16_Point offset;
+    // v25 at function scope: it gets its own slot instead of the dead pZ parameter slot
+    Fix16 v25;
+    Fix16 ret;
 
     if (pCar->IsTrainModel_403BA0())
     {
-        ret = (dword_676900 * dword_67696C);
+        ret = dword_676900 * dword_67696C;
     }
     else
     {
@@ -645,23 +644,21 @@ void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, F
         ret = v10.GetLength_41E260();
     }
 
-    if (ret.mValue > dword_67674C.mValue)
+    if (ret > dword_67674C)
     {
-        pZ->mValue += ret.mValue;
+        *pZ += ret;
 
         if (!pCar->IsTrainModel_403BA0() && !pCar->IsTank_411900())
         {
-            // 9.6f inlined: sub_40F790 (atan2_40F790). Written out, and the compares below on raw values,
-            // so the Fix16_Point ctors stay inline (VC6 inline budget)
             // The atan2 result goes through a block-scoped copy: once its scope closes, its slot (the dead
             // pCar parameter) is reused by the sine temp below, and the angle stays in a register.
             Ang16 v16;
             {
-                Ang16 t = Fix16::atan2_fixed_405320(v10.y, v10.x);
+                Ang16 t = v10.atan2_40F790();
                 v16 = t;
             }
             Fix16 v17;
-            if ((v16.rValue <= kAng45_6766DC.rValue || v16.rValue >= kAng135_676790.rValue) && (v16.rValue <= kAng225_676764.rValue || v16.rValue >= kAng315_67679C.rValue))
+            if ((v16 <= kAng45_6766DC || v16 >= kAng135_676790) && (v16 <= kAng225_676764 || v16 >= kAng315_67679C))
             {
                 v17.mValue = 0x2D0000;
             }

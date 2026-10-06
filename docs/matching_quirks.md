@@ -373,7 +373,7 @@ paths set all of `eax` is still unsolved (`Car_BC::IsDoorLockedForPed_43B2B0`).
 
 **Returning a class adds a flag local.** A zeroed stack slot (`push %ecx` and `movl $0,..(%esp)`)
 in a function that returns a point means the return type has a destructor: return
-`Fix16_Point`, not `Fix16_Point_POD` (`Fix16_Point_POD::Multiply_438FE0`, `Divide_442CB0`).
+`Fix16_Point`, not `Fix16_Point_POD` (`Fix16_Point::Multiply_438FE0`, `Divide_442CB0`).
 A function the decomp wrote as `Fix16_Point* f(Fix16_Point* out)` usually returned by value
 in the original. Return a local filled in place instead (`Char_B4::sub_545580` uses
 `FromPolar_41E210`).
@@ -1424,8 +1424,7 @@ Found by tracing C2.DLL (see `Scripts/inline_budget/`); the instrumented compile
   `inltree.py` shows these sites as `CALL(udt)`. A helper that 10.5 expands inline (for example
   `Camera::WorldToScreen_40CFC0`) therefore cannot return `Fix16_Point`.
 - **Destructor sites count.** Every local or temporary with a destructor adds a free destructor site
-  at its scope exit, which shrinks `budget / sites_left` for the sites before it. That is why the
-  empty `Fix16_Point()` constructors at the top of big functions end up as calls.
+  at its scope exit, which shrinks `budget / sites_left` for the sites before it.
 - **No EH state store for a call C2 knows can't throw.** A callee marked `throw()`, or one already
   compiled earlier in this TU whose remaining calls are all nothrow, gets no `mov [ebp-4], N` around
   the call (C2 `0x1073c543`, used at `0x10758678`). C2 compiles a header inline's out-of-line copy
@@ -1434,21 +1433,30 @@ Found by tracing C2.DLL (see `Scripts/inline_budget/`); the instrumented compile
 - **10.5 was built with precompiled headers.** Under `/Yu`, header inline copies are compiled at the end
   of the TU until C1XX's first IL flush, so in some TUs (Weapon_30) every caller keeps its state stores.
   We can't reproduce the original flush points: keep the named `EXPORT` copy (`Add_40AC50`) there.
-- **`Fix16_Point` struct members have no destructor in 10.5; locals and temporaries do.** `~Sprite` is a
-  bare `jmp` and the `Char_B4` constructor's EH numbering leaves out `field_98_velocity_vector`, so
-  members stay `Fix16_Point_POD`. Making every point a `Fix16_Point` breaks those two matches and
-  `Camera` 0x435A70, but improves several WIPs that use point locals (CarPhysics 0x5615D0, 0x560B40,
-  Cranes 0x47E5B0), so check locals and temporaries one function at a time.
+- **`Fix16_Point` is a class with its own `x`/`y`; `Fix16_Point_POD` is a separate type, not its base.**
+  10.5 charges `Fix16_Point()` as one size-42 inline site at the top level. When `Fix16_Point` derived
+  from `Fix16_Point_POD`, its ctor was a free size-31 site whose nested `Fix16_Point_POD()` (42) only got
+  `budget / sites_left`, so big functions called it out of line (`??0Fix16_Point_POD@@QAE@XZ`), which the
+  original never does. As a standalone class no point ctor is called out of line anywhere, and
+  CarPhysics 0x5615D0 and Cranes 0x47E5B0 match. Some points still have no destructor in 10.5: `~Sprite`
+  is a bare `jmp` and the `Char_B4` constructor's EH numbering leaves out `field_98_velocity_vector`
+  (members), `sub_5DE910`'s by-value parameter, the locals of CarPhysics 0x55F280/0x55F800 and
+  Particle_4C 0x53B670, and `Camera::WorldToScreen_40CFC0`'s result (an inline returning a dtor class is
+  never expanded); those stay `Fix16_Point_POD`. Other members can be `Fix16_Point` (the Crane points:
+  `~Crane_15C`'s EH state 4). The two types convert through inline reference conversion operators; each
+  conversion is a free inline site, which is what gave `sub_5DF270` the original's out-of-line operator-
+  in `MaxAbsDistance_42A6B0` (the implicit derived-to-base conversion was no site).
 - The out-of-line calls to `atan2` (0x40ACD0) in 10.5 come from the normal budget (`Ang16` has no
   destructor); the plain `atan2_40F790()` inline gives them.
 
 ### Inline budget: more patterns (round of 9.6f recoveries)
 
-- **Declaration order picks the losers.** With several default-constructed `Fix16_Point` locals,
-  the first declared ones get their `Fix16_Point_POD()` ctor outlined once the budget runs out
-  (`Hud_Arrow_7C::UpdateScreenPos_5D0850`: declaring the point after three `Fix16`s brought its
-  ctor back inline). Turning inline getters/setters into plain field accesses also freed ctors
-  (`Trailer::UpdateTrailerAlignment_407CE0`).
+- **Declaration order picked the losers** while `Fix16_Point` derived from `Fix16_Point_POD`: the first
+  declared points got their nested `Fix16_Point_POD()` ctor outlined once the budget ran out. With the
+  standalone class (see "Inline calls and EH states") the ctor is a top-level site and stays inline, so
+  the declaration-order workarounds (`Hud_Arrow_7C::UpdateScreenPos_5D0850`,
+  `Camera_0xBC::ApplyCarVelocityCameraOffset_436200`) are gone. Turning inline getters/setters into
+  plain field accesses also freed ctors (`Trailer::UpdateTrailerAlignment_407CE0`).
 - **A ternary costs less than an inline function.** The same `GetLength` as a ternary freed budget;
   the same ternary wrapped in a static inline did not (5D0850). Writing `Abs_436A50`/`Multiply_408680`
   calls out by hand freed it too (`CarPhysics_B0::ComputeEngineTorque_561970`).
@@ -1693,9 +1701,8 @@ Found by tracing C2.DLL (see `Scripts/inline_budget/`); the instrumented compile
 - **`(a - b).mValue >> 14` instead of `(a - b).ToInt()`** saves one inline expansion per site with the same code
   (`Map_0x370::sub_4E7190`: four of them paid for the `KeepDir` inline that keeps `xor; test` unfolded).
 - **`??1Fix16_Point` in an object's relocations can be just the EH unwind funclet** placed after the function,
-  not a call in the body (sub_4E5640). The outlined `Fix16_Point_POD()` there is not a plain expansion count:
-  without the loop, removing any one pre-loop inline brings it back inline, but removing a whole loop branch
-  with ten inlines doesn't.
+  not a call in the body (sub_4E5640). The outlined `Fix16_Point_POD()` that sub_4E5640 had was the nested
+  base ctor of the old derived `Fix16_Point` (480 -> 275 with the standalone class).
 - **The shared EH epilogue** (`TickObject_5283C0`, `HandleCarImpact_5538A0`, `Start_NetworkGame_5E5A30`) and
   the shared `return 0` tail (`Ped::SetObjective2_463830`, `FindBestTargetPed_466BF0`) are still not
   reproducible: VC6 copies the tail into each predecessor. A small test file kept copying across every
@@ -1827,14 +1834,8 @@ both copies. Only a meaningless cast changed it.
 
   It may be from a library built with another compiler version (the loader macro also appears
   in gbh_graphics.cpp, which builds with `/Od /ZI`).
-- An empty `Fix16_Point()` / `Fix16_Point_POD()` default ctor called out of line
-  (`??0Fix16_Point_POD@@QAE@XZ`) for locals declared at the top of big functions
-  (`Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280`,
-  `Particle_4C::UpdateObjectBeamLink_state_38_538AC0`, `sub_5DE910`). The original constructs
-  them with no code. Partly explained by an inline budget per function. In a test TU, 11
-  `Fix16_Point` locals inline, 12 leave one ctor call, and 14 leave five. It takes both a
-  destructor (EH) and `Fix16` members: the same struct with `int` members, or without the
-  dtor, never calls. The ctors seem to get whatever budget other inline expansions leave, and
-  the first-declared locals lose. In `sub_5DE910`, dropping a `static inline` length helper
-  took the calls from 6 to 2, and switching to inline `Fix16_Point` operators raised them
-  again. So the original spends less of the budget elsewhere, and it isn't known where.
+- (Explained) The empty `Fix16_Point_POD()` default ctor called out of line
+  (`??0Fix16_Point_POD@@QAE@XZ`) for points declared at the top of big functions came from
+  `Fix16_Point` deriving from `Fix16_Point_POD`: the base ctor was a nested site that only got
+  `budget / sites_left`. `Fix16_Point` now has its own `x`/`y` (see "Inline calls and EH states")
+  and no point ctor goes out of line any more, as in the original.

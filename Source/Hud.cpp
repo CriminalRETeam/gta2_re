@@ -1912,11 +1912,10 @@ WIP_FUNC(0x5d0850)
 void Hud_Arrow_7C::UpdateScreenPos_5D0850()
 {
     WIP_IMPLEMENTED;
-    // displacement declared after the positions: declared first, its Fix16_Point_POD ctor is called out of line
+    Fix16_Point displacement;
     Fix16 player_xpos;
     Fix16 player_ypos;
     Fix16 player_zpos;
-    Fix16_Point displacement;
 
     gGame_0x40_67E008->field_38_orf1->get_pos_569920(&player_xpos, &player_ypos, &player_zpos);
     displacement.SetXY_432860(player_xpos - field_18.field_60_curr_target->field_14_aim_x,
@@ -1925,7 +1924,7 @@ void Hud_Arrow_7C::UpdateScreenPos_5D0850()
     field_8_rotation = displacement.atan2_40F790();
 
     // GetLength_41E260 with this file's zero and the out-of-line helpers. Written out as a ternary: as an
-    // inline the function runs out of inline expansions (Fix16_Point_POD ctor and one operator/ out of line).
+    // inline the function runs out of inline expansions (one operator/ out of line).
     Fix16 distance = displacement.x == kFpZero_7064C0 ?
         Fix16::Abs_436A50(displacement.y) :
         displacement.y == kFpZero_7064C0 ?

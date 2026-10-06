@@ -264,7 +264,7 @@ void Garage_48::GaragesService_5349D0()
             }
             else
             {
-                field_28_push_dir = ((Fix16_Point*)&field_28_push_dir)->NormalizeSafe_442AD0().Multiply_438FE0(dword_6FCF10);
+                field_28_push_dir = field_28_push_dir.NormalizeSafe_442AD0().Multiply_438FE0(dword_6FCF10);
             }
             field_0->field_58_physics->ApplyForceScaledByMass_55F9A0(field_28_push_dir);
             field_C = 2;

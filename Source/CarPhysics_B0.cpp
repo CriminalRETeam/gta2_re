@@ -1741,11 +1741,9 @@ EXPORT s32 __stdcall get_skid_obj_type_55D490(s32 surface, Fix16 box_idx)
 
 // 9.6f 0x4A0120
 WIP_FUNC(0x55d200)
-void CarPhysics_B0::SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point_ByValue arg_4_, s32 surface)
+void CarPhysics_B0::SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 surface)
 {
     WIP_IMPLEMENTED;
-
-    Fix16_Point& arg_4 = *(Fix16_Point*)&arg_4_;
 
     Fix16_Point t;
     Fix16_Point v15;
@@ -1809,15 +1807,15 @@ void CarPhysics_B0::UpdateWheelSkidEffects_55DC00()
 
         if (field_98_surface_type == car_surface_type::unknown_surface_7 || field_98_surface_type == car_surface_type::water_surface_8 || field_98_surface_type == car_surface_type::unknown_surface_9)
         {
-            SpawnSkidSegment_55D200(0, Fix16_Point_ByValue(-half_width, rear_wheel_offset_), 3); // spawns the skid obj?
-            SpawnSkidSegment_55D200(1, Fix16_Point_ByValue(half_width, rear_wheel_offset_), 3);
+            SpawnSkidSegment_55D200(0, Fix16_Point(-half_width, rear_wheel_offset_), 3); // spawns the skid obj?
+            SpawnSkidSegment_55D200(1, Fix16_Point(half_width, rear_wheel_offset_), 3);
         }
         else if ((field_88_rear_skid >= gCarInfo_2C_6FE0E4->field_28_skid_threshhold_2 ||
                  field_AC_drive_wheels_locked_q > 0 && gCarInfo_2C_6FE0E4->field_20_front_drive_bias > kFP16Zero_6FE20C) &&
                 field_98_surface_type != car_surface_type::air_surface_6)
         {
-            SpawnSkidSegment_55D200(0, Fix16_Point_ByValue(-half_width, rear_wheel_offset_), b_d9C);
-            SpawnSkidSegment_55D200(1, Fix16_Point_ByValue(half_width, rear_wheel_offset_), b_d9C);
+            SpawnSkidSegment_55D200(0, Fix16_Point(-half_width, rear_wheel_offset_), b_d9C);
+            SpawnSkidSegment_55D200(1, Fix16_Point(half_width, rear_wheel_offset_), b_d9C);
         }
         else
         {
@@ -1827,15 +1825,15 @@ void CarPhysics_B0::UpdateWheelSkidEffects_55DC00()
 
         if (field_98_surface_type == car_surface_type::unknown_surface_7 || field_98_surface_type == car_surface_type::water_surface_8 || field_98_surface_type == car_surface_type::unknown_surface_9)
         {
-            SpawnSkidSegment_55D200(3, Fix16_Point_ByValue(-half_width, front_wheel_offset_), 3);
-            SpawnSkidSegment_55D200(2, Fix16_Point_ByValue(half_width, front_wheel_offset_), 3);
+            SpawnSkidSegment_55D200(3, Fix16_Point(-half_width, front_wheel_offset_), 3);
+            SpawnSkidSegment_55D200(2, Fix16_Point(half_width, front_wheel_offset_), 3);
         }
         else if ((field_84_front_skid >= gCarInfo_2C_6FE0E4->field_24_skid_threshhold_1 ||
                   field_AC_drive_wheels_locked_q > 0 && gCarInfo_48_6FE258->field_8_front_drive_bias > kFP16Zero_6FE20C) &&
                  field_98_surface_type != car_surface_type::air_surface_6)
         {
-            SpawnSkidSegment_55D200(3, Fix16_Point_ByValue(-half_width, front_wheel_offset_), b_d9C);
-            SpawnSkidSegment_55D200(2, Fix16_Point_ByValue(half_width, front_wheel_offset_), b_d9C);
+            SpawnSkidSegment_55D200(3, Fix16_Point(-half_width, front_wheel_offset_), b_d9C);
+            SpawnSkidSegment_55D200(2, Fix16_Point(half_width, front_wheel_offset_), b_d9C);
         }
         else
         {
@@ -2181,19 +2179,19 @@ void CarPhysics_B0::ApplyForceWithTrailerRedirect_55F740(Fix16_Point* a2, Fix16_
     {
         CarPhysics_B0* pB0 = field_5C_pCar->field_64_pTrailer->field_8_truck_cab->field_58_physics;
         pB0->SetCurrentCarInfoAndModelPhysics_562EF0();
-        pB0->ApplyForceAndIntegrate_55F7A0(a2, *(Fix16_Point_ByValue*)a3);
+        pB0->ApplyForceAndIntegrate_55F7A0(a2, *a3);
         SetCurrentCarInfoAndModelPhysics_562EF0();
     }
     else
     {
-        ApplyForceAndIntegrate_55F7A0(a2, *(Fix16_Point_ByValue*)a3);
+        ApplyForceAndIntegrate_55F7A0(a2, *a3);
     }
 }
 
 MATCH_FUNC(0x55f7a0)
-void CarPhysics_B0::ApplyForceAndIntegrate_55F7A0(Fix16_Point* a2, Fix16_Point_ByValue a3)
+void CarPhysics_B0::ApplyForceAndIntegrate_55F7A0(Fix16_Point* a2, Fix16_Point a3)
 {
-    ApplyForceAtPoint_55F800(a2, (Fix16_Point*)&a3, 0);
+    ApplyForceAtPoint_55F800(a2, &a3, 0);
     UpdateLinearAndAngularAccel_560EB0();
     IntegrateAndClampVelocities_5610B0();
 }
@@ -2233,7 +2231,7 @@ void CarPhysics_B0::ApplyAngularImpulse_55F970(Fix16 a2)
 }
 
 MATCH_FUNC(0x55f9a0)
-void CarPhysics_B0::ApplyForceScaledByMass_55F9A0(Fix16_Point_POD& pForce)
+void CarPhysics_B0::ApplyForceScaledByMass_55F9A0(Fix16_Point& pForce)
 {
     field_48_force_accum += pForce.Multiply_438FE0(CarPhysics_B0::CalculateMass_559FF0());
 }
@@ -2922,11 +2920,9 @@ Fix16_Point CarPhysics_B0::ComputePointVelocity_561380(Fix16_Point& point)
 
 // https://decomp.me/scratch/5Hj13
 // 9.6f 0x4A0D40
-WIP_FUNC(0x5615d0)
+MATCH_FUNC(0x5615d0)
 Fix16 CarPhysics_B0::ApplyDriveForce_5615D0(Fix16_Point& a3, Ang16 angle, Fix16_Point& a5, Fix16 a6)
 {
-    WIP_IMPLEMENTED;
-
     Fix16_Point force;
     Fix16_Point v40;
     Fix16 y_abs;
@@ -2963,7 +2959,7 @@ Fix16 CarPhysics_B0::ApplyDriveForce_5615D0(Fix16_Point& a3, Ang16 angle, Fix16_
         }
         else
         {
-            field_AC_drive_wheels_locked_q = (((Fix16::Abs_negate_out_of_line(a6)) / dword_6FE3B4) * 8).ToInt();
+            field_AC_drive_wheels_locked_q = (((Fix16::Abs(a6)) / dword_6FE3B4) * 8).ToInt();
         }
     }
 
@@ -3136,7 +3132,7 @@ Fix16 CarPhysics_B0::CalculateFrontWheelForce_561E50()
                 break;
         }
 
-        // 9.6f: Fix16_Point_POD::SetXY_432860
+        // 9.6f: Fix16_Point::SetXY_432860
         point2.x = v9;
         point2.y = v10 + lodword_v5;
 
@@ -3518,9 +3514,9 @@ void CarPhysics_B0::StabilizeVelocityAtSpeed_562910()
     }
 }
 
-// Out-of-line copy of Fix16_Point_POD::RotateByAngle_40F6B0
+// Out-of-line copy of Fix16_Point::RotateByAngle_40F6B0
 MATCH_FUNC(0x562c20)
-void Fix16_Point_POD::RotateVelocity_562C20(const Ang16& angle)
+void Fix16_Point::RotateVelocity_562C20(const Ang16& angle)
 {
     const Fix16 sin = Ang16::sine_40F500(angle);
     const Fix16 cos = Ang16::cosine_40F520(angle);

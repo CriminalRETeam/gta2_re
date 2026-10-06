@@ -13,7 +13,6 @@ class Sprite_4C;
 class Ped;
 class ModelPhysics_48;
 class CarAI_78;
-struct Fix16_Point_POD;
 
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
 EXTERN_GLOBAL(Fix16, dword_6FD120);
@@ -49,26 +48,6 @@ enum
 };
 } // namespace car_turn_direction
                                                                 
-// A point passed by value that the caller copies bitwise (two pushes) but the callee
-// destroys (EH frame): Fix16_Point without the user-defined copy constructor.
-class Fix16_Point_ByValue : public Fix16_Point_POD
-{
-  public:
-    Fix16_Point_ByValue()
-    {
-    }
-
-    Fix16_Point_ByValue(const Fix16& a1, const Fix16& a2)
-    {
-        x = a1;
-        y = a2;
-    }
-
-    ~Fix16_Point_ByValue()
-    {
-    }
-};
-
 class CarPhysics_B0
 {
   public:
@@ -198,7 +177,7 @@ class CarPhysics_B0
     EXPORT void HandleMapBoundaryCollisionX_55C820(Fix16_Point& a2, Ang16 a3);
     EXPORT void DispatchCollision_55CA70(Fix16_Point& a2, Ang16 a3);
     EXPORT void ReplayAndDispatchCollision_55CBB0(Fix16 a2, Fix16 a3);
-    EXPORT void SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point_ByValue arg_4_, s32 surface);
+    EXPORT void SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 surface);
     EXPORT void UpdateWheelSkidEffects_55DC00();
     EXPORT void DoSkidmarks_55E260();
     EXPORT char_type StepMovementAndCollisions_55E470();
@@ -211,11 +190,11 @@ class CarPhysics_B0
     EXPORT void StepPhysics_55F330();
     EXPORT char_type CheckPendingCollision_55F360();
     EXPORT void ApplyForceWithTrailerRedirect_55F740(Fix16_Point* a2, Fix16_Point* a3);
-    EXPORT void ApplyForceAndIntegrate_55F7A0(Fix16_Point* a2, Fix16_Point_ByValue a3);
+    EXPORT void ApplyForceAndIntegrate_55F7A0(Fix16_Point* a2, Fix16_Point a3);
     EXPORT void ApplyForceAtPoint_55F800(Fix16_Point* a2, Fix16_Point* a3, s32 a4);
     EXPORT void AccumulateImpulse_55F930(Fix16_Point* a2);
     EXPORT void ApplyAngularImpulse_55F970(Fix16 a2);
-    EXPORT void ApplyForceScaledByMass_55F9A0(Fix16_Point_POD& pForce);
+    EXPORT void ApplyForceScaledByMass_55F9A0(Fix16_Point& pForce);
     EXPORT void ApplyImpulseWithTrailerRedirect_55FA10(Fix16_Point* a2);
     EXPORT Fix16 ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce, Fix16_Point& Impulse, s32 base_dmg);
     EXPORT void AccumulateImpulse_55FC30(Fix16_Point& a2, s32 a3);
@@ -490,8 +469,8 @@ class CarPhysics_B0
     Fix16_Point field_30_cm1;
     Fix16_Point field_38_cp1;
     Fix16_Point field_40_linvel_1;
-    Fix16_Point_POD field_48_force_accum;
-    Fix16_Point_POD field_50_linear_accel;
+    Fix16_Point field_48_force_accum;
+    Fix16_Point field_50_linear_accel;
     Ang16 field_58_theta;
     s16 field_5A;
     Car_BC* field_5C_pCar;

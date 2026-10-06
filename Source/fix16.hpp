@@ -322,7 +322,7 @@ class Fix16
         return Fix16(sqrt(input.AsDouble()));
     }
 
-    // SquareRoot forced inline, only for Fix16_Point_POD::GetLength_SqrtForced_43A240 (unexplained)
+    // SquareRoot forced inline, only for Fix16_Point::GetLength_SqrtForced_43A240 (unexplained)
     __forceinline static Fix16 __stdcall SquareRoot_forced(Fix16& input)
     {
         return Fix16(sqrt(input.AsDouble()));

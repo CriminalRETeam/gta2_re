@@ -69,13 +69,10 @@ inline Fix16 __stdcall WrapAngle_40E790(Fix16 a2)
     return a2;
 }
 
-// TODO: The original has an EH frame in state 4, so field_0-field_20_target2_offset are probably Fix16_Point
-// (non-trivial dtor). Changing them makes this match, but then the ctor stops matching because
-// the implicit Fix16_Point_POD ctor isn't inlined.
-WIP_FUNC(0x47e5b0)
+// The EH frame in state 4 comes from field_0-field_20_target2_offset, which are Fix16_Point (destructor)
+MATCH_FUNC(0x47e5b0)
 Crane_15C::~Crane_15C()
 {
-    WIP_IMPLEMENTED;
     if (field_7C_sound)
     {
         gRoot_sound_66B038.DestroySoundObj_40FE60(field_7C_sound);
