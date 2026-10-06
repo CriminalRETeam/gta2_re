@@ -2633,3 +2633,8 @@ Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 
 - `Map_0x370::sub_4E6190`: the original computes `a5 - 3` in cases 3/4 and jumps *back* into case 2/1's inner
   switch (`je` past the `dec`), i.e. the earlier copies are kept; VC6 keeps the later ones for every outer
   order we can write. Not retried.
+- `CarAI_78::sub_452060` (32): slot offsets only. The original's frame (0x1C) has the cosine temporary at 0x0 and
+  `v7`/`new_z`/`v1` at 0x4/0x8/0xC; ours has the three locals at 0x0/0x4/0x8 and the temporary at 0xC.
+  `decl_shuffle.py` cannot run on it (interleaved declarations). `Fix16 v7;` at the top or outside its block
+  (126), `v7` assigned after its declaration, `new_z` or `v9`/`v10` declared at the top: 32. `v85` and `zpos_`
+  are live later, so they cannot be dropped.
