@@ -91,10 +91,10 @@ static inline s32 Clamp2(s32 v, s32 center, s32 radius)
     return v > center ? Min(center + radius, v) : Max(center - radius, v);
 }
 
-// Was marked as a match, but 0x419CD0 wasn't in og_function_data_v105.csv, so it was never
-// verified. The original loads ecx (mov %esi,%ecx) for GenerateIntegerRandomNumberTable_41BA90
-// before the four field_1450..field_1470 stores, ours after them.
-WIP_FUNC(0x419CD0)
+// The three Fix16 fields are set with the Fix16(s32) constructor, not operator=(s32): the
+// operator's returned reference chains the four stores, which pushes the mov %esi,%ecx for
+// GenerateIntegerRandomNumberTable_41BA90 behind them.
+MATCH_FUNC(0x419CD0)
 sound_obj::sound_obj()
 {
     field_1474_rotation = 0;
@@ -117,9 +117,9 @@ sound_obj::sound_obj()
     ClearActivateSamples_41B7A0();
 
     field_1450 = 0;
-    field_1468_v1 = 0;
-    field_146C_v2 = 0;
-    field_1470_v3 = 0;
+    field_1468_v1 = Fix16(0);
+    field_146C_v2 = Fix16(0);
+    field_1470_v3 = Fix16(0);
 
     GenerateIntegerRandomNumberTable_41BA90();
 
