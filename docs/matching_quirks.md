@@ -1910,9 +1910,22 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   not a call in the body (sub_4E5640). The outlined `Fix16_Point_POD()` that sub_4E5640 had was the nested
   base ctor of the old derived `Fix16_Point` (480 -> 275 with the standalone class).
 - **The shared EH epilogue** (`TickObject_5283C0`, `HandleCarImpact_5538A0`, `Start_NetworkGame_5E5A30`) and
-  the shared `return 0` tail (`Ped::SetObjective2_463830`, `FindBestTargetPed_466BF0`) are still not
-  reproducible: VC6 copies the tail into each predecessor. A small test file kept copying across every
-  source form tried, except an `int` callee parameter or `/Os`.
+  the shared `return 0` tail (`Ped::SetObjective2_463830`) are still not reproducible: VC6 copies the tail into
+  each predecessor. A small test file kept copying across every source form tried, except an `int` callee
+  parameter or `/Os`. `FindBestTargetPed_466BF0` matched once the shared block was the right copy (next item).
+- **Which `return 0` keeps the shared block.** With several `return 0;` the kept `xor eax,eax` block is the one at
+  the first `return 0` in source order, unless a later copy is a fall-through block: `switch {...} return 0;` puts
+  the trailing return right after the dispatch (`dec; je CASE; [ret 0]`) and that copy wins. Fold early returns
+  into one `&&` condition to make the wanted one first, and guard the switch (`if (p) { switch ... } return 0;`)
+  so the trailing return is a `jmp` after the cases; then dupB also moves the epilogue into the kept block, which
+  a `return pBestPed` shares (`FindBestTargetPed_466BF0`).
+- **Then-arm or else-arm decides which duplicate block survives.** Two identical blocks in different cases
+  (`BusCustomer_AI_461290`, case 38 and 34 both leave the bus): with both as then-arms the earlier copy was kept,
+  with the case 34 copy as the then-arm of an if/else and case 38's as a then-arm too, case 38's became the
+  jump. Writing the block only once with a goto kept the layout but lost the register allocation of the duplicate.
+- **A reload from the argument slot means the parameter is used.** `mov 0x18(%esp),%al` after a `push ecx` + 4
+  saves prologue is the first argument, not a spilled local; `HandleVocalStreamSwitching_57DF10`'s "unused"
+  parameter is the speed-doubling flag tested before every `SetVocalSpeed`.
 
 ### Inlined Ang16 operators on globals (`CarAI_78::sub_44AF00`)
 

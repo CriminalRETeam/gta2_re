@@ -10,7 +10,6 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | skeleton | structure | full | 9.6f struct | Address | Function | File |
 |---|---|---|---|---|---|---|
 | 0 | 0 | 110 | - | 0x561380 | `CarPhysics_B0::ComputePointVelocity_561380` | CarPhysics_B0.cpp |
-| 0 | 0 | 12 | - | 0x461290 | `Ped::BusCustomer_AI_461290` | Ped.cpp |
 | 0 | 0 | 12 | 147 | 0x5520a0 | `Char_B4::state_8_5520A0` | char.cpp |
 | 0 | 0 | 12 | 4 | 0x543690 | `Wolfy_7A8::sub_543690` | Wolfy_3D4.cpp |
 | 0 | 0 | 16 | 0 | 0x5645b0 | `Player::AddCarToHistory_5645B0` | Player.cpp |
@@ -175,7 +174,6 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 13 | 59 | 138 | 127 | 0x572920 | `PoliceCrew_38::State5_PursueOrChase_572920` | Police_38.cpp |
 | 14 | 138 | 367 | - | 0x538060 | `Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060` | Particle_4C.cpp |
 | 14 | 384 | 448 | - | 0x4f6a20 | `MapRenderer::Draw_4F6A20` | MapRenderer.cpp |
-| 15 | 106 | 224 | - | 0x466bf0 | `Ped::FindBestTargetPed_466BF0` | Ped.cpp |
 | 16 | 158 | 609 | - | 0x44af00 | `CarAI_78::sub_44AF00` | CarAI_78.cpp |
 | 17 | 14 | 160 | - | 0x53a280 | `Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280` | Particle_4C.cpp |
 | 19 | 71 | 129 | 56 | 0x571a30 | `PoliceCrew_38::sub_571A30` | Police_38.cpp |

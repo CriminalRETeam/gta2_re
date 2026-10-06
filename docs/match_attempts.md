@@ -2392,3 +2392,42 @@ Scores are `quick_score.sh` lines (10.5) and `permuter_score.py --96f` lines (VC
   return, and the sums are evaluated right operand first. Not finished.
 - `PoliceRoadblock_A4::CreateRoadblock_575FF0` (435), `ApplyImpactForcesAndDamage_55FA60` (179),
   `ProcessGroundCollisionAndSurfaceType_55B970` (210): not attempted.
+## Ped.cpp / sound_obj.cpp pass with the unpaired 9.6f counterparts (Oct 6)
+Scores are `permuter_score.py` lines (10.5) and `--96f` lines (9.6f) unless noted.
+- `Ped::BusCustomer_AI_461290` 12 -> 0 (**MATCH**; 9.6f 0x4427E0: 128 -> 14). 9.6f shape: case 38 holds a full
+  copy of case 34's "leave bus and flee" block (VC6 tail-merges them), `SetField238_403920` /
+  `set_occupation_403970` / `is_driven_by_player` inlines. The two eax/edx swaps (`field_150` pointer, door byte)
+  disappeared with the duplicate block; the merge then kept case 38's copy until case 34 was written as if/else
+  (`if (36 && status) { block } else { pCar_ && IsDespawning ... }`): the copy whose block is a jump target is the
+  one dropped, so case 38's then-arm copy is the one that jumps forward. Case 31 got its own despawn check
+  instead of the goto into case 34.
+- `Ped::FindBestTargetPed_466BF0` 86 -> 0 (**MATCH**; 9.6f 0x437BE0: 50 -> 47). Two IsSpriteInView calls (the
+  shared `push $1` is VC6 hoisting the identical heads, a ternary argument pushes the 1 after the join). The
+  shared `return 0` block sits at the first `return 0` in source order, so the dz / same ped / distance early
+  returns became one `&&` condition and the IsSpriteInView arm's `return 0` is the first. The `switch` on the
+  sprite type is guarded by `if (pNear)` with the final `return 0` after it: with `switch {...} return 0;`
+  VC6 lays the trailing `return 0` out right after the dispatch (`dec; je PED; [ret 0]`) and that fall-through
+  copy wins the merge; `default: return 0;` alone leaves the car case falling into the epilogue, so the
+  epilogue isn't moved into the return-0 block (`return pBestPed` then gets its own copy). Only the permuter's
+  COMDAT `Max_41E130` penalty remained (4); the build verifier accepts it.
+- `sound_obj::ProcessOtherObjects_41F520` (4, unchanged; 9.6f 0x41A3C0 is far: Fix16 ctor/div/mul calls for the
+  constants). Fire merges into whichever of the identical 4/12 and 13/14 blocks is later in layout (13/14 first in
+  source: fire -> 4/12 but the blocks swap); the original keeps both blocks, fire in 4/12 (first). Inner case
+  orders, `default` position, fire after the explosion case, statement orders (stores stay in source order, so no
+  order gives identical post-scheduling blocks): no 0. Permuter 2500: 4.
+- `Ped::HandlePedHitByObject_45D000` (74, unchanged; 9.6f 0x441A30 added as pair) and `IsPedAThreat_465D00` (142;
+  9.6f 0x4371D0 added, 604). Left in 45D000: inside the inlined IsPedAThreat, the first
+  `IsRespectNegativeForPlayer(player->field_2E)` site goes through a stack byte temp in the original (a `u8` local
+  or `get_idx_4219D0()`, as 9.6f calls it at both sites), and the `MaxAbs <= kFpOne` compare has eax/ecx
+  swapped. A getter or `u8` local at the first site makes the two IsRespect blocks identical and VC6 merges them
+  (203); `pMyGang->` instead of `this->field_17C_pGang->` (187-237) and the gang block restructured in 9.6f order
+  (256, 9.6f 530) are worse. 9.6f: `sub_4614E0` is `MaxAbsDistance_42A6B0`, the 9.6f source uses the getter.
+- `sound_obj::HandleVocalStreamSwitching_57DF10` 254 -> 294 but 9.6f 0x4B25D0 600 -> 328: the parameter is used.
+  `0x18(%esp)` after the prologue (push ecx + 4 saves) is the argument, and every `test %al,%al` before
+  `SetVocalSpeed` reloads it: `if (bFastForward)` doubles the speed, the local `field_54FC == 1` is only
+  PlayVocal's append flag. With that every instruction matches and the constant-1 `ebx` is gone. Left: the
+  original merges every duplicate tail into the first copy (`Update; ret`, `push 0; SetVocalPosMs ...`,
+  `xor edx; div`), ours into the later ones, so the `!changed` Update stays in place and the station head isn't
+  moved up into the `jmp STATION` slot. Tried: `char_type bFast`, a separate `bAppend` local, `eq ? changed :
+  bFast` ternary (384), two flat `&&` tests (372), `!=` test first (288), two station copies (388, 508).
+
