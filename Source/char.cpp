@@ -4606,7 +4606,7 @@ void Char_B4::state_1_5504F0()
     if (pBlock)
     {
         u8 v9 = (pBlock->field_B_slope_type & 0xFC) != 0 && (pBlock->field_B_slope_type & 0xFC) != 0xFC;
-        field_58_flags ^= ((u8)field_58_flags ^ v9) & 1;
+        field_58_flags ^= (field_58_flags ^ v9) & 1;
         if (gGtx_0x106C_703DD4->IsElectrifiedFloorType_491F80(pBlock->field_8_lid & 0x3FF) && field_10_char_state != 15)
         {
             if (field_7C_pPed->field_21C_bf.b27 == false)
@@ -4771,7 +4771,7 @@ LABEL_65:
                                              kFP16Half_6FD8E4 + Fix16(field_72_next_tile_x),
                                              kFP16Half_6FD8E4 + Fix16(field_73_next_tile_y)) < kFP16Quarter_6FD828)
             {
-                field_58_flags &= 0x7F;
+                field_58_flags_bf.b7 = 0;
             }
             else
             {

@@ -1759,6 +1759,23 @@ Found by tracing C2.DLL (see `Scripts/inline_budget/`); the instrumented compile
   rotations written as `PolarToCartesian_41FC20`), which matched sub_44AF00. Free sites after a site lower its `budget / sites_left` share, so moving
   declarations out of repeated cases is a natural way to shift a cut-off.
 
+### Bit clears on byte flag fields (`Ped::Reset_45AFC0`)
+
+- **VC6 shares one mask register between a 32-bit and an 8-bit `and` with the same low byte.** In
+  `Ped::Reset_45AFC0`, `field_21C_bf.b4 = 0` (mask `0xFFFFFFEF`) and `field_224 &= ~0x10` on the `char`
+  field (`and $0xEF,%al`) became one `mov $0xFFFFFFEF,%eax` kept live across twenty stores, which rotated
+  the register of every later read-modify-write (96 lines). `0xEF`, `0xEFu`, `& ~0x10` and the 32-bit
+  forms of the `21C` clear all share it. A byte bit field (`CompilerBitField8` in `BitSet32.hpp`, as a union
+  with `field_224`, written `field_224_bf.b4 = 0`) keeps its own immediate, and with the stores in the
+  asm's order the function matched. So when a straight run of bit clears has its registers rotated, look for
+  a constant VC6 keeps in a register for two clears and give the byte field a byte bit field.
+- **`flags &= 0x7F` on a `u32` flags word clears bits 8..31 too.** The original's load / `and $0x7F,%al` /
+  store is a bit field clear of bit 7 (`Char_B4::state_1_5504F0`: `field_58_flags_bf.b7 = 0`).
+- **`flags ^= (flags ^ v) & 1` (the bit field assign idiom) without a `(u8)` cast on the field** gave back
+  the original's zero register in `ebp` in `state_1_5504F0` (304 -> 260), although VC6 then folds it to
+  `and $1` / `and $~1` / `xor` where the original keeps `xor; and; xor` on an `int` flag. An `s32` flag gives
+  the original's three instructions but loses `ebp` again (318), as does `field_58_flags_bf.b0 = v` (262).
+
 ## Inline asm
 
 **16-bit `pushaw`/`popaw`.** The inline assembler can't spell them. Put `_emit 0x66` before

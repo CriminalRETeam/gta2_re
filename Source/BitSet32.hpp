@@ -45,6 +45,20 @@ struct CompilerBitField32
     u32 b31 : 1;
 };
 
+// Byte-sized bit field: clearing a bit through it is a byte `and` whose mask VC6 does not share with
+// the same mask on a 32 bit field (Ped::Reset_45AFC0)
+struct CompilerBitField8
+{
+    u8 b0 : 1;
+    u8 b1 : 1;
+    u8 b2 : 1;
+    u8 b3 : 1;
+    u8 b4 : 1;
+    u8 b5 : 1;
+    u8 b6 : 1;
+    u8 b7 : 1;
+};
+
 class BitSet32
 {
   public:

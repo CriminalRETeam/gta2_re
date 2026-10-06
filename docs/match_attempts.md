@@ -2072,3 +2072,56 @@ Scores are `sc.sh` lines.
   slot and stores `offset.x` before the second `Multiply_408680` call.
 - `PedGroup::MergeWithOtherGroup_4C9B60` (104): `pOther = pPed->field_164_ped_group` before the test gives
   the original's `ebx` for it but loses `pPed` in `edi` (132).
+
+### Near-miss pass (byte bit fields)
+Scores are `sc.sh` lines.
+- `Ped::Reset_45AFC0` 96 -> 0 (**MATCH**): `field_224` is now a union with a `CompilerBitField8`, and its
+  three clears/sets are bit field stores; the `0xEF` byte clear no longer shares the `0xFFFFFFEF` mask
+  register with `field_21C_bf.b4 = 0` (see matching_quirks "Bit clears on byte flag fields"). Plus
+  `field_1F8_run_speed` stored before `field_1A0`, as in the asm.
+- `Char_B4::state_1_5504F0` 310 -> 260: logic fix `field_58_flags &= 0x7F` -> `field_58_flags_bf.b7 = 0`
+  (the old form cleared bits 8..31), and no `(u8)` cast in the slope bit copy, which gives back the `ebp` zero
+  register. Left: the slope flag is an `int` in `ecx` in the original (an `s32` local gives that but loses
+  `ebp`, 318), the frame slots of the IDA locals, and the argument load order of the first `get_block` call.
+- `Start_NetworkGame_5E5A30` (170): a nested single-exit version with a `char_type result` and a
+  `bConnected` flag (the `char_type` result trick of 5A1490) still copies the EH epilogue into the
+  `result = 0` paths (380). The original also has an unused dword between the GUID (0x10) and the path
+  buffer (0x24) in both 10.5 and 9.6f; a 20-byte GUID holder fixes the slots (170 -> 106) but is not
+  natural, so not applied.
+- `Sprite::Draw_59EFF0` (104): only x87 scheduling inside the four `ProjectWorldPointToScreen_4BA4D0`
+  expansions (where the `(u32)` centre conversions and the vertex index load go) and a one-byte size
+  difference; not retried.
+- `Ped::TaxiCustomer_AI_460820` (86): `Max(dx, dy) > kFpTwo || bit || !passengers.IsEmpty() ||
+  IsDespawning()` as one condition (the original's block shape) 88; `Fix16 dmax = Max(...)` (assigned or
+  initialised) 86; `kFpZero != GetVelocity()` 106, `.mValue` compare / `!(==)` 88, a `vel` local 120-130.
+  The original loads the compared value into `ecx` and the constant into `eax`, the opposite of
+  `TrainCustomer_AI_461530` (matched, same expression).
+- `Char_B4::UpdateAnimState_546360` (80): `(u8)` on the `field_68 > 5 ? 3 : 4` ternary gives the
+  original's byte compare (`jbe`) but the ternary result lands in `cl` and `field_68` in `al` (original:
+  the reverse plus a `mov %cl,%al` copy before `inc`), 118; `frame_limit = ...` local, `<= 5 ? 4 : 3`,
+  `4 - (f > 5)`, a `FrameDelay(u8)` inline (u8/s32/const ref), operands swapped: 118-124. VC7 (`sc7.sh`)
+  shows the same swap. `kAng180 + field_40`, `Ang16(a.rValue + b.rValue, (u8)0)` either order,
+  `AddNormalized`: the constant is still loaded first (80).
+- `sound_obj::Type_10_HandleCarSkidSound_418940` (108): the original divides with the dividend shifted
+  first and `gCarInfo_48->field_28` loaded fresh after the call; `call() / max` caches `&field_28` before
+  the call (ours), and `/=`, a `speed` local, `v4 = v4 / max` or the division inside the multiply all load
+  the divisor first (108-122).
+- `Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280` (166): `++field_46_sub_state == 5` with
+  `field_46_sub_state < 4` gives the original's `inc %bl` but no `mov %bl,%dl` copy (240); `u8/s8/char/s32
+  sub = ++field` 240-244; `u16/s16/s32/u32 sub` 166. The original has `this` in `edi`, ours `esi`.
+  Permuter 800 from 166: 96, only by inlining the state-40 multiply (`corner.x * cos`) that the original
+  calls out of line.
+- `Garage_48::ParkCarAtDoor_534700` (116): the original pushes `&field_38` before the `field_40` compare;
+  reading `field_C_sprite_4c_ptr->field_4_height` directly gives that (106), but 9.6f calls
+  `IsLongerThanOneBlock_447ED0` -> `GetH_447E70`, so not applied (an inline copy of 447ED0 is 116).
+  Permuter 1000 from 106: 73, by regrouping the `SetXY` sums (`w1 + Fix16(y) + d`,
+  `kFpTwo + (Fix16(y) + w1)`) and swapping case 3's branches; noise, not applied.
+- `miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180` (121; the earlier 266 was a wrong needle): no `pChar`
+  local, `Car_BC* pCar` declared first, `gStoredCar->Reassign(8)` in the else: 121.
+  `pParam2->field_8_car->Reassign(8)` gives the original's `eax` for `pCar` (107) but VC6 then folds the
+  `four` local into immediates.
+- `RouteFinder::ShowJunctionIds_588620` (136): the original stores the junction x/y bytes to the stack
+  around the `FindGroundZ` call and converts them again after it (no CSE of `Fix16(x)`/`Fix16(y)`).
+  `ProjectToScreen` taking `u8 x, u8 y` (converted inside) is worse (186).
+- `NetPlay::ReceiveGameMessage_521890` (168): the original loads `timeGetTime` into `edi` and calls
+  through it (three calls); ours calls the import directly each time. Not retried.

@@ -504,7 +504,7 @@ Ped::~Ped()
 }
 
 // https://decomp.me/scratch/2yWEK
-WIP_FUNC(0x45afc0)
+MATCH_FUNC(0x45afc0)
 void Ped::Reset_45AFC0()
 {
     field_21C_bf.b0 = 0;
@@ -617,8 +617,8 @@ void Ped::Reset_45AFC0()
     field_19C = 0;
     byte_6787C4 = 0;
     field_21C_bf.b3 = 0;
-    field_1A0_objective_target_object = 0;
     field_1F8_run_speed = kFpPoint8_6784A0;
+    field_1A0_objective_target_object = 0;
     field_1A4_internal_target_object = 0;
     field_132_follow_car_offset_angle = gDummyPedAng_6787A8;
     field_1FC_follow_car_offset_distance = kFpZero_678660.mValue;
@@ -630,7 +630,10 @@ void Ped::Reset_45AFC0()
     field_21C_bf.b5 = 0;
     field_21C_bf.b6 = 0;
     field_250 = 0;
-    field_224 &= 0xF0u;
+    field_224_bf.b0 = 0;
+    field_224_bf.b1 = 0;
+    field_224_bf.b2 = 0;
+    field_224_bf.b3 = 0;
     field_138 = 0;
     field_13C_pTrainStation = 0;
     field_220 = 0;
@@ -641,11 +644,11 @@ void Ped::Reset_45AFC0()
     field_21C_bf.b10 = 0;
     field_274_gang_car_model = car_model_enum::MERC;
     field_1A8_ped_killer = 0;
-    field_224 &= ~0x10u;
+    field_224_bf.b4 = 0;
     field_21C_bf.b28 = 0;
     field_21C_bf.b29 = 0;
     field_260 = 0;
-    field_224 |= 0x20u;
+    field_224_bf.b5 = 1;
 }
 
 MATCH_FUNC(0x45b440)
