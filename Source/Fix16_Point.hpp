@@ -300,6 +300,25 @@ class Fix16_Point
     EXPORT Fix16_Point& DivAssign_5E40E0(const Fix16& v);
     EXPORT Fix16 MaxAbs_5E4140();
 
+    // 9.6f 0x48A270 (the inline of MaxAbs_5E4140)
+    inline Fix16 MaxAbs_48A270()
+    {
+        Fix16 ax = Fix16::Abs_436A50(x);
+        Fix16 ay = Fix16::Abs_436A50(y);
+        if (ax > ay)
+        {
+            return ax;
+        }
+        return ay;
+    }
+
+    // 9.6f 0x48A250: both components through Fix16::DivideAssign (10.5 0x539F90)
+    inline void DivideAssign_48A250(const Fix16& d)
+    {
+        x.DivideAssign_539F90(d);
+        y.DivideAssign_539F90(d);
+    }
+
     // FUNCTION: 96f 0x41e1e0
     void reset()
     {

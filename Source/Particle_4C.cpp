@@ -407,10 +407,15 @@ static inline Fix16 MaxValue_44E540(const Fix16& a, const Fix16& b)
     return b;
 }
 
+// 9.6f 0x48F230: SetXY_432860 for src/dst, delta = dst - src, delta.atan2_40F790() (unused), segments from
+// delta.MaxAbs_48A270() / dword_6FD364, delta.DivideAssign_48A250(segments), cur += delta, mid = cur - prev,
+// mid.DivideAssign_48A250(2), mid += prev, SetFlags_4337D0(2, 20); the function-scope Ang16 is the jitter;
+// dst.SetXY(target) then dst += src. Left (343): stack slot layout (frame 0x5C vs 0x54).
 WIP_FUNC(0x538ac0)
 char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
 {
     ++field_46_sub_state;
+    Ang16 jitter;
     Fix16_Point src;
     Fix16_Point dst;
     Fix16_Point delta;
@@ -418,33 +423,25 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
     Fix16_Point prev;
     Fix16_Point mid;
     gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
-    if (field_46_sub_state != 6 && field_28_pSprite->field_30_sprite_type_enum == sprite_types_enum::code_obj1_4)
+    if (field_46_sub_state != 6 && field_28_pSprite->get_type_416B40() == sprite_types_enum::code_obj1_4)
     {
-        src.x = field_30_pNext->field_14_xy.x;
-        src.y = field_30_pNext->field_14_xy.y;
-        dst.x = field_28_pSprite->field_14_xy.x;
-        dst.y = field_28_pSprite->field_14_xy.y;
+        src.SetXY_432860(field_30_pNext->field_14_xy.x, field_30_pNext->field_14_xy.y);
+        dst.SetXY_432860(field_28_pSprite->field_14_xy.x, field_28_pSprite->field_14_xy.y);
         delta = dst - src;
-        Fix16::atan2_fixed_405320(delta.y, delta.x);
-        Fix16 abs_x = Fix16::Abs_436A50(delta.x);
-        Fix16 abs_y = Fix16::Abs_436A50(delta.y);
-        Fix16 segments = MaxValue_44E540(abs_x, abs_y) / dword_6FD364;
+        Ang16 unused_angle = delta.atan2_40F790();
+        Fix16 segments = delta.MaxAbs_48A270() / dword_6FD364;
 
         if (segments != kFP16Zero_6FD49C)
         {
-            delta.x.DivideAssign_539F90(segments);
-            delta.y.DivideAssign_539F90(segments);
+            delta.DivideAssign_48A250(segments);
             prev = src;
             cur = src;
             for (s32 i = 1; i <= segments.ToInt(); i++)
             {
-                cur.x = prev.x + delta.x;
-                cur.y = prev.y + delta.y;
+                cur += delta;
                 mid = cur - prev;
-                mid.x.DivideAssign_539F90(kFP16Two_6FD4A4);
-                mid.y.DivideAssign_539F90(kFP16Two_6FD4A4);
-                mid.x += prev.x;
-                mid.y += prev.y;
+                mid.DivideAssign_48A250(kFP16Two_6FD4A4);
+                mid += prev;
 
                 Particle_4C* pSegment = gParticle_8_6FD5E8->New_53E3C0(0, 0, 0, 0, 0, 0);
                 if (pSegment)
@@ -457,7 +454,7 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
                     pSegment->field_30_pNext->SetType_4206F0(8);
                     pSegment->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 104);
                     pSegment->field_30_pNext->set_xyz_lazy_420600(mid.x, mid.y, field_30_pNext->field_1C_zpos);
-                    pSegment->field_30_pNext->field_2C_flags = 0xA2;
+                    pSegment->field_30_pNext->SetFlags_4337D0(2, 20);
                     pSegment->field_30_pNext->Set_2C_0x4_Flag_4337F0();
                     gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pSegment->field_30_pNext);
                 }
@@ -465,9 +462,9 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
             }
         }
 
-        Fix16 target_x = field_28_pSprite->field_14_xy.x;
-        Fix16 target_y = field_28_pSprite->field_14_xy.y;
-        Ang16 jitter(&(Fix16(word_6FD5CC.rValue).Multiply_408680(Fix16(gRng_6F6784.get_int_4F7AE0(16) - 8))), 0);
+        Fix16_Point_POD target;
+        target.SetXY_432860(field_28_pSprite->field_14_xy.x, field_28_pSprite->field_14_xy.y);
+        jitter = word_6FD5CC.MultiplyByFix16_401CB0(Fix16(gRng_6F6784.get_int_4F7AE0(16) - 8));
 
         switch (field_46_sub_state)
         {
@@ -493,13 +490,13 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
             }
         }
 
-        dst.x = src.x + target_x;
-        dst.y = src.y + target_y;
+        dst.SetXY_432860(target.x, target.y);
+        dst += src;
 
-        if (field_28_pSprite->field_30_sprite_type_enum == sprite_types_enum::code_obj1_4)
+        if (field_28_pSprite->get_type_416B40() == sprite_types_enum::code_obj1_4)
         {
             field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 163);
-            field_30_pNext->field_2C_flags = 0xA2;
+            field_30_pNext->SetFlags_4337D0(2, 20);
             field_30_pNext->Set_2C_0x4_Flag_4337F0();
             field_30_pNext->set_xyz_lazy_420600(dst.x, dst.y, field_30_pNext->field_1C_zpos);
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
