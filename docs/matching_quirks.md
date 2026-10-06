@@ -217,6 +217,21 @@ More on which copy survives (from `Car_14::SpawnTrafficCar_582480`): when one of
 block starting at a label (an else arm), that copy is dropped and its label retargeted into the other one,
 wherever they are; with both whole, the later copy survives.
 
+Which copy survives can also depend on how the cases leave the switch. In `CarAI_78::sub_44D1D0` the four
+direction cases end with identical probe tails (`mov %eax,0x14(%ecx) ... call FindNearestSpriteOfType; test; jne
+ret; jmp tail`). With `break` VC6 keeps the west copy (the last, the one falling into the code after the switch)
+and jumps the others into it; the original keeps the north copy (the first). Ending every case with `goto tail;`
+(the label on the first statement after the switch, which is where `break` goes anyway) keeps the first copy and
+gave the original's layout in both of its switches (150 -> 16). The same `goto` changed nothing in
+`Car_14::SpawnTrafficCar_582480` (two else-arm copies, no `default: return;` in that switch) or for the two
+`SetGoStraight(); return;` tails of `CarAI_78::sub_44A1F0`, so it is not a general "keep the first copy" switch.
+
+Merging is of the final machine code, so a block that would merge can be kept apart by its exit. In
+`Car_214::sub_5C8780` case 7's ped body is byte for byte case 6's, but ours ends it with a copy of the 2-instruction
+exit block (`mov pSprite,%edi; mov %ebp,0x14(%esi); jmp tail`) while case 6's arm falls into that exit block, and
+the two are then never merged; the original has case 7 as `cmp; jne exit; jmp <case 6 body>`. Changing the body's
+locals (a `pCmd` local in one copy only) moves the registers and only the matching suffix merges.
+
 dupB has a first loop before the copying one: a forward `jmp L`, where the block before `L` ends in a jmp or
 ret, gets the block at `L` (up to its ret or jmp) moved in place of the jump. That is how an exit block ends
 up in the middle of a function with the code after it copying it (`Ped::PunchChar_467FD0`; the unmatched

@@ -2768,3 +2768,46 @@ Scores are `quick_score.sh` lines. No new matches; each target stopped at one of
   before the `and`; ours uses ecx/edx and loads ecx after the push. The first divergence is
   `mov edx,[esi+0x20]` (ours eax) right after the two argument `Fix16(s32)` constructor calls of
   `AdjustPlaybackRate_41A580`. Permuter 400: 118 (noise).
+
+## Car_BC / CarAI_78 big-WIP pass (Oct 6, agent/big2)
+
+Scores are `quick_score.sh` lines (WIP_IMPLEMENTED emptied).
+- `CarAI_78::sub_44D1D0` 150 -> 16 (committed): both probe switches leave through `goto tail_N;` instead of `break`,
+  which makes VC6 keep the north copy of the merged second-probe tail like the original (see matching_quirks,
+  "Which copy survives can also depend on how the cases leave the switch"). Left: the final block has
+  `arrow_idx + 1` in `al` and `arrow_count - 1` in `cl`, ours the reverse (same instructions, `jbe`/`jae`
+  flipped). Tried: both declaration orders, `next > last` / `last < next`, the compare on `field_2F` itself,
+  ternaries, `arrow_idx++; arrow_count--` in place (with and without `u8` casts), expressions instead of
+  locals: all 16-96, `al` always goes to `arrow_count - 1`. `default:` first in the switch (150), a range check
+  instead of `default: return;` (284). Permuter 1000: 12 only by moving the `field_2F = next_idx` store after the
+  if (behaviour change).
+- `Car_214::sub_5C8780` (84): 9.6f 0x4C4FE0 calls `AsCar_40FEB0` in every car case (10.5 folds the type check
+  when no store sits between the compare and the inline, as in case 2), so `pSprite->AsCar_40FEB0()` replaces
+  `field_8_car_bc_ptr` without changing the code. Case 3's car path as if/else with two `GetBasePointer` calls
+  (the original pushes in each arm) plus case 7 written out in full: 96, and with case 5 reading
+  `((Car_18_Cmd*)pEntry->field_0_pScriptCmd)->field_8_idx` directly (no `pCmd` local, which changes its registers
+  so it no longer merges into case 3's else arm): 104 where everything matches except that case 7's body is not
+  merged into case 6's (see matching_quirks). The fallthrough form (current source) hoists the pSprite load above
+  the `jmpl` whatever the case 6 test looks like (`!= ped` first 84, a `switch` on the type 78 with a different
+  jump table, `goto` into case 6's body 75 but AsCharB4 no longer folds). Not committed (84 vs 104, different
+  remaining problems).
+- `CarAI_78::ReactToNearbyCar_451980` (96): the whole diff is one spill choice: the original copies the atan2
+  result into `bp` (`v21`) and spills the `field_0_car` CSE to 0x14(%esp), ours keeps `field_0_car` in `ebp` and
+  `v21` in memory. `Ang16 v21; v21 = atan2(...)` copies the result (`mov (%eax),%ax; mov %ax,slot`) but still to
+  a slot, `v27 = v21 + kAng180` gives the original's `add %bp,%di` form (106 with the spill still wrong). No
+  effect: `v21`/`v26`/`v27` declared at function scope, a `Car_BC* pCar = field_0_car` local after `v21` used
+  for the switch, the turn calls or both (96-106), before the atan2 (180), `v27.rValue = v21.rValue`, an `s16`
+  `v21` (178), `v26`/`v27` initialised then overwritten (216). Permuter 1200: 82 only by inverting the final
+  `v26 < v27` (equivalent) plus a cached switch index; the spill is the same.
+- `CarAI_78::sub_44A1F0` (122): the two `SetGoStraight(); return;` tails. `return;` inside either or both arms
+  (122), SetGoStraight as the fall-through of an inverted test (180), `goto ret_n1;` to a label on the case's
+  `return` from one or both sites (122), the outer `v12 <= A` branch pair swapped (210, changes the layout).
+- `Car_14::SpawnTrafficCar_582480` (8): identical case 1/2 bodies (notes above) keep case 2's -1 block; `goto`
+  instead of `break` in the a2 switch: still 8.
+- `Car_6C::SpawnCarOnRoadNetwork_4458B0` (469, skeleton 0): the corner switch's down_2 -> up_1 merge is already
+  the original's; what is left is register permutation from the start (`dir` in edi vs esi, junction index in
+  bx vs di, FindArrowBlockInJunction's pushes) and the dead-parameter-slot frame. A `goto` out of the corner
+  switch: 482.
+- Not attempted this pass: `HandleCarHitByObject_43F130` (882), `ManageTrafficCarDirection_448CE0` (1897),
+  `UpdateCollisionBurst_state_31_34_53BAC0` (463), `EmitBloodBurst_53E450` (325), `Object_2C::
+  IntegrateHorizontalMovementAndCollisions_524630` (584), `DMA_Video_LoadDll_5EB970` (1034).
