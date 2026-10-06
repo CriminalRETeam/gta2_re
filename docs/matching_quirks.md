@@ -2093,3 +2093,16 @@ both copies. Only a meaningless cast changed it.
   `Fix16_Point` deriving from `Fix16_Point_POD`: the base ctor was a nested site that only got
   `budget / sites_left`. `Fix16_Point` now has its own `x`/`y` (see "Inline calls and EH states")
   and no point ctor goes out of line any more, as in the original.
+
+**A 9.6f getter inline can move `this` to another register.** `UpdateSkidOrScrapeSpark_53A280` had `this` in
+`esi` (original `edi`) and every other callee-saved register swapped with it; reading the car box through
+`get_car_width()`/`get_car_height()` (9.6f 0x48A930/0x48A950) instead of the `Sprite_4C` fields gave the
+original's allocation. When 9.6f shows a small getter call, use the inline even if the field read looks
+identical.
+
+**Constant-in-register threshold.** In `Particle_4C::PoolUpdate_53D260` the original keeps 1 in `bl` for the
+`timer = 1` stores and `return 1`. VC6 counts the byte uses of the constant before merging identical code:
+ours needed 4 more. `-= 1`, `+= 1`, `>= 1`, `(u8)1`, `true` and a `u8 one = 1` local are folded first and count
+nothing; a dword use makes the register constant 32-bit (`mov $1,%ebx`). The missing uses came from the
+frame-delay condition written as `if (a) timer = 1; else if (b) timer = 1;` (VC6 merges the two branches, two
+separate `if`s don't). Same mechanism as the duplicated `b22 = true` store in `Weapon_30::throwable_5DDFC0`.

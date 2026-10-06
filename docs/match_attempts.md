@@ -908,7 +908,7 @@ Still different:
 - Oct 5: 574 lines. The frame is 0x1C too big (scalar temps), and the original passes the `Ang16` sum to
   `AssignNormalized_409300` as a 32-bit temporary.
 
-## Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280 (WIP, was STUB)
+## Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280 (MATCH, see "Particle pass (9.6f unpaired counterparts)")
 
 - 0.161. The spark sits on `field_28_pSprite`:
   - **Car:** the spark goes at a corner of the car's box (half width/height plus constants, sub-states 1–4), rotated by the car's angle. State 40 and 41 use mirrored corners. The id is base + sub_state + 200.
@@ -2279,3 +2279,49 @@ Scores are `sc.sh` lines (VC6 vs 10.5); `sc7` is `sc7.sh` (VC7 vs 9.6f).
 - No change: `Char_B4::UpdateAnimState_546360` (`(u8)` ternary forms; `kAng180 + field_40` load order),
   `HandleCarImpact_5538A0` (zero register in `ebx`), `CarAI_78::sub_44D1D0` (north/east tail keeper),
   `NetPlay::ReceiveGameMessage_521890` (loop forms: `for(;;)` differs from `while(1)`, none closer).
+
+## Particle pass (9.6f unpaired counterparts)
+Scores are `quick_score.sh` lines. `match_96f.json` lacked the 9.6f copies of several Particle functions; found by
+address order and callee overlap: `PoolUpdate_53D260` -> 0x490760, `UpdateObjectBeamLink_538AC0` -> 0x48F230,
+`EmitElectricArcParticle_540320` -> 0x48DDC0, `UpdateSkidOrScrapeSpark_53A280` -> 0x48BEE0 (size 0x38b),
+`UpdateSimpleBallisticMotion_53ABA0` -> 0x48C270, `UpdateLargeBallisticDebris_53AE60` -> 0x48C3E0,
+`UpdateDebrisArc_53B1A0` -> 0x48C590, and probably `UpdateCollisionBurst_53BAC0` -> 0x490130 (size 0x628).
+- `Particle_4C::PoolUpdate_53D260` 112 -> 0 (**MATCH**). The only difference was the constant 1 kept in `bl`
+  (`timer = 1` store and `return 1`) in the four animation cases. VC6 counts the uses of a constant before it
+  merges identical code, and 4 more byte uses were needed (k extra `x = 1` stores: 3 no, 4 yes; a dword use makes
+  it `mov $1,%ebx` instead). `-= 1`, `+= 1`, `x = x - 1`, `>= 1`, `(u8)1`, `true`, a `u8 one = 1` local all count
+  0 (folded first). Writing the frame-delay condition as `if (sub < 6) timer = 1; else if (sub > 10) timer = 1;`
+  adds one store per case and VC6 merges the two branches back: 0. Two separate `if`s don't merge (86).
+  Duplicating whole case bodies per label is not merged either (392/1026). Same trick as
+  `Weapon_30::throwable_5DDFC0`.
+- `Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280` 166 -> 0 (**MATCH**). 9.6f 0x48BEE0 reads the car box
+  through `get_car_width()`/`get_car_height()` (9.6f 0x48A930/0x48A950, `GetW_420740`/`GetH_447E70` inlines)
+  instead of `field_50_car_sprite->field_C_sprite_4c_ptr->field_0_width`; with the inlines `this` goes to `edi`
+  like the original and `half_w` to `esi` (166 -> 66). Then `u8 sub = ++field_46_sub_state;` (66 -> 0): the copy
+  (`dl`) outlives the stored value (`bl`, reused for the angle). With the old register layout the same spelling
+  scored 240, which is why it was rejected before; `s32 sub` keeps 66. `IsDespawning_4215B0()`, an `Ang16 angle`
+  declared after `Remove_477B00` (9.6f default-constructs one there), `corner` declared after the call: no change
+  or worse.
+- `Particle_8::EmitElectricArcParticle_540320` (20, was 12 by the old count): the 9.6f copy (0x48DDC0) has the same
+  shape (`Fix16(s16)` ctor 0x401AE0 for both rng values, `MultiplyByFix16_401CB0` result copied into `angle`,
+  `RotateByAngle_40F6B0(angle)`, `SetFlags_4337D0(2, 20)` for the `0xA2` store, now written that way). Left: the
+  original copies the raw rng result (`mov %eax,%ecx`) and sign-extends it after loading the word
+  (`movswl %cx,%ecx`); ours extends in place and loads the word into `ecx`. `Fix16((s32)rng)`, an `s16`/`s32`
+  helper parameter, `s16 r` local: the register choice becomes right but the `Ang16(Fix16*, 0)` ctor tail changes
+  (product stored before the pushes, 26-42; `regsearch.py`: not a window-limit effect). `Fix16(Ang16(rng).rValue)`
+  gives everything but a 16-bit struct copy `mov %ax,%cx` for the 32-bit `mov %eax,%ecx` (16). Swapping the operand
+  order inside `Fix16::operator*` changes nothing (VC6 canonicalises it). Permuter 600: nothing.
+- `Particle_4C::UpdateAttachedEmitter_state_9_10_53B670` (12): 15 more forms of the jitter block. Both named `Ang16`s
+  pack into one dword in ours as `jitter` 0x12 / `angle` 0x10; the original has the live object in 0x12 and a dead
+  2-byte one in 0x10. `Ang16 angle(a.rValue + jitter.rValue, 0)` (12), `field_0 + jitter` passed as a temporary
+  (165, frame +4), `jitter = Ang16(field_0.rValue + jitter.rValue, 0)` (28-72), `angle` declared first (52, VC6
+  then stores the default ctor's 0), `angle.rValue += ...; Normalize_406C20()` (13, the ctor's inline Normalize
+  copy and the explicit call become different symbols).
+- `Particle_8::EmitBloodBurst_53E450` (325): `inl.sh` shows one inline decision off: `Fix16(word) * Fix16(8)` is
+  inline, the original calls `Multiply_408680`. Through `MulAng16_401CB0(word_6FD5CC, Fix16(8))` (9.6f's shape) it
+  goes out of line but the score gets worse (405). The frame is 0x58 vs 0x68 and the original zeroes a third dword
+  at entry (0x7C) that ours doesn't have; 9.6f (0x48C9C0) counts the loop down (`count = 6; ... while (--count)`)
+  and keeps the two `15` divisors in dword locals (10.5: `edi`), both already the same in ours. Loop forms,
+  `Fix16 zero(0)` locals, `Fix16(0, 0)`, a dead `f64` local: no change.
+- `Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0` (562) and `UpdateObjectBeamLink_state_38_538AC0` (493):
+  not attempted this pass beyond the scores; both have their 9.6f copies now (0x490130?, 0x48F230).

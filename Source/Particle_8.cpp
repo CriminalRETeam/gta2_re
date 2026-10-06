@@ -393,7 +393,7 @@ void Particle_8::EmitElectricArcParticle(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang
             pNew4C->field_30_pNext->set_xyz_lazy_420600(xpos, ypos, zpos);
             pNew4C->field_30_pNext->set_ang_lazy_420690(ang);
             pNew4C->field_30_pNext->set_id_lazy_4206C0(gRng_6F6784.get_int_4F7AE0(4) + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 175);
-            pNew4C->field_30_pNext->field_2C_flags = 0xA2;
+            pNew4C->field_30_pNext->SetFlags_4337D0(2, 20);
             pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
         }
