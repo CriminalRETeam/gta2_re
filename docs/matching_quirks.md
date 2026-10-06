@@ -435,10 +435,21 @@ stores much, so their source order shows in the scheduling. `UpdateCarEngineAudi
 matched once the second sample's stores followed 9.6f exactly (rate, volume, `Fix16(0)`
 distance, pan, type). Earlier `operator=` "barrier" workarounds were no longer needed.
 
+**A call result summed in one expression keeps its own add order.** With `rate = A(x);` in a local and
+`field = rate + adj + B(y);`, VC6 adds `B()`'s result to `rate` first and `adj` last, whatever the grouping
+or operand order. The original of `sound_obj::ProcessType7_Weapon_42A500` holds `B()`'s result in `ecx`,
+adds `adj + rate` in `eax` and then the two: that came from writing it as one expression,
+`field_20_rate = gSampManager.GetPlayBackRateIdx_58DBF0(field_14_samp_idx) + rate_adjust +
+RandomDisplacement_41A650(field_14_samp_idx);` with the `field_58_type = 20` store after it. Reading the
+argument from the just-stored field instead of the `samp_idx` local was also needed: it is what lets VC6
+load `field_14` for the next call (`GetLoopStart`) early, as the original does.
+
 **A dead store can change register allocation.** In `HandlePedVoiceEvent_423080`, a repeated
 `field_58_type = 20;` just before the rate store is deleted by VC6, but the sum then stays in
 edi like the original. Any dead store to the sample works. 9.6f has none, so treat it as a
-last-resort workaround and say so in a comment. It did not help the similar 42A500.
+last-resort workaround and say so in a comment. 423080 itself no longer needs it: the one-expression
+rate form above (`field_20_rate = GetPlayBackRateIdx_58DBF0(field_14_samp_idx) + RandomDisplacement_41A650(...);`
+then the type store) matches without a dead store.
 
 **Write out `RotateVector_41FC90` with an `Ang16&`.** Taking the sprite angle as `Ang16&`
 (not a copy) keeps sin in ebp and spills cos, as in `GetDoorWorldPos_43B420`. Also keep the

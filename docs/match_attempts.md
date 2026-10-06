@@ -1929,3 +1929,46 @@ Scores are `permuter_score.py --structure` (normal score in brackets).
   `mov $3,%ebx`, `pBytes[4]` reloaded after the `pBytes[1]` store), `ShowJunctionIds_588620` (68),
   `sub_469FE0` (48; original keeps 0 in `ebx` and compares call results with `cmp %eax,%ebx`).
 - `SetObjective2_463830` (146), `PickUpCar_47F930` (54): tail duplication class, not retried.
+
+### Near-miss round (Oct 6)
+Scores are `sc.sh` lines. Matched: `ProcessType7_Weapon_42A500` (see matching_quirks.md, "A call result summed
+in one expression"); the same form replaced the dead-store workaround in the matched `HandlePedVoiceEvent_423080`.
+- `TryCreateRoadblockAt_577370` (36 -> 32): the `bRoadblock2Active` local dropped, field read in each arm. Left:
+  the bBothSides arm's `r2.create(3)` should cross-jump into the else arm's copy. Tried `return` after any subset of
+  the creates (32), one shared `r2.create(3)` after the if/else with early returns (50-77, VC6 copies the call back
+  or merges r1's create instead), `PoliceRoadblock_A4*` locals (32-105), a ternary orientation (106). Permuter 1200.
+- `Ambulance_20::UpdateState_4FB330` (2): `HandleObjectiveState` once after the switch with `return` in the other
+  paths (18: the join goes last), `<= 500` + break/return, `++` in the condition, `return` after the state store,
+  no trailing `return`, `default` with break/return: all 2. Permuter 1500.
+- `TagGameHudUpdate_4DADA0` (54): the original never stores 59 to `dword_6F5B74` on the first flash (jump-threaded
+  into the `> 0` test with 59 in `ecx`), so the timer is likely a local (`timer = byte ? dword : 59`), but layout
+  is the gap: the original puts the `if (!byte_6F59C0)` block right after the condition, then the not-flashing
+  block + pager clear, then the rest. Tried: if/else with the rest after (B goes first, 56-211), a `byte_6F59C0`
+  test after the if/else (threaded, 56), inline `IsTimerFlashTime` (54/142), goto (93/211). VC7 (`sc7.sh`, 9.6f has
+  the same layout) puts the first-flash block after the first `||` term with the early-return form (58).
+- `gtx_0x106C::BuildCarInfoContainer_5AA9A0` (8): 9.6f has `mov %edx,%eax` before the `lea 1(%eax,%eax)`, a
+  conversion on the door count; static inline `DoorsLen` helpers (u8/s32/u32/u16 params and returns), `s16`/`u8`
+  casts, `u16`/`s16`/`s32` `off`/length types, `remap[num_remaps]` indexing: all 8 or 76+ (`this` moves to `ebp`).
+- `DrawPlayerStatsHelper_5D61A0` (10): `s32 width` puts width in `ebp`, which has no byte register, so it is loaded
+  through `ecx` (32); separate assign, `-width + base`, `base -= width`, `s32 x_offset`, field read without the
+  getter: 26-44. Permuter 1100 found nothing natural.
+- `PoliceCrew_38::State6_ShutDown_574720` (46): `u8 i = 0` at the top in every spelling (`char_type`, assign,
+  `i++`) gives the `ebp` zero register (128).
+- `frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0` (52): the original's `test %ecx; jbe` before the second loop is a
+  rotated `while (total < tableSize)`, not `if (tableSize) do {} while`, and the empty-table store reuses eax from
+  the memset; a `while` gives the shape but shifts registers (94; VC7 76). The dead `(len + 9) & ~1` in the first
+  loop is also in 9.6f; an unused aligned-length local is removed (52).
+- `sound_obj::ProcessOtherObjects_41F520` (30): the vol 50 else-if of case 18 jumps into case 19/20's else-if tail
+  at `sample_index = 1` in the original (so its own `bLoop = 0` stays). All six orders of its first three stores:
+  only the current one cross-jumps (from `bLoop`), the others don't merge at all (34-43).
+- `sound_obj::ProcessPoliceRadioWordsPlayback_427220` (4): a volatile read (`*(volatile s32*)&field_552C[cur]`)
+  puts the `cmp` before the load like the original but loses the stack store (24); volatile on both: 4. Uses
+  folded away later (`old - old`, `old * 0`, `*p = *p`, `old != old`) lose the store (40).
+- `sound_obj::HandleCarTireScrubSound_418720` (4): `Fix16& speed = call()` (8), `Fix16 speed = call() /= max` (worse).
+- `sound_obj::TrainCab_414710` (6): store only in the if branch + `= pTrainStation` in the else (10), early returns
+  for the two checks (6), no `pDriver` local (22), a `pCar` local (10).
+- `menu_option_0x82::SelectPrevHorizontalIdx_4B6390` (4): `u16&`/`u16*` to the field for the loop compare (28),
+  `(s16)` casts on either side (4-50), a `bool` flag (4), comparing against the field at the end (28). VC7 also CSEs.
+- `keybrd_0x204::GetLayout_4D6000` (4): swapped byte stores (12), `u32 v2`, a `char*` to `pwszKLID[6]`, `u16` copy
+  (26), `strncpy`/`memcpy` (26-28), an inline returning the buffer as the sscanf argument, a comma expression: 4.
+- `Frontend::DrawCredits_4B7AE0` (20): a Duff-style shared tail for cases 0/1 (98), store order swap (20).

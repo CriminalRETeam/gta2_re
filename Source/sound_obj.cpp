@@ -2046,15 +2046,12 @@ void sound_obj::AppendRadioMessageSuffix_4273B0()
     field_5521_radio_word = (field_5521_radio_word + 1) % 13;
 }
 
-WIP_FUNC(0x42A500)
+MATCH_FUNC(0x42A500)
 void sound_obj::ProcessType7_Weapon_42A500(s32 idx)
 {
-    WIP_IMPLEMENTED;
-
     Weapon_30* pWeapon; // ecx
     char weapon_f2C; // al
     s32 samp_idx; // edi
-    int rate; // edi
     char bSetF30; // al
     u8 vol; // [esp+Ch] [ebp-Ch]
     int rate_adjust; // [esp+10h] [ebp-8h]
@@ -2140,9 +2137,12 @@ void sound_obj::ProcessType7_Weapon_42A500(s32 idx)
                         this->field_30_sQueueSample.field_14_samp_idx = samp_idx;
                         this->field_30_sQueueSample.field_54_sound_intensity = Fix16(20) / Fix16(2);
                         this->field_30_sQueueSample.field_64_max_distance = 20;
-                        rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(samp_idx);
+                        // One expression: VC6 calls GetPlayBackRateIdx first and adds rate_adjust to it after
+                        // the RandomDisplacement call
+                        this->field_30_sQueueSample.field_20_rate =
+                            gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(this->field_30_sQueueSample.field_14_samp_idx) + rate_adjust +
+                            RandomDisplacement_41A650(this->field_30_sQueueSample.field_14_samp_idx);
                         this->field_30_sQueueSample.field_58_type = 20;
-                        this->field_30_sQueueSample.field_20_rate = rate + rate_adjust + RandomDisplacement_41A650(this->field_30_sQueueSample.field_14_samp_idx);
                         this->field_30_sQueueSample.field_3C_speed_multiplier = 0;
                         this->field_30_sQueueSample.field_4_SampleIndex = 0;
                         this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 4;
@@ -4687,13 +4687,9 @@ void sound_obj::HandlePedVoiceEvent_423080(Sound_Params_8* a2)
             field_30_sQueueSample.field_54_sound_intensity = Fix16(0x24000, 0);
             field_30_sQueueSample.field_60_nEmittingVolume = vol;
             field_30_sQueueSample.field_64_max_distance = 18;
-            s32 rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(samp);
-            rate += RandomDisplacement_41A650(field_30_sQueueSample.field_14_samp_idx);
-            // The repeated type store is dropped as dead, but it makes VC6 keep the sum in
-            // edi (add %eax,%edi) and free eax for the zero stores, as in the original.
-            // Any dead store to the sample here does the same.
-            field_30_sQueueSample.field_58_type = 20;
-            field_30_sQueueSample.field_20_rate = rate;
+            field_30_sQueueSample.field_20_rate =
+                gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(field_30_sQueueSample.field_14_samp_idx) +
+                RandomDisplacement_41A650(field_30_sQueueSample.field_14_samp_idx);
             field_30_sQueueSample.field_58_type = 20;
             field_30_sQueueSample.field_3C_speed_multiplier = 0;
             field_30_sQueueSample.field_4_SampleIndex = 2;
