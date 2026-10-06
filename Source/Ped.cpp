@@ -3182,11 +3182,9 @@ void Ped::TaxiCustomer_AI_460820()
     }
 }
 
-WIP_FUNC(0x461290)
+MATCH_FUNC(0x461290)
 void Ped::BusCustomer_AI_461290()
 {
-    WIP_IMPLEMENTED;
-
     Car_BC* pCar_;
 
     if (this->field_25C_internal_objective == 2 && this->field_226_internal_objective_status == 1)
@@ -3199,9 +3197,14 @@ void Ped::BusCustomer_AI_461290()
         case objectives_enum::leave_train_38:
             if (this->field_225_objective_status != objective_status::not_finished_0)
             {
-                goto LABEL_21;
+                this->SetField238_403920(ped_type::dummy_3);
+                SetOccupation_45EE00(3);
+                SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                SetObjective(objectives_enum::flee_on_foot_till_safe_1, 9999);
+                this->field_1B8_target_x = this->field_1AC_cam.x;
+                this->field_1BC_target_y = this->field_1AC_cam.y;
             }
-            if (this->field_150_target_objective_car->IsDespawning_4215B0())
+            else if (this->field_150_target_objective_car->IsDespawning_4215B0())
             {
                 Kill_46F9D0();
             }
@@ -3215,8 +3218,7 @@ void Ped::BusCustomer_AI_461290()
                     gNumberBusCustomers_6787D3 = 0;
                 }
                 Car_BC* pCar = this->field_16C_car;
-                Ped* field_54_driver = pCar->field_54_driver;
-                if (field_54_driver && field_54_driver->field_15C_player)
+                if (pCar->is_driven_by_player())
                 {
                     gPublicTransport_181C_6FF1D4->IncrementBusPassengerCount_579B10();
                     SetObjective(objectives_enum::time_waited_in_car_31, 0);
@@ -3235,8 +3237,8 @@ void Ped::BusCustomer_AI_461290()
                     pTargetCar->sub_43AF40();
                     SetObjective(objectives_enum::no_obj_0, 9999);
                     SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                    this->field_240_occupation = ped_ocupation_enum::dummy;
-                    this->field_238_ped_type = ped_type::dummy_3;
+                    this->set_occupation_403970(3);
+                    this->SetField238_403920(ped_type::dummy_3);
                 }
                 else
                 {
@@ -3247,27 +3249,27 @@ void Ped::BusCustomer_AI_461290()
 
         case objectives_enum::time_waited_in_car_31:
             pCar_ = this->field_16C_car;
-            goto LABEL_23;
+            if (pCar_->IsDespawning_4215B0())
+            {
+                pCar_->field_4_passengers_list.RemovePed_471240(this);
+                Kill_46F9D0();
+            }
+            break;
 
         case objectives_enum::objective_34:
             if (this->field_25C_internal_objective == 36 && this->field_226_internal_objective_status == 1)
             {
-            LABEL_21:
-                this->field_238_ped_type = ped_type::dummy_3;
+                this->SetField238_403920(ped_type::dummy_3);
                 SetOccupation_45EE00(3);
                 SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                 SetObjective(objectives_enum::flee_on_foot_till_safe_1, 9999);
-                Fix16 x = this->field_1AC_cam.x;
-                this->field_1B8_target_x = x;
+                this->field_1B8_target_x = this->field_1AC_cam.x;
                 this->field_1BC_target_y = this->field_1AC_cam.y;
-                break;
             }
-
-            pCar_ = this->field_16C_car;
-            if (pCar_)
+            else
             {
-            LABEL_23:
-                if (pCar_->IsDespawning_4215B0())
+                pCar_ = this->field_16C_car;
+                if (pCar_ && pCar_->IsDespawning_4215B0())
                 {
                     pCar_->field_4_passengers_list.RemovePed_471240(this);
                     Kill_46F9D0();
