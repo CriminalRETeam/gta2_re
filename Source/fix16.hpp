@@ -164,6 +164,10 @@ class Fix16
         return mValue / 16384.0f;
     }
 
+    // 9.6f 0x410BA0, defined in CarPhysics_B0.cpp (AsDouble with the parentheses of the original: each
+    // pair is a no-op node for VC6's x87 scheduler, see Scripts/x87_sched/README.md)
+    inline f64 to_float_410BA0() const;
+
     inline f64 AsDouble() const
     {
         return mValue / 16384.0;

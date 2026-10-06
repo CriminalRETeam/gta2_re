@@ -613,22 +613,6 @@ Still different:
 - The search loops end with `jb top` in ours; the original has `jae <shared return>;
   jmp top` and the "found" block right after case 0's loop (case 1 jumps back to it).
 
-## CarPhysics_B0::ShowPhysicsDebug_559430 (WIP, was STUB)
-
-Debug text for the car physics (CM/CP, velocities, theta, mass, skids with highlighted
-text past the thresholds, surface). Ratio 0.991.
-
-- `swprintf(..., CalculateMass_559FF0().AsDouble())` inline in the argument list: VC6 then
-  stores the double to its own slot before pushing it, like the original. A named `f64`
-  shares the slot with the returned `Fix16` and the frame is 4 bytes smaller (0.955).
-- The highlighted lines keep `DisplayText_5D1F50`'s returned `Garox_C4*` and set
-  `field_B0_drawKind = 8; field_B4 = 5`.
-
-Still different: where VC6 puts `lea 0x818(%eax),%ecx` (the `field_650` this pointer) for two
-of the `DisplayText_5D1F50` calls: before the pushes for the "theta" line in the original
-(ours after), after them for the "front skid" line (ours before). Declaring `pText` at
-the top didn't change it. The format string at 0x623FFC is not in `widechar.csv`, guessed.
-
 ## Sprite::ShowId_59EB30 (WIP, was STUB)
 
 Debug ids drawn at a sprite's screen position: car ids, ped ids and `model:id` for objects.

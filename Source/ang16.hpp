@@ -97,6 +97,9 @@ class Ang16
         return Ang16(rValue - other.rValue, 0);
     }
 
+    // 9.6f 0x49E240, defined in CarPhysics_B0.cpp
+    inline wchar_t* ThetaText_49E240();
+
     Ang16 operator-()
     {
         return Ang16(-rValue, 0);

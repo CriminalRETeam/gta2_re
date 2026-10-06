@@ -116,6 +116,15 @@ called out of line (0x453590) in the first case and inlined in the second. So wi
 switch, the case order is a free knob for inline problems (check the cut-offs with
 `Scripts/inline_budget/inl.sh`).
 
+**Match against 9.6f first, then fix the x87 windows.** `CarPhysics_B0::ShowPhysicsDebug_559430` was 8 lines
+off (a `lea 0x818(%eax),%ecx` placed before or after the `DisplayText_5D1F50` pushes). 9.6f showed the theta
+text helper is an `Ang16` member (thiscall), which gave a 9.6f score of 0. `regsearch.py` then said window 2
+was 17 nodes short: each `Fix16`-to-double conversion is the 9.6f member `to_float_410BA0` with doubled
+parentheses (`return ((mValue / 16384.0));`, two no-op nodes per call, 8 calls), plus one pair around the
+theta text's `(rValue * 0.25)`. Since VC7 ignores the parentheses, 9.6f settles the calls and VC6's window
+breaks settle the parentheses. Both helpers are declared in the shared header and defined in the .cpp,
+which changed no other function.
+
 **One shared `return true` block comes from nesting, not early returns.** In an EH-frame
 function VC6 gives every `return` its own epilogue copy. If several failure checks in the
 original all `je` to one `mov $1,%al` epilogue, nest the success path and put one `return true`
