@@ -1492,11 +1492,10 @@ Fix16 Ped::get_fieldC_45C9B0()
     return field_15C_player->field_C_move_direction;
 }
 
-WIP_FUNC(0x45c9d0)
+// 9.6f 0x43E3A0
+MATCH_FUNC(0x45c9d0)
 Ang16 Ped::ComputeAimAngle_45C9D0()
 {
-    WIP_IMPLEMENTED;
-
     if (IsField238_45EDE0(2))
     {
         Ped* pNearest = gThreateningPedsList_678468.FindClosestPedInViewCone_4713C0(this->field_1AC_cam.x,
@@ -1516,19 +1515,16 @@ Ang16 Ped::ComputeAimAngle_45C9D0()
             best = FindNearestPed_Mode4_466F40(3u);
         }
 
-        // A local stored once after the if/else: the join is then big enough that VC6 doesn't
-        // copy the return tail into the atan2 branch (14 -> 12)
-        Ang16 angle;
+        // field_130 stored in each arm, as 9.6f does; the 21-byte return tail is jumped to, not copied
         if (best)
         {
-            angle = Fix16::atan2_fixed_405320(best->field_1AC_cam.y - field_1AC_cam.y,
-                                              best->field_1AC_cam.x - field_1AC_cam.x);
+            field_130 = Fix16::atan2_fixed_405320(best->field_1AC_cam.y - field_1AC_cam.y,
+                                                  best->field_1AC_cam.x - field_1AC_cam.x);
         }
         else
         {
-            angle = field_12C;
+            field_130 = field_12C;
         }
-        field_130 = angle;
     }
     return field_130;
 }
