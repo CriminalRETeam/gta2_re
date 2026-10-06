@@ -2275,7 +2275,7 @@ Fix16 CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce
     {
         NewImpulse = Impulse;
 
-        if (field_5C_pCar->field_78_flags & 0x800)
+        if (field_5C_pCar->IsFlagSet_411930(0x800))
         {
             if (!field_5C_pCar->is_driven_by_player())
             {
@@ -2289,7 +2289,7 @@ Fix16 CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce
 
         field_5C_pCar->ApplyVisualDamage_43A9F0();
 
-        if (!(field_5C_pCar->field_78_flags & 2))
+        if (!field_5C_pCar->IsFlagSet_411930(2))
         {
             ApplyForceWithTrailerRedirect_55F740(&PointOfForce, &NewImpulse);
             AddDamage_49EF50(base_dmg);
@@ -2298,9 +2298,7 @@ Fix16 CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce
             {
                 ClearHandBrake_421260();
             }
-            return ImpulseIntensity;
         }
-        return ImpulseIntensity;
     }
     return ImpulseIntensity;
 }
