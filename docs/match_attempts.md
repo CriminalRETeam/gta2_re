@@ -2674,3 +2674,35 @@ Scores are `quick_score.sh` lines.
   old)`: store dropped (40). `volatile u32`: 4.
 - `miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180`: `find_96f_counterparts.py` finds no convincing 9.6f pair (best
   0.5 on a 139-byte function), so no 9.6f shape to follow.
+## CarPhysics_B0 / big-WIP pass (Oct 6, 9.6f-guided)
+Scores are `quick_score.sh` lines. Matched: `ApplyImpactForcesAndDamage_55FA60` (179 -> 0), `ComputeLineLineIntersection_55F3B0`
+(68 -> 0), `ProcessGroundCollisionAndSurfaceType_55B970` (210 -> 0); see their commits and the new quirks entries.
+- `Garage_48::ParkCarAtDoor_534700` (116): 9.6f 0x489BC0 confirms the shape (one `w` value stored to two locals,
+  `Fix16(char)` ctors, `SetXY_432860` storing x then y, `Fix16(y) - (d + w1)` for the double door) and has an
+  aligned 0x134 frame (one hidden-return slot per out-of-line operator). Left: the case bodies compute y, then x
+  with the constant loaded into the x register (`mov k,%ebx; lea (%ecx,%ebx),%edi; ...; add %edx,%ebx`), ours
+  interleaves them with ebx/edi swapped, and the prologue pushes `&field_38` before the inlined
+  IsLongerThanOneBlock compare. A block scope around y/z/w1/w2/switch, `field_44 = 0` first, `255 == field_3E`,
+  a `bool bLong = field_40` local: 116-120 each and combined. Permuter 730: 70, only with regrouped sums
+  (`w1 + Fix16(y) + k`, `Fix16(y) + (k + w1)`) that fix the prologue as a side effect; not applied.
+- `PedGroup::MergeWithOtherGroup_4C9B60` (104): 9.6f 0x404EF0 has the same first loop as 10.5 (the list pointer
+  spilled to pPed's slot, `i` homed at 0x10, pPed in edi) so it is register priority, not a source form: ours
+  gives the strength-reduced pointer edi and reloads pPed. The second loop already matches (pOther/pTarget take the
+  registers). `pOther = pPed->field_164_ped_group` before the test (126/132, pPed then lives in eax only),
+  `field_30 = 1` before the branch (122). Permuter 1500: 78 only by re-reading `field_4_ped_list[i]` for the first
+  GetBit2 (changes the `test k,%eax` into `testl k,mem`; rejected).
+- `NetPlay::ReceiveGameMessage_521890` (168): the original reloads pOut/pPlayerIdx from their slots in the loop and
+  keeps the `timeGetTime` import in edi for the two calls at the loop end (`mov __imp__,%edi; call *%edi` twice);
+  ours hoists the two parameters into ebp/edi and calls through memory. Our build does CSE the import when a
+  register is free (`NetPlay 0x51ED00`), so again register priority. Permuter 650: 130, only by deleting the
+  `sub_521820` call (rejected).
+- `Object_2C::HandleSpriteZCollision_5238B0` (146): the `field_50 == 1` arm. 9.6f 0x4843A0 lays the slope path's
+  `cmp $1; je` out to the non-slope `*a5 = 1; z = 0; speed = 0` block (VC7 merged the identical blocks) and the
+  `!= 1` arm (`cmp $4`, default) right before the final CheckSpriteMovementRegion. In 10.5 the then-arm is a
+  separate inline copy that stores `*a5` from `al` (eax == 1 after the compare), which keeps it from merging with
+  the non-slope copy; ours merges the two copies (22 bytes + jmp, over the 20-byte merge limit) and so inverts
+  the branch. `switch (field_50)` in three case orders (164), `s32`/`u8 v15` locals for field_50 (146/148),
+  `*a5 = field_8->field_50` (168: `mov %cl,%dl; mov %dl,(%eax)` and only the tail merges), `*a5 = true` (146).
+- `Car_214::sub_5C8780` (84): reviewed only (see the earlier entries): ours loads pSprite into eax before the
+  `jmpl` (and `lea -1(%eax)` instead of `dec`), case 3's car branch is tail-merged into case 5 and its
+  GetBasePointer argument is one push after a ternary where the original pushes in each arm.

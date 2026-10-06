@@ -654,6 +654,25 @@ back from its stack slot, use a named local in its own block; it gets built in a
 (`Object_2C::NewObj3C_528130`). If it reads it through eax, write `T x; x = call();` or pass the
 temporary to an inline taking `const T&`; a `const T&` local doesn't work (`HandleWorldCollision_55FD00`).
 
+**`Fix16::Abs` and `operator*` have the same inline size (57), so a GetLength budget cut-off that rejects both Abs
+but inlines the first multiply can't come from the plain inline**: `ApplyImpactForcesAndDamage_55FA60` calls
+`Abs_436A50` twice and inlines `x * x` (nested budget 61). A file-local copy with explicit `Abs_436A50` calls and the
+natural `x * x + y * y` / `SquareRoot` gives it (`CarPhysics_B0.cpp`, `GetLength_AbsOutOfLine_41E260`).
+
+**An inlined helper's `u8` return read back and widened.** `movb $N,0x14(%esp); jmp join` per return plus
+`mov 0x14(%esp),%eax; and $0xFF,%eax; cmp $5,%eax` at the join means the result went into an `s32` local
+(`s32 v28 = inline_returning_u8(...)`): the byte temp is re-read and zero-extended, and the stores to the `s32`
+field need no `and` (`ProcessGroundCollisionAndSurfaceType_55B970`). With a `u8` local VC6 compares `al`
+directly and keeps `mov $7,%al; mov %al,mem`.
+
+**A `this` loaded early into a callee-saved register before an inlined call's arguments** (`mov gMap,%edi; ...;
+mov %edi,%ecx; call get_block`) means the inlined helper is a method of that object, not a static taking the
+global inside (`Map_0x370::GetBlockSurfaceType_49EBE0`, 9.6f calls it with gMap in ecx).
+
+**Where an unused `Fix16_Point` (EH state only) is declared moves the `xor` of the zero register.** Declared after
+the first pointer load, the `xor %edi,%edi` that feeds the EH state init and a `= 0` local stays after the loads;
+declared first or after the stores it is scheduled right after `push %edi` (`55B970`, found by the permuter).
+
 **Some TUs inline GetLength with their own zero constant** and their own mix of out-of-line
 Negate/Abs/Multiply/Add; give them file-local helpers (`Object_2C::SetMovementVector_5224E0`, 528130).
 
