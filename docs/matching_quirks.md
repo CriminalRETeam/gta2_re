@@ -2134,3 +2134,17 @@ ours needed 4 more. `-= 1`, `+= 1`, `>= 1`, `(u8)1`, `true` and a `u8 one = 1` l
 nothing; a dword use makes the register constant 32-bit (`mov $1,%ebx`). The missing uses came from the
 frame-delay condition written as `if (a) timer = 1; else if (b) timer = 1;` (VC6 merges the two branches, two
 separate `if`s don't). Same mechanism as the duplicated `b22 = true` store in `Weapon_30::throwable_5DDFC0`.
+
+**A parameter's dead stack slot as an output argument.** `CarPhysics_B0::UpdateZPhysics_55AD90` has a one-slot
+frame (`push ecx`) but needs two addressable dwords for `ComputeSlopeCorrection_55AB50(&x, &y)`. The original
+loads the `Fix16 a2` parameter into `ebp` at entry and reuses its stack slot for the second output. Source:
+`Fix16 a2_ = a2;` at the top (every later use through `a2_`) and `&a2` as the output; a separate local gets a
+new slot and the parameter is then only loaded lazily. 9.6f (VC7) shows a plain local there, so this is VC6
+slot reuse, not the original's variable. Check the frame size (`sub`/`push ecx`) against the number of
+address-taken locals before adding locals.
+
+**A 9.6f static helper must stay a class static.** 9.6f 0x42A630 (`GetFracValue`) is called with a hidden
+return and the value by reference. Written as a file-local `static inline Fix16 __stdcall f(const Fix16&)` it
+gave VC7 a different register allocation for the whole function (426 vs 66 lines); as
+`static Fix16 Fix16::GetFracValue_42A630(const Fix16&)` the 9.6f code matched. Declare it in the header and
+define it in the .cpp that needs it.

@@ -2359,3 +2359,36 @@ Scores are `quick_score.sh` lines. `DrawGradientSlopeNorthwards_4F0420` 399 -> 0
   register instead of a spill slot (frame 0x24 vs 0x20), the lights block's tail duplicated into the loop
   init, the first inlined `AddToDrawList` storing y through the `lea`'d pointer. Indexed stores in the
   helper (746) and `Fix16(gZCoord_6F63E0)`/`Fix16(gZCoordTop_6F62B0)` for the z factors (728) are worse.
+
+## Police_38 / CarPhysics_B0 pass (9.6f first)
+Scores are `quick_score.sh` lines (10.5) and `permuter_score.py --96f` lines (VC7 vs 9.6f).
+- `CarPhysics_B0::UpdateZPhysics_55AD90` 84 -> 0 (**MATCH**), 9.6f 258 -> 24 first. 9.6f 0x4A2240 settled:
+  `field_6C_cp3` read directly everywhere (no `cp3` copies, no reference: a function-scope `Fix16&` hoists the
+  `lea` in VC7), `g_ZPos_6FE0AC * a2` (global as left operand), `pCar->IsFlagSet_411930(0x2000)`, the slope test
+  as `!(slope && frac != 0 && zpos <= cp3 + k)` (9.6f calls `not_equals` then `<=`), `GetFracValue` as the 9.6f
+  static `Fix16::GetFracValue_42A630(const Fix16&)` (a file-local static with the same body changed VC7's register
+  allocation: it has to be a class member), and `ComputeSlopeCorrection_55AB50` with two real outputs: the old
+  code overwrote the parameter. For 10.5 the parameter is `Fix16 a2_ = a2` at the top (so it lives in `ebp` from
+  entry) and its dead stack slot is the second output (`&a2`), giving the original's single `push ecx` frame.
+- `PoliceCrew_38::State6_ShutDown_574720` (46, 9.6f 78 -> 0 with `u8 i = 0` at the top and
+  `get_objective_403A80()` for the first objective test; the getter is applied, same 10.5 code). With the index at
+  the top VC6 makes `ebp` a zero register (128). Probing it: changing any one of the zero stores (`i = 0`,
+  `field_60 = 0`, `field_28_state = 0`, `gCurrentCrewPed = NULL`, either `byte_6FEB48 = 0`) to a non-zero value
+  removes `xor ebp,ebp`; the enum zeros pushed to `SetObjective*` and the `char_type field_29 = 0` store don't
+  count; a zero store inside an inlined helper still counts; `bool`/`char_type` typing of `byte_6FEB48`, `true`,
+  `!= NULL`, `while` loop, inverted if/else, statement order: no change. So the original has one zero store fewer
+  in VC6's count with the same code; not found. A dead `u8 x = 0` at the top is eliminated.
+- `PoliceCrew_38::State5_PursueOrChase_572920` (275, 9.6f 73): the 9.6f gap is only VC7 keeping the kill-char
+  `status == 2` SetObjective pair as the surviving copy (ours jumps to obj_28's copy at the end); 10.5 keeps that
+  copy too (case 12/51 and 28 jump into kill-char at 0x4ba). The 10.5 diff is the `MaxAbsDistance` cut-off:
+  the original inlines Abs(dx) with its negate, calls `Negate_4086A0` for Abs(dy) and `Max_44E540`; ours sends
+  both negates out of line. `inlsim --scan`: +144 caller size, or exactly one top-level inline site fewer after
+  the MaxAbs call (nested budget 5166/18 = 287 vs 271). All 18 later sites are 9.6f calls, so none can be a
+  field access. `pPed = gCurrentCrewPed_6FEDDC` reassignments (folded, no change), `pPed->SetObjective2` in the
+  pair (198/446), inverted `if (!criminal)` or a ternary for `field_8` (292/290, 9.6f worse).
+- `ComputeLineLineIntersection_55F3B0` (68, 9.6f 520): the natural 9.6f form (operators, `DotProductInlined`,
+  `Square_49E0E0`, `Dir * (vel / mass)`) scores 470 against 9.6f and 348 against 10.5: 9.6f's `IsNull` returns
+  `int` (0x420360, `test %eax`), its `DotProduct_49E500` is a static with two by-reference points and a hidden
+  return, and the sums are evaluated right operand first. Not finished.
+- `PoliceRoadblock_A4::CreateRoadblock_575FF0` (435), `ApplyImpactForcesAndDamage_55FA60` (179),
+  `ProcessGroundCollisionAndSurfaceType_55B970` (210): not attempted.
