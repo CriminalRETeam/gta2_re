@@ -2261,15 +2261,34 @@ void CarPhysics_B0::ApplyImpulseWithTrailerRedirect_55FA10(Fix16_Point* a2)
     }
 }
 
+// GetLength_41E260 as inlined into ApplyImpactForcesAndDamage_55FA60: both Abs are called out of line
+// (Abs_436A50) although the first multiply is inlined, which the plain inline can't give (Abs and operator*
+// have the same front-end size, 57).
+static inline Fix16 GetLength_AbsOutOfLine_41E260(Fix16_Point& p)
+{
+    if (p.x == FIX16_POINT_ZERO)
+    {
+        return Fix16::Abs_436A50(p.y);
+    }
+    else
+    {
+        if (p.y == FIX16_POINT_ZERO)
+        {
+            return Fix16::Abs_436A50(p.x);
+        }
+        else
+        {
+            return Fix16::SquareRoot(p.x * p.x + p.y * p.y);
+        }
+    }
+}
+
 // https://decomp.me/scratch/TSKLx
-WIP_FUNC(0x55fa60)
+MATCH_FUNC(0x55fa60)
 Fix16 CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce, Fix16_Point& Impulse, s32 base_dmg)
 {
-    WIP_IMPLEMENTED;
-
     Fix16_Point NewImpulse;
-    Fix16 ImpulseIntensity;
-    ImpulseIntensity = Impulse.GetLength_41E260();
+    Fix16 ImpulseIntensity = GetLength_AbsOutOfLine_41E260(Impulse);
 
     if ((ImpulseIntensity / CalculateMass_559FF0()) > dword_6FE37C)
     {
