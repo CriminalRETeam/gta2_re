@@ -191,29 +191,29 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
     point.SetXY_432860(-v12, -v13);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[0].x = (point.x + x_pos).ToFloat();
-    gQuadVerts_706B88.field_0_verts[0].y = (point.y + y_pos).ToFloat();
+    gQuadVerts_706B88.field_0_verts[0].x = (x_pos + point.x).ToFloat();
+    gQuadVerts_706B88.field_0_verts[0].y = (y_pos + point.y).ToFloat();
     gQuadVerts_706B88.field_0_verts[0].z = 0.000099999997f;
 
     point.SetXY_432860(v12, -v13);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[1].x = (point.x + x_pos).ToFloat();
-    gQuadVerts_706B88.field_0_verts[1].y = (point.y + y_pos).ToFloat();
+    gQuadVerts_706B88.field_0_verts[1].x = (x_pos + point.x).ToFloat();
+    gQuadVerts_706B88.field_0_verts[1].y = (y_pos + point.y).ToFloat();
     gQuadVerts_706B88.field_0_verts[1].z = 0.000099999997f;
 
     point.SetXY_432860(v12, v13);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[2].x = (point.x + x_pos).ToFloat();
-    gQuadVerts_706B88.field_0_verts[2].y = (point.y + y_pos).ToFloat();
+    gQuadVerts_706B88.field_0_verts[2].x = (x_pos + point.x).ToFloat();
+    gQuadVerts_706B88.field_0_verts[2].y = (y_pos + point.y).ToFloat();
     gQuadVerts_706B88.field_0_verts[2].z = 0.000099999997f;
 
     point.SetXY_432860(-v12, v13);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[3].x = (point.x + x_pos).ToFloat();
-    gQuadVerts_706B88.field_0_verts[3].y = (point.y + y_pos).ToFloat();
+    gQuadVerts_706B88.field_0_verts[3].x = (x_pos + point.x).ToFloat();
+    gQuadVerts_706B88.field_0_verts[3].y = (y_pos + point.y).ToFloat();
 
     //  u & v, with z interleaved (as in DrawTexture_5D8470)
 
@@ -275,53 +275,54 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
 {
     Fix16_Point point;
     u32 flags;
-    if (scale != kFpOne_706A6C || (flags = 0x10000, rotation != kAngZero_706C3C))
+    Fix16 v12;
+    Fix16 v13;
+    if (scale == kFpOne_706A6C && rotation == kAngZero_706C3C)
+    {
+        flags = 0x10000;
+    }
+    else
     {
         flags = 0;
     }
 
-    Fix16 v12 = (Fix16(width) / 2) * scale;
-    Fix16 v13 = (Fix16(height) / 2) * scale;
+    v12 = (Fix16(width) / 2) * scale;
+    v13 = (Fix16(height) / 2) * scale;
 
     // point 1
 
-    // Raw negates: two fewer inline expansions keep the Fix16_Point ctor inline (inline budget)
-    point.x.mValue = -v12.mValue;
-    point.y.mValue = -v13.mValue;
+    point.SetXY_432860(-v12, -v13);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[0].x = (point.x + x_pos).ToFloat();
-    gQuadVerts_706B88.field_0_verts[0].y = (point.y + y_pos).ToFloat();
+    gQuadVerts_706B88.field_0_verts[0].x = (x_pos + point.x).ToFloat();
+    gQuadVerts_706B88.field_0_verts[0].y = (y_pos + point.y).ToFloat();
     gQuadVerts_706B88.field_0_verts[0].z = 0.000099999997f;
 
     // point 2
 
-    point.x = v12;
-    point.y = -v13;
+    point.SetXY_432860(v12, -v13);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[1].x = (point.x + x_pos).ToFloat();
-    gQuadVerts_706B88.field_0_verts[1].y = (point.y + y_pos).ToFloat();
+    gQuadVerts_706B88.field_0_verts[1].x = (x_pos + point.x).ToFloat();
+    gQuadVerts_706B88.field_0_verts[1].y = (y_pos + point.y).ToFloat();
     gQuadVerts_706B88.field_0_verts[1].z = 0.000099999997f;
 
     // point 3
 
-    point.x = v12;
-    point.y = v13;
+    point.SetXY_432860(v12, v13);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[2].x = (point.x + x_pos).ToFloat();
-    gQuadVerts_706B88.field_0_verts[2].y = (point.y + y_pos).ToFloat();
+    gQuadVerts_706B88.field_0_verts[2].x = (x_pos + point.x).ToFloat();
+    gQuadVerts_706B88.field_0_verts[2].y = (y_pos + point.y).ToFloat();
     gQuadVerts_706B88.field_0_verts[2].z = 0.000099999997f;
 
     // point 4
 
-    point.y = v13;
-    point.x = -v12;
+    point.SetXY_432860(-v12, v13);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[3].x = (point.x + x_pos).ToFloat();
-    gQuadVerts_706B88.field_0_verts[3].y = (point.y + y_pos).ToFloat();
+    gQuadVerts_706B88.field_0_verts[3].x = (x_pos + point.x).ToFloat();
+    gQuadVerts_706B88.field_0_verts[3].y = (y_pos + point.y).ToFloat();
     // u & v, with z interleaved (store order found by the permuter)
     gQuadVerts_706B88.field_0_verts[0].u = 0.0;
     gQuadVerts_706B88.field_0_verts[0].v = 0.0;

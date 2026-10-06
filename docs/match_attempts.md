@@ -2143,7 +2143,13 @@ Scores are `sc.sh` lines.
   went away with `sprite_w`/`sprite_h` declared before `cur_xpos`. Parens in the `Fix16(f32)` ctor body,
   an `f32` local for the argument, `(0.0f)` zero stores, swapped sum operands or a `right` local: no
   effect or worse.
-- `DrawTexture_5D8470` (68): regsearch best 19 (its metric) at limit 78 in every window, so it is not
+- `DrawTexture_5D8470` (78, Oct 6): its 9.6f copy is the unpaired 0x4CBDB0 (right after DrawFigure's 0x4CBA50).
+  The 9.6f shape: `if (scale == one && rotation == zero) flags = 0x10000; else flags = 0;`, the half sizes assigned
+  into locals, `point.SetXY_432860(+-v12, +-v13)` for the corners, `(x_pos + point.x).ToFloat()`. That scores 12
+  against 9.6f (from 361; only the u/v/z store order and the `a9` load) and replaces the raw-negate inline-budget
+  hack, but 10.5 goes 68 -> 78: everything left is x87/integer interleaving and regsearch's best is 17 (2 nodes
+  per window), so not only the window breaks.
+- `DrawTexture_5D8470` (68, older): regsearch best 19 (its metric) at limit 78 in every window, so it is not
   only the window breaks: the first `RotateByAngle` push order and vertex 1/2 load placement also
   differ. Greedy over 0-2 parens on each vertex `ToFloat()`, u/v and the `[3].z` store position: best
   21 (from 28; stack offsets ignored). The natural `[3].z` order (z right after y) scores 74.
