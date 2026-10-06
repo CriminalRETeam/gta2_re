@@ -2499,3 +2499,23 @@ Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 
   `AttackTargetStateMachine_46D460` 46 / 307, `StartCrossingRoad_45E4A0` 414 / 166, `IsPedAThreat_465D00` 142 / 604,
   `Car_BC::HandleCarHitByObject_43F130` 882, `Car_214::sub_5C8780` 84 / 422, `SpawnCarOnRoadNetwork_4458B0` 469 / 855.
 
+## Weapon_30.cpp / sprite.cpp / Ped.cpp helper-variant pass (Oct 6)
+- `Sprite::Draw_59EFF0` (104; 9.6f 0x4BE060 388): 9.6f calls all three helpers as functions (`sub_4BA4D0` x4,
+  `sub_4B9BC0` x2, `sub_4B9C70` x1), so they existed. `ProjectWorldPointToScreen_4BA4D0` compiled with VC7 against
+  9.6f 0x4BA4D0: the body is the same (VC7 keeps the reciprocal in a temp either way; an explicit `f32 z` local
+  changes nothing for VC7 and makes 10.5 worse, 158). 9.6f passes `zpos` on the stack (`ret $4`, `lea 0x18(%esp)`
+  before its ToFloat) with the other two arguments in registers, so the original took `Fix16 zpos` by value: the
+  helper's 9.6f diff goes 74 -> 62 (frame and VC7's register convention left), Draw's 10.5 score stays 104. So
+  the remaining 10.5 difference is only the x87 window problem already documented.
+- `Weapon_30::sub_5DE4F0` (222) has no 9.6f counterpart: 9.6f 0x4CE970 (throwable, 0x5CC bytes) runs straight into
+  0x4CEF40 (sub_5DF270), so the electro-baton beam code between `throwable_5DDFC0` and `sub_5DF270` is new in 10.5.
+- `Ped::sub_4645B0` (266; 9.6f 0x436BF0 842): 9.6f calls `PolarToCartesian_41FC20` x4 (cross-jumped from the
+  per-case sites), `compound_add_41FA70` x13, `angle_plus_40E5A0` once (case 2 is `angle = kAng180 + angle`) and
+  `ctor_40E590` once. The real `Ang16::PolarToCartesian_41FC20` at every site: 10.5 409 / 9.6f 487; plus
+  `operator+` in case 2: 892 / 475; `angle = rotation; angle += kAng180;` for the first assignment: 612 / 846.
+  The per-site variants encode the 10.5 inline budget (inl.sh: Normalize goes out of line at nested budget
+  52-63 and inline at 67+), so this needs the budget tools, not shape changes.
+- `Weapon_30::fire_truck_gun_5E0E70` (10): unchanged, no 9.6f pair (the function is new in 10.5 or renamed).
+- `Ped::HandlePedHitByObject_45D000` scores 137 after the merge (74 before; the merged fix16/ang16 header changes
+  moved the inlined IsPedAThreat code).
+
