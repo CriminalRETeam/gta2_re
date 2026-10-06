@@ -296,7 +296,8 @@ DEFINE_GLOBAL_ARRAY_INIT(
         "data\\frontend\\Credits.tga" COMMA 614444 COMMA 0} COMMA {"data\\frontend\\Mask3.tga" COMMA 130427 COMMA 0} COMMA {
         "data\\frontend\\DemoInfo.tga" COMMA 614939 COMMA 0});
 
-// This function matches but Write_4D9620 from ErrorLog class is crashing standalone on exe boot
+// This function matches with the Write_4D9620 call below, but that call (ErrorLog class) crashes the
+// standalone exe on boot. Kept as WIP on purpose (maintainer decision): do not re-enable it to promote.
 WIP_FUNC(0x5D9910)
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma)
 {
