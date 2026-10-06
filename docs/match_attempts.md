@@ -2706,3 +2706,65 @@ Scores are `quick_score.sh` lines. Matched: `ApplyImpactForcesAndDamage_55FA60` 
 - `Car_214::sub_5C8780` (84): reviewed only (see the earlier entries): ours loads pSprite into eax before the
   `jmpl` (and `lea -1(%eax)` instead of `dec`), case 3's car branch is tail-merged into case 5 and its
   GetBasePointer argument is one push after a ternary where the original pushes in each arm.
+### Mid-list pass 2 (Oct 6, Fable worker: sound_obj / Ped / Police_38 WIPs)
+Scores are `quick_score.sh` lines. No new matches; each target stopped at one of the mechanisms below.
+- **Duplicate whole blocks: VC6 keeps the later copy, the original keeps the earlier one.**
+  `Ped::AttackTargetStateMachine_46D460` (46) and `PoliceCrew_38::State5_PursueOrChase_572920` (275) both have
+  two identical blocks (`b11 = false; ret` in the inner `else` and the else-if's `else`; the
+  `SetObjective2(0,9999); SetObjective(0,9999); break` pair in the kill_char `status == 2` test and in
+  `case objective_28`). The original lays the block out at the *first* site, as the fall-through of its test,
+  and the second site jumps backward into it (`jmp 0x4BA`, `je 0x5e9`). Ours keeps the second site and the
+  first jumps forward. Probes (switch cases in/out of a loop, nested if/else, `break` inside or after the
+  if, member calls on a global) always make VC6 keep the later copy; a `goto` to a label in the first block
+  makes VC6 float the labelled block to the second site anyway (same code). Negating either `state != 15`
+  test, an early-return form, or an inner `if (dist >= half) ... else if ...` chain change far more (66-376).
+  In 9.6f (VC7, 0x4ac580) objective_52's else-pair jumps *forward* into the kill_char pair, so the kill_char
+  block is a merge target there too. Unexplained; the only probe where the earlier block survived was a later
+  duplicate that is a whole `case` body entered straight from the jump table (p2 in the scratch probes).
+- `State5_PursueOrChase_572920`: besides the pair placement, the original inlines the first nested
+  `Negate` of `MaxAbsDistance` (`neg %eax`) and calls the second and `Max_44E540`, frame 0x20 instead of our
+  0x24. `inlsim.py --scan`: caller size +144..+300 gives exactly that; padding the function with 80 `(void)0;`
+  confirms it (everything but the pair block then matches). So the original source has about 150-300 more
+  front-end size units than ours while compiling to the same VC7 code (9.6f score 73, only the pair block and
+  a 1-byte shift differ). Not found: a `switch` on `GetObjectiveStatus()` for the 1/2 tests swaps ebx/ebp.
+- `sound_obj::HandleCarTireScrubSound_418720` (4): after `GetCarLinearSpeed_43A240` the original keeps the
+  returned pointer in ecx, loads `gCarInfo_48->field_28_max_speed` (cltd) and only then derefs `(%ecx)`; ours
+  derefs first. `speed = call(); speed /= max`, `speed = speed / max`, `(speed / max)` in the Round argument,
+  `speed *= ...` as a statement: all 4. `Fix16 speed = call()` (NRVO) reads the stack slot (8); `call() / max`
+  in one expression evaluates `&max` before the call and keeps it in a register (114).
+- `sound_obj::Type_10_HandleCarSkidSound_418940` (108): whole function identical up to register roles: the
+  original has a2 in esi, pPhysics in ebx, the first-division temp in edi and `push edi` after the switch;
+  ours a2 in ebx, pPhysics in edi and `lea esi,[ecx+0x28]` (the address of `max_speed` CSE'd across the
+  GetCarLinearSpeed call; the original reloads `gCarInfo_48`). 9.6f (0x414bc0, paired with
+  `add_96f_target.py 418940=414bc0`) shows getters for field_9C/AC/84/88, `Fix16(6000) * (speed / max)` and
+  `Fix16(6000) * max(front, rear)` written in each branch with the multiply tail-merged; that shape in VC6
+  moves the stack slots (148). `Fix16 speed = call(); speed / max` variants: 122 (reads the local).
+- `sound_obj::ProcessOtherObjects_41F520` (4): only case 13/14's `max_distance`/`calc_distance` store order.
+  The TODO in the source was wrong: with the original order both full blocks still exist; what changes is
+  the cross-jump pairing. The original has fire -> case 4/12 at its `movb 0x32` (7 instructions shared) and
+  rocket -> case 13/14 at `movb 1,0x13(%esp)`; ours sends fire to 13/14's `xor bl,bl` (6 shared). Disabling
+  rocket's merge (different release_mod) still sends fire to 13/14, so VC6 here picks the *last* identical
+  block regardless of match length; swapping the two cases in the source swaps the layout (4 again). Dword
+  stores moved after the inner switch (with gotos), `default:` placement, `Fix16(7)`/`.mValue` spellings:
+  no effect (28-199). Permuter 500: 4 (the case swap).
+- `Ped::GotoAreaByAnyMeans_469060` (30): 9.6f (0x43c480) calls `get_cam_y`/`get_cam_x` on
+  `field_14C_internal_target_ped` for the kill_char `MaxAbsDistance`, and with the getters that site matches
+  (the original computes dy first). But the two getter temporaries flip the whole register allocation: the
+  zero register moves from ebx to ebp, `mov $4,%dl` for the b2 bit test disappears and gDistanceToTarget /
+  kFpFour are no longer kept in ebp/edi (348). `Ped* pTarget` local, getters on `this` too, `Fix16(...)`
+  copies instead of getters: 348-352; a getter for only x or only y: 836-890. The two remaining
+  `cmp %bl,%al` (ours `test %al,%al`) after `FindNearbyTileMatchingSlopeType_5552B0` are not the return
+  type (`u8` instead of `bool` changes nothing); 9.6f also uses `test`.
+- `Ped::HandlePedHitByObject_45D000` (137): the one real diff is the first `IsRespectNegativeForPlayer`
+  site in the inlined `IsPedAThreat_Inline_465D00`: the original spills `field_2E_idx` through
+  `[esp+0x20]` (the `flag` slot) at both sites. A `u8 player_idx` local at the first site too gives both
+  spills, but then the two sites get each other's register pattern (`edx/al` vs `eax/cl`, gang pointer
+  loaded before or after the push) and `sub_4614E0(...) <= kFpOne` puts the result in ecx instead of eax, a
+  1-byte encoding difference that shifts every later jump (203). `pMyGang->` at one site (237), `!= 0` / `!`
+  spellings (203), a `Fix16 dist` local for the compare reads the slot (139), getters for `this` coords
+  (179), permuter 400 (171, an s8 cast and an extern switch: noise).
+- `sound_obj::ProcessActiveQueues_41AB80` (131): all register choice around three `gSampManager` calls:
+  the original uses eax for the `u8 j` reload (`and eax,0xFF`, 1 byte shorter) and loads `ecx = gSampManager`
+  before the `and`; ours uses ecx/edx and loads ecx after the push. The first divergence is
+  `mov edx,[esi+0x20]` (ours eax) right after the two argument `Fix16(s32)` constructor calls of
+  `AdjustPlaybackRate_41A580`. Permuter 400: 118 (noise).
