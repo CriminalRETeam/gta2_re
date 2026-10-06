@@ -351,12 +351,9 @@ void jolly_poitras_0x2BC0::LoadPlySlotDat_56B990(u16 slotIdx)
     File::Global_Close_4A70C0();
 }
 
-// TODO: only the "len = 126" store and the outer loop counter init are swapped
-WIP_FUNC(0x56BA60)
+MATCH_FUNC(0x56BA60)
 void jolly_poitras_0x2BC0::SavePlySlotDat_56BA60(s16 slotIdx)
 {
-    WIP_IMPLEMENTED;
-
     char_type FileName[356];
     size_t len;
 
@@ -366,8 +363,10 @@ void jolly_poitras_0x2BC0::SavePlySlotDat_56BA60(s16 slotIdx)
     memcpy(this,
            field_26A0_plyr_stats[(u16)slotIdx].field_90_strPlayerName,
            sizeof(field_26A0_plyr_stats[0].field_90_strPlayerName));
-    len = 126;
+    len = sizeof(field_26A0_plyr_stats[0].field_90_strPlayerName);
 
+    // len is accumulated like in SaveHiScores_56BF20: VC6 folds its final value (126) into one store
+    // that it emits after the loop counter init, which a plain "len = 126" never does.
     u8* pDst = reinterpret_cast<u8*>(this) + sizeof(field_26A0_plyr_stats[0].field_90_strPlayerName);
     for (s32 k = 0; k < 3; k++)
     {
@@ -375,10 +374,13 @@ void jolly_poitras_0x2BC0::SavePlySlotDat_56BA60(s16 slotIdx)
         {
             *pDst = field_26A0_plyr_stats[(u16)slotIdx].field_0_plyr_stage_stats[k][j].field_0_is_stage_unlocked;
             pDst++;
+            len++;
             *reinterpret_cast<u32*>(pDst) = field_26A0_plyr_stats[(u16)slotIdx].field_0_plyr_stage_stats[k][j].field_4_stage_best_score;
             pDst += 4;
+            len += 4;
             *reinterpret_cast<s32*>(pDst) = field_26A0_plyr_stats[(u16)slotIdx].field_0_plyr_stage_stats[k][j].field_8_stage_latest_score;
             pDst += 4;
+            len += 4;
         }
     }
 
