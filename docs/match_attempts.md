@@ -2913,3 +2913,50 @@ Scores are `quick_score.sh` lines.
   declared in the loop, and `padResult` hoisted: 134-148, so the slot sharing is VC6's, not the source's.
 - `eager_benz::OnPedKilled_592660` (77), `GetNextRotationToward_550F60` (164, per-case ax/cx/dx rotation),
   `Draw_4F6A20`, `DrawRightSide_4EAF40` (125), `draw_bottom_4ED290` (123): looked at only.
+
+## Fresh pass (Oct 6): DrawBackground, LoadStringTbl, STORE_CAR_INFO, the Particle/Object/Car big three
+
+Scores are `quick_score.sh` lines. Matched: `Frontend::DrawBackground_4B6E10` (72 -> 0, see the new tail-merge
+entry in matching_quirks.md). The 9.6f copy (0x453020) showed the way: it ends with `mov %eax,8(%esp)`, the last
+right-hand blit's result stored into the slot that was passed as the second out pointer of
+`GetTgaIdxsForMenuScreen_4B6B00`. So the second "tga index" is a dword local (`(BYTE*)&ret`, read as `(u8)ret`)
+that also takes that blit result, and a read of it (`if (ret == -10) { }`) follows. VC6 drops the store after
+the tail merge, so the two retry blits stay apart; without the read the store is dead early and the tails merge.
+Tried before finding it: an `s32` return type with `return blit()` on one side and a discarded call on the other
+(24: breaks the merge, but then `blitRet` needs a register), assign-then-return on either side (72), a volatile
+store (20), the dword local without the read (72).
+
+- `frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0` (52): still the dead `(len + 9) & ~1` in `edi` in the first
+  loop and the register/slot swap that goes with it. 9.6f (0x475D30, VC7 /Ob0) has the very same dead `and`, so
+  it is in the source and both compilers fail to remove it. VC7 does not inline `__forceinline` under /Ob0
+  (checked), so it is not a helper. Spellings that VC6 removes completely: `aligned = len & ~1` with the local in
+  or out of the loop, `len &= ~1` after the uses, `(void)`, comma, `switch (x) { default: }`, folded reads after
+  the loop (`if (a == 0) {}`, `a != a`, `a - a`, `a == 0 && a != 0`, `+= 0 * a`), a `str_count` reused as scratch,
+  `volatile` (50: a store). What VC6 keeps: a dead loop-carried accumulator `x += len & ~1` (56, `and $0xFE,%al;
+  add %eax,%edi`) or `p += len & ~1` on a pointer (46): the `and` stays but so does the `add`, and with that
+  third loop variable the pointer and total take the original's ecx/edx. The second loop as a rotated `while`
+  (the original's `test %ecx,%ecx; jbe` on the zero-extended size) still shifts the registers (94).
+- `miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180` 121 -> 102 (committed). The original's `this` for both
+  `ReassignAllocatedCarType_443EE0(8)` calls is the value just stored to `gStoredCar` (`mov 8(%ebx),%ecx; ... mov
+  %ecx,gStoredCar; ... call` in the inner block, `mov %eax,%ecx` from `pCar` in the else), so both are written
+  `gStoredCar_6F7560->Reassign(8)` and VC6 forwards the store; `pParam2->field_8_car->Reassign(8)` reloads. The
+  operand order `pCar != gStoredCar` (not `gStoredCar != pCar`) is worth 23 lines on its own. Left, all register
+  allocation: `pCar` is loaded into `ecx` (original: `mov 0x16C(%eax),%eax`, reusing `pChar`'s register) and
+  `four` is folded into immediates (original `mov $4,%edi`). The permuter's "improvements" (76, 52, 50) are a
+  wrong store order in the else branch (it loses the original's reload of `pParam2->field_8_car` after the
+  `gStoredCar` store) or deleted statements; they do show that the `pParam2->field_8_car = pCar` store is what
+  makes `pCar` outrank `gStoredCar` for `eax`/`ecx`, and that the else-branch reload is what makes VC6 fold
+  `four` (with `gStoredCarId = pCar->field_6C` instead, `four` is in `edi` and ebx/esi/edi are the original's).
+  No `pChar` local, nested `if`s, hoisted declarations, `four` declared one or two scopes out, `pParam2->field_8_car`
+  instead of `pCar` in the compare (forwarded, identical asm): no change. No 9.6f pair.
+- `Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0` (463): the diff is stack slots and one allocation
+  choice. The original keeps `max_sub_state` in `bl` (`mov $0xC,%bl` at its first use, `cmp %bl,%al`, `mov
+  %bl,0x46(%esi)`) and spills `pCar` (stored at entry and at the switch, reloaded from 0x20 for the late
+  `else if (pCar)` reads); ours keeps `pCar` in `ebx` throughout and puts `max_sub_state` in a byte slot.
+  Removing the late `pCar` reads (diagnostic only) gives `bl` to `max_sub_state`, so it is a weight decision.
+  `max_sub_state` declared at the top: 453, but the 12 is then stored to memory at entry. 9.6f copy registered:
+  0x490130 (`add_96f_target.py 53BAC0=490130`); it also stores both `pB4` and `pCar` at entry (VC7), and has two
+  `Ang16` default ctors at the top (`angle` and one more). Not finished.
+- `Object_2C::IntegrateHorizontalMovementAndCollisions_524630` (584) and `Car_BC::HandleCarHitByObject_43F130`
+  (882): scored and looked at only; both differ in register assignment from the first block (`this` in edi vs
+  ebx, the zero register) and need a rewrite rather than tweaks.

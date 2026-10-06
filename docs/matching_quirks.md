@@ -855,6 +855,21 @@ constructors once out-of-line Fix16 conversions appeared in the function; `__for
 inlined velocity regulators with different arguments were merged into one tail by VC6; passing the argument by
 reference (`RegulateVelocityByRef_433970`) kept them separate like the original.
 
+**A dead store VC6 drops late keeps two tails apart.** The tail merge compares the instruction streams
+after register allocation; a store to a memory local that only a later, folded compare reads is still there
+then and is removed afterwards, so the two blocks differ when they are compared. `Frontend::DrawBackground_4B6E10`:
+the second `GetTgaIdxsForMenuScreen_4B6B00` out param is a dword local (passed as `(BYTE*)&ret`, read as
+`(u8)ret`) that also takes the last right-hand blit's result, followed by `if (ret == -10) { }`. Without the
+store and the read VC6 merged the two retry blits into one tail (72 lines); with them the function matches and
+no store is left in the code. 9.6f (VC7) keeps the store, which is how it was found. A register local
+(`s32 r = blit(); if (r == -10) {}`) is folded before the merge and changes nothing; so does making one call's
+result used (`return blit()`) and the other's not, which breaks the merge but costs a register for the value.
+
+**VC6 keeps a dead loop-carried accumulator.** `x += len & ~1;` in a loop with `x` never read keeps both the
+`and` and the `add` (and a pointer `p += len & ~1` likewise), where a plain dead `x = len & ~1`, declared in or
+out of the loop, volatile or not, is removed (`LoadStringTbl_5121E0` experiments). A third live loop variable
+also swaps which of ecx/edx the pointer and the running total get.
+
 **Normalize out of line from inline depth, not budget.** `ang + k` through `Ang16::operator+` leaves `Normalize` out of
 line (operator+ -> ctor -> Normalize is too deep); the ctor form `Ang16(a.rValue + k.rValue, 0)` inlines it
 (`Wolfy_30::state_13_14_5411E0`). To force the rotation operators out of line, write `Multiply_408680`/`Negate_4086A0`
@@ -2107,10 +2122,6 @@ does (`get_rdtsc_5BEE90`). Emitting the whole instruction as bytes loses those s
 
 These came up more than once and nothing tried so far reproduces them. Notes on what was
 tried are in the WIP status report.
-
-**VC6 merges identical tails the original keeps separate.** The reverse of the cross-case tail merging:
-in `Frontend::DrawBackground_4B6E10` the two final retry blits share one tail in ours, but the original has
-both copies. Only a meaningless cast changed it.
 
 - Identical code merged across `switch` cases, with one case jumping into another's block (`push $2; jmp`)
   where ours duplicates it (`Map_0x370` 0x4E6190 and 0x4E5E90; case order, default, ternaries, if chains and
