@@ -1300,10 +1300,14 @@ char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
         {
             if (field_2C_counter > 40)
             {
-                Ang16 angle = Ang16::Fix16_To_Ang16_40F540(Fix16((gRng_6F6784.get_int_4F7AE0(8) - 4) / 2));
+                // The jitter assigned (not initialised) and added to a copy of the sprite angle gives the
+                // original's load/add/store (Left: its slot is 0x10, the original's 0x12)
+                Ang16 jitter;
+                jitter = Ang16::Fix16_To_Ang16_40F540(Fix16((gRng_6F6784.get_int_4F7AE0(8) - 4) / 2));
                 {
                     Fix16 radius = dword_6FD540 * dword_6FD4A8;
-                    angle += field_28_pSprite->field_0;
+                    Ang16 angle = field_28_pSprite->field_0;
+                    angle += jitter;
                     Ang16::PolarToCartesian_41FC20(angle, radius, offset.x, offset.y);
                 }
                 field_30_pNext->SetFlags_4337D0(1, 10);

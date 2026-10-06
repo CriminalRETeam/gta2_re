@@ -1972,3 +1972,45 @@ in one expression"); the same form replaced the dead-store workaround in the mat
 - `keybrd_0x204::GetLayout_4D6000` (4): swapped byte stores (12), `u32 v2`, a `char*` to `pwszKLID[6]`, `u16` copy
   (26), `strncpy`/`memcpy` (26-28), an inline returning the buffer as the sscanf argument, a comma expression: 4.
 - `Frontend::DrawCredits_4B7AE0` (20): a Duff-style shared tail for cases 0/1 (98), store order swap (20).
+
+### Near-miss pass (after the Fix16_Point split)
+Scores are `sc.sh` lines. No new matches.
+- `Orca_2FD4::ComputePath_554AB0` 12 -> 8: `new_z` loaded first in the `abs < 1` branch (so the two branches
+  don't both start with the `ypos` load, which VC6 hoisted above the `jge`), `t = ypos` first in the else
+  branch (keeps `new_z` in `dl`). Left: in both branches the original stores `field_1B` before the second
+  load; every order that does that (dir first, `t` after dir, `t` in the old `field_4_zpos` char) swaps
+  `al`/`dl` for `new_z` and the switch index (82). Permuter 980 iterations from 8: nothing.
+- `Particle_4C::UpdateAttachedEmitter_state_9_10_53B670` 61 -> 43: `Ang16 jitter; jitter = Fix16_To_Ang16(...)`,
+  then `Ang16 angle = sprite->field_0; angle += jitter;` gives the original's load/add/store. Left: that slot
+  is 0x10 (original 0x12, a dead 2-byte object below it), and the `<= 40` block's `zpos +=` (VC6 schedules
+  the zpos load above the flags store, so no cross-jump into the 41..59 copy). `zpos = zpos + d`, `d + zpos`,
+  `mValue +=`, an address-taken zpos: no change.
+- `CarAI_78::sub_44AF00` (9): the only call difference is the 6th `PolarToCartesian` (else switch, west_4):
+  the original calls 0x408680 for its cos product, as for the first five; written as `PolarToCartesian` VC6
+  inlines both products there (nested budget 142, needs < 114). `inlsim --scan` gives exactly the original's
+  6 out-of-line products for caller size -415..-472, or with >= 7 extra free sites after that site. Writing
+  the 13 `Ang16(a - b).Normalized_406C20()` as `Ang16` operator+/- (ctor -> Normalize two levels down) gives
+  exactly the original's 13 out-of-line / 2 inline Normalizes AND the 6 products with caller size +70..+212,
+  but every operator form computes the sum in 32 bits (`mov mem,%edx; sub`, original `sub mem,%dx`): (s16)
+  cast, s16 local, const method, by-value param, `(s32,s32,s32)` ctor, `.Normalized_406C20()` inside the
+  operator all 32-bit. Only the top-level `Ang16(int)` form is 16-bit. Getters in the set_xyz args give the
+  right count but change the tail merges (294).
+- `CarAI_78::sub_452060` (32): `zpos_` uninitialised (258), the `v7` block removed (126), cos/sin order (210),
+  `Fix16 c = cos; c.Multiply(v7)` / assigned v7 (32). Permuter 500: nothing.
+- `Weapon_30::fire_truck_gun_5E0E70` (10): moving the function (and its globals) to the top of the TU, an
+  `EXTERN` `word_706DFA`, `Ang16(...).Normalized_406C20()`, `AddNormalized`, `operator+`, no turret local,
+  a `Sprite*` local: all 10 or worse. Permuter 800: nothing.
+- `Map_0x370::sub_4E6660` (4): `sub_4E65A0` parameter types s32/char, char/s32, u8/bool, s32/s32 change
+  nothing; `pPrev = pBlock` after the call caches 1 in `ebx` (48), before `dist +=` / the `get_block`/the
+  `SetRoadBlockAt` (82-94).
+- `Particle_4C::UpdateCircularBurst_state_5_539890` (8): cases 4/5 both `set_id; dir.x = 0; dir.y = ...`
+  (73: case 5 is then exactly the original's, but case 4 is scheduled `mov $0xE,%ecx` first and not merged),
+  `dir.y` before `dir.x` (69), mixed orders (73/94), case 5 before 4 (77/126).
+- `Ped::ComputeAimAngle_45C9D0` (12): per-branch `field_130` stores (14, tail copied into the atan2 branch).
+- `CarAI_78::sub_448770` (38): `!(a && b ...)`, `||` of the negated tests, `pBlock_____ = 0` before the
+  get_block: same IL, no change.
+- `Wolfy_7A8::sub_543690` (12): the in-loop return as `smallestVal_idx = last_idx/next_idx; break;` (88/68).
+- `Car_214::sub_5C8780` (84): `field_30_sprite_type_enum` / swapped compare in case 1 do not stop the pSprite
+  load being hoisted above the jump table.
+- `Car_14::SpawnTrafficCar_582480` (8): six other if/else and statement orders for cases 1/2: 142-176.
+- `PedGroup::sub_4C8E60`: still the `_$E` atexit thunk, not reachable from source.
