@@ -2430,11 +2430,11 @@ char_type Char_B4::ContinueMovementAfterCollision_54B8F0()
     WIP_IMPLEMENTED;
     Fix16 x_vec;
     Fix16 y_vec = kFP16Zero_6FD9E4;
-    volatile char_type bMoved = false;
     if (field_10_char_state == Char_B4_state::Jumping_15)
     {
         return 1;
     }
+    volatile char_type bMoved = false;
 
     if (field_18_collided_entity)
     {
