@@ -1710,6 +1710,11 @@ Frame and stack slots:
   shape but the wrong register, 82); the else branch's store order (reading `field_4` late gives an
   `eax`/`edx` swap, 82; the original's else-branch order gives the instruction order but `new_z` in `al`,
   not `dl`, 78).
+- `Hud_Arrow_7C::UpdateScreenPos_5D0850` (86, Oct 6): its 9.6f copy is the unpaired 0x4C7FC0 (between the
+  counterparts of 0x5D0620 and 0x5D0C90). It calls exactly the helpers our source uses (vec_len, get_camera,
+  sine/cosine, ProjectWorldToScreen_Hud 0x4B90E0), in the same order, so it does not show where the 66..103
+  missing caller-size units are. The plain `GetLength_41E260` gives the original's out-of-line Abs/Multiply/
+  Add/SquareRoot but then the projection's operators stay inline (195): 9.6f 302 -> 212.
 - `Hud_Arrow_7C::UpdateScreenPos_5D0850`: a static inline `GetLength` with a return per branch puts the
   results in one slot but pushes the `Fix16_Point_POD` ctor, one `+` and one `/` out of line (189 vs 304).
 - `DrawTexture_5D8470` (76 -> 68): `rotation.rValue` brings the point ctor inline but the last `+` goes out of
