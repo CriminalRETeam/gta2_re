@@ -292,8 +292,8 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
     point.SetXY_432860(-v12, -v13);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[0].x = (x_pos + point.x).ToFloat();
-    gQuadVerts_706B88.field_0_verts[0].y = (y_pos + point.y).ToFloat();
+    gQuadVerts_706B88.field_0_verts[0].x = ((x_pos + point.x).ToFloat());
+    gQuadVerts_706B88.field_0_verts[0].y = ((y_pos + point.y).ToFloat());
     gQuadVerts_706B88.field_0_verts[0].z = 0.000099999997f;
 
     // point 2
@@ -301,8 +301,8 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
     point.SetXY_432860(v12, -v13);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[1].x = (x_pos + point.x).ToFloat();
-    gQuadVerts_706B88.field_0_verts[1].y = (y_pos + point.y).ToFloat();
+    gQuadVerts_706B88.field_0_verts[1].x = ((x_pos + point.x).ToFloat());
+    gQuadVerts_706B88.field_0_verts[1].y = ((y_pos + point.y).ToFloat());
     gQuadVerts_706B88.field_0_verts[1].z = 0.000099999997f;
 
     // point 3
@@ -310,8 +310,8 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
     point.SetXY_432860(v12, v13);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[2].x = (x_pos + point.x).ToFloat();
-    gQuadVerts_706B88.field_0_verts[2].y = (y_pos + point.y).ToFloat();
+    gQuadVerts_706B88.field_0_verts[2].x = ((x_pos + point.x).ToFloat());
+    gQuadVerts_706B88.field_0_verts[2].y = ((y_pos + point.y).ToFloat());
     gQuadVerts_706B88.field_0_verts[2].z = 0.000099999997f;
 
     // point 4
@@ -319,12 +319,12 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
     point.SetXY_432860(-v12, v13);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[3].x = (x_pos + point.x).ToFloat();
-    gQuadVerts_706B88.field_0_verts[3].y = (y_pos + point.y).ToFloat();
+    gQuadVerts_706B88.field_0_verts[3].x = ((x_pos + point.x).ToFloat());
+    gQuadVerts_706B88.field_0_verts[3].y = ((y_pos + point.y).ToFloat());
+    gQuadVerts_706B88.field_0_verts[3].z = 0.000099999997f;
     // u & v, with z interleaved (store order found by the permuter)
     gQuadVerts_706B88.field_0_verts[0].u = 0.0;
     gQuadVerts_706B88.field_0_verts[0].v = 0.0;
-    gQuadVerts_706B88.field_0_verts[3].z = 0.000099999997f;
     gQuadVerts_706B88.field_0_verts[1].v = 0.0;
     gQuadVerts_706B88.field_0_verts[3].u = 0.0;
 
