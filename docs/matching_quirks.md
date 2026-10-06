@@ -552,6 +552,16 @@ unrelated statement above it: `const s32& polys_drawn = pGlobals[0];` instead of
 `s32 polys_drawn = pGlobals[0];` defers that load, which frees the register the sum needs.
 The permuter's `ref_local` pass found it (exhaustive, depth 1).
 
+**A `const T&` local flips which operand of a `u8 - u8` loop bound is loaded first.** In
+`Map_0x370::sub_4E8370` every `pNew->field_0_height - pNew->field_1_offset` loop bound loaded height first
+(`mov (%edx),%bl; mov 1(%edx),%al; sub %eax,%ebx`) where the original loads offset first into the scratch
+register (`mov 1(%edx),%bl; mov (%edx),%al; sub %ebx,%eax`), with VC6 and VC7 agreeing on both. Casts, swapped
+compares, `i + offset < height` and inline getters change nothing; any `const T&` local in scope does
+(`const u8& new_height = pColumn->field_0_height` used for the stores, or a conversion temporary such as
+`const s32& idx = u32_field`), two of them cancel, and the effect is limited to the block the reference is
+declared in (a function-scope one also flipped a later loop that was already right). See the `const T&` entries
+above for the same mechanism moving loads and slots.
+
 **Both calls run, first result kept: `b = f(); b |= g();`.** When the original calls both
 helpers and keeps the first result in a byte register, `f() || g()` short-circuits and a single
 `f() | g()` defers the first compare. Two statements match (`Sprite::ShrinkSprite_59E390`).

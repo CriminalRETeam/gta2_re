@@ -2811,3 +2811,54 @@ Scores are `quick_score.sh` lines (WIP_IMPLEMENTED emptied).
 - Not attempted this pass: `HandleCarHitByObject_43F130` (882), `ManageTrafficCarDirection_448CE0` (1897),
   `UpdateCollisionBurst_state_31_34_53BAC0` (463), `EmitBloodBurst_53E450` (325), `Object_2C::
   IntegrateHorizontalMovementAndCollisions_524630` (584), `DMA_Video_LoadDll_5EB970` (1034).
+### Far-list pass (Oct 6, Fable worker: map_0x370 / Frontend / TrafficLights / PublicTransport / Ped WIPs)
+Scores are `quick_score.sh` lines (10.5) and `--96f` lines (9.6f, VC7). Baseline 3294, one improvement, no new match.
+- `Map_0x370::sub_4E8370` 104 -> 8 (committed). Two source changes, both confirmed with VC7 against 9.6f
+  0x463C30 (108 -> 12), so they are shape, not a VC6 quirk:
+  - `new_idx` assigned in both `do_drop` branches (VC6 hoists the load/store/`lea` above the `je`). Assigned
+    once before the `if`, the `do_drop` test is a `cmpb $0,0x20(%esp)` scheduled before the `new_idx` store
+    (eax is live, so no `mov al; test al`).
+  - The copied height read through `const u8& new_height = pColumn->field_0_height` at the four
+    `pNew->field_0_height = ... - 1` sites and the plain copy. With `pColumn->field_0_height` directly, every
+    `pNew->field_0_height - pNew->field_1_offset` loop bound in that branch loads height first (`mov (%edx),%bl;
+    mov 1(%edx),%al; sub %eax,%ebx`), the original offset first with the result in the other register. Any
+    `const T&` local in scope toggles it (`const s32& new_idx = field_360_column_words` (a conversion
+    temporary), `const s32& height`, `const u8& offset`, `const gmp_col_info& col = *pColumn`), but the
+    toggle is scoped: a function-scope one also flips the in-place loop at the end, which must stay. Two of
+    them cancel. Casts, `i + offset < height`, `bound > i`, inline getters, a `Len()` inline: no effect.
+  - Left: the original has the hoisted `mov 0x360(%ecx),%eax; mov %eax,0x1C(%esp); lea` *before*
+    `mov 0x20(%esp),%al; test %al,%al; je`, ours after. `pNew` computed before the `if (do_drop)` gives that
+    order but swaps eax/ecx for `column_idx`/`this` at the top (the `this` spill moves to the first
+    instruction) and `offset`/`new_idx` swap their dead-parameter slots, 320-330, in VC6 and VC7 alike; no
+    toggle, `else`-wrapping of the in-place branch, `u16** pColumns` local, `s32`/`bool` `do_drop`, `!= 0`,
+    swapped branches or a `bDrop` copy changes that. The permuter (3 runs, 4000 compiles) only "fixed" the top
+    by moving E's zero store or the `field_1_offset` copies before the loops (wrong), and its 44 was the
+    `const s32&` conversion temporary.
+- `Map_0x370::sub_4E6660` (4): `pPrev = pBlock` after `sub_4E65A0(x, y, &z, 1, 1)` is 48 with every
+  `(s32|bool|u8|char_type)` pair for the two parameters; VC6 keeps the 1 in ebx for both pushes whenever ebx
+  is free across the call. Assigned at the top of the else block (64) or after `dist +=` (82).
+- `Map_0x370::sub_4E6190` (60): cases 3/4 as `switch (a5 - 2)` with cases 1/2, `rel = a5 - 2` or `a5 -= 2`
+  before the inner switch: 116 (the cross-jump into case 1/2 still goes the other way).
+- `Map_0x370::sub_4E5640` (233): all 13 locals declared at the top (233 unchanged), then 400 random
+  declaration orders (own shuffler, `decl_shuffle.py` stops at the `Fix16_Point pos_diff(...)` line): not one
+  changes the score. `Fix16_Point pos_diff; pos_diff.x = ...` 329. The slot layout (pos_diff 0x10/0x14 in the
+  original, 0x18/0x1C ours; `i`, `value_1.ToInt()` and the z temporaries in other dead parameter slots) does
+  not come from declaration order.
+- `Frontend::ChangeMenuPage_4B3170` (353, structure 46): same experiment, 20 declarations at the top
+  (`saved_main`, `pPage`, `playerSlotSetting`, `best_opponent`, `user_value`, `time` moved up), 400 orders: 353
+  throughout. `u16`/`s32 playerSlotSetting`, `(u8)`/`(char_type)` casts on the `SetPlySlotIdx` argument: 353
+  (the original's `mov %al,%cl; push %ecx` vs our `push %eax` is not the type). Left besides slots: the
+  frags/points/times loops rotate ebx/ebp/edi (`best_opponent` in edi in the original, ebp + a spill ours),
+  frame 0x108 vs 0x100, `setne %dl` vs `%cl`.
+- `Ped::IsThreatToSearchingPed_4661F0` (418, skeleton 4): 9.6f 0x437670 default-constructs three `Fix16`
+  locals at the top (frame 0x50 vs our 0x40 fits them plus a `player_idx` byte at 0x2C, which the original
+  stores and reloads at the *first* `IsRespectNegativeForPlayer` site). Separately: `u8 mode` switch copy 418,
+  `Fix16 candX/candY/dist` at function scope 438, `u8 player_idx` at the first site 446. Prologue: original
+  `xor eax,eax; mov al,gTargetSearchMode` before `push ebx`, ours `mov eax,...; and $0xFF` before `sub esp`.
+- `TrafficLight_20::Init_5C1D00` (738): the original keeps `gMap_0x370_6F6268` in esi, x in ebx and `y`
+  (`and $0xFF`) in edi from the prologue and spills `this` to 0x14. A `Map_0x370* pMap` local: 800,
+  `+ Object_5C* pObj`: 1052, `s32` copies of x/y: 800.
+- `Frontend::SetupMenuStringsOptionsElements_4B0220` (254), `PublicTransport_181C::SpawnTrainsFromStations_578860`
+  (601, frame 0x68 vs 0x58), `Ped::UpdateMovementTowardsTarget_4672E0` (560), `CarDoorAlignmentSolver_545AF0`
+  (875), `Map_0x370::CanMoveOntoSlopeTile_4E0130` (548), `Map_0x370::sub_4E7190` (218, structure 6; `tmp`
+  declared first/before `last_x`, `last_*` declared then assigned: 218): scored only.
