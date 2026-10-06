@@ -1522,9 +1522,12 @@ void MapRenderer::Draw3SidedDiagonalDownLeft_4EF1C0()
 }
 
 // https://decomp.me/scratch/6WLOw
-MATCH_FUNC(0x4ef520)
+// Remaining diff: an lea operand-order tie-break (fails against 10.5.exe)
+WIP_FUNC(0x4ef520)
 void MapRenderer::Draw3SidedDiagonalDownRight_4EF520()
 {
+    WIP_IMPLEMENTED;
+
     if (gBlockLeft_6F62F6)
     {
         gCurrentSlope_6F646C.field_0_gradient_direction = NORTH_1;
@@ -1619,9 +1622,12 @@ void MapRenderer::Draw4SidedDiagonalUpRight_4EFB20()
 }
 
 // https://decomp.me/scratch/IdZ0n
-MATCH_FUNC(0x4efdb0)
+// Remaining diff: an lea operand-order tie-break (fails against 10.5.exe)
+WIP_FUNC(0x4efdb0)
 void MapRenderer::Draw4SidedDiagonalDownLeft_4EFDB0()
 {
+    WIP_IMPLEMENTED;
+
     if (gBlockLeft_6F62F6)
     {
         gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
