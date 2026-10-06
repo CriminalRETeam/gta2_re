@@ -3003,21 +3003,21 @@ void Frontend::Render_4ADFB0()
 }
 
 // https://decomp.me/scratch/IOmk7
-// TODO: stop the tail merge... somehow
-WIP_FUNC(0x4B6E10)
+// The second GetTgaIdxsForMenuScreen_4B6B00 output lives in a dword local that also takes the
+// result of the last right-hand blit, and that result is tested afterwards. Without the store
+// (and the read that keeps it alive until after tail merging) VC6 merges the two final retry
+// blits into one tail; the original keeps them apart. 9.6f (0x453020) has the same store.
+MATCH_FUNC(0x4B6E10)
 void Frontend::DrawBackground_4B6E10()
 {
-    WIP_IMPLEMENTED;
-    // todo
-    BYTE tga_idx; // [esp+50h] [ebp-8h] BYREF
-    BYTE not_used; // [esp+54h] [ebp-4h] BYREF
+    BYTE tga_idx; // [esp+4h]
+    s32 ret;      // [esp+8h], second tga idx then the blit result
 
     if (field_EE08_menu_screen == GameOver_13 || field_EE08_menu_screen == RedBar_16 || field_EE08_menu_screen == BlueBar_14 || field_EE08_menu_screen == Loading_15 ||
         field_EE08_menu_screen == HiScoresDisplay_12 || field_EE08_menu_screen == Credits_17)
     {
-        GetTgaIdxsForMenuScreen_4B6B00(field_EE08_menu_screen, &tga_idx, &not_used);
-        s32 blitRet = pgbh_BlitImage(tgaArray_61F0C8[tga_idx].field_84_img, 0, 0, 640, 480, 0, 0);
-        if (blitRet == -10)
+        GetTgaIdxsForMenuScreen_4B6B00(field_EE08_menu_screen, &tga_idx, (BYTE*)&ret);
+        if (pgbh_BlitImage(tgaArray_61F0C8[tga_idx].field_84_img, 0, 0, 640, 480, 0, 0) == -10)
         {
             // need to reload image
             Load_tga_4B6520(tga_idx);
@@ -3026,7 +3026,7 @@ void Frontend::DrawBackground_4B6E10()
     }
     else
     {
-        GetTgaIdxsForMenuScreen_4B6B00(field_EE08_menu_screen, &tga_idx, &not_used);
+        GetTgaIdxsForMenuScreen_4B6B00(field_EE08_menu_screen, &tga_idx, (BYTE*)&ret);
 
         // Left side
         s32 blitRet = pgbh_BlitImage(tgaArray_61F0C8[tga_idx].field_84_img, 0, 0, 278, 480, 0, 0);
@@ -3039,11 +3039,14 @@ void Frontend::DrawBackground_4B6E10()
         // Right side
         if (blitRet == 0)
         {
-            blitRet = pgbh_BlitImage(tgaArray_61F0C8[not_used].field_84_img, 0, 0, 362, 480, 278, 0);
-            if (blitRet == -10)
+            if (pgbh_BlitImage(tgaArray_61F0C8[(u8)ret].field_84_img, 0, 0, 362, 480, 278, 0) == -10)
             {
-                Load_tga_4B6520(not_used);
-                pgbh_BlitImage(tgaArray_61F0C8[not_used].field_84_img, 0, 0, 362, 480, 278, 0);
+                Load_tga_4B6520((u8)ret);
+                ret = pgbh_BlitImage(tgaArray_61F0C8[(u8)ret].field_84_img, 0, 0, 362, 480, 278, 0);
+                if (ret == -10)
+                {
+                    // still failing, nothing more to do (the read is needed for the match, see above)
+                }
             }
         }
     }
