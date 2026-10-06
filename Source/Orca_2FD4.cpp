@@ -524,7 +524,6 @@ char_type Orca_2FD4::ComputePath_554AB0(s32 pedId,
 
     Orca_8* v23; // eax
     Orca_8* v40; // ecx
-    char field_4_zpos; // al
     u8 yCoord;
     u8 idx1;
     u8 idx2;
@@ -776,18 +775,21 @@ LABEL_35:
         {
             if (abs(cur_z - (u8)v40->field_4_zpos) < 1)
             {
-                field_1B_direction = v40->field_3_ypos;
+                // new_z first, so the branches don't start with the same ypos load (VC6 hoists it above
+                // the jge). Left: the original stores field_1B before loading new_z / t
                 new_z = v40->field_4_zpos;
+                field_1B_direction = v40->field_3_ypos;
                 v40->field_0_idx1 = 0;
             }
             else
             {
-                field_4_zpos = v40->field_4_zpos;
+                // ypos read first: with idx2 first VC6 swaps al/dl for new_z and the switch index
+                u8 t = v40->field_3_ypos;
                 field_1B_direction = v40->field_1_idx2;
                 new_z = v40->field_2_xpos;
-                v40->field_2_xpos = field_4_zpos;
-                v40->field_1_idx2 = v40->field_3_ypos;
+                v40->field_1_idx2 = t;
                 v40->field_0_idx1 = 0;
+                v40->field_2_xpos = v40->field_4_zpos;
             }
         }
         else

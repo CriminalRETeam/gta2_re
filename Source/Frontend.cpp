@@ -296,7 +296,8 @@ DEFINE_GLOBAL_ARRAY_INIT(
         "data\\frontend\\Credits.tga" COMMA 614444 COMMA 0} COMMA {"data\\frontend\\Mask3.tga" COMMA 130427 COMMA 0} COMMA {
         "data\\frontend\\DemoInfo.tga" COMMA 614939 COMMA 0});
 
-// This function matches but Write_4D9620 from ErrorLog class is crashing standalone on exe boot
+// This function matches with the Write_4D9620 call below, but that call (ErrorLog class) crashes the
+// standalone exe on boot. Kept as WIP on purpose (maintainer decision): do not re-enable it to promote.
 WIP_FUNC(0x5D9910)
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma)
 {
@@ -1387,10 +1388,9 @@ void Frontend::DrawMenu_4AD140()
 }
 
 // https://decomp.me/scratch/qV1ie switch "goto" issue
-WIP_FUNC(0x4B7AE0)
+MATCH_FUNC(0x4B7AE0)
 void Frontend::DrawCredits_4B7AE0()
 {
-    WIP_IMPLEMENTED;
     u16 font_type;
     s32 palette;
     s32 draw_kind;
@@ -4647,18 +4647,16 @@ u8 Frontend::GetPreviousUnlockedMainStage_4B7060(u8 a2)
     }
 }
 
-WIP_FUNC(0x4B7270)
+MATCH_FUNC(0x4B7270)
 u8 Frontend::GetNextUnlockedMainStage_4B7270(char_type main_stage_idx)
 {
-    WIP_IMPLEMENTED;
-
     player_stats_0xA4* pStats = GetCurrPlayerStats_4B43E0();
     u8 result = main_stage_idx;
     if (main_stage_idx == 2)
     {
         if (bIsLeftRightLoopEnabled_67DA80)
         {
-            return 0;
+            result = 0;
         }
     }
     else

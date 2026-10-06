@@ -125,18 +125,15 @@ void thirsty_lamarr::ColorDigits_4921F0(s32 palette_type, s16 palette)
 }
 
 // https://decomp.me/scratch/6E5vt
-WIP_FUNC(0x492260)
+MATCH_FUNC(0x492260)
 s32 thirsty_lamarr::DrawDigits_492260(s32 base_xpos, s32 base_ypos)
 {
-    WIP_IMPLEMENTED;
-
     s32 curr_xpos = base_xpos;
     bool bFirst = true;
     s32 ypos_default = base_ypos + (field_28_sprite_h_calc >> 1);
 
     // The x of each digit counts back from the last one
-    s32 digits_left = 9 - field_2E_non_used_digits;
-    for (s32 idx = field_2E_non_used_digits; idx < 9; idx++, digits_left--)
+    for (s32 idx = field_2E_non_used_digits; idx < 9; idx++)
     {
         s32 offset = field_13_offset[idx];
         if (bFirst)
@@ -148,7 +145,7 @@ s32 thirsty_lamarr::DrawDigits_492260(s32 base_xpos, s32 base_ypos)
             }
 
             u8 height;
-            if (curr_char != '0' || idx == 8)
+            if (field_9_str[idx] != '0' || idx == 8)
             {
                 height = field_28_sprite_h_calc;
             }
@@ -158,10 +155,11 @@ s32 thirsty_lamarr::DrawDigits_492260(s32 base_xpos, s32 base_ypos)
             }
 
             u16 v = field_28_sprite_h_calc * (58 - curr_char) - offset;
-            curr_xpos = (field_27_sprite_w >> 1) - field_27_sprite_w * digits_left + base_xpos;
+            curr_xpos = (field_27_sprite_w >> 1) - field_27_sprite_w * (9 - idx) + base_xpos;
+            s32 ypos = base_ypos + (s8)height / 2;
             DrawTextureScaled_495470(gSharp_pare_0x15D8_705064->GetDigitTexture_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits, v, height),
                        curr_xpos,
-                       base_ypos + (s8)height / 2,
+                       ypos,
                        field_27_sprite_w,
                        height,
                        kAngZero_67B210,
@@ -172,10 +170,11 @@ s32 thirsty_lamarr::DrawDigits_492260(s32 base_xpos, s32 base_ypos)
         else
         {
             u16 v = field_28_sprite_h_calc * (58 - field_9_str[idx]) - offset;
+            s32 xpos = (field_27_sprite_w >> 1) - field_27_sprite_w * (9 - idx) + base_xpos;
             DrawTextureScaled_495470(gSharp_pare_0x15D8_705064->GetDigitTexture_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits,
                                                              v,
                                                              field_28_sprite_h_calc),
-                       (field_27_sprite_w >> 1) - field_27_sprite_w * digits_left + base_xpos,
+                       xpos,
                        ypos_default,
                        field_27_sprite_w,
                        field_28_sprite_h_calc,

@@ -189,36 +189,28 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
     }
 
     point.SetXY_432860(-v12, -v13);
-    point.RotateByAngle_40F6B0_all_out_of_line(rotation);
+    point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[0].x = (point.x + x_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[0].y = (point.y + y_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[0].z = 0.000099999997f;
 
     point.SetXY_432860(v12, -v13);
-    // Only this point keeps the unary minus inline (inline budget): the original takes -x_old
-    // from the -v12 it already holds in a register instead of calling Negate_4086A0.
-    {
-        Fix16 sin = Ang16::sine_40F500(rotation);
-        Fix16 cos = Ang16::cosine_40F520(rotation);
-        Fix16 x_old = point.x;
-        point.x = (const Fix16&)point.x.Multiply_408680(cos) + point.y.Multiply_408680(sin);
-        point.y = (const Fix16&)(-x_old).Multiply_408680(sin) + point.y.Multiply_408680(cos);
-    }
+    point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[1].x = (point.x + x_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[1].y = (point.y + y_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[1].z = 0.000099999997f;
 
     point.SetXY_432860(v12, v13);
-    point.RotateByAngle_40F6B0_all_out_of_line(rotation);
+    point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[2].x = (point.x + x_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[2].y = (point.y + y_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[2].z = 0.000099999997f;
 
     point.SetXY_432860(-v12, v13);
-    point.RotateByAngle_40F6B0_all_out_of_line(rotation);
+    point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[3].x = (point.x + x_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[3].y = (point.y + y_pos).ToFloat();
@@ -296,7 +288,7 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
     // Raw negates: two fewer inline expansions keep the Fix16_Point ctor inline (inline budget)
     point.x.mValue = -v12.mValue;
     point.y.mValue = -v13.mValue;
-    point.RotateByAngle_40F6B0_all_out_of_line(rotation);
+    point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[0].x = (point.x + x_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[0].y = (point.y + y_pos).ToFloat();
@@ -306,7 +298,7 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
 
     point.x = v12;
     point.y = -v13;
-    point.RotateByAngle_40F6B0_all_out_of_line(rotation);
+    point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[1].x = (point.x + x_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[1].y = (point.y + y_pos).ToFloat();
@@ -316,7 +308,7 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
 
     point.x = v12;
     point.y = v13;
-    point.RotateByAngle_40F6B0_all_out_of_line(rotation);
+    point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[2].x = (point.x + x_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[2].y = (point.y + y_pos).ToFloat();
@@ -326,7 +318,7 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
 
     point.y = v13;
     point.x = -v12;
-    point.RotateByAngle_40F6B0_all_out_of_line(rotation);
+    point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[3].x = (point.x + x_pos).ToFloat();
     gQuadVerts_706B88.field_0_verts[3].y = (point.y + y_pos).ToFloat();
@@ -348,7 +340,7 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
 }
 
 // https://decomp.me/scratch/HX0q9
-WIP_FUNC(0x5D8A10)
+MATCH_FUNC(0x5D8A10)
 void __stdcall DrawText_5D8A10(const wchar_t* pText,
                                Fix16 xpos_fp,
                                Fix16 ypos_fp,
@@ -359,12 +351,14 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
                                s32 alpha_value,
                                u8 flags)
 {
-    WIP_IMPLEMENTED;
-
     s32 new_Flags = CalcQuadFlags_5D83E0(alpha_value, flags) | 0x20000;
 
     // The original walks a copy of pText (it reuses pText's stack slot as a float temp)
     const wchar_t* pIter = pText;
+    // Declared ahead of cur_xpos: VC6's register tie-break then loads cur_xpos into ecx and
+    // sprite_w into edx for the x + w sum, as the original does
+    Fix16 sprite_w;
+    Fix16 sprite_h;
     Fix16 cur_xpos = xpos_fp;
 
     Fix16 spaceWidth = scale_fp * gGtx_0x106C_703DD4->GetSpaceCharWidth_5AA7B0(&font_type);
@@ -458,8 +452,8 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
                 pTexture = gMagical_germain_0x8EC_6F5168->GetSmallGlyphTexture_4D2710(text_char);
             }
 
-            Fix16 sprite_w = Fix16(pSprIdx->field_4_width) * scale_fp;
-            Fix16 sprite_h = Fix16(pSprIdx->field_5_height) * scale_fp;
+            sprite_w = Fix16(pSprIdx->field_4_width) * scale_fp;
+            sprite_h = Fix16(pSprIdx->field_5_height) * scale_fp;
 
             // Each corner converts its coordinate again: VC6 CSEs the repeated ToFloat()s
             // (x0/y0 stay on the FPU stack, x1/y1 go through a stack temp like the original)
@@ -476,8 +470,11 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
             gQuadVerts_706B88.field_0_verts[3].y = (ypos_fp + sprite_h).ToFloat();
             gQuadVerts_706B88.field_0_verts[3].z = 0.0001f;
 
-            Fix16 u(pSprIdx->field_4_width - 0.0001f);
-            Fix16 v(pSprIdx->field_5_height - 0.0001f);
+            // The double parentheses are two no-op expression nodes each (see "x87 code: the scheduler
+            // works in 81-node windows" in docs/matching_quirks.md). With these 4 nodes the window
+            // breaks before the zero u/v stores, so they are issued after the DrawQuad pushes
+            Fix16 u(((pSprIdx->field_4_width - 0.0001f)));
+            Fix16 v(((pSprIdx->field_5_height - 0.0001f)));
 
             gQuadVerts_706B88.field_0_verts[0].u = 0.0f;
             gQuadVerts_706B88.field_0_verts[0].v = 0.0f;

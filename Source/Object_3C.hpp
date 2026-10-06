@@ -97,7 +97,9 @@ class Object_3C
     // ?? not sure if this is O3C either :skull:
     EXPORT Fix16_Point GetSpeedVector_52ADF0();
 
-    // 9.6f 0x482BA0, inline copy of GetSpeedVector_52ADF0
+    // 9.6f 0x482BA0; GetSpeedVector_52ADF0 is its out-of-line copy. It returns a Fix16_Point (which has a
+    // destructor), so VC6 never expands it: it is charged to the caller's inline budget and called out of
+    // line (GetMovementSpeedAndAngle_521FD0)
     inline Fix16_Point GetSpeedVector_482BA0()
     {
         Fix16_Point p;

@@ -23,8 +23,7 @@ void youthful_einstein::ctor_516560() // For some reason, it's a function instea
     memset(field_20, 0, sizeof(field_20));
 }
 
-// https://decomp.me/scratch/PVE0e reg swap
-WIP_FUNC(0x516590)
+MATCH_FUNC(0x516590)
 void youthful_einstein::SetNewFugitive_516590(Player* pNewFugitive)
 {
     if (pNewFugitive == NULL)
@@ -49,11 +48,9 @@ void youthful_einstein::SetNewFugitive_516590(Player* pNewFugitive)
         Hud_Arrow_7C* pArrow = gHud_2B00_706620->field_1F18_arrows.AllocArrow_5D1050();
         pArrow->field_18.field_18_primary_target.SetTargetPlayer_4820A0(field_0_fugitive);
 
-        //  the problem is here
-        Player* pPlayer = field_0_fugitive;
-        if (pPlayer->field_2C4_player_ped != NULL)
+        if (field_0_fugitive->field_2C4_player_ped != NULL)
         {
-            pArrow->SetPlayerArrowColour_5D0DC0(pPlayer->field_2C4_player_ped);
+            pArrow->SetPlayerArrowColour_5D0DC0(field_0_fugitive->field_2C4_player_ped);
         }
     }
     else

@@ -1,3 +1,5 @@
+// GetLength_41E260 compares against this TU's zero
+#define FIX16_POINT_ZERO kFpZero_6F8E10
 #include "Object_5C.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
@@ -337,49 +339,14 @@ char_type Object_2C::SelectCollisionSprite_522460(Sprite* a2)
     return 1;
 }
 
-// Fix16_Point::GetLength_41E260 as inlined here: this TU's zero constant, out of line
-// Negate for y and SquareRoot_436A70
-static inline Fix16 GetLength_528130(Fix16_Point& p)
-{
-    if (p.x == kFpZero_6F8E10)
-    {
-        return Fix16::Abs_negate_out_of_line(p.y);
-    }
-    else if (p.y == kFpZero_6F8E10)
-    {
-        return Fix16::Abs(p.x);
-    }
-    else
-    {
-        return Fix16::SquareRoot_436A70(p.x * p.x + p.y * p.y);
-    }
-}
-
-// Same, with out of line Negate for both and the out of line Multiply/Add for the sum
-static inline Fix16 GetLength_5224E0(Fix16_Point& p)
-{
-    if (p.x == kFpZero_6F8E10)
-    {
-        return Fix16::Abs_negate_out_of_line(p.y);
-    }
-    else if (p.y == kFpZero_6F8E10)
-    {
-        return Fix16::Abs_negate_out_of_line(p.x);
-    }
-    else
-    {
-        return Fix16::SquareRoot_436A70((const Fix16&)p.x.Multiply_408680(p.x) + p.y * p.y);
-    }
-}
-
 MATCH_FUNC(0x5224e0)
 void Object_2C::SetMovementVector_5224E0(Fix16_Point& speed)
 {
     Fix16_Point v5;
     if (field_10_obj_3c)
     {
-        v5 = (GetSpeedVector_52AE90() + speed);
-        this->field_10_obj_3c->field_C_speed = GetLength_5224E0(v5);
+        v5 = GetSpeedVector_482C50() + speed;
+        this->field_10_obj_3c->field_C_speed = v5.GetLength_41E260();
         this->field_10_obj_3c->field_4_angle = v5.atan2_40F790();
         this->field_10_obj_3c->field_18_friction = this->field_8->field_14_friction;
     }
@@ -619,10 +586,9 @@ void Object_2C::ResolveCollisionWithMapTileHorizontal_522D00(Fix16_Point* pPoint
     Object_2C::ResolveCollisionWithWorld_522B20(&t2, &v12, &obj_speed);
 }
 
-WIP_FUNC(0x522e10)
+MATCH_FUNC(0x522e10)
 void Object_2C::HandleCollision_522E10(Fix16_Point* a4)
 {
-    WIP_IMPLEMENTED;
 
     Fix16_Point v13;
     switch (gRozza_679188.field_0_type)
@@ -2078,12 +2044,8 @@ void Object_2C::NewObj3C_528130(Fix16_Point& speed)
     this->field_10_obj_3c = pNewObj;
     pNewObj->field_20_obj2c_id = field_14_id;
 
-    this->field_10_obj_3c->field_C_speed = GetLength_528130(speed);
-    // Own block so angle shares the dead speed parameter slot with GetLength's sum temporary
-    {
-        Ang16 angle = Fix16::atan2_fixed_405320(speed.y, speed.x);
-        this->field_10_obj_3c->field_4_angle = angle;
-    }
+    this->field_10_obj_3c->field_C_speed = speed.GetLength_41E260();
+    this->field_10_obj_3c->field_4_angle = speed.atan2_40F790();
 }
 
 MATCH_FUNC(0x528240)
@@ -2150,10 +2112,9 @@ char_type Object_2C::HandleRotationStateTransition_528240(s32 current, s32 desir
     return 0;
 }
 
-WIP_FUNC(0x5283c0)
+MATCH_FUNC(0x5283c0)
 void Object_2C::TickObject_5283C0(s32 obj_type)
 {
-    WIP_IMPLEMENTED;
 
     Fix16_Point dir;
 
@@ -2207,8 +2168,8 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                             if (!this->field_10_obj_3c)
                             {
                                 Object_3C* pNew3C_ = gObject_3C_Pool_6F8F7C->Allocate();
-                                pNew3C_->field_20_obj2c_id = field_14_id;
                                 this->field_10_obj_3c = pNew3C_;
+                                pNew3C_->field_20_obj2c_id = field_14_id;
                             }
 
                             if (field_C_pAny.o8)
@@ -2240,7 +2201,7 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                                 }
                             }
 
-                            s32 bUnknown;
+                            u8 bUnknown;
                             if (this->field_C_pAny.o8)
                             {
                                 bUnknown = 0;
@@ -2277,11 +2238,11 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                             if (!this->field_10_obj_3c)
                             {
                                 Object_3C* pNew3C = gObject_3C_Pool_6F8F7C->Allocate();
-                                pNew3C->field_20_obj2c_id = field_14_id;
                                 this->field_10_obj_3c = pNew3C;
+                                pNew3C->field_20_obj2c_id = field_14_id;
                             }
 
-                            s32 bUnknown2;
+                            u8 bUnknown2;
                             if (this->field_C_pAny.o8)
                             {
                                 bUnknown2 = 0;
@@ -2596,14 +2557,10 @@ void Object_2C::HandleImpactNoSprite_528BA0()
     }
 }
 
-WIP_FUNC(0x528e50)
+MATCH_FUNC(0x528e50)
 void Object_2C::HandleImpact_528E50(Sprite* pSprite)
 {
-    WIP_IMPLEMENTED;
-
-    // Cases in the original's layout order. Remaining diff: VC6 merges case 1/2 into the shared
-    // "if (!done) return; PoolGive" tail and places that tail after case 4/5; the original keeps
-    // case 1/2 separate and the tail after case 7/8 (a goto from 3 and 4/5 gave the same code).
+    // Case order decides VC6's block layout and tail merging; case 11 has to come before case 3.
     if (!this->field_24_bDoneThisFrame && (!pSprite || ShouldCollideWith_5223C0(pSprite)))
     {
         this->field_24_bDoneThisFrame = 1;
@@ -2642,6 +2599,10 @@ void Object_2C::HandleImpact_528E50(Sprite* pSprite)
 
             case 9:
                 this->field_24_bDoneThisFrame = OnObjectTouched_5288B0(pSprite);
+                break;
+
+            case 11:
+                this->field_24_bDoneThisFrame = 0;
                 break;
 
             case 3:
@@ -2692,10 +2653,6 @@ void Object_2C::HandleImpact_528E50(Sprite* pSprite)
                 {
                     this->field_24_bDoneThisFrame = 0;
                 }
-                break;
-
-            case 11:
-                this->field_24_bDoneThisFrame = 0;
                 break;
 
             default:
@@ -2964,21 +2921,21 @@ void Object_2C::UpdateLight_527A30()
     field_C_pAny.pLight->SetCurrentIntensity_45B2D0(field_C_pAny.pLight->field_18_intensity);
 }
 
-// Not fully working yet https://decomp.me/scratch/2X4Bq
-WIP_FUNC(0x523BF0)
+MATCH_FUNC(0x523BF0)
 void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 angle)
 {
-    WIP_IMPLEMENTED;
-    Fix16_Point point;
-    Fix16_Point point2;
+    // Declaration order matters: the scalars are initialised before the two points are
+    // constructed (EH state 1 is set after the byte stores)
     Ang16 unk_angle(0);
+    Fix16 mov_speed_copy = mov_speed;
     u8 v73 = 0;
     u8 bUnk2 = 0;
     u8 bUnk = false;
     char_type v33 = 0;
+    Fix16_Point point;
+    Fix16_Point point2;
     Fix16 v15;
     Sprite* pSprt = gObject_5C_6F8F84->field_58_collision_probe_sprite;
-    Fix16 mov_speed_copy = mov_speed;
     gObject2C_WallHitSide_6F8F90 = 0;
     sub_482BE0();
     if (Object_2C::sub_5233A0(mov_speed))
@@ -3027,7 +2984,12 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
         Fix16 prev_x;
         Fix16 prev_y;
         Fix16 prev_z;
-        Ang16::PolarToCartesian_41FC20(angle, radius, unk_x, unk_y);
+        {
+            // The original passes a block-scoped copy of radius (9.6f copies it too); its slot is
+            // shared with tmp_radius below
+            Fix16 r = radius;
+            Ang16::PolarToCartesian_41FC20(angle, r, unk_x, unk_y);
+        }
 
         for (u8 i = 1; i <= v15.ToInt(); i++)
         {
@@ -3064,7 +3026,7 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
             field_4->set_ang_lazy_420690(pSprt->field_0);
             if (v73)
             {
-                if (field_4->IsOnWater_59E1D0())
+                if ((u8)field_4->IsOnWater_59E1D0())
                 {
                     field_10_obj_3c->field_C_speed = kFpZero_6F8E10;
                     field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
@@ -3096,9 +3058,9 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
                 pSprt->set_ang_lazy_420690(angle);
                 Object_2C::Sprite_UpdateZFromSlopeAndTile_522FA0(pSprt);
                 bool bUnk5 = false;
-                if (field_10_obj_3c->field_34 == 2)
+                if (field_10_obj_3c->field_34 == 2 && Object_2C::SelectCollisionSprite_522460(pSprt))
                 {
-                    bUnk5 = Object_2C::SelectCollisionSprite_522460(pSprt) != 0;
+                    bUnk5 = true;
                 }
                 if (pSprt->CheckSpriteMovementRegion_5A2500() || bUnk5)
                 {

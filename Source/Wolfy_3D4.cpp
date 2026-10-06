@@ -291,8 +291,8 @@ void Wolfy_30::state_3_12_540D30(Ang16 ang, Fix16 pos)
         Fix16 cos_v = gCos_table_669260[new_ang.rValue];
 
         Fix16 x_old = point.x;
-        point.x = (const Fix16&)point.x.Multiply_408680(cos_v) + (point.y * sin_v);
-        point.y = (const Fix16&)(-x_old).Multiply_408680(sin_v) + point.y.Multiply_408680(cos_v);
+        point.x = point.x.Multiply_408680(cos_v).Add_408660(point.y * sin_v);
+        point.y = (-x_old).Multiply_408680(sin_v).Add_408660(point.y.Multiply_408680(cos_v));
     }
 
     this->field_8_speed = pos;
@@ -349,8 +349,8 @@ void Wolfy_30::state_4_540F90(Ang16 ang, Fix16 pos)
         Fix16 cos_v = gCos_table_669260[new_ang.rValue];
 
         Fix16 x_old = point.x;
-        point.x = (const Fix16&)point.x.Multiply_408680(cos_v) + (point.y * sin_v);
-        point.y = (const Fix16&)(-x_old).Multiply_408680(sin_v) + point.y.Multiply_408680(cos_v);
+        point.x = point.x.Multiply_408680(cos_v).Add_408660(point.y * sin_v);
+        point.y = (-x_old).Multiply_408680(sin_v).Add_408660(point.y.Multiply_408680(cos_v));
     }
 
     this->field_8_speed = pos;
@@ -403,8 +403,8 @@ void Wolfy_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
         Fix16 cos_v = gCos_table_669260[new_ang.rValue];
 
         Fix16 x_old = point.x;
-        point.x = (const Fix16&)point.x.Multiply_408680(cos_v) + (point.y * sin_v);
-        point.y = (const Fix16&)(-x_old).Multiply_408680(sin_v) + point.y.Multiply_408680(cos_v);
+        point.x = point.x.Multiply_408680(cos_v).Add_408660(point.y * sin_v);
+        point.y = (-x_old).Multiply_408680(sin_v).Add_408660(point.y.Multiply_408680(cos_v));
     }
 
     this->field_8_speed = pos;
@@ -441,10 +441,9 @@ void Wolfy_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
     }
 }
 
-WIP_FUNC(0x541430)
+MATCH_FUNC(0x541430)
 void Wolfy_30::state_5_541430(Ang16 ang, Fix16 pos)
 {
-    WIP_IMPLEMENTED;
 
     Fix16_Point p(Fix16(0), Fix16(0));
     p.x = pos;
@@ -565,11 +564,9 @@ void Wolfy_30::sub_541760()
     }
 }
 
-WIP_FUNC(0x541850)
+MATCH_FUNC(0x541850)
 void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
 {
-    WIP_IMPLEMENTED;
-
     struct_4 collision_list;
 
     Fix16 zoff = Wolfy_30::sub_541710();
@@ -578,11 +575,10 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
 
     this->field_28 = f28;
 
-    Fix16 v4 = field_28 * kFP16Two_6FD4A4;
-    Fix16 new_left = field_14_pObj2C->field_4->field_14_xy.x - v4;
-    Fix16 new_right = field_14_pObj2C->field_4->field_14_xy.x + v4;
-    Fix16 new_top = field_14_pObj2C->field_4->field_14_xy.y - v4;
-    Fix16 new_bottom = field_14_pObj2C->field_4->field_14_xy.y + v4;
+    Fix16 new_left = field_14_pObj2C->field_4->field_14_xy.x - field_28 * kFP16Two_6FD4A4;
+    Fix16 new_right = field_14_pObj2C->field_4->field_14_xy.x + field_28 * kFP16Two_6FD4A4;
+    Fix16 new_top = field_14_pObj2C->field_4->field_14_xy.y - field_28 * kFP16Two_6FD4A4;
+    Fix16 new_bottom = field_14_pObj2C->field_4->field_14_xy.y + field_28 * kFP16Two_6FD4A4;
     Fix16 zm = field_14_pObj2C->field_4->field_1C_zpos - zoff;
     Fix16 zp = field_14_pObj2C->field_4->field_1C_zpos + zoff;
 
@@ -623,11 +619,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                     Ang16 ang;
                     ang = Fix16::atan2_fixed_405320(dy, dx);
 
-                    // 9.6f: Fix16::MaxAbsDistance_42A6B0 (inlined, Abs_436A50 out of line). As an inline here
-                    // the function runs out of inline expansions and calls Fix16::operator- out of line.
-                    // The differences as temporaries and the pMe local give the original's load order.
-                    Sprite* pMe = field_14_pObj2C->field_4;
-                    Fix16 cur_max = Fix16::Max_44E540(Fix16::Abs_436A50(pMe->field_14_xy.x - pCollisionSprite->field_14_xy.x), Fix16::Abs_436A50(pMe->field_14_xy.y - pCollisionSprite->field_14_xy.y));
+                    Fix16 cur_max = Fix16::MaxAbsDistance_42A6B0(pCollisionSprite->field_14_xy.x, pCollisionSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y);
                     if (cur_max > this->field_28)
                     {
                         if (timerVal < 70u)
@@ -658,32 +650,11 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                 Car_BC* pCar = pCollisionSprite->AsCar_40FEB0();
                 if (pCar)
                 {
-                    if ((timerVal <= 50u || timerVal >= 60u) && (timerVal <= 80u || timerVal >= 90u))
+                    if ((timerVal > 50u && timerVal < 60u) || (timerVal > 80u && timerVal < 90u))
                     {
-                        if (timerVal == 99)
+                        if (!pCar->IsMaxDamage_40F890() && !pCar->IsTrainModel_403BA0() && !pCar->sub_43B850(field_10_type_or_state))
                         {
-                            // 9.6f: Fix16::MaxAbsDistance_42A6B0 (inlined), with Abs inlined and its
-                            // unary minus out of line
-                            Fix16 dx = this->field_14_pObj2C->field_4->field_14_xy.x - pCollisionSprite->field_14_xy.x;
-                            Fix16 dy = this->field_14_pObj2C->field_4->field_14_xy.y - pCollisionSprite->field_14_xy.y;
-                            if (Fix16::Max_44E540(Fix16::Abs_negate_out_of_line(dx), Fix16::Abs_negate_out_of_line(dy)) <=
-                                this->field_28)
-                            {
-                                Fix16_Point tmp = this->field_14_pObj2C->field_4->get_x_y_443580();
-                                pCar->ApplyExplosionImpulse_443710(&tmp);
-                            }
-                        }
-                    }
-                    else if (!pCar->IsMaxDamage_40F890())
-                    {
-                        if (!pCar->IsTrainModel_403BA0() && !pCar->sub_43B850(field_10_type_or_state))
-                        {
-                            // 9.6f: Fix16::MaxAbsDistance_42A6B0 (inlined, using it here makes the diff worse)
-                            Sprite* v33 = this->field_14_pObj2C->field_4;
-                            Fix16 xd_ = v33->field_14_xy.x - pCollisionSprite->field_14_xy.x;
-                            Fix16 yd_ = v33->field_14_xy.y - pCollisionSprite->field_14_xy.y;
-
-                            if (Fix16::Max_44E540(Fix16::Abs_436A50(xd_), Fix16::Abs_negate_out_of_line(yd_)) <= this->field_28)
+                            if (Fix16::MaxAbsDistance_42A6B0(pCollisionSprite->field_14_xy.x, pCollisionSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y) <= this->field_28)
                             {
                                 // 9.6f: Varrok_7F8::GetPedId_420F10 (inlined, using it here makes the diff worse)
                                 s32 ped_id_ = gVarrok_7F8_703398->field_0_entries[this->field_14_pObj2C->field_26_varrok_idx].field_0_ped_id;
@@ -719,6 +690,13 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                             }
                         }
                     }
+                    else if (timerVal == 99)
+                    {
+                        if (Fix16::MaxAbsDistance_42A6B0(pCollisionSprite->field_14_xy.x, pCollisionSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y) <= this->field_28)
+                        {
+                            pCar->ApplyExplosionImpulse_443710(&this->field_14_pObj2C->field_4->get_x_y_443580());
+                        }
+                    }
                 }
                 else
                 {
@@ -734,16 +712,6 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
 }
 
 // 9.6f 0x48EB00
-// Ang16::PolarToCartesian_41FC20 as these states expand it: the sine multiply inline and the
-// cosine multiply through the out-of-line Multiply_408680. Forced inline (like the
-// Fix16_To_Ang16_inlined_40F540 they use): as a plain inline, VC6 runs out of inline expansions
-// and calls the sine multiply out of line too.
-INLINE_MODE static void PolarToCartesian_SinInline_41FC20(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2)
-{
-    ret1 = Ang16::sine_40F500(angle) * radius;
-    ret2 = Ang16::cosine_40F520(angle).Multiply_408680(radius);
-}
-
 MATCH_FUNC(0x541d60)
 void Wolfy_30::state_18_33_541D60()
 {
@@ -753,16 +721,17 @@ void Wolfy_30::state_18_33_541D60()
         {
             if ((u16)field_1A_timer > 0x5Au)
             {
-                Fix16 radius = (this->field_24 * Fix16(gRng_6F6784.get_int_4F7AE0(8)));
+                Fix16 radius;
+                radius = this->field_24 * Fix16(gRng_6F6784.get_int_4F7AE0(8));
 
                 this->field_22 = Ang16::Fix16_To_Ang16_inlined_40F540(dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(360)));
 
                 // 9.6f calls Ang16::PolarToCartesian_41FC20
-                PolarToCartesian_SinInline_41FC20(field_22, radius, stru_6FD388, stru_6FD38C);
+                Ang16::PolarToCartesian_41FC20(field_22, radius, stru_6FD388, stru_6FD38C);
 
                 // NOTE: This proves these 2 vars are not a Fix16_Point
-                stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
-                stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
+                stru_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x + stru_6FD388;
+                stru_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y + stru_6FD38C;
 
                 Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
                 pNew4C->field_46_sub_state = 0;
@@ -803,14 +772,15 @@ void Wolfy_30::state_19_32_542060()
     {
         if (this->field_1A_timer > 8u)
         {
-            Fix16 v24 = (this->field_24 * Fix16(gRng_6F6784.get_int_4F7AE0(48)));
+            Fix16 v24;
+            v24 = this->field_24 * Fix16(gRng_6F6784.get_int_4F7AE0(48));
             this->field_22 = Ang16::Fix16_To_Ang16_inlined_40F540(dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(360)));
 
             // 9.6f calls Ang16::PolarToCartesian_41FC20
-            PolarToCartesian_SinInline_41FC20(field_22, v24, stru_6FD388, stru_6FD38C);
+            Ang16::PolarToCartesian_41FC20(field_22, v24, stru_6FD388, stru_6FD38C);
 
-            stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
-            stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
+            stru_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x + stru_6FD388;
+            stru_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y + stru_6FD38C;
 
             Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
             pNew4C->field_46_sub_state = 0;
@@ -851,14 +821,15 @@ void Wolfy_30::state_20_542340()
     {
         if (this->field_1A_timer > 8u)
         {
-            Fix16 v24 = (this->field_24 * Fix16(gRng_6F6784.get_int_4F7AE0(80)));
+            Fix16 v24;
+            v24 = this->field_24 * Fix16(gRng_6F6784.get_int_4F7AE0(80));
             this->field_22 = Ang16::Fix16_To_Ang16_inlined_40F540(dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(360)));
 
             // 9.6f calls Ang16::PolarToCartesian_41FC20
-            PolarToCartesian_SinInline_41FC20(field_22, v24, stru_6FD388, stru_6FD38C);
+            Ang16::PolarToCartesian_41FC20(field_22, v24, stru_6FD388, stru_6FD38C);
 
-            stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
-            stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
+            stru_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x + stru_6FD388;
+            stru_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y + stru_6FD38C;
 
             Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
             pNew4C->field_46_sub_state = 0;
@@ -996,24 +967,13 @@ void Wolfy_30::state_18_19_20_32_33_542790()
     }
 }
 
-// Ang16::operator+ with the normalizing ctor called out of line (AssignNormalized_409300):
-// state_22_23_24_25_542E30 runs out of inline expansions
-static inline Ang16 AddAng16_ool(const Ang16& a, const Ang16& b)
-{
-    s16 value = a.rValue + b.rValue;
-    return Ang16((Ang16&)value, 0);
-}
-
-WIP_FUNC(0x542e30)
+MATCH_FUNC(0x542e30)
 void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
 {
-    WIP_IMPLEMENTED;
-
     Sprite* p2CSprite = this->field_14_pObj2C->field_4;
     if (p2CSprite->field_14_xy.x < Fix16(0x3F8000, 0) && p2CSprite->field_14_xy.x > kFP16One_6FD4A0 &&
         p2CSprite->field_14_xy.y < Fix16(0x3F8000, 0) && p2CSprite->field_14_xy.y > kFP16One_6FD4A0)
     {
-        Fix16 tmp;
         unk_6FD5F6 = 0;
         for (u8 i = 0; i < 2u; i++)
         {
@@ -1027,13 +987,9 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
                     case 0:
                     {
                         pNew4C->field_38_state = 24;
-                        Ang16 v47 = Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(45))));
-                        this->field_22 = (kAng135_6FD40C + dword_6FD350) + v47;
+                        this->field_22 = (kAng135_6FD40C + dword_6FD350) + Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(45))));
 
-                        tmp = Ang16::sine_40F500(field_22);
-                        stru_6FD388 = tmp.Multiply_408680(dword_6FD540);
-                        tmp = Ang16::cosine_40F520(field_22);
-                        stru_6FD38C = tmp.Multiply_408680(dword_6FD540);
+                        Ang16::PolarToCartesian_41FC20(field_22, dword_6FD540, stru_6FD388, stru_6FD38C);
 
                         stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
                         stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
@@ -1043,13 +999,10 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
                     case 1:
                     {
                         pNew4C->field_38_state = 25;
-                        Ang16 v49 = Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90))));
-                        this->field_22 = (kAng315_6FD418 + dword_6FD350) + v49;
+                        this->field_22 = (kAng315_6FD418 + dword_6FD350) + Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90))));
 
-                        tmp = Ang16::sine_40F500(field_22);
-                        stru_6FD388 = tmp.Multiply_408680(dword_6FD540);
-                        tmp = Ang16::cosine_40F520(field_22);
-                        stru_6FD38C = tmp.Multiply_408680(dword_6FD540);
+
+                        Ang16::PolarToCartesian_41FC20(field_22, dword_6FD540, stru_6FD388, stru_6FD38C);
 
                         stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
                         stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
@@ -1059,14 +1012,10 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
                     case 2:
                     {
                         pNew4C->field_38_state = 23;
-                        Ang16 v51 = Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90))));
-                        Ang16 v52 = kAng225_6FD3E0 + dword_6FD350;
-                        this->field_22 = AddAng16_ool(v51, v52);
+                        this->field_22 = (kAng225_6FD3E0 + dword_6FD350).Add_ool(Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90)))));
 
-                        tmp = Ang16::sine_40F500(field_22);
-                        stru_6FD388 = tmp.Multiply_408680(dword_6FD540);
-                        tmp = Ang16::cosine_40F520(field_22);
-                        stru_6FD38C = tmp.Multiply_408680(dword_6FD540);
+
+                        Ang16::PolarToCartesian_41FC20(field_22, dword_6FD540, stru_6FD388, stru_6FD38C);
 
                         stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
                         stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
@@ -1076,14 +1025,10 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
                     case 3:
                     {
                         pNew4C->field_38_state = 22;
-                        Ang16 v54 = Ang16::Fix16_To_Ang16_ool_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90))));
-                        Ang16 v58 = AddAng16_ool(kAng45_6FD35C, dword_6FD350);
-                        this->field_22 = AddAng16_ool(v54, v58);
+                        this->field_22 = kAng45_6FD35C.Add_ool(dword_6FD350).Add_ool(Ang16::Fix16_To_Ang16_ool_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90)))));
 
-                        tmp = Ang16::sine_40F500(field_22);
-                        stru_6FD388 = tmp.Multiply_408680(dword_6FD540);
-                        tmp = Ang16::cosine_40F520(field_22);
-                        stru_6FD38C = tmp.Multiply_408680(dword_6FD540);
+
+                        Ang16::PolarToCartesian_41FC20(field_22, dword_6FD540, stru_6FD388, stru_6FD38C);
 
                         stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
                         stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;

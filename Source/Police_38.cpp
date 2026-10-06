@@ -438,17 +438,16 @@ void PoliceCrew_38::sub_571540()
     }
 }
 
-WIP_FUNC(0x571a30)
+MATCH_FUNC(0x571a30)
 void PoliceCrew_38::sub_571A30()
 {
     Car_BC* pPlayerCar = gCurrentCrewPed_6FEDDC->field_16C_car;
     if (pPlayerCar && gCurrentCrewPed_6FEDDC == pPlayerCar->field_54_driver)
     {
         PedGroup* pGroup = field_10_subObj->field_8_group;
-        Car_BC* pCar = field_10_subObj->field_0_car;
         if (pGroup)
         {
-            if (pCar->Get_F76_4A9AD0() <= 200)
+            if (field_10_subObj->field_0_car->Get_F76_4A9AD0() <= 200)
             {
                 return;
             }
@@ -508,11 +507,15 @@ void PoliceCrew_38::sub_571A30()
                 field_10_subObj->field_2C = 1;
             }
         }
-        else if (pCar->Get_F76_4A9AD0() > 80)
+        else
         {
-            pCar->MarkForDespawn_421470();
-            field_10_subObj->field_28_state = 5;
-            field_10_subObj->field_2C = 1;
+            Car_BC* pCar = field_10_subObj->field_0_car;
+            if (pCar->Get_F76_4A9AD0() > 80)
+            {
+                pCar->MarkForDespawn_421470();
+                field_10_subObj->field_28_state = 5;
+                field_10_subObj->field_2C = 1;
+            }
         }
     }
     else
@@ -615,19 +618,6 @@ void PoliceCrew_38::sub_5720C0()
 
 // https://decomp.me/scratch/p2NiN
 // MaxAbsDistance_42A6B0 with a by-value max, which keeps the compare in registers
-static inline Fix16 MaxAbsDistance_572210(Fix16 x1, Fix16 y1, Fix16 x2, Fix16 y2)
-{
-    Fix16 diff_x = x2 - x1;
-    Fix16 diff_y = y2 - y1;
-    Fix16 abs_y = Fix16::Abs(diff_y);
-    Fix16 abs_x = Fix16::Abs(diff_x);
-    if (!(abs_x > abs_y))
-    {
-        abs_x = abs_y;
-    }
-    return abs_x;
-}
-
 MATCH_FUNC(0x572210)
 bool PoliceCrew_38::sub_572210()
 {
@@ -635,7 +625,7 @@ bool PoliceCrew_38::sub_572210()
     {
         if (!field_10_subObj->field_24)
         {
-            return MaxAbsDistance_572210(gCurrentCrewPed_6FEDDC->get_cam_x(),
+            return Fix16::MaxAbsDistance_42A6B0(gCurrentCrewPed_6FEDDC->get_cam_x(),
                                         gCurrentCrewPed_6FEDDC->get_cam_y(),
                                         field_14_pService->field_0_criminal_ped->get_cam_x(),
                                         field_14_pService->field_0_criminal_ped->get_cam_y()) < kFpEight_6FED48 ? true : false;
@@ -889,8 +879,8 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
                 if (pCar)
                 {
                     pCar->MarkForDespawn_421470();
-                    field_24_state = police_crew_state::shutdown_6;
                     field_10_subObj->field_0_car = 0;
+                    field_24_state = police_crew_state::shutdown_6;
                     PoliceCrew_38::sub_575650();
                 }
             }
@@ -928,7 +918,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
         if (field_14_pService->field_0_criminal_ped->field_16C_car)
         {
             field_14_pService->field_10_x = field_14_pService->field_0_criminal_ped->get_cam_x();
-            field_14_pService->field_14_y = field_14_pService->field_0_criminal_ped->field_1AC_cam.y;
+            field_14_pService->field_14_y = field_14_pService->field_0_criminal_ped->get_cam_y();
             field_14_pService->field_18_z = field_14_pService->field_0_criminal_ped->get_cam_z();
         }
     }
@@ -949,7 +939,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
         while (gCurrentCrewPed_6FEDDC)
         {
             Ped* pPed = gCurrentCrewPed_6FEDDC;
-            if (pPed->GetPedState_403990() != ped_state_1::dead_9 && pPed->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
+            if (pPed->field_278_ped_state_1 != ped_state_1::dead_9 && pPed->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
             {
                 switch (pPed->get_objective_403A80())
                 {
@@ -1062,34 +1052,31 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
                     case objectives_enum::kill_char_on_foot_20:
                     case objectives_enum::objective_32:
                     {
-                        u8 status;
                         if (pPed->get_objective_target_ped_403AD0() == pPed->Get_F14C_403AF0())
                         {
                             field_30 = (s32)pPed->get_objective_target_ped_403AD0();
                             gCurrentCrewPed_6FEDDC->set_field_14C_403AE0(field_14_pService->field_0_criminal_ped);
                         }
                         gCurrentCrewPed_6FEDDC->set_objective_target_ped_403AC0(field_14_pService->field_0_criminal_ped);
-                        status = gCurrentCrewPed_6FEDDC->GetObjectiveStatus_450CB0();
-                        if (status == 1)
+                        if (gCurrentCrewPed_6FEDDC->GetObjectiveStatus_450CB0() == 1)
                         {
                             byte_6FEB48 = 0;
                             break;
                         }
-                        if (status == 2)
+                        if (gCurrentCrewPed_6FEDDC->GetObjectiveStatus_450CB0() == 2)
                         {
                             gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                             gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
                             break;
                         }
 
-                        Ped* pCriminal = field_14_pService->field_0_criminal_ped;
-                        if (pCriminal)
+                        if (field_14_pService->field_0_criminal_ped)
                         {
                             // 9.6f: MaxAbsDistance_42A6B0
-                            field_8 = Fix16::MaxAbsDistanceNegOOL_42A6B0(gCurrentCrewPed_6FEDDC->get_cam_x(),
-                                                                      gCurrentCrewPed_6FEDDC->field_1AC_cam.y,
-                                                                      pCriminal->field_1AC_cam.x,
-                                                                      pCriminal->get_cam_y());
+                            field_8 = Fix16::MaxAbsDistance_42A6B0(gCurrentCrewPed_6FEDDC->get_cam_x(),
+                                                                      gCurrentCrewPed_6FEDDC->get_cam_y(),
+                                                                      field_14_pService->field_0_criminal_ped->get_cam_x(),
+                                                                      field_14_pService->field_0_criminal_ped->get_cam_y());
                         }
                         else
                         {
@@ -1125,7 +1112,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
                             if (bEnterCar)
                             {
                                 // The criminal is too far or too fast to chase on foot
-                                if (gCurrentCrewPed_6FEDDC->get_objective_403A80() == objectives_enum::objective_32 && gCurrentCrewPed_6FEDDC->field_278_ped_state_1 != 1)
+                                if (gCurrentCrewPed_6FEDDC->get_objective_403A80() == objectives_enum::objective_32 && gCurrentCrewPed_6FEDDC->GetPedState_403990() != 1)
                                 {
                                     break;
                                 }
@@ -1185,9 +1172,18 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
 
                     case objectives_enum::objective_43:
                         pPed->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                        if (field_10_subObj->field_8_group && !field_10_subObj->field_8_group->IsAllMembersInSomeCar_4CAA20())
+                        if (field_10_subObj->field_8_group)
                         {
-                            gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
+                            if (field_10_subObj->field_8_group->IsAllMembersInSomeCar_4CAA20())
+                            {
+                                gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::objective_52, 9999);
+                                gCurrentCrewPed_6FEDDC->set_objective_target_ped_403AC0(field_14_pService->field_0_criminal_ped);
+                                field_28 = 1;
+                            }
+                            else
+                            {
+                                gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
+                            }
                         }
                         else
                         {
@@ -1630,19 +1626,13 @@ void PoliceCrew_38::sub_575310()
     byte_6FEB48 = 1;
     gCurrentCrewPed_6FEDDC->set_objective_target_ped_403AC0(field_14_pService->field_0_criminal_ped);
 
-    Ped* pCriminal = field_14_pService->field_0_criminal_ped;
-    // Each branch reads the positions itself (in 9.6f's MaxAbsDistance_42A6B0 argument order);
-    // VC6 hoists the common loads above the branch.
-    if (pCriminal->field_168_game_object)
+    if (field_14_pService->field_0_criminal_ped->field_168_game_object)
     {
-        Fix16 criminal_y = pCriminal->get_cam_y();
-        Fix16 criminal_x = pCriminal->get_cam_x();
-        Fix16 player_y = gCurrentCrewPed_6FEDDC->get_cam_y();
-        Fix16 player_x = gCurrentCrewPed_6FEDDC->get_cam_x();
-        Fix16 dx = criminal_x - player_x;
-        Fix16 dy = criminal_y - player_y;
         Fix16 dist;
-        dist = Fix16::Max_44E540(Fix16::Abs_436A50(dx), Fix16::Abs_436A50(dy));
+        dist = Fix16::MaxAbsDistance_42A6B0(gCurrentCrewPed_6FEDDC->get_cam_x(),
+                                            gCurrentCrewPed_6FEDDC->get_cam_y(),
+                                            field_14_pService->field_0_criminal_ped->get_cam_x(),
+                                            field_14_pService->field_0_criminal_ped->get_cam_y());
         if (dist < dword_6FECF0 + dword_6FEBF4)
         {
             gCurrentCrewPed_6FEDDC->SetObjective(27, 9999);
@@ -1659,14 +1649,11 @@ void PoliceCrew_38::sub_575310()
     }
     else
     {
-        Fix16 criminal_y = pCriminal->get_cam_y();
-        Fix16 criminal_x = pCriminal->get_cam_x();
-        Fix16 player_y = gCurrentCrewPed_6FEDDC->get_cam_y();
-        Fix16 player_x = gCurrentCrewPed_6FEDDC->get_cam_x();
-        Fix16 dx = criminal_x - player_x;
-        Fix16 dy = criminal_y - player_y;
         Fix16 dist;
-        dist = Fix16::Max_44E540(Fix16::Abs_negate_out_of_line(dx), Fix16::Abs_negate_out_of_line(dy));
+        dist = Fix16::MaxAbsDistance_42A6B0(gCurrentCrewPed_6FEDDC->get_cam_x(),
+                                            gCurrentCrewPed_6FEDDC->get_cam_y(),
+                                            field_14_pService->field_0_criminal_ped->get_cam_x(),
+                                            field_14_pService->field_0_criminal_ped->get_cam_y());
 
         Car_BC* pCar = field_10_subObj->field_0_car;
         Hamburger_40* pHamburger = pCar->field_60;
@@ -2615,6 +2602,8 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                 {
                     switch (gRoadblockGuardType_6FEDB8)
                     {
+                        default:
+                            break;
                         case 1:
                             pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x) + dword_6FEBF4,
                                                                              Fix16(y_start + lane) + dword_6FEBF4,
@@ -2913,6 +2902,8 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                 {
                     switch (gRoadblockGuardType_6FEDB8)
                     {
+                        default:
+                            break;
                         case 1:
                             pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start + lane) + dword_6FEBF4,
                                                                              Fix16(y) + dword_6FEBF4,

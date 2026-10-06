@@ -292,27 +292,23 @@ class Pool
 
     void UnlinkFromActiveList_420F30(PoolType* toFind)
     {
-        PoolType* pIter = this->field_4_pPrev;
         PoolType* pLast = 0;
-        while (pIter)
+        for (PoolType* pIter = this->field_4_pPrev; pIter; pIter = pIter->mpNext)
         {
             if (pIter == toFind)
             {
                 if (pLast)
                 {
                     pLast->mpNext = pIter->mpNext;
-                    pIter->mpNext = 0;
                 }
                 else
                 {
                     this->field_4_pPrev = pIter->mpNext;
-                    pIter->mpNext = 0;
                 }
+                pIter->mpNext = 0;
                 return;
             }
-
             pLast = pIter;
-            pIter = pIter->mpNext;
         }
     }
 

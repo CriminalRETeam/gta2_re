@@ -432,13 +432,23 @@ void eager_benz::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
         gang_idx = -1;
     }
 
+    s32 model;
+    Car_BC* pCar = pPed2->get_car_416B60();
+    if (pCar)
+    {
+        model = pCar->field_84_car_info_idx;
+    }
+    else
+    {
+        model = car_model_enum::none;
+    }
     field_1A8_bonuses.ProcessBonusEvent_4320D0(0,
                              87,
                              pPed1->get_occupation_403980(),
                              gang_idx,
                              pPed1->get_remap_433BA0(),
                              pPed1->field_290,
-                             pPed2->get_car_model(),
+                             model,
                              pZone);
 
     s32 rng = gpRng_67AB34->get_cur_rng_41CFE0();
@@ -523,18 +533,18 @@ void eager_benz::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
             case 30:
                 bArmy = 1;
                 bSwat = 0;
-                bFbi = 0;
                 bCop = 0;
+                bFbi = 0;
                 bGangA = 0;
                 bGangB = 0;
                 break;
             case 26:
-                bSwat = 1;
                 bArmy = 0;
-                bFbi = 0;
-                bCop = 0;
-                bGangA = 0;
+                bSwat = 1;
                 bGangB = 0;
+                bGangA = 0;
+                bCop = 0;
+                bFbi = 0;
                 break;
             case 27:
             case 31:
@@ -549,10 +559,10 @@ void eager_benz::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
                 break;
             case 22:
             case 44:
-                bFbi = 0;
                 bCop = 0;
                 bSwat = 0;
                 bArmy = 0;
+                bFbi = 0;
                 score = 100;
                 if ((u32)(rng - field_80) > 15)
                 {
@@ -574,11 +584,11 @@ void eager_benz::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
                 bGangB = 0;
                 break;
             case 16:
-                bFbi = 0;
                 bGangB = 1;
                 bCop = 0;
                 bSwat = 0;
                 bArmy = 0;
+                bFbi = 0;
                 bGangA = 0;
                 break;
             default:
@@ -593,6 +603,33 @@ void eager_benz::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
 
         switch (pPed1->field_290)
         {
+            case 9:
+            case 10:
+            case 11:
+            case 12:
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+            case 17:
+            case 18:
+            case 19:
+            case 20:
+                if (bOtherGang)
+                    score = 50;
+                else if (bCop)
+                    score = 200;
+                else if (bFbi)
+                    score = 500;
+                else if (bArmy)
+                    score = 300;
+                else if (bSwat)
+                    score = 400;
+                else if (bGangA)
+                    score = 40;
+                else
+                    score = bGangB ? 40 : 20;
+                break;
             case 1:
                 if (bOtherGang)
                     score = 20;
@@ -646,33 +683,6 @@ void eager_benz::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
                 break;
             case 5:
                 score = 50;
-                break;
-            case 9:
-            case 10:
-            case 11:
-            case 12:
-            case 13:
-            case 14:
-            case 15:
-            case 16:
-            case 17:
-            case 18:
-            case 19:
-            case 20:
-                if (bOtherGang)
-                    score = 50;
-                else if (bCop)
-                    score = 200;
-                else if (bFbi)
-                    score = 500;
-                else if (bArmy)
-                    score = 300;
-                else if (bSwat)
-                    score = 400;
-                else if (bGangA)
-                    score = 40;
-                else
-                    score = bGangB ? 40 : 20;
                 break;
         }
     }

@@ -74,11 +74,11 @@ class Crane_15C
         return field_8C_crane_angle == field_A8_home_angle;
     }
 
-    Fix16_Point_POD field_0_hooked_sprite_offset_target;
-    Fix16_Point_POD field_8_drop_offset;
-    Fix16_Point_POD field_10_hooked_sprite_offset;
-    Fix16_Point_POD field_18_target1_offset;
-    Fix16_Point_POD field_20_target2_offset;
+    Fix16_Point field_0_hooked_sprite_offset_target;
+    Fix16_Point field_8_drop_offset;
+    Fix16_Point field_10_hooked_sprite_offset;
+    Fix16_Point field_18_target1_offset;
+    Fix16_Point field_20_target2_offset;
     struct_4 field_28_strct4;
     Object_2C* field_2C_rotor_obj;
     Object_2C* field_30;

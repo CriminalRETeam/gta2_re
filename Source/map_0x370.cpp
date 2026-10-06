@@ -1,3 +1,6 @@
+// This TU's copy of the Fix16_Point length zero (see Fix16_Point.hpp)
+#define FIX16_POINT_ZERO kFpZero_6F610C
+
 #include "map_0x370.hpp"
 #include "Fix16_Rect.hpp"
 #include "Function.hpp"
@@ -347,11 +350,8 @@ gmp_map_zone* Map_0x370::GetNearestZoneOfType_4DF240(u8 xpos, u8 ypos, u8 zone_t
         if (pZone->field_0_zone_type == zone_type
             && !pZone->IsZoneVisibleToAnyPlayer_4DEF40())
         {
-            // 9.6f inlined: MaxAbsDistance_42A6B0, here with Abs inline but Negate/Max out of line
-            Fix16 diff_x = Fix16(xpos) - Fix16(pZone->field_1_x);
-            Fix16 diff_y = Fix16(ypos) - Fix16(pZone->field_2_y);
             Fix16 v13;
-            v13 = Fix16::Max_44E540(Fix16::Abs_negate_out_of_line(diff_x), Fix16::Abs_negate_out_of_line(diff_y));
+            v13 = Fix16::MaxAbsDistance_42A6B0(Fix16(pZone->field_1_x), Fix16(pZone->field_2_y), Fix16(xpos), Fix16(ypos));
 
             if (v13 < v21)
             {
@@ -1624,10 +1624,9 @@ inline bool Fix16_Rect::EdgesCrossSegment_463690(Fix16_Point& p1, Fix16_Point& p
         ComputeScanlineIntersectionX_4F77D0(field_8_top, field_C_bottom, field_4_right, p1, p2);
 }
 
-WIP_FUNC(0x4E11E0)
+MATCH_FUNC(0x4E11E0)
 char_type Map_0x370::RectHitsDiagonalWall_4E11E0(Fix16_Rect* pRect)
 {
-    WIP_IMPLEMENTED;
 
     // TODO: rect ?
     Fix16_Point p1;
@@ -1675,12 +1674,9 @@ char_type Map_0x370::RectHitsDiagonalWall_4E11E0(Fix16_Rect* pRect)
 }
 
 // https://decomp.me/scratch/jaBFe
-// The original calls the out-of-line Fix16(int) and const operator+ (Add_408660) for the
-// x/y block centre, so the sum goes through a const Fix16
-WIP_FUNC(0x4E1520)
+MATCH_FUNC(0x4E1520)
 bool Map_0x370::SpriteHitsDiagonalWall_4E1520(s32 z_pos)
 {
-    WIP_IMPLEMENTED;
     Fix16_Point point;
     Fix16_Point unk_point;
     for (s32 y_pos = gPurple_top_6F6108; y_pos <= gPurple_bottom_6F5F38; y_pos++)
@@ -1714,9 +1710,11 @@ bool Map_0x370::SpriteHitsDiagonalWall_4E1520(s32 z_pos)
                     if (gSprite_6F61E8->PointInsideRotatedBounds_5A1490(point, unk_point))
                     {
                         Sprite* pSprt = gObject_5C_6F8F84->GetDirectionalObject_5298E0(slope_type)->field_4;
-                        const Fix16 block_x = x_pos;
-                        const Fix16 block_y = y_pos;
-                        pSprt->set_xyz_lazy_451950(block_x + kFpHalf_6F5FE0, block_y + kFpHalf_6F5FE0, Fix16(z_pos));
+                        // (u32): the block centre goes through the Fix16(u32) constructor (out-of-line copy 0x4926F0);
+                        // z is converted inline in its argument slot
+                        pSprt->set_xyz_lazy_451950(Fix16((u32)x_pos) + kFpHalf_6F5FE0,
+                                                   Fix16((u32)y_pos) + kFpHalf_6F5FE0,
+                                                   z_pos);
                         pSprt->UpdateCollisionBoundsIfNeeded_59E9C0();
                         gRozza_679188.SetSprite_40FEE0(pSprt);
                         return true;
@@ -2942,35 +2940,9 @@ gmp_map_slope::gmp_map_slope(u8 gradient_direction, u8 gradient_size, u8 gradien
     field_8_zpos_higher = zpos_higher;
 }
 
-// https://decomp.me/scratch/zXDWw
-// GetLength_453590 as inlined into sub_4E5640 (out of line helpers)
-static inline Fix16 GetLength_inline_4E5640(Fix16_Point& p)
-{
-    if (p.x == kFpZero_6F610C)
-    {
-        return Fix16::Abs_436A50(p.y);
-    }
-    else if (p.y == kFpZero_6F610C)
-    {
-        return Fix16::Abs_436A50(p.x);
-    }
-    else
-    {
-        return Fix16::SquareRoot_436A70((const Fix16&)p.x.Multiply_408680(p.x) + p.y.Multiply_408680(p.y));
-    }
-}
-
-// Ang16::PolarToCartesian_41FC20 as inlined into sub_4E5640 (out of line multiplies)
-static inline void PolarToCartesian_inline_4E5640(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2)
-{
-    ret1 = Ang16::sine_40F500(angle).Multiply_408680(radius);
-    ret2 = Ang16::cosine_40F520(angle).Multiply_408680(radius);
-}
-
 // Walks the collision probe sprite from (x_1, y_1, z_1) towards (x_2, y_2, z_2) in steps of about `height`,
 // returning 0 as soon as it hits something (line of sight / clear path test).
-// Left: Fix16_Point_POD() for pos_diff goes out of line (inline budget). With it forced inline the
-// diff drops to ~263 (mostly stack slots), so freeing budget is the remaining work.
+// Left: mostly stack slots (pos_diff's ctor is inline, like the original's).
 WIP_FUNC(0x4E5640)
 char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_1, Fix16 y_1, Fix16 z_1, Fix16 x_2, Fix16 y_2, Fix16 z_2)
 {
@@ -2984,7 +2956,8 @@ char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_
 
     angle = Fix16::atan2_fixed_405320(y_2 - y_1, x_2 - x_1);
 
-    Fix16 distance = GetLength_inline_4E5640(pos_diff);
+    Fix16 distance;
+    distance = pos_diff.GetLength_41E260();
     pObjSprt->set_xyz_lazy_420600(x_1, y_1, z_1);
     pObjSprt->set_ang_lazy_420690(angle);
     pObjSprt->AllocInternal_59F950(width, height, depth);
@@ -3001,8 +2974,8 @@ char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_
     }
     else
     {
-        value_2 = kFpZero_6F610C;
         value_1 = kFpZero_6F610C;
+        value_2 = kFpZero_6F610C;
     }
 
     if (value_1 < kFpOne_6F6110)
@@ -3015,7 +2988,7 @@ char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_
     Fix16 vec_x;
     Fix16 vec_y;
 
-    PolarToCartesian_inline_4E5640(angle, value_2, vec_x, vec_y);
+    Ang16::PolarToCartesian_41FC20(angle, value_2, vec_x, vec_y);
 
     for (u8 i = 1; i <= value_1.ToInt(); i++)
     {
@@ -3249,10 +3222,11 @@ Fix16* Map_0x370::sub_4E5E00(Fix16* pOut, Fix16 x, Fix16 y, Ang16 angle)
 }
 
 // https://decomp.me/scratch/9rRLR
-WIP_FUNC(0x4E5E90)
+MATCH_FUNC(0x4E5E90)
 char_type Map_0x370::HasGreenArrowForPathDirection_4E5E90(gmp_block_info* pBlock, s32 direction, char_type a3)
 {
-    WIP_IMPLEMENTED;
+    // No default label (return a3 after the switch). Cases 2 and 4 are ternaries: that lets VC6
+    // cross-jump their calls into the neighbouring cases' calls like the original.
     switch (direction)
     {
         case 1:
@@ -3265,14 +3239,7 @@ char_type Map_0x370::HasGreenArrowForPathDirection_4E5E90(gmp_block_info* pBlock
                 return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, green_1, DOWN_2);
             }
         case 2:
-            if (a3)
-            {
-                return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, green_1, DOWN_2);
-            }
-            else
-            {
-                return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, green_1, UP_1);
-            }
+            return a3 ? gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, green_1, DOWN_2) : gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, green_1, UP_1);
         case 3:
             if (a3)
             {
@@ -3283,18 +3250,9 @@ char_type Map_0x370::HasGreenArrowForPathDirection_4E5E90(gmp_block_info* pBlock
                 return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, green_1, LEFT_3);
             }
         case 4:
-            if (a3)
-            {
-                return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, green_1, LEFT_3);
-            }
-            else
-            {
-                return gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, green_1, RIGHT_4);
-            }
-            break;
-        default:
-            return a3;
+            return a3 ? gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, green_1, LEFT_3) : gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, green_1, RIGHT_4);
     }
+    return a3;
 }
 
 MATCH_FUNC(0x4E5FC0)
@@ -3749,6 +3707,18 @@ done:
     return direction;
 }
 
+// The neighbour arrow check of sub_4E7190: the original's `cmp; je; xor; test; jne` (the zero not
+// folded into the following test) comes from an inline returning the direction. Its budget is paid
+// for by the neighbour z offsets skipping ToInt().
+static inline s32 KeepDir(s32 d, s32 want)
+{
+    if (d != want)
+    {
+        d = 0;
+    }
+    return d;
+}
+
 WIP_FUNC(0x4E7190)
 s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
 {
@@ -3914,18 +3884,16 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
                 case road_direction::down_2:
                     pBlock = gMap_0x370_6F6268->get_block_4DFE10((last_x + kFpOne_6F6110).ToInt(),
                                                                  last_y.ToInt(),
-                                                                 (last_z - kFpOne_6F6110).ToInt());
+                                                                 ((last_z - kFpOne_6F6110).mValue >> 14));
                     if (pBlock)
                     {
-                        new_direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
-                        if (new_direction != road_direction::right_3)
-                            new_direction = 0;
+                        new_direction = KeepDir(GetArrowDirectionFromBlock_4E5FC0(pBlock, 0), road_direction::right_3);
                     }
                     if (!new_direction)
                     {
                         pBlock = gMap_0x370_6F6268->get_block_4DFE10((last_x - kFpOne_6F6110).ToInt(),
                                                                      last_y.ToInt(),
-                                                                     (last_z - kFpOne_6F6110).ToInt());
+                                                                     ((last_z - kFpOne_6F6110).mValue >> 14));
                         new_direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
                     }
                     break;
@@ -3933,18 +3901,16 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
                 case road_direction::left_4:
                     pBlock = gMap_0x370_6F6268->get_block_4DFE10(last_x.ToInt(),
                                                                  (last_y + kFpOne_6F6110).ToInt(),
-                                                                 (last_z - kFpOne_6F6110).ToInt());
+                                                                 ((last_z - kFpOne_6F6110).mValue >> 14));
                     if (pBlock)
                     {
-                        new_direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
-                        if (new_direction != road_direction::down_2)
-                            new_direction = 0;
+                        new_direction = KeepDir(GetArrowDirectionFromBlock_4E5FC0(pBlock, 0), road_direction::down_2);
                     }
                     if (!new_direction)
                     {
                         pBlock = gMap_0x370_6F6268->get_block_4DFE10(last_x.ToInt(),
                                                                      (last_y - kFpOne_6F6110).ToInt(),
-                                                                     (last_z - kFpOne_6F6110).ToInt());
+                                                                     ((last_z - kFpOne_6F6110).mValue >> 14));
                         new_direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
                     }
                     break;

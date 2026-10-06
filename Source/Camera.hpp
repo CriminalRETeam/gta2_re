@@ -85,11 +85,11 @@ class Camera_0xBC
     {
         Fix16 scale = dword_702DE4.Divide_436A20((field_98_cam_pos2.field_8_z - z) + dword_702E04);
 
-        *pOut1 = static_cast<const Fix16&>(x.Subtract_436A00(field_98_cam_pos2.field_0_x).Multiply_408680(field_60.x).Multiply_408680(scale)) +
-            Fix16(field_70_screen_px_center_x);
+        *pOut1 = (x.Subtract_436A00(field_98_cam_pos2.field_0_x).Multiply_408680(field_60.x).Multiply_408680(scale))
+                     .Add_408660(Fix16(field_70_screen_px_center_x));
 
-        *pOut2 = static_cast<const Fix16&>(y.Subtract_436A00(field_98_cam_pos2.field_4_y).Multiply_408680(field_60.x).Multiply_408680(scale)) +
-            Fix16(field_74_screen_px_center_y);
+        *pOut2 = (y.Subtract_436A00(field_98_cam_pos2.field_4_y).Multiply_408680(field_60.x).Multiply_408680(scale))
+                     .Add_408660(Fix16(field_74_screen_px_center_y));
     }
 
     inline void inline_set_ped_id_to_1_475B60()
@@ -149,22 +149,6 @@ class Camera_0xBC
     inline void ResetPendingCameraTarget()
     {
         field_10_cam_pos_tgt2 = field_0_cam_pos_tgt1;
-    }
-
-    inline void ctor_inline(s32 x, s32 y)
-    {
-        CommitCameraTarget_41E410();
-        field_60.x = Fix16(-1);
-        field_60.y = Fix16(-1);
-        field_AC_cam_velocity.field_0_x = kZero_676818;
-        field_AC_cam_velocity.field_4_y = kZero_676818;
-        field_AC_cam_velocity.field_8_z = kZero_676818;
-
-        field_3C_followed_ped_id = 0;
-        field_30_shake = kZero_676818;
-        field_34_ped = NULL;
-
-        SetScreenSize_4361B0(x, y);
     }
 
     // 9.6f inline 0x433E90

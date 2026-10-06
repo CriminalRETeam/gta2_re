@@ -60,12 +60,12 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FD2F8, Fix16(0x1999, 0), 0x6FD2F8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD4AC, Fix16(4), 0x6FD4AC);
 
 // https://decomp.me/scratch/nKSYL
-WIP_FUNC(0x538060)
+MATCH_FUNC(0x538060)
 char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
 {
-    WIP_IMPLEMENTED;
     Fix16 rng_1;
     Fix16 rng_2;
+    Fix16 off_y;
     Fix16_Point vector(Fix16(0), Fix16(0));
     Fix16 new_z = dword_6FD45C + field_30_pNext->field_1C_zpos;
     gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
@@ -83,7 +83,7 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
                                                     field_30_pNext->field_14_xy.y.ToInt(),
                                                     new_z.ToInt()))
     {
-        rng_1 = field_30_pNext->field_1C_zpos; // dead store in the original
+        new_z = field_30_pNext->field_1C_zpos; // blocked above: stay at the current height
         Fix16 r1;
         r1 = Fix16(gRng_6F6784.get_int_4F7AE0(61) - 30);
         rng_1 = r1 / 100;
@@ -106,7 +106,6 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
     {
         if (field_2C_counter > 60)
         {
-            field_40_pUnknown->field_14_pObj2C;
             if (field_40_pUnknown->field_14_pObj2C->field_4)
             {
                 field_20_speed = field_40_pUnknown->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
@@ -125,9 +124,10 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
 
     if (field_20_speed == kFP16Zero_6FD49C)
     {
+        // Assigned (not initialised) here so VC6 keeps the neg; add instead of folding it into a sub
+        off_y = -dword_6FD45C;
         stru_6FD388 = field_30_pNext->field_14_xy.x + rng_1;
-        // The original negates dword_6FD45C and adds it (neg; add), not sub
-        stru_6FD38C = field_30_pNext->field_14_xy.y - dword_6FD45C + rng_2;
+        stru_6FD38C = field_30_pNext->field_14_xy.y + off_y + rng_2;
         if (stru_6FD388 > kFP16One_6FD4A0 && stru_6FD388 < dword_6FD280 - kFP16One_6FD4A0 && stru_6FD38C > kFP16One_6FD4A0 &&
             stru_6FD38C < dword_6FD280 - kFP16One_6FD4A0)
         {
@@ -145,13 +145,19 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
         {
             field_20_speed = kFP16Zero_6FD49C;
         }
+        // A named copy of the zero constant: gives it ebx and pos_y ebp, as in the original
+        Fix16 zero = kFP16Zero_6FD49C;
         Fix16 pos_x = field_30_pNext->field_14_xy.x;
         Fix16 pos_y = field_30_pNext->field_14_xy.y;
         vector.y = field_20_speed;
-        vector.x = kFP16Zero_6FD49C;
-        // The original inlines the two multiplies of the x line and calls Add_408660, then
-        // Negate/Multiply/Multiply/Add out of line for the y line; this variant is the closest
-        vector.RotateByAngle_40F6B0_out_of_line(field_24_angle);
+        vector.x = zero;
+        {
+            Fix16 sin = Ang16::sine_40F500(field_24_angle);
+            Fix16 cos = Ang16::cosine_40F520(field_24_angle);
+            Fix16 old_x = vector.x;
+            vector.x = (vector.x * cos).Add_408660(vector.y * sin);
+            vector.y = old_x.Negate_4086A0().Multiply_408680(sin).Add_408660(vector.y.Multiply_408680(cos));
+        }
 
         field_14_additional_speed_x = vector.x;
         field_18_additional_speed_y = vector.y;
@@ -159,12 +165,14 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
         field_8_speed_x = field_14_additional_speed_x + rng_1;
         field_C_speed_y = field_18_additional_speed_y + rng_2;
 
-        stru_6FD388 = pos_x + field_8_speed_x;
-        stru_6FD38C = pos_y + field_C_speed_y;
+        pos_x = pos_x + field_8_speed_x;
+        pos_y = pos_y + field_C_speed_y;
+        stru_6FD388 = pos_x;
+        stru_6FD38C = pos_y;
         if (stru_6FD388 > kFP16One_6FD4A0 && stru_6FD388 < dword_6FD280 - kFP16One_6FD4A0 && stru_6FD38C > kFP16One_6FD4A0 &&
             stru_6FD38C < dword_6FD280 - kFP16One_6FD4A0)
         {
-            field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, new_z);
+            field_30_pNext->set_xyz_lazy_420600(pos_x, pos_y, new_z);
         }
         else
         {
@@ -185,7 +193,6 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
     Fix16 off_y = kFP16Zero_6FD49C;
     char_type bJitter = 1;
     Fix16_Point dir(Fix16(0), Fix16(0));
-    Fix16 sin;
 
     gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
     if (field_2C_counter == 0)
@@ -283,15 +290,7 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
             break;
     }
 
-    // 9.6f: Fix16_Point::RotateByAngle_40F6B0 (inlined). The original calls the out-of-line
-    // Multiply_408680/Negate_4086A0/const operator+ copies for all but y * sin
-    {
-        sin = Ang16::sine_40F500(field_24_angle);
-        Fix16 cos = Ang16::cosine_40F520(field_24_angle);
-        Fix16 old_x = dir.x;
-        dir.x = (const Fix16&)dir.x.Multiply_408680(cos) + dir.y * sin;
-        dir.y = (const Fix16&)old_x.Negate_4086A0().Multiply_408680(sin) + dir.y.Multiply_408680(cos);
-    }
+    dir.RotateByAngle_40F6B0(field_24_angle);
     field_14_additional_speed_x = dir.x;
     field_18_additional_speed_y = dir.y;
 
@@ -383,17 +382,41 @@ char_type Particle_4C::UpdateBeamSegment_state_43_538A40()
     return 0;
 }
 
+// The normalizing Ang16 ctor (out of line, AssignNormalized_409300) on a by-value parameter: the
+// original stores the 16-bit sum as a dword before the call (UpdateObjectBeamLink_state_38_538AC0)
+static inline Ang16 NormalizedAng(s16 value)
+{
+    Ang16 r(&value, 0);
+    return r;
+}
+
+// radius * sin/cos with the out-of-line Multiply_408680: the by-value factor and the result
+// temporary share one slot across both calls, as in the original
+static inline void MulInto(Fix16& out, Fix16& r, Fix16 v)
+{
+    out = r.Multiply_408680(v);
+}
+
+// Inlined Fix16::Max_44E540: compares and returns the values, not references
+static inline Fix16 MaxValue_44E540(const Fix16& a, const Fix16& b)
+{
+    if (a > b)
+    {
+        return a;
+    }
+    return b;
+}
+
 WIP_FUNC(0x538ac0)
 char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
 {
+    ++field_46_sub_state;
     Fix16_Point src;
     Fix16_Point dst;
     Fix16_Point delta;
     Fix16_Point cur;
     Fix16_Point prev;
     Fix16_Point mid;
-
-    ++field_46_sub_state;
     gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
     if (field_46_sub_state != 6 && field_28_pSprite->field_30_sprite_type_enum == sprite_types_enum::code_obj1_4)
     {
@@ -405,7 +428,7 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
         Fix16::atan2_fixed_405320(delta.y, delta.x);
         Fix16 abs_x = Fix16::Abs_436A50(delta.x);
         Fix16 abs_y = Fix16::Abs_436A50(delta.y);
-        Fix16 segments = Fix16::Max(abs_x, abs_y) / dword_6FD364;
+        Fix16 segments = MaxValue_44E540(abs_x, abs_y) / dword_6FD364;
 
         if (segments != kFP16Zero_6FD49C)
         {
@@ -452,20 +475,20 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
             case 2:
             case 3:
             {
-                Ang16 ang(Ang16(field_28_pSprite->field_0.rValue + kAng180_6FD3EE.rValue), 0);
+                Ang16 ang = NormalizedAng(field_28_pSprite->field_0.rValue + kAng180_6FD3EE.rValue);
                 Fix16 radius = Fix16(field_46_sub_state) * dword_6FD46C;
-                src.x = radius.Multiply_408680(Ang16::sine_40F500(ang));
-                src.y = radius.Multiply_408680(Ang16::cosine_40F520(ang));
+                MulInto(src.x, radius, Ang16::sine_40F500(ang));
+                MulInto(src.y, radius, Ang16::cosine_40F520(ang));
                 break;
             }
             case 4:
             case 5:
             {
-                Ang16 base(Ang16(field_28_pSprite->field_0.rValue + kAng180_6FD3EE.rValue), 0);
-                Ang16 ang(Ang16(base.rValue + jitter.rValue), 0);
+                Ang16 base = NormalizedAng(field_28_pSprite->field_0.rValue + kAng180_6FD3EE.rValue);
+                Ang16 ang = NormalizedAng(base.rValue + jitter.rValue);
                 Fix16 radius = Fix16(field_46_sub_state) * dword_6FD46C + dword_6FD45C;
-                src.x = radius.Multiply_408680(Ang16::sine_40F500(ang));
-                src.y = radius.Multiply_408680(Ang16::cosine_40F520(ang));
+                MulInto(src.x, radius, Ang16::sine_40F500(ang));
+                MulInto(src.y, radius, Ang16::cosine_40F520(ang));
                 break;
             }
         }
@@ -486,9 +509,11 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
     return true;
 }
 
-WIP_FUNC(0x539040)
+MATCH_FUNC(0x539040)
 char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
 {
+    Fix16 jitter_x;
+    Fix16 jitter_y;
     Fix16 off_x = kFP16Zero_6FD49C;
     Fix16 off_y = kFP16Zero_6FD49C;
     Fix16_Point dir(Fix16(0), Fix16(0));
@@ -557,22 +582,22 @@ char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
             field_14_additional_speed_x = dir.x;
             field_18_additional_speed_y = dir.y;
 
-            Fix16 jitter_x;
             jitter_x = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
             jitter_x = jitter_x / 30;
-            Fix16 jitter_y;
             jitter_y = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
             jitter_y = jitter_y / 30;
 
             field_8_speed_x = field_14_additional_speed_x + off_x + jitter_x;
             field_C_speed_y = field_18_additional_speed_y + off_y + jitter_y;
-            stru_6FD388 = xpos + field_8_speed_x;
-            stru_6FD38C = ypos + field_C_speed_y;
+            xpos = xpos + field_8_speed_x;
+            ypos = ypos + field_C_speed_y;
+            stru_6FD388 = xpos;
+            stru_6FD38C = ypos;
 
             if (stru_6FD388 > kFP16One_6FD4A0 && stru_6FD388 < dword_6FD280 - kFP16One_6FD4A0 && stru_6FD38C > kFP16One_6FD4A0 &&
                 stru_6FD38C < dword_6FD280 - kFP16One_6FD4A0)
             {
-                field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, zpos);
+                field_30_pNext->set_xyz_lazy_420600(xpos, ypos, zpos);
             }
             else
             {
@@ -593,9 +618,11 @@ char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
     return true;
 }
 
-WIP_FUNC(0x539480)
+MATCH_FUNC(0x539480)
 char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
 {
+    Fix16 jitter_x;
+    Fix16 jitter_y;
     Fix16 off_x = kFP16Zero_6FD49C;
     Fix16 off_y = kFP16Zero_6FD49C;
     Fix16_Point dir(Fix16(0), Fix16(0));
@@ -664,22 +691,22 @@ char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
             field_14_additional_speed_x = dir.x;
             field_18_additional_speed_y = dir.y;
 
-            Fix16 jitter_x;
             jitter_x = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
             jitter_x = jitter_x / 50;
-            Fix16 jitter_y;
             jitter_y = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
             jitter_y = jitter_y / 50;
 
             field_8_speed_x = field_14_additional_speed_x + off_x + jitter_x;
             field_C_speed_y = field_18_additional_speed_y + off_y + jitter_y;
-            stru_6FD388 = xpos + field_8_speed_x;
-            stru_6FD38C = ypos + field_C_speed_y;
+            xpos = xpos + field_8_speed_x;
+            ypos = ypos + field_C_speed_y;
+            stru_6FD388 = xpos;
+            stru_6FD38C = ypos;
 
             if (stru_6FD388 > kFP16One_6FD4A0 && stru_6FD388 < dword_6FD280 - kFP16One_6FD4A0 && stru_6FD38C > kFP16One_6FD4A0 &&
                 stru_6FD38C < dword_6FD280 - kFP16One_6FD4A0)
             {
-                field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, zpos);
+                field_30_pNext->set_xyz_lazy_420600(xpos, ypos, zpos);
             }
             else
             {
@@ -700,7 +727,7 @@ char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
 }
 
 // https://decomp.me/scratch/2UJLM
-WIP_FUNC(0x539890)
+MATCH_FUNC(0x539890)
 char_type Particle_4C::UpdateCircularBurst_state_5_539890()
 {
     char_type bJitter = 1;
@@ -775,13 +802,13 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
             dir.y = dword_6FD304 * field_20_speed;
             break;
         case 4:
-            // dir.x is still 0 here. Left: the original also stores it in the tail it shares with case 5
             field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 100);
+            dir.x = 0;
             dir.y = dword_6FD308 * field_20_speed;
             break;
         case 5:
-            dir.x = 0;
             field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 99);
+            dir.x = 0;
             dir.y = dword_6FD308 * field_20_speed;
             break;
         case 6:
@@ -843,13 +870,13 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
     }
 
     // 9.6f: Fix16_Point::RotateByAngle_40F6B0 (inlined). The original calls the out-of-line
-    // const operator+/Multiply_408680/Negate_4086A0 copies for all but x * cos and y * sin
+    // Add_408660/Multiply_408680/Negate_4086A0 copies for all but x * cos and y * sin
     {
         Fix16 sin = Ang16::sine_40F500(field_24_angle);
         Fix16 cos = Ang16::cosine_40F520(field_24_angle);
         Fix16 old_x = dir.x;
-        dir.x = (const Fix16&)(dir.x * cos) + dir.y * sin;
-        dir.y = (const Fix16&)old_x.Negate_4086A0().Multiply_408680(sin) + dir.y.Multiply_408680(cos);
+        dir.x = (dir.x * cos).Add_408660(dir.y * sin);
+        dir.y = old_x.Negate_4086A0().Multiply_408680(sin).Add_408660(dir.y.Multiply_408680(cos));
     }
     field_14_additional_speed_x = dir.x;
     field_18_additional_speed_y = dir.y;
@@ -944,7 +971,9 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
             return true;
         }
 
-        if (++field_46_sub_state == 5)
+        u8 sub = field_46_sub_state + 1;
+        field_46_sub_state = sub;
+        if (sub == 5)
         {
             return true;
         }
@@ -952,7 +981,7 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
         Ang16 angle = field_28_pSprite->field_0;
         Fix16 half_w;
         Fix16 half_h;
-        if (field_46_sub_state < 4)
+        if (sub < 4)
         {
             Sprite_4C* pBox = pCar->field_50_car_sprite->field_C_sprite_4c_ptr;
             half_w = pBox->field_0_width / 2 + dword_6FD3C0;
@@ -966,7 +995,9 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
         }
 
         // The rotations are written out (RotateByAngle_OOL_40F6B0 shape): with the helper in both
-        // branches the inline budget runs out and the Fix16_Point ctors / unary minus go out of line
+        // branches the inline budget runs out and the Fix16_Point ctors / unary minus go out of line.
+        // The original has `corner += get_x_y` in each branch (tail-merged after the lea of its return temp),
+        // and state 41's sin/cos in swapped stack slots (from `x_old = -half_w` before the corner stores).
         if (field_38_state == 40)
         {
             corner.x = half_w;
@@ -974,21 +1005,21 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
             Fix16 x_old = corner.x;
             Fix16 sin = Ang16::sine_40F500(angle);
             Fix16 cos = Ang16::cosine_40F520(angle);
-            corner.x = (const Fix16&)corner.x.Multiply_408680(cos) + corner.y.Multiply_408680(sin);
-            corner.y = (const Fix16&)(-x_old).Multiply_408680(sin) + corner.y.Multiply_408680(cos);
+            corner.x = corner.x.Multiply_408680(cos).Add_408660(corner.y.Multiply_408680(sin));
+            corner.y = (-x_old).Multiply_408680(sin).Add_408660(corner.y.Multiply_408680(cos));
+            corner += field_28_pSprite->get_x_y_443580();
         }
         else
         {
-            corner.x = -half_w;
+            Fix16 x_old = -half_w;
+            corner.x = x_old;
             corner.y = half_h;
-            Fix16 x_old = corner.x;
             Fix16 sin = Ang16::sine_40F500(angle);
             Fix16 cos = Ang16::cosine_40F520(angle);
-            corner.x = (const Fix16&)corner.x.Multiply_408680(cos) + corner.y.Multiply_408680(sin);
-            corner.y = (const Fix16&)(-x_old).Multiply_408680(sin) + corner.y.Multiply_408680(cos);
+            corner.x = corner.x.Multiply_408680(cos).Add_408660(corner.y.Multiply_408680(sin));
+            corner.y = (-x_old).Multiply_408680(sin).Add_408660(corner.y.Multiply_408680(cos));
+            corner += field_28_pSprite->get_x_y_443580();
         }
-
-        corner += field_28_pSprite->get_x_y_443580();
 
         field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 200);
         field_30_pNext->field_2C_flags = 0xA2;
@@ -1269,12 +1300,14 @@ char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
         {
             if (field_2C_counter > 40)
             {
-                Ang16 angle(Fix16((gRng_6F6784.get_int_4F7AE0(8) - 4) / 2).GetRaw_40F4B0() / 71);
-                angle.Normalize_406C20();
+                // The jitter assigned (not initialised) and added to a copy of the sprite angle gives the
+                // original's load/add/store (Left: its slot is 0x10, the original's 0x12)
+                Ang16 jitter;
+                jitter = Ang16::Fix16_To_Ang16_40F540(Fix16((gRng_6F6784.get_int_4F7AE0(8) - 4) / 2));
                 {
                     Fix16 radius = dword_6FD540 * dword_6FD4A8;
-                    angle.rValue = field_28_pSprite->field_0.rValue + angle.rValue;
-                    angle.Normalize_406C20();
+                    Ang16 angle = field_28_pSprite->field_0;
+                    angle += jitter;
                     Ang16::PolarToCartesian_41FC20(angle, radius, offset.x, offset.y);
                 }
                 field_30_pNext->SetFlags_4337D0(1, 10);
@@ -1367,11 +1400,11 @@ static inline Fix16 GetLength_OOL_6FD49C(Fix16_Point& v)
     }
     else if (v.y == kFP16Zero_6FD49C)
     {
-        return Fix16::Abs_436A50(v.x);
+        return Fix16::Abs(v.x);
     }
     else
     {
-        return Fix16::SquareRoot_436A70((const Fix16&)v.x.Multiply_408680(v.x) + v.y.Multiply_408680(v.y));
+        return Fix16::SquareRoot_436A70(v.x.Multiply_408680(v.x).Add_408660(v.y.Multiply_408680(v.y)));
     }
 }
 
@@ -1468,16 +1501,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
         Fix16_Point offset;
         Sprite_18* pGun = pCar->field_0_qq.GetSpriteForModel_5A6A50(114);
         Fix16_Point attach;
-        if (!pGun)
-        {
-            car_angle = pCar->field_0_qq.GetSpriteForModel_5A6A50(248)->field_0->field_0;
-            attach.x = 0;
-            attach.y = dword_6FD48C;
-            attach.RotateByAngle_OneMulInline_40F6B0(car_angle);
-            offset.x = 0;
-            offset.y = dword_6FD4CC;
-        }
-        else
+        if (pGun)
         {
             {
                 Ang16 gun_angle = pGun->field_0->field_0;
@@ -1490,6 +1514,15 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
             attach.RotateByAngle_OneMulInline_40F6B0(car_angle);
             offset.x = 0;
             offset.y = kFP16Eighth_6FD2D0;
+        }
+        else
+        {
+            car_angle = pCar->field_0_qq.GetSpriteForModel_5A6A50(248)->field_0->field_0;
+            attach.x = 0;
+            attach.y = dword_6FD48C;
+            attach.RotateByAngle_OneMulInline_40F6B0(car_angle);
+            offset.x = 0;
+            offset.y = dword_6FD4CC;
         }
         offset.RotateByAngle_OneMulInline_40F6B0(pCar->field_50_car_sprite->field_0);
         attach += offset.Add_40AC50(pCar->field_50_car_sprite->get_x_y_443580());

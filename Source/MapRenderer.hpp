@@ -23,7 +23,7 @@ EXTERN_GLOBAL(Fix16, gXCoord_6F63AC);
 
 EXTERN_GLOBAL(Fix16, gYCoord_6F63B8);
 
-EXTERN_GLOBAL(s32, gZCoord_6F63E0);
+EXTERN_GLOBAL(u32, gZCoord_6F63E0);
 
 
 EXTERN_GLOBAL(gmp_map_slope, gCurrentSlope_6F646C);
@@ -55,6 +55,7 @@ class MapRenderer
     EXPORT void ProjectVertTop_4EAE00(Fix16& xpos, Fix16& ypos, Vert* pVert);
     EXPORT void ProjectVertBottom_4EAEA0(Fix16& xCoord, Fix16& yCoord, Vert* pVert);
     EXPORT void DrawRightSide_4EAF40(u16& right_word);
+    EXPORT void ProjectVert_4EB940(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert);
     EXPORT void DrawTopSide_4EBA60(u16& top_word);
     EXPORT void DrawDiagonalUpLeftFace_4EC450(u16& left_word);
     EXPORT void DrawDiagonalUpRightFace_4EC7A0(u16& right_word);
@@ -184,8 +185,6 @@ class MapRenderer
 };
 
 EXPORT void __stdcall set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert* pVerts);
-
-EXPORT void __stdcall ProjectVert_4EB940(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert);
 
 EXPORT void __stdcall draw_4F3FB0(s32 arg);
 

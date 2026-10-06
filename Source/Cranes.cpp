@@ -1,3 +1,5 @@
+// This TU's copy of the Fix16_Point length zero (see Fix16_Point.hpp)
+#define FIX16_POINT_ZERO kZero_679E70
 #include "Cranes.hpp"
 #include "Char_Pool.hpp"
 #include "Globals.hpp"
@@ -69,13 +71,10 @@ inline Fix16 __stdcall WrapAngle_40E790(Fix16 a2)
     return a2;
 }
 
-// TODO: The original has an EH frame in state 4, so field_0-field_20_target2_offset are probably Fix16_Point
-// (non-trivial dtor). Changing them makes this match, but then the ctor stops matching because
-// the implicit Fix16_Point_POD ctor isn't inlined.
-WIP_FUNC(0x47e5b0)
+// The EH frame in state 4 comes from field_0-field_20_target2_offset, which are Fix16_Point (destructor)
+MATCH_FUNC(0x47e5b0)
 Crane_15C::~Crane_15C()
 {
-    WIP_IMPLEMENTED;
     if (field_7C_sound)
     {
         gRoot_sound_66B038.DestroySoundObj_40FE60(field_7C_sound);
@@ -99,7 +98,7 @@ void Crane_15C::ComputeHookPos_47E620(Fix16 radius, Ang16 ang, Fix16_Point* pOut
     Fix16 cos = Ang16::cosine_40F520(ang);
     Fix16 x_old = pOutPoint->x;
     pOutPoint->x = (pOutPoint->x * cos) + (pOutPoint->y * sin);
-    pOutPoint->y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + (pOutPoint->y * cos);
+    pOutPoint->y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(pOutPoint->y * cos);
 
     *pOutPoint += field_2C_rotor_obj->field_4->get_x_y_443580();
 }
@@ -113,7 +112,7 @@ void Crane_15C::ComputeHookPos_47E730(Ang16 radius, Fix16 ang, Fix16_Point* pOut
     Fix16 cos = Ang16::cosine_40F520(radius);
     Fix16 x_old = pOutPoint->x;
     pOutPoint->x = (pOutPoint->x * cos) + (pOutPoint->y * sin);
-    pOutPoint->y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + (pOutPoint->y * cos);
+    pOutPoint->y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(pOutPoint->y * cos);
     *pOutPoint += field_2C_rotor_obj->field_4->get_x_y_443580();
 }
 
@@ -128,7 +127,7 @@ void Crane_15C::ComputeHookOffset_47E840(Ang16 ang, Fix16_Point* pOutPoint)
     Fix16 cos = Ang16::cosine_40F520(ang);
     Fix16 x_old = pOutPoint->x;
     pOutPoint->x = (pOutPoint->x * cos) + (pOutPoint->y * sin);
-    pOutPoint->y = (const Fix16&)(-x_old).Multiply_408680(sin) + pOutPoint->y.Multiply_408680(cos);
+    pOutPoint->y = (-x_old).Multiply_408680(sin).Add_408660(pOutPoint->y.Multiply_408680(cos));
     *pOutPoint += field_2C_rotor_obj->field_4->get_x_y_443580();
 }
 
@@ -513,7 +512,7 @@ MATCH_FUNC(0x47f6c0)
 bool Crane_15C::ComputeHookPolar_47F6C0(Fix16_Point& pPoint, Fix16* pOutF16, Fix16* pOutAng)
 {
     Fix16_Point v10 = (pPoint.Sub_40AC80(field_2C_rotor_obj->field_4->get_x_y_443580()));
-    *pOutF16 = v10.GetLength_no_sqrt_inline(); // TODO: Uses kZero_679E70 as Zero
+    *pOutF16 = v10.GetLength_41E260();
 
     // TODO: 1st check is removed in 9.6f ??
     if (*pOutF16 <= kMaxHookRadius_679F68 && *pOutF16 >= kMinHookRadius_679C3C)
@@ -565,10 +564,9 @@ void Crane_15C::TargetTransporter_47F7F0(Car_BC* pCar)
 
 // 9.6f 0x448A80
 // 10.5 https://decomp.me/scratch/HB5R5 return jump issue
-WIP_FUNC(0x47f930)
+MATCH_FUNC(0x47f930)
 void Crane_15C::PickUpCar_47F930(Car_BC* pCar)
 {
-    WIP_IMPLEMENTED;
 
     if (!pCar->IsDespawning_4215B0() && !field_28_strct4.TagSpriteWithRng_5A6C10(pCar->field_50_car_sprite))
     {

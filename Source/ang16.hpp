@@ -84,6 +84,14 @@ class Ang16
         return r;
     }
 
+    // operator+ with the normalizing constructor called out of line (AssignNormalized_409300), for
+    // functions that ran out of inline expansions (Wolfy_30::state_22_23_24_25_542E30)
+    Ang16 Add_ool(const Ang16& rhs)
+    {
+        s16 value = rValue + rhs.rValue;
+        return Ang16(&value, 0);
+    }
+
     Ang16 operator-(const Ang16& other)
     {
         return Ang16(rValue - other.rValue, 0);
@@ -205,14 +213,28 @@ class Ang16
     EXPORT static bool __stdcall IsAngleAhead_405C60(Ang16* a1, Ang16* a2);
 
     EXPORT void SnapToAng4_405640();
-    EXPORT Ang16* AssignNormalized_409300(Ang16& input, s32 a3);
+    EXPORT Ang16* AssignNormalized_409300(const s16& value, s32 a3);
     EXPORT Ang16 SubtractNormalized_409340(const Ang16& toSub);
     EXPORT static Ang16 __stdcall Fix16_To_Ang16_482740(Fix16& a2);
 
-    // Normalizing copy, needed by Weapon_30::fire_truck_flamethrower_5E0B10
+    // 10.5 0x409300 (AssignNormalized_409300) is the out-of-line copy of the normalizing constructor
+    // Ang16(const s16&, s32) below (9.6f 0x401C60). VC6 calls it instead of inlining in functions that
+    // ran out of inline expansions. C++ can't declare the inline and the out-of-line copy of one
+    // constructor, so the out-of-line one is reached through these overloads.
     Ang16(Ang16& input, s32 a3)
     {
-        AssignNormalized_409300(input, a3);
+        AssignNormalized_409300(input.rValue, a3);
+    }
+
+    Ang16(const s16* value, s32 a3)
+    {
+        AssignNormalized_409300(*value, a3);
+    }
+
+    // The value is stored as a dword, as 9.6f's 0x40F540 passes it to 0x401C60; the copy reads its low word
+    Ang16(const s32* value, s32 a3)
+    {
+        AssignNormalized_409300(*(const s16*)value, a3);
     }
 
     // The out-of-line copy of Ang16(Fix16& value, u8) (9.6f 0x401C40). A real constructor, not a
@@ -268,7 +290,7 @@ class Ang16
     {
         // The quotient is stored as a dword, like 9.6f's 0x40F540 passing it to 0x401C60
         s32 value = a2.GetRaw_40F4B0() / 71;
-        return Ang16((Ang16&)value, 0);
+        return Ang16(&value, 0);
     }
 
     // 9.6f 0x41E110

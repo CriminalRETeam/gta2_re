@@ -928,7 +928,11 @@ class Ped
     };
 
     s32 field_220;
-    char_type field_224;
+    union
+    {
+        CompilerBitField8 field_224_bf;
+        char_type field_224;
+    };
     u8 field_225_objective_status; // it uses objective_status enum
     char_type field_226_internal_objective_status;
     char_type field_227;

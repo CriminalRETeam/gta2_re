@@ -13,7 +13,6 @@ class Sprite_4C;
 class Ped;
 class ModelPhysics_48;
 class CarAI_78;
-struct Fix16_Point_POD;
 
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
 EXTERN_GLOBAL(Fix16, dword_6FD120);
@@ -49,26 +48,6 @@ enum
 };
 } // namespace car_turn_direction
                                                                 
-// A point passed by value that the caller copies bitwise (two pushes) but the callee
-// destroys (EH frame): Fix16_Point without the user-defined copy constructor.
-class Fix16_Point_ByValue : public Fix16_Point_POD
-{
-  public:
-    Fix16_Point_ByValue()
-    {
-    }
-
-    Fix16_Point_ByValue(const Fix16& a1, const Fix16& a2)
-    {
-        x = a1;
-        y = a2;
-    }
-
-    ~Fix16_Point_ByValue()
-    {
-    }
-};
-
 class CarPhysics_B0
 {
   public:
@@ -168,6 +147,12 @@ class CarPhysics_B0
     EXPORT Fix16 GetEffectiveMomentOfInertia_55A050();
     EXPORT u8 IsInAir_55A0B0();
     EXPORT Fix16 GetTrailerAwareTurnRatio_55A100();
+    // Inlined in UpdateSteeringAngle_562560. The scale is computed before the turn ratio call, which
+    // needs it as a by-value argument ahead of the turn direction (arguments are evaluated right to left)
+    inline Fix16 GetScaledTurnRatio(Fix16 scale, s32 turn_direction)
+    {
+        return GetTrailerAwareTurnRatio_55A100() * turn_direction * scale;
+    }
     EXPORT char_type IsFootBrakeOn_55A150();
     EXPORT char_type IsAccelerationOrReverseOn_55A180();
     EXPORT void SetVelocityTowardTarget_55A1D0(Fix16 a2, Fix16 a3, Fix16 a4, s32* a5);
@@ -198,7 +183,7 @@ class CarPhysics_B0
     EXPORT void HandleMapBoundaryCollisionX_55C820(Fix16_Point& a2, Ang16 a3);
     EXPORT void DispatchCollision_55CA70(Fix16_Point& a2, Ang16 a3);
     EXPORT void ReplayAndDispatchCollision_55CBB0(Fix16 a2, Fix16 a3);
-    EXPORT void SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point_ByValue arg_4_, s32 surface);
+    EXPORT void SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 surface);
     EXPORT void UpdateWheelSkidEffects_55DC00();
     EXPORT void DoSkidmarks_55E260();
     EXPORT char_type StepMovementAndCollisions_55E470();
@@ -211,11 +196,11 @@ class CarPhysics_B0
     EXPORT void StepPhysics_55F330();
     EXPORT char_type CheckPendingCollision_55F360();
     EXPORT void ApplyForceWithTrailerRedirect_55F740(Fix16_Point* a2, Fix16_Point* a3);
-    EXPORT void ApplyForceAndIntegrate_55F7A0(Fix16_Point* a2, Fix16_Point_ByValue a3);
+    EXPORT void ApplyForceAndIntegrate_55F7A0(Fix16_Point* a2, Fix16_Point a3);
     EXPORT void ApplyForceAtPoint_55F800(Fix16_Point* a2, Fix16_Point* a3, s32 a4);
     EXPORT void AccumulateImpulse_55F930(Fix16_Point* a2);
     EXPORT void ApplyAngularImpulse_55F970(Fix16 a2);
-    EXPORT void ApplyForceScaledByMass_55F9A0(Fix16_Point_POD& pForce);
+    EXPORT void ApplyForceScaledByMass_55F9A0(Fix16_Point& pForce);
     EXPORT void ApplyImpulseWithTrailerRedirect_55FA10(Fix16_Point* a2);
     EXPORT Fix16 ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce, Fix16_Point& Impulse, s32 base_dmg);
     EXPORT void AccumulateImpulse_55FC30(Fix16_Point& a2, s32 a3);
@@ -260,13 +245,15 @@ class CarPhysics_B0
     {
         if (get_revs_561940() != 0)
         {
-            return (const Fix16&)gCarInfo_2C_6FE0E4->field_14_half_thrust +
-                gCarInfo_2C_6FE0E4->field_18_fith_thrust.Multiply_408680(gDamageSpeedFactor_6FE348).Multiply_408680(field_60_gas_pedal).MultiplyInt_561DB0(2);
+            return gCarInfo_2C_6FE0E4->field_14_half_thrust.Add_408660(
+                gCarInfo_2C_6FE0E4->field_18_fith_thrust.Multiply_408680(gDamageSpeedFactor_6FE348)
+                    .Multiply_408680(field_60_gas_pedal)
+                    .MultiplyInt_561DB0(2));
         }
         else
         {
-            return (const Fix16&)gCarInfo_2C_6FE0E4->field_14_half_thrust +
-                gCarInfo_2C_6FE0E4->field_18_fith_thrust.Multiply_408680(gDamageSpeedFactor_6FE348).Multiply_408680(field_60_gas_pedal);
+            return gCarInfo_2C_6FE0E4->field_14_half_thrust.Add_408660(
+                gCarInfo_2C_6FE0E4->field_18_fith_thrust.Multiply_408680(gDamageSpeedFactor_6FE348).Multiply_408680(field_60_gas_pedal));
         }
     }
 
@@ -275,13 +262,13 @@ class CarPhysics_B0
     {
         if (get_revs_561940())
         {
-            return (const Fix16&)gCarInfo_2C_6FE0E4->field_14_half_thrust +
-                gCarInfo_2C_6FE0E4->field_18_fith_thrust.Multiply_408680(field_60_gas_pedal).MultiplyInt_561DB0(2);
+            return gCarInfo_2C_6FE0E4->field_14_half_thrust.Add_408660(
+                gCarInfo_2C_6FE0E4->field_18_fith_thrust.Multiply_408680(field_60_gas_pedal).MultiplyInt_561DB0(2));
         }
         else
         {
-            return (const Fix16&)gCarInfo_2C_6FE0E4->field_14_half_thrust +
-                gCarInfo_2C_6FE0E4->field_18_fith_thrust.Multiply_408680(field_60_gas_pedal);
+            return gCarInfo_2C_6FE0E4->field_14_half_thrust.Add_408660(
+                gCarInfo_2C_6FE0E4->field_18_fith_thrust.Multiply_408680(field_60_gas_pedal));
         }
     }
 
@@ -488,8 +475,8 @@ class CarPhysics_B0
     Fix16_Point field_30_cm1;
     Fix16_Point field_38_cp1;
     Fix16_Point field_40_linvel_1;
-    Fix16_Point_POD field_48_force_accum;
-    Fix16_Point_POD field_50_linear_accel;
+    Fix16_Point field_48_force_accum;
+    Fix16_Point field_50_linear_accel;
     Ang16 field_58_theta;
     s16 field_5A;
     Car_BC* field_5C_pCar;

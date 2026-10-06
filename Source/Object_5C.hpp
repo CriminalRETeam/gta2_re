@@ -9,6 +9,7 @@
 #include "fix16.hpp"
 #include "sprite.hpp"
 
+EXTERN_GLOBAL(Fix16_Point, gZeroVector_6F8EF0);
 EXTERN_GLOBAL(s32, gObj2C_id_623EC0);
 
 EXPORT void __stdcall UnpackSignedNibbles_529050(u8 a1, s8* a2, s8* a3);
@@ -109,6 +110,17 @@ class Object_2C
     EXPORT void ReactivateObjectAfterImpact_52A6D0(Sprite* a2);
     EXPORT Fix16_Point GetXY_52AE70();
     EXPORT Fix16_Point GetSpeedVector_52AE90();
+    // 9.6f 0x482C50; GetSpeedVector_52AE90 is its out-of-line copy. It returns a Fix16_Point (which has
+    // a destructor), so VC6 never expands it: it is charged to the caller's inline budget and called
+    // out of line (SetMovementVector_5224E0)
+    inline Fix16_Point GetSpeedVector_482C50()
+    {
+        if (field_10_obj_3c)
+        {
+            return field_10_obj_3c->GetSpeedVector_482BA0();
+        }
+        return gZeroVector_6F8EF0;
+    }
 
     // TODO: ordering
     EXPORT void SetSpriteIdOffset_5290C0(u8 id_base);

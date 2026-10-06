@@ -250,28 +250,6 @@ void Firefighter_28::deinit_4A81A0()
 // https://decomp.me/scratch/ZcdAk
 DEFINE_GLOBAL_INIT(Fix16, dword_67D384, Fix16(3), 0x67D384);
 
-// Fix16::Abs_negate_out_of_line. __forceinline: Update_4A81F0 is out of inline budget by the time
-// MaxAbsDistance_42A6B0 expands, and the original still inlines this one.
-static __forceinline Fix16 __stdcall AbsNegOOL(Fix16& input)
-{
-    if (input.mValue > 0)
-    {
-        return input;
-    }
-    return input.Negate_4086A0();
-}
-
-// 9.6f 0x42A6B0, inlined in 10.5. This copy uses the out-of-line Abs_436A50 for x and Abs_negate_out_of_line for y.
-static inline Fix16 __stdcall MaxAbsDistance_42A6B0(Fix16 x1, Fix16 y1, Fix16 x2, Fix16 y2)
-{
-    Fix16 diff_x = x2 - x1;
-    Fix16 diff_y = y2 - y1;
-
-    Fix16 result;
-    result = Fix16::Max_44E540(Fix16::Abs_436A50(diff_x), AbsNegOOL(diff_y));
-    return result;
-}
-
 MATCH_FUNC(0x4a81f0)
 void Firefighter_28::Update_4A81F0()
 {
@@ -331,7 +309,7 @@ void Firefighter_28::Update_4A81F0()
             }
             else if (sub_4A7FC0())
             {
-                if (MaxAbsDistance_42A6B0(field_1C_car->get_x_41E430(),
+                if (Fix16::MaxAbsDistance_42A6B0(field_1C_car->get_x_41E430(),
                                           field_1C_car->get_y_41E440(),
                                           field_C_target_car->get_x_41E430(),
                                           field_C_target_car->get_y_41E440()) < dword_67D384 &&
@@ -389,19 +367,19 @@ void Firefighter_28::Update_4A81F0()
             if (field_1C_car && field_1C_car->field_88_despawn_status != 6 && !field_1C_car->IsDespawning_4215B0() &&
                 !field_1C_car->IsMarkedForDespawn_4214B0())
             {
-                if (field_1C_car->get_driver_4118B0())
+                if (field_1C_car->field_54_driver)
                 {
-                    field_1C_car->get_driver_4118B0()->field_21C_bf.b3 = 1;
+                    field_1C_car->field_54_driver->field_21C_bf.b3 = 1;
                 }
                 field_1C_car->SetUniNum_421560(3);
                 field_1C_car->InitCarAIControl_440590();
                 field_1C_car->sub_43AF40();
                 field_1C_car->DeactivateEmergencyLights_43C9D0();
-                if (field_1C_car->get_driver_4118B0())
+                if (field_1C_car->field_54_driver)
                 {
-                    field_1C_car->get_driver_4118B0()->set_field_150_target_objective_car(0);
-                    field_1C_car->get_driver_4118B0()->SetObjective(objectives_enum::no_obj_0, 9999);
-                    field_1C_car->get_driver_4118B0()->field_21C_bf.b11 = 0;
+                    field_1C_car->field_54_driver->set_field_150_target_objective_car(0);
+                    field_1C_car->field_54_driver->SetObjective(objectives_enum::no_obj_0, 9999);
+                    field_1C_car->field_54_driver->ClearBit11_403A40();
                 }
             }
             Reset_4A85E0();

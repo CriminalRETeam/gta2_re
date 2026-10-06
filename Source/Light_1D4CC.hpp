@@ -74,6 +74,23 @@ class Light_1D4CC : public LightBase
         return pLight;
     }
 
+    // Same as Init_469010, but TrafficLight_20::Init_5C1D00 calls the out-of-line copies
+    // Alloc_5C2B70 and LightIntensityRadius::SetRadius_5C5CD0 in 10.5.
+    inline nostalgic_ellis_0x28* InitOutOfLine_469010(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity)
+    {
+        nostalgic_ellis_0x28* pLight = Alloc_5C2B70();
+        pLight->field_4_light_x = xpos;
+        pLight->field_8_light_y = ypos;
+        pLight->field_C_light_z = zpos;
+        pLight->field_10_argb = argb;
+        pLight->field_0.flag = 0x10000;
+        pLight->field_0.SetRadius_5C5CD0(radius);
+        pLight->SetCurrentIntensity_45B2D0(intensity);
+        pLight->field_18_intensity = intensity;
+        pLight->AddToGrid_4D6D70();
+        return pLight;
+    }
+
     inline void Free_47F4B0(nostalgic_ellis_0x28* pLight)
     {
         pLight->PoolDeallocate();

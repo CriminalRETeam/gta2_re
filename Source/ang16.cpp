@@ -55,9 +55,9 @@ void Ang16::Normalize_406C20()
 }
 
 MATCH_FUNC(0x409300)
-Ang16* Ang16::AssignNormalized_409300(Ang16& input, s32 a3)
+Ang16* Ang16::AssignNormalized_409300(const s16& value, s32 a3)
 {
-    rValue = input.rValue;
+    rValue = value;
     Normalize();
     return this;
 }

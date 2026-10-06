@@ -9,6 +9,28 @@ reference the same symbol, the same as in the full exe build.
 
 Usage:
     python permuter_score.py <obj> <og_addr> [symbol_substring]
+    python permuter_score.py --96f <obj> <96f_addr> <symbol_substring>
+    python permuter_score.py --structure [--96f] <obj> <addr> <symbol_substring>
+
+--structure ignores register allocation: register names, stack offsets, jump targets (byte offsets
+that move with any size change) and register-to-register moves are masked or dropped, so what is left
+is the instruction kinds, block layout, call order and the symbols touched. 0 there means the control
+flow and calls match and only register allocation / stack layout differ.
+
+--skeleton goes further and keeps only the control flow skeleton: jumps (kind only), calls (with their
+targets, in order) and returns. Instruction scheduling inside a block doesn't count, so 0 means the
+branches, block order and call order match.
+
+Unless --no-callees is given, each call to a function named after an address (Name_ADDRESS) that the
+original doesn't call adds 2. The asm comparison only checks that the call targets map one to one,
+so a call to the wrong named function would otherwise score 0 when that function is called once.
+A call to an inline's out-of-line COMDAT copy (??HFix16@@...) is not counted: the original's linker
+folded those copies to one address (0x408660), and the build's verifier accepts them as well. Only
+for targets from target_asm.json (the original's asm); see callee_penalty.
+
+--96f scores against the 9.6f build instead (target_96f.json, built with VC7.0 and no inlining;
+compile the candidate with Scripts/compile_vc7.sh). Its absolute addresses are first rewritten to
+the start-relative form of target_asm.json.
 
 Prints a unified diff of the post processed asm, then the score as the last number: 0 is a
 match (see score_lines for how the rest is counted).
@@ -159,6 +181,56 @@ def score_lines(tl, ml):
     return score
 
 
+ADDR_KEY = re.compile(r"_([0-9A-Fa-f]{6})(?:@|$)")
+# Functions the source names after an address: an original callee counts only when the source has
+# a function for it, so a callee nobody has named yet doesn't cost anything.
+SOURCE_ADDRS = None
+
+
+def source_addrs():
+    global SOURCE_ADDRS
+    if SOURCE_ADDRS is None:
+        src = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "Source")
+        found = set()
+        for root, _, files in os.walk(src):
+            for f in files:
+                if f.endswith((".cpp", ".hpp", ".h")):
+                    text = open(os.path.join(root, f), errors="replace").read()
+                    found.update(m.lower() for m in re.findall(r"\w_([0-9A-Fa-f]{6})\b", text))
+        SOURCE_ADDRS = found
+    return SOURCE_ADDRS
+
+
+def callee_penalty(coff, symidx, target, addr):
+    """2 for each call of the candidate to a function named after an address (the REL32
+    relocations whose symbol ends in _ADDRESS) beyond the original's calls to that address
+    (its absolute call targets). Returns (penalty, the original's calls the candidate doesn't
+    make to a named function, the candidate's extra calls)."""
+    from collections import Counter
+
+    orig = Counter()
+    for l in target["asm"].split("\n"):
+        m = re.match(r"call 0x([0-9A-Fa-f]+)$", l.strip())
+        if m:
+            orig["%06x" % ((addr + int(m.group(1), 16)) & 0xFFFFFFFF)] += 1
+    orig["%06x" % addr] += 1000  # self-recursion: the target has "call 0", not the address
+    sym = coff.symbols[symidx]
+    sec = sym["sec"] - 1
+    start, end = sym["value"], coff.sections[sec]["size"]
+    for other in coff.symbols:
+        if other and other["sec"] == sym["sec"] and (other["type"] & 0x20) and start < other["value"] < end:
+            end = other["value"]
+    ours = Counter()
+    for va, ridx, typ in coff.relocs(sec):
+        if start <= va < end and typ == IMAGE_REL_I386_REL32:
+            m = ADDR_KEY.search(coff.symbols[ridx]["name"])
+            if m and m.group(1).lower() in source_addrs():
+                ours[m.group(1).lower()] += 1
+    missing = Counter({a: n for a, n in (orig - ours).items() if a in source_addrs() and a != "%06x" % addr})
+    extra = ours - orig
+    return 2 * sum(extra.values()), missing, extra
+
+
 def target_lines(target):
     # A self-recursive call is dumped as "call 0" (relative to the function start), and
     # post-processing then names the bare "0" and rewrites every 0 in the stored "pp".
@@ -170,18 +242,83 @@ def target_lines(target):
     return post_process_asm.post_process_asm("\n".join(asm)).split("\n")
 
 
+def target_from_96f(t, addr):
+    # 9.6f lines are "addr: insn" with absolute jump/call targets. target_asm.json has them
+    # relative to the function start, so rewrite them the same way and post process.
+    lines = []
+    for l in t["asm"].split("\n"):
+        l = re.sub(r"^[0-9a-f]+:\s*", "", l).strip()
+        if not l:
+            continue
+        m = re.match(r"^(call|j\w+) 0x([0-9A-Fa-f]+)$", l)
+        if m:
+            l = "%s 0x%08X" % (m.group(1), (int(m.group(2), 16) - addr) & 0xFFFFFFFF)
+        lines.append(l)
+    asm = "\n".join(lines)
+    return {"name": t["name"], "size": t["size"], "asm": asm, "pp": post_process_asm.post_process_asm(asm)}
+
+
+REG = re.compile(r"%(e?[abcd]x|[abcd][lh]|e?si|e?di|e?bp)\b")
+STACK = re.compile(r"(-?0x[0-9A-Fa-f]+|-?\d+)?\(%esp(,[^)]*)?\)")
+
+
+def structure_lines(lines):
+    """Masks register allocation: see --structure in the module docstring."""
+    out = []
+    for l in lines:
+        l = re.sub(r"^(j\w+) 0x[0-9A-Fa-f]+$", r"\1 L", l)
+        l = STACK.sub("S", l)
+        l = REG.sub("%r", l)
+        if re.match(r"^(mov|xchg) %r,%r$", l):
+            continue
+        out.append(l)
+    return out
+
+
+def skeleton_lines(lines):
+    return [l for l in structure_lines(lines) if re.match(r"^(j\w+|call\w*|ret)\b", l)]  # call\w*: also calll *ptr
+
+
 def main():
+    skeleton = "--skeleton" in sys.argv
+    if skeleton:
+        sys.argv.remove("--skeleton")
+    structure = "--structure" in sys.argv
+    if structure:
+        sys.argv.remove("--structure")
+    callees = "--no-callees" not in sys.argv
+    if not callees:
+        sys.argv.remove("--no-callees")
+    v96 = "--96f" in sys.argv
+    if v96:
+        sys.argv.remove("--96f")
     obj, addr = sys.argv[1], int(sys.argv[2], 16)
     here = os.path.dirname(os.path.abspath(__file__))
-    target = json.load(open(os.path.join(here, "target_asm.json"))).get(hex(addr))
+    if v96:
+        target = target_from_96f(json.load(open(os.path.join(here, "target_96f.json")))[hex(addr)], addr)
+    else:
+        target = json.load(open(os.path.join(here, "target_asm.json"))).get(hex(addr))
     if target is None:
+        # Its call offsets are relative to our build's layout, not the original's.
+        callees = False
         # A MATCH_FUNC: its asm in a verified build is the original's (dump_matched_asm.py).
         target = json.load(open(os.path.join(here, "matched_asm.json")))[hex(addr)]
     needle = sys.argv[3] if len(sys.argv) > 3 else target["name"].split("::")[-1]
     coff = Coff(open(obj, "rb").read())
-    ml = function_lines(coff, find_function(coff, needle))
+    symidx = find_function(coff, needle)
+    ml = function_lines(coff, symidx)
     tl = target_lines(target)
+    if skeleton:
+        tl, ml = skeleton_lines(tl), skeleton_lines(ml)
+    elif structure:
+        tl, ml = structure_lines(tl), structure_lines(ml)
     score = score_lines(tl, ml)
+    if callees and not v96:
+        penalty, missing, extra = callee_penalty(coff, symidx, target, addr)
+        if penalty:
+            print("callees: candidate calls %s, the original doesn't (+%d); original calls %s"
+                  % (sorted(extra.elements()), penalty, sorted(missing.elements())))
+        score += penalty
     # cpp_permuter keeps this output as score_output.txt next to each improvement.
     print("\n".join(difflib.unified_diff(tl, ml, "target", "candidate", lineterm="", n=2)))
     print(score)

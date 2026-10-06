@@ -1,3 +1,4 @@
+#define FIX16_POINT_ZERO kFpZero_7064C0
 #include "Hud.hpp"
 #include "Car_BC.hpp"
 #include "Draw.hpp"
@@ -86,6 +87,39 @@ static inline void DrawFigureScaled_4C71B0(s32 type, s16 pal, Fix16 x_pos, Fix16
                       0);
 }
 
+// Camera_0xBC::WorldToScreen_40CFC0 (9.6f 0x40CFC0: x/y/z by value, writes through two out pointers)
+// with this file's copies of the 1 and 8 constants
+static inline void WorldToScreen_Hud_40CFC0(Camera_0xBC* pCam, Fix16 x, Fix16 y, Fix16 z, Fix16* pOutX, Fix16* pOutY)
+{
+    Fix16 u = pCam->field_98_cam_pos2.field_8_z - z;
+    Fix16 t(kFpOne_7064C4 / Fix16(u.mValue + kFpEight_7064E8.mValue, 0));
+    *pOutX = (((x - pCam->field_98_cam_pos2.field_0_x) * pCam->field_60.y) * t) + Fix16(320);
+    *pOutY = (((y - pCam->field_98_cam_pos2.field_4_y) * pCam->field_60.y) * t) + Fix16(240);
+}
+
+// 9.6f 0x4C7280: DrawText_5D8A10 at a position and size scaled by the UI scale
+static inline void DrawTextScaled_4C7280(const wchar_t* pStr, Fix16 x, Fix16 y, u16 font, const s32& palette_type, u16 palette, s32 alpha, u8 flags)
+{
+    DrawText_5D8A10(pStr,
+                    x * gViewCamera_676978->field_A8_ui_scale,
+                    y * gViewCamera_676978->field_A8_ui_scale,
+                    font,
+                    gViewCamera_676978->field_A8_ui_scale,
+                    palette_type,
+                    palette,
+                    alpha,
+                    flags);
+}
+
+// Camera_0xBC::ProjectWorldToScreen_4B90E0 (9.6f 0x4B90E0, inlined in 10.5) with this file's copies of the
+// 1 and 8 constants
+static inline void ProjectWorldToScreen_Hud_4B90E0(Camera_0xBC* pCam, Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
+{
+    Fix16 scale = kFpOne_7064C4 / ((kFpEight_7064E8 - z) + pCam->field_98_cam_pos2.field_8_z);
+    *pOut1 = (((x - pCam->field_98_cam_pos2.field_0_x) * pCam->field_60.x) * scale) + Fix16(pCam->field_70_screen_px_center_x);
+    *pOut2 = (((y - pCam->field_98_cam_pos2.field_4_y) * pCam->field_60.x) * scale) + Fix16(pCam->field_74_screen_px_center_y);
+}
+
 // Defined before the member ctors it calls: when VC6 has already compiled them in this TU (and seen
 // that they can't throw) it drops the EH frame and the state for the pager array that the original has.
 MATCH_FUNC(0x5d6cd0)
@@ -94,11 +128,9 @@ Hud_2B00::Hud_2B00()
     field_13C4_text_speed = 0;
 }
 
-WIP_FUNC(0x5cfe40)
+MATCH_FUNC(0x5cfe40)
 void Garox_13C0_sub::DrawPlayerNames_5CFE40()
 {
-    WIP_IMPLEMENTED;
-
     if (bStartNetworkGame_7081F0 && bShow_player_names_67D54C)
     {
         Camera_0xBC* pCam = gGame_0x40_67E008->field_38_orf1->get_camera_434900();
@@ -116,24 +148,18 @@ void Garox_13C0_sub::DrawPlayerNames_5CFE40()
                     // The original tests only al (bool return?)
                     if ((u8)pCam->IsCoordsPosVisible_435A70(x, y, z))
                     {
-                        // Camera_0xBC::WorldToScreen_40CFC0, with the y line out of line (inline budget)
-                        Fix16 u = pCam->field_98_cam_pos2.field_8_z - z;
-                        Fix16 t(kFpOne_7064C4 / Fix16(u.mValue + kFpEight_7064E8.mValue, 0));
-                        Fix16 xCalc = (((x - pCam->field_98_cam_pos2.field_0_x) * pCam->field_60.y) * t) + Fix16(320);
-                        Fix16 yCalc = (const Fix16&)y.Subtract_436A00(pCam->field_98_cam_pos2.field_4_y)
-                                          .Multiply_408680(pCam->field_60.y)
-                                          .Multiply_408680(t) +
-                            Fix16(240);
+                        Fix16 xCalc;
+                        Fix16 yCalc;
+                        WorldToScreen_Hud_40CFC0(pCam, x, y, z, &xCalc, &yCalc);
 
-                        DrawText_5D8A10(pIter->field_83C_player_name,
-                                        (xCalc * gViewCamera_676978->field_A8_ui_scale), // x
-                                        (yCalc * gViewCamera_676978->field_A8_ui_scale), // y
-                                        gPlayerNameFont_7062DC, // font
-                                        gViewCamera_676978->field_A8_ui_scale, // scale
-                                        pIter->field_78C_hud_palette_type != 7 ? 2 : 8,
-                                        pIter->field_790_hud_palette - 1,
-                                        0,
-                                        0);
+                        DrawTextScaled_4C7280(pIter->field_83C_player_name,
+                                              xCalc,
+                                              yCalc,
+                                              gPlayerNameFont_7062DC,
+                                              pIter->field_78C_hud_palette_type != 7 ? 2 : 8,
+                                              pIter->field_790_hud_palette - 1,
+                                              0,
+                                              0);
                     }
                 }
             }
@@ -804,16 +830,18 @@ s32 __stdcall DrawPlayerStatsHelper_5D61A0(s32 powerup_idx, s32 base_xpos, u16 o
 {
     WIP_IMPLEMENTED;
     u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, powerup_idx + 141);
-    s32 width = gGtx_0x106C_703DD4->get_sprite_width_420220(sprite_idx);
+    // s16 (not s32) gives the original's register choice (width in ebx, base_xpos in ebp), but loads
+    // the u8 with movzbw + movswl instead of the original's xor + mov %bl
+    s16 width = gGtx_0x106C_703DD4->get_sprite_width_420220(sprite_idx);
     DrawFigureScaled_5D7670(6, powerup_idx + 141, base_xpos - (width / 2), 117, kAngZero_706610, 2, 0, 0, 0);
 
     if (powerup_idx == power_up_indices::Armor_3)
     {
         swprintf(tmpBuff_67BD9C, L"%d", optional_number);
-        // The x goes through the Fix16(u32) constructor (out-of-line copy 0x4926F0), hence 18u/22u.
-        // A u32 x_offset local (ternary) swaps ebx/ebp for width and base_xpos; an if/else local keeps the
-        // registers but branches; inline, the ternary is scheduled late
-        DrawText_5D7720(tmpBuff_67BD9C, base_xpos - (optional_number < 10 ? 18u : 22u), 127, gPlayerStatsFont_70646C, 8, 6, 0, 0);
+        // The x goes through the Fix16(u32) constructor (out-of-line copy 0x4926F0). The offset is
+        // computed before the y constructor call, so it is a local
+        u32 x_offset = optional_number < 10 ? 18 : 22;
+        DrawText_5D7720(tmpBuff_67BD9C, base_xpos - x_offset, 127, gPlayerStatsFont_70646C, 8, 6, 0, 0);
     }
     return base_xpos - width;
 }
@@ -852,29 +880,14 @@ void Garox_110C_sub::Update_5CF730()
             gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(pPed->get_cam_x(), pPed->get_cam_y(), pPed->get_cam_z());
         if (field_284E_ped_under_solid)
         {
-            this->field_1114_rotation = Ang16(pPed->GetRotation().rValue + kAng180_706412.rValue, 0);
+            this->field_1114_rotation = pPed->GetRotation() + kAng180_706412;
 
             Fix16 camz = pPed->field_1AC_cam.z;
             Fix16 camy = pPed->field_1AC_cam.y;
             Fix16 camx = pPed->field_1AC_cam.x;
 
-            Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
-            Camera_0xBC* pCam;
-            if (pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3)
-            {
-                pCam = &pPlayer->field_208_aux_game_camera;
-            }
-            else
-            {
-                pCam = &pPlayer->field_90_game_camera;
-            }
-
-            Fix16 tmp = ((kFpOne_7064C4) / (kFpEight_7064E8 + pCam->field_98_cam_pos2.field_8_z - camz));
-
-            this->field_110C_screen_x =
-                Fix16(pCam->field_70_screen_px_center_x) + ((pCam->field_60.x * (camx - pCam->field_98_cam_pos2.field_0_x)) * tmp);
-            this->field_1110_screen_y =
-                ((const Fix16&)((pCam->field_60.x * (camy - pCam->field_98_cam_pos2.field_4_y)) * tmp)) + Fix16(pCam->field_74_screen_px_center_y);
+            Camera_0xBC* pCam = gGame_0x40_67E008->field_38_orf1->get_camera_434900();
+            ProjectWorldToScreen_Hud_4B90E0(pCam, camx, camy, camz, &field_110C_screen_x, &field_1110_screen_y);
         }
     }
 }
@@ -1821,24 +1834,7 @@ bool Hud_Arrow_7C::CheckVisibility_5D0530()
     return true;
 }
 
-// https://decomp.me/scratch/pp6SY Fix16 annoying stuff
-// Fix16_Point::GetLength_41E260 with the out-of-line Fix16 helpers and this file's zero constant
-static inline Fix16 GetLength_out_of_line_7064C0(Fix16_Point& p)
-{
-    if (p.x == kFpZero_7064C0)
-    {
-        return Fix16::Abs_negate_out_of_line(p.y);
-    }
-    else if (p.y == kFpZero_7064C0)
-    {
-        return Fix16::Abs_436A50(p.x);
-    }
-    else
-    {
-        return Fix16::SquareRoot_436A70((const Fix16&)p.x.Multiply_408680(p.x) + p.y.Multiply_408680(p.y));
-    }
-}
-
+// https://decomp.me/scratch/pp6SY
 MATCH_FUNC(0x5d0620)
 bool Hud_Arrow_7C::UpdateTargets_5D0620()
 {
@@ -1869,29 +1865,30 @@ bool Hud_Arrow_7C::UpdateTargets_5D0620()
         gGame_0x40_67E008->field_38_orf1->get_pos_569920(&xpos, &ypos, &zpos);
 
         diff.SetXY_432860(xpos - field_18.field_60_curr_target->field_14_aim_x, ypos - field_18.field_60_curr_target->field_18_aim_y);
-        Fix16 distance_1 = GetLength_out_of_line_7064C0(diff) - field_10_radius_pos;
+        Fix16 distance_1 = diff.GetLength_41E260() - field_10_radius_pos;
 
         swap_arrows_4C7060();
 
         diff.SetXY_432860(xpos - field_18.field_60_curr_target->field_14_aim_x, ypos - field_18.field_60_curr_target->field_18_aim_y);
-        Fix16 new_radius = GetLength_out_of_line_7064C0(diff) - distance_1;
+        Fix16 new_radius = diff.GetLength_41E260() - distance_1;
         field_18.field_2E_target_swap_timer = 20;
         field_10_radius_pos = new_radius;
     }
     return false;
 }
 
-// Camera_0xBC::ProjectWorldToScreen_4B90E0 (9.6f 0x4B90E0, inlined in 10.5) with this file's copies of the
-// 1 and 8 constants and the out-of-line Fix16 helpers (Hud_Arrow_7C::UpdateScreenPos_5D0850)
-static inline void ProjectWorldToScreen_Hud_4B90E0(Camera_0xBC* pCam, Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
+// ProjectWorldToScreen_Hud_4B90E0 with the out-of-line Fix16 helpers (Hud_Arrow_7C::UpdateScreenPos_5D0850).
+// With the plain inline and GetLength_41E260 (FIX16_POINT_ZERO kFpZero_7064C0) that WIP gets every original
+// out-of-line call only at a caller size 66..103 bigger (inlsim --scan): the source difference is not found yet.
+static inline void ProjectWorldToScreen_Hud_OutOfLine_4B90E0(Camera_0xBC* pCam, Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
 {
     Fix16 scale = kFpOne_7064C4 / ((kFpEight_7064E8 - z) + pCam->field_98_cam_pos2.field_8_z);
 
-    *pOut1 = static_cast<const Fix16&>(x.Subtract_436A00(pCam->field_98_cam_pos2.field_0_x).Multiply_408680(pCam->field_60.x).Multiply_408680(scale)) +
-        Fix16(pCam->field_70_screen_px_center_x);
+    *pOut1 = (x.Subtract_436A00(pCam->field_98_cam_pos2.field_0_x).Multiply_408680(pCam->field_60.x).Multiply_408680(scale))
+                 .Add_408660(Fix16(pCam->field_70_screen_px_center_x));
 
-    *pOut2 = static_cast<const Fix16&>(y.Subtract_436A00(pCam->field_98_cam_pos2.field_4_y).Multiply_408680(pCam->field_60.x).Multiply_408680(scale)) +
-        Fix16(pCam->field_74_screen_px_center_y);
+    *pOut2 = (y.Subtract_436A00(pCam->field_98_cam_pos2.field_4_y).Multiply_408680(pCam->field_60.x).Multiply_408680(scale))
+                 .Add_408660(Fix16(pCam->field_74_screen_px_center_y));
 }
 
 // https://decomp.me/scratch/CoKn3
@@ -1899,11 +1896,10 @@ WIP_FUNC(0x5d0850)
 void Hud_Arrow_7C::UpdateScreenPos_5D0850()
 {
     WIP_IMPLEMENTED;
-    // displacement declared after the positions: declared first, its Fix16_Point_POD ctor is called out of line
+    Fix16_Point displacement;
     Fix16 player_xpos;
     Fix16 player_ypos;
     Fix16 player_zpos;
-    Fix16_Point displacement;
 
     gGame_0x40_67E008->field_38_orf1->get_pos_569920(&player_xpos, &player_ypos, &player_zpos);
     displacement.SetXY_432860(player_xpos - field_18.field_60_curr_target->field_14_aim_x,
@@ -1912,11 +1908,12 @@ void Hud_Arrow_7C::UpdateScreenPos_5D0850()
     field_8_rotation = displacement.atan2_40F790();
 
     // GetLength_41E260 with this file's zero and the out-of-line helpers. Written out as a ternary: as an
-    // inline the function runs out of inline expansions (Fix16_Point_POD ctor and one operator/ out of line).
-    Fix16 distance = displacement.x == kFpZero_7064C0 ? Fix16::Abs_436A50(displacement.y) :
-        displacement.y == kFpZero_7064C0              ? Fix16::Abs_436A50(displacement.x) :
-                                                        Fix16::SquareRoot_436A70((const Fix16&)displacement.x.Multiply_408680(displacement.x) +
-                                                                                 displacement.y.Multiply_408680(displacement.y));
+    // inline the function runs out of inline expansions (one operator/ out of line).
+    Fix16 distance = displacement.x == kFpZero_7064C0 ?
+        Fix16::Abs_436A50(displacement.y) :
+        displacement.y == kFpZero_7064C0 ?
+        Fix16::Abs_436A50(displacement.x) :
+        Fix16::SquareRoot_436A70(displacement.x.Multiply_408680(displacement.x).Add_408660(displacement.y.Multiply_408680(displacement.y)));
     Fix16 intended_radius;
 
     if (field_18.field_60_curr_target->field_20_bIsTargetVisible)
@@ -1982,12 +1979,12 @@ void Hud_Arrow_7C::UpdateScreenPos_5D0850()
     {
         zpos_2 = field_18.field_60_curr_target->field_1C_aim_z;
     }
-    ProjectWorldToScreen_Hud_4B90E0(pCamera,
-                                    player_xpos - (Ang16::sine_40F500(field_8_rotation) * projected_radius),
-                                    player_ypos - (Ang16::cosine_40F520(field_8_rotation) * projected_radius),
-                                    zpos_2,
-                                    &field_0_screen_pos_x,
-                                    &field_4_screen_pos_y);
+    ProjectWorldToScreen_Hud_OutOfLine_4B90E0(pCamera,
+                                              player_xpos - (Ang16::sine_40F500(field_8_rotation) * projected_radius),
+                                              player_ypos - (Ang16::cosine_40F520(field_8_rotation) * projected_radius),
+                                              zpos_2,
+                                              &field_0_screen_pos_x,
+                                              &field_4_screen_pos_y);
 }
 
 MATCH_FUNC(0x5d0c60)
@@ -2841,7 +2838,7 @@ void Hud_Brief_704::ShowBrief_5D4850()
 }
 
 // https://decomp.me/scratch/N327U
-WIP_FUNC(0x5d4890)
+MATCH_FUNC(0x5d4890)
 void Hud_Brief_704::ClearAllBriefsWithPriority_5D4890(s32 priority)
 {
     Garox_18* pLast = NULL;
@@ -2868,11 +2865,11 @@ void Hud_Brief_704::ClearAllBriefsWithPriority_5D4890(s32 priority)
                     Hud_Brief_704::FreeCurrentBrief_5D3350();
                 }
                 pIter = field_6F8_curr_brief;
-                if (!pIter)
+                // Testing the field rather than pIter lets VC6 push ebp only after the first null check
+                if (field_6F8_curr_brief)
                 {
-                    return;
+                    Hud_Brief_704::StartCurrentBrief_5D39D0();
                 }
-                Hud_Brief_704::StartCurrentBrief_5D39D0();
             }
         }
         else

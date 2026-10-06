@@ -29,10 +29,10 @@ Garage_48::~Garage_48()
 MATCH_FUNC(0x534650)
 void Garage_48::ValidateParkCommand_534650()
 {
-    // The result is unused; the const operator+ is the out-of-line Add_408660
+    // The result is unused (the out-of-line Add_408660 on a const Fix16)
     {
         const Fix16 v4(this->field_10->field_0_primary_door_data->field_6_z);
-        v4 + kFpEighth_6FCF60;
+        v4.Add_408660(kFpEighth_6FCF60);
     }
 
     if (gMap_0x370_6F6268->HasWallInArea_4E18A0(field_18_park_x_min.ToInt(),
@@ -54,16 +54,22 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FD124, Fix16(1), 0x6FD124);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FCF98, Fix16(0.5), 0x6FCF98);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD218, Fix16(0x3333, 0), 0x6FD218);
 
+// Car_BC::IsLongerThanOneBlock_447ED0 (9.6f), with this file's copy of the 1.0 constant
+static inline bool IsLongerThanOneBlock_447ED0(Car_BC* pCar)
+{
+    return (pCar->field_50_car_sprite->GetH_447E70() > dword_6FD124) ? true : false;
+}
+
 WIP_FUNC(0x534700)
 u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
 {
-    field_44 = 0;
-    field_14 = 0;
-    field_3D = 0;
     field_0 = pCar;
+    field_44 = 0;
     field_10 = pDoor;
     field_C = 1;
+    field_14 = 0;
     field_3C = 30;
+    field_3D = 0;
     if (field_3E == 255)
     {
         field_3E = 1;
@@ -73,8 +79,7 @@ u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
         field_3E++;
     }
 
-    // 9.6f: Car_BC::IsLongerThanOneBlock_447ED0 (inlined, but here with dword_6FD124 where Car_BC.hpp uses kFpOne_679E74)
-    field_40 = pCar->field_50_car_sprite->GetH_447E70() > dword_6FD124;
+    field_40 = IsLongerThanOneBlock_447ED0(pCar);
 
     u8 x;
     u8 y;
@@ -97,58 +102,55 @@ u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
 
     // 9.6f: the park rectangle corners (field_18/1C, field_20/24) and the target (field_30/34) are
     // Fix16 pairs set with Fix16_Point_POD::SetXY_432860
-    Fix16_Point_POD* pMin = (Fix16_Point_POD*)&field_18_park_x_min;
-    Fix16_Point_POD* pMax = (Fix16_Point_POD*)&field_20_park_x_max;
-    Fix16_Point_POD* pTarget = (Fix16_Point_POD*)&field_30_target_x;
     switch (field_38)
     {
         case 1:
             if (field_10->IsDoubleDoor_489600())
             {
-                pMin->SetXY_432860(Fix16(x), Fix16(y) - dword_6FD124 - w1);
+                ((Fix16_Point_POD*)&field_18_park_x_min)->SetXY_432860(Fix16(x), Fix16(y) - dword_6FD124 - w1);
             }
             else
             {
-                pMin->SetXY_432860(Fix16(x), Fix16(y) - w1);
+                ((Fix16_Point_POD*)&field_18_park_x_min)->SetXY_432860(Fix16(x), Fix16(y) - w1);
             }
-            pMax->SetXY_432860(Fix16(x) + dword_6FD124 + w2, Fix16(y) + dword_6FD124 + w1);
-            pTarget->SetXY_432860(Fix16(x) - dword_6FD218, Fix16(y) + dword_6FCF98);
+            ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + dword_6FD124 + w2, Fix16(y) + dword_6FD124 + w1);
+            ((Fix16_Point_POD*)&field_30_target_x)->SetXY_432860(Fix16(x) - dword_6FD218, Fix16(y) + dword_6FCF98);
             break;
         case 2:
-            pMin->SetXY_432860(Fix16(x) - w2, Fix16(y) - w1);
+            ((Fix16_Point_POD*)&field_18_park_x_min)->SetXY_432860(Fix16(x) - w2, Fix16(y) - w1);
             if (field_10->IsDoubleDoor_489600())
             {
-                pMax->SetXY_432860(dword_6FD124 + Fix16(x), kFpTwo_6FD128 + Fix16(y) + w1);
+                ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + dword_6FD124, Fix16(y) + kFpTwo_6FD128 + w1);
             }
             else
             {
-                pMax->SetXY_432860(Fix16(x) + dword_6FD124, Fix16(y) + dword_6FD124 + w1);
+                ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + dword_6FD124, Fix16(y) + dword_6FD124 + w1);
             }
-            pTarget->SetXY_432860(Fix16(x) + dword_6FD218 + dword_6FD124, dword_6FCF98 + Fix16(y));
+            ((Fix16_Point_POD*)&field_30_target_x)->SetXY_432860(Fix16(x) + dword_6FD124 + dword_6FD218, Fix16(y) + dword_6FCF98);
             break;
         case 3:
-            pMin->SetXY_432860(Fix16(x) - w1, Fix16(y));
+            ((Fix16_Point_POD*)&field_18_park_x_min)->SetXY_432860(Fix16(x) - w1, Fix16(y));
             if (field_10->IsDoubleDoor_489600())
             {
-                pMax->SetXY_432860(kFpTwo_6FD128 + Fix16(x) + w1, dword_6FD124 + Fix16(y) + w2);
+                ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + kFpTwo_6FD128 + w1, Fix16(y) + dword_6FD124 + w2);
             }
             else
             {
-                pMax->SetXY_432860(dword_6FD124 + Fix16(x) + w1, Fix16(y) + dword_6FD124 + w2);
+                ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + dword_6FD124 + w1, Fix16(y) + dword_6FD124 + w2);
             }
-            pTarget->SetXY_432860(Fix16(x) + dword_6FCF98, Fix16(y) - dword_6FD218);
+            ((Fix16_Point_POD*)&field_30_target_x)->SetXY_432860(Fix16(x) + dword_6FCF98, Fix16(y) - dword_6FD218);
             break;
         case 4:
             if (field_10->IsDoubleDoor_489600())
             {
-                pMin->SetXY_432860(Fix16(x) - dword_6FD124 - w1, Fix16(y) - w2);
+                ((Fix16_Point_POD*)&field_18_park_x_min)->SetXY_432860(Fix16(x) - dword_6FD124 - w1, Fix16(y) - w2);
             }
             else
             {
-                pMin->SetXY_432860(Fix16(x) - w1, Fix16(y) - w2);
+                ((Fix16_Point_POD*)&field_18_park_x_min)->SetXY_432860(Fix16(x) - w1, Fix16(y) - w2);
             }
-            pMax->SetXY_432860(dword_6FD124 + Fix16(x) + w1, Fix16(y) + dword_6FD124);
-            pTarget->SetXY_432860(Fix16(x) + dword_6FCF98, dword_6FD218 + Fix16(y) + dword_6FD124);
+            ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + dword_6FD124 + w1, Fix16(y) + dword_6FD124);
+            ((Fix16_Point_POD*)&field_30_target_x)->SetXY_432860(Fix16(x) + dword_6FCF98, Fix16(y) + dword_6FD124 + dword_6FD218);
             break;
     }
 
@@ -264,7 +266,7 @@ void Garage_48::GaragesService_5349D0()
             }
             else
             {
-                field_28_push_dir = ((Fix16_Point*)&field_28_push_dir)->NormalizeSafe_442AD0().Multiply_438FE0(dword_6FCF10);
+                field_28_push_dir = field_28_push_dir.NormalizeSafe_442AD0().Multiply_438FE0(dword_6FCF10);
             }
             field_0->field_58_physics->ApplyForceScaledByMass_55F9A0(field_28_push_dir);
             field_C = 2;

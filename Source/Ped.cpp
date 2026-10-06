@@ -504,7 +504,7 @@ Ped::~Ped()
 }
 
 // https://decomp.me/scratch/2yWEK
-WIP_FUNC(0x45afc0)
+MATCH_FUNC(0x45afc0)
 void Ped::Reset_45AFC0()
 {
     field_21C_bf.b0 = 0;
@@ -617,8 +617,8 @@ void Ped::Reset_45AFC0()
     field_19C = 0;
     byte_6787C4 = 0;
     field_21C_bf.b3 = 0;
-    field_1A0_objective_target_object = 0;
     field_1F8_run_speed = kFpPoint8_6784A0;
+    field_1A0_objective_target_object = 0;
     field_1A4_internal_target_object = 0;
     field_132_follow_car_offset_angle = gDummyPedAng_6787A8;
     field_1FC_follow_car_offset_distance = kFpZero_678660.mValue;
@@ -630,7 +630,10 @@ void Ped::Reset_45AFC0()
     field_21C_bf.b5 = 0;
     field_21C_bf.b6 = 0;
     field_250 = 0;
-    field_224 &= 0xF0u;
+    field_224_bf.b0 = 0;
+    field_224_bf.b1 = 0;
+    field_224_bf.b2 = 0;
+    field_224_bf.b3 = 0;
     field_138 = 0;
     field_13C_pTrainStation = 0;
     field_220 = 0;
@@ -641,11 +644,11 @@ void Ped::Reset_45AFC0()
     field_21C_bf.b10 = 0;
     field_274_gang_car_model = car_model_enum::MERC;
     field_1A8_ped_killer = 0;
-    field_224 &= ~0x10u;
+    field_224_bf.b4 = 0;
     field_21C_bf.b28 = 0;
     field_21C_bf.b29 = 0;
     field_260 = 0;
-    field_224 |= 0x20u;
+    field_224_bf.b5 = 1;
 }
 
 MATCH_FUNC(0x45b440)
@@ -2539,15 +2542,17 @@ void Ped::DeallocateWithGroupCleanup_45EA00()
 
 // https://decomp.me/scratch/jJ6aF
 // Clearing the flag through a reference keeps VC6 from hoisting the field_16C_car load above it.
-static inline void ClearBit0_45EB60(CompilerBitField32& bf)
+// The flags word is passed and returned by value: VC6 then loads it into eax before the timer store
+// and clears the bit with the short `and al, 0xFE` form, like the original
+static inline CompilerBitField32 ClearBit0_45EB60(CompilerBitField32 bf)
 {
     bf.b0 = 0;
+    return bf;
 }
 
-WIP_FUNC(0x45eb60)
+MATCH_FUNC(0x45eb60)
 void Ped::Deallocate_45EB60()
 {
-    WIP_IMPLEMENTED;
     switch (field_240_occupation)
     {
         case ped_ocupation_enum::mugger:
@@ -2643,7 +2648,7 @@ void Ped::Deallocate_45EB60()
     }
 
     field_234_timer = 2;
-    ClearBit0_45EB60(field_21C_bf);
+    field_21C_bf = ClearBit0_45EB60(field_21C_bf);
 
     if (field_16C_car)
     {
@@ -3017,24 +3022,9 @@ void Ped::CarThief_AI_45FF60()
     }
 }
 
-WIP_FUNC(0x460820)
+MATCH_FUNC(0x460820)
 void Ped::TaxiCustomer_AI_460820()
 {
-    WIP_IMPLEMENTED;
-
-    s32 objective; // eax
-    u8 objectiveStatus; // al
-    Car_BC* pTargetObjCar; // ecx
-    Car_BC* pTargetObjCar_; // ecx
-    Car_BC* pTargetObjCar__; // ecx
-    Fix16 dx_;
-    Car_BC* target_objective_car; // eax
-    Car_BC* pNearestTaxi; // edi
-    Car_BC* pTargetCar; // eax
-
-    Sprite* pSprite;
-    Car_BC* pCar_;
-    Fix16 dy_;
     if (this->field_25C_internal_objective == objectives_enum::flee_char_on_foot_till_safe_2)
     {
         if (this->field_226_internal_objective_status == 1)
@@ -3043,94 +3033,133 @@ void Ped::TaxiCustomer_AI_460820()
         }
     }
 
-    objective = this->field_258_objective;
-    switch (objective)
+    switch (this->field_258_objective)
     {
+        // This case comes first: the other cases' inline sites after MaxAbsDistance_42A6B0 leave its
+        // y difference and Abs out of line, as in the original.
+        case objectives_enum::no_obj_0:
+            // It has no objective
+            if (!field_20e_offscreen_counter)
+            {
+                if (field_218_objective_timer == 0)
+                {
+                    // Look for a near taxi
+                    Car_BC* pTaxi = gTaxi_4_704130->GetTaxiNear_457BF0(this->field_1AC_cam.x, this->field_1AC_cam.y);
+                    if (pTaxi)
+                    {
+                        Fix16 dist;
+                        dist = Fix16::MaxAbsDistance_42A6B0(this->field_1AC_cam.x,
+                                                            this->field_1AC_cam.y,
+                                                            pTaxi->field_50_car_sprite->field_14_xy.x,
+                                                            pTaxi->field_50_car_sprite->field_14_xy.y);
+                        if (dist < kFpTwo_678658)
+                        {
+                            Set_F250_IfBit_433DD0(5);
+                            SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                            SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
+                            this->field_150_target_objective_car = pTaxi;
+                            this->field_248_enter_car_as_passenger = 1;
+                            this->field_24C_target_car_door = 3;
+                            pTaxi->sub_43AF60();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // Set a little timer before looking for a taxi
+                field_218_objective_timer = 40;
+                ChangeNextPedState1_45C500(ped_state_1::walking_0);
+                ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
+            }
+            break;
+
         case objectives_enum::enter_car_as_driver_35: // TODO: shouldn't it be enter car as passenger?
+        {
             // It is on foot
-            objectiveStatus = this->field_225_objective_status;
-            if (objectiveStatus == objective_status::passed_1)
+            u8 status = this->field_225_objective_status;
+            if (status == objective_status::passed_1)
             {
                 // It entered the taxi
-                pTargetObjCar = this->field_150_target_objective_car;
-                if (pTargetObjCar->IsDespawning_4215B0())
+                if (this->field_150_target_objective_car->IsDespawning_4215B0())
                 {
                     // Taxi is wreck, kill it
                     Kill_46F9D0();
                     return;
                 }
                 Set_F250_IfBit_433DD0(6);
-                pTargetObjCar->sub_43AF40();
+                this->field_150_target_objective_car->sub_43AF40();
                 SetObjective(objectives_enum::time_waited_in_car_31, 0);
                 this->field_150_target_objective_car = this->field_16C_car;
             }
-            else
+            else if (status == objective_status::failed_2)
             {
-                // Its objective enter as passenger was not passed yet
-                if (objectiveStatus == objective_status::failed_2)
+                // Ped failed to reach car
+                Car_BC* pTaxi = this->field_150_target_objective_car;
+                if (!pTaxi->IsDespawning_4215B0())
                 {
-                    // Ped failed to reach car
-                    pTargetObjCar_ = this->field_150_target_objective_car;
-                    if (!pTargetObjCar_->IsDespawning_4215B0())
-                    {
-                        // reinit taxi AI?
-                        pTargetObjCar_->sub_43AF40();
-                    }
-                    SetObjective(objectives_enum::no_obj_0, 40);
-                    SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                    // reinit taxi AI?
+                    pTaxi->sub_43AF40();
                 }
-                else if (field_278_ped_state_1 != ped_state_1::in_car_10)
+                SetObjective(objectives_enum::no_obj_0, 40);
+                SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+            }
+            else if (field_278_ped_state_1 != ped_state_1::in_car_10)
+            {
+                // It not entered the taxi yet
+                Fix16 dx;
+                Fix16 dy;
+                dx = this->field_1B8_target_x - this->field_1AC_cam.x;
+                dy = this->field_1BC_target_y - this->field_1AC_cam.y;
+                dx = Fix16::Abs(dx);
+                dy = Fix16::Abs(dy);
+
+                if (((dx > dy) ? dx : dy) > kFpTwo_678658 || (this->field_21C & 0x20000) != 0)
                 {
-                    // It not entered the taxi yet
-                    dx_ = this->field_1B8_target_x - this->field_1AC_cam.x;
-                    dy_ = this->field_1BC_target_y - this->field_1AC_cam.y;
-
-                    dx_ = Fix16::Abs(dx_);
-                    dy_ = Fix16::Abs(dy_);
-
-                    // TODO: Might be Min()?
-                    if (!(kFpTwo_678658 < Fix16::Max(dx_, dy_) || (this->field_21C & 0x20000) != 0))
-                    {
-                        pTargetObjCar__ = this->field_150_target_objective_car;
-                        if (pTargetObjCar__->field_4_passengers_list.IsEmpty_420EA0())
-                        {
-                            if (!pTargetObjCar__->IsDespawning_4215B0())
-                            {
-                                break;
-                            }
-                        }
-                    }
                     this->field_150_target_objective_car->sub_43AF40();
                     SetObjective(objectives_enum::no_obj_0, 9999);
                     SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                     this->set_occupation_403970(ped_ocupation_enum::dummy);
                     this->SetField238_403920(ped_type::dummy_3);
+                    return;
                 }
-                else if (this->field_150_target_objective_car->IsDespawning_4215B0())
+                Car_BC* pCar = this->field_150_target_objective_car;
+                if (pCar->field_4_passengers_list.IsEmpty_420EA0() && !pCar->IsDespawning_4215B0())
                 {
-                    Kill_46F9D0();
+                    break;
                 }
+                pCar->sub_43AF40();
+                SetObjective(objectives_enum::no_obj_0, 9999);
+                SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                this->set_occupation_403970(ped_ocupation_enum::dummy);
+                this->SetField238_403920(ped_type::dummy_3);
+            }
+            else if (this->field_150_target_objective_car->IsDespawning_4215B0())
+            {
+                Kill_46F9D0();
             }
             break;
+        }
 
         case objectives_enum::time_waited_in_car_31:
+        {
             // It is in the taxi
             if (field_150_target_objective_car->GetVelocity_43A4C0() != kFpZero_678660)
             {
                 field_218_objective_timer = 0; // taxi is moving, reset timer
             }
-            target_objective_car = this->field_150_target_objective_car;
-            if (target_objective_car->IsDespawning_4215B0())
+            Car_BC* pTaxi = this->field_150_target_objective_car;
+            if (pTaxi->IsDespawning_4215B0())
             {
                 Kill_46F9D0(); // taxi is wreck/destroyed, kill the passenger
             }
             else
             {
-                if (target_objective_car->field_8C_damage_level >= 3)
+                if (pTaxi->field_8C_damage_level >= 3)
                 {
                     this->field_21C |= 0x20000000u;
                 }
-                if (target_objective_car->field_54_driver && (this->field_21C & 0x20000000) == 0)
+                if (pTaxi->field_54_driver && (this->field_21C & 0x20000000) == 0)
                 {
                     if (this->field_218_objective_timer == 150)
                     {
@@ -3144,47 +3173,12 @@ void Ped::TaxiCustomer_AI_460820()
                     // taxi without driver -> exit
                     SetObjective(objectives_enum::leave_car_36, 9999);
                     SetOccupation_45EE00(3);
-                    pCar_ = this->field_16C_car;
                     this->SetField238_403920(ped_type::dummy_3);
-                    this->field_150_target_objective_car = pCar_;
+                    this->field_150_target_objective_car = this->field_16C_car;
                 }
             }
             break;
-
-        case objectives_enum::no_obj_0:
-            // It has no objective
-            if (!field_20e_offscreen_counter)
-            {
-                if (field_218_objective_timer == 0)
-                {
-                    // Look for a near taxi
-                    pNearestTaxi = gTaxi_4_704130->GetTaxiNear_457BF0(this->field_1AC_cam.x, this->field_1AC_cam.y);
-                    pTargetCar = pNearestTaxi;
-                    if (pNearestTaxi)
-                    {
-                        pSprite = pNearestTaxi->field_50_car_sprite;
-                        // 9.6f: Fix16::MaxAbsDistance_42A6B0, inlined here with its Subtract/Abs/Max calls out of line
-                        if (Fix16::MaxAbsDistanceByRef_42A6B0(this->field_1AC_cam.x, this->field_1AC_cam.y, pSprite->GetXPos(), pSprite->field_14_xy.y) < kFpTwo_678658)
-                        {
-                            Set_F250_IfBit_433DD0(5);
-                            SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                            SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
-                            this->field_150_target_objective_car = pTargetCar;
-                            this->field_248_enter_car_as_passenger = 1;
-                            this->field_24C_target_car_door = 3;
-                            pTargetCar->sub_43AF60();
-                        }
-                    }
-                }
-            }
-            else
-            {
-                // Set a little timer before looking for a taxi
-                field_218_objective_timer = 40;
-                ChangeNextPedState1_45C500(ped_state_1::walking_0);
-                ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
-            }
-            break;
+        }
     }
 }
 
@@ -4728,10 +4722,9 @@ void Ped::SetObjective(s32 objective, s16 objective_timer)
     }
 }
 
-WIP_FUNC(0x463830)
+MATCH_FUNC(0x463830)
 void Ped::SetObjective2_463830(s32 car_state, s16 a3)
 {
-    WIP_IMPLEMENTED;
 
     u8 x_int;
     u8 y_int;
@@ -5256,18 +5249,11 @@ static inline void PolarToCartesianMulInlSin_4645B0(Ang16& angle, Fix16& radius,
     y = Ang16::cosine_40F520(angle).Multiply_408680(radius);
 }
 
-// Ang16::operator+= with Normalize called out of line
-static inline void AddAssignAng16_ool_4645B0(Ang16& a, const Ang16& b)
-{
-    a.rValue += b.rValue;
-    a.Normalize_406C20();
-}
-
 // Ang16::operator+ with the normalizing ctor called out of line (AssignNormalized_409300)
 static inline Ang16 AddAng16_ool_4645B0(const Ang16& a, const Ang16& b)
 {
     s16 value = a.rValue + b.rValue;
-    return Ang16((Ang16&)value, 0);
+    return Ang16(&value, 0);
 }
 
 WIP_FUNC(0x4645b0)
@@ -5283,7 +5269,7 @@ void Ped::sub_4645B0()
 
     if (field_14C_internal_target_ped->GetPedVelocity_45C920() > kFpZero_678660)
     {
-        angle = Ang16(kAng180_6785A6.rValue + field_14C_internal_target_ped->field_168_game_object->field_40_rotation.rValue).Normalized_406C20();
+        angle = kAng180_6785A6 + field_14C_internal_target_ped->field_168_game_object->field_40_rotation;
         radius = kFpThreeEighths_67878C;
     }
     else
@@ -5307,10 +5293,10 @@ void Ped::sub_4645B0()
         switch (field_23C_group_idx)
         {
             case 0:
-                AddAssignAng16_ool_4645B0(angle, kAng90_678502);
+                angle += kAng90_678502;
                 if (bUnk)
                 {
-                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
+                    angle += kAng180_6785A6;
                     radius = kFpThreeQuarters_678794;
                 }
                 PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
@@ -5318,10 +5304,10 @@ void Ped::sub_4645B0()
                 field_1C8_y += vec_y;
                 break;
             case 1:
-                AddAssignAng16_ool_4645B0(angle, kAng270_6785D0);
+                angle += kAng270_6785D0;
                 if (bUnk)
                 {
-                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
+                    angle += kAng180_6785A6;
                     radius = kFpThreeQuarters_678794;
                 }
                 PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
@@ -5332,7 +5318,7 @@ void Ped::sub_4645B0()
                 angle = AddAng16_ool_4645B0(kAng180_6785A6, angle);
                 if (bUnk)
                 {
-                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
+                    angle += kAng180_6785A6;
                     radius = kFpThreeQuarters_678794;
                 }
                 PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
@@ -5344,7 +5330,7 @@ void Ped::sub_4645B0()
                 PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
                 if (bUnk)
                 {
-                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
+                    angle += kAng180_6785A6;
                     radius = kFpThreeQuarters_678794;
                 }
                 field_1C4_x += vec_x;
@@ -5352,10 +5338,10 @@ void Ped::sub_4645B0()
                 break;
 
             case 4:
-                AddAssignAng16_ool_4645B0(angle, kAng225_6786B8);
+                angle += kAng225_6786B8;
                 if (bUnk)
                 {
-                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
+                    angle += kAng180_6785A6;
                     radius = kFpThreeQuarters_678794;
                 }
                 else
@@ -5368,10 +5354,10 @@ void Ped::sub_4645B0()
                 break;
 
             case 5:
-                AddAssignAng16_ool_4645B0(angle, kAng45_6784E2);
+                angle += kAng45_6784E2;
                 if (bUnk)
                 {
-                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
+                    angle += kAng180_6785A6;
                     radius = kFpThreeQuarters_678794;
                 }
                 else
@@ -5384,10 +5370,10 @@ void Ped::sub_4645B0()
                 break;
 
             case 6:
-                AddAssignAng16_ool_4645B0(angle, kAng315_6785A8);
+                angle += kAng315_6785A8;
                 if (bUnk)
                 {
-                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
+                    angle += kAng180_6785A6;
                     radius = kFpThreeQuarters_678794;
                 }
                 else
@@ -5400,10 +5386,10 @@ void Ped::sub_4645B0()
                 break;
 
             case 7:
-                AddAssignAng16_ool_4645B0(angle, kAng135_67844C);
+                angle += kAng135_67844C;
                 if (bUnk)
                 {
-                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
+                    angle += kAng180_6785A6;
                     radius = kFpThreeQuarters_678794;
                 }
                 else
@@ -5416,10 +5402,10 @@ void Ped::sub_4645B0()
                 break;
 
             default:
-                angle = angle.AddNormalized(kAng225_6786B8);
+                angle += kAng225_6786B8;
                 if (bUnk)
                 {
-                    AddAssignAng16_ool_4645B0(angle, kAng180_6785A6);
+                    angle += kAng180_6785A6;
                     radius = kFpThreeQuarters_678794;
                 }
                 else
@@ -5446,8 +5432,6 @@ void Ped::sub_4645B0()
                 angle += kAng45_6784FC;
                 break;
             case 2:
-                break;
-                angle -= kAng45_6784FC;
                 break;
             case 6:
                 angle -= kAng45_6784FC;
@@ -6470,9 +6454,7 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                         }
 
                         {
-                            u8 player_idx = this->field_15C_player->field_2E_idx;
-
-                            if (pSearcher->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(player_idx))
+                            if (pSearcher->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(this->field_15C_player->field_2E_idx))
                             {
                                 if (gPolice_7B8_6FEE40->field_7B4 == 0)
                                 {
@@ -6834,61 +6816,49 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
             }
 
             {
-                Ped* pS = gSearchingPed_6787DC;
-
-                if (pS->field_164_ped_group != 0 && pS->field_164_ped_group->field_2C_ped_leader->field_15C_player != 0)
+                if (gSearchingPed_6787DC->field_164_ped_group != 0 && gSearchingPed_6787DC->field_164_ped_group->field_2C_ped_leader->field_15C_player != 0)
                 {
-                    Fix16 dz = pS->field_1AC_cam.z - this->field_1AC_cam.z;
-                    Fix16 adz;
+                    Fix16 dz = gSearchingPed_6787DC->field_1AC_cam.z - this->field_1AC_cam.z;
 
-                    if (dz.mValue > 0)
-                    {
-                        adz = dz;
-                    }
-                    else
-                    {
-                        adz = dz.Negate_4086A0();
-                    }
-
-                    if (adz.mValue >= kFpOne_678664.mValue)
+                    if (Fix16::Abs_negate_out_of_line(dz) >= kFpOne_678664)
                     {
                         goto ret_false;
                     }
                 }
 
-                Fix16 sx = pS->field_1AC_cam.x;
-                Fix16 sy = pS->field_1AC_cam.y;
-                Fix16 sz = pS->field_1AC_cam.z;
+                Fix16 sx = gSearchingPed_6787DC->field_1AC_cam.x;
+                Fix16 sy = gSearchingPed_6787DC->field_1AC_cam.y;
+                Fix16 sz = gSearchingPed_6787DC->field_1AC_cam.z;
 
-                if (field_238_ped_type == 2)
+                if (field_238_ped_type != 2)
                 {
-                    if (gMap_0x370_6F6268->sub_4E5640(kFpQuarter_678484,
-                                                      kFpQuarter_678484,
-                                                      gSpawnJitterScale_678618,
-                                                      sx,
-                                                      sy,
-                                                      sz,
-                                                      this->field_1AC_cam.x,
-                                                      this->field_1AC_cam.y,
-                                                      this->field_1AC_cam.z))
-                    {
-                        gSearchingPed_6787DC->field_21C |= 0x800000;
-                        return gSearchingPed_6787DC->IsPedAThreat_465D00(this);
-                    }
-
-                    gSearchingPed_6787DC->field_21C &= ~0x800000;
-                    return 0;
+                    return gMap_0x370_6F6268->sub_4E5640(gSpawnJitterScale_678618 * 2,
+                                                         kFpQuarter_678484,
+                                                         gSpawnJitterScale_678618,
+                                                         sx,
+                                                         sy,
+                                                         sz,
+                                                         this->field_1AC_cam.x,
+                                                         this->field_1AC_cam.y,
+                                                         this->field_1AC_cam.z);
                 }
 
-                return gMap_0x370_6F6268->sub_4E5640(gSpawnJitterScale_678618 * 2,
-                                                     kFpQuarter_678484,
-                                                     gSpawnJitterScale_678618,
-                                                     sx,
-                                                     sy,
-                                                     sz,
-                                                     this->field_1AC_cam.x,
-                                                     this->field_1AC_cam.y,
-                                                     this->field_1AC_cam.z);
+                if (gMap_0x370_6F6268->sub_4E5640(kFpQuarter_678484,
+                                                  kFpQuarter_678484,
+                                                  gSpawnJitterScale_678618,
+                                                  sx,
+                                                  sy,
+                                                  sz,
+                                                  this->field_1AC_cam.x,
+                                                  this->field_1AC_cam.y,
+                                                  this->field_1AC_cam.z))
+                {
+                    gSearchingPed_6787DC->field_21C |= 0x800000;
+                    return gSearchingPed_6787DC->IsPedAThreat_465D00(this);
+                }
+
+                gSearchingPed_6787DC->field_21C &= ~0x800000;
+                return 0;
             }
     }
 
@@ -7107,10 +7077,8 @@ Ped* Ped::FindNearbyPed_466FB0()
                                                                                    0);
     if (pNearest)
     {
-        Fix16 xd = pNearest->field_14_xy.x - field_1AC_cam.x;
-        Fix16 abs_yd = Fix16::Abs(pNearest->field_14_xy.y - field_1AC_cam.y);
-        Fix16 abs_xd = Fix16::Abs_negate_out_of_line(xd);
-        if (Fix16::Max_44E540(abs_xd, abs_yd) < kFpQuarter_678788)
+        if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, pNearest->field_14_xy.x, pNearest->field_14_xy.y) <
+            kFpQuarter_678788)
         {
             // @OG_BUG: Null de-ref
             return pNearest->AsCharB4_40FEA0()->field_7C_pPed;
@@ -8441,7 +8409,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                     else
                     {
                         Sprite* pSprite = field_154_target_to_enter->field_50_car_sprite;
-                        if (Fix16::MaxAbsDistanceOOL_42A6B0(field_1AC_cam.x, field_1AC_cam.y, pSprite->field_14_xy.x, pSprite->field_14_xy.y) >
+                        if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, pSprite->field_14_xy.x, pSprite->field_14_xy.y) >
                             kFpTwo_678658)
                         {
                             if (field_144_attacker)
@@ -8495,7 +8463,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                     if (field_158_unk_car)
                     {
                         Sprite* pSprite = field_158_unk_car->field_50_car_sprite;
-                        if (Fix16::MaxAbsDistanceOOL_42A6B0(field_1AC_cam.x, field_1AC_cam.y, pSprite->field_14_xy.x, pSprite->field_14_xy.y) <
+                        if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, pSprite->field_14_xy.x, pSprite->field_14_xy.y) <
                                 kFpFour_678680 ||
                             field_226_internal_objective_status == 1)
                         {
@@ -8511,7 +8479,7 @@ void Ped::GotoAreaByAnyMeans_469060()
 
                 case objectives_enum::kill_char_on_foot_20:
                 {
-                    if (Fix16::MaxAbsDistanceOOL_42A6B0(field_1AC_cam.x, field_1AC_cam.y, field_14C_internal_target_ped->field_1AC_cam.x, field_14C_internal_target_ped->field_1AC_cam.y) >
+                    if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, field_14C_internal_target_ped->field_1AC_cam.x, field_14C_internal_target_ped->field_1AC_cam.y) >
                             kFpTwo_678658 ||
                         field_226_internal_objective_status == 1)
                     {
@@ -8557,7 +8525,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                         if (pCar)
                         {
                             Sprite* pSprite = pCar->field_50_car_sprite;
-                            if (Fix16::MaxAbsDistanceOOL_42A6B0(field_1AC_cam.x, field_1AC_cam.y, pSprite->field_14_xy.x, pSprite->field_14_xy.y) >
+                            if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, pSprite->field_14_xy.x, pSprite->field_14_xy.y) >
                                 kFpFour_678680)
                             {
                                 pCar = 0;
@@ -9814,7 +9782,7 @@ void Ped::MeleeAttackStateMachine_46B670()
     }
 
     gDistanceToTarget_678750 =
-        Fix16::MaxAbsDistanceOOL_42A6B0(field_1AC_cam.x, field_1AC_cam.y, field_14C_internal_target_ped->get_cam_x(), field_14C_internal_target_ped->get_cam_y());
+        Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, field_14C_internal_target_ped->get_cam_x(), field_14C_internal_target_ped->get_cam_y());
 
     if (gDistanceToTarget_678750 <= kFpQuarter_678788)
     {
@@ -11257,7 +11225,7 @@ static inline void ComputeRecruitPrism(Fix16_Rect& r, Fix16 x, Fix16 y, Fix16 of
     r.field_8_top.mValue = y.mValue - half;
     r.field_C_bottom.mValue = y.mValue + half;
     r.field_10_low_z = z.Subtract_436A00(kFpOneEighth_67845C);
-    r.field_14_high_z = static_cast<const Fix16&>(z) + kFpOneEighth_67845C;
+    r.field_14_high_z = (z).Add_408660(kFpOneEighth_67845C);
 }
 
 MATCH_FUNC(0x46e080)
@@ -12133,18 +12101,18 @@ void Ped::HandleShootingAtCar_46FC90(Car_BC* pCar, s32 model)
         }
 
         Fix16 dist_to_cam;
-        dist_to_cam = Fix16::MaxAbsDistanceByRef_42A6B0(field_1AC_cam.x,
+        dist_to_cam = Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x,
                                                         field_1AC_cam.y,
                                                         pCar->field_50_car_sprite->field_14_xy.x,
                                                         pCar->field_50_car_sprite->field_14_xy.y);
 
         if (pCar == field_154_target_to_enter)
         {
-            pWeapon->field_4 = 0;
+            pWeapon->Set_F4_433810(0);
         }
         else if (field_14C_internal_target_ped && field_14C_internal_target_ped->field_16C_car && field_14C_internal_target_ped->field_16C_car == pCar)
         {
-            pWeapon->field_4 = 0;
+            pWeapon->Set_F4_433810(0);
         }
         else
         {
@@ -12152,18 +12120,18 @@ void Ped::HandleShootingAtCar_46FC90(Car_BC* pCar, s32 model)
             max_range = kFpHalf_678790 + kFpOne_678798;
             if (dist_to_cam < max_range && pCar->GetVelocity_43A4C0() < kFpPoint02_678630)
             {
-                pWeapon->field_4 = 1;
+                pWeapon->Set_F4_433810(1);
                 return;
             }
 
             if (!pWeapon->IsExplosiveWeapon_5E3BD0())
             {
-                pWeapon->field_4 = 0;
+                pWeapon->Set_F4_433810(0);
             }
 
-            if (field_14C_internal_target_ped && field_14C_internal_target_ped->field_16C_car && pCar == field_14C_internal_target_ped->field_16C_car)
+            if (field_14C_internal_target_ped && field_14C_internal_target_ped->get_car_416B60() && pCar == field_14C_internal_target_ped->get_car_416B60())
             {
-                pWeapon->field_4 = 0;
+                pWeapon->Set_F4_433810(0);
             }
         }
     }
@@ -12173,7 +12141,7 @@ MATCH_FUNC(0x46fe20)
 void Ped::ProcessWeaponHitResponse_46FE20(Object_2C* pObj)
 {
     Weapon_30* pWeapon;
-    Fix16 xd;
+    Fix16 dist;
     if ((field_21C & 0x2000) != 0)
     {
         pWeapon = field_174_pWeapon;
@@ -12185,26 +12153,19 @@ void Ped::ProcessWeaponHitResponse_46FE20(Object_2C* pObj)
 
     if (pWeapon && !Ped::IsField238_45EDE0(2))
     {
-        // NOTE: the raw y load is needed for OG's y-before-x load order
-        Fix16 yd;
-        s32 raw_y = pObj->field_4->field_14_xy.y.mValue;
-        xd = pObj->get_x_4340D0() - field_1AC_cam.x;
-        yd.mValue = raw_y - field_1AC_cam.y.mValue;
-        Fix16 abs_yd = Fix16::Abs_negate_out_of_line(yd);
-
-        s32 xd_yd_abs = Fix16::Max_44E540(Fix16::Abs_436A50(xd), abs_yd).mValue;
+        dist = Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, pObj->get_x_4340D0(), pObj->get_y_4340E0());
 
         if (pObj == field_1A4_internal_target_object)
         {
-            pWeapon->field_4 = 0;
+            pWeapon->Set_F4_433810(0);
         }
-        else if (xd_yd_abs < kFpTwo_678658.mValue)
+        else if (dist < kFpTwo_678658)
         {
-            pWeapon->field_4 = 1;
+            pWeapon->Set_F4_433810(1);
         }
         else if (!pWeapon->IsExplosiveWeapon_5E3BD0())
         {
-            pWeapon->field_4 = 0;
+            pWeapon->Set_F4_433810(0);
         }
     }
 }
@@ -12231,18 +12192,13 @@ void Ped::NotifyWeaponHit_46FF00(Fix16 xpos, Fix16 ypos, s32 model)
         }
         else
         {
-            Fix16 xd = xpos - field_1AC_cam.x;
-            Fix16 yd = ypos - field_1AC_cam.y;
-            Fix16 abs_yd = Fix16::Abs_negate_out_of_line(yd);
-            Fix16 abs_xd = Fix16::Abs_negate_out_of_line(xd);
-
-            if (Fix16::Max_44E540(abs_xd, abs_yd) < kFpTwo_678658)
+            if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, xpos, ypos) < kFpTwo_678658)
             {
-                pWeapon->field_4 = 1;
+                pWeapon->Set_F4_433810(1);
             }
             else
             {
-                pWeapon->field_4 = 0;
+                pWeapon->Set_F4_433810(0);
             }
         }
     }

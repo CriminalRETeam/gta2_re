@@ -251,16 +251,15 @@ class Fix16
         return *this;
     }
 
-    inline static Fix16 __stdcall Abs(Fix16& input)
+    // 9.6f 0x403840, out-of-line copy Abs_436A50. No braces and a const& parameter on purpose: VC6's
+    // inline budget sees the front-end size, 57 here (each brace pair adds 2, the else 2 more, a non-const
+    // parameter 1 less). 57 is the only size that gives the original's cut-offs both in MaxAbsDistance_42A6B0
+    // (Ped::NotifyWeaponHit_46FF00 needs <= 57) and in GetLength_41E260 (Car_BC::ManageDrowning_43E560 >= 57).
+    inline static Fix16 __stdcall Abs(const Fix16& input)
     {
         if (input.mValue > 0)
-        {
             return input;
-        }
-        else
-        {
-            return -input;
-        }
+        return -input;
     }
 
     inline Fix16 ZeroIfNegligible_482730()
@@ -315,21 +314,43 @@ class Fix16
         return (diff_x > diff_y) ? diff_x : diff_y;
     }
 
-    // NOTE: Force required for sub_43A240 else 2nd call doesn't get inlined
-    // miss2_0x11C.cpp switches this back to regular inlining mode. In 9.6f it seems like
-    // that file actually does have other inline settings as it actually has inlined way more things in the
-    // opcode switch case compared to 10.5 which has inlined nothing.
-    INLINE_MODE static Fix16 __stdcall SquareRoot(Fix16& input)
+    // 9.6f 0x410C10, out-of-line copy SquareRoot_436A70. A plain inline: big functions call 0x436A70 once
+    // they run out of inline budget (Car_BC::ManageDrowning_43E560). The const local is on purpose: VC6's
+    // inline budget charges the front-end size, 48 here (41 without the local, 46 with a non-const one).
+    // Car_BC::ApplyExplosionImpulse_443710 needs >= 48 and CarPhysics_B0::EnforceGearSensitiveMaxSpeed_562D00
+    // <= 49; with GetLength_41E260 at 162, Crane_15C::ComputeHookPolar_47F6C0 needs >= 48 too.
+    inline static Fix16 __stdcall SquareRoot(Fix16& input)
+    {
+        const f64 value = input.AsDouble();
+        return Fix16(sqrt(value));
+    }
+
+    // SquareRoot forced inline, only for Fix16_Point::GetLength_SqrtForced_43A240 (unexplained)
+    __forceinline static Fix16 __stdcall SquareRoot_forced(Fix16& input)
     {
         return Fix16(sqrt(input.AsDouble()));
     }
 
     EXPORT static Fix16 __stdcall Max_44E540(Fix16& pLhs, Fix16& pRhs);
+    // 9.6f 0x41E130, out-of-line copy Max_44E540. Small functions inline it (Ped_List_4::GetFromListClosestPedToPoint_471340),
+    // and as a site after the two Abs it sets their nested budget in MaxAbsDistance_42A6B0
+    inline static Fix16 __stdcall Max_41E130(Fix16& a, Fix16& b)
+    {
+        if (a > b)
+        {
+            return a;
+        }
+        else
+        {
+            return b;
+        }
+    }
     EXPORT static Fix16 __stdcall Abs_436A50(Fix16& a2);
     EXPORT static Fix16 __stdcall SquareRoot_436A70(Fix16& a2);
     // throw(): the original calls these out-of-line copies without an EH frame (their inline
     // bodies were visible there), see CarPhysics_B0::UpdateReferencePoint_563460
-    EXPORT Fix16 operator+(const Fix16& rhs) const throw();
+    // Out-of-line copy of operator+ (0x408660)
+    EXPORT Fix16 Add_408660(const Fix16& rhs) const throw();
     EXPORT Fix16 Multiply_408680(const Fix16& in) const throw();
     // Out-of-line copies of operators, which big functions call once they run out of inline
     // expansions (Sprite_4C::DrawCollisionBox_5A4DA0)
@@ -393,58 +414,14 @@ class Fix16
     }
 
     // https://decomp.me/scratch/MqQPJ
-    inline static Fix16 __stdcall MaxAbsDistance_42A6B0(Fix16 x1, Fix16 y1, Fix16 x2, Fix16 y2)
-    {
-        Fix16 diff_x = x2 - x1;
-        Fix16 diff_y = y2 - y1;
-
-        Fix16 result;
-        result = Fix16::Max_44E540(Fix16::Abs(diff_x), Fix16::Abs(diff_y));
-        return result;
-    }
-
-    // MaxAbsDistance_42A6B0 with the out-of-line Abs_436A50 (CarAI_78::ReactToNearbyCar_451980)
-    inline static Fix16 __stdcall MaxAbsDistanceOOL_42A6B0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
-    {
-        Fix16 diff_x = x2 - x1;
-        Fix16 diff_y = y2 - y1;
-
-        Fix16 result;
-        result = Fix16::Max_44E540(Fix16::Abs_436A50(diff_x), Fix16::Abs_436A50(diff_y));
-        return result;
-    }
-
-    // MaxAbsDistance_42A6B0 with the out-of-line Negate_4086A0 for x (Kfc_30::UpdateStateMachine_5CBD50)
-    inline static Fix16 __stdcall MaxAbsDistanceNegOOL_42A6B0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
-    {
-        Fix16 diff_x = x2 - x1;
-        Fix16 diff_y = y2 - y1;
-
-        Fix16 result;
-        result = Fix16::Max_44E540(Fix16::Abs_negate_out_of_line(diff_x), Fix16::Abs(diff_y));
-        return result;
-    }
-
-    // NOTE: 9.6f 0x42A6B0 - inlined in 10.5
-    inline static Fix16 __stdcall MaxAbsDistanceByRef_42A6B0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
+    inline static Fix16 __stdcall MaxAbsDistance_42A6B0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
     {
         Fix16 diff_x;
         diff_x = x2 - x1;
         Fix16 diff_y;
+        diff_y = y2 - y1;
         Fix16 result;
-        result = Fix16::Max_44E540(Fix16::Abs_436A50(diff_x), Fix16::Abs_436A50(diff_y = y2.Subtract_436A00(y1)));
-        return result;
-    }
-
-    // MaxAbsDistanceByRef_42A6B0 with diff_y computed before the Abs calls (CarAI_78::UpdateStateMachine_44E560)
-    inline static Fix16 __stdcall MaxAbsDistanceByRefYFirst_42A6B0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
-    {
-        Fix16 diff_x;
-        diff_x = x2 - x1;
-        Fix16 diff_y;
-        diff_y = y2.Subtract_436A00(y1);
-        Fix16 result;
-        result = Fix16::Max_44E540(Fix16::Abs_436A50(diff_x), Fix16::Abs_436A50(diff_y));
+        result = Fix16::Max_41E130(Fix16::Abs(diff_x), Fix16::Abs(diff_y));
         return result;
     }
 

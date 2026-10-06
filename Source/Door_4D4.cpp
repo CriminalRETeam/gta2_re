@@ -312,10 +312,9 @@ s32 DoorData_10::GetOppositeFace_4DEEB0(s32 v)
     }
 }
 
-WIP_FUNC(0x49c340)
+MATCH_FUNC(0x49c340)
 void DoorData_10::Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
 {
-    WIP_IMPLEMENTED;
 
     gmp_block_info blockData; // [esp+10h] [ebp-Ch] BYREF
 
@@ -327,7 +326,8 @@ void DoorData_10::Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
     this->field_7_gr_id = id;
     this->field_0_state = 1;
 
-    DoorAnimInfo_A* pInfo = &gDoorAnimInfo_67BB38[id];
+    const u8& anim_id = id;
+    DoorAnimInfo_A* pInfo = &gDoorAnimInfo_67BB38[anim_id];
     gGtx_0x106C_703DD4->SetTileRemap_5AA930(pInfo->field_4_internal_tile_idx, pInfo->field_0_start_frame);
 
     u16 v8 = pInfo->field_4_internal_tile_idx | 0x1C00; // wall, bullet wall and flat

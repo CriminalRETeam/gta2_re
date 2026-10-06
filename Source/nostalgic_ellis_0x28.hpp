@@ -16,6 +16,9 @@ struct LightIntensityRadius
         u8 unknown = (radius * 32).ToInt();
         SetRadiusByte_463EF0(unknown);
     }
+
+    // Out-of-line copy of SetRadius_463F10
+    EXPORT void SetRadius_5C5CD0(Fix16 radius);
     s32 flag;
 };
 

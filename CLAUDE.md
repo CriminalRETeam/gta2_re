@@ -147,6 +147,15 @@ Two things to try early when a function is close but won't match:
   expression is written. Inlining decisions also depend on what VC6 has already seen in
   the TU, such as include order and definition order (see the `cSampleManager.hpp` include
   order and inlining notes in `docs/matching_quirks.md`).
+- **Out-of-line calls to an inline follow an exact budget rule.** Don't write per-call-site
+  variants of an inline (`*_ool`, explicit `Multiply_408680` calls): see
+  `Scripts/inline_budget/README.md`. `Scripts/inline_budget/inl.sh <file.cpp> <function>` shows why
+  each call was or wasn't inlined, and `inlsim.py` what change gives the original's cut-off.
+- **x87/integer interleaving follows 81-node scheduling windows.** If only the placement of
+  integer instructions around float code differs, from some point in a long block on, the
+  window breaks fall elsewhere. No-op nodes from parentheses, `(f32)` casts and `f32` locals
+  count toward the 81. See `Scripts/x87_sched/README.md`. `sched.sh <file.cpp> <function>`
+  shows the windows and the schedule, and `regsearch.py` the window limit that would match.
 - **Look at the 9.6f build.** `9.6f.exe` is an earlier build made with a different
   compiler version that has inlining mostly turned off, so many helpers that are inlined
   in 10.5 are real functions there (`og_function_data_v96f.csv` lists them). That makes it

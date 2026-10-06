@@ -164,13 +164,10 @@ u8 Player::GetIdx_4881E0()
     return field_2E_idx;
 }
 
-WIP_FUNC(0x5645B0)
+MATCH_FUNC(0x5645B0)
 void Player::AddCarToHistory_5645B0(Car_BC* pNewCar)
 {
-    
-
     Car_BC** pIter = field_54_car_history;
-    Car_BC** ppIter = pIter;
     if (!bStartNetworkGame_7081F0)
     {
         u8 i = PromoteCarInHistory_564610(pNewCar, false);
@@ -185,14 +182,16 @@ void Player::AddCarToHistory_5645B0(Car_BC* pNewCar)
                 }
             }
 
-            // History full: recycle the oldest car and shift the others down
-            ppIter[0]->MarkRecycled_443E80();
-            Car_BC** pDst = ppIter;
-            for (s32 j = 0; j < 2; j++, pDst++)
+            // History full: recycle the oldest car and shift the others down. The same pointer is
+            // reset here: VC6 then keeps the array address in esi and the walking pointer in edi, a
+            // second pointer variable swaps them (VC7 against 9.6f too).
+            pIter = field_54_car_history;
+            (*pIter)->MarkRecycled_443E80();
+            for (u8 j = 0; j < 2; j++, pIter++)
             {
-                *pDst = pDst[1];
+                *pIter = pIter[1];
             }
-            ppIter[2] = pNewCar;
+            *pIter = pNewCar;
         }
     }
 }

@@ -355,14 +355,8 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                 if (pPed)
                 {
                     pCmd = (Car_18_Cmd*)pEntry->field_0_pScriptCmd;
-                    if (pCmd->field_2_type == 0x1B2)
-                    {
-                        pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_24_idx);
-                    }
-                    else
-                    {
-                        pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
-                    }
+                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                        pCmd->field_2_type == 0x1B2 ? pCmd->field_24_idx : pCmd->field_8_idx);
                     if (pPed->get_id() == pPointer->field_8_char->get_id())
                     {
                         pEntry->field_14_enable_state = 0;
@@ -389,21 +383,11 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
             break;
 
         case 7:
-            if (pSprite->get_type_416B40() == sprite_types_enum::ped_3)
+            if (pSprite->get_type_416B40() != sprite_types_enum::ped_3)
             {
-                pPed = pSprite->AsCharB4_40FEA0()->get_ped_433A20();
-                if (pPed)
-                {
-                    pCmd = (Car_18_Cmd*)pEntry->field_0_pScriptCmd;
-                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
-                    if (pPed->GetGameObjectVelocity_433C20() == kZero_705DD8 &&
-                        pPed->get_id() == pPointer->field_8_char->get_id())
-                    {
-                        pEntry->field_14_enable_state = 0;
-                    }
-                }
+                break;
             }
-            break;
+            // fall through: the ped check is the same as case 6
 
         case 6:
             if (pSprite->get_type_416B40() == sprite_types_enum::ped_3)
@@ -411,8 +395,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                 pPed = pSprite->AsCharB4_40FEA0()->get_ped_433A20();
                 if (pPed)
                 {
-                    pCmd = (Car_18_Cmd*)pEntry->field_0_pScriptCmd;
-                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
+                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((Car_18_Cmd*)pEntry->field_0_pScriptCmd)->field_8_idx);
                     if (pPed->GetGameObjectVelocity_433C20() == kZero_705DD8 &&
                         pPed->get_id() == pPointer->field_8_char->get_id())
                     {
@@ -426,8 +409,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                 pPed = pCar->get_driver_4118B0();
                 if (pPed)
                 {
-                    pCmd = (Car_18_Cmd*)pEntry->field_0_pScriptCmd;
-                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
+                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((Car_18_Cmd*)pEntry->field_0_pScriptCmd)->field_8_idx);
                     if (pPed->GetPedVelocity_45C920() == kZero_705DD8 &&
                         pPed->get_id() == pPointer->field_8_char->get_id())
                     {
@@ -444,8 +426,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                 pPed = pCar->get_driver_4118B0();
                 if (pPed)
                 {
-                    pCmd = (Car_18_Cmd*)pEntry->field_0_pScriptCmd;
-                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
+                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((Car_18_Cmd*)pEntry->field_0_pScriptCmd)->field_8_idx);
                     if (pPed->GetPedVelocity_45C920() == kZero_705DD8 &&
                         pPed->get_id() == pPointer->field_8_char->get_id())
                     {
@@ -875,8 +856,7 @@ Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
                 pNearestCar = pCarIter;
             }
 
-            if (pCarIter->field_84_car_info_idx == car_model_enum::TRAIN || pCarIter->field_84_car_info_idx == car_model_enum::TRAINCAB ||
-                pCarIter->field_84_car_info_idx == car_model_enum::TRAINFB || pCarIter->field_84_car_info_idx == car_model_enum::boxcar)
+            if (pCarIter->IsTrainModel_403BA0())
             {
                 u8 train_car_idx = 0;
                 Car_BC** pTrainCars = gPublicTransport_181C_6FF1D4->GetCarArrayFromLeadCar_579B40(pCarIter);
@@ -887,12 +867,12 @@ Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
                         break;
                     }
 
-                    // Negate_4086A0 and the const operator+ (0x408660) out of line, x + y inline. The train
-                    // model check above is written out (not IsTrainModel_403BA0) to stay in VC6's inline budget
+                    // The Abs negates and the last add go out of line by the inline budget. Add_408660 is the
+                    // nothrow copy: the plain operator+ changes the register allocation of the whole loop
                     Fix16 trainDistance;
-                    trainDistance = static_cast<const Fix16&>(Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_14_xy.x - xpos) +
-                                                              Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_14_xy.y - ypos)) +
-                        Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_1C_zpos - zpos);
+                    trainDistance = (Fix16::Abs(pTrainIter->field_50_car_sprite->field_14_xy.x - xpos) +
+                                     Fix16::Abs(pTrainIter->field_50_car_sprite->field_14_xy.y - ypos))
+                                        .Add_408660(Fix16::Abs(pTrainIter->field_50_car_sprite->field_1C_zpos - zpos));
                     if (trainDistance < smallestDist)
                     {
                         smallestDist = trainDistance;
@@ -1126,22 +1106,27 @@ Car_BC* Car_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 road_di
     {
         Junction_10* pJunction = gRouteFinder_6FFDC8->GetJunction_58A0B0(gRouteFinder_6FFDC8->field_2218_routes[route_idx].field_0_junctions[0]);
         u16 junction_idx = gRouteFinder_6FFDC8->field_2218_routes[route_idx].field_0_junctions[0];
+        s32 dir;
         switch ((s16)pJunction->GetDirectionToJunction_5885C0(gRouteFinder_6FFDC8->field_2218_routes[route_idx].field_0_junctions[1]))
         {
             case 1:
-                road_direction = road_direction::up_1;
+                dir = road_direction::up_1;
                 break;
             case 2:
-                road_direction = road_direction::down_2;
+                dir = road_direction::down_2;
                 break;
             case 3:
-                road_direction = road_direction::left_4;
+                dir = road_direction::left_4;
                 break;
             case 4:
-                road_direction = road_direction::right_3;
+                dir = road_direction::right_3;
+                break;
+            default:
+                dir = road_direction;
                 break;
         }
-        gRouteFinder_6FFDC8->FindArrowBlockInJunction_5890D0(junction_idx, road_direction, &x8, &y8);
+        gRouteFinder_6FFDC8->FindArrowBlockInJunction_5890D0(junction_idx, dir, &x8, &y8);
+        road_direction = dir;
         Fix16 x = Fix16(x8) + kFpHalf_6772D0;
         Fix16 y = Fix16(y8) + kFpHalf_6772D0;
 
@@ -1468,28 +1453,29 @@ EXPORT void __stdcall SpawnCabAndTrailerHelper_408370(
 }
 
 // 9.6f 0x428EC0
-WIP_FUNC(0x446530)
+MATCH_FUNC(0x446530)
 Trailer* Car_6C::SpawnCabAndTrailer_446530(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_model, s32 trailer_model)
 {
-    WIP_IMPLEMENTED;
-    
     Ang16 out_rot;
 
     Car_BC* pCab = SpawnCarAtCorrectZ_426E40(xpos, ypos, rotation, car_model);
 
+    // Separate output locals: VC6 puts them in the dead xpos/ypos arg slots and keeps the
+    // parameters in registers across the first spawn
+    Fix16 trailer_x;
+    Fix16 trailer_y;
     Fix16 zpos;
     SpawnCabAndTrailerHelper_408370(xpos,
                                     ypos,
                                     pCab->field_50_car_sprite->field_1C_zpos,
                                     rotation,
                                     kAngZero_67791C,
-                                    &xpos,
-                                    &ypos,
+                                    &trailer_x,
+                                    &trailer_y,
                                     &zpos,
                                     &out_rot);
 
-    
-    Car_BC* pTrailer = SpawnCarAtCorrectZ_426E40(xpos, ypos, out_rot, trailer_model);
+    Car_BC* pTrailer = SpawnCarAtCorrectZ_426E40(trailer_x, trailer_y, out_rot, trailer_model);
     gCar_BC_Pool_67792C->field_0_pool.UnlinkFromActiveList_420F30(pTrailer);
 
     Trailer* pNewTrailer = gTrailerPool_66AC80->field_0_pool.Allocate();
@@ -1885,8 +1871,8 @@ Fix16_Point Car_BC::GetHitchPoint_439FB0()
         point = kCabHitchOffset_677358;
     }
 
-    point.RotateByAngle_YOOL_40F6B0(field_50_car_sprite->field_0);
-    return point.Add_40AC50(field_50_car_sprite->get_x_y_443580());
+    point.RotateByAngle_40F6B0(field_50_car_sprite->field_0);
+    return point + field_50_car_sprite->get_x_y_443580();
 }
 
 MATCH_FUNC(0x43a0e0)
@@ -1933,6 +1919,13 @@ bool Car_BC::HasSpriteZoom_43A230()
     return field_50_car_sprite->field_38_zoom != 0;
 }
 
+// CarPhysics_B0::GetLinearSpeed_4211A0 with the square root forced inline (see
+// Fix16_Point::GetLength_SqrtForced_43A240)
+static inline Fix16 GetLinearSpeed_43A240(CarPhysics_B0* pPhysics)
+{
+    return pPhysics->field_40_linvel_1.GetLength_SqrtForced_43A240();
+}
+
 MATCH_FUNC(0x43a240)
 Fix16 Car_BC::GetCarLinearSpeed_43A240()
 {
@@ -1944,7 +1937,7 @@ Fix16 Car_BC::GetCarLinearSpeed_43A240()
         {
             return gFix16_6777CC;
         }
-        return pPhysics->GetLinearSpeed_4211A0();
+        return GetLinearSpeed_43A240(pPhysics);
     }
     else
     {
@@ -1953,7 +1946,7 @@ Fix16 Car_BC::GetCarLinearSpeed_43A240()
         {
             return gFix16_6777CC;
         }
-        return pPhysics->GetLinearSpeed_4211A0();
+        return GetLinearSpeed_43A240(pPhysics);
     }
 }
 
@@ -2712,8 +2705,7 @@ void Car_BC::GetDoorWorldPos_43B420(u8 door_idx, Fix16* pXPos, Fix16* pYPos)
     Ang16& rotation = field_50_car_sprite->field_0;
     Fix16 x_off;
     x_off = door_x * Ang16::cosine_40F520(rotation) + door_y * Ang16::sine_40F500(rotation);
-    door_y = (const Fix16&)(-old_xpos).Multiply_408680(Ang16::sine_40F500(rotation)) +
-        door_y.Multiply_408680(Ang16::cosine_40F520(rotation));
+    door_y = (-old_xpos).Multiply_408680(Ang16::sine_40F500(rotation)).Add_408660(door_y.Multiply_408680(Ang16::cosine_40F520(rotation)));
 
     *pXPos = field_50_car_sprite->field_14_xy.x + x_off;
     *pYPos = field_50_car_sprite->field_14_xy.y + door_y;
@@ -2899,6 +2891,11 @@ static inline Fix16 Get_rear_window_offset(car_info* p)
 {
     return gPixelsToFix16_6F6850.SignedPixelsToFix16_440860(p->rear_window_offset);
 }
+// 9.6f 0x41FF60
+static inline Fix16 Get_half_width(car_info* p)
+{
+    return dword_677214 * gPixelsToFix16_6F6850.list[p->w];
+}
 MATCH_FUNC(0x43b870)
 void Car_BC::SpawnDamageFireEffect_43B870(s32 k1Or2, Fix16_Point* pPos)
 {
@@ -2920,12 +2917,12 @@ void Car_BC::SpawnDamageFireEffect_43B870(s32 k1Or2, Fix16_Point* pPos)
                 }
                 else
                 {
-                    x_hit = dword_677214 * gPixelsToFix16_6F6850.list[pCarInfo->w];
+                    x_hit = Get_half_width(pCarInfo);
                 }
                 break;
 
             case 2u: // huge fire
-                x_hit = -(dword_677214 * gPixelsToFix16_6F6850.list[pCarInfo->w]);
+                x_hit = -(Get_half_width(pCarInfo));
                 if (gCar_6C_677930->field_1A_fire_effect_cycle && gCar_6C_677930->field_1A_fire_effect_cycle != 3)
                 {
                     y_hit = Get_front_window_offset(pCarInfo);
@@ -2944,7 +2941,7 @@ void Car_BC::SpawnDamageFireEffect_43B870(s32 k1Or2, Fix16_Point* pPos)
                 }
                 else
                 {
-                    x_hit = dword_677214 * gPixelsToFix16_6F6850.list[pCarInfo->w];
+                    x_hit = Get_half_width(pCarInfo);
                 }
                 break;
 
@@ -2952,13 +2949,13 @@ void Car_BC::SpawnDamageFireEffect_43B870(s32 k1Or2, Fix16_Point* pPos)
                 // x_hit is left uninitialised here, as in 9.6f (the original reads whatever its slot holds)
                 break;
         }
-        x_hit = x_hit * field_68_scale;
-        y_hit = y_hit * field_68_scale;
+        x_hit *= field_68_scale;
+        y_hit *= field_68_scale;
     }
     else
     {
         rot_point = *pPos - field_50_car_sprite->get_x_y_443580();
-        rot_point.RotateByAngle_OneMulInline_40F6B0(field_50_car_sprite->field_0);
+        rot_point.RotateByAngle_40F6B0(field_50_car_sprite->field_0);
         x_hit = rot_point.x;
         y_hit = rot_point.y;
     }
@@ -4029,40 +4026,10 @@ void Car_BC::sub_43DD60()
     }
 }
 
-// The original's copy of CarPhysics_B0::IsDrowning_421100 calls the out of line Fix16 helpers
-// (Negate_4086A0, Multiply_408680, operator+, SquareRoot_436A70) for the speed
-static inline Fix16 GetSpeed_43E560(Fix16_Point& v)
-{
-    if (v.x == gFix16_6777CC)
-    {
-        return Fix16::Abs_negate_out_of_line(v.y);
-    }
-    else if (v.y == gFix16_6777CC)
-    {
-        return Fix16::Abs_negate_out_of_line(v.x);
-    }
-    else
-    {
-        return Fix16::SquareRoot_436A70((const Fix16&)v.x.Multiply_408680(v.x) + v.y.Multiply_408680(v.y));
-    }
-}
-
-static inline bool IsDrowning_43E560(CarPhysics_B0* pPhysics)
-{
-    if (pPhysics->field_98_surface_type == 8)
-    {
-        if (GetSpeed_43E560(pPhysics->field_40_linvel_1) <= kDrowningMaxSpeed_677794)
-        {
-            return 1;
-        }
-    }
-    return 0;
-}
-
 MATCH_FUNC(0x43e560)
 char_type Car_BC::ManageDrowning_43E560()
 {
-    char_type ret = IsDrowning_43E560(field_58_physics);
+    char_type ret = field_58_physics->IsDrowning_421100();
     if (ret)
     {
         if (this->field_94_exploder_timer > 0)
@@ -4300,22 +4267,18 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
             {
                 damage = AccumulateDamage_43DA90(
                     32000,
-                    &pObj->field_4->get_x_y_443580().Add_40AC50(field_50_car_sprite->get_x_y_443580()).Multiply_438FE0(kFpHalf_677218));
+                    &((pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * kFpHalf_677218));
                 if (this->field_74_damage != 32001)
                 {
                     offset = pObj->field_4->get_x_y_443580() - field_50_car_sprite->get_x_y_443580();
-                    Ang16 rot(-field_50_car_sprite->field_0.rValue);
-                    rot.Normalize_406C20();
-                    offset.RotateByAngle_OOL_40F6B0(rot);
+                    offset.RotateByAngle_40F6B0(-field_50_car_sprite->field_0);
                     EmitExplosion_43D690(18, offset.x, offset.y);
                 }
             }
             else
             {
                 offset = pObj->field_4->get_x_y_443580() - field_50_car_sprite->get_x_y_443580();
-                Ang16 rot(-field_50_car_sprite->field_0.rValue);
-                rot.Normalize_406C20();
-                offset.RotateByAngle_OOL_40F6B0(rot);
+                offset.RotateByAngle_40F6B0(-field_50_car_sprite->field_0);
                 EmitExplosion_43D690(18, offset.x, offset.y);
             }
             break;
@@ -4331,15 +4294,13 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
                     {
                         damage = AccumulateDamage_43DA90(
                             32000,
-                            &pObj->field_4->get_x_y_443580().Add_40AC50(field_50_car_sprite->get_x_y_443580()).Multiply_438FE0(kFpHalf_677218));
+                            &((pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * kFpHalf_677218));
                     }
 
                     if (this->field_74_damage != 32001)
                     {
                         offset = pObj->field_4->get_x_y_443580() - field_50_car_sprite->get_x_y_443580();
-                        Ang16 rot(-field_50_car_sprite->field_0.rValue);
-                        rot.Normalize_406C20();
-                        offset.RotateByAngle_OOL_40F6B0(rot);
+                        offset.RotateByAngle_40F6B0(-field_50_car_sprite->field_0);
                         EmitExplosion_43D690(18, offset.x, offset.y);
                     }
                 }
@@ -4351,7 +4312,7 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
             {
                 damage = AccumulateDamage_43DA90(
                     100 * GetDamageMultiplier_45CF90(pFoundPed),
-                    &pObj->field_4->get_x_y_443580().Add_40AC50(field_50_car_sprite->get_x_y_443580()).Multiply_438FE0(kFpHalf_677218));
+                    &((pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * kFpHalf_677218));
             }
             break;
 
@@ -4360,7 +4321,7 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
             {
                 damage = AccumulateDamage_43DA90(
                     1600 * GetDamageMultiplier_45CF90(pFoundPed),
-                    &pObj->field_4->get_x_y_443580().Add_40AC50(field_50_car_sprite->get_x_y_443580()).Multiply_438FE0(kFpHalf_677218));
+                    &((pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * kFpHalf_677218));
             }
             // Like 9.6f, 265 and default pass `offset`, which only the explosion cases set
             gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pObj->field_4->field_14_xy.x,
@@ -4374,7 +4335,7 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
             {
                 damage = AccumulateDamage_43DA90(
                     800 * GetDamageMultiplier_45CF90(pFoundPed),
-                    &pObj->field_4->get_x_y_443580().Add_40AC50(field_50_car_sprite->get_x_y_443580()).Multiply_438FE0(kFpHalf_677218));
+                    &((pObj->field_4->get_x_y_443580() + field_50_car_sprite->get_x_y_443580()) * kFpHalf_677218));
             }
             gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pObj->field_4->field_14_xy.x,
                                                            pObj->field_4->field_14_xy.y,
@@ -5865,7 +5826,7 @@ void Car_BC::TryHitchTrailer_442810()
             v6 = hitch_this - hitch_car;
             // Declared, then assigned: keeps the length in eax (Abs results reloaded from their temp)
             Fix16 v6_len;
-            v6_len = v6.GetLength_inline_442810();
+            v6_len = v6.GetLength_41E260();
 
             Fix16 z_delta = Fix16::Abs(v4->field_1C_zpos - field_50_car_sprite->field_1C_zpos);
 
@@ -5889,7 +5850,7 @@ void Car_BC::TryHitchTrailer_442810()
                                 pCar->field_58_physics->SetVelocityTowardTarget_55A1D0(
                                     v16.x,
                                     v16.y,
-                                    Ang16::Ang16_to_Fix16(pCar->field_58_physics->field_58_theta),
+                                    Ang16::Ang16_to_Fix16(pCar->field_58_physics->get_theta_40F820()),
                                     &a5);
                             }
                         }
@@ -5925,8 +5886,8 @@ void Car_BC::LightUpdate_442D10()
     }
 }
 
-// Not in 9.6f (no pair for TrainUpdate_442D70). The const z makes high_z call the
-// out-of-line Fix16::operator+ (0x408660) as the original does; all the arguments are
+// Not in 9.6f (no pair for TrainUpdate_442D70). high_z calls the out-of-line
+// Fix16::Add_408660 (operator+) as the original does; all the arguments are
 // evaluated before any store, which gives the original's schedule.
 static inline void SetPrism(Fix16_Rect& rect, Fix16 left, Fix16 right, Fix16 top, Fix16 bottom, const Fix16 z)
 {
@@ -5935,7 +5896,7 @@ static inline void SetPrism(Fix16_Rect& rect, Fix16 left, Fix16 right, Fix16 top
     rect.field_8_top = top;
     rect.field_C_bottom = bottom;
     rect.field_10_low_z = z - kCollisionPrismHalfHeight_6771E4;
-    rect.field_14_high_z = z + kCollisionPrismHalfHeight_6771E4;
+    rect.field_14_high_z = z.Add_408660(kCollisionPrismHalfHeight_6771E4);
 }
 
 MATCH_FUNC(0x442d70)
@@ -6212,12 +6173,7 @@ bool Car_BC::UpdateAttachedToSprite_443360(Sprite* pSprite, Fix16 x, Fix16 y, An
     {
         sprite_x = x;
         sprite_y = y;
-        // RotateVector_41FC90 by the sprite's angle, but using the out-of-line Fix16 operators
-        Fix16 old_x = sprite_x;
-        sprite_x = (const Fix16&)sprite_x.Multiply_408680(Ang16::cosine_40F520(pSprite->field_0)) +
-            sprite_y * Ang16::sine_40F500(pSprite->field_0);
-        sprite_y = (const Fix16&)(-old_x).Multiply_408680(Ang16::sine_40F500(pSprite->field_0)) +
-            sprite_y.Multiply_408680(Ang16::cosine_40F520(pSprite->field_0));
+        Ang16::RotateVector_41FC90(sprite_x, sprite_y, pSprite->field_0);
 
         sprite_x = pSprite->field_14_xy.x + sprite_x;
         sprite_y = pSprite->field_14_xy.y + sprite_y;
@@ -6233,7 +6189,7 @@ bool Car_BC::UpdateAttachedToSprite_443360(Sprite* pSprite, Fix16 x, Fix16 y, An
     tmp += rot;
     field_50_car_sprite->set_ang_lazy_420690(tmp);
 
-    switch (pSprite->get_type_416B40())
+    switch (pSprite->field_30_sprite_type_enum)
     {
         case sprite_types_enum::car_2:
             field_50_car_sprite->set_num_40F7B0(18);
@@ -6335,10 +6291,10 @@ void Car_BC::ApplyExplosionImpulse_443710(Fix16_Point* xy)
         v4 = (v16 - *xy);
         // vecLen's scope has to end before the ApplyImpactForcesAndDamage call: its result temp
         // reuses vecLen's slot (the dead xy param slot), in 9.6f too. Hence the goto: an inline
-        // helper returning bool runs out of inline budget for GetLength_inline_443710, and a bool
+        // helper returning bool runs out of inline budget for GetLength_41E260, and a bool
         // flag tested twice isn't merged by VC6.
         {
-            Fix16 vecLen = v4.GetLength_inline_443710();
+            Fix16 vecLen = v4.GetLength_41E260();
             if (vecLen == gFix16_6777CC)
             {
                 goto done;
@@ -6930,7 +6886,7 @@ Fix16_Point Trailer::sub_407BD0()
         Fix16 cos = Ang16::cosine_40F520(angle);
         Fix16 x_old = offset.x;
         offset.x = (offset.x * cos) + (offset.y * sin);
-        offset.y = (const Fix16&)x_old.Negate_4086A0().Multiply_408680(sin) + offset.y.Multiply_408680(cos);
+        offset.y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(offset.y.Multiply_408680(cos));
     }
     offset += field_8_truck_cab->field_58_physics->get_cp1_40B560();
     return offset;
@@ -6940,7 +6896,7 @@ Fix16_Point Trailer::sub_407BD0()
 // static copies of the 90/270 degree constants
 static inline bool IsVelocityAlignedWithHeading_40F840(CarPhysics_B0* pPhys)
 {
-    Ang16 drift = pPhys->field_40_linvel_1.atan2_40ACD0().SubtractNormalized_409340(pPhys->field_58_theta);
+    Ang16 drift = pPhys->field_40_linvel_1.atan2_40F790().SubtractNormalized_409340(pPhys->field_58_theta);
     return drift <= word_66A9C8 || drift >= word_66AABC;
 }
 
@@ -6960,12 +6916,12 @@ void Trailer::UpdateTrailerAlignment_407CE0()
     Fix16 trailer_theta = Ang16::Ang16_to_Fix16(pTrailerPhys->field_58_theta);
 
     rear = field_C_pCarOnTrailer->get_rear_wheel_offset_43A0E0();
-    rear.RotateByAngle_40F6B0_all_out_of_line(pTrailerPhys->field_58_theta);
+    rear.RotateByAngle_40F6B0(pTrailerPhys->field_58_theta);
     rear += pTrailerPhys->get_cp1_40B560();
 
     hitch = gTrailerHitchOffset_66AAC8;
     Fix16 cab_theta = Ang16::Ang16_to_Fix16(pCabPhys->field_58_theta);
-    hitch.RotateByAngle_40F6B0_all_out_of_line(Ang16::Fix16_To_Ang16_ool_40F540(cab_theta));
+    hitch.RotateByAngle_40F6B0(Ang16::Fix16_To_Ang16_40F540(cab_theta));
     hitch += pCabPhys->get_cp1_40B560();
 
     // The trailer points along hitch - rear, kept within a window around the cab's angle
@@ -6981,10 +6937,10 @@ void Trailer::UpdateTrailerAlignment_407CE0()
         }
     }
 
-    pTrailerPhys->field_58_theta = Ang16::Fix16_To_Ang16_ool_40F540(new_theta);
+    pTrailerPhys->field_58_theta = Ang16::Fix16_To_Ang16_40F540(new_theta);
 
     offset = gTrailerCabOffset_66AAE0;
-    offset.RotateByAngle_40F6B0_all_out_of_line(Ang16::Fix16_To_Ang16_ool_40F540(new_theta));
+    offset.RotateByAngle_40F6B0(Ang16::Fix16_To_Ang16_40F540(new_theta));
     field_C_pCarOnTrailer->field_58_physics->field_38_cp1 = hitch.Sub_40AC80(offset);
     pTrailerPhys->field_6C_cp3 = field_8_truck_cab->field_58_physics->field_6C_cp3;
     pTrailerPhys->UpdateCenterOfMassPoint_563350();
@@ -7396,9 +7352,10 @@ Fix16 Car_14::GetRandomTrafficSpeed_583750(Fix16 max_speed, u8* pOut)
 }
 
 // 9.6f 0x4B34E0
-// Only diff left: case 1 of the a2 switch. 10.5 keeps the x_step = -1 block as the jump target of
-// case 1 (14D) and case 2 jumps to it. Writing case 1 inverted (as here) gets the merge but lays the
-// -1 block out as the fallthrough instead.
+// Only diff left: case 2 of the a2 switch. 10.5 merges case 2's x_step = -1 block into case 1's
+// (jne to 14D, own +1 block as the fallthrough). Here VC6 merges the +1 blocks instead (case 2's
+// becomes a je to case 1's). VC6 keeps the fallthrough copy of two identical blocks, and when both
+// are jump targets the later one, so case 1's -1 block (a jump target) never survives a merge.
 WIP_FUNC(0x582480)
 char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
 {
@@ -7438,25 +7395,14 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
 
     Fix16 xpos;
     Fix16 ypos;
-    // Case order 1, 2, 4, 3 and the statement orders in cases 1 and 2 follow the 10.5 block layout
-    // and tail merging (case 4 jumps into case 3's tail, case 2's x_step = -1 block is case 1's).
+    // Case order 1, 2, 4, 3 and the statement orders follow the 10.5 block layout and tail merging
+    // (case 4 jumps into case 3's tail; cases 3/4 need `ypos` before `y_step = 1` in the +1 arm).
+    // Case 2's x_step = -1 block is written in a different order so that VC6 does not merge it
+    // (merging would keep case 2's copy).
     switch (a2)
     {
         case 1:
             ypos = field_0_cam->field_78_boundaries_non_neg.field_8_top - kFpFive_6FF6D4;
-            if (field_8)
-            {
-                xpos = field_0_cam->field_78_boundaries_non_neg.field_4_right + kFpOne_6FF778;
-                x_step = -1;
-            }
-            else
-            {
-                x_step = 1;
-                xpos = field_0_cam->field_78_boundaries_non_neg.field_0_left - kFpOne_6FF778;
-            }
-            break;
-        case 2:
-            ypos = field_0_cam->field_78_boundaries_non_neg.field_C_bottom + kFpFive_6FF6D4;
             if (!field_8)
             {
                 xpos = field_0_cam->field_78_boundaries_non_neg.field_0_left - kFpOne_6FF778;
@@ -7466,14 +7412,27 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
             {
                 xpos = field_0_cam->field_78_boundaries_non_neg.field_4_right + kFpOne_6FF778;
                 x_step = -1;
+            }
+            break;
+        case 2:
+            ypos = field_0_cam->field_78_boundaries_non_neg.field_C_bottom + kFpFive_6FF6D4;
+            if (field_8)
+            {
+                x_step = -1;
+                xpos = field_0_cam->field_78_boundaries_non_neg.field_4_right + kFpOne_6FF778;
+            }
+            else
+            {
+                xpos = field_0_cam->field_78_boundaries_non_neg.field_0_left - kFpOne_6FF778;
+                x_step = 1;
             }
             break;
         case 4:
             xpos = field_0_cam->field_78_boundaries_non_neg.field_0_left - kFpFive_6FF6D4;
             if (!field_8)
             {
-                y_step = 1;
                 ypos = field_0_cam->field_78_boundaries_non_neg.field_8_top - kFpOne_6FF778;
+                y_step = 1;
             }
             else
             {
@@ -7485,8 +7444,8 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
             xpos = field_0_cam->field_78_boundaries_non_neg.field_4_right + kFpFive_6FF6D4;
             if (!field_8)
             {
-                y_step = 1;
                 ypos = field_0_cam->field_78_boundaries_non_neg.field_8_top - kFpOne_6FF778;
+                y_step = 1;
             }
             else
             {
