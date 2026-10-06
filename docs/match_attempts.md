@@ -3058,3 +3058,35 @@ file, so a header could be swapped per variant) without touching `build_vc6/`.
 - `Garage_48::ParkCarAtDoor_534700` (116) and `PedGroup::MergeWithOtherGroup_4C9B60` (104): re-scored and read;
   nothing new beyond the existing notes (register priority between `pPed` and the list cursor; `w2`/`&field_38`
   swap). `compare_globals.py` flags nothing on any of the targets above.
+## sound_obj / winmain / Hud pass (Oct 6, worktree agent/fresh3)
+Scores are `quick_score.sh` lines. One new match.
+- `sound_obj::Type_10_HandleCarSkidSound_418940` 108 -> 0 (**MATCH**). 9.6f 0x414BC0 paired by hand
+  (`add_96f_target.py 418940=414bc0`): getters for field_9C/AC/84/88 (no effect in 10.5), `(speed / max) *
+  Fix16(6000)` with the 6000 built first. Steps: the raw 64-bit division expression (108 -> 82: the
+  `const Fix16&` divisor is otherwise bound before the call, see matching_quirks), then the permuter's `>= 1`
+  showed the register permutation (a2/pPhysics/late temp) could flip (30, but `cmpb $1`), and storing
+  `field_20_rate` per branch instead of through `new_rate` gave 0 with `> 0`. No effect: `v4 = call(); v4 /=
+  max` / `v4 = v4 / max` (122, divisor evaluated first), `Fix16 rear` locals, cached thresholds alone,
+  by-value skid getters, `rate` or the skid locals declared elsewhere, `s32 rate = 16000` without default,
+  `Fix16 v4` per branch, no pPhysics local (142).
+- `sound_obj::HandleCarDoorSounds_4182E0` 286 -> 138 (not committed: the shape that gets there is wrong). The
+  original holds 0 in ebx (flags, `field_3C`/`field_34` stores, `push`, byte compares), pCar in edi,
+  `(u32)i` in ebp across the open block (so `displacement` spills to 0x20) and a2 on the stack. Ours has no zero
+  register until the close block's release-mod if/else is written through a local or a ternary (138/154); then
+  pCar/`(u32)i` have ebp/edi swapped and `displacement` stays in a register. Tried on top: flags before pCar,
+  `char_type` flags, `== 0` tests, written-out `IsStartingToOpen/Close`, a shared inline for the 3/5 store
+  (286), `mod` at function scope (138), `5` then override (296), `model` read from pCar (198), a `pDoor` local.
+  Permuter 1000 + 1000: 118 only with the ternary, `&&`-merged distance/volume tests and a bogus `u8 rate`.
+  No 9.6f pair (`show_96f.py`: unpaired).
+- `TagGameHudUpdate_4DADA0` (54): `if (cond) { if (!byte) {...} } else { byte = 0; dword = 0; bShow = false; }`
+  followed by the `dword > 0` block and `if (bShow)` (the structure the original's layout suggests: the
+  not-flashing stores sit between the first-flash block and the `dword` load, with the clear block moved into
+  the else arm by dupB) scores 93: VC6 lays the else arm first and hoists `mov $1,%bl` above the tests.
+- `Hud_Arrow_7C::UpdateScreenPos_5D0850` (86): the two `field_10_radius_pos` reads are CSE'd into a slot in
+  ours, reloaded in the original. A `Fix16 r` local for the second read, the raw `<< 14` division, `Fix16(mValue
+  << 6, 0)` for the first: 86; a `radius` local for the first: 146. `frame_slots.py`: the original's `distance`
+  is the hidden-return slot of all three GetLength arms (0x10); ours gives each ternary arm its own temp and
+  copies into 0x20, which is the `Fix16 d = inline_with_returns()` shape whose budget breaks the projection.
+- `Map_0x370::sub_4E6660` (4), `SetWindowedMode_5D9510` (14), `sub_4E6190` (60), `eager_benz::OnPedKilled_592660`
+  (77, the occupation/kill-type switch interleaving): reviewed against the notes only. `ErrorLog::ErrorLog` was
+  matched by another worker meanwhile.

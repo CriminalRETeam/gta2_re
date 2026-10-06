@@ -2081,6 +2081,29 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   `and $1` / `and $~1` / `xor` where the original keeps `xor; and; xor` on an `int` flag. An `s32` flag gives
   the original's three instructions but loses `ebp` again (318), as does `field_58_flags_bf.b0 = v` (262).
 
+### Member operator arguments and shared result locals (`sound_obj` pass, agent/fresh3)
+
+- **The reference argument of an inlined member operator is evaluated before a `this` that is a call.** In
+  `pCar->GetCarLinearSpeed_43A240() / gCarInfo_48->field_28`, VC6 computes `lea 0x28(%ecx)` for the
+  `const Fix16&` divisor before the call and keeps it in a callee-saved register across it (probe: the same
+  with a reference getter, a by-value getter loads the value before the call, and a named `this`
+  evaluates the divisor's `cltd` before the shift). The original of `Type_10_HandleCarSkidSound_418940`
+  derefs the result, shifts, and only then reloads `gCarInfo_48` and its field: that order only came from
+  the raw expression `Fix16((s32)(((__int64)call().mValue << 14) / g->field.mValue), 0)`. VC7 (9.6f)
+  binds the reference early too, so a 9.6f check can't tell the forms apart.
+- **A result local assigned in every branch and stored once after the if/else can rotate every
+  callee-saved register.** `s32 new_rate; if (..) new_rate = A; else new_rate = B; a2->field_20 = new_rate;`
+  gave a2 ebx, pPhysics edi and a late `push esi`; storing `a2->field_20_rate = ...` in each branch gave the
+  original's esi/ebx/edi, and with it the rear skid load into the dying pPhysics register (`mov
+  0x88(%ebx),%ebx; mov %ebx,%eax; sub`). Found by the permuter after `>= 1` on the `u8` test had shown that
+  the allocation could flip (418940, 108 -> 0).
+- **The zero register can hinge on an unrelated store pair.** `HandleCarDoorSounds_4182E0`'s original holds
+  0 in ebx for ~17 byte and dword uses; ours used immediates everywhere until the close block's
+  `if (b) field_1C = 3; else field_1C = 5;` was written through a local (`s32 mod = 5; if (b) mod = 3;
+  field_1C = mod;`) or a ternary (286 -> 138/154), with no other change. Declaration order of the flags,
+  `char_type` flags, `== 0` compares, written-out door inlines and an inline helper for the store pair
+  changed nothing. The if/else form is what the original has there, so the real trigger is still open.
+
 ### Rebuild against 9.6f with VC7 first, then fix VC6 registers (near-miss pass 2)
 
 - **Get `sc7.sh` (VC7 against 9.6f) down before working on VC6 registers.** With `/Ob0` every inline is a
