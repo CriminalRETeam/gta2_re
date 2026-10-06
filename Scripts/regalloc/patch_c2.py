@@ -29,8 +29,10 @@ SCORE = 0x1079d868       # s32 score[9], indexed by register
 HOOK, BACK = 0x1072353b, 0x10723544   # lea eax,[edi*8]; sub eax,edi  (edi = reg, ebx = lr)
 CAVE = 0x10798400
 
-FMT = b'@R lr=%08x l0=%08x prio=%d tie=%d w=%d cls=%d reg=%d s=%d %d %d %d %d %d %d %d\n\x00'
+FMT = b'@R lr=%08x l0=%08x k=%08x %08x %08x %08x prio=%d tie=%d w=%d cls=%d reg=%d s=%d %d %d %d %d %d %d %d\n\x00'
 NONAME = b'?\x00'
+
+FORCE = None   # (prio, tie, reg): give that live range this register (experiments, --force p:t:r)
 
 def build(cave):
     fmt = cave + 0x300; nn = fmt + len(FMT)
@@ -44,6 +46,11 @@ def build(cave):
       push dword ptr [ebx+0x3c]
       push dword ptr [ebx+0x40]
       push dword ptr [ebx+0x0c]
+      mov eax, dword ptr [ebx]
+      push dword ptr [eax+0x1c]
+      push dword ptr [eax+0x10]
+      push dword ptr [eax+8]
+      push dword ptr [eax+4]
       push dword ptr [ebx]
       push ebx
       mov eax, esp
@@ -57,13 +64,24 @@ def build(cave):
       add eax, 0x40
       mov dword ptr [esp], eax
       call dword ptr [{FFLUSH:#x}]
-      add esp, 4*18
+      add esp, 4*22
       popad
       popfd
+      {{force}}
       lea eax, [edi*8]
       sub eax, edi
       jmp {BACK:#x}
     """
+    force = ''
+    if FORCE:
+        force = f"""
+      cmp dword ptr [ebx+0x0c], {FORCE[0]}
+      jne nof
+      cmp dword ptr [ebx+0x40], {FORCE[1]}
+      jne nof
+      mov edi, {FORCE[2]}
+    nof:"""
+    src = src.replace('{force}', force)
     ks = Ks(KS_ARCH_X86, KS_MODE_32)
     code = bytes(ks.asm(src, cave)[0])
     return code, fmt, nn
@@ -141,7 +159,11 @@ def build_l(cave, fmt):
     return bytes(Ks(KS_ARCH_X86, KS_MODE_32).asm(src, cave)[0])
 
 def main():
-    var = sys.argv[1] if len(sys.argv) > 1 else 'ralog'
+    global FORCE
+    args = sys.argv[1:]
+    if '--force' in args:
+        i = args.index('--force'); FORCE = tuple(int(v, 0) for v in args[i + 1].split(':')); del args[i:i + 2]
+    var = args[0] if args else 'ralog'
     stock = os.path.join(X, 'stock')
     if not os.path.isdir(stock):
         sys.exit('build_vc6/x87_c2/stock missing: run Scripts/x87_sched/setup.py --variant stock first')

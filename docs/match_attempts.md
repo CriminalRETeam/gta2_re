@@ -3086,5 +3086,13 @@ round-robin differences (`Scripts/regalloc/README.md`), not colour-pass ones.
   `(s32)`, `(u32)`, `& 0xFF`, `u8`/`s32` idx locals, `smallestVal_idx = last_idx` inside the index.
   `for (;;)` with the exit test (and final tail) at the top does generate it first and gives the
   right registers, but lays the final tail out first (30 lines).
-- `state_8_5520A0`: the rotation differs only from asm line 157 to 179 (post processed), so a block
-  order or pick count difference between those blocks; not looked at further.
+  Live range kinds (`@R k=`): the two tail copies are optimizer temps (kind 3, ids 0x144 final and
+  0x14a in-loop), so (b) would need the optimizer not to create the in-loop one. The 99 constant at
+  entry is a colour-pass constant (kind 0x100d); `smallestVal_idx = smallestVal = 99` and the other
+  initialiser chains don't change that. A `default:` case with its own copy of the in-loop tail gives
+  the final tail eax but leaves an extra copy (not merged).
+- `state_8_5520A0`: the rotation differs only from asm line 157 to 179 (post processed): source lines
+  5797 (`field_184_pObj2C = field_7C_pPed->field_184_pObj2C;` reload, orig `edx`, ours `eax`) to 5807
+  (`Ang16 rot = ...`, orig eax/ecx/edx, ours ecx/edx/eax). Moving the reload before the
+  `field_6C_animation_state = 12` store, after the `pMySprite` local, or dropping that local all move
+  other registers too (listing only, not built).
