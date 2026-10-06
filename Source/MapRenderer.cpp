@@ -1523,10 +1523,9 @@ void MapRenderer::Draw3SidedDiagonalDownLeft_4EF1C0()
 
 // https://decomp.me/scratch/6WLOw
 // Remaining diff: an lea operand-order tie-break (fails against 10.5.exe)
-WIP_FUNC(0x4ef520)
+MATCH_FUNC(0x4ef520)
 void MapRenderer::Draw3SidedDiagonalDownRight_4EF520()
 {
-    WIP_IMPLEMENTED;
 
     if (gBlockLeft_6F62F6)
     {
@@ -1623,10 +1622,9 @@ void MapRenderer::Draw4SidedDiagonalUpRight_4EFB20()
 
 // https://decomp.me/scratch/IdZ0n
 // Remaining diff: an lea operand-order tie-break (fails against 10.5.exe)
-WIP_FUNC(0x4efdb0)
+MATCH_FUNC(0x4efdb0)
 void MapRenderer::Draw4SidedDiagonalDownLeft_4EFDB0()
 {
-    WIP_IMPLEMENTED;
 
     if (gBlockLeft_6F62F6)
     {

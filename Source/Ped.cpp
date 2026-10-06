@@ -12192,18 +12192,13 @@ void Ped::NotifyWeaponHit_46FF00(Fix16 xpos, Fix16 ypos, s32 model)
         }
         else
         {
-            Fix16 xd = xpos - field_1AC_cam.x;
-            Fix16 yd = ypos - field_1AC_cam.y;
-            Fix16 abs_yd = Fix16::Abs_negate_out_of_line(yd);
-            Fix16 abs_xd = Fix16::Abs_negate_out_of_line(xd);
-
-            if (Fix16::Max_44E540(abs_xd, abs_yd) < kFpTwo_678658)
+            if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, xpos, ypos) < kFpTwo_678658)
             {
-                pWeapon->field_4 = 1;
+                pWeapon->Set_F4_433810(1);
             }
             else
             {
-                pWeapon->field_4 = 0;
+                pWeapon->Set_F4_433810(0);
             }
         }
     }

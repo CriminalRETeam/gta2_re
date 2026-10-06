@@ -350,11 +350,8 @@ gmp_map_zone* Map_0x370::GetNearestZoneOfType_4DF240(u8 xpos, u8 ypos, u8 zone_t
         if (pZone->field_0_zone_type == zone_type
             && !pZone->IsZoneVisibleToAnyPlayer_4DEF40())
         {
-            // 9.6f inlined: MaxAbsDistance_42A6B0, here with Abs inline but Negate/Max out of line
-            Fix16 diff_x = Fix16(xpos) - Fix16(pZone->field_1_x);
-            Fix16 diff_y = Fix16(ypos) - Fix16(pZone->field_2_y);
             Fix16 v13;
-            v13 = Fix16::Max_44E540(Fix16::Abs_negate_out_of_line(diff_x), Fix16::Abs_negate_out_of_line(diff_y));
+            v13 = Fix16::MaxAbsDistance_42A6B0(Fix16(pZone->field_1_x), Fix16(pZone->field_2_y), Fix16(xpos), Fix16(ypos));
 
             if (v13 < v21)
             {

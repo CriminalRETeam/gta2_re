@@ -618,19 +618,6 @@ void PoliceCrew_38::sub_5720C0()
 
 // https://decomp.me/scratch/p2NiN
 // MaxAbsDistance_42A6B0 with a by-value max, which keeps the compare in registers
-static inline Fix16 MaxAbsDistance_572210(Fix16 x1, Fix16 y1, Fix16 x2, Fix16 y2)
-{
-    Fix16 diff_x = x2 - x1;
-    Fix16 diff_y = y2 - y1;
-    Fix16 abs_y = Fix16::Abs(diff_y);
-    Fix16 abs_x = Fix16::Abs(diff_x);
-    if (!(abs_x > abs_y))
-    {
-        abs_x = abs_y;
-    }
-    return abs_x;
-}
-
 MATCH_FUNC(0x572210)
 bool PoliceCrew_38::sub_572210()
 {
@@ -638,7 +625,7 @@ bool PoliceCrew_38::sub_572210()
     {
         if (!field_10_subObj->field_24)
         {
-            return MaxAbsDistance_572210(gCurrentCrewPed_6FEDDC->get_cam_x(),
+            return Fix16::MaxAbsDistance_42A6B0(gCurrentCrewPed_6FEDDC->get_cam_x(),
                                         gCurrentCrewPed_6FEDDC->get_cam_y(),
                                         field_14_pService->field_0_criminal_ped->get_cam_x(),
                                         field_14_pService->field_0_criminal_ped->get_cam_y()) < kFpEight_6FED48 ? true : false;

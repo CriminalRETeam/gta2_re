@@ -856,8 +856,7 @@ Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
                 pNearestCar = pCarIter;
             }
 
-            if (pCarIter->field_84_car_info_idx == car_model_enum::TRAIN || pCarIter->field_84_car_info_idx == car_model_enum::TRAINCAB ||
-                pCarIter->field_84_car_info_idx == car_model_enum::TRAINFB || pCarIter->field_84_car_info_idx == car_model_enum::boxcar)
+            if (pCarIter->IsTrainModel_403BA0())
             {
                 u8 train_car_idx = 0;
                 Car_BC** pTrainCars = gPublicTransport_181C_6FF1D4->GetCarArrayFromLeadCar_579B40(pCarIter);
@@ -868,12 +867,12 @@ Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
                         break;
                     }
 
-                    // Negate_4086A0 and Add_408660 (operator+) out of line, x + y inline. The train
-                    // model check above is written out (not IsTrainModel_403BA0) to stay in VC6's inline budget
+                    // The Abs negates and the last add go out of line by the inline budget. Add_408660 is the
+                    // nothrow copy: the plain operator+ changes the register allocation of the whole loop
                     Fix16 trainDistance;
-                    trainDistance = (Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_14_xy.x - xpos) +
-                                     Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_14_xy.y - ypos))
-                                        .Add_408660(Fix16::Abs_negate_out_of_line(pTrainIter->field_50_car_sprite->field_1C_zpos - zpos));
+                    trainDistance = (Fix16::Abs(pTrainIter->field_50_car_sprite->field_14_xy.x - xpos) +
+                                     Fix16::Abs(pTrainIter->field_50_car_sprite->field_14_xy.y - ypos))
+                                        .Add_408660(Fix16::Abs(pTrainIter->field_50_car_sprite->field_1C_zpos - zpos));
                     if (trainDistance < smallestDist)
                     {
                         smallestDist = trainDistance;

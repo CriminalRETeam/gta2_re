@@ -1,3 +1,4 @@
+#define FIX16_POINT_ZERO kFpZero_7064C0
 #include "Hud.hpp"
 #include "Car_BC.hpp"
 #include "Draw.hpp"
@@ -1833,26 +1834,7 @@ bool Hud_Arrow_7C::CheckVisibility_5D0530()
     return true;
 }
 
-// https://decomp.me/scratch/pp6SY Fix16 annoying stuff
-// Fix16_Point::GetLength_41E260 with this file's zero constant and the named Negate in the first Abs.
-// With the plain GetLength_41E260 (FIX16_POINT_ZERO kFpZero_7064C0) UpdateTargets_5D0620 matches only if
-// Fix16::Abs has no else (size 58 instead of 64), which breaks five other matches.
-static inline Fix16 GetLength_out_of_line_7064C0(Fix16_Point& p)
-{
-    if (p.x == kFpZero_7064C0)
-    {
-        return Fix16::Abs_negate_out_of_line(p.y);
-    }
-    else if (p.y == kFpZero_7064C0)
-    {
-        return Fix16::Abs(p.x);
-    }
-    else
-    {
-        return Fix16::SquareRoot(p.x * p.x + p.y * p.y);
-    }
-}
-
+// https://decomp.me/scratch/pp6SY
 MATCH_FUNC(0x5d0620)
 bool Hud_Arrow_7C::UpdateTargets_5D0620()
 {
@@ -1883,12 +1865,12 @@ bool Hud_Arrow_7C::UpdateTargets_5D0620()
         gGame_0x40_67E008->field_38_orf1->get_pos_569920(&xpos, &ypos, &zpos);
 
         diff.SetXY_432860(xpos - field_18.field_60_curr_target->field_14_aim_x, ypos - field_18.field_60_curr_target->field_18_aim_y);
-        Fix16 distance_1 = GetLength_out_of_line_7064C0(diff) - field_10_radius_pos;
+        Fix16 distance_1 = diff.GetLength_41E260() - field_10_radius_pos;
 
         swap_arrows_4C7060();
 
         diff.SetXY_432860(xpos - field_18.field_60_curr_target->field_14_aim_x, ypos - field_18.field_60_curr_target->field_18_aim_y);
-        Fix16 new_radius = GetLength_out_of_line_7064C0(diff) - distance_1;
+        Fix16 new_radius = diff.GetLength_41E260() - distance_1;
         field_18.field_2E_target_swap_timer = 20;
         field_10_radius_pos = new_radius;
     }

@@ -379,7 +379,7 @@ void Firefighter_28::Update_4A81F0()
                 {
                     field_1C_car->field_54_driver->set_field_150_target_objective_car(0);
                     field_1C_car->field_54_driver->SetObjective(objectives_enum::no_obj_0, 9999);
-                    field_1C_car->field_54_driver->field_21C_bf.b11 = 0;
+                    field_1C_car->field_54_driver->ClearBit11_403A40();
                 }
             }
             Reset_4A85E0();

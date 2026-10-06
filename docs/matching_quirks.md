@@ -1560,6 +1560,21 @@ Found by tracing C2.DLL (see `Scripts/inline_budget/`); the instrumented compile
 - The out-of-line calls to `atan2` (0x40ACD0) in 10.5 come from the normal budget (`Ang16` has no
   destructor); the plain `atan2_40F790()` inline gives them.
 
+**Brace style is part of an inline's size.** VC6 charges an inline's front-end size: every `{}` pair adds
+2, an `else` 2 more, a `const` on a reference parameter 1. `Fix16::Abs` is
+`static Fix16 Abs(const Fix16& input) { if (input.mValue > 0) return input; return -input; }` (size 57).
+Its 9.6f-identical alternatives are 56 (non-const ref), 58 (braced if), 60 (if/else) and 64 (if/else with
+braces), and only 57 gives the original's cut-offs both in `MaxAbsDistance_42A6B0`
+(`Ped::NotifyWeaponHit_46FF00` needs 2*52 + 2*Abs <= 219) and in `GetLength_41E260`
+(`Car_BC::ManageDrowning_43E560` needs SquareRoot cut off). `MaxAbsDistance_42A6B0` calls the 9.6f inline
+`Max_41E130` (out-of-line copy 0x44E540): as a third site after the two Abs it sets their nested budget,
+and small functions inline it whole. With these, the plain inline reproduces the out-of-line Negate/Max
+calls in 46FF00, 4DF240, 471340, 572210 and 5A6E40, the plain GetLength works in Hud 5D0620, and
+`Abs_negate_out_of_line` isn't needed in 444FC0 (with `IsTrainModel_403BA0()`). When a cut-off is off by
+one unit across several functions, check the brace and const style of the inlines involved against 9.6f
+with VC7 before adding a variant. Still open: the GetLength "x*x out of line, y*y inline" family
+(`GetLength_out_of_line_x_squared`) needs Abs > 57.
+
 ### Inline budget: more patterns (round of 9.6f recoveries)
 
 - **Declaration order picked the losers** while `Fix16_Point` derived from `Fix16_Point_POD`: the first

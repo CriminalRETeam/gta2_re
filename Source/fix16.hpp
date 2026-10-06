@@ -251,16 +251,15 @@ class Fix16
         return *this;
     }
 
-    inline static Fix16 __stdcall Abs(Fix16& input)
+    // 9.6f 0x403840, out-of-line copy Abs_436A50. No braces and a const& parameter on purpose: VC6's
+    // inline budget sees the front-end size, 57 here (each brace pair adds 2, the else 2 more, a non-const
+    // parameter 1 less). 57 is the only size that gives the original's cut-offs both in MaxAbsDistance_42A6B0
+    // (Ped::NotifyWeaponHit_46FF00 needs <= 57) and in GetLength_41E260 (Car_BC::ManageDrowning_43E560 >= 57).
+    inline static Fix16 __stdcall Abs(const Fix16& input)
     {
         if (input.mValue > 0)
-        {
             return input;
-        }
-        else
-        {
-            return -input;
-        }
+        return -input;
     }
 
     inline Fix16 ZeroIfNegligible_482730()
@@ -329,6 +328,19 @@ class Fix16
     }
 
     EXPORT static Fix16 __stdcall Max_44E540(Fix16& pLhs, Fix16& pRhs);
+    // 9.6f 0x41E130, out-of-line copy Max_44E540. Small functions inline it (Ped_List_4::GetFromListClosestPedToPoint_471340),
+    // and as a site after the two Abs it sets their nested budget in MaxAbsDistance_42A6B0
+    inline static Fix16 __stdcall Max_41E130(Fix16& a, Fix16& b)
+    {
+        if (a > b)
+        {
+            return a;
+        }
+        else
+        {
+            return b;
+        }
+    }
     EXPORT static Fix16 __stdcall Abs_436A50(Fix16& a2);
     EXPORT static Fix16 __stdcall SquareRoot_436A70(Fix16& a2);
     // throw(): the original calls these out-of-line copies without an EH frame (their inline
@@ -405,7 +417,7 @@ class Fix16
         Fix16 diff_y;
         diff_y = y2 - y1;
         Fix16 result;
-        result = Fix16::Max_44E540(Fix16::Abs(diff_x), Fix16::Abs(diff_y));
+        result = Fix16::Max_41E130(Fix16::Abs(diff_x), Fix16::Abs(diff_y));
         return result;
     }
 

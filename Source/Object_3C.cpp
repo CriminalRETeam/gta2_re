@@ -408,17 +408,7 @@ Sprite* struct_4::FindClosestSprite_5A6E40(Fix16 xOff, Fix16 yOff)
     Sprite* new_ret = 0;
     for (Sprite_18* pIter = this->field_0_p18; pIter; pIter = pIter->mpNext)
     {
-        // 9.6f: Fix16::MaxAbsDistance_42A6B0 (inlined, using it changes the code)
-        Fix16 xd = pIter->field_0->field_14_xy.x - xOff;
-        Fix16 yd = pIter->field_0->field_14_xy.y - yOff;
-        Fix16 yDelta = Fix16::Abs(yd);
-        Fix16 xDelta = Fix16::Abs(xd);
-
-        if (xDelta > yDelta)
-        {
-            yDelta = xDelta;
-        }
-
+        Fix16 yDelta = Fix16::MaxAbsDistance_42A6B0(xOff, yOff, pIter->field_0->field_14_xy.x, pIter->field_0->field_14_xy.y);
         if (yDelta < smallest)
         {
             new_ret = pIter->field_0;

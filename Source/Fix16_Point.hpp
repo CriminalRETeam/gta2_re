@@ -20,6 +20,7 @@ EXTERN_GLOBAL(Fix16, kF16Zero_677B90);
 EXTERN_GLOBAL(Fix16, dword_706EB8);
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FD9E4);
 EXTERN_GLOBAL(Fix16, kZero_676818);
+EXTERN_GLOBAL(Fix16, kFpZero_7064C0);
 
 class Fix16_Point;
 
@@ -140,19 +141,18 @@ class Fix16_Point
         }
     }
 
-    // GetLength_41E260 with the square root forced inline, for Car_BC::GetCarLinearSpeed_43A240 only. The
-    // original inlines SquareRoot in both of that function's GetLength expansions, but VC6's inline budget
-    // leaves only 21 for it in the first one (SquareRoot is 41) with every GetLength/Abs body that matches
-    // 9.6f. Unexplained: everywhere else SquareRoot is a plain inline (Car_BC::ManageDrowning_43E560).
+    // GetLength_41E260 as inlined twice into Car_BC::GetCarLinearSpeed_43A240: the original inlines both
+    // multiplies, the add and SquareRoot but calls Negate_4086A0 for all four Abs. No helper/caller shape found
+    // that gives that with the plain inline (unexplained, no 9.6f copy of the function).
     inline Fix16 GetLength_SqrtForced_43A240()
     {
         if (x == FIX16_POINT_ZERO)
         {
-            return Fix16::Abs(y);
+            return Fix16::Abs_negate_out_of_line(y);
         }
         else if (y == FIX16_POINT_ZERO)
         {
-            return Fix16::Abs(x);
+            return Fix16::Abs_negate_out_of_line(x);
         }
         else
         {
@@ -443,11 +443,11 @@ class Fix16_Point
     {
         if (x == kFP16Zero_6FE20C)
         {
-            return Fix16::Abs(y);
+            return Fix16::Abs_436A50(y);
         }
         else if (y == kFP16Zero_6FE20C)
         {
-            return Fix16::Abs(x);
+            return Fix16::Abs_436A50(x);
         }
         else
         {
@@ -460,11 +460,11 @@ class Fix16_Point
     {
         if (x == kFP16Zero_6FE20C)
         {
-            return Fix16::Abs(y);
+            return Fix16::Abs_436A50(y);
         }
         else if (y == kFP16Zero_6FE20C)
         {
-            return Fix16::Abs(x);
+            return Fix16::Abs_436A50(x);
         }
         else
         {
