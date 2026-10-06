@@ -7,6 +7,10 @@
     #include <stdio.h> // printf
 #endif
 
+// The empty Marker_<addr>_fpo() after each naked marker matters: C2 sizes [esp+x] operands (when deciding
+// to copy a small tail block or jump to it, <= 20 bytes is copied) using flags left by the previously
+// compiled function. A naked/asm function leaves them off, an FPO function leaves them on as in the
+// original. See "How VC6 copies and merges block tails" in docs/matching_quirks.md.
 // Pattern: 0x90, 0x90 0xB8 [addr bytes x4] 0xB8 [status bytes x4] 0x90 0x90
 #define FUNC_MARKER_ASM(addr, status) __asm nop __asm nop __asm mov eax, addr __asm mov eax, status __asm nop __asm nop
 
@@ -24,17 +28,20 @@
         __declspec(naked) __declspec(dllexport) void Marker_##addr() \
         {                                                            \
             FUNC_MARKER_ASM(addr, 2)                                 \
-        }
+        } \
+        __declspec(dllexport) void Marker_##addr##_fpo() {}
     #define MATCH_FUNC(addr)                                         \
         __declspec(naked) __declspec(dllexport) void Marker_##addr() \
         {                                                            \
             FUNC_MARKER_ASM(addr, 1)                                 \
-        }
+        } \
+        __declspec(dllexport) void Marker_##addr##_fpo() {}
     #define STUB_FUNC(addr)                                          \
         __declspec(naked) __declspec(dllexport) void Marker_##addr() \
         {                                                            \
             FUNC_MARKER_ASM(addr, 0)                                 \
-        }
+        } \
+        __declspec(dllexport) void Marker_##addr##_fpo() {}
 
     #if defined(EXPORT_FUNCS)
         #define EXPORT __declspec(dllexport)

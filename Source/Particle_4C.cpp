@@ -727,7 +727,7 @@ char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
 }
 
 // https://decomp.me/scratch/2UJLM
-WIP_FUNC(0x539890)
+MATCH_FUNC(0x539890)
 char_type Particle_4C::UpdateCircularBurst_state_5_539890()
 {
     char_type bJitter = 1;
@@ -802,13 +802,13 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
             dir.y = dword_6FD304 * field_20_speed;
             break;
         case 4:
-            // dir.x is still 0 here. Left: the original also stores it in the tail it shares with case 5
             field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 100);
+            dir.x = 0;
             dir.y = dword_6FD308 * field_20_speed;
             break;
         case 5:
-            dir.x = 0;
             field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 99);
+            dir.x = 0;
             dir.y = dword_6FD308 * field_20_speed;
             break;
         case 6:

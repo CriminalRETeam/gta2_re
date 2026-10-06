@@ -4734,10 +4734,9 @@ void Ped::SetObjective(s32 objective, s16 objective_timer)
     }
 }
 
-WIP_FUNC(0x463830)
+MATCH_FUNC(0x463830)
 void Ped::SetObjective2_463830(s32 car_state, s16 a3)
 {
-    WIP_IMPLEMENTED;
 
     u8 x_int;
     u8 y_int;

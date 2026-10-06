@@ -1627,10 +1627,9 @@ inline bool Fix16_Rect::EdgesCrossSegment_463690(Fix16_Point& p1, Fix16_Point& p
         ComputeScanlineIntersectionX_4F77D0(field_8_top, field_C_bottom, field_4_right, p1, p2);
 }
 
-WIP_FUNC(0x4E11E0)
+MATCH_FUNC(0x4E11E0)
 char_type Map_0x370::RectHitsDiagonalWall_4E11E0(Fix16_Rect* pRect)
 {
-    WIP_IMPLEMENTED;
 
     // TODO: rect ?
     Fix16_Point p1;

@@ -165,16 +165,26 @@ not in each branch. VC6 duplicates it, and it pops the callee-saved registers th
 branches used before the copies (`Net_Send_Our_Inputs_4DACB0`: two `SendToAll_521B20`
 calls in the asm, one in the source).
 
-The limit is size, not source shape. A study of about 150 test functions showed VC6 copies a join
-block into every unconditional predecessor when it is about two stores plus the epilogue or less
-(three stores, or one store under an EH frame, is too big). Early return, `goto`, `do/while(0)`,
-`switch`, an inline helper, destructors, dead stores and flags (`/O1 /Os /Ox /Og /Ob2 /G3-/G6`) don't
-change it. So an original that jumps to a shared pure epilogue (`mov $1,%al; jmp epilogue`) can't
-be reproduced by restructuring; no matched function's asm has such a jump. This is what is left in
-`ApplyImpactForcesAndDamage_55FA60`, `RectHitsDiagonalWall_4E11E0`, `sub_4F76A0`/`4F77D0`,
-`PointInsideRotatedBounds_5A1490`, `Start_NetworkGame_5E5A30` and `TrainCab_414710`. A conversion in the
-join (a `char_type` result returned as `bool`) does keep the jumps, see "A `char_type` result variable keeps
-the jumps to one shared EH epilogue".
+**How VC6 copies and merges block tails** (C2 traced with DynamoRIO; tools in the research notes of
+commit history). All of it runs after register allocation and before scheduling, epilogue included, and
+compares exact instructions (opcode, operands, physical registers):
+- FlowOpts (C2 `0x1072fa19`) cross-jumps a `jmp L` into the code that falls into L when any run of
+  instructions before both matches; no size limit. The fall-through copy is kept.
+- Two `jmp L` with identical tails (`0x1072f529`/`0x1073049c`) merge only if one side's matched run covers
+  a whole block, or the merged run plus the jmp is over 20 bytes. The later copy in layout is kept, unless
+  only the earlier one is a whole block (so a jump target / else arm can lose its copy).
+- Then dupB (`0x10726a33`) copies every block reached by a `jmp`, up to its ret or jmp and including pops,
+  EH restore and `ret N`, in place of the jump when it is **<= 20 encoded bytes**. Conditional jumps are
+  never retargeted, so a failure branch keeps pointing at wherever the exit block ended up.
+- The byte count of a `[esp+x]` operand includes its SIB byte only if the previously compiled function was
+  FPO (C2 globals `0x107ac384/388`, set after each function is scheduled). A naked or inline-asm function
+  clears them. Our naked `Marker_<addr>` used to be compiled just before every function, so every
+  `[esp+x]` was undercounted and VC6 copied blocks the original jumped to. The empty `Marker_<addr>_fpo()`
+  in `Function.hpp` restores the original's state (13 functions matched with it, most unchanged source).
+
+Practical rule: a shared tail of <= 20 bytes is copied, a bigger one is jumped to. To make two cases share
+a tail, give them identical statement order (`UpdateCircularBurst_state_5_539890`). Plain early returns
+are fine (`PointInsideRotatedBounds_5A1490`); the old `char_type` result trick is no longer needed.
 
 Which copy survives a tail merge can depend on how the copies are reached: VC6 merged a duplicate
 tail into the earlier copy when the later ones were jump targets (else branches), into the later one
@@ -415,7 +425,7 @@ left before the inlined body (matched `CarPhysics_B0::UpdateSteeringAngle_562560
 parameters the other way round (`turn` first) the turn load moves after the division (26), and a
 `const Fix16&` scale is the same as no helper (48).
 
-**A `char_type` result variable keeps the jumps to one shared EH epilogue.** In
+**(Superseded by "How VC6 copies and merges block tails": with the FPO markers plain returns match.) A `char_type` result variable keeps the jumps to one shared EH epilogue.** In
 `Sprite::PointInsideRotatedBounds_5A1490` (returns `bool`) the original ends every true path with
 `mov $1,%al; jmp epilogue`. Early returns, nesting with one `return true`, or a `bool result` all
 give every path its own epilogue copy (60-110 lines), but `char_type result;` set on each path and
@@ -780,7 +790,7 @@ directly in the first check keeps the original jump target (`Car_BC::CanCarColli
 
 **Mixed inline/out-of-line operators inside one expression.** When the inline budget runs out mid-expression, some operands of a rotation or length stay inline (`x.Multiply_408680(cos) + y * sin`), so each site may need its own helper variant. The order of the out-of-line calls in the asm shows which operand stayed inline (`EmitFlameStreamSegment_53F4C0`, `SpawnDamageFireEffect_43B870`). Note: `compare_target_asm` can normalise an immediate `0` into a stable name, which makes its ratio unreliable (0x5D0850).
 
-**Identical switch cases are not always cross-jumped.** In `UpdateCircularBurst_state_5_539890` cases 4 and 5 have the same source, but our first copy gets a different schedule and isn't merged into the second as in the original. Operand, statement and case order didn't help. Unexplained.
+**Identical switch cases are cross-jumped only when their instructions are identical before scheduling.** `UpdateCircularBurst_state_5_539890` matches with cases 4 and 5 both written `set_id; dir.x = 0; dir.y = ...` (see "How VC6 copies and merges block tails").
 
 **Out-of-line copies by address:** `Abs_436A50` is `Fix16::Abs`, `AssignNormalized_409300` is the `Ang16(const s16&, s32)` ctor (9.6f 0x401C60), `sub_53E860` is a COMDAT copy of `Fix16::operator/(const s32&)` emitted by Particle_8.cpp and also called from sprite.cpp (no EXPORT yet, so those divides can't match).
 

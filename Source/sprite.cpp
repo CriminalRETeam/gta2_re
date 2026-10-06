@@ -1351,10 +1351,9 @@ bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* pOther)
     return false;
 }
 
-WIP_FUNC(0x4F77D0)
+MATCH_FUNC(0x4F77D0)
 EXPORT bool __stdcall ComputeScanlineIntersectionX_4F77D0(Fix16& minX, Fix16& minY, Fix16& scanLineX, Fix16_Point& p0, Fix16_Point& p1)
 {
-    WIP_IMPLEMENTED;
 
     // Same shape as ComputeScanlineIntersectionY_4F76A0, same leftover diff.
     Fix16_Point pd;
@@ -1387,10 +1386,9 @@ EXPORT bool __stdcall ComputeScanlineIntersectionX_4F77D0(Fix16& minX, Fix16& mi
     return 0;
 }
 
-WIP_FUNC(0x4F76A0)
+MATCH_FUNC(0x4F76A0)
 EXPORT char_type __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16& minX, Fix16& minY, Fix16& scanLineY, Fix16_Point& p0, Fix16_Point& p1)
 {
-    WIP_IMPLEMENTED;
 
     // Raw compares: with Fix16 operators VC6 runs out of inline budget and calls the Fix16_Point ctor
     // out of line. The out-of-line Sub_40AC80 gives the original's EH frame for pd. Remaining diff: the
@@ -1625,10 +1623,9 @@ static inline Ang16 NegateAng16_401C80(const Ang16& angle)
 }
 
 // https://decomp.me/scratch/2RoLd
-WIP_FUNC(0x5a1490)
+MATCH_FUNC(0x5a1490)
 bool Sprite::PointInsideRotatedBounds_5A1490(Fix16_Point& point1, Fix16_Point& point2)
 {
-    WIP_IMPLEMENTED;
 
     Fix16_Point rotated_1;
     Fix16_Point rotated_2;
@@ -1636,41 +1633,30 @@ bool Sprite::PointInsideRotatedBounds_5A1490(Fix16_Point& point1, Fix16_Point& p
     Fix16 half_height;
     HalfWH_ool_4BA0A0(field_C_sprite_4c_ptr, &half_width, &half_height);
 
-    // One result variable instead of early returns: each `result = true` path jumps to the shared
-    // epilogue as in the original (early returns, or a bool result, give every return its own epilogue
-    // copy). Left: with a char_type result the bool conversion lands in the epilogue (4 lines).
     // The plain mValue compares are cheaper than the Fix16 operators (inline budget).
-    char_type result;
     RotateAndTranslatePoint_ool_42A720(point1.x, point1.y, NegateAng16_401C80(field_0), field_14_xy.x, field_14_xy.y, rotated_1.x, rotated_1.y);
     if (rotated_1.x.mValue >= -half_width.mValue && rotated_1.x.mValue <= half_width.mValue && rotated_1.y.mValue >= -half_height.mValue && rotated_1.y.mValue <= half_height.mValue)
     {
-        result = true;
+        return true;
     }
-    else
+    RotateAndTranslatePoint_ool_42A720(point2.x, point2.y, NegateAng16_401C80(field_0), field_14_xy.x, field_14_xy.y, rotated_2.x, rotated_2.y);
+    if (rotated_2.x.mValue >= -half_width.mValue && rotated_2.x.mValue <= half_width.mValue && rotated_2.y.mValue >= -half_height.mValue && rotated_2.y.mValue <= half_height.mValue)
     {
-        RotateAndTranslatePoint_ool_42A720(point2.x, point2.y, NegateAng16_401C80(field_0), field_14_xy.x, field_14_xy.y, rotated_2.x, rotated_2.y);
-        if (rotated_2.x.mValue >= -half_width.mValue && rotated_2.x.mValue <= half_width.mValue && rotated_2.y.mValue >= -half_height.mValue && rotated_2.y.mValue <= half_height.mValue)
-        {
-            result = true;
-        }
-        else if (ComputeScanlineIntersectionX_4F77D0(-half_height, half_height, -half_width, rotated_1, rotated_2))
-        {
-            result = true;
-        }
-        else if (ComputeScanlineIntersectionX_4F77D0(-half_height, half_height, half_width, rotated_1, rotated_2))
-        {
-            result = true;
-        }
-        else if (ComputeScanlineIntersectionY_4F76A0(-half_width, half_width, -half_height, rotated_1, rotated_2))
-        {
-            result = true;
-        }
-        else
-        {
-            result = ComputeScanlineIntersectionY_4F76A0(-half_width, half_width, half_height, rotated_1, rotated_2) != 0;
-        }
+        return true;
     }
-    return result;
+    if (ComputeScanlineIntersectionX_4F77D0(-half_height, half_height, -half_width, rotated_1, rotated_2))
+    {
+        return true;
+    }
+    if (ComputeScanlineIntersectionX_4F77D0(-half_height, half_height, half_width, rotated_1, rotated_2))
+    {
+        return true;
+    }
+    if (ComputeScanlineIntersectionY_4F76A0(-half_width, half_width, -half_height, rotated_1, rotated_2))
+    {
+        return true;
+    }
+    return ComputeScanlineIntersectionY_4F76A0(-half_width, half_width, half_height, rotated_1, rotated_2) != 0;
 }
 
 MATCH_FUNC(0x5a19c0)

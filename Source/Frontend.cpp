@@ -1387,10 +1387,9 @@ void Frontend::DrawMenu_4AD140()
 }
 
 // https://decomp.me/scratch/qV1ie switch "goto" issue
-WIP_FUNC(0x4B7AE0)
+MATCH_FUNC(0x4B7AE0)
 void Frontend::DrawCredits_4B7AE0()
 {
-    WIP_IMPLEMENTED;
     u16 font_type;
     s32 palette;
     s32 draw_kind;

@@ -562,10 +562,9 @@ void Crane_15C::TargetTransporter_47F7F0(Car_BC* pCar)
 
 // 9.6f 0x448A80
 // 10.5 https://decomp.me/scratch/HB5R5 return jump issue
-WIP_FUNC(0x47f930)
+MATCH_FUNC(0x47f930)
 void Crane_15C::PickUpCar_47F930(Car_BC* pCar)
 {
-    WIP_IMPLEMENTED;
 
     if (!pCar->IsDespawning_4215B0() && !field_28_strct4.TagSpriteWithRng_5A6C10(pCar->field_50_car_sprite))
     {

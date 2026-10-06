@@ -75,7 +75,7 @@ def get_func_meta(bytes, offset):
 def find_func_meta_data(exeBytes, funcFileOffset):
     pos = funcFileOffset
 
-    # look backwards up to 10 bytes for a double nop and mov eax, XXXXXXXX
+    # look backwards up to 32 bytes for a double nop and mov eax, XXXXXXXX
     lookBackPos = 1
     while True:
         meta = get_func_meta(exeBytes, pos - lookBackPos)
@@ -83,7 +83,7 @@ def find_func_meta_data(exeBytes, funcFileOffset):
             return meta
 
         lookBackPos = lookBackPos + 1
-        if lookBackPos > 10:
+        if lookBackPos > 32:
             break
 
     return []

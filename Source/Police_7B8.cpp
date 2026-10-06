@@ -1099,7 +1099,7 @@ char_type Police_7B8::ShouldCreateRoadblock_577320()
     return 1;
 }
 
-WIP_FUNC(0x577370)
+MATCH_FUNC(0x577370)
 void Police_7B8::TryCreateRoadblockAt_577370(u8 x, u8 y, s32 roadblock_type)
 {
     bool bBothSides = false;
@@ -1126,8 +1126,6 @@ void Police_7B8::TryCreateRoadblockAt_577370(u8 x, u8 y, s32 roadblock_type)
 
     u8 z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(x, (s32)y).ToUInt8();
 
-    // Remaining diff: the original cross-jumps the bBothSides arm's roadblock 2 create into the
-    // else arm's identical one; VC6 keeps both copies here
     if (bBothSides)
     {
         if (!field_664_roadblock_1.field_0_bActive)

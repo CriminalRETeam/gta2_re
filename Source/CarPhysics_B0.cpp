@@ -3525,10 +3525,9 @@ void Fix16_Point::RotateVelocity_562C20(const Ang16& angle)
 
 // https://decomp.me/scratch/0X4pK
 // 9.6f 0x4A1B20
-WIP_FUNC(0x562d00)
+MATCH_FUNC(0x562d00)
 void CarPhysics_B0::EnforceGearSensitiveMaxSpeed_562D00()
 {
-    WIP_IMPLEMENTED;
 
     Fix16_Point polar;
     if (!IsInAir_55A0B0())

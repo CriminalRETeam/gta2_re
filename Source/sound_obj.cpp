@@ -6034,8 +6034,8 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
                     else if (field_147C_audio_entities[field_30_sQueueSample.field_0_EntityIndex].field_1_age > 2)
                     {
                         samp_idx = 190;
-                        volume = 50;
                         bLoop = 0;
+                        volume = 50;
                         sample_index = 1;
                         emit_distance = Fix16(0x1C000, 0);
                         max_distance = 14;

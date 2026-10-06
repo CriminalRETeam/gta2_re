@@ -441,10 +441,9 @@ void Wolfy_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
     }
 }
 
-WIP_FUNC(0x541430)
+MATCH_FUNC(0x541430)
 void Wolfy_30::state_5_541430(Ang16 ang, Fix16 pos)
 {
-    WIP_IMPLEMENTED;
 
     Fix16_Point p(Fix16(0), Fix16(0));
     p.x = pos;

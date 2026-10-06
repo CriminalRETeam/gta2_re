@@ -586,10 +586,9 @@ void Object_2C::ResolveCollisionWithMapTileHorizontal_522D00(Fix16_Point* pPoint
     Object_2C::ResolveCollisionWithWorld_522B20(&t2, &v12, &obj_speed);
 }
 
-WIP_FUNC(0x522e10)
+MATCH_FUNC(0x522e10)
 void Object_2C::HandleCollision_522E10(Fix16_Point* a4)
 {
-    WIP_IMPLEMENTED;
 
     Fix16_Point v13;
     switch (gRozza_679188.field_0_type)
@@ -2113,10 +2112,9 @@ char_type Object_2C::HandleRotationStateTransition_528240(s32 current, s32 desir
     return 0;
 }
 
-WIP_FUNC(0x5283c0)
+MATCH_FUNC(0x5283c0)
 void Object_2C::TickObject_5283C0(s32 obj_type)
 {
-    WIP_IMPLEMENTED;
 
     Fix16_Point dir;
 
