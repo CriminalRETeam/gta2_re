@@ -2469,3 +2469,10 @@ Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 
   146 (82, the `field_50 == 1` branch and tail layout), `NetPlay::ReceiveGameMessage_521890` 168 (115,
   `call *%edi` through a register and base/index order in `0x760(%esi,%ebp)`). `TagGameHudUpdate_4DADA0`
   (54 / 58): the first-flash block layout, already covered in its entry.
+
+### SpawnTrainsFromStations_578860 (Oct 6)
+- 10.5 601 / 9.6f 877. The call sequence matches 9.6f 0x4AFE20 one for one. `SpawnCarAtCorrectZ_Scaled` exists only
+  because this TU's copy of the spawn scale constant is `kFpOne_6FF07C` (9.6f's `SpawnCarAtCorrectZ_426E40` reads one
+  global, 0x5E4D4C, and takes the rotation by value). The plain inline with a per-TU `CAR_6C_SPAWN_SCALE` define
+  (like `FIX16_POINT_ZERO`) gives 9.6f 747 but 10.5 935: the frame grows 0x68 -> 0x78 (by-value `Ang16` copies and
+  `temp_z`), so not applied.
