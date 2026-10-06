@@ -116,6 +116,12 @@ called out of line (0x453590) in the first case and inlined in the second. So wi
 switch, the case order is a free knob for inline problems (check the cut-offs with
 `Scripts/inline_budget/inl.sh`).
 
+**9.6f calling a helper's insides directly means there was no helper.** 9.6f is built with `/Ob0`, so any inline
+helper in the source shows up there as a call. `PublicTransport_181C::PublicTransportService_57A7A0` used a file-local
+`IsTrainAtZone(pTrain, pZone)` inline; 9.6f instead calls `Fix16::to_int` twice and compares, right in the function.
+Writing the two `(u8)...ToInt() == zone.x && ... == zone.y` tests out at each of the four sites took 10.5 from 106 to
+a match (the helper's extra inline sites and its return-value join changed the block layout).
+
 **Match against 9.6f first, then fix the x87 windows.** `CarPhysics_B0::ShowPhysicsDebug_559430` was 8 lines
 off (a `lea 0x818(%eax),%ecx` placed before or after the `DisplayText_5D1F50` pushes). 9.6f showed the theta
 text helper is an `Ang16` member (thiscall), which gave a 9.6f score of 0. `regsearch.py` then said window 2

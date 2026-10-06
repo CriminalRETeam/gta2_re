@@ -1014,17 +1014,6 @@ Still different:
   `claude/target-asm-request` now also dumps strings (and other data) referenced by
   `push $imm`/`mov $imm` into `target_data.json`, cut at the NUL when it looks like text.
 
-### PublicTransport_181C::PublicTransportService_57A7A0 (0x57A7A0): WIP 0.710
-- Buses, then for each train: the player driving it controls it. `field_50` (the train's
-  motion state) gives whether it's stopped, and `field_48` steps through approach, stop,
-  doors, wait, leave for the current station.
-- The redundant driver null test needed a reload through `field_C_carriages[0]` (see
-  matching_quirks.md). `field_4C` is read once into a local when moving to the next station.
-- Left: register choice in the "train at zone" checks. 10,000 permuter iterations only shuffled
-  scopes (188 -> 140).
-- Oct 5: 188 -> 106 lines (`pStation` locals in cases 5 and 8, compare order in `Ped::SetTrainStation_4AF860`).
-  Left: register swap in the `IsTrainAtZone` checks.
-
 ### Car_6C::SpawnCarOnRoadNetwork_4458B0 (0x4458B0): WIP 0.580
 - Finds a junction near the point (`RouteFinder::sub_58A130`, whose `s16` result the original
   narrows to `char`), heads out of it, then walks the road like `SpawnBusAtValidRoadPosition_4453E0`
@@ -2238,8 +2227,6 @@ Scores are `sc.sh` lines.
   `Multiply_408680` (its address escapes), ours CSEs `ang * 4` in `esi` across the call, and VC6 then merges
   the two cases' second multiply. A by-reference PolarToCartesian helper, one function-scope `ang`, `base` as a
   temporary: no change or worse.
-- `PublicTransport_181C::PublicTransportService_57A7A0` (106): zone/train parameter order, a `pCar` local, an early
-  `return false` and `ToUInt8` in `IsTrainAtZone`: 104-134, register swap unchanged.
 - `sound_obj::HandleCarDoorSounds_4182E0` (286): declaration order of the locals changes nothing.
 - `Frontend::SetupMenuStringsOptionsElements_4B0220` (254): `regsearch.py` finds no window limit that helps
   (127 -> 125), so the store order differs in the IL, not at a window break.

@@ -1457,13 +1457,6 @@ void PublicTransport_181C::BusesService_579CA0()
     }
 }
 
-// Is the lead carriage on the block of `pZone`?
-static inline bool IsTrainAtZone(Train_58* pTrain, gmp_map_zone* pZone)
-{
-    return (u8)pTrain->field_C_carriages[0]->field_50_car_sprite->field_14_xy.x.ToInt() == pZone->field_1_x &&
-        (u8)pTrain->field_C_carriages[0]->field_50_car_sprite->field_14_xy.y.ToInt() == pZone->field_2_y;
-}
-
 // Tells the player driving the train which station it is heading for
 static inline void SetDriverStation(Train_58* pTrain, TrainStation_34* pStation)
 {
@@ -1478,7 +1471,7 @@ static inline void SetDriverStation(Train_58* pTrain, TrainStation_34* pStation)
     }
 }
 
-WIP_FUNC(0x57a7a0)
+MATCH_FUNC(0x57a7a0)
 void PublicTransport_181C::PublicTransportService_57A7A0()
 {
     u8 bStopped = 0;
@@ -1550,14 +1543,14 @@ void PublicTransport_181C::PublicTransportService_57A7A0()
                     }
                     else if (!bStopped)
                     {
-                        if (IsTrainAtZone(pTrain, pStation->field_C_stop_point))
+                        if (((u8)pTrain->field_C_carriages[0]->field_50_car_sprite->field_14_xy.x.ToInt() == pStation->field_C_stop_point->field_1_x && (u8)pTrain->field_C_carriages[0]->field_50_car_sprite->field_14_xy.y.ToInt() == pStation->field_C_stop_point->field_2_y))
                         {
                             pTrain->field_48 = 4;
                             break;
                         }
                         pTrain->field_48 = 11;
                     }
-                    if (IsTrainAtZone(pTrain, pStation->field_8_exit_point))
+                    if (((u8)pTrain->field_C_carriages[0]->field_50_car_sprite->field_14_xy.x.ToInt() == pStation->field_8_exit_point->field_1_x && (u8)pTrain->field_C_carriages[0]->field_50_car_sprite->field_14_xy.y.ToInt() == pStation->field_8_exit_point->field_2_y))
                     {
                         pTrain->field_48 = 0;
                         pTrain->IncrementState_578180();
@@ -1592,7 +1585,7 @@ void PublicTransport_181C::PublicTransportService_57A7A0()
                     }
                     if (!pTrain->field_0)
                     {
-                        if (IsTrainAtZone(pTrain, pStation->field_4_entry_point))
+                        if (((u8)pTrain->field_C_carriages[0]->field_50_car_sprite->field_14_xy.x.ToInt() == pStation->field_4_entry_point->field_1_x && (u8)pTrain->field_C_carriages[0]->field_50_car_sprite->field_14_xy.y.ToInt() == pStation->field_4_entry_point->field_2_y))
                         {
                             SetDriverStation(pTrain, pStation);
                             pTrain->field_48 = 2;
@@ -1624,7 +1617,7 @@ void PublicTransport_181C::PublicTransportService_57A7A0()
                 case 2:
                     pStation = pTrain->field_4C_maybe_train_station;
                     pStation->field_18 = pTrain;
-                    if (IsTrainAtZone(pTrain, pStation->field_C_stop_point))
+                    if (((u8)pTrain->field_C_carriages[0]->field_50_car_sprite->field_14_xy.x.ToInt() == pStation->field_C_stop_point->field_1_x && (u8)pTrain->field_C_carriages[0]->field_50_car_sprite->field_14_xy.y.ToInt() == pStation->field_C_stop_point->field_2_y))
                     {
                         pTrain->field_48 = 4;
                     }
