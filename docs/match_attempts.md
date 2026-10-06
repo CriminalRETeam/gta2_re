@@ -3096,3 +3096,12 @@ round-robin differences (`Scripts/regalloc/README.md`), not colour-pass ones.
   (`Ang16 rot = ...`, orig eax/ecx/edx, ours ecx/edx/eax). Moving the reload before the
   `field_6C_animation_state = 12` store, after the `pMySprite` local, or dropping that local all move
   other registers too (listing only, not built).
+  Scored with `Scripts/quick_score.sh` (base 12): the round-robin model reproduces ours exactly
+  (5800-5807 picks edx, eax, ecx, edx, eax, then ax by copy hint; the `mov 4(%eax),%eax` reuse is not a
+  pick). The original follows the same rules only if eax is still busy when the 5797 reload and the
+  5799 sprite load are allocated, and its `mov 4(%edx),%eax` doesn't reuse the dying reload register,
+  so there the reload behaves like a coloured variable (edx), not a round-robin temp. Tried, all 12 or
+  worse: the reload as its own local (function-wide, before or after the other declarations), a copy
+  local for the set_xyz arguments, a case-scoped `pObj` for the first load (12), `rot` assigned
+  directly (34), no `pMySprite` local (18), the reload dropped and the arguments read through
+  `field_7C_pPed` (162), and combinations.
