@@ -3188,7 +3188,6 @@ void Ped::BusCustomer_AI_461290()
     WIP_IMPLEMENTED;
 
     Car_BC* pCar_;
-    u8 door;
 
     if (this->field_25C_internal_objective == 2 && this->field_226_internal_objective_status == 1)
     {
@@ -3202,7 +3201,7 @@ void Ped::BusCustomer_AI_461290()
             {
                 goto LABEL_21;
             }
-            if (this->field_150_target_objective_car->field_88_despawn_status == 5)
+            if (this->field_150_target_objective_car->IsDespawning_4215B0())
             {
                 Kill_46F9D0();
             }
@@ -3231,7 +3230,7 @@ void Ped::BusCustomer_AI_461290()
             else
             {
                 Car_BC* pTargetCar = this->field_150_target_objective_car;
-                if (pTargetCar->field_88_despawn_status == 5)
+                if (pTargetCar->IsDespawning_4215B0())
                 {
                     pTargetCar->sub_43AF40();
                     SetObjective(objectives_enum::no_obj_0, 9999);
@@ -3241,9 +3240,7 @@ void Ped::BusCustomer_AI_461290()
                 }
                 else
                 {
-                    door = get_target_car_door_403A60();
-                    Car_Door_10* pDoor = pTargetCar->GetDoor(door);
-                    pDoor->Open_439E60();
+                    pTargetCar->GetDoor(get_target_car_door_403A60())->Open_439E60();
                 }
             }
             return;
@@ -3270,7 +3267,7 @@ void Ped::BusCustomer_AI_461290()
             if (pCar_)
             {
             LABEL_23:
-                if (pCar_->field_88_despawn_status == 5)
+                if (pCar_->IsDespawning_4215B0())
                 {
                     pCar_->field_4_passengers_list.RemovePed_471240(this);
                     Kill_46F9D0();
@@ -3285,9 +3282,9 @@ void Ped::BusCustomer_AI_461290()
                 SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                 SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
                 this->field_150_target_objective_car = pBus;
-                this->field_168_game_object->field_84_target_car = this->field_154_target_to_enter;
-                this->field_168_game_object->field_38_velocity = kFpZero_678660;
-                this->field_24C_target_car_door = 1;
+                this->field_168_game_object->Set_F84_433900(this->field_154_target_to_enter);
+                this->field_168_game_object->SetMaxSpeedByRef_433920(kFpZero_678660);
+                set_target_car_door_403A70(1);
             }
             break;
     }
@@ -6894,42 +6891,15 @@ Ped* Ped::FindBestTargetPed_Mode5_466BD0(s32 max_x_check)
 
 // https://decomp.me/scratch/jl40w
 // Possibly an inline helper in the original (closer than the loop written in place)
-static inline Ped* FindNearestEnemyPlayerPed_466BF0(Ped* pThis)
-{
-    s32 best = kFpFour_678670.mValue;
-    Ped* bestPed = 0;
-
-    for (Player* p = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0(); p != 0; p = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
-    {
-        Ped* cand = p->field_2C4_player_ped;
-
-        if (cand != 0 && pThis->field_164_ped_group != cand->field_164_ped_group)
-        {
-            Fix16 candY = cand->field_1AC_cam.y;
-            Fix16 thisY = pThis->field_1AC_cam.y;
-            Fix16 dx = cand->field_1AC_cam.x - pThis->field_1AC_cam.x;
-            Fix16 dy;
-            dy = candY.Subtract_436A00(thisY);
-            s32 m = Fix16::Max_44E540(Fix16::Abs_436A50(dx), Fix16::Abs_436A50(dy)).mValue;
-
-            if (m < best)
-            {
-                bestPed = cand;
-                best = m;
-            }
-        }
-    }
-    return bestPed;
-}
-
 WIP_FUNC(0x466bf0)
 Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
 {
     WIP_IMPLEMENTED;
 
+    // 9.6f 0x437BE0
     gSearchingPed_6787DC = this;
 
-    // Two calls: VC6 merges their identical tails
+    // Two calls in the source: VC6 merges their identical heads and tails
     Sprite* pNear;
     if (field_168_game_object)
     {
@@ -6955,7 +6925,7 @@ Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
         Ped* pClosest;
         if (field_164_ped_group)
         {
-            if (field_164_ped_group->field_2C_ped_leader->field_15C_player)
+            if (field_164_ped_group->field_2C_ped_leader->is_player_41B0A0())
             {
                 pClosest = 0;
             }
@@ -6969,72 +6939,82 @@ Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
             pClosest = gThreateningPedsList_678468.GetFromListClosestPedToPoint_471340(field_1AC_cam.x, field_1AC_cam.y);
         }
 
-        if ((u8)bStartNetworkGame_7081F0 && field_164_ped_group)
+        if (IsNetworkGame_434B10() && field_164_ped_group)
         {
-            Ped* bestPed = FindNearestEnemyPlayerPed_466BF0(this);
-            if (bestPed)
+            Fix16 best = kFpFour_678670;
+            Ped* pBestPed = 0;
+            for (Player* pPlayer = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0(); pPlayer;
+                 pPlayer = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
             {
-                return bestPed;
+                Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
+                if (pPlayerPed && field_164_ped_group != pPlayerPed->field_164_ped_group)
+                {
+                    Fix16 dist;
+                    dist = Fix16::MaxAbsDistance_42A6B0(get_cam_x(), get_cam_y(), pPlayerPed->get_cam_x(), pPlayerPed->get_cam_y());
+                    if (dist < best)
+                    {
+                        pBestPed = pPlayerPed;
+                        best = dist;
+                    }
+                }
+            }
+
+            if (pBestPed)
+            {
+                return pBestPed;
             }
         }
 
         if (pClosest)
         {
-            s32 zd = field_1AC_cam.z.mValue - pClosest->field_1AC_cam.z.mValue;
-            if (zd <= 0)
+            Fix16 dz;
+            dz = Fix16::Abs(field_1AC_cam.z - pClosest->field_1AC_cam.z);
+            if (dz >= kFpOne_678664)
             {
-                zd = -zd;
+                return 0;
             }
 
-            if (zd < kFpOne_678664.mValue && pClosest != gSearchingPed_6787DC)
+            if (pClosest == gSearchingPed_6787DC)
             {
-                Ped* pSearching = gSearchingPed_6787DC;
-                Fix16 dx = pSearching->field_1AC_cam.x - pClosest->field_1AC_cam.x;
-                Fix16 dy = pSearching->field_1AC_cam.y - pClosest->field_1AC_cam.y;
-                if (Fix16::Max_44E540(Fix16::Abs_436A50(dx), Fix16::Abs_436A50(dy)) < kFpFour_678670)
-                {
-                    if (pClosest->IsField238_45EDE0(2))
-                    {
-                        Player* pPlayer = pClosest->field_15C_player;
-                        Camera_0xBC* pCam;
-                        if (pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3)
-                        {
-                            pCam = &pPlayer->field_208_aux_game_camera;
-                        }
-                        else
-                        {
-                            pCam = &pPlayer->field_90_game_camera;
-                        }
+                return 0;
+            }
 
-                        if (gSearchingPed_6787DC->field_168_game_object)
-                        {
-                            if (!pCam->IsSpriteInView_435630(gSearchingPed_6787DC->field_168_game_object->field_80_sprite_ptr, 1))
-                            {
-                                return 0;
-                            }
-                        }
-                        else if (!pCam->IsSpriteInView_435630(gSearchingPed_6787DC->field_16C_car->field_50_car_sprite, 1))
+            if (Fix16::MaxAbsDistance_42A6B0(pClosest->get_cam_x(),
+                                             pClosest->get_cam_y(),
+                                             gSearchingPed_6787DC->get_cam_x(),
+                                             gSearchingPed_6787DC->get_cam_y()) < kFpFour_678670)
+            {
+                if (pClosest->IsField238_45EDE0(2))
+                {
+                    Camera_0xBC* pCam = pClosest->field_15C_player->get_camera_434900();
+                    if (gSearchingPed_6787DC->field_168_game_object)
+                    {
+                        if (!pCam->IsSpriteInView_435630(gSearchingPed_6787DC->field_168_game_object->field_80_sprite_ptr, 1))
                         {
                             return 0;
                         }
                     }
-
-                    if (IsPedAThreat_465D00(pClosest))
+                    else if (!pCam->IsSpriteInView_435630(gSearchingPed_6787DC->field_16C_car->field_50_car_sprite, 1))
                     {
-                        return pClosest;
+                        return 0;
                     }
+                }
+
+                if (IsPedAThreat_465D00(pClosest))
+                {
+                    return pClosest;
                 }
             }
         }
         return 0;
     }
 
-    switch (pNear->field_30_sprite_type_enum)
+    switch (pNear->get_type_416B40())
     {
         case sprite_types_enum::car_2:
-            return pNear->field_8_car_bc_ptr->field_54_driver;
+            return pNear->AsCar_40FEB0()->get_driver_4118B0();
         case sprite_types_enum::ped_3:
-            return pNear->field_8_char_b4_ptr->field_7C_pPed;
+            return pNear->AsCharB4_40FEA0()->field_7C_pPed;
     }
     return 0;
 }
