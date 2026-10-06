@@ -2176,3 +2176,30 @@ Scores are `sc.sh` lines.
   slot early at the function start and `pop %ebx` before the last `fmuls`.
 - `DrawFigure_5D7EC0` (430), `4EAF40`/`4ED290` (register allocation), the slopes (356-617) and
   `Draw_4F6A20` (structure): not x87 scheduling problems, not worked on.
+### FPO marker follow-up (near misses)
+- Matched with the FPO markers: `Char_B4::HandleObjectCollision_548840` (three unused `Fix16_Point` locals give
+  EH state 4, the shared-epilogue jump now comes for free), `CarPhysics_B0::SpawnSkidSegment_55D200` (`Fix16 len`
+  declared at the top: it and the `/ 2` temporary then share the dead `box_idx` slot), `Sprite_4C::UpdateRotatedBoundingBox_5A3550`
+  (left/right/top/bottom declared, then assigned through the `Fix16_Rect` getters 9.6f calls; initialised they
+  interleave), `Map_0x370::SpriteHitsDiagonalWall_4E1520` (`Fix16((u32)x).Add_408660(half)` and plain `z_pos`
+  for the by-value z argument), `Start_NetworkGame_5E5A30` (`char path[MAX_PATH]`, the frame was 4 bytes short).
+- `Car_14::SpawnTrafficCar_582480` 161 -> 8: cases 3/4 need `ypos = ...; y_step = 1;` in the `!field_8` arm, then
+  case 4 cross-jumps into case 3 again. Left: case 2's `-1` block. Of two identical tails VC6 drops the copy
+  that is a whole label block (its label is retargeted); with both whole the later copy survives. The original
+  keeps case 1's `-1` label block, so case 2's copy must have been the whole block while case 1's was not; no
+  if/else polarity or statement order (64 x 64 combinations, all case orders) or ypos written in both arms does it.
+- `sound_obj::ProcessOtherObjects_41F520` (4): `max_distance` before `calc_distance` in case 13/14 (the original
+  order) keeps 4/12 and 13/14 apart as in the original, but fire then cross-jumps into 13/14 (from `xor bl`)
+  instead of 4/12 (from the volume store). All 5040 orders of the 13/14 statements after `samp_idx`, and 42
+  joint orders of 4/12 + fire: no 0. Source order of the inner cases swaps the 4/12 and 13/14 blocks.
+- `sound_obj::TrainCab_414710` (6) and `Ambulance_20::UpdateState_4FB330` (2): both originals have the exit
+  block right after the first jumper to it, with the remaining block copying it. dupB's first loop does that
+  (`jmp L` forward to a block whose predecessor ends in jmp/ret: the block, up to its ret, is moved after the jmp;
+  `Ped::PunchChar_467FD0` matches that way). C2's layout moves a jmp-ending else arm right before its target, so
+  the exit's predecessor always falls through in ours. Tried for Ambulance: `HandleObjectiveState` once after the
+  switch with `return` in the other paths (18), plus the car path or case 6 returning on its own (6-20), four
+  case 3 shapes x two case 5 shapes x all 24 case orders (case order changes nothing). TrainCab: the play code
+  after the if/else with early returns (6, same pre-dupB list as now).
+- `Particle_4C::UpdateAttachedEmitter_state_9_10_53B670` (12): only the jitter/angle slot (0x10, original 0x12).
+  An extra unused `Ang16`, `jitter` at function scope, `radius` declared first, `angle(field_0)`, `AddNormalized`,
+  adding into `jitter`, a separate `Fix16` for the jitter: 12-119.

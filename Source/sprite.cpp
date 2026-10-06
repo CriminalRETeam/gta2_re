@@ -2385,11 +2385,9 @@ void Sprite_4C::SetCurrentRect_5A4D90()
 }
 
 // https://decomp.me/scratch/RAdGk
-WIP_FUNC(0x5A3550)
+MATCH_FUNC(0x5A3550)
 void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {
-    WIP_IMPLEMENTED;
-
     // The five points are constructed up front (EH state 4 at the start), in this order to get the
     // original's stack slots, and the corners
     // (renderingRect[i] = point + corner_i) are shared by every branch.
@@ -2505,11 +2503,12 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
         field_C_renderingRect[2] = point.Add_40AC50(corner2);
         field_C_renderingRect[3] = point.Add_40AC50(corner3);
 
-        // 9.6f: Fix16_Rect::get_left_45ADB0/right/top/bottom here
-        Fix16 left = field_30_boundingBox.field_0_left;
-        Fix16 right = field_30_boundingBox.field_4_right;
-        Fix16 top = field_30_boundingBox.field_8_top;
-        Fix16 bottom = field_30_boundingBox.field_C_bottom;
+        // Declared, then assigned through the getters (9.6f calls them): initialised, VC6 interleaves the copies
+        Fix16 left, right, top, bottom;
+        left = field_30_boundingBox.get_left_45ADB0();
+        right = field_30_boundingBox.get_right_45ADA0();
+        top = field_30_boundingBox.get_top_45ADD0();
+        bottom = field_30_boundingBox.get_bottom_45ADC0();
 
         FindMinMax_5A57E0(left,
                           right,

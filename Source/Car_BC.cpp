@@ -7396,9 +7396,10 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
 
     Fix16 xpos;
     Fix16 ypos;
-    // Case order 1, 2, 4, 3 and the statement orders in cases 1 and 2 follow the 10.5 block layout
-    // and tail merging (case 4 jumps into case 3's tail). Case 2's x_step = -1 block is written
-    // in a different order so that VC6 does not merge it (merging would keep case 2's copy).
+    // Case order 1, 2, 4, 3 and the statement orders follow the 10.5 block layout and tail merging
+    // (case 4 jumps into case 3's tail; cases 3/4 need `ypos` before `y_step = 1` in the +1 arm).
+    // Case 2's x_step = -1 block is written in a different order so that VC6 does not merge it
+    // (merging would keep case 2's copy).
     switch (a2)
     {
         case 1:
@@ -7431,8 +7432,8 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
             xpos = field_0_cam->field_78_boundaries_non_neg.field_0_left - kFpFive_6FF6D4;
             if (!field_8)
             {
-                y_step = 1;
                 ypos = field_0_cam->field_78_boundaries_non_neg.field_8_top - kFpOne_6FF778;
+                y_step = 1;
             }
             else
             {
@@ -7444,8 +7445,8 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
             xpos = field_0_cam->field_78_boundaries_non_neg.field_4_right + kFpFive_6FF6D4;
             if (!field_8)
             {
-                y_step = 1;
                 ypos = field_0_cam->field_78_boundaries_non_neg.field_8_top - kFpOne_6FF778;
+                y_step = 1;
             }
             else
             {

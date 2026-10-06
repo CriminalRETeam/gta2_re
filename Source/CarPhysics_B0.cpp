@@ -1740,13 +1740,12 @@ EXPORT s32 __stdcall get_skid_obj_type_55D490(s32 surface, Fix16 box_idx)
 }
 
 // 9.6f 0x4A0120
-WIP_FUNC(0x55d200)
+MATCH_FUNC(0x55d200)
 void CarPhysics_B0::SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 surface)
 {
-    WIP_IMPLEMENTED;
-
     Fix16_Point t;
     Fix16_Point v15;
+    Fix16 len; // declared up here: its stack slot is the dead box_idx one, shared with the / 2 temporary
 
     arg_4.RotateByAngle_40F6B0_out_of_line(field_58_theta);
 
@@ -1769,7 +1768,7 @@ void CarPhysics_B0::SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 
             Fix16 obj_y = v15.y;
 
             Ang16 r = t.atan2_40F790();
-            Fix16 len = t.GetLength_all_out_of_line_abs();
+            len = t.GetLength_all_out_of_line_abs();
             if (len > kFP16Zero_6FE20C)
             {
                 Object_2C* pObj =

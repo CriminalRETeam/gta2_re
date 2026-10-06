@@ -1719,11 +1719,9 @@ void Char_B4::DispatchCollision_548670(char_type a2)
     }
 }
 
-WIP_FUNC(0x548840)
+MATCH_FUNC(0x548840)
 void Char_B4::HandleObjectCollision_548840(Object_2C* pObj)
 {
-    WIP_IMPLEMENTED;
-
     //pObj_ = pObj;
     //out3 = 0;
     //v19 = 4;
@@ -1731,6 +1729,8 @@ void Char_B4::HandleObjectCollision_548840(Object_2C* pObj)
     //phi_type = pPhi->field_34_type;
     Fix16_Point a4;
     Fix16_Point point;
+    // Unused: the original enters with EH state 4, so three more Fix16_Point locals were constructed up front
+    Fix16_Point unused_1, unused_2, unused_3;
     u8 a6;
     u8 out2;
     u8 out3 = 0;

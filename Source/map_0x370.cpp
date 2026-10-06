@@ -1677,12 +1677,9 @@ char_type Map_0x370::RectHitsDiagonalWall_4E11E0(Fix16_Rect* pRect)
 }
 
 // https://decomp.me/scratch/jaBFe
-// The original calls the out-of-line Fix16(int) and operator+ (Add_408660) for the
-// x/y block centre, so the sum goes through a const Fix16
-WIP_FUNC(0x4E1520)
+MATCH_FUNC(0x4E1520)
 bool Map_0x370::SpriteHitsDiagonalWall_4E1520(s32 z_pos)
 {
-    WIP_IMPLEMENTED;
     Fix16_Point point;
     Fix16_Point unk_point;
     for (s32 y_pos = gPurple_top_6F6108; y_pos <= gPurple_bottom_6F5F38; y_pos++)
@@ -1716,9 +1713,11 @@ bool Map_0x370::SpriteHitsDiagonalWall_4E1520(s32 z_pos)
                     if (gSprite_6F61E8->PointInsideRotatedBounds_5A1490(point, unk_point))
                     {
                         Sprite* pSprt = gObject_5C_6F8F84->GetDirectionalObject_5298E0(slope_type)->field_4;
-                        const Fix16 block_x = x_pos;
-                        const Fix16 block_y = y_pos;
-                        pSprt->set_xyz_lazy_451950(block_x.Add_408660(kFpHalf_6F5FE0), block_y.Add_408660(kFpHalf_6F5FE0), Fix16(z_pos));
+                        // (u32): the block centre goes through the Fix16(u32) constructor (out-of-line copy 0x4926F0);
+                        // z is converted inline in its argument slot
+                        pSprt->set_xyz_lazy_451950(Fix16((u32)x_pos).Add_408660(kFpHalf_6F5FE0),
+                                                   Fix16((u32)y_pos).Add_408660(kFpHalf_6F5FE0),
+                                                   z_pos);
                         pSprt->UpdateCollisionBoundsIfNeeded_59E9C0();
                         gRozza_679188.SetSprite_40FEE0(pSprt);
                         return true;

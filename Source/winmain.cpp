@@ -2537,7 +2537,7 @@ EXPORT void __stdcall Shutdown_4DA740()
 
 NetworkGameSettings gNetworkGameSettings_707098;//DEFINE_GLOBAL(NetworkGameSettings, gNetworkGameSettings_707098, 0x707098);  // global crashing standalone
 
-WIP_FUNC(0x5E5A30)
+MATCH_FUNC(0x5E5A30)
 EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 {
     char_type bRet = 1;
@@ -2610,7 +2610,7 @@ EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 
         networkUi.CopyGameSettings_51C7F0(&gNetworkGameSettings_707098);
 
-        char_type path[256];
+        char_type path[MAX_PATH];
         wsprintfA(path, "data\\%s", networkUi.GetMapName_51CA10());
         gLucid_hamilton_67E8E0.SetMapName_4C5870(path);
         wsprintfA(path, "data\\%s", networkUi.GetMapStyName_51CA50());

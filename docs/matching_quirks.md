@@ -189,6 +189,16 @@ Which copy survives a tail merge can depend on how the copies are reached: VC6 m
 tail into the earlier copy when the later ones were jump targets (else branches), into the later one
 when they were fall-through (`ManageTrafficCarDirection_448CE0`, the `sub_4538B0` path). Not universal.
 
+More on which copy survives (from `Car_14::SpawnTrafficCar_582480`): when one of two identical tails is a whole
+block starting at a label (an else arm), that copy is dropped and its label retargeted into the other one,
+wherever they are; with both whole, the later copy survives.
+
+dupB has a first loop before the copying one: a forward `jmp L`, where the block before `L` ends in a jmp or
+ret, gets the block at `L` (up to its ret or jmp) moved in place of the jump. That is how an exit block ends
+up in the middle of a function with the code after it copying it (`Ped::PunchChar_467FD0`; the unmatched
+`TrainCab_414710` and `Ambulance_20::UpdateState_4FB330` look like it too). C2's block layout already puts a
+jmp-ending else arm right before its target, so this needs a cross-jump (FlowOpts) to leave a block like that.
+
 **A switch range that runs past the last real case.** If the index table covers values
 that all go to `default`, a case at the top of the range exists in the source but does
 nothing. An empty `case N: break;` is dropped, even with an explicit `default`. A dead
@@ -703,6 +713,18 @@ temporaries share stack slots with the argument temporaries (`EmitElectricArcPar
 In a big function, writing the rotation in its own block with a local `Ang16 r(a - b); r.Normalize_406C20();`
 instead of `RotateByAngle(a - b)` fixed the stack slots (the original reuses dead parameter slots) and gave
 the out-of-line Normalize (`CarPhysics_B0::HandleMapBoundaryCollisionY_55C5C0`/`X_55C820`).
+
+A local declared at function scope can free a dead parameter slot for a temporary: with `Fix16 len` declared
+in the block next to the `/ 2` call, the length took the dead `box_idx` slot and the `2` temporary got a frame
+slot; declared at the top (assigned later), both share the parameter slot as in the original
+(`CarPhysics_B0::SpawnSkidSegment_55D200`).
+
+**A 4-byte gap in a frame can be a `MAX_PATH` buffer.** `char path[256]` left `Start_NetworkGame_5E5A30`
+4 bytes short in front of the next local; `path[MAX_PATH]` (260) matched.
+
+**Declared, then assigned locals copy one by one.** `Fix16 left = rect.field_0_left; ...` for four fields
+interleaves the copies through two registers; declaring the four first and assigning them (through the
+getters 9.6f calls) gives the original's `eax`-only load/store pairs (`Sprite_4C::UpdateRotatedBoundingBox_5A3550`).
 
 **`Fix16(rng(3) - 1)` in the Particle_4C jitter** is `movswl; add $0x3FFFF; shl $0xE` in all five
 originals. Initialising, `FromInt` or an inline helper give `shl; sub $0x4000`. The `add` form comes
