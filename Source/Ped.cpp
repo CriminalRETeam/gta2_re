@@ -6892,13 +6892,10 @@ Ped* Ped::FindBestTargetPed_Mode5_466BD0(s32 max_x_check)
 }
 
 // https://decomp.me/scratch/jl40w
-// Possibly an inline helper in the original (closer than the loop written in place)
-WIP_FUNC(0x466bf0)
+// 9.6f 0x437BE0
+MATCH_FUNC(0x466bf0)
 Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
 {
-    WIP_IMPLEMENTED;
-
-    // 9.6f 0x437BE0
     gSearchingPed_6787DC = this;
 
     // Two calls in the source: VC6 merges their identical heads and tails
@@ -6971,17 +6968,8 @@ Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
         {
             Fix16 dz;
             dz = Fix16::Abs(field_1AC_cam.z - pClosest->field_1AC_cam.z);
-            if (dz >= kFpOne_678664)
-            {
-                return 0;
-            }
-
-            if (pClosest == gSearchingPed_6787DC)
-            {
-                return 0;
-            }
-
-            if (Fix16::MaxAbsDistance_42A6B0(pClosest->get_cam_x(),
+            if (dz < kFpOne_678664 && pClosest != gSearchingPed_6787DC &&
+                Fix16::MaxAbsDistance_42A6B0(pClosest->get_cam_x(),
                                              pClosest->get_cam_y(),
                                              gSearchingPed_6787DC->get_cam_x(),
                                              gSearchingPed_6787DC->get_cam_y()) < kFpFour_678670)
@@ -7008,15 +6996,17 @@ Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
                 }
             }
         }
-        return 0;
     }
 
-    switch (pNear->get_type_416B40())
+    if (pNear)
     {
-        case sprite_types_enum::car_2:
-            return pNear->AsCar_40FEB0()->get_driver_4118B0();
-        case sprite_types_enum::ped_3:
-            return pNear->AsCharB4_40FEA0()->field_7C_pPed;
+        switch (pNear->get_type_416B40())
+        {
+            case sprite_types_enum::car_2:
+                return pNear->AsCar_40FEB0()->get_driver_4118B0();
+            case sprite_types_enum::ped_3:
+                return pNear->AsCharB4_40FEA0()->field_7C_pPed;
+        }
     }
     return 0;
 }
