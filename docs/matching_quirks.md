@@ -165,8 +165,7 @@ not in each branch. VC6 duplicates it, and it pops the callee-saved registers th
 branches used before the copies (`Net_Send_Our_Inputs_4DACB0`: two `SendToAll_521B20`
 calls in the asm, one in the source).
 
-**How VC6 copies and merges block tails** (C2 traced with DynamoRIO; tools in the research notes of
-commit history). All of it runs after register allocation and before scheduling, epilogue included, and
+**How VC6 copies and merges block tails** (C2 traced with DynamoRIO). All of it runs after register allocation and before scheduling, epilogue included, and
 compares exact instructions (opcode, operands, physical registers):
 - FlowOpts (C2 `0x1072fa19`) cross-jumps a `jmp L` into the code that falls into L when any run of
   instructions before both matches; no size limit. The fall-through copy is kept.
