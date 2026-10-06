@@ -562,10 +562,9 @@ void Weapon_30::smg_5DDD20()
 }
 
 // https://decomp.me/scratch/OrmRn
-WIP_FUNC(0x5ddfc0)
+MATCH_FUNC(0x5ddfc0)
 void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
 {
-    WIP_IMPLEMENTED;
     Fix16_Point vector;
     Object_2C* pProjectile;
 
@@ -614,19 +613,15 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                     }
                     else
                     {
-                        Fix16 unknown;
-                        Fix16 unknown_2;
+                        Fix16 speed;
                         if (obj_idx == objects::grenade_obj_183)
                         {
-                            unknown = (dword_706CF0 + dword_706E80) * (Fix16(a3) / Fix16(60));
-                            unknown_2 = dword_706E74;
+                            speed = dword_706E74 + (Fix16(a3) / Fix16(60)) * (dword_706CF0 + dword_706E80);
                         }
                         else
                         {
-                            unknown = dword_706CF0 * (Fix16(a3) / Fix16(60));
-                            unknown_2 = dword_706E80;
+                            speed = dword_706E80 + (Fix16(a3) / Fix16(60)) * dword_706CF0;
                         }
-                        Fix16 speed = unknown + unknown_2;
                         gObject_5C_6F8F84->SetPendingDamageOwner_52A210(field_24_pPed->get_varrok_idx_420B50());
 
                         // field_24_pPed->Get_F12E_4CCA90()
@@ -645,7 +640,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                             {
                                 vector = field_24_pPed->GetVelocityVector_45B520();
                                 pProjectile->SetMovementVector_5224E0(vector);
-                                if (vector.x != dword_706EB8 || vector.y != dword_706EB8)
+                                if (!vector.IsNull_420360())
                                 {
                                     pProjectile->field_10_obj_3c->field_C_speed += dword_706C8C;
                                 }
@@ -682,12 +677,13 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                     if (field_24_pPed->field_15C_player)
                     {
                         field_2_reload_speed = 4;
+                        field_24_pPed->field_21C_bf.b22 = true;
                     }
                     else
                     {
                         field_2_reload_speed = 50;
+                        field_24_pPed->field_21C_bf.b22 = true;
                     }
-                    field_24_pPed->field_21C_bf.b22 = true;
                     field_21 = 1;
                     Weapon_30::TickReloadSpeed_5DCF40();
                 }

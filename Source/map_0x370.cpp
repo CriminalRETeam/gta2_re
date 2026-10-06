@@ -2959,7 +2959,8 @@ char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_
 
     angle = Fix16::atan2_fixed_405320(y_2 - y_1, x_2 - x_1);
 
-    Fix16 distance = pos_diff.GetLength_41E260();
+    Fix16 distance;
+    distance = pos_diff.GetLength_41E260();
     pObjSprt->set_xyz_lazy_420600(x_1, y_1, z_1);
     pObjSprt->set_ang_lazy_420690(angle);
     pObjSprt->AllocInternal_59F950(width, height, depth);
@@ -2976,8 +2977,8 @@ char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_
     }
     else
     {
-        value_2 = kFpZero_6F610C;
         value_1 = kFpZero_6F610C;
+        value_2 = kFpZero_6F610C;
     }
 
     if (value_1 < kFpOne_6F6110)

@@ -1865,6 +1865,48 @@ Found by tracing C2.DLL (see `Scripts/inline_budget/`); the instrumented compile
   `and $1` / `and $~1` / `xor` where the original keeps `xor; and; xor` on an `int` flag. An `s32` flag gives
   the original's three instructions but loses `ebp` again (318), as does `field_58_flags_bf.b0 = v` (262).
 
+### Rebuild against 9.6f with VC7 first, then fix VC6 registers (near-miss pass 2)
+
+- **Get `sc7.sh` (VC7 against 9.6f) down before working on VC6 registers.** With `/Ob0` every inline is a
+  call in 9.6f, so the VC7 score shows statement order, helper calls, shared locals and temporaries
+  directly. Three far WIPs matched this way: once VC7 was near 0, either the VC6 score was already 0
+  (`PoliceCrew_38::sub_571A30`, `RouteFinder::ShowJunctionIds_588620`) or the permuter found the last
+  register tweak in about 100 compiles (`Ped::TaxiCustomer_AI_460820`). Before, the VC6 permuter alone had
+  run for thousands of compiles without progress. `/tmp`-style helper: score each variant with both
+  `sc.sh` and `sc7.sh`.
+- **A local read in two branches lets VC6 hoist the shared call above the branch.** `Car_BC* pCar =
+  field_10->field_0_car;` before `if (pGroup) { pCar->Get_F76() ... } else if (pCar->Get_F76() > 80)` made
+  both compilers compute `Get_F76` before the test; 9.6f loads the car in each branch. With the load moved
+  into each branch, the shared `state = 5; field_2C = 1` tail also merged as in the original
+  (`sub_571A30`, 129 -> 0).
+- **A 9.6f out-pointer helper.** `Camera_0xBC::WorldToScreen_40CFC0` in 9.6f writes through two out
+  pointers; a by-value `Fix16_Point_POD` return gave the wrong order of the out-of-line operator calls.
+  With the out pointers and `Fix16(pJunction->field_C_min_x)` written at each use (no `u8 x` locals,
+  9.6f converts again after `FindGroundZ`), `ShowJunctionIds_588620` matched (136 -> 0).
+- **VC6 and VC7 can want different forms; VC6 decides.** In `TaxiCustomer_AI_460820` 9.6f copies
+  `(dx > dy) ? dx : dy` into a temporary before comparing it with `kFpTwo`, but a named VC6 copy
+  (`Fix16 max_d = ...`, a cast, or assigning it to `dx`/`dy`) swaps `eax`/`ecx` in every later compare of
+  the function. The ternary written inside the condition is what VC6 needs.
+- **A reload stub at the end comes from two copies of the same tail.** The original's
+  `mov 0x150(%esi),%ecx; jmp` after the abort code (other paths enter the abort with `ecx` already
+  loaded) came from `if (max > two || bit) { field_150->sub_43AF40(); ...; return; }` followed by
+  `Car_BC* pCar = field_150; if (empty && !despawning) break; pCar->sub_43AF40(); ...` with the abort
+  written twice. One shared abort block in any if/else polarity gave the stub in front of the abort.
+- **9.6f is an older build; arithmetic can differ.** In `Garage_48::ParkCarAtDoor_534700` 9.6f computes
+  `Fix16(y) - (d + w1)` while 10.5 has two `sub`s (`Fix16(y) - d - w1`). The rest of the 9.6f
+  rebuild (store order, `IsLongerThanOneBlock_447ED0` as a call, no point locals) brought VC7 from 575 to 0
+  without changing VC6.
+- **Header inlines read per-TU constant copies.** 10.5 reads `0x6FD124` (Garage) for
+  `IsLongerThanOneBlock_447ED0` and `0x706EB8` (Weapon_30) for `Fix16_Point::IsNull_420360`; a file-local
+  copy of the inline, or `FIX16_POINT_ZERO` in the header, keeps the 9.6f call structure.
+- **A store repeated in both arms of an `if` can be what the original wrote.** VC6 doesn't merge two
+  identical trailing stores (`ped->field_21C_bf.b22 = true;` in each arm of `if (grenade) reload = 4; else
+  reload = 50;`), and the extra constant use changes register choice for the whole function: in
+  `Weapon_30::throwable_5DDFC0` it moved the constant 1 into `bl` as in the original (141 -> 0).
+- **The case order of a second switch shows in the layout.** `eager_benz::OnPedKilled_592660` places the
+  `field_290` cases 9..20 right after the dispatch: writing that case first in the switch took the
+  function from 269 to 178 (`sc.sh`).
+
 ## Inline asm
 
 **16-bit `pushaw`/`popaw`.** The inline assembler can't spell them. Put `_emit 0x66` before

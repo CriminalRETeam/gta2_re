@@ -79,20 +79,18 @@ RouteFinder_10::RouteFinder_10()
     field_C_pNext = 0;
 }
 
-// 9.6f 0x40CFC0: Camera_0xBC::WorldToScreen_40CFC0, but the original reads this file's copies
-// of the constants (0x6FFC7C, 0x6FFC9C), so the Camera.hpp inline can't be used here
-static inline Fix16_Point_POD ProjectToScreen(Camera_0xBC* pCam, Fix16 x, Fix16 y, Fix16 z)
+// 9.6f 0x40CFC0: Camera_0xBC::WorldToScreen_40CFC0 (x/y/z by value, writes through two out pointers), but
+// the original reads this file's copies of the constants (0x6FFC7C, 0x6FFC9C), so the Camera.hpp inline can't
+// be used here
+static inline void WorldToScreen_RouteFinder_40CFC0(Camera_0xBC* pCam, Fix16 x, Fix16 y, Fix16 z, Fix16* pOutX, Fix16* pOutY)
 {
-    Fix16_Point_POD tmp;
     Fix16 u = pCam->field_98_cam_pos2.field_8_z - z;
     Fix16 t(dword_6FFC7C / Fix16(u.mValue + dword_6FFC9C.mValue, 0));
-
-    tmp.x = (((x - pCam->field_98_cam_pos2.field_0_x) * pCam->field_60.y) * t) + Fix16(320);
-    tmp.y = (((y - pCam->field_98_cam_pos2.field_4_y) * pCam->field_60.y) * t) + Fix16(240);
-    return tmp;
+    *pOutX = (((x - pCam->field_98_cam_pos2.field_0_x) * pCam->field_60.y) * t) + Fix16(320);
+    *pOutY = (((y - pCam->field_98_cam_pos2.field_4_y) * pCam->field_60.y) * t) + Fix16(240);
 }
 
-WIP_FUNC(0x588620)
+MATCH_FUNC(0x588620)
 void RouteFinder::ShowJunctionIds_588620()
 {
     Junction_10* pJunction = &field_8_junctions[1];
@@ -106,15 +104,18 @@ void RouteFinder::ShowJunctionIds_588620()
         if (gGame_0x40_67E008->field_38_orf1->field_14C_view_camera.IsPointInBoundaries_58CF10(pJunction->field_C_min_x,
                                                                                               (s32)pJunction->field_D_min_y))
         {
-            u8 x = pJunction->field_C_min_x;
-            u8 y = pJunction->field_D_min_y;
-            Fix16_Point_POD screen = ProjectToScreen(&gGame_0x40_67E008->field_38_orf1->field_14C_view_camera,
-                                                     Fix16(x),
-                                                     Fix16(y),
-                                                     gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(Fix16(x), Fix16(y)));
+            Fix16 screen_x;
+            Fix16 screen_y;
+            WorldToScreen_RouteFinder_40CFC0(&gGame_0x40_67E008->field_38_orf1->field_14C_view_camera,
+                                             Fix16(pJunction->field_C_min_x),
+                                             Fix16(pJunction->field_D_min_y),
+                                             gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(Fix16(pJunction->field_C_min_x),
+                                                                                           Fix16(pJunction->field_D_min_y)),
+                                             &screen_x,
+                                             &screen_y);
 
             swprintf(tmpBuff_67BD9C, L"%d", i);
-            gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, screen.x.ToInt(), screen.y.ToInt(), word_703BAA, 1);
+            gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, screen_x.ToInt(), screen_y.ToInt(), word_703BAA, 1);
         }
     }
 }

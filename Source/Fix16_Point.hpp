@@ -87,9 +87,10 @@ class Fix16_Point
         this->y = a3;
     }
 
+    // Reads the TU's FIX16_POINT_ZERO copy (Weapon_30::throwable_5DDFC0 compares with 0x706EB8)
     inline bool IsNull_420360() const
     {
-        return x == gFix16_6777CC && y == gFix16_6777CC;
+        return x == FIX16_POINT_ZERO && y == FIX16_POINT_ZERO;
     }
 
     // For some reason uses another constant

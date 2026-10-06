@@ -2248,3 +2248,38 @@ Scores are `sc.sh` lines.
 - `sound_obj::HandleCarDoorSounds_4182E0` (286): declaration order of the locals changes nothing.
 - `Frontend::SetupMenuStringsOptionsElements_4B0220` (254): `regsearch.py` finds no window limit that helps
   (127 -> 125), so the store order differs in the IL, not at a window break.
+## Near-miss pass 2 (VC7/9.6f first, then VC6)
+Scores are `sc.sh` lines (VC6 vs 10.5); `sc7` is `sc7.sh` (VC7 vs 9.6f).
+- `PoliceCrew_38::sub_571A30` 129 -> 0 (**MATCH**): `Car_BC* pCar` loaded inside each branch (9.6f) instead of
+  once before `if (pGroup)`; the shared local let both compilers hoist `Get_F76` and moved the state tail.
+- `RouteFinder::ShowJunctionIds_588620` 136 -> 0 (**MATCH**): 9.6f's `WorldToScreen_40CFC0` shape with two out
+  pointers (file-local copy for this TU's constants) and `Fix16(pJunction->field_C_min_x)` at each use.
+- `Ped::TaxiCustomer_AI_460820` 86 -> 0 (**MATCH**): VC7-guided rebuild (`Fix16 dx; dx = ...`, `field_150` re-read
+  in the passed branch, `SetField238` before `field_150 = field_16C`, `Fix16 dist; dist = MaxAbs(...)` with the
+  sprite fields read through `pTaxi->field_50_car_sprite`), the max written as a ternary inside the condition, and
+  the abort code written twice (early `return` after the first copy) for the original's reload stub. The last
+  register tweak (no `pSprite` local) came from the permuter in 101 compiles.
+- `PoliceCrew_38::State5_PursueOrChase_572920` 142 -> 123 (sc7 381 -> 240): `field_0_car = 0` before the state
+  store, `get_cam_y()` for the criminal's y, `field_278_ped_state_1` read directly in the loop test, status read
+  twice, all four MaxAbs getters, `GetPedState_403990` in the enter-car test, `obj_43` with the `52` path written
+  in both arms. Left: kill-char's `status == 2` block loses its `SetObjective` pair to `obj_28`'s copy (orig keeps
+  the earlier one); `obj_28` polarity, `pPed` vs `gCurrentCrewPed`, merging cases 12/51: no effect. The inliner
+  sends the wrong `Abs` out of line in kill-char's MaxAbs (nested budget 61 < 64). `inlsim.py --scan` asks for +20
+  caller size, and `{}` padding there proves it (sc 123 -> 101), but no natural change gives it: `u8 status`,
+  `else if`, `pCriminal` (no change) and `pService` (worse, 248) locals all failed.
+- `eager_benz::OnPedKilled_592660` 269 -> 77: second switch with cases 9..20 first (layout), a `pCar ? model : 87`
+  local like 9.6f, swat case store order (sc only). Left: the first switch's layout (army falls into the
+  dispatch in 10.5 and 9.6f); all 8! case orders sampled (45 random), store orders from 9.6f: worse.
+- `Garage_48::ParkCarAtDoor_534700` 116 (unchanged; sc7 575 -> 97): 9.6f store order, file-local
+  `IsLongerThanOneBlock_447ED0`, no point locals, 9.6f operand order. 9.6f's `Fix16(y) - (d + w1)` is two subs in
+  10.5 (kept `- d - w1`). Left: VC6 gives `w2` and `&field_38` swapped callee-saved registers; permuter 1700: 93
+  with operand-order noise only.
+- `Weapon_30::throwable_5DDFC0` 148 -> 0 (**MATCH**; sc7 391 -> 124): one `speed = e74 + (a3/60) * (cf0 + e80)` per
+  branch, `!vector.IsNull_420360()` (reads `FIX16_POINT_ZERO`), and `field_24_pPed->field_21C_bf.b22 = true` written
+  in both arms of the reload-speed `if` instead of once after it (permuter, 164 compiles). That one store moved the
+  constant 1 into `bl`, which was the 141-point register difference. VC6 doesn't merge the two identical stores.
+- `Map_0x370::sub_4E5640` 257 -> 233: `Fix16 distance; distance = GetLength()`, zero stores in source order.
+  Left: stack slots (pos_diff and the subtraction temporaries). VC7 prefers the initialised form (263 vs 363).
+- No change: `Char_B4::UpdateAnimState_546360` (`(u8)` ternary forms; `kAng180 + field_40` load order),
+  `HandleCarImpact_5538A0` (zero register in `ebx`), `CarAI_78::sub_44D1D0` (north/east tail keeper),
+  `NetPlay::ReceiveGameMessage_521890` (loop forms: `for(;;)` differs from `while(1)`, none closer).
