@@ -31,6 +31,27 @@ the other way round.
 C2 register numbers: 0 none, 1 eax, 2 ecx, 3 edx, 4 ebx, 5 esp, 6 ebp, 7 esi, 8 edi (name table
 `0x107A91A4`, then ax.., al..).
 
+## The rule (local temps, code generator)
+
+Values the colour pass leaves alone (expression temps inside a block) get registers in the next
+pass (`0x10723B05`), which walks the instruction list in IL order (`0x1072830C` -> `0x1072EB08`
+per value; `0x1072EE00` records the choice in `0x1079D6EC[reg]`):
+
+1. the value's preferred register `[x+0x2C]` (a copy hint) if it is free;
+2. otherwise **round robin over eax, ecx, edx**: a cursor (`0x1079D710`) into the list at
+   `0x107ADFF4` (eax ecx edx esi edi ebx ebp) takes the next free register that doesn't conflict
+   and moves past it; it wraps after edx. The cursor is reset to eax once per function
+   (`0x10723B6F`), not per block;
+3. if eax, ecx and edx are all busy, the first free register in the whole list (so esi, edi, ebx,
+   ebp get used for temps only then).
+
+So a temp's register depends on how many round-robin picks came before it in the function, in
+code generation order. A run of temps after a call rotates eax -> ecx -> edx; a shifted rotation
+in one block (the original's eax/ecx/edx where ours has ecx/edx/eax) means one more or one fewer
+pick earlier, or blocks generated in another order. Code generation order is C2's block order at
+that point, which source order does not set directly (a `goto` to a block written last still
+generates it first).
+
 ## Using it
 
 ```bash
@@ -38,7 +59,10 @@ python3 Scripts/regalloc/patch_c2.py              # once: build_vc6/x87_c2/ralog
 Scripts/regalloc/ralog.sh Source/sound_obj.cpp HandleCarTireScrubSound
 ```
 
-prints each decision in order: priority, tie-break, weight, register and the scores. When two
+prints each colour decision in order (priority, tie-break, weight, register, scores). The raw
+log (`build_vc6/x87_c2/ralog_out/last.log`) also has one `@L` line per local pick: register, path
+(`via=1072ebd5` round robin, `1072ec84` preference, others the fallback), cursor and an
+approximate source line (offset by a constant per function). When two
 values have the wrong registers, see whether they have equal priority (then the tie-break order
 decides, see below) or whether a score (a preference) decides.
 
@@ -82,6 +106,12 @@ python3 Scripts/regalloc/c2dis.py x 1078e69f 1078e6ae        # who branches/call
   bit 0x40 tested). Their meaning is not confirmed.
 
 ## Open
+
+- **Block order at code generation.** Both register-only WIPs come down to it (see
+  `docs/match_attempts.md`): `Wolfy_7A8::sub_543690` needs its final tail generated before the
+  in-loop return (or one more round-robin temp in the in-loop tail), `Char_B4::state_8_5520A0`
+  has the rotation shifted between two blocks only. What orders blocks before `0x10723B05`, and
+  which values become colour-pass live ranges rather than local temps, is not reversed.
 
 - **Priority** `[lr+0x0C]`: not a plain ratio of the weight `[lr+0x3C]` (w 8 -> 40, w 20 -> 140,
   w 10 -> 61, w 6 -> 33). Chow's formula is savings / number of blocks in the live range; the writes

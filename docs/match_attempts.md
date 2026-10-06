@@ -3071,3 +3071,20 @@ Scores are `quick_score.sh` lines. One new match.
 - `Map_0x370::sub_4E6660` (4), `SetWindowedMode_5D9510` (14), `sub_4E6190` (60), `eager_benz::OnPedKilled_592660`
   (77, the occupation/kill-type switch interleaving): reviewed against the notes only. `ErrorLog::ErrorLog` was
   matched by another worker meanwhile.
+
+## Register-only WIPs (regalloc pass, Oct 7)
+
+`Scripts/regalloc/regonly.py` finds the WIPs that match except for registers: only
+`Wolfy_7A8::sub_543690` and `Char_B4::state_8_5520A0` (6 lines each). Both are local-temp
+round-robin differences (`Scripts/regalloc/README.md`), not colour-pass ones.
+
+- `sub_543690`: our in-loop tail's `lea` is the first round-robin pick (eax), the final tail's the
+  second (cursor at ecx, which holds `this`, so edx). The original needs the final tail generated
+  first, or one more round-robin temp in the in-loop tail (the `mov %edi,%eax` copy is a colour-pass
+  live range in ours). No change to that order: in-loop `goto` to a block after the final tail,
+  the final tail written before the loop with gotos, `if (cv != 1) ... else`, and index spellings
+  `(s32)`, `(u32)`, `& 0xFF`, `u8`/`s32` idx locals, `smallestVal_idx = last_idx` inside the index.
+  `for (;;)` with the exit test (and final tail) at the top does generate it first and gives the
+  right registers, but lays the final tail out first (30 lines).
+- `state_8_5520A0`: the rotation differs only from asm line 157 to 179 (post processed), so a block
+  order or pick count difference between those blocks; not looked at further.

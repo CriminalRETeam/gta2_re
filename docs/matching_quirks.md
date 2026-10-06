@@ -2197,6 +2197,12 @@ statements reversed c gets edx and a edi. Reordering independent statements in a
 therefore a direct way to rotate registers among equally weighted variables.
 `Scripts/regalloc/ralog.sh` prints each function's decisions.
 
+**Expression temps rotate through eax, ecx, edx.** Temps the colour pass doesn't handle get, in code
+generation order, their copy-hint register if free, else the next free one of eax, ecx, edx after a
+per-function round-robin cursor (then the first free callee-saved register). The cursor is not reset
+per block, so a rotation that is off in one block (`eax, ecx, edx` vs ours `ecx, edx, eax`) means a
+different number of picks before it, or a different block order, not a different expression in that block.
+
 ## Inline asm
 
 **16-bit `pushaw`/`popaw`.** The inline assembler can't spell them. Put `_emit 0x66` before

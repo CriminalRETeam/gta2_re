@@ -9,6 +9,8 @@ is unchanged. Needs `pip install pefile keystone-engine`.
 Each function prints `@F <name>` when the colour pass starts, then each colour decision (end of the select function 0x107233b6) prints a line to stderr:
     @R lr=<live range> l0=<[lr]> prio=<[lr+0C]> tie=<[lr+40]> w=<[lr+3C]> cls=<class> reg=<chosen>
        s=<score eax ecx edx ebx esp ebp esi edi>
+Each local (code generator) register assignment prints
+    @L reg=<reg> via=<return address: 0x1072ebd5 round robin, 0x1072ec84 preference, others> cur=<round-robin cursor index after> x=<temp> line=<source line>
 Registers are C2 numbers: 1 eax, 2 ecx, 3 edx, 4 ebx, 5 esp, 6 ebp, 7 esi, 8 edi (0 none).
 """
 import os, sys, shutil
@@ -101,6 +103,43 @@ def build_f(cave, fmt):
     """
     return bytes(Ks(KS_ARCH_X86, KS_MODE_32).asm(src, cave)[0])
 
+LFMT = b'@L reg=%d via=%08x cur=%d x=%08x line=%d\n\x00'
+LHOOK, LBACK = 0x1072ee00, 0x1072ee0a   # assign(reg=ecx, x=edx): push esi; mov esi,ecx; mov [esi*4+0x1079d6ec],edx
+CURSOR, RRLIST = 0x1079d710, 0x107adff4
+
+def build_l(cave, fmt):
+    src = f"""
+      pushfd
+      pushad
+      push dword ptr [0x107ac354]
+      push edx
+      mov eax, dword ptr [{CURSOR:#x}]
+      sub eax, {RRLIST:#x}
+      sar eax, 2
+      push eax
+      push dword ptr [esp+0x24+12]
+      push ecx
+      mov eax, esp
+      push eax
+      push {fmt:#x}
+      mov eax, dword ptr [{IOB:#x}]
+      add eax, 0x40
+      push eax
+      call dword ptr [{VFPRINTF:#x}]
+      mov eax, dword ptr [{IOB:#x}]
+      add eax, 0x40
+      mov dword ptr [esp], eax
+      call dword ptr [{FFLUSH:#x}]
+      add esp, 32
+      popad
+      popfd
+      push esi
+      mov esi, ecx
+      mov dword ptr [esi*4+0x1079d6ec], edx
+      jmp {LBACK:#x}
+    """
+    return bytes(Ks(KS_ARCH_X86, KS_MODE_32).asm(src, cave)[0])
+
 def main():
     var = sys.argv[1] if len(sys.argv) > 1 else 'ralog'
     stock = os.path.join(X, 'stock')
@@ -123,7 +162,13 @@ def main():
     fcode = build_f(fcave, ffmt)
     assert len(fcode) < 0x70
     put(fcave, fcode); put(ffmt, FFMT)
+    lcave = CAVE + 0x400; lfmt = lcave + 0x80
+    lcode = build_l(lcave, lfmt)
+    assert len(lcode) < 0x80
+    put(lcave, lcode); put(lfmt, LFMT)
     ks = Ks(KS_ARCH_X86, KS_MODE_32)
+    lj = bytes(ks.asm(f'jmp {lcave:#x}', LHOOK)[0])
+    put(LHOOK, lj + b'\x90' * (10 - len(lj)))
     put(FHOOK, bytes(ks.asm(f'jmp {fcave:#x}', FHOOK)[0]))
     j = bytes(ks.asm(f'jmp {CAVE:#x}', HOOK)[0])
     put(HOOK, j + b'\x90' * (9 - len(j)))
