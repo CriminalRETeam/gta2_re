@@ -2772,7 +2772,7 @@ Scores are `quick_score.sh` lines. No new matches; each target stopped at one of
 ## Car_BC / CarAI_78 big-WIP pass (Oct 6, agent/big2)
 
 Scores are `quick_score.sh` lines (WIP_IMPLEMENTED emptied).
-- `CarAI_78::sub_44D1D0` 150 -> 16 (committed): both probe switches leave through `goto tail_N;` instead of `break`,
+- `CarAI_78::sub_44D1D0` 150 -> 16 (not committed: goto variant kept out of the branch, see agent/big2 a459f4bf): both probe switches leave through `goto tail_N;` instead of `break`,
   which makes VC6 keep the north copy of the merged second-probe tail like the original (see matching_quirks,
   "Which copy survives can also depend on how the cases leave the switch"). Left: the final block has
   `arrow_idx + 1` in `al` and `arrow_count - 1` in `cl`, ours the reverse (same instructions, `jbe`/`jae`
