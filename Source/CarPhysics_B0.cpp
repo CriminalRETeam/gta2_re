@@ -2686,7 +2686,7 @@ static inline Fix16 __stdcall Square_49E0E0(const Fix16& value)
 
 // TODO: Probably move & Rename to ComputeImpulse or something
 // https://decomp.me/scratch/dN85v
-WIP_FUNC(0x55F3B0)
+MATCH_FUNC(0x55F3B0)
 EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 OwnerMass,
                                                                 Fix16 TargetMass,
                                                                 Fix16_Point& RelativeVelocity,
@@ -2698,8 +2698,6 @@ EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 OwnerMass,
                                                                 Fix16 TargetMomOfInertia,
                                                                 Fix16 offset)
 {
-    WIP_IMPLEMENTED;
-
     // The original enters EH state 2: three Fix16_Point locals are constructed up front
     Fix16_Point DistOrthogonalToCollision;
     Fix16_Point DirectionFromCoM_to_Collision;
@@ -2715,17 +2713,13 @@ EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 OwnerMass,
     DistOrthogonalToCollision = (CollisionIntersectPoint - CoM_related).Rotate90CCW_5605E0();
     DirectionFromCoM_to_Collision = DistToCollision_ByRef.NormalizeSafe_442AD0(); // vector unit 1, supposedly
 
-    Fix16 RelVelComponentAtCollisionDir = RelativeVelocity.x.Multiply_408680(DirectionFromCoM_to_Collision.x)
-                                              .Add_408660(RelativeVelocity.y.Multiply_408680(DirectionFromCoM_to_Collision.y));
-    Fix16 VelocityFactor = -(k_dword_6FE210 + offset) * RelVelComponentAtCollisionDir;
+    Fix16 VelocityFactor = -(k_dword_6FE210 + offset) * DotProductOOL_49E500(RelativeVelocity, DirectionFromCoM_to_Collision);
 
     Fix16 MassFactor;
     if (TargetMass == kFP16MinusOne_6FDF1C) // infinite mass
     {
-        Fix16 orth_dot = DotProductOOL_49E500(DistOrthogonalToCollision, DirectionFromCoM_to_Collision);
-        Fix16 orth_sq = orth_dot.Multiply_408680(orth_dot);
-        Fix16 orth_term = orth_sq / OwnerMomOfInertia;
-        MassFactor = DotProductOOL_49E500(DirectionFromCoM_to_Collision, DirectionFromCoM_to_Collision) * OwnerMassFactor + orth_term;
+        MassFactor = DotProductOOL_49E500(DirectionFromCoM_to_Collision, DirectionFromCoM_to_Collision) * OwnerMassFactor
+            + Square_49E0E0(DotProductOOL_49E500(DistOrthogonalToCollision, DirectionFromCoM_to_Collision)) / OwnerMomOfInertia;
     }
     else
     {
@@ -2743,7 +2737,9 @@ EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 OwnerMass,
     }
 
     // scale vector norm by factors, so direction is kept
-    Impulse = DirectionFromCoM_to_Collision.Multiply_438FE0(VelocityFactor.Divide_436A20(MassFactor));
+    Fix16 ImpulseScale;
+    ImpulseScale = VelocityFactor.Divide_436A20(MassFactor);
+    Impulse = DirectionFromCoM_to_Collision.Multiply_438FE0(ImpulseScale);
     return Impulse;
 }
 
