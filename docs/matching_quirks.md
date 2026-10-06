@@ -107,6 +107,15 @@ and `s >= 7 && (s <= 8 || s == 11)` are the same logic but branch differently: i
 in a different order from yours, reorder the `case` groups to match (`sub_417AC0`,
 `sub_417BA0`, `GetExplosionTypeForWallSide_528E00`).
 
+**A small switch lowered to a `sub`/`dec` chain ignores the case source order, but inlining doesn't.**
+`miss2_0x11C::GetSpeed_50E190` has three cases (0xCE, 0xCF, 0xD1) that VC6 turns into
+`sub $0xCE; je; dec; je; sub $2; jne`. Its block layout (0xD1, then 0xCF, then 0xCE) came out the
+same for every source order of the cases. The inline budget walk does follow the source order,
+though, and only ascending order (0xCE, 0xCF, 0xD1) gave the original's cut-offs: `GetLength_41E260`
+called out of line (0x453590) in the first case and inlined in the second. So with a compare-chain
+switch, the case order is a free knob for inline problems (check the cut-offs with
+`Scripts/inline_budget/inl.sh`).
+
 **One shared `return true` block comes from nesting, not early returns.** In an EH-frame
 function VC6 gives every `return` its own epilogue copy. If several failure checks in the
 original all `je` to one `mov $1,%al` epilogue, nest the success path and put one `return true`
@@ -1370,6 +1379,13 @@ function and matched `Ped::EnterCarStateMachine_46BDC0` and `ExitCarStateMachine
 `MapRenderer.cpp` gets `Car_BC.hpp` through `Camera.hpp` and never calls the helpers. So when a
 WIP's register choice is close, the set of inline functions VC6 has seen in the TU is a
 suspect too, not just the ones it uses.
+It works the other way round too, and the matched `MapRenderer.cpp` diagonals now depend on it:
+removing the unused `Fix16_Point::GetLength_all_out_of_line_abs_y_negate` from `Fix16_Point.hpp`
+breaks `Draw4SidedDiagonalUpLeft_4EF880` and `Draw3SidedDiagonalDownRight_4EF520` (removing it
+together with another unused inline broke `Draw3SidedDiagonalUpRight_4EEE60` instead of `4EF520`),
+while removing the unused `GetLength_453590_inline_wrap` next to it changes nothing. So deleting
+dead inlines from a shared header needs a full build too, and for a near-miss WIP adding or removing
+an unrelated unused inline in an included header is a (blind) knob worth trying.
 
 **A by-reference inline helper changes the load order.** When 9.6f calls a helper that takes
 its operands by reference (`MaxAbsDistance_42A6B0(Fix16&, ...)`), VC6 10.5 inlines it but still
