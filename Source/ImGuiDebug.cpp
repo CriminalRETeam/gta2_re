@@ -1664,7 +1664,7 @@ void CC ImGuiDebugDraw()
 
                     ImGui::SliderInt("gXCoord_6F63AC", &gXCoord_6F63AC.mValue, 0, 2000);
                     ImGui::SliderInt("gYCoord_6F63B8", &gYCoord_6F63B8.mValue, 0, 2000);
-                    ImGui::SliderInt("gZCoord_6F63E0", &gZCoord_6F63E0, 0, 2000);
+                    ImGui::SliderInt("gZCoord_6F63E0", (int*)&gZCoord_6F63E0, 0, 2000);
                 }
 
                 if (ImGui::Button("Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0"))
