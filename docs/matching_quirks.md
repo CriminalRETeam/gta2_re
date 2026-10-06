@@ -1859,8 +1859,17 @@ both copies. Only a meaningless cast changed it.
   changes the matched `set_shading_lev_4E9DB0`. So the extra nodes are in the cluster's helpers or call
   sites, not in every function.
 
-  Next step: find a placement of parentheses, casts or `f32` locals in the helpers that adds about 9-11
-  nodes per window. Count the nodes with `sched.sh` and check the whole TU with `regsearch.py --tu`.
+  **Solved for the cluster** (all functions in the table except `ProjectVert_4EB940` now match):
+  - The non-side draw functions inline a second copy of the Top/Bottom helpers (`VertProjector2`) whose
+    extra parentheses add the missing no-op nodes. The four `Draw*Side` functions keep the original bodies,
+    which their out-of-line copies `4EAE00`/`4EAEA0` need.
+  - Position matters as well as count: the y lines convert through a free inline
+    (`Fix16ToF32_Rounded`, an `f32` local) so the rounding node sits between `fildl` and `fmuls`.
+  - The side family's `ProjectVert_46BC70` converts `field_60` through a double-paren free inline, so that
+    subtree is heavier and is evaluated first.
+  - Both must be free inlines (size <= 40): the same code in the helper body grows Top/Bottom past the
+    inline budget of functions that end at exactly 0 (`draw_left_4F3C00`, `DrawLeftSide_4EA390`).
+  Count the nodes with `sched.sh` and check the whole TU with `regsearch.py --tu`.
 
   What earlier attempts ruled out (about 600 compiles):
   - **The compiler build.** decomp.me's VC6 RTM, SP3, SP4 (byte-identical to ours), SP5 and SP6 give the

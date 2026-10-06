@@ -67,6 +67,27 @@ DEFINE_GLOBAL(Fix16_Point, gUVCorner0_6F6580, 0x6F6580);
 // object (a constant this), VC6 inlines them and the Fix16 operator+ temporaries in the big Draw*Side
 // functions exactly as often as the original did; free functions or members called on a register this
 // leave extra operator+ calls out of line (DrawTopSide_4EBA60 only matches this way).
+// The y lines convert through an f32 local (Fix16ToF32_Rounded): the store to it is a no-op node
+// between the fildl and the fmuls (the "rounding node" of Set_UV_4F4190), which lets the scheduler put
+// the centre load and the dead zero hi dword between them, as the original does. Written in the helper
+// body the local would cost inline size (draw_left_4F3C00 & co. end their budget at exactly 0); as a
+// free inline (size <= 40) it costs nothing.
+static inline f32 Fix16ToF32_Rounded(const Fix16& v)
+{
+    f32 f = v.mValue;
+    return f / 16384.0f;
+}
+
+// ProjectVert_46BC70 in the Draw*Side functions converts the camera's field_60 first (fildl 0x60(%eax)
+// before the x/y load): the extra parentheses make that operand the heavier subtree, so VC6 evaluates
+// it first. As a free inline (size <= 40) they cost no inline size; written in the helper body they
+// would, and DrawLeftSide_4EA390 ends its budget at exactly 0. The slope functions inline the plain
+// form (VertProjector2::ProjectVert_46BC70).
+static inline f32 Fix16ToFloat_Paren(const Fix16& v)
+{
+    return ((v.mValue / 16384.0f));
+}
+
 struct VertProjector
 {
     inline void ProjectVertTop_46BD40(Fix16& x, Fix16& y, Vert* pVert)
@@ -90,8 +111,8 @@ struct VertProjector
     {
         set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, zpos, pVert);
         pVert->z = 1.0f / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
-        pVert->x = xpos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat() * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
-        pVert->y = ypos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat() * pVert->z + (u32)gViewCamera_676978->field_74_screen_px_center_y;
+        pVert->x = xpos.ToFloat() * Fix16ToFloat_Paren(gViewCamera_676978->field_60.x) * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
+        pVert->y = ypos.ToFloat() * Fix16ToFloat_Paren(gViewCamera_676978->field_60.x) * pVert->z + (u32)gViewCamera_676978->field_74_screen_px_center_y;
     }
 };
 
@@ -114,7 +135,7 @@ struct VertProjector2
     {
         set_vert_xyz_relative_to_cam_4EAD90(x, y, gZCoordTop_6F62B0, pVert);
         pVert->x = (((x.ToFloat())) * gScreenScaleTop_6F628C.ToFloat()) + (u32)gViewCamera_676978->field_70_screen_px_center_x;
-        pVert->y = (((y.ToFloat()) * gScreenScaleTop_6F628C.ToFloat()) + (u32)gViewCamera_676978->field_74_screen_px_center_y);
+        pVert->y = (((Fix16ToF32_Rounded(y)) * gScreenScaleTop_6F628C.ToFloat()) + (u32)gViewCamera_676978->field_74_screen_px_center_y);
         pVert->z = gInvDepthTop_6F656C.ToFloat();
     }
 
@@ -123,8 +144,16 @@ struct VertProjector2
         set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, gZCoord_6F63E0, pVert);
 
         pVert->x = (gScreenScaleBottom_6F633C.ToFloat() * ((xpos.ToFloat()))) + (u32)gViewCamera_676978->field_70_screen_px_center_x;
-        pVert->y = ((gScreenScaleBottom_6F633C.ToFloat() * (ypos.ToFloat())) + (u32)gViewCamera_676978->field_74_screen_px_center_y);
+        pVert->y = ((gScreenScaleBottom_6F633C.ToFloat() * (Fix16ToF32_Rounded(ypos))) + (u32)gViewCamera_676978->field_74_screen_px_center_y);
         pVert->z = gInvDepthBottom_6F6318.ToFloat();
+    }
+
+    inline void ProjectVert_46BC70(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
+    {
+        set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, zpos, pVert);
+        pVert->z = 1.0f / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
+        pVert->x = xpos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat() * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
+        pVert->y = ypos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat() * pVert->z + (u32)gViewCamera_676978->field_74_screen_px_center_y;
     }
 };
 
@@ -481,11 +510,9 @@ void MapRenderer::draw_4EA190(u16& rotation_and_flip)
 }
 
 // https://decomp.me/scratch/FGVOK
-WIP_FUNC(0x4ea390)
+MATCH_FUNC(0x4ea390)
 void MapRenderer::DrawLeftSide_4EA390(u16& left_word)
 {
-    WIP_IMPLEMENTED;
-
     if (!bSkip_left_67D6BF)
     {
         switch (gCurrentSlope_6F646C.field_0_gradient_direction)
@@ -807,7 +834,7 @@ void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
 
 // https://decomp.me/scratch/GkGnQ
 WIP_FUNC(0x4EB940)
-void __stdcall ProjectVert_4EB940(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
+void MapRenderer::ProjectVert_4EB940(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
 {
     set_vert_xyz_relative_to_cam_inlined(xpos, ypos, zpos, pVert);
 
@@ -963,10 +990,9 @@ void MapRenderer::DrawTopSide_4EBA60(u16& top_word)
 }
 
 // https://decomp.me/scratch/MyepN
-WIP_FUNC(0x4ec450)
+MATCH_FUNC(0x4ec450)
 void MapRenderer::DrawDiagonalUpLeftFace_4EC450(u16& left_word)
 {
-    WIP_IMPLEMENTED;
     Ang16 rotation;
     gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
     gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
@@ -993,10 +1019,9 @@ void MapRenderer::DrawDiagonalUpLeftFace_4EC450(u16& left_word)
 }
 
 // https://decomp.me/scratch/8QjCQ
-WIP_FUNC(0x4ec7a0)
+MATCH_FUNC(0x4ec7a0)
 void MapRenderer::DrawDiagonalUpRightFace_4EC7A0(u16& right_word)
 {
-    WIP_IMPLEMENTED;
     Ang16 rotation;
     gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
     gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
@@ -1024,7 +1049,7 @@ void MapRenderer::DrawDiagonalUpRightFace_4EC7A0(u16& right_word)
 
 // https://decomp.me/scratch/eGEBV
 // 9.6f: MapRenderer::sub_46D680
-WIP_FUNC(0x4ecaf0)
+MATCH_FUNC(0x4ecaf0)
 void MapRenderer::DrawDiagonalDownLeftFace_4ECAF0(u16& left_word)
 {
     Ang16 angle;
@@ -1053,7 +1078,7 @@ void MapRenderer::DrawDiagonalDownLeftFace_4ECAF0(u16& left_word)
 
 // https://decomp.me/scratch/3kT2F
 // 9.6f: MapRenderer::sub_46D810
-WIP_FUNC(0x4ece40)
+MATCH_FUNC(0x4ece40)
 void MapRenderer::DrawDiagonalDownRightFace_4ECE40(u16& right_word)
 {
     Ang16 angle;
@@ -1402,7 +1427,7 @@ void MapRenderer::DrawDiagonalWallDownRight_4EEA40()
 }
 
 // https://decomp.me/scratch/husii
-WIP_FUNC(0x4eeaf0)
+MATCH_FUNC(0x4eeaf0)
 void MapRenderer::Draw3SidedDiagonalUpLeft_4EEAF0()
 {
     if (gBlockRight_6F63C6)
@@ -1465,7 +1490,7 @@ void MapRenderer::Draw3SidedDiagonalUpRight_4EEE60()
 }
 
 // https://decomp.me/scratch/O0oa4
-WIP_FUNC(0x4ef1c0)
+MATCH_FUNC(0x4ef1c0)
 void MapRenderer::Draw3SidedDiagonalDownLeft_4EF1C0()
 {
     
@@ -1561,7 +1586,7 @@ void MapRenderer::Draw4SidedDiagonalUpLeft_4EF880()
 }
 
 // https://decomp.me/scratch/ZTyHA
-WIP_FUNC(0x4efb20)
+MATCH_FUNC(0x4efb20)
 void MapRenderer::Draw4SidedDiagonalUpRight_4EFB20()
 {
     if (gBlockLeft_6F62F6)
@@ -1627,10 +1652,9 @@ void MapRenderer::Draw4SidedDiagonalDownLeft_4EFDB0()
 }
 
 // https://decomp.me/scratch/AKo7h
-WIP_FUNC(0x4f0030)
+MATCH_FUNC(0x4f0030)
 void MapRenderer::Draw4SidedDiagonalDownRight_4F0030()
 {
-    WIP_IMPLEMENTED;
     if (gBlockLeft_6F62F6)
     {
         MapRenderer::DrawLeftSide_4EA390(gBlockLeft_6F62F6);
@@ -1812,11 +1836,11 @@ void MapRenderer::DrawGradientSlopeNorthwards_4F0420()
         }
         else
         {
-            gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC + kZeroOnePoint_6F6484.y,
+            gVertProjector2.ProjectVert_46BC70(gXCoord_6F63AC + kZeroOnePoint_6F6484.y,
                        gYCoord_6F63B8 + kZeroOnePoint_6F6484.y,
                        gZCoordFp_6F6518 + (Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480),
                        &gTileVerts_6F65A8[2]);
-            gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC,
+            gVertProjector2.ProjectVert_46BC70(gXCoord_6F63AC,
                        gYCoord_6F63B8 + kZeroOnePoint_6F6484.y,
                        gZCoordFp_6F6518 + (Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480),
                        &gTileVerts_6F65A8[3]);
@@ -1829,7 +1853,7 @@ void MapRenderer::DrawGradientSlopeNorthwards_4F0420()
         }
         else
         {
-            gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC,
+            gVertProjector2.ProjectVert_46BC70(gXCoord_6F63AC,
                        gYCoord_6F63B8,
                        gZCoordFp_6F6518 + (Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C) / gGradientSize_6F6480),
                        &gTileVerts_6F65A8[0]);
@@ -1959,11 +1983,11 @@ void MapRenderer::DrawGradientSlopeSouthwards_4F1660()
         }
         else
         {
-            gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC + kZeroOnePoint_6F6484.y,
+            gVertProjector2.ProjectVert_46BC70(gXCoord_6F63AC + kZeroOnePoint_6F6484.y,
                        gYCoord_6F63B8 + kZeroOnePoint_6F6484.y,
                        gZCoordFp_6F6518 + (Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C) / gGradientSize_6F6480),
                        &gTileVerts_6F65A8[2]);
-            gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC,
+            gVertProjector2.ProjectVert_46BC70(gXCoord_6F63AC,
                        gYCoord_6F63B8 + kZeroOnePoint_6F6484.y,
                        gZCoordFp_6F6518 + (Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C) / gGradientSize_6F6480),
                        &gTileVerts_6F65A8[3]);
@@ -1976,7 +2000,7 @@ void MapRenderer::DrawGradientSlopeSouthwards_4F1660()
         }
         else
         {
-            gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC,
+            gVertProjector2.ProjectVert_46BC70(gXCoord_6F63AC,
                        gYCoord_6F63B8,
                        gZCoordFp_6F6518 + (Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480),
                        &gTileVerts_6F65A8[0]);
@@ -2084,11 +2108,11 @@ void MapRenderer::DrawGradientSlopeWestwards_4F22F0()
         }
         else
         {
-            gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC,
+            gVertProjector2.ProjectVert_46BC70(gXCoord_6F63AC,
                        gYCoord_6F63B8,
                        gZCoordFp_6F6518 + (Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C) / gGradientSize_6F6480),
                        &gTileVerts_6F65A8[0]);
-            gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC,
+            gVertProjector2.ProjectVert_46BC70(gXCoord_6F63AC,
                        gYCoord_6F63B8 + kZeroOnePoint_6F6484.y,
                        gZCoordFp_6F6518 + (Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C) / gGradientSize_6F6480),
                        &gTileVerts_6F65A8[3]);
@@ -2101,7 +2125,7 @@ void MapRenderer::DrawGradientSlopeWestwards_4F22F0()
         }
         else
         {
-            gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC + kZeroOnePoint_6F6484.y,
+            gVertProjector2.ProjectVert_46BC70(gXCoord_6F63AC + kZeroOnePoint_6F6484.y,
                        gYCoord_6F63B8,
                        gZCoordFp_6F6518 + (Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480),
                        &gTileVerts_6F65A8[1]);
@@ -2210,11 +2234,11 @@ void MapRenderer::DrawGradientSlopeEastwards_4F33B0()
         }
         else
         {
-            gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC,
+            gVertProjector2.ProjectVert_46BC70(gXCoord_6F63AC,
                        gYCoord_6F63B8,
                        gZCoordFp_6F6518 + (Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480),
                        &gTileVerts_6F65A8[0]);
-            gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC,
+            gVertProjector2.ProjectVert_46BC70(gXCoord_6F63AC,
                        gYCoord_6F63B8 + kZeroOnePoint_6F6484.y,
                        gZCoordFp_6F6518 + (Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480),
                        &gTileVerts_6F65A8[3]);
@@ -2227,7 +2251,7 @@ void MapRenderer::DrawGradientSlopeEastwards_4F33B0()
         }
         else
         {
-            gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC + kZeroOnePoint_6F6484.y,
+            gVertProjector2.ProjectVert_46BC70(gXCoord_6F63AC + kZeroOnePoint_6F6484.y,
                        gYCoord_6F63B8,
                        gZCoordFp_6F6518 + (Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C) / gGradientSize_6F6480),
                        &gTileVerts_6F65A8[1]);

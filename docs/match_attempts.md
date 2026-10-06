@@ -1517,6 +1517,31 @@ Each was a few asm lines away from the original. What is left and what was tried
     4EB940: the original pops ebx/ebp/esi/edi between the y line's x87 ops and reads the temp as
     `fiaddl (%esp)`; ours pops after `fiaddl` (VC6 can do it: ProjectVertTop_4EAE00 does).
 
+- Round 6 (14aa33a and after): 14aa33a matched 4EE130, 4EEE60, 4EF520, 4EF880, 4EFDB0, 4F3C00, 4F4250,
+  4F4600, 4F49B0 and 4F4D60 with VertProjector2 (paren no-op nodes that move the 81-node window breaks).
+  Then:
+  - **MATCH** 4EC450, 4EC7A0, 4ECAF0, 4ECE40, 4EEAF0, 4EF1C0, 4EFB20, 4F0030 (2 lines each before). The
+    VertProjector2 y lines convert through an `f32` local (`Fix16ToF32_Rounded`, a free inline so it costs
+    no inline size). That puts the no-op node between `fildl` and `fmuls` instead of after the `fmuls`,
+    with the same node count. regsearch showed two kinds of misses: six needed exactly one more node in
+    the first full window (limit 79), and 4EC450/4ECE40 couldn't be fixed by any window limit (the
+    rounding-node delay). The Top y line fixes 4EC450/4EC7A0, the Bottom y line fixes the other six, and
+    the ten earlier matches don't change. With the local written in the helper body, Top/Bottom grow
+    146 -> 152 and draw_left_4F3C00 & co. (budget ends at exactly 0) call Top out of line.
+  - **MATCH** 4EA390. In the Draw*Side functions ProjectVert_46BC70 loads `field_60` before x/y. That
+    needs the field_60 conversion to be the heavier subtree, which `Fix16ToFloat_Paren` (`((v / 16384.0f))`,
+    a free inline) does. Operand order (`f60 * x`) makes no difference, and parens in the body break
+    4EA390's budget (80 -> 398). The slopes load x first, so they now use a plain copy,
+    VertProjector2::ProjectVert_46BC70. 4EBA60 is still a MATCH.
+  - ProjectVert_4EB940 made a `MapRenderer` member again (the original does `mov %ebp,%ecx`): slopes
+    -2/-8/0/-2, 4EAF40/4ED290 +2.
+  - Left in 4EAF40 (125) / 4ED290 (123): register allocation (eax/ecx/edx swapped) in the inlined
+    VertProjector Bottom/Top sums and around the out-of-line 4EB940 call (`add` vs `lea` for the z sum,
+    `imul %esi` vs `imull mem` after it), plus a gradient compare hoisted one line early. Operand swaps
+    of the z sum, the x sum, the `* kTileTexSize` product and `this->` did nothing. Also tried and ruled
+    out for the 2-line WIPs: call-site sum operand orders (all 16 combos for 4EEAF0), `Fix16` locals for
+    the args, u/v statement order, double/int/paren/cast u,v constants, and `f32` u locals (+6).
+
 ## Near-miss pass, 9.6f compare and exhaustive permuter (Oct 4)
 
 Matched here: `StabilizeVelocityAtSpeed_562910`, `OnModifiedMapDataLoaded_4E8C00`,
