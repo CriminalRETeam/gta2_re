@@ -2016,6 +2016,36 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   `field_290` cases 9..20 right after the dispatch: writing that case first in the switch took the
   function from 269 to 178 (`sc.sh`).
 
+### CarAI / Orca / Draw pass (9.6f first, then VC6's registers and budget)
+
+- **An else-if chain with an explicit null arm moves the zero register's start.** `CarAI_78::sub_448770` tests
+  three block pointers for null; the original has `xor ebx,ebx; cmp ebx,edi` right after the third `get_block`
+  and `test` for the first two. Nested `if (!a) {...} else { if (f(a)) ...; if (b && f(b)) ... else ... }` and the
+  `goto`/early-return forms all put the `xor` at the later `cmp ebx,eax` (38). One flat chain, `if (!a) ... else
+  if (f(a)) ... else if (!b) ... else if (f(b)) ... else ...`, with `field_44 = 0` written three times, starts
+  the zero register at the third null test as the original (0). Same IL for the tests; the chain changes where
+  VC6 CSEs the constant.
+- **A `T x; x = f();` local can change the inline budget more than the registers.** `DrawFigure_5D7EC0`'s 9.6f
+  copy assigns `v12`/`v13` after the declaration (it copies the multiply result out of the return temp). That
+  form fixes the register roles at the top but adds front-end size, so `RotateByAngle_40F6B0`'s nested
+  `Negate_4086A0` moved to the wrong rotations (540). `inlsim.py --scan` gives the size range with the
+  original's out-of-line counts; inside it, the distribution still depended on +2 size units (`u32 flags`
+  instead of `s32`). Shrinking the caller to get there: a ternary for the flags (about -6) and field reads
+  instead of `s32 width/height` locals.
+- **One x87 no-op per vertex store.** `DrawTexture_5D8470`/`DrawFigure_5D7EC0` write
+  `verts[i].x = ((x_pos + point.x).ToFloat());` (double parentheses), one no-op node per conversion. Without them
+  regsearch reports 2 nodes short per window; with them the windows break where the original's do (78 -> 8,
+  and part of DrawFigure's match). An `f32` local per store gives the same node count.
+- **The order of two `++field` statements decides a late `push ebp`.** In `Internel_UpdateBehaviorGrid_554710`,
+  `++field_8_pNode; ++field_C_node_count;` lets the pointer increment use esi, so ebp is used only inside the
+  distance branch and VC6 pushes it there (the original's late push); the other order used ebp for the
+  increment and pushed it at the top (42 -> 22). `v7 = sum; v7 *= v12;` as two statements then keeps the
+  product in the sum's register (-> 8).
+- **Both compilers evaluate the terms of `dx*dx + dy*dy` in the same canonical order whatever the source
+  order**, and the original (both compilers) has the other one. Casts, parentheses, a one-statement temp for
+  one square and `v12 *` on either side do not change it; a `u16 dx` temp for one difference does flip the
+  evaluation but mirrors the copy/in-place squaring (`Internel_UpdateBehaviorGrid_554710`, 8 lines left).
+
 ## Inline asm
 
 **16-bit `pushaw`/`popaw`.** The inline assembler can't spell them. Put `_emit 0x66` before

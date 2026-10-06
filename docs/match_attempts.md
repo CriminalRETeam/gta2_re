@@ -2584,3 +2584,52 @@ the original's 26 bytes, it only had no `target_asm.json` entry (disassembled 0x
   earlier notes cover every spelling tried.
 - `SetGamma_5D9910`, `sharp_pare_0x15D8::ReadTextures_5B92E0`, `ErrorLog::ErrorLog` (0x4D94E0): maintainer
   decisions (crashing `Write_4D9620` call, standalone guard, real `ofstream` member), not retried.
+
+## CarAI_78 / map_0x370 / Orca_2FD4 / Draw pass (Oct 6, 9.6f first)
+Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 vs 9.6f).
+- **Matched** `CarAI_78::sub_448770` (38 -> 0) and `DrawFigure_5D7EC0` (430 -> 0), see their comments and the
+  commit messages. For `sub_448770` the 9.6f shape (globals compared directly, the `== 3` gtx helper) did not
+  change the 10.5 score; the last 38 lines were the zero register's start, fixed by an else-if tail with an
+  explicit `!pBlock_____` arm. For `DrawFigure` the 9.6f shape (`Fix16 v12; v12 = ...`, `Fix16(u8)`, one
+  equality condition) gave 9.6f 312 -> 42 but 10.5 382 -> 540: the two extra statements grew the front-end
+  size and pushed `RotateByAngle`'s nested operators the other way. `inlsim.py --scan` found the size range
+  with the original's x16/x8/x3 out-of-line counts; the distribution (`Negate_4086A0` inline only in the
+  second rotation) then needed +2 size units, which `u32 flags` (as in DrawTexture) gives.
+- `DrawTexture_5D8470` (78 -> 8 / 12): `((x_pos + point.x).ToFloat())` on all eight vertex conversions (one
+  x87 no-op node each, regsearch had said 2 extra nodes per window) and `verts[3].z` stored right after
+  `verts[3].y`. Left: one window where ours issues vertex 2's `fmuls`/`fstps` two integer instructions early;
+  regsearch's best is now 4 at the stock limit (so not a window break), and extra parens on vertex 1/2's lines
+  (`(((..)))`, `((a + (b)))`, `(f32)`) are 20-53.
+- `Orca_2FD4::Internel_UpdateBehaviorGrid_554710` (42 -> 8 / 44): `++field_8_pNode` before `++field_C_node_count`
+  gives the original's late `push ebp` (ebp then lives only in the distance branch); `v7 = dy² + dx²; v7 *= v12;`
+  as two statements keeps the product in the sum's register. Left: the original loads the x difference first
+  (edi) and the y difference second (esi); both VC6 and VC7 compute the y term first for every sum order, cast,
+  temp type (u16/s32/s16/u8 temps for dx/dy change the whole function's allocation, 76-228) and `Sq()` helper
+  tried. A `u16 dx` temp alone flips the order but mirrors the copy/in-place squaring (14).
+- `Orca_2FD4::ComputePath_554AB0` (8 / 136): the first `abs < 1` branch in the original's order (`field_1B`
+  store, then `new_z` load) and the else branch in 9.6f's order (`field_1B = idx2` first) both swap the roles
+  of eax/edx for `new_z` and the switch index (82-90) whatever the declaration order/type of `new_z` or `t`
+  (also `cur_z` assigned directly, 26). The 9.6f shape is exactly that order, so the register choice is the
+  remaining puzzle.
+- `Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0` (54 / 158): the call sequence matches 9.6f 0x49D7A0 one
+  for one; the 9.6f diff is a zero register for the five `= 0` stores. 10.5: the loop's bottom `jne top` must
+  fall into the shared `return 0` epilogue with the `return 1` block last. `if (!node_count) return 1; do {...}
+  while (node_count); return 0;` puts the `return 0` right but then the entry test gets its own `return 1`
+  epilogue copy (82).
+- `CarAI_78::ReactToNearbyCar_451980` (96 / 503): 9.6f 0x431770 shows `v27 = v21 + kAng180` (this = v21), which
+  gives the original's 16-bit `add %bp,%di` form (106, the diff then is only v21 in `bp` with `field_0_car`
+  spilled vs ours the reverse), two `Ang16` locals initialised from `kAng0_677CE8` at the top (dead stores VC6
+  drops) and no default `Ang16` ctors in the turn block (ours has two). `Ang16 v21; v21 = atan2(..)` copies the
+  result out like the original but v21 still goes to a slot; `= kAng0` initialisers (in place or at the top)
+  move cBC to edi (106-140); a `Car_BC* pCar` local for the switch and turn calls, `Car_6C* p60`, `v21 += 180`
+  in place, `v26/v27 = kAng0` inits: 96-150. The real `MaxAbsDistance_42A6B0` is 281 (budget), `RawY` stays.
+- `CarAI_78::sub_44A1F0` (122): the two `SetGoStraight` tail copies are at `if (v3 > (v2 + word_677CE2))` (dropped
+  in the original, `jmp`) and `if (v3 < (v2 - word_677CE2))` (kept). Flipping either if/else so SetGoStraight is
+  the else arm: 176-196.
+- `Map_0x370::sub_4E8370` (104 / 108): the three `height - offset` loop bounds load the offset first in the
+  original (and in 9.6f), ours the height; the matched `CloneColumnExtendedToZ_4E8220` has both orders for the
+  same expression, so it is allocation context. Casts (u32/u16/int/char), `(u8*)` indexing, `i + offset < height`:
+  104-818. `do_drop` is `mov al; test al` in the original, `cmpb $0` in ours.
+- `Map_0x370::sub_4E6190`: the original computes `a5 - 3` in cases 3/4 and jumps *back* into case 2/1's inner
+  switch (`je` past the `dec`), i.e. the earlier copies are kept; VC6 keeps the later ones for every outer
+  order we can write. Not retried.
