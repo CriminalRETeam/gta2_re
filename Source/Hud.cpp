@@ -1834,7 +1834,9 @@ bool Hud_Arrow_7C::CheckVisibility_5D0530()
 }
 
 // https://decomp.me/scratch/pp6SY Fix16 annoying stuff
-// Fix16_Point::GetLength_41E260 with the out-of-line Fix16 helpers and this file's zero constant
+// Fix16_Point::GetLength_41E260 with this file's zero constant and the named Negate in the first Abs.
+// With the plain GetLength_41E260 (FIX16_POINT_ZERO kFpZero_7064C0) UpdateTargets_5D0620 matches only if
+// Fix16::Abs has no else (size 58 instead of 64), which breaks five other matches.
 static inline Fix16 GetLength_out_of_line_7064C0(Fix16_Point& p)
 {
     if (p.x == kFpZero_7064C0)
@@ -1843,11 +1845,11 @@ static inline Fix16 GetLength_out_of_line_7064C0(Fix16_Point& p)
     }
     else if (p.y == kFpZero_7064C0)
     {
-        return Fix16::Abs_436A50(p.x);
+        return Fix16::Abs(p.x);
     }
     else
     {
-        return Fix16::SquareRoot_436A70(p.x.Multiply_408680(p.x).Add_408660(p.y.Multiply_408680(p.y)));
+        return Fix16::SquareRoot(p.x * p.x + p.y * p.y);
     }
 }
 

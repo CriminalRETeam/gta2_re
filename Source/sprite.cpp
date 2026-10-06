@@ -1043,10 +1043,10 @@ static inline void __stdcall RotateAndTranslatePoint_ool_42A720(Fix16& pInX,
                                                                 Fix16& pRotTransX,
                                                                 Fix16& pRotTransY)
 {
-    pRotTransX = (pInX.Subtract_436A00(pTransX).Multiply_408680(Ang16::cosine_40F520(pRotAng)))
-                     .Add_408660(pInY.Subtract_436A00(pTransY).Multiply_408680(Ang16::sine_40F500(pRotAng)));
-    pRotTransY = (pInX.Subtract_436A00(pTransX).Negate_4086A0().Multiply_408680(Ang16::sine_40F500(pRotAng)))
-                     .Add_408660(pInY.Subtract_436A00(pTransY).Multiply_408680(Ang16::cosine_40F520(pRotAng)));
+    pRotTransX = ((pInX - pTransX) * Ang16::cosine_40F520(pRotAng))
+                     .Add_408660((pInY - pTransY) * Ang16::sine_40F500(pRotAng));
+    pRotTransY = ((pInX - pTransX).Negate_4086A0() * Ang16::sine_40F500(pRotAng))
+                     .Add_408660((pInY - pTransY) * Ang16::cosine_40F520(pRotAng));
 }
 
 // Sprite_4C::HalfWH_4BA0A0 with the out-of-line Fix16 / s32 copy
@@ -1634,12 +1634,12 @@ bool Sprite::PointInsideRotatedBounds_5A1490(Fix16_Point& point1, Fix16_Point& p
     HalfWH_ool_4BA0A0(field_C_sprite_4c_ptr, &half_width, &half_height);
 
     // The plain mValue compares are cheaper than the Fix16 operators (inline budget).
-    RotateAndTranslatePoint_ool_42A720(point1.x, point1.y, NegateAng16_401C80(field_0), field_14_xy.x, field_14_xy.y, rotated_1.x, rotated_1.y);
+    RotateAndTranslatePoint_42A720(point1.x, point1.y, NegateAng16_401C80(field_0), field_14_xy.x, field_14_xy.y, rotated_1.x, rotated_1.y);
     if (rotated_1.x.mValue >= -half_width.mValue && rotated_1.x.mValue <= half_width.mValue && rotated_1.y.mValue >= -half_height.mValue && rotated_1.y.mValue <= half_height.mValue)
     {
         return true;
     }
-    RotateAndTranslatePoint_ool_42A720(point2.x, point2.y, NegateAng16_401C80(field_0), field_14_xy.x, field_14_xy.y, rotated_2.x, rotated_2.y);
+    RotateAndTranslatePoint_42A720(point2.x, point2.y, NegateAng16_401C80(field_0), field_14_xy.x, field_14_xy.y, rotated_2.x, rotated_2.y);
     if (rotated_2.x.mValue >= -half_width.mValue && rotated_2.x.mValue <= half_width.mValue && rotated_2.y.mValue >= -half_height.mValue && rotated_2.y.mValue <= half_height.mValue)
     {
         return true;
@@ -2410,10 +2410,10 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
         corner2.SetXY_432860(width_over_2, height_over_2);
         corner3.SetXY_432860(-width_over_2, height_over_2);
 
-        field_C_renderingRect[0] = point.Add_40AC50(corner0);
-        field_C_renderingRect[1] = point.Add_40AC50(corner1);
-        field_C_renderingRect[2] = point.Add_40AC50(corner2);
-        field_C_renderingRect[3] = point.Add_40AC50(corner3);
+        field_C_renderingRect[0] = point + corner0;
+        field_C_renderingRect[1] = point + corner1;
+        field_C_renderingRect[2] = point + corner2;
+        field_C_renderingRect[3] = point + corner3;
 
         field_30_boundingBox.SetRect_41E350(xpos - width_over_2, xpos + width_over_2, ypos - height_over_2, ypos + height_over_2);
     }
@@ -2424,10 +2424,10 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
         corner2.SetXY_432860(height_over_2, -width_over_2);
         corner3.SetXY_432860(height_over_2, width_over_2);
 
-        field_C_renderingRect[0] = point.Add_40AC50(corner0);
-        field_C_renderingRect[1] = point.Add_40AC50(corner1);
-        field_C_renderingRect[2] = point.Add_40AC50(corner2);
-        field_C_renderingRect[3] = point.Add_40AC50(corner3);
+        field_C_renderingRect[0] = point + corner0;
+        field_C_renderingRect[1] = point + corner1;
+        field_C_renderingRect[2] = point + corner2;
+        field_C_renderingRect[3] = point + corner3;
 
         field_30_boundingBox.SetRect_41E350(xpos - height_over_2, xpos + height_over_2, ypos - width_over_2, ypos + width_over_2);
     }
@@ -2438,10 +2438,10 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
         corner2.SetXY_432860(-width_over_2, -height_over_2);
         corner3.SetXY_432860(width_over_2, -height_over_2);
 
-        field_C_renderingRect[0] = point.Add_40AC50(corner0);
-        field_C_renderingRect[1] = point.Add_40AC50(corner1);
-        field_C_renderingRect[2] = point.Add_40AC50(corner2);
-        field_C_renderingRect[3] = point.Add_40AC50(corner3);
+        field_C_renderingRect[0] = point + corner0;
+        field_C_renderingRect[1] = point + corner1;
+        field_C_renderingRect[2] = point + corner2;
+        field_C_renderingRect[3] = point + corner3;
 
         field_30_boundingBox.SetRect_41E350(xpos - width_over_2, xpos + width_over_2, ypos - height_over_2, ypos + height_over_2);
     }
@@ -2452,10 +2452,10 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
         corner2.SetXY_432860(-height_over_2, width_over_2);
         corner3.SetXY_432860(-height_over_2, -width_over_2);
 
-        field_C_renderingRect[0] = point.Add_40AC50(corner0);
-        field_C_renderingRect[1] = point.Add_40AC50(corner1);
-        field_C_renderingRect[2] = point.Add_40AC50(corner2);
-        field_C_renderingRect[3] = point.Add_40AC50(corner3);
+        field_C_renderingRect[0] = point + corner0;
+        field_C_renderingRect[1] = point + corner1;
+        field_C_renderingRect[2] = point + corner2;
+        field_C_renderingRect[3] = point + corner3;
 
         field_30_boundingBox.SetRect_41E350(xpos - height_over_2, xpos + height_over_2, ypos - width_over_2, ypos + width_over_2);
     }
@@ -2498,10 +2498,10 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
             corner3.y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(corner3.y.Multiply_408680(cos));
         }
 
-        field_C_renderingRect[0] = point.Add_40AC50(corner0);
-        field_C_renderingRect[1] = point.Add_40AC50(corner1);
-        field_C_renderingRect[2] = point.Add_40AC50(corner2);
-        field_C_renderingRect[3] = point.Add_40AC50(corner3);
+        field_C_renderingRect[0] = point + corner0;
+        field_C_renderingRect[1] = point + corner1;
+        field_C_renderingRect[2] = point + corner2;
+        field_C_renderingRect[3] = point + corner3;
 
         // Declared, then assigned through the getters (9.6f calls them): initialised, VC6 interleaves the copies
         Fix16 left, right, top, bottom;

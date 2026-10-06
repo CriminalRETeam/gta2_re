@@ -767,11 +767,10 @@ void Ambulance_110::ProcessPatientQueue_4FA500()
             Ambulance_20* pAmbulance = &field_D0_tasks[i];
             if (1 == pAmbulance->field_18_in_use && pAmbulance->field_4_paramedics_crew->PedIsValid_5CBC60())
             {
-                Fix16 dx = Fix16((u8)pAmbulance->field_0_target_x) - pPed->field_1AC_cam.x;
-                Fix16 dy = Fix16((u8)pAmbulance->field_1_target_y) - pPed->get_cam_y();
-                Fix16 abs_dy = Fix16::Abs_negate_out_of_line(dy);
-                Fix16 abs_dx = Fix16::Abs_negate_out_of_line(dx);
-                if (Fix16::Max_44E540(abs_dx, abs_dy) < dword_6F6FC0 &&
+                if (Fix16::MaxAbsDistance_42A6B0(pPed->get_cam_x(),
+                                                 pPed->get_cam_y(),
+                                                 Fix16((u8)pAmbulance->field_0_target_x),
+                                                 Fix16((u8)pAmbulance->field_1_target_y)) < dword_6F6FC0 &&
                     (u8)pAmbulance->field_14_count < 10)
                 {
                     pAmbulance->AddPassenger_4FA800(pPed);

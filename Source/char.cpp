@@ -2050,7 +2050,8 @@ static inline bool CanJumpOver_54A530(Char_B4* pThis, Char_B4* pChar)
 }
 
 // RotateAndTranslatePoint_42A720 as HandleGenericCollision_54A530 expands it: past the inline
-// budget, so all but the first subtraction go through the out-of-line Fix16 operators
+// budget; the multiplies, the negate and the adds are the named out-of-line copies, the
+// subtractions follow the budget
 static inline void RotateAndTranslatePoint_OOL_42A720(Fix16& pInX,
                                                       Fix16& pInY,
                                                       Ang16& pRotAng,
@@ -2059,13 +2060,13 @@ static inline void RotateAndTranslatePoint_OOL_42A720(Fix16& pInX,
                                                       Fix16& pRotTransX,
                                                       Fix16& pRotTransY)
 {
-    pRotTransX = pInX.Subtract_436A00(pTransX)
+    pRotTransX = (pInX - pTransX)
                      .Multiply_408680(Ang16::cosine_40F520(pRotAng))
                      .Add_408660((pInY - pTransY).Multiply_408680(Ang16::sine_40F500(pRotAng)));
-    pRotTransY = pInX.Subtract_436A00(pTransX)
+    pRotTransY = (pInX - pTransX)
                      .Negate_4086A0()
                      .Multiply_408680(Ang16::sine_40F500(pRotAng))
-                     .Add_408660(pInY.Subtract_436A00(pTransY).Multiply_408680(Ang16::cosine_40F520(pRotAng)));
+                     .Add_408660((pInY - pTransY).Multiply_408680(Ang16::cosine_40F520(pRotAng)));
 }
 
 // https://decomp.me/scratch/ph2wn
@@ -2517,8 +2518,8 @@ char_type Char_B4::ContinueMovementAfterCollision_54B8F0()
             {
                 field_80_sprite_ptr->set_xy_lazy_447E20(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
                 PolarToCartesian_OutOfLineMul(field_40_rotation, field_38_velocity, x_vec, y_vec);
-                field_80_sprite_ptr->set_xyz_lazy_451950(field_80_sprite_ptr->field_14_xy.x.Add_408660(x_vec),
-                                                         field_80_sprite_ptr->field_14_xy.y.Add_408660(y_vec),
+                field_80_sprite_ptr->set_xyz_lazy_451950(field_80_sprite_ptr->field_14_xy.x + x_vec,
+                                                         field_80_sprite_ptr->field_14_xy.y + y_vec,
                                                          field_80_sprite_ptr->field_1C_zpos);
                 Char_B4::DispatchCollision_548670(byte_623F48);
                 if (field_18_collided_entity)
@@ -2533,8 +2534,8 @@ char_type Char_B4::ContinueMovementAfterCollision_54B8F0()
             field_69_is_colliding_with_sprite = 0;
             field_80_sprite_ptr->setxy_lazy_54EC80(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
             Ang16::PolarToCartesian_451730(field_40_rotation, field_38_velocity, x_vec, y_vec);
-            field_80_sprite_ptr->set_xyz_lazy_451950(field_80_sprite_ptr->field_14_xy.x.Add_408660(x_vec),
-                                                     field_80_sprite_ptr->field_14_xy.y.Add_408660(y_vec),
+            field_80_sprite_ptr->set_xyz_lazy_451950(field_80_sprite_ptr->field_14_xy.x + x_vec,
+                                                     field_80_sprite_ptr->field_14_xy.y + y_vec,
                                                      field_80_sprite_ptr->field_1C_zpos);
             Char_B4::DispatchCollision_548670(byte_623F48);
             if (field_18_collided_entity)
@@ -4975,7 +4976,7 @@ Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 inputAng)
 
     // 9.6f has no trace of this; 10.5 constructs the step angle from it and then overwrites it.
     // The product is a temporary inside the inline: the step angle sits in the temporaries area.
-    Ang16 v12 = word_6FDB2E.MultiplyByFix16_401CB0_ctor_ool(field_38_velocity);
+    Ang16 v12 = word_6FDB2E.MultiplyByFix16_401CB0(field_38_velocity);
 
     if (field_10_char_state == 10)
     {

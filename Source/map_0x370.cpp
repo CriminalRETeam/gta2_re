@@ -1715,8 +1715,8 @@ bool Map_0x370::SpriteHitsDiagonalWall_4E1520(s32 z_pos)
                         Sprite* pSprt = gObject_5C_6F8F84->GetDirectionalObject_5298E0(slope_type)->field_4;
                         // (u32): the block centre goes through the Fix16(u32) constructor (out-of-line copy 0x4926F0);
                         // z is converted inline in its argument slot
-                        pSprt->set_xyz_lazy_451950(Fix16((u32)x_pos).Add_408660(kFpHalf_6F5FE0),
-                                                   Fix16((u32)y_pos).Add_408660(kFpHalf_6F5FE0),
+                        pSprt->set_xyz_lazy_451950(Fix16((u32)x_pos) + kFpHalf_6F5FE0,
+                                                   Fix16((u32)y_pos) + kFpHalf_6F5FE0,
                                                    z_pos);
                         pSprt->UpdateCollisionBoundsIfNeeded_59E9C0();
                         gRozza_679188.SetSprite_40FEE0(pSprt);

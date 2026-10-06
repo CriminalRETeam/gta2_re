@@ -3031,7 +3031,7 @@ Fix16 CarPhysics_B0::ComputeEngineTorque_561970()
         }
         else if (this->field_94_is_backward_gas_on)
         {
-            torque = ComputeTorqueFromThrottle_561DD0().Negate_4086A0();
+            torque = -ComputeTorqueFromThrottle_561DD0();
         }
         else
         {

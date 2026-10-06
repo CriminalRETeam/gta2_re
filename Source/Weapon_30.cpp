@@ -817,16 +817,17 @@ void Weapon_30::sub_5DE4F0()
 DEFINE_GLOBAL_INIT(Fix16, dword_706CF8, Fix16(0xCCC, 0), 0x706CF8);
 DEFINE_GLOBAL_INIT(Fix16, dword_706D34, Fix16(0x100, 0), 0x706D34);
 
-// Length of `d`, with dword_706EB8 as the zero (the operators are the out-of-line copies).
+// Length of `d`, with dword_706EB8 as the zero (the multiplies, the add and the square root are the named
+// out-of-line copies; Abs follows the inline budget).
 static inline Fix16 BeamLength_5DE910(Fix16_Point& d)
 {
     if (d.x == dword_706EB8)
     {
-        return Fix16::Abs_436A50(d.y);
+        return Fix16::Abs(d.y);
     }
     else if (d.y == dword_706EB8)
     {
-        return Fix16::Abs_436A50(d.x);
+        return Fix16::Abs(d.x);
     }
     else
     {

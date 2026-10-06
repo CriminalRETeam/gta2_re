@@ -4004,7 +4004,7 @@ void CarAI_78::UpdateStateMachine_44E560()
 
 // https://decomp.me/scratch/Auxlx
 // MaxAbsDistance_42A6B0 past the inline budget: the y difference stays inline, the Abs calls
-// are the out-of-line Abs_436A50
+// go out of line (budget)
 static inline Fix16 __stdcall MaxAbsDistanceRawY_451980(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
 {
     Fix16 diff_x = x2 - x1;
@@ -4012,7 +4012,7 @@ static inline Fix16 __stdcall MaxAbsDistanceRawY_451980(Fix16& x1, Fix16& y1, Fi
     diff_y.mValue = y2.mValue - y1.mValue;
 
     Fix16 result;
-    result = Fix16::Max_44E540(Fix16::Abs_436A50(diff_x), Fix16::Abs_436A50(diff_y));
+    result = Fix16::Max_44E540(Fix16::Abs(diff_x), Fix16::Abs(diff_y));
     return result;
 }
 

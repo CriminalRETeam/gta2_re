@@ -1400,7 +1400,7 @@ static inline Fix16 GetLength_OOL_6FD49C(Fix16_Point& v)
     }
     else if (v.y == kFP16Zero_6FD49C)
     {
-        return Fix16::Abs_436A50(v.x);
+        return Fix16::Abs(v.x);
     }
     else
     {

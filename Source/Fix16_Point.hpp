@@ -412,7 +412,7 @@ class Fix16_Point
         }
         else if (y == kFpZero_6F77C0)
         {
-            return Fix16::Abs_436A50(x);
+            return Fix16::Abs(x);
         }
         else
         {
@@ -437,16 +437,17 @@ class Fix16_Point
         }
     }
 
-    // Needed for CarPhysics_B0::ComputeEngineTorque_561970: out-of-line Abs and multiplies, inline add.
+    // Needed for CarPhysics_B0::ComputeEngineTorque_561970: named out-of-line multiplies, inline add (Abs goes
+    // out of line by the inline budget).
     inline Fix16 GetLength_ool_abs_mul()
     {
         if (x == kFP16Zero_6FE20C)
         {
-            return Fix16::Abs_436A50(y);
+            return Fix16::Abs(y);
         }
         else if (y == kFP16Zero_6FE20C)
         {
-            return Fix16::Abs_436A50(x);
+            return Fix16::Abs(x);
         }
         else
         {
@@ -459,11 +460,11 @@ class Fix16_Point
     {
         if (x == kFP16Zero_6FE20C)
         {
-            return Fix16::Abs_436A50(y);
+            return Fix16::Abs(y);
         }
         else if (y == kFP16Zero_6FE20C)
         {
-            return Fix16::Abs_436A50(x);
+            return Fix16::Abs(x);
         }
         else
         {
@@ -503,20 +504,21 @@ class Fix16_Point
     // 10.0 0x442CB0
     EXPORT Fix16_Point operator/(Fix16& in);
 
-    // GetLength_41E260 as inlined into Car_BC::ApplyExplosionImpulse_443710 (out of line helpers)
+    // GetLength_41E260 as inlined into Car_BC::ApplyExplosionImpulse_443710: the square root is the named
+    // out-of-line copy (the plain SquareRoot inlines there); Abs and the rest follow the inline budget
     inline Fix16 GetLength_inline_443710()
     {
         if (x == gFix16_6777CC)
         {
-            return Fix16::Abs_436A50(y);
+            return Fix16::Abs(y);
         }
         else if (y == gFix16_6777CC)
         {
-            return Fix16::Abs_436A50(x);
+            return Fix16::Abs(x);
         }
         else
         {
-            return Fix16::SquareRoot_436A70(x.Multiply_408680(x).Add_408660(y.Multiply_408680(y)));
+            return Fix16::SquareRoot_436A70(x * x + y * y);
         }
     }
 
@@ -545,21 +547,21 @@ class Fix16_Point
         y.MultiplyAssign_562430(factor);
     }
 
-    // GetLength_41E260 as inlined into CarPhysics_B0::CalculateRearWheelForce_5620D0: Abs out of line,
-    // x*x out of line, y*y inline
+    // GetLength_41E260 as inlined into CarPhysics_B0::CalculateRearWheelForce_5620D0: Abs and x*x out of line
+    // by the inline budget, y*y written out inline (the plain y * y changes the function)
     inline Fix16 GetLength_inline_5620D0()
     {
         if (x == kFP16Zero_6FE20C)
         {
-            return Fix16::Abs_436A50(y);
+            return Fix16::Abs(y);
         }
         else if (y == kFP16Zero_6FE20C)
         {
-            return Fix16::Abs_436A50(x);
+            return Fix16::Abs(x);
         }
         else
         {
-            return Fix16::SquareRoot_436A70(x.Multiply_408680(x).Add_408660(Fix16((s32)((y.mValue * (__int64)y.mValue) >> 14), 0)));
+            return Fix16::SquareRoot_436A70(x * x + Fix16((s32)((y.mValue * (__int64)y.mValue) >> 14), 0));
         }
     }
 
