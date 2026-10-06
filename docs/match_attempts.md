@@ -2072,7 +2072,11 @@ Scores are `sc.sh` lines.
 - `Map_0x370::SpriteHitsDiagonalWall_4E1520` (64): `Fix16((u32)x).Add_408660(half)` / `+` (66/234). The
   original calls the out-of-line Fix16(u32) copy (an argctor) and constructs the z argument in place with
   `mov %esp,..` (EH arg address), plus the shared-epilogue jump.
-- `Camera_0xBC::ApplyCarVelocityCameraOffset_436200` (58): `offset` declared in the block, `PolarToCartesian`
+- `Camera_0xBC::ApplyCarVelocityCameraOffset_436200` (58): rewritten in its 9.6f shape (0x41EBF0, 186 -> 8 there;
+  only the bool vs s32 Ang16 compares are left): `Ang16 angle` declared first, `(> 45 && < 135) || (> 225 && < 315)`
+  picks `Fix16(240)`, `*=` for the trailer and suspicion scaling, `(Fix16(8) - z) + *pZ`, `radius` assigned into a
+  function-scope local. Same 58 in 10.5, without the block-scoped copy trick.
+- `Camera_0xBC::ApplyCarVelocityCameraOffset_436200` (58, older): `offset` declared in the block, `PolarToCartesian`
   with `offset.x/.y` as the outputs: `offset` stays in registers (62/150), the original keeps it in a frame
   slot and stores `offset.x` before the second `Multiply_408680` call.
 - `PedGroup::MergeWithOtherGroup_4C9B60` (104): `pOther = pPed->field_164_ped_group` before the test gives
