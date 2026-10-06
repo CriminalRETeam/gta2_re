@@ -5,7 +5,52 @@ that differ only in register choice (see "Still unexplained" in `docs/matching_q
 predicted instead of permuted. Same approach as `Scripts/inline_budget/`: find the code, add
 logging hooks with a byte patch, then write a model that reproduces the log.
 
-Status: the allocator is located; nothing is hooked or modelled yet.
+Status: the colour (select) step is reversed and logged. How C2 computes the priority and the
+tie-break of a live range is not reversed yet; see "Open" below.
+
+## The rule (colour step)
+
+VC6's global allocator is a priority-based colouring (Chow/Hennessy style) in `color.c`:
+
+- Live ranges sit in a list at `0x1079D864`, sorted by priority `[lr+0x0C]` descending, then by a
+  tie-break `[lr+0x40]` descending (insert: `0x1072215B`). The colour pass (`0x1071ACDF`) pops
+  them in that order. A live range that can't be coloured goes to the splitter (`0x10722650`) and
+  comes back as smaller pieces.
+- The select function `0x107233B6(lr, class)` gives each register r a score, starting at 0:
+  - minus the weight of each of the live range's own preferences for r (`[lr+0x34]` list);
+  - plus the weight of each preference for r of every interfering live range not yet coloured;
+  - plus 100 x priority for an interfering live range that can only use r.
+- It then scans the class's register order (`0x107A0A0C[class]`; class 0 is `0x107A09E8`:
+  **eax, ecx, edx, esi, edi, ebx, ebp**) and takes the allowed register (bit set in `[lr+0x20]`) with
+  the lowest score. The compare is a strict `<`, so the earlier register in the order wins a tie.
+  The result goes to `[lr+0x10]` (pointer into the per-register table at `0x107AC730 + reg*0x54`).
+
+Checked by patching the order table (esi and edi swapped): every variable that had esi got edi and
+the other way round.
+
+C2 register numbers: 0 none, 1 eax, 2 ecx, 3 edx, 4 ebx, 5 esp, 6 ebp, 7 esi, 8 edi (name table
+`0x107A91A4`, then ax.., al..).
+
+## Using it
+
+```bash
+python3 Scripts/regalloc/patch_c2.py              # once: build_vc6/x87_c2/ralog (needs the stock variant)
+Scripts/regalloc/ralog.sh Source/sound_obj.cpp HandleCarTireScrubSound
+```
+
+prints each decision in order: priority, tie-break, weight, register and the scores. When two
+values have the wrong registers, see whether they have equal priority (then the tie-break order
+decides, see below) or whether a score (a preference) decides.
+
+What decides the tie-break, from probes (`probe_loop.cpp`): in a loop, the live range updated first in
+the loop body gets the higher tie-break and is coloured first. Reordering independent statements
+in the loop rotates the registers of equally weighted variables. The log for `probe_loop.cpp`:
+
+```
+  prio=40  tie=17  -> edx    a  (a += p[i] first in the loop)
+  prio=40  tie=15  -> esi    b
+  prio=40  tie=14  -> edi    c
+```
 
 ## Tools
 
@@ -36,12 +81,18 @@ python3 Scripts/regalloc/c2dis.py x 1078e69f 1078e6ae        # who branches/call
   "who holds register r" table is the first guess), `0x107A0494` (.rdata, flag word per entry,
   bit 0x40 tested). Their meaning is not confirmed.
 
-## Next steps
+## Open
 
-1. Work out C2's register numbering and what `0x10799034` holds (dump it at the end of
-   `0x10722650` from a hook on a small test function).
-2. Hook the point in `0x10722650` where a value gets its register and log
-   (value/symbol, chosen register, order, priority). Reuse the code cave and `logf` from
-   `Scripts/inline_budget/patch_c2.py`.
-3. Compare the log for `BurgerKing_67F8B0::modify_inputs_4CDF30` (ebx/edi swap) and
-   `sound_obj::HandlePedVoiceEvent_423080` against the original's allocation.
+- **Priority** `[lr+0x0C]`: not a plain ratio of the weight `[lr+0x3C]` (w 8 -> 40, w 20 -> 140,
+  w 10 -> 61, w 6 -> 33). Chow's formula is savings / number of blocks in the live range; the writes
+  are around `0x10720CF4`-`0x10720D33` and `0x10721E28`-`0x10721ECC`.
+- **Tie-break** `[lr+0x40]`: the rule above is from probes only. It is set when live ranges are
+  created (`0x10720119`, from `0x107034B9`); what that number counts is not known.
+- The log has no variable names: `[lr+0]` is not a symbol (C2 asserts in `p2symtab.c` when its
+  name is read). Match live ranges to variables by the register they get in the listing.
+- First real case tried, `sound_obj::HandleCarTireScrubSound_418720` (eax/ecx swap), turned out
+  not to be a colouring difference: the original keeps the call's returned pointer and dereferences
+  it after loading the divisor. The `__int64` raw form and `GetCarLinearSpeed() / max` both made it
+  worse (4 -> 44 and 4 -> ~70 lines).
+- The near misses that read as register swaps in `docs/match_attempts.md` are worth a `ralog.sh`
+  run each: equal priorities point at statement order, a nonzero score at a preference.
