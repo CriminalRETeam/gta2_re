@@ -4902,7 +4902,15 @@ void sound_obj::HandleVocalStreamSwitching_57DF10(char_type a2)
         bStationChanged = true;
     }
 
-    if (field_5500 != field_54FC && !bFast)
+    if (field_5500 == field_54FC)
+    {
+        if (!bStationChanged)
+        {
+            UpdateCarEngineAudio_57E220();
+            return;
+        }
+    }
+    else if (!bFast)
     {
         length = gSampManager_6FFF00.GetVocalLengthMs_58E7A0(0);
         if (length > 0)
@@ -4933,48 +4941,46 @@ void sound_obj::HandleVocalStreamSwitching_57DF10(char_type a2)
         {
             gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
         }
+        return;
     }
-    else if (bStationChanged)
-    {
-        if (field_54F7[1] < 5)
-        {
-            RadioEmitter(field_54F7[1] + 1).field_18 = gSampManager_6FFF00.GetVocalPosMs_58E770(0);
-        }
-        gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
-        bFast = field_54FC == 1;
-        if (field_54F7[0] != 101)
-        {
-            gSampManager_6FFF00.PlayVocal_58E510(0, RadioEmitter(field_54F7[0] + 1).field_C, bFast);
-        }
-        else
-        {
-            gSampManager_6FFF00.PlayVocal_58E510(0, 101, bFast);
-        }
-        gSampManager_6FFF00.SetVocalVolume_58E6D0(0, 0);
-        if (bFast)
-        {
-            gSampManager_6FFF00.SetVocalSpeed_58E700(0, gSampManager_6FFF00.GetVocalSpeed_58E720(0) * 2);
-        }
 
-        length = gSampManager_6FFF00.GetVocalLengthMs_58E7A0(0);
-        if (length > 0)
-        {
-            pos = (u32)RadioEmitter(field_54F7[0] + 1).field_14 * 1000 / field_8_frames_per_second + RadioEmitter(field_54F7[0] + 1).field_18;
-            if (pos > length)
-            {
-                pos %= length;
-            }
-            gSampManager_6FFF00.SetVocalPosMs_58E750(0, pos);
-            UpdateCarEngineAudio_57E220();
-        }
-        else
-        {
-            gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
-        }
+    // The station changed (bFast was set together with bStationChanged): save the old station's
+    // position and restart the stream on the new one
+    if (field_54F7[1] < 5)
+    {
+        pos = gSampManager_6FFF00.GetVocalPosMs_58E770(0);
+        RadioEmitter(field_54F7[1] + 1).field_18 = pos;
+    }
+    gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
+    bFast = field_54FC == 1;
+    if (field_54F7[0] != 101)
+    {
+        gSampManager_6FFF00.PlayVocal_58E510(0, RadioEmitter(field_54F7[0] + 1).field_C, bFast);
     }
     else
     {
+        gSampManager_6FFF00.PlayVocal_58E510(0, 101, bFast);
+    }
+    gSampManager_6FFF00.SetVocalVolume_58E6D0(0, 0);
+    if (bFast)
+    {
+        gSampManager_6FFF00.SetVocalSpeed_58E700(0, gSampManager_6FFF00.GetVocalSpeed_58E720(0) * 2);
+    }
+
+    length = gSampManager_6FFF00.GetVocalLengthMs_58E7A0(0);
+    if (length > 0)
+    {
+        pos = (u32)RadioEmitter(field_54F7[0] + 1).field_14 * 1000 / field_8_frames_per_second + RadioEmitter(field_54F7[0] + 1).field_18;
+        if (pos > length)
+        {
+            pos %= length;
+        }
+        gSampManager_6FFF00.SetVocalPosMs_58E750(0, pos);
         UpdateCarEngineAudio_57E220();
+    }
+    else
+    {
+        gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
     }
 }
 

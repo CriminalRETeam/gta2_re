@@ -1677,6 +1677,14 @@ Found by tracing C2.DLL (see `Scripts/inline_budget/`); the instrumented compile
   the result in the dead local's slot (`Car_BC::ApplyExplosionImpulse_443710`; the atan2 copy in
   `ApplyCarVelocityCameraOffset_436200` lets the sine temp take the dead `pCar` slot). A store to an
   otherwise unused local showed up only once a `Fix16_Point` ctor went out of line (address-taken, 436200).
+- **A local initialised from an inline's return value sits in the temporaries area.** In
+  `Char_B4::GetNextRotationToward_550F60` the original's `Ang16 v12` is at 0xE, below the return temporaries
+  and the `u8` locals. `Fix16 f = ...; Ang16 v12(&f, 0);` put it among the named locals (frame 4 bytes too
+  big); `Ang16 v12 = word.MultiplyByFix16_401CB0_ctor_ool(vel);` (an inline whose product is its own local)
+  gave the original's slot and frame (452 -> 164).
+- **`obj.field = f()` with an inline reference getter on the left computes the address first.** The original
+  of `sound_obj::HandleVocalStreamSwitching_57DF10` calls `GetVocalPosMs` and then indexes `RadioEmitter(i)`;
+  assigning the result to a local first (`pos = f(); RadioEmitter(i).field_18 = pos;`) gives that order.
 - **`&f()` on a by-value return passes the hidden return slot straight on** and fixed the frame of
   `Trailer::UpdateTrailerAlignment_407CE0` (the cab velocity passed directly).
 

@@ -42,7 +42,7 @@ DEFINE_GLOBAL_INIT(Ang16, kAng180_6FD936, Ang16(720), 0x6FD936);
 DEFINE_GLOBAL_INIT(Ang16, kAng315_6FD938, Ang16(1260), 0x6FD938);
 
 DEFINE_GLOBAL(u8, byte_6FDB55, 0x6FDB55);
-DEFINE_GLOBAL(s16, word_6FDB2E, 0x6FDB2E);
+DEFINE_GLOBAL(Ang16, word_6FDB2E, 0x6FDB2E);
 
 DEFINE_GLOBAL(u8, byte_6FDB58, 0x6FDB58);
 DEFINE_GLOBAL(u8, gCharB4_HitByMine_6FDB59, 0x6FDB59);
@@ -4973,9 +4973,9 @@ Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 inputAng)
     u8 side_curr = field_40_rotation.ToAng4_405680();
     u8 side_input_ang = inputAng.ToAng4_405680();
 
-    Fix16 unused_vel = field_38_velocity * Fix16(word_6FDB2E);
-    // 9.6f has no trace of this; 10.5 constructs the step angle from it and then overwrites it
-    Ang16 v12(&unused_vel, 0);
+    // 9.6f has no trace of this; 10.5 constructs the step angle from it and then overwrites it.
+    // The product is a temporary inside the inline: the step angle sits in the temporaries area.
+    Ang16 v12 = word_6FDB2E.MultiplyByFix16_401CB0_ctor_ool(field_38_velocity);
 
     if (field_10_char_state == 10)
     {

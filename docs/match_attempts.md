@@ -2203,3 +2203,48 @@ Scores are `sc.sh` lines.
 - `Particle_4C::UpdateAttachedEmitter_state_9_10_53B670` (12): only the jitter/angle slot (0x10, original 0x12).
   An extra unused `Ang16`, `jitter` at function scope, `radius` declared first, `angle(field_0)`, `AddNormalized`,
   adding into `jitter`, a separate `Fix16` for the jitter: 12-119.
+
+### Near-miss pass (Particle_8 / sound_obj / misc owners)
+Scores are `sc.sh` lines.
+- `Char_B4::GetNextRotationToward_550F60` 452 -> 164: `word_6FDB2E` is an `Ang16` and the unused step angle is
+  `word_6FDB2E.MultiplyByFix16_401CB0_ctor_ool(field_38_velocity)`. Initialised from an inline's return value the
+  local lands in the temporaries area like the original's `v12` at 0xE (frame 0x28 -> 0x24); a named
+  `Fix16 unused_vel` + `Ang16 v12(&unused_vel, 0)` gives it a named slot above the `u8` locals. Left: the
+  original rotates the scratch registers from case to case (Delta args edx/eax, ecx/edx, eax/ecx; the sum in
+  dx, cx, ...), ours uses the same ones in every case. Comparison forms, `Ang16(v12 + rot)`, operator vs
+  `.rValue` arithmetic, a reference/temporary `v12`, a block scope: no change or worse; permuter 100 iterations
+  nothing.
+- `sound_obj::HandleVocalStreamSwitching_57DF10` 600 -> 254: control flow from the asm. Station restart after the
+  `field_5500 == field_54FC` test (`if (!bStationChanged) { Update; return; }`, `else if (!bFast) { mode; return; }`,
+  station code last), and the old position saved through `pos` before it is written to
+  `RadioEmitter(...).field_18` (the original calls `GetVocalPosMs` before computing the emitter address).
+  Left: the original lays the station block right after the `==` test and jumps back into it from the `!=`
+  path; a goto into that block, two station copies, `(eq && !changed)` + `(eq || bFast)` (VC6 doesn't thread
+  the re-test) are all worse. The original keeps 0/1 out of registers (ours keeps 1 in `ebx`).
+- `Particle_8` (53E450, 53F060): the 9.6f source (`velocity.RotateByAngle_40F6B0(rotation)`,
+  `word_6FD5CC.MultiplyByFix16_401CB0(...)`, `angle_1 + angle_2 - word.MultiplyByFix16_401CB0(Fix16(8))`,
+  `-(velocity.x / 15)`) gives every inline decision the original has only with a larger caller: `inlsim --scan`
+  needs +49..+76 size units for 53E450 and +80..+113 for 53F060 (then the out-of-line counts equal the
+  original's exactly). Natural versions score 746/611 as is. 9.6f's 53E450 (0x48C9C0) aligns its frame
+  (`and $-8,%esp`), so it had a `double`/`__int64` local that was optimised away: probably dead code that
+  also explains the missing size. Not committed.
+- `Car_214::sub_5C8780` (84): 9.6f writes case 7's ped check out in full (no fallthrough into case 6), and the
+  10.5 `jmp` into case 6 is a cross-jump of that copy. With the copy (and the case 3 car path as if/else, two
+  `GetBasePointer` calls like the ped path) ours gets other registers in cases 5/6/7 and merges case 5 into
+  case 3 instead (96). Not committed.
+- `Ped::StartCrossingRoad_45E4A0` (414): 9.6f calls four helpers 0x433470/0x4334A0/0x4334D0/0x433500 (N/E/S/W)
+  that take the ped's (x, y, z) and offset inside. Written as such they give the same code as the current
+  offset arguments. Left: the original spills x/z and the by-value block lookups' arguments to stack temps
+  (frame 0x2C vs 0x1C) and reloads x/z before each jump to the next test.
+- `Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280` (166): only `this` in `edi` (original) vs `esi`;
+  the original also copies the incremented sub state to `dl`. `++field_46_sub_state == 5`, `u8 sub = ++...`,
+  half_w/half_h or pB4 at function scope: no change or worse.
+- `Particle_4C::UpdateObjectBeamLink_state_38_538AC0` (493): the original reloads `ang` after the first
+  `Multiply_408680` (its address escapes), ours CSEs `ang * 4` in `esi` across the call, and VC6 then merges
+  the two cases' second multiply. A by-reference PolarToCartesian helper, one function-scope `ang`, `base` as a
+  temporary: no change or worse.
+- `PublicTransport_181C::PublicTransportService_57A7A0` (106): zone/train parameter order, a `pCar` local, an early
+  `return false` and `ToUInt8` in `IsTrainAtZone`: 104-134, register swap unchanged.
+- `sound_obj::HandleCarDoorSounds_4182E0` (286): declaration order of the locals changes nothing.
+- `Frontend::SetupMenuStringsOptionsElements_4B0220` (254): `regsearch.py` finds no window limit that helps
+  (127 -> 125), so the store order differs in the IL, not at a window break.
