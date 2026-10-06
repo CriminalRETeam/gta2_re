@@ -340,7 +340,7 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
 }
 
 // https://decomp.me/scratch/HX0q9
-WIP_FUNC(0x5D8A10)
+MATCH_FUNC(0x5D8A10)
 void __stdcall DrawText_5D8A10(const wchar_t* pText,
                                Fix16 xpos_fp,
                                Fix16 ypos_fp,
@@ -351,12 +351,14 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
                                s32 alpha_value,
                                u8 flags)
 {
-    WIP_IMPLEMENTED;
-
     s32 new_Flags = CalcQuadFlags_5D83E0(alpha_value, flags) | 0x20000;
 
     // The original walks a copy of pText (it reuses pText's stack slot as a float temp)
     const wchar_t* pIter = pText;
+    // Declared ahead of cur_xpos: VC6's register tie-break then loads cur_xpos into ecx and
+    // sprite_w into edx for the x + w sum, as the original does
+    Fix16 sprite_w;
+    Fix16 sprite_h;
     Fix16 cur_xpos = xpos_fp;
 
     Fix16 spaceWidth = scale_fp * gGtx_0x106C_703DD4->GetSpaceCharWidth_5AA7B0(&font_type);
@@ -450,8 +452,8 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
                 pTexture = gMagical_germain_0x8EC_6F5168->GetSmallGlyphTexture_4D2710(text_char);
             }
 
-            Fix16 sprite_w = Fix16(pSprIdx->field_4_width) * scale_fp;
-            Fix16 sprite_h = Fix16(pSprIdx->field_5_height) * scale_fp;
+            sprite_w = Fix16(pSprIdx->field_4_width) * scale_fp;
+            sprite_h = Fix16(pSprIdx->field_5_height) * scale_fp;
 
             // Each corner converts its coordinate again: VC6 CSEs the repeated ToFloat()s
             // (x0/y0 stay on the FPU stack, x1/y1 go through a stack temp like the original)
@@ -468,8 +470,11 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
             gQuadVerts_706B88.field_0_verts[3].y = (ypos_fp + sprite_h).ToFloat();
             gQuadVerts_706B88.field_0_verts[3].z = 0.0001f;
 
-            Fix16 u(pSprIdx->field_4_width - 0.0001f);
-            Fix16 v(pSprIdx->field_5_height - 0.0001f);
+            // The double parentheses are two no-op expression nodes each (see "x87 code: the scheduler
+            // works in 81-node windows" in docs/matching_quirks.md). With these 4 nodes the window
+            // breaks before the zero u/v stores, so they are issued after the DrawQuad pushes
+            Fix16 u(((pSprIdx->field_4_width - 0.0001f)));
+            Fix16 v(((pSprIdx->field_5_height - 0.0001f)));
 
             gQuadVerts_706B88.field_0_verts[0].u = 0.0f;
             gQuadVerts_706B88.field_0_verts[0].v = 0.0f;

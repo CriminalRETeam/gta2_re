@@ -2150,3 +2150,29 @@ Scores are `sc.sh` lines.
   `ProjectToScreen` taking `u8 x, u8 y` (converted inside) is worse (186).
 - `NetPlay::ReceiveGameMessage_521890` (168): the original loads `timeGetTime` into `edi` and calls
   through it (three calls); ours calls the import directly each time. Not retried.
+
+## x87 scheduler pass (Draw.cpp, sprite.cpp, ProjectVert_4EB940)
+
+- `DrawText_5D8A10`: **MATCH** (20 -> 0). regsearch: window 38 (the glyph quad) needed 4 more nodes
+  (limit 76) so that the zero u/v stores fall into the next window, after the `DrawQuad` pushes. Two
+  per `Fix16 u/v(((w - 0.0001f)))` argument does it. The last `ecx`/`edx` swap in `cur_xpos + sprite_w`
+  went away with `sprite_w`/`sprite_h` declared before `cur_xpos`. Parens in the `Fix16(f32)` ctor body,
+  an `f32` local for the argument, `(0.0f)` zero stores, swapped sum operands or a `right` local: no
+  effect or worse.
+- `DrawTexture_5D8470` (68): regsearch best 19 (its metric) at limit 78 in every window, so it is not
+  only the window breaks: the first `RotateByAngle` push order and vertex 1/2 load placement also
+  differ. Greedy over 0-2 parens on each vertex `ToFloat()`, u/v and the `[3].z` store position: best
+  21 (from 28; stack offsets ignored). The natural `[3].z` order (z right after y) scores 74.
+- `Sprite::Draw_59EFF0` (104): regsearch says 15 nodes short per window (limit 65 -> 4). Greedy and
+  all-pairs searches over parens in `ProjectWorldPointToScreen_4BA4D0` got to 2 lines with
+  `pVert->x = ((((f60)) * (((px) - (cx)))) * (pVert->z)) + cx)` and the y line the same minus the
+  `point.y` paren plus an outer one (ugly, not applied). What is left: the expansion-1 y-line `fmulp`
+  at the start of a window issues before `mov %edx,0x14(%esp); mov $5,%edx` (see matching_quirks.md).
+  With free double-paren/`f32`-local conversion helpers in place of `ToFloat()` the best is 10.
+  `u32` temp for the screen centre (as in 4EB940): no effect.
+- `ProjectVert_4EB940` (11 -> 4 with parens, not applied): regsearch limit 71 (9 nodes) gives 4;
+  greedy over parens in the z/x/y lines and `set_vert_xyz_relative_to_cam_inlined` also 4 (`(1.0f / ...)`,
+  `((xpos.ToFloat())) * ((f60))`, and four pairs round the y line's f60). Left: `mov %ecx,%eax` one
+  slot early at the function start and `pop %ebx` before the last `fmuls`.
+- `DrawFigure_5D7EC0` (430), `4EAF40`/`4ED290` (register allocation), the slopes (356-617) and
+  `Draw_4F6A20` (structure): not x87 scheduling problems, not worked on.

@@ -1162,6 +1162,30 @@ and `Mike_A80::sub_4FFD90`:
 Parentheses also block reassociation. VC7 ignores them, so the 9.6f check can't tell the paren forms
 apart.
 
+More observations (from `DrawText_5D8A10`, `Sprite::Draw_59EFF0`, `ProjectVert_4EB940`):
+
+- **Node count is not "one per paren pair".** `Fix16 u(((w - 0.0001f)))` adds two nodes and matched
+  `DrawText_5D8A10` (regsearch: limit 76, 4 nodes short); `(((( ... ))))` around the same argument adds
+  three, `(f32)(x)` one and `(f32)((x))` two. Extra parentheses around a `ToFloat()` call result, or
+  around one that is already parenthesised, often add nothing: in `Sprite::Draw_59EFF0` 1 to 4 extra
+  pairs around the y line's `field_60.x.ToFloat()` all gave the same code. Count with `sched.sh` after
+  each change instead of assuming.
+- **Parentheses inside the `Fix16(f32)` constructor body add nothing** to the caller's window (the
+  argument is stored to the parameter first, one node, and that is all the caller sees). Put them at
+  the call site.
+- **regsearch's diff ignores register names.** A limit that gives 0 there can still leave an `ecx`/`edx`
+  swap. `DrawText_5D8A10` needed one more, non-x87 change: declaring `sprite_w`/`sprite_h` ahead of
+  `cur_xpos` (function top, assigned in the loop) gives the original's `mov cur_xpos,%ecx;
+  mov sprite_w,%edx` for `cur_xpos + sprite_w`. Declaration order is irrelevant for stack slots but
+  does break register ties.
+- **A window break can be right and an x87 op still issue too early.** The first instruction of a window
+  issues as soon as it is ready; in the original, `Sprite::Draw_59EFF0`'s y-line `fmulp` at the start of
+  a window waits two cycles behind two integer moves, ours issues at once, although every window break
+  is where the original's is (regsearch finds no better limit). About 600 paren/helper variants of
+  `ProjectWorldPointToScreen_4BA4D0` (greedy and all pairs) got to these 2 lines but not past them.
+  `ProjectVert_4EB940` ends the same way (4 lines: one early `mov` at the window start, one epilogue
+  `pop` placed before an `fmuls`).
+
 When a function differs only in integer/x87 interleaving from some point of a long straight block,
 count the nodes and search the window limit, then look for the missing parentheses or casts. The tools
 are in `Scripts/x87_sched/`: `sched.sh` prints the windows and the schedule, and `regsearch.py` finds the
@@ -1175,7 +1199,8 @@ Other float shapes that change the code:
   `630 - fx` becomes the stored `left`, the kept `fx` is popped. `right = left + 1.0f` gives `fsubrs`.
 - **A float conversion written out at each use is computed once.** `(a + b).ToFloat()` repeated per
   corner makes VC6 compute it once, keep it in a stack temp and copy it with integer moves, as the
-  original does; a named `f32` local stays on the x87 stack (`DrawText_5D8A10`, 229 -> 20).
+  original does; a named `f32` local stays on the x87 stack (`DrawText_5D8A10`, 229 -> 20, now a MATCH;
+  four `f32` locals for the corners also cost it stack slots, 226).
 - Operand order of commutative `*` and `+` makes no difference (the compiler canonicalises it), and
   neither do (u32)/(unsigned)/`*(u32*)&` variants of the u32 -> float conversion. Compiler flags and
   builds (RTM to SP6) don't change the schedule either.
