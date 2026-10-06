@@ -107,6 +107,11 @@ static inline f32 Fix16ToF32_Rounded3(const Fix16& v)
     return (((f / 16384.0f)));
 }
 
+static inline f32 Fix16ToF32_P3(const Fix16& v)
+{
+    return (((v.mValue / 16384.0f)));
+}
+
 struct VertProjector
 {
     inline void ProjectVertTop_46BD40(Fix16& x, Fix16& y, Vert* pVert)
@@ -186,7 +191,8 @@ struct VertProjector3
         set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, zpos, pVert);
         pVert->z = 1.0f / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
         pVert->x = Fix16ToF32_Rounded2(xpos) * Fix16ToF32_Rounded3(gViewCamera_676978->field_60.x) * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
-        pVert->y = Fix16ToF32_Rounded2(ypos) * Fix16ToF32_Rounded3(gViewCamera_676978->field_60.x) * pVert->z + (u32)gViewCamera_676978->field_74_screen_px_center_y;
+        // No f32 local for field_60 and a no-op after the product: S 8 -> 4, E 16 -> 8 (docs/match_attempts.md).
+        pVert->y = Fix16ToF32_Rounded2(ypos) * Fix16ToF32_P3(gViewCamera_676978->field_60.x) * (pVert->z) + (u32)gViewCamera_676978->field_74_screen_px_center_y;
     }
 };
 
