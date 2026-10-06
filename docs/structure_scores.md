@@ -110,7 +110,6 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 494 | 724 | 630 | 0x53f4c0 | `Particle_8::EmitFlameStreamSegment_53F4C0` | Particle_8.cpp |
 | 0 | 784 | 1081 | - | 0x43f130 | `Car_BC::HandleCarHitByObject_43F130` | Car_BC.cpp |
 | 1 | 13 | 137 | - | 0x45d000 | `Ped::HandlePedHitByObject_45D000` | Ped.cpp |
-| 2 | 4 | 12 | 6 | 0x45c9d0 | `Ped::ComputeAimAngle_45C9D0` | Ped.cpp |
 | 2 | 6 | 24 | 12 | 0x4b7270 | `Frontend::GetNextUnlockedMainStage_4B7270` | Frontend.cpp |
 | 2 | 6 | 58 | - | 0x54c3e0 | `Char_B4::sub_54C3E0` | char.cpp |
 | 2 | 6 | 8 | 6 | 0x5d9910 | `SetGamma_5D9910` | Frontend.cpp |
@@ -160,7 +159,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 6 | 247 | 563 | - | 0x4f33b0 | `MapRenderer::DrawGradientSlopeEastwards_4F33B0` | MapRenderer.cpp |
 | 6 | 266 | 627 | - | 0x4f22f0 | `MapRenderer::DrawGradientSlopeWestwards_4F22F0` | MapRenderer.cpp |
 | 7 | 24 | 40 | 0 | 0x522e10 | `Object_2C::HandleCollision_522E10` | Object_5C.cpp |
-| 8 | 44 | 440 | 110 | 0x46b670 | `Ped::MeleeAttackStateMachine_46B670` | Ped.cpp |
+| 8 | 54 | 454 | 104 | 0x46b670 | `Ped::MeleeAttackStateMachine_46B670` | Ped.cpp |
 | 8 | 79 | 428 | 337 | 0x54ddf0 | `Char_B4::state_0_54DDF0` | char.cpp |
 | 8 | 110 | 414 | 73 | 0x45e4a0 | `Ped::StartCrossingRoad_45E4A0` | Ped.cpp |
 | 9 | 58 | 64 | 177 | 0x4e1520 | `Map_0x370::SpriteHitsDiagonalWall_4E1520` | map_0x370.cpp |

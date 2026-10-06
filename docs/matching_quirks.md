@@ -1929,6 +1929,9 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   (`BusCustomer_AI_461290`, case 38 and 34 both leave the bus): with both as then-arms the earlier copy was kept,
   with the case 34 copy as the then-arm of an if/else and case 38's as a then-arm too, case 38's became the
   jump. Writing the block only once with a goto kept the layout but lost the register allocation of the duplicate.
+- **Per-arm stores of a returned field are fine when the return tail is over 20 bytes.** `ComputeAimAngle_45C9D0`
+  stores `field_130` in both arms and jumps to the 21-byte tail (SIB bytes counted, see the `Marker_<addr>_fpo`
+  note); an earlier "VC6 copies the tail" observation came from before that fix.
 - **A reload from the argument slot means the parameter is used.** `mov 0x18(%esp),%al` after a `push ecx` + 4
   saves prologue is the first argument, not a spilled local; `HandleVocalStreamSwitching_57DF10`'s "unused"
   parameter is the speed-doubling flag tested before every `SetVocalSpeed`.

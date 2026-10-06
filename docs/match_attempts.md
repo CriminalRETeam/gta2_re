@@ -2476,3 +2476,26 @@ Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 
   global, 0x5E4D4C, and takes the rotation by value). The plain inline with a per-TU `CAR_6C_SPAWN_SCALE` define
   (like `FIX16_POINT_ZERO`) gives 9.6f 747 but 10.5 935: the frame grows 0x68 -> 0x78 (by-value `Ang16` copies and
   `temp_z`), so not applied.
+## Ped.cpp / sound_obj.cpp / Car_BC.cpp, second pass (Oct 6)
+- `Ped::ComputeAimAngle_45C9D0` 12 -> 0 (**MATCH**; 9.6f 0x43E3A0 16). `field_130` stored in each arm as 9.6f
+  does. The old note that per-arm stores copy the return tail predates the `Marker_<addr>_fpo` fix: the tail is
+  21 bytes with the `[esp+x]` SIB bytes counted, so dupB jumps to it.
+- `Ped::MeleeAttackStateMachine_46B670` 442 -> 454 lines, structure 44 -> 54, 9.6f 0x4436A0 182 -> 104: shape from
+  9.6f (hurt blocks `IsField238(2) && mugger` with one TakeDamage else; health >= 20 nested with two sub_433E50
+  sites, which the 10.5 asm shows too; knock-out tails `network ? Kill : (b5, Set_F250(18))`), and the
+  punch-to-death fallthrough bug is gone. Left: the original keeps two mugger (AddCash) blocks, the first hurt
+  block's copy merged into the else-if's; VC6 merges all three of ours into one. Hurt block as `&&` in the health
+  branch too: structure 74.
+- `sound_obj::ProcessPoliceRadioWordsPlayback_427220` (4; 9.6f 0x41C000 40): 9.6f has no dead load at all, so
+  the `cmp $0xF,%al` before the load/store is a scheduler move: the dead local isn't volatile. Unexplained how it
+  survives dead-store elimination.
+- `Car_14::SpawnTrafficCar_582480` (8): 9.6f 0x4B34E0 writes cases 1 and 2 identically (`if (!field_8) {+1}
+  else {-1}`), so the earlier 64 x 64 polarity/order search covered the real shape; the survivor of the two `-1`
+  label blocks (original: case 1's) stays unexplained.
+- `Ped::GotoAreaByAnyMeans_469060` (30): `cmp %bl,%al` (bl = 0) on the FindNearbyTileMatchingSlopeType result at
+  both sites, ours `test`: a `char_type` return type, `!= 0`, a `u8 bFound` assigned in the condition: no change.
+  kill_char_20's MaxAbsDistance loads the target's y first: getters (348) and a cached `pTarget` (no change).
+- New pairs scored: `Ped::sub_4645B0` 266 / 9.6f 842, `Ped::IsThreatToSearchingPed_4661F0` 418 / 1759,
+  `AttackTargetStateMachine_46D460` 46 / 307, `StartCrossingRoad_45E4A0` 414 / 166, `IsPedAThreat_465D00` 142 / 604,
+  `Car_BC::HandleCarHitByObject_43F130` 882, `Car_214::sub_5C8780` 84 / 422, `SpawnCarOnRoadNetwork_4458B0` 469 / 855.
+
