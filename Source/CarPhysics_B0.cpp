@@ -1248,10 +1248,10 @@ void CarPhysics_B0::EmitImpactParticles_55B7E0(u8 apply_to_corners_mask)
     gRozza_C88_66AFE0->Type4_40BC40(pCarSprite);
 }
 
-// 9.6f 0x49EBE0
-static inline u8 GetBlockSurfaceType_49EBE0(s32 x, s32 y, s32 z, u8* pGradientSize, u8* pGradientLevel)
+// 9.6f 0x49EBE0 (a Map_0x370 method: 9.6f calls it with gMap in ecx)
+inline u8 Map_0x370::GetBlockSurfaceType_49EBE0(s32 x, s32 y, s32 z, u8* pGradientSize, u8* pGradientLevel)
 {
-    gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(x, y, z);
+    gmp_block_info* pBlock = get_block_4DFE10(x, y, z);
     if (pBlock)
     {
         if (gGtx_0x106C_703DD4->IsRemappedWaterTile_49E540(pBlock->field_8_lid & 0x3FF))
@@ -1265,24 +1265,25 @@ static inline u8 GetBlockSurfaceType_49EBE0(s32 x, s32 y, s32 z, u8* pGradientSi
             {
                 return 9;
             }
-            *pGradientSize = gGmpSlopes_6F5BA8[pBlock->field_B_slope_type >> 2].field_1_gradient_size;
-            *pGradientLevel = gGmpSlopes_6F5BA8[pBlock->field_B_slope_type >> 2].field_2_gradient_level;
-            return gGmpSlopes_6F5BA8[pBlock->field_B_slope_type >> 2].field_0_gradient_direction;
+            gmp_map_slope* pSlope = &gGmpSlopes_6F5BA8[pBlock->field_B_slope_type >> 2];
+            *pGradientSize = pSlope->field_1_gradient_size;
+            *pGradientLevel = pSlope->field_2_gradient_level;
+            return pSlope->field_0_gradient_direction;
         }
     }
     return 5;
 }
 
-WIP_FUNC(0x55b970)
+MATCH_FUNC(0x55b970)
 char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* check_mask)
 {
-    WIP_IMPLEMENTED;
-
-    // The original has an EH state from entry for an object with a destructor that has no storage
-    Fix16_Point unused_point;
-
     Sprite* pSprite = this->field_5C_pCar->field_50_car_sprite;
+    // The original has an EH state from entry for an object with a destructor that has no storage
+    // (declared here: declared first it moves the `xor edi` zero above the sprite loads)
+    Fix16_Point unused_point;
     s32 corner_idx_ = 0;
+    u8 mask_;
+    u32 v29;
     this->field_AB_tpa = 0;
 
     if (IsInAir_55A0B0())
@@ -1296,7 +1297,6 @@ char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* 
     if (!gMap_0x370_6F6268->IsZOnGround_4E5170(this->field_38_cp1.x, this->field_38_cp1.y, this->field_6C_cp3))
     {
         this->field_9C_block_spec = 0;
-        u32 v29;
         *check_mask = pSprite->CheckCornerZCollisions_5A1CA0(&v29);
         if (v29 == 1 || v29 == 2)
         {
@@ -1323,14 +1323,13 @@ char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* 
             Trailer* pTrailer = this->field_5C_pCar->field_64_pTrailer;
             if (!pTrailer || pTrailer->GetCabOrLoadedCar_407B90(field_5C_pCar)->field_58_physics->field_98_surface_type == car_surface_type::air_surface_6)
             {
-                u8 mask_ = 1;
+                mask_ = 1;
                 do
                 {
                     if (((u8)mask_ & (u8)*check_mask) != mask_)
                     {
-                        Fix16 v28 = Fix16(0xC8000, 0);
-                        // Temporaries chained: corner, corner - cm1, / v28, each with its own EH state
-                        ApplyImpulseWithTrailerRedirect_55FA10(&(pSprite->GetBoundingBoxCorner_562450(corner_idx_) - field_30_cm1).Divide_442CB0(v28));
+                        // Temporaries chained: corner, corner - cm1, / 50, each with its own EH state
+                        ApplyImpulseWithTrailerRedirect_55FA10(&pSprite->GetBoundingBoxCorner_562450(corner_idx_).Sub_40AC80(field_30_cm1).Divide_442CB0(Fix16(50)));
                     }
                     ++corner_idx_;
                     mask_ *= 2;
@@ -1355,19 +1354,18 @@ char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* 
     s32 cp3_int = cp3.ToInt();
     u8 gradient_level;
     u8 graident_size;
-    u8 v28 = GetBlockSurfaceType_49EBE0(field_38_cp1.x.ToInt(), this->field_38_cp1.y.ToInt(), cp3.ToInt(), &graident_size, &gradient_level);
+    s32 v28 = gMap_0x370_6F6268->GetBlockSurfaceType_49EBE0(field_38_cp1.x.ToInt(), this->field_38_cp1.y.ToInt(), cp3_int, &graident_size, &gradient_level);
 
     //LABEL_37:
     if (v28 != 5)
     {
-        this->field_98_surface_type = (u8)v28;
+        this->field_98_surface_type = v28;
         this->field_A5_current_slope_length = (char)graident_size;
         this->field_A6_current_slope_left_tiles = gradient_level;
         this->field_A7_current_tile_z = cp3_int;
         if (v28 == 7)
         {
-            s32 water_mask = pSprite->GetWaterCornerMask_59E250();
-            s32 water_mask_ = water_mask;
+            u8 water_mask = pSprite->GetWaterCornerMask_59E250();
             if (water_mask == 15)
             {
                 this->field_98_surface_type = car_surface_type::water_surface_8;
@@ -1375,17 +1373,15 @@ char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* 
             else
             {
                 s32 corner_idx = 0;
-                s32 mask = 1;
+                mask_ = 1;
                 do
                 {
-                    if (((u8)mask & (u8)water_mask) != mask)
+                    if ((water_mask & mask_) != mask_)
                     {
-                        Fix16 v28_ = Fix16(819200, 0);
-                        ApplyImpulseWithTrailerRedirect_55FA10(&(field_30_cm1 - pSprite->GetBoundingBoxCorner_562450(corner_idx)).Divide_442CB0(v28_));
-                        water_mask = water_mask_;
+                        ApplyImpulseWithTrailerRedirect_55FA10(&field_30_cm1.Sub_40AC80(pSprite->GetBoundingBoxCorner_562450(corner_idx)).Divide_442CB0(Fix16(50)));
                     }
                     ++corner_idx;
-                    mask *= 2;
+                    mask_ *= 2;
                 } while (corner_idx < 4);
             }
         }
