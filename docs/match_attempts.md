@@ -2862,3 +2862,54 @@ Scores are `quick_score.sh` lines (10.5) and `--96f` lines (9.6f, VC7). Baseline
   (601, frame 0x68 vs 0x58), `Ped::UpdateMovementTowardsTarget_4672E0` (560), `CarDoorAlignmentSolver_545AF0`
   (875), `Map_0x370::CanMoveOntoSlopeTile_4E0130` (548), `Map_0x370::sub_4E7190` (218, structure 6; `tmp`
   declared first/before `last_x`, `last_*` declared then assigned: 218): scored only.
+
+## MapRenderer / rest pass (Oct 6, worktree agent/rest)
+Scores are `quick_score.sh` lines.
+- `MapRenderer::ProjectVert_4EB940` 4 -> 0 (**MATCH**). The last diff was `pop %ebx` before `fmuls 8(%ecx)` in the
+  epilogue. `sched.sh` showed the y line's x87 chain in the final window: the two paren no-ops *before* `fmulp`
+  gave the pops free cycles ahead of `fmul [ecx+8]`. One no-op *after* `fmulp` instead (parenthesised product
+  `(A * B) * (pVert->z)`) blocks the last `pop` for one cycle, so `fmuls` is issued first. 256 forms of the two
+  conversions (0-4 parens, f32 local or not) alone never moved it: the position of the no-op matters, not the count.
+- `DrawGradientSlopeSouthwards_4F1660` 8 -> 4 and `Eastwards_4F33B0` 16 -> 8 with `VertProjector3`'s y line as
+  `Rounded2(ypos) * P3(field_60) * (pVert->z)` (`P3` = `(((v.mValue / 16384.0f)))`, no f32 local). Left in both (one
+  site in S, two in E): `fmuls k` of `field_60` is issued *before* `idiv` (cycle 153 vs 154); the original has it
+  after. With an f32-local store no-op before that `fmul` (the `Rounded*` forms) the no-op waits until the idiv
+  completes (cycle 176) and the `fmul` follows at 177, but then the `lea` of the `Add_408660` return slot (ready
+  since the idiv) takes the two-cycle gap before `fildl gYCoord` (the original has it after). Both `fmul -> nop`
+  edges carry the fmul's latency 3 and `fmul -> fild` is 0, so the original must have no node between `fmuls k`
+  and `fildl gYCoord`; any unparenthesised `f / 16384.0f` is then reassociated (constant hoisted past `fmulp`:
+  `fmulp; fmuls z; fmuls k`), so the shape is not found. Swept ~1500 forms: x and y lines separately over
+  {`Rounded`(no paren), `Rounded2/3/4`, `ToFloat()`, `P0..P3` (no local), `(f32)` casts `C1..C5`, f32 store after
+  the division} x {`pVert->z`, `(pVert->z)`} x parens around the product / the whole line. `Rounded`/`P0`/`C4`
+  forms (no paren) reassociate; `ToFloat()` for ypos makes ypos heavier so it is loaded first. Nothing below 4/8.
+- `TagGameHudUpdate_4DADA0` (54): five more structures (bShow at outer scope with if/else; the clear block as the
+  else arm with its own ClearPager copy + return (211, no tail merge); `if (!bShow) {clear; return}`; show+return
+  inside the then arm): 54-211. The 9.6f copy (0x462530) has the same layout as 10.5 (first-flash block, then
+  clear + ClearPager, then the `> 0` block, then show), so the shape is in the source, not in VC6.
+- `SetWindowedMode_5D9510` (14): `sched.sh` shows `push $0x316` (p40) losing the two-per-cycle slots at cycles 23-27
+  to the eight RECT/global loads (p56-74) that are ready at the GetClientRect call (their call->load edge is 0
+  latency); the original issues the push with the `window_height` load, so there its RECT loads are not ready at
+  that cycle. `volatile` RECTs (62), the sizes as `s32 w, h` locals (85), both RECTs through `RECT*` locals (16),
+  a `UINT flags` local (14): no.
+- `Hud_Arrow_7C::UpdateScreenPos_5D0850` (86): the diff is one block: ours reads `field_10_radius_pos` once
+  before the first `__alldiv` and keeps it in a stack slot for both the `* 64` and the `/ distance` use (the
+  frame is the same size, `distance` moves to another slot); the original reloads it twice (into `ebx` after the
+  `imul`, then from the field), and loads `field_60.x` into `eax` for `imul %ecx` where ours does `imull 0x60(%edi)`
+  with factor in eax. Removing the second use makes ours load late too, so it is the cross-block CSE of the two
+  field reads. `factor * field_60.x`, `Fix16(mValue * 64)`, `mValue << 6`, a `radius64` local before/after
+  `factor`, `prod` local, `*=` for the ui scale, `const Fix16&`/`this` pointer locals: 86 or worse (134-146).
+- `Char_B4::sub_54C3E0` (58): the paired 9.6f 0x4994D0 is an older version of the logic (face switch over four
+  angle globals + 0x491F10), confirmed; `find_96f_counterparts.py` offers nothing else. The original's four
+  `lea`/`push` tails rotate registers continuously (edx/eax, ecx/edx, eax/ecx, edx/eax) and only the first and
+  last merge; ours allocates all four alike. Not retried.
+- `Char_B4::ContinueMovementAfterCollision_54B8F0` 392 -> 220: `volatile char_type bMoved = false` declared after
+  the `Jumping_15` early return (its store then follows the compare, the original has it before, but the tail
+  layout and a `push edi` move closer). ebx/ebp/edi are still pushed at the top (the original pushes them after
+  `mov 0x18(%esi),%eax` in the next block, the late-push quirk); a non-volatile `bMoved` is far worse (524),
+  `x_vec`/`y_vec` declaration order and `bMoved` assigned after the return: 220.
+- `BurgerKing_1::read_input_device_498DA0` (104): the original's entry stores are `0 -> 0x14` (the slot
+  `padItems` later uses) and `1 -> 0x18` (the slot `kbResult` later uses), ours `bReleased = 0` and `padItems = 1`
+  in other slots. `DWORD padItems = 0; HRESULT kbResult = 1;` at the top, with `bReleased` uninitialised or
+  declared in the loop, and `padResult` hoisted: 134-148, so the slot sharing is VC6's, not the source's.
+- `eager_benz::OnPedKilled_592660` (77), `GetNextRotationToward_550F60` (164, per-case ax/cx/dx rotation),
+  `Draw_4F6A20`, `DrawRightSide_4EAF40` (125), `draw_bottom_4ED290` (123): looked at only.

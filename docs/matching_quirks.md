@@ -2076,6 +2076,12 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   original's out-of-line counts; inside it, the distribution still depended on +2 size units (`u32 flags`
   instead of `s32`). Shrinking the caller to get there: a ternary for the flags (about -6) and field reads
   instead of `s32 width/height` locals.
+- **Where an x87 no-op sits matters, not only how many.** In `ProjectVert_4EB940`'s last window the epilogue
+  pops are interleaved with the y line's x87 chain. Two paren no-ops before `fmulp` (the conversions) leave
+  `pop ebx` a free cycle before `fmuls 8(%ecx)`; writing the product as `(A * B) * (pVert->z)` puts one no-op
+  after `fmulp` instead, which blocks the pop for a cycle and gives the original order (4 -> 0). 256 forms of
+  the two conversions alone (0-4 parens, with or without an f32 local) never moved it. `sched.sh -r` shows the
+  cycle each node is issued in; look for the free cycle the stray integer instruction takes.
 - **One x87 no-op per vertex store.** `DrawTexture_5D8470`/`DrawFigure_5D7EC0` write
   `verts[i].x = ((x_pos + point.x).ToFloat());` (double parentheses), one no-op node per conversion. Without them
   regsearch reports 2 nodes short per window; with them the windows break where the original's do (78 -> 8,
