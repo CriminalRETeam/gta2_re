@@ -1970,13 +1970,13 @@ void CarAI_78::sub_44A1F0()
     }
 }
 
-// The lane angles are unnamed temporaries normalised by the out-of-line Normalize_406C20:
-// VC6 gives each distinct one its own stack slot (a named local in an inline shares one slot).
-WIP_FUNC(0x44af00)
+// The lane angles are Ang16 operator-/operator+ temporaries. Each gets its own stack slot, and past the
+// inline budget their Normalize is called out of line (0x406C20) on it. The angle global is the left
+// operand (this) in every sum: with dword_677A2E as `this` in one site and the argument in another, VC6
+// loads both with 32-bit movs instead of a 16-bit mov/sub.
+MATCH_FUNC(0x44af00)
 void CarAI_78::sub_44AF00()
 {
-    WIP_IMPLEMENTED;
-
     s8 v72 = 0;
     if ((this->field_24_flags & 0x100) != 0)
     {
@@ -2005,7 +2005,7 @@ void CarAI_78::sub_44AF00()
                     }
                     else if (off < dword_6779C8)
                     {
-                        if (this->field_10_angle > Ang16(kAng180_677ADE.rValue - dword_677A2E.rValue).Normalized_406C20())
+                        if (this->field_10_angle > kAng180_677ADE - dword_677A2E)
                         {
                             this->field_0_car->field_58_physics->TurnClockwise_42ABA0();
                         }
@@ -2016,7 +2016,7 @@ void CarAI_78::sub_44AF00()
                     }
                     else
                     {
-                        if (this->field_10_angle < Ang16(dword_677A2E.rValue + kAng180_677ADE.rValue).Normalized_406C20())
+                        if (this->field_10_angle < kAng180_677ADE + dword_677A2E)
                         {
                             this->field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
                         }
@@ -2050,7 +2050,7 @@ void CarAI_78::sub_44AF00()
                     }
                     else
                     {
-                        if (this->field_10_angle > Ang16(kAng0_677CE8.rValue - dword_677A2E.rValue).Normalized_406C20())
+                        if (this->field_10_angle > kAng0_677CE8 - dword_677A2E)
                         {
                             this->field_0_car->field_58_physics->TurnClockwise_42ABA0();
                         }
@@ -2073,7 +2073,7 @@ void CarAI_78::sub_44AF00()
                     }
                     else if (off <= dword_6779C8)
                     {
-                        if (this->field_10_angle > Ang16(kAng90_6779E4.rValue - dword_677A2E.rValue).Normalized_406C20())
+                        if (this->field_10_angle > kAng90_6779E4 - dword_677A2E)
                         {
                             this->field_0_car->field_58_physics->TurnClockwise_42ABA0();
                         }
@@ -2084,7 +2084,7 @@ void CarAI_78::sub_44AF00()
                     }
                     else
                     {
-                        if (this->field_10_angle < Ang16(dword_677A2E.rValue + kAng90_6779E4.rValue).Normalized_406C20())
+                        if (this->field_10_angle < kAng90_6779E4 + dword_677A2E)
                         {
                             this->field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
                         }
@@ -2107,7 +2107,7 @@ void CarAI_78::sub_44AF00()
                     }
                     else if (off <= dword_6779C8)
                     {
-                        if (this->field_10_angle < Ang16(kAng270_677B08.rValue - dword_677A2E.rValue).Normalized_406C20())
+                        if (this->field_10_angle < kAng270_677B08 - dword_677A2E)
                         {
                             this->field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
                         }
@@ -2118,7 +2118,7 @@ void CarAI_78::sub_44AF00()
                     }
                     else
                     {
-                        if (this->field_10_angle > Ang16(dword_677A2E.rValue + kAng270_677B08.rValue).Normalized_406C20())
+                        if (this->field_10_angle > kAng270_677B08 + dword_677A2E)
                         {
                             this->field_0_car->field_58_physics->TurnClockwise_42ABA0();
                         }
@@ -2142,12 +2142,12 @@ void CarAI_78::sub_44AF00()
         else if (count < (u8)this->field_2F)
         {
             // Move the sprite half a block to the right of the travel direction and check that it is free
+            Fix16 x_off;
+            Fix16 y_off;
             switch (this->field_4C_curr_direction)
             {
                 case car_ai_direction::east_3:
                 {
-                    Fix16 x_off;
-                    Fix16 y_off;
                     Ang16::PolarToCartesian_41FC20(kAng0_677CE8, kFpHalf_6779CC, x_off, y_off);
                     field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + x_off,
                                                                           field_0_car->field_50_car_sprite->field_14_xy.y + y_off,
@@ -2159,7 +2159,7 @@ void CarAI_78::sub_44AF00()
                     }
                     else
                     {
-                        if (this->field_10_angle > Ang16(kAng90_6779E4.rValue - dword_677A2E.rValue).Normalized_406C20())
+                        if (this->field_10_angle > kAng90_6779E4 - dword_677A2E)
                         {
                             this->field_0_car->field_58_physics->TurnClockwise_42ABA0();
                         }
@@ -2173,8 +2173,6 @@ void CarAI_78::sub_44AF00()
 
                 case car_ai_direction::west_4:
                 {
-                    Fix16 x_off;
-                    Fix16 y_off;
                     Ang16::PolarToCartesian_41FC20(kAng180_677ADE, kFpHalf_6779CC, x_off, y_off);
                     field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + x_off,
                                                                           field_0_car->field_50_car_sprite->field_14_xy.y + y_off,
@@ -2186,7 +2184,7 @@ void CarAI_78::sub_44AF00()
                     }
                     else
                     {
-                        if (this->field_10_angle > Ang16(kAng270_677B08.rValue - dword_677A2E.rValue).Normalized_406C20())
+                        if (this->field_10_angle > kAng270_677B08 - dword_677A2E)
                         {
                             this->field_0_car->field_58_physics->TurnClockwise_42ABA0();
                         }
@@ -2200,8 +2198,6 @@ void CarAI_78::sub_44AF00()
 
                 case car_ai_direction::south_2:
                 {
-                    Fix16 x_off;
-                    Fix16 y_off;
                     Ang16::PolarToCartesian_41FC20(kAng270_677B08, kFpHalf_6779CC, x_off, y_off);
                     field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + x_off,
                                                                           field_0_car->field_50_car_sprite->field_14_xy.y + y_off,
@@ -2213,7 +2209,7 @@ void CarAI_78::sub_44AF00()
                     }
                     else
                     {
-                        if (this->field_10_angle <= Ang16(kAng0_677CE8.rValue - dword_677A2E.rValue).Normalized_406C20() && this->field_10_angle >= kAng90_6779E4)
+                        if (this->field_10_angle <= kAng0_677CE8 - dword_677A2E && this->field_10_angle >= kAng90_6779E4)
                         {
                             this->field_0_car->field_58_physics->SetGoStraight_42ABB0();
                         }
@@ -2227,8 +2223,6 @@ void CarAI_78::sub_44AF00()
 
                 case car_ai_direction::north_1:
                 {
-                    Fix16 x_off;
-                    Fix16 y_off;
                     Ang16::PolarToCartesian_41FC20(kAng90_6779E4, kFpHalf_6779CC, x_off, y_off);
                     field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + x_off,
                                                                           field_0_car->field_50_car_sprite->field_14_xy.y + y_off,
@@ -2240,7 +2234,7 @@ void CarAI_78::sub_44AF00()
                     }
                     else
                     {
-                        if (this->field_10_angle > Ang16(kAng180_677ADE.rValue - dword_677A2E.rValue).Normalized_406C20())
+                        if (this->field_10_angle > kAng180_677ADE - dword_677A2E)
                         {
                             this->field_0_car->field_58_physics->TurnClockwise_42ABA0();
                         }
@@ -2259,12 +2253,12 @@ void CarAI_78::sub_44AF00()
         else
         {
             // Same, half a block to the left
+            Fix16 x_off;
+            Fix16 y_off;
             switch (this->field_4C_curr_direction)
             {
                 case car_ai_direction::east_3:
                 {
-                    Fix16 x_off;
-                    Fix16 y_off;
                     Ang16::PolarToCartesian_41FC20(kAng180_677ADE, kFpHalf_6779CC, x_off, y_off);
                     field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + x_off,
                                                                           field_0_car->field_50_car_sprite->field_14_xy.y + y_off,
@@ -2276,7 +2270,7 @@ void CarAI_78::sub_44AF00()
                     }
                     else
                     {
-                        if (this->field_10_angle < Ang16(dword_677A2E.rValue + kAng90_6779E4.rValue).Normalized_406C20())
+                        if (this->field_10_angle < kAng90_6779E4 + dword_677A2E)
                         {
                             this->field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
                         }
@@ -2290,10 +2284,7 @@ void CarAI_78::sub_44AF00()
 
                 case car_ai_direction::west_4:
                 {
-                    Fix16 x_off;
-                    Fix16 y_off;
-                    x_off = Ang16::sine_40F500(kAng0_677CE8) * kFpHalf_6779CC;
-                    y_off = Ang16::cosine_40F520(kAng0_677CE8).Multiply_408680(kFpHalf_6779CC);
+                    Ang16::PolarToCartesian_41FC20(kAng0_677CE8, kFpHalf_6779CC, x_off, y_off);
                     field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + x_off,
                                                                           field_0_car->field_50_car_sprite->field_14_xy.y + y_off,
                                                                           field_0_car->field_50_car_sprite->field_1C_zpos);
@@ -2304,7 +2295,7 @@ void CarAI_78::sub_44AF00()
                     }
                     else
                     {
-                        if (this->field_10_angle < Ang16(dword_677A2E.rValue + kAng270_677B08.rValue).Normalized_406C20())
+                        if (this->field_10_angle < kAng270_677B08 + dword_677A2E)
                         {
                             this->field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
                         }
@@ -2318,8 +2309,6 @@ void CarAI_78::sub_44AF00()
 
                 case car_ai_direction::south_2:
                 {
-                    Fix16 x_off;
-                    Fix16 y_off;
                     Ang16::PolarToCartesian_41FC20(kAng90_6779E4, kFpHalf_6779CC, x_off, y_off);
                     field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + x_off,
                                                                           field_0_car->field_50_car_sprite->field_14_xy.y + y_off,
@@ -2331,7 +2320,7 @@ void CarAI_78::sub_44AF00()
                     }
                     else
                     {
-                        if (this->field_10_angle < Ang16(kAng0_677CE8.rValue + dword_677A2E.rValue, (u8)0))
+                        if (this->field_10_angle < kAng0_677CE8 + dword_677A2E)
                         {
                             this->field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
                         }
@@ -2345,8 +2334,6 @@ void CarAI_78::sub_44AF00()
 
                 case car_ai_direction::north_1:
                 {
-                    Fix16 x_off;
-                    Fix16 y_off;
                     Ang16::PolarToCartesian_41FC20(kAng270_677B08, kFpHalf_6779CC, x_off, y_off);
                     field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + x_off,
                                                                           field_0_car->field_50_car_sprite->field_14_xy.y + y_off,
@@ -2358,7 +2345,7 @@ void CarAI_78::sub_44AF00()
                     }
                     else
                     {
-                        if (this->field_10_angle < Ang16(dword_677A2E.rValue + kAng180_677ADE.rValue, (u8)0))
+                        if (this->field_10_angle < kAng180_677ADE + dword_677A2E)
                         {
                             this->field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
                         }

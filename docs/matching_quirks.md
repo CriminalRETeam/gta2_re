@@ -1719,6 +1719,27 @@ Found by tracing C2.DLL (see `Scripts/inline_budget/`); the instrumented compile
   reproducible: VC6 copies the tail into each predecessor. A small test file kept copying across every
   source form tried, except an `int` callee parameter or `/Os`.
 
+### Inlined Ang16 operators on globals (`CarAI_78::sub_44AF00`)
+
+- **A global used as `this` in one inlined member call and as the reference argument in another loads as
+  32 bits.** With `kAng180 - d` and `d + kAng180` (both `Ang16` member operators, inlined) VC6 emitted
+  `mov kAng180,%edx; mov d,%ebx; sub %ebx,%edx` (and sometimes hoisted both loads above the branch) where the
+  original has `mov kAng180,%dx; sub d,%dx`. Each form alone, or `a.Sub(b)` and `a.Add(b)` with the same
+  global on the same side, gives the 16-bit `mov`/`sub mem`. So write every sum with the same global as the
+  left operand: `kAng180 + d`, not `d + kAng180`. A free or static helper taking two `const Ang16&` is always
+  16-bit; so is the top-level `Ang16(a.rValue - b.rValue)`. Tested in a small file with a copy of the class.
+- **Commutative operand order follows value numbering, not the source.** In an inlined `a + b` the operand
+  numbered *later* is loaded first (`mov`) and the other is the memory operand of `add`. Numbering is first
+  use in IL order, and for an inline call `this` comes before the arguments, which are evaluated right to left.
+  So after `kAng180 - d`, `kAng180 + d` gives the original's `mov d,%dx; add kAng180,%dx`, and after an
+  earlier use of `d`, `kAng90 + d` gives `mov kAng90; add d`. A free `Sub(kAng180, d)` numbers `d` first
+  (right-to-left arguments) and flips the later adds. A top-level `Ang16(a.rValue + b.rValue)` keeps source order.
+- **One `Fix16 x_off; Fix16 y_off;` per switch instead of one per case** removed 12 free `Fix16()` sites
+  (and their size): the nested budgets of the operator sites rose just enough to inline the normalizing
+  ctor while its Normalize stays out of line (13 out-of-line / 2 inline, 6 out-of-line products, all eight
+  rotations written as `PolarToCartesian_41FC20`), which matched sub_44AF00. Free sites after a site lower its `budget / sites_left` share, so moving
+  declarations out of repeated cases is a natural way to shift a cut-off.
+
 ## Inline asm
 
 **16-bit `pushaw`/`popaw`.** The inline assembler can't spell them. Put `_emit 0x66` before

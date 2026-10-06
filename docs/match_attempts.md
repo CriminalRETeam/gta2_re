@@ -2014,3 +2014,15 @@ Scores are `sc.sh` lines. No new matches.
   load being hoisted above the jump table.
 - `Car_14::SpawnTrafficCar_582480` (8): six other if/else and statement orders for cases 1/2: 142-176.
 - `PedGroup::sub_4C8E60`: still the `_$E` atexit thunk, not reachable from source.
+
+### Ang16 operator pass (sub_44AF00)
+- `CarAI_78::sub_44AF00` 9 -> 0 (MATCH): the 15 lane angles as `Ang16` operators with the angle global as
+  the left operand (`kAng180_677ADE + dword_677A2E`; with `dword_677A2E` as `this` in the adds VC6 loads both
+  globals as 32 bits, see matching_quirks "Inlined Ang16 operators on globals"), all eight rotations as
+  `PolarToCartesian_41FC20`, and `Fix16 x_off, y_off` declared once per switch instead of per case (the
+  inline budget then cuts exactly where the original does).
+- Same operator rewrite (both add operand orders) on other WIPs, all worse, left as they were:
+  `CarAI_78::sub_44A1F0` 122 -> 494/707, `Char_B4::HandleGenericCollision_54A530` 267 -> 349,
+  `Char_B4::state_1_5504F0` 310 -> 396, `CarDoorAlignmentSolver_545AF0` 875 -> 879,
+  `Map_0x370::sub_4E7190` 218 -> 655, `Particle_8::EmitWaterSplash_53F060` 458 -> 459;
+  `Map_0x370::sub_4E6660` 4 -> 4.
