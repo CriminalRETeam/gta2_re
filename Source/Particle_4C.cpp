@@ -1643,11 +1643,11 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
     return 0;
 }
 
-WIP_FUNC(0x53d260)
+// The frame-delay store is written twice (two if branches): VC6 counts the uses of the constant 1 before
+// merging the identical branches, and keeps it in bl for the stores and the return 1.
+MATCH_FUNC(0x53d260)
 char_type Particle_4C::PoolUpdate()
 {
-    WIP_IMPLEMENTED;
-
     s32 state = this->field_38_state;
     --this->field_2C_counter;
     switch (state - 1)
@@ -1662,7 +1662,11 @@ char_type Particle_4C::PoolUpdate()
             else
             {
                 this->field_46_sub_state++;
-                if (field_46_sub_state < 6u || field_46_sub_state > 10u)
+                if (field_46_sub_state < 6u)
+                {
+                    this->field_48_timer = 1;
+                }
+                else if (field_46_sub_state > 10u)
                 {
                     this->field_48_timer = 1;
                 }
@@ -1701,7 +1705,11 @@ char_type Particle_4C::PoolUpdate()
             else
             {
                 this->field_46_sub_state++;
-                if (field_46_sub_state < 6u || field_46_sub_state > 10u)
+                if (field_46_sub_state < 6u)
+                {
+                    this->field_48_timer = 1;
+                }
+                else if (field_46_sub_state > 10u)
                 {
                     this->field_48_timer = 1;
                 }
@@ -1739,7 +1747,11 @@ char_type Particle_4C::PoolUpdate()
             else
             {
                 this->field_46_sub_state++;
-                if (field_46_sub_state < 6u || field_46_sub_state > 0xAu)
+                if (field_46_sub_state < 6u)
+                {
+                    this->field_48_timer = 1;
+                }
+                else if (field_46_sub_state > 10u)
                 {
                     this->field_48_timer = 1;
                 }
