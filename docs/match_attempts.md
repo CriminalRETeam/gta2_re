@@ -2323,5 +2323,9 @@ address order and callee overlap: `PoolUpdate_53D260` -> 0x490760, `UpdateObject
   at entry (0x7C) that ours doesn't have; 9.6f (0x48C9C0) counts the loop down (`count = 6; ... while (--count)`)
   and keeps the two `15` divisors in dword locals (10.5: `edi`), both already the same in ours. Loop forms,
   `Fix16 zero(0)` locals, `Fix16(0, 0)`, a dead `f64` local: no change.
-- `Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0` (562) and `UpdateObjectBeamLink_state_38_538AC0` (493):
-  not attempted this pass beyond the scores; both have their 9.6f copies now (0x490130?, 0x48F230).
+- `Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0` 562 -> 463: the original calls `Abs_436A50` once
+  (`compare_callees_multiset.py`), so `GetLength_OOL_6FD49C` has the first `Abs` (x == 0) inline and the second
+  out of line, like `MinDistanceToAnySpriteBBoxCorner_5A22B0`. The original also keeps the two
+  `RecordWeaponHit_512C00(id, 194/198, 1)` calls separate (`push $1` hoisted, the id loaded into `eax`/`ecx`),
+  ours merges them into one. Left: stack slots and frame from the start; 9.6f copy probably 0x490130.
+- `Particle_4C::UpdateObjectBeamLink_state_38_538AC0` (493): not attempted this pass; 9.6f copy 0x48F230.

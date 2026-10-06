@@ -1390,16 +1390,17 @@ char_type Particle_4C::UpdateBurstAnimation_state_29_30_53B9F0()
     return false;
 }
 
-// Fix16_Point::GetLength with the operators out of line, compared against kFP16Zero_6FD49C
+// Fix16_Point::GetLength with the operators out of line, compared against kFP16Zero_6FD49C. Only the
+// first Abs is inline, the second is the out-of-line Abs_436A50 (as in MinDistanceToAnySpriteBBoxCorner_5A22B0)
 static inline Fix16 GetLength_OOL_6FD49C(Fix16_Point& v)
 {
     if (v.x == kFP16Zero_6FD49C)
     {
-        return Fix16::Abs_negate_out_of_line(v.y);
+        return Fix16::Abs(v.y);
     }
     else if (v.y == kFP16Zero_6FD49C)
     {
-        return Fix16::Abs(v.x);
+        return Fix16::Abs_436A50(v.x);
     }
     else
     {
