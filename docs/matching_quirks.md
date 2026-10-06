@@ -1590,6 +1590,19 @@ f64 or a `const` on a local counts too) and `GetLength_41E260` is 162 (nested `i
 (VC7 copies it to the return slot). Deleting an unused inline from `Fix16_Point.hpp` moves register
 tie-breaks in six matched MapRenderer functions, so the two freed GetLength variants stay, marked unused.
 
+**Operator sizes: an open contradiction.** The original's own decisions suggest smaller Fix16 operators
+than ours (`*` 52 and `+` 47, `return Fix16(expr, 0);` with no local; body forms move sizes in steps of 5):
+`GetLength_41E260` callers reject `Abs(y)` but accept the later `y*y` (562560, 5620D0, 559C30), and
+`RotateByAngle_40F6B0` callers reject both multiplies but accept the `+` (5DDD20, 5E2940). With those sizes
+about 15 matched functions match with plain 9.6f source (no variants) and WIP 55FA60 goes 179 -> 34. But
+`Weapon_30::smg_5DDD20` then needs `*` > 55: its add must stay the opaque `Add_40AC50` (compiling the inline
+`Fix16_Point::operator+` body earlier in the TU makes VC6 treat it as nothrow, and the later
+`fire_truck_flamethrower_5E0B10` loses its EH state stores `movb $3/$2`), and with it the rotate's nested
+budget lands at ~55. No single operator size set fits every match unless some callers are a few dozen
+front-end units smaller than ours, which leaves no trace in the asm (brace pairs cost 2 each). So the
+sizes stay as they are. `SquareRoot` is pinned to 44..46 by 442810 vs 5224E0/443710 under the smaller
+operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 48 with a const local).
+
 ### Inline budget: more patterns (round of 9.6f recoveries)
 
 - **Declaration order picked the losers** while `Fix16_Point` derived from `Fix16_Point_POD`: the first
