@@ -404,13 +404,9 @@ class Fix16_Point
         }
     }
 
-    // Needed for miss2_0x11C::GetSpeed_50E190.
-    inline Fix16 GetLength_453590_inline_wrap()
-    {
-        return GetLength_453590();
-    }
-
-    // Needed for miss2_0x11C::GetSpeed_50E190.
+    // Unused (GetSpeed_50E190 matches with the plain GetLength_41E260), but don't remove it: without it
+    // MapRenderer::Draw4SidedDiagonalUpLeft_4EF880 and Draw3SidedDiagonalDownRight_4EF520 stop matching
+    // (see "Adding unused inline methods to a header" in docs/matching_quirks.md).
     inline Fix16 GetLength_all_out_of_line_abs_y_negate()
     {
         if (x == kFpZero_6F77C0)
