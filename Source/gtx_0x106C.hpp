@@ -208,6 +208,12 @@ class gtx_0x106C
         return field_6C_spec[spec_idx] == 4;
     }
 
+    // 9.6f 0x42A810
+    inline bool IsRoadTile_42A810(u16 spec_idx)
+    {
+        return field_6C_spec[spec_idx] == 3;
+    }
+
     // 9.6f 0x462FD0
     inline s32 sub_462FD0(u16 spec_idx)
     {

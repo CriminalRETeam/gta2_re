@@ -840,11 +840,9 @@ void CarAI_78::sub_4482C0()
 }
 
 // 9.6f 0x430650
-WIP_FUNC(0x448770)
+MATCH_FUNC(0x448770)
 void CarAI_78::sub_448770()
 {
-    WIP_IMPLEMENTED;
-
     Fix16 toUse = kF16Zero_677B90;
     gmp_block_info* pBlock_ = 0;
     Sprite* obj_5C_f58 = gObject_5C_6F8F84->field_58_collision_probe_sprite;
@@ -862,15 +860,12 @@ void CarAI_78::sub_448770()
     Fix16 y_off;
     Ang16::PolarToCartesian_41FC20(this->field_10_angle, kFpHalf_677A84, x_off, y_off);
 
-    Fix16 x_v = this->field_0_car->field_50_car_sprite->field_14_xy.x + x_off;
-    dword_677A74 = x_v;
+    dword_677A74 = this->field_0_car->field_50_car_sprite->field_14_xy.x + x_off;
+    dword_677A80 = this->field_0_car->field_50_car_sprite->field_14_xy.y + y_off;
 
-    Fix16 y_v = this->field_0_car->field_50_car_sprite->field_14_xy.y + y_off;
-    dword_677A80 = y_v;
-
-    if (x_v > kF16Zero_677B90 && y_v > kF16Zero_677B90 && x_v < kFp255_677950 && y_v < kFp255_677950)
+    if (dword_677A74 > kF16Zero_677B90 && dword_677A80 > kF16Zero_677B90 && dword_677A74 < kFp255_677950 && dword_677A80 < kFp255_677950)
     {
-        pBlock_ = gMap_0x370_6F6268->get_block_4DFE10(x_v.ToInt(), y_v.ToInt(), field_0_car->field_50_car_sprite->field_1C_zpos.ToInt());
+        pBlock_ = gMap_0x370_6F6268->get_block_4DFE10(dword_677A74.ToInt(), dword_677A80.ToInt(), field_0_car->field_50_car_sprite->field_1C_zpos.ToInt());
         if (pBlock_ && (pBlock_->field_B_slope_type & 0xFC) > 0 &&
             (pBlock_->field_B_slope_type & 0xFC) < 0xB4 //is_gradient_slope(block_4DFE10->field_B_slope_type)
             && (pBlock_->field_B_slope_type & 3) != 0) // !is_air_type(block_4DFE10->field_B_slope_type)
@@ -900,7 +895,7 @@ void CarAI_78::sub_448770()
 
     if (pBlock_)
     {
-        if (gGtx_0x106C_703DD4->field_6C_spec[pBlock_->field_8_lid & 0x3FF] == 3 || (this->field_24_flags & 0x20000) != 0)
+        if (gGtx_0x106C_703DD4->IsRoadTile_42A810(pBlock_->field_8_lid & 0x3FF) || (this->field_24_flags & 0x20000) != 0)
         {
             if (!byte_677BBC)
             {
@@ -964,15 +959,12 @@ void CarAI_78::sub_448770()
     Fix16 y_off_;
     Ang16::PolarToCartesian_41FC20(this->field_10_angle, toUse, x_off_, y_off_);
 
-    Fix16 x_v_ = this->field_0_car->field_50_car_sprite->field_14_xy.x + x_off_;
-    dword_677A74 = x_v_;
+    dword_677A74 = this->field_0_car->field_50_car_sprite->field_14_xy.x + x_off_;
+    dword_677A80 = this->field_0_car->field_50_car_sprite->field_14_xy.y + y_off_;
 
-    Fix16 y_v_ = this->field_0_car->field_50_car_sprite->field_14_xy.y + y_off_;
-    dword_677A80 = y_v_;
-
-    if (x_v_ > kF16Zero_677B90 && y_v_ > kF16Zero_677B90 && x_v_ < kFp255_677950 && y_v_ < kFp255_677950)
+    if (dword_677A74 > kF16Zero_677B90 && dword_677A80 > kF16Zero_677B90 && dword_677A74 < kFp255_677950 && dword_677A80 < kFp255_677950)
     {
-        pBlock___ = gMap_0x370_6F6268->get_block_4DFE10(x_v_.ToInt(), y_v_.ToInt(), field_0_car->field_50_car_sprite->field_1C_zpos.ToInt());
+        pBlock___ = gMap_0x370_6F6268->get_block_4DFE10(dword_677A74.ToInt(), dword_677A80.ToInt(), field_0_car->field_50_car_sprite->field_1C_zpos.ToInt());
         if (pBlock___ && (pBlock___->field_B_slope_type & 0xFC) > 0 &&
             (pBlock___->field_B_slope_type & 0xFC) < 0xB4 //is_gradient_slope(block_4DFE10->field_B_slope_type)
             && (pBlock___->field_B_slope_type & 3) != 0) // !is_air_type(block_4DFE10->field_B_slope_type)
@@ -990,15 +982,13 @@ void CarAI_78::sub_448770()
     Fix16 y_off__;
     Ang16::PolarToCartesian_41FC20(this->field_10_angle, kFpThree_677B9C, x_off__, y_off__);
 
-    Fix16 x_v__ = this->field_0_car->field_50_car_sprite->field_14_xy.x + x_off__;
-    dword_677A74 = x_v__;
+    dword_677A74 = this->field_0_car->field_50_car_sprite->field_14_xy.x + x_off__;
+    dword_677A80 = this->field_0_car->field_50_car_sprite->field_14_xy.y + y_off__;
 
-    Fix16 y_v__ = this->field_0_car->field_50_car_sprite->field_14_xy.y + y_off__;
-    dword_677A80 = y_v__;
-    if (x_v__ > kF16Zero_677B90 && y_v__ > kF16Zero_677B90 && x_v__ < kFp255_677950 && y_v__ < kFp255_677950)
+    if (dword_677A74 > kF16Zero_677B90 && dword_677A80 > kF16Zero_677B90 && dword_677A74 < kFp255_677950 && dword_677A80 < kFp255_677950)
     {
         pBlock_____ =
-            gMap_0x370_6F6268->get_block_4DFE10(x_v__.ToInt(), y_v__.ToInt(), this->field_0_car->field_50_car_sprite->field_1C_zpos.ToInt());
+            gMap_0x370_6F6268->get_block_4DFE10(dword_677A74.ToInt(), dword_677A80.ToInt(), this->field_0_car->field_50_car_sprite->field_1C_zpos.ToInt());
         if (pBlock_____ && (pBlock_____->field_B_slope_type & 0xFC) > 0 && (pBlock_____->field_B_slope_type & 0xFC) < 0xB4 &&
             (pBlock_____->field_B_slope_type & 3) != 0)
         {
@@ -1015,28 +1005,25 @@ void CarAI_78::sub_448770()
     {
         if (!pBlock___)
         {
-            //goto LABEL_69;
             this->field_44_target_direction = car_ai_target_direction::go_straight_0;
+        }
+        else if (sub_447D40(pBlock___))
+        {
+            this->field_8 = 20;
+            this->field_24_flags &= ~0xC000u;
+            this->field_24_flags |= 0x80;
+        }
+        else if (!pBlock_____)
+        {
+            this->field_44_target_direction = car_ai_target_direction::go_straight_0;
+        }
+        else if (sub_447D40(pBlock_____))
+        {
+            this->field_24_flags |= 0x4000u;
         }
         else
         {
-            if (sub_447D40(pBlock___))
-            {
-                this->field_8 = 20;
-                this->field_24_flags &= ~0xC000u;
-                this->field_24_flags |= 0x80;
-                return;
-            }
-
-            if (pBlock_____ && sub_447D40(pBlock_____))
-            {
-                this->field_24_flags |= 0x4000u;
-            }
-            else
-            {
-                //LABEL_69:
-                this->field_44_target_direction = car_ai_target_direction::go_straight_0;
-            }
+            this->field_44_target_direction = car_ai_target_direction::go_straight_0;
         }
     }
 }
