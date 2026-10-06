@@ -1124,18 +1124,42 @@ flips which angle range the face tests (`MapRenderer::sub_4EC450` and siblings).
 **`Fix16(f32)` multiplies by `16384.0f`.** The original uses `fmuls` with a float constant; the constructor in
 `fix16.hpp` now does too (no matched function changed).
 
-### x87 code: rounding points and kept values decide the schedule
+### x87 code: the scheduler works in 81-node windows
 
-VC6's x87 scheduler is deterministic: it only reorders what the IL gives it, so flags and compiler builds
-don't change it (see the MapRenderer note under "Still unexplained"). What changes it is the shape of the
-float expression tree:
+Code generation fixes the x87 instruction order (the expression tree, Sethi-Ullman style). C2's Pentium
+list scheduler (`0x1072a20f`) only moves integer instructions around it, per basic block, in windows of at
+most 81 instruction nodes. A window ends at a label or branch, not at a call. Within a window the ready
+instruction with the longest latency-weighted path to the window end goes first. Ties keep source order.
+Two integer instructions can pair; an x87 instruction issues alone. Nothing moves across a window
+boundary. So where the 81st node falls decides, for example, whether a dead `mov %ebx,hi` is hoisted to
+the top of a block or waits for its `fiadd`.
 
-- **Assigning to an `f32` local adds a rounding node, even if the local is optimised away.** That makes
-  the next x87 op one step deeper, so the scheduler fills the gap with integer work. `Set_UV_4F4190`
-  only matched with `f32 u = uv.x.mValue; ... = u / 16384.0f;`: `Fix16::ToFloat()` (`mValue / 16384.0f`)
-  put `fmuls` before the index load `mov (%eax),%ecx`, the local put it after. An explicit `(f32)` cast
-  of the int does not add the node; `(f32)(a * b)` of a product does. Changing `ToFloat()` itself
-  breaks `ProjectVertTop_4EAE00`/`Bottom_4EAEA0`, so the original used both forms.
+Nodes that emit nothing still count. Each of these adds a no-op node:
+
+- a parenthesised float subexpression: `((a*b))` adds two, and `ToFloat()`'s `(mValue / 16384.0f)` adds
+  one for each call that isn't CSE'd;
+- an `(f32)` cast of a float expression;
+- a store to an `f32` local, even one that is optimised away.
+
+A no-op node also delays the next x87 op by one cycle. That is the "rounding node" of `Set_UV_4F4190`
+and `Mike_A80::sub_4FFD90`:
+
+- `Set_UV_4F4190` only matched with `f32 u = uv.x.mValue; ... = u / 16384.0f;`. With `ToFloat()`,
+  `fmuls` came before the index load `mov (%eax),%ecx`; the local put it after.
+- An explicit `(f32)` cast of an int adds no node.
+- Changing `ToFloat()` itself breaks `ProjectVertTop_4EAE00`/`Bottom_4EAEA0`, so the original used both
+  forms.
+
+Parentheses also block reassociation. VC7 ignores them, so the 9.6f check can't tell the paren forms
+apart.
+
+When a function differs only in integer/x87 interleaving from some point of a long straight block,
+count the nodes and search the window limit, then look for the missing parentheses or casts. The tools
+are in `Scripts/x87_sched/`: `sched.sh` prints the windows and the schedule, and `regsearch.py` finds the
+limit that matches. For a worked case, see the MapRenderer entry under "Still unexplained".
+
+Other float shapes that change the code:
+
 - **`fild x; flds c; fsub %st(1),%st` ... `fstp %st(0)`** (a converted int kept on the x87 stack and
   popped unused later) means the same float value appears twice in the tree and one use was folded by
   CSE. `Mike_A80::sub_4FFD90` matched with `left = 630.0f - fx; right = 630.0f - fx + 1.0f;`: the second
@@ -1144,7 +1168,8 @@ float expression tree:
   corner makes VC6 compute it once, keep it in a stack temp and copy it with integer moves, as the
   original does; a named `f32` local stays on the x87 stack (`DrawText_5D8A10`, 229 -> 20).
 - Operand order of commutative `*` and `+` makes no difference (the compiler canonicalises it), and
-  neither do (u32)/(unsigned)/`*(u32*)&` variants of the u32 -> float conversion.
+  neither do (u32)/(unsigned)/`*(u32*)&` variants of the u32 -> float conversion. Compiler flags and
+  builds (RTM to SP6) don't change the schedule either.
 
 A quick way to test such variants: `Scripts/tu_harness/tu.sh` compiles a preprocessed copy of the TU
 (about 3 seconds) and diffs single functions, `score.py` scores a whole TU. Status and next steps for the
@@ -1802,70 +1827,57 @@ both copies. Only a meaningless cast changed it.
   `push %esi; mov %ecx,%esi` happen inside the `if`, where ours keeps the pointer in `esi` from the
   start (0x446DC0, `0x5C5F10`).
 - `ebp` pushed only after an early null check (`Hud_Brief_704::ClearAllBriefsWithPriority_5D4890`).
-- x87 instruction scheduling around the inlined vertex helpers in the `MapRenderer::Draw*Sided*`
-  functions.
-  The same `ProjectVertTop_46BD40` y line is now nearly the whole diff of `MapRenderer::sub_4EC450`, `sub_4EC7A0`,
-  `sub_4ECAF0`, `sub_4ECE40`, `draw_left_4F3C00` and `sub_4F4600`: the original loads the camera centre y after
-  the multiply and orders the u32 high-dword stores differently. Expression order in either line has no effect.
-  Solving it could match several functions at once (also the Draw3Sided*/Draw4Sided* functions, 22-42 lines each).
-  Details from a focused attempt (8 functions, about 22 rebuilds):
-  - The u32 -> float conversion of the camera centre is a lo store, a zero hi store (`mov %ebx,0x1C(%esp)`) and
-    `fiaddl`. Ours hoists the hi store as early as byte-level aliasing allows; the original places it differently
-    per site (after `lo; fmuls; fmul` when the temp shares a slot with the by-ref x temp in draw_left, between
-    `mov 0x74(%eax),%edx` and `fmuls` in sub_4EC450, right before `fiaddl` in Draw4SidedDiagonalUpLeft_4EF880).
-  - The original also hoists the next statement's integer code (param loads, `xor %eax,%eax`, global loads,
-    pushes of the next inline call) above `fstps vert.y/z`, the uv stores to gTileVerts and stack temp stores.
-    Ours never moves a load above a store to a different global or stack slot. It looks like the original
-    had more precise alias information for globals and stack slots in this TU.
-  - No effect or worse: operand order in Top/Bottom, a local `f32` scale, a local camera pointer, pre-converted
-    `f32` centre locals, by-value params, swapped (y, x) params, gTileVerts by index or template index, per-file
-    flags /G3-/G6 /Oa /Ow /Os /Ot /Op /Oi- /Oy- /Og-. 9.6f has the same helper shapes; no 9.6f pairs for these.
-  - Untested: compiling the Draw* functions with the member `ProjectVertTop_4EAE00`/`Bottom_4EAEA0` inlined instead
-    of separate helpers, and whether something in the TU (an address-taken global, a pragma) lowers alias precision.
-  - A second focused experiment (17 probes, 303 diff lines in total, draw_left_4F3C00 at 16) found nothing that
-    gets closer:
-    - Flags: about 40 per-file combinations. /G3 /G4 /G5 /GB give identical code, as do /QIfist /Ob1 /Ob2 /Ox /Ot
-      /Oi- /QIfdiv /Zp. /Op /Oa /Ow /G6 /Oy- /Os are much worse.
-    - float vs double: `(__int64)`, `(f32)` and `(f32)(f64)` casts of the u32 centre give identical code;
-      `(double)(u32)` gives `fildll; faddp` (worse); the sum or product in double is worse; `* (1/16384.0f)` is
-      the same as `/ 16384.0f`.
-    - 192 variants of the Top helper (operand order, local camera pointer, local scale, by-value or by-ref
-      params) and the member `ProjectVertTop_4EAE00`/`Bottom_4EAEA0`, `__forceinline`, const refs: none better.
-    - Alias: gTileVerts extern, volatile global pointers, template-index stores: no effect. Dropping the
-      `GLOBAL()` registrations (which take the address of every global in the TU) changes only other functions.
-  - Third attempt (fast single-TU harness, about 400 compiles):
-    - **Not the compiler build.** decomp.me's VC6 packages were compiled against the same TU: RTM (8168),
-      SP3 (c1xx 8472, c2 8447), SP4 (c1xx 8867, c2 8799: byte-identical to ours), SP5 (8964/8966) and SP6
-      (9782) give the same code for the cluster; the Processor Pack c2 is worse. The scheduler is
-      deterministic on its input and doesn't depend on TU-global counters (dummy functions before it).
-    - The y-line difference: the original issues `mov 0x74(%eax),%edx; mov %esi,0x1C(%esp)` (centre load
-      and the dead zero high dword of the u32 -> float temp) only after `fstps x; fildl y; fmuls; fmul`,
-      ours right after the x `fiaddl`. In the original the high-dword store waits for the load, as if it
-      depended on it; in ours it is independent. Even the out-of-line `ProjectVertTop_4EAE00` stores it
-      before `fstps (%esi)`, so it isn't pointer aliasing.
-    - Helper forms that help other functions (scored over all 30 MapRenderer WIPs):
-      `pVert->y = (f32)(y * scale) + c` or an `f32` local for the y product: -79 to -88 lines in total, but
-      7 functions get worse (`DrawTopSide_4EBA60` +32); a local `Camera_0xBC*`: -94 (4EAF40 -67, 4ED290
-      -60, 4EBA60 +32). None fixes the 0.93 cluster, so none is committed.
-  - Lead: probably the compiler build rather than the source. The original isn't self-consistent the way a source
-    cause would be: the same inlined Top stores the zero hi dword early at one site and late at another with the
-    same stack layout (draw_lid_4F4D60), and late in sub_4EC450 but early in draw_left. That looks like a scheduler
-    tie-break. In `Set_UV_4F4190` (one `fmuls`/`mov (%eax),%ecx` swap, the smallest case) /G6 flips exactly that
-    pair but breaks push order elsewhere. Our toolchain mixes C2.DLL 12.00.8799, C1XX 12.00.8867 and CL 12.00.8804.
-    Rich headers (`Scripts/bin_comp/rich_header.py`, dumped by the target-asm CI as `rich.txt`): 10.5.exe's game
-    objects are Utc12_CPP build 8799 (102) and 8797 (11), Utc12_C 8797, Linker600 8447, the same builds as
-    our build (Utc12_CPP 8799 x110, 8797 x11, Utc12_C 8797, Linker600 8447). So the back end (C2.DLL 8799,
-    which stamps @comp.id) and the linker match, and a different c2.dll is ruled out. The Rich header does
-    not record the C1XX front-end build (ours is 12.00.8867), so a different front end, which could hand c2
-    the IL in a different order, is the remaining compiler-side possibility. Otherwise the cause is in the
-    source or TU context (declaration order, what else is in MapRenderer.cpp).
-  - "Escaped slot" theory (`ProjectVert_4EB940` 22, `draw_left_4F3C00` 16, siblings): in the original the
-    u32 -> float temp's stack slot may be shared with an address-taken variable (the `z_val` copy in 4EB940,
-    the x sum temp passed by reference in draw_left's Top call), so VC6 won't hoist the zero hi store or the
-    `field_74` load above `fstps`. An out-of-line call taking `&z_val` reproduces it but adds code. No
-    code-free marker did: inline member calls, references, pointer locals, a `const Fix16&` param, user copy
-    ctor / `operator=` / dtor / `ToFloat` variants in fix16.hpp, `operator+` forms. Probably in how the
-    original wrote the inlined set_vert/projection helpers.
+- x87/integer interleaving around the inlined vertex helpers (`ProjectVertTop_46BD40`, `ProjectVertBottom_46BDF0`,
+  `ProjectVert_46BC70`) in the `MapRenderer::Draw*` functions. **The mechanism is known; the source change
+  is not.** The cause is the scheduler's window breaks (see "x87 code: the scheduler works in 81-node
+  windows"). It is not alias precision or an escaped stack slot, as earlier notes here assumed. The original
+  had about 9-11 more no-op nodes (parentheses, `(f32)` casts, `f32` locals) per window than our source, so
+  its windows end earlier.
+  - Example: the centre load and the dead zero high dword of the u32 -> float temp
+    (`mov 0x74(%eax),%edx; mov %esi,0x1C(%esp)`) fall into the next window. They wait until after
+    `fstps x; fildl y; fmuls; fmul`.
+  - This also explains why the same inlined Top stores that dword early at one site and late at another.
+
+  The table shows the effect of a patched window limit (`Scripts/x87_sched/regsearch.py`), with the source
+  unchanged:
+
+  | Function | Diff lines, stock limit 80 -> best | Limit |
+  |---|---|---|
+  | `draw_left_4F3C00`, `draw_right_4F4250`, `draw_top_4F4600`, `draw_bottom_4F49B0` | 8 -> 0 | 71 |
+  | `Draw3SidedDiagonalUpRight_4EEE60`, `Draw4SidedDiagonalUpLeft_4EF880` | 18 -> 0 | 69 |
+  | `draw_lid_4EE130` | 24 -> 0 | 69/70 per window |
+  | `DrawDiagonalUpLeftFace_4EC450`, `DrawDiagonalDownRightFace_4ECE40` | 13 -> 2 | 69 |
+  | `Draw3SidedDiagonalDownRight_4EF520`, `Draw4SidedDiagonalDownLeft_4EFDB0` | 20 -> 2 | |
+  | `DrawDiagonalUpRightFace_4EC7A0`, `DrawDiagonalDownLeftFace_4ECAF0` | 18 -> 4 | |
+  | `Draw3SidedDiagonalUpLeft_4EEAF0` | 20 -> 4 | |
+  | `Draw4SidedDiagonalUpRight_4EFB20` | 22 -> 4 | |
+  | `ProjectVert_4EB940` | 11 -> 4 | |
+  | `Draw3SidedDiagonalDownLeft_4EF1C0` | 24 -> 6 | |
+  | `Draw4SidedDiagonalDownRight_4F0030` | 22 -> 6 | |
+
+  One limit of 69 for the whole TU takes the MapRenderer WIPs from 1246 to 983 differing lines, but it
+  changes the matched `set_shading_lev_4E9DB0`. So the extra nodes are in the cluster's helpers or call
+  sites, not in every function.
+
+  Next step: find a placement of parentheses, casts or `f32` locals in the helpers that adds about 9-11
+  nodes per window. Count the nodes with `sched.sh` and check the whole TU with `regsearch.py --tu`.
+
+  What earlier attempts ruled out (about 600 compiles):
+  - **The compiler build.** decomp.me's VC6 RTM, SP3, SP4 (byte-identical to ours), SP5 and SP6 give the
+    same code, and the 10.5 Rich header matches our objects (Utc12_CPP 8799/8797, Linker600 8447).
+  - **Changes with no effect:**
+    - about 40 per-file flag combinations;
+    - float vs double forms of the centre conversion;
+    - operand order;
+    - about 200 helper variants: local camera pointer, local scale, by-value or by-ref params, member vs
+      free helpers, `__forceinline`;
+    - alias markers: extern or volatile globals, address-taken slots.
+  - **Helper forms that help other MapRenderer functions but not the cluster** (scored over all 30 WIPs):
+    - `pVert->y = (f32)(y * scale) + c`, or an `f32` local for the y product: -79 to -88 lines in total,
+      but 7 functions get worse;
+    - a local `Camera_0xBC*`: -94 lines.
+
+    Under the window rule, these change the node count in the wrong places. See `docs/x87_handoff.md`.
 - Inline bodies for 25 other `Fix16`/`Fix16_Point` operators (`operator/`, `Multiply_438FE0`, `Divide_442CB0`,
   `Negate`, `Max`, `Abs`, ...), like the one that helps `Fix16_Point::operator-` (`Sub_40AC80`): no new matches,
   and most broke existing ones (`Negate_4086A0` -32, `Multiply_408680` -26).

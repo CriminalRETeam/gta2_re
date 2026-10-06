@@ -1,16 +1,26 @@
 # x87 / MapRenderer handoff
 
 Status of the MapRenderer x87 scheduling investigation, the tools built for it, and where to pick it up.
-Read `docs/matching_quirks.md` ("x87 code: rounding points and kept values" and the MapRenderer entry
-under "Still unexplained") for the details behind each point.
+Read `docs/matching_quirks.md` ("x87 code: the scheduler works in 81-node windows" and the MapRenderer
+entry under "Still unexplained") for the details behind each point.
 
 ## Where it stands
 
-- About 13 MapRenderer functions at 0.89 to 0.94 (`DrawDiagonal*Face_4ECAF0/4ECE40`, `Draw3Sided*`, `Draw4Sided*`,
-  `draw_lid_4EE130`, `ProjectVert_4EB940`, ...) differ only in x87/integer instruction order around the
-  inlined `ProjectVertTop_46BD40` / `ProjectVertBottom_46BDF0` / `ProjectVert_46BC70` helpers.
-- Matched along the way: `Set_UV_4F4190` (f32 locals instead of `ToFloat()`), `Mike_A80::sub_4FFD90`
-  (a repeated `630 - fx` that VC6 CSEs; a ternary clamp).
+- **Solved mechanism: window breaks.** C2's list scheduler cuts each basic block into windows of at most 81
+  nodes and moves integer instructions only within a window. The x87 order is fixed. No-op nodes (op 354)
+  count toward the 81: parenthesised float subexpressions, `(f32)` casts of float expressions, stores to
+  `f32` locals. The original had about 9-11 more of them per window in the cluster, so its windows break
+  earlier. A patched window limit makes `draw_left/right/top/bottom` (`4F3C00`/`4F4250`/`4F4600`/`4F49B0`,
+  limit 71), `4EEE60`, `4EF880` and `draw_lid_4EE130` (69) match exactly, and brings the others in the
+  cluster to 2-6 lines. The table is in the MapRenderer entry in `docs/matching_quirks.md`. The tools are in
+  `Scripts/x87_sched/` (README there).
+- **Open: the source change.** Find where the original had the extra no-op nodes (most likely parentheses,
+  casts or `f32` locals in the inlined `ProjectVertTop_46BD40` / `ProjectVertBottom_46BDF0` /
+  `ProjectVert_46BC70` helpers or `set_vert_xyz_relative_to_cam`). It has to give about 9-11 nodes per window
+  without changing the matched functions. A global limit of 69 changes `set_shading_lev_4E9DB0`, so the
+  nodes are not spread evenly over the TU.
+- Matched along the way: `Set_UV_4F4190` (f32 locals instead of `ToFloat()`: one more no-op node),
+  `Mike_A80::sub_4FFD90` (a repeated `630 - fx` that VC6 CSEs; a ternary clamp).
 
 ## What is known
 
@@ -18,10 +28,11 @@ under "Still unexplained") for the details behind each point.
    RTM, SP3, SP4 (ours, byte-identical: CL 8804, C1XX 8867, C2 8799), SP5 and SP6 give the same code for the
    cluster; the Processor Pack is worse. The 10.5 Rich header matches our objects (Utc12_CPP 8799/8797,
    Linker600 8447). The scheduler is deterministic and doesn't depend on TU-global counters.
-2. **The schedule follows the expression tree.** Assigning to an `f32` local, or an `(f32)` cast of a
-   product, adds a rounding node that moves the next x87 op later; a repeated float subexpression keeps a
-   value on the x87 stack (`fsub %st(1),%st` ... `fstp %st(0)`). Commutative operand order and the spelling
-   of the u32 conversion make no difference.
+2. **The schedule follows the expression tree and the window breaks.** Assigning to an `f32` local, an
+   `(f32)` cast of a product or a parenthesised float subexpression adds a no-op node. The node moves the
+   next x87 op one cycle later and counts toward the 81-node window. A repeated float subexpression keeps
+   a value on the x87 stack (`fsub %st(1),%st` ... `fstp %st(0)`). Commutative operand order and the
+   spelling of the u32 conversion make no difference. VC7 drops the parentheses, so 9.6f can't show them.
 3. **The helper bodies are the original source, as 9.6f compiled them.** 9.6f.exe is VC7.0
    (Utc13 13.00.9466, VS.NET 2002), and decomp.me's msvc7.0 is that exact build. With
    `/O2 /Ob0 /G5 /GX` (/G3 /G4 the same; the default /GB and /G6 differ: they convert u32 with
@@ -35,7 +46,8 @@ under "Still unexplained") for the details behind each point.
    copies VC6 didn't inline (see "Big functions run out of inline expansions").
 5. The remaining cluster difference: in the y line of the inlined Top, the original issues the centre load
    and the dead zero high dword of the u32 -> float temp (`mov 0x74(%eax),%edx; mov %esi,0x1C(%esp)`) only
-   after `fstps x; fildl y; fmuls; fmul`, ours right after the x `fiaddl`.
+   after `fstps x; fildl y; fmuls; fmul`, ours right after the x `fiaddl`. In the original those
+   instructions fall into the next scheduling window (point 2 and "Where it stands").
 
 ## Experiments and their scores
 
@@ -52,7 +64,7 @@ Scored with `score.py` over all 30 MapRenderer WIPs (differing lines, lower is b
 
 None of these is committed.
 
-## Tools (`Scripts/tu_harness/`)
+## Tools (`Scripts/tu_harness/`; scheduler windows: `Scripts/x87_sched/`)
 
 ```bash
 Scripts/tu_harness/fetch_compilers.sh                 # once: VC6 RTM..SP6 and VC7.0 into build_vc6/compilers/
@@ -88,6 +100,12 @@ builds fail; cut the TU before the first such function and append only what you 
 
 ## Next steps
 
+0. **Find the missing no-op nodes.** For one function at a time: `Scripts/x87_sched/sched.sh
+   Source/MapRenderer.cpp draw_left_4F3C00` shows the windows and where ours breaks. `regsearch.py` gives
+   the limit, and so the node shortfall, per window. Add parentheses, `(f32)` casts or `f32` locals to the
+   helpers until the counts agree, then check the whole TU with `regsearch.py --tu` or `score.py`. Start
+   with the four `draw_left/right/top/bottom` functions: they need the same 9 nodes. The steps below still
+   apply to the helper and call shapes.
 1. **Match a 9.6f Draw function under VC7** (start with 0x470800 `draw_lid` = 10.5 `draw_lid_4F4D60`). Make
    Top/Bottom/ProjectVert MapRenderer members called on `this`, as in 9.6f (`thiscall`, ret $0xC); a first
    try with them as `__stdcall` free functions was at 0.452 because of the missing `this`. Once a 9.6f Draw
