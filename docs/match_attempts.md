@@ -3003,3 +3003,58 @@ Scores are `quick_score.sh` lines. One new match.
   `return` after the if/else, else `return` + outer `return`: 6.
 - `DrawGradientSlopeSouthwards_4F1660` (4): `regsearch.py` finds no window limit below the stock score, so it is
   not a window break; not retried after the ~1500-form sweep above. `Car_14::SpawnTrafficCar_582480` (8): not retried.
+
+### Fresh pass over the near misses (Oct 6, agent/fresh2)
+Scores are `quick_score.sh` lines. Variants were compiled in a mirror of `Source/` (symlinks plus the edited
+file, so a header could be swapped per variant) without touching `build_vc6/`.
+- `ErrorLog::ErrorLog_4D94E0` 32 -> 0 (**MATCH**, 3296 -> 3297). The original constructs the member
+  `ofstream` (`??0ofstream@@QAE@XZ`, `push $1` is the virtual-base flag) and registers EH state 0 before
+  `Open_4D9470`. The `fake_ofstream` buffer hack hid both; `sizeof(ofstream)` is 0x3C under VC6 (probe:
+  `char c[sizeof(ofstream) == 0x3C ? 1 : -1]` compiled with `compile.sh`), so the real member replaces the hack
+  for `!defined(__clang__) && _MSC_VER <= 1200` and `field_3C_pLen` stays put.
+- `Garox_12E4_sub::DrawPlayerStatsHelper_5D61A0` (10): the role swap of `ebx`/`ebp` (width vs base_xpos) with
+  `s32 width` is insensitive to `u8` (58, slot + `edi`), `s32 width;` then assign, the combined
+  `get_sprite_width_4C7220` inline, `(s16)` on the getter, `s16 sprite_idx`, a `half` local (76), an explicit
+  `Fix16(base_xpos - width / 2)` (62): all 32 except where noted.
+- `Weapon_30::fire_truck_gun_5E0E70` (10): the `pTurret->field_0->field_0` chain through `eax` with
+  `lea 8(%esp),%ecx` before the load. `rValue +=` plus `Normalize()` (300, the loop inlines), `Ang16(a + b)`
+  ctor (74), no `pTurret` local (20), a `Sprite*` local (26), `gun_ang = word; gun_ang += sprite angle` (228).
+  `find_96f_counterparts.py` gives no 9.6f partner (best share 0.38).
+- `Particle_4C::UpdateAttachedEmitter_state_9_10_53B670` (12): the Ang16 slot 0x10 vs 0x12. An `s16 rnd`
+  local for `get_int(8)` (12; `rnd - 4` folded into it: 16, the `sub` moves above the `movswl`), `angle`
+  declared before/after `jitter` at function scope (52), `jitter +=` (54), a `Fix16 half` local (12),
+  `operator+=` returning void (12), `Fix16_To_Ang16` through the `(s16, u8)` ctor (12), `angle` built with the
+  `const s16&` ctor (12) or the `(s16, u8)` ctor (12). Whatever holds 0x10 in the original is not a visible
+  temp of these expressions.
+- `Wolfy_7A8::sub_543690` (12): the two `lea` temps swapped between the in-loop and final tails.
+  `smallestVal_idx = last_idx` before the in-loop store, a `u8 idx` for the final tail, a `Wolfy_30*` local
+  in the in-loop tail: all 12.
+- `Particle_8::EmitElectricArcParticle_540320` (20): the rng/word `imul` operand registers. A left-wide
+  multiply (`(__int64)a.mValue * b.mValue`) in a static inline, with the `Fix16*` ctor via a `tmp` (20) or via
+  `MultiplyLeftWide` (20); the same inside `Ang16(Fix16(...), 0)` directly: 168.
+- `struct_4::CleanupSpriteList_5A7080` (20): VC6 lays the keep block out as the fall-through into the loop
+  test whatever the source order: `if (...) { A; continue; } else { K; continue; } B` (20), `goto head_unlink`
+  with the label after `continue` (20), `if (!pIter) return` after the unlink branches (28). The matched
+  `PruneNonCollidingSprites_5A7240` (`if (keep) K else if (pLast) A else B`) is laid out in source order K, A, B,
+  so the original's A, K, B order is still unexplained.
+- `Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0` (54): the `return 0` epilogue placed right after the
+  loop's bottom `jne`. Flat `if (Process()) return 0;` chains (54), `if (count) continue; return 0;` (54),
+  `for (;;)` with an explicit top `return 1` (54), `if (!count) return 1; do {} while (count); return 0;` (82),
+  `goto fail` for the end-of-body `return 0` only or for every in-loop `return 0` with `fail: return 0;` after
+  the final `return 1` (54): VC6 ignores the textual position of the shared epilogue here.
+- `PoliceCrew_38::State6_ShutDown_574720` (46): with `u8 i = 0` at the top, writing the three literal-0
+  `SetObjective2_463830(0, 9999)` calls as `objectives_enum::no_obj_0` does not remove the `ebp` zero register
+  (128), so enum vs literal zeros in pushes is not the missing count.
+- `Fix16_Point::NormalizeSafe_442AD0` (52): `Fix16 length; length = GetLength...()` (209) and additionally
+  `Fix16_Point scaled;` hoisted (204) are far worse; the slot reuse of the second GetLength result with the
+  first expansion's `y*y` (0xC) stays unexplained.
+- `Camera_0xBC::ApplyCarVelocityCameraOffset_436200` (58): `compare_callees_multiset.py` reports a missing
+  `ErrorLog::Write_4D9620` call, but mapping every original `call` through the csv shows none (the targets are
+  `Multiply/Add_40866x`, `atan2_fixed_405320`, `Abs_436A50`, `SquareRoot_436A70`, `get_linvel_43A450`,
+  `Multiply_438FE0` and the `__all*` helpers), so that report is a tool artefact. 9.6f 0x41EBF0 calls
+  `SetFromPolar_41E210` on `offset` by reference and then two `add_40E530`, i.e. our shape. The one dead
+  `offset.x` store: `SetFromPolar_41E210` overload (62), the two assignments written out (162), by-value
+  `Fix16_Point offset(sin * r, cos * r)` (174).
+- `Garage_48::ParkCarAtDoor_534700` (116) and `PedGroup::MergeWithOtherGroup_4C9B60` (104): re-scored and read;
+  nothing new beyond the existing notes (register priority between `pPed` and the list cursor; `w2`/`&field_38`
+  swap). `compare_globals.py` flags nothing on any of the targets above.

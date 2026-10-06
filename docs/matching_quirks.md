@@ -2309,3 +2309,23 @@ return and the value by reference. Written as a file-local `static inline Fix16 
 gave VC7 a different register allocation for the whole function (426 vs 66 lines); as
 `static Fix16 Fix16::GetFracValue_42A630(const Fix16&)` the 9.6f code matched. Declare it in the header and
 define it in the .cpp that needs it.
+
+### Stubbed-out members and tool artefacts (fresh pass, Oct 6)
+
+**A member whose class is stubbed with a byte buffer loses its constructor call and EH frame.** `ErrorLog`
+held its `ofstream` as a `char[0x3C]` hack, so `ErrorLog::ErrorLog_4D94E0` lacked the `??0ofstream@@QAE@XZ`
+call (`push $1` before it is the virtual-base "most derived" flag of the classic iostreams) and the EH
+registration for the member. Under VC6 the classic `ofstream` is exactly 0x3C bytes, so the real member keeps
+the following field's offset; it is used for `!defined(__clang__) && _MSC_VER <= 1200` only. Check a type's
+size before swapping it in: compile `char c[sizeof(T) == N ? 1 : -1];` in a scratch .cpp with
+`3rdParty/cpp_permuter/examples/gta2/compile.sh` (needs `GTA2_RE`); the compile fails when the size is wrong.
+
+**`compare_callees_multiset.py` can report a phantom missing callee.** It listed
+`ErrorLog::Write_4D9620` as missing from `Camera_0xBC::ApplyCarVelocityCameraOffset_436200`, but mapping each
+original `call` (relative to the function start) through `og_function_data_v105.csv` shows no such call.
+Before adding a statement on the strength of that tool, resolve the original's call targets yourself.
+
+**Compile variants in a mirror of `Source/`.** A directory of symlinks to `Source/*` with one real copy of the
+.cpp (and, when needed, of a header) compiles with `compile.sh`, since the source's own directory heads the
+include path. Several variants then score in parallel without touching `build_vc6/`, and a header can be
+changed for one variant only (used for the `ofstream` member and for `operator+=` probes).
