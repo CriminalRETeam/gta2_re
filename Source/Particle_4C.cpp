@@ -950,7 +950,8 @@ char_type Particle_4C::UpdateStaticAnim_state_39_53A180()
     return 0;
 }
 
-WIP_FUNC(0x53a280)
+// 9.6f 0x48BEE0: the car box is read through get_car_width/get_car_height (puts this in edi)
+MATCH_FUNC(0x53a280)
 char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
 {
     Fix16_Point corner;
@@ -966,13 +967,13 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
     if (field_28_pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
     {
         Car_BC* pCar = field_28_pSprite->AsCar_40FEB0();
-        if (!pCar || pCar->field_88_despawn_status == 5)
+        if (!pCar || pCar->IsDespawning_4215B0())
         {
             return true;
         }
 
-        u8 sub = field_46_sub_state + 1;
-        field_46_sub_state = sub;
+        // The copy of the incremented state (dl) outlives the stored value (bl, reused for the angle)
+        u8 sub = ++field_46_sub_state;
         if (sub == 5)
         {
             return true;
@@ -983,15 +984,13 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
         Fix16 half_h;
         if (sub < 4)
         {
-            Sprite_4C* pBox = pCar->field_50_car_sprite->field_C_sprite_4c_ptr;
-            half_w = pBox->field_0_width / 2 + dword_6FD3C0;
-            half_h = pBox->field_4_height / 2 + dword_6FD5A8;
+            half_w = pCar->get_car_width() / 2 + dword_6FD3C0;
+            half_h = pCar->get_car_height() / 2 + dword_6FD5A8;
         }
         else
         {
-            Sprite_4C* pBox = pCar->field_50_car_sprite->field_C_sprite_4c_ptr;
-            half_w = pBox->field_0_width / 2 + dword_6FD3C0;
-            half_h = pBox->field_4_height / 2 + dword_6FD2E8 + dword_6FD554;
+            half_w = pCar->get_car_width() / 2 + dword_6FD3C0;
+            half_h = pCar->get_car_height() / 2 + dword_6FD2E8 + dword_6FD554;
         }
 
         // The rotations are written out (RotateByAngle_OOL_40F6B0 shape): with the helper in both
