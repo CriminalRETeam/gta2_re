@@ -2317,3 +2317,45 @@ address order and callee overlap: `PoolUpdate_53D260` -> 0x490760, `UpdateObject
   `RecordWeaponHit_512C00(id, 194/198, 1)` calls separate (`push $1` hoisted, the id loaded into `eax`/`ecx`),
   ours merges them into one. Left: stack slots and frame from the start; 9.6f copy probably 0x490130.
 - `Particle_4C::UpdateObjectBeamLink_state_38_538AC0` (493): not attempted this pass; 9.6f copy 0x48F230.
+## DrawGradientSlope* (MapRenderer, Oct 6)
+
+Scores are `quick_score.sh` lines. `DrawGradientSlopeNorthwards_4F0420` 399 -> 0 and `Westwards_4F22F0`
+617 -> 0 (**MATCH**), `Southwards_4F1660` 356 -> 8, `Eastwards_4F33B0` 524 -> 16. What it took, in order:
+
+- `u16 side_word` block-scoped (one per `if (gBlockX) { if (gBlockY) {` block): the original reuses its
+  slot for the lid temporaries, so the frame is 0x14, not 0x18.
+- The coordinate adjustment before the `side_word` assignment, written `gXCoord = gXCoord + k` /
+  `- k` instead of `+=`/`-=`. The statement order keeps `eax` (the side word) live across the add, so
+  the add uses ecx/edx. The operator form matters for the **inline budget**: `operator+`/`operator-`
+  (52 each, six sites) use up what `+=` (free) does not, and the last `ProjectVert_4EB940` call's two sums
+  then go out of line as `Add_408660` calls, as in 10.5 (`inl.sh`: budget 317 -> 65 before that site).
+- Lid colour: `u16 colour_sel = (gLidType >> 10) & 3; if (colour_sel == 0) colour = field; else colour =
+  GetColour_4F0BD0(colour_sel);` (16-bit compare, `and $0xFFFF` before the call, field in the fallthrough).
+  A ternary changes the inlining (221); a nested block for `colour` changes nothing.
+- Two bugs: Northwards' right side word is `| 0x1000` (was `| 0x10`), Eastwards' lid flag is `| 4`.
+- The inlined `ProjectVert_46BC70` x/y lines: both operands converted through an `f32` local with
+  parentheses (`Fix16ToF32_Rounded3` / `Rounded2`). regsearch had said window 35 (the first lid else
+  branch) needed ~10 more nodes, and the `idiv`/`fmuls` order needed a node *between* `fildl` and `fmuls`
+  (the f32 local), not after. The heavier operand is loaded first, and that order differs per function
+  in 10.5 (N, W: x first; S, E: field_60 first; the out-of-line 4EB940 copy: field_60 first). With equal
+  weights VC6 breaks the tie by something in the function's context that we don't reproduce for W (3 of
+  4 agree with a plain body; renaming the function, the lid flag constant, the colour field, and the
+  single side blocks' order don't flip it, dropping the first block does). So S and E have their own copy
+  (`VertProjector3`, field_60 heavier). Left for S (8) and E (16): `fildl y` one or two integer
+  instructions later than the original in the y line after the next vertex's `idiv`, and the final `fstps`
+  sunk below the next call's `add`/`mov`/`push`. Tried ~40 conversion-form combinations (parens 0-5,
+  one or two f32 locals, `(f32)` casts, different forms for the x and y lines): best stays 8/16, and the
+  forms that help E (R1/Q1: 12) hurt S (32).
+- `ProjectVert_4EB940` 22 -> 4: the same conversion forms as the S/E slopes (`Fix16ToF32_Rounded2(xpos) *
+  Fix16ToF32_Rounded3(field_60)`, field_60 first as in 10.5) and `Fix16ToF32_Rounded` for the x/y
+  conversions in `set_vert_xyz_relative_to_cam_inlined` (puts the index `mov %ecx,%eax` behind the z
+  temp store). Left: `pop %ebx` before the y line's `fmuls 8(%ecx)` instead of after it. The y line's
+  node count (0-3 parens, with or without the f32 local, x and y lines separately) doesn't move it.
+- `MapRenderer::Draw_4F6A20` 448 -> 442, but the logic now follows 10.5: `x_semi_distance++` when
+  `(max_x - min_x) % 2 != 1` (the increment was commented out, and the test was on the half-width), the
+  block loops start at `semi_distance - 1`, the four `AddToDrawList_46BB90` calls go right/down, left/down,
+  right/up, left/up, and the z factors are `cam.z + Fix16(8 - zLayer)` (the `- Fix16(zLayer) + Fix16(8)`
+  form folds differently). Left: zLayer in `ebp` instead of `ebx` from the top, `Fix16(zLayer)` kept in a
+  register instead of a spill slot (frame 0x24 vs 0x20), the lights block's tail duplicated into the loop
+  init, the first inlined `AddToDrawList` storing y through the `lea`'d pointer. Indexed stores in the
+  helper (746) and `Fix16(gZCoord_6F63E0)`/`Fix16(gZCoordTop_6F62B0)` for the z factors (728) are worse.

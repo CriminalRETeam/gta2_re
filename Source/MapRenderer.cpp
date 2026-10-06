@@ -198,8 +198,10 @@ static inline void set_vert_xyz_relative_to_cam_inlined(Fix16 xCoord, Fix16 yCoo
 
     s32 next_idx = (pVerts - gTileVerts_6F65A8) + 4;
 
-    gTileVerts_6F65A8[next_idx].x = (xCoord + pCam->field_98_cam_pos2.field_0_x).ToFloat();
-    gTileVerts_6F65A8[next_idx].y = (yCoord + pCam->field_98_cam_pos2.field_4_y).ToFloat();
+    // Only ProjectVert_4EB940 inlines this copy. The f32 locals (Fix16ToF32_Rounded) move the index
+    // computation's mov behind the z temp store, as in the original (22 -> 4 lines).
+    gTileVerts_6F65A8[next_idx].x = Fix16ToF32_Rounded(xCoord + pCam->field_98_cam_pos2.field_0_x);
+    gTileVerts_6F65A8[next_idx].y = Fix16ToF32_Rounded(yCoord + pCam->field_98_cam_pos2.field_4_y);
     gTileVerts_6F65A8[next_idx].z = z_val.ToFloat();
 }
 
@@ -690,8 +692,10 @@ void __stdcall set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, F
 
     s32 next_idx = (pVerts - gTileVerts_6F65A8) + 4;
 
-    gTileVerts_6F65A8[next_idx].x = (xCoord + pCam->field_98_cam_pos2.field_0_x).ToFloat();
-    gTileVerts_6F65A8[next_idx].y = (yCoord + pCam->field_98_cam_pos2.field_4_y).ToFloat();
+    // Only ProjectVert_4EB940 inlines this copy. The f32 locals (Fix16ToF32_Rounded) move the index
+    // computation's mov behind the z temp store, as in the original (22 -> 4 lines).
+    gTileVerts_6F65A8[next_idx].x = Fix16ToF32_Rounded(xCoord + pCam->field_98_cam_pos2.field_0_x);
+    gTileVerts_6F65A8[next_idx].y = Fix16ToF32_Rounded(yCoord + pCam->field_98_cam_pos2.field_4_y);
     gTileVerts_6F65A8[next_idx].z = z_val.ToFloat();
 }
 
@@ -871,12 +875,10 @@ void MapRenderer::ProjectVert_4EB940(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert
 {
     set_vert_xyz_relative_to_cam_inlined(xpos, ypos, zpos, pVert);
 
+    // The same conversion forms as VertProjector3::ProjectVert_46BC70 (field_60 is loaded first here too).
     pVert->z = 1.0f / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
-    {
-        u32 tmp = (u32)gViewCamera_676978->field_70_screen_px_center_x;
-        pVert->x = xpos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat() * pVert->z + tmp;
-    }
-    pVert->y = ((ypos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat()) * pVert->z) + (u32)gViewCamera_676978->field_74_screen_px_center_y;
+    pVert->x = Fix16ToF32_Rounded2(xpos) * Fix16ToF32_Rounded3(gViewCamera_676978->field_60.x) * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
+    pVert->y = Fix16ToF32_Rounded2(ypos) * Fix16ToF32_Rounded3(gViewCamera_676978->field_60.x) * pVert->z + (u32)gViewCamera_676978->field_74_screen_px_center_y;
 }
 
 // https://decomp.me/scratch/a6z18
@@ -3487,70 +3489,66 @@ void MapRenderer::Draw_4F6A20()
         // render blocks
         if (!bSkip_tiles_67D655)
         {
-            s32 zpos_inverse = 8 - zLayer;
             // compute tile rendering boundaries
-            Fix16 layer_row_width = (gViewCamera_676978->field_98_cam_pos2.field_8_z + Fix16(zpos_inverse)) / gViewCamera_676978->field_98_cam_pos2.field_C_zoom;
+            Fix16 layer_row_width = (gViewCamera_676978->field_98_cam_pos2.field_8_z + Fix16(8 - zLayer)) / gViewCamera_676978->field_98_cam_pos2.field_C_zoom;
 
             // narrow the y direction because of assymetric monitor resolution
-            Fix16 layer_column_width = layer_row_width * kScreenAspectRatio_6F638C;  
-            
+            Fix16 layer_column_width = layer_row_width * kScreenAspectRatio_6F638C;
+
             // compute x boundary
-            
-            s32 min_x = (gViewCamera_676978->field_98_cam_pos2.field_0_x - (layer_row_width / 2)).ToInt();
-            s32 max_x = (gViewCamera_676978->field_98_cam_pos2.field_0_x + (layer_row_width / 2)).ToInt();
-            
+            s32 max_x = (gViewCamera_676978->field_98_cam_pos2.field_0_x + layer_row_width / 2).ToInt();
+            s32 min_x = (gViewCamera_676978->field_98_cam_pos2.field_0_x - layer_row_width / 2).ToInt();
+
+            // 10.5: the half-widths grow by one when the range is even, and the loops below start at
+            // half-width - 1 (an earlier version here left the increment out and started at half-width).
             s32 x_semi_distance = (max_x - min_x + 1) / 2;
-            if (x_semi_distance % 2 != 1)
+            if ((max_x - min_x) % 2 != 1)
             {
-                //x_semi_distance += 1; // in the current state, removing this line reduces map render glitches
+                x_semi_distance++;
             }
-            
+
             // compute y boundary
-            s32 min_y = (gViewCamera_676978->field_98_cam_pos2.field_4_y - (layer_column_width / 2)).ToInt();
-            s32 max_y = (gViewCamera_676978->field_98_cam_pos2.field_4_y + (layer_column_width / 2)).ToInt();
+            s32 max_y = (gViewCamera_676978->field_98_cam_pos2.field_4_y + layer_column_width / 2).ToInt();
+            s32 min_y = (gViewCamera_676978->field_98_cam_pos2.field_4_y - layer_column_width / 2).ToInt();
 
             s32 y_semi_distance = (max_y - min_y + 1) / 2;
-            if (y_semi_distance % 2 != 1)
+            if ((max_y - min_y) % 2 != 1)
             {
-                //y_semi_distance += 1; // in the current state, removing this line reduces map render glitches
+                y_semi_distance++;
             }
-            
+
             // update global Z coordinate
-            gZCoord_6F63E0 = zLayer;    // or maybe zLayer + 1 ?
+            gZCoord_6F63E0 = zLayer;
             gZCoordFp_6F6518 = Fix16(zLayer);
 
-            // Not known yet
             Fix16 unknown_1;
-            Fix16 unk_Z_Factor = gViewCamera_676978->field_98_cam_pos2.field_8_z + Fix16(zpos_inverse);
-            if (unk_Z_Factor == kZeroOnePoint_6F6484.x) //  != 0
+            Fix16 unk_Z_Factor = gViewCamera_676978->field_98_cam_pos2.field_8_z + Fix16(8 - zLayer);
+            if (unk_Z_Factor == kZeroOnePoint_6F6484.x)
             {
                 unknown_1 = kZeroOnePoint_6F6484.x;
             }
             else
             {
-                unknown_1 = kZeroOnePoint_6F6484.y / unk_Z_Factor; //  = 1 / unk_Z_Factor
+                unknown_1 = kZeroOnePoint_6F6484.y / unk_Z_Factor;
             }
 
-            // Setting some unknown global vars...
-            
-            gInvDepthBottom_6F6318 = unknown_1; // TODO: not used for now
-            gScreenScaleBottom_6F633C = unknown_1 * gViewCamera_676978->field_60.x;  // TODO: Is this really Fix16_Point?
+            gInvDepthBottom_6F6318 = unknown_1;
+            gScreenScaleBottom_6F633C = unknown_1 * gViewCamera_676978->field_60.x;
             gZCoordTop_6F62B0 = zLayer + 1;
-            
-            // Not known yet
+
             Fix16 unknown_2;
             Fix16 unk_Z_Factor_2 = gViewCamera_676978->field_98_cam_pos2.field_8_z + Fix16(8 - (zLayer + 1));
-            if (unk_Z_Factor_2 == kZeroOnePoint_6F6484.x) //  != 0
+            if (unk_Z_Factor_2 == kZeroOnePoint_6F6484.x)
             {
                 unknown_2 = kZeroOnePoint_6F6484.x;
             }
             else
             {
-                unknown_2 = kZeroOnePoint_6F6484.y / unk_Z_Factor_2; //  = 1 / unk_Z_Factor
+                unknown_2 = kZeroOnePoint_6F6484.y / unk_Z_Factor_2;
             }
 
             gInvDepthTop_6F656C = unknown_2;
-            gScreenScaleTop_6F628C = unknown_2 * gViewCamera_676978->field_60.x; // tile scale ?
+            gScreenScaleTop_6F628C = unknown_2 * gViewCamera_676978->field_60.x;
 
             // if zLayer = 0, reset lights
             if (zLayer == 0 && gLighting_626A09)
@@ -3565,31 +3563,27 @@ void MapRenderer::Draw_4F6A20()
 
             // Now iter over all blocks at zLayer and set up their rendering order
             // Begin with the blocks at the center of the camera and go away
-
             // In the end render in reverse order: far blocks to the nearest ones
-
-            for (s32 ypos_rel = y_semi_distance; ypos_rel >= 0; ypos_rel--)
+            for (s32 ypos_rel = y_semi_distance - 1; ypos_rel >= 0; ypos_rel--)
             {
                 s32 ypos_downwards = max_y - ypos_rel;
                 s32 ypos_upwards = min_y + ypos_rel;
-                for (s32 xpos_rel = x_semi_distance; xpos_rel >= 0; xpos_rel--)
+                for (s32 xpos_rel = x_semi_distance - 1; xpos_rel >= 0; xpos_rel--)
                 {
                     s32 xpos_right = max_x - xpos_rel;
                     s32 xpos_left = min_x + xpos_rel;
                     AddToDrawList_46BB90(xpos_right, ypos_downwards);
                     AddToDrawList_46BB90(xpos_left, ypos_downwards);
-                    AddToDrawList_46BB90(xpos_left, ypos_upwards);
                     AddToDrawList_46BB90(xpos_right, ypos_upwards);
+                    AddToDrawList_46BB90(xpos_left, ypos_upwards);
                 }
             }
 
             // Now draw tiles in reverse order
-
-            Nanobotz_8* pIter = &field_1C_draw_list[field_2EFC_curr_draw_layer_size-1];
+            Nanobotz_8* pIter = &field_1C_draw_list[field_2EFC_curr_draw_layer_size - 1];
             for (s32 j = field_2EFC_curr_draw_layer_size - 1; j >= 0; j--, pIter--)
             {
-                MapRenderer::RenderBlockAt_4F6880(pIter->field_0_x, 
-                                        pIter->field_4_y);
+                MapRenderer::RenderBlockAt_4F6880(pIter->field_0_x, pIter->field_4_y);
             }
         }
     }

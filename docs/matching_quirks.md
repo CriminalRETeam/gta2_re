@@ -1548,6 +1548,25 @@ byte compare come from `x < 63 ? x : 63` written out; an s32 or u8 `Min` helper 
 thread repeated register tests, which can move a case to the end of the function as in the original
 (`Orca_2FD4::Internel_CanMoveDiagonally_554110`).
 
+- **`x += k` is free, `x = x + k` is charged.** `Fix16::operator+=` is below the free-inline size
+  (40), `operator+`/`operator-` cost 52 each. Six coordinate adjustments written `gXCoord = gXCoord + k` /
+  `- k` in the `DrawGradientSlope*` functions (4F0420, 4F1660, 4F22F0, 4F33B0) use up the budget that
+  sends the last `ProjectVert_4EB940` call's two sums out of line (`Add_408660` with the return slot's
+  address pushed last), as in 10.5. `+=` left them inlined (`lea`/`add`). `inl.sh` shows the budget at the
+  site; the forms are indistinguishable in the code they produce on their own.
+- **A `u16 side_word` declared at the top of the function kept its slot for the whole function**; the
+  original reused it for a later temporary (frame 0x18 vs 0x14), so it was declared inside each
+  `if` block. Statement order next to it mattered too: the adjustment before the `side_word =`
+  assignment keeps `eax` live and the add goes through `ecx`/`edx` (same functions).
+- **Which of two equal-weight operands of an inlined x87 product is loaded first depends on the
+  function**, not the helper: with the same inlined `ProjectVert_46BC70`, 10.5 loads x first in
+  `DrawGradientSlopeNorthwards`/`Westwards` and `field_60` first in `Southwards`/`Eastwards` (and in the
+  out-of-line copy 4EB940). We reproduce the tie-break in 3 of the 4 and so far not in Westwards (not
+  the name, a constant or the block order; removing a whole block flips it), hence the two helper copies
+  `VertProjector2`/`VertProjector3` that make the right operand heavier (one more parenthesis). The
+  rounding node (an `f32` local) between `fildl` and `fmuls` is what moves the next vertex's `idiv` ahead
+  of the `fmuls`; parentheses alone (nodes after the `fmuls`) can't.
+
 ### Inline calls and EH states (`/GX`)
 
 Found by tracing C2.DLL (see `Scripts/inline_budget/`); the instrumented compiler logs these as `@I ABORT`.
