@@ -34,12 +34,18 @@ class ErrorLog
     // although clang-cl preprocessing, bad build options or something is causing field 0x3C to
     // end up at the wrong offset
 
+#if !defined(__clang__) && (_MSC_VER <= 1200)
+    // VC6: the real classic ofstream (0x3C bytes, checked with sizeof), so the constructor emits
+    // the original's ??0ofstream@@QAE@XZ call and EH frame (ErrorLog::ErrorLog 0x4D94E0)
+    ofstream field_0_ofstr;
+#else
     // HACK: Isn't a pointer but just done so we can use the var in Write and some other funcs for now
     struct fake_ofstream
     {
       char buffer[0x3C];
     };
     fake_ofstream field_0_ofstr; // Crashes standalone
+#endif
     u8* field_3C_pLen;
 };
 
