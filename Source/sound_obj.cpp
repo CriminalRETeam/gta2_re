@@ -4852,8 +4852,11 @@ void sound_obj::HandleTruckCorneringAudio_417FD0(Sound_Params_8* a2)
     }
 }
 
+// bFastForward is the caller's flag (0x18(%esp) in the original, read before every
+// SetVocalSpeed); the local bAppend is only PlayVocal's append flag.
+// 9.6f 0x4B25D0
 WIP_FUNC(0x57DF10)
-void sound_obj::HandleVocalStreamSwitching_57DF10(char_type a2)
+void sound_obj::HandleVocalStreamSwitching_57DF10(char_type bFastForward)
 {
     bool bFast = false;
     bool bStationChanged = false;
@@ -4873,7 +4876,7 @@ void sound_obj::HandleVocalStreamSwitching_57DF10(char_type a2)
             gSampManager_6FFF00.PlayVocal_58E510(0, 101, bFast);
         }
         gSampManager_6FFF00.SetVocalVolume_58E6D0(0, 0);
-        if (bFast)
+        if (bFastForward)
         {
             gSampManager_6FFF00.SetVocalSpeed_58E700(0, gSampManager_6FFF00.GetVocalSpeed_58E720(0) * 2);
         }
@@ -4926,7 +4929,7 @@ void sound_obj::HandleVocalStreamSwitching_57DF10(char_type a2)
             {
                 gSampManager_6FFF00.PlayVocal_58E510(0, 101, bFast);
             }
-            if (bFast)
+            if (bFastForward)
             {
                 gSampManager_6FFF00.SetVocalSpeed_58E700(0, gSampManager_6FFF00.GetVocalSpeed_58E720(0) * 2);
             }
@@ -4962,7 +4965,7 @@ void sound_obj::HandleVocalStreamSwitching_57DF10(char_type a2)
         gSampManager_6FFF00.PlayVocal_58E510(0, 101, bFast);
     }
     gSampManager_6FFF00.SetVocalVolume_58E6D0(0, 0);
-    if (bFast)
+    if (bFastForward)
     {
         gSampManager_6FFF00.SetVocalSpeed_58E700(0, gSampManager_6FFF00.GetVocalSpeed_58E720(0) * 2);
     }
