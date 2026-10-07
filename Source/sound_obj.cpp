@@ -6006,7 +6006,7 @@ void sound_obj::PoliceRadioMessageGeneration_426790()
     u8 xpos = 0;
     u8 ypos = 0;
 
-    while (gCrimeReportQueue_67A4B8->PopOldestReport(&crime_type, &crime_x, &crime_y, &crime_z) == 1)
+    while (gCrimeReportQueue_67A4B8->TryPopOldestReport(&crime_type, &crime_x, &crime_y, &crime_z) == 1)
     {
         if (crime_type)
         {

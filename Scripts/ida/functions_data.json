@@ -5239,7 +5239,7 @@
         "v96f_auto": true
     },
     {
-        "name": "CrimeReportQueue_CC::PopOldestReport",
+        "name": "CrimeReportQueue_CC::TryPopOldestReport",
         "v96f_address": "0x44a160",
         "v105_address": "0x484e20",
         "v96f_auto": true

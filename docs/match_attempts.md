@@ -1006,7 +1006,7 @@ Still different:
   reverse).
 
 ### sound_obj::PoliceRadioMessageGeneration_426790 (0x426790): MATCH
-- Picks the most serious crime reported this frame (`CrimeReportQueue_CC::PopOldestReport`, crime 9
+- Picks the most serious crime reported this frame (`CrimeReportQueue_CC::TryPopOldestReport`, crime 9
   only when nothing else was reported), counts down the radio timers, then queues the dispatcher
   lines for a new wanted level or one random chatter line.
 - 0.998 on the first build. It matched once `best_crime = 0` was declared before the two

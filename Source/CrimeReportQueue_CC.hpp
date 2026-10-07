@@ -23,7 +23,7 @@ class CrimeReport_14
     Fix16_Vec field_8_pos;
 };
 
-// Ring buffer of the last 10 reported crimes, drained by the police sound/AI code (PopOldestReport).
+// Ring buffer of the last 10 reported crimes, drained by the police sound/AI code (TryPopOldestReport).
 // field_2_read_idx is the oldest report still queued, field_0_write_idx the next free slot.
 class CrimeReportQueue_CC
 {
@@ -31,14 +31,14 @@ class CrimeReportQueue_CC
     EXPORT CrimeReportQueue_CC();
     EXPORT ~CrimeReportQueue_CC();
     EXPORT void QueueReport(s32 crime_type, s32 ped_id);
-    EXPORT bool PopOldestReport(s32* pCrimeType, Fix16* pXPos, Fix16* pYPos, Fix16* pZPos);
-    EXPORT char_type IsCrimeQueued(s32 crime_type);
+    EXPORT bool TryPopOldestReport(s32* pCrimeType, Fix16* pXPos, Fix16* pYPos, Fix16* pZPos);
+    EXPORT bool IsCrimeQueued(s32 crime_type);
     EXPORT CrimeReportQueue_CC* ctor_484FC0();
     EXPORT void dtor_484FD0();
     EXPORT void ReportCrimeForPed(u32 crime_type, Ped* pPed);
     EXPORT bool ShouldReportCarCrime_485090(Car_BC* a2, Player* a3);
-    EXPORT char_type ShouldReportCharCrime_4850F0(Char_B4* a2, Player* a3);
-    EXPORT char_type ShouldReportPedCrime_485140(Ped* a2, Player* a3);
+    EXPORT bool ShouldReportCharCrime_4850F0(Char_B4* a2, Player* a3);
+    EXPORT bool ShouldReportPedCrime_485140(Ped* a2, Player* a3);
 
     u16 field_0_write_idx;
     u16 field_2_read_idx;

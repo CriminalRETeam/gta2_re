@@ -94,7 +94,7 @@ void CrimeReportQueue_CC::QueueReport(s32 crime_type, s32 ped_id)
 }
 
 MATCH_FUNC(0x484e20)
-bool CrimeReportQueue_CC::PopOldestReport(s32* pCrimeType, Fix16* pXPos, Fix16* pYPos, Fix16* pZPos)
+bool CrimeReportQueue_CC::TryPopOldestReport(s32* pCrimeType, Fix16* pXPos, Fix16* pYPos, Fix16* pZPos)
 {
     // Get it
     field_4_reports[field_2_read_idx].GetReport(pCrimeType, pXPos, pYPos, pZPos);
@@ -117,7 +117,7 @@ bool CrimeReportQueue_CC::PopOldestReport(s32* pCrimeType, Fix16* pXPos, Fix16* 
 }
 
 MATCH_FUNC(0x484e90)
-char_type CrimeReportQueue_CC::IsCrimeQueued(s32 crime_type)
+bool CrimeReportQueue_CC::IsCrimeQueued(s32 crime_type)
 {
     // Circular loop around
     u16 idx = field_2_read_idx;
@@ -227,7 +227,7 @@ bool CrimeReportQueue_CC::ShouldReportCarCrime_485090(Car_BC* pCar, Player* pPla
 
 // https://decomp.me/scratch/KvTvv
 MATCH_FUNC(0x4850f0)
-char_type CrimeReportQueue_CC::ShouldReportCharCrime_4850F0(Char_B4* pB4, Player* pPlayer)
+bool CrimeReportQueue_CC::ShouldReportCharCrime_4850F0(Char_B4* pB4, Player* pPlayer)
 {
     bool result = true;
     if (gCharB4_HitByMine_6FDB59)
@@ -241,7 +241,7 @@ char_type CrimeReportQueue_CC::ShouldReportCharCrime_4850F0(Char_B4* pB4, Player
 }
 
 MATCH_FUNC(0x485140)
-char_type CrimeReportQueue_CC::ShouldReportPedCrime_485140(Ped* pPed, Player* pPlayer)
+bool CrimeReportQueue_CC::ShouldReportPedCrime_485140(Ped* pPed, Player* pPlayer)
 {
     Char_B4* pB4 = pPed->field_168_game_object;
     if (pB4)
