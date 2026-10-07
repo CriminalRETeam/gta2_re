@@ -252,12 +252,21 @@ vs `return`, early return, `do {} while (0)`, dead code after the switch or extr
 (all tried on `Ambulance_20::UpdateState_4FB330`, where the original's `jle` goes to an earlier exit copy and the
 block falls into its own copy; an if/else chain or a jump-table switch gives that shape at once).
 
-Cross-jumping picks the **last** identical block in layout, not the longest match: in `ProcessOtherObjects_41F520`
-the fire tail matches the 4/12 block for 8 instructions and the 13/14 block for 7, and VC6 jumps into 13/14 even
-when 4/12 is made identical to fire's whole block. It only goes to 4/12 when 13/14 is made to differ
-(`release_mod = 16`), so the original's 13/14 block must have differed from fire's tail at cross-jump time and
-become identical later; what that transient difference was is still open (label order, `default` position,
-`break`/`return` forms and statement orders don't do it).
+**Cross-jumping keeps the copy whose jump was generated last** (reversed from C2; tools and the full rules in
+`Scripts/flowopt/README.md`). The pass runs after register allocation and before scheduling, per join label.
+The unconditional jumps to the label are kept in reverse creation order. The first, normally the last copy in
+the source, is the target. Each later jump's tail is compared with it, backwards in **unscheduled** order,
+and **the first match of any length wins**, not the longest. Then the next jump becomes the target. Two consequences:
+
+- Which copy survives follows the order the jumps are generated: source order, except that a `dec/je` chain
+  switch generates its cases in value order, and inner `break`s threaded through an outer `break` end up just
+  ahead of it. `Map_0x370::sub_4E6190` only differs in this: forcing the reverse order in the patched C2 makes it
+  match exactly.
+- A pair merges or not depending on its last statements in **source** order. The scheduler can reorder them
+  afterwards, so a store order that looks identical in the binary may not have been at cross-jump time.
+  In `ProcessOtherObjects_41F520` with the original 13/14 order, fire is compared with 13/14 before 4/12 and
+  merges there. Forcing 4/12's `break` ahead of 13/14's in the list gives score 0, but with one `jmp` into the
+  wrong copy (`jumps.py`), so that order is close but not the original's.
 
 **A switch range that runs past the last real case.** If the index table covers values
 that all go to `default`, a case at the top of the range exists in the source but does
@@ -2216,8 +2225,9 @@ These came up more than once and nothing tried so far reproduces them. Notes on 
 tried are in the WIP status report.
 
 - Identical code merged across `switch` cases, with one case jumping into another's block (`push $2; jmp`)
-  where ours duplicates it (`Map_0x370` 0x4E6190 and 0x4E5E90; case order, default, ternaries, if chains and
-  `/Os /O1 /Ob0 /Ob2 /Oy- /Gy` didn't help).
+  where ours duplicates it (`Map_0x370` 0x4E5E90). **Mechanism known** (see "Cross-jumping keeps the copy whose jump
+  was generated last"); the source form isn't. For 0x4E6190, a mixed form (cases 1/2 assign a result variable,
+  3/4 `return`) gives every cross-jump of the original but returns `r = 0` with `xor %eax,%eax` (2 lines off).
 - A `u16` field loaded whole and then tested on its high byte (`mov 0x78(%ecx),%cx; test $6,%ch`)
   where we get `testb $6,0x79(%ecx)` (`Car_BC::sub_43B850`).
 - A dword load followed by a byte shift (`mov 4(%esp),%eax; shr $7,%al`) (`bk_1::SetAltKeyState_498CB0`).

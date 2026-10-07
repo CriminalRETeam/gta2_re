@@ -3133,3 +3133,29 @@ The priority formula is now exact (`Scripts/x87_sched/README.md`). Checked again
   original has it IL-after the `field_1B_direction` store (a may-alias edge holds it). Writing the store
   first makes VC6 hoist the shared `ypos` load above the `jge` (comment in the source), so this is the
   branch-hoisting optimisation, not the scheduler.
+
+## Cross-jump near misses (FlowOpts pass, Oct 7)
+
+The cross-jump rules are in `Scripts/flowopt/README.md`. Both functions below were checked with the patched C2
+(`--rev`/`--rank`) and `jumps.py`.
+
+- **`Map_0x370::sub_4E6190` (60 -> 2 with a source change, not applied).**
+  - The cause is only the order of the exit's jump list. Reversing it in C2 (`--rev 7:20`) gives an exact match,
+    and so does any order with the case 1 returns created last and case 2 after case 3 (outer creation
+    orders 3241, 3421, 4321 are all 0).
+  - Our source creates them in source order (case 1 first), so case 3/4's copies survive.
+  - The 16 inner case orders, `default: return 0`, `return 0` instead of `break`, and outer case order all
+    change nothing or also move the layout. VC7 with our source gives the same as VC6, and 9.6f has the
+    original's shape, so the difference is in the source.
+  - Best so far: `s16 r;`, cases 1 and 2 `r = a6 ? ..;` with `default: r = 0; break;`, cases 3 and 4 `return`
+    directly, then `r = 0; break;` after their inner switch, `default: r = 0; break;`, and `return r;`. Every
+    jump then matches. Only the shared exit is `xor %eax,%eax` (from `r = 0`) where the original has
+    `xor %ax,%ax` (a `return 0`). Any `return 0` in place of an `r = 0` changes the merges (22-68). `r` as
+    s32/u16/u32/int and casts change nothing; `s16 r = 0;` hoists the zero (62).
+- **`sound_obj::ProcessOtherObjects_41F520` (4).**
+  - With the original 13/14 order (`max_distance` first, 28), the join list is
+    [default, case 5, 13/14, 4/12, fire, phones, rocket]. Fire is compared with 13/14 first and merges there.
+  - Forcing 4/12 ahead of 13/14 (`--rank 215:0,199:1,168:2,188:3,60:4,42:5,24:6`) gives score 0, but `jumps.py`
+    shows one `jmp` going to 0x300 instead of 0x32d. So that order is not the whole answer.
+  - Joint orders of rocket's and 13/14's last four stores (24): no better than 4. `default` before, between or
+    first, and dead statements after the inner switch: 28.
