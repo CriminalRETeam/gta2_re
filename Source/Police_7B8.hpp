@@ -24,6 +24,9 @@ EXTERN_GLOBAL(Police_7B8*, gPolice_7B8_6FEE40);
 // Number of criminals the police can pursue at once (not the player count: MAX_PLAYERS is 6)
 #define MAX_PURSUIT_TARGETS 4
 
+// Size of the pool of police crews
+#define MAX_POLICE_CREWS 20
+
 class Police_7B8
 {
   public:
@@ -59,7 +62,7 @@ class Police_7B8
     u8 field_1;
     u8 field_2;
     u8 field_3;
-    PoliceCrew_38 field_4_cop_crew[20];
+    PoliceCrew_38 field_4_cop_crew[MAX_POLICE_CREWS];
     PolicePursuitTarget_7C field_464_pursuit_targets[MAX_PURSUIT_TARGETS]; // one per wanted criminal
     s32 field_654_max_wanted_level;
     u8 field_658_police_car_count;

@@ -86,7 +86,7 @@ void Police_7B8::Init_56F400()
 MATCH_FUNC(0x56f4d0)
 bool Police_7B8::HandlePedDeath_56F4D0(Ped* pPed)
 {
-    for (u8 idx = 0; idx < 20; idx++)
+    for (u8 idx = 0; idx < MAX_POLICE_CREWS; idx++)
     {
         PoliceCrew_38* pCrew = &this->field_4_cop_crew[idx];
         if (pCrew->field_1C_used)
@@ -125,7 +125,7 @@ bool Police_7B8::HandlePedDeath_56F4D0(Ped* pPed)
 MATCH_FUNC(0x56f560)
 PoliceCrew_38* Police_7B8::NewCrew_56F560()
 {
-    for (u8 i = 0; i < 20; i++)
+    for (u8 i = 0; i < MAX_POLICE_CREWS; i++)
     {
         if (!field_4_cop_crew[i].field_1C_used)
         {
@@ -183,7 +183,7 @@ void Police_7B8::DespawnCrewInCar_56F6D0(Car_BC* pCar)
 {
     u8 bUnknown = 0;
 
-    for (u8 idx = 0; idx < 20; idx++)
+    for (u8 idx = 0; idx < MAX_POLICE_CREWS; idx++)
     {
         if (field_4_cop_crew[idx].field_1C_used)
         {
