@@ -3097,6 +3097,14 @@ round-robin differences (`Scripts/regalloc/README.md`), not colour-pass ones.
   entry is a colour-pass constant (kind 0x100d); `smallestVal_idx = smallestVal = 99` and the other
   initialiser chains don't change that. A `default:` case with its own copy of the in-loop tail gives
   the final tail eax but leaves an extra copy (not merged).
+  Block order (Oct 7, `Scripts/flowopt/sinklog.py`): the in-loop return gets its place from the loop
+  sink pass `0x10740251` (index 44 at numbering, final tail 48, so it goes between the latch and the
+  final tail, as in the original layout). For the final tail to be generated first, its index would
+  have to be lower (written earlier, as in the `for (;;)` variant), and in the pass dump nothing
+  after that pass moves the two blocks again. So the original's layout rules out (a). It made one more round-robin pick before
+  the in-loop `lea`. The likely candidate is the `mov %edi,%eax` copy as a local temp rather than optimizer
+  temp 0x14a. That copy is already in the IL at code selection (boundary `10765b5c`), so what decides it
+  is in the optimizer, not the block order. 9.6f's layout (final tail first) presumably comes from VC7's own rule.
 - `state_8_5520A0`: the rotation differs only from asm line 157 to 179 (post processed): source lines
   5797 (`field_184_pObj2C = field_7C_pPed->field_184_pObj2C;` reload, orig `edx`, ours `eax`) to 5807
   (`Ang16 rot = ...`, orig eax/ecx/edx, ours ecx/edx/eax). Moving the reload before the

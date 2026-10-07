@@ -126,8 +126,12 @@ python3 Scripts/regalloc/c2dis.py x 1078e69f 1078e6ae        # who branches/call
 - **Block order at code generation.** Both register-only WIPs come down to it (see
   `docs/match_attempts.md`): `Wolfy_7A8::sub_543690` needs its final tail generated before the
   in-loop return (or one more round-robin temp in the in-loop tail), `Char_B4::state_8_5520A0`
-  has the rotation shifted between two blocks only. What orders blocks before `0x10723B05`, and
-  which values become colour-pass live ranges rather than local temps, is not reversed.
+  has the rotation shifted between two blocks only. What orders blocks before `0x10723B05` is now
+  known: the loop sink pass `0x10740251` (`Scripts/flowopt/README.md`, "Code generation order"), which
+  keeps the source order of out-of-loop code. For `sub_543690` that rules out a different block order
+  with the original's layout, so it needs one more round-robin pick before the in-loop `lea`. Which
+  values become colour-pass live ranges (optimizer temps, kind 3) rather than local temps is not
+  reversed.
 
 - **Priority** `[lr+0x0C]`: not a plain ratio of the weight `[lr+0x3C]` (w 8 -> 40, w 20 -> 140,
   w 10 -> 61, w 6 -> 33). Chow's formula is savings / number of blocks in the live range; the writes

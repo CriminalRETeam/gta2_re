@@ -152,3 +152,41 @@ jumps over it (not a jump to the next label, so the early cleanups at `0x1073C33
 FlowOpts cross-jumps `X` into an identical store elsewhere, which leaves only a label between that `jmp` and the
 exit, and dupB moves the exit up. Probes: `if (!a || b == 9) {...}` goes out of line, `if (a == 5) {...}` and
 `&&` conditions don't. `TrainCab_414710` and `UpdateState_4FB330` need this (see `docs/match_attempts.md`).
+
+## Code generation order: sinking non-loop blocks out of loops (`0x10740251`)
+
+The local register allocator (`0x10723B05`, round robin over eax/ecx/edx, see `Scripts/regalloc/README.md`) walks the
+function's instruction list in order, so "codegen order" is simply the block order at that point. From the pass
+dump (`ildump.py`), only one early pass reorders whole blocks: the loop pass inside `0x10706181` (the third pass of
+`0x107657E2`, boundary `107659c0`). Everything after it keeps the order until FlowOpts and dupB.
+
+How it works (patching the call to `0x107063B2` out leaves the order as written):
+
+1. `0x107048CA` numbers the blocks in list order (`[blk+0x6C]`, a word; a block created later has -1).
+2. `0x107063B2` walks the loop tree, inner loops first, and calls `0x10740251` for each loop L.
+3. `0x10740251` walks L's blocks from its first (`[L+0x14]`) to its last (`[L+0x18]`). A block counts as in the
+   loop when its loop (`[blk+0x68]`) is L or nested in L (`0x10740084`). Each run of consecutive blocks that are
+   not in L (typically an `if (...) { ...; return; }` inside the loop body) is unlinked (`0x10733880`).
+4. The run is reinserted after L's last block: walking forward from there, past blocks of L, it goes **before
+   the first block whose index is greater than the run's first index** (a block with index -1 uses the index of
+   the next numbered block, `0x1074D045`). Otherwise the walk continues.
+
+So sinking keeps the source order among out-of-loop code. An in-loop `return` written before the code after the
+loop is generated (and laid out) between the loop latch and that code. Code that comes *earlier* in the source than
+the sunk run, but sits after the loop at this point, is passed over: in `for (;;) { if (i >= 40) { tail; return; } ... if (x) { ret2; return; } ... }`
+both runs are sunk and `tail` stays first.
+
+`sinklog.py` builds a variant that logs each run, the blocks it is compared with and where it goes:
+
+```bash
+venv/bin/python3 Scripts/flowopt/ildump.py && venv/bin/python3 Scripts/flowopt/sinklog.py
+X87_C2=sinklog X87_OUT=/tmp/sk Scripts/x87_sched/sched.sh -l Source/Wolfy_3D4.cpp
+#   @SINK run a8f8/44..a8f8/44 after 2ed0/43    (Wolfy_7A8::sub_543690: the in-loop return, index 44)
+#   @SINKCMP blk 6e7c/48 runidx 44              (the final tail, index 48: 44 < 48)
+#   @SINKINS before 6e7c/48                     (so the return is generated before the final tail)
+```
+
+Consequence for register-only near misses: with this pass, a block's place in codegen order follows from its place
+in the final layout (no later pass moves these blocks, dupB aside). When the layout already matches but the
+round-robin rotation doesn't, the difference is the number of picks, not the block order (`docs/match_attempts.md`,
+`Wolfy_7A8::sub_543690`).
