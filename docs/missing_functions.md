@@ -660,18 +660,33 @@ Game functions by size:
 
 ## Excluded: never called
 
-Don't add these. Nothing in `10.5.exe` calls, jumps to or points at them: no `call`/`jmp` rel32 to the address and no
-32-bit pointer to it in any section (so no vtable, callback or static init table entry either). "Only referenced from"
-lists functions that are themselves never called, so the whole chain is dead code. The import thunks
-(`0x5E8F20`-`0x5EB7FC`, `jmp [IAT]`, which the game calls through the IAT directly) and unused iostream members are left out.
+Don't add these: they are dead code. A function counts as called when it is reachable from the entry point or from
+a pointer outside any function (vtables, callback and static init tables) through `call`/`jmp` rel32 and 32-bit
+pointers anywhere in `10.5.exe`. "Referenced from" lists the callers, which are dead themselves.
+
+- The whole `0x401000`-`0x4025xx` group (`sub_401000` to `sub_4023F0`, including `Matrix_Mult_4015D0`,
+  `Matrix_PushAndMulti_401710` and `Matrix_Pop_401740`) only calls itself; its two entry points `sub_401180` and
+  `sub_4023F0` are never called. A few members are called from bytes between the listed functions, so the table
+  below doesn't show all of them, but none is reachable.
+- Import thunks (`0x5E8F20`-`0x5EB7FC`, `jmp [IAT]`; the game calls through the IAT directly) and unused iostream
+  members are library code and left out.
 
 Without a marker (not to be added):
 
-| Address | Size | Name | Only referenced from |
+| Address | Size | Name | Referenced from |
 |---|---|---|---|
 | 0x401000 | 72 | `sub_401000` | 0x401180 |
+| 0x401050 | 41 | `sub_401050` | 0x401080 |
+| 0x401080 | 94 | `sub_401080` | 0x4010E0 |
+| 0x4010E0 | 153 | `sub_4010E0` | 0x4010E0, 0x401180 |
 | 0x401180 | 1089 | `sub_401180` | (nothing) |
 | 0x401750 | 109 | `sub_401750` | 0x4023F0 |
+| 0x4017C0 | 217 | `sub_4017C0` | 0x401750, 0x4017C0 |
+| 0x4018A0 | 211 | `sub_4018A0` | 0x401990 |
+| 0x401990 | 524 | `sub_401990` | 0x401180, 0x401990 |
+| 0x401BA0 | 117 | `sub_401BA0` | 0x401BA0 |
+| 0x401ED0 | 535 | `sub_401ED0` | 0x402210 |
+| 0x402210 | 478 | `sub_402210` | 0x402210, 0x4023F0 |
 | 0x4023F0 | 314 | `sub_4023F0` | (nothing) |
 | 0x4057B0 | 421 | `sub_4057B0` | (nothing) |
 | 0x427170 | 10 | `cSampleManager::sub_427170` | (nothing) |
@@ -699,9 +714,9 @@ Without a marker (not to be added):
 | 0x5D98D0 | 9 | `IsFullScreen_5D98D0` | (nothing) |
 | 0x5DCED0 | 25 | `sub_5DCED0` | (nothing) |
 
-Already in `Source/` with a marker, but also never called (kept, listed for reference):
+Already in `Source/` with a marker, but also dead (kept, listed for reference):
 
-| Address | Size | Name | Only referenced from |
+| Address | Size | Name | Referenced from |
 |---|---|---|---|
 | 0x407BD0 | 266 | `Trailer::sub_407BD0` | (nothing) |
 | 0x43A1F0 | 18 | `Car_BC::is_bus_43A1F0` | (nothing) |
