@@ -1752,6 +1752,22 @@ Found by tracing C2.DLL (see `Scripts/inline_budget/`); the instrumented compile
   0x40ACD0 atan2 back to back) plus the inline operators, whose identical out-of-line copies the linker
   folded onto them; fire_truck_gun_5E0E70 is then the one Weapon_30 caller that used the operator. 9.6f
   has a single copy (0x40F5C0), which fits either way.
+- **No single rule fits the `Fix16_Point` add/sub yet (Oct 7).** 10.5's linker doesn't fold identical
+  functions (identical ctor/dtor bodies, and three `Fix16(int)` copies 0x41B480/0x4369F0/0x4926F0, sit at
+  different addresses; 9.6f has six identical `Fix16::to_int` copies), so the single 0x40AC50 means one
+  add function, not a named method plus a folded operator copy. Replacing the 33 named `Add_40AC50`/
+  `Sub_40AC80` calls in the 7 TUs that use them: inline in class 3294/3304, inline defined at the end of the
+  TU 3299, `__forceinline` (free site) in class 3295, `__forceinline` at the end 3300 (left: smg_5DDD20,
+  SpawnSkidSegment_55D200, SpawnCabAndTrailerHelper_408370 and the flamethrower, which want no site at
+  all). Making `operator+`/`operator-` ordinary functions instead: 3289 (15 functions that use the operators
+  need inline sites). Some functions need a site and others none, inside one original TU (CarPhysics
+  55D200 vs 561380), so the repo's mix of operators and named calls stays.
+- **`Fix16` named calls are the operators' budget copies.** In paired functions 10.5's out-of-line
+  `Add_408660` lines up with 9.6f's `sum_401B20` (operator+), not with `add_40E530` (the `+=` shape), so
+  there's no second named add in the source. Turning every named `Add_408660`/`Multiply_408680`/
+  `Negate_4086A0`/`Subtract_436A00`/`Divide_436A20` call into an inline site with the operator's body keeps
+  9 of the 41 matched functions that use them and breaks 32 (3272/3304): with our operator sizes the budget
+  model doesn't give those cut-offs, the open contradiction described below.
 - **Precompiled headers don't explain it.** An earlier note here said 10.5's `/Yu` compiled header inline
   copies late. A `/Yc`//`/Yu` build of Weapon_30.cpp, with a PCH holding only the Fix16/Ang16/Fix16_Point
   headers or every header the file includes, gives exactly the same code as no PCH (our compiler is the
