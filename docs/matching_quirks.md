@@ -1486,6 +1486,23 @@ which helper was called and in which order things happened:
 - `Garox_2A25_sub::DrawChatMessages_5D16B0`: 9.6f calls the line spacing wrapper (0x4539B0),
   which 10.5 inlines (`GetLineSpacingFromFontType_5D7700_inlined`).
 
+**A WIP with no 9.6f partner may just be unpaired.** `match_96f.py` leaves some functions unpaired
+or pairs them with themselves, so their inlines never show up in `docs/inlines_96f.md`. The 9.6f
+function between the 9.6f versions of the 10.5 neighbours, or the call at the same position in each
+paired caller, usually finds it. `Char_B4::sub_54C3E0` (two switches that are one inline with
+cases 1, 3, 2, 4) and `sound_obj::TrainCab_414710` matched that way; see `docs/match_attempts.md`.
+
+**A helper path that folds away can still place blocks.** In `TrainCab_414710`, 9.6f calls a
+get-and-clear helper twice: when the first returns null, the second copy (same field, already
+cleared) is tried before `return`. VC6 folds the second read to 0, but the early `return` it
+leaves is what makes the failure branches share the success path's epilogue.
+
+**Inline bodies in a widely included header can change other TUs.** Adding two small inline
+methods to `char.hpp` (reached from `MapRenderer.cpp` through other headers) changed register
+choices in three matched `MapRenderer` draw functions, with no call to them. With the bodies in
+`char.cpp` (only the declaration in the class), everything matched. Run a full build after
+touching a shared header.
+
 **A getter that returns a copy is not a reference getter.** The 9.6f `Fix16_Rect` getters
 (0x45ADA0-0x45ADD0) return a `Fix16` by value. Returning `Fix16&` gave different scheduling of
 the four rect reads in `Map_0x370::sub_4E4820`; by value, read in the original order (left,

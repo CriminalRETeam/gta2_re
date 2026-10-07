@@ -3184,7 +3184,7 @@ The cross-jump rules are in `Scripts/flowopt/README.md`. Both functions below we
 ### Exit block placement (dupB, Oct 7)
 
 Rules in `Scripts/flowopt/README.md` ("Duplicating and moving exit blocks").
-- **`sound_obj::TrainCab_414710` (6)** and **`Ambulance_20::UpdateState_4FB330` (2)**: in both, the original's
+- **`sound_obj::TrainCab_414710` (6)** and **`Ambulance_20::UpdateState_4FB330` (2)**: in both, **TrainCab matched later (Oct 7, see below).** The original's
   `jcc`s to the exit go to the copy after the success path / `default`, ours to the one at the end. Our last block
   (the `else` store / `state = 5`) falls into the exit, so dupB copies the exit instead of moving it. In the original
   the exit wasn't fallen into when dupB ran. The only matched example found (`Ped::PunchChar_467FD0`, found by
@@ -3212,3 +3212,27 @@ variant): no improvement on any of them.
 - **`sub_4E6190` (2).** Matched `s16` functions get `xor %ax,%ax` from a direct `return 0;`. Every mix of `return 0`
   and `r = 0` on the three zero paths (inner defaults, after the case 3/4 inner switches, outer default): 22-90, the
   cross-jumps change.
+
+### Unpaired 9.6f counterparts (Oct 7)
+
+Several WIPs had no 9.6f partner in `match_96f.json` (or a wrong identity pair), so `docs/inlines_96f.md` never
+listed their inlines. Two cheap ways to find the partner: the unpaired 9.6f function between the 9.6f versions of
+the 10.5 neighbours, and the 9.6f call at the same position in each paired caller (align the callers' call lists).
+Three matches came out of it:
+- **`Char_B4::sub_54C3E0`** = 9.6f 0x495470 (between 0x495220 = 54C1A0 and 0x495540 = 54C500). Its two switches
+  are an inline `RotateFace_491F10(s32* face, bool* clockwise)` with the cases in 1, 3, 2, 4 order (that order
+  fixed the case block layout), and the three stores a setter (0x492400). 59 -> 0.
+- **`sound_obj::TrainCab_414710`** = 9.6f 0x412A20 (call position in 0x413BF0). A get-and-clear helper
+  (`Ped::PopTrainStation_4117D0`) is tried twice; the second call always returns 0 in 10.5, but its `return`
+  path is what gives the exit block placement described above. 6 -> 0.
+- **`ConvertColourBanks_5D7CB0`** was a csv row covering two functions: `call; jmp 0x5D7CC0` plus padding, then the
+  body. Split into the thunk and `ConvertColourBanks_5D7CC0` (new csv row), as 9.6f has it (0x4CAEB0 -> 0x4CADE0).
+  No other WIP target has code after padding.
+
+Partners found but no gain yet: `CarAI_78::sub_44D1D0` = 0x42C8B0, `Fix16_Point::NormalizeSafe_442AD0` = 0x420390
+(the plain `GetLength_41E260` for both lengths: 124, the per-site variants stay at 52), `DrawGradientSlope*`
+4F1660/4F33B0 = 0x46F370/0x46FC10, `MapRenderer::Draw_4F6A20` = 0x472110, `Particle_4C` 53BAC0 = 0x490130,
+`Char_B4::ContinueMovementAfterCollision_54B8F0` = 0x49A080.
+
+`LoadStringTbl_5121E0` (52): the original's first loop keeps a dead `edi = (len + 9) & ~1` (9.6f too) that no
+source form tried reproduces; a `u32` copy of the parameter and `while` loops give the param-slot reuse but 94.
