@@ -3251,15 +3251,13 @@ Fix16 CarPhysics_B0::CalculateRearWheelForce_5620D0()
                 if (field_A0_oil_spin_dir == 1)
                 {
                     pointing_ang_rad = this->field_78_pointing_ang_rad - kAngFix16OneDegree_6FE3C4 * 30;
-                    brake_force3 = kFP16Zero_6FE20C;
-                    this->field_A8_hand_brake_force = 0;
                 }
                 else
                 {
                     pointing_ang_rad = this->field_78_pointing_ang_rad - kAngFix16OneDegree_6FE3C4 * (-30);
-                    brake_force3 = kFP16Zero_6FE20C;
-                    this->field_A8_hand_brake_force = 0;
                 }
+                brake_force3 = kFP16Zero_6FE20C;
+                this->field_A8_hand_brake_force = 0;
             }
         }
     }

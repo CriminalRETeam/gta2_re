@@ -97,17 +97,7 @@ void Wolfy_30::state_3_12_540D30(Ang16 ang, Fix16 pos)
     Fix16_Point point(Fix16(0), Fix16(0));
     point.x = pos;
     point.y = pos;
-    // See state_4_540F90
-    Ang16 new_ang = ang.AddNormalized(kAng180_6FD3EE);
-
-    {
-        Fix16 sin_v = gSin_table_667A80[new_ang.rValue];
-        Fix16 cos_v = gCos_table_669260[new_ang.rValue];
-
-        Fix16 x_old = point.x;
-        point.x = point.x.Multiply_408680(cos_v).Add_408660(point.y * sin_v);
-        point.y = (-x_old).Multiply_408680(sin_v).Add_408660(point.y.Multiply_408680(cos_v));
-    }
+    point.RotateByAngle_40F6B0(ang + kAng180_6FD3EE);
 
     this->field_8_speed = pos;
     this->field_C_angle = ang;
@@ -116,26 +106,24 @@ void Wolfy_30::state_3_12_540D30(Ang16 ang, Fix16 pos)
     {
         //pos = (int)&v27; // TODO: Field_20 wrong val ??
         Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(point.x, point.y, dword_6FD330, point.x, point.y, 0);
-        if (!pNew)
+        if (pNew)
         {
-            return;
+            pNew->field_40_pUnknown = this;
+            pNew->field_44 = this->field_6_id;
+            pNew->field_20_speed = pos;
+            pNew->field_24_angle = ang;
+            pNew->field_34 = 0;
+            pNew->field_46_sub_state = 0;
+            pNew->field_2C_counter = 32;
+            pNew->field_2E = 32;
+            pNew->field_30_pNext->SetType_4206F0(8);
+            pNew->field_38_state = 3;
+            pNew->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 96);
+            pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pNew->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
+            this->field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
         }
-
-        pNew->field_40_pUnknown = this;
-        pNew->field_44 = this->field_6_id;
-        pNew->field_20_speed = pos;
-        pNew->field_24_angle = ang;
-        pNew->field_34 = 0;
-        pNew->field_46_sub_state = 0;
-        pNew->field_2C_counter = 32;
-        pNew->field_2E = 32;
-        pNew->field_30_pNext->SetType_4206F0(8);
-        pNew->field_38_state = 3;
-        pNew->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 96);
-        pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
-        pNew->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
-        gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
-        this->field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
     }
     else
     {
@@ -152,19 +140,7 @@ void Wolfy_30::state_4_540F90(Ang16 ang, Fix16 pos)
     Fix16_Point point(Fix16(0), Fix16(0));
     point.x = pos;
     point.y = pos;
-    // AddNormalized: operator+ leaves Normalize out of line, the ctor directly loads ang as a word
-    Ang16 new_ang = ang.AddNormalized(kAng180_6FD3EE);
-
-    // The inlined RotateByAngle_40F6B0 (first multiply inline, then out of line copies). Its
-    // block scope frees the stack slots the original reuses for the later temporaries.
-    {
-        Fix16 sin_v = gSin_table_667A80[new_ang.rValue];
-        Fix16 cos_v = gCos_table_669260[new_ang.rValue];
-
-        Fix16 x_old = point.x;
-        point.x = point.x.Multiply_408680(cos_v).Add_408660(point.y * sin_v);
-        point.y = (-x_old).Multiply_408680(sin_v).Add_408660(point.y.Multiply_408680(cos_v));
-    }
+    point.RotateByAngle_40F6B0(ang + kAng180_6FD3EE);
 
     this->field_8_speed = pos;
     this->field_C_angle = ang;
@@ -173,26 +149,24 @@ void Wolfy_30::state_4_540F90(Ang16 ang, Fix16 pos)
     {
         //pos = (int)&v27; // TODO: Field_20 wrong val ??
         Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(point.x, point.y, dword_6FD330, point.x, point.y, 0);
-        if (!pNew)
+        if (pNew)
         {
-            return;
+            pNew->field_40_pUnknown = this;
+            pNew->field_44 = this->field_6_id;
+            pNew->field_20_speed = pos;
+            pNew->field_24_angle = ang;
+            pNew->field_34 = 0;
+            pNew->field_46_sub_state = 0;
+            pNew->field_2C_counter = 32;
+            pNew->field_2E = 32;
+            pNew->field_30_pNext->SetType_4206F0(8);
+            pNew->field_38_state = 4;
+            pNew->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette);
+            pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pNew->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
+            this->field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
         }
-
-        pNew->field_40_pUnknown = this;
-        pNew->field_44 = this->field_6_id;
-        pNew->field_20_speed = pos;
-        pNew->field_24_angle = ang;
-        pNew->field_34 = 0;
-        pNew->field_46_sub_state = 0;
-        pNew->field_2C_counter = 32;
-        pNew->field_2E = 32;
-        pNew->field_30_pNext->SetType_4206F0(8);
-        pNew->field_38_state = 4;
-        pNew->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette);
-        pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
-        pNew->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
-        gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
-        this->field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
     }
     else
     {
@@ -208,17 +182,7 @@ void Wolfy_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
     Fix16_Point point(Fix16(0), Fix16(0));
     point.x = pos;
     point.y = pos;
-    // See state_4_540F90
-    Ang16 new_ang = ang.AddNormalized(kAng180_6FD3EE);
-
-    {
-        Fix16 sin_v = gSin_table_667A80[new_ang.rValue];
-        Fix16 cos_v = gCos_table_669260[new_ang.rValue];
-
-        Fix16 x_old = point.x;
-        point.x = point.x.Multiply_408680(cos_v).Add_408660(point.y * sin_v);
-        point.y = (-x_old).Multiply_408680(sin_v).Add_408660(point.y.Multiply_408680(cos_v));
-    }
+    point.RotateByAngle_40F6B0(ang + kAng180_6FD3EE);
 
     this->field_8_speed = pos;
     this->field_C_angle = ang;
@@ -227,26 +191,24 @@ void Wolfy_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
     {
         //pos = (int)&v27; // TODO: Field_20 wrong val ??
         Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(point.x, point.y, dword_6FD330, point.x, point.y, 0);
-        if (!pNew)
+        if (pNew)
         {
-            return;
+            pNew->field_40_pUnknown = this;
+            pNew->field_44 = this->field_6_id;
+            pNew->field_20_speed = pos;
+            pNew->field_24_angle = ang;
+            pNew->field_34 = 0;
+            pNew->field_46_sub_state = 0;
+            pNew->field_2C_counter = 32;
+            pNew->field_2E = 32;
+            pNew->field_30_pNext->SetType_4206F0(8);
+            pNew->field_38_state = 36;
+            pNew->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette);
+            pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pNew->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
+            this->field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
         }
-
-        pNew->field_40_pUnknown = this;
-        pNew->field_44 = this->field_6_id;
-        pNew->field_20_speed = pos;
-        pNew->field_24_angle = ang;
-        pNew->field_34 = 0;
-        pNew->field_46_sub_state = 0;
-        pNew->field_2C_counter = 32;
-        pNew->field_2E = 32;
-        pNew->field_30_pNext->SetType_4206F0(8);
-        pNew->field_38_state = 36;
-        pNew->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette);
-        pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
-        pNew->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
-        gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
-        this->field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
     }
     else
     {

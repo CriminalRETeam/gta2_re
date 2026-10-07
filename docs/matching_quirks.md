@@ -908,13 +908,34 @@ result used (`return blit()`) and the other's not, which breaks the merge but co
 out of the loop, volatile or not, is removed (`LoadStringTbl_5121E0` experiments). A third live loop variable
 also swaps which of ecx/edx the pointer and the running total get.
 
-**Normalize out of line from inline depth, not budget.** `ang + k` through `Ang16::operator+` leaves `Normalize` out of
-line (operator+ -> ctor -> Normalize is too deep); the ctor form `Ang16(a.rValue + k.rValue, 0)` inlines it
-(`Wolfy_30::state_13_14_5411E0`). To force the rotation operators out of line, write `Multiply_408680`/`Negate_4086A0`
-calls explicitly, and `Add_408660` for the out-of-line `operator+` 0x408660.
-One level shallower also works: the member `Ang16::AddNormalized` inlines Normalize. An inline *member* call on a
-by-value `Ang16` parameter loads it as a dword, a free function taking `const Ang16&` loads a word. That matched
-`Wolfy_30::state_4_540F90`, `state_3_12_540D30` and `state_13_14_5411E0`, with the rotation in its own block.
+**Normalize out of line from the budget, not depth (corrected).** `ang + k` through `Ang16::operator+` inlines
+operator+ -> ctor -> Normalize when the operator's nested budget allows it, and the Wolfy states that used hand
+expansions (`AddNormalized`, explicit `Multiply_408680`/`Add_408660` rotations) now match in their 9.6f form:
+`point.RotateByAngle_40F6B0(ang + kAng180_6FD3EE)` and `if (pNew) { ... }` with no early return
+(`Wolfy_30::state_3_12_540D30`, `state_4_540F90`, `state_13_14_5411E0`). Three header facts made that work, see
+"Inline sizes recovered from 9.6f and addresses" below.
+
+**Inline sizes recovered from 9.6f and addresses.** The "top-level named calls" group (small functions whose
+original keeps Fix16 operators out of line although a top-level budget can't run out) are hand-expanded inlines;
+writing the 9.6f helper call needs the helpers' real front-end sizes and sites:
+- `Sprite::get_x_y()` is an inline (9.6f 0x4207B0): its out-of-line copy 0x443580 sits in Car_BC.cpp's address
+  range, not sprite.cpp's. It returns a `Fix16_Point`, so it is charged (`CALL(udt)`) and counts as a site.
+  Calls keep `get_x_y_443580` where two of its temporaries must not share a stack slot
+  (`Crane_15C::TargetTransporter_47F7F0`) or the extra site moves the original's cut-offs and nothing natural
+  explains it yet (car_smg, oil_stain, fire_truck_flamethrower, TimerAfter50Handler, IntegrateMovementAndCollisions,
+  GetHitchPoint, TryHitchTrailer).
+- `Fix16_Point(const Fix16&, const Fix16&) : x(a1), y(a2) {}` is size 40 (free); the assigning body is 62 (charged),
+  because each member's `Fix16()` default ctor is a nested site. The default `Fix16_Point()` stays 42 in every
+  spelling while `Fix16` has a user default ctor (VC7 /Ob0 drops calls to empty ctors/dtors, so 9.6f can't tell).
+- `Ang16::operator+`/`operator-` as in 9.6f 0x40E5A0/0x40E5D0: `s16 value = rValue + rhs.rValue; return
+  Ang16(value, 0);`, size 54 (the one-line form is 56; state_4 needs the 2).
+The free ctor shifted two hand-fitted matches; both came back with more natural source
+(`CalculateRearWheelForce_5620D0`: the shared `brake_force3`/`field_A8` stores once after the if/else;
+`Particle_8::EmitWaterSplash_53F060`: `angle_1` declared at its first use).
+Still open: `Crane_15C::ComputeHookPos_47E620/47E730/ComputeHookOffset_47E840` (9.6f: SetXY, RotateByAngle,
+get_x_y, +=) need nested budgets 223..264 and 208..222 for RotateByAngle, which no size/site combination found so
+far gives both; `GetLength_41E260` with both Abs out of line but one multiply inline (equal sizes 57) is still
+unexplained.
 
 **A shared local in the first test makes VC6 skip the whole chain.** When one local feeds both the first type check
 and a later chain of type checks, VC6 jumps past the entire chain when the first test fails. Reading the field

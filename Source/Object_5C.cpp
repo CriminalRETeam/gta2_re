@@ -800,7 +800,7 @@ char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* a2, Fix16_Poi
 
     if (a2->CheckSpriteMovementRegion_5A2500())
     {
-        *a3 = a2->get_x_y_443580();
+        *a3 = a2->get_x_y();
         *a4 = 1;
         ComputeWallHitSide_524550();
         return 1;
@@ -810,7 +810,7 @@ char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* a2, Fix16_Poi
         field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed.mValue;
         field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
         field_10_obj_3c->field_2A_bAirborne = 0;
-        *a3 = a2->get_x_y_443580();
+        *a3 = a2->get_x_y();
         return 1;
     }
     else
@@ -847,7 +847,7 @@ char_type Object_2C::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite
     if (pSprite->CheckSpriteMovementRegion_5A2500())
     {
         field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed;
-        *pPoint = pSprite->get_x_y_443580();
+        *pPoint = pSprite->get_x_y();
         *a4 = 1;
         ComputeWallHitSide_524550();
         return 1;
@@ -857,13 +857,13 @@ char_type Object_2C::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite
         if (gObject2C_HitWallOrDoor_6F8F94 != 0)
         {
             field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed;
-            *pPoint = pSprite->get_x_y_443580();
+            *pPoint = pSprite->get_x_y();
             *a4 = 1;
         }
         else
         {
             field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed;
-            *pPoint = pSprite->get_x_y_443580();
+            *pPoint = pSprite->get_x_y();
         }
         return 1;
     }
@@ -985,7 +985,7 @@ LABEL_29:
         field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed;
         field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
         field_10_obj_3c->field_2A_bAirborne = 0;
-        *a3 = a2->get_x_y_443580();
+        *a3 = a2->get_x_y();
         *a4 = true;
         Object_2C::ComputeWallHitSide_524550();
         return true;
@@ -1000,7 +1000,7 @@ LABEL_29:
         else if (gObject2C_HitWallOrDoor_6F8F94)
         {
             field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed.mValue;
-            *a3 = a2->get_x_y_443580();
+            *a3 = a2->get_x_y();
             *a4 = true;
             return true;
         }
@@ -1343,7 +1343,7 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
         if (v5->CheckSpriteMovementRegion_5A2500() || SelectCollisionSprite_522460(v5))
         {
         LABEL_47:
-            hitPoint = v5->get_x_y_443580();
+            hitPoint = v5->get_x_y();
             ComputeWallHitSide_524550();
             goto LABEL_48;
         }
@@ -1360,7 +1360,7 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
         goto LABEL_45;
     }
 
-    hitPoint = v5->get_x_y_443580();
+    hitPoint = v5->get_x_y();
 
 LABEL_48:
 
@@ -1384,7 +1384,7 @@ LABEL_48:
 
         if (v5->CheckSpriteMovementRegion_5A2500() || SelectCollisionSprite_522460(v5))
         {
-            hitPoint = v5->get_x_y_443580();
+            hitPoint = v5->get_x_y();
             v5->set_xy_lazy_447E20(old_x, old_y);
             v5->set_ang_lazy_420690(old_ang);
             Sprite_UpdateZFromSlopeAndTile_522FA0(v5);
@@ -3775,7 +3775,7 @@ Object_2C::~Object_2C()
 MATCH_FUNC(0x52ae70)
 Fix16_Point Object_2C::GetXY_52AE70()
 {
-    return field_4->get_x_y_443580();
+    return field_4->get_x_y();
 }
 
 MATCH_FUNC(0x52ae90)

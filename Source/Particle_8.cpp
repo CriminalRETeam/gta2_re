@@ -206,7 +206,7 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
             // One expression: the original loads the sprite's field_C once for both
             corner_1.SetXY_432860(pCar->get_car_width() / 2 + dword_6FD3C0, pCar->get_car_height() / 2 + dword_6FD5A8);
             corner_1.RotateByAngle_40F6B0(a2->field_0);
-            corner_1 += a2->get_x_y_443580();
+            corner_1 += a2->get_x_y();
 
             pParticle->field_28_pSprite = a2;
             pParticle->field_30_pNext->set_ang_lazy_420690(a2->field_0);
@@ -232,7 +232,7 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
 
         corner_2.SetXY_432860(-(pCar->get_car_width() / 2 + dword_6FD3C0), pCar->get_car_height() / 2 + dword_6FD5A8);
         corner_2.RotateByAngle_40F6B0(a2->field_0);
-        corner_2 += a2->get_x_y_443580();
+        corner_2 += a2->get_x_y();
 
         pParticle->field_30_pNext->set_ang_lazy_420690(a2->field_0);
         pParticle->field_30_pNext->set_xyz_lazy_420600(corner_2.x, corner_2.y, a2->field_1C_zpos);
@@ -280,7 +280,6 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
 MATCH_FUNC(0x53f060)
 void Particle_8::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, char_type bRandomRot)
 {
-    Ang16 angle_1;
     Ang16 angle_2;
     Fix16_Point velocity(Fix16(0), Fix16(0));
 
@@ -304,7 +303,7 @@ void Particle_8::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang1
             velocity.x = Fix16(0);
             velocity.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + dword_6FD558) * dword_6FD4EC;
 
-            angle_1 = word_6FD5CC.MultiplyByFix16_401CB0(Fix16(gRng_6F6784.get_int_4F7AE0(16)));
+            Ang16 angle_1 = word_6FD5CC.MultiplyByFix16_401CB0(Fix16(gRng_6F6784.get_int_4F7AE0(16)));
             RotateNegExport_(velocity, (angle_1 + angle_2) - word_6FD5CC.MultiplyByFix16_401CB0(Fix16(8)));
 
             // last arg: plain 0 (the original builds this Fix16 arg in place; Fix16(0) gives a plain push and costs ebp)
@@ -394,7 +393,7 @@ void Particle_8::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
                 vector_2.SetXY_432860(zero, unknown);
                 pParticle->field_30_pNext->set_ang_lazy_420690(angle);
                 vector_2.RotateByAngle_40F6B0(pSprt->field_0);
-                vector += vector_2.Add_40AC50(pSprt->get_x_y_443580());
+                vector += vector_2.Add_40AC50(pSprt->get_x_y());
                 pSprt->field_8_car_bc_ptr->field_58_physics->GetPointVelocity_561350(&vector); // not used?
                 pParticle->field_30_pNext->set_xyz_lazy_420600(vector.x, vector.y, zpos);
             }

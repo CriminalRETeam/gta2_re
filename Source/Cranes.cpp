@@ -100,7 +100,7 @@ void Crane_15C::ComputeHookPos_47E620(Fix16 radius, Ang16 ang, Fix16_Point* pOut
     pOutPoint->x = (pOutPoint->x * cos) + (pOutPoint->y * sin);
     pOutPoint->y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(pOutPoint->y * cos);
 
-    *pOutPoint += field_2C_rotor_obj->field_4->get_x_y_443580();
+    *pOutPoint += field_2C_rotor_obj->field_4->get_x_y();
 }
 
 MATCH_FUNC(0x47e730)
@@ -113,7 +113,7 @@ void Crane_15C::ComputeHookPos_47E730(Ang16 radius, Fix16 ang, Fix16_Point* pOut
     Fix16 x_old = pOutPoint->x;
     pOutPoint->x = (pOutPoint->x * cos) + (pOutPoint->y * sin);
     pOutPoint->y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(pOutPoint->y * cos);
-    *pOutPoint += field_2C_rotor_obj->field_4->get_x_y_443580();
+    *pOutPoint += field_2C_rotor_obj->field_4->get_x_y();
 }
 
 // 9.6f 0x448030
@@ -128,7 +128,7 @@ void Crane_15C::ComputeHookOffset_47E840(Ang16 ang, Fix16_Point* pOutPoint)
     Fix16 x_old = pOutPoint->x;
     pOutPoint->x = (pOutPoint->x * cos) + (pOutPoint->y * sin);
     pOutPoint->y = (-x_old).Multiply_408680(sin).Add_408660(pOutPoint->y.Multiply_408680(cos));
-    *pOutPoint += field_2C_rotor_obj->field_4->get_x_y_443580();
+    *pOutPoint += field_2C_rotor_obj->field_4->get_x_y();
 }
 
 // 9.6f 0x448090
@@ -219,7 +219,7 @@ void Crane_15C::HookTransporterCargo_47EDF0()
     gPurpleDoom_3_679210->Remove_477B00(field_6C_transporter_cargo);
 
     this->field_74_pSprite_on_hook = this->field_6C_transporter_cargo;
-    this->field_10_hooked_sprite_offset = field_74_pSprite_on_hook->get_x_y_443580() - field_54_hook_obj->field_4->get_x_y_443580();
+    this->field_10_hooked_sprite_offset = field_74_pSprite_on_hook->get_x_y() - field_54_hook_obj->field_4->get_x_y();
 
     field_60_probe_sprite->field_C_sprite_4c_ptr->CopyXYZ_447DF0(field_74_pSprite_on_hook->field_C_sprite_4c_ptr);
 
@@ -272,7 +272,7 @@ void Crane_15C::HookPickupCar_47EF80()
     gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_68_pickup_car);
 
     this->field_74_pSprite_on_hook = this->field_68_pickup_car;
-    this->field_10_hooked_sprite_offset = field_74_pSprite_on_hook->get_x_y_443580().Sub_40AC80(field_54_hook_obj->field_4->get_x_y_443580());
+    this->field_10_hooked_sprite_offset = field_74_pSprite_on_hook->get_x_y().Sub_40AC80(field_54_hook_obj->field_4->get_x_y());
 
     field_60_probe_sprite->field_C_sprite_4c_ptr->CopyXYZ_447DF0(field_74_pSprite_on_hook->field_C_sprite_4c_ptr);
 
@@ -511,7 +511,7 @@ void Crane_15C::UpdateCraneTargets_47F4C0()
 MATCH_FUNC(0x47f6c0)
 bool Crane_15C::ComputeHookPolar_47F6C0(Fix16_Point& pPoint, Fix16* pOutF16, Fix16* pOutAng)
 {
-    Fix16_Point v10 = (pPoint.Sub_40AC80(field_2C_rotor_obj->field_4->get_x_y_443580()));
+    Fix16_Point v10 = (pPoint.Sub_40AC80(field_2C_rotor_obj->field_4->get_x_y()));
     *pOutF16 = v10.GetLength_41E260();
 
     // TODO: 1st check is removed in 9.6f ??
@@ -586,7 +586,7 @@ void Crane_15C::PickUpCar_47F930(Car_BC* pCar)
                         Fix16 a2a;
                         Fix16 angTmp;
                         Sprite* pSprt = pCar->field_50_car_sprite;
-                        if (ComputeHookPolar_47F6C0(pSprt->get_x_y_443580(), &a2a, &angTmp))
+                        if (ComputeHookPolar_47F6C0(pSprt->get_x_y(), &a2a, &angTmp))
                         {
                             if (field_144 != 1 || IsTarget1PositionClear_47EB00())
                             {

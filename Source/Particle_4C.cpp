@@ -1003,7 +1003,7 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
             Fix16 cos = Ang16::cosine_40F520(angle);
             corner.x = corner.x.Multiply_408680(cos).Add_408660(corner.y.Multiply_408680(sin));
             corner.y = (-x_old).Multiply_408680(sin).Add_408660(corner.y.Multiply_408680(cos));
-            corner += field_28_pSprite->get_x_y_443580();
+            corner += field_28_pSprite->get_x_y();
         }
         else
         {
@@ -1014,7 +1014,7 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
             Fix16 cos = Ang16::cosine_40F520(angle);
             corner.x = corner.x.Multiply_408680(cos).Add_408660(corner.y.Multiply_408680(sin));
             corner.y = (-x_old).Multiply_408680(sin).Add_408660(corner.y.Multiply_408680(cos));
-            corner += field_28_pSprite->get_x_y_443580();
+            corner += field_28_pSprite->get_x_y();
         }
 
         field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 200);
@@ -1522,7 +1522,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
             offset.y = dword_6FD4CC;
         }
         offset.RotateByAngle_OneMulInline_40F6B0(pCar->field_50_car_sprite->field_0);
-        attach += offset.Add_40AC50(pCar->field_50_car_sprite->get_x_y_443580());
+        attach += offset.Add_40AC50(pCar->field_50_car_sprite->get_x_y());
         vel = pCar->field_58_physics->GetPointVelocity_561350(&attach);
         angle = car_angle;
     }

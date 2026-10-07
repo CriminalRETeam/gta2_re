@@ -71,17 +71,8 @@ class Ang16
     // https://decomp.me/scratch/Rc5ql
     Ang16 operator+(const Ang16& rhs)
     {
-        return Ang16(rValue + rhs.rValue, 0);
-    }
-
-    // operator+ with the Normalize call one inline level up: VC6 inlines Normalize here where
-    // operator+ (ctor -> Normalize) leaves it out of line. Called on a by-value parameter it also
-    // loads that parameter as a dword (Wolfy_30::state_4_540F90)
-    Ang16 AddNormalized(const Ang16& rhs)
-    {
-        Ang16 r(rValue + rhs.rValue);
-        r.Normalize();
-        return r;
+        s16 value = rValue + rhs.rValue;
+        return Ang16(value, 0);
     }
 
     // operator+ with the normalizing constructor called out of line (AssignNormalized_409300), for
@@ -92,9 +83,11 @@ class Ang16
         return Ang16(&value, 0);
     }
 
+    // 9.6f 0x40E5D0
     Ang16 operator-(const Ang16& other)
     {
-        return Ang16(rValue - other.rValue, 0);
+        s16 value = rValue - other.rValue;
+        return Ang16(value, 0);
     }
 
     // 9.6f 0x49E240, defined in CarPhysics_B0.cpp
