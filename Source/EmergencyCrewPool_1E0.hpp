@@ -19,6 +19,17 @@ enum
 };
 } // namespace crew_state
 
+// EmergencyCrew_30::field_24_phase (stored as s32)
+namespace crew_phase
+{
+enum
+{
+    on_foot_0 = 0,
+    in_car_1 = 1,
+    finished_2 = 2,
+};
+} // namespace crew_phase
+
 // One emergency crew (paramedics, police, SWAT, FBI or army): the car, its leader ped and the ped group,
 // plus the spawn position and the state machine that drives them. Pooled in EmergencyCrewPool_1E0.
 class EmergencyCrew_30
@@ -44,8 +55,8 @@ class EmergencyCrew_30
     s16 field_1A_idle_limit; // car unseen / ped idle limit before the crew is cleaned up
     s16 field_1C_unused;
     char_type field_1E_is_used;
-    s32 field_20_crew_type;
-    s32 field_24_phase; // 0 = on foot, 1 = in car, 2 = finished
+    s32 field_20_crew_type; // crew_type
+    s32 field_24_phase; // crew_phase
     s32 field_28_state; // crew_state
     char_type field_2C_ready; // set once the car is spawned or the crew was cleaned up
 };

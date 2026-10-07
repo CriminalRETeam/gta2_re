@@ -407,7 +407,7 @@ bool Police_7B8::DispatchNewCrewToPursuit_56FAA0(PolicePursuitTarget_7C* pPursui
         pNewPoliceCrew->field_20_crew_kind = gCrewKind_6FEDB8;
         pEmergencyCrew->field_1E_is_used = 1;
         pEmergencyCrew->field_20_crew_type = dword_6FEE18; // field_20_crew_type
-        pEmergencyCrew->field_24_phase = 1;
+        pEmergencyCrew->field_24_phase = crew_phase::in_car_1;
         pEmergencyCrew->field_28_state = crew_state::spawn_car_3;
         pEmergencyCrew->field_18_spawn_delay = word_6FEAC8;
         pEmergencyCrew->field_C_spawn_x = Fix16(tileX);
@@ -865,7 +865,7 @@ bool Police_7B8::SpawnCrewInCar_5703E0(Car_BC* pCar)
     pNewCrew->field_29_bCountedInPoliceCount = 1;
     pEmergencyCrew->field_1E_is_used = 1;
     pEmergencyCrew->field_20_crew_type = gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit;
-    pEmergencyCrew->field_24_phase = 1;
+    pEmergencyCrew->field_24_phase = crew_phase::in_car_1;
     pEmergencyCrew->field_0_car = pCar;
     PedGroup* pNewPedGroup = PedGroup::New_4CB0D0();
     Ped* pNewPed1 = gPedManager_6787BC->AllocatePed_470F30();

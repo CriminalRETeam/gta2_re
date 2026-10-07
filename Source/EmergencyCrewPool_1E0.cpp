@@ -62,7 +62,7 @@ void EmergencyCrew_30::Init_5CBC00()
     field_1A_idle_limit = 150;
     field_1E_is_used = 0;
     field_20_crew_type = 0;
-    field_24_phase = 0;
+    field_24_phase = crew_phase::on_foot_0;
     field_0_car = NULL;
     field_4_ped = NULL;
     field_28_state = crew_state::idle_0;
@@ -165,7 +165,7 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
         }
     }
 
-    if (field_24_phase == 1)
+    if (field_24_phase == crew_phase::in_car_1)
     {
         if (field_0_car)
         {
@@ -284,7 +284,7 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
                 }
                 field_8_group = NULL;
                 field_4_ped = NULL;
-                field_24_phase = 2;
+                field_24_phase = crew_phase::finished_2;
                 return;
             }
             if (bAllPedsAlive)
@@ -293,7 +293,7 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
                 {
                     if (field_4_ped->field_168_game_object)
                     {
-                        field_24_phase = 0;
+                        field_24_phase = crew_phase::on_foot_0;
                         if (field_8_group)
                         {
                             field_8_group->ResetGroupObjectives_4C8F20();
@@ -309,7 +309,7 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
                 {
                     if (field_8_group->field_2C_ped_leader)
                     {
-                        field_24_phase = 0;
+                        field_24_phase = crew_phase::on_foot_0;
                         field_8_group->ResetGroupObjectives_4C8F20();
                     }
                     else if (field_8_group->field_34_count == 1)
@@ -319,7 +319,7 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
                         field_8_group = NULL;
                         field_4_ped->SetObjective(objectives_enum::no_obj_0, 9999);
                         field_4_ped->SetObjective2_463830(0, 9999);
-                        field_24_phase = 0;
+                        field_24_phase = crew_phase::on_foot_0;
                     }
                     else
                     {
@@ -329,7 +329,7 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
                         --field_8_group->field_34_count;
                         field_4_ped = field_8_group->field_2C_ped_leader;
                         field_8_group->ResetGroupObjectives_4C8F20();
-                        field_24_phase = 0;
+                        field_24_phase = crew_phase::on_foot_0;
                     }
                 }
                 else
@@ -339,7 +339,7 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
                     field_8_group = NULL;
                     field_4_ped->SetObjective(objectives_enum::no_obj_0, 9999);
                     field_4_ped->SetObjective2_463830(0, 9999);
-                    field_24_phase = 0;
+                    field_24_phase = crew_phase::on_foot_0;
                 }
             }
             else if (field_4_ped)
@@ -348,12 +348,12 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
                 {
                     field_4_ped->SetObjective(objectives_enum::no_obj_0, 9999);
                     field_4_ped->SetObjective2_463830(0, 9999);
-                    field_24_phase = 0;
+                    field_24_phase = crew_phase::on_foot_0;
                 }
             }
             else if (!field_0_car)
             {
-                field_24_phase = 2;
+                field_24_phase = crew_phase::finished_2;
             }
         }
         else
@@ -376,10 +376,10 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
                 {
                     if (!field_4_ped || field_4_ped->isDead_403B60())
                     {
-                        field_24_phase = 2;
+                        field_24_phase = crew_phase::finished_2;
                     }
                 }
-                if (field_24_phase == 2)
+                if (field_24_phase == crew_phase::finished_2)
                 {
                     if (field_0_car)
                     {
@@ -408,7 +408,7 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
         {
             if (!field_4_ped || field_4_ped->isDead_403B60())
             {
-                field_24_phase = 2;
+                field_24_phase = crew_phase::finished_2;
             }
         }
     }
@@ -443,7 +443,7 @@ void EmergencyCrew_30::CleanupExpiredEntities_5CC1C0()
         }
     }
 
-    if (this->field_24_phase == 1)
+    if (this->field_24_phase == crew_phase::in_car_1)
     {
         if (this->field_0_car && !field_0_car->IsDespawning_4215B0() && !field_0_car->IsMaxDamage_40F890())
         {
@@ -543,7 +543,7 @@ void EmergencyCrew_30::CleanupExpiredEntities_5CC1C0()
             {
                 if (this->field_4_ped->field_168_game_object)
                 {
-                    this->field_24_phase = 0;
+                    this->field_24_phase = crew_phase::on_foot_0;
                 }
             }
         }

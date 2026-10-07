@@ -580,7 +580,7 @@ void PoliceCrew_38::sub_571A30()
 MATCH_FUNC(0x5720c0)
 void PoliceCrew_38::sub_5720C0()
 {
-    if (field_10_subObj->field_24_phase == 2)
+    if (field_10_subObj->field_24_phase == crew_phase::finished_2)
     {
         if (field_29_bCountedInPoliceCount)
         {
@@ -603,11 +603,11 @@ void PoliceCrew_38::sub_5720C0()
         return;
     }
 
-    if (field_10_subObj->field_24_phase == 0)
+    if (field_10_subObj->field_24_phase == crew_phase::on_foot_0)
     {
         TryDespawnOffscreenCrew_571350();
     }
-    else if (field_10_subObj->field_24_phase == 2)
+    else if (field_10_subObj->field_24_phase == crew_phase::finished_2)
     {
         sub_571540();
     }
@@ -1019,7 +1019,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
                                     field_28 = 0;
                                 }
                             }
-                            else if (field_28 && field_10_subObj->field_24_phase == 1)
+                            else if (field_28 && field_10_subObj->field_24_phase == crew_phase::in_car_1)
                             {
                                 if (!pPed->field_21C_bf.b27)
                                 {
@@ -1093,7 +1093,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
                                 field_8 = kFpEight_6FED48 * kFpFour_6FECF8;
                             }
 
-                            if (field_10_subObj->field_24_phase == 1)
+                            if (field_10_subObj->field_24_phase == crew_phase::in_car_1)
                             {
                                 u8 bEnterCar = false;
                                 if (field_8 > kFpEight_6FED48)
@@ -1295,13 +1295,13 @@ void PoliceCrew_38::State6_ShutDown_574720()
 
         if (field_14_pPursuitTarget)
         {
-            if (field_10_subObj->field_24_phase != 2)
+            if (field_10_subObj->field_24_phase != crew_phase::finished_2)
             {
                 if (field_14_pPursuitTarget->field_0_criminal_ped)
                 {
                     if (PoliceCrew_38::sub_572210())
                     {
-                        if (field_10_subObj->field_20_crew_type == 6 ||
+                        if (field_10_subObj->field_20_crew_type == crew_type::army_6 ||
                             (field_14_pPursuitTarget->field_4_wanted_level != 6 && field_14_pPursuitTarget->field_4_wanted_level))
                         {
                             if (gCurrentCrewPed_6FEDDC->get_objective_403A80() == objectives_enum::enter_car_as_driver_35 &&
@@ -1321,7 +1321,7 @@ void PoliceCrew_38::State6_ShutDown_574720()
                 }
             }
         }
-        if (field_10_subObj->field_24_phase != 2)
+        if (field_10_subObj->field_24_phase != crew_phase::finished_2)
         {
             if (gCurrentCrewPed_6FEDDC)
             {
@@ -1362,7 +1362,7 @@ void PoliceCrew_38::State6_ShutDown_574720()
                                 }
                                 else
                                 {
-                                    if (field_10_subObj->field_24_phase == 1 && !gCurrentCrewPed_6FEDDC->field_21C_bf.b27)
+                                    if (field_10_subObj->field_24_phase == crew_phase::in_car_1 && !gCurrentCrewPed_6FEDDC->field_21C_bf.b27)
                                     {
                                         gCurrentCrewPed_6FEDDC->SetObjective2_463830(0, 9999);
                                         gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
@@ -1444,7 +1444,7 @@ void PoliceCrew_38::State1_Patrol_574F10()
     byte_6FEB48 = 1;
     u8 idx = 0;
 
-    if (field_10_subObj->field_24_phase == 2 || !field_10_subObj->field_24_phase || (pCarUnk = field_10_subObj->field_0_car, pCarUnk->field_76_last_seen_timer > 80))
+    if (field_10_subObj->field_24_phase == crew_phase::finished_2 || !field_10_subObj->field_24_phase || (pCarUnk = field_10_subObj->field_0_car, pCarUnk->field_76_last_seen_timer > 80))
     {
         field_24_state = police_crew_state::shutdown_6;
     }
