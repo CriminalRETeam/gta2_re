@@ -1166,7 +1166,11 @@ and a slot). `Particle_4C::UpdateLargeBallisticDebris_state_35_53AE60` went from
 `Fix16_Point point2(0, 0)` that the original also constructs and never uses.
 
 **Stack slot order isn't declaration order.** Two local arrays or a set of scalars can come out
-in a different order from the original whatever order they're declared in. If the
+in a different order from the original whatever order they're declared in.
+**The rule is now known** (`Scripts/regalloc/README.md`, "Stack slots"; `slotlog.py` prints it per function):
+slots are ordered by size, then by the number of memory references (more = lower), then by first reference, and a
+local shares the first earlier slot whose scope it doesn't overlap if it is at most twice that slot's size. The
+cases below all follow from it. If the
 original's slots look like one block, try one array. In `FatalError_4A07C0`, six route
 coordinates had to be one `s32[6]` with the second triple stored back to front.
 The source order of stores can decide slots too: in `MapRenderer::set_shading_lev_4E9DB0` the order of

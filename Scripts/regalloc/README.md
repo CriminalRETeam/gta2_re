@@ -92,6 +92,57 @@ in the loop rotates the registers of equally weighted variables. The log for `pr
   prio=40  tie=14  -> edi    c
 ```
 
+## Stack slots (frame pass `0x10723F8C`)
+
+Stack locals (address-taken variables, `$T` temporaries, spilled variables) and the parameters get their frame
+offsets in the pass after local register allocation and the memory-compare split (`0x10723F8C` -> `0x10724009`):
+
+1. **The list.** `0x10724286` walks every instruction in IL order and calls `0x1072EE45` for each stack symbol
+   operand. That keeps a list (`0x1079F220`; records with the symbol at `[+0]`, next `[+0x2C]`, size `[+0x20]`,
+   count `[+0x34]`) sorted by
+   - **size ascending**,
+   - then **reference count descending**: each operand adds 1, with no loop weighting. The list is built after
+     register allocation, so only memory references count;
+   - then **first reference** (a symbol only moves ahead of symbols with a strictly smaller count).
+2. **Packing.** The list is walked in that order. A local takes the first slot, in creation order (a parameter's
+   own slot included), whose members don't overlap it, if its size is at most **twice the slot's current size**
+   (the slot then grows to it). Otherwise it gets a new slot. Lifetimes for this are lexical: an
+   address-taken local overlaps everything in its scope (two function-scope locals never share, even when
+   their uses don't overlap). A parameter's slot is free after the parameter's last read, which is usually its
+   load into a register.
+3. **Offsets.** New slots go from the bottom of the frame up, in creation order, so the list's front gets the
+   lowest addresses (`[esp+0]`). `0x1075F8E9` then rebases them against the frame base symbol (`0x10799020`).
+
+Probes (`int` unless noted; `{}` is a separate scope):
+
+| Source | Slots, lowest first |
+|---|---|
+| `int a, b, c; ext(&c); ext(&a); ext(&b);` | c, a, b (declaration order is ignored) |
+| `ext2(&a, &b, &c)` | c, b, a (the pushes are evaluated right to left) |
+| `ext(&b); ext(&a); ext(&a); ext(&a); ext(&a);` | a (4 refs), b |
+| `char b3[3]; int a; double d; char b16[16];` | b3, a, d, b16 (by size) |
+| `f(int n) { int a, b; ext(&b); for (...n...) ext(&a); }` | b, a (`n` is read after `ext(&b)`, `a` overlaps it) |
+| `f(int n) { int a, b; for (...n...) ext(&a); ext(&b); }` | `a` in `n`'s slot, then b |
+| `{ char c; } { short s; } { int i; }` | one slot (1 -> 2 -> 4) |
+| `{ char c; } { int i; }` | two slots (4 > 2 x 1) |
+
+`slotlog.py` builds a variant that prints the list per function:
+
+```bash
+venv/bin/python3 Scripts/regalloc/slotlog.py
+X87_C2=slotlog X87_OUT=/tmp/sl Scripts/x87_sched/sched.sh -l Source/CarAI_78.cpp
+awk '/^@SLOTS/{p=index($0,"sub_452060")} p' /tmp/sl/last.log | grep -a '^@SLOT'
+#   @SLOT _v82$59045 size=2 refs=3     (slot 0, at [esp+0])
+#   @SLOT _new_z$ size=4 refs=4        (slot 1)
+#   @SLOT _v85$ size=4 refs=3          (slot 2)
+#   @SLOT _v7$59027 size=4 refs=2      (shares slot 0: its block and v82's don't overlap)
+```
+
+The listing (`last.asm`) names only the declared locals (`_v7$59027 = -28`); `$T` temporaries are in the list
+but not in the listing. To get a local lower in the frame: give it more memory references than the ones
+below it, or make it smaller. To make two locals share a slot, put them in disjoint scopes. A local declared
+at function scope never shares with another function-scope local.
+
 ## Tools
 
 `c2dis.py` disassembles C2.DLL (needs `iced-x86` and `pefile` in the venv):

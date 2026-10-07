@@ -2625,6 +2625,11 @@ Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 
   `decl_shuffle.py` cannot run on it (interleaved declarations). `Fix16 v7;` at the top or outside its block
   (126), `v7` assigned after its declaration, `new_z` or `v9`/`v10` declared at the top: 32. `v85` and `zpos_`
   are live later, so they cannot be dropped.
+  Slot rule (Oct 7, `Scripts/regalloc/slotlog.py`): our list is v82 (size 2), new_z (4 refs), v85 (3), v7 (2),
+  then the `$T`s. v82 opens slot 0 and v7 shares it (disjoint blocks); new_z, v85 get slots 1, 2; the cosine
+  temporary gets a later one. That's our layout exactly. The original (temp 0x0, v7 0x4, new_z 0x8, v85 0xC) needs
+  v7 ahead of new_z in the list (more memory references than new_z, or new_z fewer), v7 not sharing slot 0 (its
+  scope overlapping v82's, e.g. v82 declared at function scope), and the cosine temporary sharing slot 0.
 ### Mid-list pass (Oct 6, Fable worker)
 Scores are `quick_score.sh` lines.
 - Matched `gtx_0x106C::BuildCarInfoContainer_5AA9A0`: `u32 door_len = doors * sizeof(door_info) + 1;` added to
