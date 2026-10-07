@@ -354,7 +354,7 @@ void Police_7B8::RegisterCriminal_56F940(Ped* pPed)
 }
 
 MATCH_FUNC(0x56fa40)
-void Police_7B8::UpdatePlayerPursuitTimer_56FA40()
+void Police_7B8::UpdateFirstPursuitTimer_56FA40()
 {
     if (field_464_pursuit_targets[0].field_0_criminal_ped)
     {
@@ -785,7 +785,7 @@ void Police_7B8::Service_570270()
 
     if (bHaveCriminals_6FEE44 == 1)
     {
-        Police_7B8::UpdatePlayerPursuitTimer_56FA40();
+        Police_7B8::UpdateFirstPursuitTimer_56FA40();
     }
 
     field_664_roadblock_1.Update_5757B0();

@@ -55,7 +55,7 @@ class Police_7B8
     EXPORT void RegisterCriminal_56F940(Ped* pCriminal);
 
   private:
-    EXPORT void UpdatePlayerPursuitTimer_56FA40();
+    EXPORT void UpdateFirstPursuitTimer_56FA40();
     EXPORT bool DispatchNewCrewToPursuit_56FAA0(PolicePursuitTarget_7C* pPursuitTarget);
     EXPORT void UpdatePursuitTargets_56FBD0();
 
