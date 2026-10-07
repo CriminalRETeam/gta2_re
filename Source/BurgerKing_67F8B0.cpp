@@ -53,13 +53,6 @@ DEFINE_GUID(GUID_SysKeyboard, 0x6F1D2B61, 0xD5A0, 0x11CF, 0xBF, 0xC7, 0x44, 0x45
 
 const AttractFile attractFiles_62083C[ATTRACT_COUNT] = {"data\\attract\\attr1.rep", "data\\attract\\attr2.rep", "data\\attract\\attr3.rep"};
 
-// TODO: Move
-EXPORT int __stdcall FatalDXError_4A3CF0(HRESULT hr, const char* pSourceFile, int lineNo)
-{
-    NOT_IMPLEMENTED;
-    return 0;
-}
-
 MATCH_FUNC(0x498730)
 bool BurgerKing_1::acquire_input_device_498730(LPDIRECTINPUTDEVICEA pGamePadDevice)
 {

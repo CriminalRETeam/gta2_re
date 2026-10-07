@@ -414,6 +414,14 @@ as one `||` condition as in 9.6f, fixed an `ebx`/`ebp` swap (`Montana_4::AddSpri
 `bool aligned = ...; if (aligned)` first gave the original layout (`CarPhysics_B0::HandleUserInputs_55A860`,
 which also inlines `IsVelocityAlignedWithHeading_40F840` and, inside it, `Fix16_Point::atan2_40ACD0`).
 
+- **An empty case changes how a sparse switch is lowered, and with it the register rotation** (`FatalDXError_4A3CF0`).
+  The original has `case DI_OK: break;` (its jump table entry goes straight to the `ret`). Without it, VC6 splits
+  the case values differently and uses compares instead of a byte-indexed table for one dense range. The bodies are
+  identical, but the table code takes a register, so every later case gets the next pair of the rotation
+  (`eax/ecx`, `edx/eax`, `ecx/edx`). That changes which cases match the default's tail and get cross-jumped into
+  it (`push msg; jmp`). When cross-jumps land on every third case but shifted, check the jump tables for entries that
+  go to the exit: they are cases with an empty body.
+
 ## Types and signedness
 
 **A 2-byte global defined in the same file loads as 32 bits.** With the `DEFINE_GLOBAL` of an
