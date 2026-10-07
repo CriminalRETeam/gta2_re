@@ -1648,8 +1648,25 @@ Why (Oct 7): VC6 copies a 2-byte integer (`u16`, `s16`, `wchar_t`, or an element
 **defined in the same TU** into a 4-byte stack slot (an inlined by-value parameter, a local copy) with a 32-bit move
 when the address is 4-aligned: `mov eax, DWORD PTR g` / `mov [esp+x], eax` instead of `mov ax` / `mov [esp+x], ax`.
 It knows the alignment from the global's offset in the object's `.bss`/`.data`, and VC6 lays out a TU's globals in
-an order set by their **names** (a hash-like order; not declaration order, not alphabetical). Renaming
-`word_70643E` moved it from `.bss+0x2` to `.bss+0x250`, so the copy in `DrawChatMessages_5D16B0` widened. The original
+an order set by their **names**. Renaming `word_70643E` moved it from `.bss+0x2` to `.bss+0x250`, so the copy in
+`DrawChatMessages_5D16B0` widened.
+
+The order (reversed Oct 7): C1XX hashes each identifier with `h = 4*h + c + (h >> 4)` (its lexer, `0x10409122`) and
+keeps the file scope's symbols in a 1024-bucket table indexed by `((h >> 16) ^ h) & 0x3FF`. It writes them to the IL
+in bucket order, and C2 (`0x107320D4`, reading them back with `0x1073239D`) assigns `.bss` offsets in the order it
+reads them. So `.bss` holds, in this order:
+
+1. every uninitialized global and every global with a constructor (`Fix16 k = Fix16(1)`, `Ang16`), sorted by
+   bucket; two names in the same bucket come out with the later declaration first;
+2. globals initialized to zero (`u8 x = 0;`), in declaration order;
+3. function-local statics (the `logged` flags of `NOT_IMPLEMENTED`/`WIP_IMPLEMENTED`).
+
+`.data` (non-zero initializers) is in declaration order. Each item is aligned to its own size up to 4. Our build
+also has `DEFINE_GLOBAL`'s `const GlobalRef gRef_<name>_<addr>` objects (12 bytes, with a constructor) in run 1,
+sorted by their own names, which the original didn't have, so our offsets differ from the original's even with the
+original's names. Checked on the build: 90 of the 95 objects with `.bss` follow these rules exactly, and the other
+five only differ in run 2 and 3 entries. `global_align_check.py --key <name>...` prints a name's bucket, so you can
+see where a rename will land among a TU's globals before rebuilding. The original
 global is at `0x70643E`, 2 mod 4, so the original never widens it. Probes (`Scripts/regalloc/`-style, one TU):
 
 | Global | Copy to a stack temp |
@@ -1664,7 +1681,8 @@ global is at `0x70643E`, 2 mod 4, so the original never widens it. Probes (`Scri
 original address (from the `_gRef_` symbol `DEFINE_GLOBAL` emits): 29 in the current build. They only matter in
 functions that copy the global as above. When the original keeps the word moves (address 2 mod 4), defining the global
 in a different TU than its users always gives them; when it widens, the global has to stay in the TU at a 4-aligned
-offset, which only a name gives. Run the checker after renames.
+offset, which a name (its bucket), an `= 0` initializer (run 2) or a neighbour's name gives. Run the checker after
+renames.
 
 **Two different callees for the same constructor mean two types.** If the original calls one
 `Fix16` constructor twice and you call two, an argument has the wrong type (a `u16` position
