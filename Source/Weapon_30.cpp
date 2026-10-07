@@ -1381,13 +1381,13 @@ void Weapon_30::fire_truck_flamethrower_5E0B10()
 
     offset.RotateByAngle_40F6B0(field_14_car->field_50_car_sprite->field_0);
 
-    bullet_pos += offset + field_14_car->field_50_car_sprite->get_x_y_443580();
+    bullet_pos += offset.Add_40AC50(field_14_car->field_50_car_sprite->get_x_y_443580());
 
     velocity = field_14_car->field_58_physics->GetPointVelocity_561350(&bullet_pos);
 
     set_field_2C_4CCA80(1);
 
-    if (!field_4)
+    if (!Get_F4_41CC70())
     {
         gParticle_8_6FD5E8->EmitFlameStreamSegment_53F4C0(field_14_car->field_50_car_sprite);
     }
@@ -1397,34 +1397,37 @@ void Weapon_30::fire_truck_flamethrower_5E0B10()
     }
 }
 
-WIP_FUNC(0x5e0e70)
+// Both fire truck guns keep the EH state stores around their Fix16_Point add: once VC6 has compiled the
+// out-of-line copy of the inline operator+ it knows the call can't throw and drops them. So only this
+// function uses operator+, and fire_truck_flamethrower_5E0B10 above calls Add_40AC50. The inline getters
+// (get_driver_4118B0, Get_F4_41CC70) are free inline sites that set the inline budget split, so the
+// second rotation calls Negate_4086A0 out of line as in 10.5.
+MATCH_FUNC(0x5e0e70)
 void Weapon_30::fire_truck_gun_5E0E70()
 {
+    Ang16 gun_ang;
     Fix16_Point bullet_pos;
     Fix16_Point offset;
     Fix16_Point velocity;
 
-    field_24_pPed = field_14_car->field_54_driver;
+    field_24_pPed = field_14_car->get_driver_4118B0();
 
-    // operator+= (its Normalize goes out of line). The plain operator+ gets the start right but
-    // moves the registers of the rotations.
     Sprite_18* pTurret = field_14_car->field_0_qq.GetSpriteForModel_5A6A50(114);
-    Ang16 gun_ang = pTurret->field_0->field_0;
-    gun_ang += word_706DFA;
+    gun_ang = pTurret->field_0->field_0 + word_706DFA;
 
     bullet_pos.SetXY_432860(Fix16(0), dword_706CDC);
-    bullet_pos.RotateByAngle_OOL_40F6B0(gun_ang);
-
+    bullet_pos.RotateByAngle_40F6B0(gun_ang);
     offset.SetXY_432860(Fix16(0), dword_706CD8);
-    offset.RotateByAngle_NegOOL_40F6B0(field_14_car->field_50_car_sprite->field_0);
 
-    bullet_pos += offset.Add_40AC50(field_14_car->field_50_car_sprite->get_x_y_443580());
+    offset.RotateByAngle_40F6B0(field_14_car->field_50_car_sprite->field_0);
+
+    bullet_pos += offset + field_14_car->field_50_car_sprite->get_x_y_443580();
 
     velocity = field_14_car->field_58_physics->GetPointVelocity_561350(&bullet_pos);
 
     set_field_2C_4CCA80(1);
 
-    if (!field_4)
+    if (!Get_F4_41CC70())
     {
         gParticle_8_6FD5E8->EmitFireTruckSprayParticle_53FAE0(field_14_car->field_50_car_sprite);
     }
