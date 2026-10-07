@@ -119,7 +119,7 @@ class PolicePursuitTarget_7C  // Pursuit of one wanted criminal by police crews
     char_type field_74_num_army_crews;
     u8 field_75_num_crews;
     s16 field_76;
-    char_type field_78_is_active_criminal;
+    char_type field_78_is_actively_chased;
     char_type field_79;
     s16 field_7A_wanted_timer;
 };

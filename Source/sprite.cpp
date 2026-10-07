@@ -1055,7 +1055,7 @@ void Sprite::ShowHorn_59EE40(f32& x, f32& y)
             Ped* pDriver = pCar->field_54_driver;
             if (pDriver)
             {
-                if (gPolice_7B8_6FEE40->IsPedActiveCriminal_56F880(pDriver))
+                if (gPolice_7B8_6FEE40->IsActivelyChased_56F880(pDriver))
                 {
                     DrawTextScaled_4BA2C0(L"P", xpos, ypos, word_703BAA);
                 }

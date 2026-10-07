@@ -478,7 +478,7 @@ MATCH_FUNC(0x435F90)
 void Camera_0xBC::AccumulateSuspicionOnDriver_435F90(Car_BC* a2)
 {
     if (a2->field_54_driver &&
-        (gPolice_7B8_6FEE40->IsPedActiveCriminal_56F880(a2->field_54_driver) ||
+        (gPolice_7B8_6FEE40->IsActivelyChased_56F880(a2->field_54_driver) ||
          gHamburger_500_678E30->HasAnyFollower_474970(a2->field_54_driver)))
     {
         field_44_suspicion++;

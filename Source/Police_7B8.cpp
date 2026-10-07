@@ -59,7 +59,7 @@ void Police_7B8::Init_56F400()
         field_464_pursuit_targets[i].field_E = 0;
 
         field_464_pursuit_targets[i].field_75_num_crews = 0;
-        field_464_pursuit_targets[i].field_78_is_active_criminal = 0;
+        field_464_pursuit_targets[i].field_78_is_actively_chased = 0;
         field_464_pursuit_targets[i].field_7A_wanted_timer = 0;
 
         memset(field_464_pursuit_targets[i].field_20_crews, 0, 0x18);
@@ -281,13 +281,13 @@ bool Police_7B8::IsBeingPursued_56F800(Ped* pCriminal)
 }
 
 MATCH_FUNC(0x56f880)
-bool Police_7B8::IsPedActiveCriminal_56F880(Ped* pCriminal)
+bool Police_7B8::IsActivelyChased_56F880(Ped* pCriminal)
 {
     for (u8 i = 0; i < MAX_PURSUIT_TARGETS; i++)
     {
         if (field_464_pursuit_targets[i].field_0_criminal_ped == pCriminal)
         {
-            if (field_464_pursuit_targets[i].field_78_is_active_criminal)
+            if (field_464_pursuit_targets[i].field_78_is_actively_chased)
             {
                 return true;
             }
@@ -431,7 +431,7 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
     PolicePursuitTarget_7C* pPursuitTarget = &field_464_pursuit_targets[0];
     while (pPursuitTarget->field_0_criminal_ped && targetIdx < MAX_PURSUIT_TARGETS)
     {
-        pPursuitTarget->field_78_is_active_criminal = 0;
+        pPursuitTarget->field_78_is_actively_chased = 0;
         Ped* pCriminal = pPursuitTarget->field_0_criminal_ped;
         if (pCriminal->GetPedType_420B70() == 2 && (pCriminal->field_21C & 0x20) == 0x20)
         {
@@ -1020,7 +1020,7 @@ static inline PoliceCrew_38* FindCrewInCar_5707B0(Police_7B8* pThis, Car_BC* pCa
 }
 
 MATCH_FUNC(0x5707b0)
-bool Police_7B8::PromptCrewAtCarToPursueCriminal_5707B0(Car_BC* pCar, Ped* pCriminal)
+bool Police_7B8::TryAssignCarCrewToCriminal_5707B0(Car_BC* pCar, Ped* pCriminal)
 {
     if (!pCriminal->is_player_41B0A0())
     {
@@ -1089,7 +1089,7 @@ void Police_7B8::UpdateCriminalLatestPosition_570940(Ped* pPed)
 }
 
 MATCH_FUNC(0x577320)
-bool Police_7B8::ShouldCreateRoadblock_577320()
+bool Police_7B8::TryBeginRoadblock_577320()
 {
     if (this->field_654_max_wanted_level < 3 || this->field_664_roadblock_1.field_0_bActive || this->field_7AC_roadblock_cooldown)
     {

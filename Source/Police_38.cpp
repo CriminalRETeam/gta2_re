@@ -1694,7 +1694,7 @@ void PoliceCrew_38::sub_575310()
             case 15:
                 break;
             default:
-                field_14_pPursuitTarget->field_78_is_active_criminal = 1;
+                field_14_pPursuitTarget->field_78_is_actively_chased = 1;
                 break;
         }
 
