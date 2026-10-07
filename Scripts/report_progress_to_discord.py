@@ -11,14 +11,11 @@ COMMIT_MESSAGE = os.environ.get("COMMIT_MESSAGE")
 # Optional: the captured output of build.py, used to count compiler warnings
 BUILD_LOG = os.environ.get("BUILD_LOG", "../build.log")
 
-# Everything at or above this address is CRT / iostream library code, not game code
-LIBRARY_START = 0x5ED000
-
 NEW_EXE = "../build_vc6/decomp_main.exe"
 OG_EXE = "./bin_comp/10.5.exe"
 
 # Keys of progress.json whose change makes us post an update
-PROGRESS_KEYS = ["matched", "total", "stub", "not_started", "wip", "wip_reg_swap", "wip_reg_choice",
+PROGRESS_KEYS = ["matched", "total", "stub", "wip", "wip_reg_swap", "wip_reg_choice",
                  "wip_instr_order", "wip_structural", "wip_unclassified", "wip_ready", "wip_reg_alloc", "matched_boot_to_map_funcs"]
 
 
@@ -27,7 +24,7 @@ def load_coverage_file(filename):
         return [line.rstrip() for line in file]
 
 
-def fmt_delta(old, new, always=False):
+def fmt_delta(old, new, always=False, with_pct=True):
     """' | **+5** (0.43%)': the change since the previous run and it as a percentage of the old
     value. Nothing when unchanged (or ' | **No change**' with always), or without a previous run."""
     if old is None:
@@ -35,6 +32,8 @@ def fmt_delta(old, new, always=False):
     diff = new - old
     if diff == 0:
         return " | **No change**" if always else ""
+    if not with_pct:
+        return f" | **{diff:+d}**"
     diff_pct = diff / old * 100 if old else 0
     return f" | **{diff:+d}** ({diff_pct:.2f}%)"
 
@@ -134,25 +133,23 @@ def main():
         new_data = json.load(file)
     coverage_data = {line.lower() for line in load_coverage_file("./bin_comp/coverage_trace_funcs.txt")}
 
-    # Every game function of the original (CRT / library code is not ours to match)
+    # file offset and size of each original function, to disassemble the WIP ones
     og_funcs = {}
     with open("./bin_comp/og_function_data_v105.csv") as file:
         for row in csv.reader(file):
-            addr = int(row[1], 16)
-            if addr < LIBRARY_START:
-                og_funcs[addr] = (row[0], int(row[2], 16), int(row[3], 16))
+            og_funcs[int(row[1], 16)] = (row[0], int(row[2], 16), int(row[3], 16))
 
+    # Only functions with a MATCH_FUNC / WIP_FUNC / STUB_FUNC marker count
     status_by_addr = {}
     for func in new_data["functions"]:
-        if func["og_addr"].startswith("0x"):
+        if func["og_addr"].startswith("0x") and func["func_status"] in ("0x0", "0x1", "0x2"):
             status_by_addr[int(func["og_addr"], 16)] = func
 
-    total = len(og_funcs)
-    matched = sum(1 for a, f in status_by_addr.items() if a in og_funcs and f["func_status"] == "0x1")
-    stub = sum(1 for a, f in status_by_addr.items() if a in og_funcs and f["func_status"] == "0x0")
-    wip_funcs = [f for a, f in status_by_addr.items() if a in og_funcs and f["func_status"] == "0x2"]
+    matched = sum(1 for f in status_by_addr.values() if f["func_status"] == "0x1")
+    stub = sum(1 for f in status_by_addr.values() if f["func_status"] == "0x0")
+    wip_funcs = [f for f in status_by_addr.values() if f["func_status"] == "0x2"]
     wip = len(wip_funcs)
-    not_started = total - matched - stub - wip
+    total = matched + stub + wip
 
     # boot to map coverage
     matched_coverage_funcs = sum(1 for f in status_by_addr.values() if f["func_status"] == "0x1" and f["og_addr"].lower() in coverage_data)
@@ -187,7 +184,6 @@ def main():
         "matched": matched,
         "total": total,
         "stub": stub,
-        "not_started": not_started,
         "wip": wip,
         "wip_ready": wip_ready,
         "wip_reg_alloc": wip_buckets["wip_reg_swap"] + wip_buckets["wip_reg_choice"],
@@ -233,7 +229,7 @@ def main():
     out.append(f"Boot to map progress: [{matched_coverage_funcs}/{total_coverage_funcs}] {boot_pct:.2f}%"
                f"{fmt_delta(prev('matched_boot_to_map_funcs'), matched_coverage_funcs, always=True)}")
     out.append("")
-    out += lines(count_line("Not started", "not_started"), count_line("Stubs", "stub"))
+    out += lines(count_line("Stubs", "stub"))
     out.append(f"WIP: {wip}{d('wip')}")
     # the WIP ones by what's still wrong, as a share of all WIP functions
     reg_alloc = wip_buckets["wip_reg_swap"] + wip_buckets["wip_reg_choice"]
@@ -250,7 +246,7 @@ def main():
     out.append(f"Functions named: [{named_funcs}/{named_funcs + unnamed_funcs}] {pct(named_funcs, named_funcs + unnamed_funcs):.2f}%"
                f"{fmt_delta(prev('named_funcs'), named_funcs)}")
     if warnings is not None:
-        out.append(f"Build warnings: {warnings}{fmt_delta(prev('warnings'), warnings)}")
+        out.append(f"Build warnings: {warnings}{fmt_delta(prev('warnings'), warnings, with_pct=False)}")
 
     webhook_message = {
         "content": None,
