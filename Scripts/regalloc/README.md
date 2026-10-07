@@ -224,7 +224,11 @@ grep -a '^@[PTR]' /tmp/pl/last.log      # @T ties, @P priority terms, @R colour 
   keeps the source order of out-of-loop code. For `sub_543690` that rules out a different block order
   with the original's layout, so it needs one more round-robin pick before the in-loop `lea`. Which
   values become colour-pass live ranges (optimizer temps, kind 3) rather than local temps is not
-  reversed.
+  reversed. Leads: kind 3 is any IL temporary (constructors `0x107014F6`, 7 callers, and `0x10702BC5`,
+  17 callers, which also sets bit 1 of `[t+5]`); in `sub_543690` the coloured copy (`mov %edi,%eax`) first
+  appears in pass `0x10713E23` (boundary `10765aff`, the `field_0[i]` index expansion), while the round-robin
+  `lea` is formed later (`0x10714007`, then code selection `0x1071744C`). Telling the two constructors'
+  temps apart, and which passes use which, is the next step.
 
 - The log has no variable names: `[lr+0]` is not a symbol (C2 asserts in `p2symtab.c` when its
   name is read). Match live ranges to variables by the register they get in the listing.
