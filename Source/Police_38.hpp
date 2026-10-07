@@ -7,7 +7,7 @@ class Kfc_30;
 class Ped;
 class Car_BC;
 class Object_2C;
-class Police_7C;
+class PolicePursuitTarget_7C;
 class Fix16_Rect;
 
 namespace police_crew_state
@@ -61,7 +61,7 @@ class PoliceCrew_38
     Fix16 field_8;
     Fix16 field_C;
     Kfc_30* field_10_subObj;
-    Police_7C* field_14_pService; // Call For Service
+    PolicePursuitTarget_7C* field_14_pPursuitTarget; // Pursuit of one wanted criminal by police crews
     s16 field_18;
     char_type field_1A;
     char_type field_1B;
@@ -81,7 +81,7 @@ class PoliceCrew_38
     char_type field_37;
 };
 
-class Police_7C  // Call For Service
+class PolicePursuitTarget_7C  // Pursuit of one wanted criminal by police crews
 {
   public:
     Ped* field_0_criminal_ped;

@@ -457,7 +457,7 @@ comparison (`RouteFinder_10::field_2` is `u16`).
 `(field_21C & 0x20) == 0x20` (`Police_7B8::UpdateServices_56FBD0`).
 
 **Unsigned compares on `char_type` counters.** `cmp $1,%al; jae` or `test %al,%al; ja` on a
-counter field means the field is `u8`. `Police_7C`'s `field_70`..`field_73_next_tile_y` crew counts were
+counter field means the field is `u8`. `PolicePursuitTarget_7C`'s `field_70`..`field_73_next_tile_y` crew counts were
 `char_type`, and changing them to `u8` moved no other function.
 
 **`and $0xFFFF,%eax` vs `movswl`** is a `u16` vs `s16` parameter (`PedManager::DoIanTest_471060`).

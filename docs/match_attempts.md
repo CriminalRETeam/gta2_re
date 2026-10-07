@@ -2229,7 +2229,7 @@ Scores are `sc.sh` lines (VC6 vs 10.5); `sc7` is `sc7.sh` (VC7 vs 9.6f).
   the earlier one); `obj_28` polarity, `pPed` vs `gCurrentCrewPed`, merging cases 12/51: no effect. The inliner
   sends the wrong `Abs` out of line in kill-char's MaxAbs (nested budget 61 < 64). `inlsim.py --scan` asks for +20
   caller size, and `{}` padding there proves it (sc 123 -> 101), but no natural change gives it: `u8 status`,
-  `else if`, `pCriminal` (no change) and `pService` (worse, 248) locals all failed.
+  `else if`, `pCriminal` (no change) and `pPursuitTarget` (worse, 248) locals all failed.
 - `eager_benz::OnPedKilled_592660` 269 -> 77: second switch with cases 9..20 first (layout), a `pCar ? model : 87`
   local like 9.6f, swat case store order (sc only). Left: the first switch's layout (army falls into the
   dispatch in 10.5 and 9.6f); all 8! case orders sampled (45 random), store orders from 9.6f: worse.

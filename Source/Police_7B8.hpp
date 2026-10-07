@@ -8,7 +8,7 @@ class Ped;
 class Car_BC;
 class Kfc_30;
 class Object_2C;
-class Police_7C;
+class PolicePursuitTarget_7C;
 class Ang16;
 class Police_7B8;
 
@@ -40,12 +40,12 @@ class Police_7B8
     EXPORT void SetArrestedPed_56F8E0(Ped* pCriminal, Ped* pUnusedPed);
     EXPORT void RegisterCriminal_56F940(Ped* pCriminal);
     EXPORT void UpdatePlayerServiceTimer_56FA40();
-    EXPORT bool DispatchNewCrewToService_56FAA0(Police_7C* pService);
+    EXPORT bool DispatchNewCrewToService_56FAA0(PolicePursuitTarget_7C* pPursuitTarget);
     EXPORT void UpdateServices_56FBD0();
     EXPORT void Service_570270();
     EXPORT void SpawnWalkingGuard_570320(Ped* pPed, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
     EXPORT bool SpawnCrewInCar_5703E0(Car_BC* pCar);
-    EXPORT bool AssignCrewToService_570790(PoliceCrew_38* pCrew, Police_7C* pService);
+    EXPORT bool AssignCrewToService_570790(PoliceCrew_38* pCrew, PolicePursuitTarget_7C* pPursuitTarget);
     EXPORT bool PromptCrewAtCarToPurseCriminal_5707B0(Car_BC* pCar, Ped* pCriminal);
     EXPORT void UpdateLastSeenCoordsForCriminal_5708C0(Ped* pPed);
     EXPORT void UpdateCriminalLatestPosition_570940(Ped* pPed);
@@ -57,7 +57,7 @@ class Police_7B8
     u8 field_2;
     u8 field_3;
     PoliceCrew_38 field_4_cop_crew[20];
-    Police_7C field_464_services[4]; // array of calls for service
+    PolicePursuitTarget_7C field_464_pursuit_targets[4]; // one per wanted criminal (up to 4 players)
     s32 field_654_max_wanted_level;
     u8 field_658_police_car_count;
     char_type field_659_max_police_cars;
