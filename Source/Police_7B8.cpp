@@ -49,7 +49,7 @@ void Police_7B8::Init_56F400()
         field_464_pursuit_targets[i].field_76 = 0;
 
         field_464_pursuit_targets[i].field_4_wanted_level = 0;
-        field_464_pursuit_targets[i].field_8_state = 0;
+        field_464_pursuit_targets[i].field_8_state = pursuit_state::idle_0;
 
         field_464_pursuit_targets[i].field_10_x = dword_6FECE8;
         field_464_pursuit_targets[i].field_14_y = dword_6FECE8;
@@ -267,7 +267,7 @@ bool Police_7B8::IsBeingPursued_56F800(Ped* pCriminal)
     {
         if (field_464_pursuit_targets[i].field_0_criminal_ped == pCriminal)
         {
-            if (field_464_pursuit_targets[i].field_75_num_crews > 0 && (field_464_pursuit_targets[i].field_8_state == 3 || field_464_pursuit_targets[i].field_C_timer != 0))
+            if (field_464_pursuit_targets[i].field_75_num_crews > 0 && (field_464_pursuit_targets[i].field_8_state == pursuit_state::active_3 || field_464_pursuit_targets[i].field_C_timer != 0))
             {
                 return true;
             }
@@ -333,7 +333,7 @@ void Police_7B8::RegisterCriminal_56F940(Ped* pPed)
                 if (field_464_pursuit_targets[i].field_0_criminal_ped == NULL)
                 {
                     field_464_pursuit_targets[i].field_0_criminal_ped = pPed;
-                    field_464_pursuit_targets[i].field_8_state = 0;
+                    field_464_pursuit_targets[i].field_8_state = pursuit_state::idle_0;
                     field_464_pursuit_targets[i].field_10_x = pPed->get_cam_x();
                     field_464_pursuit_targets[i].field_14_y = pPed->get_cam_y();
                     field_464_pursuit_targets[i].field_18_z = pPed->get_cam_z();
@@ -361,7 +361,7 @@ void Police_7B8::UpdatePlayerPursuitTimer_56FA40()
         if (!field_464_pursuit_targets[0].field_0_criminal_ped->CheckBit0_433B40() 
             || field_464_pursuit_targets[0].field_0_criminal_ped->isDead_403B60())
         {
-            field_464_pursuit_targets[0].field_8_state = 4;
+            field_464_pursuit_targets[0].field_8_state = pursuit_state::ended_4;
         }
         else
         {
@@ -370,9 +370,9 @@ void Police_7B8::UpdatePlayerPursuitTimer_56FA40()
                 field_464_pursuit_targets[0].field_C_timer--;
             }
 
-            if (field_464_pursuit_targets[0].field_8_state == 3 && field_464_pursuit_targets[0].field_C_timer == 0)
+            if (field_464_pursuit_targets[0].field_8_state == pursuit_state::active_3 && field_464_pursuit_targets[0].field_C_timer == 0)
             {
-                field_464_pursuit_targets[0].field_8_state = 5;
+                field_464_pursuit_targets[0].field_8_state = pursuit_state::searching_5;
             }
         }
     }
@@ -441,9 +441,9 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
         switch (pPursuitTarget->field_0_criminal_ped->get_wanted_star_count_46EF00())
         {
             case 0:
-                if (pPursuitTarget->field_8_state)
+                if (pPursuitTarget->field_8_state != pursuit_state::idle_0)
                 {
-                    pPursuitTarget->field_8_state = 4;
+                    pPursuitTarget->field_8_state = pursuit_state::ended_4;
                     field_659_max_police_cars = 2;
                     pPursuitTarget->field_4_wanted_level = 0;
                     pPursuitTarget->field_71_target_police_crews = 0;
@@ -503,7 +503,7 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
                 break;
             case 5:
                 pPursuitTarget->field_4_wanted_level = 5;
-                gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit = 4;
+                gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit = crew_type::fbi_4;
                 if (!pPursuitTarget->field_70_num_police_crews && !pPursuitTarget->field_72_num_swat_crews && pPursuitTarget->field_73_num_fbi_crews <= 1)
                 {
                     field_659_max_police_cars = 2;
@@ -516,7 +516,7 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
             case 6:
                 pPursuitTarget->field_71_target_police_crews = 0;
                 pPursuitTarget->field_4_wanted_level = 6;
-                gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit = 6;
+                gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit = crew_type::army_6;
                 break;
         }
 
@@ -528,7 +528,7 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
         pCriminal = pPursuitTarget->field_0_criminal_ped;
         if (!pCriminal->CheckBit0_433B40() || pCriminal->isDead_403B60())
         {
-            pPursuitTarget->field_8_state = 4;
+            pPursuitTarget->field_8_state = pursuit_state::ended_4;
         }
 
         if (pPursuitTarget->field_4_wanted_level == 1)
@@ -552,7 +552,7 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
 
         switch (pPursuitTarget->field_8_state)
         {
-            case 0:
+            case pursuit_state::idle_0:
                 if (pPursuitTarget->field_4_wanted_level > 0)
                 {
                     if (!pPursuitTarget->field_70_num_police_crews)
@@ -560,36 +560,36 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
                         if (!field_658_police_car_count)
                         {
                             word_6FEAC8 = 200;
-                            dword_6FEE18 = 3;
-                            dword_6FEDCC = 3;
+                            dword_6FEE18 = crew_type::police_3;
+                            dword_6FEDCC = police_crew_state::alerted_search_3;
                             gRoadblockGuardType_6FEDB8 = 1;
                             if (gPolice_7B8_6FEE40->DispatchNewCrewToPursuit_56FAA0(pPursuitTarget))
                             {
-                                pPursuitTarget->field_8_state = 1;
+                                pPursuitTarget->field_8_state = pursuit_state::responding_1;
                                 field_659_max_police_cars = 0;
                             }
                         }
                     }
                     else
                     {
-                        pPursuitTarget->field_8_state = 3;
+                        pPursuitTarget->field_8_state = pursuit_state::active_3;
                     }
                 }
                 break;
 
-            case 1:
+            case pursuit_state::responding_1:
                 field_659_max_police_cars = 0;
                 if (pPursuitTarget->field_C_timer == 250)
                 {
-                    pPursuitTarget->field_8_state = 3;
+                    pPursuitTarget->field_8_state = pursuit_state::active_3;
                     for (crewIdx = 0; crewIdx < pPursuitTarget->field_75_num_crews; crewIdx++)
                     {
-                        pPursuitTarget->field_20_crews[crewIdx]->field_24_state = 5;
+                        pPursuitTarget->field_20_crews[crewIdx]->field_24_state = police_crew_state::pursue_or_chase_5;
                     }
                 }
                 break;
 
-            case 3:
+            case pursuit_state::active_3:
                 pPursuitTarget->field_1C_crew_gave_up = 0;
                 switch (pPursuitTarget->field_4_wanted_level)
                 {
@@ -597,9 +597,9 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
                         field_659_max_police_cars = 0;
                         if (pPursuitTarget->field_70_num_police_crews < pPursuitTarget->field_71_target_police_crews)
                         {
-                            dword_6FEE18 = 3;
+                            dword_6FEE18 = crew_type::police_3;
                             word_6FEAC8 = 50;
-                            dword_6FEDCC = 5;
+                            dword_6FEDCC = police_crew_state::pursue_or_chase_5;
                             gRoadblockGuardType_6FEDB8 = 1;
                             gPolice_7B8_6FEE40->DispatchNewCrewToPursuit_56FAA0(pPursuitTarget);
                         }
@@ -607,17 +607,17 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
                     case 4:
                         if (pPursuitTarget->field_70_num_police_crews < pPursuitTarget->field_71_target_police_crews)
                         {
-                            dword_6FEE18 = 3;
+                            dword_6FEE18 = crew_type::police_3;
                             word_6FEAC8 = 50;
-                            dword_6FEDCC = 5;
+                            dword_6FEDCC = police_crew_state::pursue_or_chase_5;
                             gRoadblockGuardType_6FEDB8 = 1;
                             gPolice_7B8_6FEE40->DispatchNewCrewToPursuit_56FAA0(pPursuitTarget);
                         }
                         if (!pPursuitTarget->field_72_num_swat_crews)
                         {
                             word_6FEAC8 = 50;
-                            dword_6FEE18 = 5;
-                            dword_6FEDCC = 5;
+                            dword_6FEE18 = crew_type::swat_5;
+                            dword_6FEDCC = police_crew_state::pursue_or_chase_5;
                             gRoadblockGuardType_6FEDB8 = 2;
                             if (gPolice_7B8_6FEE40->DispatchNewCrewToPursuit_56FAA0(pPursuitTarget))
                             {
@@ -637,7 +637,7 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
                             pPursuitTarget->field_70_num_police_crews = 0;
                             pPursuitTarget->field_71_target_police_crews = 0;
                             pPursuitTarget->field_72_num_swat_crews = 0;
-                            gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit = 4;
+                            gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit = crew_type::fbi_4;
                         }
                         break;
                     case 6:
@@ -651,7 +651,7 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
                             pPursuitTarget->field_70_num_police_crews = 0;
                             pPursuitTarget->field_71_target_police_crews = 0;
                             bHaveCriminals_6FEE44--;
-                            gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit = 6;
+                            gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit = crew_type::army_6;
                         }
                         break;
                 }
@@ -672,14 +672,14 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
                 }
                 break;
 
-            case 5:
+            case pursuit_state::searching_5:
                 if (pPursuitTarget->field_C_timer > 0)
                 {
-                    pPursuitTarget->field_8_state = 3;
+                    pPursuitTarget->field_8_state = pursuit_state::active_3;
                 }
                 else if (pPursuitTarget->field_4_wanted_level == 5)
                 {
-                    pPursuitTarget->field_8_state = 3;
+                    pPursuitTarget->field_8_state = pursuit_state::active_3;
                 }
                 else if (!pPursuitTarget->field_1C_crew_gave_up)
                 {
@@ -688,7 +688,7 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
                     for (crewIdx = 0; crewIdx < numCrews; crewIdx++)
                     {
                         PoliceCrew_38* pCrew = pPursuitTarget->field_20_crews[crewIdx];
-                        if (pCrew && pCrew->field_24_state == 3)
+                        if (pCrew && pCrew->field_24_state == police_crew_state::alerted_search_3)
                         {
                             pCriminal = pPursuitTarget->field_0_criminal_ped;
                             if (pCriminal)
@@ -713,15 +713,15 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
                     if (bNoneSearching && !field_658_police_car_count)
                     {
                         word_6FEAC8 = 200;
-                        dword_6FEE18 = 3;
-                        dword_6FEDCC = 3;
+                        dword_6FEE18 = crew_type::police_3;
+                        dword_6FEDCC = police_crew_state::alerted_search_3;
                         gRoadblockGuardType_6FEDB8 = 1;
                         gPolice_7B8_6FEE40->DispatchNewCrewToPursuit_56FAA0(pPursuitTarget);
                     }
                 }
                 break;
 
-            case 4:
+            case pursuit_state::ended_4:
             {
                 numCrews = pPursuitTarget->field_75_num_crews;
                 for (crewIdx = 0; crewIdx < numCrews; crewIdx++)
@@ -752,7 +752,7 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
                 pPursuitTarget->field_76 = 0;
                 pPursuitTarget->field_E = 0;
                 bHaveCriminals_6FEE44--;
-                gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit = 3;
+                gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit = crew_type::police_3;
                 break;
             }
         }
@@ -1044,7 +1044,7 @@ bool Police_7B8::TryAssignCarCrewToCriminal_5707B0(Car_BC* pCar, Ped* pCriminal)
         return false;
     }
 
-    pPursuitTarget->field_8_state = 3;
+    pPursuitTarget->field_8_state = pursuit_state::active_3;
     pCrew->field_14_pPursuitTarget = pPursuitTarget;
     pCrew->field_24_state = police_crew_state::pursue_or_chase_5;
     pCrew->AddToPursuit_570A10();
