@@ -513,7 +513,7 @@ void Game_0x40::UpdateGame_4B9410()
         gfrosty_pasteur_6F8060->ExecuteScriptThreads_5127A0(); // missions
     }
 
-    gKfc_1E0_706280->Service_5CBBD0();
+    gKfc_1E0_706280->ServiceAll_5CBBD0();
 
     if (!bSkip_ambulance_67D6C9)
     {

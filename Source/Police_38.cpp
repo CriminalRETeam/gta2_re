@@ -217,7 +217,7 @@ void PoliceCrew_38::SpawnPoliceInCar_570BF0()
     pGroup->add_ped_to_list_4C9B30(pCopSupporter, 0);
     pGroup->field_0 = 0;
     field_10_subObj->field_4_ped = pCopLeader;
-    field_10_subObj->field_28_state = 6;
+    field_10_subObj->field_28_state = crew_state::update_6;
     field_10_subObj->field_0_car->SetUniNum_421560(5);
     field_10_subObj->field_0_car->InitCarAIControl_440590();
     field_10_subObj->field_0_car->sub_43AF40();
@@ -263,7 +263,7 @@ void PoliceCrew_38::SpawnSWAT_570E30()
     }
     pSwatGroup->field_0 = 0;
     field_10_subObj->field_4_ped = pSwatLeader;
-    field_10_subObj->field_28_state = 6;
+    field_10_subObj->field_28_state = crew_state::update_6;
     field_10_subObj->field_0_car->SetUniNum_421560(5);
     field_10_subObj->field_0_car->InitCarAIControl_440590();
     field_10_subObj->field_0_car->sub_43AF40();
@@ -289,7 +289,7 @@ void PoliceCrew_38::SpawnFBI_nonused_571150()
     pFBI->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
     pFBI->field_26C_graphic_type = ped_graphic_type::character_1;
     field_10_subObj->field_4_ped = pFBI;
-    field_10_subObj->field_28_state = 6;
+    field_10_subObj->field_28_state = crew_state::update_6;
     field_10_subObj->field_0_car->SetUniNum_421560(5);
     field_10_subObj->field_0_car->InitCarAIControl_440590();
     field_10_subObj->field_0_car->sub_43AF40();
@@ -317,8 +317,8 @@ void PoliceCrew_38::TryDespawnOffscreenCrew_571350()
                 }
             }
             field_10_subObj->field_8_group->ClearGroupData_4C8E90();
-            field_10_subObj->field_28_state = 5;
-            field_10_subObj->field_2C = 1;
+            field_10_subObj->field_28_state = crew_state::clean_up_5;
+            field_10_subObj->field_2C_ready = 1;
         }
     }
     else
@@ -329,14 +329,14 @@ void PoliceCrew_38::TryDespawnOffscreenCrew_571350()
             if (v6->Get_F20E_4039F0() >= 0x1Eu)
             {
                 v6->Deallocate_45EB60();
-                field_10_subObj->field_28_state = 5;
-                field_10_subObj->field_2C = 1;
+                field_10_subObj->field_28_state = crew_state::clean_up_5;
+                field_10_subObj->field_2C_ready = 1;
             }
         }
         else
         {
-            field_10_subObj->field_28_state = 5;
-            field_10_subObj->field_2C = 1;
+            field_10_subObj->field_28_state = crew_state::clean_up_5;
+            field_10_subObj->field_2C_ready = 1;
         }
     }
 }
@@ -364,8 +364,8 @@ void PoliceCrew_38::sub_571540()
                 }
                 field_10_subObj->field_8_group->ClearGroupData_4C8E90();
                 field_10_subObj->field_0_car->MarkForDespawn_421470();
-                field_10_subObj->field_28_state = 5;
-                field_10_subObj->field_2C = 1;
+                field_10_subObj->field_28_state = crew_state::clean_up_5;
+                field_10_subObj->field_2C_ready = 1;
             }
         }
         else
@@ -377,15 +377,15 @@ void PoliceCrew_38::sub_571540()
                 {
                     pPed->Deallocate_45EB60();
                     field_10_subObj->field_0_car->MarkForDespawn_421470();
-                    field_10_subObj->field_28_state = 5;
-                    field_10_subObj->field_2C = 1;
+                    field_10_subObj->field_28_state = crew_state::clean_up_5;
+                    field_10_subObj->field_2C_ready = 1;
                 }
             }
             else if (pCar->Get_F76_4A9AD0() > 200)
             {
                 pCar->MarkForDespawn_421470();
-                field_10_subObj->field_28_state = 5;
-                field_10_subObj->field_2C = 1;
+                field_10_subObj->field_28_state = crew_state::clean_up_5;
+                field_10_subObj->field_2C_ready = 1;
             }
         }
     }
@@ -404,8 +404,8 @@ void PoliceCrew_38::sub_571540()
                 }
             }
             field_10_subObj->field_8_group->ClearGroupData_4C8E90();
-            field_10_subObj->field_28_state = 5;
-            field_10_subObj->field_2C = 1;
+            field_10_subObj->field_28_state = crew_state::clean_up_5;
+            field_10_subObj->field_2C_ready = 1;
         }
     }
     else
@@ -416,25 +416,25 @@ void PoliceCrew_38::sub_571540()
             if (pPed->Get_F20E_4039F0() >= 30)
             {
                 pPed->Deallocate_45EB60();
-                field_10_subObj->field_28_state = 5;
-                field_10_subObj->field_2C = 1;
+                field_10_subObj->field_28_state = crew_state::clean_up_5;
+                field_10_subObj->field_2C_ready = 1;
             }
             else if (pPed->field_16C_car)
             {
                 pPed->Deallocate_45EB60();
-                field_10_subObj->field_28_state = 5;
-                field_10_subObj->field_2C = 1;
+                field_10_subObj->field_28_state = crew_state::clean_up_5;
+                field_10_subObj->field_2C_ready = 1;
             }
             else if (pPed->field_28C_threat_reaction != 1)
             {
-                field_10_subObj->field_28_state = 5;
-                field_10_subObj->field_2C = 1;
+                field_10_subObj->field_28_state = crew_state::clean_up_5;
+                field_10_subObj->field_2C_ready = 1;
             }
         }
         else
         {
-            field_10_subObj->field_28_state = 5;
-            field_10_subObj->field_2C = 1;
+            field_10_subObj->field_28_state = crew_state::clean_up_5;
+            field_10_subObj->field_2C_ready = 1;
         }
     }
 }
@@ -467,8 +467,8 @@ void PoliceCrew_38::sub_571A30()
                 }
                 field_10_subObj->field_8_group->ClearGroupData_4C8E90();
                 field_10_subObj->field_0_car->MarkForDespawn_421470();
-                field_10_subObj->field_28_state = 5;
-                field_10_subObj->field_2C = 1;
+                field_10_subObj->field_28_state = crew_state::clean_up_5;
+                field_10_subObj->field_2C_ready = 1;
             }
             else
             {
@@ -504,8 +504,8 @@ void PoliceCrew_38::sub_571A30()
                     }
                 }
                 field_10_subObj->field_8_group->ClearGroupData_4C8E90();
-                field_10_subObj->field_28_state = 5;
-                field_10_subObj->field_2C = 1;
+                field_10_subObj->field_28_state = crew_state::clean_up_5;
+                field_10_subObj->field_2C_ready = 1;
             }
         }
         else
@@ -514,8 +514,8 @@ void PoliceCrew_38::sub_571A30()
             if (pCar->Get_F76_4A9AD0() > 80)
             {
                 pCar->MarkForDespawn_421470();
-                field_10_subObj->field_28_state = 5;
-                field_10_subObj->field_2C = 1;
+                field_10_subObj->field_28_state = crew_state::clean_up_5;
+                field_10_subObj->field_2C_ready = 1;
             }
         }
     }
@@ -552,8 +552,8 @@ void PoliceCrew_38::sub_571A30()
             {
                 pCar->MarkForDespawn_421470();
             }
-            field_10_subObj->field_28_state = 5;
-            field_10_subObj->field_2C = 1;
+            field_10_subObj->field_28_state = crew_state::clean_up_5;
+            field_10_subObj->field_2C_ready = 1;
         }
         else
         {
@@ -571,8 +571,8 @@ void PoliceCrew_38::sub_571A30()
                 pCar->MarkForDespawn_421470();
             }
             field_10_subObj->field_4_ped->Deallocate_45EB60();
-            field_10_subObj->field_28_state = 5;
-            field_10_subObj->field_2C = 1;
+            field_10_subObj->field_28_state = crew_state::clean_up_5;
+            field_10_subObj->field_2C_ready = 1;
         }
     }
 }
@@ -580,7 +580,7 @@ void PoliceCrew_38::sub_571A30()
 MATCH_FUNC(0x5720c0)
 void PoliceCrew_38::sub_5720C0()
 {
-    if (field_10_subObj->field_24 == 2)
+    if (field_10_subObj->field_24_phase == 2)
     {
         if (field_29_bCountedInPoliceCount)
         {
@@ -603,11 +603,11 @@ void PoliceCrew_38::sub_5720C0()
         return;
     }
 
-    if (field_10_subObj->field_24 == 0)
+    if (field_10_subObj->field_24_phase == 0)
     {
         TryDespawnOffscreenCrew_571350();
     }
-    else if (field_10_subObj->field_24 == 2)
+    else if (field_10_subObj->field_24_phase == 2)
     {
         sub_571540();
     }
@@ -624,7 +624,7 @@ bool PoliceCrew_38::sub_572210()
 {
     if (field_14_pPursuitTarget->field_0_criminal_ped && !field_34_is_dismissed && field_14_pPursuitTarget->field_C_timer > 0)
     {
-        if (!field_10_subObj->field_24)
+        if (!field_10_subObj->field_24_phase)
         {
             return Fix16::MaxAbsDistance_42A6B0(gCurrentCrewPed_6FEDDC->get_cam_x(),
                                         gCurrentCrewPed_6FEDDC->get_cam_y(),
@@ -649,14 +649,14 @@ void PoliceCrew_38::State3_AlertedSearch_572340()
     u8 idx = 0;
     byte_6FEB48 = 1;
 
-    if (field_10_subObj->field_28_state != 3)
+    if (field_10_subObj->field_28_state != crew_state::spawn_car_3)
     {
-        if (field_10_subObj->field_28_state == 6)
+        if (field_10_subObj->field_28_state == crew_state::update_6)
         {
             PoliceCrew_38::sub_5720C0();
         }
     }
-    else if (field_10_subObj->field_2C)
+    else if (field_10_subObj->field_2C_ready)
     {
         if (gPedManager_6787BC->field_5_fbi_army_count < 0x1Au)
         {
@@ -688,7 +688,7 @@ void PoliceCrew_38::State3_AlertedSearch_572340()
     else
     {
         bUnk = false;
-        if (field_10_subObj->field_18 == -80)
+        if (field_10_subObj->field_18_spawn_delay == -80)
         {
             field_24_state = police_crew_state::shutdown_6;
             PoliceCrew_38::sub_575650();
@@ -847,12 +847,12 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
         return;
     }
 
-    if (field_10_subObj->field_28_state != 3)
+    if (field_10_subObj->field_28_state != crew_state::spawn_car_3)
     {
-        if (field_10_subObj->field_28_state == 6)
+        if (field_10_subObj->field_28_state == crew_state::update_6)
         {
             PoliceCrew_38::sub_5720C0();
-            if (field_10_subObj->field_28_state == 5 || field_24_state == police_crew_state::shutdown_6)
+            if (field_10_subObj->field_28_state == crew_state::clean_up_5 || field_24_state == police_crew_state::shutdown_6)
             {
                 field_24_state = police_crew_state::shutdown_6;
                 PoliceCrew_38::sub_575650();
@@ -862,7 +862,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
     }
     else
     {
-        if (field_10_subObj->field_2C)
+        if (field_10_subObj->field_2C_ready)
         {
             if (gPedManager_6787BC->field_5_fbi_army_count < 0x1Au)
             {
@@ -894,7 +894,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
         else
         {
             bUnk = false;
-            if (field_10_subObj->field_18 == -80)
+            if (field_10_subObj->field_18_spawn_delay == -80)
             {
                 field_24_state = police_crew_state::shutdown_6;
                 PoliceCrew_38::sub_575650();
@@ -915,7 +915,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
     }
     else if (field_14_pPursuitTarget->field_C_timer > 0)
     {
-        if (!field_10_subObj->field_24)
+        if (!field_10_subObj->field_24_phase)
         {
             field_24_state = police_crew_state::shutdown_6;
             PoliceCrew_38::sub_575650();
@@ -930,7 +930,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
     }
     else
     {
-        if (!field_10_subObj->field_24)
+        if (!field_10_subObj->field_24_phase)
         {
             field_24_state = police_crew_state::shutdown_6;
             PoliceCrew_38::sub_575650();
@@ -1019,7 +1019,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
                                     field_28 = 0;
                                 }
                             }
-                            else if (field_28 && field_10_subObj->field_24 == 1)
+                            else if (field_28 && field_10_subObj->field_24_phase == 1)
                             {
                                 if (!pPed->field_21C_bf.b27)
                                 {
@@ -1093,7 +1093,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
                                 field_8 = kFpEight_6FED48 * kFpFour_6FECF8;
                             }
 
-                            if (field_10_subObj->field_24 == 1)
+                            if (field_10_subObj->field_24_phase == 1)
                             {
                                 u8 bEnterCar = false;
                                 if (field_8 > kFpEight_6FED48)
@@ -1254,13 +1254,13 @@ void PoliceCrew_38::State6_ShutDown_574720()
         }
     }
 
-    if (field_10_subObj->field_28_state != 3)
+    if (field_10_subObj->field_28_state != crew_state::spawn_car_3)
     {
-        if (field_10_subObj->field_28_state == 6)
+        if (field_10_subObj->field_28_state == crew_state::update_6)
         {
             PoliceCrew_38::sub_5720C0();
         }
-        if (field_10_subObj->field_28_state == 5)
+        if (field_10_subObj->field_28_state == crew_state::clean_up_5)
         {
             if (field_10_subObj->field_0_car)
             {
@@ -1287,7 +1287,7 @@ void PoliceCrew_38::State6_ShutDown_574720()
             {
                 field_10_subObj->field_4_ped->ForceDoNothing_462590();
             }
-            field_10_subObj->field_28_state = 0;
+            field_10_subObj->field_28_state = crew_state::idle_0;
             field_10_subObj->ReInit_5CBC30();
             PoliceCrew_38::Init_5709C0();
             return;
@@ -1295,7 +1295,7 @@ void PoliceCrew_38::State6_ShutDown_574720()
 
         if (field_14_pPursuitTarget)
         {
-            if (field_10_subObj->field_24 != 2)
+            if (field_10_subObj->field_24_phase != 2)
             {
                 if (field_14_pPursuitTarget->field_0_criminal_ped)
                 {
@@ -1321,7 +1321,7 @@ void PoliceCrew_38::State6_ShutDown_574720()
                 }
             }
         }
-        if (field_10_subObj->field_24 != 2)
+        if (field_10_subObj->field_24_phase != 2)
         {
             if (gCurrentCrewPed_6FEDDC)
             {
@@ -1362,7 +1362,7 @@ void PoliceCrew_38::State6_ShutDown_574720()
                                 }
                                 else
                                 {
-                                    if (field_10_subObj->field_24 == 1 && !gCurrentCrewPed_6FEDDC->field_21C_bf.b27)
+                                    if (field_10_subObj->field_24_phase == 1 && !gCurrentCrewPed_6FEDDC->field_21C_bf.b27)
                                     {
                                         gCurrentCrewPed_6FEDDC->SetObjective2_463830(0, 9999);
                                         gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
@@ -1422,7 +1422,7 @@ void PoliceCrew_38::State6_ShutDown_574720()
                 }
             }
         }
-        field_10_subObj->field_28_state = 0;
+        field_10_subObj->field_28_state = crew_state::idle_0;
         field_10_subObj->ReInit_5CBC30();
         if (field_29_bCountedInPoliceCount)
         {
@@ -1444,19 +1444,19 @@ void PoliceCrew_38::State1_Patrol_574F10()
     byte_6FEB48 = 1;
     u8 idx = 0;
 
-    if (field_10_subObj->field_24 == 2 || !field_10_subObj->field_24 || (pCarUnk = field_10_subObj->field_0_car, pCarUnk->field_76_last_seen_timer > 80))
+    if (field_10_subObj->field_24_phase == 2 || !field_10_subObj->field_24_phase || (pCarUnk = field_10_subObj->field_0_car, pCarUnk->field_76_last_seen_timer > 80))
     {
         field_24_state = police_crew_state::shutdown_6;
     }
     else
     {
         pCarUnk->ClearA6Bit5_421550();
-        if (field_10_subObj->field_28_state == 6)
+        if (field_10_subObj->field_28_state == crew_state::update_6)
         {
             PoliceCrew_38::sub_5720C0();
         }
 
-        if (field_10_subObj->field_28_state == 5)
+        if (field_10_subObj->field_28_state == crew_state::clean_up_5)
         {
             Car_BC* pCar = field_10_subObj->field_0_car;
             if (pCar)
@@ -1480,7 +1480,7 @@ void PoliceCrew_38::State1_Patrol_574F10()
                     gPolice_7B8_6FEE40->field_658_police_car_count--;
                 }
             }
-            field_10_subObj->field_28_state = 0;
+            field_10_subObj->field_28_state = crew_state::idle_0;
             field_10_subObj->ReInit_5CBC30();
             PoliceCrew_38::Init_5709C0();
         }
@@ -1577,7 +1577,7 @@ void PoliceCrew_38::sub_575200()
 MATCH_FUNC(0x575210)
 void PoliceCrew_38::sub_575210()
 {
-    if (field_10_subObj->field_24)
+    if (field_10_subObj->field_24_phase)
     {
         if (gCurrentCrewPed_6FEDDC->GetObjectiveStatus_450CB0())
         {
@@ -1599,7 +1599,7 @@ void PoliceCrew_38::sub_575210()
 MATCH_FUNC(0x575270)
 void PoliceCrew_38::sub_575270()
 {
-    if (field_10_subObj->field_24)
+    if (field_10_subObj->field_24_phase)
     {
         if (gCurrentCrewPed_6FEDDC->GetObjectiveStatus_450CB0())
         {
@@ -1619,7 +1619,7 @@ void PoliceCrew_38::sub_5752C0()
 {
     if (gCurrentCrewPed_6FEDDC->GetObjectiveStatus_450CB0() != objective_status::not_finished_0)
     {
-        field_10_subObj->field_28_state = 6;
+        field_10_subObj->field_28_state = crew_state::update_6;
         gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
         gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
     }

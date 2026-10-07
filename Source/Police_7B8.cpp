@@ -252,8 +252,8 @@ void Police_7B8::DespawnCrewInCar_56F6D0(Car_BC* pCar)
                 Car_BC* pCrewCar = pCrew->field_10_subObj->field_0_car;
 
                 pCrewCar->MarkForDespawn_421470();
-                pCrew->field_10_subObj->field_28_state = 5;
-                pCrew->field_10_subObj->field_2C = 1;
+                pCrew->field_10_subObj->field_28_state = crew_state::clean_up_5;
+                pCrew->field_10_subObj->field_2C_ready = 1;
                 pCrew->field_24_state = police_crew_state::shutdown_6;
                 return;
             }
@@ -393,7 +393,7 @@ bool Police_7B8::DispatchNewCrewToPursuit_56FAA0(PolicePursuitTarget_7C* pPursui
         pNewPoliceCrew->field_2_targ_x = tileX;
         pNewPoliceCrew->field_3_targ_y = tileY;
         pNewPoliceCrew->field_4_targ_z = tileZ;
-        Kfc_30* pNewKfc = gKfc_1E0_706280->New_5CBB80();
+        Kfc_30* pNewKfc = gKfc_1E0_706280->AllocateSlot_5CBB80();
         pNewPoliceCrew->field_10_subObj = pNewKfc;
         if (!pNewPoliceCrew->field_10_subObj)
         {
@@ -407,12 +407,12 @@ bool Police_7B8::DispatchNewCrewToPursuit_56FAA0(PolicePursuitTarget_7C* pPursui
         pNewPoliceCrew->field_20_crew_kind = gCrewKind_6FEDB8;
         pKfc->field_1E_is_used = 1;
         pKfc->field_20_crew_type = dword_6FEE18; // field_20_crew_type
-        pKfc->field_24 = 1;
-        pKfc->field_28_state = 3;
-        pKfc->field_18 = word_6FEAC8;
-        pKfc->field_C_x = Fix16(tileX);
-        pKfc->field_10_y = Fix16(tileY);
-        pKfc->field_14_z = Fix16(tileZ);
+        pKfc->field_24_phase = 1;
+        pKfc->field_28_state = crew_state::spawn_car_3;
+        pKfc->field_18_spawn_delay = word_6FEAC8;
+        pKfc->field_C_spawn_x = Fix16(tileX);
+        pKfc->field_10_spawn_y = Fix16(tileY);
+        pKfc->field_14_spawn_z = Fix16(tileZ);
         pNewPoliceCrew->AddToPursuit_570A10();
         return true;
     }
@@ -852,7 +852,7 @@ bool Police_7B8::SpawnCrewInCar_5703E0(Car_BC* pCar)
     }
     PoliceCrew_38* pNewCrew = Police_7B8::NewCrew_56F560();
     pNewCrew->field_1C_used = 1;
-    Kfc_30* pNewKfc = gKfc_1E0_706280->New_5CBB80();
+    Kfc_30* pNewKfc = gKfc_1E0_706280->AllocateSlot_5CBB80();
     pNewCrew->field_10_subObj = pNewKfc;
     if (!pNewKfc)
     {
@@ -865,7 +865,7 @@ bool Police_7B8::SpawnCrewInCar_5703E0(Car_BC* pCar)
     pNewCrew->field_29_bCountedInPoliceCount = 1;
     pKfc->field_1E_is_used = 1;
     pKfc->field_20_crew_type = gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit;
-    pKfc->field_24 = 1;
+    pKfc->field_24_phase = 1;
     pKfc->field_0_car = pCar;
     PedGroup* pNewPedGroup = PedGroup::New_4CB0D0();
     Ped* pNewPed1 = gPedManager_6787BC->AllocatePed_470F30();
@@ -969,8 +969,8 @@ bool Police_7B8::SpawnCrewInCar_5703E0(Car_BC* pCar)
     pNewPedGroup->add_ped_to_list_4C9B30(pNewPed2, 0);
     pNewPedGroup->field_0 = 0;
     pKfc->field_4_ped = pNewPed1;
-    pKfc->field_18 = 0;
-    pKfc->field_28_state = 6;
+    pKfc->field_18_spawn_delay = 0;
+    pKfc->field_28_state = crew_state::update_6;
     pKfc->field_0_car->SetUniNum_421560(5);
     pKfc->field_0_car->InitCarAIControl_440590();
     pKfc->field_0_car->sub_43AF40();
