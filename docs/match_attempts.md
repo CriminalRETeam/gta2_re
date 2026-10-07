@@ -3167,7 +3167,15 @@ The cross-jump rules are in `Scripts/flowopt/README.md`. Both functions below we
   - Writing the hoisted statements before the `if` in source gives the original's order (`mov 0x20(%esp),%cl`
     after the `lea`) but a different global allocation (`column_idx` in `ecx`, `this` at `(%esp)`): 323.
     `do_drop != 0`, `(u8)do_drop` and the combined `[new_idx = ...]` form change nothing.
-  - Next step: compare the two allocations with `Scripts/regalloc/ralog.sh`.
+  - Oct 7, reversed (`Scripts/flowopt/README.md`, "head merging" and "memory compares"): the shared code is hoisted
+    by FlowOpts after allocation, always to just before the `je`, after `mov al; test al` (split by `0x10723BFD`
+    earlier). The scheduler can't swap them (`eax`). Our colour pass already equals the original's (`ralog.sh`:
+    same registers for every live range), and that needs `pNew` computed in both arms.
+  - `new_idx = field_360_column_words;` once before the `if`, `pNew` in both arms: 1 instruction off (score 44,
+    the shifted jumps): everything matches except `cmpb $0,0x20(%esp)` for `mov 0x20(%esp),%al; test %al,%al`.
+    `eax` (new_idx, read by both arms' `lea`) is live at the compare, so `0x10723BFD` finds no free byte register.
+  - `pNew` before the `if` in any form (`[field_360]`, `[new_idx = ...]`, both statements, either order): 298-323,
+    one `pNew` live range changes the allocation. So no form found gives both; the original's IL is unexplained.
 - **`Ambulance_20::UpdateState_4FB330` (2).** Only the `jle` of `field_1C > 500` targets the exit at the end
   instead of the copy after `default`. dupB's first loop didn't move the exit block, because the block before
   it (`state = 5`) falls through. The `<= 500` break/return forms and `break` inside the `if` change nothing (2);

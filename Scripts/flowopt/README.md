@@ -81,3 +81,48 @@ cd Scripts/bin_comp && ../../venv/bin/python3 ../flowopt/jumps.py /tmp/r/last.ob
 
 Instruction kinds seen in the log: 0x0C plain instruction, 0x0E call, 0x11 jump (op 15 `jcc`, 16 `jmp`), 0x1A
 label (op 430), 0x13 switch dispatch (op 397). Op names are in `Scripts/x87_sched/optab.txt`.
+
+## Hoisting common code out of both branches (head merging)
+
+The same FlowOpts pass also merges the **heads** of the two successors of a conditional jump (`0x1072F221`, called
+for each `jcc` from the sweep's jump handler). It walks the fall-through block and the target block in step,
+skipping op 0x1BC and stopping at a label or a mismatch, compares instructions with the cross-jump matcher
+(`0x1072F67D`) and checks each one with `0x1073033F` (it must be movable past the `jcc`). The matched run is moved
+to **just before the `jcc`** (`0x10702CC8`), and the target's copy is deleted (`0x1072FDDC`). Disabling it (patch
+the entry to `xor eax,eax; ret`) leaves the code in both arms.
+
+What follows:
+
+- The hoisted code always lands after the compare or `test` that sets the flags. The scheduler can't lift it
+  above the test when they share a register (`mov al,[x]; test al,al` then `mov eax,..` has an `eax` dependency).
+- The hoist runs after register allocation, so the allocator saw two copies: two live ranges, double the use
+  weights. Writing the code once before the `if` gives one live range and can change the whole allocation.
+- In the probes it was the second FlowOpts call (`0x10765CC9`) that did it.
+
+## Memory compares split into a register load (`0x10723BFD`)
+
+After local allocation, pass `0x10723BFD` walks each block backwards keeping the set of live registers (per
+block live-out `[blk+0x28]`, minus each instruction's destinations, plus its sources). For an instruction whose
+op has flag 0x400 in `0x107A0494` (a compare or test with a memory operand, for example `cmp byte [mem],0`) it
+asks `0x10729437` for a free register: first a round robin from a cursor reset per block (`0x107AC2DC`), then
+the first register of the list at `0x107ADFF4` (eax ecx edx esi edi ebx ebp) that isn't live. If it finds one,
+the operand is loaded into it (`mov al,[mem]; cmp al,0`, later `test al,al`); if not, the compare stays
+`cmpb $0,mem`. So the same `if (flag)` gives `cmpb` when every byte register is live at the compare (for example
+a value computed just before it and used in both branches), and `mov al; test al` otherwise.
+
+## IL at every pass
+
+`ildump.py` builds a C2 variant that prints each function's instruction list at every pass boundary (`0x107034AB`,
+called between the passes of `0x107657E2`), and `ilshow.py` prints the boundaries where it changed:
+
+```bash
+venv/bin/python3 Scripts/flowopt/ildump.py
+X87_C2=ildump X87_OUT=/tmp/il Scripts/x87_sched/sched.sh -l Source/map_0x370.cpp
+venv/bin/python3 Scripts/flowopt/ilshow.py /tmp/il/last.log 10 25 sub_4E8370
+#   10765c1a ... mov@19 cmp@19 _jcc/17@19 mov@21 mov@21 lea@22 ...     (after 0x10723BFD: do_drop loaded into al)
+#   10765cda ... mov@19 test@19 mov@21 mov@21 lea@22 _jcc/17@19 ...    (after the 2nd FlowOpts: hoisted before the jcc)
+```
+
+The first column is the return address of the boundary call, so the pass that just ran is the call before it in
+`0x107657E2` (for example `10765c1a` follows `0x10723BFD`, `10765cda` the second FlowOpts). Lines are relative to the
+function's first line.

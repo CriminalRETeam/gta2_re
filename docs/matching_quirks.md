@@ -305,6 +305,12 @@ write the store at the top of both the `if` and the `else` block rather than onc
 `if` (`Object_2C::HandleSpriteGroundAndCollisionSimple_523770`). The hoisted value can then share a
 register with one computed for the condition: `a2_ = a2;` at the top of both branches put it in `ebx` with
 the half constant in `CarPhysics_B0::UpdateZPosition_55B4F0`.
+Reversed from C2 (`Scripts/flowopt/README.md`): the hoist is FlowOpts' head merge (`0x1072F221`), after register
+allocation, and it inserts the common leading instructions **directly before the `jcc`**, never above the compare.
+A byte or word test of a memory operand has already been split into `mov al,mem; test al,al` by then (pass
+`0x10723BFD`, when a register is free at the compare), and that load's dependence on `eax` keeps it first.
+So a store or load the original has *above* the condition's `mov al` can't come from this hoist: it was before
+the `if` in the source.
 
 **`if/else` block order follows the condition.** The `then` block is usually laid out first.
 If the original has your `else` block first, invert the condition and swap the blocks
