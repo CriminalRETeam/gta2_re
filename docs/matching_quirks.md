@@ -1661,7 +1661,8 @@ reads them. So `.bss` holds, in this order:
 2. globals initialized to zero (`u8 x = 0;`), in declaration order;
 3. function-local statics (the `logged` flags of `NOT_IMPLEMENTED`/`WIP_IMPLEMENTED`).
 
-`.data` (non-zero initializers) is in declaration order. Each item is aligned to its own size up to 4. Our build
+`.data` (non-zero initializers) is in declaration order. Items are packed with their natural alignment (bytes at any
+offset, 2-byte values at even ones, pointers, ints and `Fix16` at 4). Our build
 also has `DEFINE_GLOBAL`'s `const GlobalRef gRef_<name>_<addr>` objects (12 bytes, with a constructor) in run 1,
 sorted by their own names, which the original didn't have, so our offsets differ from the original's even with the
 original's names. Checked on the build: 90 of the 95 objects with `.bss` follow these rules exactly, and the other
