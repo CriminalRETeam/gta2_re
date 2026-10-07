@@ -14,14 +14,12 @@ BUILD_LOG = os.environ.get("BUILD_LOG", "../build.log")
 NEW_EXE = "../build_vc6/decomp_main.exe"
 OG_EXE = "./bin_comp/10.5.exe"
 
+# CRT / iostream library code (stubs for fopen, malloc ...) starts here, it's not ours to match
+LIBRARY_START = 0x5ED000
+
 # Keys of progress.json whose change makes us post an update
 PROGRESS_KEYS = ["matched", "total", "stub", "wip", "wip_reg_swap", "wip_reg_choice",
-                 "wip_instr_order", "wip_structural", "wip_unclassified", "wip_ready", "wip_reg_alloc", "matched_boot_to_map_funcs"]
-
-
-def load_coverage_file(filename):
-    with open(filename) as file:
-        return [line.rstrip() for line in file]
+                 "wip_instr_order", "wip_structural", "wip_unclassified", "wip_ready", "wip_reg_alloc"]
 
 
 def fmt_delta(old, new, always=False, with_pct=True):
@@ -121,7 +119,7 @@ def main():
         print("COMMIT_MESSAGE env variable not set")
         sys.exit(1)
 
-    for needed in ["./bin_comp/new_data.json", "./bin_comp/coverage_trace_funcs.txt", "./bin_comp/og_function_data_v105.csv"]:
+    for needed in ["./bin_comp/new_data.json", "./bin_comp/og_function_data_v105.csv"]:
         if not os.path.exists(needed):
             print(f"couldn't find {needed}")
             sys.exit(1)
@@ -131,7 +129,6 @@ def main():
 
     with open("./bin_comp/new_data.json", "rt") as file:
         new_data = json.load(file)
-    coverage_data = {line.lower() for line in load_coverage_file("./bin_comp/coverage_trace_funcs.txt")}
 
     # file offset and size of each original function, to disassemble the WIP ones
     og_funcs = {}
@@ -139,10 +136,10 @@ def main():
         for row in csv.reader(file):
             og_funcs[int(row[1], 16)] = (row[0], int(row[2], 16), int(row[3], 16))
 
-    # Only functions with a MATCH_FUNC / WIP_FUNC / STUB_FUNC marker count
+    # Only game functions with a MATCH_FUNC / WIP_FUNC / STUB_FUNC marker count
     status_by_addr = {}
     for func in new_data["functions"]:
-        if func["og_addr"].startswith("0x") and func["func_status"] in ("0x0", "0x1", "0x2"):
+        if func["og_addr"].startswith("0x") and func["func_status"] in ("0x0", "0x1", "0x2") and int(func["og_addr"], 16) < LIBRARY_START:
             status_by_addr[int(func["og_addr"], 16)] = func
 
     matched = sum(1 for f in status_by_addr.values() if f["func_status"] == "0x1")
@@ -150,10 +147,6 @@ def main():
     wip_funcs = [f for f in status_by_addr.values() if f["func_status"] == "0x2"]
     wip = len(wip_funcs)
     total = matched + stub + wip
-
-    # boot to map coverage
-    matched_coverage_funcs = sum(1 for f in status_by_addr.values() if f["func_status"] == "0x1" and f["og_addr"].lower() in coverage_data)
-    total_coverage_funcs = len(coverage_data)
 
     # what kind of mismatch each WIP has
     wip_buckets = {"wip_reg_swap": 0, "wip_reg_choice": 0, "wip_instr_order": 0, "wip_structural": 0, "wip_unclassified": 0}
@@ -179,7 +172,6 @@ def main():
     warnings = count_warnings(BUILD_LOG)
 
     new_progress_json = {
-        "matched_boot_to_map_funcs": matched_coverage_funcs,
         "total_matches": matched,
         "matched": matched,
         "total": total,
@@ -208,7 +200,6 @@ def main():
         return fmt_delta(prev(key), new_progress_json[key])
 
     match_pct = pct(matched, total)
-    boot_pct = pct(matched_coverage_funcs, total_coverage_funcs)
 
     def count_line(label, key, value=None, of=None):
         """'Label: 12 | **+2** (1.5%)', or 'Label [12/93] 12.90% | ...' when there's a total.
@@ -228,9 +219,6 @@ def main():
     ind = "\u2003\u2003"
 
     out = [COMMIT_MESSAGE, ""]
-    out.append(f"Boot to map progress: [{matched_coverage_funcs}/{total_coverage_funcs}] {boot_pct:.2f}%"
-               f"{fmt_delta(prev('matched_boot_to_map_funcs'), matched_coverage_funcs, always=True)}")
-    out.append("")
     out += lines(count_line("Stubs", "stub"))
     out.append(f"WIP: {wip}{d('wip')}")
     # the WIP ones by what's still wrong, as a share of all WIP functions
