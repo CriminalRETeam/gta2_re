@@ -79,7 +79,7 @@ class PoliceCrew_38
     char_type field_1A;
     char_type field_1B;
     s32 field_1C_used;
-    s32 field_20_crew_kind;
+    s32 field_20_crew_kind; // crew_kind
     s32 field_24_state;
     char_type field_28;
     char_type field_29_bCountedInPoliceCount;

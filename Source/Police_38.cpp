@@ -121,16 +121,16 @@ void PoliceCrew_38::RemoveFromPursuit_570AB0()
         {
             switch (field_20_crew_kind)
             {
-                case 1:
+                case crew_kind::police_1:
                     --field_14_pPursuitTarget->field_70_num_police_crews;
                     break;
-                case 2:
+                case crew_kind::swat_2:
                     --field_14_pPursuitTarget->field_72_num_swat_crews;
                     break;
-                case 3:
+                case crew_kind::fbi_3:
                     --field_14_pPursuitTarget->field_73_num_fbi_crews;
                     break;
-                case 4:
+                case crew_kind::army_4:
                     --field_14_pPursuitTarget->field_74_num_army_crews;
                     break;
                 default:
@@ -2610,11 +2610,11 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
 
                 if (gCar_6C_677930->CanAllocateOfType_446930(7))
                 {
-                    switch (gRoadblockGuardType_6FEDB8)
+                    switch (gCrewKind_6FEDB8)
                     {
                         default:
                             break;
-                        case 1:
+                        case crew_kind::police_1:
                             pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x) + dword_6FEBF4,
                                                                              Fix16(y_start + lane) + dword_6FEBF4,
                                                                              angle,
@@ -2623,7 +2623,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                             byte_624FBC = 1;
                             byte_624FBD = 1;
                             break;
-                        case 2:
+                        case crew_kind::swat_2:
                             pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x) + dword_6FEBF4,
                                                                              Fix16(y_start + lane) + dword_6FEBF4,
                                                                              angle,
@@ -2632,7 +2632,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                             byte_624FBC = 1;
                             byte_624FBD = 1;
                             break;
-                        case 3:
+                        case crew_kind::fbi_3:
                             pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x) + dword_6FEBF4,
                                                                              Fix16(y_start + lane) + dword_6FEBF4,
                                                                              angle,
@@ -2641,7 +2641,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                             byte_624FBC = 1;
                             byte_624FBD = 1;
                             break;
-                        case 4:
+                        case crew_kind::army_4:
                             if (lane != width - 1)
                             {
                                 pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x) + dword_6FEBF4,
@@ -2910,11 +2910,11 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
 
                 if (gCar_6C_677930->CanAllocateOfType_446930(7))
                 {
-                    switch (gRoadblockGuardType_6FEDB8)
+                    switch (gCrewKind_6FEDB8)
                     {
                         default:
                             break;
-                        case 1:
+                        case crew_kind::police_1:
                             pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start + lane) + dword_6FEBF4,
                                                                              Fix16(y) + dword_6FEBF4,
                                                                              angle,
@@ -2922,7 +2922,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                                                                              dword_6FECEC);
                             byte_624FBC = 1;
                             break;
-                        case 2:
+                        case crew_kind::swat_2:
                             pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start + lane) + dword_6FEBF4,
                                                                              Fix16(y) + dword_6FEBF4,
                                                                              angle,
@@ -2930,7 +2930,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                                                                              dword_6FECEC);
                             byte_624FBC = 1;
                             break;
-                        case 3:
+                        case crew_kind::fbi_3:
                             pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start + lane) + dword_6FEBF4,
                                                                              Fix16(y) + dword_6FEBF4,
                                                                              angle,
@@ -2938,7 +2938,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                                                                              dword_6FECEC);
                             byte_624FBC = 1;
                             break;
-                        case 4:
+                        case crew_kind::army_4:
                             if (lane != width - 1)
                             {
                                 pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start + lane) + dword_6FEBD0,

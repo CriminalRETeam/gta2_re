@@ -18,7 +18,7 @@ EXTERN_GLOBAL(Fix16, kFpFour_6FECF8);
 EXTERN_GLOBAL(Fix16, kFpOneSixteenth_6FEB0C);
 EXTERN_GLOBAL(Fix16, kFpPoint8_6FEB68);
 EXTERN_GLOBAL(Police_7B8*, gPolice_7B8_6FEE40);
-EXTERN_GLOBAL(s32, gRoadblockGuardType_6FEDB8);
+EXTERN_GLOBAL(s32, gCrewKind_6FEDB8);
 EXTERN_GLOBAL(Police_7B8*, gPolice_7B8_6FEE40);
 
 // Number of criminals the police can pursue at once (not the player count: MAX_PLAYERS is 6)

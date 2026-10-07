@@ -242,6 +242,18 @@ enum
 };
 } // namespace crew_type
 
+// Which kind of crew (or roadblock guard) is built: PoliceCrew_38::field_20_crew_kind and gCrewKind_6FEDB8
+namespace crew_kind
+{
+enum
+{
+    police_1 = 1,
+    swat_2 = 2,
+    fbi_3 = 3,
+    army_4 = 4,
+};
+} // namespace crew_kind
+
 namespace palette_types_enum
 {
 enum
