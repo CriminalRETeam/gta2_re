@@ -1287,8 +1287,10 @@ which VC6 never emits from C: they are `__asm` blocks.
 **`<new>` pulled in through `sprite.hpp` can drop destructor EH frames.** `sprite.hpp` includes
 `gbh_graphics.hpp`, which includes GTA2Hax's `DmaVideo.hpp`, which includes `<set>`/`<vector>` and so `<new>`
 with its `throw()` `operator delete`. That is why `Door_4D4::dtor_49D570` lacks the original's EH frame, and it
-can affect destructors in every TU that includes `sprite.hpp`. `sprite.hpp` only needs `Vert` from it, so
-keeping `DmaVideo.hpp` out is the fix to try (it touches many TUs; check compare_builds).
+can affect destructors in every TU that includes `sprite.hpp`. Fixed in `gbh_graphics.hpp`: unless the TU
+already has `<set>`/`<vector>`, their include guards are set and `DmaVideo.hpp`'s two `Renderer` members get
+placeholder `std::vector`/`std::set` types (no game code uses `Renderer`). No matched function changed and the
+destructor matched (3304 -> 3305); no other WIP score moved.
 
 **Arguments are evaluated right to left, so the first one computed is the last parameter.** The diagonal
 MapRenderer faces call `atan2_fixed_405320(dy, dx)`: `dx` is computed first. Getting the order wrong also
