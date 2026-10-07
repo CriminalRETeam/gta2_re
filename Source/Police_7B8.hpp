@@ -59,22 +59,17 @@ class Police_7B8
     EXPORT void TryCreateRoadblockAt_577370(u8 tileX, u8 tileY, s32 roadblock_type);
 
     u8 field_0_unused; // set to 1 in Init, never read
-    u8 field_1_pad[3];
     PoliceCrew_38 field_4_cop_crew[MAX_POLICE_CREWS];
     PolicePursuitTarget_7C field_464_pursuit_targets[MAX_PURSUIT_TARGETS]; // one per wanted criminal
     s32 field_654_max_wanted_level;
     u8 field_658_police_car_count;
     char_type field_659_max_police_cars;
-    char_type field_65A_pad[2];
     s32 field_65C_highest_crew_type_in_pursuit;
     u8 field_660_max_wanted_stars;
-    char_type field_661_pad[3];
     PoliceRoadblock_A4 field_664_roadblock_1;
     PoliceRoadblock_A4 field_708_roadblock_2;
     u8 field_7AC_roadblock_cooldown;
     char_type field_7AD_police_peds_in_range_screen;
-    char_type field_7AE_pad[2];
     Ped* field_7B0_last_firing_emergency_ped;
     char_type field_7B4_crew_ped_onscreen;
-    char_type field_7B5_pad[3];
 };
