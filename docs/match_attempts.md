@@ -3111,3 +3111,25 @@ round-robin differences (`Scripts/regalloc/README.md`), not colour-pass ones.
   reading it at 5807 or 5810 instead of `field_7C_pPed->field_184_pObj2C` does that but changes the code
   (140, 136). The merged early-return block (`Kill_46F9D0 ... return`, kept copy at 6034) makes its
   picks before the reload in both builds.
+
+## Integer scheduling near misses (scheduler pass, Oct 7)
+
+The priority formula is now exact (`Scripts/x87_sched/README.md`). Checked against it:
+
+- `keybrd_0x204::GetLayout_4D6000` (4): after `GetKeyboardLayoutNameA` the original issues `lea ecx,&v2`
+  before the two `pwszKLID` byte loads. With our graph the loads score 46/38 (memory +16, height via the
+  `dl`/`edx` write-after-read chain into `lea edx,Buffer`), the `lea` 28, so the original's dependency graph
+  differs. Not from: swapping the two byte copies (12), `v2` declared first, a `pv = &v2` pointer (before or
+  after the copies), a `Buffer` pointer, `u32 v2` (all 4); the permuter, 1,600 iterations: nothing below 4.
+- `sound_obj::ProcessOtherObjects_41F520` (2): not the scheduler. Case 13/14 stores `calc_distance` before
+  `max_distance` on purpose; the original's order makes VC6 cross-jump fire's tail into this block (TODO in
+  the source).
+- `Map_0x370::sub_4E6660` (4): `mov %edi,%ebx` is a copy inserted by the colour pass when it splits a live
+  range, placed at the start of the `if (pBlock != pPrev)` block; the original has it after the
+  `sub_4E65A0` call. Source `pPrev = pBlock` copies there are deleted as dead (4). Moving the earlier
+  `pPrev = pBlock` after `sub_4E5D10` moves the other copy instead (16); `SetRoadBlockAt` after the `if`
+  (1668).
+- `Orca_2FD4::ComputePath_554AB0` (4): the `[ecx+4]` load is IL-first in our block (pairs at cycle 0); the
+  original has it IL-after the `field_1B_direction` store (a may-alias edge holds it). Writing the store
+  first makes VC6 hoist the shared `ypos` load above the `jge` (comment in the source), so this is the
+  branch-hoisting optimisation, not the scheduler.

@@ -18,6 +18,15 @@ The list scheduler is at C2 `0x1072a20f`, called once per function.
 - **Priority** is the latency-weighted height of the node (the longest path to the end of the window)
   `<< 13`, plus flag bits. The ready list is sorted by priority, highest first; ties keep IL order. An x87
   instruction issues alone; two integer instructions can pair in one cycle.
+- **The exact formula** (`0x1072B71C`; terms combined by `0x1072C018`, a shift by a signed weight from the
+  per-CPU table at `0x107A1EF0`, row picked at `0x1072A402`):
+  `priority = height << 13 + mem << 16 + ([node+0x22] >> 5)` (+ one x87-only bit), with
+  `height = 1 + max over successors (height + edge latency)` and `mem` = any operand is a memory
+  reference (`0x1072AC9F`: operand kinds 2 and 6), so loads, stores' address reads and calls.
+  `sv.py` prints `priority >> 12`, i.e. `2*height + 16*mem`: in `GetLayout_4D6000` the byte load
+  `mov dl,[pwszKLID+6]` is `2*15 + 16 = 46`, `lea ecx,&v2` `2*14 = 28`.
+- **Calls don't pair**: nothing issues in a call's cycle (0 of 2705 pairs in `sound_obj.cpp`, bar a few
+  `imul`).
 - **No-op nodes count.** Op 354 (0x162) emits nothing but takes a node in the window and a cycle on the
   x87 dependency chain. The front end creates one for each parenthesised float subexpression, each
   `(f32)` cast of a float expression and each store to an `f32` local (even an optimised-away one).
