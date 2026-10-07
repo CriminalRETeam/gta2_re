@@ -379,7 +379,7 @@ void Police_7B8::UpdatePlayerServiceTimer_56FA40()
 }
 
 MATCH_FUNC(0x56faa0)
-char_type Police_7B8::DispatchNewCrewToService_56FAA0(Police_7C* pService)
+bool Police_7B8::DispatchNewCrewToService_56FAA0(Police_7C* pService)
 {
     u8 tileX = pService->field_10_x.ToInt();
     u8 tileY = pService->field_14_y.ToInt();
@@ -397,7 +397,7 @@ char_type Police_7B8::DispatchNewCrewToService_56FAA0(Police_7C* pService)
         if (!pNewPoliceCrew->field_10_subObj)
         {
             pNewPoliceCrew->Init_5709C0();
-            return 0;
+            return false;
         }
         pNewPoliceCrew->field_0_id = id_counter_6FEE46++; // TODO: types
         Kfc_30* pKfc = pNewPoliceCrew->field_10_subObj;
@@ -413,9 +413,9 @@ char_type Police_7B8::DispatchNewCrewToService_56FAA0(Police_7C* pService)
         pKfc->field_10_y = Fix16(tileY);
         pKfc->field_14_z = Fix16(tileZ);
         pNewPoliceCrew->AddToService_570A10();
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6FECFC, Fix16(5), 0x6FECFC);
@@ -1089,14 +1089,14 @@ void Police_7B8::UpdateCriminalLatestPosition_570940(Ped* pPed)
 }
 
 MATCH_FUNC(0x577320)
-char_type Police_7B8::ShouldCreateRoadblock_577320()
+bool Police_7B8::ShouldCreateRoadblock_577320()
 {
     if (this->field_654_max_wanted_level < 3 || this->field_664_roadblock_1.field_0_bActive || this->field_7AC_roadblock_cooldown)
     {
-        return 0;
+        return false;
     }
     this->field_7AC_roadblock_cooldown = 40;
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x577370)

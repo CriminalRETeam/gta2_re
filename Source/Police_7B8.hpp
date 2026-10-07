@@ -40,7 +40,7 @@ class Police_7B8
     EXPORT void SetArrestedPed_56F8E0(Ped* pCriminal, Ped* pUnusedPed);
     EXPORT void RegisterCriminal_56F940(Ped* pCriminal);
     EXPORT void UpdatePlayerServiceTimer_56FA40();
-    EXPORT char_type DispatchNewCrewToService_56FAA0(Police_7C* pService);
+    EXPORT bool DispatchNewCrewToService_56FAA0(Police_7C* pService);
     EXPORT void UpdateServices_56FBD0();
     EXPORT void Service_570270();
     EXPORT void SpawnWalkingGuard_570320(Ped* pPed, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
@@ -49,7 +49,7 @@ class Police_7B8
     EXPORT bool PromptCrewAtCarToPurseCriminal_5707B0(Car_BC* pCar, Ped* pCriminal);
     EXPORT void UpdateLastSeenCoordsForCriminal_5708C0(Ped* pPed);
     EXPORT void UpdateCriminalLatestPosition_570940(Ped* pPed);
-    EXPORT char_type ShouldCreateRoadblock_577320();
+    EXPORT bool ShouldCreateRoadblock_577320();
     EXPORT void TryCreateRoadblockAt_577370(u8 tileX, u8 tileY, s32 roadblock_type);
 
     u8 field_0;
