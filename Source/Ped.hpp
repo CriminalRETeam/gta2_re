@@ -68,6 +68,14 @@ class Ped
         }
     }
 
+    // 9.6f 0x4117D0 (0x4117F0 is an identical copy)
+    inline TrainStation_34* PopTrainStation_4117D0()
+    {
+        TrainStation_34* pStation = field_13C_pTrainStation;
+        field_13C_pTrainStation = 0;
+        return pStation;
+    }
+
     // 9.6f 0x403A70
     inline void set_target_car_door_403A70(u8 v)
     {

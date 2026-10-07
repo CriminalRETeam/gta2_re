@@ -6810,49 +6810,51 @@ void sound_obj::Tank_415190(Sound_Params_8* a2)
     }
 }
 
-WIP_FUNC(0x414710)
+// 9.6f 0x412A20
+MATCH_FUNC(0x414710)
 void sound_obj::TrainCab_414710(Sound_Params_8* a2)
 {
-    WIP_IMPLEMENTED;
-
-    // Remaining diff: the failure paths jump to the success path's epilogue in the original, ours to the else's
-
     Ped* pDriver = a2->field_0_pObj->field_8_car_bc_ptr->field_54_driver;
     if (pDriver)
     {
-        TrainStation_34* pTrainStation = pDriver->field_13C_pTrainStation;
-        pDriver->field_13C_pTrainStation = 0;
+        TrainStation_34* pTrainStation = pDriver->PopTrainStation_4117D0();
         if (pTrainStation)
         {
             this->field_30_sQueueSample.field_14_samp_idx = 139;
-            if (pTrainStation->field_10_pZone)
-            {
-                this->field_30_sQueueSample.field_8_obj.field_0_x =
-                    Fix16(pTrainStation->field_10_pZone->field_1_x + (pTrainStation->field_10_pZone->field_3_w >> 1));
-                this->field_30_sQueueSample.field_8_obj.field_4_y =
-                    Fix16(pTrainStation->field_10_pZone->field_2_y + (pTrainStation->field_10_pZone->field_4_h >> 1));
-            }
-            this->field_28_dist_related = ComputeEmitterDistanceSquared_4190B0();
-            this->field_2C_distCalculated = 0;
-            if (CalculateDistance_419020(Fix16(20070400, 0)))
-            {
-                if (VolCalc_419070(100, Fix16(573440, 0), 0))
-                {
-                    this->field_30_sQueueSample.field_54_sound_intensity = Fix16(573440, 0);
-                    this->field_30_sQueueSample.field_60_nEmittingVolume = 100;
-                    this->field_30_sQueueSample.field_64_max_distance = 70;
-                    this->field_30_sQueueSample.field_58_type = 19;
-                    this->field_30_sQueueSample.field_4_SampleIndex = 3;
-                    this->field_30_sQueueSample.field_41 = 1;
-                    this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 5;
-                    this->field_30_sQueueSample.field_18_bIs2D = 0;
-                    AddSampleToRequestedQueue_41A850();
-                }
-            }
         }
         else
         {
-            pDriver->field_13C_pTrainStation = 0;
+            pTrainStation = pDriver->PopTrainStation_4117D0();
+            if (!pTrainStation)
+            {
+                return;
+            }
+            this->field_30_sQueueSample.field_14_samp_idx = 140;
+        }
+
+        if (pTrainStation->field_10_pZone)
+        {
+            this->field_30_sQueueSample.field_8_obj.field_0_x =
+                Fix16(pTrainStation->field_10_pZone->field_1_x + (pTrainStation->field_10_pZone->field_3_w >> 1));
+            this->field_30_sQueueSample.field_8_obj.field_4_y =
+                Fix16(pTrainStation->field_10_pZone->field_2_y + (pTrainStation->field_10_pZone->field_4_h >> 1));
+        }
+        this->field_28_dist_related = ComputeEmitterDistanceSquared_4190B0();
+        this->field_2C_distCalculated = 0;
+        if (CalculateDistance_419020(Fix16(20070400, 0)))
+        {
+            if (VolCalc_419070(100, Fix16(573440, 0), 0))
+            {
+                this->field_30_sQueueSample.field_54_sound_intensity = Fix16(573440, 0);
+                this->field_30_sQueueSample.field_60_nEmittingVolume = 100;
+                this->field_30_sQueueSample.field_64_max_distance = 70;
+                this->field_30_sQueueSample.field_58_type = 19;
+                this->field_30_sQueueSample.field_4_SampleIndex = 3;
+                this->field_30_sQueueSample.field_41 = 1;
+                this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 5;
+                this->field_30_sQueueSample.field_18_bIs2D = 0;
+                AddSampleToRequestedQueue_41A850();
+            }
         }
     }
 }
