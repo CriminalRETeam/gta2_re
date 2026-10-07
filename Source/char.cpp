@@ -1017,7 +1017,7 @@ void Char_B4::UpdateAnimState_546360()
                                 gPolice_7B8_6FEE40->UpdateLastSeenCoordsForCriminal_5708C0(field_7C_pPed);
                                 if (pDriver->get_objective_403A80() == objectives_enum::objective_43)
                                 {
-                                    gPolice_7B8_6FEE40->PromptCrewAtCarToPurseCriminal_5707B0(pDriver->field_16C_car, field_7C_pPed);
+                                    gPolice_7B8_6FEE40->PromptCrewAtCarToPursueCriminal_5707B0(pDriver->field_16C_car, field_7C_pPed);
                                 }
                                 pDriver->SetObjective(objectives_enum::no_obj_0, 9999);
                                 break;

@@ -1897,7 +1897,7 @@ block_466022:
 
         if (this->field_258_objective == 0x2B)
         {
-            if (gPolice_7B8_6FEE40->PromptCrewAtCarToPurseCriminal_5707B0(this->field_16C_car, a2))
+            if (gPolice_7B8_6FEE40->PromptCrewAtCarToPursueCriminal_5707B0(this->field_16C_car, a2))
             {
                 goto ret_true;
             }
@@ -6177,7 +6177,7 @@ block_466022:
 
         if (this->field_258_objective == 0x2B)
         {
-            if (gPolice_7B8_6FEE40->PromptCrewAtCarToPurseCriminal_5707B0(this->field_16C_car, a2))
+            if (gPolice_7B8_6FEE40->PromptCrewAtCarToPursueCriminal_5707B0(this->field_16C_car, a2))
             {
                 goto ret_true;
             }
@@ -6542,7 +6542,7 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
 
                 if (pSearcher->field_258_objective == 0x2B)
                 {
-                    if (gPolice_7B8_6FEE40->PromptCrewAtCarToPurseCriminal_5707B0(pSearcher->field_16C_car, this))
+                    if (gPolice_7B8_6FEE40->PromptCrewAtCarToPursueCriminal_5707B0(pSearcher->field_16C_car, this))
                     {
                         goto ret_true;
                     }

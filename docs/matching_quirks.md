@@ -397,7 +397,7 @@ shared `return 10` in `sad_mirzakhani::find_431EC0` (which also read the wrong f
 **Search loops that return a pointer or NULL were inline helpers.** When the original tests `&array[i] == NULL`
 and gives every `return false` its own epilogue, write each search as a file-local inline that returns the
 found item or NULL. Open-coded loops make VC6 send all the returns to one shared block
-(`Police_7B8::PromptCrewAtCarToPurseCriminal_5707B0`).
+(`Police_7B8::PromptCrewAtCarToPursueCriminal_5707B0`).
 
 **`return a < N;` per case vs a bool local.** Returning the comparison in each case gives
 `xor eax; mov field,edx; cmp; setl`; setting a bool local gives `cmpl $N,mem; setl` with no `xor`

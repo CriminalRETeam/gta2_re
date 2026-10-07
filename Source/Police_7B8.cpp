@@ -34,7 +34,7 @@ Police_7B8::~Police_7B8()
 MATCH_FUNC(0x56f400)
 void Police_7B8::Init_56F400()
 {
-    field_0 = 1;
+    field_0_unused = 1;
     for (s32 i = 0; i < MAX_PURSUIT_TARGETS; i++)
     {
         field_464_pursuit_targets[i].field_0_criminal_ped = NULL;
@@ -261,7 +261,7 @@ void Police_7B8::DespawnCrewInCar_56F6D0(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x56f800)
-bool Police_7B8::HasCriminalBeenFound_56F800(Ped* pCriminal)
+bool Police_7B8::IsBeingPursued_56F800(Ped* pCriminal)
 {
     for (u8 i = 0; i < MAX_PURSUIT_TARGETS; i++)
     {
@@ -298,7 +298,7 @@ bool Police_7B8::IsPedActiveCriminal_56F880(Ped* pCriminal)
 }
 
 MATCH_FUNC(0x56f8e0)
-void Police_7B8::SetArrestedPed_56F8E0(Ped* pCriminal, Ped* pUnusedPed)
+void Police_7B8::SetArrestedPed_56F8E0(Ped* pCriminal, Ped* pAuxPed)
 {
     for (u8 i = 0; i < MAX_PURSUIT_TARGETS; i++)
     {
@@ -533,7 +533,7 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
 
         if (pPursuitTarget->field_4_wanted_level == 1)
         {
-            if (!HasCriminalBeenFound_56F800(pPursuitTarget->field_0_criminal_ped))
+            if (!IsBeingPursued_56F800(pPursuitTarget->field_0_criminal_ped))
             {
                 if ((u16)pPursuitTarget->field_7A_wanted_timer >= 900)
                 {
@@ -1020,7 +1020,7 @@ static inline PoliceCrew_38* FindCrewInCar_5707B0(Police_7B8* pThis, Car_BC* pCa
 }
 
 MATCH_FUNC(0x5707b0)
-bool Police_7B8::PromptCrewAtCarToPurseCriminal_5707B0(Car_BC* pCar, Ped* pCriminal)
+bool Police_7B8::PromptCrewAtCarToPursueCriminal_5707B0(Car_BC* pCar, Ped* pCriminal)
 {
     if (!pCriminal->is_player_41B0A0())
     {
