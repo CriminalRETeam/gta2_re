@@ -63,22 +63,6 @@ s32 __stdcall GetLineSpacingFromFontType_5D7700(u16 font_type)
     return (u16)gGtx_0x106C_703DD4->GetLineSpacing_5AA800(&font_type);
 }
 
-MATCH_FUNC(0x5D8940)
-s32 __stdcall CountLineSpacing_5D8940(wchar_t* pStr, u16 font_type)
-{
-    s32 line_spacing = GetLineSpacingFromFontType_5D7700_inlined(font_type);
-
-    s32 result = line_spacing;
-    for (wchar_t* i = pStr; *i; ++i)
-    {
-        if (*i == '\n')
-        {
-            result += line_spacing;
-        }
-    }
-    return result;
-}
-
 MATCH_FUNC(0x5D7720)
 void __stdcall DrawText_5D7720(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 fontType, const s32& palette_type, u16 palette, s32 alpha, u8 alpha_flag)
 {
@@ -340,6 +324,22 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
     gQuadVerts_706B88.field_0_verts[3].v = v;
 
     pgbh_DrawQuad(flags | CalcQuadFlags_5D83E0(a8, a9) | 0x20000, pTexture, gQuadVerts_706B88.field_0_verts, 255);
+}
+
+MATCH_FUNC(0x5D8940)
+s32 __stdcall CountLineSpacing_5D8940(wchar_t* pStr, u16 font_type)
+{
+    s32 line_spacing = GetLineSpacingFromFontType_5D7700_inlined(font_type);
+
+    s32 result = line_spacing;
+    for (wchar_t* i = pStr; *i; ++i)
+    {
+        if (*i == '\n')
+        {
+            result += line_spacing;
+        }
+    }
+    return result;
 }
 
 // https://decomp.me/scratch/HX0q9

@@ -305,46 +305,99 @@ char_type cSampleManager::OpenDigitalDriver_58D720(char_type a2, char_type a3, s
     return 1;
 }
 
-MATCH_FUNC(0x58E1F0)
-void cSampleManager::Enum3DProviders_58E1F0()
+MATCH_FUNC(0x58D820)
+char_type cSampleManager::Init3DProvider_58D820(BYTE* pMaxSamples)
 {
-    HPROENUM hEnum = 0;
-    u32 prov_counter = 0;
-    while (prov_counter < 256)
+    Terminate_58DAE0();
+    Reset3DSamples_58D960();
+
+    if (field_2714_bUnknown)
     {
-        char* pName;
-        if (!AIL_enumerate_3D_providers(&hEnum, &field_1EB4_h3dProvider[prov_counter], &pName))
+        AIL_waveOutClose(field_0_hDriver);
+        if (!OpenDigitalDriver_58D720(1, 0, 22050))
         {
-            break;
-        }
-
-        field_22B4_str[prov_counter] = (char_type*)operator new(0x50u);
-        strcpy(field_22B4_str[prov_counter], pName);
-
-        prov_counter++;
-    }
-    field_2710_3d_provider_count = prov_counter;
-}
-
-MATCH_FUNC(0x58E2C0)
-bool cSampleManager::StreamStatus_58E2C0()
-{
-    if (field_55_bMusicLoaded)
-    {
-        if (field_9C_hStreams[0])
-        {
-            if (AIL_stream_status(field_9C_hStreams[0]) == SMP_DONE)
+            if (OpenDigitalDriver_58D720(1, 0, 22050))
             {
-                return 1;
+                AllocSamples_58D9F0(1);
             }
-            else
+            return 0;
+        }
+    }
+
+    u32 i;
+    for (i = 0; i < 256; i++)
+    {
+        if (field_22B4_str[i])
+        {
+            if (strncmp(field_22B4_str[i], "Microsoft DirectSound3D hardware support", 0x1Eu) == 0 && Open3DProvider_58E140(i))
             {
+                break;
+            }
+        }
+    }
+
+    if (i < 256)
+    {
+        if (field_26C0_3d_provider)
+        {
+            *pMaxSamples = 0;
+
+            field_1EB2_3d_samp_count = 0;
+            AIL_3D_provider_attribute(field_26C0_3d_provider, "Maximum supported samples", pMaxSamples);
+
+            if (*pMaxSamples > 16u)
+            {
+                *pMaxSamples = 16;
+            }
+
+            if (*pMaxSamples < 8u)
+            {
+                *pMaxSamples = 0;
+                Close3DProvider_58E1C0();
                 return 0;
             }
+
+            for (u32 sampIdx = 0; sampIdx < *pMaxSamples; sampIdx++)
+            {
+                field_26C4_3d_sample[sampIdx] = AIL_allocate_3D_sample_handle(field_26C0_3d_provider);
+                if (!field_26C4_3d_sample[sampIdx])
+                {
+                    *pMaxSamples = 0;
+                    Close3DProvider_58E1C0();
+                    return 0;
+                }
+            }
+
+            field_1EB2_3d_samp_count = *pMaxSamples;
+            return 1;
         }
-        return 1;
     }
     return 0;
+}
+
+MATCH_FUNC(0x58D960)
+void cSampleManager::Reset3DSamples_58D960()
+{
+    for (u32 i = 0; i < field_1EB2_3d_samp_count; i++)
+    {
+        if (field_26C4_3d_sample[i])
+        {
+            AIL_release_3D_sample_handle(field_26C4_3d_sample[i]);
+            field_26C4_3d_sample[i] = 0;
+        }
+    }
+
+    Close3DProvider_58E1C0();
+
+    field_1EB0_count_samples = 16;
+    field_1EB2_3d_samp_count = 0;
+    field_26B4_env_idx = -1;
+    field_26B8_bEaxSupported = 0;
+    field_26C0_3d_provider = 0;
+    field_2704_float = -1.0;
+    field_2708_float = -1.0;
+    field_270C_float = -1.0;
+    field_26BC_eax_environment = 0;
 }
 
 MATCH_FUNC(0x58D9F0)
@@ -371,6 +424,27 @@ char_type cSampleManager::AllocSamples_58D9F0(s32 a2)
     }
 
     return 1;
+}
+
+MATCH_FUNC(0x58DA80)
+void cSampleManager::AllocSample_58DA80()
+{
+    if (!field_98_hSample)
+    {
+        field_98_hSample = AIL_allocate_sample_handle(field_0_hDriver);
+        AIL_init_sample(field_98_hSample);
+        AIL_set_sample_type(field_98_hSample, 0, 0);
+    }
+}
+
+MATCH_FUNC(0x58DAC0)
+void cSampleManager::ReleaseSample_58DAC0()
+{
+    if (field_98_hSample)
+    {
+        AIL_release_sample_handle(field_98_hSample);
+        field_98_hSample = 0;
+    }
 }
 
 MATCH_FUNC(0x58DAE0)
@@ -444,31 +518,6 @@ MATCH_FUNC(0x58DC10)
 s32 cSampleManager::GetRandomDisplacement_58DC10(s32 idx)
 {
     return field_A8_sdt_entries[idx].field_C_random_displacement;
-}
-
-MATCH_FUNC(0x58D960)
-void cSampleManager::Reset3DSamples_58D960()
-{
-    for (u32 i = 0; i < field_1EB2_3d_samp_count; i++)
-    {
-        if (field_26C4_3d_sample[i])
-        {
-            AIL_release_3D_sample_handle(field_26C4_3d_sample[i]);
-            field_26C4_3d_sample[i] = 0;
-        }
-    }
-
-    Close3DProvider_58E1C0();
-
-    field_1EB0_count_samples = 16;
-    field_1EB2_3d_samp_count = 0;
-    field_26B4_env_idx = -1;
-    field_26B8_bEaxSupported = 0;
-    field_26C0_3d_provider = 0;
-    field_2704_float = -1.0;
-    field_2708_float = -1.0;
-    field_270C_float = -1.0;
-    field_26BC_eax_environment = 0;
 }
 
 MATCH_FUNC(0x58DC30)
@@ -730,44 +779,64 @@ void cSampleManager::Close3DProvider_58E1C0()
     }
 }
 
-MATCH_FUNC(0x58DA80)
-void cSampleManager::AllocSample_58DA80()
+MATCH_FUNC(0x58E1F0)
+void cSampleManager::Enum3DProviders_58E1F0()
 {
-    if (!field_98_hSample)
+    HPROENUM hEnum = 0;
+    u32 prov_counter = 0;
+    while (prov_counter < 256)
     {
-        field_98_hSample = AIL_allocate_sample_handle(field_0_hDriver);
-        AIL_init_sample(field_98_hSample);
-        AIL_set_sample_type(field_98_hSample, 0, 0);
-    }
-}
-
-MATCH_FUNC(0x58DAC0)
-void cSampleManager::ReleaseSample_58DAC0()
-{
-    if (field_98_hSample)
-    {
-        AIL_release_sample_handle(field_98_hSample);
-        field_98_hSample = 0;
-    }
-}
-
-MATCH_FUNC(0x58E8C0)
-void cSampleManager::PlaySampleRange_58E8C0(u32 idx, u32 a3)
-{
-    if (idx < a3 && field_98_hSample && !SampleNotDone_58E880())
-    {
-        if (field_A4_bLoaded)
+        char* pName;
+        if (!AIL_enumerate_3D_providers(&hEnum, &field_1EB4_h3dProvider[prov_counter], &pName))
         {
-            BYTE* start = (BYTE*)field_1EAC_pAudioBuffer2 + field_A8_sdt_entries[idx].field_0_offset;
-            BYTE* end = (BYTE*)field_1EAC_pAudioBuffer2 + field_A8_sdt_entries[a3].field_0_offset;
-            AIL_set_sample_address(field_98_hSample, start, end - start);
-
-            AIL_set_sample_playback_rate(field_98_hSample, 18050);
-            AIL_set_sample_pan(field_98_hSample, 64);
-            AIL_set_sample_loop_count(field_98_hSample, 1);
-            AIL_start_sample(field_98_hSample);
+            break;
         }
+
+        field_22B4_str[prov_counter] = (char_type*)operator new(0x50u);
+        strcpy(field_22B4_str[prov_counter], pName);
+
+        prov_counter++;
     }
+    field_2710_3d_provider_count = prov_counter;
+}
+
+MATCH_FUNC(0x58E290)
+void cSampleManager::Release_58E290()
+{
+    if (field_0_hDriver)
+    {
+        AIL_digital_handle_release(field_0_hDriver);
+    }
+}
+
+MATCH_FUNC(0x58E2A0)
+BYTE cSampleManager::Reacquire_58E2A0()
+{
+    BYTE ret = field_0_hDriver && AIL_digital_handle_reacquire(field_0_hDriver) ? 1 : 0;
+    return ret;
+}
+
+const char_type dma_wav_5FF5D8[3][6] = {"d.wav", "m.wav", "a.wav"};
+
+MATCH_FUNC(0x58E2C0)
+bool cSampleManager::StreamStatus_58E2C0()
+{
+    if (field_55_bMusicLoaded)
+    {
+        if (field_9C_hStreams[0])
+        {
+            if (AIL_stream_status(field_9C_hStreams[0]) == SMP_DONE)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        return 1;
+    }
+    return 0;
 }
 
 MATCH_FUNC(0x58E2F0)
@@ -781,8 +850,6 @@ void cSampleManager::StreamSetVolume_58E2F0(u8 vol)
         }
     }
 }
-
-const char_type dma_wav_5FF5D8[3][6] = {"d.wav", "m.wav", "a.wav"};
 
 MATCH_FUNC(0x58E320)
 void cSampleManager::OpenStream_58E320(u32 a2)
@@ -1020,6 +1087,25 @@ void cSampleManager::EndSample_58E8A0()
     }
 }
 
+MATCH_FUNC(0x58E8C0)
+void cSampleManager::PlaySampleRange_58E8C0(u32 idx, u32 a3)
+{
+    if (idx < a3 && field_98_hSample && !SampleNotDone_58E880())
+    {
+        if (field_A4_bLoaded)
+        {
+            BYTE* start = (BYTE*)field_1EAC_pAudioBuffer2 + field_A8_sdt_entries[idx].field_0_offset;
+            BYTE* end = (BYTE*)field_1EAC_pAudioBuffer2 + field_A8_sdt_entries[a3].field_0_offset;
+            AIL_set_sample_address(field_98_hSample, start, end - start);
+
+            AIL_set_sample_playback_rate(field_98_hSample, 18050);
+            AIL_set_sample_pan(field_98_hSample, 64);
+            AIL_set_sample_loop_count(field_98_hSample, 1);
+            AIL_start_sample(field_98_hSample);
+        }
+    }
+}
+
 MATCH_FUNC(0x58E960)
 void cSampleManager::EndSample_58E960()
 {
@@ -1074,90 +1160,4 @@ char_type cSampleManager::LoadWavSdtData_58E980(const char_type* pRawOrSdtName)
     fclose(hSdtFile);
     field_A4_bLoaded = 1;
     return 1;
-}
-
-MATCH_FUNC(0x58E2A0)
-BYTE cSampleManager::Reacquire_58E2A0()
-{
-    BYTE ret = field_0_hDriver && AIL_digital_handle_reacquire(field_0_hDriver) ? 1 : 0;
-    return ret;
-}
-
-MATCH_FUNC(0x58E290)
-void cSampleManager::Release_58E290()
-{
-    if (field_0_hDriver)
-    {
-        AIL_digital_handle_release(field_0_hDriver);
-    }
-}
-
-MATCH_FUNC(0x58D820)
-char_type cSampleManager::Init3DProvider_58D820(BYTE* pMaxSamples)
-{
-    Terminate_58DAE0();
-    Reset3DSamples_58D960();
-
-    if (field_2714_bUnknown)
-    {
-        AIL_waveOutClose(field_0_hDriver);
-        if (!OpenDigitalDriver_58D720(1, 0, 22050))
-        {
-            if (OpenDigitalDriver_58D720(1, 0, 22050))
-            {
-                AllocSamples_58D9F0(1);
-            }
-            return 0;
-        }
-    }
-
-    u32 i;
-    for (i = 0; i < 256; i++)
-    {
-        if (field_22B4_str[i])
-        {
-            if (strncmp(field_22B4_str[i], "Microsoft DirectSound3D hardware support", 0x1Eu) == 0 && Open3DProvider_58E140(i))
-            {
-                break;
-            }
-        }
-    }
-
-    if (i < 256)
-    {
-        if (field_26C0_3d_provider)
-        {
-            *pMaxSamples = 0;
-
-            field_1EB2_3d_samp_count = 0;
-            AIL_3D_provider_attribute(field_26C0_3d_provider, "Maximum supported samples", pMaxSamples);
-
-            if (*pMaxSamples > 16u)
-            {
-                *pMaxSamples = 16;
-            }
-
-            if (*pMaxSamples < 8u)
-            {
-                *pMaxSamples = 0;
-                Close3DProvider_58E1C0();
-                return 0;
-            }
-
-            for (u32 sampIdx = 0; sampIdx < *pMaxSamples; sampIdx++)
-            {
-                field_26C4_3d_sample[sampIdx] = AIL_allocate_3D_sample_handle(field_26C0_3d_provider);
-                if (!field_26C4_3d_sample[sampIdx])
-                {
-                    *pMaxSamples = 0;
-                    Close3DProvider_58E1C0();
-                    return 0;
-                }
-            }
-
-            field_1EB2_3d_samp_count = *pMaxSamples;
-            return 1;
-        }
-    }
-    return 0;
 }

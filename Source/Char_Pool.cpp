@@ -96,6 +96,60 @@ EXTERN_GLOBAL(u8, gNumberArmedGangMembers_6787CE);
 
 EXPORT Ped* __stdcall SpawnPedChainGroupAt_46DB90(char_type remap, u8 number_followers, Fix16 xpos, Fix16 ypos, Fix16 zpos);
 
+MATCH_FUNC(0x46DB90)
+EXPORT Ped* __stdcall SpawnPedChainGroupAt_46DB90(char_type remap, u8 number_followers, Fix16 xpos, Fix16 ypos, Fix16 zpos)
+{
+    Fix16 xpos_adjusted = kFpPoint8_6784A0 + Fix16((u8)(xpos.ToInt()));
+    Fix16 ypos_adjusted = kFpPoint8_6784A0 + Fix16((u8)(ypos.ToInt()));
+
+    Ped* pLeader = gPedPool_6787B8->Allocate();
+    pLeader->field_240_occupation = ped_ocupation_enum::elvis_leader;
+    pLeader->field_244_remap = remap;
+    pLeader->field_26C_graphic_type = 1;
+    pLeader->field_238_ped_type = ped_type::special_ped_4;
+    pLeader->AllocCharB4_45C830(xpos_adjusted, ypos_adjusted, zpos);
+    pLeader->field_168_game_object->SetRemap_46DD50(pLeader->field_244_remap);
+    pLeader->field_216_health = 100;
+
+    PedGroup* pGroup = PedGroup::New_4CB0D0();
+    pGroup->add_ped_leader_4C9B10(pLeader);
+    pGroup->field_38_group_type = 1;
+    pGroup->field_36_count = number_followers;
+    pGroup->field_34_count = number_followers;
+
+    for (u8 ped_idx = 0; ped_idx < number_followers; ped_idx++)
+    {
+        Fix16 xy_off = Fix16(0x4000 * (ped_idx + 1), 0);
+
+        Ped* pNewPed = gPedPool_6787B8->Allocate();
+
+        pNewPed->field_240_occupation = ped_ocupation_enum::elvis;
+        pNewPed->field_244_remap = remap;
+        pNewPed->field_238_ped_type = ped_type::special_ped_4;
+        pNewPed->AllocCharB4_45C830(xpos_adjusted - ((kFpPoint1_678480 * xy_off)), ypos_adjusted - ((kFpPoint1_678480 * xy_off)), zpos);
+
+        Char_B4* pB4 = pNewPed->field_168_game_object;
+        const u8 cur_remap = pNewPed->field_244_remap;
+        pB4->field_5_remap = cur_remap;
+        if (cur_remap != 0xFF)
+        {
+            pB4->field_80_sprite_ptr->SetRemap(cur_remap);
+        }
+
+        pNewPed->field_216_health = 100;
+        pNewPed->field_26C_graphic_type = 1;
+        pGroup->add_ped_to_list_4C9B30(pNewPed, ped_idx);
+    }
+    return pLeader;
+}
+
+// Not in 9.6f (0x440CC0 calls Fix16::multiply_401BD0 directly), but written inline the product
+// lands in ebx directly instead of through eax like 10.5.
+static inline Fix16 GetSpawnJitter()
+{
+    return gSpawnJitterScale_678618 * (gRng_6F6784.get_int_4F7AE0(32) + 8);
+}
+
 // TODO: Prob a method of PedManager?
 MATCH_FUNC(0x46E380)
 EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
@@ -417,13 +471,6 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
     }
 }
 
-// Not in 9.6f (0x440CC0 calls Fix16::multiply_401BD0 directly), but written inline the product
-// lands in ebx directly instead of through eax like 10.5.
-static inline Fix16 GetSpawnJitter()
-{
-    return gSpawnJitterScale_678618 * (gRng_6F6784.get_int_4F7AE0(32) + 8);
-}
-
 MATCH_FUNC(0x46eb60)
 void PedManager::SpawnDummies_46EB60(Camera_0xBC* pCam)
 {
@@ -544,6 +591,40 @@ void PedManager::SpawnDummies_46EB60(Camera_0xBC* pCam)
             }
         }
         ++gSpawnIndex_6787C9;
+    }
+}
+
+MATCH_FUNC(0x470330)
+void PedManager::Dummies_470330()
+{
+    s16 v1 = gPedManager_6787BC->field_0_max_dummy_chars;
+    if (gPolice_7B8_6FEE40->field_654_wanted_level > 3)
+    {
+        v1 = (u16)v1 >> 1;
+    }
+    if (gNumDummyChars_6787E2 < v1)
+    {
+        for (Camera_0xBC* pCam = gGame_0x40_67E008->IteratePlayerCamera_4B9BC0(); pCam; pCam = gGame_0x40_67E008->IterateNextPlayerCamera_4B9C50())
+        {
+            spawnSideLocked_6787D5 = 0;
+            if (pCam->has_camera_car_or_ped_433E90())
+            {
+                if (pCam->ReturnOwnerVelocity_435A20() > kFpZero_678438)
+                {
+                    // TODO: BL register is reused to set these to 1 instead
+                    // of a constant value :)
+                    spawnSideLocked_6787D5 = 1;
+                    cameraFacingAng_678760 = pCam->ComputeTargetFacingAngle_4358D0();
+                    spawnCountLimit_6787D6 = 1; // Set this to 3 and apart from the wrong constant it matches
+                }
+                else
+                {
+                    spawnCountLimit_6787D6 = 2;
+                }
+            }
+            // Use global instance even tho we're already in an instance method :)
+            gPedManager_6787BC->SpawnDummies_46EB60(pCam);
+        }
     }
 }
 
@@ -965,88 +1046,7 @@ Ped* PedManager::PedById(s32 pedId)
     return NULL;
 }
 
-MATCH_FUNC(0x470330)
-void PedManager::Dummies_470330()
-{
-    s16 v1 = gPedManager_6787BC->field_0_max_dummy_chars;
-    if (gPolice_7B8_6FEE40->field_654_wanted_level > 3)
-    {
-        v1 = (u16)v1 >> 1;
-    }
-    if (gNumDummyChars_6787E2 < v1)
-    {
-        for (Camera_0xBC* pCam = gGame_0x40_67E008->IteratePlayerCamera_4B9BC0(); pCam; pCam = gGame_0x40_67E008->IterateNextPlayerCamera_4B9C50())
-        {
-            spawnSideLocked_6787D5 = 0;
-            if (pCam->has_camera_car_or_ped_433E90())
-            {
-                if (pCam->ReturnOwnerVelocity_435A20() > kFpZero_678438)
-                {
-                    // TODO: BL register is reused to set these to 1 instead
-                    // of a constant value :)
-                    spawnSideLocked_6787D5 = 1;
-                    cameraFacingAng_678760 = pCam->ComputeTargetFacingAngle_4358D0();
-                    spawnCountLimit_6787D6 = 1; // Set this to 3 and apart from the wrong constant it matches
-                }
-                else
-                {
-                    spawnCountLimit_6787D6 = 2;
-                }
-            }
-            // Use global instance even tho we're already in an instance method :)
-            gPedManager_6787BC->SpawnDummies_46EB60(pCam);
-        }
-    }
-}
-
 MATCH_FUNC(0x471110)
 PedPool::~PedPool()
 {
-}
-
-MATCH_FUNC(0x46DB90)
-EXPORT Ped* __stdcall SpawnPedChainGroupAt_46DB90(char_type remap, u8 number_followers, Fix16 xpos, Fix16 ypos, Fix16 zpos)
-{
-    Fix16 xpos_adjusted = kFpPoint8_6784A0 + Fix16((u8)(xpos.ToInt()));
-    Fix16 ypos_adjusted = kFpPoint8_6784A0 + Fix16((u8)(ypos.ToInt()));
-
-    Ped* pLeader = gPedPool_6787B8->Allocate();
-    pLeader->field_240_occupation = ped_ocupation_enum::elvis_leader;
-    pLeader->field_244_remap = remap;
-    pLeader->field_26C_graphic_type = 1;
-    pLeader->field_238_ped_type = ped_type::special_ped_4;
-    pLeader->AllocCharB4_45C830(xpos_adjusted, ypos_adjusted, zpos);
-    pLeader->field_168_game_object->SetRemap_46DD50(pLeader->field_244_remap);
-    pLeader->field_216_health = 100;
-
-    PedGroup* pGroup = PedGroup::New_4CB0D0();
-    pGroup->add_ped_leader_4C9B10(pLeader);
-    pGroup->field_38_group_type = 1;
-    pGroup->field_36_count = number_followers;
-    pGroup->field_34_count = number_followers;
-
-    for (u8 ped_idx = 0; ped_idx < number_followers; ped_idx++)
-    {
-        Fix16 xy_off = Fix16(0x4000 * (ped_idx + 1), 0);
-
-        Ped* pNewPed = gPedPool_6787B8->Allocate();
-
-        pNewPed->field_240_occupation = ped_ocupation_enum::elvis;
-        pNewPed->field_244_remap = remap;
-        pNewPed->field_238_ped_type = ped_type::special_ped_4;
-        pNewPed->AllocCharB4_45C830(xpos_adjusted - ((kFpPoint1_678480 * xy_off)), ypos_adjusted - ((kFpPoint1_678480 * xy_off)), zpos);
-
-        Char_B4* pB4 = pNewPed->field_168_game_object;
-        const u8 cur_remap = pNewPed->field_244_remap;
-        pB4->field_5_remap = cur_remap;
-        if (cur_remap != 0xFF)
-        {
-            pB4->field_80_sprite_ptr->SetRemap(cur_remap);
-        }
-
-        pNewPed->field_216_health = 100;
-        pNewPed->field_26C_graphic_type = 1;
-        pGroup->add_ped_to_list_4C9B30(pNewPed, ped_idx);
-    }
-    return pLeader;
 }

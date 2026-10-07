@@ -10,56 +10,6 @@
 DEFINE_GLOBAL(TileAnim_2*, gTileAnim_2_7052C4, 0x7052C4);
 DEFINE_GLOBAL(TileAnimPool*, gTileAnimPool_7052C8, 0x7052C8);
 
-MATCH_FUNC(0x5bc260)
-void TileAnim_2::AddAnim_5BC260(s16 base, s16 f0, s16 length, s16 frame_rate, s16 repeat)
-{
-    TileAnim_18* p18 = gTileAnimPool_7052C8->Allocate();
-    p18->Init_4C33F0(base, f0, length, frame_rate, repeat);
-    p18->Start_5BC1D0();
-}
-
-MATCH_FUNC(0x5bc2c0)
-void TileAnim_2::AddGmpAnim_5BC2C0(const gmp_tile_animation* pTileAnimation)
-{
-    TileAnim_18* tmp = gTileAnimPool_7052C8->Allocate();
-    tmp->InitFromGmpAnim_5BC190(pTileAnimation);
-    tmp->Start_5BC1D0();
-}
-
-MATCH_FUNC(0x5bc300)
-void TileAnim_2::Empty_5BC300()
-{
-}
-
-MATCH_FUNC(0x5bc310)
-void TileAnim_2::UpdateTileAnimations_5BC310()
-{
-    gTileAnimPool_7052C8->field_0_pool.UpdatePool();
-}
-
-MATCH_FUNC(0x5bc3a0)
-TileAnim_2::TileAnim_2()
-{
-    if (gTileAnimPool_7052C8 == NULL)
-    {
-        gTileAnimPool_7052C8 = new TileAnimPool();
-        if (gTileAnimPool_7052C8 == NULL)
-        {
-            FatalError_4A38C0(Gta2Error::InvalidMapObjectData, "C:\\Splitting\\Gta2\\Source\\tileanim.cpp", 220);
-        }
-    }
-    field_0_count = 1;
-}
-
-MATCH_FUNC(0x5bc470)
-TileAnim_2::~TileAnim_2()
-{
-    if (gTileAnimPool_7052C8)
-    {
-        GTA2_DELETE_AND_NULL(gTileAnimPool_7052C8);
-    }
-}
-
 MATCH_FUNC(0x5bc130)
 void TileAnim_18::PoolAllocate()
 {
@@ -128,6 +78,62 @@ char_type TileAnim_18::PoolUpdate()
     return 0;
 }
 
+MATCH_FUNC(0x5bc260)
+void TileAnim_2::AddAnim_5BC260(s16 base, s16 f0, s16 length, s16 frame_rate, s16 repeat)
+{
+    TileAnim_18* p18 = gTileAnimPool_7052C8->Allocate();
+    p18->Init_4C33F0(base, f0, length, frame_rate, repeat);
+    p18->Start_5BC1D0();
+}
+
+MATCH_FUNC(0x5bc2c0)
+void TileAnim_2::AddGmpAnim_5BC2C0(const gmp_tile_animation* pTileAnimation)
+{
+    TileAnim_18* tmp = gTileAnimPool_7052C8->Allocate();
+    tmp->InitFromGmpAnim_5BC190(pTileAnimation);
+    tmp->Start_5BC1D0();
+}
+
+MATCH_FUNC(0x5bc300)
+void TileAnim_2::Empty_5BC300()
+{
+}
+
+MATCH_FUNC(0x5bc310)
+void TileAnim_2::UpdateTileAnimations_5BC310()
+{
+    gTileAnimPool_7052C8->field_0_pool.UpdatePool();
+}
+
+MATCH_FUNC(0x5bc3a0)
+TileAnim_2::TileAnim_2()
+{
+    if (gTileAnimPool_7052C8 == NULL)
+    {
+        gTileAnimPool_7052C8 = new TileAnimPool();
+        if (gTileAnimPool_7052C8 == NULL)
+        {
+            FatalError_4A38C0(Gta2Error::InvalidMapObjectData, "C:\\Splitting\\Gta2\\Source\\tileanim.cpp", 220);
+        }
+    }
+    field_0_count = 1;
+}
+
+MATCH_FUNC(0x5bc470)
+TileAnim_2::~TileAnim_2()
+{
+    if (gTileAnimPool_7052C8)
+    {
+        GTA2_DELETE_AND_NULL(gTileAnimPool_7052C8);
+    }
+}
+
+MATCH_FUNC(0x5bc4a0)
+TileAnimPool::~TileAnimPool()
+{
+
+}
+
 MATCH_FUNC(0x5beba0)
 TileAnim_18::TileAnim_18()
 {
@@ -148,10 +154,4 @@ TileAnim_18::~TileAnim_18()
 {
     field_C_ptr = NULL;
     mpNext = NULL;
-}
-
-MATCH_FUNC(0x5bc4a0)
-TileAnimPool::~TileAnimPool()
-{
-
 }

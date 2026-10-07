@@ -11,6 +11,107 @@ DEFINE_GLOBAL(sharp_pare_0x15D8*, gSharp_pare_0x15D8_705064, 0x705064);
 DEFINE_GLOBAL(u32, gRemappedSpriteCounter_704ED0, 0x704ED0);
 DEFINE_GLOBAL(u32, gRemappedTextureCounter_704F28, 0x704F28);
 
+MATCH_FUNC(0x5B8E90)
+void festive_hopper::Alloc_5B8E90(s16 size, s16 count, s32 pal_type1, s32 pal_type2)
+{
+    if (!field_0_pAlloc)
+    {
+        if (size)
+        {
+            field_4_item_alloc_count = count * size;
+            field_6_count = count;
+            field_10_bDoFree = 1;
+            field_8_sprite_type = pal_type1;
+            field_C_pal_type = pal_type2;
+            field_0_pAlloc = (STexture**)Memory::malloc_4FE4D0(sizeof(STexture*) * field_4_item_alloc_count);
+
+            for (u32 i = 0; i < field_4_item_alloc_count; i++)
+            {
+                field_0_pAlloc[i] = 0;
+            }
+        }
+    }
+}
+
+MATCH_FUNC(0x5B8F00)
+void festive_hopper::LoadTextures_5B8F00()
+{
+    if (field_10_bDoFree)
+    {
+        u32 i = 0;
+        sprite_index* pSpriteIndex;
+        u16 tmp;
+        u16 t2;
+        while (i < field_4_item_alloc_count)
+        {
+            pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(i);
+            tmp = gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(2, i);
+            t2 = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(tmp);
+
+            field_0_pAlloc[i++] = pgbh_RegisterTexture(
+                pSpriteIndex
+                    ->field_4_width, // note: missing xor of register due to passing BYTE -> BYTE param instead of BYTE -> s32 param, xor clears up 24 bits
+                pSpriteIndex->field_5_height,
+                pSpriteIndex->field_0_pData,
+                t2, // pal idx
+                0);
+        }
+    }
+}
+
+MATCH_FUNC(0x5B8F70)
+void festive_hopper::LoadRemappedTextures_5B8F70()
+{
+    if (field_10_bDoFree)
+    {
+        const u32 palTotal = field_4_item_alloc_count / field_6_count;
+        for (u32 pal_idx = 0; pal_idx < palTotal; pal_idx++)
+        {
+            const u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_8_sprite_type, pal_idx);
+            sprite_index* pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
+
+            gRemappedSpriteCounter_704ED0++;
+
+            for (u32 texture_idx = 0; texture_idx < field_6_count; texture_idx++)
+            {
+                const s16 converted_pal_idx = gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(field_C_pal_type, texture_idx);
+                const u16 physPal = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(converted_pal_idx);
+                field_0_pAlloc[texture_idx + (pal_idx * field_6_count)] =
+                    pgbh_RegisterTexture(pSpriteIndex->field_4_width, pSpriteIndex->field_5_height, pSpriteIndex->field_0_pData, physPal, 1);
+
+                gRemappedTextureCounter_704F28++;
+            }
+        }
+    }
+}
+
+MATCH_FUNC(0x5B9050)
+festive_hopper::~festive_hopper()
+{
+    if (field_10_bDoFree && field_0_pAlloc)
+    {
+        for (u16 i = 0; i < field_4_item_alloc_count; ++i)
+        {
+            pgbh_FreeTexture(field_0_pAlloc[i]);
+        }
+
+        crt::free(field_0_pAlloc);
+        field_0_pAlloc = 0;
+    }
+}
+
+MATCH_FUNC(0x5B90A0)
+STexture* festive_hopper::get_texture_5B90A0(s32 sprite_type, s16 sprite_idx)
+{
+    return field_0_pAlloc[gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_type, sprite_idx)];
+}
+
+MATCH_FUNC(0x5B90D0)
+STexture* festive_hopper::GetRemappedTexture_5B90D0(s16 sprite_idx, s16 remap)
+{
+    return field_0_pAlloc[(u16)(remap + (sprite_idx * field_6_count))];
+}
+
 MATCH_FUNC(0x5B90F0)
 void sharp_pare_0x15D8::LoadPals_5B90F0()
 {
@@ -227,107 +328,6 @@ STexture* sharp_pare_0x15D8::SetSharedTextureData_5B9710(s16 a2, s16 a4, u8* a3,
     pgbh_AssignPalette(field_1544_pTexture, phys_pal_5AA6F0);
     pgbh_UnlockTexture(field_1544_pTexture);
     return field_1544_pTexture;
-}
-
-MATCH_FUNC(0x5B9050)
-festive_hopper::~festive_hopper()
-{
-    if (field_10_bDoFree && field_0_pAlloc)
-    {
-        for (u16 i = 0; i < field_4_item_alloc_count; ++i)
-        {
-            pgbh_FreeTexture(field_0_pAlloc[i]);
-        }
-
-        crt::free(field_0_pAlloc);
-        field_0_pAlloc = 0;
-    }
-}
-
-MATCH_FUNC(0x5B8E90)
-void festive_hopper::Alloc_5B8E90(s16 size, s16 count, s32 pal_type1, s32 pal_type2)
-{
-    if (!field_0_pAlloc)
-    {
-        if (size)
-        {
-            field_4_item_alloc_count = count * size;
-            field_6_count = count;
-            field_10_bDoFree = 1;
-            field_8_sprite_type = pal_type1;
-            field_C_pal_type = pal_type2;
-            field_0_pAlloc = (STexture**)Memory::malloc_4FE4D0(sizeof(STexture*) * field_4_item_alloc_count);
-
-            for (u32 i = 0; i < field_4_item_alloc_count; i++)
-            {
-                field_0_pAlloc[i] = 0;
-            }
-        }
-    }
-}
-
-MATCH_FUNC(0x5B8F70)
-void festive_hopper::LoadRemappedTextures_5B8F70()
-{
-    if (field_10_bDoFree)
-    {
-        const u32 palTotal = field_4_item_alloc_count / field_6_count;
-        for (u32 pal_idx = 0; pal_idx < palTotal; pal_idx++)
-        {
-            const u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_8_sprite_type, pal_idx);
-            sprite_index* pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
-
-            gRemappedSpriteCounter_704ED0++;
-
-            for (u32 texture_idx = 0; texture_idx < field_6_count; texture_idx++)
-            {
-                const s16 converted_pal_idx = gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(field_C_pal_type, texture_idx);
-                const u16 physPal = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(converted_pal_idx);
-                field_0_pAlloc[texture_idx + (pal_idx * field_6_count)] =
-                    pgbh_RegisterTexture(pSpriteIndex->field_4_width, pSpriteIndex->field_5_height, pSpriteIndex->field_0_pData, physPal, 1);
-
-                gRemappedTextureCounter_704F28++;
-            }
-        }
-    }
-}
-
-MATCH_FUNC(0x5B8F00)
-void festive_hopper::LoadTextures_5B8F00()
-{
-    if (field_10_bDoFree)
-    {
-        u32 i = 0;
-        sprite_index* pSpriteIndex;
-        u16 tmp;
-        u16 t2;
-        while (i < field_4_item_alloc_count)
-        {
-            pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(i);
-            tmp = gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(2, i);
-            t2 = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(tmp);
-
-            field_0_pAlloc[i++] = pgbh_RegisterTexture(
-                pSpriteIndex
-                    ->field_4_width, // note: missing xor of register due to passing BYTE -> BYTE param instead of BYTE -> s32 param, xor clears up 24 bits
-                pSpriteIndex->field_5_height,
-                pSpriteIndex->field_0_pData,
-                t2, // pal idx
-                0);
-        }
-    }
-}
-
-MATCH_FUNC(0x5B90A0)
-STexture* festive_hopper::get_texture_5B90A0(s32 sprite_type, s16 sprite_idx)
-{
-    return field_0_pAlloc[gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_type, sprite_idx)];
-}
-
-MATCH_FUNC(0x5B90D0)
-STexture* festive_hopper::GetRemappedTexture_5B90D0(s16 sprite_idx, s16 remap)
-{
-    return field_0_pAlloc[(u16)(remap + (sprite_idx * field_6_count))];
 }
 
 MATCH_FUNC(0x5B9790)

@@ -355,6 +355,44 @@ s32 Registry::Get_Screen_Setting_5870D0(const char_type* lpValueName, s32 a2)
     return Data;
 }
 
+MATCH_FUNC(0x587170)
+void Registry::Set_Screen_Setting_587170(const char_type* lpValueName, s32 Data)
+{
+    HKEY hKey;
+    Open_Screen_Root_586DB0(&hKey);
+
+    if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<BYTE*>(&Data), sizeof(DWORD)) != ERROR_SUCCESS)
+    {
+        FatalError_4A38C0(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 743);
+    }
+
+    if (RegCloseKey(hKey) != ERROR_SUCCESS)
+    {
+        FatalError_4A38C0(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 745);
+    }
+}
+
+MATCH_FUNC(0x5871E0)
+void Registry::Set_Screen_Setting_5871E0(const char_type* lpValueName, BYTE* lpData, u16 maxLen)
+{
+    HKEY hKey; // [esp+8h] [ebp-8h] BYREF
+    DWORD cbData; // [esp+Ch] [ebp-4h] BYREF
+
+    Open_Screen_Root_586DB0(&hKey);
+
+    cbData = maxLen;
+    if (RegQueryValueExA(hKey, lpValueName, 0, 0, lpData, &cbData) &&
+        RegSetValueExA(hKey, lpValueName, 0, 1u, lpData, strlen((const char_type*)lpData) + 1))
+    {
+        FatalError_4A38C0(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 781);
+    }
+
+    if (RegCloseKey(hKey))
+    {
+        FatalError_4A38C0(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 787);
+    }
+}
+
 MATCH_FUNC(0x587290)
 void Registry::null_587290()
 {
@@ -544,43 +582,5 @@ void Registry::Set_Player_Setting_5878C0(const char_type* lpValueName, DWORD Dat
     if (RegCloseKey(hKey) != ERROR_SUCCESS)
     {
         FatalError_4A38C0(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1177);
-    }
-}
-
-MATCH_FUNC(0x587170)
-void Registry::Set_Screen_Setting_587170(const char_type* lpValueName, s32 Data)
-{
-    HKEY hKey;
-    Open_Screen_Root_586DB0(&hKey);
-
-    if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<BYTE*>(&Data), sizeof(DWORD)) != ERROR_SUCCESS)
-    {
-        FatalError_4A38C0(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 743);
-    }
-
-    if (RegCloseKey(hKey) != ERROR_SUCCESS)
-    {
-        FatalError_4A38C0(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 745);
-    }
-}
-
-MATCH_FUNC(0x5871E0)
-void Registry::Set_Screen_Setting_5871E0(const char_type* lpValueName, BYTE* lpData, u16 maxLen)
-{
-    HKEY hKey; // [esp+8h] [ebp-8h] BYREF
-    DWORD cbData; // [esp+Ch] [ebp-4h] BYREF
-
-    Open_Screen_Root_586DB0(&hKey);
-
-    cbData = maxLen;
-    if (RegQueryValueExA(hKey, lpValueName, 0, 0, lpData, &cbData) &&
-        RegSetValueExA(hKey, lpValueName, 0, 1u, lpData, strlen((const char_type*)lpData) + 1))
-    {
-        FatalError_4A38C0(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 781);
-    }
-
-    if (RegCloseKey(hKey))
-    {
-        FatalError_4A38C0(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 787);
     }
 }

@@ -60,192 +60,6 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FD2F4, Fix16(0x1333, 0), 0x6FD2F4);
 EXTERN_GLOBAL(Fix16, dword_6FD2E8);
 EXTERN_GLOBAL(Fix16, dword_6FD46C);
 
-WIP_FUNC(0x543690)
-void Wolfy_7A8::sub_543690()
-{
-    WIP_IMPLEMENTED;
-
-    u8 smallestVal = 99;
-    u8 smallestVal_idx = 99;
-    u8 currentVal1 = 0;
-    u8 next_idx = 0;
-    u8 last_idx = 0;
-    do
-    {
-        if (this->field_780_bUsed[last_idx] == 1)
-        {
-            Wolfy_30* pObj = &this->field_0[last_idx];
-            // Each case written out on its own: merged labels give a byte index table, the
-            // original has one dword entry per case. Cases 1 and 39 keep the range.
-            switch (pObj->field_10_type_or_state)
-            {
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    break;
-                case 21:
-                    break;
-                case 31:
-                    break;
-                case 34:
-                    break;
-                case 5:
-                    currentVal1 = 2;
-                    break;
-                case 28:
-                    currentVal1 = 2;
-                    break;
-                case 29:
-                    currentVal1 = 2;
-                    break;
-                case 30:
-                    currentVal1 = 2;
-                    break;
-                case 13:
-                    currentVal1 = 4;
-                    break;
-                case 12:
-                    currentVal1 = 5;
-                    break;
-                case 14:
-                    currentVal1 = 5;
-                    break;
-                case 15:
-                    currentVal1 = 5;
-                    break;
-                case 16:
-                    currentVal1 = 6;
-                    break;
-                case 17:
-                    currentVal1 = 6;
-                    break;
-                case 18:
-                    if (pObj->field_1A_timer < 82u)
-                    {
-                        currentVal1 = 3;
-                    }
-                    break;
-                case 33:
-                    if (pObj->field_1A_timer < 82u)
-                    {
-                        currentVal1 = 3;
-                    }
-                    break;
-                case 19:
-                    if (pObj->field_1A_timer < 50u)
-                    {
-                        currentVal1 = 3;
-                    }
-                    break;
-                case 20:
-                    if (pObj->field_1A_timer < 50u)
-                    {
-                        currentVal1 = 3;
-                    }
-                    break;
-                case 32:
-                    if (pObj->field_1A_timer < 50u)
-                    {
-                        currentVal1 = 3;
-                    }
-                    break;
-                case 22:
-                    currentVal1 = 3;
-                    break;
-                case 23:
-                    currentVal1 = 3;
-                    break;
-                case 24:
-                    currentVal1 = 3;
-                    break;
-                case 25:
-                    currentVal1 = 3;
-                    break;
-                case 1:
-                    currentVal1 = 1;
-                    break;
-                case 39:
-                    currentVal1 = 1;
-                    break;
-                default:
-                    currentVal1 = 1;
-                    break;
-            }
-
-            if (currentVal1 == 1)
-            {
-                this->field_0[last_idx].field_1A_timer = 0;
-                return;
-            }
-
-            if (currentVal1 < smallestVal)
-            {
-                smallestVal = currentVal1;
-                smallestVal_idx = next_idx;
-            }
-        }
-        last_idx = ++next_idx;
-    } while (next_idx < 40u);
-    this->field_0[smallestVal_idx].field_1A_timer = 0;
-}
-
-MATCH_FUNC(0x543800)
-Wolfy_30* Wolfy_7A8::New_40_543800()
-{
-    // 9.6f has the init block twice, 10.5 merges both into one block. Indexing field_0 at each
-    // use (no pNew local) gives both copies the same registers, so they merge completely.
-    u8 idx;
-    for (idx = 0; idx < 20; idx++)
-    {
-        if (!this->field_780_bUsed[idx])
-        {
-            this->field_0[idx].Init_543650();
-            this->field_0[idx].field_4_idx = idx;
-            this->field_0[idx].field_6_id = gWolfyId_40_pool_623F18;
-            this->field_0[idx].field_0_bIn20Pool = 0;
-            gWolfyId_40_pool_623F18++;
-            this->field_780_bUsed[idx] = 1;
-            return &this->field_0[idx];
-        }
-    }
-
-    sub_543690();
-
-    for (idx = 0; idx < 40; idx++)
-    {
-        if (!this->field_780_bUsed[idx])
-        {
-            this->field_0[idx].Init_543650();
-            this->field_0[idx].field_4_idx = idx;
-            this->field_0[idx].field_6_id = gWolfyId_40_pool_623F18;
-            this->field_0[idx].field_0_bIn20Pool = 0;
-            gWolfyId_40_pool_623F18++;
-            this->field_780_bUsed[idx] = 1;
-            return &this->field_0[idx];
-        }
-    }
-    return 0;
-}
-
-MATCH_FUNC(0x5438b0)
-Wolfy_7A8::Wolfy_7A8()
-{
-    for (u8 i = 0; i < 40; i++)
-    {
-        field_0[i].field_4_idx = i;
-        field_780_bUsed[i] = 0;
-    }
-
-    gParticleInstCount_6FD5F4 = 0;
-}
-
-MATCH_FUNC(0x5438f0)
-Wolfy_7A8::~Wolfy_7A8()
-{
-}
-
 MATCH_FUNC(0x5408f0)
 Wolfy_30::Wolfy_30()
 {
@@ -328,7 +142,6 @@ void Wolfy_30::state_3_12_540D30(Ang16 ang, Fix16 pos)
         this->field_18_particle_cooldown--;
     }
 }
-
 
 // 9.6f 0x48E5F0
 MATCH_FUNC(0x540f90)
@@ -517,6 +330,7 @@ Fix16 Wolfy_30::sub_541680()
     }
     return r;
 }
+
 
 MATCH_FUNC(0x541710)
 Fix16 Wolfy_30::sub_541710()
@@ -1201,6 +1015,192 @@ MATCH_FUNC(0x543680)
 void Wolfy_30::Set_Obj2C_543680(Object_2C* a2)
 {
     this->field_14_pObj2C = a2;
+}
+
+WIP_FUNC(0x543690)
+void Wolfy_7A8::sub_543690()
+{
+    WIP_IMPLEMENTED;
+
+    u8 smallestVal = 99;
+    u8 smallestVal_idx = 99;
+    u8 currentVal1 = 0;
+    u8 next_idx = 0;
+    u8 last_idx = 0;
+    do
+    {
+        if (this->field_780_bUsed[last_idx] == 1)
+        {
+            Wolfy_30* pObj = &this->field_0[last_idx];
+            // Each case written out on its own: merged labels give a byte index table, the
+            // original has one dword entry per case. Cases 1 and 39 keep the range.
+            switch (pObj->field_10_type_or_state)
+            {
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 21:
+                    break;
+                case 31:
+                    break;
+                case 34:
+                    break;
+                case 5:
+                    currentVal1 = 2;
+                    break;
+                case 28:
+                    currentVal1 = 2;
+                    break;
+                case 29:
+                    currentVal1 = 2;
+                    break;
+                case 30:
+                    currentVal1 = 2;
+                    break;
+                case 13:
+                    currentVal1 = 4;
+                    break;
+                case 12:
+                    currentVal1 = 5;
+                    break;
+                case 14:
+                    currentVal1 = 5;
+                    break;
+                case 15:
+                    currentVal1 = 5;
+                    break;
+                case 16:
+                    currentVal1 = 6;
+                    break;
+                case 17:
+                    currentVal1 = 6;
+                    break;
+                case 18:
+                    if (pObj->field_1A_timer < 82u)
+                    {
+                        currentVal1 = 3;
+                    }
+                    break;
+                case 33:
+                    if (pObj->field_1A_timer < 82u)
+                    {
+                        currentVal1 = 3;
+                    }
+                    break;
+                case 19:
+                    if (pObj->field_1A_timer < 50u)
+                    {
+                        currentVal1 = 3;
+                    }
+                    break;
+                case 20:
+                    if (pObj->field_1A_timer < 50u)
+                    {
+                        currentVal1 = 3;
+                    }
+                    break;
+                case 32:
+                    if (pObj->field_1A_timer < 50u)
+                    {
+                        currentVal1 = 3;
+                    }
+                    break;
+                case 22:
+                    currentVal1 = 3;
+                    break;
+                case 23:
+                    currentVal1 = 3;
+                    break;
+                case 24:
+                    currentVal1 = 3;
+                    break;
+                case 25:
+                    currentVal1 = 3;
+                    break;
+                case 1:
+                    currentVal1 = 1;
+                    break;
+                case 39:
+                    currentVal1 = 1;
+                    break;
+                default:
+                    currentVal1 = 1;
+                    break;
+            }
+
+            if (currentVal1 == 1)
+            {
+                this->field_0[last_idx].field_1A_timer = 0;
+                return;
+            }
+
+            if (currentVal1 < smallestVal)
+            {
+                smallestVal = currentVal1;
+                smallestVal_idx = next_idx;
+            }
+        }
+        last_idx = ++next_idx;
+    } while (next_idx < 40u);
+    this->field_0[smallestVal_idx].field_1A_timer = 0;
+}
+
+MATCH_FUNC(0x543800)
+Wolfy_30* Wolfy_7A8::New_40_543800()
+{
+    // 9.6f has the init block twice, 10.5 merges both into one block. Indexing field_0 at each
+    // use (no pNew local) gives both copies the same registers, so they merge completely.
+    u8 idx;
+    for (idx = 0; idx < 20; idx++)
+    {
+        if (!this->field_780_bUsed[idx])
+        {
+            this->field_0[idx].Init_543650();
+            this->field_0[idx].field_4_idx = idx;
+            this->field_0[idx].field_6_id = gWolfyId_40_pool_623F18;
+            this->field_0[idx].field_0_bIn20Pool = 0;
+            gWolfyId_40_pool_623F18++;
+            this->field_780_bUsed[idx] = 1;
+            return &this->field_0[idx];
+        }
+    }
+
+    sub_543690();
+
+    for (idx = 0; idx < 40; idx++)
+    {
+        if (!this->field_780_bUsed[idx])
+        {
+            this->field_0[idx].Init_543650();
+            this->field_0[idx].field_4_idx = idx;
+            this->field_0[idx].field_6_id = gWolfyId_40_pool_623F18;
+            this->field_0[idx].field_0_bIn20Pool = 0;
+            gWolfyId_40_pool_623F18++;
+            this->field_780_bUsed[idx] = 1;
+            return &this->field_0[idx];
+        }
+    }
+    return 0;
+}
+
+MATCH_FUNC(0x5438b0)
+Wolfy_7A8::Wolfy_7A8()
+{
+    for (u8 i = 0; i < 40; i++)
+    {
+        field_0[i].field_4_idx = i;
+        field_780_bUsed[i] = 0;
+    }
+
+    gParticleInstCount_6FD5F4 = 0;
+}
+
+MATCH_FUNC(0x5438f0)
+Wolfy_7A8::~Wolfy_7A8()
+{
 }
 
 MATCH_FUNC(0x543980)

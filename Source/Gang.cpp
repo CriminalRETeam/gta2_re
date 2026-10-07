@@ -24,6 +24,37 @@ Gang_144::~Gang_144()
 {
 }
 
+MATCH_FUNC(0x4be500)
+GangPool_CA8::~GangPool_CA8()
+{
+}
+
+MATCH_FUNC(0x4beca0)
+Gang_144* GangPool_CA8::FirstGang_4BECA0()
+{
+    for (gGangIdx_6206B8 = 0; gGangIdx_6206B8 < GTA2_COUNTOF_S(field_0_gang_list); gGangIdx_6206B8++)
+    {
+        if (field_0_gang_list[gGangIdx_6206B8].field_0_used && field_0_gang_list[gGangIdx_6206B8].HasKillRespectChange_45DD50())
+        {
+            return &field_0_gang_list[gGangIdx_6206B8];
+        }
+    }
+    return 0;
+}
+
+MATCH_FUNC(0x4bece0)
+Gang_144* GangPool_CA8::NextGang_4BECE0()
+{
+    while (++gGangIdx_6206B8 < GTA2_COUNTOF_S(field_0_gang_list))
+    {
+        if (field_0_gang_list[gGangIdx_6206B8].field_0_used && field_0_gang_list[gGangIdx_6206B8].HasKillRespectChange_45DD50())
+        {
+            return &field_0_gang_list[gGangIdx_6206B8];
+        }
+    }
+    return 0;
+}
+
 MATCH_FUNC(0x4BED30)
 wchar_t* Gang_144::get_name_wide_4BED30()
 {
@@ -200,6 +231,15 @@ void Gang_144::ChangeRespectAndUpdate_4BF000(u8 player_idx, char_type respect)
     }
 }
 
+// =====================
+
+MATCH_FUNC(0x4BF090);
+void Gang_144::set_name_4BF090(const char_type* pName, u8 nameLen)
+{
+    strncpy(field_2_name, pName, nameLen);
+    field_2_name[nameLen] = 0; // NULL terminate the string
+}
+
 MATCH_FUNC(0x4BF0C0);
 s32 Gang_144::GetGangCurrWeapon_4BF0C0()
 {
@@ -221,53 +261,6 @@ s32 Gang_144::GetGangCurrWeapon_4BF0C0()
     {
         return field_108_angry_weapon;
     }
-}
-
-MATCH_FUNC(0x4BF090);
-void Gang_144::set_name_4BF090(const char_type* pName, u8 nameLen)
-{
-    strncpy(field_2_name, pName, nameLen);
-    field_2_name[nameLen] = 0; // NULL terminate the string
-}
-
-MATCH_FUNC(0x4BF340)
-wchar_t* Gang_144::GetArrowColourText_4BF340()
-{
-    sprintf(gTmpBuffer_67C598, "ganga%d", field_138_arrow_colour);
-    return gText_0x14_704DFC->Find_5B5F90(gTmpBuffer_67C598);
-}
-
-// =====================
-
-MATCH_FUNC(0x4be500)
-GangPool_CA8::~GangPool_CA8()
-{
-}
-
-MATCH_FUNC(0x4beca0)
-Gang_144* GangPool_CA8::FirstGang_4BECA0()
-{
-    for (gGangIdx_6206B8 = 0; gGangIdx_6206B8 < GTA2_COUNTOF_S(field_0_gang_list); gGangIdx_6206B8++)
-    {
-        if (field_0_gang_list[gGangIdx_6206B8].field_0_used && field_0_gang_list[gGangIdx_6206B8].HasKillRespectChange_45DD50())
-        {
-            return &field_0_gang_list[gGangIdx_6206B8];
-        }
-    }
-    return 0;
-}
-
-MATCH_FUNC(0x4bece0)
-Gang_144* GangPool_CA8::NextGang_4BECE0()
-{
-    while (++gGangIdx_6206B8 < GTA2_COUNTOF_S(field_0_gang_list))
-    {
-        if (field_0_gang_list[gGangIdx_6206B8].field_0_used && field_0_gang_list[gGangIdx_6206B8].HasKillRespectChange_45DD50())
-        {
-            return &field_0_gang_list[gGangIdx_6206B8];
-        }
-    }
-    return 0;
 }
 
 MATCH_FUNC(0x4BF100);
@@ -368,4 +361,11 @@ s8 GangPool_CA8::FindGangByCarModel_4BF2F0(s32 car_model)
         }
     }
     return -1;
+}
+
+MATCH_FUNC(0x4BF340)
+wchar_t* Gang_144::GetArrowColourText_4BF340()
+{
+    sprintf(gTmpBuffer_67C598, "ganga%d", field_138_arrow_colour);
+    return gText_0x14_704DFC->Find_5B5F90(gTmpBuffer_67C598);
 }

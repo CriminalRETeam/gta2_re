@@ -18,6 +18,44 @@ Kfc_30::~Kfc_30()
 {
 }
 
+MATCH_FUNC(0x4beb20)
+Kfc_1E0::~Kfc_1E0()
+{
+}
+
+MATCH_FUNC(0x5cbb70)
+void Kfc_1E0::init_5CBB70()
+{
+}
+
+MATCH_FUNC(0x5cbb80)
+Kfc_30* Kfc_1E0::New_5CBB80()
+{
+    for (u8 i = 0; i < GTA2_COUNTOF(field_0_entries); i++)
+    {
+        if (!field_0_entries[i].field_1E_is_used)
+        {
+            return &field_0_entries[i];
+        }
+    }
+    return 0;
+}
+
+MATCH_FUNC(0x5cbbd0)
+void Kfc_1E0::Service_5CBBD0()
+{
+    for (s32 i = 0; i < 10; i++)
+    {
+        if (field_0_entries[i].field_1E_is_used)
+        {
+            if (field_0_entries[i].Service_5CC480())
+            {
+                field_0_entries[i].field_1E_is_used = 0;
+            }
+        }
+    }
+}
+
 MATCH_FUNC(0x5cbc00)
 void Kfc_30::Init_5CBC00()
 {
@@ -658,42 +696,4 @@ bool Kfc_30::Service_5CC480()
     }
 
     return 0;
-}
-
-MATCH_FUNC(0x4beb20)
-Kfc_1E0::~Kfc_1E0()
-{
-}
-
-MATCH_FUNC(0x5cbb70)
-void Kfc_1E0::init_5CBB70()
-{
-}
-
-MATCH_FUNC(0x5cbb80)
-Kfc_30* Kfc_1E0::New_5CBB80()
-{
-    for (u8 i = 0; i < GTA2_COUNTOF(field_0_entries); i++)
-    {
-        if (!field_0_entries[i].field_1E_is_used)
-        {
-            return &field_0_entries[i];
-        }
-    }
-    return 0;
-}
-
-MATCH_FUNC(0x5cbbd0)
-void Kfc_1E0::Service_5CBBD0()
-{
-    for (s32 i = 0; i < 10; i++)
-    {
-        if (field_0_entries[i].field_1E_is_used)
-        {
-            if (field_0_entries[i].Service_5CC480())
-            {
-                field_0_entries[i].field_1E_is_used = 0;
-            }
-        }
-    }
 }

@@ -117,6 +117,56 @@ static inline void EnsureAI_421510(Car_BC* pCar)
     }
 }
 
+MATCH_FUNC(0x577f80)
+s32 TrainStation_34::GetWagonType_577f80(u8 idx)
+{
+    if (field_24_train_wagons[0] != 0)
+    {
+        switch (field_24_train_wagons[idx])
+        {
+            case 1:
+                return car_model_enum::TRAIN;
+            case 2:
+                return car_model_enum::TRAINFB;
+            case 3:
+                return car_model_enum::boxcar;
+        }
+    }
+    return car_model_enum::none;
+}
+
+MATCH_FUNC(0x577fd0)
+TrainStation_34::TrainStation_34()
+{
+    field_0_station_type = 0;
+    field_4_entry_point = NULL;
+    field_8_exit_point = NULL;
+    field_C_stop_point = NULL;
+    field_10_pZone = NULL;
+    field_14_used = 0;
+    field_18 = 0;
+    field_1C = 0;
+    field_20_next_station = NULL;
+    field_2E_wagons_number = 0;
+    field_2F_track_idx = 0;
+
+    for (u8 i = 0; i < 10; i++)
+    {
+        field_24_train_wagons[i] = 1;
+    }
+}
+
+MATCH_FUNC(0x578010)
+TrainStation_34::~TrainStation_34()
+{
+    field_18 = 0;
+    field_4_entry_point = NULL;
+    field_8_exit_point = NULL;
+    field_C_stop_point = NULL;
+    field_10_pZone = 0;
+    field_20_next_station = NULL;
+}
+
 MATCH_FUNC(0x578030)
 void Train_58::ReassignTrainHead_578030()
 {
@@ -506,56 +556,6 @@ void Train_58::ProcessTrainExplosionChain_578670()
             }
         }
     }
-}
-
-MATCH_FUNC(0x577f80)
-s32 TrainStation_34::GetWagonType_577f80(u8 idx)
-{
-    if (field_24_train_wagons[0] != 0)
-    {
-        switch (field_24_train_wagons[idx])
-        {
-            case 1:
-                return car_model_enum::TRAIN;
-            case 2:
-                return car_model_enum::TRAINFB;
-            case 3:
-                return car_model_enum::boxcar;
-        }
-    }
-    return car_model_enum::none;
-}
-
-MATCH_FUNC(0x577fd0)
-TrainStation_34::TrainStation_34()
-{
-    field_0_station_type = 0;
-    field_4_entry_point = NULL;
-    field_8_exit_point = NULL;
-    field_C_stop_point = NULL;
-    field_10_pZone = NULL;
-    field_14_used = 0;
-    field_18 = 0;
-    field_1C = 0;
-    field_20_next_station = NULL;
-    field_2E_wagons_number = 0;
-    field_2F_track_idx = 0;
-
-    for (u8 i = 0; i < 10; i++)
-    {
-        field_24_train_wagons[i] = 1;
-    }
-}
-
-MATCH_FUNC(0x578010)
-TrainStation_34::~TrainStation_34()
-{
-    field_18 = 0;
-    field_4_entry_point = NULL;
-    field_8_exit_point = NULL;
-    field_C_stop_point = NULL;
-    field_10_pZone = 0;
-    field_20_next_station = NULL;
 }
 
 MATCH_FUNC(0x578790)

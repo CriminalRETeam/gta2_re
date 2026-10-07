@@ -10,23 +10,6 @@ DEFINE_GLOBAL(Rozza_28, gRozza_679188, 0x679188);
 DEFINE_GLOBAL(Fix16, kFpZero_66AE98, 0x66AE98);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_66AE9C, Fix16(0x4000, 0), 0x66AE9C);
 
-MATCH_FUNC(0x477A10)
-bool Rozza_28::IsObj2C_477A10()
-{
-    if (field_0_type == 3)
-    {
-        Object_2C* p2c = field_20_pSprite->As2C_40FEC0();
-        if (p2c)
-        {
-            if (p2c->field_8->field_4C == 3)
-            {
-                return 1;
-            }
-        }
-    }
-    return 0;
-}
-
 MATCH_FUNC(0x40B870)
 void Rozza_A::set_xyz_40B870(Fix16 x, Fix16 y, Fix16 z)
 {
@@ -200,13 +183,13 @@ bool Rozza_A::SetupForObject_40BA60(Object_2C* pObj)
     return 1;
 }
 
-// ================================================================
-
 MATCH_FUNC(0x40bb90)
 void Rozza_C88::Reset_40BB90()
 {
     field_C84_count = 0;
 }
+
+// ================================================================
 
 MATCH_FUNC(0x40bba0)
 void Rozza_C88::OtherType_40BBA0(Sprite* pSprite, Fix16 physics_value)
@@ -331,4 +314,21 @@ Rozza_C88::~Rozza_C88()
         gRoot_sound_66B038.DestroySoundObj_40FE60(field_0_pSoundObj);
         field_0_pSoundObj = 0;
     }
+}
+
+MATCH_FUNC(0x477A10)
+bool Rozza_28::IsObj2C_477A10()
+{
+    if (field_0_type == 3)
+    {
+        Object_2C* p2c = field_20_pSprite->As2C_40FEC0();
+        if (p2c)
+        {
+            if (p2c->field_8->field_4C == 3)
+            {
+                return 1;
+            }
+        }
+    }
+    return 0;
 }

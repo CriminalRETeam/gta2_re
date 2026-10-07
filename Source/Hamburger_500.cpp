@@ -33,17 +33,6 @@ void Hamburger_40::ResetEntry_4747B0()
     field_3C = 0;
 }
 
-MATCH_FUNC(0x474ca0)
-Hamburger_40::Hamburger_40()
-{
-    ResetEntry_4747B0();
-}
-
-MATCH_FUNC(0x474cb0)
-Hamburger_40::~Hamburger_40()
-{
-}
-
 MATCH_FUNC(0x474810)
 Hamburger_40* Hamburger_500::AllocateEntry_474810()
 {
@@ -261,6 +250,17 @@ char_type Hamburger_500::HasRelationshipCode_4_5_474C30(Ped* pPed)
         }
     }
     return 0;
+}
+
+MATCH_FUNC(0x474ca0)
+Hamburger_40::Hamburger_40()
+{
+    ResetEntry_4747B0();
+}
+
+MATCH_FUNC(0x474cb0)
+Hamburger_40::~Hamburger_40()
+{
 }
 
 MATCH_FUNC(0x474cc0)

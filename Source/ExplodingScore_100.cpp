@@ -16,6 +16,85 @@ DEFINE_GLOBAL_INIT(Fix16, dword_702C08, Fix16(0x5A0000, 0), 0x702C08); // 0x7800
 DEFINE_GLOBAL(Fix16, dword_702DE0, 0x702DE0);
 DEFINE_GLOBAL(Ang16, word_702F24, 0x702F24);
 
+MATCH_FUNC(0x5967e0)
+ExplodingScorePool::ExplodingScorePool()
+{
+    field_0_last_palette = 9;
+    field_2_free_scores = 3;
+}
+
+MATCH_FUNC(0x596840)
+ExplodingScorePool::~ExplodingScorePool()
+{
+}
+
+MATCH_FUNC(0x596860)
+s16 ExplodingScorePool::NextPalette_596860()
+{
+    field_0_last_palette++;
+    if (field_0_last_palette > 13u)
+    {
+        field_0_last_palette = 9;
+    }
+    return field_0_last_palette;
+}
+
+MATCH_FUNC(0x596880)
+void ExplodingScorePool::IncrementFreeScores_596880()
+{
+    field_2_free_scores++;
+}
+
+MATCH_FUNC(0x596890)
+void ExplodingScorePool::PushScore_596890(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score)
+{
+    if (this->field_2_free_scores == 0)
+    {
+        ExplodingScore_50* pIter = field_4_pool.GetFirstUsed_4B8FD0();
+        while (pIter)
+        {
+            if (pIter->field_4C_score >= score)
+            {
+                pIter = pIter->mpNext;
+            }
+            else
+            {
+                field_4_pool.FindAndDeAllocate(pIter);
+                ++this->field_2_free_scores;
+                break;
+            }
+        }
+    }
+
+    if (this->field_2_free_scores > 0)
+    {
+        ExplodingScore_50* pNew = field_4_pool.Allocate();
+        if (pNew)
+        {
+            --this->field_2_free_scores;
+            pNew->InitScore_596A90(xpos, ypos, zpos, score);
+        }
+    }
+}
+
+MATCH_FUNC(0x596940)
+void ExplodingScorePool::Update_596940()
+{
+    field_4_pool.UpdatePool();
+}
+
+MATCH_FUNC(0x5969e0)
+void ExplodingScorePool::DrawExplodingScores_5969E0()
+{
+    // TODO: Would there have been an iterator object ??
+    ExplodingScore_50* pIter = field_4_pool.GetFirstUsed_4B8FD0();
+    while (pIter)
+    {
+        pIter->DrawNumbers_596C90();
+        pIter = pIter->mpNext;
+    }
+}
+
 MATCH_FUNC(0x596a00)
 ExplodingScore_50::ExplodingScore_50()
 {
@@ -375,84 +454,5 @@ void ExplodingScore_50::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub
                 }
             }
         }
-    }
-}
-
-MATCH_FUNC(0x5967e0)
-ExplodingScorePool::ExplodingScorePool()
-{
-    field_0_last_palette = 9;
-    field_2_free_scores = 3;
-}
-
-MATCH_FUNC(0x596840)
-ExplodingScorePool::~ExplodingScorePool()
-{
-}
-
-MATCH_FUNC(0x596860)
-s16 ExplodingScorePool::NextPalette_596860()
-{
-    field_0_last_palette++;
-    if (field_0_last_palette > 13u)
-    {
-        field_0_last_palette = 9;
-    }
-    return field_0_last_palette;
-}
-
-MATCH_FUNC(0x596880)
-void ExplodingScorePool::IncrementFreeScores_596880()
-{
-    field_2_free_scores++;
-}
-
-MATCH_FUNC(0x596890)
-void ExplodingScorePool::PushScore_596890(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score)
-{
-    if (this->field_2_free_scores == 0)
-    {
-        ExplodingScore_50* pIter = field_4_pool.GetFirstUsed_4B8FD0();
-        while (pIter)
-        {
-            if (pIter->field_4C_score >= score)
-            {
-                pIter = pIter->mpNext;
-            }
-            else
-            {
-                field_4_pool.FindAndDeAllocate(pIter);
-                ++this->field_2_free_scores;
-                break;
-            }
-        }
-    }
-
-    if (this->field_2_free_scores > 0)
-    {
-        ExplodingScore_50* pNew = field_4_pool.Allocate();
-        if (pNew)
-        {
-            --this->field_2_free_scores;
-            pNew->InitScore_596A90(xpos, ypos, zpos, score);
-        }
-    }
-}
-
-MATCH_FUNC(0x596940)
-void ExplodingScorePool::Update_596940()
-{
-    field_4_pool.UpdatePool();
-}
-
-MATCH_FUNC(0x5969e0)
-void ExplodingScorePool::DrawExplodingScores_5969E0()
-{
-    // TODO: Would there have been an iterator object ??
-    ExplodingScore_50* pIter = field_4_pool.GetFirstUsed_4B8FD0();
-    while (pIter)
-    {
-        pIter->DrawNumbers_596C90();
-        pIter = pIter->mpNext;
     }
 }

@@ -101,6 +101,36 @@ DEFINE_GLOBAL_INIT(Ang16, word_677A3A, Ang16(180), 0x677A3A);
 EXTERN_GLOBAL(u16, word_677CFC);
 EXTERN_GLOBAL(u8, byte_6771DC);
 
+// TODO: Move
+MATCH_FUNC(0x447650)
+void __stdcall InitAIvars_447650()
+{
+    byte_677A78 = 0;
+    bIsOnGradientSlope_677C90 = 0;
+    byte_677A5D = 1;
+    byte_677B3C = 1;
+    byte_677BBC = 0;
+    byte_677A6C = 1;
+    byte_677A94 = 0;
+    byte_677A5C = 0;
+    byte_677B8C = 1;
+    byte_677CA8 = 0;
+    byte_677C06 = 0;
+    gCurrCarAI_xpos_677C38 = kF16Zero_677B90;
+    gCurrCarAI_ypos_677C30 = kF16Zero_677B90;
+    gCurrCarAI_zpos_677C48 = kF16Zero_677B90;
+    dword_677A74 = kF16Zero_677B90;
+    dword_677A80 = kF16Zero_677B90;
+    gCurrCarAI_Velocity_677B00 = kF16Zero_677B90;
+    dword_677C9C = kF16Zero_677B90;
+    dword_677A8C = kF16Zero_677B90;
+    gCurrCarAI_TargetX_6779F0 = kF16Zero_677B90;
+    gCurrCarAI_TargetY_6779F4 = kF16Zero_677B90;
+    gCurrCarAI_TargetZ_6779F8 = kF16Zero_677B90;
+    dword_677C88 = 1;
+    gCurrCarAI_TargetCar_6779B0 = 0;
+}
+
 MATCH_FUNC(0x4476f0)
 void CarAI_78::MakeAgressiveSirensAndLights_4476F0()
 {
@@ -108,6 +138,15 @@ void CarAI_78::MakeAgressiveSirensAndLights_4476F0()
     {
         field_0_car->HonkHorn_4417F0();
     }
+}
+
+// Inlined in DoShortcutsUsingJunctions_447970 (no 9.6f function)
+inline void CarAI_78::TurnAround_447970()
+{
+    field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
+    field_0_car->field_60->field_22 = 0;
+    field_0_car->sub_43AF60();
+    field_0_car->field_60->field_26 = 1;
 }
 
 MATCH_FUNC(0x447710)
@@ -237,15 +276,6 @@ void CarAI_78::sub_447710()
             }
         }
     }
-}
-
-// Inlined in DoShortcutsUsingJunctions_447970 (no 9.6f function)
-inline void CarAI_78::TurnAround_447970()
-{
-    field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
-    field_0_car->field_60->field_22 = 0;
-    field_0_car->sub_43AF60();
-    field_0_car->field_60->field_26 = 1;
 }
 
 MATCH_FUNC(0x447970)
@@ -2887,6 +2917,20 @@ void CarAI_78::Init_AI_Chase_44E0C0()
     }
 }
 
+// https://decomp.me/scratch/Auxlx
+// MaxAbsDistance_42A6B0 past the inline budget: the y difference stays inline, the Abs calls
+// go out of line (budget)
+static inline Fix16 __stdcall MaxAbsDistanceRawY_451980(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
+{
+    Fix16 diff_x = x2 - x1;
+    Fix16 diff_y;
+    diff_y.mValue = y2.mValue - y1.mValue;
+
+    Fix16 result;
+    result = Fix16::Max_44E540(Fix16::Abs(diff_x), Fix16::Abs(diff_y));
+    return result;
+}
+
 WIP_FUNC(0x44e560)
 void CarAI_78::UpdateStateMachine_44E560()
 {
@@ -3987,20 +4031,6 @@ void CarAI_78::UpdateStateMachine_44E560()
             pHam40->field_2E = 0;
         }
     }
-}
-
-// https://decomp.me/scratch/Auxlx
-// MaxAbsDistance_42A6B0 past the inline budget: the y difference stays inline, the Abs calls
-// go out of line (budget)
-static inline Fix16 __stdcall MaxAbsDistanceRawY_451980(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
-{
-    Fix16 diff_x = x2 - x1;
-    Fix16 diff_y;
-    diff_y.mValue = y2.mValue - y1.mValue;
-
-    Fix16 result;
-    result = Fix16::Max_44E540(Fix16::Abs(diff_x), Fix16::Abs(diff_y));
-    return result;
 }
 
 WIP_FUNC(0x451980)
@@ -5207,36 +5237,6 @@ void CarAI_78::UpdateTrainMovement_453A40()
     field_0_car->field_58_physics->SetVelocityTowardTarget_55A1D0(xpos, ypos, i, &a5);
 }
 
-// TODO: Move
-MATCH_FUNC(0x447650)
-void __stdcall InitAIvars_447650()
-{
-    byte_677A78 = 0;
-    bIsOnGradientSlope_677C90 = 0;
-    byte_677A5D = 1;
-    byte_677B3C = 1;
-    byte_677BBC = 0;
-    byte_677A6C = 1;
-    byte_677A94 = 0;
-    byte_677A5C = 0;
-    byte_677B8C = 1;
-    byte_677CA8 = 0;
-    byte_677C06 = 0;
-    gCurrCarAI_xpos_677C38 = kF16Zero_677B90;
-    gCurrCarAI_ypos_677C30 = kF16Zero_677B90;
-    gCurrCarAI_zpos_677C48 = kF16Zero_677B90;
-    dword_677A74 = kF16Zero_677B90;
-    dword_677A80 = kF16Zero_677B90;
-    gCurrCarAI_Velocity_677B00 = kF16Zero_677B90;
-    dword_677C9C = kF16Zero_677B90;
-    dword_677A8C = kF16Zero_677B90;
-    gCurrCarAI_TargetX_6779F0 = kF16Zero_677B90;
-    gCurrCarAI_TargetY_6779F4 = kF16Zero_677B90;
-    gCurrCarAI_TargetZ_6779F8 = kF16Zero_677B90;
-    dword_677C88 = 1;
-    gCurrCarAI_TargetCar_6779B0 = 0;
-}
-
 MATCH_FUNC(0x453bb0)
 void CarAI_78::AI_Service_453BB0()
 {
@@ -5276,52 +5276,6 @@ void CarAI_78::sub_453C00()
     {
         field_0_car->field_58_physics->ForceNeutralInput_42ABC0();
     }
-}
-
-MATCH_FUNC(0x453d80)
-void CarAI_78::PoolAllocate()
-{
-    this->field_0_car = 0;
-    this->field_4 = 0;
-    this->field_8 = 0;
-    this->field_9 = 0;
-    this->field_A = 0;
-    this->field_10_angle = kAng0_677CE8;
-    this->field_14_speed = kF16Zero_677B90;
-    this->field_18_target_speed = kDefaultTargetSpeed_677CB4;
-    this->field_1C_acceleration = kDefaultAcceleration_6779A4;
-    this->field_20 = 0;
-    this->field_56_route_pos = 0;
-    this->field_28_junc_idx = -1;
-    this->field_29 = 0;
-    this->field_58 = 0;
-    this->field_24_flags &= ~0x2DFEFu;
-    this->field_24_flags |= 0x12010u;
-    this->field_2D = 0;
-    this->field_2E = 0;
-    this->field_2F = 0;
-    this->field_5C = kF16Zero_677B90;
-    this->field_60 = kF16Zero_677B90;
-    this->field_64 = kF16Zero_677B90;
-    this->field_68_car_in_collision = 0;
-    this->field_6C = 0;
-    this->field_34 = 0;
-    this->field_38 = 0;
-    this->field_3C = 0;
-    this->field_40 = 0;
-    this->field_44_target_direction = car_ai_target_direction::go_straight_0;
-    this->field_48 = 0;
-    this->field_4C_curr_direction = car_ai_direction::none_0;
-    this->field_70_nearest_entity = 0;
-    this->field_74_unk_speed = dword_6779D4;
-    this->field_54 = 0;
-    this->field_2A_stopped_timer = 0;
-    this->field_2B_ticks_since_alloc = 0;
-    this->field_2C = 0;
-    this->field_24_flags &= ~0x3C0000u;
-    this->field_50 = 0;
-    this->field_5A = 0;
-    this->field_30_forced_stop_timer = 0;
 }
 
 MATCH_FUNC(0x453cb0)
@@ -5369,4 +5323,50 @@ CarAI_78::CarAI_78()
     this->field_5A = 0;
     this->field_50 = 0;
     this->field_24_flags &= ~0x3C0000u;
+}
+
+MATCH_FUNC(0x453d80)
+void CarAI_78::PoolAllocate()
+{
+    this->field_0_car = 0;
+    this->field_4 = 0;
+    this->field_8 = 0;
+    this->field_9 = 0;
+    this->field_A = 0;
+    this->field_10_angle = kAng0_677CE8;
+    this->field_14_speed = kF16Zero_677B90;
+    this->field_18_target_speed = kDefaultTargetSpeed_677CB4;
+    this->field_1C_acceleration = kDefaultAcceleration_6779A4;
+    this->field_20 = 0;
+    this->field_56_route_pos = 0;
+    this->field_28_junc_idx = -1;
+    this->field_29 = 0;
+    this->field_58 = 0;
+    this->field_24_flags &= ~0x2DFEFu;
+    this->field_24_flags |= 0x12010u;
+    this->field_2D = 0;
+    this->field_2E = 0;
+    this->field_2F = 0;
+    this->field_5C = kF16Zero_677B90;
+    this->field_60 = kF16Zero_677B90;
+    this->field_64 = kF16Zero_677B90;
+    this->field_68_car_in_collision = 0;
+    this->field_6C = 0;
+    this->field_34 = 0;
+    this->field_38 = 0;
+    this->field_3C = 0;
+    this->field_40 = 0;
+    this->field_44_target_direction = car_ai_target_direction::go_straight_0;
+    this->field_48 = 0;
+    this->field_4C_curr_direction = car_ai_direction::none_0;
+    this->field_70_nearest_entity = 0;
+    this->field_74_unk_speed = dword_6779D4;
+    this->field_54 = 0;
+    this->field_2A_stopped_timer = 0;
+    this->field_2B_ticks_since_alloc = 0;
+    this->field_2C = 0;
+    this->field_24_flags &= ~0x3C0000u;
+    this->field_50 = 0;
+    this->field_5A = 0;
+    this->field_30_forced_stop_timer = 0;
 }

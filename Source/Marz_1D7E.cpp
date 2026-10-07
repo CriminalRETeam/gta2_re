@@ -15,6 +15,11 @@ Marz_3::~Marz_3()
 {
 }
 
+MATCH_FUNC(0x4bdf70)
+Marz_1D7E::~Marz_1D7E()
+{
+}
+
 MATCH_FUNC(0x4bdf90)
 Marz_96::~Marz_96()
 {
@@ -22,16 +27,6 @@ Marz_96::~Marz_96()
 
 MATCH_FUNC(0x543ec0)
 void Marz_96::sub_543EC0()
-{
-}
-
-MATCH_FUNC(0x544bf0)
-Marz_96::Marz_96()
-{
-}
-
-MATCH_FUNC(0x4bdf70)
-Marz_1D7E::~Marz_1D7E()
 {
 }
 
@@ -58,4 +53,9 @@ Marz_96* Marz_1D7E::AllocPatrolList_543F10(u8* pRet)
         }
     }
     return 0;
+}
+
+MATCH_FUNC(0x544bf0)
+Marz_96::Marz_96()
+{
 }

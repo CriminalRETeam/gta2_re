@@ -144,6 +144,40 @@ DEFINE_GLOBAL_INIT(Fix16, kFP16MinusOne_6FD790, Fix16(-1), 0x6FD790);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDA04, k_dword_6FD868 * 256, 0x6FDA04);
 
 
+MATCH_FUNC(0x4056C0)
+EXPORT Ang16 __stdcall ComputeShortestAngleDelta_4056C0(Ang16& a2, Ang16& a3)
+{
+    Ang16 delta = a2 - a3;
+    if (delta > kAng180_669156)
+    {
+        delta = -delta;
+    }
+    return delta;
+}
+
+MATCH_FUNC(0x46DD50)
+void Char_B4::SetRemap_46DD50(u8 remap)
+{
+    this->field_5_remap = remap;
+    if (remap != 0xFF)
+    {
+        field_80_sprite_ptr->SetRemap(remap);
+    }
+}
+
+MATCH_FUNC(0x4F79B0)
+EXPORT Fix16 __stdcall SnapZTo16_4F79B0(Fix16 a2)
+{
+    return ((kFP16Half_6F67B0 + (a2 * 1000)).GetRoundValue()) / 1000;
+}
+
+MATCH_FUNC(0x529050)
+EXPORT void __stdcall UnpackSignedNibbles_529050(u8 a1, s8* a2, s8* a3)
+{
+    *a2 = (a1 >> 4) - 7;
+    *a3 = (a1 & 0xF) - 7;
+}
+
 //https://decomp.me/scratch/iQH9l
 MATCH_FUNC(0x544F70)
 void __stdcall ResetCharUpdateGlobals_544F70()
@@ -240,6 +274,23 @@ Char_B4::~Char_B4()
     field_84_target_car = 0;
 }
 
+MATCH_FUNC(0x5451C0)
+bool Char_B4::HasShadows_5451C0()
+{
+    if (field_8_ped_state_1 == 9)
+    {
+        return false;
+    }
+
+    if (field_C_ped_state_2 != 22 && field_10_char_state != Char_B4_state::Jumping_15 && field_C_ped_state_2 != 27 &&
+        !field_7C_pPed->sub_433DA0())
+    {
+        return true;
+    }
+
+    return false;
+}
+
 MATCH_FUNC(0x545200)
 void Char_B4::PoolAllocate()
 {
@@ -323,23 +374,6 @@ void Char_B4::PoolDeallocate()
     field_B0_scream_timer = -1;
 }
 
-MATCH_FUNC(0x5451C0)
-bool Char_B4::HasShadows_5451C0()
-{
-    if (field_8_ped_state_1 == 9)
-    {
-        return false;
-    }
-
-    if (field_C_ped_state_2 != 22 && field_10_char_state != Char_B4_state::Jumping_15 && field_C_ped_state_2 != 27 &&
-        !field_7C_pPed->sub_433DA0())
-    {
-        return true;
-    }
-
-    return false;
-}
-
 MATCH_FUNC(0x545430)
 void Char_B4::DrawFlamesAndStartScreamTimer_545430()
 {
@@ -347,25 +381,6 @@ void Char_B4::DrawFlamesAndStartScreamTimer_545430()
     Object_2C* p2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(197, 0, 0, 0, kAng0_6FDB34); // ped_like_fire_197 ?? but its actually fire
     field_80_sprite_ptr->DispatchCollisionEvent_5A3100(p2C->field_4, 0, 0, kAng0_6FDB34);
     field_B0_scream_timer = 10; // Start screaming timer
-}
-
-// 9.6f 0x493780
-MATCH_FUNC(0x545580)
-Fix16_Point Char_B4::sub_545580()
-{
-    Fix16_Point p;
-    p.FromPolar_41E210(-gRunOrJumpSpeed_6FD7D0, field_80_sprite_ptr->field_0);
-    return p;
-}
-
-MATCH_FUNC(0x46DD50)
-void Char_B4::SetRemap_46DD50(u8 remap)
-{
-    this->field_5_remap = remap;
-    if (remap != 0xFF)
-    {
-        field_80_sprite_ptr->SetRemap(remap);
-    }
 }
 
 MATCH_FUNC(0x5454B0)
@@ -413,6 +428,15 @@ MATCH_FUNC(0x545570)
 s32 Char_B4::IsOnWater_545570()
 {
     return field_80_sprite_ptr->IsOnWater_59E1D0();
+}
+
+// 9.6f 0x493780
+MATCH_FUNC(0x545580)
+Fix16_Point Char_B4::sub_545580()
+{
+    Fix16_Point p;
+    p.FromPolar_41E210(-gRunOrJumpSpeed_6FD7D0, field_80_sprite_ptr->field_0);
+    return p;
 }
 
 MATCH_FUNC(0x5455f0)
@@ -607,12 +631,6 @@ void Char_B4::DrownPed_5459E0()
             field_7C_pPed->field_264_killer_id_timer = 50;
         }
     }
-}
-
-MATCH_FUNC(0x4F79B0)
-EXPORT Fix16 __stdcall SnapZTo16_4F79B0(Fix16 a2)
-{
-    return ((kFP16Half_6F67B0 + (a2 * 1000)).GetRoundValue()) / 1000;
 }
 
 // 9.6f 0x497DF0
@@ -1622,6 +1640,15 @@ void Char_B4::ManageZCoordAndSlopes_548590()
     field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y, zpos);
 }
 
+DEFINE_GLOBAL_INIT(Ang16, word_6FD888, Ang16(64), 0x6FD888);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD860, Fix16(0x80, 0), 0x6FD860);
+
+// The angle is a by-value parameter: the original keeps it in memory and adds it as a dword
+static inline Ang16 TurnBy16Deg_548BD0(Ang16 angle)
+{
+    return word_6FD888 + angle;
+}
+
 // 9.6f 0x499F00
 MATCH_FUNC(0x548670)
 void Char_B4::DispatchCollision_548670(char_type a2)
@@ -1719,6 +1746,58 @@ void Char_B4::DispatchCollision_548670(char_type a2)
     }
 }
 
+// PolarToCartesian_41FC20 as ApplyMovement_54CC40 expands it: the big function is past the
+// inline budget, so the original calls Multiply_408680 instead of inlining operator*
+static inline void PolarToCartesian_OutOfLineMul(Ang16& angle, const Fix16& radius, Fix16& ret1, Fix16& ret2)
+{
+    ret1 = Ang16::sine_40F500(angle).Multiply_408680(radius);
+    ret2 = Ang16::cosine_40F520(angle).Multiply_408680(radius);
+}
+
+// Ang16 operator+ with the normalizing ctor called out of line (AssignNormalized_409300)
+static inline Ang16 AddAngles_ool_54B8F0(const Ang16& a, const Ang16& b)
+{
+    s16 sum = a.rValue + b.rValue;
+    return Ang16((Ang16&)sum, 0);
+}
+
+static inline bool CanJumpOver_54A530(Char_B4* pThis, Char_B4* pChar)
+{
+    if (!pThis->field_7C_pPed->IsField238_45EDE0(2))
+    {
+        if (!pChar)
+        {
+            return true;
+        }
+        return false;
+    }
+    if (pThis->field_8_ped_state_1 == ped_state_1::entering_car_3)
+    {
+        return true;
+    }
+    return false;
+}
+
+// RotateAndTranslatePoint_42A720 as HandleGenericCollision_54A530 expands it: past the inline
+// budget; the multiplies, the negate and the adds are the named out-of-line copies, the
+// subtractions follow the budget
+static inline void RotateAndTranslatePoint_OOL_42A720(Fix16& pInX,
+                                                      Fix16& pInY,
+                                                      Ang16& pRotAng,
+                                                      Fix16& pTransX,
+                                                      Fix16& pTransY,
+                                                      Fix16& pRotTransX,
+                                                      Fix16& pRotTransY)
+{
+    pRotTransX = (pInX - pTransX)
+                     .Multiply_408680(Ang16::cosine_40F520(pRotAng))
+                     .Add_408660((pInY - pTransY).Multiply_408680(Ang16::sine_40F500(pRotAng)));
+    pRotTransY = (pInX - pTransX)
+                     .Negate_4086A0()
+                     .Multiply_408680(Ang16::sine_40F500(pRotAng))
+                     .Add_408660((pInY - pTransY).Multiply_408680(Ang16::cosine_40F520(pRotAng)));
+}
+
 MATCH_FUNC(0x548840)
 void Char_B4::HandleObjectCollision_548840(Object_2C* pObj)
 {
@@ -1781,15 +1860,6 @@ void Char_B4::HandleObjectCollision_548840(Object_2C* pObj)
     LABEL_28:
         HandleGenericCollision_54A530(0, pObj, 0);
     }
-}
-
-DEFINE_GLOBAL_INIT(Ang16, word_6FD888, Ang16(64), 0x6FD888);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD860, Fix16(0x80, 0), 0x6FD860);
-
-// The angle is a by-value parameter: the original keeps it in memory and adds it as a dword
-static inline Ang16 TurnBy16Deg_548BD0(Ang16 angle)
-{
-    return word_6FD888 + angle;
 }
 
 // What happens when this ped walks into pOther, by the types of both peds (field_238)
@@ -2015,58 +2085,6 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
             break;
         }
     }
-}
-
-// PolarToCartesian_41FC20 as ApplyMovement_54CC40 expands it: the big function is past the
-// inline budget, so the original calls Multiply_408680 instead of inlining operator*
-static inline void PolarToCartesian_OutOfLineMul(Ang16& angle, const Fix16& radius, Fix16& ret1, Fix16& ret2)
-{
-    ret1 = Ang16::sine_40F500(angle).Multiply_408680(radius);
-    ret2 = Ang16::cosine_40F520(angle).Multiply_408680(radius);
-}
-
-// Ang16 operator+ with the normalizing ctor called out of line (AssignNormalized_409300)
-static inline Ang16 AddAngles_ool_54B8F0(const Ang16& a, const Ang16& b)
-{
-    s16 sum = a.rValue + b.rValue;
-    return Ang16((Ang16&)sum, 0);
-}
-
-static inline bool CanJumpOver_54A530(Char_B4* pThis, Char_B4* pChar)
-{
-    if (!pThis->field_7C_pPed->IsField238_45EDE0(2))
-    {
-        if (!pChar)
-        {
-            return true;
-        }
-        return false;
-    }
-    if (pThis->field_8_ped_state_1 == ped_state_1::entering_car_3)
-    {
-        return true;
-    }
-    return false;
-}
-
-// RotateAndTranslatePoint_42A720 as HandleGenericCollision_54A530 expands it: past the inline
-// budget; the multiplies, the negate and the adds are the named out-of-line copies, the
-// subtractions follow the budget
-static inline void RotateAndTranslatePoint_OOL_42A720(Fix16& pInX,
-                                                      Fix16& pInY,
-                                                      Ang16& pRotAng,
-                                                      Fix16& pTransX,
-                                                      Fix16& pTransY,
-                                                      Fix16& pRotTransX,
-                                                      Fix16& pRotTransY)
-{
-    pRotTransX = (pInX - pTransX)
-                     .Multiply_408680(Ang16::cosine_40F520(pRotAng))
-                     .Add_408660((pInY - pTransY).Multiply_408680(Ang16::sine_40F500(pRotAng)));
-    pRotTransY = (pInX - pTransX)
-                     .Negate_4086A0()
-                     .Multiply_408680(Ang16::sine_40F500(pRotAng))
-                     .Add_408660((pInY - pTransY).Multiply_408680(Ang16::cosine_40F520(pRotAng)));
 }
 
 // https://decomp.me/scratch/ph2wn
@@ -2549,6 +2567,32 @@ char_type Char_B4::ContinueMovementAfterCollision_54B8F0()
     return bMoved;
 }
 
+// 9.6f 0x491F10: the face (1-4) next to `face`, clockwise or not
+static inline s32 __stdcall RotateFace_491F10(s32* face, bool* clockwise)
+{
+    switch (*face)
+    {
+        case 1:
+            return *clockwise ? 4 : 3;
+        case 3:
+            return *clockwise ? 1 : 2;
+        case 2:
+            return *clockwise ? 3 : 4;
+        case 4:
+            return *clockwise ? 2 : 1;
+        default:
+            return 2;
+    }
+}
+
+// 9.6f 0x492400
+inline void Char_B4::SetTurnTarget_492400(Ang16 target_rotation)
+{
+    field_10_char_state = 25;
+    field_14_target_rotation = target_rotation;
+    field_46_timer = 255;
+}
+
 MATCH_FUNC(0x54c090)
 void Char_B4::sub_54C090()
 {
@@ -2696,32 +2740,6 @@ char_type Char_B4::CanMoveOntoSlope_54C1A0(s32 path_direction)
             return 0;
     }
     return result;
-}
-
-// 9.6f 0x491F10: the face (1-4) next to `face`, clockwise or not
-static inline s32 __stdcall RotateFace_491F10(s32* face, bool* clockwise)
-{
-    switch (*face)
-    {
-        case 1:
-            return *clockwise ? 4 : 3;
-        case 3:
-            return *clockwise ? 1 : 2;
-        case 2:
-            return *clockwise ? 3 : 4;
-        case 4:
-            return *clockwise ? 2 : 1;
-        default:
-            return 2;
-    }
-}
-
-// 9.6f 0x492400
-inline void Char_B4::SetTurnTarget_492400(Ang16 target_rotation)
-{
-    field_10_char_state = 25;
-    field_14_target_rotation = target_rotation;
-    field_46_timer = 255;
 }
 
 // 9.6f 0x495470
@@ -2872,17 +2890,6 @@ void Char_B4::ApplyRandomRotationJitter_54C6C0()
         }
         AddAngle_4928A0(field_42_rotation_jitter);
     }
-}
-
-MATCH_FUNC(0x4056C0)
-EXPORT Ang16 __stdcall ComputeShortestAngleDelta_4056C0(Ang16& a2, Ang16& a3)
-{
-    Ang16 delta = a2 - a3;
-    if (delta > kAng180_669156)
-    {
-        delta = -delta;
-    }
-    return delta;
 }
 
 MATCH_FUNC(0x54c900)
@@ -3279,6 +3286,18 @@ void Char_B4::sub_54DD70()
             }
         }
     }
+}
+
+// Inline helper: written out in the caller, VC6 lays the out-of-range `return false` inline and
+// merges the later `return false` into it. As an inline returning true/false it keeps the original's
+// inline `return true` and one shared `return false` at the end.
+static inline bool IsBlockTypeInRange_1_4(u8 block_type)
+{
+    if (block_type > 0 && block_type <= 4)
+    {
+        return true;
+    }
+    return false;
 }
 
 // https://decomp.me/scratch/56qkT
@@ -3767,18 +3786,6 @@ LABEL_152:
     }
 
     Char_B4::sub_54DD70();
-}
-
-// Inline helper: written out in the caller, VC6 lays the out-of-range `return false` inline and
-// merges the later `return false` into it. As an inline returning true/false it keeps the original's
-// inline `return true` and one shared `return false` at the end.
-static inline bool IsBlockTypeInRange_1_4(u8 block_type)
-{
-    if (block_type > 0 && block_type <= 4)
-    {
-        return true;
-    }
-    return false;
 }
 
 // https://decomp.me/scratch/Zk9Eh
@@ -6395,13 +6402,6 @@ bool Char_B4::PhoneTouched_5535B0(Object_2C* p2c)
     {
         return 0;
     }
-}
-
-MATCH_FUNC(0x529050)
-EXPORT void __stdcall UnpackSignedNibbles_529050(u8 a1, s8* a2, s8* a3)
-{
-    *a2 = (a1 >> 4) - 7;
-    *a3 = (a1 & 0xF) - 7;
 }
 
 MATCH_FUNC(0x553640)

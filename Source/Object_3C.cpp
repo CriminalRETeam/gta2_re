@@ -17,6 +17,33 @@ DEFINE_GLOBAL(struct_4, stru_67727C, 0x67727C);
 
 EXTERN_GLOBAL(Fix16, dword_6F8ECC);
 
+// 10.5 https://decomp.me/scratch/kj3y3
+// 9.6f 0x482D90
+MATCH_FUNC(0x521FD0)
+void Object_3C::GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle)
+{
+    s8 x_related;
+    s8 y_related;
+    Fix16_Point point;
+    Fix16_Point unk;
+    if (field_38_conveyor_speed)
+    {
+        UnpackSignedNibbles_529050(field_38_conveyor_speed, &x_related, &y_related);
+        unk.x = dword_6F8ECC * x_related;
+        unk.y = dword_6F8ECC * y_related;
+        point = unk + GetSpeedVector_482BA0();
+
+        Speed = point.GetLength_41E260();
+        Angle = point.atan2_40F790();
+        ClearF38_482BD0();
+    }
+    else
+    {
+        Speed = field_C_speed;
+        Angle = field_4_angle;
+    }
+}
+
 MATCH_FUNC(0x52ad80)
 Object_3C::Object_3C()
 {
@@ -50,33 +77,6 @@ Fix16_Point Object_3C::GetSpeedVector_52ADF0()
     Fix16_Point p;
     p.FromPolar_41E210(field_C_speed, field_4_angle);
     return p;
-}
-
-// 10.5 https://decomp.me/scratch/kj3y3
-// 9.6f 0x482D90
-MATCH_FUNC(0x521FD0)
-void Object_3C::GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle)
-{
-    s8 x_related;
-    s8 y_related;
-    Fix16_Point point;
-    Fix16_Point unk;
-    if (field_38_conveyor_speed)
-    {
-        UnpackSignedNibbles_529050(field_38_conveyor_speed, &x_related, &y_related);
-        unk.x = dword_6F8ECC * x_related;
-        unk.y = dword_6F8ECC * y_related;
-        point = unk + GetSpeedVector_482BA0();
-
-        Speed = point.GetLength_41E260();
-        Angle = point.atan2_40F790();
-        ClearF38_482BD0();
-    }
-    else
-    {
-        Speed = field_C_speed;
-        Angle = field_4_angle;
-    }
 }
 
 MATCH_FUNC(0x5a6a50)
