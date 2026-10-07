@@ -5,8 +5,8 @@ that differ only in register choice (see "Still unexplained" in `docs/matching_q
 predicted instead of permuted. Same approach as `Scripts/inline_budget/`: find the code, add
 logging hooks with a byte patch, then write a model that reproduces the log.
 
-Status: the colour (select) step, the priority and the tie-break are reversed and logged; see "Priority and
-tie-break (reversed)".
+Status: the colour (select) step, the priority, the tie-break and which values become live ranges are reversed;
+see "Priority and tie-break (reversed)" and "Which values get colour live ranges (reversed)".
 
 ## The rule (colour step)
 
@@ -152,6 +152,9 @@ python3 Scripts/regalloc/c2dis.py d 1071acdf 40              # disassemble 40 in
 python3 Scripts/regalloc/c2dis.py x 1078e69f 1078e6ae        # who branches/calls to these addresses
 ```
 
+`opdump.py` builds a C2.DLL that prints every instruction with its operands at chosen pass boundaries (format in its
+docstring). It shows which values are symbols (colour candidates) and which are IL temps (round robin).
+
 ## What is known
 
 - C2's asserts pass the source file name, so `E:\8799\vc98\p2\src\P2\<file>.c` strings locate each
@@ -214,6 +217,49 @@ X87_C2=priolog X87_OUT=/tmp/pl Scripts/x87_sched/sched.sh -l Source/Wolfy_3D4.cp
 grep -a '^@[PTR]' /tmp/pl/last.log      # @T ties, @P priority terms, @R colour decisions (ralog)
 ```
 
+## Which values get colour live ranges (reversed)
+
+The IL has two kinds of values (`opdump.py` shows them per instruction):
+
+- **IL temps**: the intermediate values of an expression (operand kind 1, `[op+0x18]` pointing to its own temp
+  record). Each is defined once and used once, inside one block. They never become colour-pass live ranges: the
+  local allocator (`0x10723B05`) gives each a register when it reaches its definition, so **every IL temp is one
+  round-robin pick** (unless a copy hint or a dying source of the same instruction gives it a register).
+- **Symbols**: user locals (symbol kind 4), parameters (5), globals (7) and compiler temps (3), referenced by
+  operands of kind 2. Only these can get colour live ranges.
+
+Pass `0x10711F93` picks the candidates and binds them. `0x10718E84` walks the symbol table and gives an index
+`[sym+0x30]` to every symbol of kind 3, 4, 5, 7, 8 or 10 whose type fits a register (`0x10705DBC`), that isn't
+floating point (type class 0x4000). Symbols under 4 bytes (byte and short locals are candidates too) go through an
+extra check against other symbols that overlap their storage (`0x10718FB7`, not reversed). `0x10719124` then rewrites each operand that references an indexed symbol to the placeholder `0x107AE040`
+(kind 1, `0x10709A8A`), and `0x1071A6E4` builds the live ranges (webs: one per group of definitions that reach
+common uses) and binds the placeholders to them (`0x1071A7E4`). Operands of instructions of class 0x4000 and of x87
+opcodes (bit 0 of `0x107A0494`) are left alone.
+
+Two earlier passes decide what is still a symbol by then:
+
+- **Forward substitution of block-local variables**, in the global optimizer pass `0x1073501F` (boundary
+  `10765a2d`): a local whose definition and uses are all in one block is removed and its value becomes an IL temp.
+  Probe: `O* o = ped->f184; int rot = o->f4->ang; g = rot;` has no symbol left for `o` or `rot` after this pass.
+  With `if (k) rot = o->f4->ang; else rot = o->a;`, `o` reaches two blocks and stays a symbol (and gets a live
+  range), and `rot` stays one too. This runs before blocks are duplicated or merged, so it judges the flow graph as
+  written.
+- **Compiler temps (kind 3)** are created where a pass needs one value more than once. Example: the multiply
+  expansion `0x10713E23` (boundary `10765b1b`) turns `i * 0x30` into `t = i; lea (t,t,2); shl $4`. `t` is a kind-3
+  temp because the `lea` uses it twice, so it gets a live range even though it lives in one block. The `lea`
+  result and the `shl` result are IL temps. In `Wolfy_7A8::sub_543690` this is the line-115 copy
+  (`mov %edi,%eax`, coloured); the `lea` is a round-robin pick.
+
+A symbol that is a candidate but doesn't get a live range goes back to memory (operand kind 2) in the same pass.
+Where it has to be in a register, a load into a new IL temp is inserted, which is again one round-robin pick.
+Probe: the parameter `ped`, used once, gets `mov ped, t` (IL temp) and no live range; the global `g`, stored in two
+blocks, gets none either.
+
+For matching, count round-robin picks as IL temps: each expression intermediate that isn't a variable, plus one
+per use of a parameter or global that didn't get a live range. Turning a single-block local into a variable that
+reaches another block, or the reverse, moves a value between the two pools, and so moves the rotation of every
+temp after it.
+
 ## Open
 
 - **Block order at code generation.** Both register-only WIPs come down to it (see
@@ -223,17 +269,10 @@ grep -a '^@[PTR]' /tmp/pl/last.log      # @T ties, @P priority terms, @R colour 
   known: the loop sink pass `0x10740251` (`Scripts/flowopt/README.md`, "Code generation order"), which
   keeps the source order of out-of-loop code. For `sub_543690` that rules out a different block order
   with the original's layout, so it needs one more round-robin pick before the in-loop `lea`. Which
-  values become colour-pass live ranges (optimizer temps, kind 3) rather than local temps is not
-  reversed. Leads: kind 3 is any IL temporary (constructors `0x107014F6`, 7 callers, and `0x10702BC5`,
-  17 callers, which also sets bit 1 of `[t+5]`); in `sub_543690` the coloured copy (`mov %edi,%eax`) first
-  appears in pass `0x10713E23` (boundary `10765aff`, the `field_0[i]` index expansion), while the round-robin
-  `lea` is formed later (`0x10714007`, then code selection `0x1071744C`). Narrowed (Oct 7): a definition gets a
-  colour-pass live range only if pass `0x10711F93` finds the placeholder `0x107AE040` in its operand
-  (`[op+0x18]`, binding at `0x1071A7E4`). The placeholder is written at `0x10719442`/`0x10719650` (skipped for
-  operands with flag 0x40 in `[op+0x10]`, instructions of class `[+0x0A] & 0xF000 == 0x4000`, and x87 opcodes:
-  bit 0 of `0x107A0494`), and at `0x10719914`/`0x10719A55` (via `0x107213C8`), `0x10709A85` and `0x107202DD`. In
-  `sub_543690` only the line-115 copy (`priolog.py`: `@T ... line=115`, kind 3, eax) is bound; the `lea`
-  result isn't. Which of those sites skips the `lea` result is the next thing to log.
+  values become colour-pass live ranges is now known (see "Which values get colour live ranges"): the line-115
+  copy is a kind-3 temp from the multiply expansion and the `lea` an IL temp, as in the original, so the missing
+  pick has to come from an IL temp (an expression intermediate, or a load of a parameter or global without a live
+  range) earlier in the loop, or one fewer before it.
 
 - The log has no variable names: `[lr+0]` is not a symbol (C2 asserts in `p2symtab.c` when its
   name is read). Match live ranges to variables by the register they get in the listing.
