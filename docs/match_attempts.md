@@ -618,7 +618,7 @@ function, reloads the car pointer from `this`, and delays the shifts. The three
 
 ## PoliceCrew_38::sub_571540 (WIP, was STUB)
 
-Shut-down for a crew with a car (`Kfc_30::field_24 == 2`): same shape as the matched
+Shut-down for a crew with a car (`EmergencyCrew_30::field_24 == 2`): same shape as the matched
 `TryDespawnOffscreenCrew_571350`, with the car's `field_76_last_seen_timer > 200` checks and the despawn state
 set to 4. Returns nothing (now `void`). Ratio 0.867.
 
@@ -1412,7 +1412,7 @@ Each was a few asm lines away from the original. What is left and what was tried
   - 0x460820 `Ped::TaxiCustomer_AI_460820`: no change (0.824). What's left is register allocation in the Fix16 compares (lhs in ecx, constant in eax), plus the Max>2 else block placed after the `ret`. The permuter's only gain removed the `pTargetObjCar_` load, so it was rejected.
   - 0x5504F0 `Char_B4::state_1`: 0.567->0.825. Logic fixes (`b3` set when negating velocity, electrified check vs state 15), `Ang16(a+b,(u8)0)` for the inlined Normalize, u8 tile args to `CanReachTile_550090`, `MaxAbsDistanceOOL_42A6B0`, offset math inside the `set_xyz_lazy` call. Left: the original keeps 0 in ebp throughout.
   - 0x53BAC0 `Particle_4C::sub_53BAC0` (0.31), 0x4661F0 `Ped::sub_4661F0` (0.34), 0x448CE0 `ManageTrafficCarDirection` (0.31), 0x44D1D0 `CarAI_78::sub_44D1D0` (0.11): no change, these need rewrites rather than tweaks (block layout or frame differ from the start).
-  - 0x5CBD50 `Kfc_30::UpdateStateMachine`: MATCH. `if (v36) {...} else {dead}` block order, a shared u8 index counter and a reused flag variable fix the stack slots, new `MaxAbsDistanceNegOOL_42A6B0` (out-of-line `Negate_4086A0` for x), a missing `dword_706148` compare.
+  - 0x5CBD50 `EmergencyCrew_30::UpdateStateMachine`: MATCH. `if (v36) {...} else {dead}` block order, a shared u8 index counter and a reused flag variable fix the stack slots, new `MaxAbsDistanceNegOOL_42A6B0` (out-of-line `Negate_4086A0` for x), a missing `dword_706148` compare.
   - 0x4626B0 `Ped::StateMachineTick`: MATCH. Restructured without the IDA gotos (if/else layout, u16 local, `return 0` last); one goto kept to the shared final `Deallocate` block.
   - 0x4AD140 `Frontend::DrawMenu`: MATCH. A missing call to `Frontend::sub_4B7D60` (added as STUB), u8/u16 field types, u16 palette param on `DrawTextFixedWidth_4B78B0`, block-scoped locals for the frame size. Also matched 0x4B7E10 (thiscall, not static stdcall; u16 font param).
   - 0x447D40 `CarAI_78::sub_447D40`: 0.146->0.415. Angle copied to a local at entry. Left: VC6 cross-jumps shared call tails in ours that the original keeps duplicated.

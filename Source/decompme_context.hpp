@@ -17,7 +17,7 @@
 #include "Game_0x40.hpp"
 #include "Hud.hpp"
 #include "Hamburger_500.hpp"
-#include "Kfc_1E0.hpp"
+#include "EmergencyCrewPool_1E0.hpp"
 #include "Light_1D4CC.hpp"
 #include "Generators.hpp"
 #include "Marz_1D7E.hpp"

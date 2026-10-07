@@ -7142,19 +7142,19 @@
         "v96f_auto": true
     },
     {
-        "name": "Kfc_30::ctor",
+        "name": "EmergencyCrew_30::ctor",
         "v96f_address": "0x45b180",
         "v105_address": "0x4beb00",
         "v96f_auto": true
     },
     {
-        "name": "Kfc_30::dtor",
+        "name": "EmergencyCrew_30::dtor",
         "v96f_address": "0x45b190",
         "v105_address": "0x4beb10",
         "v96f_auto": true
     },
     {
-        "name": "Kfc_1E0::dtor",
+        "name": "EmergencyCrewPool_1E0::dtor",
         "v96f_address": "0x45b200",
         "v105_address": "0x4beb20",
         "v96f_auto": true
@@ -18010,66 +18010,66 @@
         "v96f_auto": true
     },
     {
-        "name": "Kfc_1E0::init_5CBB70",
+        "name": "EmergencyCrewPool_1E0::init_5CBB70",
         "v96f_address": "0x4c5420",
         "v105_address": "0x5cbb70",
         "v96f_auto": true
     },
     {
-        "name": "Kfc_1E0::New_5CBB80",
+        "name": "EmergencyCrewPool_1E0::New_5CBB80",
         "v96f_address": "0x4c5430",
         "v105_address": "0x5cbb80",
         "v96f_auto": true
     },
     {
-        "name": "Kfc_1E0::Service_5CBBD0",
+        "name": "EmergencyCrewPool_1E0::Service_5CBBD0",
         "v96f_address": "0x4c5db0",
         "v105_address": "0x5cbbd0",
         "v96f_auto": true
     },
     {
-        "name": "Kfc_30::Init_5CBC00",
+        "name": "EmergencyCrew_30::Init_5CBC00",
         "v96f_address": "0x4c5480",
         "v105_address": "0x5cbc00",
         "v96f_auto": true
     },
     {
-        "name": "Kfc_30::ReInit_5CBC30",
+        "name": "EmergencyCrew_30::ReInit_5CBC30",
         "v96f_address": "0x4c54b0",
         "v105_address": "0x5cbc30",
         "v96f_auto": true
     },
     {
-        "name": "Kfc_30::RemovePed_5CBC40",
+        "name": "EmergencyCrew_30::RemovePed_5CBC40",
         "v96f_address": "0x4c54c0",
         "v105_address": "0x5cbc40",
         "v96f_auto": true
     },
     {
-        "name": "Kfc_30::PedIsValid_5CBC60",
+        "name": "EmergencyCrew_30::PedIsValid_5CBC60",
         "v96f_address": null,
         "v105_address": "0x5cbc60"
     },
     {
-        "name": "Kfc_30::ReplaceLeaderIfNeeded_5CBC90",
+        "name": "EmergencyCrew_30::ReplaceLeaderIfNeeded_5CBC90",
         "v96f_address": "0x4c5510",
         "v105_address": "0x5cbc90",
         "v96f_auto": true
     },
     {
-        "name": "Kfc_30::UpdateStateMachine_5CBD50",
+        "name": "EmergencyCrew_30::UpdateStateMachine_5CBD50",
         "v96f_address": "0x4c55d0",
         "v105_address": "0x5cbd50",
         "v96f_auto": true
     },
     {
-        "name": "Kfc_30::CleanupExpiredEntities_5CC1C0",
+        "name": "EmergencyCrew_30::CleanupExpiredEntities_5CC1C0",
         "v96f_address": "0x4c5a00",
         "v105_address": "0x5cc1c0",
         "v96f_auto": true
     },
     {
-        "name": "Kfc_30::Service_5CC480",
+        "name": "EmergencyCrew_30::Service_5CC480",
         "v96f_address": "0x4c5ca0",
         "v105_address": "0x5cc480",
         "v96f_auto": true

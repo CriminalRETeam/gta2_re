@@ -5,7 +5,7 @@
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Hamburger_500.hpp"
-#include "Kfc_1E0.hpp"
+#include "EmergencyCrewPool_1E0.hpp"
 #include "Object_5C.hpp"
 #include "Orca_2FD4.hpp"
 #include "Ped.hpp"

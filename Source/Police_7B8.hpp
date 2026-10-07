@@ -6,7 +6,7 @@
 
 class Ped;
 class Car_BC;
-class Kfc_30;
+class EmergencyCrew_30;
 class Object_2C;
 class PolicePursuitTarget_7C;
 class Ang16;

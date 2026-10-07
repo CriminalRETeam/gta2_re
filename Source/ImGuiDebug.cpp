@@ -12,7 +12,7 @@
 #include "Gang.hpp"
 #include "Hamburger_500.hpp"
 #include "Hud.hpp"
-#include "Kfc_1E0.hpp"
+#include "EmergencyCrewPool_1E0.hpp"
 #include "MapRenderer.hpp"
 #include "Network_20324.hpp"
 #include "Object_5C.hpp"

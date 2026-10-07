@@ -2,7 +2,7 @@
 #include "Char_Pool.hpp"
 #include "Ped.hpp"
 #include "PedGroup.hpp"
-#include "Kfc_1E0.hpp"
+#include "EmergencyCrewPool_1E0.hpp"
 #include "Car_BC.hpp"
 #include "Globals.hpp"
 #include "error.hpp"
@@ -185,7 +185,7 @@ void Ambulance_110::ProcessPatientQueue_4FA500()
                 {
                     pAmbulance->AddPassenger_4FA800(pPed);
                     field_1_f8_idx--;
-                    Kfc_30* pCrew = pAmbulance->field_4_paramedics_crew;
+                    EmergencyCrew_30* pCrew = pAmbulance->field_4_paramedics_crew;
                     if (pCrew->field_28_state != crew_state::update_6)
                     {
                         if (pCrew->field_28_state == crew_state::clean_up_5)
@@ -208,7 +208,7 @@ void Ambulance_110::ProcessPatientQueue_4FA500()
             pNew->field_0_target_x = x;
             pNew->field_1_target_y = y;
             pNew->field_2_target_z = z;
-            pNew->field_4_paramedics_crew = gKfc_1E0_706280->AllocateSlot_5CBB80();
+            pNew->field_4_paramedics_crew = gEmergencyCrewPool_706280->AllocateSlot_5CBB80();
             if (!pNew->field_4_paramedics_crew)
             {
                 field_1_f8_idx--;
@@ -217,7 +217,7 @@ void Ambulance_110::ProcessPatientQueue_4FA500()
                 return;
             }
 
-            Kfc_30* pCrew = pNew->field_4_paramedics_crew;
+            EmergencyCrew_30* pCrew = pNew->field_4_paramedics_crew;
             pCrew->field_1E_is_used = 1;
             pCrew->field_20_crew_type = 1;
             pCrew->field_24_phase = 1;

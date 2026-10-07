@@ -4,7 +4,7 @@
 #include "Ped_List_4.hpp"
 
 class Ped;
-class Kfc_30;
+class EmergencyCrew_30;
 
 class jawwie_8
 {
@@ -29,7 +29,7 @@ class Ambulance_20
     char_type field_1_target_y;
     char_type field_2_target_z;
     char_type field_3;
-    Kfc_30* field_4_paramedics_crew;
+    EmergencyCrew_30* field_4_paramedics_crew;
     Ped* field_8;
     Ped* field_C;
     Ped_List_4 field_10_patients;

@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "fix16.hpp"
 
-class Kfc_30;
+class EmergencyCrew_30;
 class Ped;
 class Car_BC;
 class Object_2C;
@@ -73,7 +73,7 @@ class PoliceCrew_38
     char_type field_7;
     Fix16 field_8;
     Fix16 field_C;
-    Kfc_30* field_10_subObj;
+    EmergencyCrew_30* field_10_subObj;
     PolicePursuitTarget_7C* field_14_pPursuitTarget; // Pursuit of one wanted criminal by police crews
     s16 field_18;
     char_type field_1A;

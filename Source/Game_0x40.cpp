@@ -20,7 +20,7 @@
 #include "Globals.hpp"
 #include "Hamburger_500.hpp"
 #include "Hud.hpp"
-#include "Kfc_1E0.hpp"
+#include "EmergencyCrewPool_1E0.hpp"
 #include "Light_1D4CC.hpp"
 #include "MapRenderer.hpp"
 #include "Mike_A80.hpp"
@@ -513,7 +513,7 @@ void Game_0x40::UpdateGame_4B9410()
         gfrosty_pasteur_6F8060->ExecuteScriptThreads_5127A0(); // missions
     }
 
-    gKfc_1E0_706280->ServiceAll_5CBBD0();
+    gEmergencyCrewPool_706280->ServiceAll_5CBBD0();
 
     if (!bSkip_ambulance_67D6C9)
     {
@@ -1183,8 +1183,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1889);
     }
 
-    gKfc_1E0_706280 = new Kfc_1E0(); // multi level inline
-    if (!gKfc_1E0_706280)
+    gEmergencyCrewPool_706280 = new EmergencyCrewPool_1E0(); // multi level inline
+    if (!gEmergencyCrewPool_706280)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1891);
     }
@@ -1334,7 +1334,7 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gCrusherPool_94_67A830);
     GTA2_DELETE_AND_NULL(gGeneratorPool_14AC_67E5D0);
 
-    GTA2_DELETE_AND_NULL(gKfc_1E0_706280);
+    GTA2_DELETE_AND_NULL(gEmergencyCrewPool_706280);
     GTA2_DELETE_AND_NULL(gPolice_7B8_6FEE40);
     GTA2_DELETE_AND_NULL(gLight_1D4CC_6F5520);
     GTA2_DELETE_AND_NULL(gGangPool_CA8_67E274);

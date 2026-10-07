@@ -7,7 +7,7 @@ class Ped;
 class PedGroup;
 class Car_BC;
 
-// Kfc_30::field_28_state (stored as s32)
+// EmergencyCrew_30::field_28_state (stored as s32)
 namespace crew_state
 {
 enum
@@ -19,11 +19,13 @@ enum
 };
 } // namespace crew_state
 
-class Kfc_30
+// One emergency crew (paramedics, police, SWAT, FBI or army): the car, its leader ped and the ped group,
+// plus the spawn position and the state machine that drives them. Pooled in EmergencyCrewPool_1E0.
+class EmergencyCrew_30
 {
   public:
-    EXPORT Kfc_30();
-    EXPORT ~Kfc_30();
+    EXPORT EmergencyCrew_30();
+    EXPORT ~EmergencyCrew_30();
     EXPORT void Init_5CBC00();
     EXPORT void ReInit_5CBC30();
     EXPORT void RemovePed_5CBC40(Ped* a2);
@@ -42,28 +44,24 @@ class Kfc_30
     s16 field_1A_idle_limit; // car unseen / ped idle limit before the crew is cleaned up
     s16 field_1C_unused;
     char_type field_1E_is_used;
-    char_type field_1F_pad;
     s32 field_20_crew_type;
     s32 field_24_phase; // 0 = on foot, 1 = in car, 2 = finished
     s32 field_28_state; // crew_state
     char_type field_2C_ready; // set once the car is spawned or the crew was cleaned up
-    char_type field_2D_pad;
-    char_type field_2E_pad;
-    char_type field_2F_pad;
 };
 
-class Kfc_1E0
+class EmergencyCrewPool_1E0
 {
   public:
-    Kfc_1E0()
+    EmergencyCrewPool_1E0()
     {
         init_5CBB70();
     }
-    EXPORT ~Kfc_1E0();
+    EXPORT ~EmergencyCrewPool_1E0();
     EXPORT void init_5CBB70();
-    EXPORT Kfc_30* AllocateSlot_5CBB80();
+    EXPORT EmergencyCrew_30* AllocateSlot_5CBB80();
     EXPORT void ServiceAll_5CBBD0();
-    Kfc_30 field_0_slots[10];
+    EmergencyCrew_30 field_0_slots[10];
 };
 
-EXTERN_GLOBAL(Kfc_1E0*, gKfc_1E0_706280);
+EXTERN_GLOBAL(EmergencyCrewPool_1E0*, gEmergencyCrewPool_706280);

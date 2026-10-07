@@ -203,8 +203,8 @@ set(gta2_lib_src
   Source/Crushers.cpp
   Source/Generators.hpp
   Source/Generators.cpp
-  Source/Kfc_1E0.hpp
-  Source/Kfc_1E0.cpp
+  Source/EmergencyCrewPool_1E0.hpp
+  Source/EmergencyCrewPool_1E0.cpp
   Source/Police_7B8.hpp
   Source/Police_7B8.cpp
   Source/Light_1D4CC.hpp

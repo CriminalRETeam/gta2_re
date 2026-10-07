@@ -1,35 +1,35 @@
-#include "Kfc_1E0.hpp"
+#include "EmergencyCrewPool_1E0.hpp"
 #include "Car_BC.hpp"
 #include "Hamburger_500.hpp"
 #include "Ped.hpp"
 #include "PedGroup.hpp"
 
-DEFINE_GLOBAL(Kfc_1E0*, gKfc_1E0_706280, 0x706280);
+DEFINE_GLOBAL(EmergencyCrewPool_1E0*, gEmergencyCrewPool_706280, 0x706280);
 DEFINE_GLOBAL(Fix16, dword_706148, 0x706148);
 
 MATCH_FUNC(0x4beb00)
-Kfc_30::Kfc_30()
+EmergencyCrew_30::EmergencyCrew_30()
 {
     Init_5CBC00();
 }
 
 MATCH_FUNC(0x4beb10)
-Kfc_30::~Kfc_30()
+EmergencyCrew_30::~EmergencyCrew_30()
 {
 }
 
 MATCH_FUNC(0x4beb20)
-Kfc_1E0::~Kfc_1E0()
+EmergencyCrewPool_1E0::~EmergencyCrewPool_1E0()
 {
 }
 
 MATCH_FUNC(0x5cbb70)
-void Kfc_1E0::init_5CBB70()
+void EmergencyCrewPool_1E0::init_5CBB70()
 {
 }
 
 MATCH_FUNC(0x5cbb80)
-Kfc_30* Kfc_1E0::AllocateSlot_5CBB80()
+EmergencyCrew_30* EmergencyCrewPool_1E0::AllocateSlot_5CBB80()
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_0_slots); i++)
     {
@@ -42,7 +42,7 @@ Kfc_30* Kfc_1E0::AllocateSlot_5CBB80()
 }
 
 MATCH_FUNC(0x5cbbd0)
-void Kfc_1E0::ServiceAll_5CBBD0()
+void EmergencyCrewPool_1E0::ServiceAll_5CBBD0()
 {
     for (s32 i = 0; i < 10; i++)
     {
@@ -57,7 +57,7 @@ void Kfc_1E0::ServiceAll_5CBBD0()
 }
 
 MATCH_FUNC(0x5cbc00)
-void Kfc_30::Init_5CBC00()
+void EmergencyCrew_30::Init_5CBC00()
 {
     field_1A_idle_limit = 150;
     field_1E_is_used = 0;
@@ -72,13 +72,13 @@ void Kfc_30::Init_5CBC00()
 }
 
 MATCH_FUNC(0x5cbc30)
-void Kfc_30::ReInit_5CBC30()
+void EmergencyCrew_30::ReInit_5CBC30()
 {
     Init_5CBC00();
 }
 
 MATCH_FUNC(0x5cbc40)
-void Kfc_30::RemovePed_5CBC40(Ped* a2)
+void EmergencyCrew_30::RemovePed_5CBC40(Ped* a2)
 {
     field_8_group->RemovePed_4C9970(a2);
     field_4_ped = field_8_group->field_2C_ped_leader;
@@ -86,7 +86,7 @@ void Kfc_30::RemovePed_5CBC40(Ped* a2)
 
 // https://decomp.me/scratch/HmQPr
 MATCH_FUNC(0x5cbc60)
-bool Kfc_30::IsLeaderAlive_5CBC60()
+bool EmergencyCrew_30::IsLeaderAlive_5CBC60()
 {
     if (field_4_ped && field_4_ped->isDead_403B60())
     {
@@ -108,7 +108,7 @@ bool Kfc_30::IsLeaderAlive_5CBC60()
 }
 
 MATCH_FUNC(0x5cbc90)
-char_type Kfc_30::ReplaceLeaderIfNeeded_5CBC90()
+char_type EmergencyCrew_30::ReplaceLeaderIfNeeded_5CBC90()
 {
     PedGroup* pGroup = this->field_8_group;
     if (!pGroup)
@@ -122,10 +122,10 @@ char_type Kfc_30::ReplaceLeaderIfNeeded_5CBC90()
     {
         if (pPedAtIdx->GetPedState_403990() != ped_state_1::dead_9 && !pPedAtIdx->field_16C_car)
         {
-            Ped* pKfcPed = this->field_4_ped;
-            if (pKfcPed->field_16C_car)
+            Ped* pLeaderPed = this->field_4_ped;
+            if (pLeaderPed->field_16C_car)
             {
-                RemovePed_5CBC40(pKfcPed);
+                RemovePed_5CBC40(pLeaderPed);
             }
             else
             {
@@ -149,7 +149,7 @@ char_type Kfc_30::ReplaceLeaderIfNeeded_5CBC90()
 
 // https://decomp.me/scratch/sUPg8
 MATCH_FUNC(0x5cbd50)
-void Kfc_30::UpdateStateMachine_5CBD50()
+void EmergencyCrew_30::UpdateStateMachine_5CBD50()
 {
     char_type bCarGone = 0;
     char_type bNoPedsAlive = 1;
@@ -428,7 +428,7 @@ void Kfc_30::UpdateStateMachine_5CBD50()
 
 // 9.6f 0x4C5A00
 MATCH_FUNC(0x5cc1c0)
-void Kfc_30::CleanupExpiredEntities_5CC1C0()
+void EmergencyCrew_30::CleanupExpiredEntities_5CC1C0()
 {
     bool bClearRouteAndTryClearOthers = 0;
     bool bClearPedAndGroup = 1;
@@ -598,7 +598,7 @@ void Kfc_30::CleanupExpiredEntities_5CC1C0()
 }
 
 MATCH_FUNC(0x5cc480)
-bool Kfc_30::Service_5CC480()
+bool EmergencyCrew_30::Service_5CC480()
 {
     if (field_18_spawn_delay > 0)
     {

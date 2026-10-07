@@ -365,7 +365,7 @@ when the case lands last in the layout. The permuter found `case 4` first (`sub_
 
 **A `switch` whose cases all return the same value still loads the operand.** A stray
 `mov 0x28(%ecx),%ecx` with no compare after it comes from `switch (field_28_state)` where every case
-does `return true`: VC6 drops the compares and keeps the load (`Kfc_30::PedIsValid_5CBC60`; the case
+does `return true`: VC6 drops the compares and keeps the load (`EmergencyCrew_30::PedIsValid_5CBC60`; the case
 values are a guess).
 
 **Two returns can turn branchless.** `if (ok) return x; return 0;` came out as `neg/sbb/not/and`. The
@@ -1113,7 +1113,7 @@ fixed frame offsets (it tracks pushes and call cleanup), so the slots of the ori
 of a build can be compared line by line.
 
 **Declaration position moves a zero store.** A loop counter declared before an `if` gets its
-`= 0` store scheduled before the test, not inside the block (`Kfc_30::CleanupExpiredEntities_5CC1C0`).
+`= 0` store scheduled before the test, not inside the block (`EmergencyCrew_30::CleanupExpiredEntities_5CC1C0`).
 
 **A variable index blocks load hoisting.** VC6 moves a later load above a store with a
 constant array index, but not above one through a variable. Inside `case 6:`, writing
@@ -1630,7 +1630,7 @@ and find the source difference that moves the cut-off. With the 9.6f-verified
 in `Wolfy_30::TimerAfter50Handler_541850`, all 16 `CarAI_78` sites and
 `Sprite::MinDistanceToAnySpriteBBoxCorner_5A22B0`. `Firefighter_28::Update_4A81F0` also needed field
 accesses in place of the `get_driver_4118B0` getters (fewer free sites after the call), and
-`Kfc_30::UpdateStateMachine_5CBD50` the 9.6f `ClearGroupAndGroupIdx_403A30` call (one more).
+`EmergencyCrew_30::UpdateStateMachine_5CBD50` the 9.6f `ClearGroupAndGroupIdx_403A30` call (one more).
 
 The older notes below (which calls lose, "freeing budget brings inlines back", "a ternary costs less")
 all follow from this rule.
@@ -1720,7 +1720,7 @@ falls into `default`. Give it its own body, even an identical one, to keep it in
 
 **One shared loop counter and flag across separate loops.** Separate variables get separate stack
 slots; reusing one `u8 idx` for four loops and one flag for several checks gave the original's frame
-(`Kfc_30::UpdateStateMachine_5CBD50`).
+(`EmergencyCrew_30::UpdateStateMachine_5CBD50`).
 
 **Write switch cases in jump-table order and let VC6 merge the tails.** It merges shared tails
 itself, even across different call arguments (`push 1; jmp` into a shared call). Gotos into another
