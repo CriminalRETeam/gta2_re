@@ -20,7 +20,7 @@
 DEFINE_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0, 0x6FE3E0);
 DEFINE_GLOBAL(CarInfo_2C*, gCarInfo_2C_6FE0E4, 0x6FE0E4);
 DEFINE_GLOBAL(ModelPhysics_48*, gCarInfo_48_6FE258, 0x6FE258);
-DEFINE_GLOBAL_INIT(Ang16, kAngZero_66AC08, Ang16(0), 0x66AC08);
+DEFINE_GLOBAL_INIT(Ang16, kAngZero_6FE3C0, Ang16(0), 0x6FE3C0);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Zero_6FE20C, Fix16(0), 0x6FE20C);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FE290, kFP16Zero_6FE20C, 0x6FE290);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Five_6FE220, Fix16(5), 0x6FE220);
@@ -3877,7 +3877,7 @@ MATCH_FUNC(0x563890)
 void CarPhysics_B0::PoolAllocate()
 {
     field_30_cm1.reset();
-    field_58_theta = kAngZero_66AC08;
+    field_58_theta = kAngZero_6FE3C0;
     field_38_cp1.reset();
     field_5C_pCar = NULL;
     Init_5637A0();
