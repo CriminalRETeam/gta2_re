@@ -3268,4 +3268,7 @@ helpers under other names, or plain Fix16/Ang16 operators.
   `k_word_678656` (copied from 0x61A898 at startup), `dword_67BBE0` (dynamic 0, probably `Fix16`),
   `gCharB4_Saved_TileX/Y` (`kFP16Zero.ToInt()`), `dword_705334` (Montana's rdtsc init),
   `gCollisionDamage_6FE33C` (no original initialiser), the debug bools (one 79-store init at 0x4AB950).
+- Address order for whole files: 34 files reordered (pure moves), 3304/3304 and every WIP score unchanged.
+- PCH: `/Yc`/`/Yu` builds of Weapon_30.cpp change nothing. Defining `Fix16_Point::operator+` at the end of
+  the TU does reproduce 10.5's EH stores in all Weapon_30 callers (see matching_quirks.md).
 
