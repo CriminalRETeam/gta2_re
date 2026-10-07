@@ -27,19 +27,16 @@ def load_coverage_file(filename):
         return [line.rstrip() for line in file]
 
 
-def fmt_delta(old, new, as_percent=False):
-    """' (+8)' / ' (-2)', or nothing when unchanged or there's no previous value."""
-    if old is None or old == new:
+def fmt_delta(old, new, always=False):
+    """' | **+5** (0.43%)': the change since the previous run and it as a percentage of the old
+    value. Nothing when unchanged (or ' | **No change**' with always), or without a previous run."""
+    if old is None:
         return ""
     diff = new - old
-    return f" ({diff:+.2f}%)" if as_percent else f" ({diff:+d})"
-
-
-def delta_with_pct(old, new, old_pct, new_pct):
-    """' (+8, +0.20%)' for a count and its percentage."""
-    if old is None or old == new:
-        return ""
-    return f" ({new - old:+d}, {new_pct - old_pct:+.2f}%)"
+    if diff == 0:
+        return " | **No change**" if always else ""
+    diff_pct = diff / old * 100 if old else 0
+    return f" | **{diff:+d}** ({diff_pct:.2f}%)"
 
 
 def pct(part, whole):
@@ -210,29 +207,26 @@ def main():
         prev_json_available = False
     prev = previous_progress_json.get
 
-    def d(key, as_percent=False, value=None):
-        new = new_progress_json[key] if value is None else value
-        return fmt_delta(prev(key), new, as_percent)
+    def d(key):
+        return fmt_delta(prev(key), new_progress_json[key])
 
     match_pct = pct(matched, total)
-    prev_match_pct = pct(prev("matched"), prev("total")) if prev("matched") is not None and prev("total") else None
     boot_pct = pct(matched_coverage_funcs, total_coverage_funcs)
-    prev_boot_pct = pct(prev("matched_boot_to_map_funcs"), total_coverage_funcs) if prev("matched_boot_to_map_funcs") is not None else None
 
     unmatched = total - matched
 
     def line(label, key):
-        return f"{label}: **{new_progress_json[key]}**{d(key)}"
+        return f"{label}: {new_progress_json[key]}{d(key)}"
 
-    overall = f"**{matched} / {total}** matched, **{match_pct:.2f}%**{delta_with_pct(prev('matched'), matched, prev_match_pct, match_pct)}"
+    overall = f"[{matched}/{total}] {match_pct:.2f}%{fmt_delta(prev('matched'), matched, always=True)}"
 
     unmatched_lines = [
         line("Not started", "not_started"),
         line("Stubs", "stub"),
-        f"WIP: **{wip}**{d('wip')}",
+        f"WIP: {wip}{d('wip')}",
     ]
     if wip_ready:
-        unmatched_lines.append(f"  - identical, ready to promote: **{wip_ready}**")
+        unmatched_lines.append(f"  - identical, ready to promote: {wip_ready}")
     wip_labels = [
         ("wip_reg_swap", "register swap only"),
         ("wip_reg_choice", "different registers"),
@@ -242,16 +236,16 @@ def main():
     ]
     for key, label in wip_labels:
         if key != "wip_unclassified" or wip_buckets[key] or prev(key):
-            unmatched_lines.append(f"  - {label}: **{wip_buckets[key]}**{d(key)}")
+            unmatched_lines.append(f"  - {label}: {wip_buckets[key]}{d(key)}")
 
     health_lines = [
-        f"Fields named: **{named_fields} / {named_fields + unnamed_fields}** ({pct(named_fields, named_fields + unnamed_fields):.1f}%)"
+        f"Fields named: [{named_fields}/{named_fields + unnamed_fields}] ({pct(named_fields, named_fields + unnamed_fields):.1f}%)"
         f"{fmt_delta(prev('named_fields'), named_fields)}",
-        f"Functions named: **{named_funcs} / {named_funcs + unnamed_funcs}** ({pct(named_funcs, named_funcs + unnamed_funcs):.1f}%)"
+        f"Functions named: [{named_funcs}/{named_funcs + unnamed_funcs}] ({pct(named_funcs, named_funcs + unnamed_funcs):.1f}%)"
         f"{fmt_delta(prev('named_funcs'), named_funcs)}",
     ]
     if warnings is not None:
-        health_lines.append(f"Build warnings: **{warnings}**{fmt_delta(prev('warnings'), warnings)}")
+        health_lines.append(f"Build warnings: {warnings}{fmt_delta(prev('warnings'), warnings)}")
 
     webhook_message = {
         "content": None,
@@ -262,8 +256,8 @@ def main():
                 "fields": [
                     {"name": "All functions", "value": overall},
                     {"name": "Boot to map", "value":
-                        f"**{matched_coverage_funcs} / {total_coverage_funcs}** matched, **{boot_pct:.2f}%**"
-                        f"{delta_with_pct(prev('matched_boot_to_map_funcs'), matched_coverage_funcs, prev_boot_pct, boot_pct)}"},
+                        f"[{matched_coverage_funcs}/{total_coverage_funcs}] {boot_pct:.2f}%"
+                        f"{fmt_delta(prev('matched_boot_to_map_funcs'), matched_coverage_funcs, always=True)}"},
                     {"name": f"Not matched ({unmatched})", "value": "\n".join(unmatched_lines)},
                     {"name": "Code health", "value": "\n".join(health_lines)},
                 ],
