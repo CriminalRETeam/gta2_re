@@ -1613,6 +1613,28 @@ instead of `%ax`), so it stops matching. With the old name it matches again. So 
 rename branch is merged, `compare_builds.py` still has to run, and a global can keep its
 `word_`/`dword_` name, with a comment, where the new name changes the code.
 
+Why (Oct 7): VC6 copies a 2-byte integer (`u16`, `s16`, `wchar_t`, or an element of an array of them) from a global
+**defined in the same TU** into a 4-byte stack slot (an inlined by-value parameter, a local copy) with a 32-bit move
+when the address is 4-aligned: `mov eax, DWORD PTR g` / `mov [esp+x], eax` instead of `mov ax` / `mov [esp+x], ax`.
+It knows the alignment from the global's offset in the object's `.bss`/`.data`, and VC6 lays out a TU's globals in
+an order set by their **names** (a hash-like order; not declaration order, not alphabetical). Renaming
+`word_70643E` moved it from `.bss+0x2` to `.bss+0x250`, so the copy in `DrawChatMessages_5D16B0` widened. The original
+global is at `0x70643E`, 2 mod 4, so the original never widens it. Probes (`Scripts/regalloc/`-style, one TU):
+
+| Global | Copy to a stack temp |
+|---|---|
+| `u16`/`s16` defined in the TU at offset 0 mod 4 | `mov eax, DWORD PTR` |
+| the same at offset 2 mod 4 | `mov ax, WORD PTR` |
+| `extern u16` (defined elsewhere) | `mov ax, WORD PTR` (alignment unknown) |
+| `u16 arr[4]` at offset 4, `arr[2]` | `mov eax, DWORD PTR arr+4` |
+| `u8` at offset 4, 2-byte struct at offset 2 | byte / word moves |
+
+`Scripts/bin_comp/global_align_check.py` lists every 16-bit global whose object offset (mod 4) disagrees with its
+original address (from the `_gRef_` symbol `DEFINE_GLOBAL` emits): 29 in the current build. They only matter in
+functions that copy the global as above. When the original keeps the word moves (address 2 mod 4), defining the global
+in a different TU than its users always gives them; when it widens, the global has to stay in the TU at a 4-aligned
+offset, which only a name gives. Run the checker after renames.
+
 **Two different callees for the same constructor mean two types.** If the original calls one
 `Fix16` constructor twice and you call two, an argument has the wrong type (a `u16` position
 that went through `Fix16(u16)` instead of `Fix16(s32)`, `DrawChatMessages_5D16B0`).
