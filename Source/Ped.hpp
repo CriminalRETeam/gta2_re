@@ -676,14 +676,12 @@ class Ped
     // TODO: to use this inline we need to fix a circular dependency issue
     inline s32 get_car_model();
 
-    inline void SetRemap_433C10(u8 remap)
+    // 9.6f 0x433C10: a thin wrapper around Char_B4::SetRemap. The remap is taken by const reference:
+    // by value, VC6 loads the argument before the Char_B4 and 9 callers stop matching.
+    inline void SetRemap_433C10(const u8& remap)
     {
         Char_B4* p_B4 = field_168_game_object; // local necessary to match Ped::SetupFollower_46DF70
-        p_B4->field_5_remap = remap;
-        if (remap != 0xFF)
-        {
-            p_B4->field_80_sprite_ptr->SetRemap(remap);
-        }
+        p_B4->SetRemap_Inline(remap);
     }
 
     inline void sub_433E50()

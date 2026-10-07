@@ -1052,8 +1052,7 @@ void Char_B4::UpdateAnimState_546360()
                         pDriver->field_168_game_object->field_84_target_car = pCar;
                         pDriver->field_168_game_object->field_80_sprite_ptr->set_num_40F7B0(6);
                         {
-                            Char_B4* pB4 = pDriver->field_168_game_object;
-                            pB4->SetRemap_Inline(pDriver->get_remap_433BA0());
+                            pDriver->SetRemap_433C10(pDriver->get_remap_433BA0());
                         }
                         pDriver->field_16C_car = 0;
                         pDriver->Set_B4_F16_To_1_433B50();

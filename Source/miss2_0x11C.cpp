@@ -3240,8 +3240,7 @@ void miss2_0x11C::SCRCMD_CHANGE_CHAR_REMAP_50A5B0()
 
     if (pPointer->field_8_char)
     {
-        Char_B4* pChar_b4 = pPointer->field_8_char->field_168_game_object;
-        pChar_b4->SetRemap_Inline(pCmd->field_A_unsigned_2);
+        pPointer->field_8_char->SetRemap_433C10(pCmd->field_A_unsigned_2);
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }

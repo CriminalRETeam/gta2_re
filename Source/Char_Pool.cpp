@@ -128,8 +128,7 @@ EXPORT Ped* __stdcall SpawnPedChainGroupAt_46DB90(char_type remap, u8 number_fol
         pNewPed->field_238_ped_type = ped_type::special_ped_4;
         pNewPed->AllocCharB4_45C830(xpos_adjusted - ((kFpPoint1_678480 * xy_off)), ypos_adjusted - ((kFpPoint1_678480 * xy_off)), zpos);
 
-        Char_B4* pB4 = pNewPed->field_168_game_object;
-        pB4->SetRemap_Inline(pNewPed->get_remap_433BA0());
+        pNewPed->SetRemap_433C10(pNewPed->get_remap_433BA0());
 
         pNewPed->field_216_health = 100;
         pNewPed->field_26C_graphic_type = 1;
@@ -429,8 +428,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
         gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pPed->field_168_game_object->field_80_sprite_ptr);
         if (pPed->get_occupation_403980() != ped_ocupation_enum::walking_guard_29)
         {
-            Char_B4* game_object = pPed->field_168_game_object;
-            game_object->SetRemap_Inline(pPed->get_remap_433BA0());
+            pPed->SetRemap_433C10(pPed->get_remap_433BA0());
             pPed->SetRotation_433C00(rotation);
             pPed->sub_467280();
         }
@@ -989,8 +987,7 @@ Ped* PedManager::ClonePed_470F90(Ped* pSrc)
     if (pSrc->field_168_game_object)
     {
         pDst->AllocCharB4_45C830(pSrc->get_cam_x(), pSrc->get_cam_y(), pSrc->get_cam_z());
-        Char_B4* pCharObj = pDst->field_168_game_object;
-        pCharObj->SetRemap_Inline(pSrc->get_remap_433BA0());
+        pDst->SetRemap_433C10(pSrc->get_remap_433BA0());
         pDst->SetRotation_433C00(pSrc->GetRotation());
         pDst->Set_B4_F16_To_1_433B50();
         pDst->field_168_game_object->field_84_target_car = pSrc->field_168_game_object->field_84_target_car;

@@ -247,9 +247,7 @@ EXPORT void __stdcall sub_46DD70(char_type remap, u8 count)
         pPed->field_26C_graphic_type = pPlayerPed->field_26C_graphic_type;
         pPed->SetField238_403920(5);
         pPed->AllocCharB4_45C830(pPlayerPed->field_1AC_cam.x, pPlayerPed->field_1AC_cam.y, pPlayerPed->field_1AC_cam.z);
-        // 9.6f: Ped::SetRemap_433C10 (inlined, using it changes the code)
-        Char_B4* pObj = pPed->field_168_game_object;
-        pObj->SetRemap_Inline(pPed->get_remap_433BA0());
+        pPed->SetRemap_433C10(pPed->get_remap_433BA0());
         pPed->set_health_4039A0(100);
         pPed->sub_433BC0(1);
         pGroup->add_ped_to_end_of_list_4C8F90(pPed);
