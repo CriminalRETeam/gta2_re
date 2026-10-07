@@ -1794,6 +1794,19 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
 
 ### Inline budget: more patterns (round of 9.6f recoveries)
 
+- **Two fire truck guns, one opaque add (`Weapon_30::fire_truck_gun_5E0E70`).** Both 10.5 fire truck guns keep
+  the `movb $3/$2` EH stores around their `Fix16_Point` add. In one TU only the first caller of the inline
+  `operator+` can keep them (see the nothrow rule above), so one of the pair calls the `EXPORT` copy
+  `Add_40AC50` and the other the inline operator. That also moves a site, which the free 9.6f getters
+  `Get_F4_41CC70()` (for `field_4`) and `Car_BC::get_driver_4118B0()` put back: with them the plain
+  `RotateByAngle_40F6B0` gives the original's out-of-line `Negate_4086A0` in the second rotation, and the
+  `*_OOL_40F6B0` variants aren't needed.
+- **A getter is not a field read for register allocation.** `get_driver_4118B0()` sits before every budgeted
+  site, so it changes no inlining decision, yet it alone took 5E0E70 from 236 to 22 (every
+  `eax`/`ecx`/`edx` choice in both rotations). The expanded inline body adds IL temporaries and so moves the
+  register tie-breaks. When a near miss differs only in register rotation, try the 9.6f getters for the
+  fields it reads (`docs/inlines_96f.md`), even ones that look as if they can't matter.
+
 - **Declaration order picked the losers** while `Fix16_Point` derived from `Fix16_Point_POD`: the first
   declared points got their nested `Fix16_Point_POD()` ctor outlined once the budget ran out. With the
   standalone class (see "Inline calls and EH states") the ctor is a top-level site and stays inline, so

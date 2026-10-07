@@ -3246,3 +3246,16 @@ Follow-up the same day, no gain:
 - `Ambulance_20::UpdateState_4FB330` (2): 9.6f 0x473CE0 has no extra helper on the case 3 `else` path. `else if
   (++f1C > 500)`, `<= 500` with `return` or `break`, `return` after the store: all 2; the success path with one
   `HandleObjectiveState_4FAAC0()` after the `if (car)`: 6.
+
+### Larger WIPs and the near misses again (Oct 7, later)
+
+All 96 WIPs scored, plain and `--structure`; the listed 9.6f partners of the big ones (DrawGradientSlope*,
+`Draw_4F6A20`, 53BAC0, 54B8F0) add no missing inlines: their unpaired 9.6f callees are the 10.5 MapRenderer
+helpers under other names, or plain Fix16/Ang16 operators.
+- **`Weapon_30::fire_truck_gun_5E0E70` (10 -> 0, MATCH).** The flamethrower's shape with the plain
+  `RotateByAngle_40F6B0` and `operator+` (171), then `Get_F4_41CC70()` for `field_4` (30: the second
+  rotation's negate goes out of line), a `pTurret` local (16), `get_driver_4118B0()` (0 when placed before
+  the flamethrower; the permuter found the getter). In source order the flamethrower's inline `operator+`
+  had made the add nothrow, so the flamethrower now calls `Add_40AC50`, with `Get_F4_41CC70()` for its own
+  budget split. See matching_quirks.md, "Two fire truck guns, one opaque add".
+
