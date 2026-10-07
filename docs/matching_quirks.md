@@ -76,7 +76,9 @@ now have rows.
 **Calls to unnamed operator copies are fine, mixing them is not.** The verifier (and
 `permuter_score.py`) names call targets per function by first use, so a call to the COMDAT copy of an
 inline (`??DFix16`, `??0Fix16@@QAE@H@Z`, `?Normalize@Ang16`) where the original calls `0x408680`,
-`0x4369F0` or `0x406C20` matches: the original's linker folded those copies to one address. Verified
+`0x4369F0` or `0x406C20` matches: the original only has the inline's one out-of-line copy (its linker
+folds nothing, see "No single rule fits the `Fix16_Point` add/sub"), and our named exports are second
+copies of the same body. Verified
 matches do this (`Camera_0xBC::IsCoordsPosVisible_435A70` calls `??DFix16`). What fails is one function
 calling both the COMDAT copy and the named export (`Multiply_408680`) for the same original target, or a
 different named function: `permuter_score.py` adds 2 per call to a `Name_ADDRESS` function the original
@@ -1768,6 +1770,21 @@ Found by tracing C2.DLL (see `Scripts/inline_budget/`); the instrumented compile
   `Negate_4086A0`/`Subtract_436A00`/`Divide_436A20` call into an inline site with the operator's body keeps
   9 of the 41 matched functions that use them and breaks 32 (3272/3304): with our operator sizes the budget
   model doesn't give those cut-offs, the open contradiction described below.
+- **Searching the budget inputs (Oct 7, `Scripts/inline_budget/opsearch.py`).** All 113 TUs logged with the
+  instrumented C2 (inlsim reproduces 31,846 of 31,849 decisions), once as they are and once with every
+  named Fix16 call made an inline site with the operator's body. Target per matched function: the
+  original's calls to 0x408660/0x408680/0x4086A0/0x436A00/0x436A20 counted from 10.5, and the other
+  out-of-line calls as now. Of the 405 matched functions with Fix16 operator sites, 366 come out right
+  with today's sizes; no size of `+`, `*`, `-`, unary `-` or `/`, alone, in pairs or 4,000 random joint
+  settings, does better, and no single size change of any of the 91 inline helpers above an operator site
+  gains more than one. Of the 39 left, 25 have the named calls at the top level of the function, most of
+  them under 500 FE units (budget clamped to 1000), where nothing can run out: the original's operators
+  there sat inside inline helpers our source writes out (Crane ComputeHookPos, the Wolfy_30 states,
+  UpdateCenterOfMassPoint ...: a recovered helper, likely a rotate or polar one, per function). The
+  other 14 go through our hand-written helper variants (`RotateByAngle_40F6B0_all_out_of_line`,
+  `GetLength_out_of_line_x_squared`, `PolarToCartesian_OutOfLineMul`, ...); swapping them for the plain
+  helpers with the operators as sites gives 3268/3304, no better. So the operator sizes are right and the
+  named calls stand in for missing or misshaped helpers, function by function.
 - **Precompiled headers don't explain it.** An earlier note here said 10.5's `/Yu` compiled header inline
   copies late. A `/Yc`//`/Yu` build of Weapon_30.cpp, with a PCH holding only the Fix16/Ang16/Fix16_Point
   headers or every header the file includes, gives exactly the same code as no PCH (our compiler is the
