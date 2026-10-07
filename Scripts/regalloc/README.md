@@ -227,8 +227,13 @@ grep -a '^@[PTR]' /tmp/pl/last.log      # @T ties, @P priority terms, @R colour 
   reversed. Leads: kind 3 is any IL temporary (constructors `0x107014F6`, 7 callers, and `0x10702BC5`,
   17 callers, which also sets bit 1 of `[t+5]`); in `sub_543690` the coloured copy (`mov %edi,%eax`) first
   appears in pass `0x10713E23` (boundary `10765aff`, the `field_0[i]` index expansion), while the round-robin
-  `lea` is formed later (`0x10714007`, then code selection `0x1071744C`). Telling the two constructors'
-  temps apart, and which passes use which, is the next step.
+  `lea` is formed later (`0x10714007`, then code selection `0x1071744C`). Narrowed (Oct 7): a definition gets a
+  colour-pass live range only if pass `0x10711F93` finds the placeholder `0x107AE040` in its operand
+  (`[op+0x18]`, binding at `0x1071A7E4`). The placeholder is written at `0x10719442`/`0x10719650` (skipped for
+  operands with flag 0x40 in `[op+0x10]`, instructions of class `[+0x0A] & 0xF000 == 0x4000`, and x87 opcodes:
+  bit 0 of `0x107A0494`), and at `0x10719914`/`0x10719A55` (via `0x107213C8`), `0x10709A85` and `0x107202DD`. In
+  `sub_543690` only the line-115 copy (`priolog.py`: `@T ... line=115`, kind 3, eax) is bound; the `lea`
+  result isn't. Which of those sites skips the `lea` result is the next thing to log.
 
 - The log has no variable names: `[lr+0]` is not a symbol (C2 asserts in `p2symtab.c` when its
   name is read). Match live ranges to variables by the register they get in the listing.
