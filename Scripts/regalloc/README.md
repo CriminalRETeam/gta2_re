@@ -5,8 +5,8 @@ that differ only in register choice (see "Still unexplained" in `docs/matching_q
 predicted instead of permuted. Same approach as `Scripts/inline_budget/`: find the code, add
 logging hooks with a byte patch, then write a model that reproduces the log.
 
-Status: the colour (select) step is reversed and logged. How C2 computes the priority and the
-tie-break of a live range is not reversed yet; see "Open" below.
+Status: the colour (select) step, the priority and the tie-break are reversed and logged; see "Priority and
+tie-break (reversed)".
 
 ## The rule (colour step)
 
@@ -172,6 +172,48 @@ python3 Scripts/regalloc/c2dis.py x 1078e69f 1078e6ae        # who branches/call
   "who holds register r" table is the first guess), `0x107A0494` (.rdata, flag word per entry,
   bit 0x40 tested). Their meaning is not confirmed.
 
+## Priority and tie-break (reversed)
+
+Both are now exact (`priolog.py` logs every term; summing its terms gives the final priority of every live
+range in `Wolfy_3D4.cpp`, 329 of 329, and the tie of 373 of 377, the rest being constants and split pieces).
+
+**Priority** `[lr+0x0C]` is built by `0x107203FD` (before the colour pass) in one walk over the blocks in list order:
+
+- Each reference of the live range in block b adds its saving `c` to the block's tally `[lr+0x18]` and `c * bw`
+  to the weight `[lr+0x3C]`. `c` is 2 for a load or store of a variable (`0x10721029`/`0x107213B5` per operand;
+  constants have 0). `bw = 1 << [blk+0x6E]`, i.e. **2 per loop level** (1, 2 in a loop, 4 in a nested loop).
+- At the end of block b, `N` = the number of live ranges referenced in b. Then every live range **referenced** in
+  b gets `prio += N * bw * tally` (and the tally is cleared), and every live range only **live through** b gets
+  `prio -= N * bw`.
+
+So the priority is `sum over blocks of N_b * bw_b * (savings in b, or -1 if only live through)`. The weight `w`
+(printed by ralog) only scales the scores. What follows in practice:
+
+- One more use of a value in a busy block (many live ranges referenced) raises its priority more than the same
+  use in a quiet one. A use inside a loop counts double.
+- A value that is live across blocks it doesn't touch loses priority there, more so when those blocks are busy.
+  Moving a use earlier, so the live range ends sooner, or a load later, so it starts later, raises it.
+- Probe (`int x = g; c(); h = x; ...` with k uses, one block, x the only live range): N = 1, so the priority is
+  the savings, 2 + 2k. In `while (k1) { c(); h = x; }` the loop block has N = 2 (x and `k1`), bw = 2: +8.
+
+**Tie-break** `[lr+0x40]` is set by `0x10711F93`'s walk (cold part at `0x1071A919`, write at `0x1071A7EE`): a
+counter runs over the blocks in list order and, **within each block, over the instructions backwards**. When a
+definition of the live range is reached, the tie becomes the counter. A later block's definition overwrites an
+earlier one's. Constants have 0. So among equal priorities (colour order is priority, then tie, both descending):
+
+- in the same block, the value **defined earlier** gets the higher tie and is coloured first;
+- a value (re)defined in a later block (a loop body after the init block) beats one defined only earlier.
+
+`probe_loop.cpp`: `a`, `b`, `c` are initialised in that order (ties 6, 5, 4), then redefined in the loop
+body, which overwrites them: `a += ..` is defined earliest in the body (17), `b ^= p[i] * 3` (15, the `imul`
+comes after it in reverse order), `c |= ..` (14). So a, b, c are coloured in that order: edx, esi, edi.
+
+```bash
+venv/bin/python3 Scripts/regalloc/patch_c2.py && venv/bin/python3 Scripts/regalloc/priolog.py
+X87_C2=priolog X87_OUT=/tmp/pl Scripts/x87_sched/sched.sh -l Source/Wolfy_3D4.cpp
+grep -a '^@[PTR]' /tmp/pl/last.log      # @T ties, @P priority terms, @R colour decisions (ralog)
+```
+
 ## Open
 
 - **Block order at code generation.** Both register-only WIPs come down to it (see
@@ -184,11 +226,6 @@ python3 Scripts/regalloc/c2dis.py x 1078e69f 1078e6ae        # who branches/call
   values become colour-pass live ranges (optimizer temps, kind 3) rather than local temps is not
   reversed.
 
-- **Priority** `[lr+0x0C]`: not a plain ratio of the weight `[lr+0x3C]` (w 8 -> 40, w 20 -> 140,
-  w 10 -> 61, w 6 -> 33). Chow's formula is savings / number of blocks in the live range; the writes
-  are around `0x10720CF4`-`0x10720D33` and `0x10721E28`-`0x10721ECC`.
-- **Tie-break** `[lr+0x40]`: the rule above is from probes only. It is set when live ranges are
-  created (`0x10720119`, from `0x107034B9`); what that number counts is not known.
 - The log has no variable names: `[lr+0]` is not a symbol (C2 asserts in `p2symtab.c` when its
   name is read). Match live ranges to variables by the register they get in the listing.
 - First real case tried, `sound_obj::HandleCarTireScrubSound_418720` (eax/ecx swap), turned out
