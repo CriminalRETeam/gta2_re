@@ -224,8 +224,10 @@ def main():
     def lines(*entries):
         return [e for e in entries if e is not None]
 
+    # Discord drops leading spaces, so indent with em spaces
+    ind = "\u2003\u2003"
+
     out = [COMMIT_MESSAGE, ""]
-    out.append(f"All functions: [{matched}/{total}] {match_pct:.2f}%{fmt_delta(prev('matched'), matched, always=True)}")
     out.append(f"Boot to map progress: [{matched_coverage_funcs}/{total_coverage_funcs}] {boot_pct:.2f}%"
                f"{fmt_delta(prev('matched_boot_to_map_funcs'), matched_coverage_funcs, always=True)}")
     out.append("")
@@ -233,20 +235,24 @@ def main():
     out.append(f"WIP: {wip}{d('wip')}")
     # the WIP ones by what's still wrong, as a share of all WIP functions
     reg_alloc = wip_buckets["wip_reg_swap"] + wip_buckets["wip_reg_choice"]
-    out += lines(
+    out += [ind + e for e in lines(
         count_line("RegAlloc", "wip_reg_alloc", reg_alloc, wip),
         count_line("Instruction order", "wip_instr_order", of=wip),
         count_line("Control flow / other", "wip_structural", of=wip),
         count_line("Unclassified", "wip_unclassified", of=wip),
         count_line("Identical, ready to promote", "wip_ready", of=wip),
-    )
+    )]
     out.append("")
-    out.append(f"Fields named: [{named_fields}/{named_fields + unnamed_fields}] {pct(named_fields, named_fields + unnamed_fields):.2f}%"
+    out.append("Docs/naming:")
+    out.append(f"{ind}Fields named [{named_fields}/{named_fields + unnamed_fields}] {pct(named_fields, named_fields + unnamed_fields):.2f}%"
                f"{fmt_delta(prev('named_fields'), named_fields)}")
-    out.append(f"Functions named: [{named_funcs}/{named_funcs + unnamed_funcs}] {pct(named_funcs, named_funcs + unnamed_funcs):.2f}%"
+    out.append(f"{ind}Functions named [{named_funcs}/{named_funcs + unnamed_funcs}] {pct(named_funcs, named_funcs + unnamed_funcs):.2f}%"
                f"{fmt_delta(prev('named_funcs'), named_funcs)}")
     if warnings is not None:
+        out.append("")
         out.append(f"Build warnings: {warnings}{fmt_delta(prev('warnings'), warnings, with_pct=False)}")
+    out.append("")
+    out.append(f"Overall progress: [{matched}/{total}] {match_pct:.2f}%{fmt_delta(prev('matched'), matched, always=True)}")
 
     webhook_message = {
         "content": None,
