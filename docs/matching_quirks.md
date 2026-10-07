@@ -873,6 +873,23 @@ shl; mov ecx,(eax)`); an explicit `Fix16(z)` is computed before the pushes
 **`IsFlagSet_411930(N)` vs `field & N`.** The helper gives `mov/shr/test $1`; the direct test gives the
 original's `testb` (`ApplyImpactForcesAndDamage_55FA60`, 205 -> 19).
 
+**Load widths and bit tests, by source form** (probes, Oct 7; `S* s` with a `u16 f` at 0x78, `u32 a`):
+
+| Source | Code |
+|--------|------|
+| `s->f & 0x200 \|\| s->f & 0x400` | `mov 0x78(%eax),%ax; test $6,%ah`: the two tests are merged on the loaded word (`Car_BC::sub_43B850`) |
+| `(s->f & 0x600) != 0` as a value | `mov ax; and $0x600; neg; sbb; neg` |
+| `(s->f & 0x200) != 0` as a value | `mov ax; shr $9; and $1` |
+| `if (s->f & 0xff00)` | `testb $-1,0x79(%eax)`, a memory test on the byte |
+| `if (s->i & 0x100)` | `mov 0x7C(%eax),%ecx; test $1,%ch`, no memory test |
+| `if (s->i & 0x80000000)` | `testl $0x80000000,0x7C(%eax)` |
+| `if (a & 0x80) gb = 1; else gb = 0;` | `mov a,%eax; shr $7,%al` (`SetAltKeyState_498CB0`) |
+| `gb = (a & 0x80) != 0;` or `gb = (u8)((a >> 7) & 1);` | `shr $7,%eax; and $1,%al` |
+| `u8` -> `int` | `xor %eax,%eax; mov (..),%al`, never `movzx` |
+| `u16` -> `int` | `xor %eax,%eax; mov (..),%ax` |
+| `s8`/`s16` -> `int` | `movsx` |
+| `u8` -> `u16`/`s16` | `movzx` to a 16-bit register (`movzbw`); the only `movzx` form in the original (18 functions) |
+
 **A decrement in each branch, not once after.** Writing `--timer` in both branches gave the shared
 `decb mem` tail and all pushes at entry; once after the if/else gave `mov/dec/mov` and late pushes
 (`Train_58::UpdatePassengerAI_578390`, also a logic fix: an inverted `field_1818` test).
@@ -2412,6 +2429,47 @@ per-function round-robin cursor (then the first free callee-saved register). The
 per block, so a rotation that is off in one block (`eax, ecx, edx` vs ours `ecx, edx, eax`) means a
 different number of picks before it, or a different block order, not a different expression in that block.
 
+**Which values are round-robin temps** (reversed Oct 7, `Scripts/regalloc/README.md`, "Which values get colour
+live ranges"). Every expression intermediate is one pick. So is each load of a parameter or global that didn't get
+a live range (it is reloaded into a fresh temp at each use). A local whose definition and all uses are in one block
+is turned into expression temps before allocation (`int rot = o->f4->ang; g = rot;` is the same as
+`g = o->f4->ang;`). A local that reaches another block, and a compiler temp made for a value that is used twice
+(`i * 0x30` becomes `t = i; lea (t,t,2)`), are colour-pass values and don't move the cursor. To shift a rotation
+by one, add or remove an intermediate before it, or make a single-block local reach a second block (or the
+reverse).
+
+### Late `push` of callee-saved registers (shrink-wrapping)
+
+VC6 doesn't always save esi/edi/ebx/ebp at entry. The prologue pass (`0x10724460` -> `0x10724A58`, reversed Oct 7)
+computes, per block, which callee-saved registers it uses, and moves each register's `push` down to the first block
+from which every path uses that register, and its `pop` to the last block of that region. It doesn't split edges,
+so this only works when every exit from the code that uses the register passes through one block before it
+reaches code that runs on the path without the save. Otherwise the push stays at entry. Probes
+(`void h(int)`, a loop `for (N* q = p; q; q = q->next) h(q->d);` that needs esi):
+
+| Source | `push esi` |
+|--------|-----------|
+| `if (!k) return; loop;` | at entry: the loop's exits and the early return meet in the shared return block |
+| `if (!k) return; loop; g = 2;` | after the `je`: every path out of the loop passes through `g = 2` |
+| `if (k) { loop; return 1; } return g2 + k;` | after the `je` |
+| `if (k) { loop; } g1 = 1;` | at entry |
+| `if (k) { loop; g3 = 2; } g1 = 1;` | after the `je`, pop after the (duplicated) `g1 = 1` |
+| `g1 = 1; if (k) g2 = 2; loop; g3 = 3;` | after the if, before the loop |
+| `if (k) { loop1; return 1; } loop2; return 2;` | at entry: both arms use esi |
+| `if (!p) return; loop over p` | at entry: `p` is already in esi for the test |
+
+So for a late push in the original:
+
+- The register must not be used before the branch. A variable tested in the entry block and used later lives in
+  its register from the test on, so test something else: the field or global instead of the local copy
+  (`Hud_Brief_704::ClearAllBriefsWithPriority_5D4890`), or test the global and make the copy inside the `if`
+  (the inlined deletes in `Car_6C::~Car_6C` 0x446DC0 and `Montana_4::~Montana_4` 0x5C5F10).
+- The region that uses the register needs a single exit block: a statement after the loop inside the branch, or a
+  separate `return value;` per path. Ending the branch with the loop itself, or a bare `return;` that shares the
+  epilogue, keeps the push at entry.
+- Which register a value gets can decide it too: in `Internel_UpdateBehaviorGrid_554710` the statement order put
+  the increment in esi, so ebp was used only inside the distance branch and was pushed there.
+
 ## Inline asm
 
 **16-bit `pushaw`/`popaw`.** The inline assembler can't spell them. Put `_emit 0x66` before
@@ -2428,13 +2486,6 @@ tried are in the WIP status report.
   where ours duplicates it (`Map_0x370` 0x4E5E90). **Mechanism known** (see "Cross-jumping keeps the copy whose jump
   was generated last"); the source form isn't. For 0x4E6190, a mixed form (cases 1/2 assign a result variable,
   3/4 `return`) gives every cross-jump of the original but returns `r = 0` with `xor %eax,%eax` (2 lines off).
-- A `u16` field loaded whole and then tested on its high byte (`mov 0x78(%ecx),%cx; test $6,%ch`)
-  where we get `testb $6,0x79(%ecx)` (`Car_BC::sub_43B850`).
-- A dword load followed by a byte shift (`mov 4(%esp),%eax; shr $7,%al`) (`bk_1::SetAltKeyState_498CB0`).
-- What looks like an inlined scalar deleting destructor: the pointer is tested in `ecx` and
-  `push %esi; mov %ecx,%esi` happen inside the `if`, where ours keeps the pointer in `esi` from the
-  start (0x446DC0, `0x5C5F10`).
-- `ebp` pushed only after an early null check (`Hud_Brief_704::ClearAllBriefsWithPriority_5D4890`).
 - x87/integer interleaving around the inlined vertex helpers (`ProjectVertTop_46BD40`, `ProjectVertBottom_46BDF0`,
   `ProjectVert_46BC70`) in the `MapRenderer::Draw*` functions. **The mechanism is known; the source change
   is not.** The cause is the scheduler's window breaks (see "x87 code: the scheduler works in 81-node
