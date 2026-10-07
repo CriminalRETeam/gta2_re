@@ -107,14 +107,18 @@ void __stdcall DrawTextScaled_5D77A0(wchar_t* pText, Fix16 xpos, Fix16 ypos, u16
                     0);
 }
 
-// https://decomp.me/scratch/zpWhI
-WIP_FUNC(0x5D7CB0)
+// The original is a tail-call thunk into the body at 0x5D7CC0 (9.6f: 0x4CAEB0 -> 0x4CADE0)
+MATCH_FUNC(0x5D7CB0)
 void __stdcall ConvertColourBanks_5D7CB0()
 {
-    // The original has a 10 byte `jmp +8; nop...` gap after this call, likely a binary patch
-    // in the OG exe, so only the rest can match.
-    WIP_IMPLEMENTED;
-    s32 colour = pgbh_SetColourDepth();
+    pgbh_SetColourDepth();
+    ConvertColourBanks_5D7CC0();
+}
+
+// https://decomp.me/scratch/zpWhI
+MATCH_FUNC(0x5D7CC0)
+void __stdcall ConvertColourBanks_5D7CC0()
+{
     if (gGtx_0x106C_703DD4 && gGtx_0x106C_703DD4->field_6A_palettes_converted == 0)
     {
         s32 phys_pal_len = gGtx_0x106C_703DD4->get_physical_palettes_len_5AA900();
