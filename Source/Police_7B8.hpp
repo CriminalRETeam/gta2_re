@@ -10,12 +10,16 @@ class Kfc_30;
 class Object_2C;
 class Police_7C;
 class Ang16;
+class Police_7B8;
 
 EXTERN_GLOBAL(Fix16, kFpOne64th_6FECA0);
 EXTERN_GLOBAL(Fix16, kFpOne64th_6FEB88);
 EXTERN_GLOBAL(Fix16, kFpFour_6FECF8);
 EXTERN_GLOBAL(Fix16, kFpOneSixteenth_6FEB0C);
 EXTERN_GLOBAL(Fix16, kFpPoint8_6FEB68);
+EXTERN_GLOBAL(Police_7B8*, gPolice_7B8_6FEE40);
+EXTERN_GLOBAL(s32, gRoadblockGuardType_6FEDB8);
+EXTERN_GLOBAL(Police_7B8*, gPolice_7B8_6FEE40);
 
 class Police_7B8
 {
@@ -76,9 +80,3 @@ class Police_7B8
     char_type field_7B6;
     char_type field_7B7;
 };
-
-EXTERN_GLOBAL(class Police_7B8*, gPolice_7B8_6FEE40);
-
-EXTERN_GLOBAL(s32, gRoadblockGuardType_6FEDB8);
-
-EXTERN_GLOBAL(Police_7B8*, gPolice_7B8_6FEE40);
