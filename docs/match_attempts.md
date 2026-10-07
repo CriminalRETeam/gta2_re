@@ -3105,3 +3105,9 @@ round-robin differences (`Scripts/regalloc/README.md`), not colour-pass ones.
   local for the set_xyz arguments, a case-scoped `pObj` for the first load (12), `rot` assigned
   directly (34), no `pMySprite` local (18), the reload dropped and the arguments read through
   `field_7C_pPed` (162), and combinations.
+  With the full local rules (README: dying sources freed first, pre-merged destinations keep their
+  register): the original fits if the 5797 reload is a coloured variable (edx), so `->field_4` can't be
+  merged into it and is a round-robin pick (eax). That needs the reload's uses to reach another block;
+  reading it at 5807 or 5810 instead of `field_7C_pPed->field_184_pObj2C` does that but changes the code
+  (140, 136). The merged early-return block (`Kill_46F9D0 ... return`, kept copy at 6034) makes its
+  picks before the reload in both builds.

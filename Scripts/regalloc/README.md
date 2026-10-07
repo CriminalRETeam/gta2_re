@@ -45,6 +45,22 @@ per value; `0x1072EE00` records the choice in `0x1079D6EC[reg]`):
 3. if eax, ecx and edx are all busy, the first free register in the whole list (so esi, edi, ebx,
    ebp get used for temps only then).
 
+Per instruction (`0x10723B05` loop): first the registers of source temps that die at it are freed
+(`0x10728271`), then each destination is placed (`0x1072830C`): a destination operand that already
+has a register (the optimizer merged it with a dying source, e.g. `mov 4(%eax),%eax`) keeps it without
+a pick; otherwise steps 1-3 above. A dying source therefore counts as free for the round robin of
+its own instruction.
+
+Which values are colour-pass live ranges (`@R k=` gives the kind: `0x0A0804`/`0x020A04` named
+variables, `3`/`0x103` optimizer temps, `0x100D` constants): a variable's definition gets a live range
+only if its uses reach another basic block; a variable defined and used within one block is a plain
+temp (probe: `o = ped->f184; rot = o->f4->ang;` has no live range for `o`, with
+`if (k) rot = o->f4->ang; else rot = o->a;` it gets one). Optimizer temps are coloured even when
+block-local.
+
+Blocks merged after allocation (identical early-return blocks, tail merging) still made their picks:
+a block that disappears from the final asm can move the cursor.
+
 So a temp's register depends on how many round-robin picks came before it in the function, in
 code generation order. A run of temps after a call rotates eax -> ecx -> edx; a shifted rotation
 in one block (the original's eax/ecx/edx where ours has ecx/edx/eax) means one more or one fewer
