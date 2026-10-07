@@ -1755,6 +1755,12 @@ Found by tracing C2.DLL (see `Scripts/inline_budget/`); the instrumented compile
   the call (C2 `0x1073c543`, used at `0x10758678`). C2 compiles a header inline's out-of-line copy
   right after the first function that calls it, so later callers lose their state stores while earlier
   ones keep them.
+  The same knowledge also drops ordinary stores to an EH-registered local: in
+  `Camera_0xBC::ApplyCarVelocityCameraOffset_436200` the original stores `offset.x` (inline `FromPolar_41E210`)
+  before the second out-of-line `Fix16::operator*` call and drops the dead `offset.y` store. Ours dropped both
+  once `IsCoordsPosVisible_435A70` (through `WorldToScreen_40CFC0`) had made VC6 compile the operator's copy.
+  Defining 436200 above 435A70 matched it (3305 -> 3306); a scratch copy where 435A70 doesn't call the copy
+  out of line also matched, so it is only that compile.
 - **An inline defined after its callers keeps every caller's state stores.** C2 can only compile a header
   inline's out-of-line copy once its body has been seen, so when the body comes after the callers (an
   out-of-class definition at the end of the TU) the copy is compiled at the end and no caller learns it

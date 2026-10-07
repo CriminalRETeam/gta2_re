@@ -286,6 +286,76 @@ Fix16 Camera_0xBC::ReturnOwnerVelocity_435A20()
     }
 }
 
+// Defined ahead of IsCoordsPosVisible_435A70 (out of address order): that function needs the out-of-line
+// Fix16::operator* copy, and once C2 has compiled the copy it knows the call can't throw, so the inline
+// FromPolar_41E210 here would drop offset.x's store before its second multiply. The original keeps it, as if
+// the copy had not been compiled yet (the same effect as Fix16_Point::operator+ in Weapon_30, see
+// docs/matching_quirks.md).
+MATCH_FUNC(0x436200)
+void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, Fix16* pY, Fix16* pZ)
+{
+    // 9.6f 0x41EBF0: this source matches it exactly when built with VC7 (compile_vc7.sh, permuter_score.py --96f)
+    Ang16 angle;
+    Fix16_Point vel;
+    Fix16_Point offset;
+    Fix16 radius;
+    Fix16 speed;
+
+    if (pCar->IsTrainModel_403BA0())
+    {
+        speed = dword_676900 * dword_67696C;
+    }
+    else
+    {
+        vel = pCar->get_linvel_43A450() * dword_67696C;
+        speed = vel.GetLength_41E260();
+    }
+
+    if (speed > dword_67674C)
+    {
+        *pZ += speed;
+
+        if (!pCar->IsTrainModel_403BA0() && !pCar->IsTank_411900())
+        {
+            angle = vel.atan2_40F790();
+
+            Fix16 dist;
+            if ((angle > kAng45_6766DC && angle < kAng135_676790) || (angle > kAng225_676764 && angle < kAng315_67679C))
+            {
+                dist = Fix16(240);
+            }
+            else
+            {
+                dist = Fix16(180);
+            }
+
+            if (pCar->is_trailer_cab_41E460())
+            {
+                dist *= dword_6768E0;
+            }
+
+            if (this->field_44_suspicion)
+            {
+                Fix16 suspicion;
+                if (this->field_44_suspicion > 64u)
+                {
+                    suspicion = dword_6768E4;
+                }
+                else
+                {
+                    suspicion = Fix16(this->field_44_suspicion);
+                }
+                dist *= kOne_67681C - suspicion / 128;
+            }
+
+            radius = dist * (Fix16(8) - pCar->field_50_car_sprite->field_1C_zpos + *pZ) / field_60.y;
+            offset.FromPolar_41E210(radius, angle);
+            *pX += offset.x;
+            *pY += offset.y;
+        }
+    }
+}
+
 MATCH_FUNC(0x435A70)
 s32 Camera_0xBC::IsCoordsPosVisible_435A70(Fix16 x, Fix16 y, Fix16 z)
 {
@@ -514,72 +584,6 @@ void Camera_0xBC::SetScreenSize_4361B0(u32 x_pos, u32 y_pos)
     field_A8_ui_scale = Fix16(x_pos) / 640;
 }
 
-WIP_FUNC(0x436200)
-void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, Fix16* pY, Fix16* pZ)
-{
-    WIP_IMPLEMENTED;
-
-    // 9.6f 0x41EBF0: this source matches it exactly when built with VC7 (compile_vc7.sh, permuter_score.py --96f)
-    Ang16 angle;
-    Fix16_Point vel;
-    Fix16_Point offset;
-    Fix16 radius;
-    Fix16 speed;
-
-    if (pCar->IsTrainModel_403BA0())
-    {
-        speed = dword_676900 * dword_67696C;
-    }
-    else
-    {
-        vel = pCar->get_linvel_43A450() * dword_67696C;
-        speed = vel.GetLength_41E260();
-    }
-
-    if (speed > dword_67674C)
-    {
-        *pZ += speed;
-
-        if (!pCar->IsTrainModel_403BA0() && !pCar->IsTank_411900())
-        {
-            angle = vel.atan2_40F790();
-
-            Fix16 dist;
-            if ((angle > kAng45_6766DC && angle < kAng135_676790) || (angle > kAng225_676764 && angle < kAng315_67679C))
-            {
-                dist = Fix16(240);
-            }
-            else
-            {
-                dist = Fix16(180);
-            }
-
-            if (pCar->is_trailer_cab_41E460())
-            {
-                dist *= dword_6768E0;
-            }
-
-            if (this->field_44_suspicion)
-            {
-                Fix16 suspicion;
-                if (this->field_44_suspicion > 64u)
-                {
-                    suspicion = dword_6768E4;
-                }
-                else
-                {
-                    suspicion = Fix16(this->field_44_suspicion);
-                }
-                dist *= kOne_67681C - suspicion / 128;
-            }
-
-            radius = dist * (Fix16(8) - pCar->field_50_car_sprite->field_1C_zpos + *pZ) / field_60.y;
-            offset.FromPolar_41E210(radius, angle);
-            *pX += offset.x;
-            *pY += offset.y;
-        }
-    }
-}
 
 MATCH_FUNC(0x4364A0)
 void Camera_0xBC::UpdateFollowCarCamera_4364A0(Car_BC* pCar)
