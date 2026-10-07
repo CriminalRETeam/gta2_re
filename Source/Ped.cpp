@@ -11931,7 +11931,7 @@ void Ped::Kill_46F9D0()
             case ped_ocupation_enum::police:
             case ped_ocupation_enum::swat:
             case ped_ocupation_enum::fbi:
-                if (!IsField238_45EDE0(4) || !gPolice_7B8_6FEE40->HandleCrewPedDeath_56F4D0(this))
+                if (!IsField238_45EDE0(4) || !gPolice_7B8_6FEE40->TryReplaceCrewLeaderOnDeath_56F4D0(this))
                 {
                     break;
                 }

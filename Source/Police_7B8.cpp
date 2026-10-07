@@ -84,7 +84,7 @@ void Police_7B8::Init_56F400()
 }
 
 MATCH_FUNC(0x56f4d0)
-bool Police_7B8::HandleCrewPedDeath_56F4D0(Ped* pPed)
+bool Police_7B8::TryReplaceCrewLeaderOnDeath_56F4D0(Ped* pPed)
 {
     for (u8 idx = 0; idx < MAX_POLICE_CREWS; idx++)
     {
