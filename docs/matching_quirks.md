@@ -896,6 +896,20 @@ are distinct COMDATs; passing a u32 where the original calls 0x4926F0 matched `G
 original splits elsewhere (110 in `sound_obj::SelectObjectImpactSound_413120`), write `if (x <= 110) { switch } else
 { switch }`.
 
+**Switch lowering thresholds (measured, Oct 7).** From about 300 probe switches (`/O2`; the thresholds sit in a
+table at `0x107A3288` in C2, row `[4, 4, 3, 255]`, decision code around `0x1074F318`). n = the number of case
+labels (stacked labels and labels sharing a body count separately), R = max - min + 1:
+
+- n <= 3: a `sub`/`dec`; `je` chain, no table. n >= 4: a jump table (`cmp`, `ja default`, `jmp [table+reg*4]`).
+- A **byte index table** (`mov al, [bytes+reg]; jmp [table+eax*4]`) instead of a direct one when `3R >= 4n + 13`,
+  i.e. when it saves more than about 8 bytes (direct 4R bytes vs R + 4(n+1) + code). The number of distinct targets
+  doesn't matter. So 4 labels go to a byte table at R >= 10, 8 at R >= 15, 12 at R >= 21. Adding or dropping one
+  empty case label, or widening the range by one outlier, flips this (`FatalDXError_4A3CF0`, `Wolfy_7A8`).
+- A switch is **split** (median, recursively; pieces under 4 labels become chains) only when R > 255 **and**
+  4n < R. Below a range of 256 even 6 labels over 255 values stay one byte table; 150 labels over 300 values stay one
+  table too.
+
+
 **Identical bodies in an else-if chain are tail-merged** with a `jmp` into the first copy
 (`CarAI_78::ManageCollisions_452A20`). Stacked case labels give a `cmp/jl/jle` range test, while separate
 identical case bodies give the `sub/dec/je` chain (`Char_B4::state_7_551CB0`).
