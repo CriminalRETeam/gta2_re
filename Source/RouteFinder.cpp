@@ -11,6 +11,9 @@
 #include "Frontend.hpp"
 #include <cstdio>
 
+// Forward declarations: the functions below are in address order
+static inline void WorldToScreen_RouteFinder_40CFC0(Camera_0xBC* pCam, Fix16 x, Fix16 y, Fix16 z, Fix16* pOutX, Fix16* pOutY);
+
 DEFINE_GLOBAL(RouteFinder*, gRouteFinder_6FFDC8, 0x6FFDC8);
 DEFINE_GLOBAL(u16, gLastRouteLength_6FFDCC, 0x6ffdcc);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FFC7C, Fix16(1), 0x6FFC7C);
@@ -69,27 +72,6 @@ u16 Junction_10::GetDirectionToJunction_5885C0(u16 a2)
     }
 }
 
-MATCH_FUNC(0x5892d0)
-RouteFinder_10::RouteFinder_10()
-{
-    field_0_idx = 0;
-    field_2_cost = -1;
-    field_4_expanded = 0;
-    field_8_pParent = 0;
-    field_C_pNext = 0;
-}
-
-// 9.6f 0x40CFC0: Camera_0xBC::WorldToScreen_40CFC0 (x/y/z by value, writes through two out pointers), but
-// the original reads this file's copies of the constants (0x6FFC7C, 0x6FFC9C), so the Camera.hpp inline can't
-// be used here
-static inline void WorldToScreen_RouteFinder_40CFC0(Camera_0xBC* pCam, Fix16 x, Fix16 y, Fix16 z, Fix16* pOutX, Fix16* pOutY)
-{
-    Fix16 u = pCam->field_98_cam_pos2.field_8_z - z;
-    Fix16 t(dword_6FFC7C / Fix16(u.mValue + dword_6FFC9C.mValue, 0));
-    *pOutX = (((x - pCam->field_98_cam_pos2.field_0_x) * pCam->field_60.y) * t) + Fix16(320);
-    *pOutY = (((y - pCam->field_98_cam_pos2.field_4_y) * pCam->field_60.y) * t) + Fix16(240);
-}
-
 MATCH_FUNC(0x588620)
 void RouteFinder::ShowJunctionIds_588620()
 {
@@ -118,6 +100,17 @@ void RouteFinder::ShowJunctionIds_588620()
             gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, screen_x.ToInt(), screen_y.ToInt(), word_703BAA, 1);
         }
     }
+}
+
+// 9.6f 0x40CFC0: Camera_0xBC::WorldToScreen_40CFC0 (x/y/z by value, writes through two out pointers), but
+// the original reads this file's copies of the constants (0x6FFC7C, 0x6FFC9C), so the Camera.hpp inline can't
+// be used here
+static inline void WorldToScreen_RouteFinder_40CFC0(Camera_0xBC* pCam, Fix16 x, Fix16 y, Fix16 z, Fix16* pOutX, Fix16* pOutY)
+{
+    Fix16 u = pCam->field_98_cam_pos2.field_8_z - z;
+    Fix16 t(dword_6FFC7C / Fix16(u.mValue + dword_6FFC9C.mValue, 0));
+    *pOutX = (((x - pCam->field_98_cam_pos2.field_0_x) * pCam->field_60.y) * t) + Fix16(320);
+    *pOutY = (((y - pCam->field_98_cam_pos2.field_4_y) * pCam->field_60.y) * t) + Fix16(240);
 }
 
 MATCH_FUNC(0x588810)
@@ -575,9 +568,6 @@ void RouteFinder::FindArrowBlockInJunction_5890D0(u16 junction_idx, s32 directio
     }
 }
 
-// dx/dy are uninitialised for a direction that isn't 1, 2, 4 or 8, as in the original
-#pragma warning(push)
-#pragma warning(disable : 4701)
 MATCH_FUNC(0x589210)
 s32 RouteFinder::NoRefs_589210(u8 x, u8 y, s32 a4, u8 direction, s32 a6, u16 junction_idx)
 {
@@ -610,6 +600,19 @@ s32 RouteFinder::NoRefs_589210(u8 x, u8 y, s32 a4, u8 direction, s32 a6, u16 jun
         result = 1;
     }
     return result;
+}
+
+// dx/dy are uninitialised for a direction that isn't 1, 2, 4 or 8, as in the original
+#pragma warning(push)
+#pragma warning(disable : 4701)
+MATCH_FUNC(0x5892d0)
+RouteFinder_10::RouteFinder_10()
+{
+    field_0_idx = 0;
+    field_2_cost = -1;
+    field_4_expanded = 0;
+    field_8_pParent = 0;
+    field_C_pNext = 0;
 }
 #pragma warning(pop)
 

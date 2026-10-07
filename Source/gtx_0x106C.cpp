@@ -12,6 +12,9 @@
 #include <windows.h>
 #include "enums.hpp"
 
+// Forward declarations: the functions below are in address order
+void __stdcall ClearPixelsOfColourInRow_5ABAE0(u8* pData, int width, u8 clear_target);
+
 DEFINE_GLOBAL(gtx_0x106C*, gGtx_0x106C_703DD4, 0x703DD4);
 DEFINE_GLOBAL(s16, word_703D9C, 0x703D9C);
 DEFINE_GLOBAL(s16, word_703D9A, 0x703D9A);
@@ -20,114 +23,6 @@ DEFINE_GLOBAL(s16, word_703DA4, 0x703DA4);
 DEFINE_GLOBAL(s16, word_703BAA, 0x703BAA);
 DEFINE_GLOBAL(s16, word_703D98, 0x703D98);
 DEFINE_GLOBAL(s16, word_703C9C, 0x703C9C);
-
-// https://decomp.me/scratch/CjuP1
-MATCH_FUNC(0x5ABA00)
-void sprite_delta::Delta_5ABA00(u8* pArray)
-{
-    // Inline asm in the original (lodsw, rep movsb). Each entry is a u16 offset from the end
-    // of the previous run, a u8 length and that many bytes.
-    sprite_delta* pThis = this;
-    __asm
-    {
-        push edi
-        push esi
-        mov eax, 0
-        mov ecx, 0
-        mov edi, pArray
-        mov ebx, pThis
-        mov esi, [ebx]
-        movzx ebx, word ptr [ebx+4]
-        add ebx, esi
-    next_entry:
-        lodsw
-        mov cl, [esi]
-        add edi, eax
-        inc esi
-        rep movsb
-        cmp esi, ebx
-        jne next_entry
-        pop esi
-        pop edi
-    }
-}
-
-// https://decomp.me/scratch/Cc0Dx Not fully working
-MATCH_FUNC(0x5ABA40)
-void sprite_delta::Delta_5ABA40(u8* pArray, u32 width)
-{
-    // Inline asm in the original (lodsw / loop)
-    // Each entry: u16 offset, u8 len, then len bytes written backwards from the end of the row
-    __asm
-    {
-        push edi
-        push esi
-        mov eax, 0
-        mov ecx, 0
-        mov edi, pArray
-        mov ebx, this
-        mov esi, [ebx]
-        movzx ebx, word ptr [ebx + 4]
-        add ebx, esi
-        dec edi
-        add edi, width
-    next_entry:
-        lodsw
-        mov cl, [esi]
-        add edi, eax
-        and eax, 0xFF
-        shl eax, 1
-        sub edi, eax
-        cmp eax, 0x100
-        jl skip_wrap
-        add edi, 0x200
-    skip_wrap:
-        inc esi
-    copy_bytes:
-        mov al, [esi]
-        mov [edi], al
-        inc esi
-        dec edi
-        loop copy_bytes
-        cmp esi, ebx
-        jne next_entry
-        pop esi
-        pop edi
-    }
-}
-
-MATCH_FUNC(0x5ABAE0)
-void __stdcall ClearPixelsOfColourInRow_5ABAE0(u8* pData, int width, u8 clear_target)
-{
-    u8* pDataIter = pData;
-    for (s32 i = 0; i < width; i++)
-    {
-        if (*pDataIter == clear_target)
-        {
-            *pDataIter = 0;
-        }
-        pDataIter++;
-    }
-}
-
-MATCH_FUNC(0x5abaa0)
-void sprite_index::ClearPixelsOfColour_5ABAA0(u8 clear_target)
-{
-    for (s32 i = 0; i < field_5_height; i++)
-    {
-        ClearPixelsOfColourInRow_5ABAE0(&this->field_0_pData[i * 256], this->field_4_width, clear_target);
-    }
-}
-
-MATCH_FUNC(0x5abb00)
-void sprite_index::CopyPixels_5ABB00(u8* src)
-{
-    for (s32 ypos = 0; ypos < field_5_height; ypos++)
-    {
-        s32 idx = ypos << 8;
-        memcpy(&src[idx], &field_0_pData[idx], field_4_width);
-    }
-}
 
 MATCH_FUNC(0x5AA3B0)
 car_info* gtx_0x106C::get_car_info_5AA3B0(u8 idx)
@@ -167,6 +62,13 @@ sprite_delta* gtx_0x106C::get_delta_5AA3F0(u16 sprite_idx, u8 delta_idx)
     sprite_delta* pDelta = &pEntry->field_4_deltas[delta_idx];
 
     return pDelta->field_4_len != 0 ? pDelta : 0;
+}
+
+// note: param type matters
+MATCH_FUNC(0x5AA440)
+sprite_index* gtx_0x106C::get_sprite_index_5AA440(u16 idx)
+{
+    return &field_20_sprite_index[idx];
 }
 
 MATCH_FUNC(0x5AA460)
@@ -301,11 +203,6 @@ u16 gtx_0x106C::get_phys_pal_5AA6F0(u16 palId)
     return field_28_palette_index->field_0_phys_palette[palId];
 }
 
-#define STRINGIZE(x) STRINGIZE2(x)
-#define STRINGIZE2(x) #x
-#define LINE_STRING STRINGIZE(__LINE__)
-#define UNIQUE_FUNC printf(__FILE__ LINE_STRING "\n")
-
 MATCH_FUNC(0x5AA710)
 u16 gtx_0x106C::GetSpriteIdxFromFont_5AA710(u16 font_type, s16 offset)
 {
@@ -370,6 +267,11 @@ s16 gtx_0x106C::GetLineSpacing_5AA800(u16* font_type)
             .field_5_height;
     }
 }
+
+#define STRINGIZE(x) STRINGIZE2(x)
+#define STRINGIZE2(x) #x
+#define LINE_STRING STRINGIZE(__LINE__)
+#define UNIQUE_FUNC printf(__FILE__ LINE_STRING "\n")
 
 MATCH_FUNC(0x5AA850)
 bool gtx_0x106C::IsTileRemapped_5AA850(u16 tile_idx)
@@ -443,97 +345,6 @@ void gtx_0x106C::InitTileMapping_5AA950()
         field_40_tile->field_0_tile_mapping[tile_num_2++] = 0;
     }
 }
-
-/*
- //gtx_0x106C *this_; // edi
-    u32 idx; // ebx
-    car_info *pCarInfoIter; // esi
-    u32 total_len; // ebp
-
-   // BYTE new_total_sprite; // dl
-    s32 num_remaps; // eax
-    s32 next_item_len; // eax
-    BYTE total_sprite; // [esp+12h] [ebp-6h]
-   // BYTE car_sprite; // [esp+13h] [ebp-5h]
-
-    //this_ = this;
-    idx = 0;
-    total_len = 0;
-    total_sprite = 0;
-    BYTE last_car_sprite = 0;
-    pCarInfoIter = (car_info *)field_58_car_info;
-
-    car_info_container* pInfo = new car_info_container();
-    field_5C_cari = pInfo;                  // 257 "dynamic" array ??
-    if (!field_5C_cari)
-    {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 821);
-    }
-
-    if (chunk_size > 0)
-    {
-        for (; total_len < chunk_size; idx++)
-            //while (1)
-        {
-            if (idx >= 256)
-            {
-                FatalError_4A38C0(34, "C:\\Splitting\\Gta2\\Source\\style.cpp", 825);
-            }
-
-            if (pCarInfoIter->w > 0x80u || pCarInfoIter->h > 0x80u || pCarInfoIter->num_remaps > 0x40u)
-            {
-                FatalError_4A38C0(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 826, pCarInfoIter->model);
-            }
-
-            BYTE sprite = pCarInfoIter->sprite;
-            if (sprite && sprite != 1)
-            {
-                FatalError_4A38C0(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 827, pCarInfoIter->model);
-            }
-
-            pInfo->field_0_car_info[pCarInfoIter->model] = pCarInfoIter;
-
-            if (pCarInfoIter->sprite)
-            {
-                total_sprite = last_car_sprite + total_sprite;
-                last_car_sprite = pCarInfoIter->sprite;
-            }
-
-            num_remaps = pCarInfoIter->num_remaps;
-            pCarInfoIter->sprite = total_sprite;
-
-            BYTE* pRemaps = pCarInfoIter->remap;
-            BYTE* t = pRemaps + num_remaps;
-            if (*t > 5u)// num_doors
-            {
-                FatalError_4A38C0(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 842, pCarInfoIter->model);
-            }
-
-            // 0xE = remap
-            next_item_len = pCarInfoIter->remap[num_remaps] + sizeof(door_info) * pCarInfoIter->remap[num_remaps] + 1;
-
-            total_len += next_item_len;
-
-            pCarInfoIter = (car_info *)((char_type *)pCarInfoIter + next_item_len);
-
-            //++idx;
-
-            //if (total_len >= chunk_size)
-            //{
-            //    break;
-            //}
-            //this_ = this;
-        } // loop end
-
-        pInfo->field_400_count = idx;
-
-    }
-    else
-    {
-
-        field_5C_cari->field_400_count = 0;
-    }
-*/
 
 // Better score:
 // https://decomp.me/scratch/IKsR3
@@ -637,13 +448,6 @@ void gtx_0x106C::load_delx_5AAB30(u32 delx_chunk_size)
     }
 }
 
-// note: param type matters
-MATCH_FUNC(0x5AA440)
-sprite_index* gtx_0x106C::get_sprite_index_5AA440(u16 idx)
-{
-    return &field_20_sprite_index[idx];
-}
-
 // https://decomp.me/scratch/vwSG1 TODO: fix this hack
 MATCH_FUNC(0x5AABF0)
 void gtx_0x106C::SetDeltaDataPtrs_5AABF0()
@@ -675,6 +479,97 @@ void gtx_0x106C::SetSpriteIndexDataPtrs_5AAC40()
         v4->field_0_pData = &this->field_34_sprite_graphics[(u32)field_0_pData];
     }
 }
+
+/*
+ //gtx_0x106C *this_; // edi
+    u32 idx; // ebx
+    car_info *pCarInfoIter; // esi
+    u32 total_len; // ebp
+
+   // BYTE new_total_sprite; // dl
+    s32 num_remaps; // eax
+    s32 next_item_len; // eax
+    BYTE total_sprite; // [esp+12h] [ebp-6h]
+   // BYTE car_sprite; // [esp+13h] [ebp-5h]
+
+    //this_ = this;
+    idx = 0;
+    total_len = 0;
+    total_sprite = 0;
+    BYTE last_car_sprite = 0;
+    pCarInfoIter = (car_info *)field_58_car_info;
+
+    car_info_container* pInfo = new car_info_container();
+    field_5C_cari = pInfo;                  // 257 "dynamic" array ??
+    if (!field_5C_cari)
+    {
+        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 821);
+    }
+
+    if (chunk_size > 0)
+    {
+        for (; total_len < chunk_size; idx++)
+            //while (1)
+        {
+            if (idx >= 256)
+            {
+                FatalError_4A38C0(34, "C:\\Splitting\\Gta2\\Source\\style.cpp", 825);
+            }
+
+            if (pCarInfoIter->w > 0x80u || pCarInfoIter->h > 0x80u || pCarInfoIter->num_remaps > 0x40u)
+            {
+                FatalError_4A38C0(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 826, pCarInfoIter->model);
+            }
+
+            BYTE sprite = pCarInfoIter->sprite;
+            if (sprite && sprite != 1)
+            {
+                FatalError_4A38C0(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 827, pCarInfoIter->model);
+            }
+
+            pInfo->field_0_car_info[pCarInfoIter->model] = pCarInfoIter;
+
+            if (pCarInfoIter->sprite)
+            {
+                total_sprite = last_car_sprite + total_sprite;
+                last_car_sprite = pCarInfoIter->sprite;
+            }
+
+            num_remaps = pCarInfoIter->num_remaps;
+            pCarInfoIter->sprite = total_sprite;
+
+            BYTE* pRemaps = pCarInfoIter->remap;
+            BYTE* t = pRemaps + num_remaps;
+            if (*t > 5u)// num_doors
+            {
+                FatalError_4A38C0(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 842, pCarInfoIter->model);
+            }
+
+            // 0xE = remap
+            next_item_len = pCarInfoIter->remap[num_remaps] + sizeof(door_info) * pCarInfoIter->remap[num_remaps] + 1;
+
+            total_len += next_item_len;
+
+            pCarInfoIter = (car_info *)((char_type *)pCarInfoIter + next_item_len);
+
+            //++idx;
+
+            //if (total_len >= chunk_size)
+            //{
+            //    break;
+            //}
+            //this_ = this;
+        } // loop end
+
+        pInfo->field_400_count = idx;
+
+    }
+    else
+    {
+
+        field_5C_cari->field_400_count = 0;
+    }
+*/
 
 MATCH_FUNC(0x5AAC70)
 void gtx_0x106C::build_delta_container_5AAC70()
@@ -1313,4 +1208,112 @@ gtx_0x106C::~gtx_0x106C()
     field_54_del = 0;
     delete (local_field_40_tile);
     field_40_tile = 0;
+}
+
+// https://decomp.me/scratch/CjuP1
+MATCH_FUNC(0x5ABA00)
+void sprite_delta::Delta_5ABA00(u8* pArray)
+{
+    // Inline asm in the original (lodsw, rep movsb). Each entry is a u16 offset from the end
+    // of the previous run, a u8 length and that many bytes.
+    sprite_delta* pThis = this;
+    __asm
+    {
+        push edi
+        push esi
+        mov eax, 0
+        mov ecx, 0
+        mov edi, pArray
+        mov ebx, pThis
+        mov esi, [ebx]
+        movzx ebx, word ptr [ebx+4]
+        add ebx, esi
+    next_entry:
+        lodsw
+        mov cl, [esi]
+        add edi, eax
+        inc esi
+        rep movsb
+        cmp esi, ebx
+        jne next_entry
+        pop esi
+        pop edi
+    }
+}
+
+// https://decomp.me/scratch/Cc0Dx Not fully working
+MATCH_FUNC(0x5ABA40)
+void sprite_delta::Delta_5ABA40(u8* pArray, u32 width)
+{
+    // Inline asm in the original (lodsw / loop)
+    // Each entry: u16 offset, u8 len, then len bytes written backwards from the end of the row
+    __asm
+    {
+        push edi
+        push esi
+        mov eax, 0
+        mov ecx, 0
+        mov edi, pArray
+        mov ebx, this
+        mov esi, [ebx]
+        movzx ebx, word ptr [ebx + 4]
+        add ebx, esi
+        dec edi
+        add edi, width
+    next_entry:
+        lodsw
+        mov cl, [esi]
+        add edi, eax
+        and eax, 0xFF
+        shl eax, 1
+        sub edi, eax
+        cmp eax, 0x100
+        jl skip_wrap
+        add edi, 0x200
+    skip_wrap:
+        inc esi
+    copy_bytes:
+        mov al, [esi]
+        mov [edi], al
+        inc esi
+        dec edi
+        loop copy_bytes
+        cmp esi, ebx
+        jne next_entry
+        pop esi
+        pop edi
+    }
+}
+
+MATCH_FUNC(0x5abaa0)
+void sprite_index::ClearPixelsOfColour_5ABAA0(u8 clear_target)
+{
+    for (s32 i = 0; i < field_5_height; i++)
+    {
+        ClearPixelsOfColourInRow_5ABAE0(&this->field_0_pData[i * 256], this->field_4_width, clear_target);
+    }
+}
+
+MATCH_FUNC(0x5ABAE0)
+void __stdcall ClearPixelsOfColourInRow_5ABAE0(u8* pData, int width, u8 clear_target)
+{
+    u8* pDataIter = pData;
+    for (s32 i = 0; i < width; i++)
+    {
+        if (*pDataIter == clear_target)
+        {
+            *pDataIter = 0;
+        }
+        pDataIter++;
+    }
+}
+
+MATCH_FUNC(0x5abb00)
+void sprite_index::CopyPixels_5ABB00(u8* src)
+{
+    for (s32 ypos = 0; ypos < field_5_height; ypos++)
+    {
+        s32 idx = ypos << 8;
+        memcpy(&src[idx], &field_0_pData[idx], field_4_width);
+    }
 }

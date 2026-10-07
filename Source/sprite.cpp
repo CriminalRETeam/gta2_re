@@ -26,6 +26,11 @@
 #include "sharp_pare_0x15D8.hpp"
 #include "winmain.hpp" // TODO: only because of gLighting_626A09
 
+// Forward declarations: the functions below are in address order
+EXPORT void __stdcall ProjectOntoAxis_5A5AA0(Fix16& xpos1, Fix16& ypos1, Ang16& angle, Fix16& xpos2, Fix16& ypos2, Fix16& outX, Fix16& outY);
+static inline void ProjectToScreen_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2);
+EXTERN_GLOBAL(u16, gDebugColour_626260);
+
 DEFINE_GLOBAL(Sprite_8*, gSprite_8_703820, 0x703820);
 // Used by map_0x370.cpp and Camera.cpp, which must only see them as extern (see the notes there)
 DEFINE_GLOBAL(s16, gFaceCollisionMask_6F6002, 0x6F6002);
@@ -125,11 +130,193 @@ static inline Fix16 __stdcall Sign_4B9C20(s32& a2)
     }
 }
 
-MATCH_FUNC(0x5A5AA0)
-EXPORT void __stdcall ProjectOntoAxis_5A5AA0(Fix16& xpos1, Fix16& ypos1, Ang16& angle, Fix16& xpos2, Fix16& ypos2, Fix16& outX, Fix16& outY)
+// 9.6f 0x4207B0
+MATCH_FUNC(0x443580)
+Fix16_Point Sprite::get_x_y_443580()
 {
-    outX = (Ang16::cosine_40F520(angle) * (xpos1 - xpos2)) + (Ang16::sine_40F500(angle) * (ypos1 - ypos2));
-    outY = (Ang16::sine_40F500(angle) * (xpos2 - xpos1)) + (Ang16::cosine_40F520(angle) * (ypos1 - ypos2));
+    return Fix16_Point(field_14_xy.x, field_14_xy.y);
+}
+
+MATCH_FUNC(0x451950)
+void Sprite::set_xyz_lazy_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos)
+{
+    if (field_14_xy.x != xpos || field_14_xy.y != ypos || field_1C_zpos != zpos)
+    {
+        field_14_xy.x = xpos;
+        field_14_xy.y = ypos;
+        field_1C_zpos = zpos;
+        ResetZCollisionAndDebugBoxes_59E7B0();
+    }
+}
+
+MATCH_FUNC(0x4833B0)
+void Sprite::set_angle_4833B0(Ang16 ang)
+{
+    if (ang != field_0)
+    {
+        field_0 = ang;
+        ResetZCollisionAndDebugBoxes_59E7B0();
+    }
+}
+
+MATCH_FUNC(0x48F5A0)
+void Sprite_14::MarkUsed_48F5A0()
+{
+    Sprite_3CC* pSprt = gSprite_3CC_67AF1C;
+    s32 new_idx = ++pSprt->field_3C0_use_counter;
+    field_C_last_used = new_idx;
+}
+
+MATCH_FUNC(0x48F5C0)
+EXPORT void Sprite_14::ClearMask_48F5C0(u8 xCount, u8 yCount)
+{
+    u8* pData = this->field_0_pixels;
+    for (s32 y = 0; y < yCount; y++)
+    {
+        memset(pData, 0, xCount);
+        pData += 256;
+    }
+}
+
+MATCH_FUNC(0x48f600)
+Sprite_14* Sprite_3CC::FindCachedMask_48F600(u16& sprite_idx, u32* a3, u32* a4, const u16* a5)
+{
+    s32 final_idx;
+    s32 start_idx = 0;
+    Sprite_14* pSprt = NULL;
+    if (!*a3)
+    {
+        final_idx = 32;
+    }
+    else
+    {
+        start_idx = 32;
+        final_idx = 48;
+    }
+
+    s32 count = start_idx;
+    for (Sprite_14* pIter = &field_0[start_idx]; count < final_idx; count++, ++pIter)
+    {
+        s32 sprite_idx_copy = sprite_idx;
+        if (pIter->field_4_sprite_idx == sprite_idx_copy && pIter->field_12 == *a5)
+        {
+            if (pIter->field_8_delta_mask == *a4)
+            {
+                return pIter;
+            }
+            if (pIter->field_8_delta_mask < *a4 && (pIter->field_8_delta_mask | (*a4 - pIter->field_8_delta_mask)) == *a4)
+            {
+                pSprt = pIter;
+            }
+        }
+    }
+    return pSprt;
+}
+
+MATCH_FUNC(0x48f690)
+Sprite_14* Sprite_3CC::FindLeastRecentlyUsed_48F690(u32* a2)
+{
+    u32 min_value = -1;
+    s32 start_idx;
+    s32 final_idx;
+    Sprite_14* pSprt = NULL;
+    if (!*a2)
+    {
+        start_idx = 0;
+        final_idx = 32;
+    }
+    else
+    {
+        start_idx = 32;
+        final_idx = 48;
+    }
+
+    s32 count = start_idx;
+    for (Sprite_14* pIter = &field_0[start_idx]; count < final_idx; count++, ++pIter)
+    {
+        if (pIter->field_C_last_used < min_value)
+        {
+            min_value = pIter->field_C_last_used;
+            pSprt = pIter;
+        }
+    }
+    return pSprt;
+}
+
+MATCH_FUNC(0x48f6e0)
+void Sprite_3CC::InvalidateMasksByType_48F6E0(u16* sprite_idx)
+{
+    s32 count = 0;
+    for (Sprite_14* pIter = &this->field_0[0]; count < 48; count++, ++pIter)
+    {
+        if (pIter->field_4_sprite_idx == *sprite_idx)
+        {
+            pIter->Invalidate_44AF70();
+        }
+    }
+}
+
+MATCH_FUNC(0x48f710)
+void Sprite_3CC::InvalidateAllMasks_48F710()
+{
+    Sprite_14* psVar1 = field_0;
+    s32 iVar2 = 0x30;
+    do
+    {
+        psVar1->Invalidate_44AF70();
+        psVar1++;
+        iVar2--;
+    } while (iVar2 != 0);
+}
+
+MATCH_FUNC(0x48f730)
+Sprite_3CC::Sprite_3CC()
+{
+    u32 iVar4;
+    field_3C0_use_counter = 0;
+    field_3C4_aligned_buffer = NULL;
+    field_3C8_unaligned_alloc = NULL;
+
+    // By the way this is later used, it seems to be an array of a structure of size 0x40.
+    // For now, it's a s32* as it make the code to match.
+    u8* pvVar2 = (u8*)Memory::Aligned_malloc_4FE510(0x40000, (void**)(&field_3C8_unaligned_alloc));
+    field_3C4_aligned_buffer = pvVar2;
+
+    Sprite_14* tmp = field_0;
+    for (iVar4 = 8; iVar4 != 0; iVar4--, pvVar2 += 0x4000, tmp += 4)
+    {
+        tmp[0].field_0_pixels = pvVar2;
+        tmp[1].field_0_pixels = (pvVar2 + 0x40);
+        tmp[2].field_0_pixels = (pvVar2 + 0x80);
+        tmp[3].field_0_pixels = (pvVar2 + 0xC0);
+    }
+
+    tmp = field_0 + 33;
+    for (iVar4 = 4; iVar4 != 0; iVar4--, pvVar2 += 0x8000, tmp += 4)
+    {
+        // I don't know why this one starts at -1...
+        // Maybe an artifact of the decompilation
+        tmp[-1].field_0_pixels = pvVar2;
+        tmp[0].field_0_pixels = (pvVar2 + 0x40);
+        tmp[1].field_0_pixels = (pvVar2 + 0x80);
+        tmp[2].field_0_pixels = (pvVar2 + 0xC0);
+    }
+
+    for (u16 uVar1 = 0; uVar1 < 48; uVar1++)
+    {
+        field_0[uVar1].field_10_idx = uVar1;
+    }
+}
+
+MATCH_FUNC(0x48F7F0)
+Sprite_3CC::~Sprite_3CC()
+{
+    if (this->field_3C8_unaligned_alloc)
+    {
+        crt::free(this->field_3C8_unaligned_alloc);
+    }
+    this->field_3C4_aligned_buffer = 0;
+    this->field_3C8_unaligned_alloc = 0;
 }
 
 MATCH_FUNC(0x48F820)
@@ -160,6 +347,12 @@ void CarFlags::Delta_48F820(u16& sprite_idx, u8* pArray, u32& a3, u8& width)
             unknown &= ~i;
         }
     }
+}
+
+// 9.6f 0x4BA230
+inline u16 Sprite::GetTrueSpriteIdx_4BA230()
+{
+    return gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
 }
 
 MATCH_FUNC(0x48F8B0)
@@ -207,23 +400,76 @@ s16 CarFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& a4, const u32& 
     return pSprt14->field_10_idx;
 }
 
-// 9.6f 0x4207B0
-MATCH_FUNC(0x443580)
-Fix16_Point Sprite::get_x_y_443580()
+MATCH_FUNC(0x4F76A0)
+EXPORT char_type __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16& minX, Fix16& minY, Fix16& scanLineY, Fix16_Point& p0, Fix16_Point& p1)
 {
-    return Fix16_Point(field_14_xy.x, field_14_xy.y);
+
+    // Raw compares: with Fix16 operators VC6 runs out of inline budget and calls the Fix16_Point ctor
+    // out of line. The out-of-line Sub_40AC80 gives the original's EH frame for pd. Remaining diff: the
+    // original's success returns are `mov $1,%al; jmp` to one shared epilogue, ours copy the epilogue.
+    Fix16_Point pd;
+
+    if (p0.y == p1.y)
+    {
+        return 0;
+    }
+
+    if (p0.y <= scanLineY && p1.y >= scanLineY)
+    {
+        pd = p1.Sub_40AC80(p0);
+        Fix16 x = p0.x + (((scanLineY - p0.y) * ((pd.x) / pd.y)));
+        if (x.mValue >= minX.mValue && x.mValue <= minY.mValue)
+        {
+            gRozza_679188.field_14_mapx_t2 = x;
+            return 1;
+        }
+    }
+    else if (p1.y <= scanLineY && p0.y >= scanLineY)
+    {
+        pd = p0.Sub_40AC80(p1);
+        Fix16 x = p1.x + (((scanLineY - p1.y) * ((pd.x) / pd.y)));
+        if (x.mValue >= minX.mValue && x.mValue <= minY.mValue)
+        {
+            gRozza_679188.field_14_mapx_t2 = x;
+            return 1;
+        }
+    }
+    return 0;
 }
 
-MATCH_FUNC(0x451950)
-void Sprite::set_xyz_lazy_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos)
+MATCH_FUNC(0x4F77D0)
+EXPORT bool __stdcall ComputeScanlineIntersectionX_4F77D0(Fix16& minX, Fix16& minY, Fix16& scanLineX, Fix16_Point& p0, Fix16_Point& p1)
 {
-    if (field_14_xy.x != xpos || field_14_xy.y != ypos || field_1C_zpos != zpos)
+
+    // Same shape as ComputeScanlineIntersectionY_4F76A0, same leftover diff.
+    Fix16_Point pd;
+
+    if (p0.x == p1.x)
     {
-        field_14_xy.x = xpos;
-        field_14_xy.y = ypos;
-        field_1C_zpos = zpos;
-        ResetZCollisionAndDebugBoxes_59E7B0();
+        return 0;
     }
+
+    if (p0.x <= scanLineX && p1.x >= scanLineX)
+    {
+        pd = p1 - p0;
+        Fix16 y = p0.y + (((scanLineX - p0.x) * ((pd.y) / pd.x)));
+        if (y.mValue >= minX.mValue && y.mValue <= minY.mValue)
+        {
+            gRozza_679188.field_18_mapy_t1 = y;
+            return 1;
+        }
+    }
+    else if (p1.x <= scanLineX && p0.x >= scanLineX)
+    {
+        pd = p0 - p1;
+        Fix16 y = p1.y + (((scanLineX - p1.x) * ((pd.y) / pd.x)));
+        if (y.mValue >= minX.mValue && y.mValue <= minY.mValue)
+        {
+            gRozza_679188.field_18_mapy_t1 = y;
+            return 1;
+        }
+    }
+    return 0;
 }
 
 MATCH_FUNC(0x54EC80)
@@ -334,12 +580,6 @@ MATCH_FUNC(0x59e300)
 void Sprite::sub_59E300()
 {
     memcpy(field_C_sprite_4c_ptr, field_4_0x4C_len, sizeof(Sprite_4C));
-}
-
-// 9.6f 0x4BA230
-inline u16 Sprite::GetTrueSpriteIdx_4BA230()
-{
-    return gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
 }
 
 MATCH_FUNC(0x59e320)
@@ -487,6 +727,13 @@ void Sprite::ResetZCollisionAndDebugBoxes_59E7B0()
     }
 }
 
+static inline void __stdcall DrawTextScaled_4BA2C0(const wchar_t* pStr, Fix16 x, Fix16 y, u16 font)
+{
+    s32 palette_type = palette_types_enum::sprites_2;
+    Fix16 scale_y = y * gViewCamera_676978->field_A8_ui_scale;
+    DrawText_5D8A10(pStr, x * gViewCamera_676978->field_A8_ui_scale, scale_y, font, gViewCamera_676978->field_A8_ui_scale, palette_type, 0, 0, 0);
+}
+
 MATCH_FUNC(0x59e7d0)
 Sprite* Sprite::QuerySpriteCollision_59E7D0(s32 a2)
 {
@@ -506,6 +753,8 @@ Sprite* Sprite::QuerySpriteCollision_59E7D0(s32 a2)
     }
     return result;
 }
+
+// 9.6f inline
 
 MATCH_FUNC(0x59E830)
 char_type Sprite::IsThreatToSearchingPed_59E830()
@@ -569,6 +818,12 @@ void Sprite::ProcessCarToCarImpactIfCar_59E910(Sprite* pSprite)
     }
 }
 
+MATCH_FUNC(0x59E930)
+bool Sprite::IsObjectModelEqual_59E930(s32 model)
+{
+    return (Is2C_40FE80() && field_8_object_2C_ptr->field_18_model == model) ? true : false;
+}
+
 MATCH_FUNC(0x59e960)
 void Sprite::SetDefaultNumBySpriteType_59E960()
 {
@@ -598,6 +853,28 @@ void Sprite::SetDefaultNumBySpriteType_59E960()
         default:
             return;
     }
+}
+
+// RotateAndTranslatePoint_42A720 with the out-of-line Fix16 operator copies
+static inline void __stdcall RotateAndTranslatePoint_ool_42A720(Fix16& pInX,
+                                                                Fix16& pInY,
+                                                                Ang16& pRotAng,
+                                                                Fix16& pTransX,
+                                                                Fix16& pTransY,
+                                                                Fix16& pRotTransX,
+                                                                Fix16& pRotTransY)
+{
+    pRotTransX = ((pInX - pTransX) * Ang16::cosine_40F520(pRotAng))
+                     .Add_408660((pInY - pTransY) * Ang16::sine_40F500(pRotAng));
+    pRotTransY = ((pInX - pTransX).Negate_4086A0() * Ang16::sine_40F500(pRotAng))
+                     .Add_408660((pInY - pTransY) * Ang16::cosine_40F520(pRotAng));
+}
+
+// Sprite_4C::HalfWH_4BA0A0 with the out-of-line Fix16 / s32 copy
+static inline void HalfWH_ool_4BA0A0(Sprite_4C* pThis, Fix16* pHalfW, Fix16* pHalfH)
+{
+    *pHalfW = pThis->field_0_width.DivideInt_53E860(2);
+    *pHalfH = pThis->field_4_height.DivideInt_53E860(2);
 }
 
 MATCH_FUNC(0x59e9c0)
@@ -656,6 +933,21 @@ s16 Sprite::GetTruePalette_59EAA0()
     return gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(field_34_palette_type, field_24_remap);
 }
 
+// https://decomp.me/scratch/5emc4
+// RotateAndTranslatePoint_42A720 as RotatedRectCollisionSAT_5A0380 gets it once it has run out of
+// inline expansions: the unary minus is the out-of-line copy (Negate_4086A0)
+static inline void __stdcall RotateAndTranslatePoint_NegOOL_42A720(Fix16& pInX,
+                                                                  Fix16& pInY,
+                                                                  Ang16& pRotAng,
+                                                                  Fix16& pTransX,
+                                                                  Fix16& pTransY,
+                                                                  Fix16& pRotTransX,
+                                                                  Fix16& pRotTransY)
+{
+    pRotTransX = (((pInX - pTransX) * Ang16::cosine_40F520(pRotAng)) + ((pInY - pTransY) * Ang16::sine_40F500(pRotAng)));
+    pRotTransY = (((pInX - pTransX).Negate_4086A0() * Ang16::sine_40F500(pRotAng)) + ((pInY - pTransY) * Ang16::cosine_40F520(pRotAng)));
+}
+
 MATCH_FUNC(0x59eae0)
 char_type Sprite::has_shadows_59EAE0()
 {
@@ -677,13 +969,6 @@ char_type Sprite::has_shadows_59EAE0()
             break;
     }
     return 0;
-}
-
-static inline void __stdcall DrawTextScaled_4BA2C0(const wchar_t* pStr, Fix16 x, Fix16 y, u16 font)
-{
-    s32 palette_type = palette_types_enum::sprites_2;
-    Fix16 scale_y = y * gViewCamera_676978->field_A8_ui_scale;
-    DrawText_5D8A10(pStr, x * gViewCamera_676978->field_A8_ui_scale, scale_y, font, gViewCamera_676978->field_A8_ui_scale, palette_type, 0, 0, 0);
 }
 
 MATCH_FUNC(0x59EB30)
@@ -748,8 +1033,6 @@ void Sprite::ShowId_59EB30(f32& x, f32& y)
         }
     }
 }
-
-// 9.6f inline
 
 MATCH_FUNC(0x59ee40)
 void Sprite::ShowHorn_59EE40(f32& x, f32& y)
@@ -1019,6 +1302,13 @@ void Sprite::UpdateDimensionsFromSpriteIndex_59FA40()
     }
 }
 
+// 9.6f 0x401C80: Ang16::operator-(), the normalizing ctor called out of line (AssignNormalized_409300)
+static inline Ang16 NegateAng16_401C80(const Ang16& angle)
+{
+    s16 value = -angle.rValue;
+    return Ang16(&value, 0);
+}
+
 MATCH_FUNC(0x59fad0)
 void Sprite::FreeSprite4CChildren_59FAD0()
 {
@@ -1033,28 +1323,6 @@ void Sprite::FreeSprite4CChildren_59FAD0()
         gSprite_4C_Pool_70381C->Remove(field_4_0x4C_len);
         field_4_0x4C_len = 0;
     }
-}
-
-// RotateAndTranslatePoint_42A720 with the out-of-line Fix16 operator copies
-static inline void __stdcall RotateAndTranslatePoint_ool_42A720(Fix16& pInX,
-                                                                Fix16& pInY,
-                                                                Ang16& pRotAng,
-                                                                Fix16& pTransX,
-                                                                Fix16& pTransY,
-                                                                Fix16& pRotTransX,
-                                                                Fix16& pRotTransY)
-{
-    pRotTransX = ((pInX - pTransX) * Ang16::cosine_40F520(pRotAng))
-                     .Add_408660((pInY - pTransY) * Ang16::sine_40F500(pRotAng));
-    pRotTransY = ((pInX - pTransX).Negate_4086A0() * Ang16::sine_40F500(pRotAng))
-                     .Add_408660((pInY - pTransY) * Ang16::cosine_40F520(pRotAng));
-}
-
-// Sprite_4C::HalfWH_4BA0A0 with the out-of-line Fix16 / s32 copy
-static inline void HalfWH_ool_4BA0A0(Sprite_4C* pThis, Fix16* pHalfW, Fix16* pHalfH)
-{
-    *pHalfW = pThis->field_0_width.DivideInt_53E860(2);
-    *pHalfH = pThis->field_4_height.DivideInt_53E860(2);
 }
 
 MATCH_FUNC(0x59FB10)
@@ -1159,6 +1427,30 @@ bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect)
     return false;
 }
 
+// 9.6f 0x4B9F80: clamp the current rect to the map
+static inline void ClampPurpleRectToMap_4B9F80()
+{
+    if (gPurple_left_6F5FD4 < 0)
+    {
+        gPurple_left_6F5FD4 = 0;
+    }
+
+    if (gPurple_right_6F5B80 > 255)
+    {
+        gPurple_right_6F5B80 = 255;
+    }
+
+    if (gPurple_top_6F6108 < 0)
+    {
+        gPurple_top_6F6108 = 0;
+    }
+
+    if (gPurple_bottom_6F5F38 > 255)
+    {
+        gPurple_bottom_6F5F38 = 255;
+    }
+}
+
 MATCH_FUNC(0x5a0150)
 char_type Sprite::FindOverlappingBoundingBoxCorners_5A0150(Sprite* pOther, u8* pOut1, u8* pOut2)
 {
@@ -1229,21 +1521,6 @@ char_type Sprite::CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollision
 
     // Return the result count (0, 1, or 2)
     return overlapCount;
-}
-
-// https://decomp.me/scratch/5emc4
-// RotateAndTranslatePoint_42A720 as RotatedRectCollisionSAT_5A0380 gets it once it has run out of
-// inline expansions: the unary minus is the out-of-line copy (Negate_4086A0)
-static inline void __stdcall RotateAndTranslatePoint_NegOOL_42A720(Fix16& pInX,
-                                                                  Fix16& pInY,
-                                                                  Ang16& pRotAng,
-                                                                  Fix16& pTransX,
-                                                                  Fix16& pTransY,
-                                                                  Fix16& pRotTransX,
-                                                                  Fix16& pRotTransY)
-{
-    pRotTransX = (((pInX - pTransX) * Ang16::cosine_40F520(pRotAng)) + ((pInY - pTransY) * Ang16::sine_40F500(pRotAng)));
-    pRotTransY = (((pInX - pTransX).Negate_4086A0() * Ang16::sine_40F500(pRotAng)) + ((pInY - pTransY) * Ang16::cosine_40F520(pRotAng)));
 }
 
 MATCH_FUNC(0x5a0380)
@@ -1350,78 +1627,6 @@ bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* pOther)
         }
     }
     return false;
-}
-
-MATCH_FUNC(0x4F77D0)
-EXPORT bool __stdcall ComputeScanlineIntersectionX_4F77D0(Fix16& minX, Fix16& minY, Fix16& scanLineX, Fix16_Point& p0, Fix16_Point& p1)
-{
-
-    // Same shape as ComputeScanlineIntersectionY_4F76A0, same leftover diff.
-    Fix16_Point pd;
-
-    if (p0.x == p1.x)
-    {
-        return 0;
-    }
-
-    if (p0.x <= scanLineX && p1.x >= scanLineX)
-    {
-        pd = p1 - p0;
-        Fix16 y = p0.y + (((scanLineX - p0.x) * ((pd.y) / pd.x)));
-        if (y.mValue >= minX.mValue && y.mValue <= minY.mValue)
-        {
-            gRozza_679188.field_18_mapy_t1 = y;
-            return 1;
-        }
-    }
-    else if (p1.x <= scanLineX && p0.x >= scanLineX)
-    {
-        pd = p0 - p1;
-        Fix16 y = p1.y + (((scanLineX - p1.x) * ((pd.y) / pd.x)));
-        if (y.mValue >= minX.mValue && y.mValue <= minY.mValue)
-        {
-            gRozza_679188.field_18_mapy_t1 = y;
-            return 1;
-        }
-    }
-    return 0;
-}
-
-MATCH_FUNC(0x4F76A0)
-EXPORT char_type __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16& minX, Fix16& minY, Fix16& scanLineY, Fix16_Point& p0, Fix16_Point& p1)
-{
-
-    // Raw compares: with Fix16 operators VC6 runs out of inline budget and calls the Fix16_Point ctor
-    // out of line. The out-of-line Sub_40AC80 gives the original's EH frame for pd. Remaining diff: the
-    // original's success returns are `mov $1,%al; jmp` to one shared epilogue, ours copy the epilogue.
-    Fix16_Point pd;
-
-    if (p0.y == p1.y)
-    {
-        return 0;
-    }
-
-    if (p0.y <= scanLineY && p1.y >= scanLineY)
-    {
-        pd = p1.Sub_40AC80(p0);
-        Fix16 x = p0.x + (((scanLineY - p0.y) * ((pd.x) / pd.y)));
-        if (x.mValue >= minX.mValue && x.mValue <= minY.mValue)
-        {
-            gRozza_679188.field_14_mapx_t2 = x;
-            return 1;
-        }
-    }
-    else if (p1.y <= scanLineY && p0.y >= scanLineY)
-    {
-        pd = p0.Sub_40AC80(p1);
-        Fix16 x = p1.x + (((scanLineY - p1.y) * ((pd.x) / pd.y)));
-        if (x.mValue >= minX.mValue && x.mValue <= minY.mValue)
-        {
-            gRozza_679188.field_14_mapx_t2 = x;
-            return 1;
-        }
-    }
-    return 0;
 }
 
 MATCH_FUNC(0x5A0970)
@@ -1616,13 +1821,6 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 a2, Fix16_Point& a3
     return true;
 }
 
-// 9.6f 0x401C80: Ang16::operator-(), the normalizing ctor called out of line (AssignNormalized_409300)
-static inline Ang16 NegateAng16_401C80(const Ang16& angle)
-{
-    s16 value = -angle.rValue;
-    return Ang16(&value, 0);
-}
-
 // https://decomp.me/scratch/2RoLd
 MATCH_FUNC(0x5a1490)
 bool Sprite::PointInsideRotatedBounds_5A1490(Fix16_Point& point1, Fix16_Point& point2)
@@ -1671,30 +1869,6 @@ char_type Sprite::sub_5A19C0()
     }
     field_4_0x4C_len->SetCurrentRect_5A4D90();
     return gMap_0x370_6F6268->sub_4E4770(field_1C_zpos);
-}
-
-// 9.6f 0x4B9F80: clamp the current rect to the map
-static inline void ClampPurpleRectToMap_4B9F80()
-{
-    if (gPurple_left_6F5FD4 < 0)
-    {
-        gPurple_left_6F5FD4 = 0;
-    }
-
-    if (gPurple_right_6F5B80 > 255)
-    {
-        gPurple_right_6F5B80 = 255;
-    }
-
-    if (gPurple_top_6F6108 < 0)
-    {
-        gPurple_top_6F6108 = 0;
-    }
-
-    if (gPurple_bottom_6F5F38 > 255)
-    {
-        gPurple_bottom_6F5F38 = 255;
-    }
 }
 
 MATCH_FUNC(0x5a1a60)
@@ -2048,12 +2222,6 @@ void Sprite::CreateSoundObj_5A29D0()
     }
 }
 
-MATCH_FUNC(0x59E930)
-bool Sprite::IsObjectModelEqual_59E930(s32 model)
-{
-    return (Is2C_40FE80() && field_8_object_2C_ptr->field_18_model == model) ? true : false;
-}
-
 MATCH_FUNC(0x5a2a00)
 void Sprite::FreeSound_5A2A00()
 {
@@ -2182,207 +2350,10 @@ void Sprite::DispatchCollisionEvent_5A3100(Sprite* pSprite, Fix16 x, Fix16 y, An
     }
 }
 
-MATCH_FUNC(0x4833B0)
-void Sprite::set_angle_4833B0(Ang16 ang)
-{
-    if (ang != field_0)
-    {
-        field_0 = ang;
-        ResetZCollisionAndDebugBoxes_59E7B0();
-    }
-}
-
 MATCH_FUNC(0x5a3540)
 Sprite::~Sprite()
 {
     FreeSound_5A2A00();
-}
-
-MATCH_FUNC(0x5a5e50)
-Sprite::Sprite() : field_0(gAng16_703804)
-{
-    field_4_0x4C_len = NULL;
-    field_14_xy.x = gFix16_7035C0;
-    field_14_xy.y = gFix16_7035C0;
-    field_1C_zpos = gFix16_7035C0;
-    field_20_id = 0;
-    field_22_sprite_id = 0;
-    field_24_remap = 0;
-    field_28_num = NULL;
-    field_2C_flags = 0;
-    field_30_sprite_type_enum = 0;
-    field_34_palette_type = 0;
-    field_38_zoom = 0;
-    field_39_z_col = -1;
-    field_8_car_bc_ptr = NULL;
-    mpNext = NULL;
-    field_10_sound = NULL;
-}
-
-MATCH_FUNC(0x48F5A0)
-void Sprite_14::MarkUsed_48F5A0()
-{
-    Sprite_3CC* pSprt = gSprite_3CC_67AF1C;
-    s32 new_idx = ++pSprt->field_3C0_use_counter;
-    field_C_last_used = new_idx;
-}
-
-MATCH_FUNC(0x48F5C0)
-EXPORT void Sprite_14::ClearMask_48F5C0(u8 xCount, u8 yCount)
-{
-    u8* pData = this->field_0_pixels;
-    for (s32 y = 0; y < yCount; y++)
-    {
-        memset(pData, 0, xCount);
-        pData += 256;
-    }
-}
-
-MATCH_FUNC(0x48f600)
-Sprite_14* Sprite_3CC::FindCachedMask_48F600(u16& sprite_idx, u32* a3, u32* a4, const u16* a5)
-{
-    s32 final_idx;
-    s32 start_idx = 0;
-    Sprite_14* pSprt = NULL;
-    if (!*a3)
-    {
-        final_idx = 32;
-    }
-    else
-    {
-        start_idx = 32;
-        final_idx = 48;
-    }
-
-    s32 count = start_idx;
-    for (Sprite_14* pIter = &field_0[start_idx]; count < final_idx; count++, ++pIter)
-    {
-        s32 sprite_idx_copy = sprite_idx;
-        if (pIter->field_4_sprite_idx == sprite_idx_copy && pIter->field_12 == *a5)
-        {
-            if (pIter->field_8_delta_mask == *a4)
-            {
-                return pIter;
-            }
-            if (pIter->field_8_delta_mask < *a4 && (pIter->field_8_delta_mask | (*a4 - pIter->field_8_delta_mask)) == *a4)
-            {
-                pSprt = pIter;
-            }
-        }
-    }
-    return pSprt;
-}
-
-MATCH_FUNC(0x48f690)
-Sprite_14* Sprite_3CC::FindLeastRecentlyUsed_48F690(u32* a2)
-{
-    u32 min_value = -1;
-    s32 start_idx;
-    s32 final_idx;
-    Sprite_14* pSprt = NULL;
-    if (!*a2)
-    {
-        start_idx = 0;
-        final_idx = 32;
-    }
-    else
-    {
-        start_idx = 32;
-        final_idx = 48;
-    }
-
-    s32 count = start_idx;
-    for (Sprite_14* pIter = &field_0[start_idx]; count < final_idx; count++, ++pIter)
-    {
-        if (pIter->field_C_last_used < min_value)
-        {
-            min_value = pIter->field_C_last_used;
-            pSprt = pIter;
-        }
-    }
-    return pSprt;
-}
-
-MATCH_FUNC(0x48f6e0)
-void Sprite_3CC::InvalidateMasksByType_48F6E0(u16* sprite_idx)
-{
-    s32 count = 0;
-    for (Sprite_14* pIter = &this->field_0[0]; count < 48; count++, ++pIter)
-    {
-        if (pIter->field_4_sprite_idx == *sprite_idx)
-        {
-            pIter->Invalidate_44AF70();
-        }
-    }
-}
-
-MATCH_FUNC(0x48f710)
-void Sprite_3CC::InvalidateAllMasks_48F710()
-{
-    Sprite_14* psVar1 = field_0;
-    s32 iVar2 = 0x30;
-    do
-    {
-        psVar1->Invalidate_44AF70();
-        psVar1++;
-        iVar2--;
-    } while (iVar2 != 0);
-}
-
-MATCH_FUNC(0x48f730)
-Sprite_3CC::Sprite_3CC()
-{
-    u32 iVar4;
-    field_3C0_use_counter = 0;
-    field_3C4_aligned_buffer = NULL;
-    field_3C8_unaligned_alloc = NULL;
-
-    // By the way this is later used, it seems to be an array of a structure of size 0x40.
-    // For now, it's a s32* as it make the code to match.
-    u8* pvVar2 = (u8*)Memory::Aligned_malloc_4FE510(0x40000, (void**)(&field_3C8_unaligned_alloc));
-    field_3C4_aligned_buffer = pvVar2;
-
-    Sprite_14* tmp = field_0;
-    for (iVar4 = 8; iVar4 != 0; iVar4--, pvVar2 += 0x4000, tmp += 4)
-    {
-        tmp[0].field_0_pixels = pvVar2;
-        tmp[1].field_0_pixels = (pvVar2 + 0x40);
-        tmp[2].field_0_pixels = (pvVar2 + 0x80);
-        tmp[3].field_0_pixels = (pvVar2 + 0xC0);
-    }
-
-    tmp = field_0 + 33;
-    for (iVar4 = 4; iVar4 != 0; iVar4--, pvVar2 += 0x8000, tmp += 4)
-    {
-        // I don't know why this one starts at -1...
-        // Maybe an artifact of the decompilation
-        tmp[-1].field_0_pixels = pvVar2;
-        tmp[0].field_0_pixels = (pvVar2 + 0x40);
-        tmp[1].field_0_pixels = (pvVar2 + 0x80);
-        tmp[2].field_0_pixels = (pvVar2 + 0xC0);
-    }
-
-    for (u16 uVar1 = 0; uVar1 < 48; uVar1++)
-    {
-        field_0[uVar1].field_10_idx = uVar1;
-    }
-}
-
-MATCH_FUNC(0x48F7F0)
-Sprite_3CC::~Sprite_3CC()
-{
-    if (this->field_3C8_unaligned_alloc)
-    {
-        crt::free(this->field_3C8_unaligned_alloc);
-    }
-    this->field_3C4_aligned_buffer = 0;
-    this->field_3C8_unaligned_alloc = 0;
-}
-
-MATCH_FUNC(0x5A4D90)
-void Sprite_4C::SetCurrentRect_5A4D90()
-{
-    field_30_boundingBox.DoSetCurrentRect_59DD60();
 }
 
 // https://decomp.me/scratch/RAdGk
@@ -2542,26 +2513,11 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
     corner3.RotateVelocity_562C20(rotation);
 }
 
-// World to screen pixels. DrawCollisionBox_5A4DA0 expands the inline, except for its last call, which
-// is the out-of-line copy sub_5A5690.
-// Like the original, the function runs out of inline expansions, so the Fix16 operators are the
-// out-of-line copies.
-static inline void ProjectToScreen_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
+MATCH_FUNC(0x5A4D90)
+void Sprite_4C::SetCurrentRect_5A4D90()
 {
-    Fix16 scale;
-    scale =
-        kFP16One_7035C4.Divide_436A20((kFP16Eight_7035E4.Subtract_436A00(z)).Add_408660(gViewCamera_676978->field_98_cam_pos2.field_8_z));
-    *pOut1 = (x.Subtract_436A00(gViewCamera_676978->field_98_cam_pos2.field_0_x)
-                  .Multiply_408680(gViewCamera_676978->field_60.x)
-                  .Multiply_408680(scale))
-                 .Add_408660(Fix16(gViewCamera_676978->field_70_screen_px_center_x));
-    *pOut2 = (y.Subtract_436A00(gViewCamera_676978->field_98_cam_pos2.field_4_y)
-                  .Multiply_408680(gViewCamera_676978->field_60.x)
-                  .Multiply_408680(scale))
-                 .Add_408660(Fix16(gViewCamera_676978->field_74_screen_px_center_y));
+    field_30_boundingBox.DoSetCurrentRect_59DD60();
 }
-
-DEFINE_GLOBAL_INIT(u16, gDebugColour_626260, 0x1111, 0x626260);
 
 MATCH_FUNC(0x5A4DA0)
 void Sprite_4C::DrawCollisionBox_5A4DA0(Fix16 zpos)
@@ -2597,6 +2553,56 @@ void Sprite_4C::DrawCollisionBox_5A4DA0(Fix16 zpos)
         DrawDebugLine_5D7DD0((s16)x3.ToInt(), (s16)y3.ToInt(), (s16)x4.ToInt(), (s16)y4.ToInt(), gDebugColour_626260);
         DrawDebugLine_5D7DD0((s16)x4.ToInt(), (s16)y4.ToInt(), (s16)x1.ToInt(), (s16)y1.ToInt(), gDebugColour_626260);
     }
+}
+
+MATCH_FUNC(0x5A5690)
+EXPORT void __stdcall sub_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
+{
+    z = kFP16One_7035C4 / ((kFP16Eight_7035E4 - z) + gViewCamera_676978->field_98_cam_pos2.field_8_z);
+    *pOut1 = (((x - gViewCamera_676978->field_98_cam_pos2.field_0_x) * gViewCamera_676978->field_60.x) * z) +
+        Fix16(gViewCamera_676978->field_70_screen_px_center_x);
+    *pOut2 = (((y - gViewCamera_676978->field_98_cam_pos2.field_4_y) * gViewCamera_676978->field_60.x) * z) +
+        Fix16(gViewCamera_676978->field_74_screen_px_center_y);
+}
+
+// World to screen pixels. DrawCollisionBox_5A4DA0 expands the inline, except for its last call, which
+// is the out-of-line copy sub_5A5690.
+// Like the original, the function runs out of inline expansions, so the Fix16 operators are the
+// out-of-line copies.
+static inline void ProjectToScreen_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
+{
+    Fix16 scale;
+    scale =
+        kFP16One_7035C4.Divide_436A20((kFP16Eight_7035E4.Subtract_436A00(z)).Add_408660(gViewCamera_676978->field_98_cam_pos2.field_8_z));
+    *pOut1 = (x.Subtract_436A00(gViewCamera_676978->field_98_cam_pos2.field_0_x)
+                  .Multiply_408680(gViewCamera_676978->field_60.x)
+                  .Multiply_408680(scale))
+                 .Add_408660(Fix16(gViewCamera_676978->field_70_screen_px_center_x));
+    *pOut2 = (y.Subtract_436A00(gViewCamera_676978->field_98_cam_pos2.field_4_y)
+                  .Multiply_408680(gViewCamera_676978->field_60.x)
+                  .Multiply_408680(scale))
+                 .Add_408660(Fix16(gViewCamera_676978->field_74_screen_px_center_y));
+}
+
+DEFINE_GLOBAL_INIT(u16, gDebugColour_626260, 0x1111, 0x626260);
+
+MATCH_FUNC(0x5a57a0)
+s32 Sprite_4C::PoolAllocate()
+{
+    mpNext = NULL;
+    field_48_bBoxUpToDate = false;
+    return 0;
+}
+
+MATCH_FUNC(0x5a57b0)
+Sprite_4C::Sprite_4C()
+{
+    PoolAllocate();
+}
+
+MATCH_FUNC(0x5a5840)
+Sprite_4C::~Sprite_4C()
+{
 }
 
 MATCH_FUNC(0x5a5860)
@@ -2643,6 +2649,13 @@ Sprite_8::Sprite_8()
     field_4_id_base = 1;
 }
 
+MATCH_FUNC(0x5A5AA0)
+EXPORT void __stdcall ProjectOntoAxis_5A5AA0(Fix16& xpos1, Fix16& ypos1, Ang16& angle, Fix16& xpos2, Fix16& ypos2, Fix16& outX, Fix16& outY)
+{
+    outX = (Ang16::cosine_40F520(angle) * (xpos1 - xpos2)) + (Ang16::sine_40F500(angle) * (ypos1 - ypos2));
+    outY = (Ang16::sine_40F500(angle) * (xpos2 - xpos1)) + (Ang16::cosine_40F520(angle) * (ypos1 - ypos2));
+}
+
 MATCH_FUNC(0x5a5b50)
 Sprite_8::~Sprite_8()
 {
@@ -2651,52 +2664,6 @@ Sprite_8::~Sprite_8()
     GTA2_DELETE_AND_NULL(gSprite_3CC_67AF1C);
     GTA2_DELETE_AND_NULL(gSprite_18_Pool_703B80);
     gSprite_703814 = 0;
-}
-
-MATCH_FUNC(0x5a5c40)
-Sprite_18::~Sprite_18()
-{
-}
-
-MATCH_FUNC(0x5a5c50)
-Sprite_18::Sprite_18()
-{
-    field_10_rot = 0;
-}
-
-MATCH_FUNC(0x5a5c20)
-Sprite_18_Pool::~Sprite_18_Pool()
-{
-    field_0_pool.field_0_pHead = 0;
-}
-
-MATCH_FUNC(0x5A5690)
-EXPORT void __stdcall sub_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
-{
-    z = kFP16One_7035C4 / ((kFP16Eight_7035E4 - z) + gViewCamera_676978->field_98_cam_pos2.field_8_z);
-    *pOut1 = (((x - gViewCamera_676978->field_98_cam_pos2.field_0_x) * gViewCamera_676978->field_60.x) * z) +
-        Fix16(gViewCamera_676978->field_70_screen_px_center_x);
-    *pOut2 = (((y - gViewCamera_676978->field_98_cam_pos2.field_4_y) * gViewCamera_676978->field_60.x) * z) +
-        Fix16(gViewCamera_676978->field_74_screen_px_center_y);
-}
-
-MATCH_FUNC(0x5a57a0)
-s32 Sprite_4C::PoolAllocate()
-{
-    mpNext = NULL;
-    field_48_bBoxUpToDate = false;
-    return 0;
-}
-
-MATCH_FUNC(0x5a57b0)
-Sprite_4C::Sprite_4C()
-{
-    PoolAllocate();
-}
-
-MATCH_FUNC(0x5a5840)
-Sprite_4C::~Sprite_4C()
-{
 }
 
 MATCH_FUNC(0x5a5be0)
@@ -2711,35 +2678,42 @@ Sprite_Pool::~Sprite_Pool()
     field_0_pool.field_0_pHead = 0;
 }
 
-MATCH_FUNC(0x5A6A20)
-void Sprite_18::sub_5A6A20()
+MATCH_FUNC(0x5a5c20)
+Sprite_18_Pool::~Sprite_18_Pool()
 {
-    Car_BC* cBC = this->field_0->AsCar_40FEB0();
-    if (cBC)
-    {
-        if (cBC->field_88_despawn_status != 2 && cBC->field_88_despawn_status != 4 && cBC->field_88_despawn_status != 3)
-        {
-            cBC->sub_43DD60();
-        }
-    }
+    field_0_pool.field_0_pHead = 0;
 }
 
-MATCH_FUNC(0x5A69E0)
-void Sprite_18::sub_5A69E0()
+MATCH_FUNC(0x5a5c40)
+Sprite_18::~Sprite_18()
 {
-    Object_2C* pO2c = field_0->As2C_40FEC0();
-    if (pO2c)
-    {
-        pO2c->sub_525100();
-    }
-    else
-    {
-        Car_BC* pBC = field_0->AsCar_40FEB0();
-        if (pBC)
-        {
-            pBC->TriggerExplosion_43D7B0(19);
-        }
-    }
+}
+
+MATCH_FUNC(0x5a5c50)
+Sprite_18::Sprite_18()
+{
+    field_10_rot = 0;
+}
+
+MATCH_FUNC(0x5a5e50)
+Sprite::Sprite() : field_0(gAng16_703804)
+{
+    field_4_0x4C_len = NULL;
+    field_14_xy.x = gFix16_7035C0;
+    field_14_xy.y = gFix16_7035C0;
+    field_1C_zpos = gFix16_7035C0;
+    field_20_id = 0;
+    field_22_sprite_id = 0;
+    field_24_remap = 0;
+    field_28_num = NULL;
+    field_2C_flags = 0;
+    field_30_sprite_type_enum = 0;
+    field_34_palette_type = 0;
+    field_38_zoom = 0;
+    field_39_z_col = -1;
+    field_8_car_bc_ptr = NULL;
+    mpNext = NULL;
+    field_10_sound = NULL;
 }
 
 MATCH_FUNC(0x5A6910)
@@ -2775,4 +2749,35 @@ bool Sprite_18::PoolUpdate_5A6910(Sprite* a2)
         }
     }
     return bRet;
+}
+
+MATCH_FUNC(0x5A69E0)
+void Sprite_18::sub_5A69E0()
+{
+    Object_2C* pO2c = field_0->As2C_40FEC0();
+    if (pO2c)
+    {
+        pO2c->sub_525100();
+    }
+    else
+    {
+        Car_BC* pBC = field_0->AsCar_40FEB0();
+        if (pBC)
+        {
+            pBC->TriggerExplosion_43D7B0(19);
+        }
+    }
+}
+
+MATCH_FUNC(0x5A6A20)
+void Sprite_18::sub_5A6A20()
+{
+    Car_BC* cBC = this->field_0->AsCar_40FEB0();
+    if (cBC)
+    {
+        if (cBC->field_88_despawn_status != 2 && cBC->field_88_despawn_status != 4 && cBC->field_88_despawn_status != 3)
+        {
+            cBC->sub_43DD60();
+        }
+    }
 }

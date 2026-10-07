@@ -11,6 +11,12 @@
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
 
+// Forward declarations: the functions below are in address order
+EXTERN_GLOBAL(Ang16, word_6FD25C);
+EXTERN_GLOBAL(Ang16, word_6FCFB0);
+EXTERN_GLOBAL(Ang16, word_6FD07E);
+EXTERN_GLOBAL(Ang16, word_6FD0A4);
+
 DEFINE_GLOBAL(Garage_48*, gGarage_48_6FD26C, 0x6FD26C);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpTwo_6FD128, Fix16(0x8000, 0), 0x6FD128);
@@ -23,6 +29,34 @@ DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FD1D8, kFpOne64th_6FD0D8, 0x6FD1D8);
 MATCH_FUNC(0x4bbc60)
 Garage_48::~Garage_48()
 {
+}
+
+// The heading for a ped leaving through a door facing `face`.
+MATCH_FUNC(0x5345E0)
+EXPORT Ang16 __stdcall sub_5345E0(s32 face)
+{
+    switch (face)
+    {
+        case 4:
+            return word_6FD25C;
+        case 2:
+            return word_6FCFB0;
+        case 3:
+            return word_6FD07E;
+        case 1:
+            return word_6FD0A4;
+    }
+    return word_6FD25C;
+}
+
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD124, Fix16(1), 0x6FD124);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FCF98, Fix16(0.5), 0x6FCF98);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD218, Fix16(0x3333, 0), 0x6FD218);
+
+// Car_BC::IsLongerThanOneBlock_447ED0 (9.6f), with this file's copy of the 1.0 constant
+static inline bool IsLongerThanOneBlock_447ED0(Car_BC* pCar)
+{
+    return (pCar->field_50_car_sprite->GetH_447E70() > dword_6FD124) ? true : false;
 }
 
 // 9.6f 0x489B10
@@ -50,15 +84,13 @@ void Garage_48::ValidateParkCommand_534650()
     }
 }
 
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD124, Fix16(1), 0x6FD124);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FCF98, Fix16(0.5), 0x6FCF98);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD218, Fix16(0x3333, 0), 0x6FD218);
+DEFINE_GLOBAL(Fix16, dword_6FD120, 0x6FD120);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FCF10, Fix16(0x666, 0), 0x6FCF10);
 
-// Car_BC::IsLongerThanOneBlock_447ED0 (9.6f), with this file's copy of the 1.0 constant
-static inline bool IsLongerThanOneBlock_447ED0(Car_BC* pCar)
-{
-    return (pCar->field_50_car_sprite->GetH_447E70() > dword_6FD124) ? true : false;
-}
+DEFINE_GLOBAL_INIT(Ang16, word_6FCFB0, Ang16(360), 0x6FCFB0);
+DEFINE_GLOBAL_INIT(Ang16, word_6FD07E, Ang16(720), 0x6FD07E);
+DEFINE_GLOBAL_INIT(Ang16, word_6FD0A4, Ang16(1080), 0x6FD0A4);
+DEFINE_GLOBAL_INIT(Ang16, word_6FD25C, Ang16(0), 0x6FD25C);
 
 WIP_FUNC(0x534700)
 u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
@@ -156,32 +188,6 @@ u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
 
     ValidateParkCommand_534650();
     return field_3E;
-}
-
-DEFINE_GLOBAL(Fix16, dword_6FD120, 0x6FD120);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FCF10, Fix16(0x666, 0), 0x6FCF10);
-
-DEFINE_GLOBAL_INIT(Ang16, word_6FCFB0, Ang16(360), 0x6FCFB0);
-DEFINE_GLOBAL_INIT(Ang16, word_6FD07E, Ang16(720), 0x6FD07E);
-DEFINE_GLOBAL_INIT(Ang16, word_6FD0A4, Ang16(1080), 0x6FD0A4);
-DEFINE_GLOBAL_INIT(Ang16, word_6FD25C, Ang16(0), 0x6FD25C);
-
-// The heading for a ped leaving through a door facing `face`.
-MATCH_FUNC(0x5345E0)
-EXPORT Ang16 __stdcall sub_5345E0(s32 face)
-{
-    switch (face)
-    {
-        case 4:
-            return word_6FD25C;
-        case 2:
-            return word_6FCFB0;
-        case 3:
-            return word_6FD07E;
-        case 1:
-            return word_6FD0A4;
-    }
-    return word_6FD25C;
 }
 
 MATCH_FUNC(0x5349d0)

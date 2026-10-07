@@ -4,6 +4,10 @@
 #include "error.hpp"
 #include "sprite.hpp"
 
+// Forward declarations: the functions below are in address order
+EXPORT s32 get_rdtsc_5BEE90();
+EXTERN_GLOBAL(u32, dword_705334);
+
 DEFINE_GLOBAL(Montana*, gMontana_67B580, 0x67B580);
 DEFINE_GLOBAL(Montana_2EE4*, gMontana_2EE4_705BBC, 0x705BBC);
 DEFINE_GLOBAL(Montana_FA4*, gMontana_FA4_705BC0, 0x705BC0);
@@ -12,6 +16,86 @@ DEFINE_GLOBAL(s32, gDisplayAdd_67B578, 0x67B578);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_67B434, Fix16(1), 0x67B434);
 DEFINE_GLOBAL_INIT(Fix16, kFp96_705B80, Fix16(0x180000, 0), 0x705B80);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_705AC4, Fix16(0), 0x705AC4);
+
+MATCH_FUNC(0x4954f0)
+void Montana::ResetAll_4954F0()
+{
+    for (s32 i = 0; i < GTA2_COUNTOF(field_0_cols); i++)
+    {
+        field_0_cols[i]->Reset_5C5E50();
+    }
+}
+
+MATCH_FUNC(0x495510)
+void Montana::DisplayAdd_495510(Sprite* pSprite)
+{
+    const s32 rdtsc = get_rdtsc_5BEE90();
+    if (pSprite->field_1C_zpos >= kFpOne_67B434)
+    {
+        field_0_cols[pSprite->ComputeZLayer_5A1BD0()]->AddSprite_5C5CF0(pSprite);
+    }
+    gDisplayAdd_67B578 += get_rdtsc_5BEE90() - rdtsc;
+}
+
+MATCH_FUNC(0x495560)
+void Montana::Draw_495560(s32 col_idx)
+{
+    const s32 rdtsc = get_rdtsc_5BEE90();
+    field_0_cols[col_idx - 1]->Draw_5C5DF0();
+    gDisplayDraw_67B57C += get_rdtsc_5BEE90() - rdtsc;
+}
+
+MATCH_FUNC(0x4955a0)
+Montana::Montana()
+{
+    for (s32 i = 0; i < 7; i++)
+    {
+        field_0_cols[i] = new Montana_4();
+        if (!field_0_cols[i])
+        {
+            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\display.cpp", 121);
+        }
+    }
+}
+
+MATCH_FUNC(0x495630)
+Montana::~Montana()
+{
+    for (s32 i = 0; i < 7; i++)
+    {
+        delete field_0_cols[i];
+    }
+}
+
+// TODO: move
+// https://decomp.me/scratch/qe97a
+MATCH_FUNC(0x5BEE90)
+EXPORT s32 get_rdtsc_5BEE90()
+{
+    // NOTE: Actually is inline assembly, surprisingly
+    unsigned __int64 t;
+    __asm
+    {
+        // The original has the 16-bit pushaw/popaw. Prefix pushad/popad with an operand-size
+        // override so the compiler still sees them and saves ebx/esi/edi.
+        _emit 0x66
+        pushad
+        rdtsc
+        mov DWORD PTR t, eax
+        mov DWORD PTR t+4, edx
+        _emit 0x66
+        popad
+    }
+    return static_cast<s32>(t);
+}
+
+// Converts a cycle count from get_rdtsc_5BEE90 for the profiler display (dword_705334 is the
+// number of cycles per unit)
+MATCH_FUNC(0x5BEED0)
+EXPORT s32 __stdcall sub_5BEED0(s32 cycles)
+{
+    return (u32)cycles / dword_705334;
+}
 
 // https://decomp.me/scratch/qyVgM
 MATCH_FUNC(0x5c5cf0)
@@ -124,6 +208,8 @@ void Montana_4::Draw_5C5DF0()
     }
 }
 
+DEFINE_GLOBAL_INIT(u32, dword_705334, 1701493, 0x705334);
+
 MATCH_FUNC(0x5c5e50)
 void Montana_4::Reset_5C5E50()
 {
@@ -179,86 +265,4 @@ Montana_2EE4::Montana_2EE4()
 MATCH_FUNC(0x5c5f90)
 Montana_2EE4::~Montana_2EE4()
 {
-}
-
-MATCH_FUNC(0x4954f0)
-void Montana::ResetAll_4954F0()
-{
-    for (s32 i = 0; i < GTA2_COUNTOF(field_0_cols); i++)
-    {
-        field_0_cols[i]->Reset_5C5E50();
-    }
-}
-
-// TODO: move
-// https://decomp.me/scratch/qe97a
-MATCH_FUNC(0x5BEE90)
-EXPORT s32 get_rdtsc_5BEE90()
-{
-    // NOTE: Actually is inline assembly, surprisingly
-    unsigned __int64 t;
-    __asm
-    {
-        // The original has the 16-bit pushaw/popaw. Prefix pushad/popad with an operand-size
-        // override so the compiler still sees them and saves ebx/esi/edi.
-        _emit 0x66
-        pushad
-        rdtsc
-        mov DWORD PTR t, eax
-        mov DWORD PTR t+4, edx
-        _emit 0x66
-        popad
-    }
-    return static_cast<s32>(t);
-}
-
-DEFINE_GLOBAL_INIT(u32, dword_705334, 1701493, 0x705334);
-
-// Converts a cycle count from get_rdtsc_5BEE90 for the profiler display (dword_705334 is the
-// number of cycles per unit)
-MATCH_FUNC(0x5BEED0)
-EXPORT s32 __stdcall sub_5BEED0(s32 cycles)
-{
-    return (u32)cycles / dword_705334;
-}
-
-MATCH_FUNC(0x495510)
-void Montana::DisplayAdd_495510(Sprite* pSprite)
-{
-    const s32 rdtsc = get_rdtsc_5BEE90();
-    if (pSprite->field_1C_zpos >= kFpOne_67B434)
-    {
-        field_0_cols[pSprite->ComputeZLayer_5A1BD0()]->AddSprite_5C5CF0(pSprite);
-    }
-    gDisplayAdd_67B578 += get_rdtsc_5BEE90() - rdtsc;
-}
-
-MATCH_FUNC(0x495560)
-void Montana::Draw_495560(s32 col_idx)
-{
-    const s32 rdtsc = get_rdtsc_5BEE90();
-    field_0_cols[col_idx - 1]->Draw_5C5DF0();
-    gDisplayDraw_67B57C += get_rdtsc_5BEE90() - rdtsc;
-}
-
-MATCH_FUNC(0x4955a0)
-Montana::Montana()
-{
-    for (s32 i = 0; i < 7; i++)
-    {
-        field_0_cols[i] = new Montana_4();
-        if (!field_0_cols[i])
-        {
-            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\display.cpp", 121);
-        }
-    }
-}
-
-MATCH_FUNC(0x495630)
-Montana::~Montana()
-{
-    for (s32 i = 0; i < 7; i++)
-    {
-        delete field_0_cols[i];
-    }
 }

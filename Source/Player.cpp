@@ -33,6 +33,10 @@
 #include "zealous_borg.hpp"
 #include <DINPUT.H>
 
+// Forward declarations: the functions below are in address order
+EXTERN_GLOBAL(s16, gTestRouteIdx_675F14);
+EXTERN_GLOBAL(Car_BC*, gTestFireCar_675C30);
+
 EXTERN_GLOBAL(bool, gCheatUnlimitedFlameThrower_67D6CC);
 EXTERN_GLOBAL(bool, gCheatInvisibility_67D539);
 EXTERN_GLOBAL(bool, gCheatUnlimitedDoubleDamage_67D57C);
@@ -60,41 +64,6 @@ DEFINE_GLOBAL(UnknownDebugClass*, dword_675F74, 0x675F74);
 DEFINE_GLOBAL(Hud_Arrow_7C*, gTestArrow_70416C, 0x70416C);
 DEFINE_GLOBAL(Car_BC*, gTestArrowCar_7043F0, 0x7043F0);
 DEFINE_GLOBAL(s32, gTestTimer_7042D8, 0x7042D8);
-
-// TODO: the brief strings are guesses, only code is compared
-MATCH_FUNC(0x5B2640)
-void UnknownDebugClass::DoTest_5B2640(u16 action)
-{
-    switch (action)
-    {
-        case 3:
-            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, "test1");
-            break;
-        case 4:
-            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(3, "test2");
-            break;
-        case 5:
-            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(3, "test3");
-            break;
-        case 6:
-            gGame_0x40_67E008->field_38_orf1->ChangeMultipliers_4766B0(1);
-            break;
-        case 7:
-            gTestArrow_70416C = gHud_2B00_706620->field_1F18_arrows.AllocArrow_5D1050();
-            gTestArrow_70416C->SetArrowTargetCar_476860(gTestArrowCar_7043F0);
-            gTestArrow_70416C->SetArrowColour_5D0510(5);
-            break;
-        case 8:
-            gGame_0x40_67E008->field_38_orf1->DebugToggleRemoteControl_569E70();
-            break;
-        case 10:
-            gTestTimer_7042D8 = gHud_2B00_706620->field_620_pagers.CreateTimer_5D31F0(40);
-            break;
-    }
-}
-
-DEFINE_GLOBAL(s16, gTestRouteIdx_675F14, 0x675F14);
-DEFINE_GLOBAL(Car_BC*, gTestFireCar_675C30, 0x675C30);
 
 MATCH_FUNC(0x42D870)
 void UnknownDebugClass::DoBrianTest_42D870(u16 action)
@@ -131,6 +100,9 @@ void UnknownDebugClass::DoBrianTest_42D870(u16 action)
             break;
     }
 }
+
+DEFINE_GLOBAL(s16, gTestRouteIdx_675F14, 0x675F14);
+DEFINE_GLOBAL(Car_BC*, gTestFireCar_675C30, 0x675C30);
 
 MATCH_FUNC(0x443CB0)
 EXPORT s32 Player::ObjectTypeToWeaponType_443CB0(u8 varrok_idx)
@@ -3016,4 +2988,36 @@ Player::~Player()
 	Camera_0xBC::dtor_4369E0(&field_14C_view_camera);
 	Camera_0xBC::dtor_4369E0(&field_90_game_camera);
 	*/
+}
+
+// TODO: the brief strings are guesses, only code is compared
+MATCH_FUNC(0x5B2640)
+void UnknownDebugClass::DoTest_5B2640(u16 action)
+{
+    switch (action)
+    {
+        case 3:
+            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, "test1");
+            break;
+        case 4:
+            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(3, "test2");
+            break;
+        case 5:
+            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(3, "test3");
+            break;
+        case 6:
+            gGame_0x40_67E008->field_38_orf1->ChangeMultipliers_4766B0(1);
+            break;
+        case 7:
+            gTestArrow_70416C = gHud_2B00_706620->field_1F18_arrows.AllocArrow_5D1050();
+            gTestArrow_70416C->SetArrowTargetCar_476860(gTestArrowCar_7043F0);
+            gTestArrow_70416C->SetArrowColour_5D0510(5);
+            break;
+        case 8:
+            gGame_0x40_67E008->field_38_orf1->DebugToggleRemoteControl_569E70();
+            break;
+        case 10:
+            gTestTimer_7042D8 = gHud_2B00_706620->field_620_pagers.CreateTimer_5D31F0(40);
+            break;
+    }
 }
