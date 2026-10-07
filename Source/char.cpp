@@ -2698,91 +2698,70 @@ char_type Char_B4::CanMoveOntoSlope_54C1A0(s32 path_direction)
     return result;
 }
 
-WIP_FUNC(0x54c3e0)
+// 9.6f 0x491F10: the face (1-4) next to `face`, clockwise or not
+static inline s32 __stdcall RotateFace_491F10(s32* face, bool* clockwise)
+{
+    switch (*face)
+    {
+        case 1:
+            return *clockwise ? 4 : 3;
+        case 3:
+            return *clockwise ? 1 : 2;
+        case 2:
+            return *clockwise ? 3 : 4;
+        case 4:
+            return *clockwise ? 2 : 1;
+        default:
+            return 2;
+    }
+}
+
+// 9.6f 0x492400
+inline void Char_B4::SetTurnTarget_492400(Ang16 target_rotation)
+{
+    field_10_char_state = 25;
+    field_14_target_rotation = target_rotation;
+    field_46_timer = 255;
+}
+
+// 9.6f 0x495470
+MATCH_FUNC(0x54c3e0)
 void Char_B4::sub_54C3E0()
 {
-    WIP_IMPLEMENTED;
-
-    // Remaining diff: esi/edi swapped (this vs face), and the tail merge of the
-    // ReturnAngleFromRoadDirection_4F7940 calls picks other registers.
-    bool unknown = 0;
-    const s32 face = Ang16::GetAngleFace_4F78F0(field_40_rotation);
+    bool cw_free = false;
+    s32 face = Ang16::GetAngleFace_4F78F0(field_40_rotation);
     if (!CanMoveOntoSlope_54C1A0(face))
     {
-        s32 face_mapped;
-        switch (face)
+        bool clockwise = true;
+        s32 cw_face = RotateFace_491F10(&face, &clockwise);
+        if (CanMoveOntoSlope_54C1A0(cw_face) == 1)
         {
-            case 1:
-                face_mapped = 4;
-                break;
-            case 3:
-                face_mapped = 1;
-                break;
-            case 2:
-                face_mapped = 3;
-                break;
-            case 4:
-                face_mapped = 2;
-                break;
-            default:
-                face_mapped = 2;
-                break;
+            cw_free = true;
         }
 
-        if (CanMoveOntoSlope_54C1A0(face_mapped) == 1)
+        clockwise = false;
+        s32 ccw_face = RotateFace_491F10(&face, &clockwise);
+        if (CanMoveOntoSlope_54C1A0(ccw_face) == 1)
         {
-            unknown = 1;
-        }
-
-        s32 mapped_val;
-        switch (face)
-        {
-            case 1:
-                mapped_val = 3;
-                break;
-            case 2:
-                mapped_val = 4;
-                break;
-            case 4:
-                mapped_val = 1;
-                break;
-            case 3:
-                mapped_val = 2;
-                break;
-            default:
-                mapped_val = 2;
-                break;
-        }
-
-        if (CanMoveOntoSlope_54C1A0(mapped_val) == 1)
-        {
-            if (unknown == 1)
+            if (cw_free == 1)
             {
                 if (!(gCharB4_UpdateCounter_6FDB48 % 2))
                 {
-                    this->field_14_target_rotation = ReturnAngleFromRoadDirection_4F7940(&mapped_val);
-                    this->field_10_char_state = 25;
-                    this->field_46_timer = 255;
+                    SetTurnTarget_492400(ReturnAngleFromRoadDirection_4F7940(&ccw_face));
                 }
                 else
                 {
-                    this->field_14_target_rotation = ReturnAngleFromRoadDirection_4F7940(&face_mapped);
-                    this->field_10_char_state = 25;
-                    this->field_46_timer = 255;
+                    SetTurnTarget_492400(ReturnAngleFromRoadDirection_4F7940(&cw_face));
                 }
             }
             else
             {
-                this->field_14_target_rotation = ReturnAngleFromRoadDirection_4F7940(&mapped_val);
-                this->field_10_char_state = 25;
-                this->field_46_timer = 255;
+                SetTurnTarget_492400(ReturnAngleFromRoadDirection_4F7940(&ccw_face));
             }
         }
-        else if (unknown == 1)
+        else if (cw_free == 1)
         {
-            this->field_14_target_rotation = ReturnAngleFromRoadDirection_4F7940(&face_mapped);
-            this->field_10_char_state = 25;
-            this->field_46_timer = 255;
+            SetTurnTarget_492400(ReturnAngleFromRoadDirection_4F7940(&cw_face));
         }
     }
 }
