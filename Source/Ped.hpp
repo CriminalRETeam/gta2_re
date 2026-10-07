@@ -210,7 +210,7 @@ class Ped
     EXPORT void DeallocateWithGroupCleanup_45EA00();
     EXPORT void Deallocate_45EB60();
     EXPORT char_type IsActivePlayerPed_45EDC0();
-    EXPORT bool IsPedType_45EDE0(s32 a2);
+    EXPORT bool PedTypeIs_45EDE0(s32 type);
     EXPORT void SetOccupation_45EE00(u32 occupation);
     EXPORT void EnterPublicTransport_45EE70();
     EXPORT void Mugger_AI_45F360();

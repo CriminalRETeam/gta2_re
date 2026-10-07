@@ -344,7 +344,7 @@ void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
     }
     else
     {
-        if (!field_2C_ped_leader->IsPedType_45EDE0(2))
+        if (!field_2C_ped_leader->PedTypeIs_45EDE0(ped_type::player_2))
         {
             this->field_2C_ped_leader->SetObjective(objectives_enum::flee_char_on_foot_always_3, 9999);
             this->field_2C_ped_leader->set_objective_target_ped_403AC0(pAttacker);
@@ -482,7 +482,7 @@ void PedGroup::RemovePed_4C9970(Ped* pPed)
 {
     if (pPed == field_2C_ped_leader)
     {
-        if (!field_2C_ped_leader->IsPedType_45EDE0(2))
+        if (!field_2C_ped_leader->PedTypeIs_45EDE0(ped_type::player_2))
         {
             if (field_2C_ped_leader->GetPedState_403990() == ped_state_1::dead_9 && field_2C_ped_leader->field_238_ped_type == 5)
             {
@@ -596,7 +596,7 @@ char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* pPed)
             }
         }
 
-        if (!field_2C_ped_leader->IsPedType_45EDE0(2) && !field_2C_ped_leader->GetBit2() && !field_2C_ped_leader->has_car_403B80() &&
+        if (!field_2C_ped_leader->PedTypeIs_45EDE0(ped_type::player_2) && !field_2C_ped_leader->GetBit2() && !field_2C_ped_leader->has_car_403B80() &&
             !field_2C_ped_leader->field_21C_bf.b27 && !field_2C_ped_leader->field_16C_car)
         {
             field_2C_ped_leader->SetObjective2_463830(20, 9999);
@@ -655,7 +655,7 @@ char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* pPed)
 
         if (!field_2C_ped_leader->GetBit2() && !pOther->field_2C_ped_leader->GetBit2())
         {
-            if (!field_2C_ped_leader->IsPedType_45EDE0(2) && !field_2C_ped_leader->field_21C_bf.b27 &&
+            if (!field_2C_ped_leader->PedTypeIs_45EDE0(ped_type::player_2) && !field_2C_ped_leader->field_21C_bf.b27 &&
                 field_2C_ped_leader->field_168_game_object)
             {
                 field_2C_ped_leader->SetObjective2_463830(20, 9999);
@@ -663,7 +663,7 @@ char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* pPed)
                 field_2C_ped_leader->SetBit2_403950();
             }
 
-            if (!pOther->field_2C_ped_leader->IsPedType_45EDE0(2) && !pOther->field_2C_ped_leader->field_21C_bf.b27 &&
+            if (!pOther->field_2C_ped_leader->PedTypeIs_45EDE0(ped_type::player_2) && !pOther->field_2C_ped_leader->field_21C_bf.b27 &&
                 pOther->field_2C_ped_leader->field_168_game_object)
             {
                 pOther->field_2C_ped_leader->SetObjective2_463830(20, 9999);
@@ -855,7 +855,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
         if (field_1)
         {
             Ped* pFarthest = FindFarthestMember_4CA3F0(&distance);
-            if (distance > dword_67F608 && !field_2C_ped_leader->IsPedType_45EDE0(2))
+            if (distance > dword_67F608 && !field_2C_ped_leader->PedTypeIs_45EDE0(ped_type::player_2))
             {
                 if (field_2C_ped_leader->get_objective_403A80() != 0xD && field_2C_ped_leader->field_25C_internal_objective != 0x24)
                 {
@@ -1005,7 +1005,7 @@ void PedGroup::UpdateMemberAIState_4CA5E0(u8 idx)
         return;
     }
 
-    if (!field_2C_ped_leader->IsPedType_45EDE0(2))
+    if (!field_2C_ped_leader->PedTypeIs_45EDE0(ped_type::player_2))
     {
         pMember->field_288_threat_search = field_2C_ped_leader->field_288_threat_search;
         pMember->field_28C_threat_reaction = field_2C_ped_leader->field_28C_threat_reaction;

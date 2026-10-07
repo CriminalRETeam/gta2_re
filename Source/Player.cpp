@@ -1714,7 +1714,7 @@ void Player::Wasted_567130()
         {
             player_killer = NULL;
         }
-        else if (pPed_killer->IsPedType_45EDE0(2) == 0)
+        else if (pPed_killer->PedTypeIs_45EDE0(ped_type::player_2) == 0)
         {
             player_killer = NULL;
         }

@@ -2645,10 +2645,10 @@ bool Car_BC::IsDoorLockedForPed_43B2B0(Ped* pPed)
     {
         if (field_98_door_lock == 5)
         {
-            return pPed->IsPedType_45EDE0(2);
+            return pPed->PedTypeIs_45EDE0(ped_type::player_2);
         }
-        if (!pPed->IsPedType_45EDE0(2) &&
-            !(pPed->IsPedType_45EDE0(5) && pPed->GetInternalObjective_403A90() == 35 && pPed->get_target_to_enter_403B10() == this))
+        if (!pPed->PedTypeIs_45EDE0(ped_type::player_2) &&
+            !(pPed->PedTypeIs_45EDE0(ped_type::script_created_5) && pPed->GetInternalObjective_403A90() == 35 && pPed->get_target_to_enter_403B10() == this))
         {
             return field_98_door_lock == 1 || field_98_door_lock == 4 || field_98_door_lock == 2;
         }
@@ -3763,7 +3763,7 @@ void Car_BC::HandleCarExplosion_43D840(s32 a2)
             pExploder = gPedManager_6787BC->PedById(this->field_70_exploder_ped_id);
             if (pExploder)
             {
-                if (pExploder->IsPedType_45EDE0(2))
+                if (pExploder->PedTypeIs_45EDE0(ped_type::player_2))
                 {
                     if (gPublicTransport_181C_6FF1D4->is_bus_579AA0(this) &&
                         gPublicTransport_181C_6FF1D4->field_17C0_bus.field_56_passenger_count >= 10)
@@ -3969,7 +3969,7 @@ void Car_BC::sub_43DD60()
             pPed = pExploderPed;
             if (pExploderPed)
             {
-                if (pExploderPed->IsPedType_45EDE0(2))
+                if (pExploderPed->PedTypeIs_45EDE0(ped_type::player_2))
                 {
                     if (gPublicTransport_181C_6FF1D4->is_bus_579AA0(this) &&
                         gPublicTransport_181C_6FF1D4->field_17C0_bus.field_56_passenger_count >= 10)
@@ -4362,7 +4362,7 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
 
     if (pObj->field_18_model != 198 && damage > 0)
     {
-        if (pFoundPed && pFoundPed->IsPedType_45EDE0(2))
+        if (pFoundPed && pFoundPed->PedTypeIs_45EDE0(ped_type::player_2))
         {
             pFoundPed->field_15C_player->field_2D4_scores.sub_593150(this, 1);
         }
@@ -4468,7 +4468,7 @@ void Car_BC::AssignDriver_4406E0(Ped* pPed)
     SetDriver(pPed);
     InitCarAIControl_440590();
     SetUniNum_421560(pPed->GetPedType_420B70());
-    if (pPed->IsPedType_45EDE0(2))
+    if (pPed->PedTypeIs_45EDE0(ped_type::player_2))
     {
         DeAllocateAI_4446E0();
     }
@@ -6837,7 +6837,7 @@ bool Car_BC::IsDrivenByNonPlayer_564300()
 {
     if (field_54_driver)
     {
-        bool result = field_54_driver->IsPedType_45EDE0(2) == 0;
+        bool result = field_54_driver->PedTypeIs_45EDE0(ped_type::player_2) == 0;
         return result;
     }
     return false;

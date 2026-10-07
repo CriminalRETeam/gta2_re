@@ -1,4 +1,5 @@
 #include "eager_benz.hpp"
+#include "ped_death_cause.hpp"
 #include "CarInfo_808.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
@@ -473,7 +474,7 @@ void eager_benz::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
     char_type bGangA;
     char_type bGangB;
 
-    if (bStartNetworkGame_7081F0 && pPed1->IsPedType_45EDE0(2) && pPed1->field_15C_player)
+    if (bStartNetworkGame_7081F0 && pPed1->PedTypeIs_45EDE0(ped_type::player_2) && pPed1->field_15C_player)
     {
         switch (pPed1->field_290_death_cause)
         {
@@ -725,7 +726,7 @@ scored:
         {
             gShooey_CC_67A4B8->ReportCrimeForPed(8, field_368_player->GetPlayerPed_4A5130());
         }
-        else if (pPed1->field_290_death_cause == 1 || pPed1->field_290_death_cause == 3)
+        else if (pPed1->field_290_death_cause == ped_death_cause::run_over_1 || pPed1->field_290_death_cause == ped_death_cause::run_over_by_stolen_car_3)
         {
             gShooey_CC_67A4B8->ReportCrimeForPed(6, field_368_player->GetPlayerPed_4A5130());
         }

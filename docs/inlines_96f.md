@@ -668,7 +668,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4CDD80 | `BurgerKing_67F8B0::should_ignore_input_4CDD80` | 0x45ED50 | `sub_4C6E20` | checked | sub_4C6E20 (Hud+0x2A1E thunk) vs 10.5 Hud_2B00::sub_5D6CB0: pairing difference |
 | 0x4CDE20 | `BurgerKing_67F8B0::save_replay_record_4CDE20` | 0x45FA50 | ✓ `rng::get_cur_rng_41CFE0`, ✓ `sub_45F9E0` | done | new rng::get_rnd_45F9E0; still matches |
 | 0x4CE380 | `BurgerKing_67F8B0::LoadReplayHeader_4CE380` | 0x45F270 | `FatalError_450530` (10.5 0x4A38C0) | checked | FatalError_450530 is FatalError_4A38C0 (10.5 has it out of line, inline via chunk.hpp elsewhere); no open-coded form here |
-| 0x4CEAC0 | `BurgerKing_67F8B0::get_input_bits_4CEAC0` | 0x45FD10 | `sub_45ED00`, ✓ `rng::get_cur_rng_41CFE0`, `IsPedType_45EDE0`, ✓ `sub_416BC0` | matched | get_cur_rng_41CFE0 (no u16 cast) fixes the rng compare; left: 10.5 has a redundant je-to-next before the jne on the 0x1FF000 tests (not in 9.6f), unexplained |
+| 0x4CEAC0 | `BurgerKing_67F8B0::get_input_bits_4CEAC0` | 0x45FD10 | `sub_45ED00`, ✓ `rng::get_cur_rng_41CFE0`, `PedTypeIs_45EDE0`, ✓ `sub_416BC0` | matched | get_cur_rng_41CFE0 (no u16 cast) fixes the rng compare; left: 10.5 has a redundant je-to-next before the jne on the 0x1FF000 tests (not in 9.6f), unexplained |
 | 0x4D2090 | `magical_germain_0x8EC::Load_kanji_dat_4D2090` | 0x460F10 | `chunk::verify_type_460EE0`, `chunk::verify_version_460EC0` | checked | chunk verify_type/verify_version already used |
 | 0x4D2B40 | `magical_germain_0x8EC::sub_4D2B40` | 0x460DE0 | `sub_4BF550` | checked | sub_4BF550 is gtx GetSpriteIdxFromFont_5AA710, called |
 | 0x4D5FA0 | `keybrd_0x204::destroy_4D5FA0` | 0x461270 | `keybrd_0x204::gdtor_461250` | checked | keybrd gdtor_461250 is the compiler scalar deleting dtor |
@@ -2171,7 +2171,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x45E770 | `lucid_hamilton::sub_45E770` | 39 | 0x4C5C30 MATCH |  | 0/1 | todo |  |
 | 0x45E8D0 | `sub_45E8D0` | 837 |  |  | 0/1 | todo |  |
 | 0x45ED00 | `sub_45ED00` | 8 |  |  | 0/1 | todo |  |
-| 0x45EDE0 | `IsPedType_45EDE0` | 217 |  | Source/Car_BC.hpp:1282, Source/Ped.hpp:205 | 0/1 | todo |  |
+| 0x45EDE0 | `PedTypeIs_45EDE0` | 217 |  | Source/Car_BC.hpp:1282, Source/Ped.hpp:205 | 0/1 | todo |  |
 | 0x45F9E0 | `sub_45F9E0` | 4 |  | Source/rng.hpp:20 | 0/1 | todo |  |
 | 0x460EC0 | `chunk::verify_version_460EC0` | 31 |  |  | 0/3 | todo |  |
 | 0x460EE0 | `chunk::verify_type_460EE0` | 40 |  |  | 0/3 | todo |  |

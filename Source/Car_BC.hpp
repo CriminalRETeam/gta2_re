@@ -1310,7 +1310,7 @@ class Car_BC
 
     inline bool sub_4214F0()
     {
-        return field_54_driver && !field_54_driver->IsPedType_45EDE0(2);
+        return field_54_driver && !field_54_driver->PedTypeIs_45EDE0(ped_type::player_2);
     }
 
     inline bool sub_49EFE0()
