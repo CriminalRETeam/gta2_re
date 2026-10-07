@@ -22,6 +22,7 @@ EXPORT void __stdcall DrawText_5D7720(const wchar_t* pStr, Fix16 xoff, Fix16 yof
 EXPORT void __stdcall DrawTextScaled_5D77A0(wchar_t* pText, Fix16 xpos, Fix16 ypos, u16 font_type);
 
 EXPORT void __stdcall ConvertColourBanks_5D7CB0();
+EXPORT void __stdcall ConvertColourBanks_5D7CC0();
 
 EXPORT void __stdcall MakeScreenTableAndSetWindow_5D7D30();
 

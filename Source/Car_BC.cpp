@@ -2954,7 +2954,7 @@ void Car_BC::SpawnDamageFireEffect_43B870(s32 k1Or2, Fix16_Point* pPos)
     }
     else
     {
-        rot_point = *pPos - field_50_car_sprite->get_x_y_443580();
+        rot_point = *pPos - field_50_car_sprite->get_x_y();
         rot_point.RotateByAngle_40F6B0(field_50_car_sprite->field_0);
         x_hit = rot_point.x;
         y_hit = rot_point.y;
@@ -3746,7 +3746,7 @@ void Car_BC::HandleCarExplosion_43D840(s32 a2)
 
         KillContainedPeds_43DB80();
 
-        ApplyExplosionImpulse_443710(&field_50_car_sprite->get_x_y_443580());
+        ApplyExplosionImpulse_443710(&field_50_car_sprite->get_x_y());
 
         this->field_74_damage = 32001;
 
@@ -5619,7 +5619,7 @@ MATCH_FUNC(0x442520)
 Ang16 Car_BC::GetRadioTowerAngle_442520()
 {
     Fix16_Point xy;
-    xy = gCar_6C_677930->field_4C_tv_van_dir - field_50_car_sprite->get_x_y_443580();
+    xy = gCar_6C_677930->field_4C_tv_van_dir - field_50_car_sprite->get_x_y();
     return xy.atan2_40F790() - field_50_car_sprite->field_0;
 }
 
@@ -6284,7 +6284,7 @@ void Car_BC::ApplyExplosionImpulse_443710(Fix16_Point* xy)
     {
         SetupCarPhysicsAndSpriteBinding_43BCA0();
 
-        v16 = field_50_car_sprite->get_x_y_443580();
+        v16 = field_50_car_sprite->get_x_y();
         v16.x += kFpQuarter_677208 * gCar_6C_677930->field_1C_explosion_offset_cycle - kFpHalf_6772D0;
         v16.y += kFpQuarter_677208 * gCar_6C_677930->field_1C_explosion_offset_cycle - kFpHalf_6772D0;
 

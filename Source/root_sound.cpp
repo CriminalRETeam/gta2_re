@@ -7,6 +7,22 @@
 
 DEFINE_GLOBAL(root_sound, gRoot_sound_66B038, 0x66B038);
 
+MATCH_FUNC(0x40EF40)
+infallible_turing* root_sound::CreateSoundObject_40EF40(void* pObject, s32 objectType)
+{
+    infallible_turing* pCurrent = PopFree_410730();
+    pCurrent->field_C_pAny.pAny = pObject;
+    pCurrent->field_4_bStatus = 0;
+    pCurrent->field_0_object_type = objectType;
+
+    if (!bSkip_audio_67D6BE)
+    {
+        pCurrent->field_8_sound_entry = gRoot_sound_66B038.AddSoundObject_40EFB0(pCurrent);
+    }
+
+    return pCurrent;
+}
+
 MATCH_FUNC(0x40EF80)
 void root_sound::Init_40EF80()
 {
@@ -107,22 +123,6 @@ MATCH_FUNC(0x40F150)
 char_type root_sound::GetAudioDriveLetter_40F150()
 {
     return gSound_obj_66F680.GetAudioDriveLetter_41A2E0();
-}
-
-MATCH_FUNC(0x40EF40)
-infallible_turing* root_sound::CreateSoundObject_40EF40(void* pObject, s32 objectType)
-{
-    infallible_turing* pCurrent = PopFree_410730();
-    pCurrent->field_C_pAny.pAny = pObject;
-    pCurrent->field_4_bStatus = 0;
-    pCurrent->field_0_object_type = objectType;
-
-    if (!bSkip_audio_67D6BE)
-    {
-        pCurrent->field_8_sound_entry = gRoot_sound_66B038.AddSoundObject_40EFB0(pCurrent);
-    }
-
-    return pCurrent;
 }
 
 MATCH_FUNC(0x40F160)

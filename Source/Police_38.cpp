@@ -826,7 +826,12 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FED08, Fix16(4), 0x6FED08);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FECB8, Fix16(0x147, 0), 0x6FECB8);
 
 // The crew chasing the criminal: like State3_AlertedSearch_572340, then each member follows the criminal on foot
-// or in the car depending on how far away and how fast the criminal is
+// or in the car depending on how far away and how fast the criminal is.
+// 10.5 left: (1) MaxAbsDistance_42A6B0 gets nested budget 272 (19 sites left); the original's cut-offs (one Abs
+// negate inline, Max out of line) need 287..321, i.e. one free site fewer after it (any getter written as a field
+// access gives 244 -> 72, inlsim agrees). (2) Then only goto_area_in_car_14's trailing `field_28 = 1; break;`: the
+// original keeps it (objective_43's copy merged into it), ours merges it into objective_43's; patch_c2.py
+// --rank 144:0,354:1 (lines from the function start) gives 2, the callee name only.
 WIP_FUNC(0x572920)
 void PoliceCrew_38::State5_PursueOrChase_572920()
 {
@@ -1063,87 +1068,92 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
                             byte_6FEB48 = 0;
                             break;
                         }
+                        // An if/else rather than an early break: the then-branch exit is retargeted late, so its
+                        // copy of SetObjective2/SetObjective survives the cross-jump with goto_area_on_foot_12,
+                        // objective_51 and objective_28 (9.6f 0x4AC580 matches this function exactly with VC7)
                         if (gCurrentCrewPed_6FEDDC->GetObjectiveStatus_450CB0() == 2)
                         {
                             gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                             gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
-                            break;
-                        }
-
-                        if (field_14_pService->field_0_criminal_ped)
-                        {
-                            // 9.6f: MaxAbsDistance_42A6B0
-                            field_8 = Fix16::MaxAbsDistance_42A6B0(gCurrentCrewPed_6FEDDC->get_cam_x(),
-                                                                      gCurrentCrewPed_6FEDDC->get_cam_y(),
-                                                                      field_14_pService->field_0_criminal_ped->get_cam_x(),
-                                                                      field_14_pService->field_0_criminal_ped->get_cam_y());
                         }
                         else
                         {
-                            field_8 = kFpEight_6FED48 * kFpFour_6FECF8;
-                        }
 
-                        if (field_10_subObj->field_24 == 1)
-                        {
-                            u8 bEnterCar = false;
-                            if (field_8 > kFpEight_6FED48)
+                            if (field_14_pService->field_0_criminal_ped)
                             {
-                                bEnterCar = true;
+                                // 9.6f: MaxAbsDistance_42A6B0
+                                field_8 = Fix16::MaxAbsDistance_42A6B0(gCurrentCrewPed_6FEDDC->get_cam_x(),
+                                                                          gCurrentCrewPed_6FEDDC->get_cam_y(),
+                                                                          field_14_pService->field_0_criminal_ped->get_cam_x(),
+                                                                          field_14_pService->field_0_criminal_ped->get_cam_y());
                             }
-                            else if (field_14_pService->field_0_criminal_ped->field_16C_car)
+                            else
                             {
-                                if (field_14_pService->field_0_criminal_ped->field_16C_car->GetCarLinearSpeed_43A240() > dword_6FEB44)
-                                {
-                                    if (++field_35 > 30)
-                                    {
-                                        bEnterCar = true;
-                                    }
-                                }
-                                else if (field_8 > dword_6FED08)
+                                field_8 = kFpEight_6FED48 * kFpFour_6FECF8;
+                            }
+
+                            if (field_10_subObj->field_24 == 1)
+                            {
+                                u8 bEnterCar = false;
+                                if (field_8 > kFpEight_6FED48)
                                 {
                                     bEnterCar = true;
                                 }
-                                else
+                                else if (field_14_pService->field_0_criminal_ped->field_16C_car)
                                 {
-                                    bChaseOnFoot = true;
+                                    if (field_14_pService->field_0_criminal_ped->field_16C_car->GetCarLinearSpeed_43A240() > dword_6FEB44)
+                                    {
+                                        if (++field_35 > 30)
+                                        {
+                                            bEnterCar = true;
+                                        }
+                                    }
+                                    else if (field_8 > dword_6FED08)
+                                    {
+                                        bEnterCar = true;
+                                    }
+                                    else
+                                    {
+                                        bChaseOnFoot = true;
+                                    }
                                 }
-                            }
 
-                            if (bEnterCar)
-                            {
-                                // The criminal is too far or too fast to chase on foot
-                                if (gCurrentCrewPed_6FEDDC->get_objective_403A80() == objectives_enum::objective_32 && gCurrentCrewPed_6FEDDC->GetPedState_403990() != 1)
+                                if (bEnterCar)
                                 {
+                                    // The criminal is too far or too fast to chase on foot
+                                    if (gCurrentCrewPed_6FEDDC->get_objective_403A80() == objectives_enum::objective_32 && gCurrentCrewPed_6FEDDC->GetPedState_403990() != 1)
+                                    {
+                                        break;
+                                    }
+                                    if (!gCurrentCrewPed_6FEDDC->field_21C_bf.b27)
+                                    {
+                                        gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                                        gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
+                                        gCurrentCrewPed_6FEDDC->set_field_150_target_objective_car(field_10_subObj->field_0_car);
+                                        gCurrentCrewPed_6FEDDC->unset_bitset_0x04();
+                                        field_28 = 1;
+                                    }
                                     break;
                                 }
-                                if (!gCurrentCrewPed_6FEDDC->field_21C_bf.b27)
+                            }
+
+                            if (gCurrentCrewPed_6FEDDC->get_objective_403A80() == objectives_enum::objective_32)
+                            {
+                                if (field_14_pService->field_0_criminal_ped->field_168_game_object && gCurrentCrewPed_6FEDDC->field_21C_bf.b27)
                                 {
                                     gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                                    gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
-                                    gCurrentCrewPed_6FEDDC->set_field_150_target_objective_car(field_10_subObj->field_0_car);
+                                    gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::kill_char_on_foot_20, 9999);
+                                    gCurrentCrewPed_6FEDDC->set_objective_target_ped_403AC0(field_14_pService->field_0_criminal_ped);
                                     gCurrentCrewPed_6FEDDC->unset_bitset_0x04();
-                                    field_28 = 1;
+                                    field_28 = 0;
                                 }
-                                break;
                             }
-                        }
-
-                        if (gCurrentCrewPed_6FEDDC->get_objective_403A80() == objectives_enum::objective_32)
-                        {
-                            if (field_14_pService->field_0_criminal_ped->field_168_game_object && gCurrentCrewPed_6FEDDC->field_21C_bf.b27)
+                            else if (bChaseOnFoot)
                             {
-                                gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                                gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::kill_char_on_foot_20, 9999);
+                                gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::objective_32, 9999);
                                 gCurrentCrewPed_6FEDDC->set_objective_target_ped_403AC0(field_14_pService->field_0_criminal_ped);
                                 gCurrentCrewPed_6FEDDC->unset_bitset_0x04();
-                                field_28 = 0;
                             }
-                        }
-                        else if (bChaseOnFoot)
-                        {
-                            gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::objective_32, 9999);
-                            gCurrentCrewPed_6FEDDC->set_objective_target_ped_403AC0(field_14_pService->field_0_criminal_ped);
-                            gCurrentCrewPed_6FEDDC->unset_bitset_0x04();
                         }
                         break;
                     }

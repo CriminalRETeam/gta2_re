@@ -182,53 +182,6 @@ void frosty_pasteur_0xC1EA8::SaveMapInfo_511D40()
     gGameSave_6F78C8.field_4D_bonus_stage = gLucid_hamilton_67E8E0.IsBonusStage_4C59A0();
 }
 
-MATCH_FUNC(0x511f80)
-void frosty_pasteur_0xC1EA8::LoadSave_511F80(char_type* pFileName)
-{
-    size_t mapSubLen;
-    size_t blockInfoLen;
-    size_t colDataLen;
-    u16** pColData;
-    gmp_block_info* pBlockInfo;
-    Map_sub* pMapSub;
-
-    gMap_0x370_6F6268->GetModifiedMapData_4E8CF0(&pColData, &colDataLen, &pBlockInfo, &blockInfoLen, &pMapSub, (s32*)&mapSubLen);
-    File::Global_Open_4A7060(pFileName);
-
-    File::Global_Read_4A71C0(&gGameSave_6F78C8, 0x748);
-
-    File::Global_Read_4A71C0(&colDataLen, 4);
-    if (colDataLen > 0)
-    {
-        File::Global_Read_4A71C0(pColData, colDataLen);
-    }
-
-    File::Global_Read_4A71C0(&blockInfoLen, 4);
-    if (blockInfoLen > 0)
-    {
-        File::Global_Read_4A71C0(pBlockInfo, blockInfoLen);
-    }
-
-    File::Global_Read_4A71C0(&mapSubLen, 4);
-    if (mapSubLen > 0)
-    {
-        File::Global_Read_4A71C0(pMapSub, mapSubLen);
-    }
-    gMap_0x370_6F6268->OnModifiedMapDataLoaded_4E8C00(colDataLen, blockInfoLen, mapSubLen);
-    File::Global_Close_4A70C0();
-
-    frosty_pasteur_0xC1EA8::LoadScriptCounters_511C30();
-
-    gObject_5C_6F8F84->RestoreObjects_52A590(&gGameSave_6F78C8.field_5E4_object_data);
-
-    memcpy(&gObject_5C_6F8F84->field_20_bUnCollectedTokens,
-           gGameSave_6F78C8.field_5E4_object_data.field_12C_obj_5C_bUnCollectedTokens,
-           sizeof(gObject_5C_6F8F84->field_20_bUnCollectedTokens));
-
-    gLucid_hamilton_67E8E0.set_secret_tokens_collected_476B10(gGameSave_6F78C8.field_5E4_object_data.field_160_secret_tokens_collected);
-    field_C1E2C_bLoadedFromSave = true;
-}
-
 MATCH_FUNC(0x511e10)
 void frosty_pasteur_0xC1EA8::SaveGame_511E10(char_type* pFileName)
 {
@@ -296,6 +249,53 @@ void frosty_pasteur_0xC1EA8::SaveGame_511E10(char_type* pFileName)
     }
 }
 
+MATCH_FUNC(0x511f80)
+void frosty_pasteur_0xC1EA8::LoadSave_511F80(char_type* pFileName)
+{
+    size_t mapSubLen;
+    size_t blockInfoLen;
+    size_t colDataLen;
+    u16** pColData;
+    gmp_block_info* pBlockInfo;
+    Map_sub* pMapSub;
+
+    gMap_0x370_6F6268->GetModifiedMapData_4E8CF0(&pColData, &colDataLen, &pBlockInfo, &blockInfoLen, &pMapSub, (s32*)&mapSubLen);
+    File::Global_Open_4A7060(pFileName);
+
+    File::Global_Read_4A71C0(&gGameSave_6F78C8, 0x748);
+
+    File::Global_Read_4A71C0(&colDataLen, 4);
+    if (colDataLen > 0)
+    {
+        File::Global_Read_4A71C0(pColData, colDataLen);
+    }
+
+    File::Global_Read_4A71C0(&blockInfoLen, 4);
+    if (blockInfoLen > 0)
+    {
+        File::Global_Read_4A71C0(pBlockInfo, blockInfoLen);
+    }
+
+    File::Global_Read_4A71C0(&mapSubLen, 4);
+    if (mapSubLen > 0)
+    {
+        File::Global_Read_4A71C0(pMapSub, mapSubLen);
+    }
+    gMap_0x370_6F6268->OnModifiedMapDataLoaded_4E8C00(colDataLen, blockInfoLen, mapSubLen);
+    File::Global_Close_4A70C0();
+
+    frosty_pasteur_0xC1EA8::LoadScriptCounters_511C30();
+
+    gObject_5C_6F8F84->RestoreObjects_52A590(&gGameSave_6F78C8.field_5E4_object_data);
+
+    memcpy(&gObject_5C_6F8F84->field_20_bUnCollectedTokens,
+           gGameSave_6F78C8.field_5E4_object_data.field_12C_obj_5C_bUnCollectedTokens,
+           sizeof(gObject_5C_6F8F84->field_20_bUnCollectedTokens));
+
+    gLucid_hamilton_67E8E0.set_secret_tokens_collected_476B10(gGameSave_6F78C8.field_5E4_object_data.field_160_secret_tokens_collected);
+    field_C1E2C_bLoadedFromSave = true;
+}
+
 MATCH_FUNC(0x5120C0)
 miss2_0x11C* frosty_pasteur_0xC1EA8::SpawnThread_5120C0(s16 a1, char_type a2)
 {
@@ -345,64 +345,6 @@ void frosty_pasteur_0xC1EA8::Update_512160()
         pf_0->InitThread_511930(0, pLevelStart->field_0_cmd_this);
         gGame_0x40_67E008->IterateFirstPlayer_4B9CD0();
     }
-}
-
-MATCH_FUNC(0x512330)
-void frosty_pasteur_0xC1EA8::Load_512330(const char_type* pScrName)
-{
-    if (!bSkip_mission_67D4E5)
-    {
-        strcpy(field_35C_full_scr_file_name, pScrName);
-        Error_SetName_4A0770(field_35C_full_scr_file_name);
-        File::Global_Open_4A7060(field_35C_full_scr_file_name);
-        u32 len = sizeof(field_46C_base_pointers);
-        File::Global_Read_4A71C0(field_46C_base_pointers, len);
-        len = sizeof(field_334C_script_data);
-        File::Global_Read_4A71C0(field_334C_script_data, len);
-        u16 tableSize;
-        len = sizeof(tableSize);
-        File::Global_Read_4A71C0(&tableSize, len);
-        len = 5118;
-        File::GetRemainderSize_4A7250(field_1334C_strings, &len);
-        File::Global_Close_4A70C0();
-        LoadStringTbl_5121E0(tableSize);
-        GetScrFileName_5122D0();
-        LoadSubScripts_5125F0();
-    }
-}
-
-MATCH_FUNC(0x512400)
-u16 frosty_pasteur_0xC1EA8::LoadMissionScript_512400(const char_type* String1, u16* a3)
-{
-    u16 Buffer = 0;
-    if (gfrosty_pasteur_6F8060->field_2F4_bPreloadMissionScripts == 0)
-    {
-        u32 v8;
-        strcpy(gTmpBuffer_67C598, "data\\");
-        strcat(gTmpBuffer_67C598, (const char*)String1);
-        Error_SetName_4A0770(gTmpBuffer_67C598);
-        File::Global_Open_4A7060(gTmpBuffer_67C598);
-        File::Global_Read_4A71C0(&Buffer, 2);
-        File::Global_Read_4A71C0(a3, 2);
-        File::Global_Read_4A71C0(&v8, 4);
-        File::Global_Read_4A71C0(&field_46C_base_pointers[(u16)Buffer], 0xC00);
-        File::GetRemainderSize_4A7250(&field_334C_script_data[field_46C_base_pointers[(u16)Buffer]], &v8);
-        File::Global_Close_4A70C0();
-    }
-    else
-    {
-        str_table_entry* pStrEntry = gfrosty_pasteur_6F8060->StrEntryByString_5030B0((char_type*)String1);
-        u16 field_2_zone_idx = pStrEntry->field_2_zone_idx;
-        Buffer = gfrosty_pasteur_6F8060->field_C1D72_mission_base_ptr_idx[field_2_zone_idx];
-        *a3 = gfrosty_pasteur_6F8060->field_C1D34_mission_start_cmd[field_2_zone_idx];
-        memcpy(&gfrosty_pasteur_6F8060->field_46C_base_pointers[Buffer],
-               &gfrosty_pasteur_6F8060->field_AA934_mission_base_pointers[3072 * field_2_zone_idx],
-               0xC00u);
-        memcpy(&gfrosty_pasteur_6F8060->field_334C_script_data[gfrosty_pasteur_6F8060->field_46C_base_pointers[Buffer]],
-               &gfrosty_pasteur_6F8060->field_13354_mission_script_data[20000 * pStrEntry->field_2_zone_idx],
-               gfrosty_pasteur_6F8060->field_C1DB0_mission_script_data_len[pStrEntry->field_2_zone_idx]);
-    }
-    return Buffer;
 }
 
 // https://decomp.me/scratch/W4gXh
@@ -464,6 +406,64 @@ void frosty_pasteur_0xC1EA8::GetScrFileName_5122D0()
             lenAfterSlash--;
         }
     }
+}
+
+MATCH_FUNC(0x512330)
+void frosty_pasteur_0xC1EA8::Load_512330(const char_type* pScrName)
+{
+    if (!bSkip_mission_67D4E5)
+    {
+        strcpy(field_35C_full_scr_file_name, pScrName);
+        Error_SetName_4A0770(field_35C_full_scr_file_name);
+        File::Global_Open_4A7060(field_35C_full_scr_file_name);
+        u32 len = sizeof(field_46C_base_pointers);
+        File::Global_Read_4A71C0(field_46C_base_pointers, len);
+        len = sizeof(field_334C_script_data);
+        File::Global_Read_4A71C0(field_334C_script_data, len);
+        u16 tableSize;
+        len = sizeof(tableSize);
+        File::Global_Read_4A71C0(&tableSize, len);
+        len = 5118;
+        File::GetRemainderSize_4A7250(field_1334C_strings, &len);
+        File::Global_Close_4A70C0();
+        LoadStringTbl_5121E0(tableSize);
+        GetScrFileName_5122D0();
+        LoadSubScripts_5125F0();
+    }
+}
+
+MATCH_FUNC(0x512400)
+u16 frosty_pasteur_0xC1EA8::LoadMissionScript_512400(const char_type* String1, u16* a3)
+{
+    u16 Buffer = 0;
+    if (gfrosty_pasteur_6F8060->field_2F4_bPreloadMissionScripts == 0)
+    {
+        u32 v8;
+        strcpy(gTmpBuffer_67C598, "data\\");
+        strcat(gTmpBuffer_67C598, (const char*)String1);
+        Error_SetName_4A0770(gTmpBuffer_67C598);
+        File::Global_Open_4A7060(gTmpBuffer_67C598);
+        File::Global_Read_4A71C0(&Buffer, 2);
+        File::Global_Read_4A71C0(a3, 2);
+        File::Global_Read_4A71C0(&v8, 4);
+        File::Global_Read_4A71C0(&field_46C_base_pointers[(u16)Buffer], 0xC00);
+        File::GetRemainderSize_4A7250(&field_334C_script_data[field_46C_base_pointers[(u16)Buffer]], &v8);
+        File::Global_Close_4A70C0();
+    }
+    else
+    {
+        str_table_entry* pStrEntry = gfrosty_pasteur_6F8060->StrEntryByString_5030B0((char_type*)String1);
+        u16 field_2_zone_idx = pStrEntry->field_2_zone_idx;
+        Buffer = gfrosty_pasteur_6F8060->field_C1D72_mission_base_ptr_idx[field_2_zone_idx];
+        *a3 = gfrosty_pasteur_6F8060->field_C1D34_mission_start_cmd[field_2_zone_idx];
+        memcpy(&gfrosty_pasteur_6F8060->field_46C_base_pointers[Buffer],
+               &gfrosty_pasteur_6F8060->field_AA934_mission_base_pointers[3072 * field_2_zone_idx],
+               0xC00u);
+        memcpy(&gfrosty_pasteur_6F8060->field_334C_script_data[gfrosty_pasteur_6F8060->field_46C_base_pointers[Buffer]],
+               &gfrosty_pasteur_6F8060->field_13354_mission_script_data[20000 * pStrEntry->field_2_zone_idx],
+               gfrosty_pasteur_6F8060->field_C1DB0_mission_script_data_len[pStrEntry->field_2_zone_idx]);
+    }
+    return Buffer;
 }
 
 MATCH_FUNC(0x5125F0)

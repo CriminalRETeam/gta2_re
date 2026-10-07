@@ -3,22 +3,10 @@
 #include "gtx_0x106C.hpp"
 #include "sharp_pare_0x15D8.hpp"
 
+// Forward declarations: the functions below are in address order
+s32 __stdcall GetMaxNumOfDigits_4F7660(s32 &max_value);
+
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_67B210, Ang16(0), 0x67B210);
-
-MATCH_FUNC(0x4f7660)
-s32 __stdcall GetMaxNumOfDigits_4F7660(s32 &max_value)
-{
-    s32 iVar1 = 1;
-    s32 iVar2 = max_value;
-
-    if (iVar2 < 0)
-    {
-        iVar2 = -iVar2;
-    }
-    for (; 10 <= iVar2; iVar2 /= 10, iVar1++)
-    {}
-    return iVar1;
-}
 
 MATCH_FUNC(0x4920b0)
 thirsty_lamarr::thirsty_lamarr()
@@ -327,4 +315,19 @@ void thirsty_lamarr::UpdateRollingDigits_4925E0()
             }
         }
     }
+}
+
+MATCH_FUNC(0x4f7660)
+s32 __stdcall GetMaxNumOfDigits_4F7660(s32 &max_value)
+{
+    s32 iVar1 = 1;
+    s32 iVar2 = max_value;
+
+    if (iVar2 < 0)
+    {
+        iVar2 = -iVar2;
+    }
+    for (; 10 <= iVar2; iVar2 /= 10, iVar1++)
+    {}
+    return iVar1;
 }

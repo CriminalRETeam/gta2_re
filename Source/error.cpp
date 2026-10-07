@@ -1,6 +1,7 @@
 #include "error.hpp"
 #include "Function.hpp"
 #include "Globals.hpp"
+#include "enums.hpp"
 #include "fix16.hpp"
 #include "winmain.hpp"
 #include <stdio.h>
@@ -2374,5 +2375,150 @@ EXPORT void FatalError_4A38C0(s32 Code, const char_type* pSourceFile, s32 lineNo
         }
         DestroyWindow(gHwnd_707F04);
         exit(Code);
+    }
+}
+// Called by diutil.cpp (BurgerKing_67F8B0.cpp) when a DirectInput call fails. The cases are in the original's
+// body order. The empty DI_OK case is needed: without it VC6 splits the switch differently (compares instead of
+// the byte-indexed table for 0x8007000E-0x80070057), which shifts the register rotation and so which cases
+// cross-jump into the default's tail.
+MATCH_FUNC(0x4A3CF0)
+EXPORT void __stdcall FatalDXError_4A3CF0(HRESULT hr, const char_type* pSourceFile, s32 lineNo)
+{
+    switch (hr)
+    {
+        case 0x80004001: // E_NOTIMPL / DIERR_UNSUPPORTED
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "the interface is not implemented");
+            break;
+
+        case 0x8000000A: // E_PENDING
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "pending");
+            break;
+
+        case 0x80004002: // E_NOINTERFACE / DIERR_NOINTERFACE
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "the interface is not supported");
+            break;
+
+        case 0x80004005: // E_FAIL / DIERR_GENERIC
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "undetermined failure");
+            break;
+
+        case 0x80040110: // CLASS_E_NOAGGREGATION
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "object does not support aggregation");
+            break;
+
+        case 0x80040202: // DIERR_MOREDATA
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "not all requested information fitted into the buffer");
+            break;
+
+        case 0x80040201: // DIERR_DEVICEFULL
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "device is full");
+            break;
+
+        case 0x80040154: // REGDB_E_CLASSNOTREG
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "class is not registered");
+            break;
+
+        case 0x80040203: // DIERR_NOTDOWNLOADED
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "effect is not downloaded");
+            break;
+
+        case 0x80040208: // DIERR_EFFECTPLAYING
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "effect is still playing");
+            break;
+
+        case 0x80040204: // DIERR_HASEFFECTS
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "device still has effects attached");
+            break;
+
+        case 0x80040206: // DIERR_INCOMPLETEEFFECT
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "effect could not be downloaded because essential information is missing");
+            break;
+
+        case 0x80040207: // DIERR_NOTBUFFERED
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "device is not buffered");
+            break;
+
+        case 0x80040205: // DIERR_NOTEXCLUSIVEACQUIRED
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "device must be acquired in exclusive mode");
+            break;
+
+        case 0x80070002: // DIERR_OBJECTNOTFOUND
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "object does not exist");
+            break;
+
+        case 0x80070005: // E_ACCESSDENIED / DIERR_OTHERAPPHASPRIO
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "access denied");
+            break;
+
+        case 0x8007000C: // DIERR_NOTACQUIRED
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "device must be acquired");
+            break;
+
+        case 0x80070057: // E_INVALIDARG
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "invalid argument");
+            break;
+
+        case 0x8007000E: // E_OUTOFMEMORY
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "out of memory");
+            break;
+
+        case 0x8007001E: // DIERR_INPUTLOST
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "access to the input device has been lost");
+            break;
+
+        case 0x80070015: // DIERR_NOTINITIALIZED
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "object has not been initialized");
+            break;
+
+        case 0x80070077: // DIERR_BADDRIVERVER
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "incompatible driver version or mismatched or incomplete driver components");
+            break;
+
+        case 0x80070481: // DIERR_BETADIRECTINPUTVERSION
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "application was written for an unsupported prerelease version of DirectInput");
+            break;
+
+        case 0x8007047E: // DIERR_OLDDIRECTINPUTVERSION
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "requires a newer version of DirectInput");
+            break;
+
+        case 0x800700AA: // DIERR_ACQUIRED
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "device is acquired");
+            break;
+
+        case 0x800704DF: // DIERR_ALREADYINITIALIZED
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "object is already initialized");
+            break;
+
+        case 0: // DI_OK: returns without an error (the jump table entry goes to the ret)
+            break;
+
+        case 1: // S_FALSE / DI_NOEFFECT
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "the function had no effect");
+            break;
+
+        case 3: // DI_DOWNLOADSKIPPED
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "effect could not be downloaded");
+            break;
+
+        case 4: // DI_EFFECTRESTARTED
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "effect has been restarted");
+            break;
+
+        case 2: // DI_POLLEDDEVICE
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "device is a polled device");
+            break;
+
+        case 8: // DI_TRUNCATED
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "effect parameters have been truncated");
+            break;
+
+        case 12: // DI_TRUNCATEDANDRESTARTED
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "effect parameters have been truncated and effect has been restarted");
+            break;
+
+        default:
+            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "unknown error");
+            break;
     }
 }

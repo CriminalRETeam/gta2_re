@@ -318,32 +318,10 @@ PurpleDoom::PurpleDoom()
     Clear_4789F0();
 }
 
-MATCH_FUNC(0x478A10)
-void PurpleDoom::Empty_478A10()
-{
-}
-
 MATCH_FUNC(0x478050)
 PurpleDoom::~PurpleDoom()
 {
     Empty_478A10();
-}
-
-MATCH_FUNC(0x478160)
-void PurpleDoom::SearchTileColumnForClosestSprite_478160(u8 height)
-{
-    s32 y_pos = gPurpleDoom_start_y_679098;
-    if (gPurpleDoom_start_y_679098 < gPurpleDoom_start_y_679098 + (u32)height)
-    {
-        // Won't match without this redundant iter
-        PurpleDoom_C** pXItemIter = &this->field_0_rows[gPurpleDoom_start_y_679098];
-        while (y_pos < gPurpleDoom_start_y_679098 + (u32)height)
-        {
-            CheckTileSpritesForClosestMatch_478060(GetCollideListAt_446820(gPurpleDoom_start_x_679090, y_pos));
-            ++y_pos;
-            ++pXItemIter;
-        }
-    }
 }
 
 MATCH_FUNC(0x478060)
@@ -395,6 +373,23 @@ void PurpleDoom::CheckTileSpritesForClosestMatch_478060(Collide_8* pStart)
                     }
                 }
             }
+        }
+    }
+}
+
+MATCH_FUNC(0x478160)
+void PurpleDoom::SearchTileColumnForClosestSprite_478160(u8 height)
+{
+    s32 y_pos = gPurpleDoom_start_y_679098;
+    if (gPurpleDoom_start_y_679098 < gPurpleDoom_start_y_679098 + (u32)height)
+    {
+        // Won't match without this redundant iter
+        PurpleDoom_C** pXItemIter = &this->field_0_rows[gPurpleDoom_start_y_679098];
+        while (y_pos < gPurpleDoom_start_y_679098 + (u32)height)
+        {
+            CheckTileSpritesForClosestMatch_478060(GetCollideListAt_446820(gPurpleDoom_start_x_679090, y_pos));
+            ++y_pos;
+            ++pXItemIter;
         }
     }
 }
@@ -874,4 +869,9 @@ PurpleDoom_C** PurpleDoom::Clear_4789F0()
         field_0_rows[i] = 0;
     }
     return field_0_rows;
+}
+
+MATCH_FUNC(0x478A10)
+void PurpleDoom::Empty_478A10()
+{
 }

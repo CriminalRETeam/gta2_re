@@ -358,6 +358,7 @@ class Char_B4
     EXPORT char_type ContinueMovementAfterCollision_54B8F0();
     EXPORT void sub_54C090();
     EXPORT char_type CanMoveOntoSlope_54C1A0(s32 path_direction);
+    inline void SetTurnTarget_492400(Ang16 target_rotation);
     EXPORT void sub_54C3E0();
     EXPORT char_type CanMoveToTile_54C500(char_type a2, char_type a3);
     EXPORT void SelectRandomIdleBehavior_54C580();

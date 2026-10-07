@@ -24,8 +24,9 @@ branches, block order and call order match.
 Unless --no-callees is given, each call to a function named after an address (Name_ADDRESS) that the
 original doesn't call adds 2. The asm comparison only checks that the call targets map one to one,
 so a call to the wrong named function would otherwise score 0 when that function is called once.
-A call to an inline's out-of-line COMDAT copy (??HFix16@@...) is not counted: the original's linker
-folded those copies to one address (0x408660), and the build's verifier accepts them as well. Only
+A call to an inline's out-of-line COMDAT copy (??HFix16@@...) is not counted: the original has one
+out-of-line copy per operator (0x408660 is the inline operator's copy; 10.5's linker folds nothing),
+while our build has both that copy and the named EXPORT, and the verifier accepts either. Only
 for targets from target_asm.json (the original's asm); see callee_penalty.
 
 --96f scores against the 9.6f build instead (target_96f.json, built with VC7.0 and no inlining;

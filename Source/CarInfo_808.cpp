@@ -9,6 +9,10 @@
 #include <cstdlib>
 #include <cstring>
 
+// Forward declarations: the functions below are in address order
+EXPORT Fix16 __stdcall ComputeCarMassAndInertia_454410(Fix16 width, Fix16 height, Fix16 mass, Fix16 frontMassBias, Fix16* outCgHeight);
+EXPORT Fix16 __stdcall ComputeThrustWithTurbo_5618F0(Fix16 half_thrust, Fix16 thrust_div5, s8 bTurbo);
+
 EXTERN_GLOBAL(Fix16, k_dword_6FE210);
 EXTERN_GLOBAL(Fix16, k_dword_6FDFEC);
 EXTERN_GLOBAL(Fix16, k_dword_6FDEFC);
@@ -47,20 +51,52 @@ DEFINE_GLOBAL_ARRAY_INIT(char*,
                          "Output too big" COMMA
                          "Unknown error");
 
-MATCH_FUNC(0x440860)
-Fix16 UnknownList::SignedPixelsToFix16_440860(s8 var)
+MATCH_FUNC(0x430a30)
+char* __stdcall CarInfo_808::parse_gci_file_430A30(void* pGciData,
+                                                   size_t gciDataLen,
+                                                   ModelPhysics_48* pModelPhyArr,
+                                                   size_t modelPhyArrLen,
+                                                   u32* next_position)
 {
-    if (var < 0)
+    input_data_676170 = (u8*)pGciData;
+    line_number_676258 = 1;
+    processedGciData_676260 = 0;
+    gciDataLen_675F94 = gciDataLen;
+    modelPhyArrPtr_675F98 = (u8*)pModelPhyArr;
+    processed_output_676250 = 0;
+    modelPhyArrLen_675F90 = modelPhyArrLen;
+
+    s32 v6;
+    s32 v5 = 0;
+    while (v5 == 0)
     {
-        return -list[-var];
+        v5 = ReadToken_430B10(token_buffer_676024);
+        if (v5 < 0)
+        {
+            return SetErr_430AC0(v5);
+        }
+
+        v6 = ParseTokenAndPush_430C70(token_buffer_676024);
+        if (v6 < 0)
+        {
+            return SetErr_430AC0(v6);
+        }
     }
-    return list[var];
+
+    *next_position = processed_output_676250;
+    return NULL;
 }
 
-MATCH_FUNC(0x454680)
-void ModelPhysics_48::ConvertMass_454680()
+MATCH_FUNC(0x430AC0)
+char* __stdcall CarInfo_808::SetErr_430AC0(s32 a1)
 {
-    field_4_mass = field_4_mass * (kOneTenth_677D74 + kOne_677F54);
+    if (a1 > 0 || a1 < -GTA2_COUNTOF_S(error_table_61A6D4) - 1)
+    {
+        a1 = -GTA2_COUNTOF(error_table_61A6D4);
+    }
+
+    sprintf(Buffer_675FD4, "%s at line %d", error_table_61A6D4[-a1], line_number_676258);
+    return Buffer_675FD4;
 }
 
 MATCH_FUNC(0x430b10)
@@ -329,54 +365,6 @@ s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr)
     return 0;
 }
 
-MATCH_FUNC(0x430a30)
-char* __stdcall CarInfo_808::parse_gci_file_430A30(void* pGciData,
-                                                   size_t gciDataLen,
-                                                   ModelPhysics_48* pModelPhyArr,
-                                                   size_t modelPhyArrLen,
-                                                   u32* next_position)
-{
-    input_data_676170 = (u8*)pGciData;
-    line_number_676258 = 1;
-    processedGciData_676260 = 0;
-    gciDataLen_675F94 = gciDataLen;
-    modelPhyArrPtr_675F98 = (u8*)pModelPhyArr;
-    processed_output_676250 = 0;
-    modelPhyArrLen_675F90 = modelPhyArrLen;
-
-    s32 v6;
-    s32 v5 = 0;
-    while (v5 == 0)
-    {
-        v5 = ReadToken_430B10(token_buffer_676024);
-        if (v5 < 0)
-        {
-            return SetErr_430AC0(v5);
-        }
-
-        v6 = ParseTokenAndPush_430C70(token_buffer_676024);
-        if (v6 < 0)
-        {
-            return SetErr_430AC0(v6);
-        }
-    }
-
-    *next_position = processed_output_676250;
-    return NULL;
-}
-
-MATCH_FUNC(0x430AC0)
-char* __stdcall CarInfo_808::SetErr_430AC0(s32 a1)
-{
-    if (a1 > 0 || a1 < -GTA2_COUNTOF_S(error_table_61A6D4) - 1)
-    {
-        a1 = -GTA2_COUNTOF(error_table_61A6D4);
-    }
-
-    sprintf(Buffer_675FD4, "%s at line %d", error_table_61A6D4[-a1], line_number_676258);
-    return Buffer_675FD4;
-}
-
 MATCH_FUNC(0x430e60)
 s32 __stdcall CarInfo_808::PushData_430E60(void* pSrc, u32 size)
 {
@@ -532,56 +520,14 @@ s32 __stdcall CarInfo_808::StrToInt_431080(const char* pStr, s16* pOut)
     return 0;
 }
 
-MATCH_FUNC(0x4549A0)
-CarInfo_2C::CarInfo_2C()
+MATCH_FUNC(0x440860)
+Fix16 UnknownList::SignedPixelsToFix16_440860(s8 var)
 {
-}
-
-MATCH_FUNC(0x4549B0)
-CarInfo_2C::~CarInfo_2C()
-{
-}
-
-MATCH_FUNC(0x454410)
-EXPORT Fix16 __stdcall ComputeCarMassAndInertia_454410(Fix16 width, Fix16 height, Fix16 mass, Fix16 frontMassBias, Fix16* outCgHeight)
-{
-    // The const refs (bound to the product temporaries) give the original's stack slots and the
-    // __allmul operand order of the two inertia products (value locals swap them)
-    const Fix16& inertiaBase = ((((height * height) * kQuarter_677D78) + (width * width)) / 12);
-    const Fix16& heightXConstant = (height * kQuarter_677D78);
-    const Fix16& frontMass = (mass * frontMassBias);
-    Fix16 frontI = (frontMass * inertiaBase);
-    // Negated by hand: one inline expansion less, so both front (cg - h) subtractions stay inline (budget)
-    Fix16 nh;
-    nh.mValue = -height.mValue;
-    Fix16 negHeightXConstant = (nh * kQuarter_677D78);
-
-    const Fix16& rearMass = (mass * (kOne_677F54 - frontMassBias));
-    Fix16 rearI = (rearMass * inertiaBase);
-
-    *outCgHeight = (((heightXConstant * frontMass) + (negHeightXConstant * rearMass)) / mass);
-
-    Fix16 frontTotal;
-    frontTotal = frontI + frontMass * (*outCgHeight - heightXConstant) * (*outCgHeight - heightXConstant);
-    Fix16 rearTotal;
-    rearTotal = rearI + rearMass * (*outCgHeight - negHeightXConstant) * (*outCgHeight - negHeightXConstant);
-    return frontTotal + rearTotal;
-}
-
-MATCH_FUNC(0x5618F0)
-EXPORT Fix16 __stdcall ComputeThrustWithTurbo_5618F0(Fix16 half_thrust, Fix16 thrust_div5, s8 bTurbo)
-{
-    Fix16 v4;
-    if (bTurbo)
+    if (var < 0)
     {
-        v4 = (k_dword_6FE210 + k_dword_6FDFEC) * ((thrust_div5 * k_dword_6FDEFC));
+        return -list[-var];
     }
-    else
-    {
-        v4 = thrust_div5 * k_dword_6FDEFC;
-    }
-    v4 = v4 + half_thrust;
-    return v4;
+    return list[var];
 }
 
 MATCH_FUNC(0x4542A0)
@@ -634,6 +580,38 @@ void CarInfo_2C::CalculateCarInfo_4542A0(s32 idx)
     this->field_20_front_drive_bias = kOne_677F54 - pModelPhysics->field_8_front_drive_bias;
     this->field_24_skid_threshhold_1 = (pModelPhysics->field_30_sked_threshold * (kOne_677F54 - kOneTenth_677D74));
     this->field_28_skid_threshhold_2 = (pModelPhysics->field_30_sked_threshold * (kOne_677F54 + kOneTenth_677D74));
+}
+
+MATCH_FUNC(0x454410)
+EXPORT Fix16 __stdcall ComputeCarMassAndInertia_454410(Fix16 width, Fix16 height, Fix16 mass, Fix16 frontMassBias, Fix16* outCgHeight)
+{
+    // The const refs (bound to the product temporaries) give the original's stack slots and the
+    // __allmul operand order of the two inertia products (value locals swap them)
+    const Fix16& inertiaBase = ((((height * height) * kQuarter_677D78) + (width * width)) / 12);
+    const Fix16& heightXConstant = (height * kQuarter_677D78);
+    const Fix16& frontMass = (mass * frontMassBias);
+    Fix16 frontI = (frontMass * inertiaBase);
+    // Negated by hand: one inline expansion less, so both front (cg - h) subtractions stay inline (budget)
+    Fix16 nh;
+    nh.mValue = -height.mValue;
+    Fix16 negHeightXConstant = (nh * kQuarter_677D78);
+
+    const Fix16& rearMass = (mass * (kOne_677F54 - frontMassBias));
+    Fix16 rearI = (rearMass * inertiaBase);
+
+    *outCgHeight = (((heightXConstant * frontMass) + (negHeightXConstant * rearMass)) / mass);
+
+    Fix16 frontTotal;
+    frontTotal = frontI + frontMass * (*outCgHeight - heightXConstant) * (*outCgHeight - heightXConstant);
+    Fix16 rearTotal;
+    rearTotal = rearI + rearMass * (*outCgHeight - negHeightXConstant) * (*outCgHeight - negHeightXConstant);
+    return frontTotal + rearTotal;
+}
+
+MATCH_FUNC(0x454680)
+void ModelPhysics_48::ConvertMass_454680()
+{
+    field_4_mass = field_4_mass * (kOneTenth_677D74 + kOne_677F54);
 }
 
 MATCH_FUNC(0x4546b0)
@@ -713,6 +691,16 @@ void CarInfo_808::CalculateAllCarInfo_454850()
     }
 }
 
+MATCH_FUNC(0x4549A0)
+CarInfo_2C::CarInfo_2C()
+{
+}
+
+MATCH_FUNC(0x4549B0)
+CarInfo_2C::~CarInfo_2C()
+{
+}
+
 MATCH_FUNC(0x4549c0)
 void CarInfo_808::ConvertAllMass_4549C0()
 {
@@ -778,4 +766,20 @@ MATCH_FUNC(0x454b20)
 CarInfo_808::~CarInfo_808()
 {
     Free_454AA0();
+}
+
+MATCH_FUNC(0x5618F0)
+EXPORT Fix16 __stdcall ComputeThrustWithTurbo_5618F0(Fix16 half_thrust, Fix16 thrust_div5, s8 bTurbo)
+{
+    Fix16 v4;
+    if (bTurbo)
+    {
+        v4 = (k_dword_6FE210 + k_dword_6FDFEC) * ((thrust_div5 * k_dword_6FDEFC));
+    }
+    else
+    {
+        v4 = thrust_div5 * k_dword_6FDEFC;
+    }
+    v4 = v4 + half_thrust;
+    return v4;
 }

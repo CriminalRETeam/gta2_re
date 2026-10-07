@@ -378,6 +378,29 @@ void MapRenderer::set_shading_lev_4E9DB0(u8 shading_lev)
     field_1B_tri_diag_down_right_colour = shading_leva;
 }
 
+MATCH_FUNC(0x4e9ea0)
+void MapRenderer::ambient_light_tick_4E9EA0()
+{
+    field_0_ambient = field_8_ambient_step + field_0_ambient;
+
+    if (field_8_ambient_step > kZeroOnePoint_6F6484.x)
+    {
+        if (field_0_ambient >= field_4_target_ambient)
+        {
+            field_8_ambient_step = kZeroOnePoint_6F6484.x;
+            field_0_ambient = field_4_target_ambient;
+        }
+    }
+    else if (field_8_ambient_step < kZeroOnePoint_6F6484.x)
+    {
+        if (field_0_ambient <= field_4_target_ambient)
+        {
+            field_8_ambient_step = kZeroOnePoint_6F6484.x;
+            field_0_ambient = field_4_target_ambient;
+        }
+    }
+}
+
 // this function matches, but some "fcomps" offsets are wrong
 MATCH_FUNC(0x4E9EE0)
 void MapRenderer::draw_4E9EE0(u16& word_side, const bool& bUnk, u8 colour)
@@ -401,29 +424,6 @@ void MapRenderer::draw_4E9EE0(u16& word_side, const bool& bUnk, u8 colour)
                           gTileVerts_6F65A8,
                           colour);
         ++field_2F00_drawn_tile_count;
-    }
-}
-
-MATCH_FUNC(0x4e9ea0)
-void MapRenderer::ambient_light_tick_4E9EA0()
-{
-    field_0_ambient = field_8_ambient_step + field_0_ambient;
-
-    if (field_8_ambient_step > kZeroOnePoint_6F6484.x)
-    {
-        if (field_0_ambient >= field_4_target_ambient)
-        {
-            field_8_ambient_step = kZeroOnePoint_6F6484.x;
-            field_0_ambient = field_4_target_ambient;
-        }
-    }
-    else if (field_8_ambient_step < kZeroOnePoint_6F6484.x)
-    {
-        if (field_0_ambient <= field_4_target_ambient)
-        {
-            field_8_ambient_step = kZeroOnePoint_6F6484.x;
-            field_0_ambient = field_4_target_ambient;
-        }
     }
 }
 
@@ -2623,45 +2623,6 @@ void MapRenderer::draw_lid_4F4D60(Fix16& unk1, Fix16& unk2, Fix16& unk3, Fix16& 
     }
 }
 
-MATCH_FUNC(0x4f6580)
-void MapRenderer::DrawPartialBlocks_4F6580()
-{
-    u8 slope_byte = gpBlock_6F6478->field_B_slope_type;
-    gCurrentSlope_6F646C.field_0_gradient_direction = NO_GRADIENT_SLOPE_0;
-    switch (slope_byte & 0xFC)
-    {
-        case PARTIAL_BLOCK_LEFT: // 53
-            DrawPartialBlockLeft_4F5160();
-            break;
-        case PARTIAL_BLOCK_RIGHT: // 54
-            DrawPartialBlockRight_4F5360();
-            break;
-        case PARTIAL_BLOCK_TOP: // 55
-            DrawPartialBlockTop_4F5560();
-            break;
-        case PARTIAL_BLOCK_BOTTOM: // 56
-            DrawPartialBlockBottom_4F5760();
-            break;
-        case PARTIAL_TOP_LEFT_CORNER: // 57
-            DrawPartialBlockTopLeftCorner_4F5960();
-            break;
-        case PARTIAL_TOP_RIGHT_CORNER: // 58
-            DrawPartialBlockTopRightCorner_4F5B70();
-            break;
-        case PARTIAL_BOTTOM_RIGHT_CORNER: // 59
-            DrawPartialBlockBottomRightCorner_4F5D80();
-            break;
-        case PARTIAL_BOTTOM_LEFT_CORNER: // 60
-            DrawPartialBlockBottomLeftCorner_4F5FD0();
-            break;
-        case PARTIAL_CENTRE_BLOCK: // 61
-            DrawPartialCentreBlock_4F6350();
-            break;
-        default:
-            break;
-    }
-}
-
 // DrawPartialBlocks_4F6580 tail-jumps (jmp) to the nine functions below; IDA treats them as chunks
 // of it, so they are not in its function list.
 MATCH_FUNC(0x4F5160)
@@ -3291,6 +3252,45 @@ void MapRenderer::DrawPartialCentreBlock_4F6350()
     if (gLidType_6F6274)
     {
         MapRenderer::draw_lid_4F4D60(kFpThreeEighths_6F6428, kFpFiveEighths_6F6430, kFpThreeEighths_6F6428, kFpFiveEighths_6F6430);
+    }
+}
+
+MATCH_FUNC(0x4f6580)
+void MapRenderer::DrawPartialBlocks_4F6580()
+{
+    u8 slope_byte = gpBlock_6F6478->field_B_slope_type;
+    gCurrentSlope_6F646C.field_0_gradient_direction = NO_GRADIENT_SLOPE_0;
+    switch (slope_byte & 0xFC)
+    {
+        case PARTIAL_BLOCK_LEFT: // 53
+            DrawPartialBlockLeft_4F5160();
+            break;
+        case PARTIAL_BLOCK_RIGHT: // 54
+            DrawPartialBlockRight_4F5360();
+            break;
+        case PARTIAL_BLOCK_TOP: // 55
+            DrawPartialBlockTop_4F5560();
+            break;
+        case PARTIAL_BLOCK_BOTTOM: // 56
+            DrawPartialBlockBottom_4F5760();
+            break;
+        case PARTIAL_TOP_LEFT_CORNER: // 57
+            DrawPartialBlockTopLeftCorner_4F5960();
+            break;
+        case PARTIAL_TOP_RIGHT_CORNER: // 58
+            DrawPartialBlockTopRightCorner_4F5B70();
+            break;
+        case PARTIAL_BOTTOM_RIGHT_CORNER: // 59
+            DrawPartialBlockBottomRightCorner_4F5D80();
+            break;
+        case PARTIAL_BOTTOM_LEFT_CORNER: // 60
+            DrawPartialBlockBottomLeftCorner_4F5FD0();
+            break;
+        case PARTIAL_CENTRE_BLOCK: // 61
+            DrawPartialCentreBlock_4F6350();
+            break;
+        default:
+            break;
     }
 }
 

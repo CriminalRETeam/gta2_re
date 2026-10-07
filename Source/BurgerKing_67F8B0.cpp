@@ -53,11 +53,88 @@ DEFINE_GUID(GUID_SysKeyboard, 0x6F1D2B61, 0xD5A0, 0x11CF, 0xBF, 0xC7, 0x44, 0x45
 
 const AttractFile attractFiles_62083C[ATTRACT_COUNT] = {"data\\attract\\attr1.rep", "data\\attract\\attr2.rep", "data\\attract\\attr3.rep"};
 
-// TODO: Move
-EXPORT int __stdcall FatalDXError_4A3CF0(HRESULT hr, const char* pSourceFile, int lineNo)
+MATCH_FUNC(0x498730)
+bool BurgerKing_1::acquire_input_device_498730(LPDIRECTINPUTDEVICEA pGamePadDevice)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!pGamePadDevice)
+    {
+        return 0;
+    }
+
+    if (gNeedKbAcquire_67B66C && FAILED(gKeyboardDevice_67B5C0->Acquire()))
+    {
+        return 0;
+    }
+
+    gKeyboardStatus_67B624 = -1;
+
+    const HRESULT hr = pGamePadDevice->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), 0, &gKeyboardStatus_67B624, DIGDD_PEEK);
+    if (hr == DIERR_INPUTLOST || hr == DIERR_NOTACQUIRED)
+    {
+        return SUCCEEDED(pGamePadDevice->Acquire()) ? true : false;
+    }
+    return true;
+}
+
+MATCH_FUNC(0x4987A0)
+void BurgerKing_1::free_input_devices_4987A0()
+{
+    if (gpDInput_67B804)
+    {
+        if (gKeyboardDevice_67B5C0)
+        {
+            gKeyboardDevice_67B5C0->Unacquire();
+            gKeyboardDevice_67B5C0->Release();
+            gKeyboardDevice_67B5C0 = 0;
+        }
+
+        if (gGamePadDevice_67B6C0)
+        {
+            gGamePadDevice_67B6C0->Unacquire();
+            gGamePadDevice_67B6C0->Release();
+            gGamePadDevice_67B6C0 = 0;
+        }
+    }
+}
+
+MATCH_FUNC(0x498800)
+BOOL __stdcall BurgerKing_1::make_input_devices_498800(HINSTANCE hInstance)
+{
+    DIPROPDWORD prop;
+
+    gNeedKbAcquire_67B66C = 0;
+
+    if (FAILED(gpDInput_67B804->CreateDevice(GUID_SysKeyboard, &gKeyboardDevice_67B5C0, 0)))
+    {
+        FatalError_4A38C0(Gta2Error::DirectInputCreateFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 268);
+    }
+
+    if (FAILED(gKeyboardDevice_67B5C0->SetDataFormat(&gKeyboardDataFormat_601A54)))
+    {
+        FatalError_4A38C0(Gta2Error::DirectInputSetDataFormatFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 279);
+    }
+
+    if (FAILED(gKeyboardDevice_67B5C0->SetCooperativeLevel(gHwnd_707F04, 6)))
+    {
+        FatalError_4A38C0(Gta2Error::DirectInputSetCooperativeLevelFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 287);
+    }
+
+    prop.dwData = 10000; // buffer size
+
+    prop.diph.dwSize = sizeof(DIPROPDWORD);
+    prop.diph.dwHeaderSize = sizeof(DIPROPHEADER);
+    prop.diph.dwHow = DIPH_DEVICE;
+    prop.diph.dwObj = 0;
+
+    HRESULT hr = gKeyboardDevice_67B5C0->SetProperty(DIPROP_BUFFERSIZE, &prop.diph);
+    if (FAILED(hr))
+    {
+        FatalDXError_4A3CF0(hr, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 300);
+    }
+
+    prop.dwData = 0;
+    gKeyboardDevice_67B5C0->GetProperty(DIPROP_BUFFERSIZE, &prop.diph);
+    return !FAILED(gKeyboardDevice_67B5C0->Acquire());
 }
 
 MATCH_FUNC(0x498910)
@@ -88,54 +165,6 @@ EXPORT BOOL CALLBACK DirectInputDeviceEnumCallBack_498910(LPCDIDEVICEINSTANCEA l
         }
     }
     return DIENUM_STOP;
-}
-
-MATCH_FUNC(0x4987A0)
-void BurgerKing_1::free_input_devices_4987A0()
-{
-    if (gpDInput_67B804)
-    {
-        if (gKeyboardDevice_67B5C0)
-        {
-            gKeyboardDevice_67B5C0->Unacquire();
-            gKeyboardDevice_67B5C0->Release();
-            gKeyboardDevice_67B5C0 = 0;
-        }
-
-        if (gGamePadDevice_67B6C0)
-        {
-            gGamePadDevice_67B6C0->Unacquire();
-            gGamePadDevice_67B6C0->Release();
-            gGamePadDevice_67B6C0 = 0;
-        }
-    }
-}
-
-MATCH_FUNC(0x498CC0)
-void BurgerKing_1::read_keyboard_and_gamepad_498CC0()
-{
-    gKeyboardStatus_67B624 = -1;
-    if (gKeyboardDevice_67B5C0)
-    {
-        gKeyboardDevice_67B5C0->GetDeviceData(16, 0, &gKeyboardStatus_67B624, 0);
-    }
-
-    gKeyboardStatus_67B624 = -1;
-    if (gGamePadDevice_67B6C0)
-    {
-        gGamePadDevice_67B6C0->GetDeviceData(16, 0, &gKeyboardStatus_67B624, 0);
-    }
-}
-
-MATCH_FUNC(0x498C00)
-void BurgerKing_1::get_registry_controls_498C00()
-{
-    for (u32 i = 0; i < 12; ++i)
-    {
-        const u32 v1 = gRegistry_6FF968.Set_Control_Setting_587010(i, gDefaultControls_61A9E4[i]);
-        gMaybeDeviceType_67B91C[i] = v1 >> 15;
-        gPlayerControlsBinding_67B6E8[i] = (u8)v1;
-    }
 }
 
 // TODO: the debug strings are guesses, only code is compared
@@ -255,67 +284,15 @@ bool BurgerKing_1::game_pads_init_498BA0()
     return 1;
 }
 
-MATCH_FUNC(0x498730)
-bool BurgerKing_1::acquire_input_device_498730(LPDIRECTINPUTDEVICEA pGamePadDevice)
+MATCH_FUNC(0x498C00)
+void BurgerKing_1::get_registry_controls_498C00()
 {
-    if (!pGamePadDevice)
+    for (u32 i = 0; i < 12; ++i)
     {
-        return 0;
+        const u32 v1 = gRegistry_6FF968.Set_Control_Setting_587010(i, gDefaultControls_61A9E4[i]);
+        gMaybeDeviceType_67B91C[i] = v1 >> 15;
+        gPlayerControlsBinding_67B6E8[i] = (u8)v1;
     }
-
-    if (gNeedKbAcquire_67B66C && FAILED(gKeyboardDevice_67B5C0->Acquire()))
-    {
-        return 0;
-    }
-
-    gKeyboardStatus_67B624 = -1;
-
-    const HRESULT hr = pGamePadDevice->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), 0, &gKeyboardStatus_67B624, DIGDD_PEEK);
-    if (hr == DIERR_INPUTLOST || hr == DIERR_NOTACQUIRED)
-    {
-        return SUCCEEDED(pGamePadDevice->Acquire()) ? true : false;
-    }
-    return true;
-}
-
-MATCH_FUNC(0x498800)
-BOOL __stdcall BurgerKing_1::make_input_devices_498800(HINSTANCE hInstance)
-{
-    DIPROPDWORD prop;
-
-    gNeedKbAcquire_67B66C = 0;
-
-    if (FAILED(gpDInput_67B804->CreateDevice(GUID_SysKeyboard, &gKeyboardDevice_67B5C0, 0)))
-    {
-        FatalError_4A38C0(Gta2Error::DirectInputCreateFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 268);
-    }
-
-    if (FAILED(gKeyboardDevice_67B5C0->SetDataFormat(&gKeyboardDataFormat_601A54)))
-    {
-        FatalError_4A38C0(Gta2Error::DirectInputSetDataFormatFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 279);
-    }
-
-    if (FAILED(gKeyboardDevice_67B5C0->SetCooperativeLevel(gHwnd_707F04, 6)))
-    {
-        FatalError_4A38C0(Gta2Error::DirectInputSetCooperativeLevelFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 287);
-    }
-
-    prop.dwData = 10000; // buffer size
-
-    prop.diph.dwSize = sizeof(DIPROPDWORD);
-    prop.diph.dwHeaderSize = sizeof(DIPROPHEADER);
-    prop.diph.dwHow = DIPH_DEVICE;
-    prop.diph.dwObj = 0;
-
-    HRESULT hr = gKeyboardDevice_67B5C0->SetProperty(DIPROP_BUFFERSIZE, &prop.diph);
-    if (FAILED(hr))
-    {
-        FatalDXError_4A3CF0(hr, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 300);
-    }
-
-    prop.dwData = 0;
-    gKeyboardDevice_67B5C0->GetProperty(DIPROP_BUFFERSIZE, &prop.diph);
-    return !FAILED(gKeyboardDevice_67B5C0->Acquire());
 }
 
 MATCH_FUNC(0x498C40)
@@ -332,6 +309,16 @@ void __stdcall BurgerKing_1::input_devices_init_498C40(HINSTANCE hInstance)
     game_pads_init_498BA0();
 }
 
+MATCH_FUNC(0x498C80)
+void BurgerKing_1::AddKeyToInputBits_498C80(s32* a1, DIDEVICEOBJECTDATA* device_data_keys)
+{
+    *a1 = (device_data_keys->dwOfs << 12) | *a1;
+    if ((device_data_keys->dwData & 0x80) != 0)
+    {
+        *a1 |= 0x200000;
+    }
+}
+
 // https://decomp.me/scratch/LbfoG ridiculous function to match
 MATCH_FUNC(0x498CB0)
 void BurgerKing_1::SetAltKeyState_498CB0(u32 a1)
@@ -345,6 +332,22 @@ void BurgerKing_1::SetAltKeyState_498CB0(u32 a1)
     else
     {
         gAltKeyDown_67B80C = 0;
+    }
+}
+
+MATCH_FUNC(0x498CC0)
+void BurgerKing_1::read_keyboard_and_gamepad_498CC0()
+{
+    gKeyboardStatus_67B624 = -1;
+    if (gKeyboardDevice_67B5C0)
+    {
+        gKeyboardDevice_67B5C0->GetDeviceData(16, 0, &gKeyboardStatus_67B624, 0);
+    }
+
+    gKeyboardStatus_67B624 = -1;
+    if (gGamePadDevice_67B6C0)
+    {
+        gGamePadDevice_67B6C0->GetDeviceData(16, 0, &gKeyboardStatus_67B624, 0);
     }
 }
 
@@ -365,16 +368,6 @@ bool BurgerKing_1::game_pad_read_498D20()
         num_items = 0;
     }
     return num_items > 0;
-}
-
-MATCH_FUNC(0x498C80)
-void BurgerKing_1::AddKeyToInputBits_498C80(s32* a1, DIDEVICEOBJECTDATA* device_data_keys)
-{
-    *a1 = (device_data_keys->dwOfs << 12) | *a1;
-    if ((device_data_keys->dwData & 0x80) != 0)
-    {
-        *a1 |= 0x200000;
-    }
 }
 
 // https://decomp.me/scratch/75Pau

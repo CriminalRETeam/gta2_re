@@ -63,22 +63,6 @@ s32 __stdcall GetLineSpacingFromFontType_5D7700(u16 font_type)
     return (u16)gGtx_0x106C_703DD4->GetLineSpacing_5AA800(&font_type);
 }
 
-MATCH_FUNC(0x5D8940)
-s32 __stdcall CountLineSpacing_5D8940(wchar_t* pStr, u16 font_type)
-{
-    s32 line_spacing = GetLineSpacingFromFontType_5D7700_inlined(font_type);
-
-    s32 result = line_spacing;
-    for (wchar_t* i = pStr; *i; ++i)
-    {
-        if (*i == '\n')
-        {
-            result += line_spacing;
-        }
-    }
-    return result;
-}
-
 MATCH_FUNC(0x5D7720)
 void __stdcall DrawText_5D7720(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 fontType, const s32& palette_type, u16 palette, s32 alpha, u8 alpha_flag)
 {
@@ -107,14 +91,18 @@ void __stdcall DrawTextScaled_5D77A0(wchar_t* pText, Fix16 xpos, Fix16 ypos, u16
                     0);
 }
 
-// https://decomp.me/scratch/zpWhI
-WIP_FUNC(0x5D7CB0)
+// The original is a tail-call thunk into the body at 0x5D7CC0 (9.6f: 0x4CAEB0 -> 0x4CADE0)
+MATCH_FUNC(0x5D7CB0)
 void __stdcall ConvertColourBanks_5D7CB0()
 {
-    // The original has a 10 byte `jmp +8; nop...` gap after this call, likely a binary patch
-    // in the OG exe, so only the rest can match.
-    WIP_IMPLEMENTED;
-    s32 colour = pgbh_SetColourDepth();
+    pgbh_SetColourDepth();
+    ConvertColourBanks_5D7CC0();
+}
+
+// https://decomp.me/scratch/zpWhI
+MATCH_FUNC(0x5D7CC0)
+void __stdcall ConvertColourBanks_5D7CC0()
+{
     if (gGtx_0x106C_703DD4 && gGtx_0x106C_703DD4->field_6A_palettes_converted == 0)
     {
         s32 phys_pal_len = gGtx_0x106C_703DD4->get_physical_palettes_len_5AA900();
@@ -336,6 +324,22 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
     gQuadVerts_706B88.field_0_verts[3].v = v;
 
     pgbh_DrawQuad(flags | CalcQuadFlags_5D83E0(a8, a9) | 0x20000, pTexture, gQuadVerts_706B88.field_0_verts, 255);
+}
+
+MATCH_FUNC(0x5D8940)
+s32 __stdcall CountLineSpacing_5D8940(wchar_t* pStr, u16 font_type)
+{
+    s32 line_spacing = GetLineSpacingFromFontType_5D7700_inlined(font_type);
+
+    s32 result = line_spacing;
+    for (wchar_t* i = pStr; *i; ++i)
+    {
+        if (*i == '\n')
+        {
+            result += line_spacing;
+        }
+    }
+    return result;
 }
 
 // https://decomp.me/scratch/HX0q9

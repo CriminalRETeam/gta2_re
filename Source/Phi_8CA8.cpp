@@ -477,50 +477,14 @@ void Init_Phi_6C_array()
     printf("Phi_6C array loaded!\n");
 }
 
-MATCH_FUNC(0x532fb0)
-Phi_54::Phi_54(s32 param_1,
-               s32& param_2,
-               s32 param_3,
-               s8 param_4,
-               s32& param_5,
-               s32& param_6,
-               s32& param_7,
-               Fix16 param_8,
-               Fix16 param_9,
-               s8 param_10,
-               s32& param_11,
-               s32& param_12,
-               s8 param_13,
-               s32& param_14,
-               Fix16 param_15,
-               s32 param_16,
-               s32 param_17,
-               s32 param_18,
-               s8 param_19,
-               s32 param_20,
-               s8 param_21)
+MATCH_FUNC(0x4bdf40)
+Phi_8CA8::~Phi_8CA8()
 {
-    field_0_definition_idx = param_1;
-    field_4_behavior_type = param_2;
-    field_8_next_definition_idx = param_3;
-    field_C = param_4;
-    field_10 = param_5;
-    field_14 = param_6;
-    field_18_collision_bucket_category = param_7;
-    field_1C_speed = param_8;
-    field_20_friction = param_9;
-    field_24 = param_10;
-    field_28 = param_11;
-    field_2C = param_12;
-    field_30_next_frame_max = param_13;
-    field_34 = param_14;
-    field_38_mass = param_15;
-    field_3C = param_16;
-    field_40_sprite_flags = param_17;
-    field_44_has_sound = param_18;
-    field_48_has_shadows = param_19;
-    field_4C = param_20;
-    field_50 = param_21;
+}
+
+MATCH_FUNC(0x4bdf60)
+Phi_74::~Phi_74()
+{
 }
 
 MATCH_FUNC(0x531860)
@@ -585,9 +549,50 @@ Phi_6C::Phi_6C(u32 param_1,
     field_69 = param_29;
 }
 
-MATCH_FUNC(0x4bdf60)
-Phi_74::~Phi_74()
+MATCH_FUNC(0x532fb0)
+Phi_54::Phi_54(s32 param_1,
+               s32& param_2,
+               s32 param_3,
+               s8 param_4,
+               s32& param_5,
+               s32& param_6,
+               s32& param_7,
+               Fix16 param_8,
+               Fix16 param_9,
+               s8 param_10,
+               s32& param_11,
+               s32& param_12,
+               s8 param_13,
+               s32& param_14,
+               Fix16 param_15,
+               s32 param_16,
+               s32 param_17,
+               s32 param_18,
+               s8 param_19,
+               s32 param_20,
+               s8 param_21)
 {
+    field_0_definition_idx = param_1;
+    field_4_behavior_type = param_2;
+    field_8_next_definition_idx = param_3;
+    field_C = param_4;
+    field_10 = param_5;
+    field_14 = param_6;
+    field_18_collision_bucket_category = param_7;
+    field_1C_speed = param_8;
+    field_20_friction = param_9;
+    field_24 = param_10;
+    field_28 = param_11;
+    field_2C = param_12;
+    field_30_next_frame_max = param_13;
+    field_34 = param_14;
+    field_38_mass = param_15;
+    field_3C = param_16;
+    field_40_sprite_flags = param_17;
+    field_44_has_sound = param_18;
+    field_48_has_shadows = param_19;
+    field_4C = param_20;
+    field_50 = param_21;
 }
 
 MATCH_FUNC(0x533060)
@@ -664,6 +669,9 @@ Sprite* Phi_74::CreateSpriteFromDefinition_533170()
     return pFreeSprite;
 }
 
+// fix16?
+s32 kFp255_6F8FA4 = 0x3FC000;
+
 MATCH_FUNC(0x5331a0)
 void Phi_74::ApplyDefinitionToSprite_5331A0(Sprite* pSprite)
 {
@@ -691,9 +699,6 @@ void Phi_74::ApplyDefinitionToSprite_5331A0(Sprite* pSprite)
         pSprite->CreateSoundObj_5A29D0();
     }
 }
-
-// fix16?
-s32 kFp255_6F8FA4 = 0x3FC000;
 
 MATCH_FUNC(0x533220)
 Phi_74::Phi_74()
@@ -731,11 +736,6 @@ Phi_74::Phi_74()
     field_60 = 0;
     field_5C = 1;
     field_70_has_sound = 0;
-}
-
-MATCH_FUNC(0x4bdf40)
-Phi_8CA8::~Phi_8CA8()
-{
 }
 
 MATCH_FUNC(0x5332d0)

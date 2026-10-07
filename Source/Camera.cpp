@@ -10,6 +10,16 @@
 #include "Police_7B8.hpp"
 #include "sprite.hpp"
 
+// Forward declarations: the functions below are in address order
+EXPORT void __stdcall SmoothApproach_4F7540(Fix16& Coord_1, Fix16& Velocity_1, Fix16& Coord_2, Fix16& Velocity_2, Fix16& Velocity_3);
+EXPORT void __stdcall SmoothApproachClamped_4F75D0(Fix16* target_coord,
+                                                   Fix16* coord_velocity,
+                                                   Fix16* curr_coord,
+                                                   Fix16* velocity_1,
+                                                   Fix16* velocity_2,
+                                                   Fix16* velocity_3,
+                                                   Fix16* maybe_decrement);
+
 DEFINE_GLOBAL(Camera_0xBC*, gViewCamera_676978, 0x676978);
 DEFINE_GLOBAL_INIT(Fix16, dword_676840, Fix16(0x20000, 0), 0x676840);
 DEFINE_GLOBAL_INIT(Fix16, dword_67671C, Fix16(0x2000, 0), 0x67671C);
@@ -276,6 +286,76 @@ Fix16 Camera_0xBC::ReturnOwnerVelocity_435A20()
     }
 }
 
+// Defined ahead of IsCoordsPosVisible_435A70 (out of address order): that function needs the out-of-line
+// Fix16::operator* copy, and once C2 has compiled the copy it knows the call can't throw, so the inline
+// FromPolar_41E210 here would drop offset.x's store before its second multiply. The original keeps it, as if
+// the copy had not been compiled yet (the same effect as Fix16_Point::operator+ in Weapon_30, see
+// docs/matching_quirks.md).
+MATCH_FUNC(0x436200)
+void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, Fix16* pY, Fix16* pZ)
+{
+    // 9.6f 0x41EBF0: this source matches it exactly when built with VC7 (compile_vc7.sh, permuter_score.py --96f)
+    Ang16 angle;
+    Fix16_Point vel;
+    Fix16_Point offset;
+    Fix16 radius;
+    Fix16 speed;
+
+    if (pCar->IsTrainModel_403BA0())
+    {
+        speed = dword_676900 * dword_67696C;
+    }
+    else
+    {
+        vel = pCar->get_linvel_43A450() * dword_67696C;
+        speed = vel.GetLength_41E260();
+    }
+
+    if (speed > dword_67674C)
+    {
+        *pZ += speed;
+
+        if (!pCar->IsTrainModel_403BA0() && !pCar->IsTank_411900())
+        {
+            angle = vel.atan2_40F790();
+
+            Fix16 dist;
+            if ((angle > kAng45_6766DC && angle < kAng135_676790) || (angle > kAng225_676764 && angle < kAng315_67679C))
+            {
+                dist = Fix16(240);
+            }
+            else
+            {
+                dist = Fix16(180);
+            }
+
+            if (pCar->is_trailer_cab_41E460())
+            {
+                dist *= dword_6768E0;
+            }
+
+            if (this->field_44_suspicion)
+            {
+                Fix16 suspicion;
+                if (this->field_44_suspicion > 64u)
+                {
+                    suspicion = dword_6768E4;
+                }
+                else
+                {
+                    suspicion = Fix16(this->field_44_suspicion);
+                }
+                dist *= kOne_67681C - suspicion / 128;
+            }
+
+            radius = dist * (Fix16(8) - pCar->field_50_car_sprite->field_1C_zpos + *pZ) / field_60.y;
+            offset.FromPolar_41E210(radius, angle);
+            *pX += offset.x;
+            *pY += offset.y;
+        }
+    }
+}
+
 MATCH_FUNC(0x435A70)
 s32 Camera_0xBC::IsCoordsPosVisible_435A70(Fix16 x, Fix16 y, Fix16 z)
 {
@@ -416,124 +496,6 @@ void Camera_0xBC::AccumulateSuspicionOnDriver_435F90(Car_BC* a2)
     }
 }
 
-// TODO: move
-// https://decomp.me/scratch/qYIak
-MATCH_FUNC(0x4F7540)
-EXPORT void __stdcall SmoothApproach_4F7540(Fix16& Coord_1, Fix16& Velocity_1, Fix16& Coord_2, Fix16& Velocity_2, Fix16& Velocity_3)
-{
-    // One shared `Coord_2 += Velocity_1` at the end: VC6 copies it into the clamp paths
-    Fix16 DeltaCoord = Coord_1 - Coord_2;
-    if (DeltaCoord > kZero_6F6C50)
-    {
-        if (Velocity_1 >= kZero_6F6C50)
-        {
-            if (Velocity_1 + Velocity_2 <= DeltaCoord)
-            {
-                Velocity_1 += Velocity_2;
-                if (Velocity_1 > Velocity_3)
-                {
-                    Velocity_1 = Velocity_3;
-                }
-            }
-            else
-            {
-                Velocity_1 = DeltaCoord;
-            }
-        }
-        else
-        {
-            Velocity_1 = kZero_6F6C50;
-        }
-    }
-    else if (DeltaCoord < kZero_6F6C50)
-    {
-        if (Velocity_1 <= kZero_6F6C50)
-        {
-            if (Velocity_1 - Velocity_2 >= DeltaCoord)
-            {
-                Velocity_1 -= Velocity_2;
-                if (Velocity_1 < -Velocity_3)
-                {
-                    Velocity_1 = -Velocity_3;
-                }
-            }
-            else
-            {
-                Velocity_1 = DeltaCoord;
-            }
-        }
-        else
-        {
-            Velocity_1 = kZero_6F6C50;
-        }
-    }
-    else
-    {
-        Velocity_1 = kZero_6F6C50;
-    }
-    Coord_2 += Velocity_1;
-}
-
-// TODO: move
-// https://decomp.me/scratch/kwM8W
-MATCH_FUNC(0x4F75D0)
-EXPORT void __stdcall SmoothApproachClamped_4F75D0(Fix16* target_coord,
-                                                   Fix16* coord_velocity,
-                                                   Fix16* curr_coord,
-                                                   Fix16* velocity_1,
-                                                   Fix16* velocity_2,
-                                                   Fix16* velocity_3,
-                                                   Fix16* maybe_decrement)
-{
-    Fix16 DeltaCoord = *target_coord - *curr_coord;
-    if (DeltaCoord > kZero_6F6C50)
-    {
-        if (*coord_velocity >= kZero_6F6C50)
-        {
-            if (*coord_velocity + *velocity_1 <= DeltaCoord)
-            {
-                *coord_velocity += *velocity_1;
-                if (*coord_velocity > *velocity_2)
-                {
-                    *coord_velocity = *velocity_2;
-                }
-            }
-            else
-            {
-                *coord_velocity = DeltaCoord;
-            }
-        }
-        else
-        {
-            *coord_velocity = kZero_6F6C50;
-        }
-    }
-    else
-    {
-        if (DeltaCoord >= kZero_6F6C50 || *coord_velocity > kZero_6F6C50)
-        {
-            *coord_velocity = kZero_6F6C50;
-        }
-        else
-        {
-            if (*coord_velocity - *velocity_3 >= DeltaCoord)
-            {
-                *coord_velocity -= *velocity_3;
-                if (*coord_velocity < -*maybe_decrement)
-                {
-                    *coord_velocity = -*maybe_decrement;
-                }
-            }
-            else
-            {
-                *coord_velocity = DeltaCoord;
-            }
-        }
-    }
-
-    *curr_coord += *coord_velocity;
-}
-
 MATCH_FUNC(0x435FF0)
 void Camera_0xBC::Update_435FF0()
 {
@@ -622,72 +584,6 @@ void Camera_0xBC::SetScreenSize_4361B0(u32 x_pos, u32 y_pos)
     field_A8_ui_scale = Fix16(x_pos) / 640;
 }
 
-WIP_FUNC(0x436200)
-void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, Fix16* pY, Fix16* pZ)
-{
-    WIP_IMPLEMENTED;
-
-    // 9.6f 0x41EBF0
-    Ang16 angle;
-    Fix16_Point vel;
-    Fix16_Point offset;
-    Fix16 radius;
-    Fix16 speed;
-
-    if (pCar->IsTrainModel_403BA0())
-    {
-        speed = dword_676900 * dword_67696C;
-    }
-    else
-    {
-        vel = pCar->get_linvel_43A450() * dword_67696C;
-        speed = vel.GetLength_41E260();
-    }
-
-    if (speed > dword_67674C)
-    {
-        *pZ += speed;
-
-        if (!pCar->IsTrainModel_403BA0() && !pCar->IsTank_411900())
-        {
-            angle = vel.atan2_40F790();
-
-            Fix16 dist;
-            if ((angle > kAng45_6766DC && angle < kAng135_676790) || (angle > kAng225_676764 && angle < kAng315_67679C))
-            {
-                dist = Fix16(240);
-            }
-            else
-            {
-                dist = Fix16(180);
-            }
-
-            if (pCar->is_trailer_cab_41E460())
-            {
-                dist *= dword_6768E0;
-            }
-
-            if (this->field_44_suspicion)
-            {
-                Fix16 suspicion;
-                if (this->field_44_suspicion > 64u)
-                {
-                    suspicion = dword_6768E4;
-                }
-                else
-                {
-                    suspicion = Fix16(this->field_44_suspicion);
-                }
-                dist *= kOne_67681C - suspicion / 128;
-            }
-
-            radius = dist * (Fix16(8) - pCar->field_50_car_sprite->field_1C_zpos + *pZ) / field_60.y;
-            offset.FromPolar_41E210(radius, angle);
-            *pX += offset.x;
-            *pY += offset.y;
-        }
-    }
-}
 
 MATCH_FUNC(0x4364A0)
 void Camera_0xBC::UpdateFollowCarCamera_4364A0(Car_BC* pCar)
@@ -891,6 +787,124 @@ void Camera_0xBC::SetTarget_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5)
     a4 += field_40_tgt_elevation;
     field_10_cam_pos_tgt2.field_8_z = a4;
     field_10_cam_pos_tgt2.field_C_zoom = a5;
+}
+
+// TODO: move
+// https://decomp.me/scratch/qYIak
+MATCH_FUNC(0x4F7540)
+EXPORT void __stdcall SmoothApproach_4F7540(Fix16& Coord_1, Fix16& Velocity_1, Fix16& Coord_2, Fix16& Velocity_2, Fix16& Velocity_3)
+{
+    // One shared `Coord_2 += Velocity_1` at the end: VC6 copies it into the clamp paths
+    Fix16 DeltaCoord = Coord_1 - Coord_2;
+    if (DeltaCoord > kZero_6F6C50)
+    {
+        if (Velocity_1 >= kZero_6F6C50)
+        {
+            if (Velocity_1 + Velocity_2 <= DeltaCoord)
+            {
+                Velocity_1 += Velocity_2;
+                if (Velocity_1 > Velocity_3)
+                {
+                    Velocity_1 = Velocity_3;
+                }
+            }
+            else
+            {
+                Velocity_1 = DeltaCoord;
+            }
+        }
+        else
+        {
+            Velocity_1 = kZero_6F6C50;
+        }
+    }
+    else if (DeltaCoord < kZero_6F6C50)
+    {
+        if (Velocity_1 <= kZero_6F6C50)
+        {
+            if (Velocity_1 - Velocity_2 >= DeltaCoord)
+            {
+                Velocity_1 -= Velocity_2;
+                if (Velocity_1 < -Velocity_3)
+                {
+                    Velocity_1 = -Velocity_3;
+                }
+            }
+            else
+            {
+                Velocity_1 = DeltaCoord;
+            }
+        }
+        else
+        {
+            Velocity_1 = kZero_6F6C50;
+        }
+    }
+    else
+    {
+        Velocity_1 = kZero_6F6C50;
+    }
+    Coord_2 += Velocity_1;
+}
+
+// TODO: move
+// https://decomp.me/scratch/kwM8W
+MATCH_FUNC(0x4F75D0)
+EXPORT void __stdcall SmoothApproachClamped_4F75D0(Fix16* target_coord,
+                                                   Fix16* coord_velocity,
+                                                   Fix16* curr_coord,
+                                                   Fix16* velocity_1,
+                                                   Fix16* velocity_2,
+                                                   Fix16* velocity_3,
+                                                   Fix16* maybe_decrement)
+{
+    Fix16 DeltaCoord = *target_coord - *curr_coord;
+    if (DeltaCoord > kZero_6F6C50)
+    {
+        if (*coord_velocity >= kZero_6F6C50)
+        {
+            if (*coord_velocity + *velocity_1 <= DeltaCoord)
+            {
+                *coord_velocity += *velocity_1;
+                if (*coord_velocity > *velocity_2)
+                {
+                    *coord_velocity = *velocity_2;
+                }
+            }
+            else
+            {
+                *coord_velocity = DeltaCoord;
+            }
+        }
+        else
+        {
+            *coord_velocity = kZero_6F6C50;
+        }
+    }
+    else
+    {
+        if (DeltaCoord >= kZero_6F6C50 || *coord_velocity > kZero_6F6C50)
+        {
+            *coord_velocity = kZero_6F6C50;
+        }
+        else
+        {
+            if (*coord_velocity - *velocity_3 >= DeltaCoord)
+            {
+                *coord_velocity -= *velocity_3;
+                if (*coord_velocity < -*maybe_decrement)
+                {
+                    *coord_velocity = -*maybe_decrement;
+                }
+            }
+            else
+            {
+                *coord_velocity = DeltaCoord;
+            }
+        }
+    }
+
+    *curr_coord += *coord_velocity;
 }
 
 MATCH_FUNC(0x58CF10)

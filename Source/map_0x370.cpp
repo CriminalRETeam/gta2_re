@@ -2930,16 +2930,6 @@ bool Map_0x370::CanPlaceOilOrMine_4E5480(Fix16 x, Fix16 y, Fix16 z, Fix16 unk_z_
     return false;
 }
 
-MATCH_FUNC(0x4E5B30)
-gmp_map_slope::gmp_map_slope(u8 gradient_direction, u8 gradient_size, u8 gradient_level, Fix16 zpos_lower, Fix16 zpos_higher)
-{
-    field_0_gradient_direction = gradient_direction;
-    field_1_gradient_size = gradient_size;
-    field_2_gradient_level = gradient_level;
-    field_4_zpos_lower = zpos_lower;
-    field_8_zpos_higher = zpos_higher;
-}
-
 // Walks the collision probe sprite from (x_1, y_1, z_1) towards (x_2, y_2, z_2) in steps of about `height`,
 // returning 0 as soon as it hits something (line of sight / clear path test).
 // Left: mostly stack slots (pos_diff's ctor is inline, like the original's).
@@ -3076,6 +3066,16 @@ char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_
         }
     }
     return 1;
+}
+
+MATCH_FUNC(0x4E5B30)
+gmp_map_slope::gmp_map_slope(u8 gradient_direction, u8 gradient_size, u8 gradient_level, Fix16 zpos_lower, Fix16 zpos_higher)
+{
+    field_0_gradient_direction = gradient_direction;
+    field_1_gradient_size = gradient_size;
+    field_2_gradient_level = gradient_level;
+    field_4_zpos_lower = zpos_lower;
+    field_8_zpos_higher = zpos_higher;
 }
 
 MATCH_FUNC(0x4E5B60)

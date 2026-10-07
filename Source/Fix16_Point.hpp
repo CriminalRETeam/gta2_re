@@ -342,10 +342,8 @@ class Fix16_Point
     // implicit one does not use up VC6's inline budget (SpawnCabAndTrailerHelper_408370 needs that).
 
     // 9.6f 0x401D20
-    Fix16_Point(const Fix16& a1, const Fix16& a2)
+    Fix16_Point(const Fix16& a1, const Fix16& a2) : x(a1), y(a2)
     {
-        x = a1;
-        y = a2;
     }
 
     void ClampTowardsZero_49E480(const Fix16_Point& limit)

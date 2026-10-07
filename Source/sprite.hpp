@@ -201,6 +201,12 @@ class Sprite
     EXPORT Fix16_Point GetBoundingBoxCorner_562450(s32 idx);
 
     EXPORT Fix16_Point get_x_y_443580();
+    // 9.6f 0x4207B0, out-of-line copy get_x_y_443580 (emitted by Car_BC.cpp). Returns a Fix16_Point by
+    // value, so VC6 charges it to the caller's inline budget and then calls the copy.
+    inline Fix16_Point get_x_y()
+    {
+        return Fix16_Point(field_14_xy.x, field_14_xy.y);
+    }
     EXPORT void set_xyz_lazy_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void setxy_lazy_54EC80(Fix16 xpos, Fix16 ypos);
     EXPORT bool IsControlledByActivePlayer_59E170();

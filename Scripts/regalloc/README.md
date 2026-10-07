@@ -1,0 +1,144 @@
+# VC6 register allocation (C2.DLL), work in progress
+
+Goal: the rule VC6 (`C2.DLL`, SP4 12.00.8804) uses to give values registers, so near misses
+that differ only in register choice (see "Still unexplained" in `docs/matching_quirks.md`) can be
+predicted instead of permuted. Same approach as `Scripts/inline_budget/`: find the code, add
+logging hooks with a byte patch, then write a model that reproduces the log.
+
+Status: the colour (select) step is reversed and logged. How C2 computes the priority and the
+tie-break of a live range is not reversed yet; see "Open" below.
+
+## The rule (colour step)
+
+VC6's global allocator is a priority-based colouring (Chow/Hennessy style) in `color.c`:
+
+- Live ranges sit in a list at `0x1079D864`, sorted by priority `[lr+0x0C]` descending, then by a
+  tie-break `[lr+0x40]` descending (insert: `0x1072215B`). The colour pass (`0x1071ACDF`) pops
+  them in that order. A live range that can't be coloured goes to the splitter (`0x10722650`) and
+  comes back as smaller pieces.
+- The select function `0x107233B6(lr, class)` gives each register r a score, starting at 0:
+  - minus the weight of each of the live range's own preferences for r (`[lr+0x34]` list);
+  - plus the weight of each preference for r of every interfering live range not yet coloured;
+  - plus 100 x priority for an interfering live range that can only use r.
+- It then scans the class's register order (`0x107A0A0C[class]`; class 0 is `0x107A09E8`:
+  **eax, ecx, edx, esi, edi, ebx, ebp**) and takes the allowed register (bit set in `[lr+0x20]`) with
+  the lowest score. The compare is a strict `<`, so the earlier register in the order wins a tie.
+  The result goes to `[lr+0x10]` (pointer into the per-register table at `0x107AC730 + reg*0x54`).
+
+Checked by patching the order table (esi and edi swapped): every variable that had esi got edi and
+the other way round.
+
+C2 register numbers: 0 none, 1 eax, 2 ecx, 3 edx, 4 ebx, 5 esp, 6 ebp, 7 esi, 8 edi (name table
+`0x107A91A4`, then ax.., al..).
+
+## The rule (local temps, code generator)
+
+Values the colour pass leaves alone (expression temps inside a block) get registers in the next
+pass (`0x10723B05`), which walks the instruction list in IL order (`0x1072830C` -> `0x1072EB08`
+per value; `0x1072EE00` records the choice in `0x1079D6EC[reg]`):
+
+1. the value's preferred register `[x+0x2C]` (a copy hint) if it is free;
+2. otherwise **round robin over eax, ecx, edx**: a cursor (`0x1079D710`) into the list at
+   `0x107ADFF4` (eax ecx edx esi edi ebx ebp) takes the next free register that doesn't conflict
+   and moves past it; it wraps after edx. The cursor is reset to eax once per function
+   (`0x10723B6F`), not per block;
+3. if eax, ecx and edx are all busy, the first free register in the whole list (so esi, edi, ebx,
+   ebp get used for temps only then).
+
+Per instruction (`0x10723B05` loop): first the registers of source temps that die at it are freed
+(`0x10728271`), then each destination is placed (`0x1072830C`): a destination operand that already
+has a register (the optimizer merged it with a dying source, e.g. `mov 4(%eax),%eax`) keeps it without
+a pick; otherwise steps 1-3 above. A dying source therefore counts as free for the round robin of
+its own instruction.
+
+Which values are colour-pass live ranges (`@R k=` gives the kind: `0x0A0804`/`0x020A04` named
+variables, `3`/`0x103` optimizer temps, `0x100D` constants): a variable's definition gets a live range
+only if its uses reach another basic block; a variable defined and used within one block is a plain
+temp (probe: `o = ped->f184; rot = o->f4->ang;` has no live range for `o`, with
+`if (k) rot = o->f4->ang; else rot = o->a;` it gets one). Optimizer temps are coloured even when
+block-local.
+
+Blocks merged after allocation (identical early-return blocks, tail merging) still made their picks:
+a block that disappears from the final asm can move the cursor.
+
+So a temp's register depends on how many round-robin picks came before it in the function, in
+code generation order. A run of temps after a call rotates eax -> ecx -> edx; a shifted rotation
+in one block (the original's eax/ecx/edx where ours has ecx/edx/eax) means one more or one fewer
+pick earlier, or blocks generated in another order. Code generation order is C2's block order at
+that point, which source order does not set directly (a `goto` to a block written last still
+generates it first).
+
+## Using it
+
+```bash
+python3 Scripts/regalloc/patch_c2.py              # once: build_vc6/x87_c2/ralog (needs the stock variant)
+Scripts/regalloc/ralog.sh Source/sound_obj.cpp HandleCarTireScrubSound
+```
+
+prints each colour decision in order (priority, tie-break, weight, register, scores). The raw
+log (`build_vc6/x87_c2/ralog_out/last.log`) also has one `@L` line per local pick: register, path
+(`via=1072ebd5` round robin, `1072ec84` preference, others the fallback), cursor and an
+approximate source line (offset by a constant per function). When two
+values have the wrong registers, see whether they have equal priority (then the tie-break order
+decides, see below) or whether a score (a preference) decides.
+
+What decides the tie-break, from probes (`probe_loop.cpp`): in a loop, the live range updated first in
+the loop body gets the higher tie-break and is coloured first. Reordering independent statements
+in the loop rotates the registers of equally weighted variables. The log for `probe_loop.cpp`:
+
+```
+  prio=40  tie=17  -> edx    a  (a += p[i] first in the loop)
+  prio=40  tie=15  -> esi    b
+  prio=40  tie=14  -> edi    c
+```
+
+## Tools
+
+`c2dis.py` disassembles C2.DLL (needs `iced-x86` and `pefile` in the venv):
+
+```bash
+python3 Scripts/regalloc/c2dis.py d 1071acdf 40              # disassemble 40 instructions
+python3 Scripts/regalloc/c2dis.py x 1078e69f 1078e6ae        # who branches/calls to these addresses
+```
+
+## What is known
+
+- C2's asserts pass the source file name, so `E:\8799\vc98\p2\src\P2\<file>.c` strings locate each
+  source file. The assert calls sit in cold blocks (`mov edx,line; mov ecx,file; jmp 0x1076AB67`)
+  after `0x1078xxxx`; find the hot code with `c2dis.py x <cold block>`.
+- Allocator files: `color.c` (string `0x107A97DC`, graph colouring, asserts up to line 5616) and
+  `regasg.c` (string `0x107A95CC`, register assignment). `color.c` code is at about
+  `0x1071B000-0x10723400`.
+- Per-function pass pipeline: `0x107657E2`. It calls each pass in turn with `0x107034AB` between
+  them. The inliner (`0x1073B588`) is one of the first passes. The `color.c` phase is the call to
+  `0x1071ACDF`, near the middle, after `0x10717684` and `0x10711F93` and before `0x10723B05`.
+- `0x1071ACDF` calls, among others, `0x1071B48F`, `0x1071B848`, `0x1071BBC7`, `0x1071B079`,
+  `0x1071BC3E` (asserts at `color.c` lines 0x331/0x3F3), `0x107203FD`, `0x10721578`, `0x1072243B`
+  and `0x10722650` (0xD66 bytes, asserts at lines 0xE44/0xF17; most likely the select/colour step).
+  `0x1072035D` (12 callers) holds the assert at line 0x15F0.
+- Tables used in that range: `0x107A09BC` (.rdata, small int table, compared against the current
+  value in several loops), `0x10799034` (.bssbe, writable, indexed like a register number: a
+  "who holds register r" table is the first guess), `0x107A0494` (.rdata, flag word per entry,
+  bit 0x40 tested). Their meaning is not confirmed.
+
+## Open
+
+- **Block order at code generation.** Both register-only WIPs come down to it (see
+  `docs/match_attempts.md`): `Wolfy_7A8::sub_543690` needs its final tail generated before the
+  in-loop return (or one more round-robin temp in the in-loop tail), `Char_B4::state_8_5520A0`
+  has the rotation shifted between two blocks only. What orders blocks before `0x10723B05`, and
+  which values become colour-pass live ranges rather than local temps, is not reversed.
+
+- **Priority** `[lr+0x0C]`: not a plain ratio of the weight `[lr+0x3C]` (w 8 -> 40, w 20 -> 140,
+  w 10 -> 61, w 6 -> 33). Chow's formula is savings / number of blocks in the live range; the writes
+  are around `0x10720CF4`-`0x10720D33` and `0x10721E28`-`0x10721ECC`.
+- **Tie-break** `[lr+0x40]`: the rule above is from probes only. It is set when live ranges are
+  created (`0x10720119`, from `0x107034B9`); what that number counts is not known.
+- The log has no variable names: `[lr+0]` is not a symbol (C2 asserts in `p2symtab.c` when its
+  name is read). Match live ranges to variables by the register they get in the listing.
+- First real case tried, `sound_obj::HandleCarTireScrubSound_418720` (eax/ecx swap), turned out
+  not to be a colouring difference: the original keeps the call's returned pointer and dereferences
+  it after loading the divisor. The `__int64` raw form and `GetCarLinearSpeed() / max` both made it
+  worse (4 -> 44 and 4 -> ~70 lines).
+- The near misses that read as register swaps in `docs/match_attempts.md` are worth a `ralog.sh`
+  run each: equal priorities point at statement order, a nonzero score at a preference.

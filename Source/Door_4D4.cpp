@@ -14,6 +14,107 @@ EXTERN_GLOBAL(Fix16, kFpOne_67BBE4);
 EXTERN_GLOBAL(Fix16, kFpTwo_67BBE8);
 EXTERN_GLOBAL(Fix16, kFpHalf_67BA20);
 
+MATCH_FUNC(0x49c320)
+void DoorData_10::PoolAllocate()
+{
+    field_0_state = 0;
+}
+
+MATCH_FUNC(0x49c340)
+void DoorData_10::Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
+{
+
+    gmp_block_info blockData; // [esp+10h] [ebp-Ch] BYREF
+
+    this->field_4_x = x;
+    this->field_5_y = y;
+    this->field_6_z = z;
+
+    this->field_8_face = face;
+    this->field_7_gr_id = id;
+    this->field_0_state = 1;
+
+    const u8& anim_id = id;
+    DoorAnimInfo_A* pInfo = &gDoorAnimInfo_67BB38[anim_id];
+    gGtx_0x106C_703DD4->SetTileRemap_5AA930(pInfo->field_4_internal_tile_idx, pInfo->field_0_start_frame);
+
+    u16 v8 = pInfo->field_4_internal_tile_idx | 0x1C00; // wall, bullet wall and flat
+    if (bDoFlip)
+    {
+        v8 |= 0x2000; // flip
+    }
+
+    if (gMap_0x370_6F6268->get_block_4DFE10(this->field_4_x, this->field_5_y, this->field_6_z))
+    {
+        gMap_0x370_6F6268->ChangeBlock_4E8620(this->field_4_x, this->field_5_y, this->field_6_z, this->field_8_face, v8);
+        gMap_0x370_6F6268->ChangeBlock_4E8620(this->field_4_x, this->field_5_y, this->field_6_z, GetOppositeFace_4DEEB0(this->field_8_face), pInfo->field_4_internal_tile_idx);
+    }
+    else
+    {
+        blockData.init_44C840();
+
+        // Remaining diff: the original stores v8 before loading the tile idx in each case
+        switch (field_8_face)
+        {
+            case 1:
+                blockData.field_0_left = v8;
+                blockData.field_2_right = pInfo->field_4_internal_tile_idx;
+                break;
+            case 2:
+                blockData.field_2_right = v8;
+                blockData.field_0_left = pInfo->field_4_internal_tile_idx;
+                break;
+            case 3:
+                blockData.field_4_top = v8;
+                blockData.field_6_bottom = pInfo->field_4_internal_tile_idx;
+                break;
+            case 4:
+                blockData.field_6_bottom = v8;
+                blockData.field_4_top = pInfo->field_4_internal_tile_idx;
+                break;
+            default:
+                break;
+        }
+        gMap_0x370_6F6268->AddNewBlock_4E87C0(this->field_4_x, this->field_5_y, this->field_6_z, &blockData);
+    }
+}
+
+MATCH_FUNC(0x49c4e0)
+void DoorData_10::Open_49C4E0(u8 a1)
+{
+    DoorAnimInfo_A* tmp = &gDoorAnimInfo_67BB38[field_7_gr_id];
+    if (field_0_state != 2)
+    {
+        field_0_state = 2;
+        s16 uVar3 = tmp->field_6_open_internal_tile_idx | 0x1000;
+        if (a1)
+        {
+            uVar3 |= 0x2000;
+        }
+        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, field_8_face, uVar3);
+        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, GetOppositeFace_4DEEB0(field_8_face), tmp->field_6_open_internal_tile_idx);
+        gTileAnim_2_7052C4->AddAnim_5BC260(tmp->field_6_open_internal_tile_idx, tmp->field_0_start_frame, tmp->field_2_end_frame, tmp->field_8_speed, 1);
+    }
+}
+
+MATCH_FUNC(0x49c590)
+void DoorData_10::Close_49C590(u8 bDoFlip)
+{
+    DoorAnimInfo_A* tmp = &gDoorAnimInfo_67BB38[field_7_gr_id];
+    if (field_0_state != 1)
+    {
+        field_0_state = 1;
+        s16 block_side_word = tmp->field_4_internal_tile_idx | 0x1C00; // 0x1C00 means: wall, bullet wall and flat
+        if (bDoFlip)
+        {
+            block_side_word |= 0x2000; // flip
+        }
+        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, field_8_face, block_side_word);
+        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, GetOppositeFace_4DEEB0(field_8_face), tmp->field_4_internal_tile_idx);
+        gTileAnim_2_7052C4->AddAnim_5BC260(tmp->field_4_internal_tile_idx, tmp->field_2_end_frame, tmp->field_0_start_frame, tmp->field_8_speed, 1);
+    }
+}
+
 MATCH_FUNC(0x49cf10)
 DoorData_10* Door_4D4::AllocDoorData_49CF10(u8 gr_id, char_type x, char_type y, char_type z, s32 face, char_type bDoFlip)
 {
@@ -159,6 +260,18 @@ Door_38* Door_4D4::RegisterDoubleDoor_49D1F0(u8 gr_id,
     return this_00;
 }
 
+inline bool Door_38_inline_unknown(Door_38* pDoor)
+{
+    if (pDoor->IsOpen_44C860())
+    {
+        if (pDoor->field_24_close_type == 3 || pDoor->field_24_close_type == 0)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 MATCH_FUNC(0x49d2d0)
 void Door_4D4::RegisterDoorInfo_49D2D0(s16 start_frame, s16 end_frame, char_type speed)
 {
@@ -200,18 +313,6 @@ MATCH_FUNC(0x49d3a0)
 Door_38* Door_4D4::GetNextFreeDoor_49D3A0()
 {
     return &field_0_doors[field_4D0_count];
-}
-
-inline bool Door_38_inline_unknown(Door_38* pDoor)
-{
-    if (pDoor->IsOpen_44C860())
-    {
-        if (pDoor->field_24_close_type == 3 || pDoor->field_24_close_type == 0)
-        {
-            return true;
-        }
-    }
-    return false;
 }
 
 // https://decomp.me/scratch/dGqMg
@@ -276,22 +377,14 @@ Door_4D4::Door_4D4()
     this->field_4D2 = 205;
 }
 
-// TODO: Missing SEH even with Door_38 in another TU
-WIP_FUNC(0x49d570)
+// The EH frame needs <new> kept out of the TU (see gbh_graphics.hpp)
+MATCH_FUNC(0x49d570)
 Door_4D4::~Door_4D4()
 {
-    WIP_IMPLEMENTED;
-
     if (gDoor_10_Pool_67BD28)
     {
         GTA2_DELETE_AND_NULL(gDoor_10_Pool_67BD28);
     }
-}
-
-MATCH_FUNC(0x49c320)
-void DoorData_10::PoolAllocate()
-{
-    field_0_state = 0;
 }
 
 MATCH_FUNC(0x4DEEB0)
@@ -309,100 +402,5 @@ s32 DoorData_10::GetOppositeFace_4DEEB0(s32 v)
             return 3;
         default:
             return 0;
-    }
-}
-
-MATCH_FUNC(0x49c340)
-void DoorData_10::Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
-{
-
-    gmp_block_info blockData; // [esp+10h] [ebp-Ch] BYREF
-
-    this->field_4_x = x;
-    this->field_5_y = y;
-    this->field_6_z = z;
-
-    this->field_8_face = face;
-    this->field_7_gr_id = id;
-    this->field_0_state = 1;
-
-    const u8& anim_id = id;
-    DoorAnimInfo_A* pInfo = &gDoorAnimInfo_67BB38[anim_id];
-    gGtx_0x106C_703DD4->SetTileRemap_5AA930(pInfo->field_4_internal_tile_idx, pInfo->field_0_start_frame);
-
-    u16 v8 = pInfo->field_4_internal_tile_idx | 0x1C00; // wall, bullet wall and flat
-    if (bDoFlip)
-    {
-        v8 |= 0x2000; // flip
-    }
-
-    if (gMap_0x370_6F6268->get_block_4DFE10(this->field_4_x, this->field_5_y, this->field_6_z))
-    {
-        gMap_0x370_6F6268->ChangeBlock_4E8620(this->field_4_x, this->field_5_y, this->field_6_z, this->field_8_face, v8);
-        gMap_0x370_6F6268->ChangeBlock_4E8620(this->field_4_x, this->field_5_y, this->field_6_z, GetOppositeFace_4DEEB0(this->field_8_face), pInfo->field_4_internal_tile_idx);
-    }
-    else
-    {
-        blockData.init_44C840();
-
-        // Remaining diff: the original stores v8 before loading the tile idx in each case
-        switch (field_8_face)
-        {
-            case 1:
-                blockData.field_0_left = v8;
-                blockData.field_2_right = pInfo->field_4_internal_tile_idx;
-                break;
-            case 2:
-                blockData.field_2_right = v8;
-                blockData.field_0_left = pInfo->field_4_internal_tile_idx;
-                break;
-            case 3:
-                blockData.field_4_top = v8;
-                blockData.field_6_bottom = pInfo->field_4_internal_tile_idx;
-                break;
-            case 4:
-                blockData.field_6_bottom = v8;
-                blockData.field_4_top = pInfo->field_4_internal_tile_idx;
-                break;
-            default:
-                break;
-        }
-        gMap_0x370_6F6268->AddNewBlock_4E87C0(this->field_4_x, this->field_5_y, this->field_6_z, &blockData);
-    }
-}
-
-MATCH_FUNC(0x49c4e0)
-void DoorData_10::Open_49C4E0(u8 a1)
-{
-    DoorAnimInfo_A* tmp = &gDoorAnimInfo_67BB38[field_7_gr_id];
-    if (field_0_state != 2)
-    {
-        field_0_state = 2;
-        s16 uVar3 = tmp->field_6_open_internal_tile_idx | 0x1000;
-        if (a1)
-        {
-            uVar3 |= 0x2000;
-        }
-        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, field_8_face, uVar3);
-        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, GetOppositeFace_4DEEB0(field_8_face), tmp->field_6_open_internal_tile_idx);
-        gTileAnim_2_7052C4->AddAnim_5BC260(tmp->field_6_open_internal_tile_idx, tmp->field_0_start_frame, tmp->field_2_end_frame, tmp->field_8_speed, 1);
-    }
-}
-
-MATCH_FUNC(0x49c590)
-void DoorData_10::Close_49C590(u8 bDoFlip)
-{
-    DoorAnimInfo_A* tmp = &gDoorAnimInfo_67BB38[field_7_gr_id];
-    if (field_0_state != 1)
-    {
-        field_0_state = 1;
-        s16 block_side_word = tmp->field_4_internal_tile_idx | 0x1C00; // 0x1C00 means: wall, bullet wall and flat
-        if (bDoFlip)
-        {
-            block_side_word |= 0x2000; // flip
-        }
-        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, field_8_face, block_side_word);
-        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, GetOppositeFace_4DEEB0(field_8_face), tmp->field_4_internal_tile_idx);
-        gTileAnim_2_7052C4->AddAnim_5BC260(tmp->field_4_internal_tile_idx, tmp->field_2_end_frame, tmp->field_0_start_frame, tmp->field_8_speed, 1);
     }
 }

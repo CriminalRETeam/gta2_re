@@ -17,10 +17,16 @@
 #include "map_0x370.hpp"
 #include "rng.hpp"
 
+// Forward declarations: the functions below are in address order
+EXPORT s32 __stdcall get_skid_obj_type_55D490(s32 surface, Fix16 box_idx);
+static inline Fix16 __stdcall DotProductOOL_49E500(Fix16_Point& Vector1, Fix16_Point& Vector2);
+static inline Fix16 __stdcall Square_49E0E0(const Fix16& value);
+EXPORT Fix16 __stdcall DotProduct_560680(const Fix16_Point& Vector1, const Fix16_Point& Vector2);
+
 DEFINE_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0, 0x6FE3E0);
 DEFINE_GLOBAL(CarInfo_2C*, gCarInfo_2C_6FE0E4, 0x6FE0E4);
 DEFINE_GLOBAL(ModelPhysics_48*, gCarInfo_48_6FE258, 0x6FE258);
-DEFINE_GLOBAL_INIT(Ang16, kAngZero_66AC08, Ang16(0), 0x66AC08);
+DEFINE_GLOBAL_INIT(Ang16, kAngZero_6FE3C0, Ang16(0), 0x6FE3C0);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Zero_6FE20C, Fix16(0), 0x6FE20C);
 DEFINE_GLOBAL_INIT(Fix16, k_dword_6FE290, kFP16Zero_6FE20C, 0x6FE290);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Five_6FE220, Fix16(5), 0x6FE220);
@@ -190,25 +196,6 @@ inline void CarPhysics_B0::AddDamage_49EF50(s32 damage)
     }
 }
 
-MATCH_FUNC(0x559E90)
-Fix16 CarPhysics_B0::ComputeZPosition_559E90()
-{
-    if (field_70_z_vel > kFP16Zero_6FE20C)
-    {
-        Fix16 cp3 = field_6C_cp3;
-        cp3 += k_dword_6FE210;
-        if (cp3 > kMaxZ_6FDF34)
-        {
-            cp3 = kMaxZ_6FDF34;
-        }
-        return cp3;
-    }
-    else
-    {
-        return field_6C_cp3;
-    }
-}
-
 MATCH_FUNC(0x40B560)
 Fix16_Point CarPhysics_B0::get_cp1_40B560()
 {
@@ -218,6 +205,12 @@ Fix16_Point CarPhysics_B0::get_cp1_40B560()
 MATCH_FUNC(0x446ee0)
 CarPhysics_B0::~CarPhysics_B0()
 {
+}
+
+MATCH_FUNC(0x447010)
+EXPORT Fix16_Point CarPhysics_B0::get_linvel_447010()
+{
+    return field_40_linvel_1;
 }
 
 wchar_t gThetaText_66A8EC[32]; //DEFINE_GLOBAL_ARRAY(wchar_t, gThetaText_66A8EC, 32, 0x66A8EC); // global crashing standalone
@@ -233,6 +226,33 @@ inline wchar_t* Ang16::ThetaText_49E240()
 inline f64 Fix16::to_float_410BA0() const
 {
     return ((mValue / 16384.0));
+}
+
+MATCH_FUNC(0x453F50)
+void CarPhysics_B0::ForceNeutralInput_453F50()
+{
+  this->field_95 = 1;
+  this->field_91_is_foot_brake_on = 0;
+  this->field_94_is_backward_gas_on = 0;
+  this->field_93_is_forward_gas_on = 0;
+}
+
+MATCH_FUNC(0x453F70)
+void CarPhysics_B0::ForceForwardAcceleration_453F70()
+{
+  this->field_93_is_forward_gas_on = 1;
+  this->field_91_is_foot_brake_on = 0;
+  this->field_94_is_backward_gas_on = 0;
+  this->field_95 = 0;
+}
+
+MATCH_FUNC(0x453F90)
+void CarPhysics_B0::ClearDriverInputs_453F90()
+{
+  this->field_91_is_foot_brake_on = 0;
+  this->field_93_is_forward_gas_on = 0;
+  this->field_94_is_backward_gas_on = 0;
+  this->field_95 = 0;
 }
 
 MATCH_FUNC(0x559430)
@@ -484,6 +504,25 @@ void CarPhysics_B0::ApplyObjectImpact_559E20(Object_2C* pObj)
     AddDamage_49EF50(15);
 }
 
+MATCH_FUNC(0x559E90)
+Fix16 CarPhysics_B0::ComputeZPosition_559E90()
+{
+    if (field_70_z_vel > kFP16Zero_6FE20C)
+    {
+        Fix16 cp3 = field_6C_cp3;
+        cp3 += k_dword_6FE210;
+        if (cp3 > kMaxZ_6FDF34)
+        {
+            cp3 = kMaxZ_6FDF34;
+        }
+        return cp3;
+    }
+    else
+    {
+        return field_6C_cp3;
+    }
+}
+
 MATCH_FUNC(0x559ec0)
 Fix16_Point CarPhysics_B0::ComputeCombinedCenterOfMass_559EC0()
 {
@@ -641,6 +680,17 @@ void CarPhysics_B0::SetVelocityTowardTarget_55A1D0(Fix16 targetX, Fix16 targetY,
     }
 }
 
+// Like Fix16::Max, but by value and keeping the larger value in b. Fix16::Max picks the address of
+// the larger operand and reads it through memory, which the original doesn't do here.
+static inline Fix16 MaxByValue_55A6A0(Fix16 a, Fix16 b)
+{
+    if (a > b)
+    {
+        b = a;
+    }
+    return b;
+}
+
 MATCH_FUNC(0x55a400)
 void CarPhysics_B0::restore_saved_physics_state_55A400()
 {
@@ -730,17 +780,6 @@ void CarPhysics_B0::save_state_55A600()
     }
 }
 
-// Like Fix16::Max, but by value and keeping the larger value in b. Fix16::Max picks the address of
-// the larger operand and reads it through memory, which the original doesn't do here.
-static inline Fix16 MaxByValue_55A6A0(Fix16 a, Fix16 b)
-{
-    if (a > b)
-    {
-        b = a;
-    }
-    return b;
-}
-
 MATCH_FUNC(0x55a6a0)
 Fix16 CarPhysics_B0::ComputeRequiredSweepSteps_55A6A0()
 {
@@ -763,6 +802,13 @@ Fix16 CarPhysics_B0::ComputeRequiredSweepSteps_55A6A0()
     }
 
     return v9;
+}
+
+// 9.6f 0x42A630 called as a static with the value by reference (its 9.6f copy takes a pointer and a hidden
+// return). Declared in fix16.hpp, defined here so no other TU changes.
+inline Fix16 __stdcall Fix16::GetFracValue_42A630(const Fix16& v)
+{
+    return Fix16(v.mValue & 0x3FFF, 0);
 }
 
 MATCH_FUNC(0x55a840)
@@ -986,13 +1032,6 @@ Fix16* CarPhysics_B0::ComputeSlopeCorrection_55AB50(Fix16* pOutX, Fix16* pOutY)
     return result;
 }
 
-// 9.6f 0x42A630 called as a static with the value by reference (its 9.6f copy takes a pointer and a hidden
-// return). Declared in fix16.hpp, defined here so no other TU changes.
-inline Fix16 __stdcall Fix16::GetFracValue_42A630(const Fix16& v)
-{
-    return Fix16(v.mValue & 0x3FFF, 0);
-}
-
 // 9.6f 0x4A2240: field_6C_cp3 read directly everywhere, g_ZPos * a2, IsFlagSet_411930(0x2000),
 // the slope test nested as (slope && frac != 0 && zpos <= cp3 + k), ComputeSlopeCorrection's two outputs.
 MATCH_FUNC(0x55ad90)
@@ -1125,6 +1164,32 @@ void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 a2)
     }
 }
 
+// 9.6f 0x49EBE0 (a Map_0x370 method: 9.6f calls it with gMap in ecx)
+inline u8 Map_0x370::GetBlockSurfaceType_49EBE0(s32 x, s32 y, s32 z, u8* pGradientSize, u8* pGradientLevel)
+{
+    gmp_block_info* pBlock = get_block_4DFE10(x, y, z);
+    if (pBlock)
+    {
+        if (gGtx_0x106C_703DD4->IsRemappedWaterTile_49E540(pBlock->field_8_lid & 0x3FF))
+        {
+            return 7;
+        }
+
+        if ((pBlock->field_B_slope_type & 3) != 0)
+        {
+            if (gGtx_0x106C_703DD4->sub_49E570(pBlock->field_8_lid & 0x3FF))
+            {
+                return 9;
+            }
+            gmp_map_slope* pSlope = &gGmpSlopes_6F5BA8[pBlock->field_B_slope_type >> 2];
+            *pGradientSize = pSlope->field_1_gradient_size;
+            *pGradientLevel = pSlope->field_2_gradient_level;
+            return pSlope->field_0_gradient_direction;
+        }
+    }
+    return 5;
+}
+
 MATCH_FUNC(0x55b3f0)
 void CarPhysics_B0::SyncZWithTrailer_55B3F0(Fix16 a2)
 {
@@ -1246,32 +1311,6 @@ void CarPhysics_B0::EmitImpactParticles_55B7E0(u8 apply_to_corners_mask)
     }
 
     gRozza_C88_66AFE0->Type4_40BC40(pCarSprite);
-}
-
-// 9.6f 0x49EBE0 (a Map_0x370 method: 9.6f calls it with gMap in ecx)
-inline u8 Map_0x370::GetBlockSurfaceType_49EBE0(s32 x, s32 y, s32 z, u8* pGradientSize, u8* pGradientLevel)
-{
-    gmp_block_info* pBlock = get_block_4DFE10(x, y, z);
-    if (pBlock)
-    {
-        if (gGtx_0x106C_703DD4->IsRemappedWaterTile_49E540(pBlock->field_8_lid & 0x3FF))
-        {
-            return 7;
-        }
-
-        if ((pBlock->field_B_slope_type & 3) != 0)
-        {
-            if (gGtx_0x106C_703DD4->sub_49E570(pBlock->field_8_lid & 0x3FF))
-            {
-                return 9;
-            }
-            gmp_map_slope* pSlope = &gGmpSlopes_6F5BA8[pBlock->field_B_slope_type >> 2];
-            *pGradientSize = pSlope->field_1_gradient_size;
-            *pGradientLevel = pSlope->field_2_gradient_level;
-            return pSlope->field_0_gradient_direction;
-        }
-    }
-    return 5;
 }
 
 MATCH_FUNC(0x55b970)
@@ -1682,6 +1721,53 @@ void CarPhysics_B0::ReplayAndDispatchCollision_55CBB0(Fix16 a2, Fix16 a3)
     }
 }
 
+// 9.6f 0x4A0120
+MATCH_FUNC(0x55d200)
+void CarPhysics_B0::SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 surface)
+{
+    Fix16_Point t;
+    Fix16_Point v15;
+    Fix16 len; // declared up here: its stack slot is the dead box_idx one, shared with the / 2 temporary
+
+    arg_4.RotateByAngle_40F6B0_out_of_line(field_58_theta);
+
+    arg_4 += this->field_38_cp1;
+
+    char_type map_ret = gMap_0x370_6F6268->sub_4E52A0(arg_4.x, arg_4.y, field_6C_cp3);
+    if (map_ret == 5 || surface == 3 && map_ret != 7)
+    {
+        Fix16_Point* pBoxCorner_ = &this->field_10_last_skid_pos[(u8)box_idx];
+        pBoxCorner_->clear_41E1E0();
+    }
+    else
+    {
+        Fix16_Point* pBoxCorner = &this->field_10_last_skid_pos[(u8)box_idx];
+        if (!pBoxCorner->IsNull())
+        {
+            t = arg_4 - *pBoxCorner;
+            v15 = pBoxCorner->Add_40AC50(arg_4) / 2;
+            Fix16 obj_x = v15.x;
+            Fix16 obj_y = v15.y;
+
+            Ang16 r = t.atan2_40F790();
+            len = t.GetLength_all_out_of_line_abs();
+            if (len > kFP16Zero_6FE20C)
+            {
+                Object_2C* pObj =
+                    gObject_5C_6F8F84->NewPhysicsObj_5299B0(get_skid_obj_type_55D490(surface, len), obj_x, obj_y, field_6C_cp3, r);
+                if (pObj)
+                {
+                    if (pObj->field_4->sub_5A19C0())
+                    {
+                        pObj->RequestRemoval_5290A0();
+                    }
+                }
+            }
+        }
+        *pBoxCorner = arg_4;
+    }
+}
+
 MATCH_FUNC(0x55D490)
 EXPORT s32 __stdcall get_skid_obj_type_55D490(s32 surface, Fix16 box_idx)
 {
@@ -1744,53 +1830,6 @@ EXPORT s32 __stdcall get_skid_obj_type_55D490(s32 surface, Fix16 box_idx)
         }
     }
     return 117;
-}
-
-// 9.6f 0x4A0120
-MATCH_FUNC(0x55d200)
-void CarPhysics_B0::SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 surface)
-{
-    Fix16_Point t;
-    Fix16_Point v15;
-    Fix16 len; // declared up here: its stack slot is the dead box_idx one, shared with the / 2 temporary
-
-    arg_4.RotateByAngle_40F6B0_out_of_line(field_58_theta);
-
-    arg_4 += this->field_38_cp1;
-
-    char_type map_ret = gMap_0x370_6F6268->sub_4E52A0(arg_4.x, arg_4.y, field_6C_cp3);
-    if (map_ret == 5 || surface == 3 && map_ret != 7)
-    {
-        Fix16_Point* pBoxCorner_ = &this->field_10_last_skid_pos[(u8)box_idx];
-        pBoxCorner_->clear_41E1E0();
-    }
-    else
-    {
-        Fix16_Point* pBoxCorner = &this->field_10_last_skid_pos[(u8)box_idx];
-        if (!pBoxCorner->IsNull())
-        {
-            t = arg_4 - *pBoxCorner;
-            v15 = pBoxCorner->Add_40AC50(arg_4) / 2;
-            Fix16 obj_x = v15.x;
-            Fix16 obj_y = v15.y;
-
-            Ang16 r = t.atan2_40F790();
-            len = t.GetLength_all_out_of_line_abs();
-            if (len > kFP16Zero_6FE20C)
-            {
-                Object_2C* pObj =
-                    gObject_5C_6F8F84->NewPhysicsObj_5299B0(get_skid_obj_type_55D490(surface, len), obj_x, obj_y, field_6C_cp3, r);
-                if (pObj)
-                {
-                    if (pObj->field_4->sub_5A19C0())
-                    {
-                        pObj->RequestRemoval_5290A0();
-                    }
-                }
-            }
-        }
-        *pBoxCorner = arg_4;
-    }
 }
 
 // https://decomp.me/scratch/y9UHj
@@ -2175,6 +2214,65 @@ char_type CarPhysics_B0::CheckPendingCollision_55F360()
     return 0;
 }
 
+// TODO: Probably move & Rename to ComputeImpulse or something
+// https://decomp.me/scratch/dN85v
+MATCH_FUNC(0x55F3B0)
+EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 OwnerMass,
+                                                                Fix16 TargetMass,
+                                                                Fix16_Point& RelativeVelocity,
+                                                                Fix16_Point& DistToCollision_ByRef,
+                                                                Fix16_Point& CollisionIntersectPoint,
+                                                                Fix16_Point& CoM_related,
+                                                                Fix16_Point& a8,
+                                                                Fix16 OwnerMomOfInertia,
+                                                                Fix16 TargetMomOfInertia,
+                                                                Fix16 offset)
+{
+    // The original enters EH state 2: three Fix16_Point locals are constructed up front
+    Fix16_Point DistOrthogonalToCollision;
+    Fix16_Point DirectionFromCoM_to_Collision;
+    Fix16_Point Impulse;
+
+    if (RelativeVelocity.IsNull() || DistToCollision_ByRef.IsNull())
+    {
+        return stru_6FE300;
+    }
+
+    // The function runs out of inline expansions: most Fix16 operators are the out-of-line copies
+    Fix16 OwnerMassFactor = k_dword_6FE210 / OwnerMass;
+    DistOrthogonalToCollision = (CollisionIntersectPoint - CoM_related).Rotate90CCW_5605E0();
+    DirectionFromCoM_to_Collision = DistToCollision_ByRef.NormalizeSafe_442AD0(); // vector unit 1, supposedly
+
+    Fix16 VelocityFactor = -(k_dword_6FE210 + offset) * DotProductOOL_49E500(RelativeVelocity, DirectionFromCoM_to_Collision);
+
+    Fix16 MassFactor;
+    if (TargetMass == kFP16MinusOne_6FDF1C) // infinite mass
+    {
+        MassFactor = DotProductOOL_49E500(DirectionFromCoM_to_Collision, DirectionFromCoM_to_Collision) * OwnerMassFactor
+            + Square_49E0E0(DotProductOOL_49E500(DistOrthogonalToCollision, DirectionFromCoM_to_Collision)) / OwnerMomOfInertia;
+    }
+    else
+    {
+        Fix16 TargetMassFactor = k_dword_6FE210 / TargetMass;
+        Fix16_Point TargetOrthogonal = (CollisionIntersectPoint - a8).Rotate90CCW_5605E0();
+
+        // DotProduct_49E500 is out of line here (0x560680)
+        MassFactor =
+            (DotProduct_560680(DirectionFromCoM_to_Collision, DirectionFromCoM_to_Collision)
+                 .Multiply_408680(OwnerMassFactor.Add_408660(TargetMassFactor))
+                 .Add_408660(Square_49E0E0(DotProduct_560680(DistOrthogonalToCollision, DirectionFromCoM_to_Collision))
+                                 .Divide_436A20(OwnerMomOfInertia)))
+                .Add_408660(
+                    Square_49E0E0(DotProduct_560680(TargetOrthogonal, DirectionFromCoM_to_Collision)).Divide_436A20(TargetMomOfInertia));
+    }
+
+    // scale vector norm by factors, so direction is kept
+    Fix16 ImpulseScale;
+    ImpulseScale = VelocityFactor.Divide_436A20(MassFactor);
+    Impulse = DirectionFromCoM_to_Collision.Multiply_438FE0(ImpulseScale);
+    return Impulse;
+}
+
 MATCH_FUNC(0x55f740)
 void CarPhysics_B0::ApplyForceWithTrailerRedirect_55F740(Fix16_Point* a2, Fix16_Point* a3)
 {
@@ -2198,6 +2296,28 @@ void CarPhysics_B0::ApplyForceAndIntegrate_55F7A0(Fix16_Point* a2, Fix16_Point a
     ApplyForceAtPoint_55F800(a2, &a3, 0);
     UpdateLinearAndAngularAccel_560EB0();
     IntegrateAndClampVelocities_5610B0();
+}
+
+// GetLength_41E260 as inlined into ApplyImpactForcesAndDamage_55FA60: both Abs are called out of line
+// (Abs_436A50) although the first multiply is inlined, which the plain inline can't give (Abs and operator*
+// have the same front-end size, 57).
+static inline Fix16 GetLength_AbsOutOfLine_41E260(Fix16_Point& p)
+{
+    if (p.x == FIX16_POINT_ZERO)
+    {
+        return Fix16::Abs_436A50(p.y);
+    }
+    else
+    {
+        if (p.y == FIX16_POINT_ZERO)
+        {
+            return Fix16::Abs_436A50(p.x);
+        }
+        else
+        {
+            return Fix16::SquareRoot(p.x * p.x + p.y * p.y);
+        }
+    }
 }
 
 // 9.6f 0x4A0850
@@ -2228,6 +2348,14 @@ void CarPhysics_B0::AccumulateImpulse_55F930(Fix16_Point* a2)
     field_48_force_accum += (*a2 * gCarInfo_48_6FE258->field_4_mass);
 }
 
+// https://decomp.me/scratch/qCXRd
+// Takes the direction by reference, so the negated point is read through the pointer the
+// negation returns (a named local reads it from its stack slot instead)
+static inline void EmitImpact_55FD00(Fix16& z, const Fix16_Point& dir)
+{
+    gParticle_8_6FD5E8->EmitImpactParticles_53FE40(CollisionIntersectionPoint_6FE1A0.x, CollisionIntersectionPoint_6FE1A0.y, z, dir);
+}
+
 MATCH_FUNC(0x55f970)
 void CarPhysics_B0::ApplyAngularImpulse_55F970(Fix16 a2)
 {
@@ -2254,28 +2382,6 @@ void CarPhysics_B0::ApplyImpulseWithTrailerRedirect_55FA10(Fix16_Point* a2)
     else
     {
         AccumulateImpulse_55F930(a2);
-    }
-}
-
-// GetLength_41E260 as inlined into ApplyImpactForcesAndDamage_55FA60: both Abs are called out of line
-// (Abs_436A50) although the first multiply is inlined, which the plain inline can't give (Abs and operator*
-// have the same front-end size, 57).
-static inline Fix16 GetLength_AbsOutOfLine_41E260(Fix16_Point& p)
-{
-    if (p.x == FIX16_POINT_ZERO)
-    {
-        return Fix16::Abs_436A50(p.y);
-    }
-    else
-    {
-        if (p.y == FIX16_POINT_ZERO)
-        {
-            return Fix16::Abs_436A50(p.x);
-        }
-        else
-        {
-            return Fix16::SquareRoot(p.x * p.x + p.y * p.y);
-        }
     }
 }
 
@@ -2318,6 +2424,23 @@ Fix16 CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce
     return ImpulseIntensity;
 }
 
+static inline Fix16 __stdcall DotProductInlined_49E500(Fix16_Point& Vector1, Fix16_Point& Vector2)
+{
+    return (Vector1.x * Vector2.x) + (Vector1.y * Vector2.y);
+}
+
+// DotProductInlined_49E500 with the out-of-line Fix16 operator copies
+static inline Fix16 __stdcall DotProductOOL_49E500(Fix16_Point& Vector1, Fix16_Point& Vector2)
+{
+    return Vector1.x.Multiply_408680(Vector2.x).Add_408660(Vector1.y.Multiply_408680(Vector2.y));
+}
+
+// 9.6f 0x49E0E0, inlined in 10.5
+static inline Fix16 __stdcall Square_49E0E0(const Fix16& value)
+{
+    return value.Multiply_408680(value);
+}
+
 MATCH_FUNC(0x55fc30)
 void CarPhysics_B0::AccumulateImpulse_55FC30(Fix16_Point& arg0, s32 base_dmg)
 {
@@ -2347,14 +2470,6 @@ void CarPhysics_B0::AccumulateImpulse_55FC30(Fix16_Point& arg0, s32 base_dmg)
             this->field_92_is_hand_brake_on = 0;
         }
     }
-}
-
-// https://decomp.me/scratch/qCXRd
-// Takes the direction by reference, so the negated point is read through the pointer the
-// negation returns (a named local reads it from its stack slot instead)
-static inline void EmitImpact_55FD00(Fix16& z, const Fix16_Point& dir)
-{
-    gParticle_8_6FD5E8->EmitImpactParticles_53FE40(CollisionIntersectionPoint_6FE1A0.x, CollisionIntersectionPoint_6FE1A0.y, z, dir);
 }
 
 MATCH_FUNC(0x55fd00)
@@ -2573,6 +2688,12 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
     }
 }
 
+MATCH_FUNC(0x560680)
+EXPORT Fix16 __stdcall DotProduct_560680(const Fix16_Point& Vector1, const Fix16_Point& Vector2)
+{
+    return (Vector1.x * Vector2.x) + (Vector1.y * Vector2.y);
+}
+
 // https://decomp.me/scratch/tc7DX
 MATCH_FUNC(0x5606c0)
 void CarPhysics_B0::HandleObjectCollision_5606C0(Object_2C* p2C, char_type damage_area)
@@ -2655,88 +2776,6 @@ void CarPhysics_B0::HandleObjectCollision_5606C0(Object_2C* p2C, char_type damag
         }
         field_5C_pCar->TryDamageArea_43D2C0(damage_area, gCollisionDamage_6FE33C.mValue);
     }
-}
-
-MATCH_FUNC(0x560680)
-EXPORT Fix16 __stdcall DotProduct_560680(const Fix16_Point& Vector1, const Fix16_Point& Vector2)
-{
-    return (Vector1.x * Vector2.x) + (Vector1.y * Vector2.y);
-}
-
-static inline Fix16 __stdcall DotProductInlined_49E500(Fix16_Point& Vector1, Fix16_Point& Vector2)
-{
-    return (Vector1.x * Vector2.x) + (Vector1.y * Vector2.y);
-}
-
-// DotProductInlined_49E500 with the out-of-line Fix16 operator copies
-static inline Fix16 __stdcall DotProductOOL_49E500(Fix16_Point& Vector1, Fix16_Point& Vector2)
-{
-    return Vector1.x.Multiply_408680(Vector2.x).Add_408660(Vector1.y.Multiply_408680(Vector2.y));
-}
-
-// 9.6f 0x49E0E0, inlined in 10.5
-static inline Fix16 __stdcall Square_49E0E0(const Fix16& value)
-{
-    return value.Multiply_408680(value);
-}
-
-// TODO: Probably move & Rename to ComputeImpulse or something
-// https://decomp.me/scratch/dN85v
-MATCH_FUNC(0x55F3B0)
-EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 OwnerMass,
-                                                                Fix16 TargetMass,
-                                                                Fix16_Point& RelativeVelocity,
-                                                                Fix16_Point& DistToCollision_ByRef,
-                                                                Fix16_Point& CollisionIntersectPoint,
-                                                                Fix16_Point& CoM_related,
-                                                                Fix16_Point& a8,
-                                                                Fix16 OwnerMomOfInertia,
-                                                                Fix16 TargetMomOfInertia,
-                                                                Fix16 offset)
-{
-    // The original enters EH state 2: three Fix16_Point locals are constructed up front
-    Fix16_Point DistOrthogonalToCollision;
-    Fix16_Point DirectionFromCoM_to_Collision;
-    Fix16_Point Impulse;
-
-    if (RelativeVelocity.IsNull() || DistToCollision_ByRef.IsNull())
-    {
-        return stru_6FE300;
-    }
-
-    // The function runs out of inline expansions: most Fix16 operators are the out-of-line copies
-    Fix16 OwnerMassFactor = k_dword_6FE210 / OwnerMass;
-    DistOrthogonalToCollision = (CollisionIntersectPoint - CoM_related).Rotate90CCW_5605E0();
-    DirectionFromCoM_to_Collision = DistToCollision_ByRef.NormalizeSafe_442AD0(); // vector unit 1, supposedly
-
-    Fix16 VelocityFactor = -(k_dword_6FE210 + offset) * DotProductOOL_49E500(RelativeVelocity, DirectionFromCoM_to_Collision);
-
-    Fix16 MassFactor;
-    if (TargetMass == kFP16MinusOne_6FDF1C) // infinite mass
-    {
-        MassFactor = DotProductOOL_49E500(DirectionFromCoM_to_Collision, DirectionFromCoM_to_Collision) * OwnerMassFactor
-            + Square_49E0E0(DotProductOOL_49E500(DistOrthogonalToCollision, DirectionFromCoM_to_Collision)) / OwnerMomOfInertia;
-    }
-    else
-    {
-        Fix16 TargetMassFactor = k_dword_6FE210 / TargetMass;
-        Fix16_Point TargetOrthogonal = (CollisionIntersectPoint - a8).Rotate90CCW_5605E0();
-
-        // DotProduct_49E500 is out of line here (0x560680)
-        MassFactor =
-            (DotProduct_560680(DirectionFromCoM_to_Collision, DirectionFromCoM_to_Collision)
-                 .Multiply_408680(OwnerMassFactor.Add_408660(TargetMassFactor))
-                 .Add_408660(Square_49E0E0(DotProduct_560680(DistOrthogonalToCollision, DirectionFromCoM_to_Collision))
-                                 .Divide_436A20(OwnerMomOfInertia)))
-                .Add_408660(
-                    Square_49E0E0(DotProduct_560680(TargetOrthogonal, DirectionFromCoM_to_Collision)).Divide_436A20(TargetMomOfInertia));
-    }
-
-    // scale vector norm by factors, so direction is kept
-    Fix16 ImpulseScale;
-    ImpulseScale = VelocityFactor.Divide_436A20(MassFactor);
-    Impulse = DirectionFromCoM_to_Collision.Multiply_438FE0(ImpulseScale);
-    return Impulse;
 }
 
 MATCH_FUNC(0x560b40)
@@ -3212,15 +3251,13 @@ Fix16 CarPhysics_B0::CalculateRearWheelForce_5620D0()
                 if (field_A0_oil_spin_dir == 1)
                 {
                     pointing_ang_rad = this->field_78_pointing_ang_rad - kAngFix16OneDegree_6FE3C4 * 30;
-                    brake_force3 = kFP16Zero_6FE20C;
-                    this->field_A8_hand_brake_force = 0;
                 }
                 else
                 {
                     pointing_ang_rad = this->field_78_pointing_ang_rad - kAngFix16OneDegree_6FE3C4 * (-30);
-                    brake_force3 = kFP16Zero_6FE20C;
-                    this->field_A8_hand_brake_force = 0;
                 }
+                brake_force3 = kFP16Zero_6FE20C;
+                this->field_A8_hand_brake_force = 0;
             }
         }
     }
@@ -3318,6 +3355,22 @@ void CarPhysics_B0::ApplyBrakePhysics_5624F0()
         }
         gBrakeForce_6FE0D8 = field_64_brake_pressure * gCarInfo_48_6FE258->field_10_brake_friction;
     }
+}
+
+// https://decomp.me/scratch/vdIqi
+// Fix16::operator*= with the product in a temporary (StabilizeVelocityAtSpeed_562910)
+static inline void MultiplyAssign_ProductTemp(Fix16& value, const Fix16& factor)
+{
+    __int64 product = (__int64)value.mValue * factor.mValue;
+    value.mValue = (s32)(product >> 14);
+}
+
+// `a = a * b` through an inline `*=`-style wrapper. The multiply is past the inline budget, so it
+// calls the operator* copy (0x408680), like the rotations' multiplies. Written directly (9.6f has
+// `a = a * b`), the multiply in the else branch's product-temp helper gets the operands swapped.
+static inline void MultiplyAssign_inline_408680(Fix16& a, const Fix16& b)
+{
+    a = a * b;
 }
 
 // https://decomp.me/scratch/f2UpJ
@@ -3458,22 +3511,6 @@ void CarPhysics_B0::ApplyArrowSteerAssist_5626F0()
     }
 }
 
-// https://decomp.me/scratch/vdIqi
-// Fix16::operator*= with the product in a temporary (StabilizeVelocityAtSpeed_562910)
-static inline void MultiplyAssign_ProductTemp(Fix16& value, const Fix16& factor)
-{
-    __int64 product = (__int64)value.mValue * factor.mValue;
-    value.mValue = (s32)(product >> 14);
-}
-
-// `a = a * b` through an inline `*=`-style wrapper. The multiply is past the inline budget, so it
-// calls the operator* copy (0x408680), like the rotations' multiplies. Written directly (9.6f has
-// `a = a * b`), the multiply in the else branch's product-temp helper gets the operands swapped.
-static inline void MultiplyAssign_inline_408680(Fix16& a, const Fix16& b)
-{
-    a = a * b;
-}
-
 MATCH_FUNC(0x562910)
 void CarPhysics_B0::StabilizeVelocityAtSpeed_562910()
 {
@@ -3580,6 +3617,14 @@ void CarPhysics_B0::SetCarInfoGlobal_562ED0()
 {
     CarInfo_2C* pInfo = gCarInfo_808_678098->GetInfoAtIdx_454840(field_5C_pCar->GetCarModelForPhysics_43A850());
     gCarInfo_2C_6FE0E4 = pInfo;
+}
+
+// https://decomp.me/scratch/Uxers
+// 9.6f 0x40F760: negates a point in place (inlined in 10.5)
+static inline void NegateInPlace_40F760(Fix16_Point& p)
+{
+    p.x = -p.x;
+    p.y = -p.y;
 }
 
 MATCH_FUNC(0x562ef0)
@@ -3733,14 +3778,6 @@ bool CarPhysics_B0::ProcessCarPhysicsStateMachine_562FE0()
             field_98_surface_type != car_surface_type::air_surface_6);
 }
 
-// https://decomp.me/scratch/Uxers
-// 9.6f 0x40F760: negates a point in place (inlined in 10.5)
-static inline void NegateInPlace_40F760(Fix16_Point& p)
-{
-    p.x = -p.x;
-    p.y = -p.y;
-}
-
 // 9.6f 0x49ED00
 MATCH_FUNC(0x563280)
 void CarPhysics_B0::UpdateCp1FromCm1_563280()
@@ -3877,17 +3914,11 @@ MATCH_FUNC(0x563890)
 void CarPhysics_B0::PoolAllocate()
 {
     field_30_cm1.reset();
-    field_58_theta = kAngZero_66AC08;
+    field_58_theta = kAngZero_6FE3C0;
     field_38_cp1.reset();
     field_5C_pCar = NULL;
     Init_5637A0();
     field_0_vel_read_only.reset();
-}
-
-MATCH_FUNC(0x447010)
-EXPORT Fix16_Point CarPhysics_B0::get_linvel_447010()
-{
-    return field_40_linvel_1;
 }
 
 MATCH_FUNC(0x5638c0)
@@ -3910,31 +3941,4 @@ CarPhysics_B0::CarPhysics_B0()
 {
     mpNext = NULL;
     PoolAllocate();
-}
-
-MATCH_FUNC(0x453F90)
-void CarPhysics_B0::ClearDriverInputs_453F90()
-{
-  this->field_91_is_foot_brake_on = 0;
-  this->field_93_is_forward_gas_on = 0;
-  this->field_94_is_backward_gas_on = 0;
-  this->field_95 = 0;
-}
-
-MATCH_FUNC(0x453F50)
-void CarPhysics_B0::ForceNeutralInput_453F50()
-{
-  this->field_95 = 1;
-  this->field_91_is_foot_brake_on = 0;
-  this->field_94_is_backward_gas_on = 0;
-  this->field_93_is_forward_gas_on = 0;
-}
-
-MATCH_FUNC(0x453F70)
-void CarPhysics_B0::ForceForwardAcceleration_453F70()
-{
-  this->field_93_is_forward_gas_on = 1;
-  this->field_91_is_foot_brake_on = 0;
-  this->field_94_is_backward_gas_on = 0;
-  this->field_95 = 0;
 }
