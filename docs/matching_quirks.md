@@ -1740,6 +1740,18 @@ Found by tracing C2.DLL (see `Scripts/inline_budget/`); the instrumented compile
   In 10.5 all six Weapon_30 callers of 0x40AC50 keep them, so its body wasn't seen before them; how the
   original source arranged that (a late `.inl`, operators at the end of the file) can't be told from the
   binary. The repo still uses the named `EXPORT` copy (`Add_40AC50`) for this.
+- **But the named calls are not late inlines either (Oct 7).** Replacing every `Add_40AC50`/`Sub_40AC80` call
+  in the 7 TUs that use them with an inline of the same body: defined in the class, 10 matched functions
+  fail (tank_main_gun, army_gun_jeep, Crane_15C::ComputeHookPolar lose their EH stores; others the
+  budget); defined at the end of each TU, 5 fail, all by the inline budget alone (`inl.sh`: the extra
+  81-unit `CALL(udt)` site flips `Fix16::operator+/-`, or `RotateByAngle_40F6B0` in Trailer 407CE0), and
+  fire_truck_flamethrower only because of its compensating `Get_F4_41CC70()`. So in smg_5DDD20,
+  SpawnSkidSegment_55D200, SpawnCabAndTrailerHelper_408370 and Trailer::UpdateTrailerAlignment_407CE0 the
+  add/sub costs no budget: an ordinary named function, as the repo has it. The likeliest original: a real
+  `Fix16_Point.cpp` with named non-inline methods (10.5 0x40AC50 add, 0x40AC80 sub, 0x40ACB0 negate,
+  0x40ACD0 atan2 back to back) plus the inline operators, whose identical out-of-line copies the linker
+  folded onto them; fire_truck_gun_5E0E70 is then the one Weapon_30 caller that used the operator. 9.6f
+  has a single copy (0x40F5C0), which fits either way.
 - **Precompiled headers don't explain it.** An earlier note here said 10.5's `/Yu` compiled header inline
   copies late. A `/Yc`//`/Yu` build of Weapon_30.cpp, with a PCH holding only the Fix16/Ang16/Fix16_Point
   headers or every header the file includes, gives exactly the same code as no PCH (our compiler is the
