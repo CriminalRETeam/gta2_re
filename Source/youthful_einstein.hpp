@@ -49,9 +49,9 @@ class youthful_einstein
     inline s32 GetLeaderIdx_453AB0();
 
     Player* field_0_fugitive;  //  the player who is "IT"
-    s32 field_4_time[6]; //  it may be the timer of each player in tag mode
+    s32 field_4_time[MAX_PLAYERS]; //  it may be the timer of each player in tag mode
     s32 field_1C_tick_timer;
-    u8 field_20[6];
+    u8 field_20[MAX_PLAYERS];
 };
 
 EXTERN_GLOBAL(youthful_einstein, gYouthful_einstein_6F8450);

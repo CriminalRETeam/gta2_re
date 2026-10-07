@@ -35,7 +35,7 @@ MATCH_FUNC(0x56f400)
 void Police_7B8::Init_56F400()
 {
     field_0 = 1;
-    for (s32 i = 0; i < 4; i++)
+    for (s32 i = 0; i < MAX_PURSUIT_TARGETS; i++)
     {
         field_464_pursuit_targets[i].field_0_criminal_ped = NULL;
         field_464_pursuit_targets[i].field_C_timer = 0;
@@ -263,7 +263,7 @@ void Police_7B8::DespawnCrewInCar_56F6D0(Car_BC* pCar)
 MATCH_FUNC(0x56f800)
 bool Police_7B8::HasCriminalBeenFound_56F800(Ped* pCriminal)
 {
-    for (u8 i = 0; i < 4; i++)
+    for (u8 i = 0; i < MAX_PURSUIT_TARGETS; i++)
     {
         if (field_464_pursuit_targets[i].field_0_criminal_ped == pCriminal)
         {
@@ -283,7 +283,7 @@ bool Police_7B8::HasCriminalBeenFound_56F800(Ped* pCriminal)
 MATCH_FUNC(0x56f880)
 bool Police_7B8::IsPedActiveCriminal_56F880(Ped* pCriminal)
 {
-    for (u8 i = 0; i < 4; i++)
+    for (u8 i = 0; i < MAX_PURSUIT_TARGETS; i++)
     {
         if (field_464_pursuit_targets[i].field_0_criminal_ped == pCriminal)
         {
@@ -300,7 +300,7 @@ bool Police_7B8::IsPedActiveCriminal_56F880(Ped* pCriminal)
 MATCH_FUNC(0x56f8e0)
 void Police_7B8::SetArrestedPed_56F8E0(Ped* pCriminal, Ped* pUnusedPed)
 {
-    for (u8 i = 0; i < 4; i++)
+    for (u8 i = 0; i < MAX_PURSUIT_TARGETS; i++)
     {
         if (field_464_pursuit_targets[i].field_0_criminal_ped == pCriminal)
         {
@@ -429,7 +429,7 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
     u8 crewIdx;
     u8 targetIdx = 0;
     PolicePursuitTarget_7C* pPursuitTarget = &field_464_pursuit_targets[0];
-    while (pPursuitTarget->field_0_criminal_ped && targetIdx < 4)
+    while (pPursuitTarget->field_0_criminal_ped && targetIdx < MAX_PURSUIT_TARGETS)
     {
         pPursuitTarget->field_78_is_active_criminal = 0;
         Ped* pCriminal = pPursuitTarget->field_0_criminal_ped;
@@ -757,7 +757,7 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
             }
         }
 
-        if (++targetIdx < 4)
+        if (++targetIdx < MAX_PURSUIT_TARGETS)
         {
             pPursuitTarget = &field_464_pursuit_targets[targetIdx];
         }
@@ -1060,7 +1060,7 @@ bool Police_7B8::PromptCrewAtCarToPurseCriminal_5707B0(Car_BC* pCar, Ped* pCrimi
 MATCH_FUNC(0x5708c0)
 void Police_7B8::UpdateLastSeenCoordsForCriminal_5708C0(Ped* pPed)
 {
-    for (u8 i = 0; i < 4; i++)
+    for (u8 i = 0; i < MAX_PURSUIT_TARGETS; i++)
     {
         if (field_464_pursuit_targets[i].field_0_criminal_ped == pPed)
         {
@@ -1076,7 +1076,7 @@ void Police_7B8::UpdateLastSeenCoordsForCriminal_5708C0(Ped* pPed)
 MATCH_FUNC(0x570940)
 void Police_7B8::UpdateCriminalLatestPosition_570940(Ped* pPed)
 {
-    for (u8 i = 0; i < 4; i++)
+    for (u8 i = 0; i < MAX_PURSUIT_TARGETS; i++)
     {
         if (field_464_pursuit_targets[i].field_0_criminal_ped == pPed)
         {

@@ -1318,7 +1318,7 @@ EXPORT void Net_Send_Our_Inputs_4DACB0()
 MATCH_FUNC(0x4DAD50)
 EXPORT void Net_Set_Local_Player_Inputs_4DAD50()
 {
-    for (u32 player_idx = 0; player_idx < 6; player_idx++)
+    for (u32 player_idx = 0; player_idx < MAX_PLAYERS; player_idx++)
     {
         Player* pPlayer = gGame_0x40_67E008->get_player_4219E0(player_idx);
         if (pPlayer && pPlayer->GetInUse_461DB0())
