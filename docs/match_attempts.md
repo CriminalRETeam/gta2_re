@@ -3159,3 +3159,16 @@ The cross-jump rules are in `Scripts/flowopt/README.md`. Both functions below we
     shows one `jmp` going to 0x300 instead of 0x32d. So that order is not the whole answer.
   - Joint orders of rocket's and 13/14's last four stores (24): no better than 4. `default` before, between or
     first, and dead statements after the inner switch: 28.
+- **`Map_0x370::sub_4E8370` (8).** The original has the hoisted `new_idx = field_360; pNew = ...` before
+  `mov 0x20(%esp),%al; test`, ours after.
+  - The scheduler (`sched.sh`) shows why: both loads are ready at once, and they are tied by an anti-dependency
+    on `eax`. Ours has the `do_drop` load first in IL (the optimizer hoists the code common to both arms in
+    after the condition), so it goes first.
+  - Writing the hoisted statements before the `if` in source gives the original's order (`mov 0x20(%esp),%cl`
+    after the `lea`) but a different global allocation (`column_idx` in `ecx`, `this` at `(%esp)`): 323.
+    `do_drop != 0`, `(u8)do_drop` and the combined `[new_idx = ...]` form change nothing.
+  - Next step: compare the two allocations with `Scripts/regalloc/ralog.sh`.
+- **`Ambulance_20::UpdateState_4FB330` (2).** Only the `jle` of `field_1C > 500` targets the exit at the end
+  instead of the copy after `default`. dupB's first loop didn't move the exit block, because the block before
+  it (`state = 5`) falls through. The `<= 500` break/return forms and `break` inside the `if` change nothing (2);
+  `return` after the `if` gives 18.
