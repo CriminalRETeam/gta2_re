@@ -39,10 +39,10 @@ void Police_7B8::Init_56F400()
     {
         field_464_services[i].field_0_criminal_ped = NULL;
         field_464_services[i].field_C_timer = 0;
-        field_464_services[i].field_1C = 0;
+        field_464_services[i].field_1C_crew_gave_up = 0;
 
         field_464_services[i].field_70_num_police_crews = 0;
-        field_464_services[i].field_71_num_unknown = 0;
+        field_464_services[i].field_71_target_police_crews = 0;
         field_464_services[i].field_72_num_swat_crews = 0;
         field_464_services[i].field_73_num_fbi_crews = 0;
         field_464_services[i].field_74_num_army_crews = 0;
@@ -55,11 +55,11 @@ void Police_7B8::Init_56F400()
         field_464_services[i].field_14_y = dword_6FECE8;
         field_464_services[i].field_18_z = dword_6FECE8;
 
-        field_464_services[i].field_1C = 0;
+        field_464_services[i].field_1C_crew_gave_up = 0;
         field_464_services[i].field_E = 0;
 
-        field_464_services[i].field_75_count = 0;
-        field_464_services[i].field_78 = 0;
+        field_464_services[i].field_75_num_crews = 0;
+        field_464_services[i].field_78_is_active_criminal = 0;
         field_464_services[i].field_7A_wanted_timer = 0;
 
         memset(field_464_services[i].field_20_crews, 0, 0x18);
@@ -123,7 +123,7 @@ bool Police_7B8::HandlePedDeath_56F4D0(Ped* pPed)
 }
 
 MATCH_FUNC(0x56f560)
-PoliceCrew_38* Police_7B8::New_56F560()
+PoliceCrew_38* Police_7B8::NewCrew_56F560()
 {
     for (u8 i = 0; i < 20; i++)
     {
@@ -267,7 +267,7 @@ bool Police_7B8::HasCriminalBeenFound_56F800(Ped* pCriminal)
     {
         if (field_464_services[i].field_0_criminal_ped == pCriminal)
         {
-            if (field_464_services[i].field_75_count > 0 && (field_464_services[i].field_8_state == 3 || field_464_services[i].field_C_timer != 0))
+            if (field_464_services[i].field_75_num_crews > 0 && (field_464_services[i].field_8_state == 3 || field_464_services[i].field_C_timer != 0))
             {
                 return true;
             }
@@ -287,7 +287,7 @@ bool Police_7B8::IsPedActiveCriminal_56F880(Ped* pCriminal)
     {
         if (field_464_services[i].field_0_criminal_ped == pCriminal)
         {
-            if (field_464_services[i].field_78)
+            if (field_464_services[i].field_78_is_active_criminal)
             {
                 return true;
             }
@@ -387,7 +387,7 @@ char_type Police_7B8::DispatchNewCrewToService_56FAA0(Police_7C* pService)
 
     if (gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &tileX, &tileY, &tileZ, 0))
     {
-        PoliceCrew_38* pNewPoliceCrew = Police_7B8::New_56F560();
+        PoliceCrew_38* pNewPoliceCrew = Police_7B8::NewCrew_56F560();
         pNewPoliceCrew->field_1C_used = 1;
         pNewPoliceCrew->field_2_targ_x = tileX;
         pNewPoliceCrew->field_3_targ_y = tileY;
@@ -431,7 +431,7 @@ void Police_7B8::UpdateServices_56FBD0()
     Police_7C* pService = &field_464_services[0];
     while (pService->field_0_criminal_ped && serviceIdx < 4)
     {
-        pService->field_78 = 0;
+        pService->field_78_is_active_criminal = 0;
         Ped* pCriminal = pService->field_0_criminal_ped;
         if (pCriminal->GetPedType_420B70() == 2 && (pCriminal->field_21C & 0x20) == 0x20)
         {
@@ -446,11 +446,11 @@ void Police_7B8::UpdateServices_56FBD0()
                     pService->field_8_state = 4;
                     field_659_max_police_cars = 2;
                     pService->field_4_wanted_level = 0;
-                    pService->field_71_num_unknown = 0;
+                    pService->field_71_target_police_crews = 0;
                 }
                 break;
             case 1:
-                pService->field_71_num_unknown = 1;
+                pService->field_71_target_police_crews = 1;
                 pService->field_4_wanted_level = 1;
                 if (pService->field_70_num_police_crews < 1)
                 {
@@ -462,11 +462,11 @@ void Police_7B8::UpdateServices_56FBD0()
                 }
                 break;
             case 2:
-                if (pService->field_71_num_unknown == 1)
+                if (pService->field_71_target_police_crews == 1)
                 {
                     pService->field_E = 1;
                 }
-                pService->field_71_num_unknown = 2;
+                pService->field_71_target_police_crews = 2;
                 pService->field_4_wanted_level = 2;
                 if (pService->field_70_num_police_crews <= 1)
                 {
@@ -478,7 +478,7 @@ void Police_7B8::UpdateServices_56FBD0()
                 }
                 break;
             case 3:
-                pService->field_71_num_unknown = 2;
+                pService->field_71_target_police_crews = 2;
                 pService->field_4_wanted_level = 3;
                 if (pService->field_70_num_police_crews <= 1)
                 {
@@ -490,7 +490,7 @@ void Police_7B8::UpdateServices_56FBD0()
                 }
                 break;
             case 4:
-                pService->field_71_num_unknown = 2;
+                pService->field_71_target_police_crews = 2;
                 pService->field_4_wanted_level = 4;
                 if (pService->field_70_num_police_crews <= 1)
                 {
@@ -514,7 +514,7 @@ void Police_7B8::UpdateServices_56FBD0()
                 }
                 break;
             case 6:
-                pService->field_71_num_unknown = 0;
+                pService->field_71_target_police_crews = 0;
                 pService->field_4_wanted_level = 6;
                 gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service = 6;
                 break;
@@ -582,7 +582,7 @@ void Police_7B8::UpdateServices_56FBD0()
                 if (pService->field_C_timer == 250)
                 {
                     pService->field_8_state = 3;
-                    for (crewIdx = 0; crewIdx < pService->field_75_count; crewIdx++)
+                    for (crewIdx = 0; crewIdx < pService->field_75_num_crews; crewIdx++)
                     {
                         pService->field_20_crews[crewIdx]->field_24_state = 5;
                     }
@@ -590,12 +590,12 @@ void Police_7B8::UpdateServices_56FBD0()
                 break;
 
             case 3:
-                pService->field_1C = 0;
+                pService->field_1C_crew_gave_up = 0;
                 switch (pService->field_4_wanted_level)
                 {
                     case 3:
                         field_659_max_police_cars = 0;
-                        if (pService->field_70_num_police_crews < pService->field_71_num_unknown)
+                        if (pService->field_70_num_police_crews < pService->field_71_target_police_crews)
                         {
                             dword_6FEE18 = 3;
                             word_6FEAC8 = 50;
@@ -605,7 +605,7 @@ void Police_7B8::UpdateServices_56FBD0()
                         }
                         break;
                     case 4:
-                        if (pService->field_70_num_police_crews < pService->field_71_num_unknown)
+                        if (pService->field_70_num_police_crews < pService->field_71_target_police_crews)
                         {
                             dword_6FEE18 = 3;
                             word_6FEAC8 = 50;
@@ -628,14 +628,14 @@ void Police_7B8::UpdateServices_56FBD0()
                     case 5:
                         if (pService->field_70_num_police_crews > 0)
                         {
-                            numCrews = pService->field_75_count;
+                            numCrews = pService->field_75_num_crews;
                             for (crewIdx = 0; crewIdx < numCrews; crewIdx++)
                             {
                                 pService->field_20_crews[0]->field_34 = 1;
                                 pService->field_20_crews[0]->RemoveFromService_570AB0();
                             }
                             pService->field_70_num_police_crews = 0;
-                            pService->field_71_num_unknown = 0;
+                            pService->field_71_target_police_crews = 0;
                             pService->field_72_num_swat_crews = 0;
                             gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service = 4;
                         }
@@ -643,22 +643,22 @@ void Police_7B8::UpdateServices_56FBD0()
                     case 6:
                         if (pService->field_70_num_police_crews > 0 || pService->field_72_num_swat_crews || pService->field_73_num_fbi_crews)
                         {
-                            numCrews = pService->field_75_count;
+                            numCrews = pService->field_75_num_crews;
                             for (crewIdx = 0; crewIdx < numCrews; crewIdx++)
                             {
                                 pService->field_20_crews[0]->RemoveFromService_570AB0();
                             }
                             pService->field_70_num_police_crews = 0;
-                            pService->field_71_num_unknown = 0;
+                            pService->field_71_target_police_crews = 0;
                             bHaveCriminals_6FEE44--;
                             gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service = 6;
                         }
                         break;
                 }
 
-                if (pService->field_70_num_police_crews > pService->field_71_num_unknown)
+                if (pService->field_70_num_police_crews > pService->field_71_target_police_crews)
                 {
-                    numCrews = pService->field_75_count;
+                    numCrews = pService->field_75_num_crews;
                     for (crewIdx = 0; crewIdx < numCrews; crewIdx++)
                     {
                         PoliceCrew_38* pCrew = pService->field_20_crews[crewIdx];
@@ -681,10 +681,10 @@ void Police_7B8::UpdateServices_56FBD0()
                 {
                     pService->field_8_state = 3;
                 }
-                else if (!pService->field_1C)
+                else if (!pService->field_1C_crew_gave_up)
                 {
                     u8 bNoneSearching = 1;
-                    numCrews = pService->field_75_count;
+                    numCrews = pService->field_75_num_crews;
                     for (crewIdx = 0; crewIdx < numCrews; crewIdx++)
                     {
                         PoliceCrew_38* pCrew = pService->field_20_crews[crewIdx];
@@ -704,7 +704,7 @@ void Police_7B8::UpdateServices_56FBD0()
                                 if (dx > dword_6FECFC)
                                 {
                                     pCrew->RemoveFromService_570AB0();
-                                    pService->field_1C = 1;
+                                    pService->field_1C_crew_gave_up = 1;
                                 }
                             }
                             bNoneSearching = 0;
@@ -723,17 +723,17 @@ void Police_7B8::UpdateServices_56FBD0()
 
             case 4:
             {
-                numCrews = pService->field_75_count;
+                numCrews = pService->field_75_num_crews;
                 for (crewIdx = 0; crewIdx < numCrews; crewIdx++)
                 {
                     PoliceCrew_38* pCrew = pService->field_20_crews[0];
                     if (!pCrew->field_1C_used)
                     {
-                        if (pService->field_75_count > 0)
+                        if (pService->field_75_num_crews > 0)
                         {
-                            pService->field_20_crews[0] = pService->field_20_crews[pService->field_75_count - 1];
-                            pService->field_20_crews[pService->field_75_count - 1] = NULL;
-                            pService->field_75_count--;
+                            pService->field_20_crews[0] = pService->field_20_crews[pService->field_75_num_crews - 1];
+                            pService->field_20_crews[pService->field_75_num_crews - 1] = NULL;
+                            pService->field_75_num_crews--;
                         }
                         else
                         {
@@ -747,8 +747,8 @@ void Police_7B8::UpdateServices_56FBD0()
                 }
                 pService->field_0_criminal_ped = NULL;
                 pService->field_70_num_police_crews = 0;
-                pService->field_71_num_unknown = 0;
-                pService->field_75_count = 0;
+                pService->field_71_target_police_crews = 0;
+                pService->field_75_num_crews = 0;
                 pService->field_76 = 0;
                 pService->field_E = 0;
                 bHaveCriminals_6FEE44--;
@@ -855,7 +855,7 @@ bool Police_7B8::SpawnCrewInCar_5703E0(Car_BC* pCar)
     {
         return false;
     }
-    PoliceCrew_38* pNewCrew = Police_7B8::New_56F560();
+    PoliceCrew_38* pNewCrew = Police_7B8::NewCrew_56F560();
     pNewCrew->field_1C_used = 1;
     Kfc_30* pNewKfc = gKfc_1E0_706280->New_5CBB80();
     pNewCrew->field_10_subObj = pNewKfc;

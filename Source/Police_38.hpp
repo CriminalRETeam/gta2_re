@@ -93,7 +93,7 @@ class Police_7C  // Call For Service
     Fix16 field_10_x;
     Fix16 field_14_y;
     Fix16 field_18_z;
-    char_type field_1C;
+    char_type field_1C_crew_gave_up;
     char_type field_1D;
     char_type field_1E;
     char_type field_1F;
@@ -113,13 +113,13 @@ class Police_7C  // Call For Service
     s32 field_68_barrier_5_id;
     s32 field_6C_barrier_6_id;
     u8 field_70_num_police_crews;
-    u8 field_71_num_unknown;
+    u8 field_71_target_police_crews;
     u8 field_72_num_swat_crews;
     u8 field_73_num_fbi_crews;
     char_type field_74_num_army_crews;
-    u8 field_75_count;
+    u8 field_75_num_crews;
     s16 field_76;
-    char_type field_78;
+    char_type field_78_is_active_criminal;
     char_type field_79;
     s16 field_7A_wanted_timer;
 };

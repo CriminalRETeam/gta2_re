@@ -59,7 +59,7 @@ void PoliceCrew_38::Init_5709C0()
 MATCH_FUNC(0x570a10)
 void PoliceCrew_38::AddToService_570A10()
 {
-    if (field_14_pService->field_75_count < 6)
+    if (field_14_pService->field_75_num_crews < 6)
     {
         // check if it's already active
         for (u8 i = 0; i < 6; i++)
@@ -70,8 +70,8 @@ void PoliceCrew_38::AddToService_570A10()
             }
         }
         // if not found on the list, then
-        field_14_pService->field_20_crews[field_14_pService->field_75_count] = this;
-        ++field_14_pService->field_75_count;
+        field_14_pService->field_20_crews[field_14_pService->field_75_num_crews] = this;
+        ++field_14_pService->field_75_num_crews;
         switch (field_10_subObj->field_20_crew_type)
         {
             case crew_type::police_3:
@@ -99,7 +99,7 @@ void PoliceCrew_38::RemoveFromService_570AB0()
         && field_24_state != police_crew_state::patrol_1 
         && field_24_state != police_crew_state::shutdown_6))
     {
-        u8 last_idx = field_14_pService->field_75_count - 1;
+        u8 last_idx = field_14_pService->field_75_num_crews - 1;
         PoliceCrew_38* pPolice38_last = field_14_pService->field_20_crews[last_idx];
         if (pPolice38_last == this)
         {
@@ -137,7 +137,7 @@ void PoliceCrew_38::RemoveFromService_570AB0()
                     break;
             }
         }
-        --field_14_pService->field_75_count;
+        --field_14_pService->field_75_num_crews;
         field_24_state = police_crew_state::shutdown_6;
     }
 }
@@ -771,7 +771,7 @@ void PoliceCrew_38::State3_AlertedSearch_572340()
                                 if (pPed->GetObjectiveStatus_450CB0() == objective_status::failed_2)
                                 {
                                     field_24_state = police_crew_state::shutdown_6;
-                                    field_14_pService->field_1C = 1;
+                                    field_14_pService->field_1C_crew_gave_up = 1;
                                 }
                                 break;
                             case objectives_enum::kill_char_on_foot_20:
@@ -1694,7 +1694,7 @@ void PoliceCrew_38::sub_575310()
             case 15:
                 break;
             default:
-                field_14_pService->field_78 = 1;
+                field_14_pService->field_78_is_active_criminal = 1;
                 break;
         }
 
@@ -1767,27 +1767,27 @@ void PoliceCrew_38::Service_575590()
     }
 }
 
-// TODO: logic matches, but the original keeps field_75_count in bl and i in cl
+// TODO: logic matches, but the original keeps field_75_num_crews in bl and i in cl
 MATCH_FUNC(0x575650)
 void PoliceCrew_38::sub_575650()
 {
     Police_7C* pService = field_14_pService;
     if (pService)
     {
-        for (u8 i = 0; i < pService->field_75_count; i++)
+        for (u8 i = 0; i < pService->field_75_num_crews; i++)
         {
             if (this == pService->field_20_crews[i])
             {
-                if (i == pService->field_75_count - 1)
+                if (i == pService->field_75_num_crews - 1)
                 {
                     pService->field_20_crews[i] = NULL;
-                    pService->field_75_count--;
+                    pService->field_75_num_crews--;
                 }
                 else
                 {
-                    pService->field_20_crews[i] = pService->field_20_crews[pService->field_75_count - 1];
-                    pService->field_20_crews[pService->field_75_count - 1] = NULL;
-                    pService->field_75_count--;
+                    pService->field_20_crews[i] = pService->field_20_crews[pService->field_75_num_crews - 1];
+                    pService->field_20_crews[pService->field_75_num_crews - 1] = NULL;
+                    pService->field_75_num_crews--;
                 }
 
                 switch (field_10_subObj->field_20_crew_type)

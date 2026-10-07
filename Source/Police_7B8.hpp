@@ -32,7 +32,7 @@ class Police_7B8
     EXPORT ~Police_7B8();
     EXPORT void Init_56F400();
     EXPORT bool HandlePedDeath_56F4D0(Ped* pPed);
-    EXPORT PoliceCrew_38* New_56F560();
+    EXPORT PoliceCrew_38* NewCrew_56F560();
     EXPORT Ped* SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
     EXPORT void DespawnCrewInCar_56F6D0(Car_BC* pCar);
     EXPORT bool HasCriminalBeenFound_56F800(Ped* pCriminal);
