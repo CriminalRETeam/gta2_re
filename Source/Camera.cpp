@@ -519,7 +519,7 @@ void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, F
 {
     WIP_IMPLEMENTED;
 
-    // 9.6f 0x41EBF0
+    // 9.6f 0x41EBF0: this source matches it exactly when built with VC7 (compile_vc7.sh, permuter_score.py --96f)
     Ang16 angle;
     Fix16_Point vel;
     Fix16_Point offset;

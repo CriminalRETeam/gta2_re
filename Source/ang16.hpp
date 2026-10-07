@@ -9,27 +9,28 @@ class Ang16
 {
   public:
     //   Ang16  and  Ang16
-    bool operator>(const Ang16& other)
+    // 9.6f 0x40E670/0x41E0F0/0x40F4C0/0x40E690: setcc into a 32-bit register, so these return int, not bool
+    s32 operator>(const Ang16& other)
     {
         return rValue > other.rValue;
     }
 
-    bool operator<(const Ang16& other)
+    s32 operator<(const Ang16& other)
     {
         return rValue < other.rValue;
     }
 
-    bool operator>=(const Ang16& other)
+    s32 operator>=(const Ang16& other)
     {
         return rValue >= other.rValue;
     }
 
-    bool operator<=(const Ang16& other)
+    s32 operator<=(const Ang16& other)
     {
         return rValue <= other.rValue;
     }
 
-    bool operator!=(const Ang16& other)
+    s32 operator!=(const Ang16& other)
     {
         return rValue != other.rValue;
     }
@@ -57,7 +58,7 @@ class Ang16
     }
     */
 
-    bool operator==(const Ang16& other)
+    s32 operator==(const Ang16& other)
     {
         return rValue == other.rValue;
     }
