@@ -3,7 +3,9 @@ Builds build_vc6/x87_c2/<variant>/ (default ildump) from the stock variant: a C2
 instruction list at every pass boundary (0x107034AB, called between the passes of the pipeline at 0x107657E2,
 esi = the function). Generated code is unchanged.
 
-    @S <return address> <first instr> <function>: kind.op.line ...
+    @S <return address> <first instr> <function>: kind.op.line.id ...
+
+id: a label's own address and a jump's target label (low 16 bits), other instructions their address.
 
 The return address names the pass that just ran (the call before it in 0x107657E2). `ilshow.py` prints only
 the boundaries where the list changed.
@@ -24,7 +26,7 @@ def main():
     ks = Ks(KS_ARCH_X86, KS_MODE_32)
     sva = P.CAVE + 0x600
     strs = {}
-    for k, s in [('S', b'@S %08x %08x %s:'), ('I', b' %d.%d.%d'), ('NL', b'\n')]:
+    for k, s in [('S', b'@S %08x %08x %s:'), ('I', b' %d.%d.%d.%x'), ('NL', b'\n')]:
         strs[k] = sva; put(sva, s + b'\0'); sva += len(s) + 1
     # first instruction: [[[f+8]]+0x1c] -> next; end: [[f+8]+4]+0x20 (as FlowOpts' sweep 0x10725478)
     code = f"""
@@ -66,10 +68,24 @@ def main():
       cmp esi, ebx
       je dn
       movzx eax, byte ptr [esi+8]
+      mov ecx, esi
+      cmp al, 0x11
+      jne notj
+      xor ecx, ecx
+      mov edx, dword ptr [esi+0x18]
+      test edx, edx
+      je notj
+      cmp byte ptr [edx+8], 4
+      jne notj
+      mov edx, dword ptr [edx+0x14]
+      mov ecx, dword ptr [edx+0x32]
+    notj:
+      and ecx, 0xffff
+      push ecx
       push dword ptr [esi+0x10]
       push dword ptr [esi+4]
       push eax
-      {P.pr(strs['I'], 3)}
+      {P.pr(strs['I'], 4)}
       mov esi, dword ptr [esi]
       dec edi
       jne lp

@@ -126,3 +126,29 @@ venv/bin/python3 Scripts/flowopt/ilshow.py /tmp/il/last.log 10 25 sub_4E8370
 The first column is the return address of the boundary call, so the pass that just ran is the call before it in
 `0x107657E2` (for example `10765c1a` follows `0x10723BFD`, `10765cda` the second FlowOpts). Lines are relative to the
 function's first line.
+
+## Duplicating and moving exit blocks (dupB, `0x10726A33`)
+
+After both FlowOpts calls, this pass removes unconditional jumps by moving or copying their target block. It walks
+the instruction list twice, looking at each unconditional `jmp L` (kind 0x11, not conditional, op != 0x18B):
+
+1. **Move forward targets** (first loop, handler `0x10726B01`): if the `jmp` is followed by a label, `L` comes
+   later in the layout, and the instruction just before `L` is an unconditional `jmp` or a `ret` (so nothing
+   falls into `L`), the block from `L` to its own `jmp`/`ret` is moved to just after the `jmp`
+   (`0x1072EFA3`), and the `jmp` is deleted.
+2. **Move or copy** (second loop, `0x10726BDA`): for the remaining jumps, scan `L`'s block. If it holds no call,
+   and the last real instruction before `L` (`0x10703C06`, which stops at a label) is an unconditional `jmp`
+   elsewhere, the block is moved after this `jmp` (`0x1070AC7F`). Otherwise it is **copied** after the `jmp` when it
+   is small (up to 2, or 20 with `[0x107AC0B4]`, weighted instructions), and the `jmp` is deleted.
+
+So the function's exit block (`pop`s and `ret`) stays where it is, and gets copied to each `jmp exit`, as long as
+the last block in the layout **falls into it**. Conditional jumps never move: every `jcc exit` keeps pointing at
+the original exit. If the original's `jcc`s go to an exit copy in the middle of the function, with the last
+block ending in its own copy, then the exit was moved up there, and nothing fell into it when dupB ran.
+
+How a source gets that (`Ped::PunchChar_467FD0`, verified match): the then-block of an `if (A || B) { X; return; }`
+is laid out out of line, after the rest of the function, just before the exit. The last `else`'s `return` then
+jumps over it (not a jump to the next label, so the early cleanups at `0x1073C33A`/`0x10706181` keep it). Later
+FlowOpts cross-jumps `X` into an identical store elsewhere, which leaves only a label between that `jmp` and the
+exit, and dupB moves the exit up. Probes: `if (!a || b == 9) {...}` goes out of line, `if (a == 5) {...}` and
+`&&` conditions don't. `TrainCab_414710` and `UpdateState_4FB330` need this (see `docs/match_attempts.md`).

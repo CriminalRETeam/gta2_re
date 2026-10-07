@@ -3180,3 +3180,16 @@ The cross-jump rules are in `Scripts/flowopt/README.md`. Both functions below we
   instead of the copy after `default`. dupB's first loop didn't move the exit block, because the block before
   it (`state = 5`) falls through. The `<= 500` break/return forms and `break` inside the `if` change nothing (2);
   `return` after the `if` gives 18.
+
+### Exit block placement (dupB, Oct 7)
+
+Rules in `Scripts/flowopt/README.md` ("Duplicating and moving exit blocks").
+- **`sound_obj::TrainCab_414710` (6)** and **`Ambulance_20::UpdateState_4FB330` (2)**: in both, the original's
+  `jcc`s to the exit go to the copy after the success path / `default`, ours to the one at the end. Our last block
+  (the `else` store / `state = 5`) falls into the exit, so dupB copies the exit instead of moving it. In the original
+  the exit wasn't fallen into when dupB ran. The only matched example found (`Ped::PunchChar_467FD0`, found by
+  scanning the build for this exit shape) gets that from an out-of-line `if (A || B) { X; return; }` block
+  that FlowOpts later empties by cross-jumping. TrainCab tried: `return;` in the `else` and/or the success path,
+  early `if (!pDriver) return;`, `do {} while (0)`, dead statements at the end, `||` and `&&` forms of the distance
+  checks, and the store as an `if (!p || <always false>) { store; return; }` block (6); the plain inverted `if`
+  (26). The source form that gives a block that is emptied later is not found.
