@@ -172,17 +172,18 @@ enum
 };
 } // namespace Car_Door_Lock
 
+// Wanted level (star count / cop head), what Police_7B8 sends at each
 namespace cop_level_enum
 {
 enum cop_level_enum
 {
-    cops_0 = 0,
-    cops_1 = 1,
-    cops_2 = 2,
-    cops_3 = 3,
-    cops_4 = 4,
-    cops_5 = 5,
-    cops_6 = 6,
+    none_0 = 0,
+    police_1 = 1, // one police car
+    police_2 = 2, // two police cars
+    police_3 = 3, // roadblocks start
+    swat_4 = 4,   // a SWAT crew is added
+    fbi_5 = 5,    // FBI crews
+    army_6 = 6,   // army
 };
 } // namespace cop_level_enum
 

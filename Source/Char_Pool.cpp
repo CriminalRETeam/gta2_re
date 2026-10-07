@@ -352,14 +352,14 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                 pPed->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
                 switch (gPolice_7B8_6FEE40->field_654_max_wanted_level)
                 {
-                    case 2:
+                    case cop_level_enum::police_2:
                         pPed->GiveWeapon_46F650(weapon_type::pistol);
                         pPed->set_health_4039A0(100);
                         pPed->field_1F0_maybe_max_speed = (kFpOneSixteenth_678448 * kFpPoint8_6784A0);
                         pPed->field_26C_graphic_type = 2;
                         break;
-                    case 0:
-                    case 1:
+                    case cop_level_enum::none_0:
+                    case cop_level_enum::police_1:
                         pPed->field_170_selected_weapon = 0;
                         pPed->GiveWeapon_46F650(weapon_type::pistol);
                         pPed->set_health_4039A0(50);

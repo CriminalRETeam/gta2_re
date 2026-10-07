@@ -7152,21 +7152,21 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
 
         switch (gPolice_7B8_6FEE40->field_654_max_wanted_level)
         {
-            case 0:
-            case 1:
+            case cop_level_enum::none_0:
+            case cop_level_enum::police_1:
                 wanted_related = kFpOne_6FF778;
                 break;
-            case 3:
+            case cop_level_enum::police_3:
                 wanted_related = dword_6FF5DC;
                 break;
-            case 2:
-            case 5:
+            case cop_level_enum::police_2:
+            case cop_level_enum::fbi_5:
                 wanted_related = dword_6FF5E4;
                 break;
-            case 4:
+            case cop_level_enum::swat_4:
                 wanted_related = dword_6FF5D4;
                 break;
-            case 6:
+            case cop_level_enum::army_6:
                 wanted_related = dword_6FF5D4;
                 break;
             default:

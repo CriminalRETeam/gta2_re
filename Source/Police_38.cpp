@@ -161,14 +161,14 @@ void PoliceCrew_38::SpawnPoliceInCar_570BF0()
 
     switch (wanted_level)
     {
-        case 0:
-        case 1:
+        case cop_level_enum::none_0:
+        case cop_level_enum::police_1:
             pCopLeader->field_170_selected_weapon = 0;
             pCopLeader->GiveWeapon_46F650(weapon_type::pistol);
             pCopLeader->set_health_4039A0(50);
             pCopLeader->field_1F0_maybe_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
             break;
-        case 2:
+        case cop_level_enum::police_2:
             pCopLeader->GiveWeapon_46F650(weapon_type::pistol);
             pCopLeader->set_health_4039A0(100);
             pCopLeader->field_1F0_maybe_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
@@ -191,13 +191,13 @@ void PoliceCrew_38::SpawnPoliceInCar_570BF0()
 
     switch (field_14_pPursuitTarget->field_4_wanted_level)
     {
-        case 1:
+        case cop_level_enum::police_1:
             pCopSupporter->field_170_selected_weapon = 0;
             pCopSupporter->GiveWeapon_46F650(weapon_type::pistol);
             pCopSupporter->field_216_health = 50;
             pCopSupporter->field_1F0_maybe_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
             break;
-        case 2:
+        case cop_level_enum::police_2:
             pCopSupporter->GiveWeapon_46F650(weapon_type::pistol);
             pCopSupporter->field_216_health = 100;
             pCopSupporter->field_1F0_maybe_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;

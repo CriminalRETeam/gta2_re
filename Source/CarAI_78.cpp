@@ -2970,18 +2970,18 @@ void CarAI_78::UpdateStateMachine_44E560()
                 {
                     switch (pHam40->field_30_ped_to_follow->get_wanted_star_count_46EF00())
                     {
-                        case 0:
-                        case 1:
+                        case cop_level_enum::none_0:
+                        case cop_level_enum::police_1:
                             police_level = 1;
                             break;
-                        case 2:
-                        case 3:
+                        case cop_level_enum::police_2:
+                        case cop_level_enum::police_3:
                             police_level = 2;
                             break;
-                        case 4:
+                        case cop_level_enum::swat_4:
                             police_level = 3;
                             break;
-                        case 5:
+                        case cop_level_enum::fbi_5:
                             police_level = 4;
                             break;
                     }

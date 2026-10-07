@@ -3522,7 +3522,7 @@ void Ped::RoadBlockTank_AI_4619F0()
         field_16C_car->SetA6Bit5_421540();
     }
 
-    if (this->field_28C_threat_reaction != threat_reaction_enum::react_as_emergency_1 || gPolice_7B8_6FEE40->field_654_max_wanted_level == 6)
+    if (this->field_28C_threat_reaction != threat_reaction_enum::react_as_emergency_1 || gPolice_7B8_6FEE40->field_654_max_wanted_level == cop_level_enum::army_6)
     {
         if (this->field_258_objective == objectives_enum::no_obj_0)
         {
@@ -11317,36 +11317,36 @@ u8 Ped::get_wanted_star_count_46EF00()
                     {
                         if (cVar1 < cop_level_ped_enum::cop_1_stars)
                         {
-                            return cop_level_enum::cops_0;
+                            return cop_level_enum::none_0;
                         }
                         else
                         {
-                            return cop_level_enum::cops_1;
+                            return cop_level_enum::police_1;
                         }
                     }
                     else
                     {
-                        return cop_level_enum::cops_2;
+                        return cop_level_enum::police_2;
                     }
                 }
                 else
                 {
-                    return cop_level_enum::cops_3;
+                    return cop_level_enum::police_3;
                 }
             }
             else
             {
-                return cop_level_enum::cops_4;
+                return cop_level_enum::swat_4;
             }
         }
         else
         {
-            return cop_level_enum::cops_5;
+            return cop_level_enum::fbi_5;
         }
     }
     else
     {
-        return cop_level_enum::cops_6;
+        return cop_level_enum::army_6;
     }
 }
 
