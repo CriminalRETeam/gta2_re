@@ -15,6 +15,7 @@
 #include "Police_7B8.hpp"
 #include "RouteFinder.hpp"
 #include "CarAI_78.hpp"
+#include "ped_graphic_type.hpp"
 
 DEFINE_GLOBAL(Fix16, dword_6FECE8, 0x6FECE8);
 DEFINE_GLOBAL_INIT(Fix16, kFpTen_6FED54, Fix16(0x28000, 0), 0x6FED54);
@@ -155,7 +156,7 @@ void PoliceCrew_38::SpawnPoliceInCar_570BF0()
     pCopLeader->field_1E0_objective_target_y = Fix16(field_3_targ_y);
     pCopLeader->field_1E4_objective_target_z = Fix16(field_4_targ_z);
     pCopLeader->set_remap_433B90(0);
-    pCopLeader->field_26C_graphic_type = 2;
+    pCopLeader->field_26C_graphic_type = ped_graphic_type::cop_2;
 
     s32 wanted_level = gPolice_7B8_6FEE40->field_654_max_wanted_level;
 
@@ -210,7 +211,7 @@ void PoliceCrew_38::SpawnPoliceInCar_570BF0()
 
     pCopSupporter->field_288_threat_search = threat_search_enum::line_of_sight_1;
     pCopSupporter->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
-    pCopSupporter->field_26C_graphic_type = 2;
+    pCopSupporter->field_26C_graphic_type = ped_graphic_type::cop_2;
     pGroup->add_ped_leader_4C9B10(pCopLeader);
     pGroup->SetCounts_433360(1);
     pGroup->add_ped_to_list_4C9B30(pCopSupporter, 0);
@@ -241,7 +242,7 @@ void PoliceCrew_38::SpawnSWAT_570E30()
     pSwatLeader->set_health_4039A0(400);
     pSwatLeader->field_288_threat_search = threat_search_enum::line_of_sight_1;
     pSwatLeader->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
-    pSwatLeader->field_26C_graphic_type = 2;
+    pSwatLeader->field_26C_graphic_type = ped_graphic_type::cop_2;
     pSwatGroup->add_ped_leader_4C9B10(pSwatLeader);
     pSwatGroup->SetCounts_433360(3);
     for (u8 i = 0; i < 3; ++i)
@@ -256,7 +257,7 @@ void PoliceCrew_38::SpawnSWAT_570E30()
         pSwatMember->set_health_4039A0(400);
         pSwatMember->field_288_threat_search = threat_search_enum::line_of_sight_1;
         pSwatMember->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
-        pSwatMember->field_26C_graphic_type = 2;
+        pSwatMember->field_26C_graphic_type = ped_graphic_type::cop_2;
 
         pSwatGroup->add_ped_to_list_4C9B30(pSwatMember, i);
     }
@@ -286,7 +287,7 @@ void PoliceCrew_38::SpawnFBI_nonused_571150()
     pFBI->set_health_4039A0(200);
     pFBI->field_288_threat_search = threat_search_enum::line_of_sight_1;
     pFBI->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
-    pFBI->field_26C_graphic_type = 1;
+    pFBI->field_26C_graphic_type = ped_graphic_type::character_1;
     field_10_subObj->field_4_ped = pFBI;
     field_10_subObj->field_28_state = 6;
     field_10_subObj->field_0_car->SetUniNum_421560(5);

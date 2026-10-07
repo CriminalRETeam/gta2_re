@@ -42,6 +42,7 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
+#include "ped_graphic_type.hpp"
 // Back to force inline
 #define INLINE_MODE __forceinline
 
@@ -124,7 +125,7 @@ void miss2_0x11C::MissionFailOnArrest_503200()
 
         *gfrosty_pasteur_6F8060->field_344_mission_flag = 0;
         gfrosty_pasteur_6F8060->field_C1E2E_death_arrest_flag = 1;
-        gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->field_26C_graphic_type = 1;
+        gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->field_26C_graphic_type = ped_graphic_type::character_1;
     }
 }
 
@@ -413,7 +414,7 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
             }
 
             pPlayer->InitPlayerPed_565490(pPed);
-            pPed->field_26C_graphic_type = 1;
+            pPed->field_26C_graphic_type = ped_graphic_type::character_1;
             pCmd->field_8_ped = pPed;
 
             Sprite* pSprite = pPed->GetSprite_46DF50();
@@ -561,7 +562,7 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_P
     {
         pPointer->field_8_char->SetField238_403920(ped_type::script_created_5);
         pPointer->field_8_char->set_occupation_403970(pCmd->field_1C_occupation);
-        pPointer->field_8_char->field_26C_graphic_type = 1;
+        pPointer->field_8_char->field_26C_graphic_type = ped_graphic_type::character_1;
         pPointer->field_8_char->SetObjective(objectives_enum::wait_on_foot_26, 9999);
         pPointer->field_8_char->set_health_4039A0(100);
         Sprite* pSprite = pPointer->field_8_char->GetSprite_46DF50();

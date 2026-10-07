@@ -11,6 +11,7 @@
 #include "Hamburger_500.hpp"
 #include "RouteFinder.hpp"
 #include <stdio.h>
+#include "ped_graphic_type.hpp"
 
 DEFINE_GLOBAL(Ambulance_110*, gAmbulance_110_6F70A8, 0x6F70A8);
 
@@ -303,7 +304,7 @@ bool Ambulance_20::SpawnParamedicCrew_4FA820()
     pPed1->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
     pPed1->field_288_threat_search = threat_search_enum::no_threats_0;
     pPed1->set_remap_433B90(16);
-    pPed1->field_26C_graphic_type = 0;
+    pPed1->field_26C_graphic_type = ped_graphic_type::civilian_0;
     pPed1->field_1F8_run_speed = gParamedicRunSpeed_6F6DD4;
 
     Ped* pPed2 = gPedManager_6787BC->AllocatePed_470F30();
@@ -318,7 +319,7 @@ bool Ambulance_20::SpawnParamedicCrew_4FA820()
     pPed2->sub_433BB0(2);
     pPed2->SetObjective(objectives_enum::no_obj_0, 9999);
     pPed2->set_remap_433B90(16);
-    pPed2->field_26C_graphic_type = 0;
+    pPed2->field_26C_graphic_type = ped_graphic_type::civilian_0;
     pPed2->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
     pPed2->field_288_threat_search = threat_search_enum::no_threats_0;
     pGroup->add_ped_leader_4C9B10(pPed1);

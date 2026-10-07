@@ -38,6 +38,7 @@
 #include "youthful_einstein.hpp"
 #include "CarAI_78.hpp"
 #include "winmain.hpp"
+#include "ped_graphic_type.hpp"
 
 // =================
 DEFINE_GLOBAL_INIT(s8, byte_61A8A3, 1, 0x61A8A3);
@@ -626,7 +627,7 @@ void Ped::Reset_45AFC0()
     field_214 = 0;
     field_26A_recent_crime_timer = 0;
     field_21C_bf.b4 = 0;
-    field_26C_graphic_type = 1;
+    field_26C_graphic_type = ped_graphic_type::character_1;
     field_21C_bf.b5 = 0;
     field_21C_bf.b6 = 0;
     field_250 = 0;
@@ -7844,7 +7845,7 @@ void Ped::GotoAreaInCar_468310()
                 if (pDriver->IsField238_45EDE0(4) || this->field_16C_car->field_54_driver->IsField238_45EDE0(6))
                 {
                     pCar = this->field_16C_car;
-                    if (pCar->field_54_driver->field_26C_graphic_type == 2)
+                    if (pCar->field_54_driver->field_26C_graphic_type == ped_graphic_type::cop_2)
                     {
                         pCar->field_60->field_20 = 1;
                         this->field_16C_car->field_60->field_22 = 1;

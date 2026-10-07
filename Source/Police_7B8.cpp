@@ -10,6 +10,7 @@
 #include "PedGroup.hpp"
 #include "Player.hpp"
 #include "winmain.hpp"
+#include "ped_graphic_type.hpp"
 
 DEFINE_GLOBAL(Police_7B8*, gPolice_7B8_6FEE40, 0x6FEE40);
 DEFINE_GLOBAL(s32, gCrewKind_6FEDB8, 0x6FEDB8);
@@ -155,7 +156,7 @@ Ped* Police_7B8::SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, 
             pCop->set_occupation_403970(ped_ocupation_enum::roadblock_cop_37);
             pCop->SetObjective(objectives_enum::guard_spot_24, 0);
             pCop->set_remap_433B90(8);
-            pCop->field_26C_graphic_type = 1;
+            pCop->field_26C_graphic_type = ped_graphic_type::character_1;
             pCop->ForceWeapon_46F600(weapon_type::silence_smg);
             pCop->set_health_4039A0(200);
             pCop->field_288_threat_search = threat_search_enum::area_2;
@@ -167,7 +168,7 @@ Ped* Police_7B8::SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, 
             pCop->set_occupation_403970(ped_ocupation_enum::roadblock_cop_37);
             pCop->SetObjective(objectives_enum::guard_spot_24, 0);
             pCop->set_remap_433B90(0);
-            pCop->field_26C_graphic_type = 2;
+            pCop->field_26C_graphic_type = ped_graphic_type::cop_2;
             pCop->field_170_selected_weapon = 0;
             pCop->GiveWeapon_46F650(weapon_type::pistol);
             pCop->set_health_4039A0(200);
@@ -828,7 +829,7 @@ void Police_7B8::SpawnWalkingGuard_570320(Ped* pPed, Fix16 xpos, Fix16 ypos, Fix
         pPed->SetField238_403920(3);
         pPed->set_remap_433B90(ped_remap_enum::ped_remap_blue_police);
     }
-    pPed->field_26C_graphic_type = 2;
+    pPed->field_26C_graphic_type = ped_graphic_type::cop_2;
     pPed->field_288_threat_search = threat_search_enum::line_of_sight_1;
     pPed->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
     pPed->AllocCharB4_45C830(xpos, ypos, zpos);
@@ -891,11 +892,11 @@ bool Police_7B8::SpawnCrewInCar_5703E0(Car_BC* pCar)
             pNewPed1->GiveWeapon_46F650(weapon_type::silence_smg);
             pNewPed1->set_occupation_403970(ped_ocupation_enum::fbi);
             pNewPed1->set_remap_433B90(8);
-            pNewPed1->field_26C_graphic_type = 1;
+            pNewPed1->field_26C_graphic_type = ped_graphic_type::character_1;
             pNewPed2->set_health_4039A0(250);
             pNewPed2->set_remap_433B90(8);
             pNewPed2->ForceWeapon_46F600(weapon_type::silence_smg);
-            pNewPed2->field_26C_graphic_type = 1;
+            pNewPed2->field_26C_graphic_type = ped_graphic_type::character_1;
             pNewPed2->set_occupation_403970(ped_ocupation_enum::fbi);
             pNewCrew->field_20_crew_kind = crew_kind::fbi_3;
             break;
@@ -941,9 +942,9 @@ bool Police_7B8::SpawnCrewInCar_5703E0(Car_BC* pCar)
 
             pNewPed1->set_occupation_403970(ped_ocupation_enum::police);
             pNewPed1->set_remap_433B90(ped_remap_enum::ped_remap_blue_police);
-            pNewPed1->field_26C_graphic_type = 2;
+            pNewPed1->field_26C_graphic_type = ped_graphic_type::cop_2;
             pNewPed2->set_remap_433B90(ped_remap_enum::ped_remap_blue_police);
-            pNewPed2->field_26C_graphic_type = 2;
+            pNewPed2->field_26C_graphic_type = ped_graphic_type::cop_2;
             pNewCrew->field_20_crew_kind = crew_kind::police_1;
 
             break;
@@ -953,12 +954,12 @@ bool Police_7B8::SpawnCrewInCar_5703E0(Car_BC* pCar)
             pNewPed1->ForceWeapon_46F600(weapon_type::smg);
             pNewPed1->set_remap_433B90(4);
             pNewPed1->set_occupation_403970(ped_ocupation_enum::army_army);
-            pNewPed1->field_26C_graphic_type = 2;
+            pNewPed1->field_26C_graphic_type = ped_graphic_type::cop_2;
             pNewPed2->set_health_4039A0(250);
             pNewPed2->ForceWeapon_46F600(weapon_type::smg);
             pNewPed2->set_remap_433B90(4);
             pNewPed2->set_occupation_403970(ped_ocupation_enum::army_army);
-            pNewPed2->field_26C_graphic_type = 2;
+            pNewPed2->field_26C_graphic_type = ped_graphic_type::cop_2;
             pNewCrew->field_20_crew_kind = crew_kind::army_4;
             break;
     }

@@ -26,6 +26,7 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "winmain.hpp"
+#include "ped_graphic_type.hpp"
 
 // Ped.cpp
 EXTERN_GLOBAL(Fix16, kFpPoint02_6FD9AC);
@@ -660,13 +661,13 @@ void Char_B4::UpdateAnimState_546360()
 
     switch (field_7C_pPed->field_26C_graphic_type)
     {
-        case 0:
+        case ped_graphic_type::civilian_0:
             baseId = 0;
             break;
-        case 1:
+        case ped_graphic_type::character_1:
             baseId = 158;
             break;
-        case 2:
+        case ped_graphic_type::cop_2:
             baseId = 316;
             break;
         default:
@@ -995,7 +996,7 @@ void Char_B4::UpdateAnimState_546360()
                                     pCar->field_84_car_info_idx == car_model_enum::JEEP ||
                                     pCar->field_84_car_info_idx == car_model_enum::TANK)
                                 {
-                                    pDriver->field_26C_graphic_type = 2;
+                                    pDriver->field_26C_graphic_type = ped_graphic_type::cop_2;
                                     pDriver->set_remap_433B90(4);
                                 }
                                 pDriver->set_field_140_492CB0(pCar);

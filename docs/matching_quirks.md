@@ -13,6 +13,20 @@ Add to this file when you find something new. Keep entries short and point at a 
 the address to the csv (size from the target asm dump: `dump_target_asm.py` dumps the bytes of
 marked unlisted addresses into `target_extra.json`) before trusting the marker.
 
+**Adding an enum to a shared header can break an unrelated match.** Adding the three-member
+`ped_graphic_type` enum (`civilian_0`, `character_1`, `cop_2`) to `enums.hpp`, to `Ped.hpp`, or anywhere else
+`MapRenderer.cpp` ends up including, changed the code of `MapRenderer::Draw4SidedDiagonalUpLeft_4EF880`
+(3306/3307). Nothing used the enum, and the other functions were unaffected. What we know:
+- It is not the position, the file, the name or the line count: 12 comment lines in `enums.hpp` and a
+  one-member enum (any namespace name) keep 3307; a three-member enum fails whatever it is called, and in
+  either header. `crew_kind` (4 members), `pursuit_state` (5) and the renamed `cop_level_enum` went in fine.
+- So it looks like a symbol table / hash effect inside VC6 that depends on how many names a TU has, and
+  only a function as fragile as that x87 one notices.
+- The fix is to keep the enum out of every header `MapRenderer.cpp` includes: `ped_graphic_type.hpp` is a
+  small header included only by the .cpp files that use it.
+After adding any enum or constants to a widely included header, run the whole `build.py` (not just
+`--single_cpp`), and if a far-away function fails, move the addition into its own header.
+
 **`WIP_IMPLEMENTED` and `NOT_IMPLEMENTED` add code.** The macros inject a static flag and a
 logging `call` into the function body, so a function containing one can never match. Remove
 the line (or compile it out locally) before comparing. Several WIP functions were already
