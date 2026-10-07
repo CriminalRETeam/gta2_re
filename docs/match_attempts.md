@@ -470,6 +470,12 @@ rotation. The original probably spends one fewer inline expansion somewhere else
 
 ## Particle_4C::UpdateAttachedEmitter_state_9_10_53B670 (WIP, was STUB)
 
+**Matched (Oct 7).** The 9.6f version shows the shape: `PolarToCartesian_41FC20(field_28_pSprite->field_0 + jitter,
+radius, ...)`, the sum an `operator+` temporary passed straight in (no named `angle`). That gives the original's 0x12
+slot. Then `Fix16 radius; radius = ...;` (assigned) instead of initialised: 8 more caller size units, which
+`inlsim.py --scan` showed is what PolarToCartesian's first `operator*` needs to stay inline. The notes below are
+from before.
+
 Smoke/flame particle attached to a ped sprite (`field_28_pSprite`, type `ped_3`). State 9
 sets sprite id `+3` and spawns a cigarette puff; otherwise it offsets the particle by a
 polar vector (`FromPolar_41E210`) chosen by `field_2C_counter` (>= 60, 41..59 with a

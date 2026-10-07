@@ -1250,7 +1250,7 @@ char_type Particle_4C::UpdateShortAnim_state_37_53B580()
     return 0;
 }
 
-WIP_FUNC(0x53b670)
+MATCH_FUNC(0x53b670)
 char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
 {
     gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
@@ -1296,15 +1296,15 @@ char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
         {
             if (field_2C_counter > 40)
             {
-                // The jitter assigned (not initialised) and added to a copy of the sprite angle gives the
-                // original's load/add/store (Left: its slot is 0x10, the original's 0x12)
+                // As in 9.6f (0x48FE90): the sum is an operator+ temporary passed straight to PolarToCartesian,
+                // which puts it at the original's slot (0x12). `radius` assigned, not initialised: the extra
+                // size gives PolarToCartesian's first operator* enough nested inline budget.
                 Ang16 jitter;
                 jitter = Ang16::Fix16_To_Ang16_40F540(Fix16((gRng_6F6784.get_int_4F7AE0(8) - 4) / 2));
                 {
-                    Fix16 radius = dword_6FD540 * dword_6FD4A8;
-                    Ang16 angle = field_28_pSprite->field_0;
-                    angle += jitter;
-                    Ang16::PolarToCartesian_41FC20(angle, radius, offset.x, offset.y);
+                    Fix16 radius;
+                    radius = dword_6FD540 * dword_6FD4A8;
+                    Ang16::PolarToCartesian_41FC20(field_28_pSprite->field_0 + jitter, radius, offset.x, offset.y);
                 }
                 field_30_pNext->SetFlags_4337D0(1, 10);
                 field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 17);
