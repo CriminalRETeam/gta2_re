@@ -2,6 +2,7 @@ import os
 import re
 import sys
 import csv
+import difflib
 import json
 import glob
 import urllib.request
@@ -17,9 +18,12 @@ OG_EXE = "./bin_comp/10.5.exe"
 # CRT / iostream library code (stubs for fopen, malloc ...) starts here, it's not ours to match
 LIBRARY_START = 0x5ED000
 
+# A WIP function with at most this share of differing lines counts as a close miss
+CLOSE_MAX_DIFF_RATIO = 0.05
+
 # Keys of progress.json whose change makes us post an update
 PROGRESS_KEYS = ["matched", "total", "stub", "wip", "wip_reg_alloc", "wip_stack_layout",
-                 "wip_instr_order", "wip_structural", "wip_unclassified", "wip_ready"]
+                 "wip_instr_order", "wip_close", "wip_structural", "wip_unclassified", "wip_ready"]
 
 
 def fmt_delta(old, new, always=False, with_pct=True):
@@ -66,6 +70,12 @@ def classify_wip(func, og_file_offset, og_size):
         return "wip_stack_layout"
     if sorted(og_n.split("\n")) == sorted(new_n.split("\n")):
         return "wip_instr_order"
+    # share of lines that differ, with registers, stack offsets and jump targets ignored
+    matcher = difflib.SequenceMatcher(None, og_n.split("\n"), new_n.split("\n"), autojunk=False)
+    same = sum(block.size for block in matcher.get_matching_blocks())
+    differing = max(len(og_n.split("\n")), len(new_n.split("\n"))) - same
+    if differing <= CLOSE_MAX_DIFF_RATIO * max(len(og_n.split("\n")), len(new_n.split("\n"))):
+        return "wip_close"
     return "wip_structural"
 
 
@@ -156,7 +166,7 @@ def main():
     total = matched + stub + wip
 
     # what kind of mismatch each WIP has
-    wip_buckets = {"wip_reg_alloc": 0, "wip_stack_layout": 0, "wip_instr_order": 0, "wip_structural": 0, "wip_unclassified": 0}
+    wip_buckets = {"wip_reg_alloc": 0, "wip_stack_layout": 0, "wip_instr_order": 0, "wip_close": 0, "wip_structural": 0, "wip_unclassified": 0}
     wip_ready = 0
     can_classify = os.path.exists(NEW_EXE) and os.path.exists(OG_EXE)
     for func in wip_funcs:
@@ -232,7 +242,8 @@ def main():
         count_line("RegAlloc", "wip_reg_alloc", of=wip),
         count_line("Stack layout / jump targets", "wip_stack_layout", of=wip),
         count_line("Instruction order", "wip_instr_order", of=wip),
-        count_line("Control flow / other", "wip_structural", of=wip),
+        count_line("Close, under 5% of lines differ", "wip_close", of=wip),
+        count_line("Far, control flow / other", "wip_structural", of=wip),
         count_line("Unclassified", "wip_unclassified", of=wip),
         count_line("Identical, ready to promote", "wip_ready", of=wip),
     )]
