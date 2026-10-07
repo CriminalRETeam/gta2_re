@@ -836,7 +836,7 @@ void Police_7B8::SpawnWalkingGuard_570320(Ped* pPed, Fix16 xpos, Fix16 ypos, Fix
 
     pPed->SetRemap_433C10(pPed->get_remap_433BA0());
     pPed->SetRotation_433C00(rotation);
-    pPed->sub_467280();
+    pPed->ResetAnimAndFindNearestSprite_467280();
 }
 
 MATCH_FUNC(0x5703e0)
@@ -910,11 +910,11 @@ bool Police_7B8::SpawnCrewInCar_5703E0(Car_BC* pCar)
                     pNewPed1->field_170_selected_weapon = 0;
                     pNewPed1->GiveWeapon_46F650(weapon_type::pistol);
                     pNewPed1->set_health_4039A0(50);
-                    pNewPed1->field_1F0_maybe_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
+                    pNewPed1->field_1F0_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
                     pNewPed2->field_170_selected_weapon = 0;
                     pNewPed2->GiveWeapon_46F650(weapon_type::pistol);
                     pNewPed2->set_health_4039A0(50);
-                    pNewPed2->field_1F0_maybe_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
+                    pNewPed2->field_1F0_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
 
                     break;
 
@@ -922,11 +922,11 @@ bool Police_7B8::SpawnCrewInCar_5703E0(Car_BC* pCar)
                     // line 231
                     pNewPed1->GiveWeapon_46F650(weapon_type::pistol);
                     pNewPed1->set_health_4039A0(100);
-                    pNewPed1->field_1F0_maybe_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
+                    pNewPed1->field_1F0_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
                     pNewPed2->GiveWeapon_46F650(weapon_type::pistol);
                     pNewPed2->set_health_4039A0(100);
 
-                    pNewPed2->field_1F0_maybe_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
+                    pNewPed2->field_1F0_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
 
                     break;
 

@@ -997,7 +997,7 @@ directly in the first check keeps the original jump target (`Car_BC::CanCarColli
 
 **Reading a pointer through a different expression forces a reload.** `field_C_carriages[0]->field_54_driver` instead of a local `pBusCar->field_54_driver` stops VC6 reusing the loaded field (579CA0).
 
-**Values held in registers going into a shared tail were computed per case.** When each case ends with `add %edi,%edx; jmp tail`, do the computation inside each case (`Ped::sub_4645B0`). Same for cases that each divide and then share one multiply: `ratio = v / max; break;` per case into a function-scope local, one multiply after the switch. VC6 tail-merges the divisions and gives `mov eax,ecx; mov global,eax; imul ecx` instead of `imull mem` (`sound_obj::Type6_413A10`).
+**Values held in registers going into a shared tail were computed per case.** When each case ends with `add %edi,%edx; jmp tail`, do the computation inside each case (`Ped::CalcApproachPointNearTargetPed_4645B0`). Same for cases that each divide and then share one multiply: `ratio = v / max; break;` per case into a function-scope local, one multiply after the switch. VC6 tail-merges the divisions and gives `mov eax,ecx; mov global,eax; imul ecx` instead of `imull mem` (`sound_obj::Type6_413A10`).
 
 **A value every case assigns: write it once after the switch.** VC6 copies it back into each case like the original; writing it per case changes the tail merges and the constant registers (`Frontend::UpdatePageFromUserInput_4AE2D0`). In the same function a constant-count zeroing loop gave the original's word/byte stores at fixed offsets where `memset` took the address into a register first (also `Frontend::ctor_4AF2A0`: constant-count loops
 store off `esi` with their own `xor` zero register and no `lea`), and a separate `if (page == A || page == B || page == C)` after an else-if chain let VC6 thread the known value without a goto.
@@ -1569,7 +1569,7 @@ left the code of every matching function unchanged, so those can be used whereve
 them. Adding these helpers made `Object_2C::sub_526B40` match (`Sprite::get_type_416B40`,
 `Char_B4::get_velocity_41B080`, `Sprite::set_num_40F7B0`). The exception is
 `Char_B4::SetMaxSpeed_433920(Fix16)`: as a by-value `Fix16` parameter it changed six matching
-`Ped` functions (`sub_46C770` and others), although 9.6f calls it there. Those keep the plain
+`Ped` functions (`WalkToTargetPoint_46C770` and others), although 9.6f calls it there. Those keep the plain
 assignment for now. `SetMaxSpeedByRef_433920` (by reference) changes register choice later in the
 function and matched `Ped::EnterCarStateMachine_46BDC0` and `ExitCarStateMachine_46C250`.
 

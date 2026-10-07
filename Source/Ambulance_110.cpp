@@ -117,7 +117,7 @@ bool Ambulance_110::HandlePedDeath_4FA330(Ped* pDeadPed)
 MATCH_FUNC(0x4fa470)
 char_type Ambulance_110::TryAddPatient_4FA470(Ped* pPed)
 {
-    if (pPed->IsField238_45EDE0(2) || field_1_f8_idx >= 25)
+    if (pPed->IsPedType_45EDE0(2) || field_1_f8_idx >= 25)
     {
         return 0;
     }
@@ -295,7 +295,7 @@ bool Ambulance_20::SpawnParamedicCrew_4FA820()
     }
     pPed1->SetField238_403920(ped_type::special_ped_4);
     pPed1->set_occupation_403970(ped_ocupation_enum::paramedic_23);
-    pPed1->sub_433BB0(2);
+    pPed1->SetJumpOverMode_433BB0(2);
     pPed1->SpawnPedInCar_45C730(field_4_paramedics_crew->field_0_car);
     pPed1->SetObjective(objectives_enum::goto_area_in_car_14, 0);
     pPed1->field_1DC_objective_target_x = (unsigned __int8)this->field_0_target_x << 14;
@@ -316,7 +316,7 @@ bool Ambulance_20::SpawnParamedicCrew_4FA820()
     pPed2->EnterCarAsPassenger_45C7F0(field_4_paramedics_crew->field_0_car);
     pPed2->SetField238_403920(ped_type::special_ped_4);
     pPed2->set_occupation_403970(ped_ocupation_enum::paramedic_23);
-    pPed2->sub_433BB0(2);
+    pPed2->SetJumpOverMode_433BB0(2);
     pPed2->SetObjective(objectives_enum::no_obj_0, 9999);
     pPed2->set_remap_433B90(16);
     pPed2->field_26C_graphic_type = ped_graphic_type::civilian_0;

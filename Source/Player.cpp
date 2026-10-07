@@ -1612,7 +1612,7 @@ void Player::DoPedControlInputs_566C80(Ped* pPed)
     {
         if (field_81_bNowSpecial_1_Pressed && field_84_bWasSpecial_1_Pressed && !field_7C_bNowAttackPressed)
         {
-            pPed->Set_F250_IfBit_433DD0(20);
+            pPed->SetVoiceEvent_IfBit24Clear_433DD0(20);
         }
     }
 }
@@ -1714,7 +1714,7 @@ void Player::Wasted_567130()
         {
             player_killer = NULL;
         }
-        else if (pPed_killer->IsField238_45EDE0(2) == 0)
+        else if (pPed_killer->IsPedType_45EDE0(2) == 0)
         {
             player_killer = NULL;
         }

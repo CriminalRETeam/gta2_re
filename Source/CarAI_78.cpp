@@ -4774,7 +4774,7 @@ void CarAI_78::ManageCollisions_452A20()
 
         Ped* pDriver = field_68_car_in_collision->field_54_driver;
 
-        if (pDriver && pDriver->IsField238_45EDE0(2) && field_24_bf.b21 == false)
+        if (pDriver && pDriver->IsPedType_45EDE0(2) && field_24_bf.b21 == false)
         {
             field_0_car->field_58_physics->NeutralGear_42AC00();
             byte_677A5D = 0;

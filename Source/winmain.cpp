@@ -259,7 +259,7 @@ void force_link()
     Ped cn;
     cn.SetRecentCrimeTimer_45B550();
     cn.SetPlayer_45B560(NULL, 0);
-    cn.sub_45B590();
+    cn.IsEmergencyOccupation_45B590();
 
     miss2_8 miss2;
     miss2.add_503160(0);

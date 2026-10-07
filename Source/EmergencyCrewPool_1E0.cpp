@@ -462,7 +462,7 @@ void EmergencyCrew_30::CleanupExpiredEntities_5CC1C0()
         {
             if (field_4_ped->field_168_game_object)
             {
-                if (field_4_ped->Get_F20E_4039F0() < this->field_1A_idle_limit)
+                if (field_4_ped->GetOffscreenCounter_4039F0() < this->field_1A_idle_limit)
                 {
                     bClearPedAndGroup = 0;
                 }
@@ -488,7 +488,7 @@ void EmergencyCrew_30::CleanupExpiredEntities_5CC1C0()
             {
                 if (pPedListIter->field_168_game_object)
                 {
-                    if (pPedListIter->get_field_20e() < this->field_1A_idle_limit)
+                    if (pPedListIter->GetOffscreenCounter() < this->field_1A_idle_limit)
                     {
                         bClearPedAndGroup = 0;
                     }
@@ -552,7 +552,7 @@ void EmergencyCrew_30::CleanupExpiredEntities_5CC1C0()
 
     if (field_4_ped)
     {
-        if (field_4_ped->Get_F20E_4039F0() < this->field_1A_idle_limit)
+        if (field_4_ped->GetOffscreenCounter_4039F0() < this->field_1A_idle_limit)
         {
             bClearPedAndGroup = 0;
         }
@@ -563,7 +563,7 @@ void EmergencyCrew_30::CleanupExpiredEntities_5CC1C0()
         u8 i = 0;
         for (Ped* pPedListIter = field_8_group->field_4_ped_list[0]; pPedListIter;)
         {
-            if (pPedListIter->Get_F20E_4039F0() < this->field_1A_idle_limit)
+            if (pPedListIter->GetOffscreenCounter_4039F0() < this->field_1A_idle_limit)
             {
                 bClearPedAndGroup = 0;
             }

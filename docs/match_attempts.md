@@ -366,7 +366,7 @@ one and `edx` in the other. 400 permuter iterations: nothing.
 
 ## Ped::sub_45EA00 (WIP)
 
-Removes a ped that has been off screen for a while (`get_field_20e() > 30`, compared
+Removes a ped that has been off screen for a while (`GetOffscreenCounter() > 30`, compared
 unsigned). A group leader takes its whole group with it when all members are in cars or
 far away. Other members leave the group. Then the ped is deallocated and bit 10 of
 `field_21C` is cleared.
@@ -1167,7 +1167,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 - `sub_4B7E10` (0x4b7e10): xpos load before the arg-slot push; tried s32/u32 ypos/xpos params with casts, branch inversion, explicit Fix16 (inlines ctor, worse).
 - `CarPhysics_B0::ShowPhysicsDebug_559430` (0x559430): lea 0x818 (field_650 this) placement around pushes; theta local, pText reorder, 600 permuter iters.
 - `SetGamma_5D9910` (0x5d9910): matches (0) just by uncommenting gErrorLog_67C530.Write_4D9620, but commit e538f1b8 (Valps, 2026-09-30) demoted it from MATCH on purpose because that call crashes the standalone exe at boot. Main session/user should decide.
-- `Car_BC::sub_43B2B0` (0x43b2b0): known unsolved return width (bool call result returned unextended, other paths eax); not retried beyond analysis (IsField238_45EDE0 has 96 callers testing al).
+- `Car_BC::sub_43B2B0` (0x43b2b0): known unsolved return width (bool call result returned unextended, other paths eax); not retried beyond analysis (IsPedType_45EDE0 has 96 callers testing al).
 - `MapRenderer::Set_UV_4F4190` (0x4f4190): fmuls (1/16384) scheduled after the idx load in orig; AsFloat/ToFloat/mValue*k/local float, 400 permuter iters (x87 scheduling, cf. Draw*Sided* note).
 - `Hud_Brief_704::ClearAllBriefsWithPriority_5D4890` (0x5d4890): known: ebp shrink-wrap (pushed after null check). Code otherwise identical. Tried if+do/while, early return, break, if(pIter) Start(), decl order, 500 permuter iters. VC6 does shrink-wrap in similar matched loops (struct_4::RemoveByRngValue_5A6C40).
 - `Car_BC::sub_43B850` (0x43b850): known: u16 load then test $6,%ch; tried IsFlagSet_411930 inline, local copy, shifts, casts, != 0.
@@ -1403,7 +1403,7 @@ Each was a few asm lines away from the original. What is left and what was tried
   - 0x5DD290 `shotgun`: 0.242->0.346. `word + ped_rotation` order. Left: a 16-bit `add %bx,%di; jns` vs our `lea`+`test`.
   - 0x46E380 `SpawnPedestrianAt`: no change. The original splits the shared tail between the two halves of case 4.
   - 0x5DFB60 `Weapon_30::sub_5DFB60`: 294->255 lines. One `SetRect` with a ternary width, velocity copied as a struct.
-  - 0x4645B0 `Ped::sub_4645B0`: 718->438 lines. Each case of the first switch does its own polar step and adds.
+  - 0x4645B0 `Ped::CalcApproachPointNearTargetPed_4645B0`: 718->438 lines. Each case of the first switch does its own polar step and adds.
   - 0x54B8F0 `ContinueMovementAfterCollision`: 0.241->0.371. Behaviour fix: `field_24 = 2; field_40_rotation = field_28;` were missing after the 180 degree turn.
   - 0x53E970 `GunMuzzelFlash`: no change (EH state issue; our `vel` calls `Fix16_Point_POD()` out of line).
   - 0x452060 `CarAI_78::sub_452060`: 0.31->0.81. Out-of-line cosine (and in the last two rotations sine) multiplies, `Normalize_406C20` on the angle sum, a bogus `f10 * 4` removed (table index scale), `field_24_bf` bitfields, locals assigned after declaration, gotos replaced except one shared `react:` switch that four checks jump to. Logic fix: `ReactToNearbyPed` runs when bit 0x80 is clear.
@@ -1662,7 +1662,7 @@ Frame and stack slots:
 - `Particle_4C::UpdateFloatingParticle_538060` (367): the original keeps a dead store `rng_1 = zpos`.
 - `CarPhysics_B0::ComputePointVelocity_561380` (110): only slots (cos in the `point` param slot, `local_pos`
   below `old_pos`): the three points' slot order is exactly reversed; declaration order and renames don't move it.
-- `Ped::sub_4645B0` (847 -> 395): sine/cos temp at 0xC and the case 2 `Ang16` at 2 in the original, ours 0
+- `Ped::CalcApproachPointNearTargetPed_4645B0` (847 -> 395): sine/cos temp at 0xC and the case 2 `Ang16` at 2 in the original, ours 0
   and 0xC; the top `angle = k180 + rot` goes through a temp in ours.
 - `Wolfy_30::state_22_23_24_25_542E30` (533 -> 252): the sin/cos temp sits after the case locals and is shared
   by cases 0-2; case 3's value temps have their own slots.
@@ -2462,7 +2462,7 @@ Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 
   does. The old note that per-arm stores copy the return tail predates the `Marker_<addr>_fpo` fix: the tail is
   21 bytes with the `[esp+x]` SIB bytes counted, so dupB jumps to it.
 - `Ped::MeleeAttackStateMachine_46B670` 442 -> 454 lines, structure 44 -> 54, 9.6f 0x4436A0 182 -> 104: shape from
-  9.6f (hurt blocks `IsField238(2) && mugger` with one TakeDamage else; health >= 20 nested with two sub_433E50
+  9.6f (hurt blocks `IsField238(2) && mugger` with one TakeDamage else; health >= 20 nested with two TriggerVoiceEventRateLimited_433E50
   sites, which the 10.5 asm shows too; knock-out tails `network ? Kill : (b5, Set_F250(18))`), and the
   punch-to-death fallthrough bug is gone. Left: the original keeps two mugger (AddCash) blocks, the first hurt
   block's copy merged into the else-if's; VC6 merges all three of ours into one. Hurt block as `&&` in the health
@@ -2476,7 +2476,7 @@ Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 
 - `Ped::GotoAreaByAnyMeans_469060` (30): `cmp %bl,%al` (bl = 0) on the FindNearbyTileMatchingSlopeType result at
   both sites, ours `test`: a `char_type` return type, `!= 0`, a `u8 bFound` assigned in the condition: no change.
   kill_char_20's MaxAbsDistance loads the target's y first: getters (348) and a cached `pTarget` (no change).
-- New pairs scored: `Ped::sub_4645B0` 266 / 9.6f 842, `Ped::IsThreatToSearchingPed_4661F0` 418 / 1759,
+- New pairs scored: `Ped::CalcApproachPointNearTargetPed_4645B0` 266 / 9.6f 842, `Ped::IsThreatToSearchingPed_4661F0` 418 / 1759,
   `AttackTargetStateMachine_46D460` 46 / 307, `StartCrossingRoad_45E4A0` 414 / 166, `IsPedAThreat_465D00` 142 / 604,
   `Car_BC::HandleCarHitByObject_43F130` 882, `Car_214::sub_5C8780` 84 / 422, `SpawnCarOnRoadNetwork_4458B0` 469 / 855.
 
@@ -2490,7 +2490,7 @@ Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 
   the remaining 10.5 difference is only the x87 window problem already documented.
 - `Weapon_30::sub_5DE4F0` (222) has no 9.6f counterpart: 9.6f 0x4CE970 (throwable, 0x5CC bytes) runs straight into
   0x4CEF40 (sub_5DF270), so the electro-baton beam code between `throwable_5DDFC0` and `sub_5DF270` is new in 10.5.
-- `Ped::sub_4645B0` (266; 9.6f 0x436BF0 842): 9.6f calls `PolarToCartesian_41FC20` x4 (cross-jumped from the
+- `Ped::CalcApproachPointNearTargetPed_4645B0` (266; 9.6f 0x436BF0 842): 9.6f calls `PolarToCartesian_41FC20` x4 (cross-jumped from the
   per-case sites), `compound_add_41FA70` x13, `angle_plus_40E5A0` once (case 2 is `angle = kAng180 + angle`) and
   `ctor_40E590` once. The real `Ang16::PolarToCartesian_41FC20` at every site: 10.5 409 / 9.6f 487; plus
   `operator+` in case 2: 892 / 475; `angle = rotation; angle += kAng180;` for the first assignment: 612 / 846.

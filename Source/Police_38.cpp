@@ -167,12 +167,12 @@ void PoliceCrew_38::SpawnPoliceInCar_570BF0()
             pCopLeader->field_170_selected_weapon = 0;
             pCopLeader->GiveWeapon_46F650(weapon_type::pistol);
             pCopLeader->set_health_4039A0(50);
-            pCopLeader->field_1F0_maybe_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
+            pCopLeader->field_1F0_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
             break;
         case cop_level_enum::police_2:
             pCopLeader->GiveWeapon_46F650(weapon_type::pistol);
             pCopLeader->set_health_4039A0(100);
-            pCopLeader->field_1F0_maybe_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
+            pCopLeader->field_1F0_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
             break;
         default:
             pCopLeader->GiveWeapon_46F650(weapon_type::pistol);
@@ -196,12 +196,12 @@ void PoliceCrew_38::SpawnPoliceInCar_570BF0()
             pCopSupporter->field_170_selected_weapon = 0;
             pCopSupporter->GiveWeapon_46F650(weapon_type::pistol);
             pCopSupporter->field_216_health = 50;
-            pCopSupporter->field_1F0_maybe_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
+            pCopSupporter->field_1F0_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
             break;
         case cop_level_enum::police_2:
             pCopSupporter->GiveWeapon_46F650(weapon_type::pistol);
             pCopSupporter->field_216_health = 100;
-            pCopSupporter->field_1F0_maybe_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
+            pCopSupporter->field_1F0_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
             break;
         default:
             pCopSupporter->GiveWeapon_46F650(weapon_type::pistol);
@@ -326,7 +326,7 @@ void PoliceCrew_38::TryDespawnOffscreenCrew_571350()
         Ped* v6 = field_10_subObj->field_4_ped;
         if (v6)
         {
-            if (v6->Get_F20E_4039F0() >= 0x1Eu)
+            if (v6->GetOffscreenCounter_4039F0() >= 0x1Eu)
             {
                 v6->Deallocate_45EB60();
                 field_10_subObj->field_28_state = crew_state::clean_up_5;
@@ -373,7 +373,7 @@ void PoliceCrew_38::sub_571540()
             Ped* pPed = field_10_subObj->field_4_ped;
             if (pPed)
             {
-                if (pPed->get_field_20e() > 30 && pCar->Get_F76_4A9AD0() > 200)
+                if (pPed->GetOffscreenCounter() > 30 && pCar->Get_F76_4A9AD0() > 200)
                 {
                     pPed->Deallocate_45EB60();
                     field_10_subObj->field_0_car->MarkForDespawn_421470();
@@ -413,7 +413,7 @@ void PoliceCrew_38::sub_571540()
         Ped* pPed = field_10_subObj->field_4_ped;
         if (pPed)
         {
-            if (pPed->Get_F20E_4039F0() >= 30)
+            if (pPed->GetOffscreenCounter_4039F0() >= 30)
             {
                 pPed->Deallocate_45EB60();
                 field_10_subObj->field_28_state = crew_state::clean_up_5;
@@ -479,7 +479,7 @@ void PoliceCrew_38::sub_571A30()
                 u8 j = 0;
                 for (Ped* pMember = pGroup2->field_4_ped_list[0]; pMember; pMember = pGroup2->field_4_ped_list[++j])
                 {
-                    if (pMember->field_168_game_object && pMember->Get_F20E_4039F0() < 10)
+                    if (pMember->field_168_game_object && pMember->GetOffscreenCounter_4039F0() < 10)
                     {
                         bAllReady = 0;
                     }
@@ -562,7 +562,7 @@ void PoliceCrew_38::sub_571A30()
             {
                 return;
             }
-            if (field_10_subObj->field_4_ped->Get_F20E_4039F0() <= 30)
+            if (field_10_subObj->field_4_ped->GetOffscreenCounter_4039F0() <= 30)
             {
                 return;
             }
@@ -1725,7 +1725,7 @@ void PoliceCrew_38::Service_575590()
         Ped* pPed = field_10_subObj->field_4_ped;
         if (pPed)
         {
-            if (!pPed->field_20e_offscreen_counter && pPed->GetPedState_403990() != ped_state_1::dead_9 
+            if (!pPed->field_20E_offscreen_counter && pPed->GetPedState_403990() != ped_state_1::dead_9 
                 && pPed->CheckBit0_433B40())
             {
                 gPolice_7B8_6FEE40->field_7B4_crew_ped_onscreen = 1;
@@ -2113,7 +2113,7 @@ void PoliceRoadblock_A4::Update_5757B0()
                 }
                 else
                 {
-                    if (field_88_guard_1->field_20e_offscreen_counter < 0x50u)
+                    if (field_88_guard_1->field_20E_offscreen_counter < 0x50u)
                     {
                         v31 = 0;
                     }
@@ -2128,7 +2128,7 @@ void PoliceRoadblock_A4::Update_5757B0()
                 }
                 else
                 {
-                    if (field_8C_guard_2->field_20e_offscreen_counter < 0x50u)
+                    if (field_8C_guard_2->field_20E_offscreen_counter < 0x50u)
                     {
                         v31 = 0;
                     }
@@ -2143,7 +2143,7 @@ void PoliceRoadblock_A4::Update_5757B0()
                 }
                 else
                 {
-                    if (field_90_guard_3->field_20e_offscreen_counter < 0x50u)
+                    if (field_90_guard_3->field_20E_offscreen_counter < 0x50u)
                     {
                         v31 = 0;
                     }
@@ -2158,7 +2158,7 @@ void PoliceRoadblock_A4::Update_5757B0()
                 }
                 else
                 {
-                    if (field_94_guard_4->field_20e_offscreen_counter < 0x50u)
+                    if (field_94_guard_4->field_20E_offscreen_counter < 0x50u)
                     {
                         v31 = 0;
                     }
@@ -2173,7 +2173,7 @@ void PoliceRoadblock_A4::Update_5757B0()
                 }
                 else
                 {
-                    if (field_98_guard_5->field_20e_offscreen_counter < 0x50u)
+                    if (field_98_guard_5->field_20E_offscreen_counter < 0x50u)
                     {
                         v31 = 0;
                     }
@@ -2188,7 +2188,7 @@ void PoliceRoadblock_A4::Update_5757B0()
                 }
                 else
                 {
-                    if (field_9C_guard_6->field_20e_offscreen_counter < 0x50u)
+                    if (field_9C_guard_6->field_20E_offscreen_counter < 0x50u)
                     {
                         field_E = 0;
                         return;
@@ -2381,7 +2381,7 @@ void PoliceRoadblock_A4::RemoveRoadblock_575CA0()
 
     if (field_88_guard_1)
     {
-        if (field_88_guard_1->field_20e_offscreen_counter)
+        if (field_88_guard_1->field_20E_offscreen_counter)
         {
             field_88_guard_1->Deallocate_45EB60();
         }
@@ -2394,7 +2394,7 @@ void PoliceRoadblock_A4::RemoveRoadblock_575CA0()
 
     if (field_8C_guard_2)
     {
-        if (field_8C_guard_2->field_20e_offscreen_counter)
+        if (field_8C_guard_2->field_20E_offscreen_counter)
         {
             field_8C_guard_2->Deallocate_45EB60();
         }
@@ -2407,7 +2407,7 @@ void PoliceRoadblock_A4::RemoveRoadblock_575CA0()
 
     if (field_90_guard_3)
     {
-        if (field_90_guard_3->field_20e_offscreen_counter)
+        if (field_90_guard_3->field_20E_offscreen_counter)
         {
             field_90_guard_3->Deallocate_45EB60();
         }
@@ -2420,7 +2420,7 @@ void PoliceRoadblock_A4::RemoveRoadblock_575CA0()
 
     if (field_94_guard_4)
     {
-        if (field_94_guard_4->field_20e_offscreen_counter)
+        if (field_94_guard_4->field_20E_offscreen_counter)
         {
             field_94_guard_4->Deallocate_45EB60();
         }
@@ -2433,7 +2433,7 @@ void PoliceRoadblock_A4::RemoveRoadblock_575CA0()
 
     if (field_98_guard_5)
     {
-        if (field_98_guard_5->field_20e_offscreen_counter)
+        if (field_98_guard_5->field_20E_offscreen_counter)
         {
             field_98_guard_5->Deallocate_45EB60();
         }
@@ -2446,7 +2446,7 @@ void PoliceRoadblock_A4::RemoveRoadblock_575CA0()
 
     if (field_9C_guard_6)
     {
-        if (field_9C_guard_6->field_20e_offscreen_counter)
+        if (field_9C_guard_6->field_20E_offscreen_counter)
         {
             field_9C_guard_6->Deallocate_45EB60();
             field_9C_guard_6 = 0;

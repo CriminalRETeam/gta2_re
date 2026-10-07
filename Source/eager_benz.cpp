@@ -423,9 +423,9 @@ void eager_benz::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
     {
         gang_idx = pPed1->field_17C_pGang->field_1_gang_idx;
     }
-    else if (pPed1->field_19C)
+    else if (pPed1->field_19C_dummy_gang)
     {
-        gang_idx = pPed1->field_19C->field_1_gang_idx;
+        gang_idx = pPed1->field_19C_dummy_gang->field_1_gang_idx;
     }
     else
     {
@@ -447,7 +447,7 @@ void eager_benz::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
                              pPed1->get_occupation_403980(),
                              gang_idx,
                              pPed1->get_remap_433BA0(),
-                             pPed1->field_290,
+                             pPed1->field_290_death_cause,
                              model,
                              pZone);
 
@@ -473,9 +473,9 @@ void eager_benz::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
     char_type bGangA;
     char_type bGangB;
 
-    if (bStartNetworkGame_7081F0 && pPed1->IsField238_45EDE0(2) && pPed1->field_15C_player)
+    if (bStartNetworkGame_7081F0 && pPed1->IsPedType_45EDE0(2) && pPed1->field_15C_player)
     {
-        switch (pPed1->field_290)
+        switch (pPed1->field_290_death_cause)
         {
             case 4:
             case 9:
@@ -510,7 +510,7 @@ void eager_benz::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
         {
             bOtherGang = 1;
         }
-        if (pPed1->field_19C && (!pPed2->field_17C_pGang || pPed2->field_17C_pGang != pPed1->field_19C))
+        if (pPed1->field_19C_dummy_gang && (!pPed2->field_17C_pGang || pPed2->field_17C_pGang != pPed1->field_19C_dummy_gang))
         {
             bOtherGang = 1;
         }
@@ -601,7 +601,7 @@ void eager_benz::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
                 break;
         }
 
-        switch (pPed1->field_290)
+        switch (pPed1->field_290_death_cause)
         {
             case 9:
             case 10:
@@ -725,7 +725,7 @@ scored:
         {
             gShooey_CC_67A4B8->ReportCrimeForPed(8, field_368_player->GetPlayerPed_4A5130());
         }
-        else if (pPed1->field_290 == 1 || pPed1->field_290 == 3)
+        else if (pPed1->field_290_death_cause == 1 || pPed1->field_290_death_cause == 3)
         {
             gShooey_CC_67A4B8->ReportCrimeForPed(6, field_368_player->GetPlayerPed_4A5130());
         }

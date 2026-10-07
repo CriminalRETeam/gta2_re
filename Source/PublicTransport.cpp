@@ -1498,14 +1498,14 @@ void PublicTransport_181C::PublicTransportService_57A7A0()
                 else
                 {
                     pTrain->field_0 = 1;
-                    if (pCar->field_54_driver->get_fieldC_45C9B0() > kFpZero_6FF078)
+                    if (pCar->field_54_driver->GetMoveDirection_45C9B0() > kFpZero_6FF078)
                     {
                         if (pTrain->field_C_carriages[0]->field_54_driver->field_15C_player->field_8B_bWasForwardPressed)
                         {
                             pTrain->IncrementState_578180();
                         }
                     }
-                    else if (pTrain->field_C_carriages[0]->field_54_driver->get_fieldC_45C9B0() < kFpZero_6FF078)
+                    else if (pTrain->field_C_carriages[0]->field_54_driver->GetMoveDirection_45C9B0() < kFpZero_6FF078)
                     {
                         if (pTrain->field_C_carriages[0]->field_54_driver->field_15C_player->field_8C_bWasDownPressed)
                         {

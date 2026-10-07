@@ -2829,11 +2829,11 @@ void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
         Ped* pPed = pCharB4->field_7C_pPed;
         if (pPed->get_field_140_49EF40() == this->field_5C_pCar)
         {
-            pPed->field_290 = 3;
+            pPed->field_290_death_cause = 3;
         }
         else
         {
-            pPed->field_290 = 1;
+            pPed->field_290_death_cause = 1;
         }
     }
     else
@@ -2860,11 +2860,11 @@ void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
                             Ped* pPed = pCharB4->field_7C_pPed;
                             if (pPed->get_field_140_49EF40() == this->field_5C_pCar->field_64_pTrailer->field_8_truck_cab)
                             {
-                                pPed->field_290 = 3;
+                                pPed->field_290_death_cause = 3;
                             }
                             else
                             {
-                                pPed->field_290 = 1;
+                                pPed->field_290_death_cause = 1;
                             }
                         }
                     }

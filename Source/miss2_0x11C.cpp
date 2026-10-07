@@ -3770,7 +3770,7 @@ void miss2_0x11C::SCRCMD_IS_CHAR_FIRE_ONSCREEN_50B3D0()
 {
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     Ped* pPed = pPointer->field_8_char;
-    if (pPed->GetBit11_433CA0() && pPed->Get_F20E_4039F0() == 0 && pPed->field_170_selected_weapon)
+    if (pPed->GetBit11_433CA0() && pPed->GetOffscreenCounter_4039F0() == 0 && pPed->field_170_selected_weapon)
     {
         field_8_cond_result = true;
     }
@@ -5723,7 +5723,7 @@ void miss2_0x11C::SCRCMD_SET_SPEED_50E780()
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     if (gBasePtr_6F8070->field_2_type == SCRCMD_SET_RUN_SPEED)
     {
-        pPointer->field_8_char->field_1F0_maybe_max_speed = pCmd->field_A_value;
+        pPointer->field_8_char->field_1F0_max_speed = pCmd->field_A_value;
     }
     else
     {

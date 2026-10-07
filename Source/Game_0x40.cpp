@@ -235,7 +235,7 @@ EXPORT void __stdcall sub_46DD70(char_type remap, u8 count)
         gLastTestPed_6787E8->field_168_game_object->SetRemap_46DD50(gLastTestPed_6787E8->get_remap_433BA0());
     }
     gLastTestPed_6787E8->set_health_4039A0(100);
-    gLastTestPed_6787E8->sub_433BC0(1);
+    gLastTestPed_6787E8->SetPedClass_433BC0(1);
     pGroup->add_ped_to_end_of_list_4C8F90(gLastTestPed_6787E8);
     gLastTestPed_6787E8->ForceWeapon_46F600(0);
 
@@ -249,7 +249,7 @@ EXPORT void __stdcall sub_46DD70(char_type remap, u8 count)
         pPed->AllocCharB4_45C830(pPlayerPed->field_1AC_cam.x, pPlayerPed->field_1AC_cam.y, pPlayerPed->field_1AC_cam.z);
         pPed->SetRemap_433C10(pPed->get_remap_433BA0());
         pPed->set_health_4039A0(100);
-        pPed->sub_433BC0(1);
+        pPed->SetPedClass_433BC0(1);
         pGroup->add_ped_to_end_of_list_4C8F90(pPed);
         pPed->ForceWeapon_46F600(0);
     }

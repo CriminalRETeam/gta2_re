@@ -125,7 +125,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 2 | 84 | 288 | 70 | 0x523bf0 | `Object_2C::IntegrateMovementAndCollisions_523BF0` | Object_5C.cpp |
 | 2 | 94 | 291 | 176 | 0x53e450 | `Particle_8::EmitBloodBurst_53E450` | Particle_8.cpp |
 | 2 | 124 | 182 | 124 | 0x51f210 | `NetPlay::CalcPacketLen_51F210` | NetPlay.cpp |
-| 2 | 189 | 395 | - | 0x4645b0 | `Ped::sub_4645B0` | Ped.cpp |
+| 2 | 189 | 395 | - | 0x4645b0 | `Ped::CalcApproachPointNearTargetPed_4645B0` | Ped.cpp |
 | 2 | 303 | 776 | 243 | 0x53e970 | `Particle_8::GunMuzzelFlash_53E970` | Particle_8.cpp |
 | 3 | 15 | 61 | 102 | 0x53b670 | `Particle_4C::UpdateAttachedEmitter_state_9_10_53B670` | Particle_4C.cpp |
 | 3 | 41 | 55 | 591 | 0x5a3550 | `Sprite_4C::UpdateRotatedBoundingBox_5A3550` | sprite.cpp |
