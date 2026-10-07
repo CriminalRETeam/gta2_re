@@ -3193,3 +3193,22 @@ Rules in `Scripts/flowopt/README.md` ("Duplicating and moving exit blocks").
   early `if (!pDriver) return;`, `do {} while (0)`, dead statements at the end, `||` and `&&` forms of the distance
   checks, and the store as an `if (!p || <always false>) { store; return; }` block (6); the plain inverted `if`
   (26). The source form that gives a block that is emptied later is not found.
+
+### Permuter sweep and pattern mining (Oct 7)
+
+`permute_sweep.py`, 12 min (about 1,000-1,300 candidates) each on the 16 closest WIPs (4FB330, 4B6390, 4F1660, 4D6000,
+4E6660, 418720, 41F520, 427220, 414710, 582480, 5D8470, 4F33B0, 554710, 554AB0, 4E8370, and 4E6190 from its score-2
+variant): no improvement on any of them.
+- **`SelectPrevHorizontalIdx_4B6390` (4).** The original rereads `field_6E` in the loop condition; ours (and VC7 on our
+  source, against 9.6f) reuses `oldCount`'s `si`. The matched `SelectNextHorizontalIdx_4B6330` gets the reload from a
+  `u16&` to the field, but there all seven registers are taken (`field_7E` is hoisted into `di`). In Prev the reference
+  is hoisted into a spare register instead (28). `s16` old count, `volatile`, a pointer local, a copy from `new_count`,
+  the swapped compare, `bool` flag and a `break`: 4-52. A permuter run from the reference form went back to the copy (4).
+- **`HandleCarTireScrubSound_418720` (4).** The original applies the inlined `/=` to `GetCarLinearSpeed_43A240()`'s
+  returned temporary (the divisor is loaded first, the speed read through the returned pointer).
+  `Fix16 speed = pCar->GetCarLinearSpeed_43A240(); speed /= max;` gets the order but reads the stack slot (8);
+  `speed = pCar->GetCarLinearSpeed_43A240() /= max;` CSEs `&max` into a register and changes the allocation (120);
+  `operator/` forms 114.
+- **`sub_4E6190` (2).** Matched `s16` functions get `xor %ax,%ax` from a direct `return 0;`. Every mix of `return 0`
+  and `r = 0` on the three zero paths (inner defaults, after the case 3/4 inner switches, outer default): 22-90, the
+  cross-jumps change.
