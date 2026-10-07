@@ -393,7 +393,7 @@ class Ped
     // 9.6f 0x4A5060
     inline void set_bit_26_4A5060()
     {
-        field_21C |= 0x4000000u;
+        field_21C_bf.b26 = true;
     }
 
     // 9.6f 0x4A5050
