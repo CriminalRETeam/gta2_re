@@ -19,7 +19,7 @@ OG_EXE = "./bin_comp/10.5.exe"
 
 # Keys of progress.json whose change makes us post an update
 PROGRESS_KEYS = ["matched", "total", "stub", "not_started", "wip", "wip_reg_swap", "wip_reg_choice",
-                 "wip_instr_order", "wip_structural", "wip_unclassified", "wip_ready", "matched_boot_to_map_funcs"]
+                 "wip_instr_order", "wip_structural", "wip_unclassified", "wip_ready", "wip_reg_alloc", "matched_boot_to_map_funcs"]
 
 
 def load_coverage_file(filename):
@@ -190,6 +190,7 @@ def main():
         "not_started": not_started,
         "wip": wip,
         "wip_ready": wip_ready,
+        "wip_reg_alloc": wip_buckets["wip_reg_swap"] + wip_buckets["wip_reg_choice"],
         **wip_buckets,
         "named_fields": named_fields,
         "unnamed_fields": unnamed_fields,
@@ -213,56 +214,47 @@ def main():
     match_pct = pct(matched, total)
     boot_pct = pct(matched_coverage_funcs, total_coverage_funcs)
 
-    unmatched = total - matched
+    def count_line(label, key, value=None, of=None):
+        """'Label: 12 | **+2** (1.5%)', or 'Label [12/93] 12.90% | ...' when there's a total.
+        Hidden when zero, unless it was non-zero last time."""
+        n = new_progress_json[key] if value is None else value
+        if n == 0 and not prev(key):
+            return None
+        delta = fmt_delta(prev(key), n)
+        if of is None:
+            return f"{label}: {n}{delta}"
+        return f"{label} [{n}/{of}] {pct(n, of):.2f}%{delta}"
 
-    def line(label, key):
-        return f"{label}: {new_progress_json[key]}{d(key)}"
+    def lines(*entries):
+        return [e for e in entries if e is not None]
 
-    overall = f"[{matched}/{total}] {match_pct:.2f}%{fmt_delta(prev('matched'), matched, always=True)}"
-
-    unmatched_lines = [
-        line("Not started", "not_started"),
-        line("Stubs", "stub"),
-        f"WIP: {wip}{d('wip')}",
-    ]
-    if wip_ready:
-        unmatched_lines.append(f"  - identical, ready to promote: {wip_ready}")
-    wip_labels = [
-        ("wip_reg_swap", "register swap only"),
-        ("wip_reg_choice", "different registers"),
-        ("wip_instr_order", "instruction order"),
-        ("wip_structural", "control flow / other"),
-        ("wip_unclassified", "unclassified"),
-    ]
-    for key, label in wip_labels:
-        if key != "wip_unclassified" or wip_buckets[key] or prev(key):
-            unmatched_lines.append(f"  - {label}: {wip_buckets[key]}{d(key)}")
-
-    health_lines = [
-        f"Fields named: [{named_fields}/{named_fields + unnamed_fields}] ({pct(named_fields, named_fields + unnamed_fields):.1f}%)"
-        f"{fmt_delta(prev('named_fields'), named_fields)}",
-        f"Functions named: [{named_funcs}/{named_funcs + unnamed_funcs}] ({pct(named_funcs, named_funcs + unnamed_funcs):.1f}%)"
-        f"{fmt_delta(prev('named_funcs'), named_funcs)}",
-    ]
+    out = [COMMIT_MESSAGE, ""]
+    out.append(f"All functions: [{matched}/{total}] {match_pct:.2f}%{fmt_delta(prev('matched'), matched, always=True)}")
+    out.append(f"Boot to map progress: [{matched_coverage_funcs}/{total_coverage_funcs}] {boot_pct:.2f}%"
+               f"{fmt_delta(prev('matched_boot_to_map_funcs'), matched_coverage_funcs, always=True)}")
+    out.append("")
+    out += lines(count_line("Not started", "not_started"), count_line("Stubs", "stub"))
+    out.append(f"WIP: {wip}{d('wip')}")
+    # the WIP ones by what's still wrong, as a share of all WIP functions
+    reg_alloc = wip_buckets["wip_reg_swap"] + wip_buckets["wip_reg_choice"]
+    out += lines(
+        count_line("RegAlloc", "wip_reg_alloc", reg_alloc, wip),
+        count_line("Instruction order", "wip_instr_order", of=wip),
+        count_line("Control flow / other", "wip_structural", of=wip),
+        count_line("Unclassified", "wip_unclassified", of=wip),
+        count_line("Identical, ready to promote", "wip_ready", of=wip),
+    )
+    out.append("")
+    out.append(f"Fields named: [{named_fields}/{named_fields + unnamed_fields}] {pct(named_fields, named_fields + unnamed_fields):.2f}%"
+               f"{fmt_delta(prev('named_fields'), named_fields)}")
+    out.append(f"Functions named: [{named_funcs}/{named_funcs + unnamed_funcs}] {pct(named_funcs, named_funcs + unnamed_funcs):.2f}%"
+               f"{fmt_delta(prev('named_funcs'), named_funcs)}")
     if warnings is not None:
-        health_lines.append(f"Build warnings: {warnings}{fmt_delta(prev('warnings'), warnings)}")
+        out.append(f"Build warnings: {warnings}{fmt_delta(prev('warnings'), warnings)}")
 
     webhook_message = {
         "content": None,
-        "embeds": [
-            {
-                "title": "Status",
-                "description": COMMIT_MESSAGE,
-                "fields": [
-                    {"name": "All functions", "value": overall},
-                    {"name": "Boot to map", "value":
-                        f"[{matched_coverage_funcs}/{total_coverage_funcs}] {boot_pct:.2f}%"
-                        f"{fmt_delta(prev('matched_boot_to_map_funcs'), matched_coverage_funcs, always=True)}"},
-                    {"name": f"Not matched ({unmatched})", "value": "\n".join(unmatched_lines)},
-                    {"name": "Code health", "value": "\n".join(health_lines)},
-                ],
-            }
-        ],
+        "embeds": [{"title": "Status", "description": "\n".join(out)}],
         "attachments": []
     }
 
@@ -281,8 +273,7 @@ def main():
     else:
         print("Not posting update")
 
-    for f in webhook_message["embeds"][0]["fields"]:
-        print(f"{f['name']}\n{f['value']}\n")
+    print(webhook_message["embeds"][0]["description"])
 
     with open("progress.json", "w") as file:
         json.dump(new_progress_json, file, indent=4)
