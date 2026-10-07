@@ -157,7 +157,7 @@ void PoliceCrew_38::SpawnPoliceInCar_570BF0()
     pCopLeader->set_remap_433B90(0);
     pCopLeader->field_26C_graphic_type = 2;
 
-    s32 wanted_level = gPolice_7B8_6FEE40->field_654_wanted_level;
+    s32 wanted_level = gPolice_7B8_6FEE40->field_654_max_wanted_level;
 
     switch (wanted_level)
     {
@@ -583,9 +583,9 @@ void PoliceCrew_38::sub_5720C0()
     {
         if (field_29_bCountedInPoliceCount)
         {
-            if (gPolice_7B8_6FEE40->field_658_count > 0)
+            if (gPolice_7B8_6FEE40->field_658_police_car_count > 0)
             {
-                gPolice_7B8_6FEE40->field_658_count--;
+                gPolice_7B8_6FEE40->field_658_police_car_count--;
             }
             field_29_bCountedInPoliceCount = 0;
         }
@@ -1275,9 +1275,9 @@ void PoliceCrew_38::State6_ShutDown_574720()
             PoliceCrew_38::sub_575650();
             if (field_29_bCountedInPoliceCount)
             {
-                if (gPolice_7B8_6FEE40->field_658_count > 0)
+                if (gPolice_7B8_6FEE40->field_658_police_car_count > 0)
                 {
-                    --gPolice_7B8_6FEE40->field_658_count;
+                    --gPolice_7B8_6FEE40->field_658_police_car_count;
                 }
                 field_29_bCountedInPoliceCount = 0;
             }
@@ -1425,9 +1425,9 @@ void PoliceCrew_38::State6_ShutDown_574720()
         field_10_subObj->ReInit_5CBC30();
         if (field_29_bCountedInPoliceCount)
         {
-            if (gPolice_7B8_6FEE40->field_658_count > 0)
+            if (gPolice_7B8_6FEE40->field_658_police_car_count > 0)
             {
-                --gPolice_7B8_6FEE40->field_658_count;
+                --gPolice_7B8_6FEE40->field_658_police_car_count;
             }
         }
         PoliceCrew_38::Init_5709C0();
@@ -1474,9 +1474,9 @@ void PoliceCrew_38::State1_Patrol_574F10()
             PoliceCrew_38::sub_575650();
             if (field_29_bCountedInPoliceCount)
             {
-                if (gPolice_7B8_6FEE40->field_658_count > 0)
+                if (gPolice_7B8_6FEE40->field_658_police_car_count > 0)
                 {
-                    gPolice_7B8_6FEE40->field_658_count--;
+                    gPolice_7B8_6FEE40->field_658_police_car_count--;
                 }
             }
             field_10_subObj->field_28_state = 0;
@@ -1727,7 +1727,7 @@ void PoliceCrew_38::Service_575590()
             if (!pPed->field_20e_offscreen_counter && pPed->GetPedState_403990() != ped_state_1::dead_9 
                 && pPed->CheckBit0_433B40())
             {
-                gPolice_7B8_6FEE40->field_7B4 = 1;
+                gPolice_7B8_6FEE40->field_7B4_crew_ped_onscreen = 1;
             }
         }
         else

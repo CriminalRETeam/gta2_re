@@ -2800,7 +2800,7 @@ void CarAI_78::Init_AI_Chase_44E0C0()
 
         this->field_0_car->field_60->field_22 = 0;
 
-        if (gPolice_7B8_6FEE40->field_654_wanted_level > 2 || field_0_car->IsPoliceCar_439EC0())
+        if (gPolice_7B8_6FEE40->field_654_max_wanted_level > 2 || field_0_car->IsPoliceCar_439EC0())
         {
             this->field_0_car->field_60->field_34 = 100;
         }
@@ -2824,7 +2824,7 @@ void CarAI_78::Init_AI_Chase_44E0C0()
                     {
                         if (field_0_car->SnapCarToGreenArrow_444E40(gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4, gCurrCarAI_TargetZ_6779F8))
                         {
-                            if (gPolice_7B8_6FEE40->field_654_wanted_level > 2 || field_0_car->IsPoliceCar_439EC0())
+                            if (gPolice_7B8_6FEE40->field_654_max_wanted_level > 2 || field_0_car->IsPoliceCar_439EC0())
                             {
                                 this->field_0_car->field_60->field_34 = 100;
                             }
@@ -2839,7 +2839,7 @@ void CarAI_78::Init_AI_Chase_44E0C0()
                             this->field_0_car->field_60->field_2A = 0;
                             this->field_0_car->field_80 = 0;
                             field_0_car->RepairDamage_43D400();
-                            gPolice_7B8_6FEE40->sub_56F6D0(this->field_0_car);
+                            gPolice_7B8_6FEE40->DespawnCrewInCar_56F6D0(this->field_0_car);
                         }
                     }
                 }
@@ -2884,7 +2884,7 @@ void CarAI_78::Init_AI_Chase_44E0C0()
 
                 this->field_0_car->field_60->field_22 = 0;
 
-                if (gPolice_7B8_6FEE40->field_654_wanted_level > 2 || field_0_car->IsPoliceCar_439EC0())
+                if (gPolice_7B8_6FEE40->field_654_max_wanted_level > 2 || field_0_car->IsPoliceCar_439EC0())
                 {
                     this->field_0_car->field_60->field_34 = 100;
                 }
@@ -3156,7 +3156,7 @@ void CarAI_78::UpdateStateMachine_44E560()
                             switch ((u8)gHamburger_500_678E30->CountFollowers_474920(pHam40->field_30_ped_to_follow, field_0_car->field_54_driver))
                             {
                                 case 1:
-                                    waitCount = gPolice_7B8_6FEE40->field_654_wanted_level != 1 ? 10 : 50;
+                                    waitCount = gPolice_7B8_6FEE40->field_654_max_wanted_level != 1 ? 10 : 50;
                                     break;
 
                                 case 2:
@@ -3277,7 +3277,7 @@ void CarAI_78::UpdateStateMachine_44E560()
                             switch ((u8)gHamburger_500_678E30->CountFollowers_474920(pHam40->field_30_ped_to_follow, field_0_car->field_54_driver))
                             {
                                 case 1:
-                                    waitCount = gPolice_7B8_6FEE40->field_654_wanted_level != 1 ? 10 : 50;
+                                    waitCount = gPolice_7B8_6FEE40->field_654_max_wanted_level != 1 ? 10 : 50;
                                     break;
 
                                 case 2:
@@ -3728,7 +3728,7 @@ void CarAI_78::UpdateStateMachine_44E560()
                     case 1:
                         bTryRight = 1;
                         bTryLeft = 1;
-                        maxCount = gPolice_7B8_6FEE40->field_654_wanted_level != 1 ? 80 : 400;
+                        maxCount = gPolice_7B8_6FEE40->field_654_max_wanted_level != 1 ? 80 : 400;
                         break;
 
                     case 2:

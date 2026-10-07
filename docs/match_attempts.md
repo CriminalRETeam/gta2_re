@@ -1012,7 +1012,7 @@ Still different:
 - 0.998 on the first build. It matched once `best_crime = 0` was declared before the two
   `u8 = 0`s. It also needed the empty `sound_obj::nullsub_4` (0x427330) and Shooey_CC.hpp.
 
-### Police_7B8::sub_56FBD0 (0x56FBD0): MATCH
+### Police_7B8::UpdateServices_56FBD0 (0x56FBD0): MATCH
 - Updates each call for service: wanted level from the criminal's stars, then the state
   (send crews, add SWAT at 4 stars, stand down at 5/6, clean up when the criminal is gone, and
   case 5 re-sends crews when the criminal gets away from the searched spot).
@@ -2039,7 +2039,7 @@ Scores are `sc.sh` lines.
   then assign (57). Permuter 600: nothing.
 - `Ped::sub_469FE0` (102): the original keeps 0 in `ebx` (9.6f and VC7 too). `u8 x = 0, y = 0, z = 0;` at the
   top (then assigned) gives the zero register and 30 lines, but adds three byte stores the original doesn't
-  have; not applied. `pCar = NULL`, `!= 0`/`!= false`/`== true`/casts on the `FBI_Army_5703E0` test: no
+  have; not applied. `pCar = NULL`, `!= 0`/`!= false`/`== true`/casts on the `SpawnCrewInCar_5703E0` test: no
   `cmp %bl,%al` (always `test`).
 - `CarAI_78::ReactToNearbyCar_451980` (96): `kAng180 + field_10_angle` (global as `this` in both sums) 96,
   global on the right 106; the real gap is `v21` spilled while the original keeps it in `bp` (and spills

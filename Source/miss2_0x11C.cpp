@@ -1223,7 +1223,7 @@ void miss2_0x11C::SCRCMD_DECLARE_POLICE_5052C0(SCR_DECLARE_POLICELEVEL* pCmd)
     {
         bSkip_police_67D4F9 = 0;
     }
-    gPolice_7B8_6FEE40->field_660_wanted_star_count = pCmd->field_A_wanted_level; // max_wanted_level
+    gPolice_7B8_6FEE40->field_660_max_wanted_stars = pCmd->field_A_wanted_level; // max_wanted_level
 }
 
 MATCH_FUNC(0x505340)

@@ -1805,7 +1805,7 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* a2)
                 {
                     if (this->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(a2->field_15C_player->field_2E_idx))
                     {
-                        if (gPolice_7B8_6FEE40->field_7B4 == 0)
+                        if (gPolice_7B8_6FEE40->field_7B4_crew_ped_onscreen == 0)
                         {
                             goto ret_true;
                         }
@@ -1824,7 +1824,7 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* a2)
 
                 if (this->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(player_idx))
                 {
-                    if (gPolice_7B8_6FEE40->field_7B4 == 0)
+                    if (gPolice_7B8_6FEE40->field_7B4_crew_ped_onscreen == 0)
                     {
                         goto ret_true;
                     }
@@ -3522,7 +3522,7 @@ void Ped::RoadBlockTank_AI_4619F0()
         field_16C_car->SetA6Bit5_421540();
     }
 
-    if (this->field_28C_threat_reaction != threat_reaction_enum::react_as_emergency_1 || gPolice_7B8_6FEE40->field_654_wanted_level == 6)
+    if (this->field_28C_threat_reaction != threat_reaction_enum::react_as_emergency_1 || gPolice_7B8_6FEE40->field_654_max_wanted_level == 6)
     {
         if (this->field_258_objective == objectives_enum::no_obj_0)
         {
@@ -6085,7 +6085,7 @@ bool Ped::IsPedAThreat_465D00(Ped* a2)
 
                     if (this->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(player_idx))
                     {
-                        if (gPolice_7B8_6FEE40->field_7B4 == 0)
+                        if (gPolice_7B8_6FEE40->field_7B4_crew_ped_onscreen == 0)
                         {
                             goto ret_true;
                         }
@@ -6104,7 +6104,7 @@ bool Ped::IsPedAThreat_465D00(Ped* a2)
 
                 if (this->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(player_idx))
                 {
-                    if (gPolice_7B8_6FEE40->field_7B4 == 0)
+                    if (gPolice_7B8_6FEE40->field_7B4_crew_ped_onscreen == 0)
                     {
                         goto ret_true;
                     }
@@ -6451,7 +6451,7 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                         {
                             if (pSearcher->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(this->field_15C_player->field_2E_idx))
                             {
-                                if (gPolice_7B8_6FEE40->field_7B4 == 0)
+                                if (gPolice_7B8_6FEE40->field_7B4_crew_ped_onscreen == 0)
                                 {
                                     goto ret_true;
                                 }
@@ -6469,7 +6469,7 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
 
                         if (pSearcher->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(player_idx))
                         {
-                            if (gPolice_7B8_6FEE40->field_7B4 == 0)
+                            if (gPolice_7B8_6FEE40->field_7B4_crew_ped_onscreen == 0)
                             {
                                 goto ret_true;
                             }
@@ -8944,7 +8944,7 @@ void Ped::sub_469FE0()
             if (pCar)
             {
                 pCar->IncrementCarStats_443D70(car_kind::Unknown_10);
-                if (gPolice_7B8_6FEE40->FBI_Army_5703E0(pCar))
+                if (gPolice_7B8_6FEE40->SpawnCrewInCar_5703E0(pCar))
                 {
                     this->field_278_ped_state_1 = ped_state_1::in_car_10;
                     this->field_27C_ped_state_2 = ped_state_2::ped2_driving_10;
@@ -8961,7 +8961,7 @@ void Ped::sub_469FE0()
             if (pCar)
             {
                 pCar->IncrementCarStats_443D70(car_kind::police_6);
-                if (gPolice_7B8_6FEE40->FBI_Army_5703E0(pCar))
+                if (gPolice_7B8_6FEE40->SpawnCrewInCar_5703E0(pCar))
                 {
                     this->field_278_ped_state_1 = ped_state_1::in_car_10;
                     this->field_27C_ped_state_2 = ped_state_2::ped2_driving_10;
@@ -11414,7 +11414,7 @@ void Ped::IncreaseWantedLevelFromDebugKeys_46EFD0()
     }
 
     u8 stars = get_wanted_star_count_46EF00();
-    u8 max_stars = gPolice_7B8_6FEE40->field_660_wanted_star_count;
+    u8 max_stars = gPolice_7B8_6FEE40->field_660_max_wanted_stars;
     if (stars > max_stars)
     {
         set_wanted_star_count_46F070(max_stars);
@@ -11682,7 +11682,7 @@ Weapon_30* Ped::ChooseAttackWeapon_46F490()
                 return 0;
             }
 
-            if (!gPolice_7B8_6FEE40->field_7B0 || gPolice_7B8_6FEE40->field_7B0 == this)
+            if (!gPolice_7B8_6FEE40->field_7B0_last_firing_emergency_ped || gPolice_7B8_6FEE40->field_7B0_last_firing_emergency_ped == this)
             {
                 return this->field_170_selected_weapon;
             }
@@ -12251,7 +12251,7 @@ void Ped::add_wanted_points_470160(s16 wanted_amount)
         field_20A_wanted_points = 0;
     }
 
-    s16 star_count = gPolice_7B8_6FEE40->field_660_wanted_star_count;
+    s16 star_count = gPolice_7B8_6FEE40->field_660_max_wanted_stars;
     if (get_wanted_star_count_46EF00() >= star_count)
     {
         set_wanted_star_count_46F070(static_cast<u8>(star_count));

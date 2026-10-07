@@ -811,7 +811,7 @@ void Weapon_30::sub_5DE4F0()
     field_24_pPed->field_198->field_21C_bf.b8 = 1;
     if (field_24_pPed->field_28C_threat_reaction == 1)
     {
-        gPolice_7B8_6FEE40->field_7B0 = field_24_pPed;
+        gPolice_7B8_6FEE40->field_7B0_last_firing_emergency_ped = field_24_pPed;
     }
 
     sub_5DE910(field_24_pPed->field_168_game_object->field_80_sprite_ptr->get_x_y(),

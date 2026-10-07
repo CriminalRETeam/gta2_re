@@ -350,7 +350,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                 gNumberWalkingCopsSpawned_6787CD = 1;
                 pPed->field_288_threat_search = threat_search_enum::line_of_sight_1;
                 pPed->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
-                switch (gPolice_7B8_6FEE40->field_654_wanted_level)
+                switch (gPolice_7B8_6FEE40->field_654_max_wanted_level)
                 {
                     case 2:
                         pPed->GiveWeapon_46F650(weapon_type::pistol);
@@ -598,7 +598,7 @@ MATCH_FUNC(0x470330)
 void PedManager::Dummies_470330()
 {
     s16 v1 = gPedManager_6787BC->field_0_max_dummy_chars;
-    if (gPolice_7B8_6FEE40->field_654_wanted_level > 3)
+    if (gPolice_7B8_6FEE40->field_654_max_wanted_level > 3)
     {
         v1 = (u16)v1 >> 1;
     }

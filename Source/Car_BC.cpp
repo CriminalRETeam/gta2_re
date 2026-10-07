@@ -7150,7 +7150,7 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
     {
         s32 angleFace = Ang16::GetAngleFace_4F78F0(field_0_cam->ComputeTargetFacingAngle_4358D0());
 
-        switch (gPolice_7B8_6FEE40->field_654_wanted_level)
+        switch (gPolice_7B8_6FEE40->field_654_max_wanted_level)
         {
             case 0:
             case 1:
@@ -7193,7 +7193,7 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
             case 0:
                 field_8 = 1;
                 if (!SpawnTrafficCar_582480(1, 2, 0) && !SpawnTrafficCar_582480(2, 1, 0) && !SpawnTrafficCar_582480(4, 3, 0) &&
-                    !SpawnTrafficCar_582480(3, 4, 0) && gPolice_7B8_6FEE40->field_654_wanted_level < 3)
+                    !SpawnTrafficCar_582480(3, 4, 0) && gPolice_7B8_6FEE40->field_654_max_wanted_level < 3)
                 {
                     if ((u8)maybe_vel)
                     {
@@ -7205,7 +7205,7 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
             case 1:
                 this->field_8 = 0;
                 if (!SpawnTrafficCar_582480(2, 1, 0) && !SpawnTrafficCar_582480(4, 3, 0) && !SpawnTrafficCar_582480(3, 4, 0) &&
-                    (gPolice_7B8_6FEE40->field_654_wanted_level >= 3 || !(u8)maybe_vel || !SpawnTrafficCarFacing_583260(angleFace)))
+                    (gPolice_7B8_6FEE40->field_654_max_wanted_level >= 3 || !(u8)maybe_vel || !SpawnTrafficCarFacing_583260(angleFace)))
                 {
                     SpawnTrafficCar_582480(1, 2, 0);
                 }
@@ -7214,7 +7214,7 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
             case 2:
                 this->field_8 = 1;
                 if (!SpawnTrafficCar_582480(4, 3, 0) && !SpawnTrafficCar_582480(3, 4, 0) &&
-                    (gPolice_7B8_6FEE40->field_654_wanted_level >= 3 || !(u8)maybe_vel || !SpawnTrafficCarFacing_583260(angleFace)) &&
+                    (gPolice_7B8_6FEE40->field_654_max_wanted_level >= 3 || !(u8)maybe_vel || !SpawnTrafficCarFacing_583260(angleFace)) &&
                     !SpawnTrafficCar_582480(1, 2, 0))
                 {
                     SpawnTrafficCar_582480(2, 1, 0);
@@ -7224,7 +7224,7 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
             case 3:
                 this->field_8 = 0;
                 if (!SpawnTrafficCar_582480(3, 4, 0) &&
-                    (gPolice_7B8_6FEE40->field_654_wanted_level >= 3 || !(u8)maybe_vel || !SpawnTrafficCarFacing_583260(angleFace)) &&
+                    (gPolice_7B8_6FEE40->field_654_max_wanted_level >= 3 || !(u8)maybe_vel || !SpawnTrafficCarFacing_583260(angleFace)) &&
                     !SpawnTrafficCar_582480(1, 2, 0) && !Car_14::SpawnTrafficCar_582480(2, 1, 0))
                 {
                     SpawnTrafficCar_582480(4, 3, 0);
@@ -7233,7 +7233,7 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
 
             case 4:
                 field_8 = 1;
-                if ((gPolice_7B8_6FEE40->field_654_wanted_level >= 3 || !(u8)maybe_vel || !SpawnTrafficCarFacing_583260(angleFace)) &&
+                if ((gPolice_7B8_6FEE40->field_654_max_wanted_level >= 3 || !(u8)maybe_vel || !SpawnTrafficCarFacing_583260(angleFace)) &&
                     !SpawnTrafficCar_582480(1, 2, 0) && !SpawnTrafficCar_582480(2, 1, 0) && !SpawnTrafficCar_582480(4, 3, 0))
                 {
                     SpawnTrafficCar_582480(3, 4, 0);
@@ -7505,7 +7505,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                     s32 car_model;
                     u16 car_kind;
                     u8 rng_val;
-                    if (gPolice_7B8_6FEE40->field_654_wanted_level < 1 || (rng_val = gRng_6F6784.get_int_4F7AE0(40), rng_val <= 20u) ||
+                    if (gPolice_7B8_6FEE40->field_654_max_wanted_level < 1 || (rng_val = gRng_6F6784.get_int_4F7AE0(40), rng_val <= 20u) ||
                         rng_val >= 30u)
                     {
                         car_model = gCar_6C_677930->SelectTrafficCarModel_444AB0(field_C_player, field_10_zone, dword_6FF7E8, &car_kind);
@@ -7529,7 +7529,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                     {
                         if (car_model == car_model_enum::COPCAR)
                         {
-                            if (gPolice_7B8_6FEE40->field_658_count >= (u8)gPolice_7B8_6FEE40->field_659_max_count || bSkip_police_67D4F9)
+                            if (gPolice_7B8_6FEE40->field_658_police_car_count >= (u8)gPolice_7B8_6FEE40->field_659_max_police_cars || bSkip_police_67D4F9)
                             {
                                 car_model =
                                     gCar_6C_677930->SelectTrafficCarModel_444AB0(field_C_player, field_10_zone, dword_6FF7E8, &car_kind);
@@ -7792,7 +7792,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                                         pNewCar->field_5C_AI->field_74_unk_speed = gTrafficCarSpeed_6FF570;
                                     }
                                     else if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::police_6) &&
-                                             gPolice_7B8_6FEE40->FBI_Army_5703E0(pNewCar))
+                                             gPolice_7B8_6FEE40->SpawnCrewInCar_5703E0(pNewCar))
                                     {
                                         pNewCar->IncrementCarStats_443D70(car_kind::police_6);
                                     }

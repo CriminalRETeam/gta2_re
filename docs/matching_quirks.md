@@ -160,7 +160,7 @@ VC6 CSEs the load into the same register but doesn't thread the branch
 (`PublicTransport_181C::PublicTransportService_57A7A0`).
 
 **Invert an `if`/`else` to let a case share a block with a later case.** In
-`Police_7B8::sub_56FBD0`, case 0's `field_8_state = 3` is a `jne` into an identical block in
+`Police_7B8::UpdateServices_56FBD0`, case 0's `field_8_state = 3` is a `jne` into an identical block in
 case 5. With `if (n) { state = 3; } else { ... }`, VC6 kept its own copy. With
 `if (!n) { ... } else { state = 3; }`, the block moves to the end and merges (0.690 -> 0.802).
 
@@ -454,7 +454,7 @@ comparison (`RouteFinder_10::field_2` is `u16`).
 **`mov mem,%edx; and $1,%edx; cmp $1,%dl` is `(x & 1) == 1` with no cast.** A `(u8)` or
 `(char)` cast, or an inline returning `char`, narrows the load to `mov mem,%dl; and $1,%dl`.
 `!(x & 1)` gives `testb $1,mem` (`sound_obj::HandlePedVoiceEvent_423080`). Likewise,
-`(field_21C & 0x20) == 0x20` (`Police_7B8::sub_56FBD0`).
+`(field_21C & 0x20) == 0x20` (`Police_7B8::UpdateServices_56FBD0`).
 
 **Unsigned compares on `char_type` counters.** `cmp $1,%al; jae` or `test %al,%al; ja` on a
 counter field means the field is `u8`. `Police_7C`'s `field_70`..`field_73_next_tile_y` crew counts were
@@ -1008,7 +1008,7 @@ of `==` if they are the wrong way round (`NetPlay::InitializeConnection_51E5C0`)
 **`a > b ? a : b` on `Fix16` goes through memory.** VC6 picks the address of the larger
 operand (`lea ...; jg; lea ...; mov (%eax),%edx`). `Fix16::Max` and `MaxAbsDistance_42A6B0`
 do the same. Keep it in registers with `if (!(dx > dy)) { dx = dy; }`, which gives the
-original's `cmp %eax,%edx; jg; mov %eax,%edx` (`Police_7B8::sub_56FBD0`, 0.924 -> match).
+original's `cmp %eax,%edx; jg; mov %eax,%edx` (`Police_7B8::UpdateServices_56FBD0`, 0.924 -> match).
 
 **A value picked by an `if`/`else` chain vs a ternary chain moves a later sum to another
 register.** In `sound_obj::HandlePedVoiceEvent_423080`,
@@ -1428,7 +1428,7 @@ return, cast to `u8` at the call: `if ((u8)sub_405E20(...) || (u8)sub_405E20(...
 
 **A member that ignores `ecx`.** `frosty_pasteur_0xC1EA8::sub_511A70` is called with
 `ecx = gfrosty_pasteur_6F8060`, but reads the global (`mov 0x6F8060,%eax`) instead of `this`.
-Write the body against the global. Similarly, `Police_7B8::sub_56FBD0` calls
+Write the body against the global. Similarly, `Police_7B8::UpdateServices_56FBD0` calls
 `gPolice_7B8_6FEE40->DispatchNewCrewToService_56FAA0(...)` and writes `gPolice_7B8_6FEE40->field_65C` while using
 `this` for everything else.
 
