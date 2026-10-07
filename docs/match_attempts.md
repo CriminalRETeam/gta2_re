@@ -1006,11 +1006,11 @@ Still different:
   reverse).
 
 ### sound_obj::PoliceRadioMessageGeneration_426790 (0x426790): MATCH
-- Picks the most serious crime reported this frame (`Shooey_CC::GetLatestReportedCrime`, crime 9
+- Picks the most serious crime reported this frame (`CrimeReportQueue_CC::PopOldestReport`, crime 9
   only when nothing else was reported), counts down the radio timers, then queues the dispatcher
   lines for a new wanted level or one random chatter line.
 - 0.998 on the first build. It matched once `best_crime = 0` was declared before the two
-  `u8 = 0`s. It also needed the empty `sound_obj::nullsub_4` (0x427330) and Shooey_CC.hpp.
+  `u8 = 0`s. It also needed the empty `sound_obj::nullsub_4` (0x427330) and CrimeReportQueue_CC.hpp.
 
 ### Police_7B8::UpdatePursuitTargets_56FBD0 (0x56FBD0): MATCH
 - Updates each call for service: wanted level from the criminal's stars, then the state

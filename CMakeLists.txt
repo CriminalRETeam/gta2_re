@@ -215,8 +215,8 @@ set(gta2_lib_src
   Source/Hamburger_500.cpp
   Source/ExplodingScore_100.hpp
   Source/ExplodingScore_100.cpp
-  Source/Shooey_CC.hpp
-  Source/Shooey_CC.cpp
+  Source/CrimeReportQueue_CC.hpp
+  Source/CrimeReportQueue_CC.cpp
   Source/Firefighters.hpp
   Source/Firefighters.cpp
   Source/Rozza_C88.hpp

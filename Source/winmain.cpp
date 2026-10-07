@@ -51,7 +51,7 @@
 #include "Phi_8CA8.hpp"
 #include "Player.hpp"
 #include "Rozza_C88.hpp"
-#include "Shooey_CC.hpp"
+#include "CrimeReportQueue_CC.hpp"
 #include "cSampleManager.hpp"
 #include "char.hpp"
 #include "collide.hpp"
@@ -301,8 +301,8 @@ void force_link()
     Mike_A80 mike;
     mike.DebugDrawProfiling_4FF250();
 
-    Shooey_14 shooey_14;
-    Shooey_CC shooey_CC;
+    CrimeReport_14 crime_report_14;
+    CrimeReportQueue_CC crime_report_queue_CC;
 
     Firefighter_28 tango_28;
     tango_28.Clear_450C10();

@@ -23,7 +23,7 @@
 #include "PublicTransport.hpp"
 #include "PurpleDoom.hpp"
 #include "RouteFinder.hpp"
-#include "Shooey_CC.hpp"
+#include "CrimeReportQueue_CC.hpp"
 #include "Taxi_4.hpp"
 #include "Varrok_7F8.hpp"
 #include "Weapon_8.hpp"
@@ -3786,7 +3786,7 @@ void Car_BC::HandleCarExplosion_43D840(s32 a2)
                     }
                     if (pExploder->is_player_41B0A0())
                     {
-                        if (gShooey_CC_67A4B8->ShouldReportCarCrime_485090(this, pExploder->field_15C_player))
+                        if (gCrimeReportQueue_67A4B8->ShouldReportCarCrime_485090(this, pExploder->field_15C_player))
                         {
                             if (pExploder->field_20A_wanted_points < 600)
                             {
@@ -3992,7 +3992,7 @@ void Car_BC::sub_43DD60()
                     }
                     if (pPed->is_player_41B0A0())
                     {
-                        if (gShooey_CC_67A4B8->ShouldReportCarCrime_485090(this, pPed->field_15C_player))
+                        if (gCrimeReportQueue_67A4B8->ShouldReportCarCrime_485090(this, pPed->field_15C_player))
                         {
                             if (pPed->field_20A_wanted_points < 600)
                             {

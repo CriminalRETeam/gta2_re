@@ -1,4 +1,5 @@
-#include "Shooey_CC.hpp"
+#include "CrimeReportQueue_CC.hpp"
+#include "zealous_borg.hpp"
 #include "Char_Pool.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
@@ -7,7 +8,7 @@
 #include "Police_7B8.hpp"
 #include "char.hpp"
 
-DEFINE_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8, 0x67A4B8);
+DEFINE_GLOBAL(CrimeReportQueue_CC*, gCrimeReportQueue_67A4B8, 0x67A4B8);
 
 DEFINE_GLOBAL_INIT(Fix16, kFP16Zero_67A370, Fix16(0), 0x67A370);
 
@@ -15,7 +16,7 @@ EXTERN_GLOBAL(u8, gCharB4_HitByMine_6FDB59);
 
 
 MATCH_FUNC(0x484cb0)
-Shooey_14::Shooey_14()
+CrimeReport_14::CrimeReport_14()
 {
     field_0_crime_type = 0;
     field_4_ped_id = 0;
@@ -25,12 +26,12 @@ Shooey_14::Shooey_14()
 }
 
 MATCH_FUNC(0x484ce0)
-Shooey_14::~Shooey_14()
+CrimeReport_14::~CrimeReport_14()
 {
 }
 
 MATCH_FUNC(0x484cf0)
-void Shooey_14::ReportCrimeForPedAtLocation(s32 crime_type, s32 ped_id)
+void CrimeReport_14::SetReport(s32 crime_type, s32 ped_id)
 {
     field_0_crime_type = crime_type;
     field_4_ped_id = ped_id;
@@ -50,7 +51,7 @@ void Shooey_14::ReportCrimeForPedAtLocation(s32 crime_type, s32 ped_id)
 }
 
 MATCH_FUNC(0x484d50)
-void Shooey_14::GetCrimeTypeAndLocation(s32* pCrimeType, Fix16* pXPos, Fix16* yPos, Fix16* zPos)
+void CrimeReport_14::GetReport(s32* pCrimeType, Fix16* pXPos, Fix16* yPos, Fix16* zPos)
 {
     *pCrimeType = field_0_crime_type;
     *pXPos = field_8_pos.x;
@@ -59,55 +60,55 @@ void Shooey_14::GetCrimeTypeAndLocation(s32* pCrimeType, Fix16* pXPos, Fix16* yP
 }
 
 MATCH_FUNC(0x484d80)
-Shooey_CC::Shooey_CC()
+CrimeReportQueue_CC::CrimeReportQueue_CC()
 {
-    field_0_idx = 0;
-    field_2_report_count = 0;
+    field_0_write_idx = 0;
+    field_2_read_idx = 0;
 }
 
 MATCH_FUNC(0x484db0)
-Shooey_CC::~Shooey_CC()
+CrimeReportQueue_CC::~CrimeReportQueue_CC()
 {
 }
 
 MATCH_FUNC(0x484dd0)
-void Shooey_CC::ReportCrime(s32 crime_type, s32 ped_id)
+void CrimeReportQueue_CC::QueueReport(s32 crime_type, s32 ped_id)
 {
-    field_4_crimes[field_0_idx].ReportCrimeForPedAtLocation(crime_type, ped_id);
+    field_4_reports[field_0_write_idx].SetReport(crime_type, ped_id);
 
-    field_0_idx++;
+    field_0_write_idx++;
 
-    if (field_0_idx >= GTA2_COUNTOF(field_4_crimes))
+    if (field_0_write_idx >= GTA2_COUNTOF(field_4_reports))
     {
-        field_0_idx = 0;
+        field_0_write_idx = 0;
     }
 
-    if (field_0_idx == field_2_report_count)
+    if (field_0_write_idx == field_2_read_idx)
     {
-        field_2_report_count++;
-        if (field_2_report_count >= GTA2_COUNTOF(field_4_crimes))
+        field_2_read_idx++;
+        if (field_2_read_idx >= GTA2_COUNTOF(field_4_reports))
         {
-            field_2_report_count = 0;
+            field_2_read_idx = 0;
         }
     }
 }
 
 MATCH_FUNC(0x484e20)
-bool Shooey_CC::GetLatestReportedCrime(s32* pCrimeType, Fix16* pXPos, Fix16* pYPos, Fix16* pZPos)
+bool CrimeReportQueue_CC::PopOldestReport(s32* pCrimeType, Fix16* pXPos, Fix16* pYPos, Fix16* pZPos)
 {
     // Get it
-    field_4_crimes[field_2_report_count].GetCrimeTypeAndLocation(pCrimeType, pXPos, pYPos, pZPos);
+    field_4_reports[field_2_read_idx].GetReport(pCrimeType, pXPos, pYPos, pZPos);
 
     // But then also clear it?
-    field_4_crimes[field_2_report_count].ReportCrimeForPedAtLocation(0, 0);
+    field_4_reports[field_2_read_idx].SetReport(0, 0);
 
     // Tick the count
-    if (field_2_report_count != field_0_idx)
+    if (field_2_read_idx != field_0_write_idx)
     {
-        field_2_report_count++;
-        if (field_2_report_count >= GTA2_COUNTOF(field_4_crimes))
+        field_2_read_idx++;
+        if (field_2_read_idx >= GTA2_COUNTOF(field_4_reports))
         {
-            field_2_report_count = 0;
+            field_2_read_idx = 0;
         }
     }
 
@@ -116,18 +117,18 @@ bool Shooey_CC::GetLatestReportedCrime(s32* pCrimeType, Fix16* pXPos, Fix16* pYP
 }
 
 MATCH_FUNC(0x484e90)
-char_type Shooey_CC::CanReportCrime(s32 crime_type)
+char_type CrimeReportQueue_CC::IsCrimeQueued(s32 crime_type)
 {
     // Circular loop around
-    u16 idx = field_2_report_count;
-    while (idx != field_0_idx)
+    u16 idx = field_2_read_idx;
+    while (idx != field_0_write_idx)
     {
-        if (field_4_crimes[idx].field_0_crime_type == crime_type)
+        if (field_4_reports[idx].field_0_crime_type == crime_type)
         {
             return 1;
         }
 
-        if (++idx >= GTA2_COUNTOF(field_4_crimes))
+        if (++idx >= GTA2_COUNTOF(field_4_reports))
         {
             idx = 0;
         }
@@ -136,18 +137,18 @@ char_type Shooey_CC::CanReportCrime(s32 crime_type)
 }
 
 MATCH_FUNC(0x484fc0)
-Shooey_CC_Sub::Shooey_CC_Sub()
+CrimeReportQueue_CC_Sub::CrimeReportQueue_CC_Sub()
 {
 }
 
 MATCH_FUNC(0x484fd0)
-Shooey_CC_Sub::~Shooey_CC_Sub()
+CrimeReportQueue_CC_Sub::~CrimeReportQueue_CC_Sub()
 {
 }
 
 // https://decomp.me/scratch/0XcCw
 MATCH_FUNC(0x484fe0)
-void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
+void CrimeReportQueue_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
 {
     switch (pPed->get_occupation_403980())
     {
@@ -168,15 +169,15 @@ void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
             switch (crime_type)
             {
 
-                case crime_stats_type::Unknown_0:
-                case crime_stats_type::Unknown_1:
-                case crime_stats_type::Unknown_2:
+                case crime_stats_type::none_0:
+                case crime_stats_type::car_damaged_1:
+                case crime_stats_type::weapon_fired_2:
                     doit = true;
                     break;
 
                 default:
                     pPed->SetRecentCrimeTimer_45B550();
-                    ReportCrime(crime_type, pPed->field_200_id);
+                    QueueReport(crime_type, pPed->field_200_id);
                     if (pPed->is_player_41B0A0())
                     {
                         gPolice_7B8_6FEE40->UpdateCriminalLatestPosition_570940(pPed);
@@ -186,9 +187,9 @@ void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
 
             if (doit)
             {
-                if (!CanReportCrime(crime_type))
+                if (!IsCrimeQueued(crime_type))
                 {
-                    ReportCrime(crime_type, pPed->field_200_id);
+                    QueueReport(crime_type, pPed->field_200_id);
                 }
             }
 
@@ -205,7 +206,7 @@ void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
 
 // https://decomp.me/scratch/xN2BK
 MATCH_FUNC(0x485090)
-bool Shooey_CC::ShouldReportCarCrime_485090(Car_BC* pCar, Player* pPlayer)
+bool CrimeReportQueue_CC::ShouldReportCarCrime_485090(Car_BC* pCar, Player* pPlayer)
 {
     bool bInRange = true;
     if (gCar_6C_677930->field_68)
@@ -226,7 +227,7 @@ bool Shooey_CC::ShouldReportCarCrime_485090(Car_BC* pCar, Player* pPlayer)
 
 // https://decomp.me/scratch/KvTvv
 MATCH_FUNC(0x4850f0)
-char_type Shooey_CC::ShouldReportCharCrime_4850F0(Char_B4* pB4, Player* pPlayer)
+char_type CrimeReportQueue_CC::ShouldReportCharCrime_4850F0(Char_B4* pB4, Player* pPlayer)
 {
     bool result = true;
     if (gCharB4_HitByMine_6FDB59)
@@ -240,7 +241,7 @@ char_type Shooey_CC::ShouldReportCharCrime_4850F0(Char_B4* pB4, Player* pPlayer)
 }
 
 MATCH_FUNC(0x485140)
-char_type Shooey_CC::ShouldReportPedCrime_485140(Ped* pPed, Player* pPlayer)
+char_type CrimeReportQueue_CC::ShouldReportPedCrime_485140(Ped* pPed, Player* pPlayer)
 {
     Char_B4* pB4 = pPed->field_168_game_object;
     if (pB4)

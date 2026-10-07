@@ -1,4 +1,5 @@
 #include "eager_benz.hpp"
+#include "zealous_borg.hpp"
 #include "ped_death_cause.hpp"
 #include "CarInfo_808.hpp"
 #include "CarPhysics_B0.hpp"
@@ -8,7 +9,7 @@
 #include "Hud.hpp"
 #include "Globals.hpp"
 #include "Player.hpp"
-#include "Shooey_CC.hpp"
+#include "CrimeReportQueue_CC.hpp"
 #include "Gang.hpp"
 #include "debug.hpp"
 #include "gtx_0x106C.hpp"
@@ -21,7 +22,7 @@
 
 // TODO: move
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
-EXTERN_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8);
+EXTERN_GLOBAL(CrimeReportQueue_CC*, gCrimeReportQueue_67A4B8);
 
 DEFINE_GLOBAL_INIT(Fix16, kFlyCarMinVelocity_7028BC, Fix16(0x666, 0), 0x7028BC);
 
@@ -716,23 +717,23 @@ scored:
         }
     }
 
-    if (gShooey_CC_67A4B8->ShouldReportPedCrime_485140(pPed1, field_368_player))
+    if (gCrimeReportQueue_67A4B8->ShouldReportPedCrime_485140(pPed1, field_368_player))
     {
         if (bOtherGang)
         {
-            gShooey_CC_67A4B8->ReportCrimeForPed(9, field_368_player->GetPlayerPed_4A5130());
+            gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::Gang_members_killed_9, field_368_player->GetPlayerPed_4A5130());
         }
         else if (bCop || bFbi || bArmy || bSwat)
         {
-            gShooey_CC_67A4B8->ReportCrimeForPed(8, field_368_player->GetPlayerPed_4A5130());
+            gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::Lawmen_killed_8, field_368_player->GetPlayerPed_4A5130());
         }
         else if (pPed1->field_290_death_cause == ped_death_cause::run_over_1 || pPed1->field_290_death_cause == ped_death_cause::run_over_by_stolen_car_3)
         {
-            gShooey_CC_67A4B8->ReportCrimeForPed(6, field_368_player->GetPlayerPed_4A5130());
+            gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::Civilians_run_down_6, field_368_player->GetPlayerPed_4A5130());
         }
         else
         {
-            gShooey_CC_67A4B8->ReportCrimeForPed(7, field_368_player->GetPlayerPed_4A5130());
+            gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::Civilians_murdered_7, field_368_player->GetPlayerPed_4A5130());
         }
     }
 }
@@ -827,9 +828,9 @@ void eager_benz::OnCarDestroyed_592DD0(Car_BC* pCar, Ped* pPed)
         field_74_car_kill_combo++;
     }
 
-    if (gShooey_CC_67A4B8->ShouldReportCarCrime_485090(pCar, this->field_368_player))
+    if (gCrimeReportQueue_67A4B8->ShouldReportCarCrime_485090(pCar, this->field_368_player))
     {
-        gShooey_CC_67A4B8->ReportCrimeForPed(3u, field_368_player->GetPlayerPed_4A5130());
+        gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::car_destroyed_3, field_368_player->GetPlayerPed_4A5130());
     }
     field_368_player->field_644_crime_stats.AddCarDamageCost_484FA0(multipler * kill_car_score);
     SetCarModelFlag_592570(2, pCar->field_84_car_info_idx);
@@ -882,9 +883,9 @@ void eager_benz::AwardCarDamageScore_593030(Car_BC* pCar, s16 score_default)
         }
 
         field_368_player->field_644_crime_stats.AddCarDamageCost_484FA0(mutipler * base_score);
-        if (gShooey_CC_67A4B8->ShouldReportCarCrime_485090(pCar, field_368_player))
+        if (gCrimeReportQueue_67A4B8->ShouldReportCarCrime_485090(pCar, field_368_player))
         {
-            gShooey_CC_67A4B8->ReportCrimeForPed(1u, field_368_player->GetPlayerPed_4A5130());
+            gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::car_damaged_1, field_368_player->GetPlayerPed_4A5130());
         }
     }
 }
@@ -913,7 +914,7 @@ void eager_benz::sub_593150(Car_BC* pCar, s16 a3)
             }
             field_368_player->field_644_crime_stats.AddCarDamageCost_484FA0(multipler * base_score);
 
-            gShooey_CC_67A4B8->ReportCrimeForPed(1u, field_368_player->GetPlayerPed_4A5130());
+            gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::car_damaged_1, field_368_player->GetPlayerPed_4A5130());
         }
     }
 }
@@ -946,7 +947,7 @@ void eager_benz::OnCarHijacked_593240(Car_BC* pCar)
     }
     field_368_player->Add_2D4(base_score);
 
-    gShooey_CC_67A4B8->ReportCrimeForPed(5u, field_368_player->GetPlayerPed_4A5130());
+    gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::Vehicles_Hijacked_5, field_368_player->GetPlayerPed_4A5130());
     SetCarModelFlag_592570(1, pCar->field_84_car_info_idx);
 }
 
@@ -962,7 +963,7 @@ void eager_benz::sub_593370(Car_BC* pCar)
     }
 
     field_368_player->Add_2D4(10);
-    gShooey_CC_67A4B8->ReportCrimeForPed(4u, field_368_player->GetPlayerPed_4A5130());
+    gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::Unknown_4, field_368_player->GetPlayerPed_4A5130());
 }
 
 MATCH_FUNC(0x593410)
@@ -983,9 +984,9 @@ void eager_benz::OnFullBusDestroyed_593410(Car_BC* pCar)
     field_368_player->Add_2D4(100);
     field_368_player->field_644_crime_stats.AddCarDamageCost_484FA0(100 * multpliers);
 
-    if (gShooey_CC_67A4B8->ShouldReportCarCrime_485090(pCar, field_368_player))
+    if (gCrimeReportQueue_67A4B8->ShouldReportCarCrime_485090(pCar, field_368_player))
     {
-        gShooey_CC_67A4B8->ReportCrimeForPed(3u, field_368_player->GetPlayerPed_4A5130());
+        gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::car_destroyed_3, field_368_player->GetPlayerPed_4A5130());
     }
 }
 

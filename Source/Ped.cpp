@@ -22,7 +22,7 @@
 #include "PublicTransport.hpp"
 #include "PurpleDoom.hpp"
 #include "RouteFinder.hpp"
-#include "Shooey_CC.hpp"
+#include "CrimeReportQueue_CC.hpp"
 #include "Taxi_4.hpp"
 #include "TrafficLights_194.hpp"
 #include "Varrok_7F8.hpp"
@@ -11752,7 +11752,7 @@ void Ped::UpdateStatsForKiller_46F720()
         {
             if (pKillerPed->field_28C_threat_reaction != threat_reaction_enum::react_as_emergency_1 && pKillerPed->PedTypeIs_45EDE0(ped_type::player_2))
             {
-                if (gShooey_CC_67A4B8->ShouldReportPedCrime_485140(this, this->field_1A8_ped_killer->field_15C_player))
+                if (gCrimeReportQueue_67A4B8->ShouldReportPedCrime_485140(this, this->field_1A8_ped_killer->field_15C_player))
                 {
                     if (this->field_17C_pGang || this->field_19C_dummy_gang)
                     {

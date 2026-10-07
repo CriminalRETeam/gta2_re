@@ -1,4 +1,5 @@
 #include "ImGuiDebug.hpp"
+#include "zealous_borg.hpp"
 #include "3rdParty/GTA2Hax/3rdParty/imgui/imgui.h"
 #include "Ambulance_110.hpp"
 #include "BurgerKing_67F8B0.hpp"
@@ -23,7 +24,7 @@
 #include "Phi_8CA8.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
-#include "Shooey_CC.hpp"
+#include "CrimeReportQueue_CC.hpp"
 #include "Weapon_8.hpp"
 #include "collide.hpp"
 #include "debug.hpp"
@@ -175,7 +176,7 @@ bool InputU16(const char* label, u16* v, int step, int step_fast, ImGuiInputText
 
 } // namespace ImGui
 
-EXTERN_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8);
+EXTERN_GLOBAL(CrimeReportQueue_CC*, gCrimeReportQueue_67A4B8);
 
 // crt_init_own_libname_21 or sub_4F7530
 void Init_Unk_Width_Height_F16_array()
@@ -2004,14 +2005,14 @@ void CC ImGuiDebugDraw()
             {
                 Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
 
-                if (ImGui::Button("gShooey_CC_67A4B8->ReportCrimeForPed"))
+                if (ImGui::Button("gCrimeReportQueue_67A4B8->ReportCrimeForPed"))
                 {
                     // 0 = ?
                     // 1 = 10 24
                     // 2 = 10 34
                     // 3 = 10 90
                     // 7 = 10 71 crime - shooting?
-                    gShooey_CC_67A4B8->ReportCrimeForPed(0u, pPlayer->field_2C4_player_ped);
+                    gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::none_0, pPlayer->field_2C4_player_ped);
                 }
 
 

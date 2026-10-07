@@ -33,7 +33,7 @@
 #include "Police_7B8.hpp"
 #include "Rozza_C88.hpp"
 #include "PublicTransport.hpp"
-#include "Shooey_CC.hpp"
+#include "CrimeReportQueue_CC.hpp"
 #include "Crushers.hpp"
 #include "PublicTransport.hpp"
 #include "Firefighters.hpp"
