@@ -922,9 +922,28 @@ labels (stacked labels and labels sharing a body count separately), R = max - mi
   i.e. when it saves more than about 8 bytes (direct 4R bytes vs R + 4(n+1) + code). The number of distinct targets
   doesn't matter. So 4 labels go to a byte table at R >= 10, 8 at R >= 15, 12 at R >= 21. Adding or dropping one
   empty case label, or widening the range by one outlier, flips this (`FatalDXError_4A3CF0`, `Wolfy_7A8`).
-- A switch is **split** (median, recursively; pieces under 4 labels become chains) only when R > 255 **and**
+- A switch is **split** (recursively; pieces under 4 labels become chains) only when R > 255 **and**
   4n < R. Below a range of 256 even 6 labels over 255 values stay one byte table; 150 labels over 300 values stay one
   table too.
+- **Where it splits** (about 150 more probes, Oct 7). Each split is `cmp x, P; jg <upper part>; je <case P>`, so the
+  pivot P is the first case of the upper part. Usually P is the median case (index n/2 of the sorted labels). The
+  exception is a dense run at the **low** end: if the lowest cases form a run of at least 5 labels with small gaps,
+  P is the first case after that run, so the run becomes a table of its own, whatever the median is. A dense run in
+  the middle or at the top doesn't move the pivot.
+
+  | Lowest cases (then far-apart ones) | Pivot |
+  |---|---|
+  | `0..4` (5 consecutive) | first case after them |
+  | `0..3` (4 consecutive) | median |
+  | `0, 2, 4, 6, 8` and `0, 2, 4, 6, 9` | first case after them |
+  | `0, 2, 4, 6, 11` | median |
+  | `0..n-2` then `n+1` (last gap 3) | first case after them |
+  | `0..n-2` then `n+2` (last gap 4) | the case `n+2`: the run stops before it |
+  | `0, 2, 4, ..., 18` (step 2, 10 cases) | first case after them |
+  | `0, 3, 6, ..., 27` (step 3) | median |
+
+  A larger gap ends the run, but there's no simple rule yet: a final gap of 3 joins the run, while a whole run
+  with step 3 doesn't count as dense. The code is around `0x1074D6B0`/`0x1074F151` and wasn't read.
 
 
 **Identical bodies in an else-if chain are tail-merged** with a `jmp` into the first copy
@@ -1851,6 +1870,15 @@ Found by tracing C2.DLL (see `Scripts/inline_budget/`); the instrumented compile
   `Camera::WorldToScreen_40CFC0`) therefore cannot return `Fix16_Point`.
 - **Destructor sites count.** Every local or temporary with a destructor adds a free destructor site
   at its scope exit, which shrinks `budget / sites_left` for the sites before it.
+- **State numbers (probes, Oct 7).** Every object with a destructor, named local or temporary, gets the next
+  state number in source order of its construction, counting from 0 over the whole function. Numbers are never
+  reused: `if (k) { D a; } else { D b; } D c;` gives a = 0, b = 1, c = 2. Before a destructor call the state goes
+  back to the enclosing object's number (or -1). A temporary gets its number where the expression creates it
+  (`D a; f(mk().v); D c;`: a = 0, the `mk()` temporary 1, c = 2), and a local in a loop body has one number for
+  all iterations. The store is `mov DWORD PTR __$EHRec$[..], N` when the state before it on that path is -1 (the
+  entry, or after the last destructor of a branch) and `mov BYTE PTR` otherwise, since then only the low byte
+  changes. So an extra or missing `movb`/`movl` usually means one more or one fewer object with a destructor
+  before that point, in source order.
 - **No EH state store for a call C2 knows can't throw.** A callee marked `throw()`, or one already
   compiled earlier in this TU whose remaining calls are all nothrow, gets no `mov [ebp-4], N` around
   the call (C2 `0x1073c543`, used at `0x10758678`). C2 compiles a header inline's out-of-line copy
@@ -2447,6 +2475,23 @@ generation order, their copy-hint register if free, else the next free one of ea
 per-function round-robin cursor (then the first free callee-saved register). The cursor is not reset
 per block, so a rotation that is off in one block (`eax, ecx, edx` vs ours `ecx, edx, eax`) means a
 different number of picks before it, or a different block order, not a different expression in that block.
+
+**When a constant gets a register** (measured Oct 7 with `priolog.py`). A constant used at least twice gets a
+colour-pass live range of its own (kind `0x100D`): each use saves 1, its weight is the uses (times 2 per loop
+level) minus 1 for the `mov reg, imm`. It is coloured like any other value, by priority. In a caller-saved
+register (eax, ecx, edx: no call between its uses) it is then kept from 2 uses on. In a callee-saved register
+(ebx, esi, edi, ebp: a call between uses) the local-allocation pass `0x10723B05` puts the immediates back unless
+the weight is at least 3, so 4 uses in one block, or 3 that reach across blocks. That is why
+`Particle_4C::PoolUpdate_53D260` needed 4 more byte stores of 1 before the original's `mov $1,%bl` appeared. Byte
+and dword constants follow the same counts. Folded forms (`x -= 1`, `>= 1`, `true`) aren't uses.
+
+| Probe (byte stores `b[i] = 1`) | Result |
+|---|---|
+| 2 stores, no call | `mov al,1` |
+| 2 or 3 stores with calls between | immediates |
+| 4 stores with calls between | `push ebx; mov bl,1` |
+| 1 store before an if/else, 1 after | immediates |
+| 1 store before, 2 after | `mov bl,1` |
 
 **Which values are round-robin temps** (reversed Oct 7, `Scripts/regalloc/README.md`, "Which values get colour
 live ranges"). Every expression intermediate is one pick. So is each load of a parameter or global that didn't get
