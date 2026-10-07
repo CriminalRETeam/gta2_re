@@ -67,7 +67,7 @@ void Police_7B8::Init_56F400()
     field_654_max_wanted_level = 0;
     field_658_police_car_count = 0;
     field_659_max_police_cars = 1;
-    field_65C_highest_crew_type_on_service = crew_type::police_3;
+    field_65C_highest_crew_type_in_pursuit = crew_type::police_3;
     bHaveCriminals_6FEE44 = 0;
     if (bStartNetworkGame_7081F0)
     {
@@ -247,7 +247,7 @@ void Police_7B8::DespawnCrewInCar_56F6D0(Car_BC* pCar)
                     }
                 }
 
-                pCrew->RemoveFromService_570AB0();
+                pCrew->RemoveFromPursuit_570AB0();
                 Car_BC* pCrewCar = pCrew->field_10_subObj->field_0_car;
 
                 pCrewCar->MarkForDespawn_421470();
@@ -354,7 +354,7 @@ void Police_7B8::RegisterCriminal_56F940(Ped* pPed)
 }
 
 MATCH_FUNC(0x56fa40)
-void Police_7B8::UpdatePlayerServiceTimer_56FA40()
+void Police_7B8::UpdatePlayerPursuitTimer_56FA40()
 {
     if (field_464_pursuit_targets[0].field_0_criminal_ped)
     {
@@ -379,7 +379,7 @@ void Police_7B8::UpdatePlayerServiceTimer_56FA40()
 }
 
 MATCH_FUNC(0x56faa0)
-bool Police_7B8::DispatchNewCrewToService_56FAA0(PolicePursuitTarget_7C* pPursuitTarget)
+bool Police_7B8::DispatchNewCrewToPursuit_56FAA0(PolicePursuitTarget_7C* pPursuitTarget)
 {
     u8 tileX = pPursuitTarget->field_10_x.ToInt();
     u8 tileY = pPursuitTarget->field_14_y.ToInt();
@@ -412,7 +412,7 @@ bool Police_7B8::DispatchNewCrewToService_56FAA0(PolicePursuitTarget_7C* pPursui
         pKfc->field_C_x = Fix16(tileX);
         pKfc->field_10_y = Fix16(tileY);
         pKfc->field_14_z = Fix16(tileZ);
-        pNewPoliceCrew->AddToService_570A10();
+        pNewPoliceCrew->AddToPursuit_570A10();
         return true;
     }
     return false;
@@ -420,16 +420,16 @@ bool Police_7B8::DispatchNewCrewToService_56FAA0(PolicePursuitTarget_7C* pPursui
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6FECFC, Fix16(5), 0x6FECFC);
 
-// Updates every call for service: its wanted level from the criminal's stars, then its state
+// Updates every pursuit target: its wanted level from the criminal's stars, then its state
 // (send crews, escalate, give up, clean up when the criminal is gone).
 MATCH_FUNC(0x56fbd0)
-void Police_7B8::UpdateServices_56FBD0()
+void Police_7B8::UpdatePursuitTargets_56FBD0()
 {
     u8 numCrews;
     u8 crewIdx;
-    u8 serviceIdx = 0;
+    u8 targetIdx = 0;
     PolicePursuitTarget_7C* pPursuitTarget = &field_464_pursuit_targets[0];
-    while (pPursuitTarget->field_0_criminal_ped && serviceIdx < 4)
+    while (pPursuitTarget->field_0_criminal_ped && targetIdx < 4)
     {
         pPursuitTarget->field_78_is_active_criminal = 0;
         Ped* pCriminal = pPursuitTarget->field_0_criminal_ped;
@@ -503,7 +503,7 @@ void Police_7B8::UpdateServices_56FBD0()
                 break;
             case 5:
                 pPursuitTarget->field_4_wanted_level = 5;
-                gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service = 4;
+                gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit = 4;
                 if (!pPursuitTarget->field_70_num_police_crews && !pPursuitTarget->field_72_num_swat_crews && pPursuitTarget->field_73_num_fbi_crews <= 1)
                 {
                     field_659_max_police_cars = 2;
@@ -516,7 +516,7 @@ void Police_7B8::UpdateServices_56FBD0()
             case 6:
                 pPursuitTarget->field_71_target_police_crews = 0;
                 pPursuitTarget->field_4_wanted_level = 6;
-                gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service = 6;
+                gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit = 6;
                 break;
         }
 
@@ -563,7 +563,7 @@ void Police_7B8::UpdateServices_56FBD0()
                             dword_6FEE18 = 3;
                             dword_6FEDCC = 3;
                             gRoadblockGuardType_6FEDB8 = 1;
-                            if (gPolice_7B8_6FEE40->DispatchNewCrewToService_56FAA0(pPursuitTarget))
+                            if (gPolice_7B8_6FEE40->DispatchNewCrewToPursuit_56FAA0(pPursuitTarget))
                             {
                                 pPursuitTarget->field_8_state = 1;
                                 field_659_max_police_cars = 0;
@@ -601,7 +601,7 @@ void Police_7B8::UpdateServices_56FBD0()
                             word_6FEAC8 = 50;
                             dword_6FEDCC = 5;
                             gRoadblockGuardType_6FEDB8 = 1;
-                            gPolice_7B8_6FEE40->DispatchNewCrewToService_56FAA0(pPursuitTarget);
+                            gPolice_7B8_6FEE40->DispatchNewCrewToPursuit_56FAA0(pPursuitTarget);
                         }
                         break;
                     case 4:
@@ -611,7 +611,7 @@ void Police_7B8::UpdateServices_56FBD0()
                             word_6FEAC8 = 50;
                             dword_6FEDCC = 5;
                             gRoadblockGuardType_6FEDB8 = 1;
-                            gPolice_7B8_6FEE40->DispatchNewCrewToService_56FAA0(pPursuitTarget);
+                            gPolice_7B8_6FEE40->DispatchNewCrewToPursuit_56FAA0(pPursuitTarget);
                         }
                         if (!pPursuitTarget->field_72_num_swat_crews)
                         {
@@ -619,7 +619,7 @@ void Police_7B8::UpdateServices_56FBD0()
                             dword_6FEE18 = 5;
                             dword_6FEDCC = 5;
                             gRoadblockGuardType_6FEDB8 = 2;
-                            if (gPolice_7B8_6FEE40->DispatchNewCrewToService_56FAA0(pPursuitTarget))
+                            if (gPolice_7B8_6FEE40->DispatchNewCrewToPursuit_56FAA0(pPursuitTarget))
                             {
                                 pPursuitTarget->field_72_num_swat_crews = 1;
                             }
@@ -632,12 +632,12 @@ void Police_7B8::UpdateServices_56FBD0()
                             for (crewIdx = 0; crewIdx < numCrews; crewIdx++)
                             {
                                 pPursuitTarget->field_20_crews[0]->field_34 = 1;
-                                pPursuitTarget->field_20_crews[0]->RemoveFromService_570AB0();
+                                pPursuitTarget->field_20_crews[0]->RemoveFromPursuit_570AB0();
                             }
                             pPursuitTarget->field_70_num_police_crews = 0;
                             pPursuitTarget->field_71_target_police_crews = 0;
                             pPursuitTarget->field_72_num_swat_crews = 0;
-                            gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service = 4;
+                            gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit = 4;
                         }
                         break;
                     case 6:
@@ -646,12 +646,12 @@ void Police_7B8::UpdateServices_56FBD0()
                             numCrews = pPursuitTarget->field_75_num_crews;
                             for (crewIdx = 0; crewIdx < numCrews; crewIdx++)
                             {
-                                pPursuitTarget->field_20_crews[0]->RemoveFromService_570AB0();
+                                pPursuitTarget->field_20_crews[0]->RemoveFromPursuit_570AB0();
                             }
                             pPursuitTarget->field_70_num_police_crews = 0;
                             pPursuitTarget->field_71_target_police_crews = 0;
                             bHaveCriminals_6FEE44--;
-                            gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service = 6;
+                            gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit = 6;
                         }
                         break;
                 }
@@ -665,7 +665,7 @@ void Police_7B8::UpdateServices_56FBD0()
                         if (pCrew && pCrew->field_1C_used == 1 && pCrew->field_20_crew_kind == 1 && pCrew->field_10_subObj->field_0_car)
                         {
                             pPursuitTarget->field_20_crews[crewIdx]->field_34 = 1;
-                            pPursuitTarget->field_20_crews[crewIdx]->RemoveFromService_570AB0();
+                            pPursuitTarget->field_20_crews[crewIdx]->RemoveFromPursuit_570AB0();
                             break;
                         }
                     }
@@ -703,7 +703,7 @@ void Police_7B8::UpdateServices_56FBD0()
                                 }
                                 if (dx > dword_6FECFC)
                                 {
-                                    pCrew->RemoveFromService_570AB0();
+                                    pCrew->RemoveFromPursuit_570AB0();
                                     pPursuitTarget->field_1C_crew_gave_up = 1;
                                 }
                             }
@@ -716,7 +716,7 @@ void Police_7B8::UpdateServices_56FBD0()
                         dword_6FEE18 = 3;
                         dword_6FEDCC = 3;
                         gRoadblockGuardType_6FEDB8 = 1;
-                        gPolice_7B8_6FEE40->DispatchNewCrewToService_56FAA0(pPursuitTarget);
+                        gPolice_7B8_6FEE40->DispatchNewCrewToPursuit_56FAA0(pPursuitTarget);
                     }
                 }
                 break;
@@ -742,7 +742,7 @@ void Police_7B8::UpdateServices_56FBD0()
                     }
                     else
                     {
-                        pCrew->RemoveFromService_570AB0();
+                        pCrew->RemoveFromPursuit_570AB0();
                     }
                 }
                 pPursuitTarget->field_0_criminal_ped = NULL;
@@ -752,14 +752,14 @@ void Police_7B8::UpdateServices_56FBD0()
                 pPursuitTarget->field_76 = 0;
                 pPursuitTarget->field_E = 0;
                 bHaveCriminals_6FEE44--;
-                gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service = 3;
+                gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit = 3;
                 break;
             }
         }
 
-        if (++serviceIdx < 4)
+        if (++targetIdx < 4)
         {
-            pPursuitTarget = &field_464_pursuit_targets[serviceIdx];
+            pPursuitTarget = &field_464_pursuit_targets[targetIdx];
         }
     }
 }
@@ -772,7 +772,7 @@ void Police_7B8::Service_570270()
 
     if (bHaveCriminals_6FEE44 == 1)
     {
-        Police_7B8::UpdateServices_56FBD0();
+        Police_7B8::UpdatePursuitTargets_56FBD0();
     }
 
     for (s32 i = 0; i < GTA2_COUNTOF(field_4_cop_crew); i++)
@@ -785,7 +785,7 @@ void Police_7B8::Service_570270()
 
     if (bHaveCriminals_6FEE44 == 1)
     {
-        Police_7B8::UpdatePlayerServiceTimer_56FA40();
+        Police_7B8::UpdatePlayerPursuitTimer_56FA40();
     }
 
     field_664_roadblock_1.Update_5757B0();
@@ -816,7 +816,7 @@ void Police_7B8::Service_570270()
 MATCH_FUNC(0x570320)
 void Police_7B8::SpawnWalkingGuard_570320(Ped* pPed, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {
-    if (field_65C_highest_crew_type_on_service == crew_type::army_6)
+    if (field_65C_highest_crew_type_in_pursuit == crew_type::army_6)
     {
         pPed->set_occupation_403970(ped_ocupation_enum::unknown_cop_occu_31);
         pPed->SetField238_403920(3);
@@ -869,7 +869,7 @@ bool Police_7B8::SpawnCrewInCar_5703E0(Car_BC* pCar)
     pNewCrew->field_24_state = police_crew_state::patrol_1;
     pNewCrew->field_29_bCountedInPoliceCount = 1;
     pKfc->field_1E_is_used = 1;
-    pKfc->field_20_crew_type = gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service;
+    pKfc->field_20_crew_type = gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit;
     pKfc->field_24 = 1;
     pKfc->field_0_car = pCar;
     PedGroup* pNewPedGroup = PedGroup::New_4CB0D0();
@@ -888,7 +888,7 @@ bool Police_7B8::SpawnCrewInCar_5703E0(Car_BC* pCar)
     pNewPed2->field_288_threat_search = threat_search_enum::line_of_sight_1;
     pNewPed2->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
 
-    switch (gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service)
+    switch (gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit)
     {
         case crew_type::fbi_4:
             // ok
@@ -984,17 +984,17 @@ bool Police_7B8::SpawnCrewInCar_5703E0(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x570790)
-bool Police_7B8::AssignCrewToService_570790(PoliceCrew_38* pCrew, PolicePursuitTarget_7C* pPursuitTarget)
+bool Police_7B8::AssignCrewToPursuit_570790(PoliceCrew_38* pCrew, PolicePursuitTarget_7C* pPursuitTarget)
 {
     pCrew->field_14_pPursuitTarget = pPursuitTarget;
     pCrew->field_24_state = police_crew_state::pursue_or_chase_5;
-    pCrew->AddToService_570A10();
+    pCrew->AddToPursuit_570A10();
     return true;
 }
 
 // https://decomp.me/scratch/pfRaI
 // Inlined search helpers: their NULL results are tested by the caller
-static inline PolicePursuitTarget_7C* FindServiceForCriminal_5707B0(Police_7B8* pThis, Ped* pCriminal)
+static inline PolicePursuitTarget_7C* FindPursuitTargetForCriminal_5707B0(Police_7B8* pThis, Ped* pCriminal)
 {
     for (u8 i = 0; i < GTA2_COUNTOF(pThis->field_464_pursuit_targets); i++)
     {
@@ -1027,7 +1027,7 @@ bool Police_7B8::PromptCrewAtCarToPurseCriminal_5707B0(Car_BC* pCar, Ped* pCrimi
         return false;
     }
 
-    PolicePursuitTarget_7C* pPursuitTarget = FindServiceForCriminal_5707B0(this, pCriminal);
+    PolicePursuitTarget_7C* pPursuitTarget = FindPursuitTargetForCriminal_5707B0(this, pCriminal);
     if (pPursuitTarget == NULL)
     {
         return false;
@@ -1047,7 +1047,7 @@ bool Police_7B8::PromptCrewAtCarToPurseCriminal_5707B0(Car_BC* pCar, Ped* pCrimi
     pPursuitTarget->field_8_state = 3;
     pCrew->field_14_pPursuitTarget = pPursuitTarget;
     pCrew->field_24_state = police_crew_state::pursue_or_chase_5;
-    pCrew->AddToService_570A10();
+    pCrew->AddToPursuit_570A10();
 
     if (pCrew->field_10_subObj->field_20_crew_type != crew_type::army_6)
     {

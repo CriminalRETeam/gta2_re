@@ -39,13 +39,13 @@ class Police_7B8
     EXPORT bool IsPedActiveCriminal_56F880(Ped* pCriminal);
     EXPORT void SetArrestedPed_56F8E0(Ped* pCriminal, Ped* pUnusedPed);
     EXPORT void RegisterCriminal_56F940(Ped* pCriminal);
-    EXPORT void UpdatePlayerServiceTimer_56FA40();
-    EXPORT bool DispatchNewCrewToService_56FAA0(PolicePursuitTarget_7C* pPursuitTarget);
-    EXPORT void UpdateServices_56FBD0();
+    EXPORT void UpdatePlayerPursuitTimer_56FA40();
+    EXPORT bool DispatchNewCrewToPursuit_56FAA0(PolicePursuitTarget_7C* pPursuitTarget);
+    EXPORT void UpdatePursuitTargets_56FBD0();
     EXPORT void Service_570270();
     EXPORT void SpawnWalkingGuard_570320(Ped* pPed, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
     EXPORT bool SpawnCrewInCar_5703E0(Car_BC* pCar);
-    EXPORT bool AssignCrewToService_570790(PoliceCrew_38* pCrew, PolicePursuitTarget_7C* pPursuitTarget);
+    EXPORT bool AssignCrewToPursuit_570790(PoliceCrew_38* pCrew, PolicePursuitTarget_7C* pPursuitTarget);
     EXPORT bool PromptCrewAtCarToPurseCriminal_5707B0(Car_BC* pCar, Ped* pCriminal);
     EXPORT void UpdateLastSeenCoordsForCriminal_5708C0(Ped* pPed);
     EXPORT void UpdateCriminalLatestPosition_570940(Ped* pPed);
@@ -63,7 +63,7 @@ class Police_7B8
     char_type field_659_max_police_cars;
     char_type field_65A;
     char_type field_65B;
-    s32 field_65C_highest_crew_type_on_service;
+    s32 field_65C_highest_crew_type_in_pursuit;
     u8 field_660_max_wanted_stars;
     char_type field_661;
     char_type field_662;

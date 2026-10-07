@@ -1012,7 +1012,7 @@ Still different:
 - 0.998 on the first build. It matched once `best_crime = 0` was declared before the two
   `u8 = 0`s. It also needed the empty `sound_obj::nullsub_4` (0x427330) and Shooey_CC.hpp.
 
-### Police_7B8::UpdateServices_56FBD0 (0x56FBD0): MATCH
+### Police_7B8::UpdatePursuitTargets_56FBD0 (0x56FBD0): MATCH
 - Updates each call for service: wanted level from the criminal's stars, then the state
   (send crews, add SWAT at 4 stars, stand down at 5/6, clean up when the criminal is gone, and
   case 5 re-sends crews when the criminal gets away from the searched spot).

@@ -29,8 +29,8 @@ class PoliceCrew_38
     EXPORT PoliceCrew_38();
     EXPORT ~PoliceCrew_38();
     EXPORT void Init_5709C0();
-    EXPORT void AddToService_570A10();
-    EXPORT void RemoveFromService_570AB0();
+    EXPORT void AddToPursuit_570A10();
+    EXPORT void RemoveFromPursuit_570AB0();
     EXPORT void SpawnPoliceInCar_570BF0();
     EXPORT void SpawnSWAT_570E30();
     EXPORT void SpawnFBI_nonused_571150();

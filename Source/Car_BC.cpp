@@ -7540,7 +7540,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                             }
                             else
                             {
-                                switch (gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service)
+                                switch (gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit)
                                 {
                                     case crew_type::police_3:
                                         car_model = car_model_enum::COPCAR;
@@ -7554,7 +7554,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                                 }
                             }
                         }
-                        else if (gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service == crew_type::army_6)
+                        else if (gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit == crew_type::army_6)
                         {
                             switch (gRng_6F6784.get_int_4F7AE0(10))
                             {

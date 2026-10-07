@@ -57,7 +57,7 @@ void PoliceCrew_38::Init_5709C0()
 }
 
 MATCH_FUNC(0x570a10)
-void PoliceCrew_38::AddToService_570A10()
+void PoliceCrew_38::AddToPursuit_570A10()
 {
     if (field_14_pPursuitTarget->field_75_num_crews < 6)
     {
@@ -93,7 +93,7 @@ void PoliceCrew_38::AddToService_570A10()
 }
 
 MATCH_FUNC(0x570ab0)
-void PoliceCrew_38::RemoveFromService_570AB0()
+void PoliceCrew_38::RemoveFromPursuit_570AB0()
 {
     if (!field_1C_used || (field_24_state != police_crew_state::none_0 
         && field_24_state != police_crew_state::patrol_1 
@@ -1177,7 +1177,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
 
                     case objectives_enum::flee_char_on_foot_till_safe_2:
                         byte_6FEB48 = 0;
-                        PoliceCrew_38::RemoveFromService_570AB0();
+                        PoliceCrew_38::RemoveFromPursuit_570AB0();
                         break;
 
                     case objectives_enum::objective_43:
@@ -1313,7 +1313,7 @@ void PoliceCrew_38::State6_ShutDown_574720()
                             field_14_pPursuitTarget->field_14_y = field_14_pPursuitTarget->field_0_criminal_ped->get_cam_y();
                             field_14_pPursuitTarget->field_18_z = field_14_pPursuitTarget->field_0_criminal_ped->get_cam_z();
 
-                            gPolice_7B8_6FEE40->AssignCrewToService_570790(this, field_14_pPursuitTarget);
+                            gPolice_7B8_6FEE40->AssignCrewToPursuit_570790(this, field_14_pPursuitTarget);
                             return;
                         }
                     }
@@ -1491,7 +1491,7 @@ void PoliceCrew_38::State1_Patrol_574F10()
                 field_14_pPursuitTarget->field_10_x = field_14_pPursuitTarget->field_0_criminal_ped->get_cam_x();
                 field_14_pPursuitTarget->field_14_y = field_14_pPursuitTarget->field_0_criminal_ped->get_cam_y();
                 field_14_pPursuitTarget->field_18_z = field_14_pPursuitTarget->field_0_criminal_ped->get_cam_z();
-                gPolice_7B8_6FEE40->AssignCrewToService_570790(this, field_14_pPursuitTarget);
+                gPolice_7B8_6FEE40->AssignCrewToPursuit_570790(this, field_14_pPursuitTarget);
             }
             else
             {
