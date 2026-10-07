@@ -3236,3 +3236,13 @@ Partners found but no gain yet: `CarAI_78::sub_44D1D0` = 0x42C8B0, `Fix16_Point:
 
 `LoadStringTbl_5121E0` (52): the original's first loop keeps a dead `edi = (len + 9) & ~1` (9.6f too) that no
 source form tried reproduces; a `u32` copy of the parameter and `while` loops give the param-slot reuse but 94.
+
+Follow-up the same day, no gain:
+- `Sprite::Draw_59EFF0`: regsearch still 65 (15 nodes short per window, 38 -> 4); already the documented x87 case.
+- `CarAI_78::sub_44D1D0` (134, 16 with the agent/big2 goto variant): 9.6f 0x42C8B0 cross-jumps the per-case probe
+  tails too (VC7), and ends with the same `field_2F = idx + 1; if (> count - 1)` clamp, so it adds nothing new.
+- `Particle_4C::UpdateAttachedEmitter_state_9_10_53B670` (12): the original's jitter `Ang16` is at 0x12 with 0x10 free;
+  a second `Ang16` local (either declaration order), or adding into the jitter itself: 52-100.
+- `Ambulance_20::UpdateState_4FB330` (2): 9.6f 0x473CE0 has no extra helper on the case 3 `else` path. `else if
+  (++f1C > 500)`, `<= 500` with `return` or `break`, `return` after the store: all 2; the success path with one
+  `HandleObjectiveState_4FAAC0()` after the `if (car)`: 6.
