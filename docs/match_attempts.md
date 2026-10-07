@@ -3259,3 +3259,13 @@ helpers under other names, or plain Fix16/Ang16 operators.
   had made the add nothrow, so the flamethrower now calls `Add_40AC50`, with `Get_F4_41CC70()` for its own
   budget split. See matching_quirks.md, "Two fire truck guns, one opaque add".
 
+### Markers, function order and global initialisers (Oct 7)
+
+- Empty markers: no matched function changes, no WIP score changes.
+- The 12 WIPs out of address order in their file (582480, 4B6390, 534700, 540320, 53F4C0, 5121E0, 4E5640,
+  427220, 41AB80, 4182E0, 418720, 5D9510) moved into address order: every score unchanged.
+- `check_global_inits.py`: kAngZero fixed (0x6FE3C0). Left as found (no code reads them differently):
+  `k_word_678656` (copied from 0x61A898 at startup), `dword_67BBE0` (dynamic 0, probably `Fix16`),
+  `gCharB4_Saved_TileX/Y` (`kFP16Zero.ToInt()`), `dword_705334` (Montana's rdtsc init),
+  `gCollisionDamage_6FE33C` (no original initialiser), the debug bools (one 79-store init at 0x4AB950).
+

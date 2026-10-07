@@ -1733,6 +1733,11 @@ Found by tracing C2.DLL (see `Scripts/inline_budget/`); the instrumented compile
 - **10.5 was built with precompiled headers.** Under `/Yu`, header inline copies are compiled at the end
   of the TU until C1XX's first IL flush, so in some TUs (Weapon_30) every caller keeps its state stores.
   We can't reproduce the original flush points: keep the named `EXPORT` copy (`Add_40AC50`) there.
+  More evidence (Oct 7): 10.5's static initialiser table (`__xc_a`, 0x607004..0x61A640, ~19,900 init
+  functions) has the `Fix16` 0..7 header constants once per TU, 100 times, so practically every C++ TU
+  includes the Fix16 headers through one common header. That is what a precompiled `stdafx`-style header
+  looks like, though the table alone can't tell a PCH from a plain common include; the EH state behaviour
+  above is what points to `/Yu`.
 - **`Fix16_Point` is a class with its own `x`/`y`; `Fix16_Point_POD` is a separate type, not its base.**
   10.5 charges `Fix16_Point()` as one size-42 inline site at the top level. When `Fix16_Point` derived
   from `Fix16_Point_POD`, its ctor was a free size-31 site whose nested `Fix16_Point_POD()` (42) only got
@@ -1793,6 +1798,17 @@ sizes stay as they are. `SquareRoot` is pinned to 44..46 by 442810 vs 5224E0/443
 operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 48 with a const local).
 
 ### Inline budget: more patterns (round of 9.6f recoveries)
+
+- **The function markers don't change code.** A build with `MATCH_FUNC`/`WIP_FUNC`/`STUB_FUNC` defined
+  empty gives the same asm for every matched function and the same score for every WIP (Oct 7). Moving
+  the 12 WIPs that sit out of address order in their file into address order changed none of their
+  scores either; 212 same-file order differences remain among matched functions, harmless to them.
+- **Check global types and addresses with `Scripts/bin_comp/check_global_inits.py`.** It reads 10.5's
+  static initialisers and reports globals the original constructs dynamically that we declare as a POD,
+  store widths that differ from our type, constants that differ, and initialised class globals no
+  original initialiser writes. The verifier never checks which global an instruction reads, so a
+  matched function can read a mislabelled global: `CarPhysics_B0::PoolAllocate` read `kAngZero_66AC08`,
+  which is an unused `Fix16(96)` of another TU; the real `Ang16` zero is 0x6FE3C0.
 
 - **Two fire truck guns, one opaque add (`Weapon_30::fire_truck_gun_5E0E70`).** Both 10.5 fire truck guns keep
   the `movb $3/$2` EH stores around their `Fix16_Point` add. In one TU only the first caller of the inline
