@@ -834,12 +834,7 @@ void Police_7B8::SpawnWalkingGuard_570320(Ped* pPed, Fix16 xpos, Fix16 ypos, Fix
     pPed->AllocCharB4_45C830(xpos, ypos, zpos);
 
     Char_B4* pCharObj = pPed->field_168_game_object;
-    u8 remap = pPed->field_244_remap;
-    pCharObj->field_5_remap = remap;
-    if (remap != 0xFF)
-    {
-        pCharObj->field_80_sprite_ptr->SetRemap(remap);
-    }
+    pCharObj->SetRemap_Inline(pPed->get_remap_433BA0());
     pPed->SetRotation_433C00(rotation);
     pPed->sub_467280();
 }

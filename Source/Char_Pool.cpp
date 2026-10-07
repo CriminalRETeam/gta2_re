@@ -129,12 +129,7 @@ EXPORT Ped* __stdcall SpawnPedChainGroupAt_46DB90(char_type remap, u8 number_fol
         pNewPed->AllocCharB4_45C830(xpos_adjusted - ((kFpPoint1_678480 * xy_off)), ypos_adjusted - ((kFpPoint1_678480 * xy_off)), zpos);
 
         Char_B4* pB4 = pNewPed->field_168_game_object;
-        const u8 cur_remap = pNewPed->field_244_remap;
-        pB4->field_5_remap = cur_remap;
-        if (cur_remap != 0xFF)
-        {
-            pB4->field_80_sprite_ptr->SetRemap(cur_remap);
-        }
+        pB4->SetRemap_Inline(pNewPed->get_remap_433BA0());
 
         pNewPed->field_216_health = 100;
         pNewPed->field_26C_graphic_type = 1;
@@ -434,14 +429,8 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
         gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pPed->field_168_game_object->field_80_sprite_ptr);
         if (pPed->get_occupation_403980() != ped_ocupation_enum::walking_guard_29)
         {
-            // 9.6f: Ped::SetRemap_433C10(get_remap_433BA0()) (inlined, using it makes the diff worse)
             Char_B4* game_object = pPed->field_168_game_object;
-            u8 remap = pPed->field_244_remap;
-            game_object->field_5_remap = remap;
-            if (remap != 0xFF)
-            {
-                game_object->field_80_sprite_ptr->SetRemap(remap);
-            }
+            game_object->SetRemap_Inline(pPed->get_remap_433BA0());
             pPed->SetRotation_433C00(rotation);
             pPed->sub_467280();
         }
@@ -1000,14 +989,8 @@ Ped* PedManager::ClonePed_470F90(Ped* pSrc)
     if (pSrc->field_168_game_object)
     {
         pDst->AllocCharB4_45C830(pSrc->get_cam_x(), pSrc->get_cam_y(), pSrc->get_cam_z());
-        // 9.6f: SetRemap_433C10(get_remap_433BA0()) (inlined, using it changes the code)
         Char_B4* pCharObj = pDst->field_168_game_object;
-        u8 remap = pSrc->field_244_remap;
-        pCharObj->field_5_remap = remap;
-        if (remap != 0xFF)
-        {
-            pCharObj->field_80_sprite_ptr->SetRemap(remap);
-        }
+        pCharObj->SetRemap_Inline(pSrc->get_remap_433BA0());
         pDst->SetRotation_433C00(pSrc->GetRotation());
         pDst->Set_B4_F16_To_1_433B50();
         pDst->field_168_game_object->field_84_target_car = pSrc->field_168_game_object->field_84_target_car;

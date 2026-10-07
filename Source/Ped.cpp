@@ -1219,14 +1219,8 @@ void Ped::RespawnPed_45C350(gmp_map_zone* pZone)
     SpawnCharInZone_45C0C0(pZone);
 
     // TODO: missing inlines here, temp var shouldn't be needed
-    // 9.6f: SetRemap_433C10(get_remap_433BA0()) (inlined, using it changes the code)
     Char_B4* pTmp = field_168_game_object;
-    const u8 remap = get_remap_433BA0();
-    pTmp->field_5_remap = remap;
-    if (remap != 0xFF)
-    {
-        pTmp->field_80_sprite_ptr->SetRemap(remap);
-    }
+    pTmp->SetRemap_Inline(get_remap_433BA0());
 
     field_27C_ped_state_2 = ped_state_2::Unknown_29;
     set_health_4039A0(100);
@@ -10183,14 +10177,8 @@ void Ped::ExitCarStateMachine_46C250()
                                                                   this->field_154_target_to_enter->field_50_car_sprite->field_1C_zpos));
 
                 {
-                    // SetRemap_433C10 written out (as in StartPedWalking_470200)
                     Char_B4* pB4 = field_168_game_object;
-                    u8 remap = field_244_remap;
-                    pB4->field_5_remap = remap;
-                    if (remap != 0xFF)
-                    {
-                        pB4->field_80_sprite_ptr->SetRemap(remap);
-                    }
+                    pB4->SetRemap_Inline(get_remap_433BA0());
                 }
 
                 ChangeNextPedState2_45C540(7);
@@ -10216,14 +10204,8 @@ void Ped::ExitCarStateMachine_46C250()
             }
 
             {
-                // SetRemap_433C10 written out (as in StartPedWalking_470200)
                 Char_B4* pB4 = field_168_game_object;
-                u8 remap = field_244_remap;
-                pB4->field_5_remap = remap;
-                if (remap != 0xFF)
-                {
-                    pB4->field_80_sprite_ptr->SetRemap(remap);
-                }
+                pB4->SetRemap_Inline(get_remap_433BA0());
             }
 
             ChangeNextPedState2_45C540(0);
@@ -10257,14 +10239,8 @@ void Ped::ExitCarStateMachine_46C250()
                                                                       char_y,
                                                                       this->field_154_target_to_enter->field_50_car_sprite->field_1C_zpos));
                     {
-                        // SetRemap_433C10 written out (as in StartPedWalking_470200)
                         Char_B4* pB4 = field_168_game_object;
-                        u8 remap = field_244_remap;
-                        pB4->field_5_remap = remap;
-                        if (remap != 0xFF)
-                        {
-                            pB4->field_80_sprite_ptr->SetRemap(remap);
-                        }
+                        pB4->SetRemap_Inline(get_remap_433BA0());
                     }
                     ChangeNextPedState2_45C540(7);
                     ChangeNextPedState1_45C500(4);
@@ -10294,14 +10270,8 @@ void Ped::ExitCarStateMachine_46C250()
                                                                       field_154_target_to_enter->field_50_car_sprite->field_1C_zpos));
                 }
                 {
-                    // SetRemap_433C10 written out (as in StartPedWalking_470200)
                     Char_B4* pB4 = field_168_game_object;
-                    u8 remap = field_244_remap;
-                    pB4->field_5_remap = remap;
-                    if (remap != 0xFF)
-                    {
-                        pB4->field_80_sprite_ptr->SetRemap(remap);
-                    }
+                    pB4->SetRemap_Inline(get_remap_433BA0());
                 }
                 ChangeNextPedState2_45C540(0);
                 ChangeNextPedState1_45C500(0);
@@ -11275,12 +11245,7 @@ void Ped::SpawnPedGroupFollowers_46E200(u8 total)
             Fix16 xy_off = kFpOneSixth_678504 * Fix16(i);
             pNewPed->AllocCharB4_45C830(xy_off + this->field_1AC_cam.x, xy_off + this->field_1AC_cam.y, this->field_1AC_cam.z);
             Char_B4* pB4 = pNewPed->field_168_game_object;
-            const u8 remap = this->field_244_remap;
-            pB4->field_5_remap = field_244_remap;
-            if (remap != 0xFF)
-            {
-                pB4->field_80_sprite_ptr->SetRemap(remap);
-            }
+            pB4->SetRemap_Inline(this->get_remap_433BA0());
             pNewPed->set_health_4039A0(this->field_216_health);
             pNewPed->sub_433BB0(this->field_230);
             pNewPed->sub_433BC0(this->field_22C);
@@ -12273,14 +12238,8 @@ MATCH_FUNC(0x470200)
 void Ped::StartPedWalking_470200(Fix16 a2, Fix16 a3, Fix16 a4)
 {
     Ped::AllocCharB4_45C830(a2, a3, a4);
-    // 9.6f: SetRemap_433C10 (inlined, using it changes the code)
     Char_B4* pB4 = field_168_game_object;
-    u8 remap = field_244_remap;
-    pB4->field_5_remap = remap;
-    if (remap != 0xFF)
-    {
-        pB4->field_80_sprite_ptr->SetRemap(remap);
-    }
+    pB4->SetRemap_Inline(get_remap_433BA0());
     if (field_238_ped_type == ped_type::player_2)
     {
         Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
