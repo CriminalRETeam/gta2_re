@@ -18,8 +18,8 @@ OG_EXE = "./bin_comp/10.5.exe"
 LIBRARY_START = 0x5ED000
 
 # Keys of progress.json whose change makes us post an update
-PROGRESS_KEYS = ["matched", "total", "stub", "wip", "wip_reg_swap", "wip_reg_choice",
-                 "wip_instr_order", "wip_structural", "wip_unclassified", "wip_ready", "wip_reg_alloc"]
+PROGRESS_KEYS = ["matched", "total", "stub", "wip", "wip_reg_alloc", "wip_stack_layout",
+                 "wip_instr_order", "wip_structural", "wip_unclassified", "wip_ready"]
 
 
 def fmt_delta(old, new, always=False, with_pct=True):
@@ -40,6 +40,11 @@ def pct(part, whole):
     return part / whole * 100 if whole else 0.0
 
 
+def normalize_layout(asm):
+    asm = re.sub(r"-?0x[0-9A-Fa-f]+\(%esp\)", "N(%esp)", asm)
+    return re.sub(r"^(j\w+) 0x[0-9A-Fa-f]+", r"\1 T", asm, flags=re.M)
+
+
 def classify_wip(func, og_file_offset, og_size):
     """What kind of mismatch a WIP function has, from its asm compared with the original's."""
     import compare_function
@@ -53,11 +58,13 @@ def classify_wip(func, og_file_offset, og_size):
     new = asm(NEW_EXE, int(func["func_fo"], 16))
     if new == og:
         return "ready"  # already identical: can be promoted to MATCH_FUNC
-    if regonly.canon(new) == regonly.canon(og):
-        return "wip_reg_swap"
-    if regonly.shape(new) == regonly.shape(og):
-        return "wip_reg_choice"
-    if sorted(regonly.shape(new).split("\n")) == sorted(regonly.shape(og).split("\n")):
+    if regonly.canon(new) == regonly.canon(og) or regonly.shape(new) == regonly.shape(og):
+        return "wip_reg_alloc"
+    # also ignore stack slot offsets and jump targets, which move when anything else changes
+    og_n, new_n = normalize_layout(regonly.shape(og)), normalize_layout(regonly.shape(new))
+    if og_n == new_n:
+        return "wip_stack_layout"
+    if sorted(og_n.split("\n")) == sorted(new_n.split("\n")):
         return "wip_instr_order"
     return "wip_structural"
 
@@ -149,7 +156,7 @@ def main():
     total = matched + stub + wip
 
     # what kind of mismatch each WIP has
-    wip_buckets = {"wip_reg_swap": 0, "wip_reg_choice": 0, "wip_instr_order": 0, "wip_structural": 0, "wip_unclassified": 0}
+    wip_buckets = {"wip_reg_alloc": 0, "wip_stack_layout": 0, "wip_instr_order": 0, "wip_structural": 0, "wip_unclassified": 0}
     wip_ready = 0
     can_classify = os.path.exists(NEW_EXE) and os.path.exists(OG_EXE)
     for func in wip_funcs:
@@ -178,7 +185,6 @@ def main():
         "stub": stub,
         "wip": wip,
         "wip_ready": wip_ready,
-        "wip_reg_alloc": wip_buckets["wip_reg_swap"] + wip_buckets["wip_reg_choice"],
         **wip_buckets,
         "named_fields": named_fields,
         "unnamed_fields": unnamed_fields,
@@ -222,9 +228,9 @@ def main():
     out += lines(count_line("Stubs", "stub"))
     out.append(f"WIP: {wip}{d('wip')}")
     # the WIP ones by what's still wrong, as a share of all WIP functions
-    reg_alloc = wip_buckets["wip_reg_swap"] + wip_buckets["wip_reg_choice"]
     out += [ind + e for e in lines(
-        count_line("RegAlloc", "wip_reg_alloc", reg_alloc, wip),
+        count_line("RegAlloc", "wip_reg_alloc", of=wip),
+        count_line("Stack layout / jump targets", "wip_stack_layout", of=wip),
         count_line("Instruction order", "wip_instr_order", of=wip),
         count_line("Control flow / other", "wip_structural", of=wip),
         count_line("Unclassified", "wip_unclassified", of=wip),
