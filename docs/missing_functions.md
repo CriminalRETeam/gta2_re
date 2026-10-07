@@ -188,7 +188,6 @@ Game functions by size:
 | 0x4A0760 | 10 | `log_4A0760` |
 | 0x4A3610 | 102 | `MissLog2_4A3610` |
 | 0x4A3680 | 20 | `sub_4A3680` |
-| 0x4A3CF0 | 1056 | `FatalDXError_4A3CF0` |
 | 0x4A6310 | 1 | `nullsub_161` |
 | 0x4A6350 | 1 | `nullsub_162` |
 | 0x4A6BE0 | 152 | `File::sub_4A6BE0` |
@@ -658,3 +657,81 @@ Game functions by size:
 | 0x5ECE57 | 124 | `??6ostream@@QAEAAV0@E@Z` |
 | 0x5ECED3 | 84 | `?attach@filebuf@@QAEPAV1@H@Z` |
 | 0x5ECF27 | 329 | `?open@filebuf@@QAEPAV1@PBDHH@Z` |
+
+## Excluded: never called
+
+Don't add these. Nothing in `10.5.exe` calls, jumps to or points at them: no `call`/`jmp` rel32 to the address and no
+32-bit pointer to it in any section (so no vtable, callback or static init table entry either). "Only referenced from"
+lists functions that are themselves never called, so the whole chain is dead code. The import thunks
+(`0x5E8F20`-`0x5EB7FC`, `jmp [IAT]`, which the game calls through the IAT directly) and unused iostream members are left out.
+
+Without a marker (not to be added):
+
+| Address | Size | Name | Only referenced from |
+|---|---|---|---|
+| 0x401000 | 72 | `sub_401000` | 0x401180 |
+| 0x401180 | 1089 | `sub_401180` | (nothing) |
+| 0x401750 | 109 | `sub_401750` | 0x4023F0 |
+| 0x4023F0 | 314 | `sub_4023F0` | (nothing) |
+| 0x4057B0 | 421 | `sub_4057B0` | (nothing) |
+| 0x427170 | 10 | `cSampleManager::sub_427170` | (nothing) |
+| 0x444CE0 | 5 | `NoRefs_444CE0` | (nothing) |
+| 0x454940 | 84 | `dtor_454940` | (nothing) |
+| 0x4A6BE0 | 152 | `File::sub_4A6BE0` | (nothing) |
+| 0x4A6DB0 | 197 | `File::sub_4A6DB0` | (nothing) |
+| 0x4A8890 | 55 | `NoRefs_4A8890` | (nothing) |
+| 0x4AE170 | 93 | `FreeLoader::sub_4AE170` | (nothing) |
+| 0x4B80F0 | 389 | `sub_4B80F0` | (nothing) |
+| 0x4BBCB0 | 389 | `get_audio_path_4BBCB0` | (nothing) |
+| 0x4BBFA0 | 389 | `sub_4BBFA0` | (nothing) |
+| 0x5212E0 | 7 | `goofy_thompson:NoRefs_5212E0` | (nothing) |
+| 0x523060 | 830 | `sub_523060` | (nothing) |
+| 0x525D50 | 53 | `sub_525D50` | 0x523060 |
+| 0x529B20 | 155 | `Object_5C::sub_529B20` | (nothing) |
+| 0x540A40 | 594 | `Wolfy_30::sub_540A40` | (nothing) |
+| 0x543900 | 118 | `Wolfy_7A8::sub_543900` | (nothing) |
+| 0x56C170 | 95 | `jolly_poitras_0x2BC0::sub_56C170` | (nothing) |
+| 0x5875A0 | 64 | `Registry::sub_5875A0` | (nothing) |
+| 0x5875E0 | 59 | `Registry::sub_5875E0` | (nothing) |
+| 0x587620 | 108 | `Registry::sub_587620` | (nothing) |
+| 0x58E000 | 7 | `cSampleManager::sub_58E000` | (nothing) |
+| 0x5B2750 | 3 | `sub_5B2750` | (nothing) |
+| 0x5D98D0 | 9 | `IsFullScreen_5D98D0` | (nothing) |
+| 0x5DCED0 | 25 | `sub_5DCED0` | (nothing) |
+
+Already in `Source/` with a marker, but also never called (kept, listed for reference):
+
+| Address | Size | Name | Only referenced from |
+|---|---|---|---|
+| 0x407BD0 | 266 | `Trailer::sub_407BD0` | (nothing) |
+| 0x43A1F0 | 18 | `Car_BC::is_bus_43A1F0` | (nothing) |
+| 0x43B420 | 285 | `Car_BC::GetDoorWorldPos_43B420` | (nothing) |
+| 0x441600 | 203 | `Car_BC::NoRefs_441600` | (nothing) |
+| 0x454A50 | 38 | `CarInfo_808::Reload_454A50` | (nothing) |
+| 0x477BA0 | 40 | `PurpleDoom::DebugLogAll_477BA0` | (nothing) |
+| 0x478950 | 157 | `PurpleDoom::DebugLog_478950` | 0x477BA0 |
+| 0x4A6BB0 | 44 | `File::IsCdRomDrive_4A6BB0` | 0x4B80F0, 0x4BBCB0, 0x4BBFA0 |
+| 0x4B5270 | 243 | `Frontend::DrawSavedStage_4B5270` | (nothing) |
+| 0x4C9240 | 94 | `PedGroup::KillEntireGroup_4C9240` | (nothing) |
+| 0x4DF3E0 | 239 | `Map_0x370::sub_4DF3E0` | (nothing) |
+| 0x4E0120 | 14 | `Map_0x370::sub_4E0120` | (nothing) |
+| 0x4E4820 | 242 | `Map_0x370::sub_4E4820` | (nothing) |
+| 0x4E7E90 | 120 | `Map_0x370::FindFirstPavementCoord_4E7E90` | (nothing) |
+| 0x4FF990 | 70 | `Mike_A80::sub_4FF990` | (nothing) |
+| 0x4FF9F0 | 71 | `Mike_A80::sub_4FF9F0` | (nothing) |
+| 0x4FFA50 | 50 | `Mike_A80::sub_4FFA50` | (nothing) |
+| 0x4FFA90 | 758 | `Mike_A80::sub_4FFA90` | (nothing) |
+| 0x51E140 | 361 | `NetPlay::CreateTcpIpAddress_51E140` | (nothing) |
+| 0x51E2B0 | 405 | `NetPlay::CreateModemAddress_51E2B0` | (nothing) |
+| 0x51E450 | 354 | `NetPlay::CreateSerialAddress_51E450` | (nothing) |
+| 0x520EA0 | 1 | `NetPlay::NoRefs_null_520EA0` | (nothing) |
+| 0x5215B0 | 119 | `NetPlay::CopyConnection_5215B0` | (nothing) |
+| 0x521BE0 | 155 | `NetPlay::NoRefs_Send_521BE0` | (nothing) |
+| 0x521C80 | 151 | `NetPlay::NoRefs_Send_521C80` | (nothing) |
+| 0x5455F0 | 8 | `Char_B4::KillPed_5455F0` | (nothing) |
+| 0x56B680 | 33 | `player_stats_0xA4::GetTotalLatestScore_56B680` | 0x56C170 |
+| 0x571150 | 235 | `PoliceCrew_38::SpawnFBI_nonused_571150` | (nothing) |
+| 0x5872A0 | 145 | `Registry::Set_Binary_5872A0` | 0x5875E0 |
+| 0x589210 | 158 | `RouteFinder::NoRefs_589210` | (nothing) |
+| 0x5AA8C0 | 4 | `gtx_0x106C::GetTiles_5AA8C0` | (nothing) |
+| 0x5B1170 | 5280 | `NoRefs_sub_5B1170` | (nothing) |
