@@ -53,7 +53,7 @@ void PoliceCrew_38::Init_5709C0()
     field_2A = 0;
     field_2C = 0;
     field_30 = 0;
-    field_34 = 0;
+    field_34_is_dismissed = 0;
 }
 
 MATCH_FUNC(0x570a10)
@@ -621,7 +621,7 @@ void PoliceCrew_38::sub_5720C0()
 MATCH_FUNC(0x572210)
 bool PoliceCrew_38::sub_572210()
 {
-    if (field_14_pPursuitTarget->field_0_criminal_ped && !field_34 && field_14_pPursuitTarget->field_C_timer > 0)
+    if (field_14_pPursuitTarget->field_0_criminal_ped && !field_34_is_dismissed && field_14_pPursuitTarget->field_C_timer > 0)
     {
         if (!field_10_subObj->field_24)
         {

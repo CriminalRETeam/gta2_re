@@ -84,7 +84,7 @@ void Police_7B8::Init_56F400()
 }
 
 MATCH_FUNC(0x56f4d0)
-bool Police_7B8::HandlePedDeath_56F4D0(Ped* pPed)
+bool Police_7B8::HandleCrewPedDeath_56F4D0(Ped* pPed)
 {
     for (u8 idx = 0; idx < MAX_POLICE_CREWS; idx++)
     {
@@ -631,7 +631,7 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
                             numCrews = pPursuitTarget->field_75_num_crews;
                             for (crewIdx = 0; crewIdx < numCrews; crewIdx++)
                             {
-                                pPursuitTarget->field_20_crews[0]->field_34 = 1;
+                                pPursuitTarget->field_20_crews[0]->field_34_is_dismissed = 1;
                                 pPursuitTarget->field_20_crews[0]->RemoveFromPursuit_570AB0();
                             }
                             pPursuitTarget->field_70_num_police_crews = 0;
@@ -664,7 +664,7 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
                         PoliceCrew_38* pCrew = pPursuitTarget->field_20_crews[crewIdx];
                         if (pCrew && pCrew->field_1C_used == 1 && pCrew->field_20_crew_kind == 1 && pCrew->field_10_subObj->field_0_car)
                         {
-                            pPursuitTarget->field_20_crews[crewIdx]->field_34 = 1;
+                            pPursuitTarget->field_20_crews[crewIdx]->field_34_is_dismissed = 1;
                             pPursuitTarget->field_20_crews[crewIdx]->RemoveFromPursuit_570AB0();
                             break;
                         }
