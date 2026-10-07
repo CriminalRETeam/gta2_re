@@ -294,7 +294,7 @@ void PoliceCrew_38::SpawnFBI_nonused_571150()
     field_10_subObj->field_0_car->InitCarAIControl_440590();
     field_10_subObj->field_0_car->sub_43AF40();
     field_10_subObj->field_0_car->ActivateEmergencyLights_43C920();
-    field_10_subObj->field_8_group = 0;
+    field_10_subObj->field_8_group = NULL;
 }
 
 MATCH_FUNC(0x571350)
@@ -679,7 +679,7 @@ void PoliceCrew_38::State3_AlertedSearch_572340()
             if (pCar)
             {
                 pCar->MarkForDespawn_421470();
-                field_10_subObj->field_0_car = 0;
+                field_10_subObj->field_0_car = NULL;
                 field_24_state = police_crew_state::shutdown_6;
                 PoliceCrew_38::sub_575650();
             }
@@ -885,7 +885,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
                 if (pCar)
                 {
                     pCar->MarkForDespawn_421470();
-                    field_10_subObj->field_0_car = 0;
+                    field_10_subObj->field_0_car = NULL;
                     field_24_state = police_crew_state::shutdown_6;
                     PoliceCrew_38::sub_575650();
                 }

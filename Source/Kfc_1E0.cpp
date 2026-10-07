@@ -63,10 +63,10 @@ void Kfc_30::Init_5CBC00()
     field_1E_is_used = 0;
     field_20_crew_type = 0;
     field_24_phase = 0;
-    field_0_car = 0;
-    field_4_ped = 0;
+    field_0_car = NULL;
+    field_4_ped = NULL;
     field_28_state = crew_state::idle_0;
-    field_8_group = 0;
+    field_8_group = NULL;
     field_2C_ready = 0;
     field_1C_unused = 0;
 }
@@ -161,7 +161,7 @@ void Kfc_30::UpdateStateMachine_5CBD50()
         if (!field_8_group->field_34_count)
         {
             field_8_group->ClearGroupData_4C8E90();
-            field_8_group = 0;
+            field_8_group = NULL;
         }
     }
 
@@ -260,7 +260,7 @@ void Kfc_30::UpdateStateMachine_5CBD50()
                     gHamburger_500_678E30->FreeEntry_474CC0(field_0_car->field_60);
                     field_0_car->field_60 = 0;
                 }
-                field_0_car = 0;
+                field_0_car = NULL;
             }
             if (bNoPedsAlive)
             {
@@ -282,8 +282,8 @@ void Kfc_30::UpdateStateMachine_5CBD50()
                     }
                     field_8_group->ClearGroupData_4C8E90();
                 }
-                field_8_group = 0;
-                field_4_ped = 0;
+                field_8_group = NULL;
+                field_4_ped = NULL;
                 field_24_phase = 2;
                 return;
             }
@@ -316,7 +316,7 @@ void Kfc_30::UpdateStateMachine_5CBD50()
                     {
                         field_4_ped = field_8_group->field_4_ped_list[0];
                         field_8_group->ClearGroupData_4C8E90();
-                        field_8_group = 0;
+                        field_8_group = NULL;
                         field_4_ped->SetObjective(objectives_enum::no_obj_0, 9999);
                         field_4_ped->SetObjective2_463830(0, 9999);
                         field_24_phase = 0;
@@ -336,7 +336,7 @@ void Kfc_30::UpdateStateMachine_5CBD50()
                 {
                     field_4_ped = field_8_group->field_2C_ped_leader;
                     field_8_group->DestroyGroup_4C93A0();
-                    field_8_group = 0;
+                    field_8_group = NULL;
                     field_4_ped->SetObjective(objectives_enum::no_obj_0, 9999);
                     field_4_ped->SetObjective2_463830(0, 9999);
                     field_24_phase = 0;
@@ -422,7 +422,7 @@ void Kfc_30::UpdateStateMachine_5CBD50()
                 field_0_car->field_60 = 0;
             }
         }
-        field_0_car = 0;
+        field_0_car = NULL;
     }
 }
 
@@ -439,7 +439,7 @@ void Kfc_30::CleanupExpiredEntities_5CC1C0()
         if (field_8_group->field_34_count == 0)
         {
             field_8_group->ClearGroupData_4C8E90();
-            this->field_8_group = 0;
+            this->field_8_group = NULL;
         }
     }
 
@@ -469,7 +469,7 @@ void Kfc_30::CleanupExpiredEntities_5CC1C0()
             }
             else if (field_4_ped->isDead_403B60())
             {
-                this->field_4_ped = 0;
+                this->field_4_ped = NULL;
             }
         }
 
@@ -512,7 +512,7 @@ void Kfc_30::CleanupExpiredEntities_5CC1C0()
                     field_0_car->field_60 = 0;
                 }
             }
-            field_0_car = 0;
+            field_0_car = NULL;
 
             if (bClearPedAndGroup)
             {
@@ -536,7 +536,7 @@ void Kfc_30::CleanupExpiredEntities_5CC1C0()
                     }
                     field_8_group->ClearGroupData_4C8E90();
                 }
-                this->field_8_group = 0;
+                this->field_8_group = NULL;
                 this->field_2C_ready = 1;
             }
             else if (bClearCharB4F24)
@@ -641,7 +641,7 @@ bool Kfc_30::Service_5CC480()
             }
             else
             {
-                this->field_0_car = 0;
+                this->field_0_car = NULL;
             }
 
             if (this->field_0_car)
@@ -661,7 +661,7 @@ bool Kfc_30::Service_5CC480()
             }
             else
             {
-                this->field_0_car = 0;
+                this->field_0_car = NULL;
             }
             if (this->field_0_car)
             {
@@ -680,7 +680,7 @@ bool Kfc_30::Service_5CC480()
             }
             else
             {
-                this->field_0_car = 0;
+                this->field_0_car = NULL;
             }
 
             if (this->field_0_car)
@@ -691,7 +691,7 @@ bool Kfc_30::Service_5CC480()
             break;
 
         default:
-            field_0_car = 0;
+            field_0_car = NULL;
             break;
     }
 

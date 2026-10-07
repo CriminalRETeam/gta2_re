@@ -358,7 +358,7 @@ void Ambulance_20::EvaluatePickupState_4FA9D0()
         {
             if (field_4_paramedics_crew->field_0_car->IsMaxDamage_40F890())
             {
-                field_4_paramedics_crew->field_0_car = 0;
+                field_4_paramedics_crew->field_0_car = NULL;
                 field_4_paramedics_crew->field_24_phase = 0;
             }
         }
