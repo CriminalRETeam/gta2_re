@@ -22,7 +22,7 @@ class CarChaseTask_40
     Ped* field_4_pDriver;
     s32 field_8_task_type; // car_task_type
     s32 field_C_chase_state; // car_chase_state
-    char_type field_10;
+    char_type field_10_bRamTarget; // set when overtaking: touching the target car then damages it (CarAI_78)
     Fix16 field_14_target_x;
     Fix16 field_18_target_y;
     Fix16 field_1C_target_z;
@@ -36,10 +36,10 @@ class CarChaseTask_40
     char_type field_27_pad[3];
     s16 field_2A_settle_counter;
     u16 field_2C_side_counter;
-    s16 field_2E;
+    s16 field_2E_wait_counter; // ticks spent waiting next to the target before pulling ahead
     Ped* field_30_pTargetPed;
     s16 field_34_snap_timer;
-    s32 field_38;
+    s32 field_38_unused;
     char_type field_3C_block_counter;
 };
 

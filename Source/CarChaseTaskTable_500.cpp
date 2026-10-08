@@ -10,7 +10,7 @@ MATCH_FUNC(0x4747b0)
 void CarChaseTask_40::ResetEntry_4747B0()
 {
     field_0_bInUse = 0;
-    field_10 = 0;
+    field_10_bRamTarget = 0;
     field_8_task_type = 0;
     field_14_target_x = kFpZero_678D0C;
     field_18_target_y = kFpZero_678D0C;
@@ -25,11 +25,11 @@ void CarChaseTask_40::ResetEntry_4747B0()
     field_26_bRouteFinished = 0;
     field_2A_settle_counter = 0;
     field_2C_side_counter = 0;
-    field_2E = 0;
+    field_2E_wait_counter = 0;
     field_C_chase_state = car_chase_state::follow_behind_0;
     field_34_snap_timer = 0;
     field_4_pDriver = 0;
-    field_38 = 0;
+    field_38_unused = 0;
     field_3C_block_counter = 0;
 }
 
