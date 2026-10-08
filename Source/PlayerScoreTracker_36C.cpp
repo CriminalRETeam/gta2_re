@@ -249,9 +249,9 @@ void PlayerScoreTracker_36C::Service_591C70()
     }
 
     // Handle the previous LABEL_63 section
-    const s32 cur_rng = gpRng_67AB34->field_0_rng; // TODO: inline
+    const s32 cur_rng = gpRng_67AB34->get_cur_rng_41CFE0();
 
-    if ((u32)(gpRng_67AB34->field_0_rng - field_70_last_car_kill_time) > 15)
+    if ((u32)(gpRng_67AB34->get_cur_rng_41CFE0() - field_70_last_car_kill_time) > 15)
     {
         field_74_car_kill_combo = 1;
     }
