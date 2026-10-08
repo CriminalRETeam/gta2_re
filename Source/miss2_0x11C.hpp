@@ -14,7 +14,7 @@ class miss2_8;
 class Car_BC;
 class Object_2C;
 class Crane_15C;
-class nostalgic_ellis_0x28;
+class Light_28;
 class Door_38;
 class miss2_0x11C;
 class Hud_Arrow_7C;
@@ -133,7 +133,7 @@ struct SCR_POINTER : SCR_CMD_HEADER
         Car_BC* field_8_car;
         Object_2C* field_8_obj;
         Crane_15C* field_8_crane;
-        nostalgic_ellis_0x28* field_8_light;
+        Light_28* field_8_light;
         Door_38* field_8_door;
         Crusher_30* field_8_crusher;
         s32 field_8_counter;

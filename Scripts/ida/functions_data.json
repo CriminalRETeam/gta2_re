@@ -8113,38 +8113,38 @@
         "v105_address": "0x4d6000"
     },
     {
-        "name": "nostalgic_ellis_0x28::ctor",
+        "name": "Light_28::ctor",
         "v96f_address": "0x4612f0",
         "v105_address": "0x4d6d20"
     },
     {
-        "name": "nostalgic_ellis_0x28::dtor",
+        "name": "Light_28::dtor",
         "v96f_address": "0x461290",
         "v105_address": "0x4d6d60"
     },
     {
-        "name": "nostalgic_ellis_0x28::AddToGrid_4D6D70",
+        "name": "Light_28::AddToGrid_4D6D70",
         "v96f_address": "0x461360",
         "v105_address": "0x4d6d70"
     },
     {
-        "name": "nostalgic_ellis_0x28::RemoveFromGrid_4D6DC0",
+        "name": "Light_28::RemoveFromGrid_4D6DC0",
         "v96f_address": null,
         "v105_address": "0x4d6dc0"
     },
     {
-        "name": "Light::AllocGrid_4D6E00",
+        "name": "LightGrid::AllocGrid_4D6E00",
         "v96f_address": null,
         "v105_address": "0x4d6e00"
     },
     {
-        "name": "Light::FreeGrid_4D6E30",
+        "name": "LightGrid::FreeGrid_4D6E30",
         "v96f_address": "0x4612d0",
         "v105_address": "0x4d6e30",
         "v96f_auto": true
     },
     {
-        "name": "Light::SubmitLightsInArea_4D6E50",
+        "name": "LightGrid::SubmitLightsInArea_4D6E50",
         "v96f_address": "0x461400",
         "v105_address": "0x4d6e50",
         "v96f_auto": true

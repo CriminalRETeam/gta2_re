@@ -23,7 +23,7 @@ class Object_3C;
 class Object_2C_Pool;
 class Explosion_30;
 class Object_8;
-class nostalgic_ellis_0x28;
+class Light_28;
 
 class Object_2C
 {
@@ -324,7 +324,7 @@ class Object_2C
     {
         Explosion_30* pExplosion;
         Object_8* o8;
-        nostalgic_ellis_0x28* pLight;
+        Light_28* pLight;
     };
     TAny field_C_pAny;
     Object_3C* field_10_obj_3c;

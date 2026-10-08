@@ -75,7 +75,7 @@
 #include "memory.hpp"
 #include "miss2_0x11C.hpp"
 #include "miss2_8.hpp"
-#include "nostalgic_ellis_0x28.hpp"
+#include "Light_28.hpp"
 #include "registry.hpp"
 #include "root_sound.hpp"
 #include "RouteFinder.hpp"

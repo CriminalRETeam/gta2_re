@@ -48,8 +48,8 @@ set(gta2_lib_src
   Source/frosty_pasteur_0xC1EA8.cpp
   Source/map_0x370.hpp
   Source/map_0x370.cpp
-  Source/nostalgic_ellis_0x28.hpp
-  Source/nostalgic_ellis_0x28.cpp
+  Source/Light_28.hpp
+  Source/Light_28.cpp
   Source/BitSet32.hpp
   Source/fix16.hpp
   Source/fix16.cpp

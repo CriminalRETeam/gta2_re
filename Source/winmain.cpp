@@ -57,7 +57,7 @@
 #include "char.hpp"
 #include "collide.hpp"
 #include "miss2_8.hpp"
-#include "nostalgic_ellis_0x28.hpp"
+#include "Light_28.hpp"
 #include "sound_obj.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
@@ -161,8 +161,8 @@ void force_link()
     Network_20324 network;
     network.cb_FillSessionList_519D30(0, 0);
 
-    nostalgic_ellis_0x28 nostalgic;
-    nostalgic.AddToGrid_4D6D70();
+    Light_28 light;
+    light.AddToGrid_4D6D70();
 
     PedManager PedManager;
     PedManager.DoIanTest_471060(0);

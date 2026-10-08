@@ -770,7 +770,7 @@ void Map_0x370::update_lights_4DFCD0()
             radius -= kFpOneThirtySecond_6F601C;
         }
 
-        nostalgic_ellis_0x28* pLight =
+        Light_28* pLight =
             gLight_1D4CC_6F5520->Init_469010(xpos, ypos, zpos, pMapLight->field_0_argb, radius, pMapLight->field_C_intensity);
 
         if (pMapLight->field_E_on_time)

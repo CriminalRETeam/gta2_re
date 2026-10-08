@@ -898,7 +898,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x52A6D0 | `Object_5C::ReactivateObjectAfterImpact_52A6D0` | 0x483E50 | `Object_2C::sub_4826A0` (10.5 0x525AE0), `sub_482F80`, ✓ `sub_40FEB0`, ✓ `sub_40F7B0` | checked | 4826A0 = RemoveFromCollisionBuckets/525AE0 pairing, 482F80 = PoolTake_522360 (called) |
 | 0x52AD80 | `Object_3C::ctor_52AD80` | 0x484020 | `struct_4::ctor_424620` | checked | struct_4 ctor (424620) is the member ctor, already inline |
 | 0x52AE90 | `Object_2C::GetSpeedVector_52AE90` | 0x482C50 | `sub_482BA0` | checked | 482BA0 = Object_3C::GetSpeedVector_52ADF0, called out of line by the matching 10.5 code |
-| 0x52B2A0 | `Light_1D4CC::sub_52B2A0` | 0x469010 | `sub_464C40`, `sub_463F10`, `nostalgic_ellis_0x28::sub_45B2D0` | checked | Alloc_464C40, SetRadius_463F10, SetCurrentIntensity_45B2D0 already used via Init_469010 |
+| 0x52B2A0 | `Light_1D4CC::sub_52B2A0` | 0x469010 | `sub_464C40`, `sub_463F10`, `Light_28::sub_45B2D0` | checked | Alloc_464C40, SetRadius_463F10, SetCurrentIntensity_45B2D0 already used via Init_469010 |
 | 0x5331A0 | `ObjectDefinition_74::ApplyDefinitionToSprite_5331A0` | 0x4883A0 | ✓ `Car_3C::SetType_4206F0`, ✓ `sub_4206C0`, ✓ `sub_40F7B0`, `sub_488200` | done | Sprite::SetType_4206F0 and set_id_lazy_4206C0; Still matches. |
 | 0x534650 | `Garage_48::ValidateParkCommand_534650` | 0x489B10 | ✓ `sub_489640`, ✓ `sub_489630`, ✓ `sub_489620` | matched | all 9.6f inlines used |
 | 0x538A40 | `Particle_4C::sub_538A40` | 0x48B4D0 | ✓ `sub_4206C0`, ✓ `sub_4337D0`, ✓ `sub_4337F0` | done | SetFlags_4337D0 + Set_2C_0x4_Flag_4337F0; code unchanged |
@@ -1640,7 +1640,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x482BA0 | `sub_482BA0` | 43 |  | Source/Object_3C.cpp:44, Source/Object_3C.hpp:100 | 1/1 | todo |  |
 | 0x482BD0 | `sub_482BD0` | 5 |  | Source/Object_3C.hpp:92 | 1/0 | todo |  |
 | 0x482CC0 | `sub_482CC0` | 50 |  | Source/CarPhysics_B0.hpp:280 | 1/0 | todo |  |
-| 0x482D30 | `sub_482D30` | 40 |  | Source/nostalgic_ellis_0x28.hpp:94 | 1/0 | todo |  |
+| 0x482D30 | `sub_482D30` | 40 |  | Source/Light_28.hpp:94 | 1/0 | todo |  |
 | 0x482F60 | `sub_482F60` | 30 |  |  | 1/3 | todo |  |
 | 0x483570 | `sub_483570` | 105 |  |  | 1/0 | todo |  |
 | 0x483FA0 | `Object_8_Pool::sub_483FA0` | 18 |  |  | 1/1 | todo |  |
@@ -2141,7 +2141,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x45B0C0 | `angry_lewin_0x85C::sub_45B0C0` | 12 |  | Source/Player.hpp:51 | 0/1 | todo |  |
 | 0x45B0D0 | `angry_lewin_0x85C::sub_45B0D0` | 4 |  |  | 0/1 | todo |  |
 | 0x45B1A0 | `EmergencyCrewPool_1E0::ctor_45B1A0` | 82 |  |  | 0/1 | todo |  |
-| 0x45B2D0 | `nostalgic_ellis_0x28::sub_45B2D0` | 21 |  | Source/Light_1D4CC.hpp:58, Source/Light_1D4CC.hpp:71 | 0/1 | todo |  |
+| 0x45B2D0 | `Light_28::sub_45B2D0` | 21 |  | Source/Light_1D4CC.hpp:58, Source/Light_1D4CC.hpp:71 | 0/1 | todo |  |
 | 0x45B3D0 | `Light_1D4CC::ctor_45B3D0` | 65 |  |  | 0/1 | todo |  |
 | 0x45B420 | `GameSession_578::sub_45B420` | 11 |  | Source/GameSession_578.hpp:92 | 0/1 | todo |  |
 | 0x45B440 | `Tango_54::ctor_45B440` | 29 |  |  | 0/1 | todo |  |
@@ -2190,7 +2190,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x463530 | `sub_463530` | 53 |  |  | 0/1 | todo |  |
 | 0x463710 | `sub_463710` | 70 |  | Source/Fix16_Rect.hpp:77 | 0/2 | todo |  |
 | 0x4637A0 | `sub_4637A0` | 12 |  | Source/Fix16_Rect.hpp:153 | 0/1 | todo |  |
-| 0x463F10 | `sub_463F10` | 55 |  | Source/Light_1D4CC.hpp:70, Source/nostalgic_ellis_0x28.hpp:14 | 0/1 | todo |  |
+| 0x463F10 | `sub_463F10` | 55 |  | Source/Light_1D4CC.hpp:70, Source/Light_28.hpp:14 | 0/1 | todo |  |
 | 0x464C40 | `sub_464C40` | 26 |  | Source/Light_1D4CC.hpp:43, Source/Light_1D4CC.hpp:64 | 0/1 | todo |  |
 | 0x465090 | `Map_0x370::sub_465090` | 151 |  |  | 0/1 | todo |  |
 | 0x4653C0 | `sub_4653C0` | 80 | 0x4DFE10 MATCH |  | 0/1 | todo |  |
@@ -2284,7 +2284,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x476A10 | `sub_476A10` | 10 |  |  | 0/2 | todo |  |
 | 0x476A20 | `sub_476A20` | 16 |  | Source/miss2_0x11C.cpp:993, Source/miss2_0x11C.cpp:1120 | 0/2 | todo |  |
 | 0x476A90 | `sub_476A90` | 4 |  | Source/Door_38.hpp:54 | 0/1 | todo |  |
-| 0x476AE0 | `sub_476AE0` | 22 |  | Source/nostalgic_ellis_0x28.hpp:88 | 0/1 | todo |  |
+| 0x476AE0 | `sub_476AE0` | 22 |  | Source/Light_28.hpp:88 | 0/1 | todo |  |
 | 0x476B10 | `sub_476B10` | 13 |  | Source/GameSession_578.hpp:26 | 0/1 | todo |  |
 | 0x476D20 | `sub_476D20` | 44 |  |  | 0/1 | todo |  |
 | 0x476DF0 | `sub_476DF0` | 11 |  |  | 0/1 | todo |  |
@@ -2328,7 +2328,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x482BF0 | `sub_482BF0` | 11 |  | Source/Object_5C.hpp:302 | 0/1 | todo |  |
 | 0x482C00 | `sub_482C00` | 10 |  | Source/Object_5C.hpp:182 | 0/1 | todo |  |
 | 0x482C10 | `sub_482C10` | 23 |  | Source/Object_5C.cpp:99, Source/Object_5C.hpp:293 | 0/2 | todo |  |
-| 0x482D60 | `sub_482D60` | 43 |  | Source/nostalgic_ellis_0x28.hpp:80 | 0/2 | todo |  |
+| 0x482D60 | `sub_482D60` | 43 |  | Source/Light_28.hpp:80 | 0/2 | todo |  |
 | 0x483A00 | `sub_483A00` | 8 |  |  | 0/4 | todo |  |
 | 0x483C00 | `sub_483C00` | 27 |  |  | 0/1 | todo |  |
 | 0x483C60 | `sub_483C60` | 19 | 0x5291E0 MATCH |  | 0/1 | todo |  |

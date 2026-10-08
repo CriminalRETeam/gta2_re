@@ -1146,7 +1146,7 @@ void miss2_0x11C::SCRCMD_DECLARE_MISSION_504DD0(SCR_TWO_PARAMS* pCmd)
 MATCH_FUNC(0x504ee0)
 void miss2_0x11C::CreateLight_504EE0(SCR_CREATE_LIGHT* pCmd, SCR_POINTER* pPointer)
 {
-    nostalgic_ellis_0x28* pNewLight = gLight_1D4CC_6F5520->Init_469010(pCmd->field_C_xpos,
+    Light_28* pNewLight = gLight_1D4CC_6F5520->Init_469010(pCmd->field_C_xpos,
                                                                        pCmd->field_10_ypos,
                                                                        pCmd->field_14_zpos,
                                                                        pCmd->field_18_argb,
