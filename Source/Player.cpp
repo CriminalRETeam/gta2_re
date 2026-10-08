@@ -2762,7 +2762,7 @@ void Player::CopyPlayerDataToSave_56A1A0(save_stats_0x90* pSave)
         pSave->field_66_weapon_ammo[weapon_idx] = field_718_weapons[weapon_idx]->get_ammo_4A4FB0();
     }
 
-    for (u16 crime_idx = 0; crime_idx < 10; crime_idx++)
+    for (u16 crime_idx = 0; crime_idx < crime_stats_type::count_10; crime_idx++)
     {
         pSave->field_3C_crime_counts[crime_idx] = field_644_crime_stats.field_0_crime_count_list[crime_idx];
     }
@@ -2794,7 +2794,7 @@ void Player::UpdateGameFromSave_56A310(save_stats_0x90* pSave)
         field_718_weapons[weapon_idx]->add_ammo_5DCE20(pSave->field_66_weapon_ammo[weapon_idx]);
     }
 
-    for (u16 crime_idx = 0; crime_idx < 10; crime_idx++)
+    for (u16 crime_idx = 0; crime_idx < crime_stats_type::count_10; crime_idx++)
     {
         field_644_crime_stats.field_0_crime_count_list[crime_idx] = pSave->field_3C_crime_counts[crime_idx];
     }

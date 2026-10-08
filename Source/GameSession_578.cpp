@@ -196,7 +196,7 @@ s32 GameSession_578::GetStatistic_4C59F0(u8 idx)
 MATCH_FUNC(0x4C5A10)
 void GameSession_578::StoreCrimeStats_4C5A10(Player* pPlayer)
 {
-    for (u8 i = 0; i < 10; i++)
+    for (u8 i = 0; i < crime_stats_type::count_10; i++)
     {
         SetStatistic_4C59D0(i, pPlayer->field_644_crime_stats.field_0_crime_count_list[i]);
     }
