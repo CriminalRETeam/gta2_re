@@ -144,9 +144,9 @@ void CarAI_78::MakeAgressiveSirensAndLights_4476F0()
 inline void CarAI_78::TurnAround_447970()
 {
     field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
-    field_0_car->field_60->field_22 = 0;
+    field_0_car->field_60->field_22_bFollowingRoute = 0;
     field_0_car->sub_43AF60();
-    field_0_car->field_60->field_26 = 1;
+    field_0_car->field_60->field_26_bRouteFinished = 1;
 }
 
 MATCH_FUNC(0x447710)
@@ -294,7 +294,7 @@ void CarAI_78::DoShortcutsUsingJunctions_447970()
             gRouteFinder_6FFDC8->CancelRoute_589930(field_28_junc_idx);
             this->field_28_junc_idx = -1;
             this->field_0_car->sub_43AF60();
-            this->field_0_car->field_60->field_26 = 1;
+            this->field_0_car->field_60->field_26_bRouteFinished = 1;
             return;
         }
 
@@ -1637,7 +1637,7 @@ void CarAI_78::FollowRoadDirection_44A1F0()
         field_24_flags &= ~0xC0;
         if (byte_677BBC)
         {
-            field_0_car->field_60->field_22 = 1;
+            field_0_car->field_60->field_22_bFollowingRoute = 1;
         }
     }
 
@@ -2798,23 +2798,23 @@ void CarAI_78::Init_AI_Chase_44E0C0()
             this->field_28_junc_idx = -1;
         }
 
-        this->field_0_car->field_60->field_22 = 0;
+        this->field_0_car->field_60->field_22_bFollowingRoute = 0;
 
         if (gPolice_7B8_6FEE40->field_654_max_wanted_level > 2 || field_0_car->IsPoliceCar_439EC0())
         {
-            this->field_0_car->field_60->field_34 = 100;
+            this->field_0_car->field_60->field_34_snap_timer = 100;
         }
         else
         {
-            this->field_0_car->field_60->field_34 = 300;
+            this->field_0_car->field_60->field_34_snap_timer = 300;
         }
         return;
     }
 
     CarChaseTask_40* p60 = this->field_0_car->field_60;
-    if (p60->field_20)
+    if (p60->field_20_bCanSnapToTarget)
     {
-        if (p60->field_34 == 0)
+        if (p60->field_34_snap_timer == 0)
         {
             if (!gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(this->field_0_car->field_50_car_sprite, kFpFive_677CA0))
             {
@@ -2826,11 +2826,11 @@ void CarAI_78::Init_AI_Chase_44E0C0()
                         {
                             if (gPolice_7B8_6FEE40->field_654_max_wanted_level > 2 || field_0_car->IsPoliceCar_439EC0())
                             {
-                                this->field_0_car->field_60->field_34 = 100;
+                                this->field_0_car->field_60->field_34_snap_timer = 100;
                             }
                             else
                             {
-                                this->field_0_car->field_60->field_34 = 300;
+                                this->field_0_car->field_60->field_34_snap_timer = 300;
                             }
 
                             this->field_8_maneuver_active = 0;
@@ -2845,9 +2845,9 @@ void CarAI_78::Init_AI_Chase_44E0C0()
                 }
             }
         }
-        else if ((u16)p60->field_34 > 0)
+        else if ((u16)p60->field_34_snap_timer > 0)
         {
-            p60->field_34--;
+            p60->field_34_snap_timer--;
         }
         return;
     }
@@ -2882,15 +2882,15 @@ void CarAI_78::Init_AI_Chase_44E0C0()
                     this->field_28_junc_idx = -1;
                 }
 
-                this->field_0_car->field_60->field_22 = 0;
+                this->field_0_car->field_60->field_22_bFollowingRoute = 0;
 
                 if (gPolice_7B8_6FEE40->field_654_max_wanted_level > 2 || field_0_car->IsPoliceCar_439EC0())
                 {
-                    this->field_0_car->field_60->field_34 = 100;
+                    this->field_0_car->field_60->field_34_snap_timer = 100;
                 }
                 else
                 {
-                    this->field_0_car->field_60->field_34 = 300;
+                    this->field_0_car->field_60->field_34_snap_timer = 300;
                 }
                 return;
             }
@@ -2913,7 +2913,7 @@ void CarAI_78::Init_AI_Chase_44E0C0()
         }
 
         GoToBlock_447CA0(gCurrCarAI_TargetX_6779F0.ToInt(), gCurrCarAI_TargetY_6779F4.ToInt(), maybe_z.ToInt(), 3);
-        this->field_0_car->field_60->field_22 = 1;
+        this->field_0_car->field_60->field_22_bFollowingRoute = 1;
     }
 }
 
@@ -4193,7 +4193,7 @@ void CarAI_78::ReactToNearbyCar_451980()
     {
         if (byte_677BBC)
         {
-            if (!field_0_car->field_60->field_22)
+            if (!field_0_car->field_60->field_22_bFollowingRoute)
             {
                 if (!cBC->field_60 || field_0_car->field_60->field_30_pTargetPed != cBC->field_60->field_30_pTargetPed)
                 {
@@ -4524,7 +4524,7 @@ void CarAI_78::ScanAheadForObstacles_452060()
             ++this->field_5A_obstacle_timer;
         }
 
-        if (!byte_677BBC || this->field_0_car->field_60->field_22)
+        if (!byte_677BBC || this->field_0_car->field_60->field_22_bFollowingRoute)
         {
             DetectCarAhead_44D1D0();
         }
@@ -4914,7 +4914,7 @@ void CarAI_78::UpdateDrivingAI_452DF0()
 
     if (byte_677BBC)
     {
-        if (!field_0_car->field_60->field_22)
+        if (!field_0_car->field_60->field_22_bFollowingRoute)
         {
             bUpdateStateMachine = true;
             field_24_bf.b21 = true;
@@ -5019,7 +5019,7 @@ void CarAI_78::UpdateDrivingAI_452DF0()
         //CarChaseTask_40* v19 = field_0->field_60;
         if (field_0_car->field_60)
         {
-            if (field_0_car->field_60->field_22 == 1)
+            if (field_0_car->field_60->field_22_bFollowingRoute == 1)
             {
                 DoShortcutsUsingJunctions_447970();
             }

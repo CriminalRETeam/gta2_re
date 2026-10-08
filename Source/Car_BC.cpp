@@ -2126,7 +2126,7 @@ char_type Car_BC::GetCarModelForPhysics_43A850()
         {
             if (field_60)
             {
-                if (field_60->field_22 != 0)
+                if (field_60->field_22_bFollowingRoute != 0)
                 {
                     if (field_84_car_info_idx == car_model_enum::TANK) // 0x36
                     {

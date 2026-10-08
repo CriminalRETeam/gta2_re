@@ -26,21 +26,19 @@ class CarChaseTask_40
     Fix16 field_14_target_x;
     Fix16 field_18_target_y;
     Fix16 field_1C_target_z;
-    char_type field_20;
-    char_type field_21;
-    char_type field_22;
-    char_type field_23;
-    char_type field_24;
-    char_type field_25;
-    char_type field_26;
-    char_type field_27;
-    char_type field_28;
-    char_type field_29;
+    char_type field_20_bCanSnapToTarget; // chase tasks only: may be teleported to the target when off screen (see field_34_snap_timer)
+    char_type field_21_unused;
+    char_type field_22_bFollowingRoute; // driving along a route (junction shortcuts), cleared when the route is cancelled
+    char_type field_23_unused;
+    char_type field_24_unused;
+    char_type field_25_unused;
+    char_type field_26_bRouteFinished;  // the route ended, Ped completes the goto_position objective
+    char_type field_27_pad[3];
     s16 field_2A_settle_counter;
     u16 field_2C_side_counter;
     s16 field_2E;
     Ped* field_30_pTargetPed;
-    s16 field_34;
+    s16 field_34_snap_timer;
     s32 field_38;
     char_type field_3C_block_counter;
 };
