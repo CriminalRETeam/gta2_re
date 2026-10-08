@@ -15,6 +15,81 @@ DEFINE_GLOBAL_INIT(Ang16, kAng180_669156, Ang16(720), 0x669156);
 DEFINE_GLOBAL_INIT(Ang16, kAng90_667A7C, Ang16(360), 0x667A7C);
 DEFINE_GLOBAL_INIT(Ang16, kAng270_66916C, Ang16(1080), 0x66916C);
 
+// Holders for the original's out-of-line copies of inline Fix16 code. They live here rather
+// than in fix16.hpp: a declaration in the header changes inlining in other TUs.
+struct Fix16_ool
+{
+    s32 mValue;
+
+    EXPORT Fix16_ool* FromInt_45C4E0(u8 value);
+    EXPORT Fix16_ool* FromU16_4AE970(u16 value);
+    EXPORT Fix16_ool* sub_41B480(s32 value);
+    EXPORT Fix16_ool* FromInt_4369F0(s32 value);
+    EXPORT Fix16_ool* FromInt_4926F0(u32 value);
+};
+
+MATCH_FUNC(0x45C4E0)
+Fix16_ool* Fix16_ool::FromInt_45C4E0(u8 value)
+{
+    mValue = value << 14;
+    return this;
+}
+
+MATCH_FUNC(0x4AE970)
+Fix16_ool* Fix16_ool::FromU16_4AE970(u16 value)
+{
+    mValue = value << 14;
+    return this;
+}
+
+MATCH_FUNC(0x41B480)
+Fix16_ool* Fix16_ool::sub_41B480(s32 value)
+{
+    mValue = value << 14;
+    return this;
+}
+
+MATCH_FUNC(0x4369F0)
+Fix16_ool* Fix16_ool::FromInt_4369F0(s32 value)
+{
+    mValue = value << 14;
+    return this;
+}
+
+MATCH_FUNC(0x4926F0)
+Fix16_ool* Fix16_ool::FromInt_4926F0(u32 value)
+{
+    mValue = value << 14;
+    return this;
+}
+
+MATCH_FUNC(0x55EEE0)
+EXPORT Fix16 __stdcall ClampToRangeFlexible_out_of_line_55EEE0(Fix16& a2, Fix16& a3, Fix16& a4)
+{
+    if (a2 > a3)
+    {
+        if (a2 <= a4)
+        {
+            return a4;
+        }
+        else
+        {
+            return a2;
+        }
+    }
+    else
+    {
+        if (a3 > a4)
+        {
+            return a3;
+        }
+        else
+        {
+            return a4;
+        }
+    }
+}
+
 MATCH_FUNC(0x408660)
 Fix16 Fix16::Add_408660(const Fix16& rhs) const throw()
 {

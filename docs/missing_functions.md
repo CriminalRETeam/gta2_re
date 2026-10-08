@@ -15,6 +15,42 @@ Game functions by size:
 | 65-256 | 49 |
 | > 256 | 18 |
 
+## Small out-of-line copies are markable after all
+
+`docs` used to write these off as "small out-of-line copies of inline methods (COMDAT)".
+They are reachable: write a named method with the same body, put the marker on that, and the
+verifier compares it against the original's bytes. The holder structs live in the .cpp, not in
+the class header -- a declaration in `fix16.hpp` or `ang16.hpp` changes inlining in other TUs
+and broke two `MapRenderer` matches.
+
+| addr | what it is | written as |
+|---|---|---|
+| 0x45C4E0 | `Fix16(u8)` copy (`and $0xFF`) | `Fix16_ool::FromInt_45C4E0(u8)` |
+| 0x4AE970 | `Fix16(u16)` copy (`and $0xFFFF`) | `Fix16_ool::FromU16_4AE970(u16)` |
+| 0x41B480 | `Fix16(s32)` copy | `Fix16_ool::sub_41B480(s32)` |
+| 0x4369F0 | `Fix16(s32)` copy | `Fix16_ool::FromInt_4369F0(s32)` |
+| 0x4926F0 | `Fix16(u32)` copy | `Fix16_ool::FromInt_4926F0(u32)` |
+| 0x55EEE0 | `ClampToRangeFlexible` copy | `ClampToRangeFlexible_out_of_line_55EEE0` |
+| 0x419DF0, 0x531940 | empty `Iostream_init` constructor copies, one per TU that pulled `<iostream>` in (`mov %ecx,%eax; ret`) | `Iostream_init_ool::ctor_copy_*` |
+| 0x48B9A0 | empty, one argument (`ret $4`) | `void __stdcall nullsub_141(s32)` |
+| 0x53F050 | empty, three arguments (`ret $0xC`) | `void __stdcall nullsub_239(s32, s32, s32)` |
+
+The `Fix16` shape is `mov %ecx,%eax; mov 4(%esp),%ecx; [and mask;] shl $0xE,%ecx;
+mov %ecx,(%eax); ret $4` -- a constructor returning `this`, which a method returning the
+holder's pointer with `return this;` reproduces exactly. In 0x55EEE0 the two arms share a
+tail: the original's `mov %ecx,(%eax)` returns `a2` on one path and `a4` on the other, so the
+else-else returns `a4`, not `a2`.
+
+To find more, group the unmarked functions by their disassembly with the absolute addresses
+masked out. Worth knowing what the big groups are: 325 are a single `ret`, 158 are one
+`jmpl *ADDR` (import thunks), six are `mov $ADDR,%ecx; jmp ADDR` (static-destructor thunks),
+and the eleven 21-byte functions at 0x558E70..0x5593F0 are compiler-generated atexit guards
+for file-scope statics, registered by `crt_j_init__*` thunks that are not even in the CSV.
+None of those groups has a source function to put a marker on. Check any candidate against
+**Excluded: never called** below first; most of the unmarked small functions are dead code.
+
+Each marked copy is placed in the TU that owns its address range.
+
 ## Game functions without a marker
 
 | Address | Size | Name |
