@@ -873,6 +873,23 @@ shl; mov ecx,(eax)`); an explicit `Fix16(z)` is computed before the pushes
 **`IsFlagSet_411930(N)` vs `field & N`.** The helper gives `mov/shr/test $1`; the direct test gives the
 original's `testb` (`ApplyImpactForcesAndDamage_55FA60`, 205 -> 19).
 
+**Load widths and bit tests, by source form** (probes, Oct 7; `S* s` with a `u16 f` at 0x78, `u32 a`):
+
+| Source | Code |
+|--------|------|
+| `s->f & 0x200 \|\| s->f & 0x400` | `mov 0x78(%eax),%ax; test $6,%ah`: the two tests are merged on the loaded word (`Car_BC::sub_43B850`) |
+| `(s->f & 0x600) != 0` as a value | `mov ax; and $0x600; neg; sbb; neg` |
+| `(s->f & 0x200) != 0` as a value | `mov ax; shr $9; and $1` |
+| `if (s->f & 0xff00)` | `testb $-1,0x79(%eax)`, a memory test on the byte |
+| `if (s->i & 0x100)` | `mov 0x7C(%eax),%ecx; test $1,%ch`, no memory test |
+| `if (s->i & 0x80000000)` | `testl $0x80000000,0x7C(%eax)` |
+| `if (a & 0x80) gb = 1; else gb = 0;` | `mov a,%eax; shr $7,%al` (`SetAltKeyState_498CB0`) |
+| `gb = (a & 0x80) != 0;` or `gb = (u8)((a >> 7) & 1);` | `shr $7,%eax; and $1,%al` |
+| `u8` -> `int` | `xor %eax,%eax; mov (..),%al`, never `movzx` |
+| `u16` -> `int` | `xor %eax,%eax; mov (..),%ax` |
+| `s8`/`s16` -> `int` | `movsx` |
+| `u8` -> `u16`/`s16` | `movzx` to a 16-bit register (`movzbw`); the only `movzx` form in the original (18 functions) |
+
 **A decrement in each branch, not once after.** Writing `--timer` in both branches gave the shared
 `decb mem` tail and all pushes at entry; once after the if/else gave `mov/dec/mov` and late pushes
 (`Train_58::UpdatePassengerAI_578390`, also a logic fix: an inverted `field_1818` test).
@@ -895,6 +912,39 @@ are distinct COMDATs; passing a u32 where the original calls 0x4926F0 matched `G
 **A switch split on an odd value was two switches.** VC6 splits a sparse switch on the median case. When the
 original splits elsewhere (110 in `sound_obj::SelectObjectImpactSound_413120`), write `if (x <= 110) { switch } else
 { switch }`.
+
+**Switch lowering thresholds (measured, Oct 7).** From about 300 probe switches (`/O2`; the thresholds sit in a
+table at `0x107A3288` in C2, row `[4, 4, 3, 255]`, decision code around `0x1074F318`). n = the number of case
+labels (stacked labels and labels sharing a body count separately), R = max - min + 1:
+
+- n <= 3: a `sub`/`dec`; `je` chain, no table. n >= 4: a jump table (`cmp`, `ja default`, `jmp [table+reg*4]`).
+- A **byte index table** (`mov al, [bytes+reg]; jmp [table+eax*4]`) instead of a direct one when `3R >= 4n + 13`,
+  i.e. when it saves more than about 8 bytes (direct 4R bytes vs R + 4(n+1) + code). The number of distinct targets
+  doesn't matter. So 4 labels go to a byte table at R >= 10, 8 at R >= 15, 12 at R >= 21. Adding or dropping one
+  empty case label, or widening the range by one outlier, flips this (`FatalDXError_4A3CF0`, `Wolfy_7A8`).
+- A switch is **split** (recursively; pieces under 4 labels become chains) only when R > 255 **and**
+  4n < R. Below a range of 256 even 6 labels over 255 values stay one byte table; 150 labels over 300 values stay one
+  table too.
+- **Where it splits** (about 150 more probes, Oct 7). Each split is `cmp x, P; jg <upper part>; je <case P>`, so the
+  pivot P is the first case of the upper part. Usually P is the median case (index n/2 of the sorted labels). The
+  exception is a dense run at the **low** end: if the lowest cases form a run of at least 5 labels with small gaps,
+  P is the first case after that run, so the run becomes a table of its own, whatever the median is. A dense run in
+  the middle or at the top doesn't move the pivot.
+
+  | Lowest cases (then far-apart ones) | Pivot |
+  |---|---|
+  | `0..4` (5 consecutive) | first case after them |
+  | `0..3` (4 consecutive) | median |
+  | `0, 2, 4, 6, 8` and `0, 2, 4, 6, 9` | first case after them |
+  | `0, 2, 4, 6, 11` | median |
+  | `0..n-2` then `n+1` (last gap 3) | first case after them |
+  | `0..n-2` then `n+2` (last gap 4) | the case `n+2`: the run stops before it |
+  | `0, 2, 4, ..., 18` (step 2, 10 cases) | first case after them |
+  | `0, 3, 6, ..., 27` (step 3) | median |
+
+  A larger gap ends the run, but there's no simple rule yet: a final gap of 3 joins the run, while a whole run
+  with step 3 doesn't count as dense. The code is around `0x1074D6B0`/`0x1074F151` and wasn't read.
+
 
 **Identical bodies in an else-if chain are tail-merged** with a `jmp` into the first copy
 (`CarAI_78::ManageCollisions_452A20`). Stacked case labels give a `cmp/jl/jle` range test, while separate
@@ -1166,7 +1216,11 @@ and a slot). `Particle_4C::UpdateLargeBallisticDebris_state_35_53AE60` went from
 `Fix16_Point point2(0, 0)` that the original also constructs and never uses.
 
 **Stack slot order isn't declaration order.** Two local arrays or a set of scalars can come out
-in a different order from the original whatever order they're declared in. If the
+in a different order from the original whatever order they're declared in.
+**The rule is now known** (`Scripts/regalloc/README.md`, "Stack slots"; `slotlog.py` prints it per function):
+slots are ordered by size, then by the number of memory references (more = lower), then by first reference, and a
+local shares the first earlier slot whose scope it doesn't overlap if it is at most twice that slot's size. The
+cases below all follow from it. If the
 original's slots look like one block, try one array. In `FatalError_4A07C0`, six route
 coordinates had to be one `s32[6]` with the second triple stored back to front.
 The source order of stores can decide slots too: in `MapRenderer::set_shading_lev_4E9DB0` the order of
@@ -1609,6 +1663,47 @@ instead of `%ax`), so it stops matching. With the old name it matches again. So 
 rename branch is merged, `compare_builds.py` still has to run, and a global can keep its
 `word_`/`dword_` name, with a comment, where the new name changes the code.
 
+Why (Oct 7): VC6 copies a 2-byte integer (`u16`, `s16`, `wchar_t`, or an element of an array of them) from a global
+**defined in the same TU** into a 4-byte stack slot (an inlined by-value parameter, a local copy) with a 32-bit move
+when the address is 4-aligned: `mov eax, DWORD PTR g` / `mov [esp+x], eax` instead of `mov ax` / `mov [esp+x], ax`.
+It knows the alignment from the global's offset in the object's `.bss`/`.data`, and VC6 lays out a TU's globals in
+an order set by their **names**. Renaming `word_70643E` moved it from `.bss+0x2` to `.bss+0x250`, so the copy in
+`DrawChatMessages_5D16B0` widened.
+
+The order (reversed Oct 7): C1XX hashes each identifier with `h = 4*h + c + (h >> 4)` (its lexer, `0x10409122`) and
+keeps the file scope's symbols in a 1024-bucket table indexed by `((h >> 16) ^ h) & 0x3FF`. It writes them to the IL
+in bucket order, and C2 (`0x107320D4`, reading them back with `0x1073239D`) assigns `.bss` offsets in the order it
+reads them. So `.bss` holds, in this order:
+
+1. every uninitialized global and every global with a constructor (`Fix16 k = Fix16(1)`, `Ang16`), sorted by
+   bucket; two names in the same bucket come out with the later declaration first;
+2. globals initialized to zero (`u8 x = 0;`), in declaration order;
+3. function-local statics (the `logged` flags of `NOT_IMPLEMENTED`/`WIP_IMPLEMENTED`).
+
+`.data` (non-zero initializers) is in declaration order. Items are packed with their natural alignment (bytes at any
+offset, 2-byte values at even ones, pointers, ints and `Fix16` at 4). Our build
+also has `DEFINE_GLOBAL`'s `const GlobalRef gRef_<name>_<addr>` objects (12 bytes, with a constructor) in run 1,
+sorted by their own names, which the original didn't have, so our offsets differ from the original's even with the
+original's names. Checked on the build: 90 of the 95 objects with `.bss` follow these rules exactly, and the other
+five only differ in run 2 and 3 entries. `global_align_check.py --key <name>...` prints a name's bucket, so you can
+see where a rename will land among a TU's globals before rebuilding. The original
+global is at `0x70643E`, 2 mod 4, so the original never widens it. Probes (`Scripts/regalloc/`-style, one TU):
+
+| Global | Copy to a stack temp |
+|---|---|
+| `u16`/`s16` defined in the TU at offset 0 mod 4 | `mov eax, DWORD PTR` |
+| the same at offset 2 mod 4 | `mov ax, WORD PTR` |
+| `extern u16` (defined elsewhere) | `mov ax, WORD PTR` (alignment unknown) |
+| `u16 arr[4]` at offset 4, `arr[2]` | `mov eax, DWORD PTR arr+4` |
+| `u8` at offset 4, 2-byte struct at offset 2 | byte / word moves |
+
+`Scripts/bin_comp/global_align_check.py` lists every 16-bit global whose object offset (mod 4) disagrees with its
+original address (from the `_gRef_` symbol `DEFINE_GLOBAL` emits): 29 in the current build. They only matter in
+functions that copy the global as above. When the original keeps the word moves (address 2 mod 4), defining the global
+in a different TU than its users always gives them; when it widens, the global has to stay in the TU at a 4-aligned
+offset, which a name (its bucket), an `= 0` initializer (run 2) or a neighbour's name gives. Run the checker after
+renames.
+
 **Two different callees for the same constructor mean two types.** If the original calls one
 `Fix16` constructor twice and you call two, an argument has the wrong type (a `u16` position
 that went through `Fix16(u16)` instead of `Fix16(s32)`, `DrawChatMessages_5D16B0`).
@@ -1775,6 +1870,15 @@ Found by tracing C2.DLL (see `Scripts/inline_budget/`); the instrumented compile
   `Camera::WorldToScreen_40CFC0`) therefore cannot return `Fix16_Point`.
 - **Destructor sites count.** Every local or temporary with a destructor adds a free destructor site
   at its scope exit, which shrinks `budget / sites_left` for the sites before it.
+- **State numbers (probes, Oct 7).** Every object with a destructor, named local or temporary, gets the next
+  state number in source order of its construction, counting from 0 over the whole function. Numbers are never
+  reused: `if (k) { D a; } else { D b; } D c;` gives a = 0, b = 1, c = 2. Before a destructor call the state goes
+  back to the enclosing object's number (or -1). A temporary gets its number where the expression creates it
+  (`D a; f(mk().v); D c;`: a = 0, the `mk()` temporary 1, c = 2), and a local in a loop body has one number for
+  all iterations. The store is `mov DWORD PTR __$EHRec$[..], N` when the state before it on that path is -1 (the
+  entry, or after the last destructor of a branch) and `mov BYTE PTR` otherwise, since then only the low byte
+  changes. So an extra or missing `movb`/`movl` usually means one more or one fewer object with a destructor
+  before that point, in source order.
 - **No EH state store for a call C2 knows can't throw.** A callee marked `throw()`, or one already
   compiled earlier in this TU whose remaining calls are all nothrow, gets no `mov [ebp-4], N` around
   the call (C2 `0x1073c543`, used at `0x10758678`). C2 compiles a header inline's out-of-line copy
@@ -2372,6 +2476,64 @@ per-function round-robin cursor (then the first free callee-saved register). The
 per block, so a rotation that is off in one block (`eax, ecx, edx` vs ours `ecx, edx, eax`) means a
 different number of picks before it, or a different block order, not a different expression in that block.
 
+**When a constant gets a register** (measured Oct 7 with `priolog.py`). A constant used at least twice gets a
+colour-pass live range of its own (kind `0x100D`): each use saves 1, its weight is the uses (times 2 per loop
+level) minus 1 for the `mov reg, imm`. It is coloured like any other value, by priority. In a caller-saved
+register (eax, ecx, edx: no call between its uses) it is then kept from 2 uses on. In a callee-saved register
+(ebx, esi, edi, ebp: a call between uses) the local-allocation pass `0x10723B05` puts the immediates back unless
+the weight is at least 3, so 4 uses in one block, or 3 that reach across blocks. That is why
+`Particle_4C::PoolUpdate_53D260` needed 4 more byte stores of 1 before the original's `mov $1,%bl` appeared. Byte
+and dword constants follow the same counts. Folded forms (`x -= 1`, `>= 1`, `true`) aren't uses.
+
+| Probe (byte stores `b[i] = 1`) | Result |
+|---|---|
+| 2 stores, no call | `mov al,1` |
+| 2 or 3 stores with calls between | immediates |
+| 4 stores with calls between | `push ebx; mov bl,1` |
+| 1 store before an if/else, 1 after | immediates |
+| 1 store before, 2 after | `mov bl,1` |
+
+**Which values are round-robin temps** (reversed Oct 7, `Scripts/regalloc/README.md`, "Which values get colour
+live ranges"). Every expression intermediate is one pick. So is each load of a parameter or global that didn't get
+a live range (it is reloaded into a fresh temp at each use). A local whose definition and all uses are in one block
+is turned into expression temps before allocation (`int rot = o->f4->ang; g = rot;` is the same as
+`g = o->f4->ang;`). A local that reaches another block, and a compiler temp made for a value that is used twice
+(`i * 0x30` becomes `t = i; lea (t,t,2)`), are colour-pass values and don't move the cursor. To shift a rotation
+by one, add or remove an intermediate before it, or make a single-block local reach a second block (or the
+reverse).
+
+### Late `push` of callee-saved registers (shrink-wrapping)
+
+VC6 doesn't always save esi/edi/ebx/ebp at entry. The prologue pass (`0x10724460` -> `0x10724A58`, reversed Oct 7)
+computes, per block, which callee-saved registers it uses, and moves each register's `push` down to the first block
+from which every path uses that register, and its `pop` to the last block of that region. It doesn't split edges,
+so this only works when every exit from the code that uses the register passes through one block before it
+reaches code that runs on the path without the save. Otherwise the push stays at entry. Probes
+(`void h(int)`, a loop `for (N* q = p; q; q = q->next) h(q->d);` that needs esi):
+
+| Source | `push esi` |
+|--------|-----------|
+| `if (!k) return; loop;` | at entry: the loop's exits and the early return meet in the shared return block |
+| `if (!k) return; loop; g = 2;` | after the `je`: every path out of the loop passes through `g = 2` |
+| `if (k) { loop; return 1; } return g2 + k;` | after the `je` |
+| `if (k) { loop; } g1 = 1;` | at entry |
+| `if (k) { loop; g3 = 2; } g1 = 1;` | after the `je`, pop after the (duplicated) `g1 = 1` |
+| `g1 = 1; if (k) g2 = 2; loop; g3 = 3;` | after the if, before the loop |
+| `if (k) { loop1; return 1; } loop2; return 2;` | at entry: both arms use esi |
+| `if (!p) return; loop over p` | at entry: `p` is already in esi for the test |
+
+So for a late push in the original:
+
+- The register must not be used before the branch. A variable tested in the entry block and used later lives in
+  its register from the test on, so test something else: the field or global instead of the local copy
+  (`Hud_Brief_704::ClearAllBriefsWithPriority_5D4890`), or test the global and make the copy inside the `if`
+  (the inlined deletes in `Car_6C::~Car_6C` 0x446DC0 and `Montana_4::~Montana_4` 0x5C5F10).
+- The region that uses the register needs a single exit block: a statement after the loop inside the branch, or a
+  separate `return value;` per path. Ending the branch with the loop itself, or a bare `return;` that shares the
+  epilogue, keeps the push at entry.
+- Which register a value gets can decide it too: in `Internel_UpdateBehaviorGrid_554710` the statement order put
+  the increment in esi, so ebp was used only inside the distance branch and was pushed there.
+
 ## Inline asm
 
 **16-bit `pushaw`/`popaw`.** The inline assembler can't spell them. Put `_emit 0x66` before
@@ -2388,13 +2550,6 @@ tried are in the WIP status report.
   where ours duplicates it (`Map_0x370` 0x4E5E90). **Mechanism known** (see "Cross-jumping keeps the copy whose jump
   was generated last"); the source form isn't. For 0x4E6190, a mixed form (cases 1/2 assign a result variable,
   3/4 `return`) gives every cross-jump of the original but returns `r = 0` with `xor %eax,%eax` (2 lines off).
-- A `u16` field loaded whole and then tested on its high byte (`mov 0x78(%ecx),%cx; test $6,%ch`)
-  where we get `testb $6,0x79(%ecx)` (`Car_BC::sub_43B850`).
-- A dword load followed by a byte shift (`mov 4(%esp),%eax; shr $7,%al`) (`bk_1::SetAltKeyState_498CB0`).
-- What looks like an inlined scalar deleting destructor: the pointer is tested in `ecx` and
-  `push %esi; mov %ecx,%esi` happen inside the `if`, where ours keeps the pointer in `esi` from the
-  start (0x446DC0, `0x5C5F10`).
-- `ebp` pushed only after an early null check (`Hud_Brief_704::ClearAllBriefsWithPriority_5D4890`).
 - x87/integer interleaving around the inlined vertex helpers (`ProjectVertTop_46BD40`, `ProjectVertBottom_46BDF0`,
   `ProjectVert_46BC70`) in the `MapRenderer::Draw*` functions. **The mechanism is known; the source change
   is not.** The cause is the scheduler's window breaks (see "x87 code: the scheduler works in 81-node

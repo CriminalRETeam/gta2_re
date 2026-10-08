@@ -470,6 +470,12 @@ rotation. The original probably spends one fewer inline expansion somewhere else
 
 ## Particle_4C::UpdateAttachedEmitter_state_9_10_53B670 (WIP, was STUB)
 
+**Matched (Oct 7).** The 9.6f version shows the shape: `PolarToCartesian_41FC20(field_28_pSprite->field_0 + jitter,
+radius, ...)`, the sum an `operator+` temporary passed straight in (no named `angle`). That gives the original's 0x12
+slot. Then `Fix16 radius; radius = ...;` (assigned) instead of initialised: 8 more caller size units, which
+`inlsim.py --scan` showed is what PolarToCartesian's first `operator*` needs to stay inline. The notes below are
+from before.
+
 Smoke/flame particle attached to a ped sprite (`field_28_pSprite`, type `ped_3`). State 9
 sets sprite id `+3` and spawns a cigarette puff; otherwise it offsets the particle by a
 polar vector (`FromPolar_41E210`) chosen by `field_2C_counter` (>= 60, 41..59 with a
@@ -2619,6 +2625,11 @@ Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 
   `decl_shuffle.py` cannot run on it (interleaved declarations). `Fix16 v7;` at the top or outside its block
   (126), `v7` assigned after its declaration, `new_z` or `v9`/`v10` declared at the top: 32. `v85` and `zpos_`
   are live later, so they cannot be dropped.
+  Slot rule (Oct 7, `Scripts/regalloc/slotlog.py`): our list is v82 (size 2), new_z (4 refs), v85 (3), v7 (2),
+  then the `$T`s. v82 opens slot 0 and v7 shares it (disjoint blocks); new_z, v85 get slots 1, 2; the cosine
+  temporary gets a later one. That's our layout exactly. The original (temp 0x0, v7 0x4, new_z 0x8, v85 0xC) needs
+  v7 ahead of new_z in the list (more memory references than new_z, or new_z fewer), v7 not sharing slot 0 (its
+  scope overlapping v82's, e.g. v82 declared at function scope), and the cosine temporary sharing slot 0.
 ### Mid-list pass (Oct 6, Fable worker)
 Scores are `quick_score.sh` lines.
 - Matched `gtx_0x106C::BuildCarInfoContainer_5AA9A0`: `u32 door_len = doors * sizeof(door_info) + 1;` added to
@@ -3091,6 +3102,14 @@ round-robin differences (`Scripts/regalloc/README.md`), not colour-pass ones.
   entry is a colour-pass constant (kind 0x100d); `smallestVal_idx = smallestVal = 99` and the other
   initialiser chains don't change that. A `default:` case with its own copy of the in-loop tail gives
   the final tail eax but leaves an extra copy (not merged).
+  Block order (Oct 7, `Scripts/flowopt/sinklog.py`): the in-loop return gets its place from the loop
+  sink pass `0x10740251` (index 44 at numbering, final tail 48, so it goes between the latch and the
+  final tail, as in the original layout). For the final tail to be generated first, its index would
+  have to be lower (written earlier, as in the `for (;;)` variant), and in the pass dump nothing
+  after that pass moves the two blocks again. So the original's layout rules out (a). It made one more round-robin pick before
+  the in-loop `lea`. The likely candidate is the `mov %edi,%eax` copy as a local temp rather than optimizer
+  temp 0x14a. That copy is already in the IL at code selection (boundary `10765b5c`), so what decides it
+  is in the optimizer, not the block order. 9.6f's layout (final tail first) presumably comes from VC7's own rule.
 - `state_8_5520A0`: the rotation differs only from asm line 157 to 179 (post processed): source lines
   5797 (`field_184_pObj2C = field_7C_pPed->field_184_pObj2C;` reload, orig `edx`, ours `eax`) to 5807
   (`Ang16 rot = ...`, orig eax/ecx/edx, ours ecx/edx/eax). Moving the reload before the

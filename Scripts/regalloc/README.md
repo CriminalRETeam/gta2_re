@@ -5,8 +5,8 @@ that differ only in register choice (see "Still unexplained" in `docs/matching_q
 predicted instead of permuted. Same approach as `Scripts/inline_budget/`: find the code, add
 logging hooks with a byte patch, then write a model that reproduces the log.
 
-Status: the colour (select) step is reversed and logged. How C2 computes the priority and the
-tie-break of a live range is not reversed yet; see "Open" below.
+Status: the colour (select) step, the priority, the tie-break and which values become live ranges are reversed;
+see "Priority and tie-break (reversed)" and "Which values get colour live ranges (reversed)".
 
 ## The rule (colour step)
 
@@ -92,6 +92,57 @@ in the loop rotates the registers of equally weighted variables. The log for `pr
   prio=40  tie=14  -> edi    c
 ```
 
+## Stack slots (frame pass `0x10723F8C`)
+
+Stack locals (address-taken variables, `$T` temporaries, spilled variables) and the parameters get their frame
+offsets in the pass after local register allocation and the memory-compare split (`0x10723F8C` -> `0x10724009`):
+
+1. **The list.** `0x10724286` walks every instruction in IL order and calls `0x1072EE45` for each stack symbol
+   operand. That keeps a list (`0x1079F220`; records with the symbol at `[+0]`, next `[+0x2C]`, size `[+0x20]`,
+   count `[+0x34]`) sorted by
+   - **size ascending**,
+   - then **reference count descending**: each operand adds 1, with no loop weighting. The list is built after
+     register allocation, so only memory references count;
+   - then **first reference** (a symbol only moves ahead of symbols with a strictly smaller count).
+2. **Packing.** The list is walked in that order. A local takes the first slot, in creation order (a parameter's
+   own slot included), whose members don't overlap it, if its size is at most **twice the slot's current size**
+   (the slot then grows to it). Otherwise it gets a new slot. Lifetimes for this are lexical: an
+   address-taken local overlaps everything in its scope (two function-scope locals never share, even when
+   their uses don't overlap). A parameter's slot is free after the parameter's last read, which is usually its
+   load into a register.
+3. **Offsets.** New slots go from the bottom of the frame up, in creation order, so the list's front gets the
+   lowest addresses (`[esp+0]`). `0x1075F8E9` then rebases them against the frame base symbol (`0x10799020`).
+
+Probes (`int` unless noted; `{}` is a separate scope):
+
+| Source | Slots, lowest first |
+|---|---|
+| `int a, b, c; ext(&c); ext(&a); ext(&b);` | c, a, b (declaration order is ignored) |
+| `ext2(&a, &b, &c)` | c, b, a (the pushes are evaluated right to left) |
+| `ext(&b); ext(&a); ext(&a); ext(&a); ext(&a);` | a (4 refs), b |
+| `char b3[3]; int a; double d; char b16[16];` | b3, a, d, b16 (by size) |
+| `f(int n) { int a, b; ext(&b); for (...n...) ext(&a); }` | b, a (`n` is read after `ext(&b)`, `a` overlaps it) |
+| `f(int n) { int a, b; for (...n...) ext(&a); ext(&b); }` | `a` in `n`'s slot, then b |
+| `{ char c; } { short s; } { int i; }` | one slot (1 -> 2 -> 4) |
+| `{ char c; } { int i; }` | two slots (4 > 2 x 1) |
+
+`slotlog.py` builds a variant that prints the list per function:
+
+```bash
+venv/bin/python3 Scripts/regalloc/slotlog.py
+X87_C2=slotlog X87_OUT=/tmp/sl Scripts/x87_sched/sched.sh -l Source/CarAI_78.cpp
+awk '/^@SLOTS/{p=index($0,"sub_452060")} p' /tmp/sl/last.log | grep -a '^@SLOT'
+#   @SLOT _v82$59045 size=2 refs=3     (slot 0, at [esp+0])
+#   @SLOT _new_z$ size=4 refs=4        (slot 1)
+#   @SLOT _v85$ size=4 refs=3          (slot 2)
+#   @SLOT _v7$59027 size=4 refs=2      (shares slot 0: its block and v82's don't overlap)
+```
+
+The listing (`last.asm`) names only the declared locals (`_v7$59027 = -28`); `$T` temporaries are in the list
+but not in the listing. To get a local lower in the frame: give it more memory references than the ones
+below it, or make it smaller. To make two locals share a slot, put them in disjoint scopes. A local declared
+at function scope never shares with another function-scope local.
+
 ## Tools
 
 `c2dis.py` disassembles C2.DLL (needs `iced-x86` and `pefile` in the venv):
@@ -100,6 +151,9 @@ in the loop rotates the registers of equally weighted variables. The log for `pr
 python3 Scripts/regalloc/c2dis.py d 1071acdf 40              # disassemble 40 instructions
 python3 Scripts/regalloc/c2dis.py x 1078e69f 1078e6ae        # who branches/calls to these addresses
 ```
+
+`opdump.py` builds a C2.DLL that prints every instruction with its operands at chosen pass boundaries (format in its
+docstring). It shows which values are symbols (colour candidates) and which are IL temps (round robin).
 
 ## What is known
 
@@ -121,19 +175,105 @@ python3 Scripts/regalloc/c2dis.py x 1078e69f 1078e6ae        # who branches/call
   "who holds register r" table is the first guess), `0x107A0494` (.rdata, flag word per entry,
   bit 0x40 tested). Their meaning is not confirmed.
 
+## Priority and tie-break (reversed)
+
+Both are now exact (`priolog.py` logs every term; summing its terms gives the final priority of every live
+range in `Wolfy_3D4.cpp`, 329 of 329, and the tie of 373 of 377, the rest being constants and split pieces).
+
+**Priority** `[lr+0x0C]` is built by `0x107203FD` (before the colour pass) in one walk over the blocks in list order:
+
+- Each reference of the live range in block b adds its saving `c` to the block's tally `[lr+0x18]` and `c * bw`
+  to the weight `[lr+0x3C]`. `c` is 2 for a load or store of a variable (`0x10721029`/`0x107213B5` per operand;
+  constants have 0). `bw = 1 << [blk+0x6E]`, i.e. **2 per loop level** (1, 2 in a loop, 4 in a nested loop).
+- At the end of block b, `N` = the number of live ranges referenced in b. Then every live range **referenced** in
+  b gets `prio += N * bw * tally` (and the tally is cleared), and every live range only **live through** b gets
+  `prio -= N * bw`.
+
+So the priority is `sum over blocks of N_b * bw_b * (savings in b, or -1 if only live through)`. The weight `w`
+(printed by ralog) only scales the scores. What follows in practice:
+
+- One more use of a value in a busy block (many live ranges referenced) raises its priority more than the same
+  use in a quiet one. A use inside a loop counts double.
+- A value that is live across blocks it doesn't touch loses priority there, more so when those blocks are busy.
+  Moving a use earlier, so the live range ends sooner, or a load later, so it starts later, raises it.
+- Probe (`int x = g; c(); h = x; ...` with k uses, one block, x the only live range): N = 1, so the priority is
+  the savings, 2 + 2k. In `while (k1) { c(); h = x; }` the loop block has N = 2 (x and `k1`), bw = 2: +8.
+
+**Tie-break** `[lr+0x40]` is set by `0x10711F93`'s walk (cold part at `0x1071A919`, write at `0x1071A7EE`): a
+counter runs over the blocks in list order and, **within each block, over the instructions backwards**. When a
+definition of the live range is reached, the tie becomes the counter. A later block's definition overwrites an
+earlier one's. Constants have 0. So among equal priorities (colour order is priority, then tie, both descending):
+
+- in the same block, the value **defined earlier** gets the higher tie and is coloured first;
+- a value (re)defined in a later block (a loop body after the init block) beats one defined only earlier.
+
+`probe_loop.cpp`: `a`, `b`, `c` are initialised in that order (ties 6, 5, 4), then redefined in the loop
+body, which overwrites them: `a += ..` is defined earliest in the body (17), `b ^= p[i] * 3` (15, the `imul`
+comes after it in reverse order), `c |= ..` (14). So a, b, c are coloured in that order: edx, esi, edi.
+
+```bash
+venv/bin/python3 Scripts/regalloc/patch_c2.py && venv/bin/python3 Scripts/regalloc/priolog.py
+X87_C2=priolog X87_OUT=/tmp/pl Scripts/x87_sched/sched.sh -l Source/Wolfy_3D4.cpp
+grep -a '^@[PTR]' /tmp/pl/last.log      # @T ties, @P priority terms, @R colour decisions (ralog)
+```
+
+## Which values get colour live ranges (reversed)
+
+The IL has two kinds of values (`opdump.py` shows them per instruction):
+
+- **IL temps**: the intermediate values of an expression (operand kind 1, `[op+0x18]` pointing to its own temp
+  record). Each is defined once and used once, inside one block. They never become colour-pass live ranges: the
+  local allocator (`0x10723B05`) gives each a register when it reaches its definition, so **every IL temp is one
+  round-robin pick** (unless a copy hint or a dying source of the same instruction gives it a register).
+- **Symbols**: user locals (symbol kind 4), parameters (5), globals (7) and compiler temps (3), referenced by
+  operands of kind 2. Only these can get colour live ranges.
+
+Pass `0x10711F93` picks the candidates and binds them. `0x10718E84` walks the symbol table and gives an index
+`[sym+0x30]` to every symbol of kind 3, 4, 5, 7, 8 or 10 whose type fits a register (`0x10705DBC`), that isn't
+floating point (type class 0x4000). Symbols under 4 bytes (byte and short locals are candidates too) go through an
+extra check against other symbols that overlap their storage (`0x10718FB7`, not reversed). `0x10719124` then rewrites each operand that references an indexed symbol to the placeholder `0x107AE040`
+(kind 1, `0x10709A8A`), and `0x1071A6E4` builds the live ranges (webs: one per group of definitions that reach
+common uses) and binds the placeholders to them (`0x1071A7E4`). Operands of instructions of class 0x4000 and of x87
+opcodes (bit 0 of `0x107A0494`) are left alone.
+
+Two earlier passes decide what is still a symbol by then:
+
+- **Forward substitution of block-local variables**, in the global optimizer pass `0x1073501F` (boundary
+  `10765a2d`): a local whose definition and uses are all in one block is removed and its value becomes an IL temp.
+  Probe: `O* o = ped->f184; int rot = o->f4->ang; g = rot;` has no symbol left for `o` or `rot` after this pass.
+  With `if (k) rot = o->f4->ang; else rot = o->a;`, `o` reaches two blocks and stays a symbol (and gets a live
+  range), and `rot` stays one too. This runs before blocks are duplicated or merged, so it judges the flow graph as
+  written.
+- **Compiler temps (kind 3)** are created where a pass needs one value more than once. Example: the multiply
+  expansion `0x10713E23` (boundary `10765b1b`) turns `i * 0x30` into `t = i; lea (t,t,2); shl $4`. `t` is a kind-3
+  temp because the `lea` uses it twice, so it gets a live range even though it lives in one block. The `lea`
+  result and the `shl` result are IL temps. In `Wolfy_7A8::sub_543690` this is the line-115 copy
+  (`mov %edi,%eax`, coloured); the `lea` is a round-robin pick.
+
+A symbol that is a candidate but doesn't get a live range goes back to memory (operand kind 2) in the same pass.
+Where it has to be in a register, a load into a new IL temp is inserted, which is again one round-robin pick.
+Probe: the parameter `ped`, used once, gets `mov ped, t` (IL temp) and no live range; the global `g`, stored in two
+blocks, gets none either.
+
+For matching, count round-robin picks as IL temps: each expression intermediate that isn't a variable, plus one
+per use of a parameter or global that didn't get a live range. Turning a single-block local into a variable that
+reaches another block, or the reverse, moves a value between the two pools, and so moves the rotation of every
+temp after it.
+
 ## Open
 
 - **Block order at code generation.** Both register-only WIPs come down to it (see
   `docs/match_attempts.md`): `Wolfy_7A8::sub_543690` needs its final tail generated before the
   in-loop return (or one more round-robin temp in the in-loop tail), `Char_B4::state_8_5520A0`
-  has the rotation shifted between two blocks only. What orders blocks before `0x10723B05`, and
-  which values become colour-pass live ranges rather than local temps, is not reversed.
+  has the rotation shifted between two blocks only. What orders blocks before `0x10723B05` is now
+  known: the loop sink pass `0x10740251` (`Scripts/flowopt/README.md`, "Code generation order"), which
+  keeps the source order of out-of-loop code. For `sub_543690` that rules out a different block order
+  with the original's layout, so it needs one more round-robin pick before the in-loop `lea`. Which
+  values become colour-pass live ranges is now known (see "Which values get colour live ranges"): the line-115
+  copy is a kind-3 temp from the multiply expansion and the `lea` an IL temp, as in the original, so the missing
+  pick has to come from an IL temp (an expression intermediate, or a load of a parameter or global without a live
+  range) earlier in the loop, or one fewer before it.
 
-- **Priority** `[lr+0x0C]`: not a plain ratio of the weight `[lr+0x3C]` (w 8 -> 40, w 20 -> 140,
-  w 10 -> 61, w 6 -> 33). Chow's formula is savings / number of blocks in the live range; the writes
-  are around `0x10720CF4`-`0x10720D33` and `0x10721E28`-`0x10721ECC`.
-- **Tie-break** `[lr+0x40]`: the rule above is from probes only. It is set when live ranges are
-  created (`0x10720119`, from `0x107034B9`); what that number counts is not known.
 - The log has no variable names: `[lr+0]` is not a symbol (C2 asserts in `p2symtab.c` when its
   name is read). Match live ranges to variables by the register they get in the listing.
 - First real case tried, `sound_obj::HandleCarTireScrubSound_418720` (eax/ecx swap), turned out
