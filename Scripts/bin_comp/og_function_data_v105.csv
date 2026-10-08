@@ -398,7 +398,7 @@ Car_BC::AssignKillerToOccupants_43B770,0x43b770,0x3b770,0x3c
 Car_BC::AssignDriverBlameForExplosion_43B7B0,0x43b7b0,0x3b7b0,0x9a
 Car_BC::sub_43B850,0x43b850,0x3b850,0x1a
 Car_BC::SpawnDamageFireEffect_43B870,0x43b870,0x3b870,0x312
-Car_BC::sub_43BB90,0x43bb90,0x3bb90,0x2a
+Car_BC::GetFireExplosionType_43BB90,0x43bb90,0x3bb90,0x2a
 Car_BC::SpawnFire_43BBC0,0x43bbc0,0x3bbc0,0x65
 Car_BC::SetupCarPhysicsAndSpriteBinding_43BC30,0x43bc30,0x3bc30,0x4d
 Car_BC::SetupCarPhysicsAndSpriteBinding_43BCA0,0x43bca0,0x3bca0,0x13

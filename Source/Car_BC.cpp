@@ -2972,7 +2972,7 @@ void Car_BC::SpawnDamageFireEffect_43B870(s32 k1Or2, Fix16_Point* pPos)
                                                                       field_50_car_sprite->field_14_xy.y,
                                                                       2, // implicit: the out-of-line Fix16(s32) ctor
                                                                       kAngZero_67791C,
-                                                                      Car_BC::sub_43BB90(k1Or2),
+                                                                      Car_BC::GetFireExplosionType_43BB90(k1Or2),
                                                                       field_70_exploder_ped_id);
     if (pExplosion)
     {
@@ -2985,21 +2985,21 @@ void Car_BC::SpawnDamageFireEffect_43B870(s32 k1Or2, Fix16_Point* pPos)
 }
 
 MATCH_FUNC(0x43bb90)
-s32 __stdcall Car_BC::sub_43BB90(u8 a1)
+s32 __stdcall Car_BC::GetFireExplosionType_43BB90(u8 fire_level)
 {
-    switch (a1)
+    switch (fire_level)
     {
         case 1:
-            return 12;
+            return explosion_type::trail_12;
 
         case 2:
-            return 13;
+            return explosion_type::trail_13;
 
         case 3:
-            return 14;
+            return explosion_type::trail_14;
 
         default:
-            return 12;
+            return explosion_type::trail_12;
     }
 }
 
@@ -3698,11 +3698,11 @@ void Car_BC::RepairDamage_43D400()
 }
 
 MATCH_FUNC(0x43d690)
-void Car_BC::EmitExplosion_43D690(s32 a3, Fix16 x, Fix16 y)
+void Car_BC::EmitExplosion_43D690(s32 type, Fix16 x, Fix16 y)
 {
     Fix16_Point unused; // EH frame with state 0 before the first call: the original has a destructible local
 
-    Object_2C* p2C = gObject_5C_6F8F84->CreateExplosion_52A3D0(gFix16_6777CC, gFix16_6777CC, 2, kAngZero_67791C, a3, field_70_exploder_ped_id);
+    Object_2C* p2C = gObject_5C_6F8F84->CreateExplosion_52A3D0(gFix16_6777CC, gFix16_6777CC, 2, kAngZero_67791C, type, field_70_exploder_ped_id);
     if (p2C)
     {
         field_50_car_sprite->DispatchCollisionEvent_5A3100(p2C->field_4, x, y, kAngZero_67791C);
@@ -3710,20 +3710,20 @@ void Car_BC::EmitExplosion_43D690(s32 a3, Fix16 x, Fix16 y)
 }
 
 MATCH_FUNC(0x43d7b0)
-void Car_BC::TriggerExplosion_43D7B0(s32 k20Or19)
+void Car_BC::TriggerExplosion_43D7B0(s32 type)
 {
     if (get_anti_strngth_43A1D0() != gFix16_6777CC && !this->IsMaxDamage_40F890())
     {
-        HandleCarExplosion_43D840(k20Or19);
+        HandleCarExplosion_43D840(type);
     }
     else
     {
-        EmitExplosion_43D690(k20Or19, kZeroPoint_6778A8.x, kZeroPoint_6778A8.y);
+        EmitExplosion_43D690(type, kZeroPoint_6778A8.x, kZeroPoint_6778A8.y);
     }
 }
 
 MATCH_FUNC(0x43d840)
-void Car_BC::HandleCarExplosion_43D840(s32 a2)
+void Car_BC::HandleCarExplosion_43D840(s32 type)
 {
     char bOcc2; // bl
     s32 g6C_f_58; // eax
@@ -3740,7 +3740,7 @@ void Car_BC::HandleCarExplosion_43D840(s32 a2)
     if (!this->IsMaxDamage_40F890())
     {
         StartWreckCountdown_441380();
-        EmitExplosion_43D690(a2, kZeroPoint_6778A8.x, kZeroPoint_6778A8.y);
+        EmitExplosion_43D690(type, kZeroPoint_6778A8.x, kZeroPoint_6778A8.y);
         AssignKillerToOccupants_43B770();
         field_0_qq.sub_5A71F0();
 
@@ -3861,7 +3861,7 @@ s16 Car_BC::AccumulateDamage_43DA90(s16 damage, Fix16_Point* pVec)
             }
             if (this->field_74_damage == 32000)
             {
-                Car_BC::HandleCarExplosion_43D840(19);
+                Car_BC::HandleCarExplosion_43D840(explosion_type::item_19);
             }
         }
     }
@@ -4708,7 +4708,7 @@ void Car_BC::FireCarBomb_440F90(char_type instant_bomb)
             this->field_90 = ped_death_cause::bomb_12;
             this->field_94_exploder_timer = 50;
         }
-        Car_BC::TriggerExplosion_43D7B0(20);
+        Car_BC::TriggerExplosion_43D7B0(explosion_type::large_20);
     }
     else
     {
@@ -6994,14 +6994,14 @@ char_type Trailer::ExplodeBothIfOneDestroyed_4081D0()
         if (field_C_pCarOnTrailer->field_74_damage != 32001)
         {
             field_C_pCarOnTrailer->field_74_damage = 32000;
-            field_C_pCarOnTrailer->HandleCarExplosion_43D840(18);
+            field_C_pCarOnTrailer->HandleCarExplosion_43D840(explosion_type::small_18);
         }
         return 1;
     }
     else if (field_C_pCarOnTrailer->field_74_damage == 32001)
     {
         field_8_truck_cab->field_74_damage = 32000;
-        field_8_truck_cab->HandleCarExplosion_43D840(18);
+        field_8_truck_cab->HandleCarExplosion_43D840(explosion_type::small_18);
         return 1;
     }
     else

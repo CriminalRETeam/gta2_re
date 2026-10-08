@@ -4533,7 +4533,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_50C5A0()
     switch (miss2_0x11C::GetEntityTypeOfCommand_503410(pPointer->field_2_type))
     {
         case 2:
-            pPointer->field_8_car->HandleCarExplosion_43D840(19);
+            pPointer->field_8_car->HandleCarExplosion_43D840(explosion_type::item_19);
             break;
         case 1:
         {

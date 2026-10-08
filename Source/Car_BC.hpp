@@ -547,7 +547,7 @@ class Car_BC
     EXPORT bool sub_43B850(s32 a2);
     EXPORT void SpawnDamageFireEffect_43B870(s32 a2, Fix16_Point* a3);
     // Called without this in SpawnDamageFireEffect_43B870: a static __stdcall
-    EXPORT static s32 __stdcall sub_43BB90(u8 a1);
+    EXPORT static s32 __stdcall GetFireExplosionType_43BB90(u8 fire_level);
     EXPORT void SpawnFire_43BBC0();
     EXPORT void SetupCarPhysicsAndSpriteBinding_43BC30();
     EXPORT void SetupCarPhysicsAndSpriteBinding_43BCA0();
@@ -575,9 +575,9 @@ class Car_BC
     EXPORT bool IsAreaDamaged_43D1C0(s32 damage_area);
     EXPORT void TryDamageArea_43D2C0(u8 damage_area, s32 damageAmount);
     EXPORT void RepairDamage_43D400();
-    EXPORT void EmitExplosion_43D690(s32 a3, Fix16 x, Fix16 y);
-    EXPORT void TriggerExplosion_43D7B0(s32 a2);
-    EXPORT void HandleCarExplosion_43D840(s32 a2);
+    EXPORT void EmitExplosion_43D690(s32 type, Fix16 x, Fix16 y);
+    EXPORT void TriggerExplosion_43D7B0(s32 type);
+    EXPORT void HandleCarExplosion_43D840(s32 type);
     EXPORT s16 AccumulateDamage_43DA90(s16 a2, Fix16_Point* a3);
     // HandleCarHitByObject_43F130 passes the operator temporaries straight in (push %eax of the result)
     inline s16 AccumulateDamage_43DA90(s16 a2, const Fix16_Point& a3)

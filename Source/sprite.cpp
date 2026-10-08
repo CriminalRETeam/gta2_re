@@ -1,4 +1,5 @@
 #include "sprite.hpp"
+#include "explosion_type.hpp"
 #include "car_despawn_status.hpp"
 #include "CarInfo_808.hpp" // TODO: only because of gPixelsToFix16_6F6850
 #include "Car_BC.hpp"
@@ -2765,7 +2766,7 @@ void Sprite_18::sub_5A69E0()
         Car_BC* pBC = field_0->AsCar_40FEB0();
         if (pBC)
         {
-            pBC->TriggerExplosion_43D7B0(19);
+            pBC->TriggerExplosion_43D7B0(explosion_type::item_19);
         }
     }
 }

@@ -1,4 +1,5 @@
 #include "Ped.hpp"
+#include "explosion_type.hpp"
 #include "car_despawn_status.hpp"
 #include "ped_death_cause.hpp"
 #include "accuracy_event.hpp"
@@ -989,7 +990,7 @@ void Ped::ManageBurning_45BEC0()
         else if (field_16C_car)
         {
             PutOutFire();
-            field_16C_car->HandleCarExplosion_43D840(19);
+            field_16C_car->HandleCarExplosion_43D840(explosion_type::item_19);
         }
         else
         {

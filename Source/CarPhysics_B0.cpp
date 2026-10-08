@@ -2,6 +2,7 @@
 #define FIX16_POINT_ZERO kFP16Zero_6FE20C
 
 #include "ped_death_cause.hpp"
+#include "explosion_type.hpp"
 #include "CarPhysics_B0.hpp"
 #include "CarAI_78.hpp"
 #include "CarInfo_808.hpp"
@@ -2637,7 +2638,7 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
         s16 damage_2;
         if (field_5C_pCar->IsTrainModel_403BA0())
         {
-            pOtherCar->HandleCarExplosion_43D840(19);
+            pOtherCar->HandleCarExplosion_43D840(explosion_type::item_19);
             damage_2 = 32000;
         }
         else

@@ -1,4 +1,5 @@
 #include "Crushers.hpp"
+#include "explosion_type.hpp"
 #include "ped_death_cause.hpp"
 #include "car_despawn_status.hpp"
 #include "Camera.hpp"
@@ -78,7 +79,7 @@ void Crusher_30::Service_488350()
                         field_14_pCarBeingCrushed->field_90 = ped_death_cause::unknown_4;
                         field_14_pCarBeingCrushed->field_94_exploder_timer = 50;
                     }
-                    field_14_pCarBeingCrushed->HandleCarExplosion_43D840(19);
+                    field_14_pCarBeingCrushed->HandleCarExplosion_43D840(explosion_type::item_19);
                     field_14_pCarBeingCrushed->field_0_qq.CleanupSpriteList_5A7080();
                 }
                 if (field_1C_w - kCrusher_67A810 <= field_14_pCarBeingCrushed->get_car_width() / 2)
