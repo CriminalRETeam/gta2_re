@@ -23,7 +23,7 @@
 #include "error.hpp"
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "infallible_turing.hpp"
-#include "lucid_hamilton.hpp"
+#include "GameSession_578.hpp"
 #include "map_0x370.hpp"
 #include "registry.hpp"
 #include "rng.hpp"
@@ -78,7 +78,7 @@ void UnknownDebugClass::DoBrianTest_42D870(u16 action)
             gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, 3);
             break;
         case 9:
-            gfrosty_pasteur_6F8060->SaveGame_511E10(gLucid_hamilton_67E8E0.GetDebugStr_4C5970());
+            gfrosty_pasteur_6F8060->SaveGame_511E10(gGameSession_67E8E0.GetDebugStr_4C5970());
             break;
         case 6:
             gTestRouteIdx_675F14 = gRouteFinder_6FFDC8->DoStartRoute_58A0D0(3, 3, 1, 0xD5, 0xAB, 1, 1);
@@ -1874,7 +1874,7 @@ void Player::Busted_5679E0()
 
         if (!field_2C_death_countdown)
         {
-            if (field_684_lives.get_value() <= 0 || gLucid_hamilton_67E8E0.IsBonusStage_4C59A0() == 1)
+            if (field_684_lives.get_value() <= 0 || gGameSession_67E8E0.IsBonusStage_4C59A0() == 1)
             {
                 gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, GameExitType::GameOverRIP_3);
             }
@@ -1919,7 +1919,7 @@ void Player::Busted_5679E0()
         }
         else
         {
-            if (field_2C_death_countdown == 2 && field_684_lives.field_0_value > 0 && gLucid_hamilton_67E8E0.IsBonusStage_4C59A0() != 1)
+            if (field_2C_death_countdown == 2 && field_684_lives.field_0_value > 0 && gGameSession_67E8E0.IsBonusStage_4C59A0() != 1)
             {
                 field_2C4_player_ped->field_210_shock_counter = 0;
                 field_2C4_player_ped->ClearWantedPoints_420B80();
@@ -2539,7 +2539,7 @@ void Player::InitializePlayerState_569CB0()
     }
     else
     {
-        if (!gLucid_hamilton_67E8E0.IsBonusStage_4C59A0()) // bonus level?
+        if (!gGameSession_67E8E0.IsBonusStage_4C59A0()) // bonus level?
         {
             field_684_lives.ChangeStatByAmount_4921B0(5);
         }
@@ -2576,7 +2576,7 @@ void Player::InitializePlayerState_569CB0()
         Player::ColorScoreFromRemap_569A10();
         gNetPlay_7071E8.GetPlayerName_521100(field_83C_player_name, field_2E_idx);
         gText_0x14_704DFC->RemapExtendedCharsIfNotJapanese_5B5910(field_83C_player_name);
-        gLucid_hamilton_67E8E0.SetPlayerName_4C5C30(field_2E_idx, field_83C_player_name);
+        gGameSession_67E8E0.SetPlayerName_4C5C30(field_2E_idx, field_83C_player_name);
     }
 }
 

@@ -116,7 +116,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x452DF0 | `CarAI_78::UpdateDrivingAI_452DF0` | 0x432370 | ✓ `sub_42ABB0`, ✓ `sub_42AB90`, ✓ `sub_42ABA0`, `sub_431C10`, ✓ `sub_416B40`, ✓ `sub_40FEC0` | matched | only 431C10 (1855 bytes) missing, = a CarAI_78 method 10.5 still calls |
 | 0x457BF0 | `Taxi_4::GetTaxiNear_457BF0` | 0x4330A0 | ✓ `MaxAbsDistance_42A6B0`, ✓ `sub_4215B0` | done | all 9.6f inlines used |
 | 0x45C9D0 | `Ped::ComputeAimAngle_45C9D0` | 0x43E3A0 | `sub_445CC0`, `sub_43BEC0`, `sub_437EB0`, `sub_40E8D0` | checked | all missing are pairing noise (4713C0/466BB0/466F40 wrappers, atan2) |
-| 0x45DE80 | `Ped::HandlePickupCollision_45DE80` | 0x43E550 | ✓ `sub_434B10`, ✓ `sub_434B20`, ✓ `sub_434B60`, ✓ `sub_434A10`, `sub_421050`, `sub_4340A0`, ✓ `angry_lewin_0x85C::sub_41DC70` | done | diff 24 unchanged; new youthful_einstein/lucid_hamilton helpers; 421050/4340A0 = get_field_26 already |
+| 0x45DE80 | `Ped::HandlePickupCollision_45DE80` | 0x43E550 | ✓ `sub_434B10`, ✓ `sub_434B20`, ✓ `sub_434B60`, ✓ `sub_434A10`, `sub_421050`, `sub_4340A0`, ✓ `angry_lewin_0x85C::sub_41DC70` | done | diff 24 unchanged; new youthful_einstein/GameSession_578 helpers; 421050/4340A0 = get_field_26 already |
 | 0x45E080 | `Ped::SpawnWeaponOnDeath_45E080` | 0x436250 | ✓ `sub_434130` | matched | diff 149->145; Object_5C.hpp includes Object_8.hpp now (CarAI_78 WIP 44E560 5009->5010 from that include alone) |
 | 0x45E4A0 | `Ped::sub_45E4A0` | 0x43B7C0 | ✓ `sub_433470`, ✓ `sub_4334A0`, ✓ `sub_4334D0`, ✓ `sub_433500` | done | all 9.6f inlines used |
 | 0x45EB60 | `Ped::Deallocate_45EB60` | 0x43E650 | ✓ `sub_434070`, ✓ `Car_BC::sub_4343B0` | done | all 9.6f inlines used |
@@ -157,9 +157,9 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4AE2D0 | `Frontend::UpdatePageFromUserInput_4AE2D0` | 0x4597C0 | ✓ `sub_453A60` | done | DecodeStage_453A60 x2; unchanged (377) |
 | 0x4AF2A0 | `Frontend::ctor_4AF2A0` | 0x456A60 | ✓ `laughing_blackwell_0x1EB54::sub_453A30`, `sub_453D40` | inlines added | new Frontend::SetField10D_453A30; sub_453D40 (sets field_11C by language) has no 10.5 form, sub_4AF0E0 used; diff 0 (CANDIDATE MATCH, was 0 already) |
 | 0x4B0220 | `Frontend::SetupMenuStringsOptionsElements_4B0220` | 0x453E20 | `?do_always_noconv@codecvt_base@std@@MBE_NXZ` | checked | do_always_noconv (9.6f 0x4538E0, returns true) guards dead code that 10.5 dropped; nothing to use |
-| 0x4B3170 | `Frontend::sub_4B3170` | 0x4587B0 | ✓ `lucid_hamilton::sub_453A80`, ✓ `sub_453A60`, ✓ `sub_453AB0`, ✓ `sub_434B20`, ✓ `sub_453A90`, ✓ `sub_453AA0`, `sub_4529C0`, `sub_452990` | inlines added | new IsTagGame_434B20, youthful_einstein HasQuit_453A90/GetTime_453AA0/GetLeaderIdx_453AB0, DecodeStage once; 2 decodes commented (500->532); 4529C0/452990 pairing; 502->500 |
+| 0x4B3170 | `Frontend::sub_4B3170` | 0x4587B0 | ✓ `GameSession_578::sub_453A80`, ✓ `sub_453A60`, ✓ `sub_453AB0`, ✓ `sub_434B20`, ✓ `sub_453A90`, ✓ `sub_453AA0`, `sub_4529C0`, `sub_452990` | inlines added | new IsTagGame_434B20, youthful_einstein HasQuit_453A90/GetTime_453AA0/GetLeaderIdx_453AB0, DecodeStage once; 2 decodes commented (500->532); 4529C0/452990 pairing; 502->500 |
 | 0x4B4440 | `Frontend::GetMainAndBonusStagesFromSeqFile_4B4440` | 0x455340 | `sub_4527A0` | checked | sub_4527A0 is Frontend::sub_4B4BC0, already called (10.5 merged the two calls) |
-| 0x4B7120 | `Frontend::sub_4B7120` | 0x456180 | ✓ `sub_453A60`, ✓ `sub_453A40` | done | new lucid_hamilton::DecodeStage_453A60/EncodeStage_453A40; code unchanged (83) |
+| 0x4B7120 | `Frontend::sub_4B7120` | 0x456180 | ✓ `sub_453A60`, ✓ `sub_453A40` | done | new GameSession_578::DecodeStage_453A60/EncodeStage_453A40; code unchanged (83) |
 | 0x4B7800 | `Frontend::GetPrevUnlockedStageBonusCode_4B7800` | 0x4565E0 | ✓ `sub_453A40` | done | EncodeStage_453A40; 91->90 |
 | 0x4C1AB0 | `next_cycle_4C1AB0` | 0x45E0B0 | ✓ `rng::get_cur_rng_41CFE0` | done | all 9.6f inlines used |
 | 0x4C9B60 | `PedGroup::MergeWithOtherGroup_4C9B60` | 0x404EF0 | `sub_403B90` (10.5 0x4CA3E0), `sub_404900`, ✓ `cool_nash_0x294::get_car_state_403A90`, ✓ `cool_nash_0x294::sub_403AE0`, ✓ `sub_403950`, ✓ `cool_nash_0x294::has_car_403B80`, `sub_404450`, ✓ `cool_nash_0x294::sub_403990` | done | diff 35 unchanged; 403B90 = GetBit2, 404450 = sub_4C9ED0 |
@@ -624,7 +624,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4B7360 | `Frontend::sub_4B7360` | 0x4562F0 | ✓ `sub_453A60`, ✓ `sub_453A40` | matched | DecodeStage_453A60/EncodeStage_453A40; unchanged (53) |
 | 0x4B7610 | `Frontend::UpdateBonusStageArrows_4B7610` | 0x456490 | ✓ `sub_453A60` | done | DecodeStage_453A60; still matches |
 | 0x4B8280 | `Frontend::sub_4B8280` | 0x45A010 | ✓ `sub_4539D0` | done | new GetCharWidth_4539D0 (11->6), plus field_C9B3 branch order fix -> 0 CANDIDATE MATCH |
-| 0x4B8C40 | `Game_0x40::LoadGameFiles_4B8C40` | 0x45B470 | `sub_410550`, ✓ `lucid_hamilton::sub_45B420`, `sub_4B5420` | checked | clear_secret_tokens_collected = 9.6f 0x45B420 (already used, comment added); sub_410550 is a thunk on an unknown 9.6f global (0x5DCBC8), sub_4B5420 a large callee |
+| 0x4B8C40 | `Game_0x40::LoadGameFiles_4B8C40` | 0x45B470 | `sub_410550`, ✓ `GameSession_578::sub_45B420`, `sub_4B5420` | checked | clear_secret_tokens_collected = 9.6f 0x45B420 (already used, comment added); sub_410550 is a thunk on an unknown 9.6f global (0x5DCBC8), sub_4B5420 a large callee |
 | 0x4B8EB0 | `Game_0x40::BootGame_4B8EB0` | 0x45B5F0 | `Game_0x40::sub_45ACE0`, `FatalError_450530` (10.5 0x4A38C0), `sub_4CAC30`, `Map_0x370::sub_46A4D0`, `Map_0x370::sub_4692B0` | checked | 9.6f has `if (!bStartNetworkGame && !Game_0x40::sub_45ACE0()) FatalError(0x48, ..., 0x283)` with sub_45ACE0 returning true; 10.5 drops it as dead code, so nothing to add; other callees are 10.5 calls |
 | 0x4B8FF0 | `Game_0x40::ShowCounters_4B8FF0` | 0x45B750 | ✓ `Car_BC_Pool::get_cars_count_45AD30`, ✓ `PlayerScoreTracker_36C::get_accuracy_count_45B0A0`, ✓ `PlayerScoreTracker_36C::get_reverse_count_45B0B0`, ✓ `cool_nash_0x294::get_cam_x_403A00`, ✓ `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0) | done | Car_BC_Pool::get_cars_count_45AD30 (new), get_cam_x/y; code unchanged |
 | 0x4B9270 | `Game_0x40::DebugShowCarStatsAndFrameSkip_4B9270` | 0x45BA10 | ✓ `Hud_TextEntry_C4::sub_45AFD0` | done | Hud_TextEntry_C4::SetDrawKind8_45AFD0; code unchanged |
@@ -647,7 +647,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4C1C70 | `Generator_2C::sub_4C1C70` | 0x45E270 | ✓ `rng::get_cur_rng_41CFE0` | done | all 9.6f inlines used |
 | 0x4C1D70 | `GeneratorPool_14AC::GeneratorsService_4C1D70` | 0x45E2E0 | ✓ `rng::get_cur_rng_41CFE0`, `sub_45E240` | checked | 9.6f sub_45E240 corresponds to Generator_2C::Service_4C1C50 (still called); get_cur_rng_41CFE0 already used |
 | 0x4C1E20 | `GeneratorPool_14AC::ctor_4C1E20` | 0x45E3E0 | `array_constuctor_401CF0` | checked | array_constuctor_401CF0 is the compiler's array ctor helper, nothing to add |
-| 0x4C5CD0 | `lucid_hamilton::sub_4C5CD0` | 0x45EC70 | ✓ `Game_0x40::get_player_4219E0`, `sub_4B7580` | done | Game_0x40::get_player_4219E0; sub_4B7580 = ChangeFragsByAmount thunk (still called); code unchanged |
+| 0x4C5CD0 | `GameSession_578::sub_4C5CD0` | 0x45EC70 | ✓ `Game_0x40::get_player_4219E0`, `sub_4B7580` | done | Game_0x40::get_player_4219E0; sub_4B7580 = ChangeFragsByAmount thunk (still called); code unchanged |
 | 0x4C8E90 | `PedGroup::ClearGroupData_4C8E90` | 0x403BE0 | ✓ `cool_nash_0x294::sub_403A30` | done | code unchanged |
 | 0x4C8F90 | `PedGroup::sub_4C8F90` | 0x404C90 | `sub_404420` | checked | 404420 = add_ped_to_list_4C9B30 |
 | 0x4C8FE0 | `PedGroup::replace_leader_4C8FE0` | 0x404CE0 | ✓ `cool_nash_0x294::sub_403940` | done | all 9.6f inlines used |
@@ -674,7 +674,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4D5FA0 | `keybrd_0x204::destroy_4D5FA0` | 0x461270 | `keybrd_0x204::gdtor_461250` | checked | keybrd gdtor_461250 is the compiler scalar deleting dtor |
 | 0x4D9650 | `Write_Log_4D9650` | 0x461590 | `sub_461500` (10.5 0x4D9670) | checked | sub_461500 = log_on_line_written_4D9670 (called) |
 | 0x4DA440 | `Init_keybrd_jolly_and_sound_4DA440` | 0x461880 | `unknown_libname_18` (10.5 0x40EF10) | checked | unknown_libname_18 is root_sound::static_dtor_40EF10 thunk |
-| 0x4DA4D0 | `InitializeGame_4DA4D0` | 0x461DE0 | `unknown_libname_18` (10.5 0x40EF10), ✓ `sub_409C40`, `sub_409F90`, `Game_0x40::sub_45A8D0` (10.5 0x4B9CD0), `lucid_hamilton::sub_45E770` (10.5 0x4C5C30), `Game_0x40::sub_45A910` (10.5 0x4B9D10), ✓ `sub_461DC0` | matched | new NetPlay::GetPlayerIdx_409C40; 409F90=GetMaxPlayers_521350 called; 9.6f SetPlayerName loop absent in 10.5; 16->10 |
+| 0x4DA4D0 | `InitializeGame_4DA4D0` | 0x461DE0 | `unknown_libname_18` (10.5 0x40EF10), ✓ `sub_409C40`, `sub_409F90`, `Game_0x40::sub_45A8D0` (10.5 0x4B9CD0), `GameSession_578::sub_45E770` (10.5 0x4C5C30), `Game_0x40::sub_45A910` (10.5 0x4B9D10), ✓ `sub_461DC0` | matched | new NetPlay::GetPlayerIdx_409C40; 409F90=GetMaxPlayers_521350 called; 9.6f SetPlayerName loop absent in 10.5; 16->10 |
 | 0x4DA700 | `CleanUpInputAndOthers_4DA700` | 0x462060 | `sub_461910`, `unknown_libname_18` (10.5 0x40EF10) | checked | sub_461910 is the keybrd scalar deleting dtor; unknown_libname_18 root_sound thunk |
 | 0x4DA740 | `sub_4DA740` | 0x4620A0 | `sub_4A9270` | checked | sub_4A9270 is jolly_poitras_0x2BC0::destroy_56C340 (called) |
 | 0x4DA9F0 | `Net_4DA9F0` | 0x462140 | `sub_461DD0` | checked | sub_461DD0 (SetQuit) not open-coded in this 10.5 version |
@@ -682,8 +682,8 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4DAD50 | `Net_Set_Local_Player_Inputs_4DAD50` | 0x4624E0 | ✓ `Game_0x40::get_player_4219E0`, ✓ `sub_461DB0` | done | all 9.6f inlines used |
 | 0x4DAF30 | `do_network_and_local_inputs_4DAF30` | 0x4626D0 | ✓ `Game_0x40::get_player_4219E0`, ✓ `sub_461DB0` | done | Game_0x40::get_player_4219E0 and Player::GetInUse_461DB0; Still matches. |
 | 0x4DB070 | `sub_4DB070` | 0x4620E0 | ✓ `Game_0x40::get_player_4219E0` | done | Game_0x40::get_player_4219E0; Still matches. |
-| 0x4DB2E0 | `sub_4DB2E0` | 0x461C60 | `lucid_hamilton::sub_45E4F0` (10.5 0x4C5950) | checked | sub_45E4F0 is GetStyleName_4C5950 (out of line, called) |
-| 0x4DB440 | `CompareRemotePlayers_4DB440` | 0x462850 | `lucid_hamilton::sub_45E4F0` (10.5 0x4C5950) | checked | sub_45E4F0 is GetStyleName_4C5950 (out of line, called) |
+| 0x4DB2E0 | `sub_4DB2E0` | 0x461C60 | `GameSession_578::sub_45E4F0` (10.5 0x4C5950) | checked | sub_45E4F0 is GetStyleName_4C5950 (out of line, called) |
+| 0x4DB440 | `CompareRemotePlayers_4DB440` | 0x462850 | `GameSession_578::sub_45E4F0` (10.5 0x4C5950) | checked | sub_45E4F0 is GetStyleName_4C5950 (out of line, called) |
 | 0x4DEF00 | `get_zone_str_4DEF00` | 0x462BE0 | `sub_4C22D0` | checked | 9.6f sub_4C22D0 is a char->wchar copy into a global buffer; 10.5 builds a key and calls Find_5B5F90 instead |
 | 0x4DEF40 | `gmp_map_zone::IsZoneVisibleToAnyPlayer_4DEF40` | 0x4690B0 | ✓ `sub_463710` | done | Fix16_Rect::SetFromPosSize_463710 replaces the 4-arg ctor (both emitted out of line, call kept); still matches |
 | 0x4DEFD0 | `Map_0x370::zone_by_name_4DEFD0` | 0x464C70 | `Map_0x370::sub_462E40` | checked | sub_462E40 is Map_0x370::get_zone_4DFB30, called out of line in 10.5 |
@@ -819,8 +819,8 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x510280 | `miss2_0x11C::SCRCMD_DO_BASIC_KF_510280` | 0x47E7F0 | ✓ `sub_476660`, ✓ `cool_nash_0x294::sub_403990`, ✓ `sub_476680`, `sub_4C93B0`, ✓ `sub_475A40`, ✓ `cool_nash_0x294::sub_420B80`, ✓ `sub_41DC40`, ✓ `sub_4766B0`, `sub_4A4D50`, `sub_4105B0` | done | sad_mirzakhani::get_bonus_count_476660 and DeactivateBonus_476680 (new), Ped::ClearWantedPoints_420B80, Player::ChangeMultipliers_4766B0; set_field_C1E2D_475A40/GetPedState_403990/AddScore_41DC40 already used; sub_4A4D50 = ChangeLifeCountByAmount_5699F0 (still called); code unchanged |
 | 0x510780 | `miss2_0x11C::SCRCMD_SAVE_RESTORE_RESPECT_510780` | 0x4802F0 | `frosty_pasteur_0xC1EA8::sub_476200` (10.5 0x512770), `sub_43DF60`, `cool_nash_0x294::sub_403920`, `sub_436070` (10.5 0x470F30), `sub_433B90`, `cool_nash_0x294::set_occupation_403970`, `sub_476D20`, `Car_BC::sub_421560`, `sub_421510`, `sub_42A9D0` (10.5 0x453BF0), `sub_425DD0` (10.5 0x43BCA0) | checked | pairing noise: 9.6f 0x4802F0 is a ped-spawning command; source only saves/restores gang respect |
 | 0x5108D0 | `miss2_0x11C::PreExecOpCode_5108D0` | 0x4805B0 | `sub_479850`, `sub_479F10`, `sub_47B5E0`, `sub_47B810`, `sub_47BCD0`, `sub_47BE00`, `sub_47D070`, `sub_47DE70`, `sub_47E360` | checked | listed callees are SCRCMD handlers (still called) |
-| 0x511E10 | `frosty_pasteur_0xC1EA8::SaveGame_511E10` | 0x47EF40 | `sub_483D90`, ✓ `lucid_hamilton::sub_453A80`, `sub_475CA0` | checked | get_secret_tokens_collected_453A80 already used; sub_483D90/sub_475CA0 are big callees the source calls as 10.5 functions |
-| 0x511F80 | `frosty_pasteur_0xC1EA8::LoadSave_511F80` | 0x47F0B0 | `sub_47EF10`, ✓ `sub_476B10` | done | lucid_hamilton::set_secret_tokens_collected_476B10 (new); sub_47EF10 = LoadScriptCounters_511C30 (still called); code unchanged |
+| 0x511E10 | `frosty_pasteur_0xC1EA8::SaveGame_511E10` | 0x47EF40 | `sub_483D90`, ✓ `GameSession_578::sub_453A80`, `sub_475CA0` | checked | get_secret_tokens_collected_453A80 already used; sub_483D90/sub_475CA0 are big callees the source calls as 10.5 functions |
+| 0x511F80 | `frosty_pasteur_0xC1EA8::LoadSave_511F80` | 0x47F0B0 | `sub_47EF10`, ✓ `sub_476B10` | done | GameSession_578::set_secret_tokens_collected_476B10 (new); sub_47EF10 = LoadScriptCounters_511C30 (still called); code unchanged |
 | 0x5120C0 | `sub_5120C0` | 0x47F200 | ✓ `miss2_0x11C_Pool::sub_4767A0` | done | all 9.6f inlines used |
 | 0x512160 | `frosty_pasteur_0xC1EA8::Update_512160` | 0x481890 | ✓ `miss2_0x11C_Pool::sub_4767A0` | done | all 9.6f inlines used |
 | 0x512AF0 | `frosty_pasteur_0xC1EA8::sub_512AF0` | 0x476400 | ✓ `sub_4759C0`, ✓ `sub_4759A0` | done | HasCheckFlag4_4759C0/HasCheckFlag2_4759A0 (+HasCheckFlag1_475980 in 512C70) (new); code unchanged; the 9.6f ternary form breaks the match |
@@ -1263,7 +1263,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x433900 | `sub_433900` | 13 |  | Source/char.hpp:277 | 4/3 | todo |  |
 | 0x433970 | `sub_433970` | 68 |  | Source/char.hpp:188, Source/char.hpp:201 | 4/5 | todo |  |
 | 0x450CB0 | `sub_450CB0` | 7 |  | Source/Ped.hpp:411 | 4/5 | todo |  |
-| 0x453A60 | `sub_453A60` | 26 |  | Source/lucid_hamilton.hpp:46 | 4/7 | todo |  |
+| 0x453A60 | `sub_453A60` | 26 |  | Source/GameSession_578.hpp:46 | 4/7 | todo |  |
 | 0x482C80 | `sub_482C80` | 15 |  | Source/Object_5C.hpp:282 | 4/0 | todo |  |
 | 0x482C90 | `sub_482C90` | 42 |  | Source/Object_5C.hpp:152 | 4/0 | todo |  |
 | 0x4A65E0 | `sub_4A65E0` | 35 |  |  | 4/1 | todo |  |
@@ -1358,11 +1358,11 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4340D0 | `sub_4340D0` | 15 |  | Source/Object_5C.hpp:240 | 2/3 | todo |  |
 | 0x4340E0 | `sub_4340E0` | 15 |  | Source/Object_5C.hpp:245 | 2/3 | todo |  |
 | 0x434130 | `sub_434130` | 15 |  | Source/Object_5C.hpp:194 | 2/0 | todo |  |
-| 0x434B20 | `sub_434B20` | 16 |  | Source/lucid_hamilton.hpp:196, Source/youthful_einstein.hpp:18 | 2/1 | todo |  |
+| 0x434B20 | `sub_434B20` | 16 |  | Source/GameSession_578.hpp:196, Source/youthful_einstein.hpp:18 | 2/1 | todo |  |
 | 0x435C20 | `sub_435C20` | 30 | 0x408680 MATCH |  | 2/0 | todo |  |
 | 0x44B490 | `sub_44B490` | 97 |  |  | 2/0 | todo |  |
-| 0x453A40 | `sub_453A40` | 21 |  | Source/lucid_hamilton.hpp:38 | 2/2 | todo |  |
-| 0x453A80 | `lucid_hamilton::sub_453A80` | 7 |  | Source/lucid_hamilton.hpp:20 | 2/1 | todo |  |
+| 0x453A40 | `sub_453A40` | 21 |  | Source/GameSession_578.hpp:38 | 2/2 | todo |  |
+| 0x453A80 | `GameSession_578::sub_453A80` | 7 |  | Source/GameSession_578.hpp:20 | 2/1 | todo |  |
 | 0x45ADA0 | `sub_45ADA0` | 12 |  | Source/Camera.hpp:126, Source/Fix16_Rect.hpp:143 | 2/1 | todo |  |
 | 0x45ADB0 | `sub_45ADB0` | 11 |  | Source/Camera.hpp:125, Source/Fix16_Rect.hpp:138 | 2/1 | todo |  |
 | 0x45ADC0 | `sub_45ADC0` | 12 |  | Source/Camera.hpp:124, Source/Fix16_Rect.hpp:148 | 2/1 | todo |  |
@@ -1531,7 +1531,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4341B0 | `sub_4341B0` | 4 |  | Source/Car_10.hpp:10 | 1/1 | todo |  |
 | 0x4343B0 | `Car_BC::sub_4343B0` | 7 |  | Source/Car_BC.hpp:933 | 1/0 | todo |  |
 | 0x434950 | `sub_434950` | 10 |  | Source/Player.hpp:196 | 1/4 | todo |  |
-| 0x434A10 | `sub_434A10` | 7 |  | Source/lucid_hamilton.hpp:32 | 1/0 | todo |  |
+| 0x434A10 | `sub_434A10` | 7 |  | Source/GameSession_578.hpp:32 | 1/0 | todo |  |
 | 0x434AF0 | `sub_434AF0` | 27 |  | Source/Garage_48.hpp:30 | 1/0 | todo |  |
 | 0x434B10 | `sub_434B10` | 6 |  | Source/winmain.hpp:39 | 1/3 | todo |  |
 | 0x434B60 | `sub_434B60` | 27 |  | Source/Player.hpp:459, Source/youthful_einstein.hpp:24 | 1/0 | todo |  |
@@ -1589,7 +1589,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x460CC0 | `sub_460CC0` | 105 |  |  | 1/0 | todo |  |
 | 0x460D30 | `sub_460D30` | 105 |  |  | 1/0 | todo |  |
 | 0x460DA0 | `magical_germain_0x8EC::sub_460DA0` | 55 |  |  | 1/0 | todo |  |
-| 0x461DC0 | `sub_461DC0` | 7 |  | Source/lucid_hamilton.hpp:98 | 1/1 | todo |  |
+| 0x461DC0 | `sub_461DC0` | 7 |  | Source/GameSession_578.hpp:98 | 1/1 | todo |  |
 | 0x463150 | `sub_463150` | 162 |  |  | 1/0 | todo |  |
 | 0x463210 | `sub_463210` | 189 |  |  | 1/0 | todo |  |
 | 0x4632E0 | `ProcessObjective_4632E0` | 176 |  | Source/Ped.hpp:226 | 1/0 | todo |  |
@@ -2143,7 +2143,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x45B1A0 | `EmergencyCrewPool_1E0::ctor_45B1A0` | 82 |  |  | 0/1 | todo |  |
 | 0x45B2D0 | `nostalgic_ellis_0x28::sub_45B2D0` | 21 |  | Source/Light_1D4CC.hpp:58, Source/Light_1D4CC.hpp:71 | 0/1 | todo |  |
 | 0x45B3D0 | `Light_1D4CC::ctor_45B3D0` | 65 |  |  | 0/1 | todo |  |
-| 0x45B420 | `lucid_hamilton::sub_45B420` | 11 |  | Source/lucid_hamilton.hpp:92 | 0/1 | todo |  |
+| 0x45B420 | `GameSession_578::sub_45B420` | 11 |  | Source/GameSession_578.hpp:92 | 0/1 | todo |  |
 | 0x45B440 | `Tango_54::ctor_45B440` | 29 |  |  | 0/1 | todo |  |
 | 0x45BDC0 | `Phi_8CA8::gdtor_45BDC0` | 30 |  |  | 0/1 | todo |  |
 | 0x45BDE0 | `jawwie_110::gdtor_45BDE0` | 30 |  |  | 0/1 | todo |  |
@@ -2167,8 +2167,8 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x45D960 | `Zone_144::init_45D960` | 113 | 0x4BED70 MATCH |  | 0/1 | todo |  |
 | 0x45E0A0 | `sub_45E0A0` | 10 |  | Source/Object_5C.hpp:182 | 0/3 | todo |  |
 | 0x45E240 | `sub_45E240` | 36 |  |  | 0/1 | todo |  |
-| 0x45E4F0 | `lucid_hamilton::sub_45E4F0` | 7 | 0x4C5950 MATCH |  | 0/2 | todo |  |
-| 0x45E770 | `lucid_hamilton::sub_45E770` | 39 | 0x4C5C30 MATCH |  | 0/1 | todo |  |
+| 0x45E4F0 | `GameSession_578::sub_45E4F0` | 7 | 0x4C5950 MATCH |  | 0/2 | todo |  |
+| 0x45E770 | `GameSession_578::sub_45E770` | 39 | 0x4C5C30 MATCH |  | 0/1 | todo |  |
 | 0x45E8D0 | `sub_45E8D0` | 837 |  |  | 0/1 | todo |  |
 | 0x45ED00 | `sub_45ED00` | 8 |  |  | 0/1 | todo |  |
 | 0x45EDE0 | `PedTypeIs_45EDE0` | 217 |  | Source/Car_BC.hpp:1282, Source/Ped.hpp:205 | 0/1 | todo |  |
@@ -2285,7 +2285,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x476A20 | `sub_476A20` | 16 |  | Source/miss2_0x11C.cpp:993, Source/miss2_0x11C.cpp:1120 | 0/2 | todo |  |
 | 0x476A90 | `sub_476A90` | 4 |  | Source/Door_38.hpp:54 | 0/1 | todo |  |
 | 0x476AE0 | `sub_476AE0` | 22 |  | Source/nostalgic_ellis_0x28.hpp:88 | 0/1 | todo |  |
-| 0x476B10 | `sub_476B10` | 13 |  | Source/lucid_hamilton.hpp:26 | 0/1 | todo |  |
+| 0x476B10 | `sub_476B10` | 13 |  | Source/GameSession_578.hpp:26 | 0/1 | todo |  |
 | 0x476D20 | `sub_476D20` | 44 |  |  | 0/1 | todo |  |
 | 0x476DF0 | `sub_476DF0` | 11 |  |  | 0/1 | todo |  |
 | 0x476E00 | `sub_476E00` | 11 |  |  | 0/1 | todo |  |

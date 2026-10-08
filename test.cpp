@@ -4,7 +4,7 @@
 #include "Source/registry.hpp"
 #include "Source/file.hpp"
 #include "Source/FpsCounter_54.hpp"
-#include "source/lucid_hamilton.hpp"
+#include "source/GameSession_578.hpp"
 #include "Source/winmain.hpp"
 #include "Source/text_0x14.hpp"
 #include "Source/GlobalsRegistry.hpp"
@@ -99,9 +99,9 @@ void test_registry()
     gRegistry_6FF968.Set_Sound_Setting_586AE0("lol", 5);
 }
 
-void test_lucid_hamilton()
+void test_GameSession_578()
 {
-    lucid_hamilton c;
+    GameSession_578 c;
     c.SetPlySlotIdx_4C5920(0);
 }
 
@@ -167,7 +167,7 @@ s32 APIENTRY WinMain(HINSTANCE hInstance,
         test_registry();
         test_file();
         test_gtx_0x106C();
-        test_lucid_hamilton();
+        test_GameSession_578();
         test_winmain();
         test_wizardly_margulis();
         test_Map_0x370();

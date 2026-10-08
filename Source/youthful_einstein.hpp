@@ -2,7 +2,7 @@
 
 #include "Function.hpp"
 #include "fix16.hpp"
-#include "lucid_hamilton.hpp"
+#include "GameSession_578.hpp"
 
 class Player;
 class Ped;
@@ -18,7 +18,7 @@ class youthful_einstein
     // 9.6f 0x434B20
     inline bool IsTagGame_434B20()
     {
-        return gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() == 3;
+        return gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0() == 3;
     }
 
     // 9.6f 0x434B60, defined in Player.hpp

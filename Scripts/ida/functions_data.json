@@ -7373,269 +7373,269 @@
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::LoadDebugSettings_4C53D0",
+        "name": "GameSession_578::LoadDebugSettings_4C53D0",
         "v96f_address": null,
         "v105_address": "0x4c53d0"
     },
     {
-        "name": "lucid_hamilton::SetMapName_4C5870",
+        "name": "GameSession_578::SetMapName_4C5870",
         "v96f_address": "0x45e410",
         "v105_address": "0x4c5870",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetStyleName_4C5890",
+        "name": "GameSession_578::SetStyleName_4C5890",
         "v96f_address": "0x45e430",
         "v105_address": "0x4c5890",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetScriptName_4C58B0",
+        "name": "GameSession_578::SetScriptName_4C58B0",
         "v96f_address": "0x45e450",
         "v105_address": "0x4c58b0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::DebugStr_4C58D0",
+        "name": "GameSession_578::DebugStr_4C58D0",
         "v96f_address": "0x45e470",
         "v105_address": "0x4c58d0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetMainStageIdx_4C58F0",
+        "name": "GameSession_578::SetMainStageIdx_4C58F0",
         "v96f_address": "0x45e490",
         "v105_address": "0x4c58f0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetStage_4C5900",
+        "name": "GameSession_578::SetStage_4C5900",
         "v96f_address": "0x45e4a0",
         "v105_address": "0x4c5900",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetBonusStage_4C5910",
+        "name": "GameSession_578::SetBonusStage_4C5910",
         "v96f_address": "0x45e4b0",
         "v105_address": "0x4c5910",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetPlySlotIdx_4C5920",
+        "name": "GameSession_578::SetPlySlotIdx_4C5920",
         "v96f_address": "0x45e4c0",
         "v105_address": "0x4c5920",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetLevelFinishBonusType_4C5930",
+        "name": "GameSession_578::SetLevelFinishBonusType_4C5930",
         "v96f_address": "0x45e4d0",
         "v105_address": "0x4c5930",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetMapName_4C5940",
+        "name": "GameSession_578::GetMapName_4C5940",
         "v96f_address": "0x45e4e0",
         "v105_address": "0x4c5940",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetStyleName_4C5950",
+        "name": "GameSession_578::GetStyleName_4C5950",
         "v96f_address": "0x45e4f0",
         "v105_address": "0x4c5950",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetScriptName_4C5960",
+        "name": "GameSession_578::GetScriptName_4C5960",
         "v96f_address": "0x45e500",
         "v105_address": "0x4c5960",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetDebugStr_4C5970",
+        "name": "GameSession_578::GetDebugStr_4C5970",
         "v96f_address": "0x45e510",
         "v105_address": "0x4c5970",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetMainStageIdx_4C5980",
+        "name": "GameSession_578::GetMainStageIdx_4C5980",
         "v96f_address": "0x45e520",
         "v105_address": "0x4c5980",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetStage_4C5990",
+        "name": "GameSession_578::GetStage_4C5990",
         "v96f_address": "0x45e530",
         "v105_address": "0x4c5990",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::IsBonusStage_4C59A0",
+        "name": "GameSession_578::IsBonusStage_4C59A0",
         "v96f_address": "0x45e540",
         "v105_address": "0x4c59a0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetPlySlotIdx_4C59B0",
+        "name": "GameSession_578::GetPlySlotIdx_4C59B0",
         "v96f_address": "0x45e550",
         "v105_address": "0x4c59b0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetLevelFinishBonusType_4C59C0",
+        "name": "GameSession_578::GetLevelFinishBonusType_4C59C0",
         "v96f_address": "0x45e560",
         "v105_address": "0x4c59c0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetStatistic_4C59D0",
+        "name": "GameSession_578::SetStatistic_4C59D0",
         "v96f_address": "0x45e570",
         "v105_address": "0x4c59d0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetStatistic_4C59F0",
+        "name": "GameSession_578::GetStatistic_4C59F0",
         "v96f_address": "0x45e590",
         "v105_address": "0x4c59f0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::StoreCrimeStats_4C5A10",
+        "name": "GameSession_578::StoreCrimeStats_4C5A10",
         "v96f_address": "0x45ec20",
         "v105_address": "0x4c5a10",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetCarDamageCost_4C5A70",
+        "name": "GameSession_578::SetCarDamageCost_4C5A70",
         "v96f_address": null,
         "v105_address": "0x4c5a70"
     },
     {
-        "name": "lucid_hamilton::GetCarDamageCost_4C5A80",
+        "name": "GameSession_578::GetCarDamageCost_4C5A80",
         "v96f_address": "0x45e5c0",
         "v105_address": "0x4c5a80",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetEvasionRating_4C5A90",
+        "name": "GameSession_578::SetEvasionRating_4C5A90",
         "v96f_address": "0x45e5b0",
         "v105_address": "0x4c5a90",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetEvasionRating_4C5AA0",
+        "name": "GameSession_578::GetEvasionRating_4C5AA0",
         "v96f_address": "0x45e5e0",
         "v105_address": "0x4c5aa0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetBonusRatingTextIdx_4C5AB0",
+        "name": "GameSession_578::SetBonusRatingTextIdx_4C5AB0",
         "v96f_address": "0x45e5f0",
         "v105_address": "0x4c5ab0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetBonusRatingTextIdx_4C5AC0",
+        "name": "GameSession_578::GetBonusRatingTextIdx_4C5AC0",
         "v96f_address": "0x45e600",
         "v105_address": "0x4c5ac0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetStartedFromPlayBonusMenu_4C5AD0",
+        "name": "GameSession_578::SetStartedFromPlayBonusMenu_4C5AD0",
         "v96f_address": "0x45e610",
         "v105_address": "0x4c5ad0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::IsStartedFromPlayBonusMenu_4C5AE0",
+        "name": "GameSession_578::IsStartedFromPlayBonusMenu_4C5AE0",
         "v96f_address": "0x45e620",
         "v105_address": "0x4c5ae0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::init_4C5AF0",
+        "name": "GameSession_578::init_4C5AF0",
         "v96f_address": "0x45e630",
         "v105_address": "0x4c5af0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetMultiplayerParams_4C5B80",
+        "name": "GameSession_578::SetMultiplayerParams_4C5B80",
         "v96f_address": "0x45e6c0",
         "v105_address": "0x4c5b80",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetMultiplayerGamemode_4C5BC0",
+        "name": "GameSession_578::GetMultiplayerGamemode_4C5BC0",
         "v96f_address": "0x45e700",
         "v105_address": "0x4c5bc0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetMultiplayerPointsLimit_4C5BD0",
+        "name": "GameSession_578::GetMultiplayerPointsLimit_4C5BD0",
         "v96f_address": "0x45e710",
         "v105_address": "0x4c5bd0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetUserPlayerIdx_4C5BE0",
+        "name": "GameSession_578::GetUserPlayerIdx_4C5BE0",
         "v96f_address": "0x45e720",
         "v105_address": "0x4c5be0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetMaxPlayers_4C5BF0",
+        "name": "GameSession_578::GetMaxPlayers_4C5BF0",
         "v96f_address": "0x45e730",
         "v105_address": "0x4c5bf0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetWinnerIdx_4C5C00",
+        "name": "GameSession_578::SetWinnerIdx_4C5C00",
         "v96f_address": "0x45e740",
         "v105_address": "0x4c5c00",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetWinnerIdx_4C5C20",
+        "name": "GameSession_578::GetWinnerIdx_4C5C20",
         "v96f_address": "0x45e760",
         "v105_address": "0x4c5c20",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetPlayerName_4C5C30",
+        "name": "GameSession_578::SetPlayerName_4C5C30",
         "v96f_address": "0x45e770",
         "v105_address": "0x4c5c30",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetPlayerName_4C5C60",
+        "name": "GameSession_578::GetPlayerName_4C5C60",
         "v96f_address": "0x45e7a0",
         "v105_address": "0x4c5c60",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::ChangePointsForPlayerIdxByAmount_4C5C80",
+        "name": "GameSession_578::ChangePointsForPlayerIdxByAmount_4C5C80",
         "v96f_address": "0x45e7c0",
         "v105_address": "0x4c5c80",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetPointsForPlayerIdx_4C5CB0",
+        "name": "GameSession_578::GetPointsForPlayerIdx_4C5CB0",
         "v96f_address": "0x45e7f0",
         "v105_address": "0x4c5cb0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::UpdateFrags_4C5CD0",
+        "name": "GameSession_578::UpdateFrags_4C5CD0",
         "v96f_address": "0x45ec70",
         "v105_address": "0x4c5cd0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetFragsForPlayerIdx_4C5D60",
+        "name": "GameSession_578::GetFragsForPlayerIdx_4C5D60",
         "v96f_address": "0x45e810",
         "v105_address": "0x4c5d60",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetFragsOnPlayer_4C5D80",
+        "name": "GameSession_578::GetFragsOnPlayer_4C5D80",
         "v96f_address": "0x45e830",
         "v105_address": "0x4c5d80",
         "v96f_auto": true

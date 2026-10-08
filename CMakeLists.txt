@@ -96,8 +96,8 @@ set(gta2_lib_src
   Source/NetPlay.cpp
   Source/input.hpp
   Source/input.cpp
-  Source/lucid_hamilton.hpp
-  Source/lucid_hamilton.cpp
+  Source/GameSession_578.hpp
+  Source/GameSession_578.cpp
   Source/registry.hpp
   Source/registry.cpp
   Source/file.hpp

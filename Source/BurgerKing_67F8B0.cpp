@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
-#include "lucid_hamilton.hpp"
+#include "GameSession_578.hpp"
 
 #define ATTRACT_COUNT 3
 
@@ -723,10 +723,10 @@ void BurgerKing_67F8B0::AppendReplayHeader_4CDF70()
     sprintf(header.field_8_date, pDate);
 
     GetComputerNameA(header.field_26_computer_name, &computer_name_size);
-    strcpy(header.field_44_map_name, gLucid_hamilton_67E8E0.GetMapName_4C5940());
-    strcpy(header.field_6C_style_name, gLucid_hamilton_67E8E0.GetStyleName_4C5950());
-    strcpy(header.field_94_script_name, gLucid_hamilton_67E8E0.GetScriptName_4C5960());
-    strcpy(header.field_BC_debug_str, gLucid_hamilton_67E8E0.GetDebugStr_4C5970());
+    strcpy(header.field_44_map_name, gGameSession_67E8E0.GetMapName_4C5940());
+    strcpy(header.field_6C_style_name, gGameSession_67E8E0.GetStyleName_4C5950());
+    strcpy(header.field_94_script_name, gGameSession_67E8E0.GetScriptName_4C5960());
+    strcpy(header.field_BC_debug_str, gGameSession_67E8E0.GetDebugStr_4C5970());
 
     header.field_0_version[7] = '\n';
     header.field_8_date[29] = '\n';
@@ -785,10 +785,10 @@ void BurgerKing_67F8B0::LoadReplayHeader_4CE380(char_type bLoadDebug)
         s32 major;
         s32 minor;
         sscanf(header.field_0_version, "v%d.%d", &major, &minor);
-        gLucid_hamilton_67E8E0.SetMapName_4C5870(header.field_44_map_name);
-        gLucid_hamilton_67E8E0.SetStyleName_4C5890(header.field_6C_style_name);
-        gLucid_hamilton_67E8E0.SetScriptName_4C58B0(header.field_94_script_name);
-        gLucid_hamilton_67E8E0.DebugStr_4C58D0(header.field_BC_debug_str);
+        gGameSession_67E8E0.SetMapName_4C5870(header.field_44_map_name);
+        gGameSession_67E8E0.SetStyleName_4C5890(header.field_6C_style_name);
+        gGameSession_67E8E0.SetScriptName_4C58B0(header.field_94_script_name);
+        gGameSession_67E8E0.DebugStr_4C58D0(header.field_BC_debug_str);
 
         if (bLoadDebug)
         {

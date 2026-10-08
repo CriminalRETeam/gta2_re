@@ -38,7 +38,7 @@
 #include "fix16.hpp"
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "gtx_0x106C.hpp"
-#include "lucid_hamilton.hpp"
+#include "GameSession_578.hpp"
 #include "map_0x370.hpp"
 #include "miss2_8.hpp"
 #include "root_sound.hpp"
@@ -5130,7 +5130,7 @@ void miss2_0x11C::SCRCMD_LAUNCH_MISSION_50D2E0()
 MATCH_FUNC(0x50d340)
 void miss2_0x11C::SCRCMD_SAVE_GAME_50D340()
 {
-    char* pSaveFileName = gLucid_hamilton_67E8E0.GetDebugStr_4C5970();
+    char* pSaveFileName = gGameSession_67E8E0.GetDebugStr_4C5970();
     gfrosty_pasteur_6F8060->SaveGame_511E10(pSaveFileName);
     Next_503620(gBasePtr_6F8070);
 }
@@ -5160,7 +5160,7 @@ void miss2_0x11C::SCRCMD_DO_SAVE_GAME_50D3C0()
                     // Hallelluya! Another soul saved!
                     gRoot_sound_66B038.PlayVoice_40F090(voice_line::hallelujah_61);
                     gGame_0x40_67E008->field_38_orf1->AddCash_421990(-50000);
-                    gfrosty_pasteur_6F8060->SaveGame_511E10(gLucid_hamilton_67E8E0.GetDebugStr_4C5970());
+                    gfrosty_pasteur_6F8060->SaveGame_511E10(gGameSession_67E8E0.GetDebugStr_4C5970());
                     sprintf(gTmpBuffer_67C598, "svdone");
                 }
                 else
@@ -6885,7 +6885,7 @@ void miss2_0x11C::SCRCMD_DO_BASIC_KF_510280()
 MATCH_FUNC(0x510530)
 void miss2_0x11C::SCRCMD_SET_BONUS_RATING_510530()
 {
-    gLucid_hamilton_67E8E0.SetBonusRatingTextIdx_4C5AB0(((SCR_CMD_HEADER*)gBasePtr_6F8070)[1].field_2_type);
+    gGameSession_67E8E0.SetBonusRatingTextIdx_4C5AB0(((SCR_CMD_HEADER*)gBasePtr_6F8070)[1].field_2_type);
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 

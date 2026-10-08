@@ -18,7 +18,7 @@
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
 #include "keybrd_0x204.hpp"
-#include "lucid_hamilton.hpp"
+#include "GameSession_578.hpp"
 #include "registry.hpp"
 #include "rng.hpp"
 #include "root_sound.hpp"
@@ -1261,7 +1261,7 @@ void Hud_Arrow_7C_Array::CreatePlayerArrows_5D1350()
 {
     if ((u8)bStartNetworkGame_7081F0)
     {
-        if (gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() != TAG_GAME_3)
+        if (gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0() != TAG_GAME_3)
         {
             ReleaseAllArrows_5D10B0();
             for (Player* pPlayerIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0(); pPlayerIter;
@@ -1870,7 +1870,7 @@ void Hud_Pager_C_Array::DrawPagers_5D3040()
     s32 totalSpriteHeight = get_sprite_height_4C7250(117) + get_sprite_height_4C7250(118) + get_sprite_height_4C7250(119);
     s32 width = (get_sprite_width_4C7220(117) / 2) + 3;
 
-    s32 ypos = gLucid_hamilton_67E8E0.IsBonusStage_4C59A0() ? 36 : 104;
+    s32 ypos = gGameSession_67E8E0.IsBonusStage_4C59A0() ? 36 : 104;
     for (s32 i = 0; i < GTA2_COUNTOF(field_0_pagers_array); i++)
     {
         field_0_pagers_array[i].DrawPager_5D2AB0(width, ypos);
@@ -2931,7 +2931,7 @@ void Hud_PlayerStats_4::UpdateRollingDigits_5D6290()
 MATCH_FUNC(0x5D6300)
 void Hud_PauseScreen_2::UpdatePauseSection_5D6300()
 {
-    if (!gLucid_hamilton_67E8E0.IsBonusStage_4C59A0())
+    if (!gGameSession_67E8E0.IsBonusStage_4C59A0())
     {
         field_1_timer--;
         if (field_1_timer == 0)
@@ -2998,7 +2998,7 @@ void Hud_PauseScreen_2::DrawPause_5D63B0()
 
         DrawText_5D7720(pWMessage, (640 - max_width) / 2, y_offset, gPauseFont_7063F8, 2, 0, 0, 0);
 
-        if (!gLucid_hamilton_67E8E0.IsBonusStage_4C59A0())
+        if (!gGameSession_67E8E0.IsBonusStage_4C59A0())
         {
             s32 value_1;
             Gang_144* pGang;
@@ -3103,7 +3103,7 @@ void Hud_PauseScreen_2::DrawPause_5D63B0()
                 case HudPauseSection::tokens_collected_6:
                     swprintf(tmpBuff_67BD9C,
                              gText_0x14_704DFC->Find_5B5F90("pbon"),
-                             gLucid_hamilton_67E8E0.get_secret_tokens_collected_453A80(),
+                             gGameSession_67E8E0.get_secret_tokens_collected_453A80(),
                              50);
                     sprite_type = 4;
                     sprite_pal = gPhi_8CA8_6FCF00->GetObjectPalette_4C6E30(266);

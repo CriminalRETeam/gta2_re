@@ -11,7 +11,7 @@
 #include "enums.hpp"
 #include "error.hpp"
 #include "file.hpp"
-#include "lucid_hamilton.hpp"
+#include "GameSession_578.hpp"
 #include "map_0x370.hpp"
 #include "memory.hpp"
 #include "miss2_0x11C.hpp"
@@ -171,15 +171,15 @@ void frosty_pasteur_0xC1EA8::sub_511C60()
 MATCH_FUNC(0x511d40)
 void frosty_pasteur_0xC1EA8::SaveMapInfo_511D40()
 {
-    strcpy(gGameSave_6F78C8.field_0_map_name, gLucid_hamilton_67E8E0.GetMapName_4C5940());
-    strcpy(gGameSave_6F78C8.field_19_style_name, gLucid_hamilton_67E8E0.GetStyleName_4C5950());
-    strcpy(gGameSave_6F78C8.field_32_script_name, gLucid_hamilton_67E8E0.GetScriptName_4C5960());
+    strcpy(gGameSave_6F78C8.field_0_map_name, gGameSession_67E8E0.GetMapName_4C5940());
+    strcpy(gGameSave_6F78C8.field_19_style_name, gGameSession_67E8E0.GetStyleName_4C5950());
+    strcpy(gGameSave_6F78C8.field_32_script_name, gGameSession_67E8E0.GetScriptName_4C5960());
     gGameSave_6F78C8.field_0_map_name[24] = '\n';
     gGameSave_6F78C8.field_19_style_name[24] = '\n';
     gGameSave_6F78C8.field_32_script_name[24] = '\n';
-    gGameSave_6F78C8.field_4B_main_stage = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
-    gGameSave_6F78C8.field_4C_lhv = gLucid_hamilton_67E8E0.GetStage_4C5990();
-    gGameSave_6F78C8.field_4D_bonus_stage = gLucid_hamilton_67E8E0.IsBonusStage_4C59A0();
+    gGameSave_6F78C8.field_4B_main_stage = gGameSession_67E8E0.GetMainStageIdx_4C5980();
+    gGameSave_6F78C8.field_4C_lhv = gGameSession_67E8E0.GetStage_4C5990();
+    gGameSave_6F78C8.field_4D_bonus_stage = gGameSession_67E8E0.IsBonusStage_4C59A0();
 }
 
 MATCH_FUNC(0x511e10)
@@ -196,7 +196,7 @@ void frosty_pasteur_0xC1EA8::SaveGame_511E10(char_type* pFileName)
 
     if (!pFileName || !*pFileName)
     {
-        sprintf(gTmpBuffer_67C598, "player\\plyslot%d.svg", gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0());
+        sprintf(gTmpBuffer_67C598, "player\\plyslot%d.svg", gGameSession_67E8E0.GetPlySlotIdx_4C59B0());
         pFileName = gTmpBuffer_67C598;
     }
 
@@ -210,7 +210,7 @@ void frosty_pasteur_0xC1EA8::SaveGame_511E10(char_type* pFileName)
            &gObject_5C_6F8F84->field_20_bUnCollectedTokens,
            50u);
 
-    gGameSave_6F78C8.field_5E4_object_data.field_160_secret_tokens_collected = gLucid_hamilton_67E8E0.get_secret_tokens_collected_453A80();
+    gGameSave_6F78C8.field_5E4_object_data.field_160_secret_tokens_collected = gGameSession_67E8E0.get_secret_tokens_collected_453A80();
 
     gMap_0x370_6F6268->GetModifiedMapData_4E8CF0(&pColData, &colBytes, &pBlockInfo, &blockInfoBytes, &pMapSub, &mapSubBytes);
 
@@ -292,7 +292,7 @@ void frosty_pasteur_0xC1EA8::LoadSave_511F80(char_type* pFileName)
            gGameSave_6F78C8.field_5E4_object_data.field_12C_obj_5C_bUnCollectedTokens,
            sizeof(gObject_5C_6F8F84->field_20_bUnCollectedTokens));
 
-    gLucid_hamilton_67E8E0.set_secret_tokens_collected_476B10(gGameSave_6F78C8.field_5E4_object_data.field_160_secret_tokens_collected);
+    gGameSession_67E8E0.set_secret_tokens_collected_476B10(gGameSave_6F78C8.field_5E4_object_data.field_160_secret_tokens_collected);
     field_C1E2C_bLoadedFromSave = true;
 }
 

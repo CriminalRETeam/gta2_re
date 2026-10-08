@@ -5,7 +5,7 @@
 #include "Hud.hpp"
 #include "Ped.hpp"
 #include "Player.hpp"
-#include "lucid_hamilton.hpp"
+#include "GameSession_578.hpp"
 #include "error.hpp"
 #include "text_0x14.hpp"
 #include <string>
@@ -62,7 +62,7 @@ void youthful_einstein::SetNewFugitive_516590(Player* pNewFugitive)
 MATCH_FUNC(0x516660)
 void youthful_einstein::ExecuteGamemodeTick_516660()
 {
-    switch (gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0())
+    switch (gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0())
     {
         case 0:
             FatalError_4A38C0(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\multip.cpp", 108, 0);
@@ -103,7 +103,7 @@ void youthful_einstein::UpdateFugitive_516740(Player* pFormerPlayerFugitive, Pla
     Fix16 threshold_distance;
 
     threshold_distance = 0x3FFFC000;
-    if (gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() == TAG_GAME_3
+    if (gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0() == TAG_GAME_3
         && field_0_fugitive == pFormerPlayerFugitive)
     {
         if (pPlayer_killer != NULL)

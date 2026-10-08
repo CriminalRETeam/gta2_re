@@ -15,7 +15,7 @@
 #include "input.hpp"
 #include "jolly_poitras_0x2BC0.hpp"
 #include "keybrd_0x204.hpp"
-#include "lucid_hamilton.hpp"
+#include "GameSession_578.hpp"
 #include "crt_stubs.hpp"
 #include "registry.hpp"
 #include "rng.hpp"
@@ -964,7 +964,7 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
         dword_6F580C = 0;
         gTotalNetworkTime_6F5980 = 0;
         dword_6F5AC0 = 0;
-        gNetTimeLimit_6F573C = gLucid_hamilton_67E8E0.GetTimeLimit_461DC0();
+        gNetTimeLimit_6F573C = gGameSession_67E8E0.GetTimeLimit_461DC0();
         if (gNetTimeLimit_6F573C > 60)
         {
             gNetTimeLimit_6F573C = 60;
@@ -1207,12 +1207,12 @@ EXPORT void __stdcall sub_4DB2E0(u8* pSyncData)
     pData->field_11_exe_a = -1;
     pData->field_15_exe_b = 0;
 
-    if (_stat(gLucid_hamilton_67E8E0.GetMapName_4C5940(), &st) == 0)
+    if (_stat(gGameSession_67E8E0.GetMapName_4C5940(), &st) == 0)
     {
         pData->field_5_map_size = st.st_size;
     }
 
-    FILE* hFile = crt::fopen(gLucid_hamilton_67E8E0.GetScriptName_4C5960(), "rb");
+    FILE* hFile = crt::fopen(gGameSession_67E8E0.GetScriptName_4C5960(), "rb");
     if (hFile)
     {
         pData->field_D_script_sum = FileByteSum_4DB120(hFile);
@@ -1272,12 +1272,12 @@ EXPORT void __stdcall CompareRemotePlayers_4DB440(u8* pLocalSyncData, u8* pRemot
     }
     if (pLocal->field_5_map_size != pRemote->field_5_map_size)
     {
-        sprintf(msg, "Player %s: Level file '%s' is different", name, gLucid_hamilton_67E8E0.GetMapName_4C5940());
+        sprintf(msg, "Player %s: Level file '%s' is different", name, gGameSession_67E8E0.GetMapName_4C5940());
         FatalErrorMsg_4DB410(msg);
     }
     if (pLocal->field_D_script_sum != pRemote->field_D_script_sum)
     {
-        sprintf(msg, "Player %s: Script file '%s' is different", name, gLucid_hamilton_67E8E0.GetScriptName_4C5960());
+        sprintf(msg, "Player %s: Script file '%s' is different", name, gGameSession_67E8E0.GetScriptName_4C5960());
         FatalErrorMsg_4DB410(msg);
     }
     if (pLocal->field_11_exe_a != pRemote->field_11_exe_a || pLocal->field_15_exe_b != pRemote->field_15_exe_b)
@@ -1288,7 +1288,7 @@ EXPORT void __stdcall CompareRemotePlayers_4DB440(u8* pLocalSyncData, u8* pRemot
     if (pLocal->field_19_gci_sum != pRemote->field_19_gci_sum)
     {
         // The original passes the script name too, which the format doesn't use
-        sprintf(msg, "Player %s: Car handling file 'nyc.gci' is different", name, gLucid_hamilton_67E8E0.GetScriptName_4C5960());
+        sprintf(msg, "Player %s: Car handling file 'nyc.gci' is different", name, gGameSession_67E8E0.GetScriptName_4C5960());
         FatalErrorMsg_4DB410(msg);
     }
 }
@@ -1354,8 +1354,8 @@ EXPORT void TagGameHudUpdate_4DADA0()
         s32 rem = minutes % 5;
         bool bShow = false;
         if (minutes == 0 || (rem == 4 && seconds >= 50) || (rem == 0 && seconds == 0) ||
-            (minutes == gLucid_hamilton_67E8E0.GetTimeLimit_461DC0() && seconds == 0) ||
-            (minutes == gLucid_hamilton_67E8E0.GetTimeLimit_461DC0() - 1 && seconds >= 50))
+            (minutes == gGameSession_67E8E0.GetTimeLimit_461DC0() && seconds == 0) ||
+            (minutes == gGameSession_67E8E0.GetTimeLimit_461DC0() - 1 && seconds >= 50))
         {
             bShow = true;
             if (!byte_6F59C0)
@@ -2267,7 +2267,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     }
 
     gDebug_67D52C.Init_4ABBD0();
-    gLucid_hamilton_67E8E0.LoadDebugSettings_4C53D0();
+    gGameSession_67E8E0.LoadDebugSettings_4C53D0();
     bDoFrontEnd_626B68 = bSkip_frontend_67D53B == 0;
 
     WNDCLASSA WndClass;
@@ -2462,29 +2462,29 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                                         break;
 
                                     case GameExitType::PlayerQuit_2:
-                                        gLucid_hamilton_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_orf1);
+                                        gGameSession_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_orf1);
                                         gJolly_poitras_0x2BC0_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_orf1);
                                         gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
 
-                                        state = gLucid_hamilton_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 11; // 11? prob 1
+                                        state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 11; // 11? prob 1
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = 1;
                                         break;
 
                                     case GameExitType::GameOverRIP_3:
-                                        gLucid_hamilton_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_orf1);
+                                        gGameSession_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_orf1);
                                         gJolly_poitras_0x2BC0_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_orf1);
                                         gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
-                                        state = gLucid_hamilton_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 2;
+                                        state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 2;
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = 1;
                                         break;
 
                                     case GameExitType::AreaCompleted_4:
-                                        gLucid_hamilton_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_orf1);
+                                        gGameSession_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_orf1);
                                         gJolly_poitras_0x2BC0_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_orf1);
                                         gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
-                                        state = gLucid_hamilton_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 3;
+                                        state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 3;
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = 1;
                                         break;
@@ -2545,7 +2545,7 @@ MATCH_FUNC(0x5E5A30)
 EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 {
     char_type bRet = 1;
-    gLucid_hamilton_67E8E0.init_4C5AF0();
+    gGameSession_67E8E0.init_4C5AF0();
     if (bStartNetworkGame_7081F0)
     {
         HKEY hKey;
@@ -2616,13 +2616,13 @@ EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 
         char_type path[MAX_PATH];
         wsprintfA(path, "data\\%s", networkUi.GetMapName_51CA10());
-        gLucid_hamilton_67E8E0.SetMapName_4C5870(path);
+        gGameSession_67E8E0.SetMapName_4C5870(path);
         wsprintfA(path, "data\\%s", networkUi.GetMapStyName_51CA50());
-        gLucid_hamilton_67E8E0.SetStyleName_4C5890(path);
+        gGameSession_67E8E0.SetStyleName_4C5890(path);
         wsprintfA(path, "data\\%s", networkUi.GetMapScrName_51CA90());
-        gLucid_hamilton_67E8E0.SetScriptName_4C58B0(path);
+        gGameSession_67E8E0.SetScriptName_4C58B0(path);
 
-        gLucid_hamilton_67E8E0.SetMultiplayerParams_4C5B80(gNetworkGameSettings_707098.field_20198_game_type,
+        gGameSession_67E8E0.SetMultiplayerParams_4C5B80(gNetworkGameSettings_707098.field_20198_game_type,
                                                            gNetworkGameSettings_707098.field_20194_frag_limit,
                                                            gNetPlay_7071E8.GetPlayerIdx_409C40(),
                                                            gNetPlay_7071E8.GetMaxPlayers_521350(),

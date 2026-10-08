@@ -32,7 +32,7 @@
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
 #include "jolly_poitras_0x2BC0.hpp"
-#include "lucid_hamilton.hpp"
+#include "GameSession_578.hpp"
 #include "map_0x370.hpp"
 #include "registry.hpp"
 #include "sprite.hpp"
@@ -1242,18 +1242,18 @@ void BootMap(char* mapName, char* styName, char* scrName)
     {
         char fullPath[256];
 
-        gLucid_hamilton_67E8E0.DebugStr_4C58D0("");
+        gGameSession_67E8E0.DebugStr_4C58D0("");
         strcpy(fullPath, "data\\");
         strcat(fullPath, mapName);
-        gLucid_hamilton_67E8E0.SetMapName_4C5870(fullPath);
+        gGameSession_67E8E0.SetMapName_4C5870(fullPath);
         strcpy(fullPath, "data\\");
         strcat(fullPath, styName);
-        gLucid_hamilton_67E8E0.SetStyleName_4C5890(fullPath);
+        gGameSession_67E8E0.SetStyleName_4C5890(fullPath);
         strcpy(fullPath, "data\\");
         strcat(fullPath, scrName);
-        gLucid_hamilton_67E8E0.SetScriptName_4C58B0(fullPath);
+        gGameSession_67E8E0.SetScriptName_4C58B0(fullPath);
 
-        gLucid_hamilton_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(0);
+        gGameSession_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(0);
 
         if (!HookManagement::GetEnumerateFuncsFn()) // if standalone version
         {
@@ -3378,7 +3378,7 @@ void CC ImGuiDebugDraw()
                     // fix softlock crashes after trying to change player name in standalone
                     if (ImGui::Button("Set Player"))
                     {
-                        gLucid_hamilton_67E8E0.SetPlySlotIdx_4C5920(player_idx);
+                        gGameSession_67E8E0.SetPlySlotIdx_4C5920(player_idx);
                         gFrontend_67DC84->UpdateMenuForCurrPlayer_4B42E0();
                         gRegistry_6FF968.Set_Player_Setting_5878C0("plyrslot", player_idx);
                     }

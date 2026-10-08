@@ -34,7 +34,7 @@
 #include "char.hpp"
 #include "debug.hpp"
 #include "error.hpp"
-#include "lucid_hamilton.hpp"
+#include "GameSession_578.hpp"
 #include "map_0x370.hpp"
 #include "rng.hpp"
 #include "sprite.hpp"
@@ -2266,7 +2266,7 @@ char_type Ped::HandlePickupCollision_45DE80(Object_2C* pPickUp)
     if (model == objects::secret_token_266)
     {
         // inc counter and remove pick up
-        gLucid_hamilton_67E8E0.IncSecretTokensCollected_434A10();
+        gGameSession_67E8E0.IncSecretTokensCollected_434A10();
         gObject_5C_6F8F84->field_20_bUnCollectedTokens[pPickUp->get_field_26_420FF0()] = 0;
         bCollected = 1;
     }
@@ -11778,7 +11778,7 @@ void Ped::UpdateStatsForKiller_46F720()
                 {
                     if (PedTypeIs_45EDE0(ped_type::player_2))
                     {
-                        gLucid_hamilton_67E8E0.UpdateFrags_4C5CD0(this->field_1A8_ped_killer->field_15C_player->get_idx_4219D0(),
+                        gGameSession_67E8E0.UpdateFrags_4C5CD0(this->field_1A8_ped_killer->field_15C_player->get_idx_4219D0(),
                                                                   this->field_15C_player->get_idx_4219D0());
                         gHud_2B00_706620->field_12F0_mp_message.AnnounceKill_5D5770(this->field_1A8_ped_killer->field_15C_player,
                                                                          this->field_15C_player);
@@ -11798,7 +11798,7 @@ void Ped::UpdateStatsForKiller_46F720()
                                 if (pPlayerPed->field_164_ped_group == this->field_1A8_ped_killer->field_164_ped_group &&
                                     pPlayerIter != this->field_15C_player)
                                 {
-                                    gLucid_hamilton_67E8E0.UpdateFrags_4C5CD0(pPlayerIter->get_idx_4219D0(),
+                                    gGameSession_67E8E0.UpdateFrags_4C5CD0(pPlayerIter->get_idx_4219D0(),
                                                                               this->field_15C_player->get_idx_4219D0());
                                     gHud_2B00_706620->field_12F0_mp_message.AnnounceKill_5D5770(pPlayerIter, this->field_15C_player);
                                     break;
@@ -11809,7 +11809,7 @@ void Ped::UpdateStatsForKiller_46F720()
 
                     if (!pPlayerIter)
                     {
-                        gLucid_hamilton_67E8E0.UpdateFrags_4C5CD0(this->field_15C_player->get_idx_4219D0(),
+                        gGameSession_67E8E0.UpdateFrags_4C5CD0(this->field_15C_player->get_idx_4219D0(),
                                                                   this->field_15C_player->get_idx_4219D0());
                         if (!field_1A8_ped_killer->IsLawEnforcement_45B4E0())
                         {
@@ -11848,7 +11848,7 @@ void Ped::UpdateStatsForKiller_46F720()
     {
         if (!this->field_1A8_ped_killer && PedTypeIs_45EDE0(ped_type::player_2))
         {
-            gLucid_hamilton_67E8E0.UpdateFrags_4C5CD0(this->field_15C_player->get_idx_4219D0(), this->field_15C_player->get_idx_4219D0());
+            gGameSession_67E8E0.UpdateFrags_4C5CD0(this->field_15C_player->get_idx_4219D0(), this->field_15C_player->get_idx_4219D0());
             gHud_2B00_706620->field_12F0_mp_message.AnnounceKill_5D5770(this->field_15C_player, this->field_15C_player);
         }
     }

@@ -52,7 +52,7 @@
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
 #include "jolly_poitras_0x2BC0.hpp"
-#include "lucid_hamilton.hpp"
+#include "GameSession_578.hpp"
 #include "magical_germain_0x8EC.hpp"
 #include "map_0x370.hpp"
 #include "registry.hpp"
@@ -97,7 +97,7 @@ void Game_0x40::ExitGame_4B8BD0(s32 new_timer, s32 exit_type, s8 bonus_type)
     {
         field_28_timer = new_timer;
         field_2C_game_exit_type = exit_type;
-        gLucid_hamilton_67E8E0.SetLevelFinishBonusType_4C5930(bonus_type);
+        gGameSession_67E8E0.SetLevelFinishBonusType_4C5930(bonus_type);
     }
 }
 
@@ -131,28 +131,28 @@ void Game_0x40::LoadGameFiles_4B8C40()
     gText_0x14_704DFC->Load_5B5E90();
     if (bSkip_audio_67D6BE == false)
     {
-        char_type* style_name = gLucid_hamilton_67E8E0.GetStyleName_4C5950();
+        char_type* style_name = gGameSession_67E8E0.GetStyleName_4C5950();
         gRoot_sound_66B038.LoadStyle_40EFF0(style_name);
     }
 
-    char_type* style_name = gLucid_hamilton_67E8E0.GetStyleName_4C5950();
+    char_type* style_name = gGameSession_67E8E0.GetStyleName_4C5950();
     gGtx_0x106C_703DD4->LoadSty_5AB750(style_name);
 
-    char_type* map_name = gLucid_hamilton_67E8E0.GetMapName_4C5940();
+    char_type* map_name = gGameSession_67E8E0.GetMapName_4C5940();
     gMap_0x370_6F6268->LoadMap_4E95B0(map_name);
 
     gPhi_8CA8_6FCF00->InitDefinitions_534330();
 
     gSharp_pare_0x15D8_705064->LoadStyleTextures_5B9350();
 
-    gLucid_hamilton_67E8E0.clear_secret_tokens_collected();
+    gGameSession_67E8E0.clear_secret_tokens_collected();
 
-    char_type* script_name = gLucid_hamilton_67E8E0.GetScriptName_4C5960();
+    char_type* script_name = gGameSession_67E8E0.GetScriptName_4C5960();
     gfrosty_pasteur_6F8060->Load_512330(script_name);
 
-    if (strlen(gLucid_hamilton_67E8E0.GetDebugStr_4C5970()) != 0)
+    if (strlen(gGameSession_67E8E0.GetDebugStr_4C5970()) != 0)
     {
-        char_type* debug_str = gLucid_hamilton_67E8E0.GetDebugStr_4C5970();
+        char_type* debug_str = gGameSession_67E8E0.GetDebugStr_4C5970();
         gfrosty_pasteur_6F8060->LoadSave_511F80(debug_str);
     }
 
@@ -273,7 +273,7 @@ MATCH_FUNC(0x4B8EB0)
 void Game_0x40::BootGame_4B8EB0()
 {
 
-    gLucid_hamilton_67E8E0.SetBonusRatingTextIdx_4C5AB0(0);
+    gGameSession_67E8E0.SetBonusRatingTextIdx_4C5AB0(0);
     if (bStartNetworkGame_7081F0)
     {
         ApplyNetworkGameSettings_4B8E50();

@@ -5,7 +5,7 @@
 #include "Player.hpp"
 #include "error.hpp"
 #include "file.hpp"
-#include "lucid_hamilton.hpp"
+#include "GameSession_578.hpp"
 #include <io.h>
 
 DEFINE_GLOBAL(jolly_poitras_0x2BC0*, gJolly_poitras_0x2BC0_6FEAC0, 0x6FEAC0);
@@ -443,18 +443,18 @@ void jolly_poitras_0x2BC0::SavePlySlotDat_56BA60(s16 slotIdx)
 MATCH_FUNC(0x56BB10)
 void jolly_poitras_0x2BC0::UpdateStageScore_56BB10(Player* pPlayer)
 {
-    const u8 slot_idx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
+    const u8 slot_idx = gGameSession_67E8E0.GetPlySlotIdx_4C59B0();
     player_stats_0xA4* pPlayerStats = &field_26A0_plyr_stats[slot_idx];
     u8 map_num;
     u8 bonus_num;
-    if (!gLucid_hamilton_67E8E0.IsBonusStage_4C59A0())
+    if (!gGameSession_67E8E0.IsBonusStage_4C59A0())
     {
-        map_num = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
+        map_num = gGameSession_67E8E0.GetMainStageIdx_4C5980();
         bonus_num = 0;
     }
     else
     {
-        gLucid_hamilton_67E8E0.DecodeStage_453A60(gLucid_hamilton_67E8E0.GetStage_4C5990(), &map_num, &bonus_num);
+        gGameSession_67E8E0.DecodeStage_453A60(gGameSession_67E8E0.GetStage_4C5990(), &map_num, &bonus_num);
     }
 
     stage_stats* pStageStats = &pPlayerStats->field_0_plyr_stage_stats[map_num][bonus_num];
@@ -470,7 +470,7 @@ void jolly_poitras_0x2BC0::UpdateStageScore_56BB10(Player* pPlayer)
 MATCH_FUNC(0x56BBD0)
 void jolly_poitras_0x2BC0::UnlockStage_56BBD0(u8 map_num, u8 bonus_num)
 {
-    const u8 slot_idx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
+    const u8 slot_idx = gGameSession_67E8E0.GetPlySlotIdx_4C59B0();
     this->field_26A0_plyr_stats[slot_idx].field_0_plyr_stage_stats[map_num][bonus_num].field_0_is_stage_unlocked = 1;
     if (!bStartNetworkGame_7081F0)
     {
@@ -481,7 +481,7 @@ void jolly_poitras_0x2BC0::UnlockStage_56BBD0(u8 map_num, u8 bonus_num)
 MATCH_FUNC(0x56BC40)
 void jolly_poitras_0x2BC0::UnlockAllStages_56BC40()
 {
-    const u8 slot_idx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
+    const u8 slot_idx = gGameSession_67E8E0.GetPlySlotIdx_4C59B0();
     player_stats_0xA4* pStats = &this->field_26A0_plyr_stats[slot_idx];
     for (s32 k3 = 0; k3 < 3; k3++)
     {
@@ -619,17 +619,17 @@ void jolly_poitras_0x2BC0::sub_56C010()
     u8 bonus_num;
     char_type bBestStatsChanged = 0;
 
-    if (!gLucid_hamilton_67E8E0.IsBonusStage_4C59A0())
+    if (!gGameSession_67E8E0.IsBonusStage_4C59A0())
     {
-        map_num = gLucid_hamilton_67E8E0.GetMainStageIdx_4C5980();
+        map_num = gGameSession_67E8E0.GetMainStageIdx_4C5980();
         bonus_num = 0;
     }
     else
     {
-        gLucid_hamilton_67E8E0.DecodeStage_453A60(gLucid_hamilton_67E8E0.GetStage_4C5990(), &map_num, &bonus_num);
+        gGameSession_67E8E0.DecodeStage_453A60(gGameSession_67E8E0.GetStage_4C5990(), &map_num, &bonus_num);
     }
 
-    player_stats_0xA4* pPlayerStats = &field_26A0_plyr_stats[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()];
+    player_stats_0xA4* pPlayerStats = &field_26A0_plyr_stats[gGameSession_67E8E0.GetPlySlotIdx_4C59B0()];
     s32 latest = pPlayerStats->field_0_plyr_stage_stats[map_num][bonus_num].field_8_stage_latest_score;
     const char_type bNewStageScore =
         field_1890_stage_scores[map_num][bonus_num].InsertScore_56B550(pPlayerStats->field_90_strPlayerName, latest);
@@ -640,7 +640,7 @@ void jolly_poitras_0x2BC0::sub_56C010()
         u32* pBestStats = reinterpret_cast<u32*>(&field_1800_best_stats[map_num]);
         for (u8 i = 0; i < 10; i++, pBestStats++)
         {
-            const u32 value = gLucid_hamilton_67E8E0.GetStatistic_4C59F0(i);
+            const u32 value = gGameSession_67E8E0.GetStatistic_4C59F0(i);
             if (value > *pBestStats)
             {
                 *pBestStats = value;
@@ -648,14 +648,14 @@ void jolly_poitras_0x2BC0::sub_56C010()
             }
         }
 
-        const u32 value1 = gLucid_hamilton_67E8E0.GetCarDamageCost_4C5A80();
+        const u32 value1 = gGameSession_67E8E0.GetCarDamageCost_4C5A80();
         if (value1 > (u32)field_1878_best_car_damage_cost[map_num])
         {
             field_1878_best_car_damage_cost[map_num] = value1;
             bBestStatsChanged = 1;
         }
 
-        const u32 value2 = gLucid_hamilton_67E8E0.GetEvasionRating_4C5AA0();
+        const u32 value2 = gGameSession_67E8E0.GetEvasionRating_4C5AA0();
         if (value2 > (u32)field_1884_best_evasion_rating[map_num])
         {
             field_1884_best_evasion_rating[map_num] = value2;
@@ -700,7 +700,7 @@ void jolly_poitras_0x2BC0::DoMuchCashCheat_56C250()
 {
     if (!bStartNetworkGame_7081F0)
     {
-        player_stats_0xA4* pStats = &this->field_26A0_plyr_stats[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()];
+        player_stats_0xA4* pStats = &this->field_26A0_plyr_stats[gGameSession_67E8E0.GetPlySlotIdx_4C59B0()];
         if (wcscmp(pStats->field_90_strPlayerName, L"MUCHCASH") == 0)
         {
             Player* pPlayer = gGame_0x40_67E008->field_38_orf1;

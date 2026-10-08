@@ -69,7 +69,7 @@
 #include "jolly_poitras_0x2BC0.hpp"
 #include "keybrd_0x204.hpp"
 #include "Frontend.hpp"
-#include "lucid_hamilton.hpp"
+#include "GameSession_578.hpp"
 #include "magical_germain_0x8EC.hpp"
 #include "map_0x370.hpp"
 #include "memory.hpp"

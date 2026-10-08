@@ -21,7 +21,7 @@
 #include "Gang.hpp"
 #include "debug.hpp"
 #include "gtx_0x106C.hpp"
-#include "lucid_hamilton.hpp"
+#include "GameSession_578.hpp"
 #include "rng.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
@@ -226,18 +226,18 @@ void PlayerScoreTracker_36C::Service_591C70()
     {
         s32 frags_or_points; // edi
         u8 player_idx = field_368_player->get_idx_4219D0();
-        u8 gamemode = gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0();
-        s32 points_limit = gLucid_hamilton_67E8E0.GetMultiplayerPointsLimit_4C5BD0();
+        u8 gamemode = gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0();
+        s32 points_limit = gGameSession_67E8E0.GetMultiplayerPointsLimit_4C5BD0();
 
         if (gamemode == FRAG_GAME_1) // di vs bl
         {
-            s16 frags = gLucid_hamilton_67E8E0.GetFragsForPlayerIdx_4C5D60(player_idx);
+            s16 frags = gGameSession_67E8E0.GetFragsForPlayerIdx_4C5D60(player_idx);
             frags_or_points = frags;
             GetFrags_5935C0();
         }
         else if (gamemode == POINTS_GAME_2)
         {
-            frags_or_points = gLucid_hamilton_67E8E0.GetPointsForPlayerIdx_4C5CB0(player_idx);
+            frags_or_points = gGameSession_67E8E0.GetPointsForPlayerIdx_4C5CB0(player_idx);
             GetScore_592370();
         }
 
@@ -245,7 +245,7 @@ void PlayerScoreTracker_36C::Service_591C70()
         {
             if (frags_or_points >= points_limit) // TODO: di vs edi
             {
-                gLucid_hamilton_67E8E0.SetWinnerIdx_4C5C00(player_idx);
+                gGameSession_67E8E0.SetWinnerIdx_4C5C00(player_idx);
                 if (gGame_0x40_67E008->field_28_timer == -1)
                 {
                     gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), 3);
@@ -416,7 +416,7 @@ void PlayerScoreTracker_36C::AddCash_592620(s32 cash)
 
     if (bStartNetworkGame_7081F0)
     {
-        gLucid_hamilton_67E8E0.ChangePointsForPlayerIdxByAmount_4C5C80(field_368_player->get_idx_4219D0(), cash);
+        gGameSession_67E8E0.ChangePointsForPlayerIdxByAmount_4C5C80(field_368_player->get_idx_4219D0(), cash);
     }
 }
 
