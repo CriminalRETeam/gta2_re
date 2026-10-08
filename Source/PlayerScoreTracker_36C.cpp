@@ -522,11 +522,11 @@ void PlayerScoreTracker_36C::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKill
 
         switch (pVictim->get_occupation_403980())
         {
-            case 23:
-            case 24:
-            case 29:
-            case 37:
-            case 38:
+            case ped_ocupation_enum::paramedic_23:
+            case ped_ocupation_enum::police:
+            case ped_ocupation_enum::walking_guard_29:
+            case ped_ocupation_enum::roadblock_cop_37:
+            case ped_ocupation_enum::fireman:
                 bCop = 1;
                 bSwat = 0;
                 bArmy = 0;
@@ -534,8 +534,8 @@ void PlayerScoreTracker_36C::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKill
                 bGangA = 0;
                 bGangB = 0;
                 break;
-            case 25:
-            case 30:
+            case ped_ocupation_enum::swat:
+            case ped_ocupation_enum::unknown_cop_occu_30:
                 bArmy = 1;
                 bSwat = 0;
                 bFbi = 0;
@@ -543,7 +543,7 @@ void PlayerScoreTracker_36C::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKill
                 bGangA = 0;
                 bGangB = 0;
                 break;
-            case 26:
+            case ped_ocupation_enum::fbi:
                 bSwat = 1;
                 bArmy = 0;
                 bFbi = 0;
@@ -551,10 +551,10 @@ void PlayerScoreTracker_36C::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKill
                 bGangA = 0;
                 bGangB = 0;
                 break;
-            case 27:
-            case 31:
-            case 36:
-            case 39:
+            case ped_ocupation_enum::army_army:
+            case ped_ocupation_enum::unknown_cop_occu_31:
+            case ped_ocupation_enum::tank_driver:
+            case ped_ocupation_enum::road_block_tank_man:
                 bFbi = 1;
                 bSwat = 0;
                 bArmy = 0;
@@ -562,15 +562,15 @@ void PlayerScoreTracker_36C::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKill
                 bGangA = 0;
                 bGangB = 0;
                 break;
-            case 22:
-            case 44:
+            case ped_ocupation_enum::elvis:
+            case ped_ocupation_enum::elvis_leader:
                 bCop = 0;
                 bSwat = 0;
                 bArmy = 0;
                 bFbi = 0;
                 score = 100;
                 break;
-            case 15:
+            case ped_ocupation_enum::mugger:
                 bGangA = 1;
                 bCop = 0;
                 bSwat = 0;
@@ -578,7 +578,7 @@ void PlayerScoreTracker_36C::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKill
                 bFbi = 0;
                 bGangB = 0;
                 break;
-            case 16:
+            case ped_ocupation_enum::car_thief:
                 bGangB = 1;
                 bCop = 0;
                 bSwat = 0;
@@ -702,7 +702,7 @@ void PlayerScoreTracker_36C::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKill
     if (bIsFrench_67D53C)
     {
         s32 occupation = pVictim->get_occupation_403980();
-        if (occupation == 24 || occupation == 29 || occupation == 37 || bSwat || bArmy || bFbi)
+        if (occupation == ped_ocupation_enum::police || occupation == ped_ocupation_enum::walking_guard_29 || occupation == ped_ocupation_enum::roadblock_cop_37 || bSwat || bArmy || bFbi)
         {
             bAwardScore = 0;
         }
