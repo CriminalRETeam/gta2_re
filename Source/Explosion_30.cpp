@@ -107,23 +107,23 @@ void Explosion_30::state_3_12_540D30(Ang16 ang, Fix16 speed)
     if (this->field_18_particle_cooldown == 0)
     {
         //speed = (int)&v27; // TODO: Field_20 wrong val ??
-        Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(point.x, point.y, dword_6FD330, point.x, point.y, 0);
-        if (pNew)
+        Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(point.x, point.y, dword_6FD330, point.x, point.y, 0);
+        if (pParticle)
         {
-            pNew->field_40_pExplosion = this;
-            pNew->field_44 = this->field_6_id;
-            pNew->field_20_speed = speed;
-            pNew->field_24_angle = ang;
-            pNew->field_34 = 0;
-            pNew->field_46_sub_state = 0;
-            pNew->field_2C_counter = 32;
-            pNew->field_2E = 32;
-            pNew->field_30_pNext->SetType_4206F0(8);
-            pNew->field_38_state = 3;
-            pNew->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 96);
-            pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
-            pNew->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
+            pParticle->field_40_pExplosion = this;
+            pParticle->field_44 = this->field_6_id;
+            pParticle->field_20_speed = speed;
+            pParticle->field_24_angle = ang;
+            pParticle->field_34 = 0;
+            pParticle->field_46_sub_state = 0;
+            pParticle->field_2C_counter = 32;
+            pParticle->field_2E = 32;
+            pParticle->field_30_pNext->SetType_4206F0(8);
+            pParticle->field_38_state = 3;
+            pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 96);
+            pParticle->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pParticle->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
             this->field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
         }
     }
@@ -150,23 +150,23 @@ void Explosion_30::state_4_540F90(Ang16 ang, Fix16 speed)
     if (this->field_18_particle_cooldown == 0)
     {
         //speed = (int)&v27; // TODO: Field_20 wrong val ??
-        Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(point.x, point.y, dword_6FD330, point.x, point.y, 0);
-        if (pNew)
+        Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(point.x, point.y, dword_6FD330, point.x, point.y, 0);
+        if (pParticle)
         {
-            pNew->field_40_pExplosion = this;
-            pNew->field_44 = this->field_6_id;
-            pNew->field_20_speed = speed;
-            pNew->field_24_angle = ang;
-            pNew->field_34 = 0;
-            pNew->field_46_sub_state = 0;
-            pNew->field_2C_counter = 32;
-            pNew->field_2E = 32;
-            pNew->field_30_pNext->SetType_4206F0(8);
-            pNew->field_38_state = 4;
-            pNew->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette);
-            pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
-            pNew->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
+            pParticle->field_40_pExplosion = this;
+            pParticle->field_44 = this->field_6_id;
+            pParticle->field_20_speed = speed;
+            pParticle->field_24_angle = ang;
+            pParticle->field_34 = 0;
+            pParticle->field_46_sub_state = 0;
+            pParticle->field_2C_counter = 32;
+            pParticle->field_2E = 32;
+            pParticle->field_30_pNext->SetType_4206F0(8);
+            pParticle->field_38_state = 4;
+            pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette);
+            pParticle->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pParticle->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
             this->field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
         }
     }
@@ -192,23 +192,23 @@ void Explosion_30::state_13_14_5411E0(Ang16 ang, Fix16 speed)
     if (this->field_18_particle_cooldown == 0)
     {
         //speed = (int)&v27; // TODO: Field_20 wrong val ??
-        Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(point.x, point.y, dword_6FD330, point.x, point.y, 0);
-        if (pNew)
+        Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(point.x, point.y, dword_6FD330, point.x, point.y, 0);
+        if (pParticle)
         {
-            pNew->field_40_pExplosion = this;
-            pNew->field_44 = this->field_6_id;
-            pNew->field_20_speed = speed;
-            pNew->field_24_angle = ang;
-            pNew->field_34 = 0;
-            pNew->field_46_sub_state = 0;
-            pNew->field_2C_counter = 32;
-            pNew->field_2E = 32;
-            pNew->field_30_pNext->SetType_4206F0(8);
-            pNew->field_38_state = 36;
-            pNew->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette);
-            pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
-            pNew->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
+            pParticle->field_40_pExplosion = this;
+            pParticle->field_44 = this->field_6_id;
+            pParticle->field_20_speed = speed;
+            pParticle->field_24_angle = ang;
+            pParticle->field_34 = 0;
+            pParticle->field_46_sub_state = 0;
+            pParticle->field_2C_counter = 32;
+            pParticle->field_2E = 32;
+            pParticle->field_30_pNext->SetType_4206F0(8);
+            pParticle->field_38_state = 36;
+            pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette);
+            pParticle->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pParticle->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
             this->field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
         }
     }
@@ -222,10 +222,10 @@ MATCH_FUNC(0x541430)
 void Explosion_30::state_5_541430(Ang16 ang, Fix16 speed)
 {
 
-    Fix16_Point p(Fix16(0), Fix16(0));
-    p.x = speed;
-    p.y = speed;
-    p.RotateByAngle_40F6B0(ang + kAng180_6FD3EE);
+    Fix16_Point point(Fix16(0), Fix16(0));
+    point.x = speed;
+    point.y = speed;
+    point.RotateByAngle_40F6B0(ang + kAng180_6FD3EE);
 
     this->field_8_speed = speed;
     this->field_C_angle = ang;
@@ -237,27 +237,27 @@ void Explosion_30::state_5_541430(Ang16 ang, Fix16 speed)
 
     if (!this->field_18_particle_cooldown)
     {
-        Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(p.x, p.y, dword_6FD330, p.x, p.y, 0);
-        if (pNew)
+        Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(point.x, point.y, dword_6FD330, point.x, point.y, 0);
+        if (pParticle)
         {
-            pNew->field_40_pExplosion = this;
-            pNew->field_44 = field_6_id;
-            pNew->field_20_speed = speed;
-            pNew->field_24_angle = ang;
-            pNew->field_34 = 0;
-            pNew->field_46_sub_state = 0;
-            pNew->field_2C_counter = 32;
-            pNew->field_2E = 32;
-            pNew->field_30_pNext->SetType_4206F0(8);
-            pNew->field_38_state = 5;
-            pNew->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 96);
-            pNew->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x,
+            pParticle->field_40_pExplosion = this;
+            pParticle->field_44 = field_6_id;
+            pParticle->field_20_speed = speed;
+            pParticle->field_24_angle = ang;
+            pParticle->field_34 = 0;
+            pParticle->field_46_sub_state = 0;
+            pParticle->field_2C_counter = 32;
+            pParticle->field_2E = 32;
+            pParticle->field_30_pNext->SetType_4206F0(8);
+            pParticle->field_38_state = 5;
+            pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 96);
+            pParticle->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x,
                                                       field_14_pObj2C->field_4->field_14_xy.y,
                                                       field_14_pObj2C->field_4->field_1C_zpos);
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
             this->field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
-            pNew->field_30_pNext->SetFlags_4337D0(2, 20);
-            pNew->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pParticle->field_30_pNext->SetFlags_4337D0(2, 20);
+            pParticle->field_30_pNext->Set_2C_0x4_Flag_4337F0();
         }
     }
     else
@@ -269,7 +269,7 @@ void Explosion_30::state_5_541430(Ang16 ang, Fix16 speed)
 MATCH_FUNC(0x541680)
 Fix16 Explosion_30::GetBlastRadius_541680()
 {
-    Fix16 r;
+    Fix16 radius;
     switch (this->field_10_type)
     {
         case explosion_type::small_18:
@@ -277,29 +277,29 @@ Fix16 Explosion_30::GetBlastRadius_541680()
         case explosion_type::building_225_23:
         case explosion_type::building_135_24:
         case explosion_type::building_315_25:
-            r = kFP16Half_6FD39C;
+            radius = kFP16Half_6FD39C;
             break;
         case explosion_type::small_33:
-            r = kFP16ThreeQuarters_6FD370;
+            radius = kFP16ThreeQuarters_6FD370;
             break;
         case explosion_type::item_19:
         case explosion_type::no_ring_32:
-            r = kFP16One_6FD4A0;
+            radius = kFP16One_6FD4A0;
             break;
         case explosion_type::large_20:
-            r = kFP16Two_6FD4A4;
+            radius = kFP16Two_6FD4A4;
             break;
         default:
-            break; // r stays uninitialised, as in the original
+            break; // radius stays uninitialised, as in the original
     }
-    return r;
+    return radius;
 }
 
 
 MATCH_FUNC(0x541710)
 Fix16 Explosion_30::GetBlastHeight_541710()
 {
-    Fix16 r;
+    Fix16 height;
     switch (this->field_10_type)
     {
         case explosion_type::small_18:
@@ -311,12 +311,12 @@ Fix16 Explosion_30::GetBlastHeight_541710()
         case explosion_type::building_315_25:
         case explosion_type::no_ring_32:
         case explosion_type::small_33:
-            r = dword_6FD2F0;
+            height = dword_6FD2F0;
             break;
         default:
             break;
     }
-    return r;
+    return height;
 }
 
 MATCH_FUNC(0x541760)
@@ -347,18 +347,18 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
 {
     struct_4 collision_list;
 
-    Fix16 zoff = Explosion_30::GetBlastHeight_541710();
+    Fix16 half_height = Explosion_30::GetBlastHeight_541710();
 
-    Fix16 f28 = Explosion_30::GetBlastRadius_541680();
+    Fix16 blast_radius = Explosion_30::GetBlastRadius_541680();
 
-    this->field_28_blast_radius = f28;
+    this->field_28_blast_radius = blast_radius;
 
-    Fix16 new_left = field_14_pObj2C->field_4->field_14_xy.x - field_28_blast_radius * kFP16Two_6FD4A4;
-    Fix16 new_right = field_14_pObj2C->field_4->field_14_xy.x + field_28_blast_radius * kFP16Two_6FD4A4;
-    Fix16 new_top = field_14_pObj2C->field_4->field_14_xy.y - field_28_blast_radius * kFP16Two_6FD4A4;
-    Fix16 new_bottom = field_14_pObj2C->field_4->field_14_xy.y + field_28_blast_radius * kFP16Two_6FD4A4;
-    Fix16 zm = field_14_pObj2C->field_4->field_1C_zpos - zoff;
-    Fix16 zp = field_14_pObj2C->field_4->field_1C_zpos + zoff;
+    Fix16 left = field_14_pObj2C->field_4->field_14_xy.x - field_28_blast_radius * kFP16Two_6FD4A4;
+    Fix16 right = field_14_pObj2C->field_4->field_14_xy.x + field_28_blast_radius * kFP16Two_6FD4A4;
+    Fix16 top = field_14_pObj2C->field_4->field_14_xy.y - field_28_blast_radius * kFP16Two_6FD4A4;
+    Fix16 bottom = field_14_pObj2C->field_4->field_14_xy.y + field_28_blast_radius * kFP16Two_6FD4A4;
+    Fix16 z_low = field_14_pObj2C->field_4->field_1C_zpos - half_height;
+    Fix16 z_high = field_14_pObj2C->field_4->field_1C_zpos + half_height;
 
     if (this->field_1A_timer == 99 && unk_6FD5F6 == 1)
     {
@@ -366,83 +366,83 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
     }
 
     Fix16_Rect rect;
-    rect.SetRect_41E350(new_left, new_right, new_top, new_bottom);
-    rect.SetHiLowZ_41E370(zm, zp);
+    rect.SetRect_41E350(left, right, top, bottom);
+    rect.SetHiLowZ_41E370(z_low, z_high);
 
     if (gPurpleDoom_1_679208->CollectRectCollisions_477F30(&rect, 0, 0, field_14_pObj2C->field_4, &collision_list))
     {
         while (collision_list.field_0_p18)
         {
-            Sprite* pCollisionSprite = collision_list.PopFrontSprite_5A6DA0();
-            Char_B4* pB4 = pCollisionSprite->AsCharB4_40FEA0();
-            if (pB4)
+            Sprite* pSprite = collision_list.PopFrontSprite_5A6DA0();
+            Char_B4* pPedChar = pSprite->AsCharB4_40FEA0();
+            if (pPedChar)
             {
-                if (timerVal > 50u && pB4->get_ped_state_1_48A4C0() != ped_state_1::immobilized_8)
+                if (timerVal > 50u && pPedChar->get_ped_state_1_48A4C0() != ped_state_1::immobilized_8)
                 {
                     s32 ped_id = gVarrok_7F8_703398->GetPedId_420F10(this->field_14_pObj2C->field_26_varrok_idx);
                     if (!ped_id)
                     {
-                        pB4->field_7C_pPed->field_204_killer_id = this->field_2C_owner_ped_id;
+                        pPedChar->field_7C_pPed->field_204_killer_id = this->field_2C_owner_ped_id;
                     }
                     else
                     {
-                        pB4->field_7C_pPed->field_204_killer_id = ped_id;
+                        pPedChar->field_7C_pPed->field_204_killer_id = ped_id;
                     }
-                    pB4->field_7C_pPed->field_290_death_cause = ped_death_cause::unknown_4;
-                    pB4->field_7C_pPed->field_264_killer_id_timer = 50;
+                    pPedChar->field_7C_pPed->field_290_death_cause = ped_death_cause::unknown_4;
+                    pPedChar->field_7C_pPed->field_264_killer_id_timer = 50;
 
-                    Fix16 dx = pCollisionSprite->field_14_xy.x - this->field_14_pObj2C->field_4->field_14_xy.x;
-                    Fix16 dy = pCollisionSprite->field_14_xy.y - this->field_14_pObj2C->field_4->field_14_xy.y;
+                    Fix16 dx = pSprite->field_14_xy.x - this->field_14_pObj2C->field_4->field_14_xy.x;
+                    Fix16 dy = pSprite->field_14_xy.y - this->field_14_pObj2C->field_4->field_14_xy.y;
 
                     Ang16 ang;
                     ang = Fix16::atan2_fixed_405320(dy, dx);
 
-                    Fix16 cur_max = Fix16::MaxAbsDistance_42A6B0(pCollisionSprite->field_14_xy.x, pCollisionSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y);
-                    if (cur_max > this->field_28_blast_radius)
+                    Fix16 distance = Fix16::MaxAbsDistance_42A6B0(pSprite->field_14_xy.x, pSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y);
+                    if (distance > this->field_28_blast_radius)
                     {
                         if (timerVal < 70u)
                         {
-                            pB4->HandleGenericImpact_553E00(ang, dword_6FD2E8 + dword_6FD46C, kFP16Zero_6FD49C, 0);
+                            pPedChar->HandleGenericImpact_553E00(ang, dword_6FD2E8 + dword_6FD46C, kFP16Zero_6FD49C, 0);
                         }
                     }
                     else
                     {
-                        char_type a5;
-                        Fix16 v30;
-                        if (cur_max < (kFP16Half_6FD39C * this->field_28_blast_radius))
+                        char_type knockback_type;
+                        Fix16 knockback_force;
+                        if (distance < (kFP16Half_6FD39C * this->field_28_blast_radius))
                         {
-                            v30 = dword_6FD2F4;
-                            a5 = 2;
+                            knockback_force = dword_6FD2F4;
+                            knockback_type = 2;
                         }
                         else
                         {
-                            v30 = dword_6FD2E8;
-                            a5 = 1;
+                            knockback_force = dword_6FD2E8;
+                            knockback_type = 1;
                         }
-                        pB4->HandleGenericImpact_553E00(ang, dword_6FD484, v30, a5);
+                        pPedChar->HandleGenericImpact_553E00(ang, dword_6FD484, knockback_force, knockback_type);
                     }
                 }
             }
             else
             {
-                Car_BC* pCar = pCollisionSprite->AsCar_40FEB0();
+                Car_BC* pCar = pSprite->AsCar_40FEB0();
                 if (pCar)
                 {
                     if ((timerVal > 50u && timerVal < 60u) || (timerVal > 80u && timerVal < 90u))
                     {
                         if (!pCar->IsMaxDamage_40F890() && !pCar->IsTrainModel_403BA0() && !pCar->sub_43B850(field_10_type))
                         {
-                            if (Fix16::MaxAbsDistance_42A6B0(pCollisionSprite->field_14_xy.x, pCollisionSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y) <= this->field_28_blast_radius)
+                            if (Fix16::MaxAbsDistance_42A6B0(pSprite->field_14_xy.x, pSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y) <= this->field_28_blast_radius)
                             {
                                 // 9.6f: Varrok_7F8::GetPedId_420F10 (inlined, using it here makes the diff worse)
-                                s32 ped_id_ = gVarrok_7F8_703398->field_0_entries[this->field_14_pObj2C->field_26_varrok_idx].field_0_ped_id;
-                                if (!ped_id_)
+                                s32 exploder_ped_id = gVarrok_7F8_703398->field_0_entries[this->field_14_pObj2C->field_26_varrok_idx].field_0_ped_id;
+                                if (!exploder_ped_id)
                                 {
                                     pCar->field_70_exploder_ped_id = this->field_2C_owner_ped_id;
                                 }
                                 else
                                 {
-                                    pCar->field_70_exploder_ped_id = ped_id_;
+                                    pCar->field_70_exploder_ped_id = exploder_ped_id;
                                 }
                                 pCar->field_90 = 4;
                                 pCar->field_94_exploder_timer = 50;
@@ -451,12 +451,12 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
                                 {
                                     if (damage > 0)
                                     {
-                                        Ped* pPed_ = gPedManager_6787BC->PedById(pCar->field_70_exploder_ped_id);
-                                        if (pPed_)
+                                        Ped* pExploderPed = gPedManager_6787BC->PedById(pCar->field_70_exploder_ped_id);
+                                        if (pExploderPed)
                                         {
-                                            if (pPed_->PedTypeIs_45EDE0(ped_type::player_2))
+                                            if (pExploderPed->PedTypeIs_45EDE0(ped_type::player_2))
                                             {
-                                                pPed_->field_15C_player->field_2D4_scores.AwardCarDamageScoreHit_593150(pCar, 1);
+                                                pExploderPed->field_15C_player->field_2D4_scores.AwardCarDamageScoreHit_593150(pCar, 1);
                                             }
                                         }
                                     }
@@ -470,7 +470,7 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
                     }
                     else if (timerVal == 99)
                     {
-                        if (Fix16::MaxAbsDistance_42A6B0(pCollisionSprite->field_14_xy.x, pCollisionSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y) <= this->field_28_blast_radius)
+                        if (Fix16::MaxAbsDistance_42A6B0(pSprite->field_14_xy.x, pSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y) <= this->field_28_blast_radius)
                         {
                             pCar->ApplyExplosionImpulse_443710(&this->field_14_pObj2C->field_4->get_x_y_443580());
                         }
@@ -478,10 +478,10 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
                 }
                 else
                 {
-                    Object_2C* o2C = pCollisionSprite->As2C_40FEC0();
+                    Object_2C* pObject = pSprite->As2C_40FEC0();
                     if (timerVal > 50u && timerVal < 60u)
                     {
-                        o2C->sub_525190(this->field_14_pObj2C->field_26_varrok_idx);
+                        pObject->sub_525190(this->field_14_pObj2C->field_26_varrok_idx);
                     }
                 }
             }
@@ -511,33 +511,33 @@ void Explosion_30::state_18_33_541D60()
                 stru_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x + stru_6FD388;
                 stru_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y + stru_6FD38C;
 
-                Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
-                pNew4C->field_46_sub_state = 0;
-                pNew4C->field_38_state = 18;
-                pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
-                pNew4C->field_30_pNext->SetType_4206F0(8);
-                pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
-                pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 20);
-                pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
-                gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
-                pNew4C->field_48_timer = 1;
+                Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
+                pParticle->field_46_sub_state = 0;
+                pParticle->field_38_state = 18;
+                pParticle->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
+                pParticle->field_30_pNext->SetType_4206F0(8);
+                pParticle->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+                pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 20);
+                pParticle->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
+                gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+                pParticle->field_48_timer = 1;
             }
             else
             {
                 stru_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x;
                 stru_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y;
 
-                Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
-                pNew4C->field_46_sub_state = 0;
-                pNew4C->field_38_state = 18;
-                pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
-                pNew4C->field_30_pNext->SetType_4206F0(8);
-                pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
-                pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 20);
-                pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
-                gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
-                pNew4C->field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16Quarter_6FD2EC, 0);
-                pNew4C->field_48_timer = 5;
+                Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
+                pParticle->field_46_sub_state = 0;
+                pParticle->field_38_state = 18;
+                pParticle->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
+                pParticle->field_30_pNext->SetType_4206F0(8);
+                pParticle->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+                pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 20);
+                pParticle->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
+                gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+                pParticle->field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16Quarter_6FD2EC, 0);
+                pParticle->field_48_timer = 5;
             }
         }
     }
@@ -550,44 +550,44 @@ void Explosion_30::state_19_32_542060()
     {
         if (this->field_1A_timer > 8u)
         {
-            Fix16 v24;
-            v24 = this->field_24_particle_spread * Fix16(gRng_6F6784.get_int_4F7AE0(48));
+            Fix16 radius;
+            radius = this->field_24_particle_spread * Fix16(gRng_6F6784.get_int_4F7AE0(48));
             this->field_22_spawn_angle = Ang16::Fix16_To_Ang16_inlined_40F540(dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(360)));
 
             // 9.6f calls Ang16::PolarToCartesian_41FC20
-            Ang16::PolarToCartesian_41FC20(field_22_spawn_angle, v24, stru_6FD388, stru_6FD38C);
+            Ang16::PolarToCartesian_41FC20(field_22_spawn_angle, radius, stru_6FD388, stru_6FD38C);
 
             stru_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x + stru_6FD388;
             stru_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y + stru_6FD38C;
 
-            Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
-            pNew4C->field_46_sub_state = 0;
-            pNew4C->field_38_state = 19;
-            pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
-            pNew4C->field_30_pNext->SetType_4206F0(8);
-            pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
-            pNew4C->field_40_pExplosion = this;
-            pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 20);
-            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, this->field_14_pObj2C->field_4->field_1C_zpos);
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
-            pNew4C->field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16Half_6FD39C + kFP16One_6FD4A0, 0);
-            pNew4C->field_48_timer = 1;
+            Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
+            pParticle->field_46_sub_state = 0;
+            pParticle->field_38_state = 19;
+            pParticle->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
+            pParticle->field_30_pNext->SetType_4206F0(8);
+            pParticle->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pParticle->field_40_pExplosion = this;
+            pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 20);
+            pParticle->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, this->field_14_pObj2C->field_4->field_1C_zpos);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+            pParticle->field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16Half_6FD39C + kFP16One_6FD4A0, 0);
+            pParticle->field_48_timer = 1;
         }
         else
         {
             stru_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x;
             stru_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y;
 
-            Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
-            pNew4C->field_46_sub_state = 0;
-            pNew4C->field_38_state = 19;
-            pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
-            pNew4C->field_30_pNext->SetType_4206F0(8);
-            pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
-            pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 20);
-            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
-            pNew4C->field_48_timer = 5;
+            Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
+            pParticle->field_46_sub_state = 0;
+            pParticle->field_38_state = 19;
+            pParticle->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
+            pParticle->field_30_pNext->SetType_4206F0(8);
+            pParticle->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 20);
+            pParticle->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+            pParticle->field_48_timer = 5;
         }
     }
 }
@@ -599,42 +599,42 @@ void Explosion_30::state_20_542340()
     {
         if (this->field_1A_timer > 8u)
         {
-            Fix16 v24;
-            v24 = this->field_24_particle_spread * Fix16(gRng_6F6784.get_int_4F7AE0(80));
+            Fix16 radius;
+            radius = this->field_24_particle_spread * Fix16(gRng_6F6784.get_int_4F7AE0(80));
             this->field_22_spawn_angle = Ang16::Fix16_To_Ang16_inlined_40F540(dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(360)));
 
             // 9.6f calls Ang16::PolarToCartesian_41FC20
-            Ang16::PolarToCartesian_41FC20(field_22_spawn_angle, v24, stru_6FD388, stru_6FD38C);
+            Ang16::PolarToCartesian_41FC20(field_22_spawn_angle, radius, stru_6FD388, stru_6FD38C);
 
             stru_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x + stru_6FD388;
             stru_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y + stru_6FD38C;
 
-            Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
-            pNew4C->field_46_sub_state = 0;
-            pNew4C->field_38_state = 20;
-            pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
-            pNew4C->field_30_pNext->SetType_4206F0(8);
-            pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
-            pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 56);
-            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
-            pNew4C->field_48_timer = 1;
+            Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
+            pParticle->field_46_sub_state = 0;
+            pParticle->field_38_state = 20;
+            pParticle->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
+            pParticle->field_30_pNext->SetType_4206F0(8);
+            pParticle->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 56);
+            pParticle->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+            pParticle->field_48_timer = 1;
         }
         else
         {
             stru_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x;
             stru_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y;
 
-            Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
-            pNew4C->field_46_sub_state = 0;
-            pNew4C->field_38_state = 20;
-            pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
-            pNew4C->field_30_pNext->SetType_4206F0(8);
-            pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
-            pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 56);
-            pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
-            pNew4C->field_48_timer = 5;
+            Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
+            pParticle->field_46_sub_state = 0;
+            pParticle->field_38_state = 20;
+            pParticle->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
+            pParticle->field_30_pNext->SetType_4206F0(8);
+            pParticle->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 56);
+            pParticle->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
+            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+            pParticle->field_48_timer = 5;
         }
     }
 }
@@ -680,10 +680,10 @@ void Explosion_30::state_18_19_20_32_33_542790()
             case 79:
             case 89:
             {
-                Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(Fix16(113), Fix16(145), 2, kAngZero_6FD5D4, explosion_type::trail_5, field_2C_owner_ped_id);
-                if (pExplosion)
+                Object_2C* pExplosionObj = gObject_5C_6F8F84->CreateExplosion_52A3D0(Fix16(113), Fix16(145), 2, kAngZero_6FD5D4, explosion_type::trail_5, field_2C_owner_ped_id);
+                if (pExplosionObj)
                 {
-                    Object_2C* pBlast = gObject_5C_6F8F84->NewUnknown_52A240(127,
+                    Object_2C* pDebris = gObject_5C_6F8F84->NewUnknown_52A240(127,
                                                                              field_14_pObj2C->field_4->field_14_xy.x,
                                                                              field_14_pObj2C->field_4->field_14_xy.y,
                                                                              field_14_pObj2C->field_4->field_1C_zpos,
@@ -692,10 +692,10 @@ void Explosion_30::state_18_19_20_32_33_542790()
                                                                              dword_6FD484,
                                                                              -dword_6FD540,
                                                                              dword_6FD2F0);
-                    pBlast->field_4->DispatchCollisionEvent_5A3100(pExplosion->field_4, 0, 0, kAngZero_6FD5D4);
+                    pDebris->field_4->DispatchCollisionEvent_5A3100(pExplosionObj->field_4, 0, 0, kAngZero_6FD5D4);
 
                     Object_2C* pLight = gObject_5C_6F8F84->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
-                    pBlast->field_4->DispatchCollisionEvent_5A3100(pLight->field_4, 0, 0, kAngZero_6FD5D4);
+                    pDebris->field_4->DispatchCollisionEvent_5A3100(pLight->field_4, 0, 0, kAngZero_6FD5D4);
                 }
                 break;
             }
@@ -707,10 +707,10 @@ void Explosion_30::state_18_19_20_32_33_542790()
 
     if (this->field_1A_timer > 0x1Eu)
     {
-        Fix16 v21 = (dword_6FD448 * kFP16Two_6FD4A4);
-        if (this->field_24_particle_spread > v21)
+        Fix16 max_spread = (dword_6FD448 * kFP16Two_6FD4A4);
+        if (this->field_24_particle_spread > max_spread)
         {
-            this->field_24_particle_spread = v21;
+            this->field_24_particle_spread = max_spread;
         }
         this->field_24_particle_spread += (dword_6FD540 / kFP16Two_6FD4A4);
     }
@@ -748,23 +748,23 @@ void Explosion_30::state_18_19_20_32_33_542790()
 MATCH_FUNC(0x542e30)
 void Explosion_30::state_22_23_24_25_542E30(char_type a2)
 {
-    Sprite* p2CSprite = this->field_14_pObj2C->field_4;
-    if (p2CSprite->field_14_xy.x < Fix16(0x3F8000, 0) && p2CSprite->field_14_xy.x > kFP16One_6FD4A0 &&
-        p2CSprite->field_14_xy.y < Fix16(0x3F8000, 0) && p2CSprite->field_14_xy.y > kFP16One_6FD4A0)
+    Sprite* pSprite = this->field_14_pObj2C->field_4;
+    if (pSprite->field_14_xy.x < Fix16(0x3F8000, 0) && pSprite->field_14_xy.x > kFP16One_6FD4A0 &&
+        pSprite->field_14_xy.y < Fix16(0x3F8000, 0) && pSprite->field_14_xy.y > kFP16One_6FD4A0)
     {
         unk_6FD5F6 = 0;
         for (u8 i = 0; i < 2u; i++)
         {
             if (gParticle_4C_Pool_6FD5E4->field_0_pStart)
             {
-                Particle_4C* pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
-                pNew4C->field_46_sub_state = 0;
+                Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
+                pParticle->field_46_sub_state = 0;
 
                 switch ((u8)a2)
                 {
                     case 0:
                     {
-                        pNew4C->field_38_state = 24;
+                        pParticle->field_38_state = 24;
                         this->field_22_spawn_angle = (kAng135_6FD40C + dword_6FD350) + Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(45))));
 
                         Ang16::PolarToCartesian_41FC20(field_22_spawn_angle, dword_6FD540, stru_6FD388, stru_6FD38C);
@@ -776,7 +776,7 @@ void Explosion_30::state_22_23_24_25_542E30(char_type a2)
 
                     case 1:
                     {
-                        pNew4C->field_38_state = 25;
+                        pParticle->field_38_state = 25;
                         this->field_22_spawn_angle = (kAng315_6FD418 + dword_6FD350) + Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90))));
 
 
@@ -789,7 +789,7 @@ void Explosion_30::state_22_23_24_25_542E30(char_type a2)
 
                     case 2:
                     {
-                        pNew4C->field_38_state = 23;
+                        pParticle->field_38_state = 23;
                         this->field_22_spawn_angle = (kAng225_6FD3E0 + dword_6FD350).Add_ool(Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90)))));
 
 
@@ -802,7 +802,7 @@ void Explosion_30::state_22_23_24_25_542E30(char_type a2)
 
                     case 3:
                     {
-                        pNew4C->field_38_state = 22;
+                        pParticle->field_38_state = 22;
                         this->field_22_spawn_angle = kAng45_6FD35C.Add_ool(dword_6FD350).Add_ool(Ang16::Fix16_To_Ang16_ool_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90)))));
 
 
@@ -817,30 +817,30 @@ void Explosion_30::state_22_23_24_25_542E30(char_type a2)
                         break;
                 }
 
-                pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
-                pNew4C->field_30_pNext->SetType_4206F0(8);
-                pNew4C->field_48_timer = 0;
-                pNew4C->field_46_sub_state = 0;
-                pNew4C->field_24_angle = this->field_22_spawn_angle;
+                pParticle->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
+                pParticle->field_30_pNext->SetType_4206F0(8);
+                pParticle->field_48_timer = 0;
+                pParticle->field_46_sub_state = 0;
+                pParticle->field_24_angle = this->field_22_spawn_angle;
 
                 if (this->field_1A_timer < 60u && this->field_1A_timer < 30u)
                 {
                     i = 4;
                 }
 
-                pNew4C->field_20_speed = (dword_6FD548 * Fix16(gRng_6F6784.get_int_4F7AE0(field_1A_timer)));
-                pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 40);
+                pParticle->field_20_speed = (dword_6FD548 * Fix16(gRng_6F6784.get_int_4F7AE0(field_1A_timer)));
+                pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 40);
 
                 if (field_14_pObj2C->field_4->field_1C_zpos + kFP16One_6FD4A0 >= kFP16Eight_6FD4C0)
                 {
-                    pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
+                    pParticle->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
                 }
                 else
                 {
-                    pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos + kFP16One_6FD4A0);
+                    pParticle->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos + kFP16One_6FD4A0);
                 }
-                gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
-                pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+                gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+                pParticle->field_30_pNext->Set_2C_0x4_Flag_4337F0();
             }
         }
 
@@ -986,19 +986,19 @@ void ExplosionPool_7A8::FreeLowestPriority_543690()
 {
     WIP_IMPLEMENTED;
 
-    u8 smallestVal = 99;
-    u8 smallestVal_idx = 99;
-    u8 currentVal1 = 0;
-    u8 next_idx = 0;
-    u8 last_idx = 0;
+    u8 lowest_priority = 99;
+    u8 lowest_idx = 99;
+    u8 priority = 0;
+    u8 idx = 0;
+    u8 cur_idx = 0;
     do
     {
-        if (this->field_780_bUsed[last_idx] == 1)
+        if (this->field_780_bUsed[cur_idx] == 1)
         {
-            Explosion_30* pObj = &this->field_0_explosions[last_idx];
+            Explosion_30* pExplosion = &this->field_0_explosions[cur_idx];
             // Each case written out on its own: merged labels give a byte index table, the
             // original has one dword entry per case. Cases 1 and 39 keep the range.
-            switch (pObj->field_10_type)
+            switch (pExplosion->field_10_type)
             {
                 case explosion_type::unknown_2:
                     break;
@@ -1013,103 +1013,103 @@ void ExplosionPool_7A8::FreeLowestPriority_543690()
                 case explosion_type::unknown_34:
                     break;
                 case explosion_type::trail_5:
-                    currentVal1 = 2;
+                    priority = 2;
                     break;
                 case explosion_type::unknown_28:
-                    currentVal1 = 2;
+                    priority = 2;
                     break;
                 case explosion_type::unknown_29:
-                    currentVal1 = 2;
+                    priority = 2;
                     break;
                 case explosion_type::unknown_30:
-                    currentVal1 = 2;
+                    priority = 2;
                     break;
                 case explosion_type::trail_13:
-                    currentVal1 = 4;
+                    priority = 4;
                     break;
                 case explosion_type::trail_12:
-                    currentVal1 = 5;
+                    priority = 5;
                     break;
                 case explosion_type::trail_14:
-                    currentVal1 = 5;
+                    priority = 5;
                     break;
                 case explosion_type::unknown_15:
-                    currentVal1 = 5;
+                    priority = 5;
                     break;
                 case explosion_type::unknown_16:
-                    currentVal1 = 6;
+                    priority = 6;
                     break;
                 case explosion_type::unknown_17:
-                    currentVal1 = 6;
+                    priority = 6;
                     break;
                 case explosion_type::small_18:
-                    if (pObj->field_1A_timer < 82u)
+                    if (pExplosion->field_1A_timer < 82u)
                     {
-                        currentVal1 = 3;
+                        priority = 3;
                     }
                     break;
                 case explosion_type::small_33:
-                    if (pObj->field_1A_timer < 82u)
+                    if (pExplosion->field_1A_timer < 82u)
                     {
-                        currentVal1 = 3;
+                        priority = 3;
                     }
                     break;
                 case explosion_type::item_19:
-                    if (pObj->field_1A_timer < 50u)
+                    if (pExplosion->field_1A_timer < 50u)
                     {
-                        currentVal1 = 3;
+                        priority = 3;
                     }
                     break;
                 case explosion_type::large_20:
-                    if (pObj->field_1A_timer < 50u)
+                    if (pExplosion->field_1A_timer < 50u)
                     {
-                        currentVal1 = 3;
+                        priority = 3;
                     }
                     break;
                 case explosion_type::no_ring_32:
-                    if (pObj->field_1A_timer < 50u)
+                    if (pExplosion->field_1A_timer < 50u)
                     {
-                        currentVal1 = 3;
+                        priority = 3;
                     }
                     break;
                 case explosion_type::building_45_22:
-                    currentVal1 = 3;
+                    priority = 3;
                     break;
                 case explosion_type::building_225_23:
-                    currentVal1 = 3;
+                    priority = 3;
                     break;
                 case explosion_type::building_135_24:
-                    currentVal1 = 3;
+                    priority = 3;
                     break;
                 case explosion_type::building_315_25:
-                    currentVal1 = 3;
+                    priority = 3;
                     break;
                 case explosion_type::unknown_1:
-                    currentVal1 = 1;
+                    priority = 1;
                     break;
                 case explosion_type::unknown_39:
-                    currentVal1 = 1;
+                    priority = 1;
                     break;
                 default:
-                    currentVal1 = 1;
+                    priority = 1;
                     break;
             }
 
-            if (currentVal1 == 1)
+            if (priority == 1)
             {
-                this->field_0_explosions[last_idx].field_1A_timer = 0;
+                this->field_0_explosions[cur_idx].field_1A_timer = 0;
                 return;
             }
 
-            if (currentVal1 < smallestVal)
+            if (priority < lowest_priority)
             {
-                smallestVal = currentVal1;
-                smallestVal_idx = next_idx;
+                lowest_priority = priority;
+                lowest_idx = idx;
             }
         }
-        last_idx = ++next_idx;
-    } while (next_idx < 40u);
-    this->field_0_explosions[smallestVal_idx].field_1A_timer = 0;
+        cur_idx = ++idx;
+    } while (idx < 40u);
+    this->field_0_explosions[lowest_idx].field_1A_timer = 0;
 }
 
 MATCH_FUNC(0x543800)
