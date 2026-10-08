@@ -676,7 +676,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4DA440 | `Init_keybrd_jolly_and_sound_4DA440` | 0x461880 | `unknown_libname_18` (10.5 0x40EF10) | checked | unknown_libname_18 is root_sound::static_dtor_40EF10 thunk |
 | 0x4DA4D0 | `InitializeGame_4DA4D0` | 0x461DE0 | `unknown_libname_18` (10.5 0x40EF10), ✓ `sub_409C40`, `sub_409F90`, `Game_0x40::sub_45A8D0` (10.5 0x4B9CD0), `GameSession_578::sub_45E770` (10.5 0x4C5C30), `Game_0x40::sub_45A910` (10.5 0x4B9D10), ✓ `sub_461DC0` | matched | new NetPlay::GetPlayerIdx_409C40; 409F90=GetMaxPlayers_521350 called; 9.6f SetPlayerName loop absent in 10.5; 16->10 |
 | 0x4DA700 | `CleanUpInputAndOthers_4DA700` | 0x462060 | `sub_461910`, `unknown_libname_18` (10.5 0x40EF10) | checked | sub_461910 is the keybrd scalar deleting dtor; unknown_libname_18 root_sound thunk |
-| 0x4DA740 | `sub_4DA740` | 0x4620A0 | `sub_4A9270` | checked | sub_4A9270 is jolly_poitras_0x2BC0::destroy_56C340 (called) |
+| 0x4DA740 | `sub_4DA740` | 0x4620A0 | `sub_4A9270` | checked | sub_4A9270 is PlyDat_2BC0::Destroy_56C340 (called) |
 | 0x4DA9F0 | `Net_4DA9F0` | 0x462140 | `sub_461DD0` | checked | sub_461DD0 (SetQuit) not open-coded in this 10.5 version |
 | 0x4DACB0 | `Net_4DACB0` | 0x462440 | ✓ `sub_461DA0` | done | New NetPlay::GetPlayerCount_461DA0; Still matches. |
 | 0x4DAD50 | `Net_Set_Local_Player_Inputs_4DAD50` | 0x4624E0 | ✓ `Game_0x40::get_player_4219E0`, ✓ `sub_461DB0` | done | all 9.6f inlines used |
@@ -1002,10 +1002,10 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x56A490 | `Player::ApplyCheats_56A490` | 0x4A6DA0 | ✓ `sub_4A50E0`, ✓ `sub_4A4F90`, ✓ `sub_4A50B0` | done | also SetValueClamped_4A50B0(99) for lives; code unchanged |
 | 0x56A740 | `Player::ctor_56A740` | 0x4A83C0 | `sub_4A6FC0`, ✓ `sub_4A5180`, ✓ `sub_434950`, `sub_409DA0` (10.5 0x521100) | checked | sub_4A5180 already a helper; sub_4A6FC0 is the chat sub-object ctor (fields set directly), sub_409DA0 a member ctor |
 | 0x56A940 | `Player::dtor_56A940` | 0x4A6EF0 | ✓ `root_sound::DestroySoundObj_40FE60`, `sub_4A4F10` | checked | DestroySoundObj_40FE60 already used; sub_4A4F10 a member dtor |
-| 0x56B6E0 | `jolly_poitras_0x2BC0::ctor_56B6E0` | 0x4A9290 | `sub_4A8910`, `sub_4A9050` | checked | sub_4A9050 = HiScoreHscExists_56BCA0, sub_4A8910 = 10.5 out-of-line call (pairing) |
-| 0x56B990 | `jolly_poitras_0x2BC0::sub_56B990` | 0x4A8CB0 | `sub_4A8B60` (10.5 0x56BCF0) | checked | sub_4A8B60 is GetHiScoreHscFileName_56BCF0 (called) |
-| 0x56BB10 | `jolly_poitras_0x2BC0::sub_56BB10` | 0x4A8F90 | ✓ `sub_453A60`, `j_RollingDigitCounter_38::sub_41DC30` | done | DecodeStage_453A60; RollingDigitCounter_38 get_value via j_ thunk = GetScore_592370 (called); still matches |
-| 0x56C010 | `jolly_poitras_0x2BC0::sub_56C010` | 0x4A90A0 | ✓ `sub_453A60` | done | DecodeStage_453A60; unchanged (14) |
+| 0x56B6E0 | `PlyDat_2BC0::ctor_56B6E0` | 0x4A9290 | `sub_4A8910`, `sub_4A9050` | checked | sub_4A9050 = HiScoreHscExists_56BCA0, sub_4A8910 = 10.5 out-of-line call (pairing) |
+| 0x56B990 | `PlyDat_2BC0::sub_56B990` | 0x4A8CB0 | `sub_4A8B60` (10.5 0x56BCF0) | checked | sub_4A8B60 is GetHiScoreHscFileName_56BCF0 (called) |
+| 0x56BB10 | `PlyDat_2BC0::sub_56BB10` | 0x4A8F90 | ✓ `sub_453A60`, `j_RollingDigitCounter_38::sub_41DC30` | done | DecodeStage_453A60; RollingDigitCounter_38 get_value via j_ thunk = GetScore_592370 (called); still matches |
+| 0x56C010 | `PlyDat_2BC0::UpdateHiScores_56C010` | 0x4A90A0 | ✓ `sub_453A60` | done | DecodeStage_453A60; unchanged (14) |
 | 0x56F5C0 | `Police_7B8::SpawnRoadblockGuard_56F5C0` | 0x4A9B40 | ✓ `cool_nash_0x294::sub_403920`, ✓ `cool_nash_0x294::set_occupation_403970`, ✓ `sub_433B90`, ✓ `cool_nash_0x294::set_health_4039A0` | done | all 9.6f inlines used |
 | 0x56F6D0 | `Police_7B8::DespawnCrewInCar_56F6D0` | 0x4A9C50 | ✓ `sub_421470` | done | code unchanged |
 | 0x56F940 | `Police_7B8::sub_56F940` | 0x4A9D60 | ✓ `sub_41B0A0`, ✓ `cool_nash_0x294::get_cam_x_403A00`, ✓ `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), ✓ `cool_nash_0x294::sub_416B50` | done | code unchanged |

@@ -1168,7 +1168,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 
 - `sound_obj::ProcessPoliceRadioWordsPlayback_427220` (0x427220): known unexplained cmp-before-volatile-load; tried volatile u32, index locals, precomputed bool, >14, cast-volatile store.
 - `keybrd_0x204::GetLayout_4D6000` (0x4d6000): lea &v2 scheduled before the two KLID byte loads in orig; tried decl orders, u16 copy, store order, result local, temps.
-- `jolly_poitras_0x2BC0::sub_56BA60` (0x56ba60): len=126 store vs outer loop counter init order; tried len at every position, decl order, struct copy, pStats local, 600 permuter iterations.
+- `PlyDat_2BC0::sub_56BA60` (0x56ba60): len=126 store vs outer loop counter init order; tried len at every position, decl order, struct copy, pStats local, 600 permuter iterations.
 - `menu_option_0x82::sub_4B6330` (0x4b6330): orig reloads field_6E (cmp 0x6E(%ecx),%ax) in loop cond though nothing in the loop stores; VC6 CSEs it to old_count's reg whatever the spelling (s16 old_count, casts, volatile worse, 800 permuter iters). Same issue in sibling 0x4b6390.
 - `sub_4B7E10` (0x4b7e10): xpos load before the arg-slot push; tried s32/u32 ypos/xpos params with casts, branch inversion, explicit Fix16 (inlines ctor, worse).
 - `CarPhysics_B0::ShowPhysicsDebug_559430` (0x559430): lea 0x818 (field_650 this) placement around pushes; theta local, pText reorder, 600 permuter iters.
@@ -1835,7 +1835,7 @@ No new matches. Scores below are `permuter_score.py` lines.
   (header). `(a1 & 0x80) >> 7` and `(a1 & 0x80) ? 1 : 0` give `shr eax` + `and $1,%al`.
 - `keybrd_0x204::GetLayout_4D6000` (3): `char Buffer[4] = "  "` (21, copies 3 bytes), sscanf in a static
   inline `HexToInt` returning the value, a `char*` walking pwszKLID+6, an `s32* pV = &v2` argument: all 3.
-- `jolly_poitras_0x2BC0::SavePlySlotDat_56BA60` (2): all locals up top, `len = 126` just before the call (4),
+- `PlyDat_2BC0::SavePlySlotDat_56BA60` (2): all locals up top, `len = 126` just before the call (4),
   outer `do/while(--k)` count-down (18), `size_t len = 126` initialiser: no change.
 - `TagGame_28::SetNewFugitive_516590` (2): a static inline `SetArrowColour(Hud_Arrow_7C*, Player*)`
   holding the null check (2), if/else inverted with the message first (24), `Ped* pPed` local / no local /
@@ -2563,10 +2563,10 @@ the original's 26 bytes, it only had no `target_asm.json` entry (disassembled 0x
   final tail first, so the original may have allocated it first. `goto found` with the label after the final
   store (12), `Explosion_30* pW` locals in either tail (12), swapped `smallestVal`/`_idx` stores (16), swapped
   declarations (16).
-- `jolly_poitras_0x2BC0::SavePlySlotDat_56BA60` (4): 9.6f 0x4A89E0 also has `mov $3,%ebp` before the `len` store,
+- `PlyDat_2BC0::SavePlySlotDat_56BA60` (4): 9.6f 0x4A89E0 also has `mov $3,%ebp` before the `len` store,
   so the counter init precedes `len = 126` in the original IL. `s32 k = 0` declared before the memcpy with
   `for (; k < 3; k++)` or `while (k < 3)` (4: the count-down init still goes to the preheader), `k = 0, len = 126`
-  in the for-init (4), pDst before the memcpy (80), a `stage_stats*` walk (34), count-down with `3 - k` (190).
+  in the for-init (4), pDst before the memcpy (80), a `StageStats_C*` walk (34), count-down with `3 - k` (190).
 - `keybrd_0x204::GetLayout_4D6000` (4), `menu_option_0x82::SelectPrevHorizontalIdx_4B6390` (4): reviewed only, the
   earlier notes cover every spelling tried.
 - `SetGamma_5D9910`, `TextureCache_15D8::ReadTextures_5B92E0`, `ErrorLog::ErrorLog` (0x4D94E0): maintainer
@@ -2954,13 +2954,13 @@ store (20), the dword local without the read (72).
   ebx, the zero register) and need a rewrite rather than tweaks.
 ## Near-miss pass (Oct 6, worktree agent/near4)
 Scores are `quick_score.sh` lines. One new match.
-- `jolly_poitras_0x2BC0::SavePlySlotDat_56BA60` 4 -> 0 (**MATCH**). `sched.sh -r` showed the `len = 126` store and
+- `PlyDat_2BC0::SavePlySlotDat_56BA60` 4 -> 0 (**MATCH**). `sched.sh -r` showed the `len = 126` store and
   the outer counter init `mov $3,%ebp` both at priority 4.0, the store first by IL order because the loop optimiser
   appends the counter init to the preheader. Accumulating `len` in the inner body (`len++; len += 4; len += 4;`,
   the style of the matched `SaveHiScores_56BF20`) makes VC6 fold the induction variable's final value into a store
   emitted after the counter init. `len = 126` after the memcpy / in the loop body (hoisted) / in the for-init /
   before the call / as the declaration initialiser: 4; after the loop or `pDst - this`: 12-18; count-down loops
-  and a running `stage_stats*` pointer break the pointer strength reduction (12-46).
+  and a running `StageStats_C*` pointer break the pointer strength reduction (12-46).
 - `Ambulance_20::UpdateState_4FB330` (2): scratch-TU experiments show chain-lowered switch bodies are laid out and
   ordered default, 6, 5, 3 whatever the source order, and the exit block always follows the lowest case; tried
   per-case HOS and HOS-after-switch forms with `return`/`break` mixes in the inc arm (`return` inside the `> 500`

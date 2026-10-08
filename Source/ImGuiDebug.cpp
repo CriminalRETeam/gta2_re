@@ -31,7 +31,7 @@
 #include "debug.hpp"
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
-#include "jolly_poitras_0x2BC0.hpp"
+#include "PlyDat_2BC0.hpp"
 #include "GameSession_578.hpp"
 #include "map_0x370.hpp"
 #include "registry.hpp"
@@ -3411,15 +3411,15 @@ void CC ImGuiDebugDraw()
         ImGui::TreePop();
     }
 
-    if (gJolly_poitras_0x2BC0_6FEAC0 && ImGui::TreeNode("gJolly_poitras_0x2BC0_6FEAC0"))
+    if (gPlyDat_6FEAC0 && ImGui::TreeNode("gPlyDat_6FEAC0"))
     {
-        //if (gJolly_poitras_0x2BC0_6FEAC0)
+        //if (gPlyDat_6FEAC0)
         {
-            if (ImGui::TreeNode("struc_221"))
+            if (ImGui::TreeNode("BestStageStats_28"))
             {
                 static s32 struc_221_id = 0;
-                ImGui::SliderInt("struc_221 ID", &struc_221_id, 0, 2);
-                struc_221* struc = &gJolly_poitras_0x2BC0_6FEAC0->field_1800_best_stats[struc_221_id];
+                ImGui::SliderInt("BestStageStats_28 ID", &struc_221_id, 0, 2);
+                BestStageStats_28* struc = &gPlyDat_6FEAC0->field_1800_best_stats[struc_221_id];
 
                 static s32 byte_id = 0;
                 ImGui::SliderInt("Byte ID", &byte_id, 0, 39);
@@ -3427,11 +3427,11 @@ void CC ImGuiDebugDraw()
                 ImGui::TreePop();
             }
 
-            if (ImGui::TreeNode("high_score_table_0xF0"))
+            if (ImGui::TreeNode("HighScoreTable_F0"))
             {
                 static s32 agitated_type = 0;
 
-                const char* agitated_fields[] = {"field_1890", "field_23D0", "field_24C0", "field_25B0"};
+                const char* agitated_fields[] = {"field_1890", "field_23D0_total_scores", "field_24C0_alt_scores", "field_25B0"};
                 ImGui::Combo("agitated_field", &agitated_type, agitated_fields, 4);
 
                 static s32 id_1 = 0;
@@ -3439,21 +3439,21 @@ void CC ImGuiDebugDraw()
                 ImGui::SliderInt("field_1890 ID 1", &id_1, 0, 2);
                 ImGui::SliderInt("field_1890 ID 2", &id_2, 0, 3);
 
-                high_score_table_0xF0* agitated_keldysh;
+                HighScoreTable_F0* agitated_keldysh;
 
                 switch (agitated_type)
                 {
                     case 0:
-                        agitated_keldysh = &gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[id_1][id_2];
+                        agitated_keldysh = &gPlyDat_6FEAC0->field_1890_stage_scores[id_1][id_2];
                         break;
                     case 1:
-                        agitated_keldysh = &gJolly_poitras_0x2BC0_6FEAC0->field_23D0;
+                        agitated_keldysh = &gPlyDat_6FEAC0->field_23D0_total_scores;
                         break;
                     case 2:
-                        agitated_keldysh = &gJolly_poitras_0x2BC0_6FEAC0->field_24C0;
+                        agitated_keldysh = &gPlyDat_6FEAC0->field_24C0_alt_scores;
                         break;
                     case 3:
-                        agitated_keldysh = &gJolly_poitras_0x2BC0_6FEAC0->field_25B0;
+                        agitated_keldysh = &gPlyDat_6FEAC0->field_25B0;
                         break;
                     default:
                         break;
@@ -3461,7 +3461,7 @@ void CC ImGuiDebugDraw()
 
                 static s32 string_id = 0;
                 ImGui::SliderInt("string_id", &string_id, 0, 9);
-                score_table_line* s_string = &agitated_keldysh->field_0_score_table_line[string_id];
+                ScoreTableLine_18* s_string = &agitated_keldysh->field_0_score_table_line[string_id];
 
                 static char str_buf_3[10];
                 wchar_to_char(s_string->field_0_player_name, str_buf_3, 10);
@@ -3471,27 +3471,23 @@ void CC ImGuiDebugDraw()
                 ImGui::TreePop();
             }
 
-            if (ImGui::TreeNode("player_stats_0xA4"))
+            if (ImGui::TreeNode("PlySlot_A4"))
             {
                 static s32 dreamy_id = 0;
                 ImGui::SliderInt("dreamy_id", &dreamy_id, 0, 7);
-                player_stats_0xA4* dreamy = &gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[dreamy_id];
+                PlySlot_A4* dreamy = &gPlyDat_6FEAC0->field_26A0_plyr_stats[dreamy_id];
 
                 static char str_buf_4[9];
                 wchar_to_char(dreamy->field_90_strPlayerName, str_buf_4, 9);
                 ImGui::Text(str_buf_4);
-                ImGui::Value("field_A2", dreamy->field_A2);
 
                 static s32 gifted_joliot_id_1 = 0;
                 static s32 gifted_joliot_id_2 = 0;
-                ImGui::SliderInt("stage_stats ID 1", &gifted_joliot_id_1, 0, 2);
-                ImGui::SliderInt("stage_stats ID 2", &gifted_joliot_id_2, 0, 3);
-                stage_stats* g_joliot = &dreamy->field_0_plyr_stage_stats[gifted_joliot_id_1][gifted_joliot_id_2];
+                ImGui::SliderInt("StageStats_C ID 1", &gifted_joliot_id_1, 0, 2);
+                ImGui::SliderInt("StageStats_C ID 2", &gifted_joliot_id_2, 0, 3);
+                StageStats_C* g_joliot = &dreamy->field_0_plyr_stage_stats[gifted_joliot_id_1][gifted_joliot_id_2];
 
                 ImGui::Value("Joliot field_0", g_joliot->field_0_is_stage_unlocked);
-                ImGui::Value("Joliot field_1", g_joliot->field_1);
-                ImGui::Value("Joliot field_2", g_joliot->field_2);
-                ImGui::Value("Joliot field_3", g_joliot->field_3);
                 ImGui::Value("Joliot field_4", g_joliot->field_4_stage_best_score);
                 ImGui::Value("Joliot field_8", g_joliot->field_8_stage_latest_score);
 

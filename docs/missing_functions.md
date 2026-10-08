@@ -332,7 +332,7 @@ Game functions by size:
 | 0x56A6C0 | 1 | `nullsub_273` |
 | 0x56B3D0 | 1 | `nullsub_274` |
 | 0x56B420 | 1 | `nullsub_275` |
-| 0x56C170 | 95 | `jolly_poitras_0x2BC0::sub_56C170` |
+| 0x56C170 | 95 | `PlyDat_2BC0::sub_56C170` |
 | 0x56E8B0 | 1 | `nullsub_276` |
 | 0x56E8F0 | 1 | `nullsub_277` |
 | 0x56F2B0 | 1 | `nullsub_278` |
@@ -705,7 +705,7 @@ Without a marker (not to be added):
 | 0x529B20 | 155 | `Object_5C::sub_529B20` | (nothing) |
 | 0x540A40 | 594 | `Explosion_30::sub_540A40` | (nothing) |
 | 0x543900 | 118 | `ExplosionPool_7A8::sub_543900` | (nothing) |
-| 0x56C170 | 95 | `jolly_poitras_0x2BC0::sub_56C170` | (nothing) |
+| 0x56C170 | 95 | `PlyDat_2BC0::sub_56C170` | (nothing) |
 | 0x5875A0 | 64 | `Registry::sub_5875A0` | (nothing) |
 | 0x5875E0 | 59 | `Registry::sub_5875E0` | (nothing) |
 | 0x587620 | 108 | `Registry::sub_587620` | (nothing) |
@@ -744,7 +744,7 @@ Already in `Source/` with a marker, but also dead (kept, listed for reference):
 | 0x521BE0 | 155 | `NetPlay::NoRefs_Send_521BE0` | (nothing) |
 | 0x521C80 | 151 | `NetPlay::NoRefs_Send_521C80` | (nothing) |
 | 0x5455F0 | 8 | `Char_B4::KillPed_5455F0` | (nothing) |
-| 0x56B680 | 33 | `player_stats_0xA4::GetTotalLatestScore_56B680` | 0x56C170 |
+| 0x56B680 | 33 | `PlySlot_A4::GetTotalLatestScore_56B680` | 0x56C170 |
 | 0x571150 | 235 | `PoliceCrew_38::SpawnFBI_nonused_571150` | (nothing) |
 | 0x5872A0 | 145 | `Registry::Set_Binary_5872A0` | 0x5875E0 |
 | 0x589210 | 158 | `RouteFinder::NoRefs_589210` | (nothing) |

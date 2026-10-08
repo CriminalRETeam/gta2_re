@@ -30,7 +30,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 4 | 4 | - | 0x418720 | `sound_obj::HandleCarTireScrubSound_418720` | sound_obj.cpp |
 | 0 | 4 | 4 | - | 0x4d6000 | `keybrd_0x204::GetLayout_4D6000` | keybrd_0x204.cpp |
 | 0 | 4 | 4 | 18 | 0x427220 | `sound_obj::ProcessPoliceRadioWordsPlayback_427220` | sound_obj.cpp |
-| 0 | 4 | 4 | 4 | 0x56ba60 | `jolly_poitras_0x2BC0::SavePlySlotDat_56BA60` | jolly_poitras_0x2BC0.cpp |
+| 0 | 4 | 4 | 4 | 0x56ba60 | `PlyDat_2BC0::SavePlySlotDat_56BA60` | PlyDat_2BC0.cpp |
 | 0 | 4 | 46 | 8 | 0x574720 | `PoliceCrew_38::State6_ShutDown_574720` | Police_38.cpp |
 | 0 | 4 | 8 | 430 | 0x539890 | `Particle_4C::UpdateCircularBurst_state_5_539890` | Particle_4C.cpp |
 | 0 | 6 | 121 | - | 0x509180 | `miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180` | miss2_0x11C.cpp |

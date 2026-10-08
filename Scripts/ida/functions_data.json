@@ -14698,164 +14698,164 @@
         "v105_address": "0x56a940"
     },
     {
-        "name": "high_score_table_0xF0::ctor",
+        "name": "HighScoreTable_F0::ctor",
         "v96f_address": "0x4a8f70",
         "v105_address": "0x56b500",
         "v96f_auto": true
     },
     {
-        "name": "high_score_table_0xF0::dtor",
+        "name": "HighScoreTable_F0::dtor",
         "v96f_address": null,
         "v105_address": "0x56b510"
     },
     {
-        "name": "high_score_table_0xF0::Init_56B520",
+        "name": "HighScoreTable_F0::Init_56B520",
         "v96f_address": "0x4a8600",
         "v105_address": "0x56b520",
         "v96f_auto": true
     },
     {
-        "name": "high_score_table_0xF0::InsertScore_56B550",
+        "name": "HighScoreTable_F0::InsertScore_56B550",
         "v96f_address": "0x4a8630",
         "v105_address": "0x56b550",
         "v96f_auto": true
     },
     {
-        "name": "player_stats_0xA4::ctor",
+        "name": "PlySlot_A4::ctor",
         "v96f_address": null,
         "v105_address": "0x56b610"
     },
     {
-        "name": "player_stats_0xA4::dtor",
+        "name": "PlySlot_A4::dtor",
         "v96f_address": null,
         "v105_address": "0x56b620"
     },
     {
-        "name": "player_stats_0xA4::ResetPlayerSlot_56B630",
+        "name": "PlySlot_A4::ResetPlayerSlot_56B630",
         "v96f_address": "0x4a8700",
         "v105_address": "0x56b630",
         "v96f_auto": true
     },
     {
-        "name": "player_stats_0xA4::GetTotalLatestScore_56B680",
+        "name": "PlySlot_A4::GetTotalLatestScore_56B680",
         "v96f_address": "0x4a8750",
         "v105_address": "0x56b680",
         "v96f_auto": true
     },
     {
-        "name": "player_stats_0xA4::GetTotalBestScore_56B6B0",
+        "name": "PlySlot_A4::GetTotalBestScore_56B6B0",
         "v96f_address": "0x4a8780",
         "v105_address": "0x56b6b0",
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::ctor",
+        "name": "PlyDat_2BC0::ctor",
         "v96f_address": "0x4A9290",
         "v105_address": "0x56b6e0"
     },
     {
-        "name": "jolly_poitras_0x2BC0::dtor",
+        "name": "PlyDat_2BC0::dtor",
         "v96f_address": "0x4a87b0",
         "v105_address": "0x56b810",
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::GetPlySlotDatName_56B8A0",
+        "name": "PlyDat_2BC0::GetPlySlotDatName_56B8A0",
         "v96f_address": "0x4a8820",
         "v105_address": "0x56b8a0",
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::PlySlotDatExists_56B940",
+        "name": "PlyDat_2BC0::PlySlotDatExists_56B940",
         "v96f_address": "0x4a88c0",
         "v105_address": "0x56b940",
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::LoadPlySlotDat_56B990",
+        "name": "PlyDat_2BC0::LoadPlySlotDat_56B990",
         "v96f_address": "0x4A8CB0",
         "v105_address": "0x56b990"
     },
     {
-        "name": "jolly_poitras_0x2BC0::SavePlySlotDat_56BA60",
+        "name": "PlyDat_2BC0::SavePlySlotDat_56BA60",
         "v96f_address": "0x4A89E0",
         "v105_address": "0x56ba60"
     },
     {
-        "name": "jolly_poitras_0x2BC0::UpdateStageScore_56BB10",
+        "name": "PlyDat_2BC0::UpdateStageScore_56BB10",
         "v96f_address": "0x4a8f90",
         "v105_address": "0x56bb10",
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::UnlockStage_56BBD0",
+        "name": "PlyDat_2BC0::UnlockStage_56BBD0",
         "v96f_address": "0x4a8a90",
         "v105_address": "0x56bbd0",
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::UnlockAllStages_56BC40",
+        "name": "PlyDat_2BC0::UnlockAllStages_56BC40",
         "v96f_address": "0x4a8b00",
         "v105_address": "0x56bc40",
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::HiScoreHscExists_56BCA0",
+        "name": "PlyDat_2BC0::HiScoreHscExists_56BCA0",
         "v96f_address": null,
         "v105_address": "0x56bca0"
     },
     {
-        "name": "jolly_poitras_0x2BC0::GetHiScoreHscFileName_56BCF0",
+        "name": "PlyDat_2BC0::GetHiScoreHscFileName_56BCF0",
         "v96f_address": "0x4a8b60",
         "v105_address": "0x56bcf0",
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::sub_56BD20",
+        "name": "PlyDat_2BC0::InitAltHiScores_56BD20",
         "v96f_address": "0x4a8b80",
         "v105_address": "0x56bd20",
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::LoadHiScores_56BE50",
+        "name": "PlyDat_2BC0::LoadHiScores_56BE50",
         "v96f_address": null,
         "v105_address": "0x56be50"
     },
     {
-        "name": "jolly_poitras_0x2BC0::SaveHiScores_56BF20",
+        "name": "PlyDat_2BC0::SaveHiScores_56BF20",
         "v96f_address": "0x4a8d80",
         "v105_address": "0x56bf20",
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::sub_56C010",
+        "name": "PlyDat_2BC0::UpdateHiScores_56C010",
         "v96f_address": "0x4a90a0",
         "v105_address": "0x56c010",
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::sub_56C170",
+        "name": "PlyDat_2BC0::sub_56C170",
         "v96f_address": null,
         "v105_address": "0x56c170"
     },
     {
-        "name": "jolly_poitras_0x2BC0::InitDefaultHiScores_56C1D0",
+        "name": "PlyDat_2BC0::InitDefaultHiScores_56C1D0",
         "v96f_address": "0x4a8ed0",
         "v105_address": "0x56c1d0",
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::DoMuchCashCheat_56C250",
+        "name": "PlyDat_2BC0::DoMuchCashCheat_56C250",
         "v96f_address": null,
         "v105_address": "0x56c250"
     },
     {
-        "name": "jolly_poitras_0x2BC0::create_56C2C0",
+        "name": "PlyDat_2BC0::Create_56C2C0",
         "v96f_address": "0x4A93B0",
         "v105_address": "0x56c2c0"
     },
     {
-        "name": "jolly_poitras_0x2BC0::destroy_56C340",
+        "name": "PlyDat_2BC0::Destroy_56C340",
         "v96f_address": null,
         "v105_address": "0x56c340"
     },

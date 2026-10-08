@@ -14,7 +14,7 @@
 #include "error.hpp"
 #include "gbh_graphics.hpp"
 #include "input.hpp"
-#include "jolly_poitras_0x2BC0.hpp"
+#include "PlyDat_2BC0.hpp"
 #include "keybrd_0x204.hpp"
 #include "GameSession_578.hpp"
 #include "crt_stubs.hpp"
@@ -817,7 +817,7 @@ MATCH_FUNC(0x4DA440)
 EXPORT void __stdcall Init_keybrd_jolly_and_sound_4DA440()
 {
     keybrd_0x204::create_4D5F50();
-    jolly_poitras_0x2BC0::create_56C2C0();
+    PlyDat_2BC0::Create_56C2C0();
 
     if (!bSkip_audio_67D6BE)
     {
@@ -2464,8 +2464,8 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 
                                     case GameExitType::PlayerQuit_2:
                                         gGameSession_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_orf1);
-                                        gJolly_poitras_0x2BC0_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_orf1);
-                                        gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
+                                        gPlyDat_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_orf1);
+                                        gPlyDat_6FEAC0->UpdateHiScores_56C010();
 
                                         state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 11; // 11? prob 1
                                         CleanUpInputAndOthers_4DA700();
@@ -2474,8 +2474,8 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 
                                     case GameExitType::GameOverRIP_3:
                                         gGameSession_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_orf1);
-                                        gJolly_poitras_0x2BC0_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_orf1);
-                                        gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
+                                        gPlyDat_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_orf1);
+                                        gPlyDat_6FEAC0->UpdateHiScores_56C010();
                                         state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 2;
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = 1;
@@ -2483,8 +2483,8 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 
                                     case GameExitType::AreaCompleted_4:
                                         gGameSession_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_orf1);
-                                        gJolly_poitras_0x2BC0_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_orf1);
-                                        gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
+                                        gPlyDat_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_orf1);
+                                        gPlyDat_6FEAC0->UpdateHiScores_56C010();
                                         state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 3;
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = 1;
@@ -2529,7 +2529,7 @@ EXPORT void __stdcall Shutdown_4DA740()
     {
         bDestroyed_6F5B70 = 1;
         keybrd_0x204::destroy_4D5FA0();
-        jolly_poitras_0x2BC0::destroy_56C340();
+        PlyDat_2BC0::Destroy_56C340();
         CleanUpInputAndOthers_4DA700();
         Frontend::destroy_4AD070();
 

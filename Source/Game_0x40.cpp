@@ -51,7 +51,7 @@
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
-#include "jolly_poitras_0x2BC0.hpp"
+#include "PlyDat_2BC0.hpp"
 #include "GameSession_578.hpp"
 #include "KanjiFont_8EC.hpp"
 #include "map_0x370.hpp"
@@ -315,7 +315,7 @@ void Game_0x40::BootGame_4B8EB0()
         field_4_players[i]->InitializePlayerState_569CB0();
     }
 
-    gJolly_poitras_0x2BC0_6FEAC0->DoMuchCashCheat_56C250();
+    gPlyDat_6FEAC0->DoMuchCashCheat_56C250();
 }
 
 MATCH_FUNC(0x4B8FF0)

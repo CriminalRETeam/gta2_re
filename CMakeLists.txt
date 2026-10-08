@@ -90,8 +90,8 @@ set(gta2_lib_src
   Source/Frontend.cpp
   Source/Game_0x40.hpp
   Source/Game_0x40.cpp
-  Source/jolly_poitras_0x2BC0.hpp
-  Source/jolly_poitras_0x2BC0.cpp
+  Source/PlyDat_2BC0.hpp
+  Source/PlyDat_2BC0.cpp
   Source/NetPlay.hpp
   Source/NetPlay.cpp
   Source/input.hpp

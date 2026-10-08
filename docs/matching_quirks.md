@@ -1471,7 +1471,7 @@ MapRenderer cluster, and how to check helpers against 9.6f with VC7: `docs/x87_h
 - **Loop counter init vs a store before the loop.** The loop optimiser appends its preheader code (the count-down
   counter init, strength-reduced pointer inits) at the *end* of the preheader block, after every statement written
   before the loop; a hoisted invariant store lands before them too. Both a constant store and `mov $3,%ebp` have
-  priority 4.0, so the store always issues first. The original of `jolly_poitras_0x2BC0::SavePlySlotDat_56BA60`
+  priority 4.0, so the store always issues first. The original of `PlyDat_2BC0::SavePlySlotDat_56BA60`
   has the counter init first because `len` is an induction variable (`len++ / len += 4` in the loop body, as the
   matched `SaveHiScores_56BF20` writes it): VC6 folds its final value (126) into one store that it emits with the
   loop optimiser's code, after the counter init. A plain `len = 126` anywhere never gets there.
@@ -1542,7 +1542,7 @@ same applies to `Hud_CarName_4C::DrawCarName_5D4A10`, `DrawBrief_5D3B80` and `Ro
 destructors in a row without the `movb $N,X(%esp)` state stores between them, VC6 knew
 those destructors can't throw. It only knows that if their (empty) bodies come earlier in
 the same TU, so define the destructor after them
-(`jolly_poitras_0x2BC0::~jolly_poitras_0x2BC0` after `~high_score_table_0xF0`).
+(`PlyDat_2BC0::~PlyDat_2BC0` after `~HighScoreTable_F0`).
 
 **Array construction: inline loop vs `??_H`.** For an array of objects with a constructor,
 VC6 calls `vector constructor iterator` (`??_H`) when the constructor is out of line, and

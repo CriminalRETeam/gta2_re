@@ -15,7 +15,7 @@
 
 class Player;
 class Ang16;
-struct score_table_line;
+struct ScoreTableLine_18;
 
 #pragma pack(push)
 #pragma pack(1)
@@ -133,7 +133,7 @@ struct MenuPage_0xBCA
     s16 field_BC8_default_option_idx;
 };
 
-struct player_stats_0xA4;
+struct PlySlot_A4;
 
 enum WinMainState
 {
@@ -352,7 +352,7 @@ struct Frontend
 
     EXPORT void DeleteCurrentPlayer_4B4410();
 
-    EXPORT player_stats_0xA4* GetCurrPlayerStats_4B43E0();
+    EXPORT PlySlot_A4* GetCurrPlayerStats_4B43E0();
 
     EXPORT void UpdateMenuForCurrPlayer_4B42E0();
 
@@ -362,9 +362,9 @@ struct Frontend
 
     EXPORT void LoadCurrPlayerName_4B4280();
 
-    EXPORT u8 GetPrevUnlockedStageIndex_4B77B0(player_stats_0xA4* a2);
+    EXPORT u8 GetPrevUnlockedStageIndex_4B77B0(PlySlot_A4* a2);
 
-    EXPORT u8 GetPrevUnlockedStageBonusCode_4B7800(player_stats_0xA4* a2);
+    EXPORT u8 GetPrevUnlockedStageBonusCode_4B7800(PlySlot_A4* a2);
 
     EXPORT void StripPasswordToCurrLength_4B8530();
 
@@ -481,7 +481,7 @@ struct Frontend
 
     EXPORT void DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, u16 palette, u16 scale, u16 a7, u8 pStr);
 
-    EXPORT void Frontend::DrawScoreTable_4B5430(score_table_line* pStrings,
+    EXPORT void Frontend::DrawScoreTable_4B5430(ScoreTableLine_18* pStrings,
                            u16 text_xpos,
                            u16 text_ypos,
                            u16 num_entries,
