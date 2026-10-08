@@ -76,7 +76,7 @@ EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 EXTERN_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 32);
 
 // 9.6f inline
-static inline void DrawFigureScaled_4C71B0(s32 type, s16 pal, Fix16 x_pos, Fix16 y_pos, const Ang16& rotation, const s32& drawkind, s16 a8, s32 a9, u8 a10)
+static inline void DrawFigureScaled_4C71B0(s32 type, s16 pal, Fix16 x_pos, Fix16 y_pos, const Ang16& rotation, const s32& drawkind, s16 palette, s32 alpha_value, u8 flags)
 {
     DrawFigure_5D7EC0(type,
                       pal,
@@ -85,9 +85,9 @@ static inline void DrawFigureScaled_4C71B0(s32 type, s16 pal, Fix16 x_pos, Fix16
                       rotation,
                       gViewCamera_676978->field_A8_ui_scale,
                       drawkind,
-                      a8,
-                      a9,
-                      a10,
+                      palette,
+                      alpha_value,
+                      flags,
                       0);
 }
 
@@ -355,9 +355,9 @@ void Hud_GangRespectBars_1::DrawGangRespectBars_5CFA70()
         // debug stuff
         if (bDo_show_instruments_67D64C)
         {
-            s32 v32 = (respect >= 0) + 5;
+            s32 text_palette = (respect >= 0) + 5;
             swprintf(tmpBuff_67BD9C, L"%d", respect);
-            DrawText_5D7720(tmpBuff_67BD9C, 64u, ypos - 6, gDebugFont_706600, 8, v32, 0, 0);
+            DrawText_5D7720(tmpBuff_67BD9C, 64u, ypos - 6, gDebugFont_706600, 8, text_palette, 0, 0);
         }
     }
 }
@@ -621,9 +621,9 @@ void ArrowTrace_24::UpdateAimCoordinates_5D03F0()
 // ----------------------------------------------------
 
 MATCH_FUNC(0x5d0510)
-void Hud_Arrow_7C::SetArrowColour_5D0510(s32 a2)
+void Hud_Arrow_7C::SetArrowColour_5D0510(s32 arrow_colour)
 {
-    field_18.field_28_arrow_colour = a2;
+    field_18.field_28_arrow_colour = arrow_colour;
 }
 
 MATCH_FUNC(0x5d0530)
@@ -677,8 +677,8 @@ bool Hud_Arrow_7C::CheckVisibility_5D0530()
                 {
                     return false;
                 }
-                Hud_Arrow_7C* v7 = gHud_2B00_706620->field_1F18_arrows.field_840_visible_gang_arrow;
-                if (v7 && v7 != this)
+                Hud_Arrow_7C* pVisibleGangArrow = gHud_2B00_706620->field_1F18_arrows.field_840_visible_gang_arrow;
+                if (pVisibleGangArrow && pVisibleGangArrow != this)
                 {
                     return false;
                 }
@@ -832,9 +832,9 @@ void Hud_Arrow_7C::Service_5D0C60()
 {
     if (!UpdateTargets_5D0620())
     {
-        char_type v2 = CheckVisibility_5D0530();
-        field_18.field_10.field_5_is_visible = v2;
-        if (v2)
+        char_type bVisible = CheckVisibility_5D0530();
+        field_18.field_10.field_5_is_visible = bVisible;
+        if (bVisible)
         {
             UpdateScreenPos_5D0850();
         }
@@ -925,9 +925,9 @@ inline s32 youthful_einstein::GetPlayerTime_4C7380(Player* pPlayer)
 }
 
 MATCH_FUNC(0x5d0dc0)
-void Hud_Arrow_7C::SetPlayerArrowColour_5D0DC0(Ped* a2)
+void Hud_Arrow_7C::SetPlayerArrowColour_5D0DC0(Ped* pPed)
 {
-    switch (a2->field_244_remap)
+    switch (pPed->field_244_remap)
     {
         case 11:
             field_18.field_2C_arrow_sprt_idx = 1;
@@ -1084,14 +1084,14 @@ void Hud_Arrow_7C_Array::UpdateArrows_5D0FD0()
 // ----------------------------------------------------
 
 MATCH_FUNC(0x5d1020)
-Hud_Arrow_7C* Hud_Arrow_7C_Array::FindFreeArrow_5D1020(s32* a2)
+Hud_Arrow_7C* Hud_Arrow_7C_Array::FindFreeArrow_5D1020(s32* pOutIdx)
 {
     Hud_Arrow_7C* pIter = &field_0_array[0];
     for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_array); i++, pIter++)
     {
         if (!pIter->field_18.field_10.field_6_in_use)
         {
-            *a2 = i;
+            *pOutIdx = i;
             pIter->field_18.field_10.field_6_in_use = 1;
             return pIter;
         }
@@ -1162,10 +1162,10 @@ void Hud_Arrow_7C_Array::place_gang_phone_5D1110(Object_2C* pPhoneInfo)
                           &phone_y_67CD0C,
                           &phone_z_67CD10);
     }
-    Hud_Arrow_7C* v6 = Hud_Arrow_7C_Array::FindGangPhoneArrow_5D10D0(pZone, phone_type);
-    if (v6)
+    Hud_Arrow_7C* pExistingArrow = Hud_Arrow_7C_Array::FindGangPhoneArrow_5D10D0(pZone, phone_type);
+    if (pExistingArrow)
     {
-        if (v6->field_18.field_3C_secondary_target.field_10_target_type)
+        if (pExistingArrow->field_18.field_3C_secondary_target.field_10_target_type)
         {
             strcpy(gErrStr_67C29C, get_phone_colour_5D12B0(phone_type));
             strcpy(gErrStr2_67C3A8, pZone->field_2_name);
@@ -1175,18 +1175,18 @@ void Hud_Arrow_7C_Array::place_gang_phone_5D1110(Object_2C* pPhoneInfo)
                               gErrStr_67C29C,
                               gErrStr2_67C3A8);
         }
-        v6->field_18.field_3C_secondary_target.field_8_obj = pPhoneInfo;
-        v6->field_18.field_3C_secondary_target.field_10_target_type = ArrowTargetType::Object_4;
+        pExistingArrow->field_18.field_3C_secondary_target.field_8_obj = pPhoneInfo;
+        pExistingArrow->field_18.field_3C_secondary_target.field_10_target_type = ArrowTargetType::Object_4;
     }
     else
     {
-        Hud_Arrow_7C* v7 = Hud_Arrow_7C_Array::AllocArrow_5D1050();
-        v7->field_18.field_18_primary_target.field_8_obj = pPhoneInfo;
-        v7->field_18.field_18_primary_target.field_10_target_type = ArrowTargetType::Object_4;
-        v7->SetArrowColour_5D0510(phone_type);
-        v7->field_18.field_10.field_30_gang = pZone;
-        v7->field_18.field_10.field_34_min_respect = GetMinRespectForPhoneType_5D12E0(phone_type);
-        v7->field_18.field_2C_arrow_sprt_idx = pZone->field_138_arrow_colour;
+        Hud_Arrow_7C* pNewArrow = Hud_Arrow_7C_Array::AllocArrow_5D1050();
+        pNewArrow->field_18.field_18_primary_target.field_8_obj = pPhoneInfo;
+        pNewArrow->field_18.field_18_primary_target.field_10_target_type = ArrowTargetType::Object_4;
+        pNewArrow->SetArrowColour_5D0510(phone_type);
+        pNewArrow->field_18.field_10.field_30_gang = pZone;
+        pNewArrow->field_18.field_10.field_34_min_respect = GetMinRespectForPhoneType_5D12E0(phone_type);
+        pNewArrow->field_18.field_2C_arrow_sprt_idx = pZone->field_138_arrow_colour;
     }
 }
 
@@ -1323,19 +1323,19 @@ void Hud_QuitMessage_1::DrawQuitMessage_5D1430()
 
         s32 max_text_width = Frontend::GetMaxTextWidth_5D8990(pQuitText, word_7064D8);
         s32 line_spacing_added = CountLineSpacing_5D8940(pQuitText, word_7064D8);
-        s32 v6 = ((3 * (160 - line_spacing_added)) / 2);
+        s32 line2_ypos = ((3 * (160 - line_spacing_added)) / 2);
 
-        DrawText_5D7720(pQuitText, (u32)((640 - max_text_width) / 2), v6 - line_spacing_added, word_7064D8, 2, 0, 0, 0);
+        DrawText_5D7720(pQuitText, (u32)((640 - max_text_width) / 2), line2_ypos - line_spacing_added, word_7064D8, 2, 0, 0, 0);
 
         wchar_t* pQuitText2 = gText_0x14_704DFC->Find_5B5F90("quit2");
-        s32 v9 = Frontend::GetMaxTextWidth_5D8990(pQuitText2, word_7064D8);
+        s32 max_text_width_2 = Frontend::GetMaxTextWidth_5D8990(pQuitText2, word_7064D8);
 
-        DrawText_5D7720(pQuitText2, (u32)((640 - v9) / 2), (u32)v6, word_7064D8, 2, 0, 0, 0);
+        DrawText_5D7720(pQuitText2, (u32)((640 - max_text_width_2) / 2), (u32)line2_ypos, word_7064D8, 2, 0, 0, 0);
 
         wchar_t* pQuitText3 = gText_0x14_704DFC->Find_5B5F90("quit3");
-        s32 v14 = Frontend::GetMaxTextWidth_5D8990(pQuitText3, word_7064D8);
+        s32 max_text_width_3 = Frontend::GetMaxTextWidth_5D8990(pQuitText3, word_7064D8);
 
-        DrawText_5D7720(pQuitText3, (u32)((640 - v14) / 2), v6 + line_spacing_added, word_7064D8, 2, 0, 0, 0);
+        DrawText_5D7720(pQuitText3, (u32)((640 - max_text_width_3) / 2), line2_ypos + line_spacing_added, word_7064D8, 2, 0, 0, 0);
     }
 }
 
@@ -1722,30 +1722,30 @@ MATCH_FUNC(0x5d2380)
 void Hud_Pager_C::DrawCounterDigits_5D2380(s32 xpos, s32 ypos)
 {
     s32 counter = *field_4_ptr_counter;
-    s32 v4 = counter % 10;
-    s32 v5 = (counter % 100 - v4) / 10;
-    s32 v6 = (counter % 1000 - v5 - v4) / 100;
-    s32 v7 = (counter - v6 - v5 - v4) / 1000;
+    s32 ones = counter % 10;
+    s32 tens = (counter % 100 - ones) / 10;
+    s32 hundreds = (counter % 1000 - tens - ones) / 100;
+    s32 thousands = (counter - hundreds - tens - ones) / 1000;
 
-    if (!v7)
+    if (!thousands)
     {
-        v7 = -1;
-        if (!v6)
+        thousands = -1;
+        if (!hundreds)
         {
-            v6 = -1;
-            if (!v5)
+            hundreds = -1;
+            if (!tens)
             {
-                v5 = -1;
+                tens = -1;
             }
         }
     }
-    DrawFigureScaled_5D7670(sprite_types_enum::user_6, 123 + v4, xpos + 11, ypos + 2, kAngZero_706610, palette_types_enum::sprites_2, 0, 0, 0);
+    DrawFigureScaled_5D7670(sprite_types_enum::user_6, 123 + ones, xpos + 11, ypos + 2, kAngZero_706610, palette_types_enum::sprites_2, 0, 0, 0);
 
-    DrawFigureScaled_5D7670(sprite_types_enum::user_6, 123 + v5, xpos + 4, ypos + 2, kAngZero_706610, palette_types_enum::sprites_2, 0, 0, 0);
+    DrawFigureScaled_5D7670(sprite_types_enum::user_6, 123 + tens, xpos + 4, ypos + 2, kAngZero_706610, palette_types_enum::sprites_2, 0, 0, 0);
 
-    DrawFigureScaled_5D7670(sprite_types_enum::user_6, 123 + v6, xpos - 3, ypos + 2, kAngZero_706610, palette_types_enum::sprites_2, 0, 0, 0);
+    DrawFigureScaled_5D7670(sprite_types_enum::user_6, 123 + hundreds, xpos - 3, ypos + 2, kAngZero_706610, palette_types_enum::sprites_2, 0, 0, 0);
 
-    DrawFigureScaled_5D7670(sprite_types_enum::user_6, 123 + v7, xpos - 10, ypos + 2, kAngZero_706610, palette_types_enum::sprites_2, 0, 0, 0);
+    DrawFigureScaled_5D7670(sprite_types_enum::user_6, 123 + thousands, xpos - 10, ypos + 2, kAngZero_706610, palette_types_enum::sprites_2, 0, 0, 0);
 }
 
 MATCH_FUNC(0x5d2680)
@@ -1829,37 +1829,37 @@ void Hud_Pager_C::DrawPager_5D2AB0(u32 xpos, s32 ypos)
 
     if (field_0_timer >= 0 && field_4_ptr_counter)
     {
-        s32 v9 = get_sprite_height_4C7250(117);
-        s32 v45 = get_sprite_height_4C7250(118);
-        s32 v10 = get_sprite_height_4C7250(119);
+        s32 top_height = get_sprite_height_4C7250(117);
+        s32 bottom_height = get_sprite_height_4C7250(118);
+        s32 middle_height = get_sprite_height_4C7250(119);
 
-        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - v9 / 2 - v10 / 2, kAngZero_706610, palette_type, 0, 0, 0);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - top_height / 2 - middle_height / 2, kAngZero_706610, palette_type, 0, 0, 0);
 
         // The middle sprite's y goes through the Fix16(u32) constructor (out-of-line copy 0x4926F0) like x does
         DrawFigureScaled_5D7670(sprite_types_enum::user_6, 119, xpos, (u32)ypos, kAngZero_706610, palette_type, 0, 0, 0);
 
-        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + v10 / 2 + v45 / 2, kAngZero_706610, palette_type, 0, 0, 0);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + middle_height / 2 + bottom_height / 2, kAngZero_706610, palette_type, 0, 0, 0);
         Hud_Pager_C::DrawCounterDigits_5D2380(xpos, ypos - 6);
         Hud_Pager_C::DrawDigits_5D2680(xpos, ypos + 6);
     }
     else if (field_0_timer >= 0)
     {
-        s32 v20 = get_sprite_height_4C7250(117);
-        s32 v22 = get_sprite_height_4C7250(118);
+        s32 top_height = get_sprite_height_4C7250(117);
+        s32 bottom_height = get_sprite_height_4C7250(118);
 
-        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - v20 / 2, kAngZero_706610, palette_type, 0, 0, 0);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - top_height / 2, kAngZero_706610, palette_type, 0, 0, 0);
 
-        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + v22 / 2, kAngZero_706610, palette_type, 0, 0, 0);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + bottom_height / 2, kAngZero_706610, palette_type, 0, 0, 0);
         Hud_Pager_C::DrawDigits_5D2680(xpos, ypos);
     }
     else
     {
-        s32 v29 = get_sprite_height_4C7250(117);
-        s32 v31 = get_sprite_height_4C7250(118);
+        s32 top_height = get_sprite_height_4C7250(117);
+        s32 bottom_height = get_sprite_height_4C7250(118);
 
-        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - v29 / 2, kAngZero_706610, palette_type, 0, 0, 0);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 117, xpos, ypos - top_height / 2, kAngZero_706610, palette_type, 0, 0, 0);
 
-        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + v31 / 2, kAngZero_706610, palette_type, 0, 0, 0);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 118, xpos, ypos + bottom_height / 2, kAngZero_706610, palette_type, 0, 0, 0);
         Hud_Pager_C::DrawCounterDigits_5D2380(xpos, ypos);
     }
 }
@@ -1870,11 +1870,11 @@ void Hud_Pager_C_Array::DrawPagers_5D3040()
     s32 totalSpriteHeight = get_sprite_height_4C7250(117) + get_sprite_height_4C7250(118) + get_sprite_height_4C7250(119);
     s32 width = (get_sprite_width_4C7220(117) / 2) + 3;
 
-    s32 v9 = gLucid_hamilton_67E8E0.IsBonusStage_4C59A0() ? 36 : 104;
+    s32 ypos = gLucid_hamilton_67E8E0.IsBonusStage_4C59A0() ? 36 : 104;
     for (s32 i = 0; i < GTA2_COUNTOF(field_0_pagers_array); i++)
     {
-        field_0_pagers_array[i].DrawPager_5D2AB0(width, v9);
-        v9 += totalSpriteHeight;
+        field_0_pagers_array[i].DrawPager_5D2AB0(width, ypos);
+        ypos += totalSpriteHeight;
     }
 }
 
@@ -1953,9 +1953,9 @@ static inline void ProjectWorldToScreen_Hud_OutOfLine_4B90E0(Camera_0xBC* pCam, 
 }
 
 MATCH_FUNC(0x5d32d0)
-void Hud_Pager_C_Array::ClearClockOnly_5D32D0(s32 a2)
+void Hud_Pager_C_Array::ClearClockOnly_5D32D0(s32 pager_idx)
 {
-    field_0_pagers_array[a2].field_0_timer = -1;
+    field_0_pagers_array[pager_idx].field_0_timer = -1;
 }
 
 MATCH_FUNC(0x5d32f0)
@@ -1966,9 +1966,9 @@ void Hud_Pager_C_Array::AddTime_5D32F0(s32 pager_idx, s32 time_to_add)
 }
 
 MATCH_FUNC(0x5d3310)
-void Hud_Pager_C_Array::ClearCounterOnly_5D3310(s32 a2)
+void Hud_Pager_C_Array::ClearCounterOnly_5D3310(s32 pager_idx)
 {
-    field_0_pagers_array[a2].field_4_ptr_counter = NULL;
+    field_0_pagers_array[pager_idx].field_4_ptr_counter = NULL;
 }
 
 MATCH_FUNC(0x5d3330)
@@ -2234,7 +2234,7 @@ void Hud_Brief_704::DrawBrief_5D3B80()
                         first_line_ypos, // y
                         gBriefFont_7065C4, // fontType
                         palette_types_enum::sprites_2,
-                        0, // a6
+                        0, // palette
                         0, // alpha
                         0); // alpha_flag
     }
@@ -2243,16 +2243,16 @@ void Hud_Brief_704::DrawBrief_5D3B80()
 MATCH_FUNC(0x5d3f10)
 void Hud_Brief_704::SetHudBrief_5D3F10(s32 priority, const char_type* pText, s32 cost_param)
 {
-    Hud_BriefEntry_18* v5 = AllocBrief_5D33F0();
-    strcpy(v5->field_0_brief_id_str, pText);
-    v5->field_8_brief_priority = priority;
-    v5->field_10_was_displayed = 0;
-    v5->field_14_cost_param = cost_param;
+    Hud_BriefEntry_18* pNewBrief = AllocBrief_5D33F0();
+    strcpy(pNewBrief->field_0_brief_id_str, pText);
+    pNewBrief->field_8_brief_priority = priority;
+    pNewBrief->field_10_was_displayed = 0;
+    pNewBrief->field_14_cost_param = cost_param;
 
     if (!this->field_6F8_curr_brief)
     {
-        this->field_6F8_curr_brief = v5;
-        v5->field_C_pNext = 0;
+        this->field_6F8_curr_brief = pNewBrief;
+        pNewBrief->field_C_pNext = 0;
         StartCurrentBrief_5D39D0();
     }
     else if (this->field_6F8_curr_brief->field_8_brief_priority >= priority && priority != 3)
@@ -2263,16 +2263,16 @@ void Hud_Brief_704::SetHudBrief_5D3F10(s32 priority, const char_type* pText, s32
             pIter = pIter->field_C_pNext;
         }
 
-        Hud_BriefEntry_18* v8 = pIter->field_C_pNext;
-        if (v8)
+        Hud_BriefEntry_18* pNext = pIter->field_C_pNext;
+        if (pNext)
         {
-            v5->field_C_pNext = v8;
-            pIter->field_C_pNext = v5;
+            pNewBrief->field_C_pNext = pNext;
+            pIter->field_C_pNext = pNewBrief;
         }
         else
         {
-            pIter->field_C_pNext = v5;
-            v5->field_C_pNext = 0;
+            pIter->field_C_pNext = pNewBrief;
+            pNewBrief->field_C_pNext = 0;
         }
     }
     else
@@ -2281,8 +2281,8 @@ void Hud_Brief_704::SetHudBrief_5D3F10(s32 priority, const char_type* pText, s32
         {
             MoveCurrentBriefToPrev_5D3370();
         }
-        v5->field_C_pNext = this->field_6F8_curr_brief;
-        this->field_6F8_curr_brief = v5;
+        pNewBrief->field_C_pNext = this->field_6F8_curr_brief;
+        this->field_6F8_curr_brief = pNewBrief;
         StartCurrentBrief_5D39D0();
     }
 }
@@ -2521,9 +2521,9 @@ void Hud_PickupText_88::Draw_5D5420()
 }
 
 MATCH_FUNC(0x5d5600)
-void Hud_PickupText_88::ShowPickupText_5D5600(u8 a2)
+void Hud_PickupText_88::ShowPickupText_5D5600(u8 pickup_idx)
 {
-    sprintf(gTmpGxtKey_67CE50, "c%02d", a2);
+    sprintf(gTmpGxtKey_67CE50, "c%02d", pickup_idx);
     field_0_timer = 90;
     wchar_t* pStr = gText_0x14_704DFC->Find_5B5F90(gTmpGxtKey_67CE50);
     wcscpy(field_2_str, pStr);
@@ -2779,8 +2779,8 @@ void Hud_PlayerStats_4::DrawPlayerStats_5D5C80()
         }
     }
 
-    RollingDigitCounter_38* v5 = pPlayer->field_2D4_scores.GetScoreDigits_592360();
-    s32 dolar_sign_xpos = v5->DrawDigitsRightAligned_492260(639, 4);
+    RollingDigitCounter_38* pScoreDigits = pPlayer->field_2D4_scores.GetScoreDigits_592360();
+    s32 dolar_sign_xpos = pScoreDigits->DrawDigitsRightAligned_492260(639, 4);
 
     // Now draw $ symbol
 
@@ -2816,8 +2816,8 @@ void Hud_PlayerStats_4::DrawPlayerStats_5D5C80()
         }
         else
         {
-            RollingDigitCounter_38* v16 = pPlayer->field_2D4_scores.GetMultiplayerFragDigits_5935B0();
-            v16->DrawDigitsRightAligned_492260(490, 4);
+            RollingDigitCounter_38* pFragDigits = pPlayer->field_2D4_scores.GetMultiplayerFragDigits_5935B0();
+            pFragDigits->DrawDigitsRightAligned_492260(490, 4);
         }
 
         s32 ypos = 8;
@@ -2826,8 +2826,8 @@ void Hud_PlayerStats_4::DrawPlayerStats_5D5C80()
         {
             if (pMultiPlayer->IsUser_41DC70() == 0)
             {
-                RollingDigitCounter_38* v19 = pMultiPlayer->field_2D4_scores.GetScoreDigits_592360();
-                s32 v21 = v19->DrawDigitsLeftAligned_492430(16, ypos);
+                RollingDigitCounter_38* pMultiScoreDigits = pMultiPlayer->field_2D4_scores.GetScoreDigits_592360();
+                s32 score_end_xpos = pMultiScoreDigits->DrawDigitsLeftAligned_492430(16, ypos);
 
                 DrawFigureScaled_5D7670(6, 16, 8, ypos + 10, kAngZero_706610, pMultiPlayer->field_78C_hud_palette_type, pMultiPlayer->field_790_hud_palette, 0, 0);
 
@@ -2839,12 +2839,12 @@ void Hud_PlayerStats_4::DrawPlayerStats_5D5C80()
                              gYouthful_einstein_6F8450.GetPlayerTime_4C7380(pMultiPlayer) % 60);
 
                     const s32 very_unknown = (pMultiPlayer->field_78C_hud_palette_type != 7) ? 2 : 8;
-                    DrawText_5D7720(Buffer, v21 + 20, (u32)ypos, word_703BAA, very_unknown, pMultiPlayer->field_790_hud_palette - 1, 0, 0);
+                    DrawText_5D7720(Buffer, score_end_xpos + 20, (u32)ypos, word_703BAA, very_unknown, pMultiPlayer->field_790_hud_palette - 1, 0, 0);
                 }
                 else
                 {
-                    RollingDigitCounter_38* v29 = pMultiPlayer->field_2D4_scores.GetMultiplayerFragDigits_5935B0();
-                    v29->DrawDigitsLeftAligned_492430(v21 + 20, ypos);
+                    RollingDigitCounter_38* pFragDigits = pMultiPlayer->field_2D4_scores.GetMultiplayerFragDigits_5935B0();
+                    pFragDigits->DrawDigitsLeftAligned_492430(score_end_xpos + 20, ypos);
                 }
                 ypos += 27;
             }
@@ -3114,21 +3114,21 @@ void Hud_PauseScreen_2::DrawPause_5D63B0()
             }
 
             s32 max_width_2 = Frontend::GetMaxTextWidth_5D8990(tmpBuff_67BD9C, word_7064D8);
-            s32 v28;
+            s32 text_xpos;
             if (sprite_pal != 0)
             {
                 u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_type, sprite_pal);
                 s32 icon_width = gGtx_0x106C_703DD4->get_sprite_width_420220(sprite_idx) + 10;
-                v28 = (640 - icon_width - max_width_2) / 2;
-                DrawFigureScaled_5D7670(sprite_type, sprite_pal, v28 + icon_width / 2, 235, kAngZero_706610, 2, 0, 0, 0);
-                v28 += icon_width;
+                text_xpos = (640 - icon_width - max_width_2) / 2;
+                DrawFigureScaled_5D7670(sprite_type, sprite_pal, text_xpos + icon_width / 2, 235, kAngZero_706610, 2, 0, 0, 0);
+                text_xpos += icon_width;
             }
             else
             {
-                v28 = (640 - max_width_2) / 2;
+                text_xpos = (640 - max_width_2) / 2;
             }
             // (u32): Fix16(u32) constructor (0x4926F0), the 220 goes through Fix16(s32) (0x4369F0)
-            DrawText_5D7720(tmpBuff_67BD9C, (u32)v28, 220, word_7064D8, 8, 6, 0, 0);
+            DrawText_5D7720(tmpBuff_67BD9C, (u32)text_xpos, 220, word_7064D8, 8, 6, 0, 0);
         }
     }
 }
