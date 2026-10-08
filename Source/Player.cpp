@@ -1,4 +1,5 @@
 #include "Player.hpp"
+#include "voice_line.hpp"
 #include "BurgerKing_67F8B0.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
@@ -1740,12 +1741,12 @@ void Player::Wasted_567130()
                 gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00( //  It's really ugly, it's probably inlined
                     gText_0x14_704DFC->Find_5B5F90(GetDeathText_569F00()),
                     1);
-                gRoot_sound_66B038.PlayVoice_40F090(29);
+                gRoot_sound_66B038.PlayVoice_40F090(voice_line::wasted_29);
             }
             else
             {
                 gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), 3);
-                gRoot_sound_66B038.PlayVoice_40F090(21);
+                gRoot_sound_66B038.PlayVoice_40F090(voice_line::game_over_21);
             }
         }
         SetDeathType_434950(0);
@@ -1835,7 +1836,7 @@ void Player::Busted_5679E0()
     field_2C4_player_ped->ClearBit11_403A40();
     if (!field_28_bWastedOrBusted)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(17);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::busted_17);
         SetDeathType_434950(3);
         if (IsUser_41DC70())
         {

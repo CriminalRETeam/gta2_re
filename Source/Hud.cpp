@@ -1,5 +1,6 @@
 #define FIX16_POINT_ZERO kFpZero_7064C0
 #include "Hud.hpp"
+#include "voice_line.hpp"
 #include "Car_BC.hpp"
 #include "Draw.hpp"
 #include "Frontend.hpp"
@@ -2595,7 +2596,7 @@ void Garox_1_v2::AnnounceKill_5D5770(Player* killer, Player* victim)
 
         swprintf(tmpBuff_67BD9C, L"%s %s", gText_0x14_704DFC->Find_5B5F90("mpkill2"), victim->field_83C_player_name);
 
-        gRoot_sound_66B038.PlayVoice_40F090(32);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::random_laugh_32);
     }
     else if (victim->IsUser_41DC70())
     {
@@ -2613,7 +2614,7 @@ void Garox_1_v2::AnnounceKill_5D5770(Player* killer, Player* victim)
                  gText_0x14_704DFC->Find_5B5F90("mpkill4"),
                  &victim->field_83C_player_name);
 
-        gRoot_sound_66B038.PlayVoice_40F090(31);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::random_laugh_31);
     }
 
     this->ShowText_5D5730(tmpBuff_67BD9C);

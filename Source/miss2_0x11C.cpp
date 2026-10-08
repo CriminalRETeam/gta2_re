@@ -4,6 +4,7 @@
 // Force inline off
 //#define INLINE_MODE inline
 #include "car_despawn_status.hpp"
+#include "voice_line.hpp"
 #include "miss2_0x11c.hpp"
 #include "CarAI_78.hpp"
 #include "CarPhysics_B0.hpp"
@@ -122,7 +123,7 @@ void miss2_0x11C::MissionFailOnArrest_503200()
         gHud_2B00_706620->field_DC_brief.ClearAllBriefsWithPriority_5D4890(3);
         gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
         gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("mfail"), 3);
-        gRoot_sound_66B038.PlayVoice_40F090(0x17);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::jobfail_23);
 
         *gfrosty_pasteur_6F8060->field_344_mission_flag = 0;
         gfrosty_pasteur_6F8060->field_C1E2E_death_arrest_flag = 1;
@@ -1688,7 +1689,7 @@ void miss2_0x11C::ExecOpCode_5061C0()
 MATCH_FUNC(0x5069c0)
 void miss2_0x11C::SCRCMD_LEVELSTART_5069C0()
 {
-    gRoot_sound_66B038.PlayVoice_40F090(24); //  "And remember, respect is everything!"
+    gRoot_sound_66B038.PlayVoice_40F090(voice_line::respectis_24); //  "And remember, respect is everything!"
     field_118_in_level_start = 1;
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -2477,124 +2478,124 @@ void miss2_0x11C::SCRCMD_DISPLAY_MESSAGE_5093C0()
     u8 type = ((SCR_TWO_PARAMS*)gBasePtr_6F8070)->field_A_unsigned_2;
     if (type == 1)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(22);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::jobcomplete_22);
     }
     else if (type == 2)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(23);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::jobfail_23);
     }
 
     if (pCmd->field_8_unsigned_1 == 5501)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(33);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::raceover_33);
     }
     else if (pCmd->field_8_unsigned_1 == 5502)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(34);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::second_lap_34);
     }
     else if (pCmd->field_8_unsigned_1 == 5503)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(35);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::finallap_35);
     }
     else if (pCmd->field_8_unsigned_1 == 5504)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(36);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::raceon_36);
     }
     else if (pCmd->field_8_unsigned_1 == 5505)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(37);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::people_down_30_37);
     }
     else if (pCmd->field_8_unsigned_1 == 5506)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(38);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::people_down_60_38);
     }
     else if (pCmd->field_8_unsigned_1 == 5507)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(39);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::people_down_90_39);
     }
     else if (pCmd->field_8_unsigned_1 == 5508)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(40);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::people_down_120_40);
     }
     else if (pCmd->field_8_unsigned_1 == 5509)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(41);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::people_down_150_41);
     }
     else if (pCmd->field_8_unsigned_1 == 5510)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(42);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::timeout_42);
     }
     else if (pCmd->field_8_unsigned_1 == 5000)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(43);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::timeextended_43);
     }
     else if (pCmd->field_8_unsigned_1 == 5015)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(44);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::timesup_44);
     }
     else if (pCmd->field_8_unsigned_1 == 5031)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(45);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::sorrydidthathurt_45);
     }
     else if (pCmd->field_8_unsigned_1 == 5032)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(46);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::nicework_46);
     }
     else if (pCmd->field_8_unsigned_1 == 5050)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(47);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::choctastic_47);
     }
     else if (pCmd->field_8_unsigned_1 == 5051)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(48);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::raspberryripple_48);
     }
     else if (pCmd->field_8_unsigned_1 == 5052)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(49);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::youshotyourload_49);
     }
     else if (pCmd->field_8_unsigned_1 == 5053)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(50);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::oohdidthathurt_50);
     }
     else if (pCmd->field_8_unsigned_1 == 5054)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(51);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::deathtoicvans_51);
     }
     else if (pCmd->field_8_unsigned_1 == 5055)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(52);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::crispycritter_52);
     }
     else if (pCmd->field_8_unsigned_1 == 5056)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(53);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::youretoastbuddy_53);
     }
     else if (pCmd->field_8_unsigned_1 == 5057)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(54);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::eatleaddeath_54);
     }
     else if (pCmd->field_8_unsigned_1 == 5058)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(55);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::thatsgottahurt_55);
     }
     else if (pCmd->field_8_unsigned_1 == 5059)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(56);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::sorryaboutthat_56);
     }
     else if (pCmd->field_8_unsigned_1 == 5060)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(57);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::xinloimyman_57);
     }
     else if (pCmd->field_8_unsigned_1 == 5061)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(58);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::damnsundaydrivers_58);
     }
     else if (pCmd->field_8_unsigned_1 == 5062)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(59);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::suckitandsee_59);
     }
     else if (pCmd->field_8_unsigned_1 == 5063)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(60);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::tastemywrath_60);
     }
 
     sprintf(gTmpBuffer_67C598, "%d", pCmd->field_8_unsigned_1);
@@ -5157,7 +5158,7 @@ void miss2_0x11C::SCRCMD_DO_SAVE_GAME_50D3C0()
                 if (pPlayer->GetScore_421980() >= 50000)
                 {
                     // Hallelluya! Another soul saved!
-                    gRoot_sound_66B038.PlayVoice_40F090(61);
+                    gRoot_sound_66B038.PlayVoice_40F090(voice_line::hallelujah_61);
                     gGame_0x40_67E008->field_38_orf1->AddCash_421990(-50000);
                     gfrosty_pasteur_6F8060->SaveGame_511E10(gLucid_hamilton_67E8E0.GetDebugStr_4C5970());
                     sprintf(gTmpBuffer_67C598, "svdone");
@@ -5165,7 +5166,7 @@ void miss2_0x11C::SCRCMD_DO_SAVE_GAME_50D3C0()
                 else
                 {
                     // No donation, no salvation!
-                    gRoot_sound_66B038.PlayVoice_40F090(62);
+                    gRoot_sound_66B038.PlayVoice_40F090(voice_line::damnation_62);
                     sprintf(gTmpBuffer_67C598, "svscore");
                 }
             }
@@ -6762,7 +6763,7 @@ void miss2_0x11C::SCRCMD_START_BASIC_KF_510100() // START_BASIC_KF_TEMPLATE
         gfrosty_pasteur_6F8060->set_field_C1E2D_475A40(1);
         miss2_0x11C::DisableThread_505790(pCmd->field_8_triggername);
         gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("kfstart"), 3); // KILL FRENZY!
-        gRoot_sound_66B038.PlayVoice_40F090(12); // KILL FRENZY voice
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::killfrenzy_12); // KILL FRENZY voice
         SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_C_objname); // Skull icon?
         if (miss2_0x11C::GetEntityTypeOfCommand_503410(pPointer->field_2_type) == 3)
         {
@@ -6854,12 +6855,12 @@ void miss2_0x11C::SCRCMD_DO_BASIC_KF_510280()
                 if (pCmd->field_1A_rewardtype == 1)
                 {
                     pPlayerPedCmdPointer->field_8_char->field_15C_player->AddScore_41DC40(pCmd->field_1C_rewardvalue);
-                    gRoot_sound_66B038.PlayVoice_40F090(19);
+                    gRoot_sound_66B038.PlayVoice_40F090(voice_line::frenzypassed_19);
                 }
                 else if (pCmd->field_1A_rewardtype == 2)
                 {
                     pPlayerPedCmdPointer->field_8_char->field_15C_player->ChangeMultipliers_4766B0(pCmd->field_1C_rewardvalue);
-                    gRoot_sound_66B038.PlayVoice_40F090(19);
+                    gRoot_sound_66B038.PlayVoice_40F090(voice_line::frenzypassed_19);
                 }
                 else
                 {
@@ -6867,14 +6868,14 @@ void miss2_0x11C::SCRCMD_DO_BASIC_KF_510280()
                     {
                         pPlayerPedCmdPointer->field_8_char->field_15C_player->ChangeLifeCountByAmount_5699F0(pCmd->field_1C_rewardvalue);
                     }
-                    gRoot_sound_66B038.PlayVoice_40F090(19);
+                    gRoot_sound_66B038.PlayVoice_40F090(voice_line::frenzypassed_19);
                 }
             }
             else
             {
                 gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("kffail"), 3);
                 ++*gfrosty_pasteur_6F8060->field_33C_secrets_failed;
-                gRoot_sound_66B038.PlayVoice_40F090(18);
+                gRoot_sound_66B038.PlayVoice_40F090(voice_line::frenzyfail_18);
             }
             miss2_0x11C::Next_503620(gBasePtr_6F8070);
         }

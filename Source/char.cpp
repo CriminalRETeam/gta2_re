@@ -1,5 +1,6 @@
 #define FIX16_POINT_ZERO kFP16Zero_6FD9E4
 #include "ped_death_cause.hpp"
+#include "voice_line.hpp"
 #include "char.hpp"
 #include "CarAI_78.hpp"
 #include "CarPhysics_B0.hpp"
@@ -6117,7 +6118,7 @@ void Char_B4::state_8_5520A0()
                     field_7C_pPed->field_224 &= ~0x20u;
                     if (field_7C_pPed->field_15C_player)
                     {
-                        gRoot_sound_66B038.PlayVoice_40F090(25);
+                        gRoot_sound_66B038.PlayVoice_40F090(voice_line::shocking_25);
                         field_7C_pPed->field_15C_player->SetDeathType_434950(4);
                     }
                     field_7C_pPed->Kill_46F9D0();

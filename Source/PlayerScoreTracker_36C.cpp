@@ -1,4 +1,5 @@
 #include "PlayerScoreTracker_36C.hpp"
+#include "voice_line.hpp"
 #include "zealous_borg.hpp"
 #include "ped_death_cause.hpp"
 #include "accuracy_event.hpp"
@@ -101,7 +102,7 @@ void PlayerScoreTracker_36C::Service_591C70()
         if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("excutin"), 1);
-            gRoot_sound_66B038.PlayVoice_40F090(4);
+            gRoot_sound_66B038.PlayVoice_40F090(voice_line::expiditious_4);
         }
     }
 
@@ -112,7 +113,7 @@ void PlayerScoreTracker_36C::Service_591C70()
         if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("elvis_d"), 1);
-            gRoot_sound_66B038.PlayVoice_40F090(8);
+            gRoot_sound_66B038.PlayVoice_40F090(voice_line::elvis_8);
         }
     }
 
@@ -123,7 +124,7 @@ void PlayerScoreTracker_36C::Service_591C70()
         if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("em_dest"), 1);
-            gRoot_sound_66B038.PlayVoice_40F090(11);
+            gRoot_sound_66B038.PlayVoice_40F090(voice_line::medicalemer_11);
         }
     }
 
@@ -134,7 +135,7 @@ void PlayerScoreTracker_36C::Service_591C70()
         if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("gencide"), 1);
-            gRoot_sound_66B038.PlayVoice_40F090(5);
+            gRoot_sound_66B038.PlayVoice_40F090(voice_line::genocide_5);
         }
     }
 
@@ -145,7 +146,7 @@ void PlayerScoreTracker_36C::Service_591C70()
         if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("copkill"), 1);
-            gRoot_sound_66B038.PlayVoice_40F090(6);
+            gRoot_sound_66B038.PlayVoice_40F090(voice_line::copkilla_6);
         }
     }
 
@@ -156,7 +157,7 @@ void PlayerScoreTracker_36C::Service_591C70()
         if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("carjaka"), 1);
-            gRoot_sound_66B038.PlayVoice_40F090(7);
+            gRoot_sound_66B038.PlayVoice_40F090(voice_line::carjacker_7);
         }
     }
 
@@ -167,7 +168,7 @@ void PlayerScoreTracker_36C::Service_591C70()
         if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("accurcy"), 1);
-            gRoot_sound_66B038.PlayVoice_40F090(9);
+            gRoot_sound_66B038.PlayVoice_40F090(voice_line::accuracyb_9);
         }
     }
 
@@ -193,7 +194,7 @@ void PlayerScoreTracker_36C::Service_591C70()
         if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("wrngway"), 1);
-            gRoot_sound_66B038.PlayVoice_40F090(10);
+            gRoot_sound_66B038.PlayVoice_40F090(voice_line::back2front_10);
         }
     }
 
@@ -216,7 +217,7 @@ void PlayerScoreTracker_36C::Service_591C70()
         if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("fly_car"), 1);
-            gRoot_sound_66B038.PlayVoice_40F090(1);
+            gRoot_sound_66B038.PlayVoice_40F090(voice_line::insanestunt_1);
         }
     }
 
@@ -358,7 +359,7 @@ void PlayerScoreTracker_36C::CheckAllCarModelsFlagged_592430(char_type bits)
         if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("stl_all"), 1);
-            gRoot_sound_66B038.PlayVoice_40F090(2);
+            gRoot_sound_66B038.PlayVoice_40F090(voice_line::gta_2);
         }
         ResetCarModelFlags_592380(car_model_flag::stolen_1);
     }
@@ -376,7 +377,7 @@ void PlayerScoreTracker_36C::CheckAllCarModelsFlagged_592430(char_type bits)
         if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("dst_all"), 1);
-            gRoot_sound_66B038.PlayVoice_40F090(3);
+            gRoot_sound_66B038.PlayVoice_40F090(voice_line::wipeout_3);
         }
         ResetCarModelFlags_592380(car_model_flag::destroyed_2);
     }
