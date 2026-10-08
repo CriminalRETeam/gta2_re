@@ -1,7 +1,7 @@
 #include "Frontend.hpp"
 #include "credits_line_category.hpp"
 #include "Bink.hpp"
-#include "BurgerKing_67F8B0.hpp"
+#include "InputRecorder_67F8B0.hpp"
 #include "Draw.hpp"
 #include "Fix16_Point.hpp"
 #include "Function.hpp"
@@ -4353,7 +4353,7 @@ void __stdcall Frontend::SetInputEnabled_5E53C0(BYTE* a1)
     }
     else
     {
-        gBurgerKing_67F8B0.field_75344_bInputEnabled = *a1;
+        gInputRecorder_67F8B0.field_75344_bInputEnabled = *a1;
     }
 }
 

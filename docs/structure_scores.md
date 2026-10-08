@@ -13,7 +13,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 0 | 12 | 147 | 0x5520a0 | `Char_B4::state_8_5520A0` | char.cpp |
 | 0 | 0 | 12 | 4 | 0x543690 | `ExplosionPool_7A8::FreeLowestPriority_543690` | Explosion_30.cpp |
 | 0 | 0 | 16 | 0 | 0x5645b0 | `Player::AddCarToHistory_5645B0` | Player.cpp |
-| 0 | 0 | 2 | 0 | 0x498cb0 | `BurgerKing_1::SetAltKeyState_498CB0` | BurgerKing_67F8B0.cpp |
+| 0 | 0 | 2 | 0 | 0x498cb0 | `InputDevices_1::SetAltKeyState_498CB0` | InputRecorder_67F8B0.cpp |
 | 0 | 0 | 2 | 0 | 0x4fb330 | `Ambulance_20::UpdateState_4FB330` | Ambulance_110.cpp |
 | 0 | 0 | 20 | - | 0x540320 | `Particle_8::EmitElectricArcParticle` | Particle_8.cpp |
 | 0 | 0 | 34 | - | 0x452060 | `CarAI_78::ScanAheadForObstacles_452060` | CarAI_78.cpp |
@@ -192,7 +192,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 36 | 119 | 403 | 750 | 0x54a530 | `Char_B4::HandleGenericCollision_54A530` | char.cpp |
 | 38 | 153 | 512 | - | 0x5df270 | `sub_5DF270` | Weapon_30.cpp |
 | 40 | 54 | 90 | 0 | 0x47f930 | `Crane_15C::PickUpCar_47F930` | Cranes.cpp |
-| 42 | 96 | 201 | 191 | 0x498da0 | `BurgerKing_1::read_input_device_498DA0` | BurgerKing_67F8B0.cpp |
+| 42 | 96 | 201 | 191 | 0x498da0 | `InputDevices_1::read_input_device_498DA0` | InputRecorder_67F8B0.cpp |
 | 44 | 195 | 376 | 358 | 0x592660 | `PlayerScoreTracker_36C::AwardPedKilledScore_592660` | PlayerScoreTracker_36C.cpp |
 | 52 | 146 | 166 | 70 | 0x463830 | `Ped::SetObjective2_463830` | Ped.cpp |
 | 55 | 316 | 584 | 573 | 0x524630 | `Object_2C::IntegrateHorizontalMovementAndCollisions_524630` | Object_5C.cpp |

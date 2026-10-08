@@ -389,7 +389,7 @@ position. `Hud_2B00::UpdatePauseSection_5D69C0` is the thunk form of the same th
 
 **`test; je L; jne end; L:` comes from `(a & m) == 0 || (b & m) == 0` with `a == b`.** When both
 operands are the same value in one register, VC6 merges the two tests but keeps both branches, so the `je`
-lands right after the following `jne`. In `BurgerKing_67F8B0::get_input_bits_4CEAC0`, `a` is `saved_input`,
+lands right after the following `jne`. In `InputRecorder_67F8B0::get_input_bits_4CEAC0`, `a` is `saved_input`,
 which equals `*control_status` there. `&&`, a one-case `switch` or an inline helper all fold it away.
 
 **Insert-into-list blocks follow the source order of the cases.** `Hud_Brief_704::SetHudBrief_5D3F10` matched
@@ -489,7 +489,7 @@ paths set all of `eax` is still unsolved (`Car_BC::IsDoorLockedForPed_43B2B0`).
 
 **`flag ? '1' : '0'` vs `(flag != 0) + '0'`.** Storing to a `char`, the ternary gives
 `setne %cl; add $0x30,%ecx` (32-bit add); the explicit bool sum gives a byte `add $0x30,%cl`
-(`BurgerKing_67F8B0::AppendReplayHeader_4CDF70`).
+(`InputRecorder_67F8B0::AppendReplayHeader_4CDF70`).
 
 **Adding a bool.** `setne al; add $0xE,%eax` comes from `(b != 0) + 14`, not `b + 14`
 (`GetSirenSampleIdx_417B80`).

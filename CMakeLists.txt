@@ -145,8 +145,8 @@ set(gta2_lib_src
   Source/miss2_8.hpp
   Source/miss2_8.cpp
   Source/miss2_xyz.hpp
-  Source/BurgerKing_67F8B0.hpp
-  Source/BurgerKing_67F8B0.cpp
+  Source/InputRecorder_67F8B0.hpp
+  Source/InputRecorder_67F8B0.cpp
   Source/Hud.hpp
   Source/Hud.cpp
   Source/MapRenderer.hpp

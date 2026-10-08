@@ -1,4 +1,4 @@
-#include "BurgerKing_67F8B0.hpp"
+#include "InputRecorder_67F8B0.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Hud.hpp"
@@ -32,8 +32,8 @@ struct mini_device_obj_data
     s32 dwSequence;
 };
 
-DEFINE_GLOBAL(BurgerKing_67F8B0, gBurgerKing_67F8B0, 0x67F8B0);
-DEFINE_GLOBAL(BurgerKing_1*, gBurgerKing_1_67B990, 0x67B990);
+DEFINE_GLOBAL(InputRecorder_67F8B0, gInputRecorder_67F8B0, 0x67F8B0);
+DEFINE_GLOBAL(InputDevices_1*, gInputDevices_67B990, 0x67B990);
 DEFINE_GLOBAL(DWORD, gKeyboardStatus_67B624, 0x67B624);
 DEFINE_GLOBAL(u8, gAltKeyDown_67B80C, 0x67B80C);
 DEFINE_GLOBAL(bool, gNeedKbAcquire_67B66C, 0x67B66C);
@@ -54,7 +54,7 @@ DEFINE_GUID(GUID_SysKeyboard, 0x6F1D2B61, 0xD5A0, 0x11CF, 0xBF, 0xC7, 0x44, 0x45
 const AttractFile attractFiles_62083C[ATTRACT_COUNT] = {"data\\attract\\attr1.rep", "data\\attract\\attr2.rep", "data\\attract\\attr3.rep"};
 
 MATCH_FUNC(0x498730)
-bool BurgerKing_1::acquire_input_device_498730(LPDIRECTINPUTDEVICEA pGamePadDevice)
+bool InputDevices_1::acquire_input_device_498730(LPDIRECTINPUTDEVICEA pGamePadDevice)
 {
     if (!pGamePadDevice)
     {
@@ -77,7 +77,7 @@ bool BurgerKing_1::acquire_input_device_498730(LPDIRECTINPUTDEVICEA pGamePadDevi
 }
 
 MATCH_FUNC(0x4987A0)
-void BurgerKing_1::free_input_devices_4987A0()
+void InputDevices_1::free_input_devices_4987A0()
 {
     if (gpDInput_67B804)
     {
@@ -98,7 +98,7 @@ void BurgerKing_1::free_input_devices_4987A0()
 }
 
 MATCH_FUNC(0x498800)
-BOOL __stdcall BurgerKing_1::make_input_devices_498800(HINSTANCE hInstance)
+BOOL __stdcall InputDevices_1::make_input_devices_498800(HINSTANCE hInstance)
 {
     DIPROPDWORD prop;
 
@@ -169,7 +169,7 @@ EXPORT BOOL CALLBACK DirectInputDeviceEnumCallBack_498910(LPCDIDEVICEINSTANCEA l
 
 // TODO: the debug strings are guesses, only code is compared
 MATCH_FUNC(0x4989C0)
-void BurgerKing_1::set_game_pad_device_properties_4989C0()
+void InputDevices_1::set_game_pad_device_properties_4989C0()
 {
     DIPROPDWORD prop;
     DIPROPRANGE range;
@@ -244,7 +244,7 @@ void BurgerKing_1::set_game_pad_device_properties_4989C0()
 }
 
 MATCH_FUNC(0x498BA0)
-bool BurgerKing_1::game_pads_init_498BA0()
+bool InputDevices_1::game_pads_init_498BA0()
 {
     if (gpDInput_67B804)
     {
@@ -285,7 +285,7 @@ bool BurgerKing_1::game_pads_init_498BA0()
 }
 
 MATCH_FUNC(0x498C00)
-void BurgerKing_1::get_registry_controls_498C00()
+void InputDevices_1::get_registry_controls_498C00()
 {
     for (u32 i = 0; i < 12; ++i)
     {
@@ -296,7 +296,7 @@ void BurgerKing_1::get_registry_controls_498C00()
 }
 
 MATCH_FUNC(0x498C40)
-void __stdcall BurgerKing_1::input_devices_init_498C40(HINSTANCE hInstance)
+void __stdcall InputDevices_1::input_devices_init_498C40(HINSTANCE hInstance)
 {
     get_registry_controls_498C00();
 
@@ -310,22 +310,22 @@ void __stdcall BurgerKing_1::input_devices_init_498C40(HINSTANCE hInstance)
 }
 
 MATCH_FUNC(0x498C80)
-void BurgerKing_1::AddKeyToInputBits_498C80(s32* a1, DIDEVICEOBJECTDATA* device_data_keys)
+void InputDevices_1::AddKeyToInputBits_498C80(s32* pInputBits, DIDEVICEOBJECTDATA* device_data_keys)
 {
-    *a1 = (device_data_keys->dwOfs << 12) | *a1;
+    *pInputBits = (device_data_keys->dwOfs << 12) | *pInputBits;
     if ((device_data_keys->dwData & 0x80) != 0)
     {
-        *a1 |= 0x200000;
+        *pInputBits |= 0x200000;
     }
 }
 
 // https://decomp.me/scratch/LbfoG ridiculous function to match
 MATCH_FUNC(0x498CB0)
-void BurgerKing_1::SetAltKeyState_498CB0(u32 a1)
+void InputDevices_1::SetAltKeyState_498CB0(u32 alt_down)
 {
     // An if/else on the DirectInput key state bit: VC6 turns it into a dword load + `shr $7,%al`,
     // the expression forms all give a byte load or `and $1`
-    if (a1 & 0x80)
+    if (alt_down & 0x80)
     {
         gAltKeyDown_67B80C = 1;
     }
@@ -336,7 +336,7 @@ void BurgerKing_1::SetAltKeyState_498CB0(u32 a1)
 }
 
 MATCH_FUNC(0x498CC0)
-void BurgerKing_1::read_keyboard_and_gamepad_498CC0()
+void InputDevices_1::read_keyboard_and_gamepad_498CC0()
 {
     gKeyboardStatus_67B624 = -1;
     if (gKeyboardDevice_67B5C0)
@@ -352,7 +352,7 @@ void BurgerKing_1::read_keyboard_and_gamepad_498CC0()
 }
 
 MATCH_FUNC(0x498D20)
-bool BurgerKing_1::game_pad_read_498D20()
+bool InputDevices_1::game_pad_read_498D20()
 {
     DWORD num_items = -1;
     if (acquire_input_device_498730(gGamePadDevice_67B6C0))
@@ -372,7 +372,7 @@ bool BurgerKing_1::game_pad_read_498D20()
 
 // https://decomp.me/scratch/75Pau
 WIP_FUNC(0x498DA0)
-void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
+void InputDevices_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
 {
     WIP_IMPLEMENTED;
     bool bFirstPass = true;
@@ -463,14 +463,14 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                         {
                             if (bUnknown)
                             {
-                                gBurgerKing_67F8B0.set_input_4CDCF0(input);
+                                gInputRecorder_67F8B0.set_input_4CDCF0(input);
                             }
                         }
                         else
                         {
                             if (bUnknown)
                             {
-                                gBurgerKing_67F8B0.clear_input_4CDD10(input);
+                                gInputRecorder_67F8B0.clear_input_4CDD10(input);
                             }
                         }
                     }
@@ -516,7 +516,7 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                                     {
                                         bPressed = true;
                                     }
-                                    else if (gBurgerKing_67F8B0.IsInputSet_44C050(input))
+                                    else if (gInputRecorder_67F8B0.IsInputSet_44C050(input))
                                     {
                                         bRelease = true;
                                     }
@@ -529,7 +529,7 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                                     {
                                         bPressed = true;
                                     }
-                                    else if (gBurgerKing_67F8B0.IsInputSet_44C050(input))
+                                    else if (gInputRecorder_67F8B0.IsInputSet_44C050(input))
                                     {
                                         bRelease = true;
                                     }
@@ -555,15 +555,15 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                             bHandled = true;
                             if (bUnknown)
                             {
-                                gBurgerKing_67F8B0.set_input_4CDCF0(input);
+                                gInputRecorder_67F8B0.set_input_4CDCF0(input);
                             }
                         }
                         else if (bRelease)
                         {
                             bReleased = 1;
-                            if (bUnknown && gBurgerKing_67F8B0.IsInputSet_44C050(input))
+                            if (bUnknown && gInputRecorder_67F8B0.IsInputSet_44C050(input))
                             {
-                                gBurgerKing_67F8B0.clear_input_4CDD10(input);
+                                gInputRecorder_67F8B0.clear_input_4CDD10(input);
                             }
                             bHandled = true;
                         }
@@ -599,31 +599,31 @@ void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
 // ================================================
 
 MATCH_FUNC(0x4cdcd0)
-void BurgerKing_67F8B0::StaticShutdown_4CDCD0()
+void InputRecorder_67F8B0::StaticShutdown_4CDCD0()
 {
-    gBurgerKing_67F8B0.Shutdown_4CEA00();
+    gInputRecorder_67F8B0.Shutdown_4CEA00();
 }
 
 MATCH_FUNC(0x4cdce0)
-void BurgerKing_67F8B0::clear_inputs_4CDCE0()
+void InputRecorder_67F8B0::clear_inputs_4CDCE0()
 {
     field_4_input_bits &= ~0xFFFFF000;
 }
 
 MATCH_FUNC(0x4cdcf0)
-void BurgerKing_67F8B0::set_input_4CDCF0(s32 mask_idx)
+void InputRecorder_67F8B0::set_input_4CDCF0(s32 mask_idx)
 {
     field_4_input_bits |= field_8_input_masks[mask_idx];
 }
 
 MATCH_FUNC(0x4cdd10)
-void BurgerKing_67F8B0::clear_input_4CDD10(s32 mask_idx)
+void InputRecorder_67F8B0::clear_input_4CDD10(s32 mask_idx)
 {
     field_4_input_bits &= ~field_8_input_masks[mask_idx];
 }
 
 MATCH_FUNC(0x4cdd80)
-bool BurgerKing_67F8B0::should_ignore_input_4CDD80(s32 dinput_key)
+bool InputRecorder_67F8B0::should_ignore_input_4CDD80(s32 dinput_key)
 {
     return dinput_key == DIK_NUMPAD1 || dinput_key == DIK_NUMPAD2 || dinput_key == DIK_NUMPAD3 || dinput_key == DIK_NUMPAD4 ||
         dinput_key == DIK_NUMPAD5 || dinput_key == DIK_NUMPAD6 || dinput_key == DIK_NUMPAD7 || dinput_key == DIK_NUMPAD8 ||
@@ -632,13 +632,13 @@ bool BurgerKing_67F8B0::should_ignore_input_4CDD80(s32 dinput_key)
 }
 
 MATCH_FUNC(0x4cddf0)
-bool BurgerKing_67F8B0::should_ignore_input_4CDDF0(s32 dinput_key)
+bool InputRecorder_67F8B0::should_ignore_input_4CDDF0(s32 dinput_key)
 {
     return !should_ignore_input_4CDD80(dinput_key) && dinput_key != DIK_ADD;
 }
 
 MATCH_FUNC(0x4cde20)
-void BurgerKing_67F8B0::save_replay_record_4CDE20(u32 inputs)
+void InputRecorder_67F8B0::save_replay_record_4CDE20(u32 inputs)
 {
     if ((inputs & 0x1FF000) != 0)
     {
@@ -650,7 +650,7 @@ void BurgerKing_67F8B0::save_replay_record_4CDE20(u32 inputs)
 
     if (inputs)
     {
-        if (field_75340_rec_buf_idx < 40000 && field_38_replay_state == Live_0)
+        if (field_75340_rec_buf_idx < k_max_records && field_38_replay_state == Live_0)
         {
             field_3C_rec_buff[field_75340_rec_buf_idx].field_4_inputs = inputs;
             field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx = gpRng_67AB34->get_cur_rng_41CFE0();
@@ -659,7 +659,7 @@ void BurgerKing_67F8B0::save_replay_record_4CDE20(u32 inputs)
             if (bConstant_replay_save_67D5C4 == 1)
             {
                 const s32 rec_idx = this->field_75340_rec_buf_idx;
-                u32 rec_len = sizeof(BurgerKingBurger_0xC);
+                u32 rec_len = sizeof(InputRecord_C);
                 File::AppendBufferToFile_4A6F50("test\\replay.rep", &field_3C_rec_buff[rec_idx], &rec_len);
             }
 
@@ -669,12 +669,12 @@ void BurgerKing_67F8B0::save_replay_record_4CDE20(u32 inputs)
 }
 
 MATCH_FUNC(0x4cded0)
-void BurgerKing_67F8B0::SaveReplay_4CDED0()
+void InputRecorder_67F8B0::SaveReplay_4CDED0()
 {
-    if (bConstant_replay_save_67D5C4 != 1 && bDo_release_replay_67D4EB && field_38_replay_state != Unkn_2 && field_75340_rec_buf_idx > 0 &&
+    if (bConstant_replay_save_67D5C4 != 1 && bDo_release_replay_67D4EB && field_38_replay_state != Disabled_2 && field_75340_rec_buf_idx > 0 &&
         !RecOrPlayBackState_4CEDF0())
     {
-        size_t len = sizeof(BurgerKingBurger_0xC) * field_75340_rec_buf_idx;
+        size_t len = sizeof(InputRecord_C) * field_75340_rec_buf_idx;
         File::AppendBufferToFile_4A6F50("test\\replay.rep", field_3C_rec_buff, &len);
     }
 }
@@ -682,7 +682,7 @@ void BurgerKing_67F8B0::SaveReplay_4CDED0()
 // https://decomp.me/scratch/c6Gy5
 // Register allocation differs, see docs/match_attempts.md
 MATCH_FUNC(0x4cdf30)
-void BurgerKing_67F8B0::modify_inputs_4CDF30(s32 match_mask)
+void InputRecorder_67F8B0::modify_inputs_4CDF30(s32 match_mask)
 {
 
     for (s32 i = 0; i < 12; i++)
@@ -707,7 +707,7 @@ void BurgerKing_67F8B0::modify_inputs_4CDF30(s32 match_mask)
 }
 
 MATCH_FUNC(0x4cdf70)
-void BurgerKing_67F8B0::AppendReplayHeader_4CDF70()
+void InputRecorder_67F8B0::AppendReplayHeader_4CDF70()
 {
     ReplayHeader_10C header;
     DWORD computer_name_size;
@@ -774,7 +774,7 @@ void BurgerKing_67F8B0::AppendReplayHeader_4CDF70()
 }
 
 MATCH_FUNC(0x4ce380)
-void BurgerKing_67F8B0::LoadReplayHeader_4CE380(char_type bLoadDebug)
+void InputRecorder_67F8B0::LoadReplayHeader_4CE380(char_type bLoadDebug)
 {
     u32 header_size = sizeof(ReplayHeader_10C);
     ReplayHeader_10C header;
@@ -828,7 +828,7 @@ void BurgerKing_67F8B0::LoadReplayHeader_4CE380(char_type bLoadDebug)
 }
 
 MATCH_FUNC(0x4ce650)
-void BurgerKing_67F8B0::VerifyAttractFilesExist_4CE650()
+void InputRecorder_67F8B0::VerifyAttractFilesExist_4CE650()
 {
     const AttractFile* attr1FilePath = &attractFiles_62083C[0];
     for (s32 i = 0; i < 3; i++)
@@ -846,7 +846,7 @@ void BurgerKing_67F8B0::VerifyAttractFilesExist_4CE650()
 }
 
 MATCH_FUNC(0x4ce6e0)
-void BurgerKing_67F8B0::GetNextAttrReplay_4CE6E0(char_type* pAttrPathOut)
+void InputRecorder_67F8B0::GetNextAttrReplay_4CE6E0(char_type* pAttrPathOut)
 {
     strcpy(pAttrPathOut, attractFiles_62083C[field_75345_attract_idx].field_0_path);
 
@@ -857,12 +857,12 @@ void BurgerKing_67F8B0::GetNextAttrReplay_4CE6E0(char_type* pAttrPathOut)
 }
 
 MATCH_FUNC(0x4ce740)
-void BurgerKing_67F8B0::input_init_replay_4CE740(HINSTANCE hInstance)
+void InputRecorder_67F8B0::input_init_replay_4CE740(HINSTANCE hInstance)
 {
     char FileName[256];
 
     this->field_0_bShutDown = 0;
-    BurgerKing_67F8B0::GetNextAttrReplay_4CE6E0(FileName);
+    InputRecorder_67F8B0::GetNextAttrReplay_4CE6E0(FileName);
     this->field_8_input_masks[0] = 1;
     this->field_8_input_masks[1] = 2;
     this->field_8_input_masks[2] = 4;
@@ -876,8 +876,8 @@ void BurgerKing_67F8B0::input_init_replay_4CE740(HINSTANCE hInstance)
     this->field_8_input_masks[10] = 0x400;
     this->field_8_input_masks[11] = 0x800;
     this->field_4_input_bits = 0;
-    this->field_38_replay_state = Replay_3;
-    gBurgerKing_1_67B990->input_devices_init_498C40(hInstance);
+    this->field_38_replay_state = Attract_3;
+    gInputDevices_67B990->input_devices_init_498C40(hInstance);
     memset(this->field_3C_rec_buff, 0, sizeof(this->field_3C_rec_buff));
     this->field_75340_rec_buf_idx = 0;
     bConstant_replay_save_67D5C4 = 0;
@@ -887,8 +887,8 @@ void BurgerKing_67F8B0::input_init_replay_4CE740(HINSTANCE hInstance)
     u32 bufLen = sizeof(field_3C_rec_buff);
     const s32 remainderSize = File::GetRemainderSize_4A7250(this->field_3C_rec_buff, &bufLen);
     File::Global_Close_4A70C0();
-    this->field_7533C_used_recs_count = remainderSize / sizeof(BurgerKingBurger_0xC);
-    if (sizeof(BurgerKingBurger_0xC) * (remainderSize / sizeof(BurgerKingBurger_0xC)) != remainderSize)
+    this->field_7533C_used_recs_count = remainderSize / sizeof(InputRecord_C);
+    if (sizeof(InputRecord_C) * (remainderSize / sizeof(InputRecord_C)) != remainderSize)
     {
         FatalError_4A38C0(Gta2Error::ReplayFileTooLarge, "C:\\Splitting\\Gta2\\Source\\input.cpp", 616, remainderSize);
     }
@@ -900,7 +900,7 @@ void BurgerKing_67F8B0::input_init_replay_4CE740(HINSTANCE hInstance)
 }
 
 MATCH_FUNC(0x4ce880)
-void BurgerKing_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
+void InputRecorder_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
 {
     field_0_bShutDown = 0;
     field_8_input_masks[0] = 1;
@@ -918,13 +918,13 @@ void BurgerKing_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
     field_4_input_bits = 0;
     field_38_replay_state = Live_0;
 
-    gBurgerKing_1_67B990 = new BurgerKing_1();
-    if (!gBurgerKing_1_67B990)
+    gInputDevices_67B990 = new InputDevices_1();
+    if (!gInputDevices_67B990)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\input.cpp", 675);
     }
 
-    gBurgerKing_1_67B990->input_devices_init_498C40(hInstance);
+    gInputDevices_67B990->input_devices_init_498C40(hInstance);
     memset(field_3C_rec_buff, 0, sizeof(field_3C_rec_buff));
 
     field_75340_rec_buf_idx = 0;
@@ -933,7 +933,7 @@ void BurgerKing_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
     {
         bConstant_replay_save_67D5C4 = 0;
         File::Global_Open_4A7060("test\\replay.rep");
-        BurgerKing_67F8B0::LoadReplayHeader_4CE380(1);
+        InputRecorder_67F8B0::LoadReplayHeader_4CE380(1);
         u32 size = 480000;
         size_t remainderSize = File::GetRemainderSize_4A7250(field_3C_rec_buff, &size);
         File::Global_Close_4A70C0();
@@ -949,7 +949,7 @@ void BurgerKing_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
         if (bDo_release_replay_67D4EB)
         {
             File::CreateFile_4A7000("test\\replay.rep");
-            BurgerKing_67F8B0::AppendReplayHeader_4CDF70();
+            InputRecorder_67F8B0::AppendReplayHeader_4CDF70();
         }
         field_38_replay_state = Live_0;
     }
@@ -960,26 +960,26 @@ void BurgerKing_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
             if (bDo_release_replay_67D4EB)
             {
                 File::CreateFile_4A7000("test\\replay.rep");
-                BurgerKing_67F8B0::AppendReplayHeader_4CDF70();
+                InputRecorder_67F8B0::AppendReplayHeader_4CDF70();
             }
         }
     }
 }
 
 MATCH_FUNC(0x4cea00)
-void BurgerKing_67F8B0::Shutdown_4CEA00() // 4CEA00
+void InputRecorder_67F8B0::Shutdown_4CEA00() // 4CEA00
 {
     if (!field_0_bShutDown)
     {
         field_0_bShutDown = 1;
-        gBurgerKing_1_67B990->free_input_devices_4987A0();
+        gInputDevices_67B990->free_input_devices_4987A0();
         SaveReplay_4CDED0();
-        GTA2_DELETE_AND_NULL(gBurgerKing_1_67B990);
+        GTA2_DELETE_AND_NULL(gInputDevices_67B990);
     }
 }
 
 MATCH_FUNC(0x4cea40)
-void BurgerKing_67F8B0::replay_save_4CEA40(u32* input_bits)
+void InputRecorder_67F8B0::replay_save_4CEA40(u32* input_bits)
 {
     if ((*input_bits & 0xFFFFF000) == 0x37000)
     {
@@ -994,7 +994,7 @@ void BurgerKing_67F8B0::replay_save_4CEA40(u32* input_bits)
         // Clear out the unused records
         memset(&this->field_3C_rec_buff[this->field_75340_rec_buf_idx],
                0,
-               sizeof(BurgerKingBurger_0xC) * ((GTA2_COUNTOF(field_3C_rec_buff) - field_75340_rec_buf_idx)));
+               sizeof(InputRecord_C) * ((GTA2_COUNTOF(field_3C_rec_buff) - field_75340_rec_buf_idx)));
         if (bConstant_replay_save_67D5C4)
         {
             SaveReplay_4CDED0();
@@ -1004,12 +1004,12 @@ void BurgerKing_67F8B0::replay_save_4CEA40(u32* input_bits)
 
 // https://decomp.me/scratch/t5tNu
 MATCH_FUNC(0x4ceac0)
-u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
+u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
 {
     s32 inputs;
     s32 saved_input = field_4_input_bits;
     u32* control_status = (u32*)&field_4_input_bits;
-    BurgerKing_67F8B0::clear_inputs_4CDCE0();
+    InputRecorder_67F8B0::clear_inputs_4CDCE0();
 
     s32 replay_state = field_38_replay_state;
 
@@ -1018,7 +1018,7 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
 
     switch (replay_state)
     {
-        case Unkn_1:
+        case Playback_1:
             if (gpRng_67AB34->get_cur_rng_41CFE0() >= (u32)field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx)
             {
                 inputs = field_3C_rec_buff[field_75340_rec_buf_idx].field_4_inputs;
@@ -1034,7 +1034,7 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
                         if (bDo_release_replay_67D4EB)
                         {
                             File::CreateFile_4A7000("test\\replay.rep");
-                            BurgerKing_67F8B0::AppendReplayHeader_4CDF70();
+                            InputRecorder_67F8B0::AppendReplayHeader_4CDF70();
                         }
                         field_38_replay_state = Live_0;
                     }
@@ -1048,7 +1048,7 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
                 {
                     saved_input = field_8_input_masks[3 * field_75340_rec_buf_idx + 8];
                 }
-                BurgerKing_67F8B0::modify_inputs_4CDF30(inputs);
+                InputRecorder_67F8B0::modify_inputs_4CDF30(inputs);
             }
             if (field_75344_bInputEnabled)
             {
@@ -1057,14 +1057,14 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
                 if ((saved_input & 0x1FF000) == 0 || (*control_status & 0x1FF000) == 0)
                 {
                     *control_status = 0;
-                    gBurgerKing_1_67B990->read_input_device_498DA0((s32*)control_status, 0);
+                    gInputDevices_67B990->read_input_device_498DA0((s32*)control_status, 0);
                     *control_status |= saved_input;
-                    BurgerKing_67F8B0::replay_save_4CEA40(control_status);
+                    InputRecorder_67F8B0::replay_save_4CEA40(control_status);
                 }
             }
             break;
 
-        case Replay_3:
+        case Attract_3:
             if (gpRng_67AB34->get_cur_rng_41CFE0() >= (u32)field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx)
             {
                 inputs = field_3C_rec_buff[field_75340_rec_buf_idx].field_4_inputs;
@@ -1082,7 +1082,7 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
                 {
                     saved_input = field_8_input_masks[3 * field_75340_rec_buf_idx + 8];
                 }
-                BurgerKing_67F8B0::modify_inputs_4CDF30(inputs);
+                InputRecorder_67F8B0::modify_inputs_4CDF30(inputs);
             }
             if (field_75344_bInputEnabled)
             {
@@ -1091,13 +1091,13 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
                 if ((saved_input & 0x1FF000) == 0 || (*control_status & 0x1FF000) == 0)
                 {
                     *control_status = 0;
-                    gBurgerKing_1_67B990->read_input_device_498DA0((s32*)control_status, 0);
+                    gInputDevices_67B990->read_input_device_498DA0((s32*)control_status, 0);
                     if ((*control_status & 0xFFFFF000) != 0)
                     {
                         gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, GameExitType::ReplayExit_6);
                     }
                     *control_status |= saved_input;
-                    BurgerKing_67F8B0::replay_save_4CEA40(control_status);
+                    InputRecorder_67F8B0::replay_save_4CEA40(control_status);
                 }
             }
             break;
@@ -1107,18 +1107,18 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
             {
                 if (!gGame_0x40_67E008->Is_game_state_Paused_2_416BC0())
                 {
-                    gBurgerKing_1_67B990->read_input_device_498DA0((s32*)control_status, 1);
-                    BurgerKing_67F8B0::save_replay_inputs_4CED00(*control_status, saved_input);
+                    gInputDevices_67B990->read_input_device_498DA0((s32*)control_status, 1);
+                    InputRecorder_67F8B0::save_replay_inputs_4CED00(*control_status, saved_input);
                 }
                 else
                 {
-                    gBurgerKing_1_67B990->read_input_device_498DA0((s32*)control_status, 0);
-                    if (BurgerKing_67F8B0::should_ignore_input_4CDDF0(((u32)*control_status >> 12) & 0x1FF))
+                    gInputDevices_67B990->read_input_device_498DA0((s32*)control_status, 0);
+                    if (InputRecorder_67F8B0::should_ignore_input_4CDDF0(((u32)*control_status >> 12) & 0x1FF))
                     {
                         *control_status = remove_bit;
                     }
                 }
-                BurgerKing_67F8B0::replay_save_4CEA40(control_status);
+                InputRecorder_67F8B0::replay_save_4CEA40(control_status);
             }
             break;
     }
@@ -1135,7 +1135,7 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
 }
 
 MATCH_FUNC(0x4ced00)
-void BurgerKing_67F8B0::save_replay_inputs_4CED00(s32 input_old, s32 input_new)
+void InputRecorder_67F8B0::save_replay_inputs_4CED00(s32 input_old, s32 input_new)
 {
     u32 calc_inputs = 0;
     if (input_old != input_new)
@@ -1196,13 +1196,13 @@ void BurgerKing_67F8B0::save_replay_inputs_4CED00(s32 input_old, s32 input_new)
         }
         if (calc_inputs)
         {
-            BurgerKing_67F8B0::save_replay_record_4CDE20(calc_inputs);
+            InputRecorder_67F8B0::save_replay_record_4CDE20(calc_inputs);
         }
     }
 }
 
 MATCH_FUNC(0x4ced90)
-void BurgerKing_67F8B0::DisplayInputBits_4CED90()
+void InputRecorder_67F8B0::DisplayInputBits_4CED90()
 {
     s8 i = 0;
     s32 bit_idx = 0;
@@ -1219,9 +1219,9 @@ void BurgerKing_67F8B0::DisplayInputBits_4CED90()
 }
 
 MATCH_FUNC(0x4cedf0)
-bool BurgerKing_67F8B0::RecOrPlayBackState_4CEDF0()
+bool InputRecorder_67F8B0::RecOrPlayBackState_4CEDF0()
 {
-    if (field_38_replay_state == Unkn_1 || field_38_replay_state == Replay_3)
+    if (field_38_replay_state == Playback_1 || field_38_replay_state == Attract_3)
     {
         return true;
     }
@@ -1229,7 +1229,7 @@ bool BurgerKing_67F8B0::RecOrPlayBackState_4CEDF0()
 }
 
 MATCH_FUNC(0x4cee10)
-void BurgerKing_67F8B0::ShowInput_4CEE10()
+void InputRecorder_67F8B0::ShowInput_4CEE10()
 {
     if (RecOrPlayBackState_4CEDF0())
     {

@@ -114,7 +114,7 @@ original's registers and entry push. Left: VC6 drops the entry flag test and kee
 original the reverse. Non-volatile with the entry `if (!bDone)` folds it (70); volatile gives the right
 flow but the wrong prologue (86).
 
-## BurgerKing_1::SetAltKeyState_498CB0 (WIP, was STUB)
+## InputDevices_1::SetAltKeyState_498CB0 (WIP, was STUB)
 
 Target: `mov 4(%esp),%eax; shr $7,%al; mov %al,gAltKeyDown_67B80C; ret $4`. It loads the whole
 dword, then shifts only `al`. Every spelling below compiles to a byte load
@@ -1647,7 +1647,7 @@ Registers only:
 - `Particle_4C::PoolUpdate_53D260` (112): the original keeps 1 in `bl` for `timer = 1` and `return 1`.
 - `Char_B4::state_0_54DDF0` (428): an explicit `test %bl` after `and $3` on the non-null `pAhead` path; the
   map pointer goes to `edx` after z.
-- `BurgerKing_1::read_input_device_498DA0` (201): the original reuses one flag for the first pass and
+- `InputDevices_1::read_input_device_498DA0` (201): the original reuses one flag for the first pass and
   `handled`.
 - `gtx_0x106C::BuildCarInfoContainer_5AA9A0` (16): the original keeps `num_remaps + 0xE` in `edi` (shared
   with the cached `this`); every door CSE form moves `this` to `ebp` (76-84). The permuter segfaults on it.
@@ -1829,7 +1829,7 @@ No new matches. Scores below are `permuter_score.py` lines.
   `unused` gives 126; an early `v16.x` store changes nothing (16).
 ### Near-miss pass, round 5 batch (2026-10-05), no new matches
 
-- `BurgerKing_1::SetAltKeyState_498CB0` (1): still a byte load. Also tried `(u8)(u16)a1`, `(u8)(s16)a1`,
+- `InputDevices_1::SetAltKeyState_498CB0` (1): still a byte load. Also tried `(u8)(u16)a1`, `(u8)(s16)a1`,
   `(s32)(u8)a1`, `(u8)(a1 & 0xFFFF)`, store then `>>=` on the global, `u8 v; v = a1; v >>= 7`, static inline
   helpers taking `const u8&`, `u32`, `s32`, ternaries `((u8)a1 & 0x80) ? 1 : 0`, and `u16`/`s16` parameters
   (header). `(a1 & 0x80) >> 7` and `(a1 & 0x80) ? 1 : 0` give `shr eax` + `and $1,%al`.
@@ -1846,7 +1846,7 @@ No new matches. Scores below are `permuter_score.py` lines.
 - `DoorData_10::Init_49C340` (8): a `gmp_block_info* pBlock = &blockData` for the case stores (8, VC6 still
   hoists the tile load above the v8 store).
 - `PedGroup::sub_4C8E60` (6): it is the `_$E` atexit destructor of `pedGroups_67EF20`; not attempted.
-- `BurgerKing_67F8B0::modify_inputs_4CDF30` (8): the toggle as a static inline `ToggleBits(s32&, s32)` (12).
+- `InputRecorder_67F8B0::modify_inputs_4CDF30` (8): the toggle as a static inline `ToggleBits(s32&, s32)` (12).
 - `Car_14::SpawnTrafficCar_582480` (11): both case 1 and case 2 written `if (!field_8) {x_step = 1 ...} else
   {... x_step = -1}`: with identical statement order VC6 merges the whole case tails (23); with case 1's then
   block as `x_step = 1; xpos = ...` (or case 2's) the else blocks merge but the surviving `-1` block is
@@ -2451,7 +2451,7 @@ Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 
   bFbi, bCop, bSwat, bArmy, bGangA, bGangB) *after* the scoring block, jumping back to it; the French test
   calls `get_occupation_403980` once per compare. Writing every case's six flag stores in that fixed order
   is worse (260 / 300), with the per-compare getters 260 / 232. The current (tuned) store orders stay.
-- Triage by real (non-jump) differing lines: `BurgerKing_1::read_input_device_498DA0` 104 (53 lines, all
+- Triage by real (non-jump) differing lines: `InputDevices_1::read_input_device_498DA0` 104 (53 lines, all
   stack-slot shuffles of the four input dwords, see its entry), `Object_2C::HandleSpriteZCollision_5238B0`
   146 (82, the `field_50 == 1` branch and tail layout), `NetPlay::ReceiveGameMessage_521890` 168 (115,
   `call *%edi` through a register and base/index order in `0x760(%esi,%ebp)`). `TagGameHudUpdate_4DADA0`
@@ -2899,7 +2899,7 @@ Scores are `quick_score.sh` lines.
   layout and a `push edi` move closer). ebx/ebp/edi are still pushed at the top (the original pushes them after
   `mov 0x18(%esi),%eax` in the next block, the late-push quirk); a non-volatile `bMoved` is far worse (524),
   `x_vec`/`y_vec` declaration order and `bMoved` assigned after the return: 220.
-- `BurgerKing_1::read_input_device_498DA0` (104): the original's entry stores are `0 -> 0x14` (the slot
+- `InputDevices_1::read_input_device_498DA0` (104): the original's entry stores are `0 -> 0x14` (the slot
   `padItems` later uses) and `1 -> 0x18` (the slot `kbResult` later uses), ours `bReleased = 0` and `padItems = 1`
   in other slots. `DWORD padItems = 0; HRESULT kbResult = 1;` at the top, with `bReleased` uninitialised or
   declared in the loop, and `padResult` hoisted: 134-148, so the slot sharing is VC6's, not the source's.

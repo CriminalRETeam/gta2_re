@@ -3,7 +3,7 @@
 #include "3rdParty/GTA2Hax/DmaVideo/DmaVideo.hpp"
 #include "3rdParty/GTA2Hax/d3ddll/d3ddll.hpp"
 #include "Bink.hpp"
-#include "BurgerKing_67F8B0.hpp"
+#include "InputRecorder_67F8B0.hpp"
 #include "Car_10.hpp"
 #include "Car_BC.hpp"
 #include "CarAI_78.hpp"

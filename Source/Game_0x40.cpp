@@ -1,6 +1,6 @@
 #include "Game_0x40.hpp"
 #include "Ambulance_110.hpp"
-#include "BurgerKing_67F8B0.hpp"
+#include "InputRecorder_67F8B0.hpp"
 #include "Camera.hpp"
 #include "CarInfo_808.hpp"
 #include "Car_BC.hpp"
@@ -615,9 +615,9 @@ void Game_0x40::Unpause_4B96C0()
     {
         field_0_game_state = GameState::Running_1;
 
-        if (gBurgerKing_1_67B990)
+        if (gInputDevices_67B990)
         {
-            gBurgerKing_1_67B990->read_keyboard_and_gamepad_498CC0();
+            gInputDevices_67B990->read_keyboard_and_gamepad_498CC0();
         }
 
         Player* pPlayer = this->field_38_orf1;
@@ -625,7 +625,7 @@ void Game_0x40::Unpause_4B96C0()
         {
             pPlayer->DisableInputs_569F40();
             field_38_orf1->ClearInputs_56A6D0();
-            gBurgerKing_67F8B0.field_4_input_bits &= ~0xFFFu;
+            gInputRecorder_67F8B0.field_4_input_bits &= ~0xFFFu;
         }
     }
 }

@@ -1,7 +1,7 @@
 #include "winmain.hpp"
 #include "hud_message_priority.hpp"
 #include "Bink.hpp"
-#include "BurgerKing_67F8B0.hpp"
+#include "InputRecorder_67F8B0.hpp"
 #include "Char_Pool.hpp"
 #include "Frontend.hpp"
 #include "Function.hpp"
@@ -34,7 +34,7 @@
 // for force links
 #include "3rdParty/GTA2Hax/d3ddll/d3ddll.hpp"
 #include "Ambulance_110.hpp"
-#include "BurgerKing_67F8B0.hpp"
+#include "InputRecorder_67F8B0.hpp"
 #include "Camera.hpp"
 #include "Car_BC.hpp"
 #include "Crushers.hpp"
@@ -267,28 +267,28 @@ void force_link()
     miss2.remove_503180();
     miss2.remove_5031E0(0);
 
-    BurgerKing_67F8B0 burgerking;
-    burgerking.StaticShutdown_4CDCD0();
-    burgerking.clear_inputs_4CDCE0();
-    burgerking.set_input_4CDCF0(0);
-    burgerking.clear_input_4CDD10(0);
-    burgerking.should_ignore_input_4CDD80(0);
-    burgerking.should_ignore_input_4CDDF0(0);
-    burgerking.save_replay_record_4CDE20(0);
-    burgerking.SaveReplay_4CDED0();
-    burgerking.modify_inputs_4CDF30(0);
-    burgerking.AppendReplayHeader_4CDF70();
-    burgerking.LoadReplayHeader_4CE380(0);
-    burgerking.VerifyAttractFilesExist_4CE650();
-    burgerking.GetNextAttrReplay_4CE6E0(0);
-    burgerking.input_init_replay_4CE740(0);
-    burgerking.input_init_live_4CE880(0);
-    burgerking.replay_save_4CEA40(0);
-    burgerking.get_input_bits_4CEAC0();
-    burgerking.save_replay_inputs_4CED00(0, 0);
-    burgerking.DisplayInputBits_4CED90();
-    burgerking.RecOrPlayBackState_4CEDF0();
-    burgerking.ShowInput_4CEE10();
+    InputRecorder_67F8B0 input_recorder;
+    input_recorder.StaticShutdown_4CDCD0();
+    input_recorder.clear_inputs_4CDCE0();
+    input_recorder.set_input_4CDCF0(0);
+    input_recorder.clear_input_4CDD10(0);
+    input_recorder.should_ignore_input_4CDD80(0);
+    input_recorder.should_ignore_input_4CDDF0(0);
+    input_recorder.save_replay_record_4CDE20(0);
+    input_recorder.SaveReplay_4CDED0();
+    input_recorder.modify_inputs_4CDF30(0);
+    input_recorder.AppendReplayHeader_4CDF70();
+    input_recorder.LoadReplayHeader_4CE380(0);
+    input_recorder.VerifyAttractFilesExist_4CE650();
+    input_recorder.GetNextAttrReplay_4CE6E0(0);
+    input_recorder.input_init_replay_4CE740(0);
+    input_recorder.input_init_live_4CE880(0);
+    input_recorder.replay_save_4CEA40(0);
+    input_recorder.get_input_bits_4CEAC0();
+    input_recorder.save_replay_inputs_4CED00(0, 0);
+    input_recorder.DisplayInputBits_4CED90();
+    input_recorder.RecOrPlayBackState_4CEDF0();
+    input_recorder.ShowInput_4CEE10();
 
     Hud_2B00 garox;
 
@@ -310,8 +310,8 @@ void force_link()
 
     FirefighterPool_54 tango_54;
 
-    PedRelationshipTable_500 hamburger_500;
-    hamburger_500.FreeEntry_474CC0(0);
+    PedRelationshipTable_500 ped_relationship_table;
+    ped_relationship_table.FreeEntry_474CC0(0);
 
     CollisionCounters_C collide_C;
 
@@ -930,12 +930,12 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
 {
     if (bReplayMode_6F5B71)
     {
-        gBurgerKing_67F8B0.input_init_replay_4CE740(gHInstance_708220);
+        gInputRecorder_67F8B0.input_init_replay_4CE740(gHInstance_708220);
         bReplayMode_6F5B71 = 0;
     }
     else
     {
-        gBurgerKing_67F8B0.input_init_live_4CE880(gHInstance_708220);
+        gInputRecorder_67F8B0.input_init_live_4CE880(gHInstance_708220);
     }
 
     gRoot_sound_66B038.Set3DSound_40F160(gRegistry_6FF968.Get_Sound_Settting_586A70("do_3d_sound"));
@@ -1433,7 +1433,7 @@ EXPORT void __stdcall do_network_and_local_inputs_4DAF30()
                 } while (gNetInUsePlayerBits_6F56B8);
             }
 
-            gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8].field_0_Inputs = gBurgerKing_67F8B0.get_input_bits_4CEAC0();
+            gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8].field_0_Inputs = gInputRecorder_67F8B0.get_input_bits_4CEAC0();
             Net_Send_Our_Inputs_4DACB0();
             Draw_4DA7B0();
             Net_4DA9F0();
@@ -1461,7 +1461,7 @@ EXPORT void __stdcall do_network_and_local_inputs_4DAF30()
     }
     else
     {
-        const u32 inputs = gBurgerKing_67F8B0.get_input_bits_4CEAC0();
+        const u32 inputs = gInputRecorder_67F8B0.get_input_bits_4CEAC0();
         gGame_0x40_67E008->field_38_orf1->SetInputs_565740(inputs);
     }
 }
@@ -1802,7 +1802,7 @@ EXPORT void __stdcall j_gbh_init_5D7CA0()
 MATCH_FUNC(0x4DA700)
 EXPORT void __stdcall CleanUpInputAndOthers_4DA700()
 {
-    gBurgerKing_67F8B0.Shutdown_4CEA00();
+    gInputRecorder_67F8B0.Shutdown_4CEA00();
     if (gGame_0x40_67E008)
     {
         GTA2_DELETE_AND_NULL(gGame_0x40_67E008);
@@ -1983,9 +1983,9 @@ EXPORT void __stdcall SetStartMode_5D9230(s32 startMode)
 MATCH_FUNC(0x498D10)
 EXPORT void Input_Read_498D10()
 {
-    if (gBurgerKing_1_67B990)
+    if (gInputDevices_67B990)
     {
-        gBurgerKing_1_67B990->read_keyboard_and_gamepad_498CC0();
+        gInputDevices_67B990->read_keyboard_and_gamepad_498CC0();
     }
 }
 

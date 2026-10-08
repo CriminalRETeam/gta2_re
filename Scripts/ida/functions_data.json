@@ -5577,13 +5577,13 @@
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_1::free_input_devices_4987A0",
+        "name": "InputDevices_1::free_input_devices_4987A0",
         "v96f_address": "0x44bad0",
         "v105_address": "0x4987a0",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_1::make_input_devices_498800",
+        "name": "InputDevices_1::make_input_devices_498800",
         "v96f_address": "0x44bb30",
         "v105_address": "0x498800",
         "v96f_auto": true
@@ -5595,43 +5595,43 @@
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_1::set_game_pad_device_properties_4989C0",
+        "name": "InputDevices_1::set_game_pad_device_properties_4989C0",
         "v96f_address": "0x44bcf0",
         "v105_address": "0x4989c0",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_1::game_pads_init_498BA0",
+        "name": "InputDevices_1::game_pads_init_498BA0",
         "v96f_address": "0x44bed0",
         "v105_address": "0x498ba0",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_1::get_registry_controls_498C00",
+        "name": "InputDevices_1::get_registry_controls_498C00",
         "v96f_address": "0x44bf30",
         "v105_address": "0x498c00",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_1::input_devices_init_498C40",
+        "name": "InputDevices_1::input_devices_init_498C40",
         "v96f_address": "0x44bf70",
         "v105_address": "0x498c40",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_1::AddKeyToInputBits_498C80",
+        "name": "InputDevices_1::AddKeyToInputBits_498C80",
         "v96f_address": "0x44bfb0",
         "v105_address": "0x498c80",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_1::SetAltKeyState_498CB0",
+        "name": "InputDevices_1::SetAltKeyState_498CB0",
         "v96f_address": "0x44bfe0",
         "v105_address": "0x498cb0",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_1::read_keyboard_and_gamepad_498CC0",
+        "name": "InputDevices_1::read_keyboard_and_gamepad_498CC0",
         "v96f_address": "0x44bff0",
         "v105_address": "0x498cc0",
         "v96f_auto": true
@@ -5643,13 +5643,13 @@
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_1::game_pad_read_498D20",
+        "name": "InputDevices_1::game_pad_read_498D20",
         "v96f_address": "0x44c070",
         "v105_address": "0x498d20",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_1::read_input_device_498DA0",
+        "name": "InputDevices_1::read_input_device_498DA0",
         "v96f_address": "0x44c0f0",
         "v105_address": "0x498da0",
         "v96f_auto": true
@@ -7856,131 +7856,131 @@
         "v105_address": "0x4cb870"
     },
     {
-        "name": "BurgerKing_67F8B0::StaticShutdown_4CDCD0",
+        "name": "InputRecorder_67F8B0::StaticShutdown_4CDCD0",
         "v96f_address": null,
         "v105_address": "0x4cdcd0"
     },
     {
-        "name": "BurgerKing_67F8B0::clear_inputs_4CDCE0",
+        "name": "InputRecorder_67F8B0::clear_inputs_4CDCE0",
         "v96f_address": "0x45f9f0",
         "v105_address": "0x4cdce0",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::set_input_4CDCF0",
+        "name": "InputRecorder_67F8B0::set_input_4CDCF0",
         "v96f_address": "0x45ed10",
         "v105_address": "0x4cdcf0",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::clear_input_4CDD10",
+        "name": "InputRecorder_67F8B0::clear_input_4CDD10",
         "v96f_address": "0x45ed30",
         "v105_address": "0x4cdd10",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::should_ignore_input_4CDD80",
+        "name": "InputRecorder_67F8B0::should_ignore_input_4CDD80",
         "v96f_address": "0x45ed50",
         "v105_address": "0x4cdd80",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::should_ignore_input_4CDDF0",
+        "name": "InputRecorder_67F8B0::should_ignore_input_4CDDF0",
         "v96f_address": "0x45edc0",
         "v105_address": "0x4cddf0",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::save_replay_record_4CDE20",
+        "name": "InputRecorder_67F8B0::save_replay_record_4CDE20",
         "v96f_address": "0x45fa50",
         "v105_address": "0x4cde20",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::SaveReplay_4CDED0",
+        "name": "InputRecorder_67F8B0::SaveReplay_4CDED0",
         "v96f_address": "0x45fb10",
         "v105_address": "0x4cded0",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::modify_inputs_4CDF30",
+        "name": "InputRecorder_67F8B0::modify_inputs_4CDF30",
         "v96f_address": null,
         "v105_address": "0x4cdf30"
     },
     {
-        "name": "BurgerKing_67F8B0::AppendReplayHeader_4CDF70",
+        "name": "InputRecorder_67F8B0::AppendReplayHeader_4CDF70",
         "v96f_address": "0x45eec0",
         "v105_address": "0x4cdf70",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::LoadReplayHeader_4CE380",
+        "name": "InputRecorder_67F8B0::LoadReplayHeader_4CE380",
         "v96f_address": "0x45f270",
         "v105_address": "0x4ce380",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::VerifyAttractFilesExist_4CE650",
+        "name": "InputRecorder_67F8B0::VerifyAttractFilesExist_4CE650",
         "v96f_address": "0x45f580",
         "v105_address": "0x4ce650",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::GetNextAttrReplay_4CE6E0",
+        "name": "InputRecorder_67F8B0::GetNextAttrReplay_4CE6E0",
         "v96f_address": "0x45f600",
         "v105_address": "0x4ce6e0",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::input_init_replay_4CE740",
+        "name": "InputRecorder_67F8B0::input_init_replay_4CE740",
         "v96f_address": "0x45f640",
         "v105_address": "0x4ce740",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::input_init_live_4CE880",
+        "name": "InputRecorder_67F8B0::input_init_live_4CE880",
         "v96f_address": "0x45f780",
         "v105_address": "0x4ce880",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::Shutdown_4CEA00",
+        "name": "InputRecorder_67F8B0::Shutdown_4CEA00",
         "v96f_address": "0x45fb60",
         "v105_address": "0x4cea00",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::replay_save_4CEA40",
+        "name": "InputRecorder_67F8B0::replay_save_4CEA40",
         "v96f_address": "0x45fba0",
         "v105_address": "0x4cea40",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::get_input_bits_4CEAC0",
+        "name": "InputRecorder_67F8B0::get_input_bits_4CEAC0",
         "v96f_address": "0x45fd10",
         "v105_address": "0x4ceac0",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::save_replay_inputs_4CED00",
+        "name": "InputRecorder_67F8B0::save_replay_inputs_4CED00",
         "v96f_address": "0x45fc20",
         "v105_address": "0x4ced00",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::DisplayInputBits_4CED90",
+        "name": "InputRecorder_67F8B0::DisplayInputBits_4CED90",
         "v96f_address": "0x45f900",
         "v105_address": "0x4ced90",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::RecOrPlayBackState_4CEDF0",
+        "name": "InputRecorder_67F8B0::RecOrPlayBackState_4CEDF0",
         "v96f_address": "0x45f970",
         "v105_address": "0x4cedf0",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::ShowInput_4CEE10",
+        "name": "InputRecorder_67F8B0::ShowInput_4CEE10",
         "v96f_address": "0x45f990",
         "v105_address": "0x4cee10",
         "v96f_auto": true

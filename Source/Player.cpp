@@ -1,7 +1,7 @@
 #include "Player.hpp"
 #include "hud_message_priority.hpp"
 #include "voice_line.hpp"
-#include "BurgerKing_67F8B0.hpp"
+#include "InputRecorder_67F8B0.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
 #include "RouteFinder.hpp"
@@ -1668,7 +1668,7 @@ void Player::ShowDebugInfo_566EE0(char_type bDoNothing)
 
         if (gDo_show_input_67D576)
         {
-            gBurgerKing_67F8B0.ShowInput_4CEE10(); // input
+            gInputRecorder_67F8B0.ShowInput_4CEE10(); // input
         }
 
         gGame_0x40_67E008->DebugShowCarStatsAndFrameSkip_4B9270();

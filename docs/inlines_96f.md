@@ -148,7 +148,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x47F930 | `Crane_15C::PickUpCar_47F930` | 0x448A80 | ✓ `sub_4215B0`, `sub_4BEA60` (10.5 0x5A6AD0), ✓ `sub_447EC0`, ✓ `sub_447EB0`, `sub_423A70`, ✓ `sub_447F00`, `sub_4207B0`, `sub_448900`, `Zheal_15C::sub_448150`, `sub_4BED60` | checked | inlines already used or still called in 10.5 (TagSpriteWithRng_5A6C10, AreAllDoorsClosed_441A40, AddSprite_5A6CD0, ComputeHookPolar_47F6C0, IsTarget1PositionClear_47EB00) |
 | 0x492260 | `RollingDigitCounter_38::sub_492260` | 0x44B500 | `sub_44B490` | checked | 9.6f sub_44B490 = sub_495470 (10.5 calls it directly; 9.6f had an extra wrapper level) |
 | 0x492430 | `RollingDigitCounter_38::DrawDigitsLeftAligned_492430` | 0x44B6E0 | `sub_44B490` | checked | 9.6f sub_44B490 = sub_495470 (10.5 calls it directly) |
-| 0x498DA0 | `BurgerKing_1::read_input_device_498DA0` | 0x44C0F0 | ✓ `rng::get_cur_rng_41CFE0`, ✓ `sub_44C050` | done | get_cur_rng_41CFE0, new IsInputSet_44C050; 293->258 |
+| 0x498DA0 | `InputDevices_1::read_input_device_498DA0` | 0x44C0F0 | ✓ `rng::get_cur_rng_41CFE0`, ✓ `sub_44C050` | done | get_cur_rng_41CFE0, new IsInputSet_44C050; 293->258 |
 | 0x49C340 | `DoorData_10::sub_49C340` | 0x44C8A0 | ✓ `gmp_block_info::init_44C840` | done | new gmp_block_info::init_44C840; diff 0 before and after (CANDIDATE MATCH) |
 | 0x49CFA0 | `Door_4D4::RegisterDoubleDoorNoCheck_49CFA0` | 0x44D430 | `sub_44CDD0` | checked | sub_44CDD0 is a 9.6f-only door setup variant; 10.5 calls Door_38::sub_49CC00 instead (pairing difference) |
 | 0x49D570 | `Door_4D4::dtor_49D570` | 0x44D7D0 | `Door_10_Pool::gdtor_44D3A0` | checked | gdtor_44D3A0 is the pool delete in GTA2_DELETE_AND_NULL |
@@ -665,10 +665,10 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4CAD40 | `PedGroup::IsLeaderCloseToTargetCar_4CAD40` | 0x4049F0 | ✓ `cool_nash_0x294::get_cam_x_403A00`, ✓ `cool_nash_0x294::get_target_to_enter_403B10`, ✓ `cool_nash_0x294::get_target_objective_car_403AB0`, ✓ `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0) | done | all 9.6f inlines used |
 | 0x4CAE80 | `PedGroup::FindNearestOtherMember_4CAE80` | 0x4045D0 | `cool_nash_0x294::get_car_state_403A90`, `cool_nash_0x294::sub_436920` (10.5 0x463830), `cool_nash_0x294::sub_403B60`, `sub_436160` (10.5 0x45C920), `cool_nash_0x294::sub_403AE0`, `cool_nash_0x294::sub_403A40` | matched | pairing error: the 9.6f callees (car state, SetObjective2, velocity) do not fit this function |
 | 0x4CB0D0 | `PedGroup::sub_4CB0D0` | 0x404C40 | ✓ `sub_4038F0`, ✓ `?MarkRootRemoved@VirtualProcessorRoot@details@Concurrency@@QAEXXZ` | done | code unchanged; new PedGroup::set_in_use_4038E0 |
-| 0x4CDD80 | `BurgerKing_67F8B0::should_ignore_input_4CDD80` | 0x45ED50 | `sub_4C6E20` | checked | sub_4C6E20 (Hud+0x2A1E thunk) vs 10.5 Hud_2B00::sub_5D6CB0: pairing difference |
-| 0x4CDE20 | `BurgerKing_67F8B0::save_replay_record_4CDE20` | 0x45FA50 | ✓ `rng::get_cur_rng_41CFE0`, ✓ `sub_45F9E0` | done | new rng::get_rnd_45F9E0; still matches |
-| 0x4CE380 | `BurgerKing_67F8B0::LoadReplayHeader_4CE380` | 0x45F270 | `FatalError_450530` (10.5 0x4A38C0) | checked | FatalError_450530 is FatalError_4A38C0 (10.5 has it out of line, inline via chunk.hpp elsewhere); no open-coded form here |
-| 0x4CEAC0 | `BurgerKing_67F8B0::get_input_bits_4CEAC0` | 0x45FD10 | `sub_45ED00`, ✓ `rng::get_cur_rng_41CFE0`, `PedTypeIs_45EDE0`, ✓ `sub_416BC0` | matched | get_cur_rng_41CFE0 (no u16 cast) fixes the rng compare; left: 10.5 has a redundant je-to-next before the jne on the 0x1FF000 tests (not in 9.6f), unexplained |
+| 0x4CDD80 | `InputRecorder_67F8B0::should_ignore_input_4CDD80` | 0x45ED50 | `sub_4C6E20` | checked | sub_4C6E20 (Hud+0x2A1E thunk) vs 10.5 Hud_2B00::sub_5D6CB0: pairing difference |
+| 0x4CDE20 | `InputRecorder_67F8B0::save_replay_record_4CDE20` | 0x45FA50 | ✓ `rng::get_cur_rng_41CFE0`, ✓ `sub_45F9E0` | done | new rng::get_rnd_45F9E0; still matches |
+| 0x4CE380 | `InputRecorder_67F8B0::LoadReplayHeader_4CE380` | 0x45F270 | `FatalError_450530` (10.5 0x4A38C0) | checked | FatalError_450530 is FatalError_4A38C0 (10.5 has it out of line, inline via chunk.hpp elsewhere); no open-coded form here |
+| 0x4CEAC0 | `InputRecorder_67F8B0::get_input_bits_4CEAC0` | 0x45FD10 | `sub_45ED00`, ✓ `rng::get_cur_rng_41CFE0`, `PedTypeIs_45EDE0`, ✓ `sub_416BC0` | matched | get_cur_rng_41CFE0 (no u16 cast) fixes the rng compare; left: 10.5 has a redundant je-to-next before the jne on the 0x1FF000 tests (not in 9.6f), unexplained |
 | 0x4D2090 | `KanjiFont_8EC::Load_kanji_dat_4D2090` | 0x460F10 | `chunk::verify_type_460EE0`, `chunk::verify_version_460EC0` | checked | chunk verify_type/verify_version already used |
 | 0x4D2B40 | `KanjiFont_8EC::sub_4D2B40` | 0x460DE0 | `sub_4BF550` | checked | sub_4BF550 is gtx GetSpriteIdxFromFont_5AA710, called |
 | 0x4D5FA0 | `keybrd_0x204::destroy_4D5FA0` | 0x461270 | `keybrd_0x204::gdtor_461250` | checked | keybrd gdtor_461250 is the compiler scalar deleting dtor |
@@ -1569,7 +1569,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x448900 | `sub_448900` | 119 |  | Source/Cranes.cpp:507 | 1/1 | todo |  |
 | 0x44A370 | `CrimeReportQueue_CC::sub_44A370` | 38 |  |  | 1/1 | todo |  |
 | 0x44A3E0 | `sub_44A3E0` | 8 |  | Source/Car_BC.hpp:863 | 1/1 | todo |  |
-| 0x44C050 | `sub_44C050` | 19 |  | Source/BurgerKing_67F8B0.hpp:101 | 1/0 | todo |  |
+| 0x44C050 | `sub_44C050` | 19 |  | Source/InputRecorder_67F8B0.hpp:101 | 1/0 | todo |  |
 | 0x44C840 | `gmp_block_info::init_44C840` | 28 |  | Source/map_0x370.hpp:23 | 1/3 | todo |  |
 | 0x44CDD0 | `sub_44CDD0` | 525 |  |  | 1/1 | todo |  |
 | 0x44D3A0 | `Door_10_Pool::gdtor_44D3A0` | 30 |  |  | 1/0 | todo |  |
@@ -2079,8 +2079,8 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4496E0 | `sub_4496E0` | 236 |  | Source/Cranes.cpp:952 | 0/1 | todo |  |
 | 0x44A470 | `sub_44A470` | 669 |  |  | 0/1 | todo |  |
 | 0x44A720 | `sub_44A720` | 583 |  |  | 0/1 | todo |  |
-| 0x44AA60 | `sub_44AA60` | 19 |  | Source/BurgerKing_67F8B0.hpp:91 | 0/1 | todo |  |
-| 0x44AA80 | `sub_44AA80` | 16 |  | Source/BurgerKing_67F8B0.hpp:107 | 0/1 | todo |  |
+| 0x44AA60 | `sub_44AA60` | 19 |  | Source/InputRecorder_67F8B0.hpp:91 | 0/1 | todo |  |
+| 0x44AA80 | `sub_44AA80` | 16 |  | Source/InputRecorder_67F8B0.hpp:107 | 0/1 | todo |  |
 | 0x44AF70 | `sub_44AF70` | 7 |  | Source/sprite.hpp:609 | 0/1 | todo |  |
 | 0x44AF90 | `sub_44AF90` | 19 |  |  | 0/1 | todo |  |
 | 0x44B890 | `SpriteRenderer_1C::sub_44B890` | 23 |  |  | 0/1 | todo |  |

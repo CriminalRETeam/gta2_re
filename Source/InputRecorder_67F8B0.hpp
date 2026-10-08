@@ -10,17 +10,19 @@ struct AttractFile
     char field_0_path[256];
 };
 
+// InputRecorder_67F8B0::field_38_replay_state
 enum ReplayState
 {
-    Live_0 = 0,
-    Unkn_1 = 1,
-    Unkn_2 = 2,
-    Replay_3 = 3,
+    Live_0 = 0,     // reads the real input devices and records them (test\replay.rep)
+    Playback_1 = 1, // plays back test\replay.rep, goes back to Live_0 when it ends
+    Disabled_2 = 2, // nothing is recorded
+    Attract_3 = 3,  // plays an attract replay, any input exits
 };
 
 #pragma pack(push)
 #pragma pack(1)
-class BurgerKing_1
+// DirectInput keyboard and game pads (the object has no data of its own)
+class InputDevices_1
 {
   public:
     // TODO: Probably this call
@@ -33,17 +35,18 @@ class BurgerKing_1
     EXPORT BOOL __stdcall make_input_devices_498800(HINSTANCE hInstance);
     EXPORT void set_game_pad_device_properties_4989C0();
     EXPORT void __stdcall input_devices_init_498C40(HINSTANCE hInstance);
-    EXPORT void SetAltKeyState_498CB0(u32 a1);
+    EXPORT void SetAltKeyState_498CB0(u32 alt_down);
     EXPORT bool acquire_input_device_498730(struct IDirectInputDeviceA* pGamePadDevice);
     EXPORT bool game_pad_read_498D20();
-    EXPORT void AddKeyToInputBits_498C80(s32* a1, DIDEVICEOBJECTDATA* device_data_keys);
-    EXPORT void read_input_device_498DA0(s32* input_bits, u8 bUnk);
+    EXPORT void AddKeyToInputBits_498C80(s32* pInputBits, DIDEVICEOBJECTDATA* device_data_keys);
+    EXPORT void read_input_device_498DA0(s32* input_bits, u8 bUnknown);
 
     u8 field_0;
 };
 #pragma pack(pop)
 
-struct BurgerKingBurger_0xC
+// One recorded input change: the rng index it happened at, the input bits and the random number
+struct InputRecord_C
 {
     s32 field_0_rng_idx;
     s32 field_4_inputs;
@@ -63,9 +66,15 @@ struct ReplayHeader_10C
     char_type field_E4_flags[40];
 };
 
-class BurgerKing_67F8B0
+// Reads the inputs (get_input_bits_4CEAC0) and records / plays back replays
+class InputRecorder_67F8B0
 {
   public:
+    enum
+    {
+        k_max_records = 40000
+    };
+
     EXPORT void StaticShutdown_4CDCD0(); // static dtor
     EXPORT void clear_inputs_4CDCE0();
     EXPORT void set_input_4CDCF0(s32 mask_idx);
@@ -79,12 +88,12 @@ class BurgerKing_67F8B0
     EXPORT void LoadReplayHeader_4CE380(char_type bLoadDebug);
     EXPORT void VerifyAttractFilesExist_4CE650();
     EXPORT void GetNextAttrReplay_4CE6E0(char_type* pAttrPathOut);
-    EXPORT void input_init_replay_4CE740(HINSTANCE a2);
-    EXPORT void input_init_live_4CE880(HINSTANCE a2);
+    EXPORT void input_init_replay_4CE740(HINSTANCE hInstance);
+    EXPORT void input_init_live_4CE880(HINSTANCE hInstance);
     EXPORT void Shutdown_4CEA00();
     EXPORT void replay_save_4CEA40(u32* input_bits);
     EXPORT u32 get_input_bits_4CEAC0();
-    EXPORT void save_replay_inputs_4CED00(s32 a2, s32 a3);
+    EXPORT void save_replay_inputs_4CED00(s32 input_old, s32 input_new);
     EXPORT void DisplayInputBits_4CED90();
     EXPORT bool RecOrPlayBackState_4CEDF0();
     EXPORT void ShowInput_4CEE10();
@@ -92,7 +101,7 @@ class BurgerKing_67F8B0
     // 9.6f 0x44AA60
     bool inlined_check()
     {
-        if (field_38_replay_state == Unkn_1 || field_38_replay_state == Replay_3)
+        if (field_38_replay_state == Playback_1 || field_38_replay_state == Attract_3)
         {
             return true;
         }
@@ -112,21 +121,17 @@ class BurgerKing_67F8B0
     }
 
     char_type field_0_bShutDown;
-    char_type field_1;
-    char_type field_2;
-    char_type field_3;
     s32 field_4_input_bits;
     s32 field_8_input_masks[12];
     s32 field_38_replay_state;
-    BurgerKingBurger_0xC field_3C_rec_buff[40000];
+    InputRecord_C field_3C_rec_buff[k_max_records];
     s32 field_7533C_used_recs_count;
     u32 field_75340_rec_buf_idx;
     // front end input on/off ??
     char_type field_75344_bInputEnabled;
     u8 field_75345_attract_idx;
-    s16 field_75346;
 };
 
-EXTERN_GLOBAL(BurgerKing_67F8B0, gBurgerKing_67F8B0);
+EXTERN_GLOBAL(InputRecorder_67F8B0, gInputRecorder_67F8B0);
 
-EXTERN_GLOBAL(BurgerKing_1*, gBurgerKing_1_67B990);
+EXTERN_GLOBAL(InputDevices_1*, gInputDevices_67B990);

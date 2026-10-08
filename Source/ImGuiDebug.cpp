@@ -3,7 +3,7 @@
 #include "PlayerCrimeStats_3C.hpp"
 #include "3rdParty/GTA2Hax/3rdParty/imgui/imgui.h"
 #include "Ambulance_110.hpp"
-#include "BurgerKing_67F8B0.hpp"
+#include "InputRecorder_67F8B0.hpp"
 #include "CarInfo_808.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
@@ -188,19 +188,19 @@ void Init_Unk_Width_Height_F16_array()
     }
 }
 
-// BurgerKing_67F8B0 *crt_init_4CDCB0
-void Init_BurgerKing()
+// InputRecorder_67F8B0 *crt_init_4CDCB0
+void Init_InputRecorder()
 {
-    gBurgerKing_67F8B0.field_0_bShutDown = false;
-    gBurgerKing_67F8B0.field_4_input_bits = 0;
-    gBurgerKing_67F8B0.field_75344_bInputEnabled = true;
-    gBurgerKing_67F8B0.field_38_replay_state = Unkn_2;
-    gBurgerKing_67F8B0.field_75345_attract_idx = 0;
-    memset(gBurgerKing_67F8B0.field_8_input_masks, 0, sizeof(gBurgerKing_67F8B0.field_8_input_masks));
-    memset(gBurgerKing_67F8B0.field_3C_rec_buff, 0, sizeof(gBurgerKing_67F8B0.field_3C_rec_buff));
-    gBurgerKing_67F8B0.field_7533C_used_recs_count = 205;
-    gBurgerKing_67F8B0.field_75340_rec_buf_idx = 205;
-    gBurgerKing_67F8B0.VerifyAttractFilesExist_4CE650();
+    gInputRecorder_67F8B0.field_0_bShutDown = false;
+    gInputRecorder_67F8B0.field_4_input_bits = 0;
+    gInputRecorder_67F8B0.field_75344_bInputEnabled = true;
+    gInputRecorder_67F8B0.field_38_replay_state = Disabled_2;
+    gInputRecorder_67F8B0.field_75345_attract_idx = 0;
+    memset(gInputRecorder_67F8B0.field_8_input_masks, 0, sizeof(gInputRecorder_67F8B0.field_8_input_masks));
+    memset(gInputRecorder_67F8B0.field_3C_rec_buff, 0, sizeof(gInputRecorder_67F8B0.field_3C_rec_buff));
+    gInputRecorder_67F8B0.field_7533C_used_recs_count = 205;
+    gInputRecorder_67F8B0.field_75340_rec_buf_idx = 205;
+    gInputRecorder_67F8B0.VerifyAttractFilesExist_4CE650();
 }
 
 static void EnableBoot2MapDebugOptions()
@@ -211,7 +211,7 @@ static void EnableBoot2MapDebugOptions()
     Init_gmp_slopes_array();
     Init_trigonometry_tables();
     Init_Unk_Width_Height_F16_array();
-    Init_BurgerKing();
+    Init_InputRecorder();
 
     bSkip_traffic_lights_67D4EC = true;
     bSkip_trains_67D550 = true;
@@ -1393,11 +1393,11 @@ void CC ImGuiDebugDraw()
     {
         // Put in-game debug stuff here
         /*
-        if (&gBurgerKing_67F8B0)
+        if (&gInputRecorder_67F8B0)
         {
-            if (ImGui::Button("Enable BurgerKing inputs"))
+            if (ImGui::Button("Enable InputRecorder inputs"))
             {
-                gBurgerKing_67F8B0.field_75344_bSomething = 1;
+                gInputRecorder_67F8B0.field_75344_bSomething = 1;
             }
         }
         */
