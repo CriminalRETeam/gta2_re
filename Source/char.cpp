@@ -1,5 +1,6 @@
 #define FIX16_POINT_ZERO kFP16Zero_6FD9E4
 #include "ped_death_cause.hpp"
+#include "ped_jump_over_mode.hpp"
 #include "explosion_type.hpp"
 #include "voice_line.hpp"
 #include "char.hpp"
@@ -287,7 +288,7 @@ bool Char_B4::HasShadows_5451C0()
     }
 
     if (field_C_ped_state_2 != 22 && field_10_char_state != Char_B4_state::Jumping_15 && field_C_ped_state_2 != 27 &&
-        !field_7C_pPed->sub_433DA0())
+        !field_7C_pPed->HasBit25AndGameObject_433DA0())
     {
         return true;
     }
@@ -2142,7 +2143,7 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
             pSprt->field_0 = kAng0_6FDB34;
         }
 
-        if ((field_7C_pPed->GetJumpOverMode_492C20() == 2 || field_5C > 0) && field_10_char_state != Char_B4_state::Jumping_15)
+        if ((field_7C_pPed->GetJumpOverMode_492C20() == ped_jump_over_mode::can_jump_2 || field_5C > 0) && field_10_char_state != Char_B4_state::Jumping_15)
         {
             if (!bNoJump)
             {

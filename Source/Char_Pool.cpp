@@ -1,4 +1,6 @@
 #include "Char_Pool.hpp"
+#include "ped_class.hpp"
+#include "ped_fire_mode.hpp"
 #include "Car_BC.hpp"
 #include "Game_0x40.hpp"
 #include "Gang.hpp"
@@ -213,7 +215,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                 }
                 gNumberMuggersSpawned_6787CA = 1;
                 pPed->set_occupation_403970(ped_ocupation_enum::mugger);
-                pPed->SetPedClass_433BC0(2);
+                pPed->SetPedClass_433BC0(ped_class::mugger_or_car_thief_2);
                 pPed->set_objective_timer_433C80(40);
                 pPed->SetField238_403920(ped_type::special_ped_4);
                 pPed->set_remap_433B90(17);
@@ -228,7 +230,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                     goto delloc_ret_2;
                 }
                 gNumberCarThiefsSpawned_6787CB = 1;
-                pPed->SetPedClass_433BC0(2);
+                pPed->SetPedClass_433BC0(ped_class::mugger_or_car_thief_2);
                 pPed->field_288_threat_search = threat_search_enum::area_2;
                 //v13 = pPed->field_21C;
                 pPed->set_objective_timer_433C80(40);
@@ -274,7 +276,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                             }
                         }
                         pPed->field_26C_graphic_type = ped_graphic_type::character_1;
-                        pPed->SetPedClass_433BC0(1);
+                        pPed->SetPedClass_433BC0(ped_class::gang_member_1);
                         pPed->ForceWeapon_46F600(pPed->field_17C_pGang->GetGangCurrWeapon_4BF0C0());
                         if (pPed->field_170_selected_weapon && pPed->field_170_selected_weapon->field_1C_idx)
                         {
@@ -282,7 +284,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                             pGang->field_141 = 1;
                         }
                         pPed->GiveWeapon_46F650(weapon_type::pistol);
-                        pPed->field_270_fire_mode = 0;
+                        pPed->field_270_fire_mode = ped_fire_mode::random_shots_0;
                         pPed->field_288_threat_search = threat_search_enum::line_of_sight_1;
                         pPed->field_28C_threat_reaction = threat_reaction_enum::react_as_normal_2;
                     }
@@ -290,7 +292,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                     {
                         pPed->field_19C_dummy_gang = pGang;
                         pPed->set_occupation_403970(ped_ocupation_enum::dummy);
-                        pPed->SetPedClass_433BC0(0);
+                        pPed->SetPedClass_433BC0(ped_class::gang_dummy_0);
                         pPed->SetField238_403920(ped_type::dummy_3);
                         pPed->field_288_threat_search = threat_search_enum::area_2;
                         pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
@@ -308,7 +310,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                 else
                 {
                     pPed->set_occupation_403970(ped_ocupation_enum::dummy);
-                    pPed->SetPedClass_433BC0(0);
+                    pPed->SetPedClass_433BC0(ped_class::gang_dummy_0);
                     pPed->SetField238_403920(ped_type::dummy_3);
                     pPed->field_288_threat_search = threat_search_enum::area_2;
                     pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
@@ -382,7 +384,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                 else
                 {
                     pPed->set_occupation_403970(ped_ocupation_enum::dummy);
-                    pPed->SetPedClass_433BC0(0);
+                    pPed->SetPedClass_433BC0(ped_class::gang_dummy_0);
                     pPed->SetField238_403920(ped_type::dummy_3);
                     pPed->field_288_threat_search = threat_search_enum::area_2;
                     pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
@@ -442,7 +444,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                 {
                     --gNumberArmedGangMembers_6787CE;
                 }
-                pPed->SetPedClass_433BC0(2);
+                pPed->SetPedClass_433BC0(ped_class::mugger_or_car_thief_2);
                 pPed->set_objective_timer_433C80(40);
                 pPed->set_occupation_403970(ped_ocupation_enum::mad_mugger_40);
                 pPed->SetField238_403920(ped_type::special_ped_4);
@@ -807,8 +809,8 @@ Ped* PedManager::SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 
 
     pPed->SetRemap_433C10(remap);
     pPed->field_134_rotation = rotation;
-    pPed->field_288_threat_search = 2;
-    pPed->field_28C_threat_reaction = 3;
+    pPed->field_288_threat_search = threat_search_enum::area_2;
+    pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
     pPed->set_health_4039A0(100);
     pPed->field_26C_graphic_type = ped_graphic_type::civilian_0;
     return pPed;
@@ -826,8 +828,8 @@ Ped* PedManager::SpawnDriver_470B00(Car_BC* pCar)
     pNewPed->ChangeNextPedState2_45C540(10);
     pNewPed->set_enter_car_as_passenger_4039B0(0);
     pNewPed->set_target_car_door_403A70(0);
-    pNewPed->field_288_threat_search = 2; //area_2;
-    pNewPed->field_28C_threat_reaction = 3; //run_away_3;
+    pNewPed->field_288_threat_search = threat_search_enum::area_2; //area_2;
+    pNewPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3; //run_away_3;
     pNewPed->set_health_4039A0(100);
     pNewPed->field_26C_graphic_type = ped_graphic_type::civilian_0;
     pCar->SetDriver(pNewPed);
@@ -866,12 +868,12 @@ Ped* PedManager::SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang)
         }
     }
     pNewPed->field_26C_graphic_type = ped_graphic_type::character_1;
-    pNewPed->SetPedClass_433BC0(1);
+    pNewPed->SetPedClass_433BC0(ped_class::gang_member_1);
 
     pNewPed->ForceWeapon_46F600(pNewPed->field_17C_pGang->GetGangCurrWeapon_4BF0C0());
     pNewPed->GiveWeapon_46F650(weapon_type::pistol);
 
-    pNewPed->field_270_fire_mode = 0;
+    pNewPed->field_270_fire_mode = ped_fire_mode::random_shots_0;
     pNewPed->field_288_threat_search = threat_search_enum::line_of_sight_1;
     pNewPed->field_28C_threat_reaction = threat_reaction_enum::react_as_normal_2;
 
@@ -891,8 +893,8 @@ Ped* PedManager::CreateDummyDriver_470CC0(Car_BC* pCar)
     pNewPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
     pNewPed->ChangeNextPedState2_45C540(ped_state_2::ped2_driving_10);
     pNewPed->set_target_car_door_403A70(0);
-    pNewPed->field_288_threat_search = 2; //area_2;
-    pNewPed->field_28C_threat_reaction = 3; //run_away_3;
+    pNewPed->field_288_threat_search = threat_search_enum::area_2; //area_2;
+    pNewPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3; //run_away_3;
     pNewPed->set_health_4039A0(100);
     pNewPed->field_26C_graphic_type = ped_graphic_type::civilian_0;
     return pNewPed;

@@ -1334,7 +1334,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 - Closer: `FindUsableCarDoor_467090` 182->76, `Type_10_HandleCarSkidSound_418940` 183->98, `ShowJunctionIds_588620` 190->111, `Char_B4::state_8_5520A0` 115->26 (logic fix: the electrocuted >100 check is outside the net if/else), `4E1520` 162->48
 - No change: `539040` (all 5 Particle_4C jitter originals build `Fix16(rng(3)-1)` as `movswl; add $0x3FFFF; shl $0xE`, ours `shl; sub $0x4000`), `5406B0` (needs out-of-line Fix16(0) ctors with an object with a dtor alive)
 - Matched: `Car_BC::UpdateAttachedToSprite_443360` (logic fix: the rotation uses pSprite->field_0, not rot; out-of-line Multiply/operator+ rotation)
-- Closer: `Ped::sub_469FE0` 0.313->0.608, `SetObjective2_463830` 185->151 (left: VC6 copies the call + epilogue into each case, original shares one tail)
+- Closer: `Ped::CallPoliceCar_469FE0` 0.313->0.608, `SetObjective2_463830` 185->151 (left: VC6 copies the call + epilogue into each case, original shares one tail)
 - `RectHitsDiagonalWall_4E11E0` (~12 lines): only `return 1` jumping into the shared EH epilogue is left, same unexplained case as `Start_NetworkGame_5E5A30`
 - No change: `46F1E0` (original tests the angle with jns right after the 16-bit sub/add)
 - `EmitElectricArcParticle_540320`: 202->21 (explicit Multiply/Negate rotation, block scope). Left: one operand order in MultiplyByFix16_401CB0
@@ -1610,7 +1610,7 @@ Tail merging and block layout:
 
 Registers only:
 - `sound_obj::HandleCarDoorSounds_4182E0` (286): the original keeps 0 in `ebx` and `a2` on the stack.
-- `Ped::sub_469FE0` (102): the original has 0 in `ebx`, 10 in `ebp`; ours no zero register. Permuter 300.
+- `Ped::CallPoliceCar_469FE0` (102): the original has 0 in `ebx`, 10 in `ebp`; ours no zero register. Permuter 300.
 - `Ped::BusCustomer_AI_461290` (12): `field_150` in `edx`, door byte `al`/`edx`.
 - `Ped::IsPedAThreat_465D00` (142): register choice in the two `player_idx` blocks.
   `Ped::HandlePedHitByObject_45D000` inlines it, so it needs 465D00 first.
@@ -1916,7 +1916,7 @@ Scores are `permuter_score.py --structure` (normal score in brackets).
 - Control flow and calls already match, only scheduling/regalloc left: `IsSpriteInView_435630` (56; num/den
   locals no change), `SpawnCabAndTrailer_446530` (64; zero kept in a register), `CalcPacketLen_51F210` (124;
   `mov $3,%ebx`, `pBytes[4]` reloaded after the `pBytes[1]` store), `ShowJunctionIds_588620` (68),
-  `sub_469FE0` (48; original keeps 0 in `ebx` and compares call results with `cmp %eax,%ebx`).
+  `CallPoliceCar_469FE0` (48; original keeps 0 in `ebx` and compares call results with `cmp %eax,%ebx`).
 - `SetObjective2_463830` (146), `PickUpCar_47F930` (54): tail duplication class, not retried.
 
 ### Near-miss round (Oct 6)
@@ -2043,7 +2043,7 @@ Scores are `sc.sh` lines.
   (B: ecx/edx, C: eax/ecx), so only one of them cross-jumps one instruction earlier.
 - `Sprite_4C::UpdateRotatedBoundingBox_5A3550` (57): height declared first (302), depth first (782), declare
   then assign (57). Permuter 600: nothing.
-- `Ped::sub_469FE0` (102): the original keeps 0 in `ebx` (9.6f and VC7 too). `u8 x = 0, y = 0, z = 0;` at the
+- `Ped::CallPoliceCar_469FE0` (102): the original keeps 0 in `ebx` (9.6f and VC7 too). `u8 x = 0, y = 0, z = 0;` at the
   top (then assigned) gives the zero register and 30 lines, but adds three byte stores the original doesn't
   have; not applied. `pCar = NULL`, `!= 0`/`!= false`/`== true`/casts on the `SpawnCrewInCar_5703E0` test: no
   `cmp %bl,%al` (always `test`).

@@ -88,7 +88,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 44 | 56 | - | 0x4e5e90 | `Map_0x370::HasGreenArrowForPathDirection_4E5E90` | map_0x370.cpp |
 | 0 | 46 | 240 | 88 | 0x521890 | `NetPlay::ReceiveGameMessage_521890` | NetPlay.cpp |
 | 0 | 46 | 310 | 324 | 0x5504f0 | `Char_B4::state_1_5504F0` | char.cpp |
-| 0 | 48 | 102 | 56 | 0x469fe0 | `Ped::sub_469FE0` | Ped.cpp |
+| 0 | 48 | 102 | 56 | 0x469fe0 | `Ped::CallPoliceCar_469FE0` | Ped.cpp |
 | 0 | 48 | 48 | - | 0x4ee130 | `MapRenderer::draw_lid_4EE130` | MapRenderer.cpp |
 | 0 | 54 | 204 | 141 | 0x539040 | `Particle_4C::UpdateDirectedBurstSweep_state_4_539040` | Particle_4C.cpp |
 | 0 | 56 | 160 | - | 0x435630 | `Camera_0xBC::IsSpriteInView_435630` | Camera.cpp |

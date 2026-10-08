@@ -1018,13 +1018,13 @@ void PedGroup::UpdateMemberAIState_4CA5E0(u8 idx)
         {
             if (occupation != 0x2D)
             {
-                pMember->field_288_threat_search = 1;
-                pMember->field_28C_threat_reaction = 2;
+                pMember->field_288_threat_search = threat_search_enum::line_of_sight_1;
+                pMember->field_28C_threat_reaction = threat_reaction_enum::react_as_normal_2;
             }
             else
             {
-                pMember->field_288_threat_search = 2;
-                pMember->field_28C_threat_reaction = 0;
+                pMember->field_288_threat_search = threat_search_enum::area_2;
+                pMember->field_28C_threat_reaction = threat_reaction_enum::no_reaction_0;
             }
         }
     }

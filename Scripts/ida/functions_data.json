@@ -4029,7 +4029,7 @@
         "v105_address": "0x469fc0"
     },
     {
-        "name": "Ped::sub_469FE0",
+        "name": "Ped::CallPoliceCar_469FE0",
         "v96f_address": "0x43cfc0",
         "v105_address": "0x469fe0",
         "v96f_auto": true

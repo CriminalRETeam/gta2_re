@@ -425,7 +425,7 @@ void PoliceCrew_38::sub_571540()
                 field_10_subObj->field_28_state = crew_state::clean_up_5;
                 field_10_subObj->field_2C_ready = 1;
             }
-            else if (pPed->field_28C_threat_reaction != 1)
+            else if (pPed->field_28C_threat_reaction != threat_reaction_enum::react_as_emergency_1)
             {
                 field_10_subObj->field_28_state = crew_state::clean_up_5;
                 field_10_subObj->field_2C_ready = 1;
@@ -2655,7 +2655,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                                 Ped* pDriver = gPedManager_6787BC->SpawnDriver_470B00(pCar);
                                 pDriver->SetField238_403920(5);
                                 pDriver->set_occupation_403970(0x27);
-                                pDriver->field_28C_threat_reaction = 1;
+                                pDriver->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
                                 pCar->field_0_qq.GetSpriteForModel_5A6A50(148)->field_10_rot = word_6FEB74;
                             }
                             break;
@@ -2952,7 +2952,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                                 Ped* pDriver = gPedManager_6787BC->SpawnDriver_470B00(pCar);
                                 pDriver->SetField238_403920(5);
                                 pDriver->set_occupation_403970(0x27);
-                                pDriver->field_28C_threat_reaction = 1;
+                                pDriver->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
                             }
                             break;
                     }

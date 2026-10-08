@@ -1,4 +1,5 @@
 #include "Ambulance_110.hpp"
+#include "ped_jump_over_mode.hpp"
 #include "Char_Pool.hpp"
 #include "Ped.hpp"
 #include "PedGroup.hpp"
@@ -295,7 +296,7 @@ bool Ambulance_20::SpawnParamedicCrew_4FA820()
     }
     pPed1->SetField238_403920(ped_type::special_ped_4);
     pPed1->set_occupation_403970(ped_ocupation_enum::paramedic_23);
-    pPed1->SetJumpOverMode_433BB0(2);
+    pPed1->SetJumpOverMode_433BB0(ped_jump_over_mode::can_jump_2);
     pPed1->SpawnPedInCar_45C730(field_4_paramedics_crew->field_0_car);
     pPed1->SetObjective(objectives_enum::goto_area_in_car_14, 0);
     pPed1->field_1DC_objective_target_x = (unsigned __int8)this->field_0_target_x << 14;
@@ -316,7 +317,7 @@ bool Ambulance_20::SpawnParamedicCrew_4FA820()
     pPed2->EnterCarAsPassenger_45C7F0(field_4_paramedics_crew->field_0_car);
     pPed2->SetField238_403920(ped_type::special_ped_4);
     pPed2->set_occupation_403970(ped_ocupation_enum::paramedic_23);
-    pPed2->SetJumpOverMode_433BB0(2);
+    pPed2->SetJumpOverMode_433BB0(ped_jump_over_mode::can_jump_2);
     pPed2->SetObjective(objectives_enum::no_obj_0, 9999);
     pPed2->set_remap_433B90(16);
     pPed2->field_26C_graphic_type = ped_graphic_type::civilian_0;
@@ -635,7 +636,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                 {
                     if (++field_1D == 50)
                     {
-                        if (pVictim->field_28C_threat_reaction == 1)
+                        if (pVictim->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
                         {
                             bCop = pVictim->get_occupation_403980() == 23;
                         }
@@ -651,7 +652,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                             pVictim->field_1E4_objective_target_z = pVictim->get_cam_z();
                             pVictim->SetField238_403920(3);
                             pVictim->set_occupation_403970(3);
-                            pVictim->field_28C_threat_reaction = 3;
+                            pVictim->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
                         }
                         else
                         {

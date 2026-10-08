@@ -812,7 +812,7 @@ void Weapon_30::sub_5DE4F0()
     field_24_pPed->field_198_hit_target_ped->field_144_attacker = field_24_pPed;
     field_24_pPed->field_198_hit_target_ped->field_204_killer_id = field_24_pPed->field_200_id;
     field_24_pPed->field_198_hit_target_ped->field_21C_bf.b8 = 1;
-    if (field_24_pPed->field_28C_threat_reaction == 1)
+    if (field_24_pPed->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
     {
         gPolice_7B8_6FEE40->field_7B0_last_firing_emergency_ped = field_24_pPed;
     }
