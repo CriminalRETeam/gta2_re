@@ -41,7 +41,7 @@ class PlayerScoreTracker_36C
     EXPORT s32 GetCarScoreValue_5925B0(u32 car_model, u8 reward_tier);
     EXPORT void AddCash_592620(s32 cash);
     EXPORT void AwardPedKilledScore_592660(Ped* pVictim, Ped* pKiller);
-    EXPORT void AwardCarDestroyedScore_592DD0(Car_BC* pCar, Ped* pPed);
+    EXPORT void AwardCarDestroyedScore_592DD0(Car_BC* pCar, Ped* pKiller);
     EXPORT void AwardCarDamageScore_593030(Car_BC* pCar, s16 damage);
     EXPORT void AwardCarDamageScoreHit_593150(Car_BC* pCar, s16 damage);
     EXPORT void AddCashForMultiplier_593220();
@@ -51,7 +51,7 @@ class PlayerScoreTracker_36C
     EXPORT void UpdateAccuracyCount_5934F0(u32 shot_result, s32 weapon_model, Ped* pTarget);
     EXPORT thirsty_lamarr* GetMultiplayerFragDigits_5935B0();
     EXPORT s32 GetFrags_5935C0();
-    EXPORT void ChangeFragsByAmount_5935D0(s32 a2);
+    EXPORT void ChangeFragsByAmount_5935D0(s32 amount);
 
     thirsty_lamarr field_0_money;
     thirsty_lamarr field_38_multiplayer_frags;
