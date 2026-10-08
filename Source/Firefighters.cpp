@@ -5,7 +5,7 @@
 #include "CarPhysics_B0.hpp"
 #include "Char_Pool.hpp"
 #include "Game_0x40.hpp"
-#include "Hamburger_500.hpp"
+#include "PedRelationshipTable_500.hpp"
 #include "PathFinder_2FD4.hpp"
 #include "debug.hpp"
 
@@ -118,10 +118,10 @@ void Firefighter_28::deinit_4A81A0()
     Car_BC* pCar = this->field_1C_car;
     if (pCar)
     {
-        Hamburger_40* pRoute = pCar->field_60;
+        PedRelationship_40* pRoute = pCar->field_60;
         if (pRoute)
         {
-            gHamburger_500_678E30->FreeEntry_474CC0(pRoute);
+            gPedRelationshipTable_678E30->FreeEntry_474CC0(pRoute);
             this->field_1C_car->field_60 = 0;
         }
     }

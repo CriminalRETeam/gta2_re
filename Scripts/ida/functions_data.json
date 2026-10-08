@@ -4664,99 +4664,99 @@
         "v105_address": "0x471710"
     },
     {
-        "name": "Hamburger_40::ResetEntry_4747B0",
+        "name": "PedRelationship_40::ResetEntry_4747B0",
         "v96f_address": "0x4461a0",
         "v105_address": "0x4747b0",
         "v96f_auto": true
     },
     {
-        "name": "Hamburger_500::AllocateEntry_474810",
+        "name": "PedRelationshipTable_500::AllocateEntry_474810",
         "v96f_address": "0x446200",
         "v105_address": "0x474810",
         "v96f_auto": true
     },
     {
-        "name": "Hamburger_500::ArePedsCompatible_474850",
+        "name": "PedRelationshipTable_500::ArePedsCompatible_474850",
         "v96f_address": "0x4462f0",
         "v105_address": "0x474850",
         "v96f_auto": true
     },
     {
-        "name": "Hamburger_500::FindOwnerForFollowCode_4748A0",
+        "name": "PedRelationshipTable_500::FindOwnerForFollowCode_4748A0",
         "v96f_address": "0x446340",
         "v105_address": "0x4748a0",
         "v96f_auto": true
     },
     {
-        "name": "Hamburger_500::CountFollowers_474920",
+        "name": "PedRelationshipTable_500::CountFollowers_474920",
         "v96f_address": null,
         "v105_address": "0x474920"
     },
     {
-        "name": "Hamburger_500::HasAnyFollower_474970",
+        "name": "PedRelationshipTable_500::HasAnyFollower_474970",
         "v96f_address": "0x446240",
         "v105_address": "0x474970",
         "v96f_auto": true
     },
     {
-        "name": "Hamburger_500::HasRelationshipCode_13_15_4749B0",
+        "name": "PedRelationshipTable_500::HasRelationshipCode_13_15_4749B0",
         "v96f_address": null,
         "v105_address": "0x4749b0"
     },
     {
-        "name": "Hamburger_500::HasRelationshipCode_8_474A20",
+        "name": "PedRelationshipTable_500::HasRelationshipCode_8_474A20",
         "v96f_address": null,
         "v105_address": "0x474a20"
     },
     {
-        "name": "Hamburger_500::HasRelationshipCode_6_8_10_474A80",
+        "name": "PedRelationshipTable_500::HasRelationshipCode_6_8_10_474A80",
         "v96f_address": null,
         "v105_address": "0x474a80"
     },
     {
-        "name": "Hamburger_500::HasRelationshipCode_9_474AF0",
+        "name": "PedRelationshipTable_500::HasRelationshipCode_9_474AF0",
         "v96f_address": null,
         "v105_address": "0x474af0"
     },
     {
-        "name": "Hamburger_500::HasRelationshipCode_7_9_11_474B50",
+        "name": "PedRelationshipTable_500::HasRelationshipCode_7_9_11_474B50",
         "v96f_address": null,
         "v105_address": "0x474b50"
     },
     {
-        "name": "Hamburger_500::HasRelationshipCode_6_7_8_9_13_474BC0",
+        "name": "PedRelationshipTable_500::HasRelationshipCode_6_7_8_9_13_474BC0",
         "v96f_address": null,
         "v105_address": "0x474bc0"
     },
     {
-        "name": "Hamburger_500::HasRelationshipCode_4_5_474C30",
+        "name": "PedRelationshipTable_500::HasRelationshipCode_4_5_474C30",
         "v96f_address": null,
         "v105_address": "0x474c30"
     },
     {
-        "name": "Hamburger_40::ctor",
+        "name": "PedRelationship_40::ctor",
         "v96f_address": null,
         "v105_address": "0x474ca0"
     },
     {
-        "name": "Hamburger_40::dtor",
+        "name": "PedRelationship_40::dtor",
         "v96f_address": "0x446280",
         "v105_address": "0x474cb0",
         "v96f_auto": true
     },
     {
-        "name": "Hamburger_500::FreeEntry_474CC0",
+        "name": "PedRelationshipTable_500::FreeEntry_474CC0",
         "v96f_address": "0x446290",
         "v105_address": "0x474cc0",
         "v96f_auto": true
     },
     {
-        "name": "Hamburger_500::ctor",
+        "name": "PedRelationshipTable_500::ctor",
         "v96f_address": "0x446710",
         "v105_address": "0x474d10"
     },
     {
-        "name": "Hamburger_500::dtor",
+        "name": "PedRelationshipTable_500::dtor",
         "v96f_address": null,
         "v105_address": "0x474d30"
     },

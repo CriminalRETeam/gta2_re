@@ -12,7 +12,7 @@
 #include "Frontend.hpp"
 #include "Game_0x40.hpp"
 #include "Gang.hpp"
-#include "Hamburger_500.hpp"
+#include "PedRelationshipTable_500.hpp"
 #include "Hud.hpp"
 #include "EmergencyCrewPool_1E0.hpp"
 #include "MapRenderer.hpp"
@@ -2819,13 +2819,13 @@ void CC ImGuiDebugDraw()
             ImGui::TreePop();
         }
 
-        if (ImGui::TreeNode("gHamburger_500_678E30"))
+        if (ImGui::TreeNode("gPedRelationshipTable_678E30"))
         {
-            if (gHamburger_500_678E30)
+            if (gPedRelationshipTable_678E30)
             {
                 for (s32 i = 0; i < 20; i++)
                 {
-                    Hamburger_40& hb = gHamburger_500_678E30->field_0_entries[i];
+                    PedRelationship_40& hb = gPedRelationshipTable_678E30->field_0_entries[i];
                     ImGui::Value("field_0", hb.field_0_bInUse);
                 }
             }

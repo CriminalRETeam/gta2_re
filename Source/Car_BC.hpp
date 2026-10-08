@@ -25,7 +25,7 @@ class CarPhysics_B0;
 class Trailer;
 class Ped;
 class Char_8;
-class Hamburger_40;
+class PedRelationship_40;
 class Ped_List_4;
 class car_info;
 class SoundObject_10;
@@ -1340,7 +1340,7 @@ class Car_BC
     Ped* field_54_driver;
     CarPhysics_B0* field_58_physics;
     CarAI_78* field_5C_AI;
-    Hamburger_40* field_60;
+    PedRelationship_40* field_60;
     Trailer* field_64_pTrailer;
     Fix16 field_68_scale;
     s32 field_6C_maybe_id;

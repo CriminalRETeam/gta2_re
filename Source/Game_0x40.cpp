@@ -18,7 +18,7 @@
 #include "Garage_48.hpp"
 #include "Generators.hpp"
 #include "Globals.hpp"
-#include "Hamburger_500.hpp"
+#include "PedRelationshipTable_500.hpp"
 #include "Hud.hpp"
 #include "EmergencyCrewPool_1E0.hpp"
 #include "Light_1D4CC.hpp"
@@ -1213,8 +1213,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1901);
     }
 
-    gHamburger_500_678E30 = new Hamburger_500(); // ctor call
-    if (!gHamburger_500_678E30)
+    gPedRelationshipTable_678E30 = new PedRelationshipTable_500(); // ctor call
+    if (!gPedRelationshipTable_678E30)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1903);
     }
@@ -1339,7 +1339,7 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gLight_1D4CC_6F5520);
     GTA2_DELETE_AND_NULL(gGangPool_CA8_67E274);
     GTA2_DELETE_AND_NULL(gGarage_48_6FD26C);
-    GTA2_DELETE_AND_NULL(gHamburger_500_678E30);
+    GTA2_DELETE_AND_NULL(gPedRelationshipTable_678E30);
 
     if (!bExplodingScoresOff_67D4FB)
     {

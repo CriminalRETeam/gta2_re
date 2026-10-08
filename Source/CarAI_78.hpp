@@ -8,7 +8,7 @@
 
 class Car_BC;
 class Sprite;
-class Hamburger_40;
+class PedRelationship_40;
 struct gmp_block_info;
 
 namespace car_ai_direction

@@ -5,7 +5,7 @@
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
 #include "Game_0x40.hpp"
-#include "Hamburger_500.hpp"
+#include "PedRelationshipTable_500.hpp"
 #include "Object_5C.hpp"
 #include "PathFinder_2FD4.hpp"
 #include "Police_7B8.hpp"
@@ -2763,7 +2763,7 @@ void CarAI_78::Init_AI_Chase_44E0C0()
     u8 t_y;
     u8 t_z = 0;
     this->field_74_max_speed = this->field_0_car->field_54_driver->field_1F8_run_speed;
-    Hamburger_40* p60_ = field_0_car->field_60;
+    PedRelationship_40* p60_ = field_0_car->field_60;
 
     Fix16 target_x;
     Fix16 target_y;
@@ -2811,7 +2811,7 @@ void CarAI_78::Init_AI_Chase_44E0C0()
         return;
     }
 
-    Hamburger_40* p60 = this->field_0_car->field_60;
+    PedRelationship_40* p60 = this->field_0_car->field_60;
     if (p60->field_20)
     {
         if (p60->field_34 == 0)
@@ -2944,7 +2944,7 @@ void CarAI_78::UpdateStateMachine_44E560()
 
     s16 waitCount = 0;
     u8 police_level = 0; // 1 for 0/1 wanted stars, 2 for 2/3, 3 for 4, 4 for 5
-    Hamburger_40* pHam40 = 0;
+    PedRelationship_40* pRelationship = 0;
     s16 maxCount = 0;
     u8 bTryLeft = 0;
     u8 bTryRight = 0;
@@ -2955,20 +2955,20 @@ void CarAI_78::UpdateStateMachine_44E560()
 
     if (field_0_car->field_60)
     {
-        pHam40 = field_0_car->field_60;
-        switch (pHam40->field_8_maybe_path_type)
+        pRelationship = field_0_car->field_60;
+        switch (pRelationship->field_8_maybe_path_type)
         {
             case 1:
                 break;
 
             default:
-                if (pHam40->field_30_ped_to_follow->field_168_game_object)
+                if (pRelationship->field_30_ped_to_follow->field_168_game_object)
                 {
-                    pHam40->field_C_relationship_code = 0;
+                    pRelationship->field_C_relationship_code = 0;
                 }
                 else if (field_0_car->IsPoliceCar_439EC0())
                 {
-                    switch (pHam40->field_30_ped_to_follow->get_wanted_star_count_46EF00())
+                    switch (pRelationship->field_30_ped_to_follow->get_wanted_star_count_46EF00())
                     {
                         case cop_level_enum::none_0:
                         case cop_level_enum::police_1:
@@ -2989,7 +2989,7 @@ void CarAI_78::UpdateStateMachine_44E560()
                 break;
 
             case 2:
-                pHam40->field_C_relationship_code = 5;
+                pRelationship->field_C_relationship_code = 5;
                 break;
         }
     }
@@ -3002,7 +3002,7 @@ void CarAI_78::UpdateStateMachine_44E560()
     if (!field_3C_seeking_road)
     {
         byte_677A5D = 0;
-        switch ((u8)gHamburger_500_678E30->CountFollowers_474920(pHam40->field_30_ped_to_follow, this->field_0_car->field_54_driver))
+        switch ((u8)gPedRelationshipTable_678E30->CountFollowers_474920(pRelationship->field_30_ped_to_follow, this->field_0_car->field_54_driver))
         {
             case 1:
                 v12 = dword_6779C0;
@@ -3015,7 +3015,7 @@ void CarAI_78::UpdateStateMachine_44E560()
                 break;
         }
 
-        switch (pHam40->field_C_relationship_code)
+        switch (pRelationship->field_C_relationship_code)
         {
             case 0:
                 if (gCurrCarAI_TargetCar_6779B0)
@@ -3127,7 +3127,7 @@ void CarAI_78::UpdateStateMachine_44E560()
             {
                 u8 bOvertake = 0;
                 MakeAgressiveSirensAndLights_4476F0();
-                switch (pHam40->field_8_maybe_path_type)
+                switch (pRelationship->field_8_maybe_path_type)
                 {
                     case 3:
                         bOvertake = 1;
@@ -3141,7 +3141,7 @@ void CarAI_78::UpdateStateMachine_44E560()
 
                         if (gCurrCarAI_TargetCar_6779B0->GetMaxSpeed_439F30() > v12)
                         {
-                            if (pHam40->field_3C > 3u)
+                            if (pRelationship->field_3C > 3u)
                             {
                                 bOvertake = 1;
                                 waitCount = 10;
@@ -3153,34 +3153,34 @@ void CarAI_78::UpdateStateMachine_44E560()
                         }
                         else
                         {
-                            switch ((u8)gHamburger_500_678E30->CountFollowers_474920(pHam40->field_30_ped_to_follow, field_0_car->field_54_driver))
+                            switch ((u8)gPedRelationshipTable_678E30->CountFollowers_474920(pRelationship->field_30_ped_to_follow, field_0_car->field_54_driver))
                             {
                                 case 1:
                                     waitCount = gPolice_7B8_6FEE40->field_654_max_wanted_level != 1 ? 10 : 50;
                                     break;
 
                                 case 2:
-                                    if (gHamburger_500_678E30->HasRelationshipCode_4_5_474C30(this->field_0_car->field_54_driver))
+                                    if (gPedRelationshipTable_678E30->HasRelationshipCode_4_5_474C30(this->field_0_car->field_54_driver))
                                     {
                                         waitCount = 0;
                                     }
                                     else
                                     {
                                         waitCount = 1;
-                                        pHam40->field_2E = 0;
+                                        pRelationship->field_2E = 0;
                                     }
                                     break;
 
                                 case 3:
                                 case 4:
-                                    if (gHamburger_500_678E30->HasRelationshipCode_9_474AF0(this->field_0_car->field_54_driver))
+                                    if (gPedRelationshipTable_678E30->HasRelationshipCode_9_474AF0(this->field_0_car->field_54_driver))
                                     {
                                         waitCount = 0;
                                     }
                                     else
                                     {
                                         waitCount = 1;
-                                        pHam40->field_2E = 0;
+                                        pRelationship->field_2E = 0;
                                     }
                                     break;
 
@@ -3199,9 +3199,9 @@ void CarAI_78::UpdateStateMachine_44E560()
                         break;
                 }
 
-                if ((u16)pHam40->field_2E < waitCount)
+                if ((u16)pRelationship->field_2E < waitCount)
                 {
-                    ++pHam40->field_2E;
+                    ++pRelationship->field_2E;
                     field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4, gCurrCarAI_zpos_677C48);
                     Ang16 angle = gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0 - kAng90_6779E4;
                     Ang16::PolarToCartesian_41FC20(angle, kFpThreeQuarters_677A4C, dx, dy);
@@ -3217,10 +3217,10 @@ void CarAI_78::UpdateStateMachine_44E560()
                 {
                     if (bOvertake != 1)
                     {
-                        pHam40->field_C_relationship_code = 10;
+                        pRelationship->field_C_relationship_code = 10;
                         return;
                     }
-                    pHam40->field_10 = 1;
+                    pRelationship->field_10 = 1;
                     field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4, gCurrCarAI_zpos_677C48);
                     Ang16::PolarToCartesian_41FC20(gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0, gF16fOne_677B94, dx, dy);
                     gCurrCarAI_TargetX_6779F0 += dx;
@@ -3248,7 +3248,7 @@ void CarAI_78::UpdateStateMachine_44E560()
             {
                 u8 bOvertake = 0;
                 MakeAgressiveSirensAndLights_4476F0();
-                switch (pHam40->field_8_maybe_path_type)
+                switch (pRelationship->field_8_maybe_path_type)
                 {
                     case 3:
                         bOvertake = 1;
@@ -3262,7 +3262,7 @@ void CarAI_78::UpdateStateMachine_44E560()
 
                         if (gCurrCarAI_TargetCar_6779B0->GetMaxSpeed_439F30() > v12)
                         {
-                            if (pHam40->field_3C > 3u)
+                            if (pRelationship->field_3C > 3u)
                             {
                                 bOvertake = 1;
                                 waitCount = 10;
@@ -3274,34 +3274,34 @@ void CarAI_78::UpdateStateMachine_44E560()
                         }
                         else
                         {
-                            switch ((u8)gHamburger_500_678E30->CountFollowers_474920(pHam40->field_30_ped_to_follow, field_0_car->field_54_driver))
+                            switch ((u8)gPedRelationshipTable_678E30->CountFollowers_474920(pRelationship->field_30_ped_to_follow, field_0_car->field_54_driver))
                             {
                                 case 1:
                                     waitCount = gPolice_7B8_6FEE40->field_654_max_wanted_level != 1 ? 10 : 50;
                                     break;
 
                                 case 2:
-                                    if (gHamburger_500_678E30->HasRelationshipCode_4_5_474C30(this->field_0_car->field_54_driver))
+                                    if (gPedRelationshipTable_678E30->HasRelationshipCode_4_5_474C30(this->field_0_car->field_54_driver))
                                     {
                                         waitCount = 0;
                                     }
                                     else
                                     {
                                         waitCount = 1;
-                                        pHam40->field_2E = 0;
+                                        pRelationship->field_2E = 0;
                                     }
                                     break;
 
                                 case 3:
                                 case 4:
-                                    if (gHamburger_500_678E30->HasRelationshipCode_8_474A20(this->field_0_car->field_54_driver))
+                                    if (gPedRelationshipTable_678E30->HasRelationshipCode_8_474A20(this->field_0_car->field_54_driver))
                                     {
                                         waitCount = 0;
                                     }
                                     else
                                     {
                                         waitCount = 1;
-                                        pHam40->field_2E = 0;
+                                        pRelationship->field_2E = 0;
                                     }
                                     break;
 
@@ -3320,9 +3320,9 @@ void CarAI_78::UpdateStateMachine_44E560()
                         break;
                 }
 
-                if ((u16)pHam40->field_2E < waitCount)
+                if ((u16)pRelationship->field_2E < waitCount)
                 {
-                    ++pHam40->field_2E;
+                    ++pRelationship->field_2E;
                     field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4, gCurrCarAI_zpos_677C48);
                     Ang16 angle = gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0 + kAng90_6779E4;
                     Ang16::PolarToCartesian_41FC20(angle, kFpThreeQuarters_677A4C, dx, dy);
@@ -3338,10 +3338,10 @@ void CarAI_78::UpdateStateMachine_44E560()
                 {
                     if (bOvertake != 1)
                     {
-                        pHam40->field_C_relationship_code = 11;
+                        pRelationship->field_C_relationship_code = 11;
                         return;
                     }
-                    pHam40->field_10 = 1;
+                    pRelationship->field_10 = 1;
                     field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4, gCurrCarAI_zpos_677C48);
                     Ang16::PolarToCartesian_41FC20(gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0, gF16fOne_677B94, dx, dy);
                     gCurrCarAI_TargetX_6779F0 += dx;
@@ -3396,15 +3396,15 @@ void CarAI_78::UpdateStateMachine_44E560()
                 gCurrCarAI_TargetY_6779F4 += dy;
                 v245 = Fix16::MaxAbsDistance_42A6B0(gCurrCarAI_xpos_677C38, gCurrCarAI_ypos_677C30, gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4);
                 v248 = Fix16::atan2_fixed_405320(gCurrCarAI_TargetY_6779F4 - gCurrCarAI_ypos_677C30, gCurrCarAI_TargetX_6779F0 - gCurrCarAI_xpos_677C38);
-                if (pHam40->field_C_relationship_code == 13)
+                if (pRelationship->field_C_relationship_code == 13)
                 {
                     // Face the un-offset target position
                     v256 = Fix16::atan2_fixed_405320(savedTargetY - gCurrCarAI_ypos_677C30, savedTargetX - gCurrCarAI_xpos_677C38);
                     if (dword_677A8C < dword_677B58)
                     {
                         field_0_car->DoBreak_43A950();
-                        pHam40->field_2C = 0;
-                        pHam40->field_C_relationship_code = 15;
+                        pRelationship->field_2C = 0;
+                        pRelationship->field_C_relationship_code = 15;
                         return;
                     }
 
@@ -3419,7 +3419,7 @@ void CarAI_78::UpdateStateMachine_44E560()
 
                     if (ComputeShortestAngleDelta_4056C0(this->field_10_angle, gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0) > dword_677A2E)
                     {
-                        pHam40->field_C_relationship_code = 15;
+                        pRelationship->field_C_relationship_code = 15;
                         return;
                     }
                     this->field_0_car->field_58_physics->SetHandBrakeOn_421250();
@@ -3580,8 +3580,8 @@ void CarAI_78::UpdateStateMachine_44E560()
     if (dword_677A8C < dword_677B58)
     {
         field_0_car->DoBreak_43A950();
-        pHam40->field_2C = 0;
-        pHam40->field_C_relationship_code = 15;
+        pRelationship->field_2C = 0;
+        pRelationship->field_C_relationship_code = 15;
         return;
     }
 
@@ -3594,11 +3594,11 @@ void CarAI_78::UpdateStateMachine_44E560()
 
         dword_677A8C = gCurrCarAI_TargetCar_6779B0->GetCarLinearSpeed_43A240();
 
-        switch (pHam40->field_C_relationship_code)
+        switch (pRelationship->field_C_relationship_code)
         {
             case 0:
             case 2:
-                if ((u16)pHam40->field_2A >= 10u)
+                if ((u16)pRelationship->field_2A >= 10u)
                 {
                     gCurrCarAI_TargetX_6779F0 = savedTargetX;
                     gCurrCarAI_TargetY_6779F4 = savedTargetY;
@@ -3612,24 +3612,24 @@ void CarAI_78::UpdateStateMachine_44E560()
 
                     if (!field_0_car->field_50_car_sprite->CheckSpriteMovementRegion_5A2500())
                     {
-                        Ped* pOwner = gHamburger_500_678E30->FindOwnerForFollowCode_4748A0(5, pHam40->field_30_ped_to_follow);
+                        Ped* pOwner = gPedRelationshipTable_678E30->FindOwnerForFollowCode_4748A0(5, pRelationship->field_30_ped_to_follow);
                         if (pOwner)
                         {
                             if (pOwner->field_16C_car->field_60->field_2C > 10u)
                             {
                                 pOwner->field_16C_car->field_60->field_C_relationship_code = 3;
                                 pOwner->field_16C_car->field_60->field_2C = 0;
-                                pHam40->field_2A = 100;
-                                pHam40->field_2C = 0;
-                                pHam40->field_C_relationship_code = 5;
+                                pRelationship->field_2A = 100;
+                                pRelationship->field_2C = 0;
+                                pRelationship->field_C_relationship_code = 5;
                                 return;
                             }
                         }
                         else
                         {
-                            pHam40->field_2A = 100;
-                            pHam40->field_2C = 0;
-                            pHam40->field_C_relationship_code = 5;
+                            pRelationship->field_2A = 100;
+                            pRelationship->field_2C = 0;
+                            pRelationship->field_C_relationship_code = 5;
                             return;
                         }
                     }
@@ -3661,14 +3661,14 @@ void CarAI_78::UpdateStateMachine_44E560()
                     pPhysics->field_93_is_forward_gas_on = 0;
                 }
 
-                if ((u16)pHam40->field_2A < 10u)
+                if ((u16)pRelationship->field_2A < 10u)
                 {
-                    pHam40->field_2A++;
+                    pRelationship->field_2A++;
                 }
                 break;
 
             case 3:
-                if (pHam40->field_2C == 10)
+                if (pRelationship->field_2C == 10)
                 {
                     field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4, gCurrCarAI_zpos_677C48);
                     Ang16 angle = gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0 - kAng90_6779E4;
@@ -3682,7 +3682,7 @@ void CarAI_78::UpdateStateMachine_44E560()
                         this->field_70_nearest_entity = gSpriteGrid_1_679208->FindNearestSpriteOfType_477E60(this->field_0_car->field_50_car_sprite, 0);
                         if (!this->field_70_nearest_entity)
                         {
-                            pHam40->field_C_relationship_code = 6;
+                            pRelationship->field_C_relationship_code = 6;
                         }
                     }
                 }
@@ -3714,16 +3714,16 @@ void CarAI_78::UpdateStateMachine_44E560()
                         pPhysics->field_93_is_forward_gas_on = 0;
                     }
 
-                    if (pHam40->field_2C < 10u)
+                    if (pRelationship->field_2C < 10u)
                     {
-                        pHam40->field_2C++;
+                        pRelationship->field_2C++;
                     }
                 }
                 break;
 
             case 5:
             {
-                switch ((u8)gHamburger_500_678E30->CountFollowers_474920(pHam40->field_30_ped_to_follow, this->field_0_car->field_54_driver))
+                switch ((u8)gPedRelationshipTable_678E30->CountFollowers_474920(pRelationship->field_30_ped_to_follow, this->field_0_car->field_54_driver))
                 {
                     case 1:
                         bTryRight = 1;
@@ -3732,10 +3732,10 @@ void CarAI_78::UpdateStateMachine_44E560()
                         break;
 
                     case 2:
-                        if (gHamburger_500_678E30->HasRelationshipCode_13_15_4749B0(this->field_0_car->field_54_driver))
+                        if (gPedRelationshipTable_678E30->HasRelationshipCode_13_15_4749B0(this->field_0_car->field_54_driver))
                         {
                             maxCount = 10;
-                            pHam40->field_2C = 0;
+                            pRelationship->field_2C = 0;
                             bTryRight = 0;
                             bTryLeft = 0;
                         }
@@ -3751,26 +3751,26 @@ void CarAI_78::UpdateStateMachine_44E560()
                     case 4:
                         bTryRight = 1;
                         bTryLeft = 1;
-                        if (gHamburger_500_678E30->HasRelationshipCode_6_7_8_9_13_474BC0(field_0_car->field_54_driver))
+                        if (gPedRelationshipTable_678E30->HasRelationshipCode_6_7_8_9_13_474BC0(field_0_car->field_54_driver))
                         {
-                            if (gHamburger_500_678E30->HasRelationshipCode_6_8_10_474A80(this->field_0_car->field_54_driver))
+                            if (gPedRelationshipTable_678E30->HasRelationshipCode_6_8_10_474A80(this->field_0_car->field_54_driver))
                             {
                                 bTryLeft = 0;
-                                if (gHamburger_500_678E30->HasRelationshipCode_7_9_11_474B50(field_0_car->field_54_driver))
+                                if (gPedRelationshipTable_678E30->HasRelationshipCode_7_9_11_474B50(field_0_car->field_54_driver))
                                 {
-                                    pHam40->field_2C = 0;
+                                    pRelationship->field_2C = 0;
                                     bTryRight = 0;
                                     bTryLeft = 0;
                                 }
                             }
-                            else if (gHamburger_500_678E30->HasRelationshipCode_7_9_11_474B50(this->field_0_car->field_54_driver))
+                            else if (gPedRelationshipTable_678E30->HasRelationshipCode_7_9_11_474B50(this->field_0_car->field_54_driver))
                             {
                                 bTryRight = 0;
                             }
                             else
                             {
                                 maxCount = 10;
-                                pHam40->field_2C = 0;
+                                pRelationship->field_2C = 0;
                             }
                         }
                         else
@@ -3784,15 +3784,15 @@ void CarAI_78::UpdateStateMachine_44E560()
                         break;
                 }
 
-                if (pHam40->field_8_maybe_path_type == 2)
+                if (pRelationship->field_8_maybe_path_type == 2)
                 {
                     maxCount = 100;
-                    pHam40->field_2C = 0;
+                    pRelationship->field_2C = 0;
                 }
 
                 MakeAgressiveSirensAndLights_4476F0();
 
-                if (pHam40->field_2C >= maxCount)
+                if (pRelationship->field_2C >= maxCount)
                 {
                     // Try to get beside the target, first on its left then on its right
                     if (bTryLeft)
@@ -3814,7 +3814,7 @@ void CarAI_78::UpdateStateMachine_44E560()
                                                                                       field_0_car->field_50_car_sprite->field_1C_zpos);
                                 if (!(field_70_nearest_entity = gSpriteGrid_1_679208->FindNearestSpriteOfType_477E60(this->field_0_car->field_50_car_sprite, 0)))
                                 {
-                                    pHam40->field_C_relationship_code = 6;
+                                    pRelationship->field_C_relationship_code = 6;
                                     return;
                                 }
                             }
@@ -3840,7 +3840,7 @@ void CarAI_78::UpdateStateMachine_44E560()
                                                                                       field_0_car->field_50_car_sprite->field_1C_zpos);
                                 if (!(field_70_nearest_entity = gSpriteGrid_1_679208->FindNearestSpriteOfType_477E60(this->field_0_car->field_50_car_sprite, 0)))
                                 {
-                                    pHam40->field_C_relationship_code = 7;
+                                    pRelationship->field_C_relationship_code = 7;
                                 }
                             }
                         }
@@ -3886,17 +3886,17 @@ void CarAI_78::UpdateStateMachine_44E560()
                         field_0_car->field_58_physics->ForceNeutralInput_453F50();
                     }
 
-                    if (pHam40->field_2C < maxCount)
+                    if (pRelationship->field_2C < maxCount)
                     {
-                        ++pHam40->field_2C;
+                        ++pRelationship->field_2C;
                     }
-                    pHam40->field_2A = 100;
+                    pRelationship->field_2A = 100;
                 }
                 break;
             }
 
             case 4:
-                if (pHam40->field_2C >= 10u)
+                if (pRelationship->field_2C >= 10u)
                 {
                     field_0_car->field_50_car_sprite->set_xyz_lazy_451950(gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4, gCurrCarAI_zpos_677C48);
                     Ang16 angle = gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0 + kAng90_6779E4;
@@ -3908,7 +3908,7 @@ void CarAI_78::UpdateStateMachine_44E560()
                     {
                         if (!(this->field_70_nearest_entity = gSpriteGrid_1_679208->FindNearestSpriteOfType_477E60(this->field_0_car->field_50_car_sprite, 0)))
                         {
-                            pHam40->field_C_relationship_code = 7;
+                            pRelationship->field_C_relationship_code = 7;
                         }
                     }
                 }
@@ -3928,9 +3928,9 @@ void CarAI_78::UpdateStateMachine_44E560()
                         field_0_car->field_58_physics->ForceNeutralInput_453F50();
                     }
 
-                    if (pHam40->field_2C < 10u)
+                    if (pRelationship->field_2C < 10u)
                     {
-                        pHam40->field_2C++;
+                        pRelationship->field_2C++;
                     }
                 }
                 break;
@@ -3938,7 +3938,7 @@ void CarAI_78::UpdateStateMachine_44E560()
             case 6:
                 if (v245 < kFpHalf_677A84 + kFpEighth_677CBC)
                 {
-                    pHam40->field_C_relationship_code = 8;
+                    pRelationship->field_C_relationship_code = 8;
                 }
                 else
                 {
@@ -3949,7 +3949,7 @@ void CarAI_78::UpdateStateMachine_44E560()
             case 7:
                 if (v245 < kFpHalf_677A84 + kFpEighth_677CBC)
                 {
-                    pHam40->field_C_relationship_code = 9;
+                    pRelationship->field_C_relationship_code = 9;
                 }
                 else
                 {
@@ -3993,7 +3993,7 @@ void CarAI_78::UpdateStateMachine_44E560()
             case 11:
                 if (v245 < kFpQuarter_6779BC)
                 {
-                    pHam40->field_C_relationship_code = 12;
+                    pRelationship->field_C_relationship_code = 12;
                 }
                 break;
 
@@ -4001,9 +4001,9 @@ void CarAI_78::UpdateStateMachine_44E560()
             case 13:
                 if (v245 < gF16fOne_677B94 + kFpHalf_677A84)
                 {
-                    ++pHam40->field_3C;
+                    ++pRelationship->field_3C;
                     field_0_car->field_58_physics->ClearDriverInputs_453F90();
-                    pHam40->field_C_relationship_code = 13;
+                    pRelationship->field_C_relationship_code = 13;
                 }
                 break;
 
@@ -4013,22 +4013,22 @@ void CarAI_78::UpdateStateMachine_44E560()
     }
     else if (this->field_0_car->field_60)
     {
-        if ((u16)pHam40->field_2A > 0)
+        if ((u16)pRelationship->field_2A > 0)
         {
-            pHam40->field_2A--;
+            pRelationship->field_2A--;
         }
-        else if (pHam40->field_8_maybe_path_type != 1)
+        else if (pRelationship->field_8_maybe_path_type != 1)
         {
-            pHam40->field_C_relationship_code = 13;
-            if (gHamburger_500_678E30->FindOwnerForFollowCode_4748A0(0, pHam40->field_30_ped_to_follow))
+            pRelationship->field_C_relationship_code = 13;
+            if (gPedRelationshipTable_678E30->FindOwnerForFollowCode_4748A0(0, pRelationship->field_30_ped_to_follow))
             {
-                pHam40->field_C_relationship_code = 2;
+                pRelationship->field_C_relationship_code = 2;
             }
             else
             {
-                pHam40->field_C_relationship_code = gHamburger_500_678E30->FindOwnerForFollowCode_4748A0(5, pHam40->field_30_ped_to_follow) ? 0 : 2;
+                pRelationship->field_C_relationship_code = gPedRelationshipTable_678E30->FindOwnerForFollowCode_4748A0(5, pRelationship->field_30_ped_to_follow) ? 0 : 2;
             }
-            pHam40->field_2E = 0;
+            pRelationship->field_2E = 0;
         }
     }
 }
@@ -4995,7 +4995,7 @@ void CarAI_78::UpdateDrivingAI_452DF0()
         UpdateStateMachine_44E560();
     }
 
-    //Hamburger_40* v15 = field_0->field_60;
+    //PedRelationship_40* v15 = field_0->field_60;
     if (field_0_car->field_60 && field_0_car->field_60->field_8_maybe_path_type == 2)
     {
         byte_677BBC = 1;
@@ -5016,7 +5016,7 @@ void CarAI_78::UpdateDrivingAI_452DF0()
 
     if (field_28_junc_idx > 0 && (field_24_flags & 0x10) != 0)
     {
-        //Hamburger_40* v19 = field_0->field_60;
+        //PedRelationship_40* v19 = field_0->field_60;
         if (field_0_car->field_60)
         {
             if (field_0_car->field_60->field_22 == 1)

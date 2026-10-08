@@ -16,7 +16,7 @@
 #include "Function.hpp"
 #include "Game_0x40.hpp"
 #include "Hud.hpp"
-#include "Hamburger_500.hpp"
+#include "PedRelationshipTable_500.hpp"
 #include "EmergencyCrewPool_1E0.hpp"
 #include "Light_1D4CC.hpp"
 #include "Generators.hpp"

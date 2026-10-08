@@ -41,7 +41,7 @@
 #include "Firefighters.hpp"
 #include "Fix16_Rect.hpp"
 #include "Generators.hpp"
-#include "Hamburger_500.hpp"
+#include "PedRelationshipTable_500.hpp"
 #include "Hud.hpp"
 #include "ImGuiDebug.hpp"
 #include "MapRenderer.hpp"
@@ -310,7 +310,7 @@ void force_link()
 
     FirefighterPool_54 tango_54;
 
-    Hamburger_500 hamburger_500;
+    PedRelationshipTable_500 hamburger_500;
     hamburger_500.FreeEntry_474CC0(0);
 
     CollisionCounters_C collide_C;
