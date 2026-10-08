@@ -1450,7 +1450,7 @@ void Object_2C::sub_525190(u8 varrok_idx)
                                                                           this->field_4->field_14_xy.y,
                                                                           this->field_4->field_1C_zpos,
                                                                           kZeroAng_6F8F68,
-                                                                          19,
+                                                                          explosion_type::item_19,
                                                                           gVarrok_7F8_703398->GetPedId_420F10(varrok_idx));
         if (pExplosion)
         {
@@ -3139,7 +3139,7 @@ void Object_5C::TrimSpriteList_529300()
                                                   pSprite->field_14_xy.y,
                                                   pSprite->field_1C_zpos,
                                                   kZeroAng_6F8F68,
-                                                  18,
+                                                  explosion_type::small_18,
                                                   gVarrok_7F8_703398->GetPedId_420F10(o2c->get_field_26_420FF0()));
             }
         }

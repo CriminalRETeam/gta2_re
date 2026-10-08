@@ -1,5 +1,6 @@
 #define FIX16_POINT_ZERO kFP16Zero_6FD9E4
 #include "ped_death_cause.hpp"
+#include "explosion_type.hpp"
 #include "voice_line.hpp"
 #include "char.hpp"
 #include "CarAI_78.hpp"
@@ -6465,7 +6466,7 @@ char_type Char_B4::HandlePedObjectHit_5537F0(Object_2C* p2c)
                                                   field_80_sprite_ptr->field_14_xy.y,
                                                   field_80_sprite_ptr->field_1C_zpos,
                                                   kAng0_6FDB34,
-                                                  18,
+                                                  explosion_type::small_18,
                                                   pedId);
         if (p2c->field_18_model == objects::mine_10)
         {

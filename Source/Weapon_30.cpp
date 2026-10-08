@@ -3,6 +3,7 @@
 // This TU's copy of the Fix16_Rect::ComputeCollisionPrism_4204D0 half height (see Fix16_Rect.hpp)
 #define FIX16_RECT_HALF_HEIGHT dword_706CC8
 #include "PlayerCrimeStats_3C.hpp"
+#include "explosion_type.hpp"
 #include "ped_death_cause.hpp"
 #include "Function.hpp"
 #include "fix16.hpp"
@@ -607,7 +608,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                                                                   field_24_pPed->get_cam_y(),
                                                                   field_24_pPed->get_cam_z(),
                                                                   field_24_pPed->Get_F12E_4CCA90(),
-                                                                  18,
+                                                                  explosion_type::small_18,
                                                                   field_24_pPed->field_200_id);
                         if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2))
                         {
@@ -657,7 +658,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                                 Object_2C* pLightObj = gObject_5C_6F8F84->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
                                 pProjectile->field_4->DispatchCollisionEvent_5A3100(pLightObj->field_4, 0, 0, kAngZero_707006);
                                 Object_2C* pMaybeExplosionObj =
-                                    gObject_5C_6F8F84->CreateExplosion_52A3D0(Fix16(113), Fix16(145), 2, kAngZero_707006, 5, field_24_pPed->field_200_id);
+                                    gObject_5C_6F8F84->CreateExplosion_52A3D0(Fix16(113), Fix16(145), 2, kAngZero_707006, explosion_type::trail_5, field_24_pPed->field_200_id);
                                 if (pMaybeExplosionObj)
                                 {
                                     pProjectile->field_4->DispatchCollisionEvent_5A3100(pMaybeExplosionObj->field_4, 0, 0, kAngZero_707006);

@@ -4,6 +4,7 @@
 // Force inline off
 //#define INLINE_MODE inline
 #include "car_despawn_status.hpp"
+#include "explosion_type.hpp"
 #include "hud_message_priority.hpp"
 #include "voice_line.hpp"
 #include "miss2_0x11c.hpp"
@@ -2950,7 +2951,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_509ED0()
                                                       pCmd->field_8_pos.field_4_y,
                                                       pCmd->field_8_pos.field_8_z,
                                                       kAngZero_6F804C,
-                                                      32,
+                                                      explosion_type::no_ring_32,
                                                       0);
             break;
         case 404:
@@ -2958,7 +2959,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_509ED0()
                                                       pCmd->field_8_pos.field_4_y,
                                                       pCmd->field_8_pos.field_8_z,
                                                       kAngZero_6F804C,
-                                                      18,
+                                                      explosion_type::small_18,
                                                       0);
             break;
         case 142:
@@ -2966,7 +2967,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_509ED0()
                                                       pCmd->field_8_pos.field_4_y,
                                                       pCmd->field_8_pos.field_8_z,
                                                       kAngZero_6F804C,
-                                                      19,
+                                                      explosion_type::item_19,
                                                       0);
             break;
         case 399:
@@ -2974,7 +2975,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_509ED0()
                                                       pCmd->field_8_pos.field_4_y,
                                                       pCmd->field_8_pos.field_8_z,
                                                       kAngZero_6F804C,
-                                                      20,
+                                                      explosion_type::large_20,
                                                       0);
             break;
     }
@@ -2992,7 +2993,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_BUILDING_509F60()
                                                       pCmd->field_8_pos.field_4_y,
                                                       pCmd->field_8_pos.field_8_z,
                                                       kAngZero_6F804C,
-                                                      23,
+                                                      explosion_type::building_225_23,
                                                       0);
             break;
         case 2:
@@ -3000,7 +3001,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_BUILDING_509F60()
                                                       pCmd->field_8_pos.field_4_y,
                                                       pCmd->field_8_pos.field_8_z,
                                                       kAngZero_6F804C,
-                                                      22,
+                                                      explosion_type::building_45_22,
                                                       0);
             break;
         case 3:
@@ -3008,7 +3009,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_BUILDING_509F60()
                                                       pCmd->field_8_pos.field_4_y,
                                                       pCmd->field_8_pos.field_8_z,
                                                       kAngZero_6F804C,
-                                                      24,
+                                                      explosion_type::building_135_24,
                                                       0);
             break;
         case 4:
@@ -3016,7 +3017,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_BUILDING_509F60()
                                                       pCmd->field_8_pos.field_4_y,
                                                       pCmd->field_8_pos.field_8_z,
                                                       kAngZero_6F804C,
-                                                      25,
+                                                      explosion_type::building_315_25,
                                                       0);
             break;
         default:
@@ -4511,21 +4512,21 @@ void miss2_0x11C::SCRCMD_EXPLODE_50C5A0()
 {
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
 
-    s32 explosion_type;
+    s32 type;
 
     switch (gBasePtr_6F8070->field_2_type)
     {
         case SCRCMD_EXPLODE_LARGE1:
-            explosion_type = 20;
+            type = explosion_type::large_20;
             break;
         case SCRCMD_EXPLODE_ITEM:
-            explosion_type = 19;
+            type = explosion_type::item_19;
             break;
         case SCRCMD_EXPLODE_SMALL1:
-            explosion_type = 18;
+            type = explosion_type::small_18;
             break;
         case SCRCMD_EXPLODE_NO_RING1:
-            explosion_type = 32;
+            type = explosion_type::no_ring_32;
             break;
     }
 
@@ -4539,7 +4540,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_50C5A0()
             Ped* pChar = pPointer->field_8_char;
 
             gObject_5C_6F8F84
-                ->CreateExplosion_52A3D0(pChar->get_cam_x(), pChar->get_cam_y(), pChar->get_cam_z(), kAngZero_6F804C, explosion_type, 0);
+                ->CreateExplosion_52A3D0(pChar->get_cam_x(), pChar->get_cam_y(), pChar->get_cam_z(), kAngZero_6F804C, type, 0);
 
             break;
         }
@@ -4549,7 +4550,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_50C5A0()
             Sprite* pSprite = pPointer->field_8_obj->field_4;
 
             gObject_5C_6F8F84
-                ->CreateExplosion_52A3D0(pSprite->GetXPos(), pSprite->GetYPos(), pSprite->GetZPos(), kAngZero_6F804C, explosion_type, 0);
+                ->CreateExplosion_52A3D0(pSprite->GetXPos(), pSprite->GetYPos(), pSprite->GetZPos(), kAngZero_6F804C, type, 0);
 
             break;
         }
@@ -4562,7 +4563,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_50C5A0()
                 pCrane->field_10_pos.field_4_y,
                 gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCrane->field_10_pos.field_0_x, pCrane->field_10_pos.field_4_y),
                 kAngZero_6F804C,
-                explosion_type,
+                type,
                 0);
 
             break;

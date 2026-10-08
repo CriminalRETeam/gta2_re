@@ -1,4 +1,5 @@
 #include "Car_BC.hpp"
+#include "explosion_type.hpp"
 #include "ped_death_cause.hpp"
 #include "car_despawn_status.hpp"
 #include "CarAI_78.hpp"
@@ -3008,7 +3009,7 @@ void Car_BC::SpawnFire_43BBC0()
     if (gFirefighterPool_54_67D4C0->TryDispatchFirefightersToCar_4A8820(this))
     {
         Object_2C* pExplosion =
-            gObject_5C_6F8F84->CreateExplosion_52A3D0(field_50_car_sprite->field_14_xy.x, field_50_car_sprite->field_14_xy.y, 4, kAngZero_67791C, 4, field_70_exploder_ped_id);
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(field_50_car_sprite->field_14_xy.x, field_50_car_sprite->field_14_xy.y, 4, kAngZero_67791C, explosion_type::trail_4, field_70_exploder_ped_id);
         if (pExplosion)
         {
             field_50_car_sprite->DispatchCollisionEvent_5A3100(pExplosion->field_4, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
