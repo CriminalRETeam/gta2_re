@@ -1589,7 +1589,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
             {
                 field_46_sub_state = max_sub_state;
                 field_30_pNext->set_xyz_lazy_420600(xpos, ypos, zpos + dword_6FD45C);
-                if (!(gpRng_67AB34->field_0_rng & 1))
+                if (!(gpRng_67AB34->get_cur_rng_41CFE0() & 1))
                 {
                     gParticle_8_6FD5E8->EmitWaterSplash_53F060(xpos, ypos, zpos, angle, 0);
                 }

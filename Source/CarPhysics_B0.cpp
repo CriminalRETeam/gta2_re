@@ -2460,7 +2460,7 @@ void CarPhysics_B0::AccumulateImpulse_55FC30(Fix16_Point& arg0, s32 base_dmg)
 
         ApplyImpulseWithTrailerRedirect_55FA10(&a2);
 
-        u32 rng_damage = base_dmg + gpRng_67AB34->field_0_rng;
+        u32 rng_damage = base_dmg + gpRng_67AB34->get_cur_rng_41CFE0();
         if (rng_damage > this->field_8_total_damage_q)
         {
             this->field_8_total_damage_q = rng_damage;

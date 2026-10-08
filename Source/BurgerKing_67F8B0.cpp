@@ -1127,7 +1127,7 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
     {
         if (*control_status != saved_input)
         {
-            sprintf(gTmpBuffer_67C598, "%d: control_status = %d", gpRng_67AB34->field_0_rng, *control_status);
+            sprintf(gTmpBuffer_67C598, "%d: control_status = %d", gpRng_67AB34->get_cur_rng_41CFE0(), *control_status);
             gFile_67C530.Write_4D9620(gTmpBuffer_67C598);
         }
     }

@@ -113,7 +113,7 @@ EXPORT void Generator_2C::SpawnObject_4C1B10()
 MATCH_FUNC(0x4c1c50)
 void Generator_2C::Service_4C1C50()
 {
-    if (gpRng_67AB34->field_0_rng >= field_18_cycle)
+    if (gpRng_67AB34->get_cur_rng_41CFE0() >= field_18_cycle)
     {
         if (field_1E_kill_timer > 0)
         {

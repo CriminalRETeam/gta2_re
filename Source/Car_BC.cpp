@@ -5316,7 +5316,7 @@ void Car_BC::UpdateRoofLightFlasher_441B50()
 MATCH_FUNC(0x441c00)
 void Car_BC::UpdatePopupHeadlights_441C00()
 {
-    if (!(gpRng_67AB34->field_0_rng % 3u))
+    if (!(gpRng_67AB34->get_cur_rng_41CFE0() % 3u))
     {
         if (field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDoor1_11))
         {
@@ -5365,7 +5365,7 @@ void Car_BC::UpdatePopupHeadlights_441C00()
 MATCH_FUNC(0x441d40)
 void Car_BC::UpdateFbiPopupSiren_441D40()
 {
-    if (!(gpRng_67AB34->field_0_rng % 3u))
+    if (!(gpRng_67AB34->get_cur_rng_41CFE0() % 3u))
     {
         if ((this->field_A4_light_flags & 4) != 0)
         {
