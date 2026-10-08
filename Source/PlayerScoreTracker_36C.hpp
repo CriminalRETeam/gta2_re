@@ -56,8 +56,8 @@ class PlayerScoreTracker_36C
     thirsty_lamarr field_0_money;
     thirsty_lamarr field_38_multiplayer_frags;
     s32 field_70_last_car_kill_time;
-    char_type field_74_car_kill_combo;
-    char_type field_75_score_mult;
+    u8 field_74_car_kill_combo;
+    u8 field_75_score_mult;
     s32 field_78_last_kill_time;
     s16 field_7C_execution_count;
     s32 field_80_last_elvis_kill_time;

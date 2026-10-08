@@ -710,7 +710,7 @@ void PlayerScoreTracker_36C::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKill
 
     if (score > 0)
     {
-        u32 total = (u8)field_75_score_mult * score;
+        u32 total = field_75_score_mult * score;
         if (!bExplodingScoresOff_67D4FB && bHasGameObject && bAwardScore && field_368_player->IsUser_41DC70())
         {
             gExplodingScorePool->PushScore_596890(pVictim->get_cam_x(), pVictim->get_cam_y(), pVictim->get_cam_z(), total * multiplier);
@@ -719,7 +719,7 @@ void PlayerScoreTracker_36C::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKill
         {
             field_368_player->AddScore_41DC40(total);
         }
-        if ((u8)field_75_score_mult < 5)
+        if (field_75_score_mult < 5)
         {
             field_75_score_mult++;
         }
