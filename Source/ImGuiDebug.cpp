@@ -2554,24 +2554,24 @@ void CC ImGuiDebugDraw()
 
                         if (ImGui::TreeNode("Try field_6F8_prev_brief as text"))
                         {
-                            ImGui::Text("Text: %s", pHud_Brief_704->field_6F8_curr_brief->field_0_brief_id_str);
+                            ImGui::Text("Text: %s", pHud_Brief_704->field_6F8_curr_briefs->field_0_brief_id_str);
                             ImGui::TreePop();
                         }
 
-                        if (ImGui::TreeNode("Try field_6FC_p_start_q as text"))
+                        if (ImGui::TreeNode("Try field_6FC_free_briefs as text"))
                         {
-                            ImGui::Text("Text: %s", (const char*)pHud_Brief_704->field_6FC_p_start_q);
+                            ImGui::Text("Text: %s", (const char*)pHud_Brief_704->field_6FC_free_briefs);
                             ImGui::TreePop();
                         }
 
                         if (ImGui::TreeNode("Try field_700 as text"))
                         {
-                            ImGui::Text("Text: %s", (const char*)pHud_Brief_704->field_700_prev_brief);
+                            ImGui::Text("Text: %s", (const char*)pHud_Brief_704->field_700_prev_briefs);
                             ImGui::TreePop();
                         }
 
 
-                        Hud_BriefEntry_18* curr_brief = pHud_Brief_704->field_6F8_curr_brief;
+                        Hud_BriefEntry_18* curr_brief = pHud_Brief_704->field_6F8_curr_briefs;
                         if (curr_brief)
                         {
                             ImGui::Value("curr brief f_10", curr_brief->field_10_was_displayed);

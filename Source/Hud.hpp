@@ -631,11 +631,13 @@ class Hud_Brief_704 // size 0x704
     s32 field_50C_face_variant;
     s32 field_510_time_to_show;
     s32 field_514_upward_timer;
-    // Pool of 20 entries linked through field_C_pNext as the free list (field_6FC_p_start_q is its head)
+    // Pool of 20 entries linked through field_C_pNext as the free list (field_6FC_free_briefs is its head)
     Hud_BriefEntry_18 field_518_briefs[20];
-    Hud_BriefEntry_18* field_6F8_curr_brief;
-    Hud_BriefEntry_18* field_6FC_p_start_q;
-    Hud_BriefEntry_18* field_700_prev_brief;
+    // Linked lists through field_C_pNext: the shown brief and those queued behind it by priority, the briefs pushed back
+    // by a more urgent one, and the free pool entries
+    Hud_BriefEntry_18* field_6F8_curr_briefs;
+    Hud_BriefEntry_18* field_6FC_free_briefs;
+    Hud_BriefEntry_18* field_700_prev_briefs;
 };
 
 class gmp_map_zone;

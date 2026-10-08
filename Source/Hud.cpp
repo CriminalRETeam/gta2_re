@@ -1974,29 +1974,29 @@ void Hud_Pager_C_Array::ClearCounterOnly_5D3310(s32 pager_idx)
 MATCH_FUNC(0x5d3330)
 void Hud_Brief_704::MovePrevBriefToCurrent_5D3330()
 {
-    Hud_BriefEntry_18* pBrief = field_700_prev_brief;
-    field_700_prev_brief = pBrief->field_C_pNext;
-    pBrief->field_C_pNext = field_6F8_curr_brief;
-    field_6F8_curr_brief = pBrief;
+    Hud_BriefEntry_18* pBrief = field_700_prev_briefs;
+    field_700_prev_briefs = pBrief->field_C_pNext;
+    pBrief->field_C_pNext = field_6F8_curr_briefs;
+    field_6F8_curr_briefs = pBrief;
 }
 
 MATCH_FUNC(0x5d3350)
 void Hud_Brief_704::FreeCurrentBrief_5D3350()
 {
     Hud_BriefEntry_18* pPrev;
-    pPrev = this->field_6F8_curr_brief;
-    this->field_6F8_curr_brief = pPrev->field_C_pNext;
-    pPrev->field_C_pNext = this->field_6FC_p_start_q;
-    this->field_6FC_p_start_q = pPrev;
+    pPrev = this->field_6F8_curr_briefs;
+    this->field_6F8_curr_briefs = pPrev->field_C_pNext;
+    pPrev->field_C_pNext = this->field_6FC_free_briefs;
+    this->field_6FC_free_briefs = pPrev;
 }
 
 MATCH_FUNC(0x5d3370)
 void Hud_Brief_704::MoveCurrentBriefToPrev_5D3370()
 {
-    Hud_BriefEntry_18* pPrev = this->field_6F8_curr_brief;
-    this->field_6F8_curr_brief = pPrev->field_C_pNext;
-    pPrev->field_C_pNext = this->field_700_prev_brief;
-    this->field_700_prev_brief = pPrev;
+    Hud_BriefEntry_18* pPrev = this->field_6F8_curr_briefs;
+    this->field_6F8_curr_briefs = pPrev->field_C_pNext;
+    pPrev->field_C_pNext = this->field_700_prev_briefs;
+    this->field_700_prev_briefs = pPrev;
     pPrev->field_8_brief_priority = 0;
 }
 
@@ -2006,13 +2006,13 @@ MATCH_FUNC(0x5d33a0)
 void Hud_Brief_704::AppendCurrentBriefToPrev_5D33A0()
 {
     Hud_BriefEntry_18* pBrief;
-    for (pBrief = field_700_prev_brief; pBrief->field_C_pNext; pBrief = pBrief->field_C_pNext)
+    for (pBrief = field_700_prev_briefs; pBrief->field_C_pNext; pBrief = pBrief->field_C_pNext)
     {
         ;
     }
-    pBrief->field_C_pNext = field_6F8_curr_brief;
-    field_6F8_curr_brief->field_8_brief_priority = 0;
-    field_6F8_curr_brief = field_6F8_curr_brief->field_C_pNext;
+    pBrief->field_C_pNext = field_6F8_curr_briefs;
+    field_6F8_curr_briefs->field_8_brief_priority = 0;
+    field_6F8_curr_briefs = field_6F8_curr_briefs->field_C_pNext;
     pBrief->field_C_pNext->field_C_pNext = NULL;
 }
 
@@ -2020,19 +2020,19 @@ void Hud_Brief_704::AppendCurrentBriefToPrev_5D33A0()
 MATCH_FUNC(0x5d33f0)
 Hud_BriefEntry_18* Hud_Brief_704::AllocBrief_5D33F0()
 {
-    Hud_BriefEntry_18* result = field_6FC_p_start_q;
+    Hud_BriefEntry_18* result = field_6FC_free_briefs;
     if (result)
     {
-        field_6FC_p_start_q = result->field_C_pNext;
+        field_6FC_free_briefs = result->field_C_pNext;
     }
     else
     {
         Hud_BriefEntry_18* pPrev;
         Hud_BriefEntry_18* pIter;
-        result = field_700_prev_brief;
-        if (field_700_prev_brief)
+        result = field_700_prev_briefs;
+        if (field_700_prev_briefs)
         {
-            pIter = field_700_prev_brief->field_C_pNext;
+            pIter = field_700_prev_briefs->field_C_pNext;
             if (pIter) // line 29
             {
                 do
@@ -2046,21 +2046,21 @@ Hud_BriefEntry_18* Hud_Brief_704::AllocBrief_5D33F0()
                 }
                 else
                 {
-                    field_700_prev_brief = NULL;
+                    field_700_prev_briefs = NULL;
                 }
             }
             else
             {
-                field_700_prev_brief = NULL;
+                field_700_prev_briefs = NULL;
             }
         }
         else
         {
-            result = field_6F8_curr_brief;
+            result = field_6F8_curr_briefs;
             pIter = result->field_C_pNext;
             if (!pIter)
             {
-                field_6F8_curr_brief = NULL;
+                field_6F8_curr_briefs = NULL;
             }
             else
             {
@@ -2075,7 +2075,7 @@ Hud_BriefEntry_18* Hud_Brief_704::AllocBrief_5D33F0()
                 }
                 else
                 {
-                    field_6F8_curr_brief = NULL;
+                    field_6F8_curr_briefs = NULL;
                 }
             }
         }
@@ -2089,13 +2089,13 @@ size_t Hud_Brief_704::FormatCurrentBrief_5D3470()
     size_t num_chars;
     char_type brief_face_idx;
 
-    if (field_6F8_curr_brief)
+    if (field_6F8_curr_briefs)
     {
-        if (field_6F8_curr_brief->field_14_cost_param != -1)
+        if (field_6F8_curr_briefs->field_14_cost_param != -1)
         {
             swprintf(tmpBuff_67BD9C,
-                     gText_0x14_704DFC->Find_5B5F90(field_6F8_curr_brief->field_0_brief_id_str),
-                     field_6F8_curr_brief->field_14_cost_param);
+                     gText_0x14_704DFC->Find_5B5F90(field_6F8_curr_briefs->field_0_brief_id_str),
+                     field_6F8_curr_briefs->field_14_cost_param);
             brief_face_idx = GetBriefFaceIdx_5D3680(tmpBuff_67BD9C[0]);
             field_502_face_idx = brief_face_idx;
 
@@ -2115,8 +2115,8 @@ size_t Hud_Brief_704::FormatCurrentBrief_5D3470()
             if (bShow_brief_number_67D504)
             {
                 swprintf(tmpBuff_67BD9C,
-                         gText_0x14_704DFC->Find_5B5F90(field_6F8_curr_brief->field_0_brief_id_str),
-                         field_6F8_curr_brief->field_14_cost_param);
+                         gText_0x14_704DFC->Find_5B5F90(field_6F8_curr_briefs->field_0_brief_id_str),
+                         field_6F8_curr_briefs->field_14_cost_param);
                 brief_face_idx = GetBriefFaceIdx_5D3680(tmpBuff_67BD9C[0]);
                 field_502_face_idx = brief_face_idx;
 
@@ -2130,13 +2130,13 @@ size_t Hud_Brief_704::FormatCurrentBrief_5D3470()
                     field_502_face_idx = 8; // neutral face
                     pStartStr_2 = tmpBuff_67BD9C;
                 }
-                swprintf(gTmpWideStr_67C7D8, L"(%s)%s", text_0x14::Ascii2Wide_5B5DF0(field_6F8_curr_brief->field_0_brief_id_str), pStartStr_2);
+                swprintf(gTmpWideStr_67C7D8, L"(%s)%s", text_0x14::Ascii2Wide_5B5DF0(field_6F8_curr_briefs->field_0_brief_id_str), pStartStr_2);
                 field_508_num_lines = text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str, gTmpWideStr_67C7D8, MaxLineWidth_62689C, gBriefFont_7065C4);
             }
         }
         else
         {
-            wchar_t* _5B5F90 = gText_0x14_704DFC->Find_5B5F90(field_6F8_curr_brief->field_0_brief_id_str);
+            wchar_t* _5B5F90 = gText_0x14_704DFC->Find_5B5F90(field_6F8_curr_briefs->field_0_brief_id_str);
             brief_face_idx = GetBriefFaceIdx_5D3680(_5B5F90[0]);
             field_502_face_idx = brief_face_idx;
 
@@ -2153,7 +2153,7 @@ size_t Hud_Brief_704::FormatCurrentBrief_5D3470()
 
             if (bShow_brief_number_67D504)
             {
-                wchar_t* pString = gText_0x14_704DFC->Find_5B5F90(field_6F8_curr_brief->field_0_brief_id_str);
+                wchar_t* pString = gText_0x14_704DFC->Find_5B5F90(field_6F8_curr_briefs->field_0_brief_id_str);
                 brief_face_idx = GetBriefFaceIdx_5D3680(pString[0]);
                 field_502_face_idx = brief_face_idx;
 
@@ -2165,7 +2165,7 @@ size_t Hud_Brief_704::FormatCurrentBrief_5D3470()
                 {
                     field_502_face_idx = 8; // neutral face
                 }
-                swprintf(gTmpWideStr_67C7D8, L"(%s)%s", text_0x14::Ascii2Wide_5B5DF0(field_6F8_curr_brief->field_0_brief_id_str), pString);
+                swprintf(gTmpWideStr_67C7D8, L"(%s)%s", text_0x14::Ascii2Wide_5B5DF0(field_6F8_curr_briefs->field_0_brief_id_str), pString);
                 field_508_num_lines = text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str, gTmpWideStr_67C7D8, MaxLineWidth_62689C, gBriefFont_7065C4);
             }
         }
@@ -2208,14 +2208,14 @@ void Hud_Brief_704::StartCurrentBrief_5D39D0()
     field_504_tick_timer = field_510_time_to_show * gHud_2B00_706620->field_13C4_text_speed;
     field_50C_face_variant = 0;
     field_514_upward_timer = 0;
-    field_6F8_curr_brief->field_10_was_displayed = 0;
+    field_6F8_curr_briefs->field_10_was_displayed = 0;
 }
 
 // https://decomp.me/scratch/exFU8
 MATCH_FUNC(0x5d3b80)
 void Hud_Brief_704::DrawBrief_5D3B80()
 {
-    if (field_6F8_curr_brief)
+    if (field_6F8_curr_briefs)
     {
         DrawFigureScaled_5D7670(6, // type
                    field_50C_face_variant + 3 * field_502_face_idx + 16,
@@ -2249,15 +2249,15 @@ void Hud_Brief_704::SetHudBrief_5D3F10(s32 priority, const char_type* pText, s32
     pNewBrief->field_10_was_displayed = 0;
     pNewBrief->field_14_cost_param = cost_param;
 
-    if (!this->field_6F8_curr_brief)
+    if (!this->field_6F8_curr_briefs)
     {
-        this->field_6F8_curr_brief = pNewBrief;
+        this->field_6F8_curr_briefs = pNewBrief;
         pNewBrief->field_C_pNext = NULL;
         StartCurrentBrief_5D39D0();
     }
-    else if (this->field_6F8_curr_brief->field_8_brief_priority >= priority && priority != 3)
+    else if (this->field_6F8_curr_briefs->field_8_brief_priority >= priority && priority != 3)
     {
-        Hud_BriefEntry_18* pIter = this->field_6F8_curr_brief;
+        Hud_BriefEntry_18* pIter = this->field_6F8_curr_briefs;
         while (pIter->field_C_pNext && pIter->field_C_pNext->field_8_brief_priority >= priority)
         {
             pIter = pIter->field_C_pNext;
@@ -2277,12 +2277,12 @@ void Hud_Brief_704::SetHudBrief_5D3F10(s32 priority, const char_type* pText, s32
     }
     else
     {
-        if (this->field_6F8_curr_brief->field_10_was_displayed)
+        if (this->field_6F8_curr_briefs->field_10_was_displayed)
         {
             MoveCurrentBriefToPrev_5D3370();
         }
-        pNewBrief->field_C_pNext = this->field_6F8_curr_brief;
-        this->field_6F8_curr_brief = pNewBrief;
+        pNewBrief->field_C_pNext = this->field_6F8_curr_briefs;
+        this->field_6F8_curr_briefs = pNewBrief;
         StartCurrentBrief_5D39D0();
     }
 }
@@ -2314,7 +2314,7 @@ void Hud_Brief_704::SetHudBrief_5D4400(s32 priority, const char_type* pTextIdStr
 MATCH_FUNC(0x5d44d0)
 void Hud_Brief_704::UpdateBrief_5D44D0()
 {
-    if (field_6F8_curr_brief)
+    if (field_6F8_curr_briefs)
     {
         field_504_tick_timer--;
 
@@ -2337,12 +2337,12 @@ void Hud_Brief_704::UpdateBrief_5D44D0()
             }
         }
 
-        field_6F8_curr_brief->field_10_was_displayed = 1;
+        field_6F8_curr_briefs->field_10_was_displayed = 1;
 
         if (field_504_tick_timer == 0)
         {
             MoveCurrentBriefToPrev_5D3370();
-            if (field_6F8_curr_brief)
+            if (field_6F8_curr_briefs)
             {
                 StartCurrentBrief_5D39D0();
             }
@@ -2353,9 +2353,9 @@ void Hud_Brief_704::UpdateBrief_5D44D0()
 MATCH_FUNC(0x5d4850)
 void Hud_Brief_704::ShowBrief_5D4850()
 {
-    if (field_700_prev_brief)
+    if (field_700_prev_briefs)
     {
-        Hud_BriefEntry_18* curr_brief = field_6F8_curr_brief;
+        Hud_BriefEntry_18* curr_brief = field_6F8_curr_briefs;
         if (curr_brief)
         {
             if (curr_brief->field_10_was_displayed)
@@ -2373,7 +2373,7 @@ MATCH_FUNC(0x5d4890)
 void Hud_Brief_704::ClearAllBriefsWithPriority_5D4890(s32 priority)
 {
     Hud_BriefEntry_18* pLast = NULL;
-    Hud_BriefEntry_18* pIter = field_6F8_curr_brief;
+    Hud_BriefEntry_18* pIter = field_6F8_curr_briefs;
     while (pIter)
     {
         if (pIter->field_8_brief_priority == priority)
@@ -2381,13 +2381,13 @@ void Hud_Brief_704::ClearAllBriefsWithPriority_5D4890(s32 priority)
             if (pLast)
             {
                 pLast->field_C_pNext = pIter->field_C_pNext;
-                pIter->field_C_pNext = field_6FC_p_start_q;
-                field_6FC_p_start_q = pIter;
+                pIter->field_C_pNext = field_6FC_free_briefs;
+                field_6FC_free_briefs = pIter;
                 pIter = pLast->field_C_pNext;
             }
             else
             {
-                if (field_6F8_curr_brief->field_10_was_displayed)
+                if (field_6F8_curr_briefs->field_10_was_displayed)
                 {
                     Hud_Brief_704::MoveCurrentBriefToPrev_5D3370();
                 }
@@ -2395,9 +2395,9 @@ void Hud_Brief_704::ClearAllBriefsWithPriority_5D4890(s32 priority)
                 {
                     Hud_Brief_704::FreeCurrentBrief_5D3350();
                 }
-                pIter = field_6F8_curr_brief;
+                pIter = field_6F8_curr_briefs;
                 // Testing the field rather than pIter lets VC6 push ebp only after the first null check
-                if (field_6F8_curr_brief)
+                if (field_6F8_curr_briefs)
                 {
                     Hud_Brief_704::StartCurrentBrief_5D39D0();
                 }
@@ -2414,13 +2414,13 @@ void Hud_Brief_704::ClearAllBriefsWithPriority_5D4890(s32 priority)
 MATCH_FUNC(0x5d4930)
 Hud_Brief_704::Hud_Brief_704()
 {
-    field_6FC_p_start_q = &field_518_briefs[0];
+    field_6FC_free_briefs = &field_518_briefs[0];
 
     field_50C_face_variant = 0;
     field_510_time_to_show = 0;
     field_514_upward_timer = 0;
-    field_6F8_curr_brief = 0;
-    field_700_prev_brief = 0;
+    field_6F8_curr_briefs = 0;
+    field_700_prev_briefs = 0;
     field_504_tick_timer = 0;
 
     for (s32 i = 0; i < GTA2_COUNTOF(field_518_briefs) - 1; i++)
