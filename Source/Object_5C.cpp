@@ -1,6 +1,7 @@
 // GetLength_41E260 compares against this TU's zero
 #define FIX16_POINT_ZERO kFpZero_6F8E10
 #include "Object_5C.hpp"
+#include "explosion_type.hpp"
 #include "ped_death_cause.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
@@ -3637,15 +3638,15 @@ Object_2C* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 ro
 
         switch (a6)
         {
-            case 18:
-            case 19:
-            case 20:
-            case 22:
-            case 23:
-            case 24:
-            case 25:
-            case 32:
-            case 33:
+            case explosion_type::small_18:
+            case explosion_type::item_19:
+            case explosion_type::large_20:
+            case explosion_type::building_45_22:
+            case explosion_type::building_225_23:
+            case explosion_type::building_135_24:
+            case explosion_type::building_315_25:
+            case explosion_type::no_ring_32:
+            case explosion_type::small_33:
                 pNew2C->field_C_pAny.pExplosion->field_1A_timer = 100;
                 pNew2C->field_C_pAny.pExplosion->field_24 = 0;
                 break;

@@ -1,4 +1,5 @@
 #include "sound_obj.hpp"
+#include "explosion_type.hpp"
 // Keep cSampleManager.hpp early: the include order changes the order VC6 emits the
 // sampManager and sound_obj calls in e.g. Type_9_4186D0 and Type6_2_412D40
 #include "PlayerCrimeStats_3C.hpp"
@@ -5282,8 +5283,8 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
             }
             switch (pExplosion->field_10_type_or_state)
             {
-                case 18:
-                case 33:
+                case explosion_type::small_18:
+                case explosion_type::small_33:
                     if (field_147C_audio_entities[field_30_sQueueSample.field_0_EntityIndex].field_1_age == 2)
                     {
                         samp_idx = 186;
@@ -5310,12 +5311,12 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
                     dword_61A6D0 = 321;
                     break;
 
-                case 19:
-                case 22:
-                case 23:
-                case 24:
-                case 25:
-                case 32:
+                case explosion_type::item_19:
+                case explosion_type::building_45_22:
+                case explosion_type::building_225_23:
+                case explosion_type::building_135_24:
+                case explosion_type::building_315_25:
+                case explosion_type::no_ring_32:
                     if (field_147C_audio_entities[field_30_sQueueSample.field_0_EntityIndex].field_1_age == 2)
                     {
                         samp_idx = 187;
@@ -5342,7 +5343,7 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
                     dword_61A6D0 = 321;
                     break;
 
-                case 20:
+                case explosion_type::large_20:
                     if (field_147C_audio_entities[field_30_sQueueSample.field_0_EntityIndex].field_1_age == 2)
                     {
                         samp_idx = 188;
@@ -5369,8 +5370,8 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
                     dword_61A6D0 = 321;
                     break;
 
-                case 4:
-                case 12:
+                case explosion_type::trail_4:
+                case explosion_type::trail_12:
                     samp_idx = 190;
                     volume = 50;
                     bLoop = 0;
@@ -5381,8 +5382,8 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
                     release_mod = 15;
                     break;
 
-                case 13:
-                case 14:
+                case explosion_type::trail_13:
+                case explosion_type::trail_14:
                     samp_idx = 190;
                     volume = 85;
                     bLoop = 0;
