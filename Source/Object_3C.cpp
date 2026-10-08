@@ -5,7 +5,7 @@
 #include "char.hpp"
 #include "Globals.hpp"
 #include "Object_5C.hpp"
-#include "Wolfy_3D4.hpp"
+#include "Explosion_30.hpp"
 #include "enums.hpp"
 #include "rng.hpp"
 #include "sprite.hpp"

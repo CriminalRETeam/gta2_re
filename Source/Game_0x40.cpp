@@ -43,7 +43,7 @@
 #include "TrafficLights_194.hpp"
 #include "Varrok_7F8.hpp"
 #include "Weapon_8.hpp"
-#include "Wolfy_3D4.hpp"
+#include "Explosion_30.hpp"
 #include "char.hpp"
 #include "collide.hpp"
 #include "debug.hpp"
@@ -1153,14 +1153,14 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1879);
     }
 
-    gWolfy_3D4_6FD5EC = new Wolfy_3D4(); // ctor call
-    if (!gWolfy_3D4_6FD5EC)
+    gExplosionPool_3D4_6FD5EC = new ExplosionPool_3D4(); // ctor call
+    if (!gExplosionPool_3D4_6FD5EC)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1881);
     }
 
-    gWolfy_7A8_6FD5F0 = new Wolfy_7A8(); // ctor call
-    if (!gWolfy_7A8_6FD5F0)
+    gExplosionPool_7A8_6FD5F0 = new ExplosionPool_7A8(); // ctor call
+    if (!gExplosionPool_7A8_6FD5F0)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1883);
     }
@@ -1328,8 +1328,8 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gCarInfo_808_678098);
 
     GTA2_DELETE_AND_NULL(gParticle_8_6FD5E8);
-    GTA2_DELETE_AND_NULL(gWolfy_3D4_6FD5EC);
-    GTA2_DELETE_AND_NULL(gWolfy_7A8_6FD5F0);
+    GTA2_DELETE_AND_NULL(gExplosionPool_3D4_6FD5EC);
+    GTA2_DELETE_AND_NULL(gExplosionPool_7A8_6FD5F0);
     GTA2_DELETE_AND_NULL(gCranePool_D9C_679FD4);
     GTA2_DELETE_AND_NULL(gCrusherPool_94_67A830);
     GTA2_DELETE_AND_NULL(gGeneratorPool_14AC_67E5D0);

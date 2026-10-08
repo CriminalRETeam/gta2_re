@@ -11,7 +11,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 |---|---|---|---|---|---|---|
 | 0 | 0 | 110 | - | 0x561380 | `CarPhysics_B0::ComputePointVelocity_561380` | CarPhysics_B0.cpp |
 | 0 | 0 | 12 | 147 | 0x5520a0 | `Char_B4::state_8_5520A0` | char.cpp |
-| 0 | 0 | 12 | 4 | 0x543690 | `Wolfy_7A8::sub_543690` | Wolfy_3D4.cpp |
+| 0 | 0 | 12 | 4 | 0x543690 | `ExplosionPool_7A8::sub_543690` | Explosion_30.cpp |
 | 0 | 0 | 16 | 0 | 0x5645b0 | `Player::AddCarToHistory_5645B0` | Player.cpp |
 | 0 | 0 | 2 | 0 | 0x498cb0 | `BurgerKing_1::SetAltKeyState_498CB0` | BurgerKing_67F8B0.cpp |
 | 0 | 0 | 2 | 0 | 0x4fb330 | `Ambulance_20::UpdateState_4FB330` | Ambulance_110.cpp |
@@ -97,7 +97,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 62 | 68 | - | 0x5d8470 | `DrawTexture_5D8470` | Draw.cpp |
 | 0 | 64 | 162 | 0 | 0x446530 | `Car_6C::SpawnCabAndTrailer_446530` | Car_BC.cpp |
 | 0 | 68 | 136 | 74 | 0x588620 | `RouteFinder::ShowJunctionIds_588620` | RouteFinder.cpp |
-| 0 | 68 | 252 | - | 0x542e30 | `Wolfy_30::state_22_23_24_25_542E30` | Wolfy_3D4.cpp |
+| 0 | 68 | 252 | - | 0x542e30 | `Explosion_30::state_22_23_24_25_542E30` | Explosion_30.cpp |
 | 0 | 72 | 104 | - | 0x59eff0 | `Sprite::Draw_59EFF0` | sprite.cpp |
 | 0 | 74 | 92 | 104 | 0x4f4d60 | `MapRenderer::draw_lid_4F4D60` | MapRenderer.cpp |
 | 0 | 80 | 80 | - | 0x4ea390 | `MapRenderer::DrawLeftSide_4EA390` | MapRenderer.cpp |
@@ -120,7 +120,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 2 | 18 | 52 | 42 | 0x5121e0 | `frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0` | frosty_pasteur_0xC1EA8.cpp |
 | 2 | 22 | 24 | 1810 | 0x582480 | `Car_14::SpawnTrafficCar_582480` | Car_BC.cpp |
 | 2 | 40 | 78 | 22 | 0x5b92e0 | `sharp_pare_0x15D8::ReadTextures_5B92E0` | sharp_pare_0x15D8.cpp |
-| 2 | 62 | 194 | 359 | 0x541850 | `Wolfy_30::TimerAfter50Handler_541850` | Wolfy_3D4.cpp |
+| 2 | 62 | 194 | 359 | 0x541850 | `Explosion_30::TimerAfter50Handler_541850` | Explosion_30.cpp |
 | 2 | 70 | 452 | 194 | 0x550f60 | `Char_B4::GetNextRotationToward_550F60` | char.cpp |
 | 2 | 84 | 288 | 70 | 0x523bf0 | `Object_2C::IntegrateMovementAndCollisions_523BF0` | Object_5C.cpp |
 | 2 | 94 | 291 | 176 | 0x53e450 | `Particle_8::EmitBloodBurst_53E450` | Particle_8.cpp |
@@ -148,7 +148,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 5 | 13 | 33 | - | 0x5615d0 | `CarPhysics_B0::ApplyDriveForce_5615D0` | CarPhysics_B0.cpp |
 | 6 | 14 | 16 | 32 | 0x51e030 | `NetPlay::EnumAddress_cb_51E030` | NetPlay.cpp |
 | 6 | 16 | 72 | 52 | 0x467090 | `Ped::FindUsableCarDoor_467090` | Ped.cpp |
-| 6 | 18 | 20 | 12 | 0x541430 | `Wolfy_30::state_5_541430` | Wolfy_3D4.cpp |
+| 6 | 18 | 20 | 12 | 0x541430 | `Explosion_30::state_5_541430` | Explosion_30.cpp |
 | 6 | 24 | 86 | 85 | 0x460820 | `Ped::TaxiCustomer_AI_460820` | Ped.cpp |
 | 6 | 34 | 52 | 210 | 0x4f77d0 | `ComputeScanlineIntersectionX_4F77D0` | sprite.cpp |
 | 6 | 46 | 76 | - | 0x4f76a0 | `ComputeScanlineIntersectionY_4F76A0` | sprite.cpp |

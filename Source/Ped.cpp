@@ -30,7 +30,7 @@
 #include "Varrok_7F8.hpp"
 #include "Weapon_30.hpp"
 #include "Weapon_8.hpp"
-#include "Wolfy_3D4.hpp"
+#include "Explosion_30.hpp"
 #include "char.hpp"
 #include "debug.hpp"
 #include "error.hpp"

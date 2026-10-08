@@ -65,7 +65,7 @@ submodule's `C2.DLL` and checks its hash first. The patch only adds logging; the
 
 ```bash
 # Decision tree of one function: each site's result, callee size, budget, sites left, nested budget
-Scripts/inline_budget/inl.sh Source/Wolfy_3D4.cpp TimerAfter50Handler      # -a also lists free sites
+Scripts/inline_budget/inl.sh Source/Explosion_30.cpp TimerAfter50Handler      # -a also lists free sites
 
 # What-if, on the log inl.sh just wrote
 L=build_vc6/inline_c2/last.log

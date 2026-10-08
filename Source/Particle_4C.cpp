@@ -5,7 +5,7 @@
 #include "PurpleDoom.hpp"
 #include "rng.hpp"
 #include "sprite.hpp"
-#include "Wolfy_3D4.hpp"
+#include "Explosion_30.hpp"
 #include "char.hpp"
 #include "Ped.hpp"
 #include "Particle_8.hpp"
@@ -102,18 +102,18 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
         rng_2 = r2 / 100;
     }
 
-    if (field_40_pUnknown)
+    if (field_40_pExplosion)
     {
         if (field_2C_counter > 60)
         {
-            if (field_40_pUnknown->field_14_pObj2C->field_4)
+            if (field_40_pExplosion->field_14_pObj2C->field_4)
             {
-                field_20_speed = field_40_pUnknown->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
-                field_24_angle = field_40_pUnknown->field_14_pObj2C->field_4->field_8_object_2C_ptr->field_10_obj_3c->field_4_angle;
+                field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
+                field_24_angle = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->field_10_obj_3c->field_4_angle;
             }
-            if (field_40_pUnknown->field_1A_timer == 1)
+            if (field_40_pExplosion->field_1A_timer == 1)
             {
-                field_40_pUnknown = NULL;
+                field_40_pExplosion = NULL;
             }
         }
     }
@@ -200,28 +200,28 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
         return true;
     }
 
-    if (field_40_pUnknown)
+    if (field_40_pExplosion)
     {
-        if (field_40_pUnknown->field_6_id != field_44)
+        if (field_40_pExplosion->field_6_id != field_44)
         {
-            field_40_pUnknown = NULL;
+            field_40_pExplosion = NULL;
             field_20_speed = kFP16Zero_6FD49C;
         }
-        else if (field_40_pUnknown->field_14_pObj2C)
+        else if (field_40_pExplosion->field_14_pObj2C)
         {
-            if (field_40_pUnknown->field_14_pObj2C->field_4)
+            if (field_40_pExplosion->field_14_pObj2C->field_4)
             {
-                field_20_speed = field_40_pUnknown->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
-                field_24_angle = field_40_pUnknown->field_14_pObj2C->field_10_obj_3c->field_4_angle;
+                field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
+                field_24_angle = field_40_pExplosion->field_14_pObj2C->field_10_obj_3c->field_4_angle;
             }
-            if (field_40_pUnknown->field_1A_timer == 1)
+            if (field_40_pExplosion->field_1A_timer == 1)
             {
-                field_40_pUnknown = NULL;
+                field_40_pExplosion = NULL;
             }
         }
         else
         {
-            field_40_pUnknown = NULL;
+            field_40_pExplosion = NULL;
             field_20_speed = kFP16Zero_6FD49C;
         }
     }
@@ -350,9 +350,9 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
     }
 
     field_30_pNext->Set_2C_0x4_Flag_4337F0();
-    if (field_40_pUnknown)
+    if (field_40_pExplosion)
     {
-        field_30_pNext->ResolveZOrder_5A1B30(field_40_pUnknown->field_14_pObj2C->field_4);
+        field_30_pNext->ResolveZOrder_5A1B30(field_40_pExplosion->field_14_pObj2C->field_4);
     }
     gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
 
@@ -519,28 +519,28 @@ char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
     gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
     if (field_46_sub_state != 16 && field_2C_counter != 0)
     {
-        if (field_40_pUnknown)
+        if (field_40_pExplosion)
         {
-            if (field_40_pUnknown->field_6_id != field_44)
+            if (field_40_pExplosion->field_6_id != field_44)
             {
-                field_40_pUnknown = NULL;
+                field_40_pExplosion = NULL;
                 field_20_speed = kFP16Zero_6FD49C;
             }
-            else if (field_40_pUnknown->field_14_pObj2C)
+            else if (field_40_pExplosion->field_14_pObj2C)
             {
-                if (field_40_pUnknown->field_14_pObj2C->field_4)
+                if (field_40_pExplosion->field_14_pObj2C->field_4)
                 {
-                    field_20_speed = field_40_pUnknown->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
-                    field_24_angle = field_40_pUnknown->field_14_pObj2C->field_10_obj_3c->field_4_angle;
+                    field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
+                    field_24_angle = field_40_pExplosion->field_14_pObj2C->field_10_obj_3c->field_4_angle;
                 }
-                if (field_40_pUnknown->field_1A_timer == 1)
+                if (field_40_pExplosion->field_1A_timer == 1)
                 {
-                    field_40_pUnknown = NULL;
+                    field_40_pExplosion = NULL;
                 }
             }
             else
             {
-                field_40_pUnknown = NULL;
+                field_40_pExplosion = NULL;
                 field_20_speed = kFP16Zero_6FD49C;
             }
         }
@@ -604,9 +604,9 @@ char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
             field_30_pNext->SetFlags_4337D0(2, 15);
             field_30_pNext->Set_2C_0x4_Flag_4337F0();
             field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16One_6FD4A0 + Fix16(field_46_sub_state) * dword_6FD2E8, 0);
-            if (field_40_pUnknown)
+            if (field_40_pExplosion)
             {
-                field_30_pNext->ResolveZOrder_5A1B30(field_40_pUnknown->field_14_pObj2C->field_4);
+                field_30_pNext->ResolveZOrder_5A1B30(field_40_pExplosion->field_14_pObj2C->field_4);
             }
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
             return 0;
@@ -628,28 +628,28 @@ char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
     gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
     if (field_46_sub_state != 16 && field_2C_counter != 0)
     {
-        if (field_40_pUnknown)
+        if (field_40_pExplosion)
         {
-            if (field_40_pUnknown->field_6_id != field_44)
+            if (field_40_pExplosion->field_6_id != field_44)
             {
-                field_40_pUnknown = NULL;
+                field_40_pExplosion = NULL;
                 field_20_speed = kFP16Zero_6FD49C;
             }
-            else if (field_40_pUnknown->field_14_pObj2C)
+            else if (field_40_pExplosion->field_14_pObj2C)
             {
-                if (field_40_pUnknown->field_14_pObj2C->field_4)
+                if (field_40_pExplosion->field_14_pObj2C->field_4)
                 {
-                    field_20_speed = field_40_pUnknown->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
-                    field_24_angle = field_40_pUnknown->field_14_pObj2C->field_10_obj_3c->field_4_angle;
+                    field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
+                    field_24_angle = field_40_pExplosion->field_14_pObj2C->field_10_obj_3c->field_4_angle;
                 }
-                if (field_40_pUnknown->field_1A_timer == 1)
+                if (field_40_pExplosion->field_1A_timer == 1)
                 {
-                    field_40_pUnknown = NULL;
+                    field_40_pExplosion = NULL;
                 }
             }
             else
             {
-                field_40_pUnknown = NULL;
+                field_40_pExplosion = NULL;
                 field_20_speed = kFP16Zero_6FD49C;
             }
         }
@@ -712,9 +712,9 @@ char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
 
             field_30_pNext->SetFlags_4337D0(2, 15);
             field_30_pNext->Set_2C_0x4_Flag_4337F0();
-            if (field_40_pUnknown)
+            if (field_40_pExplosion)
             {
-                field_30_pNext->ResolveZOrder_5A1B30(field_40_pUnknown->field_14_pObj2C->field_4);
+                field_30_pNext->ResolveZOrder_5A1B30(field_40_pExplosion->field_14_pObj2C->field_4);
             }
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
             return 0;
@@ -737,27 +737,27 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
         return true;
     }
 
-    if (field_40_pUnknown)
+    if (field_40_pExplosion)
     {
-        if (field_40_pUnknown->field_6_id != field_44)
+        if (field_40_pExplosion->field_6_id != field_44)
         {
-            field_40_pUnknown = NULL;
+            field_40_pExplosion = NULL;
         }
-        else if (field_40_pUnknown->field_14_pObj2C)
+        else if (field_40_pExplosion->field_14_pObj2C)
         {
-            if (field_40_pUnknown->field_14_pObj2C->field_4)
+            if (field_40_pExplosion->field_14_pObj2C->field_4)
             {
-                field_20_speed = field_40_pUnknown->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
-                field_24_angle = field_40_pUnknown->field_14_pObj2C->field_4->field_8_object_2C_ptr->field_10_obj_3c->field_4_angle;
+                field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
+                field_24_angle = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->field_10_obj_3c->field_4_angle;
             }
-            if (field_40_pUnknown->field_1A_timer == 1)
+            if (field_40_pExplosion->field_1A_timer == 1)
             {
-                field_40_pUnknown = NULL;
+                field_40_pExplosion = NULL;
             }
         }
         else
         {
-            field_40_pUnknown = NULL;
+            field_40_pExplosion = NULL;
             field_20_speed = kFP16Zero_6FD49C;
         }
     }
@@ -812,9 +812,9 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
             field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 98);
             dir.x = 0;
             dir.y = 0;
-            if (field_40_pUnknown && field_40_pUnknown->field_14_pObj2C->field_4)
+            if (field_40_pExplosion && field_40_pExplosion->field_14_pObj2C->field_4)
             {
-                Sprite* pTarget = field_40_pUnknown->field_14_pObj2C->field_4;
+                Sprite* pTarget = field_40_pExplosion->field_14_pObj2C->field_4;
                 xpos = pTarget->field_14_xy.x;
                 ypos = pTarget->field_14_xy.y;
                 zpos = pTarget->field_1C_zpos;
@@ -825,9 +825,9 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
             field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 97);
             dir.x = 0;
             dir.y = 0;
-            if (field_40_pUnknown && field_40_pUnknown->field_14_pObj2C->field_4)
+            if (field_40_pExplosion && field_40_pExplosion->field_14_pObj2C->field_4)
             {
-                Sprite* pTarget = field_40_pUnknown->field_14_pObj2C->field_4;
+                Sprite* pTarget = field_40_pExplosion->field_14_pObj2C->field_4;
                 xpos = pTarget->field_14_xy.x;
                 ypos = pTarget->field_14_xy.y;
                 zpos = pTarget->field_1C_zpos;
@@ -1915,7 +1915,7 @@ void Particle_4C::PoolAllocate()
     field_8_speed_x = 0;
     field_C_speed_y = 0;
     field_10 = 0;
-    field_40_pUnknown = 0;
+    field_40_pExplosion = 0;
     field_4_flags &= ~1;
 }
 

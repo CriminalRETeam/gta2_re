@@ -42,7 +42,7 @@
 #include "TrafficLights_194.hpp"
 #include "Varrok_7F8.hpp"
 #include "Weapon_8.hpp"
-#include "Wolfy_3D4.hpp"
+#include "Explosion_30.hpp"
 #include "Cranes.hpp"
 #include "Gang.hpp"
 #include "Player.hpp"

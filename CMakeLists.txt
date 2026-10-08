@@ -195,8 +195,8 @@ set(gta2_lib_src
   Source/CarInfo_808.cpp
   Source/Particle_8.hpp
   Source/Particle_8.cpp
-  Source/Wolfy_3D4.hpp
-  Source/Wolfy_3D4.cpp
+  Source/Explosion_30.hpp
+  Source/Explosion_30.cpp
   Source/Cranes.hpp
   Source/Cranes.cpp
   Source/Crushers.hpp

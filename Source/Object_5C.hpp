@@ -21,7 +21,7 @@ class Car_BC;
 class Phi_74;
 class Object_3C;
 class Object_2C_Pool;
-class Wolfy_30;
+class Explosion_30;
 class Object_8;
 class nostalgic_ellis_0x28;
 
@@ -322,7 +322,7 @@ class Object_2C
     Phi_74* field_8;
     union TAny
     {
-        Wolfy_30* pExplosion;
+        Explosion_30* pExplosion;
         Object_8* o8;
         nostalgic_ellis_0x28* pLight;
     };

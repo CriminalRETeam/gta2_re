@@ -249,7 +249,7 @@ enum
     behavior_2 = 2, // animated object (UpdateAnimation + collision)
     bullet_type_3 = 3, // removed from buckets, special update routine
     maybe_moving_obj_4 = 4, // removed from buckets, different special routine
-    explosion_5 = 5, // Wolfy_30 explosion / timed effect
+    explosion_5 = 5, // Explosion_30 explosion / timed effect
     behavior_6 = 6, // simple object, no special animation
     behavior_7 = 7, // removed from buckets, special routine (like 3)
     self_animated_8 = 8, // animated object (like 2)

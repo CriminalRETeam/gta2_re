@@ -15,7 +15,7 @@
 #include "Globals.hpp"
 #include "Hud.hpp"
 #include "Object_5C.hpp"
-#include "Wolfy_3D4.hpp"
+#include "Explosion_30.hpp"
 #include "Ped.hpp"
 #include "Player.hpp"
 #include "PublicTransport.hpp"
@@ -5275,7 +5275,7 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
 
         case objects::explosion_113:
         {
-            Wolfy_30* pExplosion = pObj->field_C_pAny.pExplosion;
+            Explosion_30* pExplosion = pObj->field_C_pAny.pExplosion;
             if (!pExplosion)
             {
                 return;

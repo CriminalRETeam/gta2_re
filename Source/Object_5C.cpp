@@ -19,7 +19,7 @@
 #include "TrafficLights_194.hpp"
 #include "Varrok_7F8.hpp"
 #include "Weapon_8.hpp"
-#include "Wolfy_3D4.hpp"
+#include "Explosion_30.hpp"
 #include "collide.hpp"
 #include "enums.hpp"
 #include "error.hpp"
@@ -1872,7 +1872,7 @@ void Object_2C::UpdatePhysicsMovementAndAnimation_525D90()
 MATCH_FUNC(0x525f30)
 void Object_2C::Update_525F30()
 {
-    Wolfy_30* pWolfy;
+    Explosion_30* pExplosion;
 
     gObject2C_LastCollisionSprite_6F8F8C = 0;
     while (2)
@@ -1895,10 +1895,10 @@ void Object_2C::Update_525F30()
                 return;
 
             case object_behavior_type::explosion_5:
-                pWolfy = this->field_C_pAny.pExplosion;
-                if (pWolfy)
+                pExplosion = this->field_C_pAny.pExplosion;
+                if (pExplosion)
                 {
-                    if (pWolfy->Update_5434A0(kFpZero_6F8E10, kZeroAng_6F8F68))
+                    if (pExplosion->Update_5434A0(kFpZero_6F8E10, kZeroAng_6F8F68))
                     {
                         this->field_25_removal_state = 1;
                     }
@@ -3433,8 +3433,8 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
 
         case object_behavior_type::explosion_5:
         {
-            Wolfy_30* pNew30; // eax
-            pNew30 = gWolfy_7A8_6FD5F0->New_40_543800();
+            Explosion_30* pNew30; // eax
+            pNew30 = gExplosionPool_7A8_6FD5F0->New_40_543800();
             pNew2C->field_C_pAny.pExplosion = pNew30;
             if (pNew30) // 225
             {
@@ -3623,7 +3623,7 @@ Object_2C* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 ro
 
         if (!pNew2C->field_C_pAny.pExplosion)
         {
-            pNew2C->field_C_pAny.pExplosion = gWolfy_7A8_6FD5F0->New_40_543800();
+            pNew2C->field_C_pAny.pExplosion = gExplosionPool_7A8_6FD5F0->New_40_543800();
         }
 
         if (!pNew2C->field_C_pAny.pExplosion)

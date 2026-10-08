@@ -292,13 +292,13 @@ Game functions by size:
 | 0x53F050 | 3 | `nullsub_239` |
 | 0x53FDF0 | 1 | `nullsub_240` |
 | 0x53FE30 | 1 | `nullsub_241` |
-| 0x540A40 | 594 | `Wolfy_30::sub_540A40` |
+| 0x540A40 | 594 | `Explosion_30::sub_540A40` |
 | 0x543450 | 1 | `nullsub_242` |
 | 0x543460 | 1 | `nullsub_243` |
 | 0x543470 | 1 | `nullsub_244` |
 | 0x543480 | 1 | `nullsub_245` |
 | 0x543490 | 1 | `nullsub_246` |
-| 0x543900 | 118 | `Wolfy_7A8::sub_543900` |
+| 0x543900 | 118 | `ExplosionPool_7A8::sub_543900` |
 | 0x543D90 | 1 | `nullsub_247` |
 | 0x543DE0 | 1 | `nullsub_248` |
 | 0x54C6B0 | 1 | `nullsub_249` |
@@ -703,8 +703,8 @@ Without a marker (not to be added):
 | 0x523060 | 830 | `sub_523060` | (nothing) |
 | 0x525D50 | 53 | `sub_525D50` | 0x523060 |
 | 0x529B20 | 155 | `Object_5C::sub_529B20` | (nothing) |
-| 0x540A40 | 594 | `Wolfy_30::sub_540A40` | (nothing) |
-| 0x543900 | 118 | `Wolfy_7A8::sub_543900` | (nothing) |
+| 0x540A40 | 594 | `Explosion_30::sub_540A40` | (nothing) |
+| 0x543900 | 118 | `ExplosionPool_7A8::sub_543900` | (nothing) |
 | 0x56C170 | 95 | `jolly_poitras_0x2BC0::sub_56C170` | (nothing) |
 | 0x5875A0 | 64 | `Registry::sub_5875A0` | (nothing) |
 | 0x5875E0 | 59 | `Registry::sub_5875E0` | (nothing) |

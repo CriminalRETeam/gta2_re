@@ -1,4 +1,4 @@
-#include "Wolfy_3D4.hpp"
+#include "Explosion_30.hpp"
 #include "ped_death_cause.hpp"
 #include "Car_BC.hpp"
 #include "Char_Pool.hpp"
@@ -13,8 +13,8 @@
 #include "debug.hpp"
 #include "rng.hpp"
 
-DEFINE_GLOBAL(Wolfy_7A8*, gWolfy_7A8_6FD5F0, 0x6FD5F0);
-DEFINE_GLOBAL(Wolfy_3D4*, gWolfy_3D4_6FD5EC, 0x6FD5EC);
+DEFINE_GLOBAL(ExplosionPool_7A8*, gExplosionPool_7A8_6FD5F0, 0x6FD5F0);
+DEFINE_GLOBAL(ExplosionPool_3D4*, gExplosionPool_3D4_6FD5EC, 0x6FD5EC);
 
 EXTERN_GLOBAL(u16, gParticleInstCount_6FD5F4);
 
@@ -30,7 +30,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FD448, Fix16(0x100, 0), 0x6FD448);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD328, dword_6FD448, 0x6FD328);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD330, dword_6FD328 * 2, 0x6FD330);
 
-DEFINE_GLOBAL_INIT(s16, gWolfyId_40_pool_623F18, 1, 0x623F18);
+DEFINE_GLOBAL_INIT(s16, gExplosionId_623F18, 1, 0x623F18);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD2F0, Fix16(0xCCC, 0), 0x6FD2F0);
 
@@ -62,7 +62,7 @@ EXTERN_GLOBAL(Fix16, dword_6FD2E8);
 EXTERN_GLOBAL(Fix16, dword_6FD46C);
 
 MATCH_FUNC(0x5408f0)
-Wolfy_30::Wolfy_30()
+Explosion_30::Explosion_30()
 {
     this->field_C_angle = 0;
     this->field_20 = 0;
@@ -84,14 +84,14 @@ Wolfy_30::Wolfy_30()
 }
 
 MATCH_FUNC(0x540a10)
-Wolfy_30::~Wolfy_30()
+Explosion_30::~Explosion_30()
 {
     field_14_pObj2C = 0;
     field_1C = 0;
 }
 
 MATCH_FUNC(0x540d30)
-void Wolfy_30::state_3_12_540D30(Ang16 ang, Fix16 pos)
+void Explosion_30::state_3_12_540D30(Ang16 ang, Fix16 pos)
 {
     // Fix16_Point (has a destructor): the original sets an EH state for it. Zero-constructed
     // then assigned as in 9.6f: the pos stores are scheduled after the angle add.
@@ -109,7 +109,7 @@ void Wolfy_30::state_3_12_540D30(Ang16 ang, Fix16 pos)
         Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(point.x, point.y, dword_6FD330, point.x, point.y, 0);
         if (pNew)
         {
-            pNew->field_40_pUnknown = this;
+            pNew->field_40_pExplosion = this;
             pNew->field_44 = this->field_6_id;
             pNew->field_20_speed = pos;
             pNew->field_24_angle = ang;
@@ -134,7 +134,7 @@ void Wolfy_30::state_3_12_540D30(Ang16 ang, Fix16 pos)
 
 // 9.6f 0x48E5F0
 MATCH_FUNC(0x540f90)
-void Wolfy_30::state_4_540F90(Ang16 ang, Fix16 pos)
+void Explosion_30::state_4_540F90(Ang16 ang, Fix16 pos)
 {
     // Fix16_Point (has a destructor): the original sets an EH state for it. Zero-constructed
     // then assigned as in 9.6f: the pos stores are scheduled after the angle add.
@@ -152,7 +152,7 @@ void Wolfy_30::state_4_540F90(Ang16 ang, Fix16 pos)
         Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(point.x, point.y, dword_6FD330, point.x, point.y, 0);
         if (pNew)
         {
-            pNew->field_40_pUnknown = this;
+            pNew->field_40_pExplosion = this;
             pNew->field_44 = this->field_6_id;
             pNew->field_20_speed = pos;
             pNew->field_24_angle = ang;
@@ -176,7 +176,7 @@ void Wolfy_30::state_4_540F90(Ang16 ang, Fix16 pos)
 }
 
 MATCH_FUNC(0x5411e0)
-void Wolfy_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
+void Explosion_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
 {
     // Fix16_Point (has a destructor): the original sets an EH state for it. Zero-constructed
     // then assigned as in 9.6f: the pos stores are scheduled after the angle add.
@@ -194,7 +194,7 @@ void Wolfy_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
         Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(point.x, point.y, dword_6FD330, point.x, point.y, 0);
         if (pNew)
         {
-            pNew->field_40_pUnknown = this;
+            pNew->field_40_pExplosion = this;
             pNew->field_44 = this->field_6_id;
             pNew->field_20_speed = pos;
             pNew->field_24_angle = ang;
@@ -218,7 +218,7 @@ void Wolfy_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
 }
 
 MATCH_FUNC(0x541430)
-void Wolfy_30::state_5_541430(Ang16 ang, Fix16 pos)
+void Explosion_30::state_5_541430(Ang16 ang, Fix16 pos)
 {
 
     Fix16_Point p(Fix16(0), Fix16(0));
@@ -239,7 +239,7 @@ void Wolfy_30::state_5_541430(Ang16 ang, Fix16 pos)
         Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(p.x, p.y, dword_6FD330, p.x, p.y, 0);
         if (pNew)
         {
-            pNew->field_40_pUnknown = this;
+            pNew->field_40_pExplosion = this;
             pNew->field_44 = field_6_id;
             pNew->field_20_speed = pos;
             pNew->field_24_angle = ang;
@@ -266,7 +266,7 @@ void Wolfy_30::state_5_541430(Ang16 ang, Fix16 pos)
 }
 
 MATCH_FUNC(0x541680)
-Fix16 Wolfy_30::sub_541680()
+Fix16 Explosion_30::sub_541680()
 {
     Fix16 r;
     switch (this->field_10_type_or_state)
@@ -296,7 +296,7 @@ Fix16 Wolfy_30::sub_541680()
 
 
 MATCH_FUNC(0x541710)
-Fix16 Wolfy_30::sub_541710()
+Fix16 Explosion_30::sub_541710()
 {
     Fix16 r;
     switch (this->field_10_type_or_state)
@@ -319,7 +319,7 @@ Fix16 Wolfy_30::sub_541710()
 }
 
 MATCH_FUNC(0x541760)
-void Wolfy_30::sub_541760()
+void Explosion_30::sub_541760()
 {
     if (field_10_type_or_state != 18 && field_10_type_or_state != 32)
     {
@@ -342,13 +342,13 @@ void Wolfy_30::sub_541760()
 }
 
 MATCH_FUNC(0x541850)
-void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
+void Explosion_30::TimerAfter50Handler_541850(u16 timerVal)
 {
     struct_4 collision_list;
 
-    Fix16 zoff = Wolfy_30::sub_541710();
+    Fix16 zoff = Explosion_30::sub_541710();
 
-    Fix16 f28 = Wolfy_30::sub_541680();
+    Fix16 f28 = Explosion_30::sub_541680();
 
     this->field_28 = f28;
 
@@ -490,7 +490,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
 
 // 9.6f 0x48EB00
 MATCH_FUNC(0x541d60)
-void Wolfy_30::state_18_33_541D60()
+void Explosion_30::state_18_33_541D60()
 {
     if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0())
     {
@@ -543,7 +543,7 @@ void Wolfy_30::state_18_33_541D60()
 }
 
 MATCH_FUNC(0x542060)
-void Wolfy_30::state_19_32_542060()
+void Explosion_30::state_19_32_542060()
 {
     if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0())
     {
@@ -565,7 +565,7 @@ void Wolfy_30::state_19_32_542060()
             pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
             pNew4C->field_30_pNext->SetType_4206F0(8);
             pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
-            pNew4C->field_40_pUnknown = this;
+            pNew4C->field_40_pExplosion = this;
             pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 20);
             pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, this->field_14_pObj2C->field_4->field_1C_zpos);
             gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
@@ -592,7 +592,7 @@ void Wolfy_30::state_19_32_542060()
 }
 
 MATCH_FUNC(0x542340)
-void Wolfy_30::state_20_542340()
+void Explosion_30::state_20_542340()
 {
     if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0())
     {
@@ -639,7 +639,7 @@ void Wolfy_30::state_20_542340()
 }
 
 MATCH_FUNC(0x542790)
-void Wolfy_30::state_18_19_20_32_33_542790()
+void Explosion_30::state_18_19_20_32_33_542790()
 {
     bool isOnScreen = true;
     if (this->field_1A_timer < 90u)
@@ -745,7 +745,7 @@ void Wolfy_30::state_18_19_20_32_33_542790()
 }
 
 MATCH_FUNC(0x542e30)
-void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
+void Explosion_30::state_22_23_24_25_542E30(char_type a2)
 {
     Sprite* p2CSprite = this->field_14_pObj2C->field_4;
     if (p2CSprite->field_14_xy.x < Fix16(0x3F8000, 0) && p2CSprite->field_14_xy.x > kFP16One_6FD4A0 &&
@@ -869,7 +869,7 @@ void Wolfy_30::state_22_23_24_25_542E30(char_type a2)
 }
 
 MATCH_FUNC(0x5434a0)
-char_type Wolfy_30::Update_5434A0(Fix16 speed, Ang16 ang)
+char_type Explosion_30::Update_5434A0(Fix16 speed, Ang16 ang)
 {
     u16 timer = this->field_1A_timer;
     if (timer != 9999)
@@ -882,7 +882,7 @@ char_type Wolfy_30::Update_5434A0(Fix16 speed, Ang16 ang)
 
     if (!this->field_1A_timer)
     {
-        Wolfy_30::DeInit_543610();
+        Explosion_30::DeInit_543610();
         return 1;
     }
 
@@ -895,43 +895,43 @@ char_type Wolfy_30::Update_5434A0(Fix16 speed, Ang16 ang)
     {
         case 3:
         case 12:
-            Wolfy_30::state_3_12_540D30(ang, speed);
+            Explosion_30::state_3_12_540D30(ang, speed);
             return 0;
         case 13:
         case 14:
-            Wolfy_30::state_13_14_5411E0(ang, speed);
+            Explosion_30::state_13_14_5411E0(ang, speed);
             return 0;
         case 4:
-            Wolfy_30::state_4_540F90(ang, speed);
+            Explosion_30::state_4_540F90(ang, speed);
             return 0;
         case 5:
-            Wolfy_30::state_5_541430(ang, speed);
+            Explosion_30::state_5_541430(ang, speed);
             return 0;
         case 18:
         case 19:
         case 20:
         case 32:
         case 33:
-            Wolfy_30::state_18_19_20_32_33_542790();
+            Explosion_30::state_18_19_20_32_33_542790();
             return 0;
         case 24:
-            Wolfy_30::state_22_23_24_25_542E30(0);
+            Explosion_30::state_22_23_24_25_542E30(0);
             return 0;
         case 25:
-            Wolfy_30::state_22_23_24_25_542E30(1);
+            Explosion_30::state_22_23_24_25_542E30(1);
             return 0;
         case 23:
-            Wolfy_30::state_22_23_24_25_542E30(2);
+            Explosion_30::state_22_23_24_25_542E30(2);
             return 0;
         case 22:
-            Wolfy_30::state_22_23_24_25_542E30(3);
+            Explosion_30::state_22_23_24_25_542E30(3);
             return 0;
     }
     return 0;
 }
 
 MATCH_FUNC(0x5435d0)
-char_type Wolfy_30::IsState_5435D0()
+char_type Explosion_30::IsState_5435D0()
 {
     switch (field_10_type_or_state)
     {
@@ -948,21 +948,21 @@ char_type Wolfy_30::IsState_5435D0()
 }
 
 MATCH_FUNC(0x543610)
-void Wolfy_30::DeInit_543610()
+void Explosion_30::DeInit_543610()
 {
     this->field_6_id = 0;
     if (field_0_bIn20Pool == 0)
     {
-        gWolfy_7A8_6FD5F0->field_780_bUsed[this->field_4_idx] = 0;
+        gExplosionPool_7A8_6FD5F0->field_780_bUsed[this->field_4_idx] = 0;
     }
     else
     {
-        gWolfy_3D4_6FD5EC->field_3C0_bUsed[this->field_4_idx] = 0;
+        gExplosionPool_3D4_6FD5EC->field_3C0_bUsed[this->field_4_idx] = 0;
     }
 }
 
 MATCH_FUNC(0x543650)
-void Wolfy_30::Init_543650()
+void Explosion_30::Init_543650()
 {
     this->field_10_type_or_state = 0;
     this->field_18_particle_cooldown = 0;
@@ -975,13 +975,13 @@ void Wolfy_30::Init_543650()
 }
 
 MATCH_FUNC(0x543680)
-void Wolfy_30::Set_Obj2C_543680(Object_2C* a2)
+void Explosion_30::Set_Obj2C_543680(Object_2C* a2)
 {
     this->field_14_pObj2C = a2;
 }
 
 WIP_FUNC(0x543690)
-void Wolfy_7A8::sub_543690()
+void ExplosionPool_7A8::sub_543690()
 {
     WIP_IMPLEMENTED;
 
@@ -994,7 +994,7 @@ void Wolfy_7A8::sub_543690()
     {
         if (this->field_780_bUsed[last_idx] == 1)
         {
-            Wolfy_30* pObj = &this->field_0[last_idx];
+            Explosion_30* pObj = &this->field_0[last_idx];
             // Each case written out on its own: merged labels give a byte index table, the
             // original has one dword entry per case. Cases 1 and 39 keep the range.
             switch (pObj->field_10_type_or_state)
@@ -1112,7 +1112,7 @@ void Wolfy_7A8::sub_543690()
 }
 
 MATCH_FUNC(0x543800)
-Wolfy_30* Wolfy_7A8::New_40_543800()
+Explosion_30* ExplosionPool_7A8::New_40_543800()
 {
     // 9.6f has the init block twice, 10.5 merges both into one block. Indexing field_0 at each
     // use (no pNew local) gives both copies the same registers, so they merge completely.
@@ -1123,9 +1123,9 @@ Wolfy_30* Wolfy_7A8::New_40_543800()
         {
             this->field_0[idx].Init_543650();
             this->field_0[idx].field_4_idx = idx;
-            this->field_0[idx].field_6_id = gWolfyId_40_pool_623F18;
+            this->field_0[idx].field_6_id = gExplosionId_623F18;
             this->field_0[idx].field_0_bIn20Pool = 0;
-            gWolfyId_40_pool_623F18++;
+            gExplosionId_623F18++;
             this->field_780_bUsed[idx] = 1;
             return &this->field_0[idx];
         }
@@ -1139,9 +1139,9 @@ Wolfy_30* Wolfy_7A8::New_40_543800()
         {
             this->field_0[idx].Init_543650();
             this->field_0[idx].field_4_idx = idx;
-            this->field_0[idx].field_6_id = gWolfyId_40_pool_623F18;
+            this->field_0[idx].field_6_id = gExplosionId_623F18;
             this->field_0[idx].field_0_bIn20Pool = 0;
-            gWolfyId_40_pool_623F18++;
+            gExplosionId_623F18++;
             this->field_780_bUsed[idx] = 1;
             return &this->field_0[idx];
         }
@@ -1150,7 +1150,7 @@ Wolfy_30* Wolfy_7A8::New_40_543800()
 }
 
 MATCH_FUNC(0x5438b0)
-Wolfy_7A8::Wolfy_7A8()
+ExplosionPool_7A8::ExplosionPool_7A8()
 {
     for (u8 i = 0; i < 40; i++)
     {
@@ -1162,12 +1162,12 @@ Wolfy_7A8::Wolfy_7A8()
 }
 
 MATCH_FUNC(0x5438f0)
-Wolfy_7A8::~Wolfy_7A8()
+ExplosionPool_7A8::~ExplosionPool_7A8()
 {
 }
 
 MATCH_FUNC(0x543980)
-Wolfy_3D4::Wolfy_3D4()
+ExplosionPool_3D4::ExplosionPool_3D4()
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_3C0_bUsed); i++)
     {
@@ -1178,6 +1178,6 @@ Wolfy_3D4::Wolfy_3D4()
 }
 
 MATCH_FUNC(0x5439c0)
-Wolfy_3D4::~Wolfy_3D4()
+ExplosionPool_3D4::~ExplosionPool_3D4()
 {
 }

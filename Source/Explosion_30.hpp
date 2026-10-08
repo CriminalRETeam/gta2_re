@@ -7,11 +7,11 @@
 class Object_2C;
 class Sprite;
 
-class Wolfy_30
+class Explosion_30
 {
   public:
-    EXPORT Wolfy_30();
-    EXPORT ~Wolfy_30();
+    EXPORT Explosion_30();
+    EXPORT ~Explosion_30();
     EXPORT void state_3_12_540D30(Ang16 a3, Fix16 a2);
     EXPORT void state_4_540F90(Ang16 a3, Fix16 a2);
     EXPORT void state_13_14_5411E0(Ang16 a3, Fix16 a2);
@@ -56,25 +56,25 @@ class Wolfy_30
     s32 field_2C_ped_id;
 };
 
-class Wolfy_7A8
+class ExplosionPool_7A8
 {
   public:
     EXPORT void sub_543690();
-    EXPORT Wolfy_30* New_40_543800();
-    EXPORT Wolfy_7A8();
-    EXPORT ~Wolfy_7A8();
-    Wolfy_30 field_0[40];
+    EXPORT Explosion_30* New_40_543800();
+    EXPORT ExplosionPool_7A8();
+    EXPORT ~ExplosionPool_7A8();
+    Explosion_30 field_0[40];
     char_type field_780_bUsed[40];
 };
 
-class Wolfy_3D4
+class ExplosionPool_3D4
 {
   public:
-    EXPORT Wolfy_3D4();
-    EXPORT ~Wolfy_3D4();
-    Wolfy_30 field_0[20];
+    EXPORT ExplosionPool_3D4();
+    EXPORT ~ExplosionPool_3D4();
+    Explosion_30 field_0[20];
     char_type field_3C0_bUsed[20];
 };
 
-EXTERN_GLOBAL(Wolfy_7A8*, gWolfy_7A8_6FD5F0);
-EXTERN_GLOBAL(Wolfy_3D4*, gWolfy_3D4_6FD5EC);
+EXTERN_GLOBAL(ExplosionPool_7A8*, gExplosionPool_7A8_6FD5F0);
+EXTERN_GLOBAL(ExplosionPool_3D4*, gExplosionPool_3D4_6FD5EC);

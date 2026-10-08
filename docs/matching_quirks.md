@@ -420,7 +420,7 @@ found item or NULL. Open-coded loops make VC6 send all the returns to one shared
 `xor eax; mov field,edx; cmp; setl`; setting a bool local gives `cmpl $N,mem; setl` with no `xor`
 (`Car_6C::CanAllocateOfType_446930`, cases in the original block order).
 
-**A pointer local can block cross-jumping.** In `Wolfy_7A8::New_40_543800` a `p = &arr[idx]` local
+**A pointer local can block cross-jumping.** In `ExplosionPool_7A8::New_40_543800` a `p = &arr[idx]` local
 changed the registers of two identical init blocks so VC6 no longer merged them; indexing `arr[idx]`
 at each use gave the original's single merged block.
 
@@ -445,7 +445,7 @@ which also inlines `IsVelocityAlignedWithHeading_40F840` and, inside it, `Fix16_
 `Ang16`/`s16`/`u16` global in the function's own .cpp, VC6 can load it with a 32-bit `mov` and
 add it with `lea`, where the original has a 16-bit `mov`/`add`. With only an `EXTERN_GLOBAL` in
 that file it emits the original's code, so move the definition to another .cpp that uses it
-(`kAng180_6FD3EE` moved from `Wolfy_3D4.cpp` to `Particle_4C.cpp`: `Wolfy_30::state_3_12_540D30`
+(`kAng180_6FD3EE` moved from `Explosion_30.cpp` to `Particle_4C.cpp`: `Explosion_30::state_3_12_540D30`
 181 -> 32 lines). It can go the other way too (`gFaceCollisionMask_6F6002` and `kAng180_676772`
 had to move *into* `sprite.cpp`), so compare the load width in the target first.
 The move can also fix the order in which globals are reloaded after a call, not only the load
@@ -744,7 +744,7 @@ keeps in a zero register is initialised from that register; earlier-declared one
 482BA0, in `Object_3C::GetMovementSpeedAndAngle_521FD0`).
 
 **A default that sets a value plus one check after the switch** (`if (cur == 1) {...; return;}`) lets
-jump threading produce the original's `cmp $1; je` (`Wolfy_7A8::sub_543690`, 113 -> 12).
+jump threading produce the original's `cmp $1; je` (`ExplosionPool_7A8::sub_543690`, 113 -> 12).
 
 **By-value returns: stack slot or eax.** If the original reads a by-value (hidden pointer) return
 back from its stack slot, use a named local in its own block; it gets built in a dead parameter slot
@@ -797,7 +797,7 @@ rest after the switch, replaced a goto into a case (`CarPhysics_B0::ComputeSlope
 **Merged case labels and jump tables.** `case 2` plus `case 3: case 4: case 5:` gave a compare chain;
 giving `case 3` its own copy of the body produced the 2..5 jump table, and VC6 still merged the identical
 blocks (`Object_2C::UpdateMovementAndEffects_527070`). Writing each case separately also keeps a
-constant in a register: VC6 counts constant uses before merging (`Wolfy_7A8::sub_543690`).
+constant in a register: VC6 counts constant uses before merging (`ExplosionPool_7A8::sub_543690`).
 
 **Take an inline's `this` into a local before the call** to set the prologue load order and the
 register for a constant (`ExplodingScore_50::DrawNumbers_596C90`, with a private out-of-line copy of
@@ -930,7 +930,7 @@ labels (stacked labels and labels sharing a body count separately), R = max - mi
 - A **byte index table** (`mov al, [bytes+reg]; jmp [table+eax*4]`) instead of a direct one when `3R >= 4n + 13`,
   i.e. when it saves more than about 8 bytes (direct 4R bytes vs R + 4(n+1) + code). The number of distinct targets
   doesn't matter. So 4 labels go to a byte table at R >= 10, 8 at R >= 15, 12 at R >= 21. Adding or dropping one
-  empty case label, or widening the range by one outlier, flips this (`FatalDXError_4A3CF0`, `Wolfy_7A8`).
+  empty case label, or widening the range by one outlier, flips this (`FatalDXError_4A3CF0`, `ExplosionPool_7A8`).
 - A switch is **split** (recursively; pieces under 4 labels become chains) only when R > 255 **and**
   4n < R. Below a range of 256 even 6 labels over 255 values stay one byte table; 150 labels over 300 values stay one
   table too.
@@ -996,7 +996,7 @@ also swaps which of ecx/edx the pointer and the running total get.
 operator+ -> ctor -> Normalize when the operator's nested budget allows it, and the Wolfy states that used hand
 expansions (`AddNormalized`, explicit `Multiply_408680`/`Add_408660` rotations) now match in their 9.6f form:
 `point.RotateByAngle_40F6B0(ang + kAng180_6FD3EE)` and `if (pNew) { ... }` with no early return
-(`Wolfy_30::state_3_12_540D30`, `state_4_540F90`, `state_13_14_5411E0`). Three header facts made that work, see
+(`Explosion_30::state_3_12_540D30`, `state_4_540F90`, `state_13_14_5411E0`). Three header facts made that work, see
 "Inline sizes recovered from 9.6f and addresses" below.
 
 **Inline sizes recovered from 9.6f and addresses.** The "top-level named calls" group (small functions whose
@@ -1238,7 +1238,7 @@ order didn't. Storing the fields in offset order matched. In `GetMainAndBonusSta
 the slots of tied arrays follow the push order of their `StoreStrings` call; VC6 ignores the declaration
 order of equal-size arrays, and one local struct whose field order sets the layout matched it. Declaration
 order also didn't change the slots of equal-size `Fix16_Point` locals (`ComputePointVelocity_561380`) or
-case locals (`Wolfy_30::state_22_23_24_25_542E30`).
+case locals (`Explosion_30::state_22_23_24_25_542E30`).
 
 **Copy through a local to get a spill.** `mov (%edx),%eax; mov %eax,X(%esp); fildl X(%esp)`
 instead of `fildl (%edx)` comes from copying the value into a local object first
@@ -1338,7 +1338,7 @@ A POD parameter matched the caller but lost the callee's EH frame.
 found path and one `return result` after the loop fixed every register in
 `NetPlay::MovePlayerToGroup_520040`, where returning from inside the loop didn't.
 
-**A by-value return from one local keeps one register across cases.** `Wolfy_30::sub_541680` returns `Fix16`
+**A by-value return from one local keeps one register across cases.** `Explosion_30::sub_541680` returns `Fix16`
 through the hidden pointer. Assigning one local in each case and `break`ing to a single `return k` keeps
 the same register in every case block; a `return` per case alternated `ecx`/`edx`. Leaving the local
 unset in `default` reproduces the original reading the argument slot.
@@ -1358,7 +1358,7 @@ it, with the init called explicitly.
 
 **Explicit `Fix16(113)` vs an implicit `113` argument.** In a big function the explicit form is built out of
 line into a reused stack temporary and copied; the implicit conversion is built straight in the argument slot.
-One call can mix both (`Wolfy_30::state_18_19_20_32_33_542790`: explicit x and y, implicit z).
+One call can mix both (`Explosion_30::state_18_19_20_32_33_542790`: explicit x and y, implicit z).
 
 **Which value you pass can decide the whole function's registers.** Passing the stored field
 (`pCar->field_68_scale`) instead of the parameter it was just set from fixed `Car_6C::SpawnCarAt_446230`.
@@ -1734,7 +1734,7 @@ original's cut-off needs.
 `Multiply_408680` calls in place of `*`). Write the one natural inline (checked against its 9.6f copy)
 and find the source difference that moves the cut-off. With the 9.6f-verified
 `MaxAbsDistance_42A6B0` (by reference, `Fix16 d; d = a - b;`), one inline reproduces the hand variants
-in `Wolfy_30::TimerAfter50Handler_541850`, all 16 `CarAI_78` sites and
+in `Explosion_30::TimerAfter50Handler_541850`, all 16 `CarAI_78` sites and
 `Sprite::MinDistanceToAnySpriteBBoxCorner_5A22B0`. `Firefighter_28::Update_4A81F0` also needed field
 accesses in place of the `get_driver_4118B0` getters (fewer free sites after the call), and
 `EmergencyCrew_30::UpdateStateMachine_5CBD50` the 9.6f `ClearGroupAndGroupIdx_403A30` call (one more).
@@ -1946,7 +1946,7 @@ Found by tracing C2.DLL (see `Scripts/inline_budget/`); the instrumented compile
   settings, does better, and no single size change of any of the 91 inline helpers above an operator site
   gains more than one. Of the 39 left, 25 have the named calls at the top level of the function, most of
   them under 500 FE units (budget clamped to 1000), where nothing can run out: the original's operators
-  there sat inside inline helpers our source writes out (Crane ComputeHookPos, the Wolfy_30 states,
+  there sat inside inline helpers our source writes out (Crane ComputeHookPos, the Explosion_30 states,
   UpdateCenterOfMassPoint ...: a recovered helper, likely a rotate or polar one, per function). The
   other 14 go through our hand-written helper variants (`RotateByAngle_40F6B0_all_out_of_line`,
   `GetLength_out_of_line_x_squared`, `PolarToCartesian_OutOfLineMul`, ...); swapping them for the plain
@@ -2288,7 +2288,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   gives the original's `mov (%eax),%reg` copy of the out-of-line result; `return Max_44E540(...)` builds it
   in a stack slot instead. Past the inline budget, one helper per call site with the Abs variant each site
   shows (both `Abs_436A50`, mixed, or a `__forceinline` Abs with `Negate_4086A0` out of line) matched
-  `Wolfy_30::TimerAfter50Handler_541850`, together with the next two points.
+  `Explosion_30::TimerAfter50Handler_541850`, together with the next two points.
 - **Branch order decides slot sharing.** `if ((t > 50 && t < 60) || (t > 80 && t < 90)) {A} else if (t == 99) {B}`
   (the 9.6f order) let A's locals share slots with B's; the inverted `if (!(...)) { if (t == 99) B } else A`
   gave A its own slots (frame +16, 541850).
@@ -2298,7 +2298,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   return Ang16(&value, 0);`, new in ang16.hpp) gave the original's slot order and load order; the same body as a
   static `AddAng16_ool(a, b)` swapped both. `(k + d) + Fix16_To_Ang16(...)` with the right operand unnamed gives
   that operand (computed first) the lower slot; named, it gets the higher one. Matched
-  `Wolfy_30::state_22_23_24_25_542E30` with a file-local `PolarToCartesian` that calls both multiplies out of line.
+  `Explosion_30::state_22_23_24_25_542E30` with a file-local `PolarToCartesian` that calls both multiplies out of line.
 - **`(a - b).mValue >> 14` instead of `(a - b).ToInt()`** saves one inline expansion per site with the same code
   (`Map_0x370::sub_4E7190`: four of them paid for the `KeepDir` inline that keeps `xor; test` unfolded).
 - **`??1Fix16_Point` in an object's relocations can be just the EH unwind funclet** placed after the function,
