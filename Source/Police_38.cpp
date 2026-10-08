@@ -4,7 +4,7 @@
 #include "Fix16_Rect.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
-#include "PedRelationshipTable_500.hpp"
+#include "CarChaseTaskTable_500.hpp"
 #include "EmergencyCrewPool_1E0.hpp"
 #include "Object_5C.hpp"
 #include "PathFinder_2FD4.hpp"
@@ -1245,7 +1245,7 @@ void PoliceCrew_38::State6_ShutDown_574720()
     {
         if (field_10_subObj->field_0_car->field_60)
         {
-            gPedRelationshipTable_678E30->FreeEntry_474CC0(field_10_subObj->field_0_car->field_60);
+            gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_10_subObj->field_0_car->field_60);
             field_10_subObj->field_0_car->field_60 = 0;
         }
         if (field_10_subObj->field_0_car->HasEmergencyLights_414F20())
@@ -1498,7 +1498,7 @@ void PoliceCrew_38::State1_Patrol_574F10()
             {
                 gCurrentCrewPed_6FEDDC = field_10_subObj->field_4_ped;
                 gCurrentCrewPed_6FEDDC->ClearBit11_403A40();
-                PedRelationship_40* v13;
+                CarChaseTask_40* v13;
                 for (Ped* pPedIter = gCurrentCrewPed_6FEDDC; pPedIter; ++idx)
                 {
                     switch (pPedIter->get_objective_403A80())
@@ -1509,7 +1509,7 @@ void PoliceCrew_38::State1_Patrol_574F10()
                             v13 = field_10_subObj->field_0_car->field_60;
                             if (v13)
                             {
-                                gPedRelationshipTable_678E30->FreeEntry_474CC0(v13);
+                                gCarChaseTaskTable_678E30->FreeEntry_474CC0(v13);
                                 field_10_subObj->field_0_car->field_60 = 0;
                             }
                             break;
@@ -1649,7 +1649,7 @@ void PoliceCrew_38::sub_575310()
             gCurrentCrewPed_6FEDDC->SetObjective(27, 9999);
             if (field_10_subObj && field_10_subObj->field_0_car && field_10_subObj->field_0_car->field_60)
             {
-                gPedRelationshipTable_678E30->FreeEntry_474CC0(field_10_subObj->field_0_car->field_60);
+                gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_10_subObj->field_0_car->field_60);
                 field_10_subObj->field_0_car->field_60 = 0;
             }
         }
@@ -1667,32 +1667,32 @@ void PoliceCrew_38::sub_575310()
                                             field_14_pPursuitTarget->field_0_criminal_ped->get_cam_y());
 
         Car_BC* pCar = field_10_subObj->field_0_car;
-        PedRelationship_40* pRelationship = pCar->field_60;
-        if (!pRelationship)
+        CarChaseTask_40* pChase = pCar->field_60;
+        if (!pChase)
         {
             return;
         }
 
-        if (pRelationship->field_C_relationship_code == 15)
+        if (pChase->field_C_chase_state == car_chase_state::target_stopped_15)
         {
                 pCar->field_5C_AI->field_24_flags |= 0x100000;
                 gCurrentCrewPed_6FEDDC->SetObjective(27, 9999);
-                field_14_pPursuitTarget->field_E += field_10_subObj->field_0_car->field_60->field_3C;
+                field_14_pPursuitTarget->field_E += field_10_subObj->field_0_car->field_60->field_3C_block_counter;
                 if (field_10_subObj->field_0_car->field_60)
                 {
-                    gPedRelationshipTable_678E30->FreeEntry_474CC0(field_10_subObj->field_0_car->field_60);
+                    gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_10_subObj->field_0_car->field_60);
                     field_10_subObj->field_0_car->field_60 = 0;
                 }
                 return;
         }
 
-        switch (pRelationship->field_C_relationship_code)
+        switch (pChase->field_C_chase_state)
         {
-            case 0:
-            case 1:
-            case 2:
-            case 14:
-            case 15:
+            case car_chase_state::follow_behind_0:
+            case car_chase_state::unused_1:
+            case car_chase_state::follow_behind_2:
+            case car_chase_state::unused_14:
+            case car_chase_state::target_stopped_15:
                 break;
             default:
                 field_14_pPursuitTarget->field_78_is_actively_chased = 1;
@@ -1701,7 +1701,7 @@ void PoliceCrew_38::sub_575310()
 
         if ((u8)field_14_pPursuitTarget->field_E > 0)
         {
-            field_10_subObj->field_0_car->field_60->field_3C = field_14_pPursuitTarget->field_E;
+            field_10_subObj->field_0_car->field_60->field_3C_block_counter = field_14_pPursuitTarget->field_E;
         }
 
         if (dist < dword_6FECF4 && field_10_subObj->field_0_car->GetVelocity_43A4C0() < dword_6FEDE0 &&
@@ -1710,7 +1710,7 @@ void PoliceCrew_38::sub_575310()
             gCurrentCrewPed_6FEDDC->SetObjective(27, 9999);
             if (field_10_subObj->field_0_car->field_60)
             {
-                gPedRelationshipTable_678E30->FreeEntry_474CC0(field_10_subObj->field_0_car->field_60);
+                gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_10_subObj->field_0_car->field_60);
                 field_10_subObj->field_0_car->field_60 = 0;
             }
         }

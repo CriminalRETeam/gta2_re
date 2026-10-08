@@ -41,7 +41,7 @@
 #include "Firefighters.hpp"
 #include "Fix16_Rect.hpp"
 #include "Generators.hpp"
-#include "PedRelationshipTable_500.hpp"
+#include "CarChaseTaskTable_500.hpp"
 #include "Hud.hpp"
 #include "ImGuiDebug.hpp"
 #include "MapRenderer.hpp"
@@ -310,8 +310,8 @@ void force_link()
 
     FirefighterPool_54 tango_54;
 
-    PedRelationshipTable_500 ped_relationship_table;
-    ped_relationship_table.FreeEntry_474CC0(0);
+    CarChaseTaskTable_500 car_chase_task_table;
+    car_chase_task_table.FreeEntry_474CC0(0);
 
     CollisionCounters_C collide_C;
 

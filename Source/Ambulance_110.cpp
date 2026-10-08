@@ -8,7 +8,7 @@
 #include "error.hpp"
 #include "PathFinder_2FD4.hpp"
 #include "CarAI_78.hpp"
-#include "PedRelationshipTable_500.hpp"
+#include "CarChaseTaskTable_500.hpp"
 #include "RouteFinder.hpp"
 #include <stdio.h>
 #include "ped_graphic_type.hpp"
@@ -522,7 +522,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                                 }
                                 if (field_4_paramedics_crew->field_0_car->field_60)
                                 {
-                                    gPedRelationshipTable_678E30->FreeEntry_474CC0(field_4_paramedics_crew->field_0_car->field_60);
+                                    gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_4_paramedics_crew->field_0_car->field_60);
                                     field_4_paramedics_crew->field_0_car->field_60 = 0;
                                 }
                                 if (field_4_paramedics_crew->field_8_group->IsAllMembersInSomeCar_4CAA20())

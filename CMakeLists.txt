@@ -211,8 +211,8 @@ set(gta2_lib_src
   Source/Light_1D4CC.cpp
   Source/Garage_48.hpp
   Source/Garage_48.cpp
-  Source/PedRelationshipTable_500.hpp
-  Source/PedRelationshipTable_500.cpp
+  Source/CarChaseTaskTable_500.hpp
+  Source/CarChaseTaskTable_500.cpp
   Source/ExplodingScore_100.hpp
   Source/ExplodingScore_100.cpp
   Source/CrimeReportQueue_CC.hpp

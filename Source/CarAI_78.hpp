@@ -8,7 +8,7 @@
 
 class Car_BC;
 class Sprite;
-class PedRelationship_40;
+class CarChaseTask_40;
 struct gmp_block_info;
 
 namespace car_ai_direction

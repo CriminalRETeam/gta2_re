@@ -1,6 +1,6 @@
 #include "EmergencyCrewPool_1E0.hpp"
 #include "Car_BC.hpp"
-#include "PedRelationshipTable_500.hpp"
+#include "CarChaseTaskTable_500.hpp"
 #include "Ped.hpp"
 #include "PedGroup.hpp"
 
@@ -257,7 +257,7 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
                 }
                 if (field_0_car->field_60)
                 {
-                    gPedRelationshipTable_678E30->FreeEntry_474CC0(field_0_car->field_60);
+                    gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_0_car->field_60);
                     field_0_car->field_60 = 0;
                 }
                 field_0_car = NULL;
@@ -418,7 +418,7 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
         {
             if (field_0_car->field_60)
             {
-                gPedRelationshipTable_678E30->FreeEntry_474CC0(field_0_car->field_60);
+                gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_0_car->field_60);
                 field_0_car->field_60 = 0;
             }
         }
@@ -508,7 +508,7 @@ void EmergencyCrew_30::CleanupExpiredEntities_5CC1C0()
             {
                 if (field_0_car->field_60)
                 {
-                    gPedRelationshipTable_678E30->FreeEntry_474CC0(field_0_car->field_60); // something to do with car route
+                    gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_0_car->field_60); // something to do with car route
                     field_0_car->field_60 = 0;
                 }
             }

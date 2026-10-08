@@ -141,4 +141,4 @@ EXTERN_GLOBAL(Fix16, kInitialAmbient_67DCCC);
 
 EXTERN_GLOBAL(s32, gCachedScreenDimension_706C58);
 
-EXTERN_GLOBAL(class PedRelationshipTable_500*, gPedRelationshipTable_678E30);
+EXTERN_GLOBAL(class CarChaseTaskTable_500*, gCarChaseTaskTable_678E30);

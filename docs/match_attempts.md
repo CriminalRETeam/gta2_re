@@ -653,7 +653,7 @@ Still different:
 ## PoliceCrew_38::sub_575310 (WIP, was STUB)
 
 Crew state handler when it has caught up with the criminal: on foot the player ped gets
-objective 27 once close enough, in a car it depends on the car's `PedRelationship_40` path
+objective 27 once close enough, in a car it depends on the car's `CarChaseTask_40` path
 kind (`field_C`: 15 ends the chase, 0/1/2/14 keep going, others set `field_78`). Ratio 0.382
 (mostly stack slot and register differences).
 

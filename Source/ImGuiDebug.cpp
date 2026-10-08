@@ -12,7 +12,7 @@
 #include "Frontend.hpp"
 #include "Game_0x40.hpp"
 #include "Gang.hpp"
-#include "PedRelationshipTable_500.hpp"
+#include "CarChaseTaskTable_500.hpp"
 #include "Hud.hpp"
 #include "EmergencyCrewPool_1E0.hpp"
 #include "MapRenderer.hpp"
@@ -1929,7 +1929,7 @@ void CC ImGuiDebugDraw()
 
                         if (pCarIter->field_60)
                         {
-                            swprintf(tmpBuff_67BD9C, L"Ham C: %d", pCarIter->field_60->field_C_relationship_code);
+                            swprintf(tmpBuff_67BD9C, L"Chase state: %d", pCarIter->field_60->field_C_chase_state);
                             DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, -15);
                         }
                         */
@@ -2819,13 +2819,13 @@ void CC ImGuiDebugDraw()
             ImGui::TreePop();
         }
 
-        if (ImGui::TreeNode("gPedRelationshipTable_678E30"))
+        if (ImGui::TreeNode("gCarChaseTaskTable_678E30"))
         {
-            if (gPedRelationshipTable_678E30)
+            if (gCarChaseTaskTable_678E30)
             {
                 for (s32 i = 0; i < 20; i++)
                 {
-                    PedRelationship_40& hb = gPedRelationshipTable_678E30->field_0_entries[i];
+                    CarChaseTask_40& hb = gCarChaseTaskTable_678E30->field_0_entries[i];
                     ImGui::Value("field_0", hb.field_0_bInUse);
                 }
             }

@@ -14,7 +14,7 @@
 #include "Game_0x40.hpp"
 #include "Gang.hpp"
 #include "Globals.hpp"
-#include "PedRelationshipTable_500.hpp"
+#include "CarChaseTaskTable_500.hpp"
 #include "Hud.hpp"
 #include "Object_3C.hpp"
 #include "Object_5C.hpp"
@@ -3733,7 +3733,7 @@ void Car_BC::HandleCarExplosion_43D840(s32 type)
     bOcc2 = 0;
     if (field_60)
     {
-        gPedRelationshipTable_678E30->FreeEntry_474CC0(field_60);
+        gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_60);
         this->field_60 = 0;
     }
 
@@ -6762,7 +6762,7 @@ void Car_BC::PoolDeallocate()
 
     if (field_60)
     {
-        gPedRelationshipTable_678E30->FreeEntry_474CC0(field_60);
+        gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_60);
         field_60 = 0;
     }
 
