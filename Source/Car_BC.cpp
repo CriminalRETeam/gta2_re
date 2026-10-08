@@ -356,8 +356,14 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                 if (pPed)
                 {
                     pCmd = (Car_18_Cmd*)pEntry->field_0_pScriptCmd;
-                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
-                        pCmd->field_2_type == 0x1B2 ? pCmd->field_24_idx : pCmd->field_8_idx);
+                    if (pCmd->field_2_type == 0x1B2)
+                    {
+                        pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_24_idx);
+                    }
+                    else
+                    {
+                        pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
+                    }
                     if (pPed->get_id() == pPointer->field_8_char->get_id())
                     {
                         pEntry->field_14_enable_state = 0;
@@ -373,8 +379,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                 pPed = pCar->get_driver_4118B0();
                 if (pPed)
                 {
-                    pCmd = (Car_18_Cmd*)pEntry->field_0_pScriptCmd;
-                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
+                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((Car_18_Cmd*)pEntry->field_0_pScriptCmd)->field_8_idx);
                     if (pPed->get_id() == pPointer->field_8_char->get_id())
                     {
                         pEntry->field_14_enable_state = 0;

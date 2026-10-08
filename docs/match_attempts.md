@@ -3325,3 +3325,13 @@ flag test that later disappears still shapes the block order and the exit placem
   the second test. Left: `test %dl,%bl` for `test $1,%dl`. The constant 1 web (`bShow = true`, `byte = 1`, `& 1`)
   is coalesced with `bShow` in `ebx`; the original keeps the immediate in the test but `bl` in the store. Casts,
   `% 2`, other flag types (98 for 32-bit), separate flags (22-148): no.
+- **`Car_214::sub_5C8780` (84 -> 70).** Case 3's car branch as two `GetBasePointer_512770` calls (if/else, each
+  pushing its own argument, cross-jumped at the call) instead of a ternary argument; case 5 without the `pCmd`
+  local, so the `field_8_idx` load takes a fresh round-robin register (`%cx`) and case 5 keeps its own tail. Left:
+  the switch head (`dec %eax`) and case 7, which should cross-jump into case 6's ped check; written as a full copy
+  (as 9.6f has it) the head matches but case 7 doesn't merge (104): the cjlog shows case 7 failing the first
+  instruction compare against case 6 although opdump shows the instruction identical.
+- `CleanupSpriteList_5A7080` (20), `OnPedKilled_592660` (77), `MergeWithOtherGroup_4C9B60` (104),
+  `ProcessPoliceRadioWordsPlayback_427220` (4): no gain. For 5A7080 the original's A, K, B order is not a reverse
+  postorder of the plain loop CFG (K is a leaf, A and B both successors of the `pLast` test), so something folded
+  after layout must be involved.
