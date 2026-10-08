@@ -58,7 +58,7 @@ void zealous_borg::IncrementCrimeCount_484F50(int crime_type)
             break;
         case crime_stats_type::car_damaged_1:
         case crime_stats_type::car_destroyed_3:
-        case crime_stats_type::Unknown_4:
+        case crime_stats_type::bus_stolen_4:
         case crime_stats_type::Vehicles_Hijacked_5:
         case crime_stats_type::Civilians_run_down_6:
         case crime_stats_type::Civilians_murdered_7:

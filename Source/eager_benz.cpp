@@ -952,7 +952,7 @@ void eager_benz::OnCarHijacked_593240(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x593370)
-void eager_benz::sub_593370(Car_BC* pCar)
+void eager_benz::OnBusStolen_593370(Car_BC* pCar)
 {
     if (!bExplodingScoresOff_67D4FB && field_368_player->IsUser_41DC70())
     {
@@ -963,7 +963,7 @@ void eager_benz::sub_593370(Car_BC* pCar)
     }
 
     field_368_player->Add_2D4(10);
-    gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::Unknown_4, field_368_player->GetPlayerPed_4A5130());
+    gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::bus_stolen_4, field_368_player->GetPlayerPed_4A5130());
 }
 
 MATCH_FUNC(0x593410)

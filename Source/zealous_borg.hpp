@@ -10,7 +10,7 @@ enum
     car_damaged_1 = 1,
     weapon_fired_2 = 2,
     car_destroyed_3 = 3,
-    Unknown_4 = 4,
+    bus_stolen_4 = 4,
     Vehicles_Hijacked_5 = 5,
     Civilians_run_down_6 = 6,
     Civilians_murdered_7 = 7,
