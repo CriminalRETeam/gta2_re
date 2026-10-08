@@ -169,8 +169,8 @@ set(gta2_lib_src
   Source/Phi_8CA8.cpp
   Source/Object_5C.hpp
   Source/Object_5C.cpp
-  Source/Varrok_7F8.hpp
-  Source/Varrok_7F8.cpp
+  Source/PedRefTable_7F8.hpp
+  Source/PedRefTable_7F8.cpp
   Source/TileAnim_2.hpp
   Source/TileAnim_2.cpp
   Source/Weapon_8.hpp

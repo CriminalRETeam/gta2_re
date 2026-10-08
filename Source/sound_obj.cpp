@@ -4600,7 +4600,7 @@ void sound_obj::ProcessObject_41E820(Sound_Params_8* pEntity)
 MATCH_FUNC(0x41E850)
 void sound_obj::ProcessObject_Type12_41E850(Sound_Params_8* a2)
 {
-    u32 kind = a2->field_0_pObj->field_8_object_2C_ptr->field_26_varrok_idx;
+    u32 kind = a2->field_0_pObj->field_8_object_2C_ptr->field_26_ped_ref_idx;
     Fix16 dist;
     u8 vol;
     switch (kind)

@@ -10,7 +10,7 @@
 #include "Particle_8.hpp"
 #include "Player.hpp"
 #include "PurpleDoom.hpp"
-#include "Varrok_7F8.hpp"
+#include "PedRefTable_7F8.hpp"
 #include "debug.hpp"
 #include "rng.hpp"
 
@@ -379,7 +379,7 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
             {
                 if (timerVal > explosion_timer::damage_phase_50 && pPedChar->get_ped_state_1_48A4C0() != ped_state_1::immobilized_8)
                 {
-                    s32 ped_id = gVarrok_7F8_703398->GetPedId_420F10(this->field_14_pObj2C->field_26_varrok_idx);
+                    s32 ped_id = gPedRefTable_7F8_703398->GetPedId_420F10(this->field_14_pObj2C->field_26_ped_ref_idx);
                     if (!ped_id)
                     {
                         pPedChar->field_7C_pPed->field_204_killer_id = this->field_2C_owner_ped_id;
@@ -434,8 +434,8 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
                         {
                             if (Fix16::MaxAbsDistance_42A6B0(pSprite->field_14_xy.x, pSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y) <= this->field_28_blast_radius)
                             {
-                                // 9.6f: Varrok_7F8::GetPedId_420F10 (inlined, using it here makes the diff worse)
-                                s32 exploder_ped_id = gVarrok_7F8_703398->field_0_entries[this->field_14_pObj2C->field_26_varrok_idx].field_0_ped_id;
+                                // 9.6f: PedRefTable_7F8::GetPedId_420F10 (inlined, using it here makes the diff worse)
+                                s32 exploder_ped_id = gPedRefTable_7F8_703398->field_0_entries[this->field_14_pObj2C->field_26_ped_ref_idx].field_0_ped_id;
                                 if (!exploder_ped_id)
                                 {
                                     pCar->field_70_exploder_ped_id = this->field_2C_owner_ped_id;
@@ -481,7 +481,7 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
                     Object_2C* pObject = pSprite->As2C_40FEC0();
                     if (timerVal > explosion_timer::damage_phase_50 && timerVal < 60u)
                     {
-                        pObject->sub_525190(this->field_14_pObj2C->field_26_varrok_idx);
+                        pObject->sub_525190(this->field_14_pObj2C->field_26_ped_ref_idx);
                     }
                 }
             }

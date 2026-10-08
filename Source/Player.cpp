@@ -107,10 +107,10 @@ DEFINE_GLOBAL(s16, gTestRouteIdx_675F14, 0x675F14);
 DEFINE_GLOBAL(Car_BC*, gTestFireCar_675C30, 0x675C30);
 
 MATCH_FUNC(0x443CB0)
-EXPORT s32 Player::ObjectTypeToWeaponType_443CB0(u8 varrok_idx)
+EXPORT s32 Player::ObjectTypeToWeaponType_443CB0(u8 object_type)
 {
     s32 weapon_kind;
-    switch (varrok_idx)
+    switch (object_type)
     {
         case objects::shop_car_mines_252:
             weapon_kind = weapon_type::car_mines;
@@ -1763,7 +1763,7 @@ void Player::Wasted_567130()
             field_2C8_aux_ped->field_170_selected_weapon = 0;
             field_2C8_aux_ped->field_200_id = 0;
             field_2C8_aux_ped->ClearBit11_403A40();
-            field_2C8_aux_ped->field_267_varrok_idx = 0;
+            field_2C8_aux_ped->field_267_ped_ref_idx = 0;
             field_68_camera_mode = 2;
             memcpy(&field_208_aux_game_camera, &field_90_game_camera, sizeof(field_208_aux_game_camera));
             field_2D0_bAuxCamActive = 1;
@@ -1858,7 +1858,7 @@ void Player::Busted_5679E0()
         field_2C8_aux_ped->field_170_selected_weapon = 0;
         field_2C8_aux_ped->field_200_id = 0;
         field_2C8_aux_ped->ClearBit11_403A40();
-        field_2C8_aux_ped->field_267_varrok_idx = 0;
+        field_2C8_aux_ped->field_267_ped_ref_idx = 0;
         gPolice_7B8_6FEE40->SetArrestedPed_56F8E0(field_2C4_player_ped, field_2C8_aux_ped);
         field_68_camera_mode = 2;
         memcpy(&field_208_aux_game_camera, &field_90_game_camera, sizeof(Camera_0xBC));

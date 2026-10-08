@@ -368,9 +368,9 @@ class Ped
     EXPORT void Objective50_Nullsub();
     EXPORT void State30_Nullsub();
 
-    inline u8 get_varrok_idx_420B50()
+    inline u8 get_ped_ref_idx_420B50()
     {
-        return field_267_varrok_idx;
+        return field_267_ped_ref_idx;
     }
 
     inline void ClearGroupAndGroupIdx_403A30()
@@ -981,7 +981,7 @@ class Ped
     u8 field_264_killer_id_timer;
     u8 field_265_patrol_list_idx;
     u8 field_266_path_fail_count;
-    u8 field_267_varrok_idx;
+    u8 field_267_ped_ref_idx;
     char_type field_268_electrocution_timer;
     char_type field_269_unused;
     u8 field_26A_recent_crime_timer;

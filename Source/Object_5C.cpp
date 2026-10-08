@@ -18,7 +18,7 @@
 #include "PurpleDoom.hpp"
 #include "Rozza_C88.hpp"
 #include "TrafficLights_194.hpp"
-#include "Varrok_7F8.hpp"
+#include "PedRefTable_7F8.hpp"
 #include "Weapon_8.hpp"
 #include "Explosion_30.hpp"
 #include "collide.hpp"
@@ -28,7 +28,7 @@
 #include "map_0x370.hpp"
 #include "sprite.hpp"
 
-EXTERN_GLOBAL(Varrok_7F8*, gVarrok_7F8_703398);
+EXTERN_GLOBAL(PedRefTable_7F8*, gPedRefTable_7F8_703398);
 EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
 
 DEFINE_GLOBAL(Object_5C*, gObject_5C_6F8F84, 0x6F8F84);
@@ -118,7 +118,7 @@ Object_2C::Object_2C()
     field_14_id = 99;
     field_24_bDoneThisFrame = 0;
     field_25_removal_state = 0;
-    field_26_varrok_idx = 99;
+    field_26_ped_ref_idx = 99;
     field_20_pool_list_state = 0;
     field_27 = 0;
     field_28 = -51;
@@ -146,10 +146,10 @@ void Object_2C::PoolDeallocate()
 
     if (is_not_type6_to_12_421080())
     {
-        if (field_26_varrok_idx > 0)
+        if (field_26_ped_ref_idx > 0)
         {
-            gVarrok_7F8_703398->DecrementRefCount_59B0D0(field_26_varrok_idx);
-            this->field_26_varrok_idx = 0;
+            gPedRefTable_7F8_703398->DecrementRefCount_59B0D0(field_26_ped_ref_idx);
+            this->field_26_ped_ref_idx = 0;
         }
     }
 
@@ -163,19 +163,19 @@ void Object_2C::PoolDeallocate()
 }
 
 MATCH_FUNC(0x522250)
-bool Object_2C::CanCollideWithSpriteByVarrok_522250(Sprite* pSprite)
+bool Object_2C::CanCollideWithSpriteByOwnerRef_522250(Sprite* pSprite)
 {
     if (is_not_type6_to_12_421080())
     {
-        u8 varrok_idx = this->get_field_26_420FF0();
-        if (varrok_idx > 0)
+        u8 ped_ref_idx = this->get_field_26_420FF0();
+        if (ped_ref_idx > 0)
         {
             if (pSprite)
             {
                 Char_B4* cB4 = pSprite->AsCharB4_40FEA0();
                 if (cB4)
                 {
-                    if (cB4->field_7C_pPed->get_varrok_idx_420B50() == varrok_idx)
+                    if (cB4->field_7C_pPed->get_ped_ref_idx_420B50() == ped_ref_idx)
                     {
                         return true;
                     }
@@ -318,7 +318,7 @@ char Object_2C::ShouldCollideWith_5223C0(Sprite* pSprite)
 MATCH_FUNC(0x522430)
 bool Object_2C::ShouldCollideWithSprite_522430(Sprite* pSprite)
 {
-    return (pSprite && ShouldCollideWith_5223C0(pSprite) && !CanCollideWithSpriteByVarrok_522250(pSprite)) ? true : false;
+    return (pSprite && ShouldCollideWith_5223C0(pSprite) && !CanCollideWithSpriteByOwnerRef_522250(pSprite)) ? true : false;
 }
 
 MATCH_FUNC(0x522460)
@@ -381,14 +381,14 @@ void Object_2C::SetMovementVectorWithRandomState_522640(Fix16_Point& a2)
 }
 
 MATCH_FUNC(0x5226a0)
-void Object_2C::SetConveyorPush_5226A0(char_type varrok_idx)
+void Object_2C::SetConveyorPush_5226A0(char_type conveyor_speed)
 {
     Fix16_Point point;
     if (!field_10_obj_3c)
     {
         NewObj3C_528130(gZeroVector_6F8EF0);
     }
-    field_10_obj_3c->field_38_conveyor_speed = varrok_idx;
+    field_10_obj_3c->field_38_conveyor_speed = conveyor_speed;
 }
 
 MATCH_FUNC(0x522710)
@@ -1436,7 +1436,7 @@ void Object_2C::sub_525100()
 
 // https://decomp.me/scratch/jLuSq
 MATCH_FUNC(0x525190)
-void Object_2C::sub_525190(u8 varrok_idx)
+void Object_2C::sub_525190(u8 ped_ref_idx)
 {
 
     if (IsDefinitionIdx39To42_482400(field_8->field_3C_next_definition_idx))
@@ -1451,10 +1451,10 @@ void Object_2C::sub_525190(u8 varrok_idx)
                                                                           this->field_4->field_1C_zpos,
                                                                           kZeroAng_6F8F68,
                                                                           explosion_type::item_19,
-                                                                          gVarrok_7F8_703398->GetPedId_420F10(varrok_idx));
+                                                                          gPedRefTable_7F8_703398->GetPedId_420F10(ped_ref_idx));
         if (pExplosion)
         {
-            pExplosion->SetDamageOwner_529080(varrok_idx);
+            pExplosion->SetDamageOwner_529080(ped_ref_idx);
         }
     }
 }
@@ -1767,7 +1767,7 @@ void Object_2C::UpdatePhysicsAndMovement_525B80()
                 {
                     if (get_field_26_420FF0() > 0)
                     {
-                        s32 ped_id = gVarrok_7F8_703398->GetPedId_420F10(get_field_26_420FF0());
+                        s32 ped_id = gPedRefTable_7F8_703398->GetPedId_420F10(get_field_26_420FF0());
                         if (ped_id)
                         {
                             Ped* pPed = gPedManager_6787BC->PedById(ped_id);
@@ -1791,8 +1791,8 @@ void Object_2C::UpdatePhysicsAndMovement_525B80()
             {
                 if (get_field_26_420FF0() > 0)
                 {
-                    gVarrok_7F8_703398->DecrementRefCount_59B0D0(field_26_varrok_idx); // reduce field4 of varrok at idx
-                    this->field_26_varrok_idx = 0;
+                    gPedRefTable_7F8_703398->DecrementRefCount_59B0D0(field_26_ped_ref_idx); // reduce field4 of ped ref at idx
+                    this->field_26_ped_ref_idx = 0;
                 }
             }
         }
@@ -1857,10 +1857,10 @@ void Object_2C::UpdatePhysicsMovementAndAnimation_525D90()
                     if (is_not_type6_to_12_421080())
                     {
                         // 9.6f: Object_2C::get_field_26_420FF0 (inlined, using it changes the code)
-                        if (field_26_varrok_idx > 0)
+                        if (field_26_ped_ref_idx > 0)
                         {
-                            gVarrok_7F8_703398->DecrementRefCount_59B0D0(field_26_varrok_idx);
-                            this->field_26_varrok_idx = 0;
+                            gPedRefTable_7F8_703398->DecrementRefCount_59B0D0(field_26_ped_ref_idx);
+                            this->field_26_ped_ref_idx = 0;
                         }
                     }
                 }
@@ -1992,7 +1992,7 @@ void Object_2C::TriggerCarExplosionIfApplicable_526790(Sprite* pSprite)
                     if (this->field_18_model == objects::moving_collect_36_132)
                     {
 
-                        s32 id = gVarrok_7F8_703398->GetPedId_420F10(get_field_26_420FF0());
+                        s32 id = gPedRefTable_7F8_703398->GetPedId_420F10(get_field_26_420FF0());
                         if (id)
                         {
                             pCar->field_70_exploder_ped_id = id;
@@ -2390,10 +2390,10 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                                                                               field_4->field_1C_zpos,
                                                                               kZeroAng_6F8F68,
                                                                               sub_526830(obj_type),
-                                                                              gVarrok_7F8_703398->GetPedId_420F10(field_26_varrok_idx));
+                                                                              gPedRefTable_7F8_703398->GetPedId_420F10(field_26_ped_ref_idx));
             if (pExplosion)
             {
-                pExplosion->SetDamageOwner_529080(this->field_26_varrok_idx);
+                pExplosion->SetDamageOwner_529080(this->field_26_ped_ref_idx);
             }
             Object_2C::RequestRemoval_5290A0();
         }
@@ -2646,9 +2646,9 @@ char_type Object_2C::HandleObjectHit_528990(Sprite* pSprite)
 
     Object_2C* o2c = pSprite->As2C_40FEC0();
 
-    if (gVarrok_7F8_703398->GetPedId_420F10(get_field_26_420FF0()))
+    if (gPedRefTable_7F8_703398->GetPedId_420F10(get_field_26_420FF0()))
     {
-        Ped* pPed = gPedManager_6787BC->PedById(gVarrok_7F8_703398->GetPedId_420F10(get_field_26_420FF0()));
+        Ped* pPed = gPedManager_6787BC->PedById(gPedRefTable_7F8_703398->GetPedId_420F10(get_field_26_420FF0()));
         if (pPed)
         {
             pPed->ProcessWeaponHitResponse_46FE20(o2c);
@@ -2686,7 +2686,7 @@ void Object_2C::ProcessObjectExplosionImpact_528A20(Object_2C* pObj)
                                                                               this->field_4->field_1C_zpos,
                                                                               kZeroAng_6F8F68,
                                                                               remapped,
-                                                                              gVarrok_7F8_703398->GetPedId_420F10(get_field_26_420FF0()));
+                                                                              gPedRefTable_7F8_703398->GetPedId_420F10(get_field_26_420FF0()));
             if (pExplosion)
             {
                 pExplosion->SetDamageOwner_529080(get_field_26_420FF0());
@@ -2711,7 +2711,7 @@ void Object_2C::ProcessObjectExplosionImpact_528A20(Object_2C* pObj)
     }
 
     Ped* pPed; // eax
-    s32 pedId = gVarrok_7F8_703398->GetPedId_420F10(get_field_26_420FF0());
+    s32 pedId = gPedRefTable_7F8_703398->GetPedId_420F10(get_field_26_420FF0());
     if (pedId)
     {
         pPed = gPedManager_6787BC->PedById(pedId);
@@ -2745,7 +2745,7 @@ void Object_2C::HandleImpactNoSprite_528BA0()
                                                                               field_4->field_1C_zpos,
                                                                               kZeroAng_6F8F68,
                                                                               GetExplosionTypeForWallSide_528E00(gObject2C_WallHitSide_6F8F90),
-                                                                              gVarrok_7F8_703398->GetPedId_420F10(get_field_26_420FF0()));
+                                                                              gPedRefTable_7F8_703398->GetPedId_420F10(get_field_26_420FF0()));
             if (pExplosion)
             {
                 pExplosion->SetDamageOwner_529080(get_field_26_420FF0());
@@ -2779,7 +2779,7 @@ void Object_2C::HandleImpactNoSprite_528BA0()
             return;
     }
 
-    const s32 id = gVarrok_7F8_703398->GetPedId_420F10(get_field_26_420FF0());
+    const s32 id = gPedRefTable_7F8_703398->GetPedId_420F10(get_field_26_420FF0());
     if (id)
     {
         Ped* pPed = gPedManager_6787BC->PedById(id);
@@ -2964,20 +2964,20 @@ void Object_2C::HandleCollisionWithObject_529000(Object_2C* pObj)
 MATCH_FUNC(0x529030)
 void Object_2C::SetConveyorSpeed_529030(s8 speed_x, s8 speed_y)
 {
-    field_26_varrok_idx = (speed_y + 7) | (16 * (speed_x + 7)); //  two variables in the same byte?
+    field_26_ped_ref_idx = (speed_y + 7) | (16 * (speed_x + 7)); //  two variables in the same byte?
 }
 
 MATCH_FUNC(0x529070)
 void Object_2C::ApplyConveyorSpeedFrom_529070(Object_2C* pObj)
 {
-    SetConveyorPush_5226A0(pObj->field_26_varrok_idx);
+    SetConveyorPush_5226A0(pObj->field_26_ped_ref_idx);
 }
 
 MATCH_FUNC(0x529080)
-void Object_2C::SetDamageOwner_529080(u8 idx)
+void Object_2C::SetDamageOwner_529080(u8 ped_ref_idx)
 {
-    field_26_varrok_idx = idx;
-    gVarrok_7F8_703398->IncrementRefCount_59B0B0(idx);
+    field_26_ped_ref_idx = ped_ref_idx;
+    gPedRefTable_7F8_703398->IncrementRefCount_59B0B0(ped_ref_idx);
 }
 
 MATCH_FUNC(0x5290a0)
@@ -3068,7 +3068,7 @@ bool Object_2C::IsNotModel_174_529200()
 MATCH_FUNC(0x529210)
 s32 Object_2C::GetExplosionSideFromDiagonalWall_529210()
 {
-    switch (field_26_varrok_idx)
+    switch (field_26_ped_ref_idx)
     {
         case 46: // diagonal up right
         case 48: // diagonal down right
@@ -3140,7 +3140,7 @@ void Object_5C::TrimSpriteList_529300()
                                                   pSprite->field_1C_zpos,
                                                   kZeroAng_6F8F68,
                                                   explosion_type::small_18,
-                                                  gVarrok_7F8_703398->GetPedId_420F10(o2c->get_field_26_420FF0()));
+                                                  gPedRefTable_7F8_703398->GetPedId_420F10(o2c->get_field_26_420FF0()));
             }
         }
         o2c->Dealloc_5291B0();
@@ -3309,12 +3309,12 @@ Object_2C* Object_5C::NewPhysicsObj_5299B0(s32 object_type, Fix16 xpos, Fix16 yp
 }
 
 MATCH_FUNC(0x5299f0)
-Object_2C* Object_5C::NewWithVarrokIdx_5299F0(s32 object_type, u32 varrok_idx, Fix16 xpos, Fix16 ypos, Fix16 zpos)
+Object_2C* Object_5C::NewWithPedRefIdx_5299F0(s32 object_type, u32 ped_ref_idx, Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
     Object_2C* pNewObj = New_529C00(object_type, xpos, ypos, zpos, kZeroAng_6F8F68, 0);
     if (pNewObj)
     {
-        pNewObj->set_field_26(varrok_idx);
+        pNewObj->set_field_26(ped_ref_idx);
         if (object_type == objects::sound_object_type_2_279)
         {
             pNewObj->RequestRemoval_5290A0();
@@ -3681,7 +3681,7 @@ void Object_5C::SaveObjects_52A500(TurkishDelight_164* pData)
             pData->field_0_obj_x[1][saved_count].field_0 = pObj->get_y_4340E0();
             pData->field_0_obj_x[2][saved_count].field_0 = pObj->get_z_4340F0();
             pData->field_F0_model[saved_count] = pObj->field_18_model;
-            pData->field_118_varrok_idx[saved_count] = pObj->field_26_varrok_idx;
+            pData->field_118_ped_ref_idx[saved_count] = pObj->field_26_ped_ref_idx;
             saved_count++;
             if (saved_count >= 20)
             {
@@ -3696,7 +3696,7 @@ void Object_5C::SaveObjects_52A500(TurkishDelight_164* pData)
 MATCH_FUNC(0x52A590)
 void Object_5C::RestoreObjects_52A590(TurkishDelight_164* pData)
 {
-    u8* pVarrok = &pData->field_118_varrok_idx[0];
+    u8* pPedRefIdx = &pData->field_118_ped_ref_idx[0];
     // TurkishDelight_4* pX = &pData->field_0_obj_x[0][0];
     u16* pModel = &pData->field_F0_model[0];
 
@@ -3711,12 +3711,12 @@ void Object_5C::RestoreObjects_52A590(TurkishDelight_164* pData)
                                                       pData->field_0_obj_x[1][19 - i].field_0,
                                                       pData->field_0_obj_x[2][19 - i].field_0, // z?
                                                       kZeroAng_6F8F68);
-            pNewObj->set_field_26(*pVarrok);
+            pNewObj->set_field_26(*pPedRefIdx);
         }
         // pX++;
         pModel++; // add $0x2,$esi
         i--;
-        pVarrok++;
+        pPedRefIdx++;
     }
 
     memset(pData, 0, 0x12Cu); // everything before field_12C_obj_5C_bUnCollectedTokens

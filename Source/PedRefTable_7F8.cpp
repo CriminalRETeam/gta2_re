@@ -1,12 +1,12 @@
-#include "Varrok_7F8.hpp"
+#include "PedRefTable_7F8.hpp"
 
-DEFINE_GLOBAL(Varrok_7F8*, gVarrok_7F8_703398, 0x703398);
+DEFINE_GLOBAL(PedRefTable_7F8*, gPedRefTable_7F8_703398, 0x703398);
 
 MATCH_FUNC(0x59b060)
-u8 Varrok_7F8::AllocForPed_59B060(s32 ped_id)
+u8 PedRefTable_7F8::AllocForPed_59B060(s32 ped_id)
 {
-    Varrok_8* pIter = &this->field_0_entries[1];
-    for (u8 i = 1; i < 255; pIter++, i++)
+    PedRef_8* pIter = &field_0_entries[1];
+    for (u8 i = 1; i < GTA2_COUNTOF(field_0_entries); pIter++, i++)
     {
         if (!pIter->field_0_ped_id && !pIter->field_4_ref_count)
         {
@@ -18,13 +18,13 @@ u8 Varrok_7F8::AllocForPed_59B060(s32 ped_id)
 }
 
 MATCH_FUNC(0x59b0b0)
-void Varrok_7F8::IncrementRefCount_59B0B0(u8 a2)
+void PedRefTable_7F8::IncrementRefCount_59B0B0(u8 idx)
 {
-    field_0_entries[a2].field_4_ref_count++;
+    field_0_entries[idx].field_4_ref_count++;
 }
 
 MATCH_FUNC(0x59b0d0)
-void Varrok_7F8::DecrementRefCount_59B0D0(u8 idx)
+void PedRefTable_7F8::DecrementRefCount_59B0D0(u8 idx)
 {
     if (field_0_entries[idx].field_4_ref_count > 0)
     {
@@ -33,7 +33,7 @@ void Varrok_7F8::DecrementRefCount_59B0D0(u8 idx)
 }
 
 MATCH_FUNC(0x59b0f0)
-Varrok_7F8::Varrok_7F8()
+PedRefTable_7F8::PedRefTable_7F8()
 {
     for (s32 i = 0; i < GTA2_COUNTOF(field_0_entries); i++)
     {
@@ -43,6 +43,6 @@ Varrok_7F8::Varrok_7F8()
 }
 
 MATCH_FUNC(0x59b110)
-Varrok_7F8::~Varrok_7F8()
+PedRefTable_7F8::~PedRefTable_7F8()
 {
 }

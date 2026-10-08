@@ -11975,7 +11975,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Object_2C::CanCollideWithSpriteByVarrok_522250",
+        "name": "Object_2C::CanCollideWithSpriteByOwnerRef_522250",
         "v96f_address": "0x482e80",
         "v105_address": "0x522250",
         "v96f_auto": true
@@ -12471,7 +12471,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Object_5C::NewWithVarrokIdx_5299F0",
+        "name": "Object_5C::NewWithPedRefIdx_5299F0",
         "v96f_address": "0x485320",
         "v105_address": "0x5299f0",
         "v96f_auto": true
@@ -16506,30 +16506,30 @@
         "v105_address": "0x597100"
     },
     {
-        "name": "Varrok_7F8::AllocForPed_59B060",
+        "name": "PedRefTable_7F8::AllocForPed_59B060",
         "v96f_address": "0x4b98d0",
         "v105_address": "0x59b060",
         "v96f_auto": true
     },
     {
-        "name": "Varrok_7F8::IncrementRefCount_59B0B0",
+        "name": "PedRefTable_7F8::IncrementRefCount_59B0B0",
         "v96f_address": null,
         "v105_address": "0x59b0b0"
     },
     {
-        "name": "Varrok_7F8::DecrementRefCount_59B0D0",
+        "name": "PedRefTable_7F8::DecrementRefCount_59B0D0",
         "v96f_address": "0x4b9940",
         "v105_address": "0x59b0d0",
         "v96f_auto": true
     },
     {
-        "name": "Varrok_7F8::ctor",
+        "name": "PedRefTable_7F8::ctor",
         "v96f_address": "0x4b9960",
         "v105_address": "0x59b0f0",
         "v96f_auto": true
     },
     {
-        "name": "Varrok_7F8::dtor",
+        "name": "PedRefTable_7F8::dtor",
         "v96f_address": "0x4b9980",
         "v105_address": "0x59b110",
         "v96f_auto": true

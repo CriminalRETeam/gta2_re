@@ -28,7 +28,7 @@
 #include "RouteFinder.hpp"
 #include "CrimeReportQueue_CC.hpp"
 #include "Taxi_4.hpp"
-#include "Varrok_7F8.hpp"
+#include "PedRefTable_7F8.hpp"
 #include "Weapon_8.hpp"
 #include "collide.hpp"
 #include "debug.hpp"
@@ -2413,9 +2413,9 @@ char_type Car_BC::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
             }
             else
             {
-                if (gVarrok_7F8_703398->field_0_entries[o2c->field_26_varrok_idx].field_0_ped_id)
+                if (gPedRefTable_7F8_703398->field_0_entries[o2c->field_26_ped_ref_idx].field_0_ped_id)
                 {
-                    pPed = gPedManager_6787BC->PedById(gVarrok_7F8_703398->field_0_entries[o2c->field_26_varrok_idx].field_0_ped_id);
+                    pPed = gPedManager_6787BC->PedById(gPedRefTable_7F8_703398->field_0_entries[o2c->field_26_ped_ref_idx].field_0_ped_id);
                     if (pPed)
                     {
                         if (pPed->field_16C_car == this)
@@ -4235,7 +4235,7 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
     Ped* pFoundPed = 0;
     if (pObj->get_field_26_420FF0())
     {
-        s32 pedId = gVarrok_7F8_703398->GetPedId_420F10(pObj->get_field_26_420FF0());
+        s32 pedId = gPedRefTable_7F8_703398->GetPedId_420F10(pObj->get_field_26_420FF0());
         pFoundPed = pedId ? gPedManager_6787BC->PedById(pedId) : 0;
         if (pFoundPed)
         {
@@ -4250,7 +4250,7 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
         }
     }
 
-    if (field_54_driver && pObj->field_18_model != 10 && pObj->field_26_varrok_idx == field_54_driver->field_267_varrok_idx)
+    if (field_54_driver && pObj->field_18_model != 10 && pObj->field_26_ped_ref_idx == field_54_driver->field_267_ped_ref_idx)
     {
         return 0;
     }
@@ -4701,7 +4701,7 @@ void Car_BC::FireCarBomb_440F90(char_type instant_bomb)
 {
     if (instant_bomb)
     {
-        s32 ped_id = gVarrok_7F8_703398->GetPedId_420F10(field_54_driver->get_varrok_idx_420B50());
+        s32 ped_id = gPedRefTable_7F8_703398->GetPedId_420F10(field_54_driver->get_ped_ref_idx_420B50());
         if (ped_id)
         {
             this->field_70_exploder_ped_id = ped_id;
@@ -4720,7 +4720,7 @@ void Car_BC::FireCarBomb_440F90(char_type instant_bomb)
         Ped* pDriver = this->field_54_driver;
         if (pDriver)
         {
-            pNew2C->SetDamageOwner_529080(pDriver->get_varrok_idx_420B50());
+            pNew2C->SetDamageOwner_529080(pDriver->get_ped_ref_idx_420B50());
         }
         field_50_car_sprite->DispatchCollisionEvent_5A3100(pNew2C->field_4, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
     }

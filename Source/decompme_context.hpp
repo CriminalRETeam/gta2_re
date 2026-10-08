@@ -40,7 +40,7 @@
 #include "Taxi_4.hpp"
 #include "TileAnim_2.hpp"
 #include "TrafficLights_194.hpp"
-#include "Varrok_7F8.hpp"
+#include "PedRefTable_7F8.hpp"
 #include "Weapon_8.hpp"
 #include "Explosion_30.hpp"
 #include "Cranes.hpp"

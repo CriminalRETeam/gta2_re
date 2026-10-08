@@ -20,7 +20,7 @@
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
-#include "Varrok_7F8.hpp"
+#include "PedRefTable_7F8.hpp"
 #include "Weapon_30.hpp"
 #include "debug.hpp"
 #include "error.hpp"
@@ -1815,7 +1815,7 @@ void Char_B4::HandleObjectCollision_548840(Object_2C* pObj)
     s32 phi_type = pObj->field_8->field_34_behavior_type;
 
     if (!pObj->is_not_type6_to_12_421080() || (pObj->get_field_26_420FF0()) == 0 ||
-        pObj->get_field_26_420FF0() != this->field_7C_pPed->field_267_varrok_idx)
+        pObj->get_field_26_420FF0() != this->field_7C_pPed->field_267_ped_ref_idx)
     {
         if (!pObj->sub_482C90())
         {
@@ -6322,7 +6322,7 @@ bool Char_B4::ShouldCollideWithSprite_553340(Sprite* pSprite)
                 Object_2C* pObj = pSprite->As2C_40FEC0();
                 if (pObj)
                 {
-                    u8 idx = field_7C_pPed->get_varrok_idx_420B50();
+                    u8 idx = field_7C_pPed->get_ped_ref_idx_420B50();
                     if (pObj->is_not_type6_to_12_and_idx_matches_4973E0(idx))
                     {
                         return 0;
@@ -6459,7 +6459,7 @@ MATCH_FUNC(0x5537F0)
 char_type Char_B4::HandlePedObjectHit_5537F0(Object_2C* p2c)
 {
     const u8 idx = p2c->get_field_26_420FF0();
-    const s32 pedId = gVarrok_7F8_703398->GetPedId_420F10(idx);
+    const s32 pedId = gPedRefTable_7F8_703398->GetPedId_420F10(idx);
     if (p2c->field_18_model == objects::rocket_bullet_128 || p2c->field_18_model == objects::moving_molotov_138 || p2c->field_18_model == objects::mine_10 && !gCharB4_HitByMine_6FDB59)
     {
         gObject_5C_6F8F84->CreateExplosion_52A3D0(field_80_sprite_ptr->field_14_xy.x,
@@ -6474,7 +6474,7 @@ char_type Char_B4::HandlePedObjectHit_5537F0(Object_2C* p2c)
         }
     }
 
-    if (p2c->get_field_26_420FF0() != field_7C_pPed->get_varrok_idx_420B50())
+    if (p2c->get_field_26_420FF0() != field_7C_pPed->get_ped_ref_idx_420B50())
     {
         return field_7C_pPed->HandlePedHitByObject_45D000(p2c);
     }
@@ -6532,9 +6532,9 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, u8 bUnknown, Fix16 x, Fix16 y
             vecLen = gRunOrJumpSpeed_6FD7D0;
         }
 
-        if (!this->field_7C_pPed->field_267_varrok_idx)
+        if (!this->field_7C_pPed->field_267_ped_ref_idx)
         {
-            this->field_7C_pPed->field_267_varrok_idx = gVarrok_7F8_703398->AllocForPed_59B060(this->field_7C_pPed->field_200_id);
+            this->field_7C_pPed->field_267_ped_ref_idx = gPedRefTable_7F8_703398->AllocForPed_59B060(this->field_7C_pPed->field_200_id);
         }
 
         this->field_6C_animation_state = 12;
@@ -6561,7 +6561,7 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, u8 bUnknown, Fix16 x, Fix16 y
             {
                 this->field_7C_pPed->field_184_pObj2C = SPAWN_KNOCKDOWN_OBJ(vecLen);
                 this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = kFP16Zero_6FD9E4;
-                this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_varrok_idx);
+                this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_ped_ref_idx);
                 this->field_7C_pPed->ChangeNextPedState1_45C500(8);
                 this->field_7C_pPed->ChangeNextPedState2_45C540(24);
                 this->field_C_ped_state_2 = ped_state_2::Unknown_24;
@@ -6588,7 +6588,7 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, u8 bUnknown, Fix16 x, Fix16 y
                     this->field_7C_pPed->field_184_pObj2C = SPAWN_KNOCKDOWN_OBJ(vecLen / gFix16_Two_6FD9EC);
                     this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = dword_6FD9B0;
                     this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_2A_bAirborne = 1;
-                    this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_varrok_idx);
+                    this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_ped_ref_idx);
                     this->field_7C_pPed->ChangeNextPedState1_45C500(8);
 
                     if (this->field_7C_pPed->field_208_invulnerability > 0)
@@ -6624,7 +6624,7 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, u8 bUnknown, Fix16 x, Fix16 y
                     this->field_7C_pPed->field_184_pObj2C = SPAWN_KNOCKDOWN_OBJ(vecLen / gFix16_Two_6FD9EC);
                     this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = kFpPoint1_6FD824;
                     this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_2A_bAirborne = 1;
-                    this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_varrok_idx);
+                    this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_ped_ref_idx);
                     if (field_7C_pPed->field_208_invulnerability > 0)
                     {
                         field_7C_pPed->ChangeNextPedState2_45C540(24);
@@ -6657,7 +6657,7 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, u8 bUnknown, Fix16 x, Fix16 y
             {
                 this->field_7C_pPed->field_184_pObj2C = SPAWN_KNOCKDOWN_OBJ(vecLen / gFix16_Two_6FD9EC);
                 this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = kFP16Zero_6FD9E4;
-                this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_varrok_idx);
+                this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_ped_ref_idx);
                 this->field_7C_pPed->ChangeNextPedState1_45C500(8);
                 this->field_7C_pPed->ChangeNextPedState2_45C540(24);
                 this->field_C_ped_state_2 = ped_state_2::Unknown_24;
@@ -6696,11 +6696,11 @@ void Char_B4::HandleGenericImpact_553E00(Ang16 ang, Fix16 a3, Fix16 a4, char_typ
                                                                                      a3,
                                                                                      -kFpPoint02_6FD9AC,
                                                                                      a4);
-        if (!field_7C_pPed->field_267_varrok_idx)
+        if (!field_7C_pPed->field_267_ped_ref_idx)
         {
-            field_7C_pPed->field_267_varrok_idx = gVarrok_7F8_703398->AllocForPed_59B060(field_7C_pPed->field_200_id);
+            field_7C_pPed->field_267_ped_ref_idx = gPedRefTable_7F8_703398->AllocForPed_59B060(field_7C_pPed->field_200_id);
         }
-        field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(field_7C_pPed->field_267_varrok_idx);
+        field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(field_7C_pPed->field_267_ped_ref_idx);
         field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
 
         switch (a5)

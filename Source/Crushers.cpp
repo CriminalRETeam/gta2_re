@@ -156,7 +156,7 @@ void Crusher_30::InitCrusher_4885A0(Fix16 xpos, Fix16 ypos, char_type crusher_id
     field_28_ypos = ypos;
 
     field_10_central_spot = gObject_5C_6F8F84->NewPhysicsObj_5299B0(143, xpos, ypos, zpos, kAngZero_67A820);
-    field_10_central_spot->field_26_varrok_idx = crusher_idx;
+    field_10_central_spot->field_26_ped_ref_idx = crusher_idx;
 
     field_0_piston_top = gObject_5C_6F8F84->NewPhysicsObj_5299B0(142, field_24_xpos, field_28_ypos - kCrusherTargetW_67A7D0, zpos, kAngZero_67A820);
     field_4_piston_right = gObject_5C_6F8F84->NewPhysicsObj_5299B0(142, field_24_xpos + kCrusherTargetW_67A7D0, field_28_ypos, zpos, kAng270_67A660);

@@ -41,7 +41,7 @@
 #include "Taxi_4.hpp"
 #include "TileAnim_2.hpp"
 #include "TrafficLights_194.hpp"
-#include "Varrok_7F8.hpp"
+#include "PedRefTable_7F8.hpp"
 #include "Weapon_8.hpp"
 #include "Explosion_30.hpp"
 #include "char.hpp"
@@ -1063,8 +1063,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1847);
     }
 
-    gVarrok_7F8_703398 = new Varrok_7F8(); // ctor call
-    if (!gVarrok_7F8_703398)
+    gPedRefTable_7F8_703398 = new PedRefTable_7F8(); // ctor call
+    if (!gPedRefTable_7F8_703398)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1849);
     }
@@ -1308,7 +1308,7 @@ Game_0x40::~Game_0x40()
 
     GTA2_DELETE_AND_NULL(gSprite_8_703820);
     GTA2_DELETE_AND_NULL(gCollide_C_6791FC);
-    GTA2_DELETE_AND_NULL(gVarrok_7F8_703398);
+    GTA2_DELETE_AND_NULL(gPedRefTable_7F8_703398);
     GTA2_DELETE_AND_NULL(gPublicTransport_181C_6FF1D4);
     GTA2_DELETE_AND_NULL(gTaxi_4_704130);
     GTA2_DELETE_AND_NULL(gTileAnim_2_7052C4);

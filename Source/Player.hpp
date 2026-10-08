@@ -211,7 +211,7 @@ class Player
     }
 
     // TODO: Ordering
-    EXPORT s32 ObjectTypeToWeaponType_443CB0(u8 varrok);
+    EXPORT s32 ObjectTypeToWeaponType_443CB0(u8 object_type);
 
     EXPORT u8 GetIdx_4881E0();
     EXPORT void AddCarToHistory_5645B0(Car_BC* a2);

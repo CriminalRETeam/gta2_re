@@ -1572,11 +1572,11 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
                 gParticle_8_6FD5E8->field_0_fire_hit_obj->field_4->set_xyz_lazy_420600(xpos, ypos, zpos);
                 if (pB4)
                 {
-                    gParticle_8_6FD5E8->field_0_fire_hit_obj->SetDamageOwner_529080(pB4->field_7C_pPed->field_267_varrok_idx);
+                    gParticle_8_6FD5E8->field_0_fire_hit_obj->SetDamageOwner_529080(pB4->field_7C_pPed->field_267_ped_ref_idx);
                 }
                 else if (pCar)
                 {
-                    gParticle_8_6FD5E8->field_0_fire_hit_obj->SetDamageOwner_529080(pCar->field_54_driver->field_267_varrok_idx);
+                    gParticle_8_6FD5E8->field_0_fire_hit_obj->SetDamageOwner_529080(pCar->field_54_driver->field_267_ped_ref_idx);
                 }
                 if (pHit->field_30_sprite_type_enum != sprite_types_enum::code_obj1_4 &&
                     pHit->field_30_sprite_type_enum != sprite_types_enum::map_obj_5 &&
@@ -1596,11 +1596,11 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
                 gParticle_8_6FD5E8->field_4->field_4->set_xyz_lazy_420600(xpos, ypos, zpos);
                 if (pB4)
                 {
-                    gParticle_8_6FD5E8->field_4->SetDamageOwner_529080(pB4->field_7C_pPed->field_267_varrok_idx);
+                    gParticle_8_6FD5E8->field_4->SetDamageOwner_529080(pB4->field_7C_pPed->field_267_ped_ref_idx);
                 }
                 else if (pCar)
                 {
-                    gParticle_8_6FD5E8->field_4->SetDamageOwner_529080(pCar->field_54_driver->field_267_varrok_idx);
+                    gParticle_8_6FD5E8->field_4->SetDamageOwner_529080(pCar->field_54_driver->field_267_ped_ref_idx);
                 }
                 if (pHit->field_30_sprite_type_enum != sprite_types_enum::code_obj1_4 &&
                     pHit->field_30_sprite_type_enum != sprite_types_enum::map_obj_5 &&

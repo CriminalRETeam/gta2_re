@@ -247,7 +247,7 @@ Object_2C* Weapon_30::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypo
     p5CSprite->SetType_4206F0(pNewBullet->field_4->get_type_416B40());
     p5CSprite->SetObj2C_482A30(pNewBullet->field_4->field_8_object_2C_ptr);
 
-    pNewBullet->SetDamageOwner_529080(field_24_pPed->get_varrok_idx_420B50());
+    pNewBullet->SetDamageOwner_529080(field_24_pPed->get_ped_ref_idx_420B50());
 
     if (bullet_type == objects::machine_gun_bullet_254 || bullet_type == objects::pistol_bullet_265)
     {
@@ -630,7 +630,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                         {
                             speed = dword_706E80 + (Fix16(a3) / Fix16(60)) * dword_706CF0;
                         }
-                        gObject_5C_6F8F84->SetPendingDamageOwner_52A210(field_24_pPed->get_varrok_idx_420B50());
+                        gObject_5C_6F8F84->SetPendingDamageOwner_52A210(field_24_pPed->get_ped_ref_idx_420B50());
 
                         // field_24_pPed->Get_F12E_4CCA90()
                         pProjectile = gObject_5C_6F8F84->sub_52A280(obj_idx,
@@ -1671,7 +1671,7 @@ void Weapon_30::car_mine_5E2550()
     if (gMap_0x370_6F6268->CanPlaceOilOrMine_4E5480(p.x, p.y, z_low, z_high, &newZ))
     {
         Object_2C* pMine = gObject_5C_6F8F84->NewPhysicsObj_5299B0(10, p.x, p.y, newZ, Sprite_440840->field_0);
-        pMine->SetDamageOwner_529080(field_24_pPed->field_267_varrok_idx);
+        pMine->SetDamageOwner_529080(field_24_pPed->field_267_ped_ref_idx);
 
         decrement_ammo_4CCA30(); // NOTE: Didn't get inlined without __forceinline here, wtf??
         set_field_2C_4CCA80(1);

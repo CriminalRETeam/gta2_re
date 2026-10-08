@@ -28,7 +28,7 @@
 #include "CrimeReportQueue_CC.hpp"
 #include "Taxi_4.hpp"
 #include "TrafficLights_194.hpp"
-#include "Varrok_7F8.hpp"
+#include "PedRefTable_7F8.hpp"
 #include "Weapon_30.hpp"
 #include "Weapon_8.hpp"
 #include "Explosion_30.hpp"
@@ -592,7 +592,7 @@ void Ped::Reset_45AFC0()
     field_1E8_target_distance_limit = kFpZero_678660;
     field_1EC_unused = kFpZero_678660.mValue;
     field_184_pObj2C = 0;
-    field_267_varrok_idx = 0;
+    field_267_ped_ref_idx = 0;
     field_280_stored_ped_state_1 = 11;
     field_284_stored_ped_state_2 = 28;
     field_208_invulnerability = 0;
@@ -808,7 +808,7 @@ void Ped::CopyStatsFromPed_45B5B0(Ped* pSrc)
     field_1E0_objective_target_y = pSrc->field_1E0_objective_target_y;
     field_1E4_objective_target_z = pSrc->field_1E4_objective_target_z;
     field_184_pObj2C = pSrc->field_184_pObj2C;
-    field_267_varrok_idx = pSrc->field_267_varrok_idx;
+    field_267_ped_ref_idx = pSrc->field_267_ped_ref_idx;
     field_280_stored_ped_state_1 = pSrc->field_280_stored_ped_state_1;
     field_284_stored_ped_state_2 = pSrc->field_284_stored_ped_state_2;
     field_208_invulnerability = pSrc->field_208_invulnerability;
@@ -2014,7 +2014,7 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pObj)
 
     if (pObj->get_field_26_420FF0())
     {
-        s32 ped_id = gVarrok_7F8_703398->GetPedId_420F10(pObj->get_field_26_420FF0());
+        s32 ped_id = gPedRefTable_7F8_703398->GetPedId_420F10(pObj->get_field_26_420FF0());
         if (ped_id)
         {
             pBlamedPed = gPedManager_6787BC->PedById(ped_id);
@@ -2588,9 +2588,9 @@ void Ped::Deallocate_45EB60()
         }
     }
 
-    if (field_267_varrok_idx)
+    if (field_267_ped_ref_idx)
     {
-        gVarrok_7F8_703398->Clear_434070(field_267_varrok_idx);
+        gPedRefTable_7F8_703398->Clear_434070(field_267_ped_ref_idx);
     }
     if (field_21C_bf.b14)
     {
@@ -11563,9 +11563,9 @@ void Ped::ManageWeapon_46F390()
     {
         if (pWeapon)
         {
-            if (!field_267_varrok_idx)
+            if (!field_267_ped_ref_idx)
             {
-                field_267_varrok_idx = gVarrok_7F8_703398->AllocForPed_59B060(field_200_id);
+                field_267_ped_ref_idx = gPedRefTable_7F8_703398->AllocForPed_59B060(field_200_id);
             }
             if (!field_21C_bf.b7)
             {
