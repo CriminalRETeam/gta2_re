@@ -2382,7 +2382,7 @@ char_type Car_BC::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
                 if (!HasSpriteZoom_43A230() && this->field_74_damage != 32001)
                 {
                     f_88 = this->field_88_despawn_status;
-                    if (f_88 != 2 && f_88 != 4 && f_88 != 3 && f_88 != 5)
+                    if (f_88 != car_despawn_status::despawn_pending_2 && f_88 != car_despawn_status::marked_for_despawn_4 && f_88 != car_despawn_status::despawn_soon_3 && f_88 != car_despawn_status::despawning_5)
                     {
                         stru_67727C.PushSprite_5A6D40(this->field_50_car_sprite);
                     }

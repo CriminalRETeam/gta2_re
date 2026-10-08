@@ -384,7 +384,7 @@ char_type FirefighterPool_54::TryDispatchFirefightersToCar_4A8820(Car_BC* pCar)
         return 0;
     }
     const s32 f88 = pCar->field_88_despawn_status;
-    if (f88 == 6 || f88 == 7 || f88 == 5)
+    if (f88 == car_despawn_status::despawned_6 || f88 == car_despawn_status::deactivated_7 || f88 == car_despawn_status::despawning_5)
     {
         return 0;
     }
