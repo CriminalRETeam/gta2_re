@@ -414,7 +414,7 @@ void eager_benz::AddCash_592620(s32 cash)
 
 // Scores the player killing pPed1 (pPed2 is the killer's ped): points by occupation and kill
 // type, exploding score, cash, and reports the crime
-WIP_FUNC(0x592660)
+MATCH_FUNC(0x592660)
 void eager_benz::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
 {
     const s32 multipler = field_368_player->get_multiplier_4766A0();
@@ -535,18 +535,18 @@ void eager_benz::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
             case 30:
                 bArmy = 1;
                 bSwat = 0;
-                bCop = 0;
                 bFbi = 0;
+                bCop = 0;
                 bGangA = 0;
                 bGangB = 0;
                 break;
             case 26:
-                bArmy = 0;
                 bSwat = 1;
-                bGangB = 0;
-                bGangA = 0;
-                bCop = 0;
+                bArmy = 0;
                 bFbi = 0;
+                bCop = 0;
+                bGangA = 0;
+                bGangB = 0;
                 break;
             case 27:
             case 31:
@@ -566,17 +566,7 @@ void eager_benz::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
                 bArmy = 0;
                 bFbi = 0;
                 score = 100;
-                if ((u32)(rng - field_80) > 15)
-                {
-                    field_84_num_elvis_killed = 1;
-                }
-                else
-                {
-                    field_84_num_elvis_killed++;
-                }
-                field_80 = rng;
-                // The original jumps straight to the scoring below, past the kill type switch
-                goto scored;
+                break;
             case 15:
                 bGangA = 1;
                 bCop = 0;
@@ -603,93 +593,108 @@ void eager_benz::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
                 break;
         }
 
-        switch (pPed1->field_290_death_cause)
+        // Only the Elvis case has a score by now
+        if (score)
         {
-            case 9:
-            case 10:
-            case 11:
-            case 12:
-            case 13:
-            case 14:
-            case 15:
-            case 16:
-            case 17:
-            case 18:
-            case 19:
-            case 20:
-                if (bOtherGang)
+            if ((u32)(rng - field_80) > 15)
+            {
+                field_84_num_elvis_killed = 1;
+            }
+            else
+            {
+                field_84_num_elvis_killed++;
+            }
+            field_80 = rng;
+        }
+        else
+        {
+            switch (pPed1->field_290_death_cause)
+            {
+                case 9:
+                case 10:
+                case 11:
+                case 12:
+                case 13:
+                case 14:
+                case 15:
+                case 16:
+                case 17:
+                case 18:
+                case 19:
+                case 20:
+                    if (bOtherGang)
+                        score = 50;
+                    else if (bCop)
+                        score = 200;
+                    else if (bFbi)
+                        score = 500;
+                    else if (bArmy)
+                        score = 300;
+                    else if (bSwat)
+                        score = 400;
+                    else if (bGangA)
+                        score = 40;
+                    else
+                        score = bGangB ? 40 : 20;
+                    break;
+                case 1:
+                    if (bOtherGang)
+                        score = 20;
+                    else if (bCop)
+                        score = 100;
+                    else if (bFbi)
+                        score = 250;
+                    else if (bArmy)
+                        score = 150;
+                    else if (bSwat)
+                        score = 200;
+                    else if (bGangA)
+                        score = 20;
+                    else
+                        score = bGangB ? 20 : 10;
+                    break;
+                case 2:
+                    if (bOtherGang)
+                        score = 200;
+                    else if (bCop)
+                        score = 500;
+                    else if (bFbi)
+                        score = 1250;
+                    else if (bArmy)
+                        score = 750;
+                    else if (bSwat)
+                        score = 1000;
+                    else if (bGangA)
+                        score = 100;
+                    else
+                        score = bGangB ? 100 : 50;
+                    break;
+                case 3:
+                    if (bOtherGang)
+                        score = 200;
+                    else if (bCop)
+                        score = 1000;
+                    else if (bFbi)
+                        score = 2500;
+                    else if (bArmy)
+                        score = 1500;
+                    else if (bSwat)
+                        score = 2000;
+                    else if (bGangA)
+                        score = 200;
+                    else
+                        score = bGangB ? 200 : 100;
+                    break;
+                case 4:
+                    score = 20;
+                    break;
+                case 5:
                     score = 50;
-                else if (bCop)
-                    score = 200;
-                else if (bFbi)
-                    score = 500;
-                else if (bArmy)
-                    score = 300;
-                else if (bSwat)
-                    score = 400;
-                else if (bGangA)
-                    score = 40;
-                else
-                    score = bGangB ? 40 : 20;
-                break;
-            case 1:
-                if (bOtherGang)
-                    score = 20;
-                else if (bCop)
-                    score = 100;
-                else if (bFbi)
-                    score = 250;
-                else if (bArmy)
-                    score = 150;
-                else if (bSwat)
-                    score = 200;
-                else if (bGangA)
-                    score = 20;
-                else
-                    score = bGangB ? 20 : 10;
-                break;
-            case 2:
-                if (bOtherGang)
-                    score = 200;
-                else if (bCop)
-                    score = 500;
-                else if (bFbi)
-                    score = 1250;
-                else if (bArmy)
-                    score = 750;
-                else if (bSwat)
-                    score = 1000;
-                else if (bGangA)
-                    score = 100;
-                else
-                    score = bGangB ? 100 : 50;
-                break;
-            case 3:
-                if (bOtherGang)
-                    score = 200;
-                else if (bCop)
-                    score = 1000;
-                else if (bFbi)
-                    score = 2500;
-                else if (bArmy)
-                    score = 1500;
-                else if (bSwat)
-                    score = 2000;
-                else if (bGangA)
-                    score = 200;
-                else
-                    score = bGangB ? 200 : 100;
-                break;
-            case 4:
-                score = 20;
-                break;
-            case 5:
-                score = 50;
-                break;
+                    break;
+            }
         }
     }
 
-scored:
     char_type bGiveScore = 1;
     if (bIsFrench_67D53C)
     {

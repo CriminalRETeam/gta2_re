@@ -881,10 +881,9 @@ LABEL_61:
 }
 
 // https://decomp.me/scratch/19LIh
-WIP_FUNC(0x5552b0)
+MATCH_FUNC(0x5552b0)
 bool Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, u8* ypos, u8* zpos, char_type maybe_timer)
 {
-    WIP_IMPLEMENTED;
     u8 j = 0;
     if (field_38_bComputePathInProgress && !maybe_timer)
     {
@@ -929,8 +928,10 @@ bool Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, 
     field_40_grid[field_1C_f40_idx].field_6_cost = field_16;
     field_1E_current_cost = 0;
     field_18 = 1;
+    bool bListWasEmpty = true;
     while (field_C_node_count)
     {
+        bListWasEmpty = false;
         Orca_8* pIter = field_2350_nodes;
         field_8_pNode = field_2350_nodes;
 
@@ -1037,23 +1038,21 @@ bool Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, 
                         ++field_16;
                         if (++j <= 6 || maybe_timer != 0)
                         {
-                            if (field_18) // line 486
-                            {
-                                if (field_C_node_count) // line 48f
-                                {
-                                    continue;
-                                }
-                            }
-                            else
+                            if (!field_18)
                             {
                                 return 1;
                             }
+                            continue;
                         }
                     }
                 }
             }
         }
         return 0;
-    } // end while
-    return 1;
+    }
+    if (bListWasEmpty)
+    {
+        return 1;
+    }
+    return 0;
 }

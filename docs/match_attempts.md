@@ -3291,3 +3291,106 @@ helpers under other names, or plain Fix16/Ang16 operators.
 - PCH: `/Yc`/`/Yu` builds of Weapon_30.cpp change nothing. Defining `Fix16_Point::operator+` at the end of
   the TU does reproduce 10.5's EH stores in all Weapon_30 callers (see matching_quirks.md).
 
+
+## Oct 8: imul operand order from the argument temporary (EmitElectricArcParticle)
+
+- **`Particle_8::EmitElectricArcParticle_540320` (20 -> 0, MATCH).** The operand of an inlined `imul` that is
+  computed first in IL order goes into `eax` (opdump). With `Fix16(s16)` by value, the rng's `movsx`/`shl` stays
+  where the argument temporary is defined, before `word_6FD5CC`'s load, so the rng got `eax`. Binding the call
+  result as `(const s16&)` makes a 2-byte temporary whose conversion is substituted at its use, after the word:
+  the word gets `eax`, and the short temporary gets its own register (`mov %eax,%ecx`, the original's extra copy).
+  `Fix16((s32)rng)` gets the order but drops the copy. A `Fix16(const s16&)` constructor also matches here but
+  breaks DrawSavedStage_4B5270, EmitWaterSplash_53F060 and Wolfy_30::state_22_23_24_25_542E30.
+- `Char_B4::HandlePedCollision_548BD0` (16, unchanged): 9.6f writes every site as `atan2(..).operator+(kAng180)`
+  (rhs loaded first), but 10.5 calls `Normalize_406C20` out of line at site 3 and the budget always inlines it
+  (122). `(const s16&)` casts, `s16 sum` locals, `Add2` helpers, operator and `+=` forms: 16-178.
+- `DrawTexture_5D8470` (8 -> 6 with paren changes on vertex 0/1, not applied): no window limit gives less; the
+  rest is priority (vertex 1's `fmul` 184 vs the `y_pos`/`sin` loads 178/160).
+- `PoliceCrew_38::State6_ShutDown_574720` (46, unchanged): 9.6f also keeps `i` in memory; the missing `ebp`
+  zero register is decided after colouring (constants get `ebp` in both variants in ralog).
+
+## Oct 8: flags folded after layout (UpdateState_4FB330, TagGameHudUpdate_4DADA0)
+
+Jump threading on a constant flag runs after the reverse-postorder layout (`Scripts/flowopt/README.md`), so a
+flag test that later disappears still shapes the block order and the exit placement.
+- **`Ambulance_20::UpdateState_4FB330` (2 -> 0, MATCH).** `bool bHandle = true;`, cleared on the ReInit and
+  inc paths, and one `if (bHandle) HandleObjectiveState_4FAAC0();` after the switch. At layout time the inc arm's
+  `jle` targets that test block X; the DFS visits X first, so it sits between the `state = 5` store and the exit
+  and the store has to `jmp exit` over it. Threading then empties X, so nothing falls into the exit when dupB runs,
+  and dupB moves the exit up after `default`'s call (the original's `jle 0x3F`) and copies Handle+ret into the
+  cases. Same mechanism as TrainCab_414710.
+- **`TagGameHudUpdate_4DADA0` (54 -> 6).** `bShow = true` and the first-flash block (59 stored before `= 1`) inside
+  the condition's `if`, then `if (!bShow) { clear } else { ... }`: the clear block is reached by the DFS from the
+  first-flash block, which gives the original's F1 | F2 | clear | pager clear | rest layout; threading removes
+  the second test. Left: `test %dl,%bl` for `test $1,%dl`. The constant 1 web (`bShow = true`, `byte = 1`, `& 1`)
+  is coalesced with `bShow` in `ebx`; the original keeps the immediate in the test but `bl` in the store. Casts,
+  `% 2`, other flag types (98 for 32-bit), separate flags (22-148): no.
+- **`Car_214::sub_5C8780` (84 -> 70).** Case 3's car branch as two `GetBasePointer_512770` calls (if/else, each
+  pushing its own argument, cross-jumped at the call) instead of a ternary argument; case 5 without the `pCmd`
+  local, so the `field_8_idx` load takes a fresh round-robin register (`%cx`) and case 5 keeps its own tail. Left:
+  the switch head (`dec %eax`) and case 7, which should cross-jump into case 6's ped check; written as a full copy
+  (as 9.6f has it) the head matches but case 7 doesn't merge (104): the cjlog shows case 7 failing the first
+  instruction compare against case 6 although opdump shows the instruction identical.
+- `CleanupSpriteList_5A7080` (20), `OnPedKilled_592660` (77), `MergeWithOtherGroup_4C9B60` (104),
+  `ProcessPoliceRadioWordsPlayback_427220` (4): no gain. For 5A7080 the original's A, K, B order is not a reverse
+  postorder of the plain loop CFG (K is a leaf, A and B both successors of the `pLast` test), so something folded
+  after layout must be involved.
+- **`struct_4::CleanupSpriteList_5A7080` (20 -> 0, MATCH).** The head unlink moved behind a `bUnlinkHead` flag
+  tested after the if/else. The DFS reaches the keep block K first (the condition's fail jump); K now leads to the
+  flag test and on to the head unlink B, so B finishes before K, and A (unlink after `pLast`) only later from the
+  `pLast` test: finish order B, K, A gives the original's A, K, B. Threading then removes the flag test.
+- **`eager_benz::OnPedKilled_592660` (77 -> 0, MATCH).** The Elvis counter moved into `if (score) {...} else {
+  switch (death_cause) }` after the occupation switch (the `goto scored` is gone). `default` is visited first and
+  reaches the `if (score)` test, whose target (the death-cause switch) is visited before the Elvis code, so the
+  Elvis else arm lands between default and that switch. `score` is constant on every path in, so threading
+  removes the test; dupB then moves the dispatch up after army, as in the original. With the layout right (97),
+  army's and swat's store order (`bFbi` before `bCop`) made army the shared tail the other cases cross-jump into.
+
+## Oct 8, round 2: cross-jump order and the merge cost check
+
+- **`Map_0x370::sub_4E6190` (60 -> 0, MATCH).** `s16 r; bool bFound = false;`, cases 1/2 set `r` and `bFound`,
+  cases 3/4 `return` directly, then `if (bFound) return r; return 0;`. Jump threading on `bFound` runs after
+  codegen created the jumps; when cases 1/2 are threaded past the test to the exit, their jumps are re-added at
+  the head of the exit's predecessor list, so they count as created last (the `--rev` order). The zero paths all
+  reach one real `return 0;`, which gives the original's `xor %ax,%ax`.
+- **`sound_obj::ProcessOtherObjects_41F520` (4 -> 0, MATCH).** The distance constants written as `Fix16`
+  arithmetic, as 9.6f calls them (`emit_distance = Fix16(N) / Fix16(2)`, `calc_distance = (..) * (..)`), and
+  case 13/14 back to the original store order. No predecessor-list order could give the original with plain
+  constants: the cross-jump has a cost check (`Scripts/flowopt/README.md`) and the extra tuples moved the fire
+  case's `max_distance` store id past 0x80, making fire-into-13/14 cost exactly 20 (rejected), so fire merges
+  into 4/12 as in the original.
+- `Map_0x370::sub_4E6660` (4, unchanged): `ebx` holds a constant-1 web from the top in the original; ours extends
+  it to the two `push $1` when `pPrev` is assigned after the call. Folded `bTurned` forms 48.
+- **`sound_obj::HandleCarTireScrubSound_418720` (4 -> 0, MATCH).** `Fix16 speed; Fix16* pSpeed =
+  &pCar->GetCarLinearSpeed_43A240(); speed = *pSpeed; speed /= max;`. In the `/=` form VC6 loads the divisor
+  first, but a dividend that is a memory load through a pointer is evaluated first (54). The copy through a pointer
+  to the returned temporary is forward-substituted into the `/=`, keeping divisor-first and making the dividend a
+  late load through the returned pointer, as the original. `speed` must be declared before `pSpeed` (else 54).
+- **`menu_option_0x82::SelectPrevHorizontalIdx_4B6390` (4 -> 0, MATCH, last-resort form).** A redundant
+  `field_6E = field_6E;` at the end of the loop body. Any form that only stops the CSE with `oldCount` gets the
+  load hoisted into a free register (28-62); the self-store blocks both CSE and hoisting, then VC6 deletes it.
+  Position matters (top of body 42, after the if/else 36). The sibling 4B6330 written plainly plus the same
+  self-store also matches, so the original probably had some store/kill there in both.
+- `ProcessPoliceRadioWordsPlayback_427220` (4) and `GetLayout_4D6000` (4): unchanged; see the agent notes above
+  for the forms tried (dead uses, self-stores, head merging; v2 as array/struct/u32).
+- **`Car_14::SpawnTrafficCar_582480` (8 -> 0, MATCH).** All four cases in the 9.6f shape (`if (!field_8) { pos;
+  step = 1; } else { pos; step = -1; }`) plus an explicit `default: break;`. Without the default, the join's
+  predecessor list holds the second-arm jumps as case 4, 2, 1 (case 1 oldest), so case 1's `-1` block jumps into
+  case 2's. With the default (any position) case 1's jump is created last and becomes P0, and case 2's block
+  cross-jumps into case 1's as in 10.5 (a `--rank` C2 forcing that order also gives 0). Case order 1, 2, 4, 3 stays.
+- `Orca_2FD4::Internel_UpdateBehaviorGrid_554710` (8 -> 4, not applied): VC6 evaluates first the `(a-b)²` term
+  whose subtraction has the higher-offset right operand; `(xEnd - x)` puts x first, but the original subtracts
+  `x - xEnd`. `ComputePath_554AB0` (8): an unidentified live range 0x19 (prio 40) decides `new_z`'s register.
+  DrawGradientSlope S/E (4/8): the original needs one more dependency before the `fmul` of `field_60`.
+- **`Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0` (54 -> 0, MATCH).** `bool bListWasEmpty = true;` cleared
+  in the loop body, then `if (bListWasEmpty) return 1; return 0;` after the loop. The original's rotated `while`
+  sends its entry test to `return 1` and its bottom test into `return 0`; with the flag, layout and dupB see one
+  join (`jcc top; jmp after` at the bottom), threading then splits the exits, and dupB moves `return 0` after the
+  bottom test. `return bListWasEmpty;` compiles to `setne` (no branch to thread, 104).
+- **`Ped::AttackTargetStateMachine_46D460` (46 -> 0, MATCH).** Explicit `return;` after three of the
+  `field_21C_bf.b11` stores. Without them the arms' jumps go to an end-of-if label whose block is only a jump;
+  codegen retargets them and re-adds them at the head of the exit's predecessor list, so the else-if's `b11 =
+  false` copy became P0. With `return;` an arm's jump keeps its codegen position, the first site's copy is P0, and
+  the second merges into it; the other two returns keep the `b11 = true` arm out of T1 (subsets: 38-376).
+- `Ped::FindUsableCarDoor_467090` (74, unchanged): needs the `found` block right after the driver loop, i.e. the
+  passenger branch with no edge to `found` at layout time; neither folded flags nor per-site copies give it.

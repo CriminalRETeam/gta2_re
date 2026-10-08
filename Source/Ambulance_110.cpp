@@ -766,9 +766,10 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
 }
 
 // near match https://decomp.me/scratch/cxgie
-WIP_FUNC(0x4fb330)
+MATCH_FUNC(0x4fb330)
 void Ambulance_20::UpdateState_4FB330()
 {
+    bool bHandle = true;
     field_10_patients.RemovePedsInSpecificState_471290();
     switch (field_4_paramedics_crew->field_28_state)
     {
@@ -784,7 +785,7 @@ void Ambulance_20::UpdateState_4FB330()
                     }
                     field_4_paramedics_crew->ReInit_5CBC30();
                     ClearTask_4FA7D0();
-                    break;
+                    bHandle = false;
                 }
                 else
                 {
@@ -793,11 +794,7 @@ void Ambulance_20::UpdateState_4FB330()
                     if (field_4_paramedics_crew->field_0_car)
                     {
                         field_4_paramedics_crew->field_0_car->ActivateEmergencyLights_43C920();
-                        HandleObjectiveState_4FAAC0();
-                        break;
                     }
-                    HandleObjectiveState_4FAAC0();
-                    break;
                 }
             }
             else
@@ -807,6 +804,7 @@ void Ambulance_20::UpdateState_4FB330()
                 {
                     field_4_paramedics_crew->field_28_state = crew_state::clean_up_5;
                 }
+                bHandle = false;
             }
             break;
         }
@@ -823,20 +821,21 @@ void Ambulance_20::UpdateState_4FB330()
                 field_4_paramedics_crew->field_28_state = crew_state::idle_0;
                 field_4_paramedics_crew->ReInit_5CBC30();
                 ClearTask_4FA7D0();
-                break;
+                bHandle = false;
             }
-            HandleObjectiveState_4FAAC0();
             break;
         }
         case 6:
         {
             EvaluatePickupState_4FA9D0();
-            HandleObjectiveState_4FAAC0();
             break;
         }
         default:
             FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\Gta2\\Source\\medical.cpp", 1087);
-            HandleObjectiveState_4FAAC0();
+            break;
     }
-    return;
+    if (bHandle)
+    {
+        HandleObjectiveState_4FAAC0();
+    }
 }

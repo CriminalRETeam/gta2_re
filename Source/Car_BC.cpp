@@ -356,8 +356,14 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                 if (pPed)
                 {
                     pCmd = (Car_18_Cmd*)pEntry->field_0_pScriptCmd;
-                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
-                        pCmd->field_2_type == 0x1B2 ? pCmd->field_24_idx : pCmd->field_8_idx);
+                    if (pCmd->field_2_type == 0x1B2)
+                    {
+                        pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_24_idx);
+                    }
+                    else
+                    {
+                        pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
+                    }
                     if (pPed->get_id() == pPointer->field_8_char->get_id())
                     {
                         pEntry->field_14_enable_state = 0;
@@ -373,8 +379,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
                 pPed = pCar->get_driver_4118B0();
                 if (pPed)
                 {
-                    pCmd = (Car_18_Cmd*)pEntry->field_0_pScriptCmd;
-                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
+                    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(((Car_18_Cmd*)pEntry->field_0_pScriptCmd)->field_8_idx);
                     if (pPed->get_id() == pPointer->field_8_char->get_id())
                     {
                         pEntry->field_14_enable_state = 0;
@@ -7353,15 +7358,9 @@ Fix16 Car_14::GetRandomTrafficSpeed_583750(Fix16 max_speed, u8* pOut)
 }
 
 // 9.6f 0x4B34E0
-// Only diff left: case 2 of the a2 switch. 10.5 merges case 2's x_step = -1 block into case 1's
-// (jne to 14D, own +1 block as the fallthrough). Here VC6 merges the +1 blocks instead (case 2's
-// becomes a je to case 1's). VC6 keeps the fallthrough copy of two identical blocks, and when both
-// are jump targets the later one, so case 1's -1 block (a jump target) never survives a merge.
-WIP_FUNC(0x582480)
+MATCH_FUNC(0x582480)
 char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
 {
-    WIP_IMPLEMENTED;
-
     char_type x_step = 0;
     char_type y_step = 0;
     u8 speed_kind;
@@ -7396,10 +7395,8 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
 
     Fix16 xpos;
     Fix16 ypos;
-    // Case order 1, 2, 4, 3 and the statement orders follow the 10.5 block layout and tail merging
-    // (case 4 jumps into case 3's tail; cases 3/4 need `ypos` before `y_step = 1` in the +1 arm).
-    // Case 2's x_step = -1 block is written in a different order so that VC6 does not merge it
-    // (merging would keep case 2's copy).
+    // Case order 1, 2, 4, 3 follows the 10.5 block layout (case 4 jumps into case 3's tail). The empty
+    // default is needed: without it case 1's x_step = -1 block merges into case 2's instead of the reverse.
     switch (a2)
     {
         case 1:
@@ -7417,15 +7414,15 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
             break;
         case 2:
             ypos = field_0_cam->field_78_boundaries_non_neg.field_C_bottom + kFpFive_6FF6D4;
-            if (field_8)
-            {
-                x_step = -1;
-                xpos = field_0_cam->field_78_boundaries_non_neg.field_4_right + kFpOne_6FF778;
-            }
-            else
+            if (!field_8)
             {
                 xpos = field_0_cam->field_78_boundaries_non_neg.field_0_left - kFpOne_6FF778;
                 x_step = 1;
+            }
+            else
+            {
+                xpos = field_0_cam->field_78_boundaries_non_neg.field_4_right + kFpOne_6FF778;
+                x_step = -1;
             }
             break;
         case 4:
@@ -7437,8 +7434,8 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
             }
             else
             {
-                y_step = -1;
                 ypos = field_0_cam->field_78_boundaries_non_neg.field_C_bottom + kFpOne_6FF778;
+                y_step = -1;
             }
             break;
         case 3:
@@ -7450,9 +7447,11 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
             }
             else
             {
-                y_step = -1;
                 ypos = field_0_cam->field_78_boundaries_non_neg.field_C_bottom + kFpOne_6FF778;
+                y_step = -1;
             }
+            break;
+        default:
             break;
     }
 

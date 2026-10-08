@@ -584,6 +584,15 @@ RandomDisplacement_41A650(field_14_samp_idx);` with the `field_58_type = 20` sto
 argument from the just-stored field instead of the `samp_idx` local was also needed: it is what lets VC6
 load `field_14` for the next call (`GetLoopStart`) early, as the original does.
 
+**A redundant self-store in a loop stops a field load from being CSE'd or hoisted.** `field = field;` at the
+end of a loop body makes VC6 reload the field in the loop condition each pass (it can't reuse an earlier copy
+or hoist it), and the store itself is then deleted (`menu_option_0x82::SelectPrevHorizontalIdx_4B6390`). Like the
+dead store below, it's a last-resort workaround; say so in a comment.
+
+**A copy through a pointer to a returned temporary folds into `/=`.** `Fix16* p = &f(); x = *p; x /= d;` keeps
+the `/=` order (divisor first) and reads the result late through the returned pointer
+(`sound_obj::HandleCarTireScrubSound_418720`); `x = f(); x /= d;` loads it right after the call.
+
 **A dead store can change register allocation.** In `HandlePedVoiceEvent_423080`, a repeated
 `field_58_type = 20;` just before the rate store is deleted by VC6, but the sum then stays in
 edi like the original. Any dead store to the sample works. 9.6f has none, so treat it as a

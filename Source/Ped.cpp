@@ -10778,10 +10778,9 @@ void Ped::FollowCarOnFoot_46D300()
 
 
 // https://decomp.me/scratch/5y8iN
-WIP_FUNC(0x46d460)
+MATCH_FUNC(0x46d460)
 void Ped::AttackTargetStateMachine_46D460(u8 targetType)
 {
-    WIP_IMPLEMENTED;
     Fix16 v6;
 
     u8 v40 = 0;
@@ -11039,6 +11038,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                     else
                     {
                         field_21C_bf.b11 = true;
+                        return;
                     }
                 }
                 else if (field_168_game_object->GetCharState_433A80() != 15) // line 5fe
@@ -11048,10 +11048,12 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                     field_21C_bf.b11 = true;
                     // 9.6f: Char_B4::SetMaxSpeed_433920 (inlined, using it makes the diff worse)
                     field_168_game_object->field_38_velocity = kFpZero_678438;
+                    return;
                 }
                 else
                 {
                     field_21C_bf.b11 = false; // something weird here
+                    return;
                 }
             }
             else

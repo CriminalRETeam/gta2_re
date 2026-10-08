@@ -5187,11 +5187,9 @@ bool menu_option_0x82::SelectNextHorizontalIdx_4B6330()
     return old_count != new_count ? true : false;
 }
 
-WIP_FUNC(0x4B6390)
+MATCH_FUNC(0x4B6390)
 bool menu_option_0x82::SelectPrevHorizontalIdx_4B6390()
 {
-    WIP_IMPLEMENTED;
-
     u16 oldCount = field_6E_horizontal_selected_idx;
     u16 new_count = oldCount;
     char_type bFound = 0;
@@ -5216,7 +5214,11 @@ bool menu_option_0x82::SelectPrevHorizontalIdx_4B6390()
             bFound = 1;
         }
 
-    } while (new_count != field_6E_horizontal_selected_idx && !bFound); // 6E not reloaded
+        // Last-resort workaround, probably not the original source: a redundant self-store. VC6 deletes it, but
+        // only after it has stopped field_6E's load in the loop condition from being CSE'd with oldCount or
+        // hoisted, so it is reloaded each pass like the original.
+        field_6E_horizontal_selected_idx = field_6E_horizontal_selected_idx;
+    } while (new_count != field_6E_horizontal_selected_idx && !bFound);
 
     field_6E_horizontal_selected_idx = new_count;
 
