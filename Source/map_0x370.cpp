@@ -3307,11 +3307,9 @@ s32 Map_0x370::GetArrowDirectionFromBlock_4E5FC0(gmp_block_info* pBlock, char_ty
 }
 
 // https://decomp.me/scratch/RZ1Gp
-WIP_FUNC(0x4E6190)
+MATCH_FUNC(0x4E6190)
 s16 Map_0x370::sub_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 a5, char_type a6)
 {
-    WIP_IMPLEMENTED;
-
     if (!IsGradientSlopeAt_466CF0(x.ToInt(), y.ToInt(), z.ToInt()))
     {
         return 1;
@@ -3320,24 +3318,34 @@ s16 Map_0x370::sub_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 a5, char_type a6)
     gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
 
     dword_6F5EC8 = &gGmpSlopes_6F5BA8[gBlockInfo0_6F5EB0->field_B_slope_type >> 2];
+    s16 r;
+    bool bFound = false;
     switch (dword_6F5EC8->field_0_gradient_direction)
     {
         case 1:
             switch (a5)
             {
                 case 1:
-                    return a6 ? 2 : 3;
+                    r = a6 ? 2 : 3;
+                    bFound = true;
+                    break;
                 case 2:
-                    return a6 ? 3 : 2;
+                    r = a6 ? 3 : 2;
+                    bFound = true;
+                    break;
             }
             break;
         case 2:
             switch (a5)
             {
                 case 1:
-                    return a6 ? 3 : 2;
+                    r = a6 ? 3 : 2;
+                    bFound = true;
+                    break;
                 case 2:
-                    return a6 ? 2 : 3;
+                    r = a6 ? 2 : 3;
+                    bFound = true;
+                    break;
             }
             break;
         case 3:
@@ -3360,6 +3368,10 @@ s16 Map_0x370::sub_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 a5, char_type a6)
             break;
         default:
             break;
+    }
+    if (bFound)
+    {
+        return r;
     }
     return 0;
 }

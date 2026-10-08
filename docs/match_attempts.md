@@ -3345,3 +3345,11 @@ flag test that later disappears still shapes the block order and the exit placem
   Elvis else arm lands between default and that switch. `score` is constant on every path in, so threading
   removes the test; dupB then moves the dispatch up after army, as in the original. With the layout right (97),
   army's and swat's store order (`bFbi` before `bCop`) made army the shared tail the other cases cross-jump into.
+
+## Oct 8, round 2: cross-jump order and the merge cost check
+
+- **`Map_0x370::sub_4E6190` (60 -> 0, MATCH).** `s16 r; bool bFound = false;`, cases 1/2 set `r` and `bFound`,
+  cases 3/4 `return` directly, then `if (bFound) return r; return 0;`. Jump threading on `bFound` runs after
+  codegen created the jumps; when cases 1/2 are threaded past the test to the exit, their jumps are re-added at
+  the head of the exit's predecessor list, so they count as created last (the `--rev` order). The zero paths all
+  reach one real `return 0;`, which gives the original's `xor %ax,%ax`.
