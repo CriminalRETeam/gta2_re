@@ -65,7 +65,7 @@ class PlayerScoreTracker_36C
     u16 field_86_total_kills;
     s16 field_88_killed_cops;
     u16 field_8A_cars_stolen_count;
-    u8 field_8C_car_model_flags[256];
+    u8 field_8C_car_model_flags[256]; // car_model_flag bits (car_model_flag.hpp)
     u32 field_18C_one_second_timer;
     u32 field_190_fly_car_count;
     s32 field_194_last_shot_result;

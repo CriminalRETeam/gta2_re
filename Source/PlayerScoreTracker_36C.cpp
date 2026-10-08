@@ -1,6 +1,7 @@
 #include "PlayerScoreTracker_36C.hpp"
 #include "zealous_borg.hpp"
 #include "ped_death_cause.hpp"
+#include "car_model_flag.hpp"
 #include "CarInfo_808.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
@@ -276,7 +277,7 @@ void PlayerScoreTracker_36C::Reset_592330()
     field_0_money.InitDigitSprites_492150();
     field_38_multiplayer_frags.InitDigitSprites_492150();
     field_1A8_bonuses.Init_431E10(this);
-    ResetCarModelFlags_592380(3);
+    ResetCarModelFlags_592380(car_model_flag::both_3);
 }
 
 MATCH_FUNC(0x592360)
@@ -294,22 +295,22 @@ s32 PlayerScoreTracker_36C::GetScore_592370()
 MATCH_FUNC(0x592380)
 void PlayerScoreTracker_36C::ResetCarModelFlags_592380(char_type bits)
 {
-    if ((bits & 1) != 0)
+    if ((bits & car_model_flag::stolen_1) != 0)
     {
         for (u16 i = 0; i < GTA2_COUNTOF(field_8C_car_model_flags); i++)
         {
             if (gGtx_0x106C_703DD4->does_car_exist(i) && gGtx_0x106C_703DD4->IsCarModelInRecycleList_5AB380(i))
             {
-                field_8C_car_model_flags[i] &= ~1;
+                field_8C_car_model_flags[i] &= ~car_model_flag::stolen_1;
             }
             else
             {
-                field_8C_car_model_flags[i] |= 1;
+                field_8C_car_model_flags[i] |= car_model_flag::stolen_1;
             }
         }
     }
 
-    if ((bits & 2) != 0)
+    if ((bits & car_model_flag::destroyed_2) != 0)
     {
         for (u16 i = 0; i < GTA2_COUNTOF(field_8C_car_model_flags); i++)
         {
@@ -319,16 +320,16 @@ void PlayerScoreTracker_36C::ResetCarModelFlags_592380(char_type bits)
 
                 if (wreck == 99)
                 {
-                    field_8C_car_model_flags[i] |= 2;
+                    field_8C_car_model_flags[i] |= car_model_flag::destroyed_2;
                 }
                 else
                 {
-                    field_8C_car_model_flags[i] &= ~2;
+                    field_8C_car_model_flags[i] &= ~car_model_flag::destroyed_2;
                 }
             }
             else
             {
-                field_8C_car_model_flags[i] |= 2;
+                field_8C_car_model_flags[i] |= car_model_flag::destroyed_2;
             }
         }
     }
@@ -339,11 +340,11 @@ void PlayerScoreTracker_36C::CheckAllCarModelsFlagged_592430(char_type bits)
 {
     u16 i;
 
-    if ((bits & 1) != 0)
+    if ((bits & car_model_flag::stolen_1) != 0)
     {
         for (i = 0; i < GTA2_COUNTOF(field_8C_car_model_flags); i++)
         {
-            if ((field_8C_car_model_flags[i] & 1) == 0)
+            if ((field_8C_car_model_flags[i] & car_model_flag::stolen_1) == 0)
             {
                 return;
             }
@@ -355,13 +356,13 @@ void PlayerScoreTracker_36C::CheckAllCarModelsFlagged_592430(char_type bits)
             gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("stl_all"), 1);
             gRoot_sound_66B038.PlayVoice_40F090(2);
         }
-        ResetCarModelFlags_592380(1);
+        ResetCarModelFlags_592380(car_model_flag::stolen_1);
     }
-    else if ((bits & 2) != 0)
+    else if ((bits & car_model_flag::destroyed_2) != 0)
     {
         for (i = 0; i < GTA2_COUNTOF(field_8C_car_model_flags); i++)
         {
-            if ((field_8C_car_model_flags[i] & 2) == 0)
+            if ((field_8C_car_model_flags[i] & car_model_flag::destroyed_2) == 0)
             {
                 return;
             }
@@ -373,7 +374,7 @@ void PlayerScoreTracker_36C::CheckAllCarModelsFlagged_592430(char_type bits)
             gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("dst_all"), 1);
             gRoot_sound_66B038.PlayVoice_40F090(3);
         }
-        ResetCarModelFlags_592380(2);
+        ResetCarModelFlags_592380(car_model_flag::destroyed_2);
     }
 }
 
@@ -839,7 +840,7 @@ void PlayerScoreTracker_36C::AwardCarDestroyedScore_592DD0(Car_BC* pCar, Ped* pK
         gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::car_destroyed_3, field_368_player->GetPlayerPed_4A5130());
     }
     field_368_player->field_644_crime_stats.AddCarDamageCost_484FA0(multiplier * kill_car_score);
-    SetCarModelFlag_592570(2, pCar->field_84_car_info_idx);
+    SetCarModelFlag_592570(car_model_flag::destroyed_2, pCar->field_84_car_info_idx);
 }
 
 MATCH_FUNC(0x593030)
@@ -954,7 +955,7 @@ void PlayerScoreTracker_36C::AwardCarHijackedScore_593240(Car_BC* pCar)
     field_368_player->AddScore_41DC40(base_score);
 
     gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::Vehicles_Hijacked_5, field_368_player->GetPlayerPed_4A5130());
-    SetCarModelFlag_592570(1, pCar->field_84_car_info_idx);
+    SetCarModelFlag_592570(car_model_flag::stolen_1, pCar->field_84_car_info_idx);
 }
 
 MATCH_FUNC(0x593370)
