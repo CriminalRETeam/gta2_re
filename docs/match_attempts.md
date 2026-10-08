@@ -3291,3 +3291,20 @@ helpers under other names, or plain Fix16/Ang16 operators.
 - PCH: `/Yc`/`/Yu` builds of Weapon_30.cpp change nothing. Defining `Fix16_Point::operator+` at the end of
   the TU does reproduce 10.5's EH stores in all Weapon_30 callers (see matching_quirks.md).
 
+
+## Oct 8: imul operand order from the argument temporary (EmitElectricArcParticle)
+
+- **`Particle_8::EmitElectricArcParticle_540320` (20 -> 0, MATCH).** The operand of an inlined `imul` that is
+  computed first in IL order goes into `eax` (opdump). With `Fix16(s16)` by value, the rng's `movsx`/`shl` stays
+  where the argument temporary is defined, before `word_6FD5CC`'s load, so the rng got `eax`. Binding the call
+  result as `(const s16&)` makes a 2-byte temporary whose conversion is substituted at its use, after the word:
+  the word gets `eax`, and the short temporary gets its own register (`mov %eax,%ecx`, the original's extra copy).
+  `Fix16((s32)rng)` gets the order but drops the copy. A `Fix16(const s16&)` constructor also matches here but
+  breaks DrawSavedStage_4B5270, EmitWaterSplash_53F060 and Wolfy_30::state_22_23_24_25_542E30.
+- `Char_B4::HandlePedCollision_548BD0` (16, unchanged): 9.6f writes every site as `atan2(..).operator+(kAng180)`
+  (rhs loaded first), but 10.5 calls `Normalize_406C20` out of line at site 3 and the budget always inlines it
+  (122). `(const s16&)` casts, `s16 sum` locals, `Add2` helpers, operator and `+=` forms: 16-178.
+- `DrawTexture_5D8470` (8 -> 6 with paren changes on vertex 0/1, not applied): no window limit gives less; the
+  rest is priority (vertex 1's `fmul` 184 vs the `y_pos`/`sin` loads 178/160).
+- `PoliceCrew_38::State6_ShutDown_574720` (46, unchanged): 9.6f also keeps `i` in memory; the missing `ebp`
+  zero register is decided after colouring (constants get `ebp` in both variants in ralog).
