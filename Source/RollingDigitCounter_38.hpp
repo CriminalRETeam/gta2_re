@@ -49,7 +49,7 @@ class RollingDigitCounter_38
     bool field_8_bRollingUp;
     char_type field_9_shown_digits[10];
     s8 field_13_scroll_offsets[10];
-    u8 field_1D_target_digits[10];
+    char_type field_1D_target_digits[10];
     u8 field_27_sprite_w;
     u8 field_28_sprite_h_calc;
     s16 field_2A_max_num_of_digits;

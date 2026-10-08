@@ -256,7 +256,7 @@ MATCH_FUNC(0x4925e0)
 void RollingDigitCounter_38::UpdateRollingDigits_4925E0()
 {
     s32 shown_value;
-    sscanf((const char_type*)&field_9_shown_digits, "%d", &shown_value);
+    sscanf(field_9_shown_digits, "%d", &shown_value);
 
     if (field_4_target_value == -1 || shown_value == field_4_target_value && !RollingDigitCounter_38::IsAnyDigitRolling_4925C0())
     {
@@ -274,7 +274,7 @@ void RollingDigitCounter_38::UpdateRollingDigits_4925E0()
         {
             field_8_bRollingUp = false;
         }
-        sprintf((char_type*)&field_1D_target_digits, "%09d", field_0_value);
+        sprintf(field_1D_target_digits, "%09d", field_0_value);
     }
 
     for (s32 idx = field_2E_non_used_digits; idx < kNumDigits; idx++)
