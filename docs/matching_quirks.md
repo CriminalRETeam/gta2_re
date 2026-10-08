@@ -1145,7 +1145,7 @@ the same instructions with different registers (`this` in `edi` rather than `ebx
 `PedGroup::UpdateMemberTightFollowState_4CA820`). Try both.
 
 **Bitfield reads through an inline getter.** `if (!p->field_21C_bf.b2)` gives `test $4,%al`.
-An inline that returns the bit (`u8 GetBit2() { return field_21C_bf.b2; }`) gives
+An inline that returns the bit (`u8 GetPanicking() { return field_21C_bf.b2; }`) gives
 `mov %eax,%ecx; shr $2,%ecx; test $1,%cl` (`PedGroup::MergeWithOtherGroup_4C9B60`).
 
 **Operand order matters.** `a + b` vs `b + a` changes which value is loaded first and which

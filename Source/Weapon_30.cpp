@@ -425,7 +425,7 @@ void Weapon_30::pistol_5DD860()
                                 field_24_pPed->get_cam_x(),
                                 field_24_pPed->get_cam_y(),
                                 field_24_pPed->get_cam_z(),
-                                field_24_pPed->Get_F12E_4CCA90(),
+                                field_24_pPed->GetAimAngle_4CCA90(),
                                 field_24_pPed->GetVelocityVector_45B520());
             field_2_reload_speed = 5;
         }
@@ -557,7 +557,7 @@ void Weapon_30::smg_5DDD20()
                                            field_24_pPed->get_cam_x(),
                                            field_24_pPed->get_cam_y(),
                                            field_24_pPed->get_cam_z(),
-                                           field_24_pPed->Get_F12E_4CCA90(),
+                                           field_24_pPed->GetAimAngle_4CCA90(),
                                            field_24_pPed->GetVelocityVector_45B520());
             field_2_reload_speed = 1;
         }
@@ -590,7 +590,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                                         field_24_pPed->get_cam_x(),
                                         field_24_pPed->get_cam_y(),
                                         field_24_pPed->get_cam_z(),
-                                        field_24_pPed->Get_F12E_4CCA90(),
+                                        field_24_pPed->GetAimAngle_4CCA90(),
                                         field_24_pPed->GetVelocityVector_45B520());
                     field_2_reload_speed = 5;
                     field_20 = 1;
@@ -607,7 +607,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                         gObject_5C_6F8F84->CreateExplosion_52A3D0(field_24_pPed->get_cam_x(),
                                                                   field_24_pPed->get_cam_y(),
                                                                   field_24_pPed->get_cam_z(),
-                                                                  field_24_pPed->Get_F12E_4CCA90(),
+                                                                  field_24_pPed->GetAimAngle_4CCA90(),
                                                                   explosion_type::small_18,
                                                                   field_24_pPed->field_200_id);
                         if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2))
@@ -632,13 +632,13 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                         }
                         gObject_5C_6F8F84->SetPendingDamageOwner_52A210(field_24_pPed->get_ped_ref_idx_420B50());
 
-                        // field_24_pPed->Get_F12E_4CCA90()
+                        // field_24_pPed->GetAimAngle_4CCA90()
                         pProjectile = gObject_5C_6F8F84->sub_52A280(obj_idx,
                                                                                field_24_pPed->get_cam_x(),
                                                                                field_24_pPed->get_cam_y(),
                                                                                field_24_pPed->get_cam_z() + kFP16Half_706DA8,
-                                                                               field_24_pPed->Get_F12E_4CCA90(),
-                                                                               field_24_pPed->Get_F12E_4CCA90(),
+                                                                               field_24_pPed->GetAimAngle_4CCA90(),
+                                                                               field_24_pPed->GetAimAngle_4CCA90(),
                                                                                speed,
                                                                                -dword_706F64,
                                                                                dword_706CF0);
@@ -702,7 +702,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                                     field_24_pPed->get_cam_x(),
                                     field_24_pPed->get_cam_y(),
                                     field_24_pPed->get_cam_z(),
-                                    field_24_pPed->Get_F12E_4CCA90(),
+                                    field_24_pPed->GetAimAngle_4CCA90(),
                                     field_24_pPed->GetVelocityVector_45B520());
                 field_2_reload_speed = 5;
                 field_20 = 0;
@@ -1284,7 +1284,7 @@ void Weapon_30::electro_batton_5E0740()
                                                          field_24_pPed->get_cam_x(),
                                                          field_24_pPed->get_cam_y(),
                                                          field_24_pPed->get_cam_z(),
-                                                         field_24_pPed->Get_F12E_4CCA90(),
+                                                         field_24_pPed->GetAimAngle_4CCA90(),
                                                          field_24_pPed->GetVelocityVector_45B520());
                 if (pBullet && field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2))
                 {
@@ -1298,7 +1298,7 @@ void Weapon_30::electro_batton_5E0740()
                                     field_24_pPed->get_cam_x(),
                                     field_24_pPed->get_cam_y(),
                                     field_24_pPed->get_cam_z(),
-                                    field_24_pPed->Get_F12E_4CCA90(),
+                                    field_24_pPed->GetAimAngle_4CCA90(),
                                     field_24_pPed->GetVelocityVector_45B520());
                 field_2_reload_speed = 5;
             }
@@ -1941,7 +1941,7 @@ void Weapon_30::rocket_5E3850()
                                               field_24_pPed->get_cam_x(),
                                               field_24_pPed->get_cam_y(),
                                               field_24_pPed->get_cam_z(),
-                                              field_24_pPed->Get_F12E_4CCA90(),
+                                              field_24_pPed->GetAimAngle_4CCA90(),
                                               field_24_pPed->GetVelocityVector_45B520());
             }
             else
@@ -1952,7 +1952,7 @@ void Weapon_30::rocket_5E3850()
                                         field_24_pPed->get_cam_x(),
                                         field_24_pPed->get_cam_y(),
                                         field_24_pPed->get_cam_z(),
-                                        field_24_pPed->Get_F12E_4CCA90(),
+                                        field_24_pPed->GetAimAngle_4CCA90(),
                                         field_24_pPed->GetVelocityVector_45B520());
                     field_2_reload_speed = 5;
                     field_20 = 1;
@@ -1963,7 +1963,7 @@ void Weapon_30::rocket_5E3850()
                                               field_24_pPed->get_cam_x(),
                                               field_24_pPed->get_cam_y(),
                                               field_24_pPed->get_cam_z(),
-                                              field_24_pPed->Get_F12E_4CCA90(),
+                                              field_24_pPed->GetAimAngle_4CCA90(),
                                               field_24_pPed->GetVelocityVector_45B520());
             }
 
@@ -1993,7 +1993,7 @@ void Weapon_30::rocket_5E3850()
                                 field_24_pPed->get_cam_x(),
                                 field_24_pPed->get_cam_y(),
                                 field_24_pPed->get_cam_z(),
-                                field_24_pPed->Get_F12E_4CCA90(),
+                                field_24_pPed->GetAimAngle_4CCA90(),
                                 field_24_pPed->GetVelocityVector_45B520());
             field_2_reload_speed = 5;
             field_20 = 0;

@@ -2388,7 +2388,7 @@ void CC ImGuiDebugDraw()
                                 pPlayerPed->get_cam_x(),
                                 pPlayerPed->get_cam_y(),
                                 pPlayerPed->get_cam_z(),
-                                pPlayerPed->Get_F12E_4CCA90(),
+                                pPlayerPed->GetAimAngle_4CCA90(),
                                 pPlayerPed->GetVelocityVector_45B520());
                         }
                     }

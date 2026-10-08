@@ -230,7 +230,7 @@ void Firefighter_28::Update_4A81F0()
             if (sub_4A7FC0() && field_20_ped && field_8_state == firefighter_state::arrived_3)
             {
                 field_20_ped->SetObjective(objectives_enum::turret_put_out_car_fire_60, 9999);
-                field_20_ped->set_field_150_target_objective_car(field_C_target_car);
+                field_20_ped->SetTargetObjectiveCar(field_C_target_car);
                 field_8_state = firefighter_state::put_out_fire_4;
             }
             break;
@@ -266,9 +266,9 @@ void Firefighter_28::Update_4A81F0()
                 field_1C_car->DeactivateEmergencyLights_43C9D0();
                 if (field_1C_car->field_54_driver)
                 {
-                    field_1C_car->field_54_driver->set_field_150_target_objective_car(0);
+                    field_1C_car->field_54_driver->SetTargetObjectiveCar(0);
                     field_1C_car->field_54_driver->SetObjective(objectives_enum::no_obj_0, 9999);
-                    field_1C_car->field_54_driver->ClearBit11_403A40();
+                    field_1C_car->field_54_driver->ClearAttacking_403A40();
                 }
             }
             Reset_4A85E0();

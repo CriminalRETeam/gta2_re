@@ -288,7 +288,7 @@ bool Char_B4::HasShadows_5451C0()
     }
 
     if (field_C_ped_state_2 != 22 && field_10_char_state != Char_B4_state::Jumping_15 && field_C_ped_state_2 != 27 &&
-        !field_7C_pPed->HasBit25AndGameObject_433DA0())
+        !field_7C_pPed->IsInvisibleOnFoot_433DA0())
     {
         return true;
     }
@@ -1003,13 +1003,13 @@ void Char_B4::UpdateAnimState_546360()
                                     pDriver->field_26C_graphic_type = ped_graphic_type::cop_2;
                                     pDriver->set_remap_433B90(4);
                                 }
-                                pDriver->set_field_140_492CB0(pCar);
+                                pDriver->SetStolenCar_492CB0(pCar);
                                 pDriver->field_180_car_thief = field_7C_pPed;
                                 break;
 
                             case ped_ocupation_enum::driver:
                                 pDriver->set_occupation_403970(ped_ocupation_enum::robbed_driver_10);
-                                pDriver->set_field_140_492CB0(pCar);
+                                pDriver->SetStolenCar_492CB0(pCar);
                                 pDriver->field_180_car_thief = field_7C_pPed;
                                 break;
 
@@ -1031,16 +1031,16 @@ void Char_B4::UpdateAnimState_546360()
                                 if (pDriver->field_17C_pGang)
                                 {
                                     pDriver->SetObjective2_463830(20, 9999);
-                                    pDriver->set_field_14C_403AE0(field_7C_pPed);
+                                    pDriver->SetInternalTargetPed_403AE0(field_7C_pPed);
                                 }
-                                pDriver->set_field_140_492CB0(pCar);
+                                pDriver->SetStolenCar_492CB0(pCar);
                                 pDriver->field_180_car_thief = field_7C_pPed;
                                 break;
                         }
 
-                        if (field_7C_pPed->GetInternalObjective_403A90() == 35 && field_7C_pPed->get_field_226_4039D0() == 1)
+                        if (field_7C_pPed->GetInternalObjective_403A90() == 35 && field_7C_pPed->GetInternalObjectiveStatus_4039D0() == 1)
                         {
-                            field_7C_pPed->set_field_226_403B50(0);
+                            field_7C_pPed->SetInternalObjectiveStatus_403B50(0);
                         }
                         pDriver->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
                         pDriver->ChangeNextPedState2_45C540(17);
@@ -1060,7 +1060,7 @@ void Char_B4::UpdateAnimState_546360()
                             pDriver->SetRemap_433C10(pDriver->get_remap_433BA0());
                         }
                         pDriver->field_16C_car = 0;
-                        pDriver->Set_B4_F16_To_1_433B50();
+                        pDriver->SetStateInitPending_433B50();
                         if (!pDriver->is_player_41B0A0())
                         {
                             pDriver->SetVoiceEvent_IfBit24Clear_433DD0(12);
@@ -3260,7 +3260,7 @@ void Char_B4::sub_54DD70()
     {
         CheckAndHandleCollisions_5459C0();
 
-        if (field_7C_pPed->GetBit11_433CA0() && field_7C_pPed->field_21C_bf.bNoWeapon)
+        if (field_7C_pPed->GetAttacking_433CA0() && field_7C_pPed->field_21C_bf.bNoWeapon)
         {
             if (this->field_6C_animation_state != 4)
             {
@@ -3437,7 +3437,7 @@ void Char_B4::state_0_54DDF0()
             if (this->field_68_animation_frame == 7 || this->field_7C_pPed->field_21C_bf.bAttacking != 0)
             {
                 this->field_10_char_state = 1;
-                field_7C_pPed->ClearBit11_403A40();
+                field_7C_pPed->ClearAttacking_403A40();
                 goto LABEL_44;
             }
         }
@@ -3456,7 +3456,7 @@ void Char_B4::state_0_54DDF0()
 
         if (this->field_10_char_state == Char_B4_state::Jumping_15)
         {
-            field_7C_pPed->ClearBit11_403A40();
+            field_7C_pPed->ClearAttacking_403A40();
             if (this->field_6C_animation_state != 5)
             {
                 this->field_6C_animation_state = 5;
@@ -5367,7 +5367,7 @@ void Char_B4::state_3_551A00()
     {
         field_58_flags_bf.b7 = false;
         Char_B4::state_1_5504F0();
-        if (!field_7C_pPed->GetBit11_433CA0() && field_10_char_state != 15)
+        if (!field_7C_pPed->GetAttacking_433CA0() && field_10_char_state != 15)
         {
             if (field_38_velocity > k_CollisionRepulsionSpeed_6FD7BC)
             {
@@ -5457,7 +5457,7 @@ void Char_B4::state_5_551BB0()
 
         state_1_5504F0();
 
-        if ((this->field_7C_pPed->GetBit11_433CA0()) == 0 && this->field_10_char_state != 15)
+        if ((this->field_7C_pPed->GetAttacking_433CA0()) == 0 && this->field_10_char_state != 15)
         {
             if (field_38_velocity > k_CollisionRepulsionSpeed_6FD7BC)
             {
@@ -5605,7 +5605,7 @@ void Char_B4::state_7_551CB0()
     switch (field_C_ped_state_2)
     {
         case ped_state_2::ped2_staying_14:
-            if (field_7C_pPed->GetBit11_433CA0() == 1) // line 344
+            if (field_7C_pPed->GetAttacking_433CA0() == 1) // line 344
             {
                 if (field_7C_pPed->field_21C_bf.bNoWeapon)
                 {
@@ -5689,7 +5689,7 @@ void Char_B4::state_8_5520A0()
     s16 v76 = 0;
     s16 v77 = 0;
 
-    field_7C_pPed->ClearBit11_403A40();
+    field_7C_pPed->ClearAttacking_403A40();
     if (field_16_state_init_pending == 1)
     {
         field_16_state_init_pending = 0;
@@ -5975,7 +5975,7 @@ void Char_B4::state_8_5520A0()
 
                             field_7C_pPed->ChangeNextPedState1_45C500(8);
                             field_7C_pPed->ChangeNextPedState2_45C540(26);
-                            // 9.6f: Ped::Set_B4_F16_To_1_433B50 here and below (inlined, using it makes the diff worse)
+                            // 9.6f: Ped::SetStateInitPending_433B50 here and below (inlined, using it makes the diff worse)
                             field_7C_pPed->field_168_game_object->field_16_state_init_pending = 1;
                             return;
                         }
@@ -6153,7 +6153,7 @@ void Char_B4::state_9_552E90()
 {
     s32 rng;
 
-    field_7C_pPed->ClearBit11_403A40();
+    field_7C_pPed->ClearAttacking_403A40();
     if (field_16_state_init_pending == 1)
     {
         switch (field_10_char_state)
@@ -6366,7 +6366,7 @@ bool Char_B4::ShouldCollideWithSprite_553340(Sprite* pSprite)
         default:
             pPed = this->field_7C_pPed;
             if (pPed->GetPedState_403990() == ped_state_1::dead_9 &&
-                ((pPed->GetBit24_475B50()) == 0 || !pSprite || !pSprite->IsObjectModelEqual_59E930(198)))
+                ((pPed->IsOnFire_475B50()) == 0 || !pSprite || !pSprite->IsObjectModelEqual_59E930(198)))
             {
                 return 0;
             }

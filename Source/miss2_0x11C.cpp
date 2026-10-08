@@ -3133,7 +3133,7 @@ void miss2_0x11C::SCRCMD_SET_CHAR_OBJ2_50A200()
             break;
         case objectives_enum::enter_car_as_driver_35:
             pParam = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_second_item_idx);
-            pPointer->field_8_char->set_field_150_target_objective_car(pParam->field_8_car);
+            pPointer->field_8_char->SetTargetObjectiveCar(pParam->field_8_car);
             if (pCmd->field_E_variant == 1)
             {
                 pPointer->field_8_char->set_enter_car_as_passenger_4039B0(true);
@@ -3149,7 +3149,7 @@ void miss2_0x11C::SCRCMD_SET_CHAR_OBJ2_50A200()
         case objectives_enum::follow_car_in_car_55:
         case objectives_enum::destroy_car_59:
             pParam = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_second_item_idx);
-            pPointer->field_8_char->set_field_150_target_objective_car(pParam->field_8_car);
+            pPointer->field_8_char->SetTargetObjectiveCar(pParam->field_8_car);
             break;
         case objectives_enum::fire_at_object_from_vehicle_57:
         case objectives_enum::destroy_object_58:
@@ -3202,7 +3202,7 @@ void miss2_0x11C::SCRCMD_SET_CHAR_OBJ_FOLLOW_50A460()
 
     if (pPointer->field_8_char)
     {
-        (pPointer->field_8_char)->set_field_150_target_objective_car(pCarPointer->field_8_car);
+        (pPointer->field_8_char)->SetTargetObjectiveCar(pCarPointer->field_8_car);
 
         Ang16 CmdRotation;
         CmdRotation.rValue = pCmd->field_E_rotation;
@@ -3774,7 +3774,7 @@ void miss2_0x11C::SCRCMD_IS_CHAR_FIRE_ONSCREEN_50B3D0()
 {
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     Ped* pPed = pPointer->field_8_char;
-    if (pPed->GetBit11_433CA0() && pPed->GetOffscreenCounter_4039F0() == 0 && pPed->field_170_selected_weapon)
+    if (pPed->GetAttacking_433CA0() && pPed->GetOffscreenCounter_4039F0() == 0 && pPed->field_170_selected_weapon)
     {
         field_8_cond_result = true;
     }
@@ -3833,7 +3833,7 @@ void miss2_0x11C::SCRCMD_CHAR_TO_DRIVE_CAR_50B4F0()
         {
             pPtrPed->field_8_char->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
             pPtrPed->field_8_char->SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
-            pPtrPed->field_8_char->set_field_150_target_objective_car(pPtrCar->field_8_car);
+            pPtrPed->field_8_char->SetTargetObjectiveCar(pPtrCar->field_8_car);
             pPtrPed->field_8_char->set_enter_car_as_passenger_4039B0(false);
         }
         else

@@ -49,7 +49,7 @@ class Ped
     }
 
     // 9.6f 0x4039D0
-    inline char_type get_field_226_4039D0()
+    inline char_type GetInternalObjectiveStatus_4039D0()
     {
         return field_226_internal_objective_status;
     }
@@ -120,7 +120,7 @@ class Ped
     }
 
     // 9.6f 0x403B50
-    inline void set_field_226_403B50(char_type v)
+    inline void SetInternalObjectiveStatus_403B50(char_type v)
     {
         field_226_internal_objective_status = v;
     }
@@ -245,7 +245,7 @@ class Ped
     EXPORT bool IsAttackingTargetPed_465CD0();
     EXPORT bool IsPedAThreat_465D00(Ped* pTargetPed);
     inline bool IsPedAThreat_Inline_465D00(Ped* pTargetPed);
-    EXPORT char_type HasBit25AndGameObject_466B70();
+    EXPORT char_type IsInvisibleOnFoot_466B70();
     EXPORT char_type IsThreatToSearchingPed_4661F0();
     EXPORT Ped* FindBestTargetPed_Mode1_466B90(s32 max_x_check);
     EXPORT Ped* FindBestTargetPed_Mode4_466BB0(s32 max_x_check);
@@ -385,7 +385,7 @@ class Ped
         return field_238_ped_type;
     }
 
-    void inline_clear_bit()
+    void ClearAttacking()
     {
         // There was no way to match this without using a bit field
         field_21C_bf.bAttacking = 0;
@@ -408,12 +408,12 @@ class Ped
         field_21C_bf.bElectroFingers = false;
     }
 
-    bool check_bit_0()
+    bool IsActive()
     {
         return field_21C_bf.bActive != 0;
     }
 
-    bool check_bit_11()
+    bool IsAttacking()
     {
         return field_21C_bf.bAttacking != 0;
     }
@@ -457,42 +457,42 @@ class Ped
     }
 
     // 9.6f 0x492CB0
-    void set_field_140_492CB0(Car_BC* pCar)
+    void SetStolenCar_492CB0(Car_BC* pCar)
     {
         field_140_stolen_car = pCar;
     }
 
     // 9.6f 0x49EF40
-    inline Car_BC* get_field_140_49EF40()
+    inline Car_BC* GetStolenCar_49EF40()
     {
         return field_140_stolen_car;
     }
 
     // 9.6f inline 0x403AE0
-    void set_field_14C_403AE0(Ped* pSrc)
+    void SetInternalTargetPed_403AE0(Ped* pSrc)
     {
         field_14C_internal_target_ped = pSrc;
     }
 
     // 9.6f inline 0x403950
-    inline void SetBit2_403950()
+    inline void SetPanicking_403950()
     {
         field_21C_bf.bPanicking = true;
     }
 
-    bool get_bitset_0x04()
+    bool IsPanicking()
     {
         return field_21C & ped_flag_mask::k_ped_panicking ? true : false;
     }
 
     // 9.6f 0x403960
-    void unset_bitset_0x04()
+    void ClearPanicking_403960()
     {
         field_21C &= ~ped_flag_mask::k_ped_panicking;
     }
 
     // 9.6f 0x403AA0
-    void set_field_150_target_objective_car(Car_BC* ptr)
+    void SetTargetObjectiveCar(Car_BC* ptr)
     {
         field_150_target_objective_car = ptr;
     }
@@ -569,7 +569,7 @@ class Ped
         return field_1F0_max_speed;
     }
 
-    inline void Set_B4_F16_To_1_433B50()
+    inline void SetStateInitPending_433B50()
     {
         field_168_game_object->field_16_state_init_pending = 1;
     }
@@ -735,7 +735,7 @@ class Ped
     }
 
     // 9.6f 0x433BE0
-    inline void ClearF144_433BE0()
+    inline void ClearAttacker_433BE0()
     {
         field_144_attacker = 0;
     }
@@ -752,7 +752,7 @@ class Ped
         return field_168_game_object->get_velocity_41B080();
     }
 
-    inline bool CheckBit0_433B40()
+    inline bool IsActive_433B40()
     {
         return field_21C_bf.bActive;
     }
@@ -767,7 +767,7 @@ class Ped
         return field_27C_ped_state_2;
     }
 
-    inline bool HasBit25AndGameObject_433DA0()
+    inline bool IsInvisibleOnFoot_433DA0()
     {
         return field_21C_bf.bInvisible && field_168_game_object;
     }
@@ -777,17 +777,17 @@ class Ped
         return field_168_game_object != NULL;
     }
 
-    inline u8 GetBit2()
+    inline u8 GetPanicking()
     {
         return field_21C_bf.bPanicking;
     }
 
-    inline u8 GetBit11_433CA0()
+    inline u8 GetAttacking_433CA0()
     {
         return field_21C_bf.bAttacking;
     }
 
-    u8 GetBit24_475B50()
+    u8 IsOnFire_475B50()
     {
         return field_21C_bf.bOnFire;
     }
@@ -803,13 +803,13 @@ class Ped
     }
 
     // 9.6f 0x4A5010
-    inline void SetBit11_4A5010()
+    inline void SetAttacking_4A5010()
     {
         field_21C_bf.bAttacking = true;
     }
 
     // 9.6f 0x403A40
-    inline void ClearBit11_403A40()
+    inline void ClearAttacking_403A40()
     {
         field_21C_bf.bAttacking = false;
     }
@@ -819,7 +819,7 @@ class Ped
         return field_258_objective == objectives_enum::enter_car_as_driver_35 || field_25C_internal_objective == 35;
     }
 
-    Ang16 Get_F12E_4CCA90()
+    Ang16 GetAimAngle_4CCA90()
     {
         return field_12E_aim_angle;
     }
@@ -844,7 +844,7 @@ class Ped
         return field_25C_internal_objective;
     }
 
-    inline Ped* Get_F14C_403AF0()
+    inline Ped* GetInternalTargetPed_403AF0()
     {
         return field_14C_internal_target_ped;
     }
@@ -854,7 +854,7 @@ class Ped
         field_144_attacker = pPed;
     }
 
-    inline void Increment_F262_433BD0()
+    inline void IncrementAttackersCount_433BD0()
     {
         ++field_262_attackers_count;
     }

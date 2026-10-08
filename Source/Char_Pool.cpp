@@ -992,7 +992,7 @@ Ped* PedManager::ClonePed_470F90(Ped* pSrc)
         pDst->AllocCharB4_45C830(pSrc->get_cam_x(), pSrc->get_cam_y(), pSrc->get_cam_z());
         pDst->SetRemap_433C10(pSrc->get_remap_433BA0());
         pDst->SetRotation_433C00(pSrc->GetRotation());
-        pDst->Set_B4_F16_To_1_433B50();
+        pDst->SetStateInitPending_433B50();
         pDst->field_168_game_object->field_84_target_car = pSrc->field_168_game_object->field_84_target_car;
     }
     return pDst;

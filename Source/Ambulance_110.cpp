@@ -545,7 +545,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                         {
                             gParamedicCrewPed_6F6D60->SetObjective2_463830(0, 9999);
                             gParamedicCrewPed_6F6D60->SetObjective(35, 9999);
-                            gParamedicCrewPed_6F6D60->set_field_150_target_objective_car(field_4_paramedics_crew->field_0_car);
+                            gParamedicCrewPed_6F6D60->SetTargetObjectiveCar(field_4_paramedics_crew->field_0_car);
                             gParamedicCrewPed_6F6D60->set_enter_car_as_passenger_4039B0(0);
                             gParamedicCrewPed_6F6D60->set_target_car_door_403A70(0);
                         }
@@ -562,7 +562,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                         {
                             gParamedicCrewPed_6F6D60->SetObjective2_463830(0, 9999);
                             gParamedicCrewPed_6F6D60->SetObjective(35, 9999);
-                            gParamedicCrewPed_6F6D60->set_field_150_target_objective_car(field_4_paramedics_crew->field_0_car);
+                            gParamedicCrewPed_6F6D60->SetTargetObjectiveCar(field_4_paramedics_crew->field_0_car);
                             gParamedicCrewPed_6F6D60->set_enter_car_as_passenger_4039B0(0);
                             gParamedicCrewPed_6F6D60->set_target_car_door_403A70(0);
                         }
@@ -573,7 +573,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                     {
                         gParamedicCrewPed_6F6D60->SetObjective(36, 9999);
                         bBusy = 1;
-                        gParamedicCrewPed_6F6D60->set_field_150_target_objective_car(field_4_paramedics_crew->field_0_car);
+                        gParamedicCrewPed_6F6D60->SetTargetObjectiveCar(field_4_paramedics_crew->field_0_car);
                         gParamedicCrewPed_6F6D60->SetField238_403920(4);
                     }
                     else

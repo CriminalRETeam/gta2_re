@@ -270,8 +270,8 @@ Tried for the second point: `for (; FindNextFileA(...); map_count++)` (no change
 Makes the members of this group follow `pPed` (objective 20), or pair them up with the
 members of `pPed`'s group. The original never sets a return value (`char_type` return,
 C4716 silenced). The bit-2 tests are `mov/shr $2/test $1`, which comes from an inline
-returning the bit (`Ped::GetBit2()`), not from `field_21C_bf.b2` directly (`test $4`).
-The `or $4` and `field_14C` stores are `SetBit2_403950` and `set_field_14C_403AE0`.
+returning the bit (`Ped::GetPanicking()`), not from `field_21C_bf.b2` directly (`test $4`).
+The `or $4` and `field_14C` stores are `SetPanicking_403950` and `SetInternalTargetPed_403AE0`.
 
 Ratio 0.724. Left: register allocation in the first loop. The original keeps `pPed` in
 `edi` and spills the list pointer the loop walks to `pPed`'s arg slot. Ours keeps the list
@@ -2682,7 +2682,7 @@ Scores are `quick_score.sh` lines. Matched: `ApplyImpactForcesAndDamage_55FA60` 
   gives the strength-reduced pointer edi and reloads pPed. The second loop already matches (pOther/pTarget take the
   registers). `pOther = pPed->field_164_ped_group` before the test (126/132, pPed then lives in eax only),
   `field_30 = 1` before the branch (122). Permuter 1500: 78 only by re-reading `field_4_ped_list[i]` for the first
-  GetBit2 (changes the `test k,%eax` into `testl k,mem`; rejected).
+  GetPanicking (changes the `test k,%eax` into `testl k,mem`; rejected).
 - `NetPlay::ReceiveGameMessage_521890` (168): the original reloads pOut/pPlayerIdx from their slots in the loop and
   keeps the `timeGetTime` import in edi for the two calls at the loop end (`mov __imp__,%edi; call *%edi` twice);
   ours hoists the two parameters into ebp/edi and calls through memory. Our build does CSE the import when a

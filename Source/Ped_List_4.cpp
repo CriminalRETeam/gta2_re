@@ -141,7 +141,7 @@ char_type Ped_List_4::RemovePedsInSpecificState_471290()
     char_type removedCount = 0;
     while (pIter)
     {
-        if (pIter->field_0_char_ped->CheckBit0_433B40() && pIter->field_0_char_ped->field_278_ped_state_1 == ped_state_1::dead_9)
+        if (pIter->field_0_char_ped->IsActive_433B40() && pIter->field_0_char_ped->field_278_ped_state_1 == ped_state_1::dead_9)
         {
             pLast = pIter;
             pIter = pIter->mpNext;
@@ -209,7 +209,7 @@ Ped* Ped_List_4::GetFromListClosestPedToPoint_471340(Fix16 x, Fix16 y)
     while (pIter)
     {
         Ped* pPed = pIter->field_0_char_ped;
-        if (pIter->field_0_char_ped->CheckBit0_433B40() == 1)
+        if (pIter->field_0_char_ped->IsActive_433B40() == 1)
         {
             Fix16 curr = Fix16::MaxAbsDistance_42A6B0(x, y, pPed->get_cam_x(), pPed->get_cam_y());
             if (curr < smallest)
@@ -300,7 +300,7 @@ void Ped_List_4::ApplyPassengerBusStopBehavior_471630()
         {
             pIter->field_0_char_ped->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
             pIter->field_0_char_ped->SetObjective(objectives_enum::objective_34, 9999);
-            pIter->field_0_char_ped->set_field_150_target_objective_car(pIter->field_0_char_ped->field_16C_car);
+            pIter->field_0_char_ped->SetTargetObjectiveCar(pIter->field_0_char_ped->field_16C_car);
         }
     }
 }

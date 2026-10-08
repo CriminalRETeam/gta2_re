@@ -1273,7 +1273,7 @@ char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
     Char_B4* pB4 = pSprite->field_8_char_b4_ptr;
 
     Ped* pPed = pB4->get_ped_433A20();
-    if (!pPed || !pPed->CheckBit0_433B40())
+    if (!pPed || !pPed->IsActive_433B40())
     {
         return true;
     }
@@ -1456,7 +1456,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
 
         case sprite_types_enum::ped_3:
             pB4 = pTarget->field_8_char_b4_ptr;
-            if (!pB4 || !pB4->field_7C_pPed || !pB4->field_7C_pPed->check_bit_0())
+            if (!pB4 || !pB4->field_7C_pPed || !pB4->field_7C_pPed->IsActive())
             {
                 return true;
             }

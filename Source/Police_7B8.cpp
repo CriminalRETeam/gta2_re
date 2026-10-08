@@ -359,7 +359,7 @@ void Police_7B8::UpdateFirstPursuitTimer_56FA40()
 {
     if (field_464_pursuit_targets[0].field_0_criminal_ped)
     {
-        if (!field_464_pursuit_targets[0].field_0_criminal_ped->CheckBit0_433B40() 
+        if (!field_464_pursuit_targets[0].field_0_criminal_ped->IsActive_433B40() 
             || field_464_pursuit_targets[0].field_0_criminal_ped->isDead_403B60())
         {
             field_464_pursuit_targets[0].field_8_state = pursuit_state::ended_4;
@@ -527,7 +527,7 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
         }
 
         pCriminal = pPursuitTarget->field_0_criminal_ped;
-        if (!pCriminal->CheckBit0_433B40() || pCriminal->isDead_403B60())
+        if (!pCriminal->IsActive_433B40() || pCriminal->isDead_403B60())
         {
             pPursuitTarget->field_8_state = pursuit_state::ended_4;
         }
@@ -803,7 +803,7 @@ void Police_7B8::Service_570270()
         {
             field_7B0_last_firing_emergency_ped = NULL;
         }
-        else if (!field_7B0_last_firing_emergency_ped->CheckBit0_433B40())
+        else if (!field_7B0_last_firing_emergency_ped->IsActive_433B40())
         {
             field_7B0_last_firing_emergency_ped = NULL;
         }

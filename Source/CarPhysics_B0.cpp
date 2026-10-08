@@ -2829,7 +2829,7 @@ void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
         pCharB4->field_7C_pPed->field_264_killer_id_timer = 50;
 
         Ped* pPed = pCharB4->field_7C_pPed;
-        if (pPed->get_field_140_49EF40() == this->field_5C_pCar)
+        if (pPed->GetStolenCar_49EF40() == this->field_5C_pCar)
         {
             pPed->field_290_death_cause = ped_death_cause::run_over_by_stolen_car_3;
         }
@@ -2860,7 +2860,7 @@ void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
                             pCharB4->field_7C_pPed->field_264_killer_id_timer = 50;
 
                             Ped* pPed = pCharB4->field_7C_pPed;
-                            if (pPed->get_field_140_49EF40() == this->field_5C_pCar->field_64_pTrailer->field_8_truck_cab)
+                            if (pPed->GetStolenCar_49EF40() == this->field_5C_pCar->field_64_pTrailer->field_8_truck_cab)
                             {
                                 pPed->field_290_death_cause = ped_death_cause::run_over_by_stolen_car_3;
                             }

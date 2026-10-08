@@ -414,7 +414,7 @@ void Train_58::UpdatePassengerAI_578390()
                                     pNewPed->field_16C_car = *pTrainCar;
                                     pNewPed->SetObjective(objectives_enum::leave_train_38, 9999);
                                     Ped_List_4* pLink = &pNewPed->field_16C_car->field_4_passengers_list;
-                                    pNewPed->set_field_150_target_objective_car(*pTrainCar);
+                                    pNewPed->SetTargetObjectiveCar(*pTrainCar);
                                     pLink->AddPed_471140(pNewPed);
                                     pNewPed->set_target_car_door_403A70(gTargetCarDoor_6FF1D8);
                                     --this->field_56_passenger_count;
@@ -443,7 +443,7 @@ void Train_58::UpdatePassengerAI_578390()
                             this->field_C_carriages[0]->field_4_passengers_list.AddPed_471140(pNewPed_1);
                             pNewPed_1->SetObjective(objectives_enum::leave_train_38, 9999);
                             Car_BC* pTargetCar = this->field_C_carriages[0];
-                            pNewPed_1->set_field_150_target_objective_car(pTargetCar);
+                            pNewPed_1->SetTargetObjectiveCar(pTargetCar);
                             pNewPed_1->set_target_car_door_403A70(2);
                             pNewPed_1->set_occupation_403970(8);
                             if (this->field_0 == 1)
@@ -458,7 +458,7 @@ void Train_58::UpdatePassengerAI_578390()
                         pRemoved->field_16C_car = this->field_C_carriages[0];
                         pRemoved->SetObjective(objectives_enum::leave_train_38, 9999);
                         Car_BC* pTargetCar_ = this->field_C_carriages[0];
-                        pRemoved->set_field_150_target_objective_car(pTargetCar_);
+                        pRemoved->SetTargetObjectiveCar(pTargetCar_);
                         pRemoved->set_target_car_door_403A70(2);
                         pRemoved->set_occupation_403970(8);
                         if (this->field_0 == 1)
