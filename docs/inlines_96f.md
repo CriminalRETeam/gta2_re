@@ -289,7 +289,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x5D3B80 | `Hud_Brief_704::DrawBrief_5D3B80` | 0x4C9430 | matched | done | GetLineSpacingFromFontType_5D7700_inlined + s32 ypos; 20->0 CANDIDATE MATCH (w.sh only) |
 | 0x5D4A10 | `Hud_CarName_4C::sub_5D4A10` | 0x4C94F0 | matched | done | get_sprite_width_4C7220; stays 0 (candidate, w.sh only) |
 | 0x5D61A0 | `DrawPlayerStatsHelper_5D61A0` | 0x4C9B40 | ✓ `sub_420220` | done | all 9.6f inlines used |
-| 0x5D63B0 | `Hud_PauseScreen_2::DrawPause_5D63B0` | 0x4C9FA0 | matched | done | new Phi_8CA8::GetObjectPalette_4C6E30, get_sprite_width_420220; unchanged (37) |
+| 0x5D63B0 | `Hud_PauseScreen_2::DrawPause_5D63B0` | 0x4C9FA0 | matched | done | new ObjectDefinitions_8CA8::GetObjectPalette_4C6E30, get_sprite_width_420220; unchanged (37) |
 | 0x5D7EC0 | `DrawFigure_5D7EC0` | 0x4CBA50 | ✓ `sub_432860`, ✓ `sub_40F6B0` | done | single point + SetXY_432860 x4; 412->345 |
 | 0x5D8A10 | `DrawText_5D8A10` | 0x4CC100 | `magical_germain_0x8EC::sub_460DA0`, `magical_germain_0x8EC::sub_4CBA40`, `magical_germain_0x8EC::sub_4CBA00`, `sub_4CBA10`, `sub_460CC0`, `magical_germain_0x8EC::sub_4CBA20`, `sub_4CBA30`, `sub_460D30`, `sub_4BF550` | checked | 9.6f magical_germain helpers use a different layout (glyph v1/v2 at 0x24/0x25); no clear 10.5 open-coded form, left |
 | 0x5DCF60 | `Weapon_30::spawn_bullet_5DCF60` | 0x4CDA90 | ✓ `cool_nash_0x294::get_cam_x_403A00`, ✓ `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `Car_3C::set_ang_lazy_420690`, ✓ `sub_416B40`, ✓ `Car_3C::SetType_4206F0`, ✓ `sub_482A30`, ✓ `sub_420B50`, `sub_482790`, `sub_483C20`, `sub_4BD670` | checked | 482790/483C20/4BD670 = SetDamageOwner_529080/SetSpriteIdOffset_5290C0/CheckSpriteMovementRegion_5A2500, all called in 10.5 (noise) |
@@ -638,7 +638,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4B9B10 | `Game_0x40::IsRectVisibleToAnyPlayer_4B9B10` | 0x45BC90 | ✓ `DrawUnk_0xBC::sub_45AF40` | done | Camera_0xBC::IsRectInBounds_45AF40 (new) + s32 loop index; 85->16 (register swap left) |
 | 0x4B9D60 | `Game_0x40::sub_4B9D60` | 0x45BD40 | ✓ `Game_0x40::get_player_4219E0` | done | Game_0x40::get_player_4219E0; code unchanged |
 | 0x4B9DE0 | `Game_0x40::ctor_4B9DE0` | 0x45C4D0 | `angry_lewin_0x85C::sub_45B0D0`, `rng::ctor_45A960`, `Nanobotz::ctor_45B050` (10.5 0x4BE650), `Mike_A80::ctor_45C040`, `Frismo_C_Pool::ctor_45BFE0`, `jawwie_110::ctor_45C0D0`, `EmergencyCrewPool_1E0::ctor_45B1A0`, `Police_7B8::ctor_45C150`, `Light_1D4CC::ctor_45B3D0`, `Zones_CA8::ctor_45AE60`, `sub_489AC0`, `CokeZero_100::ctor_4B9490`, `Tango_54::ctor_45B440`, `LangIsJapanese_452E60` | checked | ctor list: member ctors, pairing noise |
-| 0x4BAE30 | `Game_0x40::dtor_4BAE30` | 0x45D3D0 | `angry_lewin_0x85C::dtor_45A970`, `text_0x14::dtor_405A80`, `gtx_0x106C::gdtor_451F90`, `Map_0x370::gdtor_45A990`, `Montana::gdtor_45A9B0`, `PedPool::gdtor_43DB20`, `frosty_pasteur_0xC1EA8::gdtor_45A9F0`, `Frismo_C_Pool::gdtor_45D350`, `Phi_8CA8::gdtor_45BDC0`, `Object_5C::gdtor_45AA10`, `PedManager::gdtor_45AA30`, `FpsCounter_54::gdtor_45AA50`, `Sprite_8::gdtor_45AA70`, `CollisionCounters_C::gdtor_45AA90`, `PedRefTable_7F8::gdtor_45AAB0`, `Sero_181C::gdtor_45AAD0`, `Taxi_4::gdtor_45AAF0`, `TileAnim_2::gdtor_45AB10`, `Weapon_8::gdtor_45AB30`, `Door_4D4::gdtor_45AB50`, `jawwie_110::gdtor_45BDE0`, `Garox_2B00::gdtor_45D3B0`, `TextureCache_15D8::gdtor_451F70`, `TrafficLights_194::gdtor_45AB70`, `Marz_1D7E::gdtor_45BE00`, `Orca_2FD4::gdtor_45BE20`, `Monster_808::gdtor_45AB90`, `Particle_8::gdtor_45ABB0`, `ExplosionPool_3D4::gdtor_45ABD0`, `ExplosionPool_7A8::gdtor_45ABF0`, `Zheal_D9C::gdtor_45BE40`, `Snooky_94::gdtor_45BE60`, `EmergencyCrewPool_1E0::gdtor_45BE80`, `Police_7B8::gdtor_45BEA0`, `Light_1D4CC::gdtor_45BEC0`, `Zones_CA8::gdtor_45BEE0`, `ChickenLegend_48::dtor_45D370`, `Hamburger_500::dtor_45AC10`, `CokeZero_100::dtor_45AC30`, `CrimeReportQueue_CC::gdtor_45AC50`, `Tango_54::gdtor_45BF00`, `CollisionSoundQueue_C88::gdtor_45AC70`, `magical_germain_0x8EC::gdtor_45AC90` | checked | dtor list: global dtors, pairing noise |
+| 0x4BAE30 | `Game_0x40::dtor_4BAE30` | 0x45D3D0 | `angry_lewin_0x85C::dtor_45A970`, `text_0x14::dtor_405A80`, `gtx_0x106C::gdtor_451F90`, `Map_0x370::gdtor_45A990`, `Montana::gdtor_45A9B0`, `PedPool::gdtor_43DB20`, `frosty_pasteur_0xC1EA8::gdtor_45A9F0`, `Frismo_C_Pool::gdtor_45D350`, `ObjectDefinitions_8CA8::gdtor_45BDC0`, `Object_5C::gdtor_45AA10`, `PedManager::gdtor_45AA30`, `FpsCounter_54::gdtor_45AA50`, `Sprite_8::gdtor_45AA70`, `CollisionCounters_C::gdtor_45AA90`, `PedRefTable_7F8::gdtor_45AAB0`, `Sero_181C::gdtor_45AAD0`, `Taxi_4::gdtor_45AAF0`, `TileAnim_2::gdtor_45AB10`, `Weapon_8::gdtor_45AB30`, `Door_4D4::gdtor_45AB50`, `jawwie_110::gdtor_45BDE0`, `Garox_2B00::gdtor_45D3B0`, `TextureCache_15D8::gdtor_451F70`, `TrafficLights_194::gdtor_45AB70`, `Marz_1D7E::gdtor_45BE00`, `Orca_2FD4::gdtor_45BE20`, `Monster_808::gdtor_45AB90`, `Particle_8::gdtor_45ABB0`, `ExplosionPool_3D4::gdtor_45ABD0`, `ExplosionPool_7A8::gdtor_45ABF0`, `Zheal_D9C::gdtor_45BE40`, `Snooky_94::gdtor_45BE60`, `EmergencyCrewPool_1E0::gdtor_45BE80`, `Police_7B8::gdtor_45BEA0`, `Light_1D4CC::gdtor_45BEC0`, `Zones_CA8::gdtor_45BEE0`, `ChickenLegend_48::dtor_45D370`, `Hamburger_500::dtor_45AC10`, `CokeZero_100::dtor_45AC30`, `CrimeReportQueue_CC::gdtor_45AC50`, `Tango_54::gdtor_45BF00`, `CollisionSoundQueue_C88::gdtor_45AC70`, `magical_germain_0x8EC::gdtor_45AC90` | checked | dtor list: global dtors, pairing noise |
 | 0x4BE650 | `Hud_Pager_C::dtor_4BE650` | 0x45B050 | `Nanobotz::ResetCount_45B040`, `Nanobotz::set_shading_lev_46B620` (10.5 0x4E9DB0) | checked | pairing error (9.6f Nanobotz helpers) |
 | 0x4BEBC0 | `Light_1D4CC::dtor_4BEBC0` | 0x45B380 | `Light_1D4CC::sub_45AD00` | checked | Light_1D4CC::sub_45AD00 is a 9.6f-only reset; 10.5 dtor calls FreeGrid_4D6E30 |
 | 0x4BECA0 | `GangPool_CA8::sub_4BECA0` | 0x45DD60 | ✓ `Zone_144::sub_45DD50` | done | Gang_144::HasKillRespectChange_45DD50; code unchanged |
@@ -871,7 +871,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x5263D0 | `Object_2C::Service_5263D0` | 0x487E80 | `Object_2C::sub_4826A0` (10.5 0x525AE0) | checked | 4826A0 pairs with CheckCollisionForModel_139_And_141_525AE0; not open-coded here |
 | 0x526790 | `Object_2C::TriggerCarExplosionIfApplicable_526790` | 0x4837F0 | ✓ `sub_475A80`, ✓ `sub_482C10`, ✓ `sub_482400`, ✓ `sub_40FEB0`, ✓ `sub_420FF0`, ✓ `sub_420F10` | done | IsAnimFinished_482C10 + IsDefinitionIdx39To42_482400 used; code unchanged |
 | 0x526B40 | `Object_2C::sub_526B40` | 0x483880 | ✓ `sub_416B40`, ✓ `sub_41B080` (10.5 0x41B480), ✓ `sub_40F7B0`, `Car_BC::sub_421D90`, ✓ `sub_40FEB0` | matched | Sprite::get_type_416B40, Char_B4::get_velocity_41B080, Sprite::set_num_40F7B0 |
-| 0x527630 | `Object_2C::InitializeObject_527630` | 0x483990 | `Phi_74::sub_488EF0`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `Car_3C::set_ang_lazy_420690`, ✓ `sub_482A30` | done | SetObj2C_482A30 used; 488EF0 = CreateSpriteFromDefinition (called); code unchanged |
+| 0x527630 | `Object_2C::InitializeObject_527630` | 0x483990 | `ObjectDefinition_74::sub_488EF0`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `Car_3C::set_ang_lazy_420690`, ✓ `sub_482A30` | done | SetObj2C_482A30 used; 488EF0 = CreateSpriteFromDefinition (called); code unchanged |
 | 0x528240 | `Object_2C::HandleRotationStateTransition_528240` | 0x483A20 | `sub_4BED60` | checked | 4BED60 = struct_4::AddSprite_5A6CD0 (called) |
 | 0x5288B0 | `Object_2C::OnObjectTouched_5288B0` | 0x483B50 | ✓ `sub_40FEA0`, ✓ `sub_40FEB0` | done | all 9.6f inlines used |
 | 0x528900 | `Object_2C::HandleWaterDeath_528900` | 0x483BA0 | ✓ `rng::get_cur_rng_41CFE0`, `sub_4BDDD0`, ✓ `sub_420660` | done | set_z_lazy_420660 used; 4BDDD0 = ShrinkSprite (called); code unchanged |
@@ -899,7 +899,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x52AD80 | `Object_3C::ctor_52AD80` | 0x484020 | `struct_4::ctor_424620` | checked | struct_4 ctor (424620) is the member ctor, already inline |
 | 0x52AE90 | `Object_2C::GetSpeedVector_52AE90` | 0x482C50 | `sub_482BA0` | checked | 482BA0 = Object_3C::GetSpeedVector_52ADF0, called out of line by the matching 10.5 code |
 | 0x52B2A0 | `Light_1D4CC::sub_52B2A0` | 0x469010 | `sub_464C40`, `sub_463F10`, `nostalgic_ellis_0x28::sub_45B2D0` | checked | Alloc_464C40, SetRadius_463F10, SetCurrentIntensity_45B2D0 already used via Init_469010 |
-| 0x5331A0 | `Phi_74::ApplyDefinitionToSprite_5331A0` | 0x4883A0 | ✓ `Car_3C::SetType_4206F0`, ✓ `sub_4206C0`, ✓ `sub_40F7B0`, `sub_488200` | done | Sprite::SetType_4206F0 and set_id_lazy_4206C0; Still matches. |
+| 0x5331A0 | `ObjectDefinition_74::ApplyDefinitionToSprite_5331A0` | 0x4883A0 | ✓ `Car_3C::SetType_4206F0`, ✓ `sub_4206C0`, ✓ `sub_40F7B0`, `sub_488200` | done | Sprite::SetType_4206F0 and set_id_lazy_4206C0; Still matches. |
 | 0x534650 | `Garage_48::ValidateParkCommand_534650` | 0x489B10 | ✓ `sub_489640`, ✓ `sub_489630`, ✓ `sub_489620` | matched | all 9.6f inlines used |
 | 0x538A40 | `Particle_4C::sub_538A40` | 0x48B4D0 | ✓ `sub_4206C0`, ✓ `sub_4337D0`, ✓ `sub_4337F0` | done | SetFlags_4337D0 + Set_2C_0x4_Flag_4337F0; code unchanged |
 | 0x53A180 | `Particle_4C::sub_53A180` | 0x48BE60 | ✓ `sub_4206C0` | done | all 9.6f inlines used |
@@ -1750,7 +1750,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4C4DA0 | `Montana_FA4::gdtor_4C4DA0` | 26 |  |  | 1/0 | todo |  |
 | 0x4C4F20 | `sub_4C4F20` | 7 |  | Source/Ped.hpp:550 | 1/0 | todo |  |
 | 0x4C54F0 | `EmergencyCrew_30::sub_4C54F0` | 30 |  |  | 1/0 | todo |  |
-| 0x4C6E30 | `sub_4C6E30` | 17 |  | Source/Phi_8CA8.hpp:336 | 1/0 | todo |  |
+| 0x4C6E30 | `sub_4C6E30` | 17 |  | Source/ObjectDefinitions_8CA8.hpp:336 | 1/0 | todo |  |
 | 0x4C6F20 | `sub_4C6F20` | 9 |  | Source/Hud.hpp:443, Source/Hud.hpp:508 | 1/0 | todo |  |
 | 0x4C6FB0 | `sub_4C6FB0` | 35 |  | Source/Hud.hpp:480 | 1/0 | todo |  |
 | 0x4C7060 | `sub_4C7060` | 17 |  | Source/Hud.hpp:542 | 1/0 | todo |  |
@@ -2145,7 +2145,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x45B3D0 | `Light_1D4CC::ctor_45B3D0` | 65 |  |  | 0/1 | todo |  |
 | 0x45B420 | `GameSession_578::sub_45B420` | 11 |  | Source/GameSession_578.hpp:92 | 0/1 | todo |  |
 | 0x45B440 | `Tango_54::ctor_45B440` | 29 |  |  | 0/1 | todo |  |
-| 0x45BDC0 | `Phi_8CA8::gdtor_45BDC0` | 30 |  |  | 0/1 | todo |  |
+| 0x45BDC0 | `ObjectDefinitions_8CA8::gdtor_45BDC0` | 30 |  |  | 0/1 | todo |  |
 | 0x45BDE0 | `jawwie_110::gdtor_45BDE0` | 30 |  |  | 0/1 | todo |  |
 | 0x45BE00 | `Marz_1D7E::gdtor_45BE00` | 30 |  |  | 0/1 | todo |  |
 | 0x45BE20 | `Orca_2FD4::gdtor_45BE20` | 26 |  |  | 0/1 | todo |  |
@@ -2347,7 +2347,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x485540 | `sub_485540` | 231 | 0x52A3D0 MATCH |  | 0/1 | todo |  |
 | 0x487F50 | `Object_5C::sub_487F50` | 16 |  |  | 0/1 | todo |  |
 | 0x488200 | `sub_488200` | 10 |  |  | 0/1 | todo |  |
-| 0x488EF0 | `Phi_74::sub_488EF0` | 30 |  |  | 0/1 | todo |  |
+| 0x488EF0 | `ObjectDefinition_74::sub_488EF0` | 30 |  |  | 0/1 | todo |  |
 | 0x489620 | `sub_489620` | 6 |  | Source/Door_4D4.hpp:33 | 0/1 | todo |  |
 | 0x489630 | `sub_489630` | 6 |  | Source/Door_4D4.hpp:28 | 0/1 | todo |  |
 | 0x489640 | `sub_489640` | 6 |  | Source/Door_4D4.hpp:23 | 0/1 | todo |  |

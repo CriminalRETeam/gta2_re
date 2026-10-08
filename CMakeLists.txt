@@ -165,8 +165,8 @@ set(gta2_lib_src
   Source/Char_Pool.cpp
   Source/collide.hpp
   Source/collide.cpp
-  Source/Phi_8CA8.hpp
-  Source/Phi_8CA8.cpp
+  Source/ObjectDefinitions_8CA8.hpp
+  Source/ObjectDefinitions_8CA8.cpp
   Source/Object_5C.hpp
   Source/Object_5C.cpp
   Source/PedRefTable_7F8.hpp

@@ -49,7 +49,7 @@
 #include "Montana.hpp"
 #include "Network_20324.hpp"
 #include "Ped.hpp"
-#include "Phi_8CA8.hpp"
+#include "ObjectDefinitions_8CA8.hpp"
 #include "Player.hpp"
 #include "CollisionSoundQueue_C88.hpp"
 #include "CrimeReportQueue_CC.hpp"
@@ -140,7 +140,7 @@ void LoadBeginSceneCBPtr()
 
 void force_link()
 {
-    Phi_8CA8 phi_8ca8;
+    ObjectDefinitions_8CA8 phi_8ca8;
     phi_8ca8.AllocDefinitionWithSprite_5332D0(0, 0, 0, 0);
 
     Ambulance_20 jaw_20;

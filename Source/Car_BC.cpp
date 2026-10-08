@@ -2330,7 +2330,7 @@ char_type Car_BC::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
     char_type bUnknown; // bl
     s32 f_88; // eax
     Object_2C* o2c; // ecx
-    Phi_74* pPhi; // edx
+    ObjectDefinition_74* pDefinition; // edx
     s32 phi_type; // eax
     s32 field_18_model; // eax
     Ped* pPed; // eax
@@ -2401,12 +2401,12 @@ char_type Car_BC::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
         sprite_type = pSprite->field_30_sprite_type_enum;
         if ((sprite_type == 4 || sprite_type == 5 || sprite_type == 1) && (o2c = pSprite->field_8_object_2C_ptr) != 0)
         {
-            pPhi = o2c->field_8;
-            phi_type = pPhi->field_34_behavior_type;
+            pDefinition = o2c->field_8;
+            phi_type = pDefinition->field_34_behavior_type;
             if (phi_type == 6 || phi_type == 7 || phi_type == 8 || phi_type == 9 || phi_type == 10 || phi_type == 1 || phi_type == 12 ||
                 (field_18_model = o2c->field_18_model, field_18_model == 182) || field_18_model == objects::grenade_obj_183)
             {
-                if (pPhi->field_40_collision_bucket_category == 3)
+                if (pDefinition->field_40_collision_bucket_category == 3)
                 {
                     return 0;
                 }

@@ -1,7 +1,7 @@
 #include "Particle_4C.hpp"
 #include "map_0x370.hpp"
 #include "Object_5C.hpp"
-#include "Phi_8CA8.hpp"
+#include "ObjectDefinitions_8CA8.hpp"
 #include "SpriteGrid_400.hpp"
 #include "rng.hpp"
 #include "sprite.hpp"
@@ -252,33 +252,33 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
             {
                 return true;
             }
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 102);
+            field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 102);
             dir.x = 0;
             dir.y = field_20_speed * dword_6FD300;
             bJitter = 0;
             break;
         case 3:
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 101);
+            field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 101);
             dir.x = 0;
             dir.y = field_20_speed * dword_6FD304;
             break;
         case 4:
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 100);
+            field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 100);
             dir.x = 0;
             dir.y = field_20_speed * dword_6FD308;
             break;
         case 5:
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 99);
+            field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 99);
             dir.x = 0;
             dir.y = field_20_speed * dword_6FD308;
             break;
         case 6:
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 98);
+            field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 98);
             dir.x = 0;
             dir.y = field_20_speed * dword_6FD308;
             break;
         case 7:
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 97);
+            field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 97);
             dir.x = 0;
             dir.y = field_20_speed * dword_6FD308;
             break;
@@ -374,7 +374,7 @@ char_type Particle_4C::UpdateBeamSegment_state_43_538A40()
         return 1;
     }
 
-    field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 103);
+    field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 103);
 
     this->field_30_pNext->SetFlags_4337D0(2, 20);
     this->field_30_pNext->Set_2C_0x4_Flag_4337F0();
@@ -452,7 +452,7 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
                     pSegment->field_46_sub_state = 0;
                     pSegment->field_2E = 50;
                     pSegment->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
-                    pSegment->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 104);
+                    pSegment->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 104);
                     pSegment->field_30_pNext->set_xyz_lazy_420600(mid.x, mid.y, field_30_pNext->field_1C_zpos);
                     pSegment->field_30_pNext->SetFlags_4337D0(2, 20);
                     pSegment->field_30_pNext->Set_2C_0x4_Flag_4337F0();
@@ -495,7 +495,7 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
 
         if (field_28_pSprite->get_type_416B40() == sprite_types_enum::code_obj1_4)
         {
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 163);
+            field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 163);
             field_30_pNext->SetFlags_4337D0(2, 20);
             field_30_pNext->Set_2C_0x4_Flag_4337F0();
             field_30_pNext->set_xyz_lazy_420600(dst.x, dst.y, field_30_pNext->field_1C_zpos);
@@ -564,13 +564,13 @@ char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
 
             if (field_46_sub_state > 0 && field_46_sub_state <= 4)
             {
-                field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 147);
+                field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 147);
                 dir.x = 0;
                 dir.y = (kFP16One_6FD4A0 - Fix16(field_46_sub_state) * dword_6FD2E8) * field_20_speed;
             }
             else
             {
-                field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 147);
+                field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 147);
                 dir.x = 0;
                 dir.y = (field_20_speed * dword_6FD2F4) * Fix16(field_46_sub_state / 10);
             }
@@ -673,13 +673,13 @@ char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
 
             if (field_46_sub_state > 0 && field_46_sub_state <= 4)
             {
-                field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 147);
+                field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 147);
                 dir.x = 0;
                 dir.y = (kFP16One_6FD4A0 - Fix16(field_46_sub_state) * dword_6FD2E8) * field_20_speed;
             }
             else
             {
-                field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 147);
+                field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 147);
                 dir.x = 0;
                 dir.y = (field_20_speed * dword_6FD300) * Fix16(field_46_sub_state / 10);
             }
@@ -784,7 +784,7 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
             {
                 return true;
             }
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 102);
+            field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 102);
             field_30_pNext->SetFlags_4337D0(1, 25);
             field_30_pNext->Clear_2C_0x4_Flag_433800();
             dir.x = 0;
@@ -792,24 +792,24 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
             bJitter = 0;
             break;
         case 3:
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 101);
+            field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 101);
             field_30_pNext->SetFlags_4337D0(1, 25);
             field_30_pNext->Clear_2C_0x4_Flag_433800();
             dir.x = 0;
             dir.y = dword_6FD304 * field_20_speed;
             break;
         case 4:
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 100);
+            field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 100);
             dir.x = 0;
             dir.y = dword_6FD308 * field_20_speed;
             break;
         case 5:
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 99);
+            field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 99);
             dir.x = 0;
             dir.y = dword_6FD308 * field_20_speed;
             break;
         case 6:
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 98);
+            field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 98);
             dir.x = 0;
             dir.y = 0;
             if (field_40_pExplosion && field_40_pExplosion->field_14_pObj2C->field_4)
@@ -822,7 +822,7 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
             bJitter = 0;
             break;
         case 7:
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 97);
+            field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 97);
             dir.x = 0;
             dir.y = 0;
             if (field_40_pExplosion && field_40_pExplosion->field_14_pObj2C->field_4)
@@ -839,7 +839,7 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
             {
                 return true;
             }
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 103);
+            field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 103);
             dir.x = 0;
             dir.y = field_20_speed / kFP16Two_6FD4A4;
             bJitter = 0;
@@ -856,7 +856,7 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
                     pSmoke->field_2E = 100;
                     pSmoke->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
                     pSmoke->field_38_state = 6;
-                    pSmoke->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette);
+                    pSmoke->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette);
                     pSmoke->field_30_pNext->set_xyz_lazy_420600(field_30_pNext->field_14_xy.x,
                                                                 field_30_pNext->field_14_xy.y,
                                                                 field_30_pNext->field_1C_zpos);
@@ -942,7 +942,7 @@ char_type Particle_4C::UpdateStaticAnim_state_39_53A180()
         }
     }
 
-    field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + this->field_46_sub_state + 191);
+    field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + this->field_46_sub_state + 191);
     gSpriteGrid_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
     return 0;
 }
@@ -1017,7 +1017,7 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
             corner += field_28_pSprite->get_x_y();
         }
 
-        field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 200);
+        field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 200);
         field_30_pNext->field_2C_flags = 0xA2;
         field_30_pNext->set_ang_lazy_420690(field_28_pSprite->field_0);
         field_30_pNext->set_xyz_lazy_420600(corner.x, corner.y, field_28_pSprite->field_1C_zpos);
@@ -1051,7 +1051,7 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
         offset.RotateByAngle_OneMulInline_40F6B0(field_28_pSprite->field_0);
         offset = offset.Add_40AC50(pB4->field_98_velocity_vector);
 
-        field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 197);
+        field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 197);
         field_30_pNext->field_2C_flags = 0xA2;
         field_30_pNext->set_xyz_lazy_420600(field_28_pSprite->field_14_xy.x + offset.x,
                                             field_28_pSprite->field_14_xy.y + offset.y,
@@ -1148,7 +1148,7 @@ char_type Particle_4C::UpdateLargeBallisticDebris_state_35_53AE60()
     {
         zpos = dword_6FD28C;
     }
-    field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 131);
+    field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 131);
     field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, zpos);
     gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
     field_30_pNext->field_2C_flags = 0xA2;
@@ -1196,18 +1196,18 @@ bool Particle_4C::UpdateDebrisArc_state_7_53B1A0()
     {
         case 5:
         case 6:
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 127);
+            field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 127);
             break;
         case 4:
-            field_30_pNext->set_id_4206E0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 128);
+            field_30_pNext->set_id_4206E0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 128);
             break;
         case 2:
         case 3:
-            field_30_pNext->set_id_4206E0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 129);
+            field_30_pNext->set_id_4206E0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 129);
             break;
         case 0:
         case 1:
-            field_30_pNext->set_id_4206E0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 130);
+            field_30_pNext->set_id_4206E0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 130);
             break;
         default:
             break;
@@ -1284,7 +1284,7 @@ char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
         {
             return true;
         }
-        field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 3);
+        field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 3);
         if (pB4->field_68_animation_frame != 5)
         {
             gParticle_8_6FD5E8->SpawnCigaretteSmokePuff_5406B0(field_28_pSprite, 0);
@@ -1307,14 +1307,14 @@ char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
                     Ang16::PolarToCartesian_41FC20(field_28_pSprite->field_0 + jitter, radius, offset.x, offset.y);
                 }
                 field_30_pNext->SetFlags_4337D0(1, 10);
-                field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 17);
+                field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 17);
                 zpos += dword_6FD470;
             }
             else
             {
                 Fix16 radius = kFP16One_6FD4A0 * dword_6FD540;
                 Ang16::PolarToCartesian_41FC20(field_30_pNext->field_0, radius, offset.x, offset.y);
-                field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 17);
+                field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 17);
                 field_30_pNext->SetFlags_4337D0(1, 5);
                 zpos += dword_6FD470;
             }
@@ -1324,7 +1324,7 @@ char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
             Fix16 radius = dword_6FD540 * dword_6FD4A8;
             Ang16::PolarToCartesian_41FC20(field_28_pSprite->field_0, radius, offset.x, offset.y);
             field_30_pNext->SetFlags_4337D0(1, 20);
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 17);
+            field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 17);
         }
         stru_6FD388 += offset.x;
         stru_6FD38C += offset.y;
@@ -1379,7 +1379,7 @@ char_type Particle_4C::UpdateBurstAnimation_state_29_30_53B9F0()
         idx = 3;
     }
 
-    field_30_pNext->set_id_4206E0(idx + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 37);
+    field_30_pNext->set_id_4206E0(idx + gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 37);
     gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
     field_30_pNext->SetFlags_4337D0(2, 10);
     field_30_pNext->Set_2C_0x4_Flag_4337F0();
@@ -1547,12 +1547,12 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
 
     if (field_38_state == 31)
     {
-        field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 73);
+        field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 73);
         max_sub_state = 14;
     }
     else
     {
-        field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 111);
+        field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 111);
     }
     field_30_pNext->field_2C_flags = 0xA2;
     field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, zpos);
@@ -1674,7 +1674,7 @@ char_type Particle_4C::PoolUpdate()
                     return 1;
                 }
 
-                field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 20);
+                field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 20);
                 if (field_30_pNext->field_1C_zpos + dword_6FD2F0 < dword_6FD28C)
                 {
                     field_30_pNext->set_xyz_lazy_420600(field_30_pNext->field_14_xy.x,
@@ -1717,7 +1717,7 @@ char_type Particle_4C::PoolUpdate()
                     return 1;
                 }
 
-                field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 20);
+                field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 20);
 
                 if (field_30_pNext->field_1C_zpos + dword_6FD2F0 < dword_6FD28C)
                 {
@@ -1759,7 +1759,7 @@ char_type Particle_4C::PoolUpdate()
                     return 1;
                 }
 
-                field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 56);
+                field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 56);
 
                 if (field_30_pNext->field_1C_zpos + dword_6FD2F0 < dword_6FD28C)
                 {
@@ -1798,7 +1798,7 @@ char_type Particle_4C::PoolUpdate()
                 return true;
             }
 
-            field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 147);
+            field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 147);
 
             stru_6FD388 = this->field_20_speed * Ang16::sine_40F500(this->field_24_angle);
             stru_6FD38C = this->field_20_speed * Ang16::cosine_40F520(this->field_24_angle);
@@ -1872,7 +1872,7 @@ char_type Particle_4C::PoolUpdate()
             {
                 return true;
             }
-            field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette);
+            field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette);
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
             field_30_pNext->field_2C_flags |= 4u;
             return false;

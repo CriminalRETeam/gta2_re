@@ -29,7 +29,7 @@
 #include "Orca_2FD4.hpp"
 #include "Particle_8.hpp"
 #include "Ped_List_4.hpp"
-#include "Phi_8CA8.hpp"
+#include "ObjectDefinitions_8CA8.hpp"
 #include "Police_7B8.hpp"
 #include "CollisionSoundQueue_C88.hpp"
 #include "PublicTransport.hpp"

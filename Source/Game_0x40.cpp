@@ -30,7 +30,7 @@
 #include "Particle_8.hpp"
 #include "Ped.hpp"
 #include "PedGroup.hpp"
-#include "Phi_8CA8.hpp"
+#include "ObjectDefinitions_8CA8.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "PublicTransport.hpp"
@@ -141,7 +141,7 @@ void Game_0x40::LoadGameFiles_4B8C40()
     char_type* map_name = gGameSession_67E8E0.GetMapName_4C5940();
     gMap_0x370_6F6268->LoadMap_4E95B0(map_name);
 
-    gPhi_8CA8_6FCF00->InitDefinitions_534330();
+    gObjectDefinitions_6FCF00->InitDefinitions_534330();
 
     gTextureCache_15D8_705064->LoadStyleTextures_5B9350();
 
@@ -1051,8 +1051,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1843);
     }
 
-    gPhi_8CA8_6FCF00 = new Phi_8CA8(); // ctor call
-    if (!gPhi_8CA8_6FCF00)
+    gObjectDefinitions_6FCF00 = new ObjectDefinitions_8CA8(); // ctor call
+    if (!gObjectDefinitions_6FCF00)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1845);
     }
@@ -1298,7 +1298,7 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gfrosty_pasteur_6F8060);
     GTA2_DELETE_AND_NULL(gFrismo_C_Pool_6F8068);
 
-    GTA2_DELETE_AND_NULL(gPhi_8CA8_6FCF00);
+    GTA2_DELETE_AND_NULL(gObjectDefinitions_6FCF00);
     GTA2_DELETE_AND_NULL(gObject_5C_6F8F84);
 
     GTA2_DELETE_AND_NULL(gPedManager_6787BC);

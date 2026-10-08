@@ -7067,13 +7067,13 @@
         "v105_address": "0x4bc300"
     },
     {
-        "name": "Phi_8CA8::dtor",
+        "name": "ObjectDefinitions_8CA8::dtor",
         "v96f_address": "0x45adf0",
         "v105_address": "0x4bdf40",
         "v96f_auto": true
     },
     {
-        "name": "Phi_74::dtor",
+        "name": "ObjectDefinition_74::dtor",
         "v96f_address": "0x45ade0",
         "v105_address": "0x4bdf60",
         "v96f_auto": true
@@ -12625,7 +12625,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Phi_6C::ctor",
+        "name": "CodeObjectTemplate_6C::ctor",
         "v96f_address": "0x488210",
         "v105_address": "0x531860"
     },
@@ -12635,123 +12635,123 @@
         "v105_address": "0x531940"
     },
     {
-        "name": "Phi_54::ctor",
+        "name": "MapObjectOverride_54::ctor",
         "v96f_address": null,
         "v105_address": "0x532fb0"
     },
     {
-        "name": "Phi_74::SetDimensions_533060",
+        "name": "ObjectDefinition_74::SetDimensions_533060",
         "v96f_address": "0x487f60",
         "v105_address": "0x533060"
     },
     {
-        "name": "Phi_74::SetDimensionsFromSprite_533090",
+        "name": "ObjectDefinition_74::SetDimensionsFromSprite_533090",
         "v96f_address": "0x487fa0",
         "v105_address": "0x533090"
     },
     {
-        "name": "Phi_74::SetRemap_533110",
+        "name": "ObjectDefinition_74::SetRemap_533110",
         "v96f_address": "0x488060",
         "v105_address": "0x533110",
         "v96f_auto": true
     },
     {
-        "name": "Phi_74::AddSpritePaletteAndSetAnimSpeed_533150",
+        "name": "ObjectDefinition_74::AddSpritePaletteAndSetAnimSpeed_533150",
         "v96f_address": "0x4880a0",
         "v105_address": "0x533150",
         "v96f_auto": true
     },
     {
-        "name": "Phi_74::CreateSpriteFromDefinition_533170",
+        "name": "ObjectDefinition_74::CreateSpriteFromDefinition_533170",
         "v96f_address": null,
         "v105_address": "0x533170"
     },
     {
-        "name": "Phi_74::ApplyDefinitionToSprite_5331A0",
+        "name": "ObjectDefinition_74::ApplyDefinitionToSprite_5331A0",
         "v96f_address": "0x4883a0",
         "v105_address": "0x5331a0"
     },
     {
-        "name": "Phi_74::ctor",
+        "name": "ObjectDefinition_74::ctor",
         "v96f_address": "0x4880c0",
         "v105_address": "0x533220",
         "v96f_auto": true
     },
     {
-        "name": "Phi_8CA8::AllocDefinitionWithSprite_5332D0",
+        "name": "ObjectDefinitions_8CA8::AllocDefinitionWithSprite_5332D0",
         "v96f_address": "0x488420",
         "v105_address": "0x5332d0",
         "v96f_auto": true
     },
     {
-        "name": "Phi_8CA8::CreateMapObjectDefinitions_533300",
+        "name": "ObjectDefinitions_8CA8::CreateMapObjectDefinitions_533300",
         "v96f_address": "0x488450",
         "v105_address": "0x533300",
         "v96f_auto": true
     },
     {
-        "name": "Phi_8CA8::ApplyPhi54Definitions_533360",
+        "name": "ObjectDefinitions_8CA8::ApplyMapObjectOverrides_533360",
         "v96f_address": "0x4884b0",
         "v105_address": "0x533360"
     },
     {
-        "name": "Phi_8CA8::sub_533420",
+        "name": "ObjectDefinitions_8CA8::CloneAnimatedDefinitions_533420",
         "v96f_address": "0x488570",
         "v105_address": "0x533420"
     },
     {
-        "name": "Phi_8CA8::CreateCodeObjectDefinitions_533B30",
+        "name": "ObjectDefinitions_8CA8::CreateCodeObjectDefinitions_533B30",
         "v96f_address": "0x488d10",
         "v105_address": "0x533b30"
     },
     {
-        "name": "Phi_8CA8::sub_533C90",
+        "name": "ObjectDefinitions_8CA8::CloneRemappedDefinitions_533C90",
         "v96f_address": "0x488f70",
         "v105_address": "0x533c90"
     },
     {
-        "name": "Phi_8CA8::ClearColour1PixelsOfDefinitions287To293_534270",
+        "name": "ObjectDefinitions_8CA8::ClearColour1PixelsOfDefinitions287To293_534270",
         "v96f_address": "0x488f10",
         "v105_address": "0x534270",
         "v96f_auto": true
     },
     {
-        "name": "Phi_8CA8::CacheDef112SpritePalette_5342D0",
+        "name": "ObjectDefinitions_8CA8::CacheDef112SpritePalette_5342D0",
         "v96f_address": null,
         "v105_address": "0x5342d0"
     },
     {
-        "name": "Phi_8CA8::ClearColour1PixelsOfDefinitionSprite_5342F0",
+        "name": "ObjectDefinitions_8CA8::ClearColour1PixelsOfDefinitionSprite_5342F0",
         "v96f_address": "0x488e70",
         "v105_address": "0x5342f0",
         "v96f_auto": true
     },
     {
-        "name": "Phi_8CA8::InitDefinitions_534330",
+        "name": "ObjectDefinitions_8CA8::InitDefinitions_534330",
         "v96f_address": "0x489530",
         "v105_address": "0x534330",
         "v96f_auto": true
     },
     {
-        "name": "Phi_8CA8::GetObjectDefinition_534360",
+        "name": "ObjectDefinitions_8CA8::GetObjectDefinition_534360",
         "v96f_address": "0x488170",
         "v105_address": "0x534360",
         "v96f_auto": true
     },
     {
-        "name": "Phi_8CA8::CloneDefinition_534370",
+        "name": "ObjectDefinitions_8CA8::CloneDefinition_534370",
         "v96f_address": "0x488180",
         "v105_address": "0x534370",
         "v96f_auto": true
     },
     {
-        "name": "Phi_8CA8::AllocDefinition_5343C0",
+        "name": "ObjectDefinitions_8CA8::AllocDefinition_5343C0",
         "v96f_address": "0x4881d0",
         "v105_address": "0x5343c0",
         "v96f_auto": true
     },
     {
-        "name": "Phi_8CA8::ctor",
+        "name": "ObjectDefinitions_8CA8::ctor",
         "v96f_address": "0x488eb0",
         "v105_address": "0x5343f0",
         "v96f_auto": true

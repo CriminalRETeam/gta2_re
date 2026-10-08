@@ -3098,7 +3098,7 @@ void Hud_PauseScreen_2::DrawPause_5D63B0()
                              value_1,
                              gfrosty_pasteur_6F8060->field_318_total_secrets);
                     sprite_type = 4;
-                    sprite_pal = gPhi_8CA8_6FCF00->GetObjectPalette_4C6E30(286);
+                    sprite_pal = gObjectDefinitions_6FCF00->GetObjectPalette_4C6E30(286);
                     break;
 
                 case HudPauseSection::tokens_collected_6:
@@ -3107,7 +3107,7 @@ void Hud_PauseScreen_2::DrawPause_5D63B0()
                              gGameSession_67E8E0.get_secret_tokens_collected_453A80(),
                              50);
                     sprite_type = 4;
-                    sprite_pal = gPhi_8CA8_6FCF00->GetObjectPalette_4C6E30(266);
+                    sprite_pal = gObjectDefinitions_6FCF00->GetObjectPalette_4C6E30(266);
                     break;
                 default:
                     break;

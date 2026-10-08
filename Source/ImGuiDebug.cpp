@@ -22,7 +22,7 @@
 #include "Orca_2FD4.hpp"
 #include "Particle_8.hpp"
 #include "PedGroup.hpp"
-#include "Phi_8CA8.hpp"
+#include "ObjectDefinitions_8CA8.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "CrimeReportQueue_CC.hpp"
@@ -206,8 +206,8 @@ void Init_BurgerKing()
 static void EnableBoot2MapDebugOptions()
 {
     // Init Phi else its over fr
-    Init_Phi_54_array();
-    Init_Phi_6C_array();
+    InitMapObjectOverrides();
+    InitCodeObjectTemplates();
     Init_gmp_slopes_array();
     Init_trigonometry_tables();
     Init_Unk_Width_Height_F16_array();
@@ -2020,10 +2020,10 @@ void CC ImGuiDebugDraw()
                 static s32 spawnObjectType = 0;
                 ImGui::InputInt("Object type", &spawnObjectType, 1, 1);
                 ImGui::Text("Object name %s", ObjectIdToString(spawnObjectType));
-                Phi_74* pPhi_74 = gPhi_8CA8_6FCF00->GetObjectDefinition_534360(spawnObjectType);
-                if (pPhi_74)
+                ObjectDefinition_74* pObjectDefinition_74 = gObjectDefinitions_6FCF00->GetObjectDefinition_534360(spawnObjectType);
+                if (pObjectDefinition_74)
                 {
-                    ImGui::Value("Behaviour", pPhi_74->field_34_behavior_type);
+                    ImGui::Value("Behaviour", pObjectDefinition_74->field_34_behavior_type);
                 }
 
                 if (ImGui::Button("Obj spawn"))
@@ -2832,29 +2832,29 @@ void CC ImGuiDebugDraw()
             ImGui::TreePop();
         }
 
-        if (ImGui::TreeNode("gPhi_8CA8_6FCF00"))
+        if (ImGui::TreeNode("gObjectDefinitions_6FCF00"))
         {
             if (ImGui::Button("Init Phi arrays"))
             {
-                Init_Phi_54_array();
-                Init_Phi_6C_array();
+                InitMapObjectOverrides();
+                InitCodeObjectTemplates();
             }
 
-            if (gPhi_8CA8_6FCF00)
+            if (gObjectDefinitions_6FCF00)
             {
-                ImGui::Value("field_0_next_idx", gPhi_8CA8_6FCF00->field_0_next_idx);
-                ImGui::Value("field_2", gPhi_8CA8_6FCF00->field_2);
-                ImGui::Value("field_8CA4_def112_sprite_palette", gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette);
-                ImGui::Value("field_8CA6", gPhi_8CA8_6FCF00->field_8CA6);
+                ImGui::Value("field_0_next_idx", gObjectDefinitions_6FCF00->field_0_next_idx);
+                ImGui::Value("field_2", gObjectDefinitions_6FCF00->field_2);
+                ImGui::Value("field_8CA4_def112_sprite_palette", gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette);
+                ImGui::Value("field_8CA6", gObjectDefinitions_6FCF00->field_8CA6);
 
                 //static s32 phi_74_id = 0;
-                //ImGui::SliderInt("Phi_74 id", &phi_74_id, 0, 299);
-                //Phi_74* phi = gPhi_8CA8_6FCF00->field_87F4_definition_by_idx[phi_74_id];
+                //ImGui::SliderInt("ObjectDefinition_74 id", &phi_74_id, 0, 299);
+                //ObjectDefinition_74* phi = gObjectDefinitions_6FCF00->field_87F4_definition_by_idx[phi_74_id];
                 if (ImGui::TreeNode("Spawned object"))
                 {
                     if (spawned_obj)
                     {
-                        Phi_74* phi = spawned_obj->field_8;
+                        ObjectDefinition_74* phi = spawned_obj->field_8;
 
                         ImGui::InputInt("field_0", &phi->field_0_width.mValue, 1, 1);
                         ImGui::InputInt("field_4", &phi->field_4_height.mValue, 1, 1);
@@ -2865,10 +2865,7 @@ void CC ImGuiDebugDraw()
                         ImGui::InputInt("field_18", &phi->field_18_mass.mValue, 1, 1);
                         ImGui::SliderS16("field_1C_remap", &phi->field_1C_remap, 0, 50);
                         ImGui::Input_char_type("field_20", &phi->field_20_sprite_flags, 1, 1);
-                        ImGui::Input_char_type("field_21", &phi->field_21, 1, 1);
-                        ImGui::Input_char_type("field_22", &phi->field_22, 1, 1);
-                        ImGui::Input_char_type("field_23", &phi->field_23, 1, 1);
-                        ImGui::InputInt("field_24_idx", &phi->field_24_idx, 1, 1);
+                        ImGui::InputInt("field_24_object_idx", &phi->field_24_object_idx, 1, 1);
                         ImGui::InputInt("field_28", &phi->field_28_sprite_type, 1, 1);
 
                         if (ImGui::TreeNode("another vars"))
@@ -2893,8 +2890,6 @@ void CC ImGuiDebugDraw()
                             ImGui::Input_char_type("field_63", &phi->field_63, 1, 1);
                             ImGui::Input_char_type("field_64_next_frame_max", &phi->field_64_next_frame_max, 1, 1);
                             ImGui::Input_char_type("field_65", &phi->field_65, 1, 1);
-                            ImGui::Input_char_type("field_66", &phi->field_66, 1, 1);
-                            ImGui::Input_char_type("field_67", &phi->field_67, 1, 1);
 
                             ImGui::InputInt("field_68", &phi->field_68, 1, 1);
 
@@ -2902,9 +2897,6 @@ void CC ImGuiDebugDraw()
                         }
 
                         ImGui::SliderU8("field_6C_sprite_anim_speed", &phi->field_6C_sprite_anim_speed, 0, 32);
-                        ImGui::Input_char_type("field_6D", &phi->field_6D, 1, 1);
-                        ImGui::Input_char_type("field_6E", &phi->field_6E, 1, 1);
-                        ImGui::Input_char_type("field_6F", &phi->field_6F, 1, 1);
                         ImGui::InputInt("field_70", &phi->field_70_has_sound, 1, 1);
                     }
                     ImGui::TreePop();
@@ -3116,7 +3108,7 @@ void CC ImGuiDebugDraw()
                     pParticle->field_2E = f_2E;
 
                     pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
-                    pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 132);
+                    pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 132);
                     pParticle->field_46_sub_state = 0; // TODO
                     pParticle->field_48_timer = timer;
                     pParticle->field_30_pNext->set_xyz_lazy_420600(pPlayerSprite->field_14_xy.x, pPlayerSprite->field_14_xy.y, pPlayerSprite->field_1C_zpos);
@@ -3539,14 +3531,14 @@ void CC ImGuiDebugDraw()
             ImGui::TreePop();
         }
 
-        if (ImGui::TreeNode("Phi_54_array_006FC5F8"))
+        if (ImGui::TreeNode("gMapObjectOverrides_6FC5F8"))
         {
-            static s32 Phi_54_idx = 0;
-            ImGui::SliderInt("Phi_54 idx", &Phi_54_idx, 0, 23);
+            static s32 override_idx = 0;
+            ImGui::SliderInt("MapObjectOverride_54 idx", &override_idx, 0, 23);
 
-            if (Phi_54_array_006FC5F8)
+            if (gMapObjectOverrides_6FC5F8)
             {
-                Phi_54* phi_54 = &Phi_54_array_006FC5F8[Phi_54_idx];
+                MapObjectOverride_54* phi_54 = &gMapObjectOverrides_6FC5F8[override_idx];
                 if (phi_54)
                 {
                     ImGui::Value("field_0", phi_54->field_0_definition_idx);

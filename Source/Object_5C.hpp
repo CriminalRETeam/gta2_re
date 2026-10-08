@@ -4,7 +4,7 @@
 #include "Function.hpp"
 #include "Object_3C.hpp"
 #include "Object_8.hpp"
-#include "Phi_8CA8.hpp"
+#include "ObjectDefinitions_8CA8.hpp"
 #include "ang16.hpp"
 #include "fix16.hpp"
 #include "sprite.hpp"
@@ -18,7 +18,7 @@ class Object_2C;
 class Sprite;
 class Sprite_4C;
 class Car_BC;
-class Phi_74;
+class ObjectDefinition_74;
 class Object_3C;
 class Object_2C_Pool;
 class Explosion_30;
@@ -188,7 +188,7 @@ class Object_2C
 
     bool is_region_bucket_3_4210B0()
     {
-        return field_8->field_40_collision_bucket_category == collision_bucket_category::purple_doom_2_region_bucket_3;
+        return field_8->field_40_collision_bucket_category == collision_bucket_category::sprite_grid_2_region_3;
     }
 
     // Inlined on version 9.6f 0x447e90 (also 9.6f copies 0x45E0A0 and 0x482C00)
@@ -319,7 +319,7 @@ class Object_2C
 
     Object_2C* mpNext;
     Sprite* field_4;
-    Phi_74* field_8;
+    ObjectDefinition_74* field_8;
     union TAny
     {
         Explosion_30* pExplosion;

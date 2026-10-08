@@ -6,15 +6,16 @@
 struct object_info;
 class Sprite;
 
-// This seems to be a temporary type that stores to be converted into Phi_74
-class Phi_54
+// Static table entry (gMapObjectOverrides_6FC5F8): overrides the properties of an existing (map) object definition,
+// see ObjectDefinitions_8CA8::ApplyMapObjectOverrides_533360
+class MapObjectOverride_54
 {
   public:
-    // Temporary ctor, otherwise it won't be possible to define Phi_54_array_006FC5F8.
-    EXPORT Phi_54()
+    // Temporary ctor, otherwise it won't be possible to define gMapObjectOverrides_6FC5F8.
+    EXPORT MapObjectOverride_54()
     {
     }
-    EXPORT Phi_54(s32 param_1,
+    EXPORT MapObjectOverride_54(s32 param_1,
                   s32& param_2,
                   s32 param_3,
                   s8 param_4,
@@ -36,7 +37,7 @@ class Phi_54
                   s32 param_20,
                   s8 param_21);
 
-    EXPORT Phi_54(s32 param_1,
+    EXPORT MapObjectOverride_54(s32 param_1,
                   s32 param_2,
                   s32 param_3,
                   s8 param_4,
@@ -62,52 +63,35 @@ class Phi_54
     s32 field_4_behavior_type;
     s32 field_8_next_definition_idx;
     s8 field_C;
-    s8 field_D;
-    s8 field_E;
-    s8 field_F;
     s32 field_10;
     s32 field_14;
     s32 field_18_collision_bucket_category;
     Fix16 field_1C_speed;
     Fix16 field_20_friction;
     s8 field_24;
-    s8 field_25;
-    s8 field_26;
-    s8 field_27;
     s32 field_28;
     s32 field_2C;
     s8 field_30_next_frame_max;
-    s8 field_31;
-    s8 field_32;
-    s8 field_33;
     s32 field_34;
     Fix16 field_38_mass;
     s32 field_3C;
     s8 field_40_sprite_flags;
-    s8 field_41;
-    s8 field_42;
-    s8 field_43;
     s32 field_44_has_sound;
     s8 field_48_has_shadows;
-    s8 field_49;
-    s8 field_4A;
-    s8 field_4B;
     s32 field_4C;
     s8 field_50;
-    s8 field_51;
-    s8 field_52;
-    s8 field_53;
 };
 
-// This seems to be a temporary type that stores data to be converted into Phi_74
-class Phi_6C
+// Static table entry (gCodeObjectTemplates_6F9038): template of a code object, converted into an ObjectDefinition_74 by
+// ObjectDefinitions_8CA8::CreateCodeObjectDefinitions_533B30
+class CodeObjectTemplate_6C
 {
   public:
-    // Temporary ctor, otherwise it won't be possible to define Phi_6C_array_6F9038.
-    EXPORT Phi_6C()
+    // Temporary ctor, otherwise it won't be possible to define gCodeObjectTemplates_6F9038.
+    EXPORT CodeObjectTemplate_6C()
     {
     }
-    EXPORT Phi_6C(u32 param_1,
+    EXPORT CodeObjectTemplate_6C(u32 param_1,
                   u8 param_2,
                   u32& param_3,
                   u32 param_4,
@@ -137,7 +121,7 @@ class Phi_6C
                   u8 param_28,
                   u8 param_29);
 
-    EXPORT Phi_6C(u32 param_1,
+    EXPORT CodeObjectTemplate_6C(u32 param_1,
                   u8 param_2,
                   u32 param_3,
                   u32 param_4,
@@ -169,32 +153,20 @@ class Phi_6C
 
     s32 field_0_definition_idx;
     u8 field_4_num_sprites;
-    s8 field_5;
-    s8 field_6;
-    s8 field_7;
     s32 field_8_behavior_type;
     s32 field_C;
     s32 field_10_next_definition_idx;
     s8 field_14;
-    s8 field_15;
-    s8 field_16;
-    s8 field_17;
     s32 field_18;
     s32 field_1C;
     s32 field_20_collision_bucket_category;
     Fix16 field_24_speed;
     Fix16 field_28_friction;
     s8 field_2C;
-    s8 field_2D;
-    s8 field_2E;
-    s8 field_2F;
     s32 field_30;
     s32 field_34;
     s32 field_38_sprite_type;
     s8 field_3C_next_frame_max;
-    s8 field_3D;
-    s8 field_3E;
-    s8 field_3F;
     s32 field_40;
     Fix16 field_44_mass;
     Fix16 field_48_width;
@@ -203,15 +175,11 @@ class Phi_6C
     s32 field_54;
     s8 field_58_sprite_flags;
     s8 field_59;
-    s8 field_5A;
-    s8 field_5B;
     s32 field_5C;
     s32 field_60;
     s32 field_64_has_sound;
     s8 field_68_has_shadows;
     s8 field_69;
-    s8 field_6A;
-    s8 field_6B;
 };
 
 namespace CollisionReaction
@@ -230,13 +198,13 @@ namespace collision_bucket_category
 {
 enum
 {
-    purple_doom_3_single_bucket_0 = 0, // gSpriteGrid_3_679210
-    purple_doom_3_single_bucket_1 = 1, // gSpriteGrid_3_679210
+    sprite_grid_3_single_cell_0 = 0, // gSpriteGrid_3_679210
+    sprite_grid_3_single_cell_1 = 1, // gSpriteGrid_3_679210
 
-    purple_doom_none_2 = 2, // no bucket assignment
+    none_2 = 2, // no bucket assignment
 
-    purple_doom_2_region_bucket_3 = 3, // gSpriteGrid_2_67920C
-    purple_doom_1_region_bucket_4 = 4 // gSpriteGrid_1_679208
+    sprite_grid_2_region_3 = 3, // gSpriteGrid_2_67920C
+    sprite_grid_1_region_4 = 4 // gSpriteGrid_1_679208
 };
 } // namespace collision_bucket_category
 
@@ -260,17 +228,18 @@ enum
 };
 } // namespace object_behavior_type
 
-class Phi_74
+// Properties shared by all objects of one model: size, physics, behaviour, sprite. Looked up by object model id.
+class ObjectDefinition_74
 {
   public:
-    EXPORT ~Phi_74();
-    EXPORT void SetDimensions_533060(Fix16 a2, Fix16 a3, Fix16 a4);
+    EXPORT ~ObjectDefinition_74();
+    EXPORT void SetDimensions_533060(Fix16 width, Fix16 height, Fix16 depth);
     EXPORT void SetDimensionsFromSprite_533090();
     EXPORT void SetRemap_533110(s16 remap);
-    EXPORT void AddSpritePaletteAndSetAnimSpeed_533150(s16 a2, s16 a3);
+    EXPORT void AddSpritePaletteAndSetAnimSpeed_533150(s16 palette_offset, s16 anim_speed);
     EXPORT Sprite* CreateSpriteFromDefinition_533170();
-    EXPORT void ApplyDefinitionToSprite_5331A0(Sprite* a2);
-    EXPORT Phi_74();
+    EXPORT void ApplyDefinitionToSprite_5331A0(Sprite* pSprite);
+    EXPORT ObjectDefinition_74();
 
 
     Fix16 field_0_width;
@@ -283,10 +252,7 @@ class Phi_74
     s16 field_1C_remap;
     s16 field_1E_sprite_palette;
     char_type field_20_sprite_flags;
-    char_type field_21;
-    char_type field_22;
-    char_type field_23;
-    s32 field_24_idx;
+    s32 field_24_object_idx;
     s32 field_28_sprite_type;
     s32 field_2C;
     s32 field_30;
@@ -307,61 +273,62 @@ class Phi_74
     char_type field_63;
     char_type field_64_next_frame_max;
     char_type field_65;
-    char_type field_66;
-    char_type field_67;
     s32 field_68;
     u8 field_6C_sprite_anim_speed;
-    char_type field_6D;
-    char_type field_6E;
-    char_type field_6F;
     s32 field_70_has_sound;
 };
 
-class Phi_8CA8
+// All object definitions (up to 300), indexed by object model id
+class ObjectDefinitions_8CA8
 {
   public:
-    EXPORT ~Phi_8CA8();
-    EXPORT Phi_74* AllocDefinitionWithSprite_5332D0(s32 idx, s32 a3, s16 a4, u8 a5);
+    enum
+    {
+        k_max_definitions = 300
+    };
+
+    EXPORT ~ObjectDefinitions_8CA8();
+    EXPORT ObjectDefinition_74* AllocDefinitionWithSprite_5332D0(s32 idx, s32 sprite_type, s16 sprite_palette, u8 anim_speed);
     EXPORT void CreateMapObjectDefinitions_533300();
-    EXPORT void ApplyPhi54Definitions_533360();
-    EXPORT void sub_533420();
+    EXPORT void ApplyMapObjectOverrides_533360();
+    EXPORT void CloneAnimatedDefinitions_533420();
     EXPORT void CreateCodeObjectDefinitions_533B30();
-    EXPORT void sub_533C90();
+    EXPORT void CloneRemappedDefinitions_533C90();
     EXPORT void ClearColour1PixelsOfDefinitions287To293_534270();
     EXPORT void CacheDef112SpritePalette_5342D0();
     EXPORT void ClearColour1PixelsOfDefinitionSprite_5342F0(s32 idx);
     EXPORT void InitDefinitions_534330();
-    EXPORT Phi_74* GetObjectDefinition_534360(s32 idx);
+    EXPORT ObjectDefinition_74* GetObjectDefinition_534360(s32 idx);
 
     // 9.6f 0x4C6E30
     inline s16 GetObjectPalette_4C6E30(s32 idx)
     {
         return GetObjectDefinition_534360(idx)->field_1E_sprite_palette;
     }
-    EXPORT Phi_74* CloneDefinition_534370(s32 dst_idx, s32 src_idx);
-    EXPORT Phi_74* AllocDefinition_5343C0(s32 idx);
-    EXPORT Phi_8CA8();
+    EXPORT ObjectDefinition_74* CloneDefinition_534370(s32 dst_idx, s32 src_idx);
+    EXPORT ObjectDefinition_74* AllocDefinition_5343C0(s32 idx);
+    EXPORT ObjectDefinitions_8CA8();
 
     u16 field_0_next_idx;
     s16 field_2;
-    Phi_74 field_4_definitions[300];
-    Phi_74* field_87F4_definition_by_idx[300];
+    ObjectDefinition_74 field_4_definitions[k_max_definitions];
+    ObjectDefinition_74* field_87F4_definition_by_idx[k_max_definitions];
     s16 field_8CA4_def112_sprite_palette;
     s16 field_8CA6;
 };
 
-EXTERN_GLOBAL(Phi_8CA8*, gPhi_8CA8_6FCF00);
+EXTERN_GLOBAL(ObjectDefinitions_8CA8*, gObjectDefinitions_6FCF00);
 
 EXTERN_GLOBAL(Fix16, kFpQuarter_6F8FAC);
 EXTERN_GLOBAL(Fix16, kFpPoint1_6F8FD8);
 EXTERN_GLOBAL(Fix16, kFpPoint2_6FC578);
 EXTERN_GLOBAL(Fix16, kFpHalf_6FC584);
 
-EXTERN_GLOBAL(s32, Phi_54_array_lenght_00623EEC);
-EXTERN_GLOBAL(s32, Phi_6C_array_lenght_623EF0);
+EXTERN_GLOBAL(s32, gMapObjectOverrides_length_623EEC);
+EXTERN_GLOBAL(s32, gCodeObjectTemplates_length_623EF0);
 
-EXTERN_GLOBAL_ARRAY(Phi_54, Phi_54_array_006FC5F8, 24);
-EXTERN_GLOBAL_ARRAY(Phi_6C, Phi_6C_array_6F9038, 126);
+EXTERN_GLOBAL_ARRAY(MapObjectOverride_54, gMapObjectOverrides_6FC5F8, 24);
+EXTERN_GLOBAL_ARRAY(CodeObjectTemplate_6C, gCodeObjectTemplates_6F9038, 126);
 
-EXPORT void Init_Phi_54_array();
-EXPORT void Init_Phi_6C_array();
+EXPORT void InitMapObjectOverrides();
+EXPORT void InitCodeObjectTemplates();
