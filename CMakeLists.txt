@@ -189,8 +189,8 @@ set(gta2_lib_src
   Source/RouteFinder.cpp
   Source/Marz_1D7E.hpp
   Source/Marz_1D7E.cpp
-  Source/Orca_2FD4.hpp
-  Source/Orca_2FD4.cpp
+  Source/PathFinder_2FD4.hpp
+  Source/PathFinder_2FD4.cpp
   Source/CarInfo_808.hpp
   Source/CarInfo_808.cpp
   Source/Particle_8.hpp

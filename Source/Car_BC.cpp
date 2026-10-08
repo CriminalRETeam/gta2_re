@@ -18,7 +18,7 @@
 #include "Hud.hpp"
 #include "Object_3C.hpp"
 #include "Object_5C.hpp"
-#include "Orca_2FD4.hpp"
+#include "PathFinder_2FD4.hpp"
 #include "Particle_8.hpp"
 #include "Ped.hpp"
 #include "Player.hpp"
@@ -2572,7 +2572,7 @@ char_type Car_BC::IsDoorAccessible_43AFE0(u8 target_door)
     Fix16_Rect fr;
 
     GetDoorWorldPosition_43B5A0(target_door, &x, &y);
-    if (gOrca_2FD4_6FDEF0->TestDiagonalMove_5540E0(field_50_car_sprite->field_14_xy.x.ToInt(),
+    if (gPathFinder_6FDEF0->TestDiagonalMove_5540E0(field_50_car_sprite->field_14_xy.x.ToInt(),
                                                    field_50_car_sprite->field_14_xy.y.ToInt(),
                                                    field_50_car_sprite->field_1C_zpos.ToInt(),
                                                    x.ToInt(),

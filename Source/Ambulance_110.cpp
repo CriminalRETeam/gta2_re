@@ -6,7 +6,7 @@
 #include "Car_BC.hpp"
 #include "Globals.hpp"
 #include "error.hpp"
-#include "Orca_2FD4.hpp"
+#include "PathFinder_2FD4.hpp"
 #include "CarAI_78.hpp"
 #include "Hamburger_500.hpp"
 #include "RouteFinder.hpp"
@@ -165,7 +165,7 @@ void Ambulance_110::ProcessPatientQueue_4FA500()
         x = pPed->field_1AC_cam.x.ToInt();
         y = pPed->field_1AC_cam.y.ToInt();
         z = pPed->field_1AC_cam.z.ToInt();
-        if (!gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &x, &y, &z, 0))
+        if (!gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &x, &y, &z, 0))
         {
             field_1_f8_idx--;
             pPed->SetObjective(objectives_enum::objective_50, 9999);

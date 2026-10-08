@@ -1339,7 +1339,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 - No change: `46F1E0` (original tests the angle with jns right after the 16-bit sub/add)
 - `EmitElectricArcParticle_540320`: 202->21 (explicit Multiply/Negate rotation, block scope). Left: one operand order in MultiplyByFix16_401CB0
 - Matched: `Car_BC::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0` (params modified in place, pos_z declared at the call), `Object_2C::ResolveCollisionWithObject_522710` (Fix16_Point results declared up front, Negate_40ACB0 out of line, angle += through an Ang16& + Normalize_406C20), `Train_58::UpdatePassengerAI_578390` (new global gTargetCarDoor_6FF1D8 as the loop counter, inverted field_1818 test fixed)
-- Closer: `ApplyImpactForcesAndDamage_55FA60` 205->19 (left: three return tails should jump to one shared epilogue), `PoliceCrew_38::sub_575310` 233->49, `Orca_2FD4::ComputePath_554AB0` 216->48, `Hud_UnderRoofArrowMarker_C::Update_5CF730` 225->60, `ApplyCarVelocityCameraOffset_436200` 233->119
+- Closer: `ApplyImpactForcesAndDamage_55FA60` 205->19 (left: three return tails should jump to one shared epilogue), `PoliceCrew_38::sub_575310` 233->49, `PathFinder_2FD4::ComputePath_554AB0` 216->48, `Hud_UnderRoofArrowMarker_C::Update_5CF730` 225->60, `ApplyCarVelocityCameraOffset_436200` 233->119
 - No change: `4B0220` (5 KB of stores, register rotation everywhere), `521890` (ours hoists pPlayerIdx into ebp), `5DDA70` (rotation in %bx), `57DF10` (original keeps the restart tail unmerged)
 
 ### Near-miss pass, batches AA-AE (2026-10-03, partial)
@@ -1432,7 +1432,7 @@ Each was a few asm lines away from the original. What is left and what was tried
   - 0x546360 `Char_B4::UpdateAnimState`: 0.108->0.117. Separate `case 1`, `s8`/`u8` locals. Still far.
   - 0x469060 `Ped::GotoAreaByAnyMeans`: no change. All four MaxAbsDistance sites use out-of-line `Abs_436A50`; switching to `MaxAbsDistanceOOL_42A6B0` fixes those blocks but shrinks the frame 0x24->0x20 (0.348->0.253).
   - 0x54DDF0 `Char_B4::state_0`: no change (0.459 without WIP_IMPLEMENTED), diffs spread over the whole 3.7 KB.
-  - 0x554110 `Orca_2FD4::Internel_CanMoveDiagonally`: MATCH (fable). A flat if chain, `IsGradientSlopeAt_466CF0` on the SW/NW branches, the `yd == 1` branch first, negations written `f() ? false : true`.
+  - 0x554110 `PathFinder_2FD4::Internel_CanMoveDiagonally`: MATCH (fable). A flat if chain, `IsGradientSlopeAt_466CF0` on the SW/NW branches, the `yd == 1` branch first, negations written `f() ? false : true`.
   - 0x5C1D00 `TrafficLight_20::Init`: 0.410->0.557. Logic fix: two loops did `h++` instead of `i++`; s32 countdown counters. Left: register allocation.
   - 0x41AB80 `sound_obj::ProcessActiveQueues`: 0.265->0.353. Doppler logic fix (old distance passed, new one stored, both truncated); `sound_0x68` fields 14/20/30 u32. Left: register allocation.
   - 0x44AF00 `CarAI_78::AlignToLaneCenter_44AF00`: 0.189->0.265. Logic fix: lane offset was `x - x`. Left: `Ang16 a - b` is a 16-bit `sub` from memory in the original.
@@ -1589,7 +1589,7 @@ Tail merging and block layout:
 - `Ambulance_20::UpdateState_4FB330` (2): all 24 case orders and a no-default switch + tail give the same
   `jle` target (the original's goes to default's earlier pop/ret copy).
 - `ExplosionPool_7A8::FreeLowestPriority_543690` (12): `edx`/`eax` temp swapped in two return tails; `for (u8 i)` the same; permuter 400.
-- `Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0` (54): the `return 0` epilogue sits after the loop's
+- `PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0` (54): the `return 0` epilogue sits after the loop's
   bottom test, before the out-of-line `return 1` block.
 - `Ped::AttackTargetStateMachine_46D460` (46): placement of the shared `b11 = false` block.
 - `Ped::MeleeAttackStateMachine_46B670` (440): the second `health >= 20` section's mugger block is merged
@@ -1639,7 +1639,7 @@ Registers only:
 - `DrawPlayerStatsHelper_5D61A0` (26): a local for the 18/22 offset fixes the tail but swaps `ebx`/`ebp` at
   the top (30-32); if/else keeps the registers but branches.
 - `Hud_Brief_704::ClearAllBriefsWithPriority_5D4890` (10): `ebp` pushed only after the null check; permuter 500.
-- `Orca_2FD4::Internel_UpdateBehaviorGrid_554710` (42): the original uses `dx` first and pushes `ebp` only
+- `PathFinder_2FD4::AddGridCell_554710` (42): the original uses `dx` first and pushes `ebp` only
   inside the branch.
 - `Frontend::GetNextUnlockedMainStage_4B7270` (24): ours does `mov dl,al` before the `== 2` test, the
   original only on the return path. Permuter 400.
@@ -1682,7 +1682,7 @@ Frame and stack slots:
 - `Car_BC::HandleCarHitByObject_43F130`: frame 0x110 vs 0x118 (without `WIP_IMPLEMENTED`).
 - `Camera_0xBC::ApplyCarVelocityCameraOffset_436200` (156 -> 58, block-scoped atan2 copy): only the original's
   dead store of `offset.x` to 0x30 (frame 0x28 vs 0x20).
-- `Orca_2FD4::ComputePath_554AB0` (55 -> 12): the lazy `cur_z` store at LABEL_52 (a `new_z` split gives the
+- `PathFinder_2FD4::ComputePath_554AB0` (55 -> 12): the lazy `cur_z` store at LABEL_52 (a `new_z` split gives the
   shape but the wrong register, 82); the else branch's store order (reading `field_4` late gives an
   `eax`/`edx` swap, 82; the original's else-branch order gives the instruction order but `new_z` in `al`,
   not `dl`, 78).
@@ -1759,7 +1759,7 @@ Renames: `field_36E` -> `field_36E_bBlockedByTerrain` (no usable ground ahead, a
 `field_36F` -> `field_36F_bLowerBlockHasArrows`, params `bByRefUnk` -> `pSlopeZDelta` (1 stepping up,
 0xFF stepping down onto a slope) and `bNotifyByRefRet` -> `bReportStepUp`.
 
-### Near-miss pass, round 5 (Ped / Char_B4 / Orca_2FD4)
+### Near-miss pass, round 5 (Ped / Char_B4 / PathFinder_2FD4)
 
 - Matched: `Ped::Deallocate_45EB60` (4 -> 0): the bit 0 clear goes through a file-local
   `CompilerBitField32 ClearBit0_45EB60(CompilerBitField32 bf)` that takes and returns the flags word by
@@ -1771,15 +1771,15 @@ Renames: `field_36E` -> `field_36E_bBlockedByTerrain` (no usable ground ahead, a
   scorer masked the COMDAT `??GFix16` copy). The `-dword_6FD87C` jitter stays inline (`neg`). Tried for
   the `ped->184` register rotation: a `Sprite*` local for `field_4` (16-27), no `field_184_pObj2C`
   reassignment (27), `field_40_rotation` set directly / via `Ang16 rot; rot = ...` (17): all worse.
-- `Orca_2FD4::ComputePath_554AB0` (7 -> 4): else branch `t = ypos; dir = idx2; new_z = xpos;
+- `PathFinder_2FD4::ComputePath_554AB0` (7 -> 4): else branch `t = ypos; dir = idx2; new_z = xpos;
   idx2 = t; idx1 = 0; xpos = zpos;`. Left: the `ypos` load is the first instruction of both branches so
   VC6 hoists it above the `jge`; every order that loads `idx2` first (like the original) flips
   `new_z`/the switch register to `al`/`edx` (32-34). Temp type (u8/char), declaration position, block
   scope: no effect.
-- `Orca_2FD4::Internel_UpdateBehaviorGrid_554710` (19): distance written as y-part first, `* v12` last,
+- `PathFinder_2FD4::AddGridCell_554710` (19): distance written as y-part first, `* v12` last,
   s16/u16/s32 dx/dy temps (37-55), inline `DistSq`/`Sq` helpers with s16/u16/s32/u8 params (37-93): no
   gain. The late `push ebp` stays.
-- `Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0` (15): not a logic bug (the in-loop empty list
+- `PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0` (15): not a logic bug (the in-loop empty list
   returns 0 like the original; ours just places that block last). `for(;;)` after an entry test (23),
   explicit `return 0`, inverted `++j > 6 && !maybe_timer` early return, `if (!field_18) return 1`
   first: all 15.
@@ -1964,7 +1964,7 @@ in one expression"); the same form replaced the dead-store workaround in the mat
 
 ### Near-miss pass (after the Fix16_Point split)
 Scores are `sc.sh` lines. No new matches.
-- `Orca_2FD4::ComputePath_554AB0` 12 -> 8: `new_z` loaded first in the `abs < 1` branch (so the two branches
+- `PathFinder_2FD4::ComputePath_554AB0` 12 -> 8: `new_z` loaded first in the `abs < 1` branch (so the two branches
   don't both start with the `ypos` load, which VC6 hoisted above the `jge`), `t = ypos` first in the else
   branch (keeps `new_z` in `dl`). Left: in both branches the original stores `field_1B` before the second
   load; every order that does that (dir first, `t` after dir, `t` in the old `field_4_zpos` char) swaps
@@ -2572,7 +2572,7 @@ the original's 26 bytes, it only had no `target_asm.json` entry (disassembled 0x
 - `SetGamma_5D9910`, `TextureCache_15D8::ReadTextures_5B92E0`, `ErrorLog::ErrorLog` (0x4D94E0): maintainer
   decisions (crashing `Write_4D9620` call, standalone guard, real `ofstream` member), not retried.
 
-## CarAI_78 / map_0x370 / Orca_2FD4 / Draw pass (Oct 6, 9.6f first)
+## CarAI_78 / map_0x370 / PathFinder_2FD4 / Draw pass (Oct 6, 9.6f first)
 Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 vs 9.6f).
 - **Matched** `CarAI_78::CheckRoadAhead_448770` (38 -> 0) and `DrawFigure_5D7EC0` (430 -> 0), see their comments and the
   commit messages. For `CheckRoadAhead_448770` the 9.6f shape (globals compared directly, the `== 3` gtx helper) did not
@@ -2587,18 +2587,18 @@ Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 
   `verts[3].y`. Left: one window where ours issues vertex 2's `fmuls`/`fstps` two integer instructions early;
   regsearch's best is now 4 at the stock limit (so not a window break), and extra parens on vertex 1/2's lines
   (`(((..)))`, `((a + (b)))`, `(f32)`) are 20-53.
-- `Orca_2FD4::Internel_UpdateBehaviorGrid_554710` (42 -> 8 / 44): `++field_8_pNode` before `++field_C_node_count`
+- `PathFinder_2FD4::AddGridCell_554710` (42 -> 8 / 44): `++field_8_pNode` before `++field_C_node_count`
   gives the original's late `push ebp` (ebp then lives only in the distance branch); `v7 = dy² + dx²; v7 *= v12;`
   as two statements keeps the product in the sum's register. Left: the original loads the x difference first
   (edi) and the y difference second (esi); both VC6 and VC7 compute the y term first for every sum order, cast,
   temp type (u16/s32/s16/u8 temps for dx/dy change the whole function's allocation, 76-228) and `Sq()` helper
   tried. A `u16 dx` temp alone flips the order but mirrors the copy/in-place squaring (14).
-- `Orca_2FD4::ComputePath_554AB0` (8 / 136): the first `abs < 1` branch in the original's order (`field_1B`
+- `PathFinder_2FD4::ComputePath_554AB0` (8 / 136): the first `abs < 1` branch in the original's order (`field_1B`
   store, then `new_z` load) and the else branch in 9.6f's order (`field_1B = idx2` first) both swap the roles
   of eax/edx for `new_z` and the switch index (82-90) whatever the declaration order/type of `new_z` or `t`
   (also `cur_z` assigned directly, 26). The 9.6f shape is exactly that order, so the register choice is the
   remaining puzzle.
-- `Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0` (54 / 158): the call sequence matches 9.6f 0x49D7A0 one
+- `PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0` (54 / 158): the call sequence matches 9.6f 0x49D7A0 one
   for one; the 9.6f diff is a zero register for the five `= 0` stores. 10.5: the loop's bottom `jne top` must
   fall into the shared `return 0` epilogue with the `return 1` block last. `if (!node_count) return 1; do {...}
   while (node_count); return 0;` puts the `return 0` right but then the entry test gets its own `return 1`
@@ -3029,7 +3029,7 @@ file, so a header could be swapped per variant) without touching `build_vc6/`.
   with the label after `continue` (20), `if (!pIter) return` after the unlink branches (28). The matched
   `PruneNonCollidingSprites_5A7240` (`if (keep) K else if (pLast) A else B`) is laid out in source order K, A, B,
   so the original's A, K, B order is still unexplained.
-- `Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0` (54): the `return 0` epilogue placed right after the
+- `PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0` (54): the `return 0` epilogue placed right after the
   loop's bottom `jne`. Flat `if (Process()) return 0;` chains (54), `if (count) continue; return 0;` (54),
   `for (;;)` with an explicit top `return 1` (54), `if (!count) return 1; do {} while (count); return 0;` (82),
   `goto fail` for the end-of-body `return 0` only or for every in-loop `return 0` with `fail: return 0;` after
@@ -3148,7 +3148,7 @@ The priority formula is now exact (`Scripts/x87_sched/README.md`). Checked again
   `sub_4E65A0` call. Source `pPrev = pBlock` copies there are deleted as dead (4). Moving the earlier
   `pPrev = pBlock` after `sub_4E5D10` moves the other copy instead (16); `SetRoadBlockAt` after the `if`
   (1668).
-- `Orca_2FD4::ComputePath_554AB0` (4): the `[ecx+4]` load is IL-first in our block (pairs at cycle 0); the
+- `PathFinder_2FD4::ComputePath_554AB0` (4): the `[ecx+4]` load is IL-first in our block (pairs at cycle 0); the
   original has it IL-after the `field_1B_direction` store (a may-alias edge holds it). Writing the store
   first makes VC6 hoist the shared `ypos` load above the `jge` (comment in the source), so this is the
   branch-hoisting optimisation, not the scheduler.
@@ -3378,11 +3378,11 @@ flag test that later disappears still shapes the block order and the exit placem
   predecessor list holds the second-arm jumps as case 4, 2, 1 (case 1 oldest), so case 1's `-1` block jumps into
   case 2's. With the default (any position) case 1's jump is created last and becomes P0, and case 2's block
   cross-jumps into case 1's as in 10.5 (a `--rank` C2 forcing that order also gives 0). Case order 1, 2, 4, 3 stays.
-- `Orca_2FD4::Internel_UpdateBehaviorGrid_554710` (8 -> 4, not applied): VC6 evaluates first the `(a-b)²` term
+- `PathFinder_2FD4::AddGridCell_554710` (8 -> 4, not applied): VC6 evaluates first the `(a-b)²` term
   whose subtraction has the higher-offset right operand; `(xEnd - x)` puts x first, but the original subtracts
   `x - xEnd`. `ComputePath_554AB0` (8): an unidentified live range 0x19 (prio 40) decides `new_z`'s register.
   DrawGradientSlope S/E (4/8): the original needs one more dependency before the `fmul` of `field_60`.
-- **`Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0` (54 -> 0, MATCH).** `bool bListWasEmpty = true;` cleared
+- **`PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0` (54 -> 0, MATCH).** `bool bListWasEmpty = true;` cleared
   in the loop body, then `if (bListWasEmpty) return 1; return 0;` after the loop. The original's rotated `while`
   sends its entry test to `return 1` and its bottom test into `return 0`; with the flag, layout and dupB see one
   join (`jcc top; jmp after` at the bottom), threading then splits the exits, and dupB moves `return 0` after the

@@ -7,7 +7,7 @@
 #include "Game_0x40.hpp"
 #include "Hamburger_500.hpp"
 #include "Object_5C.hpp"
-#include "Orca_2FD4.hpp"
+#include "PathFinder_2FD4.hpp"
 #include "Police_7B8.hpp"
 #include "PublicTransport.hpp"
 #include "SpriteGrid_400.hpp"
@@ -2874,7 +2874,7 @@ void CarAI_78::Init_AI_Chase_44E0C0()
             t_x = gCurrCarAI_TargetX_6779F0.ToInt();
             t_y = gCurrCarAI_TargetY_6779F4.ToInt();
             t_z = gCurrCarAI_TargetZ_6779F8.ToInt();
-            if (!gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &t_x, &t_y, &t_z, 0))
+            if (!gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &t_x, &t_y, &t_z, 0))
             {
                 if (field_28_junc_idx > 0)
                 {

@@ -42,7 +42,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 8 | 30 | - | 0x5e13e0 | `Weapon_30::army_gun_jeep_5E13E0` | Weapon_30.cpp |
 | 0 | 8 | 34 | - | 0x5e10e0 | `Weapon_30::tank_main_gun_5E10E0` | Weapon_30.cpp |
 | 0 | 8 | 8 | 0 | 0x559430 | `CarPhysics_B0::ShowPhysicsDebug_559430` | CarPhysics_B0.cpp |
-| 0 | 12 | 12 | 56 | 0x554ab0 | `Orca_2FD4::ComputePath_554AB0` | Orca_2FD4.cpp |
+| 0 | 12 | 12 | 56 | 0x554ab0 | `PathFinder_2FD4::ComputePath_554AB0` | PathFinder_2FD4.cpp |
 | 0 | 12 | 16 | 12 | 0x5aa9a0 | `gtx_0x106C::BuildCarInfoContainer_5AA9A0` | gtx_0x106C.cpp |
 | 0 | 14 | 22 | 402 | 0x469060 | `Ped::GotoAreaByAnyMeans_469060` | Ped.cpp |
 | 0 | 14 | 32 | 78 | 0x42a500 | `sound_obj::ProcessType7_Weapon_42A500` | sound_obj.cpp |
@@ -61,7 +61,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 24 | 112 | - | 0x53d260 | `Particle_4C::PoolUpdate` | Particle_4C.cpp |
 | 0 | 26 | 180 | - | 0x5cfe40 | `Hud_PlayerNames_4::DrawPlayerNames_5CFE40` | Hud.cpp |
 | 0 | 26 | 26 | 44 | 0x5d61a0 | `DrawPlayerStatsHelper_5D61A0` | Hud.cpp |
-| 0 | 28 | 42 | 30 | 0x554710 | `Orca_2FD4::Internel_UpdateBehaviorGrid_554710` | Orca_2FD4.cpp |
+| 0 | 28 | 42 | 30 | 0x554710 | `PathFinder_2FD4::AddGridCell_554710` | PathFinder_2FD4.cpp |
 | 0 | 28 | 84 | - | 0x55ad90 | `CarPhysics_B0::UpdateZPhysics_55AD90` | CarPhysics_B0.cpp |
 | 0 | 30 | 26 | 304 | 0x5d7ec0 | `DrawFigure_5D7EC0` | Draw.cpp |
 | 0 | 30 | 36 | - | 0x4ec7a0 | `MapRenderer::DrawDiagonalUpRightFace_4EC7A0` | MapRenderer.cpp |
@@ -136,7 +136,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 4 | 20 | 32 | 52 | 0x55fa60 | `CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60` | CarPhysics_B0.cpp |
 | 4 | 20 | 36 | 0 | 0x548840 | `Char_B4::HandleObjectCollision_548840` | char.cpp |
 | 4 | 28 | 80 | 551 | 0x546360 | `Char_B4::UpdateAnimState_546360` | char.cpp |
-| 4 | 30 | 54 | 104 | 0x5552b0 | `Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0` | Orca_2FD4.cpp |
+| 4 | 30 | 54 | 104 | 0x5552b0 | `PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0` | PathFinder_2FD4.cpp |
 | 4 | 34 | 108 | 214 | 0x55f3b0 | `ComputeLineLineIntersection_55F3B0` | CarPhysics_B0.cpp |
 | 4 | 36 | 46 | 111 | 0x46d460 | `Ped::AttackTargetStateMachine_46D460` | Ped.cpp |
 | 4 | 46 | 58 | - | 0x55d200 | `CarPhysics_B0::SpawnSkidSegment_55D200` | CarPhysics_B0.cpp |

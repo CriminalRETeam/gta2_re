@@ -5,7 +5,7 @@
 #include "Globals.hpp"
 #include "EmergencyCrewPool_1E0.hpp"
 #include "Object_5C.hpp"
-#include "Orca_2FD4.hpp"
+#include "PathFinder_2FD4.hpp"
 #include "Ped.hpp"
 #include "PedGroup.hpp"
 #include "Player.hpp"
@@ -386,7 +386,7 @@ bool Police_7B8::DispatchNewCrewToPursuit_56FAA0(PolicePursuitTarget_7C* pPursui
     u8 tileY = pPursuitTarget->field_14_y.ToInt();
     u8 tileZ = pPursuitTarget->field_18_z.ToInt();
 
-    if (gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &tileX, &tileY, &tileZ, 0))
+    if (gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &tileX, &tileY, &tileZ, 0))
     {
         PoliceCrew_38* pNewPoliceCrew = Police_7B8::NewCrew_56F560();
         pNewPoliceCrew->field_1C_used = 1;

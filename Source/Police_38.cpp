@@ -7,7 +7,7 @@
 #include "Hamburger_500.hpp"
 #include "EmergencyCrewPool_1E0.hpp"
 #include "Object_5C.hpp"
-#include "Orca_2FD4.hpp"
+#include "PathFinder_2FD4.hpp"
 #include "Ped.hpp"
 #include "PedGroup.hpp"
 #include "SpriteGrid_400.hpp"
@@ -730,7 +730,7 @@ void PoliceCrew_38::State3_AlertedSearch_572340()
                                     u8 xpos = xpos_f.ToInt();
                                     u8 ypos = field_14_pPursuitTarget->field_14_y.ToInt();
                                     u8 zpos = field_14_pPursuitTarget->field_18_z.ToInt();
-                                    if (gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, 0))
+                                    if (gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, 0))
                                     {
                                         gCurrentCrewPed_6FEDDC->field_1DC_objective_target_x = Fix16(xpos);
                                         field_14_pPursuitTarget->field_10_x = gCurrentCrewPed_6FEDDC->field_1DC_objective_target_x;

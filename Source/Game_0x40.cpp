@@ -26,7 +26,7 @@
 #include "Mike_A80.hpp"
 #include "Montana.hpp"
 #include "Object_5C.hpp"
-#include "Orca_2FD4.hpp"
+#include "PathFinder_2FD4.hpp"
 #include "Particle_8.hpp"
 #include "Ped.hpp"
 #include "PedGroup.hpp"
@@ -1135,8 +1135,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1873);
     }
 
-    gOrca_2FD4_6FDEF0 = new Orca_2FD4(); // inline
-    if (!gOrca_2FD4_6FDEF0)
+    gPathFinder_6FDEF0 = new PathFinder_2FD4(); // inline
+    if (!gPathFinder_6FDEF0)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1875);
     }
@@ -1323,7 +1323,7 @@ Game_0x40::~Game_0x40()
 
     GTA2_DELETE_AND_NULL(gMarz_1D7E_6FD784);
 
-    GTA2_DELETE_AND_NULL(gOrca_2FD4_6FDEF0);
+    GTA2_DELETE_AND_NULL(gPathFinder_6FDEF0);
 
     GTA2_DELETE_AND_NULL(gCarInfo_808_678098);
 

@@ -905,7 +905,7 @@ original's `testb` (`ApplyImpactForcesAndDamage_55FA60`, 205 -> 19).
 
 **Parameter slots reused as locals.** When the original keeps grid indices or loop counters in a
 parameter's stack slot, VC6 packs extra locals into dead parameter slots. New locals declared in the
-right order beat assigning to the parameters (`Orca_2FD4::ComputePath_554AB0`: 216 -> 48 assigning to
+right order beat assigning to the parameters (`PathFinder_2FD4::ComputePath_554AB0`: 216 -> 48 assigning to
 params, then down to 12 with new locals, including a `new_z` local for a lazy `cur_z` store). Declaration order
 decides which local gets the slot: in `RollingDigitCounter_38::DrawDigitsLeftAligned_492430`, `bFirst` declared first let `height`
 take the dead `base_xpos` slot. The same function re-reads `field_9_str[idx]` at each test instead of
@@ -1845,7 +1845,7 @@ byte compare come from `x < 63 ? x : 63` written out; an s32 or u8 `Min` helper 
 
 **`f() ? false : true` gives `test/sete`; `!f()` gives `neg/sbb/inc`.** A flat if chain lets VC6
 thread repeated register tests, which can move a case to the end of the function as in the original
-(`Orca_2FD4::Internel_CanMoveDiagonally_554110`).
+(`PathFinder_2FD4::CanMoveDiagonally_554110`).
 
 - **`x += k` is free, `x = x + k` is charged.** `Fix16::operator+=` is below the free-inline size
   (40), `operator+`/`operator-` cost 52 each. Six coordinate adjustments written `gXCoord = gXCoord + k` /
@@ -2454,7 +2454,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   `verts[i].x = ((x_pos + point.x).ToFloat());` (double parentheses), one no-op node per conversion. Without them
   regsearch reports 2 nodes short per window; with them the windows break where the original's do (78 -> 8,
   and part of DrawFigure's match). An `f32` local per store gives the same node count.
-- **The order of two `++field` statements decides a late `push ebp`.** In `Internel_UpdateBehaviorGrid_554710`,
+- **The order of two `++field` statements decides a late `push ebp`.** In `AddGridCell_554710`,
   `++field_8_pNode; ++field_C_node_count;` lets the pointer increment use esi, so ebp is used only inside the
   distance branch and VC6 pushes it there (the original's late push); the other order used ebp for the
   increment and pushed it at the top (42 -> 22). `v7 = sum; v7 *= v12;` as two statements then keeps the
@@ -2462,7 +2462,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
 - **Both compilers evaluate the terms of `dx*dx + dy*dy` in the same canonical order whatever the source
   order**, and the original (both compilers) has the other one. Casts, parentheses, a one-statement temp for
   one square and `v12 *` on either side do not change it; a `u16 dx` temp for one difference does flip the
-  evaluation but mirrors the copy/in-place squaring (`Internel_UpdateBehaviorGrid_554710`, 8 lines left).
+  evaluation but mirrors the copy/in-place squaring (`AddGridCell_554710`, 8 lines left).
 
 ### Global register allocation: priority order, then the register order
 
@@ -2540,7 +2540,7 @@ So for a late push in the original:
 - The region that uses the register needs a single exit block: a statement after the loop inside the branch, or a
   separate `return value;` per path. Ending the branch with the loop itself, or a bare `return;` that shares the
   epilogue, keeps the push at entry.
-- Which register a value gets can decide it too: in `Internel_UpdateBehaviorGrid_554710` the statement order put
+- Which register a value gets can decide it too: in `AddGridCell_554710` the statement order put
   the increment in esi, so ebp was used only inside the distance branch and was pushed there.
 
 ## Inline asm

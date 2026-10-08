@@ -19,7 +19,7 @@
 #include "Network_20324.hpp"
 #include "Object_5C.hpp"
 #include "Object_2C_Pool.hpp"
-#include "Orca_2FD4.hpp"
+#include "PathFinder_2FD4.hpp"
 #include "Particle_8.hpp"
 #include "PedGroup.hpp"
 #include "ObjectDefinitions_8CA8.hpp"
@@ -54,7 +54,7 @@
 EXTERN_GLOBAL(Ambulance_110*, gAmbulance_110_6F70A8);
 EXTERN_GLOBAL(CollisionCounters_C*, gCollisionCounters_6791FC);
 EXTERN_GLOBAL(FirefighterPool_54*, gFirefighterPool_54_67D4C0);
-EXTERN_GLOBAL(Orca_2FD4*, gOrca_2FD4_6FDEF0);
+EXTERN_GLOBAL(PathFinder_2FD4*, gPathFinder_6FDEF0);
 
 EXTERN_GLOBAL(car_rng_list, gAverageCarModels_676DB4);
 EXTERN_GLOBAL(car_rng_list, gBadCarModels_676988);
@@ -1669,12 +1669,12 @@ void CC ImGuiDebugDraw()
                     ImGui::SliderInt("gZCoord_6F63E0", (int*)&gZCoord_6F63E0, 0, 2000);
                 }
 
-                if (ImGui::Button("Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0"))
+                if (ImGui::Button("PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0"))
                 {
                     u8 xpos = gViewCamera_676978->field_78_boundaries_non_neg.field_0_left.ToInt() + 5;
                     u8 ypos = gViewCamera_676978->field_78_boundaries_non_neg.field_8_top.ToInt() + 5;
                     u8 zpos = 2;
-                    if (gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(0, &xpos, &ypos, &zpos, 1))
+                    if (gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(0, &xpos, &ypos, &zpos, 1))
                     {
                     }
                 }
@@ -2980,15 +2980,15 @@ void CC ImGuiDebugDraw()
             u8 ypos = player_ypos.ToUInt8();
             u8 zpos = player_zpos.ToUInt8();
             
-            if (gOrca_2FD4_6FDEF0)
+            if (gPathFinder_6FDEF0)
             {
-                gOrca_2FD4_6FDEF0->field_25_xpos = xpos;
-                gOrca_2FD4_6FDEF0->field_26_ypos = ypos;
-                gOrca_2FD4_6FDEF0->field_27_zpos = zpos;
-                ImGui::Value("Orca Direction 1", gOrca_2FD4_6FDEF0->CanMoveInDirection_554080(1));
-                ImGui::Value("Orca Direction 2", gOrca_2FD4_6FDEF0->CanMoveInDirection_554080(2));
-                ImGui::Value("Orca Direction 3", gOrca_2FD4_6FDEF0->CanMoveInDirection_554080(3));
-                ImGui::Value("Orca Direction 4", gOrca_2FD4_6FDEF0->CanMoveInDirection_554080(4));
+                gPathFinder_6FDEF0->field_25_xpos = xpos;
+                gPathFinder_6FDEF0->field_26_ypos = ypos;
+                gPathFinder_6FDEF0->field_27_zpos = zpos;
+                ImGui::Value("PathFinder Direction 1", gPathFinder_6FDEF0->CanMoveInDirection_554080(1));
+                ImGui::Value("PathFinder Direction 2", gPathFinder_6FDEF0->CanMoveInDirection_554080(2));
+                ImGui::Value("PathFinder Direction 3", gPathFinder_6FDEF0->CanMoveInDirection_554080(3));
+                ImGui::Value("PathFinder Direction 4", gPathFinder_6FDEF0->CanMoveInDirection_554080(4));
             }
             
             u8 bRet;

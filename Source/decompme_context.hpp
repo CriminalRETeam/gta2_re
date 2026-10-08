@@ -26,7 +26,7 @@
 #include "Montana.hpp"
 #include "MapRenderer.hpp"
 #include "Object_5C.hpp"
-#include "Orca_2FD4.hpp"
+#include "PathFinder_2FD4.hpp"
 #include "Particle_8.hpp"
 #include "Ped_List_4.hpp"
 #include "ObjectDefinitions_8CA8.hpp"

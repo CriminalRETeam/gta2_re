@@ -17,7 +17,7 @@
 #include "Hud.hpp"
 #include "Marz_1D7E.hpp"
 #include "Object_5C.hpp"
-#include "Orca_2FD4.hpp"
+#include "PathFinder_2FD4.hpp"
 #include "Particle_8.hpp"
 #include "PedGroup.hpp"
 #include "Player.hpp"
@@ -2594,9 +2594,9 @@ void Ped::Deallocate_45EB60()
     }
     if (field_21C_bf.b14)
     {
-        gOrca_2FD4_6FDEF0->field_3C_ped_list.RemovePed_471240(this);
+        gPathFinder_6FDEF0->field_3C_ped_list.RemovePed_471240(this);
     }
-    gOrca_2FD4_6FDEF0->remove_ped_554620(field_200_id);
+    gPathFinder_6FDEF0->RemovePed_554620(field_200_id);
     gThreateningPedsList_678468.RemovePed_471240(this);
 
     if (field_17C_pGang)
@@ -4410,7 +4410,7 @@ bool Ped::PoolUpdate()
 
             if (!byte_678554 && field_21C_bf.b14)
             {
-                gOrca_2FD4_6FDEF0->field_3C_ped_list.RemovePed_471240(this);
+                gPathFinder_6FDEF0->field_3C_ped_list.RemovePed_471240(this);
                 field_21C_bf.b14 = 0;
             }
 
@@ -7253,14 +7253,14 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
         Ped::ChangeNextPedState2_45C540(0);
         if (!field_21C_bf.b14)
         {
-            gOrca_2FD4_6FDEF0->field_3C_ped_list.AddPedToBackIfMissing_471160(this);
+            gPathFinder_6FDEF0->field_3C_ped_list.AddPedToBackIfMissing_471160(this);
             field_21C_bf.b14 = true;
         }
 
-        switch (gOrca_2FD4_6FDEF0->IsFirstPassenger_554A90(this))
+        switch (gPathFinder_6FDEF0->IsFirstPassenger_554A90(this))
         {
             case 1:
-                if (!gOrca_2FD4_6FDEF0->ComputePath_554AB0(field_200_id,
+                if (!gPathFinder_6FDEF0->ComputePath_554AB0(field_200_id,
                                                            this,
                                                            field_1AC_cam.x.ToUInt8(),
                                                            field_1AC_cam.y.ToUInt8(),
@@ -7274,7 +7274,7 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                     goto LINE_38E;
                 }
 
-                gOrca_2FD4_6FDEF0->field_3C_ped_list.RemovePed_4711F0(this);
+                gPathFinder_6FDEF0->field_3C_ped_list.RemovePed_4711F0(this);
                 field_18C_current_path_point = &field_0_patrol_points[0];
                 field_21C_bf.b14 = false;
 
@@ -8505,7 +8505,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                             zpos = field_1AC_cam.z.ToUInt8();
 
                             bCanAllocate = gCar_6C_677930->CanAllocateOfType_446930(1);
-                            if (bCanAllocate && gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, 1))
+                            if (bCanAllocate && gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, 1))
                             {
                                 pCar = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(field_274_gang_car_model, xpos, ypos, zpos);
                                 if (pCar)
@@ -8555,7 +8555,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                             zpos = field_1AC_cam.z.ToUInt8();
 
                             if (gCar_6C_677930->CanAllocateOfType_446930(1) &&
-                                gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, 1))
+                                gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, 1))
                             {
                                 pCar = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(Ped::GetValueByIdParity_469010(), xpos, ypos, zpos);
                                 if (pCar)
@@ -8673,7 +8673,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                     target_z = field_1E4_objective_target_z.ToUInt8();
 
                     field_218_objective_timer = 0;
-                    if (!gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &target_x, &target_y, &target_z, 0))
+                    if (!gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &target_x, &target_y, &target_z, 0))
                     {
                         field_16C_car->field_80 = 1;
                         field_16C_car->SetUniNum_421560(3);
@@ -8935,7 +8935,7 @@ void Ped::sub_469FE0()
         u8 x = this->field_1AC_cam.x.ToUInt8();
         u8 y = this->field_1AC_cam.y.ToUInt8();
         u8 z = this->field_1AC_cam.z.ToUInt8();
-        gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &x, &y, &z, 1);
+        gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &x, &y, &z, 1);
         if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::Unknown_10))
         {
             pCar = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::COPCAR, x, y, z);

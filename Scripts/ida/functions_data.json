@@ -13522,76 +13522,76 @@
         "v96f_auto": true
     },
     {
-        "name": "Orca_2FD4::CanMoveInDirection_554080",
+        "name": "PathFinder_2FD4::CanMoveInDirection_554080",
         "v96f_address": "0x49c680",
         "v105_address": "0x554080",
         "v96f_auto": true
     },
     {
-        "name": "Orca_2FD4::TestDiagonalMove_5540E0",
+        "name": "PathFinder_2FD4::TestDiagonalMove_5540E0",
         "v96f_address": "0x49dce0",
         "v105_address": "0x5540e0",
         "v96f_auto": true
     },
     {
-        "name": "Orca_2FD4::Internel_CanMoveDiagonally_554110",
+        "name": "PathFinder_2FD4::CanMoveDiagonally_554110",
         "v96f_address": "0x49CB60",
         "v105_address": "0x554110"
     },
     {
-        "name": "Orca_2FD4::Internel_ClearGrid_5545C0",
+        "name": "PathFinder_2FD4::ClearGrid_5545C0",
         "v96f_address": "0x49c6e0",
         "v105_address": "0x5545c0",
         "v96f_auto": true
     },
     {
-        "name": "Orca_2FD4::init_5545E0",
+        "name": "PathFinder_2FD4::Init_5545E0",
         "v96f_address": "0x45c130",
         "v105_address": "0x5545e0"
     },
     {
-        "name": "Orca_2FD4::remove_ped_554620",
+        "name": "PathFinder_2FD4::RemovePed_554620",
         "v96f_address": "0x49c740",
         "v105_address": "0x554620",
         "v96f_auto": true
     },
     {
-        "name": "Orca_2FD4::Internel_EvaluateBehaviorGridCell_554640",
+        "name": "PathFinder_2FD4::EvaluateGridCell_554640",
         "v96f_address": "0x49c760",
         "v105_address": "0x554640",
         "v96f_auto": true
     },
     {
-        "name": "Orca_2FD4::Internel_UpdateBehaviorGrid_554710",
+        "name": "PathFinder_2FD4::AddGridCell_554710",
         "v96f_address": "0x49c820",
         "v105_address": "0x554710",
         "v96f_auto": true
     },
     {
-        "name": "Orca_2FD4::Internal_ProcessBehaviorGrid_5548C0",
+        "name": "PathFinder_2FD4::ProcessGridCell_5548C0",
         "v96f_address": "0x49CF10",
         "v105_address": "0x5548c0"
     },
     {
-        "name": "Orca_2FD4::RestoreSavedPosition_554920",
+        "name": "PathFinder_2FD4::RestoreSavedPosition_554920",
         "v96f_address": "0x49c9d0",
         "v105_address": "0x554920",
         "v96f_auto": true
     },
     {
-        "name": "Orca_2FD4::IsFirstPassenger_554A90",
+        "name": "PathFinder_2FD4::IsFirstPassenger_554A90",
         "v96f_address": "0x49cb40",
         "v105_address": "0x554a90",
         "v96f_auto": true
     },
     {
-        "name": "Orca_2FD4::ComputePath_554AB0",
+        "name": "PathFinder_2FD4::ComputePath_554AB0",
         "v96f_address": "0x49cf70",
         "v105_address": "0x554ab0",
         "v96f_auto": true
     },
     {
-        "name": "Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0",
+        "name": "PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0",
         "v96f_address": "0x49D7A0",
         "v105_address": "0x5552b0"
     },
