@@ -1,5 +1,6 @@
 #include "Explosion_30.hpp"
 #include "ped_death_cause.hpp"
+#include "explosion_type.hpp"
 #include "Car_BC.hpp"
 #include "Char_Pool.hpp"
 #include "Game_0x40.hpp"
@@ -271,21 +272,21 @@ Fix16 Explosion_30::sub_541680()
     Fix16 r;
     switch (this->field_10_type_or_state)
     {
-        case 18:
-        case 22:
-        case 23:
-        case 24:
-        case 25:
+        case explosion_type::small_18:
+        case explosion_type::building_45_22:
+        case explosion_type::building_225_23:
+        case explosion_type::building_135_24:
+        case explosion_type::building_315_25:
             r = kFP16Half_6FD39C;
             break;
-        case 33:
+        case explosion_type::small_33:
             r = kFP16ThreeQuarters_6FD370;
             break;
-        case 19:
-        case 32:
+        case explosion_type::item_19:
+        case explosion_type::no_ring_32:
             r = kFP16One_6FD4A0;
             break;
-        case 20:
+        case explosion_type::large_20:
             r = kFP16Two_6FD4A4;
             break;
         default:
@@ -301,15 +302,15 @@ Fix16 Explosion_30::sub_541710()
     Fix16 r;
     switch (this->field_10_type_or_state)
     {
-        case 18:
-        case 19:
-        case 20:
-        case 22:
-        case 23:
-        case 24:
-        case 25:
-        case 32:
-        case 33:
+        case explosion_type::small_18:
+        case explosion_type::item_19:
+        case explosion_type::large_20:
+        case explosion_type::building_45_22:
+        case explosion_type::building_225_23:
+        case explosion_type::building_135_24:
+        case explosion_type::building_315_25:
+        case explosion_type::no_ring_32:
+        case explosion_type::small_33:
             r = dword_6FD2F0;
             break;
         default:
@@ -321,7 +322,7 @@ Fix16 Explosion_30::sub_541710()
 MATCH_FUNC(0x541760)
 void Explosion_30::sub_541760()
 {
-    if (field_10_type_or_state != 18 && field_10_type_or_state != 32)
+    if (field_10_type_or_state != explosion_type::small_18 && field_10_type_or_state != explosion_type::no_ring_32)
     {
         if (gParticle_4C_Pool_6FD5E4->field_0_pStart)
         {
@@ -655,16 +656,16 @@ void Explosion_30::state_18_19_20_32_33_542790()
     {
         switch (this->field_10_type_or_state)
         {
-            case 18:
-            case 33:
+            case explosion_type::small_18:
+            case explosion_type::small_33:
                 state_18_33_541D60();
                 break;
-            case 19:
-            case 32:
+            case explosion_type::item_19:
+            case explosion_type::no_ring_32:
                 state_19_32_542060();
                 unk_6FD5F6 = 1;
                 break;
-            case 20:
+            case explosion_type::large_20:
                 state_20_542340();
                 unk_6FD5F6 = 1;
                 break;
@@ -893,37 +894,37 @@ char_type Explosion_30::Update_5434A0(Fix16 speed, Ang16 ang)
 
     switch (this->field_10_type_or_state)
     {
-        case 3:
-        case 12:
+        case explosion_type::trail_3:
+        case explosion_type::trail_12:
             Explosion_30::state_3_12_540D30(ang, speed);
             return 0;
-        case 13:
-        case 14:
+        case explosion_type::trail_13:
+        case explosion_type::trail_14:
             Explosion_30::state_13_14_5411E0(ang, speed);
             return 0;
-        case 4:
+        case explosion_type::trail_4:
             Explosion_30::state_4_540F90(ang, speed);
             return 0;
-        case 5:
+        case explosion_type::trail_5:
             Explosion_30::state_5_541430(ang, speed);
             return 0;
-        case 18:
-        case 19:
-        case 20:
-        case 32:
-        case 33:
+        case explosion_type::small_18:
+        case explosion_type::item_19:
+        case explosion_type::large_20:
+        case explosion_type::no_ring_32:
+        case explosion_type::small_33:
             Explosion_30::state_18_19_20_32_33_542790();
             return 0;
-        case 24:
+        case explosion_type::building_135_24:
             Explosion_30::state_22_23_24_25_542E30(0);
             return 0;
-        case 25:
+        case explosion_type::building_315_25:
             Explosion_30::state_22_23_24_25_542E30(1);
             return 0;
-        case 23:
+        case explosion_type::building_225_23:
             Explosion_30::state_22_23_24_25_542E30(2);
             return 0;
-        case 22:
+        case explosion_type::building_45_22:
             Explosion_30::state_22_23_24_25_542E30(3);
             return 0;
     }
@@ -935,12 +936,12 @@ char_type Explosion_30::IsState_5435D0()
 {
     switch (field_10_type_or_state)
     {
-        case 3:
-        case 4:
-        case 5:
-        case 12:
-        case 13:
-        case 14:
+        case explosion_type::trail_3:
+        case explosion_type::trail_4:
+        case explosion_type::trail_5:
+        case explosion_type::trail_12:
+        case explosion_type::trail_13:
+        case explosion_type::trail_14:
             return 1;
         default:
             return 0;
@@ -999,94 +1000,94 @@ void ExplosionPool_7A8::sub_543690()
             // original has one dword entry per case. Cases 1 and 39 keep the range.
             switch (pObj->field_10_type_or_state)
             {
-                case 2:
+                case explosion_type::unknown_2:
                     break;
-                case 3:
+                case explosion_type::trail_3:
                     break;
-                case 4:
+                case explosion_type::trail_4:
                     break;
-                case 21:
+                case explosion_type::unknown_21:
                     break;
-                case 31:
+                case explosion_type::unknown_31:
                     break;
-                case 34:
+                case explosion_type::unknown_34:
                     break;
-                case 5:
+                case explosion_type::trail_5:
                     currentVal1 = 2;
                     break;
-                case 28:
+                case explosion_type::unknown_28:
                     currentVal1 = 2;
                     break;
-                case 29:
+                case explosion_type::unknown_29:
                     currentVal1 = 2;
                     break;
-                case 30:
+                case explosion_type::unknown_30:
                     currentVal1 = 2;
                     break;
-                case 13:
+                case explosion_type::trail_13:
                     currentVal1 = 4;
                     break;
-                case 12:
+                case explosion_type::trail_12:
                     currentVal1 = 5;
                     break;
-                case 14:
+                case explosion_type::trail_14:
                     currentVal1 = 5;
                     break;
-                case 15:
+                case explosion_type::unknown_15:
                     currentVal1 = 5;
                     break;
-                case 16:
+                case explosion_type::unknown_16:
                     currentVal1 = 6;
                     break;
-                case 17:
+                case explosion_type::unknown_17:
                     currentVal1 = 6;
                     break;
-                case 18:
+                case explosion_type::small_18:
                     if (pObj->field_1A_timer < 82u)
                     {
                         currentVal1 = 3;
                     }
                     break;
-                case 33:
+                case explosion_type::small_33:
                     if (pObj->field_1A_timer < 82u)
                     {
                         currentVal1 = 3;
                     }
                     break;
-                case 19:
+                case explosion_type::item_19:
                     if (pObj->field_1A_timer < 50u)
                     {
                         currentVal1 = 3;
                     }
                     break;
-                case 20:
+                case explosion_type::large_20:
                     if (pObj->field_1A_timer < 50u)
                     {
                         currentVal1 = 3;
                     }
                     break;
-                case 32:
+                case explosion_type::no_ring_32:
                     if (pObj->field_1A_timer < 50u)
                     {
                         currentVal1 = 3;
                     }
                     break;
-                case 22:
+                case explosion_type::building_45_22:
                     currentVal1 = 3;
                     break;
-                case 23:
+                case explosion_type::building_225_23:
                     currentVal1 = 3;
                     break;
-                case 24:
+                case explosion_type::building_135_24:
                     currentVal1 = 3;
                     break;
-                case 25:
+                case explosion_type::building_315_25:
                     currentVal1 = 3;
                     break;
-                case 1:
+                case explosion_type::unknown_1:
                     currentVal1 = 1;
                     break;
-                case 39:
+                case explosion_type::unknown_39:
                     currentVal1 = 1;
                     break;
                 default:
