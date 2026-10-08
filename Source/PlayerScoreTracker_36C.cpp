@@ -925,7 +925,7 @@ void PlayerScoreTracker_36C::AwardCarDamageScoreHit_593150(Car_BC* pCar, s16 dam
 }
 
 MATCH_FUNC(0x593220)
-void PlayerScoreTracker_36C::AddCashForMultiplier_593220()
+void PlayerScoreTracker_36C::AddCashWithMultiplier_593220()
 {
     field_368_player->field_2D4_scores.AddCash_592620(field_368_player->field_6BC_multpliers.field_0_value * 20);
 }

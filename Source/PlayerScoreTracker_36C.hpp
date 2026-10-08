@@ -44,7 +44,7 @@ class PlayerScoreTracker_36C
     EXPORT void AwardCarDestroyedScore_592DD0(Car_BC* pCar, Ped* pKiller);
     EXPORT void AwardCarDamageScore_593030(Car_BC* pCar, s16 damage);
     EXPORT void AwardCarDamageScoreHit_593150(Car_BC* pCar, s16 damage);
-    EXPORT void AddCashForMultiplier_593220();
+    EXPORT void AddCashWithMultiplier_593220();
     EXPORT void AwardCarHijackedScore_593240(Car_BC* pCar);
     EXPORT void AwardBusStolenScore_593370(Car_BC* pCar);
     EXPORT void AwardFullBusDestroyedScore_593410(Car_BC* pCar);
