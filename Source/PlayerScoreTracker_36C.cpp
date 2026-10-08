@@ -2,6 +2,7 @@
 #include "zealous_borg.hpp"
 #include "ped_death_cause.hpp"
 #include "accuracy_event.hpp"
+#include "car_score_tier.hpp"
 #include "car_model_flag.hpp"
 #include "bonus_event_type.hpp"
 #include "CarInfo_808.hpp"
@@ -394,11 +395,11 @@ s32 PlayerScoreTracker_36C::GetCarScoreValue_5925B0(u32 car_model, u8 reward_tie
 
     switch (reward_tier)
     {
-        case 0:
+        case car_score_tier::hijacked_0:
             return result;
-        case 1:
+        case car_score_tier::unused_x2_1:
             return result * 2;
-        case 2:
+        case car_score_tier::destroyed_2:
             return result * 5;
         default:
             return 0;
@@ -808,7 +809,7 @@ void PlayerScoreTracker_36C::AwardCarDestroyedScore_592DD0(Car_BC* pCar, Ped* pK
         field_88_killed_cops++;
     }
 
-    u32 car_score_value = GetCarScoreValue_5925B0(pCar->field_84_car_info_idx, 2);
+    u32 car_score_value = GetCarScoreValue_5925B0(pCar->field_84_car_info_idx, car_score_tier::destroyed_2);
     u8 combo = field_74_car_kill_combo;
 
     u32 kill_car_score = car_score_value * combo;
@@ -946,7 +947,7 @@ void PlayerScoreTracker_36C::AwardCarHijackedScore_593240(Car_BC* pCar)
 
     field_8A_cars_stolen_count++;
 
-    const s32 base_score = GetCarScoreValue_5925B0(pCar->field_84_car_info_idx, 0);
+    const s32 base_score = GetCarScoreValue_5925B0(pCar->field_84_car_info_idx, car_score_tier::hijacked_0);
     if (!bExplodingScoresOff_67D4FB && field_368_player->IsUser_41DC70())
     {
         gExplodingScorePool->PushScore_596890(pCar->get_x_41E430(),
