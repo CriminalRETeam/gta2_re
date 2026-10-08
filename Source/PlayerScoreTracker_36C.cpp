@@ -469,14 +469,14 @@ void PlayerScoreTracker_36C::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKill
     field_78_last_kill_time = rng;
 
     u32 score = 0;
-    char_type bOtherGang = 0;
-    char_type bHasGameObject = pVictim->field_168_game_object != 0;
-    char_type bCop;
-    char_type bSwat;
-    char_type bFbi;
-    char_type bArmy;
-    char_type bGangA;
-    char_type bGangB;
+    bool bOtherGang = false;
+    bool bHasGameObject = pVictim->field_168_game_object != 0;
+    bool bCop;
+    bool bSwat;
+    bool bFbi;
+    bool bArmy;
+    bool bGangA;
+    bool bGangB;
 
     if (bStartNetworkGame_7081F0 && pVictim->PedTypeIs_45EDE0(ped_type::player_2) && pVictim->field_15C_player)
     {
@@ -513,11 +513,11 @@ void PlayerScoreTracker_36C::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKill
     {
         if (pVictim->field_17C_pGang && (!pKiller->field_17C_pGang || pKiller->field_17C_pGang != pVictim->field_17C_pGang))
         {
-            bOtherGang = 1;
+            bOtherGang = true;
         }
         if (pVictim->field_19C_dummy_gang && (!pKiller->field_17C_pGang || pKiller->field_17C_pGang != pVictim->field_19C_dummy_gang))
         {
-            bOtherGang = 1;
+            bOtherGang = true;
         }
 
         switch (pVictim->get_occupation_403980())
@@ -527,72 +527,72 @@ void PlayerScoreTracker_36C::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKill
             case ped_ocupation_enum::walking_guard_29:
             case ped_ocupation_enum::roadblock_cop_37:
             case ped_ocupation_enum::fireman:
-                bCop = 1;
-                bFbi = 0;
-                bSwat = 0;
-                bArmy = 0;
-                bGangA = 0;
-                bGangB = 0;
+                bCop = true;
+                bFbi = false;
+                bSwat = false;
+                bArmy = false;
+                bGangA = false;
+                bGangB = false;
                 break;
             case ped_ocupation_enum::swat:
             case ped_ocupation_enum::unknown_cop_occu_30:
-                bSwat = 1;
-                bFbi = 0;
-                bArmy = 0;
-                bCop = 0;
-                bGangA = 0;
-                bGangB = 0;
+                bSwat = true;
+                bFbi = false;
+                bArmy = false;
+                bCop = false;
+                bGangA = false;
+                bGangB = false;
                 break;
             case ped_ocupation_enum::fbi:
-                bFbi = 1;
-                bSwat = 0;
-                bArmy = 0;
-                bCop = 0;
-                bGangA = 0;
-                bGangB = 0;
+                bFbi = true;
+                bSwat = false;
+                bArmy = false;
+                bCop = false;
+                bGangA = false;
+                bGangB = false;
                 break;
             case ped_ocupation_enum::army_army:
             case ped_ocupation_enum::unknown_cop_occu_31:
             case ped_ocupation_enum::tank_driver:
             case ped_ocupation_enum::road_block_tank_man:
-                bArmy = 1;
-                bFbi = 0;
-                bSwat = 0;
-                bCop = 0;
-                bGangA = 0;
-                bGangB = 0;
+                bArmy = true;
+                bFbi = false;
+                bSwat = false;
+                bCop = false;
+                bGangA = false;
+                bGangB = false;
                 break;
             case ped_ocupation_enum::elvis:
             case ped_ocupation_enum::elvis_leader:
-                bCop = 0;
-                bFbi = 0;
-                bSwat = 0;
-                bArmy = 0;
+                bCop = false;
+                bFbi = false;
+                bSwat = false;
+                bArmy = false;
                 score = 100;
                 break;
             case ped_ocupation_enum::mugger:
-                bGangA = 1;
-                bCop = 0;
-                bFbi = 0;
-                bSwat = 0;
-                bArmy = 0;
-                bGangB = 0;
+                bGangA = true;
+                bCop = false;
+                bFbi = false;
+                bSwat = false;
+                bArmy = false;
+                bGangB = false;
                 break;
             case ped_ocupation_enum::car_thief:
-                bGangB = 1;
-                bCop = 0;
-                bFbi = 0;
-                bSwat = 0;
-                bArmy = 0;
-                bGangA = 0;
+                bGangB = true;
+                bCop = false;
+                bFbi = false;
+                bSwat = false;
+                bArmy = false;
+                bGangA = false;
                 break;
             default:
-                bCop = 0;
-                bFbi = 0;
-                bSwat = 0;
-                bArmy = 0;
-                bGangA = 0;
-                bGangB = 0;
+                bCop = false;
+                bFbi = false;
+                bSwat = false;
+                bArmy = false;
+                bGangA = false;
+                bGangB = false;
                 break;
         }
 
@@ -698,13 +698,13 @@ void PlayerScoreTracker_36C::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKill
         }
     }
 
-    char_type bAwardScore = 1;
+    bool bAwardScore = true;
     if (bIsFrench_67D53C)
     {
         s32 occupation = pVictim->get_occupation_403980();
         if (occupation == ped_ocupation_enum::police || occupation == ped_ocupation_enum::walking_guard_29 || occupation == ped_ocupation_enum::roadblock_cop_37 || bFbi || bSwat || bArmy)
         {
-            bAwardScore = 0;
+            bAwardScore = false;
         }
     }
 
@@ -765,12 +765,12 @@ void PlayerScoreTracker_36C::AwardCarDestroyedScore_592DD0(Car_BC* pCar, Ped* pK
                              killer_car_model,
                              pZone);
 
-    u8 bAwardScore = 1;
+    bool bAwardScore = true;
     if (bIsFrench_67D53C)
     {
         if (pCar->IsPoliceCar_439EC0())
         {
-            bAwardScore = 0;
+            bAwardScore = false;
         }
     }
 
