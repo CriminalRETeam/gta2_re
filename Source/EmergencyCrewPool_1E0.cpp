@@ -5,7 +5,7 @@
 #include "PedGroup.hpp"
 
 DEFINE_GLOBAL(EmergencyCrewPool_1E0*, gEmergencyCrewPool_706280, 0x706280);
-DEFINE_GLOBAL(Fix16, dword_706148, 0x706148);
+DEFINE_GLOBAL_INIT(Fix16, dword_706148, Fix16(0x10000, 0), 0x706148);
 
 MATCH_FUNC(0x4beb00)
 EmergencyCrew_30::EmergencyCrew_30()
