@@ -3366,3 +3366,10 @@ flag test that later disappears still shapes the block order and the exit placem
   first, but a dividend that is a memory load through a pointer is evaluated first (54). The copy through a pointer
   to the returned temporary is forward-substituted into the `/=`, keeping divisor-first and making the dividend a
   late load through the returned pointer, as the original. `speed` must be declared before `pSpeed` (else 54).
+- **`menu_option_0x82::SelectPrevHorizontalIdx_4B6390` (4 -> 0, MATCH, last-resort form).** A redundant
+  `field_6E = field_6E;` at the end of the loop body. Any form that only stops the CSE with `oldCount` gets the
+  load hoisted into a free register (28-62); the self-store blocks both CSE and hoisting, then VC6 deletes it.
+  Position matters (top of body 42, after the if/else 36). The sibling 4B6330 written plainly plus the same
+  self-store also matches, so the original probably had some store/kill there in both.
+- `ProcessPoliceRadioWordsPlayback_427220` (4) and `GetLayout_4D6000` (4): unchanged; see the agent notes above
+  for the forms tried (dead uses, self-stores, head merging; v2 as array/struct/u32).
