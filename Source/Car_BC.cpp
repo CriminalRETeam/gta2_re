@@ -1,4 +1,5 @@
 #include "Car_BC.hpp"
+#include "ped_death_cause.hpp"
 #include "car_despawn_status.hpp"
 #include "CarAI_78.hpp"
 #include "CarInfo_808.hpp"
@@ -2867,13 +2868,13 @@ void Car_BC::AssignDriverBlameForExplosion_43B7B0(Car_BC* pCar)
     if (bBlameUs)
     {
         this->field_70_exploder_ped_id = their_id;
-        this->field_90 = 1;
+        this->field_90 = ped_death_cause::run_over_1;
         this->field_94_exploder_timer = 50;
     }
     if (bBlameThem)
     {
         pCar->field_70_exploder_ped_id = our_id;
-        pCar->field_90 = 1;
+        pCar->field_90 = ped_death_cause::run_over_1;
         pCar->field_94_exploder_timer = 50;
     }
 }
@@ -4170,23 +4171,23 @@ s32 __stdcall sub_48E780(s32 model)
             switch (model)
             {
                 case 132:
-                    return 12;
+                    return ped_death_cause::bomb_12;
                 case 182:
                 case 183:
-                    return 15;
+                    return ped_death_cause::grenade_15;
                 case 138:
-                    return 16;
+                    return ped_death_cause::molotov_16;
                 case 128:
-                    return 17;
+                    return ped_death_cause::rocket_bullet_17;
                 case 160:
-                    return 18;
+                    return ped_death_cause::rocket_18;
                 case 10:
-                    return 21;
+                    return ped_death_cause::unknown_21;
             }
         }
         else
         {
-            return 19;
+            return ped_death_cause::shotgun_19;
         }
     }
     else
@@ -4195,17 +4196,17 @@ s32 __stdcall sub_48E780(s32 model)
         {
             case 254:
             case 265:
-                return 11;
+                return ped_death_cause::bullet_11;
             case 197:
-                return 13;
+                return ped_death_cause::fire_13;
             case 194:
-                return 14;
+                return ped_death_cause::fire_hit_14;
             case 198:
             case 251:
-                return 20;
+                return ped_death_cause::burning_20;
         }
     }
-    return 9;
+    return ped_death_cause::projectile_default_9;
 }
 
 // TODO: move
@@ -4703,7 +4704,7 @@ void Car_BC::FireCarBomb_440F90(char_type instant_bomb)
         if (ped_id)
         {
             this->field_70_exploder_ped_id = ped_id;
-            this->field_90 = 12;
+            this->field_90 = ped_death_cause::bomb_12;
             this->field_94_exploder_timer = 50;
         }
         Car_BC::TriggerExplosion_43D7B0(20);

@@ -1,4 +1,5 @@
 #include "Crushers.hpp"
+#include "ped_death_cause.hpp"
 #include "car_despawn_status.hpp"
 #include "Camera.hpp"
 #include "Car_BC.hpp"
@@ -74,7 +75,7 @@ void Crusher_30::Service_488350()
                     if (!bStartNetworkGame_7081F0)
                     {
                         field_14_pCarBeingCrushed->field_70_exploder_ped_id = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->field_200_id;
-                        field_14_pCarBeingCrushed->field_90 = 4;
+                        field_14_pCarBeingCrushed->field_90 = ped_death_cause::unknown_4;
                         field_14_pCarBeingCrushed->field_94_exploder_timer = 50;
                     }
                     field_14_pCarBeingCrushed->HandleCarExplosion_43D840(19);

@@ -481,29 +481,29 @@ void PlayerScoreTracker_36C::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKill
     {
         switch (pVictim->field_290_death_cause)
         {
-            case 4:
-            case 9:
-            case 10:
-            case 11:
-            case 12:
-            case 13:
-            case 14:
-            case 15:
-            case 16:
-            case 17:
-            case 18:
-            case 19:
-            case 20:
+            case ped_death_cause::unknown_4:
+            case ped_death_cause::projectile_default_9:
+            case ped_death_cause::punched_10:
+            case ped_death_cause::bullet_11:
+            case ped_death_cause::bomb_12:
+            case ped_death_cause::fire_13:
+            case ped_death_cause::fire_hit_14:
+            case ped_death_cause::grenade_15:
+            case ped_death_cause::molotov_16:
+            case ped_death_cause::rocket_bullet_17:
+            case ped_death_cause::rocket_18:
+            case ped_death_cause::shotgun_19:
+            case ped_death_cause::burning_20:
                 score = 2000;
                 break;
-            case 1:
+            case ped_death_cause::run_over_1:
                 score = 1000;
                 break;
-            case 3:
+            case ped_death_cause::run_over_by_stolen_car_3:
                 score = 10000;
                 break;
-            case 2:
-            case 5:
+            case ped_death_cause::electrocuted_2:
+            case ped_death_cause::unknown_5:
                 score = 5000;
                 break;
         }
@@ -612,18 +612,18 @@ void PlayerScoreTracker_36C::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKill
         {
             switch (pVictim->field_290_death_cause)
             {
-                case 9:
-                case 10:
-                case 11:
-                case 12:
-                case 13:
-                case 14:
-                case 15:
-                case 16:
-                case 17:
-                case 18:
-                case 19:
-                case 20:
+                case ped_death_cause::projectile_default_9:
+                case ped_death_cause::punched_10:
+                case ped_death_cause::bullet_11:
+                case ped_death_cause::bomb_12:
+                case ped_death_cause::fire_13:
+                case ped_death_cause::fire_hit_14:
+                case ped_death_cause::grenade_15:
+                case ped_death_cause::molotov_16:
+                case ped_death_cause::rocket_bullet_17:
+                case ped_death_cause::rocket_18:
+                case ped_death_cause::shotgun_19:
+                case ped_death_cause::burning_20:
                     if (bOtherGang)
                         score = 50;
                     else if (bCop)
@@ -639,7 +639,7 @@ void PlayerScoreTracker_36C::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKill
                     else
                         score = bGangB ? 40 : 20;
                     break;
-                case 1:
+                case ped_death_cause::run_over_1:
                     if (bOtherGang)
                         score = 20;
                     else if (bCop)
@@ -655,7 +655,7 @@ void PlayerScoreTracker_36C::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKill
                     else
                         score = bGangB ? 20 : 10;
                     break;
-                case 2:
+                case ped_death_cause::electrocuted_2:
                     if (bOtherGang)
                         score = 200;
                     else if (bCop)
@@ -671,7 +671,7 @@ void PlayerScoreTracker_36C::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKill
                     else
                         score = bGangB ? 100 : 50;
                     break;
-                case 3:
+                case ped_death_cause::run_over_by_stolen_car_3:
                     if (bOtherGang)
                         score = 200;
                     else if (bCop)
@@ -687,10 +687,10 @@ void PlayerScoreTracker_36C::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKill
                     else
                         score = bGangB ? 200 : 100;
                     break;
-                case 4:
+                case ped_death_cause::unknown_4:
                     score = 20;
                     break;
-                case 5:
+                case ped_death_cause::unknown_5:
                     score = 50;
                     break;
             }

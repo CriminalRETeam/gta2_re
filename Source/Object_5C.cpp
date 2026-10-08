@@ -1,6 +1,7 @@
 // GetLength_41E260 compares against this TU's zero
 #define FIX16_POINT_ZERO kFpZero_6F8E10
 #include "Object_5C.hpp"
+#include "ped_death_cause.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
 #include "Char_Pool.hpp"
@@ -1994,7 +1995,7 @@ void Object_2C::TriggerCarExplosionIfApplicable_526790(Sprite* pSprite)
                         if (id)
                         {
                             pCar->field_70_exploder_ped_id = id;
-                            pCar->field_90 = 12;
+                            pCar->field_90 = ped_death_cause::bomb_12;
                             pCar->field_94_exploder_timer = 50;
                         }
                     }

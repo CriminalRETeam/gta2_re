@@ -3,6 +3,7 @@
 // This TU's copy of the Fix16_Rect::ComputeCollisionPrism_4204D0 half height (see Fix16_Rect.hpp)
 #define FIX16_RECT_HALF_HEIGHT dword_706CC8
 #include "zealous_borg.hpp"
+#include "ped_death_cause.hpp"
 #include "Function.hpp"
 #include "fix16.hpp"
 EXTERN_GLOBAL(Fix16, dword_706CC8);
@@ -1044,7 +1045,7 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
                     {
                         pB4->field_7C_pPed->SetAttacker_433BF0(a5);
                         pB4->field_7C_pPed->field_204_killer_id = a5->field_200_id;
-                        pB4->field_7C_pPed->field_290_death_cause = 18;
+                        pB4->field_7C_pPed->field_290_death_cause = ped_death_cause::rocket_18;
                         pB4->field_7C_pPed->field_264_killer_id_timer = 50;
                         if (a4)
                         {
@@ -1173,7 +1174,7 @@ void Weapon_30::sub_5DFB60(u8 a2, Sprite* a3, Ang16 a4)
                                 }
                                 pHit->field_8_char_b4_ptr->field_7C_pPed->SetAttacker_433BF0(field_24_pPed);
                                 pHit->field_8_char_b4_ptr->field_7C_pPed->field_204_killer_id = field_24_pPed->field_200_id;
-                                pHit->field_8_char_b4_ptr->field_7C_pPed->field_290_death_cause = 18;
+                                pHit->field_8_char_b4_ptr->field_7C_pPed->field_290_death_cause = ped_death_cause::rocket_18;
                                 pHit->field_8_char_b4_ptr->field_7C_pPed->field_264_killer_id_timer = 50;
                                 pHit->field_8_char_b4_ptr->field_7C_pPed->field_210_shock_counter += 5;
                                 if (field_24_pPed->is_player_41B0A0())
@@ -1219,7 +1220,7 @@ void Weapon_30::sub_5DFB60(u8 a2, Sprite* a3, Ang16 a4)
                                 if (!pHit->field_8_car_bc_ptr->is_f78_0x400_425770())
                                 {
                                     pHit->field_8_car_bc_ptr->field_70_exploder_ped_id = field_24_pPed->field_200_id;
-                                    pHit->field_8_car_bc_ptr->field_90 = 18;
+                                    pHit->field_8_car_bc_ptr->field_90 = ped_death_cause::rocket_18;
                                     pHit->field_8_car_bc_ptr->field_94_exploder_timer = 50;
                                     s16 damage = pHit->field_8_car_bc_ptr->AccumulateDamage_43DA90(300, &stru_706F90);
                                     pHit->field_8_car_bc_ptr->ApplyVisualDamage_43A9F0();
