@@ -7062,7 +7062,7 @@
         "v105_address": "0x4bbfa0"
     },
     {
-        "name": "Frismo_C_Pool::dtor",
+        "name": "GosubFramePool_25C::dtor",
         "v96f_address": null,
         "v105_address": "0x4bc300"
     },
@@ -7113,13 +7113,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Frismo_C::ctor",
+        "name": "GosubFrame_C::ctor",
         "v96f_address": "0x45b110",
         "v105_address": "0x4bea80",
         "v96f_auto": true
     },
     {
-        "name": "Frismo_C::dtor",
+        "name": "GosubFrame_C::dtor",
         "v96f_address": "0x45b130",
         "v105_address": "0x4beaa0",
         "v96f_auto": true
@@ -9459,7 +9459,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Frismo_C::PoolAllocate",
+        "name": "GosubFrame_C::PoolAllocate",
         "v96f_address": "0x474f90",
         "v105_address": "0x503110",
         "v96f_auto": true

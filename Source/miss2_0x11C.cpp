@@ -15,7 +15,7 @@
 #include "Cranes.hpp"
 #include "Crushers.hpp"
 #include "Door_4D4.hpp"
-#include "Frismo_25C.hpp"
+#include "GosubFramePool_25C.hpp"
 #include "Game_0x40.hpp"
 #include "Gang.hpp"
 #include "Garage_48.hpp"
@@ -1774,7 +1774,7 @@ MATCH_FUNC(0x506b30)
 void miss2_0x11C::SCRCMD_GOSUB_506B30()
 {
     SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    Frismo_C* pFrame = field_114_gosub_stack->AllocFrame_5031A0();
+    GosubFrame_C* pFrame = field_114_gosub_stack->AllocFrame_5031A0();
     pFrame->field_0_cond_result = field_8_cond_result;
     pFrame->field_4_return_cmd = gBasePtr_6F8070->field_4_cmd_next;
     field_114_gosub_stack->add_503160(pFrame);
@@ -1784,7 +1784,7 @@ void miss2_0x11C::SCRCMD_GOSUB_506B30()
 MATCH_FUNC(0x506b80)
 void miss2_0x11C::SCRCMD_RETURN_506B80() // MISSIONEND
 {
-    Frismo_C* pFrame = field_114_gosub_stack->remove_503180();
+    GosubFrame_C* pFrame = field_114_gosub_stack->remove_503180();
 
     if (pFrame == NULL)
     {
@@ -4943,7 +4943,7 @@ void miss2_0x11C::SCRCMD_PARK_FINISHED_50CE10()
 MATCH_FUNC(0x50ce50)
 void miss2_0x11C::Gosub_50CE50(SCR_CMD_HEADER* pCmd, u16 cmd_idx)
 {
-    Frismo_C* pFrame = field_114_gosub_stack->AllocFrame_5031A0();
+    GosubFrame_C* pFrame = field_114_gosub_stack->AllocFrame_5031A0();
     pFrame->field_0_cond_result = field_8_cond_result;
     pFrame->field_4_return_cmd = pCmd->field_4_cmd_next;
     field_114_gosub_stack->add_503160(pFrame);

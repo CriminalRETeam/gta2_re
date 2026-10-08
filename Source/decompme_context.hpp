@@ -12,7 +12,7 @@
 #include "ExplodingScore_100.hpp"
 #include "Door_4D4.hpp"
 #include "Camera.hpp"
-#include "Frismo_25C.hpp"
+#include "GosubFramePool_25C.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
 #include "Hud.hpp"
