@@ -59,7 +59,7 @@
 #include "rng.hpp"
 #include "root_sound.hpp"
 #include "FpsCounter_54.hpp"
-#include "sharp_pare_0x15D8.hpp"
+#include "TextureCache_15D8.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
 #include "winmain.hpp"
@@ -143,7 +143,7 @@ void Game_0x40::LoadGameFiles_4B8C40()
 
     gPhi_8CA8_6FCF00->InitDefinitions_534330();
 
-    gSharp_pare_0x15D8_705064->LoadStyleTextures_5B9350();
+    gTextureCache_15D8_705064->LoadStyleTextures_5B9350();
 
     gGameSession_67E8E0.clear_secret_tokens_collected();
 
@@ -1111,8 +1111,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1865);
     }
 
-    gSharp_pare_0x15D8_705064 = new sharp_pare_0x15D8(); // ctor call
-    if (!gSharp_pare_0x15D8_705064)
+    gTextureCache_15D8_705064 = new TextureCache_15D8(); // ctor call
+    if (!gTextureCache_15D8_705064)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1867);
     }
@@ -1316,7 +1316,7 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gDoor_4D4_67BD2C);
     GTA2_DELETE_AND_NULL(gAmbulance_110_6F70A8);
     GTA2_DELETE_AND_NULL(gHud_2B00_706620);
-    GTA2_DELETE_AND_NULL(gSharp_pare_0x15D8_705064);
+    GTA2_DELETE_AND_NULL(gTextureCache_15D8_705064);
 
     GTA2_DELETE_AND_NULL(gTrafficLights_194_705958);
     GTA2_DELETE_AND_NULL(gRouteFinder_6FFDC8);

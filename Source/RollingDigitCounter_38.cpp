@@ -1,7 +1,7 @@
 #include "RollingDigitCounter_38.hpp"
 #include "Draw.hpp"
 #include "gtx_0x106C.hpp"
-#include "sharp_pare_0x15D8.hpp"
+#include "TextureCache_15D8.hpp"
 
 // Forward declarations: the functions below are in address order
 s32 __stdcall GetMaxNumOfDigits_4F7660(s32 &max_value);
@@ -51,7 +51,7 @@ void RollingDigitCounter_38::InitDigitSprites_492150()
     sprite_index* pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(true_sprite_idx);
     field_27_sprite_w = pSpriteIndex->field_4_width;
     field_28_sprite_h_calc = pSpriteIndex->field_5_height / 11;
-    field_34_first_digit_texture_idx = gSharp_pare_0x15D8_705064->RegisterDigits_5B9220(field_2A_max_num_of_digits, field_36_sprite_idx);
+    field_34_first_digit_texture_idx = gTextureCache_15D8_705064->RegisterDigits_5B9220(field_2A_max_num_of_digits, field_36_sprite_idx);
 }
 
 MATCH_FUNC(0x4921b0)
@@ -107,7 +107,7 @@ void RollingDigitCounter_38::ColorDigits_4921F0(s32 palette_type, s16 palette)
 
     while (digit_idx < kNumDigits)
     {
-        gSharp_pare_0x15D8_705064->SetPal_5B9660(field_34_first_digit_texture_idx - field_2E_non_used_digits + digit_idx, true_palette);
+        gTextureCache_15D8_705064->SetPal_5B9660(field_34_first_digit_texture_idx - field_2E_non_used_digits + digit_idx, true_palette);
         digit_idx++;
     }
 }
@@ -145,7 +145,7 @@ s32 RollingDigitCounter_38::DrawDigitsRightAligned_492260(s32 base_xpos, s32 bas
             u16 v = field_28_sprite_h_calc * (kDigitAfterNine - curr_char) - offset;
             curr_xpos = (field_27_sprite_w >> 1) - field_27_sprite_w * (kNumDigits - idx) + base_xpos;
             s32 ypos = base_ypos + (s8)height / 2;
-            DrawTextureScaled_495470(gSharp_pare_0x15D8_705064->GetDigitTexture_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits, v, height),
+            DrawTextureScaled_495470(gTextureCache_15D8_705064->GetDigitTexture_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits, v, height),
                        curr_xpos,
                        ypos,
                        field_27_sprite_w,
@@ -159,7 +159,7 @@ s32 RollingDigitCounter_38::DrawDigitsRightAligned_492260(s32 base_xpos, s32 bas
         {
             u16 v = field_28_sprite_h_calc * (kDigitAfterNine - field_9_shown_digits[idx]) - offset;
             s32 xpos = (field_27_sprite_w >> 1) - field_27_sprite_w * (kNumDigits - idx) + base_xpos;
-            DrawTextureScaled_495470(gSharp_pare_0x15D8_705064->GetDigitTexture_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits,
+            DrawTextureScaled_495470(gTextureCache_15D8_705064->GetDigitTexture_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits,
                                                              v,
                                                              field_28_sprite_h_calc),
                        xpos,
@@ -206,7 +206,7 @@ s32 RollingDigitCounter_38::DrawDigitsLeftAligned_492430(s32 base_xpos, s32 base
 
             u16 v = field_28_sprite_h_calc * (kDigitAfterNine - field_9_shown_digits[idx]) - offset;
             u32 ypos = base_ypos + (s8)height / 2;
-            DrawTextureScaled_495470(gSharp_pare_0x15D8_705064->GetDigitTexture_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits, v, height),
+            DrawTextureScaled_495470(gTextureCache_15D8_705064->GetDigitTexture_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits, v, height),
                        curr_xpos,
                        ypos,
                        field_27_sprite_w,
@@ -220,7 +220,7 @@ s32 RollingDigitCounter_38::DrawDigitsLeftAligned_492430(s32 base_xpos, s32 base
         else
         {
             u16 v = field_28_sprite_h_calc * (kDigitAfterNine - field_9_shown_digits[idx]) - offset;
-            DrawTextureScaled_495470(gSharp_pare_0x15D8_705064->GetDigitTexture_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits,
+            DrawTextureScaled_495470(gTextureCache_15D8_705064->GetDigitTexture_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits,
                                                              v,
                                                              field_28_sprite_h_calc),
                        curr_xpos,

@@ -26,7 +26,7 @@
 #include "magical_germain_0x8EC.hpp"
 #include "registry.hpp"
 #include "root_sound.hpp"
-#include "sharp_pare_0x15D8.hpp"
+#include "TextureCache_15D8.hpp"
 #include "text_0x14.hpp"
 #include "winmain.hpp"
 #include "TagGame_28.hpp"
@@ -3199,8 +3199,8 @@ Frontend::Frontend()
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2290);
     }
 
-    gSharp_pare_0x15D8_705064 = new sharp_pare_0x15D8();
-    if (!gSharp_pare_0x15D8_705064)
+    gTextureCache_15D8_705064 = new TextureCache_15D8();
+    if (!gTextureCache_15D8_705064)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2292);
     }
@@ -3219,7 +3219,7 @@ Frontend::Frontend()
     gText_0x14_704DFC->Load_5B5E90();
     gGtx_0x106C_703DD4->LoadSty_5AB750("data\\fstyle.sty");
 
-    gSharp_pare_0x15D8_705064->LoadStyleTextures_5B9350();
+    gTextureCache_15D8_705064->LoadStyleTextures_5B9350();
 
     ConvertColourBanks_5D7CB0();
 
@@ -3309,9 +3309,9 @@ Frontend::~Frontend()
 {
     FreeKeyBoardDevice_4AFD00();
 
-    if (gSharp_pare_0x15D8_705064)
+    if (gTextureCache_15D8_705064)
     {
-        GTA2_DELETE_AND_NULL(gSharp_pare_0x15D8_705064);
+        GTA2_DELETE_AND_NULL(gTextureCache_15D8_705064);
     }
 
     if (gGtx_0x106C_703DD4)

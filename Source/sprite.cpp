@@ -25,7 +25,7 @@
 #include "map_0x370.hpp"
 #include "memory.hpp"
 #include "root_sound.hpp"
-#include "sharp_pare_0x15D8.hpp"
+#include "TextureCache_15D8.hpp"
 #include "winmain.hpp" // TODO: only because of gLighting_626A09
 
 // Forward declarations: the functions below are in address order
@@ -1097,7 +1097,7 @@ void Sprite::Draw_59EFF0()
         }
         pSpriteIndex->field_0_pData = &pSpriteIndex2->field_0_pData[257 * (u8)field_38_zoom];
         pal = Sprite::GetTruePalette_59EAA0();
-        pTexture = gSharp_pare_0x15D8_705064->SetSharedTextureData_5B9710(pSpriteIndex->field_4_width,
+        pTexture = gTextureCache_15D8_705064->SetSharedTextureData_5B9710(pSpriteIndex->field_4_width,
                                                          pSpriteIndex->field_5_height,
                                                          pSpriteIndex->field_0_pData,
                                                          pal);
@@ -1106,7 +1106,7 @@ void Sprite::Draw_59EFF0()
     {
         sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
         pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
-        pTexture = gSharp_pare_0x15D8_705064->GetSpriteTexture_5B94F0(field_30_sprite_type_enum, field_22_sprite_id, field_34_palette_type, field_24_remap);
+        pTexture = gTextureCache_15D8_705064->GetSpriteTexture_5B94F0(field_30_sprite_type_enum, field_22_sprite_id, field_34_palette_type, field_24_remap);
     }
 
     if (!field_4_0x4C_len->field_48_bBoxUpToDate)
@@ -1160,12 +1160,12 @@ void Sprite::Draw_59EFF0()
         {
             if (bRet)
             {
-                gSharp_pare_0x15D8_705064->SetTexture2SizeAndPalette_5B96B0(unkDeltaRelated,
+                gTextureCache_15D8_705064->SetCarDamageTextureSizeAndPalette_5B96B0(unkDeltaRelated,
                                                       pSpriteIndex->field_4_width,
                                                       pSpriteIndex->field_5_height,
                                                       Sprite::GetTruePalette_59EAA0());
             }
-            pTexture = gSharp_pare_0x15D8_705064->GetTexture2_5B95D0(unkDeltaRelated);
+            pTexture = gTextureCache_15D8_705064->GetCarDamageTexture_5B95D0(unkDeltaRelated);
         }
         pCar->field_8_damaged_areas.m_var = car_flags; // TODO: use CopyAll_4A51A0
     }
@@ -1226,12 +1226,12 @@ void Sprite::Draw_59EFF0()
         {
             if (bRet)
             {
-                gSharp_pare_0x15D8_705064->SetTexture2SizeAndPalette_5B96B0(unkDeltaRelated,
+                gTextureCache_15D8_705064->SetCarDamageTextureSizeAndPalette_5B96B0(unkDeltaRelated,
                                                       pSpriteIndex->field_4_width,
                                                       pSpriteIndex->field_5_height,
                                                       Sprite::GetTruePalette_59EAA0());
             }
-            pTexture = gSharp_pare_0x15D8_705064->GetTexture2_5B95D0(unkDeltaRelated);
+            pTexture = gTextureCache_15D8_705064->GetCarDamageTexture_5B95D0(unkDeltaRelated);
             SetUV_4B9BC0(u, v);
             pgbh_DrawQuad(128, pTexture, gTileVerts_7036D0, 255);
         }

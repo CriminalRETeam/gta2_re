@@ -173,9 +173,9 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4E6190 | `Map_0x370::sub_4E6190` | 0x466D30 | ✓ `sub_466CF0` | done | all 9.6f inlines used |
 | 0x4E7190 | `Map_0x370::sub_4E7190` | 0x467F80 | `sub_463150`, `sub_463210`, `ProcessObjective_4632E0`, ✓ `sub_42A660` | commented | ReverseRoadDirection_42A660 helper 103->301, noted only; 463150/463210/4632E0 pair with called 4E5Dxx |
 | 0x4E8E30 | `Map_0x370::do_process_loaded_zone_data_4E8E30` | 0x464330 | `Map_0x370::sub_462E40` | checked | sub_462E40 is Map_0x370::get_zone_4DFB30, called out of line in 10.5 |
-| 0x4EAF40 | `MapRenderer::DrawRightSide_4EAF40` | 0x470250 | `sub_46BEA0` (10.5 0x4F3FB0), `Nanobotz::Set_UV_46C0C0` (10.5 0x4F4190), ✓ `sharp_pare_0x15D8::sub_46BB50` | inlines added | GetTexture_46BB50 (198 unchanged); sub_46BEA0 = draw_4F3FB0 and Set_UV_46C0C0 = Set_UV_4F4190 (called) |
-| 0x4ED290 | `MapRenderer::draw_bottom_4ED290` | 0x46D9A0 | ✓ `sub_46BC70`, ✓ `sharp_pare_0x15D8::sub_46BB50` | done | GetTexture_46BB50; unchanged (192) |
-| 0x4F4D60 | `MapRenderer::draw_lid_4F4D60` | 0x470800 | ✓ `Nanobotz::sub_46BD40` (10.5 0x4EAE00), ✓ `Nanobotz::sub_46B5E0`, ✓ `sharp_pare_0x15D8::sub_46BB50` | commented | GetColour_46B5E0 43->105 |
+| 0x4EAF40 | `MapRenderer::DrawRightSide_4EAF40` | 0x470250 | `sub_46BEA0` (10.5 0x4F3FB0), `Nanobotz::Set_UV_46C0C0` (10.5 0x4F4190), ✓ `TextureCache_15D8::sub_46BB50` | inlines added | GetTexture_46BB50 (198 unchanged); sub_46BEA0 = draw_4F3FB0 and Set_UV_46C0C0 = Set_UV_4F4190 (called) |
+| 0x4ED290 | `MapRenderer::draw_bottom_4ED290` | 0x46D9A0 | ✓ `sub_46BC70`, ✓ `TextureCache_15D8::sub_46BB50` | done | GetTexture_46BB50; unchanged (192) |
+| 0x4F4D60 | `MapRenderer::draw_lid_4F4D60` | 0x470800 | ✓ `Nanobotz::sub_46BD40` (10.5 0x4EAE00), ✓ `Nanobotz::sub_46B5E0`, ✓ `TextureCache_15D8::sub_46BB50` | commented | GetColour_46B5E0 43->105 |
 | 0x4F66C0 | `MapRenderer::sub_4F66C0` | 0x471D60 | `Nanobotz::sub_470060`, `Nanobotz::sub_470440`, `Nanobotz::sub_470620`, `Nanobotz::sub_46C2C0`, `Nanobotz::sub_46C7F0`, `Nanobotz::sub_46CE30`, `Nanobotz::sub_46DFE0` | checked | Nanobotz draw callees (470060.., 46C2C0..) pair with the out-of-line 10.5 draw functions (called) |
 | 0x4FA500 | `Ambulance_110::ProcessPatientQueue_4FA500` | 0x473E00 | `cool_nash_0x294::get_cam_x_403A00`, `cool_nash_0x294::sub_416B50`, `EmergencyCrew_30::sub_4C54F0`, `MaxAbsDistance_42A6B0` | checked | get_cam_x/y/z (9.6f calls) give no change; diff is load/store scheduling of x/y/z |
 | 0x4FAAC0 | `Ambulance_20::HandleObjectiveState_4FAAC0` | 0x473410 | `cool_nash_0x294::sub_433B40`, ✓ `cool_nash_0x294::sub_403990`, ✓ `cool_nash_0x294::get_objective_403A80`, `cool_nash_0x294::sub_4039E0`, ✓ `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), ✓ `cool_nash_0x294::get_cam_x_403A00`, `MaxAbsDistance_42A6B0`, ✓ `cool_nash_0x294::get_objective_timer_403B30`, `sub_472FD0`, ✓ `cool_nash_0x294::set_target_objective_car_403AA0`, ✓ `cool_nash_0x294::set_enter_car_as_passenger_4039B0`, ✓ `cool_nash_0x294::set_target_car_door_403A70`, ✓ `cool_nash_0x294::sub_403920`, ✓ `cool_nash_0x294::set_objective_target_ped_403AC0`, ✓ `cool_nash_0x294::get_car_state_403A90`, ✓ `sub_450CB0`, ✓ `cool_nash_0x294::sub_403B60`, ✓ `cool_nash_0x294::get_objective_target_ped_403AD0`, ✓ `cool_nash_0x294::get_occupation_403980`, ✓ `cool_nash_0x294::sub_416B50`, ✓ `cool_nash_0x294::set_occupation_403970`, ✓ `cool_nash_0x294::sub_403B40`, ✓ `cool_nash_0x294::set_health_4039A0`, `sub_403960` | inlines added | get_cam_x/y/z for the objective target copy (score 64->48); MaxAbsDistance spot: 10.5 calls Abs_436A50/Max_44E540 out of line, load order still differs |
@@ -276,7 +276,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x5A7080 | `struct_4::CleanupSpriteList_5A7080` | 0x4BF070 | ✓ `sub_416B40`, ✓ `sub_4BE830`, `sub_485260`, `Sprite_18_Pool::sub_4BEC50` | checked | 485260 = Object_5C::RemoveAndFree_52A610 (called), 4BEC50 = DeAllocate (already) |
 | 0x5AA9A0 | `gtx_0x106C::load_car_info_5AA9A0` | 0x4C0410 | `sub_4C03F0` | checked | Door count/offset arithmetic: 10.5 keeps num_remaps in edi then adds 0xE after the first read; not reproduced yet |
 | 0x5B5BC0 | `text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0` | 0x4C2450 | ✓ `sub_4C23D0`, ✓ `sub_4539D0` | inlines added | new GetSpaceWidth_4C23D0 (gtx_0x106C.hpp) 70->62; GetCharWidth_4539D0 noted (Draw.hpp include changes static init/dtor code) |
-| 0x5B92E0 | `sharp_pare_0x15D8::ReadTextures_5B92E0` | 0x4C3040 | ✓ `gtx_0x106C::has_tiles_4C2EE0`, ✓ `gtx_0x106C::get_tile_4C2EB0` | done | all 9.6f inlines used |
+| 0x5B92E0 | `TextureCache_15D8::ReadTextures_5B92E0` | 0x4C3040 | ✓ `gtx_0x106C::has_tiles_4C2EE0`, ✓ `gtx_0x106C::get_tile_4C2EB0` | done | all 9.6f inlines used |
 | 0x5C1D00 | `TrafficLight_20::sub_5C1D00` | 0x4C3C70 | ✓ `sub_42A8C0`, `sub_483C20`, ✓ `GetValueByIdParity_469010` (10.5 0x52B2A0), ✓ `sub_433530` | done | 482->466; IsBlockPavementTypeInlined_433530 used; 483C20 = Object_2C::SetSpriteIdOffset_5290C0 (called in 10.5) |
 | 0x5C5CF0 | `Montana_4::AddSprite_5C5CF0` | 0x4C4BF0 | ✓ `sub_4C4B40` | done | all 9.6f inlines used |
 | 0x5C5F10 | `Montana_4::dtor_5C5F10` | 0x4C4E60 | `Montana_2EE4::gdtor_4C4D80`, `Montana_FA4::gdtor_4C4DA0` | checked | gdtors 4C4D80/4C4DA0 are compiler scalar deleting dtors from delete |
@@ -638,7 +638,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4B9B10 | `Game_0x40::IsRectVisibleToAnyPlayer_4B9B10` | 0x45BC90 | ✓ `DrawUnk_0xBC::sub_45AF40` | done | Camera_0xBC::IsRectInBounds_45AF40 (new) + s32 loop index; 85->16 (register swap left) |
 | 0x4B9D60 | `Game_0x40::sub_4B9D60` | 0x45BD40 | ✓ `Game_0x40::get_player_4219E0` | done | Game_0x40::get_player_4219E0; code unchanged |
 | 0x4B9DE0 | `Game_0x40::ctor_4B9DE0` | 0x45C4D0 | `angry_lewin_0x85C::sub_45B0D0`, `rng::ctor_45A960`, `Nanobotz::ctor_45B050` (10.5 0x4BE650), `Mike_A80::ctor_45C040`, `Frismo_C_Pool::ctor_45BFE0`, `jawwie_110::ctor_45C0D0`, `EmergencyCrewPool_1E0::ctor_45B1A0`, `Police_7B8::ctor_45C150`, `Light_1D4CC::ctor_45B3D0`, `Zones_CA8::ctor_45AE60`, `sub_489AC0`, `CokeZero_100::ctor_4B9490`, `Tango_54::ctor_45B440`, `LangIsJapanese_452E60` | checked | ctor list: member ctors, pairing noise |
-| 0x4BAE30 | `Game_0x40::dtor_4BAE30` | 0x45D3D0 | `angry_lewin_0x85C::dtor_45A970`, `text_0x14::dtor_405A80`, `gtx_0x106C::gdtor_451F90`, `Map_0x370::gdtor_45A990`, `Montana::gdtor_45A9B0`, `PedPool::gdtor_43DB20`, `frosty_pasteur_0xC1EA8::gdtor_45A9F0`, `Frismo_C_Pool::gdtor_45D350`, `Phi_8CA8::gdtor_45BDC0`, `Object_5C::gdtor_45AA10`, `PedManager::gdtor_45AA30`, `FpsCounter_54::gdtor_45AA50`, `Sprite_8::gdtor_45AA70`, `Collide_C::gdtor_45AA90`, `PedRefTable_7F8::gdtor_45AAB0`, `Sero_181C::gdtor_45AAD0`, `Taxi_4::gdtor_45AAF0`, `TileAnim_2::gdtor_45AB10`, `Weapon_8::gdtor_45AB30`, `Door_4D4::gdtor_45AB50`, `jawwie_110::gdtor_45BDE0`, `Garox_2B00::gdtor_45D3B0`, `sharp_pare_0x15D8::gdtor_451F70`, `TrafficLights_194::gdtor_45AB70`, `Marz_1D7E::gdtor_45BE00`, `Orca_2FD4::gdtor_45BE20`, `Monster_808::gdtor_45AB90`, `Particle_8::gdtor_45ABB0`, `ExplosionPool_3D4::gdtor_45ABD0`, `ExplosionPool_7A8::gdtor_45ABF0`, `Zheal_D9C::gdtor_45BE40`, `Snooky_94::gdtor_45BE60`, `EmergencyCrewPool_1E0::gdtor_45BE80`, `Police_7B8::gdtor_45BEA0`, `Light_1D4CC::gdtor_45BEC0`, `Zones_CA8::gdtor_45BEE0`, `ChickenLegend_48::dtor_45D370`, `Hamburger_500::dtor_45AC10`, `CokeZero_100::dtor_45AC30`, `CrimeReportQueue_CC::gdtor_45AC50`, `Tango_54::gdtor_45BF00`, `Rozza_C88::gdtor_45AC70`, `magical_germain_0x8EC::gdtor_45AC90` | checked | dtor list: global dtors, pairing noise |
+| 0x4BAE30 | `Game_0x40::dtor_4BAE30` | 0x45D3D0 | `angry_lewin_0x85C::dtor_45A970`, `text_0x14::dtor_405A80`, `gtx_0x106C::gdtor_451F90`, `Map_0x370::gdtor_45A990`, `Montana::gdtor_45A9B0`, `PedPool::gdtor_43DB20`, `frosty_pasteur_0xC1EA8::gdtor_45A9F0`, `Frismo_C_Pool::gdtor_45D350`, `Phi_8CA8::gdtor_45BDC0`, `Object_5C::gdtor_45AA10`, `PedManager::gdtor_45AA30`, `FpsCounter_54::gdtor_45AA50`, `Sprite_8::gdtor_45AA70`, `Collide_C::gdtor_45AA90`, `PedRefTable_7F8::gdtor_45AAB0`, `Sero_181C::gdtor_45AAD0`, `Taxi_4::gdtor_45AAF0`, `TileAnim_2::gdtor_45AB10`, `Weapon_8::gdtor_45AB30`, `Door_4D4::gdtor_45AB50`, `jawwie_110::gdtor_45BDE0`, `Garox_2B00::gdtor_45D3B0`, `TextureCache_15D8::gdtor_451F70`, `TrafficLights_194::gdtor_45AB70`, `Marz_1D7E::gdtor_45BE00`, `Orca_2FD4::gdtor_45BE20`, `Monster_808::gdtor_45AB90`, `Particle_8::gdtor_45ABB0`, `ExplosionPool_3D4::gdtor_45ABD0`, `ExplosionPool_7A8::gdtor_45ABF0`, `Zheal_D9C::gdtor_45BE40`, `Snooky_94::gdtor_45BE60`, `EmergencyCrewPool_1E0::gdtor_45BE80`, `Police_7B8::gdtor_45BEA0`, `Light_1D4CC::gdtor_45BEC0`, `Zones_CA8::gdtor_45BEE0`, `ChickenLegend_48::dtor_45D370`, `Hamburger_500::dtor_45AC10`, `CokeZero_100::dtor_45AC30`, `CrimeReportQueue_CC::gdtor_45AC50`, `Tango_54::gdtor_45BF00`, `Rozza_C88::gdtor_45AC70`, `magical_germain_0x8EC::gdtor_45AC90` | checked | dtor list: global dtors, pairing noise |
 | 0x4BE650 | `Hud_Pager_C::dtor_4BE650` | 0x45B050 | `Nanobotz::ResetCount_45B040`, `Nanobotz::set_shading_lev_46B620` (10.5 0x4E9DB0) | checked | pairing error (9.6f Nanobotz helpers) |
 | 0x4BEBC0 | `Light_1D4CC::dtor_4BEBC0` | 0x45B380 | `Light_1D4CC::sub_45AD00` | checked | Light_1D4CC::sub_45AD00 is a 9.6f-only reset; 10.5 dtor calls FreeGrid_4D6E30 |
 | 0x4BECA0 | `GangPool_CA8::sub_4BECA0` | 0x45DD60 | ✓ `Zone_144::sub_45DD50` | done | Gang_144::HasKillRespectChange_45DD50; code unchanged |
@@ -1124,9 +1124,9 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x5B5E90 | `text_0x14::Load_5B5E90` | 0x4C2540 | `chunk::verify_type_460EE0`, `chunk::verify_version_460EC0` | checked | chunk verify_type/verify_version (460EE0/460EC0) already used |
 | 0x5B5FB0 | `text_0x14::ctor_5B5FB0` | 0x4C2620 | `text_tkey::ctor_4C23F0`, `text_tdat::ctor_4C2420` | checked | text_tkey/text_tdat ctors (4C23F0/4C2420) already used as member ctors |
 | 0x5B6050 | `text_0x14::dtor_5B6050` | 0x4C26C0 | `text_tdat::dtor_4C2430`, `text_tkey::dtor_4C2400` | checked | text_tkey/text_tdat dtors (4C2400/4C2430) already used as member dtors |
-| 0x5B9180 | `sharp_pare_0x15D8::LoadTextures2_5B9180` | 0x4C2F90 | `sub_4C2EF0` | checked | sub_4C2EF0 is Sprite_3CC::get_s14 (already used) |
-| 0x5B9350 | `sharp_pare_0x15D8::sub_5B9350` | 0x4C30A0 | `sub_4C2F30` | checked | sub_4C2F30 pairs with an out-of-line texture setup call in 10.5 |
-| 0x5B9790 | `sharp_pare_0x15D8::ctor_5B9790` | 0x4C3190 | `array_constuctor_401CF0`, `festive_hopper::ctor_4C2F10` | checked | festive_hopper ctor (4C2F10) is already an inline ctor; array_constuctor_401CF0 is the compiler helper |
+| 0x5B9180 | `TextureCache_15D8::LoadCarDamageTextures_5B9180` | 0x4C2F90 | `sub_4C2EF0` | checked | sub_4C2EF0 is Sprite_3CC::get_s14 (already used) |
+| 0x5B9350 | `TextureCache_15D8::sub_5B9350` | 0x4C30A0 | `sub_4C2F30` | checked | sub_4C2F30 pairs with an out-of-line texture setup call in 10.5 |
+| 0x5B9790 | `TextureCache_15D8::ctor_5B9790` | 0x4C3190 | `array_constuctor_401CF0`, `RemapTextureSet_14::ctor_4C2F10` | checked | RemapTextureSet_14 ctor (4C2F10) is already an inline ctor; array_constuctor_401CF0 is the compiler helper |
 | 0x5BC260 | `TileAnim_2::sub_5BC260` | 0x4C3430 | `sub_4C3380`, ✓ `sub_4C33F0` | done | New TileAnim_18::Init_4C33F0 (sub_4C3380 is the pool Allocate); Still matches. |
 | 0x5BC2C0 | `TileAnim_2::sub_5BC2C0` | 0x4C3470 | `sub_4C3380` | checked | sub_4C3380 is the TileAnim pool Allocate (template, used) |
 | 0x5BC3A0 | `TileAnim_2::ctor_5BC3A0` | 0x4C35A0 | `TileAnimPool::ctor_4C34B0` | checked | TileAnimPool ctor is the pool template ctor |
@@ -1303,7 +1303,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x436140 | `sub_436140` | 23 |  | Source/Camera.hpp:63 | 3/0 | todo |  |
 | 0x436200 | `ApplyCarVelocityCameraOffset_436200` | 23 |  | Source/Camera.hpp:65 | 3/0 | todo |  |
 | 0x4637B0 | `sub_4637B0` | 11 |  | Source/Rozza_C88.hpp:16 | 3/1 | todo |  |
-| 0x46BB50 | `sharp_pare_0x15D8::sub_46BB50` | 15 |  | Source/sharp_pare_0x15D8.hpp:83 | 3/0 | todo |  |
+| 0x46BB50 | `TextureCache_15D8::sub_46BB50` | 15 |  | Source/TextureCache_15D8.hpp:83 | 3/0 | todo |  |
 | 0x482790 | `sub_482790` | 22 |  |  | 3/6 | todo |  |
 | 0x482A30 | `sub_482A30` | 10 |  | Source/sprite.hpp:449 | 3/1 | todo |  |
 | 0x482C30 | `sub_482C30` | 20 |  |  | 3/0 | todo |  |
@@ -2095,7 +2095,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x450530 | `FatalError_450530` | 435 | 0x4A38C0 MATCH |  | 0/2 | todo |  |
 | 0x450CC0 | `sub_450CC0` | 11 |  |  | 0/1 | todo |  |
 | 0x451510 | `sub_451510` | 141 |  |  | 0/1 | todo |  |
-| 0x451F70 | `sharp_pare_0x15D8::gdtor_451F70` | 30 |  |  | 0/1 | todo |  |
+| 0x451F70 | `TextureCache_15D8::gdtor_451F70` | 30 |  |  | 0/1 | todo |  |
 | 0x451F90 | `gtx_0x106C::gdtor_451F90` | 30 |  |  | 0/1 | todo |  |
 | 0x452E60 | `LangIsJapanese_452E60` | 8 |  | Source/text_0x14.hpp:60 | 0/2 | todo |  |
 | 0x453480 | `sub_453480` | 268 |  |  | 0/1 | todo |  |
@@ -2501,7 +2501,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4C2540 | `text_0x14::Load_4C2540` | 212 | 0x5B5E90 MATCH |  | 0/1 | todo |  |
 | 0x4C2620 | `text_0x14::ctor_4C2620` | 152 | 0x5B5FB0 MATCH |  | 0/1 | todo |  |
 | 0x4C2EF0 | `sub_4C2EF0` | 18 |  |  | 0/1 | todo |  |
-| 0x4C2F10 | `festive_hopper::ctor_4C2F10` | 24 |  |  | 0/1 | todo |  |
+| 0x4C2F10 | `RemapTextureSet_14::ctor_4C2F10` | 24 |  |  | 0/1 | todo |  |
 | 0x4C2F30 | `sub_4C2F30` | 52 |  |  | 0/1 | todo |  |
 | 0x4C3380 | `sub_4C3380` | 26 |  |  | 0/2 | todo |  |
 | 0x4C33F0 | `sub_4C33F0` | 54 |  | Source/TileAnim_2.hpp:24 | 0/1 | todo |  |

@@ -119,7 +119,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 2 | 18 | 44 | 45 | 0x562560 | `CarPhysics_B0::UpdateSteeringAngle_562560` | CarPhysics_B0.cpp |
 | 2 | 18 | 52 | 42 | 0x5121e0 | `frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0` | frosty_pasteur_0xC1EA8.cpp |
 | 2 | 22 | 24 | 1810 | 0x582480 | `Car_14::SpawnTrafficCar_582480` | Car_BC.cpp |
-| 2 | 40 | 78 | 22 | 0x5b92e0 | `sharp_pare_0x15D8::ReadTextures_5B92E0` | sharp_pare_0x15D8.cpp |
+| 2 | 40 | 78 | 22 | 0x5b92e0 | `TextureCache_15D8::ReadTextures_5B92E0` | TextureCache_15D8.cpp |
 | 2 | 62 | 194 | 359 | 0x541850 | `Explosion_30::ApplyBlastDamage_541850` | Explosion_30.cpp |
 | 2 | 70 | 452 | 194 | 0x550f60 | `Char_B4::GetNextRotationToward_550F60` | char.cpp |
 | 2 | 84 | 288 | 70 | 0x523bf0 | `Object_2C::IntegrateMovementAndCollisions_523BF0` | Object_5C.cpp |

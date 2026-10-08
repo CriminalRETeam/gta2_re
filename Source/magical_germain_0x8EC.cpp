@@ -8,7 +8,7 @@
 #include "Game_0x40.hpp"
 #include "gbh_graphics.hpp"
 #include "enums.hpp"
-#include "sharp_pare_0x15D8.hpp"
+#include "TextureCache_15D8.hpp"
 
 DEFINE_GLOBAL(magical_germain_0x8EC*, gMagical_germain_0x8EC_6F5168, 0x6F5168);
 
@@ -502,7 +502,7 @@ void magical_germain_0x8EC::InitGlyphCaches_4D2B40()
         u16 v6 = gGtx_0x106C_703DD4->GetSpriteIdxFromFont_5AA710(word_703C3E, i);
         u16 v7 = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::font_7, v6);
         pKanji->field_8_sprt_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v7);
-        pKanji->field_4_pTexture = gSharp_pare_0x15D8_705064->GetSpriteTexture_5B94F0(7, v6, 2, 0);
+        pKanji->field_4_pTexture = gTextureCache_15D8_705064->GetSpriteTexture_5B94F0(sprite_types_enum::font_7, v6, palette_types_enum::sprites_2, 0);
     }
 
     u16 v8 = gGtx_0x106C_703DD4->GetSpriteIdxFromFont_5AA710(word_703D9A, 0);
@@ -521,7 +521,7 @@ void magical_germain_0x8EC::InitGlyphCaches_4D2B40()
         u16 v6 = gGtx_0x106C_703DD4->GetSpriteIdxFromFont_5AA710(word_703D9A, j);
         u16 v7 = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::font_7, v6);
         pKanji_2->field_8_sprt_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v7);
-        pKanji_2->field_4_pTexture = gSharp_pare_0x15D8_705064->GetSpriteTexture_5B94F0(7, v6, 2, 0);
+        pKanji_2->field_4_pTexture = gTextureCache_15D8_705064->GetSpriteTexture_5B94F0(sprite_types_enum::font_7, v6, palette_types_enum::sprites_2, 0);
     }
 }
 

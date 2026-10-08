@@ -81,7 +81,7 @@
 #include "RouteFinder.hpp"
 #include "sad_mirzakhani.hpp"
 #include "FpsCounter_54.hpp"
-#include "sharp_pare_0x15D8.hpp"
+#include "TextureCache_15D8.hpp"
 #include "CreditsLine_6C.hpp"
 #include "sound_obj.hpp"
 #include "sprite.hpp"

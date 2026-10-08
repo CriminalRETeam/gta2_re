@@ -8,7 +8,7 @@
 #include "Light_1D4CC.hpp"
 #include "map_0x370.hpp"
 #include "Montana.hpp"
-#include "sharp_pare_0x15D8.hpp"
+#include "TextureCache_15D8.hpp"
 #include "winmain.hpp"
 
 DEFINE_GLOBAL(MapRenderer*, gpMapRenderer_6F66E4, 0x6F66E4);
@@ -420,7 +420,7 @@ void MapRenderer::draw_4E9EE0(u16& word_side, const bool& bUnk, u8 colour)
         }
         gTileDrawFlags_6F6560 = (word_side >> 5) & 0x80;
         pgbh_DrawTriangle(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           colour);
         ++field_2F00_drawn_tile_count;
@@ -683,7 +683,7 @@ void MapRenderer::DrawLeftSide_4EA390(u16& left_word)
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
             }
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           field_C_colour_t1);
             ++field_2F00_drawn_tile_count;
@@ -867,7 +867,7 @@ void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
             }
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           field_D_right_colour);
             ++field_2F00_drawn_tile_count;
@@ -1024,7 +1024,7 @@ void MapRenderer::DrawTopSide_4EBA60(u16& top_word)
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
             }
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->field_0_textures1[texture_idx],
+                          gTextureCache_15D8_705064->field_0_tile_textures[texture_idx],
                           gTileVerts_6F65A8,
                           field_F_colour_t3);
             ++field_2F00_drawn_tile_count;
@@ -1053,7 +1053,7 @@ void MapRenderer::DrawDiagonalUpLeftFace_4EC450(u16& left_word)
         if (texture_idx)
         {
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           field_10_diag_up_left_colour);
             ++field_2F00_drawn_tile_count;
@@ -1082,7 +1082,7 @@ void MapRenderer::DrawDiagonalUpRightFace_4EC7A0(u16& right_word)
         if (texture_idx)
         {
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           field_11_diag_up_right_colour);
             ++field_2F00_drawn_tile_count;
@@ -1111,7 +1111,7 @@ void MapRenderer::DrawDiagonalDownLeftFace_4ECAF0(u16& left_word)
         if (texture_idx)
         {
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           field_12_diag_down_left_colour);
             ++field_2F00_drawn_tile_count;
@@ -1140,7 +1140,7 @@ void MapRenderer::DrawDiagonalDownRightFace_4ECE40(u16& right_word)
         if (texture_idx)
         {
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           field_13_diag_down_right_colour);
             ++field_2F00_drawn_tile_count;
@@ -1302,7 +1302,7 @@ void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
             }
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                                 gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                                 gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                                  gTileVerts_6F65A8,
                                  field_E_colour_t2);
             ++field_2F00_drawn_tile_count;
@@ -1369,7 +1369,7 @@ void MapRenderer::draw_lid_4EE130()
             }
             //u8 diffuseColour = GetColour_46B5E0((gLidType_6F6274 >> 10) & 3);
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           GetColour_46B5E0((gLidType_6F6274 >> 10) & 3));
             ++field_2F00_drawn_tile_count;
@@ -1928,7 +1928,7 @@ void MapRenderer::DrawGradientSlopeNorthwards_4F0420()
             colour = MapRenderer::GetColour_4F0BD0(colour_sel);
         }
         pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                      gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                      gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                       gTileVerts_6F65A8,
                       colour);
         ++field_2F00_drawn_tile_count;
@@ -2075,7 +2075,7 @@ void MapRenderer::DrawGradientSlopeSouthwards_4F1660()
             colour = MapRenderer::GetColour_4F0BD0(colour_sel);
         }
         pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                      gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                      gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                       gTileVerts_6F65A8,
                       colour);
         ++field_2F00_drawn_tile_count;
@@ -2201,7 +2201,7 @@ void MapRenderer::DrawGradientSlopeWestwards_4F22F0()
             colour = MapRenderer::GetColour_4F0BD0(colour_sel);
         }
         pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                      gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                      gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                       gTileVerts_6F65A8,
                       colour);
         ++field_2F00_drawn_tile_count;
@@ -2329,7 +2329,7 @@ void MapRenderer::DrawGradientSlopeEastwards_4F33B0()
             colour = MapRenderer::GetColour_4F0BD0(colour_sel);
         }
         pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                      gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                      gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                       gTileVerts_6F65A8,
                       colour);
         ++field_2F00_drawn_tile_count;
@@ -2369,7 +2369,7 @@ void MapRenderer::draw_left_4F3C00(u16& side_word, Fix16& a2, Fix16& a3, Fix16& 
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
             }
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           field_C_colour_t1);
             ++field_2F00_drawn_tile_count;
@@ -2476,7 +2476,7 @@ void MapRenderer::draw_right_4F4250(u16& side_word, Fix16& a2, Fix16& a3, Fix16&
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
             }
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           field_D_right_colour);
             ++field_2F00_drawn_tile_count;
@@ -2517,7 +2517,7 @@ void MapRenderer::draw_top_4F4600(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
             }
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           field_F_colour_t3);
             ++field_2F00_drawn_tile_count;
@@ -2558,7 +2558,7 @@ void MapRenderer::draw_bottom_4F49B0(u16& side_word, Fix16& a2, Fix16& a3, Fix16
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
             }
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           field_E_colour_t2);
             ++field_2F00_drawn_tile_count;
@@ -2615,7 +2615,7 @@ void MapRenderer::draw_lid_4F4D60(Fix16& unk1, Fix16& unk2, Fix16& unk3, Fix16& 
                     break;
             }
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           diffuse_color);
             ++field_2F00_drawn_tile_count;
