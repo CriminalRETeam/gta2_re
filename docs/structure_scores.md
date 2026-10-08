@@ -117,7 +117,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 2 | 12 | 24 | 72 | 0x5d7cb0 | `ConvertColourBanks_5D7CB0` | Draw.cpp |
 | 2 | 16 | 26 | 0 | 0x562d00 | `CarPhysics_B0::EnforceGearSensitiveMaxSpeed_562D00` | CarPhysics_B0.cpp |
 | 2 | 18 | 44 | 45 | 0x562560 | `CarPhysics_B0::UpdateSteeringAngle_562560` | CarPhysics_B0.cpp |
-| 2 | 18 | 52 | 42 | 0x5121e0 | `frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0` | frosty_pasteur_0xC1EA8.cpp |
+| 2 | 18 | 52 | 42 | 0x5121e0 | `ScriptManager_C1EA8::LoadStringTbl_5121E0` | ScriptManager_C1EA8.cpp |
 | 2 | 22 | 24 | 1810 | 0x582480 | `Car_14::SpawnTrafficCar_582480` | Car_BC.cpp |
 | 2 | 40 | 78 | 22 | 0x5b92e0 | `TextureCache_15D8::ReadTextures_5B92E0` | TextureCache_15D8.cpp |
 | 2 | 62 | 194 | 359 | 0x541850 | `Explosion_30::ApplyBlastDamage_541850` | Explosion_30.cpp |

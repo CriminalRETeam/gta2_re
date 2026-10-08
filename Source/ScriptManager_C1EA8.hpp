@@ -487,7 +487,9 @@ enum SCRCMD
 EXTERN_GLOBAL(Car_BC*, gStoredCar_6F7560);
 EXTERN_GLOBAL(s32, gStoredCarId_6F78B4);
 
-class thread_C
+// A script thread waiting to be started by an event (a car / phone object interaction): the ids to match and the
+// script command to start the thread from. cmd_line 0 marks a free entry.
+class ThreadTrigger_C
 {
   public:
     s32 field_0_ped_id;
@@ -497,7 +499,7 @@ class thread_C
 };
 
 // Player/world info
-struct save_stats_0x90
+struct SavedPlayerStats_90
 {
     Fix16 field_0_x; // Maybe Fix16, but no ctor call seen in 9.6f - TODO: Check it
     Fix16 field_4_y;
@@ -522,16 +524,16 @@ struct save_stats_0x90
     u16 field_8E_pad;
 };
 
-struct TurkishDelight_4
+struct SavedFix16_4
 {
     // Compiler (?) generated ctor in 9.6f at 0x403770
     Fix16 field_0;
 };
 
 // Object data
-struct TurkishDelight_164
+struct SavedObjectData_164
 {
-    TurkishDelight_4 field_0_obj_x[3][20];
+    SavedFix16_4 field_0_obj_x[3][20];
     u16 field_F0_model[20];
     u8 field_118_ped_ref_idx[20];
     char_type field_12C_obj_5C_bUnCollectedTokens[50];
@@ -542,9 +544,9 @@ struct TurkishDelight_164
 // Car data
 struct SavedCarInfo
 {
-    TurkishDelight_4 field_0_x[3];
-    TurkishDelight_4 field_C_y[3];
-    TurkishDelight_4 field_18_z[3];
+    SavedFix16_4 field_0_x[3];
+    SavedFix16_4 field_C_y[3];
+    SavedFix16_4 field_18_z[3];
     Ang16 field_24_ang[3];
     s16 field_2A_damage[3];
     u32 field_30_damaged_areas[3];
@@ -552,21 +554,21 @@ struct SavedCarInfo
     s16 field_42_maybe_pad;
 };
 
-struct saved_counter_save
+struct SavedScriptCounter_4
 {
     u16 field_0_pointer;
     s16 field_2_saved_value;
 };
 
 // Car and script data
-struct TurkishDelight_500
+struct SavedCarAndScriptData_500
 {
     SavedCarInfo field_0; // 3x saved cars
     s16 field_44; // pad ??
     s16 field_46_script_ptr_count; // count of populated array entries
     s32 field_48_flags;
     s32 field_4C; // never used ?
-    saved_counter_save field_50_script_counter[300];
+    SavedScriptCounter_4 field_50_script_counter[300];
 };
 
 // A game save/.svg file format structure
@@ -583,9 +585,9 @@ class SaveData_748
     char_type field_4E_pad;
     char_type field_4F_pad;
     s32 field_50; // never used ?
-    save_stats_0x90 field_54_player_and_world_stats;
-    TurkishDelight_500 field_E4_car_and_script_data;
-    TurkishDelight_164 field_5E4_object_data;
+    SavedPlayerStats_90 field_54_player_and_world_stats;
+    SavedCarAndScriptData_500 field_E4_car_and_script_data;
+    SavedObjectData_164 field_5E4_object_data;
 };
 
 EXTERN_GLOBAL(SaveData_748, gGameSave_6F78C8);
@@ -599,7 +601,8 @@ struct WeaponCheckTable
     s8 field_7_pad;
 };
 
-class frosty_pasteur_0xC1EA8
+// Loads the mission scripts (.scr) and runs the script threads, also fills / reads the savegame script data
+class ScriptManager_C1EA8
 {
   public:
     // 9.6f 0x4C7350
@@ -646,15 +649,15 @@ class frosty_pasteur_0xC1EA8
 
     EXPORT str_table_entry* FindStringById_503080(s16 stringId);
     EXPORT str_table_entry* StrEntryByString_5030B0(char_type* strToFind);
-    EXPORT void sub_511A70(s32 car_model, Generator_2C* pGen);
-    EXPORT char_type sub_511B10(s16 idx);
+    EXPORT void SetGeneratorTypeForCar_511A70(s32 car_model, Generator_2C* pGen);
+    EXPORT char_type AddCranePowerupTrigger_511B10(s16 idx);
     EXPORT void SaveScriptCounters_511B90();
     EXPORT void LoadScriptCounters_511C30();
-    EXPORT void sub_511C60();
+    EXPORT void RestoreAnsweredPhones_511C60();
     EXPORT void SaveMapInfo_511D40();
     EXPORT void SaveGame_511E10(char_type* FileName);
     EXPORT void LoadSave_511F80(char_type* FileName);
-    EXPORT miss2_0x11C* SpawnThread_5120C0(s16 a1, char_type a2);
+    EXPORT miss2_0x11C* SpawnThread_5120C0(s16 start_cmd, char_type a2);
     EXPORT SCR_CMD_HEADER* FindCommandByType_512100(u16 toFind, u16 startOff);
     EXPORT void Update_512160();
     EXPORT void LoadStringTbl_5121E0(u16 tableSize);
@@ -664,29 +667,29 @@ class frosty_pasteur_0xC1EA8
     EXPORT void LoadSubScripts_5125F0();
     EXPORT SCR_CMD_HEADER* GetBasePointer_512770(u16 idx);
     EXPORT void ExecuteScriptThreads_5127A0();
-    EXPORT thread_C* FindCarThread_5128A0(s32 a2, s32 a3);
-    EXPORT void AddCarThread_5128D0(s32 a2, s32 a3, u16 a4);
-    EXPORT bool TriggerCarThread_512910(s32 a2, s32 a3);
-    EXPORT thread_C* FindPhoneThread_512980(s32 a2, s32 a3);
-    EXPORT void AddPhoneThread_5129B0(s32 a2, s32 obj_f14, u16 cmd_line);
+    EXPORT ThreadTrigger_C* FindCarThread_5128A0(s32 ped_id, s32 obj_f14);
+    EXPORT void AddCarThread_5128D0(s32 ped_id, s32 obj_f14, u16 cmd_line);
+    EXPORT bool TriggerCarThread_512910(s32 ped_id, s32 obj_f14);
+    EXPORT ThreadTrigger_C* FindPhoneThread_512980(s32 ped_id, s32 obj_f14);
+    EXPORT void AddPhoneThread_5129B0(s32 ped_id, s32 obj_f14, u16 cmd_line);
     EXPORT bool AnswerPhone_5129F0(s32 ped_idx, s32 phone_idx);
-    EXPORT thread_C* RemovePhoneThread_512A70(s32 a2, s32 a3);
-    EXPORT thread_C* RemovePhoneThreadByObjId_512AA0(s32 a2);
-    EXPORT thread_C* FindPhoneThreadByObjId_512AD0(s32 a2);
-    EXPORT char_type sub_512AF0(s32 id, char_type weapon_idx, char_type bUnk);
-    EXPORT void sub_512BA0(s32 id, char_type bUnk);
+    EXPORT ThreadTrigger_C* RemovePhoneThread_512A70(s32 ped_id, s32 obj_f14);
+    EXPORT ThreadTrigger_C* RemovePhoneThreadByObjId_512AA0(s32 obj_f14);
+    EXPORT ThreadTrigger_C* FindPhoneThreadByObjId_512AD0(s32 obj_f14);
+    EXPORT char_type TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_idx, char_type bUnk);
+    EXPORT void ClearWeaponHitFlag_512BA0(s32 id, char_type bUnk);
     EXPORT void RecordWeaponHit_512C00(s32 entity_id, s32 projectile_model, char_type bUnk);
     EXPORT bool IsWeaponHitRecorded_512C70(s32 id, char_type weapon_idx, char_type bUnk);
-    EXPORT frosty_pasteur_0xC1EA8();
-    EXPORT ~frosty_pasteur_0xC1EA8();
+    EXPORT ScriptManager_C1EA8();
+    EXPORT ~ScriptManager_C1EA8();
 
-    s16 field_0_car_thread_count;
+    s16 field_0_car_trigger_count;
     s16 field_2;
-    thread_C field_4_thrds_2[32];
-    s16 field_184_count;
+    ThreadTrigger_C field_4_car_triggers[32];
+    s16 field_184_phone_trigger_count;
     s16 field_186;
-    thread_C field_188_thrds_4[20];
-    s16 field_278;
+    ThreadTrigger_C field_188_phone_triggers[20];
+    s16 field_278_weapon_check_count;
     s16 field_27A;
     WeaponCheckTable field_27C_weapon_check_table[15];
     s32 field_2F4_bPreloadMissionScripts;
@@ -738,4 +741,4 @@ class frosty_pasteur_0xC1EA8
     s16 field_C1EA6;
 };
 
-EXTERN_GLOBAL(frosty_pasteur_0xC1EA8*, gfrosty_pasteur_6F8060);
+EXTERN_GLOBAL(ScriptManager_C1EA8*, gScriptManager_6F8060);

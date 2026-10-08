@@ -337,7 +337,7 @@ If the original has your `else` block first, invert the condition and swap the b
 both spellings to the same code, in which case this won't help (`Ped::ProcessInCarObjective_463FB0`).
 
 **`je tail; jmp next`** for an `if/else` whose branches share a tail comes from a `goto`.
-In `frosty_pasteur_0xC1EA8::sub_512BA0`/`RecordWeaponHit_512C00`, early `continue`/`return`, the body
+In `ScriptManager_C1EA8::ClearWeaponHitFlag_512BA0`/`RecordWeaponHit_512C00`, early `continue`/`return`, the body
 written in both branches, a ternary condition and an inline helper all failed to produce it.
 
 The `goto` entries in this file were only kept after `goto`-free forms had been tried (see the
@@ -1321,7 +1321,7 @@ by-value `if (a > b) b = a; return b;` gives the original's register use and kee
 **`new T()` without an EH state: declare T's constructor `throw()`.** When the original calls T's
 constructor out of line with no EH state around `new`, `T() throw();` removes the frame. Write
 `T* p = new T(); g = p; if (!p)`: assigning straight to the global let VC6 jump past the store
-(`frosty_pasteur_0xC1EA8` ctor 0x512CE0 with `Miss2_25C`).
+(`ScriptManager_C1EA8` ctor 0x512CE0 with `Miss2_25C`).
 
 **Operand order inside a shared inline helper matters, and 9.6f shows it.** `Ang16::PolarToCartesian_41FC20`
 computing `sine(angle) * radius` (the 9.6f order) instead of `radius * sine(angle)` fixed
@@ -1506,8 +1506,8 @@ above the store (`Ped::Deallocate_45EB60`).
 return, cast to `u8` at the call: `if ((u8)sub_405E20(...) || (u8)sub_405E20(...))`. With a
 `bool` return, VC6 emits `mov $1,%al` in the callee instead (`sub_405E20`, `sub_405E80`).
 
-**A member that ignores `ecx`.** `frosty_pasteur_0xC1EA8::sub_511A70` is called with
-`ecx = gfrosty_pasteur_6F8060`, but reads the global (`mov 0x6F8060,%eax`) instead of `this`.
+**A member that ignores `ecx`.** `ScriptManager_C1EA8::SetGeneratorTypeForCar_511A70` is called with
+`ecx = gScriptManager_6F8060`, but reads the global (`mov 0x6F8060,%eax`) instead of `this`.
 Write the body against the global. Similarly, `Police_7B8::UpdatePursuitTargets_56FBD0` calls
 `gPolice_7B8_6FEE40->DispatchNewCrewToPursuit_56FAA0(...)` and writes `gPolice_7B8_6FEE40->field_65C` while using
 `this` for everything else.

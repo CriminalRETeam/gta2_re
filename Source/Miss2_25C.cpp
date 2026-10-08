@@ -1,7 +1,7 @@
 #include "Miss2_25C.hpp"
 #include "miss2_0x11C.hpp"
 #include "Car_BC.hpp"
-#include "frosty_pasteur_0xC1EA8.hpp"
+#include "ScriptManager_C1EA8.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Object_5C.hpp"
@@ -94,7 +94,7 @@ void Miss2_25C::MissionCleanUp_502DC0()
         }
         pIter++;
     }
-    gfrosty_pasteur_6F8060->field_C1E70_wanted_car_model = 87;
+    gScriptManager_6F8060->field_C1E70_wanted_car_model = 87;
 }
 
 MATCH_FUNC(0x502f60)

@@ -27,7 +27,7 @@ Tried, all still tail-merged:
 Ideas not tried: `game_speed` as a by-value struct or a different type (to explain the
 reload), or the function being a static `__stdcall` (it never reads `ecx`).
 
-## frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0 (WIP)
+## ScriptManager_C1EA8::LoadStringTbl_5121E0 (WIP)
 
 Ratio 0.732 with an `s32 str_count` (was `u16`, 0.497): the original keeps the count in a
 32-bit stack slot and strength-reduces `field_4[str_count]` into an offset register
@@ -575,7 +575,7 @@ so the next "Dump target asm" run will include them:
   body is a guess.
 - `Net_4DA9B0` (winmain.cpp, 64 bytes, `__stdcall` with 3 arguments): called by the matched
   `Net_4DA9F0` to re-send an earlier frame's inputs to one player. Empty for now.
-- `frosty_pasteur_0xC1EA8::sub_511A70(s32 car_model, SCR_CMD_HEADER*)`: a guessed STUB, called from `Car_214::sub_5C8780`.
+- `ScriptManager_C1EA8::SetGeneratorTypeForCar_511A70(s32 car_model, SCR_CMD_HEADER*)`: a guessed STUB, called from `Car_214::sub_5C8780`.
 
 ## sound_obj::ChooseRadioEmitterForVehicle_57E6C0 (WIP, was STUB)
 
@@ -793,9 +793,9 @@ Still different:
 
 - 0.431. Now `void` (callers ignore the result). `Car_18::field_C` is now `s32` (it's a 2/3 action code).
   Added `kZero_705DD8`, a local `Car_18_Cmd` struct (the idx fields at 8/0x10/0x24) and the
-  `sub_511A70` stub.
+  `SetGeneratorTypeForCar_511A70` stub.
 - It is an 8-case switch on the touch-point type (car / ped / driver / stopped ped id checks). Then
-  `field_C` 2 starts a thread (`SpawnThread_5120C0`) and 3 calls `sub_511A70` + `FreeTrigger_5C8680`.
+  `field_C` 2 starts a thread (`SpawnThread_5120C0`) and 3 calls `SetGeneratorTypeForCar_511A70` + `FreeTrigger_5C8680`.
 - In case 4 (cmd types 0xD4/0xD6/else) each branch must have its own full `GetBasePointer` + id compare.
   VC6 then tail-merges the compare into the case 6/7 code as the target does (0.36 → 0.43).
 - Remaining: register/scheduling differences in most cases. Our case 3 car branch is tail-merged into case 5,
@@ -895,7 +895,7 @@ Still different:
   - **Ped:** the source velocity is the ped's `GetVelocityVector_45B520`.
   - **Car:** the velocity is `GetPointVelocity_561350` at the gun-model (114) or fallback-model (248) attachment point. That is the same attachment code as `Particle_8::EmitImpactParticles_53FE40`.
   - The burst moves along a random spread angle (`/ 71`, `Normalize_406C20`).
-  - **On a hit:** it moves `Particle_8`'s `field_0` (state 31) or `field_4` (state 34) to the hit. It also sets the damage owner from the shooter's `field_267_ped_ref_idx`. On a ped hit it calls `HandleGenericImpact_553E00` and `frosty_pasteur::RecordWeaponHit_512C00(id, 194/198, 1)`.
+  - **On a hit:** it moves `Particle_8`'s `field_0` (state 31) or `field_4` (state 34) to the hit. It also sets the damage owner from the shooter's `field_267_ped_ref_idx`. On a ped hit it calls `HandleGenericImpact_553E00` and `ScriptManager_C1EA8::RecordWeaponHit_512C00(id, 194/198, 1)`.
 - **Return block:** every failure check in the original jumps to one shared `return true` block. Ours uses early returns, so the next step is the nested form.
 - Uses `Fix16_Point::RotateByAngle_40F6B0` for the rotations. The other `Particle_4C` WIPs write the same rotation out by hand.
 - Oct 5: 860 -> 488 lines. Left: stack slot order, frame 4 bytes bigger (the original spills `pB4`/`pCar` to
@@ -984,11 +984,11 @@ Still different:
 - Re-sends one earlier frame's inputs to one player: fills `gInputSendData_6F5B18` (length 8
   with the sync check, else 4) and calls `NetPlay::SendToPlayer_521630`.
 
-### frosty_pasteur_0xC1EA8::sub_511A70 (0x511A70): MATCH
+### ScriptManager_C1EA8::SetGeneratorTypeForCar_511A70 (0x511A70): MATCH
 - Looks a car model up in the script's car list (`field_340_car_list`, read as bytes) and sets
   the generator's type from `kDecidePowerupGenTypes_6212F0` (0x41 when it isn't in the list). The second argument
   is a `Generator_2C`, not a `SCR_CMD_HEADER`.
-- It uses `gfrosty_pasteur_6F8060` instead of `this`. 0.957 to match by writing the compare as
+- It uses `gScriptManager_6F8060` instead of `this`. 0.957 to match by writing the compare as
   `car_model == *pList` and the increments as `pList++, i++`.
 
 ### FileByteSum_4DB120, sub_4DB2E0, FatalErrorMsg_4DB410, CompareRemotePlayers_4DB440: MATCH, first try
@@ -1207,7 +1207,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 - `Player::AddCarToHistory_5645B0` (0x5645B0): closer 29->23. for(;i<3;p++,i++){ if(!*p){*p=new;return;} } then shift. Left: esi/edi swap of the two history pointers, shift stores through a copied pointer (mov %esi,%eax) in orig; decl orders, pointer alias, struct copy, memcpy: no change
 - `Map_0x370::HasGreenArrowForPathDirection_4E5E90` (0x4E5E90): no change. same as 0x4E6190: original tail-merges identical HasBlockDesiredArrow calls across switch cases (case4-else = case3-if, case1-else push 2; jmp into it). Ternary/if-chain/compiler flags don't reproduce; likely the same unexplained cross-case merge
 - `miss2_0x11C::Locate_509FD0` (0x509FD0): no change. register rotation only (eax/ecx/edx) in the STOP_LOCATE_CHAR_FOOT/CAR case blocks; pObj/typed local/getter/default position/velocity local: no change
-- `frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0` (0x5121E0): closer 24->22. str_count before if, single store after (empty path stores ax=0 like orig). Left: dead (len+9)&~1 in edi, tableSize test via bx instead of zero-extended stack slot, first-loop regs
+- `ScriptManager_C1EA8::LoadStringTbl_5121E0` (0x5121E0): closer 24->22. str_count before if, single store after (empty path stores ax=0 like orig). Left: dead (len+9)&~1 in edi, tableSize test via bx instead of zero-extended stack slot, first-loop regs
 - `Mike_A80::sub_4FFD90` (0x4FFD90): no change. x87 'fildl x; flds 630; fsub %st(1),%st ... fstp %st(0)' (x kept and popped) vs our fsubrs; double/f64 x, dead right/top locals, casts: no change (already in match_attempts)
 - `Car_BC::ManageTVAntenna_4425D0` (0x4425D0): closer 39->11. Ang16 towerAng; declared at top (9.6f), towerAng = Get...() (T x; x = f()). Left: sprite rot is loaded into cx and reused for the conversion, orig compares against memory and reloads; operand order, s32 NotEqual (9.6f 0x41CFF0 returns s32), towerFp local: no change
 
@@ -1943,7 +1943,7 @@ in one expression"); the same form replaced the dead-store workaround in the mat
   getter: 26-44. Permuter 1100 found nothing natural.
 - `PoliceCrew_38::State6_ShutDown_574720` (46): `u8 i = 0` at the top in every spelling (`char_type`, assign,
   `i++`) gives the `ebp` zero register (128).
-- `frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0` (52): the original's `test %ecx; jbe` before the second loop is a
+- `ScriptManager_C1EA8::LoadStringTbl_5121E0` (52): the original's `test %ecx; jbe` before the second loop is a
   rotated `while (total < tableSize)`, not `if (tableSize) do {} while`, and the empty-table store reuses eax from
   the memset; a `while` gives the shape but shifts registers (94; VC7 76). The dead `(len + 9) & ~1` in the first
   loop is also in 9.6f; an unused aligned-length local is removed (52).
@@ -2918,7 +2918,7 @@ Tried before finding it: an `s32` return type with `return blit()` on one side a
 (24: breaks the merge, but then `blitRet` needs a register), assign-then-return on either side (72), a volatile
 store (20), the dword local without the read (72).
 
-- `frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0` (52): still the dead `(len + 9) & ~1` in `edi` in the first
+- `ScriptManager_C1EA8::LoadStringTbl_5121E0` (52): still the dead `(len + 9) & ~1` in `edi` in the first
   loop and the register/slot swap that goes with it. 9.6f (0x475D30, VC7 /Ob0) has the very same dead `and`, so
   it is in the source and both compilers fail to remove it. VC7 does not inline `__forceinline` under /Ob0
   (checked), so it is not a helper. Spellings that VC6 removes completely: `aligned = len & ~1` with the local in

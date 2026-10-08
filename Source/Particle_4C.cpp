@@ -10,7 +10,7 @@
 #include "Ped.hpp"
 #include "Particle_8.hpp"
 #include "Car_BC.hpp"
-#include "frosty_pasteur_0xC1EA8.hpp"
+#include "ScriptManager_C1EA8.hpp"
 #include "Object_3C.hpp"
 #include "CarPhysics_B0.hpp"
 
@@ -1616,11 +1616,11 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
                     {
                         if (field_38_state == 31)
                         {
-                            gfrosty_pasteur_6F8060->RecordWeaponHit_512C00(pHitPed->field_200_id, 194, 1);
+                            gScriptManager_6F8060->RecordWeaponHit_512C00(pHitPed->field_200_id, 194, 1);
                         }
                         else
                         {
-                            gfrosty_pasteur_6F8060->RecordWeaponHit_512C00(pHitPed->field_200_id, 198, 1);
+                            gScriptManager_6F8060->RecordWeaponHit_512C00(pHitPed->field_200_id, 198, 1);
                         }
                     }
                 }

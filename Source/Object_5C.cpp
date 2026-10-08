@@ -24,7 +24,7 @@
 #include "collide.hpp"
 #include "enums.hpp"
 #include "error.hpp"
-#include "frosty_pasteur_0xC1EA8.hpp"
+#include "ScriptManager_C1EA8.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
 
@@ -3669,7 +3669,7 @@ Object_2C* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 ro
 }
 
 MATCH_FUNC(0x52A500)
-void Object_5C::SaveObjects_52A500(TurkishDelight_164* pData)
+void Object_5C::SaveObjects_52A500(SavedObjectData_164* pData)
 {
     u16 saved_count = 0;
     Object_2C* pObj = gObject_2C_Pool_6F8F80->field_8_pool;
@@ -3694,10 +3694,10 @@ void Object_5C::SaveObjects_52A500(TurkishDelight_164* pData)
 // TODO: This is a mess, probably a fake match
 // https://decomp.me/scratch/juEUq
 MATCH_FUNC(0x52A590)
-void Object_5C::RestoreObjects_52A590(TurkishDelight_164* pData)
+void Object_5C::RestoreObjects_52A590(SavedObjectData_164* pData)
 {
     u8* pPedRefIdx = &pData->field_118_ped_ref_idx[0];
-    // TurkishDelight_4* pX = &pData->field_0_obj_x[0][0];
+    // SavedFix16_4* pX = &pData->field_0_obj_x[0][0];
     u16* pModel = &pData->field_F0_model[0];
 
     s32 i = 19;

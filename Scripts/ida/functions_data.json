@@ -9447,13 +9447,13 @@
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::FindStringById_503080",
+        "name": "ScriptManager_C1EA8::FindStringById_503080",
         "v96f_address": "0x474f00",
         "v105_address": "0x503080",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::StrEntryByString_5030B0",
+        "name": "ScriptManager_C1EA8::StrEntryByString_5030B0",
         "v96f_address": "0x474f30",
         "v105_address": "0x5030b0",
         "v96f_auto": true
@@ -10910,28 +10910,28 @@
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::sub_511A70",
+        "name": "ScriptManager_C1EA8::SetGeneratorTypeForCar_511A70",
         "v96f_address": null,
         "v105_address": "0x511a70"
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::sub_511B10",
+        "name": "ScriptManager_C1EA8::AddCranePowerupTrigger_511B10",
         "v96f_address": "0x47edb0",
         "v105_address": "0x511b10"
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::SaveScriptCounters_511B90",
+        "name": "ScriptManager_C1EA8::SaveScriptCounters_511B90",
         "v96f_address": "0x47ee70",
         "v105_address": "0x511b90",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::LoadScriptCounters_511C30",
+        "name": "ScriptManager_C1EA8::LoadScriptCounters_511C30",
         "v96f_address": null,
         "v105_address": "0x511c30"
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::sub_511C60",
+        "name": "ScriptManager_C1EA8::RestoreAnsweredPhones_511C60",
         "v96f_address": "0x481200",
         "v105_address": "0x511c60",
         "v96f_auto": true
@@ -10943,159 +10943,159 @@
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::SaveMapInfo_511D40",
+        "name": "ScriptManager_C1EA8::SaveMapInfo_511D40",
         "v96f_address": null,
         "v105_address": "0x511d40"
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::SaveGame_511E10",
+        "name": "ScriptManager_C1EA8::SaveGame_511E10",
         "v96f_address": "0x47ef40",
         "v105_address": "0x511e10",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::LoadSave_511F80",
+        "name": "ScriptManager_C1EA8::LoadSave_511F80",
         "v96f_address": "0x47F0B0",
         "v105_address": "0x511f80"
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::SpawnThread_5120C0",
+        "name": "ScriptManager_C1EA8::SpawnThread_5120C0",
         "v96f_address": "0x47f200",
         "v105_address": "0x5120c0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::FindCommandByType_512100",
+        "name": "ScriptManager_C1EA8::FindCommandByType_512100",
         "v96f_address": "0x47f230",
         "v105_address": "0x512100",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::Update_512160",
+        "name": "ScriptManager_C1EA8::Update_512160",
         "v96f_address": "0x481890",
         "v105_address": "0x512160"
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0",
+        "name": "ScriptManager_C1EA8::LoadStringTbl_5121E0",
         "v96f_address": "0x475d30",
         "v105_address": "0x5121e0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::GetScrFileName_5122D0",
+        "name": "ScriptManager_C1EA8::GetScrFileName_5122D0",
         "v96f_address": "0x475e00",
         "v105_address": "0x5122d0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::Load_512330",
+        "name": "ScriptManager_C1EA8::Load_512330",
         "v96f_address": "0x47f280",
         "v105_address": "0x512330",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::LoadMissionScript_512400",
+        "name": "ScriptManager_C1EA8::LoadMissionScript_512400",
         "v96f_address": "0x475e90",
         "v105_address": "0x512400",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::LoadSubScripts_5125F0",
+        "name": "ScriptManager_C1EA8::LoadSubScripts_5125F0",
         "v96f_address": "0x476070",
         "v105_address": "0x5125f0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::GetBasePointer_512770",
+        "name": "ScriptManager_C1EA8::GetBasePointer_512770",
         "v96f_address": "0x476200",
         "v105_address": "0x512770",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::ExecuteScriptThreads_5127A0",
+        "name": "ScriptManager_C1EA8::ExecuteScriptThreads_5127A0",
         "v96f_address": null,
         "v105_address": "0x5127a0"
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::FindCarThread_5128A0",
+        "name": "ScriptManager_C1EA8::FindCarThread_5128A0",
         "v96f_address": "0x476240",
         "v105_address": "0x5128a0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::AddCarThread_5128D0",
+        "name": "ScriptManager_C1EA8::AddCarThread_5128D0",
         "v96f_address": "0x476280",
         "v105_address": "0x5128d0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::TriggerCarThread_512910",
+        "name": "ScriptManager_C1EA8::TriggerCarThread_512910",
         "v96f_address": "0x47f340",
         "v105_address": "0x512910",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::FindPhoneThread_512980",
+        "name": "ScriptManager_C1EA8::FindPhoneThread_512980",
         "v96f_address": "0x476320",
         "v105_address": "0x512980",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::AddPhoneThread_5129B0",
+        "name": "ScriptManager_C1EA8::AddPhoneThread_5129B0",
         "v96f_address": "0x476370",
         "v105_address": "0x5129b0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::AnswerPhone_5129F0",
+        "name": "ScriptManager_C1EA8::AnswerPhone_5129F0",
         "v96f_address": "0x47f3b0",
         "v105_address": "0x5129f0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::RemovePhoneThread_512A70",
+        "name": "ScriptManager_C1EA8::RemovePhoneThread_512A70",
         "v96f_address": "0x4763b0",
         "v105_address": "0x512a70",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::RemovePhoneThreadByObjId_512AA0",
+        "name": "ScriptManager_C1EA8::RemovePhoneThreadByObjId_512AA0",
         "v96f_address": "0x47f420",
         "v105_address": "0x512aa0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::FindPhoneThreadByObjId_512AD0",
+        "name": "ScriptManager_C1EA8::FindPhoneThreadByObjId_512AD0",
         "v96f_address": "0x4763e0",
         "v105_address": "0x512ad0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::sub_512AF0",
+        "name": "ScriptManager_C1EA8::TestAndRecordWeaponHit_512AF0",
         "v96f_address": "0x476400",
         "v105_address": "0x512af0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::sub_512BA0",
+        "name": "ScriptManager_C1EA8::ClearWeaponHitFlag_512BA0",
         "v96f_address": "0x4764d0",
         "v105_address": "0x512ba0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::RecordWeaponHit_512C00",
+        "name": "ScriptManager_C1EA8::RecordWeaponHit_512C00",
         "v96f_address": "0x476530",
         "v105_address": "0x512c00",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::IsWeaponHitRecorded_512C70",
+        "name": "ScriptManager_C1EA8::IsWeaponHitRecorded_512C70",
         "v96f_address": "0x4765a0",
         "v105_address": "0x512c70",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::ctor",
+        "name": "ScriptManager_C1EA8::ctor",
         "v96f_address": "0x481960",
         "v105_address": "0x512ce0"
     },
@@ -11106,7 +11106,7 @@
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::dtor",
+        "name": "ScriptManager_C1EA8::dtor",
         "v96f_address": "0x481c30",
         "v105_address": "0x5130e0",
         "v96f_auto": true

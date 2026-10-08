@@ -7,7 +7,7 @@
 #include "Object_5C.hpp"
 #include "SpriteGrid_400.hpp"
 #include "debug.hpp"
-#include "frosty_pasteur_0xC1EA8.hpp"
+#include "ScriptManager_C1EA8.hpp"
 #include "map_0x370.hpp"
 #include "rng.hpp"
 #include "root_sound.hpp"
@@ -670,7 +670,7 @@ void Crane_15C::ReleaseHookedCar_47FD10()
 {
     if (field_140_powerup_cmd)
     {
-        gfrosty_pasteur_6F8060->sub_511B10(field_140_powerup_cmd);
+        gScriptManager_6F8060->AddCranePowerupTrigger_511B10(field_140_powerup_cmd);
     }
 
     switch (field_150)

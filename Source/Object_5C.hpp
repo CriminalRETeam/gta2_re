@@ -345,7 +345,7 @@ class Object_2C
     char_type field_2B;
 };
 
-struct TurkishDelight_164;
+struct SavedObjectData_164;
 
 class Object_5C
 {
@@ -394,8 +394,8 @@ class Object_5C
                                  char_type a11);
     EXPORT Object_2C* CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 a6, s32 pedId);
 
-    EXPORT void SaveObjects_52A500(TurkishDelight_164* pUnknownObj);
-    EXPORT void RestoreObjects_52A590(TurkishDelight_164* pUnknownObj);
+    EXPORT void SaveObjects_52A500(SavedObjectData_164* pUnknownObj);
+    EXPORT void RestoreObjects_52A590(SavedObjectData_164* pUnknownObj);
     EXPORT void RemoveAndFree_52A610(Object_2C* p2C);
 
     Object_2C* field_0_diagonal_wall_ang315; // Object_2C* ?

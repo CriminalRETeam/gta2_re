@@ -44,8 +44,8 @@ set(gta2_lib_src
   Source/3rdParty/mss.h
   Source/types.hpp
   Source/winmain.cpp
-  Source/frosty_pasteur_0xC1EA8.hpp
-  Source/frosty_pasteur_0xC1EA8.cpp
+  Source/ScriptManager_C1EA8.hpp
+  Source/ScriptManager_C1EA8.cpp
   Source/map_0x370.hpp
   Source/map_0x370.cpp
   Source/Light_28.hpp

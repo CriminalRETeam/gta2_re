@@ -15,7 +15,7 @@ class SoundObject_10;
 class Ped;
 class Weapon_30;
 class Player;
-struct save_stats_0x90;
+struct SavedPlayerStats_90;
 
 // TODO: add these later
 class Car_BC;
@@ -234,7 +234,7 @@ class Player
     EXPORT void ClearPowerUpsExceptJailCard_564CF0();
     EXPORT char_type CollectPowerUp_564D60(s32 a2);
     EXPORT void tick_down_powerups_565070();
-    EXPORT void RestorePowerUpsFromSave_5651F0(save_stats_0x90* a2);
+    EXPORT void RestorePowerUpsFromSave_5651F0(SavedPlayerStats_90* a2);
     EXPORT void TeleportToDebugCam_565310();
     EXPORT void DebugWatchNearestCar_5653E0();
     EXPORT void sub_565460();
@@ -282,8 +282,8 @@ class Player
     EXPORT void DisableEnterVehicles_56A030();
     EXPORT void EnableEnterVehicles_56A040();
     EXPORT void RestoreCarsFromSave_56A0F0();
-    EXPORT void CopyPlayerDataToSave_56A1A0(save_stats_0x90* pSave);
-    EXPORT void UpdateGameFromSave_56A310(save_stats_0x90* a2);
+    EXPORT void CopyPlayerDataToSave_56A1A0(SavedPlayerStats_90* pSave);
+    EXPORT void UpdateGameFromSave_56A310(SavedPlayerStats_90* a2);
     EXPORT void ApplyCheats_56A490();
     EXPORT void ClearInputs_56A6D0();
 

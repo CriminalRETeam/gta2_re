@@ -15,7 +15,7 @@
 #include "Weapon_30.hpp"
 #include "debug.hpp"
 #include "error.hpp"
-#include "frosty_pasteur_0xC1EA8.hpp"
+#include "ScriptManager_C1EA8.hpp"
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
 #include "keybrd_0x204.hpp"
@@ -640,7 +640,7 @@ bool Hud_Arrow_7C::CheckVisibility_5D0530()
         }
         if (!bShow_all_arrows_67D6E7)
         {
-            if (gfrosty_pasteur_6F8060->IsOnMission_4C7350())
+            if (gScriptManager_6F8060->IsOnMission_4C7350())
             {
                 return false; // player is on mission, so do not display gang phone arrows
             }
@@ -3006,14 +3006,14 @@ void Hud_PauseScreen_2::DrawPause_5D63B0()
             switch (field_0_current_pause_section)
             {
                 case HudPauseSection::target_score_0:
-                    swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("pscore"), gfrosty_pasteur_6F8060->field_310_finish_score);
+                    swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("pscore"), gScriptManager_6F8060->field_310_finish_score);
                     break;
 
                 case HudPauseSection::gang_1_missions_done_1:
                     pGang = gGangPool_CA8_67E274->FirstGang_4BECA0();
-                    if (gfrosty_pasteur_6F8060->field_32C_1_passed_flag)
+                    if (gScriptManager_6F8060->field_32C_1_passed_flag)
                     {
-                        value_1 = *gfrosty_pasteur_6F8060->field_32C_1_passed_flag;
+                        value_1 = *gScriptManager_6F8060->field_32C_1_passed_flag;
                     }
                     else
                     {
@@ -3023,7 +3023,7 @@ void Hud_PauseScreen_2::DrawPause_5D63B0()
                              gText_0x14_704DFC->Find_5B5F90("pgmiss"),
                              pGang->GetArrowColourText_4BF340(),
                              value_1,
-                             gfrosty_pasteur_6F8060->field_31C_gang_1_missions_total);
+                             gScriptManager_6F8060->field_31C_gang_1_missions_total);
                     sprite_type = 6;
                     sprite_pal = pGang->field_138_arrow_colour + 63;
                     break;
@@ -3031,9 +3031,9 @@ void Hud_PauseScreen_2::DrawPause_5D63B0()
                 case HudPauseSection::gang_2_missions_done_2:
                     gGangPool_CA8_67E274->FirstGang_4BECA0();
                     pGang = gGangPool_CA8_67E274->NextGang_4BECE0();
-                    if (gfrosty_pasteur_6F8060->field_330_2_passed_flag)
+                    if (gScriptManager_6F8060->field_330_2_passed_flag)
                     {
-                        value_1 = *gfrosty_pasteur_6F8060->field_330_2_passed_flag;
+                        value_1 = *gScriptManager_6F8060->field_330_2_passed_flag;
                     }
                     else
                     {
@@ -3043,7 +3043,7 @@ void Hud_PauseScreen_2::DrawPause_5D63B0()
                              gText_0x14_704DFC->Find_5B5F90("pgmiss"),
                              pGang->GetArrowColourText_4BF340(),
                              value_1,
-                             gfrosty_pasteur_6F8060->field_320_gang_2_missions_total);
+                             gScriptManager_6F8060->field_320_gang_2_missions_total);
                     sprite_type = 6;
                     sprite_pal = pGang->field_138_arrow_colour + 63;
                     break;
@@ -3052,9 +3052,9 @@ void Hud_PauseScreen_2::DrawPause_5D63B0()
                     gGangPool_CA8_67E274->FirstGang_4BECA0();
                     gGangPool_CA8_67E274->NextGang_4BECE0();
                     pGang = gGangPool_CA8_67E274->NextGang_4BECE0();
-                    if (gfrosty_pasteur_6F8060->field_334_3_passed_flag)
+                    if (gScriptManager_6F8060->field_334_3_passed_flag)
                     {
-                        value_1 = *gfrosty_pasteur_6F8060->field_334_3_passed_flag;
+                        value_1 = *gScriptManager_6F8060->field_334_3_passed_flag;
                     }
                     else
                     {
@@ -3064,15 +3064,15 @@ void Hud_PauseScreen_2::DrawPause_5D63B0()
                              gText_0x14_704DFC->Find_5B5F90("pgmiss"),
                              pGang->GetArrowColourText_4BF340(),
                              value_1,
-                             gfrosty_pasteur_6F8060->field_324_gang_3_missions_total);
+                             gScriptManager_6F8060->field_324_gang_3_missions_total);
                     sprite_type = 6;
                     sprite_pal = pGang->field_138_arrow_colour + 63;
                     break;
 
                 case HudPauseSection::all_missions_done_4:
-                    if (gfrosty_pasteur_6F8060->field_328_passed_flag)
+                    if (gScriptManager_6F8060->field_328_passed_flag)
                     {
-                        value_1 = *gfrosty_pasteur_6F8060->field_328_passed_flag;
+                        value_1 = *gScriptManager_6F8060->field_328_passed_flag;
                     }
                     else
                     {
@@ -3081,13 +3081,13 @@ void Hud_PauseScreen_2::DrawPause_5D63B0()
                     swprintf(tmpBuff_67BD9C,
                              gText_0x14_704DFC->Find_5B5F90("pmiss"),
                              value_1,
-                             gfrosty_pasteur_6F8060->field_314_total_missions);
+                             gScriptManager_6F8060->field_314_total_missions);
                     break;
 
                 case HudPauseSection::kill_frenzies_completed_5:
-                    if (gfrosty_pasteur_6F8060->field_338_secrets_passed)
+                    if (gScriptManager_6F8060->field_338_secrets_passed)
                     {
-                        value_1 = *gfrosty_pasteur_6F8060->field_338_secrets_passed;
+                        value_1 = *gScriptManager_6F8060->field_338_secrets_passed;
                     }
                     else
                     {
@@ -3096,7 +3096,7 @@ void Hud_PauseScreen_2::DrawPause_5D63B0()
                     swprintf(tmpBuff_67BD9C,
                              gText_0x14_704DFC->Find_5B5F90("psec"),
                              value_1,
-                             gfrosty_pasteur_6F8060->field_318_total_secrets);
+                             gScriptManager_6F8060->field_318_total_secrets);
                     sprite_type = 4;
                     sprite_pal = gObjectDefinitions_6FCF00->GetObjectPalette_4C6E30(286);
                     break;

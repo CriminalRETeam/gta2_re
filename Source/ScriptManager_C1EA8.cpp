@@ -1,4 +1,4 @@
-#include "frosty_pasteur_0xC1EA8.hpp"
+#include "ScriptManager_C1EA8.hpp"
 #include "Car_BC.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
@@ -16,7 +16,7 @@
 #include "memory.hpp"
 #include "miss2_0x11C.hpp"
 
-DEFINE_GLOBAL(frosty_pasteur_0xC1EA8*, gfrosty_pasteur_6F8060, 0x6F8060);
+DEFINE_GLOBAL(ScriptManager_C1EA8*, gScriptManager_6F8060, 0x6F8060);
 DEFINE_GLOBAL(SaveData_748, gGameSave_6F78C8, 0x6F78C8);
 DEFINE_GLOBAL(Car_BC*, gStoredCar_6F7560, 0x6F7560);
 DEFINE_GLOBAL(s32, gStoredCarId_6F78B4, 0x6F78B4);
@@ -26,7 +26,7 @@ DEFINE_GLOBAL_INIT(u8, gbAllowMiss2Logging_6212EC, 1, 0x6212EC);
 //s32 gStoredCarId_6F78B4;
 
 MATCH_FUNC(0x503080)
-str_table_entry* frosty_pasteur_0xC1EA8::FindStringById_503080(s16 stringId)
+str_table_entry* ScriptManager_C1EA8::FindStringById_503080(s16 stringId)
 {
     u16 idx = 0;
     str_table_entry* result = field_13350_pStringTbl->field_4[idx];
@@ -43,7 +43,7 @@ str_table_entry* frosty_pasteur_0xC1EA8::FindStringById_503080(s16 stringId)
 }
 
 MATCH_FUNC(0x5030b0)
-str_table_entry* frosty_pasteur_0xC1EA8::StrEntryByString_5030B0(char_type* strToFind)
+str_table_entry* ScriptManager_C1EA8::StrEntryByString_5030B0(char_type* strToFind)
 {
     u16 idx = 0;
     str_table_entry* pEntry = field_13350_pStringTbl->field_4[idx];
@@ -64,9 +64,9 @@ EXTERN_GLOBAL_ARRAY(u8, kDecidePowerupGenTypes_6212F0, 19);
 // Sets the generator type for `car_model` from the script's car list, or type 0x41 when it isn't
 // in the list. Reads the global rather than `this`.
 MATCH_FUNC(0x511A70)
-void frosty_pasteur_0xC1EA8::sub_511A70(s32 car_model, Generator_2C* pGen)
+void ScriptManager_C1EA8::SetGeneratorTypeForCar_511A70(s32 car_model, Generator_2C* pGen)
 {
-    u8* pList = (u8*)gfrosty_pasteur_6F8060->field_340_car_list;
+    u8* pList = (u8*)gScriptManager_6F8060->field_340_car_list;
     u8 i;
     for (i = 0; i < 19; pList++, i++)
     {
@@ -96,7 +96,7 @@ void frosty_pasteur_0xC1EA8::sub_511A70(s32 car_model, Generator_2C* pGen)
 }
 
 MATCH_FUNC(0x511b10)
-char_type frosty_pasteur_0xC1EA8::sub_511B10(s16 idx)
+char_type ScriptManager_C1EA8::AddCranePowerupTrigger_511B10(s16 idx)
 {
     SCR_DECLARE_CRANE_POWERUP* pCmd = (SCR_DECLARE_CRANE_POWERUP*)GetBasePointer_512770(idx);
     SCR_POINTER* pGenerator = (SCR_POINTER*)GetBasePointer_512770(pCmd->field_A_generator);
@@ -111,7 +111,7 @@ char_type frosty_pasteur_0xC1EA8::sub_511B10(s16 idx)
 }
 
 MATCH_FUNC(0x511b90)
-void frosty_pasteur_0xC1EA8::SaveScriptCounters_511B90()
+void ScriptManager_C1EA8::SaveScriptCounters_511B90()
 {
     u16 saved_counter_count = 0;
     for (u16 ptr = 0; ptr < GTA2_COUNTOF(field_46C_base_pointers); ptr++)
@@ -136,16 +136,16 @@ void frosty_pasteur_0xC1EA8::SaveScriptCounters_511B90()
     {
         memset(&gGameSave_6F78C8.field_E4_car_and_script_data.field_50_script_counter[saved_counter_count],
                0,
-               (300 - saved_counter_count) * sizeof(saved_counter_save));
+               (300 - saved_counter_count) * sizeof(SavedScriptCounter_4));
     }
 }
 
 MATCH_FUNC(0x511c30)
-void frosty_pasteur_0xC1EA8::LoadScriptCounters_511C30()
+void ScriptManager_C1EA8::LoadScriptCounters_511C30()
 {
     for (u16 saved_counter_idx = 0; saved_counter_idx < 300; saved_counter_idx++)
     {
-        saved_counter_save* pStruct = &gGameSave_6F78C8.field_E4_car_and_script_data.field_50_script_counter[saved_counter_idx];
+        SavedScriptCounter_4* pStruct = &gGameSave_6F78C8.field_E4_car_and_script_data.field_50_script_counter[saved_counter_idx];
         if (pStruct->field_0_pointer > 0)
         {
             SCR_POINTER* pPointer = (SCR_POINTER*)GetBasePointer_512770(pStruct->field_0_pointer);
@@ -155,7 +155,7 @@ void frosty_pasteur_0xC1EA8::LoadScriptCounters_511C30()
 }
 
 MATCH_FUNC(0x511C60)
-void frosty_pasteur_0xC1EA8::sub_511C60()
+void ScriptManager_C1EA8::RestoreAnsweredPhones_511C60()
 {
     for (char_type bit = 0; bit < 32; bit++)
     {
@@ -163,13 +163,13 @@ void frosty_pasteur_0xC1EA8::sub_511C60()
         {
             SCR_POINTER* pPointer = (SCR_POINTER*)GetBasePointer_512770(field_C1E32_phone_ids[bit]);
             pPointer->field_8_obj->PoolGiveAndSetDone_5291E0(174);
-            gfrosty_pasteur_6F8060->RemovePhoneThreadByObjId_512AA0(pPointer->field_8_obj->field_14_id);
+            gScriptManager_6F8060->RemovePhoneThreadByObjId_512AA0(pPointer->field_8_obj->field_14_id);
         }
     }
 }
 
 MATCH_FUNC(0x511d40)
-void frosty_pasteur_0xC1EA8::SaveMapInfo_511D40()
+void ScriptManager_C1EA8::SaveMapInfo_511D40()
 {
     strcpy(gGameSave_6F78C8.field_0_map_name, gGameSession_67E8E0.GetMapName_4C5940());
     strcpy(gGameSave_6F78C8.field_19_style_name, gGameSession_67E8E0.GetStyleName_4C5950());
@@ -183,7 +183,7 @@ void frosty_pasteur_0xC1EA8::SaveMapInfo_511D40()
 }
 
 MATCH_FUNC(0x511e10)
-void frosty_pasteur_0xC1EA8::SaveGame_511E10(char_type* pFileName)
+void ScriptManager_C1EA8::SaveGame_511E10(char_type* pFileName)
 {
     unsigned short** pColData;
     unsigned int colBytes;
@@ -200,7 +200,7 @@ void frosty_pasteur_0xC1EA8::SaveGame_511E10(char_type* pFileName)
         pFileName = gTmpBuffer_67C598;
     }
 
-    frosty_pasteur_0xC1EA8::SaveScriptCounters_511B90();
+    ScriptManager_C1EA8::SaveScriptCounters_511B90();
 
     gGame_0x40_67E008->field_38_orf1->CopyPlayerDataToSave_56A1A0(&gGameSave_6F78C8.field_54_player_and_world_stats);
 
@@ -214,7 +214,7 @@ void frosty_pasteur_0xC1EA8::SaveGame_511E10(char_type* pFileName)
 
     gMap_0x370_6F6268->GetModifiedMapData_4E8CF0(&pColData, &colBytes, &pBlockInfo, &blockInfoBytes, &pMapSub, &mapSubBytes);
 
-    frosty_pasteur_0xC1EA8::SaveMapInfo_511D40();
+    ScriptManager_C1EA8::SaveMapInfo_511D40();
 
     {
         size_t writeLen = sizeof(SaveData_748);
@@ -250,7 +250,7 @@ void frosty_pasteur_0xC1EA8::SaveGame_511E10(char_type* pFileName)
 }
 
 MATCH_FUNC(0x511f80)
-void frosty_pasteur_0xC1EA8::LoadSave_511F80(char_type* pFileName)
+void ScriptManager_C1EA8::LoadSave_511F80(char_type* pFileName)
 {
     size_t mapSubLen;
     size_t blockInfoLen;
@@ -284,7 +284,7 @@ void frosty_pasteur_0xC1EA8::LoadSave_511F80(char_type* pFileName)
     gMap_0x370_6F6268->OnModifiedMapDataLoaded_4E8C00(colDataLen, blockInfoLen, mapSubLen);
     File::Global_Close_4A70C0();
 
-    frosty_pasteur_0xC1EA8::LoadScriptCounters_511C30();
+    ScriptManager_C1EA8::LoadScriptCounters_511C30();
 
     gObject_5C_6F8F84->RestoreObjects_52A590(&gGameSave_6F78C8.field_5E4_object_data);
 
@@ -297,15 +297,15 @@ void frosty_pasteur_0xC1EA8::LoadSave_511F80(char_type* pFileName)
 }
 
 MATCH_FUNC(0x5120C0)
-miss2_0x11C* frosty_pasteur_0xC1EA8::SpawnThread_5120C0(s16 a1, char_type a2)
+miss2_0x11C* ScriptManager_C1EA8::SpawnThread_5120C0(s16 start_cmd, char_type a2)
 {
     miss2_0x11C* pThread = miss2_0x11C_Pool_6F8064->Allocate_4767A0();
-    pThread->InitThread_511930(a2, a1);
+    pThread->InitThread_511930(a2, start_cmd);
     return pThread;
 }
 
 MATCH_FUNC(0x512100)
-SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::FindCommandByType_512100(u16 toFind, u16 startOff)
+SCR_CMD_HEADER* ScriptManager_C1EA8::FindCommandByType_512100(u16 toFind, u16 startOff)
 {
     u16 idx;
     SCR_CMD_HEADER* header;
@@ -316,7 +316,7 @@ SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::FindCommandByType_512100(u16 toFind, u16
     }
     for (idx = 0; idx < GTA2_COUNTOF_S(field_46C_base_pointers) - startOff; ++idx)
     {
-        if (header = frosty_pasteur_0xC1EA8::GetBasePointer_512770(idx + startOff))
+        if (header = ScriptManager_C1EA8::GetBasePointer_512770(idx + startOff))
         {
             if (header->field_2_type == toFind)
             {
@@ -328,7 +328,7 @@ SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::FindCommandByType_512100(u16 toFind, u16
 }
 
 MATCH_FUNC(0x512160)
-void frosty_pasteur_0xC1EA8::Update_512160()
+void ScriptManager_C1EA8::Update_512160()
 {
     if (!bSkip_mission_67D4E5)
     {
@@ -350,7 +350,7 @@ void frosty_pasteur_0xC1EA8::Update_512160()
 // https://decomp.me/scratch/W4gXh
 // See docs/match_attempts.md
 WIP_FUNC(0x5121E0)
-void frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0(u16 tableSize)
+void ScriptManager_C1EA8::LoadStringTbl_5121E0(u16 tableSize)
 {
     WIP_IMPLEMENTED;
 
@@ -386,7 +386,7 @@ void frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0(u16 tableSize)
 }
 
 MATCH_FUNC(0x5122D0)
-void frosty_pasteur_0xC1EA8::GetScrFileName_5122D0()
+void ScriptManager_C1EA8::GetScrFileName_5122D0()
 {
     const char_type* pSlashPos = strrchr(field_35C_full_scr_file_name, '\\');
     if (pSlashPos)
@@ -409,7 +409,7 @@ void frosty_pasteur_0xC1EA8::GetScrFileName_5122D0()
 }
 
 MATCH_FUNC(0x512330)
-void frosty_pasteur_0xC1EA8::Load_512330(const char_type* pScrName)
+void ScriptManager_C1EA8::Load_512330(const char_type* pScrName)
 {
     if (!bSkip_mission_67D4E5)
     {
@@ -433,10 +433,10 @@ void frosty_pasteur_0xC1EA8::Load_512330(const char_type* pScrName)
 }
 
 MATCH_FUNC(0x512400)
-u16 frosty_pasteur_0xC1EA8::LoadMissionScript_512400(const char_type* String1, u16* a3)
+u16 ScriptManager_C1EA8::LoadMissionScript_512400(const char_type* String1, u16* a3)
 {
     u16 Buffer = 0;
-    if (gfrosty_pasteur_6F8060->field_2F4_bPreloadMissionScripts == 0)
+    if (gScriptManager_6F8060->field_2F4_bPreloadMissionScripts == 0)
     {
         u32 v8;
         strcpy(gTmpBuffer_67C598, "data\\");
@@ -452,22 +452,22 @@ u16 frosty_pasteur_0xC1EA8::LoadMissionScript_512400(const char_type* String1, u
     }
     else
     {
-        str_table_entry* pStrEntry = gfrosty_pasteur_6F8060->StrEntryByString_5030B0((char_type*)String1);
+        str_table_entry* pStrEntry = gScriptManager_6F8060->StrEntryByString_5030B0((char_type*)String1);
         u16 field_2_zone_idx = pStrEntry->field_2_zone_idx;
-        Buffer = gfrosty_pasteur_6F8060->field_C1D72_mission_base_ptr_idx[field_2_zone_idx];
-        *a3 = gfrosty_pasteur_6F8060->field_C1D34_mission_start_cmd[field_2_zone_idx];
-        memcpy(&gfrosty_pasteur_6F8060->field_46C_base_pointers[Buffer],
-               &gfrosty_pasteur_6F8060->field_AA934_mission_base_pointers[3072 * field_2_zone_idx],
+        Buffer = gScriptManager_6F8060->field_C1D72_mission_base_ptr_idx[field_2_zone_idx];
+        *a3 = gScriptManager_6F8060->field_C1D34_mission_start_cmd[field_2_zone_idx];
+        memcpy(&gScriptManager_6F8060->field_46C_base_pointers[Buffer],
+               &gScriptManager_6F8060->field_AA934_mission_base_pointers[3072 * field_2_zone_idx],
                0xC00u);
-        memcpy(&gfrosty_pasteur_6F8060->field_334C_script_data[gfrosty_pasteur_6F8060->field_46C_base_pointers[Buffer]],
-               &gfrosty_pasteur_6F8060->field_13354_mission_script_data[20000 * pStrEntry->field_2_zone_idx],
-               gfrosty_pasteur_6F8060->field_C1DB0_mission_script_data_len[pStrEntry->field_2_zone_idx]);
+        memcpy(&gScriptManager_6F8060->field_334C_script_data[gScriptManager_6F8060->field_46C_base_pointers[Buffer]],
+               &gScriptManager_6F8060->field_13354_mission_script_data[20000 * pStrEntry->field_2_zone_idx],
+               gScriptManager_6F8060->field_C1DB0_mission_script_data_len[pStrEntry->field_2_zone_idx]);
     }
     return Buffer;
 }
 
 MATCH_FUNC(0x5125F0)
-void frosty_pasteur_0xC1EA8::LoadSubScripts_5125F0()
+void ScriptManager_C1EA8::LoadSubScripts_5125F0()
 {
     u32 Buffer;
     u16 Buffer_16;
@@ -509,7 +509,7 @@ void frosty_pasteur_0xC1EA8::LoadSubScripts_5125F0()
 }
 
 MATCH_FUNC(0x512770)
-SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::GetBasePointer_512770(u16 idx)
+SCR_CMD_HEADER* ScriptManager_C1EA8::GetBasePointer_512770(u16 idx)
 {
     if (!field_46C_base_pointers[idx])
     {
@@ -519,7 +519,7 @@ SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::GetBasePointer_512770(u16 idx)
 }
 
 MATCH_FUNC(0x5127a0)
-void frosty_pasteur_0xC1EA8::ExecuteScriptThreads_5127A0()
+void ScriptManager_C1EA8::ExecuteScriptThreads_5127A0()
 {
     if (!bSkip_mission_67D4E5)
     {
@@ -537,12 +537,12 @@ void frosty_pasteur_0xC1EA8::ExecuteScriptThreads_5127A0()
 }
 
 MATCH_FUNC(0x5128a0)
-thread_C* frosty_pasteur_0xC1EA8::FindCarThread_5128A0(s32 a2, s32 a3)
+ThreadTrigger_C* ScriptManager_C1EA8::FindCarThread_5128A0(s32 ped_id, s32 obj_f14)
 {
-    thread_C* pThread = &field_4_thrds_2[0];
-    for (u16 thread_idx = 0; thread_idx < GTA2_COUNTOF(field_4_thrds_2); thread_idx++)
+    ThreadTrigger_C* pThread = &field_4_car_triggers[0];
+    for (u16 thread_idx = 0; thread_idx < GTA2_COUNTOF(field_4_car_triggers); thread_idx++)
     {
-        if (pThread->field_0_ped_id == a2 && pThread->field_4_obj_f14 == a3)
+        if (pThread->field_0_ped_id == ped_id && pThread->field_4_obj_f14 == obj_f14)
         {
             return pThread;
         }
@@ -552,10 +552,10 @@ thread_C* frosty_pasteur_0xC1EA8::FindCarThread_5128A0(s32 a2, s32 a3)
 }
 
 MATCH_FUNC(0x5128d0)
-void frosty_pasteur_0xC1EA8::AddCarThread_5128D0(s32 a2, s32 a3, u16 a4)
+void ScriptManager_C1EA8::AddCarThread_5128D0(s32 ped_id, s32 obj_f14, u16 cmd_line)
 {
-    thread_C* pHeader = &field_4_thrds_2[0];
-    for (u16 i = 0; i < GTA2_COUNTOF(field_4_thrds_2); i++)
+    ThreadTrigger_C* pHeader = &field_4_car_triggers[0];
+    for (u16 i = 0; i < GTA2_COUNTOF(field_4_car_triggers); i++)
     {
         if (pHeader->field_8_cmd_line == 0)
         {
@@ -564,16 +564,16 @@ void frosty_pasteur_0xC1EA8::AddCarThread_5128D0(s32 a2, s32 a3, u16 a4)
         pHeader++;
     }
 
-    pHeader->field_0_ped_id = a2;
-    pHeader->field_4_obj_f14 = a3;
-    pHeader->field_8_cmd_line = a4;
-    ++field_0_car_thread_count;
+    pHeader->field_0_ped_id = ped_id;
+    pHeader->field_4_obj_f14 = obj_f14;
+    pHeader->field_8_cmd_line = cmd_line;
+    ++field_0_car_trigger_count;
 }
 
 MATCH_FUNC(0x512910)
-bool frosty_pasteur_0xC1EA8::TriggerCarThread_512910(s32 a2, s32 a3)
+bool ScriptManager_C1EA8::TriggerCarThread_512910(s32 ped_id, s32 obj_f14)
 {
-    thread_C* pThread = frosty_pasteur_0xC1EA8::FindCarThread_5128A0(a2, a3);
+    ThreadTrigger_C* pThread = ScriptManager_C1EA8::FindCarThread_5128A0(ped_id, obj_f14);
     if (pThread)
     {
         SCR_THREAD* pPtr = (SCR_THREAD*)GetBasePointer_512770(pThread->field_8_cmd_line);
@@ -585,7 +585,7 @@ bool frosty_pasteur_0xC1EA8::TriggerCarThread_512910(s32 a2, s32 a3)
             pThread->field_0_ped_id = 0;
             pThread->field_4_obj_f14 = 0;
             pThread->field_8_cmd_line = 0;
-            --field_0_car_thread_count;
+            --field_0_car_trigger_count;
             return true;
         }
     }
@@ -593,12 +593,12 @@ bool frosty_pasteur_0xC1EA8::TriggerCarThread_512910(s32 a2, s32 a3)
 }
 
 MATCH_FUNC(0x512980)
-thread_C* frosty_pasteur_0xC1EA8::FindPhoneThread_512980(s32 a2, s32 a3)
+ThreadTrigger_C* ScriptManager_C1EA8::FindPhoneThread_512980(s32 ped_id, s32 obj_f14)
 {
-    thread_C* pHeader = &field_188_thrds_4[0];
-    for (u16 thread_idx = 0; thread_idx < GTA2_COUNTOF(field_188_thrds_4); thread_idx++)
+    ThreadTrigger_C* pHeader = &field_188_phone_triggers[0];
+    for (u16 thread_idx = 0; thread_idx < GTA2_COUNTOF(field_188_phone_triggers); thread_idx++)
     {
-        if (pHeader->field_0_ped_id == a2 && pHeader->field_4_obj_f14 == a3)
+        if (pHeader->field_0_ped_id == ped_id && pHeader->field_4_obj_f14 == obj_f14)
         {
             return pHeader;
         }
@@ -608,23 +608,23 @@ thread_C* frosty_pasteur_0xC1EA8::FindPhoneThread_512980(s32 a2, s32 a3)
 }
 
 MATCH_FUNC(0x5129b0)
-void frosty_pasteur_0xC1EA8::AddPhoneThread_5129B0(s32 a2, s32 obj_f14, u16 cmd_line)
+void ScriptManager_C1EA8::AddPhoneThread_5129B0(s32 ped_id, s32 obj_f14, u16 cmd_line)
 {
-    thread_C* thread = &field_188_thrds_4[0];
-    for (u16 i = 0; i < GTA2_COUNTOF(field_188_thrds_4) && thread->field_8_cmd_line != 0; i++)
+    ThreadTrigger_C* thread = &field_188_phone_triggers[0];
+    for (u16 i = 0; i < GTA2_COUNTOF(field_188_phone_triggers) && thread->field_8_cmd_line != 0; i++)
     {
         thread++;
     }
-    thread->field_0_ped_id = a2;
+    thread->field_0_ped_id = ped_id;
     thread->field_4_obj_f14 = obj_f14;
     thread->field_8_cmd_line = cmd_line;
-    field_184_count++;
+    field_184_phone_trigger_count++;
 }
 
 MATCH_FUNC(0x5129f0)
-bool frosty_pasteur_0xC1EA8::AnswerPhone_5129F0(s32 ped_idx, s32 phone_idx)
+bool ScriptManager_C1EA8::AnswerPhone_5129F0(s32 ped_idx, s32 phone_idx)
 {
-    thread_C* pThrdHeader = frosty_pasteur_0xC1EA8::FindPhoneThread_512980(ped_idx, phone_idx);
+    ThreadTrigger_C* pThrdHeader = ScriptManager_C1EA8::FindPhoneThread_512980(ped_idx, phone_idx);
     if (pThrdHeader)
     {
         SCR_THREAD* pPtr = (SCR_THREAD*)GetBasePointer_512770(pThrdHeader->field_8_cmd_line);
@@ -651,37 +651,37 @@ bool frosty_pasteur_0xC1EA8::AnswerPhone_5129F0(s32 ped_idx, s32 phone_idx)
 }
 
 MATCH_FUNC(0x512a70)
-thread_C* frosty_pasteur_0xC1EA8::RemovePhoneThread_512A70(s32 a2, s32 a3)
+ThreadTrigger_C* ScriptManager_C1EA8::RemovePhoneThread_512A70(s32 ped_id, s32 obj_f14)
 {
-    thread_C* pHeader = frosty_pasteur_0xC1EA8::FindPhoneThread_512980(a2, a3);
+    ThreadTrigger_C* pHeader = ScriptManager_C1EA8::FindPhoneThread_512980(ped_id, obj_f14);
     if (pHeader)
     {
         pHeader->field_0_ped_id = 0;
         pHeader->field_4_obj_f14 = 0;
         pHeader->field_8_cmd_line = 0;
-        --field_184_count;
+        --field_184_phone_trigger_count;
     }
     return pHeader;
 }
 
 MATCH_FUNC(0x512aa0)
-thread_C* frosty_pasteur_0xC1EA8::RemovePhoneThreadByObjId_512AA0(s32 a2)
+ThreadTrigger_C* ScriptManager_C1EA8::RemovePhoneThreadByObjId_512AA0(s32 obj_f14)
 {
-    thread_C* pThrHeader = frosty_pasteur_0xC1EA8::FindPhoneThreadByObjId_512AD0(a2);
+    ThreadTrigger_C* pThrHeader = ScriptManager_C1EA8::FindPhoneThreadByObjId_512AD0(obj_f14);
     if (pThrHeader)
     {
-        pThrHeader = frosty_pasteur_0xC1EA8::RemovePhoneThread_512A70(pThrHeader->field_0_ped_id, a2);
+        pThrHeader = ScriptManager_C1EA8::RemovePhoneThread_512A70(pThrHeader->field_0_ped_id, obj_f14);
     }
     return pThrHeader;
 }
 
 MATCH_FUNC(0x512ad0)
-thread_C* frosty_pasteur_0xC1EA8::FindPhoneThreadByObjId_512AD0(s32 a2)
+ThreadTrigger_C* ScriptManager_C1EA8::FindPhoneThreadByObjId_512AD0(s32 obj_f14)
 {
-    thread_C* pHeader = &field_188_thrds_4[0];
-    for (u16 thread_idx = 0; thread_idx < GTA2_COUNTOF(field_188_thrds_4); thread_idx++)
+    ThreadTrigger_C* pHeader = &field_188_phone_triggers[0];
+    for (u16 thread_idx = 0; thread_idx < GTA2_COUNTOF(field_188_phone_triggers); thread_idx++)
     {
-        if (pHeader->field_4_obj_f14 == a2)
+        if (pHeader->field_4_obj_f14 == obj_f14)
         {
             return pHeader;
         }
@@ -691,7 +691,7 @@ thread_C* frosty_pasteur_0xC1EA8::FindPhoneThreadByObjId_512AD0(s32 a2)
 }
 
 MATCH_FUNC(0x512af0)
-char_type frosty_pasteur_0xC1EA8::sub_512AF0(s32 id, char_type weapon_idx, char_type bUnk)
+char_type ScriptManager_C1EA8::TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_idx, char_type bUnk)
 {
     WeaponCheckTable* pFree = NULL;
     WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
@@ -737,13 +737,13 @@ char_type frosty_pasteur_0xC1EA8::sub_512AF0(s32 id, char_type weapon_idx, char_
         {
             pFree->field_6_flags = 2;
         }
-        field_278++;
+        field_278_weapon_check_count++;
     }
     return 0;
 }
 
 MATCH_FUNC(0x512ba0)
-void frosty_pasteur_0xC1EA8::sub_512BA0(s32 id, char_type bUnk)
+void ScriptManager_C1EA8::ClearWeaponHitFlag_512BA0(s32 id, char_type bUnk)
 {
     WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
 
@@ -770,14 +770,14 @@ void frosty_pasteur_0xC1EA8::sub_512BA0(s32 id, char_type bUnk)
             pTable->field_4_weapon_idx = 0;
             pTable->field_5_hit_projectile_type = 0;
             pTable->field_6_flags = 0;
-            field_278--;
+            field_278_weapon_check_count--;
         }
     }
 }
 
 // https://decomp.me/scratch/r6LhX
 MATCH_FUNC(0x512c00)
-void frosty_pasteur_0xC1EA8::RecordWeaponHit_512C00(s32 entity_id, s32 projectile_model, char_type bUnk)
+void ScriptManager_C1EA8::RecordWeaponHit_512C00(s32 entity_id, s32 projectile_model, char_type bUnk)
 {
     WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
 
@@ -813,7 +813,7 @@ void frosty_pasteur_0xC1EA8::RecordWeaponHit_512C00(s32 entity_id, s32 projectil
 }
 
 MATCH_FUNC(0x512c70)
-bool frosty_pasteur_0xC1EA8::IsWeaponHitRecorded_512C70(s32 id, char_type weapon_idx, char_type bUnk)
+bool ScriptManager_C1EA8::IsWeaponHitRecorded_512C70(s32 id, char_type weapon_idx, char_type bUnk)
 {
     WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
 
@@ -845,7 +845,7 @@ bool frosty_pasteur_0xC1EA8::IsWeaponHitRecorded_512C70(s32 id, char_type weapon
 
 // https://decomp.me/scratch/qh4EW
 MATCH_FUNC(0x512ce0)
-frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
+ScriptManager_C1EA8::ScriptManager_C1EA8()
 {
     field_13350_pStringTbl = 0;
     if (!bSkip_mission_67D4E5)
@@ -861,11 +861,11 @@ frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
     memset(field_334C_script_data, 0, sizeof(field_334C_script_data));
     memset(field_46C_base_pointers, 0, sizeof(field_46C_base_pointers));
     memset(field_1334C_strings, 0, 0x1400u);
-    field_0_car_thread_count = 0;
-    memset(field_4_thrds_2, 0, sizeof(field_4_thrds_2));
-    field_184_count = 0;
-    memset(field_188_thrds_4, 0, sizeof(field_188_thrds_4));
-    field_278 = 0;
+    field_0_car_trigger_count = 0;
+    memset(field_4_car_triggers, 0, sizeof(field_4_car_triggers));
+    field_184_phone_trigger_count = 0;
+    memset(field_188_phone_triggers, 0, sizeof(field_188_phone_triggers));
+    field_278_weapon_check_count = 0;
     memset(field_27C_weapon_check_table, 0, sizeof(field_27C_weapon_check_table));
     memset(&gGameSave_6F78C8, 0, sizeof(gGameSave_6F78C8));
 
@@ -925,7 +925,7 @@ frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
 }
 
 MATCH_FUNC(0x5130e0)
-frosty_pasteur_0xC1EA8::~frosty_pasteur_0xC1EA8()
+ScriptManager_C1EA8::~ScriptManager_C1EA8()
 {
     if (miss2_0x11C_Pool_6F8064)
     {

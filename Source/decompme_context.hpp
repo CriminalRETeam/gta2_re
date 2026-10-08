@@ -59,7 +59,7 @@
 #include "error.hpp"
 #include "file.hpp"
 #include "fix16.hpp"
-#include "frosty_pasteur_0xC1EA8.hpp"
+#include "ScriptManager_C1EA8.hpp"
 #include "gbh_graphics.hpp"
 #include "NetPlay.hpp"
 #include "gtx_0x106C.hpp"

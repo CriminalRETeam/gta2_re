@@ -13,7 +13,7 @@
 #include "Source/FpsCounter_54.hpp"
 #include "Source/cSampleManager.hpp"
 #include "Source/map_0x370.hpp"
-#include "Source/frosty_pasteur_0xC1EA8.hpp"
+#include "Source/ScriptManager_C1EA8.hpp"
 #include "Globals.hpp"
 
 #pragma comment(lib, "Winmm.lib")
@@ -145,9 +145,9 @@ void test_Map_0x370()
     t.get_block_452980(0, 0, 0);
 }
 
-void test_frosty_pasteur_0xC1EA8()
+void test_ScriptManager_C1EA8()
 {
-    frosty_pasteur_0xC1EA8 t;
+    ScriptManager_C1EA8 t;
     t.Load_512330("lol.scr");
 }
 
@@ -171,7 +171,7 @@ s32 APIENTRY WinMain(HINSTANCE hInstance,
         test_winmain();
         test_wizardly_margulis();
         test_Map_0x370();
-        test_frosty_pasteur_0xC1EA8();
+        test_ScriptManager_C1EA8();
 
         force_link();
     }

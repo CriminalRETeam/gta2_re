@@ -48,7 +48,7 @@
 #include "collide.hpp"
 #include "debug.hpp"
 #include "error.hpp"
-#include "frosty_pasteur_0xC1EA8.hpp"
+#include "ScriptManager_C1EA8.hpp"
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
 #include "PlyDat_2BC0.hpp"
@@ -148,12 +148,12 @@ void Game_0x40::LoadGameFiles_4B8C40()
     gGameSession_67E8E0.clear_secret_tokens_collected();
 
     char_type* script_name = gGameSession_67E8E0.GetScriptName_4C5960();
-    gfrosty_pasteur_6F8060->Load_512330(script_name);
+    gScriptManager_6F8060->Load_512330(script_name);
 
     if (strlen(gGameSession_67E8E0.GetDebugStr_4C5970()) != 0)
     {
         char_type* debug_str = gGameSession_67E8E0.GetDebugStr_4C5970();
-        gfrosty_pasteur_6F8060->LoadSave_511F80(debug_str);
+        gScriptManager_6F8060->LoadSave_511F80(debug_str);
     }
 
     strcpy(tmp_array, "data\\");
@@ -294,7 +294,7 @@ void Game_0x40::BootGame_4B8EB0()
     gCar_214_705F20->Reset_5C8750();
     gMap_0x370_6F6268->alloc_zones_4DFCA0();
     gHud_2B00_706620->Init_5D6BE0();
-    gfrosty_pasteur_6F8060->Update_512160(); // script
+    gScriptManager_6F8060->Update_512160(); // script
     gGame_0x40_67E008->field_38_orf1->ApplyCheats_56A490();
     if (bDo_iain_test_67D4E9)
     {
@@ -510,7 +510,7 @@ void Game_0x40::UpdateGame_4B9410()
 
     if (!bSkip_mission_67D4E5)
     {
-        gfrosty_pasteur_6F8060->ExecuteScriptThreads_5127A0(); // missions
+        gScriptManager_6F8060->ExecuteScriptThreads_5127A0(); // missions
     }
 
     gEmergencyCrewPool_706280->ServiceAll_5CBBD0();
@@ -1015,8 +1015,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1829);
     }
 
-    gfrosty_pasteur_6F8060 = new frosty_pasteur_0xC1EA8(); // ctor call
-    if (!gfrosty_pasteur_6F8060)
+    gScriptManager_6F8060 = new ScriptManager_C1EA8(); // ctor call
+    if (!gScriptManager_6F8060)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1831);
     }
@@ -1295,7 +1295,7 @@ Game_0x40::~Game_0x40()
 
     GTA2_DELETE_AND_NULL(gCar_6C_677930);
     GTA2_DELETE_AND_NULL(gCar_214_705F20);
-    GTA2_DELETE_AND_NULL(gfrosty_pasteur_6F8060);
+    GTA2_DELETE_AND_NULL(gScriptManager_6F8060);
     GTA2_DELETE_AND_NULL(gGosubFramePool_6F8068);
 
     GTA2_DELETE_AND_NULL(gObjectDefinitions_6FCF00);

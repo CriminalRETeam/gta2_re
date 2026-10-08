@@ -24,7 +24,7 @@
 #include "Weapon_30.hpp"
 #include "debug.hpp"
 #include "error.hpp"
-#include "frosty_pasteur_0xC1EA8.hpp"
+#include "ScriptManager_C1EA8.hpp"
 #include "rng.hpp"
 #include "root_sound.hpp"
 #include "sprite.hpp"
@@ -6393,7 +6393,7 @@ bool Char_B4::PhoneTouched_5535B0(Object_2C* p2c)
     Ped* pPed = field_7C_pPed;
     if (pPed->field_15C_player)
     {
-        return gfrosty_pasteur_6F8060->AnswerPhone_5129F0(pPed->get_id(), p2c->field_14_id);
+        return gScriptManager_6F8060->AnswerPhone_5129F0(pPed->get_id(), p2c->field_14_id);
     }
     else
     {

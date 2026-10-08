@@ -22,7 +22,7 @@
 #include "Weapon_8.hpp"
 #include "debug.hpp"
 #include "error.hpp"
-#include "frosty_pasteur_0xC1EA8.hpp"
+#include "ScriptManager_C1EA8.hpp"
 #include "SoundObject_10.hpp"
 #include "GameSession_578.hpp"
 #include "map_0x370.hpp"
@@ -79,7 +79,7 @@ void UnknownDebugClass::DoBrianTest_42D870(u16 action)
             gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, 3);
             break;
         case 9:
-            gfrosty_pasteur_6F8060->SaveGame_511E10(gGameSession_67E8E0.GetDebugStr_4C5970());
+            gScriptManager_6F8060->SaveGame_511E10(gGameSession_67E8E0.GetDebugStr_4C5970());
             break;
         case 6:
             gTestRouteIdx_675F14 = gRouteFinder_6FFDC8->DoStartRoute_58A0D0(3, 3, 1, 0xD5, 0xAB, 1, 1);
@@ -794,7 +794,7 @@ void Player::tick_down_powerups_565070()
 }
 
 MATCH_FUNC(0x5651F0)
-void Player::RestorePowerUpsFromSave_5651F0(save_stats_0x90* pSaveStats)
+void Player::RestorePowerUpsFromSave_5651F0(SavedPlayerStats_90* pSaveStats)
 {
     for (u8 idx = 0; idx < 17; idx++)
     {
@@ -2491,12 +2491,12 @@ void Player::ColorScoreFromRemap_569A10()
 MATCH_FUNC(0x569C20)
 void Player::SetScoreTextColour_569C20()
 {
-    if (bStartNetworkGame_7081F0 == false && gfrosty_pasteur_6F8060 != NULL)
+    if (bStartNetworkGame_7081F0 == false && gScriptManager_6F8060 != NULL)
     {
         if (field_60_bFinshScoreReached == 0)
         {
             u32 score = field_2D4_scores.GetScore_592370();
-            if (score >= gfrosty_pasteur_6F8060->field_310_finish_score)
+            if (score >= gScriptManager_6F8060->field_310_finish_score)
             {
                 field_60_bFinshScoreReached = 1;
                 // Red when map "beaten"
@@ -2506,7 +2506,7 @@ void Player::SetScoreTextColour_569C20()
         else
         {
             u32 score = field_2D4_scores.GetScore_592370();
-            if (score < gfrosty_pasteur_6F8060->field_310_finish_score)
+            if (score < gScriptManager_6F8060->field_310_finish_score)
             {
                 field_60_bFinshScoreReached = 0;
                 field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::sprites_2, 0);
@@ -2534,7 +2534,7 @@ void Player::InitializePlayerState_569CB0()
     field_6BC_multpliers.InitDigitSprites_492150();
     field_64_bJumping = 0;
     field_18_pre_kf_weapon_kind = -2;
-    if (gfrosty_pasteur_6F8060->get_field_C1E2C_475A20())
+    if (gScriptManager_6F8060->get_field_C1E2C_475A20())
     {
         Player::UpdateGameFromSave_56A310(&gGameSave_6F78C8.field_54_player_and_world_stats);
     }
@@ -2738,7 +2738,7 @@ void Player::RestoreCarsFromSave_56A0F0()
 }
 
 MATCH_FUNC(0x56A1A0)
-void Player::CopyPlayerDataToSave_56A1A0(save_stats_0x90* pSave)
+void Player::CopyPlayerDataToSave_56A1A0(SavedPlayerStats_90* pSave)
 {
     pSave->field_0_x = field_2C4_player_ped->get_cam_x();
     pSave->field_4_y = field_2C4_player_ped->get_cam_y();
@@ -2772,7 +2772,7 @@ void Player::CopyPlayerDataToSave_56A1A0(save_stats_0x90* pSave)
 }
 
 MATCH_FUNC(0x56A310)
-void Player::UpdateGameFromSave_56A310(save_stats_0x90* pSave)
+void Player::UpdateGameFromSave_56A310(SavedPlayerStats_90* pSave)
 {
     field_684_lives.SetValueClamped_4A50B0(pSave->field_80_lives);
     field_6BC_multpliers.SetValueClamped_4A50B0(pSave->field_14_multipliers);

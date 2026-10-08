@@ -31,7 +31,7 @@ EXTERN_GLOBAL(Fix16, dword_706CC8);
 #include "PlayerScoreTracker_36C.hpp"
 #include "Fix16_Rect.hpp"
 #include "rng.hpp"
-#include "frosty_pasteur_0xC1EA8.hpp"
+#include "ScriptManager_C1EA8.hpp"
 #include "SpriteGrid_400.hpp"
 
 DEFINE_GLOBAL_INIT(Fix16, kFP16Quarter_706CF4, Fix16(0x1000, 0), 0x706CF4);
@@ -1183,7 +1183,7 @@ void Weapon_30::sub_5DFB60(u8 a2, Sprite* a3, Ang16 a4)
                                     gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::weapon_fired_2, field_24_pPed);
                                 }
                                 field_24_pPed->AddThreateningPedToList_46FC70();
-                                gfrosty_pasteur_6F8060->RecordWeaponHit_512C00(pHit->field_8_char_b4_ptr->field_7C_pPed->field_200_id, 160, 1);
+                                gScriptManager_6F8060->RecordWeaponHit_512C00(pHit->field_8_char_b4_ptr->field_7C_pPed->field_200_id, 160, 1);
                             }
                             bHit = 1;
                         }
@@ -1237,7 +1237,7 @@ void Weapon_30::sub_5DFB60(u8 a2, Sprite* a3, Ang16 a4)
                                 field_24_pPed->AddThreateningPedToList_46FC70();
                             }
                             bHit = 1;
-                            gfrosty_pasteur_6F8060->RecordWeaponHit_512C00(pHit->field_8_car_bc_ptr->field_6C_maybe_id, 160, 0);
+                            gScriptManager_6F8060->RecordWeaponHit_512C00(pHit->field_8_car_bc_ptr->field_6C_maybe_id, 160, 0);
                         }
                     }
                     break;

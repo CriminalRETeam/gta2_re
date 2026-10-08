@@ -8,7 +8,7 @@
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
 #include "Char_Pool.hpp"
-#include "frosty_pasteur_0xC1EA8.hpp"
+#include "ScriptManager_C1EA8.hpp"
 #include "Game_0x40.hpp"
 #include "Gang.hpp"
 #include "Garage_48.hpp"
@@ -2106,7 +2106,7 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pObj)
         }
     }
 
-    gfrosty_pasteur_6F8060->RecordWeaponHit_512C00(field_200_id, pObj->field_18_model, 1);
+    gScriptManager_6F8060->RecordWeaponHit_512C00(field_200_id, pObj->field_18_model, 1);
 
     switch (pObj->field_18_model)
     {
