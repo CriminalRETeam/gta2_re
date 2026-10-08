@@ -16353,7 +16353,7 @@
         "v96f_auto": true
     },
     {
-        "name": "PlayerScoreTracker_36C::OnCarDestroyed_592DD0",
+        "name": "PlayerScoreTracker_36C::AwardCarDestroyedScore_592DD0",
         "v96f_address": "0x4b85b0",
         "v105_address": "0x592dd0",
         "v96f_auto": true

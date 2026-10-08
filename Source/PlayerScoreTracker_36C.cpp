@@ -744,34 +744,34 @@ void PlayerScoreTracker_36C::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
 }
 
 MATCH_FUNC(0x592dd0)
-void PlayerScoreTracker_36C::OnCarDestroyed_592DD0(Car_BC* pCar, Ped* pPed)
+void PlayerScoreTracker_36C::AwardCarDestroyedScore_592DD0(Car_BC* pCar, Ped* pKiller)
 {
-    const s32 multipler = field_368_player->get_multiplier_4766A0();
-    gmp_map_zone* pZone = gMap_0x370_6F6268->first_zone_by_pos_4DF6A0(pPed->get_cam_x().ToInt(), pPed->get_cam_y().ToInt());
+    const s32 multiplier = field_368_player->get_multiplier_4766A0();
+    gmp_map_zone* pZone = gMap_0x370_6F6268->first_zone_by_pos_4DF6A0(pKiller->get_cam_x().ToInt(), pKiller->get_cam_y().ToInt());
 
-    u32 car_info_idx = pPed->get_car_model();
+    u32 killer_car_model = pKiller->get_car_model();
 
-    u16 bIsGangCar = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(pCar->field_84_car_info_idx);
+    u16 gang_idx = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(pCar->field_84_car_info_idx);
 
     field_1A8_bonuses.ProcessBonusEvent_4320D0(1,
                              pCar->field_84_car_info_idx,
                              51,
-                             bIsGangCar,
+                             gang_idx,
                              pCar->field_50_car_sprite->get_remap_41C1F0(),
                              pCar->field_90,
-                             car_info_idx,
+                             killer_car_model,
                              pZone);
 
-    u8 bCopSwatOrFbiCar = 1;
+    u8 bAwardScore = 1;
     if (bIsFrench_67D53C)
     {
         if (pCar->IsPoliceCar_439EC0())
         {
-            bCopSwatOrFbiCar = 0;
+            bAwardScore = 0;
         }
     }
 
-    s32 cur_rng_2 = gpRng_67AB34->get_cur_rng_41CFE0();
+    s32 cur_rng = gpRng_67AB34->get_cur_rng_41CFE0();
     if (pCar->IsFireTruck_4118F0() || pCar->IsCopCar_421790() ||
         pCar->IsMediCar() || pCar->IsSwatVan_4217A0() ||
         pCar->is_FBI_car_411920())
@@ -782,52 +782,52 @@ void PlayerScoreTracker_36C::OnCarDestroyed_592DD0(Car_BC* pCar, Ped* pPed)
             field_1A4_killed_cars_flags = 0;
         }
 
-        u32 car_type = pCar->field_84_car_info_idx;
+        u32 destroyed_car_model = pCar->field_84_car_info_idx;
 
-        if (car_type == car_model_enum::MEDICAR)
+        if (destroyed_car_model == car_model_enum::MEDICAR)
         {
             field_1A4_killed_cars_flags |= 1;
         }
-        else if (car_type == car_model_enum::COPCAR || car_type == car_model_enum::SWATVAN || car_type == car_model_enum::EDSELFBI)
+        else if (destroyed_car_model == car_model_enum::COPCAR || destroyed_car_model == car_model_enum::SWATVAN || destroyed_car_model == car_model_enum::EDSELFBI)
         {
             field_1A4_killed_cars_flags |= 2;
         }
-        else if (car_type == car_model_enum::FIRETRUK)
+        else if (destroyed_car_model == car_model_enum::FIRETRUK)
         {
             field_1A4_killed_cars_flags |= 4;
         }
 
-        field_1A0_last_emergency_car_kill_time = cur_rng_2;
+        field_1A0_last_emergency_car_kill_time = cur_rng;
     }
-    if (pCar->IsCopCar_421790() && bCopSwatOrFbiCar)
+    if (pCar->IsCopCar_421790() && bAwardScore)
     {
         field_88_killed_cops++;
     }
 
-    u32 tt = GetCarScoreValue_5925B0(pCar->field_84_car_info_idx, 2);
-    u8 t = field_74_car_kill_combo;
+    u32 car_score_value = GetCarScoreValue_5925B0(pCar->field_84_car_info_idx, 2);
+    u8 combo = field_74_car_kill_combo;
 
-    u32 kill_car_score = tt * t;
+    u32 kill_car_score = car_score_value * combo;
     if (!bExplodingScoresOff_67D4FB)
     {
-        if (bCopSwatOrFbiCar)
+        if (bAwardScore)
         {
             if (field_368_player->IsUser_41DC70())
             {
                 gExplodingScorePool->PushScore_596890(pCar->get_x_41E430(),
                                                        pCar->get_y_41E440(),
                                                        pCar->get_z_41E450(),
-                                                       multipler * kill_car_score);
+                                                       multiplier * kill_car_score);
             }
         }
     }
 
-    if (bCopSwatOrFbiCar)
+    if (bAwardScore)
     {
         field_368_player->AddScore_41DC40(kill_car_score);
     }
 
-    field_70_last_car_kill_time = cur_rng_2;
+    field_70_last_car_kill_time = cur_rng;
     if (field_74_car_kill_combo < 5u)
     {
         field_74_car_kill_combo++;
@@ -837,7 +837,7 @@ void PlayerScoreTracker_36C::OnCarDestroyed_592DD0(Car_BC* pCar, Ped* pPed)
     {
         gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::car_destroyed_3, field_368_player->GetPlayerPed_4A5130());
     }
-    field_368_player->field_644_crime_stats.AddCarDamageCost_484FA0(multipler * kill_car_score);
+    field_368_player->field_644_crime_stats.AddCarDamageCost_484FA0(multiplier * kill_car_score);
     SetCarModelFlag_592570(2, pCar->field_84_car_info_idx);
 }
 

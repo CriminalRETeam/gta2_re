@@ -3778,7 +3778,7 @@ void Car_BC::HandleCarExplosion_43D840(s32 a2)
                     }
                     else
                     {
-                        pExploder->field_15C_player->field_2D4_scores.OnCarDestroyed_592DD0(this, pExploder);
+                        pExploder->field_15C_player->field_2D4_scores.AwardCarDestroyedScore_592DD0(this, pExploder);
                         if (bOcc2)
                         {
                             pExploder->field_15C_player->field_2D4_scores.AddCashForMultiplier_593220();
@@ -3984,7 +3984,7 @@ void Car_BC::sub_43DD60()
                     }
                     else
                     {
-                        pPed->field_15C_player->field_2D4_scores.OnCarDestroyed_592DD0(this, pPed);
+                        pPed->field_15C_player->field_2D4_scores.AwardCarDestroyedScore_592DD0(this, pPed);
                         if (bUnknown)
                         {
                             pPed->field_15C_player->field_2D4_scores.AddCashForMultiplier_593220();

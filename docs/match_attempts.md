@@ -1027,7 +1027,7 @@ Still different:
   written out. Match: `if (!(dx > dy)) dx = dy;` instead of the ternary.
 
 ### PlayerScoreTracker_36C::OnPedKilled_592660 (0x592660): WIP 0.343
-- Scores a ped kill, the ped counterpart of `OnCarDestroyed_592DD0`. Points depend on the victim's
+- Scores a ped kill, the ped counterpart of `AwardCarDestroyedScore_592DD0`. Points depend on the victim's
   occupation (cop, army, SWAT, FBI, gang members, Elvis with his own counter) and the kill type
   (`field_290`); network kills of players use a separate table. Then the exploding score, cash
   and the crime report (6/7/8/9).

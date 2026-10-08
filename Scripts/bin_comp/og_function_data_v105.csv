@@ -3183,7 +3183,7 @@ PlayerScoreTracker_36C::SetCarModelFlag_592570,0x592570,0x192570,0x18
 PlayerScoreTracker_36C::GetCarScoreValue_5925B0,0x5925b0,0x1925b0,0x3c
 PlayerScoreTracker_36C::AddCash_592620,0x592620,0x192620,0x31
 PlayerScoreTracker_36C::OnPedKilled_592660,0x592660,0x192660,0x6cf
-PlayerScoreTracker_36C::OnCarDestroyed_592DD0,0x592dd0,0x192dd0,0x251
+PlayerScoreTracker_36C::AwardCarDestroyedScore_592DD0,0x592dd0,0x192dd0,0x251
 PlayerScoreTracker_36C::AwardCarDamageScore_593030,0x593030,0x193030,0x116
 PlayerScoreTracker_36C::sub_593150,0x593150,0x193150,0xca
 PlayerScoreTracker_36C::sub_593220,0x593220,0x193220,0x1f
