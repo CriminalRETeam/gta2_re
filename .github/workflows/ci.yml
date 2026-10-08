@@ -64,7 +64,9 @@ jobs:
       run: |
         pip install -r requirements.txt
         python vc6_setup.py
-        python build.py
+        # build.log is read by Scripts/report_progress_to_discord.py to count warnings
+        python build.py 2>&1 | Tee-Object -FilePath build.log
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
         build_vc6/decomp_main.exe --check_vars_only
 
     - name: Upload artifacts on Windows (Windows_VC6)

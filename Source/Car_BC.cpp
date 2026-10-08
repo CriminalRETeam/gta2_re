@@ -1,4 +1,5 @@
 #include "Car_BC.hpp"
+#include "car_despawn_status.hpp"
 #include "CarAI_78.hpp"
 #include "CarInfo_808.hpp"
 #include "CarPhysics_B0.hpp"
@@ -23,7 +24,7 @@
 #include "PublicTransport.hpp"
 #include "PurpleDoom.hpp"
 #include "RouteFinder.hpp"
-#include "Shooey_CC.hpp"
+#include "CrimeReportQueue_CC.hpp"
 #include "Taxi_4.hpp"
 #include "Varrok_7F8.hpp"
 #include "Weapon_8.hpp"
@@ -1329,7 +1330,7 @@ Car_BC* Car_6C::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rota
     //pCar->PoolAllocate(); // PoolAllocate
 
     pCar->field_84_car_info_idx = car_info_idx;
-    pCar->field_88_despawn_status = 1;
+    pCar->field_88_despawn_status = car_despawn_status::active_1;
 
     pCar->field_50_car_sprite = gSprite_Pool_703818->get_new_sprite();
     pCar->field_50_car_sprite->set_xyz_lazy_420600(xpos, ypos, zpos);
@@ -2381,7 +2382,7 @@ char_type Car_BC::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
                 if (!HasSpriteZoom_43A230() && this->field_74_damage != 32001)
                 {
                     f_88 = this->field_88_despawn_status;
-                    if (f_88 != 2 && f_88 != 4 && f_88 != 3 && f_88 != 5)
+                    if (f_88 != car_despawn_status::despawn_pending_2 && f_88 != car_despawn_status::marked_for_despawn_4 && f_88 != car_despawn_status::despawn_soon_3 && f_88 != car_despawn_status::despawning_5)
                     {
                         stru_67727C.PushSprite_5A6D40(this->field_50_car_sprite);
                     }
@@ -2645,10 +2646,10 @@ bool Car_BC::IsDoorLockedForPed_43B2B0(Ped* pPed)
     {
         if (field_98_door_lock == 5)
         {
-            return pPed->IsField238_45EDE0(2);
+            return pPed->PedTypeIs_45EDE0(ped_type::player_2);
         }
-        if (!pPed->IsField238_45EDE0(2) &&
-            !(pPed->IsField238_45EDE0(5) && pPed->GetInternalObjective_403A90() == 35 && pPed->get_target_to_enter_403B10() == this))
+        if (!pPed->PedTypeIs_45EDE0(ped_type::player_2) &&
+            !(pPed->PedTypeIs_45EDE0(ped_type::script_created_5) && pPed->GetInternalObjective_403A90() == 35 && pPed->get_target_to_enter_403B10() == this))
         {
             return field_98_door_lock == 1 || field_98_door_lock == 4 || field_98_door_lock == 2;
         }
@@ -2811,7 +2812,7 @@ void Car_BC::AssignKillerToOccupants_43B770()
         if (pDriver->get_occupation_403980() != 4)
         {
             pDriver->field_204_killer_id = this->field_70_exploder_ped_id;
-            this->field_54_driver->field_290 = this->field_90;
+            this->field_54_driver->field_290_death_cause = this->field_90;
             this->field_54_driver->field_264_killer_id_timer = 50;
         }
     }
@@ -3763,7 +3764,7 @@ void Car_BC::HandleCarExplosion_43D840(s32 a2)
             pExploder = gPedManager_6787BC->PedById(this->field_70_exploder_ped_id);
             if (pExploder)
             {
-                if (pExploder->IsField238_45EDE0(2))
+                if (pExploder->PedTypeIs_45EDE0(ped_type::player_2))
                 {
                     if (gPublicTransport_181C_6FF1D4->is_bus_579AA0(this) &&
                         gPublicTransport_181C_6FF1D4->field_17C0_bus.field_56_passenger_count >= 10)
@@ -3786,7 +3787,7 @@ void Car_BC::HandleCarExplosion_43D840(s32 a2)
                     }
                     if (pExploder->is_player_41B0A0())
                     {
-                        if (gShooey_CC_67A4B8->ShouldReportCarCrime_485090(this, pExploder->field_15C_player))
+                        if (gCrimeReportQueue_67A4B8->ShouldReportCarCrime_485090(this, pExploder->field_15C_player))
                         {
                             if (pExploder->field_20A_wanted_points < 600)
                             {
@@ -3969,7 +3970,7 @@ void Car_BC::sub_43DD60()
             pPed = pExploderPed;
             if (pExploderPed)
             {
-                if (pExploderPed->IsField238_45EDE0(2))
+                if (pExploderPed->PedTypeIs_45EDE0(ped_type::player_2))
                 {
                     if (gPublicTransport_181C_6FF1D4->is_bus_579AA0(this) &&
                         gPublicTransport_181C_6FF1D4->field_17C0_bus.field_56_passenger_count >= 10)
@@ -3992,7 +3993,7 @@ void Car_BC::sub_43DD60()
                     }
                     if (pPed->is_player_41B0A0())
                     {
-                        if (gShooey_CC_67A4B8->ShouldReportCarCrime_485090(this, pPed->field_15C_player))
+                        if (gCrimeReportQueue_67A4B8->ShouldReportCarCrime_485090(this, pPed->field_15C_player))
                         {
                             if (pPed->field_20A_wanted_points < 600)
                             {
@@ -4362,7 +4363,7 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
 
     if (pObj->field_18_model != 198 && damage > 0)
     {
-        if (pFoundPed && pFoundPed->IsField238_45EDE0(2))
+        if (pFoundPed && pFoundPed->PedTypeIs_45EDE0(ped_type::player_2))
         {
             pFoundPed->field_15C_player->field_2D4_scores.sub_593150(this, 1);
         }
@@ -4468,7 +4469,7 @@ void Car_BC::AssignDriver_4406E0(Ped* pPed)
     SetDriver(pPed);
     InitCarAIControl_440590();
     SetUniNum_421560(pPed->GetPedType_420B70());
-    if (pPed->IsField238_45EDE0(2))
+    if (pPed->PedTypeIs_45EDE0(ped_type::player_2))
     {
         DeAllocateAI_4446E0();
     }
@@ -5576,7 +5577,7 @@ void Car_BC::ManageDespawning_442310()
          field_76_last_seen_timer == 300) ||
         field_76_last_seen_timer >= 130)
     {
-        if (CanDespawn_442200() && !IsMarkedForDespawn_4214B0() && field_88_despawn_status != 5)
+        if (CanDespawn_442200() && !IsMarkedForDespawn_4214B0() && field_88_despawn_status != car_despawn_status::despawning_5)
         {
             MarkForDespawn_421470();
         }
@@ -5588,24 +5589,24 @@ char_type Car_BC::UpdateCarDespawnStatus_4424C0()
 {
     switch (field_88_despawn_status)
     {
-        case 3: // Destructor?
-            field_88_despawn_status = 5; // Despawn now
+        case car_despawn_status::despawn_soon_3: // Destructor?
+            field_88_despawn_status = car_despawn_status::despawning_5; // Despawn now
             return 0;
 
-        case 4: // ????
-            field_88_despawn_status = 2;
+        case car_despawn_status::marked_for_despawn_4: // ????
+            field_88_despawn_status = car_despawn_status::despawn_pending_2;
             return 0;
 
-        case 2: // Mostly NPC cars
+        case car_despawn_status::despawn_pending_2: // Mostly NPC cars
             if (!IsCarInConditionsToDespawn_442170())
             {
                 return 0;
             }
-            field_88_despawn_status = 5; // Despawn now
+            field_88_despawn_status = car_despawn_status::despawning_5; // Despawn now
             return 0;
 
-        case 5: // Despawn now
-            field_88_despawn_status = 6; // Despawned
+        case car_despawn_status::despawning_5: // Despawn now
+            field_88_despawn_status = car_despawn_status::despawned_6; // Despawned
             return 1;
 
         default:
@@ -5973,14 +5974,14 @@ char_type Car_BC::TrainUpdate_442D70()
 
     Car_BC** pTrainCarsArray = gPublicTransport_181C_6FF1D4->GetCarArrayFromLeadCar_579B40(this);
 
-    if (field_88_despawn_status != 5)
+    if (field_88_despawn_status != car_despawn_status::despawning_5)
     {
         gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_50_car_sprite);
     }
 
     for (Car_BC* pTrainCarIter_ = *pTrainCarsArray; pTrainCarIter_; pTrainCarIter_ = pTrainCarsArray[train_car_idx_])
     {
-        if (pTrainCarIter_->field_88_despawn_status != 5)
+        if (pTrainCarIter_->field_88_despawn_status != car_despawn_status::despawning_5)
         {
             gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(pTrainCarIter_->field_50_car_sprite);
         }
@@ -6020,7 +6021,7 @@ char_type Car_BC::TrainUpdate_442D70()
         field_0_qq.PropagateMaxZLayer_5A72B0(field_50_car_sprite, 0);
     }
 
-    if (this->field_88_despawn_status != 5)
+    if (this->field_88_despawn_status != car_despawn_status::despawning_5)
     {
         gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_50_car_sprite);
     }
@@ -6028,7 +6029,7 @@ char_type Car_BC::TrainUpdate_442D70()
     train_car_idx_ = 0;
     for (Car_BC* pTrainCarIter = *pTrainCarsArray; pTrainCarIter; pTrainCarIter = pTrainCarsArray[train_car_idx_])
     {
-        if (pTrainCarIter->field_88_despawn_status != 5)
+        if (pTrainCarIter->field_88_despawn_status != car_despawn_status::despawning_5)
         {
             gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pTrainCarIter->field_50_car_sprite);
         }
@@ -6077,7 +6078,7 @@ char_type Car_BC::PoolUpdate()
         return TrainUpdate_442D70();
     }
 
-    if (this->field_88_despawn_status != 5)
+    if (this->field_88_despawn_status != car_despawn_status::despawning_5)
     {
         gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(this->field_50_car_sprite);
     }
@@ -6132,7 +6133,7 @@ char_type Car_BC::PoolUpdate()
     ManageDespawning_442310();
     CountDownToWreck_441360();
 
-    if (field_88_despawn_status != 5)
+    if (field_88_despawn_status != car_despawn_status::despawning_5)
     {
         if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 0x20) == 0x20)
         {
@@ -6784,7 +6785,7 @@ Car_BC::Car_BC()
     field_50_car_sprite = 0;
     field_58_physics = 0;
     field_5C_AI = 0;
-    field_88_despawn_status = 0;
+    field_88_despawn_status = car_despawn_status::none_0;
     field_6C_maybe_id = 0xFFFF;
     field_64_pTrailer = 0;
     field_78_flags = 0;
@@ -6837,7 +6838,7 @@ bool Car_BC::IsDrivenByNonPlayer_564300()
 {
     if (field_54_driver)
     {
-        bool result = field_54_driver->IsField238_45EDE0(2) == 0;
+        bool result = field_54_driver->PedTypeIs_45EDE0(ped_type::player_2) == 0;
         return result;
     }
     return false;
@@ -7005,7 +7006,7 @@ char_type Trailer::ExplodeBothIfOneDestroyed_4081D0()
 MATCH_FUNC(0x408220)
 s32 Trailer::Update_408220()
 {
-    if (field_8_truck_cab->field_88_despawn_status != 5)
+    if (field_8_truck_cab->field_88_despawn_status != car_despawn_status::despawning_5)
     {
         gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_8_truck_cab->field_50_car_sprite);
         gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_C_pCarOnTrailer->field_50_car_sprite);
@@ -7034,7 +7035,7 @@ s32 Trailer::Update_408220()
         field_8_truck_cab->ServiceDoorsLightsAndHorn_4426D0();
         field_C_pCarOnTrailer->ServiceDoorsLightsAndHorn_4426D0();
 
-        if (field_8_truck_cab->field_88_despawn_status != 5)
+        if (field_8_truck_cab->field_88_despawn_status != car_despawn_status::despawning_5)
         {
             gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_8_truck_cab->field_50_car_sprite);
             gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_C_pCarOnTrailer->field_50_car_sprite);
@@ -7150,23 +7151,23 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
     {
         s32 angleFace = Ang16::GetAngleFace_4F78F0(field_0_cam->ComputeTargetFacingAngle_4358D0());
 
-        switch (gPolice_7B8_6FEE40->field_654_wanted_level)
+        switch (gPolice_7B8_6FEE40->field_654_max_wanted_level)
         {
-            case 0:
-            case 1:
+            case cop_level_enum::none_0:
+            case cop_level_enum::police_1:
                 wanted_related = kFpOne_6FF778;
                 break;
-            case 3:
+            case cop_level_enum::police_3:
                 wanted_related = dword_6FF5DC;
                 break;
-            case 2:
-            case 5:
+            case cop_level_enum::police_2:
+            case cop_level_enum::fbi_5:
                 wanted_related = dword_6FF5E4;
                 break;
-            case 4:
+            case cop_level_enum::swat_4:
                 wanted_related = dword_6FF5D4;
                 break;
-            case 6:
+            case cop_level_enum::army_6:
                 wanted_related = dword_6FF5D4;
                 break;
             default:
@@ -7193,7 +7194,7 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
             case 0:
                 field_8 = 1;
                 if (!SpawnTrafficCar_582480(1, 2, 0) && !SpawnTrafficCar_582480(2, 1, 0) && !SpawnTrafficCar_582480(4, 3, 0) &&
-                    !SpawnTrafficCar_582480(3, 4, 0) && gPolice_7B8_6FEE40->field_654_wanted_level < 3)
+                    !SpawnTrafficCar_582480(3, 4, 0) && gPolice_7B8_6FEE40->field_654_max_wanted_level < 3)
                 {
                     if ((u8)maybe_vel)
                     {
@@ -7205,7 +7206,7 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
             case 1:
                 this->field_8 = 0;
                 if (!SpawnTrafficCar_582480(2, 1, 0) && !SpawnTrafficCar_582480(4, 3, 0) && !SpawnTrafficCar_582480(3, 4, 0) &&
-                    (gPolice_7B8_6FEE40->field_654_wanted_level >= 3 || !(u8)maybe_vel || !SpawnTrafficCarFacing_583260(angleFace)))
+                    (gPolice_7B8_6FEE40->field_654_max_wanted_level >= 3 || !(u8)maybe_vel || !SpawnTrafficCarFacing_583260(angleFace)))
                 {
                     SpawnTrafficCar_582480(1, 2, 0);
                 }
@@ -7214,7 +7215,7 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
             case 2:
                 this->field_8 = 1;
                 if (!SpawnTrafficCar_582480(4, 3, 0) && !SpawnTrafficCar_582480(3, 4, 0) &&
-                    (gPolice_7B8_6FEE40->field_654_wanted_level >= 3 || !(u8)maybe_vel || !SpawnTrafficCarFacing_583260(angleFace)) &&
+                    (gPolice_7B8_6FEE40->field_654_max_wanted_level >= 3 || !(u8)maybe_vel || !SpawnTrafficCarFacing_583260(angleFace)) &&
                     !SpawnTrafficCar_582480(1, 2, 0))
                 {
                     SpawnTrafficCar_582480(2, 1, 0);
@@ -7224,7 +7225,7 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
             case 3:
                 this->field_8 = 0;
                 if (!SpawnTrafficCar_582480(3, 4, 0) &&
-                    (gPolice_7B8_6FEE40->field_654_wanted_level >= 3 || !(u8)maybe_vel || !SpawnTrafficCarFacing_583260(angleFace)) &&
+                    (gPolice_7B8_6FEE40->field_654_max_wanted_level >= 3 || !(u8)maybe_vel || !SpawnTrafficCarFacing_583260(angleFace)) &&
                     !SpawnTrafficCar_582480(1, 2, 0) && !Car_14::SpawnTrafficCar_582480(2, 1, 0))
                 {
                     SpawnTrafficCar_582480(4, 3, 0);
@@ -7233,7 +7234,7 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
 
             case 4:
                 field_8 = 1;
-                if ((gPolice_7B8_6FEE40->field_654_wanted_level >= 3 || !(u8)maybe_vel || !SpawnTrafficCarFacing_583260(angleFace)) &&
+                if ((gPolice_7B8_6FEE40->field_654_max_wanted_level >= 3 || !(u8)maybe_vel || !SpawnTrafficCarFacing_583260(angleFace)) &&
                     !SpawnTrafficCar_582480(1, 2, 0) && !SpawnTrafficCar_582480(2, 1, 0) && !SpawnTrafficCar_582480(4, 3, 0))
                 {
                     SpawnTrafficCar_582480(3, 4, 0);
@@ -7505,7 +7506,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                     s32 car_model;
                     u16 car_kind;
                     u8 rng_val;
-                    if (gPolice_7B8_6FEE40->field_654_wanted_level < 1 || (rng_val = gRng_6F6784.get_int_4F7AE0(40), rng_val <= 20u) ||
+                    if (gPolice_7B8_6FEE40->field_654_max_wanted_level < 1 || (rng_val = gRng_6F6784.get_int_4F7AE0(40), rng_val <= 20u) ||
                         rng_val >= 30u)
                     {
                         car_model = gCar_6C_677930->SelectTrafficCarModel_444AB0(field_C_player, field_10_zone, dword_6FF7E8, &car_kind);
@@ -7520,7 +7521,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                         car_kind = 4;
                     }
 
-                    if (gPolice_7B8_6FEE40->ShouldCreateRoadblock_577320())
+                    if (gPolice_7B8_6FEE40->TryBeginRoadblock_577320())
                     {
                         bRoadblock = 1;
                         car_model = car_model_enum::bank_van;
@@ -7529,7 +7530,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                     {
                         if (car_model == car_model_enum::COPCAR)
                         {
-                            if (gPolice_7B8_6FEE40->field_658_count >= (u8)gPolice_7B8_6FEE40->field_659_max_count || bSkip_police_67D4F9)
+                            if (gPolice_7B8_6FEE40->field_658_police_car_count >= (u8)gPolice_7B8_6FEE40->field_659_max_police_cars || bSkip_police_67D4F9)
                             {
                                 car_model =
                                     gCar_6C_677930->SelectTrafficCarModel_444AB0(field_C_player, field_10_zone, dword_6FF7E8, &car_kind);
@@ -7540,7 +7541,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                             }
                             else
                             {
-                                switch (gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service)
+                                switch (gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit)
                                 {
                                     case crew_type::police_3:
                                         car_model = car_model_enum::COPCAR;
@@ -7554,7 +7555,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                                 }
                             }
                         }
-                        else if (gPolice_7B8_6FEE40->field_65C_highest_crew_type_on_service == crew_type::army_6)
+                        else if (gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit == crew_type::army_6)
                         {
                             switch (gRng_6F6784.get_int_4F7AE0(10))
                             {
@@ -7789,10 +7790,10 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                                         }
                                         pNewCar->InitCarAIControl_440590();
                                         pNewCar->sub_426E00();
-                                        pNewCar->field_5C_AI->field_74_unk_speed = gTrafficCarSpeed_6FF570;
+                                        pNewCar->field_5C_AI->field_74_max_speed = gTrafficCarSpeed_6FF570;
                                     }
                                     else if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::police_6) &&
-                                             gPolice_7B8_6FEE40->FBI_Army_5703E0(pNewCar))
+                                             gPolice_7B8_6FEE40->SpawnCrewInCar_5703E0(pNewCar))
                                     {
                                         pNewCar->IncrementCarStats_443D70(car_kind::police_6);
                                     }

@@ -1,6 +1,7 @@
 #include "sound_obj.hpp"
 // Keep cSampleManager.hpp early: the include order changes the order VC6 emits the
 // sampManager and sound_obj calls in e.g. Type_9_4186D0 and Type6_2_412D40
+#include "zealous_borg.hpp"
 #include "cSampleManager.hpp"
 #include "Camera.hpp"
 #include "CarInfo_808.hpp"
@@ -22,7 +23,7 @@
 #include "Weapon_30.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
-#include "Shooey_CC.hpp"
+#include "CrimeReportQueue_CC.hpp"
 #include <math.h>
 
 // Forward declarations: the functions below are in address order
@@ -5732,7 +5733,7 @@ void sound_obj::HandlePedVoiceEvent_423080(Sound_Params_8* a2)
 {
     Char_B4* pB4 = a2->field_0_pObj->field_8_char_b4_ptr;
     Ped* pPed = pB4->field_7C_pPed;
-    s32 voice = pPed->TakeF250_41B0B0();
+    s32 voice = pPed->TakeVoiceEvent_41B0B0();
     char_type bTank;
     s32 samp = 321;
 
@@ -6005,11 +6006,11 @@ void sound_obj::PoliceRadioMessageGeneration_426790()
     u8 xpos = 0;
     u8 ypos = 0;
 
-    while (gShooey_CC_67A4B8->GetLatestReportedCrime(&crime_type, &crime_x, &crime_y, &crime_z) == 1)
+    while (gCrimeReportQueue_67A4B8->TryPopOldestReport(&crime_type, &crime_x, &crime_y, &crime_z) == 1)
     {
         if (crime_type)
         {
-            if (crime_type == 9)
+            if (crime_type == crime_stats_type::Gang_members_killed_9)
             {
                 if (best_crime)
                 {

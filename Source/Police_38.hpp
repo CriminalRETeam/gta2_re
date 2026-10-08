@@ -3,11 +3,11 @@
 #include "Function.hpp"
 #include "fix16.hpp"
 
-class Kfc_30;
+class EmergencyCrew_30;
 class Ped;
 class Car_BC;
 class Object_2C;
-class Police_7C;
+class PolicePursuitTarget_7C;
 class Fix16_Rect;
 
 namespace police_crew_state
@@ -23,14 +23,27 @@ enum
 };
 } // namespace police_crew_state
 
+// PolicePursuitTarget_7C::field_8_state, see Police_7B8::UpdatePursuitTargets_56FBD0
+namespace pursuit_state
+{
+enum
+{
+    idle_0 = 0,       // criminal registered, no crew sent yet
+    responding_1 = 1, // first crew sent, waiting until the criminal is spotted
+    active_3 = 3,     // crews engaged, more are sent or sent away as the wanted level changes
+    ended_4 = 4,      // wanted level gone or criminal dead: release the crews and clear the target
+    searching_5 = 5,  // criminal not seen for a while: crews search, a new one is sent if none is
+};
+} // namespace pursuit_state
+
 class PoliceCrew_38
 {
   public:
     EXPORT PoliceCrew_38();
     EXPORT ~PoliceCrew_38();
     EXPORT void Init_5709C0();
-    EXPORT void AddToService_570A10();
-    EXPORT void RemoveFromService_570AB0();
+    EXPORT void AddToPursuit_570A10();
+    EXPORT void RemoveFromPursuit_570AB0();
     EXPORT void SpawnPoliceInCar_570BF0();
     EXPORT void SpawnSWAT_570E30();
     EXPORT void SpawnFBI_nonused_571150();
@@ -60,13 +73,13 @@ class PoliceCrew_38
     char_type field_7;
     Fix16 field_8;
     Fix16 field_C;
-    Kfc_30* field_10_subObj;
-    Police_7C* field_14_pService; // Call For Service
+    EmergencyCrew_30* field_10_subObj;
+    PolicePursuitTarget_7C* field_14_pPursuitTarget; // Pursuit of one wanted criminal by police crews
     s16 field_18;
     char_type field_1A;
     char_type field_1B;
     s32 field_1C_used;
-    s32 field_20_crew_kind;
+    s32 field_20_crew_kind; // crew_kind
     s32 field_24_state;
     char_type field_28;
     char_type field_29_bCountedInPoliceCount;
@@ -75,25 +88,25 @@ class PoliceCrew_38
     char_type field_2E;
     char_type field_2F;
     s32 field_30;
-    char_type field_34;
+    char_type field_34_is_dismissed;
     u8 field_35;
     char_type field_36;
     char_type field_37;
 };
 
-class Police_7C  // Call For Service
+class PolicePursuitTarget_7C  // Pursuit of one wanted criminal by police crews
 {
   public:
     Ped* field_0_criminal_ped;
     s32 field_4_wanted_level;
-    s32 field_8_state;
+    s32 field_8_state; // pursuit_state
     u16 field_C_timer;
     char_type field_E;
     char_type field_F;
     Fix16 field_10_x;
     Fix16 field_14_y;
     Fix16 field_18_z;
-    char_type field_1C;
+    char_type field_1C_crew_gave_up;
     char_type field_1D;
     char_type field_1E;
     char_type field_1F;
@@ -113,13 +126,13 @@ class Police_7C  // Call For Service
     s32 field_68_barrier_5_id;
     s32 field_6C_barrier_6_id;
     u8 field_70_num_police_crews;
-    u8 field_71_num_unknown;
+    u8 field_71_target_police_crews;
     u8 field_72_num_swat_crews;
     u8 field_73_num_fbi_crews;
     char_type field_74_num_army_crews;
-    u8 field_75_count;
+    u8 field_75_num_crews;
     s16 field_76;
-    char_type field_78;
+    char_type field_78_is_actively_chased;
     char_type field_79;
     s16 field_7A_wanted_timer;
 };

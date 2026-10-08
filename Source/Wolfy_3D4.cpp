@@ -1,4 +1,5 @@
 #include "Wolfy_3D4.hpp"
+#include "ped_death_cause.hpp"
 #include "Car_BC.hpp"
 #include "Char_Pool.hpp"
 #include "Game_0x40.hpp"
@@ -386,7 +387,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                     {
                         pB4->field_7C_pPed->field_204_killer_id = ped_id;
                     }
-                    pB4->field_7C_pPed->field_290 = 4;
+                    pB4->field_7C_pPed->field_290_death_cause = ped_death_cause::unknown_4;
                     pB4->field_7C_pPed->field_264_killer_id_timer = 50;
 
                     Fix16 dx = pCollisionSprite->field_14_xy.x - this->field_14_pObj2C->field_4->field_14_xy.x;
@@ -452,7 +453,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                                         Ped* pPed_ = gPedManager_6787BC->PedById(pCar->field_70_exploder_ped_id);
                                         if (pPed_)
                                         {
-                                            if (pPed_->IsField238_45EDE0(2))
+                                            if (pPed_->PedTypeIs_45EDE0(ped_type::player_2))
                                             {
                                                 pPed_->field_15C_player->field_2D4_scores.sub_593150(pCar, 1);
                                             }

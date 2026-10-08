@@ -1,4 +1,5 @@
 #include "Firefighters.hpp"
+#include "car_despawn_status.hpp"
 #include "Car_BC.hpp"
 #include "CarAI_78.hpp"
 #include "CarPhysics_B0.hpp"
@@ -45,40 +46,40 @@ bool Firefighter_28::sub_4A7FC0()
 
     if (field_1C_car && field_1C_car->field_76_last_seen_timer > 5000)
     {
-        field_8_state = 6;
+        field_8_state = firefighter_state::abort_6;
     }
     if (field_1C_car && field_1C_car->field_74_damage > 32000)
     {
-        field_8_state = 6;
+        field_8_state = firefighter_state::abort_6;
     }
 
     if (field_C_target_car)
     {
-        if (field_C_target_car->field_88_despawn_status == 6 || field_C_target_car->field_88_despawn_status == 7 ||
+        if (field_C_target_car->field_88_despawn_status == car_despawn_status::despawned_6 || field_C_target_car->field_88_despawn_status == car_despawn_status::deactivated_7 ||
             field_C_target_car->IsDespawning_4215B0() || field_C_target_car->IsMarkedForDespawn_4214B0())
         {
             if (field_20_ped)
             {
                 field_20_ped->SetObjective(objectives_enum::no_obj_0, 9999);
             }
-            field_8_state = 6;
+            field_8_state = firefighter_state::abort_6;
         }
     }
 
     if (field_20_ped && field_20_ped->bHasGameObject_403B70())
     {
-        field_8_state = 6;
+        field_8_state = firefighter_state::abort_6;
     }
 
-    if (field_8_state != 2)
+    if (field_8_state != firefighter_state::drive_to_fire_2)
     {
-        if (field_8_state > 2 && field_8_state <= 4)
+        if (field_8_state > firefighter_state::drive_to_fire_2 && field_8_state <= firefighter_state::put_out_fire_4)
         {
             if (field_C_target_car)
             {
                 if (!field_C_target_car->field_0_qq.FindFirstActiveObject_5A6AD0())
                 {
-                    field_8_state = 5;
+                    field_8_state = firefighter_state::finished_5;
                 }
             }
         }
@@ -87,7 +88,7 @@ bool Firefighter_28::sub_4A7FC0()
     {
         if (field_C_target_car)
         {
-            if (field_C_target_car->field_88_despawn_status != 6 && !field_C_target_car->IsDespawning_4215B0())
+            if (field_C_target_car->field_88_despawn_status != car_despawn_status::despawned_6 && !field_C_target_car->IsDespawning_4215B0())
             {
                 if (field_20_ped)
                 {
@@ -104,7 +105,7 @@ bool Firefighter_28::sub_4A7FC0()
         }
     }
 
-    if (field_8_state == 6)
+    if (field_8_state == firefighter_state::abort_6)
     {
         Firefighter_28::deinit_4A81A0();
     }
@@ -131,7 +132,7 @@ void Firefighter_28::deinit_4A81A0()
     }
 
     Car_BC* pCar2 = this->field_C_target_car;
-    this->field_8_state = 5;
+    this->field_8_state = firefighter_state::finished_5;
     if (pCar2)
     {
         pCar2->field_0_qq.CleanupSpriteList_5A7080();
@@ -148,8 +149,8 @@ void Firefighter_28::Update_4A81F0()
 
     switch (field_8_state)
     {
-        case 1:
-            if (field_C_target_car && field_C_target_car->field_88_despawn_status != 6 &&
+        case firefighter_state::spawn_truck_1:
+            if (field_C_target_car && field_C_target_car->field_88_despawn_status != car_despawn_status::despawned_6 &&
                 !field_C_target_car->IsDespawning_4215B0() && gCar_6C_677930->CanAllocateOfType_446930(5))
             {
                 field_1C_car = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::FIRETRUK, field_10_xpos, field_14_ypos, field_18_zpos);
@@ -177,23 +178,23 @@ void Firefighter_28::Update_4A81F0()
                     field_1C_car->SetupCarPhysicsAndSpriteBinding_43BCA0();
                     field_20_ped = field_1C_car->get_driver_4118B0();
                     field_24_next_state_timer = 0;
-                    field_8_state = 2;
+                    field_8_state = firefighter_state::drive_to_fire_2;
                     break;
                 }
 
                 if (++field_24_next_state_timer >= 50)
                 {
-                    field_8_state = 6;
+                    field_8_state = firefighter_state::abort_6;
                 }
                 break;
             }
-            field_8_state = 6;
+            field_8_state = firefighter_state::abort_6;
             break;
 
-        case 2:
+        case firefighter_state::drive_to_fire_2:
             if (!field_1C_car->field_58_physics)
             {
-                field_8_state = 6;
+                field_8_state = firefighter_state::abort_6;
             }
             else if (sub_4A7FC0())
             {
@@ -203,7 +204,7 @@ void Firefighter_28::Update_4A81F0()
                                           field_C_target_car->get_y_41E440()) < dword_67D384 &&
                     field_24_next_state_timer > 100)
                 {
-                    field_8_state = 3;
+                    field_8_state = firefighter_state::arrived_3;
                 }
 
                 if (field_20_ped)
@@ -211,48 +212,48 @@ void Firefighter_28::Update_4A81F0()
                     switch (field_20_ped->GetObjectiveStatus_450CB0())
                     {
                         case 1:
-                            field_8_state = 3;
+                            field_8_state = firefighter_state::arrived_3;
                             break;
                         case 2:
-                            field_8_state = 6;
+                            field_8_state = firefighter_state::abort_6;
                             break;
                     }
                 }
                 else
                 {
-                    field_8_state = 6;
+                    field_8_state = firefighter_state::abort_6;
                 }
             }
             break;
 
-        case 3:
-            if (sub_4A7FC0() && field_20_ped && field_8_state == 3)
+        case firefighter_state::arrived_3:
+            if (sub_4A7FC0() && field_20_ped && field_8_state == firefighter_state::arrived_3)
             {
                 field_20_ped->SetObjective(objectives_enum::turret_put_out_car_fire_60, 9999);
                 field_20_ped->set_field_150_target_objective_car(field_C_target_car);
-                field_8_state = 4;
+                field_8_state = firefighter_state::put_out_fire_4;
             }
             break;
 
-        case 4:
+        case firefighter_state::put_out_fire_4:
             if (sub_4A7FC0())
             {
                 switch (field_20_ped->GetObjectiveStatus_450CB0())
                 {
                     case 1:
                         field_20_ped->SetObjective(objectives_enum::no_obj_0, 9999);
-                        field_8_state = 5;
+                        field_8_state = firefighter_state::finished_5;
                         break;
                     case 2:
                         field_20_ped->SetObjective(objectives_enum::no_obj_0, 9999);
-                        field_8_state = 5;
+                        field_8_state = firefighter_state::finished_5;
                         break;
                 }
             }
             break;
 
-        case 5:
-            if (field_1C_car && field_1C_car->field_88_despawn_status != 6 && !field_1C_car->IsDespawning_4215B0() &&
+        case firefighter_state::finished_5:
+            if (field_1C_car && field_1C_car->field_88_despawn_status != car_despawn_status::despawned_6 && !field_1C_car->IsDespawning_4215B0() &&
                 !field_1C_car->IsMarkedForDespawn_4214B0())
             {
                 if (field_1C_car->field_54_driver)
@@ -274,7 +275,7 @@ void Firefighter_28::Update_4A81F0()
             break;
     }
 
-    if (field_8_state == 6)
+    if (field_8_state == firefighter_state::abort_6)
     {
         deinit_4A81A0();
     }
@@ -290,7 +291,7 @@ MATCH_FUNC(0x4a85e0)
 void Firefighter_28::Reset_4A85E0()
 {
     this->field_C_target_car = 0;
-    this->field_8_state = 0;
+    this->field_8_state = firefighter_state::idle_0;
     this->field_4_bActive = 0;
     this->field_1C_car = 0;
 }
@@ -351,7 +352,7 @@ Firefighter_28* FirefighterPool_54::DispatchFirefighters_4A8620(Car_BC* pCar, Fi
     pNewFireFighter->field_14_ypos = kFpHalf_67D1F0 + Fix16(ypos_int);
     pNewFireFighter->field_18_zpos = Fix16(zpos_int);
     pNewFireFighter->field_4_bActive = 1;
-    pNewFireFighter->field_8_state = 1;
+    pNewFireFighter->field_8_state = firefighter_state::spawn_truck_1;
     pNewFireFighter->field_24_next_state_timer = 0;
     pNewFireFighter->field_C_target_car = pCar;
     return pNewFireFighter;
@@ -383,7 +384,7 @@ char_type FirefighterPool_54::TryDispatchFirefightersToCar_4A8820(Car_BC* pCar)
         return 0;
     }
     const s32 f88 = pCar->field_88_despawn_status;
-    if (f88 == 6 || f88 == 7 || f88 == 5)
+    if (f88 == car_despawn_status::despawned_6 || f88 == car_despawn_status::deactivated_7 || f88 == car_despawn_status::despawning_5)
     {
         return 0;
     }

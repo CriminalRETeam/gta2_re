@@ -46,7 +46,7 @@ class eager_benz
     EXPORT void sub_593150(Car_BC* a2, s16 a3);
     EXPORT void sub_593220();
     EXPORT void OnCarHijacked_593240(Car_BC* pCar);
-    EXPORT void sub_593370(Car_BC* pCar);
+    EXPORT void OnBusStolen_593370(Car_BC* pCar);
     EXPORT void OnFullBusDestroyed_593410(Car_BC* pCar);
     EXPORT void UpdateAccuracyCount_5934F0(u32 a2, s32 a3, Ped* a4);
     EXPORT thirsty_lamarr* GetMultiplayerFragDigits_5935B0();

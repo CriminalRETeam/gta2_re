@@ -111,7 +111,7 @@ class Game_0x40
     }
 
     s32 field_0_game_state;
-    Player* field_4_players[6];
+    Player* field_4_players[MAX_PLAYERS];
     Player* field_1C_view_player;
     u8 field_20_idx;
     u8 field_21_player_camera_idx;

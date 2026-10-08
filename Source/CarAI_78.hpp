@@ -39,36 +39,36 @@ class CarAI_78
 {
   public:
     EXPORT void MakeAgressiveSirensAndLights_4476F0();
-    EXPORT void sub_447710();
+    EXPORT void PlanTurnAtNextJunction_447710();
     EXPORT void DoShortcutsUsingJunctions_447970();
     inline void TurnAround_447970();
     EXPORT bool GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 maybe_direction);
-    EXPORT char_type sub_447D40(gmp_block_info* a2);
+    EXPORT char_type TrySetTargetDirectionFromArrows_447D40(gmp_block_info* a2);
     EXPORT bool IsClockwiseTurning_448270();
-    EXPORT void sub_4482C0();
-    EXPORT void sub_448770();
+    EXPORT void BrakeForBlockedRoadAhead_4482C0();
+    EXPORT void CheckRoadAhead_448770();
     EXPORT void ManageTrafficCarDirection_448CE0();
-    EXPORT void sub_44A1F0();
-    EXPORT void sub_44AF00();
-    EXPORT void sub_44D1D0();
+    EXPORT void FollowRoadDirection_44A1F0();
+    EXPORT void AlignToLaneCenter_44AF00();
+    EXPORT void DetectCarAhead_44D1D0();
     EXPORT void Init_AI_Chase_44E0C0();
     EXPORT void UpdateStateMachine_44E560();
     EXPORT void ReactToNearbyCar_451980();
     EXPORT void ReactToNearbyObject_451FA0();
     EXPORT void ReactToNearbyPed_451FF0();
-    EXPORT void sub_452060();
+    EXPORT void ScanAheadForObstacles_452060();
     EXPORT void ManageCollisions_452A20();
-    EXPORT void sub_452DF0();
-    EXPORT void sub_453470();
+    EXPORT void UpdateDrivingAI_452DF0();
+    EXPORT void UpdateDriving_453470();
     EXPORT void ChooseRandomTurn_4537D0();
-    EXPORT void sub_4538B0();
+    EXPORT void ClearSteeringIfTurning_4538B0();
     EXPORT void RaiseSpeedTo_453990(Fix16 a2);
-    EXPORT void sub_4539B0();
+    EXPORT void ClearA6Bits2And3_4539B0();
     EXPORT void UpdateSpeedTowardTarget_4539D0();
     EXPORT void UpdateTrainMovement_453A40();
     EXPORT void AI_Service_453BB0();
     EXPORT void SetCar_453BF0(Car_BC* a2);
-    EXPORT void sub_453C00();
+    EXPORT void ReverseOrNeutral_453C00();
     EXPORT void PoolAllocate();
     EXPORT CarAI_78();
 
@@ -78,18 +78,18 @@ class CarAI_78
     }
 
     Car_BC* field_0_car;
-    s32 field_4;
-    char_type field_8;
-    char_type field_9;
-    char_type field_A;
-    char_type field_B;
+    s32 field_4_unused;
+    char_type field_8_maneuver_active;
+    char_type field_9_probe_x;
+    char_type field_A_probe_y;
+    char_type field_B_pad;
     CarAI_78* mpNext;
     Ang16 field_10_angle;
-    s16 field_12;
+    s16 field_12_pad;
     Fix16 field_14_speed;
     Fix16 field_18_target_speed;
     Fix16 field_1C_acceleration;
-    s32 field_20;
+    s32 field_20_unused;
 
     union
     {
@@ -98,36 +98,36 @@ class CarAI_78
     };
 
     char_type field_28_junc_idx;
-    char_type field_29;
+    char_type field_29_pad;
     u8 field_2A_stopped_timer;
     u8 field_2B_ticks_since_alloc;
-    u8 field_2C;
-    char_type field_2D;
-    char_type field_2E;
-    char_type field_2F;
+    u8 field_2C_yield_timer;
+    char_type field_2D_arrow_start;
+    char_type field_2E_arrow_cur;
+    char_type field_2F_arrow_end;
     u8 field_30_forced_stop_timer;
-    char_type field_31;
-    char_type field_32;
-    char_type field_33;
+    char_type field_31_pad;
+    char_type field_32_pad;
+    char_type field_33_pad;
     s32 field_34;
-    s32 field_38;
-    s32 field_3C;
-    s32 field_40;
+    s32 field_38_junction_turn_direction;
+    s32 field_3C_seeking_road;
+    s32 field_40_prev_target_direction;
     s32 field_44_target_direction;
-    s32 field_48;
+    s32 field_48_probe_direction;
     s32 field_4C_curr_direction;
-    s32 field_50;
-    u16 field_54;
+    s32 field_50_seek_road_turn;
+    u16 field_54_accel_cooldown;
     s16 field_56_route_pos;
-    u16 field_58;
-    s16 field_5A;
-    Fix16 field_5C;
+    u16 field_58_off_road_timer;
+    s16 field_5A_obstacle_timer;
+    Fix16 field_5C_unused;
     Fix16 field_60;
-    Fix16 field_64;
+    Fix16 field_64_unused;
     Car_BC* field_68_car_in_collision; // Car collided
-    Car_BC* field_6C;
+    Car_BC* field_6C_yield_to_car;
     Sprite* field_70_nearest_entity;
-    Fix16 field_74_unk_speed;
+    Fix16 field_74_max_speed;
 };
 
 class CarAI_78_Pool

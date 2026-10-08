@@ -1,84 +1,84 @@
-#include "Kfc_1E0.hpp"
+#include "EmergencyCrewPool_1E0.hpp"
 #include "Car_BC.hpp"
 #include "Hamburger_500.hpp"
 #include "Ped.hpp"
 #include "PedGroup.hpp"
 
-DEFINE_GLOBAL(Kfc_1E0*, gKfc_1E0_706280, 0x706280);
+DEFINE_GLOBAL(EmergencyCrewPool_1E0*, gEmergencyCrewPool_706280, 0x706280);
 DEFINE_GLOBAL(Fix16, dword_706148, 0x706148);
 
 MATCH_FUNC(0x4beb00)
-Kfc_30::Kfc_30()
+EmergencyCrew_30::EmergencyCrew_30()
 {
     Init_5CBC00();
 }
 
 MATCH_FUNC(0x4beb10)
-Kfc_30::~Kfc_30()
+EmergencyCrew_30::~EmergencyCrew_30()
 {
 }
 
 MATCH_FUNC(0x4beb20)
-Kfc_1E0::~Kfc_1E0()
+EmergencyCrewPool_1E0::~EmergencyCrewPool_1E0()
 {
 }
 
 MATCH_FUNC(0x5cbb70)
-void Kfc_1E0::init_5CBB70()
+void EmergencyCrewPool_1E0::init_5CBB70()
 {
 }
 
 MATCH_FUNC(0x5cbb80)
-Kfc_30* Kfc_1E0::New_5CBB80()
+EmergencyCrew_30* EmergencyCrewPool_1E0::AllocateSlot_5CBB80()
 {
-    for (u8 i = 0; i < GTA2_COUNTOF(field_0_entries); i++)
+    for (u8 i = 0; i < GTA2_COUNTOF(field_0_slots); i++)
     {
-        if (!field_0_entries[i].field_1E_is_used)
+        if (!field_0_slots[i].field_1E_is_used)
         {
-            return &field_0_entries[i];
+            return &field_0_slots[i];
         }
     }
     return 0;
 }
 
 MATCH_FUNC(0x5cbbd0)
-void Kfc_1E0::Service_5CBBD0()
+void EmergencyCrewPool_1E0::ServiceAll_5CBBD0()
 {
     for (s32 i = 0; i < 10; i++)
     {
-        if (field_0_entries[i].field_1E_is_used)
+        if (field_0_slots[i].field_1E_is_used)
         {
-            if (field_0_entries[i].Service_5CC480())
+            if (field_0_slots[i].Service_5CC480())
             {
-                field_0_entries[i].field_1E_is_used = 0;
+                field_0_slots[i].field_1E_is_used = 0;
             }
         }
     }
 }
 
 MATCH_FUNC(0x5cbc00)
-void Kfc_30::Init_5CBC00()
+void EmergencyCrew_30::Init_5CBC00()
 {
-    field_1A = 150;
+    field_1A_idle_limit = 150;
     field_1E_is_used = 0;
     field_20_crew_type = 0;
-    field_24 = 0;
-    field_0_car = 0;
-    field_4_ped = 0;
-    field_28_state = 0;
-    field_8_group = 0;
-    field_2C = 0;
-    field_1C = 0;
+    field_24_phase = crew_phase::on_foot_0;
+    field_0_car = NULL;
+    field_4_ped = NULL;
+    field_28_state = crew_state::idle_0;
+    field_8_group = NULL;
+    field_2C_ready = 0;
+    field_1C_unused = 0;
 }
 
 MATCH_FUNC(0x5cbc30)
-void Kfc_30::ReInit_5CBC30()
+void EmergencyCrew_30::ReInit_5CBC30()
 {
     Init_5CBC00();
 }
 
 MATCH_FUNC(0x5cbc40)
-void Kfc_30::RemovePed_5CBC40(Ped* a2)
+void EmergencyCrew_30::RemovePed_5CBC40(Ped* a2)
 {
     field_8_group->RemovePed_4C9970(a2);
     field_4_ped = field_8_group->field_2C_ped_leader;
@@ -86,7 +86,7 @@ void Kfc_30::RemovePed_5CBC40(Ped* a2)
 
 // https://decomp.me/scratch/HmQPr
 MATCH_FUNC(0x5cbc60)
-bool Kfc_30::PedIsValid_5CBC60()
+bool EmergencyCrew_30::IsLeaderAlive_5CBC60()
 {
     if (field_4_ped && field_4_ped->isDead_403B60())
     {
@@ -108,7 +108,7 @@ bool Kfc_30::PedIsValid_5CBC60()
 }
 
 MATCH_FUNC(0x5cbc90)
-char_type Kfc_30::ReplaceLeaderIfNeeded_5CBC90()
+char_type EmergencyCrew_30::ReplaceLeaderIfNeeded_5CBC90()
 {
     PedGroup* pGroup = this->field_8_group;
     if (!pGroup)
@@ -122,10 +122,10 @@ char_type Kfc_30::ReplaceLeaderIfNeeded_5CBC90()
     {
         if (pPedAtIdx->GetPedState_403990() != ped_state_1::dead_9 && !pPedAtIdx->field_16C_car)
         {
-            Ped* pKfcPed = this->field_4_ped;
-            if (pKfcPed->field_16C_car)
+            Ped* pLeaderPed = this->field_4_ped;
+            if (pLeaderPed->field_16C_car)
             {
-                RemovePed_5CBC40(pKfcPed);
+                RemovePed_5CBC40(pLeaderPed);
             }
             else
             {
@@ -149,51 +149,51 @@ char_type Kfc_30::ReplaceLeaderIfNeeded_5CBC90()
 
 // https://decomp.me/scratch/sUPg8
 MATCH_FUNC(0x5cbd50)
-void Kfc_30::UpdateStateMachine_5CBD50()
+void EmergencyCrew_30::UpdateStateMachine_5CBD50()
 {
-    char_type v36 = 0;
-    char_type v39 = 1;
-    char_type v40 = 1;
-    char_type v41 = 0;
+    char_type bCarGone = 0;
+    char_type bNoPedsAlive = 1;
+    char_type bAllPedsAlive = 1;
+    char_type bDriverIsOther = 0;
     u8 idx;
     if (field_8_group)
     {
         if (!field_8_group->field_34_count)
         {
             field_8_group->ClearGroupData_4C8E90();
-            field_8_group = 0;
+            field_8_group = NULL;
         }
     }
 
-    if (field_24 == 1)
+    if (field_24_phase == crew_phase::in_car_1)
     {
         if (field_0_car)
         {
             if (field_0_car->IsDespawning_4215B0())
             {
-                v36 = 1;
+                bCarGone = 1;
             }
             if (field_0_car->IsMaxDamage_40F890())
             {
-                v36 = 1;
+                bCarGone = 1;
             }
             if (field_0_car->HasSpriteZoom_43A230())
             {
-                v36 = 1;
+                bCarGone = 1;
             }
 
             if (field_0_car->field_54_driver && field_0_car->field_54_driver != field_4_ped)
             {
-                v41 = 1;
-                v36 = 1;
+                bDriverIsOther = 1;
+                bCarGone = 1;
             }
         }
         else
         {
-            v36 = 1;
+            bCarGone = 1;
         }
 
-        if (v36)
+        if (bCarGone)
         {
             if (field_8_group)
             {
@@ -202,11 +202,11 @@ void Kfc_30::UpdateStateMachine_5CBD50()
                 {
                     if (v7->field_168_game_object)
                     {
-                        v39 = 0;
+                        bNoPedsAlive = 0;
                     }
                     else
                     {
-                        v40 = 0;
+                        bAllPedsAlive = 0;
                     }
                 }
             }
@@ -215,12 +215,12 @@ void Kfc_30::UpdateStateMachine_5CBD50()
             {
                 if (field_4_ped->field_168_game_object)
                 {
-                    v39 = 0;
+                    bNoPedsAlive = 0;
                 }
             }
-            if (v41)
+            if (bDriverIsOther)
             {
-                if (!v40)
+                if (!bAllPedsAlive)
                 {
                     return;
                 }
@@ -236,15 +236,15 @@ void Kfc_30::UpdateStateMachine_5CBD50()
                                                      field_0_car->field_50_car_sprite->field_14_xy.x,
                                                      field_0_car->field_50_car_sprite->field_14_xy.y) > dword_706148)
                     {
-                        v36 = 1;
+                        bCarGone = 1;
                     }
                 }
                 else
                 {
-                    v36 = 1;
+                    bCarGone = 1;
                 }
             }
-            if (!v36)
+            if (!bCarGone)
             {
                 return;
             }
@@ -260,9 +260,9 @@ void Kfc_30::UpdateStateMachine_5CBD50()
                     gHamburger_500_678E30->FreeEntry_474CC0(field_0_car->field_60);
                     field_0_car->field_60 = 0;
                 }
-                field_0_car = 0;
+                field_0_car = NULL;
             }
-            if (v39)
+            if (bNoPedsAlive)
             {
                 if (field_4_ped)
                 {
@@ -282,18 +282,18 @@ void Kfc_30::UpdateStateMachine_5CBD50()
                     }
                     field_8_group->ClearGroupData_4C8E90();
                 }
-                field_8_group = 0;
-                field_4_ped = 0;
-                field_24 = 2;
+                field_8_group = NULL;
+                field_4_ped = NULL;
+                field_24_phase = crew_phase::finished_2;
                 return;
             }
-            if (v40)
+            if (bAllPedsAlive)
             {
                 if (field_4_ped)
                 {
                     if (field_4_ped->field_168_game_object)
                     {
-                        field_24 = 0;
+                        field_24_phase = crew_phase::on_foot_0;
                         if (field_8_group)
                         {
                             field_8_group->ResetGroupObjectives_4C8F20();
@@ -309,17 +309,17 @@ void Kfc_30::UpdateStateMachine_5CBD50()
                 {
                     if (field_8_group->field_2C_ped_leader)
                     {
-                        field_24 = 0;
+                        field_24_phase = crew_phase::on_foot_0;
                         field_8_group->ResetGroupObjectives_4C8F20();
                     }
                     else if (field_8_group->field_34_count == 1)
                     {
                         field_4_ped = field_8_group->field_4_ped_list[0];
                         field_8_group->ClearGroupData_4C8E90();
-                        field_8_group = 0;
+                        field_8_group = NULL;
                         field_4_ped->SetObjective(objectives_enum::no_obj_0, 9999);
                         field_4_ped->SetObjective2_463830(0, 9999);
-                        field_24 = 0;
+                        field_24_phase = crew_phase::on_foot_0;
                     }
                     else
                     {
@@ -329,17 +329,17 @@ void Kfc_30::UpdateStateMachine_5CBD50()
                         --field_8_group->field_34_count;
                         field_4_ped = field_8_group->field_2C_ped_leader;
                         field_8_group->ResetGroupObjectives_4C8F20();
-                        field_24 = 0;
+                        field_24_phase = crew_phase::on_foot_0;
                     }
                 }
                 else
                 {
                     field_4_ped = field_8_group->field_2C_ped_leader;
                     field_8_group->DestroyGroup_4C93A0();
-                    field_8_group = 0;
+                    field_8_group = NULL;
                     field_4_ped->SetObjective(objectives_enum::no_obj_0, 9999);
                     field_4_ped->SetObjective2_463830(0, 9999);
-                    field_24 = 0;
+                    field_24_phase = crew_phase::on_foot_0;
                 }
             }
             else if (field_4_ped)
@@ -348,17 +348,17 @@ void Kfc_30::UpdateStateMachine_5CBD50()
                 {
                     field_4_ped->SetObjective(objectives_enum::no_obj_0, 9999);
                     field_4_ped->SetObjective2_463830(0, 9999);
-                    field_24 = 0;
+                    field_24_phase = crew_phase::on_foot_0;
                 }
             }
             else if (!field_0_car)
             {
-                field_24 = 2;
+                field_24_phase = crew_phase::finished_2;
             }
         }
         else
         {
-                v36 = 1;
+                bCarGone = 1;
 
                 if (field_8_group)
                 {
@@ -367,19 +367,19 @@ void Kfc_30::UpdateStateMachine_5CBD50()
                     {
                         if (!v28->isDead_403B60())
                         {
-                            v36 = 0;
+                            bCarGone = 0;
                         }
                     }
                 }
 
-                if (v36)
+                if (bCarGone)
                 {
                     if (!field_4_ped || field_4_ped->isDead_403B60())
                     {
-                        field_24 = 2;
+                        field_24_phase = crew_phase::finished_2;
                     }
                 }
-                if (field_24 == 2)
+                if (field_24_phase == crew_phase::finished_2)
                 {
                     if (field_0_car)
                     {
@@ -389,9 +389,9 @@ void Kfc_30::UpdateStateMachine_5CBD50()
                 }
         }
     }
-    else if (!field_24)
+    else if (!field_24_phase)
     {
-        v36 = 1;
+        bCarGone = 1;
         if (field_8_group)
         {
             idx = 0;
@@ -399,16 +399,16 @@ void Kfc_30::UpdateStateMachine_5CBD50()
             {
                 if (!v32->isDead_403B60())
                 {
-                    v36 = 0;
+                    bCarGone = 0;
                 }
             }
         }
 
-        if (v36)
+        if (bCarGone)
         {
             if (!field_4_ped || field_4_ped->isDead_403B60())
             {
-                field_24 = 2;
+                field_24_phase = crew_phase::finished_2;
             }
         }
     }
@@ -422,13 +422,13 @@ void Kfc_30::UpdateStateMachine_5CBD50()
                 field_0_car->field_60 = 0;
             }
         }
-        field_0_car = 0;
+        field_0_car = NULL;
     }
 }
 
 // 9.6f 0x4C5A00
 MATCH_FUNC(0x5cc1c0)
-void Kfc_30::CleanupExpiredEntities_5CC1C0()
+void EmergencyCrew_30::CleanupExpiredEntities_5CC1C0()
 {
     bool bClearRouteAndTryClearOthers = 0;
     bool bClearPedAndGroup = 1;
@@ -439,15 +439,15 @@ void Kfc_30::CleanupExpiredEntities_5CC1C0()
         if (field_8_group->field_34_count == 0)
         {
             field_8_group->ClearGroupData_4C8E90();
-            this->field_8_group = 0;
+            this->field_8_group = NULL;
         }
     }
 
-    if (this->field_24 == 1)
+    if (this->field_24_phase == crew_phase::in_car_1)
     {
         if (this->field_0_car && !field_0_car->IsDespawning_4215B0() && !field_0_car->IsMaxDamage_40F890())
         {
-            if (field_0_car->Get_F76_4A9AD0() > this->field_1A)
+            if (field_0_car->Get_F76_4A9AD0() > this->field_1A_idle_limit)
             {
                 field_0_car->MarkForDespawn_421470();
                 bClearRouteAndTryClearOthers = 1;
@@ -462,14 +462,14 @@ void Kfc_30::CleanupExpiredEntities_5CC1C0()
         {
             if (field_4_ped->field_168_game_object)
             {
-                if (field_4_ped->Get_F20E_4039F0() < this->field_1A)
+                if (field_4_ped->GetOffscreenCounter_4039F0() < this->field_1A_idle_limit)
                 {
                     bClearPedAndGroup = 0;
                 }
             }
             else if (field_4_ped->isDead_403B60())
             {
-                this->field_4_ped = 0;
+                this->field_4_ped = NULL;
             }
         }
 
@@ -488,7 +488,7 @@ void Kfc_30::CleanupExpiredEntities_5CC1C0()
             {
                 if (pPedListIter->field_168_game_object)
                 {
-                    if (pPedListIter->get_field_20e() < this->field_1A)
+                    if (pPedListIter->GetOffscreenCounter() < this->field_1A_idle_limit)
                     {
                         bClearPedAndGroup = 0;
                     }
@@ -512,7 +512,7 @@ void Kfc_30::CleanupExpiredEntities_5CC1C0()
                     field_0_car->field_60 = 0;
                 }
             }
-            field_0_car = 0;
+            field_0_car = NULL;
 
             if (bClearPedAndGroup)
             {
@@ -536,14 +536,14 @@ void Kfc_30::CleanupExpiredEntities_5CC1C0()
                     }
                     field_8_group->ClearGroupData_4C8E90();
                 }
-                this->field_8_group = 0;
-                this->field_2C = 1;
+                this->field_8_group = NULL;
+                this->field_2C_ready = 1;
             }
             else if (bClearCharB4F24)
             {
                 if (this->field_4_ped->field_168_game_object)
                 {
-                    this->field_24 = 0;
+                    this->field_24_phase = crew_phase::on_foot_0;
                 }
             }
         }
@@ -552,7 +552,7 @@ void Kfc_30::CleanupExpiredEntities_5CC1C0()
 
     if (field_4_ped)
     {
-        if (field_4_ped->Get_F20E_4039F0() < this->field_1A)
+        if (field_4_ped->GetOffscreenCounter_4039F0() < this->field_1A_idle_limit)
         {
             bClearPedAndGroup = 0;
         }
@@ -563,7 +563,7 @@ void Kfc_30::CleanupExpiredEntities_5CC1C0()
         u8 i = 0;
         for (Ped* pPedListIter = field_8_group->field_4_ped_list[0]; pPedListIter;)
         {
-            if (pPedListIter->Get_F20E_4039F0() < this->field_1A)
+            if (pPedListIter->GetOffscreenCounter_4039F0() < this->field_1A_idle_limit)
             {
                 bClearPedAndGroup = 0;
             }
@@ -593,35 +593,35 @@ void Kfc_30::CleanupExpiredEntities_5CC1C0()
             }
             field_8_group->ClearGroupData_4C8E90();
         }
-        field_2C = 1;
+        field_2C_ready = 1;
     }
 }
 
 MATCH_FUNC(0x5cc480)
-bool Kfc_30::Service_5CC480()
+bool EmergencyCrew_30::Service_5CC480()
 {
-    if (field_18 > 0)
+    if (field_18_spawn_delay > 0)
     {
-        this->field_18--;
+        this->field_18_spawn_delay--;
         return 0;
     }
 
-    if (field_18 > -80)
+    if (field_18_spawn_delay > -80)
     {
-        this->field_18--;
+        this->field_18_spawn_delay--;
     }
 
     switch (this->field_28_state)
     {
-        case 5:
+        case crew_state::clean_up_5:
             CleanupExpiredEntities_5CC1C0();
             return 0;
 
-        case 6:
+        case crew_state::update_6:
             UpdateStateMachine_5CBD50();
             return 0;
 
-        case 3:
+        case crew_state::spawn_car_3:
             // fall through to default below
             break;
 
@@ -635,18 +635,18 @@ bool Kfc_30::Service_5CC480()
             if (gCar_6C_677930->CanAllocateOfType_446930(4))
             {
                 this->field_0_car = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::MEDICAR,
-                                                                                   this->field_C_x,
-                                                                                   this->field_10_y,
-                                                                                   this->field_14_z);
+                                                                                   this->field_C_spawn_x,
+                                                                                   this->field_10_spawn_y,
+                                                                                   this->field_14_spawn_z);
             }
             else
             {
-                this->field_0_car = 0;
+                this->field_0_car = NULL;
             }
 
             if (this->field_0_car)
             {
-                this->field_2C = 1;
+                this->field_2C_ready = 1;
                 field_0_car->IncrementCarStats_443D70(car_kind::paramedic_car_4);
             }
             break;
@@ -655,17 +655,17 @@ bool Kfc_30::Service_5CC480()
             if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::police_6))
             {
                 this->field_0_car = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::COPCAR,
-                                                                                   this->field_C_x,
-                                                                                   this->field_10_y,
-                                                                                   this->field_14_z);
+                                                                                   this->field_C_spawn_x,
+                                                                                   this->field_10_spawn_y,
+                                                                                   this->field_14_spawn_z);
             }
             else
             {
-                this->field_0_car = 0;
+                this->field_0_car = NULL;
             }
             if (this->field_0_car)
             {
-                this->field_2C = 1;
+                this->field_2C_ready = 1;
                 field_0_car->IncrementCarStats_443D70(car_kind::police_6);
             }
             break;
@@ -674,24 +674,24 @@ bool Kfc_30::Service_5CC480()
             if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::police_6))
             {
                 this->field_0_car = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::SWATVAN,
-                                                                                   this->field_C_x,
-                                                                                   this->field_10_y,
-                                                                                   this->field_14_z);
+                                                                                   this->field_C_spawn_x,
+                                                                                   this->field_10_spawn_y,
+                                                                                   this->field_14_spawn_z);
             }
             else
             {
-                this->field_0_car = 0;
+                this->field_0_car = NULL;
             }
 
             if (this->field_0_car)
             {
-                this->field_2C = 1;
+                this->field_2C_ready = 1;
                 field_0_car->IncrementCarStats_443D70(car_kind::police_6);
             }
             break;
 
         default:
-            field_0_car = 0;
+            field_0_car = NULL;
             break;
     }
 

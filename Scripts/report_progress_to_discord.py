@@ -1,34 +1,135 @@
 import os
+import re
 import sys
+import csv
+import difflib
 import json
+import glob
 import urllib.request
 
 DISCORD_WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL")
 COMMIT_MESSAGE = os.environ.get("COMMIT_MESSAGE")
+# Optional: the captured output of build.py, used to count compiler warnings
+BUILD_LOG = os.environ.get("BUILD_LOG", "../build.log")
 
-def load_coverage_file(filename):
-    with open(filename) as file:
-        lines = [line.rstrip() for line in file]
-        return lines
+NEW_EXE = "../build_vc6/decomp_main.exe"
+OG_EXE = "./bin_comp/10.5.exe"
 
-def calc_difference(old_count, new_count, as_string = False):
-    diff_count = new_count - old_count
-    diff_percentage = (diff_count / old_count) * 100 if old_count != 0 else 0
+# CRT / iostream library code (stubs for fopen, malloc ...) starts here, it's not ours to match
+LIBRARY_START = 0x5ED000
 
-    if as_string:
-        return get_difference_str(diff_count, diff_percentage)
-    else:
-        return (diff_count, diff_percentage)
+# A WIP function with at most this share of differing lines counts as a close miss
+CLOSE_MAX_DIFF_RATIO = 0.05
 
-def get_difference_str(diff_count, diff_percentage):
-    if diff_count > 0:
-        return f"**+{diff_count}** ({diff_percentage:.2f}%)"
-    elif diff_count < 0:
-        return f"**-{abs(diff_count)}** ({diff_percentage:.2f}%)"
-    else:
-        return "**No change**"
+# Keys of progress.json whose change makes us post an update
+PROGRESS_KEYS = ["matched", "total", "stub", "wip", "wip_reg_alloc", "wip_stack_layout",
+                 "wip_instr_order", "wip_close", "wip_structural", "wip_unclassified", "wip_ready"]
+
+
+def fmt_delta(old, new, always=False, with_pct=True):
+    """' | **+5** (0.43%)': the change since the previous run and it as a percentage of the old
+    value. Nothing when unchanged (or ' | **No change**' with always), or without a previous run."""
+    if old is None:
+        return ""
+    diff = new - old
+    if diff == 0:
+        return " | **No change**" if always else ""
+    if not with_pct:
+        return f" | **{diff:+d}**"
+    diff_pct = diff / old * 100 if old else 0
+    return f" | **{diff:+d}** ({diff_pct:.2f}%)"
+
+
+def pct(part, whole):
+    return part / whole * 100 if whole else 0.0
+
+
+def normalize_layout(asm):
+    asm = re.sub(r"-?0x[0-9A-Fa-f]+\(%esp\)", "N(%esp)", asm)
+    return re.sub(r"^(j\w+) 0x[0-9A-Fa-f]+", r"\1 T", asm, flags=re.M)
+
+
+def classify_wip(func, og_file_offset, og_size):
+    """What kind of mismatch a WIP function has, from its asm compared with the original's."""
+    import compare_function
+    import post_process_asm
+    import regonly
+
+    def asm(exe, offset):
+        return post_process_asm.post_process_asm(compare_function.dism_func(compare_function.get_bytes_from_file(exe, offset, og_size)))
+
+    og = asm(OG_EXE, og_file_offset)
+    new = asm(NEW_EXE, int(func["func_fo"], 16))
+    if new == og:
+        return "ready"  # already identical: can be promoted to MATCH_FUNC
+    if regonly.canon(new) == regonly.canon(og) or regonly.shape(new) == regonly.shape(og):
+        return "wip_reg_alloc"
+    # also ignore stack slot offsets and jump targets, which move when anything else changes
+    og_n, new_n = normalize_layout(regonly.shape(og)), normalize_layout(regonly.shape(new))
+    if og_n == new_n:
+        return "wip_stack_layout"
+    if sorted(og_n.split("\n")) == sorted(new_n.split("\n")):
+        return "wip_instr_order"
+    # share of lines that differ, with registers, stack offsets and jump targets ignored
+    matcher = difflib.SequenceMatcher(None, og_n.split("\n"), new_n.split("\n"), autojunk=False)
+    same = sum(block.size for block in matcher.get_matching_blocks())
+    differing = max(len(og_n.split("\n")), len(new_n.split("\n"))) - same
+    if differing <= CLOSE_MAX_DIFF_RATIO * max(len(og_n.split("\n")), len(new_n.split("\n"))):
+        return "wip_close"
+    return "wip_structural"
+
+
+def count_fields_and_methods(source_dir):
+    """Named vs unnamed (field_XX / sub_XXXXXX) class fields and functions in Source/."""
+    field_re = re.compile(r"^\s+[\w:<>\*&\s,]+?\bfield_([0-9A-Fa-f]+)(_\w+)?\s*(\[[^\]]*\])*\s*(:\s*\d+\s*)?;", re.M)
+    named_fields = unnamed_fields = 0
+    for path in glob.glob(os.path.join(source_dir, "*.hpp")):
+        with open(path, errors="replace") as f:
+            for m in field_re.finditer(f.read()):
+                if m.group(2):
+                    named_fields += 1
+                else:
+                    unnamed_fields += 1
+
+    marker_re = re.compile(r"^(?:MATCH|WIP|STUB)_FUNC\(0x[0-9a-fA-F]+\)\s*$")
+    name_re = re.compile(r"([A-Za-z_~][\w~]*)\s*\(")
+    named_funcs = unnamed_funcs = 0
+    for path in glob.glob(os.path.join(source_dir, "*.cpp")):
+        with open(path, errors="replace") as f:
+            lines = f.read().split("\n")
+        for i, line in enumerate(lines):
+            if not marker_re.match(line.strip()):
+                continue
+            # the signature is on the next non-blank line
+            for sig in lines[i + 1:i + 4]:
+                if sig.strip():
+                    # skip the return type / class qualifier: take the last identifier before '('
+                    head = sig.split("(")[0]
+                    name = re.split(r"::|\s|\*|&", head.strip())[-1]
+                    if re.match(r"^(sub|nullsub|j)_[0-9A-Fa-f]+$", name):
+                        unnamed_funcs += 1
+                    else:
+                        named_funcs += 1
+                    break
+    return named_fields, unnamed_fields, named_funcs, unnamed_funcs
+
+
+def count_warnings(build_log):
+    """Unique compiler warnings in Source/ (the same TU is compiled for several targets)."""
+    if not os.path.exists(build_log):
+        return None
+    warn_re = re.compile(r"Source[\\/](?!3rdParty).*\(\d+\) : warning C\d+")
+    seen = set()
+    with open(build_log, errors="replace") as f:
+        for line in f:
+            if warn_re.search(line):
+                seen.add(line.strip())
+    return len(seen)
+
 
 def main():
+    # The embed text has non-ASCII characters; the Windows runner's console encoding (cp1252) can't print them
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     if DISCORD_WEBHOOK_URL is None:
         print("DISCORD_WEBHOOK_URL env variable not set")
         sys.exit(1)
@@ -37,111 +138,155 @@ def main():
         print("COMMIT_MESSAGE env variable not set")
         sys.exit(1)
 
-    if not os.path.exists("./bin_comp/new_data.json"):
-        print("couldn't find new_data.json")
-        sys.exit(1)
+    for needed in ["./bin_comp/new_data.json", "./bin_comp/og_function_data_v105.csv"]:
+        if not os.path.exists(needed):
+            print(f"couldn't find {needed}")
+            sys.exit(1)
 
-    if not os.path.exists("./bin_comp/coverage_trace_funcs.txt"):
-        print("couldn't find coverage_trace_funcs.txt")
-        sys.exit(1)
+    sys.path.insert(0, os.path.abspath("./bin_comp"))
+    sys.path.insert(0, os.path.abspath("./regalloc"))
 
     with open("./bin_comp/new_data.json", "rt") as file:
         new_data = json.load(file)
-    coverage_data = load_coverage_file("./bin_comp/coverage_trace_funcs.txt")
 
-    total_coverage_funcs = len(coverage_data)
+    # file offset and size of each original function, to disassemble the WIP ones
+    og_funcs = {}
+    with open("./bin_comp/og_function_data_v105.csv") as file:
+        for row in csv.reader(file):
+            og_funcs[int(row[1], 16)] = (row[0], int(row[2], 16), int(row[3], 16))
 
-    matched_coverage_funcs = 0
-    total_matched_funcs = 0
-    unmatched_funcs = 0
-    wip_funcs = 0
-
+    # Only game functions with a MATCH_FUNC / WIP_FUNC / STUB_FUNC marker count
+    status_by_addr = {}
     for func in new_data["functions"]:
-        status = func["func_status"]
-        if status == "0x1":
-            total_matched_funcs = total_matched_funcs + 1
-        elif status == "0x0" or status == "0x2":
-            unmatched_funcs = unmatched_funcs + 1 # wip counts as stub total too, wip is a sub count of it
-        if status == "0x2":
-            wip_funcs = wip_funcs + 1
+        if func["og_addr"].startswith("0x") and func["func_status"] in ("0x0", "0x1", "0x2") and int(func["og_addr"], 16) < LIBRARY_START:
+            status_by_addr[int(func["og_addr"], 16)] = func
 
+    matched = sum(1 for f in status_by_addr.values() if f["func_status"] == "0x1")
+    stub = sum(1 for f in status_by_addr.values() if f["func_status"] == "0x0")
+    wip_funcs = [f for f in status_by_addr.values() if f["func_status"] == "0x2"]
+    wip = len(wip_funcs)
+    total = matched + stub + wip
 
-    for func in new_data["functions"]:
-        og_address = func["og_addr"]
-        status = func["func_status"]
-        for coverage_addr in coverage_data:
-            if status == "0x1" and coverage_addr.lower() == og_address.lower():
-                matched_coverage_funcs = matched_coverage_funcs + 1
-                break
+    # what kind of mismatch each WIP has
+    wip_buckets = {"wip_reg_alloc": 0, "wip_stack_layout": 0, "wip_instr_order": 0, "wip_close": 0, "wip_structural": 0, "wip_unclassified": 0}
+    wip_ready = 0
+    can_classify = os.path.exists(NEW_EXE) and os.path.exists(OG_EXE)
+    for func in wip_funcs:
+        if not can_classify:
+            wip_buckets["wip_unclassified"] += 1
+            continue
+        _, og_offset, og_size = og_funcs[int(func["og_addr"], 16)]
+        try:
+            kind = classify_wip(func, og_offset, og_size)
+        except Exception as e:
+            print(f"couldn't classify {func['mangled_name']}: {e}")
+            kind = "wip_unclassified"
+        if kind == "ready":
+            print(f"{func['mangled_name']} matches, promote it to MATCH_FUNC")
+            wip_ready += 1
+        else:
+            wip_buckets[kind] += 1
 
-    coverage_funcs_percentage = matched_coverage_funcs / total_coverage_funcs * 100
+    named_fields, unnamed_fields, named_funcs, unnamed_funcs = count_fields_and_methods("../Source")
+    warnings = count_warnings(BUILD_LOG)
 
-    prev_json_available = True
+    new_progress_json = {
+        "total_matches": matched,
+        "matched": matched,
+        "total": total,
+        "stub": stub,
+        "wip": wip,
+        "wip_ready": wip_ready,
+        **wip_buckets,
+        "named_fields": named_fields,
+        "unnamed_fields": unnamed_fields,
+        "named_funcs": named_funcs,
+        "unnamed_funcs": unnamed_funcs,
+        "warnings": warnings,
+    }
+
     previous_progress_json = {}
+    prev_json_available = True
     try:
         with open("progress.json", "r") as file:
             previous_progress_json = json.load(file)
-            # rename the old key name 'unknown_status_funcs' to 'unmatched_funcs'
-            if "unknown_status_funcs" in previous_progress_json:
-                previous_progress_json["unmatched_funcs"] = previous_progress_json.pop("unknown_status_funcs")
-
-    except OSError as e:
-        # we don't have a progress.json from a previous build
+    except OSError:
         prev_json_available = False
+    prev = previous_progress_json.get
 
-    if not prev_json_available:
-        boot_to_map_str = f"Boot to map progress: [{matched_coverage_funcs}/{total_coverage_funcs}] {coverage_funcs_percentage:.2f}%"
-        total_matches_str = f"Total matches: {total_matched_funcs}"
-        unmatched_funcs_str = f"Unmatched funcs in repo: {unmatched_funcs} (wip funcs: {wip_funcs})"
-    else:
-        coverage_diff_str = calc_difference(previous_progress_json["matched_boot_to_map_funcs"], matched_coverage_funcs, as_string=True)
-        total_diff_str = calc_difference(previous_progress_json["total_matches"], total_matched_funcs, as_string=True)
-        unmatched_funcs_diff_str = calc_difference(previous_progress_json["unmatched_funcs"], unmatched_funcs, as_string=True)
+    def d(key):
+        return fmt_delta(prev(key), new_progress_json[key])
 
-        boot_to_map_str = f"Boot to map progress: [{matched_coverage_funcs}/{total_coverage_funcs}] {coverage_funcs_percentage:.2f}% | {coverage_diff_str}"
-        total_matches_str = f"Total matches: {total_matched_funcs} | {total_diff_str}"
-        unmatched_funcs_str = f"Unmatched funcs in repo: {unmatched_funcs} | {unmatched_funcs_diff_str}"
+    match_pct = pct(matched, total)
 
-    wip_funcs_percentage = (wip_funcs / unmatched_funcs) * 100
-    wip_funcs_str = f"wip funcs: {wip_funcs} | ({wip_funcs_percentage:.2f}%)"
+    def count_line(label, key, value=None, of=None):
+        """'Label: 12 | **+2** (1.5%)', or 'Label [12/93] 12.90% | ...' when there's a total.
+        Hidden when zero, unless it was non-zero last time."""
+        n = new_progress_json[key] if value is None else value
+        if n == 0 and not prev(key):
+            return None
+        delta = fmt_delta(prev(key), n)
+        if of is None:
+            return f"{label}: {n}{delta}"
+        return f"{label} [{n}/{of}] {pct(n, of):.2f}%{delta}"
+
+    def lines(*entries):
+        return [e for e in entries if e is not None]
+
+    # Discord drops leading spaces, so indent with em spaces
+    ind = "\u2003\u2003"
+
+    out = [COMMIT_MESSAGE, ""]
+    out += lines(count_line("Stubs", "stub"))
+    out.append(f"WIP: {wip}{d('wip')}")
+    # the WIP ones by what's still wrong, as a share of all WIP functions
+    out += [ind + e for e in lines(
+        count_line("RegAlloc", "wip_reg_alloc", of=wip),
+        count_line("Stack layout / jump targets", "wip_stack_layout", of=wip),
+        count_line("Instruction order", "wip_instr_order", of=wip),
+        count_line("Close, under 5% of lines differ", "wip_close", of=wip),
+        count_line("Far, control flow / other", "wip_structural", of=wip),
+        count_line("Unclassified", "wip_unclassified", of=wip),
+        count_line("Identical, ready to promote", "wip_ready", of=wip),
+    )]
+    out.append("")
+    out.append("Docs/naming:")
+    out.append(f"{ind}Fields named [{named_fields}/{named_fields + unnamed_fields}] {pct(named_fields, named_fields + unnamed_fields):.2f}%"
+               f"{fmt_delta(prev('named_fields'), named_fields)}")
+    out.append(f"{ind}Functions named [{named_funcs}/{named_funcs + unnamed_funcs}] {pct(named_funcs, named_funcs + unnamed_funcs):.2f}%"
+               f"{fmt_delta(prev('named_funcs'), named_funcs)}")
+    if warnings is not None:
+        out.append("")
+        out.append(f"Build warnings: {warnings}{fmt_delta(prev('warnings'), warnings, with_pct=False)}")
+    out.append("")
+    out.append(f"Overall progress: [{matched}/{total}] {match_pct:.2f}%{fmt_delta(prev('matched'), matched, always=True)}")
 
     webhook_message = {
         "content": None,
-        "embeds": [
-            {
-            "title": "Status",
-            "description": f"{COMMIT_MESSAGE}\n{boot_to_map_str}\n{total_matches_str}\n{unmatched_funcs_str}\n{wip_funcs_str}"
-            }
-        ],
+        "embeds": [{"title": "Status", "description": "\n".join(out)}],
         "attachments": []
-    }
-
-    new_progress_json = {
-        "matched_boot_to_map_funcs": matched_coverage_funcs,
-        "total_matches": total_matched_funcs,
-        "unmatched_funcs": unmatched_funcs
     }
 
     print(f"prev_json_available: {prev_json_available}")
     print(f"previous_progress_json: {previous_progress_json}")
     print(f"new_progress_json: {new_progress_json}")
 
-    if not prev_json_available or (prev_json_available and previous_progress_json != new_progress_json):
+    changed = any(previous_progress_json.get(k) != new_progress_json[k] for k in PROGRESS_KEYS)
+    if not prev_json_available or changed:
         print("Posting update...")
-        req = urllib.request.Request(DISCORD_WEBHOOK_URL, json.dumps(webhook_message).encode())
-        req.add_header("Content-Type", "application/json")
-        req.add_header("User-Agent", "gta2_re webhook/1.0")
-        response = urllib.request.urlopen(req)
+        if DISCORD_WEBHOOK_URL != "dry-run":
+            req = urllib.request.Request(DISCORD_WEBHOOK_URL, json.dumps(webhook_message).encode())
+            req.add_header("Content-Type", "application/json")
+            req.add_header("User-Agent", "gta2_re webhook/1.0")
+            urllib.request.urlopen(req)
     else:
         print("Not posting update")
 
-    print(boot_to_map_str)
-    print(total_matches_str)
-    print(unmatched_funcs_str)
-    print(wip_funcs_str)
+    print(webhook_message["embeds"][0]["description"])
 
     with open("progress.json", "w") as file:
         json.dump(new_progress_json, file, indent=4)
+
 
 if __name__ == "__main__":
     main()

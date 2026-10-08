@@ -3,6 +3,7 @@
 
 // Force inline off
 //#define INLINE_MODE inline
+#include "car_despawn_status.hpp"
 #include "miss2_0x11c.hpp"
 #include "CarAI_78.hpp"
 #include "CarPhysics_B0.hpp"
@@ -42,6 +43,7 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
+#include "ped_graphic_type.hpp"
 // Back to force inline
 #define INLINE_MODE __forceinline
 
@@ -124,7 +126,7 @@ void miss2_0x11C::MissionFailOnArrest_503200()
 
         *gfrosty_pasteur_6F8060->field_344_mission_flag = 0;
         gfrosty_pasteur_6F8060->field_C1E2E_death_arrest_flag = 1;
-        gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->field_26C_graphic_type = 1;
+        gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->field_26C_graphic_type = ped_graphic_type::character_1;
     }
 }
 
@@ -413,7 +415,7 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
             }
 
             pPlayer->InitPlayerPed_565490(pPed);
-            pPed->field_26C_graphic_type = 1;
+            pPed->field_26C_graphic_type = ped_graphic_type::character_1;
             pCmd->field_8_ped = pPed;
 
             Sprite* pSprite = pPed->GetSprite_46DF50();
@@ -561,7 +563,7 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_P
     {
         pPointer->field_8_char->SetField238_403920(ped_type::script_created_5);
         pPointer->field_8_char->set_occupation_403970(pCmd->field_1C_occupation);
-        pPointer->field_8_char->field_26C_graphic_type = 1;
+        pPointer->field_8_char->field_26C_graphic_type = ped_graphic_type::character_1;
         pPointer->field_8_char->SetObjective(objectives_enum::wait_on_foot_26, 9999);
         pPointer->field_8_char->set_health_4039A0(100);
         Sprite* pSprite = pPointer->field_8_char->GetSprite_46DF50();
@@ -1223,7 +1225,7 @@ void miss2_0x11C::SCRCMD_DECLARE_POLICE_5052C0(SCR_DECLARE_POLICELEVEL* pCmd)
     {
         bSkip_police_67D4F9 = 0;
     }
-    gPolice_7B8_6FEE40->field_660_wanted_star_count = pCmd->field_A_wanted_level; // max_wanted_level
+    gPolice_7B8_6FEE40->field_660_max_wanted_stars = pCmd->field_A_wanted_level; // max_wanted_level
 }
 
 MATCH_FUNC(0x505340)
@@ -2414,8 +2416,8 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                             gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
                             gStoredCar_6F7560->SetUniNum_421560(3);
 
-                            if (gStoredCar_6F7560->field_88_despawn_status != 7 && gStoredCar_6F7560->field_88_despawn_status != 5 && gStoredCar_6F7560->field_88_despawn_status != 2 &&
-                                gStoredCar_6F7560->field_88_despawn_status != 3)
+                            if (gStoredCar_6F7560->field_88_despawn_status != car_despawn_status::deactivated_7 && gStoredCar_6F7560->field_88_despawn_status != car_despawn_status::despawning_5 && gStoredCar_6F7560->field_88_despawn_status != car_despawn_status::despawn_pending_2 &&
+                                gStoredCar_6F7560->field_88_despawn_status != car_despawn_status::despawn_soon_3)
                             {
                                 gStoredCar_6F7560->field_88_despawn_status = four;
                             }
@@ -2425,8 +2427,8 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                             gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
                             gStoredCar_6F7560->SetUniNum_421560(3);
 
-                            if (gStoredCar_6F7560->field_88_despawn_status != 7 && gStoredCar_6F7560->field_88_despawn_status != 5 && gStoredCar_6F7560->field_88_despawn_status != 2 &&
-                                gStoredCar_6F7560->field_88_despawn_status != 3)
+                            if (gStoredCar_6F7560->field_88_despawn_status != car_despawn_status::deactivated_7 && gStoredCar_6F7560->field_88_despawn_status != car_despawn_status::despawning_5 && gStoredCar_6F7560->field_88_despawn_status != car_despawn_status::despawn_pending_2 &&
+                                gStoredCar_6F7560->field_88_despawn_status != car_despawn_status::despawn_soon_3)
                             {
                                 gStoredCar_6F7560->field_88_despawn_status = four;
                             }
@@ -2436,9 +2438,9 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                             gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
                             gStoredCar_6F7560->SetUniNum_421560(3);
 
-                            if (gStoredCar_6F7560->field_88_despawn_status != 5)
+                            if (gStoredCar_6F7560->field_88_despawn_status != car_despawn_status::despawning_5)
                             {
-                                gStoredCar_6F7560->field_88_despawn_status = 3;
+                                gStoredCar_6F7560->field_88_despawn_status = car_despawn_status::despawn_soon_3;
                             }
                         }
                     }
@@ -2773,7 +2775,7 @@ void miss2_0x11C::SCRCMD_CAR_IN_AREA_509A70()
     Fix16 lz = pCmd->field_C_rect.field_0_pos.field_8_z - kFpHalf_6F75F0;
     gfrosty_pasteur_6F8060->field_2F8_area_rect.SetHiLowZ_41E370(lz, hz);
 
-    if (pPointer->field_8_car != NULL && pPointer->field_8_car->field_88_despawn_status != 6 &&
+    if (pPointer->field_8_car != NULL && pPointer->field_8_car->field_88_despawn_status != car_despawn_status::despawned_6 &&
         (pPointer->field_8_car->field_50_car_sprite->IntersectsRectSAT_59FB10(&gfrosty_pasteur_6F8060->field_2F8_area_rect) ||
          gfrosty_pasteur_6F8060->field_2F8_area_rect.IntersectsSpriteRenderingRect_59DDF0(pPointer->field_8_car->field_50_car_sprite)))
     {
@@ -2886,7 +2888,7 @@ void miss2_0x11C::SCRCMD_ADD_SCORE_509D90()
             Player* pPlayer = pPed->field_15C_player;
             if (gBasePtr_6F8070->field_2_type == SCRCMD_ADD_SCORE1)
             {
-                pPlayer->Add_2D4(pCmd->field_C_s32);
+                pPlayer->AddScore_41DC40(pCmd->field_C_s32);
             }
             else
             {
@@ -2910,7 +2912,7 @@ void miss2_0x11C::SCRCMD_ADD_SCORE2_509E00()
     {
         if (pPed->is_player_41B0A0())
         {
-            pPed->field_15C_player->Add_2D4(pCounter->field_8_counter);
+            pPed->field_15C_player->AddScore_41DC40(pCounter->field_8_counter);
         }
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -3240,13 +3242,7 @@ void miss2_0x11C::SCRCMD_CHANGE_CHAR_REMAP_50A5B0()
 
     if (pPointer->field_8_char)
     {
-        Char_B4* pChar_b4 = pPointer->field_8_char->field_168_game_object;
-        u8 remap = pCmd->field_A_unsigned_2;
-        pChar_b4->field_5_remap = remap;
-        if (pChar_b4->field_5_remap != 0xFFu)
-        {
-            pChar_b4->field_80_sprite_ptr->SetRemap(remap);
-        }
+        pPointer->field_8_char->SetRemap_433C10(pCmd->field_A_unsigned_2);
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -3280,7 +3276,7 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_REMAP_50A670()
     Car_BC* pCar = pPointer->field_8_car;
     s16 remap = pCmd->field_A_signed_2;
 
-    if (pCar != NULL && pCar->field_88_despawn_status != 6 && (u16)pCar->field_50_car_sprite->field_24_remap == remap)
+    if (pCar != NULL && pCar->field_88_despawn_status != car_despawn_status::despawned_6 && (u16)pCar->field_50_car_sprite->field_24_remap == remap)
     {
         field_8_cond_result = true;
     }
@@ -3301,7 +3297,7 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_BOTH_50A6E0()
     s16 car_model_idx = pCmd->field_A_signed_2;
     s16 remap = pCmd->field_C_signed_3;
 
-    if (pCar != NULL && pCar->field_88_despawn_status != 6 && (s8)pCar->field_84_car_info_idx == car_model_idx &&
+    if (pCar != NULL && pCar->field_88_despawn_status != car_despawn_status::despawned_6 && (s8)pCar->field_84_car_info_idx == car_model_idx &&
         (u16)pCar->field_50_car_sprite->field_24_remap == remap)
     {
         field_8_cond_result = true;
@@ -3331,7 +3327,7 @@ void miss2_0x11C::IsOnScreen_50A760()
 
             Car_BC* pCar = pPointer->field_8_car;
 
-            if (pCar->field_88_despawn_status == 6)
+            if (pCar->field_88_despawn_status == car_despawn_status::despawned_6)
             {
                 onScreen = false;
                 break;
@@ -3775,7 +3771,7 @@ void miss2_0x11C::SCRCMD_IS_CHAR_FIRE_ONSCREEN_50B3D0()
 {
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     Ped* pPed = pPointer->field_8_char;
-    if (pPed->GetBit11_433CA0() && pPed->Get_F20E_4039F0() == 0 && pPed->field_170_selected_weapon)
+    if (pPed->GetBit11_433CA0() && pPed->GetOffscreenCounter_4039F0() == 0 && pPed->field_170_selected_weapon)
     {
         field_8_cond_result = true;
     }
@@ -4066,7 +4062,7 @@ void miss2_0x11C::SCRCMD_CAR_WRECK_IN_LOCATION_50BAD0()
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     Car_BC* pCar = pPointer->field_8_car;
 
-    if ((pCar->field_74_damage >= 32000 || pCar->field_88_despawn_status == 5) && pCar->IsWithinArea(&pCmd->field_C_rect))
+    if ((pCar->field_74_damage >= 32000 || pCar->field_88_despawn_status == car_despawn_status::despawning_5) && pCar->IsWithinArea(&pCmd->field_C_rect))
     {
         field_8_cond_result = true;
     }
@@ -4798,7 +4794,7 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_DRIVER_50CB70()
         {
             Car_BC* pCar = pPointer->field_8_car;
 
-            if (pCar->field_88_despawn_status == 6 || pCar->field_88_despawn_status == 5 || pCar->field_74_damage >= 32000 || pCar->HasSpriteZoom_43A230())
+            if (pCar->field_88_despawn_status == car_despawn_status::despawned_6 || pCar->field_88_despawn_status == car_despawn_status::despawning_5 || pCar->field_74_damage >= 32000 || pCar->HasSpriteZoom_43A230())
             {
                 field_8_cond_result = true;
             }
@@ -5728,7 +5724,7 @@ void miss2_0x11C::SCRCMD_SET_SPEED_50E780()
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     if (gBasePtr_6F8070->field_2_type == SCRCMD_SET_RUN_SPEED)
     {
-        pPointer->field_8_char->field_1F0_maybe_max_speed = pCmd->field_A_value;
+        pPointer->field_8_char->field_1F0_max_speed = pCmd->field_A_value;
     }
     else
     {
@@ -5800,7 +5796,7 @@ void miss2_0x11C::SCRCMD_PUT_CAR_ON_TRAILER_50E900()
     SCR_POINTER* pDstCarPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_trailer_car_idx);
 
     Car_BC* pDstCar = pDstCarPointer->field_8_car;
-    if (pDstCar->field_88_despawn_status != 6)
+    if (pDstCar->field_88_despawn_status != car_despawn_status::despawned_6)
     {
         if (pDstCar->is_trailer_cab_41E460())
         {
@@ -6857,7 +6853,7 @@ void miss2_0x11C::SCRCMD_DO_BASIC_KF_510280()
 
                 if (pCmd->field_1A_rewardtype == 1)
                 {
-                    pPlayerPedCmdPointer->field_8_char->field_15C_player->Add_2D4(pCmd->field_1C_rewardvalue);
+                    pPlayerPedCmdPointer->field_8_char->field_15C_player->AddScore_41DC40(pCmd->field_1C_rewardvalue);
                     gRoot_sound_66B038.PlayVoice_40F090(19);
                 }
                 else if (pCmd->field_1A_rewardtype == 2)

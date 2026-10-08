@@ -51,7 +51,7 @@
 #include "Phi_8CA8.hpp"
 #include "Player.hpp"
 #include "Rozza_C88.hpp"
-#include "Shooey_CC.hpp"
+#include "CrimeReportQueue_CC.hpp"
 #include "cSampleManager.hpp"
 #include "char.hpp"
 #include "collide.hpp"
@@ -259,7 +259,7 @@ void force_link()
     Ped cn;
     cn.SetRecentCrimeTimer_45B550();
     cn.SetPlayer_45B560(NULL, 0);
-    cn.sub_45B590();
+    cn.IsEmergencyOccupation_45B590();
 
     miss2_8 miss2;
     miss2.add_503160(0);
@@ -301,8 +301,8 @@ void force_link()
     Mike_A80 mike;
     mike.DebugDrawProfiling_4FF250();
 
-    Shooey_14 shooey_14;
-    Shooey_CC shooey_CC;
+    CrimeReport_14 crime_report_14;
+    CrimeReportQueue_CC crime_report_queue_CC;
 
     Firefighter_28 tango_28;
     tango_28.Clear_450C10();
@@ -1318,7 +1318,7 @@ EXPORT void Net_Send_Our_Inputs_4DACB0()
 MATCH_FUNC(0x4DAD50)
 EXPORT void Net_Set_Local_Player_Inputs_4DAD50()
 {
-    for (u32 player_idx = 0; player_idx < 6; player_idx++)
+    for (u32 player_idx = 0; player_idx < MAX_PLAYERS; player_idx++)
     {
         Player* pPlayer = gGame_0x40_67E008->get_player_4219E0(player_idx);
         if (pPlayer && pPlayer->GetInUse_461DB0())

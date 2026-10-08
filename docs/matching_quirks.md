@@ -13,6 +13,23 @@ Add to this file when you find something new. Keep entries short and point at a 
 the address to the csv (size from the target asm dump: `dump_target_asm.py` dumps the bytes of
 marked unlisted addresses into `target_extra.json`) before trusting the marker.
 
+**Adding an enum to a shared header can break an unrelated match.** Adding the three-member
+`ped_graphic_type` enum (`civilian_0`, `character_1`, `cop_2`) to `enums.hpp`, to `Ped.hpp`, or anywhere else
+`MapRenderer.cpp` ends up including, changed the code of `MapRenderer::Draw4SidedDiagonalUpLeft_4EF880`
+(3306/3307). Nothing used the enum, and the other functions were unaffected. What we know:
+- It is not the position, the file, the name or the line count: 12 comment lines in `enums.hpp` and a
+  one-member enum (any namespace name) keep 3307; a three-member enum fails whatever it is called, and in
+  either header. `crew_kind` (4 members), `pursuit_state` (5) and the renamed `cop_level_enum` went in fine.
+- It also hits when the enum is reached through `Car_BC.hpp` (`car_despawn_status`, 8 members, included from
+  `Car_BC.hpp`: `Draw4SidedDiagonalUpLeft_4EF880` and `Draw3SidedDiagonalDownRight_4EF520` fail). Keep such enums in
+  their own header and include it only from the `.cpp` files, so inline code in `Car_BC.hpp` stays numeric.
+- So it looks like a symbol table / hash effect inside VC6 that depends on how many names a TU has, and
+  only a function as fragile as that x87 one notices.
+- The fix is to keep the enum out of every header `MapRenderer.cpp` includes: `ped_graphic_type.hpp` is a
+  small header included only by the .cpp files that use it.
+After adding any enum or constants to a widely included header, run the whole `build.py` (not just
+`--single_cpp`), and if a far-away function fails, move the addition into its own header.
+
 **`WIP_IMPLEMENTED` and `NOT_IMPLEMENTED` add code.** The macros inject a static flag and a
 logging `call` into the function body, so a function containing one can never match. Remove
 the line (or compile it out locally) before comparing. Several WIP functions were already
@@ -160,7 +177,7 @@ VC6 CSEs the load into the same register but doesn't thread the branch
 (`PublicTransport_181C::PublicTransportService_57A7A0`).
 
 **Invert an `if`/`else` to let a case share a block with a later case.** In
-`Police_7B8::sub_56FBD0`, case 0's `field_8_state = 3` is a `jne` into an identical block in
+`Police_7B8::UpdatePursuitTargets_56FBD0`, case 0's `field_8_state = 3` is a `jne` into an identical block in
 case 5. With `if (n) { state = 3; } else { ... }`, VC6 kept its own copy. With
 `if (!n) { ... } else { state = 3; }`, the block moves to the end and merges (0.690 -> 0.802).
 
@@ -220,20 +237,20 @@ are fine (`PointInsideRotatedBounds_5A1490`); the old `char_type` result trick i
 
 Which copy survives a tail merge can depend on how the copies are reached: VC6 merged a duplicate
 tail into the earlier copy when the later ones were jump targets (else branches), into the later one
-when they were fall-through (`ManageTrafficCarDirection_448CE0`, the `sub_4538B0` path). Not universal.
+when they were fall-through (`ManageTrafficCarDirection_448CE0`, the `ClearSteeringIfTurning_4538B0` path). Not universal.
 
 More on which copy survives (from `Car_14::SpawnTrafficCar_582480`): when one of two identical tails is a whole
 block starting at a label (an else arm), that copy is dropped and its label retargeted into the other one,
 wherever they are; with both whole, the later copy survives.
 
-Which copy survives can also depend on how the cases leave the switch. In `CarAI_78::sub_44D1D0` the four
+Which copy survives can also depend on how the cases leave the switch. In `CarAI_78::DetectCarAhead_44D1D0` the four
 direction cases end with identical probe tails (`mov %eax,0x14(%ecx) ... call FindNearestSpriteOfType; test; jne
 ret; jmp tail`). With `break` VC6 keeps the west copy (the last, the one falling into the code after the switch)
 and jumps the others into it; the original keeps the north copy (the first). Ending every case with `goto tail;`
 (the label on the first statement after the switch, which is where `break` goes anyway) keeps the first copy and
 gave the original's layout in both of its switches (150 -> 16). The same `goto` changed nothing in
 `Car_14::SpawnTrafficCar_582480` (two else-arm copies, no `default: return;` in that switch) or for the two
-`SetGoStraight(); return;` tails of `CarAI_78::sub_44A1F0`, so it is not a general "keep the first copy" switch.
+`SetGoStraight(); return;` tails of `CarAI_78::FollowRoadDirection_44A1F0`, so it is not a general "keep the first copy" switch.
 
 Merging is of the final machine code, so a block that would merge can be kept apart by its exit. In
 `Car_214::sub_5C8780` case 7's ped body is byte for byte case 6's, but ours ends it with a copy of the 2-instruction
@@ -351,7 +368,7 @@ when the case lands last in the layout. The permuter found `case 4` first (`sub_
 
 **A `switch` whose cases all return the same value still loads the operand.** A stray
 `mov 0x28(%ecx),%ecx` with no compare after it comes from `switch (field_28_state)` where every case
-does `return true`: VC6 drops the compares and keeps the load (`Kfc_30::PedIsValid_5CBC60`; the case
+does `return true`: VC6 drops the compares and keeps the load (`EmergencyCrew_30::PedIsValid_5CBC60`; the case
 values are a guess).
 
 **Two returns can turn branchless.** `if (ok) return x; return 0;` came out as `neg/sbb/not/and`. The
@@ -397,7 +414,7 @@ shared `return 10` in `sad_mirzakhani::find_431EC0` (which also read the wrong f
 **Search loops that return a pointer or NULL were inline helpers.** When the original tests `&array[i] == NULL`
 and gives every `return false` its own epilogue, write each search as a file-local inline that returns the
 found item or NULL. Open-coded loops make VC6 send all the returns to one shared block
-(`Police_7B8::PromptCrewAtCarToPurseCriminal_5707B0`).
+(`Police_7B8::TryAssignCarCrewToCriminal_5707B0`).
 
 **`return a < N;` per case vs a bool local.** Returning the comparison in each case gives
 `xor eax; mov field,edx; cmp; setl`; setting a bool local gives `cmpl $N,mem; setl` with no `xor`
@@ -454,10 +471,10 @@ comparison (`RouteFinder_10::field_2` is `u16`).
 **`mov mem,%edx; and $1,%edx; cmp $1,%dl` is `(x & 1) == 1` with no cast.** A `(u8)` or
 `(char)` cast, or an inline returning `char`, narrows the load to `mov mem,%dl; and $1,%dl`.
 `!(x & 1)` gives `testb $1,mem` (`sound_obj::HandlePedVoiceEvent_423080`). Likewise,
-`(field_21C & 0x20) == 0x20` (`Police_7B8::sub_56FBD0`).
+`(field_21C & 0x20) == 0x20` (`Police_7B8::UpdatePursuitTargets_56FBD0`).
 
 **Unsigned compares on `char_type` counters.** `cmp $1,%al; jae` or `test %al,%al; ja` on a
-counter field means the field is `u8`. `Police_7C`'s `field_70`..`field_73_next_tile_y` crew counts were
+counter field means the field is `u8`. `PolicePursuitTarget_7C`'s `field_70`..`field_73_next_tile_y` crew counts were
 `char_type`, and changing them to `u8` moved no other function.
 
 **`and $0xFFFF,%eax` vs `movswl`** is a `u16` vs `s16` parameter (`PedManager::DoIanTest_471060`).
@@ -957,7 +974,7 @@ directly in the first check keeps the original jump target (`Car_BC::CanCarColli
 
 **Pass an inline's result straight into the call when the original does.** `mov (%eax),%edx; push %edx` right after the inline means `Call(..., *sub_4E4E50(&tmp, ...))`, not a local assigned first (`Ped::ExitCarStateMachine_46C250`).
 
-**`speed * Ang16::sine_40F500(a)` vs `sine(a) * speed`.** With the by-value temporary on the right, VC6 loads both into registers (`mov table,%ecx; mov speed,%eax; imul %ecx`); the other order or `PolarToCartesian` gives `imull mem` (`Particle_4C::PoolUpdate_53D260`). The inline `Fix16 * Fix16` keeps its `imul` operand order whatever the source order, but indexing `gSin_table_667A80` directly instead of calling `sine_40F500` changes which operand goes in `eax` (`CarAI_78::sub_452060`).
+**`speed * Ang16::sine_40F500(a)` vs `sine(a) * speed`.** With the by-value temporary on the right, VC6 loads both into registers (`mov table,%ecx; mov speed,%eax; imul %ecx`); the other order or `PolarToCartesian` gives `imull mem` (`Particle_4C::PoolUpdate_53D260`). The inline `Fix16 * Fix16` keeps its `imul` operand order whatever the source order, but indexing `gSin_table_667A80` directly instead of calling `sine_40F500` changes which operand goes in `eax` (`CarAI_78::ScanAheadForObstacles_452060`).
 
 **Mixed inline/out-of-line operators inside one expression.** When the inline budget runs out mid-expression, some operands of a rotation or length stay inline (`x.Multiply_408680(cos) + y * sin`), so each site may need its own helper variant. The order of the out-of-line calls in the asm shows which operand stayed inline (`EmitFlameStreamSegment_53F4C0`, `SpawnDamageFireEffect_43B870`). Note: `compare_target_asm` can normalise an immediate `0` into a stable name, which makes its ratio unreliable (0x5D0850).
 
@@ -983,7 +1000,7 @@ directly in the first check keeps the original jump target (`Car_BC::CanCarColli
 
 **Reading a pointer through a different expression forces a reload.** `field_C_carriages[0]->field_54_driver` instead of a local `pBusCar->field_54_driver` stops VC6 reusing the loaded field (579CA0).
 
-**Values held in registers going into a shared tail were computed per case.** When each case ends with `add %edi,%edx; jmp tail`, do the computation inside each case (`Ped::sub_4645B0`). Same for cases that each divide and then share one multiply: `ratio = v / max; break;` per case into a function-scope local, one multiply after the switch. VC6 tail-merges the divisions and gives `mov eax,ecx; mov global,eax; imul ecx` instead of `imull mem` (`sound_obj::Type6_413A10`).
+**Values held in registers going into a shared tail were computed per case.** When each case ends with `add %edi,%edx; jmp tail`, do the computation inside each case (`Ped::CalcApproachPointNearTargetPed_4645B0`). Same for cases that each divide and then share one multiply: `ratio = v / max; break;` per case into a function-scope local, one multiply after the switch. VC6 tail-merges the divisions and gives `mov eax,ecx; mov global,eax; imul ecx` instead of `imull mem` (`sound_obj::Type6_413A10`).
 
 **A value every case assigns: write it once after the switch.** VC6 copies it back into each case like the original; writing it per case changes the tail merges and the constant registers (`Frontend::UpdatePageFromUserInput_4AE2D0`). In the same function a constant-count zeroing loop gave the original's word/byte stores at fixed offsets where `memset` took the address into a register first (also `Frontend::ctor_4AF2A0`: constant-count loops
 store off `esi` with their own `xor` zero register and no `lea`), and a separate `if (page == A || page == B || page == C)` after an else-if chain let VC6 thread the known value without a goto.
@@ -1008,7 +1025,7 @@ of `==` if they are the wrong way round (`NetPlay::InitializeConnection_51E5C0`)
 **`a > b ? a : b` on `Fix16` goes through memory.** VC6 picks the address of the larger
 operand (`lea ...; jg; lea ...; mov (%eax),%edx`). `Fix16::Max` and `MaxAbsDistance_42A6B0`
 do the same. Keep it in registers with `if (!(dx > dy)) { dx = dy; }`, which gives the
-original's `cmp %eax,%edx; jg; mov %eax,%edx` (`Police_7B8::sub_56FBD0`, 0.924 -> match).
+original's `cmp %eax,%edx; jg; mov %eax,%edx` (`Police_7B8::UpdatePursuitTargets_56FBD0`, 0.924 -> match).
 
 **A value picked by an `if`/`else` chain vs a ternary chain moves a later sum to another
 register.** In `sound_obj::HandlePedVoiceEvent_423080`,
@@ -1099,7 +1116,7 @@ fixed frame offsets (it tracks pushes and call cleanup), so the slots of the ori
 of a build can be compared line by line.
 
 **Declaration position moves a zero store.** A loop counter declared before an `if` gets its
-`= 0` store scheduled before the test, not inside the block (`Kfc_30::CleanupExpiredEntities_5CC1C0`).
+`= 0` store scheduled before the test, not inside the block (`EmergencyCrew_30::CleanupExpiredEntities_5CC1C0`).
 
 **A variable index blocks load hoisting.** VC6 moves a later load above a store with a
 constant array index, but not above one through a variable. Inside `case 6:`, writing
@@ -1211,7 +1228,7 @@ known to be 0 on entry, VC6 won't reproduce it however you write the loop
 slot, e.g. a `u8` index used once and a later `u32 len = sizeof(x)` read-size, and your frame is 4 bytes
 bigger, wrap each one in its own `{ }` block. VC6 only overlaps slots for variables in disjoint scopes; the
 original probably had them inside inline helpers. `Frontend::sub_4B4EC0` went 0.867 → 1.0 from this alone.
-A `static inline bool` helper does the same job and reads better: `CarAI_78::sub_453C00` matched once its
+A `static inline bool` helper does the same job and reads better: `CarAI_78::ReverseOrNeutral_453C00` matched once its
 Ang16 angle test moved into one, so the test's temporaries got their own scope and a later speed temporary
 reuses their slot.
 
@@ -1428,8 +1445,8 @@ return, cast to `u8` at the call: `if ((u8)sub_405E20(...) || (u8)sub_405E20(...
 
 **A member that ignores `ecx`.** `frosty_pasteur_0xC1EA8::sub_511A70` is called with
 `ecx = gfrosty_pasteur_6F8060`, but reads the global (`mov 0x6F8060,%eax`) instead of `this`.
-Write the body against the global. Similarly, `Police_7B8::sub_56FBD0` calls
-`gPolice_7B8_6FEE40->DispatchNewCrewToService_56FAA0(...)` and writes `gPolice_7B8_6FEE40->field_65C` while using
+Write the body against the global. Similarly, `Police_7B8::UpdatePursuitTargets_56FBD0` calls
+`gPolice_7B8_6FEE40->DispatchNewCrewToPursuit_56FAA0(...)` and writes `gPolice_7B8_6FEE40->field_65C` while using
 `this` for everything else.
 
 **A byte load from a live parameter's slot is an uninitialised local.** In
@@ -1555,12 +1572,12 @@ left the code of every matching function unchanged, so those can be used whereve
 them. Adding these helpers made `Object_2C::sub_526B40` match (`Sprite::get_type_416B40`,
 `Char_B4::get_velocity_41B080`, `Sprite::set_num_40F7B0`). The exception is
 `Char_B4::SetMaxSpeed_433920(Fix16)`: as a by-value `Fix16` parameter it changed six matching
-`Ped` functions (`sub_46C770` and others), although 9.6f calls it there. Those keep the plain
+`Ped` functions (`WalkToTargetPoint_46C770` and others), although 9.6f calls it there. Those keep the plain
 assignment for now. `SetMaxSpeedByRef_433920` (by reference) changes register choice later in the
 function and matched `Ped::EnterCarStateMachine_46BDC0` and `ExitCarStateMachine_46C250`.
 
 **Adding unused inline methods to a header can still move code in other TUs.** Ten small
-`field_A6` bit helpers added to `Car_BC.hpp` (for `CarAI_78::sub_447710`) leave every
+`field_A6` bit helpers added to `Car_BC.hpp` (for `CarAI_78::PlanTurnAtNextJunction_447710`) leave every
 `MATCH_FUNC` alone but make five `MapRenderer.cpp` WIPs (`Draw3SidedDiagonal*`,
 `Draw4SidedDiagonal*`) 2 to 4 lines worse, by swapping the operands of one `lea`.
 `MapRenderer.cpp` gets `Car_BC.hpp` through `Camera.hpp` and never calls the helpers. So when a
@@ -1616,7 +1633,7 @@ and find the source difference that moves the cut-off. With the 9.6f-verified
 in `Wolfy_30::TimerAfter50Handler_541850`, all 16 `CarAI_78` sites and
 `Sprite::MinDistanceToAnySpriteBBoxCorner_5A22B0`. `Firefighter_28::Update_4A81F0` also needed field
 accesses in place of the `get_driver_4118B0` getters (fewer free sites after the call), and
-`Kfc_30::UpdateStateMachine_5CBD50` the 9.6f `ClearGroupAndGroupIdx_403A30` call (one more).
+`EmergencyCrew_30::UpdateStateMachine_5CBD50` the 9.6f `ClearGroupAndGroupIdx_403A30` call (one more).
 
 The older notes below (which calls lose, "freeing budget brings inlines back", "a ternary costs less")
 all follow from this rule.
@@ -1706,14 +1723,14 @@ falls into `default`. Give it its own body, even an identical one, to keep it in
 
 **One shared loop counter and flag across separate loops.** Separate variables get separate stack
 slots; reusing one `u8 idx` for four loops and one flag for several checks gave the original's frame
-(`Kfc_30::UpdateStateMachine_5CBD50`).
+(`EmergencyCrew_30::UpdateStateMachine_5CBD50`).
 
 **Write switch cases in jump-table order and let VC6 merge the tails.** It merges shared tails
 itself, even across different call arguments (`push 1; jmp` into a shared call). Gotos into another
 case's block wreck register allocation (`Frontend::UpdatePageFromUserInput_4AE2D0`).
 
 **Test the in-range case first.** `if (v >= lo && v <= hi) mid; else if (v < lo) A; else B;` gives
-`cmp lo; jl A; cmp hi; jg B` with `mid` as the fallthrough (`CarAI_78::sub_44AF00`).
+`cmp lo; jl A; cmp hi; jg B` with `mid` as the fallthrough (`CarAI_78::AlignToLaneCenter_44AF00`).
 
 **A `dec; jne` countdown loop needs an int counter.** A u8 counter gives a compare instead
 (`TrafficLight_20::Init_5C1D00`).
@@ -2084,7 +2101,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   inline budget (`PoliceRoadblock_A4::CreateRoadblock_575FF0`: removing three such helpers let Normalize
   inline again, 751 -> 529).
 - **A global moved to another TU** gives 16-bit `mov`/`sub` from memory for `Ang16` constants
-  (`CarAI_78::sub_44AF00`: kAng0/90/180/270 now live in `Car_10.cpp`).
+  (`CarAI_78::AlignToLaneCenter_44AF00`: kAng0/90/180/270 now live in `Car_10.cpp`).
 - **Statement order picks `inc mem` vs load/inc/store.** `bFound = 1; y++;` gives load/inc/store,
   `y++; bFound = 1;` gives `incb mem`, and then lets VC6 cross-jump the tail (575FF0).
 - **Tail merging between identical case tails** (575FF0, 582480): two jump-target copies merge into the
@@ -2117,7 +2134,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   (`EmitImpactParticles_53FE40` takes a `Fix16_Point`).
 - **A local flag can replace a goto.** A `u8` flag set on several paths and tested once is threaded into
   direct jumps (`PoliceCrew_38::State5_PursueOrChase_572920`). A jump that skips a test of a value already
-  known false is VC6 threading, not an IDA goto (`CarAI_78::sub_447D40`).
+  known false is VC6 threading, not an IDA goto (`CarAI_78::TrySetTargetDirectionFromArrows_447D40`).
 - **An inline helper with every value as a by-value parameter** evaluates all arguments before any store,
   giving a load-all-then-store schedule (`Car_BC::TrainUpdate_442D70`'s `SetPrism`).
 - **Mixed if-chain forms decide tail merging:** some cases needed early returns, others nested
@@ -2132,7 +2149,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
 ### Round 8 (far-off WIPs)
 
 - **Store order before a merge point:** `v32 -= k; v33 = 6;` instead of the reverse stopped VC6 merging the
-  `v32` store with the other branch's copy and matched `CarAI_78::sub_4482C0`.
+  `v32` store with the other branch's copy and matched `CarAI_78::BrakeForBlockedRoadAhead_4482C0`.
 - **Scalars declared before `Fix16_Point` locals** move the EH state store after their stores, and a copy
   passed by reference inside a `{}` block shares its slot by liveness: matched
   `Object_2C::IntegrateMovementAndCollisions_523BF0`.
@@ -2143,7 +2160,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   `mov %bl,mem` instead of `movb $0`; zero the stack flags first (`eager_benz::OnPedKilled_592660`).
 - **Each distinct unnamed temporary gets its own slot** (`Ang16(a - b).Normalized_406C20()`), identical ones
   share it, and a named local inside an inline helper shares one slot across all its call sites
-  (`CarAI_78::sub_44AF00`).
+  (`CarAI_78::AlignToLaneCenter_44AF00`).
 - **`field += k` vs `field = field + k`** on an `Ang16` member: inline normalise on memory vs a temporary
   and an out-of-line Normalize (`Char_B4::state_0_54DDF0`, skeleton 8 -> 0).
 - **`?:` as an `if` condition** is materialised with `setcc` when its arms are compares; an inline helper
@@ -2151,7 +2168,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
 - **Swapping an if/else's arms** moves blocks (the `then` arm is laid out first) and the cross-jump
   direction (`IsThreatToSearchingPed_4661F0`, `ReactToNearbyCar_451980`).
 - **Passing full member chains** to `set_xyz_lazy_420600` keeps the original's self-compare of z; a cached
-  `pSprite` folds it away (`sub_44AF00`).
+  `pSprite` folds it away (`AlignToLaneCenter_44AF00`).
 - **`wsprintfA` (import, `call *%esi`) vs `sprintf` (static CRT)** shows only in the call form
   (`Start_NetworkGame_5E5A30`).
 - **A by-value result local in an inline helper** (`Fix16 result; result = Max_44E540(...); return result;`)
@@ -2195,7 +2212,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   saves prologue is the first argument, not a spilled local; `HandleVocalStreamSwitching_57DF10`'s "unused"
   parameter is the speed-doubling flag tested before every `SetVocalSpeed`.
 
-### Inlined Ang16 operators on globals (`CarAI_78::sub_44AF00`)
+### Inlined Ang16 operators on globals (`CarAI_78::AlignToLaneCenter_44AF00`)
 
 - **A global used as `this` in one inlined member call and as the reference argument in another loads as
   32 bits.** With `kAng180 - d` and `d + kAng180` (both `Ang16` member operators, inlined) VC6 emitted
@@ -2213,7 +2230,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
 - **One `Fix16 x_off; Fix16 y_off;` per switch instead of one per case** removed 12 free `Fix16()` sites
   (and their size): the nested budgets of the operator sites rose just enough to inline the normalizing
   ctor while its Normalize stays out of line (13 out-of-line / 2 inline, 6 out-of-line products, all eight
-  rotations written as `PolarToCartesian_41FC20`), which matched sub_44AF00. Free sites after a site lower its `budget / sites_left` share, so moving
+  rotations written as `PolarToCartesian_41FC20`), which matched AlignToLaneCenter_44AF00. Free sites after a site lower its `budget / sites_left` share, so moving
   declarations out of repeated cases is a natural way to shift a cut-off.
 
 ### Bit clears on byte flag fields (`Ped::Reset_45AFC0`)
@@ -2300,7 +2317,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
 
 ### CarAI / Orca / Draw pass (9.6f first, then VC6's registers and budget)
 
-- **An else-if chain with an explicit null arm moves the zero register's start.** `CarAI_78::sub_448770` tests
+- **An else-if chain with an explicit null arm moves the zero register's start.** `CarAI_78::CheckRoadAhead_448770` tests
   three block pointers for null; the original has `xor ebx,ebx; cmp ebx,edi` right after the third `get_block`
   and `test` for the first two. Nested `if (!a) {...} else { if (f(a)) ...; if (b && f(b)) ... else ... }` and the
   `goto`/early-return forms all put the `xor` at the later `cmp ebx,eax` (38). One flat chain, `if (!a) ... else

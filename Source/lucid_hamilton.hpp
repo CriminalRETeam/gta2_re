@@ -5,7 +5,7 @@
 
 struct wonderful_knuth_0xC
 {
-    s16 field_0[6];
+    s16 field_0[MAX_PLAYERS];
 };
 
 struct blissful_ganguly_0x20
@@ -82,10 +82,10 @@ struct lucid_hamilton
     char_type field_442_winner_player_idx;
     char_type field_443;
     s32 field_444_game_time_limit;
-    wonderful_knuth_0xC field_448_frags_by_victim[6];
-    s16 field_490_frags_list[6];
-    s32 field_49C_points_list[6];
-    blissful_ganguly_0x20 field_4B4_player_names[6];
+    wonderful_knuth_0xC field_448_frags_by_victim[MAX_PLAYERS];
+    s16 field_490_frags_list[MAX_PLAYERS];
+    s32 field_49C_points_list[MAX_PLAYERS];
+    blissful_ganguly_0x20 field_4B4_player_names[MAX_PLAYERS];
     s32 field_574_secret_tokens_collected;
 
     // inlined at 45b420 in 9.6f

@@ -67,7 +67,7 @@ class Network_Unknown
     u32 field_4_count;
     char_type field_8[4];
     s32 field_C;
-    Nework_2C field_10_players[6];
+    Nework_2C field_10_players[MAX_PLAYERS];
     u8* field_118_group_data;
     s32 field_11C_group_data_len;
     DPSESSIONDESC2 field_120_session_desc;
@@ -152,7 +152,7 @@ struct Network_14
 
 struct Network_Unknown_0x30
 {
-    Network_InputData_0x8 field_0_inputs[6];
+    Network_InputData_0x8 field_0_inputs[MAX_PLAYERS];
 };
 
 struct PacketHandlerSlot
@@ -280,7 +280,7 @@ struct NetPlay
     IDirectPlay3* field_5E4_pDPlay3;
     Network_Unknown field_5E8_n1;
     Network_Unknown field_758_n2;
-    naughty_sinoussi_0x800* field_8C8[6];
+    naughty_sinoussi_0x800* field_8C8[MAX_PLAYERS];
     s32 field_8E0_p0x1800_2;
     s32 field_8E4_p0x1800_1;
     s32 field_8E8_time;

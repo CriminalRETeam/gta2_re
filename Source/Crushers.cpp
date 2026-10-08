@@ -1,4 +1,5 @@
 #include "Crushers.hpp"
+#include "car_despawn_status.hpp"
 #include "Camera.hpp"
 #include "Car_BC.hpp"
 #include "Globals.hpp"
@@ -58,9 +59,9 @@ void Crusher_30::Service_488350()
 {
     if (field_2C_state != CrusherStates::Idle_0)
     {
-        if (field_14_pCarBeingCrushed->field_88_despawn_status == 2 || field_14_pCarBeingCrushed->field_88_despawn_status == 4 || field_14_pCarBeingCrushed->field_88_despawn_status == 3)
+        if (field_14_pCarBeingCrushed->field_88_despawn_status == car_despawn_status::despawn_pending_2 || field_14_pCarBeingCrushed->field_88_despawn_status == car_despawn_status::marked_for_despawn_4 || field_14_pCarBeingCrushed->field_88_despawn_status == car_despawn_status::despawn_soon_3)
         {
-            field_14_pCarBeingCrushed->field_88_despawn_status = 1;
+            field_14_pCarBeingCrushed->field_88_despawn_status = car_despawn_status::active_1;
         }
 
         switch (field_2C_state)

@@ -49,16 +49,16 @@ void zealous_borg::IncrementCrimeCount_484F50(int crime_type)
 {
     switch (crime_type)
     {
-        case crime_stats_type::Unknown_2:
+        case crime_stats_type::weapon_fired_2:
             if (field_28_bCountAllowed[crime_type])
             {
                 field_0_crime_count_list[crime_type]++;
                 field_28_bCountAllowed[crime_type] = 0;
             }
             break;
-        case crime_stats_type::Unknown_1:
-        case crime_stats_type::Unknown_3:
-        case crime_stats_type::Unknown_4:
+        case crime_stats_type::car_damaged_1:
+        case crime_stats_type::car_destroyed_3:
+        case crime_stats_type::bus_stolen_4:
         case crime_stats_type::Vehicles_Hijacked_5:
         case crime_stats_type::Civilians_run_down_6:
         case crime_stats_type::Civilians_murdered_7:

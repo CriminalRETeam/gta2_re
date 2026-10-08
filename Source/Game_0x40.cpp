@@ -20,7 +20,7 @@
 #include "Globals.hpp"
 #include "Hamburger_500.hpp"
 #include "Hud.hpp"
-#include "Kfc_1E0.hpp"
+#include "EmergencyCrewPool_1E0.hpp"
 #include "Light_1D4CC.hpp"
 #include "MapRenderer.hpp"
 #include "Mike_A80.hpp"
@@ -37,7 +37,7 @@
 #include "PurpleDoom.hpp"
 #include "RouteFinder.hpp"
 #include "Rozza_C88.hpp"
-#include "Shooey_CC.hpp"
+#include "CrimeReportQueue_CC.hpp"
 #include "Taxi_4.hpp"
 #include "TileAnim_2.hpp"
 #include "TrafficLights_194.hpp"
@@ -235,7 +235,7 @@ EXPORT void __stdcall sub_46DD70(char_type remap, u8 count)
         gLastTestPed_6787E8->field_168_game_object->SetRemap_46DD50(gLastTestPed_6787E8->get_remap_433BA0());
     }
     gLastTestPed_6787E8->set_health_4039A0(100);
-    gLastTestPed_6787E8->sub_433BC0(1);
+    gLastTestPed_6787E8->SetPedClass_433BC0(1);
     pGroup->add_ped_to_end_of_list_4C8F90(gLastTestPed_6787E8);
     gLastTestPed_6787E8->ForceWeapon_46F600(0);
 
@@ -247,11 +247,9 @@ EXPORT void __stdcall sub_46DD70(char_type remap, u8 count)
         pPed->field_26C_graphic_type = pPlayerPed->field_26C_graphic_type;
         pPed->SetField238_403920(5);
         pPed->AllocCharB4_45C830(pPlayerPed->field_1AC_cam.x, pPlayerPed->field_1AC_cam.y, pPlayerPed->field_1AC_cam.z);
-        // 9.6f: Ped::SetRemap_433C10 (inlined, using it changes the code)
-        Char_B4* pObj = pPed->field_168_game_object;
-        pObj->SetRemap_Inline(pPed->get_remap_433BA0());
+        pPed->SetRemap_433C10(pPed->get_remap_433BA0());
         pPed->set_health_4039A0(100);
-        pPed->sub_433BC0(1);
+        pPed->SetPedClass_433BC0(1);
         pGroup->add_ped_to_end_of_list_4C8F90(pPed);
         pPed->ForceWeapon_46F600(0);
     }
@@ -515,7 +513,7 @@ void Game_0x40::UpdateGame_4B9410()
         gfrosty_pasteur_6F8060->ExecuteScriptThreads_5127A0(); // missions
     }
 
-    gKfc_1E0_706280->Service_5CBBD0();
+    gEmergencyCrewPool_706280->ServiceAll_5CBBD0();
 
     if (!bSkip_ambulance_67D6C9)
     {
@@ -1185,8 +1183,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1889);
     }
 
-    gKfc_1E0_706280 = new Kfc_1E0(); // multi level inline
-    if (!gKfc_1E0_706280)
+    gEmergencyCrewPool_706280 = new EmergencyCrewPool_1E0(); // multi level inline
+    if (!gEmergencyCrewPool_706280)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1891);
     }
@@ -1230,8 +1228,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         }
     }
 
-    gShooey_CC_67A4B8 = new Shooey_CC_Sub(); // ctor call
-    if (!gShooey_CC_67A4B8)
+    gCrimeReportQueue_67A4B8 = new CrimeReportQueue_CC_Sub(); // ctor call
+    if (!gCrimeReportQueue_67A4B8)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1913);
     }
@@ -1336,7 +1334,7 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gCrusherPool_94_67A830);
     GTA2_DELETE_AND_NULL(gGeneratorPool_14AC_67E5D0);
 
-    GTA2_DELETE_AND_NULL(gKfc_1E0_706280);
+    GTA2_DELETE_AND_NULL(gEmergencyCrewPool_706280);
     GTA2_DELETE_AND_NULL(gPolice_7B8_6FEE40);
     GTA2_DELETE_AND_NULL(gLight_1D4CC_6F5520);
     GTA2_DELETE_AND_NULL(gGangPool_CA8_67E274);
@@ -1348,7 +1346,7 @@ Game_0x40::~Game_0x40()
         GTA2_DELETE_AND_NULL(gExplodingScorePool);
     }
 
-    GTA2_DELETE_AND_NULL(gShooey_CC_67A4B8);
+    GTA2_DELETE_AND_NULL(gCrimeReportQueue_67A4B8);
     GTA2_DELETE_AND_NULL(gFirefighterPool_54_67D4C0);
     GTA2_DELETE_AND_NULL(gRozza_C88_66AFE0);
 

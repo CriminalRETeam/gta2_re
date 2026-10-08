@@ -2991,12 +2991,12 @@
         "v105_address": "0x478a10"
     },
     {
-        "name": "Shooey_CC::ctor",
+        "name": "CrimeReportQueue_CC::ctor",
         "v96f_address": null,
         "v105_address": "0x484d80"
     },
     {
-        "name": "Shooey_CC::dtor",
+        "name": "CrimeReportQueue_CC::dtor",
         "v96f_address": null,
         "v105_address": "0x484db0"
     },
@@ -5199,53 +5199,53 @@
         "v96f_auto": true
     },
     {
-        "name": "Shooey_14::ctor",
+        "name": "CrimeReport_14::ctor",
         "v96f_address": "0x44a030",
         "v105_address": "0x484cb0",
         "v96f_auto": true
     },
     {
-        "name": "Shooey_14::dtor",
+        "name": "CrimeReport_14::dtor",
         "v96f_address": "0x449eb0",
         "v105_address": "0x484ce0",
         "v96f_auto": true
     },
     {
-        "name": "Shooey_14::ReportCrimeForPedAtLocation",
+        "name": "CrimeReport_14::SetReport",
         "v96f_address": "0x44a060",
         "v105_address": "0x484cf0",
         "v96f_auto": true
     },
     {
-        "name": "Shooey_14::GetCrimeTypeAndLocation",
+        "name": "CrimeReport_14::GetReport",
         "v96f_address": "0x449ec0",
         "v105_address": "0x484d50",
         "v96f_auto": true
     },
     {
-        "name": "Shooey_CC_Sub::ctor",
+        "name": "CrimeReportQueue_CC_Sub::ctor",
         "v96f_address": "0x44a1f0",
         "v105_address": "0x484fc0"
     },
     {
-        "name": "Shooey_CC_Sub::dtor",
+        "name": "CrimeReportQueue_CC_Sub::dtor",
         "v96f_address": null,
         "v105_address": "0x484fd0"
     },
     {
-        "name": "Shooey_CC::ReportCrime",
+        "name": "CrimeReportQueue_CC::ReportCrime",
         "v96f_address": "0x44a110",
         "v105_address": "0x484dd0",
         "v96f_auto": true
     },
     {
-        "name": "Shooey_CC::GetLatestReportedCrime",
+        "name": "CrimeReportQueue_CC::TryPopOldestReport",
         "v96f_address": "0x44a160",
         "v105_address": "0x484e20",
         "v96f_auto": true
     },
     {
-        "name": "Shooey_CC::CanReportCrime",
+        "name": "CrimeReportQueue_CC::IsCrimeQueued",
         "v96f_address": "0x449f10",
         "v105_address": "0x484e90",
         "v96f_auto": true
@@ -5299,34 +5299,34 @@
         "v96f_auto": true
     },
     {
-        "name": "Shooey_CC_Sub::ctor",
+        "name": "CrimeReportQueue_CC_Sub::ctor",
         "v96f_address": "0x44a1f0",
         "v105_address": "0x484fc0"
     },
     {
-        "name": "Shooey_CC_Sub::dtor",
+        "name": "CrimeReportQueue_CC_Sub::dtor",
         "v96f_address": null,
         "v105_address": "0x484fd0"
     },
     {
-        "name": "Shooey_CC::ReportCrimeForPed",
+        "name": "CrimeReportQueue_CC::ReportCrimeForPed",
         "v96f_address": "0x44a200",
         "v105_address": "0x484fe0",
         "v96f_auto": true
     },
     {
-        "name": "Shooey_CC::ShouldReportCarCrime_485090",
+        "name": "CrimeReportQueue_CC::ShouldReportCarCrime_485090",
         "v96f_address": "0x44a2c0",
         "v105_address": "0x485090",
         "v96f_auto": true
     },
     {
-        "name": "Shooey_CC::ShouldReportCharCrime_4850F0",
+        "name": "CrimeReportQueue_CC::ShouldReportCharCrime_4850F0",
         "v96f_address": null,
         "v105_address": "0x4850f0"
     },
     {
-        "name": "Shooey_CC::ShouldReportPedCrime_485140",
+        "name": "CrimeReportQueue_CC::ShouldReportPedCrime_485140",
         "v96f_address": null,
         "v105_address": "0x485140"
     },
@@ -7142,19 +7142,19 @@
         "v96f_auto": true
     },
     {
-        "name": "Kfc_30::ctor",
+        "name": "EmergencyCrew_30::ctor",
         "v96f_address": "0x45b180",
         "v105_address": "0x4beb00",
         "v96f_auto": true
     },
     {
-        "name": "Kfc_30::dtor",
+        "name": "EmergencyCrew_30::dtor",
         "v96f_address": "0x45b190",
         "v105_address": "0x4beb10",
         "v96f_auto": true
     },
     {
-        "name": "Kfc_1E0::dtor",
+        "name": "EmergencyCrewPool_1E0::dtor",
         "v96f_address": "0x45b200",
         "v105_address": "0x4beb20",
         "v96f_auto": true
@@ -16382,7 +16382,7 @@
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::sub_593370",
+        "name": "eager_benz::OnBusStolen_593370",
         "v96f_address": "0x4b8bd0",
         "v105_address": "0x593370",
         "v96f_auto": true
@@ -18010,66 +18010,66 @@
         "v96f_auto": true
     },
     {
-        "name": "Kfc_1E0::init_5CBB70",
+        "name": "EmergencyCrewPool_1E0::init_5CBB70",
         "v96f_address": "0x4c5420",
         "v105_address": "0x5cbb70",
         "v96f_auto": true
     },
     {
-        "name": "Kfc_1E0::New_5CBB80",
+        "name": "EmergencyCrewPool_1E0::New_5CBB80",
         "v96f_address": "0x4c5430",
         "v105_address": "0x5cbb80",
         "v96f_auto": true
     },
     {
-        "name": "Kfc_1E0::Service_5CBBD0",
+        "name": "EmergencyCrewPool_1E0::Service_5CBBD0",
         "v96f_address": "0x4c5db0",
         "v105_address": "0x5cbbd0",
         "v96f_auto": true
     },
     {
-        "name": "Kfc_30::Init_5CBC00",
+        "name": "EmergencyCrew_30::Init_5CBC00",
         "v96f_address": "0x4c5480",
         "v105_address": "0x5cbc00",
         "v96f_auto": true
     },
     {
-        "name": "Kfc_30::ReInit_5CBC30",
+        "name": "EmergencyCrew_30::ReInit_5CBC30",
         "v96f_address": "0x4c54b0",
         "v105_address": "0x5cbc30",
         "v96f_auto": true
     },
     {
-        "name": "Kfc_30::RemovePed_5CBC40",
+        "name": "EmergencyCrew_30::RemovePed_5CBC40",
         "v96f_address": "0x4c54c0",
         "v105_address": "0x5cbc40",
         "v96f_auto": true
     },
     {
-        "name": "Kfc_30::PedIsValid_5CBC60",
+        "name": "EmergencyCrew_30::PedIsValid_5CBC60",
         "v96f_address": null,
         "v105_address": "0x5cbc60"
     },
     {
-        "name": "Kfc_30::ReplaceLeaderIfNeeded_5CBC90",
+        "name": "EmergencyCrew_30::ReplaceLeaderIfNeeded_5CBC90",
         "v96f_address": "0x4c5510",
         "v105_address": "0x5cbc90",
         "v96f_auto": true
     },
     {
-        "name": "Kfc_30::UpdateStateMachine_5CBD50",
+        "name": "EmergencyCrew_30::UpdateStateMachine_5CBD50",
         "v96f_address": "0x4c55d0",
         "v105_address": "0x5cbd50",
         "v96f_auto": true
     },
     {
-        "name": "Kfc_30::CleanupExpiredEntities_5CC1C0",
+        "name": "EmergencyCrew_30::CleanupExpiredEntities_5CC1C0",
         "v96f_address": "0x4c5a00",
         "v105_address": "0x5cc1c0",
         "v96f_auto": true
     },
     {
-        "name": "Kfc_30::Service_5CC480",
+        "name": "EmergencyCrew_30::Service_5CC480",
         "v96f_address": "0x4c5ca0",
         "v105_address": "0x5cc480",
         "v96f_auto": true

@@ -1,6 +1,7 @@
 // This TU's copy of the Fix16_Point length zero (see Fix16_Point.hpp)
 #define FIX16_POINT_ZERO kFP16Zero_6FE20C
 
+#include "ped_death_cause.hpp"
 #include "CarPhysics_B0.hpp"
 #include "CarAI_78.hpp"
 #include "CarInfo_808.hpp"
@@ -2829,11 +2830,11 @@ void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
         Ped* pPed = pCharB4->field_7C_pPed;
         if (pPed->get_field_140_49EF40() == this->field_5C_pCar)
         {
-            pPed->field_290 = 3;
+            pPed->field_290_death_cause = ped_death_cause::run_over_by_stolen_car_3;
         }
         else
         {
-            pPed->field_290 = 1;
+            pPed->field_290_death_cause = ped_death_cause::run_over_1;
         }
     }
     else
@@ -2860,11 +2861,11 @@ void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
                             Ped* pPed = pCharB4->field_7C_pPed;
                             if (pPed->get_field_140_49EF40() == this->field_5C_pCar->field_64_pTrailer->field_8_truck_cab)
                             {
-                                pPed->field_290 = 3;
+                                pPed->field_290_death_cause = ped_death_cause::run_over_by_stolen_car_3;
                             }
                             else
                             {
-                                pPed->field_290 = 1;
+                                pPed->field_290_death_cause = ped_death_cause::run_over_1;
                             }
                         }
                     }

@@ -55,7 +55,7 @@ NetPlay::NetPlay()
     field_8EC = 0;
     field_48 = 5;
 
-    for (s32 j = 0; j < 6; j++)
+    for (s32 j = 0; j < MAX_PLAYERS; j++)
     {
         field_8C8[j] = (naughty_sinoussi_0x800*)operator new(0x800);
     }
@@ -107,7 +107,7 @@ NetPlay::~NetPlay()
         field_30_enumed_connections.field_4_d_array_8_entries = 0;
     }
 
-    for (s32 j = 0; j < 6; j++)
+    for (s32 j = 0; j < MAX_PLAYERS; j++)
     {
         operator delete(field_8C8[j]);
         operator delete(field_758_n2.field_10_players[j].field_1C_player_name);
@@ -1788,7 +1788,7 @@ s32 NetPlay::RemovePlayerByName_520F80(wchar_t* pToRemove)
 MATCH_FUNC(0x521000)
 s32 NetPlay::DeletePlayerFromGroup_521000(u32 idx)
 {
-    if (idx < 6 && field_758_n2.field_10_players[idx].field_0_in_use)
+    if (idx < MAX_PLAYERS && field_758_n2.field_10_players[idx].field_0_in_use)
     {
         s32 idPlayer = field_758_n2.field_10_players[idx].field_10_player_id;
         FreePlayerSlot_5201A0(idx, &field_758_n2);
@@ -1911,7 +1911,7 @@ MATCH_FUNC(0x521350)
 s32 NetPlay::GetMaxPlayers_521350()
 {
     s32 maxPlayers = 0;
-    for (s32 idx = 0; idx < 6; idx++)
+    for (s32 idx = 0; idx < MAX_PLAYERS; idx++)
     {
         if (field_758_n2.field_10_players[idx].field_0_in_use)
         {
@@ -1954,7 +1954,7 @@ bool NetPlay::WaitForPlayersSync_5213E0()
     // One bit per other player: waiting for their ack and for their sync data
     u32 waitingForAck = 0;
     u32 waitingForSync = 0;
-    for (u32 i = 0; i < 6; i++)
+    for (u32 i = 0; i < MAX_PLAYERS; i++)
     {
         if (field_758_n2.field_10_players[i].field_0_in_use && i != GetPlayerIdx_409C40())
         {

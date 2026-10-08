@@ -2,6 +2,7 @@
 #define FIX16_POINT_ZERO dword_706EB8
 // This TU's copy of the Fix16_Rect::ComputeCollisionPrism_4204D0 half height (see Fix16_Rect.hpp)
 #define FIX16_RECT_HALF_HEIGHT dword_706CC8
+#include "zealous_borg.hpp"
 #include "Function.hpp"
 #include "fix16.hpp"
 EXTERN_GLOBAL(Fix16, dword_706CC8);
@@ -14,7 +15,7 @@ EXTERN_GLOBAL(Fix16, dword_706CC8);
 #include "Particle_8.hpp"
 #include "Ped.hpp"
 #include "Player.hpp"
-#include "Shooey_CC.hpp"
+#include "CrimeReportQueue_CC.hpp"
 #include "Weapon_8.hpp"
 #include "char.hpp"
 #include "debug.hpp"
@@ -75,7 +76,7 @@ DEFINE_GLOBAL_INIT(Ang16, word_706D5C, Ang16(96), 0x706D5C);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_707006, Ang16(0), 0x707006);
 
 // TODO: move
-EXTERN_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8);
+EXTERN_GLOBAL(CrimeReportQueue_CC*, gCrimeReportQueue_67A4B8);
 
 MATCH_FUNC(0x5DCD10)
 Weapon_30::Weapon_30()
@@ -295,14 +296,14 @@ void Weapon_30::flamethrower_5DD0F0()
         {
             gParticle_8_6FD5E8->EmitFlameStreamSegment_53F4C0(field_24_pPed->field_168_game_object->field_80_sprite_ptr);
 
-            if (field_24_pPed->IsField238_45EDE0(2))
+            if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2))
             {
                 DecreaseAmmo_4CCA60();
             }
             field_24_pPed->AddThreateningPedToList_46FC70();
             if (field_24_pPed->is_player_41B0A0())
             {
-                gShooey_CC_67A4B8->ReportCrimeForPed(2, field_24_pPed);
+                gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::weapon_fired_2, field_24_pPed);
             }
         }
     }
@@ -336,7 +337,7 @@ void Weapon_30::shotgun_5DD290()
             Object_2C* pBullet_3 = Weapon_30::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, ped_rotation, vector);
             Object_2C* pBullet_4 = Weapon_30::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, Ang16(ped_rotation.rValue - word_707002.rValue, (u8)0), vector);
             Object_2C* pBullet_5 = Weapon_30::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, Ang16(ped_rotation.rValue - word_706D5E.rValue, (u8)0), vector);
-            if ((pBullet_1 || pBullet_2 || pBullet_3 || pBullet_4 || pBullet_5) && field_24_pPed->IsField238_45EDE0(2))
+            if ((pBullet_1 || pBullet_2 || pBullet_3 || pBullet_4 || pBullet_5) && field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2))
             {
                 decrement_ammo_4CCA30();
             }
@@ -346,7 +347,7 @@ void Weapon_30::shotgun_5DD290()
 
             if (field_24_pPed->is_player_41B0A0())
             {
-                gShooey_CC_67A4B8->ReportCrimeForPed(2, field_24_pPed);
+                gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::weapon_fired_2, field_24_pPed);
             }
         }
         else
@@ -388,7 +389,7 @@ void Weapon_30::pistol_5DD860()
         set_field_2C_4CCA80(1);
         if (!field_4) // first shot ??
         {
-            const s32 bullet_type = field_24_pPed->IsField238_45EDE0(2) ? 265 : 254;
+            const s32 bullet_type = field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2) ? 265 : 254;
 
             Fix16 x = field_24_pPed->get_cam_x();
             Fix16 y = field_24_pPed->get_cam_y();
@@ -400,7 +401,7 @@ void Weapon_30::pistol_5DD860()
             Fix16 yy = y + offset.y;
             if (spawn_bullet_5DCF60(bullet_type, xx, yy, z, pedRot, velocity))
             {
-                if (field_24_pPed->IsField238_45EDE0(2))
+                if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2))
                 {
                     decrement_ammo_4CCA30();
                 }
@@ -413,7 +414,7 @@ void Weapon_30::pistol_5DD860()
 
             if (field_24_pPed->is_player_41B0A0())
             {
-                gShooey_CC_67A4B8->ReportCrimeForPed(2u, this->field_24_pPed);
+                gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::weapon_fired_2, this->field_24_pPed);
             }
         }
         else
@@ -463,7 +464,7 @@ void Weapon_30::dual_pistol_5DDA70()
         if (!field_4)
         {
             s32 weapon_bullet_model;
-            if (field_24_pPed->IsField238_45EDE0(2))
+            if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2))
             {
                 weapon_bullet_model = objects::pistol_bullet_265;
             }
@@ -476,7 +477,7 @@ void Weapon_30::dual_pistol_5DDA70()
                 Weapon_30::spawn_bullet_5DCF60(weapon_bullet_model, point_x, point_y, z, ped_rotation - word_706D5E, vector);
             Object_2C* pBullet_2 =
                 Weapon_30::spawn_bullet_5DCF60(weapon_bullet_model, point_x, point_y, z, ped_rotation + word_706D5E, vector);
-            if ((pBullet_1 || pBullet_2) && field_24_pPed->IsField238_45EDE0(2))
+            if ((pBullet_1 || pBullet_2) && field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2))
             {
                 decrement_ammo_4CCA30();
             }
@@ -486,7 +487,7 @@ void Weapon_30::dual_pistol_5DDA70()
 
             if (field_24_pPed->is_player_41B0A0())
             {
-                gShooey_CC_67A4B8->ReportCrimeForPed(2, field_24_pPed);
+                gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::weapon_fired_2, field_24_pPed);
             }
         }
         else
@@ -530,7 +531,7 @@ void Weapon_30::smg_5DDD20()
                                                AimAngle,
                                                field_24_pPed->GetVelocityVector_45B520()))
             {
-                if (field_24_pPed->IsField238_45EDE0(2))
+                if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2))
                 {
                     DecreaseAmmo_4CCA60();
                 }
@@ -544,7 +545,7 @@ void Weapon_30::smg_5DDD20()
                 field_24_pPed->AddThreateningPedToList_46FC70();
                 if (field_24_pPed->is_player_41B0A0())
                 {
-                    gShooey_CC_67A4B8->ReportCrimeForPed(2, field_24_pPed);
+                    gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::weapon_fired_2, field_24_pPed);
                 }
             }
         }
@@ -581,7 +582,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
             set_field_2C_4CCA80(1);
             if (!field_4)
             {
-                if (!field_24_pPed->IsField238_45EDE0(2) && !field_20)
+                if (!field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2) && !field_20)
                 {
                     spawn_bullet_5DCF60(objects::object_159,
                                         field_24_pPed->get_cam_x(),
@@ -593,7 +594,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                     field_20 = 1;
                     if (field_24_pPed->is_player_41B0A0())
                     {
-                        gShooey_CC_67A4B8->ReportCrimeForPed(2, field_24_pPed);
+                        gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::weapon_fired_2, field_24_pPed);
                     }
                 }
                 else
@@ -607,13 +608,13 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                                                                   field_24_pPed->Get_F12E_4CCA90(),
                                                                   18,
                                                                   field_24_pPed->field_200_id);
-                        if (field_24_pPed->IsField238_45EDE0(2))
+                        if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2))
                         {
                             decrement_ammo_4CCA30();
                         }
                         if (field_24_pPed->is_player_41B0A0())
                         {
-                            gShooey_CC_67A4B8->ReportCrimeForPed(2, field_24_pPed);
+                            gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::weapon_fired_2, field_24_pPed);
                         }
                     }
                     else
@@ -667,14 +668,14 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                                 pProjectile->SetO8Timer_434130((96 - a4) / 8);
                             }
 
-                            if (field_24_pPed->IsField238_45EDE0(2))
+                            if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2))
                             {
                                 decrement_ammo_4CCA30();
                             }
                             field_21 = 1;
                             if (field_24_pPed->is_player_41B0A0())
                             {
-                                gShooey_CC_67A4B8->ReportCrimeForPed(2, field_24_pPed);
+                                gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::weapon_fired_2, field_24_pPed);
                             }
                             field_24_pPed->AddThreateningPedToList_46FC70();
                         }
@@ -728,19 +729,19 @@ WIP_FUNC(0x5de4f0)
 void Weapon_30::sub_5DE4F0()
 {
     Sprite* pBeam = gObject_5C_6F8F84->field_58_collision_probe_sprite;
-    Fix16_Point delta(field_24_pPed->field_198->get_cam_x() - field_24_pPed->get_cam_x(),
-                      field_24_pPed->field_198->get_cam_y() - field_24_pPed->get_cam_y());
+    Fix16_Point delta(field_24_pPed->field_198_hit_target_ped->get_cam_x() - field_24_pPed->get_cam_x(),
+                      field_24_pPed->field_198_hit_target_ped->get_cam_y() - field_24_pPed->get_cam_y());
     gRozza_679188.Reset_4637B0();
 
     Ang16 angle;
-    angle = Fix16::atan2_fixed_405320(field_24_pPed->field_198->get_cam_y() - field_24_pPed->get_cam_y(),
-                                            field_24_pPed->field_198->get_cam_x() - field_24_pPed->get_cam_x());
+    angle = Fix16::atan2_fixed_405320(field_24_pPed->field_198_hit_target_ped->get_cam_y() - field_24_pPed->get_cam_y(),
+                                            field_24_pPed->field_198_hit_target_ped->get_cam_x() - field_24_pPed->get_cam_x());
 
     Fix16 dist = delta.GetLength_41E260();
 
     if (dist > dword_706EC4)
     {
-        field_24_pPed->field_198 = NULL;
+        field_24_pPed->field_198_hit_target_ped = NULL;
         return;
     }
 
@@ -786,12 +787,12 @@ void Weapon_30::sub_5DE4F0()
             {
                 case sprite_types_enum::car_2:
                     field_24_pPed->field_170_selected_weapon->field_4 = 1;
-                    field_24_pPed->field_198 = 0;
+                    field_24_pPed->field_198_hit_target_ped = 0;
                     return;
 
                 case sprite_types_enum::ped_3:
                 {
-                    if (pHit->field_8_char_b4_ptr->field_7C_pPed != field_24_pPed->field_198 &&
+                    if (pHit->field_8_char_b4_ptr->field_7C_pPed != field_24_pPed->field_198_hit_target_ped &&
                         pHit->field_8_char_b4_ptr->field_7C_pPed != field_24_pPed)
                     {
                         s32 state = pHit->field_8_char_b4_ptr->field_7C_pPed->field_278_ped_state_1;
@@ -806,16 +807,16 @@ void Weapon_30::sub_5DE4F0()
         }
     }
 
-    field_24_pPed->field_198->field_144_attacker = field_24_pPed;
-    field_24_pPed->field_198->field_204_killer_id = field_24_pPed->field_200_id;
-    field_24_pPed->field_198->field_21C_bf.b8 = 1;
+    field_24_pPed->field_198_hit_target_ped->field_144_attacker = field_24_pPed;
+    field_24_pPed->field_198_hit_target_ped->field_204_killer_id = field_24_pPed->field_200_id;
+    field_24_pPed->field_198_hit_target_ped->field_21C_bf.b8 = 1;
     if (field_24_pPed->field_28C_threat_reaction == 1)
     {
-        gPolice_7B8_6FEE40->field_7B0 = field_24_pPed;
+        gPolice_7B8_6FEE40->field_7B0_last_firing_emergency_ped = field_24_pPed;
     }
 
     sub_5DE910(field_24_pPed->field_168_game_object->field_80_sprite_ptr->get_x_y(),
-               field_24_pPed->field_198->field_168_game_object->field_80_sprite_ptr->get_x_y(),
+               field_24_pPed->field_198_hit_target_ped->field_168_game_object->field_80_sprite_ptr->get_x_y(),
                field_24_pPed->get_cam_z());
 }
 
@@ -1043,7 +1044,7 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
                     {
                         pB4->field_7C_pPed->SetAttacker_433BF0(a5);
                         pB4->field_7C_pPed->field_204_killer_id = a5->field_200_id;
-                        pB4->field_7C_pPed->field_290 = 18;
+                        pB4->field_7C_pPed->field_290_death_cause = 18;
                         pB4->field_7C_pPed->field_264_killer_id_timer = 50;
                         if (a4)
                         {
@@ -1081,16 +1082,16 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
                         }
                     }
                 }
-                else if (a5->field_198)
+                else if (a5->field_198_hit_target_ped)
                 {
-                    a5->field_198 = 0;
+                    a5->field_198_hit_target_ped = 0;
                 }
             }
             pHit = hits.TakeClosestSprite_5A6EA0(xpos, ypos);
         }
     }
 
-    a5->field_198 = 0;
+    a5->field_198_hit_target_ped = 0;
     if (a5->field_170_selected_weapon)
     {
         a5->field_170_selected_weapon->Set_F4_433810(1);
@@ -1172,12 +1173,12 @@ void Weapon_30::sub_5DFB60(u8 a2, Sprite* a3, Ang16 a4)
                                 }
                                 pHit->field_8_char_b4_ptr->field_7C_pPed->SetAttacker_433BF0(field_24_pPed);
                                 pHit->field_8_char_b4_ptr->field_7C_pPed->field_204_killer_id = field_24_pPed->field_200_id;
-                                pHit->field_8_char_b4_ptr->field_7C_pPed->field_290 = 18;
+                                pHit->field_8_char_b4_ptr->field_7C_pPed->field_290_death_cause = 18;
                                 pHit->field_8_char_b4_ptr->field_7C_pPed->field_264_killer_id_timer = 50;
                                 pHit->field_8_char_b4_ptr->field_7C_pPed->field_210_shock_counter += 5;
                                 if (field_24_pPed->is_player_41B0A0())
                                 {
-                                    gShooey_CC_67A4B8->ReportCrimeForPed(2u, field_24_pPed);
+                                    gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::weapon_fired_2, field_24_pPed);
                                 }
                                 field_24_pPed->AddThreateningPedToList_46FC70();
                                 gfrosty_pasteur_6F8060->RecordWeaponHit_512C00(pHit->field_8_char_b4_ptr->field_7C_pPed->field_200_id, 160, 1);
@@ -1222,14 +1223,14 @@ void Weapon_30::sub_5DFB60(u8 a2, Sprite* a3, Ang16 a4)
                                     pHit->field_8_car_bc_ptr->field_94_exploder_timer = 50;
                                     s16 damage = pHit->field_8_car_bc_ptr->AccumulateDamage_43DA90(300, &stru_706F90);
                                     pHit->field_8_car_bc_ptr->ApplyVisualDamage_43A9F0();
-                                    if (field_24_pPed->IsField238_45EDE0(2) && damage > 0)
+                                    if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2) && damage > 0)
                                     {
                                         field_24_pPed->field_15C_player->field_2D4_scores.sub_593150(pHit->field_8_car_bc_ptr, 1);
                                     }
                                 }
                                 if (field_24_pPed->is_player_41B0A0())
                                 {
-                                    gShooey_CC_67A4B8->ReportCrimeForPed(2u, field_24_pPed);
+                                    gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::weapon_fired_2, field_24_pPed);
                                 }
                                 field_24_pPed->AddThreateningPedToList_46FC70();
                             }
@@ -1244,7 +1245,7 @@ void Weapon_30::sub_5DFB60(u8 a2, Sprite* a3, Ang16 a4)
         if (bHit && !a2)
         {
             set_field_2C_4CCA80(1);
-            if (field_24_pPed->IsField238_45EDE0(2) && (gpRng_67AB34->get_cur_rng_41CFE0() & 1))
+            if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2) && (gpRng_67AB34->get_cur_rng_41CFE0() & 1))
             {
                 DecreaseAmmo_4CCA60();
             }
@@ -1263,14 +1264,14 @@ void Weapon_30::shocker_5E06B0()
     Ped* pPed = this->field_24_pPed;
     if (pPed->field_15C_player)
     {
-        gShooey_CC_67A4B8->ReportCrimeForPed(2u, pPed);
+        gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::weapon_fired_2, pPed);
     }
 }
 
 MATCH_FUNC(0x5e0740)
 void Weapon_30::electro_batton_5E0740()
 {
-    if (!field_24_pPed->field_198)
+    if (!field_24_pPed->field_198_hit_target_ped)
     {
         if (!field_2_reload_speed)
         {
@@ -1283,7 +1284,7 @@ void Weapon_30::electro_batton_5E0740()
                                                          field_24_pPed->get_cam_z(),
                                                          field_24_pPed->Get_F12E_4CCA90(),
                                                          field_24_pPed->GetVelocityVector_45B520());
-                if (pBullet && field_24_pPed->IsField238_45EDE0(2))
+                if (pBullet && field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2))
                 {
                     decrement_ammo_4CCA30();
                 }
@@ -1306,14 +1307,14 @@ void Weapon_30::electro_batton_5E0740()
             field_2_reload_speed--;
         }
     }
-    else if (field_24_pPed->field_198->field_168_game_object)
+    else if (field_24_pPed->field_198_hit_target_ped->field_168_game_object)
     {
-        if (field_24_pPed->IsField238_45EDE0(2))
+        if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2))
         {
-            s32 target_state = field_24_pPed->field_198->field_278_ped_state_1;
+            s32 target_state = field_24_pPed->field_198_hit_target_ped->field_278_ped_state_1;
             if (target_state >= 8 && target_state <= 9)
             {
-                field_24_pPed->field_198 = 0;
+                field_24_pPed->field_198_hit_target_ped = 0;
                 return;
             }
         }
@@ -1321,7 +1322,7 @@ void Weapon_30::electro_batton_5E0740()
     }
     else
     {
-        field_24_pPed->field_198 = 0;
+        field_24_pPed->field_198_hit_target_ped = 0;
     }
 }
 
@@ -1511,7 +1512,7 @@ void Weapon_30::tank_main_gun_5E10E0()
                                                cannon_angle,
                                                velocity))
             {
-                if (field_24_pPed->IsField238_45EDE0(2))
+                if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2))
                 {
                     decrement_ammo_4CCA30();
                 }
@@ -1520,7 +1521,7 @@ void Weapon_30::tank_main_gun_5E10E0()
             field_24_pPed->AddThreateningPedToList_46FC70();
             if (field_24_pPed->is_player_41B0A0())
             {
-                gShooey_CC_67A4B8->ReportCrimeForPed(2, field_24_pPed);
+                gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::weapon_fired_2, field_24_pPed);
             }
         }
         else
@@ -1577,7 +1578,7 @@ void Weapon_30::army_gun_jeep_5E13E0()
         {
             if (spawn_bullet_5DCF60(254, bullet_pos.x, bullet_pos.y, field_14_car->field_50_car_sprite->field_1C_zpos, gun_ang, v42))
             {
-                if (field_24_pPed->IsField238_45EDE0(2) && !is_infinite_ammo_4A4FA0())
+                if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2) && !is_infinite_ammo_4A4FA0())
                 {
                     field_0_ammo--;
                 }
@@ -1587,7 +1588,7 @@ void Weapon_30::army_gun_jeep_5E13E0()
             field_24_pPed->AddThreateningPedToList_46FC70();
             if (field_24_pPed->field_15C_player)
             {
-                gShooey_CC_67A4B8->ReportCrimeForPed(2u, field_24_pPed);
+                gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::weapon_fired_2, field_24_pPed);
             }
         }
         else
@@ -1725,7 +1726,7 @@ void Weapon_30::car_smg_5E2940()
                                                     pCarSprite->field_1C_zpos,
                                                     sprite_ang,
                                                     right_point_velocity);
-            if ((pLeft || pRight) && field_24_pPed->IsField238_45EDE0(2))
+            if ((pLeft || pRight) && field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2))
             {
                 DecreaseAmmo_4CCA60();
             }
@@ -1737,7 +1738,7 @@ void Weapon_30::car_smg_5E2940()
             field_24_pPed->AddThreateningPedToList_46FC70();
             if (field_24_pPed->is_player_41B0A0())
             {
-                gShooey_CC_67A4B8->ReportCrimeForPed(2, field_24_pPed);
+                gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::weapon_fired_2, field_24_pPed);
             }
         }
         else
@@ -1801,7 +1802,7 @@ void Weapon_30::ChuckThrowable_5E34B0()
                     if (field_24_pPed->field_15C_player->IsThrowCharging_4CCB00())
                     {
                         s32 v1 = field_24_pPed->field_15C_player->GetThrowStrength_4CCAD0();
-                        s32 v2 = field_24_pPed->field_15C_player->Get_Field_50();
+                        s32 v2 = field_24_pPed->field_15C_player->GetThrowCharge_4CCAE0();
                         throwable_5DDFC0(obj_type, v1, v2);
                     }
                     field_24_pPed->field_15C_player->ResetThrowCharge_4A5180();
@@ -1877,9 +1878,9 @@ void Weapon_30::pull_trigger_5E3670()
                 // This is really whacky, using p results in most of these inlines being optimized out
                 Player* pp = field_24_pPed->field_15C_player;
 
-                if (pp->Get_Field_50() == 0x60)
+                if (pp->GetThrowCharge_4CCAE0() == 0x60)
                 {
-                    throwable_5DDFC0(183, field_24_pPed->field_15C_player->GetThrowStrength_4CCAD0(), pp->Get_Field_50());
+                    throwable_5DDFC0(183, field_24_pPed->field_15C_player->GetThrowStrength_4CCAD0(), pp->GetThrowCharge_4CCAE0());
                     this->field_24_pPed->field_15C_player->field_50_throw_charge = -1;
                 }
             }
@@ -1932,7 +1933,7 @@ void Weapon_30::rocket_5E3850()
         if (!field_4)
         {
             Object_2C* pBullet;
-            if (field_24_pPed->IsField238_45EDE0(2))
+            if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2))
             {
                 pBullet = spawn_bullet_5DCF60(128,
                                               field_24_pPed->get_cam_x(),
@@ -1969,7 +1970,7 @@ void Weapon_30::rocket_5E3850()
 
             if (pBullet)
             {
-                if (field_24_pPed->IsField238_45EDE0(2))
+                if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2))
                 {
                     decrement_ammo_4CCA30();
                 }
@@ -1981,7 +1982,7 @@ void Weapon_30::rocket_5E3850()
 
             if (field_24_pPed->is_player_41B0A0())
             {
-                gShooey_CC_67A4B8->ReportCrimeForPed(2u, field_24_pPed);
+                gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::weapon_fired_2, field_24_pPed);
             }
         }
         else

@@ -203,8 +203,8 @@ set(gta2_lib_src
   Source/Crushers.cpp
   Source/Generators.hpp
   Source/Generators.cpp
-  Source/Kfc_1E0.hpp
-  Source/Kfc_1E0.cpp
+  Source/EmergencyCrewPool_1E0.hpp
+  Source/EmergencyCrewPool_1E0.cpp
   Source/Police_7B8.hpp
   Source/Police_7B8.cpp
   Source/Light_1D4CC.hpp
@@ -215,8 +215,8 @@ set(gta2_lib_src
   Source/Hamburger_500.cpp
   Source/ExplodingScore_100.hpp
   Source/ExplodingScore_100.cpp
-  Source/Shooey_CC.hpp
-  Source/Shooey_CC.cpp
+  Source/CrimeReportQueue_CC.hpp
+  Source/CrimeReportQueue_CC.cpp
   Source/Firefighters.hpp
   Source/Firefighters.cpp
   Source/Rozza_C88.hpp

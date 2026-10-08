@@ -6,11 +6,11 @@ namespace crime_stats_type
 {
 enum
 {
-    Unknown_0 = 0,
-    Unknown_1 = 1,
-    Unknown_2 = 2,
-    Unknown_3 = 3,
-    Unknown_4 = 4,
+    none_0 = 0,
+    car_damaged_1 = 1,
+    weapon_fired_2 = 2,
+    car_destroyed_3 = 3,
+    bus_stolen_4 = 4,
     Vehicles_Hijacked_5 = 5,
     Civilians_run_down_6 = 6,
     Civilians_murdered_7 = 7,

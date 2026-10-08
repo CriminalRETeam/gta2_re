@@ -264,7 +264,7 @@ void lucid_hamilton::init_4C5AF0()
 
     for (s32 i = 0; i < GTA2_COUNTOF(field_490_frags_list); i++)
     {
-        for (s32 j = 0; j < 6; j++)
+        for (s32 j = 0; j < MAX_PLAYERS; j++)
         {
             field_448_frags_by_victim[i].field_0[j] = 0;
         }
@@ -311,7 +311,7 @@ char_type lucid_hamilton::GetMaxPlayers_4C5BF0()
 MATCH_FUNC(0x4C5C00)
 void lucid_hamilton::SetWinnerIdx_4C5C00(char_type player_idx)
 {
-    if (field_442_winner_player_idx == 6)
+    if (field_442_winner_player_idx == MAX_PLAYERS)
     {
         field_442_winner_player_idx = player_idx;
     }

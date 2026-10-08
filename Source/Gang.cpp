@@ -86,7 +86,7 @@ void Gang_144::init_4BED70()
         field_122_gang_kill_reaction[i] = 0;
     }
 
-    for (u8 j = 0; j < 6; j++)
+    for (u8 j = 0; j < MAX_PLAYERS; j++)
     {
         field_11C_respect[j] = 0;
     }

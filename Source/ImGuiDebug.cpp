@@ -1,4 +1,6 @@
 #include "ImGuiDebug.hpp"
+#include "car_despawn_status.hpp"
+#include "zealous_borg.hpp"
 #include "3rdParty/GTA2Hax/3rdParty/imgui/imgui.h"
 #include "Ambulance_110.hpp"
 #include "BurgerKing_67F8B0.hpp"
@@ -12,7 +14,7 @@
 #include "Gang.hpp"
 #include "Hamburger_500.hpp"
 #include "Hud.hpp"
-#include "Kfc_1E0.hpp"
+#include "EmergencyCrewPool_1E0.hpp"
 #include "MapRenderer.hpp"
 #include "Network_20324.hpp"
 #include "Object_5C.hpp"
@@ -23,7 +25,7 @@
 #include "Phi_8CA8.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
-#include "Shooey_CC.hpp"
+#include "CrimeReportQueue_CC.hpp"
 #include "Weapon_8.hpp"
 #include "collide.hpp"
 #include "debug.hpp"
@@ -175,7 +177,7 @@ bool InputU16(const char* label, u16* v, int step, int step_fast, ImGuiInputText
 
 } // namespace ImGui
 
-EXTERN_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8);
+EXTERN_GLOBAL(CrimeReportQueue_CC*, gCrimeReportQueue_67A4B8);
 
 // crt_init_own_libname_21 or sub_4F7530
 void Init_Unk_Width_Height_F16_array()
@@ -1491,7 +1493,7 @@ void CC ImGuiDebugDraw()
 
                     if (ImGui::Button("TurnToWreck_4436A0"))
                     {
-                        pCarIter->field_88_despawn_status = 4;
+                        pCarIter->field_88_despawn_status = car_despawn_status::marked_for_despawn_4;
                         pCarIter->TurnToWreck_4436A0();
                     }
 
@@ -1940,7 +1942,7 @@ void CC ImGuiDebugDraw()
                         */
                         if (pAI_Iter)
                         {
-                            swprintf(tmpBuff_67BD9C, L"%d", pAI_Iter->field_48);
+                            swprintf(tmpBuff_67BD9C, L"%d", pAI_Iter->field_48_probe_direction);
                             DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
                         }
                         num_AI_count++;
@@ -1980,8 +1982,8 @@ void CC ImGuiDebugDraw()
                         char buffer[50];
                         get_car_name(pNearestAI->field_0_car, buffer);
                         ImGui::Text("AI Found! Car: %s", buffer);
-                        ImGui::Text("6C: %d", pNearestAI->field_6C != NULL);
-                        if (!PointArrowToEntity(0, pNearestAI->field_6C, 0))
+                        ImGui::Text("6C: %d", pNearestAI->field_6C_yield_to_car != NULL);
+                        if (!PointArrowToEntity(0, pNearestAI->field_6C_yield_to_car, 0))
                         {
                             //ClearGlobalArrow();
                         }
@@ -2004,14 +2006,14 @@ void CC ImGuiDebugDraw()
             {
                 Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
 
-                if (ImGui::Button("gShooey_CC_67A4B8->ReportCrimeForPed"))
+                if (ImGui::Button("gCrimeReportQueue_67A4B8->ReportCrimeForPed"))
                 {
                     // 0 = ?
                     // 1 = 10 24
                     // 2 = 10 34
                     // 3 = 10 90
                     // 7 = 10 71 crime - shooting?
-                    gShooey_CC_67A4B8->ReportCrimeForPed(0u, pPlayer->field_2C4_player_ped);
+                    gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::none_0, pPlayer->field_2C4_player_ped);
                 }
 
 
@@ -2962,9 +2964,9 @@ void CC ImGuiDebugDraw()
 
                     ypos += 16;
                     
-                    for (u32 idx2 = 0; idx2 < GTA2_COUNTOF(gPolice_7B8_6FEE40->field_464_services); idx2++)
+                    for (u32 idx2 = 0; idx2 < GTA2_COUNTOF(gPolice_7B8_6FEE40->field_464_pursuit_targets); idx2++)
                     {
-                        Police_7C* p7C = &gPolice_7B8_6FEE40->field_464_services[idx2];
+                        PolicePursuitTarget_7C* p7C = &gPolice_7B8_6FEE40->field_464_pursuit_targets[idx2];
                         if (p7C && p7C->field_18_z != kFP16Zero_6FE20C)
                         {
                             swprintf(tmpBuff_67BD9C, L"P7C target coords (%.1f, %.1f, %.1f)", p7C->field_10_x.ToFloat(), p7C->field_14_y.ToFloat(), p7C->field_18_z.ToFloat());

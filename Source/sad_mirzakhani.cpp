@@ -256,7 +256,7 @@ void sad_mirzakhani::ProcessBonusEvent_4320D0(s16 f_4, s32 f_8, s32 f_c, s16 f_1
         field_0_bonuses[i].field_26_count++;
         if (get_bonus_count_476660(i) == pFound->field_25_target_count)
         {
-            field_1B8_pScores->field_368_player->Add_2D4(pFound->field_28_reward);
+            field_1B8_pScores->field_368_player->AddScore_41DC40(pFound->field_28_reward);
             pFound->Deactivate_431DB0();
         }
     }

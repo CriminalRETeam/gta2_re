@@ -195,7 +195,7 @@ void Garox_4::ShowPrevNumberedBrief_5CF6B0()
 MATCH_FUNC(0x5cf730)
 void Garox_110C_sub::Update_5CF730()
 {
-    Ped* pPed = gGame_0x40_67E008->field_38_orf1->Get_Field_68_Ped();
+    Ped* pPed = gGame_0x40_67E008->field_38_orf1->GetCameraModePed();
 
     if (!pPed || (u8)pPed->IsInTrain_470F00())
     {
@@ -447,7 +447,7 @@ void Hud_CopHead_C_Array::UpdateWantedLevel_5D00B0()
     Ped* pPed = gGame_0x40_67E008->field_38_orf1->GetPlayerPed_41D020();
     field_48_cop_level = pPed->get_wanted_star_count_46EF00();
 
-    const bool bShakeHead = gPolice_7B8_6FEE40->HasCriminalBeenFound_56F800(pPed);
+    const bool bShakeHead = gPolice_7B8_6FEE40->IsBeingPursued_56F800(pPed);
     s32 i = 0;
     Hud_CopHead_C* pIter = &field_1028_cop_heads[0];
     while (i < field_48_cop_level)

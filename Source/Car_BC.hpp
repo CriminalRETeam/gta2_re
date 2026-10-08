@@ -1310,7 +1310,7 @@ class Car_BC
 
     inline bool sub_4214F0()
     {
-        return field_54_driver && !field_54_driver->IsField238_45EDE0(2);
+        return field_54_driver && !field_54_driver->PedTypeIs_45EDE0(ped_type::player_2);
     }
 
     inline bool sub_49EFE0()
@@ -1360,7 +1360,7 @@ class Car_BC
     char_type field_82;
     char_type field_83;
     s32 field_84_car_info_idx;
-    s32 field_88_despawn_status;
+    s32 field_88_despawn_status; // car_despawn_status.hpp (not included here: it breaks MapRenderer matches)
     u8 field_8C_damage_level;
     char_type field_8D_car_thread_flags;
     char_type field_8E_flash_count;
