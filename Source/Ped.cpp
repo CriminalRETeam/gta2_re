@@ -8858,7 +8858,7 @@ void Ped::SetCarAiSpeedOne_469E30()
 {
     if (field_16C_car)
     {
-        field_16C_car->field_5C_AI->field_74_unk_speed = kFpOne_678664;
+        field_16C_car->field_5C_AI->field_74_max_speed = kFpOne_678664;
     }
 }
 
@@ -8876,7 +8876,7 @@ void Ped::SetupCarFollowTargetPed_469E50()
         field_16C_car->SetUniNum_421560(5);
         field_16C_car->field_60->field_30_ped_to_follow = field_148_objective_target_ped;
         field_16C_car->ClearA6Bit5_421550();
-        field_16C_car->field_5C_AI->field_74_unk_speed = kFpThree_67866C;
+        field_16C_car->field_5C_AI->field_74_max_speed = kFpThree_67866C;
         field_16C_car->field_60->field_20 = 1;
         if (field_16C_car->field_84_car_info_idx == car_model_enum::JEEP)
         {
@@ -8904,7 +8904,7 @@ void Ped::FollowPedInCar_469F30()
     field_16C_car->SetUniNum_421560(5);
     field_16C_car->field_60->field_30_ped_to_follow = field_148_objective_target_ped;
     field_16C_car->ClearA6Bit5_421550();
-    field_16C_car->field_5C_AI->field_74_unk_speed = kFpThree_67866C;
+    field_16C_car->field_5C_AI->field_74_max_speed = kFpThree_67866C;
 }
 
 MATCH_FUNC(0x469fc0)
@@ -9046,7 +9046,7 @@ void Ped::FollowCarInCurrCar_46A290()
         field_16C_car->SetUniNum_421560(5);
         field_16C_car->field_60->field_30_ped_to_follow = field_150_target_objective_car->field_54_driver;
         field_16C_car->ClearA6Bit5_421550();
-        field_16C_car->field_5C_AI->field_74_unk_speed = kFpThree_67866C;
+        field_16C_car->field_5C_AI->field_74_max_speed = kFpThree_67866C;
     }
 }
 
@@ -10483,7 +10483,7 @@ void Ped::FollowPedInCar_46CA70()
     this->field_16C_car->SetUniNum_421560(5);
     this->field_16C_car->field_60->field_30_ped_to_follow = this->field_14C_internal_target_ped;
     this->field_16C_car->ClearA6Bit5_421550();
-    this->field_16C_car->field_5C_AI->field_74_unk_speed = kFpThree_67866C;
+    this->field_16C_car->field_5C_AI->field_74_max_speed = kFpThree_67866C;
     this->field_16C_car->field_60->field_20 = 1;
 }
 

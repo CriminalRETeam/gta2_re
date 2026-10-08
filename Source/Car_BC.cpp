@@ -7790,7 +7790,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                                         }
                                         pNewCar->InitCarAIControl_440590();
                                         pNewCar->sub_426E00();
-                                        pNewCar->field_5C_AI->field_74_unk_speed = gTrafficCarSpeed_6FF570;
+                                        pNewCar->field_5C_AI->field_74_max_speed = gTrafficCarSpeed_6FF570;
                                     }
                                     else if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::police_6) &&
                                              gPolice_7B8_6FEE40->SpawnCrewInCar_5703E0(pNewCar))

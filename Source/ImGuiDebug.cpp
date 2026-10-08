@@ -1942,7 +1942,7 @@ void CC ImGuiDebugDraw()
                         */
                         if (pAI_Iter)
                         {
-                            swprintf(tmpBuff_67BD9C, L"%d", pAI_Iter->field_48);
+                            swprintf(tmpBuff_67BD9C, L"%d", pAI_Iter->field_48_probe_direction);
                             DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->field_50_car_sprite, 0, 0);
                         }
                         num_AI_count++;
@@ -1982,8 +1982,8 @@ void CC ImGuiDebugDraw()
                         char buffer[50];
                         get_car_name(pNearestAI->field_0_car, buffer);
                         ImGui::Text("AI Found! Car: %s", buffer);
-                        ImGui::Text("6C: %d", pNearestAI->field_6C != NULL);
-                        if (!PointArrowToEntity(0, pNearestAI->field_6C, 0))
+                        ImGui::Text("6C: %d", pNearestAI->field_6C_yield_to_car != NULL);
+                        if (!PointArrowToEntity(0, pNearestAI->field_6C_yield_to_car, 0))
                         {
                             //ClearGlobalArrow();
                         }
