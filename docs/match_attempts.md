@@ -3339,3 +3339,9 @@ flag test that later disappears still shapes the block order and the exit placem
   tested after the if/else. The DFS reaches the keep block K first (the condition's fail jump); K now leads to the
   flag test and on to the head unlink B, so B finishes before K, and A (unlink after `pLast`) only later from the
   `pLast` test: finish order B, K, A gives the original's A, K, B. Threading then removes the flag test.
+- **`eager_benz::OnPedKilled_592660` (77 -> 0, MATCH).** The Elvis counter moved into `if (score) {...} else {
+  switch (death_cause) }` after the occupation switch (the `goto scored` is gone). `default` is visited first and
+  reaches the `if (score)` test, whose target (the death-cause switch) is visited before the Elvis code, so the
+  Elvis else arm lands between default and that switch. `score` is constant on every path in, so threading
+  removes the test; dupB then moves the dispatch up after army, as in the original. With the layout right (97),
+  army's and swat's store order (`bFbi` before `bCop`) made army the shared tail the other cases cross-jump into.
