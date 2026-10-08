@@ -3373,3 +3373,12 @@ flag test that later disappears still shapes the block order and the exit placem
   self-store also matches, so the original probably had some store/kill there in both.
 - `ProcessPoliceRadioWordsPlayback_427220` (4) and `GetLayout_4D6000` (4): unchanged; see the agent notes above
   for the forms tried (dead uses, self-stores, head merging; v2 as array/struct/u32).
+- **`Car_14::SpawnTrafficCar_582480` (8 -> 0, MATCH).** All four cases in the 9.6f shape (`if (!field_8) { pos;
+  step = 1; } else { pos; step = -1; }`) plus an explicit `default: break;`. Without the default, the join's
+  predecessor list holds the second-arm jumps as case 4, 2, 1 (case 1 oldest), so case 1's `-1` block jumps into
+  case 2's. With the default (any position) case 1's jump is created last and becomes P0, and case 2's block
+  cross-jumps into case 1's as in 10.5 (a `--rank` C2 forcing that order also gives 0). Case order 1, 2, 4, 3 stays.
+- `Orca_2FD4::Internel_UpdateBehaviorGrid_554710` (8 -> 4, not applied): VC6 evaluates first the `(a-b)²` term
+  whose subtraction has the higher-offset right operand; `(xEnd - x)` puts x first, but the original subtracts
+  `x - xEnd`. `ComputePath_554AB0` (8): an unidentified live range 0x19 (prio 40) decides `new_z`'s register.
+  DrawGradientSlope S/E (4/8): the original needs one more dependency before the `fmul` of `field_60`.
