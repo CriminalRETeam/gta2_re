@@ -931,7 +931,7 @@ void PlayerScoreTracker_36C::AddCashForMultiplier_593220()
 }
 
 MATCH_FUNC(0x593240)
-void PlayerScoreTracker_36C::OnCarHijacked_593240(Car_BC* pCar)
+void PlayerScoreTracker_36C::AwardCarHijackedScore_593240(Car_BC* pCar)
 {
     const s32 multiplier = field_368_player->get_multiplier_4766A0();
     gmp_map_zone* pZone = gMap_0x370_6F6268->first_zone_by_pos_4DF6A0(field_368_player->field_2C4_player_ped->get_cam_x().ToInt(),
@@ -957,7 +957,7 @@ void PlayerScoreTracker_36C::OnCarHijacked_593240(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x593370)
-void PlayerScoreTracker_36C::OnBusStolen_593370(Car_BC* pCar)
+void PlayerScoreTracker_36C::AwardBusStolenScore_593370(Car_BC* pCar)
 {
     if (!bExplodingScoresOff_67D4FB && field_368_player->IsUser_41DC70())
     {
@@ -972,7 +972,7 @@ void PlayerScoreTracker_36C::OnBusStolen_593370(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x593410)
-void PlayerScoreTracker_36C::OnFullBusDestroyed_593410(Car_BC* pCar)
+void PlayerScoreTracker_36C::AwardFullBusDestroyedScore_593410(Car_BC* pCar)
 {
     const s32 multiplier = field_368_player->get_multiplier_4766A0();
     if (!bExplodingScoresOff_67D4FB)

@@ -3774,7 +3774,7 @@ void Car_BC::HandleCarExplosion_43D840(s32 a2)
                     if (gPublicTransport_181C_6FF1D4->is_bus_579AA0(this) &&
                         gPublicTransport_181C_6FF1D4->field_17C0_bus.field_56_passenger_count >= 10)
                     {
-                        pExploder->field_15C_player->field_2D4_scores.OnFullBusDestroyed_593410(this);
+                        pExploder->field_15C_player->field_2D4_scores.AwardFullBusDestroyedScore_593410(this);
                     }
                     else
                     {
@@ -3980,7 +3980,7 @@ void Car_BC::sub_43DD60()
                     if (gPublicTransport_181C_6FF1D4->is_bus_579AA0(this) &&
                         gPublicTransport_181C_6FF1D4->field_17C0_bus.field_56_passenger_count >= 10)
                     {
-                        pPed->field_15C_player->field_2D4_scores.OnFullBusDestroyed_593410(this);
+                        pPed->field_15C_player->field_2D4_scores.AwardFullBusDestroyedScore_593410(this);
                     }
                     else
                     {

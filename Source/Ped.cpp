@@ -10124,7 +10124,7 @@ void Ped::EnterCarStateMachine_46BDC0()
                         if (field_15C_player)
                         {
                             // Get score/report stolen etc
-                            field_15C_player->field_2D4_scores.OnCarHijacked_593240(field_154_target_to_enter);
+                            field_15C_player->field_2D4_scores.AwardCarHijackedScore_593240(field_154_target_to_enter);
 
                             // Is it gang car?
                             const s16 gang_car_model =

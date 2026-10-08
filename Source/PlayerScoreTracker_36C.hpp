@@ -45,9 +45,9 @@ class PlayerScoreTracker_36C
     EXPORT void AwardCarDamageScore_593030(Car_BC* pCar, s16 damage);
     EXPORT void AwardCarDamageScoreHit_593150(Car_BC* pCar, s16 damage);
     EXPORT void AddCashForMultiplier_593220();
-    EXPORT void OnCarHijacked_593240(Car_BC* pCar);
-    EXPORT void OnBusStolen_593370(Car_BC* pCar);
-    EXPORT void OnFullBusDestroyed_593410(Car_BC* pCar);
+    EXPORT void AwardCarHijackedScore_593240(Car_BC* pCar);
+    EXPORT void AwardBusStolenScore_593370(Car_BC* pCar);
+    EXPORT void AwardFullBusDestroyedScore_593410(Car_BC* pCar);
     EXPORT void UpdateAccuracyCount_5934F0(u32 shot_result, s32 weapon_model, Ped* pTarget);
     EXPORT thirsty_lamarr* GetMultiplayerFragDigits_5935B0();
     EXPORT s32 GetFrags_5935C0();

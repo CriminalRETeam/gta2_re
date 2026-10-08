@@ -16376,19 +16376,19 @@
         "v105_address": "0x593220"
     },
     {
-        "name": "PlayerScoreTracker_36C::OnCarHijacked_593240",
+        "name": "PlayerScoreTracker_36C::AwardCarHijackedScore_593240",
         "v96f_address": "0x4b8a70",
         "v105_address": "0x593240",
         "v96f_auto": true
     },
     {
-        "name": "PlayerScoreTracker_36C::OnBusStolen_593370",
+        "name": "PlayerScoreTracker_36C::AwardBusStolenScore_593370",
         "v96f_address": "0x4b8bd0",
         "v105_address": "0x593370",
         "v96f_auto": true
     },
     {
-        "name": "PlayerScoreTracker_36C::OnFullBusDestroyed_593410",
+        "name": "PlayerScoreTracker_36C::AwardFullBusDestroyedScore_593410",
         "v96f_address": "0x4b8c80",
         "v105_address": "0x593410",
         "v96f_auto": true
