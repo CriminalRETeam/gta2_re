@@ -3335,3 +3335,7 @@ flag test that later disappears still shapes the block order and the exit placem
   `ProcessPoliceRadioWordsPlayback_427220` (4): no gain. For 5A7080 the original's A, K, B order is not a reverse
   postorder of the plain loop CFG (K is a leaf, A and B both successors of the `pLast` test), so something folded
   after layout must be involved.
+- **`struct_4::CleanupSpriteList_5A7080` (20 -> 0, MATCH).** The head unlink moved behind a `bUnlinkHead` flag
+  tested after the if/else. The DFS reaches the keep block K first (the condition's fail jump); K now leads to the
+  flag test and on to the head unlink B, so B finishes before K, and A (unlink after `pLast`) only later from the
+  `pLast` test: finish order B, K, A gives the original's A, K, B. Threading then removes the flag test.

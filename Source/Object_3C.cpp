@@ -533,15 +533,14 @@ void struct_4::DestroyAllSprites_5A7010()
 }
 
 // https://decomp.me/scratch/hQof2
-WIP_FUNC(0x5a7080)
+MATCH_FUNC(0x5a7080)
 void struct_4::CleanupSpriteList_5A7080()
 {
-    WIP_IMPLEMENTED;
-
     Sprite_18* pLast = 0;
     Sprite_18* pIter = this->field_0_p18;
     while (pIter)
     {
+        bool bUnlinkHead = false;
         s32 type = pIter->field_0->get_type_416B40();
         if ((type == 1 || type > 3 && type <= 5) && pIter->field_0->field_8_object_2C_ptr->sub_4BE830())
         {
@@ -554,16 +553,21 @@ void struct_4::CleanupSpriteList_5A7080()
             }
             else
             {
-                Sprite_18* pNext = pIter->mpNext;
-                gSprite_18_Pool_703B80->DeAllocate(pIter);
-                pIter = pNext;
-                this->field_0_p18 = pNext;
+                bUnlinkHead = true;
             }
         }
         else
         {
             pLast = pIter;
             pIter = pIter->mpNext;
+        }
+
+        if (bUnlinkHead)
+        {
+            Sprite_18* pNext = pIter->mpNext;
+            gSprite_18_Pool_703B80->DeAllocate(pIter);
+            pIter = pNext;
+            this->field_0_p18 = pNext;
         }
     }
 }
