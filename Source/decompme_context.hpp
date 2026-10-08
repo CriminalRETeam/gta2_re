@@ -70,7 +70,7 @@
 #include "keybrd_0x204.hpp"
 #include "Frontend.hpp"
 #include "GameSession_578.hpp"
-#include "magical_germain_0x8EC.hpp"
+#include "KanjiFont_8EC.hpp"
 #include "map_0x370.hpp"
 #include "memory.hpp"
 #include "miss2_0x11C.hpp"

@@ -23,7 +23,7 @@
 #include "jolly_poitras_0x2BC0.hpp"
 #include "keybrd_0x204.hpp"
 #include "GameSession_578.hpp"
-#include "magical_germain_0x8EC.hpp"
+#include "KanjiFont_8EC.hpp"
 #include "registry.hpp"
 #include "root_sound.hpp"
 #include "TextureCache_15D8.hpp"
@@ -3207,9 +3207,9 @@ Frontend::Frontend()
 
     if (gText_0x14_704DFC->field_10_lang_code == 'j')
     {
-        // pmagical_germain_0x8EC = pmagical_germain_0x8EC_mem ? magical_germain_0x8EC::ctor_4D2C80(pmagical_germain_0x8EC_mem) : 0;
-        gMagical_germain_0x8EC_6F5168 = new magical_germain_0x8EC();
-        if (!gMagical_germain_0x8EC_6F5168)
+        // pKanjiFont_8EC = pKanjiFont_8EC_mem ? KanjiFont_8EC::ctor_4D2C80(pKanjiFont_8EC_mem) : 0;
+        gKanjiFont_6F5168 = new KanjiFont_8EC();
+        if (!gKanjiFont_6F5168)
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2297);
         }
@@ -3225,9 +3225,9 @@ Frontend::Frontend()
 
     pgbh_SetAmbient(1.0);
 
-    if (gMagical_germain_0x8EC_6F5168)
+    if (gKanjiFont_6F5168)
     {
-        gMagical_germain_0x8EC_6F5168->InitGlyphCaches_4D2B40();
+        gKanjiFont_6F5168->InitGlyphCaches_4D2B40();
     }
 
     field_110_state = 1;
@@ -3324,9 +3324,9 @@ Frontend::~Frontend()
         GTA2_DELETE_AND_NULL(gText_0x14_704DFC);
     }
 
-    if (gMagical_germain_0x8EC_6F5168)
+    if (gKanjiFont_6F5168)
     {
-        GTA2_DELETE_AND_NULL(gMagical_germain_0x8EC_6F5168);
+        GTA2_DELETE_AND_NULL(gKanjiFont_6F5168);
     }
 
     FreeImageTable_4B6750();

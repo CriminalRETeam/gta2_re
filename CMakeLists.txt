@@ -70,8 +70,8 @@ set(gta2_lib_src
   Source/sound_obj.cpp
   Source/dma_video.hpp
   Source/dma_video.cpp
-  Source/magical_germain_0x8EC.hpp
-  Source/magical_germain_0x8EC.cpp
+  Source/KanjiFont_8EC.hpp
+  Source/KanjiFont_8EC.cpp
   Source/TextureCache_15D8.hpp
   Source/TextureCache_15D8.cpp
   Source/Draw.hpp

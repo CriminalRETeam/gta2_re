@@ -53,7 +53,7 @@
 #include "gtx_0x106C.hpp"
 #include "jolly_poitras_0x2BC0.hpp"
 #include "GameSession_578.hpp"
-#include "magical_germain_0x8EC.hpp"
+#include "KanjiFont_8EC.hpp"
 #include "map_0x370.hpp"
 #include "registry.hpp"
 #include "rng.hpp"
@@ -173,9 +173,9 @@ void Game_0x40::LoadGameFiles_4B8C40()
 
     gCar_6C_677930->DistributeCarsByRating_444980();
 
-    if (gMagical_germain_0x8EC_6F5168 != NULL)
+    if (gKanjiFont_6F5168 != NULL)
     {
-        gMagical_germain_0x8EC_6F5168->InitGlyphCaches_4D2B40();
+        gKanjiFont_6F5168->InitGlyphCaches_4D2B40();
     }
 }
 
@@ -1248,8 +1248,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
 
     if (gText_0x14_704DFC->field_10_lang_code == 'j')
     {
-        gMagical_germain_0x8EC_6F5168 = new magical_germain_0x8EC(); // ctor call
-        if (!gMagical_germain_0x8EC_6F5168)
+        gKanjiFont_6F5168 = new KanjiFont_8EC(); // ctor call
+        if (!gKanjiFont_6F5168)
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1923);
         }
@@ -1350,9 +1350,9 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gFirefighterPool_54_67D4C0);
     GTA2_DELETE_AND_NULL(gCollisionSoundQueue_66AFE0);
 
-    if (gMagical_germain_0x8EC_6F5168)
+    if (gKanjiFont_6F5168)
     {
-        GTA2_DELETE_AND_NULL(gMagical_germain_0x8EC_6F5168);
+        GTA2_DELETE_AND_NULL(gKanjiFont_6F5168);
     }
 
     field_1C_view_player = 0;

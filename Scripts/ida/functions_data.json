@@ -7991,73 +7991,73 @@
         "v105_address": "0x4cffb0"
     },
     {
-        "name": "magical_germain_0x8EC::LoadChunks_4D1FC0",
+        "name": "KanjiFont_8EC::LoadChunks_4D1FC0",
         "v96f_address": "0x45ff70",
         "v105_address": "0x4d1fc0"
     },
     {
-        "name": "magical_germain_0x8EC::Load_kanji_dat_4D2090",
+        "name": "KanjiFont_8EC::Load_kanji_dat_4D2090",
         "v96f_address": "0x460f10",
         "v105_address": "0x4d2090"
     },
     {
-        "name": "magical_germain_0x8EC::sub_4D2150",
+        "name": "KanjiFont_8EC::OutlineGlyph_4D2150",
         "v96f_address": null,
         "v105_address": "0x4d2150"
     },
     {
-        "name": "magical_germain_0x8EC::sub_4D2240",
+        "name": "KanjiFont_8EC::ExpandSmallGlyph_4D2240",
         "v96f_address": null,
         "v105_address": "0x4d2240"
     },
     {
-        "name": "magical_germain_0x8EC::sub_4D23B0",
+        "name": "KanjiFont_8EC::ExpandLargeGlyph_4D23B0",
         "v96f_address": null,
         "v105_address": "0x4d23b0"
     },
     {
-        "name": "magical_germain_0x8EC::RenderSmallGlyph_4D2610",
+        "name": "KanjiFont_8EC::RenderSmallGlyph_4D2610",
         "v96f_address": null,
         "v105_address": "0x4d2610"
     },
     {
-        "name": "magical_germain_0x8EC::RenderLargeGlyph_4D2690",
+        "name": "KanjiFont_8EC::RenderLargeGlyph_4D2690",
         "v96f_address": null,
         "v105_address": "0x4d2690"
     },
     {
-        "name": "magical_germain_0x8EC::GetSmallGlyphTexture_4D2710",
+        "name": "KanjiFont_8EC::GetSmallGlyphTexture_4D2710",
         "v96f_address": null,
         "v105_address": "0x4d2710"
     },
     {
-        "name": "magical_germain_0x8EC::GetLargeGlyphTexture_4D27D0",
+        "name": "KanjiFont_8EC::GetLargeGlyphTexture_4D27D0",
         "v96f_address": null,
         "v105_address": "0x4d27d0"
     },
     {
-        "name": "magical_germain_0x8EC::SetGlyphParamsFromFont_4D28A0",
+        "name": "KanjiFont_8EC::SetGlyphParamsFromFont_4D28A0",
         "v96f_address": null,
         "v105_address": "0x4d28a0"
     },
     {
-        "name": "magical_germain_0x8EC::SetGlyphParamsFromRemap_4D29D0",
+        "name": "KanjiFont_8EC::SetGlyphParamsFromRemap_4D29D0",
         "v96f_address": null,
         "v105_address": "0x4d29d0"
     },
     {
-        "name": "magical_germain_0x8EC::InitGlyphCaches_4D2B40",
+        "name": "KanjiFont_8EC::InitGlyphCaches_4D2B40",
         "v96f_address": "0x460de0",
         "v105_address": "0x4d2b40",
         "v96f_auto": true
     },
     {
-        "name": "magical_germain_0x8EC::ctor",
+        "name": "KanjiFont_8EC::ctor",
         "v96f_address": "0x460fb0",
         "v105_address": "0x4d2c80"
     },
     {
-        "name": "magical_germain_0x8EC::dtor",
+        "name": "KanjiFont_8EC::dtor",
         "v96f_address": "0x460e90",
         "v105_address": "0x4d2cc0",
         "v96f_auto": true
