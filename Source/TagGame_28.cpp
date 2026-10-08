@@ -100,9 +100,7 @@ MATCH_FUNC(0x516740)
 void TagGame_28::UpdateFugitive_516740(Player* pFormerPlayerFugitive, Player* pPlayer_killer)
 {
     Fix16 taxicab_distance;
-    Fix16 threshold_distance;
-
-    threshold_distance = 0x3FFFC000;
+    Fix16 threshold_distance(65535); // 65535.0 (raw 0x3FFFC000): start value of the nearest player search
     if (gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0() == TAG_GAME_3
         && field_0_fugitive == pFormerPlayerFugitive)
     {
