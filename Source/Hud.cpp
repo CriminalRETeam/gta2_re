@@ -1096,7 +1096,7 @@ Hud_Arrow_7C* Hud_Arrow_7C_Array::FindFreeArrow_5D1020(s32* pOutIdx)
             return pIter;
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x5d1050)
@@ -1658,7 +1658,7 @@ inline void Hud_Pager_C::SetCounter_4C7130(s32* pCounter)
 MATCH_FUNC(0x5d2050)
 void Hud_TextList_968::RemoveExpired_5D2050()
 {
-    Hud_TextEntry_C4* pAltIter = 0;
+    Hud_TextEntry_C4* pAltIter = NULL;
     Hud_TextEntry_C4* pIter = field_960_pFirst;
     while (pIter)
     {
@@ -1700,7 +1700,7 @@ Hud_TextList_968::Hud_TextList_968()
 
     field_964_pFreeList = &field_0_29_ary[0];
     field_0_29_ary[30 - 1].field_C0_pNext = NULL;
-    field_960_pFirst = 0;
+    field_960_pFirst = NULL;
 }
 
 MATCH_FUNC(0x5d2320)
@@ -1934,7 +1934,7 @@ void Hud_Pager_C_Array::ClearPager_5D3280(s32 idx)
         pSound->release_40EF20();
         pSound->field_C_pAny.pInfallible_turing = gRoot_sound_66B038.field_0_pFreeList;
         gRoot_sound_66B038.field_0_pFreeList = pSound;
-        pPager->field_8_sound = 0;
+        pPager->field_8_sound = NULL;
     }
 }
 
@@ -2013,7 +2013,7 @@ void Hud_Brief_704::AppendCurrentBriefToPrev_5D33A0()
     pBrief->field_C_pNext = field_6F8_curr_brief;
     field_6F8_curr_brief->field_8_brief_priority = 0;
     field_6F8_curr_brief = field_6F8_curr_brief->field_C_pNext;
-    pBrief->field_C_pNext->field_C_pNext = 0;
+    pBrief->field_C_pNext->field_C_pNext = NULL;
 }
 
 // https://decomp.me/scratch/L1e5G reg swap
@@ -2252,7 +2252,7 @@ void Hud_Brief_704::SetHudBrief_5D3F10(s32 priority, const char_type* pText, s32
     if (!this->field_6F8_curr_brief)
     {
         this->field_6F8_curr_brief = pNewBrief;
-        pNewBrief->field_C_pNext = 0;
+        pNewBrief->field_C_pNext = NULL;
         StartCurrentBrief_5D39D0();
     }
     else if (this->field_6F8_curr_brief->field_8_brief_priority >= priority && priority != 3)
@@ -2272,7 +2272,7 @@ void Hud_Brief_704::SetHudBrief_5D3F10(s32 priority, const char_type* pText, s32
         else
         {
             pIter->field_C_pNext = pNewBrief;
-            pNewBrief->field_C_pNext = 0;
+            pNewBrief->field_C_pNext = NULL;
         }
     }
     else
@@ -2295,7 +2295,7 @@ inline void Hud_Arrow_7C::Reset_4CA610()
     SetArrowColour_5D0510(4);
     field_18.field_10.field_5_is_visible = true;
     field_18.field_2C_arrow_sprt_idx = 0;
-    field_18.field_10.field_30_gang = 0;
+    field_18.field_10.field_30_gang = NULL;
     field_18.field_10.field_34_min_respect = 0;
 }
 
@@ -3295,7 +3295,7 @@ Hud_CopHead_C::Hud_CopHead_C()
 MATCH_FUNC(0x5d7600)
 Hud_Arrow_7C::Hud_Arrow_7C()
 {
-    field_18.field_10.field_30_gang = 0;
+    field_18.field_10.field_30_gang = NULL;
     field_18.field_10.field_34_min_respect = 0;
     field_18.field_10.field_5_is_visible = 0;
 
