@@ -3361,3 +3361,8 @@ flag test that later disappears still shapes the block order and the exit placem
   into 4/12 as in the original.
 - `Map_0x370::sub_4E6660` (4, unchanged): `ebx` holds a constant-1 web from the top in the original; ours extends
   it to the two `push $1` when `pPrev` is assigned after the call. Folded `bTurned` forms 48.
+- **`sound_obj::HandleCarTireScrubSound_418720` (4 -> 0, MATCH).** `Fix16 speed; Fix16* pSpeed =
+  &pCar->GetCarLinearSpeed_43A240(); speed = *pSpeed; speed /= max;`. In the `/=` form VC6 loads the divisor
+  first, but a dividend that is a memory load through a pointer is evaluated first (54). The copy through a pointer
+  to the returned temporary is forward-substituted into the `/=`, keeping divisor-first and making the dividend a
+  late load through the returned pointer, as the original. `speed` must be declared before `pSpeed` (else 54).

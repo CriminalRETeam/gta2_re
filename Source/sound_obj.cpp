@@ -2954,11 +2954,9 @@ char_type sound_obj::Type_9_4186D0(sound_0x68* pObj)
     return 1;
 }
 
-WIP_FUNC(0x418720)
+MATCH_FUNC(0x418720)
 void sound_obj::HandleCarTireScrubSound_418720(Sound_Params_8* a2)
 {
-    WIP_IMPLEMENTED;
-
     u8 emitVol = 0;
 
     Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
@@ -2973,8 +2971,12 @@ void sound_obj::HandleCarTireScrubSound_418720(Sound_Params_8* a2)
             {
                 if (gCarInfo_48_6FE258->field_28_max_speed > kFpZero_66F3F0)
                 {
+                    // The copy through a pointer to the returned temporary is folded into the /= below, so the
+                    // speed is read through the returned pointer after the divisor's load, like the original.
+                    // speed has to be declared before pSpeed.
                     Fix16 speed;
-                    speed = pCar->GetCarLinearSpeed_43A240();
+                    Fix16* pSpeed = &pCar->GetCarLinearSpeed_43A240();
+                    speed = *pSpeed;
                     speed /= gCarInfo_48_6FE258->field_28_max_speed;
                     emitVol = Fix16::Round_To_Int_410BF0(Fix16(983040, 0) * speed) + 10;
                 }
