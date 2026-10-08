@@ -4856,7 +4856,7 @@ MATCH_FUNC(0x4436A0)
 void Car_BC::TurnToWreck_4436A0()
 {
     car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
-    s32 wreck_idx = pCarInfo->wreck + 72;
+    s32 wreck_idx = pCarInfo->wreck + car_model_enum::WRECK0;
     field_50_car_sprite->field_22_sprite_id = gGtx_0x106C_703DD4->get_car_info_5AA3B0(wreck_idx)->sprite;
     field_50_car_sprite->sub_59E2E0();
     field_50_car_sprite->field_34_palette_type = palette_types_enum::sprites_2;

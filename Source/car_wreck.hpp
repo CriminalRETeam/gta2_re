@@ -1,6 +1,6 @@
 #pragma once
 
-// car_info::wreck: the car's wreck sprite offset (Car_BC.cpp adds 72 to get the sprite). Kept in its own header, like
+// car_info::wreck: which wreck model the car turns into, as an offset from car_model_enum::WRECK0 (0..9). Kept in its own header, like
 // car_despawn_status.hpp, so that the enum does not land in a header many TUs share.
 namespace car_wreck
 {
