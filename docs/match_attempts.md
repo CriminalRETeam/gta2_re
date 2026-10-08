@@ -3382,3 +3382,8 @@ flag test that later disappears still shapes the block order and the exit placem
   whose subtraction has the higher-offset right operand; `(xEnd - x)` puts x first, but the original subtracts
   `x - xEnd`. `ComputePath_554AB0` (8): an unidentified live range 0x19 (prio 40) decides `new_z`'s register.
   DrawGradientSlope S/E (4/8): the original needs one more dependency before the `fmul` of `field_60`.
+- **`Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0` (54 -> 0, MATCH).** `bool bListWasEmpty = true;` cleared
+  in the loop body, then `if (bListWasEmpty) return 1; return 0;` after the loop. The original's rotated `while`
+  sends its entry test to `return 1` and its bottom test into `return 0`; with the flag, layout and dupB see one
+  join (`jcc top; jmp after` at the bottom), threading then splits the exits, and dupB moves `return 0` after the
+  bottom test. `return bListWasEmpty;` compiles to `setne` (no branch to thread, 104).
