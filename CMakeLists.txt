@@ -155,8 +155,8 @@ set(gta2_lib_src
   Source/SpriteRenderer_1C.cpp
   Source/Mike_A80.hpp
   Source/Mike_A80.cpp
-  Source/GosubFramePool_25C.hpp
-  Source/GosubFramePool_25C.cpp
+  Source/ScriptStackFramePool_25C.hpp
+  Source/ScriptStackFramePool_25C.cpp
   Source/sprite.hpp
   Source/sprite.cpp
   Source/char.hpp

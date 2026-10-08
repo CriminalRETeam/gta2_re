@@ -637,8 +637,8 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4B9A80 | `Game_0x40::is_point_on_screen_4B9A80` | 0x45BC10 | ✓ `DrawUnk_0xBC::sub_40CF60` | matched | DrawUnk_0xBC::sub_40CF60 is check_camera, already used (comment updated to 9.6f 0x40CF60); remaining 26 lines are register allocation |
 | 0x4B9B10 | `Game_0x40::IsRectVisibleToAnyPlayer_4B9B10` | 0x45BC90 | ✓ `DrawUnk_0xBC::sub_45AF40` | done | Camera_0xBC::IsRectInBounds_45AF40 (new) + s32 loop index; 85->16 (register swap left) |
 | 0x4B9D60 | `Game_0x40::sub_4B9D60` | 0x45BD40 | ✓ `Game_0x40::get_player_4219E0` | done | Game_0x40::get_player_4219E0; code unchanged |
-| 0x4B9DE0 | `Game_0x40::ctor_4B9DE0` | 0x45C4D0 | `angry_lewin_0x85C::sub_45B0D0`, `rng::ctor_45A960`, `Nanobotz::ctor_45B050` (10.5 0x4BE650), `Mike_A80::ctor_45C040`, `GosubFramePool_25C::ctor_45BFE0`, `jawwie_110::ctor_45C0D0`, `EmergencyCrewPool_1E0::ctor_45B1A0`, `Police_7B8::ctor_45C150`, `Light_1D4CC::ctor_45B3D0`, `Zones_CA8::ctor_45AE60`, `sub_489AC0`, `CokeZero_100::ctor_4B9490`, `Tango_54::ctor_45B440`, `LangIsJapanese_452E60` | checked | ctor list: member ctors, pairing noise |
-| 0x4BAE30 | `Game_0x40::dtor_4BAE30` | 0x45D3D0 | `angry_lewin_0x85C::dtor_45A970`, `text_0x14::dtor_405A80`, `gtx_0x106C::gdtor_451F90`, `Map_0x370::gdtor_45A990`, `SpriteRenderer_1C::gdtor_45A9B0`, `PedPool::gdtor_43DB20`, `ScriptManager_C1EA8::gdtor_45A9F0`, `GosubFramePool_25C::gdtor_45D350`, `ObjectDefinitions_8CA8::gdtor_45BDC0`, `Object_5C::gdtor_45AA10`, `PedManager::gdtor_45AA30`, `FpsCounter_54::gdtor_45AA50`, `Sprite_8::gdtor_45AA70`, `CollisionCounters_C::gdtor_45AA90`, `PedRefTable_7F8::gdtor_45AAB0`, `Sero_181C::gdtor_45AAD0`, `Taxi_4::gdtor_45AAF0`, `TileAnim_2::gdtor_45AB10`, `Weapon_8::gdtor_45AB30`, `Door_4D4::gdtor_45AB50`, `jawwie_110::gdtor_45BDE0`, `Garox_2B00::gdtor_45D3B0`, `TextureCache_15D8::gdtor_451F70`, `TrafficLights_194::gdtor_45AB70`, `PatrolRoutePool_1D7E::gdtor_45BE00`, `PathFinder_2FD4::gdtor_45BE20`, `Monster_808::gdtor_45AB90`, `Particle_8::gdtor_45ABB0`, `ExplosionPool_3D4::gdtor_45ABD0`, `ExplosionPool_7A8::gdtor_45ABF0`, `Zheal_D9C::gdtor_45BE40`, `Snooky_94::gdtor_45BE60`, `EmergencyCrewPool_1E0::gdtor_45BE80`, `Police_7B8::gdtor_45BEA0`, `Light_1D4CC::gdtor_45BEC0`, `Zones_CA8::gdtor_45BEE0`, `ChickenLegend_48::dtor_45D370`, `PedRelationshipTable_500::dtor_45AC10`, `CokeZero_100::dtor_45AC30`, `CrimeReportQueue_CC::gdtor_45AC50`, `Tango_54::gdtor_45BF00`, `CollisionSoundQueue_C88::gdtor_45AC70`, `KanjiFont_8EC::gdtor_45AC90` | checked | dtor list: global dtors, pairing noise |
+| 0x4B9DE0 | `Game_0x40::ctor_4B9DE0` | 0x45C4D0 | `angry_lewin_0x85C::sub_45B0D0`, `rng::ctor_45A960`, `Nanobotz::ctor_45B050` (10.5 0x4BE650), `Mike_A80::ctor_45C040`, `ScriptStackFramePool_25C::ctor_45BFE0`, `jawwie_110::ctor_45C0D0`, `EmergencyCrewPool_1E0::ctor_45B1A0`, `Police_7B8::ctor_45C150`, `Light_1D4CC::ctor_45B3D0`, `Zones_CA8::ctor_45AE60`, `sub_489AC0`, `CokeZero_100::ctor_4B9490`, `Tango_54::ctor_45B440`, `LangIsJapanese_452E60` | checked | ctor list: member ctors, pairing noise |
+| 0x4BAE30 | `Game_0x40::dtor_4BAE30` | 0x45D3D0 | `angry_lewin_0x85C::dtor_45A970`, `text_0x14::dtor_405A80`, `gtx_0x106C::gdtor_451F90`, `Map_0x370::gdtor_45A990`, `SpriteRenderer_1C::gdtor_45A9B0`, `PedPool::gdtor_43DB20`, `ScriptManager_C1EA8::gdtor_45A9F0`, `ScriptStackFramePool_25C::gdtor_45D350`, `ObjectDefinitions_8CA8::gdtor_45BDC0`, `Object_5C::gdtor_45AA10`, `PedManager::gdtor_45AA30`, `FpsCounter_54::gdtor_45AA50`, `Sprite_8::gdtor_45AA70`, `CollisionCounters_C::gdtor_45AA90`, `PedRefTable_7F8::gdtor_45AAB0`, `Sero_181C::gdtor_45AAD0`, `Taxi_4::gdtor_45AAF0`, `TileAnim_2::gdtor_45AB10`, `Weapon_8::gdtor_45AB30`, `Door_4D4::gdtor_45AB50`, `jawwie_110::gdtor_45BDE0`, `Garox_2B00::gdtor_45D3B0`, `TextureCache_15D8::gdtor_451F70`, `TrafficLights_194::gdtor_45AB70`, `PatrolRoutePool_1D7E::gdtor_45BE00`, `PathFinder_2FD4::gdtor_45BE20`, `Monster_808::gdtor_45AB90`, `Particle_8::gdtor_45ABB0`, `ExplosionPool_3D4::gdtor_45ABD0`, `ExplosionPool_7A8::gdtor_45ABF0`, `Zheal_D9C::gdtor_45BE40`, `Snooky_94::gdtor_45BE60`, `EmergencyCrewPool_1E0::gdtor_45BE80`, `Police_7B8::gdtor_45BEA0`, `Light_1D4CC::gdtor_45BEC0`, `Zones_CA8::gdtor_45BEE0`, `ChickenLegend_48::dtor_45D370`, `PedRelationshipTable_500::dtor_45AC10`, `CokeZero_100::dtor_45AC30`, `CrimeReportQueue_CC::gdtor_45AC50`, `Tango_54::gdtor_45BF00`, `CollisionSoundQueue_C88::gdtor_45AC70`, `KanjiFont_8EC::gdtor_45AC90` | checked | dtor list: global dtors, pairing noise |
 | 0x4BE650 | `Hud_Pager_C::dtor_4BE650` | 0x45B050 | `Nanobotz::ResetCount_45B040`, `Nanobotz::set_shading_lev_46B620` (10.5 0x4E9DB0) | checked | pairing error (9.6f Nanobotz helpers) |
 | 0x4BEBC0 | `Light_1D4CC::dtor_4BEBC0` | 0x45B380 | `Light_1D4CC::sub_45AD00` | checked | Light_1D4CC::sub_45AD00 is a 9.6f-only reset; 10.5 dtor calls FreeGrid_4D6E30 |
 | 0x4BECA0 | `GangPool_CA8::sub_4BECA0` | 0x45DD60 | ✓ `Zone_144::sub_45DD50` | done | Gang_144::HasKillRespectChange_45DD50; code unchanged |
@@ -739,7 +739,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4FFA90 | `Mike_A80::sub_4FFA90` | 0x474C60 | ✓ `sub_474430`, ✓ `sub_474450` | done | TakeElapsed/AddSample are 474430/474450 (address comments added) |
 | 0x502DC0 | `Miss2_25C::MissionCleanUp_502DC0` | 0x476BC0 | ✓ `Car_BC::sub_421560`, ✓ `sub_4214D0`, ✓ `sub_421470` | done | all 9.6f inlines used |
 | 0x502FF0 | `Miss2_25C::push_type_2_502FF0` | 0x476D50 | ✓ `sub_40FEF0` | done | Object_2C::get_model_40FEF0 x4; code unchanged |
-| 0x503130 | `miss2_8::dtor_503130` | 0x476DC0 | ✓ `GosubFramePool_25C::sub_476780` | done | GosubFramePool_25C::DeAllocate_476780 (new); code unchanged |
+| 0x503130 | `miss2_8::dtor_503130` | 0x476DC0 | ✓ `ScriptStackFramePool_25C::sub_476780` | done | ScriptStackFramePool_25C::DeAllocate_476780 (new); code unchanged |
 | 0x503200 | `miss2_0x11C::sub_503200` | 0x47F550 | ✓ `sub_476700`, ✓ `sub_476730`, `sub_4105B0` | done | Player::IsBustedNotObjective54_476700 and IsBustedObjective54_476730 (new); code unchanged |
 | 0x5035D0 | `miss2_0x11C::Log_5035D0` | 0x476E10 | ✓ `rng::get_cur_rng_41CFE0` | done | all 9.6f inlines used |
 | 0x503680 | `miss2_0x11C::SCRCMD_OBJ_DECSET_2D_3D_503680` | 0x476EA0 | ✓ `sub_475AA0`, `sub_4CA910` | done | Object_2C::IsModel176To181_475AA0 (new); sub_4CA910 is place_gang_phone (called); code unchanged |
@@ -2156,12 +2156,12 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x45BEC0 | `Light_1D4CC::gdtor_45BEC0` | 30 |  | Source/Ped.hpp:166 | 0/1 | todo |  |
 | 0x45BEE0 | `Zones_CA8::gdtor_45BEE0` | 30 |  |  | 0/1 | todo |  |
 | 0x45BF00 | `Tango_54::gdtor_45BF00` | 26 |  |  | 0/1 | todo |  |
-| 0x45BFE0 | `GosubFramePool_25C::ctor_45BFE0` | 63 |  |  | 0/1 | todo |  |
+| 0x45BFE0 | `ScriptStackFramePool_25C::ctor_45BFE0` | 63 |  |  | 0/1 | todo |  |
 | 0x45C040 | `Mike_A80::ctor_45C040` | 103 |  |  | 0/1 | todo |  |
 | 0x45C0D0 | `jawwie_110::ctor_45C0D0` | 96 |  |  | 0/1 | todo |  |
 | 0x45C150 | `Police_7B8::ctor_45C150` | 138 |  |  | 0/1 | todo |  |
 | 0x45C1E0 | `Light_1D4CC::sub_45C1E0` | 5 |  | Source/Light_1D4CC.hpp:21 | 0/1 | todo |  |
-| 0x45D350 | `GosubFramePool_25C::gdtor_45D350` | 30 |  |  | 0/1 | todo |  |
+| 0x45D350 | `ScriptStackFramePool_25C::gdtor_45D350` | 30 |  |  | 0/1 | todo |  |
 | 0x45D370 | `ChickenLegend_48::dtor_45D370` | 26 |  |  | 0/1 | todo |  |
 | 0x45D3B0 | `Garox_2B00::gdtor_45D3B0` | 30 |  |  | 0/1 | todo |  |
 | 0x45D960 | `Zone_144::init_45D960` | 113 | 0x4BED70 MATCH |  | 0/1 | todo |  |
@@ -2261,7 +2261,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4766C0 | `sub_4766C0` | 11 |  | Source/Player.hpp:107 | 0/2 | todo |  |
 | 0x476700 | `sub_476700` | 40 |  | Source/Player.hpp:93 | 0/1 | todo |  |
 | 0x476730 | `sub_476730` | 40 |  | Source/Player.hpp:100 | 0/1 | todo |  |
-| 0x476780 | `GosubFramePool_25C::sub_476780` | 14 |  | Source/GosubFramePool_25C.hpp:35 | 0/1 | todo |  |
+| 0x476780 | `ScriptStackFramePool_25C::sub_476780` | 14 |  | Source/ScriptStackFramePool_25C.hpp:35 | 0/1 | todo |  |
 | 0x476790 | `sub_476790` | 4 |  | Source/Game_0x40.hpp:57 | 0/1 | todo |  |
 | 0x4767A0 | `miss2_0x11C_Pool::sub_4767A0` | 24 |  | Source/miss2_0x11C.hpp:1176 | 0/2 | todo |  |
 | 0x4767C0 | `sub_4767C0` | 31 |  | Source/Hud.hpp:436 | 0/1 | todo |  |

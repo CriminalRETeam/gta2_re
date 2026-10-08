@@ -11,7 +11,7 @@
 #include "ExplodingScore_100.hpp"
 #include "Firefighters.hpp"
 #include "Fix16_Rect.hpp"
-#include "GosubFramePool_25C.hpp"
+#include "ScriptStackFramePool_25C.hpp"
 #include "Frontend.hpp"
 #include "Function.hpp"
 #include "Gang.hpp"
@@ -1021,8 +1021,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1831);
     }
 
-    gGosubFramePool_6F8068 = new GosubFramePool_25C(); // multi level inlines
-    if (!gGosubFramePool_6F8068)
+    gScriptStackFramePool_6F8068 = new ScriptStackFramePool_25C(); // multi level inlines
+    if (!gScriptStackFramePool_6F8068)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1833);
     }
@@ -1296,7 +1296,7 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gCar_6C_677930);
     GTA2_DELETE_AND_NULL(gCar_214_705F20);
     GTA2_DELETE_AND_NULL(gScriptManager_6F8060);
-    GTA2_DELETE_AND_NULL(gGosubFramePool_6F8068);
+    GTA2_DELETE_AND_NULL(gScriptStackFramePool_6F8068);
 
     GTA2_DELETE_AND_NULL(gObjectDefinitions_6FCF00);
     GTA2_DELETE_AND_NULL(gObject_5C_6F8F84);
