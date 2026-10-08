@@ -3387,3 +3387,10 @@ flag test that later disappears still shapes the block order and the exit placem
   sends its entry test to `return 1` and its bottom test into `return 0`; with the flag, layout and dupB see one
   join (`jcc top; jmp after` at the bottom), threading then splits the exits, and dupB moves `return 0` after the
   bottom test. `return bListWasEmpty;` compiles to `setne` (no branch to thread, 104).
+- **`Ped::AttackTargetStateMachine_46D460` (46 -> 0, MATCH).** Explicit `return;` after three of the
+  `field_21C_bf.b11` stores. Without them the arms' jumps go to an end-of-if label whose block is only a jump;
+  codegen retargets them and re-adds them at the head of the exit's predecessor list, so the else-if's `b11 =
+  false` copy became P0. With `return;` an arm's jump keeps its codegen position, the first site's copy is P0, and
+  the second merges into it; the other two returns keep the `b11 = true` arm out of T1 (subsets: 38-376).
+- `Ped::FindUsableCarDoor_467090` (74, unchanged): needs the `found` block right after the driver loop, i.e. the
+  passenger branch with no edge to `found` at layout time; neither folded flags nor per-site copies give it.
