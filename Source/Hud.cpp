@@ -2414,7 +2414,7 @@ void Hud_Brief_704::ClearAllBriefsWithPriority_5D4890(s32 priority)
 MATCH_FUNC(0x5d4930)
 Hud_Brief_704::Hud_Brief_704()
 {
-    field_6FC_p_start_q = (Hud_BriefEntry_18*)&field_518_ary_19_start_q;
+    field_6FC_p_start_q = &field_518_briefs[0];
 
     field_50C_face_variant = 0;
     field_510_time_to_show = 0;
@@ -2423,13 +2423,12 @@ Hud_Brief_704::Hud_Brief_704()
     field_700_prev_brief = 0;
     field_504_tick_timer = 0;
 
-    for (s32 i = 0; i < GTA2_COUNTOF(field_524_ary_19); i++)
+    for (s32 i = 0; i < GTA2_COUNTOF(field_518_briefs) - 1; i++)
     {
-        // TODO: Some wrong data structure: the original stores the address of the entry's own next pointer in its first word
-        *(char_type**)field_524_ary_19[i].field_0_brief_id_str = (char_type*)&field_524_ary_19[i].field_C_pNext;
+        field_518_briefs[i].field_C_pNext = &field_518_briefs[i + 1];
     }
 
-    field_6EC = 0;
+    field_518_briefs[GTA2_COUNTOF(field_518_briefs) - 1].field_C_pNext = NULL;
 }
 
 // TODO: Calls 2 Fix16 ctors that are exactly the same but are 2 unique functions ??

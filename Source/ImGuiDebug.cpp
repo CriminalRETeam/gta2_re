@@ -2551,10 +2551,6 @@ void CC ImGuiDebugDraw()
                         ImGui::Value("field_50C", pHud_Brief_704->field_50C_face_variant);
                         ImGui::Value("field_510_time_to_show", pHud_Brief_704->field_510_time_to_show);
                         ImGui::Value("field_514_upward_timer", pHud_Brief_704->field_514_upward_timer);
-                        ImGui::Value("field_51C", pHud_Brief_704->field_51C);
-                        ImGui::Value("field_6EC", pHud_Brief_704->field_6EC);
-                        ImGui::Value("field_6F0", pHud_Brief_704->field_6F0);
-                        ImGui::Value("field_6F4", pHud_Brief_704->field_6F4);
 
                         if (ImGui::TreeNode("Try field_6F8_prev_brief as text"))
                         {
@@ -2574,11 +2570,6 @@ void CC ImGuiDebugDraw()
                             ImGui::TreePop();
                         }
 
-                        if (ImGui::TreeNode("Try field_518_ary_19_start_q as text"))
-                        {
-                            ImGui::Text("Text: %s", (const char*)pHud_Brief_704->field_518_ary_19_start_q);
-                            ImGui::TreePop();
-                        }
 
                         Hud_BriefEntry_18* curr_brief = pHud_Brief_704->field_6F8_curr_brief;
                         if (curr_brief)
@@ -2592,11 +2583,11 @@ void CC ImGuiDebugDraw()
                         }
 
                         static u16 brief_idx = 0;
-                        ImGui::SliderU16("Brief idx", &brief_idx, 0, 18);
-                        Hud_BriefEntry_18* brief = &pHud_Brief_704->field_524_ary_19[brief_idx];
+                        ImGui::SliderU16("Brief idx", &brief_idx, 0, 19);
+                        Hud_BriefEntry_18* brief = &pHud_Brief_704->field_518_briefs[brief_idx];
                         if (brief)
                         {
-                            ImGui::Text("Brief f_0: 0x%X", brief->field_0_brief_id_str);
+                            ImGui::Text("Brief id: %.8s", brief->field_0_brief_id_str);
                             ImGui::Value("Brief f_8", brief->field_8_brief_priority);
                             //ImGui::Value("Brief f_C", brief->field_C_pNext);
                             ImGui::Value("Brief f_10", brief->field_10_was_displayed);

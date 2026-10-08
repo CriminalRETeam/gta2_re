@@ -631,15 +631,8 @@ class Hud_Brief_704 // size 0x704
     s32 field_50C_face_variant;
     s32 field_510_time_to_show;
     s32 field_514_upward_timer;
-    Hud_BriefEntry_18* field_518_ary_19_start_q;
-
-    s32 field_51C;
-    s32 field_520;
-    Hud_BriefEntry_18 field_524_ary_19[19];
-    s32 field_6EC;
-    s32 field_6F0;
-
-    s32 field_6F4;
+    // Pool of 20 entries linked through field_C_pNext as the free list (field_6FC_p_start_q is its head)
+    Hud_BriefEntry_18 field_518_briefs[20];
     Hud_BriefEntry_18* field_6F8_curr_brief;
     Hud_BriefEntry_18* field_6FC_p_start_q;
     Hud_BriefEntry_18* field_700_prev_brief;
