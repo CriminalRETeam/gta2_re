@@ -1,4 +1,5 @@
 #include "Player.hpp"
+#include "hud_message_priority.hpp"
 #include "voice_line.hpp"
 #include "BurgerKing_67F8B0.hpp"
 #include "CarPhysics_B0.hpp"
@@ -31,7 +32,7 @@
 #include "text_0x14.hpp"
 #include "winmain.hpp"
 #include "TagGame_28.hpp"
-#include "CrimeStats_3C.hpp"
+#include "PlayerCrimeStats_3C.hpp"
 #include <DINPUT.H>
 
 // Forward declarations: the functions below are in address order
@@ -613,7 +614,7 @@ void Player::ClearPowerUpsExceptJailCard_564CF0()
     }
     if (field_6F4_power_up_timers[power_up_indices::Electrofingers_9])
     {
-        field_2C4_player_ped->clear_bit_26_482080();
+        field_2C4_player_ped->ClearElectrofingers_482080();
     }
     if (field_6F4_power_up_timers[power_up_indices::Invisibility_11])
     {
@@ -702,7 +703,7 @@ char_type Player::CollectPowerUp_564D60(s32 power_up_idx)
                 return 0;
             }
             this->field_6F4_power_up_timers[9] = 2100;
-            this->field_2C4_player_ped->set_bit_26_4A5060();
+            this->field_2C4_player_ped->SetElectrofingers_4A5060();
             break;
 
         case power_up_indices::Invisibility_11:
@@ -774,7 +775,7 @@ void Player::tick_down_powerups_565070()
         field_6F4_power_up_timers[power_up_indices::Electrofingers_9]--;
         if (!field_6F4_power_up_timers[power_up_indices::Electrofingers_9])
         {
-            field_2C4_player_ped->clear_bit_26_482080();
+            field_2C4_player_ped->ClearElectrofingers_482080();
         }
     }
 
@@ -806,7 +807,7 @@ void Player::RestorePowerUpsFromSave_5651F0(save_stats_0x90* pSaveStats)
                     field_2C4_player_ped->SetInvulnerable();
                     break;
                 case power_up_indices::Electrofingers_9:
-                    field_2C4_player_ped->set_bit_26_4A5060();
+                    field_2C4_player_ped->SetElectrofingers_4A5060();
                     break;
                 case power_up_indices::Invisibility_11:
                     field_2C4_player_ped->SetInvisible();
@@ -825,7 +826,7 @@ void Player::TeleportToDebugCam_565310()
     this->field_6C_bIn_debug_cam_mode = 0;
     this->field_68_camera_mode = 0;
     this->field_90_game_camera.inline_set_ped_id_to_1_475B60();
-    gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("tport"), 3);
+    gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("tport"), hud_message_priority::important_3);
 }
 
 MATCH_FUNC(0x5653E0)
@@ -1740,12 +1741,12 @@ void Player::Wasted_567130()
             {
                 gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00( //  It's really ugly, it's probably inlined
                     gText_0x14_704DFC->Find_5B5F90(GetDeathText_569F00()),
-                    1);
+                    hud_message_priority::normal_1);
                 gRoot_sound_66B038.PlayVoice_40F090(voice_line::wasted_29);
             }
             else
             {
-                gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), 3);
+                gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), hud_message_priority::important_3);
                 gRoot_sound_66B038.PlayVoice_40F090(voice_line::game_over_21);
             }
         }
@@ -1840,7 +1841,7 @@ void Player::Busted_5679E0()
         SetDeathType_434950(3);
         if (IsUser_41DC70())
         {
-            gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90(Player::GetDeathText_569F00()), 1);
+            gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90(Player::GetDeathText_569F00()), hud_message_priority::normal_1);
         }
         SetDeathType_434950(0);
         field_28_bWastedOrBusted = 1;
@@ -2983,7 +2984,7 @@ Player::~Player()
     }
 
     /*
-	CrimeStats_3C::dtor_484EE0(&field_644_crime_stats);
+	PlayerCrimeStats_3C::dtor_484EE0(&field_644_crime_stats);
 	sad_mirzakhani::dtor_431DF0(&field_2D4_unk.field_1A8_bonuses);
 	Camera_0xBC::dtor_4369E0(&field_208_aux_game_camera);
 	Camera_0xBC::dtor_4369E0(&field_14C_view_camera);

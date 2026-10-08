@@ -1,4 +1,5 @@
 #include "TagGame_28.hpp"
+#include "hud_message_priority.hpp"
 #include "Frontend.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
@@ -40,7 +41,7 @@ void TagGame_28::SetNewFugitive_516590(Player* pNewFugitive)
     {
         field_0_fugitive->GetPlayerPed_41D020()->SetVisible();
         field_0_fugitive->GetPlayerPed_41D020()->ClearInvulnerable_45C050();
-        field_0_fugitive->GetPlayerPed_41D020()->clear_bit_26_482080();
+        field_0_fugitive->GetPlayerPed_41D020()->ClearElectrofingers_482080();
     }
 
     if (!field_0_fugitive->IsUser_41DC70())
@@ -55,7 +56,7 @@ void TagGame_28::SetNewFugitive_516590(Player* pNewFugitive)
     }
     else
     {
-        gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("yourit"), 3);
+        gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("yourit"), hud_message_priority::important_3);
     }
 }
 

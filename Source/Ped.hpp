@@ -391,7 +391,7 @@ class Ped
     }
 
     // 9.6f 0x4A5060
-    inline void set_bit_26_4A5060()
+    inline void SetElectrofingers_4A5060()
     {
         field_21C_bf.b26 = true;
     }
@@ -402,7 +402,7 @@ class Ped
         set_health_4039A0(100);
     }
 
-    inline void clear_bit_26_482080()
+    inline void ClearElectrofingers_482080()
     {
         field_21C_bf.b26 = false;
     }

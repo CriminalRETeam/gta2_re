@@ -1,5 +1,6 @@
 #define FIX16_POINT_ZERO kFpZero_7064C0
 #include "Hud.hpp"
+#include "hud_message_priority.hpp"
 #include "voice_line.hpp"
 #include "Car_BC.hpp"
 #include "Draw.hpp"
@@ -173,7 +174,7 @@ void Hud_BriefSelector_4::ShowNextNumberedBrief_5CF620()
     } while (!gText_0x14_704DFC->KeyExists_5B5FA0(gTmpBuffer_67C598));
     gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(3, gTmpBuffer_67C598);
     swprintf(tmpBuff_67BD9C, L"%d", field_0_value);
-    gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(tmpBuff_67BD9C, 3);
+    gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(tmpBuff_67BD9C, hud_message_priority::important_3);
 }
 
 MATCH_FUNC(0x5cf6b0)
@@ -190,7 +191,7 @@ void Hud_BriefSelector_4::ShowPrevNumberedBrief_5CF6B0()
     } while (!gText_0x14_704DFC->KeyExists_5B5FA0(gTmpBuffer_67C598));
     gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(3, gTmpBuffer_67C598);
     swprintf(tmpBuff_67BD9C, L"%d", field_0_value);
-    gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(tmpBuff_67BD9C, 3);
+    gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(tmpBuff_67BD9C, hud_message_priority::important_3);
 }
 
 MATCH_FUNC(0x5cf730)
@@ -1496,11 +1497,11 @@ void Hud_Message_1C8::DrawMessage_5D1940()
 }
 
 MATCH_FUNC(0x5d1a00)
-void Hud_Message_1C8::ShowMessage_5D1A00(wchar_t* pStr, s32 type)
+void Hud_Message_1C8::ShowMessage_5D1A00(wchar_t* pStr, s32 priority)
 {
-    if (field_0_time_to_show <= 0 || type >= field_1C4_type)
+    if (field_0_time_to_show <= 0 || priority >= field_1C4_priority)
     {
-        field_1C4_type = type;
+        field_1C4_priority = priority;
         wcscpy(field_2_str, pStr);
         gText_0x14_704DFC->StrToUpper_5B5B80(field_2_str);
         field_0_time_to_show = 90;
@@ -1523,7 +1524,7 @@ MATCH_FUNC(0x5d1ae0)
 Hud_Message_1C8::Hud_Message_1C8()
 {
     field_0_time_to_show = 0;
-    field_1C4_type = 1;
+    field_1C4_priority = hud_message_priority::normal_1;
 }
 
 MATCH_FUNC(0x5d1b10)

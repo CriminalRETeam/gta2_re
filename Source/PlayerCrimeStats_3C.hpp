@@ -20,11 +20,11 @@ enum
 };
 } // namespace crime_stats_type
 
-class CrimeStats_3C
+class PlayerCrimeStats_3C
 {
   public:
-    EXPORT CrimeStats_3C(); // 0x484ED0
-    EXPORT ~CrimeStats_3C(); // 0x484EE0
+    EXPORT PlayerCrimeStats_3C(); // 0x484ED0
+    EXPORT ~PlayerCrimeStats_3C(); // 0x484EE0
     EXPORT void Reset_484EF0();
     EXPORT void Service_484F20();
     EXPORT void ResetCrimeCountFlags_484F30();

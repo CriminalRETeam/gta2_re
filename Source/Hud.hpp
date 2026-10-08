@@ -104,14 +104,14 @@ class Hud_Message_1C8
     EXPORT void ClearTimeToShow_5D1850();
     EXPORT void FormatMessage_5D1860();
     EXPORT void DrawMessage_5D1940();
-    EXPORT void ShowMessage_5D1A00(wchar_t* pStr, s32 type);
+    EXPORT void ShowMessage_5D1A00(wchar_t* pStr, s32 priority);
     EXPORT void DecrementTimeToShow_5D1AB0();
     EXPORT Hud_Message_1C8();
     u8 field_0_time_to_show;
     wchar_t field_2_str[221];
     s32 field_1BC_str_width;
     s32 field_1C0_num_lines;
-    s32 field_1C4_type;
+    s32 field_1C4_priority; // hud_message_priority (hud_message_priority.hpp)
 };
 
 class Hud_PlayerStats_4

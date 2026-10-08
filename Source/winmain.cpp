@@ -1,4 +1,5 @@
 #include "winmain.hpp"
+#include "hud_message_priority.hpp"
 #include "Bink.hpp"
 #include "BurgerKing_67F8B0.hpp"
 #include "Char_Pool.hpp"
@@ -1343,7 +1344,7 @@ EXPORT void TagGameHudUpdate_4DADA0()
                 if (--gNetTimeLimit_6F573C < 0)
                 {
                     gNetTimeLimitEnabled_6F58A4 = 0;
-                    gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), 3);
+                    gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), hud_message_priority::important_3);
                     gGame_0x40_67E008->ExitGameNoBonus_4B8C00(2, 5);
                 }
             }

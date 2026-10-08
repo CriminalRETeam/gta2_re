@@ -4,6 +4,7 @@
 // Force inline off
 //#define INLINE_MODE inline
 #include "car_despawn_status.hpp"
+#include "hud_message_priority.hpp"
 #include "voice_line.hpp"
 #include "miss2_0x11c.hpp"
 #include "CarAI_78.hpp"
@@ -122,7 +123,7 @@ void miss2_0x11C::MissionFailOnArrest_503200()
         gHud_2B00_706620->field_DC_brief.ClearAllBriefsWithPriority_5D4890(1);
         gHud_2B00_706620->field_DC_brief.ClearAllBriefsWithPriority_5D4890(3);
         gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
-        gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("mfail"), 3);
+        gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("mfail"), hud_message_priority::important_3);
         gRoot_sound_66B038.PlayVoice_40F090(voice_line::jobfail_23);
 
         *gfrosty_pasteur_6F8060->field_344_mission_flag = 0;
@@ -2603,7 +2604,7 @@ void miss2_0x11C::SCRCMD_DISPLAY_MESSAGE_5093C0()
     switch (pCmd->field_2_type)
     {
         case SCRCMD_DISPLAY_MESSAGE:
-            gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90(gTmpBuffer_67C598), 3);
+            gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90(gTmpBuffer_67C598), hud_message_priority::important_3);
             break;
         case SCRCMD_DISPLAY_BRIEF:
             gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
@@ -6762,7 +6763,7 @@ void miss2_0x11C::SCRCMD_START_BASIC_KF_510100() // START_BASIC_KF_TEMPLATE
     {
         gfrosty_pasteur_6F8060->set_field_C1E2D_475A40(1);
         miss2_0x11C::DisableThread_505790(pCmd->field_8_triggername);
-        gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("kfstart"), 3); // KILL FRENZY!
+        gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("kfstart"), hud_message_priority::important_3); // KILL FRENZY!
         gRoot_sound_66B038.PlayVoice_40F090(voice_line::killfrenzy_12); // KILL FRENZY voice
         SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_C_objname); // Skull icon?
         if (miss2_0x11C::GetEntityTypeOfCommand_503410(pPointer->field_2_type) == 3)
@@ -6848,7 +6849,7 @@ void miss2_0x11C::SCRCMD_DO_BASIC_KF_510280()
             gfrosty_pasteur_6F8060->set_field_C1E2D_475A40(0);
             if (miss2_0x11C::GetBonusResult_505EA0(pCmd->field_8_bonusname) == -3)
             {
-                gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("kfpass"), 3);
+                gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("kfpass"), hud_message_priority::important_3);
                 pPlayerPedCmdPointer->field_8_char->ClearWantedPoints_420B80();
                 ++*gfrosty_pasteur_6F8060->field_338_secrets_passed;
 
@@ -6873,7 +6874,7 @@ void miss2_0x11C::SCRCMD_DO_BASIC_KF_510280()
             }
             else
             {
-                gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("kffail"), 3);
+                gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("kffail"), hud_message_priority::important_3);
                 ++*gfrosty_pasteur_6F8060->field_33C_secrets_failed;
                 gRoot_sound_66B038.PlayVoice_40F090(voice_line::frenzyfail_18);
             }

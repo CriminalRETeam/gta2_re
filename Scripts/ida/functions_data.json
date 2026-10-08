@@ -5251,49 +5251,49 @@
         "v96f_auto": true
     },
     {
-        "name": "CrimeStats_3C::ctor",
+        "name": "PlayerCrimeStats_3C::ctor",
         "v96f_address": "0x44a1d0",
         "v105_address": "0x484ed0",
         "v96f_auto": true
     },
     {
-        "name": "CrimeStats_3C::dtor",
+        "name": "PlayerCrimeStats_3C::dtor",
         "v96f_address": "0x449f50",
         "v105_address": "0x484ee0",
         "v96f_auto": true
     },
     {
-        "name": "CrimeStats_3C::Reset_484EF0",
+        "name": "PlayerCrimeStats_3C::Reset_484EF0",
         "v96f_address": "0x449f60",
         "v105_address": "0x484ef0",
         "v96f_auto": true
     },
     {
-        "name": "CrimeStats_3C::Service_484F20",
+        "name": "PlayerCrimeStats_3C::Service_484F20",
         "v96f_address": "0x44a1e0",
         "v105_address": "0x484f20",
         "v96f_auto": true
     },
     {
-        "name": "CrimeStats_3C::ResetCrimeCountFlags_484F30",
+        "name": "PlayerCrimeStats_3C::ResetCrimeCountFlags_484F30",
         "v96f_address": "0x449f90",
         "v105_address": "0x484f30",
         "v96f_auto": true
     },
     {
-        "name": "CrimeStats_3C::IncrementCrimeCount_484F50",
+        "name": "PlayerCrimeStats_3C::IncrementCrimeCount_484F50",
         "v96f_address": "0x449fb0",
         "v105_address": "0x484f50",
         "v96f_auto": true
     },
     {
-        "name": "CrimeStats_3C::AddCarDamageCost_484FA0",
+        "name": "PlayerCrimeStats_3C::AddCarDamageCost_484FA0",
         "v96f_address": "0x44a000",
         "v105_address": "0x484fa0",
         "v96f_auto": true
     },
     {
-        "name": "CrimeStats_3C::AddEvasionRating_484FB0",
+        "name": "PlayerCrimeStats_3C::AddEvasionRating_484FB0",
         "v96f_address": "0x44a010",
         "v105_address": "0x484fb0",
         "v96f_auto": true
