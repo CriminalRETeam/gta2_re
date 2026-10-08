@@ -27,5 +27,6 @@ enum
     shotgun_19 = 19,
     burning_20 = 20,      // maybe_bullet_on_fire_198, shop_car_oil_stain_251
     unknown_21 = 21,      // model 10
+    any_23 = 23,          // wildcard in a bonus definition (sad_mirzakhani)
 };
 } // namespace ped_death_cause

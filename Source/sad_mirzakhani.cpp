@@ -2,6 +2,8 @@
 #include "Function.hpp"
 #include "Player.hpp" // PlayerScoreTracker_36C
 #include "rng.hpp"
+#include "bonus_event_type.hpp"
+#include "ped_death_cause.hpp"
 
 MATCH_FUNC(0x431D30);
 silly_saha_0x2C::silly_saha_0x2C()
@@ -18,13 +20,13 @@ MATCH_FUNC(0x431D50);
 void silly_saha_0x2C::Init_431D50()
 {
     field_0_pZone = 0;
-    field_4_event_type = -1;
-    field_8_car_model = 87;
-    field_C_occupation = 51;
+    field_4_event_type = bonus_event_type::any_event;
+    field_8_car_model = car_model_enum::none;
+    field_C_occupation = ped_ocupation_enum::no_occupation;
     field_10_gang_idx = -1;
     field_12_remap = -2;
-    field_14_death_cause = 0;
-    field_18_alt_car_model = 87;
+    field_14_death_cause = ped_death_cause::none_0;
+    field_18_alt_car_model = car_model_enum::none;
     field_1C_time_limit = 0;
     field_20_counterVal = 0;
     field_24_check_mode = 0;
@@ -119,7 +121,7 @@ u16 sad_mirzakhani::find_431EC0(u16 idx,
 {
     u16 i; // bp
     silly_saha_0x2C* pBonus; // esi
-    s16 bonus_event_type; // ax
+    s16 bonus_type; // ax
     s32 bonus_occupation; // eax
     s32 bonus_car_model; // eax
     s16 bonus_gang_idx; // ax
@@ -138,16 +140,16 @@ u16 sad_mirzakhani::find_431EC0(u16 idx,
         {
             continue;
         }
-        bonus_event_type = pBonus->field_4_event_type;
-        if (bonus_event_type != event_type && bonus_event_type != -1)
+        bonus_type = pBonus->field_4_event_type;
+        if (bonus_type != event_type && bonus_type != bonus_event_type::any_event)
         {
             continue;
         }
         bonus_occupation = pBonus->field_C_occupation;
-        if (bonus_occupation == occupation || bonus_occupation == 51 || IsOccupationInGroup_432240(occupation, pBonus->field_C_occupation))
+        if (bonus_occupation == occupation || bonus_occupation == ped_ocupation_enum::no_occupation || IsOccupationInGroup_432240(occupation, pBonus->field_C_occupation))
         {
             bonus_car_model = pBonus->field_8_car_model;
-            if (bonus_car_model == car_model || bonus_car_model == 87 || AreCarModelsEquivalent_432300(car_model, pBonus->field_8_car_model))
+            if (bonus_car_model == car_model || bonus_car_model == car_model_enum::none || AreCarModelsEquivalent_432300(car_model, pBonus->field_8_car_model))
             {
                 bonus_gang_idx = pBonus->field_10_gang_idx;
                 if (bonus_gang_idx == gang_idx || bonus_gang_idx == -1)
@@ -156,10 +158,10 @@ u16 sad_mirzakhani::find_431EC0(u16 idx,
                     if (bonus_remap == remap || bonus_remap == -2)
                     {
                         bonus_death_cause = pBonus->field_14_death_cause;
-                        if (bonus_death_cause == death_cause || bonus_death_cause == 23 || IsDeathCauseInGroup_432170(death_cause, pBonus->field_14_death_cause))
+                        if (bonus_death_cause == death_cause || bonus_death_cause == ped_death_cause::any_23 || IsDeathCauseInGroup_432170(death_cause, pBonus->field_14_death_cause))
                         {
                             bonus_alt_car_model = pBonus->field_18_alt_car_model;
-                            if ((bonus_alt_car_model == alt_car_model || bonus_alt_car_model == 87) && (pBonus->field_0_pZone == pZone || !pBonus->field_0_pZone))
+                            if ((bonus_alt_car_model == alt_car_model || bonus_alt_car_model == car_model_enum::none) && (pBonus->field_0_pZone == pZone || !pBonus->field_0_pZone))
                             {
                                 return i;
                             }

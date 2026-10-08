@@ -2,6 +2,7 @@
 #include "zealous_borg.hpp"
 #include "ped_death_cause.hpp"
 #include "car_model_flag.hpp"
+#include "bonus_event_type.hpp"
 #include "CarInfo_808.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
@@ -446,8 +447,8 @@ void PlayerScoreTracker_36C::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKill
     {
         killer_car_model = car_model_enum::none;
     }
-    field_1A8_bonuses.ProcessBonusEvent_4320D0(0,
-                             87,
+    field_1A8_bonuses.ProcessBonusEvent_4320D0(bonus_event_type::ped_killed_0,
+                             car_model_enum::none,
                              pVictim->get_occupation_403980(),
                              gang_idx,
                              pVictim->get_remap_433BA0(),
@@ -755,9 +756,9 @@ void PlayerScoreTracker_36C::AwardCarDestroyedScore_592DD0(Car_BC* pCar, Ped* pK
 
     u16 gang_idx = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(pCar->field_84_car_info_idx);
 
-    field_1A8_bonuses.ProcessBonusEvent_4320D0(1,
+    field_1A8_bonuses.ProcessBonusEvent_4320D0(bonus_event_type::car_destroyed_1,
                              pCar->field_84_car_info_idx,
-                             51,
+                             ped_ocupation_enum::no_occupation,
                              gang_idx,
                              pCar->field_50_car_sprite->get_remap_41C1F0(),
                              pCar->field_90,
@@ -940,7 +941,7 @@ void PlayerScoreTracker_36C::AwardCarHijackedScore_593240(Car_BC* pCar)
                                                            field_368_player->field_2C4_player_ped->get_cam_y().ToInt());
 
     const u16 gang_idx = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(pCar->field_84_car_info_idx);
-    field_1A8_bonuses.ProcessBonusEvent_4320D0(2, pCar->field_84_car_info_idx, 51, gang_idx, pCar->field_50_car_sprite->get_remap_41C1F0(), 23, 87, pZone);
+    field_1A8_bonuses.ProcessBonusEvent_4320D0(bonus_event_type::car_hijacked_2, pCar->field_84_car_info_idx, ped_ocupation_enum::no_occupation, gang_idx, pCar->field_50_car_sprite->get_remap_41C1F0(), ped_death_cause::any_23, car_model_enum::none, pZone);
 
     field_8A_cars_stolen_count++;
 
