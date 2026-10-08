@@ -296,7 +296,7 @@ void PlayerScoreTracker_36C::ResetCarModelFlags_592380(char_type bits)
 {
     if ((bits & 1) != 0)
     {
-        for (u16 i = 0; i < 256; i++)
+        for (u16 i = 0; i < GTA2_COUNTOF(field_8C_car_model_flags); i++)
         {
             if (gGtx_0x106C_703DD4->does_car_exist(i) && gGtx_0x106C_703DD4->IsCarModelInRecycleList_5AB380(i))
             {
@@ -311,7 +311,7 @@ void PlayerScoreTracker_36C::ResetCarModelFlags_592380(char_type bits)
 
     if ((bits & 2) != 0)
     {
-        for (u16 i = 0; i < 256; i++)
+        for (u16 i = 0; i < GTA2_COUNTOF(field_8C_car_model_flags); i++)
         {
             if (gGtx_0x106C_703DD4->does_car_exist(i) && gGtx_0x106C_703DD4->IsCarModelInRecycleList_5AB380(i))
             {
