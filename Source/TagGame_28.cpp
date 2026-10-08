@@ -117,24 +117,19 @@ void TagGame_28::UpdateFugitive_516740(Player* pFormerPlayerFugitive, Player* pP
             Fix16 fugitive_x = pFugitive->field_1AC_cam.x;
             Fix16 fugitive_y = pFugitive->field_1AC_cam.y;
 
-            Fix16 x1, x2;
-            Fix16 y1, y2;
+            Fix16 iter_x;
+            Fix16 iter_y;
             Fix16 x_abs, y_abs;
-            Fix16 x_diff, y_diff;
 
             for (; PlayerIter != NULL; PlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
             {
                 if (PlayerIter != field_0_fugitive)
                 {
-                    y1 = PlayerIter->field_2C4_player_ped->field_1AC_cam.y;
-                    y2 = fugitive_y;
-                    y_diff = y1 - y2;
-                    y_abs = Fix16::Abs(y_diff);
+                    iter_y = PlayerIter->field_2C4_player_ped->field_1AC_cam.y;
+                    y_abs = Fix16::Abs(iter_y - fugitive_y);
 
-                    x1 = PlayerIter->field_2C4_player_ped->field_1AC_cam.x;
-                    x2 = fugitive_x;
-                    x_diff = x1 - x2;
-                    x_abs = Fix16::Abs(x_diff);
+                    iter_x = PlayerIter->field_2C4_player_ped->field_1AC_cam.x;
+                    x_abs = Fix16::Abs(iter_x - fugitive_x);
 
                     taxicab_distance = x_abs + y_abs; //  taxicab geometry
                     if (taxicab_distance < threshold_distance)
