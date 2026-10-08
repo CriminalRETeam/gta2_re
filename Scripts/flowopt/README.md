@@ -34,6 +34,13 @@ with a patched copy that logs the pass, and checked by forcing other orders in t
   3. If enough matches (more than 2 bytes, or 20 when `[0x107AC0B4]` is set), the later candidate's matched
      tail is deleted and it jumps into P0 at the start of the match. The length doesn't matter: **the first
      candidate that matches at all wins**, not the longest.
+  3a. **Cost check** (`0x10730632`..`0x107306E5`): with `[0x107AC0B4]` set (it is in our builds) the encoded sizes
+     (`0x10727887`) of the jumper's matched instructions are summed, first to last, stopping once the sum reaches
+     20, plus the larger of the two jumps' `[jmp+0x12]` totals (reset per list, grown on a target by each merge
+     into it). The merge is done only if the result is **> 20**. The size estimate treats an operand field
+     `[op+0xC]` (a running tuple count on some stores) as a displacement: below 0x80 such a store costs 5 bytes,
+     from 0x80 on 8. So adding statements earlier in a function can turn a merge on or off
+     (`sound_obj::ProcessOtherObjects_41F520`).
   4. Swap rule: if P0's whole block matched (the instruction before the match is an unconditional jump or a
      return) and the other's didn't, P0 jumps into the other instead.
   5. When P0 has been compared with every later candidate, the next candidate becomes the target, and so on.

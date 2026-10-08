@@ -3353,3 +3353,11 @@ flag test that later disappears still shapes the block order and the exit placem
   codegen created the jumps; when cases 1/2 are threaded past the test to the exit, their jumps are re-added at
   the head of the exit's predecessor list, so they count as created last (the `--rev` order). The zero paths all
   reach one real `return 0;`, which gives the original's `xor %ax,%ax`.
+- **`sound_obj::ProcessOtherObjects_41F520` (4 -> 0, MATCH).** The distance constants written as `Fix16`
+  arithmetic, as 9.6f calls them (`emit_distance = Fix16(N) / Fix16(2)`, `calc_distance = (..) * (..)`), and
+  case 13/14 back to the original store order. No predecessor-list order could give the original with plain
+  constants: the cross-jump has a cost check (`Scripts/flowopt/README.md`) and the extra tuples moved the fire
+  case's `max_distance` store id past 0x80, making fire-into-13/14 cost exactly 20 (rejected), so fire merges
+  into 4/12 as in the original.
+- `Map_0x370::sub_4E6660` (4, unchanged): `ebx` holds a constant-1 web from the top in the original; ours extends
+  it to the two `push $1` when `pPrev` is assigned after the call. Folded `bTurned` forms 48.

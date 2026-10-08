@@ -5208,7 +5208,7 @@ void sound_obj::ProcessObject_Type12_41E850(Sound_Params_8* a2)
 
 DEFINE_GLOBAL(u16, word_6758A8, 0x6758A8);
 
-WIP_FUNC(0x41F520)
+MATCH_FUNC(0x41F520)
 void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
 {
     s32 samp_idx = 321;
@@ -5229,9 +5229,9 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
             bLoop = 0;
             volume = 127;
             sample_index = 1;
-            emit_distance = Fix16(0x1C000, 0);
+            emit_distance = Fix16(14) / Fix16(2);
             max_distance = 14;
-            calc_distance = Fix16(0xC4000, 0);
+            calc_distance = (Fix16(14) / Fix16(2)) * (Fix16(14) / Fix16(2));
             release_mod = 15;
             break;
 
@@ -5246,9 +5246,9 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
             rate_displacement = ((u32)a2 * 8) % 760;
             samp_idx = 30;
             volume = 85;
-            emit_distance = Fix16(0x1E000, 0);
+            emit_distance = Fix16(15) / Fix16(2);
             max_distance = 15;
-            calc_distance = Fix16(0xE1000, 0);
+            calc_distance = (Fix16(15) / Fix16(2)) * (Fix16(15) / Fix16(2));
             release_mod = 3;
             bLoop = 1;
             break;
@@ -5265,9 +5265,9 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
             volume = 50;
             bLoop = 0;
             sample_index = 1;
-            emit_distance = Fix16(0x1C000, 0);
+            emit_distance = Fix16(14) / Fix16(2);
             max_distance = 14;
-            calc_distance = Fix16(0xC4000, 0);
+            calc_distance = (Fix16(14) / Fix16(2)) * (Fix16(14) / Fix16(2));
             release_mod = 15;
             break;
 
@@ -5287,9 +5287,9 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
                         samp_idx = 186;
                         volume = 127;
                         bLoop = 1;
-                        emit_distance = Fix16(0x46000, 0);
+                        emit_distance = Fix16(35) / Fix16(2);
                         max_distance = 35;
-                        calc_distance = Fix16(0x4C9000, 0);
+                        calc_distance = (Fix16(35) / Fix16(2)) * (Fix16(35) / Fix16(2));
                         release_mod = 0;
                         rate_displacement = RandomDisplacement_41A650(samp_idx);
                     }
@@ -5299,9 +5299,9 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
                         bLoop = 0;
                         volume = 50;
                         sample_index = 1;
-                        emit_distance = Fix16(0x1C000, 0);
+                        emit_distance = Fix16(14) / Fix16(2);
                         max_distance = 14;
-                        calc_distance = Fix16(0xC4000, 0);
+                        calc_distance = (Fix16(14) / Fix16(2)) * (Fix16(14) / Fix16(2));
                         release_mod = 15;
                     }
                     dword_61A6CC = 50;
@@ -5319,9 +5319,9 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
                         samp_idx = 187;
                         volume = 127;
                         bLoop = 1;
-                        emit_distance = Fix16(0x46000, 0);
+                        emit_distance = Fix16(35) / Fix16(2);
                         max_distance = 35;
-                        calc_distance = Fix16(0x4C9000, 0);
+                        calc_distance = (Fix16(35) / Fix16(2)) * (Fix16(35) / Fix16(2));
                         release_mod = 0;
                         rate_displacement = RandomDisplacement_41A650(samp_idx);
                     }
@@ -5331,9 +5331,9 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
                         volume = 127;
                         bLoop = 0;
                         sample_index = 1;
-                        emit_distance = Fix16(0x1C000, 0);
+                        emit_distance = Fix16(14) / Fix16(2);
                         max_distance = 14;
-                        calc_distance = Fix16(0xC4000, 0);
+                        calc_distance = (Fix16(14) / Fix16(2)) * (Fix16(14) / Fix16(2));
                         release_mod = 15;
                     }
                     dword_61A6CC = 50;
@@ -5346,9 +5346,9 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
                         samp_idx = 188;
                         volume = 127;
                         bLoop = 1;
-                        emit_distance = Fix16(0x46000, 0);
+                        emit_distance = Fix16(35) / Fix16(2);
                         max_distance = 35;
-                        calc_distance = Fix16(0x4C9000, 0);
+                        calc_distance = (Fix16(35) / Fix16(2)) * (Fix16(35) / Fix16(2));
                         release_mod = 0;
                         rate_displacement = RandomDisplacement_41A650(samp_idx);
                     }
@@ -5358,9 +5358,9 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
                         volume = 127;
                         bLoop = 0;
                         sample_index = 1;
-                        emit_distance = Fix16(0x1C000, 0);
+                        emit_distance = Fix16(14) / Fix16(2);
                         max_distance = 14;
-                        calc_distance = Fix16(0xC4000, 0);
+                        calc_distance = (Fix16(14) / Fix16(2)) * (Fix16(14) / Fix16(2));
                         release_mod = 15;
                     }
                     dword_61A6CC = 50;
@@ -5373,9 +5373,9 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
                     volume = 50;
                     bLoop = 0;
                     sample_index = 1;
-                    emit_distance = Fix16(0x1C000, 0);
+                    emit_distance = Fix16(14) / Fix16(2);
                     max_distance = 14;
-                    calc_distance = Fix16(0xC4000, 0);
+                    calc_distance = (Fix16(14) / Fix16(2)) * (Fix16(14) / Fix16(2));
                     release_mod = 15;
                     break;
 
@@ -5385,12 +5385,9 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
                     volume = 85;
                     bLoop = 0;
                     sample_index = 1;
-                    emit_distance = Fix16(0x1C000, 0);
-                    // TODO: the original stores max_distance first. With that order both blocks still exist,
-                    // but VC6 then cross-jumps fire's tail into this block (at xor bl,bl) instead of into case
-                    // 4/12's (at the volume store) as the original does; see docs/match_attempts.md
-                    calc_distance = Fix16(0xC4000, 0);
+                    emit_distance = Fix16(14) / Fix16(2);
                     max_distance = 14;
+                    calc_distance = (Fix16(14) / Fix16(2)) * (Fix16(14) / Fix16(2));
                     release_mod = 15;
                     break;
 
@@ -5404,9 +5401,9 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
             samp_idx = 145;
             volume = 50;
             bLoop = 0;
-            emit_distance = Fix16(0x18000, 0);
+            emit_distance = Fix16(12) / Fix16(2);
             max_distance = 12;
-            calc_distance = Fix16(0x90000, 0);
+            calc_distance = (Fix16(12) / Fix16(2)) * (Fix16(12) / Fix16(2));
             release_mod = 7;
             break;
 
@@ -5414,9 +5411,9 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
             samp_idx = 150;
             bLoop = 0;
             volume = 20;
-            emit_distance = Fix16(0x50000, 0);
+            emit_distance = Fix16(40) / Fix16(2);
             max_distance = 40;
-            calc_distance = Fix16(0x640000, 0);
+            calc_distance = (Fix16(40) / Fix16(2)) * (Fix16(40) / Fix16(2));
             release_mod = 7;
             break;
 
