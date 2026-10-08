@@ -434,7 +434,7 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
     {
         pPursuitTarget->field_78_is_actively_chased = 0;
         Ped* pCriminal = pPursuitTarget->field_0_criminal_ped;
-        if (pCriminal->GetPedType_420B70() == 2 && (pCriminal->field_21C & 0x20) == 0x20)
+        if (pCriminal->GetPedType_420B70() == 2 && (pCriminal->field_21C & ped_flag_mask::k_ped_busted) == 0x20)
         {
             pCriminal->field_15C_player->field_640_busted = 1;
         }
@@ -807,7 +807,7 @@ void Police_7B8::Service_570270()
         {
             field_7B0_last_firing_emergency_ped = NULL;
         }
-        else if (field_7B0_last_firing_emergency_ped->field_21C_bf.b11 == 0)
+        else if (field_7B0_last_firing_emergency_ped->field_21C_bf.bAttacking == 0)
         {
             field_7B0_last_firing_emergency_ped = NULL;
         }

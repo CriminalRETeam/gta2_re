@@ -420,7 +420,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
     {
         if (pTarget)
         {
-            if (!(pTarget->field_21C & 1))
+            if (!(pTarget->field_21C & ped_flag_mask::k_ped_active))
             {
                 if (gParamedicCrewPed_6F6D60->GetPedState_403990() != 9)
                 {
@@ -537,7 +537,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                                 }
                             }
                         }
-                        else if (bNoCar || (gParamedicCrewPed_6F6D60->field_21C & 0x8000000))
+                        else if (bNoCar || (gParamedicCrewPed_6F6D60->field_21C & ped_flag_mask::k_ped_left_vehicle))
                         {
                             bBusy = 0;
                         }
@@ -558,7 +558,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                             gParamedicCrewPed_6F6D60->ChangeNextPedState1_45C500(10);
                             gParamedicCrewPed_6F6D60->ChangeNextPedState2_45C540(10);
                         }
-                        else if (!bNoCar && !(gParamedicCrewPed_6F6D60->field_21C & 0x8000000))
+                        else if (!bNoCar && !(gParamedicCrewPed_6F6D60->field_21C & ped_flag_mask::k_ped_left_vehicle))
                         {
                             gParamedicCrewPed_6F6D60->SetObjective2_463830(0, 9999);
                             gParamedicCrewPed_6F6D60->SetObjective(35, 9999);
@@ -569,7 +569,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                         bBusy = 1;
                         field_14_count--;
                     }
-                    else if (gParamedicCrewPed_6F6D60->field_16C_car && !(gParamedicCrewPed_6F6D60->field_21C & 0x8000000))
+                    else if (gParamedicCrewPed_6F6D60->field_16C_car && !(gParamedicCrewPed_6F6D60->field_21C & ped_flag_mask::k_ped_left_vehicle))
                     {
                         gParamedicCrewPed_6F6D60->SetObjective(36, 9999);
                         bBusy = 1;
@@ -659,7 +659,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                             pVictim->set_objective_status_403B40(1);
                         }
                         pVictim->set_health_4039A0(100);
-                        pVictim->field_21C &= ~4;
+                        pVictim->field_21C &= ~ped_flag_mask::k_ped_panicking;
                         if (pVictim == field_8)
                         {
                             field_8 = 0;

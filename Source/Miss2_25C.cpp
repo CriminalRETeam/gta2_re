@@ -70,7 +70,7 @@ void Miss2_25C::MissionCleanUp_502DC0()
                             pPedGroup->DisbandGroup_4C92A0();
                         }
                         pIter->field_0_ped->ForceDoNothing_462590();
-                        pIter->field_0_ped->field_21C_bf.b10 = true;
+                        pIter->field_0_ped->field_21C_bf.bScheduledForRemoval = true;
                     }
                     break;
                 case 1:

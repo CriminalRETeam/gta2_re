@@ -385,7 +385,7 @@ void Hud_PlayerNames_4::DrawPlayerNames_5CFE40()
             if (!pIter->field_0_bIsUser)
             {
                 Ped* pPlayerPed = pIter->field_2C4_player_ped;
-                if (!pPlayerPed || (pPlayerPed->field_21C & 0x2000000) == 0)
+                if (!pPlayerPed || (pPlayerPed->field_21C & ped_flag_mask::k_ped_invisible) == 0)
                 {
                     Fix16 x = pPlayerPed->field_1AC_cam.x;
                     Fix16 y = pPlayerPed->field_1AC_cam.y;
@@ -570,7 +570,7 @@ void ArrowTrace_24::UpdateAimCoordinates_5D03F0()
             break;
         case ArrowTargetType::Ped_2:
             pPed = field_0_ped;
-            if (pPed->field_21C_bf.b0)
+            if (pPed->field_21C_bf.bActive)
             {
                 field_14_aim_x = pPed->get_cam_x();
                 field_18_aim_y = pPed->get_cam_y();
@@ -985,7 +985,7 @@ void Hud_Arrow_7C_Array::DrawArrows_5D0E90()
         {
             if (field_0_array[i].field_18.field_18_primary_target.GetTargetPlayer_4C6F30() == NULL ||
                 field_0_array[i].field_18.field_18_primary_target.GetTargetPlayer_4C6F30()->GetPlayerPed_41D020() == NULL ||
-                field_0_array[i].field_18.field_18_primary_target.GetTargetPlayer_4C6F30()->GetPlayerPed_41D020()->field_21C_bf.b25 == 0)
+                field_0_array[i].field_18.field_18_primary_target.GetTargetPlayer_4C6F30()->GetPlayerPed_41D020()->field_21C_bf.bInvisible == 0)
             {
                 field_0_array[i].DrawArrow_5D0C90();
             }

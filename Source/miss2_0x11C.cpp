@@ -580,7 +580,7 @@ Ped* miss2_0x11C::SetCharObjective_504110(SCR_CHAR_OBJECTIVE* pCmd, SCR_POINTER*
     (pPointer->field_8_char)->SetObjective(pCmd->field_A_objective, 9999);
     Ped* pPed = pPointer->field_8_char;
     BitSet32 flag = pPed->field_21C;
-    flag.clear_bit(10);
+    flag.clear_bit(ped_bit_index::scheduled_for_removal_10);
     pPed->field_21C = flag.m_var;
     return pPed;
 }
@@ -3161,7 +3161,7 @@ void miss2_0x11C::SCRCMD_SET_CHAR_OBJ2_50A200()
     }
 
     Ped* pPed = pPointer->field_8_char;
-    pPed->field_21C &= ~0x400;
+    pPed->field_21C &= ~ped_flag_mask::k_ped_scheduled_for_removal;
 
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -3182,7 +3182,7 @@ void miss2_0x11C::SCRCMD_SET_CHAR_OBJ3_50A3E0()
         (pPointer->field_8_char)->field_1E0_objective_target_y = pCmd->field_C_pos.field_4_y.mValue;
         (pPointer->field_8_char)->field_1E4_objective_target_z = pCmd->field_C_pos.field_8_z.mValue;
 
-        (pPointer->field_8_char)->field_21C &= ~0x400u; // TODO: Maybe BitSet32
+        (pPointer->field_8_char)->field_21C &= ~ped_flag_mask::k_ped_scheduled_for_removal; // TODO: Maybe BitSet32
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -3220,7 +3220,7 @@ void miss2_0x11C::SCRCMD_SET_CHAR_OBJ_FOLLOW_50A460()
 
         (pPointer->field_8_char)->field_132_follow_car_offset_angle = rotation.rValue;
         (pPointer->field_8_char)->field_1FC_follow_car_offset_distance = pCmd->field_12_offset;
-        (pPointer->field_8_char)->field_21C &= ~0x400u; // TODO: Maybe BitSet32
+        (pPointer->field_8_char)->field_21C &= ~ped_flag_mask::k_ped_scheduled_for_removal; // TODO: Maybe BitSet32
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -3999,7 +3999,7 @@ void miss2_0x11C::SCRCMD_IS_CHAR_FIRING_AREA_50B910()
 
     BitSet32 flag = pPointer->field_8_char->field_21C;
 
-    if (flag.check_bit(11) && pPed->IsWithinArea(&pCmd->field_C_rect))
+    if (flag.check_bit(ped_bit_index::attacking_11) && pPed->IsWithinArea(&pCmd->field_C_rect))
     {
         field_8_cond_result = true;
     }
@@ -4397,7 +4397,7 @@ void miss2_0x11C::SCRCMD_SPOTTED_PLAYER_50C2F0()
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     BitSet32 flag;
     flag.m_var = pPointer->field_8_char->field_21C;
-    if (flag.check_bit(23))
+    if (flag.check_bit(ped_bit_index::spotted_player_23))
     {
         field_8_cond_result = true;
     }
@@ -5637,7 +5637,7 @@ MATCH_FUNC(0x50e4a0)
 void miss2_0x11C::SCRCMD_CHAR_ARRESTED_50E4A0()
 {
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    if ((pPointer->field_8_char->field_21C & 0x20) != 0)
+    if ((pPointer->field_8_char->field_21C & ped_flag_mask::k_ped_busted) != 0)
     {
         field_8_cond_result = true;
     }
@@ -5716,7 +5716,7 @@ void miss2_0x11C::SCRCMD_CHAR_DRIVE_AGGR_50E730()
     SCR_SET_CHAR_DRIVE_AGGR* pCmd = (SCR_SET_CHAR_DRIVE_AGGR*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
 
-    pPointer->field_8_char->field_21C_bf.b3 = pCmd->field_A_status;
+    pPointer->field_8_char->field_21C_bf.bDriveAggressively = pCmd->field_A_status;
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -5964,7 +5964,7 @@ void miss2_0x11C::SCRCMD_IS_CHAR_ON_FIRE_50ECE0()
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     BitSet32 flag = pPointer->field_8_char->field_21C;
 
-    if (flag.check_bit(24))
+    if (flag.check_bit(ped_bit_index::on_fire_24))
     {
         field_8_cond_result = true;
     }
@@ -6340,22 +6340,22 @@ void miss2_0x11C::SCRCMD_SET_CHAR_FLAGS_50F5E0()
             case SCRCMD_SET_STAY_IN_CAR:
                 if (pCmd->field_A_status == 1)
                 {
-                    pPed->field_21C |= 16;
+                    pPed->field_21C |= ped_flag_mask::k_ped_stay_in_car;
                 }
                 else
                 {
-                    pPed->field_21C &= ~16;
+                    pPed->field_21C &= ~ped_flag_mask::k_ped_stay_in_car;
                 }
 
                 break;
             case SCRCMD_SET_USE_CAR_WEAPON:
                 if (pCmd->field_A_status == 1)
                 {
-                    pPed->field_21C |= 128;
+                    pPed->field_21C |= ped_flag_mask::k_ped_use_car_weapon;
                 }
                 else
                 {
-                    pPed->field_21C &= ~128;
+                    pPed->field_21C &= ~ped_flag_mask::k_ped_use_car_weapon;
                 }
 
                 break;
@@ -6832,7 +6832,7 @@ void miss2_0x11C::SCRCMD_DO_BASIC_KF_510280()
 
             Ped* pPed = pPlayerPedCmdPointer->field_8_char;
 
-            if (pPed->GetPedState_403990() == ped_state_1::dead_9 || pPed->field_21C_bf.b5 != 0)
+            if (pPed->GetPedState_403990() == ped_state_1::dead_9 || pPed->field_21C_bf.bBusted != 0)
             {
                 gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_bonuses.DeactivateBonus_476680(pBonusType->field_8_index);
                 pPlayerPedCmdPointer->field_8_char->field_15C_player->ClearKFWeapon_5647D0();

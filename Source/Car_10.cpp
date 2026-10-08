@@ -97,7 +97,7 @@ void Car_Door_10::Service_439DA0(u32* a3a)
     Ped* v4 = field_8_pObj;
     if (v4)
     {
-        if (v4->isDead_403B60() || (v4->field_21C & 0x8000000) == 0)
+        if (v4->isDead_403B60() || (v4->field_21C & ped_flag_mask::k_ped_left_vehicle) == 0)
         {
             field_8_pObj = 0;
         }

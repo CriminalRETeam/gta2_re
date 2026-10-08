@@ -1028,7 +1028,7 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
     else
     {
         Char_B4* pB4 = field_28_pSprite->AsCharB4_40FEA0();
-        if (!pB4 || !pB4->field_7C_pPed || !pB4->field_7C_pPed->field_21C_bf.b0)
+        if (!pB4 || !pB4->field_7C_pPed || !pB4->field_7C_pPed->field_21C_bf.bActive)
         {
             return true;
         }
@@ -1441,7 +1441,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
             {
                 return true;
             }
-            if (!pCar->field_54_driver->field_21C_bf.b11)
+            if (!pCar->field_54_driver->field_21C_bf.bAttacking)
             {
                 field_4_flags &= ~1;
             }
@@ -1460,7 +1460,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
             {
                 return true;
             }
-            if (!pB4->field_7C_pPed->field_21C_bf.b11)
+            if (!pB4->field_7C_pPed->field_21C_bf.bAttacking)
             {
                 field_4_flags &= ~1;
             }

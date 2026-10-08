@@ -9,6 +9,7 @@
 #include "enums.hpp"
 #include "fix16.hpp"
 #include "miss2_xyz.hpp"
+#include "ped_flags.hpp"
 #include "rng.hpp"
 #include "sprite.hpp"
 #include <cstdio>
@@ -387,13 +388,13 @@ class Ped
     void inline_clear_bit()
     {
         // There was no way to match this without using a bit field
-        field_21C_bf.b11 = 0;
+        field_21C_bf.bAttacking = 0;
     }
 
     // 9.6f 0x4A5060
     inline void SetElectrofingers_4A5060()
     {
-        field_21C_bf.b26 = true;
+        field_21C_bf.bElectroFingers = true;
     }
 
     // 9.6f 0x4A5050
@@ -404,17 +405,17 @@ class Ped
 
     inline void ClearElectrofingers_482080()
     {
-        field_21C_bf.b26 = false;
+        field_21C_bf.bElectroFingers = false;
     }
 
     bool check_bit_0()
     {
-        return field_21C_bf.b0 != 0;
+        return field_21C_bf.bActive != 0;
     }
 
     bool check_bit_11()
     {
-        return field_21C_bf.b11 != 0;
+        return field_21C_bf.bAttacking != 0;
     }
 
     // 9.6f inline 0x450CB0
@@ -476,18 +477,18 @@ class Ped
     // 9.6f inline 0x403950
     inline void SetBit2_403950()
     {
-        field_21C_bf.b2 = true;
+        field_21C_bf.bPanicking = true;
     }
 
     bool get_bitset_0x04()
     {
-        return field_21C & ped_bit_status_enum::k_ped_0x00000004 ? true : false;
+        return field_21C & ped_flag_mask::k_ped_panicking ? true : false;
     }
 
     // 9.6f 0x403960
     void unset_bitset_0x04()
     {
-        field_21C &= ~ped_bit_status_enum::k_ped_0x00000004;
+        field_21C &= ~ped_flag_mask::k_ped_panicking;
     }
 
     // 9.6f 0x403AA0
@@ -604,7 +605,7 @@ class Ped
     {
         // TODO: Check if (HIBYTE(this->field_21C) & 1)
         // is correct
-        if (field_21C_bf.b24 == 0)
+        if (field_21C_bf.bOnFire == 0)
         {
             field_250_voice_event = voice_event;
         }
@@ -753,7 +754,7 @@ class Ped
 
     inline bool CheckBit0_433B40()
     {
-        return field_21C_bf.b0;
+        return field_21C_bf.bActive;
     }
 
     inline s32 GetPedState_403990()
@@ -768,7 +769,7 @@ class Ped
 
     inline bool HasBit25AndGameObject_433DA0()
     {
-        return field_21C_bf.b25 && field_168_game_object;
+        return field_21C_bf.bInvisible && field_168_game_object;
     }
 
     bool bHasGameObject_403B70()
@@ -778,17 +779,17 @@ class Ped
 
     inline u8 GetBit2()
     {
-        return field_21C_bf.b2;
+        return field_21C_bf.bPanicking;
     }
 
     inline u8 GetBit11_433CA0()
     {
-        return field_21C_bf.b11;
+        return field_21C_bf.bAttacking;
     }
 
     u8 GetBit24_475B50()
     {
-        return field_21C_bf.b24;
+        return field_21C_bf.bOnFire;
     }
 
     inline s32 get_objective_403A80()
@@ -804,13 +805,13 @@ class Ped
     // 9.6f 0x4A5010
     inline void SetBit11_4A5010()
     {
-        field_21C_bf.b11 = true;
+        field_21C_bf.bAttacking = true;
     }
 
     // 9.6f 0x403A40
     inline void ClearBit11_403A40()
     {
-        field_21C_bf.b11 = false;
+        field_21C_bf.bAttacking = false;
     }
 
     inline bool IsPedGoingToEnterCar_492FD0()
@@ -928,7 +929,7 @@ class Ped
 
     union
     {
-        CompilerBitField32 field_21C_bf;
+        PedFlags32 field_21C_bf;
         // TODO: Move everything to use the above field and remove union
         s32 field_21C;
     };
@@ -936,7 +937,7 @@ class Ped
     s32 field_220_last_voice_rng;
     union
     {
-        CompilerBitField8 field_224_bf;
+        PedFlags8 field_224_bf;
         char_type field_224;
     };
     u8 field_225_objective_status; // it uses objective_status enum

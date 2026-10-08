@@ -685,12 +685,12 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                     if (field_24_pPed->field_15C_player)
                     {
                         field_2_reload_speed = 4;
-                        field_24_pPed->field_21C_bf.b22 = true;
+                        field_24_pPed->field_21C_bf.bFlag22 = true;
                     }
                     else
                     {
                         field_2_reload_speed = 50;
-                        field_24_pPed->field_21C_bf.b22 = true;
+                        field_24_pPed->field_21C_bf.bFlag22 = true;
                     }
                     field_21 = 1;
                     Weapon_30::TickReloadSpeed_5DCF40();
@@ -713,13 +713,13 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
         {
             if (field_20 == 0)
             {
-                field_24_pPed->field_21C_bf.b22 = false;
+                field_24_pPed->field_21C_bf.bFlag22 = false;
             }
             --field_2_reload_speed;
             if (field_2_reload_speed < 30 && field_21)
             {
                 field_21 = 0;
-                field_24_pPed->field_21C_bf.b22 = false;
+                field_24_pPed->field_21C_bf.bFlag22 = false;
             }
         }
     }
@@ -811,7 +811,7 @@ void Weapon_30::sub_5DE4F0()
 
     field_24_pPed->field_198_hit_target_ped->field_144_attacker = field_24_pPed;
     field_24_pPed->field_198_hit_target_ped->field_204_killer_id = field_24_pPed->field_200_id;
-    field_24_pPed->field_198_hit_target_ped->field_21C_bf.b8 = 1;
+    field_24_pPed->field_198_hit_target_ped->field_21C_bf.bHitByAttacker = 1;
     if (field_24_pPed->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
     {
         gPolice_7B8_6FEE40->field_7B0_last_firing_emergency_ped = field_24_pPed;
@@ -2004,7 +2004,7 @@ void Weapon_30::rocket_5E3850()
     {
         if (!field_20)
         {
-            field_24_pPed->field_21C &= ~0x400000u;
+            field_24_pPed->field_21C &= ~ped_flag_mask::k_ped_flag22;
         }
         field_2_reload_speed--;
     }

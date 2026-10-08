@@ -342,38 +342,38 @@ static void ShowPedBitMask(Ped* pPed)
     {
         if (ImGui::TreeNode("Ped BitMask Values"))
         {
-            ImGui::Value("b0 move", pPed->field_21C_bf.b0);
-            ImGui::Value("b1", pPed->field_21C_bf.b1);
-            ImGui::Value("b2", pPed->field_21C_bf.b2);
-            ImGui::Value("b3 drive aggression", pPed->field_21C_bf.b3);
-            ImGui::Value("b4", pPed->field_21C_bf.b4);
-            ImGui::Value("b5 busted", pPed->field_21C_bf.b5);
-            ImGui::Value("b6", pPed->field_21C_bf.b6);
-            ImGui::Value("b7", pPed->field_21C_bf.b7);
-            ImGui::Value("b8", pPed->field_21C_bf.b8);
-            ImGui::Value("b9", pPed->field_21C_bf.b9);
-            ImGui::Value("b10", pPed->field_21C_bf.b10);
-            ImGui::Value("b11 attacking", pPed->field_21C_bf.b11);
-            ImGui::Value("b12", pPed->field_21C_bf.b12);
-            ImGui::Value("b13", pPed->field_21C_bf.b13);
-            ImGui::Value("b14", pPed->field_21C_bf.b14);
-            ImGui::Value("b15", pPed->field_21C_bf.b15);
-            ImGui::Value("b16", pPed->field_21C_bf.b16);
-            ImGui::Value("b17", pPed->field_21C_bf.b17);
-            ImGui::Value("b18", pPed->field_21C_bf.b18);
-            ImGui::Value("b19", pPed->field_21C_bf.b19);
-            ImGui::Value("b20", pPed->field_21C_bf.b20);
-            ImGui::Value("b21", pPed->field_21C_bf.b21);
-            ImGui::Value("b22", pPed->field_21C_bf.b22);
-            ImGui::Value("b23", pPed->field_21C_bf.b23);
-            ImGui::Value("b24 burn", pPed->field_21C_bf.b24);
-            ImGui::Value("b25 invisib", pPed->field_21C_bf.b25);
-            ImGui::Value("b26 electrof", pPed->field_21C_bf.b26);
-            ImGui::Value("b27", pPed->field_21C_bf.b27);
-            ImGui::Value("b28", pPed->field_21C_bf.b28);
-            ImGui::Value("b29", pPed->field_21C_bf.b29);
-            ImGui::Value("b30", pPed->field_21C_bf.b30);
-            ImGui::Value("b31", pPed->field_21C_bf.b31);
+            ImGui::Value("bActive", pPed->field_21C_bf.bActive);
+            ImGui::Value("bUnused1", pPed->field_21C_bf.bUnused1);
+            ImGui::Value("bPanicking", pPed->field_21C_bf.bPanicking);
+            ImGui::Value("bDriveAggressively", pPed->field_21C_bf.bDriveAggressively);
+            ImGui::Value("bStayInCar", pPed->field_21C_bf.bStayInCar);
+            ImGui::Value("bBusted", pPed->field_21C_bf.bBusted);
+            ImGui::Value("bSkipCarSearch", pPed->field_21C_bf.bSkipCarSearch);
+            ImGui::Value("bUseCarWeapon", pPed->field_21C_bf.bUseCarWeapon);
+            ImGui::Value("bHitByAttacker", pPed->field_21C_bf.bHitByAttacker);
+            ImGui::Value("bNoWeapon", pPed->field_21C_bf.bNoWeapon);
+            ImGui::Value("bScheduledForRemoval", pPed->field_21C_bf.bScheduledForRemoval);
+            ImGui::Value("bAttacking", pPed->field_21C_bf.bAttacking);
+            ImGui::Value("bUnused12", pPed->field_21C_bf.bUnused12);
+            ImGui::Value("bWeaponChosen", pPed->field_21C_bf.bWeaponChosen);
+            ImGui::Value("bInPathList", pPed->field_21C_bf.bInPathList);
+            ImGui::Value("bFlag15", pPed->field_21C_bf.bFlag15);
+            ImGui::Value("bFlag16", pPed->field_21C_bf.bFlag16);
+            ImGui::Value("bFlag17", pPed->field_21C_bf.bFlag17);
+            ImGui::Value("bUnused18", pPed->field_21C_bf.bUnused18);
+            ImGui::Value("bFlag19", pPed->field_21C_bf.bFlag19);
+            ImGui::Value("bUnused20", pPed->field_21C_bf.bUnused20);
+            ImGui::Value("bUnused21", pPed->field_21C_bf.bUnused21);
+            ImGui::Value("bFlag22", pPed->field_21C_bf.bFlag22);
+            ImGui::Value("bSpottedPlayer", pPed->field_21C_bf.bSpottedPlayer);
+            ImGui::Value("bOnFire", pPed->field_21C_bf.bOnFire);
+            ImGui::Value("bInvisible", pPed->field_21C_bf.bInvisible);
+            ImGui::Value("bElectroFingers", pPed->field_21C_bf.bElectroFingers);
+            ImGui::Value("bLeftVehicle", pPed->field_21C_bf.bLeftVehicle);
+            ImGui::Value("bArmedGangMember", pPed->field_21C_bf.bArmedGangMember);
+            ImGui::Value("bForcedOutOfTaxi", pPed->field_21C_bf.bForcedOutOfTaxi);
+            ImGui::Value("bUnused30", pPed->field_21C_bf.bUnused30);
+            ImGui::Value("bUnused31", pPed->field_21C_bf.bUnused31);
             ImGui::TreePop();
         }
     }
@@ -386,38 +386,38 @@ static void ShowPedBitMaskSetting(BitSet32* flags)
         if (ImGui::TreeNode("Ped BitMask Setting"))
         {
             static bool bits[32];
-            ImGui::Checkbox("b0 move", &bits[0]);
-            ImGui::Checkbox("b1", &bits[1]);
-            ImGui::Checkbox("b2", &bits[2]);
-            ImGui::Checkbox("b3 drive aggression", &bits[3]);
-            ImGui::Checkbox("b4", &bits[4]);
-            ImGui::Checkbox("b5 busted", &bits[5]);
-            ImGui::Checkbox("b6", &bits[6]);
-            ImGui::Checkbox("b7", &bits[7]);
-            ImGui::Checkbox("b8", &bits[8]);
-            ImGui::Checkbox("b9", &bits[9]);
-            ImGui::Checkbox("b10", &bits[10]);
-            ImGui::Checkbox("b11 attacking", &bits[11]);
-            ImGui::Checkbox("b12", &bits[12]);
-            ImGui::Checkbox("b13", &bits[13]);
-            ImGui::Checkbox("b14", &bits[14]);
-            ImGui::Checkbox("b15", &bits[15]);
-            ImGui::Checkbox("b16", &bits[16]);
-            ImGui::Checkbox("b17", &bits[17]);
-            ImGui::Checkbox("b18", &bits[18]);
-            ImGui::Checkbox("b19", &bits[19]);
-            ImGui::Checkbox("b20", &bits[20]);
-            ImGui::Checkbox("b21", &bits[21]);
-            ImGui::Checkbox("b22", &bits[22]);
-            ImGui::Checkbox("b23", &bits[23]);
-            ImGui::Checkbox("b24 burn", &bits[24]);
-            ImGui::Checkbox("b25 invisib", &bits[25]);
-            ImGui::Checkbox("b26 electrof", &bits[26]);
-            ImGui::Checkbox("b27", &bits[27]);
-            ImGui::Checkbox("b28", &bits[28]);
-            ImGui::Checkbox("b29", &bits[29]);
-            ImGui::Checkbox("b30", &bits[30]);
-            ImGui::Checkbox("b31", &bits[31]);
+            ImGui::Checkbox("bActive", &bits[0]);
+            ImGui::Checkbox("bUnused1", &bits[1]);
+            ImGui::Checkbox("bPanicking", &bits[2]);
+            ImGui::Checkbox("bDriveAggressively", &bits[3]);
+            ImGui::Checkbox("bStayInCar", &bits[4]);
+            ImGui::Checkbox("bBusted", &bits[5]);
+            ImGui::Checkbox("bSkipCarSearch", &bits[6]);
+            ImGui::Checkbox("bUseCarWeapon", &bits[7]);
+            ImGui::Checkbox("bHitByAttacker", &bits[8]);
+            ImGui::Checkbox("bNoWeapon", &bits[9]);
+            ImGui::Checkbox("bScheduledForRemoval", &bits[10]);
+            ImGui::Checkbox("bAttacking", &bits[11]);
+            ImGui::Checkbox("bUnused12", &bits[12]);
+            ImGui::Checkbox("bWeaponChosen", &bits[13]);
+            ImGui::Checkbox("bInPathList", &bits[14]);
+            ImGui::Checkbox("bFlag15", &bits[15]);
+            ImGui::Checkbox("bFlag16", &bits[16]);
+            ImGui::Checkbox("bFlag17", &bits[17]);
+            ImGui::Checkbox("bUnused18", &bits[18]);
+            ImGui::Checkbox("bFlag19", &bits[19]);
+            ImGui::Checkbox("bUnused20", &bits[20]);
+            ImGui::Checkbox("bUnused21", &bits[21]);
+            ImGui::Checkbox("bFlag22", &bits[22]);
+            ImGui::Checkbox("bSpottedPlayer", &bits[23]);
+            ImGui::Checkbox("bOnFire", &bits[24]);
+            ImGui::Checkbox("bInvisible", &bits[25]);
+            ImGui::Checkbox("bElectroFingers", &bits[26]);
+            ImGui::Checkbox("bLeftVehicle", &bits[27]);
+            ImGui::Checkbox("bArmedGangMember", &bits[28]);
+            ImGui::Checkbox("bForcedOutOfTaxi", &bits[29]);
+            ImGui::Checkbox("bUnused30", &bits[30]);
+            ImGui::Checkbox("bUnused31", &bits[31]);
 
             for (u8 i = 0; i < 32; i++)
             {
@@ -1550,9 +1550,9 @@ void CC ImGuiDebugDraw()
                     ImGui::Checkbox("top left roof light", &bits[17]);
                     ImGui::Checkbox("top right roof light", &bits[18]);
 
-                    ImGui::Checkbox("b19", &bits[19]);
-                    ImGui::Checkbox("b20", &bits[20]);
-                    ImGui::Checkbox("b21", &bits[21]);
+                    ImGui::Checkbox("bFlag19", &bits[19]);
+                    ImGui::Checkbox("bUnused20", &bits[20]);
+                    ImGui::Checkbox("bUnused21", &bits[21]);
 
                     ImGui::Checkbox("back left brakelight", &bits[22]);
                     ImGui::Checkbox("front left headlight", &bits[23]);
@@ -2723,8 +2723,8 @@ void CC ImGuiDebugDraw()
                             || pPedIter->field_240_occupation == ped_ocupation_enum::car_thief)
                         {
                             swprintf(tmpBuff_67BD9C, L"(%d, %d)", 
-                            pPedIter->field_21C_bf.b2,
-                            pPedIter->field_21C_bf.b11);
+                            pPedIter->field_21C_bf.bPanicking,
+                            pPedIter->field_21C_bf.bAttacking);
                             DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite_46DF50(), 0, 0);
                         }
                         else if (pPedIter->field_258_objective == objectives_enum::objective_7)

@@ -237,7 +237,7 @@ Ped* Ped_List_4::FindClosestPedInViewCone_4713C0(Fix16 x, Fix16 y, Ang16 ang1, A
 
     for (; pIter; pIter = pIter->mpNext)
     {
-        if (((u8)pIter->field_0_char_ped->field_21C & 1) == 1) // byte read: mov 0x21C,%cl; and $1,%cl
+        if (((u8)pIter->field_0_char_ped->field_21C & ped_flag_mask::k_ped_active) == 1) // byte read: mov 0x21C,%cl; and $1,%cl
         {
             bool withinCone = false;
             distance = Fix16::MaxAbsDistance_42A6B0(x, y, pIter->field_0_char_ped->get_cam_x(), pIter->field_0_char_ped->get_cam_y());
@@ -312,7 +312,7 @@ void Ped_List_4::ForceTaxiPassengersToExit_471680()
     {
         if (pIter->field_0_char_ped->field_240_occupation == 7)
         {
-            pIter->field_0_char_ped->field_21C |= 0x20000000u;
+            pIter->field_0_char_ped->field_21C |= ped_flag_mask::k_ped_forced_out_of_taxi;
         }
     }
 }

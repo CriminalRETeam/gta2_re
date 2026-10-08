@@ -1517,7 +1517,7 @@ void Player::DoPedControlInputs_566C80(Ped* pPed)
     Ang16 f_A = field_A_turn_accel;
 
     // clear flag
-    pPed->field_21C_bf.b23 = 0;
+    pPed->field_21C_bf.bSpottedPlayer = 0;
 
     // --- Right pressed ---
     if (field_7B_bNowRightPressed == 1)
@@ -1603,7 +1603,7 @@ void Player::DoPedControlInputs_566C80(Ped* pPed)
     if (field_7E_bNowHandBrakeOrJumpPressed == 1 && field_8A_bWasHandBrakeOrJumpPressed)
     {
         if (pPed->field_168_game_object && pPed->field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15 &&
-            pPed->field_21C_bf.b27 == 0)
+            pPed->field_21C_bf.bLeftVehicle == 0)
         {
             pPed->DoJump_433C40();
         }
@@ -1866,7 +1866,7 @@ void Player::Busted_5679E0()
         Player::RespawnPlayer_5670B0();
         field_2C4_player_ped->field_210_shock_counter = 0;
         field_2C4_player_ped->ClearWantedPoints_420B80();
-        field_2C4_player_ped->field_21C_bf.b5 = 0;
+        field_2C4_player_ped->field_21C_bf.bBusted = 0;
     }
     else
     {
@@ -2168,7 +2168,7 @@ void Player::Service_5687F0()
 
     if (field_2C4_player_ped)
     {
-        if ((field_2C4_player_ped->field_21C & 0x20) != 0)
+        if ((field_2C4_player_ped->field_21C & ped_flag_mask::k_ped_busted) != 0)
         {
             this->field_640_busted = 1;
         }

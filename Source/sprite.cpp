@@ -1177,7 +1177,7 @@ void Sprite::Draw_59EFF0()
             Ped* pPed = pChar->get_ped_433A20();
             if (pPed && pPed->field_15C_player)
             {
-                if (pPed->field_21C_bf.b25 && !pPed->field_15C_player->IsUser_41DC70())
+                if (pPed->field_21C_bf.bInvisible && !pPed->field_15C_player->IsUser_41DC70())
                 {
                     return;
                 }

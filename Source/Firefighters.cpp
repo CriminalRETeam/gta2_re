@@ -173,7 +173,7 @@ void Firefighter_28::Update_4A81F0()
                     field_20_ped->field_1DC_objective_target_x = Fix16(field_C_target_car->get_x_41E430().ToUInt8());
                     field_20_ped->field_1E0_objective_target_y = Fix16(field_C_target_car->get_y_41E440().ToUInt8());
                     field_20_ped->field_1E4_objective_target_z = Fix16(field_C_target_car->get_z_41E450().ToUInt8());
-                    field_20_ped->field_21C_bf.b7 = 1;
+                    field_20_ped->field_21C_bf.bUseCarWeapon = 1;
                     field_1C_car->ActivateEmergencyLights_43C920();
                     field_1C_car->SetupCarPhysicsAndSpriteBinding_43BCA0();
                     field_20_ped = field_1C_car->get_driver_4118B0();
@@ -258,7 +258,7 @@ void Firefighter_28::Update_4A81F0()
             {
                 if (field_1C_car->field_54_driver)
                 {
-                    field_1C_car->field_54_driver->field_21C_bf.b3 = 1;
+                    field_1C_car->field_54_driver->field_21C_bf.bDriveAggressively = 1;
                 }
                 field_1C_car->SetUniNum_421560(3);
                 field_1C_car->InitCarAIControl_440590();

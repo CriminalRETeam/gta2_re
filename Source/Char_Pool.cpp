@@ -241,7 +241,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                 pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
                 pPed->field_26C_graphic_type = ped_graphic_type::civilian_0;
                 //pPed->field_21C = v13;
-                pPed->field_21C |= 8;
+                pPed->field_21C |= ped_flag_mask::k_ped_drive_aggressively;
                 pPed->field_1F8_run_speed = kFpFour_678670;
                 break;
 
@@ -280,7 +280,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                         pPed->ForceWeapon_46F600(pPed->field_17C_pGang->GetGangCurrWeapon_4BF0C0());
                         if (pPed->field_170_selected_weapon && pPed->field_170_selected_weapon->field_1C_idx)
                         {
-                            pPed->field_21C |= 0x10000000u;
+                            pPed->field_21C |= ped_flag_mask::k_ped_armed_gang_member;
                             pGang->field_141 = 1;
                         }
                         pPed->GiveWeapon_46F650(weapon_type::pistol);
