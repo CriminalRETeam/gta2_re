@@ -128,6 +128,8 @@ def count_warnings(build_log):
 
 
 def main():
+    # The embed text has non-ASCII characters; the Windows runner's console encoding (cp1252) can't print them
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     if DISCORD_WEBHOOK_URL is None:
         print("DISCORD_WEBHOOK_URL env variable not set")
         sys.exit(1)
