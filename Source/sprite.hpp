@@ -370,12 +370,12 @@ class Sprite
     // 9.6f 0x446950
     bool IsTypeAbove1_446950()
     {
-        return field_30_sprite_type_enum > 1;
+        return field_30_sprite_type_enum > sprite_types_enum::unknown_1;
     }
 
     bool Is2C_40FE80()
     {
-        return field_30_sprite_type_enum == 4 || field_30_sprite_type_enum == 5 || field_30_sprite_type_enum == 1;
+        return field_30_sprite_type_enum == sprite_types_enum::code_obj1_4 || field_30_sprite_type_enum == sprite_types_enum::map_obj_5 || field_30_sprite_type_enum == sprite_types_enum::unknown_1;
     }
 
     Object_2C* As2C_40FEC0()
