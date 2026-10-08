@@ -1,6 +1,7 @@
 #include "Ped.hpp"
 #include "car_despawn_status.hpp"
 #include "ped_death_cause.hpp"
+#include "accuracy_event.hpp"
 #include "Ambulance_110.hpp"
 #include "CarInfo_808.hpp"
 #include "CarPhysics_B0.hpp"
@@ -2037,7 +2038,7 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pObj)
 
                     if (pBlamedPed->PedTypeIs_45EDE0(ped_type::player_2))
                     {
-                        pBlamedPed->field_15C_player->field_2D4_scores.UpdateAccuracyCount_5934F0(2, pObj->field_18_model, this);
+                        pBlamedPed->field_15C_player->field_2D4_scores.UpdateAccuracyCount_5934F0(accuracy_event::hit_threat_ped_2, pObj->field_18_model, this);
                     }
                     field_144_attacker = pBlamedPed;
 
@@ -2064,7 +2065,7 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pObj)
                             pBlamedPed->field_170_selected_weapon->Set_F4_433810(0);
                         }
                     }
-                    pBlamedPed->field_15C_player->field_2D4_scores.UpdateAccuracyCount_5934F0(3, pObj->field_18_model, this);
+                    pBlamedPed->field_15C_player->field_2D4_scores.UpdateAccuracyCount_5934F0(accuracy_event::hit_other_ped_3, pObj->field_18_model, this);
                     field_144_attacker = pBlamedPed;
                     if (sub_48E720(pObj->field_18_model))
                     {
@@ -12021,7 +12022,7 @@ void Ped::HandleShootingAtCar_46FC90(Car_BC* pCar, s32 model)
 
         if (PedTypeIs_45EDE0(ped_type::player_2))
         {
-            field_15C_player->field_2D4_scores.UpdateAccuracyCount_5934F0(4u, model, 0);
+            field_15C_player->field_2D4_scores.UpdateAccuracyCount_5934F0(accuracy_event::shot_at_car_4, model, 0);
             return;
         }
 
@@ -12113,7 +12114,7 @@ void Ped::NotifyWeaponHit_46FF00(Fix16 xpos, Fix16 ypos, s32 model)
     {
         if (PedTypeIs_45EDE0(ped_type::player_2))
         {
-            field_15C_player->field_2D4_scores.UpdateAccuracyCount_5934F0(1u, model, 0);
+            field_15C_player->field_2D4_scores.UpdateAccuracyCount_5934F0(accuracy_event::weapon_hit_1, model, 0);
         }
         else
         {
@@ -12134,7 +12135,7 @@ void Ped::HandleWeaponFireEnd_46FFF0(s32 model)
 {
     if (PedTypeIs_45EDE0(ped_type::player_2))
     {
-        field_15C_player->field_2D4_scores.UpdateAccuracyCount_5934F0(0, model, 0);
+        field_15C_player->field_2D4_scores.UpdateAccuracyCount_5934F0(accuracy_event::fire_ended_0, model, 0);
     }
 
     if ((this->field_21C & ped_bit_status_enum::k_ped_0x00002000) != 0)

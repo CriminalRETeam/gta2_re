@@ -1,6 +1,7 @@
 #include "PlayerScoreTracker_36C.hpp"
 #include "zealous_borg.hpp"
 #include "ped_death_cause.hpp"
+#include "accuracy_event.hpp"
 #include "car_model_flag.hpp"
 #include "bonus_event_type.hpp"
 #include "CarInfo_808.hpp"
@@ -48,7 +49,7 @@ PlayerScoreTracker_36C::PlayerScoreTracker_36C()
     field_8A_cars_stolen_count = 0;
     field_80_last_elvis_kill_time = 0;
     field_84_num_elvis_killed = 0;
-    field_194_last_shot_result = 0;
+    field_194_last_accuracy_event = 0;
     field_198_accuracy_count = 0;
     field_19C_reverse_count = 0;
     field_1A0_last_emergency_car_kill_time = 0;
@@ -999,9 +1000,9 @@ void PlayerScoreTracker_36C::AwardFullBusDestroyedScore_593410(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x5934f0)
-void PlayerScoreTracker_36C::UpdateAccuracyCount_5934F0(u32 shot_result, s32 weapon_model, Ped* pTarget)
+void PlayerScoreTracker_36C::UpdateAccuracyCount_5934F0(u32 event, s32 weapon_model, Ped* pTarget)
 {
-    field_194_last_shot_result = shot_result;
+    field_194_last_accuracy_event = event;
     if (pTarget && bIsFrench_67D53C)
     {
         switch (pTarget->get_occupation_403980())
@@ -1023,12 +1024,12 @@ void PlayerScoreTracker_36C::UpdateAccuracyCount_5934F0(u32 shot_result, s32 wea
         }
     }
 
-    if (weapon_model == objects::fire_hitting_194 || weapon_model == objects::maybe_bullet_on_fire_198 || weapon_model == objects::flamethrower_fire_154 || weapon_model == objects::tanktop_193 || weapon_model == objects::object_195 || weapon_model == objects::object_159 || weapon_model == objects::object_199 || shot_result == 0 ||
-        shot_result == 1 || shot_result == 3)
+    if (weapon_model == objects::fire_hitting_194 || weapon_model == objects::maybe_bullet_on_fire_198 || weapon_model == objects::flamethrower_fire_154 || weapon_model == objects::tanktop_193 || weapon_model == objects::object_195 || weapon_model == objects::object_159 || weapon_model == objects::object_199 || event == accuracy_event::fire_ended_0 ||
+        event == accuracy_event::weapon_hit_1 || event == accuracy_event::hit_other_ped_3)
     {
         field_198_accuracy_count = 0;
     }
-    else if (shot_result == 2)
+    else if (event == accuracy_event::hit_threat_ped_2)
     {
         field_198_accuracy_count++;
     }

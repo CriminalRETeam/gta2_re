@@ -48,7 +48,7 @@ class PlayerScoreTracker_36C
     EXPORT void AwardCarHijackedScore_593240(Car_BC* pCar);
     EXPORT void AwardBusStolenScore_593370(Car_BC* pCar);
     EXPORT void AwardFullBusDestroyedScore_593410(Car_BC* pCar);
-    EXPORT void UpdateAccuracyCount_5934F0(u32 shot_result, s32 weapon_model, Ped* pTarget);
+    EXPORT void UpdateAccuracyCount_5934F0(u32 event, s32 weapon_model, Ped* pTarget);
     EXPORT thirsty_lamarr* GetMultiplayerFragDigits_5935B0();
     EXPORT s32 GetFrags_5935C0();
     EXPORT void ChangeFragsByAmount_5935D0(s32 amount);
@@ -68,7 +68,7 @@ class PlayerScoreTracker_36C
     u8 field_8C_car_model_flags[256]; // car_model_flag bits (car_model_flag.hpp)
     u32 field_18C_one_second_timer;
     u32 field_190_fly_car_count;
-    s32 field_194_last_shot_result;
+    s32 field_194_last_accuracy_event; // accuracy_event (accuracy_event.hpp)
     u8 field_198_accuracy_count;
     s32 field_19C_reverse_count;
     s32 field_1A0_last_emergency_car_kill_time;
