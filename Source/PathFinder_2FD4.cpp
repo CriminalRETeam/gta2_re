@@ -533,7 +533,7 @@ char_type PathFinder_2FD4::ComputePath_554AB0(s32 ped_id,
     u8 new_z; // only stored to cur_z on the paths that add a node
     u8 i;
 
-    Marz_3* pPatrolPoint_2;
+    PatrolPoint_3* pPatrolPoint_2;
     u16 j;
 
     field_2E_iteration_budget = 100;
@@ -855,7 +855,7 @@ LABEL_35:
 
                 for (i = 0; i < field_C_node_count; i++)
                 {
-                    Marz_3* pPatrolPoint = &pPed->field_0_patrol_points[i];
+                    PatrolPoint_3* pPatrolPoint = &pPed->field_0_patrol_points[i];
                     pPatrolPoint->field_0_x = field_8_pNode->field_2_xpos;
                     pPatrolPoint->field_1_y = field_8_pNode->field_3_ypos;
                     pPatrolPoint->field_2_z = field_8_pNode->field_4_zpos;

@@ -187,8 +187,8 @@ set(gta2_lib_src
   Source/TrafficLights_194.cpp
   Source/RouteFinder.hpp
   Source/RouteFinder.cpp
-  Source/Marz_1D7E.hpp
-  Source/Marz_1D7E.cpp
+  Source/PatrolRoutePool_1D7E.hpp
+  Source/PatrolRoutePool_1D7E.cpp
   Source/PathFinder_2FD4.hpp
   Source/PathFinder_2FD4.cpp
   Source/CarInfo_808.hpp

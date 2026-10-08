@@ -3,7 +3,7 @@
 #include "BitSet32.hpp"
 #include "Fix16_Point.hpp"
 #include "Function.hpp"
-#include "Marz_1D7E.hpp"
+#include "PatrolRoutePool_1D7E.hpp"
 #include "ang16.hpp"
 #include "char.hpp"
 #include "enums.hpp"
@@ -21,7 +21,7 @@ class Gang_144;
 class Sprite;
 class Char_8;
 class Char_B4;
-class Marz_96;
+class PatrolRoute_96;
 class Object_2C;
 class Car_BC;
 class TrainStation_34;
@@ -858,7 +858,7 @@ class Ped
         ++field_262_attackers_count;
     }
 
-    Marz_3 field_0_patrol_points[100];
+    PatrolPoint_3 field_0_patrol_points[100];
     Ang16 field_12C_facing_angle;
     Ang16 field_12E_aim_angle;
     Ang16 field_130_target_facing_angle;
@@ -886,9 +886,9 @@ class Ped
     Ped* field_180_car_thief;
     Object_2C* field_184_pObj2C;
     Ped* field_188_last_char_punched;
-    Marz_3* field_18C_current_path_point;
-    Marz_96* field_190_patrol_route;
-    Marz_3* field_194_current_patrol_point;
+    PatrolPoint_3* field_18C_current_path_point;
+    PatrolRoute_96* field_190_patrol_route;
+    PatrolPoint_3* field_194_current_patrol_point;
     Ped* field_198_hit_target_ped; // ped last hit by this ped's weapon / electrobaton
     Gang_144* field_19C_dummy_gang; // gang of a dummy ped
     Object_2C* field_1A0_objective_target_object;

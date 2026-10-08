@@ -3737,13 +3737,13 @@
         "v105_address": "0x463aa0"
     },
     {
-        "name": "Marz_3::ctor",
+        "name": "PatrolPoint_3::ctor",
         "v96f_address": "0x433830",
         "v105_address": "0x463f90",
         "v96f_auto": true
     },
     {
-        "name": "Marz_3::dtor",
+        "name": "PatrolPoint_3::dtor",
         "v96f_address": "0x433840",
         "v105_address": "0x463fa0",
         "v96f_auto": true
@@ -7079,13 +7079,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Marz_1D7E::dtor",
+        "name": "PatrolRoutePool_1D7E::dtor",
         "v96f_address": "0x45ae20",
         "v105_address": "0x4bdf70",
         "v96f_auto": true
     },
     {
-        "name": "Marz_96::dtor",
+        "name": "PatrolRoute_96::dtor",
         "v96f_address": "0x45ae10",
         "v105_address": "0x4bdf90",
         "v96f_auto": true
@@ -13148,24 +13148,24 @@
         "v96f_auto": true
     },
     {
-        "name": "Marz_96::sub_543EC0",
+        "name": "PatrolRoute_96::sub_543EC0",
         "v96f_address": "0x491cf0",
         "v105_address": "0x543ec0",
         "v96f_auto": true
     },
     {
-        "name": "Marz_1D7E::ctor",
+        "name": "PatrolRoutePool_1D7E::ctor",
         "v96f_address": "0x491da0",
         "v105_address": "0x543ed0"
     },
     {
-        "name": "Marz_1D7E::AllocPatrolList_543F10",
+        "name": "PatrolRoutePool_1D7E::AllocPatrolList_543F10",
         "v96f_address": "0x491d00",
         "v105_address": "0x543f10",
         "v96f_auto": true
     },
     {
-        "name": "Marz_96::ctor",
+        "name": "PatrolRoute_96::ctor",
         "v96f_address": null,
         "v105_address": "0x544bf0"
     },

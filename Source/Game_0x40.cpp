@@ -1129,8 +1129,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1871);
     }
 
-    gMarz_1D7E_6FD784 = new Marz_1D7E(); // ctor call
-    if (!gMarz_1D7E_6FD784)
+    gPatrolRoutePool_6FD784 = new PatrolRoutePool_1D7E(); // ctor call
+    if (!gPatrolRoutePool_6FD784)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1873);
     }
@@ -1321,7 +1321,7 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gTrafficLights_194_705958);
     GTA2_DELETE_AND_NULL(gRouteFinder_6FFDC8);
 
-    GTA2_DELETE_AND_NULL(gMarz_1D7E_6FD784);
+    GTA2_DELETE_AND_NULL(gPatrolRoutePool_6FD784);
 
     GTA2_DELETE_AND_NULL(gPathFinder_6FDEF0);
 

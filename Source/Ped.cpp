@@ -15,7 +15,7 @@
 #include "Globals.hpp"
 #include "Hamburger_500.hpp"
 #include "Hud.hpp"
-#include "Marz_1D7E.hpp"
+#include "PatrolRoutePool_1D7E.hpp"
 #include "Object_5C.hpp"
 #include "PathFinder_2FD4.hpp"
 #include "Particle_8.hpp"
@@ -4591,8 +4591,8 @@ void Ped::SetStatesForObjective_4633E0(char_type bMainObj)
 MATCH_FUNC(0x463570)
 void Ped::SetObjective(s32 objective, s16 objective_timer)
 {
-    Marz_96* pMarz_96; // eax
-    Marz_3* pPoint;
+    PatrolRoute_96* pPatrolRoute_96; // eax
+    PatrolPoint_3* pPoint;
 
     if (this->field_278_ped_state_1 != 9 || objective == objectives_enum::objective_28)
     {
@@ -4670,9 +4670,9 @@ void Ped::SetObjective(s32 objective, s16 objective_timer)
                 break;
 
             case 42:
-                pMarz_96 = gMarz_1D7E_6FD784->AllocPatrolList_543F10(&field_265_patrol_list_idx);
-                field_190_patrol_route = pMarz_96;
-                pPoint = pMarz_96->field_0_points;
+                pPatrolRoute_96 = gPatrolRoutePool_6FD784->AllocPatrolList_543F10(&field_265_patrol_list_idx);
+                field_190_patrol_route = pPatrolRoute_96;
+                pPoint = pPatrolRoute_96->field_0_points;
                 while (pPoint->field_0_x)
                 {
                     pPoint->field_0_x = 0;
@@ -12280,7 +12280,7 @@ MATCH_FUNC(0x4702A0)
 void Ped::PushPatrolPoint_4702A0(s8 x, s8 y, s8 z)
 {
     // Get a free patrol point
-    Marz_3* pIter = this->field_190_patrol_route->field_0_points;
+    PatrolPoint_3* pIter = this->field_190_patrol_route->field_0_points;
     while (pIter->field_0_x)
     {
         ++pIter;
