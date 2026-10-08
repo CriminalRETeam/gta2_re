@@ -746,7 +746,7 @@ void Explosion_30::UpdateExplosion_18_19_20_32_33_542790()
 }
 
 MATCH_FUNC(0x542e30)
-void Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(char_type direction_idx)
+void Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(u8 direction_idx)
 {
     Sprite* pSprite = this->field_14_pObj2C->field_4;
     if (pSprite->field_14_xy.x < Fix16(0x3F8000, 0) && pSprite->field_14_xy.x > kFP16One_6FD4A0 &&
@@ -760,9 +760,9 @@ void Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(char_type direction_idx
                 Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
                 pParticle->field_46_sub_state = 0;
 
-                switch ((u8)direction_idx)
+                switch (direction_idx)
                 {
-                    case 0:
+                    case building_debris_dir::towards_135_0:
                     {
                         pParticle->field_38_state = 24;
                         this->field_22_spawn_angle = (kAng135_6FD40C + dword_6FD350) + Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(45))));
@@ -774,7 +774,7 @@ void Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(char_type direction_idx
                         break;
                     }
 
-                    case 1:
+                    case building_debris_dir::towards_315_1:
                     {
                         pParticle->field_38_state = 25;
                         this->field_22_spawn_angle = (kAng315_6FD418 + dword_6FD350) + Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90))));
@@ -787,7 +787,7 @@ void Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(char_type direction_idx
                         break;
                     }
 
-                    case 2:
+                    case building_debris_dir::towards_225_2:
                     {
                         pParticle->field_38_state = 23;
                         this->field_22_spawn_angle = (kAng225_6FD3E0 + dword_6FD350).Add_ool(Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90)))));
@@ -800,7 +800,7 @@ void Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(char_type direction_idx
                         break;
                     }
 
-                    case 3:
+                    case building_debris_dir::towards_45_3:
                     {
                         pParticle->field_38_state = 22;
                         this->field_22_spawn_angle = kAng45_6FD35C.Add_ool(dword_6FD350).Add_ool(Ang16::Fix16_To_Ang16_ool_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90)))));
@@ -916,16 +916,16 @@ char_type Explosion_30::Update_5434A0(Fix16 speed, Ang16 ang)
             Explosion_30::UpdateExplosion_18_19_20_32_33_542790();
             return 0;
         case explosion_type::building_135_24:
-            Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(0);
+            Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(building_debris_dir::towards_135_0);
             return 0;
         case explosion_type::building_315_25:
-            Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(1);
+            Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(building_debris_dir::towards_315_1);
             return 0;
         case explosion_type::building_225_23:
-            Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(2);
+            Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(building_debris_dir::towards_225_2);
             return 0;
         case explosion_type::building_45_22:
-            Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(3);
+            Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(building_debris_dir::towards_45_3);
             return 0;
     }
     return 0;

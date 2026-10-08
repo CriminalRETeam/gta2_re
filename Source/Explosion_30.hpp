@@ -24,7 +24,7 @@ class Explosion_30
     EXPORT void EmitExplosion_19_32_542060();
     EXPORT void EmitExplosion_20_542340();
     EXPORT void UpdateExplosion_18_19_20_32_33_542790();
-    EXPORT void EmitBuildingDebris_22_23_24_25_542E30(char_type direction_idx);
+    EXPORT void EmitBuildingDebris_22_23_24_25_542E30(u8 direction_idx);
     EXPORT char_type Update_5434A0(Fix16 speed, Ang16 ang);
     EXPORT bool IsFireType_5435D0();
     EXPORT void Release_543610();

@@ -49,3 +49,16 @@ enum
     forever_9999 = 9999,  // never counts down (fires follow their object until it is removed)
 };
 } // namespace explosion_timer
+
+// Explosion_30::EmitBuildingDebris_22_23_24_25_542E30 argument: which way the debris flies (the angle is added to a random
+// spread). Update_5434A0 maps building_135_24 -> 0, building_315_25 -> 1, building_225_23 -> 2, building_45_22 -> 3.
+namespace building_debris_dir
+{
+enum
+{
+    towards_135_0 = 0,
+    towards_315_1 = 1,
+    towards_225_2 = 2,
+    towards_45_3 = 3,
+};
+} // namespace building_debris_dir
