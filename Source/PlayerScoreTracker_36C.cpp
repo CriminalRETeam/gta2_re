@@ -5,6 +5,7 @@
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
 #include "ExplodingScore_100.hpp"
+#include "Frontend.hpp"
 #include "Game_0x40.hpp"
 #include "Hud.hpp"
 #include "Globals.hpp"
@@ -221,19 +222,19 @@ void PlayerScoreTracker_36C::Service_591C70()
         u8 gamemode = gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0();
         s32 points_limit = gLucid_hamilton_67E8E0.GetMultiplayerPointsLimit_4C5BD0();
 
-        if (gamemode == 1) // di vs bl
+        if (gamemode == FRAG_GAME_1) // di vs bl
         {
             s16 frags = gLucid_hamilton_67E8E0.GetFragsForPlayerIdx_4C5D60(player_idx);
             frags_or_points = frags;
             GetFrags_5935C0();
         }
-        else if (gamemode == 2)
+        else if (gamemode == POINTS_GAME_2)
         {
             frags_or_points = gLucid_hamilton_67E8E0.GetPointsForPlayerIdx_4C5CB0(player_idx);
             GetScore_592370();
         }
 
-        if (gamemode != 3)
+        if (gamemode != TAG_GAME_3)
         {
             if (frags_or_points >= points_limit) // TODO: di vs edi
             {
