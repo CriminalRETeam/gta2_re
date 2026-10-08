@@ -1360,7 +1360,7 @@ class Car_BC
     char_type field_82;
     char_type field_83;
     s32 field_84_car_info_idx;
-    s32 field_88_despawn_status;
+    s32 field_88_despawn_status; // car_despawn_status.hpp (not included here: it breaks MapRenderer matches)
     u8 field_8C_damage_level;
     char_type field_8D_car_thread_flags;
     char_type field_8E_flash_count;

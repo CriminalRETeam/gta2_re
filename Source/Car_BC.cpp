@@ -1,4 +1,5 @@
 #include "Car_BC.hpp"
+#include "car_despawn_status.hpp"
 #include "CarAI_78.hpp"
 #include "CarInfo_808.hpp"
 #include "CarPhysics_B0.hpp"
@@ -1329,7 +1330,7 @@ Car_BC* Car_6C::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rota
     //pCar->PoolAllocate(); // PoolAllocate
 
     pCar->field_84_car_info_idx = car_info_idx;
-    pCar->field_88_despawn_status = 1;
+    pCar->field_88_despawn_status = car_despawn_status::active_1;
 
     pCar->field_50_car_sprite = gSprite_Pool_703818->get_new_sprite();
     pCar->field_50_car_sprite->set_xyz_lazy_420600(xpos, ypos, zpos);
@@ -5576,7 +5577,7 @@ void Car_BC::ManageDespawning_442310()
          field_76_last_seen_timer == 300) ||
         field_76_last_seen_timer >= 130)
     {
-        if (CanDespawn_442200() && !IsMarkedForDespawn_4214B0() && field_88_despawn_status != 5)
+        if (CanDespawn_442200() && !IsMarkedForDespawn_4214B0() && field_88_despawn_status != car_despawn_status::despawning_5)
         {
             MarkForDespawn_421470();
         }
@@ -5588,24 +5589,24 @@ char_type Car_BC::UpdateCarDespawnStatus_4424C0()
 {
     switch (field_88_despawn_status)
     {
-        case 3: // Destructor?
-            field_88_despawn_status = 5; // Despawn now
+        case car_despawn_status::despawn_soon_3: // Destructor?
+            field_88_despawn_status = car_despawn_status::despawning_5; // Despawn now
             return 0;
 
-        case 4: // ????
-            field_88_despawn_status = 2;
+        case car_despawn_status::marked_for_despawn_4: // ????
+            field_88_despawn_status = car_despawn_status::despawn_pending_2;
             return 0;
 
-        case 2: // Mostly NPC cars
+        case car_despawn_status::despawn_pending_2: // Mostly NPC cars
             if (!IsCarInConditionsToDespawn_442170())
             {
                 return 0;
             }
-            field_88_despawn_status = 5; // Despawn now
+            field_88_despawn_status = car_despawn_status::despawning_5; // Despawn now
             return 0;
 
-        case 5: // Despawn now
-            field_88_despawn_status = 6; // Despawned
+        case car_despawn_status::despawning_5: // Despawn now
+            field_88_despawn_status = car_despawn_status::despawned_6; // Despawned
             return 1;
 
         default:
@@ -5973,14 +5974,14 @@ char_type Car_BC::TrainUpdate_442D70()
 
     Car_BC** pTrainCarsArray = gPublicTransport_181C_6FF1D4->GetCarArrayFromLeadCar_579B40(this);
 
-    if (field_88_despawn_status != 5)
+    if (field_88_despawn_status != car_despawn_status::despawning_5)
     {
         gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_50_car_sprite);
     }
 
     for (Car_BC* pTrainCarIter_ = *pTrainCarsArray; pTrainCarIter_; pTrainCarIter_ = pTrainCarsArray[train_car_idx_])
     {
-        if (pTrainCarIter_->field_88_despawn_status != 5)
+        if (pTrainCarIter_->field_88_despawn_status != car_despawn_status::despawning_5)
         {
             gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(pTrainCarIter_->field_50_car_sprite);
         }
@@ -6020,7 +6021,7 @@ char_type Car_BC::TrainUpdate_442D70()
         field_0_qq.PropagateMaxZLayer_5A72B0(field_50_car_sprite, 0);
     }
 
-    if (this->field_88_despawn_status != 5)
+    if (this->field_88_despawn_status != car_despawn_status::despawning_5)
     {
         gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_50_car_sprite);
     }
@@ -6028,7 +6029,7 @@ char_type Car_BC::TrainUpdate_442D70()
     train_car_idx_ = 0;
     for (Car_BC* pTrainCarIter = *pTrainCarsArray; pTrainCarIter; pTrainCarIter = pTrainCarsArray[train_car_idx_])
     {
-        if (pTrainCarIter->field_88_despawn_status != 5)
+        if (pTrainCarIter->field_88_despawn_status != car_despawn_status::despawning_5)
         {
             gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pTrainCarIter->field_50_car_sprite);
         }
@@ -6077,7 +6078,7 @@ char_type Car_BC::PoolUpdate()
         return TrainUpdate_442D70();
     }
 
-    if (this->field_88_despawn_status != 5)
+    if (this->field_88_despawn_status != car_despawn_status::despawning_5)
     {
         gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(this->field_50_car_sprite);
     }
@@ -6132,7 +6133,7 @@ char_type Car_BC::PoolUpdate()
     ManageDespawning_442310();
     CountDownToWreck_441360();
 
-    if (field_88_despawn_status != 5)
+    if (field_88_despawn_status != car_despawn_status::despawning_5)
     {
         if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 0x20) == 0x20)
         {
@@ -6784,7 +6785,7 @@ Car_BC::Car_BC()
     field_50_car_sprite = 0;
     field_58_physics = 0;
     field_5C_AI = 0;
-    field_88_despawn_status = 0;
+    field_88_despawn_status = car_despawn_status::none_0;
     field_6C_maybe_id = 0xFFFF;
     field_64_pTrailer = 0;
     field_78_flags = 0;
@@ -7005,7 +7006,7 @@ char_type Trailer::ExplodeBothIfOneDestroyed_4081D0()
 MATCH_FUNC(0x408220)
 s32 Trailer::Update_408220()
 {
-    if (field_8_truck_cab->field_88_despawn_status != 5)
+    if (field_8_truck_cab->field_88_despawn_status != car_despawn_status::despawning_5)
     {
         gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_8_truck_cab->field_50_car_sprite);
         gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_C_pCarOnTrailer->field_50_car_sprite);
@@ -7034,7 +7035,7 @@ s32 Trailer::Update_408220()
         field_8_truck_cab->ServiceDoorsLightsAndHorn_4426D0();
         field_C_pCarOnTrailer->ServiceDoorsLightsAndHorn_4426D0();
 
-        if (field_8_truck_cab->field_88_despawn_status != 5)
+        if (field_8_truck_cab->field_88_despawn_status != car_despawn_status::despawning_5)
         {
             gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_8_truck_cab->field_50_car_sprite);
             gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_C_pCarOnTrailer->field_50_car_sprite);

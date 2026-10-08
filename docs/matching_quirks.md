@@ -20,6 +20,9 @@ marked unlisted addresses into `target_extra.json`) before trusting the marker.
 - It is not the position, the file, the name or the line count: 12 comment lines in `enums.hpp` and a
   one-member enum (any namespace name) keep 3307; a three-member enum fails whatever it is called, and in
   either header. `crew_kind` (4 members), `pursuit_state` (5) and the renamed `cop_level_enum` went in fine.
+- It also hits when the enum is reached through `Car_BC.hpp` (`car_despawn_status`, 8 members, included from
+  `Car_BC.hpp`: `Draw4SidedDiagonalUpLeft_4EF880` and `Draw3SidedDiagonalDownRight_4EF520` fail). Keep such enums in
+  their own header and include it only from the `.cpp` files, so inline code in `Car_BC.hpp` stays numeric.
 - So it looks like a symbol table / hash effect inside VC6 that depends on how many names a TU has, and
   only a function as fragile as that x87 one notices.
 - The fix is to keep the enum out of every header `MapRenderer.cpp` includes: `ped_graphic_type.hpp` is a

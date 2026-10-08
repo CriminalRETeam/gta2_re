@@ -1,4 +1,5 @@
 #include "ImGuiDebug.hpp"
+#include "car_despawn_status.hpp"
 #include "zealous_borg.hpp"
 #include "3rdParty/GTA2Hax/3rdParty/imgui/imgui.h"
 #include "Ambulance_110.hpp"
@@ -1492,7 +1493,7 @@ void CC ImGuiDebugDraw()
 
                     if (ImGui::Button("TurnToWreck_4436A0"))
                     {
-                        pCarIter->field_88_despawn_status = 4;
+                        pCarIter->field_88_despawn_status = car_despawn_status::marked_for_despawn_4;
                         pCarIter->TurnToWreck_4436A0();
                     }
 

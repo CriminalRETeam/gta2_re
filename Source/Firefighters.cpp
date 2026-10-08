@@ -1,4 +1,5 @@
 #include "Firefighters.hpp"
+#include "car_despawn_status.hpp"
 #include "Car_BC.hpp"
 #include "CarAI_78.hpp"
 #include "CarPhysics_B0.hpp"
@@ -54,7 +55,7 @@ bool Firefighter_28::sub_4A7FC0()
 
     if (field_C_target_car)
     {
-        if (field_C_target_car->field_88_despawn_status == 6 || field_C_target_car->field_88_despawn_status == 7 ||
+        if (field_C_target_car->field_88_despawn_status == car_despawn_status::despawned_6 || field_C_target_car->field_88_despawn_status == car_despawn_status::deactivated_7 ||
             field_C_target_car->IsDespawning_4215B0() || field_C_target_car->IsMarkedForDespawn_4214B0())
         {
             if (field_20_ped)
@@ -87,7 +88,7 @@ bool Firefighter_28::sub_4A7FC0()
     {
         if (field_C_target_car)
         {
-            if (field_C_target_car->field_88_despawn_status != 6 && !field_C_target_car->IsDespawning_4215B0())
+            if (field_C_target_car->field_88_despawn_status != car_despawn_status::despawned_6 && !field_C_target_car->IsDespawning_4215B0())
             {
                 if (field_20_ped)
                 {
@@ -149,7 +150,7 @@ void Firefighter_28::Update_4A81F0()
     switch (field_8_state)
     {
         case firefighter_state::spawn_truck_1:
-            if (field_C_target_car && field_C_target_car->field_88_despawn_status != 6 &&
+            if (field_C_target_car && field_C_target_car->field_88_despawn_status != car_despawn_status::despawned_6 &&
                 !field_C_target_car->IsDespawning_4215B0() && gCar_6C_677930->CanAllocateOfType_446930(5))
             {
                 field_1C_car = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::FIRETRUK, field_10_xpos, field_14_ypos, field_18_zpos);
@@ -252,7 +253,7 @@ void Firefighter_28::Update_4A81F0()
             break;
 
         case firefighter_state::finished_5:
-            if (field_1C_car && field_1C_car->field_88_despawn_status != 6 && !field_1C_car->IsDespawning_4215B0() &&
+            if (field_1C_car && field_1C_car->field_88_despawn_status != car_despawn_status::despawned_6 && !field_1C_car->IsDespawning_4215B0() &&
                 !field_1C_car->IsMarkedForDespawn_4214B0())
             {
                 if (field_1C_car->field_54_driver)

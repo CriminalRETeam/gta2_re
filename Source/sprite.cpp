@@ -1,4 +1,5 @@
 #include "sprite.hpp"
+#include "car_despawn_status.hpp"
 #include "CarInfo_808.hpp" // TODO: only because of gPixelsToFix16_6F6850
 #include "Car_BC.hpp"
 #include "Globals.hpp"
@@ -2775,7 +2776,7 @@ void Sprite_18::sub_5A6A20()
     Car_BC* cBC = this->field_0->AsCar_40FEB0();
     if (cBC)
     {
-        if (cBC->field_88_despawn_status != 2 && cBC->field_88_despawn_status != 4 && cBC->field_88_despawn_status != 3)
+        if (cBC->field_88_despawn_status != car_despawn_status::despawn_pending_2 && cBC->field_88_despawn_status != car_despawn_status::marked_for_despawn_4 && cBC->field_88_despawn_status != car_despawn_status::despawn_soon_3)
         {
             cBC->sub_43DD60();
         }

@@ -1,4 +1,5 @@
 #include "Ped.hpp"
+#include "car_despawn_status.hpp"
 #include "ped_death_cause.hpp"
 #include "Ambulance_110.hpp"
 #include "CarInfo_808.hpp"
@@ -1385,9 +1386,9 @@ void Ped::SpawnPedInCar_45C730(Car_BC* pCar)
     pCar->field_76_last_seen_timer = 0;
 
     // TODO: inline ??
-    if (pCar->field_88_despawn_status == 2 || pCar->field_88_despawn_status == 4 || pCar->field_88_despawn_status == 3)
+    if (pCar->field_88_despawn_status == car_despawn_status::despawn_pending_2 || pCar->field_88_despawn_status == car_despawn_status::marked_for_despawn_4 || pCar->field_88_despawn_status == car_despawn_status::despawn_soon_3)
     {
-        pCar->field_88_despawn_status = 1;
+        pCar->field_88_despawn_status = car_despawn_status::active_1;
     }
 }
 
@@ -5066,7 +5067,7 @@ void Ped::ProcessInCarObjective_463FB0()
         }
         if (field_154_target_to_enter)
         {
-            if (field_154_target_to_enter->field_88_despawn_status == 6)
+            if (field_154_target_to_enter->field_88_despawn_status == car_despawn_status::despawned_6)
             {
                 this->field_226_internal_objective_status = 2;
                 return;
@@ -7533,7 +7534,7 @@ void Ped::KillCharOnFoot_467CA0()
     {
         if (field_140_stolen_car)
         {
-            if (field_140_stolen_car->field_88_despawn_status == 5)
+            if (field_140_stolen_car->field_88_despawn_status == car_despawn_status::despawning_5)
             {
                 field_140_stolen_car = 0;
             }
@@ -9053,7 +9054,7 @@ MATCH_FUNC(0x46a350)
 void Ped::FollowCarOnFootWithOffset_46A350()
 {
 
-    if (field_150_target_objective_car->field_88_despawn_status == 5)
+    if (field_150_target_objective_car->field_88_despawn_status == car_despawn_status::despawning_5)
     {
         this->field_225_objective_status = objective_status::failed_2;
     }
