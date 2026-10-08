@@ -1354,8 +1354,8 @@ Each was a few asm lines away from the original. What is left and what was tried
 - No change: `59EB30` ShowId, `465D00` IsPedAThreat (register rotation)
 - Unverified data: `word_61A898` now defined with initial value 40, a guess (marked TODO in Char_Pool.cpp)
 - Matched: `Hud_CarName_4C::DrawCarName_5D4A10` and `Hud_Brief_704::DrawBrief_5D3B80` (the y/x positions passed as u32, so the call goes to the `Fix16(u32)` copy 0x4926F0), `CarPhysics_B0::UpdateWheelSkidEffects_55DC00` (SpawnSkidSegment param by value, a temporary per call with an EH state; assign rather than init for the inline ApplyScale results), `Ped::FollowTargetStateMachine_46AC20` (`RegulateVelocityByRef_433970`: a by-reference argument stops VC6 tail-merging inlined calls with different arguments), `CarAI_78::DoShortcutsUsingJunctions_447970` (u8 x/y/z locals, `(u16)route_pos`, if/else per case, 9.6f `ContainsPoint` 0x40CEE0 used)
-- Closer: `state_20_542340` 239->20 (timer > 8 branch first, cos product through `Multiply_408680`), `DrawPlayerNames_5CFE40` 247->172 (WorldToScreen_40CFC0 written out), `DrawDigits_492260` 246->198, `Car_214::sub_5C8780` 250->229, `DrawPlayerStatsHelper_5D61A0` (Fix16(u32) for the text x), `GetNearest{Horizontal,Vertical}EdgeToCoordinate` 5A0A70/5A1030 (one reused diff local)
-- Still unexplained: in `DrawDigits_492260` the original re-tests `c != '0'` and `idx == 8` after the `idx == 8` branch where ours threads the jump (`sub_492430` matched by re-reading `field_9_str[idx]` at each test); `5CFE40` tests only `al` of `IsCoordsPosVisible_435A70` (bool return?); `5C8780` case 4 keeps three calls jumping to a shared compare where ours merges them
+- Closer: `state_20_542340` 239->20 (timer > 8 branch first, cos product through `Multiply_408680`), `DrawPlayerNames_5CFE40` 247->172 (WorldToScreen_40CFC0 written out), `DrawDigitsRightAligned_492260` 246->198, `Car_214::sub_5C8780` 250->229, `DrawPlayerStatsHelper_5D61A0` (Fix16(u32) for the text x), `GetNearest{Horizontal,Vertical}EdgeToCoordinate` 5A0A70/5A1030 (one reused diff local)
+- Still unexplained: in `DrawDigitsRightAligned_492260` the original re-tests `c != '0'` and `idx == 8` after the `idx == 8` branch where ours threads the jump (`DrawDigitsLeftAligned_492430` matched by re-reading `field_9_str[idx]` at each test); `5CFE40` tests only `al` of `IsCoordsPosVisible_435A70` (bool return?); `5C8780` case 4 keeps three calls jumping to a shared compare where ours merges them
 - Matched: `Car_BC::CanCarCollideWithSprite_43AAF0` (u16 flag locals; `if (pSprite) {...} else {null case}`; the first type test reads `field_30_sprite_type_enum` directly, not the shared local; model 182 rather than `rocket_bullet_128`), `Ped::PullDriverOutOfCarStateMachine_46B2F0` (u8 loop index declared before pCar, which puts it in memory and pCar in ebx; split sub/Abs statements; `SetMaxSpeedByRef`)
 - Closer: `ComputeCarMassAndInertia_454410` 339->147, `GetNearest*EdgeToCoordinate` 325->150 / 327->142, plus `55AD90`, `5A1490`, `4E1A30`
 - Logic fix: `RobbedDriver_AI_461630` tested `field_140_stolen_car` the wrong way round and could dereference null (diff count unchanged; zero register is ebp in the original, ebx in ours)
@@ -1722,9 +1722,9 @@ Evaluation order and scheduling:
 - `Particle_8::EmitElectricArcParticle_540320`, `Particle_4C` 53B670: see their entries.
 - `DrawText_5D8A10` (229 -> 20, u/v were swapped): the zero u/v stores come before the `DrawQuad` pushes in
   ours, after them in the original (420 orders tried).
-- `thirsty_lamarr::DrawDigits_492260` (286): the original keeps `idx` in a stack slot cached in `ebx`,
+- `RollingDigitCounter_38::DrawDigitsRightAligned_492260` (286): the original keeps `idx` in a stack slot cached in `ebx`,
   `curr_char` spilled to 0x12, and `height = (c == '0' && idx != 8) ? field_13[idx] : w`. Permuter best 199,
-  unnatural. Try the `sub_492430` tricks (matching_quirks.md, dead parameter slots).
+  unnatural. Try the `DrawDigitsLeftAligned_492430` tricks (matching_quirks.md, dead parameter slots).
 - `CarPhysics_B0::UpdateZPhysics_55AD90` (84, `lea` vs `add` on `cp3 + k`), `ComputeLineLineIntersection_55F3B0`
   (68), `ProcessGroundCollisionAndSurfaceType_55B970` (244, epilogue duplication): no progress. 55F3B0's
   original constructs no `Fix16_Point` up front and sets the EH state with `movl`; ours has two ctors and `movb`.
@@ -1910,7 +1910,7 @@ Scores are `permuter_score.py --structure` (normal score in brackets).
 - `SpriteHitsDiagonalWall_4E1520` (58): the original calls `Fix16::FromInt_4926F0` (out-of-line Fix16(u32))
   + `Add_408660` for the block centre. `static_cast<const Fix16&>(Fix16((u32)x))` and `SetXY_432860` for the
   points leave the ctor inline (no change).
-- `DrawDigits_492260` (156): ternary height, `offset_byte` local as in `sub_492430`, `(u8*)` reload of
+- `DrawDigitsRightAligned_492260` (156): ternary height, `offset_byte` local as in `DrawDigitsLeftAligned_492430`, `(u8*)` reload of
   `field_13_offset[idx]`: all still thread the second `c == '0' && idx != 8` test (no change).
 - `DrawBackground_4B6E10` (48): `blitRet =` on the first retry, explicit `return;`: no change.
 - Control flow and calls already match, only scheduling/regalloc left: `IsSpriteInView_435630` (56; num/den

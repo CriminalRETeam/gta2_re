@@ -146,8 +146,8 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x470650 | `Char_C::ctor_470650` | 0x4416B0 | matched | checked | pool ctors are the new expressions, set_xyz_lazy_420600 is ResetCharStatics_553F90 / 451950 (noise); w.sh already 0 |
 | 0x47E5B0 | `Crane_15C::dtor_47E5B0` | 0x447F70 | ✓ `root_sound::DestroySoundObj_40FE60` | done | all 9.6f inlines used |
 | 0x47F930 | `Crane_15C::PickUpCar_47F930` | 0x448A80 | ✓ `sub_4215B0`, `sub_4BEA60` (10.5 0x5A6AD0), ✓ `sub_447EC0`, ✓ `sub_447EB0`, `sub_423A70`, ✓ `sub_447F00`, `sub_4207B0`, `sub_448900`, `Zheal_15C::sub_448150`, `sub_4BED60` | checked | inlines already used or still called in 10.5 (TagSpriteWithRng_5A6C10, AreAllDoorsClosed_441A40, AddSprite_5A6CD0, ComputeHookPolar_47F6C0, IsTarget1PositionClear_47EB00) |
-| 0x492260 | `thirsty_lamarr::sub_492260` | 0x44B500 | `sub_44B490` | checked | 9.6f sub_44B490 = sub_495470 (10.5 calls it directly; 9.6f had an extra wrapper level) |
-| 0x492430 | `thirsty_lamarr::sub_492430` | 0x44B6E0 | `sub_44B490` | checked | 9.6f sub_44B490 = sub_495470 (10.5 calls it directly) |
+| 0x492260 | `RollingDigitCounter_38::sub_492260` | 0x44B500 | `sub_44B490` | checked | 9.6f sub_44B490 = sub_495470 (10.5 calls it directly; 9.6f had an extra wrapper level) |
+| 0x492430 | `RollingDigitCounter_38::DrawDigitsLeftAligned_492430` | 0x44B6E0 | `sub_44B490` | checked | 9.6f sub_44B490 = sub_495470 (10.5 calls it directly) |
 | 0x498DA0 | `BurgerKing_1::read_input_device_498DA0` | 0x44C0F0 | ✓ `rng::get_cur_rng_41CFE0`, ✓ `sub_44C050` | done | get_cur_rng_41CFE0, new IsInputSet_44C050; 293->258 |
 | 0x49C340 | `DoorData_10::sub_49C340` | 0x44C8A0 | ✓ `gmp_block_info::init_44C840` | done | new gmp_block_info::init_44C840; diff 0 before and after (CANDIDATE MATCH) |
 | 0x49CFA0 | `Door_4D4::RegisterDoubleDoorNoCheck_49CFA0` | 0x44D430 | `sub_44CDD0` | checked | sub_44CDD0 is a 9.6f-only door setup variant; 10.5 calls Door_38::sub_49CC00 instead (pairing difference) |
@@ -972,7 +972,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x564C00 | `Player::sub_564C00` | 0x4A5640 | `angry_lewin_0x85C::sub_4A5600` | checked | 4A5600 = CleanupEmptyAmmoWeapons_564B80, called out of line in 10.5 too; no inline missing |
 | 0x564C50 | `Player::RemovePlayerWeapons_564C50` | 0x4A5690 | ✓ `keen_bhaskara_0x30::sub_4A4F80` | done | Weapon_30::HasAmmo_4A4F80; code unchanged |
 | 0x564CF0 | `Player::sub_564CF0` | 0x4A5710 | `cool_nash_0x294::sub_435F00`, ✓ `sub_482080` | done | Ped::clear_bit_26_482080; sub_435F00 = Ped::sub_45C050 (still called); code unchanged |
-| 0x564D60 | `Player::CollectPowerUp_564D60` | 0x4A5780 | ✓ `thirsty_lamarr::sub_41DC30`, ✓ `sub_4766B0`, `sub_4A4D50`, ✓ `sub_433B70`, ✓ `sub_4A5050`, ✓ `cool_nash_0x294::get_wanted_points_433DC0` (10.5 0x592370), ✓ `cool_nash_0x294::sub_420B80`, ✓ `sub_4A5060`, ✓ `sub_4A5020` | done | Player::ChangeMultipliers_4766B0, Ped::SetFullHealth_4A5050, set_bit_26_4A5060 (new), get_value x2, get_health_433B70, ClearWantedPoints_420B80; sub_4A4D50 = ChangeLifeCountByAmount_5699F0 (still called); code unchanged |
+| 0x564D60 | `Player::CollectPowerUp_564D60` | 0x4A5780 | ✓ `RollingDigitCounter_38::sub_41DC30`, ✓ `sub_4766B0`, `sub_4A4D50`, ✓ `sub_433B70`, ✓ `sub_4A5050`, ✓ `cool_nash_0x294::get_wanted_points_433DC0` (10.5 0x592370), ✓ `cool_nash_0x294::sub_420B80`, ✓ `sub_4A5060`, ✓ `sub_4A5020` | done | Player::ChangeMultipliers_4766B0, Ped::SetFullHealth_4A5050, set_bit_26_4A5060 (new), get_value x2, get_health_433B70, ClearWantedPoints_420B80; sub_4A4D50 = ChangeLifeCountByAmount_5699F0 (still called); code unchanged |
 | 0x565070 | `Player::sub_565070` | 0x4A59A0 | `cool_nash_0x294::sub_435F00`, ✓ `sub_482080` | done | Ped::clear_bit_26_482080; sub_435F00 = Ped::sub_45C050 (still called); code unchanged |
 | 0x5651F0 | `Player::RestorePowerUpsFromSave_5651F0` | 0x4A5A50 | ✓ `sub_4A5060` | matched | VC6 turns the two pointers into base+difference addressing; the target keeps both (same in 9.6f). Loop forms tried: while/for/indexed |
 | 0x565310 | `Player::TeleportToDebugCam_565310` | 0x4A5AD0 | ✓ `DrawUnk_0xBC::sub_475B60` | done | all 9.6f inlines used |
@@ -981,9 +981,9 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x5668D0 | `Player::HandleControls_5668D0` | 0x4A76D0 | ✓ `cool_nash_0x294::get_car_416B60`, ✓ `cool_nash_0x294::sub_403990`, `cool_nash_0x294::has_car_403B80`, ✓ `cool_nash_0x294::get_objective_403A80`, ✓ `Car_BC::sub_403BA0`, ✓ `cool_nash_0x294::set_target_objective_car_403AA0`, ✓ `cool_nash_0x294::set_enter_car_as_passenger_4039B0`, ✓ `cool_nash_0x294::set_target_car_door_403A70`, `cool_nash_0x294::sub_4039E0`, ✓ `cool_nash_0x294::get_target_objective_car_403AB0`, `sub_4A5030`, ✓ `cool_nash_0x294::sub_4A5010`, ✓ `cool_nash_0x294::sub_403A40`, ✓ `cool_nash_0x294::not_enter_car_as_passenger_4A5040` | done | Ped::SetBit11_4A5010 (new) x3, ClearBit11_403A40 x2; other listed getters already used (403A40 commented helper), sub_4039E0 = objective status getter (sub_450CB0 still called), sub_4A5030 unknown; code unchanged |
 | 0x566C80 | `Player::DoPedControlInputs_566C80` | 0x4A5C50 | `sub_43E1E0`, ✓ `Char_B4::sub_433A80`, ✓ `sub_433C40`, ✓ `cool_nash_0x294::sub_433DD0` | done | Ped::DoJump_433C40 (new) + SetVoiceEvent_IfBit24Clear_433DD0; 162->0 CANDIDATE MATCH; sub_43E1E0 = Ped::sub_45C5C0 (still called) |
 | 0x566EE0 | `Player::sub_566EE0` | 0x4A5E90 | ✓ `angry_lewin_0x85C::Get_Field_68_Ped_4A5130`, ✓ `cool_nash_0x294::get_car_416B60` | done | GetPlayerPed_4A5130 instead of the equivalent GetCameraModePed; code unchanged |
-| 0x5670B0 | `Player::RespawnPlayer_5670B0` | 0x4A6050 | ✓ `sub_434B10`, `sub_4A4D50`, ✓ `thirsty_lamarr::sub_41DC30`, ✓ `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), ✓ `cool_nash_0x294::get_cam_x_403A00` | done | IsNetworkGame_434B10 x2, get_value, get_cam_x/y; sub_4A4D50 = ChangeLifeCountByAmount_5699F0 (still called); code unchanged |
-| 0x567130 | `Player::Wasted_567130` | 0x4A7910 | ✓ `angry_lewin_0x85C::sub_4219D0`, ✓ `Game_0x40::get_player_4219E0`, `sub_4822A0`, ✓ `cool_nash_0x294::sub_403A40`, ✓ `angry_lewin_0x85C::sub_41DC70`, ✓ `thirsty_lamarr::sub_41DC30`, `sub_4105B0`, ✓ `sub_434950`, ✓ `DrawUnk_0xBC::sub_475B60` | done | ClearBit11_403A40 x3, get_value x3, get_player_4219E0; code unchanged; sub_4822A0 = UpdateFugitive_516740 (still called) |
-| 0x5679E0 | `Player::Busted_5679E0` | 0x4A7BA0 | ✓ `cool_nash_0x294::sub_403A40`, `sub_4105B0`, ✓ `sub_434950`, ✓ `angry_lewin_0x85C::sub_41DC70`, ✓ `thirsty_lamarr::sub_41DC30`, ✓ `sub_434920`, ✓ `sub_434940`, ✓ `sub_4A50B0`, ✓ `DrawUnk_0xBC::sub_475B60`, ✓ `cool_nash_0x294::set_target_objective_car_403AA0` | done | Player::HasPowerUp_434920 + DecPowerUp_434940 (new), SetValueClamped_4A50B0, get_value, ClearBit11_403A40 x3, ClearWantedPoints_420B80 x2; code unchanged; sub_4105B0 is a thunk on an unknown 9.6f global |
+| 0x5670B0 | `Player::RespawnPlayer_5670B0` | 0x4A6050 | ✓ `sub_434B10`, `sub_4A4D50`, ✓ `RollingDigitCounter_38::sub_41DC30`, ✓ `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), ✓ `cool_nash_0x294::get_cam_x_403A00` | done | IsNetworkGame_434B10 x2, get_value, get_cam_x/y; sub_4A4D50 = ChangeLifeCountByAmount_5699F0 (still called); code unchanged |
+| 0x567130 | `Player::Wasted_567130` | 0x4A7910 | ✓ `angry_lewin_0x85C::sub_4219D0`, ✓ `Game_0x40::get_player_4219E0`, `sub_4822A0`, ✓ `cool_nash_0x294::sub_403A40`, ✓ `angry_lewin_0x85C::sub_41DC70`, ✓ `RollingDigitCounter_38::sub_41DC30`, `sub_4105B0`, ✓ `sub_434950`, ✓ `DrawUnk_0xBC::sub_475B60` | done | ClearBit11_403A40 x3, get_value x3, get_player_4219E0; code unchanged; sub_4822A0 = UpdateFugitive_516740 (still called) |
+| 0x5679E0 | `Player::Busted_5679E0` | 0x4A7BA0 | ✓ `cool_nash_0x294::sub_403A40`, `sub_4105B0`, ✓ `sub_434950`, ✓ `angry_lewin_0x85C::sub_41DC70`, ✓ `RollingDigitCounter_38::sub_41DC30`, ✓ `sub_434920`, ✓ `sub_434940`, ✓ `sub_4A50B0`, ✓ `DrawUnk_0xBC::sub_475B60`, ✓ `cool_nash_0x294::set_target_objective_car_403AA0` | done | Player::HasPowerUp_434920 + DecPowerUp_434940 (new), SetValueClamped_4A50B0, get_value, ClearBit11_403A40 x3, ClearWantedPoints_420B80 x2; code unchanged; sub_4105B0 is a thunk on an unknown 9.6f global |
 | 0x568670 | `Player::sub_568670` | 0x4A4CB0 | `sub_41E510`, `sub_41E4E0` | checked | 9.6f sub_41E510/sub_41E4E0 are Camera_0xBC::sub_435810/sub_4357F0, still called |
 | 0x568730 | `Player::sub_568730` | 0x4A61C0 | `sub_4354C0`, ✓ `sub_4A5170` | checked | 9.6f sub_4354C0 = Ped::sub_470300, still called; set_bInUse_4A5170 already used |
 | 0x5687F0 | `Player::Service_5687F0` | 0x4A7E80 | `sub_4A6100`, ✓ `sub_4A5070`, `sub_41E580`, ✓ `cool_nash_0x294::sub_403990` | checked | inline_set_ped_id_to_2 (9.6f 0x4A5070) already used; 4A6100 (zone update) and 41E580 correspond to calls in the source |
@@ -1004,7 +1004,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x56A940 | `Player::dtor_56A940` | 0x4A6EF0 | ✓ `root_sound::DestroySoundObj_40FE60`, `sub_4A4F10` | checked | DestroySoundObj_40FE60 already used; sub_4A4F10 a member dtor |
 | 0x56B6E0 | `jolly_poitras_0x2BC0::ctor_56B6E0` | 0x4A9290 | `sub_4A8910`, `sub_4A9050` | checked | sub_4A9050 = HiScoreHscExists_56BCA0, sub_4A8910 = 10.5 out-of-line call (pairing) |
 | 0x56B990 | `jolly_poitras_0x2BC0::sub_56B990` | 0x4A8CB0 | `sub_4A8B60` (10.5 0x56BCF0) | checked | sub_4A8B60 is GetHiScoreHscFileName_56BCF0 (called) |
-| 0x56BB10 | `jolly_poitras_0x2BC0::sub_56BB10` | 0x4A8F90 | ✓ `sub_453A60`, `j_thirsty_lamarr::sub_41DC30` | done | DecodeStage_453A60; thirsty_lamarr get_value via j_ thunk = GetScore_592370 (called); still matches |
+| 0x56BB10 | `jolly_poitras_0x2BC0::sub_56BB10` | 0x4A8F90 | ✓ `sub_453A60`, `j_RollingDigitCounter_38::sub_41DC30` | done | DecodeStage_453A60; RollingDigitCounter_38 get_value via j_ thunk = GetScore_592370 (called); still matches |
 | 0x56C010 | `jolly_poitras_0x2BC0::sub_56C010` | 0x4A90A0 | ✓ `sub_453A60` | done | DecodeStage_453A60; unchanged (14) |
 | 0x56F5C0 | `Police_7B8::SpawnRoadblockGuard_56F5C0` | 0x4A9B40 | ✓ `cool_nash_0x294::sub_403920`, ✓ `cool_nash_0x294::set_occupation_403970`, ✓ `sub_433B90`, ✓ `cool_nash_0x294::set_health_4039A0` | done | all 9.6f inlines used |
 | 0x56F6D0 | `Police_7B8::DespawnCrewInCar_56F6D0` | 0x4A9C50 | ✓ `sub_421470` | done | code unchanged |
@@ -1866,7 +1866,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x41C1F0 | `sub_41C1F0` | 5 |  | Source/sprite.hpp:190 | 0/4 | todo |  |
 | 0x41D070 | `Car_14_18::ctor_41D070` | 3 |  | Source/Fix16_Rect.hpp:29 | 0/1 | todo |  |
 | 0x41D580 | `sub_41D580` | 160 |  |  | 0/1 | todo |  |
-| 0x41DC30 | `thirsty_lamarr::sub_41DC30` | 3 |  | Source/thirsty_lamarr.hpp:35 | 0/4 | todo |  |
+| 0x41DC30 | `RollingDigitCounter_38::sub_41DC30` | 3 |  | Source/RollingDigitCounter_38.hpp:35 | 0/4 | todo |  |
 | 0x41E130 | `sub_41E130` | 44 |  | Source/Camera.hpp:219 | 0/2 | todo |  |
 | 0x41E3D0 | `sub_41E3D0` | 51 |  | Source/Camera.hpp:168 | 0/3 | todo |  |
 | 0x41E410 | `DrawUnk_0xBC::CommitCameraTarget_41E410` | 27 |  | Source/Camera.hpp:136, Source/Camera.hpp:148 | 0/5 | todo |  |
@@ -2418,7 +2418,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4A5060 | `sub_4A5060` | 11 |  | Source/Ped.hpp:384 | 0/2 | todo |  |
 | 0x4A5070 | `sub_4A5070` | 8 |  | Source/Camera.hpp:92 | 0/3 | todo |  |
 | 0x4A5090 | `sub_4A5090` | 28 |  |  | 0/1 | todo |  |
-| 0x4A50B0 | `sub_4A50B0` | 38 |  | Source/thirsty_lamarr.hpp:18 | 0/3 | todo |  |
+| 0x4A50B0 | `sub_4A50B0` | 38 |  | Source/RollingDigitCounter_38.hpp:18 | 0/3 | todo |  |
 | 0x4A50E0 | `sub_4A50E0` | 5 |  | Source/PlayerScoreTracker_36C.hpp:14 | 0/2 | todo |  |
 | 0x4A5100 | `angry_lewin_0x85C::sub_4A5100` | 36 |  | Source/Player.hpp:201 | 0/2 | todo |  |
 | 0x4A5150 | `sub_4A5150` | 27 |  | Source/Player.hpp:318 | 0/2 | todo |  |
@@ -2443,7 +2443,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4B6700 | `sub_4B6700` | 168 |  |  | 0/1 | todo |  |
 | 0x4B7580 | `sub_4B7580` | 8 |  |  | 0/1 | todo |  |
 | 0x4B7590 | `Game_0x40::sub_4B7590` | 8 |  | Source/Game_0x40.hpp:51 | 0/1 | todo |  |
-| 0x4B75A0 | `j_thirsty_lamarr::sub_41DC30` | 5 |  |  | 0/1 | todo |  |
+| 0x4B75A0 | `j_RollingDigitCounter_38::sub_41DC30` | 5 |  |  | 0/1 | todo |  |
 | 0x4B8A60 | `sub_4B8A60` | 14 | 0x5935D0 MATCH |  | 0/2 | todo |  |
 | 0x4B8FD0 | `CokeZero_FC::sub_4B8FD0` | 4 | 0x5935C0 MATCH | Source/Pool.hpp:65 | 0/2 | todo |  |
 | 0x4B8FE0 | `CokeZero_FC::sub_4B8FE0` | 17 |  |  | 0/1 | todo |  |

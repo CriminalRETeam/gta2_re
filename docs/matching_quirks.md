@@ -907,7 +907,7 @@ original's `testb` (`ApplyImpactForcesAndDamage_55FA60`, 205 -> 19).
 parameter's stack slot, VC6 packs extra locals into dead parameter slots. New locals declared in the
 right order beat assigning to the parameters (`Orca_2FD4::ComputePath_554AB0`: 216 -> 48 assigning to
 params, then down to 12 with new locals, including a `new_z` local for a lazy `cur_z` store). Declaration order
-decides which local gets the slot: in `thirsty_lamarr::sub_492430`, `bFirst` declared first let `height`
+decides which local gets the slot: in `RollingDigitCounter_38::DrawDigitsLeftAligned_492430`, `bFirst` declared first let `height`
 take the dead `base_xpos` slot. The same function re-reads `field_9_str[idx]` at each test instead of
 caching it in a `char` local, which keeps the original's re-test where VC6 would thread the jump.
 
@@ -1535,7 +1535,7 @@ callee ends in `ret $N` without reading `ecx`, declare it `static ... __stdcall`
 **Duplicate helper copies.** The original has two identical copies of some small functions. For the `Fix16(int)`
 constructor they are really two constructors: `0x4369F0` is `Fix16(s32)` and `0x4926F0` is `Fix16(u32)`, with
 identical code. Passing a `u32` where the original calls `0x4926F0` matched `Garox_12E4_sub::DrawPause_5D63B0`; the
-same applies to `Hud_CarName_4C::DrawCarName_5D4A10`, `DrawBrief_5D3B80` and `thirsty_lamarr::sub_492430`
+same applies to `Hud_CarName_4C::DrawCarName_5D4A10`, `DrawBrief_5D3B80` and `RollingDigitCounter_38::DrawDigitsLeftAligned_492430`
 (all matched) and probably `DrawPlayerStatsHelper_5D61A0`. Check the other duplicate pairs for a type difference before assuming they can't match.
 
 **EH state stores between member destructor calls.** If the original calls several member

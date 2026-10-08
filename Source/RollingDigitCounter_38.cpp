@@ -1,4 +1,4 @@
-#include "thirsty_lamarr.hpp"
+#include "RollingDigitCounter_38.hpp"
 #include "Draw.hpp"
 #include "gtx_0x106C.hpp"
 #include "sharp_pare_0x15D8.hpp"
@@ -9,16 +9,16 @@ s32 __stdcall GetMaxNumOfDigits_4F7660(s32 &max_value);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_67B210, Ang16(0), 0x67B210);
 
 MATCH_FUNC(0x4920b0)
-thirsty_lamarr::thirsty_lamarr()
+RollingDigitCounter_38::RollingDigitCounter_38()
 {
-    for (s32 iVar2 = 0; iVar2 < 9; iVar2++)
+    for (s32 digit_idx = 0; digit_idx < kNumDigits; digit_idx++)
     {
-        field_13_offset[iVar2] = 0;
-        field_9_str[iVar2] = '0';
-        field_1D_buf[iVar2] = '0';
+        field_13_scroll_offsets[digit_idx] = 0;
+        field_9_shown_digits[digit_idx] = '0';
+        field_1D_target_digits[digit_idx] = '0';
     }
 
-    field_9_str[9] = 0;
+    field_9_shown_digits[kNumDigits] = 0;
     field_0_value = 0;
     field_4_target_value = -1;
     field_8_bRollingUp = 0;
@@ -33,29 +33,29 @@ thirsty_lamarr::thirsty_lamarr()
 }
 
 MATCH_FUNC(0x492110)
-void thirsty_lamarr::SetupDigitsParams_492110(s16 digit_transition_speed, s32 max_value, s16 palette)
+void RollingDigitCounter_38::SetupDigitsParams_492110(s16 digit_transition_speed, s32 max_value, s16 palette)
 {
     field_36_sprite_idx = palette;
     field_2C_digit_transition_speed = digit_transition_speed;
     field_30_max_value = max_value;
     field_2A_max_num_of_digits = GetMaxNumOfDigits_4F7660(field_30_max_value);
-    s8 tmp = 9;
-    tmp -= static_cast<s8>(field_2A_max_num_of_digits);
-    field_2E_non_used_digits = tmp;
+    s8 non_used_digits = kNumDigits;
+    non_used_digits -= static_cast<s8>(field_2A_max_num_of_digits);
+    field_2E_non_used_digits = non_used_digits;
 }
 
 MATCH_FUNC(0x492150)
-void thirsty_lamarr::InitDigitSprites_492150()
+void RollingDigitCounter_38::InitDigitSprites_492150()
 {
-    u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, field_36_sprite_idx);
-    sprite_index* sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
-    field_27_sprite_w = sprite_index->field_4_width;
-    field_28_sprite_h_calc = sprite_index->field_5_height / 11;
+    u16 true_sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, field_36_sprite_idx);
+    sprite_index* pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(true_sprite_idx);
+    field_27_sprite_w = pSpriteIndex->field_4_width;
+    field_28_sprite_h_calc = pSpriteIndex->field_5_height / 11;
     field_34_first_digit_texture_idx = gSharp_pare_0x15D8_705064->RegisterDigits_5B9220(field_2A_max_num_of_digits, field_36_sprite_idx);
 }
 
 MATCH_FUNC(0x4921b0)
-void thirsty_lamarr::ChangeStatByAmount_4921B0(s32 amount)
+void RollingDigitCounter_38::ChangeStatByAmount_4921B0(s32 amount)
 {
     if (amount > 0)
     {
@@ -90,60 +90,60 @@ void thirsty_lamarr::ChangeStatByAmount_4921B0(s32 amount)
 }
 
 MATCH_FUNC(0x4921f0)
-void thirsty_lamarr::ColorDigits_4921F0(s32 palette_type, s16 palette)
+void RollingDigitCounter_38::ColorDigits_4921F0(s32 palette_type, s16 palette)
 {
-    u16 virtual_palette;
+    u16 true_palette;
     if (palette_type == palette_types_enum::sprites_2)
     {
         u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, field_36_sprite_idx);
-        virtual_palette = gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(palette_types_enum::sprites_2, sprite_idx);
+        true_palette = gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(palette_types_enum::sprites_2, sprite_idx);
     }
     else
     {
-        virtual_palette = gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(palette_type, palette); // default color ?
+        true_palette = gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(palette_type, palette); // default color ?
     }
 
-    s32 uVar4 = field_2E_non_used_digits;
+    s32 digit_idx = field_2E_non_used_digits;
 
-    while (uVar4 < 9)
+    while (digit_idx < kNumDigits)
     {
-        gSharp_pare_0x15D8_705064->SetPal_5B9660(field_34_first_digit_texture_idx - field_2E_non_used_digits + uVar4, virtual_palette);
-        uVar4++;
+        gSharp_pare_0x15D8_705064->SetPal_5B9660(field_34_first_digit_texture_idx - field_2E_non_used_digits + digit_idx, true_palette);
+        digit_idx++;
     }
 }
 
 // https://decomp.me/scratch/6E5vt
 MATCH_FUNC(0x492260)
-s32 thirsty_lamarr::DrawDigits_492260(s32 base_xpos, s32 base_ypos)
+s32 RollingDigitCounter_38::DrawDigitsRightAligned_492260(s32 base_xpos, s32 base_ypos)
 {
     s32 curr_xpos = base_xpos;
     bool bFirst = true;
     s32 ypos_default = base_ypos + (field_28_sprite_h_calc >> 1);
 
     // The x of each digit counts back from the last one
-    for (s32 idx = field_2E_non_used_digits; idx < 9; idx++)
+    for (s32 idx = field_2E_non_used_digits; idx < kNumDigits; idx++)
     {
-        s32 offset = field_13_offset[idx];
+        s32 offset = field_13_scroll_offsets[idx];
         if (bFirst)
         {
-            char_type curr_char = field_9_str[idx];
-            if (curr_char == '0' && idx != 8 && !field_13_offset[idx])
+            char_type curr_char = field_9_shown_digits[idx];
+            if (curr_char == '0' && idx != kNumDigits - 1 && !field_13_scroll_offsets[idx])
             {
                 continue;
             }
 
             u8 height;
-            if (field_9_str[idx] != '0' || idx == 8)
+            if (field_9_shown_digits[idx] != '0' || idx == kNumDigits - 1)
             {
                 height = field_28_sprite_h_calc;
             }
             else
             {
-                height = field_13_offset[idx];
+                height = field_13_scroll_offsets[idx];
             }
 
-            u16 v = field_28_sprite_h_calc * (58 - curr_char) - offset;
-            curr_xpos = (field_27_sprite_w >> 1) - field_27_sprite_w * (9 - idx) + base_xpos;
+            u16 v = field_28_sprite_h_calc * (kDigitAfterNine - curr_char) - offset;
+            curr_xpos = (field_27_sprite_w >> 1) - field_27_sprite_w * (kNumDigits - idx) + base_xpos;
             s32 ypos = base_ypos + (s8)height / 2;
             DrawTextureScaled_495470(gSharp_pare_0x15D8_705064->GetDigitTexture_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits, v, height),
                        curr_xpos,
@@ -157,8 +157,8 @@ s32 thirsty_lamarr::DrawDigits_492260(s32 base_xpos, s32 base_ypos)
         }
         else
         {
-            u16 v = field_28_sprite_h_calc * (58 - field_9_str[idx]) - offset;
-            s32 xpos = (field_27_sprite_w >> 1) - field_27_sprite_w * (9 - idx) + base_xpos;
+            u16 v = field_28_sprite_h_calc * (kDigitAfterNine - field_9_shown_digits[idx]) - offset;
+            s32 xpos = (field_27_sprite_w >> 1) - field_27_sprite_w * (kNumDigits - idx) + base_xpos;
             DrawTextureScaled_495470(gSharp_pare_0x15D8_705064->GetDigitTexture_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits,
                                                              v,
                                                              field_28_sprite_h_calc),
@@ -176,26 +176,26 @@ s32 thirsty_lamarr::DrawDigits_492260(s32 base_xpos, s32 base_ypos)
 
 // Draws the digits left to right, skipping leading zeros, and returns the x after the last digit
 MATCH_FUNC(0x492430)
-s32 thirsty_lamarr::sub_492430(s32 base_xpos, s32 base_ypos)
+s32 RollingDigitCounter_38::DrawDigitsLeftAligned_492430(s32 base_xpos, s32 base_ypos)
 {
     // u32: converts with the Fix16(u32) constructor, whose out-of-line copy is 0x4926F0
     bool bFirst = true;
     u32 curr_xpos = base_xpos + (field_27_sprite_w >> 1);
     u32 ypos_default = base_ypos + (field_28_sprite_h_calc >> 1);
 
-    for (s32 idx = field_2E_non_used_digits; idx < 9; idx++)
+    for (s32 idx = field_2E_non_used_digits; idx < kNumDigits; idx++)
     {
-        char_type offset_byte = field_13_offset[idx];
+        char_type offset_byte = field_13_scroll_offsets[idx];
         s32 offset = offset_byte;
         if (bFirst)
         {
-            if (field_9_str[idx] == '0' && idx != 8 && !offset_byte)
+            if (field_9_shown_digits[idx] == '0' && idx != kNumDigits - 1 && !offset_byte)
             {
                 continue;
             }
 
             u8 height;
-            if (field_9_str[idx] != '0' || idx == 8)
+            if (field_9_shown_digits[idx] != '0' || idx == kNumDigits - 1)
             {
                 height = field_28_sprite_h_calc;
             }
@@ -204,7 +204,7 @@ s32 thirsty_lamarr::sub_492430(s32 base_xpos, s32 base_ypos)
                 height = offset_byte;
             }
 
-            u16 v = field_28_sprite_h_calc * (58 - field_9_str[idx]) - offset;
+            u16 v = field_28_sprite_h_calc * (kDigitAfterNine - field_9_shown_digits[idx]) - offset;
             u32 ypos = base_ypos + (s8)height / 2;
             DrawTextureScaled_495470(gSharp_pare_0x15D8_705064->GetDigitTexture_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits, v, height),
                        curr_xpos,
@@ -219,7 +219,7 @@ s32 thirsty_lamarr::sub_492430(s32 base_xpos, s32 base_ypos)
         }
         else
         {
-            u16 v = field_28_sprite_h_calc * (58 - field_9_str[idx]) - offset;
+            u16 v = field_28_sprite_h_calc * (kDigitAfterNine - field_9_shown_digits[idx]) - offset;
             DrawTextureScaled_495470(gSharp_pare_0x15D8_705064->GetDigitTexture_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits,
                                                              v,
                                                              field_28_sprite_h_calc),
@@ -237,36 +237,36 @@ s32 thirsty_lamarr::sub_492430(s32 base_xpos, s32 base_ypos)
 }
 
 MATCH_FUNC(0x4925c0)
-char_type thirsty_lamarr::IsAnyDigitRolling_4925C0()
+bool RollingDigitCounter_38::IsAnyDigitRolling_4925C0()
 {
-    s32 uVar1 = field_2E_non_used_digits;
+    s32 digit_idx = field_2E_non_used_digits;
 
-    while (uVar1 < 9)
+    while (digit_idx < kNumDigits)
     {
-        if (this->field_13_offset[uVar1] != 0)
+        if (this->field_13_scroll_offsets[digit_idx] != 0)
         {
-            return 1;
+            return true;
         }
-        uVar1++;
+        digit_idx++;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x4925e0)
-void thirsty_lamarr::UpdateRollingDigits_4925E0()
+void RollingDigitCounter_38::UpdateRollingDigits_4925E0()
 {
-    s32 v11;
-    sscanf((const char_type*)&field_9_str, "%d", &v11);
+    s32 shown_value;
+    sscanf((const char_type*)&field_9_shown_digits, "%d", &shown_value);
 
-    if (field_4_target_value == -1 || v11 == field_4_target_value && !thirsty_lamarr::IsAnyDigitRolling_4925C0())
+    if (field_4_target_value == -1 || shown_value == field_4_target_value && !RollingDigitCounter_38::IsAnyDigitRolling_4925C0())
     {
-        if (field_0_value == v11)
+        if (field_0_value == shown_value)
         {
             field_4_target_value = -1;
             return;
         }
         field_4_target_value = field_0_value;
-        if (field_0_value > v11)
+        if (field_0_value > shown_value)
         {
             field_8_bRollingUp = true;
         }
@@ -274,43 +274,44 @@ void thirsty_lamarr::UpdateRollingDigits_4925E0()
         {
             field_8_bRollingUp = false;
         }
-        sprintf((char_type*)&field_1D_buf, "%09d", field_0_value);
+        sprintf((char_type*)&field_1D_target_digits, "%09d", field_0_value);
     }
 
-    for (s32 idx = field_2E_non_used_digits; idx < 9; idx++)
+    for (s32 idx = field_2E_non_used_digits; idx < kNumDigits; idx++)
     {
-        if (field_9_str[idx + 20] != field_9_str[idx] || field_13_offset[idx])
+        // idx + 20 is field_1D_target_digits[idx]; written as an offset from field_9_shown_digits, as in the original
+        if (field_9_shown_digits[idx + 20] != field_9_shown_digits[idx] || field_13_scroll_offsets[idx])
         {
             if (field_8_bRollingUp)
             {
-                field_13_offset[idx] = field_2C_digit_transition_speed + field_13_offset[idx];
-                if (field_13_offset[idx] >= field_28_sprite_h_calc)
+                field_13_scroll_offsets[idx] = field_2C_digit_transition_speed + field_13_scroll_offsets[idx];
+                if (field_13_scroll_offsets[idx] >= field_28_sprite_h_calc)
                 {
-                    if (field_9_str[idx] < 57)
+                    if (field_9_shown_digits[idx] < '9')
                     {
-                        field_9_str[idx]++;
+                        field_9_shown_digits[idx]++;
                     }
                     else
                     {
-                        field_9_str[idx] = 48;
+                        field_9_shown_digits[idx] = '0';
                     }
-                    field_13_offset[idx] = 0;
+                    field_13_scroll_offsets[idx] = 0;
                 }
             }
             else
             {
-                field_13_offset[idx] = field_13_offset[idx] - field_2C_digit_transition_speed;
-                if (field_13_offset[idx] < 0)
+                field_13_scroll_offsets[idx] = field_13_scroll_offsets[idx] - field_2C_digit_transition_speed;
+                if (field_13_scroll_offsets[idx] < 0)
                 {
-                    if (field_9_str[idx] > 48)
+                    if (field_9_shown_digits[idx] > '0')
                     {
-                        field_9_str[idx]--;
+                        field_9_shown_digits[idx]--;
                     }
                     else
                     {
-                        field_9_str[idx] = 57;
+                        field_9_shown_digits[idx] = '9';
                     }
-                    field_13_offset[idx] = field_28_sprite_h_calc - field_2C_digit_transition_speed;
+                    field_13_scroll_offsets[idx] = field_28_sprite_h_calc - field_2C_digit_transition_speed;
                 }
             }
         }
@@ -320,14 +321,14 @@ void thirsty_lamarr::UpdateRollingDigits_4925E0()
 MATCH_FUNC(0x4f7660)
 s32 __stdcall GetMaxNumOfDigits_4F7660(s32 &max_value)
 {
-    s32 iVar1 = 1;
-    s32 iVar2 = max_value;
+    s32 num_digits = 1;
+    s32 abs_value = max_value;
 
-    if (iVar2 < 0)
+    if (abs_value < 0)
     {
-        iVar2 = -iVar2;
+        abs_value = -abs_value;
     }
-    for (; 10 <= iVar2; iVar2 /= 10, iVar1++)
+    for (; 10 <= abs_value; abs_value /= 10, num_digits++)
     {}
-    return iVar1;
+    return num_digits;
 }

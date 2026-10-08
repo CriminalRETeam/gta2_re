@@ -142,7 +142,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 4 | 46 | 58 | - | 0x55d200 | `CarPhysics_B0::SpawnSkidSegment_55D200` | CarPhysics_B0.cpp |
 | 4 | 48 | 140 | - | 0x44a1f0 | `CarAI_78::FollowRoadDirection_44A1F0` | CarAI_78.cpp |
 | 4 | 48 | 72 | 4 | 0x4b6e10 | `Frontend::DrawBackground_4B6E10` | Frontend.cpp |
-| 4 | 156 | 286 | 146 | 0x492260 | `thirsty_lamarr::DrawDigits_492260` | thirsty_lamarr.cpp |
+| 4 | 156 | 286 | 146 | 0x492260 | `RollingDigitCounter_38::DrawDigitsRightAligned_492260` | RollingDigitCounter_38.cpp |
 | 4 | 175 | 574 | - | 0x538ac0 | `Particle_4C::UpdateObjectBeamLink_state_38_538AC0` | Particle_4C.cpp |
 | 4 | 192 | 449 | 361 | 0x4458b0 | `Car_6C::SpawnCarOnRoadNetwork_4458B0` | Car_BC.cpp |
 | 5 | 13 | 33 | - | 0x5615d0 | `CarPhysics_B0::ApplyDriveForce_5615D0` | CarPhysics_B0.cpp |

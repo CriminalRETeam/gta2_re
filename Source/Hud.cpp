@@ -2779,8 +2779,8 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
         }
     }
 
-    thirsty_lamarr* v5 = pPlayer->field_2D4_scores.GetScoreDigits_592360();
-    s32 dolar_sign_xpos = v5->DrawDigits_492260(639, 4);
+    RollingDigitCounter_38* v5 = pPlayer->field_2D4_scores.GetScoreDigits_592360();
+    s32 dolar_sign_xpos = v5->DrawDigitsRightAligned_492260(639, 4);
 
     // Now draw $ symbol
 
@@ -2816,8 +2816,8 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
         }
         else
         {
-            thirsty_lamarr* v16 = pPlayer->field_2D4_scores.GetMultiplayerFragDigits_5935B0();
-            v16->DrawDigits_492260(490, 4);
+            RollingDigitCounter_38* v16 = pPlayer->field_2D4_scores.GetMultiplayerFragDigits_5935B0();
+            v16->DrawDigitsRightAligned_492260(490, 4);
         }
 
         s32 ypos = 8;
@@ -2826,8 +2826,8 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
         {
             if (pMultiPlayer->IsUser_41DC70() == 0)
             {
-                thirsty_lamarr* v19 = pMultiPlayer->field_2D4_scores.GetScoreDigits_592360();
-                s32 v21 = v19->sub_492430(16, ypos);
+                RollingDigitCounter_38* v19 = pMultiPlayer->field_2D4_scores.GetScoreDigits_592360();
+                s32 v21 = v19->DrawDigitsLeftAligned_492430(16, ypos);
 
                 DrawFigureScaled_5D7670(6, 16, 8, ypos + 10, kAngZero_706610, pMultiPlayer->field_78C_hud_palette_type, pMultiPlayer->field_790_hud_palette, 0, 0);
 
@@ -2843,8 +2843,8 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
                 }
                 else
                 {
-                    thirsty_lamarr* v29 = pMultiPlayer->field_2D4_scores.GetMultiplayerFragDigits_5935B0();
-                    v29->sub_492430(v21 + 20, ypos);
+                    RollingDigitCounter_38* v29 = pMultiPlayer->field_2D4_scores.GetMultiplayerFragDigits_5935B0();
+                    v29->DrawDigitsLeftAligned_492430(v21 + 20, ypos);
                 }
                 ypos += 27;
             }
@@ -2852,10 +2852,10 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
     }
     else
     {
-        s32 lives_xpos = pPlayer->field_684_lives.DrawDigits_492260(523, 28);
+        s32 lives_xpos = pPlayer->field_684_lives.DrawDigitsRightAligned_492260(523, 28);
         DrawFigureScaled_5D7670(6, 17, lives_xpos - 7, 32, kAngZero_706610, 2, 0, 0, 0);
 
-        s32 multiplier_xpos = pPlayer->field_6BC_multpliers.DrawDigits_492260(523, 11);
+        s32 multiplier_xpos = pPlayer->field_6BC_multpliers.DrawDigitsRightAligned_492260(523, 11);
         DrawFigureScaled_5D7670(6, 18, multiplier_xpos - 7, 18, kAngZero_706610, 2, 0, 0, 0);
     }
 }
@@ -2915,9 +2915,9 @@ void Garox_1118_sub::UpdateRollingDigits_5D6290()
     Player* pPlayerIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0();
     while (pPlayerIter)
     {
-        thirsty_lamarr* pLamarr1 = pPlayerIter->field_2D4_scores.GetScoreDigits_592360();
+        RollingDigitCounter_38* pLamarr1 = pPlayerIter->field_2D4_scores.GetScoreDigits_592360();
         pLamarr1->UpdateRollingDigits_4925E0();
-        thirsty_lamarr* pLamarr2 = pPlayerIter->field_2D4_scores.GetMultiplayerFragDigits_5935B0();
+        RollingDigitCounter_38* pLamarr2 = pPlayerIter->field_2D4_scores.GetMultiplayerFragDigits_5935B0();
         pLamarr2->UpdateRollingDigits_4925E0();
         pPlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10();
     }

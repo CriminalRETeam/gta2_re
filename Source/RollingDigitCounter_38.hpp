@@ -2,17 +2,23 @@
 
 #include "Function.hpp"
 
-class thirsty_lamarr
+class RollingDigitCounter_38
 {
   public:
-    EXPORT thirsty_lamarr();
+    enum
+    {
+        kNumDigits = 9,
+        kDigitAfterNine = '9' + 1, // the glyph rows are 0-9 then a blank row, see DrawDigits
+    };
+
+    EXPORT RollingDigitCounter_38();
     EXPORT void SetupDigitsParams_492110(s16 digit_transition_speed, s32 max_value, s16 palette);
     EXPORT void InitDigitSprites_492150();
     EXPORT void ChangeStatByAmount_4921B0(s32 amount);
     EXPORT void ColorDigits_4921F0(s32 palette_type, s16 palette);
-    EXPORT s32 DrawDigits_492260(s32 a2, s32 a3);
-    EXPORT s32 sub_492430(s32 a3, s32 a4);
-    EXPORT char_type IsAnyDigitRolling_4925C0();
+    EXPORT s32 DrawDigitsRightAligned_492260(s32 base_xpos, s32 base_ypos);
+    EXPORT s32 DrawDigitsLeftAligned_492430(s32 base_xpos, s32 base_ypos);
+    EXPORT bool IsAnyDigitRolling_4925C0();
     EXPORT void UpdateRollingDigits_4925E0();
 
     // 9.6f 0x4A50B0
@@ -40,13 +46,12 @@ class thirsty_lamarr
 
     s32 field_0_value;
     s32 field_4_target_value;
-    char_type field_8_bRollingUp;
-    char_type field_9_str[10];
-    s8 field_13_offset[10];
-    u8 field_1D_buf[10];
+    bool field_8_bRollingUp;
+    char_type field_9_shown_digits[10];
+    s8 field_13_scroll_offsets[10];
+    u8 field_1D_target_digits[10];
     u8 field_27_sprite_w;
     u8 field_28_sprite_h_calc;
-    char_type field_29;
     s16 field_2A_max_num_of_digits;
     s16 field_2C_digit_transition_speed;
     u16 field_2E_non_used_digits;

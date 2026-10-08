@@ -437,8 +437,8 @@ class Player
     zealous_borg field_644_crime_stats;
     u16 field_680_traffic_spawn_counter;
     u16 field_682_traffic_spawn_threshold;
-    thirsty_lamarr field_684_lives;
-    thirsty_lamarr field_6BC_multpliers;
+    RollingDigitCounter_38 field_684_lives;
+    RollingDigitCounter_38 field_6BC_multpliers;
     u16 field_6F4_power_up_timers[17];
     s16 field_716_unused;
     Weapon_30* field_718_weapons[28];

@@ -231,8 +231,8 @@ set(gta2_lib_src
   Source/rng.cpp
   Source/PlayerScoreTracker_36C.hpp
   Source/PlayerScoreTracker_36C.cpp
-  Source/thirsty_lamarr.hpp
-  Source/thirsty_lamarr.cpp
+  Source/RollingDigitCounter_38.hpp
+  Source/RollingDigitCounter_38.cpp
   Source/enums.hpp
   Source/CarPhysics_B0.hpp
   Source/CarPhysics_B0.cpp

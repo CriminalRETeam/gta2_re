@@ -287,7 +287,7 @@ void PlayerScoreTracker_36C::Reset_592330()
 }
 
 MATCH_FUNC(0x592360)
-thirsty_lamarr* PlayerScoreTracker_36C::GetScoreDigits_592360()
+RollingDigitCounter_38* PlayerScoreTracker_36C::GetScoreDigits_592360()
 {
     return &field_0_money;
 }
@@ -1040,7 +1040,7 @@ void PlayerScoreTracker_36C::UpdateAccuracyCount_5934F0(u32 event, s32 weapon_mo
 }
 
 MATCH_FUNC(0x5935b0)
-thirsty_lamarr* PlayerScoreTracker_36C::GetMultiplayerFragDigits_5935B0()
+RollingDigitCounter_38* PlayerScoreTracker_36C::GetMultiplayerFragDigits_5935B0()
 {
     return &field_38_multiplayer_frags;
 }

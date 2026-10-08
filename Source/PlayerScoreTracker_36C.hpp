@@ -2,7 +2,7 @@
 
 #include "Function.hpp"
 #include "sad_mirzakhani.hpp"
-#include "thirsty_lamarr.hpp"
+#include "RollingDigitCounter_38.hpp"
 
 class Player;
 class Car_BC;
@@ -33,7 +33,7 @@ class PlayerScoreTracker_36C
     EXPORT void Service_591C70();
     EXPORT void Init_5922F0(Player* pPlayer, s16 digit_transition_speed, s32 max_score_value, s16 palette, u16 max_frag_value);
     EXPORT void Reset_592330();
-    EXPORT thirsty_lamarr* GetScoreDigits_592360();
+    EXPORT RollingDigitCounter_38* GetScoreDigits_592360();
     EXPORT s32 GetScore_592370();
     EXPORT void ResetCarModelFlags_592380(char_type bits);
     EXPORT void CheckAllCarModelsFlagged_592430(char_type bits);
@@ -49,12 +49,12 @@ class PlayerScoreTracker_36C
     EXPORT void AwardBusStolenScore_593370(Car_BC* pCar);
     EXPORT void AwardFullBusDestroyedScore_593410(Car_BC* pCar);
     EXPORT void UpdateAccuracyCount_5934F0(u32 event, s32 weapon_model, Ped* pTarget);
-    EXPORT thirsty_lamarr* GetMultiplayerFragDigits_5935B0();
+    EXPORT RollingDigitCounter_38* GetMultiplayerFragDigits_5935B0();
     EXPORT s32 GetFrags_5935C0();
     EXPORT void ChangeFragsByAmount_5935D0(s32 amount);
 
-    thirsty_lamarr field_0_money;
-    thirsty_lamarr field_38_multiplayer_frags;
+    RollingDigitCounter_38 field_0_money;
+    RollingDigitCounter_38 field_38_multiplayer_frags;
     s32 field_70_last_car_kill_time;
     u8 field_74_car_kill_combo;
     u8 field_75_score_mult;
