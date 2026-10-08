@@ -31,7 +31,7 @@
 #include "text_0x14.hpp"
 #include "winmain.hpp"
 #include "TagGame_28.hpp"
-#include "zealous_borg.hpp"
+#include "CrimeStats_3C.hpp"
 #include <DINPUT.H>
 
 // Forward declarations: the functions below are in address order
@@ -2983,7 +2983,7 @@ Player::~Player()
     }
 
     /*
-	zealous_borg::dtor_484EE0(&field_644_crime_stats);
+	CrimeStats_3C::dtor_484EE0(&field_644_crime_stats);
 	sad_mirzakhani::dtor_431DF0(&field_2D4_unk.field_1A8_bonuses);
 	Camera_0xBC::dtor_4369E0(&field_208_aux_game_camera);
 	Camera_0xBC::dtor_4369E0(&field_14C_view_camera);

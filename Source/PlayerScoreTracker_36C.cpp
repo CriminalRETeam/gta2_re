@@ -1,6 +1,6 @@
 #include "PlayerScoreTracker_36C.hpp"
 #include "voice_line.hpp"
-#include "zealous_borg.hpp"
+#include "CrimeStats_3C.hpp"
 #include "ped_death_cause.hpp"
 #include "accuracy_event.hpp"
 #include "car_score_tier.hpp"
@@ -734,19 +734,19 @@ void PlayerScoreTracker_36C::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKill
     {
         if (bOtherGang)
         {
-            gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::Gang_members_killed_9, field_368_player->GetPlayerPed_4A5130());
+            gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::gang_members_killed_9, field_368_player->GetPlayerPed_4A5130());
         }
         else if (bCop || bArmy || bSwat || bFbi)
         {
-            gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::Lawmen_killed_8, field_368_player->GetPlayerPed_4A5130());
+            gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::lawmen_killed_8, field_368_player->GetPlayerPed_4A5130());
         }
         else if (pVictim->field_290_death_cause == ped_death_cause::run_over_1 || pVictim->field_290_death_cause == ped_death_cause::run_over_by_stolen_car_3)
         {
-            gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::Civilians_run_down_6, field_368_player->GetPlayerPed_4A5130());
+            gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::civilians_run_down_6, field_368_player->GetPlayerPed_4A5130());
         }
         else
         {
-            gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::Civilians_murdered_7, field_368_player->GetPlayerPed_4A5130());
+            gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::civilians_murdered_7, field_368_player->GetPlayerPed_4A5130());
         }
     }
 }
@@ -960,7 +960,7 @@ void PlayerScoreTracker_36C::AwardCarHijackedScore_593240(Car_BC* pCar)
     }
     field_368_player->AddScore_41DC40(base_score);
 
-    gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::Vehicles_Hijacked_5, field_368_player->GetPlayerPed_4A5130());
+    gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::vehicles_hijacked_5, field_368_player->GetPlayerPed_4A5130());
     SetCarModelFlag_592570(car_model_flag::stolen_1, pCar->field_84_car_info_idx);
 }
 

@@ -1,7 +1,7 @@
 #include "sound_obj.hpp"
 // Keep cSampleManager.hpp early: the include order changes the order VC6 emits the
 // sampManager and sound_obj calls in e.g. Type_9_4186D0 and Type6_2_412D40
-#include "zealous_borg.hpp"
+#include "CrimeStats_3C.hpp"
 #include "cSampleManager.hpp"
 #include "Camera.hpp"
 #include "CarInfo_808.hpp"
@@ -6009,7 +6009,7 @@ void sound_obj::PoliceRadioMessageGeneration_426790()
     {
         if (crime_type)
         {
-            if (crime_type == crime_stats_type::Gang_members_killed_9)
+            if (crime_type == crime_stats_type::gang_members_killed_9)
             {
                 if (best_crime)
                 {

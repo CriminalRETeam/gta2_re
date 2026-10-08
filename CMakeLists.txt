@@ -126,8 +126,8 @@ set(gta2_lib_src
   Source/Fix16_Point.cpp
   Source/Ped_List_4.hpp
   Source/Ped_List_4.cpp
-  Source/zealous_borg.hpp
-  Source/zealous_borg.cpp
+  Source/CrimeStats_3C.hpp
+  Source/CrimeStats_3C.cpp
   Source/infallible_turing.hpp
   Source/infallible_turing.cpp
   Source/sad_mirzakhani.hpp

@@ -8,7 +8,7 @@
 #include "fix16.hpp"
 #include "sad_mirzakhani.hpp"
 #include "TagGame_28.hpp"
-#include "zealous_borg.hpp"
+#include "CrimeStats_3C.hpp"
 #include <windows.h>
 
 class infallible_turing;
@@ -434,7 +434,7 @@ class Player
     char_type field_641_pad;
     char_type field_642_pad;
     char_type field_643_pad;
-    zealous_borg field_644_crime_stats;
+    CrimeStats_3C field_644_crime_stats;
     u16 field_680_traffic_spawn_counter;
     u16 field_682_traffic_spawn_threshold;
     RollingDigitCounter_38 field_684_lives;

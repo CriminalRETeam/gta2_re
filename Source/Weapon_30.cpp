@@ -2,7 +2,7 @@
 #define FIX16_POINT_ZERO dword_706EB8
 // This TU's copy of the Fix16_Rect::ComputeCollisionPrism_4204D0 half height (see Fix16_Rect.hpp)
 #define FIX16_RECT_HALF_HEIGHT dword_706CC8
-#include "zealous_borg.hpp"
+#include "CrimeStats_3C.hpp"
 #include "ped_death_cause.hpp"
 #include "Function.hpp"
 #include "fix16.hpp"
