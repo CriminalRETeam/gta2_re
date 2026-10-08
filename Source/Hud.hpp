@@ -122,11 +122,11 @@ class Hud_PlayerStats_4
     s32 field_0_unused;
 };
 
-class Hud_UnderRoofMarker_C
+class Hud_UnderRoofArrowMarker_C
 {
   public:
     // inline 0x4C6E50
-    Hud_UnderRoofMarker_C()
+    Hud_UnderRoofArrowMarker_C()
     {
         field_8_rotation = 0;
         field_A_ped_under_solid = 0;
@@ -350,12 +350,7 @@ inline u8 __stdcall get_sprite_height_4C7250(s16 user_sprite_idx)
 class Hud_BriefEntry_18
 {
   public:
-    union
-    {
-        char_type field_0_brief_id_str[4];
-        char_type* field_0_ptr; // TODO: workaround to Hud_Brief_704 ctor
-    };
-    s32 field_4;
+    char_type field_0_brief_id_str[8]; // gxt key, e.g. "1_3"
     s32 field_8_brief_priority;
     Hud_BriefEntry_18* field_C_pNext;
     u8 field_10_was_displayed;
@@ -719,7 +714,7 @@ class Hud_2B00
     Hud_ShowCoords_1 field_27B5_show_coords;
     Hud_PickupText_88 field_1080_pickup_text;
     Hud_Health_4 field_1108_health;
-    Hud_UnderRoofMarker_C field_110C_under_roof_marker;
+    Hud_UnderRoofArrowMarker_C field_110C_under_roof_arrow_marker;
     Hud_PlayerStats_4 field_1118_player_stats;
     Hud_Message_1C8 field_111C_message;
     Hud_PauseScreen_2 field_12E4_pause_screen;

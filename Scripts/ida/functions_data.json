@@ -18085,12 +18085,12 @@
         "v105_address": "0x5cf6b0"
     },
     {
-        "name": "Hud_UnderRoofMarker_C::Update_5CF730",
+        "name": "Hud_UnderRoofArrowMarker_C::Update_5CF730",
         "v96f_address": null,
         "v105_address": "0x5cf730"
     },
     {
-        "name": "Hud_UnderRoofMarker_C::Draw_5CF910",
+        "name": "Hud_UnderRoofArrowMarker_C::Draw_5CF910",
         "v96f_address": "0x4c74a0",
         "v105_address": "0x5cf910",
         "v96f_auto": true

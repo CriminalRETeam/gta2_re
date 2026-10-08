@@ -3544,8 +3544,8 @@ nullsub_358,0x5cf4f0,0x1cf4f0,0x1
 nullsub_359,0x5cf540,0x1cf540,0x1
 Hud_BriefSelector_4::ShowNextNumberedBrief_5CF620,0x5cf620,0x1cf620,0x86
 Hud_BriefSelector_4::ShowPrevNumberedBrief_5CF6B0,0x5cf6b0,0x1cf6b0,0x7f
-Hud_UnderRoofMarker_C::Update_5CF730,0x5cf730,0x1cf730,0x1e0
-Hud_UnderRoofMarker_C::Draw_5CF910,0x5cf910,0x1cf910,0x5c
+Hud_UnderRoofArrowMarker_C::Update_5CF730,0x5cf730,0x1cf730,0x1e0
+Hud_UnderRoofArrowMarker_C::Draw_5CF910,0x5cf910,0x1cf910,0x5c
 Hud_ShowCoords_1::ShowPlayerCoords_5CF970,0x5cf970,0x1cf970,0xff
 Hud_GangRespectBars_1::DrawGangRespectBars_5CFA70,0x5cfa70,0x1cfa70,0x3b0
 Hud_GangRespectBars_1::Empty_5CFE20,0x5cfe20,0x1cfe20,0x1

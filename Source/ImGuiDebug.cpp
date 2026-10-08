@@ -2597,7 +2597,6 @@ void CC ImGuiDebugDraw()
                         if (brief)
                         {
                             ImGui::Text("Brief f_0: 0x%X", brief->field_0_brief_id_str);
-                            ImGui::Value("Brief f_4", brief->field_4);
                             ImGui::Value("Brief f_8", brief->field_8_brief_priority);
                             //ImGui::Value("Brief f_C", brief->field_C_pNext);
                             ImGui::Value("Brief f_10", brief->field_10_was_displayed);

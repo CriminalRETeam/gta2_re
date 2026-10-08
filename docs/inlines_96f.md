@@ -1141,7 +1141,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x5C86C0 | `Car_214::sub_5C86C0` | 0x4C4F30 | ✓ `sub_4C4F10` | done | new Object_2C::set_field_27_4C4F10, code unchanged |
 | 0x5CBC90 | `EmergencyCrew_30::ReplaceLeaderIfNeeded_5CBC90` | 0x4C5510 | ✓ `cool_nash_0x294::sub_403990`, ✓ `cool_nash_0x294::get_occupation_403980`, ✓ `cool_nash_0x294::set_occupation_403970` | done | all 9.6f inlines used |
 | 0x5CC1C0 | `EmergencyCrew_30::CleanupExpiredEntities_5CC1C0` | 0x4C5A00 | ✓ `sub_4215B0`, ✓ `IsMaxDamage_40F890`, ✓ `sub_4A9AD0`, ✓ `sub_421470`, ✓ `cool_nash_0x294::sub_4039F0`, ✓ `cool_nash_0x294::sub_403B60`, ✓ `cool_nash_0x294::set_occupation_403970`, ✓ `cool_nash_0x294::sub_403A30` | done | all 9.6f inlines used |
-| 0x5CF910 | `Hud_UnderRoofMarker_C::Draw_5CF910` | 0x4C74A0 | ✓ `angry_lewin_0x85C::get_camera_434900` | done | Player::get_camera_434900; Still matches. |
+| 0x5CF910 | `Hud_UnderRoofArrowMarker_C::Draw_5CF910` | 0x4C74A0 | ✓ `angry_lewin_0x85C::get_camera_434900` | done | Player::get_camera_434900; Still matches. |
 | 0x5CF970 | `Hud_ShowCoords_1::sub_5CF970` | 0x4CA680 | ✓ `sub_4A5150`, ✓ `angry_lewin_0x85C::sub_4766D0`, ✓ `cool_nash_0x294::sub_416B50`, ✓ `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), ✓ `cool_nash_0x294::get_cam_x_403A00`, ✓ `Hud_TextEntry_C4::sub_45AFD0` | done | Hud_TextEntry_C4::SetDrawKind8_45AFD0; Still matches. |
 | 0x5D00B0 | `Hud_CopHead_C_Array::UpdateWantedLevel_5D00B0` | 0x4C79D0 | ✓ `sub_41D020` | done | all 9.6f inlines used |
 | 0x5D0260 | `Hud_Health_4::DrawHealth_5D0260` | 0x4C7B70 | ✓ `sub_41D020`, ✓ `sub_433B70` | done | all 9.6f inlines used |
@@ -1173,7 +1173,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x5D6B00 | `Hud_2B00::sub_5D6B00` | 0x4CA520 | ✓ `LangIsJapanese_452E60` | done | all 9.6f inlines used |
 | 0x5D6C20 | `Hud_2B00::IsBusy_5D6C20` | 0x4CA5D0 | `sub_4C8880` | checked | sub_4C8880 (142 bytes) open-coded in IsBusy; not split out |
 | 0x5D6CB0 | `Hud_2B00::sub_5D6CB0` | 0x4CA650 | `sub_4C7CC0` (10.5 0x5D03C0) | checked | 9.6f sub_4C7CC0 (10.5 copy 0x5D03C0) vs 10.5 call to IsQuitMessageKey_5D15A0: pairing difference |
-| 0x5D6CD0 | `Hud_2B00::ctor_5D6CD0` | 0x4CAC60 | `Garox_C_Array::ctor_4CA660`, `Garox_7C_Array::ctor_4C7080`, `Garox_Sub_C_Array::ctor_4C6EE0`, `Hud_ShowCoords_1::ctor_4C6E70`, `Hud_UnderRoofMarker_C::ctor_4C6E50`, `Hud_PauseScreen_2::ctor_4C71A0` | matched | member array ctors (4CA660, 4C7080, ...) are already inline ctors in Hud.hpp |
+| 0x5D6CD0 | `Hud_2B00::ctor_5D6CD0` | 0x4CAC60 | `Garox_C_Array::ctor_4CA660`, `Garox_7C_Array::ctor_4C7080`, `Garox_Sub_C_Array::ctor_4C6EE0`, `Hud_ShowCoords_1::ctor_4C6E70`, `Hud_UnderRoofArrowMarker_C::ctor_4C6E50`, `Hud_PauseScreen_2::ctor_4C71A0` | matched | member array ctors (4CA660, 4C7080, ...) are already inline ctors in Hud.hpp |
 | 0x5D8940 | `CountLineSpacing_5D8940` | 0x4CC0C0 | ✓ `gtx_0x106C::ClearA6Bits2And3_4539B0` (10.5 0x5D7700) | done | all 9.6f inlines used |
 | 0x5D8E70 | `UpdateWinXY_5D8E70` | 0x4CC580 | `sub_4CB520` | checked | sub_4CB520 is IsFullScreen_5D9280 (called) |
 | 0x5DCD50 | `Weapon_30::dtor_5DCD50` | 0x4CCB10 | ✓ `root_sound::DestroySoundObj_40FE60` | done | all 9.6f inlines used |
@@ -2520,7 +2520,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4C4F10 | `sub_4C4F10` | 10 |  | Source/Object_5C.hpp:30 | 0/1 | todo |  |
 | 0x4C62B0 | `sub_4C62B0` | 17 |  |  | 0/1 | todo |  |
 | 0x4C6E20 | `sub_4C6E20` | 11 |  |  | 0/1 | todo |  |
-| 0x4C6E50 | `Hud_UnderRoofMarker_C::ctor_4C6E50` | 19 |  |  | 0/1 | todo |  |
+| 0x4C6E50 | `Hud_UnderRoofArrowMarker_C::ctor_4C6E50` | 19 |  |  | 0/1 | todo |  |
 | 0x4C6E70 | `Hud_ShowCoords_1::ctor_4C6E70` | 6 |  |  | 0/1 | todo |  |
 | 0x4C6EE0 | `Garox_Sub_C_Array::ctor_4C6EE0` | 29 |  |  | 0/1 | todo |  |
 | 0x4C6F30 | `sub_4C6F30` | 4 |  | Source/Hud.hpp:449 | 0/1 | todo |  |

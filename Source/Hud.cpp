@@ -194,7 +194,7 @@ void Hud_BriefSelector_4::ShowPrevNumberedBrief_5CF6B0()
 }
 
 MATCH_FUNC(0x5cf730)
-void Hud_UnderRoofMarker_C::Update_5CF730()
+void Hud_UnderRoofArrowMarker_C::Update_5CF730()
 {
     Ped* pPed = gGame_0x40_67E008->field_38_orf1->GetCameraModePed();
 
@@ -221,7 +221,7 @@ void Hud_UnderRoofMarker_C::Update_5CF730()
 }
 
 MATCH_FUNC(0x5cf910)
-void Hud_UnderRoofMarker_C::Draw_5CF910()
+void Hud_UnderRoofArrowMarker_C::Draw_5CF910()
 {
     if (field_A_ped_under_solid)
     {
@@ -2425,8 +2425,8 @@ Hud_Brief_704::Hud_Brief_704()
 
     for (s32 i = 0; i < GTA2_COUNTOF(field_524_ary_19); i++)
     {
-        // TODO: Some wrong data structure
-        field_524_ary_19[i].field_0_ptr = (char_type*)&field_524_ary_19[i].field_C_pNext;
+        // TODO: Some wrong data structure: the original stores the address of the entry's own next pointer in its first word
+        *(char_type**)field_524_ary_19[i].field_0_brief_id_str = (char_type*)&field_524_ary_19[i].field_C_pNext;
     }
 
     field_6EC = 0;
@@ -3140,7 +3140,7 @@ void Hud_2B00::DrawGui_5D6860()
     {
         SetFullAmbient_5D6A70();
         field_1118_player_stats.DrawPlayerStats_5D5C80();
-        field_110C_under_roof_marker.Draw_5CF910();
+        field_110C_under_roof_arrow_marker.Draw_5CF910();
         field_13C0_player_names.DrawPlayerNames_5CFE40();
         field_1028_wanted_level.DrawWantedLevel_5D0110();
         field_107C_gang_respect_bars.DrawGangRespectBars_5CFA70();
@@ -3170,7 +3170,7 @@ MATCH_FUNC(0x5d69d0)
 void Hud_2B00::UpdateHUD_5D69D0()
 {
     field_1118_player_stats.UpdateRollingDigits_5D6290();
-    field_110C_under_roof_marker.Update_5CF730();
+    field_110C_under_roof_arrow_marker.Update_5CF730();
     field_27B5_show_coords.ShowPlayerCoords_5CF970();
     field_1028_wanted_level.UpdateWantedLevel_5D00B0();
     UpdateCarName_5D5350();
