@@ -5,6 +5,7 @@
 #include "accuracy_event.hpp"
 #include "car_score_tier.hpp"
 #include "emergency_car_kill_flag.hpp"
+#include "car_wreck.hpp"
 #include "car_model_flag.hpp"
 #include "bonus_event_type.hpp"
 #include "CarInfo_808.hpp"
@@ -323,7 +324,7 @@ void PlayerScoreTracker_36C::ResetCarModelFlags_592380(char_type bits)
             {
                 const u8 wreck = gGtx_0x106C_703DD4->get_car_info_5AA3B0(i)->wreck;
 
-                if (wreck == 99)
+                if (wreck == car_wreck::none_99)
                 {
                     field_8C_car_model_flags[i] |= car_model_flag::destroyed_2;
                 }
