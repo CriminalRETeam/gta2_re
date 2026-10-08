@@ -72,7 +72,7 @@ class PlayerScoreTracker_36C
     u8 field_198_accuracy_count;
     s32 field_19C_reverse_count;
     s32 field_1A0_last_emergency_car_kill_time;
-    char_type field_1A4_killed_cars_flags;
+    char_type field_1A4_killed_cars_flags; // emergency_car_kill_flag bits (emergency_car_kill_flag.hpp)
     sad_mirzakhani field_1A8_bonuses;
     Player* field_368_player;
 };

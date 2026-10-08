@@ -3,6 +3,7 @@
 #include "ped_death_cause.hpp"
 #include "accuracy_event.hpp"
 #include "car_score_tier.hpp"
+#include "emergency_car_kill_flag.hpp"
 #include "car_model_flag.hpp"
 #include "bonus_event_type.hpp"
 #include "CarInfo_808.hpp"
@@ -54,7 +55,7 @@ PlayerScoreTracker_36C::PlayerScoreTracker_36C()
     field_198_accuracy_count = 0;
     field_19C_reverse_count = 0;
     field_1A0_last_emergency_car_kill_time = 0;
-    field_1A4_killed_cars_flags = 0;
+    field_1A4_killed_cars_flags = emergency_car_kill_flag::none_0;
 
     for (s32 i = 0; i < GTA2_COUNTOF(field_8C_car_model_flags); i++)
     {
@@ -115,9 +116,9 @@ void PlayerScoreTracker_36C::Service_591C70()
         }
     }
 
-    if (field_1A4_killed_cars_flags == 7)
+    if (field_1A4_killed_cars_flags == emergency_car_kill_flag::all_7)
     {
-        field_1A4_killed_cars_flags = 0;
+        field_1A4_killed_cars_flags = emergency_car_kill_flag::none_0;
         field_368_player->AddScore_41DC40(10000);
         if (field_368_player->IsUser_41DC70())
         {
@@ -784,22 +785,22 @@ void PlayerScoreTracker_36C::AwardCarDestroyedScore_592DD0(Car_BC* pCar, Ped* pK
 
         if ((unsigned int)(gpRng_67AB34->get_cur_rng_41CFE0() - field_1A0_last_emergency_car_kill_time) > 150)
         {
-            field_1A4_killed_cars_flags = 0;
+            field_1A4_killed_cars_flags = emergency_car_kill_flag::none_0;
         }
 
         u32 destroyed_car_model = pCar->field_84_car_info_idx;
 
         if (destroyed_car_model == car_model_enum::MEDICAR)
         {
-            field_1A4_killed_cars_flags |= 1;
+            field_1A4_killed_cars_flags |= emergency_car_kill_flag::medicar_1;
         }
         else if (destroyed_car_model == car_model_enum::COPCAR || destroyed_car_model == car_model_enum::SWATVAN || destroyed_car_model == car_model_enum::EDSELFBI)
         {
-            field_1A4_killed_cars_flags |= 2;
+            field_1A4_killed_cars_flags |= emergency_car_kill_flag::cop_car_2;
         }
         else if (destroyed_car_model == car_model_enum::FIRETRUK)
         {
-            field_1A4_killed_cars_flags |= 4;
+            field_1A4_killed_cars_flags |= emergency_car_kill_flag::fire_truck_4;
         }
 
         field_1A0_last_emergency_car_kill_time = cur_rng;
