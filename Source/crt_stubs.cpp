@@ -84,3 +84,15 @@ void operator delete[](void* p) throw()
 {
     crt::free(p);
 }
+
+MATCH_FUNC(0x419DF0)
+Iostream_init_ool* Iostream_init_ool::ctor_copy_419DF0()
+{
+    return this;
+}
+
+MATCH_FUNC(0x531940)
+Iostream_init_ool* Iostream_init_ool::ctor_copy_531940()
+{
+    return this;
+}

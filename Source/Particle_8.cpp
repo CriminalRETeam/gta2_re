@@ -59,6 +59,12 @@ void Particle_8::ParticlesService_53E320()
     gParticle_4C_Pool_6FD5E4->UpdatePool();
 }
 
+// An empty three-argument function in the 0x53Fxxx block.
+MATCH_FUNC(0x53F050)
+EXPORT void __stdcall nullsub_239(s32, s32, s32)
+{
+}
+
 MATCH_FUNC(0x53E3C0)
 Particle_4C* Particle_8::New_53E3C0(Fix16 speed_x, Fix16 speed_y, Fix16 a4, Fix16 additional_speed_x, Fix16 additional_speed_y, Fix16 a7)
 {

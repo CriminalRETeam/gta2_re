@@ -25,3 +25,11 @@ EXPORT void* __cdecl malloc(size_t Size);
 // TODO: crt::malloc, crt::free
 
 } // namespace crt
+
+// Out-of-line copies of the empty Iostream_init constructor (VC98 iostream.h owns that name), one per translation unit that
+// pulled <iostream> in. Each is `mov %ecx,%eax; ret`: a constructor returning this.
+struct Iostream_init_ool
+{
+    EXPORT Iostream_init_ool* ctor_copy_419DF0();
+    EXPORT Iostream_init_ool* ctor_copy_531940();
+};

@@ -12,6 +12,12 @@ DEFINE_GLOBAL(rng, gRng_6F6784, 0x6F6784);
 
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
+// An empty one-argument function in the 0x48B9xx block, next to rng's own functions.
+MATCH_FUNC(0x48B9A0)
+EXPORT void __stdcall nullsub_141(s32)
+{
+}
+
 MATCH_FUNC(0x48B900)
 void rng::AdvanceCycle_48B900()
 {
