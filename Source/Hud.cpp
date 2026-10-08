@@ -195,7 +195,7 @@ void Garox_4::ShowPrevNumberedBrief_5CF6B0()
 MATCH_FUNC(0x5cf730)
 void Garox_110C_sub::Update_5CF730()
 {
-    Ped* pPed = gGame_0x40_67E008->field_38_orf1->Get_Field_68_Ped();
+    Ped* pPed = gGame_0x40_67E008->field_38_orf1->GetCameraModePed();
 
     if (!pPed || (u8)pPed->IsInTrain_470F00())
     {

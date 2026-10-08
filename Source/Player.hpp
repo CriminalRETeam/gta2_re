@@ -129,18 +129,18 @@ class Player
     }
 
     // 9.6f 0x41DC40
-    inline void Add_2D4(s32 score)
+    inline void AddScore_41DC40(s32 score)
     {
         field_2D4_scores.AddCash_592620(score * field_6BC_multpliers.field_0_value);
     }
 
-    inline Ped* Get_Field_68_Ped()
+    inline Ped* GetCameraModePed()
     {
         return field_68_camera_mode == 2 ? field_2C8_aux_ped : field_2C4_player_ped;
     }
 
     // 0x4CCAE0
-    s32 Get_Field_50()
+    s32 GetThrowCharge_4CCAE0()
     {
         return field_50_throw_charge;
     }
@@ -337,12 +337,12 @@ class Player
     u8 field_0_bIsUser;
     char_type field_1;
     char_type field_2;
-    char_type field_3;
+    char_type field_3_pad;
     u32 field_4_inputs;
     Ang16 field_8_turn_speed;
     Ang16 field_A_turn_accel;
     Fix16 field_C_move_direction;
-    s32 field_10;
+    s32 field_10_unused;
     s16 field_14_saved_ped_weapon_idx;
     s16 field_16_saved_car_weapon_idx;
 
@@ -354,32 +354,32 @@ class Player
 
     char_type field_28_bWastedOrBusted;
     char_type field_29_bAuxPedDying;
-    char_type field_2A;
-    char_type field_2B;
+    char_type field_2A_pad;
+    char_type field_2B_pad;
     s16 field_2C_death_countdown;
     u8 field_2E_idx;
     char_type field_2F_disable_all_controls;
     char_type field_30_disable_enter_vehicles;
     char_type field_31_kf_weapon_mode;
-    char_type field_32;
-    char_type field_33;
+    char_type field_32_pad;
+    char_type field_33_pad;
     Gang_144* field_34_gang_curr_location;
     gmp_map_zone* field_38_local_navigation_zone;
     gmp_map_zone* field_3C_navigation_zone;
     gmp_map_zone* field_40_arrow_blocker_zone;
     s32 field_44_death_type;
     char_type field_48_bDbg_cam_follow_player;
-    char_type field_49;
-    char_type field_4A;
-    char_type field_4B;
+    char_type field_49_pad;
+    char_type field_4A_pad;
+    char_type field_4B_pad;
     infallible_turing* field_4C_pSoundObj;
     s32 field_50_throw_charge;
     Car_BC* field_54_car_history[3];
     s32 field_60_bFinshScoreReached;
     char_type field_64_bJumping;
-    char_type field_65;
-    char_type field_66;
-    char_type field_67;
+    char_type field_65_pad;
+    char_type field_66_pad;
+    char_type field_67_pad;
     s32 field_68_camera_mode;
     s32 field_6C_bIn_debug_cam_mode;
     char_type field_70_dbg_cam_north;
@@ -426,32 +426,32 @@ class Player
     Ped* field_2C8_aux_ped;
     Car_BC* field_2CC_watched_car;
     char_type field_2D0_bAuxCamActive;
-    char_type field_2D1;
-    char_type field_2D2;
-    char_type field_2D3;
+    char_type field_2D1_pad;
+    char_type field_2D2_pad;
+    char_type field_2D3_pad;
     eager_benz field_2D4_scores;
     char_type field_640_busted;
-    char_type field_641;
-    char_type field_642;
-    char_type field_643;
+    char_type field_641_pad;
+    char_type field_642_pad;
+    char_type field_643_pad;
     zealous_borg field_644_crime_stats;
     u16 field_680_traffic_spawn_counter;
     u16 field_682_traffic_spawn_threshold;
     thirsty_lamarr field_684_lives;
     thirsty_lamarr field_6BC_multpliers;
     u16 field_6F4_power_up_timers[17];
-    s16 field_716;
+    s16 field_716_unused;
     Weapon_30* field_718_weapons[28];
     s16 field_788_curr_weapon_idx;
     char_type field_78A_show_quit_message;
-    char_type field_78B;
+    char_type field_78B_pad;
     s32 field_78C_hud_palette_type; // Usage: 2 = default, 7 = multiplayer if using gang remap
     u16 field_790_hud_palette;
-    s16 field_792;
+    s16 field_792_unused;
     char_type field_794_is_chatting;
-    char_type field_795;
+    char_type field_795_pad;
     s16 field_796_chat_text[79];
-    s32 field_834;
+    s32 field_834_unused;
     s32 field_838_f796_idx;
     wchar_t field_83C_player_name[16];
 };

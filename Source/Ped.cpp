@@ -1564,7 +1564,7 @@ void Ped::HandleClosePedInteraction_45CAA0()
                     {
                         if (this->field_240_occupation == ped_ocupation_enum::mugger)
                         {
-                            pNearPed_->field_15C_player->Add_2D4(-10);
+                            pNearPed_->field_15C_player->AddScore_41DC40(-10);
                             this->field_229_mug_count++;
                             if ((u8)field_229_mug_count > 9u)
                             {
@@ -9786,7 +9786,7 @@ void Ped::MeleeAttackStateMachine_46B670()
             {
                 if (field_14C_internal_target_ped->PedTypeIs_45EDE0(ped_type::player_2) && field_240_occupation == ped_ocupation_enum::mugger)
                 {
-                    field_14C_internal_target_ped->field_15C_player->Add_2D4(-10);
+                    field_14C_internal_target_ped->field_15C_player->AddScore_41DC40(-10);
                     ++field_229_mug_count;
                     if (field_229_mug_count > 9)
                     {
@@ -9813,7 +9813,7 @@ void Ped::MeleeAttackStateMachine_46B670()
                 {
                     if (field_240_occupation == ped_ocupation_enum::mugger)
                     {
-                        field_14C_internal_target_ped->field_15C_player->Add_2D4(-10);
+                        field_14C_internal_target_ped->field_15C_player->AddScore_41DC40(-10);
                         ++field_229_mug_count;
                         if (field_229_mug_count > 9)
                         {
@@ -9874,7 +9874,7 @@ void Ped::MeleeAttackStateMachine_46B670()
 
                 if (field_14C_internal_target_ped->PedTypeIs_45EDE0(ped_type::player_2) && field_240_occupation == ped_ocupation_enum::mugger)
                 {
-                    field_14C_internal_target_ped->field_15C_player->Add_2D4(-10);
+                    field_14C_internal_target_ped->field_15C_player->AddScore_41DC40(-10);
                     ++field_229_mug_count;
                     if (field_229_mug_count > 9)
                     {

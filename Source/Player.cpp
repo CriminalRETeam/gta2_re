@@ -858,7 +858,7 @@ void Player::InitPlayerPed_565490(Ped* pPed)
     field_8_turn_speed = kAngZero_6FE754;
     field_A_turn_accel = kJumpTurnAccel_6FE74C + (word_6FE750 + kJumpTurnAccel_6FE74C);
     field_C_move_direction = kZero_6FE610;
-    field_10 = 0;
+    field_10_unused = 0;
     field_680_traffic_spawn_counter = 0;
     field_682_traffic_spawn_threshold = 1000;
     pPed->SetPlayer_45B560(this, 0);
@@ -2925,7 +2925,7 @@ Player::Player(u8 player_idx)
     field_8_turn_speed = kAngZero_6FE754;
     field_A_turn_accel = kAngZero_6FE754;
     field_C_move_direction = kZero_6FE610;
-    field_10 = 0;
+    field_10_unused = 0;
     field_788_curr_weapon_idx = 0;
     field_68_camera_mode = 1;
     field_6C_bIn_debug_cam_mode = 0;

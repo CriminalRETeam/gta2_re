@@ -2887,7 +2887,7 @@ void miss2_0x11C::SCRCMD_ADD_SCORE_509D90()
             Player* pPlayer = pPed->field_15C_player;
             if (gBasePtr_6F8070->field_2_type == SCRCMD_ADD_SCORE1)
             {
-                pPlayer->Add_2D4(pCmd->field_C_s32);
+                pPlayer->AddScore_41DC40(pCmd->field_C_s32);
             }
             else
             {
@@ -2911,7 +2911,7 @@ void miss2_0x11C::SCRCMD_ADD_SCORE2_509E00()
     {
         if (pPed->is_player_41B0A0())
         {
-            pPed->field_15C_player->Add_2D4(pCounter->field_8_counter);
+            pPed->field_15C_player->AddScore_41DC40(pCounter->field_8_counter);
         }
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -6852,7 +6852,7 @@ void miss2_0x11C::SCRCMD_DO_BASIC_KF_510280()
 
                 if (pCmd->field_1A_rewardtype == 1)
                 {
-                    pPlayerPedCmdPointer->field_8_char->field_15C_player->Add_2D4(pCmd->field_1C_rewardvalue);
+                    pPlayerPedCmdPointer->field_8_char->field_15C_player->AddScore_41DC40(pCmd->field_1C_rewardvalue);
                     gRoot_sound_66B038.PlayVoice_40F090(19);
                 }
                 else if (pCmd->field_1A_rewardtype == 2)

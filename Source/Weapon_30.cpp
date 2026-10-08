@@ -1802,7 +1802,7 @@ void Weapon_30::ChuckThrowable_5E34B0()
                     if (field_24_pPed->field_15C_player->IsThrowCharging_4CCB00())
                     {
                         s32 v1 = field_24_pPed->field_15C_player->GetThrowStrength_4CCAD0();
-                        s32 v2 = field_24_pPed->field_15C_player->Get_Field_50();
+                        s32 v2 = field_24_pPed->field_15C_player->GetThrowCharge_4CCAE0();
                         throwable_5DDFC0(obj_type, v1, v2);
                     }
                     field_24_pPed->field_15C_player->ResetThrowCharge_4A5180();
@@ -1878,9 +1878,9 @@ void Weapon_30::pull_trigger_5E3670()
                 // This is really whacky, using p results in most of these inlines being optimized out
                 Player* pp = field_24_pPed->field_15C_player;
 
-                if (pp->Get_Field_50() == 0x60)
+                if (pp->GetThrowCharge_4CCAE0() == 0x60)
                 {
-                    throwable_5DDFC0(183, field_24_pPed->field_15C_player->GetThrowStrength_4CCAD0(), pp->Get_Field_50());
+                    throwable_5DDFC0(183, field_24_pPed->field_15C_player->GetThrowStrength_4CCAD0(), pp->GetThrowCharge_4CCAE0());
                     this->field_24_pPed->field_15C_player->field_50_throw_charge = -1;
                 }
             }
