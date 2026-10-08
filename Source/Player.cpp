@@ -2985,7 +2985,7 @@ Player::~Player()
 
     /*
 	PlayerCrimeStats_3C::dtor_484EE0(&field_644_crime_stats);
-	sad_mirzakhani::dtor_431DF0(&field_2D4_unk.field_1A8_bonuses);
+	BonusTracker_1C0::dtor_431DF0(&field_2D4_unk.field_1A8_bonuses);
 	Camera_0xBC::dtor_4369E0(&field_208_aux_game_camera);
 	Camera_0xBC::dtor_4369E0(&field_14C_view_camera);
 	Camera_0xBC::dtor_4369E0(&field_90_game_camera);

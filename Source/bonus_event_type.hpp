@@ -1,6 +1,6 @@
 #pragma once
 
-// First argument of sad_mirzakhani::ProcessBonusEvent_4320D0 / bonus event type of a silly_saha_0x2C (stored as s16).
+// First argument of BonusTracker_1C0::ProcessBonusEvent_4320D0 / bonus event type of a BonusRule_2C (stored as s16).
 // Kept in its own header, like car_despawn_status.hpp, so that the enum does not land in a header many TUs share.
 namespace bonus_event_type
 {

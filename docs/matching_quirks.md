@@ -409,7 +409,7 @@ the original's loop shape in `Frontend::ManageCredits_4B7A10` (with the `u16` ti
 operand through an inline getter (`get_cam_x()`) and the other directly also set the load order of `a - b`.
 
 **A goto loop that returns the same value from several places is a `for` with `continue`.** That gave the
-shared `return 10` in `sad_mirzakhani::find_431EC0` (which also read the wrong field before).
+shared `return 10` in `BonusTracker_1C0::FindMatchingRule_431EC0` (which also read the wrong field before).
 
 **Search loops that return a pointer or NULL were inline helpers.** When the original tests `&array[i] == NULL`
 and gives every `return false` its own epilogue, write each search as a file-local inline that returns the
@@ -706,7 +706,7 @@ which also needed `Fix16 m; m = f();` to copy the return into a register).
 **An EH state above 0 at entry means extra named locals with constructors.** In `pistol_5DD860`
 the frame size and entry state showed two `Fix16_Point` locals where we had one (0.721 -> 0.931).
 
-**An if/else-if chain with nested returns, not a switch returning a compare.** `if (a3 == 1) { if (a2 == N) return 1; } else if ...` with one shared `return 0`, in the original test order (`sad_mirzakhani::IsDeathCauseInGroup_432170`).
+**An if/else-if chain with nested returns, not a switch returning a compare.** `if (a3 == 1) { if (a2 == N) return 1; } else if ...` with one shared `return 0`, in the original test order (`BonusTracker_1C0::IsDeathCauseInGroup_432170`).
 
 **Write `base + k*i`, not a running local.** VC6's strength reduction of `ypos + 40*i` gives the
 original's induction variables and slots; hand-written running sums don't (`DrawScoreTable_4B5430`).

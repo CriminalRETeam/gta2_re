@@ -1296,102 +1296,102 @@
         "v96f_auto": true
     },
     {
-        "name": "silly_saha_0x2C::ctor",
+        "name": "BonusRule_2C::ctor",
         "v96f_address": "0x41dc80",
         "v105_address": "0x431d30",
         "v96f_auto": true
     },
     {
-        "name": "silly_saha_0x2C::dtor",
+        "name": "BonusRule_2C::dtor",
         "v96f_address": "0x41d890",
         "v105_address": "0x431d40",
         "v96f_auto": true
     },
     {
-        "name": "silly_saha_0x2C::Init_431D50",
+        "name": "BonusRule_2C::Init_431D50",
         "v96f_address": "0x41d8a0",
         "v105_address": "0x431d50",
         "v96f_auto": true
     },
     {
-        "name": "silly_saha_0x2C::Reset_431DA0",
+        "name": "BonusRule_2C::Reset_431DA0",
         "v96f_address": "0x41d8f0",
         "v105_address": "0x431da0",
         "v96f_auto": true
     },
     {
-        "name": "silly_saha_0x2C::Deactivate_431DB0",
+        "name": "BonusRule_2C::Deactivate_431DB0",
         "v96f_address": "0x41d900",
         "v105_address": "0x431db0",
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::ctor",
+        "name": "BonusTracker_1C0::ctor",
         "v96f_address": "0x41dc90",
         "v105_address": "0x431dc0",
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::dtor",
+        "name": "BonusTracker_1C0::dtor",
         "v96f_address": null,
         "v105_address": "0x431df0"
     },
     {
-        "name": "sad_mirzakhani::Init_431E10",
+        "name": "BonusTracker_1C0::Init_431E10",
         "v96f_address": "0x41d930",
         "v105_address": "0x431e10",
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::Service_431E30",
+        "name": "BonusTracker_1C0::Service_431E30",
         "v96f_address": "0x41dcc0",
         "v105_address": "0x431e30",
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::next_free_idx_431E90",
+        "name": "BonusTracker_1C0::FindFreeRule_431E90",
         "v96f_address": "0x41d950",
         "v105_address": "0x431e90",
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::find_431EC0",
+        "name": "BonusTracker_1C0::FindMatchingRule_431EC0",
         "v96f_address": "0x41dd20",
         "v105_address": "0x431ec0",
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::alloc_next_431FE0",
+        "name": "BonusTracker_1C0::AllocRule_431FE0",
         "v96f_address": "0x41de40",
         "v105_address": "0x431fe0",
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::GetBonusResult_432080",
+        "name": "BonusTracker_1C0::GetBonusResult_432080",
         "v96f_address": "0x41d980",
         "v105_address": "0x432080",
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::ProcessBonusEvent_4320D0",
+        "name": "BonusTracker_1C0::ProcessBonusEvent_4320D0",
         "v96f_address": "0x41dee0",
         "v105_address": "0x4320d0",
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::IsDeathCauseInGroup_432170",
+        "name": "BonusTracker_1C0::IsDeathCauseInGroup_432170",
         "v96f_address": "0x41d9d0",
         "v105_address": "0x432170",
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::IsOccupationInGroup_432240",
+        "name": "BonusTracker_1C0::IsOccupationInGroup_432240",
         "v96f_address": "0x41da60",
         "v105_address": "0x432240",
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::AreCarModelsEquivalent_432300",
+        "name": "BonusTracker_1C0::AreCarModelsEquivalent_432300",
         "v96f_address": "0x41db10",
         "v105_address": "0x432300",
         "v96f_auto": true

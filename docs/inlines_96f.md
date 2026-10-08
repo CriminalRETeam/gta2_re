@@ -88,7 +88,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x422B70 | `sound_obj::sub_422B70` | 0x41B7B0 | `sub_4A65E0`, ✓ `sub_41B080` (10.5 0x41B480), ✓ `sub_41B090`, ✓ `sub_41B0A0`, ✓ `sub_410BF0` | done | get_velocity_41B080, is_player_41B0A0, Round_To_Int_410BF0 x3 (get_ped_state_2_41B090 already used); 192->175; sub_4A65E0 = GetPlayerCar_5698E0 (still called) |
 | 0x423080 | `sound_obj::sub_423080` | 0x41B0D0 | ✓ `sub_41B0B0`, ✓ `sub_41B0A0`, ✓ `cool_nash_0x294::get_occupation_403980` | matched | Ped::TakeVoiceEvent_41B0B0 (new) + is_player_41B0A0; 6->6 (remaining diff is register choice for rate + RandomDisplacement) |
 | 0x42A500 | `sound_obj::ProcessType7_Weapon_42A500` | 0x41CCA0 | ✓ `sub_41CC80`, ✓ `sub_41CC70`, ✓ `sub_41CC90`, `sub_4CD8C0`, `sub_411730` | done | Weapon_30::TakeF2C_41CC80 (new), Get_F4_41CC70, GetWeaponType_41CC90, position fields like 9.6f; 92->67; 4CD8C0/411730 still called in 10.5 |
-| 0x4320D0 | `sad_mirzakhani::sub_4320D0` | 0x41DEE0 | ✓ `sub_41DC40` | done | Player::AddScore_41DC40 = 9.6f 0x41DC40 (comment added); 51->51 |
+| 0x4320D0 | `BonusTracker_1C0::sub_4320D0` | 0x41DEE0 | ✓ `sub_41DC40` | done | Player::AddScore_41DC40 = 9.6f 0x41DC40 (comment added); 51->51 |
 | 0x4358D0 | `Camera_0xBC::ComputeTargetFacingAngle_4358D0` | 0x41E620 | ✓ `cool_nash_0x294::get_car_416B60`, ✓ `sub_416BB0`, ✓ `CarPhysics_B0::is_backward_gas_on_411810` | done | all 9.6f inlines used |
 | 0x436200 | `Camera_0xBC::ApplyCarVelocityCameraOffset_436200` | 0x41EBF0 | ✓ `Car_BC::sub_403BA0`, ✓ `Car_BC::sub_411900`, ✓ `sub_40F790`, ✓ `Car_BC::has_trailer_41E460`, ✓ `sub_41E210` | done | atan2_40F790, is_trailer_cab_41E460, FromPolar_41E210; 98->97 |
 | 0x43B2B0 | `Car_BC::sub_43B2B0` | 0x422360 | ✓ `cool_nash_0x294::get_car_state_403A90`, ✓ `cool_nash_0x294::get_target_to_enter_403B10` | done | GetInternalObjective_403A90, get_target_to_enter_403B10 used (6 unchanged) |
@@ -348,8 +348,8 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x426F20 | `sound_obj::sub_426F20` | 0x41C350 | ✓ `sub_411940`, ✓ `sub_41C1F0` | done | all 9.6f inlines used |
 | 0x42D870 | `DoBrianTest_42D870` | 0x41D0B0 | `sub_40E030` (10.5 0x58A190), ✓ `sub_41D020`, `sub_451510` | checked | sub_40E030 is a StartRoute copy and sub_451510 a large callee; source already calls the 10.5 functions, nothing open-coded |
 | 0x430C70 | `sub_430C70` | 0x41D620 | `sub_41D580` | checked | 41D580 (160 bytes) is a helper 10.5 keeps out of line / pairing |
-| 0x431E30 | `sad_mirzakhani::sub_431E30` | 0x41DCC0 | ✓ `rng::get_cur_rng_41CFE0` | done | all 9.6f inlines used |
-| 0x431FE0 | `sad_mirzakhani::alloc_next_431FE0` | 0x41DE40 | ✓ `rng::get_cur_rng_41CFE0` | done | all 9.6f inlines used |
+| 0x431E30 | `BonusTracker_1C0::sub_431E30` | 0x41DCC0 | ✓ `rng::get_cur_rng_41CFE0` | done | all 9.6f inlines used |
+| 0x431FE0 | `BonusTracker_1C0::AllocRule_431FE0` | 0x41DE40 | ✓ `rng::get_cur_rng_41CFE0` | done | all 9.6f inlines used |
 | 0x4355D0 | `Camera_0xBC::IsSpriteTheCameraSubject_4355D0` | 0x41E480 | ✓ `sub_40FEB0`, ✓ `cool_nash_0x294::get_car_416B60`, ✓ `sub_40FEA0` | done | AsCar_40FEB0, get_car_416B60, AsCharB4_40FEA0; still matches |
 | 0x435A20 | `Camera_0xBC::ReturnOwnerVelocity_435A20` | 0x41DFC0 | `Car_BC::sub_421D90` | checked | sub_421D90 is GetCarLinearSpeed_43A240 (pairing error, 10.5 calls it) |
 | 0x435A70 | `Camera_0xBC::IsCoordsPosVisible_435A70` | 0x41E710 | ✓ `DrawUnk_0xBC::sub_40CFC0` | done | all 9.6f inlines used |
@@ -816,7 +816,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x50F3D0 | `miss2_0x11C::SCRCMD_SET_GROUP_TYPE_50F3D0` | 0x47E210 | `sub_476660` | checked | pairing noise: 9.6f sub_476660 reads a byte from a 0x2C-stride table (frosty), not the ped group type set here |
 | 0x50F450 | `miss2_0x11C::SCRCMD_EMERG_LIGHTS_50F450` | 0x4803C0 | ✓ `sub_414F20` | done | Car_BC::HasEmergencyLights_414F20; code unchanged |
 | 0x510100 | `miss2_0x11C::SCRCMD_START_BASIC_KF_510100` | 0x480430 | ✓ `sub_475A30`, ✓ `sub_475A40`, `sub_4105B0`, ✓ `cool_nash_0x294::get_car_416B60` | checked | get/set_field_C1E2D_475A30/475A40 and get_car_416B60 already used; sub_4105B0 thunk on an unknown 9.6f global |
-| 0x510280 | `miss2_0x11C::SCRCMD_DO_BASIC_KF_510280` | 0x47E7F0 | ✓ `sub_476660`, ✓ `cool_nash_0x294::sub_403990`, ✓ `sub_476680`, `sub_4C93B0`, ✓ `sub_475A40`, ✓ `cool_nash_0x294::sub_420B80`, ✓ `sub_41DC40`, ✓ `sub_4766B0`, `sub_4A4D50`, `sub_4105B0` | done | sad_mirzakhani::get_bonus_count_476660 and DeactivateBonus_476680 (new), Ped::ClearWantedPoints_420B80, Player::ChangeMultipliers_4766B0; set_field_C1E2D_475A40/GetPedState_403990/AddScore_41DC40 already used; sub_4A4D50 = ChangeLifeCountByAmount_5699F0 (still called); code unchanged |
+| 0x510280 | `miss2_0x11C::SCRCMD_DO_BASIC_KF_510280` | 0x47E7F0 | ✓ `sub_476660`, ✓ `cool_nash_0x294::sub_403990`, ✓ `sub_476680`, `sub_4C93B0`, ✓ `sub_475A40`, ✓ `cool_nash_0x294::sub_420B80`, ✓ `sub_41DC40`, ✓ `sub_4766B0`, `sub_4A4D50`, `sub_4105B0` | done | BonusTracker_1C0::GetProgressCount_476660 and DeactivateBonus_476680 (new), Ped::ClearWantedPoints_420B80, Player::ChangeMultipliers_4766B0; set_field_C1E2D_475A40/GetPedState_403990/AddScore_41DC40 already used; sub_4A4D50 = ChangeLifeCountByAmount_5699F0 (still called); code unchanged |
 | 0x510780 | `miss2_0x11C::SCRCMD_SAVE_RESTORE_RESPECT_510780` | 0x4802F0 | `frosty_pasteur_0xC1EA8::sub_476200` (10.5 0x512770), `sub_43DF60`, `cool_nash_0x294::sub_403920`, `sub_436070` (10.5 0x470F30), `sub_433B90`, `cool_nash_0x294::set_occupation_403970`, `sub_476D20`, `Car_BC::sub_421560`, `sub_421510`, `sub_42A9D0` (10.5 0x453BF0), `sub_425DD0` (10.5 0x43BCA0) | checked | pairing noise: 9.6f 0x4802F0 is a ped-spawning command; source only saves/restores gang respect |
 | 0x5108D0 | `miss2_0x11C::PreExecOpCode_5108D0` | 0x4805B0 | `sub_479850`, `sub_479F10`, `sub_47B5E0`, `sub_47B810`, `sub_47BCD0`, `sub_47BE00`, `sub_47D070`, `sub_47DE70`, `sub_47E360` | checked | listed callees are SCRCMD handlers (still called) |
 | 0x511E10 | `frosty_pasteur_0xC1EA8::SaveGame_511E10` | 0x47EF40 | `sub_483D90`, ✓ `GameSession_578::sub_453A80`, `sub_475CA0` | checked | get_secret_tokens_collected_453A80 already used; sub_483D90/sub_475CA0 are big callees the source calls as 10.5 functions |
@@ -2255,8 +2255,8 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x476360 | `sub_476360` | 8 |  | Source/Car_BC.hpp:878 | 0/1 | todo |  |
 | 0x4764A0 | `sub_4764A0` | 39 |  | Source/Car_BC.hpp:220 | 0/1 | todo |  |
 | 0x476610 | `sub_476610` | 18 |  |  | 0/1 | todo |  |
-| 0x476660 | `sub_476660` | 22 |  | Source/sad_mirzakhani.hpp:40 | 0/2 | todo |  |
-| 0x476680 | `sub_476680` | 26 |  | Source/sad_mirzakhani.hpp:46 | 0/1 | todo |  |
+| 0x476660 | `sub_476660` | 22 |  | Source/BonusTracker_1C0.hpp:40 | 0/2 | todo |  |
+| 0x476680 | `sub_476680` | 26 |  | Source/BonusTracker_1C0.hpp:46 | 0/1 | todo |  |
 | 0x4766B0 | `sub_4766B0` | 11 |  | Source/Player.hpp:87 | 0/3 | todo |  |
 | 0x4766C0 | `sub_4766C0` | 11 |  | Source/Player.hpp:107 | 0/2 | todo |  |
 | 0x476700 | `sub_476700` | 40 |  | Source/Player.hpp:93 | 0/1 | todo |  |

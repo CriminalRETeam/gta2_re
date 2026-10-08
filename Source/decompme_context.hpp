@@ -79,7 +79,7 @@
 #include "registry.hpp"
 #include "root_sound.hpp"
 #include "RouteFinder.hpp"
-#include "sad_mirzakhani.hpp"
+#include "BonusTracker_1C0.hpp"
 #include "FpsCounter_54.hpp"
 #include "TextureCache_15D8.hpp"
 #include "CreditsLine_6C.hpp"

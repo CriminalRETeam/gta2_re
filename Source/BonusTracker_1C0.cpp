@@ -1,4 +1,4 @@
-#include "sad_mirzakhani.hpp"
+#include "BonusTracker_1C0.hpp"
 #include "Function.hpp"
 #include "Player.hpp" // PlayerScoreTracker_36C
 #include "rng.hpp"
@@ -6,18 +6,18 @@
 #include "ped_death_cause.hpp"
 
 MATCH_FUNC(0x431D30);
-silly_saha_0x2C::silly_saha_0x2C()
+BonusRule_2C::BonusRule_2C()
 {
     Init_431D50();
 }
 
 MATCH_FUNC(0x431D40);
-silly_saha_0x2C::~silly_saha_0x2C()
+BonusRule_2C::~BonusRule_2C()
 {
 }
 
 MATCH_FUNC(0x431D50);
-void silly_saha_0x2C::Init_431D50()
+void BonusRule_2C::Init_431D50()
 {
     field_0_pZone = 0;
     field_4_event_type = bonus_event_type::any_event;
@@ -28,23 +28,23 @@ void silly_saha_0x2C::Init_431D50()
     field_14_death_cause = ped_death_cause::none_0;
     field_18_alt_car_model = car_model_enum::none;
     field_1C_time_limit = 0;
-    field_20_counterVal = 0;
+    field_20_start_time = 0;
     field_24_check_mode = 0;
     field_25_target_count = 0;
-    field_26_count = 0;
+    field_26_progress_count = 0;
     field_28_reward = 0;
     field_2A_bUsed = 0;
     field_2B_bActive = 0;
 }
 
 MATCH_FUNC(0x431DA0);
-void silly_saha_0x2C::Reset_431DA0()
+void BonusRule_2C::Reset_431DA0()
 {
     Init_431D50();
 }
 
 MATCH_FUNC(0x431DB0);
-void silly_saha_0x2C::Deactivate_431DB0()
+void BonusRule_2C::Deactivate_431DB0()
 {
     field_2B_bActive = 0;
 }
@@ -52,31 +52,31 @@ void silly_saha_0x2C::Deactivate_431DB0()
 // ============
 
 MATCH_FUNC(0x431DC0);
-sad_mirzakhani::sad_mirzakhani()
+BonusTracker_1C0::BonusTracker_1C0()
 {
     field_1B8_pScores = 0;
     field_1BC_cur_time = 0;
 }
 
 MATCH_FUNC(0x431DF0);
-sad_mirzakhani::~sad_mirzakhani()
+BonusTracker_1C0::~BonusTracker_1C0()
 {
     field_1B8_pScores = 0;
 }
 
 MATCH_FUNC(0x431E10);
-void sad_mirzakhani::Init_431E10(PlayerScoreTracker_36C* pScores)
+void BonusTracker_1C0::Init_431E10(PlayerScoreTracker_36C* pScores)
 {
     field_1BC_cur_time = 0;
     field_1B8_pScores = pScores;
 }
 
 MATCH_FUNC(0x431E30);
-void sad_mirzakhani::Service_431E30()
+void BonusTracker_1C0::Service_431E30()
 {
     field_1BC_cur_time = gpRng_67AB34->get_cur_rng_41CFE0();
 
-    silly_saha_0x2C* pIter = &field_0_bonuses[0];
+    BonusRule_2C* pIter = &field_0_bonuses[0];
     for (s32 i = GTA2_COUNTOF(field_0_bonuses) - 1; i >= 0; i--)
     {
         if (pIter->field_2A_bUsed)
@@ -84,9 +84,9 @@ void sad_mirzakhani::Service_431E30()
             if (pIter->field_2B_bActive)
             {
                 const u32 f1c = pIter->field_1C_time_limit;
-                if (f1c != -1 && field_1BC_cur_time - pIter->field_20_counterVal > f1c)
+                if (f1c != -1 && field_1BC_cur_time - pIter->field_20_start_time > f1c)
                 {
-                    pIter->field_26_count = 0;
+                    pIter->field_26_progress_count = 0;
                     pIter->Deactivate_431DB0();
                 }
             }
@@ -96,7 +96,7 @@ void sad_mirzakhani::Service_431E30()
 }
 
 MATCH_FUNC(0x431E90);
-u16 sad_mirzakhani::next_free_idx_431E90()
+u16 BonusTracker_1C0::FindFreeRule_431E90()
 {
     for (u16 i = 0; i < GTA2_COUNTOF(field_0_bonuses); i++)
     {
@@ -109,7 +109,7 @@ u16 sad_mirzakhani::next_free_idx_431E90()
 }
 
 MATCH_FUNC(0x431EC0);
-u16 sad_mirzakhani::find_431EC0(u16 idx,
+u16 BonusTracker_1C0::FindMatchingRule_431EC0(u16 start_idx,
                                 s16 event_type,
                                 s32 car_model,
                                 s32 occupation,
@@ -119,17 +119,17 @@ u16 sad_mirzakhani::find_431EC0(u16 idx,
                                 s32 alt_car_model,
                                 gmp_map_zone* pZone)
 {
-    u16 i; // bp
-    silly_saha_0x2C* pBonus; // esi
-    s16 bonus_type; // ax
-    s32 bonus_occupation; // eax
-    s32 bonus_car_model; // eax
-    s16 bonus_gang_idx; // ax
-    s16 bonus_remap; // ax
-    s32 bonus_death_cause; // eax
-    s32 bonus_alt_car_model; // eax
+    u16 i;
+    BonusRule_2C* pBonus;
+    s16 bonus_type;
+    s32 bonus_occupation;
+    s32 bonus_car_model;
+    s16 bonus_gang_idx;
+    s16 bonus_remap;
+    s32 bonus_death_cause;
+    s32 bonus_alt_car_model;
 
-    for (i = idx; i < 10u; i++)
+    for (i = start_idx; i < k_max_rules; i++)
     {
         pBonus = &this->field_0_bonuses[i];
         if (!pBonus->field_2A_bUsed)
@@ -175,11 +175,11 @@ u16 sad_mirzakhani::find_431EC0(u16 idx,
             field_0_bonuses[i].Deactivate_431DB0();
         }
     }
-    return 10;
+    return k_max_rules;
 }
 
 MATCH_FUNC(0x431FE0);
-s16 sad_mirzakhani::alloc_next_431FE0(s16 event_type,
+s16 BonusTracker_1C0::AllocRule_431FE0(s16 event_type,
                                       s32 car_model,
                                       s32 occupation,
                                       s16 gang_idx,
@@ -192,8 +192,8 @@ s16 sad_mirzakhani::alloc_next_431FE0(s16 event_type,
                                       u16 reward,
                                       gmp_map_zone* pZone)
 {
-    const s16 idx = next_free_idx_431E90();
-    if (idx == 10)
+    const s16 idx = FindFreeRule_431E90();
+    if (idx == k_max_rules)
     {
         return idx;
     }
@@ -206,11 +206,11 @@ s16 sad_mirzakhani::alloc_next_431FE0(s16 event_type,
     field_0_bonuses[idx].field_14_death_cause = death_cause;
     field_0_bonuses[idx].field_18_alt_car_model = alt_car_model;
     field_0_bonuses[idx].field_0_pZone = pZone;
-    field_0_bonuses[idx].field_20_counterVal = gpRng_67AB34->get_cur_rng_41CFE0();
+    field_0_bonuses[idx].field_20_start_time = gpRng_67AB34->get_cur_rng_41CFE0();
     field_0_bonuses[idx].field_1C_time_limit = time_limit;
     field_0_bonuses[idx].field_24_check_mode = check_mode;
     field_0_bonuses[idx].field_25_target_count = target_count;
-    field_0_bonuses[idx].field_26_count = 0;
+    field_0_bonuses[idx].field_26_progress_count = 0;
     field_0_bonuses[idx].field_28_reward = reward;
     field_0_bonuses[idx].field_2A_bUsed = 1;
     field_0_bonuses[idx].field_2B_bActive = 1;
@@ -219,9 +219,9 @@ s16 sad_mirzakhani::alloc_next_431FE0(s16 event_type,
 }
 
 MATCH_FUNC(0x432080);
-s16 sad_mirzakhani::GetBonusResult_432080(u16 idx)
+s16 BonusTracker_1C0::GetBonusResult_432080(u16 idx)
 {
-    silly_saha_0x2C* pItem = &field_0_bonuses[idx];
+    BonusRule_2C* pItem = &field_0_bonuses[idx];
     if (!pItem->field_2A_bUsed)
     {
         return -1;
@@ -232,7 +232,7 @@ s16 sad_mirzakhani::GetBonusResult_432080(u16 idx)
         return -2;
     }
 
-    if (pItem->field_26_count == pItem->field_25_target_count)
+    if (pItem->field_26_progress_count == pItem->field_25_target_count)
     {
         pItem->Reset_431DA0();
         return -3;
@@ -245,18 +245,18 @@ s16 sad_mirzakhani::GetBonusResult_432080(u16 idx)
 }
 
 MATCH_FUNC(0x4320D0);
-void sad_mirzakhani::ProcessBonusEvent_4320D0(s16 event_type, s32 car_model, s32 occupation, s16 gang_idx, s16 remap, s32 death_cause, s32 alt_car_model, gmp_map_zone* pZone)
+void BonusTracker_1C0::ProcessBonusEvent_4320D0(s16 event_type, s32 car_model, s32 occupation, s16 gang_idx, s16 remap, s32 death_cause, s32 alt_car_model, gmp_map_zone* pZone)
 {
-    for (u16 i = 0; i < 10u; i++)
+    for (u16 i = 0; i < k_max_rules; i++)
     {
-        i = find_431EC0(i, event_type, car_model, occupation, gang_idx, remap, death_cause, alt_car_model, pZone);
-        if (i >= 10u)
+        i = FindMatchingRule_431EC0(i, event_type, car_model, occupation, gang_idx, remap, death_cause, alt_car_model, pZone);
+        if (i >= k_max_rules)
         {
             break;
         }
-        silly_saha_0x2C* pFound = &field_0_bonuses[i];
-        field_0_bonuses[i].field_26_count++;
-        if (get_bonus_count_476660(i) == pFound->field_25_target_count)
+        BonusRule_2C* pFound = &field_0_bonuses[i];
+        field_0_bonuses[i].field_26_progress_count++;
+        if (GetProgressCount_476660(i) == pFound->field_25_target_count)
         {
             field_1B8_pScores->field_368_player->AddScore_41DC40(pFound->field_28_reward);
             pFound->Deactivate_431DB0();
@@ -265,71 +265,71 @@ void sad_mirzakhani::ProcessBonusEvent_4320D0(s16 event_type, s32 car_model, s32
 }
 
 MATCH_FUNC(0x432170);
-s8 sad_mirzakhani::IsDeathCauseInGroup_432170(int death_cause, int group)
+s8 BonusTracker_1C0::IsDeathCauseInGroup_432170(int death_cause, int rule_death_cause)
 {
-    if (group == 1)
+    if (rule_death_cause == ped_death_cause::run_over_1)
     {
-        if (death_cause == 3)
+        if (death_cause == ped_death_cause::run_over_by_stolen_car_3)
         {
             return 1;
         }
     }
-    else if (group == 12)
+    else if (rule_death_cause == ped_death_cause::bomb_12)
     {
-        if (death_cause == 4)
+        if (death_cause == ped_death_cause::unknown_4)
         {
             return 1;
         }
     }
-    else if (group == 21)
+    else if (rule_death_cause == ped_death_cause::unknown_21)
     {
-        if (death_cause == 4)
+        if (death_cause == ped_death_cause::unknown_4)
         {
             return 1;
         }
     }
-    else if (group == 15)
+    else if (rule_death_cause == ped_death_cause::grenade_15)
     {
-        if (death_cause == 4)
+        if (death_cause == ped_death_cause::unknown_4)
         {
             return 1;
         }
     }
-    else if (group == 16)
+    else if (rule_death_cause == ped_death_cause::molotov_16)
     {
-        if (death_cause == 4)
+        if (death_cause == ped_death_cause::unknown_4)
         {
             return 1;
         }
     }
-    else if (group == 17)
+    else if (rule_death_cause == ped_death_cause::rocket_bullet_17)
     {
-        if (death_cause == 4)
+        if (death_cause == ped_death_cause::unknown_4)
         {
             return 1;
         }
     }
-    else if (group == 14)
+    else if (rule_death_cause == ped_death_cause::fire_hit_14)
     {
-        if (death_cause == 13)
+        if (death_cause == ped_death_cause::fire_13)
         {
             return 1;
         }
     }
-    else if (group == 22)
+    else if (rule_death_cause == ped_death_cause::any_weapon_22)
     {
         switch (death_cause)
         {
-            case 4:
-            case 10:
-            case 11:
-            case 13:
-            case 14:
-            case 15:
-            case 16:
-            case 17:
-            case 18:
-            case 19:
+            case ped_death_cause::unknown_4:
+            case ped_death_cause::punched_10:
+            case ped_death_cause::bullet_11:
+            case ped_death_cause::fire_13:
+            case ped_death_cause::fire_hit_14:
+            case ped_death_cause::grenade_15:
+            case ped_death_cause::molotov_16:
+            case ped_death_cause::rocket_bullet_17:
+            case ped_death_cause::rocket_18:
+            case ped_death_cause::shotgun_19:
                 return 1;
         }
     }
@@ -337,9 +337,9 @@ s8 sad_mirzakhani::IsDeathCauseInGroup_432170(int death_cause, int group)
 }
 
 MATCH_FUNC(0x432240);
-s8 sad_mirzakhani::IsOccupationInGroup_432240(int occupation, int group)
+s8 BonusTracker_1C0::IsOccupationInGroup_432240(int occupation, int rule_occupation)
 {
-    if (group == 46)
+    if (rule_occupation == ped_ocupation_enum::any_law_enforcement)
     {
         switch (occupation)
         {
@@ -358,7 +358,7 @@ s8 sad_mirzakhani::IsOccupationInGroup_432240(int occupation, int group)
                 return 0;
         }
     }
-    else if (group == 47)
+    else if (rule_occupation == ped_ocupation_enum::any_emergency_service_man)
     {
         switch (occupation)
         {
@@ -379,14 +379,14 @@ s8 sad_mirzakhani::IsOccupationInGroup_432240(int occupation, int group)
                 return 0;
         }
     }
-    else if (group == 48)
+    else if (rule_occupation == ped_ocupation_enum::any_gang_member)
     {
         if (occupation == ped_ocupation_enum::armed_gang_member_19 || occupation == ped_ocupation_enum::guard || occupation == ped_ocupation_enum::gang_driver_42)
         {
             return 1;
         }
     }
-    else if (group == 49)
+    else if (rule_occupation == ped_ocupation_enum::any_elvis)
     {
         if (occupation == ped_ocupation_enum::elvis || occupation == ped_ocupation_enum::elvis_leader)
         {
@@ -397,7 +397,7 @@ s8 sad_mirzakhani::IsOccupationInGroup_432240(int occupation, int group)
 }
 
 MATCH_FUNC(0x432300);
-bool sad_mirzakhani::AreCarModelsEquivalent_432300(int car_model_1, int car_model_2)
+bool BonusTracker_1C0::AreCarModelsEquivalent_432300(int car_model_1, int car_model_2)
 {
     bool is_fed_car_1;
     bool is_fed_car_2;

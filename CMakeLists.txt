@@ -130,8 +130,8 @@ set(gta2_lib_src
   Source/PlayerCrimeStats_3C.cpp
   Source/infallible_turing.hpp
   Source/infallible_turing.cpp
-  Source/sad_mirzakhani.hpp
-  Source/sad_mirzakhani.cpp
+  Source/BonusTracker_1C0.hpp
+  Source/BonusTracker_1C0.cpp
   Source/Gang.hpp
   Source/Gang.cpp
   Source/TagGame_28.hpp

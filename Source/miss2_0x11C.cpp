@@ -5490,7 +5490,7 @@ void miss2_0x11C::StartBonus_50DF10()
         gMap_0x370_6F6268->zone_by_name_4DEFD0(gfrosty_pasteur_6F8060->FindStringById_503080(pCmd->field_8_zone_str_id)->get_name());
     }
 
-    pPointer->field_8_counter = gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_bonuses.alloc_next_431FE0(flag,
+    pPointer->field_8_counter = gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_bonuses.AllocRule_431FE0(flag,
                                                                                                                    car_model,
                                                                                                                    occupation,
                                                                                                                    gang_idx,
@@ -6543,7 +6543,7 @@ void miss2_0x11C::SCRCMD_STORE_BONUS_50FAF0()
     if (bonus_unk != -3 && bonus_unk != -4)
     {
         pPointerCounter->field_8_counter =
-            gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_bonuses.field_0_bonuses[pPointerBonus->field_8_index].field_26_count;
+            gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_bonuses.field_0_bonuses[pPointerBonus->field_8_index].field_26_progress_count;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -6828,7 +6828,7 @@ void miss2_0x11C::SCRCMD_DO_BASIC_KF_510280()
             SCR_POINTER* pBonusType = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_bonusname);
             SCR_POINTER* pCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_12_countername);
             pCounter->field_8_counter = pCmd->field_14_target_total -
-                gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_bonuses.get_bonus_count_476660(pBonusType->field_8_index);
+                gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_bonuses.GetProgressCount_476660(pBonusType->field_8_index);
 
             Ped* pPed = pPlayerPedCmdPointer->field_8_char;
 
