@@ -16281,138 +16281,138 @@
         "v105_address": "0x58e980"
     },
     {
-        "name": "eager_benz::ctor",
+        "name": "PlayerScoreTracker_36C::ctor",
         "v96f_address": "0x4b73f0",
         "v105_address": "0x591bd0",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::Service_591C70",
+        "name": "PlayerScoreTracker_36C::Service_591C70",
         "v96f_address": "0x4b7770",
         "v105_address": "0x591c70",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::Init_5922F0",
+        "name": "PlayerScoreTracker_36C::Init_5922F0",
         "v96f_address": "0x4b7490",
         "v105_address": "0x5922f0",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::Reset_592330",
+        "name": "PlayerScoreTracker_36C::Reset_592330",
         "v96f_address": "0x4b7d50",
         "v105_address": "0x592330",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::GetScoreDigits_592360",
+        "name": "PlayerScoreTracker_36C::GetScoreDigits_592360",
         "v96f_address": "0x4b74d0",
         "v105_address": "0x592360",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::GetScore_592370",
+        "name": "PlayerScoreTracker_36C::GetScore_592370",
         "v96f_address": "0x433dc0",
         "v105_address": "0x592370",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::ResetCarModelFlags_592380",
+        "name": "PlayerScoreTracker_36C::ResetCarModelFlags_592380",
         "v96f_address": "0x4b75b0",
         "v105_address": "0x592380",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::CheckAllCarModelsFlagged_592430",
+        "name": "PlayerScoreTracker_36C::CheckAllCarModelsFlagged_592430",
         "v96f_address": "0x4b7d80",
         "v105_address": "0x592430",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::SetCarModelFlag_592570",
+        "name": "PlayerScoreTracker_36C::SetCarModelFlag_592570",
         "v96f_address": "0x4b7e90",
         "v105_address": "0x592570",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::GetCarScoreValue_5925B0",
+        "name": "PlayerScoreTracker_36C::GetCarScoreValue_5925B0",
         "v96f_address": "0x4b7500",
         "v105_address": "0x5925b0",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::AddCash_592620",
+        "name": "PlayerScoreTracker_36C::AddCash_592620",
         "v96f_address": "0x4b7660",
         "v105_address": "0x592620",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::OnPedKilled_592660",
+        "name": "PlayerScoreTracker_36C::OnPedKilled_592660",
         "v96f_address": "0x4b7eb0",
         "v105_address": "0x592660",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::OnCarDestroyed_592DD0",
+        "name": "PlayerScoreTracker_36C::OnCarDestroyed_592DD0",
         "v96f_address": "0x4b85b0",
         "v105_address": "0x592dd0",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::AwardCarDamageScore_593030",
+        "name": "PlayerScoreTracker_36C::AwardCarDamageScore_593030",
         "v96f_address": "0x4b8870",
         "v105_address": "0x593030",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::sub_593150",
+        "name": "PlayerScoreTracker_36C::sub_593150",
         "v96f_address": "0x4b89b0",
         "v105_address": "0x593150",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::sub_593220",
+        "name": "PlayerScoreTracker_36C::sub_593220",
         "v96f_address": null,
         "v105_address": "0x593220"
     },
     {
-        "name": "eager_benz::OnCarHijacked_593240",
+        "name": "PlayerScoreTracker_36C::OnCarHijacked_593240",
         "v96f_address": "0x4b8a70",
         "v105_address": "0x593240",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::OnBusStolen_593370",
+        "name": "PlayerScoreTracker_36C::OnBusStolen_593370",
         "v96f_address": "0x4b8bd0",
         "v105_address": "0x593370",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::OnFullBusDestroyed_593410",
+        "name": "PlayerScoreTracker_36C::OnFullBusDestroyed_593410",
         "v96f_address": "0x4b8c80",
         "v105_address": "0x593410",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::UpdateAccuracyCount_5934F0",
+        "name": "PlayerScoreTracker_36C::UpdateAccuracyCount_5934F0",
         "v96f_address": "0x4b76a0",
         "v105_address": "0x5934f0",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::GetMultiplayerFragDigits_5935B0",
+        "name": "PlayerScoreTracker_36C::GetMultiplayerFragDigits_5935B0",
         "v96f_address": "0x4b7570",
         "v105_address": "0x5935b0",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::GetFrags_5935C0",
+        "name": "PlayerScoreTracker_36C::GetFrags_5935C0",
         "v96f_address": "0x4b8fd0",
         "v105_address": "0x5935c0",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::ChangeFragsByAmount_5935D0",
+        "name": "PlayerScoreTracker_36C::ChangeFragsByAmount_5935D0",
         "v96f_address": "0x4b8a60",
         "v105_address": "0x5935d0",
         "v96f_auto": true

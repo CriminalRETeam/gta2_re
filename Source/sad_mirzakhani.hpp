@@ -51,7 +51,7 @@ class sad_mirzakhani
 
     EXPORT sad_mirzakhani(); // 0x431DC0
     EXPORT ~sad_mirzakhani(); // 0x431DF0
-    EXPORT void Init_431E10(class eager_benz* a2);
+    EXPORT void Init_431E10(class PlayerScoreTracker_36C* a2);
     EXPORT void Service_431E30();
     EXPORT u16 next_free_idx_431E90();
     EXPORT u16 find_431EC0(u16 idx, s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s32 f_14, s32 f_18, gmp_map_zone* pZone);
@@ -74,6 +74,6 @@ class sad_mirzakhani
     EXPORT bool AreCarModelsEquivalent_432300(int a2, int a3);
 
     silly_saha_0x2C field_0_bonuses[10];
-    class eager_benz* field_1B8_pScores;
+    class PlayerScoreTracker_36C* field_1B8_pScores;
     s32 field_1BC_cur_time;
 };

@@ -1,6 +1,6 @@
 #include "sad_mirzakhani.hpp"
 #include "Function.hpp"
-#include "Player.hpp" // eager_benz
+#include "Player.hpp" // PlayerScoreTracker_36C
 #include "rng.hpp"
 
 MATCH_FUNC(0x431D30);
@@ -63,7 +63,7 @@ sad_mirzakhani::~sad_mirzakhani()
 }
 
 MATCH_FUNC(0x431E10);
-void sad_mirzakhani::Init_431E10(eager_benz* a2)
+void sad_mirzakhani::Init_431E10(PlayerScoreTracker_36C* a2)
 {
     field_1BC_cur_time = 0;
     field_1B8_pScores = a2;

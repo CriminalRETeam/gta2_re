@@ -229,8 +229,8 @@ set(gta2_lib_src
   Source/PedGroup.cpp
   Source/rng.hpp
   Source/rng.cpp
-  Source/eager_benz.hpp
-  Source/eager_benz.cpp
+  Source/PlayerScoreTracker_36C.hpp
+  Source/PlayerScoreTracker_36C.cpp
   Source/thirsty_lamarr.hpp
   Source/thirsty_lamarr.cpp
   Source/enums.hpp

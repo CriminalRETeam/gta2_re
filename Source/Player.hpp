@@ -4,7 +4,7 @@
 #include "Draw.hpp"
 #include "Function.hpp"
 #include "ang16.hpp"
-#include "eager_benz.hpp"
+#include "PlayerScoreTracker_36C.hpp"
 #include "fix16.hpp"
 #include "sad_mirzakhani.hpp"
 #include "youthful_einstein.hpp"
@@ -429,7 +429,7 @@ class Player
     char_type field_2D1_pad;
     char_type field_2D2_pad;
     char_type field_2D3_pad;
-    eager_benz field_2D4_scores;
+    PlayerScoreTracker_36C field_2D4_scores;
     char_type field_640_busted;
     char_type field_641_pad;
     char_type field_642_pad;

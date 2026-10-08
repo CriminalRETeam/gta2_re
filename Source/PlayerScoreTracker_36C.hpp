@@ -8,7 +8,7 @@ class Player;
 class Car_BC;
 class Ped;
 
-class eager_benz
+class PlayerScoreTracker_36C
 {
   public:
     // 9.6f 0x4A50E0
@@ -29,7 +29,7 @@ class eager_benz
         return field_19C_reverse_count;
     }
 
-    EXPORT eager_benz();
+    EXPORT PlayerScoreTracker_36C();
     EXPORT void Service_591C70();
     EXPORT void Init_5922F0(Player* a2, s16 a3, s32 a4, s16 a5, u16 a6);
     EXPORT void Reset_592330();
@@ -43,8 +43,8 @@ class eager_benz
     EXPORT void OnPedKilled_592660(Ped* pPed1, Ped* pPed2);
     EXPORT void OnCarDestroyed_592DD0(Car_BC* pCar, Ped* pPed);
     EXPORT void AwardCarDamageScore_593030(Car_BC* pCar, s16 score_default);
-    EXPORT void sub_593150(Car_BC* a2, s16 a3);
-    EXPORT void sub_593220();
+    EXPORT void AwardCarDamageScoreHit_593150(Car_BC* a2, s16 a3);
+    EXPORT void AddCashForMultiplier_593220();
     EXPORT void OnCarHijacked_593240(Car_BC* pCar);
     EXPORT void OnBusStolen_593370(Car_BC* pCar);
     EXPORT void OnFullBusDestroyed_593410(Car_BC* pCar);
@@ -60,10 +60,10 @@ class eager_benz
     char_type field_75_score_mult;
     char_type field_76;
     char_type field_77;
-    s32 field_78;
-    s16 field_7C_e_execution_count;
+    s32 field_78_last_kill_time;
+    s16 field_7C_execution_count;
     s16 field_7E;
-    s32 field_80;
+    s32 field_80_last_elvis_kill_time;
     s16 field_84_num_elvis_killed;
     u16 field_86_total_kills;
     s16 field_88_killed_cops;
@@ -71,7 +71,7 @@ class eager_benz
     u8 field_8C_car_model_flags[256];
     u32 field_18C_one_second_timer;
     u32 field_190_fly_car_count;
-    s32 field_194;
+    s32 field_194_last_shot_result;
     u8 field_198_accuracy_count;
     char_type field_199;
     char_type field_19A;

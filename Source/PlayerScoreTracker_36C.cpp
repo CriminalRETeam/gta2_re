@@ -1,4 +1,4 @@
-#include "eager_benz.hpp"
+#include "PlayerScoreTracker_36C.hpp"
 #include "zealous_borg.hpp"
 #include "ped_death_cause.hpp"
 #include "CarInfo_808.hpp"
@@ -28,7 +28,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFlyCarMinVelocity_7028BC, Fix16(0x666, 0), 0x7028BC);
 
 
 MATCH_FUNC(0x591bd0)
-eager_benz::eager_benz()
+PlayerScoreTracker_36C::PlayerScoreTracker_36C()
 {
     field_368_player = 0;
 
@@ -38,14 +38,14 @@ eager_benz::eager_benz()
     field_18C_one_second_timer = 0;
     field_190_fly_car_count = 0;
     field_70_last_car_kill_time = 0;
-    field_78 = 0;
-    field_7C_e_execution_count = 0;
+    field_78_last_kill_time = 0;
+    field_7C_execution_count = 0;
     field_86_total_kills = 0;
     field_88_killed_cops = 0;
     field_8A_cars_stolen_count = 0;
-    field_80 = 0;
+    field_80_last_elvis_kill_time = 0;
     field_84_num_elvis_killed = 0;
-    field_194 = 0;
+    field_194_last_shot_result = 0;
     field_198_accuracy_count = 0;
     field_19C_reverse_count = 0;
     field_1A0_last_emergency_car_kill_time = 0;
@@ -58,7 +58,7 @@ eager_benz::eager_benz()
 }
 
 MATCH_FUNC(0x591c70)
-void eager_benz::Service_591C70()
+void PlayerScoreTracker_36C::Service_591C70()
 {
     field_1A8_bonuses.Service_431E30();
     Ped* player_ped = field_368_player->GetPlayerPed_41D020();
@@ -87,9 +87,9 @@ void eager_benz::Service_591C70()
         field_368_player->field_644_crime_stats.AddEvasionRating_484FB0(player_ped->get_wanted_star_count_46EF00());
     }
 
-    if (field_7C_e_execution_count >= 20u)
+    if (field_7C_execution_count >= 20u)
     {
-        field_7C_e_execution_count = 0;
+        field_7C_execution_count = 0;
         field_368_player->AddScore_41DC40(100000);
 
         if (field_368_player->IsUser_41DC70())
@@ -255,14 +255,14 @@ void eager_benz::Service_591C70()
         field_74_car_kill_combo = 1;
     }
 
-    if ((u32)(field_0_rng - field_78) > 15)
+    if ((u32)(field_0_rng - field_78_last_kill_time) > 15)
     {
         field_75_score_mult = 1;
     }
 }
 
 MATCH_FUNC(0x5922f0)
-void eager_benz::Init_5922F0(Player* pPlayer, s16 digit_transition_speed, s32 max_score_value, s16 palette, u16 max_frag_value)
+void PlayerScoreTracker_36C::Init_5922F0(Player* pPlayer, s16 digit_transition_speed, s32 max_score_value, s16 palette, u16 max_frag_value)
 {
     field_368_player = pPlayer;
     field_0_money.SetupDigitsParams_492110(digit_transition_speed, max_score_value, palette);
@@ -270,7 +270,7 @@ void eager_benz::Init_5922F0(Player* pPlayer, s16 digit_transition_speed, s32 ma
 }
 
 MATCH_FUNC(0x592330)
-void eager_benz::Reset_592330()
+void PlayerScoreTracker_36C::Reset_592330()
 {
     field_0_money.InitDigitSprites_492150();
     field_38_multiplayer_frags.InitDigitSprites_492150();
@@ -279,19 +279,19 @@ void eager_benz::Reset_592330()
 }
 
 MATCH_FUNC(0x592360)
-thirsty_lamarr* eager_benz::GetScoreDigits_592360()
+thirsty_lamarr* PlayerScoreTracker_36C::GetScoreDigits_592360()
 {
     return &field_0_money;
 }
 
 MATCH_FUNC(0x592370)
-s32 eager_benz::GetScore_592370()
+s32 PlayerScoreTracker_36C::GetScore_592370()
 {
     return field_0_money.field_0_value;
 }
 
 MATCH_FUNC(0x592380)
-void eager_benz::ResetCarModelFlags_592380(char_type bits)
+void PlayerScoreTracker_36C::ResetCarModelFlags_592380(char_type bits)
 {
     if ((bits & 1) != 0)
     {
@@ -334,7 +334,7 @@ void eager_benz::ResetCarModelFlags_592380(char_type bits)
 }
 
 MATCH_FUNC(0x592430)
-void eager_benz::CheckAllCarModelsFlagged_592430(char_type bits)
+void PlayerScoreTracker_36C::CheckAllCarModelsFlagged_592430(char_type bits)
 {
     u16 i;
 
@@ -377,14 +377,14 @@ void eager_benz::CheckAllCarModelsFlagged_592430(char_type bits)
 }
 
 MATCH_FUNC(0x592570)
-void eager_benz::SetCarModelFlag_592570(char_type a2, s32 a3)
+void PlayerScoreTracker_36C::SetCarModelFlag_592570(char_type a2, s32 a3)
 {
     field_8C_car_model_flags[a3] |= a2;
     CheckAllCarModelsFlagged_592430(a2);
 }
 
 MATCH_FUNC(0x5925b0)
-s32 eager_benz::GetCarScoreValue_5925B0(u32 car_info_idx, u8 arg4)
+s32 PlayerScoreTracker_36C::GetCarScoreValue_5925B0(u32 car_info_idx, u8 arg4)
 {
     u32 result = gCarInfo_808_678098->GetModelPhysicsFromIdx_4546B0(car_info_idx)->field_2_value;
 
@@ -402,7 +402,7 @@ s32 eager_benz::GetCarScoreValue_5925B0(u32 car_info_idx, u8 arg4)
 }
 
 MATCH_FUNC(0x592620)
-void eager_benz::AddCash_592620(s32 cash)
+void PlayerScoreTracker_36C::AddCash_592620(s32 cash)
 {
     field_0_money.ChangeStatByAmount_4921B0(cash);
 
@@ -415,7 +415,7 @@ void eager_benz::AddCash_592620(s32 cash)
 // Scores the player killing pPed1 (pPed2 is the killer's ped): points by occupation and kill
 // type, exploding score, cash, and reports the crime
 MATCH_FUNC(0x592660)
-void eager_benz::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
+void PlayerScoreTracker_36C::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
 {
     const s32 multipler = field_368_player->get_multiplier_4766A0();
     gmp_map_zone* pZone = gMap_0x370_6F6268->first_zone_by_pos_4DF6A0(pPed2->get_cam_x().ToInt(), pPed2->get_cam_y().ToInt());
@@ -454,16 +454,16 @@ void eager_benz::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
                              pZone);
 
     s32 rng = gpRng_67AB34->get_cur_rng_41CFE0();
-    if ((u32)(rng - field_78) > 15)
+    if ((u32)(rng - field_78_last_kill_time) > 15)
     {
-        field_7C_e_execution_count = 1;
+        field_7C_execution_count = 1;
     }
     else
     {
-        field_7C_e_execution_count++;
+        field_7C_execution_count++;
     }
     field_86_total_kills++;
-    field_78 = rng;
+    field_78_last_kill_time = rng;
 
     u32 score = 0;
     char_type bOtherGang = 0;
@@ -596,7 +596,7 @@ void eager_benz::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
         // Only the Elvis case has a score by now
         if (score)
         {
-            if ((u32)(rng - field_80) > 15)
+            if ((u32)(rng - field_80_last_elvis_kill_time) > 15)
             {
                 field_84_num_elvis_killed = 1;
             }
@@ -604,7 +604,7 @@ void eager_benz::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
             {
                 field_84_num_elvis_killed++;
             }
-            field_80 = rng;
+            field_80_last_elvis_kill_time = rng;
         }
         else
         {
@@ -744,7 +744,7 @@ void eager_benz::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
 }
 
 MATCH_FUNC(0x592dd0)
-void eager_benz::OnCarDestroyed_592DD0(Car_BC* pCar, Ped* pPed)
+void PlayerScoreTracker_36C::OnCarDestroyed_592DD0(Car_BC* pCar, Ped* pPed)
 {
     const s32 multipler = field_368_player->get_multiplier_4766A0();
     gmp_map_zone* pZone = gMap_0x370_6F6268->first_zone_by_pos_4DF6A0(pPed->get_cam_x().ToInt(), pPed->get_cam_y().ToInt());
@@ -842,7 +842,7 @@ void eager_benz::OnCarDestroyed_592DD0(Car_BC* pCar, Ped* pPed)
 }
 
 MATCH_FUNC(0x593030)
-void eager_benz::AwardCarDamageScore_593030(Car_BC* pCar, s16 score_default)
+void PlayerScoreTracker_36C::AwardCarDamageScore_593030(Car_BC* pCar, s16 score_default)
 {
     bool bAddScore = true;
     s32 mutipler = field_368_player->get_multiplier_4766A0();
@@ -896,7 +896,7 @@ void eager_benz::AwardCarDamageScore_593030(Car_BC* pCar, s16 score_default)
 }
 
 MATCH_FUNC(0x593150)
-void eager_benz::sub_593150(Car_BC* pCar, s16 a3)
+void PlayerScoreTracker_36C::AwardCarDamageScoreHit_593150(Car_BC* pCar, s16 a3)
 {
     if (!pCar->IsMaxDamage_40F890())
     {
@@ -925,13 +925,13 @@ void eager_benz::sub_593150(Car_BC* pCar, s16 a3)
 }
 
 MATCH_FUNC(0x593220)
-void eager_benz::sub_593220()
+void PlayerScoreTracker_36C::AddCashForMultiplier_593220()
 {
     field_368_player->field_2D4_scores.AddCash_592620(field_368_player->field_6BC_multpliers.field_0_value * 20);
 }
 
 MATCH_FUNC(0x593240)
-void eager_benz::OnCarHijacked_593240(Car_BC* pCar)
+void PlayerScoreTracker_36C::OnCarHijacked_593240(Car_BC* pCar)
 {
     const s32 multipler = field_368_player->get_multiplier_4766A0();
     gmp_map_zone* pMapZone = gMap_0x370_6F6268->first_zone_by_pos_4DF6A0(field_368_player->field_2C4_player_ped->get_cam_x().ToInt(),
@@ -957,7 +957,7 @@ void eager_benz::OnCarHijacked_593240(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x593370)
-void eager_benz::OnBusStolen_593370(Car_BC* pCar)
+void PlayerScoreTracker_36C::OnBusStolen_593370(Car_BC* pCar)
 {
     if (!bExplodingScoresOff_67D4FB && field_368_player->IsUser_41DC70())
     {
@@ -972,7 +972,7 @@ void eager_benz::OnBusStolen_593370(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x593410)
-void eager_benz::OnFullBusDestroyed_593410(Car_BC* pCar)
+void PlayerScoreTracker_36C::OnFullBusDestroyed_593410(Car_BC* pCar)
 {
     const s32 multpliers = field_368_player->get_multiplier_4766A0();
     if (!bExplodingScoresOff_67D4FB)
@@ -996,9 +996,9 @@ void eager_benz::OnFullBusDestroyed_593410(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x5934f0)
-void eager_benz::UpdateAccuracyCount_5934F0(u32 a2, s32 model, Ped* pPed)
+void PlayerScoreTracker_36C::UpdateAccuracyCount_5934F0(u32 a2, s32 model, Ped* pPed)
 {
-    field_194 = a2;
+    field_194_last_shot_result = a2;
     if (pPed && bIsFrench_67D53C)
     {
         switch (pPed->get_occupation_403980())
@@ -1032,19 +1032,19 @@ void eager_benz::UpdateAccuracyCount_5934F0(u32 a2, s32 model, Ped* pPed)
 }
 
 MATCH_FUNC(0x5935b0)
-thirsty_lamarr* eager_benz::GetMultiplayerFragDigits_5935B0()
+thirsty_lamarr* PlayerScoreTracker_36C::GetMultiplayerFragDigits_5935B0()
 {
     return &field_38_multiplayer_frags;
 }
 
 MATCH_FUNC(0x5935c0)
-s32 eager_benz::GetFrags_5935C0()
+s32 PlayerScoreTracker_36C::GetFrags_5935C0()
 {
     return field_38_multiplayer_frags.field_0_value;
 }
 
 MATCH_FUNC(0x5935d0)
-void eager_benz::ChangeFragsByAmount_5935D0(s32 amount)
+void PlayerScoreTracker_36C::ChangeFragsByAmount_5935D0(s32 amount)
 {
     field_38_multiplayer_frags.ChangeStatByAmount_4921B0(amount);
 }

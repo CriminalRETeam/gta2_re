@@ -26,7 +26,7 @@ EXTERN_GLOBAL(Fix16, dword_706CC8);
 #include "Rozza_C88.hpp"
 #include "Police_7B8.hpp"
 #include "Car_BC.hpp"
-#include "eager_benz.hpp"
+#include "PlayerScoreTracker_36C.hpp"
 #include "Fix16_Rect.hpp"
 #include "rng.hpp"
 #include "frosty_pasteur_0xC1EA8.hpp"
@@ -1225,7 +1225,7 @@ void Weapon_30::sub_5DFB60(u8 a2, Sprite* a3, Ang16 a4)
                                     pHit->field_8_car_bc_ptr->ApplyVisualDamage_43A9F0();
                                     if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2) && damage > 0)
                                     {
-                                        field_24_pPed->field_15C_player->field_2D4_scores.sub_593150(pHit->field_8_car_bc_ptr, 1);
+                                        field_24_pPed->field_15C_player->field_2D4_scores.AwardCarDamageScoreHit_593150(pHit->field_8_car_bc_ptr, 1);
                                     }
                                 }
                                 if (field_24_pPed->is_player_41B0A0())

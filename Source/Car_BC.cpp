@@ -3781,7 +3781,7 @@ void Car_BC::HandleCarExplosion_43D840(s32 a2)
                         pExploder->field_15C_player->field_2D4_scores.OnCarDestroyed_592DD0(this, pExploder);
                         if (bOcc2)
                         {
-                            pExploder->field_15C_player->field_2D4_scores.sub_593220();
+                            pExploder->field_15C_player->field_2D4_scores.AddCashForMultiplier_593220();
                         }
                     }
                     s16 zone_idx = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(this->field_84_car_info_idx);
@@ -3987,7 +3987,7 @@ void Car_BC::sub_43DD60()
                         pPed->field_15C_player->field_2D4_scores.OnCarDestroyed_592DD0(this, pPed);
                         if (bUnknown)
                         {
-                            pPed->field_15C_player->field_2D4_scores.sub_593220();
+                            pPed->field_15C_player->field_2D4_scores.AddCashForMultiplier_593220();
                         }
                     }
                     s16 gang_idx = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(this->field_84_car_info_idx);
@@ -4370,7 +4370,7 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
     {
         if (pFoundPed && pFoundPed->PedTypeIs_45EDE0(ped_type::player_2))
         {
-            pFoundPed->field_15C_player->field_2D4_scores.sub_593150(this, 1);
+            pFoundPed->field_15C_player->field_2D4_scores.AwardCarDamageScoreHit_593150(this, 1);
         }
     }
 

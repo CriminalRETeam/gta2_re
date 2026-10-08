@@ -455,7 +455,7 @@ void Wolfy_30::TimerAfter50Handler_541850(u16 timerVal)
                                         {
                                             if (pPed_->PedTypeIs_45EDE0(ped_type::player_2))
                                             {
-                                                pPed_->field_15C_player->field_2D4_scores.sub_593150(pCar, 1);
+                                                pPed_->field_15C_player->field_2D4_scores.AwardCarDamageScoreHit_593150(pCar, 1);
                                             }
                                         }
                                     }

@@ -193,7 +193,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 38 | 153 | 512 | - | 0x5df270 | `sub_5DF270` | Weapon_30.cpp |
 | 40 | 54 | 90 | 0 | 0x47f930 | `Crane_15C::PickUpCar_47F930` | Cranes.cpp |
 | 42 | 96 | 201 | 191 | 0x498da0 | `BurgerKing_1::read_input_device_498DA0` | BurgerKing_67F8B0.cpp |
-| 44 | 195 | 376 | 358 | 0x592660 | `eager_benz::OnPedKilled_592660` | eager_benz.cpp |
+| 44 | 195 | 376 | 358 | 0x592660 | `PlayerScoreTracker_36C::OnPedKilled_592660` | PlayerScoreTracker_36C.cpp |
 | 52 | 146 | 166 | 70 | 0x463830 | `Ped::SetObjective2_463830` | Ped.cpp |
 | 55 | 316 | 584 | 573 | 0x524630 | `Object_2C::IntegrateHorizontalMovementAndCollisions_524630` | Object_5C.cpp |
 | 55 | 876 | 1897 | 2397 | 0x448ce0 | `CarAI_78::ManageTrafficCarDirection_448CE0` | CarAI_78.cpp |
