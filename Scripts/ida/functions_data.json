@@ -16347,7 +16347,7 @@
         "v96f_auto": true
     },
     {
-        "name": "PlayerScoreTracker_36C::OnPedKilled_592660",
+        "name": "PlayerScoreTracker_36C::AwardPedKilledScore_592660",
         "v96f_address": "0x4b7eb0",
         "v105_address": "0x592660",
         "v96f_auto": true

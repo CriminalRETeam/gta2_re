@@ -11822,7 +11822,7 @@ void Ped::UpdateStatsForKiller_46F720()
             {
                 if (pPedKiller->PedTypeIs_45EDE0(ped_type::player_2))
                 {
-                    field_1A8_ped_killer->field_15C_player->field_2D4_scores.OnPedKilled_592660(this, this->field_1A8_ped_killer);
+                    field_1A8_ped_killer->field_15C_player->field_2D4_scores.AwardPedKilledScore_592660(this, this->field_1A8_ped_killer);
                     ApplyGangRespectForKill_46F680(this->field_1A8_ped_killer);
                 }
                 else

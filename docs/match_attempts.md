@@ -1026,7 +1026,7 @@ Still different:
   0.690: state 5 before state 4. 0.802: case 0's inverted `if`. 0.924: the distance check
   written out. Match: `if (!(dx > dy)) dx = dy;` instead of the ternary.
 
-### PlayerScoreTracker_36C::OnPedKilled_592660 (0x592660): WIP 0.343
+### PlayerScoreTracker_36C::AwardPedKilledScore_592660 (0x592660): WIP 0.343
 - Scores a ped kill, the ped counterpart of `AwardCarDestroyedScore_592DD0`. Points depend on the victim's
   occupation (cop, army, SWAT, FBI, gang members, Elvis with his own counter) and the kill type
   (`field_290`); network kills of players use a separate table. Then the exploding score, cash
@@ -2236,7 +2236,7 @@ Scores are `sc.sh` lines (VC6 vs 10.5); `sc7` is `sc7.sh` (VC7 vs 9.6f).
   sends the wrong `Abs` out of line in kill-char's MaxAbs (nested budget 61 < 64). `inlsim.py --scan` asks for +20
   caller size, and `{}` padding there proves it (sc 123 -> 101), but no natural change gives it: `u8 status`,
   `else if`, `pCriminal` (no change) and `pPursuitTarget` (worse, 248) locals all failed.
-- `PlayerScoreTracker_36C::OnPedKilled_592660` 269 -> 77: second switch with cases 9..20 first (layout), a `pCar ? model : 87`
+- `PlayerScoreTracker_36C::AwardPedKilledScore_592660` 269 -> 77: second switch with cases 9..20 first (layout), a `pCar ? model : 87`
   local like 9.6f, swat case store order (sc only). Left: the first switch's layout (army falls into the
   dispatch in 10.5 and 9.6f); all 8! case orders sampled (45 random), store orders from 9.6f: worse.
 - `Garage_48::ParkCarAtDoor_534700` 116 (unchanged; sc7 575 -> 97): 9.6f store order, file-local
@@ -2446,7 +2446,7 @@ Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 
   WinMain_5E53F0's matched form `w + (r - l) - (r - l)` inline (14) and as `s32 w, h` locals (85), the flags
   as a `UINT` local or as `SWP_*` names, both RECTs declared at the top, the call result in a `BOOL`, the
   sizes through file-local inline helpers (34): nothing moves the push.
-- `PlayerScoreTracker_36C::OnPedKilled_592660` (77 / 222): 9.6f 0x4B7EB0 lays the whole non-network block (occupation
+- `PlayerScoreTracker_36C::AwardPedKilledScore_592660` (77 / 222): 9.6f 0x4B7EB0 lays the whole non-network block (occupation
   switch with the kill-type switch inside it, flag stores tail-merged across cases in the order
   bFbi, bCop, bSwat, bArmy, bGangA, bGangB) *after* the scoring block, jumping back to it; the French test
   calls `get_occupation_403980` once per compare. Writing every case's six flag stores in that fixed order
@@ -2903,7 +2903,7 @@ Scores are `quick_score.sh` lines.
   `padItems` later uses) and `1 -> 0x18` (the slot `kbResult` later uses), ours `bReleased = 0` and `padItems = 1`
   in other slots. `DWORD padItems = 0; HRESULT kbResult = 1;` at the top, with `bReleased` uninitialised or
   declared in the loop, and `padResult` hoisted: 134-148, so the slot sharing is VC6's, not the source's.
-- `PlayerScoreTracker_36C::OnPedKilled_592660` (77), `GetNextRotationToward_550F60` (164, per-case ax/cx/dx rotation),
+- `PlayerScoreTracker_36C::AwardPedKilledScore_592660` (77), `GetNextRotationToward_550F60` (164, per-case ax/cx/dx rotation),
   `Draw_4F6A20`, `DrawRightSide_4EAF40` (125), `draw_bottom_4ED290` (123): looked at only.
 
 ## Fresh pass (Oct 6): DrawBackground, LoadStringTbl, STORE_CAR_INFO, the Particle/Object/Car big three
@@ -3079,7 +3079,7 @@ Scores are `quick_score.sh` lines. One new match.
   << 6, 0)` for the first: 86; a `radius` local for the first: 146. `frame_slots.py`: the original's `distance`
   is the hidden-return slot of all three GetLength arms (0x10); ours gives each ternary arm its own temp and
   copies into 0x20, which is the `Fix16 d = inline_with_returns()` shape whose budget breaks the projection.
-- `Map_0x370::sub_4E6660` (4), `SetWindowedMode_5D9510` (14), `sub_4E6190` (60), `PlayerScoreTracker_36C::OnPedKilled_592660`
+- `Map_0x370::sub_4E6660` (4), `SetWindowedMode_5D9510` (14), `sub_4E6190` (60), `PlayerScoreTracker_36C::AwardPedKilledScore_592660`
   (77, the occupation/kill-type switch interleaving): reviewed against the notes only. `ErrorLog::ErrorLog` was
   matched by another worker meanwhile.
 
@@ -3331,7 +3331,7 @@ flag test that later disappears still shapes the block order and the exit placem
   the switch head (`dec %eax`) and case 7, which should cross-jump into case 6's ped check; written as a full copy
   (as 9.6f has it) the head matches but case 7 doesn't merge (104): the cjlog shows case 7 failing the first
   instruction compare against case 6 although opdump shows the instruction identical.
-- `CleanupSpriteList_5A7080` (20), `OnPedKilled_592660` (77), `MergeWithOtherGroup_4C9B60` (104),
+- `CleanupSpriteList_5A7080` (20), `AwardPedKilledScore_592660` (77), `MergeWithOtherGroup_4C9B60` (104),
   `ProcessPoliceRadioWordsPlayback_427220` (4): no gain. For 5A7080 the original's A, K, B order is not a reverse
   postorder of the plain loop CFG (K is a leaf, A and B both successors of the `pLast` test), so something folded
   after layout must be involved.
@@ -3339,7 +3339,7 @@ flag test that later disappears still shapes the block order and the exit placem
   tested after the if/else. The DFS reaches the keep block K first (the condition's fail jump); K now leads to the
   flag test and on to the head unlink B, so B finishes before K, and A (unlink after `pLast`) only later from the
   `pLast` test: finish order B, K, A gives the original's A, K, B. Threading then removes the flag test.
-- **`PlayerScoreTracker_36C::OnPedKilled_592660` (77 -> 0, MATCH).** The Elvis counter moved into `if (score) {...} else {
+- **`PlayerScoreTracker_36C::AwardPedKilledScore_592660` (77 -> 0, MATCH).** The Elvis counter moved into `if (score) {...} else {
   switch (death_cause) }` after the occupation switch (the `goto scored` is gone). `default` is visited first and
   reaches the `if (score)` test, whose target (the death-cause switch) is visited before the Elvis code, so the
   Elvis else arm lands between default and that switch. `score` is constant on every path in, so threading

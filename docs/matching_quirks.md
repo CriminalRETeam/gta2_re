@@ -2270,7 +2270,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   cases jump back into it (`CreateRoadblock_575FF0`, skeleton 23 -> 5). `return` instead of `break` in a
   case picks which copy of a shared tail survives (`HandlePedCollision_548BD0`).
 - **Constant reuse follows IL order:** after `reg = 0` for a register local, later `char = 0` stores use
-  `mov %bl,mem` instead of `movb $0`; zero the stack flags first (`PlayerScoreTracker_36C::OnPedKilled_592660`).
+  `mov %bl,mem` instead of `movb $0`; zero the stack flags first (`PlayerScoreTracker_36C::AwardPedKilledScore_592660`).
 - **Each distinct unnamed temporary gets its own slot** (`Ang16(a - b).Normalized_406C20()`), identical ones
   share it, and a named local inside an inline helper shares one slot across all its call sites
   (`CarAI_78::AlignToLaneCenter_44AF00`).
@@ -2424,7 +2424,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   identical trailing stores (`ped->field_21C_bf.b22 = true;` in each arm of `if (grenade) reload = 4; else
   reload = 50;`), and the extra constant use changes register choice for the whole function: in
   `Weapon_30::throwable_5DDFC0` it moved the constant 1 into `bl` as in the original (141 -> 0).
-- **The case order of a second switch shows in the layout.** `PlayerScoreTracker_36C::OnPedKilled_592660` places the
+- **The case order of a second switch shows in the layout.** `PlayerScoreTracker_36C::AwardPedKilledScore_592660` places the
   `field_290` cases 9..20 right after the dispatch: writing that case first in the switch took the
   function from 269 to 178 (`sc.sh`).
 

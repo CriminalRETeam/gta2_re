@@ -415,42 +415,42 @@ void PlayerScoreTracker_36C::AddCash_592620(s32 cash)
 // Scores the player killing pPed1 (pPed2 is the killer's ped): points by occupation and kill
 // type, exploding score, cash, and reports the crime
 MATCH_FUNC(0x592660)
-void PlayerScoreTracker_36C::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
+void PlayerScoreTracker_36C::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKiller)
 {
-    const s32 multipler = field_368_player->get_multiplier_4766A0();
-    gmp_map_zone* pZone = gMap_0x370_6F6268->first_zone_by_pos_4DF6A0(pPed2->get_cam_x().ToInt(), pPed2->get_cam_y().ToInt());
+    const s32 multiplier = field_368_player->get_multiplier_4766A0();
+    gmp_map_zone* pZone = gMap_0x370_6F6268->first_zone_by_pos_4DF6A0(pKiller->get_cam_x().ToInt(), pKiller->get_cam_y().ToInt());
 
     s16 gang_idx;
-    if (pPed1->field_17C_pGang)
+    if (pVictim->field_17C_pGang)
     {
-        gang_idx = pPed1->field_17C_pGang->field_1_gang_idx;
+        gang_idx = pVictim->field_17C_pGang->field_1_gang_idx;
     }
-    else if (pPed1->field_19C_dummy_gang)
+    else if (pVictim->field_19C_dummy_gang)
     {
-        gang_idx = pPed1->field_19C_dummy_gang->field_1_gang_idx;
+        gang_idx = pVictim->field_19C_dummy_gang->field_1_gang_idx;
     }
     else
     {
         gang_idx = -1;
     }
 
-    s32 model;
-    Car_BC* pCar = pPed2->get_car_416B60();
-    if (pCar)
+    s32 killer_car_model;
+    Car_BC* pKillerCar = pKiller->get_car_416B60();
+    if (pKillerCar)
     {
-        model = pCar->field_84_car_info_idx;
+        killer_car_model = pKillerCar->field_84_car_info_idx;
     }
     else
     {
-        model = car_model_enum::none;
+        killer_car_model = car_model_enum::none;
     }
     field_1A8_bonuses.ProcessBonusEvent_4320D0(0,
                              87,
-                             pPed1->get_occupation_403980(),
+                             pVictim->get_occupation_403980(),
                              gang_idx,
-                             pPed1->get_remap_433BA0(),
-                             pPed1->field_290_death_cause,
-                             model,
+                             pVictim->get_remap_433BA0(),
+                             pVictim->field_290_death_cause,
+                             killer_car_model,
                              pZone);
 
     s32 rng = gpRng_67AB34->get_cur_rng_41CFE0();
@@ -467,7 +467,7 @@ void PlayerScoreTracker_36C::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
 
     u32 score = 0;
     char_type bOtherGang = 0;
-    char_type bHasB4 = pPed1->field_168_game_object != 0;
+    char_type bHasGameObject = pVictim->field_168_game_object != 0;
     char_type bCop;
     char_type bArmy;
     char_type bSwat;
@@ -475,9 +475,9 @@ void PlayerScoreTracker_36C::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
     char_type bGangA;
     char_type bGangB;
 
-    if (bStartNetworkGame_7081F0 && pPed1->PedTypeIs_45EDE0(ped_type::player_2) && pPed1->field_15C_player)
+    if (bStartNetworkGame_7081F0 && pVictim->PedTypeIs_45EDE0(ped_type::player_2) && pVictim->field_15C_player)
     {
-        switch (pPed1->field_290_death_cause)
+        switch (pVictim->field_290_death_cause)
         {
             case 4:
             case 9:
@@ -508,16 +508,16 @@ void PlayerScoreTracker_36C::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
     }
     else
     {
-        if (pPed1->field_17C_pGang && (!pPed2->field_17C_pGang || pPed2->field_17C_pGang != pPed1->field_17C_pGang))
+        if (pVictim->field_17C_pGang && (!pKiller->field_17C_pGang || pKiller->field_17C_pGang != pVictim->field_17C_pGang))
         {
             bOtherGang = 1;
         }
-        if (pPed1->field_19C_dummy_gang && (!pPed2->field_17C_pGang || pPed2->field_17C_pGang != pPed1->field_19C_dummy_gang))
+        if (pVictim->field_19C_dummy_gang && (!pKiller->field_17C_pGang || pKiller->field_17C_pGang != pVictim->field_19C_dummy_gang))
         {
             bOtherGang = 1;
         }
 
-        switch (pPed1->get_occupation_403980())
+        switch (pVictim->get_occupation_403980())
         {
             case 23:
             case 24:
@@ -608,7 +608,7 @@ void PlayerScoreTracker_36C::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
         }
         else
         {
-            switch (pPed1->field_290_death_cause)
+            switch (pVictim->field_290_death_cause)
             {
                 case 9:
                 case 10:
@@ -695,24 +695,24 @@ void PlayerScoreTracker_36C::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
         }
     }
 
-    char_type bGiveScore = 1;
+    char_type bAwardScore = 1;
     if (bIsFrench_67D53C)
     {
-        s32 occupation = pPed1->get_occupation_403980();
+        s32 occupation = pVictim->get_occupation_403980();
         if (occupation == 24 || occupation == 29 || occupation == 37 || bSwat || bArmy || bFbi)
         {
-            bGiveScore = 0;
+            bAwardScore = 0;
         }
     }
 
     if (score > 0)
     {
         u32 total = (u8)field_75_score_mult * score;
-        if (!bExplodingScoresOff_67D4FB && bHasB4 && bGiveScore && field_368_player->IsUser_41DC70())
+        if (!bExplodingScoresOff_67D4FB && bHasGameObject && bAwardScore && field_368_player->IsUser_41DC70())
         {
-            gExplodingScorePool->PushScore_596890(pPed1->get_cam_x(), pPed1->get_cam_y(), pPed1->get_cam_z(), total * multipler);
+            gExplodingScorePool->PushScore_596890(pVictim->get_cam_x(), pVictim->get_cam_y(), pVictim->get_cam_z(), total * multiplier);
         }
-        if (bGiveScore)
+        if (bAwardScore)
         {
             field_368_player->AddScore_41DC40(total);
         }
@@ -722,7 +722,7 @@ void PlayerScoreTracker_36C::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
         }
     }
 
-    if (gCrimeReportQueue_67A4B8->ShouldReportPedCrime_485140(pPed1, field_368_player))
+    if (gCrimeReportQueue_67A4B8->ShouldReportPedCrime_485140(pVictim, field_368_player))
     {
         if (bOtherGang)
         {
@@ -732,7 +732,7 @@ void PlayerScoreTracker_36C::OnPedKilled_592660(Ped* pPed1, Ped* pPed2)
         {
             gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::Lawmen_killed_8, field_368_player->GetPlayerPed_4A5130());
         }
-        else if (pPed1->field_290_death_cause == ped_death_cause::run_over_1 || pPed1->field_290_death_cause == ped_death_cause::run_over_by_stolen_car_3)
+        else if (pVictim->field_290_death_cause == ped_death_cause::run_over_1 || pVictim->field_290_death_cause == ped_death_cause::run_over_by_stolen_car_3)
         {
             gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::Civilians_run_down_6, field_368_player->GetPlayerPed_4A5130());
         }
@@ -996,12 +996,12 @@ void PlayerScoreTracker_36C::OnFullBusDestroyed_593410(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x5934f0)
-void PlayerScoreTracker_36C::UpdateAccuracyCount_5934F0(u32 a2, s32 model, Ped* pPed)
+void PlayerScoreTracker_36C::UpdateAccuracyCount_5934F0(u32 shot_result, s32 weapon_model, Ped* pTarget)
 {
-    field_194_last_shot_result = a2;
-    if (pPed && bIsFrench_67D53C)
+    field_194_last_shot_result = shot_result;
+    if (pTarget && bIsFrench_67D53C)
     {
-        switch (pPed->get_occupation_403980())
+        switch (pTarget->get_occupation_403980())
         {
             case ped_ocupation_enum::police:
             case ped_ocupation_enum::swat:
@@ -1020,12 +1020,12 @@ void PlayerScoreTracker_36C::UpdateAccuracyCount_5934F0(u32 a2, s32 model, Ped* 
         }
     }
 
-    if (model == objects::fire_hitting_194 || model == objects::maybe_bullet_on_fire_198 || model == objects::flamethrower_fire_154 || model == objects::tanktop_193 || model == objects::object_195 || model == objects::object_159 || model == objects::object_199 || a2 == 0 ||
-        a2 == 1 || a2 == 3)
+    if (weapon_model == objects::fire_hitting_194 || weapon_model == objects::maybe_bullet_on_fire_198 || weapon_model == objects::flamethrower_fire_154 || weapon_model == objects::tanktop_193 || weapon_model == objects::object_195 || weapon_model == objects::object_159 || weapon_model == objects::object_199 || shot_result == 0 ||
+        shot_result == 1 || shot_result == 3)
     {
         field_198_accuracy_count = 0;
     }
-    else if (a2 == 2)
+    else if (shot_result == 2)
     {
         field_198_accuracy_count++;
     }
