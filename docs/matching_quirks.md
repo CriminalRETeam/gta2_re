@@ -1566,7 +1566,7 @@ so don't include C++ std headers from widely used headers.
 Checked 2026-10-01: dropping either per-file flag in `cmake/vc6.cmake` breaks every matched
 function in that file.
 
-- **`sharp_bose_0x54.cpp` with `/GX-`.** The ctor builds five `distracted_einstein_0xC`
+- **`FpsCounter_54.cpp` with `/GX-`.** The ctor builds five `ProfilerTimer_C`
   members that have real dtors, yet the original ctor has no EH frame. Under `/GX`, VC6 can't
   drop that frame, so the file really was built without exception handling.
 - **`gbh_graphics.cpp` with `/Od /ZI`.** The DLL loader there is a debug / edit-and-continue

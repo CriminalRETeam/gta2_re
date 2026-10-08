@@ -25,7 +25,7 @@ else
 fi
 b=$(basename "$SRC")
 sed -E 's/^\s*(WIP|NOT)_IMPLEMENTED;\s*$//' "$SRC" > "$OUTD/$b"
-case "$b" in Network_20324.cpp) XF="/Gz";; sharp_bose_0x54.cpp) XF="/GX-";; gbh_graphics.cpp) XF="/Od /ZI";; esac
+case "$b" in Network_20324.cpp) XF="/Gz";; FpsCounter_54.cpp) XF="/GX-";; gbh_graphics.cpp) XF="/Od /ZI";; esac
 export WINEPATH="$(winpath "$B/VC98/Bin");$(winpath "$RT/Common/MSDev98/Bin")"
 export INCLUDE="$(winpath "$RT/VC98/ATL/Include");$(winpath "$RT/VC98/Include");$(winpath "$RT/VC98/MFC/Include")"
 FLAGS="/DWIN32 /D_WINDOWS /D_CRT_SECURE_NO_WARNINGS /D_CRT_NON_CONFORMING_SWPRINTFS /DIMGUI_DLL /W3 /EHsc /GX /ML /O2 /DNDEBUG $XF"

@@ -58,7 +58,7 @@
 #include "registry.hpp"
 #include "rng.hpp"
 #include "root_sound.hpp"
-#include "sharp_bose_0x54.hpp"
+#include "FpsCounter_54.hpp"
 #include "sharp_pare_0x15D8.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
@@ -534,7 +534,7 @@ void Game_0x40::UpdateGame_4B9410()
 
     if (bDo_show_timing_67D6DC)
     {
-        gsharp_bose_0x54_7055D4->ShowFps_5BEC30();
+        gFpsCounter_7055D4->ShowFps_5BEC30();
     }
 
     gHud_2B00_706620->UpdateHUD_5D69D0();
@@ -1027,8 +1027,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1833);
     }
 
-    gsharp_bose_0x54_7055D4 = new sharp_bose_0x54(); // ctor call
-    if (!gsharp_bose_0x54_7055D4)
+    gFpsCounter_7055D4 = new FpsCounter_54(); // ctor call
+    if (!gFpsCounter_7055D4)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1836);
     }
@@ -1304,7 +1304,7 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gPedManager_6787BC);
     GTA2_DELETE_AND_NULL(gMike_A80_6F7328);
 
-    GTA2_DELETE_AND_NULL(gsharp_bose_0x54_7055D4);
+    GTA2_DELETE_AND_NULL(gFpsCounter_7055D4);
 
     GTA2_DELETE_AND_NULL(gSprite_8_703820);
     GTA2_DELETE_AND_NULL(gCollide_C_6791FC);

@@ -21,7 +21,7 @@
 #include "rng.hpp"
 #include "resource.h"
 #include "root_sound.hpp"
-#include "sharp_bose_0x54.hpp"
+#include "FpsCounter_54.hpp"
 #include <ddraw.h>
 #include <direct.h>
 #include <stdio.h>
@@ -1016,9 +1016,9 @@ MATCH_FUNC(0x4DA780)
 EXPORT char ExecuteGame_4DA780()
 {
     char v0 = gGame_0x40_67E008->ExecuteGame_4B9640();
-    if (gsharp_bose_0x54_7055D4)
+    if (gFpsCounter_7055D4)
     {
-        gsharp_bose_0x54_7055D4->field_18.AccumulateElapsed_5BEBF0();
+        gFpsCounter_7055D4->field_18_execute_game_timer.AccumulateElapsed_5BEBF0();
     }
     return v0;
 }
@@ -1533,9 +1533,9 @@ EXPORT u8 RunGameFrame_4DA850()
         }
     }
 
-    if (gsharp_bose_0x54_7055D4)
+    if (gFpsCounter_7055D4)
     {
-        gsharp_bose_0x54_7055D4->UpdateFpsCounters_5BECF0(a2, unk_0xc);
+        gFpsCounter_7055D4->UpdateFpsCounters_5BECF0(a2, unk_0xc);
     }
     return bContinue;
 }

@@ -17842,42 +17842,42 @@
         "v96f_auto": true
     },
     {
-        "name": "distracted_einstein_0xC::AccumulateElapsed_5BEBF0",
+        "name": "ProfilerTimer_C::AccumulateElapsed_5BEBF0",
         "v96f_address": "0x4c3680",
         "v105_address": "0x5bebf0",
         "v96f_auto": true
     },
     {
-        "name": "distracted_einstein_0xC::ctor",
+        "name": "ProfilerTimer_C::ctor",
         "v96f_address": "0x4c36a0",
         "v105_address": "0x5bec10",
         "v96f_auto": true
     },
     {
-        "name": "distracted_einstein_0xC::dtor",
+        "name": "ProfilerTimer_C::dtor",
         "v96f_address": "0x4c36b0",
         "v105_address": "0x5bec20",
         "v96f_auto": true
     },
     {
-        "name": "sharp_bose_0x54::ShowFps_5BEC30",
+        "name": "FpsCounter_54::ShowFps_5BEC30",
         "v96f_address": "0x4c36c0",
         "v105_address": "0x5bec30",
         "v96f_auto": true
     },
     {
-        "name": "sharp_bose_0x54::ctor",
+        "name": "FpsCounter_54::ctor",
         "v96f_address": "0x4c3700",
         "v105_address": "0x5bec70"
     },
     {
-        "name": "sharp_bose_0x54::dtor",
+        "name": "FpsCounter_54::dtor",
         "v96f_address": "0x4c3750",
         "v105_address": "0x5becc0",
         "v96f_auto": true
     },
     {
-        "name": "sharp_bose_0x54::UpdateFpsCounters_5BECF0",
+        "name": "FpsCounter_54::UpdateFpsCounters_5BECF0",
         "v96f_address": "0x4c3760",
         "v105_address": "0x5becf0",
         "v96f_auto": true

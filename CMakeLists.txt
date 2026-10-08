@@ -102,10 +102,10 @@ set(gta2_lib_src
   Source/registry.cpp
   Source/file.hpp
   Source/file.cpp
-  Source/sharp_bose_0x54.hpp
-  Source/sharp_bose_0x54.cpp
-  Source/distracted_einstein_0xC.hpp
-  Source/distracted_einstein_0xC.cpp
+  Source/FpsCounter_54.hpp
+  Source/FpsCounter_54.cpp
+  Source/ProfilerTimer_C.hpp
+  Source/ProfilerTimer_C.cpp
   Source/gtx_0x106C.hpp
   Source/gtx_0x106C.cpp
   Source/Function.hpp

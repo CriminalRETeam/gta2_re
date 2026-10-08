@@ -2,13 +2,13 @@
 
 #include "Function.hpp"
 
-class distracted_einstein_0xC
+class ProfilerTimer_C
 {
   public:
     EXPORT void AccumulateElapsed_5BEBF0();
 
-    EXPORT distracted_einstein_0xC();
-    EXPORT ~distracted_einstein_0xC();
+    EXPORT ProfilerTimer_C();
+    EXPORT ~ProfilerTimer_C();
 
     s32 field_0_time_percent;
     s32 field_4_start_time;

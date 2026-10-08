@@ -3,14 +3,14 @@
 #include "Source/gtx_0x106C.hpp"
 #include "Source/registry.hpp"
 #include "Source/file.hpp"
-#include "Source/sharp_bose_0x54.hpp"
+#include "Source/FpsCounter_54.hpp"
 #include "source/lucid_hamilton.hpp"
 #include "Source/winmain.hpp"
 #include "Source/text_0x14.hpp"
 #include "Source/GlobalsRegistry.hpp"
 #include "Source/gbh_graphics.hpp"
-#include "Source/distracted_einstein_0xC.hpp"
-#include "Source/sharp_bose_0x54.hpp"
+#include "Source/ProfilerTimer_C.hpp"
+#include "Source/FpsCounter_54.hpp"
 #include "Source/cSampleManager.hpp"
 #include "Source/map_0x370.hpp"
 #include "Source/frosty_pasteur_0xC1EA8.hpp"
@@ -121,15 +121,15 @@ void test_gbh_graphics()
     GBH_GraphicsLoadDll_5EA680("meh.dll");
 }
 
-void test_distracted_einstein_0xC()
+void test_ProfilerTimer_C()
 {
-    distracted_einstein_0xC t;
+    ProfilerTimer_C t;
     t.AccumulateElapsed_5BEBF0();
 }
 
-void test_sharp_bose_0x54()
+void test_FpsCounter_54()
 {
-    sharp_bose_0x54 t;
+    FpsCounter_54 t;
     t.UpdateFpsCounters_5BECF0(0, 0);
 }
 
@@ -162,8 +162,8 @@ s32 APIENTRY WinMain(HINSTANCE hInstance,
     {
         test_text_0x14();
         test_gbh_graphics();
-        test_distracted_einstein_0xC();
-        test_sharp_bose_0x54();
+        test_ProfilerTimer_C();
+        test_FpsCounter_54();
         test_registry();
         test_file();
         test_gtx_0x106C();
