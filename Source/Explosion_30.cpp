@@ -92,7 +92,7 @@ Explosion_30::~Explosion_30()
 }
 
 MATCH_FUNC(0x540d30)
-void Explosion_30::state_3_12_540D30(Ang16 ang, Fix16 speed)
+void Explosion_30::EmitFireTrail_3_12_540D30(Ang16 ang, Fix16 speed)
 {
     // Fix16_Point (has a destructor): the original sets an EH state for it. Zero-constructed
     // then assigned as in 9.6f: the speed stores are scheduled after the angle add.
@@ -135,7 +135,7 @@ void Explosion_30::state_3_12_540D30(Ang16 ang, Fix16 speed)
 
 // 9.6f 0x48E5F0
 MATCH_FUNC(0x540f90)
-void Explosion_30::state_4_540F90(Ang16 ang, Fix16 speed)
+void Explosion_30::EmitFireTrail_4_540F90(Ang16 ang, Fix16 speed)
 {
     // Fix16_Point (has a destructor): the original sets an EH state for it. Zero-constructed
     // then assigned as in 9.6f: the speed stores are scheduled after the angle add.
@@ -177,7 +177,7 @@ void Explosion_30::state_4_540F90(Ang16 ang, Fix16 speed)
 }
 
 MATCH_FUNC(0x5411e0)
-void Explosion_30::state_13_14_5411E0(Ang16 ang, Fix16 speed)
+void Explosion_30::EmitFireTrail_13_14_5411E0(Ang16 ang, Fix16 speed)
 {
     // Fix16_Point (has a destructor): the original sets an EH state for it. Zero-constructed
     // then assigned as in 9.6f: the speed stores are scheduled after the angle add.
@@ -219,7 +219,7 @@ void Explosion_30::state_13_14_5411E0(Ang16 ang, Fix16 speed)
 }
 
 MATCH_FUNC(0x541430)
-void Explosion_30::state_5_541430(Ang16 ang, Fix16 speed)
+void Explosion_30::EmitFireTrail_5_541430(Ang16 ang, Fix16 speed)
 {
 
     Fix16_Point point(Fix16(0), Fix16(0));
@@ -230,7 +230,7 @@ void Explosion_30::state_5_541430(Ang16 ang, Fix16 speed)
     this->field_8_speed = speed;
     this->field_C_angle = ang;
 
-    if (field_14_pObj2C->sub_5290F0() == kFP16Zero_6FD49C && this->field_1A_timer == 9999)
+    if (field_14_pObj2C->sub_5290F0() == kFP16Zero_6FD49C && this->field_1A_timer == explosion_timer::forever_9999)
     {
         this->field_1A_timer = 20;
     }
@@ -360,7 +360,7 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
     Fix16 z_low = field_14_pObj2C->field_4->field_1C_zpos - half_height;
     Fix16 z_high = field_14_pObj2C->field_4->field_1C_zpos + half_height;
 
-    if (this->field_1A_timer == 99 && unk_6FD5F6 == 1)
+    if (this->field_1A_timer == explosion_timer::first_tick_99 && unk_6FD5F6 == 1)
     {
         SpawnFlashParticle_541760();
     }
@@ -377,7 +377,7 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
             Char_B4* pPedChar = pSprite->AsCharB4_40FEA0();
             if (pPedChar)
             {
-                if (timerVal > 50u && pPedChar->get_ped_state_1_48A4C0() != ped_state_1::immobilized_8)
+                if (timerVal > explosion_timer::damage_phase_50 && pPedChar->get_ped_state_1_48A4C0() != ped_state_1::immobilized_8)
                 {
                     s32 ped_id = gVarrok_7F8_703398->GetPedId_420F10(this->field_14_pObj2C->field_26_varrok_idx);
                     if (!ped_id)
@@ -428,7 +428,7 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
                 Car_BC* pCar = pSprite->AsCar_40FEB0();
                 if (pCar)
                 {
-                    if ((timerVal > 50u && timerVal < 60u) || (timerVal > 80u && timerVal < 90u))
+                    if ((timerVal > explosion_timer::damage_phase_50 && timerVal < 60u) || (timerVal > 80u && timerVal < 90u))
                     {
                         if (!pCar->IsMaxDamage_40F890() && !pCar->IsTrainModel_403BA0() && !pCar->sub_43B850(field_10_type))
                         {
@@ -468,7 +468,7 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
                             }
                         }
                     }
-                    else if (timerVal == 99)
+                    else if (timerVal == explosion_timer::first_tick_99)
                     {
                         if (Fix16::MaxAbsDistance_42A6B0(pSprite->field_14_xy.x, pSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y) <= this->field_28_blast_radius)
                         {
@@ -479,7 +479,7 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
                 else
                 {
                     Object_2C* pObject = pSprite->As2C_40FEC0();
-                    if (timerVal > 50u && timerVal < 60u)
+                    if (timerVal > explosion_timer::damage_phase_50 && timerVal < 60u)
                     {
                         pObject->sub_525190(this->field_14_pObj2C->field_26_varrok_idx);
                     }
@@ -491,7 +491,7 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
 
 // 9.6f 0x48EB00
 MATCH_FUNC(0x541d60)
-void Explosion_30::state_18_33_541D60()
+void Explosion_30::EmitExplosion_18_33_541D60()
 {
     if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0())
     {
@@ -544,7 +544,7 @@ void Explosion_30::state_18_33_541D60()
 }
 
 MATCH_FUNC(0x542060)
-void Explosion_30::state_19_32_542060()
+void Explosion_30::EmitExplosion_19_32_542060()
 {
     if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0())
     {
@@ -593,7 +593,7 @@ void Explosion_30::state_19_32_542060()
 }
 
 MATCH_FUNC(0x542340)
-void Explosion_30::state_20_542340()
+void Explosion_30::EmitExplosion_20_542340()
 {
     if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0())
     {
@@ -640,7 +640,7 @@ void Explosion_30::state_20_542340()
 }
 
 MATCH_FUNC(0x542790)
-void Explosion_30::state_18_19_20_32_33_542790()
+void Explosion_30::UpdateExplosion_18_19_20_32_33_542790()
 {
     bool isOnScreen = true;
     if (this->field_1A_timer < 90u)
@@ -658,15 +658,15 @@ void Explosion_30::state_18_19_20_32_33_542790()
         {
             case explosion_type::small_18:
             case explosion_type::small_33:
-                state_18_33_541D60();
+                EmitExplosion_18_33_541D60();
                 break;
             case explosion_type::item_19:
             case explosion_type::no_ring_32:
-                state_19_32_542060();
+                EmitExplosion_19_32_542060();
                 unk_6FD5F6 = 1;
                 break;
             case explosion_type::large_20:
-                state_20_542340();
+                EmitExplosion_20_542340();
                 unk_6FD5F6 = 1;
                 break;
             default:
@@ -680,7 +680,7 @@ void Explosion_30::state_18_19_20_32_33_542790()
             case 79:
             case 89:
             {
-                Object_2C* pExplosionObj = gObject_5C_6F8F84->CreateExplosion_52A3D0(Fix16(113), Fix16(145), 2, kAngZero_6FD5D4, explosion_type::trail_5, field_2C_owner_ped_id);
+                Object_2C* pExplosionObj = gObject_5C_6F8F84->CreateExplosion_52A3D0(Fix16(113), Fix16(145), 2, kAngZero_6FD5D4, explosion_type::molotov_fire_5, field_2C_owner_ped_id);
                 if (pExplosionObj)
                 {
                     Object_2C* pDebris = gObject_5C_6F8F84->NewUnknown_52A240(127,
@@ -723,30 +723,30 @@ void Explosion_30::state_18_19_20_32_33_542790()
         this->field_24_particle_spread -= (dword_6FD540 / kFP16Two_6FD4A4);
     }
 
-    if (this->field_1A_timer > 50u)
+    if (this->field_1A_timer > explosion_timer::damage_phase_50)
     {
         ApplyBlastDamage_541850(this->field_1A_timer);
     }
 
-    if (this->field_1A_timer == 99)
+    if (this->field_1A_timer == explosion_timer::first_tick_99)
     {
         // TODO: Arg order correct?
         gGame_0x40_67E008->ShakeCamerasAtPos_4B9790(8, this->field_14_pObj2C->field_4->field_14_xy.x, this->field_14_pObj2C->field_4->field_14_xy.y);
     }
 
-    if (this->field_1A_timer != 9999)
+    if (this->field_1A_timer != explosion_timer::forever_9999)
     {
         this->field_1A_timer--;
     }
 
-    if (this->field_1A_timer > 9999u)
+    if (this->field_1A_timer > explosion_timer::forever_9999)
     {
         this->field_1A_timer = 1;
     }
 }
 
 MATCH_FUNC(0x542e30)
-void Explosion_30::state_22_23_24_25_542E30(char_type a2)
+void Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(char_type direction_idx)
 {
     Sprite* pSprite = this->field_14_pObj2C->field_4;
     if (pSprite->field_14_xy.x < Fix16(0x3F8000, 0) && pSprite->field_14_xy.x > kFP16One_6FD4A0 &&
@@ -760,7 +760,7 @@ void Explosion_30::state_22_23_24_25_542E30(char_type a2)
                 Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
                 pParticle->field_46_sub_state = 0;
 
-                switch ((u8)a2)
+                switch ((u8)direction_idx)
                 {
                     case 0:
                     {
@@ -844,24 +844,24 @@ void Explosion_30::state_22_23_24_25_542E30(char_type a2)
             }
         }
 
-        if (this->field_1A_timer == 99)
+        if (this->field_1A_timer == explosion_timer::first_tick_99)
         {
             gGame_0x40_67E008->ShakeCamerasAtPos_4B9790(8, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y);
         }
 
-        if (this->field_1A_timer > 50u)
+        if (this->field_1A_timer > explosion_timer::damage_phase_50)
         {
             ApplyBlastDamage_541850(this->field_1A_timer);
         }
 
-        if (this->field_1A_timer != 9999)
+        if (this->field_1A_timer != explosion_timer::forever_9999)
         {
             if (this->field_1A_timer > 60u)
             {
                 this->field_1A_timer--;
             }
 
-            if (this->field_1A_timer > 9999u)
+            if (this->field_1A_timer > explosion_timer::forever_9999)
             {
                 this->field_1A_timer = 1;
             }
@@ -873,7 +873,7 @@ MATCH_FUNC(0x5434a0)
 char_type Explosion_30::Update_5434A0(Fix16 speed, Ang16 ang)
 {
     u16 timer = this->field_1A_timer;
-    if (timer != 9999)
+    if (timer != explosion_timer::forever_9999)
     {
         if (timer > 0)
         {
@@ -894,54 +894,54 @@ char_type Explosion_30::Update_5434A0(Fix16 speed, Ang16 ang)
 
     switch (this->field_10_type)
     {
-        case explosion_type::trail_3:
-        case explosion_type::trail_12:
-            Explosion_30::state_3_12_540D30(ang, speed);
+        case explosion_type::fire_3:
+        case explosion_type::car_fire_level1_12:
+            Explosion_30::EmitFireTrail_3_12_540D30(ang, speed);
             return 0;
-        case explosion_type::trail_13:
-        case explosion_type::trail_14:
-            Explosion_30::state_13_14_5411E0(ang, speed);
+        case explosion_type::car_fire_level2_13:
+        case explosion_type::car_fire_level3_14:
+            Explosion_30::EmitFireTrail_13_14_5411E0(ang, speed);
             return 0;
-        case explosion_type::trail_4:
-            Explosion_30::state_4_540F90(ang, speed);
+        case explosion_type::car_fire_4:
+            Explosion_30::EmitFireTrail_4_540F90(ang, speed);
             return 0;
-        case explosion_type::trail_5:
-            Explosion_30::state_5_541430(ang, speed);
+        case explosion_type::molotov_fire_5:
+            Explosion_30::EmitFireTrail_5_541430(ang, speed);
             return 0;
         case explosion_type::small_18:
         case explosion_type::item_19:
         case explosion_type::large_20:
         case explosion_type::no_ring_32:
         case explosion_type::small_33:
-            Explosion_30::state_18_19_20_32_33_542790();
+            Explosion_30::UpdateExplosion_18_19_20_32_33_542790();
             return 0;
         case explosion_type::building_135_24:
-            Explosion_30::state_22_23_24_25_542E30(0);
+            Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(0);
             return 0;
         case explosion_type::building_315_25:
-            Explosion_30::state_22_23_24_25_542E30(1);
+            Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(1);
             return 0;
         case explosion_type::building_225_23:
-            Explosion_30::state_22_23_24_25_542E30(2);
+            Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(2);
             return 0;
         case explosion_type::building_45_22:
-            Explosion_30::state_22_23_24_25_542E30(3);
+            Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(3);
             return 0;
     }
     return 0;
 }
 
 MATCH_FUNC(0x5435d0)
-bool Explosion_30::IsTrailType_5435D0()
+bool Explosion_30::IsFireType_5435D0()
 {
     switch (field_10_type)
     {
-        case explosion_type::trail_3:
-        case explosion_type::trail_4:
-        case explosion_type::trail_5:
-        case explosion_type::trail_12:
-        case explosion_type::trail_13:
-        case explosion_type::trail_14:
+        case explosion_type::fire_3:
+        case explosion_type::car_fire_4:
+        case explosion_type::molotov_fire_5:
+        case explosion_type::car_fire_level1_12:
+        case explosion_type::car_fire_level2_13:
+        case explosion_type::car_fire_level3_14:
             return true;
         default:
             return false;
@@ -976,11 +976,13 @@ void Explosion_30::Init_543650()
 }
 
 MATCH_FUNC(0x543680)
-void Explosion_30::SetObject_543680(Object_2C* a2)
+void Explosion_30::SetObject_543680(Object_2C* pObj)
 {
-    this->field_14_pObj2C = a2;
+    this->field_14_pObj2C = pObj;
 }
 
+// Every explosion gets a priority from its type: 1 (unknown types, evicted straight away) up to 6, and a late fire or
+// explosion counts as 3. The one with the lowest priority has its timer set to 0 so that it ends on its next update.
 WIP_FUNC(0x543690)
 void ExplosionPool_7A8::FreeLowestPriority_543690()
 {
@@ -1002,9 +1004,9 @@ void ExplosionPool_7A8::FreeLowestPriority_543690()
             {
                 case explosion_type::unknown_2:
                     break;
-                case explosion_type::trail_3:
+                case explosion_type::fire_3:
                     break;
-                case explosion_type::trail_4:
+                case explosion_type::car_fire_4:
                     break;
                 case explosion_type::unknown_21:
                     break;
@@ -1012,7 +1014,7 @@ void ExplosionPool_7A8::FreeLowestPriority_543690()
                     break;
                 case explosion_type::unknown_34:
                     break;
-                case explosion_type::trail_5:
+                case explosion_type::molotov_fire_5:
                     priority = 2;
                     break;
                 case explosion_type::unknown_28:
@@ -1024,13 +1026,13 @@ void ExplosionPool_7A8::FreeLowestPriority_543690()
                 case explosion_type::unknown_30:
                     priority = 2;
                     break;
-                case explosion_type::trail_13:
+                case explosion_type::car_fire_level2_13:
                     priority = 4;
                     break;
-                case explosion_type::trail_12:
+                case explosion_type::car_fire_level1_12:
                     priority = 5;
                     break;
-                case explosion_type::trail_14:
+                case explosion_type::car_fire_level3_14:
                     priority = 5;
                     break;
                 case explosion_type::unknown_15:

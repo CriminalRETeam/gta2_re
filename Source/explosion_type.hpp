@@ -10,12 +10,12 @@ enum
     none_0 = 0,
     unknown_1 = 1,
     unknown_2 = 2,
-    trail_3 = 3, // 3, 4, 5, 12, 13, 14 emit a moving particle trail from the object's speed/angle (IsTrailType_5435D0)
-    trail_4 = 4,
-    trail_5 = 5,
-    trail_12 = 12,
-    trail_13 = 13,
-    trail_14 = 14,
+    fire_3 = 3, // 3, 4, 5, 12, 13, 14 are fires: a moving particle trail from the object's speed/angle (IsFireType_5435D0)
+    car_fire_4 = 4, // Car_BC::SpawnFire_43BBC0, a burning car
+    molotov_fire_5 = 5, // the flames of a thrown molotov (Weapon_30), also left by explosions
+    car_fire_level1_12 = 12, // Car_BC::GetFireExplosionType_43BB90, fire level 1 to 3
+    car_fire_level2_13 = 13,
+    car_fire_level3_14 = 14,
     unknown_15 = 15,
     unknown_16 = 16,
     unknown_17 = 17,
@@ -37,3 +37,15 @@ enum
     unknown_39 = 39,
 };
 } // namespace explosion_type
+
+// Explosion_30::field_1A_timer: counts down every update, the effect ends at 0
+namespace explosion_timer
+{
+enum
+{
+    damage_phase_50 = 50, // below this the blast no longer hurts (ApplyBlastDamage_541850 runs while above it)
+    first_tick_99 = 99,   // first update of an explosion: camera shake, impulse on cars
+    start_100 = 100,      // timer a new explosion starts with
+    forever_9999 = 9999,  // never counts down (fires follow their object until it is removed)
+};
+} // namespace explosion_timer

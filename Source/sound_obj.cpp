@@ -5370,8 +5370,8 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
                     dword_61A6D0 = 321;
                     break;
 
-                case explosion_type::trail_4:
-                case explosion_type::trail_12:
+                case explosion_type::car_fire_4:
+                case explosion_type::car_fire_level1_12:
                     samp_idx = 190;
                     volume = 50;
                     bLoop = 0;
@@ -5382,8 +5382,8 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
                     release_mod = 15;
                     break;
 
-                case explosion_type::trail_13:
-                case explosion_type::trail_14:
+                case explosion_type::car_fire_level2_13:
+                case explosion_type::car_fire_level3_14:
                     samp_idx = 190;
                     volume = 85;
                     bLoop = 0;

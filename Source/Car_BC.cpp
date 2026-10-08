@@ -2990,16 +2990,16 @@ s32 __stdcall Car_BC::GetFireExplosionType_43BB90(u8 fire_level)
     switch (fire_level)
     {
         case 1:
-            return explosion_type::trail_12;
+            return explosion_type::car_fire_level1_12;
 
         case 2:
-            return explosion_type::trail_13;
+            return explosion_type::car_fire_level2_13;
 
         case 3:
-            return explosion_type::trail_14;
+            return explosion_type::car_fire_level3_14;
 
         default:
-            return explosion_type::trail_12;
+            return explosion_type::car_fire_level1_12;
     }
 }
 
@@ -3009,7 +3009,7 @@ void Car_BC::SpawnFire_43BBC0()
     if (gFirefighterPool_54_67D4C0->TryDispatchFirefightersToCar_4A8820(this))
     {
         Object_2C* pExplosion =
-            gObject_5C_6F8F84->CreateExplosion_52A3D0(field_50_car_sprite->field_14_xy.x, field_50_car_sprite->field_14_xy.y, 4, kAngZero_67791C, explosion_type::trail_4, field_70_exploder_ped_id);
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(field_50_car_sprite->field_14_xy.x, field_50_car_sprite->field_14_xy.y, 4, kAngZero_67791C, explosion_type::car_fire_4, field_70_exploder_ped_id);
         if (pExplosion)
         {
             field_50_car_sprite->DispatchCollisionEvent_5A3100(pExplosion->field_4, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);

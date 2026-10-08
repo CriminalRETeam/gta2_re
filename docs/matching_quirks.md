@@ -445,7 +445,7 @@ which also inlines `IsVelocityAlignedWithHeading_40F840` and, inside it, `Fix16_
 `Ang16`/`s16`/`u16` global in the function's own .cpp, VC6 can load it with a 32-bit `mov` and
 add it with `lea`, where the original has a 16-bit `mov`/`add`. With only an `EXTERN_GLOBAL` in
 that file it emits the original's code, so move the definition to another .cpp that uses it
-(`kAng180_6FD3EE` moved from `Explosion_30.cpp` to `Particle_4C.cpp`: `Explosion_30::state_3_12_540D30`
+(`kAng180_6FD3EE` moved from `Explosion_30.cpp` to `Particle_4C.cpp`: `Explosion_30::EmitFireTrail_3_12_540D30`
 181 -> 32 lines). It can go the other way too (`gFaceCollisionMask_6F6002` and `kAng180_676772`
 had to move *into* `sprite.cpp`), so compare the load width in the target first.
 The move can also fix the order in which globals are reloaded after a call, not only the load
@@ -996,7 +996,7 @@ also swaps which of ecx/edx the pointer and the running total get.
 operator+ -> ctor -> Normalize when the operator's nested budget allows it, and the Wolfy states that used hand
 expansions (`AddNormalized`, explicit `Multiply_408680`/`Add_408660` rotations) now match in their 9.6f form:
 `point.RotateByAngle_40F6B0(ang + kAng180_6FD3EE)` and `if (pNew) { ... }` with no early return
-(`Explosion_30::state_3_12_540D30`, `state_4_540F90`, `state_13_14_5411E0`). Three header facts made that work, see
+(`Explosion_30::EmitFireTrail_3_12_540D30`, `EmitFireTrail_4_540F90`, `EmitFireTrail_13_14_5411E0`). Three header facts made that work, see
 "Inline sizes recovered from 9.6f and addresses" below.
 
 **Inline sizes recovered from 9.6f and addresses.** The "top-level named calls" group (small functions whose
@@ -1238,7 +1238,7 @@ order didn't. Storing the fields in offset order matched. In `GetMainAndBonusSta
 the slots of tied arrays follow the push order of their `StoreStrings` call; VC6 ignores the declaration
 order of equal-size arrays, and one local struct whose field order sets the layout matched it. Declaration
 order also didn't change the slots of equal-size `Fix16_Point` locals (`ComputePointVelocity_561380`) or
-case locals (`Explosion_30::state_22_23_24_25_542E30`).
+case locals (`Explosion_30::EmitBuildingDebris_22_23_24_25_542E30`).
 
 **Copy through a local to get a spill.** `mov (%edx),%eax; mov %eax,X(%esp); fildl X(%esp)`
 instead of `fildl (%edx)` comes from copying the value into a local object first
@@ -1358,7 +1358,7 @@ it, with the init called explicitly.
 
 **Explicit `Fix16(113)` vs an implicit `113` argument.** In a big function the explicit form is built out of
 line into a reused stack temporary and copied; the implicit conversion is built straight in the argument slot.
-One call can mix both (`Explosion_30::state_18_19_20_32_33_542790`: explicit x and y, implicit z).
+One call can mix both (`Explosion_30::UpdateExplosion_18_19_20_32_33_542790`: explicit x and y, implicit z).
 
 **Which value you pass can decide the whole function's registers.** Passing the stored field
 (`pCar->field_68_scale`) instead of the parameter it was just set from fixed `Car_6C::SpawnCarAt_446230`.
@@ -2298,7 +2298,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   return Ang16(&value, 0);`, new in ang16.hpp) gave the original's slot order and load order; the same body as a
   static `AddAng16_ool(a, b)` swapped both. `(k + d) + Fix16_To_Ang16(...)` with the right operand unnamed gives
   that operand (computed first) the lower slot; named, it gets the higher one. Matched
-  `Explosion_30::state_22_23_24_25_542E30` with a file-local `PolarToCartesian` that calls both multiplies out of line.
+  `Explosion_30::EmitBuildingDebris_22_23_24_25_542E30` with a file-local `PolarToCartesian` that calls both multiplies out of line.
 - **`(a - b).mValue >> 14` instead of `(a - b).ToInt()`** saves one inline expansion per site with the same code
   (`Map_0x370::sub_4E7190`: four of them paid for the `KeepDir` inline that keeps `xor; test` unfolded).
 - **`??1Fix16_Point` in an object's relocations can be just the EH unwind funclet** placed after the function,

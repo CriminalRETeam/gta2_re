@@ -1673,7 +1673,7 @@ char Object_2C::sub_525AC0()
 {
     if (field_18_model == objects::explosion_113)
     {
-        return field_C_pAny.pExplosion->IsTrailType_5435D0();
+        return field_C_pAny.pExplosion->IsFireType_5435D0();
     }
     else
     {
@@ -2123,7 +2123,7 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
                             break;
 
                         case sprite_types_enum::car_2:
-                            if (field_C_pAny.pExplosion->IsTrailType_5435D0())
+                            if (field_C_pAny.pExplosion->IsFireType_5435D0())
                             {
                                 field_4->set_z_lazy_420660(pSprite->field_8_car_bc_ptr->GetZPos_441330());
                                 pSprite->field_8_car_bc_ptr->AccumulateDamage_43DA90(1, &gZeroVector_6F8EF0);
@@ -3647,11 +3647,11 @@ Object_2C* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 ro
             case explosion_type::building_315_25:
             case explosion_type::no_ring_32:
             case explosion_type::small_33:
-                pNew2C->field_C_pAny.pExplosion->field_1A_timer = 100;
+                pNew2C->field_C_pAny.pExplosion->field_1A_timer = explosion_timer::start_100;
                 pNew2C->field_C_pAny.pExplosion->field_24_particle_spread = 0;
                 break;
             default:
-                pNew2C->field_C_pAny.pExplosion->field_1A_timer = 9999;
+                pNew2C->field_C_pAny.pExplosion->field_1A_timer = explosion_timer::forever_9999;
                 break;
         }
 

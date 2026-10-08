@@ -97,7 +97,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 62 | 68 | - | 0x5d8470 | `DrawTexture_5D8470` | Draw.cpp |
 | 0 | 64 | 162 | 0 | 0x446530 | `Car_6C::SpawnCabAndTrailer_446530` | Car_BC.cpp |
 | 0 | 68 | 136 | 74 | 0x588620 | `RouteFinder::ShowJunctionIds_588620` | RouteFinder.cpp |
-| 0 | 68 | 252 | - | 0x542e30 | `Explosion_30::state_22_23_24_25_542E30` | Explosion_30.cpp |
+| 0 | 68 | 252 | - | 0x542e30 | `Explosion_30::EmitBuildingDebris_22_23_24_25_542E30` | Explosion_30.cpp |
 | 0 | 72 | 104 | - | 0x59eff0 | `Sprite::Draw_59EFF0` | sprite.cpp |
 | 0 | 74 | 92 | 104 | 0x4f4d60 | `MapRenderer::draw_lid_4F4D60` | MapRenderer.cpp |
 | 0 | 80 | 80 | - | 0x4ea390 | `MapRenderer::DrawLeftSide_4EA390` | MapRenderer.cpp |
@@ -148,7 +148,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 5 | 13 | 33 | - | 0x5615d0 | `CarPhysics_B0::ApplyDriveForce_5615D0` | CarPhysics_B0.cpp |
 | 6 | 14 | 16 | 32 | 0x51e030 | `NetPlay::EnumAddress_cb_51E030` | NetPlay.cpp |
 | 6 | 16 | 72 | 52 | 0x467090 | `Ped::FindUsableCarDoor_467090` | Ped.cpp |
-| 6 | 18 | 20 | 12 | 0x541430 | `Explosion_30::state_5_541430` | Explosion_30.cpp |
+| 6 | 18 | 20 | 12 | 0x541430 | `Explosion_30::EmitFireTrail_5_541430` | Explosion_30.cpp |
 | 6 | 24 | 86 | 85 | 0x460820 | `Ped::TaxiCustomer_AI_460820` | Ped.cpp |
 | 6 | 34 | 52 | 210 | 0x4f77d0 | `ComputeScanlineIntersectionX_4F77D0` | sprite.cpp |
 | 6 | 46 | 76 | - | 0x4f76a0 | `ComputeScanlineIntersectionY_4F76A0` | sprite.cpp |

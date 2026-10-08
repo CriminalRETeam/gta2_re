@@ -12996,22 +12996,22 @@
         "v105_address": "0x540a40"
     },
     {
-        "name": "Explosion_30::state_3_12_540D30",
+        "name": "Explosion_30::EmitFireTrail_3_12_540D30",
         "v96f_address": null,
         "v105_address": "0x540d30"
     },
     {
-        "name": "Explosion_30::state_4_540F90",
+        "name": "Explosion_30::EmitFireTrail_4_540F90",
         "v96f_address": null,
         "v105_address": "0x540f90"
     },
     {
-        "name": "Explosion_30::state_13_14_5411E0",
+        "name": "Explosion_30::EmitFireTrail_13_14_5411E0",
         "v96f_address": null,
         "v105_address": "0x5411e0"
     },
     {
-        "name": "Explosion_30::state_5_541430",
+        "name": "Explosion_30::EmitFireTrail_5_541430",
         "v96f_address": "0x48e8b0",
         "v105_address": "0x541430",
         "v96f_auto": true
@@ -13038,31 +13038,31 @@
         "v96f_auto": true
     },
     {
-        "name": "Explosion_30::state_18_33_541D60",
+        "name": "Explosion_30::EmitExplosion_18_33_541D60",
         "v96f_address": "0x48eb00",
         "v105_address": "0x541d60",
         "v96f_auto": true
     },
     {
-        "name": "Explosion_30::state_19_32_542060",
+        "name": "Explosion_30::EmitExplosion_19_32_542060",
         "v96f_address": "0x48ed40",
         "v105_address": "0x542060",
         "v96f_auto": true
     },
     {
-        "name": "Explosion_30::state_20_542340",
+        "name": "Explosion_30::EmitExplosion_20_542340",
         "v96f_address": "0x48ef90",
         "v105_address": "0x542340",
         "v96f_auto": true
     },
     {
-        "name": "Explosion_30::state_18_19_20_32_33_542790",
+        "name": "Explosion_30::UpdateExplosion_18_19_20_32_33_542790",
         "v96f_address": "0x491240",
         "v105_address": "0x542790",
         "v96f_auto": true
     },
     {
-        "name": "Explosion_30::state_22_23_24_25_542E30",
+        "name": "Explosion_30::EmitBuildingDebris_22_23_24_25_542E30",
         "v96f_address": null,
         "v105_address": "0x542e30"
     },
@@ -13073,7 +13073,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Explosion_30::IsTrailType_5435D0",
+        "name": "Explosion_30::IsFireType_5435D0",
         "v96f_address": "0x48a4d0",
         "v105_address": "0x5435d0",
         "v96f_auto": true
