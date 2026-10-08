@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "ProfilerTimer_C.hpp"
 
-class Garox_C4;
+class Hud_TextEntry_C4;
 
 class FpsCounter_54
 {

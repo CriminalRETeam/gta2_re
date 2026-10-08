@@ -230,7 +230,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x554110 | `Orca_2FD4::Internel_CanMoveDiagonally_554110` | 0x49CB60 | ✓ `sub_466CF0` | matched | all 9.6f inlines used |
 | 0x554AB0 | `Orca_2FD4::save_find_554AB0` | 0x49CF70 | ✓ `sub_466CF0` | done | all 9.6f inlines used |
 | 0x5552B0 | `Orca_2FD4::maybe_find_5552B0` | 0x49D7A0 | ✓ `sub_466CF0`, ✓ `sub_420420` | done | all 9.6f inlines used |
-| 0x559430 | `CarPhysics_B0::ShowPhysicsDebug_559430` | 0x4A1DA0 | ✓ `sub_49E240`, ✓ `Garox_C4::sub_45AFD0` | inlines added | ThetaText_49E240 + Garox_C4::SetDrawKind8_45AFD0 (no change); left: the lea of the DisplayText this is scheduled early in the theta call and late in the rear-skid call |
+| 0x559430 | `CarPhysics_B0::ShowPhysicsDebug_559430` | 0x4A1DA0 | ✓ `sub_49E240`, ✓ `Hud_TextEntry_C4::sub_45AFD0` | inlines added | ThetaText_49E240 + Hud_TextEntry_C4::SetDrawKind8_45AFD0 (no change); left: the lea of the DisplayText this is scheduled early in the theta call and late in the rear-skid call |
 | 0x55A1D0 | `CarPhysics_B0::SetVelocityTowardTarget_55A1D0` | 0x49F760 | ✓ `sub_40F6B0`, `sub_40F600`, `sub_40F580` | checked | 40F600 = Point - (40AC80 called), 40F580 = Ang16_to_Fix16 (already) |
 | 0x55AB50 | `CarPhysics_B0::ComputeSlopeCorrection_55AB50` | 0x49FBE0 | ✓ `is_on_trailer_421720`, `sub_40F600`, `sub_4634E0`, ✓ `sub_42A630` | matched | is_on_trailer_421720 used; 4634E0 skipped (map globals, 10.5 uses CarPhysics copies); 40F600 = Point - ; diff 96->96 |
 | 0x55B7E0 | `EmitImpactParticles_55B7E0` | 0x49FF80 | ✓ `IsMaxDamage_40F890`, `sub_4102A0` (10.5 0x40BD10) | checked | 4102A0 pairs with Rozza Type5_40BD10; 10.5 calls Type4_40BC40 (pairing noise) |
@@ -282,14 +282,14 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x5C5F10 | `Montana_4::dtor_5C5F10` | 0x4C4E60 | `Montana_2EE4::gdtor_4C4D80`, `Montana_FA4::gdtor_4C4DA0` | checked | gdtors 4C4D80/4C4DA0 are compiler scalar deleting dtors from delete |
 | 0x5C8780 | `Car_214::sub_5C8780` | 0x4C4FE0 | ✓ `sub_416B40`, ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_433A20`, ✓ `sub_4C4F20`, ✓ `sub_4118B0`, ✓ `sub_433C20`, `sub_47ED20` | done | 150->145; AsCharB4_40FEA0, new Ped::GetGameObjectVelocity_433C20, get_id used; 47ED20 = sub_511A70 (called in 10.5) |
 | 0x5CBD50 | `EmergencyCrew_30::UpdateStateMachine_5CBD50` | 0x4C55D0 | ✓ `sub_4215B0`, ✓ `IsMaxDamage_40F890`, `sub_421D80`, ✓ `cool_nash_0x294::get_cam_x_403A00`, ✓ `MaxAbsDistance_42A6B0`, ✓ `cool_nash_0x294::set_occupation_403970`, ✓ `cool_nash_0x294::sub_403A30`, ✓ `cool_nash_0x294::sub_403B60`, ✓ `Car_BC::sub_421560` | matched | 442->439; SetUniNum_421560 used; 421D80 = Car_BC::HasSpriteZoom_43A230 (called in 10.5) |
-| 0x5CFA70 | `Garox_107C_sub::DrawGangRespectBars_5CFA70` | 0x4C74F0 | ✓ `angry_lewin_0x85C::sub_4219D0`, ✓ `rng::get_cur_rng_41CFE0` | done | all 9.6f inlines used |
+| 0x5CFA70 | `Hud_GangRespectBars_1::DrawGangRespectBars_5CFA70` | 0x4C74F0 | ✓ `angry_lewin_0x85C::sub_4219D0`, ✓ `rng::get_cur_rng_41CFE0` | done | all 9.6f inlines used |
 | 0x5D0620 | `Hud_Arrow_7C::sub_5D0620` | 0x4C7E60 | ✓ `sub_4C6F20`, ✓ `sub_4C7060`, ✓ `sub_4C6FB0`, ✓ `sub_432860` | matched | SetXY_432860 on one point x2; 67->53 |
-| 0x5D1B10 | `Garox_C4::FormatAndSetupText_5D1B10` | 0x4C8AA0 | ✓ `Garox_C4::sub_4C70E0` | done | new Garox_C4::ClearAlpha_4C70E0 (byte store matches now); 15 unchanged |
+| 0x5D1B10 | `Hud_TextEntry_C4::FormatAndSetupText_5D1B10` | 0x4C8AA0 | ✓ `Hud_TextEntry_C4::sub_4C70E0` | done | new Hud_TextEntry_C4::ClearAlpha_4C70E0 (byte store matches now); 15 unchanged |
 | 0x5D2AB0 | `Hud_Pager_C::DrawPager_5D2AB0` | 0x4C9040 | matched | checked | sub_4C8CA0 pairs with 10.5 out-of-line 5D2380/5D2680 (called) |
 | 0x5D3B80 | `Hud_Brief_704::DrawBrief_5D3B80` | 0x4C9430 | matched | done | GetLineSpacingFromFontType_5D7700_inlined + s32 ypos; 20->0 CANDIDATE MATCH (w.sh only) |
 | 0x5D4A10 | `Hud_CarName_4C::sub_5D4A10` | 0x4C94F0 | matched | done | get_sprite_width_4C7220; stays 0 (candidate, w.sh only) |
 | 0x5D61A0 | `DrawPlayerStatsHelper_5D61A0` | 0x4C9B40 | ✓ `sub_420220` | done | all 9.6f inlines used |
-| 0x5D63B0 | `Garox_12E4_sub::DrawPause_5D63B0` | 0x4C9FA0 | matched | done | new Phi_8CA8::GetObjectPalette_4C6E30, get_sprite_width_420220; unchanged (37) |
+| 0x5D63B0 | `Hud_PauseScreen_2::DrawPause_5D63B0` | 0x4C9FA0 | matched | done | new Phi_8CA8::GetObjectPalette_4C6E30, get_sprite_width_420220; unchanged (37) |
 | 0x5D7EC0 | `DrawFigure_5D7EC0` | 0x4CBA50 | ✓ `sub_432860`, ✓ `sub_40F6B0` | done | single point + SetXY_432860 x4; 412->345 |
 | 0x5D8A10 | `DrawText_5D8A10` | 0x4CC100 | `magical_germain_0x8EC::sub_460DA0`, `magical_germain_0x8EC::sub_4CBA40`, `magical_germain_0x8EC::sub_4CBA00`, `sub_4CBA10`, `sub_460CC0`, `magical_germain_0x8EC::sub_4CBA20`, `sub_4CBA30`, `sub_460D30`, `sub_4BF550` | checked | 9.6f magical_germain helpers use a different layout (glyph v1/v2 at 0x24/0x25); no clear 10.5 open-coded form, left |
 | 0x5DCF60 | `Weapon_30::spawn_bullet_5DCF60` | 0x4CDA90 | ✓ `cool_nash_0x294::get_cam_x_403A00`, ✓ `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `Car_3C::set_ang_lazy_420690`, ✓ `sub_416B40`, ✓ `Car_3C::SetType_4206F0`, ✓ `sub_482A30`, ✓ `sub_420B50`, `sub_482790`, `sub_483C20`, `sub_4BD670` | checked | 482790/483C20/4BD670 = SetDamageOwner_529080/SetSpriteIdOffset_5290C0/CheckSpriteMovementRegion_5A2500, all called in 10.5 (noise) |
@@ -627,7 +627,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4B8C40 | `Game_0x40::LoadGameFiles_4B8C40` | 0x45B470 | `sub_410550`, ✓ `lucid_hamilton::sub_45B420`, `sub_4B5420` | checked | clear_secret_tokens_collected = 9.6f 0x45B420 (already used, comment added); sub_410550 is a thunk on an unknown 9.6f global (0x5DCBC8), sub_4B5420 a large callee |
 | 0x4B8EB0 | `Game_0x40::BootGame_4B8EB0` | 0x45B5F0 | `Game_0x40::sub_45ACE0`, `FatalError_450530` (10.5 0x4A38C0), `sub_4CAC30`, `Map_0x370::sub_46A4D0`, `Map_0x370::sub_4692B0` | checked | 9.6f has `if (!bStartNetworkGame && !Game_0x40::sub_45ACE0()) FatalError(0x48, ..., 0x283)` with sub_45ACE0 returning true; 10.5 drops it as dead code, so nothing to add; other callees are 10.5 calls |
 | 0x4B8FF0 | `Game_0x40::ShowCounters_4B8FF0` | 0x45B750 | ✓ `Car_BC_Pool::get_cars_count_45AD30`, ✓ `PlayerScoreTracker_36C::get_accuracy_count_45B0A0`, ✓ `PlayerScoreTracker_36C::get_reverse_count_45B0B0`, ✓ `cool_nash_0x294::get_cam_x_403A00`, ✓ `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0) | done | Car_BC_Pool::get_cars_count_45AD30 (new), get_cam_x/y; code unchanged |
-| 0x4B9270 | `Game_0x40::DebugShowCarStatsAndFrameSkip_4B9270` | 0x45BA10 | ✓ `Garox_C4::sub_45AFD0` | done | Garox_C4::SetDrawKind8_45AFD0; code unchanged |
+| 0x4B9270 | `Game_0x40::DebugShowCarStatsAndFrameSkip_4B9270` | 0x45BA10 | ✓ `Hud_TextEntry_C4::sub_45AFD0` | done | Hud_TextEntry_C4::SetDrawKind8_45AFD0; code unchanged |
 | 0x4B92D0 | `Game_0x40::Draw_4B92D0` | 0x45A5A0 | `Montana::sub_44B890`, `PurpleDoom::sub_447390`, `Nanobotz::Draw_472110` | checked | Montana::sub_44B890/PurpleDoom::sub_447390/Nanobotz::Draw_472110 correspond to the 10.5 calls the source already makes (ResetAll_4954F0, DrawSpritesClipped_477A40, ...) |
 | 0x4B9410 | `Game_0x40::UpdateGame_4B9410` | 0x45C1F0 | ✓ `Light_1D4CC::sub_45C1E0`, `Object_5C::sub_487F50`, `frosty_pasteur_0xC1EA8::sub_481900`, `Particle_8::sub_491CE0`, `sub_4C3590`, `CokeZero_100::sub_4B9260` | checked | callees are global thunks (Light sub_45C1E0 already used, others map to the 10.5 service calls in the source) |
 | 0x4B9750 | `Game_0x40::GetFirstPlayerWithoutPed_4B9750` | 0x45BAB0 | ✓ `angry_lewin_0x85C::sub_45B0C0` | done | Player::has_player_ped_45B0C0; code unchanged |
@@ -1141,10 +1141,10 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x5C86C0 | `Car_214::sub_5C86C0` | 0x4C4F30 | ✓ `sub_4C4F10` | done | new Object_2C::set_field_27_4C4F10, code unchanged |
 | 0x5CBC90 | `EmergencyCrew_30::ReplaceLeaderIfNeeded_5CBC90` | 0x4C5510 | ✓ `cool_nash_0x294::sub_403990`, ✓ `cool_nash_0x294::get_occupation_403980`, ✓ `cool_nash_0x294::set_occupation_403970` | done | all 9.6f inlines used |
 | 0x5CC1C0 | `EmergencyCrew_30::CleanupExpiredEntities_5CC1C0` | 0x4C5A00 | ✓ `sub_4215B0`, ✓ `IsMaxDamage_40F890`, ✓ `sub_4A9AD0`, ✓ `sub_421470`, ✓ `cool_nash_0x294::sub_4039F0`, ✓ `cool_nash_0x294::sub_403B60`, ✓ `cool_nash_0x294::set_occupation_403970`, ✓ `cool_nash_0x294::sub_403A30` | done | all 9.6f inlines used |
-| 0x5CF910 | `Garox_110C_sub::Draw_5CF910` | 0x4C74A0 | ✓ `angry_lewin_0x85C::get_camera_434900` | done | Player::get_camera_434900; Still matches. |
-| 0x5CF970 | `Garox_27B5_sub::sub_5CF970` | 0x4CA680 | ✓ `sub_4A5150`, ✓ `angry_lewin_0x85C::sub_4766D0`, ✓ `cool_nash_0x294::sub_416B50`, ✓ `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), ✓ `cool_nash_0x294::get_cam_x_403A00`, ✓ `Garox_C4::sub_45AFD0` | done | Garox_C4::SetDrawKind8_45AFD0; Still matches. |
+| 0x5CF910 | `Hud_UnderRoofMarker_C::Draw_5CF910` | 0x4C74A0 | ✓ `angry_lewin_0x85C::get_camera_434900` | done | Player::get_camera_434900; Still matches. |
+| 0x5CF970 | `Hud_ShowCoords_1::sub_5CF970` | 0x4CA680 | ✓ `sub_4A5150`, ✓ `angry_lewin_0x85C::sub_4766D0`, ✓ `cool_nash_0x294::sub_416B50`, ✓ `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), ✓ `cool_nash_0x294::get_cam_x_403A00`, ✓ `Hud_TextEntry_C4::sub_45AFD0` | done | Hud_TextEntry_C4::SetDrawKind8_45AFD0; Still matches. |
 | 0x5D00B0 | `Hud_CopHead_C_Array::UpdateWantedLevel_5D00B0` | 0x4C79D0 | ✓ `sub_41D020` | done | all 9.6f inlines used |
-| 0x5D0260 | `Garox_1108_sub::DrawHealth_5D0260` | 0x4C7B70 | ✓ `sub_41D020`, ✓ `sub_433B70` | done | all 9.6f inlines used |
+| 0x5D0260 | `Hud_Health_4::DrawHealth_5D0260` | 0x4C7B70 | ✓ `sub_41D020`, ✓ `sub_433B70` | done | all 9.6f inlines used |
 | 0x5D03C0 | `ArrowTrace_24::PointToInfoPhone_5D03C0` | 0x4C7CC0 | ✓ `sub_4767C0` | done | all 9.6f inlines used |
 | 0x5D03F0 | `ArrowTrace_24::UpdateAimCoordinates_5D03F0` | 0x4C7CF0 | ✓ `sub_461DB0`, ✓ `cool_nash_0x294::get_cam_x_403A00`, ✓ `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), ✓ `cool_nash_0x294::sub_416B50`, `cool_nash_0x294::sub_433B40`, ✓ `sub_4215B0`, `sub_476830`, `sub_4117B0`, ✓ `angry_lewin_0x85C::get_camera_434900` | done | Player::get_camera_434900; Still matches. |
 | 0x5D0530 | `Hud_Arrow_7C::CheckVisibility_5D0530` | 0x4CA770 | ✓ `sub_4C70B0`, ✓ `sub_4C7350`, ✓ `angry_lewin_0x85C::sub_4766D0`, ✓ `sub_4C7340`, ✓ `angry_lewin_0x85C::sub_4219D0` | done | New Hud_Arrow_7C_Array::ShowGangArrows_4C70B0 and frosty_pasteur_0xC1EA8::IsOnMission_4C7350; Still matches. |
@@ -1157,23 +1157,23 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x5D0F80 | `Hud_Arrow_7C_Array::sub_5D0F80` | 0x4C85D0 | ✓ `sub_4C6F80`, `sub_476880` | done | Hud_Arrow_7C::IsType0_4C6F80; Still matches. |
 | 0x5D0FD0 | `Hud_Arrow_7C_Array::UpdateArrows_5D0FD0` | 0x4CA890 | ✓ `sub_4C6F80` | done | Hud_Arrow_7C::IsType0_4C6F80; Still matches. |
 | 0x5D1050 | `Hud_Arrow_7C_Array::AllocArrow_5D1050` | 0x4CA8E0 | ✓ `sub_4CA610`, ✓ `sub_4C6FF0` | done | New Hud_Arrow_7C::Reset_4CA610 and SetMinRadiusPos_4C6FF0 (defined in Hud.cpp); Still matches. |
-| 0x5D13C0 | `Garox_12EC_sub::IsOnQuitMessage_5D13C0` | 0x4C8690 | ✓ `angry_lewin_0x85C::sub_41DC70`, ✓ `sub_434B10`, ✓ `angry_lewin_0x85C::sub_4219D0`, ✓ `sub_461DD0` | done | New youthful_einstein::SetQuit_461DD0; Still matches. |
-| 0x5D16B0 | `Garox_2A25_sub::DrawChatMessages_5D16B0` | 0x4C8910 | ✓ `gtx_0x106C::ClearA6Bits2And3_4539B0` (10.5 0x5D7700), ✓ `rng::get_cur_rng_41CFE0` | matched | GetLineSpacingFromFontType_5D7700_inlined (9.6f 0x4539B0), s32 positions so both go through Fix16(s32) |
-| 0x5D1EB0 | `Garox_1700_L::sub_5D1EB0` | 0x4C8BE0 | ✓ `Garox_C4::sub_4C70F0` | done | New Garox_C4::Expire_4C70F0; Still matches. |
+| 0x5D13C0 | `Hud_QuitMessage_1::IsOnQuitMessage_5D13C0` | 0x4C8690 | ✓ `angry_lewin_0x85C::sub_41DC70`, ✓ `sub_434B10`, ✓ `angry_lewin_0x85C::sub_4219D0`, ✓ `sub_461DD0` | done | New youthful_einstein::SetQuit_461DD0; Still matches. |
+| 0x5D16B0 | `Hud_ChatInput_1::DrawChatMessages_5D16B0` | 0x4C8910 | ✓ `gtx_0x106C::ClearA6Bits2And3_4539B0` (10.5 0x5D7700), ✓ `rng::get_cur_rng_41CFE0` | matched | GetLineSpacingFromFontType_5D7700_inlined (9.6f 0x4539B0), s32 positions so both go through Fix16(s32) |
+| 0x5D1EB0 | `Hud_TextList_968::sub_5D1EB0` | 0x4C8BE0 | ✓ `Hud_TextEntry_C4::sub_4C70F0` | done | New Hud_TextEntry_C4::Expire_4C70F0; Still matches. |
 | 0x5D3040 | `Hud_Pager_C_Array::DrawPagers_5D3040` | 0x4C92A0 | ✓ `sub_4C7250`, ✓ `sub_4C7220` | done | all 9.6f inlines used |
 | 0x5D31F0 | `Hud_Pager_C::CreateTimer_5D31F0` | 0x4C9310 | ✓ `sub_4C7170`, ✓ `sub_4C7160`, ✓ `sub_4C7120` | done | New Hud_Pager_C::IsTimerOff_4C7170 and SetTimer_4C7120, plus no_ptr_counter_4C7160; Still matches. |
 | 0x5D3220 | `Hud_Pager_C_Array::AddOnScreenCounter_5D3220` | 0x4C9360 | ✓ `sub_4C7160`, ✓ `sub_4C7170`, ✓ `sub_4C7130` | done | Hud_Pager_C::SetCounter_4C7130 (defined in Hud.cpp), IsTimerOff_4C7170, no_ptr_counter_4C7160; Still matches. |
-| 0x5D5770 | `Garox_1_v2::AnnounceKill_5D5770` | 0x4C9750 | ✓ `angry_lewin_0x85C::sub_41DC70`, `sub_4105B0` | checked | sub_4105B0 is a root_sound thunk (PlayVoice_40F090, called) |
+| 0x5D5770 | `Hud_MpMessage_D0::AnnounceKill_5D5770` | 0x4C9750 | ✓ `angry_lewin_0x85C::sub_41DC70`, `sub_4105B0` | checked | sub_4105B0 is a root_sound thunk (PlayVoice_40F090, called) |
 | 0x5D5900 | `Hud_MapZone_98::DrawZoneName_5D5900` | 0x4C9890 | ✓ `sub_4C7220` | done | get_sprite_width_4C7220; still matches |
 | 0x5D5B60 | `Hud_MapZone_98::sub_5D5B60` | 0x4C6B70 | `sub_4A6530` | checked | sub_4A6530 (171 bytes) open-coded; not split out |
-| 0x5D5C80 | `Garox_1118_sub::DrawPlayerStats_5D5C80` | 0x4C9C20 | ✓ `sub_4A4FB0`, ✓ `sub_434B20`, ✓ `sub_4C7380`, ✓ `angry_lewin_0x85C::sub_41DC70` | done | New youthful_einstein::GetPlayerTime_4C7380 (defined in Hud.cpp); Still matches. |
+| 0x5D5C80 | `Hud_PlayerStats_4::DrawPlayerStats_5D5C80` | 0x4C9C20 | ✓ `sub_4A4FB0`, ✓ `sub_434B20`, ✓ `sub_4C7380`, ✓ `angry_lewin_0x85C::sub_41DC70` | done | New youthful_einstein::GetPlayerTime_4C7380 (defined in Hud.cpp); Still matches. |
 | 0x5D6060 | `sub_5D6060` | 0x4C9A40 | ✓ `sub_4C7220`, ✓ `sub_4C7250` | done | get_sprite_width_4C7220/get_sprite_height_4C7250; still matches |
 | 0x5D6860 | `Hud_2B00::DrawGui_5D6860` | 0x4CA440 | `sub_4C78A0`, `sub_4C7A30` | checked | sub_4C78A0/sub_4C7A30 (304/218 bytes) open-coded in DrawGui; not split out |
 | 0x5D69D0 | `Hud_2B00::UpdateHUD_5D69D0` | 0x4CAB50 | `sub_4C73A0`, `sub_4C62B0` | checked | sub_4C73A0 (246 bytes) and sub_4C62B0 (pager loop) open-coded in UpdateHUD; not split out |
 | 0x5D6B00 | `Hud_2B00::sub_5D6B00` | 0x4CA520 | ✓ `LangIsJapanese_452E60` | done | all 9.6f inlines used |
 | 0x5D6C20 | `Hud_2B00::IsBusy_5D6C20` | 0x4CA5D0 | `sub_4C8880` | checked | sub_4C8880 (142 bytes) open-coded in IsBusy; not split out |
 | 0x5D6CB0 | `Hud_2B00::sub_5D6CB0` | 0x4CA650 | `sub_4C7CC0` (10.5 0x5D03C0) | checked | 9.6f sub_4C7CC0 (10.5 copy 0x5D03C0) vs 10.5 call to IsQuitMessageKey_5D15A0: pairing difference |
-| 0x5D6CD0 | `Hud_2B00::ctor_5D6CD0` | 0x4CAC60 | `Garox_C_Array::ctor_4CA660`, `Garox_7C_Array::ctor_4C7080`, `Garox_Sub_C_Array::ctor_4C6EE0`, `Garox_27B5_sub::ctor_4C6E70`, `Garox_110C_sub::ctor_4C6E50`, `Garox_12E4_sub::ctor_4C71A0` | matched | member array ctors (4CA660, 4C7080, ...) are already inline ctors in Hud.hpp |
+| 0x5D6CD0 | `Hud_2B00::ctor_5D6CD0` | 0x4CAC60 | `Garox_C_Array::ctor_4CA660`, `Garox_7C_Array::ctor_4C7080`, `Garox_Sub_C_Array::ctor_4C6EE0`, `Hud_ShowCoords_1::ctor_4C6E70`, `Hud_UnderRoofMarker_C::ctor_4C6E50`, `Hud_PauseScreen_2::ctor_4C71A0` | matched | member array ctors (4CA660, 4C7080, ...) are already inline ctors in Hud.hpp |
 | 0x5D8940 | `CountLineSpacing_5D8940` | 0x4CC0C0 | ✓ `gtx_0x106C::ClearA6Bits2And3_4539B0` (10.5 0x5D7700) | done | all 9.6f inlines used |
 | 0x5D8E70 | `UpdateWinXY_5D8E70` | 0x4CC580 | `sub_4CB520` | checked | sub_4CB520 is IsFullScreen_5D9280 (called) |
 | 0x5DCD50 | `Weapon_30::dtor_5DCD50` | 0x4CCB10 | ✓ `root_sound::DestroySoundObj_40FE60` | done | all 9.6f inlines used |
@@ -1584,7 +1584,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x453AA0 | `sub_453AA0` | 11 |  | Source/youthful_einstein.hpp:42 | 1/1 | todo |  |
 | 0x453AB0 | `sub_453AB0` | 169 |  | Source/Frontend.cpp:375, Source/youthful_einstein.hpp:48 | 1/0 | todo |  |
 | 0x453D40 | `sub_453D40` | 49 |  |  | 1/0 | todo |  |
-| 0x45AFD0 | `Garox_C4::sub_45AFD0` | 25 |  | Source/Hud.hpp:246 | 1/2 | todo |  |
+| 0x45AFD0 | `Hud_TextEntry_C4::sub_45AFD0` | 25 |  | Source/Hud.hpp:246 | 1/2 | todo |  |
 | 0x45DD50 | `Zone_144::sub_45DD50` | 12 |  | Source/Gang.hpp:12 | 1/2 | todo |  |
 | 0x460CC0 | `sub_460CC0` | 105 |  |  | 1/0 | todo |  |
 | 0x460D30 | `sub_460D30` | 105 |  |  | 1/0 | todo |  |
@@ -1754,7 +1754,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4C6F20 | `sub_4C6F20` | 9 |  | Source/Hud.hpp:443, Source/Hud.hpp:508 | 1/0 | todo |  |
 | 0x4C6FB0 | `sub_4C6FB0` | 35 |  | Source/Hud.hpp:480 | 1/0 | todo |  |
 | 0x4C7060 | `sub_4C7060` | 17 |  | Source/Hud.hpp:542 | 1/0 | todo |  |
-| 0x4C70E0 | `Garox_C4::sub_4C70E0` | 15 |  | Source/Hud.hpp:239 | 1/0 | todo |  |
+| 0x4C70E0 | `Hud_TextEntry_C4::sub_4C70E0` | 15 |  | Source/Hud.hpp:239 | 1/0 | todo |  |
 | 0x4C7220 | `sub_4C7220` | 38 |  | Source/Hud.hpp:345 | 1/3 | todo |  |
 | 0x4C7250 | `sub_4C7250` | 38 |  | Source/Hud.hpp:351 | 1/2 | todo |  |
 | 0x4C83D0 | `sub_4C83D0` | 121 |  |  | 1/0 | todo |  |
@@ -2520,8 +2520,8 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4C4F10 | `sub_4C4F10` | 10 |  | Source/Object_5C.hpp:30 | 0/1 | todo |  |
 | 0x4C62B0 | `sub_4C62B0` | 17 |  |  | 0/1 | todo |  |
 | 0x4C6E20 | `sub_4C6E20` | 11 |  |  | 0/1 | todo |  |
-| 0x4C6E50 | `Garox_110C_sub::ctor_4C6E50` | 19 |  |  | 0/1 | todo |  |
-| 0x4C6E70 | `Garox_27B5_sub::ctor_4C6E70` | 6 |  |  | 0/1 | todo |  |
+| 0x4C6E50 | `Hud_UnderRoofMarker_C::ctor_4C6E50` | 19 |  |  | 0/1 | todo |  |
+| 0x4C6E70 | `Hud_ShowCoords_1::ctor_4C6E70` | 6 |  |  | 0/1 | todo |  |
 | 0x4C6EE0 | `Garox_Sub_C_Array::ctor_4C6EE0` | 29 |  |  | 0/1 | todo |  |
 | 0x4C6F30 | `sub_4C6F30` | 4 |  | Source/Hud.hpp:449 | 0/1 | todo |  |
 | 0x4C6F80 | `sub_4C6F80` | 35 |  | Source/Hud.hpp:522 | 0/6 | todo |  |
@@ -2529,12 +2529,12 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4C7050 | `sub_4C7050` | 4 |  | Source/Hud.hpp:532 | 0/2 | todo |  |
 | 0x4C7080 | `Garox_7C_Array::ctor_4C7080` | 43 |  |  | 0/1 | todo |  |
 | 0x4C70B0 | `sub_4C70B0` | 7 |  | Source/Hud.hpp:595 | 0/1 | todo |  |
-| 0x4C70F0 | `Garox_C4::sub_4C70F0` | 11 |  | Source/Hud.hpp:233 | 0/1 | todo |  |
+| 0x4C70F0 | `Hud_TextEntry_C4::sub_4C70F0` | 11 |  | Source/Hud.hpp:233 | 0/1 | todo |  |
 | 0x4C7120 | `sub_4C7120` | 9 |  | Source/Hud.hpp:296 | 0/1 | todo |  |
 | 0x4C7130 | `sub_4C7130` | 46 |  | Source/Hud.cpp:1610, Source/Hud.hpp:302 | 0/1 | todo |  |
 | 0x4C7160 | `sub_4C7160` | 9 |  | Source/Hud.hpp:284 | 0/2 | todo |  |
 | 0x4C7170 | `sub_4C7170` | 7 |  | Source/Hud.hpp:290 | 0/2 | todo |  |
-| 0x4C71A0 | `Garox_12E4_sub::ctor_4C71A0` | 10 |  |  | 0/1 | todo |  |
+| 0x4C71A0 | `Hud_PauseScreen_2::ctor_4C71A0` | 10 |  |  | 0/1 | todo |  |
 | 0x4C7340 | `sub_4C7340` | 4 |  | Source/Player.hpp:69 | 0/1 | todo |  |
 | 0x4C7350 | `sub_4C7350` | 21 |  | Source/frosty_pasteur_0xC1EA8.hpp:605 | 0/1 | todo |  |
 | 0x4C7380 | `sub_4C7380` | 25 |  | Source/Hud.cpp:671, Source/youthful_einstein.hpp:33 | 0/1 | todo |  |

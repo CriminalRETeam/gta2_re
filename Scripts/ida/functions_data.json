@@ -18075,50 +18075,50 @@
         "v96f_auto": true
     },
     {
-        "name": "Garox_4::ShowNextNumberedBrief_5CF620",
+        "name": "Hud_BriefSelector_4::ShowNextNumberedBrief_5CF620",
         "v96f_address": null,
         "v105_address": "0x5cf620"
     },
     {
-        "name": "Garox_4::ShowPrevNumberedBrief_5CF6B0",
+        "name": "Hud_BriefSelector_4::ShowPrevNumberedBrief_5CF6B0",
         "v96f_address": null,
         "v105_address": "0x5cf6b0"
     },
     {
-        "name": "Garox_110C_sub::Update_5CF730",
+        "name": "Hud_UnderRoofMarker_C::Update_5CF730",
         "v96f_address": null,
         "v105_address": "0x5cf730"
     },
     {
-        "name": "Garox_110C_sub::Draw_5CF910",
+        "name": "Hud_UnderRoofMarker_C::Draw_5CF910",
         "v96f_address": "0x4c74a0",
         "v105_address": "0x5cf910",
         "v96f_auto": true
     },
     {
-        "name": "Garox_27B5_sub::ShowPlayerCoords_5CF970",
+        "name": "Hud_ShowCoords_1::ShowPlayerCoords_5CF970",
         "v96f_address": "0x4ca680",
         "v105_address": "0x5cf970",
         "v96f_auto": true
     },
     {
-        "name": "Garox_107C_sub::DrawGangRespectBars_5CFA70",
+        "name": "Hud_GangRespectBars_1::DrawGangRespectBars_5CFA70",
         "v96f_address": "0x4c74f0",
         "v105_address": "0x5cfa70",
         "v96f_auto": true
     },
     {
-        "name": "Garox_107C_sub::Empty_5CFE20",
+        "name": "Hud_GangRespectBars_1::Empty_5CFE20",
         "v96f_address": null,
         "v105_address": "0x5cfe20"
     },
     {
-        "name": "Garox_107C_sub::Empty_5CFE30",
+        "name": "Hud_GangRespectBars_1::Empty_5CFE30",
         "v96f_address": null,
         "v105_address": "0x5cfe30"
     },
     {
-        "name": "Garox_13C0_sub::DrawPlayerNames_5CFE40",
+        "name": "Hud_PlayerNames_4::DrawPlayerNames_5CFE40",
         "v96f_address": null,
         "v105_address": "0x5cfe40"
     },
@@ -18145,7 +18145,7 @@
         "v105_address": "0x5d0210"
     },
     {
-        "name": "Garox_1108_sub::DrawHealth_5D0260",
+        "name": "Hud_Health_4::DrawHealth_5D0260",
         "v96f_address": "0x4c7b70",
         "v105_address": "0x5d0260",
         "v96f_auto": true
@@ -18285,48 +18285,48 @@
         "v105_address": "0x5d1350"
     },
     {
-        "name": "Garox_12EC_sub::IsOnQuitMessage_5D13C0",
+        "name": "Hud_QuitMessage_1::IsOnQuitMessage_5D13C0",
         "v96f_address": "0x4c8690",
         "v105_address": "0x5d13c0",
         "v96f_auto": true
     },
     {
-        "name": "Garox_12EC_sub::DrawQuitMessage_5D1430",
+        "name": "Hud_QuitMessage_1::DrawQuitMessage_5D1430",
         "v96f_address": "0x4c8710",
         "v105_address": "0x5d1430",
         "v96f_auto": true
     },
     {
-        "name": "Garox_12EC_sub::IsQuitMessageKey_5D15A0",
+        "name": "Hud_QuitMessage_1::IsQuitMessageKey_5D15A0",
         "v96f_address": "0x4c5f30",
         "v105_address": "0x5d15a0",
         "v96f_auto": true
     },
     {
-        "name": "Garox_12EC_sub::ShowQuitMessage_5D15D0",
+        "name": "Hud_QuitMessage_1::ShowQuitMessage_5D15D0",
         "v96f_address": "0x4c5f60",
         "v105_address": "0x5d15d0",
         "v96f_auto": true
     },
     {
-        "name": "Garox_2A25_sub::IsTypingOnChat_5D15E0",
+        "name": "Hud_ChatInput_1::IsTypingOnChat_5D15E0",
         "v96f_address": null,
         "v105_address": "0x5d15e0"
     },
     {
-        "name": "Garox_2A25_sub::DrawChatMessages_5D16B0",
+        "name": "Hud_ChatInput_1::DrawChatMessages_5D16B0",
         "v96f_address": "0x4c8910",
         "v105_address": "0x5d16b0",
         "v96f_auto": true
     },
     {
-        "name": "Garox_2A25_sub::IsChatInputKey_5D17D0",
+        "name": "Hud_ChatInput_1::IsChatInputKey_5D17D0",
         "v96f_address": "0x4c5f70",
         "v105_address": "0x5d17d0",
         "v96f_auto": true
     },
     {
-        "name": "Garox_2A25_sub::StartChatting_5D1830",
+        "name": "Hud_ChatInput_1::StartChatting_5D1830",
         "v96f_address": null,
         "v105_address": "0x5d1830"
     },
@@ -18366,55 +18366,55 @@
         "v96f_auto": true
     },
     {
-        "name": "Garox_C4::FormatAndSetupText_5D1B10",
+        "name": "Hud_TextEntry_C4::FormatAndSetupText_5D1B10",
         "v96f_address": "0x4c8aa0",
         "v105_address": "0x5d1b10",
         "v96f_auto": true
     },
     {
-        "name": "Garox_C4::Draw_5D1D00",
+        "name": "Hud_TextEntry_C4::Draw_5D1D00",
         "v96f_address": "0x4c8b90",
         "v105_address": "0x5d1d00",
         "v96f_auto": true
     },
     {
-        "name": "Garox_C4::DecrementDisplayTime_5D1DB0",
+        "name": "Hud_TextEntry_C4::DecrementDisplayTime_5D1DB0",
         "v96f_address": "0x4c60f0",
         "v105_address": "0x5d1db0",
         "v96f_auto": true
     },
     {
-        "name": "Garox_C4::operator_equals_5D1E10",
+        "name": "Hud_TextEntry_C4::operator_equals_5D1E10",
         "v96f_address": "0x4c6110",
         "v105_address": "0x5d1e10",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1700_L::ExpireDuplicates_5D1EB0",
+        "name": "Hud_TextList_968::ExpireDuplicates_5D1EB0",
         "v96f_address": "0x4c8be0",
         "v105_address": "0x5d1eb0",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1700_L::DisplayText_5D1F50",
+        "name": "Hud_TextList_968::DisplayText_5D1F50",
         "v96f_address": "0x4c8c20",
         "v105_address": "0x5d1f50",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1700_L::Service_5D2010",
+        "name": "Hud_TextList_968::Service_5D2010",
         "v96f_address": "0x4c8c80",
         "v105_address": "0x5d2010",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1700_L::RemoveExpired_5D2050",
+        "name": "Hud_TextList_968::RemoveExpired_5D2050",
         "v96f_address": "0x4c6170",
         "v105_address": "0x5d2050",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1700_L::ctor",
+        "name": "Hud_TextList_968::ctor",
         "v96f_address": "0x4c6250",
         "v105_address": "0x5d2280",
         "v96f_auto": true
@@ -18599,67 +18599,67 @@
         "v96f_auto": true
     },
     {
-        "name": "Garox_1::CalcTextWidth_5D53E0",
+        "name": "Hud_PickupText_88::CalcTextWidth_5D53E0",
         "v96f_address": "0x4c69d0",
         "v105_address": "0x5d53e0",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1::Draw_5D5420",
+        "name": "Hud_PickupText_88::Draw_5D5420",
         "v96f_address": "0x4c9690",
         "v105_address": "0x5d5420",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1::ShowPickupText_5D5600",
+        "name": "Hud_PickupText_88::ShowPickupText_5D5600",
         "v96f_address": "0x4c69f0",
         "v105_address": "0x5d5600",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1::DecrementTimer_5D5690",
+        "name": "Hud_PickupText_88::DecrementTimer_5D5690",
         "v96f_address": "0x4c6a40",
         "v105_address": "0x5d5690",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1::ctor",
+        "name": "Hud_PickupText_88::ctor",
         "v96f_address": "0x4c6a50",
         "v105_address": "0x5d56a0",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1_v2::CalcTextWidth_5D56B0",
+        "name": "Hud_MpMessage_D0::CalcTextWidth_5D56B0",
         "v96f_address": "0x4c6a60",
         "v105_address": "0x5d56b0",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1_v2::Draw_5D56D0",
+        "name": "Hud_MpMessage_D0::Draw_5D56D0",
         "v96f_address": "0x4c96f0",
         "v105_address": "0x5d56d0",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1_v2::ShowText_5D5730",
+        "name": "Hud_MpMessage_D0::ShowText_5D5730",
         "v96f_address": "0x4c6a80",
         "v105_address": "0x5d5730",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1_v2::DecrementTimer_5D5760",
+        "name": "Hud_MpMessage_D0::DecrementTimer_5D5760",
         "v96f_address": "0x4c60b0",
         "v105_address": "0x5d5760",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1_v2::AnnounceKill_5D5770",
+        "name": "Hud_MpMessage_D0::AnnounceKill_5D5770",
         "v96f_address": "0x4c9750",
         "v105_address": "0x5d5770",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1_v2::ctor",
+        "name": "Hud_MpMessage_D0::ctor",
         "v96f_address": "0x4c6ac0",
         "v105_address": "0x5d58f0",
         "v96f_auto": true
@@ -18701,7 +18701,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Garox_1118_sub::DrawPlayerStats_5D5C80",
+        "name": "Hud_PlayerStats_4::DrawPlayerStats_5D5C80",
         "v96f_address": "0x4C9C20",
         "v105_address": "0x5d5c80"
     },
@@ -18718,13 +18718,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Garox_1118_sub::UpdateRollingDigits_5D6290",
+        "name": "Hud_PlayerStats_4::UpdateRollingDigits_5D6290",
         "v96f_address": "0x4c6ca0",
         "v105_address": "0x5d6290",
         "v96f_auto": true
     },
     {
-        "name": "Garox_12E4_sub::DrawPause_5D63B0",
+        "name": "Hud_PauseScreen_2::DrawPause_5D63B0",
         "v96f_address": "0x4c9fa0",
         "v105_address": "0x5d63b0",
         "v96f_auto": true

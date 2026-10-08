@@ -261,7 +261,7 @@ void CarPhysics_B0::ShowPhysicsDebug_559430()
 {
     if (bDo_show_physics_67D54F)
     {
-        Garox_C4* pText;
+        Hud_TextEntry_C4* pText;
         SetCurrentCarInfoAndModelPhysics_562EF0();
 
         swprintf(tmpBuff_67BD9C,

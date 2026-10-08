@@ -385,7 +385,7 @@ once (`Registry::Get_Int_Setting_5874E0`). Likewise one result set in an if/else
 ends in a jump into code at 0x43AA20 that IDA counts as a chunk of another function. It is written as its own
 method (`Car_BC::sub_43AA20`, no marker since 0x43AA20 isn't in `og_function_data_v105.csv`), called in tail
 position. `Hud_2B00::UpdatePauseSection_5D69C0` is the thunk form of the same thing (`add $0x2A1C,%ecx; jmp
-0x5D6300`): the body moved to `Garox_12E4_sub::UpdatePauseSection_5D6300`, which is unverified for the same reason.
+0x5D6300`): the body moved to `Hud_PauseScreen_2::UpdatePauseSection_5D6300`, which is unverified for the same reason.
 
 **`test; je L; jne end; L:` comes from `(a & m) == 0 || (b & m) == 0` with `a == b`.** When both
 operands are the same value in one register, VC6 merges the two tests but keeps both branches, so the `je`
@@ -721,7 +721,7 @@ the same result (`Bink::OpenSlot2_5133E0`, `OpenSlot1_513560`). IDA cuts such fu
 **A store repeated in each branch vs once after the if/else.** Writing `field_C = 0` in both
 branches changed which register holds zero and gave per-exit stores like the original
 (`Object_2C::ReleaseSubObjects_527F10`). Assigning `field_A4_display_time` in both branches kept 0
-in `ebx` for three stores (`Garox_C4::FormatAndSetupText_5D1B10`). The number and placement of
+in `ebx` for three stores (`Hud_TextEntry_C4::FormatAndSetupText_5D1B10`). The number and placement of
 stores is worth trying whenever only a zero or constant register is off.
 
 **Ang16 Normalize inlined on a register turns into a closed form.** With an `Ang16(s16, u8)`
@@ -916,7 +916,7 @@ caching it in a `char` local, which keeps the original's re-test where VC6 would
 zero store and `push 0` in the function. Declaring it just before its loop removed the zero register (410->119).
 
 **`Fix16(s32)` and `Fix16(u32)` are separate out-of-line copies.** 0x4369F0 and 0x4926F0 have identical code but
-are distinct COMDATs; passing a u32 where the original calls 0x4926F0 matched `Garox_12E4_sub::DrawPause_5D63B0`.
+are distinct COMDATs; passing a u32 where the original calls 0x4926F0 matched `Hud_PauseScreen_2::DrawPause_5D63B0`.
 
 **A switch split on an odd value was two switches.** VC6 splits a sparse switch on the median case. When the
 original splits elsewhere (110 in `sound_obj::SelectObjectImpactSound_413120`), write `if (x <= 110) { switch } else
@@ -1066,7 +1066,7 @@ store off `esi` with their own `xor` zero register and no `lea`), and a separate
 
 **A dominated repeated test folds to a jmp.** `if (t < 0) { ...; if (t < 0) goto X; }` loses the second test; `if (t < 0 && !c) return; if (t >= 0 && c) A else if (t >= 0) C else B` keeps the original's test on the fall-through edge (`Hud_Pager_C::DrawPager_5D2AB0`). VC6 also drops an
 `if` that repeats an earlier identical compare but keeps it with the operands swapped: `-19 <= x` after
-`x < -19` reproduced the original's redundant re-test (`Garox_107C_sub::DrawGangRespectBars_5CFA70`).
+`x < -19` reproduced the original's redundant re-test (`Hud_GangRespectBars_1::DrawGangRespectBars_5CFA70`).
 
 **Freeing inline budget brings inlines back.** Writing the out-of-line calls the original makes (`DivideAssign_539F90`, `Multiply_408680`) let the `Fix16_Point_POD` ctors inline again (`UpdateObjectBeamLink_state_38_538AC0`, `EmitImpactParticles_53FE40`).
 
@@ -1534,7 +1534,7 @@ callee ends in `ret $N` without reading `ecx`, declare it `static ... __stdcall`
 
 **Duplicate helper copies.** The original has two identical copies of some small functions. For the `Fix16(int)`
 constructor they are really two constructors: `0x4369F0` is `Fix16(s32)` and `0x4926F0` is `Fix16(u32)`, with
-identical code. Passing a `u32` where the original calls `0x4926F0` matched `Garox_12E4_sub::DrawPause_5D63B0`; the
+identical code. Passing a `u32` where the original calls `0x4926F0` matched `Hud_PauseScreen_2::DrawPause_5D63B0`; the
 same applies to `Hud_CarName_4C::DrawCarName_5D4A10`, `DrawBrief_5D3B80` and `RollingDigitCounter_38::DrawDigitsLeftAligned_492430`
 (all matched) and probably `DrawPlayerStatsHelper_5D61A0`. Check the other duplicate pairs for a type difference before assuming they can't match.
 
@@ -1596,7 +1596,7 @@ which helper was called and in which order things happened:
   `Car_BC::MarkForDespawn_421470`, and every path stored `field_28` before `field_2C`.
 - `Firefighter_28::sub_4A7FC0`: 9.6f compares `get_car_velocity_4211C0()`, which is
   `GetLength_41E260`, not the `GetLength_453590` the source used.
-- `Garox_2A25_sub::DrawChatMessages_5D16B0`: 9.6f calls the line spacing wrapper (0x4539B0),
+- `Hud_ChatInput_1::DrawChatMessages_5D16B0`: 9.6f calls the line spacing wrapper (0x4539B0),
   which 10.5 inlines (`GetLineSpacingFromFontType_5D7700_inlined`).
 
 **A WIP with no 9.6f partner may just be unpaired.** `match_96f.py` leaves some functions unpaired
@@ -1667,7 +1667,7 @@ the `return` in its body, which gives the original's `pLast = 0` before the null
 
 **Even a global's name can change code.** Renaming `word_70643E` to `gChatFont_70643E`, with
 every token of `Hud.cpp` and its headers otherwise the same, makes
-`Garox_2A25_sub::DrawChatMessages_5D16B0` load the `u16` global with a 32-bit `mov` (`%eax`
+`Hud_ChatInput_1::DrawChatMessages_5D16B0` load the `u16` global with a 32-bit `mov` (`%eax`
 instead of `%ax`), so it stops matching. With the old name it matches again. So when a
 rename branch is merged, `compare_builds.py` still has to run, and a global can keep its
 `word_`/`dword_` name, with a comment, where the new name changes the code.

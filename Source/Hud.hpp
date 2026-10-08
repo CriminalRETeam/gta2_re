@@ -16,14 +16,14 @@ class Gang_144;
 class Object_2C;
 class Car_BC;
 
-class Garox_13C0_sub
+class Hud_PlayerNames_4
 {
   public:
     EXPORT void DrawPlayerNames_5CFE40();
     s32 field_13C0;
 };
 
-class Garox_1_v2
+class Hud_MpMessage_D0
 {
   public:
     EXPORT void CalcTextWidth_5D56B0();
@@ -31,14 +31,14 @@ class Garox_1_v2
     EXPORT void ShowText_5D5730(const wchar_t* pStr);
     EXPORT void DecrementTimer_5D5760();
     EXPORT void AnnounceKill_5D5770(Player* killer, Player* victim);
-    EXPORT Garox_1_v2();
+    EXPORT Hud_MpMessage_D0();
     char_type field_0_timer;
     char_type field_1;
     wchar_t field_2_str[101];
     s32 field_CC_text_width;
 };
 
-class Garox_2A25_sub
+class Hud_ChatInput_1
 {
   public:
     EXPORT char_type IsTypingOnChat_5D15E0(s32 a1, Player* pPlayer);
@@ -48,21 +48,21 @@ class Garox_2A25_sub
     char_type field_2A25;
 };
 
-class Garox_12EC_sub
+class Hud_QuitMessage_1
 {
   public:
     EXPORT char_type IsOnQuitMessage_5D13C0(s32 a2, Player* pPlayer);
     EXPORT void DrawQuitMessage_5D1430();
     EXPORT bool IsQuitMessageKey_5D15A0(s32 a1);
     EXPORT void ShowQuitMessage_5D15D0(Player* pPlayer);
-    char_type field_12EC_sub;
+    char_type field_12EC_quit_message;
 };
 
-class Garox_4
+class Hud_BriefSelector_4
 {
   public:
     // inline 0x4C6AC0
-    Garox_4()
+    Hud_BriefSelector_4()
     {
         field_0_value = 0; // TODO: byte ?
     }
@@ -85,11 +85,11 @@ enum
 };
 } // namespace HudPauseSection
 
-class Garox_12E4_sub
+class Hud_PauseScreen_2
 {
   public:
     // inline 0x4C71A0
-    Garox_12E4_sub()
+    Hud_PauseScreen_2()
     {
         field_0_current_pause_section = 0;
         field_1_timer = 45;
@@ -117,7 +117,7 @@ class Hud_Message_1C8
     s32 field_1C4_type;
 };
 
-class Garox_1118_sub
+class Hud_PlayerStats_4
 {
   public:
     EXPORT void DrawPlayerStats_5D5C80();
@@ -125,71 +125,71 @@ class Garox_1118_sub
     s32 field_1118;
 };
 
-class Garox_110C_sub
+class Hud_UnderRoofMarker_C
 {
   public:
     // inline 0x4C6E50
-    Garox_110C_sub()
+    Hud_UnderRoofMarker_C()
     {
-        field_1114_rotation = 0;
-        field_284E_ped_under_solid = 0;
+        field_8_rotation = 0;
+        field_A_ped_under_solid = 0;
     }
     EXPORT void Update_5CF730();
     EXPORT void Draw_5CF910();
-    Fix16 field_110C_screen_x;
-    Fix16 field_1110_screen_y;
-    Ang16 field_1114_rotation;
-    char_type field_284E_ped_under_solid;
-    char_type field_284F;
+    Fix16 field_0_screen_x;
+    Fix16 field_4_screen_y;
+    Ang16 field_8_rotation;
+    char_type field_A_ped_under_solid;
+    char_type field_B_unused;
 };
 
-class Garox_1108_sub
+class Hud_Health_4
 {
   public:
     EXPORT void DrawHealth_5D0260();
     s32 field_1108;
 };
 
-class Garox_1
+class Hud_PickupText_88
 {
   public:
     EXPORT void CalcTextWidth_5D53E0();
     EXPORT void Draw_5D5420();
     EXPORT void ShowPickupText_5D5600(u8 a2);
     EXPORT void DecrementTimer_5D5690();
-    EXPORT Garox_1();
+    EXPORT Hud_PickupText_88();
     char_type field_0_timer;
     char_type field_1;
     wchar_t field_2_str[65];
     s32 field_84_text_width;
 };
 
-class Garox_27B5_sub
+class Hud_ShowCoords_1
 {
   public:
     // inline 0x4C6E70
-    Garox_27B5_sub()
+    Hud_ShowCoords_1()
     {
-        field_27B5_show_coords = false;
+        field_0_show_coords = false;
     }
     EXPORT void ShowPlayerCoords_5CF970();
 
     // 9.6f 0x4A4760
     inline void ToggleShowCoords_4A4760()
     {
-        field_27B5_show_coords = field_27B5_show_coords == 0;
+        field_0_show_coords = field_0_show_coords == 0;
     }
 
-    char_type field_27B5_show_coords;
+    char_type field_0_show_coords;
 };
 
-class Garox_107C_sub
+class Hud_GangRespectBars_1
 {
   public:
     EXPORT void DrawGangRespectBars_5CFA70();
     EXPORT void Empty_5CFE20();
     EXPORT void Empty_5CFE30();
-    char_type field_107C_sub;
+    char_type field_107C_gang_respect_bars;
 };
 
 class Hud_CopHead_C
@@ -222,13 +222,13 @@ class Hud_CopHead_C_Array
     Fix16 field_50_h_fp;
 };
 
-class Garox_C4
+class Hud_TextEntry_C4
 {
   public:
     EXPORT void FormatAndSetupText_5D1B10(const wchar_t* pStr, s16 a3, s16 a4, s16 a5, s32 displayTime);
     EXPORT void Draw_5D1D00();
     EXPORT bool DecrementDisplayTime_5D1DB0();
-    EXPORT bool operator_equals_5D1E10(Garox_C4* pOther);
+    EXPORT bool operator_equals_5D1E10(Hud_TextEntry_C4* pOther);
 
     // 9.6f 0x4C70F0
     inline void Expire_4C70F0()
@@ -260,22 +260,22 @@ class Garox_C4
     s16 field_B6; // could be pad
     s32 field_B8_alpha;
     s32 field_BC_alpha_flag;
-    Garox_C4* field_C0_pNext;
+    Hud_TextEntry_C4* field_C0_pNext;
 };
 
-class Garox_1700_L
+class Hud_TextList_968
 {
   public:
-    EXPORT void ExpireDuplicates_5D1EB0(Garox_C4* String2);
-    EXPORT Garox_C4* DisplayText_5D1F50(const wchar_t* pStr, s16 a3, s16 a4, s16 a5, s32 a6);
+    EXPORT void ExpireDuplicates_5D1EB0(Hud_TextEntry_C4* String2);
+    EXPORT Hud_TextEntry_C4* DisplayText_5D1F50(const wchar_t* pStr, s16 a3, s16 a4, s16 a5, s32 a6);
     EXPORT void Service_5D2010();
     EXPORT void RemoveExpired_5D2050();
-    EXPORT Garox_1700_L();
+    EXPORT Hud_TextList_968();
 
     // TODO: Seems like a pool and the ctor would suggest it is, yet somehow the fields are in the wrong order?
-    Garox_C4 field_0_29_ary[30];
-    Garox_C4* field_960_pFirst;
-    Garox_C4* field_964_pFreeList;
+    Hud_TextEntry_C4 field_0_29_ary[30];
+    Hud_TextEntry_C4* field_960_pFirst;
+    Hud_TextEntry_C4* field_964_pFreeList;
 };
 
 class Hud_Pager_C
@@ -354,7 +354,7 @@ inline u8 __stdcall get_sprite_height_4C7250(s16 a3)
     return gGtx_0x106C_703DD4->get_sprite_height_4C6C90(sprite_idx);
 }
 
-class Garox_18
+class Hud_BriefEntry_18
 {
   public:
     union
@@ -364,7 +364,7 @@ class Garox_18
     };
     s32 field_4;
     s32 field_8_brief_priority;
-    Garox_18* field_C_pNext;
+    Hud_BriefEntry_18* field_C_pNext;
     u8 field_10_was_displayed;
     u8 field_11;
     u8 field_12;
@@ -386,7 +386,7 @@ enum
 };
 } // namespace ArrowTargetType
 
-class Garox_30_Sub
+class Hud_ArrowGangInfo_8
 {
   public:
     Gang_144* field_30_gang;
@@ -474,7 +474,7 @@ class ArrowTrace_24
     char_type field_23_pad;
 };
 
-class Garox_20_Sub
+class Hud_ArrowTargets_64
 {
   public:
 
@@ -491,7 +491,7 @@ class Garox_20_Sub
     s16 field_2C_arrow_sprt_idx;
     u8 field_2E_target_swap_timer;
     char_type field_2F;
-    Garox_30_Sub field_10;
+    Hud_ArrowGangInfo_8 field_10;
     ArrowTrace_24 field_18_primary_target;
     ArrowTrace_24 field_3C_secondary_target;
     ArrowTrace_24* field_60_curr_target;
@@ -587,7 +587,7 @@ class Hud_Arrow_7C
     Fix16 field_C_min_radius_pos; // minimum radial distance from the player
     Fix16 field_10_radius_pos; // radial distance from the player
     Fix16 field_14_reposition_speed; // how slower/faster the arrow goes to the aim target, or "get back" to the player
-    Garox_20_Sub field_18;
+    Hud_ArrowTargets_64 field_18;
 };
 
 class Hud_Arrow_7C_Array
@@ -641,7 +641,7 @@ class Hud_Brief_704 // size 0x704
     EXPORT void FreeCurrentBrief_5D3350();
     EXPORT void MoveCurrentBriefToPrev_5D3370();
     EXPORT void AppendCurrentBriefToPrev_5D33A0();
-    EXPORT Garox_18* AllocBrief_5D33F0();
+    EXPORT Hud_BriefEntry_18* AllocBrief_5D33F0();
     EXPORT size_t FormatCurrentBrief_5D3470();
     EXPORT void StartCurrentBrief_5D39D0();
     EXPORT void DrawBrief_5D3B80();
@@ -662,18 +662,18 @@ class Hud_Brief_704 // size 0x704
     s32 field_50C_face_variant;
     s32 field_510_time_to_show;
     s32 field_514_upward_timer;
-    Garox_18* field_518_ary_19_start_q;
+    Hud_BriefEntry_18* field_518_ary_19_start_q;
 
     s32 field_51C;
     s32 field_520;
-    Garox_18 field_524_ary_19[19];
+    Hud_BriefEntry_18 field_524_ary_19[19];
     s32 field_6EC;
     s32 field_6F0;
 
     s32 field_6F4;
-    Garox_18* field_6F8_curr_brief;
-    Garox_18* field_6FC_p_start_q;
-    Garox_18* field_700_prev_brief;
+    Hud_BriefEntry_18* field_6F8_curr_brief;
+    Hud_BriefEntry_18* field_6FC_p_start_q;
+    Hud_BriefEntry_18* field_700_prev_brief;
 };
 
 class gmp_map_zone;
@@ -743,28 +743,22 @@ class Hud_2B00
     Hud_MapZone_98 field_4C_zone_name;
     Hud_Brief_704 field_DC_brief;
     Hud_Pager_C_Array field_620_pagers;
-    Garox_1700_L field_650_texts;
+    Hud_TextList_968 field_650_texts;
     Hud_Arrow_7C_Array field_1F18_arrows;
     Hud_CopHead_C_Array field_1028_wanted_level;
-    Garox_107C_sub field_107C_sub; // nothing
-    Garox_27B5_sub field_27B5_show_coords; // ok
-    char_type field_27B6;
-    char_type field_27B7;
-    Garox_1 field_1080_pickup_text;
-    Garox_1108_sub field_1108_sub;
-    Garox_110C_sub field_110C_sub; // ok
-    Garox_1118_sub field_1118_sub;
+    Hud_GangRespectBars_1 field_107C_gang_respect_bars;
+    Hud_ShowCoords_1 field_27B5_show_coords;
+    Hud_PickupText_88 field_1080_pickup_text;
+    Hud_Health_4 field_1108_health;
+    Hud_UnderRoofMarker_C field_110C_under_roof_marker;
+    Hud_PlayerStats_4 field_1118_player_stats;
     Hud_Message_1C8 field_111C_message;
-    Garox_12E4_sub field_12E4_sub; // ok
-    char_type field_2A1E;
-    char_type field_2A1F;
-    Garox_4 field_12E8_sub; // ok
-    Garox_12EC_sub field_12EC_sub;
-    Garox_2A25_sub field_2A25_sub;
-    char_type field_2A26;
-    char_type field_2A27;
-    Garox_1_v2 field_12F0_mp_message;
-    Garox_13C0_sub field_13C0_sub;
+    Hud_PauseScreen_2 field_12E4_pause_screen;
+    Hud_BriefSelector_4 field_12E8_brief_selector;
+    Hud_QuitMessage_1 field_12EC_quit_message;
+    Hud_ChatInput_1 field_2A25_chat_input;
+    Hud_MpMessage_D0 field_12F0_mp_message;
+    Hud_PlayerNames_4 field_13C0_player_names;
     u32 field_13C4_text_speed;
 };
 

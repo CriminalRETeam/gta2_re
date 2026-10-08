@@ -39,7 +39,7 @@ DEFINE_GLOBAL(u16, gMessageFont_7062F0, 0x7062F0);
 DEFINE_GLOBAL(u16, gPauseFont_7063F8, 0x7063F8);
 DEFINE_GLOBAL(u16, gPlayerNameFont_7062DC, 0x7062DC);
 // The chat font. Renaming it (for example to gChatFont_70643E) changes the code of
-// Garox_2A25_sub::DrawChatMessages_5D16B0, so it keeps its old name.
+// Hud_ChatInput_1::DrawChatMessages_5D16B0, so it keeps its old name.
 DEFINE_GLOBAL(u16, word_70643E, 0x70643E);
 DEFINE_GLOBAL_ARRAY(char, gTmpGxtKey_67CE50, 264, 0x67CE50); //, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL(s16, word_7064D8, 0x7064D8);
@@ -160,7 +160,7 @@ EXPORT wchar_t* gmp_map_zone::get_zone_str_4DEF00()
 }
 
 MATCH_FUNC(0x5cf620)
-void Garox_4::ShowNextNumberedBrief_5CF620()
+void Hud_BriefSelector_4::ShowNextNumberedBrief_5CF620()
 {
     do
     {
@@ -177,7 +177,7 @@ void Garox_4::ShowNextNumberedBrief_5CF620()
 }
 
 MATCH_FUNC(0x5cf6b0)
-void Garox_4::ShowPrevNumberedBrief_5CF6B0()
+void Hud_BriefSelector_4::ShowPrevNumberedBrief_5CF6B0()
 {
     do
     {
@@ -194,50 +194,50 @@ void Garox_4::ShowPrevNumberedBrief_5CF6B0()
 }
 
 MATCH_FUNC(0x5cf730)
-void Garox_110C_sub::Update_5CF730()
+void Hud_UnderRoofMarker_C::Update_5CF730()
 {
     Ped* pPed = gGame_0x40_67E008->field_38_orf1->GetCameraModePed();
 
     if (!pPed || (u8)pPed->IsInTrain_470F00())
     {
-        field_284E_ped_under_solid = 0;
+        field_A_ped_under_solid = 0;
     }
     else
     {
-        field_284E_ped_under_solid =
+        field_A_ped_under_solid =
             gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(pPed->get_cam_x(), pPed->get_cam_y(), pPed->get_cam_z());
-        if (field_284E_ped_under_solid)
+        if (field_A_ped_under_solid)
         {
-            this->field_1114_rotation = pPed->GetRotation() + kAng180_706412;
+            this->field_8_rotation = pPed->GetRotation() + kAng180_706412;
 
             Fix16 camz = pPed->field_1AC_cam.z;
             Fix16 camy = pPed->field_1AC_cam.y;
             Fix16 camx = pPed->field_1AC_cam.x;
 
             Camera_0xBC* pCam = gGame_0x40_67E008->field_38_orf1->get_camera_434900();
-            ProjectWorldToScreen_Hud_4B90E0(pCam, camx, camy, camz, &field_110C_screen_x, &field_1110_screen_y);
+            ProjectWorldToScreen_Hud_4B90E0(pCam, camx, camy, camz, &field_0_screen_x, &field_4_screen_y);
         }
     }
 }
 
 MATCH_FUNC(0x5cf910)
-void Garox_110C_sub::Draw_5CF910()
+void Hud_UnderRoofMarker_C::Draw_5CF910()
 {
-    if (field_284E_ped_under_solid)
+    if (field_A_ped_under_solid)
     {
         const s32 drawtype = 2;
         Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
         Camera_0xBC* pCam;
         pCam = pPlayer->get_camera_434900();
 
-        DrawFigure_5D7EC0(6, 0, field_110C_screen_x, field_1110_screen_y, field_1114_rotation, pCam->field_A8_ui_scale, drawtype, 0, 1, 14, 1);
+        DrawFigure_5D7EC0(6, 0, field_0_screen_x, field_4_screen_y, field_8_rotation, pCam->field_A8_ui_scale, drawtype, 0, 1, 14, 1);
     }
 }
 
 MATCH_FUNC(0x5cf970)
-void Garox_27B5_sub::ShowPlayerCoords_5CF970()
+void Hud_ShowCoords_1::ShowPlayerCoords_5CF970()
 {
-    if (field_27B5_show_coords)
+    if (field_0_show_coords)
     {
         Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
 
@@ -272,7 +272,7 @@ void Garox_27B5_sub::ShowPlayerCoords_5CF970()
                  pPed->get_cam_z().AsDouble(),
                  pZoneName);
 
-        Garox_C4* pC4 = gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, -1, 16, word_7064B8, 1);
+        Hud_TextEntry_C4* pC4 = gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, -1, 16, word_7064B8, 1);
         pC4->SetDrawKind8_45AFD0(0);
     }
 }
@@ -281,7 +281,7 @@ void Garox_27B5_sub::ShowPlayerCoords_5CF970()
 
 // https://decomp.me/scratch/bd2MO
 MATCH_FUNC(0x5cfa70)
-void Garox_107C_sub::DrawGangRespectBars_5CFA70()
+void Hud_GangRespectBars_1::DrawGangRespectBars_5CFA70()
 {
     u32 random_num = gpRng_67AB34->get_cur_rng_41CFE0() & 0xF;
     u8 PlayerIdx = gGame_0x40_67E008->field_38_orf1->get_idx_4219D0();
@@ -363,17 +363,17 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
 }
 
 MATCH_FUNC(0x5cfe20)
-void Garox_107C_sub::Empty_5CFE20()
+void Hud_GangRespectBars_1::Empty_5CFE20()
 {
 }
 
 MATCH_FUNC(0x5cfe30)
-void Garox_107C_sub::Empty_5CFE30()
+void Hud_GangRespectBars_1::Empty_5CFE30()
 {
 }
 
 MATCH_FUNC(0x5cfe40)
-void Garox_13C0_sub::DrawPlayerNames_5CFE40()
+void Hud_PlayerNames_4::DrawPlayerNames_5CFE40()
 {
     if (bStartNetworkGame_7081F0 && bShow_player_names_67D54C)
     {
@@ -493,7 +493,7 @@ void Hud_CopHead_C_Array::Init_5D0210()
 // ----------------------------------------------------
 
 MATCH_FUNC(0x5d0260)
-void Garox_1108_sub::DrawHealth_5D0260()
+void Hud_Health_4::DrawHealth_5D0260()
 {
     s32 half_hearts;
     s32 xpos = 551;
@@ -1284,7 +1284,7 @@ void Hud_Arrow_7C_Array::CreatePlayerArrows_5D1350()
 }
 
 MATCH_FUNC(0x5d13c0)
-char_type Garox_12EC_sub::IsOnQuitMessage_5D13C0(s32 action, Player* pPlayer)
+char_type Hud_QuitMessage_1::IsOnQuitMessage_5D13C0(s32 action, Player* pPlayer)
 {
     if (pPlayer->field_78A_show_quit_message)
     {
@@ -1315,7 +1315,7 @@ char_type Garox_12EC_sub::IsOnQuitMessage_5D13C0(s32 action, Player* pPlayer)
 // ----------------------------------------------------
 
 MATCH_FUNC(0x5d1430)
-void Garox_12EC_sub::DrawQuitMessage_5D1430()
+void Hud_QuitMessage_1::DrawQuitMessage_5D1430()
 {
     if (gGame_0x40_67E008->field_38_orf1->field_78A_show_quit_message)
     {
@@ -1340,13 +1340,13 @@ void Garox_12EC_sub::DrawQuitMessage_5D1430()
 }
 
 MATCH_FUNC(0x5d15a0)
-bool Garox_12EC_sub::IsQuitMessageKey_5D15A0(s32 action)
+bool Hud_QuitMessage_1::IsQuitMessageKey_5D15A0(s32 action)
 {
     return gGame_0x40_67E008->field_38_orf1->field_78A_show_quit_message && (action == DIK_RETURN || action == DIK_ESCAPE);
 }
 
 MATCH_FUNC(0x5d15d0)
-void Garox_12EC_sub::ShowQuitMessage_5D15D0(Player* pPlayer)
+void Hud_QuitMessage_1::ShowQuitMessage_5D15D0(Player* pPlayer)
 {
     pPlayer->field_78A_show_quit_message = 1;
 }
@@ -1354,7 +1354,7 @@ void Garox_12EC_sub::ShowQuitMessage_5D15D0(Player* pPlayer)
 // ----------------------------------------------------
 
 MATCH_FUNC(0x5d15e0)
-char_type Garox_2A25_sub::IsTypingOnChat_5D15E0(s32 action, Player* pPlayer)
+char_type Hud_ChatInput_1::IsTypingOnChat_5D15E0(s32 action, Player* pPlayer)
 {
     if (bStartNetworkGame_7081F0 && pPlayer->field_794_is_chatting)
     {
@@ -1402,7 +1402,7 @@ char_type Garox_2A25_sub::IsTypingOnChat_5D15E0(s32 action, Player* pPlayer)
 
 // https://decomp.me/scratch/gMsUi
 MATCH_FUNC(0x5d16b0)
-void Garox_2A25_sub::DrawChatMessages_5D16B0()
+void Hud_ChatInput_1::DrawChatMessages_5D16B0()
 {
     s32 line_spacing = GetLineSpacingFromFontType_5D7700_inlined(word_70643E);
     s32 text_ypos = 480 - line_spacing;
@@ -1439,7 +1439,7 @@ void Garox_2A25_sub::DrawChatMessages_5D16B0()
 }
 
 MATCH_FUNC(0x5d17d0)
-bool Garox_2A25_sub::IsChatInputKey_5D17D0(s32 key_idx)
+bool Hud_ChatInput_1::IsChatInputKey_5D17D0(s32 key_idx)
 {
     if (bStartNetworkGame_7081F0)
     {
@@ -1460,7 +1460,7 @@ bool Garox_2A25_sub::IsChatInputKey_5D17D0(s32 key_idx)
 }
 
 MATCH_FUNC(0x5d1830)
-void Garox_2A25_sub::StartChatting_5D1830(Player* pPlayer)
+void Hud_ChatInput_1::StartChatting_5D1830(Player* pPlayer)
 {
     pPlayer->field_794_is_chatting = true;
     pPlayer->field_838_f796_idx = 0;
@@ -1527,7 +1527,7 @@ Hud_Message_1C8::Hud_Message_1C8()
 }
 
 MATCH_FUNC(0x5d1b10)
-void Garox_C4::FormatAndSetupText_5D1B10(const wchar_t* pStr, s16 xpos, s16 ypos, s16 fontType, s32 displayTime)
+void Hud_TextEntry_C4::FormatAndSetupText_5D1B10(const wchar_t* pStr, s16 xpos, s16 ypos, s16 fontType, s32 displayTime)
 {
     this->field_AC_fontType = fontType;
 
@@ -1573,7 +1573,7 @@ void Garox_C4::FormatAndSetupText_5D1B10(const wchar_t* pStr, s16 xpos, s16 ypos
 }
 
 MATCH_FUNC(0x5d1d00)
-void Garox_C4::Draw_5D1D00()
+void Hud_TextEntry_C4::Draw_5D1D00()
 {
     DrawText_5D7720(field_0_str_buf,
                     field_A8_x,
@@ -1586,7 +1586,7 @@ void Garox_C4::Draw_5D1D00()
 }
 
 MATCH_FUNC(0x5d1db0)
-bool Garox_C4::DecrementDisplayTime_5D1DB0()
+bool Hud_TextEntry_C4::DecrementDisplayTime_5D1DB0()
 {
     if (field_A4_display_time != -3)
     {
@@ -1600,16 +1600,16 @@ bool Garox_C4::DecrementDisplayTime_5D1DB0()
 }
 
 MATCH_FUNC(0x5d1e10)
-bool Garox_C4::operator_equals_5D1E10(Garox_C4* pOther)
+bool Hud_TextEntry_C4::operator_equals_5D1E10(Hud_TextEntry_C4* pOther)
 {
     return field_A4_display_time > 0 && pOther != this && field_A8_x == pOther->field_A8_x && field_AA_y == pOther->field_AA_y &&
         field_AC_fontType == pOther->field_AC_fontType && !wcscmp(field_0_str_buf, pOther->field_0_str_buf);
 }
 
 MATCH_FUNC(0x5d1eb0)
-void Garox_1700_L::ExpireDuplicates_5D1EB0(Garox_C4* String2)
+void Hud_TextList_968::ExpireDuplicates_5D1EB0(Hud_TextEntry_C4* String2)
 {
-    Garox_C4* pIter = field_960_pFirst;
+    Hud_TextEntry_C4* pIter = field_960_pFirst;
     while (pIter)
     {
         if (pIter->operator_equals_5D1E10(String2))
@@ -1622,10 +1622,10 @@ void Garox_1700_L::ExpireDuplicates_5D1EB0(Garox_C4* String2)
 }
 
 MATCH_FUNC(0x5d1f50)
-Garox_C4* Garox_1700_L::DisplayText_5D1F50(const wchar_t* pStr, s16 maybe_x, s16 maybe_y, s16 font_type, s32 display_time)
+Hud_TextEntry_C4* Hud_TextList_968::DisplayText_5D1F50(const wchar_t* pStr, s16 maybe_x, s16 maybe_y, s16 font_type, s32 display_time)
 {
-    Garox_C4* pOld_964 = field_964_pFreeList;
-    Garox_C4* pOldFirst = field_960_pFirst;
+    Hud_TextEntry_C4* pOld_964 = field_964_pFreeList;
+    Hud_TextEntry_C4* pOldFirst = field_960_pFirst;
     field_964_pFreeList = pOld_964->field_C0_pNext;
     pOld_964->field_C0_pNext = pOldFirst;
     field_960_pFirst = pOld_964;
@@ -1635,9 +1635,9 @@ Garox_C4* Garox_1700_L::DisplayText_5D1F50(const wchar_t* pStr, s16 maybe_x, s16
 }
 
 MATCH_FUNC(0x5d2010)
-void Garox_1700_L::Service_5D2010()
+void Hud_TextList_968::Service_5D2010()
 {
-    Garox_C4* pIter = field_960_pFirst;
+    Hud_TextEntry_C4* pIter = field_960_pFirst;
     while (pIter)
     {
         pIter->Draw_5D1D00();
@@ -1656,10 +1656,10 @@ inline void Hud_Pager_C::SetCounter_4C7130(s32* pCounter)
 }
 
 MATCH_FUNC(0x5d2050)
-void Garox_1700_L::RemoveExpired_5D2050()
+void Hud_TextList_968::RemoveExpired_5D2050()
 {
-    Garox_C4* pAltIter = 0;
-    Garox_C4* pIter = field_960_pFirst;
+    Hud_TextEntry_C4* pAltIter = 0;
+    Hud_TextEntry_C4* pIter = field_960_pFirst;
     while (pIter)
     {
         if (pIter->DecrementDisplayTime_5D1DB0())
@@ -1673,7 +1673,7 @@ void Garox_1700_L::RemoveExpired_5D2050()
             }
             else
             {
-                Garox_C4* pOld_field_964 = field_964_pFreeList;
+                Hud_TextEntry_C4* pOld_field_964 = field_964_pFreeList;
                 field_960_pFirst = field_960_pFirst->field_C0_pNext;
                 pIter->field_C0_pNext = pOld_field_964;
                 field_964_pFreeList = pIter;
@@ -1689,9 +1689,9 @@ void Garox_1700_L::RemoveExpired_5D2050()
 }
 
 MATCH_FUNC(0x5d2280)
-Garox_1700_L::Garox_1700_L()
+Hud_TextList_968::Hud_TextList_968()
 {
-    Garox_C4* pIter = &field_0_29_ary[0];
+    Hud_TextEntry_C4* pIter = &field_0_29_ary[0];
     for (s32 i = 0; i < 30 - 1; i++)
     {
         pIter->field_C0_pNext = pIter + 1;
@@ -1974,16 +1974,16 @@ void Hud_Pager_C_Array::ClearCounterOnly_5D3310(s32 a2)
 MATCH_FUNC(0x5d3330)
 void Hud_Brief_704::MovePrevBriefToCurrent_5D3330()
 {
-    Garox_18* pGarox_18 = field_700_prev_brief;
-    field_700_prev_brief = pGarox_18->field_C_pNext;
-    pGarox_18->field_C_pNext = field_6F8_curr_brief;
-    field_6F8_curr_brief = pGarox_18;
+    Hud_BriefEntry_18* pBrief = field_700_prev_brief;
+    field_700_prev_brief = pBrief->field_C_pNext;
+    pBrief->field_C_pNext = field_6F8_curr_brief;
+    field_6F8_curr_brief = pBrief;
 }
 
 MATCH_FUNC(0x5d3350)
 void Hud_Brief_704::FreeCurrentBrief_5D3350()
 {
-    Garox_18* pPrev;
+    Hud_BriefEntry_18* pPrev;
     pPrev = this->field_6F8_curr_brief;
     this->field_6F8_curr_brief = pPrev->field_C_pNext;
     pPrev->field_C_pNext = this->field_6FC_p_start_q;
@@ -1993,7 +1993,7 @@ void Hud_Brief_704::FreeCurrentBrief_5D3350()
 MATCH_FUNC(0x5d3370)
 void Hud_Brief_704::MoveCurrentBriefToPrev_5D3370()
 {
-    Garox_18* pPrev = this->field_6F8_curr_brief;
+    Hud_BriefEntry_18* pPrev = this->field_6F8_curr_brief;
     this->field_6F8_curr_brief = pPrev->field_C_pNext;
     pPrev->field_C_pNext = this->field_700_prev_brief;
     this->field_700_prev_brief = pPrev;
@@ -2005,7 +2005,7 @@ void Hud_Brief_704::MoveCurrentBriefToPrev_5D3370()
 MATCH_FUNC(0x5d33a0)
 void Hud_Brief_704::AppendCurrentBriefToPrev_5D33A0()
 {
-    Garox_18* pBrief;
+    Hud_BriefEntry_18* pBrief;
     for (pBrief = field_700_prev_brief; pBrief->field_C_pNext; pBrief = pBrief->field_C_pNext)
     {
         ;
@@ -2018,17 +2018,17 @@ void Hud_Brief_704::AppendCurrentBriefToPrev_5D33A0()
 
 // https://decomp.me/scratch/L1e5G reg swap
 MATCH_FUNC(0x5d33f0)
-Garox_18* Hud_Brief_704::AllocBrief_5D33F0()
+Hud_BriefEntry_18* Hud_Brief_704::AllocBrief_5D33F0()
 {
-    Garox_18* result = field_6FC_p_start_q;
+    Hud_BriefEntry_18* result = field_6FC_p_start_q;
     if (result)
     {
         field_6FC_p_start_q = result->field_C_pNext;
     }
     else
     {
-        Garox_18* pPrev;
-        Garox_18* pIter;
+        Hud_BriefEntry_18* pPrev;
+        Hud_BriefEntry_18* pIter;
         result = field_700_prev_brief;
         if (field_700_prev_brief)
         {
@@ -2243,7 +2243,7 @@ void Hud_Brief_704::DrawBrief_5D3B80()
 MATCH_FUNC(0x5d3f10)
 void Hud_Brief_704::SetHudBrief_5D3F10(s32 priority, const char_type* pText, s32 cost_param)
 {
-    Garox_18* v5 = AllocBrief_5D33F0();
+    Hud_BriefEntry_18* v5 = AllocBrief_5D33F0();
     strcpy(v5->field_0_brief_id_str, pText);
     v5->field_8_brief_priority = priority;
     v5->field_10_was_displayed = 0;
@@ -2257,13 +2257,13 @@ void Hud_Brief_704::SetHudBrief_5D3F10(s32 priority, const char_type* pText, s32
     }
     else if (this->field_6F8_curr_brief->field_8_brief_priority >= priority && priority != 3)
     {
-        Garox_18* pIter = this->field_6F8_curr_brief;
+        Hud_BriefEntry_18* pIter = this->field_6F8_curr_brief;
         while (pIter->field_C_pNext && pIter->field_C_pNext->field_8_brief_priority >= priority)
         {
             pIter = pIter->field_C_pNext;
         }
 
-        Garox_18* v8 = pIter->field_C_pNext;
+        Hud_BriefEntry_18* v8 = pIter->field_C_pNext;
         if (v8)
         {
             v5->field_C_pNext = v8;
@@ -2355,7 +2355,7 @@ void Hud_Brief_704::ShowBrief_5D4850()
 {
     if (field_700_prev_brief)
     {
-        Garox_18* curr_brief = field_6F8_curr_brief;
+        Hud_BriefEntry_18* curr_brief = field_6F8_curr_brief;
         if (curr_brief)
         {
             if (curr_brief->field_10_was_displayed)
@@ -2372,8 +2372,8 @@ void Hud_Brief_704::ShowBrief_5D4850()
 MATCH_FUNC(0x5d4890)
 void Hud_Brief_704::ClearAllBriefsWithPriority_5D4890(s32 priority)
 {
-    Garox_18* pLast = NULL;
-    Garox_18* pIter = field_6F8_curr_brief;
+    Hud_BriefEntry_18* pLast = NULL;
+    Hud_BriefEntry_18* pIter = field_6F8_curr_brief;
     while (pIter)
     {
         if (pIter->field_8_brief_priority == priority)
@@ -2414,7 +2414,7 @@ void Hud_Brief_704::ClearAllBriefsWithPriority_5D4890(s32 priority)
 MATCH_FUNC(0x5d4930)
 Hud_Brief_704::Hud_Brief_704()
 {
-    field_6FC_p_start_q = (Garox_18*)&field_518_ary_19_start_q;
+    field_6FC_p_start_q = (Hud_BriefEntry_18*)&field_518_ary_19_start_q;
 
     field_50C_face_variant = 0;
     field_510_time_to_show = 0;
@@ -2461,7 +2461,7 @@ void Hud_2B00::CalcCarNameXPosOffset_5D5190()
 {
     if (field_0_car_name.field_0_display_time)
     {
-        // TODO: Structure seems wrong, probablty field_2 to field_4C of Garox_2B00 is a string buffer?
+        // TODO: Structure seems wrong, probablty field_2 to field_4C of Hud_2B00 is a string buffer?
         field_0_car_name.field_44_xpos_offset = Frontend::GetMaxTextWidth_5D8990((wchar_t*)&field_0_car_name.field_2_car_name, gCarNameFont_706508);
     }
 }
@@ -2503,7 +2503,7 @@ Hud_CarName_4C::Hud_CarName_4C()
 }
 
 MATCH_FUNC(0x5d53e0)
-void Garox_1::CalcTextWidth_5D53E0()
+void Hud_PickupText_88::CalcTextWidth_5D53E0()
 {
     if (field_0_timer)
     {
@@ -2512,7 +2512,7 @@ void Garox_1::CalcTextWidth_5D53E0()
 }
 
 MATCH_FUNC(0x5d5420)
-void Garox_1::Draw_5D5420()
+void Hud_PickupText_88::Draw_5D5420()
 {
     if (field_0_timer)
     {
@@ -2521,7 +2521,7 @@ void Garox_1::Draw_5D5420()
 }
 
 MATCH_FUNC(0x5d5600)
-void Garox_1::ShowPickupText_5D5600(u8 a2)
+void Hud_PickupText_88::ShowPickupText_5D5600(u8 a2)
 {
     sprintf(gTmpGxtKey_67CE50, "c%02d", a2);
     field_0_timer = 90;
@@ -2531,7 +2531,7 @@ void Garox_1::ShowPickupText_5D5600(u8 a2)
 }
 
 MATCH_FUNC(0x5d5690)
-void Garox_1::DecrementTimer_5D5690()
+void Hud_PickupText_88::DecrementTimer_5D5690()
 {
     if (field_0_timer)
     {
@@ -2540,13 +2540,13 @@ void Garox_1::DecrementTimer_5D5690()
 }
 
 MATCH_FUNC(0x5d56a0)
-Garox_1::Garox_1()
+Hud_PickupText_88::Hud_PickupText_88()
 {
     field_0_timer = 0;
 }
 
 MATCH_FUNC(0x5d56b0)
-void Garox_1_v2::CalcTextWidth_5D56B0()
+void Hud_MpMessage_D0::CalcTextWidth_5D56B0()
 {
     if (this->field_0_timer)
     {
@@ -2556,7 +2556,7 @@ void Garox_1_v2::CalcTextWidth_5D56B0()
 
 //https://decomp.me/scratch/QUvWb
 MATCH_FUNC(0x5d56d0)
-void Garox_1_v2::Draw_5D56D0()
+void Hud_MpMessage_D0::Draw_5D56D0()
 {
     if (this->field_0_timer)
     {
@@ -2565,7 +2565,7 @@ void Garox_1_v2::Draw_5D56D0()
 }
 
 MATCH_FUNC(0x5d5730)
-void Garox_1_v2::ShowText_5D5730(const wchar_t* pStr)
+void Hud_MpMessage_D0::ShowText_5D5730(const wchar_t* pStr)
 {
     this->field_0_timer = 120;
     wcscpy(this->field_2_str, pStr);
@@ -2573,7 +2573,7 @@ void Garox_1_v2::ShowText_5D5730(const wchar_t* pStr)
 }
 
 MATCH_FUNC(0x5d5760)
-void Garox_1_v2::DecrementTimer_5D5760()
+void Hud_MpMessage_D0::DecrementTimer_5D5760()
 {
     if (field_0_timer)
     {
@@ -2583,7 +2583,7 @@ void Garox_1_v2::DecrementTimer_5D5760()
 
 //https://decomp.me/scratch/3hVt8
 MATCH_FUNC(0x5d5770)
-void Garox_1_v2::AnnounceKill_5D5770(Player* killer, Player* victim)
+void Hud_MpMessage_D0::AnnounceKill_5D5770(Player* killer, Player* victim)
 {
     if (killer->IsUser_41DC70())
     {
@@ -2621,7 +2621,7 @@ void Garox_1_v2::AnnounceKill_5D5770(Player* killer, Player* victim)
 }
 
 MATCH_FUNC(0x5d58f0)
-Garox_1_v2::Garox_1_v2()
+Hud_MpMessage_D0::Hud_MpMessage_D0()
 {
     field_0_timer = 0;
 }
@@ -2754,7 +2754,7 @@ Hud_MapZone_98::Hud_MapZone_98()
 }
 
 MATCH_FUNC(0x5d5c80)
-void Garox_1118_sub::DrawPlayerStats_5D5C80()
+void Hud_PlayerStats_4::DrawPlayerStats_5D5C80()
 {
     Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
 
@@ -2910,7 +2910,7 @@ s32 __stdcall DrawPlayerStatsHelper_5D61A0(s32 powerup_idx, s32 base_xpos, u16 o
 // ----------------------------------------------------
 
 MATCH_FUNC(0x5d6290)
-void Garox_1118_sub::UpdateRollingDigits_5D6290()
+void Hud_PlayerStats_4::UpdateRollingDigits_5D6290()
 {
     Player* pPlayerIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0();
     while (pPlayerIter)
@@ -2930,7 +2930,7 @@ void Garox_1118_sub::UpdateRollingDigits_5D6290()
 
 // Not in IDA's function list: only reached through the UpdatePauseSection_5D69C0 thunk below.
 MATCH_FUNC(0x5D6300)
-void Garox_12E4_sub::UpdatePauseSection_5D6300()
+void Hud_PauseScreen_2::UpdatePauseSection_5D6300()
 {
     if (!gLucid_hamilton_67E8E0.IsBonusStage_4C59A0())
     {
@@ -2980,7 +2980,7 @@ void Garox_12E4_sub::UpdatePauseSection_5D6300()
 
 // https://decomp.me/scratch/Uq97l
 MATCH_FUNC(0x5d63b0)
-void Garox_12E4_sub::DrawPause_5D63B0()
+void Hud_PauseScreen_2::DrawPause_5D63B0()
 {
 
     u32 sprite_type;
@@ -3139,12 +3139,12 @@ void Hud_2B00::DrawGui_5D6860()
     if (!bSkip_user_67D506)
     {
         SetFullAmbient_5D6A70();
-        field_1118_sub.DrawPlayerStats_5D5C80();
-        field_110C_sub.Draw_5CF910();
-        field_13C0_sub.DrawPlayerNames_5CFE40();
+        field_1118_player_stats.DrawPlayerStats_5D5C80();
+        field_110C_under_roof_marker.Draw_5CF910();
+        field_13C0_player_names.DrawPlayerNames_5CFE40();
         field_1028_wanted_level.DrawWantedLevel_5D0110();
-        field_107C_sub.DrawGangRespectBars_5CFA70();
-        field_1108_sub.DrawHealth_5D0260();
+        field_107C_gang_respect_bars.DrawGangRespectBars_5CFA70();
+        field_1108_health.DrawHealth_5D0260();
         field_4C_zone_name.DrawZoneName_5D5900();
         field_0_car_name.DrawCarName_5D4A10();
         field_1080_pickup_text.Draw_5D5420();
@@ -3154,23 +3154,23 @@ void Hud_2B00::DrawGui_5D6860()
         field_1F18_arrows.DrawArrows_5D0E90();
         field_12F0_mp_message.Draw_5D56D0();
         field_111C_message.DrawMessage_5D1940();
-        field_12E4_sub.DrawPause_5D63B0();
-        field_2A25_sub.DrawChatMessages_5D16B0();
-        field_12EC_sub.DrawQuitMessage_5D1430();
+        field_12E4_pause_screen.DrawPause_5D63B0();
+        field_2A25_chat_input.DrawChatMessages_5D16B0();
+        field_12EC_quit_message.DrawQuitMessage_5D1430();
     }
 }
 
 MATCH_FUNC(0x5d69c0)
 void Hud_2B00::UpdatePauseSection_5D69C0()
 {
-    field_12E4_sub.UpdatePauseSection_5D6300();
+    field_12E4_pause_screen.UpdatePauseSection_5D6300();
 }
 
 MATCH_FUNC(0x5d69d0)
 void Hud_2B00::UpdateHUD_5D69D0()
 {
-    field_1118_sub.UpdateRollingDigits_5D6290();
-    field_110C_sub.Update_5CF730();
+    field_1118_player_stats.UpdateRollingDigits_5D6290();
+    field_110C_under_roof_marker.Update_5CF730();
     field_27B5_show_coords.ShowPlayerCoords_5CF970();
     field_1028_wanted_level.UpdateWantedLevel_5D00B0();
     UpdateCarName_5D5350();
@@ -3180,7 +3180,7 @@ void Hud_2B00::UpdateHUD_5D69D0()
     field_620_pagers.UpdatePagers_5D31B0();
     field_650_texts.RemoveExpired_5D2050();
     field_1F18_arrows.UpdateArrows_5D0FD0();
-    field_107C_sub.Empty_5CFE20();
+    field_107C_gang_respect_bars.Empty_5CFE20();
     field_111C_message.DecrementTimeToShow_5D1AB0();
     field_12F0_mp_message.DecrementTimer_5D5760();
 }
@@ -3251,7 +3251,7 @@ void Hud_2B00::Init_5D6BE0()
     GetTextSpeed_5D6A90();
     SetFontTypes_5D6B00();
     field_4C_zone_name.ResetTransparency_5D5C50();
-    field_107C_sub.Empty_5CFE30();
+    field_107C_gang_respect_bars.Empty_5CFE30();
     field_1028_wanted_level.Init_5D0210();
     field_1F18_arrows.CreatePlayerArrows_5D1350();
 }
@@ -3259,19 +3259,19 @@ void Hud_2B00::Init_5D6BE0()
 MATCH_FUNC(0x5d6c20)
 bool Hud_2B00::IsBusy_5D6C20(s32 action, Player* pPlayer)
 {
-    return field_12EC_sub.IsOnQuitMessage_5D13C0(action, pPlayer) || field_2A25_sub.IsTypingOnChat_5D15E0(action, pPlayer);
+    return field_12EC_quit_message.IsOnQuitMessage_5D13C0(action, pPlayer) || field_2A25_chat_input.IsTypingOnChat_5D15E0(action, pPlayer);
 }
 
 MATCH_FUNC(0x5d6c70)
 bool Hud_2B00::IsInputKeyConsumed_5D6C70(s32 action)
 {
-    return field_12EC_sub.IsQuitMessageKey_5D15A0(action) || field_2A25_sub.IsChatInputKey_5D17D0(action);
+    return field_12EC_quit_message.IsQuitMessageKey_5D15A0(action) || field_2A25_chat_input.IsChatInputKey_5D17D0(action);
 }
 
 MATCH_FUNC(0x5d6cb0)
 bool Hud_2B00::IsQuitMessageInputKey_5D6CB0(s32 action)
 {
-    return field_12EC_sub.IsQuitMessageKey_5D15A0(action);
+    return field_12EC_quit_message.IsQuitMessageKey_5D15A0(action);
 }
 
 // Defined before the member ctors it calls: when VC6 has already compiled them in this TU (and seen

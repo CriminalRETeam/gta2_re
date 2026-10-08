@@ -1339,14 +1339,14 @@ Each was a few asm lines away from the original. What is left and what was tried
 - No change: `46F1E0` (original tests the angle with jns right after the 16-bit sub/add)
 - `EmitElectricArcParticle_540320`: 202->21 (explicit Multiply/Negate rotation, block scope). Left: one operand order in MultiplyByFix16_401CB0
 - Matched: `Car_BC::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0` (params modified in place, pos_z declared at the call), `Object_2C::ResolveCollisionWithObject_522710` (Fix16_Point results declared up front, Negate_40ACB0 out of line, angle += through an Ang16& + Normalize_406C20), `Train_58::UpdatePassengerAI_578390` (new global gTargetCarDoor_6FF1D8 as the loop counter, inverted field_1818 test fixed)
-- Closer: `ApplyImpactForcesAndDamage_55FA60` 205->19 (left: three return tails should jump to one shared epilogue), `PoliceCrew_38::sub_575310` 233->49, `Orca_2FD4::ComputePath_554AB0` 216->48, `Garox_110C_sub::Update_5CF730` 225->60, `ApplyCarVelocityCameraOffset_436200` 233->119
+- Closer: `ApplyImpactForcesAndDamage_55FA60` 205->19 (left: three return tails should jump to one shared epilogue), `PoliceCrew_38::sub_575310` 233->49, `Orca_2FD4::ComputePath_554AB0` 216->48, `Hud_UnderRoofMarker_C::Update_5CF730` 225->60, `ApplyCarVelocityCameraOffset_436200` 233->119
 - No change: `4B0220` (5 KB of stores, register rotation everywhere), `521890` (ours hoists pPlayerIdx into ebp), `5DDA70` (rotation in %bx), `57DF10` (original keeps the restart tail unmerged)
 
 ### Near-miss pass, batches AA-AE (2026-10-03, partial)
 
 - Matched: `Sprite::ShowHorn_59EE40` (Fix16 from `(s32)(x/(f32)(u32)width*640)` like the other Show* functions, not `Fix16(f32)`), `sound_obj::HandleCarEngineSound_4157C0` (gotos removed; separate per-path `Round(...)+25` statements, which VC6 tail-merges into the shared div/mul code like the original)
 - Closer: `Wolfy_30::state_18_33_541D60` 306->35 and `state_19_32_542060` 279->20 (else branch first, PolarToCartesian written out with the second multiply as out-of-line `Multiply_408680` because of the inline budget; left: register rotation), `HandleCarTireScrubSound_418720` 261->4 (u8 volume, structured ifs, `field_AC > 0`), `StabilizeVelocityAtSpeed_562910` 0.41->0.96 (9.6f inline `MultiplyByFix16_49E3A0` as `*=` by reference, `RotateVelocity_562C20` on Fix16_Point_POD)
-- Matched: `Char_B4::state_7_551CB0` (both block lookups call `GetBlockTypeAtCoord_420420`/`get_block_4DFE10` in each branch; the seven `z == N` tests compare raw `mValue` to stay inside the inline budget; cases 8 and 9 as separate identical bodies), `PedManager::PedManager` 0x470650 (sprite setup and statics restored, implicit conversions for `set_xyz(0,0,0)`, `__forceinline` on the pool ctors because of the budget), `Garox_12E4_sub::DrawPause_5D63B0` (pass a u32 where the original calls the `Fix16(u32)` copy 0x4926F0)
+- Matched: `Char_B4::state_7_551CB0` (both block lookups call `GetBlockTypeAtCoord_420420`/`get_block_4DFE10` in each branch; the seven `z == N` tests compare raw `mValue` to stay inside the inline budget; cases 8 and 9 as separate identical bodies), `PedManager::PedManager` 0x470650 (sprite setup and statics restored, implicit conversions for `set_xyz(0,0,0)`, `__forceinline` on the pool ctors because of the budget), `Hud_PauseScreen_2::DrawPause_5D63B0` (pass a u32 where the original calls the `Fix16(u32)` copy 0x4926F0)
 - Closer: `SelectObjectImpactSound_413120` 0.35->0.99 (two switches inside `if (model <= 110)`), `fire_truck_gun_5E0E70` 241->15 (out-of-line rotation helpers, `Add_40AC50`, Fix16_Point locals before the field_24 store), `SpawnSkidSegment_55D200` 0.23->0.84, `Draw_59EFF0` 0.75->0.92, `PoliceCrew_38::State6_ShutDown_574720` 410->119, `army_gun_jeep_5E13E0` 0.43->0.55, `FindBestTargetPed_466BF0` 0.31->0.43, `HandleCarDoorSounds_4182E0` 0.15->0.33, smaller gains in `4410D0`, `561E50`, `561380`, `5D8A10`, `4672E0` (path switch fix)
 - No change: `46EB60` (rewritten without gotos, regalloc left), `5E5A30` (shared EH epilogue)
 - Matched: `Ped::CarThief_AI_45FF60` (case order 0, 35, 31, 36, 1; Kill written out at each site; inline bus model compare; `*(xd > yd ? &xd : &yd)` instead of `Max_44E540`), `Sprite::FindCollisionIntersectionPoint_5A2710` (logic fixes: restore paths use the saved angle, second-half corners from pOther, bOutSideSelf/bOutSideOther were swapped; one named result; `GetBoundingBoxCorner_562450` moved to CarPhysics_B0.cpp)
@@ -1633,7 +1633,7 @@ Registers only:
   `edi` from the prologue, frame 4 bytes bigger.
 - `PoliceCrew_38::State6_ShutDown_574720` (46): only the entry store of the loop index; a top-level
   declaration gives the `ebp` zero register (128).
-- `Garox_13C0_sub::DrawPlayerNames_5CFE40` (182 -> 180, `(u8)` cast on `IsCoordsPosVisible_435A70`): the
+- `Hud_PlayerNames_4::DrawPlayerNames_5CFE40` (182 -> 180, `(u8)` cast on `IsCoordsPosVisible_435A70`): the
   original keeps `pIter` in `ebx`, `pCam` in `edi`, adds 320 early; a static inline `WorldToScreen_40CFC0`
   is worse (318).
 - `DrawPlayerStatsHelper_5D61A0` (26): a local for the 18/22 offset fixes the tail but swaps `ebx`/`ebp` at
@@ -3004,7 +3004,7 @@ file, so a header could be swapped per variant) without touching `build_vc6/`.
   `Open_4D9470`. The `fake_ofstream` buffer hack hid both; `sizeof(ofstream)` is 0x3C under VC6 (probe:
   `char c[sizeof(ofstream) == 0x3C ? 1 : -1]` compiled with `compile.sh`), so the real member replaces the hack
   for `!defined(__clang__) && _MSC_VER <= 1200` and `field_3C_pLen` stays put.
-- `Garox_12E4_sub::DrawPlayerStatsHelper_5D61A0` (10): the role swap of `ebx`/`ebp` (width vs base_xpos) with
+- `Hud_PauseScreen_2::DrawPlayerStatsHelper_5D61A0` (10): the role swap of `ebx`/`ebp` (width vs base_xpos) with
   `s32 width` is insensitive to `u8` (58, slot + `edi`), `s32 width;` then assign, the combined
   `get_sprite_width_4C7220` inline, `(s16)` on the getter, `s16 sprite_idx`, a `half` local (76), an explicit
   `Fix16(base_xpos - width / 2)` (62): all 32 except where noted.

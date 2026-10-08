@@ -5976,7 +5976,7 @@ void miss2_0x11C::SCRCMD_IS_CHAR_ON_FIRE_50ECE0()
 MATCH_FUNC(0x50ed40)
 void miss2_0x11C::SCRCMD_BRIEF_ONSCREEN_50ED40()
 {
-    Garox_18* field_6F8_curr_brief = gHud_2B00_706620->field_DC_brief.field_6F8_curr_brief;
+    Hud_BriefEntry_18* field_6F8_curr_brief = gHud_2B00_706620->field_DC_brief.field_6F8_curr_brief;
     if (field_6F8_curr_brief != NULL && field_6F8_curr_brief->field_8_brief_priority != 0)
     {
         field_8_cond_result = true;

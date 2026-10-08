@@ -942,7 +942,7 @@ void Player::Hud_Controls_565890(u16 action)
                 }
                 else
                 {
-                    gHud_2B00_706620->field_12EC_sub.ShowQuitMessage_5D15D0(this);
+                    gHud_2B00_706620->field_12EC_quit_message.ShowQuitMessage_5D15D0(this);
                 }
                 break;
             case DIK_HOME:
@@ -1025,7 +1025,7 @@ void Player::Hud_Controls_565890(u16 action)
             case DIK_F10:
                 if (bStartNetworkGame_7081F0)
                 {
-                    gHud_2B00_706620->field_2A25_sub.StartChatting_5D1830(this);
+                    gHud_2B00_706620->field_2A25_chat_input.StartChatting_5D1830(this);
                 }
                 break;
             case DIK_F11:
@@ -1132,13 +1132,13 @@ void Player::Hud_Controls_565890(u16 action)
             case DIK_PERIOD:
                 if (bDo_debug_keys_67D6CF)
                 {
-                    gHud_2B00_706620->field_12E8_sub.ShowNextNumberedBrief_5CF620();
+                    gHud_2B00_706620->field_12E8_brief_selector.ShowNextNumberedBrief_5CF620();
                 }
                 break;
             case DIK_COMMA:
                 if (bDo_debug_keys_67D6CF)
                 {
-                    gHud_2B00_706620->field_12E8_sub.ShowPrevNumberedBrief_5CF6B0();
+                    gHud_2B00_706620->field_12E8_brief_selector.ShowPrevNumberedBrief_5CF6B0();
                 }
                 break;
             case DIK_C:

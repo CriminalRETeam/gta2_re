@@ -2490,11 +2490,11 @@ void CC ImGuiDebugDraw()
                     {
                         ImGui::SliderS16("Rotation", &pArrow->field_8_rotation.rValue, 0, 1439);
 
-                        Garox_20_Sub* g20 = &pArrow->field_18;
-                        Garox_30_Sub* g30 = &g20->field_10;
-                        ImGui::Input_char_type("Garox_30_Sub f5", &g30->field_5_is_visible, 1, 1);
-                        ImGui::Input_char_type("Garox_30_Sub f6", &g30->field_6_in_use, 1, 1);
-                        ImGui::Input_char_type("Garox_30_Sub f7", &g30->field_7, 1, 1);
+                        Hud_ArrowTargets_64* g20 = &pArrow->field_18;
+                        Hud_ArrowGangInfo_8* g30 = &g20->field_10;
+                        ImGui::Input_char_type("Hud_ArrowGangInfo_8 f5", &g30->field_5_is_visible, 1, 1);
+                        ImGui::Input_char_type("Hud_ArrowGangInfo_8 f6", &g30->field_6_in_use, 1, 1);
+                        ImGui::Input_char_type("Hud_ArrowGangInfo_8 f7", &g30->field_7, 1, 1);
 
                         ArrowTrace_24* pPrimaryTrace = &g20->field_18_primary_target;
                         if (pPrimaryTrace)
@@ -2582,7 +2582,7 @@ void CC ImGuiDebugDraw()
                             ImGui::TreePop();
                         }
 
-                        Garox_18* curr_brief = pHud_Brief_704->field_6F8_curr_brief;
+                        Hud_BriefEntry_18* curr_brief = pHud_Brief_704->field_6F8_curr_brief;
                         if (curr_brief)
                         {
                             ImGui::Value("curr brief f_10", curr_brief->field_10_was_displayed);
@@ -2595,7 +2595,7 @@ void CC ImGuiDebugDraw()
 
                         static u16 brief_idx = 0;
                         ImGui::SliderU16("Brief idx", &brief_idx, 0, 18);
-                        Garox_18* brief = &pHud_Brief_704->field_524_ary_19[brief_idx];
+                        Hud_BriefEntry_18* brief = &pHud_Brief_704->field_524_ary_19[brief_idx];
                         if (brief)
                         {
                             ImGui::Text("Brief f_0: 0x%X", brief->field_0_brief_id_str);
@@ -3194,7 +3194,7 @@ void CC ImGuiDebugDraw()
         ImGui::Checkbox("Brian Test", &bDo_brian_test_67D544);
         ImGui::Checkbox("Do Test", &bDo_test_67D4F8);
         ImGui::Checkbox("Do Mike", &bDo_mike_67D5CC);
-        ImGui::Checkbox("Do Text ID Test", &gDo_text_id_test_67D6D0); // press '<' or '>' to navigate through gxt text id's  (Garox_4 stuff)
+        ImGui::Checkbox("Do Text ID Test", &gDo_text_id_test_67D6D0); // press '<' or '>' to navigate through gxt text id's  (Hud_BriefSelector_4 stuff)
         ImGui::Checkbox("3D Sound", &bDo_3d_sound_67D6C2); // seems to not work
 
         if (ImGui::TreeNode("Skip stuff"))

@@ -59,7 +59,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 22 | 46 | - | 0x41f520 | `sound_obj::ProcessOtherObjects_41F520` | sound_obj.cpp |
 | 0 | 22 | 96 | 28 | 0x45afc0 | `Ped::Reset_45AFC0` | Ped.cpp |
 | 0 | 24 | 112 | - | 0x53d260 | `Particle_4C::PoolUpdate` | Particle_4C.cpp |
-| 0 | 26 | 180 | - | 0x5cfe40 | `Garox_13C0_sub::DrawPlayerNames_5CFE40` | Hud.cpp |
+| 0 | 26 | 180 | - | 0x5cfe40 | `Hud_PlayerNames_4::DrawPlayerNames_5CFE40` | Hud.cpp |
 | 0 | 26 | 26 | 44 | 0x5d61a0 | `DrawPlayerStatsHelper_5D61A0` | Hud.cpp |
 | 0 | 28 | 42 | 30 | 0x554710 | `Orca_2FD4::Internel_UpdateBehaviorGrid_554710` | Orca_2FD4.cpp |
 | 0 | 28 | 84 | - | 0x55ad90 | `CarPhysics_B0::UpdateZPhysics_55AD90` | CarPhysics_B0.cpp |
