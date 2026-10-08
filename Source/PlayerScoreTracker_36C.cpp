@@ -43,8 +43,8 @@ PlayerScoreTracker_36C::PlayerScoreTracker_36C()
     field_74_car_kill_combo = 1;
     field_75_score_mult = 1;
 
-    field_18C_one_second_timer = 0;
-    field_190_fly_car_count = 0;
+    field_18C_one_second_timer_ms = 0;
+    field_190_fly_car_time_ms = 0;
     field_70_last_car_kill_time = 0;
     field_78_last_kill_time = 0;
     field_7C_execution_count = 0;
@@ -55,7 +55,7 @@ PlayerScoreTracker_36C::PlayerScoreTracker_36C()
     field_84_num_elvis_killed = 0;
     field_194_last_accuracy_event = 0;
     field_198_accuracy_count = 0;
-    field_19C_reverse_count = 0;
+    field_19C_reverse_time_ms = 0;
     field_1A0_last_emergency_car_kill_time = 0;
     field_1A4_killed_cars_flags = emergency_car_kill_flag::none_0;
 
@@ -70,11 +70,11 @@ void PlayerScoreTracker_36C::Service_591C70()
 {
     field_1A8_bonuses.Service_431E30();
     Ped* player_ped = field_368_player->GetPlayerPed_41D020();
-    field_18C_one_second_timer += gGame_0x40_67E008->GetFrameDurationMs_4B8BB0();
+    field_18C_one_second_timer_ms += gGame_0x40_67E008->GetFrameDurationMs_4B8BB0();
 
-    if (field_18C_one_second_timer >= 1000)
+    if (field_18C_one_second_timer_ms >= 1000)
     {
-        field_18C_one_second_timer -= 1000;
+        field_18C_one_second_timer_ms -= 1000;
         Car_BC* pCar = player_ped->get_car_416B60();
 
         if (pCar)
@@ -181,16 +181,16 @@ void PlayerScoreTracker_36C::Service_591C70()
 
         pReversingCar->field_58_physics->is_backward_gas_on_411810())
     {
-        field_19C_reverse_count += gGame_0x40_67E008->GetFrameDurationMs_4B8BB0();
+        field_19C_reverse_time_ms += gGame_0x40_67E008->GetFrameDurationMs_4B8BB0();
     }
     else
     {
-        field_19C_reverse_count = 0;
+        field_19C_reverse_time_ms = 0;
     }
 
-    if (field_19C_reverse_count >= 60000u)
+    if (field_19C_reverse_time_ms >= 60000u)
     {
-        field_19C_reverse_count = 0;
+        field_19C_reverse_time_ms = 0;
         field_368_player->AddScore_41DC40(1000);
         if (field_368_player->IsUser_41DC70())
         {
@@ -204,17 +204,17 @@ void PlayerScoreTracker_36C::Service_591C70()
         pFlyingCar->field_58_physics->IsInAir_55A0B0() // TODO: Wrong stack
         && pFlyingCar->GetVelocity_43A4C0() > kFlyCarMinVelocity_7028BC)
     {
-        field_190_fly_car_count += gGame_0x40_67E008->GetFrameDurationMs_4B8BB0();
+        field_190_fly_car_time_ms += gGame_0x40_67E008->GetFrameDurationMs_4B8BB0();
     }
     else
     {
-        field_190_fly_car_count = 0;
+        field_190_fly_car_time_ms = 0;
     }
 
-    if (field_190_fly_car_count >= 1250 && field_190_fly_car_count < 2250)
+    if (field_190_fly_car_time_ms >= 1250 && field_190_fly_car_time_ms < 2250)
     {
         field_368_player->AddScore_41DC40(1000);
-        field_190_fly_car_count = 2250;
+        field_190_fly_car_time_ms = 2250;
         if (field_368_player->IsUser_41DC70())
         {
             gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("fly_car"), 1);

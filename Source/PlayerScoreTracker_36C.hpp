@@ -26,7 +26,7 @@ class PlayerScoreTracker_36C
     // 9.6f 0x45B0B0
     inline s32 get_reverse_count_45B0B0()
     {
-        return field_19C_reverse_count;
+        return field_19C_reverse_time_ms;
     }
 
     EXPORT PlayerScoreTracker_36C();
@@ -66,11 +66,11 @@ class PlayerScoreTracker_36C
     s16 field_88_killed_cops;
     u16 field_8A_cars_stolen_count;
     u8 field_8C_car_model_flags[256]; // car_model_flag bits (car_model_flag.hpp)
-    u32 field_18C_one_second_timer;
-    u32 field_190_fly_car_count;
+    u32 field_18C_one_second_timer_ms;
+    u32 field_190_fly_car_time_ms;
     s32 field_194_last_accuracy_event; // accuracy_event (accuracy_event.hpp)
     u8 field_198_accuracy_count;
-    s32 field_19C_reverse_count;
+    s32 field_19C_reverse_time_ms;
     s32 field_1A0_last_emergency_car_kill_time;
     char_type field_1A4_killed_cars_flags; // emergency_car_kill_flag bits (emergency_car_kill_flag.hpp)
     sad_mirzakhani field_1A8_bonuses;
