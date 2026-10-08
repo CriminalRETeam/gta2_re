@@ -18,7 +18,7 @@ class youthful_einstein
     // 9.6f 0x434B20
     inline bool IsTagGame_434B20()
     {
-        return gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0() == 3;
+        return gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0() == TAG_GAME_3;
     }
 
     // 9.6f 0x434B60, defined in Player.hpp

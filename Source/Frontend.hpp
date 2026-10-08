@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "multiplayer_game_type.hpp"
 #include "sleepy_stonebraker_0x6C.hpp"
 #include "xenodochial_morse.hpp"
 #include "youthful_einstein.hpp"
@@ -214,13 +215,6 @@ enum ElementType
     STRING_TEXT_1 = 1,
     STRING_TEXT_2 = 2,
     GEOMETRIC_SHAPE_3 = 3,  //  triangles, circles
-};
-
-enum MultiplayerGameType
-{
-    FRAG_GAME_1 = 1,
-    POINTS_GAME_2 = 2,
-    TAG_GAME_3 = 3,
 };
 
 struct MainBlockStrings

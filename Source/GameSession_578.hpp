@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "multiplayer_game_type.hpp"
 #include <windows.h>
 
 struct FragsByVictim_C
@@ -192,5 +193,5 @@ EXTERN_GLOBAL(GameSession_578, gGameSession_67E8E0);
 // 9.6f 0x434B20
 inline bool IsTagGame_434B20()
 {
-    return gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0() == 3; // TAG_GAME_3
+    return gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0() == TAG_GAME_3;
 }
