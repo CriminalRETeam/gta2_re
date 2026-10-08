@@ -4347,7 +4347,7 @@ void miss2_0x11C::SCRCMD_IS_CAR_ON_TRAIL_50C1B0()
     Car_BC* pCarOnTrailer;
 
     if (pSprite != NULL &&
-        (pSprite->field_30_sprite_type_enum == 2 ? (pCarOnTrailer = pSprite->field_8_car_bc_ptr) : (pCarOnTrailer = NULL),
+        (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2 ? (pCarOnTrailer = pSprite->field_8_car_bc_ptr) : (pCarOnTrailer = NULL),
          pCarOnTrailer == pCarPointer->field_8_car))
     {
         field_8_cond_result = true;

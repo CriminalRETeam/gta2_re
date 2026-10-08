@@ -763,10 +763,10 @@ char_type Sprite::IsThreatToSearchingPed_59E830()
 {
     switch (this->field_30_sprite_type_enum)
     {
-        case 2: // car
+        case sprite_types_enum::car_2: // car
             return this->field_8_car_bc_ptr->IsThreatToSearchingPed_43AAE0();
 
-        case 3: // char_b4
+        case sprite_types_enum::ped_3: // char_b4
             return this->field_8_char_b4_ptr->IsThreatToSearchingPed_553330();
 
         default:
@@ -779,13 +779,13 @@ char_type Sprite::ShouldCollideWithSprite_59E850(Sprite* pSprite)
 {
     switch (this->field_30_sprite_type_enum)
     {
-        case 1:
-        case 4:
-        case 5:
+        case sprite_types_enum::unknown_1:
+        case sprite_types_enum::code_obj1_4:
+        case sprite_types_enum::map_obj_5:
             return field_8_object_2C_ptr->ShouldCollideWithSprite_525370(pSprite);
-        case 2:
+        case sprite_types_enum::car_2:
             return field_8_car_bc_ptr->CanCarCollideWithSprite_43AAF0(pSprite);
-        case 3:
+        case sprite_types_enum::ped_3:
             return field_8_char_b4_ptr->ShouldCollideWithSprite_553340(pSprite);
         default:
             return 1;
@@ -955,17 +955,17 @@ char_type Sprite::has_shadows_59EAE0()
 {
     switch (field_30_sprite_type_enum)
     {
-        case 3:
+        case sprite_types_enum::ped_3:
             return field_8_char_b4_ptr->HasShadows_5451C0();
-        case 2:
+        case sprite_types_enum::car_2:
             return 1;
-        case 1:
-        case 4:
-        case 5:
+        case sprite_types_enum::unknown_1:
+        case sprite_types_enum::code_obj1_4:
+        case sprite_types_enum::map_obj_5:
             return field_8_object_2C_ptr->field_8->field_62_has_shadows;
-        case 6:
-        case 7:
-        case 8:
+        case sprite_types_enum::user_6:
+        case sprite_types_enum::font_7:
+        case sprite_types_enum::code_obj2_8:
             return 0;
         default:
             break;
@@ -2323,9 +2323,9 @@ void Sprite::DispatchCollisionEvent_5A3100(Sprite* pSprite, Fix16 x, Fix16 y, An
         case sprite_types_enum::car_2:
             field_8_car_bc_ptr->field_0_qq.PushImpactEvent_5A6D00(pSprite, x, y, ang);
             break;
-        case 1: // sprite_type_1_Object_5C
-        case 4: // sprite_type_4_Object_5C
-        case 5: // sprite_type_5_Object_5C
+        case sprite_types_enum::unknown_1: // sprite_type_1_Object_5C
+        case sprite_types_enum::code_obj1_4: // sprite_type_4_Object_5C
+        case sprite_types_enum::map_obj_5: // sprite_type_5_Object_5C
             o2c = field_8_object_2C_ptr;
             if (!o2c->field_10_obj_3c)
             {
@@ -2342,9 +2342,9 @@ void Sprite::DispatchCollisionEvent_5A3100(Sprite* pSprite, Fix16 x, Fix16 y, An
         case sprite_types_enum::car_2:
             pSprite->field_8_car_bc_ptr->Deactivate_43AA60();
             break;
-        case 1: // sprite_type_1_Object_5C
-        case 4: // sprite_type_4_Object_5C
-        case 5: // sprite_type_5_Object_5C
+        case sprite_types_enum::unknown_1: // sprite_type_1_Object_5C
+        case sprite_types_enum::code_obj1_4: // sprite_type_4_Object_5C
+        case sprite_types_enum::map_obj_5: // sprite_type_5_Object_5C
             pSprite->field_8_object_2C_ptr->ReactivateObjectAfterImpact_52A6D0(this);
             break;
         default:

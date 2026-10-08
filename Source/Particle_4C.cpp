@@ -451,7 +451,7 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
                     pSegment->field_2C_counter = 50;
                     pSegment->field_46_sub_state = 0;
                     pSegment->field_2E = 50;
-                    pSegment->field_30_pNext->SetType_4206F0(8);
+                    pSegment->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
                     pSegment->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 104);
                     pSegment->field_30_pNext->set_xyz_lazy_420600(mid.x, mid.y, field_30_pNext->field_1C_zpos);
                     pSegment->field_30_pNext->SetFlags_4337D0(2, 20);
@@ -854,7 +854,7 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
                     pSmoke->field_38_state = 6;
                     pSmoke->field_2C_counter = 100;
                     pSmoke->field_2E = 100;
-                    pSmoke->field_30_pNext->SetType_4206F0(8);
+                    pSmoke->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
                     pSmoke->field_38_state = 6;
                     pSmoke->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette);
                     pSmoke->field_30_pNext->set_xyz_lazy_420600(field_30_pNext->field_14_xy.x,

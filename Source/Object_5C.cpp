@@ -327,7 +327,7 @@ char_type Object_2C::SelectCollisionSprite_522460(Sprite* a2)
     gObject2C_HitWallOrDoor_6F8F94 = 0;
 
     Sprite* pSprite = a2->QuerySpriteCollision_59E7D0(2);
-    if (pSprite && gObject2C_LastCollisionSprite_6F8F8C && pSprite->get_type_416B40() == 2 // IsCar
+    if (pSprite && gObject2C_LastCollisionSprite_6F8F8C && pSprite->get_type_416B40() == sprite_types_enum::car_2 // IsCar
         || !ShouldCollideWithSprite_522430(pSprite) || pSprite == gObject2C_LastCollisionSprite_6F8F8C)
     {
         return 0;
@@ -2033,7 +2033,7 @@ void Object_2C::sub_526B40(Sprite* pSprite)
 
     switch (pSprite->get_type_416B40())
     {
-        case 3: //sprite_type_3_Char_B4:
+        case sprite_types_enum::ped_3: //sprite_type_3_Char_B4:
             this->field_10_obj_3c->field_C_speed = (pSprite->field_8_char_b4_ptr->get_velocity_41B080() * k_dword_6F8C9C);
             this->field_10_obj_3c->field_4_angle = pSprite->field_0;
             this->field_4->set_num_40F7B0(27);
@@ -2045,8 +2045,8 @@ void Object_2C::sub_526B40(Sprite* pSprite)
             this->field_4->set_num_40F7B0(pSprite->AsCar_40FEB0()->GetCrashSoundCategory_4435B0());
             break;
 
-        case 4: //sprite_type_4_Object_5C:
-        case 5: //sprite_type_5_Object_5C:
+        case sprite_types_enum::code_obj1_4: //sprite_type_4_Object_5C:
+        case sprite_types_enum::map_obj_5: //sprite_type_5_Object_5C:
             p3C = pSprite->field_8_object_2C_ptr->field_10_obj_3c;
             if (p3C)
             {

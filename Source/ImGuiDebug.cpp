@@ -3115,7 +3115,7 @@ void CC ImGuiDebugDraw()
                     pParticle->field_2C_counter = counter;
                     pParticle->field_2E = f_2E;
 
-                    pParticle->field_30_pNext->SetType_4206F0(8);
+                    pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
                     pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 132);
                     pParticle->field_46_sub_state = 0; // TODO
                     pParticle->field_48_timer = timer;

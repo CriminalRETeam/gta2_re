@@ -1667,7 +1667,7 @@ void Char_B4::DispatchCollision_548670(char_type a2)
         switch (pNearSprite->get_type_416B40())
         {
 
-            case 3: // char_b4
+            case sprite_types_enum::ped_3: // char_b4
                 if (bUnknown == byte_623F48)
                 {
                     this->field_18_collided_entity = 0;
@@ -1682,10 +1682,10 @@ void Char_B4::DispatchCollision_548670(char_type a2)
                 }
                 break;
 
-            case 2: // car
+            case sprite_types_enum::car_2: // car
             {
                 Sprite* pNearSprite2 = field_80_sprite_ptr->QuerySpriteCollision_59E7D0(1);
-                if (pNearSprite2->get_type_416B40() == 1) // object
+                if (pNearSprite2->get_type_416B40() == sprite_types_enum::unknown_1) // object
                 {
                     if (pNearSprite2->As2C_40FEC0())
                     {
@@ -1700,9 +1700,9 @@ void Char_B4::DispatchCollision_548670(char_type a2)
                 }
                 break;
             }
-            case 1:
-            case 4:
-            case 5: // object
+            case sprite_types_enum::unknown_1:
+            case sprite_types_enum::code_obj1_4:
+            case sprite_types_enum::map_obj_5: // object
                 Char_B4::HandleObjectCollision_548840(pNearSprite->As2C_40FEC0());
                 this->field_20 = 3;
                 break;
@@ -6374,9 +6374,9 @@ bool Char_B4::ShouldCollideWithSprite_553340(Sprite* pSprite)
             {
                 switch (pSprite->get_type_416B40())
                 {
-                    case 2:
+                    case sprite_types_enum::car_2:
                         return 0;
-                    case 4:
+                    case sprite_types_enum::code_obj1_4:
                         break;
                     default:
                         return 0;
