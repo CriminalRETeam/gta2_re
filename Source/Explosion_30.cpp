@@ -66,53 +66,53 @@ MATCH_FUNC(0x5408f0)
 Explosion_30::Explosion_30()
 {
     this->field_C_angle = 0;
-    this->field_20 = 0;
-    this->field_22 = 0;
+    this->field_20_unused = 0;
+    this->field_22_spawn_angle = 0;
     this->field_4_idx = 0;
-    this->field_10_type_or_state = 0;
+    this->field_10_type = 0;
     this->field_14_pObj2C = 0;
     this->field_18_particle_cooldown = 0;
     this->field_1A_timer = 0;
     this->field_8_speed = kFP16Zero_6FD49C;
-    this->field_20 = kAngZero_6FD5D4;
-    this->field_22 = kAngZero_6FD5D4;
-    this->field_24 = kFP16Zero_6FD49C;
-    this->field_28 = kFP16Zero_6FD49C;
+    this->field_20_unused = kAngZero_6FD5D4;
+    this->field_22_spawn_angle = kAngZero_6FD5D4;
+    this->field_24_particle_spread = kFP16Zero_6FD49C;
+    this->field_28_blast_radius = kFP16Zero_6FD49C;
     this->field_C_angle = kAngZero_6FD5D4;
-    this->field_1C = 0;
+    this->field_1C_pAttachedSprite = 0;
     this->field_6_id = 0;
-    this->field_2C_ped_id = 0;
+    this->field_2C_owner_ped_id = 0;
 }
 
 MATCH_FUNC(0x540a10)
 Explosion_30::~Explosion_30()
 {
     field_14_pObj2C = 0;
-    field_1C = 0;
+    field_1C_pAttachedSprite = 0;
 }
 
 MATCH_FUNC(0x540d30)
-void Explosion_30::state_3_12_540D30(Ang16 ang, Fix16 pos)
+void Explosion_30::state_3_12_540D30(Ang16 ang, Fix16 speed)
 {
     // Fix16_Point (has a destructor): the original sets an EH state for it. Zero-constructed
-    // then assigned as in 9.6f: the pos stores are scheduled after the angle add.
+    // then assigned as in 9.6f: the speed stores are scheduled after the angle add.
     Fix16_Point point(Fix16(0), Fix16(0));
-    point.x = pos;
-    point.y = pos;
+    point.x = speed;
+    point.y = speed;
     point.RotateByAngle_40F6B0(ang + kAng180_6FD3EE);
 
-    this->field_8_speed = pos;
+    this->field_8_speed = speed;
     this->field_C_angle = ang;
 
     if (this->field_18_particle_cooldown == 0)
     {
-        //pos = (int)&v27; // TODO: Field_20 wrong val ??
+        //speed = (int)&v27; // TODO: Field_20 wrong val ??
         Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(point.x, point.y, dword_6FD330, point.x, point.y, 0);
         if (pNew)
         {
             pNew->field_40_pExplosion = this;
             pNew->field_44 = this->field_6_id;
-            pNew->field_20_speed = pos;
+            pNew->field_20_speed = speed;
             pNew->field_24_angle = ang;
             pNew->field_34 = 0;
             pNew->field_46_sub_state = 0;
@@ -135,27 +135,27 @@ void Explosion_30::state_3_12_540D30(Ang16 ang, Fix16 pos)
 
 // 9.6f 0x48E5F0
 MATCH_FUNC(0x540f90)
-void Explosion_30::state_4_540F90(Ang16 ang, Fix16 pos)
+void Explosion_30::state_4_540F90(Ang16 ang, Fix16 speed)
 {
     // Fix16_Point (has a destructor): the original sets an EH state for it. Zero-constructed
-    // then assigned as in 9.6f: the pos stores are scheduled after the angle add.
+    // then assigned as in 9.6f: the speed stores are scheduled after the angle add.
     Fix16_Point point(Fix16(0), Fix16(0));
-    point.x = pos;
-    point.y = pos;
+    point.x = speed;
+    point.y = speed;
     point.RotateByAngle_40F6B0(ang + kAng180_6FD3EE);
 
-    this->field_8_speed = pos;
+    this->field_8_speed = speed;
     this->field_C_angle = ang;
 
     if (this->field_18_particle_cooldown == 0)
     {
-        //pos = (int)&v27; // TODO: Field_20 wrong val ??
+        //speed = (int)&v27; // TODO: Field_20 wrong val ??
         Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(point.x, point.y, dword_6FD330, point.x, point.y, 0);
         if (pNew)
         {
             pNew->field_40_pExplosion = this;
             pNew->field_44 = this->field_6_id;
-            pNew->field_20_speed = pos;
+            pNew->field_20_speed = speed;
             pNew->field_24_angle = ang;
             pNew->field_34 = 0;
             pNew->field_46_sub_state = 0;
@@ -177,27 +177,27 @@ void Explosion_30::state_4_540F90(Ang16 ang, Fix16 pos)
 }
 
 MATCH_FUNC(0x5411e0)
-void Explosion_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
+void Explosion_30::state_13_14_5411E0(Ang16 ang, Fix16 speed)
 {
     // Fix16_Point (has a destructor): the original sets an EH state for it. Zero-constructed
-    // then assigned as in 9.6f: the pos stores are scheduled after the angle add.
+    // then assigned as in 9.6f: the speed stores are scheduled after the angle add.
     Fix16_Point point(Fix16(0), Fix16(0));
-    point.x = pos;
-    point.y = pos;
+    point.x = speed;
+    point.y = speed;
     point.RotateByAngle_40F6B0(ang + kAng180_6FD3EE);
 
-    this->field_8_speed = pos;
+    this->field_8_speed = speed;
     this->field_C_angle = ang;
 
     if (this->field_18_particle_cooldown == 0)
     {
-        //pos = (int)&v27; // TODO: Field_20 wrong val ??
+        //speed = (int)&v27; // TODO: Field_20 wrong val ??
         Particle_4C* pNew = gParticle_8_6FD5E8->New_53E3C0(point.x, point.y, dword_6FD330, point.x, point.y, 0);
         if (pNew)
         {
             pNew->field_40_pExplosion = this;
             pNew->field_44 = this->field_6_id;
-            pNew->field_20_speed = pos;
+            pNew->field_20_speed = speed;
             pNew->field_24_angle = ang;
             pNew->field_34 = 0;
             pNew->field_46_sub_state = 0;
@@ -219,15 +219,15 @@ void Explosion_30::state_13_14_5411E0(Ang16 ang, Fix16 pos)
 }
 
 MATCH_FUNC(0x541430)
-void Explosion_30::state_5_541430(Ang16 ang, Fix16 pos)
+void Explosion_30::state_5_541430(Ang16 ang, Fix16 speed)
 {
 
     Fix16_Point p(Fix16(0), Fix16(0));
-    p.x = pos;
-    p.y = pos;
+    p.x = speed;
+    p.y = speed;
     p.RotateByAngle_40F6B0(ang + kAng180_6FD3EE);
 
-    this->field_8_speed = pos;
+    this->field_8_speed = speed;
     this->field_C_angle = ang;
 
     if (field_14_pObj2C->sub_5290F0() == kFP16Zero_6FD49C && this->field_1A_timer == 9999)
@@ -242,7 +242,7 @@ void Explosion_30::state_5_541430(Ang16 ang, Fix16 pos)
         {
             pNew->field_40_pExplosion = this;
             pNew->field_44 = field_6_id;
-            pNew->field_20_speed = pos;
+            pNew->field_20_speed = speed;
             pNew->field_24_angle = ang;
             pNew->field_34 = 0;
             pNew->field_46_sub_state = 0;
@@ -267,10 +267,10 @@ void Explosion_30::state_5_541430(Ang16 ang, Fix16 pos)
 }
 
 MATCH_FUNC(0x541680)
-Fix16 Explosion_30::sub_541680()
+Fix16 Explosion_30::GetBlastRadius_541680()
 {
     Fix16 r;
-    switch (this->field_10_type_or_state)
+    switch (this->field_10_type)
     {
         case explosion_type::small_18:
         case explosion_type::building_45_22:
@@ -297,10 +297,10 @@ Fix16 Explosion_30::sub_541680()
 
 
 MATCH_FUNC(0x541710)
-Fix16 Explosion_30::sub_541710()
+Fix16 Explosion_30::GetBlastHeight_541710()
 {
     Fix16 r;
-    switch (this->field_10_type_or_state)
+    switch (this->field_10_type)
     {
         case explosion_type::small_18:
         case explosion_type::item_19:
@@ -320,9 +320,9 @@ Fix16 Explosion_30::sub_541710()
 }
 
 MATCH_FUNC(0x541760)
-void Explosion_30::sub_541760()
+void Explosion_30::SpawnFlashParticle_541760()
 {
-    if (field_10_type_or_state != explosion_type::small_18 && field_10_type_or_state != explosion_type::no_ring_32)
+    if (field_10_type != explosion_type::small_18 && field_10_type != explosion_type::no_ring_32)
     {
         if (gParticle_4C_Pool_6FD5E4->field_0_pStart)
         {
@@ -343,26 +343,26 @@ void Explosion_30::sub_541760()
 }
 
 MATCH_FUNC(0x541850)
-void Explosion_30::TimerAfter50Handler_541850(u16 timerVal)
+void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
 {
     struct_4 collision_list;
 
-    Fix16 zoff = Explosion_30::sub_541710();
+    Fix16 zoff = Explosion_30::GetBlastHeight_541710();
 
-    Fix16 f28 = Explosion_30::sub_541680();
+    Fix16 f28 = Explosion_30::GetBlastRadius_541680();
 
-    this->field_28 = f28;
+    this->field_28_blast_radius = f28;
 
-    Fix16 new_left = field_14_pObj2C->field_4->field_14_xy.x - field_28 * kFP16Two_6FD4A4;
-    Fix16 new_right = field_14_pObj2C->field_4->field_14_xy.x + field_28 * kFP16Two_6FD4A4;
-    Fix16 new_top = field_14_pObj2C->field_4->field_14_xy.y - field_28 * kFP16Two_6FD4A4;
-    Fix16 new_bottom = field_14_pObj2C->field_4->field_14_xy.y + field_28 * kFP16Two_6FD4A4;
+    Fix16 new_left = field_14_pObj2C->field_4->field_14_xy.x - field_28_blast_radius * kFP16Two_6FD4A4;
+    Fix16 new_right = field_14_pObj2C->field_4->field_14_xy.x + field_28_blast_radius * kFP16Two_6FD4A4;
+    Fix16 new_top = field_14_pObj2C->field_4->field_14_xy.y - field_28_blast_radius * kFP16Two_6FD4A4;
+    Fix16 new_bottom = field_14_pObj2C->field_4->field_14_xy.y + field_28_blast_radius * kFP16Two_6FD4A4;
     Fix16 zm = field_14_pObj2C->field_4->field_1C_zpos - zoff;
     Fix16 zp = field_14_pObj2C->field_4->field_1C_zpos + zoff;
 
     if (this->field_1A_timer == 99 && unk_6FD5F6 == 1)
     {
-        sub_541760();
+        SpawnFlashParticle_541760();
     }
 
     Fix16_Rect rect;
@@ -382,7 +382,7 @@ void Explosion_30::TimerAfter50Handler_541850(u16 timerVal)
                     s32 ped_id = gVarrok_7F8_703398->GetPedId_420F10(this->field_14_pObj2C->field_26_varrok_idx);
                     if (!ped_id)
                     {
-                        pB4->field_7C_pPed->field_204_killer_id = this->field_2C_ped_id;
+                        pB4->field_7C_pPed->field_204_killer_id = this->field_2C_owner_ped_id;
                     }
                     else
                     {
@@ -398,7 +398,7 @@ void Explosion_30::TimerAfter50Handler_541850(u16 timerVal)
                     ang = Fix16::atan2_fixed_405320(dy, dx);
 
                     Fix16 cur_max = Fix16::MaxAbsDistance_42A6B0(pCollisionSprite->field_14_xy.x, pCollisionSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y);
-                    if (cur_max > this->field_28)
+                    if (cur_max > this->field_28_blast_radius)
                     {
                         if (timerVal < 70u)
                         {
@@ -409,7 +409,7 @@ void Explosion_30::TimerAfter50Handler_541850(u16 timerVal)
                     {
                         char_type a5;
                         Fix16 v30;
-                        if (cur_max < (kFP16Half_6FD39C * this->field_28))
+                        if (cur_max < (kFP16Half_6FD39C * this->field_28_blast_radius))
                         {
                             v30 = dword_6FD2F4;
                             a5 = 2;
@@ -430,15 +430,15 @@ void Explosion_30::TimerAfter50Handler_541850(u16 timerVal)
                 {
                     if ((timerVal > 50u && timerVal < 60u) || (timerVal > 80u && timerVal < 90u))
                     {
-                        if (!pCar->IsMaxDamage_40F890() && !pCar->IsTrainModel_403BA0() && !pCar->sub_43B850(field_10_type_or_state))
+                        if (!pCar->IsMaxDamage_40F890() && !pCar->IsTrainModel_403BA0() && !pCar->sub_43B850(field_10_type))
                         {
-                            if (Fix16::MaxAbsDistance_42A6B0(pCollisionSprite->field_14_xy.x, pCollisionSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y) <= this->field_28)
+                            if (Fix16::MaxAbsDistance_42A6B0(pCollisionSprite->field_14_xy.x, pCollisionSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y) <= this->field_28_blast_radius)
                             {
                                 // 9.6f: Varrok_7F8::GetPedId_420F10 (inlined, using it here makes the diff worse)
                                 s32 ped_id_ = gVarrok_7F8_703398->field_0_entries[this->field_14_pObj2C->field_26_varrok_idx].field_0_ped_id;
                                 if (!ped_id_)
                                 {
-                                    pCar->field_70_exploder_ped_id = this->field_2C_ped_id;
+                                    pCar->field_70_exploder_ped_id = this->field_2C_owner_ped_id;
                                 }
                                 else
                                 {
@@ -470,7 +470,7 @@ void Explosion_30::TimerAfter50Handler_541850(u16 timerVal)
                     }
                     else if (timerVal == 99)
                     {
-                        if (Fix16::MaxAbsDistance_42A6B0(pCollisionSprite->field_14_xy.x, pCollisionSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y) <= this->field_28)
+                        if (Fix16::MaxAbsDistance_42A6B0(pCollisionSprite->field_14_xy.x, pCollisionSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y) <= this->field_28_blast_radius)
                         {
                             pCar->ApplyExplosionImpulse_443710(&this->field_14_pObj2C->field_4->get_x_y_443580());
                         }
@@ -500,12 +500,12 @@ void Explosion_30::state_18_33_541D60()
             if ((u16)field_1A_timer > 0x5Au)
             {
                 Fix16 radius;
-                radius = this->field_24 * Fix16(gRng_6F6784.get_int_4F7AE0(8));
+                radius = this->field_24_particle_spread * Fix16(gRng_6F6784.get_int_4F7AE0(8));
 
-                this->field_22 = Ang16::Fix16_To_Ang16_inlined_40F540(dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(360)));
+                this->field_22_spawn_angle = Ang16::Fix16_To_Ang16_inlined_40F540(dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(360)));
 
                 // 9.6f calls Ang16::PolarToCartesian_41FC20
-                Ang16::PolarToCartesian_41FC20(field_22, radius, stru_6FD388, stru_6FD38C);
+                Ang16::PolarToCartesian_41FC20(field_22_spawn_angle, radius, stru_6FD388, stru_6FD38C);
 
                 // NOTE: This proves these 2 vars are not a Fix16_Point
                 stru_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x + stru_6FD388;
@@ -551,11 +551,11 @@ void Explosion_30::state_19_32_542060()
         if (this->field_1A_timer > 8u)
         {
             Fix16 v24;
-            v24 = this->field_24 * Fix16(gRng_6F6784.get_int_4F7AE0(48));
-            this->field_22 = Ang16::Fix16_To_Ang16_inlined_40F540(dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(360)));
+            v24 = this->field_24_particle_spread * Fix16(gRng_6F6784.get_int_4F7AE0(48));
+            this->field_22_spawn_angle = Ang16::Fix16_To_Ang16_inlined_40F540(dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(360)));
 
             // 9.6f calls Ang16::PolarToCartesian_41FC20
-            Ang16::PolarToCartesian_41FC20(field_22, v24, stru_6FD388, stru_6FD38C);
+            Ang16::PolarToCartesian_41FC20(field_22_spawn_angle, v24, stru_6FD388, stru_6FD38C);
 
             stru_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x + stru_6FD388;
             stru_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y + stru_6FD38C;
@@ -600,11 +600,11 @@ void Explosion_30::state_20_542340()
         if (this->field_1A_timer > 8u)
         {
             Fix16 v24;
-            v24 = this->field_24 * Fix16(gRng_6F6784.get_int_4F7AE0(80));
-            this->field_22 = Ang16::Fix16_To_Ang16_inlined_40F540(dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(360)));
+            v24 = this->field_24_particle_spread * Fix16(gRng_6F6784.get_int_4F7AE0(80));
+            this->field_22_spawn_angle = Ang16::Fix16_To_Ang16_inlined_40F540(dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(360)));
 
             // 9.6f calls Ang16::PolarToCartesian_41FC20
-            Ang16::PolarToCartesian_41FC20(field_22, v24, stru_6FD388, stru_6FD38C);
+            Ang16::PolarToCartesian_41FC20(field_22_spawn_angle, v24, stru_6FD388, stru_6FD38C);
 
             stru_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x + stru_6FD388;
             stru_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y + stru_6FD38C;
@@ -654,7 +654,7 @@ void Explosion_30::state_18_19_20_32_33_542790()
     unk_6FD5F6 = 0;
     if (isOnScreen)
     {
-        switch (this->field_10_type_or_state)
+        switch (this->field_10_type)
         {
             case explosion_type::small_18:
             case explosion_type::small_33:
@@ -680,14 +680,14 @@ void Explosion_30::state_18_19_20_32_33_542790()
             case 79:
             case 89:
             {
-                Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(Fix16(113), Fix16(145), 2, kAngZero_6FD5D4, explosion_type::trail_5, field_2C_ped_id);
+                Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(Fix16(113), Fix16(145), 2, kAngZero_6FD5D4, explosion_type::trail_5, field_2C_owner_ped_id);
                 if (pExplosion)
                 {
                     Object_2C* pBlast = gObject_5C_6F8F84->NewUnknown_52A240(127,
                                                                              field_14_pObj2C->field_4->field_14_xy.x,
                                                                              field_14_pObj2C->field_4->field_14_xy.y,
                                                                              field_14_pObj2C->field_4->field_1C_zpos,
-                                                                             this->field_22,
+                                                                             this->field_22_spawn_angle,
                                                                              kAngZero_6FD5D4,
                                                                              dword_6FD484,
                                                                              -dword_6FD540,
@@ -708,24 +708,24 @@ void Explosion_30::state_18_19_20_32_33_542790()
     if (this->field_1A_timer > 0x1Eu)
     {
         Fix16 v21 = (dword_6FD448 * kFP16Two_6FD4A4);
-        if (this->field_24 > v21)
+        if (this->field_24_particle_spread > v21)
         {
-            this->field_24 = v21;
+            this->field_24_particle_spread = v21;
         }
-        this->field_24 += (dword_6FD540 / kFP16Two_6FD4A4);
+        this->field_24_particle_spread += (dword_6FD540 / kFP16Two_6FD4A4);
     }
     else
     {
-        if (this->field_24 > dword_6FD448)
+        if (this->field_24_particle_spread > dword_6FD448)
         {
-            this->field_24 = dword_6FD448;
+            this->field_24_particle_spread = dword_6FD448;
         }
-        this->field_24 -= (dword_6FD540 / kFP16Two_6FD4A4);
+        this->field_24_particle_spread -= (dword_6FD540 / kFP16Two_6FD4A4);
     }
 
     if (this->field_1A_timer > 50u)
     {
-        TimerAfter50Handler_541850(this->field_1A_timer);
+        ApplyBlastDamage_541850(this->field_1A_timer);
     }
 
     if (this->field_1A_timer == 99)
@@ -765,9 +765,9 @@ void Explosion_30::state_22_23_24_25_542E30(char_type a2)
                     case 0:
                     {
                         pNew4C->field_38_state = 24;
-                        this->field_22 = (kAng135_6FD40C + dword_6FD350) + Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(45))));
+                        this->field_22_spawn_angle = (kAng135_6FD40C + dword_6FD350) + Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(45))));
 
-                        Ang16::PolarToCartesian_41FC20(field_22, dword_6FD540, stru_6FD388, stru_6FD38C);
+                        Ang16::PolarToCartesian_41FC20(field_22_spawn_angle, dword_6FD540, stru_6FD388, stru_6FD38C);
 
                         stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
                         stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
@@ -777,10 +777,10 @@ void Explosion_30::state_22_23_24_25_542E30(char_type a2)
                     case 1:
                     {
                         pNew4C->field_38_state = 25;
-                        this->field_22 = (kAng315_6FD418 + dword_6FD350) + Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90))));
+                        this->field_22_spawn_angle = (kAng315_6FD418 + dword_6FD350) + Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90))));
 
 
-                        Ang16::PolarToCartesian_41FC20(field_22, dword_6FD540, stru_6FD388, stru_6FD38C);
+                        Ang16::PolarToCartesian_41FC20(field_22_spawn_angle, dword_6FD540, stru_6FD388, stru_6FD38C);
 
                         stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
                         stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
@@ -790,10 +790,10 @@ void Explosion_30::state_22_23_24_25_542E30(char_type a2)
                     case 2:
                     {
                         pNew4C->field_38_state = 23;
-                        this->field_22 = (kAng225_6FD3E0 + dword_6FD350).Add_ool(Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90)))));
+                        this->field_22_spawn_angle = (kAng225_6FD3E0 + dword_6FD350).Add_ool(Ang16::Fix16_To_Ang16_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90)))));
 
 
-                        Ang16::PolarToCartesian_41FC20(field_22, dword_6FD540, stru_6FD388, stru_6FD38C);
+                        Ang16::PolarToCartesian_41FC20(field_22_spawn_angle, dword_6FD540, stru_6FD388, stru_6FD38C);
 
                         stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
                         stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
@@ -803,10 +803,10 @@ void Explosion_30::state_22_23_24_25_542E30(char_type a2)
                     case 3:
                     {
                         pNew4C->field_38_state = 22;
-                        this->field_22 = kAng45_6FD35C.Add_ool(dword_6FD350).Add_ool(Ang16::Fix16_To_Ang16_ool_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90)))));
+                        this->field_22_spawn_angle = kAng45_6FD35C.Add_ool(dword_6FD350).Add_ool(Ang16::Fix16_To_Ang16_ool_40F540((dword_6FD448 * Fix16(gRng_6F6784.get_int_4F7AE0(90)))));
 
 
-                        Ang16::PolarToCartesian_41FC20(field_22, dword_6FD540, stru_6FD388, stru_6FD38C);
+                        Ang16::PolarToCartesian_41FC20(field_22_spawn_angle, dword_6FD540, stru_6FD388, stru_6FD38C);
 
                         stru_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
                         stru_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
@@ -821,7 +821,7 @@ void Explosion_30::state_22_23_24_25_542E30(char_type a2)
                 pNew4C->field_30_pNext->SetType_4206F0(8);
                 pNew4C->field_48_timer = 0;
                 pNew4C->field_46_sub_state = 0;
-                pNew4C->field_24_angle = this->field_22;
+                pNew4C->field_24_angle = this->field_22_spawn_angle;
 
                 if (this->field_1A_timer < 60u && this->field_1A_timer < 30u)
                 {
@@ -851,7 +851,7 @@ void Explosion_30::state_22_23_24_25_542E30(char_type a2)
 
         if (this->field_1A_timer > 50u)
         {
-            TimerAfter50Handler_541850(this->field_1A_timer);
+            ApplyBlastDamage_541850(this->field_1A_timer);
         }
 
         if (this->field_1A_timer != 9999)
@@ -883,7 +883,7 @@ char_type Explosion_30::Update_5434A0(Fix16 speed, Ang16 ang)
 
     if (!this->field_1A_timer)
     {
-        Explosion_30::DeInit_543610();
+        Explosion_30::Release_543610();
         return 1;
     }
 
@@ -892,7 +892,7 @@ char_type Explosion_30::Update_5434A0(Fix16 speed, Ang16 ang)
         return 1;
     }
 
-    switch (this->field_10_type_or_state)
+    switch (this->field_10_type)
     {
         case explosion_type::trail_3:
         case explosion_type::trail_12:
@@ -932,9 +932,9 @@ char_type Explosion_30::Update_5434A0(Fix16 speed, Ang16 ang)
 }
 
 MATCH_FUNC(0x5435d0)
-char_type Explosion_30::IsState_5435D0()
+bool Explosion_30::IsTrailType_5435D0()
 {
-    switch (field_10_type_or_state)
+    switch (field_10_type)
     {
         case explosion_type::trail_3:
         case explosion_type::trail_4:
@@ -942,14 +942,14 @@ char_type Explosion_30::IsState_5435D0()
         case explosion_type::trail_12:
         case explosion_type::trail_13:
         case explosion_type::trail_14:
-            return 1;
+            return true;
         default:
-            return 0;
+            return false;
     }
 }
 
 MATCH_FUNC(0x543610)
-void Explosion_30::DeInit_543610()
+void Explosion_30::Release_543610()
 {
     this->field_6_id = 0;
     if (field_0_bIn20Pool == 0)
@@ -965,24 +965,24 @@ void Explosion_30::DeInit_543610()
 MATCH_FUNC(0x543650)
 void Explosion_30::Init_543650()
 {
-    this->field_10_type_or_state = 0;
+    this->field_10_type = 0;
     this->field_18_particle_cooldown = 0;
-    this->field_24 = 0;
-    this->field_22 = kAngZero_6FD5D4;
+    this->field_24_particle_spread = 0;
+    this->field_22_spawn_angle = kAngZero_6FD5D4;
     this->field_1A_timer = 200;
     this->field_14_pObj2C = 0;
-    this->field_2C_ped_id = 0;
+    this->field_2C_owner_ped_id = 0;
     this->field_0_bIn20Pool = 0;
 }
 
 MATCH_FUNC(0x543680)
-void Explosion_30::Set_Obj2C_543680(Object_2C* a2)
+void Explosion_30::SetObject_543680(Object_2C* a2)
 {
     this->field_14_pObj2C = a2;
 }
 
 WIP_FUNC(0x543690)
-void ExplosionPool_7A8::sub_543690()
+void ExplosionPool_7A8::FreeLowestPriority_543690()
 {
     WIP_IMPLEMENTED;
 
@@ -995,10 +995,10 @@ void ExplosionPool_7A8::sub_543690()
     {
         if (this->field_780_bUsed[last_idx] == 1)
         {
-            Explosion_30* pObj = &this->field_0[last_idx];
+            Explosion_30* pObj = &this->field_0_explosions[last_idx];
             // Each case written out on its own: merged labels give a byte index table, the
             // original has one dword entry per case. Cases 1 and 39 keep the range.
-            switch (pObj->field_10_type_or_state)
+            switch (pObj->field_10_type)
             {
                 case explosion_type::unknown_2:
                     break;
@@ -1097,7 +1097,7 @@ void ExplosionPool_7A8::sub_543690()
 
             if (currentVal1 == 1)
             {
-                this->field_0[last_idx].field_1A_timer = 0;
+                this->field_0_explosions[last_idx].field_1A_timer = 0;
                 return;
             }
 
@@ -1109,11 +1109,11 @@ void ExplosionPool_7A8::sub_543690()
         }
         last_idx = ++next_idx;
     } while (next_idx < 40u);
-    this->field_0[smallestVal_idx].field_1A_timer = 0;
+    this->field_0_explosions[smallestVal_idx].field_1A_timer = 0;
 }
 
 MATCH_FUNC(0x543800)
-Explosion_30* ExplosionPool_7A8::New_40_543800()
+Explosion_30* ExplosionPool_7A8::Allocate_543800()
 {
     // 9.6f has the init block twice, 10.5 merges both into one block. Indexing field_0 at each
     // use (no pNew local) gives both copies the same registers, so they merge completely.
@@ -1122,29 +1122,29 @@ Explosion_30* ExplosionPool_7A8::New_40_543800()
     {
         if (!this->field_780_bUsed[idx])
         {
-            this->field_0[idx].Init_543650();
-            this->field_0[idx].field_4_idx = idx;
-            this->field_0[idx].field_6_id = gExplosionId_623F18;
-            this->field_0[idx].field_0_bIn20Pool = 0;
+            this->field_0_explosions[idx].Init_543650();
+            this->field_0_explosions[idx].field_4_idx = idx;
+            this->field_0_explosions[idx].field_6_id = gExplosionId_623F18;
+            this->field_0_explosions[idx].field_0_bIn20Pool = 0;
             gExplosionId_623F18++;
             this->field_780_bUsed[idx] = 1;
-            return &this->field_0[idx];
+            return &this->field_0_explosions[idx];
         }
     }
 
-    sub_543690();
+    FreeLowestPriority_543690();
 
     for (idx = 0; idx < 40; idx++)
     {
         if (!this->field_780_bUsed[idx])
         {
-            this->field_0[idx].Init_543650();
-            this->field_0[idx].field_4_idx = idx;
-            this->field_0[idx].field_6_id = gExplosionId_623F18;
-            this->field_0[idx].field_0_bIn20Pool = 0;
+            this->field_0_explosions[idx].Init_543650();
+            this->field_0_explosions[idx].field_4_idx = idx;
+            this->field_0_explosions[idx].field_6_id = gExplosionId_623F18;
+            this->field_0_explosions[idx].field_0_bIn20Pool = 0;
             gExplosionId_623F18++;
             this->field_780_bUsed[idx] = 1;
-            return &this->field_0[idx];
+            return &this->field_0_explosions[idx];
         }
     }
     return 0;
@@ -1155,7 +1155,7 @@ ExplosionPool_7A8::ExplosionPool_7A8()
 {
     for (u8 i = 0; i < 40; i++)
     {
-        field_0[i].field_4_idx = i;
+        field_0_explosions[i].field_4_idx = i;
         field_780_bUsed[i] = 0;
     }
 
@@ -1172,7 +1172,7 @@ ExplosionPool_3D4::ExplosionPool_3D4()
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_3C0_bUsed); i++)
     {
-        field_0[i].field_4_idx = i;
+        field_0_explosions[i].field_4_idx = i;
         field_3C0_bUsed[i] = 0;
     }
     gParticleInstCount_6FD5F4 = 0;

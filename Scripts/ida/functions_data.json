@@ -13017,22 +13017,22 @@
         "v96f_auto": true
     },
     {
-        "name": "Explosion_30::sub_541680",
+        "name": "Explosion_30::GetBlastRadius_541680",
         "v96f_address": "0x541680",
         "v105_address": "0x541680"
     },
     {
-        "name": "Explosion_30::sub_541710",
+        "name": "Explosion_30::GetBlastHeight_541710",
         "v96f_address": "0x541710",
         "v105_address": "0x541710"
     },
     {
-        "name": "Explosion_30::sub_541760",
+        "name": "Explosion_30::SpawnFlashParticle_541760",
         "v96f_address": "0x541760",
         "v105_address": "0x541760"
     },
     {
-        "name": "Explosion_30::TimerAfter50Handler_541850",
+        "name": "Explosion_30::ApplyBlastDamage_541850",
         "v96f_address": "0x490d60",
         "v105_address": "0x541850",
         "v96f_auto": true
@@ -13073,13 +13073,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Explosion_30::IsState_5435D0",
+        "name": "Explosion_30::IsTrailType_5435D0",
         "v96f_address": "0x48a4d0",
         "v105_address": "0x5435d0",
         "v96f_auto": true
     },
     {
-        "name": "Explosion_30::DeInit_543610",
+        "name": "Explosion_30::Release_543610",
         "v96f_address": "0x48a510",
         "v105_address": "0x543610",
         "v96f_auto": true
@@ -13090,19 +13090,19 @@
         "v105_address": "0x543650"
     },
     {
-        "name": "Explosion_30::Set_Obj2C_543680",
+        "name": "Explosion_30::SetObject_543680",
         "v96f_address": "0x48a590",
         "v105_address": "0x543680",
         "v96f_auto": true
     },
     {
-        "name": "ExplosionPool_7A8::sub_543690",
+        "name": "ExplosionPool_7A8::FreeLowestPriority_543690",
         "v96f_address": "0x48a5a0",
         "v105_address": "0x543690",
         "v96f_auto": true
     },
     {
-        "name": "ExplosionPool_7A8::New_40_543800",
+        "name": "ExplosionPool_7A8::Allocate_543800",
         "v96f_address": "0x48a6c0",
         "v105_address": "0x543800",
         "v96f_auto": true

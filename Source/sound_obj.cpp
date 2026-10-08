@@ -5281,7 +5281,7 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* a2)
             {
                 return;
             }
-            switch (pExplosion->field_10_type_or_state)
+            switch (pExplosion->field_10_type)
             {
                 case explosion_type::small_18:
                 case explosion_type::small_33:

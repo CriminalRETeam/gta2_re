@@ -223,7 +223,7 @@ both runs are sunk and `tail` stays first.
 ```bash
 venv/bin/python3 Scripts/flowopt/ildump.py && venv/bin/python3 Scripts/flowopt/sinklog.py
 X87_C2=sinklog X87_OUT=/tmp/sk Scripts/x87_sched/sched.sh -l Source/Explosion_30.cpp
-#   @SINK run a8f8/44..a8f8/44 after 2ed0/43    (ExplosionPool_7A8::sub_543690: the in-loop return, index 44)
+#   @SINK run a8f8/44..a8f8/44 after 2ed0/43    (ExplosionPool_7A8::FreeLowestPriority_543690: the in-loop return, index 44)
 #   @SINKCMP blk 6e7c/48 runidx 44              (the final tail, index 48: 44 < 48)
 #   @SINKINS before 6e7c/48                     (so the return is generated before the final tail)
 ```
@@ -231,4 +231,4 @@ X87_C2=sinklog X87_OUT=/tmp/sk Scripts/x87_sched/sched.sh -l Source/Explosion_30
 Consequence for register-only near misses: with this pass, a block's place in codegen order follows from its place
 in the final layout (no later pass moves these blocks, dupB aside). When the layout already matches but the
 round-robin rotation doesn't, the difference is the number of picks, not the block order (`docs/match_attempts.md`,
-`ExplosionPool_7A8::sub_543690`).
+`ExplosionPool_7A8::FreeLowestPriority_543690`).

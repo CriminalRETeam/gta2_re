@@ -1673,7 +1673,7 @@ char Object_2C::sub_525AC0()
 {
     if (field_18_model == objects::explosion_113)
     {
-        return field_C_pAny.pExplosion->IsState_5435D0();
+        return field_C_pAny.pExplosion->IsTrailType_5435D0();
     }
     else
     {
@@ -2123,13 +2123,13 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
                             break;
 
                         case sprite_types_enum::car_2:
-                            if (field_C_pAny.pExplosion->IsState_5435D0())
+                            if (field_C_pAny.pExplosion->IsTrailType_5435D0())
                             {
                                 field_4->set_z_lazy_420660(pSprite->field_8_car_bc_ptr->GetZPos_441330());
                                 pSprite->field_8_car_bc_ptr->AccumulateDamage_43DA90(1, &gZeroVector_6F8EF0);
                             }
 
-                            field_C_pAny.pExplosion->field_1C = pSprite;
+                            field_C_pAny.pExplosion->field_1C_pAttachedSprite = pSprite;
 
                             if (field_C_pAny.pExplosion->Update_5434A0(field_10_obj_3c->field_C_speed, field_10_obj_3c->field_4_angle))
                             {
@@ -2272,7 +2272,7 @@ void Object_2C::ReleaseSubObjects_527F10()
         }
         else if (this->field_1C_bHasExplosion)
         {
-            field_C_pAny.pExplosion->DeInit_543610();
+            field_C_pAny.pExplosion->Release_543610();
             this->field_C_pAny.o8 = 0;
         }
         else
@@ -3435,7 +3435,7 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
         case object_behavior_type::explosion_5:
         {
             Explosion_30* pNew30; // eax
-            pNew30 = gExplosionPool_7A8_6FD5F0->New_40_543800();
+            pNew30 = gExplosionPool_7A8_6FD5F0->Allocate_543800();
             pNew2C->field_C_pAny.pExplosion = pNew30;
             if (pNew30) // 225
             {
@@ -3624,7 +3624,7 @@ Object_2C* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 ro
 
         if (!pNew2C->field_C_pAny.pExplosion)
         {
-            pNew2C->field_C_pAny.pExplosion = gExplosionPool_7A8_6FD5F0->New_40_543800();
+            pNew2C->field_C_pAny.pExplosion = gExplosionPool_7A8_6FD5F0->Allocate_543800();
         }
 
         if (!pNew2C->field_C_pAny.pExplosion)
@@ -3632,9 +3632,9 @@ Object_2C* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 ro
             return 0;
         }
 
-        pNew2C->field_C_pAny.pExplosion->SetTypeOrState_482A90(a6);
-        pNew2C->field_C_pAny.pExplosion->Set_Obj2C_543680(pNew2C);
-        pNew2C->field_C_pAny.pExplosion->field_2C_ped_id = pedId;
+        pNew2C->field_C_pAny.pExplosion->SetType_482A90(a6);
+        pNew2C->field_C_pAny.pExplosion->SetObject_543680(pNew2C);
+        pNew2C->field_C_pAny.pExplosion->field_2C_owner_ped_id = pedId;
 
         switch (a6)
         {
@@ -3648,7 +3648,7 @@ Object_2C* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 ro
             case explosion_type::no_ring_32:
             case explosion_type::small_33:
                 pNew2C->field_C_pAny.pExplosion->field_1A_timer = 100;
-                pNew2C->field_C_pAny.pExplosion->field_24 = 0;
+                pNew2C->field_C_pAny.pExplosion->field_24_particle_spread = 0;
                 break;
             default:
                 pNew2C->field_C_pAny.pExplosion->field_1A_timer = 9999;

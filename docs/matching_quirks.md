@@ -420,7 +420,7 @@ found item or NULL. Open-coded loops make VC6 send all the returns to one shared
 `xor eax; mov field,edx; cmp; setl`; setting a bool local gives `cmpl $N,mem; setl` with no `xor`
 (`Car_6C::CanAllocateOfType_446930`, cases in the original block order).
 
-**A pointer local can block cross-jumping.** In `ExplosionPool_7A8::New_40_543800` a `p = &arr[idx]` local
+**A pointer local can block cross-jumping.** In `ExplosionPool_7A8::Allocate_543800` a `p = &arr[idx]` local
 changed the registers of two identical init blocks so VC6 no longer merged them; indexing `arr[idx]`
 at each use gave the original's single merged block.
 
@@ -744,7 +744,7 @@ keeps in a zero register is initialised from that register; earlier-declared one
 482BA0, in `Object_3C::GetMovementSpeedAndAngle_521FD0`).
 
 **A default that sets a value plus one check after the switch** (`if (cur == 1) {...; return;}`) lets
-jump threading produce the original's `cmp $1; je` (`ExplosionPool_7A8::sub_543690`, 113 -> 12).
+jump threading produce the original's `cmp $1; je` (`ExplosionPool_7A8::FreeLowestPriority_543690`, 113 -> 12).
 
 **By-value returns: stack slot or eax.** If the original reads a by-value (hidden pointer) return
 back from its stack slot, use a named local in its own block; it gets built in a dead parameter slot
@@ -797,7 +797,7 @@ rest after the switch, replaced a goto into a case (`CarPhysics_B0::ComputeSlope
 **Merged case labels and jump tables.** `case 2` plus `case 3: case 4: case 5:` gave a compare chain;
 giving `case 3` its own copy of the body produced the 2..5 jump table, and VC6 still merged the identical
 blocks (`Object_2C::UpdateMovementAndEffects_527070`). Writing each case separately also keeps a
-constant in a register: VC6 counts constant uses before merging (`ExplosionPool_7A8::sub_543690`).
+constant in a register: VC6 counts constant uses before merging (`ExplosionPool_7A8::FreeLowestPriority_543690`).
 
 **Take an inline's `this` into a local before the call** to set the prologue load order and the
 register for a constant (`ExplodingScore_50::DrawNumbers_596C90`, with a private out-of-line copy of
@@ -1338,7 +1338,7 @@ A POD parameter matched the caller but lost the callee's EH frame.
 found path and one `return result` after the loop fixed every register in
 `NetPlay::MovePlayerToGroup_520040`, where returning from inside the loop didn't.
 
-**A by-value return from one local keeps one register across cases.** `Explosion_30::sub_541680` returns `Fix16`
+**A by-value return from one local keeps one register across cases.** `Explosion_30::GetBlastRadius_541680` returns `Fix16`
 through the hidden pointer. Assigning one local in each case and `break`ing to a single `return k` keeps
 the same register in every case block; a `return` per case alternated `ecx`/`edx`. Leaving the local
 unset in `default` reproduces the original reading the argument slot.
@@ -1734,7 +1734,7 @@ original's cut-off needs.
 `Multiply_408680` calls in place of `*`). Write the one natural inline (checked against its 9.6f copy)
 and find the source difference that moves the cut-off. With the 9.6f-verified
 `MaxAbsDistance_42A6B0` (by reference, `Fix16 d; d = a - b;`), one inline reproduces the hand variants
-in `Explosion_30::TimerAfter50Handler_541850`, all 16 `CarAI_78` sites and
+in `Explosion_30::ApplyBlastDamage_541850`, all 16 `CarAI_78` sites and
 `Sprite::MinDistanceToAnySpriteBBoxCorner_5A22B0`. `Firefighter_28::Update_4A81F0` also needed field
 accesses in place of the `get_driver_4118B0` getters (fewer free sites after the call), and
 `EmergencyCrew_30::UpdateStateMachine_5CBD50` the 9.6f `ClearGroupAndGroupIdx_403A30` call (one more).
@@ -2288,7 +2288,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   gives the original's `mov (%eax),%reg` copy of the out-of-line result; `return Max_44E540(...)` builds it
   in a stack slot instead. Past the inline budget, one helper per call site with the Abs variant each site
   shows (both `Abs_436A50`, mixed, or a `__forceinline` Abs with `Negate_4086A0` out of line) matched
-  `Explosion_30::TimerAfter50Handler_541850`, together with the next two points.
+  `Explosion_30::ApplyBlastDamage_541850`, together with the next two points.
 - **Branch order decides slot sharing.** `if ((t > 50 && t < 60) || (t > 80 && t < 90)) {A} else if (t == 99) {B}`
   (the 9.6f order) let A's locals share slots with B's; the inverted `if (!(...)) { if (t == 99) B } else A`
   gave A its own slots (frame +16, 541850).

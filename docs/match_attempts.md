@@ -805,7 +805,7 @@ Still different:
 ## sound_obj::ProcessOtherObjects_41F520 (WIP, was STUB)
 
 - 0.854. A switch on the object model (map obj 5, explosion 113 with a nested switch on its
-  `field_10_type_or_state`, rocket 128, conveyor 139, phones, skids 185..191, fire 197). It sets
+  `field_10_type`, rocket 128, conveyor 139, phones, skids 185..191, fire 197). It sets
   sample idx / volume / distances / loop, then one shared `CalculateDistance` + `VolCalc` + sample fill.
   Added `dword_61A6CC` / `dword_61A6D0` (stored by the explosion 18/19/20 cases).
 - The phone rate displacement is `((u32)a2 * 8) % 760`: it really uses the `Sound_Params_8` pointer.
@@ -1316,7 +1316,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 - `Ped::BusCustomer_AI_461290`: 134->41 (case order 38,35,31,34). Left: whole-function register rotation
 - No change: `571A30` (shared ret block placement), `51F210` (register allocation)
 - Matched: `Sprite::RotatedRectCollisionSAT_5A0380` (inline budget: last point via out-of-line ProjectOntoAxis_5A5AA0/GetNegatedAngle_5A26E0), `Car_BC::UpdateTrainCarriagesOnTrack_4413B0` (logic fix, carriage positions chain), `Object_2C::NewObj3C_528130` (file-local GetLength, block-scoped Ang16 local for the atan2 result)
-- `ExplosionPool_7A8::sub_543690`: 113->12. `Sprite::MinDistanceToAnySpriteBBoxCorner_5A22B0`: 116->4 (only the first Abs inline, the others out of line; KeepMin helper). `Ped::AttackTargetStateMachine_46D460`: closer (declaration order). Left: shared `b11 = false` block placement
+- `ExplosionPool_7A8::FreeLowestPriority_543690`: 113->12. `Sprite::MinDistanceToAnySpriteBBoxCorner_5A22B0`: 116->4 (only the first Abs inline, the others out of line; KeepMin helper). `Ped::AttackTargetStateMachine_46D460`: closer (declaration order). Left: shared `b11 = false` block placement
 - Matched: `Object_2C::ShouldCollideWithSprite_525370` (gotos to nested ifs, case 12/13 sub-chain), `Object_2C::SetMovementVector_5224E0` (file-local GetLength, Fix16_Point declared before the if), `CarPhysics_B0::HandleWorldCollision_55FD00` (`Fix16 damage; ... = damage = call()`, particles through a const& inline)
 - `TryCreateRoadblockAt_577370`: 113->30 (implicit u8->Fix16 is the out-of-line FromInt_45C4E0; separate case 3/4 bodies). `Char_B4::sub_54C3E0`: 116->59 (also fixed which local is passed per branch). `CanStepForward_54FEC0`: 136->32. Left: return block merging
 - Matched: `CarPhysics_B0::UpdateReferencePoint_563460` and `UpdateCenterOfMassPoint_563350` (rotation written out, out-of-line y line, `throw()` on the out-of-line Fix16 copies), `Sprite::FindOverlappingBoundingBoxCorners_5A0150` (HalfWH written out), `Ped_List_4::FindClosestPedInViewCone_4713C0` (by-ref MaxAbsDistance, re-read pIter->ped)
@@ -1588,7 +1588,7 @@ Tail merging and block layout:
   whatever the shape. Permuter 300.
 - `Ambulance_20::UpdateState_4FB330` (2): all 24 case orders and a no-default switch + tail give the same
   `jle` target (the original's goes to default's earlier pop/ret copy).
-- `ExplosionPool_7A8::sub_543690` (12): `edx`/`eax` temp swapped in two return tails; `for (u8 i)` the same; permuter 400.
+- `ExplosionPool_7A8::FreeLowestPriority_543690` (12): `edx`/`eax` temp swapped in two return tails; `for (u8 i)` the same; permuter 400.
 - `Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0` (54): the `return 0` epilogue sits after the loop's
   bottom test, before the out-of-line `return 1` block.
 - `Ped::AttackTargetStateMachine_46D460` (46): placement of the shared `b11 = false` block.
@@ -1672,7 +1672,7 @@ Frame and stack slots:
   and 0xC; the top `angle = k180 + rot` goes through a temp in ours.
 - `Explosion_30::state_22_23_24_25_542E30` (533 -> 252): the sin/cos temp sits after the case locals and is shared
   by cases 0-2; case 3's value temps have their own slots.
-- `Explosion_30::TimerAfter50Handler_541850` (264 -> 194): two slots (0x24, 0x40) shared across branches, and a
+- `Explosion_30::ApplyBlastDamage_541850` (264 -> 194): two slots (0x24, 0x40) shared across branches, and a
   `setle` in the `timer == 99` compare.
 - `Char_B4::GetNextRotationToward_550F60` (452): the original's `v12` is in the temps area at 0xE, frame 0x24
   vs 0x28.
@@ -1840,7 +1840,7 @@ No new matches. Scores below are `permuter_score.py` lines.
 - `TagGame_28::SetNewFugitive_516590` (2): a static inline `SetArrowColour(Hud_Arrow_7C*, Player*)`
   holding the null check (2), if/else inverted with the message first (24), `Ped* pPed` local / no local /
   `Player*&` / `this->` + pPed (all 5: reload goes to `ecx` and the else's gHud moves to `edx`).
-- `ExplosionPool_7A8::sub_543690` (6): `pObj->field_1A_timer = 0` in the in-loop return (14), `field_0[next_idx]`
+- `ExplosionPool_7A8::FreeLowestPriority_543690` (6): `pObj->field_1A_timer = 0` in the in-loop return (14), `field_0[next_idx]`
   there (38).
 - `Player::AddCarToHistory_5645B0` (8): indexing `field_54_car_history[i]` instead of the iterator (21).
 - `DoorData_10::Init_49C340` (8): a `gmp_block_info* pBlock = &blockData` for the case stores (8, VC6 still
@@ -1998,7 +1998,7 @@ Scores are `sc.sh` lines. No new matches.
 - `Ped::ComputeAimAngle_45C9D0` (12): per-branch `field_130` stores (14, tail copied into the atan2 branch).
 - `CarAI_78::CheckRoadAhead_448770` (38): `!(a && b ...)`, `||` of the negated tests, `pBlock_____ = 0` before the
   get_block: same IL, no change.
-- `ExplosionPool_7A8::sub_543690` (12): the in-loop return as `smallestVal_idx = last_idx/next_idx; break;` (88/68).
+- `ExplosionPool_7A8::FreeLowestPriority_543690` (12): the in-loop return as `smallestVal_idx = last_idx/next_idx; break;` (88/68).
 - `Car_214::sub_5C8780` (84): `field_30_sprite_type_enum` / swapped compare in case 1 do not stop the pSprite
   load being hoisted above the jump table.
 - `Car_14::SpawnTrafficCar_582480` (8): six other if/else and statement orders for cases 1/2: 142-176.
@@ -2435,7 +2435,7 @@ Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 
   case first, a `u8` temporary (705): no change). (2) the conveyor adds: the original loads `Saved_Xpos`
   before `field_4C_conveyor_dx` (both `+=` orders: no change). 9.6f default-constructs the two `Ang16`s and
   builds two zero `Fix16` pairs up front (frame 0x30 vs our 0x24); not pursued.
-- `GetNextRotationToward_550F60` (164, 9.6f 437), `ExplosionPool_7A8::sub_543690` (12, 9.6f 16): looked at only; the
+- `GetNextRotationToward_550F60` (164, 9.6f 437), `ExplosionPool_7A8::FreeLowestPriority_543690` (12, 9.6f 16): looked at only; the
   10.5 diffs are the per-case scratch-register rotation / the `edx`/`eax` temp swap already in the notes.
 
 ## winmain / PlayerScoreTracker_36C / misc owners pass (9.6f first)
@@ -2559,7 +2559,7 @@ the original's 26 bytes, it only had no `target_asm.json` entry (disassembled 0x
   into the loop test: both `continue` forms with B after the if/else, `goto head_unlink` with the label after
   `continue`, `for (;;)` + `break`, `if (pIter) while`, `if (!pIter) return` at the end of the body, inverted
   outer/inner conditions (44-58), B-with-continue before A (44).
-- `ExplosionPool_7A8::sub_543690` (12): the two `lea` temps are swapped (orig in-loop `edx`, final `eax`); 9.6f lays the
+- `ExplosionPool_7A8::FreeLowestPriority_543690` (12): the two `lea` temps are swapped (orig in-loop `edx`, final `eax`); 9.6f lays the
   final tail first, so the original may have allocated it first. `goto found` with the label after the final
   store (12), `Explosion_30* pW` locals in either tail (12), swapped `smallestVal`/`_idx` stores (16), swapped
   declarations (16).
@@ -3018,7 +3018,7 @@ file, so a header could be swapped per variant) without touching `build_vc6/`.
   `operator+=` returning void (12), `Fix16_To_Ang16` through the `(s16, u8)` ctor (12), `angle` built with the
   `const s16&` ctor (12) or the `(s16, u8)` ctor (12). Whatever holds 0x10 in the original is not a visible
   temp of these expressions.
-- `ExplosionPool_7A8::sub_543690` (12): the two `lea` temps swapped between the in-loop and final tails.
+- `ExplosionPool_7A8::FreeLowestPriority_543690` (12): the two `lea` temps swapped between the in-loop and final tails.
   `smallestVal_idx = last_idx` before the in-loop store, a `u8 idx` for the final tail, a `Explosion_30*` local
   in the in-loop tail: all 12.
 - `Particle_8::EmitElectricArcParticle_540320` (20): the rng/word `imul` operand registers. A left-wide
@@ -3086,10 +3086,10 @@ Scores are `quick_score.sh` lines. One new match.
 ## Register-only WIPs (regalloc pass, Oct 7)
 
 `Scripts/regalloc/regonly.py` finds the WIPs that match except for registers: only
-`ExplosionPool_7A8::sub_543690` and `Char_B4::state_8_5520A0` (6 lines each). Both are local-temp
+`ExplosionPool_7A8::FreeLowestPriority_543690` and `Char_B4::state_8_5520A0` (6 lines each). Both are local-temp
 round-robin differences (`Scripts/regalloc/README.md`), not colour-pass ones.
 
-- `sub_543690`: our in-loop tail's `lea` is the first round-robin pick (eax), the final tail's the
+- `FreeLowestPriority_543690`: our in-loop tail's `lea` is the first round-robin pick (eax), the final tail's the
   second (cursor at ecx, which holds `this`, so edx). The original needs the final tail generated
   first, or one more round-robin temp in the in-loop tail (the `mov %edi,%eax` copy is a colour-pass
   live range in ours). No change to that order: in-loop `goto` to a block after the final tail,

@@ -11,7 +11,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 |---|---|---|---|---|---|---|
 | 0 | 0 | 110 | - | 0x561380 | `CarPhysics_B0::ComputePointVelocity_561380` | CarPhysics_B0.cpp |
 | 0 | 0 | 12 | 147 | 0x5520a0 | `Char_B4::state_8_5520A0` | char.cpp |
-| 0 | 0 | 12 | 4 | 0x543690 | `ExplosionPool_7A8::sub_543690` | Explosion_30.cpp |
+| 0 | 0 | 12 | 4 | 0x543690 | `ExplosionPool_7A8::FreeLowestPriority_543690` | Explosion_30.cpp |
 | 0 | 0 | 16 | 0 | 0x5645b0 | `Player::AddCarToHistory_5645B0` | Player.cpp |
 | 0 | 0 | 2 | 0 | 0x498cb0 | `BurgerKing_1::SetAltKeyState_498CB0` | BurgerKing_67F8B0.cpp |
 | 0 | 0 | 2 | 0 | 0x4fb330 | `Ambulance_20::UpdateState_4FB330` | Ambulance_110.cpp |
@@ -120,7 +120,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 2 | 18 | 52 | 42 | 0x5121e0 | `frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0` | frosty_pasteur_0xC1EA8.cpp |
 | 2 | 22 | 24 | 1810 | 0x582480 | `Car_14::SpawnTrafficCar_582480` | Car_BC.cpp |
 | 2 | 40 | 78 | 22 | 0x5b92e0 | `sharp_pare_0x15D8::ReadTextures_5B92E0` | sharp_pare_0x15D8.cpp |
-| 2 | 62 | 194 | 359 | 0x541850 | `Explosion_30::TimerAfter50Handler_541850` | Explosion_30.cpp |
+| 2 | 62 | 194 | 359 | 0x541850 | `Explosion_30::ApplyBlastDamage_541850` | Explosion_30.cpp |
 | 2 | 70 | 452 | 194 | 0x550f60 | `Char_B4::GetNextRotationToward_550F60` | char.cpp |
 | 2 | 84 | 288 | 70 | 0x523bf0 | `Object_2C::IntegrateMovementAndCollisions_523BF0` | Object_5C.cpp |
 | 2 | 94 | 291 | 176 | 0x53e450 | `Particle_8::EmitBloodBurst_53E450` | Particle_8.cpp |
