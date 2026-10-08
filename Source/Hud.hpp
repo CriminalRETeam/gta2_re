@@ -40,7 +40,7 @@ class Hud_MpMessage_D0
 class Hud_ChatInput_1
 {
   public:
-    EXPORT char_type IsTypingOnChat_5D15E0(s32 action, Player* pPlayer);
+    EXPORT bool IsTypingOnChat_5D15E0(s32 action, Player* pPlayer);
     EXPORT void DrawChatMessages_5D16B0();
     EXPORT bool IsChatInputKey_5D17D0(s32 key_idx);
     EXPORT void StartChatting_5D1830(Player* pPlayer);
@@ -49,7 +49,7 @@ class Hud_ChatInput_1
 class Hud_QuitMessage_1
 {
   public:
-    EXPORT char_type IsOnQuitMessage_5D13C0(s32 action, Player* pPlayer);
+    EXPORT bool IsOnQuitMessage_5D13C0(s32 action, Player* pPlayer);
     EXPORT void DrawQuitMessage_5D1430();
     EXPORT bool IsQuitMessageKey_5D15A0(s32 action);
     EXPORT void ShowQuitMessage_5D15D0(Player* pPlayer);
@@ -593,7 +593,7 @@ class Hud_Arrow_7C_Array
     EXPORT bool IsThereAnyOtherArrowsInSameGang_5D0E40(Hud_Arrow_7C* pArgArrow);
     EXPORT void DrawArrows_5D0E90();
     EXPORT void FindVisibleGangArrow_5D0EF0();
-    EXPORT char_type IsThereAnyMissionPhoneArrowForGang_5D0F40(Gang_144* pArgGang);
+    EXPORT bool IsThereAnyMissionPhoneArrowForGang_5D0F40(Gang_144* pArgGang);
     EXPORT void ClearOrphanInfoPhoneArrows_5D0F80();
     EXPORT void UpdateArrows_5D0FD0();
     EXPORT Hud_Arrow_7C* FindFreeArrow_5D1020(s32* pOutIdx);

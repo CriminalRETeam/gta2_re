@@ -1024,7 +1024,7 @@ void Hud_Arrow_7C_Array::FindVisibleGangArrow_5D0EF0()
 // ----------------------------------------------------
 
 MATCH_FUNC(0x5d0f40)
-char_type Hud_Arrow_7C_Array::IsThereAnyMissionPhoneArrowForGang_5D0F40(Gang_144* pArgGang)
+bool Hud_Arrow_7C_Array::IsThereAnyMissionPhoneArrowForGang_5D0F40(Gang_144* pArgGang)
 {
     Hud_Arrow_7C* pIter = &field_0_array[0];
     for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_array); i++, pIter++)
@@ -1284,7 +1284,7 @@ void Hud_Arrow_7C_Array::CreatePlayerArrows_5D1350()
 }
 
 MATCH_FUNC(0x5d13c0)
-char_type Hud_QuitMessage_1::IsOnQuitMessage_5D13C0(s32 action, Player* pPlayer)
+bool Hud_QuitMessage_1::IsOnQuitMessage_5D13C0(s32 action, Player* pPlayer)
 {
     if (pPlayer->field_78A_show_quit_message)
     {
@@ -1354,14 +1354,14 @@ void Hud_QuitMessage_1::ShowQuitMessage_5D15D0(Player* pPlayer)
 // ----------------------------------------------------
 
 MATCH_FUNC(0x5d15e0)
-char_type Hud_ChatInput_1::IsTypingOnChat_5D15E0(s32 action, Player* pPlayer)
+bool Hud_ChatInput_1::IsTypingOnChat_5D15E0(s32 action, Player* pPlayer)
 {
     if (bStartNetworkGame_7081F0 && pPlayer->field_794_is_chatting)
     {
         if (action == DIK_RETURN)
         {
             pPlayer->field_794_is_chatting = 0;
-            return 1;
+            return true;
         }
         else if (action == DIK_BACK)
         {
@@ -1370,7 +1370,7 @@ char_type Hud_ChatInput_1::IsTypingOnChat_5D15E0(s32 action, Player* pPlayer)
                 pPlayer->field_838_f796_idx--;
                 pPlayer->field_796_chat_text[pPlayer->field_838_f796_idx] = 0;
             }
-            return 1;
+            return true;
         }
         else if (action == DIK_SPACE)
         {
@@ -1380,7 +1380,7 @@ char_type Hud_ChatInput_1::IsTypingOnChat_5D15E0(s32 action, Player* pPlayer)
                 pPlayer->field_838_f796_idx++;
                 pPlayer->field_796_chat_text[pPlayer->field_838_f796_idx] = 0;
             }
-            return 1;
+            return true;
         }
         else
         {
@@ -1393,11 +1393,11 @@ char_type Hud_ChatInput_1::IsTypingOnChat_5D15E0(s32 action, Player* pPlayer)
                     pPlayer->field_838_f796_idx++;
                     pPlayer->field_796_chat_text[pPlayer->field_838_f796_idx] = 0;
                 }
-                return 1;
+                return true;
             }
         }
     }
-    return 0;
+    return false;
 }
 
 // https://decomp.me/scratch/gMsUi
