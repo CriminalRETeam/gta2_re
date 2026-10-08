@@ -99,7 +99,6 @@ void TagGame_28::ExecuteGamemodeTick_516660()
 MATCH_FUNC(0x516740)
 void TagGame_28::UpdateFugitive_516740(Player* pFormerPlayerFugitive, Player* pPlayer_killer)
 {
-    Fix16 taxicab_distance;
     Fix16 threshold_distance(65535); // 65535.0 (raw 0x3FFFC000): start value of the nearest player search
     if (gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0() == TAG_GAME_3
         && field_0_fugitive == pFormerPlayerFugitive)
@@ -112,26 +111,18 @@ void TagGame_28::UpdateFugitive_516740(Player* pFormerPlayerFugitive, Player* pP
         {
             Player* PlayerIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0();
             Player* pChosenPlayer = NULL;
-            Ped* pFugitive = field_0_fugitive->field_2C4_player_ped;
-
-            Fix16 fugitive_x = pFugitive->field_1AC_cam.x;
-            Fix16 fugitive_y = pFugitive->field_1AC_cam.y;
-
-            Fix16 iter_x;
-            Fix16 iter_y;
-            Fix16 x_abs, y_abs;
+            Fix16 fugitive_x = field_0_fugitive->field_2C4_player_ped->field_1AC_cam.x;
+            Fix16 fugitive_y = field_0_fugitive->field_2C4_player_ped->field_1AC_cam.y;
 
             for (; PlayerIter != NULL; PlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
             {
                 if (PlayerIter != field_0_fugitive)
                 {
-                    iter_y = PlayerIter->field_2C4_player_ped->field_1AC_cam.y;
-                    y_abs = Fix16::Abs(iter_y - fugitive_y);
-
-                    iter_x = PlayerIter->field_2C4_player_ped->field_1AC_cam.x;
-                    x_abs = Fix16::Abs(iter_x - fugitive_x);
-
-                    taxicab_distance = x_abs + y_abs; //  taxicab geometry
+                    Fix16 iter_y = PlayerIter->field_2C4_player_ped->field_1AC_cam.y;
+                    Fix16 y_abs = Fix16::Abs(iter_y - fugitive_y);
+                    Fix16 iter_x = PlayerIter->field_2C4_player_ped->field_1AC_cam.x;
+                    Fix16 x_abs = Fix16::Abs(iter_x - fugitive_x);
+                    Fix16 taxicab_distance = x_abs + y_abs; //  taxicab geometry
                     if (taxicab_distance < threshold_distance)
                     {
                         threshold_distance = taxicab_distance;
