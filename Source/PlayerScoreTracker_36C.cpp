@@ -30,7 +30,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFlyCarMinVelocity_7028BC, Fix16(0x666, 0), 0x7028BC);
 MATCH_FUNC(0x591bd0)
 PlayerScoreTracker_36C::PlayerScoreTracker_36C()
 {
-    field_368_player = 0;
+    field_368_player = NULL;
 
     field_74_car_kill_combo = 1;
     field_75_score_mult = 1;
