@@ -706,7 +706,7 @@ which also needed `Fix16 m; m = f();` to copy the return into a register).
 **An EH state above 0 at entry means extra named locals with constructors.** In `pistol_5DD860`
 the frame size and entry state showed two `Fix16_Point` locals where we had one (0.721 -> 0.931).
 
-**An if/else-if chain with nested returns, not a switch returning a compare.** `if (a3 == 1) { if (a2 == N) return 1; } else if ...` with one shared `return 0`, in the original test order (`sad_mirzakhani::sub_432170`).
+**An if/else-if chain with nested returns, not a switch returning a compare.** `if (a3 == 1) { if (a2 == N) return 1; } else if ...` with one shared `return 0`, in the original test order (`sad_mirzakhani::IsDeathCauseInGroup_432170`).
 
 **Write `base + k*i`, not a running local.** VC6's strength reduction of `ypos + 40*i` gives the
 original's induction variables and slots; hand-written running sums don't (`DrawScoreTable_4B5430`).

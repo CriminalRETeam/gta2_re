@@ -1379,7 +1379,7 @@
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::sub_432170",
+        "name": "sad_mirzakhani::IsDeathCauseInGroup_432170",
         "v96f_address": "0x41d9d0",
         "v105_address": "0x432170",
         "v96f_auto": true

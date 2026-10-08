@@ -23,11 +23,11 @@ void silly_saha_0x2C::Init_431D50()
     field_C_occupation = 51;
     field_10_gang_idx = -1;
     field_12_remap = -2;
-    field_14 = 0;
+    field_14_death_cause = 0;
     field_18_alt_car_model = 87;
     field_1C_time_limit = 0;
     field_20_counterVal = 0;
-    field_24 = 0;
+    field_24_check_mode = 0;
     field_25_target_count = 0;
     field_26_count = 0;
     field_28_reward = 0;
@@ -63,10 +63,10 @@ sad_mirzakhani::~sad_mirzakhani()
 }
 
 MATCH_FUNC(0x431E10);
-void sad_mirzakhani::Init_431E10(PlayerScoreTracker_36C* a2)
+void sad_mirzakhani::Init_431E10(PlayerScoreTracker_36C* pScores)
 {
     field_1BC_cur_time = 0;
-    field_1B8_pScores = a2;
+    field_1B8_pScores = pScores;
 }
 
 MATCH_FUNC(0x431E30);
@@ -108,86 +108,86 @@ u16 sad_mirzakhani::next_free_idx_431E90()
 
 MATCH_FUNC(0x431EC0);
 u16 sad_mirzakhani::find_431EC0(u16 idx,
-                                s16 f_4,
-                                s32 car_info_idx,
+                                s16 event_type,
+                                s32 car_model,
                                 s32 occupation,
-                                s16 f_10,
-                                s16 f_12,
-                                s32 f_14,
-                                s32 f_18,
+                                s16 gang_idx,
+                                s16 remap,
+                                s32 death_cause,
+                                s32 alt_car_model,
                                 gmp_map_zone* pZone)
 {
-    u16 local_idx; // bp
-    silly_saha_0x2C* pItem; // esi
-    s16 l_4; // ax
-    s32 l_c; // eax
-    s32 l_8; // eax
-    s16 l_10; // ax
-    s16 l_12; // ax
-    s32 l_14; // eax
-    s32 l_18; // eax
+    u16 i; // bp
+    silly_saha_0x2C* pBonus; // esi
+    s16 bonus_event_type; // ax
+    s32 bonus_occupation; // eax
+    s32 bonus_car_model; // eax
+    s16 bonus_gang_idx; // ax
+    s16 bonus_remap; // ax
+    s32 bonus_death_cause; // eax
+    s32 bonus_alt_car_model; // eax
 
-    for (local_idx = idx; local_idx < 10u; local_idx++)
+    for (i = idx; i < 10u; i++)
     {
-        pItem = &this->field_0_bonuses[local_idx];
-        if (!pItem->field_2A_bUsed)
+        pBonus = &this->field_0_bonuses[i];
+        if (!pBonus->field_2A_bUsed)
         {
             continue;
         }
-        if (!pItem->field_2B_bActive)
+        if (!pBonus->field_2B_bActive)
         {
             continue;
         }
-        l_4 = pItem->field_4_event_type;
-        if (l_4 != f_4 && l_4 != -1)
+        bonus_event_type = pBonus->field_4_event_type;
+        if (bonus_event_type != event_type && bonus_event_type != -1)
         {
             continue;
         }
-        l_c = pItem->field_C_occupation;
-        if (l_c == occupation || l_c == 51 || IsOccupationInGroup_432240(occupation, pItem->field_C_occupation))
+        bonus_occupation = pBonus->field_C_occupation;
+        if (bonus_occupation == occupation || bonus_occupation == 51 || IsOccupationInGroup_432240(occupation, pBonus->field_C_occupation))
         {
-            l_8 = pItem->field_8_car_model;
-            if (l_8 == car_info_idx || l_8 == 87 || AreCarModelsEquivalent_432300(car_info_idx, pItem->field_8_car_model))
+            bonus_car_model = pBonus->field_8_car_model;
+            if (bonus_car_model == car_model || bonus_car_model == 87 || AreCarModelsEquivalent_432300(car_model, pBonus->field_8_car_model))
             {
-                l_10 = pItem->field_10_gang_idx;
-                if (l_10 == f_10 || l_10 == -1)
+                bonus_gang_idx = pBonus->field_10_gang_idx;
+                if (bonus_gang_idx == gang_idx || bonus_gang_idx == -1)
                 {
-                    l_12 = pItem->field_12_remap;
-                    if (l_12 == f_12 || l_12 == -2)
+                    bonus_remap = pBonus->field_12_remap;
+                    if (bonus_remap == remap || bonus_remap == -2)
                     {
-                        l_14 = pItem->field_14;
-                        if (l_14 == f_14 || l_14 == 23 || sub_432170(f_14, pItem->field_14))
+                        bonus_death_cause = pBonus->field_14_death_cause;
+                        if (bonus_death_cause == death_cause || bonus_death_cause == 23 || IsDeathCauseInGroup_432170(death_cause, pBonus->field_14_death_cause))
                         {
-                            l_18 = pItem->field_18_alt_car_model;
-                            if ((l_18 == f_18 || l_18 == 87) && (pItem->field_0_pZone == pZone || !pItem->field_0_pZone))
+                            bonus_alt_car_model = pBonus->field_18_alt_car_model;
+                            if ((bonus_alt_car_model == alt_car_model || bonus_alt_car_model == 87) && (pBonus->field_0_pZone == pZone || !pBonus->field_0_pZone))
                             {
-                                return local_idx;
+                                return i;
                             }
                         }
                     }
                 }
             }
         }
-        if (pItem->field_24 == 1)
+        if (pBonus->field_24_check_mode == 1)
         {
-            field_0_bonuses[local_idx].Deactivate_431DB0();
+            field_0_bonuses[i].Deactivate_431DB0();
         }
     }
     return 10;
 }
 
 MATCH_FUNC(0x431FE0);
-s16 sad_mirzakhani::alloc_next_431FE0(s16 f_4,
-                                      s32 f_8,
-                                      s32 f_c,
-                                      s16 f_10,
-                                      s16 f_12,
-                                      s32 f_14,
-                                      s32 f_18,
-                                      s32 f_1c,
-                                      s8 f_24,
-                                      s8 f_25,
-                                      u16 f_28,
+s16 sad_mirzakhani::alloc_next_431FE0(s16 event_type,
+                                      s32 car_model,
+                                      s32 occupation,
+                                      s16 gang_idx,
+                                      s16 remap,
+                                      s32 death_cause,
+                                      s32 alt_car_model,
+                                      s32 time_limit,
+                                      s8 check_mode,
+                                      s8 target_count,
+                                      u16 reward,
                                       gmp_map_zone* pZone)
 {
     const s16 idx = next_free_idx_431E90();
@@ -196,20 +196,20 @@ s16 sad_mirzakhani::alloc_next_431FE0(s16 f_4,
         return idx;
     }
 
-    field_0_bonuses[idx].field_4_event_type = f_4;
-    field_0_bonuses[idx].field_8_car_model = f_8;
-    field_0_bonuses[idx].field_C_occupation = f_c;
-    field_0_bonuses[idx].field_10_gang_idx = f_10;
-    field_0_bonuses[idx].field_12_remap = f_12;
-    field_0_bonuses[idx].field_14 = f_14;
-    field_0_bonuses[idx].field_18_alt_car_model = f_18;
+    field_0_bonuses[idx].field_4_event_type = event_type;
+    field_0_bonuses[idx].field_8_car_model = car_model;
+    field_0_bonuses[idx].field_C_occupation = occupation;
+    field_0_bonuses[idx].field_10_gang_idx = gang_idx;
+    field_0_bonuses[idx].field_12_remap = remap;
+    field_0_bonuses[idx].field_14_death_cause = death_cause;
+    field_0_bonuses[idx].field_18_alt_car_model = alt_car_model;
     field_0_bonuses[idx].field_0_pZone = pZone;
     field_0_bonuses[idx].field_20_counterVal = gpRng_67AB34->get_cur_rng_41CFE0();
-    field_0_bonuses[idx].field_1C_time_limit = f_1c;
-    field_0_bonuses[idx].field_24 = f_24;
-    field_0_bonuses[idx].field_25_target_count = f_25;
+    field_0_bonuses[idx].field_1C_time_limit = time_limit;
+    field_0_bonuses[idx].field_24_check_mode = check_mode;
+    field_0_bonuses[idx].field_25_target_count = target_count;
     field_0_bonuses[idx].field_26_count = 0;
-    field_0_bonuses[idx].field_28_reward = f_28;
+    field_0_bonuses[idx].field_28_reward = reward;
     field_0_bonuses[idx].field_2A_bUsed = 1;
     field_0_bonuses[idx].field_2B_bActive = 1;
 
@@ -243,11 +243,11 @@ s16 sad_mirzakhani::GetBonusResult_432080(u16 idx)
 }
 
 MATCH_FUNC(0x4320D0);
-void sad_mirzakhani::ProcessBonusEvent_4320D0(s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s32 f_14, s32 f_18, gmp_map_zone* pZone)
+void sad_mirzakhani::ProcessBonusEvent_4320D0(s16 event_type, s32 car_model, s32 occupation, s16 gang_idx, s16 remap, s32 death_cause, s32 alt_car_model, gmp_map_zone* pZone)
 {
     for (u16 i = 0; i < 10u; i++)
     {
-        i = find_431EC0(i, f_4, f_8, f_c, f_10, f_12, f_14, f_18, pZone);
+        i = find_431EC0(i, event_type, car_model, occupation, gang_idx, remap, death_cause, alt_car_model, pZone);
         if (i >= 10u)
         {
             break;
@@ -263,60 +263,60 @@ void sad_mirzakhani::ProcessBonusEvent_4320D0(s16 f_4, s32 f_8, s32 f_c, s16 f_1
 }
 
 MATCH_FUNC(0x432170);
-s8 sad_mirzakhani::sub_432170(int a2, int a3)
+s8 sad_mirzakhani::IsDeathCauseInGroup_432170(int death_cause, int group)
 {
-    if (a3 == 1)
+    if (group == 1)
     {
-        if (a2 == 3)
+        if (death_cause == 3)
         {
             return 1;
         }
     }
-    else if (a3 == 12)
+    else if (group == 12)
     {
-        if (a2 == 4)
+        if (death_cause == 4)
         {
             return 1;
         }
     }
-    else if (a3 == 21)
+    else if (group == 21)
     {
-        if (a2 == 4)
+        if (death_cause == 4)
         {
             return 1;
         }
     }
-    else if (a3 == 15)
+    else if (group == 15)
     {
-        if (a2 == 4)
+        if (death_cause == 4)
         {
             return 1;
         }
     }
-    else if (a3 == 16)
+    else if (group == 16)
     {
-        if (a2 == 4)
+        if (death_cause == 4)
         {
             return 1;
         }
     }
-    else if (a3 == 17)
+    else if (group == 17)
     {
-        if (a2 == 4)
+        if (death_cause == 4)
         {
             return 1;
         }
     }
-    else if (a3 == 14)
+    else if (group == 14)
     {
-        if (a2 == 13)
+        if (death_cause == 13)
         {
             return 1;
         }
     }
-    else if (a3 == 22)
+    else if (group == 22)
     {
-        switch (a2)
+        switch (death_cause)
         {
             case 4:
             case 10:
@@ -335,9 +335,9 @@ s8 sad_mirzakhani::sub_432170(int a2, int a3)
 }
 
 MATCH_FUNC(0x432240);
-s8 sad_mirzakhani::IsOccupationInGroup_432240(int occupation, int a3)
+s8 sad_mirzakhani::IsOccupationInGroup_432240(int occupation, int group)
 {
-    if (a3 == 46)
+    if (group == 46)
     {
         switch (occupation)
         {
@@ -356,7 +356,7 @@ s8 sad_mirzakhani::IsOccupationInGroup_432240(int occupation, int a3)
                 return 0;
         }
     }
-    else if (a3 == 47)
+    else if (group == 47)
     {
         switch (occupation)
         {
@@ -377,14 +377,14 @@ s8 sad_mirzakhani::IsOccupationInGroup_432240(int occupation, int a3)
                 return 0;
         }
     }
-    else if (a3 == 48)
+    else if (group == 48)
     {
         if (occupation == ped_ocupation_enum::armed_gang_member_19 || occupation == ped_ocupation_enum::guard || occupation == ped_ocupation_enum::gang_driver_42)
         {
             return 1;
         }
     }
-    else if (a3 == 49)
+    else if (group == 49)
     {
         if (occupation == ped_ocupation_enum::elvis || occupation == ped_ocupation_enum::elvis_leader)
         {
@@ -395,17 +395,17 @@ s8 sad_mirzakhani::IsOccupationInGroup_432240(int occupation, int a3)
 }
 
 MATCH_FUNC(0x432300);
-bool sad_mirzakhani::AreCarModelsEquivalent_432300(int car_info_idx_1, int car_info_idx_2)
+bool sad_mirzakhani::AreCarModelsEquivalent_432300(int car_model_1, int car_model_2)
 {
     bool is_fed_car_1;
     bool is_fed_car_2;
 
-    if ((car_info_idx_1 == car_model_enum::TAXI || car_info_idx_1 == car_model_enum::STYPECAB) &&
-        (car_info_idx_2 == car_model_enum::TAXI || car_info_idx_2 == car_model_enum::STYPECAB))
+    if ((car_model_1 == car_model_enum::TAXI || car_model_1 == car_model_enum::STYPECAB) &&
+        (car_model_2 == car_model_enum::TAXI || car_model_2 == car_model_enum::STYPECAB))
     {
         return 1;
     }
-    switch (car_info_idx_1)
+    switch (car_model_1)
     {
         case car_model_enum::apc:
         case car_model_enum::COPCAR:
@@ -420,7 +420,7 @@ bool sad_mirzakhani::AreCarModelsEquivalent_432300(int car_info_idx_1, int car_i
             is_fed_car_1 = 0;
             break;
     }
-    switch (car_info_idx_2)
+    switch (car_model_2)
     {
         case car_model_enum::apc:
         case car_model_enum::COPCAR:
