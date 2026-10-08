@@ -397,9 +397,9 @@ s32 PlayerScoreTracker_36C::GetCarScoreValue_5925B0(u32 car_model, u8 reward_tie
         case 0:
             return result;
         case 1:
-            return 2 * result;
+            return result * 2;
         case 2:
-            return 5 * result;
+            return result * 5;
         default:
             return 0;
     }
@@ -986,12 +986,12 @@ void PlayerScoreTracker_36C::AwardFullBusDestroyedScore_593410(Car_BC* pCar)
             gExplodingScorePool->PushScore_596890(pCar->get_x_41E430(),
                                                    pCar->get_y_41E440(),
                                                    pCar->get_z_41E450(),
-                                                   100 * multiplier);
+                                                   multiplier * 100);
         }
     }
 
     field_368_player->AddScore_41DC40(100);
-    field_368_player->field_644_crime_stats.AddCarDamageCost_484FA0(100 * multiplier);
+    field_368_player->field_644_crime_stats.AddCarDamageCost_484FA0(multiplier * 100);
 
     if (gCrimeReportQueue_67A4B8->ShouldReportCarCrime_485090(pCar, field_368_player))
     {
