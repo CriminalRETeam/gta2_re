@@ -6,7 +6,7 @@
 #include "ang16.hpp"
 #include "fix16.hpp"
 
-class infallible_turing;
+class SoundObject_10;
 class Car_BC;
 
 class Crane_15C
@@ -100,7 +100,7 @@ class Crane_15C
     Sprite* field_70_cargo_transporter;
     Sprite* field_74_pSprite_on_hook;
     Crane_15C* field_78_maybe_homecrane;
-    infallible_turing* field_7C_sound;
+    SoundObject_10* field_7C_sound;
     Fix16 field_80_ground_z;
     Fix16 field_84_hook_depth;
     Fix16 field_88_hook_depth_speed;

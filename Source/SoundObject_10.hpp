@@ -15,19 +15,18 @@ enum
     Camera_0xBC_5 = 5,
     Unknown_4 = 4,
     Radio_3 = 3,
-    infallible_turing_2 = 2,
+    Unknown_2 = 2,
     Sprite_1 = 1,
 };
 } // namespace SoundObjectTypeEnum
 
-class infallible_turing
+// A sound emitting object registered with root_sound (a pool of 1000). Its owner is in field_C_pAny; sound_obj
+// processes it each frame depending on field_0_object_type.
+class SoundObject_10
 {
   public:
     s32 field_0_object_type; // SoundObjectTypeEnum
     char_type field_4_bStatus;
-    char_type field_5;
-    char_type field_6;
-    char_type field_7;
     s32 field_8_sound_entry;
 
     union SoundObjectType
@@ -38,7 +37,7 @@ class infallible_turing
         class Weapon_30* pWeapon_30;
         class CollisionSoundQueue_C88* pCollisionSoundQueue;
         class Camera_0xBC* pCamera_0xBC;
-        class infallible_turing* pInfallible_turing;
+        class SoundObject_10* pNextFree; // while the object is on the free list of root_sound
         class Sprite* pSprite;
         void* pAny;
     };
@@ -46,5 +45,5 @@ class infallible_turing
     // Type depends on what field_0_object_type is
     SoundObjectType field_C_pAny;
 
-    EXPORT void release_40EF20();
+    EXPORT void Release_40EF20();
 };

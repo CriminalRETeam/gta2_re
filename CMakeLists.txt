@@ -128,8 +128,8 @@ set(gta2_lib_src
   Source/Ped_List_4.cpp
   Source/PlayerCrimeStats_3C.hpp
   Source/PlayerCrimeStats_3C.cpp
-  Source/infallible_turing.hpp
-  Source/infallible_turing.cpp
+  Source/SoundObject_10.hpp
+  Source/SoundObject_10.cpp
   Source/BonusTracker_1C0.hpp
   Source/BonusTracker_1C0.cpp
   Source/Gang.hpp

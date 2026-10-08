@@ -11,7 +11,7 @@
 class Ped;
 class Player;
 class Gang_144;
-class infallible_turing;
+class SoundObject_10;
 class Gang_144;
 class Object_2C;
 class Car_BC;
@@ -310,7 +310,7 @@ class Hud_Pager_C
     EXPORT Hud_Pager_C();
     s32 field_0_timer;
     s32* field_4_ptr_counter; //  counter?
-    infallible_turing* field_8_sound;
+    SoundObject_10* field_8_sound;
 };
 
 class Hud_Pager_C_Array

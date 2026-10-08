@@ -1,9 +1,9 @@
-#include "infallible_turing.hpp"
+#include "SoundObject_10.hpp"
 #include "Function.hpp"
 #include "root_sound.hpp"
 
 MATCH_FUNC(0x40EF20)
-void infallible_turing::release_40EF20()
+void SoundObject_10::Release_40EF20()
 {
     if (field_8_sound_entry)
     {

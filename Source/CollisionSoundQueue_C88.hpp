@@ -5,7 +5,7 @@
 #include "sprite.hpp"
 #include "collision_target_type.hpp"
 
-class infallible_turing;
+class SoundObject_10;
 class Car_BC;
 class Object_2C;
 
@@ -131,7 +131,7 @@ class CollisionSoundQueue_C88
     EXPORT CollisionSoundQueue_C88();
     EXPORT ~CollisionSoundQueue_C88();
 
-    infallible_turing* field_0_pSoundObj;
+    SoundObject_10* field_0_pSoundObj;
     CollisionEvent_28 field_4_events[k_max_events];
     s32 field_C84_count;
 };

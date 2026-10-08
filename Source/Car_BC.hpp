@@ -28,7 +28,7 @@ class Char_8;
 class Hamburger_40;
 class Ped_List_4;
 class car_info;
-class infallible_turing;
+class SoundObject_10;
 class Gang_144;
 class Player;
 

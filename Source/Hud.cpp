@@ -1925,15 +1925,15 @@ s32 Hud_Pager_C_Array::AddOnScreenCounter_5D3220(s32* pCounter)
 MATCH_FUNC(0x5d3280)
 void Hud_Pager_C_Array::ClearPager_5D3280(s32 idx)
 {
-    infallible_turing* pSound = field_0_pagers_array[idx].field_8_sound;
+    SoundObject_10* pSound = field_0_pagers_array[idx].field_8_sound;
     Hud_Pager_C* pPager = &field_0_pagers_array[idx];
     pPager->field_0_timer = -1;
     pPager->field_4_ptr_counter = NULL;
 
     if (pSound)
     {
-        pSound->release_40EF20();
-        pSound->field_C_pAny.pInfallible_turing = gRoot_sound_66B038.field_0_pFreeList;
+        pSound->Release_40EF20();
+        pSound->field_C_pAny.pNextFree = gRoot_sound_66B038.field_0_pFreeList;
         gRoot_sound_66B038.field_0_pFreeList = pSound;
         pPager->field_8_sound = NULL;
     }

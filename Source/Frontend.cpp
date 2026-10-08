@@ -18,7 +18,7 @@
 #include "gbh_graphics.hpp"
 #include <stdlib.h>
 #include "gtx_0x106C.hpp"
-#include "infallible_turing.hpp"
+#include "SoundObject_10.hpp"
 #include "input.hpp"
 #include "jolly_poitras_0x2BC0.hpp"
 #include "keybrd_0x204.hpp"
@@ -314,8 +314,8 @@ EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma)
     return gamma;
 }
 
-DEFINE_GLOBAL(infallible_turing, snd1_67D818, 0x67D818);
-DEFINE_GLOBAL(infallible_turing, snd2_67D6F8, 0x67D6F8);
+DEFINE_GLOBAL(SoundObject_10, snd1_67D818, 0x67D818);
+DEFINE_GLOBAL(SoundObject_10, snd2_67D6F8, 0x67D6F8);
 
 MATCH_FUNC(0x4B4C60)
 void Frontend::LoadStringsFromStage_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr, char* pMapName, char* pStyName)
@@ -345,8 +345,8 @@ void __stdcall Frontend::create_4ACFA0()
     {
         snd1_67D818.field_0_object_type = 0;
         snd1_67D818.field_4_bStatus = 0;
-        snd2_67D6F8.field_0_object_type = SoundObjectTypeEnum::infallible_turing_2;
-        snd2_67D6F8.field_C_pAny.pInfallible_turing = &snd1_67D818;
+        snd2_67D6F8.field_0_object_type = SoundObjectTypeEnum::Unknown_2;
+        snd2_67D6F8.field_C_pAny.pNextFree = &snd1_67D818;
         snd2_67D6F8.field_4_bStatus = 0;
         snd2_67D6F8.field_8_sound_entry = gRoot_sound_66B038.AddSoundObject_40EFB0(&snd2_67D6F8);
         gRoot_sound_66B038.LoadStyle_40EFF0("data\\fstyle.sty");
@@ -783,8 +783,8 @@ void Frontend::InitSound_4B8680()
     {
         snd1_67D818.field_0_object_type = 0;
         snd1_67D818.field_4_bStatus = 0;
-        snd2_67D6F8.field_0_object_type = SoundObjectTypeEnum::infallible_turing_2;
-        snd2_67D6F8.field_C_pAny.pInfallible_turing = &snd1_67D818;
+        snd2_67D6F8.field_0_object_type = SoundObjectTypeEnum::Unknown_2;
+        snd2_67D6F8.field_C_pAny.pNextFree = &snd1_67D818;
         snd2_67D6F8.field_4_bStatus = 0;
         snd2_67D6F8.field_8_sound_entry = gRoot_sound_66B038.AddSoundObject_40EFB0(&snd2_67D6F8);
     }

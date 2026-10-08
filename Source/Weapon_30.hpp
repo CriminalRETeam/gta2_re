@@ -11,7 +11,7 @@ class Sprite;
 class Car_BC;
 class Fix16_Point;
 
-class infallible_turing;
+class SoundObject_10;
 
 EXPORT void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped* a5, Sprite* a6);
 
@@ -179,7 +179,7 @@ class Weapon_30
     s8 field_22;
     s8 field_23;
     Ped* field_24_pPed;
-    infallible_turing* field_28_pSound;
+    SoundObject_10* field_28_pSound;
     s8 field_2C_shot_fired;
     s8 field_2D;
     s8 field_2E;

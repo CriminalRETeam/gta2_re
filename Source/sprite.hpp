@@ -22,7 +22,7 @@ EXPORT char_type __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16& minX, Fix1
 class Car_BC;
 class Char_B4;
 class Object_2C;
-class infallible_turing;
+class SoundObject_10;
 class Ped;
 
 EXPORT void __stdcall sub_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2);
@@ -464,7 +464,7 @@ class Sprite
         Sprite_4C* field_C_sprite_4c_ptr;
         class Object_5C* field_C_o5c;
     };
-    infallible_turing* field_10_sound;
+    SoundObject_10* field_10_sound;
 
     void SetType_4206F0(s32 sprite_type)
     {

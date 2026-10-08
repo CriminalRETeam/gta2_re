@@ -4,7 +4,7 @@
 #include "fix16.hpp"
 
 class Car_BC;
-class infallible_turing;
+class SoundObject_10;
 class Object_2C;
 
 class Crusher_30
@@ -58,7 +58,7 @@ class Crusher_30
 
     Car_BC* field_14_pCarBeingCrushed;
 
-    infallible_turing* field_18_sound;
+    SoundObject_10* field_18_sound;
 
     // Target of crusher walls
     Fix16 field_1C_w;

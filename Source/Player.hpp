@@ -11,7 +11,7 @@
 #include "PlayerCrimeStats_3C.hpp"
 #include <windows.h>
 
-class infallible_turing;
+class SoundObject_10;
 class Ped;
 class Weapon_30;
 class Player;
@@ -372,7 +372,7 @@ class Player
     char_type field_49_pad;
     char_type field_4A_pad;
     char_type field_4B_pad;
-    infallible_turing* field_4C_pSoundObj;
+    SoundObject_10* field_4C_pSoundObj;
     s32 field_50_throw_charge;
     Car_BC* field_54_car_history[3];
     s32 field_60_bFinshScoreReached;

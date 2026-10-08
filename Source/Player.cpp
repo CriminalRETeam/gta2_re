@@ -23,7 +23,7 @@
 #include "debug.hpp"
 #include "error.hpp"
 #include "frosty_pasteur_0xC1EA8.hpp"
-#include "infallible_turing.hpp"
+#include "SoundObject_10.hpp"
 #include "GameSession_578.hpp"
 #include "map_0x370.hpp"
 #include "registry.hpp"
@@ -1947,7 +1947,7 @@ void Player::UpdateCurrentZones_568520()
 MATCH_FUNC(0x568630)
 void Player::UpdateSoundListener_568630()
 {
-    infallible_turing* pSoundObj = field_4C_pSoundObj;
+    SoundObject_10* pSoundObj = field_4C_pSoundObj;
     if (pSoundObj)
     {
         pSoundObj->field_C_pAny.pCamera_0xBC = &field_14C_view_camera;

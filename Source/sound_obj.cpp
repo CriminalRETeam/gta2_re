@@ -189,7 +189,7 @@ void sound_obj::ProcessEntity_4123A0(s32 id)
                 switch (field_147C_audio_entities[id].field_4_pObj->field_0_object_type)
                 {
                     case SoundObjectTypeEnum::Sprite_1:
-                        //case SoundObjectTypeEnum::infallible_turing_2:
+                        //case SoundObjectTypeEnum::Unknown_2:
                         //case SoundObjectTypeEnum::Unknown_3:
                         //case SoundObjectTypeEnum::Unknown_4:
                         ProcessType1_Sprite_412740(id);
@@ -218,7 +218,7 @@ void sound_obj::ProcessEntity_4123A0(s32 id)
             }
         }
 
-        if (field_147C_audio_entities[id].field_4_pObj->field_0_object_type == SoundObjectTypeEnum::infallible_turing_2)
+        if (field_147C_audio_entities[id].field_4_pObj->field_0_object_type == SoundObjectTypeEnum::Unknown_2)
         {
             ProcessType2_412490(id);
         }
@@ -231,7 +231,7 @@ void sound_obj::ProcessType2_412490(s32 idx)
     static BYTE gType2SampleIndexCounter_66F2D4;
     static BYTE byte_66F540;
 
-    infallible_turing* field_C_pObject = field_147C_audio_entities[idx].field_4_pObj->field_C_pAny.pInfallible_turing;
+    SoundObject_10* field_C_pObject = field_147C_audio_entities[idx].field_4_pObj->field_C_pAny.pNextFree;
     if (!field_C_pObject)
     {
         return;
@@ -3194,7 +3194,7 @@ void sound_obj::AddVocalsEntity_418C20()
 {
     if (!field_544C[0].field_4_fp)
     {
-        infallible_turing* pSoundObj = &field_544C[0].field_8;
+        SoundObject_10* pSoundObj = &field_544C[0].field_8;
         field_544C[0].field_8.field_C_pAny.pAny = 0;
         field_544C[0].field_8.field_4_bStatus = 0;
         pSoundObj->field_0_object_type = 10;
@@ -3568,7 +3568,7 @@ void sound_obj::Service_419EF0()
 }
 
 MATCH_FUNC(0x419FA0)
-s32 sound_obj::AddSoundObject_419FA0(infallible_turing* pTuring)
+s32 sound_obj::AddSoundObject_419FA0(SoundObject_10* pTuring)
 {
     u32 idx = 1;
     if (!field_0_bSoundInitialized || !pTuring)
@@ -3621,7 +3621,7 @@ s32 sound_obj::AddSoundObject_419FA0(infallible_turing* pTuring)
                     break;
                 }
 
-                case SoundObjectTypeEnum::infallible_turing_2:
+                case SoundObjectTypeEnum::Unknown_2:
                 {
                     DeInitVocals_57EA10();
                     break;
@@ -3651,7 +3651,7 @@ void sound_obj::FreeSoundEntry_41A090(u32 idx)
         return;
     }
 
-    infallible_turing* pTuring = field_147C_audio_entities[idx].field_4_pObj;
+    SoundObject_10* pTuring = field_147C_audio_entities[idx].field_4_pObj;
     switch (pTuring->field_0_object_type)
     {
         case SoundObjectTypeEnum::Sprite_1:
@@ -3671,7 +3671,7 @@ void sound_obj::FreeSoundEntry_41A090(u32 idx)
             }
             // fall through
 
-        case SoundObjectTypeEnum::infallible_turing_2:
+        case SoundObjectTypeEnum::Unknown_2:
             field_3 = 0;
             gSampManager_6FFF00.FadeOut_58E490();
             break;
