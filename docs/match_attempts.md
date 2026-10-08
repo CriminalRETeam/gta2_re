@@ -3308,3 +3308,20 @@ helpers under other names, or plain Fix16/Ang16 operators.
   rest is priority (vertex 1's `fmul` 184 vs the `y_pos`/`sin` loads 178/160).
 - `PoliceCrew_38::State6_ShutDown_574720` (46, unchanged): 9.6f also keeps `i` in memory; the missing `ebp`
   zero register is decided after colouring (constants get `ebp` in both variants in ralog).
+
+## Oct 8: flags folded after layout (UpdateState_4FB330, TagGameHudUpdate_4DADA0)
+
+Jump threading on a constant flag runs after the reverse-postorder layout (`Scripts/flowopt/README.md`), so a
+flag test that later disappears still shapes the block order and the exit placement.
+- **`Ambulance_20::UpdateState_4FB330` (2 -> 0, MATCH).** `bool bHandle = true;`, cleared on the ReInit and
+  inc paths, and one `if (bHandle) HandleObjectiveState_4FAAC0();` after the switch. At layout time the inc arm's
+  `jle` targets that test block X; the DFS visits X first, so it sits between the `state = 5` store and the exit
+  and the store has to `jmp exit` over it. Threading then empties X, so nothing falls into the exit when dupB runs,
+  and dupB moves the exit up after `default`'s call (the original's `jle 0x3F`) and copies Handle+ret into the
+  cases. Same mechanism as TrainCab_414710.
+- **`TagGameHudUpdate_4DADA0` (54 -> 6).** `bShow = true` and the first-flash block (59 stored before `= 1`) inside
+  the condition's `if`, then `if (!bShow) { clear } else { ... }`: the clear block is reached by the DFS from the
+  first-flash block, which gives the original's F1 | F2 | clear | pager clear | rest layout; threading removes
+  the second test. Left: `test %dl,%bl` for `test $1,%dl`. The constant 1 web (`bShow = true`, `byte = 1`, `& 1`)
+  is coalesced with `bShow` in `ebx`; the original keeps the immediate in the test but `bl` in the store. Casts,
+  `% 2`, other flag types (98 for 32-bit), separate flags (22-148): no.
