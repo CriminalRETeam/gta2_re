@@ -6,6 +6,21 @@
 class Car_BC;
 class Ped;
 
+// Firefighter_28::field_8_state (stored as s32)
+namespace firefighter_state
+{
+enum
+{
+    idle_0 = 0,
+    spawn_truck_1 = 1, // waiting for a fire truck to spawn at the dispatch point
+    drive_to_fire_2 = 2,
+    arrived_3 = 3,
+    put_out_fire_4 = 4,
+    finished_5 = 5, // truck goes back to normal AI, slot is reset
+    abort_6 = 6, // truck lost, despawned or the target is gone: deinit
+};
+} // namespace firefighter_state
+
 class Firefighter_28
 {
   public:
@@ -13,7 +28,7 @@ class Firefighter_28
     void Clear_450C10()
     {
         field_C_target_car = 0;
-        field_8_state = 0;
+        field_8_state = firefighter_state::idle_0;
         field_4_bActive = 0;
         field_1C_car = 0;
         field_20_ped = 0;
@@ -29,7 +44,7 @@ class Firefighter_28
     s16 field_0_id;
     s16 field_2;
     s32 field_4_bActive;
-    s32 field_8_state;
+    s32 field_8_state; // firefighter_state
     Car_BC* field_C_target_car;
     Fix16 field_10_xpos;
     Fix16 field_14_ypos;
