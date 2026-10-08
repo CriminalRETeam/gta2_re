@@ -8,7 +8,7 @@
 #include "Ped_List_4.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
-#include "PurpleDoom.hpp"
+#include "SpriteGrid_400.hpp"
 #include "Weapon_30.hpp"
 #include "char.hpp"
 #include "debug.hpp"
@@ -415,18 +415,18 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
             pPed->AllocCharB4_45C830(xpos, ypos, zpos);
         }
 
-        gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(pPed->field_168_game_object->field_80_sprite_ptr);
+        gSpriteGrid_1_679208->AddToSpriteRectBuckets_477B60(pPed->field_168_game_object->field_80_sprite_ptr);
 
-        if (gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(pPed->field_168_game_object->field_80_sprite_ptr, 0))
+        if (gSpriteGrid_1_679208->FindNearestSpriteOfType_477E60(pPed->field_168_game_object->field_80_sprite_ptr, 0))
         {
             pPed->ChangeNextPedState1_45C500(9);
             pPed->ChangeNextPedState2_45C540(15);
             pPed->Deallocate_45EB60();
-            gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pPed->field_168_game_object->field_80_sprite_ptr);
+            gSpriteGrid_1_679208->AddToRegionBuckets_477B20(pPed->field_168_game_object->field_80_sprite_ptr);
             return;
         }
 
-        gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pPed->field_168_game_object->field_80_sprite_ptr);
+        gSpriteGrid_1_679208->AddToRegionBuckets_477B20(pPed->field_168_game_object->field_80_sprite_ptr);
         if (pPed->get_occupation_403980() != ped_ocupation_enum::walking_guard_29)
         {
             pPed->SetRemap_433C10(pPed->get_remap_433BA0());

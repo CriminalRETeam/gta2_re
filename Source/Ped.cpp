@@ -23,7 +23,7 @@
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "PublicTransport.hpp"
-#include "PurpleDoom.hpp"
+#include "SpriteGrid_400.hpp"
 #include "RouteFinder.hpp"
 #include "CrimeReportQueue_CC.hpp"
 #include "Taxi_4.hpp"
@@ -1431,7 +1431,7 @@ char_type Ped::AllocCharB4_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 
     pChar->field_80_sprite_ptr->AllocInternal_59F950(gDummyW_678530, gDummyW_678530, gDummyZ_67841C);
 
-    gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pChar->field_80_sprite_ptr);
+    gSpriteGrid_1_679208->AddToRegionBuckets_477B20(pChar->field_80_sprite_ptr);
     field_168_game_object->set_pPed_4338E0(this);
 
     field_1AC_cam.y = ypos;
@@ -6896,7 +6896,7 @@ Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
     Sprite* pNear;
     if (field_168_game_object)
     {
-        pNear = gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::ped_3,
+        pNear = gSpriteGrid_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::ped_3,
                                                                             sprite_types_enum::car_2,
                                                                             field_168_game_object->field_80_sprite_ptr,
                                                                             a2,
@@ -6905,7 +6905,7 @@ Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
     }
     else
     {
-        pNear = gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::ped_3,
+        pNear = gSpriteGrid_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::ped_3,
                                                                             sprite_types_enum::car_2,
                                                                             field_16C_car->field_50_car_sprite,
                                                                             a2,
@@ -7016,7 +7016,7 @@ MATCH_FUNC(0x466f60)
 Ped* Ped::FindNearestPed_466F60(u8 a2)
 {
     gSearchingPed_6787DC = this;
-    Sprite* pSprite = gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::ped_3,
+    Sprite* pSprite = gSpriteGrid_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::ped_3,
                                                                                   sprite_types_enum::car_2,
                                                                                   field_168_game_object->field_80_sprite_ptr,
                                                                                   a2,
@@ -7035,7 +7035,7 @@ Ped* Ped::FindNearbyPed_466FB0()
 {
     gTargetSearchMode_6787D7 = 3;
     gSearchingPed_6787DC = this;
-    Sprite* pNearest = gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::ped_3,
+    Sprite* pNearest = gSpriteGrid_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::ped_3,
                                                                                    sprite_types_enum::car_2,
                                                                                    field_168_game_object->field_80_sprite_ptr,
                                                                                    3u,
@@ -7150,7 +7150,7 @@ Sprite* Ped::ResetAnimAndFindNearestSprite_467280()
     pB4->field_68_animation_frame = 0;
 
     this->field_216_health = 50;
-    return gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_168_game_object->field_80_sprite_ptr, 2);
+    return gSpriteGrid_1_679208->FindNearestSpriteOfType_477E60(this->field_168_game_object->field_80_sprite_ptr, 2);
 }
 
 // https://decomp.me/scratch/ec0hn
@@ -9757,7 +9757,7 @@ void Ped::MeleeAttackStateMachine_46B670()
         field_21C_bf.b11 = true;
         if (field_27C_ped_state_2 == ped_state_2::Unknown_9)
         {
-            Sprite* pNearestSprt = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_168_game_object->field_80_sprite_ptr, 2);
+            Sprite* pNearestSprt = gSpriteGrid_1_679208->FindNearestSpriteOfType_477E60(field_168_game_object->field_80_sprite_ptr, 2);
             if (pNearestSprt && pNearestSprt->get_type_416B40() == sprite_types_enum::car_2)
             {
                 field_278_ped_state_1 = ped_state_1::immobilized_8;
@@ -11195,7 +11195,7 @@ void Ped::RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius)
     }
 
     ComputeRecruitPrism(rect, this->field_1AC_cam.x, this->field_1AC_cam.y, searchRadius, this->field_1AC_cam.z);
-    if (gPurpleDoom_1_679208->CollectRectCollisions_477F30(&rect, 0, 0, GetSprite_46DF50(), &collision_list))
+    if (gSpriteGrid_1_679208->CollectRectCollisions_477F30(&rect, 0, 0, GetSprite_46DF50(), &collision_list))
     {
         for (pNearest = collision_list.TakeClosestSprite_5A6EA0(this->field_1AC_cam.x, this->field_1AC_cam.y); pNearest;
              pNearest = collision_list.TakeClosestSprite_5A6EA0(this->field_1AC_cam.x, this->field_1AC_cam.y))
@@ -12227,7 +12227,7 @@ void Ped::add_wanted_points_470160(s16 wanted_amount)
 MATCH_FUNC(0x4701d0)
 bool Ped::IsNearestSpriteACar_4701D0()
 {
-    Sprite* pSprite = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this->field_168_game_object->field_80_sprite_ptr, 0);
+    Sprite* pSprite = gSpriteGrid_1_679208->FindNearestSpriteOfType_477E60(this->field_168_game_object->field_80_sprite_ptr, 0);
     if (pSprite)
     {
         return (pSprite->get_type_416B40() != sprite_types_enum::car_2) ? false : true;

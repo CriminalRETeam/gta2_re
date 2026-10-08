@@ -10,7 +10,7 @@
 #include "Globals.hpp"
 #include "Light_1D4CC.hpp"
 #include "Object_5C.hpp"
-#include "PurpleDoom.hpp"
+#include "SpriteGrid_400.hpp"
 #include "RouteFinder.hpp"
 #include "TileAnim_2.hpp"
 #include "chunk.hpp"
@@ -37,8 +37,8 @@ DEFINE_GLOBAL(gmp_map_slope*, dword_6F5EC8, 0x6F5EC8);
 // (it knows the padding is safe to read), while the original's `mov 0x6F6002,%cx; test %cx,face`
 // needs an extern declaration (Map_0x370::sub_4E1A30, CanSpriteEnterTile_4E1E00).
 EXTERN_GLOBAL(s16, gFaceCollisionMask_6F6002);
-DEFINE_GLOBAL(s32, gPurple_right_6F5B80, 0x6F5B80);
-DEFINE_GLOBAL(s32, gPurple_left_6F5FD4, 0x6F5FD4);
+DEFINE_GLOBAL(s32, gSpriteGrid_right_6F5B80, 0x6F5B80);
+DEFINE_GLOBAL(s32, gSpriteGrid_left_6F5FD4, 0x6F5FD4);
 DEFINE_GLOBAL(s32, dword_6F620C, 0x6F620C);
 DEFINE_GLOBAL(s32, dword_6F5BA0, 0x6F5BA0);
 DEFINE_GLOBAL(s32, dword_6F6248, 0x6F6248);
@@ -1636,9 +1636,9 @@ char_type Map_0x370::RectHitsDiagonalWall_4E11E0(Fix16_Rect* pRect)
 
     s32 z_calc = pRect->GetMidZ_463760();
 
-    for (s32 y_count = gPurple_top_6F6108; y_count <= gPurple_bottom_6F5F38; y_count++)
+    for (s32 y_count = gSpriteGrid_top_6F6108; y_count <= gSpriteGrid_bottom_6F5F38; y_count++)
     {
-        for (s32 x_count = gPurple_left_6F5FD4; x_count <= gPurple_right_6F5B80; x_count++)
+        for (s32 x_count = gSpriteGrid_left_6F5FD4; x_count <= gSpriteGrid_right_6F5B80; x_count++)
         {
             gmp_block_info* pBlock = get_block_4DFE10(x_count, y_count, z_calc);
             if (pBlock)
@@ -1679,9 +1679,9 @@ bool Map_0x370::SpriteHitsDiagonalWall_4E1520(s32 z_pos)
 {
     Fix16_Point point;
     Fix16_Point unk_point;
-    for (s32 y_pos = gPurple_top_6F6108; y_pos <= gPurple_bottom_6F5F38; y_pos++)
+    for (s32 y_pos = gSpriteGrid_top_6F6108; y_pos <= gSpriteGrid_bottom_6F5F38; y_pos++)
     {
-        for (s32 x_pos = gPurple_left_6F5FD4; x_pos <= gPurple_right_6F5B80; x_pos++)
+        for (s32 x_pos = gSpriteGrid_left_6F5FD4; x_pos <= gSpriteGrid_right_6F5B80; x_pos++)
         {
             gmp_block_info* pBlock = Map_0x370::get_block_4DFE10(x_pos, y_pos, z_pos);
 
@@ -2235,63 +2235,63 @@ char_type Map_0x370::CanSpriteEnterMovementRegion_4E4460(s32 a2, s32 a3, s32 a4,
 {
     gSprite_6F61E8 = a5;
     gFaceCollisionMask_6F6002 = a6;
-    if (gPurple_right_6F5B80 - gPurple_left_6F5FD4 >= 3 || a2 > gPurple_left_6F5FD4 + 1 || a2 < gPurple_right_6F5B80 - 1)
+    if (gSpriteGrid_right_6F5B80 - gSpriteGrid_left_6F5FD4 >= 3 || a2 > gSpriteGrid_left_6F5FD4 + 1 || a2 < gSpriteGrid_right_6F5B80 - 1)
     {
-        if (CanSpriteEnterTile_4E1E00(a2 - 1, a2 + 1, gPurple_top_6F6108, gPurple_bottom_6F5F38, a2, a3, a4))
+        if (CanSpriteEnterTile_4E1E00(a2 - 1, a2 + 1, gSpriteGrid_top_6F6108, gSpriteGrid_bottom_6F5F38, a2, a3, a4))
         {
             return 1;
         }
-        else if (gPurple_right_6F5B80 == a2 + 2)
+        else if (gSpriteGrid_right_6F5B80 == a2 + 2)
         {
-            return CanSpriteEnterTile_4E1E00(gPurple_right_6F5B80 - 1,
-                                             gPurple_right_6F5B80,
-                                             gPurple_top_6F6108,
-                                             gPurple_bottom_6F5F38,
-                                             gPurple_right_6F5B80 - 1,
+            return CanSpriteEnterTile_4E1E00(gSpriteGrid_right_6F5B80 - 1,
+                                             gSpriteGrid_right_6F5B80,
+                                             gSpriteGrid_top_6F6108,
+                                             gSpriteGrid_bottom_6F5F38,
+                                             gSpriteGrid_right_6F5B80 - 1,
                                              a3,
                                              dword_6F620C);
         }
         else
         {
-            return CanSpriteEnterTile_4E1E00(gPurple_left_6F5FD4,
-                                             gPurple_left_6F5FD4 + 1,
-                                             gPurple_top_6F6108,
-                                             gPurple_bottom_6F5F38,
-                                             gPurple_left_6F5FD4 + 1,
+            return CanSpriteEnterTile_4E1E00(gSpriteGrid_left_6F5FD4,
+                                             gSpriteGrid_left_6F5FD4 + 1,
+                                             gSpriteGrid_top_6F6108,
+                                             gSpriteGrid_bottom_6F5F38,
+                                             gSpriteGrid_left_6F5FD4 + 1,
                                              a3,
                                              dword_6F5BA0);
         }
     }
-    else if (gPurple_bottom_6F5F38 - gPurple_top_6F6108 >= 3 || a3 > gPurple_top_6F6108 + 1 || a3 < gPurple_bottom_6F5F38 - 1)
+    else if (gSpriteGrid_bottom_6F5F38 - gSpriteGrid_top_6F6108 >= 3 || a3 > gSpriteGrid_top_6F6108 + 1 || a3 < gSpriteGrid_bottom_6F5F38 - 1)
     {
-        if (CanSpriteEnterTile_4E1E00(gPurple_left_6F5FD4, gPurple_right_6F5B80, a3 - 1, a3 + 1, a2, a3, a4))
+        if (CanSpriteEnterTile_4E1E00(gSpriteGrid_left_6F5FD4, gSpriteGrid_right_6F5B80, a3 - 1, a3 + 1, a2, a3, a4))
         {
             return 1;
         }
-        else if (gPurple_bottom_6F5F38 == a3 + 2)
+        else if (gSpriteGrid_bottom_6F5F38 == a3 + 2)
         {
-            return CanSpriteEnterTile_4E1E00(gPurple_left_6F5FD4,
-                                             gPurple_right_6F5B80,
-                                             gPurple_bottom_6F5F38 - 1,
-                                             gPurple_bottom_6F5F38,
+            return CanSpriteEnterTile_4E1E00(gSpriteGrid_left_6F5FD4,
+                                             gSpriteGrid_right_6F5B80,
+                                             gSpriteGrid_bottom_6F5F38 - 1,
+                                             gSpriteGrid_bottom_6F5F38,
                                              a2,
-                                             gPurple_bottom_6F5F38 - 1,
+                                             gSpriteGrid_bottom_6F5F38 - 1,
                                              dword_6F6248);
         }
         else
         {
-            return CanSpriteEnterTile_4E1E00(gPurple_left_6F5FD4,
-                                             gPurple_right_6F5B80,
-                                             gPurple_top_6F6108,
-                                             gPurple_top_6F6108 + 1,
+            return CanSpriteEnterTile_4E1E00(gSpriteGrid_left_6F5FD4,
+                                             gSpriteGrid_right_6F5B80,
+                                             gSpriteGrid_top_6F6108,
+                                             gSpriteGrid_top_6F6108 + 1,
                                              a2,
-                                             gPurple_top_6F6108 + 1,
+                                             gSpriteGrid_top_6F6108 + 1,
                                              dword_6F5FAC);
         }
     }
     else
     {
-        return CanSpriteEnterTile_4E1E00(gPurple_left_6F5FD4, gPurple_right_6F5B80, gPurple_top_6F6108, gPurple_bottom_6F5F38, a2, a3, a4);
+        return CanSpriteEnterTile_4E1E00(gSpriteGrid_left_6F5FD4, gSpriteGrid_right_6F5B80, gSpriteGrid_top_6F6108, gSpriteGrid_bottom_6F5F38, a2, a3, a4);
     }
 }
 
@@ -2302,9 +2302,9 @@ char_type Map_0x370::sub_4E4630(Fix16 zpos_f16)
     bool bUnk = !!(zpos_f16.GetFracValue() != kFpZero_6F610C);
     char_type v12 = 0;
 
-    for (s32 ypos = gPurple_top_6F6108; ypos <= gPurple_bottom_6F5F38; ypos++)
+    for (s32 ypos = gSpriteGrid_top_6F6108; ypos <= gSpriteGrid_bottom_6F5F38; ypos++)
     {
-        for (s32 xpos = gPurple_left_6F5FD4; xpos <= gPurple_right_6F5B80; xpos++)
+        for (s32 xpos = gSpriteGrid_left_6F5FD4; xpos <= gSpriteGrid_right_6F5B80; xpos++)
         {
             gmp_block_info* pBlock = Map_0x370::get_block_4DFE10(xpos, ypos, zpos);
             gBlockInfo0_6F5EB0 = pBlock;
@@ -2346,9 +2346,9 @@ bool Map_0x370::sub_4E4770(Fix16 z_pos)
     bool flag2 = false;
     bool flag1 = false;
 
-    for (s32 y_pos = gPurple_top_6F6108; y_pos <= gPurple_bottom_6F5F38; y_pos++)
+    for (s32 y_pos = gSpriteGrid_top_6F6108; y_pos <= gSpriteGrid_bottom_6F5F38; y_pos++)
     {
-        for (s32 x_pos = gPurple_left_6F5FD4; x_pos <= gPurple_right_6F5B80; x_pos++)
+        for (s32 x_pos = gSpriteGrid_left_6F5FD4; x_pos <= gSpriteGrid_right_6F5B80; x_pos++)
         {
             gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x_pos, y_pos, z);
 

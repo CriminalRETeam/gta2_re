@@ -2,7 +2,7 @@
 #include "map_0x370.hpp"
 #include "Object_5C.hpp"
 #include "Phi_8CA8.hpp"
-#include "PurpleDoom.hpp"
+#include "SpriteGrid_400.hpp"
 #include "rng.hpp"
 #include "sprite.hpp"
 #include "Explosion_30.hpp"
@@ -68,7 +68,7 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
     Fix16 off_y;
     Fix16_Point vector(Fix16(0), Fix16(0));
     Fix16 new_z = dword_6FD45C + field_30_pNext->field_1C_zpos;
-    gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
+    gSpriteGrid_3_679210->Remove_477B00(field_30_pNext);
     if (field_2C_counter == 0)
     {
         return true;
@@ -180,7 +180,7 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
         }
     }
 
-    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
+    gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
     return false;
 }
 
@@ -194,7 +194,7 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
     char_type bJitter = 1;
     Fix16_Point dir(Fix16(0), Fix16(0));
 
-    gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
+    gSpriteGrid_3_679210->Remove_477B00(field_30_pNext);
     if (field_2C_counter == 0)
     {
         return true;
@@ -354,7 +354,7 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
     {
         field_30_pNext->ResolveZOrder_5A1B30(field_40_pExplosion->field_14_pObj2C->field_4);
     }
-    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
+    gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
 
     if (++field_46_sub_state > 8)
     {
@@ -366,7 +366,7 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
 MATCH_FUNC(0x538a40)
 char_type Particle_4C::UpdateBeamSegment_state_43_538A40()
 {
-    gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
+    gSpriteGrid_3_679210->Remove_477B00(this->field_30_pNext);
 
     this->field_46_sub_state++;
     if (field_46_sub_state > 7u)
@@ -378,7 +378,7 @@ char_type Particle_4C::UpdateBeamSegment_state_43_538A40()
 
     this->field_30_pNext->SetFlags_4337D0(2, 20);
     this->field_30_pNext->Set_2C_0x4_Flag_4337F0();
-    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
+    gSpriteGrid_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
     return 0;
 }
 
@@ -422,7 +422,7 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
     Fix16_Point cur;
     Fix16_Point prev;
     Fix16_Point mid;
-    gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
+    gSpriteGrid_3_679210->Remove_477B00(field_30_pNext);
     if (field_46_sub_state != 6 && field_28_pSprite->get_type_416B40() == sprite_types_enum::code_obj1_4)
     {
         src.SetXY_432860(field_30_pNext->field_14_xy.x, field_30_pNext->field_14_xy.y);
@@ -456,7 +456,7 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
                     pSegment->field_30_pNext->set_xyz_lazy_420600(mid.x, mid.y, field_30_pNext->field_1C_zpos);
                     pSegment->field_30_pNext->SetFlags_4337D0(2, 20);
                     pSegment->field_30_pNext->Set_2C_0x4_Flag_4337F0();
-                    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pSegment->field_30_pNext);
+                    gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pSegment->field_30_pNext);
                 }
                 prev = cur;
             }
@@ -499,7 +499,7 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
             field_30_pNext->SetFlags_4337D0(2, 20);
             field_30_pNext->Set_2C_0x4_Flag_4337F0();
             field_30_pNext->set_xyz_lazy_420600(dst.x, dst.y, field_30_pNext->field_1C_zpos);
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
             return 0;
         }
     }
@@ -516,7 +516,7 @@ char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
     Fix16_Point dir(Fix16(0), Fix16(0));
 
     ++field_46_sub_state;
-    gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
+    gSpriteGrid_3_679210->Remove_477B00(field_30_pNext);
     if (field_46_sub_state != 16 && field_2C_counter != 0)
     {
         if (field_40_pExplosion)
@@ -608,7 +608,7 @@ char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
             {
                 field_30_pNext->ResolveZOrder_5A1B30(field_40_pExplosion->field_14_pObj2C->field_4);
             }
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
             return 0;
         }
     }
@@ -625,7 +625,7 @@ char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
     Fix16_Point dir(Fix16(0), Fix16(0));
 
     ++field_46_sub_state;
-    gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
+    gSpriteGrid_3_679210->Remove_477B00(field_30_pNext);
     if (field_46_sub_state != 16 && field_2C_counter != 0)
     {
         if (field_40_pExplosion)
@@ -716,7 +716,7 @@ char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
             {
                 field_30_pNext->ResolveZOrder_5A1B30(field_40_pExplosion->field_14_pObj2C->field_4);
             }
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
             return 0;
         }
     }
@@ -731,7 +731,7 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
     Fix16 jitter_y;
     Fix16_Point dir(Fix16(0), Fix16(0));
 
-    gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
+    gSpriteGrid_3_679210->Remove_477B00(field_30_pNext);
     if (field_2C_counter == 0)
     {
         return true;
@@ -860,7 +860,7 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
                     pSmoke->field_30_pNext->set_xyz_lazy_420600(field_30_pNext->field_14_xy.x,
                                                                 field_30_pNext->field_14_xy.y,
                                                                 field_30_pNext->field_1C_zpos);
-                    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pSmoke->field_30_pNext);
+                    gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pSmoke->field_30_pNext);
                 }
             }
             break;
@@ -909,7 +909,7 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
 
     field_30_pNext->field_2C_flags = 0xA2;
     field_30_pNext->Set_2C_0x4_Flag_4337F0();
-    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
+    gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
 
     if (++field_46_sub_state > 8)
     {
@@ -921,7 +921,7 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
 MATCH_FUNC(0x53a180)
 char_type Particle_4C::UpdateStaticAnim_state_39_53A180()
 {
-    gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
+    gSpriteGrid_3_679210->Remove_477B00(this->field_30_pNext);
 
     if (this->field_2C_counter == 0)
     {
@@ -943,7 +943,7 @@ char_type Particle_4C::UpdateStaticAnim_state_39_53A180()
     }
 
     field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + this->field_46_sub_state + 191);
-    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
+    gSpriteGrid_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
     return 0;
 }
 
@@ -953,7 +953,7 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
 {
     Fix16_Point corner;
 
-    gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
+    gSpriteGrid_3_679210->Remove_477B00(field_30_pNext);
     // The original enters EH state 2 right after Remove_477B00: two more points, one unused
     Fix16_Point pos;
     Fix16_Point offset;
@@ -1022,7 +1022,7 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
         field_30_pNext->set_ang_lazy_420690(field_28_pSprite->field_0);
         field_30_pNext->set_xyz_lazy_420600(corner.x, corner.y, field_28_pSprite->field_1C_zpos);
         field_30_pNext->Set_2C_0x4_Flag_4337F0();
-        gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
+        gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
         return 0;
     }
     else
@@ -1057,7 +1057,7 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
                                             field_28_pSprite->field_14_xy.y + offset.y,
                                             field_28_pSprite->field_1C_zpos);
         field_30_pNext->Set_2C_0x4_Flag_4337F0();
-        gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
+        gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
         return 0;
     }
 }
@@ -1079,7 +1079,7 @@ char_type Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
     Fix16_Point point2(Fix16(0), Fix16(0));
     Fix16 new_z;
 
-    gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
+    gSpriteGrid_3_679210->Remove_477B00(this->field_30_pNext);
 
     if (!field_2C_counter)
     {
@@ -1108,7 +1108,7 @@ char_type Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
 
     this->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, new_z);
 
-    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
+    gSpriteGrid_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
 
     return 0;
 }
@@ -1122,7 +1122,7 @@ char_type Particle_4C::UpdateLargeBallisticDebris_state_35_53AE60()
     Fix16_Point point2(Fix16(0), Fix16(0));
 
     ++field_46_sub_state;
-    gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
+    gSpriteGrid_3_679210->Remove_477B00(field_30_pNext);
     if (field_46_sub_state == 15)
     {
         return true;
@@ -1150,7 +1150,7 @@ char_type Particle_4C::UpdateLargeBallisticDebris_state_35_53AE60()
     }
     field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 131);
     field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, zpos);
-    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
+    gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
     field_30_pNext->field_2C_flags = 0xA2;
     return 0;
 }
@@ -1170,7 +1170,7 @@ bool Particle_4C::UpdateDebrisArc_state_7_53B1A0()
     Fix16 y = kFP16Zero_6FD49C;
     Fix16_Point point2(Fix16(0), Fix16(0));
 
-    gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
+    gSpriteGrid_3_679210->Remove_477B00(field_30_pNext);
     if (!field_2C_counter)
     {
         return true;
@@ -1217,7 +1217,7 @@ bool Particle_4C::UpdateDebrisArc_state_7_53B1A0()
         zpos = dword_6FD28C;
     }
     field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, zpos);
-    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
+    gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
     return false;
 }
 
@@ -1225,7 +1225,7 @@ bool Particle_4C::UpdateDebrisArc_state_7_53B1A0()
 MATCH_FUNC(0x53b580)
 char_type Particle_4C::UpdateShortAnim_state_37_53B580()
 {
-    gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
+    gSpriteGrid_3_679210->Remove_477B00(this->field_30_pNext);
 
     field_46_sub_state++;
 
@@ -1246,14 +1246,14 @@ char_type Particle_4C::UpdateShortAnim_state_37_53B580()
     }
 
     this->field_30_pNext->Set_2C_0x4_Flag_4337F0();
-    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
+    gSpriteGrid_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
     return 0;
 }
 
 MATCH_FUNC(0x53b670)
 char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
 {
-    gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
+    gSpriteGrid_3_679210->Remove_477B00(field_30_pNext);
     if (field_2C_counter == 0)
     {
         return true;
@@ -1335,7 +1335,7 @@ char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
         zpos = dword_6FD28C;
     }
     field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, zpos);
-    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
+    gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
     return 0;
 }
 
@@ -1346,7 +1346,7 @@ char_type Particle_4C::UpdateBurstAnimation_state_29_30_53B9F0()
     u8 idx;
 
     ++field_46_sub_state;
-    gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
+    gSpriteGrid_3_679210->Remove_477B00(field_30_pNext);
     if (field_46_sub_state > 25)
     {
         return true;
@@ -1380,7 +1380,7 @@ char_type Particle_4C::UpdateBurstAnimation_state_29_30_53B9F0()
     }
 
     field_30_pNext->set_id_4206E0(idx + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 37);
-    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
+    gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
     field_30_pNext->SetFlags_4337D0(2, 10);
     field_30_pNext->Set_2C_0x4_Flag_4337F0();
     field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16One_6FD4A0 + scale_related * Fix16(field_46_sub_state), 0);
@@ -1421,7 +1421,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
     Fix16_Point vel;
     Ang16 angle = 0;
 
-    gPurpleDoom_3_679210->Remove_477B00(field_30_pNext);
+    gSpriteGrid_3_679210->Remove_477B00(field_30_pNext);
     if (field_2C_counter == 0)
     {
         return true;
@@ -1636,7 +1636,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
             field_46_sub_state = 10;
         }
     }
-    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
+    gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
     return 0;
 }
 
@@ -1668,7 +1668,7 @@ char_type Particle_4C::PoolUpdate()
                     this->field_48_timer = 1;
                 }
 
-                gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
+                gSpriteGrid_3_679210->Remove_477B00(this->field_30_pNext);
                 if (field_46_sub_state > 15u)
                 {
                     return 1;
@@ -1682,7 +1682,7 @@ char_type Particle_4C::PoolUpdate()
                                                         field_30_pNext->field_1C_zpos + dword_6FD2E8);
                 }
 
-                gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
+                gSpriteGrid_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
                 if (this->field_46_sub_state == 2)
                 {
                     this->field_30_pNext->field_2C_flags = 0xA2; // sub_4337D0
@@ -1711,7 +1711,7 @@ char_type Particle_4C::PoolUpdate()
                     this->field_48_timer = 1;
                 }
 
-                gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
+                gSpriteGrid_3_679210->Remove_477B00(this->field_30_pNext);
                 if (field_46_sub_state > 15u)
                 {
                     return 1;
@@ -1724,7 +1724,7 @@ char_type Particle_4C::PoolUpdate()
                     field_30_pNext->set_xyz_lazy_420600(field_30_pNext->field_14_xy.x, field_30_pNext->field_14_xy.y, field_30_pNext->field_1C_zpos + dword_6FD2E8);
                 }
 
-                gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
+                gSpriteGrid_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
                 if (this->field_46_sub_state == 2)
                 {
                     this->field_30_pNext->field_2C_flags = 0xA2;
@@ -1753,7 +1753,7 @@ char_type Particle_4C::PoolUpdate()
                     this->field_48_timer = 1;
                 }
 
-                gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
+                gSpriteGrid_3_679210->Remove_477B00(this->field_30_pNext);
                 if (field_46_sub_state > 15u)
                 {
                     return 1;
@@ -1768,7 +1768,7 @@ char_type Particle_4C::PoolUpdate()
                                                         field_30_pNext->field_1C_zpos + dword_6FD2E8);
                 }
 
-                gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
+                gSpriteGrid_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
                 if (this->field_46_sub_state == 2)
                 {
                     this->field_30_pNext->field_2C_flags = -94;
@@ -1790,7 +1790,7 @@ char_type Particle_4C::PoolUpdate()
                 return false;
             }
 
-            gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
+            gSpriteGrid_3_679210->Remove_477B00(this->field_30_pNext);
             this->field_48_timer = 1;
             this->field_46_sub_state++;
             if (field_46_sub_state > 0xCu)
@@ -1821,7 +1821,7 @@ char_type Particle_4C::PoolUpdate()
                 field_30_pNext->set_z_lazy_420660(dword_6FD28C);
             }
 
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
             field_30_pNext->field_2C_flags = 82;
             field_30_pNext->field_2C_flags |= 4u;
             return false;
@@ -1867,13 +1867,13 @@ char_type Particle_4C::PoolUpdate()
             return true;
 
         case 25:
-            gPurpleDoom_3_679210->Remove_477B00(this->field_30_pNext);
+            gSpriteGrid_3_679210->Remove_477B00(this->field_30_pNext);
             if (!this->field_2C_counter)
             {
                 return true;
             }
             field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette);
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
             field_30_pNext->field_2C_flags |= 4u;
             return false;
 

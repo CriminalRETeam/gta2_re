@@ -5,7 +5,7 @@
 #include "Particle_4C.hpp"
 #include "Phi_8CA8.hpp"
 #include "Pool.hpp"
-#include "PurpleDoom.hpp"
+#include "SpriteGrid_400.hpp"
 #include "debug.hpp"
 #include "enums.hpp"
 #include "error.hpp"
@@ -142,7 +142,7 @@ void Particle_8::EmitBloodBurst_53E450(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
                 pBloodParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
                 pBloodParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 16);
                 pBloodParticle->field_30_pNext->set_xyz_lazy_420600(x, y, z);
-                gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pBloodParticle->field_30_pNext);
+                gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pBloodParticle->field_30_pNext);
             }
         }
     }
@@ -165,7 +165,7 @@ void Particle_8::SpawnBlood_53E880(Fix16 xpos, Fix16 ypos, Fix16 zpos)
         pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 191);
         pNew4C->field_30_pNext->set_xyz_lazy_420600(xpos, ypos, zpos);
         pNew4C->field_30_pNext->set_num_40F7B0(2);
-        gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+        gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
     }
 }
 
@@ -211,7 +211,7 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
             pParticle->field_28_pSprite = a2;
             pParticle->field_30_pNext->set_ang_lazy_420690(a2->field_0);
             pParticle->field_30_pNext->set_xyz_lazy_420600(corner_1.x, corner_1.y, a2->field_1C_zpos);
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
             pParticle->field_30_pNext->field_2C_flags |= 4;
         }
 
@@ -269,7 +269,7 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
         pParticle->field_30_pNext->set_xyz_lazy_420600(a2->field_14_xy.x + offset.x, a2->field_14_xy.y + offset.y, zpos);
         pParticle->field_28_pSprite = a2;
     }
-    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+    gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
     // 9.6f: Sprite::Set_2C_0x4_Flag_4337F0 here and above (inlined, using it in both places makes the diff worse)
     pParticle->field_30_pNext->field_2C_flags |= 4;
 }
@@ -326,7 +326,7 @@ void Particle_8::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang1
                 pWaterSplashParticle->field_46_sub_state = 0;
                 pWaterSplashParticle->field_48_timer = 6;
                 pWaterSplashParticle->field_30_pNext->set_xyz_lazy_420600(xpos, ypos, zpos);
-                gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pWaterSplashParticle->field_30_pNext);
+                gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pWaterSplashParticle->field_30_pNext);
             }
         }
     }
@@ -411,7 +411,7 @@ void Particle_8::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
             {
                 pParticle->field_2C_counter = 0;
             }
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_28_pSprite);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_28_pSprite);
             pParticle->field_30_pNext->field_2C_flags |= 4;
         }
     }
@@ -474,7 +474,7 @@ void Particle_8::EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite)
             {
                 pParticle->field_2C_counter = 0;
             }
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
             pParticle->field_30_pNext->field_2C_flags |= 4;
         }
     }
@@ -528,7 +528,7 @@ void Particle_8::EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16_Poi
             pNew4C->field_30_pNext->set_xyz_lazy_420600(x, y, z);
             pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
 
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
         }
     }
 }
@@ -571,7 +571,7 @@ void Particle_8::EmitElectricArcParticle(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang
             pNew4C->field_30_pNext->set_id_lazy_4206C0(gRng_6F6784.get_int_4F7AE0(4) + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 175);
             pNew4C->field_30_pNext->SetFlags_4337D0(2, 20);
             pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
         }
     }
 }
@@ -595,7 +595,7 @@ void Particle_8::SpawnParticleSprite_5405D0(Sprite* pSprite)
             pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
             pNew4C->field_30_pNext->set_xyz_lazy_420600(pSprite->field_14_xy.x, pSprite->field_14_xy.y, pSprite->field_1C_zpos);
 
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
         }
     }
 }
@@ -653,7 +653,7 @@ void Particle_8::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type bUnkn
             pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, pSprite->field_1C_zpos);
             pNew4C->field_28_pSprite = pSprite;
 
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
 
             if (bUnknown)
             {

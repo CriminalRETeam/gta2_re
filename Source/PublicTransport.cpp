@@ -11,7 +11,7 @@
 #include "CarPhysics_B0.hpp"
 #include "Object_5C.hpp"
 #include "Player.hpp"
-#include "PurpleDoom.hpp"
+#include "SpriteGrid_400.hpp"
 
 DEFINE_GLOBAL(PublicTransport_181C*, gPublicTransport_181C_6FF1D4, 0x6FF1D4);
 DEFINE_GLOBAL(TrainStationList, gTrainStationList_6FEE68, 0x6FEE68);
@@ -1450,7 +1450,7 @@ void PublicTransport_181C::BusesService_579CA0()
                         default:
                             break;
                     }
-                    gPurpleDoom_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_17C0_bus.field_C_carriages[0]->field_50_car_sprite);
+                    gSpriteGrid_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_17C0_bus.field_C_carriages[0]->field_50_car_sprite);
                 }
             }
         }

@@ -13,7 +13,7 @@
 #include "Orca_2FD4.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
-#include "PurpleDoom.hpp"
+#include "SpriteGrid_400.hpp"
 #include "CollisionSoundQueue_C88.hpp"
 #include "char.hpp"
 #include "crt_stubs.hpp"
@@ -748,7 +748,7 @@ Sprite* Sprite::QuerySpriteCollision_59E7D0(s32 a2)
     {
         return gCollisionTarget_679188.field_20_pHitSprite;
     }
-    result = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this, a2);
+    result = gSpriteGrid_1_679208->FindNearestSpriteOfType_477E60(this, a2);
     if (result)
     {
         gCollisionTarget_679188.SetSprite_40FEE0(result);
@@ -1432,24 +1432,24 @@ bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect)
 // 9.6f 0x4B9F80: clamp the current rect to the map
 static inline void ClampPurpleRectToMap_4B9F80()
 {
-    if (gPurple_left_6F5FD4 < 0)
+    if (gSpriteGrid_left_6F5FD4 < 0)
     {
-        gPurple_left_6F5FD4 = 0;
+        gSpriteGrid_left_6F5FD4 = 0;
     }
 
-    if (gPurple_right_6F5B80 > 255)
+    if (gSpriteGrid_right_6F5B80 > 255)
     {
-        gPurple_right_6F5B80 = 255;
+        gSpriteGrid_right_6F5B80 = 255;
     }
 
-    if (gPurple_top_6F6108 < 0)
+    if (gSpriteGrid_top_6F6108 < 0)
     {
-        gPurple_top_6F6108 = 0;
+        gSpriteGrid_top_6F6108 = 0;
     }
 
-    if (gPurple_bottom_6F5F38 > 255)
+    if (gSpriteGrid_bottom_6F5F38 > 255)
     {
-        gPurple_bottom_6F5F38 = 255;
+        gSpriteGrid_bottom_6F5F38 = 255;
     }
 }
 
@@ -2239,7 +2239,7 @@ void Sprite::ResolveCollisionWithCarPedOrObject_5A2A30()
 {
     struct_4 collisions;
     collisions.field_0_p18 = 0;
-    gPurpleDoom_1_679208->CollectRectCollisions_477F30(&field_C_sprite_4c_ptr->field_30_boundingBox, 0, 0, this, &collisions);
+    gSpriteGrid_1_679208->CollectRectCollisions_477F30(&field_C_sprite_4c_ptr->field_30_boundingBox, 0, 0, this, &collisions);
     for (Sprite_18* pCollisionIter = collisions.field_0_p18; pCollisionIter; pCollisionIter = pCollisionIter->mpNext)
     {
         Sprite* pCurrent = pCollisionIter->field_0;
@@ -2256,9 +2256,9 @@ void Sprite::ResolveCollisionWithCarPedOrObject_5A2A30()
                 // car shoving / overlap resolution ?
                 if (gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &x, &y, &z, 1))
                 {
-                    gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(pCurrent);
+                    gSpriteGrid_1_679208->AddToSpriteRectBuckets_477B60(pCurrent);
                     pIterCar->SnapCarToGreenArrow_444E40(x, y, z);
-                    gPurpleDoom_1_679208->AddToRegionBuckets_477B20(pCurrent);
+                    gSpriteGrid_1_679208->AddToRegionBuckets_477B20(pCurrent);
                 }
             }
         }

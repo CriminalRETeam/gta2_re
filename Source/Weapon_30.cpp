@@ -32,7 +32,7 @@ EXTERN_GLOBAL(Fix16, dword_706CC8);
 #include "Fix16_Rect.hpp"
 #include "rng.hpp"
 #include "frosty_pasteur_0xC1EA8.hpp"
-#include "PurpleDoom.hpp"
+#include "SpriteGrid_400.hpp"
 
 DEFINE_GLOBAL_INIT(Fix16, kFP16Quarter_706CF4, Fix16(0x1000, 0), 0x706CF4);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Two_706EC0, Fix16(0x8000, 0), 0x706EC0);
@@ -959,7 +959,7 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
     Fix16_Rect rect;
     rect.ComputeCollisionPrism_4204D0(xpos, ypos, a2, zpos);
 
-    if (gPurpleDoom_1_679208->CollectRectCollisions_477F30(&rect, 0, 0, a1, &hits))
+    if (gSpriteGrid_1_679208->CollectRectCollisions_477F30(&rect, 0, 0, a1, &hits))
     {
         Sprite* pHit;
         if (a6)
@@ -1133,7 +1133,7 @@ void Weapon_30::sub_5DFB60(u8 a2, Sprite* a3, Ang16 a4)
     // The original copies the returned point through the return pointer, as a struct assignment
     reinterpret_cast<Fix16_Point&>(stru_706E58) = field_24_pPed->GetVelocityVector_45B520();
 
-    if (gPurpleDoom_1_679208->CollectRectCollisions_477F30(&rect, 0, 0, a3, &hits) && hits.field_0_p18)
+    if (gSpriteGrid_1_679208->CollectRectCollisions_477F30(&rect, 0, 0, a3, &hits) && hits.field_0_p18)
     {
         do
         {

@@ -15,7 +15,7 @@
 #include "Object_8_Pool.hpp"
 #include "Particle_8.hpp"
 #include "Phi_8CA8.hpp"
-#include "PurpleDoom.hpp"
+#include "SpriteGrid_400.hpp"
 #include "CollisionSoundQueue_C88.hpp"
 #include "TrafficLights_194.hpp"
 #include "PedRefTable_7F8.hpp"
@@ -1514,7 +1514,7 @@ char Object_2C::ShouldCollideWithSprite_525370(Sprite* pSprite)
             }
             // Fall through
         default:
-            if (gCollide_C_6791FC->field_8_bUnknown == 1)
+            if (gCollisionCounters_6791FC->field_8_bUnknown == 1)
             {
                 if (sub_482C90())
                 {
@@ -1688,8 +1688,8 @@ EXPORT void Object_2C::CheckCollisionForModel_139_And_141_525AE0()
     {
         case objects::conveyor_139:
         case objects::destructor_141:
-            gPurpleDoom_1_679208->CheckAndHandleCollisionInStrips_477BD0(field_4);
-            gPurpleDoom_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_4);
+            gSpriteGrid_1_679208->CheckAndHandleCollisionInStrips_477BD0(field_4);
+            gSpriteGrid_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_4);
             break;
         default:
             break;
@@ -2075,7 +2075,7 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
 
     if (field_8->field_34_behavior_type != object_behavior_type::light_type_11)
     {
-        gPurpleDoom_3_679210->Remove_477B00(field_4);
+        gSpriteGrid_3_679210->Remove_477B00(field_4);
     }
 
     PoolTake_522360();
@@ -2168,7 +2168,7 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
 
         if (field_8->field_34_behavior_type != object_behavior_type::light_type_11)
         {
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_4);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_4);
         }
         byte_6F8C68 = 0;
         return 0;
@@ -2223,14 +2223,14 @@ void Object_2C::AssignToBucket_527AE0()
     {
         case collision_bucket_category::purple_doom_3_single_bucket_0:
         case collision_bucket_category::purple_doom_3_single_bucket_1:
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_4);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_4);
             return;
         case collision_bucket_category::purple_doom_2_region_bucket_3:
             dword_6F8F88++;
-            gPurpleDoom_2_67920C->AddToRegionBuckets_477B20(field_4);
+            gSpriteGrid_2_67920C->AddToRegionBuckets_477B20(field_4);
             return;
         case collision_bucket_category::purple_doom_1_region_bucket_4:
-            gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_4);
+            gSpriteGrid_1_679208->AddToRegionBuckets_477B20(field_4);
             return;
         case collision_bucket_category::purple_doom_none_2:
             return;
@@ -2244,14 +2244,14 @@ void Object_2C::RemoveFromCollisionBuckets_527D00()
     {
         case collision_bucket_category::purple_doom_3_single_bucket_0:
         case collision_bucket_category::purple_doom_3_single_bucket_1:
-            gPurpleDoom_3_679210->Remove_477B00(field_4);
+            gSpriteGrid_3_679210->Remove_477B00(field_4);
             break;
         case collision_bucket_category::purple_doom_2_region_bucket_3:
             --dword_6F8F88;
-            gPurpleDoom_2_67920C->AddToSpriteRectBuckets_477B60(field_4);
+            gSpriteGrid_2_67920C->AddToSpriteRectBuckets_477B60(field_4);
             break;
         case collision_bucket_category::purple_doom_1_region_bucket_4:
-            gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_4);
+            gSpriteGrid_1_679208->AddToSpriteRectBuckets_477B60(field_4);
             break;
         default:
             return;
@@ -3401,7 +3401,7 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
     if (bUnknown &&
         (pNew2C->field_4->QuerySpriteCollision_59E7D0(0) ||
          (pPhi->field_40_collision_bucket_category == collision_bucket_category::purple_doom_2_region_bucket_3 &&
-          gPurpleDoom_2_67920C->FindNearestSpriteOfType_477E60(pNew2C->field_4, 0))))
+          gSpriteGrid_2_67920C->FindNearestSpriteOfType_477E60(pNew2C->field_4, 0))))
     {
         if (pNew2C->field_20_pool_list_state == 1) // 154: ~> cmpl    $0x1,0x0(%ebp)
         {
@@ -3727,7 +3727,7 @@ void Object_5C::RemoveAndFree_52A610(Object_2C* p2C)
 {
     if (p2C->field_8->field_34_behavior_type != 11)
     {
-        gPurpleDoom_3_679210->Remove_477B00(p2C->field_4);
+        gSpriteGrid_3_679210->Remove_477B00(p2C->field_4);
     }
     gObject_2C_Pool_6F8F80->DeAllocate(p2C);
 }
@@ -3753,7 +3753,7 @@ void Object_2C::ReactivateObjectAfterImpact_52A6D0(Sprite* pSprite)
 
     if (field_8->field_34_behavior_type != 11)
     {
-        gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_4);
+        gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_4);
     }
 
     PoolTake_522360();

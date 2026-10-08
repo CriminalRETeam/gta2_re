@@ -12,7 +12,7 @@
 #include "Object_5C.hpp"
 #include "Particle_8.hpp"
 #include "Player.hpp"
-#include "PurpleDoom.hpp"
+#include "SpriteGrid_400.hpp"
 #include "CollisionSoundQueue_C88.hpp"
 #include "debug.hpp"
 #include "error.hpp"
@@ -1149,7 +1149,7 @@ void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 a2)
         gCar_6C_677930->field_60 = 2;
         gCar_6C_677930->field_64_zpos = kFP16Zero_6FE20C;
 
-        gPurpleDoom_1_679208->CheckAndHandleAllCollisionsForSprite_477C30(field_5C_pCar->field_50_car_sprite, sprite_types_enum::car_2);
+        gSpriteGrid_1_679208->CheckAndHandleAllCollisionsForSprite_477C30(field_5C_pCar->field_50_car_sprite, sprite_types_enum::car_2);
 
         gCar_6C_677930->field_64_zpos += dword_6FDFD8;
         if (gCar_6C_677930->field_64_zpos > zpos)
@@ -1986,11 +1986,11 @@ char_type CarPhysics_B0::CheckAndHandleCarAndTrailerCollisions_55EB80()
 {
     gCar_6C_677930->field_68 = 0;
 
-    char_type bCollision = gPurpleDoom_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_5C_pCar->field_50_car_sprite);
+    char_type bCollision = gSpriteGrid_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_5C_pCar->field_50_car_sprite);
     Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
     if (pTrailer)
     {
-        bCollision |= gPurpleDoom_2_67920C->CheckAndHandleCollisionInStrips_477BD0(pTrailer->field_C_pCarOnTrailer->field_50_car_sprite);
+        bCollision |= gSpriteGrid_2_67920C->CheckAndHandleCollisionInStrips_477BD0(pTrailer->field_C_pCarOnTrailer->field_50_car_sprite);
     }
 
     return bCollision;
@@ -2207,7 +2207,7 @@ char_type CarPhysics_B0::CheckPendingCollision_55F360()
     if ((this->field_5C_pCar->field_78_flags & 0x2000) != 0)
     {
         gCar_6C_677930->field_60 = 1;
-        if (gPurpleDoom_1_679208->CheckAndHandleAllCollisionsForSprite_477C30(field_5C_pCar->field_50_car_sprite, 2))
+        if (gSpriteGrid_1_679208->CheckAndHandleAllCollisionsForSprite_477C30(field_5C_pCar->field_50_car_sprite, 2))
         {
             return 1;
         }

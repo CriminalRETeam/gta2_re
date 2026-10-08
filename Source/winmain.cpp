@@ -313,7 +313,7 @@ void force_link()
     Hamburger_500 hamburger_500;
     hamburger_500.FreeEntry_474CC0(0);
 
-    Collide_C collide_C;
+    CollisionCounters_C collide_C;
 
     Fix16_Rect car14_18;
     car14_18.DoSetCurrentRect_59DD60();

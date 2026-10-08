@@ -2986,7 +2986,7 @@
         "v105_address": "0x46efd0"
     },
     {
-        "name": "PurpleDoom::Empty_478A10",
+        "name": "SpriteGrid_400::Empty_478A10",
         "v96f_address": null,
         "v105_address": "0x478a10"
     },
@@ -4766,191 +4766,191 @@
         "v105_address": "0x477a10"
     },
     {
-        "name": "PurpleDoom::DrawSpritesClipped_477A40",
+        "name": "SpriteGrid_400::DrawSpritesClipped_477A40",
         "v96f_address": null,
         "v105_address": "0x477a40"
     },
     {
-        "name": "PurpleDoom::AddToSingleBucket_477AE0",
+        "name": "SpriteGrid_400::AddToSingleBucket_477AE0",
         "v96f_address": "0x447ba0",
         "v105_address": "0x477ae0"
     },
     {
-        "name": "PurpleDoom::Remove_477B00",
+        "name": "SpriteGrid_400::Remove_477B00",
         "v96f_address": "0x447bd0",
         "v105_address": "0x477b00"
     },
     {
-        "name": "PurpleDoom::AddToRegionBuckets_477B20",
+        "name": "SpriteGrid_400::AddToRegionBuckets_477B20",
         "v96f_address": "0x447c00",
         "v105_address": "0x477b20"
     },
     {
-        "name": "PurpleDoom::AddToSpriteRectBuckets_477B60",
+        "name": "SpriteGrid_400::AddToSpriteRectBuckets_477B60",
         "v96f_address": "0x447c40",
         "v105_address": "0x477b60",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::DebugLogAll_477BA0",
+        "name": "SpriteGrid_400::DebugLogAll_477BA0",
         "v96f_address": null,
         "v105_address": "0x477ba0"
     },
     {
-        "name": "PurpleDoom::CheckAndHandleCollisionInStrips_477BD0",
+        "name": "SpriteGrid_400::CheckAndHandleCollisionInStrips_477BD0",
         "v96f_address": "0x447480",
         "v105_address": "0x477bd0"
     },
     {
-        "name": "PurpleDoom::CheckAndHandleAllCollisionsForSprite_477C30",
+        "name": "SpriteGrid_400::CheckAndHandleAllCollisionsForSprite_477C30",
         "v96f_address": "0x4474e0",
         "v105_address": "0x477c30",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::FindNearestSprite_SpiralSearch_477C90",
+        "name": "SpriteGrid_400::FindNearestSprite_SpiralSearch_477C90",
         "v96f_address": "0x447540",
         "v105_address": "0x477c90",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::SetSpriteToExclude_477E50",
+        "name": "SpriteGrid_400::SetSpriteToExclude_477E50",
         "v96f_address": "0x446730",
         "v105_address": "0x477e50",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::FindNearestSpriteOfType_477E60",
+        "name": "SpriteGrid_400::FindNearestSpriteOfType_477E60",
         "v96f_address": "0x447740",
         "v105_address": "0x477e60",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::CollectRectCollisions_477F30",
+        "name": "SpriteGrid_400::CollectRectCollisions_477F30",
         "v96f_address": "0x447c80",
         "v105_address": "0x477f30",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::CheckRectForCollisions_477F60",
+        "name": "SpriteGrid_400::CheckRectForCollisions_477F60",
         "v96f_address": "0x4477b0",
         "v105_address": "0x477f60",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::ctor",
+        "name": "SpriteGrid_400::ctor",
         "v96f_address": "0x446b60",
         "v105_address": "0x478040",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::dtor",
+        "name": "SpriteGrid_400::dtor",
         "v96f_address": null,
         "v105_address": "0x478050"
     },
     {
-        "name": "PurpleDoom::CheckTileSpritesForClosestMatch_478060",
+        "name": "SpriteGrid_400::CheckTileSpritesForClosestMatch_478060",
         "v96f_address": "0x446b80",
         "v105_address": "0x478060",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::SearchTileColumnForClosestSprite_478160",
+        "name": "SpriteGrid_400::SearchTileColumnForClosestSprite_478160",
         "v96f_address": "0x446cb0",
         "v105_address": "0x478160",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::SearchTileStripForClosestSprite_4781E0",
+        "name": "SpriteGrid_400::SearchTileStripForClosestSprite_4781E0",
         "v96f_address": "0x446d00",
         "v105_address": "0x4781e0",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::AddToDrawList_478240",
+        "name": "SpriteGrid_400::AddToDrawList_478240",
         "v96f_address": "0x446d60",
         "v105_address": "0x478240",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::DoRemove_4782C0",
+        "name": "SpriteGrid_400::DoRemove_4782C0",
         "v96f_address": "0x447850",
         "v105_address": "0x4782c0"
     },
     {
-        "name": "PurpleDoom::AddToColumnBuckets_478370",
+        "name": "SpriteGrid_400::AddToColumnBuckets_478370",
         "v96f_address": "0x447900",
         "v105_address": "0x478370",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::AddToSingleBucket_478440",
+        "name": "SpriteGrid_400::AddToSingleBucket_478440",
         "v96f_address": "0x4479d0",
         "v105_address": "0x478440",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::AddToRowBuckets_4784D0",
+        "name": "SpriteGrid_400::AddToRowBuckets_4784D0",
         "v96f_address": "0x447a60",
         "v105_address": "0x4784d0",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::GetFirstXCellInRow_478590",
+        "name": "SpriteGrid_400::GetFirstXCellInRow_478590",
         "v96f_address": "0x446740",
         "v105_address": "0x478590",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::CheckRowForRectCollisions_4785D0",
+        "name": "SpriteGrid_400::CheckRowForRectCollisions_4785D0",
         "v96f_address": "0x446de0",
         "v105_address": "0x4785d0",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::CheckAndHandleCollisionsInStrip_478750",
+        "name": "SpriteGrid_400::CheckAndHandleCollisionsInStrip_478750",
         "v96f_address": "0x446f30",
         "v105_address": "0x478750",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::CheckAndHandleRowCollisionsForSprite_4787E0",
+        "name": "SpriteGrid_400::CheckAndHandleRowCollisionsForSprite_4787E0",
         "v96f_address": "0x446fd0",
         "v105_address": "0x4787e0",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::FindNearestSpriteInRow_478880",
+        "name": "SpriteGrid_400::FindNearestSpriteInRow_478880",
         "v96f_address": "0x4470b0",
         "v105_address": "0x478880",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::DebugLog_478950",
+        "name": "SpriteGrid_400::DebugLog_478950",
         "v96f_address": "0x446780",
         "v105_address": "0x478950",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::Clear_4789F0",
+        "name": "SpriteGrid_400::Clear_4789F0",
         "v96f_address": "0x446860",
         "v105_address": "0x4789f0",
         "v96f_auto": true
     },
     {
-        "name": "Collide_C::ResetCount_478A20",
+        "name": "CollisionCounters_C::ResetCount_478A20",
         "v96f_address": "0x446890",
         "v105_address": "0x478a20",
         "v96f_auto": true
     },
     {
-        "name": "Collide_C::ctor",
+        "name": "CollisionCounters_C::ctor",
         "v96f_address": "0x4471b0",
         "v105_address": "0x478a30",
         "v96f_auto": true
     },
     {
-        "name": "Collide_C::dtor",
+        "name": "CollisionCounters_C::dtor",
         "v96f_address": "0x447b20",
         "v105_address": "0x478bf0",
         "v96f_auto": true

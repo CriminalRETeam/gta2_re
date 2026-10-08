@@ -34,7 +34,7 @@
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "PublicTransport.hpp"
-#include "PurpleDoom.hpp"
+#include "SpriteGrid_400.hpp"
 #include "RouteFinder.hpp"
 #include "CollisionSoundQueue_C88.hpp"
 #include "CrimeReportQueue_CC.hpp"
@@ -383,9 +383,9 @@ void Game_0x40::Draw_4B92D0()
     gSprite_8_703820->ResetDrawnSpriteCount_5A5860();
     gMontana_67B580->ResetAll_4954F0();
 
-    gPurpleDoom_3_679210->DrawSpritesClipped_477A40();
-    gPurpleDoom_2_67920C->DrawSpritesClipped_477A40();
-    gPurpleDoom_1_679208->DrawSpritesClipped_477A40();
+    gSpriteGrid_3_679210->DrawSpritesClipped_477A40();
+    gSpriteGrid_2_67920C->DrawSpritesClipped_477A40();
+    gSpriteGrid_1_679208->DrawSpritesClipped_477A40();
 
     MakeScreenTableAndSetWindow_5D7D30();
 
@@ -481,7 +481,7 @@ void Game_0x40::UpdateGame_4B9410()
     }
 
     gCollisionSoundQueue_66AFE0->Reset_40BB90();
-    gCollide_C_6791FC->ResetCount_478A20();
+    gCollisionCounters_6791FC->ResetCount_478A20();
 
     if (gLighting_626A09)
     {
@@ -1045,8 +1045,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1841);
     }
 
-    gCollide_C_6791FC = new Collide_C(); // ctor call
-    if (!gCollide_C_6791FC)
+    gCollisionCounters_6791FC = new CollisionCounters_C(); // ctor call
+    if (!gCollisionCounters_6791FC)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1843);
     }
@@ -1307,7 +1307,7 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gFpsCounter_7055D4);
 
     GTA2_DELETE_AND_NULL(gSprite_8_703820);
-    GTA2_DELETE_AND_NULL(gCollide_C_6791FC);
+    GTA2_DELETE_AND_NULL(gCollisionCounters_6791FC);
     GTA2_DELETE_AND_NULL(gPedRefTable_7F8_703398);
     GTA2_DELETE_AND_NULL(gPublicTransport_181C_6FF1D4);
     GTA2_DELETE_AND_NULL(gTaxi_4_704130);

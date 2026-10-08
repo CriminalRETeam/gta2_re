@@ -1,6 +1,6 @@
 #include "Fix16_Rect.hpp"
 #include "map_0x370.hpp"
-#include "PurpleDoom.hpp"
+#include "SpriteGrid_400.hpp"
 #include "sprite.hpp"
 
 DEFINE_GLOBAL_INIT(Fix16, kSmallWidthEpslion_703450, Fix16(0xCCC, 0), 0x703450);
@@ -18,10 +18,10 @@ void Fix16_Rect::MakeRect_4E6280(Fix16 x, Fix16 y, Fix16 w, Fix16 h)
 MATCH_FUNC(0x59dd60)
 void Fix16_Rect::DoSetCurrentRect_59DD60()
 {
-    gPurple_left_6F5FD4 = field_0_left.ToInt();
-    gPurple_right_6F5B80 = field_4_right.ToInt();
-    gPurple_top_6F6108 = field_8_top.ToInt();
-    gPurple_bottom_6F5F38 = field_C_bottom.ToInt();
+    gSpriteGrid_left_6F5FD4 = field_0_left.ToInt();
+    gSpriteGrid_right_6F5B80 = field_4_right.ToInt();
+    gSpriteGrid_top_6F6108 = field_8_top.ToInt();
+    gSpriteGrid_bottom_6F5F38 = field_C_bottom.ToInt();
 }
 
 // 0x4BA6C0 9.6f

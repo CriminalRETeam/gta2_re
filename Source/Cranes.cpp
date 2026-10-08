@@ -5,7 +5,7 @@
 #include "Globals.hpp"
 #include "Hud.hpp"
 #include "Object_5C.hpp"
-#include "PurpleDoom.hpp"
+#include "SpriteGrid_400.hpp"
 #include "debug.hpp"
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "map_0x370.hpp"
@@ -142,7 +142,7 @@ bool Crane_15C::IsDropPositionClear_47E920()
     field_60_probe_sprite->set_xyz_lazy_420600(pos.x, pos.y, this->field_80_ground_z - this->field_11C_drop_hook_depth);
     field_60_probe_sprite->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(field_118_drop_rot));
 
-    return !gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_60_probe_sprite, sprite_types_enum::unknown_0) &&
+    return !gSpriteGrid_1_679208->FindNearestSpriteOfType_477E60(field_60_probe_sprite, sprite_types_enum::unknown_0) &&
         !field_60_probe_sprite->CheckSpriteMovementRegion_5A2500();
 }
 
@@ -157,14 +157,14 @@ bool Crane_15C::IsTarget1PositionClear_47EB00()
     field_60_probe_sprite->set_xyz_lazy_420600(hookPos.x, hookPos.y, field_80_ground_z - field_12C_target1_hook_depth);
     field_60_probe_sprite->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(field_128_target1_rot));
 
-    return gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_60_probe_sprite, sprite_types_enum::unknown_0) == 0;
+    return gSpriteGrid_1_679208->FindNearestSpriteOfType_477E60(field_60_probe_sprite, sprite_types_enum::unknown_0) == 0;
 }
 
 MATCH_FUNC(0x47ecc0)
 void Crane_15C::DropHookedCar_47ECC0()
 {
     Car_BC* pCar = field_74_pSprite_on_hook->AsCar_40FEB0();
-    gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_74_pSprite_on_hook);
+    gSpriteGrid_1_679208->AddToRegionBuckets_477B20(field_74_pSprite_on_hook);
     pCar->sub_4435F0();
     pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
     gCar_BC_Pool_67792C->UpdateNextPrev(pCar);
@@ -200,7 +200,7 @@ void Crane_15C::DropHookedCarOnTransporter_47ED60()
     Car_BC* pCar = field_74_pSprite_on_hook->AsCar_40FEB0();
     gCar_BC_Pool_67792C->UpdateNextPrev(pCar);
     pCar->SetF_88_447ea0();
-    gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_74_pSprite_on_hook);
+    gSpriteGrid_1_679208->AddToRegionBuckets_477B20(field_74_pSprite_on_hook);
     field_64_drop_transporter->DispatchCollisionEvent_5A3100(field_74_pSprite_on_hook, kZero_679E70, kZero_679E70, kAngZero_679FC4);
     field_28_strct4.AddSprite_5A6CD0(field_64_drop_transporter);
     field_74_pSprite_on_hook = 0;
@@ -216,7 +216,7 @@ void Crane_15C::HookTransporterCargo_47EDF0()
     Car_BC* pCar = field_70_cargo_transporter->AsCar_40FEB0();
 
     pCar->field_0_qq.RemoveSprite_5A6B10(field_6C_transporter_cargo);
-    gPurpleDoom_3_679210->Remove_477B00(field_6C_transporter_cargo);
+    gSpriteGrid_3_679210->Remove_477B00(field_6C_transporter_cargo);
 
     this->field_74_pSprite_on_hook = this->field_6C_transporter_cargo;
     this->field_10_hooked_sprite_offset = field_74_pSprite_on_hook->get_x_y() - field_54_hook_obj->field_4->get_x_y();
@@ -269,7 +269,7 @@ void Crane_15C::HookPickupCar_47EF80()
 
     pCar->SetF_88_4214E0();
     pCar->DeAllocateCarPhysics_43BD00();
-    gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_68_pickup_car);
+    gSpriteGrid_1_679208->AddToSpriteRectBuckets_477B60(field_68_pickup_car);
 
     this->field_74_pSprite_on_hook = this->field_68_pickup_car;
     this->field_10_hooked_sprite_offset = field_74_pSprite_on_hook->get_x_y().Sub_40AC80(field_54_hook_obj->field_4->get_x_y());
@@ -803,7 +803,7 @@ void Crane_15C::Service_480310()
     field_28_strct4.RemoveByRngValue_5A6C40(gpRng_67AB34->get_cur_rng_41CFE0() - 1);
     if (field_74_pSprite_on_hook)
     {
-        gPurpleDoom_3_679210->Remove_477B00(field_74_pSprite_on_hook);
+        gSpriteGrid_3_679210->Remove_477B00(field_74_pSprite_on_hook);
     }
     Crane_15C::UpdateCraneTargets_47F4C0();
     if (!field_148_disabled)
@@ -821,7 +821,7 @@ void Crane_15C::Service_480310()
 
     if (field_74_pSprite_on_hook)
     {
-        gPurpleDoom_3_679210->AddToSingleBucket_477AE0(field_74_pSprite_on_hook);
+        gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_74_pSprite_on_hook);
     }
 }
 

@@ -221,8 +221,8 @@ set(gta2_lib_src
   Source/Firefighters.cpp
   Source/CollisionSoundQueue_C88.hpp
   Source/CollisionSoundQueue_C88.cpp
-  Source/PurpleDoom.hpp
-  Source/PurpleDoom.cpp
+  Source/SpriteGrid_400.hpp
+  Source/SpriteGrid_400.cpp
   Source/Network_20324.hpp
   Source/Network_20324.cpp
   Source/PedGroup.hpp

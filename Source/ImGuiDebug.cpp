@@ -52,7 +52,7 @@
 #pragma comment(lib, "Shlwapi.lib")
 
 EXTERN_GLOBAL(Ambulance_110*, gAmbulance_110_6F70A8);
-EXTERN_GLOBAL(Collide_C*, gCollide_C_6791FC);
+EXTERN_GLOBAL(CollisionCounters_C*, gCollisionCounters_6791FC);
 EXTERN_GLOBAL(FirefighterPool_54*, gFirefighterPool_54_67D4C0);
 EXTERN_GLOBAL(Orca_2FD4*, gOrca_2FD4_6FDEF0);
 
@@ -1714,13 +1714,13 @@ void CC ImGuiDebugDraw()
             ImGui::TreePop();
         }
 
-        if (ImGui::TreeNode("gCollide_C_6791FC"))
+        if (ImGui::TreeNode("gCollisionCounters_6791FC"))
         {
-            if (gCollide_C_6791FC)
+            if (gCollisionCounters_6791FC)
             {
-                ImGui::Text("field_0_count %d", gCollide_C_6791FC->field_0_count);
-                ImGui::Text("field_4_count %d", gCollide_C_6791FC->field_4_count);
-                ImGui::Text("field_8_bUnknown %d", gCollide_C_6791FC->field_8_bUnknown);
+                ImGui::Text("field_0_test_count %d", gCollisionCounters_6791FC->field_0_test_count);
+                ImGui::Text("field_4_query_id %d", gCollisionCounters_6791FC->field_4_query_id);
+                ImGui::Text("field_8_bUnknown %d", gCollisionCounters_6791FC->field_8_bUnknown);
             }
             ImGui::TreePop();
         }
@@ -3120,7 +3120,7 @@ void CC ImGuiDebugDraw()
                     pParticle->field_46_sub_state = 0; // TODO
                     pParticle->field_48_timer = timer;
                     pParticle->field_30_pNext->set_xyz_lazy_420600(pPlayerSprite->field_14_xy.x, pPlayerSprite->field_14_xy.y, pPlayerSprite->field_1C_zpos);
-                    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+                    gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
                 }
             }
             

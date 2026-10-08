@@ -19,7 +19,7 @@
 #include "PedGroup.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
-#include "PurpleDoom.hpp"
+#include "SpriteGrid_400.hpp"
 #include "PedRefTable_7F8.hpp"
 #include "Weapon_30.hpp"
 #include "debug.hpp"
@@ -370,7 +370,7 @@ void Char_B4::PoolDeallocate()
 {
     if (field_80_sprite_ptr)
     {
-        gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_80_sprite_ptr);
+        gSpriteGrid_1_679208->AddToSpriteRectBuckets_477B60(field_80_sprite_ptr);
         gSprite_Pool_703818->remove(field_80_sprite_ptr);
         field_80_sprite_ptr = NULL;
     }
@@ -518,7 +518,7 @@ void Char_B4::Update_545720(Fix16 a2)
     byte_6FDB55 = 0;
     byte_6FDB58 = 0;
 
-    gPurpleDoom_1_679208->AddToSpriteRectBuckets_477B60(field_80_sprite_ptr);
+    gSpriteGrid_1_679208->AddToSpriteRectBuckets_477B60(field_80_sprite_ptr);
 
     if (field_58_flags_bf.b5)
     {
@@ -595,7 +595,7 @@ void Char_B4::Update_545720(Fix16 a2)
             field_98_velocity_vector.SetFromPolar_41E210(field_38_velocity, field_40_rotation);
         }
     }
-    gPurpleDoom_1_679208->AddToRegionBuckets_477B20(field_80_sprite_ptr);
+    gSpriteGrid_1_679208->AddToRegionBuckets_477B20(field_80_sprite_ptr);
     if (field_88_obj_2c.field_0_p18)
     {
         field_88_obj_2c.PoolUpdate_5A6F70(field_80_sprite_ptr);
@@ -610,7 +610,7 @@ MATCH_FUNC(0x5459c0)
 void Char_B4::CheckAndHandleCollisions_5459C0()
 {
     gCharB4_HitByMine_6FDB59 = 0;
-    gPurpleDoom_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_80_sprite_ptr);
+    gSpriteGrid_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_80_sprite_ptr);
 }
 
 MATCH_FUNC(0x5459e0)
@@ -5392,7 +5392,7 @@ void Char_B4::state_3_551A00()
     else if (field_C_ped_state_2 == ped_state_2::ped2_entering_a_car_6)
     {
         field_10_char_state = Char_B4_state::Interacting_Car_Door_36;
-        Sprite* nearestSprt = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_80_sprite_ptr, 0);
+        Sprite* nearestSprt = gSpriteGrid_1_679208->FindNearestSpriteOfType_477E60(field_80_sprite_ptr, 0);
         if (!nearestSprt || nearestSprt->get_type_416B40() != sprite_types_enum::car_2 ||
             (nearestSprt->field_8_car_bc_ptr == field_7C_pPed->get_target_to_enter_403B10()) ||
             nearestSprt->field_8_car_bc_ptr->is_on_trailer_421720() || field_7C_pPed->CloseDoorIfCarApproaching_45BD20(nearestSprt->field_8_car_bc_ptr))
@@ -5869,7 +5869,7 @@ void Char_B4::state_8_5520A0()
 
                             field_6C_animation_state = 0;
                         }
-                        gPurpleDoom_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_80_sprite_ptr);
+                        gSpriteGrid_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_80_sprite_ptr);
                         if (field_4C_conveyor_dx != kFP16Zero_6FD9E4 || field_50_conveyor_dy != kFP16Zero_6FD9E4)
                         {
                             field_80_sprite_ptr->set_xyz_lazy_420600(field_4C_conveyor_dx + field_80_sprite_ptr->field_14_xy.x,
@@ -5953,7 +5953,7 @@ void Char_B4::state_8_5520A0()
                     field_7C_pPed->RestorePreviousPedState_45C5A0();
                     Set_F8_ped_state_1_433910(field_7C_pPed->GetPedState_403990());
                     field_C_ped_state_2 = field_7C_pPed->GetPedState2_433B60();
-                    NearestSpriteOfType_477E60 = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(field_80_sprite_ptr, 0);
+                    NearestSpriteOfType_477E60 = gSpriteGrid_1_679208->FindNearestSpriteOfType_477E60(field_80_sprite_ptr, 0);
                     if (field_6C_animation_state == Char_Anim_state::Lethal_Fall_12)
                     {
                         if (field_7C_pPed->field_21C_bf.b24 == false) //if ((v41 & 0x1000000) == 0)
@@ -6063,7 +6063,7 @@ void Char_B4::state_8_5520A0()
                         return;
                     }
 
-                    gPurpleDoom_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_80_sprite_ptr);
+                    gSpriteGrid_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_80_sprite_ptr);
 
                     if (field_4C_conveyor_dx != kFP16Zero_6FD9E4 || field_50_conveyor_dy != kFP16Zero_6FD9E4)
                     {
@@ -6204,7 +6204,7 @@ void Char_B4::state_9_552E90()
         }
 
         field_34 = 0;
-        gPurpleDoom_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_80_sprite_ptr);
+        gSpriteGrid_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_80_sprite_ptr);
         Char_B4::ManageZCoordAndSlopes_548590();
         field_80_sprite_ptr->set_xyz_lazy_420600(field_4C_conveyor_dx + field_80_sprite_ptr->field_14_xy.x,
                                                  field_50_conveyor_dy + field_80_sprite_ptr->field_14_xy.y,
@@ -6248,7 +6248,7 @@ void Char_B4::state_9_552E90()
                 {
                     field_4C_conveyor_dx = kFP16Zero_6FD9E4;
                     field_50_conveyor_dy = kFP16Zero_6FD9E4;
-                    gPurpleDoom_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_80_sprite_ptr);
+                    gSpriteGrid_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_80_sprite_ptr);
 
                     field_80_sprite_ptr->set_xyz_lazy_420600(field_4C_conveyor_dx + field_80_sprite_ptr->field_14_xy.x,
                                                              field_50_conveyor_dy + field_80_sprite_ptr->field_14_xy.y,
