@@ -18,7 +18,7 @@ EXTERN_GLOBAL(u8, gCharB4_HitByMine_6FDB59);
 MATCH_FUNC(0x484cb0)
 CrimeReport_14::CrimeReport_14()
 {
-    field_0_crime_type = 0;
+    field_0_crime_type = crime_stats_type::none_0;
     field_4_ped_id = 0;
     field_8_pos.x = kFP16Zero_67A370;
     field_8_pos.y = kFP16Zero_67A370;
@@ -100,7 +100,7 @@ bool CrimeReportQueue_CC::TryPopOldestReport(s32* pCrimeType, Fix16* pXPos, Fix1
     field_4_reports[field_2_read_idx].GetReport(pCrimeType, pXPos, pYPos, pZPos);
 
     // But then also clear it?
-    field_4_reports[field_2_read_idx].SetReport(0, 0);
+    field_4_reports[field_2_read_idx].SetReport(crime_stats_type::none_0, 0);
 
     // Tick the count
     if (field_2_read_idx != field_0_write_idx)
@@ -113,7 +113,7 @@ bool CrimeReportQueue_CC::TryPopOldestReport(s32* pCrimeType, Fix16* pXPos, Fix1
     }
 
     // Did we fill in the info?
-    return *pCrimeType != 0 ? true : false;
+    return *pCrimeType != crime_stats_type::none_0 ? true : false;
 }
 
 MATCH_FUNC(0x484e90)
