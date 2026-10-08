@@ -3394,22 +3394,21 @@ void CC ImGuiDebugDraw()
                 if (ImGui::TreeNode("Credits"))
                 {
 
-                    xenodochial_morse* pCreditsStruct = &gFrontend_67DC84->field_EE0E_unk;
+                    CreditsText_FD22* pCreditsStruct = &gFrontend_67DC84->field_EE0E_credits;
                     if (pCreditsStruct)
                     {
-                        ImGui::InputS16("Xeno field_0", &pCreditsStruct->field_0_line_count, 1, 1);
+                        ImGui::InputS16("Credits line count", &pCreditsStruct->field_0_line_count, 1, 1);
 
                         static s32 credit_line;
                         ImGui::InputInt("Credit line", &credit_line, 1, 1);
 
-                        sleepy_stonebraker_0x6C* pCreditLine = &pCreditsStruct->field_2_lines[credit_line];
+                        CreditsLine_6C* pCreditLine = &pCreditsStruct->field_2_lines[credit_line];
                         if (pCreditLine)
                         {
-                            ImGui::SliderS8("Sleepy field_0", &pCreditLine->field_0, -127, 127);
-                            ImGui::SliderS8("Sleepy field_1", &pCreditLine->field_1, -127, 127);
-                            ImGui::InputS16("Sleepy field_2", &pCreditLine->field_2, 1, 1);
-                            ImGui::InputU16("Sleepy field_4", &pCreditLine->field_4_y_gap, 1, 1);
-                            ImGui::InputU16("Sleepy field_6", &pCreditLine->field_6_string_category, 1, 1);
+                            ImGui::Checkbox("Credit line loaded", &pCreditLine->field_0_bLoaded);
+                            ImGui::InputS16("Credit line field_2", &pCreditLine->field_2_unused, 1, 1);
+                            ImGui::InputU16("Credit line y gap", &pCreditLine->field_4_y_gap, 1, 1);
+                            ImGui::InputU16("Credit line category", &pCreditLine->field_6_string_category, 1, 1);
                         }
                     }
                 }

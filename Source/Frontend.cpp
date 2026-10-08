@@ -1,4 +1,5 @@
 #include "Frontend.hpp"
+#include "credits_line_category.hpp"
 #include "Bink.hpp"
 #include "BurgerKing_67F8B0.hpp"
 #include "Draw.hpp"
@@ -1396,32 +1397,32 @@ void Frontend::DrawCredits_4B7AE0()
     s32 draw_kind;
 
     u16 credit_idx = field_1EB38_credits_line_idx;
-    for (Fix16 y = field_1EB34_credits_ypos; y < 480 && credit_idx < 600; credit_idx++, y += field_EE0E_unk.field_2_lines[credit_idx].field_4_y_gap)
+    for (Fix16 y = field_1EB34_credits_ypos; y < 480 && credit_idx < 600; credit_idx++, y += field_EE0E_credits.field_2_lines[credit_idx].field_4_y_gap)
     {
-        sleepy_stonebraker_0x6C* sleepy = &field_EE0E_unk.field_2_lines[credit_idx];
-        switch (sleepy->field_6_string_category)
+        CreditsLine_6C* pLine = &field_EE0E_credits.field_2_lines[credit_idx];
+        switch (pLine->field_6_string_category)
         {
-            case 0: // normal string: white
+            case credits_line_category::normal_0: // normal string: white
                 font_type = field_11E;
                 draw_kind = 2;
                 palette = 0;
                 break;
-            case 1: // ???
+            case credits_line_category::unknown_1: // ???
                 font_type = field_120_selected_font;
                 draw_kind = 2;
                 palette = 0;
                 break;
-            case 2: // dev names: blue
+            case credits_line_category::dev_names_2: // dev names: blue
                 font_type = field_120_selected_font;
                 draw_kind = 8;
                 palette = 13;
                 break;
-            case 3: // department (DMA, T2 etc) : green
+            case credits_line_category::department_3: // department (DMA, T2 etc) : green
                 font_type = field_120_selected_font;
                 draw_kind = 8;
                 palette = 14;
                 break;
-            case 4: // game name "GTA2" : yellow
+            case credits_line_category::game_name_4: // game name "GTA2" : yellow
                 font_type = field_120_selected_font;
                 draw_kind = 8;
                 palette = 15;
@@ -1429,7 +1430,7 @@ void Frontend::DrawCredits_4B7AE0()
             default:
                 FatalError_4A38C0(Gta2Error::InvalidCreditTextColor, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 7966);
         }
-        wchar_t* pStrBuf = sleepy->field_8_strBuf;
+        wchar_t* pStrBuf = pLine->field_8_text;
         if (wcscmp(pStrBuf, gEmptyWStr_67DC8C))
         {
 
@@ -1789,7 +1790,7 @@ void Frontend::ManageCredits_4B7A10()
                     field_108_winmain_next_state = Quit_1;
                     return;
                 }
-                if ((field_1EB34_credits_ypos += Fix16(field_EE0E_unk.field_2_lines[field_1EB38_credits_line_idx].field_4_y_gap)) > 262124)
+                if ((field_1EB34_credits_ypos += Fix16(field_EE0E_credits.field_2_lines[field_1EB38_credits_line_idx].field_4_y_gap)) > 262124)
                 {
                     break;
                 }
@@ -4010,7 +4011,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_136_menu_pages_array[14].field_B8A[0].field_2 = 348; //  TODO: check for wrong var
     field_136_menu_pages_array[14].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[14].field_BC8_default_option_idx = 0;
-    field_EE0E_unk.LoadCredits_483F20();
+    field_EE0E_credits.LoadCredits_483F20();
 }
 
 // The GMP/STY/SCR names read from a MAIN or BONUS block of the .seq file. A struct (not three

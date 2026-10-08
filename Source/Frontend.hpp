@@ -2,8 +2,8 @@
 
 #include "Function.hpp"
 #include "multiplayer_game_type.hpp"
-#include "sleepy_stonebraker_0x6C.hpp"
-#include "xenodochial_morse.hpp"
+#include "CreditsLine_6C.hpp"
+#include "CreditsText_FD22.hpp"
 #include "youthful_einstein.hpp"
 #include <windows.h>
 
@@ -290,7 +290,7 @@ struct Frontend
     u16 field_EE0A_dialog_cursor_ypos;
     u8 field_EE0C_dialog_type;
     u8 field_EE0D_hiscore_table_idx;
-    xenodochial_morse field_EE0E_unk;
+    CreditsText_FD22 field_EE0E_credits;
     u16 field_1EB30_credits_scroll_timer;
     s16 field_1EB32;
     Fix16 field_1EB34_credits_ypos;

@@ -5163,37 +5163,37 @@
         "v105_address": "0x4833b0"
     },
     {
-        "name": "sleepy_stonebraker_0x6C::ctor",
+        "name": "CreditsLine_6C::ctor",
         "v96f_address": "0x449ca0",
         "v105_address": "0x483e30",
         "v96f_auto": true
     },
     {
-        "name": "sleepy_stonebraker_0x6C::dtor",
+        "name": "CreditsLine_6C::dtor",
         "v96f_address": "0x449cd0",
         "v105_address": "0x483e60",
         "v96f_auto": true
     },
     {
-        "name": "xenodochial_morse::ctor",
+        "name": "CreditsText_FD22::ctor",
         "v96f_address": "0x449ce0",
         "v105_address": "0x483e70",
         "v96f_auto": true
     },
     {
-        "name": "xenodochial_morse::dtor",
+        "name": "CreditsText_FD22::dtor",
         "v96f_address": "0x449d10",
         "v105_address": "0x483ea0",
         "v96f_auto": true
     },
     {
-        "name": "xenodochial_morse::ReadNextNonBlankChar_483EC0",
+        "name": "CreditsText_FD22::ReadNextNonBlankChar_483EC0",
         "v96f_address": "0x449d30",
         "v105_address": "0x483ec0",
         "v96f_auto": true
     },
     {
-        "name": "xenodochial_morse::LoadCredits_483F20",
+        "name": "CreditsText_FD22::LoadCredits_483F20",
         "v96f_address": "0x449d70",
         "v105_address": "0x483f20",
         "v96f_auto": true

@@ -136,10 +136,10 @@ set(gta2_lib_src
   Source/Gang.cpp
   Source/youthful_einstein.hpp
   Source/youthful_einstein.cpp
-  Source/xenodochial_morse.hpp
-  Source/xenodochial_morse.cpp
-  Source/sleepy_stonebraker_0x6C.hpp
-  Source/sleepy_stonebraker_0x6C.cpp
+  Source/CreditsText_FD22.hpp
+  Source/CreditsText_FD22.cpp
+  Source/CreditsLine_6C.hpp
+  Source/CreditsLine_6C.cpp
   Source/miss2_0x11C.hpp
   Source/miss2_0x11C.cpp
   Source/miss2_8.hpp
