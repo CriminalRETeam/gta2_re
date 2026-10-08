@@ -5532,28 +5532,28 @@
         "v105_address": "0x495470"
     },
     {
-        "name": "Montana::ResetAll_4954F0",
+        "name": "SpriteRenderer_1C::ResetAll_4954F0",
         "v96f_address": null,
         "v105_address": "0x4954f0"
     },
     {
-        "name": "Montana::DisplayAdd_495510",
+        "name": "SpriteRenderer_1C::DisplayAdd_495510",
         "v96f_address": "0x44b990",
         "v105_address": "0x495510",
         "v96f_auto": true
     },
     {
-        "name": "Montana::Draw_495560",
+        "name": "SpriteRenderer_1C::Draw_495560",
         "v96f_address": "0x44B8B0",
         "v105_address": "0x495560"
     },
     {
-        "name": "Montana::ctor",
+        "name": "SpriteRenderer_1C::ctor",
         "v96f_address": "0x44b8f0",
         "v105_address": "0x4955a0"
     },
     {
-        "name": "Montana::dtor",
+        "name": "SpriteRenderer_1C::dtor",
         "v96f_address": "0x44b9e0",
         "v105_address": "0x495630",
         "v96f_auto": true
@@ -17948,40 +17948,40 @@
         "v105_address": "0x5c5cd0"
     },
     {
-        "name": "Montana_4::AddSprite_5C5CF0",
+        "name": "SpriteTree_4::AddSprite_5C5CF0",
         "v96f_address": "0x4c4bf0",
         "v105_address": "0x5c5cf0",
         "v96f_auto": true
     },
     {
-        "name": "Montana_4::Draw_5C5DF0",
+        "name": "SpriteTree_4::Draw_5C5DF0",
         "v96f_address": "0x4c4d20",
         "v105_address": "0x5c5df0",
         "v96f_auto": true
     },
     {
-        "name": "Montana_4::Reset_5C5E50",
+        "name": "SpriteTree_4::Reset_5C5E50",
         "v96f_address": "0x4c4d60",
         "v105_address": "0x5c5e50"
     },
     {
-        "name": "Montana_4::ctor",
+        "name": "SpriteTree_4::ctor",
         "v96f_address": "0x4c4df0",
         "v105_address": "0x5c5e70"
     },
     {
-        "name": "Montana_4::dtor",
+        "name": "SpriteTree_4::dtor",
         "v96f_address": "0x4c4e60",
         "v105_address": "0x5c5f10",
         "v96f_auto": true
     },
     {
-        "name": "Montana_2EE4::ctor",
+        "name": "SpriteTreeNodePool_2EE4::ctor",
         "v96f_address": "0x4c4dc0",
         "v105_address": "0x5c5f60"
     },
     {
-        "name": "Montana_2EE4::dtor",
+        "name": "SpriteTreeNodePool_2EE4::dtor",
         "v96f_address": null,
         "v105_address": "0x5c5f90"
     },

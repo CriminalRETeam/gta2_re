@@ -151,8 +151,8 @@ set(gta2_lib_src
   Source/Hud.cpp
   Source/MapRenderer.hpp
   Source/MapRenderer.cpp
-  Source/Montana.hpp
-  Source/Montana.cpp
+  Source/SpriteRenderer_1C.hpp
+  Source/SpriteRenderer_1C.cpp
   Source/Mike_A80.hpp
   Source/Mike_A80.cpp
   Source/Frismo_25C.hpp

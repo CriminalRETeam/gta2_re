@@ -46,7 +46,7 @@
 #include "ImGuiDebug.hpp"
 #include "MapRenderer.hpp"
 #include "Mike_A80.hpp"
-#include "Montana.hpp"
+#include "SpriteRenderer_1C.hpp"
 #include "Network_20324.hpp"
 #include "Ped.hpp"
 #include "ObjectDefinitions_8CA8.hpp"
@@ -296,8 +296,8 @@ void force_link()
     u16 zero = 0;
     nano.draw_bottom_4ED290(zero);
 
-    Montana montana;
-    montana.ResetAll_4954F0();
+    SpriteRenderer_1C sprite_renderer;
+    sprite_renderer.ResetAll_4954F0();
 
     Mike_A80 mike;
     mike.DebugDrawProfiling_4FF250();

@@ -23,7 +23,7 @@
 #include "Marz_1D7E.hpp"
 #include "Mike_A80.hpp"
 #include "CarInfo_808.hpp"
-#include "Montana.hpp"
+#include "SpriteRenderer_1C.hpp"
 #include "MapRenderer.hpp"
 #include "Object_5C.hpp"
 #include "PathFinder_2FD4.hpp"

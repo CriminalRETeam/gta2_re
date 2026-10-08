@@ -1,4 +1,4 @@
-#include "Montana.hpp"
+#include "SpriteRenderer_1C.hpp"
 #include "Globals.hpp"
 #include "enums.hpp"
 #include "error.hpp"
@@ -8,9 +8,9 @@
 EXPORT s32 get_rdtsc_5BEE90();
 EXTERN_GLOBAL(u32, dword_705334);
 
-DEFINE_GLOBAL(Montana*, gMontana_67B580, 0x67B580);
-DEFINE_GLOBAL(Montana_2EE4*, gMontana_2EE4_705BBC, 0x705BBC);
-DEFINE_GLOBAL(Montana_FA4*, gMontana_FA4_705BC0, 0x705BC0);
+DEFINE_GLOBAL(SpriteRenderer_1C*, gSpriteRenderer_67B580, 0x67B580);
+DEFINE_GLOBAL(SpriteTreeNodePool_2EE4*, gSpriteTreeNodePool_705BBC, 0x705BBC);
+DEFINE_GLOBAL(SpriteTreeStack_FA4*, gSpriteTreeStack_705BC0, 0x705BC0);
 DEFINE_GLOBAL(s32, gDisplayDraw_67B57C, 0x67B57C);
 DEFINE_GLOBAL(s32, gDisplayAdd_67B578, 0x67B578);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_67B434, Fix16(1), 0x67B434);
@@ -18,40 +18,40 @@ DEFINE_GLOBAL_INIT(Fix16, kFp96_705B80, Fix16(0x180000, 0), 0x705B80);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_705AC4, Fix16(0), 0x705AC4);
 
 MATCH_FUNC(0x4954f0)
-void Montana::ResetAll_4954F0()
+void SpriteRenderer_1C::ResetAll_4954F0()
 {
-    for (s32 i = 0; i < GTA2_COUNTOF(field_0_cols); i++)
+    for (s32 i = 0; i < GTA2_COUNTOF(field_0_layers); i++)
     {
-        field_0_cols[i]->Reset_5C5E50();
+        field_0_layers[i]->Reset_5C5E50();
     }
 }
 
 MATCH_FUNC(0x495510)
-void Montana::DisplayAdd_495510(Sprite* pSprite)
+void SpriteRenderer_1C::DisplayAdd_495510(Sprite* pSprite)
 {
     const s32 rdtsc = get_rdtsc_5BEE90();
     if (pSprite->field_1C_zpos >= kFpOne_67B434)
     {
-        field_0_cols[pSprite->ComputeZLayer_5A1BD0()]->AddSprite_5C5CF0(pSprite);
+        field_0_layers[pSprite->ComputeZLayer_5A1BD0()]->AddSprite_5C5CF0(pSprite);
     }
     gDisplayAdd_67B578 += get_rdtsc_5BEE90() - rdtsc;
 }
 
 MATCH_FUNC(0x495560)
-void Montana::Draw_495560(s32 col_idx)
+void SpriteRenderer_1C::Draw_495560(s32 layer)
 {
     const s32 rdtsc = get_rdtsc_5BEE90();
-    field_0_cols[col_idx - 1]->Draw_5C5DF0();
+    field_0_layers[layer - 1]->Draw_5C5DF0();
     gDisplayDraw_67B57C += get_rdtsc_5BEE90() - rdtsc;
 }
 
 MATCH_FUNC(0x4955a0)
-Montana::Montana()
+SpriteRenderer_1C::SpriteRenderer_1C()
 {
-    for (s32 i = 0; i < 7; i++)
+    for (s32 i = 0; i < k_num_layers; i++)
     {
-        field_0_cols[i] = new Montana_4();
-        if (!field_0_cols[i])
+        field_0_layers[i] = new SpriteTree_4();
+        if (!field_0_layers[i])
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\display.cpp", 121);
         }
@@ -59,11 +59,11 @@ Montana::Montana()
 }
 
 MATCH_FUNC(0x495630)
-Montana::~Montana()
+SpriteRenderer_1C::~SpriteRenderer_1C()
 {
-    for (s32 i = 0; i < 7; i++)
+    for (s32 i = 0; i < k_num_layers; i++)
     {
-        delete field_0_cols[i];
+        delete field_0_layers[i];
     }
 }
 
@@ -99,10 +99,10 @@ EXPORT s32 __stdcall sub_5BEED0(s32 cycles)
 
 // https://decomp.me/scratch/qyVgM
 MATCH_FUNC(0x5c5cf0)
-void Montana_4::AddSprite_5C5CF0(Sprite* pSprite)
+void SpriteTree_4::AddSprite_5C5CF0(Sprite* pSprite)
 {
-    Montana_C* pFirst = field_0_pFirst;
-    Fix16 a2_1;
+    SpriteTreeNode_C* pRoot = field_0_pRoot;
+    Fix16 node_z;
     Fix16 z_pos;
 
     if (pSprite->field_28_num > 9)
@@ -121,32 +121,32 @@ void Montana_4::AddSprite_5C5CF0(Sprite* pSprite)
         z_pos = kFpZero_705AC4;
     }
 
-    Montana_C* pLastNonNull; // TODO: not initialized before 'for' loop
-    for (Montana_C* pIter = pFirst; pIter;)
+    SpriteTreeNode_C* pParent; // TODO: not initialized before 'for' loop
+    for (SpriteTreeNode_C* pIter = pRoot; pIter;)
     {
-        Sprite* pSprt = pIter->field_0_sprt;
-        pLastNonNull = pIter;
-        s32 num = pIter->field_0_sprt->field_28_num;
+        Sprite* pSprt = pIter->field_0_pSprite;
+        pParent = pIter;
+        s32 num = pIter->field_0_pSprite->field_28_num;
         if (num > 9)
         {
-            a2_1 = pSprt->field_1C_zpos;
+            node_z = pSprt->field_1C_zpos;
         }
         else
         {
-            a2_1 = kFpZero_705AC4;
+            node_z = kFpZero_705AC4;
         }
 
-        if (z_pos < a2_1)
+        if (z_pos < node_z)
         {
-            pIter = pIter->mpNext;
+            pIter = pIter->field_4_pLeft;
         }
         else
         {
-            if (z_pos == a2_1)
+            if (z_pos == node_z)
             {
                 if (pSprite->field_28_num < num)
                 {
-                    pIter = pIter->mpNext;
+                    pIter = pIter->field_4_pLeft;
                 }
                 else
                 {
@@ -164,46 +164,46 @@ void Montana_4::AddSprite_5C5CF0(Sprite* pSprite)
         }
     }
 
-    Montana_C* pAllocated = gMontana_2EE4_705BBC->Alloc_4C4B40();
-    pAllocated->field_0_sprt = pSprite;
-    pAllocated->mpNext = NULL;
+    SpriteTreeNode_C* pAllocated = gSpriteTreeNodePool_705BBC->Alloc_4C4B40();
+    pAllocated->field_0_pSprite = pSprite;
+    pAllocated->field_4_pLeft = NULL;
     pAllocated->field_8_pRight = NULL;
 
-    if (!field_0_pFirst)
+    if (!field_0_pRoot)
     {
-        field_0_pFirst = pAllocated;
+        field_0_pRoot = pAllocated;
     }
     else
     {
-        if (z_pos < a2_1 || (z_pos == a2_1 && pSprite->field_28_num < pLastNonNull->field_0_sprt->field_28_num))
+        if (z_pos < node_z || (z_pos == node_z && pSprite->field_28_num < pParent->field_0_pSprite->field_28_num))
         {
-            pLastNonNull->mpNext = pAllocated;
+            pParent->field_4_pLeft = pAllocated;
         }
         else
         {
-            pLastNonNull->field_8_pRight = pAllocated;
+            pParent->field_8_pRight = pAllocated;
         }
     }
 }
 
 MATCH_FUNC(0x5C5DF0)
-void Montana_4::Draw_5C5DF0()
+void SpriteTree_4::Draw_5C5DF0()
 {
-    Montana_C* pIter = this->field_0_pFirst;
+    SpriteTreeNode_C* pIter = this->field_0_pRoot;
     for (;;)
     {
         while (pIter)
         {
-            gMontana_FA4_705BC0->Push_4C4B80(pIter);
-            pIter = pIter->mpNext;
+            gSpriteTreeStack_705BC0->Push_4C4B80(pIter);
+            pIter = pIter->field_4_pLeft;
         }
-        if (gMontana_FA4_705BC0->IsEnd_4C4BC0())
+        if (gSpriteTreeStack_705BC0->IsEnd_4C4BC0())
         {
             break;
         }
 
-        pIter = gMontana_FA4_705BC0->Pop_4C4BA0();
-        pIter->field_0_sprt->Draw_59EFF0();
+        pIter = gSpriteTreeStack_705BC0->Pop_4C4BA0();
+        pIter->field_0_pSprite->Draw_59EFF0();
         pIter = pIter->field_8_pRight;
     }
 }
@@ -211,58 +211,58 @@ void Montana_4::Draw_5C5DF0()
 DEFINE_GLOBAL_INIT(u32, dword_705334, 1701493, 0x705334);
 
 MATCH_FUNC(0x5c5e50)
-void Montana_4::Reset_5C5E50()
+void SpriteTree_4::Reset_5C5E50()
 {
-    gMontana_2EE4_705BBC->Reset_4C4B70();
-    field_0_pFirst = 0;
+    gSpriteTreeNodePool_705BBC->Reset_4C4B70();
+    field_0_pRoot = 0;
 }
 
 // TODO: Doesn't match due to SEH stuff
 MATCH_FUNC(0x5c5e70)
-Montana_4::Montana_4()
+SpriteTree_4::SpriteTree_4()
 {
-    if (!gMontana_2EE4_705BBC)
+    if (!gSpriteTreeNodePool_705BBC)
     {
-        gMontana_2EE4_705BBC = new Montana_2EE4();
+        gSpriteTreeNodePool_705BBC = new SpriteTreeNodePool_2EE4();
     }
 
-    if (!gMontana_FA4_705BC0)
+    if (!gSpriteTreeStack_705BC0)
     {
-        gMontana_FA4_705BC0 = new Montana_FA4();
+        gSpriteTreeStack_705BC0 = new SpriteTreeStack_FA4();
     }
     Reset_5C5E50();
 }
 
 MATCH_FUNC(0x5c5f10)
-Montana_4::~Montana_4()
+SpriteTree_4::~SpriteTree_4()
 {
     // An explicit dtor call through the global plus operator delete on a saved copy gives the original's
     // test in ecx with esi pushed and loaded inside the if; `delete` keeps the pointer in esi throughout
-    if (gMontana_2EE4_705BBC != NULL)
+    if (gSpriteTreeNodePool_705BBC != NULL)
     {
-        Montana_2EE4* p = gMontana_2EE4_705BBC;
-        gMontana_2EE4_705BBC->~Montana_2EE4();
+        SpriteTreeNodePool_2EE4* p = gSpriteTreeNodePool_705BBC;
+        gSpriteTreeNodePool_705BBC->~SpriteTreeNodePool_2EE4();
         operator delete(p);
-        gMontana_2EE4_705BBC = 0;
+        gSpriteTreeNodePool_705BBC = 0;
     }
 
-    if (gMontana_FA4_705BC0)
+    if (gSpriteTreeStack_705BC0)
     {
-        GTA2_DELETE_AND_NULL(gMontana_FA4_705BC0);
+        GTA2_DELETE_AND_NULL(gSpriteTreeStack_705BC0);
     }
 }
 
 MATCH_FUNC(0x5c5f60)
-Montana_2EE4::Montana_2EE4()
+SpriteTreeNodePool_2EE4::SpriteTreeNodePool_2EE4()
 {
     for (s32 i = 0; i < GTA2_COUNTOF(field_0_entries); i++)
     {
-        field_0_entries[i].field_0_sprt = 0;
+        field_0_entries[i].field_0_pSprite = 0;
     }
     Reset_4C4B70();
 }
 
 MATCH_FUNC(0x5c5f90)
-Montana_2EE4::~Montana_2EE4()
+SpriteTreeNodePool_2EE4::~SpriteTreeNodePool_2EE4()
 {
 }

@@ -24,7 +24,7 @@
 #include "Light_1D4CC.hpp"
 #include "MapRenderer.hpp"
 #include "Mike_A80.hpp"
-#include "Montana.hpp"
+#include "SpriteRenderer_1C.hpp"
 #include "Object_5C.hpp"
 #include "PathFinder_2FD4.hpp"
 #include "Particle_8.hpp"
@@ -381,7 +381,7 @@ void Game_0x40::Draw_4B92D0()
 
     gpMapRenderer_6F66E4->ClearDrawnTileCount_4F6A10();
     gSprite_8_703820->ResetDrawnSpriteCount_5A5860();
-    gMontana_67B580->ResetAll_4954F0();
+    gSpriteRenderer_67B580->ResetAll_4954F0();
 
     gSpriteGrid_3_679210->DrawSpritesClipped_477A40();
     gSpriteGrid_2_67920C->DrawSpritesClipped_477A40();
@@ -991,8 +991,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1808);
     }
 
-    gMontana_67B580 = new Montana(); // ctor call
-    if (!gMontana_67B580)
+    gSpriteRenderer_67B580 = new SpriteRenderer_1C(); // ctor call
+    if (!gSpriteRenderer_67B580)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1810);
     }
@@ -1290,7 +1290,7 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gGtx_0x106C_703DD4);
     GTA2_DELETE_AND_NULL(gMap_0x370_6F6268);
     GTA2_DELETE_AND_NULL(gpMapRenderer_6F66E4);
-    GTA2_DELETE_AND_NULL(gMontana_67B580);
+    GTA2_DELETE_AND_NULL(gSpriteRenderer_67B580);
     GTA2_DELETE_AND_NULL(gPedPool_6787B8);
 
     GTA2_DELETE_AND_NULL(gCar_6C_677930);

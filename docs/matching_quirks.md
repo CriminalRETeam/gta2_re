@@ -425,7 +425,7 @@ changed the registers of two identical init blocks so VC6 no longer merged them;
 at each use gave the original's single merged block.
 
 **Merge repeated stores into one condition.** Nested if/else arms that repeat the same stores, written
-as one `||` condition as in 9.6f, fixed an `ebx`/`ebp` swap (`Montana_4::AddSprite_5C5CF0`).
+as one `||` condition as in 9.6f, fixed an `ebx`/`ebp` swap (`SpriteTree_4::AddSprite_5C5CF0`).
 
 **`if (a || b)` through a `bool` local.** Written directly, VC6 laid the branches out inverted; computing
 `bool aligned = ...; if (aligned)` first gave the original layout (`CarPhysics_B0::HandleUserInputs_55A860`,
@@ -674,7 +674,7 @@ check (`CarPhysics_B0::StepMovementAndCollisions_55E470`).
 
 **Ctor defined earlier in the TU drops the EH frame around `new`.** Same cause as the Hud ctor
 above: with the member/callee ctor body visible earlier, VC6 knows it can't throw. Put the
-definitions in original address order (`Montana_4::ctor_5C5E70`).
+definitions in original address order (`SpriteTree_4::ctor_5C5E70`).
 
 **A small constant `memset` looks like field stores.** A separate `xor`'d zero register storing
 three dwords and a word was an inline `memset` of 14 bytes (`InitializeGame_4DA4D0`).
@@ -2536,7 +2536,7 @@ So for a late push in the original:
 - The register must not be used before the branch. A variable tested in the entry block and used later lives in
   its register from the test on, so test something else: the field or global instead of the local copy
   (`Hud_Brief_704::ClearAllBriefsWithPriority_5D4890`), or test the global and make the copy inside the `if`
-  (the inlined deletes in `Car_6C::~Car_6C` 0x446DC0 and `Montana_4::~Montana_4` 0x5C5F10).
+  (the inlined deletes in `Car_6C::~Car_6C` 0x446DC0 and `SpriteTree_4::~SpriteTree_4` 0x5C5F10).
 - The region that uses the register needs a single exit block: a statement after the loop inside the branch, or a
   separate `return value;` per path. Ending the branch with the loop itself, or a bare `return;` that shares the
   epilogue, keeps the push at entry.

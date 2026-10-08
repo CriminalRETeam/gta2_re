@@ -2,7 +2,7 @@
 #include "Camera.hpp"
 #include "Car_BC.hpp"
 #include "Globals.hpp"
-#include "Montana.hpp"
+#include "SpriteRenderer_1C.hpp"
 #include "Object_5C.hpp"
 #include "collide.hpp"
 #include "error.hpp"
@@ -432,7 +432,7 @@ void SpriteGrid_400::AddToDrawList_478240(s32 left, s32 right, s32 top, s32 bott
                     {
                         if (p8Iter->field_0_pSprite->IsTypeAbove1_446950())
                         {
-                            gMontana_67B580->DisplayAdd_495510(p8Iter->field_0_pSprite);
+                            gSpriteRenderer_67B580->DisplayAdd_495510(p8Iter->field_0_pSprite);
                         }
                     }
                 }

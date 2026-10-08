@@ -1760,7 +1760,7 @@ Car_6C::~Car_6C()
     }
 
     // An explicit dtor call through the global plus operator delete on a saved copy gives the original's
-    // test in ecx with the copy moved to esi inside the if (as in Montana_4::~Montana_4)
+    // test in ecx with the copy moved to esi inside the if (as in SpriteTree_4::~SpriteTree_4)
     if (gSprite_Unused_677938 != NULL)
     {
         Sprite* p = gSprite_Unused_677938;

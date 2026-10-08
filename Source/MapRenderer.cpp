@@ -7,7 +7,7 @@
 #include "fix16.hpp"
 #include "Light_1D4CC.hpp"
 #include "map_0x370.hpp"
-#include "Montana.hpp"
+#include "SpriteRenderer_1C.hpp"
 #include "TextureCache_15D8.hpp"
 #include "winmain.hpp"
 
@@ -3491,7 +3491,7 @@ void MapRenderer::Draw_4F6A20()
     {
         if (zLayer != 0)
         {
-            gMontana_67B580->Draw_495560(zLayer); // draw all sprites at zLayer
+            gSpriteRenderer_67B580->Draw_495560(zLayer); // draw all sprites at zLayer
         }
 
         // render blocks
@@ -3595,5 +3595,5 @@ void MapRenderer::Draw_4F6A20()
             }
         }
     }
-    gMontana_67B580->Draw_495560(7);    // draw all sprites on the highest layer
+    gSpriteRenderer_67B580->Draw_495560(7);    // draw all sprites on the highest layer
 }
