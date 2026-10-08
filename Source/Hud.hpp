@@ -20,7 +20,7 @@ class Hud_PlayerNames_4
 {
   public:
     EXPORT void DrawPlayerNames_5CFE40();
-    s32 field_13C0;
+    s32 field_0_unused;
 };
 
 class Hud_MpMessage_D0
@@ -33,7 +33,6 @@ class Hud_MpMessage_D0
     EXPORT void AnnounceKill_5D5770(Player* killer, Player* victim);
     EXPORT Hud_MpMessage_D0();
     char_type field_0_timer;
-    char_type field_1;
     wchar_t field_2_str[101];
     s32 field_CC_text_width;
 };
@@ -45,7 +44,6 @@ class Hud_ChatInput_1
     EXPORT void DrawChatMessages_5D16B0();
     EXPORT bool IsChatInputKey_5D17D0(s32 key_idx);
     EXPORT void StartChatting_5D1830(Player* pPlayer);
-    char_type field_2A25;
 };
 
 class Hud_QuitMessage_1
@@ -110,7 +108,6 @@ class Hud_Message_1C8
     EXPORT void DecrementTimeToShow_5D1AB0();
     EXPORT Hud_Message_1C8();
     u8 field_0_time_to_show;
-    char_type field_1_unk;
     wchar_t field_2_str[221];
     s32 field_1BC_str_width;
     s32 field_1C0_num_lines;
@@ -122,7 +119,7 @@ class Hud_PlayerStats_4
   public:
     EXPORT void DrawPlayerStats_5D5C80();
     EXPORT void UpdateRollingDigits_5D6290();
-    s32 field_1118;
+    s32 field_0_unused;
 };
 
 class Hud_UnderRoofMarker_C
@@ -147,7 +144,7 @@ class Hud_Health_4
 {
   public:
     EXPORT void DrawHealth_5D0260();
-    s32 field_1108;
+    s32 field_0_unused;
 };
 
 class Hud_PickupText_88
@@ -159,7 +156,6 @@ class Hud_PickupText_88
     EXPORT void DecrementTimer_5D5690();
     EXPORT Hud_PickupText_88();
     char_type field_0_timer;
-    char_type field_1;
     wchar_t field_2_str[65];
     s32 field_84_text_width;
 };
@@ -200,7 +196,6 @@ class Hud_CopHead_C
     u8 field_0_frame;
     char_type field_1_frame_timer;
     char_type field_2_frame_delay;
-    char_type field_3;
     s32 field_4_height;
     s32 field_8_velocity;
 };
@@ -254,10 +249,8 @@ class Hud_TextEntry_C4
     s16 field_A8_x;
     s16 field_AA_y;
     s16 field_AC_fontType;
-    s16 field_AE; // could be pad
     s32 field_B0_drawKind;
     s16 field_B4_palette;
-    s16 field_B6; // could be pad
     s32 field_B8_alpha;
     s32 field_BC_alpha_flag;
     Hud_TextEntry_C4* field_C0_pNext;
@@ -366,9 +359,6 @@ class Hud_BriefEntry_18
     s32 field_8_brief_priority;
     Hud_BriefEntry_18* field_C_pNext;
     u8 field_10_was_displayed;
-    u8 field_11;
-    u8 field_12;
-    u8 field_13;
     s32 field_14_cost_param;
 };
 
@@ -393,7 +383,6 @@ class Hud_ArrowGangInfo_8
     char_type field_34_min_respect;
     char_type field_5_is_visible; // not sure
     char_type field_6_in_use;
-    char_type field_7;
 };
 
 class ArrowTrace_24
@@ -469,9 +458,6 @@ class ArrowTrace_24
     Fix16 field_18_aim_y;
     Fix16 field_1C_aim_z;
     char_type field_20_bIsTargetVisible;
-    char_type field_21_pad;
-    char_type field_22_pad;
-    char_type field_23_pad;
 };
 
 class Hud_ArrowTargets_64
@@ -485,12 +471,9 @@ class Hud_ArrowTargets_64
 
     s32 field_20;
     s16 field_24;
-    char_type field_26;
-    char_type field_27;
     s32 field_28_arrow_colour;
     s16 field_2C_arrow_sprt_idx;
     u8 field_2E_target_swap_timer;
-    char_type field_2F;
     Hud_ArrowGangInfo_8 field_10;
     ArrowTrace_24 field_18_primary_target;
     ArrowTrace_24 field_3C_secondary_target;
@@ -583,7 +566,6 @@ class Hud_Arrow_7C
     Fix16 field_0_screen_pos_x; // x and y are not independent from field_10_radius_pos
     Fix16 field_4_screen_pos_y;
     Ang16 field_8_rotation;
-    s16 field_A;
     Fix16 field_C_min_radius_pos; // minimum radial distance from the player
     Fix16 field_10_radius_pos; // radial distance from the player
     Fix16 field_14_reposition_speed; // how slower/faster the arrow goes to the aim target, or "get back" to the player
@@ -622,14 +604,8 @@ class Hud_Arrow_7C_Array
     EXPORT void SetNewGangArrow_5D1310(Gang_144* pZone);
     Hud_Arrow_7C field_0_array[17];
     char_type field_83C_show_gang_arrows;
-    char_type field_83D;
-    char_type field_83E;
-    char_type field_83F;
     Hud_Arrow_7C* field_840_visible_gang_arrow;
     char_type field_844_check_info_phones;
-    char_type field_845;
-    char_type field_846;
-    char_type field_847;
 };
 
 EXPORT char_type __stdcall GetBriefFaceIdx_5D3680(u16 face_char);
@@ -655,9 +631,7 @@ class Hud_Brief_704 // size 0x704
     wchar_t field_0_str[640];
     s16 field_500;
     u8 field_502_face_idx;
-    u8 field_503;
     u16 field_504_tick_timer;
-    u16 field_506;
     s32 field_508_num_lines;
     s32 field_50C_face_variant;
     s32 field_510_time_to_show;
@@ -695,16 +669,12 @@ class Hud_MapZone_98
     EXPORT void ResetTransparency_5D5C50();
     EXPORT Hud_MapZone_98();
     u8 field_0_timer;
-    char_type field_1;
     wchar_t field_2_wstr[65];
     s32 field_84_xpos_offset;
     gmp_map_zone* field_88_nav_zone;
     gmp_map_zone* field_8C_local_nav_zone;
     s32 field_90_alpha_flag;
     u8 field_94_transparency; // range from 0 to 31
-    char_type field_95;
-    char_type field_96;
-    char_type field_97;
 };
 
 class Hud_CarName_4C
@@ -713,7 +683,6 @@ class Hud_CarName_4C
     EXPORT Hud_CarName_4C();
     EXPORT void DrawCarName_5D4A10();
     char_type field_0_display_time;
-    char_type field_1;
     wchar_t field_2_car_name[33];
     s32 field_44_xpos_offset;
     s32 field_48_ypos;

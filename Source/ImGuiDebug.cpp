@@ -2494,7 +2494,6 @@ void CC ImGuiDebugDraw()
                         Hud_ArrowGangInfo_8* g30 = &g20->field_10;
                         ImGui::Input_char_type("Hud_ArrowGangInfo_8 f5", &g30->field_5_is_visible, 1, 1);
                         ImGui::Input_char_type("Hud_ArrowGangInfo_8 f6", &g30->field_6_in_use, 1, 1);
-                        ImGui::Input_char_type("Hud_ArrowGangInfo_8 f7", &g30->field_7, 1, 1);
 
                         ArrowTrace_24* pPrimaryTrace = &g20->field_18_primary_target;
                         if (pPrimaryTrace)
@@ -2548,7 +2547,6 @@ void CC ImGuiDebugDraw()
                         ImGui::Value("field_500", pHud_Brief_704->field_500);
                         ImGui::InputU8("field_502_face_idx", &pHud_Brief_704->field_502_face_idx, 1, 1);
                         ImGui::Value("field_504_tick_timer", pHud_Brief_704->field_504_tick_timer);
-                        ImGui::Value("field_506", pHud_Brief_704->field_506);
                         ImGui::Value("field_508_num_lines", pHud_Brief_704->field_508_num_lines);
                         ImGui::Value("field_50C", pHud_Brief_704->field_50C_face_variant);
                         ImGui::Value("field_510_time_to_show", pHud_Brief_704->field_510_time_to_show);
