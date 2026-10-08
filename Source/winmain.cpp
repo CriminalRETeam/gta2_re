@@ -51,7 +51,7 @@
 #include "Ped.hpp"
 #include "Phi_8CA8.hpp"
 #include "Player.hpp"
-#include "Rozza_C88.hpp"
+#include "CollisionSoundQueue_C88.hpp"
 #include "CrimeReportQueue_CC.hpp"
 #include "cSampleManager.hpp"
 #include "char.hpp"
@@ -146,8 +146,8 @@ void force_link()
     Ambulance_20 jaw_20;
     jaw_20.field_14_count = 1;
 
-    Rozza_C88 rozza;
-    rozza.field_0_pSoundObj = 0;
+    CollisionSoundQueue_C88 collision_sound_queue;
+    collision_sound_queue.field_0_pSoundObj = 0;
 
     GeneratorPool_14AC maccies;
     maccies.sub_4C1CD0();

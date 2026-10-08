@@ -21,7 +21,7 @@
 #include "gtx_0x106C.hpp"
 #include "memory.hpp"
 #include "sprite.hpp"
-#include "Rozza_C88.hpp"
+#include "CollisionSoundQueue_C88.hpp"
 
 DEFINE_GLOBAL(Map_0x370*, gMap_0x370_6F6268, 0x6F6268);
 DEFINE_GLOBAL(gmp_block_info*, gBlockInfo0_6F5EB0, 0x6F5EB0);
@@ -1716,7 +1716,7 @@ bool Map_0x370::SpriteHitsDiagonalWall_4E1520(s32 z_pos)
                                                    Fix16((u32)y_pos) + kFpHalf_6F5FE0,
                                                    z_pos);
                         pSprt->UpdateCollisionBoundsIfNeeded_59E9C0();
-                        gRozza_679188.SetSprite_40FEE0(pSprt);
+                        gCollisionTarget_679188.SetSprite_40FEE0(pSprt);
                         return true;
                     }
                 }
@@ -2942,7 +2942,7 @@ char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_
     Ang16 angle;
     Fix16_Point pos_diff(x_2 - x_1, y_2 - y_1);
 
-    gRozza_679188.Reset_4637B0();
+    gCollisionTarget_679188.Reset_4637B0();
 
     angle = Fix16::atan2_fixed_405320(y_2 - y_1, x_2 - x_1);
 

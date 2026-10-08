@@ -11,7 +11,7 @@ enum
     Crusher_30_9 = 9,
     Crane_15C_8 = 8,
     Weapon_30_7 = 7,
-    Rozza_C88_6 = 6,
+    CollisionSoundQueue_6 = 6,
     Camera_0xBC_5 = 5,
     Unknown_4 = 4,
     Radio_3 = 3,
@@ -36,7 +36,7 @@ class infallible_turing
         class Crusher_30* pCrusher_30;
         class Crane_15C* pCrane_15C;
         class Weapon_30* pWeapon_30;
-        class Rozza_C88* pRozza_C88;
+        class CollisionSoundQueue_C88* pCollisionSoundQueue;
         class Camera_0xBC* pCamera_0xBC;
         class infallible_turing* pInfallible_turing;
         class Sprite* pSprite;

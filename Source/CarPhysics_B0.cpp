@@ -13,7 +13,7 @@
 #include "Particle_8.hpp"
 #include "Player.hpp"
 #include "PurpleDoom.hpp"
-#include "Rozza_C88.hpp"
+#include "CollisionSoundQueue_C88.hpp"
 #include "debug.hpp"
 #include "error.hpp"
 #include "map_0x370.hpp"
@@ -1312,7 +1312,7 @@ void CarPhysics_B0::EmitImpactParticles_55B7E0(u8 apply_to_corners_mask)
         } while (box_idx < 4);
     }
 
-    gRozza_C88_66AFE0->Type4_40BC40(pCarSprite);
+    gCollisionSoundQueue_66AFE0->AddFloorCollision_40BC40(pCarSprite);
 }
 
 MATCH_FUNC(0x55b970)
@@ -1481,7 +1481,7 @@ char_type CarPhysics_B0::TestCollision_55C150()
             return 0;
         }
     }
-    gRozza_679188.SetField24_49EF10(pCarSprite);
+    gCollisionTarget_679188.SetSourceSprite_49EF10(pCarSprite);
     return 1;
 }
 
@@ -1561,16 +1561,16 @@ MATCH_FUNC(0x55c5c0)
 void CarPhysics_B0::HandleMapBoundaryCollisionY_55C5C0(Fix16_Point& pPoint, Ang16 angle)
 {
     Fix16_Point RelativePointVelocity;
-    if (field_5C_pCar->field_50_car_sprite->GetNearestHorizontalEdgeToCoordinate_5A0A70(gRozza_679188.field_18_mapy_t1,
+    if (field_5C_pCar->field_50_car_sprite->GetNearestHorizontalEdgeToCoordinate_5A0A70(gCollisionTarget_679188.field_18_hseg_y,
                                                                                         CollisionIntersectionPoint_6FE1A0,
                                                                                         gCollisionArea_6FDFC4))
     {
-        stru_6FE1F0.SetXY_432860(Fix16(0), field_38_cp1.y - gRozza_679188.field_18_mapy_t1);
+        stru_6FE1F0.SetXY_432860(Fix16(0), field_38_cp1.y - gCollisionTarget_679188.field_18_hseg_y);
         RelativePointVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
     }
     else
     {
-        CollisionIntersectionPoint_6FE1A0.SetXY_432860(gRozza_679188.field_14_mapx_t2, gRozza_679188.field_18_mapy_t1);
+        CollisionIntersectionPoint_6FE1A0.SetXY_432860(gCollisionTarget_679188.field_14_vseg_x, gCollisionTarget_679188.field_18_hseg_y);
         CollisionIntersectionPoint_6FE1A0 -= pPoint;
         {
             Ang16 rot_angle(field_58_theta.rValue - angle.rValue);
@@ -1578,16 +1578,16 @@ void CarPhysics_B0::HandleMapBoundaryCollisionY_55C5C0(Fix16_Point& pPoint, Ang1
             CollisionIntersectionPoint_6FE1A0.RotateByAngle_40F6B0(rot_angle);
         }
         CollisionIntersectionPoint_6FE1A0.x += field_38_cp1.x;
-        CollisionIntersectionPoint_6FE1A0.y = gRozza_679188.field_18_mapy_t1;
+        CollisionIntersectionPoint_6FE1A0.y = gCollisionTarget_679188.field_18_hseg_y;
 
-        if (Fix16::Abs_negate_out_of_line(CollisionIntersectionPoint_6FE1A0.x - gRozza_679188.field_4_mapx_t1) <
-            Fix16::Abs_negate_out_of_line(CollisionIntersectionPoint_6FE1A0.x - gRozza_679188.field_8_mapx_max_t1))
+        if (Fix16::Abs_negate_out_of_line(CollisionIntersectionPoint_6FE1A0.x - gCollisionTarget_679188.field_4_hseg_x_min) <
+            Fix16::Abs_negate_out_of_line(CollisionIntersectionPoint_6FE1A0.x - gCollisionTarget_679188.field_8_hseg_x_max))
         {
-            CollisionIntersectionPoint_6FE1A0.x = gRozza_679188.field_4_mapx_t1;
+            CollisionIntersectionPoint_6FE1A0.x = gCollisionTarget_679188.field_4_hseg_x_min;
         }
         else
         {
-            CollisionIntersectionPoint_6FE1A0.x = gRozza_679188.field_8_mapx_max_t1;
+            CollisionIntersectionPoint_6FE1A0.x = gCollisionTarget_679188.field_8_hseg_x_max;
         }
         RelativePointVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
         if (field_38_cp1.y < CollisionIntersectionPoint_6FE1A0.y)
@@ -1607,16 +1607,16 @@ MATCH_FUNC(0x55c820)
 void CarPhysics_B0::HandleMapBoundaryCollisionX_55C820(Fix16_Point& pPoint, Ang16 angle)
 {
     Fix16_Point RelativePointVelocity;
-    if (field_5C_pCar->field_50_car_sprite->GetNearestVerticalEdgeToCoordinate_5A1030(gRozza_679188.field_14_mapx_t2,
+    if (field_5C_pCar->field_50_car_sprite->GetNearestVerticalEdgeToCoordinate_5A1030(gCollisionTarget_679188.field_14_vseg_x,
                                                                                       CollisionIntersectionPoint_6FE1A0,
                                                                                       gCollisionArea_6FDFC4))
     {
-        stru_6FE1F0.SetXY_432860(field_38_cp1.x - gRozza_679188.field_14_mapx_t2, Fix16(0));
+        stru_6FE1F0.SetXY_432860(field_38_cp1.x - gCollisionTarget_679188.field_14_vseg_x, Fix16(0));
         RelativePointVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
     }
     else
     {
-        CollisionIntersectionPoint_6FE1A0.SetXY_432860(gRozza_679188.field_14_mapx_t2, gRozza_679188.field_18_mapy_t1);
+        CollisionIntersectionPoint_6FE1A0.SetXY_432860(gCollisionTarget_679188.field_14_vseg_x, gCollisionTarget_679188.field_18_hseg_y);
         CollisionIntersectionPoint_6FE1A0 -= pPoint;
         {
             Ang16 rot_angle(field_58_theta.rValue - angle.rValue);
@@ -1624,16 +1624,16 @@ void CarPhysics_B0::HandleMapBoundaryCollisionX_55C820(Fix16_Point& pPoint, Ang1
             CollisionIntersectionPoint_6FE1A0.RotateByAngle_40F6B0(rot_angle);
         }
         CollisionIntersectionPoint_6FE1A0.y += field_38_cp1.y;
-        CollisionIntersectionPoint_6FE1A0.x = gRozza_679188.field_14_mapx_t2;
+        CollisionIntersectionPoint_6FE1A0.x = gCollisionTarget_679188.field_14_vseg_x;
 
-        if (Fix16::Abs_negate_out_of_line(CollisionIntersectionPoint_6FE1A0.y - gRozza_679188.field_C_mapy_t2) <
-            Fix16::Abs_negate_out_of_line(CollisionIntersectionPoint_6FE1A0.y - gRozza_679188.field_10_mapy_max_t2))
+        if (Fix16::Abs_negate_out_of_line(CollisionIntersectionPoint_6FE1A0.y - gCollisionTarget_679188.field_C_vseg_y_min) <
+            Fix16::Abs_negate_out_of_line(CollisionIntersectionPoint_6FE1A0.y - gCollisionTarget_679188.field_10_vseg_y_max))
         {
-            CollisionIntersectionPoint_6FE1A0.y = gRozza_679188.field_C_mapy_t2;
+            CollisionIntersectionPoint_6FE1A0.y = gCollisionTarget_679188.field_C_vseg_y_min;
         }
         else
         {
-            CollisionIntersectionPoint_6FE1A0.y = gRozza_679188.field_10_mapy_max_t2;
+            CollisionIntersectionPoint_6FE1A0.y = gCollisionTarget_679188.field_10_vseg_y_max;
         }
         RelativePointVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
         if (field_38_cp1.x < CollisionIntersectionPoint_6FE1A0.x)
@@ -1655,45 +1655,45 @@ void CarPhysics_B0::DispatchCollision_55CA70(Fix16_Point& a2, Ang16 a3)
     Fix16_Point arg0;
     u8 hitType;
     //v7 = 0;
-    switch (gRozza_679188.field_0_type)
+    switch (gCollisionTarget_679188.field_0_type)
     {
-        case 1:
+        case collision_target_type::horizontal_edge_1:
             HandleMapBoundaryCollisionY_55C5C0(a2, a3);
             break;
-        case 2:
+        case collision_target_type::vertical_edge_2:
             HandleMapBoundaryCollisionX_55C820(a2, a3);
             break;
-        case 3:
+        case collision_target_type::sprite_3:
             // TODO: Likely wrong arguments here
-            CollisionIntersectionPoint_6FE1A0 = field_5C_pCar->field_50_car_sprite->FindCollisionIntersectionPoint_5A2710(gRozza_679188.field_20_pSprite,
+            CollisionIntersectionPoint_6FE1A0 = field_5C_pCar->field_50_car_sprite->FindCollisionIntersectionPoint_5A2710(gCollisionTarget_679188.field_20_pHitSprite,
                                                                                                      a2,
                                                                                                      a3,
                                                                                                      gCollisionArea_6FDFC4,
                                                                                                      gOtherCollisionArea_6FDFCC,
                                                                                                      hitType);
 
-            Car_BC* pCar = gRozza_679188.field_20_pSprite->AsCar_40FEB0();
+            Car_BC* pCar = gCollisionTarget_679188.field_20_pHitSprite->AsCar_40FEB0();
             if (pCar)
             {
                 HandleCarCollision_55FF20(pCar);
             }
             else
             {
-                Char_B4* pB4 = gRozza_679188.field_20_pSprite->AsCharB4_40FEA0();
+                Char_B4* pB4 = gCollisionTarget_679188.field_20_pHitSprite->AsCharB4_40FEA0();
                 if (pB4)
                 {
                     ProcessPedImpact_560B40(pB4, hitType);
                 }
                 else
                 {
-                    Object_2C* p2C = gRozza_679188.field_20_pSprite->As2C_40FEC0();
+                    Object_2C* p2C = gCollisionTarget_679188.field_20_pHitSprite->As2C_40FEC0();
                     HandleObjectCollision_5606C0(p2C, gCollisionArea_6FDFC4);
                 }
             }
             break;
     }
 
-    gRozza_C88_66AFE0->OtherType_40BBA0(field_5C_pCar->field_50_car_sprite, gCollisionDamage_6FE33C);
+    gCollisionSoundQueue_66AFE0->AddCollision_40BBA0(field_5C_pCar->field_50_car_sprite, gCollisionDamage_6FE33C);
 }
 
 // https://decomp.me/scratch/0TpGe
@@ -1701,7 +1701,7 @@ MATCH_FUNC(0x55cbb0)
 void CarPhysics_B0::ReplayAndDispatchCollision_55CBB0(Fix16 a2, Fix16 a3)
 {
     Fix16_Point point;
-    CarPhysics_B0* pPhysics = gRozza_679188.field_24->AsCar_40FEB0()->field_58_physics;
+    CarPhysics_B0* pPhysics = gCollisionTarget_679188.field_24_pSourceSprite->AsCar_40FEB0()->field_58_physics;
 
     restore_saved_physics_state_55A400();
     ApplyMovementStep_560F20(a2);
@@ -1933,7 +1933,7 @@ char_type CarPhysics_B0::StepMovementAndCollisions_55E470()
 
     while (gRemainingTimeStep_6FE198 >= kFP16Eighth_6FE370)
     {
-        gRozza_679188.Reset_4637B0();
+        gCollisionTarget_679188.Reset_4637B0();
         this->field_70_z_vel = 0; // fp 0
         save_physics_state_55A4B0();
         ApplyMovementStep_560F20(k_dword_6FE210);
@@ -1941,11 +1941,11 @@ char_type CarPhysics_B0::StepMovementAndCollisions_55E470()
         if (SweepTestMovementForCollision_55C3B0(&a2, &a3))
         {
             ret_val = 1;
-            if (gRozza_679188.field_20_pSprite)
+            if (gCollisionTarget_679188.field_20_pHitSprite)
             {
                 for (s32 i = 0; i < sprites_array_idx; i++)
                 {
-                    if (sprites_array[i] == gRozza_679188.field_20_pSprite)
+                    if (sprites_array[i] == gCollisionTarget_679188.field_20_pHitSprite)
                     {
                         restore_saved_physics_state_55A400();
                         UpdateCarAndTrailerSpriteFromPhysics_5636C0();
@@ -1964,9 +1964,9 @@ char_type CarPhysics_B0::StepMovementAndCollisions_55E470()
         }
 
         gRemainingTimeStep_6FE198 = (gRemainingTimeStep_6FE198 * (k_dword_6FE210 - a3));
-        sprites_array[sprites_array_idx++] = gRozza_679188.field_20_pSprite;
+        sprites_array[sprites_array_idx++] = gCollisionTarget_679188.field_20_pHitSprite;
 
-        if ((gRozza_679188.IsCharB4_49EF20() || gRozza_679188.IsObj2C_477A10()) && k2Counter < 4)
+        if ((gCollisionTarget_679188.IsCharB4_49EF20() || gCollisionTarget_679188.IsObj2C_477A10()) && k2Counter < 4)
         {
             ++k2Counter;
         }
@@ -2085,7 +2085,7 @@ void CarPhysics_B0::ApplyTurningForce_55F020()
 {
     Fix16_Point v6;
     Fix16 v17 = dword_6FE358;
-    Object_2C* pObj = gRozza_679188.field_20_pSprite->As2C_40FEC0();
+    Object_2C* pObj = gCollisionTarget_679188.field_20_pHitSprite->As2C_40FEC0();
     Fix16 v4;
 
     if (pObj && pObj->field_18_model == objects::diagonal_wall_collision_obj_166)
@@ -2122,15 +2122,15 @@ void CarPhysics_B0::ApplyTurningForce_55F020()
 MATCH_FUNC(0x55f240)
 char_type CarPhysics_B0::ApplyMovementCommand_55F240()
 {
-    switch (gRozza_679188.field_0_type)
+    switch (gCollisionTarget_679188.field_0_type)
     {
-        case 1:
+        case collision_target_type::horizontal_edge_1:
             ApplyReverseEngineForce_55EF20();
             return 1;
-        case 2:
+        case collision_target_type::vertical_edge_2:
             ApplyForwardEngineForce_55EC30();
             return 1;
-        case 3:
+        case collision_target_type::sprite_3:
             ApplyTurningForce_55F020();
             field_AA_sbw = 0;
             break;

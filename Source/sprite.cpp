@@ -14,7 +14,7 @@
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
-#include "Rozza_C88.hpp"
+#include "CollisionSoundQueue_C88.hpp"
 #include "char.hpp"
 #include "crt_stubs.hpp"
 #include "debug.hpp"
@@ -422,7 +422,7 @@ EXPORT char_type __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16& minX, Fix1
         Fix16 x = p0.x + (((scanLineY - p0.y) * ((pd.x) / pd.y)));
         if (x.mValue >= minX.mValue && x.mValue <= minY.mValue)
         {
-            gRozza_679188.field_14_mapx_t2 = x;
+            gCollisionTarget_679188.field_14_vseg_x = x;
             return 1;
         }
     }
@@ -432,7 +432,7 @@ EXPORT char_type __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16& minX, Fix1
         Fix16 x = p1.x + (((scanLineY - p1.y) * ((pd.x) / pd.y)));
         if (x.mValue >= minX.mValue && x.mValue <= minY.mValue)
         {
-            gRozza_679188.field_14_mapx_t2 = x;
+            gCollisionTarget_679188.field_14_vseg_x = x;
             return 1;
         }
     }
@@ -457,7 +457,7 @@ EXPORT bool __stdcall ComputeScanlineIntersectionX_4F77D0(Fix16& minX, Fix16& mi
         Fix16 y = p0.y + (((scanLineX - p0.x) * ((pd.y) / pd.x)));
         if (y.mValue >= minX.mValue && y.mValue <= minY.mValue)
         {
-            gRozza_679188.field_18_mapy_t1 = y;
+            gCollisionTarget_679188.field_18_hseg_y = y;
             return 1;
         }
     }
@@ -467,7 +467,7 @@ EXPORT bool __stdcall ComputeScanlineIntersectionX_4F77D0(Fix16& minX, Fix16& mi
         Fix16 y = p1.y + (((scanLineX - p1.x) * ((pd.y) / pd.x)));
         if (y.mValue >= minX.mValue && y.mValue <= minY.mValue)
         {
-            gRozza_679188.field_18_mapy_t1 = y;
+            gCollisionTarget_679188.field_18_hseg_y = y;
             return 1;
         }
     }
@@ -746,12 +746,12 @@ Sprite* Sprite::QuerySpriteCollision_59E7D0(s32 a2)
     gSprite_6F61E8 = this;
     if (gMap_0x370_6F6268->SpriteHitsDiagonalWall_4E1520(field_1C_zpos.ToInt()))
     {
-        return gRozza_679188.field_20_pSprite;
+        return gCollisionTarget_679188.field_20_pHitSprite;
     }
     result = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this, a2);
     if (result)
     {
-        gRozza_679188.SetSprite_40FEE0(result);
+        gCollisionTarget_679188.SetSprite_40FEE0(result);
     }
     return result;
 }
@@ -1640,12 +1640,12 @@ char_type Sprite::CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 sca
         ComputeScanlineIntersectionY_4F76A0(scanXMin, scanXMax, scanY, pBBox[2], pBBox[3]) ||
         ComputeScanlineIntersectionY_4F76A0(scanXMin, scanXMax, scanY, pBBox[3], pBBox[0]))
     {
-        // 9.6f: Rozza_C88::SetHorizontalSegment_4BA250 (inlined, using it changes the store order)
-        gRozza_679188.field_0_type = 1;
-        gRozza_679188.field_4_mapx_t1 = scanXMin;
-        gRozza_679188.field_8_mapx_max_t1 = scanXMax;
-        gRozza_679188.field_18_mapy_t1 = scanY;
-        gRozza_679188.field_20_pSprite = 0;
+        // 9.6f: CollisionSoundQueue_C88::SetHorizontalSegment_4BA250 (inlined, using it changes the store order)
+        gCollisionTarget_679188.field_0_type = collision_target_type::horizontal_edge_1;
+        gCollisionTarget_679188.field_4_hseg_x_min = scanXMin;
+        gCollisionTarget_679188.field_8_hseg_x_max = scanXMax;
+        gCollisionTarget_679188.field_18_hseg_y = scanY;
+        gCollisionTarget_679188.field_20_pHitSprite = 0;
         return 1;
     }
     return 0;
@@ -1738,7 +1738,7 @@ char_type Sprite::HitTestVerticalLine_5A0EF0(Fix16 a2, Fix16 a3, Fix16 a4)
         ComputeScanlineIntersectionX_4F77D0(a2, a3, a4, pBBox[2], pBBox[3]) ||
         ComputeScanlineIntersectionX_4F77D0(a2, a3, a4, pBBox[3], pBBox[0]))
     {
-        gRozza_679188.SetVerticalSegment_4BA280(a2, a3, a4);
+        gCollisionTarget_679188.SetVerticalSegment_4BA280(a2, a3, a4);
         return 1;
     }
     return 0;
@@ -2072,7 +2072,7 @@ char_type Sprite::sub_5A2440()
                                                                               2048);
     if (result)
     {
-        gRozza_679188.SetMapZ_4BA2B0(field_1C_zpos);
+        gCollisionTarget_679188.SetMapZ_4BA2B0(field_1C_zpos);
     }
     return result;
 }
@@ -2084,29 +2084,29 @@ char_type Sprite::CheckSpriteMovementRegion_5A2500()
     {
         if (field_14_xy.x < kFP16One_7035C4)
         {
-            gRozza_679188.SetVerticalSegment_4BA280(field_14_xy.y.GetRoundValue(), (field_14_xy.y.GetRoundValue()) + kFP16One_7035C4, kFP16One_7035C4);
-            gRozza_679188.SetMapZ_4BA2B0(field_1C_zpos);
+            gCollisionTarget_679188.SetVerticalSegment_4BA280(field_14_xy.y.GetRoundValue(), (field_14_xy.y.GetRoundValue()) + kFP16One_7035C4, kFP16One_7035C4);
+            gCollisionTarget_679188.SetMapZ_4BA2B0(field_1C_zpos);
             return 1;
         }
 
         if (field_14_xy.x > k_dword_7033B4)
         {
-            gRozza_679188.SetVerticalSegment_4BA280(field_14_xy.y.GetRoundValue(), (field_14_xy.y.GetRoundValue()) + kFP16One_7035C4, k_dword_7033B4);
-            gRozza_679188.SetMapZ_4BA2B0(field_1C_zpos);
+            gCollisionTarget_679188.SetVerticalSegment_4BA280(field_14_xy.y.GetRoundValue(), (field_14_xy.y.GetRoundValue()) + kFP16One_7035C4, k_dword_7033B4);
+            gCollisionTarget_679188.SetMapZ_4BA2B0(field_1C_zpos);
             return 1;
         }
 
         if (field_14_xy.y < kFP16One_7035C4)
         {
-            gRozza_679188.SetHorizontalSegment_4BA250(field_14_xy.x.GetRoundValue(), (field_14_xy.x.GetRoundValue()) + kFP16One_7035C4, kFP16One_7035C4);
-            gRozza_679188.SetMapZ_4BA2B0(field_1C_zpos);
+            gCollisionTarget_679188.SetHorizontalSegment_4BA250(field_14_xy.x.GetRoundValue(), (field_14_xy.x.GetRoundValue()) + kFP16One_7035C4, kFP16One_7035C4);
+            gCollisionTarget_679188.SetMapZ_4BA2B0(field_1C_zpos);
             return 1;
         }
 
         if (field_14_xy.y > k_dword_7033B4)
         {
-            gRozza_679188.SetHorizontalSegment_4BA250(field_14_xy.x.GetRoundValue(), (field_14_xy.x.GetRoundValue()) + kFP16One_7035C4, k_dword_7033B4);
-            gRozza_679188.SetMapZ_4BA2B0(field_1C_zpos);
+            gCollisionTarget_679188.SetHorizontalSegment_4BA250(field_14_xy.x.GetRoundValue(), (field_14_xy.x.GetRoundValue()) + kFP16One_7035C4, k_dword_7033B4);
+            gCollisionTarget_679188.SetMapZ_4BA2B0(field_1C_zpos);
             return 1;
         }
     }
@@ -2132,7 +2132,7 @@ char_type Sprite::CheckSpriteMovementRegion_5A2500()
                                                                               val);
     if (result)
     {
-        gRozza_679188.SetMapZ_4BA2B0(field_1C_zpos);
+        gCollisionTarget_679188.SetMapZ_4BA2B0(field_1C_zpos);
     }
     return result;
 }

@@ -31,7 +31,7 @@
 #include "Ped_List_4.hpp"
 #include "Phi_8CA8.hpp"
 #include "Police_7B8.hpp"
-#include "Rozza_C88.hpp"
+#include "CollisionSoundQueue_C88.hpp"
 #include "PublicTransport.hpp"
 #include "CrimeReportQueue_CC.hpp"
 #include "Crushers.hpp"

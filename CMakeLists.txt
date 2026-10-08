@@ -219,8 +219,8 @@ set(gta2_lib_src
   Source/CrimeReportQueue_CC.cpp
   Source/Firefighters.hpp
   Source/Firefighters.cpp
-  Source/Rozza_C88.hpp
-  Source/Rozza_C88.cpp
+  Source/CollisionSoundQueue_C88.hpp
+  Source/CollisionSoundQueue_C88.cpp
   Source/PurpleDoom.hpp
   Source/PurpleDoom.cpp
   Source/Network_20324.hpp

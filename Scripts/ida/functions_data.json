@@ -302,66 +302,66 @@
         "v105_address": "0x40b560"
     },
     {
-        "name": "Rozza_A::set_xyz_40B870",
+        "name": "CollisionEvent_28::SetPosition_40B870",
         "v96f_address": "0x40fe30",
         "v105_address": "0x40b870",
         "v96f_auto": true
     },
     {
-        "name": "Rozza_A::SetupForCar_40B890",
+        "name": "CollisionEvent_28::SetupForCar_40B890",
         "v96f_address": "0x40ff20",
         "v105_address": "0x40b890",
         "v96f_auto": true
     },
     {
-        "name": "Rozza_A::SetupForPed_40B980",
+        "name": "CollisionEvent_28::SetupForPed_40B980",
         "v96f_address": "0x410010",
         "v105_address": "0x40b980",
         "v96f_auto": true
     },
     {
-        "name": "Rozza_A::SetupForObject_40BA60",
+        "name": "CollisionEvent_28::SetupForObject_40BA60",
         "v96f_address": "0x4100f0",
         "v105_address": "0x40ba60",
         "v96f_auto": true
     },
     {
-        "name": "Rozza_C88::Reset_40BB90",
+        "name": "CollisionSoundQueue_C88::Reset_40BB90",
         "v96f_address": "0x40fe50",
         "v105_address": "0x40bb90",
         "v96f_auto": true
     },
     {
-        "name": "Rozza_C88::OtherType_40BBA0",
+        "name": "CollisionSoundQueue_C88::AddCollision_40BBA0",
         "v96f_address": "0x410210",
         "v105_address": "0x40bba0",
         "v96f_auto": true
     },
     {
-        "name": "Rozza_C88::Type4_40BC40",
+        "name": "CollisionSoundQueue_C88::AddFloorCollision_40BC40",
         "v96f_address": "0x410370",
         "v105_address": "0x40bc40",
         "v96f_auto": true
     },
     {
-        "name": "Rozza_C88::Type5_40BD10",
+        "name": "CollisionSoundQueue_C88::AddBlockCollision_40BD10",
         "v96f_address": "0x4102a0",
         "v105_address": "0x40bd10",
         "v96f_auto": true
     },
     {
-        "name": "Rozza_C88::Type3_40BDD0",
+        "name": "CollisionSoundQueue_C88::AddSpriteCollision_40BDD0",
         "v96f_address": null,
         "v105_address": "0x40bdd0"
     },
     {
-        "name": "Rozza_C88::ctor",
+        "name": "CollisionSoundQueue_C88::ctor",
         "v96f_address": "0x4104b0",
         "v105_address": "0x40be00",
         "v96f_auto": true
     },
     {
-        "name": "Rozza_C88::dtor",
+        "name": "CollisionSoundQueue_C88::dtor",
         "v96f_address": "0x410440",
         "v105_address": "0x40be40",
         "v96f_auto": true
@@ -613,7 +613,7 @@
         "v96f_auto": true
     },
     {
-        "name": "sound_obj::ProcessType6_Rozza_C88_413760",
+        "name": "sound_obj::ProcessType6_CollisionSoundQueue_413760",
         "v96f_address": "0x415f90",
         "v105_address": "0x413760",
         "v96f_auto": true
@@ -4761,7 +4761,7 @@
         "v105_address": "0x474d30"
     },
     {
-        "name": "Rozza_28::IsObj2C_477A10",
+        "name": "CollisionTarget_28::IsObj2C_477A10",
         "v96f_address": null,
         "v105_address": "0x477a10"
     },

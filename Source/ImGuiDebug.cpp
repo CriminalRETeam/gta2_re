@@ -39,7 +39,7 @@
 #include "text_0x14.hpp"
 #include "sound_obj.hpp"
 #include "root_sound.hpp"
-#include "Rozza_C88.hpp"
+#include "CollisionSoundQueue_C88.hpp"
 #include "ExplodingScore_100.hpp"
 #include "CarAI_78.hpp"
 #include <direct.h>
@@ -3048,22 +3048,22 @@ void CC ImGuiDebugDraw()
                 ImGui::TreePop();
             }
             
-            if (&gRozza_679188 && ImGui::TreeNode("Show rozza sprite"))
+            if (&gCollisionTarget_679188 && ImGui::TreeNode("Show collision target"))
             {
-                ImGui::Value("Type", gRozza_679188.field_0_type);
-                if (gRozza_679188.field_20_pSprite)
+                ImGui::Value("Type", gCollisionTarget_679188.field_0_type);
+                if (gCollisionTarget_679188.field_20_pHitSprite)
                 {
-                    if (gRozza_679188.field_20_pSprite->AsCharB4_40FEA0())
+                    if (gCollisionTarget_679188.field_20_pHitSprite->AsCharB4_40FEA0())
                     {
-                        PointArrowToEntity(gRozza_679188.field_20_pSprite->field_8_char_b4_ptr->field_7C_pPed, 0, 0);
+                        PointArrowToEntity(gCollisionTarget_679188.field_20_pHitSprite->field_8_char_b4_ptr->field_7C_pPed, 0, 0);
                     }
-                    else if (gRozza_679188.field_20_pSprite->AsCar_40FEB0())
+                    else if (gCollisionTarget_679188.field_20_pHitSprite->AsCar_40FEB0())
                     {
-                        PointArrowToEntity(0, gRozza_679188.field_20_pSprite->field_8_car_bc_ptr, 0);
+                        PointArrowToEntity(0, gCollisionTarget_679188.field_20_pHitSprite->field_8_car_bc_ptr, 0);
                     }
-                    else if (gRozza_679188.field_20_pSprite->As2C_40FEC0())
+                    else if (gCollisionTarget_679188.field_20_pHitSprite->As2C_40FEC0())
                     {
-                        PointArrowToEntity(0, 0, gRozza_679188.field_20_pSprite->field_8_object_2C_ptr);
+                        PointArrowToEntity(0, 0, gCollisionTarget_679188.field_20_pHitSprite->field_8_object_2C_ptr);
                     }
                 }
             }

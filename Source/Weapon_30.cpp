@@ -25,7 +25,7 @@ EXTERN_GLOBAL(Fix16, dword_706CC8);
 #include "map_0x370.hpp"
 #include "root_sound.hpp"
 #include "sprite.hpp"
-#include "Rozza_C88.hpp"
+#include "CollisionSoundQueue_C88.hpp"
 #include "Police_7B8.hpp"
 #include "Car_BC.hpp"
 #include "PlayerScoreTracker_36C.hpp"
@@ -733,7 +733,7 @@ void Weapon_30::sub_5DE4F0()
     Sprite* pBeam = gObject_5C_6F8F84->field_58_collision_probe_sprite;
     Fix16_Point delta(field_24_pPed->field_198_hit_target_ped->get_cam_x() - field_24_pPed->get_cam_x(),
                       field_24_pPed->field_198_hit_target_ped->get_cam_y() - field_24_pPed->get_cam_y());
-    gRozza_679188.Reset_4637B0();
+    gCollisionTarget_679188.Reset_4637B0();
 
     Ang16 angle;
     angle = Fix16::atan2_fixed_405320(field_24_pPed->field_198_hit_target_ped->get_cam_y() - field_24_pPed->get_cam_y(),

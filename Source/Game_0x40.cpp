@@ -36,7 +36,7 @@
 #include "PublicTransport.hpp"
 #include "PurpleDoom.hpp"
 #include "RouteFinder.hpp"
-#include "Rozza_C88.hpp"
+#include "CollisionSoundQueue_C88.hpp"
 #include "CrimeReportQueue_CC.hpp"
 #include "Taxi_4.hpp"
 #include "TileAnim_2.hpp"
@@ -480,7 +480,7 @@ void Game_0x40::UpdateGame_4B9410()
         ppPlayerIter++;
     }
 
-    gRozza_C88_66AFE0->Reset_40BB90();
+    gCollisionSoundQueue_66AFE0->Reset_40BB90();
     gCollide_C_6791FC->ResetCount_478A20();
 
     if (gLighting_626A09)
@@ -1240,8 +1240,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1915);
     }
 
-    gRozza_C88_66AFE0 = new Rozza_C88(); // ctor call
-    if (!gRozza_C88_66AFE0)
+    gCollisionSoundQueue_66AFE0 = new CollisionSoundQueue_C88(); // ctor call
+    if (!gCollisionSoundQueue_66AFE0)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1918);
     }
@@ -1348,7 +1348,7 @@ Game_0x40::~Game_0x40()
 
     GTA2_DELETE_AND_NULL(gCrimeReportQueue_67A4B8);
     GTA2_DELETE_AND_NULL(gFirefighterPool_54_67D4C0);
-    GTA2_DELETE_AND_NULL(gRozza_C88_66AFE0);
+    GTA2_DELETE_AND_NULL(gCollisionSoundQueue_66AFE0);
 
     if (gMagical_germain_0x8EC_6F5168)
     {

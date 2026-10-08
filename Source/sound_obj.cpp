@@ -20,7 +20,8 @@
 #include "Ped.hpp"
 #include "Player.hpp"
 #include "PublicTransport.hpp"
-#include "Rozza_C88.hpp"
+#include "CollisionSoundQueue_C88.hpp"
+#include "collision_event_type.hpp"
 #include "Weapon_30.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
@@ -193,8 +194,8 @@ void sound_obj::ProcessEntity_4123A0(s32 id)
                         //case SoundObjectTypeEnum::Unknown_4:
                         ProcessType1_Sprite_412740(id);
                         break;
-                    case SoundObjectTypeEnum::Rozza_C88_6:
-                        ProcessType6_Rozza_C88_413760(id);
+                    case SoundObjectTypeEnum::CollisionSoundQueue_6:
+                        ProcessType6_CollisionSoundQueue_413760(id);
                         break;
                     case SoundObjectTypeEnum::Weapon_30_7:
                         ProcessType7_Weapon_42A500(id);
@@ -594,36 +595,36 @@ void sound_obj::ProcessCar_412B80(Sound_Params_8* pParams)
 }
 
 MATCH_FUNC(0x412C90)
-char_type sound_obj::Type6_412C90(Rozza_A* pObj, u8 a3)
+char_type sound_obj::Type6_412C90(CollisionEvent_28* pEvent, u8 base_sample)
 {
     char_type result;
 
-    switch (pObj->field_0_type)
+    switch (pEvent->field_0_type)
     {
-        case 1u:
-        case 10u:
-            result = sound_obj::SelectObjectImpactSound_1_10_412D30(pObj);
+        case collision_event_type::object_floor_1:
+        case collision_event_type::object_wall_10:
+            result = sound_obj::SelectObjectImpactSound_1_10_412D30(pEvent);
             break;
-        case 2u:
-            result = sound_obj::Type6_2_412D40(a3);
+        case collision_event_type::car_car_2:
+            result = sound_obj::Type6_2_412D40(base_sample);
             break;
-        case 3u:
-            result = sound_obj::Type6_3_413000(pObj);
+        case collision_event_type::car_object_3:
+            result = sound_obj::Type6_3_413000(pEvent);
             break;
-        case 4u:
-            result = sound_obj::Type6_4_413040(a3);
+        case collision_event_type::car_ped_4:
+            result = sound_obj::Type6_4_413040(base_sample);
             break;
-        case 5u:
-            result = sound_obj::Type6_5_413090(a3);
+        case collision_event_type::car_wall_5:
+            result = sound_obj::Type6_5_413090(base_sample);
             break;
-        case 7u:
-            result = sound_obj::Type6_7_4130E0(pObj);
+        case collision_event_type::ped_object_7:
+            result = sound_obj::Type6_7_4130E0(pEvent);
             break;
-        case 9u:
-            result = sound_obj::Type6_9_413540(pObj);
+        case collision_event_type::object_object_9:
+            result = sound_obj::Type6_9_413540(pEvent);
             break;
-        case 12u:
-            result = sound_obj::Type6_12_4136D0(pObj);
+        case collision_event_type::car_floor_12:
+            result = sound_obj::Type6_12_4136D0(pEvent);
             break;
         default:
             result = 0;
@@ -633,7 +634,7 @@ char_type sound_obj::Type6_412C90(Rozza_A* pObj, u8 a3)
 }
 
 MATCH_FUNC(0x412D30)
-char_type sound_obj::SelectObjectImpactSound_1_10_412D30(Rozza_A* pObj)
+char_type sound_obj::SelectObjectImpactSound_1_10_412D30(CollisionEvent_28* pObj)
 {
     return SelectObjectImpactSound_413120(pObj, 1);
 }
@@ -794,14 +795,14 @@ void sound_obj::Type6_Play_412D90(s32 model)
 }
 
 MATCH_FUNC(0x413000)
-char_type sound_obj::Type6_3_413000(Rozza_A* pObj)
+char_type sound_obj::Type6_3_413000(CollisionEvent_28* pObj)
 {
-    if ((pObj->field_18_model_copy < 200 || pObj->field_18_model_copy > 244) &&
-        (pObj->field_18_model_copy < 64 || pObj->field_18_model_copy > 108))
+    if ((pObj->field_18_object_model < 200 || pObj->field_18_object_model > 244) &&
+        (pObj->field_18_object_model < 64 || pObj->field_18_object_model > 108))
     {
         return SelectObjectImpactSound_413120(pObj, 3);
     }
-    Type6_Play_412D90(pObj->field_18_model_copy);
+    Type6_Play_412D90(pObj->field_18_object_model);
     return 1;
 }
 
@@ -856,32 +857,32 @@ char_type sound_obj::Type6_5_413090(u8 a2)
 }
 
 MATCH_FUNC(0x4130E0)
-char_type sound_obj::Type6_7_4130E0(Rozza_A* a2)
+char_type sound_obj::Type6_7_4130E0(CollisionEvent_28* a2)
 {
-    if ((a2->field_18_model_copy < 200 || a2->field_18_model_copy > 244) && (a2->field_18_model_copy < 64 || a2->field_18_model_copy > 108))
+    if ((a2->field_18_object_model < 200 || a2->field_18_object_model > 244) && (a2->field_18_object_model < 64 || a2->field_18_object_model > 108))
     {
         return SelectObjectImpactSound_413120(a2, 7);
     }
-    Type6_Play_412D90(a2->field_18_model_copy);
+    Type6_Play_412D90(a2->field_18_object_model);
     return 1;
 }
 
 MATCH_FUNC(0x413120)
-char_type sound_obj::SelectObjectImpactSound_413120(Rozza_A* pObj, s32 interactionType)
+char_type sound_obj::SelectObjectImpactSound_413120(CollisionEvent_28* pEvent, s32 interactionType)
 {
     // Models 2..60 share the samp 37 code of 281/282 (one switch in the original, split at 110 by VC6).
     // The 110 case keeps its own copy after the if, which VC6 tail-merges back into the 281/282 block.
     s32 samp_idx;
 
-    if (pObj->field_18_model_copy <= 110)
+    if (pEvent->field_18_object_model <= 110)
     {
-        if (pObj->field_18_model_copy == 110)
+        if (pEvent->field_18_object_model == 110)
         {
             // 110 shares the code of models 182 and 183
             goto case_110;
         }
 
-        switch (pObj->field_18_model_copy)
+        switch (pEvent->field_18_object_model)
         {
             case 1:
             case 18:
@@ -959,7 +960,7 @@ char_type sound_obj::SelectObjectImpactSound_413120(Rozza_A* pObj, s32 interacti
         }
     }
 
-    switch (pObj->field_18_model_copy)
+    switch (pEvent->field_18_object_model)
     {
         case 166:
         case 169:
@@ -983,7 +984,7 @@ char_type sound_obj::SelectObjectImpactSound_413120(Rozza_A* pObj, s32 interacti
         case_110:
             if (interactionType == 1)
             {
-                switch (pObj->field_20_map_block_spec)
+                switch (pEvent->field_20_map_block_spec)
                 {
                     case 1:
                     case 3:
@@ -1007,7 +1008,7 @@ char_type sound_obj::SelectObjectImpactSound_413120(Rozza_A* pObj, s32 interacti
                         return 0;
                 }
 
-                if (pObj->field_20_map_block_spec == 4)
+                if (pEvent->field_20_map_block_spec == 4)
                 {
                     field_30_sQueueSample.field_18_bIs2D = 0;
                     field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[1] % 4000 + 28000;
@@ -1030,7 +1031,7 @@ char_type sound_obj::SelectObjectImpactSound_413120(Rozza_A* pObj, s32 interacti
             {
                 case 3:
                     // 9.6f: Car_BC::sub_414F60 (field_78_flags & 0x100 via sub_411930, inlined, a bool helper changes the code)
-                    if ((pObj->field_10_car->field_78_flags & 0x100) != 0)
+                    if ((pEvent->field_10_car->field_78_flags & 0x100) != 0)
                     {
                         samp_idx = field_1454_anRandomTable[1] % 3 + 46;
                     }
@@ -1072,9 +1073,9 @@ rate_20000:
 }
 
 MATCH_FUNC(0x413540)
-char_type sound_obj::Type6_9_413540(Rozza_A* a2)
+char_type sound_obj::Type6_9_413540(CollisionEvent_28* a2)
 {
-    switch (a2->field_1C_other_model_copy)
+    switch (a2->field_1C_other_object_model)
     {
         case 169:
         case 182:
@@ -1143,7 +1144,7 @@ char_type sound_obj::Type6_9_413540(Rozza_A* a2)
 }
 
 MATCH_FUNC(0x4136D0)
-char_type sound_obj::Type6_12_4136D0(Rozza_A* a2)
+char_type sound_obj::Type6_12_4136D0(CollisionEvent_28* a2)
 {
     s32 samp_idx;
     switch (a2->field_20_map_block_spec)
@@ -1178,14 +1179,14 @@ char_type sound_obj::Type6_12_4136D0(Rozza_A* a2)
 }
 
 MATCH_FUNC(0x413760)
-void sound_obj::ProcessType6_Rozza_C88_413760(s32 idx)
+void sound_obj::ProcessType6_CollisionSoundQueue_413760(s32 idx)
 {
     u8 vol = 0;
     Fix16 distance = 0;
     char_type nearest_idx = -1;
     u8 emittingVol = 0;
 
-    Rozza_C88* p88 = field_147C_audio_entities[idx].field_4_pObj->field_C_pAny.pRozza_C88;
+    CollisionSoundQueue_C88* p88 = field_147C_audio_entities[idx].field_4_pObj->field_C_pAny.pCollisionSoundQueue;
     if (!p88)
     {
         return;
@@ -1194,11 +1195,11 @@ void sound_obj::ProcessType6_Rozza_C88_413760(s32 idx)
     this->field_30_sQueueSample.field_5C = 0;
     this->field_30_sQueueSample.field_0_EntityIndex = idx;
 
-    for (u8 rozza_idx = 0; rozza_idx < p88->field_C84_count; rozza_idx++)
+    for (u8 event_idx = 0; event_idx < p88->field_C84_count; event_idx++)
     {
-        Rozza_A* pRozzA = &p88->field_4_pool[rozza_idx];
-        u8 base_sample = Type6_413A10(pRozzA);
-        if (Type6_412C90(pRozzA, base_sample))
+        CollisionEvent_28* pEvent = &p88->field_4_events[event_idx];
+        u8 base_sample = Type6_413A10(pEvent);
+        if (Type6_412C90(pEvent, base_sample))
         {
             if (this->field_30_sQueueSample.field_18_bIs2D)
             {
@@ -1229,9 +1230,9 @@ void sound_obj::ProcessType6_Rozza_C88_413760(s32 idx)
 
             if (base_sample > 0)
             {
-                this->field_30_sQueueSample.field_8_obj.field_0_x = p88->field_4_pool[rozza_idx].field_4_x;
-                this->field_30_sQueueSample.field_8_obj.field_4_y = p88->field_4_pool[rozza_idx].field_8_y;
-                this->field_30_sQueueSample.field_8_obj.field_8_z = p88->field_4_pool[rozza_idx].field_C_z;
+                this->field_30_sQueueSample.field_8_obj.field_0_x = p88->field_4_events[event_idx].field_4_x;
+                this->field_30_sQueueSample.field_8_obj.field_4_y = p88->field_4_events[event_idx].field_8_y;
+                this->field_30_sQueueSample.field_8_obj.field_8_z = p88->field_4_events[event_idx].field_C_z;
                 this->field_28_dist_related = ComputeEmitterDistanceSquared_4190B0();
                 this->field_2C_distCalculated = 0;
                 if (CalculateDistance_419020(Fix16(409600, 0)))
@@ -1242,7 +1243,7 @@ void sound_obj::ProcessType6_Rozza_C88_413760(s32 idx)
                                                                                           this->field_30_sQueueSample.field_8_obj.field_4_y,
                                                                                           this->field_30_sQueueSample.field_8_obj.field_8_z)))
                     {
-                        nearest_idx = rozza_idx;
+                        nearest_idx = event_idx;
                         vol = this->field_30_sQueueSample.field_24_nVolume;
                         distance = this->field_30_sQueueSample.field_28_distance;
                         emittingVol = base_sample;
@@ -1257,9 +1258,9 @@ void sound_obj::ProcessType6_Rozza_C88_413760(s32 idx)
         return;
     }
 
-    this->field_30_sQueueSample.field_8_obj.field_0_x = p88->field_4_pool[nearest_idx].field_4_x;
-    this->field_30_sQueueSample.field_8_obj.field_4_y = p88->field_4_pool[nearest_idx].field_8_y;
-    this->field_30_sQueueSample.field_8_obj.field_8_z = p88->field_4_pool[nearest_idx].field_C_z;
+    this->field_30_sQueueSample.field_8_obj.field_0_x = p88->field_4_events[nearest_idx].field_4_x;
+    this->field_30_sQueueSample.field_8_obj.field_4_y = p88->field_4_events[nearest_idx].field_8_y;
+    this->field_30_sQueueSample.field_8_obj.field_8_z = p88->field_4_events[nearest_idx].field_C_z;
     this->field_30_sQueueSample.field_24_nVolume = vol;
     this->field_30_sQueueSample.field_28_distance = distance;
     this->field_30_sQueueSample.field_60_nEmittingVolume = emittingVol;
@@ -1282,69 +1283,69 @@ void sound_obj::ProcessType6_Rozza_C88_413760(s32 idx)
 }
 
 MATCH_FUNC(0x413A10)
-char_type sound_obj::Type6_413A10(Rozza_A* pRozzA)
+char_type sound_obj::Type6_413A10(CollisionEvent_28* pEvent)
 {
     // Each case divides by its own max (9.6f calls div per case); VC6 tail-merges the divisions.
     Fix16 ratio;
-    switch (pRozzA->field_0_type)
+    switch (pEvent->field_0_type)
     {
-        case 2:
-            if (pRozzA->field_24_car_physics_value < dword_66F3B4)
+        case collision_event_type::car_car_2:
+            if (pEvent->field_24_impact_strength < dword_66F3B4)
             {
                 return 0;
             }
-            if (pRozzA->field_24_car_physics_value > dword_66F3F8)
+            if (pEvent->field_24_impact_strength > dword_66F3F8)
             {
-                pRozzA->field_24_car_physics_value = dword_66F3F8;
+                pEvent->field_24_impact_strength = dword_66F3F8;
             }
-            ratio = pRozzA->field_24_car_physics_value / dword_66F3F8;
+            ratio = pEvent->field_24_impact_strength / dword_66F3F8;
             break;
 
-        case 3:
-            if (pRozzA->field_18_model_copy == 192 || pRozzA->field_18_model_copy == 254 || pRozzA->field_18_model_copy == 265)
+        case collision_event_type::car_object_3:
+            if (pEvent->field_18_object_model == 192 || pEvent->field_18_object_model == 254 || pEvent->field_18_object_model == 265)
             {
                 return 37;
             }
-            if (!pRozzA->field_10_car)
+            if (!pEvent->field_10_car)
             {
                 // Shares case 5's return block (9.6f jumps to the same block; a plain return doesn't match)
                 goto return_zero;
             }
-            pRozzA->field_24_car_physics_value = pRozzA->field_10_car->GetCarLinearSpeed_43A240();
-            if (pRozzA->field_24_car_physics_value < dword_66F3C0)
+            pEvent->field_24_impact_strength = pEvent->field_10_car->GetCarLinearSpeed_43A240();
+            if (pEvent->field_24_impact_strength < dword_66F3C0)
             {
                 return 0;
             }
-            if (pRozzA->field_24_car_physics_value > dword_66F24C)
+            if (pEvent->field_24_impact_strength > dword_66F24C)
             {
-                pRozzA->field_24_car_physics_value = dword_66F24C;
+                pEvent->field_24_impact_strength = dword_66F24C;
             }
-            ratio = pRozzA->field_24_car_physics_value / dword_66F24C;
+            ratio = pEvent->field_24_impact_strength / dword_66F24C;
             break;
 
-        case 4:
-            if (pRozzA->field_24_car_physics_value < dword_66F490)
+        case collision_event_type::car_ped_4:
+            if (pEvent->field_24_impact_strength < dword_66F490)
             {
                 return 0;
             }
-            if (pRozzA->field_24_car_physics_value > dword_66F2FC)
+            if (pEvent->field_24_impact_strength > dword_66F2FC)
             {
-                pRozzA->field_24_car_physics_value = dword_66F2FC;
+                pEvent->field_24_impact_strength = dword_66F2FC;
             }
-            ratio = pRozzA->field_24_car_physics_value / dword_66F2FC;
+            ratio = pEvent->field_24_impact_strength / dword_66F2FC;
             break;
 
-        case 5:
-            if (pRozzA->field_24_car_physics_value < dword_66F3B4)
+        case collision_event_type::car_wall_5:
+            if (pEvent->field_24_impact_strength < dword_66F3B4)
             {
             return_zero:
                 return 0;
             }
-            if (pRozzA->field_24_car_physics_value > dword_66F3FC)
+            if (pEvent->field_24_impact_strength > dword_66F3FC)
             {
-                pRozzA->field_24_car_physics_value = dword_66F3FC;
+                pEvent->field_24_impact_strength = dword_66F3FC;
             }
-            ratio = pRozzA->field_24_car_physics_value / dword_66F3FC;
+            ratio = pEvent->field_24_impact_strength / dword_66F3FC;
             break;
 
         default:

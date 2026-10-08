@@ -82,7 +82,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 |---|---|---|---|---|---|
 | 0x407CE0 | `Car_A4_10::UpdateTrailerAlignment_407CE0` | 0x40F900 | ✓ `sub_40F820`, `sub_40F580`, `sub_421CB0`, ✓ `sub_40F6B0`, `sub_40F7C0`, `sub_40F680`, ✓ `sub_40F540`, `sub_40F600`, ✓ `sub_40F790`, `sub_40F0A0`, ✓ `sub_40F840`, `sub_40EE60`, ✓ `sub_40F830`, ✓ `sub_40F7E0`, ✓ `sub_40F800`, ✓ `sub_40F810` | inlines added | 318->235; get/set_theta_40F820/40F830, set_cp1_40F7E0, +=, Fix16_To_Ang16_40F540, atan2_40F790 used; 40F840 commented (different globals); 40F0A0/40EE60/421CB0 are pairing noise. vtall also showed DIFF WIP in CarAI_78 0x44E560 and Particle_8 0x53F4C0 (not checked) |
 | 0x413120 | `sound_obj::sub_413120` | 0x4150E0 | ✓ `sub_414F60` | commented | Car_BC sub_414F60/sub_411930 (f78 & 0x100) as bool inline makes 196->198 (value materialised in dl) |
-| 0x413760 | `sound_obj::ProcessType6_Rozza_C88_413760` | 0x415F90 | `sub_411730` | matched | sub_411730 = ComputeEmitterDistanceSquared_4190B0, 10.5 still calls it (pairing noise) |
+| 0x413760 | `sound_obj::ProcessType6_CollisionSoundQueue_413760` | 0x415F90 | `sub_411730` | matched | sub_411730 = ComputeEmitterDistanceSquared_4190B0, 10.5 still calls it (pairing noise) |
 | 0x413A10 | `sound_obj::sub_413A10` | 0x4121F0 | `Car_BC::sub_421D90`, ✓ `sub_410BF0` | checked | Car_BC::sub_421D90 = GetCarLinearSpeed_43A240 (still called in 10.5); fixed inverted field_10 null check, 98->92 |
 | 0x41AB80 | `sound_obj::ProcessActiveQueues_41AB80` | 0x417410 | `sub_414FA0`, `sub_4B6320`, `sub_4B62B0`, `sub_4B6150`, `sub_4B6110`, `sub_4B6130`, `sub_416F20`, `sub_4168E0`, `sub_416940`, `sub_4B62D0`, `sub_416E50`, `sub_4B6200`, `sub_4B6360`, `sub_4B6340`, `sub_4B63B0`, `sub_4B6190`, `sub_4B6170`, `sub_4B61E0` | checked | all pairing noise: 10.5 still calls cSampleManager wrappers, sub_412260 (=414FA0), VecDiff_41B4E0 (=4168E0), FromFix16_41B520 (=416940), AdjustPlaybackRate_41A580 (=416F20), sub_41A4A0 (=416E50) |
 | 0x422B70 | `sound_obj::sub_422B70` | 0x41B7B0 | `sub_4A65E0`, ✓ `sub_41B080` (10.5 0x41B480), ✓ `sub_41B090`, ✓ `sub_41B0A0`, ✓ `sub_410BF0` | done | get_velocity_41B080, is_player_41B0A0, Round_To_Int_410BF0 x3 (get_ped_state_2_41B090 already used); 192->175; sub_4A65E0 = GetPlayerCar_5698E0 (still called) |
@@ -197,7 +197,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x527070 | `Object_2C::UpdateMovementAndEffects_527070` | 0x486130 | `sub_482F80`, ✓ `RotateVector_41FC90`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `Car_3C::set_ang_lazy_420690`, ✓ `sub_482D30`, ✓ `sub_416B40`, ✓ `sub_420660` | checked | 482F80 = PoolTake_522360, still called in 10.5 |
 | 0x527F10 | `Object_2C::sub_527F10` | 0x484760 | ✓ `sub_47F4F0`, `sub_483FC0`, `sub_484000` | matched | 483FC0/484000 are the pool DeAllocate inlines, already used |
 | 0x5283C0 | `Object_2C::TickObject_5283C0` | 0x485760 | ✓ `sub_482400`, ✓ `sub_420F10`, `sub_482790`, ✓ `sub_41E210`, `Object_2C::sub_4826A0` (10.5 0x525AE0), `Object_3C_Pool::sub_483FE0`, `sub_483FC0`, `sub_484000`, `Object_8_Pool::sub_483FA0`, ✓ `sub_4206C0`, `sub_482F80` | done | 482400 (branches swapped), 420F10, 41E210 used; pool Allocate/DeAllocate already used; 482790/482F80/4826A0 are calls in 10.5; diff 321->301 |
-| 0x528E50 | `Object_2C::HandleImpact_528E50` | 0x486410 | `sub_482F60`, ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `check_is_shop_421060`, `sub_410480`, `sub_410460` | checked | 482F60=PoolGive_522340, 410480/410460=Rozza Type3_40BDD0: all calls in 10.5 |
+| 0x528E50 | `Object_2C::HandleImpact_528E50` | 0x486410 | `sub_482F60`, ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `check_is_shop_421060`, `sub_410480`, `sub_410460` | checked | 482F60=PoolGive_522340, 410480/410460=CollisionTarget AddSpriteCollision_40BDD0: all calls in 10.5 |
 | 0x534700 | `Garage_48::ParkCarAtDoor_534700` | 0x489BC0 | ✓ `sub_447ED0`, ✓ `sub_489600`, `sub_432860` | inlines added | diff 191->187; 447ED0 commented (different constant), 432860 point setter commented |
 | 0x5349D0 | `Garage_48::GaragesService_5349D0` | 0x489680 | matched | inlines added CloseDoors_476A30, StopMoving_4895D0, Reset_489650; matched 2026-10-03 | diff 283->208; f78 clears, Door 476A30, 4895D0 physics stop, 489650 reset, point helpers left |
 | 0x5384C0 | `Particle_4C::sub_5384C0` | 0x48AE70 | ✓ `sub_4206C0`, ✓ `sub_40F6B0`, ✓ `sub_4337D0`, ✓ `sub_4337F0` | inlines added | Sprite::SetFlags_4337D0 added+used; RotateByAngle_40F6B0 commented (192->198); diff 192->192 |
@@ -233,7 +233,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x559430 | `CarPhysics_B0::ShowPhysicsDebug_559430` | 0x4A1DA0 | ✓ `sub_49E240`, ✓ `Hud_TextEntry_C4::sub_45AFD0` | inlines added | ThetaText_49E240 + Hud_TextEntry_C4::SetDrawKind8_45AFD0 (no change); left: the lea of the DisplayText this is scheduled early in the theta call and late in the rear-skid call |
 | 0x55A1D0 | `CarPhysics_B0::SetVelocityTowardTarget_55A1D0` | 0x49F760 | ✓ `sub_40F6B0`, `sub_40F600`, `sub_40F580` | checked | 40F600 = Point - (40AC80 called), 40F580 = Ang16_to_Fix16 (already) |
 | 0x55AB50 | `CarPhysics_B0::ComputeSlopeCorrection_55AB50` | 0x49FBE0 | ✓ `is_on_trailer_421720`, `sub_40F600`, `sub_4634E0`, ✓ `sub_42A630` | matched | is_on_trailer_421720 used; 4634E0 skipped (map globals, 10.5 uses CarPhysics copies); 40F600 = Point - ; diff 96->96 |
-| 0x55B7E0 | `EmitImpactParticles_55B7E0` | 0x49FF80 | ✓ `IsMaxDamage_40F890`, `sub_4102A0` (10.5 0x40BD10) | checked | 4102A0 pairs with Rozza Type5_40BD10; 10.5 calls Type4_40BC40 (pairing noise) |
+| 0x55B7E0 | `EmitImpactParticles_55B7E0` | 0x49FF80 | ✓ `IsMaxDamage_40F890`, `sub_4102A0` (10.5 0x40BD10) | checked | 4102A0 pairs with CollisionTarget AddBlockCollision_40BD10; 10.5 calls AddFloorCollision_40BC40 (pairing noise) |
 | 0x55B970 | `CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970` | 0x4A26C0 | `sub_4BD490`, `sub_40F600`, ✓ `sub_42A630`, ✓ `sub_49EBE0` | done | GetBlockSurfaceType_49EBE0 (static inline in CarPhysics_B0.cpp) + gtx::sub_49E570 added; 4BD490 = CheckCornerZCollisions? (called), 40F600 = Point -; diff 308->308 |
 | 0x55C5C0 | `CarPhysics_B0::HandleMapBoundaryCollisionY_55C5C0` | 0x4A3DF0 | `sub_4BCD00`, ✓ `sub_432860`, `sub_49E5A0`, `sub_4828C0`, ✓ `sub_40F6B0` | done | SetXY_432860 + operator-= (4828C0); 4BCD00/49E5A0 = edge / ComputeRelativePointVelocity (called); diff 88->87 |
 | 0x55C820 | `CarPhysics_B0::HandleMapBoundaryCollisionX_55C820` | 0x4A3FB0 | `sub_4BCFA0`, ✓ `sub_432860`, `sub_49E5A0`, `sub_4828C0`, ✓ `sub_40F6B0` | checked | SetXY/-= already used; 4BCFA0/49E5A0 called in 10.5 |
@@ -312,14 +312,14 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x408140 | `Car_A4_10::sub_408140` | 0x40FB20 | `sub_427450` | checked | 427450 = a called Car_BC method (ManageDrowning_43E560 or physics state machine) |
 | 0x4081B0 | `Car_A4_10::DeAllocateCarPhysics_4081B0` | 0x40F470 | `sub_426120` | checked | 426120 = DeAllocateCarPhysics_441A10 (called) |
 | 0x408220 | `Car_A4_10::sub_408220` | 0x40FBE0 | `sub_40F490`, ✓ `sub_40F7B0`, `sub_40FB70` | checked | 40F490 = Car_BC_Pool::Remove (already), 40FB70 = ExplodeBothIfOneDestroyed_4081D0 (called), set_num_40F7B0 already |
-| 0x40B890 | `Rozza_A::sub_40B890` | 0x40FF20 | ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FEF0` | done | all 9.6f inlines used |
-| 0x40B980 | `Rozza_A::sub_40B980` | 0x410010 | ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FEF0` | done | all 9.6f inlines used |
-| 0x40BA60 | `Rozza_A::sub_40BA60` | 0x4100F0 | ✓ `sub_40FF00`, ✓ `sub_40FEF0`, ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0` | done | Object_2C::GetDefField63_40FF00 (second use); Still matches. |
-| 0x40BBA0 | `Rozza_C88::OtherType_40BBA0` | 0x410210 | ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FF10` | done | all 9.6f inlines used |
-| 0x40BC40 | `Rozza_C88::Type4_40BC40` | 0x410370 | ✓ `sub_40FF10`, ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FEF0` | done | all 9.6f inlines used |
-| 0x40BD10 | `Rozza_C88::Type5_40BD10` | 0x4102A0 | ✓ `sub_40FF10`, ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FEF0` | done | all 9.6f inlines used |
-| 0x40BE00 | `Rozza_C88::ctor_40BE00` | 0x4104B0 | `array_constuctor_401CF0` | checked | array_constuctor_401CF0 is the compiler vector ctor helper |
-| 0x40BE40 | `Rozza_C88::dtor_40BE40` | 0x410440 | ✓ `root_sound::DestroySoundObj_40FE60` | done | all 9.6f inlines used |
+| 0x40B890 | `CollisionEvent_28::sub_40B890` | 0x40FF20 | ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FEF0` | done | all 9.6f inlines used |
+| 0x40B980 | `CollisionEvent_28::sub_40B980` | 0x410010 | ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FEF0` | done | all 9.6f inlines used |
+| 0x40BA60 | `CollisionEvent_28::sub_40BA60` | 0x4100F0 | ✓ `sub_40FF00`, ✓ `sub_40FEF0`, ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0` | done | Object_2C::GetDefField63_40FF00 (second use); Still matches. |
+| 0x40BBA0 | `CollisionSoundQueue_C88::AddCollision_40BBA0` | 0x410210 | ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FF10` | done | all 9.6f inlines used |
+| 0x40BC40 | `CollisionSoundQueue_C88::AddFloorCollision_40BC40` | 0x410370 | ✓ `sub_40FF10`, ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FEF0` | done | all 9.6f inlines used |
+| 0x40BD10 | `CollisionSoundQueue_C88::AddBlockCollision_40BD10` | 0x4102A0 | ✓ `sub_40FF10`, ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FEF0` | done | all 9.6f inlines used |
+| 0x40BE00 | `CollisionSoundQueue_C88::ctor_40BE00` | 0x4104B0 | `array_constuctor_401CF0` | checked | array_constuctor_401CF0 is the compiler vector ctor helper |
+| 0x40BE40 | `CollisionSoundQueue_C88::dtor_40BE40` | 0x410440 | ✓ `root_sound::DestroySoundObj_40FE60` | done | all 9.6f inlines used |
 | 0x40EF40 | `root_sound::CreateSoundObject_40EF40` | 0x410750 | ✓ `root_sound::sub_410730` | done | root_sound::PopFree_410730 (new); its 9.6f callee infallible_turing::sub_4106D0 isn't dumped, only field_8 = 0 assumed (TODO); code unchanged |
 | 0x40F010 | `root_sound::sub_40F010` | 0x410560 | `sound_obj::sub_4B2F20` | checked | 9.6f sound_obj::sub_4B2F20 = InitMusicAndCopRadio_57E960 (10.5 calls it) |
 | 0x412490 | `sound_obj::ProcessType2_412490` | 0x411A50 | `sub_4B6700` | checked | 9.6f sub_4B6700 = cSampleManager::OpenStream_58E320 (still called) |
@@ -638,7 +638,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4B9B10 | `Game_0x40::IsRectVisibleToAnyPlayer_4B9B10` | 0x45BC90 | ✓ `DrawUnk_0xBC::sub_45AF40` | done | Camera_0xBC::IsRectInBounds_45AF40 (new) + s32 loop index; 85->16 (register swap left) |
 | 0x4B9D60 | `Game_0x40::sub_4B9D60` | 0x45BD40 | ✓ `Game_0x40::get_player_4219E0` | done | Game_0x40::get_player_4219E0; code unchanged |
 | 0x4B9DE0 | `Game_0x40::ctor_4B9DE0` | 0x45C4D0 | `angry_lewin_0x85C::sub_45B0D0`, `rng::ctor_45A960`, `Nanobotz::ctor_45B050` (10.5 0x4BE650), `Mike_A80::ctor_45C040`, `Frismo_C_Pool::ctor_45BFE0`, `jawwie_110::ctor_45C0D0`, `EmergencyCrewPool_1E0::ctor_45B1A0`, `Police_7B8::ctor_45C150`, `Light_1D4CC::ctor_45B3D0`, `Zones_CA8::ctor_45AE60`, `sub_489AC0`, `CokeZero_100::ctor_4B9490`, `Tango_54::ctor_45B440`, `LangIsJapanese_452E60` | checked | ctor list: member ctors, pairing noise |
-| 0x4BAE30 | `Game_0x40::dtor_4BAE30` | 0x45D3D0 | `angry_lewin_0x85C::dtor_45A970`, `text_0x14::dtor_405A80`, `gtx_0x106C::gdtor_451F90`, `Map_0x370::gdtor_45A990`, `Montana::gdtor_45A9B0`, `PedPool::gdtor_43DB20`, `frosty_pasteur_0xC1EA8::gdtor_45A9F0`, `Frismo_C_Pool::gdtor_45D350`, `Phi_8CA8::gdtor_45BDC0`, `Object_5C::gdtor_45AA10`, `PedManager::gdtor_45AA30`, `FpsCounter_54::gdtor_45AA50`, `Sprite_8::gdtor_45AA70`, `Collide_C::gdtor_45AA90`, `PedRefTable_7F8::gdtor_45AAB0`, `Sero_181C::gdtor_45AAD0`, `Taxi_4::gdtor_45AAF0`, `TileAnim_2::gdtor_45AB10`, `Weapon_8::gdtor_45AB30`, `Door_4D4::gdtor_45AB50`, `jawwie_110::gdtor_45BDE0`, `Garox_2B00::gdtor_45D3B0`, `TextureCache_15D8::gdtor_451F70`, `TrafficLights_194::gdtor_45AB70`, `Marz_1D7E::gdtor_45BE00`, `Orca_2FD4::gdtor_45BE20`, `Monster_808::gdtor_45AB90`, `Particle_8::gdtor_45ABB0`, `ExplosionPool_3D4::gdtor_45ABD0`, `ExplosionPool_7A8::gdtor_45ABF0`, `Zheal_D9C::gdtor_45BE40`, `Snooky_94::gdtor_45BE60`, `EmergencyCrewPool_1E0::gdtor_45BE80`, `Police_7B8::gdtor_45BEA0`, `Light_1D4CC::gdtor_45BEC0`, `Zones_CA8::gdtor_45BEE0`, `ChickenLegend_48::dtor_45D370`, `Hamburger_500::dtor_45AC10`, `CokeZero_100::dtor_45AC30`, `CrimeReportQueue_CC::gdtor_45AC50`, `Tango_54::gdtor_45BF00`, `Rozza_C88::gdtor_45AC70`, `magical_germain_0x8EC::gdtor_45AC90` | checked | dtor list: global dtors, pairing noise |
+| 0x4BAE30 | `Game_0x40::dtor_4BAE30` | 0x45D3D0 | `angry_lewin_0x85C::dtor_45A970`, `text_0x14::dtor_405A80`, `gtx_0x106C::gdtor_451F90`, `Map_0x370::gdtor_45A990`, `Montana::gdtor_45A9B0`, `PedPool::gdtor_43DB20`, `frosty_pasteur_0xC1EA8::gdtor_45A9F0`, `Frismo_C_Pool::gdtor_45D350`, `Phi_8CA8::gdtor_45BDC0`, `Object_5C::gdtor_45AA10`, `PedManager::gdtor_45AA30`, `FpsCounter_54::gdtor_45AA50`, `Sprite_8::gdtor_45AA70`, `Collide_C::gdtor_45AA90`, `PedRefTable_7F8::gdtor_45AAB0`, `Sero_181C::gdtor_45AAD0`, `Taxi_4::gdtor_45AAF0`, `TileAnim_2::gdtor_45AB10`, `Weapon_8::gdtor_45AB30`, `Door_4D4::gdtor_45AB50`, `jawwie_110::gdtor_45BDE0`, `Garox_2B00::gdtor_45D3B0`, `TextureCache_15D8::gdtor_451F70`, `TrafficLights_194::gdtor_45AB70`, `Marz_1D7E::gdtor_45BE00`, `Orca_2FD4::gdtor_45BE20`, `Monster_808::gdtor_45AB90`, `Particle_8::gdtor_45ABB0`, `ExplosionPool_3D4::gdtor_45ABD0`, `ExplosionPool_7A8::gdtor_45ABF0`, `Zheal_D9C::gdtor_45BE40`, `Snooky_94::gdtor_45BE60`, `EmergencyCrewPool_1E0::gdtor_45BE80`, `Police_7B8::gdtor_45BEA0`, `Light_1D4CC::gdtor_45BEC0`, `Zones_CA8::gdtor_45BEE0`, `ChickenLegend_48::dtor_45D370`, `Hamburger_500::dtor_45AC10`, `CokeZero_100::dtor_45AC30`, `CrimeReportQueue_CC::gdtor_45AC50`, `Tango_54::gdtor_45BF00`, `CollisionSoundQueue_C88::gdtor_45AC70`, `magical_germain_0x8EC::gdtor_45AC90` | checked | dtor list: global dtors, pairing noise |
 | 0x4BE650 | `Hud_Pager_C::dtor_4BE650` | 0x45B050 | `Nanobotz::ResetCount_45B040`, `Nanobotz::set_shading_lev_46B620` (10.5 0x4E9DB0) | checked | pairing error (9.6f Nanobotz helpers) |
 | 0x4BEBC0 | `Light_1D4CC::dtor_4BEBC0` | 0x45B380 | `Light_1D4CC::sub_45AD00` | checked | Light_1D4CC::sub_45AD00 is a 9.6f-only reset; 10.5 dtor calls FreeGrid_4D6E30 |
 | 0x4BECA0 | `GangPool_CA8::sub_4BECA0` | 0x45DD60 | ✓ `Zone_144::sub_45DD50` | done | Gang_144::HasKillRespectChange_45DD50; code unchanged |
@@ -856,12 +856,12 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x522180 | `Object_2C::sub_522180` | 0x484910 | ✓ `sub_421080`, ✓ `Sprite_Pool::sub_421030` | done | is_not_type6_to_12_421080 used; code unchanged |
 | 0x522250 | `Object_2C::CanCollideWithSpriteByOwnerRef_522250` | 0x482E80 | ✓ `sub_421080`, ✓ `sub_420FF0`, ✓ `sub_40FEA0`, ✓ `sub_420B50` | done | is_not_type6_to_12_421080 used; code unchanged |
 | 0x5223C0 | `Object_2C::ShouldCollideWith_5223C0` | 0x482FA0 | ✓ `sub_416B40` | done | all 9.6f inlines used |
-| 0x522460 | `Object_2C::SelectCollisionSprite_522460` | 0x483060 | ✓ `sub_416B40`, ✓ `sub_40FEE0` | done | get_type_416B40 + Rozza SetSprite_40FEE0 used; code unchanged |
+| 0x522460 | `Object_2C::SelectCollisionSprite_522460` | 0x483060 | ✓ `sub_416B40`, ✓ `sub_40FEE0` | done | get_type_416B40 + CollisionTarget SetSprite_40FEE0 used; code unchanged |
 | 0x5226A0 | `Object_2C::sub_5226A0` | 0x484AA0 | `sub_4847D0` | checked | 4847D0 = NewObj3C_528130, still called |
 | 0x522BE0 | `Object_2C::ResolveCollisionWithMapTile_522BE0` | 0x4869E0 | `sub_4BCD00`, ✓ `sub_432860`, `sub_4828C0`, `sub_40F640` (10.5 0x43D5D0) | done | SetXY_432860 + operator-= (4828C0) like 522D00, point decl order fixed; 4BCD00=GetNearestHorizontalEdge (called); diff 50->0 CANDIDATE MATCH |
 | 0x522D00 | `Object_2C::ResolveCollisionWithMapTileHorizontal_522D00` | 0x486B20 | `sub_4BCFA0`, ✓ `sub_432860`, `sub_4828C0`, `sub_40F640` (10.5 0x43D5D0) | done | already used SetXY/-=; point decl order + t2.x restore fixed; 4BCFA0=GetNearestVerticalEdge (called); diff 63->0 CANDIDATE MATCH |
 | 0x5233A0 | `Object_2C::sub_5233A0` | 0x483460 | ✓ `sub_482BF0`, ✓ `sub_40F7B0` | done | sub_482BF0 added+used; code unchanged |
-| 0x523440 | `Object_2C::HandleCollisionOutcome_523440` | 0x486D70 | ✓ `sub_420660`, ✓ `sub_482A70`, ✓ `sub_482A80` | done | Rozza_28::SetType4_482A70/SetType5_482A80 added+used; code unchanged |
+| 0x523440 | `Object_2C::HandleCollisionOutcome_523440` | 0x486D70 | ✓ `sub_420660`, ✓ `sub_482A70`, ✓ `sub_482A80` | done | CollisionTarget_28::SetType4_482A70/SetType5_482A80 added+used; code unchanged |
 | 0x5235B0 | `Object_2C::HandleSpriteGroundAndCollision_5235B0` | 0x484090 | ✓ `sub_466CF0`, `sub_4699A0` (10.5 0x4E4F40), `sub_483100`, ✓ `sub_420420`, `sub_4BD670`, `sub_4207B0`, `sub_483500` | checked | 4699A0/483100/4BD670/4207B0/483500 are calls in 10.5 |
 | 0x525190 | `Object_2C::sub_525190` | 0x4856E0 | ✓ `sub_482400`, ✓ `sub_420F10`, `sub_482790` | matched | IsDefinitionIdx39To42_482400 added, GetPedId_420F10 used; 482790=SetDamageOwner_529080 (called); diff 32->31 (PoolGiveAndSetDone_5291E0 arg looks s32 in orig) |
 | 0x5257D0 | `Object_2C::UpdateAninmation_5257D0` | 0x485FD0 | ✓ `sub_4206C0`, ✓ `sub_482C10` | done | set_id_lazy_4206C0 + IsAnimFinished_482C10 (added) used; code unchanged |
@@ -944,7 +944,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x55A860 | `CarPhysics_B0::HandleUserInputs_55A860` | 0x49FB00 | `sub_420360`, ✓ `sub_40F840` | matched | IsNull (420360, 6FE20C variant) + IsVelocityAlignedWithHeading_40F840 used; diff 155->43 |
 | 0x55AA00 | `CarPhysics_B0::HandleGravityOnSlope_55AA00` | 0x4A20E0 | ✓ `Car_BC::sub_403BA0`, `sub_4634E0` | matched | 4634E0 = Map get_grad_scale_from_size: 10.5 uses CarPhysics_B0 globals (6FDF7C...), not the map ones |
 | 0x55B3F0 | `CarPhysics_B0::SyncZWithTrailer_55B3F0` | 0x4A2640 | `sub_4A2240` | checked | 4A2240 = UpdateZPhysics_55AD90, called in 10.5 |
-| 0x55C150 | `CarPhysics_B0::TestCollision_55C150` | 0x4A0020 | `sub_4BD670`, ✓ `sub_49EF10` | done | Rozza_28::SetField24_49EF10 added+used; 4BD670 = CheckSpriteMovementRegion (called); code unchanged |
+| 0x55C150 | `CarPhysics_B0::TestCollision_55C150` | 0x4A0020 | `sub_4BD670`, ✓ `sub_49EF10` | done | CollisionTarget_28::SetSourceSprite_49EF10 added+used; 4BD670 = CheckSpriteMovementRegion (called); code unchanged |
 | 0x55C3B0 | `CarPhysics_B0::SweepTestMovementForCollision_55C3B0` | 0x4A2F90 | `sub_49F930` | matched | 49F930 = ComputeRequiredSweepSteps_55A6A0, called in 10.5 |
 | 0x55CA70 | `CarPhysics_B0::DispatchCollision_55CA70` | 0x4A4170 | ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0` | done | all 9.6f inlines used |
 | 0x55E260 | `CarPhysics_B0::DoSkidmarks_55E260` | 0x4A0560 | `sub_4A0290` | checked | 4A0290 = UpdateWheelSkidEffects_55DC00 (called) |
@@ -1072,7 +1072,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x59E250 | `Sprite::GetWaterCornerMask_59E250` | 0x4BDD40 | ✓ `sub_4B9F40` | done | all 9.6f inlines used |
 | 0x59E320 | `Sprite::sub_59E320` | 0x4BAB10 | ✓ `sub_4BA230` | done | New Sprite::GetTrueSpriteIdx_4BA230 (defined in sprite.cpp); Still matches. |
 | 0x59E590 | `Sprite::CollisionCheck_59E590` | 0x4BCAC0 | ✓ `sub_41E390` | done | all 9.6f inlines used |
-| 0x59E7D0 | `Sprite::QuerySpriteCollision_59E7D0` | 0x4BDFE0 | `sub_4B9F30`, ✓ `sub_40FEE0` | done | Rozza_C88::SetSprite_40FEE0; Still matches. |
+| 0x59E7D0 | `Sprite::QuerySpriteCollision_59E7D0` | 0x4BDFE0 | `sub_4B9F30`, ✓ `sub_40FEE0` | done | CollisionSoundQueue_C88::SetSprite_40FEE0; Still matches. |
 | 0x59E8C0 | `Sprite::HandleObjectCollision_59E8C0` | 0x4BAB70 | ✓ `sub_40FEC0`, ✓ `sub_484DD0` | commented | As2C_40FEC0 for both sprites broke the match |
 | 0x59E9C0 | `Sprite::UpdateCollisionBoundsIfNeeded_59E9C0` | 0x4BCB40 | ✓ `sub_41E390` | done | all 9.6f inlines used |
 | 0x59F950 | `Sprite::AllocInternal_59F950` | 0x4BCB90 | `Sprite_4C_Pool::sub_4BC9F0`, ✓ `Sprite_4C::sub_482980` | done | Sprite_4C::SetDimensions_482980; Still matches. |
@@ -1080,7 +1080,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x59FA40 | `Sprite::UpdateDimensionsFromSpriteIndex_59FA40` | 0x420600 | `Car_3C::sub_4B99F0` | done | Sprite::GetTrueSpriteIdx_4BA230 (sub_4B99F0 is ResetZCollisionAndDebugBoxes_59E7B0); Still matches. |
 | 0x59FAD0 | `Sprite::FreeSprite4CChildren_59FAD0` | 0x4BCCC0 | `Sprite_4C_Pool::sub_4BCA10` | checked | Sprite_4C_Pool::sub_4BCA10 is the pool Remove template, already used |
 | 0x5A0970 | `Sprite::CheckBBoxScanlineIntersection_5A0970` | 0x4BB860 | `sub_472950`, ✓ `sub_4BA250` | commented | SetHorizontalSegment_4BA250 changes store order (broke match); 472950=ComputeScanlineIntersectionY called |
-| 0x5A0EF0 | `Sprite::HitTestVerticalLine_5A0EF0` | 0x4BB910 | `sub_472AE0`, ✓ `sub_4BA280` | done | Rozza_C88::SetVerticalSegment_4BA280; Still matches. |
+| 0x5A0EF0 | `Sprite::HitTestVerticalLine_5A0EF0` | 0x4BB910 | `sub_472AE0`, ✓ `sub_4BA280` | done | CollisionSoundQueue_C88::SetVerticalSegment_4BA280; Still matches. |
 | 0x5A1A60 | `Sprite::sub_5A1A60` | 0x4BD290 | ✓ `sub_4B9F80` | done | New file-local ClampPurpleRectToMap_4B9F80; Still matches. |
 | 0x5A1B30 | `Sprite::ResolveZOrder_5A1B30` | 0x4BE570 | ✓ `sub_4BA220` | done | all 9.6f inlines used |
 | 0x5A1BD0 | `Sprite::ComputeZLayer_5A1BD0` | 0x4BD2E0 | ✓ `Car_BC::sub_403BA0`, `sub_491EE0` | checked | sub_491EE0 is Fix16::ToInt (already used) |
@@ -1223,7 +1223,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4BD670 | `sub_4BD670` | 545 |  |  | 7/3 | todo |  |
 | 0x403980 | `cool_nash_0x294::get_occupation_403980` | 7 |  | Source/Car_BC.hpp:1181, Source/Ped.hpp:631 | 6/17 | todo |  |
 | 0x403AA0 | `cool_nash_0x294::set_target_objective_car_403AA0` | 13 |  | Source/Ped.hpp:483 | 6/11 | todo |  |
-| 0x40FEA0 | `sub_40FEA0` | 13 |  | Source/Rozza_C88.hpp:68, Source/sprite.hpp:323 | 6/17 | todo |  |
+| 0x40FEA0 | `sub_40FEA0` | 13 |  | Source/CollisionSoundQueue_C88.hpp:68, Source/sprite.hpp:323 | 6/17 | todo |  |
 | 0x41E210 | `sub_41E210` | 76 |  | Source/Fix16_Point.hpp:76, Source/Fix16_Point.hpp:94 | 6/3 | todo |  |
 | 0x420390 | `sub_420390` | 135 |  |  | 6/3 | todo |  |
 | 0x421D90 | `Car_BC::sub_421D90` | 86 |  |  | 6/6 | todo |  |
@@ -1302,7 +1302,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x435610 | `sub_435610` | 76 |  |  | 3/4 | todo |  |
 | 0x436140 | `sub_436140` | 23 |  | Source/Camera.hpp:63 | 3/0 | todo |  |
 | 0x436200 | `ApplyCarVelocityCameraOffset_436200` | 23 |  | Source/Camera.hpp:65 | 3/0 | todo |  |
-| 0x4637B0 | `sub_4637B0` | 11 |  | Source/Rozza_C88.hpp:16 | 3/1 | todo |  |
+| 0x4637B0 | `sub_4637B0` | 11 |  | Source/CollisionSoundQueue_C88.hpp:16 | 3/1 | todo |  |
 | 0x46BB50 | `TextureCache_15D8::sub_46BB50` | 15 |  | Source/TextureCache_15D8.hpp:83 | 3/0 | todo |  |
 | 0x482790 | `sub_482790` | 22 |  |  | 3/6 | todo |  |
 | 0x482A30 | `sub_482A30` | 10 |  | Source/sprite.hpp:449 | 3/1 | todo |  |
@@ -1422,7 +1422,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x40F830 | `sub_40F830` | 12 |  | Source/CarPhysics_B0.hpp:82 | 1/0 | todo |  |
 | 0x40FD40 | `sub_40FD40` | 234 |  |  | 1/0 | todo |  |
 | 0x40FE60 | `root_sound::DestroySoundObj_40FE60` | 27 |  | Source/root_sound.hpp:14 | 1/3 | todo |  |
-| 0x40FEE0 | `sub_40FEE0` | 16 |  | Source/Rozza_C88.hpp:71 | 1/2 | todo |  |
+| 0x40FEE0 | `sub_40FEE0` | 16 |  | Source/CollisionSoundQueue_C88.hpp:71 | 1/2 | todo |  |
 | 0x4102A0 | `sub_4102A0` | 198 | 0x40BD10 MATCH |  | 1/0 | todo |  |
 | 0x410460 | `sub_410460` | 19 |  |  | 1/0 | todo |  |
 | 0x410480 | `sub_410480` | 34 |  |  | 1/0 | todo |  |
@@ -1812,7 +1812,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x40FE80 | `sub_40FE80` | 24 |  | Source/sprite.hpp:350, Source/sprite.hpp:357 | 0/1 | todo |  |
 | 0x40FEF0 | `sub_40FEF0` | 4 |  | Source/Object_5C.hpp:200 | 0/6 | todo |  |
 | 0x40FF00 | `sub_40FF00` | 7 |  | Source/Object_5C.hpp:206 | 0/1 | todo |  |
-| 0x40FF10 | `sub_40FF10` | 10 |  | Source/Rozza_C88.hpp:97 | 0/3 | todo |  |
+| 0x40FF10 | `sub_40FF10` | 10 |  | Source/CollisionSoundQueue_C88.hpp:97 | 0/3 | todo |  |
 | 0x410550 | `sub_410550` | 10 |  |  | 0/2 | todo |  |
 | 0x410580 | `unknown_libname_9` | 10 |  |  | 0/1 | todo |  |
 | 0x410590 | `unknown_libname_10` | 10 |  |  | 0/1 | todo |  |
@@ -2125,7 +2125,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x45AC10 | `Hamburger_500::dtor_45AC10` | 30 |  |  | 0/1 | todo |  |
 | 0x45AC30 | `CokeZero_100::dtor_45AC30` | 30 |  |  | 0/1 | todo |  |
 | 0x45AC50 | `CrimeReportQueue_CC::gdtor_45AC50` | 30 |  |  | 0/1 | todo |  |
-| 0x45AC70 | `Rozza_C88::gdtor_45AC70` | 30 |  |  | 0/1 | todo |  |
+| 0x45AC70 | `CollisionSoundQueue_C88::gdtor_45AC70` | 30 |  |  | 0/1 | todo |  |
 | 0x45AC90 | `magical_germain_0x8EC::gdtor_45AC90` | 30 |  |  | 0/1 | todo |  |
 | 0x45ACE0 | `Game_0x40::sub_45ACE0` | 3 |  |  | 0/1 | todo |  |
 | 0x45ACF0 | `Game_0x40::sub_45ACF0` | 3 |  |  | 0/1 | todo |  |
@@ -2322,8 +2322,8 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4829A0 | `Object_2C_Pool::sub_4829A0` | 26 |  |  | 0/1 | todo |  |
 | 0x4829C0 | `Object_2C_Pool::sub_4829C0` | 24 |  |  | 0/1 | todo |  |
 | 0x482A40 | `sub_482A40` | 37 |  | Source/sprite.hpp:478 | 0/1 | todo |  |
-| 0x482A70 | `sub_482A70` | 14 |  | Source/Rozza_C88.hpp:29 | 0/1 | todo |  |
-| 0x482A80 | `sub_482A80` | 14 |  | Source/Rozza_C88.hpp:36 | 0/1 | todo |  |
+| 0x482A70 | `sub_482A70` | 14 |  | Source/CollisionSoundQueue_C88.hpp:29 | 0/1 | todo |  |
+| 0x482A80 | `sub_482A80` | 14 |  | Source/CollisionSoundQueue_C88.hpp:36 | 0/1 | todo |  |
 | 0x482A90 | `sub_482A90` | 10 |  | Source/Explosion_30.hpp:34 | 0/1 | todo |  |
 | 0x482BF0 | `sub_482BF0` | 11 |  | Source/Object_5C.hpp:302 | 0/1 | todo |  |
 | 0x482C00 | `sub_482C00` | 10 |  | Source/Object_5C.hpp:182 | 0/1 | todo |  |
@@ -2380,8 +2380,8 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x49ED60 | `CarPhysics_B0::sub_49ED60` | 87 | 0x563350 WIP |  | 0/1 | todo |  |
 | 0x49EE10 | `CarPhysics_B0::sub_49EE10` | 61 | 0x563670 MATCH |  | 0/3 | todo |  |
 | 0x49EE80 | `sub_49EE80` | 44 |  |  | 0/1 | todo |  |
-| 0x49EF10 | `sub_49EF10` | 10 |  | Source/Rozza_C88.hpp:23 | 0/1 | todo |  |
-| 0x49EF20 | `IsCharB4_49EF20` | 23 |  | Source/Rozza_C88.hpp:66 | 0/1 | todo |  |
+| 0x49EF10 | `sub_49EF10` | 10 |  | Source/CollisionSoundQueue_C88.hpp:23 | 0/1 | todo |  |
+| 0x49EF20 | `IsCharB4_49EF20` | 23 |  | Source/CollisionSoundQueue_C88.hpp:66 | 0/1 | todo |  |
 | 0x49EFB0 | `sub_49EFB0` | 3 |  | Source/Car_BC.hpp:334 | 0/1 | todo |  |
 | 0x49EFD0 | `sub_49EFD0` | 11 |  | Source/CarPhysics_B0.cpp:2205 | 0/1 | todo |  |
 | 0x49F170 | `sub_49F170` | 55 |  |  | 0/1 | todo |  |
@@ -2462,8 +2462,8 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4BA070 | `sub_4BA070` | 38 |  | Source/sprite.hpp:69 | 0/1 | todo |  |
 | 0x4BA220 | `sub_4BA220` | 10 |  | Source/sprite.hpp:196 | 0/2 | todo |  |
 | 0x4BA230 | `sub_4BA230` | 21 |  | Source/sprite.cpp:341, Source/sprite.hpp:335 | 0/1 | todo |  |
-| 0x4BA250 | `sub_4BA250` | 37 |  | Source/Rozza_C88.hpp:57 | 0/1 | todo |  |
-| 0x4BA280 | `sub_4BA280` | 37 |  | Source/Rozza_C88.hpp:48 | 0/1 | todo |  |
+| 0x4BA250 | `sub_4BA250` | 37 |  | Source/CollisionSoundQueue_C88.hpp:57 | 0/1 | todo |  |
+| 0x4BA280 | `sub_4BA280` | 37 |  | Source/CollisionSoundQueue_C88.hpp:48 | 0/1 | todo |  |
 | 0x4BA390 | `sub_4BA390` | 34 |  | Source/Car_BC.hpp:720 | 0/1 | todo |  |
 | 0x4BA7E0 | `sub_4BA7E0` | 105 |  |  | 0/1 | todo |  |
 | 0x4BAA70 | `sub_4BAA70` | 19 |  |  | 0/2 | todo |  |
