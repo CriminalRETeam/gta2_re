@@ -1,4 +1,4 @@
-#include "youthful_einstein.hpp"
+#include "TagGame_28.hpp"
 #include "Frontend.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
@@ -10,21 +10,21 @@
 #include "text_0x14.hpp"
 #include <string>
 
-DEFINE_GLOBAL(youthful_einstein, gYouthful_einstein_6F8450, 0x6F8450);
+DEFINE_GLOBAL(TagGame_28, gTagGame_6F8450, 0x6F8450);
 DEFINE_GLOBAL(Fix16_Point, stru_6F8720, 0x6F8720);
 DEFINE_GLOBAL(s32, gNetTimeLimitEnabled_6F58A4, 0x6F58A4);
 
 MATCH_FUNC(0x516560)
-void youthful_einstein::ctor_516560() // For some reason, it's a function instead of a proper ctor
+void TagGame_28::Init_516560() // For some reason, it's a function instead of a proper ctor
 {
     field_0_fugitive = NULL;
     field_1C_tick_timer = 0;
-    memset(field_4_time, 0, sizeof(field_4_time));
-    memset(field_20, 0, sizeof(field_20));
+    memset(field_4_it_time_secs, 0, sizeof(field_4_it_time_secs));
+    memset(field_20_bHasQuit, 0, sizeof(field_20_bHasQuit));
 }
 
 MATCH_FUNC(0x516590)
-void youthful_einstein::SetNewFugitive_516590(Player* pNewFugitive)
+void TagGame_28::SetNewFugitive_516590(Player* pNewFugitive)
 {
     if (pNewFugitive == NULL)
     {
@@ -60,11 +60,11 @@ void youthful_einstein::SetNewFugitive_516590(Player* pNewFugitive)
 }
 
 MATCH_FUNC(0x516660)
-void youthful_einstein::ExecuteGamemodeTick_516660()
+void TagGame_28::ExecuteGamemodeTick_516660()
 {
     switch (gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0())
     {
-        case 0:
+        case NO_GAME_0:
             FatalError_4A38C0(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\multip.cpp", 108, 0);
         case FRAG_GAME_1:
         case POINTS_GAME_2:
@@ -76,7 +76,7 @@ void youthful_einstein::ExecuteGamemodeTick_516660()
                 field_1C_tick_timer = 0;
                 if (field_0_fugitive && gNetTimeLimitEnabled_6F58A4 != 0)
                 {
-                    field_4_time[field_0_fugitive->get_idx_4219D0()]++;
+                    field_4_it_time_secs[field_0_fugitive->get_idx_4219D0()]++;
                 }
             }
             if (!field_0_fugitive)
@@ -97,7 +97,7 @@ void youthful_einstein::ExecuteGamemodeTick_516660()
 }
 
 MATCH_FUNC(0x516740)
-void youthful_einstein::UpdateFugitive_516740(Player* pFormerPlayerFugitive, Player* pPlayer_killer)
+void TagGame_28::UpdateFugitive_516740(Player* pFormerPlayerFugitive, Player* pPlayer_killer)
 {
     Fix16 taxicab_distance;
     Fix16 threshold_distance;
@@ -108,7 +108,7 @@ void youthful_einstein::UpdateFugitive_516740(Player* pFormerPlayerFugitive, Pla
     {
         if (pPlayer_killer != NULL)
         {
-            youthful_einstein::SetNewFugitive_516590(pPlayer_killer); //  Make him "IT"
+            TagGame_28::SetNewFugitive_516590(pPlayer_killer); //  Make him "IT"
         }
         else
         {
@@ -131,12 +131,12 @@ void youthful_einstein::UpdateFugitive_516740(Player* pFormerPlayerFugitive, Pla
                     y1 = PlayerIter->field_2C4_player_ped->field_1AC_cam.y;
                     y2 = fugitive_y;
                     y_diff = y1 - y2;
-                    x_abs = Fix16::Abs(y_diff);
+                    y_abs = Fix16::Abs(y_diff);
 
                     x1 = PlayerIter->field_2C4_player_ped->field_1AC_cam.x;
                     x2 = fugitive_x;
                     x_diff = x1 - x2;
-                    y_abs = Fix16::Abs(x_diff);
+                    x_abs = Fix16::Abs(x_diff);
 
                     taxicab_distance = x_abs + y_abs; //  taxicab geometry
                     if (taxicab_distance < threshold_distance)
@@ -147,12 +147,12 @@ void youthful_einstein::UpdateFugitive_516740(Player* pFormerPlayerFugitive, Pla
                 }
             }
             /*
-            the most far away player from the former fugitive (in taxicab geometry)
+            the player closest to the former fugitive (in taxicab geometry)
             will be the "pChosenPlayer"
             */
             if (pChosenPlayer != NULL)
             {
-                youthful_einstein::SetNewFugitive_516590(pChosenPlayer); //  Make him "IT"
+                TagGame_28::SetNewFugitive_516590(pChosenPlayer); //  Make him "IT"
             }
         }
     }

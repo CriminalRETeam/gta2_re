@@ -38,7 +38,7 @@
 #include "map_0x370.hpp"
 #include "rng.hpp"
 #include "sprite.hpp"
-#include "youthful_einstein.hpp"
+#include "TagGame_28.hpp"
 #include "CarAI_78.hpp"
 #include "winmain.hpp"
 #include "ped_graphic_type.hpp"
@@ -2256,8 +2256,8 @@ char_type Ped::HandlePickupCollision_45DE80(Object_2C* pPickUp)
         return 0;
     }
 
-    if (IsNetworkGame_434B10() && gYouthful_einstein_6F8450.IsTagGame_434B20() &&
-        gYouthful_einstein_6F8450.IsFugitivePed_434B60(this))
+    if (IsNetworkGame_434B10() && gTagGame_6F8450.IsTagGame_434B20() &&
+        gTagGame_6F8450.IsFugitivePed_434B60(this))
     {
         return 0; // prevent pick ups if we are "it" in multiplayer?
     }

@@ -7,13 +7,13 @@
 class Player;
 class Ped;
 
-class youthful_einstein
+class TagGame_28
 {
   public:
-    EXPORT void youthful_einstein::ctor_516560();
-    EXPORT void SetNewFugitive_516590(Player* a2);
+    EXPORT void Init_516560();
+    EXPORT void SetNewFugitive_516590(Player* pNewFugitive);
     EXPORT void ExecuteGamemodeTick_516660();
-    EXPORT void UpdateFugitive_516740(Player* a2, Player* a3);
+    EXPORT void UpdateFugitive_516740(Player* pFormerPlayerFugitive, Player* pPlayer_killer);
 
     // 9.6f 0x434B20
     inline bool IsTagGame_434B20()
@@ -27,7 +27,7 @@ class youthful_einstein
     // 9.6f 0x453A90
     inline u8 HasQuit_453A90(s32 player_idx)
     {
-        return field_20[player_idx];
+        return field_20_bHasQuit[player_idx];
     }
 
     // 9.6f 0x4C7380, defined in Hud.cpp (needs Player)
@@ -36,22 +36,22 @@ class youthful_einstein
     // 9.6f 0x461DD0
     inline void SetQuit_461DD0(s32 player_idx)
     {
-        field_20[player_idx] = 1;
+        field_20_bHasQuit[player_idx] = 1;
     }
 
     // 9.6f 0x453AA0
     inline s32 GetTime_453AA0(s32 player_idx)
     {
-        return field_4_time[player_idx];
+        return field_4_it_time_secs[player_idx];
     }
 
     // 9.6f 0x453AB0, defined in Frontend.cpp
     inline s32 GetLeaderIdx_453AB0();
 
     Player* field_0_fugitive;  //  the player who is "IT"
-    s32 field_4_time[MAX_PLAYERS]; //  it may be the timer of each player in tag mode
+    s32 field_4_it_time_secs[MAX_PLAYERS]; //  seconds each player has spent as "IT" (counted while the net time limit is enabled)
     s32 field_1C_tick_timer;
-    u8 field_20[MAX_PLAYERS];
+    u8 field_20_bHasQuit[MAX_PLAYERS];
 };
 
-EXTERN_GLOBAL(youthful_einstein, gYouthful_einstein_6F8450);
+EXTERN_GLOBAL(TagGame_28, gTagGame_6F8450);

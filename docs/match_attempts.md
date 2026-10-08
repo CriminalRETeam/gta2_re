@@ -1192,7 +1192,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 - `MapRenderer::Draw4SidedDiagonalUpLeft_4EF880` (0x4ef880): no change. (skipped) known MapRenderer Draw*Sided* x87/vertex store scheduling, not attempted
 - `Ambulance_110::ProcessPatientQueue_4FA500` (0x4fa500): no change. only diff: original interleaves load/sar/store for x,y,z (as if stores may alias), ours hoists the 3 loads; tried separate decl/assign, ToUInt8, stores through u8* pointers
 - `Ambulance_20::UpdateState_4FB330` (0x4fb330): no change. only diff: case 3 '>500' false path should jle back to shared epilogue (0x3F) rather than the adjacent duplicate pop/ret; tried return after state=5, inverted if, break in default
-- `youthful_einstein::SetNewFugitive_516590` (0x516590): no change. original reloads field_0 into edx (not esi/ecx) before SetPlayerArrowColour; with local pPlayer VC6 reuses esi, without it uses ecx and the else branch's gHud reg shifts too. Tried field/GetPlayerPed/pPed local/ref
+- `TagGame_28::SetNewFugitive_516590` (0x516590): no change. original reloads field_0 into edx (not esi/ecx) before SetPlayerArrowColour; with local pPlayer VC6 reuses esi, without it uses ecx and the else branch's gHud reg shifts too. Tried field/GetPlayerPed/pPed local/ref
 - `NetPlay::EnumSessions_51E650` (0x51e650): closer, 18->7. wrong flag (orig 0x80 RETURNSTATUS, not STOPASYNC); else only fails on hr<0; nested success + single return -1. Left: else jge into the modem's shared return-count block
 - `struct_4::CleanupSpriteList_5A7080` (0x5a7080): no change. keep-branch block (pLast = pIter) laid out between the two unlink branches in orig; tried inverted conds, continue forms, if+do/while, nested ifs, 600 permuter iters
 - `gtx_0x106C::GetSpriteTrueIndex_5AA460` (0x5aa460): no change. known unexplained (quirks list): default 'mov 8(%esp),%eax'. Tried default return direct, (s32) cast, s32 param (still ax and breaks 13 callers)
@@ -1837,7 +1837,7 @@ No new matches. Scores below are `permuter_score.py` lines.
   inline `HexToInt` returning the value, a `char*` walking pwszKLID+6, an `s32* pV = &v2` argument: all 3.
 - `jolly_poitras_0x2BC0::SavePlySlotDat_56BA60` (2): all locals up top, `len = 126` just before the call (4),
   outer `do/while(--k)` count-down (18), `size_t len = 126` initialiser: no change.
-- `youthful_einstein::SetNewFugitive_516590` (2): a static inline `SetArrowColour(Hud_Arrow_7C*, Player*)`
+- `TagGame_28::SetNewFugitive_516590` (2): a static inline `SetArrowColour(Hud_Arrow_7C*, Player*)`
   holding the null check (2), if/else inverted with the message first (24), `Ped* pPed` local / no local /
   `Player*&` / `this->` + pPed (all 5: reload goes to `ecx` and the else's gHud moves to `edx`).
 - `Wolfy_7A8::sub_543690` (6): `pObj->field_1A_timer = 0` in the in-loop return (14), `field_0[next_idx]`

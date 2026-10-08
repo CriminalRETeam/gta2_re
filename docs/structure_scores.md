@@ -18,7 +18,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 0 | 20 | - | 0x540320 | `Particle_8::EmitElectricArcParticle` | Particle_8.cpp |
 | 0 | 0 | 34 | - | 0x452060 | `CarAI_78::ScanAheadForObstacles_452060` | CarAI_78.cpp |
 | 0 | 0 | 4 | - | 0x4e6660 | `Map_0x370::sub_4E6660` | map_0x370.cpp |
-| 0 | 0 | 4 | 0 | 0x516590 | `youthful_einstein::SetNewFugitive_516590` | youthful_einstein.cpp |
+| 0 | 0 | 4 | 0 | 0x516590 | `TagGame_28::SetNewFugitive_516590` | TagGame_28.cpp |
 | 0 | 0 | 6 | - | 0x414710 | `sound_obj::TrainCab_414710` | sound_obj.cpp |
 | 0 | 2 | 4 | 2 | 0x4b6390 | `menu_option_0x82::SelectPrevHorizontalIdx_4B6390` | Frontend.cpp |
 | 0 | 4 | 10 | - | 0x5e0e70 | `Weapon_30::fire_truck_gun_5E0E70` | Weapon_30.cpp |

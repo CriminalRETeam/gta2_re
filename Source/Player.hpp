@@ -7,7 +7,7 @@
 #include "PlayerScoreTracker_36C.hpp"
 #include "fix16.hpp"
 #include "sad_mirzakhani.hpp"
-#include "youthful_einstein.hpp"
+#include "TagGame_28.hpp"
 #include "zealous_borg.hpp"
 #include <windows.h>
 
@@ -457,7 +457,7 @@ class Player
 };
 
 // 9.6f 0x434B60
-inline bool youthful_einstein::IsFugitivePed_434B60(Ped* pPed)
+inline bool TagGame_28::IsFugitivePed_434B60(Ped* pPed)
 {
     return field_0_fugitive && field_0_fugitive->GetPlayerPed_41D020() == pPed;
 }

@@ -134,8 +134,8 @@ set(gta2_lib_src
   Source/sad_mirzakhani.cpp
   Source/Gang.hpp
   Source/Gang.cpp
-  Source/youthful_einstein.hpp
-  Source/youthful_einstein.cpp
+  Source/TagGame_28.hpp
+  Source/TagGame_28.cpp
   Source/CreditsText_FD22.hpp
   Source/CreditsText_FD22.cpp
   Source/CreditsLine_6C.hpp

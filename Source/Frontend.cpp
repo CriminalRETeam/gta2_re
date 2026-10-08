@@ -29,7 +29,7 @@
 #include "sharp_pare_0x15D8.hpp"
 #include "text_0x14.hpp"
 #include "winmain.hpp"
-#include "youthful_einstein.hpp"
+#include "TagGame_28.hpp"
 #include <io.h>
 #include <stdio.h>
 #include <wchar.h>
@@ -375,17 +375,17 @@ void __stdcall Frontend::destroy_4AD070()
 }
 
 // 9.6f 0x453AB0: index of the tag game player with the longest time (that hasn't quit)
-inline s32 youthful_einstein::GetLeaderIdx_453AB0()
+inline s32 TagGame_28::GetLeaderIdx_453AB0()
 {
     s32 leader_idx = -1;
     s32 leader_time = -1;
     if (IsTagGame_434B20())
     {
-        for (s32 i = 0; i < 6; i++)
+        for (s32 i = 0; i < MAX_PLAYERS; i++)
         {
-            if (field_4_time[i] > leader_time && !field_20[i])
+            if (field_4_it_time_secs[i] > leader_time && !field_20_bHasQuit[i])
             {
-                leader_time = field_4_time[i];
+                leader_time = field_4_it_time_secs[i];
                 leader_idx = i;
             }
         }
@@ -547,7 +547,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
     else if (menu_page_idx == MENUPAGE_MULTIPLAYER_RESULTS)
     {
         stage_idx = gGameSession_67E8E0.GetMaxPlayers_4C5BF0();
-        gYouthful_einstein_6F8450.GetLeaderIdx_453AB0();
+        gTagGame_6F8450.GetLeaderIdx_453AB0();
         user_idx = (u8)gGameSession_67E8E0.GetUserPlayerIdx_4C5BE0();
         game_mode = gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0();
 
@@ -607,7 +607,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
         opponent_idx = 0;
         for (player = 0; player < stage_idx; player++)
         {
-            if (gYouthful_einstein_6F8450.HasQuit_453A90(player))
+            if (gTagGame_6F8450.HasQuit_453A90(player))
             {
                 swprintf(quit_name,
                          L"%s (%s)",
@@ -631,7 +631,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
 
         s32 best_opponent = -1;
         s32 user_value;
-        if (gYouthful_einstein_6F8450.HasQuit_453A90(user_idx))
+        if (gTagGame_6F8450.HasQuit_453A90(user_idx))
         {
             goto lose;
         }
@@ -640,7 +640,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
         {
             for (i = 0; i < stage_idx; i++)
             {
-                if (i != user_idx && !gYouthful_einstein_6F8450.HasQuit_453A90(i) &&
+                if (i != user_idx && !gTagGame_6F8450.HasQuit_453A90(i) &&
                     (s16)gGameSession_67E8E0.GetFragsForPlayerIdx_4C5D60(i) > best_opponent)
                 {
                     best_opponent = (s16)gGameSession_67E8E0.GetFragsForPlayerIdx_4C5D60(i);
@@ -652,7 +652,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
         {
             for (i = 0; i < stage_idx; i++)
             {
-                if (i != user_idx && !gYouthful_einstein_6F8450.HasQuit_453A90(i) &&
+                if (i != user_idx && !gTagGame_6F8450.HasQuit_453A90(i) &&
                     gGameSession_67E8E0.GetPointsForPlayerIdx_4C5CB0(i) > best_opponent)
                 {
                     best_opponent = gGameSession_67E8E0.GetPointsForPlayerIdx_4C5CB0(i);
@@ -664,13 +664,13 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
         {
             for (i = 0; i < stage_idx; i++)
             {
-                if (i != user_idx && !gYouthful_einstein_6F8450.HasQuit_453A90(i))
+                if (i != user_idx && !gTagGame_6F8450.HasQuit_453A90(i))
                 {
-                    s32 time = gYouthful_einstein_6F8450.GetTime_453AA0(i);
+                    s32 time = gTagGame_6F8450.GetTime_453AA0(i);
                     best_opponent = time > best_opponent ? time : best_opponent;
                 }
             }
-            user_value = gYouthful_einstein_6F8450.GetTime_453AA0(user_idx);
+            user_value = gTagGame_6F8450.GetTime_453AA0(user_idx);
         }
         else
         {
@@ -4469,7 +4469,7 @@ void Frontend::DrawMultiplayerScores_4B55F0()
         }
         else // tag game
         {
-            s32 player_time = gYouthful_einstein_6F8450.GetTime_453AA0(curr_plyr_idx);
+            s32 player_time = gTagGame_6F8450.GetTime_453AA0(curr_plyr_idx);
             swprintf(Buffer, L"%2d:%02d", player_time / 60, player_time % 60);
             x_pos = 500;
             y_pos = 20 * curr_plyr_idx + 170;

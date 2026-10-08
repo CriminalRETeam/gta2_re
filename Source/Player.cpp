@@ -30,7 +30,7 @@
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
 #include "winmain.hpp"
-#include "youthful_einstein.hpp"
+#include "TagGame_28.hpp"
 #include "zealous_borg.hpp"
 #include <DINPUT.H>
 
@@ -1724,7 +1724,7 @@ void Player::Wasted_567130()
             player_killer = NULL;
         }
 
-        (&gYouthful_einstein_6F8450)
+        (&gTagGame_6F8450)
             ->UpdateFugitive_516740( //  tag mode death handler
                 gGame_0x40_67E008->get_player_4219E0(get_idx_4219D0()),
                 player_killer); //  if player_killer != NULL then 'player_killer' now is "IT"

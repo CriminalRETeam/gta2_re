@@ -942,7 +942,7 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
 
     if (bStartNetworkGame_7081F0)
     {
-        gYouthful_einstein_6F8450.ctor_516560();
+        gTagGame_6F8450.Init_516560();
 
         ClearDebugFlags_4DB170();
 
@@ -1405,7 +1405,7 @@ EXPORT void __stdcall do_network_and_local_inputs_4DAF30()
     if (bStartNetworkGame_7081F0)
     {
         TagGameHudUpdate_4DADA0();
-        gYouthful_einstein_6F8450.ExecuteGamemodeTick_516660();
+        gTagGame_6F8450.ExecuteGamemodeTick_516660();
 
         if (!gGame_0x40_67E008->UpdateExitTimer_4B8C20())
         {

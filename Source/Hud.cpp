@@ -919,9 +919,9 @@ void Hud_Arrow_7C::DrawArrow_5D0C90()
 // ----------------------------------------------------
 
 // 9.6f 0x4C7380
-inline s32 youthful_einstein::GetPlayerTime_4C7380(Player* pPlayer)
+inline s32 TagGame_28::GetPlayerTime_4C7380(Player* pPlayer)
 {
-    return field_4_time[pPlayer->get_idx_4219D0()];
+    return field_4_it_time_secs[pPlayer->get_idx_4219D0()];
 }
 
 MATCH_FUNC(0x5d0dc0)
@@ -1298,7 +1298,7 @@ bool Hud_QuitMessage_1::IsOnQuitMessage_5D13C0(s32 action, Player* pPlayer)
 
             if (IsNetworkGame_434B10())
             {
-                gYouthful_einstein_6F8450.SetQuit_461DD0(pPlayer->get_idx_4219D0());
+                gTagGame_6F8450.SetQuit_461DD0(pPlayer->get_idx_4219D0());
             }
 
             return true;
@@ -2807,8 +2807,8 @@ void Hud_PlayerStats_4::DrawPlayerStats_5D5C80()
         {
             swprintf(Buffer,
                      L"%2d:%02d",
-                     gYouthful_einstein_6F8450.GetPlayerTime_4C7380(pPlayer) / 60,
-                     gYouthful_einstein_6F8450.GetPlayerTime_4C7380(pPlayer) % 60);
+                     gTagGame_6F8450.GetPlayerTime_4C7380(pPlayer) / 60,
+                     gTagGame_6F8450.GetPlayerTime_4C7380(pPlayer) % 60);
 
             const s32 unknownn = (pPlayer->field_78C_hud_palette_type != 7) ? 2 : 8;
             DrawText_5D7720(Buffer, 420, 4, word_703BAA, unknownn, pPlayer->field_790_hud_palette - 1, 0, 0);
@@ -2834,8 +2834,8 @@ void Hud_PlayerStats_4::DrawPlayerStats_5D5C80()
                 {
                     swprintf(Buffer,
                              L"%2d:%02d",
-                             gYouthful_einstein_6F8450.GetPlayerTime_4C7380(pMultiPlayer) / 60,
-                             gYouthful_einstein_6F8450.GetPlayerTime_4C7380(pMultiPlayer) % 60);
+                             gTagGame_6F8450.GetPlayerTime_4C7380(pMultiPlayer) / 60,
+                             gTagGame_6F8450.GetPlayerTime_4C7380(pMultiPlayer) % 60);
 
                     const s32 very_unknown = (pMultiPlayer->field_78C_hud_palette_type != 7) ? 2 : 8;
                     DrawText_5D7720(Buffer, score_end_xpos + 20, (u32)ypos, word_703BAA, very_unknown, pMultiPlayer->field_790_hud_palette - 1, 0, 0);
