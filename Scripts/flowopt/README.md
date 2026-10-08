@@ -153,11 +153,46 @@ FlowOpts cross-jumps `X` into an identical store elsewhere, which leaves only a 
 exit, and dupB moves the exit up. Probes: `if (!a || b == 9) {...}` goes out of line, `if (a == 5) {...}` and
 `&&` conditions don't. `TrainCab_414710` and `UpdateState_4FB330` need this (see `docs/match_attempts.md`).
 
+## Block layout: reverse postorder (`0x1070483E`, `0x10734C6A`)
+
+The block order that codegen, FlowOpts and dupB start from is set early, in the third pass of `0x107657E2`
+(`0x10706181`, boundary `107659c0` in `ildump.py`), before the loop sinking described below:
+
+1. `0x1070483E` (called from `0x107047BC`, which then drops unreachable blocks) is an iterative depth-first search
+   from the entry block. It clears the visited bit (bit 0 of `[blk+0x18]`), keeps the DFS stack in `[blk+0x10]` and
+   each block's successor iterator in `[blk+0x14]` (from the edge list `[blk+0x0C]`: next `[e]`, target block
+   `[e+0x0C]`), and threads the blocks in **postorder** (the order they finish) through `[blk+0x10]`, head at
+   `[hdr+8]`, tail at `[hdr+0x0C]` (`hdr = [func+8]`).
+2. `0x10734C6A` empties the block list and walks that postorder list, prepending each block (`0x10733880`), so the
+   new order is the **reverse postorder**. The exit block (the old last block) is put back at the end.
+
+Successors are visited in edge list order, which is **the jump target first, then the fall-through**. Checked
+by simulating it on the IL before the pass (`@S 10765998`) for every function of `winmain.cpp`: 298 of 305 give
+the actual order (the rest are loop sinking and merged empty blocks); fall-through first gives 283. A switch
+visits its cases in ascending value order with `default` last, so the cases are laid out `default` first, then
+by descending value (`Ambulance_20::UpdateState_4FB330`).
+
+What follows:
+
+- A block is laid out after everything that the DFS reaches from it before its last successor is finished. In
+  `if (c) A; else B; C`, the `jcc !c -> B` target B is visited first and finishes first (with C), so the order is
+  `A`, `B`, `C`, the usual source order.
+- In `if (a || b) { X; return; }`, the first term's `jcc a -> X` makes X the first successor of the first test.
+  X only leads to the exit, so it finishes before the rest of the function is even visited, and is laid out
+  **after** everything that follows, just before the exit. That's the "out-of-line `||` block"
+  (`Ped::PunchChar_467FD0`). Without the `return`, X's DFS walks the code after the `if` first and X stays in
+  place; `if (a) X` and `&&` jump past X, so X stays in place too.
+- A join reached first through one arm is laid out right after that arm's last block, and before any sibling arm
+  visited earlier (the earlier sibling finishes first, so it comes later). For example, a `HandleObjectiveState()`
+  join after a switch that the case 3 success path reaches is laid out before case 3's `else` arm, which the DFS
+  visited first.
+
 ## Code generation order: sinking non-loop blocks out of loops (`0x10740251`)
 
 The local register allocator (`0x10723B05`, round robin over eax/ecx/edx, see `Scripts/regalloc/README.md`) walks the
 function's instruction list in order, so "codegen order" is simply the block order at that point. From the pass
-dump (`ildump.py`), only one early pass reorders whole blocks: the loop pass inside `0x10706181` (the third pass of
+dump (`ildump.py`), only one early pass reorders whole blocks: `0x10706181`, which lays the blocks out in reverse
+postorder (previous section) and then runs the loop pass (the third pass of
 `0x107657E2`, boundary `107659c0`). Everything after it keeps the order until FlowOpts and dupB.
 
 How it works (patching the call to `0x107063B2` out leaves the order as written):
