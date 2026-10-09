@@ -3596,3 +3596,24 @@ Near misses, new findings (not matched):
   `FreeLowestPriority_543690`: retried, nothing new.
 - `SetGamma_5D9910` and `TextureCache_15D8::ReadTextures_5B92E0` would match only by removing code
   kept on purpose for the standalone exe (see their source comments); left as they are.
+
+## `Particle_8::EmitBloodBurst_53E450`: only the frame is wrong (61 lines)
+
+Every instruction matches; the frame is `sub $0x50,%esp` against the original's `sub $0x68,%esp`
+and every esp-relative offset is shifted by exactly 24. The shift is uniform, so the original's
+extra 24 bytes sit at the **deep end** of the frame, i.e. six more compiler temporaries, not
+named locals. The `/FAs` frame table shows ours reusing slots heavily (`-84` holds `$T58406`,
+`$T58410` and `$T58418`), so the original's temporaries overlap in lifetime where ours do not.
+
+Tried, all worse:
+
+- `Ang16 rotation` / `Ang16 half_step` locals for the rotate argument: folded into the same
+  temporaries, frame unchanged, 61 -> 427.
+- A loop-local `Fix16_Point burst` instead of reusing `vector`: frame 80 -> 92 (the right
+  direction) but the per-iteration construction costs 61 -> 496.
+- The six by-value `New_53E3C0` arguments materialised into locals, to keep six Fix16 slots live
+  at once: frame only 80 -> 84, 61 -> 505.
+
+What it needs is six more *temporaries* with overlapping lifetimes and no extra code, which is a
+property of how the original's expressions nest, not of a local declaration.
+
