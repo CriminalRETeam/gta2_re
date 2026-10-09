@@ -2543,6 +2543,11 @@ void CarAI_78::DetectCarAhead_44D1D0()
 
         field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_xpos_677C38, gCurrCarAI_ypos_677C30, gCurrCarAI_zpos_677C48);
 
+        // goto tail_1 (not break): all four cases end with byte-identical probe code, which VC6
+        // folds into one copy with the others jumping in. With `break`, the fall-through (west, the
+        // last case) survives and the rest jump into it; `goto tail_1` (the label `break` would reach
+        // anyway) keeps the first copy (north) instead, as the original does (see matching_quirks.md,
+        // "Which copy survives can also depend on how the cases leave the switch").
         switch (this->field_4C_curr_direction)
         {
             case car_ai_direction::north_1:
@@ -2562,7 +2567,7 @@ void CarAI_78::DetectCarAhead_44D1D0()
                 {
                     return;
                 }
-                break;
+                goto tail_1;
 
             case car_ai_direction::south_2:
                 Ang16::PolarToCartesian_41FC20(kAng90_6779E4, dword_6779D4, x_off, y_off);
@@ -2581,7 +2586,7 @@ void CarAI_78::DetectCarAhead_44D1D0()
                 {
                     return;
                 }
-                break;
+                goto tail_1;
 
             case car_ai_direction::east_3:
                 Ang16::PolarToCartesian_41FC20(kAng180_677ADE, dword_6779D4, x_off, y_off);
@@ -2600,7 +2605,7 @@ void CarAI_78::DetectCarAhead_44D1D0()
                 {
                     return;
                 }
-                break;
+                goto tail_1;
 
             case car_ai_direction::west_4:
                 Ang16::PolarToCartesian_41FC20(kAng0_677CE8, dword_6779D4, x_off, y_off);
@@ -2619,12 +2624,13 @@ void CarAI_78::DetectCarAhead_44D1D0()
                 {
                     return;
                 }
-                break;
+                goto tail_1;
 
             default:
                 return;
         }
 
+    tail_1:
         this->field_2D_arrow_start = arrow_idx;
         this->field_24_flags |= 0x100;
         this->field_2E_arrow_cur = arrow_idx;
@@ -2654,6 +2660,7 @@ probe_sides:
     {
         field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_xpos_677C38, gCurrCarAI_ypos_677C30, gCurrCarAI_zpos_677C48);
 
+        // goto tail_2 (not break): same tail-merge reason as the first switch above.
         switch (this->field_4C_curr_direction)
         {
             case car_ai_direction::north_1:
@@ -2675,7 +2682,7 @@ probe_sides:
                 {
                     return;
                 }
-                break;
+                goto tail_2;
 
             case car_ai_direction::south_2:
                 x_off = Ang16::sine_40F500(kAng270_677B08) * dword_6779D4;
@@ -2696,7 +2703,7 @@ probe_sides:
                 {
                     return;
                 }
-                break;
+                goto tail_2;
 
             case car_ai_direction::east_3:
                 x_off = Ang16::sine_40F500(kAng0_677CE8) * dword_6779D4;
@@ -2717,7 +2724,7 @@ probe_sides:
                 {
                     return;
                 }
-                break;
+                goto tail_2;
 
             case car_ai_direction::west_4:
                 x_off = Ang16::sine_40F500(kAng180_677ADE) * dword_6779D4;
@@ -2738,12 +2745,13 @@ probe_sides:
                 {
                     return;
                 }
-                break;
+                goto tail_2;
 
             default:
                 return;
         }
 
+    tail_2:
         this->field_24_flags |= 0x100u;
         this->field_2D_arrow_start = 0;
         this->field_2E_arrow_cur = 0;
