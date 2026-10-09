@@ -2321,7 +2321,7 @@ void Sprite::DispatchCollisionEvent_5A3100(Sprite* pSprite, Fix16 x, Fix16 y, An
             field_8_char_b4_ptr->field_88_obj_2c.PushImpactEvent_5A6D00(pSprite, x, y, ang);
             break;
         case sprite_types_enum::car_2:
-            field_8_car_bc_ptr->field_0_qq.PushImpactEvent_5A6D00(pSprite, x, y, ang);
+            field_8_car_bc_ptr->field_0_attachments.PushImpactEvent_5A6D00(pSprite, x, y, ang);
             break;
         case sprite_types_enum::unknown_1: // sprite_type_1_Object_5C
         case sprite_types_enum::code_obj1_4: // sprite_type_4_Object_5C

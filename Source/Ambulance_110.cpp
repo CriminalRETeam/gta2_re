@@ -521,10 +521,10 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                                     gRouteFinder_6FFDC8->CancelRoute_589930(pAI->field_28_junc_idx);
                                     field_4_paramedics_crew->field_0_car->field_5C_AI->field_28_junc_idx = -1;
                                 }
-                                if (field_4_paramedics_crew->field_0_car->field_60)
+                                if (field_4_paramedics_crew->field_0_car->field_60_pChaseTask)
                                 {
-                                    gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_4_paramedics_crew->field_0_car->field_60);
-                                    field_4_paramedics_crew->field_0_car->field_60 = 0;
+                                    gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_4_paramedics_crew->field_0_car->field_60_pChaseTask);
+                                    field_4_paramedics_crew->field_0_car->field_60_pChaseTask = 0;
                                 }
                                 if (field_4_paramedics_crew->field_8_group->IsAllMembersInSomeCar_4CAA20())
                                 {

@@ -1221,7 +1221,7 @@ void Weapon_30::sub_5DFB60(u8 a2, Sprite* a3, Ang16 a4)
                                 if (!pHit->field_8_car_bc_ptr->is_f78_0x400_425770())
                                 {
                                     pHit->field_8_car_bc_ptr->field_70_exploder_ped_id = field_24_pPed->field_200_id;
-                                    pHit->field_8_car_bc_ptr->field_90 = ped_death_cause::rocket_18;
+                                    pHit->field_8_car_bc_ptr->field_90_death_cause = ped_death_cause::rocket_18;
                                     pHit->field_8_car_bc_ptr->field_94_exploder_timer = 50;
                                     s16 damage = pHit->field_8_car_bc_ptr->AccumulateDamage_43DA90(300, &stru_706F90);
                                     pHit->field_8_car_bc_ptr->ApplyVisualDamage_43A9F0();
@@ -1364,7 +1364,7 @@ void Weapon_30::fire_truck_flamethrower_5E0B10()
     Ped* pDriver = field_14_car->field_54_driver;
     field_24_pPed = pDriver;
 
-    pTurret = field_14_car->field_0_qq.GetSpriteForModel_5A6A50(114);
+    pTurret = field_14_car->field_0_attachments.GetSpriteForModel_5A6A50(114);
     if (pTurret)
     {
         gun_ang = pTurret->field_0->field_0 + word_706DFA;
@@ -1375,7 +1375,7 @@ void Weapon_30::fire_truck_flamethrower_5E0B10()
     }
     else
     {
-        gun_ang = field_14_car->field_0_qq.GetSpriteForModel_5A6A50(248)->field_0->field_0;
+        gun_ang = field_14_car->field_0_attachments.GetSpriteForModel_5A6A50(248)->field_0->field_0;
 
         bullet_pos.SetXY_432860(Fix16(0), dword_706EA4);
         bullet_pos.RotateByAngle_40F6B0(gun_ang);
@@ -1415,7 +1415,7 @@ void Weapon_30::fire_truck_gun_5E0E70()
 
     field_24_pPed = field_14_car->get_driver_4118B0();
 
-    Sprite_18* pTurret = field_14_car->field_0_qq.GetSpriteForModel_5A6A50(114);
+    Sprite_18* pTurret = field_14_car->field_0_attachments.GetSpriteForModel_5A6A50(114);
     gun_ang = pTurret->field_0->field_0 + word_706DFA;
 
     bullet_pos.SetXY_432860(Fix16(0), dword_706CDC);
@@ -1479,7 +1479,7 @@ void Weapon_30::tank_main_gun_5E10E0()
     if (field_2_reload_speed == 0)
     {
         field_24_pPed = field_14_car->get_driver_4118B0();
-        cannon_angle = field_14_car->field_0_qq.GetSpriteForModel_5A6A50(148)
+        cannon_angle = field_14_car->field_0_attachments.GetSpriteForModel_5A6A50(148)
                            ->field_0->field_0;
         cannon_pos.SetXY_432860(Fix16(0), gTankCannonLength_706E20);
         {
@@ -1555,7 +1555,7 @@ void Weapon_30::army_gun_jeep_5E13E0()
     {
         field_24_pPed = field_14_car->get_driver_4118B0();
 
-        gun_ang = field_14_car->field_0_qq.GetSpriteForModel_5A6A50(248)->field_0->field_0;
+        gun_ang = field_14_car->field_0_attachments.GetSpriteForModel_5A6A50(248)->field_0->field_0;
 
         bullet_pos.SetXY_432860(Fix16(0), dword_706EA4);
         {

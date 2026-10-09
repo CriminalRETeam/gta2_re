@@ -1996,7 +1996,7 @@ void Object_2C::TriggerCarExplosionIfApplicable_526790(Sprite* pSprite)
                         if (id)
                         {
                             pCar->field_70_exploder_ped_id = id;
-                            pCar->field_90 = ped_death_cause::bomb_12;
+                            pCar->field_90_death_cause = ped_death_cause::bomb_12;
                             pCar->field_94_exploder_timer = 50;
                         }
                     }

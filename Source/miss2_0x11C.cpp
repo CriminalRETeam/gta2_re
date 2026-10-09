@@ -4343,7 +4343,7 @@ void miss2_0x11C::SCRCMD_IS_CAR_ON_TRAIL_50C1B0()
     SCR_POINTER* pTrailerPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2);
 
     //Sprite* pSprite = pTrailerPointer->field_8_sprite->sub_5A6CA0(2);
-    Sprite* pSprite = pTrailerPointer->field_8_car->field_0_qq.FirstSpriteOfType_5A6CA0(2);
+    Sprite* pSprite = pTrailerPointer->field_8_car->field_0_attachments.FirstSpriteOfType_5A6CA0(2);
     Car_BC* pCarOnTrailer;
 
     if (pSprite != NULL &&
@@ -4828,7 +4828,7 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_DRIVER_50CB70()
         case SCRCMD_CARBOMB_ACTIVE:
         {
             Car_BC* pCar = pPointer->field_8_car;
-            if (pCar->field_0_qq.GetSpriteForModel_5A6A50(132) != NULL)
+            if (pCar->field_0_attachments.GetSpriteForModel_5A6A50(132) != NULL)
             {
                 field_8_cond_result = true;
             }
@@ -6442,7 +6442,7 @@ void miss2_0x11C::SCRCMD_STOP_CAR_DRIVE_50F900()
 
     if (pCar)
     {
-        pCar->field_A6 |= 0x20u;
+        pCar->field_A6_turn_flags |= 0x20u;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }

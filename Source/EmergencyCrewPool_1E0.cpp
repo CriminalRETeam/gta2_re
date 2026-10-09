@@ -255,10 +255,10 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
                 {
                     field_0_car->field_7C_uni_num = 3;
                 }
-                if (field_0_car->field_60)
+                if (field_0_car->field_60_pChaseTask)
                 {
-                    gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_0_car->field_60);
-                    field_0_car->field_60 = 0;
+                    gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_0_car->field_60_pChaseTask);
+                    field_0_car->field_60_pChaseTask = 0;
                 }
                 field_0_car = NULL;
             }
@@ -416,10 +416,10 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
     {
         if (field_0_car)
         {
-            if (field_0_car->field_60)
+            if (field_0_car->field_60_pChaseTask)
             {
-                gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_0_car->field_60);
-                field_0_car->field_60 = 0;
+                gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_0_car->field_60_pChaseTask);
+                field_0_car->field_60_pChaseTask = 0;
             }
         }
         field_0_car = NULL;
@@ -506,10 +506,10 @@ void EmergencyCrew_30::CleanupExpiredEntities_5CC1C0()
         {
             if (field_0_car)
             {
-                if (field_0_car->field_60)
+                if (field_0_car->field_60_pChaseTask)
                 {
-                    gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_0_car->field_60); // something to do with car route
-                    field_0_car->field_60 = 0;
+                    gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_0_car->field_60_pChaseTask); // something to do with car route
+                    field_0_car->field_60_pChaseTask = 0;
                 }
             }
             field_0_car = NULL;

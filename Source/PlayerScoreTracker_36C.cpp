@@ -767,7 +767,7 @@ void PlayerScoreTracker_36C::AwardCarDestroyedScore_592DD0(Car_BC* pCar, Ped* pK
                              ped_ocupation_enum::no_occupation,
                              gang_idx,
                              pCar->field_50_car_sprite->get_remap_41C1F0(),
-                             pCar->field_90,
+                             pCar->field_90_death_cause,
                              killer_car_model,
                              pZone);
 

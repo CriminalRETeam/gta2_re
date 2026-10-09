@@ -1783,7 +1783,7 @@ char_type sound_obj::Type_11_414EE0(sound_0x68* p68)
 MATCH_FUNC(0x414F90)
 void sound_obj::HandleCarBurningSound_414F90(Sound_Params_8* a2)
 {
-    if (a2->field_0_pObj->field_8_car_bc_ptr->field_0_qq.GetSpriteForModel_5A6A50(132))
+    if (a2->field_0_pObj->field_8_car_bc_ptr->field_0_attachments.GetSpriteForModel_5A6A50(132))
     {
         if (CalculateDistance_419020(Fix16(25)))
         {
@@ -6778,7 +6778,7 @@ void sound_obj::ProcessType3_CopRadioAndMusic_57DD50()
     {
         if (gLastPlayerCar_6FF53C)
         {
-            gLastPlayerCar_6FF53C->field_B0 = RadioEmitter(field_54F7[0] + 1).field_C;
+            gLastPlayerCar_6FF53C->field_B0_emitter_status = RadioEmitter(field_54F7[0] + 1).field_C;
         }
         if (field_54F7[1] < 5)
         {
@@ -7131,9 +7131,9 @@ void sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
         return;
     }
 
-    if (pCar->field_B0)
+    if (pCar->field_B0_emitter_status)
     {
-        field_54F7[0] = FindEmitterByStatus_57F050(pCar->field_B0);
+        field_54F7[0] = FindEmitterByStatus_57F050(pCar->field_B0_emitter_status);
         return;
     }
 

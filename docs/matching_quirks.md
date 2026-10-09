@@ -25,6 +25,9 @@ marked unlisted addresses into `target_extra.json`) before trusting the marker.
   their own header and include it only from the `.cpp` files, so inline code in `Car_BC.hpp` stays numeric.
 - So it looks like a symbol table / hash effect inside VC6 that depends on how many names a TU has, and
   only a function as fragile as that x87 one notices.
+- Removing padding fields from `Car_BC` in `Car_BC.hpp` (12 unused `char_type`/`s16` pads) hits the same two
+  `MapRenderer` functions, even though the layout is unchanged: the count of member names in the TU is what matters.
+  Rename such pads (`field_7A_pad`) instead of deleting them.
 - The fix is to keep the enum out of every header `MapRenderer.cpp` includes: `ped_graphic_type.hpp` is a
   small header included only by the .cpp files that use it.
 After adding any enum or constants to a widely included header, run the whole `build.py` (not just

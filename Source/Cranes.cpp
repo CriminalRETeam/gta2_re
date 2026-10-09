@@ -215,7 +215,7 @@ void Crane_15C::HookTransporterCargo_47EDF0()
 {
     Car_BC* pCar = field_70_cargo_transporter->AsCar_40FEB0();
 
-    pCar->field_0_qq.RemoveSprite_5A6B10(field_6C_transporter_cargo);
+    pCar->field_0_attachments.RemoveSprite_5A6B10(field_6C_transporter_cargo);
     gSpriteGrid_3_679210->Remove_477B00(field_6C_transporter_cargo);
 
     this->field_74_pSprite_on_hook = this->field_6C_transporter_cargo;
@@ -408,7 +408,7 @@ bool Crane_15C::IsDropTransporterTargetValid_47F450()
     if (!pCar->IsDespawning_4215B0() && this->field_C4_drop_transporter_pos.x == field_64_drop_transporter->field_14_xy.x && this->field_C4_drop_transporter_pos.y == field_64_drop_transporter->field_14_xy.y &&
         this->field_CC_drop_transporter_z == field_64_drop_transporter->field_1C_zpos && this->field_D0_drop_transporter_rot == Ang16::Ang16_to_Fix16(field_64_drop_transporter->field_0))
     {
-        return pCar->field_0_qq.FirstSpriteOfType_5A6CA0(sprite_types_enum::car_2) ? false : true;
+        return pCar->field_0_attachments.FirstSpriteOfType_5A6CA0(sprite_types_enum::car_2) ? false : true;
     }
     return false;
 }
@@ -533,7 +533,7 @@ void Crane_15C::TargetTransporter_47F7F0(Car_BC* pCar)
 {
     Fix16 point;
     Fix16 t;
-    Sprite* pFoundSprite = pCar->field_0_qq.FirstSpriteOfType_5A6CA0(sprite_types_enum::car_2);
+    Sprite* pFoundSprite = pCar->field_0_attachments.FirstSpriteOfType_5A6CA0(sprite_types_enum::car_2);
     if (pFoundSprite)
     {
         if (!field_150)

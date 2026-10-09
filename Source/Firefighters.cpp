@@ -77,7 +77,7 @@ bool Firefighter_28::sub_4A7FC0()
         {
             if (field_C_target_car)
             {
-                if (!field_C_target_car->field_0_qq.FindFirstActiveObject_5A6AD0())
+                if (!field_C_target_car->field_0_attachments.FindFirstActiveObject_5A6AD0())
                 {
                     field_8_state = firefighter_state::finished_5;
                 }
@@ -118,11 +118,11 @@ void Firefighter_28::deinit_4A81A0()
     Car_BC* pCar = this->field_1C_car;
     if (pCar)
     {
-        CarChaseTask_40* pRoute = pCar->field_60;
+        CarChaseTask_40* pRoute = pCar->field_60_pChaseTask;
         if (pRoute)
         {
             gCarChaseTaskTable_678E30->FreeEntry_474CC0(pRoute);
-            this->field_1C_car->field_60 = 0;
+            this->field_1C_car->field_60_pChaseTask = 0;
         }
     }
     Ped* pPed = this->field_20_ped;
@@ -135,7 +135,7 @@ void Firefighter_28::deinit_4A81A0()
     this->field_8_state = firefighter_state::finished_5;
     if (pCar2)
     {
-        pCar2->field_0_qq.CleanupSpriteList_5A7080();
+        pCar2->field_0_attachments.CleanupSpriteList_5A7080();
     }
 }
 

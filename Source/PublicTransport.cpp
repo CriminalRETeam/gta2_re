@@ -798,7 +798,7 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
                     pTrain->field_C_carriages[0]->SpawnDriverPed();
                     pTrain->field_C_carriages[0]->SetUniNum_421560(5);
                     Object_2C* pLight = gObject_5C_6F8F84->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
-                    pTrain->field_C_carriages[0]->field_0_qq.PushImpactEvent_5A6D00(pLight->field_4, 0, 2, kAng0_6FF1BC);
+                    pTrain->field_C_carriages[0]->field_0_attachments.PushImpactEvent_5A6D00(pLight->field_4, 0, 2, kAng0_6FF1BC);
                     pTrain->field_C_carriages[0]->SetField98To4_475C30();
 
                     for (j = 0; j < wagons; j++)

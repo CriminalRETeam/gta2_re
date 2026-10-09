@@ -444,7 +444,7 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
                                 {
                                     pCar->field_70_exploder_ped_id = exploder_ped_id;
                                 }
-                                pCar->field_90 = 4;
+                                pCar->field_90_death_cause = 4;
                                 pCar->field_94_exploder_timer = 50;
                                 s16 damage = pCar->AccumulateDamage_43DA90(32000, &kZeroPoint_6FD570);
                                 if (pCar->field_70_exploder_ped_id)

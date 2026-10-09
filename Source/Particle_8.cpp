@@ -372,7 +372,7 @@ void Particle_8::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
             Fix16 zpos = pSprt->field_1C_zpos;
             if (pSprt->get_type_416B40() == sprite_types_enum::car_2)
             {
-                Sprite_18* pSprt18 = pSprt->field_8_car_bc_ptr->field_0_qq.GetSpriteForModel_5A6A50(114);
+                Sprite_18* pSprt18 = pSprt->field_8_car_bc_ptr->field_0_attachments.GetSpriteForModel_5A6A50(114);
                 if (pSprt18)
                 {
                     angle = pSprt18->field_0->field_0 + kAng180_6FD3EE;
@@ -383,7 +383,7 @@ void Particle_8::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
                 }
                 else
                 {
-                    Sprite_18* pSprt18_2 = pSprt->field_8_car_bc_ptr->field_0_qq.GetSpriteForModel_5A6A50(248);
+                    Sprite_18* pSprt18_2 = pSprt->field_8_car_bc_ptr->field_0_attachments.GetSpriteForModel_5A6A50(248);
                     angle = pSprt18_2->field_0->field_0;
                     vector.SetXY_432860(Fix16(0), dword_6FD48C);
                     vector.RotateByAngle_40F6B0(angle);
@@ -453,14 +453,14 @@ void Particle_8::EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite)
             if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
             {
                 Car_BC* pCar = pSprite->field_8_car_bc_ptr;
-                Sprite_18* pGun = pCar->field_0_qq.GetSpriteForModel_5A6A50(114);
+                Sprite_18* pGun = pCar->field_0_attachments.GetSpriteForModel_5A6A50(114);
                 if (pGun)
                 {
                     angle = pGun->field_0->field_0 + kAng180_6FD3EE;
                 }
                 else
                 {
-                    angle = pCar->field_0_qq.GetSpriteForModel_5A6A50(248)->field_0->field_0;
+                    angle = pCar->field_0_attachments.GetSpriteForModel_5A6A50(248)->field_0->field_0;
                 }
                 pParticle->field_30_pNext->set_ang_lazy_420690(angle);
             }

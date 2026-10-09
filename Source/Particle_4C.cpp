@@ -1496,7 +1496,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
     {
         Ang16 car_angle;
         Fix16_Point offset;
-        Sprite_18* pGun = pCar->field_0_qq.GetSpriteForModel_5A6A50(114);
+        Sprite_18* pGun = pCar->field_0_attachments.GetSpriteForModel_5A6A50(114);
         Fix16_Point attach;
         if (pGun)
         {
@@ -1514,7 +1514,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
         }
         else
         {
-            car_angle = pCar->field_0_qq.GetSpriteForModel_5A6A50(248)->field_0->field_0;
+            car_angle = pCar->field_0_attachments.GetSpriteForModel_5A6A50(248)->field_0->field_0;
             attach.x = 0;
             attach.y = dword_6FD48C;
             attach.RotateByAngle_OneMulInline_40F6B0(car_angle);
