@@ -411,12 +411,14 @@ static inline Fix16 MaxValue_44E540(const Fix16& a, const Fix16& b)
 // from delta.MaxAbs_48A270() / dword_6FD364, delta.DivideAssign_48A250(segments), cur += delta, mid = cur - prev,
 // mid.DivideAssign_48A250(2), mid += prev, SetFlags_4337D0(2, 20); the function-scope Ang16 is the jitter;
 // each case is one SetFromPolar(radius, angle sum) call with both arguments as temporaries;
-// dst.SetXY(target) then dst += src. Left (4): `add %edx,%esi` where the original has `add %esi,%edx` for dst.x.
-WIP_FUNC(0x538ac0)
+// dst.SetXY(target) then dst += src (target declared ahead of src, else the x add's operands swap).
+MATCH_FUNC(0x538ac0)
 char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
 {
     ++field_46_sub_state;
     Ang16 jitter;
+    // Declared before src: the symbol order decides the operand order of `dst += src` (x add)
+    Fix16_Point_POD target;
     Fix16_Point src;
     Fix16_Point dst;
     Fix16_Point delta;
@@ -463,7 +465,6 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
             }
         }
 
-        Fix16_Point_POD target;
         target.SetXY_432860(field_28_pSprite->field_14_xy.x, field_28_pSprite->field_14_xy.y);
         jitter = word_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(gRng_6F6784.get_int_4F7AE0(16) - 8));
 
