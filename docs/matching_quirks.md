@@ -456,6 +456,12 @@ width: moving `gBlockLeft_6F62F6`/`gBlockRight_6F63C6` to `map_0x370.cpp` matche
 `MapRenderer::DrawPartialBlock*` functions. Try each global separately: there, moving
 `gBlockTop` changed nothing and moving `gBlockBottom` made it worse.
 
+**`cmp $0xFFFF,%di` with a 16-bit immediate means a `u16` compared with `0xFFFF`.** `s16 x; x != -1`
+encodes the constant as a sign-extended byte (`66 83 ff ff`, 4 bytes); `u16 x; x != 0xFFFF` uses the
+full imm16 (`66 81 ff ff ff`, 5 bytes). Both disassemble to the same text, so the only visible symptom
+is every later jump target off by one byte. Look at the raw bytes when that happens
+(`Sprite::Draw_59EFF0`, the two `Delta_48F8B0` results; `cmp $0xFFFF,%ax` is `66 3d ff ff` either way).
+
 **A flag returned with no `setne` is `char_type`, not `bool`.** If the original returns a
 `char` local as is, a `bool` return makes VC6 normalise it (`Ped::HandlePickupCollision_45DE80`).
 
@@ -1461,6 +1467,15 @@ Other float shapes that change the code:
 - Operand order of commutative `*` and `+` makes no difference (the compiler canonicalises it), and
   neither do (u32)/(unsigned)/`*(u32*)&` variants of the u32 -> float conversion. Compiler flags and
   builds (RTM to SP6) don't change the schedule either.
+
+- **Moving one window break without moving the next ones.** When `regsearch.py` (or a manual `LIM` run)
+  finds that two adjacent windows need limits like `76,84` (one break 4 nodes earlier, the next one where it
+  is), add 4 no-op nodes before the first break and remove 4 between the two breaks, in a per-call-site
+  copy of the inline helper. To find which conversions sit before which break, compile each single change
+  with `sched.sh -l` and align the window op lists against the base (difflib on the op codes): that gives
+  each change's node delta before every break, and the combinations can be picked arithmetically instead
+  of scored blindly (`Sprite::Draw_59EFF0`: an `ProjectWorldPointToScreen_First_4BA4D0` copy for the first
+  of four expansions, 2 lines -> MATCH).
 
 A quick way to test such variants: `Scripts/tu_harness/tu.sh` compiles a preprocessed copy of the TU
 (about 3 seconds) and diffs single functions, `score.py` scores a whole TU. Status and next steps for the

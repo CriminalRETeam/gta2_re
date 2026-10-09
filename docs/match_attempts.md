@@ -3529,3 +3529,22 @@ Tried, all worse or no change:
   `GetLength_*_442AD0` inline helpers: 203. The explicit out-of-line form in the source is
   right; don't "simplify" it.
 
+
+## Round 2 x87 pass (agent b, Oct 9)
+
+- `Sprite::Draw_59EFF0`: **MATCH**. Two fixes: (1) the `Delta_48F8B0` results are `u16` compared with
+  `0xFFFF` (the original's `cmp` has an imm16, one byte longer than `s16 != -1`'s imm8: all later jumps
+  were off by one); (2) the x87 windows: the old paren form (2 lines) plus `ProjectWorldPointToScreen_First_4BA4D0`
+  for the first expansion (point.x through a paren helper, point.y parenthesised, the y line without the
+  outer parentheses): `LIM` said window 9 limit 76 + window 10 limit 84, i.e. +4 nodes before the first
+  break and -4 between it and the next. Per-change node deltas from `sched.sh -l` logs made the search
+  arithmetic; about 20 different 0-score combinations exist.
+- `MapRenderer::draw_bottom_4ED290` (123) / `DrawRightSide_4EAF40` (125): the first difference is at the
+  out-of-line `ProjectVert_4EB940` call in the second gradient case: the original adds the z sum in place
+  (`add %esi,%ecx`, no register pick), ours uses `lea (%esi,%ecx),%edx` (one more round-robin pick), and the
+  eax/ecx/edx rotation of every later block is shifted by one. Named y/z temps (418/161), raw `mValue` sum
+  or division (423/506), `Fix16::Add_ref` either order for the y and z sums, `kTileTexSize * z` and a raw
+  product (580): no gain. Not a window problem (all limits give the same).
+- `Hud_Arrow_7C::UpdateScreenPos_5D0850` (86): not x87, the frame/CSE issue already described; not retried.
+- `Map_0x370::sub_4E6660` (4): `pPrev = pBlock` after `sub_4E65A0(x, y, &z, 1, 1)` again pushes `%ebx`
+  for both 1s; no new lever found.
