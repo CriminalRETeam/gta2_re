@@ -4840,7 +4840,7 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_DRIVER_50CB70()
             Car_BC* pCar = pPointer->field_8_car;
             car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(pCar->field_84_car_info_idx);
 
-            if ((pInfo->info_flags & 2) == 2 || pCar->field_84_car_info_idx == 84)
+            if ((pInfo->info_flags & 2) == 2 || pCar->field_84_car_info_idx == car_model_enum::EDSELFBI)
             {
                 if ((pCar->field_A4_light_flags & 4) != 0)
                 {

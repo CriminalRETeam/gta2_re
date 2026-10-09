@@ -1349,17 +1349,17 @@ void Ped::SpawnDriverRunAway_45C650(Car_BC* pCar, Ped* pOther)
 {
     switch (pCar->field_84_car_info_idx)
     {
-        case 3:
-        case 4:
-        case 6:
-        case 7:
-        case 17:
-        case 22:
-        case 30:
-        case 54:
-        case 59:
-        case 60:
-        case 61:
+        case car_model_enum::apc:
+        case car_model_enum::bank_van:
+        case car_model_enum::boxcar:
+        case car_model_enum::boxtruck:
+        case car_model_enum::FIRETRUK:
+        case car_model_enum::GUNJEEP:
+        case car_model_enum::JEEP:
+        case car_model_enum::TANK:
+        case car_model_enum::TRAIN:
+        case car_model_enum::TRAINCAB:
+        case car_model_enum::TRAINFB:
             return;
         default:
             if (pCar->GetRemap())
@@ -12303,7 +12303,7 @@ s32 Ped::IsInTrain_470F00()
     if (pBC)
     {
         const s32 info_idx = pBC->field_84_car_info_idx;
-        if (info_idx == 59 || info_idx == 60 || info_idx == 61 || info_idx == 6)
+        if (info_idx == car_model_enum::TRAIN || info_idx == car_model_enum::TRAINCAB || info_idx == car_model_enum::TRAINFB || info_idx == car_model_enum::boxcar)
         {
             return 1;
         }

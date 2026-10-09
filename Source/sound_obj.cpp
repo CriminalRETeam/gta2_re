@@ -2751,7 +2751,7 @@ void sound_obj::HandleTruckCorneringAudio_417FD0(Sound_Params_8* a2)
                         }
                     }
                     break;
-                case 86:
+                case car_model_enum::KRSNABUS:
                     // Dead store, but it keeps the switch range up to 86 as in the original
                     slide_angle = 0;
                     break;
