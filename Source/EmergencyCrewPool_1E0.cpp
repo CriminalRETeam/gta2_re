@@ -1,6 +1,6 @@
 #include "EmergencyCrewPool_1E0.hpp"
 #include "Car_BC.hpp"
-#include "Hamburger_500.hpp"
+#include "CarChaseTaskTable_500.hpp"
 #include "Ped.hpp"
 #include "PedGroup.hpp"
 
@@ -255,10 +255,10 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
                 {
                     field_0_car->field_7C_uni_num = 3;
                 }
-                if (field_0_car->field_60)
+                if (field_0_car->field_60_pChaseTask)
                 {
-                    gHamburger_500_678E30->FreeEntry_474CC0(field_0_car->field_60);
-                    field_0_car->field_60 = 0;
+                    gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_0_car->field_60_pChaseTask);
+                    field_0_car->field_60_pChaseTask = 0;
                 }
                 field_0_car = NULL;
             }
@@ -416,10 +416,10 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
     {
         if (field_0_car)
         {
-            if (field_0_car->field_60)
+            if (field_0_car->field_60_pChaseTask)
             {
-                gHamburger_500_678E30->FreeEntry_474CC0(field_0_car->field_60);
-                field_0_car->field_60 = 0;
+                gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_0_car->field_60_pChaseTask);
+                field_0_car->field_60_pChaseTask = 0;
             }
         }
         field_0_car = NULL;
@@ -488,7 +488,7 @@ void EmergencyCrew_30::CleanupExpiredEntities_5CC1C0()
             {
                 if (pPedListIter->field_168_game_object)
                 {
-                    if (pPedListIter->GetOffscreenCounter() < this->field_1A_idle_limit)
+                    if (pPedListIter->GetOffscreenCounter_4039F0() < this->field_1A_idle_limit)
                     {
                         bClearPedAndGroup = 0;
                     }
@@ -506,10 +506,10 @@ void EmergencyCrew_30::CleanupExpiredEntities_5CC1C0()
         {
             if (field_0_car)
             {
-                if (field_0_car->field_60)
+                if (field_0_car->field_60_pChaseTask)
                 {
-                    gHamburger_500_678E30->FreeEntry_474CC0(field_0_car->field_60); // something to do with car route
-                    field_0_car->field_60 = 0;
+                    gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_0_car->field_60_pChaseTask); // something to do with car route
+                    field_0_car->field_60_pChaseTask = 0;
                 }
             }
             field_0_car = NULL;

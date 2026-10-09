@@ -141,7 +141,7 @@ char_type Ped_List_4::RemovePedsInSpecificState_471290()
     char_type removedCount = 0;
     while (pIter)
     {
-        if (pIter->field_0_char_ped->CheckBit0_433B40() && pIter->field_0_char_ped->field_278_ped_state_1 == ped_state_1::dead_9)
+        if (pIter->field_0_char_ped->IsActive_433B40() && pIter->field_0_char_ped->field_278_ped_state_1 == ped_state_1::dead_9)
         {
             pLast = pIter;
             pIter = pIter->mpNext;
@@ -209,7 +209,7 @@ Ped* Ped_List_4::GetFromListClosestPedToPoint_471340(Fix16 x, Fix16 y)
     while (pIter)
     {
         Ped* pPed = pIter->field_0_char_ped;
-        if (pIter->field_0_char_ped->CheckBit0_433B40() == 1)
+        if (pIter->field_0_char_ped->IsActive_433B40() == 1)
         {
             Fix16 curr = Fix16::MaxAbsDistance_42A6B0(x, y, pPed->get_cam_x(), pPed->get_cam_y());
             if (curr < smallest)
@@ -237,7 +237,7 @@ Ped* Ped_List_4::FindClosestPedInViewCone_4713C0(Fix16 x, Fix16 y, Ang16 ang1, A
 
     for (; pIter; pIter = pIter->mpNext)
     {
-        if (((u8)pIter->field_0_char_ped->field_21C & 1) == 1) // byte read: mov 0x21C,%cl; and $1,%cl
+        if (((u8)pIter->field_0_char_ped->field_21C & ped_flag_mask::k_ped_active) == 1) // byte read: mov 0x21C,%cl; and $1,%cl
         {
             bool withinCone = false;
             distance = Fix16::MaxAbsDistance_42A6B0(x, y, pIter->field_0_char_ped->get_cam_x(), pIter->field_0_char_ped->get_cam_y());
@@ -296,11 +296,11 @@ void Ped_List_4::ApplyPassengerBusStopBehavior_471630()
 {
     for (Char_8* pIter = field_0_pFirstPed; pIter; pIter = pIter->mpNext)
     {
-        if (pIter->field_0_char_ped->get_occupation_403980() == 8)
+        if (pIter->field_0_char_ped->get_occupation_403980() == ped_ocupation_enum::bus_customer_8)
         {
             pIter->field_0_char_ped->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
             pIter->field_0_char_ped->SetObjective(objectives_enum::objective_34, 9999);
-            pIter->field_0_char_ped->set_field_150_target_objective_car(pIter->field_0_char_ped->field_16C_car);
+            pIter->field_0_char_ped->SetTargetObjectiveCar(pIter->field_0_char_ped->field_16C_car);
         }
     }
 }
@@ -310,9 +310,9 @@ void Ped_List_4::ForceTaxiPassengersToExit_471680()
 {
     for (Char_8* pIter = field_0_pFirstPed; pIter; pIter = pIter->mpNext)
     {
-        if (pIter->field_0_char_ped->field_240_occupation == 7)
+        if (pIter->field_0_char_ped->field_240_occupation == ped_ocupation_enum::taxi_customer_7)
         {
-            pIter->field_0_char_ped->field_21C |= 0x20000000u;
+            pIter->field_0_char_ped->field_21C |= ped_flag_mask::k_ped_forced_out_of_taxi;
         }
     }
 }
@@ -335,7 +335,7 @@ void Ped_List_4::SyncPassengersWithCarState_4716D0(Car_BC* pCar)
     for (Char_8* pIter = field_0_pFirstPed; pIter; pIter = pIter->mpNext)
     {
         pIter->field_0_char_ped->field_204_killer_id = pCar->field_70_exploder_ped_id;
-        pIter->field_0_char_ped->field_290_death_cause = pCar->field_90;
+        pIter->field_0_char_ped->field_290_death_cause = pCar->field_90_death_cause;
         pIter->field_0_char_ped->field_264_killer_id_timer = 50;
     }
 }

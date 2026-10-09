@@ -3,14 +3,14 @@
 #include "Function.hpp"
 #include "ang16.hpp"
 #include "fix16.hpp"
-#include "root_sound.hpp" // for infallible_turing
+#include "root_sound.hpp" // for SoundObject_10
 #include <windows.h>
 
 class Car_BC;
 class Object_2C;
 class gmp_map_zone;
-class Rozza_A;
-class infallible_turing;
+class CollisionEvent_28;
+class SoundObject_10;
 
 class serene_brattain
 {
@@ -45,7 +45,7 @@ struct vigilant_maxwell
     u8 field_1_age;
     char_type field_2;
     char_type field_3;
-    infallible_turing* field_4_pObj;
+    SoundObject_10* field_4_pObj;
     sound_unknown_0xC* field_8_pAlloc;
 };
 
@@ -56,7 +56,7 @@ struct sound_7
     char_type field_2;
     char_type field_3;
     s32 field_4_fp;
-    infallible_turing field_8;
+    SoundObject_10 field_8;
     s32 field_18;
 };
 
@@ -237,7 +237,7 @@ class sound_obj
     char_type field_5506;
     char_type field_5507;
     s32 field_5508_radio_entity_idx;
-    infallible_turing field_550C_radio_entity;
+    SoundObject_10 field_550C_radio_entity;
     s32 field_551C;
     u8 field_5520_bCanPlay;
     u8 field_5521_radio_word;
@@ -280,19 +280,19 @@ class sound_obj
     EXPORT void ProcessType8_Crane_412820(s32 idx);
     EXPORT void ProcessType9_Crusher_412A60(s32 idx);
     EXPORT void ProcessCar_412B80(Sound_Params_8* pType2Entity);
-    EXPORT char_type Type6_412C90(Rozza_A* pObj, u8 a3);
-    EXPORT char_type SelectObjectImpactSound_1_10_412D30(Rozza_A* pObj);
+    EXPORT char_type Type6_412C90(CollisionEvent_28* pEvent, u8 base_sample);
+    EXPORT char_type SelectObjectImpactSound_1_10_412D30(CollisionEvent_28* pEvent);
     EXPORT char_type Type6_2_412D40(u8 a2);
     EXPORT void Type6_Play_412D90(s32 model);
-    EXPORT char_type Type6_3_413000(Rozza_A* a2);
+    EXPORT char_type Type6_3_413000(CollisionEvent_28* pEvent);
     EXPORT char_type Type6_4_413040(u8 a2);
     EXPORT char_type Type6_5_413090(u8 a2);
-    EXPORT char_type Type6_7_4130E0(Rozza_A* a2);
-    EXPORT char_type SelectObjectImpactSound_413120(Rozza_A* pObj, s32 interactionType);
-    EXPORT char_type Type6_9_413540(Rozza_A* a2);
-    EXPORT char_type Type6_12_4136D0(Rozza_A* a2);
-    EXPORT void ProcessType6_Rozza_C88_413760(s32 idx);
-    EXPORT char_type Type6_413A10(Rozza_A* a2);
+    EXPORT char_type Type6_7_4130E0(CollisionEvent_28* pEvent);
+    EXPORT char_type SelectObjectImpactSound_413120(CollisionEvent_28* pEvent, s32 interactionType);
+    EXPORT char_type Type6_9_413540(CollisionEvent_28* pEvent);
+    EXPORT char_type Type6_12_4136D0(CollisionEvent_28* pEvent);
+    EXPORT void ProcessType6_CollisionSoundQueue_413760(s32 idx);
+    EXPORT char_type Type6_413A10(CollisionEvent_28* pEvent);
     EXPORT void ProcessTrainCab_413B90(Sound_Params_8* a2, sound_unknown_0xC* a3);
     EXPORT void ProcessTrain_413BE0(Sound_Params_8* a2);
     EXPORT void ProcessTank_413BF0(Sound_Params_8* a2, sound_unknown_0xC* pAlloc);
@@ -346,7 +346,7 @@ class sound_obj
     EXPORT char_type CalculateDistance_419020(Fix16 new_dist);
     EXPORT bool VolCalc_419070(u8 a2, Fix16 a3, char_type a4);
     EXPORT Fix16 ComputeEmitterDistanceSquared_4190B0();
-    EXPORT s32 AddSoundObject_419FA0(infallible_turing* a2);
+    EXPORT s32 AddSoundObject_419FA0(SoundObject_10* a2);
 
     EXPORT void FreeSoundEntry_41A090(u32 a2);
     EXPORT char_type LoadStyle_41A1B0(const char_type* pStyleName);

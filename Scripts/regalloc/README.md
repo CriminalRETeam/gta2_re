@@ -178,7 +178,7 @@ docstring). It shows which values are symbols (colour candidates) and which are 
 ## Priority and tie-break (reversed)
 
 Both are now exact (`priolog.py` logs every term; summing its terms gives the final priority of every live
-range in `Wolfy_3D4.cpp`, 329 of 329, and the tie of 373 of 377, the rest being constants and split pieces).
+range in `Explosion_30.cpp`, 329 of 329, and the tie of 373 of 377, the rest being constants and split pieces).
 
 **Priority** `[lr+0x0C]` is built by `0x107203FD` (before the colour pass) in one walk over the blocks in list order:
 
@@ -213,7 +213,7 @@ comes after it in reverse order), `c |= ..` (14). So a, b, c are coloured in tha
 
 ```bash
 venv/bin/python3 Scripts/regalloc/patch_c2.py && venv/bin/python3 Scripts/regalloc/priolog.py
-X87_C2=priolog X87_OUT=/tmp/pl Scripts/x87_sched/sched.sh -l Source/Wolfy_3D4.cpp
+X87_C2=priolog X87_OUT=/tmp/pl Scripts/x87_sched/sched.sh -l Source/Explosion_30.cpp
 grep -a '^@[PTR]' /tmp/pl/last.log      # @T ties, @P priority terms, @R colour decisions (ralog)
 ```
 
@@ -247,7 +247,7 @@ Two earlier passes decide what is still a symbol by then:
 - **Compiler temps (kind 3)** are created where a pass needs one value more than once. Example: the multiply
   expansion `0x10713E23` (boundary `10765b1b`) turns `i * 0x30` into `t = i; lea (t,t,2); shl $4`. `t` is a kind-3
   temp because the `lea` uses it twice, so it gets a live range even though it lives in one block. The `lea`
-  result and the `shl` result are IL temps. In `Wolfy_7A8::sub_543690` this is the line-115 copy
+  result and the `shl` result are IL temps. In `ExplosionPool_7A8::FreeLowestPriority_543690` this is the line-115 copy
   (`mov %edi,%eax`, coloured); the `lea` is a round-robin pick.
 
 A symbol that is a candidate but doesn't get a live range goes back to memory (operand kind 2) in the same pass.
@@ -263,11 +263,11 @@ temp after it.
 ## Open
 
 - **Block order at code generation.** Both register-only WIPs come down to it (see
-  `docs/match_attempts.md`): `Wolfy_7A8::sub_543690` needs its final tail generated before the
+  `docs/match_attempts.md`): `ExplosionPool_7A8::FreeLowestPriority_543690` needs its final tail generated before the
   in-loop return (or one more round-robin temp in the in-loop tail), `Char_B4::state_8_5520A0`
   has the rotation shifted between two blocks only. What orders blocks before `0x10723B05` is now
   known: the loop sink pass `0x10740251` (`Scripts/flowopt/README.md`, "Code generation order"), which
-  keeps the source order of out-of-loop code. For `sub_543690` that rules out a different block order
+  keeps the source order of out-of-loop code. For `FreeLowestPriority_543690` that rules out a different block order
   with the original's layout, so it needs one more round-robin pick before the in-loop `lea`. Which
   values become colour-pass live ranges is now known (see "Which values get colour live ranges"): the line-115
   copy is a kind-3 temp from the multiply expansion and the `lea` an IL temp, as in the original, so the missing

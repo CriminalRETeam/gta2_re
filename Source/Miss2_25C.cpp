@@ -1,7 +1,7 @@
 #include "Miss2_25C.hpp"
 #include "miss2_0x11C.hpp"
 #include "Car_BC.hpp"
-#include "frosty_pasteur_0xC1EA8.hpp"
+#include "ScriptManager_C1EA8.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Object_5C.hpp"
@@ -35,11 +35,11 @@ void Miss2_25C::MissionCleanUp_502DC0()
 
     if (gStoredCar_6F7560)
     {
-        if (gStoredCar_6F7560->field_6C_maybe_id == gStoredCarId_6F78B4)
+        if (gStoredCar_6F7560->field_6C_car_id == gStoredCarId_6F78B4)
         {
             gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
             gStoredCar_6F7560->SetUniNum_421560(3);
-            if (!gStoredCar_6F7560->sub_4214D0())
+            if (!gStoredCar_6F7560->IsDeactivated_4214D0())
             {
                 gStoredCar_6F7560->MarkForDespawn_421470();
             }
@@ -70,15 +70,15 @@ void Miss2_25C::MissionCleanUp_502DC0()
                             pPedGroup->DisbandGroup_4C92A0();
                         }
                         pIter->field_0_ped->ForceDoNothing_462590();
-                        pIter->field_0_ped->field_21C_bf.b10 = true;
+                        pIter->field_0_ped->field_21C_bf.bScheduledForRemoval = true;
                     }
                     break;
                 case 1:
-                    if (pIter->field_0_car->field_6C_maybe_id == pIter->field_8_entity_id)
+                    if (pIter->field_0_car->field_6C_car_id == pIter->field_8_entity_id)
                     {
                         gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(pIter->field_0_car);
                         pIter->field_0_car->SetUniNum_421560(3);
-                        if (!pIter->field_0_car->sub_4214D0())
+                        if (!pIter->field_0_car->IsDeactivated_4214D0())
                         {
                             pIter->field_0_car->MarkForDespawn_421470();
                         }
@@ -94,7 +94,7 @@ void Miss2_25C::MissionCleanUp_502DC0()
         }
         pIter++;
     }
-    gfrosty_pasteur_6F8060->field_C1E70_wanted_car_model = 87;
+    gScriptManager_6F8060->field_C1E70_wanted_car_model = 87;
 }
 
 MATCH_FUNC(0x502f60)
@@ -119,7 +119,7 @@ void Miss2_25C::push_type_1_car_502F80(Car_BC* pCar)
     if (pFree)
     {
         pFree->field_0_car = pCar;
-        const s32 id = pCar->field_6C_maybe_id;
+        const s32 id = pCar->field_6C_car_id;
         pFree->field_4_type = 1;
         pFree->field_8_entity_id = id;
         field_258_count++;

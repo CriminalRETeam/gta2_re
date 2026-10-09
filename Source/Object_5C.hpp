@@ -4,7 +4,7 @@
 #include "Function.hpp"
 #include "Object_3C.hpp"
 #include "Object_8.hpp"
-#include "Phi_8CA8.hpp"
+#include "ObjectDefinitions_8CA8.hpp"
 #include "ang16.hpp"
 #include "fix16.hpp"
 #include "sprite.hpp"
@@ -18,12 +18,12 @@ class Object_2C;
 class Sprite;
 class Sprite_4C;
 class Car_BC;
-class Phi_74;
+class ObjectDefinition_74;
 class Object_3C;
 class Object_2C_Pool;
-class Wolfy_30;
+class Explosion_30;
 class Object_8;
-class nostalgic_ellis_0x28;
+class Light_28;
 
 class Object_2C
 {
@@ -36,7 +36,7 @@ class Object_2C
 
     EXPORT Object_2C();
     EXPORT void PoolDeallocate();
-    EXPORT bool CanCollideWithSpriteByVarrok_522250(Sprite* a2);
+    EXPORT bool CanCollideWithSpriteByOwnerRef_522250(Sprite* pSprite);
     EXPORT s32 sub_5222B0();
     EXPORT void UpdatePhysics_5222D0();
     EXPORT void PoolGive_522340();
@@ -47,7 +47,7 @@ class Object_2C
     EXPORT char_type SelectCollisionSprite_522460(Sprite* a2);
     EXPORT void SetMovementVector_5224E0(Fix16_Point& speed);
     EXPORT void SetMovementVectorWithRandomState_522640(Fix16_Point& a2);
-    EXPORT void SetConveyorPush_5226A0(char_type a2);
+    EXPORT void SetConveyorPush_5226A0(char_type conveyor_speed);
     EXPORT void ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3);
     EXPORT void ResolveCollisionWithPed_5229B0(Char_B4* a2, Fix16_Point* a3, u8 a4);
     EXPORT void ResolveCollisionWithWorld_522B20(Fix16_Point* a2, Fix16_Point* a3, Fix16_Point* speed);
@@ -61,7 +61,7 @@ class Object_2C
     EXPORT char_type HandleSpriteZCollision_5238B0(Sprite* a2, Fix16_Point* a3, u8* a4, u8* a5, Fix16 a6);
     EXPORT void ComputeWallHitSide_524550();
     EXPORT void IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 a3);
-    EXPORT void sub_525190(u8 varrok_idx);
+    EXPORT void sub_525190(u8 ped_ref_idx);
     EXPORT void UpdateAninmation_5257D0();
     EXPORT bool DispatchFrameAction_525910();
     EXPORT char ShouldCollideWithSprite_525370(Sprite* pSprite);
@@ -98,7 +98,7 @@ class Object_2C
     EXPORT s32 GetExplosionSideFromDiagonalWall_529210();
     EXPORT s32 sub_529240();
     EXPORT void get_weapon_default_ammo_5292D0();
-    EXPORT void SetDamageOwner_529080(u8 a2);
+    EXPORT void SetDamageOwner_529080(u8 ped_ref_idx);
     EXPORT void RequestRemoval_5290A0();
     EXPORT void RequestRemovalWhenOffScreen_5290B0();
     EXPORT void Dealloc_5291B0();
@@ -183,24 +183,24 @@ class Object_2C
     // Sucky names but better than just "sub" for now
     bool is_not_type6_to_12_and_idx_matches_4973E0(u8 a2)
     {
-        return is_not_type6_to_12_421080() && field_26_varrok_idx == a2;
+        return is_not_type6_to_12_421080() && field_26_ped_ref_idx == a2;
     }
 
     bool is_region_bucket_3_4210B0()
     {
-        return field_8->field_40_collision_bucket_category == collision_bucket_category::purple_doom_2_region_bucket_3;
+        return field_8->field_40_collision_bucket_category == collision_bucket_category::sprite_grid_2_region_3;
     }
 
     // Inlined on version 9.6f 0x447e90 (also 9.6f copies 0x45E0A0 and 0x482C00)
     inline void set_field_26(u8 v)
     {
-        field_26_varrok_idx = v;
+        field_26_ped_ref_idx = v;
     }
 
     // Inlined on version 9.6f 0x420FF0
     inline u8 get_field_26_420FF0()
     {
-        return field_26_varrok_idx;
+        return field_26_ped_ref_idx;
     }
 
     // 9.6f 0x434130
@@ -241,7 +241,7 @@ class Object_2C
     {
         field_14_id = gObj2C_id_623EC0++;
         field_25_removal_state = 0;
-        field_26_varrok_idx = 99;
+        field_26_ped_ref_idx = 99;
         field_10_obj_3c = 0;
         field_C_pAny.o8 = 0;
         field_1C_bHasExplosion = 0;
@@ -319,12 +319,12 @@ class Object_2C
 
     Object_2C* mpNext;
     Sprite* field_4;
-    Phi_74* field_8;
+    ObjectDefinition_74* field_8;
     union TAny
     {
-        Wolfy_30* pExplosion;
+        Explosion_30* pExplosion;
         Object_8* o8;
-        nostalgic_ellis_0x28* pLight;
+        Light_28* pLight;
     };
     TAny field_C_pAny;
     Object_3C* field_10_obj_3c;
@@ -337,7 +337,7 @@ class Object_2C
     s32 field_20_pool_list_state;
     u8 field_24_bDoneThisFrame;
     u8 field_25_removal_state;
-    u8 field_26_varrok_idx; // Seems to be a generic index. Sometimes it's the current idx of its object type. For many objects, it's unused (equal to 99).
+    u8 field_26_ped_ref_idx; // Seems to be a generic index. Sometimes it's the current idx of its object type. For many objects, it's unused (equal to 99).
     char_type field_27;
     char_type field_28;
     char_type field_29;
@@ -345,7 +345,7 @@ class Object_2C
     char_type field_2B;
 };
 
-struct TurkishDelight_164;
+struct SavedObjectData_164;
 
 class Object_5C
 {
@@ -358,7 +358,7 @@ class Object_5C
     EXPORT Object_2C* GetDirectionalObject_5298E0(s32 a2);
     EXPORT Object_2C* NewTouchPoint_529950(s32 object_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16 w, Fix16 h, Fix16 depth);
     EXPORT Object_2C* NewPhysicsObj_5299B0(s32 object_type, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6);
-    EXPORT Object_2C* NewWithVarrokIdx_5299F0(s32 a2, u32 a3, Fix16 a4, Fix16 a5, Fix16 a6);
+    EXPORT Object_2C* NewWithPedRefIdx_5299F0(s32 object_type, u32 ped_ref_idx, Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT Object_2C* NewLight_529A40(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity);
     EXPORT Object_2C* NewLight_529AB0(s32 light_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 argb, Fix16 radius, u8 intensity);
     EXPORT Object_2C* sub_529BC0(s32 a2, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6);
@@ -394,8 +394,8 @@ class Object_5C
                                  char_type a11);
     EXPORT Object_2C* CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 a6, s32 pedId);
 
-    EXPORT void SaveObjects_52A500(TurkishDelight_164* pUnknownObj);
-    EXPORT void RestoreObjects_52A590(TurkishDelight_164* pUnknownObj);
+    EXPORT void SaveObjects_52A500(SavedObjectData_164* pUnknownObj);
+    EXPORT void RestoreObjects_52A590(SavedObjectData_164* pUnknownObj);
     EXPORT void RemoveAndFree_52A610(Object_2C* p2C);
 
     Object_2C* field_0_diagonal_wall_ang315; // Object_2C* ?

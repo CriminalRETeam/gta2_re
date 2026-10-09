@@ -25,7 +25,7 @@ class Miss2_C
 class Miss2_25C
 {
   public:
-    // throw(): frosty_pasteur_0xC1EA8's ctor has no EH state around new Miss2_25C()
+    // throw(): ScriptManager_C1EA8's ctor has no EH state around new Miss2_25C()
     Miss2_25C() throw();
     EXPORT void MissionCleanUp_502DC0();
     EXPORT Miss2_C* allocate_next_502F60();

@@ -79,7 +79,7 @@ bool Door_38::CanOpen_49C6D0(Car_BC* a2)
             ret = true;
             break;
         case door_open_type::one_car:
-            if (this->field_10_car_bc && a2 == this->field_10_car_bc && a2->field_6C_maybe_id == this->field_14_target_id)
+            if (this->field_10_car_bc && a2 == this->field_10_car_bc && a2->field_6C_car_id == this->field_14_target_id)
             {
                 ret = true;
                 break;
@@ -104,7 +104,7 @@ bool Door_38::CanOpen_49C6D0(Car_BC* a2)
             {
                 break;
             }
-            if (a2->field_6C_maybe_id != this->field_14_target_id)
+            if (a2->field_6C_car_id != this->field_14_target_id)
             {
                 break;
             }
@@ -419,7 +419,7 @@ void Door_38::UpdateAutoClose_49CD90()
                     field_1E_close_timer = field_1C_close_delay;
                     if (field_0_primary_door_data != NULL)
                     {
-                        gObject_5C_6F8F84->NewWithVarrokIdx_5299F0(0x117, 0x33, field_30_x, field_34_y, field_0_primary_door_data->field_6_z);
+                        gObject_5C_6F8F84->NewWithPedRefIdx_5299F0(0x117, 0x33, field_30_x, field_34_y, field_0_primary_door_data->field_6_z);
                         field_0_primary_door_data->Close_49C590(false);
                     }
                     if (field_4_secondary_door_data != NULL)
@@ -437,7 +437,7 @@ char_type Door_38::Service_49CE90()
 {
     if (field_2D_play_open_sound)
     {
-        gObject_5C_6F8F84->NewWithVarrokIdx_5299F0(0x117, 0x32, field_30_x, field_34_y, field_0_primary_door_data->field_6_z);
+        gObject_5C_6F8F84->NewWithPedRefIdx_5299F0(0x117, 0x32, field_30_x, field_34_y, field_0_primary_door_data->field_6_z);
         field_2D_play_open_sound = 0;
     }
 

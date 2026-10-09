@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
-#include "nostalgic_ellis_0x28.hpp"
+#include "Light_28.hpp"
 #include "rng.hpp"
 #include "Pool.hpp"
 
@@ -23,7 +23,7 @@ class LightBase
         UpdatePool_45BF50();
     }
 
-    Pool<nostalgic_ellis_0x28, 3000> field_0_pool;
+    Pool<Light_28, 3000> field_0_pool;
 };
 
 class Light_1D4CC : public LightBase
@@ -31,40 +31,40 @@ class Light_1D4CC : public LightBase
   public:
     Light_1D4CC()
     {
-        Light::AllocGrid_4D6E00();
+        LightGrid::AllocGrid_4D6E00();
     }
 
-    inline void AddToUpdateList_464C60(nostalgic_ellis_0x28* pLight)
+    inline void AddToUpdateList_464C60(Light_28* pLight)
     {
         pLight->mpNext = field_0_pool.field_4_pPrev;
         field_0_pool.field_4_pPrev = pLight;
     }
 
-    inline nostalgic_ellis_0x28* Alloc_464C40()
+    inline Light_28* Alloc_464C40()
     {
-        nostalgic_ellis_0x28* pFirst = field_0_pool.field_0_pStart;
+        Light_28* pFirst = field_0_pool.field_0_pStart;
         field_0_pool.field_0_pStart = field_0_pool.field_0_pStart->mpNext;
         pFirst->mpNext = 0;
         pFirst->Reset_463F50();
         return pFirst;
     }
 
-    inline void SetFlashing_469070(nostalgic_ellis_0x28* pLight, u8 on_time, u8 off_time, u8 shape)
+    inline void SetFlashing_469070(Light_28* pLight, u8 on_time, u8 off_time, u8 shape)
     {
-        pLight->field_16_shape = shape;
+        pLight->field_16_flicker_range = shape;
         pLight->field_14_on_time = on_time;
         pLight->field_15_off_time = off_time;
-        pLight->field_17_off_time = off_time;
+        pLight->field_17_timer = off_time;
         pLight->SetCurrentIntensity_45B2D0(0);
         AddToUpdateList_464C60(pLight);
     }
     
-    inline nostalgic_ellis_0x28* Init_469010(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity)
+    inline Light_28* Init_469010(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity)
     {
-        nostalgic_ellis_0x28* pLight = Alloc_464C40();
-        pLight->field_4_light_x = xpos;
-        pLight->field_8_light_y = ypos;
-        pLight->field_C_light_z = zpos;
+        Light_28* pLight = Alloc_464C40();
+        pLight->field_4_x = xpos;
+        pLight->field_8_y = ypos;
+        pLight->field_C_z = zpos;
         pLight->field_10_argb = argb;
         pLight->field_0.flag = 0x10000;
         pLight->field_0.SetRadius_463F10(radius);
@@ -76,12 +76,12 @@ class Light_1D4CC : public LightBase
 
     // Same as Init_469010, but TrafficLight_20::Init_5C1D00 calls the out-of-line copies
     // Alloc_5C2B70 and LightIntensityRadius::SetRadius_5C5CD0 in 10.5.
-    inline nostalgic_ellis_0x28* InitOutOfLine_469010(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity)
+    inline Light_28* InitOutOfLine_469010(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity)
     {
-        nostalgic_ellis_0x28* pLight = Alloc_5C2B70();
-        pLight->field_4_light_x = xpos;
-        pLight->field_8_light_y = ypos;
-        pLight->field_C_light_z = zpos;
+        Light_28* pLight = Alloc_5C2B70();
+        pLight->field_4_x = xpos;
+        pLight->field_8_y = ypos;
+        pLight->field_C_z = zpos;
         pLight->field_10_argb = argb;
         pLight->field_0.flag = 0x10000;
         pLight->field_0.SetRadius_5C5CD0(radius);
@@ -91,7 +91,7 @@ class Light_1D4CC : public LightBase
         return pLight;
     }
 
-    inline void Free_47F4B0(nostalgic_ellis_0x28* pLight)
+    inline void Free_47F4B0(Light_28* pLight)
     {
         pLight->PoolDeallocate();
         pLight->mpNext = field_0_pool.field_0_pStart;
@@ -99,11 +99,11 @@ class Light_1D4CC : public LightBase
     }
 
     // matched https://decomp.me/scratch/cZQwK
-    inline void RemoveFromUpdateListAndFree_47F450(nostalgic_ellis_0x28* pLight)
+    inline void RemoveFromUpdateListAndFree_47F450(Light_28* pLight)
     {
-        nostalgic_ellis_0x28* pPrevious = NULL;
+        Light_28* pPrevious = NULL;
 
-        for (nostalgic_ellis_0x28* pCurr = field_0_pool.field_4_pPrev; pCurr; pPrevious = pCurr, pCurr = pCurr->mpNext)
+        for (Light_28* pCurr = field_0_pool.field_4_pPrev; pCurr; pPrevious = pCurr, pCurr = pCurr->mpNext)
         {
             if (pCurr == pLight)
             {
@@ -123,7 +123,7 @@ class Light_1D4CC : public LightBase
         }
     }
 
-    inline void DeallocLight_47F4F0(nostalgic_ellis_0x28* pLight)
+    inline void DeallocLight_47F4F0(Light_28* pLight)
     {
         pLight->RemoveFromGrid_4D6DC0();
         if (pLight->field_14_on_time)
@@ -139,8 +139,8 @@ class Light_1D4CC : public LightBase
     }
 
     EXPORT ~Light_1D4CC();
-    EXPORT nostalgic_ellis_0x28* Alloc_5C2B70();
-    EXPORT nostalgic_ellis_0x28* CreateLight_52B2A0(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity);
+    EXPORT Light_28* Alloc_5C2B70();
+    EXPORT Light_28* CreateLight_52B2A0(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity);
 };
 
 EXTERN_GLOBAL(Light_1D4CC*, gLight_1D4CC_6F5520);

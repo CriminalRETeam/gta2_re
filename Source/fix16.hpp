@@ -391,7 +391,7 @@ class Fix16
 
     // Inlined from 9.6f at 0x401bf0
     // I am not fully sure if this is right, i.e. the s32 parameter, instead of Fix16.
-    // But I couldn't match Phi_74::SetDimensionsFromSprite_533090 without this overload.
+    // But I couldn't match ObjectDefinition_74::SetDimensionsFromSprite_533090 without this overload.
     EXPORT Fix16 operator/(const s32& in)
     {
         s32 value = mValue / in;

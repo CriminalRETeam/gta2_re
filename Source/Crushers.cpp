@@ -1,9 +1,11 @@
 #include "Crushers.hpp"
+#include "explosion_type.hpp"
+#include "ped_death_cause.hpp"
 #include "car_despawn_status.hpp"
 #include "Camera.hpp"
 #include "Car_BC.hpp"
 #include "Globals.hpp"
-#include "infallible_turing.hpp"
+#include "SoundObject_10.hpp"
 #include "root_sound.hpp"
 #include "Object_5C.hpp"
 #include "debug.hpp"
@@ -74,11 +76,11 @@ void Crusher_30::Service_488350()
                     if (!bStartNetworkGame_7081F0)
                     {
                         field_14_pCarBeingCrushed->field_70_exploder_ped_id = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->field_200_id;
-                        field_14_pCarBeingCrushed->field_90 = 4;
+                        field_14_pCarBeingCrushed->field_90_death_cause = ped_death_cause::unknown_4;
                         field_14_pCarBeingCrushed->field_94_exploder_timer = 50;
                     }
-                    field_14_pCarBeingCrushed->HandleCarExplosion_43D840(19);
-                    field_14_pCarBeingCrushed->field_0_qq.CleanupSpriteList_5A7080();
+                    field_14_pCarBeingCrushed->HandleCarExplosion_43D840(explosion_type::item_19);
+                    field_14_pCarBeingCrushed->field_0_attachments.CleanupSpriteList_5A7080();
                 }
                 if (field_1C_w - kCrusher_67A810 <= field_14_pCarBeingCrushed->get_car_width() / 2)
                 {
@@ -154,7 +156,7 @@ void Crusher_30::InitCrusher_4885A0(Fix16 xpos, Fix16 ypos, char_type crusher_id
     field_28_ypos = ypos;
 
     field_10_central_spot = gObject_5C_6F8F84->NewPhysicsObj_5299B0(143, xpos, ypos, zpos, kAngZero_67A820);
-    field_10_central_spot->field_26_varrok_idx = crusher_idx;
+    field_10_central_spot->field_26_ped_ref_idx = crusher_idx;
 
     field_0_piston_top = gObject_5C_6F8F84->NewPhysicsObj_5299B0(142, field_24_xpos, field_28_ypos - kCrusherTargetW_67A7D0, zpos, kAngZero_67A820);
     field_4_piston_right = gObject_5C_6F8F84->NewPhysicsObj_5299B0(142, field_24_xpos + kCrusherTargetW_67A7D0, field_28_ypos, zpos, kAng270_67A660);

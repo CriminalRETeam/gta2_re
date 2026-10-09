@@ -13,7 +13,7 @@ import permuter_score as ps
 
 T = json.load(open(REPO + '/Scripts/bin_comp/target_asm.json'))
 M = json.load(open(REPO + '/Scripts/bin_comp/matched_asm.json'))
-EXTRA = {'Network_20324.cpp': '/Gz', 'sharp_bose_0x54.cpp': '/GX-', 'gbh_graphics.cpp': '/Od /ZI'}
+EXTRA = {'Network_20324.cpp': '/Gz', 'FpsCounter_54.cpp': '/GX-', 'gbh_graphics.cpp': '/Od /ZI'}
 
 def compile_(src, obj):
     env = dict(os.environ, GTA2_RE=REPO, WINEDEBUG='-all', NO_PCH='1', EXTRA_CFLAGS=EXTRA.get(os.path.basename(src), ''))

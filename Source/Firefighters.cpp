@@ -5,8 +5,8 @@
 #include "CarPhysics_B0.hpp"
 #include "Char_Pool.hpp"
 #include "Game_0x40.hpp"
-#include "Hamburger_500.hpp"
-#include "Orca_2FD4.hpp"
+#include "CarChaseTaskTable_500.hpp"
+#include "PathFinder_2FD4.hpp"
 #include "debug.hpp"
 
 // Forward declarations: the functions below are in address order
@@ -77,7 +77,7 @@ bool Firefighter_28::sub_4A7FC0()
         {
             if (field_C_target_car)
             {
-                if (!field_C_target_car->field_0_qq.FindFirstActiveObject_5A6AD0())
+                if (!field_C_target_car->field_0_attachments.FindFirstActiveObject_5A6AD0())
                 {
                     field_8_state = firefighter_state::finished_5;
                 }
@@ -118,11 +118,11 @@ void Firefighter_28::deinit_4A81A0()
     Car_BC* pCar = this->field_1C_car;
     if (pCar)
     {
-        Hamburger_40* pRoute = pCar->field_60;
+        CarChaseTask_40* pRoute = pCar->field_60_pChaseTask;
         if (pRoute)
         {
-            gHamburger_500_678E30->FreeEntry_474CC0(pRoute);
-            this->field_1C_car->field_60 = 0;
+            gCarChaseTaskTable_678E30->FreeEntry_474CC0(pRoute);
+            this->field_1C_car->field_60_pChaseTask = 0;
         }
     }
     Ped* pPed = this->field_20_ped;
@@ -135,7 +135,7 @@ void Firefighter_28::deinit_4A81A0()
     this->field_8_state = firefighter_state::finished_5;
     if (pCar2)
     {
-        pCar2->field_0_qq.CleanupSpriteList_5A7080();
+        pCar2->field_0_attachments.CleanupSpriteList_5A7080();
     }
 }
 
@@ -166,14 +166,14 @@ void Firefighter_28::Update_4A81F0()
                     field_1C_car->field_5C_AI->SetCar_453BF0(field_1C_car);
 
                     field_20_ped = gPedManager_6787BC->AllocatePed_470F30();
-                    field_20_ped->SetField238_403920(ped_type::special_ped_4);
+                    field_20_ped->SetPedType_403920(ped_type::special_ped_4);
                     field_20_ped->set_occupation_403970(ped_ocupation_enum::fireman);
                     field_20_ped->SpawnPedInCar_45C730(field_1C_car);
                     field_20_ped->SetObjective(objectives_enum::goto_area_in_car_14, 9999);
                     field_20_ped->field_1DC_objective_target_x = Fix16(field_C_target_car->get_x_41E430().ToUInt8());
                     field_20_ped->field_1E0_objective_target_y = Fix16(field_C_target_car->get_y_41E440().ToUInt8());
                     field_20_ped->field_1E4_objective_target_z = Fix16(field_C_target_car->get_z_41E450().ToUInt8());
-                    field_20_ped->field_21C_bf.b7 = 1;
+                    field_20_ped->field_21C_bf.bUseCarWeapon = 1;
                     field_1C_car->ActivateEmergencyLights_43C920();
                     field_1C_car->SetupCarPhysicsAndSpriteBinding_43BCA0();
                     field_20_ped = field_1C_car->get_driver_4118B0();
@@ -230,7 +230,7 @@ void Firefighter_28::Update_4A81F0()
             if (sub_4A7FC0() && field_20_ped && field_8_state == firefighter_state::arrived_3)
             {
                 field_20_ped->SetObjective(objectives_enum::turret_put_out_car_fire_60, 9999);
-                field_20_ped->set_field_150_target_objective_car(field_C_target_car);
+                field_20_ped->SetTargetObjectiveCar(field_C_target_car);
                 field_8_state = firefighter_state::put_out_fire_4;
             }
             break;
@@ -258,17 +258,17 @@ void Firefighter_28::Update_4A81F0()
             {
                 if (field_1C_car->field_54_driver)
                 {
-                    field_1C_car->field_54_driver->field_21C_bf.b3 = 1;
+                    field_1C_car->field_54_driver->field_21C_bf.bDriveAggressively = 1;
                 }
                 field_1C_car->SetUniNum_421560(3);
                 field_1C_car->InitCarAIControl_440590();
-                field_1C_car->sub_43AF40();
+                field_1C_car->ResumeAIDriving_43AF40();
                 field_1C_car->DeactivateEmergencyLights_43C9D0();
                 if (field_1C_car->field_54_driver)
                 {
-                    field_1C_car->field_54_driver->set_field_150_target_objective_car(0);
+                    field_1C_car->field_54_driver->SetTargetObjectiveCar(0);
                     field_1C_car->field_54_driver->SetObjective(objectives_enum::no_obj_0, 9999);
-                    field_1C_car->field_54_driver->ClearBit11_403A40();
+                    field_1C_car->field_54_driver->ClearAttacking_403A40();
                 }
             }
             Reset_4A85E0();
@@ -323,7 +323,7 @@ Firefighter_28* FirefighterPool_54::DispatchFirefighters_4A8620(Car_BC* pCar, Fi
     u8 xpos_int = xpos.ToUInt8();
     u8 ypos_int = ypos.ToUInt8();
     u8 zpos_int = (zpos + kFpHalf_67D1F0).ToUInt8();
-    if (gOrca_2FD4_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos_int, &ypos_int, &zpos_int, 0) != 1)
+    if (gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos_int, &ypos_int, &zpos_int, 0) != 1)
     {
         return NULL;
     }

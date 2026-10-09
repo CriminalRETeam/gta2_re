@@ -2377,7 +2377,7 @@ EXPORT void FatalError_4A38C0(s32 Code, const char_type* pSourceFile, s32 lineNo
         exit(Code);
     }
 }
-// Called by diutil.cpp (BurgerKing_67F8B0.cpp) when a DirectInput call fails. The cases are in the original's
+// Called by diutil.cpp (InputRecorder_67F8B0.cpp) when a DirectInput call fails. The cases are in the original's
 // body order. The empty DI_OK case is needed: without it VC6 splits the switch differently (compares instead of
 // the byte-indexed table for 0x8007000E-0x80070057), which shifts the register rotation and so which cases
 // cross-jump into the default's tail.

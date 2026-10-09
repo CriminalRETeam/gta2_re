@@ -25,6 +25,9 @@ marked unlisted addresses into `target_extra.json`) before trusting the marker.
   their own header and include it only from the `.cpp` files, so inline code in `Car_BC.hpp` stays numeric.
 - So it looks like a symbol table / hash effect inside VC6 that depends on how many names a TU has, and
   only a function as fragile as that x87 one notices.
+- Removing padding fields from `Car_BC` in `Car_BC.hpp` (12 unused `char_type`/`s16` pads) hits the same two
+  `MapRenderer` functions, even though the layout is unchanged: the count of member names in the TU is what matters.
+  Rename such pads (`field_7A_pad`) instead of deleting them.
 - The fix is to keep the enum out of every header `MapRenderer.cpp` includes: `ped_graphic_type.hpp` is a
   small header included only by the .cpp files that use it.
 After adding any enum or constants to a widely included header, run the whole `build.py` (not just
@@ -253,7 +256,7 @@ gave the original's layout in both of its switches (150 -> 16). The same `goto` 
 `SetGoStraight(); return;` tails of `CarAI_78::FollowRoadDirection_44A1F0`, so it is not a general "keep the first copy" switch.
 
 Merging is of the final machine code, so a block that would merge can be kept apart by its exit. In
-`Car_214::sub_5C8780` case 7's ped body is byte for byte case 6's, but ours ends it with a copy of the 2-instruction
+`Car_214::CheckThreadTrigger_5C8780` case 7's ped body is byte for byte case 6's, but ours ends it with a copy of the 2-instruction
 exit block (`mov pSprite,%edi; mov %ebp,0x14(%esi); jmp tail`) while case 6's arm falls into that exit block, and
 the two are then never merged; the original has case 7 as `cmp; jne exit; jmp <case 6 body>`. Changing the body's
 locals (a `pCmd` local in one copy only) moves the registers and only the matching suffix merges.
@@ -333,11 +336,11 @@ the `if` in the source.
 
 **`if/else` block order follows the condition.** The `then` block is usually laid out first.
 If the original has your `else` block first, invert the condition and swap the blocks
-(`Car_BC::sub_440510`, `GetDamageMultiplier_45CF90`, `Ang16::SnapToAng4_405640`). VC6 sometimes normalises
+(`Car_BC::GetMaxTurnRate_440510`, `GetDamageMultiplier_45CF90`, `Ang16::SnapToAng4_405640`). VC6 sometimes normalises
 both spellings to the same code, in which case this won't help (`Ped::ProcessInCarObjective_463FB0`).
 
 **`je tail; jmp next`** for an `if/else` whose branches share a tail comes from a `goto`.
-In `frosty_pasteur_0xC1EA8::sub_512BA0`/`RecordWeaponHit_512C00`, early `continue`/`return`, the body
+In `ScriptManager_C1EA8::ClearWeaponHitFlag_512BA0`/`RecordWeaponHit_512C00`, early `continue`/`return`, the body
 written in both branches, a ternary condition and an inline helper all failed to produce it.
 
 The `goto` entries in this file were only kept after `goto`-free forms had been tried (see the
@@ -383,13 +386,13 @@ once (`Registry::Get_Int_Setting_5874E0`). Likewise one result set in an if/else
 
 **A function can tail call a chunk that isn't in the function list.** `Ped::BecomeDummyOnPlayerDisconnect_470300`
 ends in a jump into code at 0x43AA20 that IDA counts as a chunk of another function. It is written as its own
-method (`Car_BC::sub_43AA20`, no marker since 0x43AA20 isn't in `og_function_data_v105.csv`), called in tail
+method (`Car_BC::SetDummyControl_43AA20`, no marker since 0x43AA20 isn't in `og_function_data_v105.csv`), called in tail
 position. `Hud_2B00::UpdatePauseSection_5D69C0` is the thunk form of the same thing (`add $0x2A1C,%ecx; jmp
-0x5D6300`): the body moved to `Garox_12E4_sub::UpdatePauseSection_5D6300`, which is unverified for the same reason.
+0x5D6300`): the body moved to `Hud_PauseScreen_2::UpdatePauseSection_5D6300`, which is unverified for the same reason.
 
 **`test; je L; jne end; L:` comes from `(a & m) == 0 || (b & m) == 0` with `a == b`.** When both
 operands are the same value in one register, VC6 merges the two tests but keeps both branches, so the `je`
-lands right after the following `jne`. In `BurgerKing_67F8B0::get_input_bits_4CEAC0`, `a` is `saved_input`,
+lands right after the following `jne`. In `InputRecorder_67F8B0::get_input_bits_4CEAC0`, `a` is `saved_input`,
 which equals `*control_status` there. `&&`, a one-case `switch` or an inline helper all fold it away.
 
 **Insert-into-list blocks follow the source order of the cases.** `Hud_Brief_704::SetHudBrief_5D3F10` matched
@@ -409,7 +412,7 @@ the original's loop shape in `Frontend::ManageCredits_4B7A10` (with the `u16` ti
 operand through an inline getter (`get_cam_x()`) and the other directly also set the load order of `a - b`.
 
 **A goto loop that returns the same value from several places is a `for` with `continue`.** That gave the
-shared `return 10` in `sad_mirzakhani::find_431EC0` (which also read the wrong field before).
+shared `return 10` in `BonusTracker_1C0::FindMatchingRule_431EC0` (which also read the wrong field before).
 
 **Search loops that return a pointer or NULL were inline helpers.** When the original tests `&array[i] == NULL`
 and gives every `return false` its own epilogue, write each search as a file-local inline that returns the
@@ -420,12 +423,12 @@ found item or NULL. Open-coded loops make VC6 send all the returns to one shared
 `xor eax; mov field,edx; cmp; setl`; setting a bool local gives `cmpl $N,mem; setl` with no `xor`
 (`Car_6C::CanAllocateOfType_446930`, cases in the original block order).
 
-**A pointer local can block cross-jumping.** In `Wolfy_7A8::New_40_543800` a `p = &arr[idx]` local
+**A pointer local can block cross-jumping.** In `ExplosionPool_7A8::Allocate_543800` a `p = &arr[idx]` local
 changed the registers of two identical init blocks so VC6 no longer merged them; indexing `arr[idx]`
 at each use gave the original's single merged block.
 
 **Merge repeated stores into one condition.** Nested if/else arms that repeat the same stores, written
-as one `||` condition as in 9.6f, fixed an `ebx`/`ebp` swap (`Montana_4::AddSprite_5C5CF0`).
+as one `||` condition as in 9.6f, fixed an `ebx`/`ebp` swap (`SpriteTree_4::AddSprite_5C5CF0`).
 
 **`if (a || b)` through a `bool` local.** Written directly, VC6 laid the branches out inverted; computing
 `bool aligned = ...; if (aligned)` first gave the original layout (`CarPhysics_B0::HandleUserInputs_55A860`,
@@ -445,7 +448,7 @@ which also inlines `IsVelocityAlignedWithHeading_40F840` and, inside it, `Fix16_
 `Ang16`/`s16`/`u16` global in the function's own .cpp, VC6 can load it with a 32-bit `mov` and
 add it with `lea`, where the original has a 16-bit `mov`/`add`. With only an `EXTERN_GLOBAL` in
 that file it emits the original's code, so move the definition to another .cpp that uses it
-(`kAng180_6FD3EE` moved from `Wolfy_3D4.cpp` to `Particle_4C.cpp`: `Wolfy_30::state_3_12_540D30`
+(`kAng180_6FD3EE` moved from `Explosion_30.cpp` to `Particle_4C.cpp`: `Explosion_30::EmitFireTrail_3_12_540D30`
 181 -> 32 lines). It can go the other way too (`gFaceCollisionMask_6F6002` and `kAng180_676772`
 had to move *into* `sprite.cpp`), so compare the load width in the target first.
 The move can also fix the order in which globals are reloaded after a call, not only the load
@@ -489,7 +492,7 @@ paths set all of `eax` is still unsolved (`Car_BC::IsDoorLockedForPed_43B2B0`).
 
 **`flag ? '1' : '0'` vs `(flag != 0) + '0'`.** Storing to a `char`, the ternary gives
 `setne %cl; add $0x30,%ecx` (32-bit add); the explicit bool sum gives a byte `add $0x30,%cl`
-(`BurgerKing_67F8B0::AppendReplayHeader_4CDF70`).
+(`InputRecorder_67F8B0::AppendReplayHeader_4CDF70`).
 
 **Adding a bool.** `setne al; add $0xE,%eax` comes from `(b != 0) + 14`, not `b + 14`
 (`GetSirenSampleIdx_417B80`).
@@ -641,7 +644,7 @@ helpers and keeps the first result in a byte register, `f() || g()` short-circui
 **`Fix16(u8)` delays the shift.** With the `Fix16(u8)` constructor VC6 keeps the u8 around and
 shifts at the use; `Fix16(v << 14, 0)` shifts at once like the original (`Car_BC::CarShrinkSprite_43DC80`).
 
-**Declaration order of `Fix16` locals picks which product goes first.** In `Trailer::sub_407BD0`
+**Declaration order of `Fix16` locals picks which product goes first.** In `Trailer::GetHitchPosition_407BD0`
 swapping the operands of `+` didn't change the multiply order, declaring `cos` before `sin` did.
 
 **Call arguments are evaluated right to left, inline expressions included.** Writing the
@@ -674,7 +677,7 @@ check (`CarPhysics_B0::StepMovementAndCollisions_55E470`).
 
 **Ctor defined earlier in the TU drops the EH frame around `new`.** Same cause as the Hud ctor
 above: with the member/callee ctor body visible earlier, VC6 knows it can't throw. Put the
-definitions in original address order (`Montana_4::ctor_5C5E70`).
+definitions in original address order (`SpriteTree_4::ctor_5C5E70`).
 
 **A small constant `memset` looks like field stores.** A separate `xor`'d zero register storing
 three dwords and a word was an inline `memset` of 14 bytes (`InitializeGame_4DA4D0`).
@@ -706,7 +709,7 @@ which also needed `Fix16 m; m = f();` to copy the return into a register).
 **An EH state above 0 at entry means extra named locals with constructors.** In `pistol_5DD860`
 the frame size and entry state showed two `Fix16_Point` locals where we had one (0.721 -> 0.931).
 
-**An if/else-if chain with nested returns, not a switch returning a compare.** `if (a3 == 1) { if (a2 == N) return 1; } else if ...` with one shared `return 0`, in the original test order (`sad_mirzakhani::sub_432170`).
+**An if/else-if chain with nested returns, not a switch returning a compare.** `if (a3 == 1) { if (a2 == N) return 1; } else if ...` with one shared `return 0`, in the original test order (`BonusTracker_1C0::IsDeathCauseInGroup_432170`).
 
 **Write `base + k*i`, not a running local.** VC6's strength reduction of `ypos + 40*i` gives the
 original's induction variables and slots; hand-written running sums don't (`DrawScoreTable_4B5430`).
@@ -721,7 +724,7 @@ the same result (`Bink::OpenSlot2_5133E0`, `OpenSlot1_513560`). IDA cuts such fu
 **A store repeated in each branch vs once after the if/else.** Writing `field_C = 0` in both
 branches changed which register holds zero and gave per-exit stores like the original
 (`Object_2C::ReleaseSubObjects_527F10`). Assigning `field_A4_display_time` in both branches kept 0
-in `ebx` for three stores (`Garox_C4::FormatAndSetupText_5D1B10`). The number and placement of
+in `ebx` for three stores (`Hud_TextEntry_C4::FormatAndSetupText_5D1B10`). The number and placement of
 stores is worth trying whenever only a zero or constant register is off.
 
 **Ang16 Normalize inlined on a register turns into a closed form.** With an `Ang16(s16, u8)`
@@ -744,7 +747,7 @@ keeps in a zero register is initialised from that register; earlier-declared one
 482BA0, in `Object_3C::GetMovementSpeedAndAngle_521FD0`).
 
 **A default that sets a value plus one check after the switch** (`if (cur == 1) {...; return;}`) lets
-jump threading produce the original's `cmp $1; je` (`Wolfy_7A8::sub_543690`, 113 -> 12).
+jump threading produce the original's `cmp $1; je` (`ExplosionPool_7A8::FreeLowestPriority_543690`, 113 -> 12).
 
 **By-value returns: stack slot or eax.** If the original reads a by-value (hidden pointer) return
 back from its stack slot, use a named local in its own block; it gets built in a dead parameter slot
@@ -797,7 +800,7 @@ rest after the switch, replaced a goto into a case (`CarPhysics_B0::ComputeSlope
 **Merged case labels and jump tables.** `case 2` plus `case 3: case 4: case 5:` gave a compare chain;
 giving `case 3` its own copy of the body produced the 2..5 jump table, and VC6 still merged the identical
 blocks (`Object_2C::UpdateMovementAndEffects_527070`). Writing each case separately also keeps a
-constant in a register: VC6 counts constant uses before merging (`Wolfy_7A8::sub_543690`).
+constant in a register: VC6 counts constant uses before merging (`ExplosionPool_7A8::FreeLowestPriority_543690`).
 
 **Take an inline's `this` into a local before the call** to set the prologue load order and the
 register for a constant (`ExplodingScore_50::DrawNumbers_596C90`, with a private out-of-line copy of
@@ -886,7 +889,7 @@ original's `testb` (`ApplyImpactForcesAndDamage_55FA60`, 205 -> 19).
 
 | Source | Code |
 |--------|------|
-| `s->f & 0x200 \|\| s->f & 0x400` | `mov 0x78(%eax),%ax; test $6,%ah`: the two tests are merged on the loaded word (`Car_BC::sub_43B850`) |
+| `s->f & 0x200 \|\| s->f & 0x400` | `mov 0x78(%eax),%ax; test $6,%ah`: the two tests are merged on the loaded word (`Car_BC::IsImmuneToExplosionType_43B850`) |
 | `(s->f & 0x600) != 0` as a value | `mov ax; and $0x600; neg; sbb; neg` |
 | `(s->f & 0x200) != 0` as a value | `mov ax; shr $9; and $1` |
 | `if (s->f & 0xff00)` | `testb $-1,0x79(%eax)`, a memory test on the byte |
@@ -905,9 +908,9 @@ original's `testb` (`ApplyImpactForcesAndDamage_55FA60`, 205 -> 19).
 
 **Parameter slots reused as locals.** When the original keeps grid indices or loop counters in a
 parameter's stack slot, VC6 packs extra locals into dead parameter slots. New locals declared in the
-right order beat assigning to the parameters (`Orca_2FD4::ComputePath_554AB0`: 216 -> 48 assigning to
+right order beat assigning to the parameters (`PathFinder_2FD4::ComputePath_554AB0`: 216 -> 48 assigning to
 params, then down to 12 with new locals, including a `new_z` local for a lazy `cur_z` store). Declaration order
-decides which local gets the slot: in `thirsty_lamarr::sub_492430`, `bFirst` declared first let `height`
+decides which local gets the slot: in `RollingDigitCounter_38::DrawDigitsLeftAligned_492430`, `bFirst` declared first let `height`
 take the dead `base_xpos` slot. The same function re-reads `field_9_str[idx]` at each test instead of
 caching it in a `char` local, which keeps the original's re-test where VC6 would thread the jump.
 
@@ -916,7 +919,7 @@ caching it in a `char` local, which keeps the original's re-test where VC6 would
 zero store and `push 0` in the function. Declaring it just before its loop removed the zero register (410->119).
 
 **`Fix16(s32)` and `Fix16(u32)` are separate out-of-line copies.** 0x4369F0 and 0x4926F0 have identical code but
-are distinct COMDATs; passing a u32 where the original calls 0x4926F0 matched `Garox_12E4_sub::DrawPause_5D63B0`.
+are distinct COMDATs; passing a u32 where the original calls 0x4926F0 matched `Hud_PauseScreen_2::DrawPause_5D63B0`.
 
 **A switch split on an odd value was two switches.** VC6 splits a sparse switch on the median case. When the
 original splits elsewhere (110 in `sound_obj::SelectObjectImpactSound_413120`), write `if (x <= 110) { switch } else
@@ -930,7 +933,7 @@ labels (stacked labels and labels sharing a body count separately), R = max - mi
 - A **byte index table** (`mov al, [bytes+reg]; jmp [table+eax*4]`) instead of a direct one when `3R >= 4n + 13`,
   i.e. when it saves more than about 8 bytes (direct 4R bytes vs R + 4(n+1) + code). The number of distinct targets
   doesn't matter. So 4 labels go to a byte table at R >= 10, 8 at R >= 15, 12 at R >= 21. Adding or dropping one
-  empty case label, or widening the range by one outlier, flips this (`FatalDXError_4A3CF0`, `Wolfy_7A8`).
+  empty case label, or widening the range by one outlier, flips this (`FatalDXError_4A3CF0`, `ExplosionPool_7A8`).
 - A switch is **split** (recursively; pieces under 4 labels become chains) only when R > 255 **and**
   4n < R. Below a range of 256 even 6 labels over 255 values stay one byte table; 150 labels over 300 values stay one
   table too.
@@ -996,7 +999,7 @@ also swaps which of ecx/edx the pointer and the running total get.
 operator+ -> ctor -> Normalize when the operator's nested budget allows it, and the Wolfy states that used hand
 expansions (`AddNormalized`, explicit `Multiply_408680`/`Add_408660` rotations) now match in their 9.6f form:
 `point.RotateByAngle_40F6B0(ang + kAng180_6FD3EE)` and `if (pNew) { ... }` with no early return
-(`Wolfy_30::state_3_12_540D30`, `state_4_540F90`, `state_13_14_5411E0`). Three header facts made that work, see
+(`Explosion_30::EmitFireTrail_3_12_540D30`, `EmitFireTrail_4_540F90`, `EmitFireTrail_13_14_5411E0`). Three header facts made that work, see
 "Inline sizes recovered from 9.6f and addresses" below.
 
 **Inline sizes recovered from 9.6f and addresses.** The "top-level named calls" group (small functions whose
@@ -1066,7 +1069,7 @@ store off `esi` with their own `xor` zero register and no `lea`), and a separate
 
 **A dominated repeated test folds to a jmp.** `if (t < 0) { ...; if (t < 0) goto X; }` loses the second test; `if (t < 0 && !c) return; if (t >= 0 && c) A else if (t >= 0) C else B` keeps the original's test on the fall-through edge (`Hud_Pager_C::DrawPager_5D2AB0`). VC6 also drops an
 `if` that repeats an earlier identical compare but keeps it with the operands swapped: `-19 <= x` after
-`x < -19` reproduced the original's redundant re-test (`Garox_107C_sub::DrawGangRespectBars_5CFA70`).
+`x < -19` reproduced the original's redundant re-test (`Hud_GangRespectBars_1::DrawGangRespectBars_5CFA70`).
 
 **Freeing inline budget brings inlines back.** Writing the out-of-line calls the original makes (`DivideAssign_539F90`, `Multiply_408680`) let the `Fix16_Point_POD` ctors inline again (`UpdateObjectBeamLink_state_38_538AC0`, `EmitImpactParticles_53FE40`).
 
@@ -1145,7 +1148,7 @@ the same instructions with different registers (`this` in `edi` rather than `ebx
 `PedGroup::UpdateMemberTightFollowState_4CA820`). Try both.
 
 **Bitfield reads through an inline getter.** `if (!p->field_21C_bf.b2)` gives `test $4,%al`.
-An inline that returns the bit (`u8 GetBit2() { return field_21C_bf.b2; }`) gives
+An inline that returns the bit (`u8 GetPanicking() { return field_21C_bf.b2; }`) gives
 `mov %eax,%ecx; shr $2,%ecx; test $1,%cl` (`PedGroup::MergeWithOtherGroup_4C9B60`).
 
 **Operand order matters.** `a + b` vs `b + a` changes which value is loaded first and which
@@ -1198,7 +1201,7 @@ moving includes and check `compare_builds.py` for regressions.
 inside an inline helper in the original. Moving it into one (a `static inline` function
 or a class inline) made VC6 stop inlining after the first operator in
 `RouteFinder::ShowJunctionIds_588620`. The reverse also happens: adding an inline call
-before a formula can push the formula's operators out of line (`Trailer::sub_407BD0`).
+before a formula can push the formula's operators out of line (`Trailer::GetHitchPosition_407BD0`).
 
 **Inline functions: often only the first call gets inlined.** When a function calls the same
 inline function several times, VC6 often inlines the first call and emits real `call`s for
@@ -1238,7 +1241,7 @@ order didn't. Storing the fields in offset order matched. In `GetMainAndBonusSta
 the slots of tied arrays follow the push order of their `StoreStrings` call; VC6 ignores the declaration
 order of equal-size arrays, and one local struct whose field order sets the layout matched it. Declaration
 order also didn't change the slots of equal-size `Fix16_Point` locals (`ComputePointVelocity_561380`) or
-case locals (`Wolfy_30::state_22_23_24_25_542E30`).
+case locals (`Explosion_30::EmitBuildingDebris_22_23_24_25_542E30`).
 
 **Copy through a local to get a spill.** `mov (%edx),%eax; mov %eax,X(%esp); fildl X(%esp)`
 instead of `fildl (%edx)` comes from copying the value into a local object first
@@ -1321,7 +1324,7 @@ by-value `if (a > b) b = a; return b;` gives the original's register use and kee
 **`new T()` without an EH state: declare T's constructor `throw()`.** When the original calls T's
 constructor out of line with no EH state around `new`, `T() throw();` removes the frame. Write
 `T* p = new T(); g = p; if (!p)`: assigning straight to the global let VC6 jump past the store
-(`frosty_pasteur_0xC1EA8` ctor 0x512CE0 with `Miss2_25C`).
+(`ScriptManager_C1EA8` ctor 0x512CE0 with `Miss2_25C`).
 
 **Operand order inside a shared inline helper matters, and 9.6f shows it.** `Ang16::PolarToCartesian_41FC20`
 computing `sine(angle) * radius` (the 9.6f order) instead of `radius * sine(angle)` fixed
@@ -1338,7 +1341,7 @@ A POD parameter matched the caller but lost the callee's EH frame.
 found path and one `return result` after the loop fixed every register in
 `NetPlay::MovePlayerToGroup_520040`, where returning from inside the loop didn't.
 
-**A by-value return from one local keeps one register across cases.** `Wolfy_30::sub_541680` returns `Fix16`
+**A by-value return from one local keeps one register across cases.** `Explosion_30::GetBlastRadius_541680` returns `Fix16`
 through the hidden pointer. Assigning one local in each case and `break`ing to a single `return k` keeps
 the same register in every case block; a `return` per case alternated `ecx`/`edx`. Leaving the local
 unset in `default` reproduces the original reading the argument slot.
@@ -1358,7 +1361,7 @@ it, with the init called explicitly.
 
 **Explicit `Fix16(113)` vs an implicit `113` argument.** In a big function the explicit form is built out of
 line into a reused stack temporary and copied; the implicit conversion is built straight in the argument slot.
-One call can mix both (`Wolfy_30::state_18_19_20_32_33_542790`: explicit x and y, implicit z).
+One call can mix both (`Explosion_30::UpdateExplosion_18_19_20_32_33_542790`: explicit x and y, implicit z).
 
 **Which value you pass can decide the whole function's registers.** Passing the stored field
 (`pCar->field_68_scale`) instead of the parameter it was just set from fixed `Car_6C::SpawnCarAt_446230`.
@@ -1471,7 +1474,7 @@ MapRenderer cluster, and how to check helpers against 9.6f with VC7: `docs/x87_h
 - **Loop counter init vs a store before the loop.** The loop optimiser appends its preheader code (the count-down
   counter init, strength-reduced pointer inits) at the *end* of the preheader block, after every statement written
   before the loop; a hoisted invariant store lands before them too. Both a constant store and `mov $3,%ebp` have
-  priority 4.0, so the store always issues first. The original of `jolly_poitras_0x2BC0::SavePlySlotDat_56BA60`
+  priority 4.0, so the store always issues first. The original of `PlyDat_2BC0::SavePlySlotDat_56BA60`
   has the counter init first because `len` is an induction variable (`len++ / len += 4` in the loop body, as the
   matched `SaveHiScores_56BF20` writes it): VC6 folds its final value (126) into one store that it emits with the
   loop optimiser's code, after the counter init. A plain `len = 126` anywhere never gets there.
@@ -1506,8 +1509,8 @@ above the store (`Ped::Deallocate_45EB60`).
 return, cast to `u8` at the call: `if ((u8)sub_405E20(...) || (u8)sub_405E20(...))`. With a
 `bool` return, VC6 emits `mov $1,%al` in the callee instead (`sub_405E20`, `sub_405E80`).
 
-**A member that ignores `ecx`.** `frosty_pasteur_0xC1EA8::sub_511A70` is called with
-`ecx = gfrosty_pasteur_6F8060`, but reads the global (`mov 0x6F8060,%eax`) instead of `this`.
+**A member that ignores `ecx`.** `ScriptManager_C1EA8::SetGeneratorTypeForCar_511A70` is called with
+`ecx = gScriptManager_6F8060`, but reads the global (`mov 0x6F8060,%eax`) instead of `this`.
 Write the body against the global. Similarly, `Police_7B8::UpdatePursuitTargets_56FBD0` calls
 `gPolice_7B8_6FEE40->DispatchNewCrewToPursuit_56FAA0(...)` and writes `gPolice_7B8_6FEE40->field_65C` while using
 `this` for everything else.
@@ -1534,15 +1537,15 @@ callee ends in `ret $N` without reading `ecx`, declare it `static ... __stdcall`
 
 **Duplicate helper copies.** The original has two identical copies of some small functions. For the `Fix16(int)`
 constructor they are really two constructors: `0x4369F0` is `Fix16(s32)` and `0x4926F0` is `Fix16(u32)`, with
-identical code. Passing a `u32` where the original calls `0x4926F0` matched `Garox_12E4_sub::DrawPause_5D63B0`; the
-same applies to `Hud_CarName_4C::DrawCarName_5D4A10`, `DrawBrief_5D3B80` and `thirsty_lamarr::sub_492430`
+identical code. Passing a `u32` where the original calls `0x4926F0` matched `Hud_PauseScreen_2::DrawPause_5D63B0`; the
+same applies to `Hud_CarName_4C::DrawCarName_5D4A10`, `DrawBrief_5D3B80` and `RollingDigitCounter_38::DrawDigitsLeftAligned_492430`
 (all matched) and probably `DrawPlayerStatsHelper_5D61A0`. Check the other duplicate pairs for a type difference before assuming they can't match.
 
 **EH state stores between member destructor calls.** If the original calls several member
 destructors in a row without the `movb $N,X(%esp)` state stores between them, VC6 knew
 those destructors can't throw. It only knows that if their (empty) bodies come earlier in
 the same TU, so define the destructor after them
-(`jolly_poitras_0x2BC0::~jolly_poitras_0x2BC0` after `~high_score_table_0xF0`).
+(`PlyDat_2BC0::~PlyDat_2BC0` after `~HighScoreTable_F0`).
 
 **Array construction: inline loop vs `??_H`.** For an array of objects with a constructor,
 VC6 calls `vector constructor iterator` (`??_H`) when the constructor is out of line, and
@@ -1566,7 +1569,7 @@ so don't include C++ std headers from widely used headers.
 Checked 2026-10-01: dropping either per-file flag in `cmake/vc6.cmake` breaks every matched
 function in that file.
 
-- **`sharp_bose_0x54.cpp` with `/GX-`.** The ctor builds five `distracted_einstein_0xC`
+- **`FpsCounter_54.cpp` with `/GX-`.** The ctor builds five `ProfilerTimer_C`
   members that have real dtors, yet the original ctor has no EH frame. Under `/GX`, VC6 can't
   drop that frame, so the file really was built without exception handling.
 - **`gbh_graphics.cpp` with `/Od /ZI`.** The DLL loader there is a debug / edit-and-continue
@@ -1596,7 +1599,7 @@ which helper was called and in which order things happened:
   `Car_BC::MarkForDespawn_421470`, and every path stored `field_28` before `field_2C`.
 - `Firefighter_28::sub_4A7FC0`: 9.6f compares `get_car_velocity_4211C0()`, which is
   `GetLength_41E260`, not the `GetLength_453590` the source used.
-- `Garox_2A25_sub::DrawChatMessages_5D16B0`: 9.6f calls the line spacing wrapper (0x4539B0),
+- `Hud_ChatInput_1::DrawChatMessages_5D16B0`: 9.6f calls the line spacing wrapper (0x4539B0),
   which 10.5 inlines (`GetLineSpacingFromFontType_5D7700_inlined`).
 
 **A WIP with no 9.6f partner may just be unpaired.** `match_96f.py` leaves some functions unpaired
@@ -1667,7 +1670,7 @@ the `return` in its body, which gives the original's `pLast = 0` before the null
 
 **Even a global's name can change code.** Renaming `word_70643E` to `gChatFont_70643E`, with
 every token of `Hud.cpp` and its headers otherwise the same, makes
-`Garox_2A25_sub::DrawChatMessages_5D16B0` load the `u16` global with a 32-bit `mov` (`%eax`
+`Hud_ChatInput_1::DrawChatMessages_5D16B0` load the `u16` global with a 32-bit `mov` (`%eax`
 instead of `%ax`), so it stops matching. With the old name it matches again. So when a
 rename branch is merged, `compare_builds.py` still has to run, and a global can keep its
 `word_`/`dword_` name, with a comment, where the new name changes the code.
@@ -1734,7 +1737,7 @@ original's cut-off needs.
 `Multiply_408680` calls in place of `*`). Write the one natural inline (checked against its 9.6f copy)
 and find the source difference that moves the cut-off. With the 9.6f-verified
 `MaxAbsDistance_42A6B0` (by reference, `Fix16 d; d = a - b;`), one inline reproduces the hand variants
-in `Wolfy_30::TimerAfter50Handler_541850`, all 16 `CarAI_78` sites and
+in `Explosion_30::ApplyBlastDamage_541850`, all 16 `CarAI_78` sites and
 `Sprite::MinDistanceToAnySpriteBBoxCorner_5A22B0`. `Firefighter_28::Update_4A81F0` also needed field
 accesses in place of the `get_driver_4118B0` getters (fewer free sites after the call), and
 `EmergencyCrew_30::UpdateStateMachine_5CBD50` the 9.6f `ClearGroupAndGroupIdx_403A30` call (one more).
@@ -1801,7 +1804,7 @@ that may be `FromPolar_41E210` or `Ang16::PolarToCartesian_41FC20`.
 
 
 Before blaming the budget, check whether the out-of-line calls look written by name. In
-`Trailer::sub_407BD0` the rotation's y line calls `Negate_4086A0`, `Multiply_408680` and the
+`Trailer::GetHitchPosition_407BD0` the rotation's y line calls `Negate_4086A0`, `Multiply_408680` and the
 out-of-line `operator+` (0x408660) while the x line is inlined; writing those calls explicitly
 kept the rest inlined (0.476 -> 0.843). It matched `Crane_15C::ComputeHookPos_47E620` and
 `_47E730`. `GetDoorWorldPos_43B420` has the same shape, and it may help `fire_truck_gun_5E0E70`
@@ -1845,7 +1848,7 @@ byte compare come from `x < 63 ? x : 63` written out; an s32 or u8 `Min` helper 
 
 **`f() ? false : true` gives `test/sete`; `!f()` gives `neg/sbb/inc`.** A flat if chain lets VC6
 thread repeated register tests, which can move a case to the end of the function as in the original
-(`Orca_2FD4::Internel_CanMoveDiagonally_554110`).
+(`PathFinder_2FD4::CanMoveDiagonally_554110`).
 
 - **`x += k` is free, `x = x + k` is charged.** `Fix16::operator+=` is below the free-inline size
   (40), `operator+`/`operator-` cost 52 each. Six coordinate adjustments written `gXCoord = gXCoord + k` /
@@ -1946,7 +1949,7 @@ Found by tracing C2.DLL (see `Scripts/inline_budget/`); the instrumented compile
   settings, does better, and no single size change of any of the 91 inline helpers above an operator site
   gains more than one. Of the 39 left, 25 have the named calls at the top level of the function, most of
   them under 500 FE units (budget clamped to 1000), where nothing can run out: the original's operators
-  there sat inside inline helpers our source writes out (Crane ComputeHookPos, the Wolfy_30 states,
+  there sat inside inline helpers our source writes out (Crane ComputeHookPos, the Explosion_30 states,
   UpdateCenterOfMassPoint ...: a recovered helper, likely a rotate or polar one, per function). The
   other 14 go through our hand-written helper variants (`RotateByAngle_40F6B0_all_out_of_line`,
   `GetLength_out_of_line_x_squared`, `PolarToCartesian_OutOfLineMul`, ...); swapping them for the plain
@@ -2270,7 +2273,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   cases jump back into it (`CreateRoadblock_575FF0`, skeleton 23 -> 5). `return` instead of `break` in a
   case picks which copy of a shared tail survives (`HandlePedCollision_548BD0`).
 - **Constant reuse follows IL order:** after `reg = 0` for a register local, later `char = 0` stores use
-  `mov %bl,mem` instead of `movb $0`; zero the stack flags first (`eager_benz::OnPedKilled_592660`).
+  `mov %bl,mem` instead of `movb $0`; zero the stack flags first (`PlayerScoreTracker_36C::AwardPedKilledScore_592660`).
 - **Each distinct unnamed temporary gets its own slot** (`Ang16(a - b).Normalized_406C20()`), identical ones
   share it, and a named local inside an inline helper shares one slot across all its call sites
   (`CarAI_78::AlignToLaneCenter_44AF00`).
@@ -2288,7 +2291,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   gives the original's `mov (%eax),%reg` copy of the out-of-line result; `return Max_44E540(...)` builds it
   in a stack slot instead. Past the inline budget, one helper per call site with the Abs variant each site
   shows (both `Abs_436A50`, mixed, or a `__forceinline` Abs with `Negate_4086A0` out of line) matched
-  `Wolfy_30::TimerAfter50Handler_541850`, together with the next two points.
+  `Explosion_30::ApplyBlastDamage_541850`, together with the next two points.
 - **Branch order decides slot sharing.** `if ((t > 50 && t < 60) || (t > 80 && t < 90)) {A} else if (t == 99) {B}`
   (the 9.6f order) let A's locals share slots with B's; the inverted `if (!(...)) { if (t == 99) B } else A`
   gave A its own slots (frame +16, 541850).
@@ -2298,7 +2301,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   return Ang16(&value, 0);`, new in ang16.hpp) gave the original's slot order and load order; the same body as a
   static `AddAng16_ool(a, b)` swapped both. `(k + d) + Fix16_To_Ang16(...)` with the right operand unnamed gives
   that operand (computed first) the lower slot; named, it gets the higher one. Matched
-  `Wolfy_30::state_22_23_24_25_542E30` with a file-local `PolarToCartesian` that calls both multiplies out of line.
+  `Explosion_30::EmitBuildingDebris_22_23_24_25_542E30` with a file-local `PolarToCartesian` that calls both multiplies out of line.
 - **`(a - b).mValue >> 14` instead of `(a - b).ToInt()`** saves one inline expansion per site with the same code
   (`Map_0x370::sub_4E7190`: four of them paid for the `KeepDir` inline that keeps `xor; test` unfolded).
 - **`??1Fix16_Point` in an object's relocations can be just the EH unwind funclet** placed after the function,
@@ -2410,8 +2413,8 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   the function. The ternary written inside the condition is what VC6 needs.
 - **A reload stub at the end comes from two copies of the same tail.** The original's
   `mov 0x150(%esi),%ecx; jmp` after the abort code (other paths enter the abort with `ecx` already
-  loaded) came from `if (max > two || bit) { field_150->sub_43AF40(); ...; return; }` followed by
-  `Car_BC* pCar = field_150; if (empty && !despawning) break; pCar->sub_43AF40(); ...` with the abort
+  loaded) came from `if (max > two || bit) { field_150->ResumeAIDriving_43AF40(); ...; return; }` followed by
+  `Car_BC* pCar = field_150; if (empty && !despawning) break; pCar->ResumeAIDriving_43AF40(); ...` with the abort
   written twice. One shared abort block in any if/else polarity gave the stub in front of the abort.
 - **9.6f is an older build; arithmetic can differ.** In `Garage_48::ParkCarAtDoor_534700` 9.6f computes
   `Fix16(y) - (d + w1)` while 10.5 has two `sub`s (`Fix16(y) - d - w1`). The rest of the 9.6f
@@ -2424,7 +2427,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   identical trailing stores (`ped->field_21C_bf.b22 = true;` in each arm of `if (grenade) reload = 4; else
   reload = 50;`), and the extra constant use changes register choice for the whole function: in
   `Weapon_30::throwable_5DDFC0` it moved the constant 1 into `bl` as in the original (141 -> 0).
-- **The case order of a second switch shows in the layout.** `eager_benz::OnPedKilled_592660` places the
+- **The case order of a second switch shows in the layout.** `PlayerScoreTracker_36C::AwardPedKilledScore_592660` places the
   `field_290` cases 9..20 right after the dispatch: writing that case first in the switch took the
   function from 269 to 178 (`sc.sh`).
 
@@ -2454,7 +2457,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   `verts[i].x = ((x_pos + point.x).ToFloat());` (double parentheses), one no-op node per conversion. Without them
   regsearch reports 2 nodes short per window; with them the windows break where the original's do (78 -> 8,
   and part of DrawFigure's match). An `f32` local per store gives the same node count.
-- **The order of two `++field` statements decides a late `push ebp`.** In `Internel_UpdateBehaviorGrid_554710`,
+- **The order of two `++field` statements decides a late `push ebp`.** In `AddGridCell_554710`,
   `++field_8_pNode; ++field_C_node_count;` lets the pointer increment use esi, so ebp is used only inside the
   distance branch and VC6 pushes it there (the original's late push); the other order used ebp for the
   increment and pushed it at the top (42 -> 22). `v7 = sum; v7 *= v12;` as two statements then keeps the
@@ -2462,7 +2465,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
 - **Both compilers evaluate the terms of `dx*dx + dy*dy` in the same canonical order whatever the source
   order**, and the original (both compilers) has the other one. Casts, parentheses, a one-statement temp for
   one square and `v12 *` on either side do not change it; a `u16 dx` temp for one difference does flip the
-  evaluation but mirrors the copy/in-place squaring (`Internel_UpdateBehaviorGrid_554710`, 8 lines left).
+  evaluation but mirrors the copy/in-place squaring (`AddGridCell_554710`, 8 lines left).
 
 ### Global register allocation: priority order, then the register order
 
@@ -2536,11 +2539,11 @@ So for a late push in the original:
 - The register must not be used before the branch. A variable tested in the entry block and used later lives in
   its register from the test on, so test something else: the field or global instead of the local copy
   (`Hud_Brief_704::ClearAllBriefsWithPriority_5D4890`), or test the global and make the copy inside the `if`
-  (the inlined deletes in `Car_6C::~Car_6C` 0x446DC0 and `Montana_4::~Montana_4` 0x5C5F10).
+  (the inlined deletes in `Car_6C::~Car_6C` 0x446DC0 and `SpriteTree_4::~SpriteTree_4` 0x5C5F10).
 - The region that uses the register needs a single exit block: a statement after the loop inside the branch, or a
   separate `return value;` per path. Ending the branch with the loop itself, or a bare `return;` that shares the
   epilogue, keeps the push at entry.
-- Which register a value gets can decide it too: in `Internel_UpdateBehaviorGrid_554710` the statement order put
+- Which register a value gets can decide it too: in `AddGridCell_554710` the statement order put
   the increment in esi, so ebp was used only inside the distance branch and was pushed there.
 
 ## Inline asm

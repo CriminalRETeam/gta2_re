@@ -1,6 +1,7 @@
 #include "winmain.hpp"
+#include "hud_message_priority.hpp"
 #include "Bink.hpp"
-#include "BurgerKing_67F8B0.hpp"
+#include "InputRecorder_67F8B0.hpp"
 #include "Char_Pool.hpp"
 #include "Frontend.hpp"
 #include "Function.hpp"
@@ -13,15 +14,15 @@
 #include "error.hpp"
 #include "gbh_graphics.hpp"
 #include "input.hpp"
-#include "jolly_poitras_0x2BC0.hpp"
+#include "PlyDat_2BC0.hpp"
 #include "keybrd_0x204.hpp"
-#include "lucid_hamilton.hpp"
+#include "GameSession_578.hpp"
 #include "crt_stubs.hpp"
 #include "registry.hpp"
 #include "rng.hpp"
 #include "resource.h"
 #include "root_sound.hpp"
-#include "sharp_bose_0x54.hpp"
+#include "FpsCounter_54.hpp"
 #include <ddraw.h>
 #include <direct.h>
 #include <stdio.h>
@@ -33,30 +34,30 @@
 // for force links
 #include "3rdParty/GTA2Hax/d3ddll/d3ddll.hpp"
 #include "Ambulance_110.hpp"
-#include "BurgerKing_67F8B0.hpp"
+#include "InputRecorder_67F8B0.hpp"
 #include "Camera.hpp"
 #include "Car_BC.hpp"
 #include "Crushers.hpp"
 #include "Firefighters.hpp"
 #include "Fix16_Rect.hpp"
 #include "Generators.hpp"
-#include "Hamburger_500.hpp"
+#include "CarChaseTaskTable_500.hpp"
 #include "Hud.hpp"
 #include "ImGuiDebug.hpp"
 #include "MapRenderer.hpp"
 #include "Mike_A80.hpp"
-#include "Montana.hpp"
+#include "SpriteRenderer_1C.hpp"
 #include "Network_20324.hpp"
 #include "Ped.hpp"
-#include "Phi_8CA8.hpp"
+#include "ObjectDefinitions_8CA8.hpp"
 #include "Player.hpp"
-#include "Rozza_C88.hpp"
+#include "CollisionSoundQueue_C88.hpp"
 #include "CrimeReportQueue_CC.hpp"
 #include "cSampleManager.hpp"
 #include "char.hpp"
 #include "collide.hpp"
 #include "miss2_8.hpp"
-#include "nostalgic_ellis_0x28.hpp"
+#include "Light_28.hpp"
 #include "sound_obj.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
@@ -139,14 +140,14 @@ void LoadBeginSceneCBPtr()
 
 void force_link()
 {
-    Phi_8CA8 phi_8ca8;
+    ObjectDefinitions_8CA8 phi_8ca8;
     phi_8ca8.AllocDefinitionWithSprite_5332D0(0, 0, 0, 0);
 
     Ambulance_20 jaw_20;
     jaw_20.field_14_count = 1;
 
-    Rozza_C88 rozza;
-    rozza.field_0_pSoundObj = 0;
+    CollisionSoundQueue_C88 collision_sound_queue;
+    collision_sound_queue.field_0_pSoundObj = 0;
 
     GeneratorPool_14AC maccies;
     maccies.sub_4C1CD0();
@@ -160,8 +161,8 @@ void force_link()
     Network_20324 network;
     network.cb_FillSessionList_519D30(0, 0);
 
-    nostalgic_ellis_0x28 nostalgic;
-    nostalgic.AddToGrid_4D6D70();
+    Light_28 light;
+    light.AddToGrid_4D6D70();
 
     PedManager PedManager;
     PedManager.DoIanTest_471060(0);
@@ -266,28 +267,28 @@ void force_link()
     miss2.remove_503180();
     miss2.remove_5031E0(0);
 
-    BurgerKing_67F8B0 burgerking;
-    burgerking.StaticShutdown_4CDCD0();
-    burgerking.clear_inputs_4CDCE0();
-    burgerking.set_input_4CDCF0(0);
-    burgerking.clear_input_4CDD10(0);
-    burgerking.should_ignore_input_4CDD80(0);
-    burgerking.should_ignore_input_4CDDF0(0);
-    burgerking.save_replay_record_4CDE20(0);
-    burgerking.SaveReplay_4CDED0();
-    burgerking.modify_inputs_4CDF30(0);
-    burgerking.AppendReplayHeader_4CDF70();
-    burgerking.LoadReplayHeader_4CE380(0);
-    burgerking.VerifyAttractFilesExist_4CE650();
-    burgerking.GetNextAttrReplay_4CE6E0(0);
-    burgerking.input_init_replay_4CE740(0);
-    burgerking.input_init_live_4CE880(0);
-    burgerking.replay_save_4CEA40(0);
-    burgerking.get_input_bits_4CEAC0();
-    burgerking.save_replay_inputs_4CED00(0, 0);
-    burgerking.DisplayInputBits_4CED90();
-    burgerking.RecOrPlayBackState_4CEDF0();
-    burgerking.ShowInput_4CEE10();
+    InputRecorder_67F8B0 input_recorder;
+    input_recorder.StaticShutdown_4CDCD0();
+    input_recorder.clear_inputs_4CDCE0();
+    input_recorder.set_input_4CDCF0(0);
+    input_recorder.clear_input_4CDD10(0);
+    input_recorder.should_ignore_input_4CDD80(0);
+    input_recorder.should_ignore_input_4CDDF0(0);
+    input_recorder.save_replay_record_4CDE20(0);
+    input_recorder.SaveReplay_4CDED0();
+    input_recorder.modify_inputs_4CDF30(0);
+    input_recorder.AppendReplayHeader_4CDF70();
+    input_recorder.LoadReplayHeader_4CE380(0);
+    input_recorder.VerifyAttractFilesExist_4CE650();
+    input_recorder.GetNextAttrReplay_4CE6E0(0);
+    input_recorder.input_init_replay_4CE740(0);
+    input_recorder.input_init_live_4CE880(0);
+    input_recorder.replay_save_4CEA40(0);
+    input_recorder.get_input_bits_4CEAC0();
+    input_recorder.save_replay_inputs_4CED00(0, 0);
+    input_recorder.DisplayInputBits_4CED90();
+    input_recorder.RecOrPlayBackState_4CEDF0();
+    input_recorder.ShowInput_4CEE10();
 
     Hud_2B00 garox;
 
@@ -295,8 +296,8 @@ void force_link()
     u16 zero = 0;
     nano.draw_bottom_4ED290(zero);
 
-    Montana montana;
-    montana.ResetAll_4954F0();
+    SpriteRenderer_1C sprite_renderer;
+    sprite_renderer.ResetAll_4954F0();
 
     Mike_A80 mike;
     mike.DebugDrawProfiling_4FF250();
@@ -309,10 +310,10 @@ void force_link()
 
     FirefighterPool_54 tango_54;
 
-    Hamburger_500 hamburger_500;
-    hamburger_500.FreeEntry_474CC0(0);
+    CarChaseTaskTable_500 car_chase_task_table;
+    car_chase_task_table.FreeEntry_474CC0(0);
 
-    Collide_C collide_C;
+    CollisionCounters_C collide_C;
 
     Fix16_Rect car14_18;
     car14_18.DoSetCurrentRect_59DD60();
@@ -816,7 +817,7 @@ MATCH_FUNC(0x4DA440)
 EXPORT void __stdcall Init_keybrd_jolly_and_sound_4DA440()
 {
     keybrd_0x204::create_4D5F50();
-    jolly_poitras_0x2BC0::create_56C2C0();
+    PlyDat_2BC0::Create_56C2C0();
 
     if (!bSkip_audio_67D6BE)
     {
@@ -929,12 +930,12 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
 {
     if (bReplayMode_6F5B71)
     {
-        gBurgerKing_67F8B0.input_init_replay_4CE740(gHInstance_708220);
+        gInputRecorder_67F8B0.input_init_replay_4CE740(gHInstance_708220);
         bReplayMode_6F5B71 = 0;
     }
     else
     {
-        gBurgerKing_67F8B0.input_init_live_4CE880(gHInstance_708220);
+        gInputRecorder_67F8B0.input_init_live_4CE880(gHInstance_708220);
     }
 
     gRoot_sound_66B038.Set3DSound_40F160(gRegistry_6FF968.Get_Sound_Settting_586A70("do_3d_sound"));
@@ -942,7 +943,7 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
 
     if (bStartNetworkGame_7081F0)
     {
-        gYouthful_einstein_6F8450.ctor_516560();
+        gTagGame_6F8450.Init_516560();
 
         ClearDebugFlags_4DB170();
 
@@ -964,7 +965,7 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
         dword_6F580C = 0;
         gTotalNetworkTime_6F5980 = 0;
         dword_6F5AC0 = 0;
-        gNetTimeLimit_6F573C = gLucid_hamilton_67E8E0.GetTimeLimit_461DC0();
+        gNetTimeLimit_6F573C = gGameSession_67E8E0.GetTimeLimit_461DC0();
         if (gNetTimeLimit_6F573C > 60)
         {
             gNetTimeLimit_6F573C = 60;
@@ -1016,9 +1017,9 @@ MATCH_FUNC(0x4DA780)
 EXPORT char ExecuteGame_4DA780()
 {
     char v0 = gGame_0x40_67E008->ExecuteGame_4B9640();
-    if (gsharp_bose_0x54_7055D4)
+    if (gFpsCounter_7055D4)
     {
-        gsharp_bose_0x54_7055D4->field_18.AccumulateElapsed_5BEBF0();
+        gFpsCounter_7055D4->field_18_execute_game_timer.AccumulateElapsed_5BEBF0();
     }
     return v0;
 }
@@ -1207,12 +1208,12 @@ EXPORT void __stdcall sub_4DB2E0(u8* pSyncData)
     pData->field_11_exe_a = -1;
     pData->field_15_exe_b = 0;
 
-    if (_stat(gLucid_hamilton_67E8E0.GetMapName_4C5940(), &st) == 0)
+    if (_stat(gGameSession_67E8E0.GetMapName_4C5940(), &st) == 0)
     {
         pData->field_5_map_size = st.st_size;
     }
 
-    FILE* hFile = crt::fopen(gLucid_hamilton_67E8E0.GetScriptName_4C5960(), "rb");
+    FILE* hFile = crt::fopen(gGameSession_67E8E0.GetScriptName_4C5960(), "rb");
     if (hFile)
     {
         pData->field_D_script_sum = FileByteSum_4DB120(hFile);
@@ -1272,12 +1273,12 @@ EXPORT void __stdcall CompareRemotePlayers_4DB440(u8* pLocalSyncData, u8* pRemot
     }
     if (pLocal->field_5_map_size != pRemote->field_5_map_size)
     {
-        sprintf(msg, "Player %s: Level file '%s' is different", name, gLucid_hamilton_67E8E0.GetMapName_4C5940());
+        sprintf(msg, "Player %s: Level file '%s' is different", name, gGameSession_67E8E0.GetMapName_4C5940());
         FatalErrorMsg_4DB410(msg);
     }
     if (pLocal->field_D_script_sum != pRemote->field_D_script_sum)
     {
-        sprintf(msg, "Player %s: Script file '%s' is different", name, gLucid_hamilton_67E8E0.GetScriptName_4C5960());
+        sprintf(msg, "Player %s: Script file '%s' is different", name, gGameSession_67E8E0.GetScriptName_4C5960());
         FatalErrorMsg_4DB410(msg);
     }
     if (pLocal->field_11_exe_a != pRemote->field_11_exe_a || pLocal->field_15_exe_b != pRemote->field_15_exe_b)
@@ -1288,7 +1289,7 @@ EXPORT void __stdcall CompareRemotePlayers_4DB440(u8* pLocalSyncData, u8* pRemot
     if (pLocal->field_19_gci_sum != pRemote->field_19_gci_sum)
     {
         // The original passes the script name too, which the format doesn't use
-        sprintf(msg, "Player %s: Car handling file 'nyc.gci' is different", name, gLucid_hamilton_67E8E0.GetScriptName_4C5960());
+        sprintf(msg, "Player %s: Car handling file 'nyc.gci' is different", name, gGameSession_67E8E0.GetScriptName_4C5960());
         FatalErrorMsg_4DB410(msg);
     }
 }
@@ -1343,7 +1344,7 @@ EXPORT void TagGameHudUpdate_4DADA0()
                 if (--gNetTimeLimit_6F573C < 0)
                 {
                     gNetTimeLimitEnabled_6F58A4 = 0;
-                    gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), 3);
+                    gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), hud_message_priority::important_3);
                     gGame_0x40_67E008->ExitGameNoBonus_4B8C00(2, 5);
                 }
             }
@@ -1354,8 +1355,8 @@ EXPORT void TagGameHudUpdate_4DADA0()
         s32 rem = minutes % 5;
         bool bShow = false;
         if (minutes == 0 || (rem == 4 && seconds >= 50) || (rem == 0 && seconds == 0) ||
-            (minutes == gLucid_hamilton_67E8E0.GetTimeLimit_461DC0() && seconds == 0) ||
-            (minutes == gLucid_hamilton_67E8E0.GetTimeLimit_461DC0() - 1 && seconds >= 50))
+            (minutes == gGameSession_67E8E0.GetTimeLimit_461DC0() && seconds == 0) ||
+            (minutes == gGameSession_67E8E0.GetTimeLimit_461DC0() - 1 && seconds >= 50))
         {
             bShow = true;
             if (!byte_6F59C0)
@@ -1405,7 +1406,7 @@ EXPORT void __stdcall do_network_and_local_inputs_4DAF30()
     if (bStartNetworkGame_7081F0)
     {
         TagGameHudUpdate_4DADA0();
-        gYouthful_einstein_6F8450.ExecuteGamemodeTick_516660();
+        gTagGame_6F8450.ExecuteGamemodeTick_516660();
 
         if (!gGame_0x40_67E008->UpdateExitTimer_4B8C20())
         {
@@ -1432,7 +1433,7 @@ EXPORT void __stdcall do_network_and_local_inputs_4DAF30()
                 } while (gNetInUsePlayerBits_6F56B8);
             }
 
-            gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8].field_0_Inputs = gBurgerKing_67F8B0.get_input_bits_4CEAC0();
+            gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8].field_0_Inputs = gInputRecorder_67F8B0.get_input_bits_4CEAC0();
             Net_Send_Our_Inputs_4DACB0();
             Draw_4DA7B0();
             Net_4DA9F0();
@@ -1460,7 +1461,7 @@ EXPORT void __stdcall do_network_and_local_inputs_4DAF30()
     }
     else
     {
-        const u32 inputs = gBurgerKing_67F8B0.get_input_bits_4CEAC0();
+        const u32 inputs = gInputRecorder_67F8B0.get_input_bits_4CEAC0();
         gGame_0x40_67E008->field_38_orf1->SetInputs_565740(inputs);
     }
 }
@@ -1533,9 +1534,9 @@ EXPORT u8 RunGameFrame_4DA850()
         }
     }
 
-    if (gsharp_bose_0x54_7055D4)
+    if (gFpsCounter_7055D4)
     {
-        gsharp_bose_0x54_7055D4->UpdateFpsCounters_5BECF0(a2, unk_0xc);
+        gFpsCounter_7055D4->UpdateFpsCounters_5BECF0(a2, unk_0xc);
     }
     return bContinue;
 }
@@ -1801,7 +1802,7 @@ EXPORT void __stdcall j_gbh_init_5D7CA0()
 MATCH_FUNC(0x4DA700)
 EXPORT void __stdcall CleanUpInputAndOthers_4DA700()
 {
-    gBurgerKing_67F8B0.Shutdown_4CEA00();
+    gInputRecorder_67F8B0.Shutdown_4CEA00();
     if (gGame_0x40_67E008)
     {
         GTA2_DELETE_AND_NULL(gGame_0x40_67E008);
@@ -1982,9 +1983,9 @@ EXPORT void __stdcall SetStartMode_5D9230(s32 startMode)
 MATCH_FUNC(0x498D10)
 EXPORT void Input_Read_498D10()
 {
-    if (gBurgerKing_1_67B990)
+    if (gInputDevices_67B990)
     {
-        gBurgerKing_1_67B990->read_keyboard_and_gamepad_498CC0();
+        gInputDevices_67B990->read_keyboard_and_gamepad_498CC0();
     }
 }
 
@@ -2267,7 +2268,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     }
 
     gDebug_67D52C.Init_4ABBD0();
-    gLucid_hamilton_67E8E0.LoadDebugSettings_4C53D0();
+    gGameSession_67E8E0.LoadDebugSettings_4C53D0();
     bDoFrontEnd_626B68 = bSkip_frontend_67D53B == 0;
 
     WNDCLASSA WndClass;
@@ -2462,29 +2463,29 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                                         break;
 
                                     case GameExitType::PlayerQuit_2:
-                                        gLucid_hamilton_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_orf1);
-                                        gJolly_poitras_0x2BC0_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_orf1);
-                                        gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
+                                        gGameSession_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_orf1);
+                                        gPlyDat_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_orf1);
+                                        gPlyDat_6FEAC0->UpdateHiScores_56C010();
 
-                                        state = gLucid_hamilton_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 11; // 11? prob 1
+                                        state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 11; // 11? prob 1
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = 1;
                                         break;
 
                                     case GameExitType::GameOverRIP_3:
-                                        gLucid_hamilton_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_orf1);
-                                        gJolly_poitras_0x2BC0_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_orf1);
-                                        gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
-                                        state = gLucid_hamilton_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 2;
+                                        gGameSession_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_orf1);
+                                        gPlyDat_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_orf1);
+                                        gPlyDat_6FEAC0->UpdateHiScores_56C010();
+                                        state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 2;
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = 1;
                                         break;
 
                                     case GameExitType::AreaCompleted_4:
-                                        gLucid_hamilton_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_orf1);
-                                        gJolly_poitras_0x2BC0_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_orf1);
-                                        gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
-                                        state = gLucid_hamilton_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 3;
+                                        gGameSession_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_orf1);
+                                        gPlyDat_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_orf1);
+                                        gPlyDat_6FEAC0->UpdateHiScores_56C010();
+                                        state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 3;
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = 1;
                                         break;
@@ -2528,7 +2529,7 @@ EXPORT void __stdcall Shutdown_4DA740()
     {
         bDestroyed_6F5B70 = 1;
         keybrd_0x204::destroy_4D5FA0();
-        jolly_poitras_0x2BC0::destroy_56C340();
+        PlyDat_2BC0::Destroy_56C340();
         CleanUpInputAndOthers_4DA700();
         Frontend::destroy_4AD070();
 
@@ -2545,7 +2546,7 @@ MATCH_FUNC(0x5E5A30)
 EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 {
     char_type bRet = 1;
-    gLucid_hamilton_67E8E0.init_4C5AF0();
+    gGameSession_67E8E0.init_4C5AF0();
     if (bStartNetworkGame_7081F0)
     {
         HKEY hKey;
@@ -2616,13 +2617,13 @@ EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 
         char_type path[MAX_PATH];
         wsprintfA(path, "data\\%s", networkUi.GetMapName_51CA10());
-        gLucid_hamilton_67E8E0.SetMapName_4C5870(path);
+        gGameSession_67E8E0.SetMapName_4C5870(path);
         wsprintfA(path, "data\\%s", networkUi.GetMapStyName_51CA50());
-        gLucid_hamilton_67E8E0.SetStyleName_4C5890(path);
+        gGameSession_67E8E0.SetStyleName_4C5890(path);
         wsprintfA(path, "data\\%s", networkUi.GetMapScrName_51CA90());
-        gLucid_hamilton_67E8E0.SetScriptName_4C58B0(path);
+        gGameSession_67E8E0.SetScriptName_4C58B0(path);
 
-        gLucid_hamilton_67E8E0.SetMultiplayerParams_4C5B80(gNetworkGameSettings_707098.field_20198_game_type,
+        gGameSession_67E8E0.SetMultiplayerParams_4C5B80(gNetworkGameSettings_707098.field_20198_game_type,
                                                            gNetworkGameSettings_707098.field_20194_frag_limit,
                                                            gNetPlay_7071E8.GetPlayerIdx_409C40(),
                                                            gNetPlay_7071E8.GetMaxPlayers_521350(),

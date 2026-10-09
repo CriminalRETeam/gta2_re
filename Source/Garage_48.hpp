@@ -20,7 +20,7 @@ class Garage_48
     // inlined 0x44C870
     bool sub_44C870(Car_BC* param_1) const
     {
-        if (param_1 == this->field_4 && param_1 != NULL && param_1->field_6C_maybe_id == this->field_8)
+        if (param_1 == this->field_4 && param_1 != NULL && param_1->field_6C_car_id == this->field_8)
         {
             return true;
         }

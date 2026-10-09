@@ -292,7 +292,7 @@ void Garage_48::GaragesService_5349D0()
             }
             if (field_0->get_driver_4118B0() && !field_0->is_driven_by_player())
             {
-                field_0->get_driver_4118B0()->SetObjective(27, 9999);
+                field_0->get_driver_4118B0()->SetObjective(objectives_enum::wait_in_car_27, 9999);
             }
 
             if (field_0->field_50_car_sprite->CollisionCheck_5A0320(&field_18_park_x_min, &field_20_park_x_max, &idx1, &idx2) != 4 && !field_3D)
@@ -350,7 +350,7 @@ void Garage_48::GaragesService_5349D0()
                 field_0->SetDespawn3IfNot5_421490();
             }
             field_4 = field_0;
-            field_8 = field_4->field_6C_maybe_id;
+            field_8 = field_4->field_6C_car_id;
             field_0 = NULL;
             Reset_489650();
             break;

@@ -3,12 +3,13 @@
 #include "BitSet32.hpp"
 #include "Fix16_Point.hpp"
 #include "Function.hpp"
-#include "Marz_1D7E.hpp"
+#include "PatrolRoutePool_1D7E.hpp"
 #include "ang16.hpp"
 #include "char.hpp"
 #include "enums.hpp"
 #include "fix16.hpp"
 #include "miss2_xyz.hpp"
+#include "ped_flags.hpp"
 #include "rng.hpp"
 #include "sprite.hpp"
 #include <cstdio>
@@ -21,7 +22,7 @@ class Gang_144;
 class Sprite;
 class Char_8;
 class Char_B4;
-class Marz_96;
+class PatrolRoute_96;
 class Object_2C;
 class Car_BC;
 class TrainStation_34;
@@ -48,7 +49,7 @@ class Ped
     }
 
     // 9.6f 0x4039D0
-    inline char_type get_field_226_4039D0()
+    inline char_type GetInternalObjectiveStatus_4039D0()
     {
         return field_226_internal_objective_status;
     }
@@ -119,7 +120,7 @@ class Ped
     }
 
     // 9.6f 0x403B50
-    inline void set_field_226_403B50(char_type v)
+    inline void SetInternalObjectiveStatus_403B50(char_type v)
     {
         field_226_internal_objective_status = v;
     }
@@ -161,7 +162,7 @@ class Ped
     EXPORT char_type IsLawEnforcement_45B4E0();
     EXPORT Fix16_Point GetVelocityVector_45B520();
     EXPORT void SetRecentCrimeTimer_45B550();
-    EXPORT void SetPlayer_45B560(Player* a2, char_type a3);
+    EXPORT void SetPlayer_45B560(Player* pPlayer, char_type bIsAuxPed);
     EXPORT bool IsEmergencyOccupation_45B590();
     EXPORT void CopyStatsFromPed_45B5B0(Ped* pSrc);
     EXPORT Car_BC* GetCarBeingEnteredOrExited_45BBF0();
@@ -180,7 +181,7 @@ class Ped
     EXPORT void ClearInvulnerable_45C050();
     EXPORT void SetSpriteFlagIfInvulnerable_45C070();
     EXPORT void RestoreCarOrPedHealth();
-    EXPORT void SpawnCharInZone_45C0C0(gmp_map_zone* a2);
+    EXPORT void SpawnCharInZone_45C0C0(gmp_map_zone* pZone);
     EXPORT void PoolDeallocate();
     EXPORT void RespawnPed_45C350(gmp_map_zone* pZone);
     EXPORT void ResetForPlayerRespawn_45C410();
@@ -191,7 +192,7 @@ class Ped
     EXPORT void CancelEnterCarObjective_45C5C0();
     EXPORT void SpawnDriverRunAway_45C650(Car_BC* pCar, Ped* pPed);
     EXPORT void SpawnPedInCar_45C730(Car_BC* pCar);
-    EXPORT void EnterCarAsDriver(Car_BC* a2);
+    EXPORT void EnterCarAsDriver(Car_BC* pCar);
     EXPORT void EnterCarAsPassenger_45C7F0(Car_BC* pCar);
     EXPORT char_type AllocCharB4_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT Ang16 GetTurnSpeed_45C900();
@@ -201,8 +202,8 @@ class Ped
     EXPORT Ang16 ComputeAimAngle_45C9D0();
     EXPORT void HandleClosePedInteraction_45CAA0();
     EXPORT void TakeDamage(s16 damage);
-    EXPORT void HandlePedCrossingTrigger_45CF20(Object_2C* a2);
-    EXPORT char_type HandlePedHitByObject_45D000(Object_2C* a2);
+    EXPORT void HandlePedCrossingTrigger_45CF20(Object_2C* pObj);
+    EXPORT char_type HandlePedHitByObject_45D000(Object_2C* pObj);
     EXPORT char_type AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo);
     EXPORT char_type HandlePickupCollision_45DE80(Object_2C* pPickUp);
     EXPORT void SpawnWeaponOnDeath_45E080();
@@ -232,10 +233,10 @@ class Ped
     EXPORT void UpdateCharB4_462B80();
     EXPORT bool PoolUpdate();
     EXPORT void ProcessObjective_4632E0();
-    EXPORT void ChangePedStatesByMode_463300(u8 a1);
-    EXPORT void SetStatesForObjective_4633E0(char_type a2);
+    EXPORT void ChangePedStatesByMode_463300(u8 mode);
+    EXPORT void SetStatesForObjective_4633E0(char_type bMainObj);
     EXPORT void SetObjective(s32 objective, s16 objective_timer);
-    EXPORT void SetObjective2_463830(s32 a2, s16 a3);
+    EXPORT void SetObjective2_463830(s32 internal_objective, s16 internal_objective_timer);
     EXPORT void ProcessOnFootObjective_463AA0();
     EXPORT void ProcessInCarObjective_463FB0();
     EXPORT void CalcApproachPointNearTargetPed_4645B0();
@@ -244,14 +245,14 @@ class Ped
     EXPORT bool IsAttackingTargetPed_465CD0();
     EXPORT bool IsPedAThreat_465D00(Ped* pTargetPed);
     inline bool IsPedAThreat_Inline_465D00(Ped* pTargetPed);
-    EXPORT char_type HasBit25AndGameObject_466B70();
+    EXPORT char_type IsInvisibleOnFoot_466B70();
     EXPORT char_type IsThreatToSearchingPed_4661F0();
     EXPORT Ped* FindBestTargetPed_Mode1_466B90(s32 max_x_check);
     EXPORT Ped* FindBestTargetPed_Mode4_466BB0(s32 max_x_check);
     EXPORT Ped* FindBestTargetPed_Mode5_466BD0(s32 max_x_check);
-    EXPORT Ped* FindBestTargetPed_466BF0(s32 a2);
-    EXPORT Ped* FindNearestPed_Mode4_466F40(u8 a2);
-    EXPORT Ped* FindNearestPed_466F60(u8 a2);
+    EXPORT Ped* FindBestTargetPed_466BF0(s32 max_x_check);
+    EXPORT Ped* FindNearestPed_Mode4_466F40(u8 max_x_check);
+    EXPORT Ped* FindNearestPed_466F60(u8 max_x_check);
     EXPORT Ped* FindNearbyPed_466FB0();
     EXPORT Ped* GetLastProcessedPedOnFoot_467070();
     EXPORT char_type FindUsableCarDoor_467090();
@@ -288,7 +289,7 @@ class Ped
     EXPORT void SetupCarFollowTargetPed_469E50();
     EXPORT void FollowPedInCar_469F30();
     EXPORT void WaitInCurrentCar_469FC0();
-    EXPORT void sub_469FE0();
+    EXPORT void CallPoliceCar_469FE0();
     EXPORT void PullDriverOutOfCar_46A1F0();
     EXPORT void FollowCarInCurrCar_46A290();
     EXPORT void FollowCarOnFootWithOffset_46A350();
@@ -330,33 +331,33 @@ class Ped
     EXPORT void AttackCar_46DB70();
     EXPORT void AttackObject_46DB80();
     EXPORT Sprite* GetSprite_46DF50();
-    EXPORT void SetupFollower_46DF70(Ped* arg0, s32 WeaponIdx);
-    EXPORT bool CanBeRecruitedToGroup_46E020(PedGroup* a2);
+    EXPORT void SetupFollower_46DF70(Ped* pToFollow, s32 weaponIdx);
+    EXPORT bool CanBeRecruitedToGroup_46E020(PedGroup* pGroup);
     EXPORT void RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius);
     EXPORT void SpawnPedGroupFollowers_46E200(u8 total);
     EXPORT u8 get_wanted_star_count_46EF00();
     EXPORT void set_wanted_level_46EF40(u16 wanted);
     EXPORT void IncreaseWantedLevelFromDebugKeys_46EFD0();
     EXPORT void set_wanted_star_count_46F070(u8 star_count);
-    EXPORT bool WantedStartCountLessThan_46F100(u8 a2);
+    EXPORT bool WantedStartCountLessThan_46F100(u8 star_count);
     EXPORT Weapon_30* GetWeaponFromPed_46F110();
-    EXPORT void ApplyAimJitter_46F1E0(Weapon_30* a2);
+    EXPORT void ApplyAimJitter_46F1E0(Weapon_30* pWeapon);
     EXPORT void ManageWeapon_46F390();
     EXPORT Weapon_30* ChooseAttackWeapon_46F490();
-    EXPORT void ForceWeapon_46F600(s32 a2);
-    EXPORT void GiveWeapon_46F650(s32 a2);
-    EXPORT void ApplyGangRespectForKill_46F680(Ped* a2);
+    EXPORT void ForceWeapon_46F600(s32 weapon_kind);
+    EXPORT void GiveWeapon_46F650(s32 weapon_kind);
+    EXPORT void ApplyGangRespectForKill_46F680(Ped* pPed);
     EXPORT void UpdateStatsForKiller_46F720();
     EXPORT void Kill_46F9D0();
     EXPORT void AddThreateningPedToList_46FC70();
     EXPORT void HandleShootingAtCar_46FC90(Car_BC* pCar, s32 model);
-    EXPORT void ProcessWeaponHitResponse_46FE20(Object_2C* a2);
+    EXPORT void ProcessWeaponHitResponse_46FE20(Object_2C* pObj);
     EXPORT void NotifyWeaponHit_46FF00(Fix16 xpos, Fix16 ypos, s32 model);
-    EXPORT void HandleWeaponFireEnd_46FFF0(s32 a2);
+    EXPORT void HandleWeaponFireEnd_46FFF0(s32 model);
     EXPORT void AimRoofGun_470050();
     EXPORT void add_wanted_points_470160(s16 wanted_amount);
     EXPORT bool IsNearestSpriteACar_4701D0();
-    EXPORT void StartPedWalking_470200(Fix16 a2, Fix16 a3, Fix16 a4);
+    EXPORT void StartPedWalking_470200(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void BecomeLeaderOfGroup_4702D0(Ped* pPed);
     EXPORT void BecomeDummyOnPlayerDisconnect_470300();
     EXPORT void PushPatrolPoint_4702A0(s8 x, s8 y, s8 z);
@@ -368,9 +369,9 @@ class Ped
     EXPORT void Objective50_Nullsub();
     EXPORT void State30_Nullsub();
 
-    inline u8 get_varrok_idx_420B50()
+    inline u8 get_ped_ref_idx_420B50()
     {
-        return field_267_varrok_idx;
+        return field_267_ped_ref_idx;
     }
 
     inline void ClearGroupAndGroupIdx_403A30()
@@ -384,16 +385,16 @@ class Ped
         return field_238_ped_type;
     }
 
-    void inline_clear_bit()
+    void ClearAttacking()
     {
         // There was no way to match this without using a bit field
-        field_21C_bf.b11 = 0;
+        field_21C_bf.bAttacking = 0;
     }
 
     // 9.6f 0x4A5060
-    inline void set_bit_26_4A5060()
+    inline void SetElectrofingers_4A5060()
     {
-        field_21C_bf.b26 = true;
+        field_21C_bf.bElectroFingers = true;
     }
 
     // 9.6f 0x4A5050
@@ -402,19 +403,19 @@ class Ped
         set_health_4039A0(100);
     }
 
-    inline void clear_bit_26_482080()
+    inline void ClearElectrofingers_482080()
     {
-        field_21C_bf.b26 = false;
+        field_21C_bf.bElectroFingers = false;
     }
 
-    bool check_bit_0()
+    bool IsActive_433B40()
     {
-        return field_21C_bf.b0 != 0;
+        return field_21C_bf.bActive != 0;
     }
 
-    bool check_bit_11()
+    bool IsAttacking()
     {
-        return field_21C_bf.b11 != 0;
+        return field_21C_bf.bAttacking != 0;
     }
 
     // 9.6f inline 0x450CB0
@@ -435,63 +436,63 @@ class Ped
     }
 
     // 9.6f 0x403940
-    void set_ped_group_id(s8 param_1)
+    void set_ped_group_id(s8 group_idx)
     {
-        field_23C_group_idx = param_1;
+        field_23C_group_idx = group_idx;
     }
 
-    u16 GetOffscreenCounter() const
+    u16 GetOffscreenCounter_4039F0() const
     {
         return field_20E_offscreen_counter;
     }
 
-    bool has_field_16C_car() const
+    bool has_car_403B80() const
     {
         return field_16C_car != NULL;
     }
 
-    s32 get_ped_state1() const
+    s32 GetPedState_403990() const
     {
         return field_278_ped_state_1;
     }
 
     // 9.6f 0x492CB0
-    void set_field_140_492CB0(Car_BC* pCar)
+    void SetStolenCar_492CB0(Car_BC* pCar)
     {
         field_140_stolen_car = pCar;
     }
 
     // 9.6f 0x49EF40
-    inline Car_BC* get_field_140_49EF40()
+    inline Car_BC* GetStolenCar_49EF40()
     {
         return field_140_stolen_car;
     }
 
     // 9.6f inline 0x403AE0
-    void set_field_14C_403AE0(Ped* pSrc)
+    void SetInternalTargetPed_403AE0(Ped* pSrc)
     {
         field_14C_internal_target_ped = pSrc;
     }
 
     // 9.6f inline 0x403950
-    inline void SetBit2_403950()
+    inline void SetPanicking_403950()
     {
-        field_21C_bf.b2 = true;
+        field_21C_bf.bPanicking = true;
     }
 
-    bool get_bitset_0x04()
+    bool IsPanicking()
     {
-        return field_21C & ped_bit_status_enum::k_ped_0x00000004 ? true : false;
+        return field_21C & ped_flag_mask::k_ped_panicking ? true : false;
     }
 
     // 9.6f 0x403960
-    void unset_bitset_0x04()
+    void ClearPanicking_403960()
     {
-        field_21C &= ~ped_bit_status_enum::k_ped_0x00000004;
+        field_21C &= ~ped_flag_mask::k_ped_panicking;
     }
 
     // 9.6f 0x403AA0
-    void set_field_150_target_objective_car(Car_BC* ptr)
+    void SetTargetObjectiveCar(Car_BC* ptr)
     {
         field_150_target_objective_car = ptr;
     }
@@ -501,9 +502,9 @@ class Ped
         return field_150_target_objective_car;
     }
 
-    void set_ped_type(s32 param_1)
+    void SetPedType_403920(s32 type)
     {
-        field_238_ped_type = param_1;
+        field_238_ped_type = type;
     }
 
     // 9.6f 0x403A00
@@ -542,11 +543,6 @@ class Ped
         return field_20A_wanted_points;
     }
 
-    inline bool has_car_403B80()
-    {
-        return field_16C_car != 0;
-    }
-
     inline bool not_enter_car_as_passenger_4A5040()
     {
         return field_248_enter_car_as_passenger != 1;
@@ -568,7 +564,7 @@ class Ped
         return field_1F0_max_speed;
     }
 
-    inline void Set_B4_F16_To_1_433B50()
+    inline void SetStateInitPending_433B50()
     {
         field_168_game_object->field_16_state_init_pending = 1;
     }
@@ -600,13 +596,13 @@ class Ped
         return ret;
     }
 
-    inline void SetVoiceEvent_IfBit24Clear_433DD0(s32 a2)
+    inline void SetVoiceEvent_IfBit24Clear_433DD0(s32 voice_event)
     {
         // TODO: Check if (HIBYTE(this->field_21C) & 1)
         // is correct
-        if (field_21C_bf.b24 == 0)
+        if (field_21C_bf.bOnFire == 0)
         {
-            field_250_voice_event = a2;
+            field_250_voice_event = voice_event;
         }
     }
 
@@ -643,24 +639,19 @@ class Ped
         return field_240_occupation;
     }
 
-    void SetField238_403920(s32 unk)
+    void SetMoveTargetX_433C50(Fix16 x)
     {
-        field_238_ped_type = unk;
+        this->field_1C4_move_target_x = x;
     }
 
-    void SetMoveTargetX_433C50(Fix16 a2)
+    void SetMoveTargetY_433C60(Fix16 y)
     {
-        this->field_1C4_move_target_x = a2;
+        this->field_1C8_move_target_y = y;
     }
 
-    void SetMoveTargetY_433C60(Fix16 a2)
+    void SetMoveTargetZ_433C70(Fix16 z)
     {
-        this->field_1C8_move_target_y = a2;
-    }
-
-    void SetMoveTargetZ_433C70(Fix16 a2)
-    {
-        this->field_1CC_move_target_z = a2;
+        this->field_1CC_move_target_z = z;
     }
 
     Fix16 GetMoveTargetX_492CE0()
@@ -707,7 +698,7 @@ class Ped
     // 9.6f 0x492C20
     inline s32 GetJumpOverMode_492C20()
     {
-        return field_230_jump_over_mode; // 2 = may jump over obstacles (player, special peds)
+        return field_230_jump_over_mode;
     }
 
     inline void SetPedClass_433BC0(s32 value)
@@ -734,7 +725,7 @@ class Ped
     }
 
     // 9.6f 0x433BE0
-    inline void ClearF144_433BE0()
+    inline void ClearAttacker_433BE0()
     {
         field_144_attacker = 0;
     }
@@ -745,30 +736,14 @@ class Ped
         field_168_game_object->set_rotation_433A30(rotation);
     }
 
-    // 9.6f 0x433C20
-    inline Fix16 GetCharVelocity_433C20()
-    {
-        return field_168_game_object->get_velocity_41B080();
-    }
-
-    inline bool CheckBit0_433B40()
-    {
-        return field_21C_bf.b0;
-    }
-
-    inline s32 GetPedState_403990()
-    {
-        return field_278_ped_state_1;
-    }
-
     inline s32 GetPedState2_433B60()
     {
         return field_27C_ped_state_2;
     }
 
-    inline bool sub_433DA0()
+    inline bool IsInvisibleOnFoot_433DA0()
     {
-        return field_21C_bf.b25 && field_168_game_object;
+        return field_21C_bf.bInvisible && field_168_game_object;
     }
 
     bool bHasGameObject_403B70()
@@ -776,19 +751,19 @@ class Ped
         return field_168_game_object != NULL;
     }
 
-    inline u8 GetBit2()
+    inline u8 GetPanicking()
     {
-        return field_21C_bf.b2;
+        return field_21C_bf.bPanicking;
     }
 
-    inline u8 GetBit11_433CA0()
+    inline u8 GetAttacking_433CA0()
     {
-        return field_21C_bf.b11;
+        return field_21C_bf.bAttacking;
     }
 
-    u8 GetBit24_475B50()
+    u8 IsOnFire_475B50()
     {
-        return field_21C_bf.b24;
+        return field_21C_bf.bOnFire;
     }
 
     inline s32 get_objective_403A80()
@@ -802,23 +777,23 @@ class Ped
     }
 
     // 9.6f 0x4A5010
-    inline void SetBit11_4A5010()
+    inline void SetAttacking_4A5010()
     {
-        field_21C_bf.b11 = true;
+        field_21C_bf.bAttacking = true;
     }
 
     // 9.6f 0x403A40
-    inline void ClearBit11_403A40()
+    inline void ClearAttacking_403A40()
     {
-        field_21C_bf.b11 = false;
+        field_21C_bf.bAttacking = false;
     }
 
     inline bool IsPedGoingToEnterCar_492FD0()
     {
-        return field_258_objective == objectives_enum::enter_car_as_driver_35 || field_25C_internal_objective == 35;
+        return field_258_objective == objectives_enum::enter_car_as_driver_35 || field_25C_internal_objective == objectives_enum::enter_car_as_driver_35;
     }
 
-    Ang16 Get_F12E_4CCA90()
+    Ang16 GetAimAngle_4CCA90()
     {
         return field_12E_aim_angle;
     }
@@ -826,11 +801,6 @@ class Ped
     bool isDead_403B60()
     {
         return this->field_278_ped_state_1 == ped_state_1::dead_9;
-    }
-
-    u16 Ped::GetOffscreenCounter_4039F0()
-    {
-        return this->field_20E_offscreen_counter;
     }
 
     PedGroup* GetGroup_475AF0()
@@ -843,7 +813,7 @@ class Ped
         return field_25C_internal_objective;
     }
 
-    inline Ped* Get_F14C_403AF0()
+    inline Ped* GetInternalTargetPed_403AF0()
     {
         return field_14C_internal_target_ped;
     }
@@ -853,12 +823,12 @@ class Ped
         field_144_attacker = pPed;
     }
 
-    inline void Increment_F262_433BD0()
+    inline void IncrementAttackersCount_433BD0()
     {
         ++field_262_attackers_count;
     }
 
-    Marz_3 field_0_patrol_points[100];
+    PatrolPoint_3 field_0_patrol_points[100];
     Ang16 field_12C_facing_angle;
     Ang16 field_12E_aim_angle;
     Ang16 field_130_target_facing_angle;
@@ -886,9 +856,9 @@ class Ped
     Ped* field_180_car_thief;
     Object_2C* field_184_pObj2C;
     Ped* field_188_last_char_punched;
-    Marz_3* field_18C_current_path_point;
-    Marz_96* field_190_patrol_route;
-    Marz_3* field_194_current_patrol_point;
+    PatrolPoint_3* field_18C_current_path_point;
+    PatrolRoute_96* field_190_patrol_route;
+    PatrolPoint_3* field_194_current_patrol_point;
     Ped* field_198_hit_target_ped; // ped last hit by this ped's weapon / electrobaton
     Gang_144* field_19C_dummy_gang; // gang of a dummy ped
     Object_2C* field_1A0_objective_target_object;
@@ -928,7 +898,7 @@ class Ped
 
     union
     {
-        CompilerBitField32 field_21C_bf;
+        PedFlags32 field_21C_bf;
         // TODO: Move everything to use the above field and remove union
         s32 field_21C;
     };
@@ -936,7 +906,7 @@ class Ped
     s32 field_220_last_voice_rng;
     union
     {
-        CompilerBitField8 field_224_bf;
+        PedFlags8 field_224_bf;
         char_type field_224;
     };
     u8 field_225_objective_status; // it uses objective_status enum
@@ -944,29 +914,15 @@ class Ped
     char_type field_227_unused;
     char_type field_228_hit_count; // times hit by the attacker
     u8 field_229_mug_count; // times mugged while mugging a player
-    char_type field_22A_pad;
-    char_type field_22B_pad;
-    s32 field_22C_ped_class; // 2 = mugger/car thief, 1 = gang member, 0 = gang dummy
-    s32 field_230_jump_over_mode;
-    char_type field_234_lifetime_timer; // 0 = remove ped, 99 = never expires
-    char_type field_235_pad;
-    char_type field_236_pad;
-    char_type field_237_pad;
+    s32 field_22C_ped_class; // ped_class
+    s32 field_230_jump_over_mode; // ped_jump_over_mode
+    char_type field_234_lifetime_timer; // ped_lifetime
     s32 field_238_ped_type;
     u8 field_23C_group_idx;
-    char_type field_23D_pad;
-    char_type field_23E_pad;
-    char_type field_23F_pad;
     s32 field_240_occupation;
     char_type field_244_remap;
-    char_type field_245_pad;
-    char_type field_246_pad;
-    char_type field_247_pad;
     s32 field_248_enter_car_as_passenger;
     u8 field_24C_target_car_door;
-    char_type field_24D_pad;
-    char_type field_24E_pad;
-    char_type field_24F_pad;
     s32 field_250_voice_event;
     s32 field_254_block_spec;
     //char_type field_255;
@@ -981,13 +937,12 @@ class Ped
     u8 field_264_killer_id_timer;
     u8 field_265_patrol_list_idx;
     u8 field_266_path_fail_count;
-    u8 field_267_varrok_idx;
+    u8 field_267_ped_ref_idx;
     char_type field_268_electrocution_timer;
     char_type field_269_unused;
     u8 field_26A_recent_crime_timer;
-    char_type field_26B_pad;
     s32 field_26C_graphic_type;
-    s32 field_270_fire_mode; // 0 = random shots, 2 = never fires
+    s32 field_270_fire_mode; // ped_fire_mode
     s32 field_274_gang_car_model;
     s32 field_278_ped_state_1;
     s32 field_27C_ped_state_2;
@@ -995,7 +950,7 @@ class Ped
     s32 field_284_stored_ped_state_2;
     s32 field_288_threat_search;
     s32 field_28C_threat_reaction;
-    s32 field_290_death_cause; // why the ped died (1/3 = car, 2/5 = killed by a ped, 10 = beaten)
+    s32 field_290_death_cause; // ped_death_cause
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Ped, 0x294)
 

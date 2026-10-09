@@ -1,5 +1,7 @@
 #include "Player.hpp"
-#include "BurgerKing_67F8B0.hpp"
+#include "hud_message_priority.hpp"
+#include "voice_line.hpp"
+#include "InputRecorder_67F8B0.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
 #include "RouteFinder.hpp"
@@ -20,17 +22,17 @@
 #include "Weapon_8.hpp"
 #include "debug.hpp"
 #include "error.hpp"
-#include "frosty_pasteur_0xC1EA8.hpp"
-#include "infallible_turing.hpp"
-#include "lucid_hamilton.hpp"
+#include "ScriptManager_C1EA8.hpp"
+#include "SoundObject_10.hpp"
+#include "GameSession_578.hpp"
 #include "map_0x370.hpp"
 #include "registry.hpp"
 #include "rng.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
 #include "winmain.hpp"
-#include "youthful_einstein.hpp"
-#include "zealous_borg.hpp"
+#include "TagGame_28.hpp"
+#include "PlayerCrimeStats_3C.hpp"
 #include <DINPUT.H>
 
 // Forward declarations: the functions below are in address order
@@ -77,7 +79,7 @@ void UnknownDebugClass::DoBrianTest_42D870(u16 action)
             gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, 3);
             break;
         case 9:
-            gfrosty_pasteur_6F8060->SaveGame_511E10(gLucid_hamilton_67E8E0.GetDebugStr_4C5970());
+            gScriptManager_6F8060->SaveGame_511E10(gGameSession_67E8E0.GetDebugStr_4C5970());
             break;
         case 6:
             gTestRouteIdx_675F14 = gRouteFinder_6FFDC8->DoStartRoute_58A0D0(3, 3, 1, 0xD5, 0xAB, 1, 1);
@@ -105,10 +107,10 @@ DEFINE_GLOBAL(s16, gTestRouteIdx_675F14, 0x675F14);
 DEFINE_GLOBAL(Car_BC*, gTestFireCar_675C30, 0x675C30);
 
 MATCH_FUNC(0x443CB0)
-EXPORT s32 Player::ObjectTypeToWeaponType_443CB0(u8 varrok_idx)
+EXPORT s32 Player::ObjectTypeToWeaponType_443CB0(u8 object_type)
 {
     s32 weapon_kind;
-    switch (varrok_idx)
+    switch (object_type)
     {
         case objects::shop_car_mines_252:
             weapon_kind = weapon_type::car_mines;
@@ -256,7 +258,7 @@ void Player::SetKFCarWeapon_564710(Car_BC* pCar, s32 weapon_kind)
 
     this->field_1C_kf_weapon_kind = weapon_kind;
     this->field_20_kf_car = pCar;
-    this->field_24_kf_car_id = pCar->field_6C_maybe_id;
+    this->field_24_kf_car_id = pCar->field_6C_car_id;
 
     pWeapon->set_infinite_ammo_4A4F90();
 
@@ -289,7 +291,7 @@ void Player::ClearKFWeapon_5647D0()
     {
         if (gWeapon_8_707018->is_car_weapon_433820(field_1C_kf_weapon_kind))
         {
-            if (field_20_kf_car->field_6C_maybe_id == this->field_24_kf_car_id)
+            if (field_20_kf_car->field_6C_car_id == this->field_24_kf_car_id)
             {
                 Weapon_30* pWeapon = gWeapon_8_707018->find_5E3D20(field_20_kf_car, this->field_1C_kf_weapon_kind);
                 pWeapon->SetAmmo_4A4FF0(this->field_1A_pre_kf_ammo);
@@ -612,7 +614,7 @@ void Player::ClearPowerUpsExceptJailCard_564CF0()
     }
     if (field_6F4_power_up_timers[power_up_indices::Electrofingers_9])
     {
-        field_2C4_player_ped->clear_bit_26_482080();
+        field_2C4_player_ped->ClearElectrofingers_482080();
     }
     if (field_6F4_power_up_timers[power_up_indices::Invisibility_11])
     {
@@ -701,7 +703,7 @@ char_type Player::CollectPowerUp_564D60(s32 power_up_idx)
                 return 0;
             }
             this->field_6F4_power_up_timers[9] = 2100;
-            this->field_2C4_player_ped->set_bit_26_4A5060();
+            this->field_2C4_player_ped->SetElectrofingers_4A5060();
             break;
 
         case power_up_indices::Invisibility_11:
@@ -773,7 +775,7 @@ void Player::tick_down_powerups_565070()
         field_6F4_power_up_timers[power_up_indices::Electrofingers_9]--;
         if (!field_6F4_power_up_timers[power_up_indices::Electrofingers_9])
         {
-            field_2C4_player_ped->clear_bit_26_482080();
+            field_2C4_player_ped->ClearElectrofingers_482080();
         }
     }
 
@@ -792,7 +794,7 @@ void Player::tick_down_powerups_565070()
 }
 
 MATCH_FUNC(0x5651F0)
-void Player::RestorePowerUpsFromSave_5651F0(save_stats_0x90* pSaveStats)
+void Player::RestorePowerUpsFromSave_5651F0(SavedPlayerStats_90* pSaveStats)
 {
     for (u8 idx = 0; idx < 17; idx++)
     {
@@ -805,7 +807,7 @@ void Player::RestorePowerUpsFromSave_5651F0(save_stats_0x90* pSaveStats)
                     field_2C4_player_ped->SetInvulnerable();
                     break;
                 case power_up_indices::Electrofingers_9:
-                    field_2C4_player_ped->set_bit_26_4A5060();
+                    field_2C4_player_ped->SetElectrofingers_4A5060();
                     break;
                 case power_up_indices::Invisibility_11:
                     field_2C4_player_ped->SetInvisible();
@@ -824,7 +826,7 @@ void Player::TeleportToDebugCam_565310()
     this->field_6C_bIn_debug_cam_mode = 0;
     this->field_68_camera_mode = 0;
     this->field_90_game_camera.inline_set_ped_id_to_1_475B60();
-    gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("tport"), 3);
+    gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("tport"), hud_message_priority::important_3);
 }
 
 MATCH_FUNC(0x5653E0)
@@ -941,7 +943,7 @@ void Player::Hud_Controls_565890(u16 action)
                 }
                 else
                 {
-                    gHud_2B00_706620->field_12EC_sub.ShowQuitMessage_5D15D0(this);
+                    gHud_2B00_706620->field_12EC_quit_message.ShowQuitMessage_5D15D0(this);
                 }
                 break;
             case DIK_HOME:
@@ -1024,7 +1026,7 @@ void Player::Hud_Controls_565890(u16 action)
             case DIK_F10:
                 if (bStartNetworkGame_7081F0)
                 {
-                    gHud_2B00_706620->field_2A25_sub.StartChatting_5D1830(this);
+                    gHud_2B00_706620->field_2A25_chat_input.StartChatting_5D1830(this);
                 }
                 break;
             case DIK_F11:
@@ -1131,13 +1133,13 @@ void Player::Hud_Controls_565890(u16 action)
             case DIK_PERIOD:
                 if (bDo_debug_keys_67D6CF)
                 {
-                    gHud_2B00_706620->field_12E8_sub.ShowNextNumberedBrief_5CF620();
+                    gHud_2B00_706620->field_12E8_brief_selector.ShowNextNumberedBrief_5CF620();
                 }
                 break;
             case DIK_COMMA:
                 if (bDo_debug_keys_67D6CF)
                 {
-                    gHud_2B00_706620->field_12E8_sub.ShowPrevNumberedBrief_5CF6B0();
+                    gHud_2B00_706620->field_12E8_brief_selector.ShowPrevNumberedBrief_5CF6B0();
                 }
                 break;
             case DIK_C:
@@ -1382,7 +1384,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
                         pPed->SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
                     }
 
-                    pPed->set_field_150_target_objective_car(pCar);
+                    pPed->SetTargetObjectiveCar(pCar);
                     pPed->set_enter_car_as_passenger_4039B0(0);
                     pPed->set_target_car_door_403A70(0);
                 }
@@ -1401,7 +1403,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
                 {
                     pPed->SetObjective(objectives_enum::leave_car_36, 9999);
                 }
-                pPed->set_field_150_target_objective_car(pPed->get_car_416B60());
+                pPed->SetTargetObjectiveCar(pPed->get_car_416B60());
             }
         }
     }
@@ -1426,7 +1428,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
                     pPed->SetObjective(objectives_enum::no_obj_0, 9999);
                     pPed->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                     pPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
-                    pPed->ChangeNextPedState2_45C540(10);
+                    pPed->ChangeNextPedState2_45C540(ped_state_2::ped2_driving_10);
                 }
             }
         }
@@ -1434,7 +1436,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
 
     if (field_7C_bNowAttackPressed != 1 || field_28_bWastedOrBusted)
     {
-        pPed->ClearBit11_403A40();
+        pPed->ClearAttacking_403A40();
     }
     else
     {
@@ -1442,24 +1444,24 @@ void Player::HandleControls_5668D0(Ped* pPed)
         {
             if (field_788_curr_weapon_idx == -1)
             {
-                pPed->SetBit11_4A5010();
+                pPed->SetAttacking_4A5010();
             }
             else
             {
                 bNoPed = field_718_weapons[field_788_curr_weapon_idx]->sub_5E33C0() == 0;
                 if (!bNoPed)
                 {
-                    pPed->SetBit11_4A5010();
+                    pPed->SetAttacking_4A5010();
                 }
                 else
                 {
-                    pPed->ClearBit11_403A40();
+                    pPed->ClearAttacking_403A40();
                 }
             }
         }
         else
         {
-            pPed->SetBit11_4A5010();
+            pPed->SetAttacking_4A5010();
         }
     }
 
@@ -1515,7 +1517,7 @@ void Player::DoPedControlInputs_566C80(Ped* pPed)
     Ang16 f_A = field_A_turn_accel;
 
     // clear flag
-    pPed->field_21C_bf.b23 = 0;
+    pPed->field_21C_bf.bSpottedPlayer = 0;
 
     // --- Right pressed ---
     if (field_7B_bNowRightPressed == 1)
@@ -1601,7 +1603,7 @@ void Player::DoPedControlInputs_566C80(Ped* pPed)
     if (field_7E_bNowHandBrakeOrJumpPressed == 1 && field_8A_bWasHandBrakeOrJumpPressed)
     {
         if (pPed->field_168_game_object && pPed->field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15 &&
-            pPed->field_21C_bf.b27 == 0)
+            pPed->field_21C_bf.bLeftVehicle == 0)
         {
             pPed->DoJump_433C40();
         }
@@ -1666,7 +1668,7 @@ void Player::ShowDebugInfo_566EE0(char_type bDoNothing)
 
         if (gDo_show_input_67D576)
         {
-            gBurgerKing_67F8B0.ShowInput_4CEE10(); // input
+            gInputRecorder_67F8B0.ShowInput_4CEE10(); // input
         }
 
         gGame_0x40_67E008->DebugShowCarStatsAndFrameSkip_4B9270();
@@ -1723,14 +1725,14 @@ void Player::Wasted_567130()
             player_killer = NULL;
         }
 
-        (&gYouthful_einstein_6F8450)
+        (&gTagGame_6F8450)
             ->UpdateFugitive_516740( //  tag mode death handler
                 gGame_0x40_67E008->get_player_4219E0(get_idx_4219D0()),
                 player_killer); //  if player_killer != NULL then 'player_killer' now is "IT"
     }
 
     field_29_bAuxPedDying = 0;
-    field_2C4_player_ped->ClearBit11_403A40();
+    field_2C4_player_ped->ClearAttacking_403A40();
     if (field_28_bWastedOrBusted == 0)
     {
         if (IsUser_41DC70())
@@ -1739,13 +1741,13 @@ void Player::Wasted_567130()
             {
                 gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00( //  It's really ugly, it's probably inlined
                     gText_0x14_704DFC->Find_5B5F90(GetDeathText_569F00()),
-                    1);
-                gRoot_sound_66B038.PlayVoice_40F090(29);
+                    hud_message_priority::normal_1);
+                gRoot_sound_66B038.PlayVoice_40F090(voice_line::wasted_29);
             }
             else
             {
-                gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), 3);
-                gRoot_sound_66B038.PlayVoice_40F090(21);
+                gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), hud_message_priority::important_3);
+                gRoot_sound_66B038.PlayVoice_40F090(voice_line::game_over_21);
             }
         }
         SetDeathType_434950(0);
@@ -1760,8 +1762,8 @@ void Player::Wasted_567130()
             field_2C8_aux_ped = gPedManager_6787BC->ClonePed_470F90(field_2C4_player_ped);
             field_2C8_aux_ped->field_170_selected_weapon = 0;
             field_2C8_aux_ped->field_200_id = 0;
-            field_2C8_aux_ped->ClearBit11_403A40();
-            field_2C8_aux_ped->field_267_varrok_idx = 0;
+            field_2C8_aux_ped->ClearAttacking_403A40();
+            field_2C8_aux_ped->field_267_ped_ref_idx = 0;
             field_68_camera_mode = 2;
             memcpy(&field_208_aux_game_camera, &field_90_game_camera, sizeof(field_208_aux_game_camera));
             field_2D0_bAuxCamActive = 1;
@@ -1772,7 +1774,7 @@ void Player::Wasted_567130()
     {
         if (field_2C8_aux_ped)
         {
-            field_2C8_aux_ped->ClearBit11_403A40();
+            field_2C8_aux_ped->ClearAttacking_403A40();
         }
 
         if (field_2C_death_countdown == 0)
@@ -1832,14 +1834,14 @@ MATCH_FUNC(0x5679E0)
 void Player::Busted_5679E0()
 {
     field_29_bAuxPedDying = 0;
-    field_2C4_player_ped->ClearBit11_403A40();
+    field_2C4_player_ped->ClearAttacking_403A40();
     if (!field_28_bWastedOrBusted)
     {
-        gRoot_sound_66B038.PlayVoice_40F090(17);
+        gRoot_sound_66B038.PlayVoice_40F090(voice_line::busted_17);
         SetDeathType_434950(3);
         if (IsUser_41DC70())
         {
-            gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90(Player::GetDeathText_569F00()), 1);
+            gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90(Player::GetDeathText_569F00()), hud_message_priority::normal_1);
         }
         SetDeathType_434950(0);
         field_28_bWastedOrBusted = 1;
@@ -1855,8 +1857,8 @@ void Player::Busted_5679E0()
         field_2C8_aux_ped = gPedManager_6787BC->ClonePed_470F90(field_2C4_player_ped);
         field_2C8_aux_ped->field_170_selected_weapon = 0;
         field_2C8_aux_ped->field_200_id = 0;
-        field_2C8_aux_ped->ClearBit11_403A40();
-        field_2C8_aux_ped->field_267_varrok_idx = 0;
+        field_2C8_aux_ped->ClearAttacking_403A40();
+        field_2C8_aux_ped->field_267_ped_ref_idx = 0;
         gPolice_7B8_6FEE40->SetArrestedPed_56F8E0(field_2C4_player_ped, field_2C8_aux_ped);
         field_68_camera_mode = 2;
         memcpy(&field_208_aux_game_camera, &field_90_game_camera, sizeof(Camera_0xBC));
@@ -1864,16 +1866,16 @@ void Player::Busted_5679E0()
         Player::RespawnPlayer_5670B0();
         field_2C4_player_ped->field_210_shock_counter = 0;
         field_2C4_player_ped->ClearWantedPoints_420B80();
-        field_2C4_player_ped->field_21C_bf.b5 = 0;
+        field_2C4_player_ped->field_21C_bf.bBusted = 0;
     }
     else
     {
         --field_2C_death_countdown;
-        field_2C8_aux_ped->ClearBit11_403A40();
+        field_2C8_aux_ped->ClearAttacking_403A40();
 
         if (!field_2C_death_countdown)
         {
-            if (field_684_lives.get_value() <= 0 || gLucid_hamilton_67E8E0.IsBonusStage_4C59A0() == 1)
+            if (field_684_lives.get_value() <= 0 || gGameSession_67E8E0.IsBonusStage_4C59A0() == 1)
             {
                 gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, GameExitType::GameOverRIP_3);
             }
@@ -1918,12 +1920,12 @@ void Player::Busted_5679E0()
         }
         else
         {
-            if (field_2C_death_countdown == 2 && field_684_lives.field_0_value > 0 && gLucid_hamilton_67E8E0.IsBonusStage_4C59A0() != 1)
+            if (field_2C_death_countdown == 2 && field_684_lives.field_0_value > 0 && gGameSession_67E8E0.IsBonusStage_4C59A0() != 1)
             {
                 field_2C4_player_ped->field_210_shock_counter = 0;
                 field_2C4_player_ped->ClearWantedPoints_420B80();
                 field_2C4_player_ped->SetObjective(objectives_enum::objective_54, 60);
-                field_2C4_player_ped->set_field_150_target_objective_car(0);
+                field_2C4_player_ped->SetTargetObjectiveCar(0);
             }
         }
     }
@@ -1945,7 +1947,7 @@ void Player::UpdateCurrentZones_568520()
 MATCH_FUNC(0x568630)
 void Player::UpdateSoundListener_568630()
 {
-    infallible_turing* pSoundObj = field_4C_pSoundObj;
+    SoundObject_10* pSoundObj = field_4C_pSoundObj;
     if (pSoundObj)
     {
         pSoundObj->field_C_pAny.pCamera_0xBC = &field_14C_view_camera;
@@ -2166,7 +2168,7 @@ void Player::Service_5687F0()
 
     if (field_2C4_player_ped)
     {
-        if ((field_2C4_player_ped->field_21C & 0x20) != 0)
+        if ((field_2C4_player_ped->field_21C & ped_flag_mask::k_ped_busted) != 0)
         {
             this->field_640_busted = 1;
         }
@@ -2298,7 +2300,7 @@ MATCH_FUNC(0x569600)
 void Player::StartRemoteControl_569600(Car_BC* pCar)
 {
     field_2C8_aux_ped = gPedManager_6787BC->SpawnDriver_470B00(pCar);
-    field_2C8_aux_ped->SetField238_403920(ped_type::player_2);
+    field_2C8_aux_ped->SetPedType_403920(ped_type::player_2);
     field_2C8_aux_ped->set_occupation_403970(ped_ocupation_enum::empty);
     field_2C8_aux_ped->SetPlayer_45B560(this, 1);
     field_2C8_aux_ped->UpdatePositionFromCar_45C4B0();
@@ -2489,12 +2491,12 @@ void Player::ColorScoreFromRemap_569A10()
 MATCH_FUNC(0x569C20)
 void Player::SetScoreTextColour_569C20()
 {
-    if (bStartNetworkGame_7081F0 == false && gfrosty_pasteur_6F8060 != NULL)
+    if (bStartNetworkGame_7081F0 == false && gScriptManager_6F8060 != NULL)
     {
         if (field_60_bFinshScoreReached == 0)
         {
             u32 score = field_2D4_scores.GetScore_592370();
-            if (score >= gfrosty_pasteur_6F8060->field_310_finish_score)
+            if (score >= gScriptManager_6F8060->field_310_finish_score)
             {
                 field_60_bFinshScoreReached = 1;
                 // Red when map "beaten"
@@ -2504,7 +2506,7 @@ void Player::SetScoreTextColour_569C20()
         else
         {
             u32 score = field_2D4_scores.GetScore_592370();
-            if (score < gfrosty_pasteur_6F8060->field_310_finish_score)
+            if (score < gScriptManager_6F8060->field_310_finish_score)
             {
                 field_60_bFinshScoreReached = 0;
                 field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::sprites_2, 0);
@@ -2532,13 +2534,13 @@ void Player::InitializePlayerState_569CB0()
     field_6BC_multpliers.InitDigitSprites_492150();
     field_64_bJumping = 0;
     field_18_pre_kf_weapon_kind = -2;
-    if (gfrosty_pasteur_6F8060->get_field_C1E2C_475A20())
+    if (gScriptManager_6F8060->get_field_C1E2C_475A20())
     {
         Player::UpdateGameFromSave_56A310(&gGameSave_6F78C8.field_54_player_and_world_stats);
     }
     else
     {
-        if (!gLucid_hamilton_67E8E0.IsBonusStage_4C59A0()) // bonus level?
+        if (!gGameSession_67E8E0.IsBonusStage_4C59A0()) // bonus level?
         {
             field_684_lives.ChangeStatByAmount_4921B0(5);
         }
@@ -2575,7 +2577,7 @@ void Player::InitializePlayerState_569CB0()
         Player::ColorScoreFromRemap_569A10();
         gNetPlay_7071E8.GetPlayerName_521100(field_83C_player_name, field_2E_idx);
         gText_0x14_704DFC->RemapExtendedCharsIfNotJapanese_5B5910(field_83C_player_name);
-        gLucid_hamilton_67E8E0.SetPlayerName_4C5C30(field_2E_idx, field_83C_player_name);
+        gGameSession_67E8E0.SetPlayerName_4C5C30(field_2E_idx, field_83C_player_name);
     }
 }
 
@@ -2652,7 +2654,7 @@ void Player::DisableInputs_569F40()
 
     if (pPed)
     {
-        pPed->ClearBit11_403A40();
+        pPed->ClearAttacking_403A40();
 
         Car_BC* pCar = pPed->get_car_416B60();
         if (pCar)
@@ -2736,7 +2738,7 @@ void Player::RestoreCarsFromSave_56A0F0()
 }
 
 MATCH_FUNC(0x56A1A0)
-void Player::CopyPlayerDataToSave_56A1A0(save_stats_0x90* pSave)
+void Player::CopyPlayerDataToSave_56A1A0(SavedPlayerStats_90* pSave)
 {
     pSave->field_0_x = field_2C4_player_ped->get_cam_x();
     pSave->field_4_y = field_2C4_player_ped->get_cam_y();
@@ -2761,7 +2763,7 @@ void Player::CopyPlayerDataToSave_56A1A0(save_stats_0x90* pSave)
         pSave->field_66_weapon_ammo[weapon_idx] = field_718_weapons[weapon_idx]->get_ammo_4A4FB0();
     }
 
-    for (u16 crime_idx = 0; crime_idx < 10; crime_idx++)
+    for (u16 crime_idx = 0; crime_idx < crime_stats_type::count_10; crime_idx++)
     {
         pSave->field_3C_crime_counts[crime_idx] = field_644_crime_stats.field_0_crime_count_list[crime_idx];
     }
@@ -2770,7 +2772,7 @@ void Player::CopyPlayerDataToSave_56A1A0(save_stats_0x90* pSave)
 }
 
 MATCH_FUNC(0x56A310)
-void Player::UpdateGameFromSave_56A310(save_stats_0x90* pSave)
+void Player::UpdateGameFromSave_56A310(SavedPlayerStats_90* pSave)
 {
     field_684_lives.SetValueClamped_4A50B0(pSave->field_80_lives);
     field_6BC_multpliers.SetValueClamped_4A50B0(pSave->field_14_multipliers);
@@ -2793,7 +2795,7 @@ void Player::UpdateGameFromSave_56A310(save_stats_0x90* pSave)
         field_718_weapons[weapon_idx]->add_ammo_5DCE20(pSave->field_66_weapon_ammo[weapon_idx]);
     }
 
-    for (u16 crime_idx = 0; crime_idx < 10; crime_idx++)
+    for (u16 crime_idx = 0; crime_idx < crime_stats_type::count_10; crime_idx++)
     {
         field_644_crime_stats.field_0_crime_count_list[crime_idx] = pSave->field_3C_crime_counts[crime_idx];
     }
@@ -2982,8 +2984,8 @@ Player::~Player()
     }
 
     /*
-	zealous_borg::dtor_484EE0(&field_644_crime_stats);
-	sad_mirzakhani::dtor_431DF0(&field_2D4_unk.field_1A8_bonuses);
+	PlayerCrimeStats_3C::dtor_484EE0(&field_644_crime_stats);
+	BonusTracker_1C0::dtor_431DF0(&field_2D4_unk.field_1A8_bonuses);
 	Camera_0xBC::dtor_4369E0(&field_208_aux_game_camera);
 	Camera_0xBC::dtor_4369E0(&field_14C_view_camera);
 	Camera_0xBC::dtor_4369E0(&field_90_game_camera);

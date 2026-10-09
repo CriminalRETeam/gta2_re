@@ -5,8 +5,8 @@
 #include "Function.hpp"
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
-#include "magical_germain_0x8EC.hpp"
-#include "sharp_pare_0x15D8.hpp"
+#include "KanjiFont_8EC.hpp"
+#include "TextureCache_15D8.hpp"
 
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_706A6C, Fix16(1), 0x706A6C);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_706C3C, Ang16(0), 0x706C3C);
@@ -218,7 +218,7 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
     gQuadVerts_706B88.field_0_verts[3].v = v;
 
     pgbh_DrawQuad(flags | CalcQuadFlags_5D83E0(alpha_value, og_flags),
-                  gSharp_pare_0x15D8_705064->GetSpriteTexture_5B94F0(sprite_type, sprite_idx, palette_type, palette),
+                  gTextureCache_15D8_705064->GetSpriteTexture_5B94F0(sprite_type, sprite_idx, palette_type, palette),
                   gQuadVerts_706B88.field_0_verts,
                   255);
 }
@@ -379,11 +379,11 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
     {
         if (curr_palette_type == palette_types_enum::font_remaps_8)
         {
-            gMagical_germain_0x8EC_6F5168->SetGlyphParamsFromRemap_4D29D0(og_palette);
+            gKanjiFont_6F5168->SetGlyphParamsFromRemap_4D29D0(og_palette);
         }
         else
         {
-            gMagical_germain_0x8EC_6F5168->SetGlyphParamsFromFont_4D28A0(font_type);
+            gKanjiFont_6F5168->SetGlyphParamsFromFont_4D28A0(font_type);
         }
     }
 
@@ -422,11 +422,11 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
             {
                 if (curr_palette_type == palette_types_enum::font_remaps_8)
                 {
-                    gMagical_germain_0x8EC_6F5168->SetGlyphParamsFromRemap_4D29D0(curr_palette);
+                    gKanjiFont_6F5168->SetGlyphParamsFromRemap_4D29D0(curr_palette);
                 }
                 else
                 {
-                    gMagical_germain_0x8EC_6F5168->SetGlyphParamsFromFont_4D28A0(font_type);
+                    gKanjiFont_6F5168->SetGlyphParamsFromFont_4D28A0(font_type);
                 }
             }
         }
@@ -441,18 +441,18 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
                     u16 sprt_relative_idx = gGtx_0x106C_703DD4->GetSpriteIdxFromFont_5AA710(font_type, text_char - 33);
                     u16 sprt_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::font_7, sprt_relative_idx);
                     pSprIdx = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprt_idx);
-                    pTexture = gSharp_pare_0x15D8_705064->GetSpriteTexture_5B94F0(sprite_types_enum::font_7, sprt_relative_idx, curr_palette_type, curr_palette);
+                    pTexture = gTextureCache_15D8_705064->GetSpriteTexture_5B94F0(sprite_types_enum::font_7, sprt_relative_idx, curr_palette_type, curr_palette);
                 }
                 else
                 {
-                    pSprIdx = gMagical_germain_0x8EC_6F5168->field_8E0_sprite_index;
-                    pTexture = gMagical_germain_0x8EC_6F5168->GetLargeGlyphTexture_4D27D0(text_char);
+                    pSprIdx = gKanjiFont_6F5168->field_8E0_sprite_index;
+                    pTexture = gKanjiFont_6F5168->GetLargeGlyphTexture_4D27D0(text_char);
                 }
             }
             else
             {
-                pSprIdx = gMagical_germain_0x8EC_6F5168->field_8D4_sprite_index;
-                pTexture = gMagical_germain_0x8EC_6F5168->GetSmallGlyphTexture_4D2710(text_char);
+                pSprIdx = gKanjiFont_6F5168->field_8D4_sprite_index;
+                pTexture = gKanjiFont_6F5168->GetSmallGlyphTexture_4D2710(text_char);
             }
 
             sprite_w = Fix16(pSprIdx->field_4_width) * scale_fp;

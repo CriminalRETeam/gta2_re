@@ -7,7 +7,7 @@
 
 class Ped;
 class Car_BC;
-class infallible_turing;
+class SoundObject_10;
 
 class Weapon_8
 {

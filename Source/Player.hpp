@@ -4,18 +4,18 @@
 #include "Draw.hpp"
 #include "Function.hpp"
 #include "ang16.hpp"
-#include "eager_benz.hpp"
+#include "PlayerScoreTracker_36C.hpp"
 #include "fix16.hpp"
-#include "sad_mirzakhani.hpp"
-#include "youthful_einstein.hpp"
-#include "zealous_borg.hpp"
+#include "BonusTracker_1C0.hpp"
+#include "TagGame_28.hpp"
+#include "PlayerCrimeStats_3C.hpp"
 #include <windows.h>
 
-class infallible_turing;
+class SoundObject_10;
 class Ped;
 class Weapon_30;
 class Player;
-struct save_stats_0x90;
+struct SavedPlayerStats_90;
 
 // TODO: add these later
 class Car_BC;
@@ -94,14 +94,14 @@ class Player
     inline bool IsBustedNotObjective54_476700()
     {
         Ped* pPed;
-        return field_28_bWastedOrBusted && field_2C_death_countdown == 2 && ((pPed = field_2C4_player_ped) == NULL || pPed->get_objective_403A80() != 54);
+        return field_28_bWastedOrBusted && field_2C_death_countdown == 2 && ((pPed = field_2C4_player_ped) == NULL || pPed->get_objective_403A80() != objectives_enum::objective_54);
     }
 
     // 9.6f 0x476730
     inline bool IsBustedObjective54_476730()
     {
         Ped* pPed;
-        return field_28_bWastedOrBusted && field_2C_death_countdown == 2 && (pPed = field_2C4_player_ped) != NULL && pPed->get_objective_403A80() == 54;
+        return field_28_bWastedOrBusted && field_2C_death_countdown == 2 && (pPed = field_2C4_player_ped) != NULL && pPed->get_objective_403A80() == objectives_enum::objective_54;
     }
 
     // 9.6f 0x4766C0
@@ -211,7 +211,7 @@ class Player
     }
 
     // TODO: Ordering
-    EXPORT s32 ObjectTypeToWeaponType_443CB0(u8 varrok);
+    EXPORT s32 ObjectTypeToWeaponType_443CB0(u8 object_type);
 
     EXPORT u8 GetIdx_4881E0();
     EXPORT void AddCarToHistory_5645B0(Car_BC* a2);
@@ -234,7 +234,7 @@ class Player
     EXPORT void ClearPowerUpsExceptJailCard_564CF0();
     EXPORT char_type CollectPowerUp_564D60(s32 a2);
     EXPORT void tick_down_powerups_565070();
-    EXPORT void RestorePowerUpsFromSave_5651F0(save_stats_0x90* a2);
+    EXPORT void RestorePowerUpsFromSave_5651F0(SavedPlayerStats_90* a2);
     EXPORT void TeleportToDebugCam_565310();
     EXPORT void DebugWatchNearestCar_5653E0();
     EXPORT void sub_565460();
@@ -282,8 +282,8 @@ class Player
     EXPORT void DisableEnterVehicles_56A030();
     EXPORT void EnableEnterVehicles_56A040();
     EXPORT void RestoreCarsFromSave_56A0F0();
-    EXPORT void CopyPlayerDataToSave_56A1A0(save_stats_0x90* pSave);
-    EXPORT void UpdateGameFromSave_56A310(save_stats_0x90* a2);
+    EXPORT void CopyPlayerDataToSave_56A1A0(SavedPlayerStats_90* pSave);
+    EXPORT void UpdateGameFromSave_56A310(SavedPlayerStats_90* a2);
     EXPORT void ApplyCheats_56A490();
     EXPORT void ClearInputs_56A6D0();
 
@@ -372,7 +372,7 @@ class Player
     char_type field_49_pad;
     char_type field_4A_pad;
     char_type field_4B_pad;
-    infallible_turing* field_4C_pSoundObj;
+    SoundObject_10* field_4C_pSoundObj;
     s32 field_50_throw_charge;
     Car_BC* field_54_car_history[3];
     s32 field_60_bFinshScoreReached;
@@ -429,16 +429,16 @@ class Player
     char_type field_2D1_pad;
     char_type field_2D2_pad;
     char_type field_2D3_pad;
-    eager_benz field_2D4_scores;
+    PlayerScoreTracker_36C field_2D4_scores;
     char_type field_640_busted;
     char_type field_641_pad;
     char_type field_642_pad;
     char_type field_643_pad;
-    zealous_borg field_644_crime_stats;
+    PlayerCrimeStats_3C field_644_crime_stats;
     u16 field_680_traffic_spawn_counter;
     u16 field_682_traffic_spawn_threshold;
-    thirsty_lamarr field_684_lives;
-    thirsty_lamarr field_6BC_multpliers;
+    RollingDigitCounter_38 field_684_lives;
+    RollingDigitCounter_38 field_6BC_multpliers;
     u16 field_6F4_power_up_timers[17];
     s16 field_716_unused;
     Weapon_30* field_718_weapons[28];
@@ -457,7 +457,7 @@ class Player
 };
 
 // 9.6f 0x434B60
-inline bool youthful_einstein::IsFugitivePed_434B60(Ped* pPed)
+inline bool TagGame_28::IsFugitivePed_434B60(Ped* pPed)
 {
     return field_0_fugitive && field_0_fugitive->GetPlayerPed_41D020() == pPed;
 }

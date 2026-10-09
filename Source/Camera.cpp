@@ -5,7 +5,7 @@
 #include "Function.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
-#include "Hamburger_500.hpp"
+#include "CarChaseTaskTable_500.hpp"
 #include "Ped.hpp"
 #include "Police_7B8.hpp"
 #include "sprite.hpp"
@@ -479,7 +479,7 @@ void Camera_0xBC::AccumulateSuspicionOnDriver_435F90(Car_BC* a2)
 {
     if (a2->field_54_driver &&
         (gPolice_7B8_6FEE40->IsActivelyChased_56F880(a2->field_54_driver) ||
-         gHamburger_500_678E30->HasAnyFollower_474970(a2->field_54_driver)))
+         gCarChaseTaskTable_678E30->HasAnyPursuer_474970(a2->field_54_driver)))
     {
         field_44_suspicion++;
         if (field_44_suspicion > 80u)
@@ -644,7 +644,7 @@ void Camera_0xBC::UpdateFollowPedCamera_436540(Ped* pPed)
             Camera_0xBC::ApplyCarVelocityCameraOffset_436200(pCar_2, &xpos, &ypos, &zposToUse);
         }
         Fix16 zoom = dword_6767B4;
-        if (pPed->GetPedState_403990() != 9)
+        if (pPed->GetPedState_403990() != ped_state_1::dead_9)
         {
             zoom = kDefaultZoom_6766D4;
         }

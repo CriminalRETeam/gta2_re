@@ -2,7 +2,7 @@
 
 #include "Function.hpp"
 
-class nostalgic_ellis_0x28;
+class Light_28;
 class Object_2C;
 
 class TrafficLight_20
@@ -15,10 +15,10 @@ class TrafficLight_20
     Object_2C* field_4_south_headlight_obj;
     Object_2C* field_8_west_headlight_obj;
     Object_2C* field_C_east_headlight_obj;
-    nostalgic_ellis_0x28* field_10_north_light;
-    nostalgic_ellis_0x28* field_14_south_light;
-    nostalgic_ellis_0x28* field_18_west_light;
-    nostalgic_ellis_0x28* field_1C_east_light;
+    Light_28* field_10_north_light;
+    Light_28* field_14_south_light;
+    Light_28* field_18_west_light;
+    Light_28* field_1C_east_light;
 };
 
 class TrafficLights_194

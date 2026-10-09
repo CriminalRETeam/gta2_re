@@ -15,8 +15,8 @@ candidate), 2 symbol in memory, 5 scale, 6 memory, 7 immediate. Symbol kinds: 3 
 7 global. See README.md, "Which values get colour live ranges".
 
     venv/bin/python3 Scripts/regalloc/opdump.py 10765baa 10765bbd     # before and after 0x10711F93
-    X87_C2=opdump X87_OUT=/tmp/od Scripts/x87_sched/sched.sh -l Source/Wolfy_3D4.cpp
-    awk '/^@O/{p=($0 ~ /sub_543690/)} p' /tmp/od/last.log
+    X87_C2=opdump X87_OUT=/tmp/od Scripts/x87_sched/sched.sh -l Source/Explosion_30.cpp
+    awk '/^@O/{p=($0 ~ /FreeLowestPriority_543690/)} p' /tmp/od/last.log
 """
 import os, sys, shutil
 import pefile

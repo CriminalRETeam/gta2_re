@@ -194,7 +194,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Trailer::sub_407BD0",
+        "name": "Trailer::GetHitchPosition_407BD0",
         "v96f_address": null,
         "v105_address": "0x407bd0"
     },
@@ -302,66 +302,66 @@
         "v105_address": "0x40b560"
     },
     {
-        "name": "Rozza_A::set_xyz_40B870",
+        "name": "CollisionEvent_28::SetPosition_40B870",
         "v96f_address": "0x40fe30",
         "v105_address": "0x40b870",
         "v96f_auto": true
     },
     {
-        "name": "Rozza_A::SetupForCar_40B890",
+        "name": "CollisionEvent_28::SetupForCar_40B890",
         "v96f_address": "0x40ff20",
         "v105_address": "0x40b890",
         "v96f_auto": true
     },
     {
-        "name": "Rozza_A::SetupForPed_40B980",
+        "name": "CollisionEvent_28::SetupForPed_40B980",
         "v96f_address": "0x410010",
         "v105_address": "0x40b980",
         "v96f_auto": true
     },
     {
-        "name": "Rozza_A::SetupForObject_40BA60",
+        "name": "CollisionEvent_28::SetupForObject_40BA60",
         "v96f_address": "0x4100f0",
         "v105_address": "0x40ba60",
         "v96f_auto": true
     },
     {
-        "name": "Rozza_C88::Reset_40BB90",
+        "name": "CollisionSoundQueue_C88::Reset_40BB90",
         "v96f_address": "0x40fe50",
         "v105_address": "0x40bb90",
         "v96f_auto": true
     },
     {
-        "name": "Rozza_C88::OtherType_40BBA0",
+        "name": "CollisionSoundQueue_C88::AddCollision_40BBA0",
         "v96f_address": "0x410210",
         "v105_address": "0x40bba0",
         "v96f_auto": true
     },
     {
-        "name": "Rozza_C88::Type4_40BC40",
+        "name": "CollisionSoundQueue_C88::AddFloorCollision_40BC40",
         "v96f_address": "0x410370",
         "v105_address": "0x40bc40",
         "v96f_auto": true
     },
     {
-        "name": "Rozza_C88::Type5_40BD10",
+        "name": "CollisionSoundQueue_C88::AddBlockCollision_40BD10",
         "v96f_address": "0x4102a0",
         "v105_address": "0x40bd10",
         "v96f_auto": true
     },
     {
-        "name": "Rozza_C88::Type3_40BDD0",
+        "name": "CollisionSoundQueue_C88::AddSpriteCollision_40BDD0",
         "v96f_address": null,
         "v105_address": "0x40bdd0"
     },
     {
-        "name": "Rozza_C88::ctor",
+        "name": "CollisionSoundQueue_C88::ctor",
         "v96f_address": "0x4104b0",
         "v105_address": "0x40be00",
         "v96f_auto": true
     },
     {
-        "name": "Rozza_C88::dtor",
+        "name": "CollisionSoundQueue_C88::dtor",
         "v96f_address": "0x410440",
         "v105_address": "0x40be40",
         "v96f_auto": true
@@ -373,7 +373,7 @@
         "v96f_auto": true
     },
     {
-        "name": "infallible_turing::release_40EF20",
+        "name": "SoundObject_10::Release_40EF20",
         "v96f_address": "0x410710",
         "v105_address": "0x40ef20",
         "v96f_auto": true
@@ -613,7 +613,7 @@
         "v96f_auto": true
     },
     {
-        "name": "sound_obj::ProcessType6_Rozza_C88_413760",
+        "name": "sound_obj::ProcessType6_CollisionSoundQueue_413760",
         "v96f_address": "0x415f90",
         "v105_address": "0x413760",
         "v96f_auto": true
@@ -1296,102 +1296,102 @@
         "v96f_auto": true
     },
     {
-        "name": "silly_saha_0x2C::ctor",
+        "name": "BonusRule_2C::ctor",
         "v96f_address": "0x41dc80",
         "v105_address": "0x431d30",
         "v96f_auto": true
     },
     {
-        "name": "silly_saha_0x2C::dtor",
+        "name": "BonusRule_2C::dtor",
         "v96f_address": "0x41d890",
         "v105_address": "0x431d40",
         "v96f_auto": true
     },
     {
-        "name": "silly_saha_0x2C::Init_431D50",
+        "name": "BonusRule_2C::Init_431D50",
         "v96f_address": "0x41d8a0",
         "v105_address": "0x431d50",
         "v96f_auto": true
     },
     {
-        "name": "silly_saha_0x2C::Reset_431DA0",
+        "name": "BonusRule_2C::Reset_431DA0",
         "v96f_address": "0x41d8f0",
         "v105_address": "0x431da0",
         "v96f_auto": true
     },
     {
-        "name": "silly_saha_0x2C::Deactivate_431DB0",
+        "name": "BonusRule_2C::Deactivate_431DB0",
         "v96f_address": "0x41d900",
         "v105_address": "0x431db0",
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::ctor",
+        "name": "BonusTracker_1C0::ctor",
         "v96f_address": "0x41dc90",
         "v105_address": "0x431dc0",
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::dtor",
+        "name": "BonusTracker_1C0::dtor",
         "v96f_address": null,
         "v105_address": "0x431df0"
     },
     {
-        "name": "sad_mirzakhani::Init_431E10",
+        "name": "BonusTracker_1C0::Init_431E10",
         "v96f_address": "0x41d930",
         "v105_address": "0x431e10",
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::Service_431E30",
+        "name": "BonusTracker_1C0::Service_431E30",
         "v96f_address": "0x41dcc0",
         "v105_address": "0x431e30",
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::next_free_idx_431E90",
+        "name": "BonusTracker_1C0::FindFreeRule_431E90",
         "v96f_address": "0x41d950",
         "v105_address": "0x431e90",
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::find_431EC0",
+        "name": "BonusTracker_1C0::FindMatchingRule_431EC0",
         "v96f_address": "0x41dd20",
         "v105_address": "0x431ec0",
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::alloc_next_431FE0",
+        "name": "BonusTracker_1C0::AllocRule_431FE0",
         "v96f_address": "0x41de40",
         "v105_address": "0x431fe0",
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::GetBonusResult_432080",
+        "name": "BonusTracker_1C0::GetBonusResult_432080",
         "v96f_address": "0x41d980",
         "v105_address": "0x432080",
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::ProcessBonusEvent_4320D0",
+        "name": "BonusTracker_1C0::ProcessBonusEvent_4320D0",
         "v96f_address": "0x41dee0",
         "v105_address": "0x4320d0",
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::sub_432170",
+        "name": "BonusTracker_1C0::IsDeathCauseInGroup_432170",
         "v96f_address": "0x41d9d0",
         "v105_address": "0x432170",
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::IsOccupationInGroup_432240",
+        "name": "BonusTracker_1C0::IsOccupationInGroup_432240",
         "v96f_address": "0x41da60",
         "v105_address": "0x432240",
         "v96f_auto": true
     },
     {
-        "name": "sad_mirzakhani::AreCarModelsEquivalent_432300",
+        "name": "BonusTracker_1C0::AreCarModelsEquivalent_432300",
         "v96f_address": "0x41db10",
         "v105_address": "0x432300",
         "v96f_auto": true
@@ -1803,13 +1803,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_43AF40",
+        "name": "Car_BC::ResumeAIDriving_43AF40",
         "v96f_address": "0x4222d0",
         "v105_address": "0x43af40",
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_43AF60",
+        "name": "Car_BC::HaltAIDriving_43AF60",
         "v96f_address": "0x4222f0",
         "v105_address": "0x43af60",
         "v96f_auto": true
@@ -1861,7 +1861,7 @@
         "v105_address": "0x43b420"
     },
     {
-        "name": "Car_BC::sub_43B540",
+        "name": "Car_BC::IsDoorOffsetLarge_43B540",
         "v96f_address": "0x4224a0",
         "v105_address": "0x43b540",
         "v96f_auto": true
@@ -1897,7 +1897,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_43B850",
+        "name": "Car_BC::IsImmuneToExplosionType_43B850",
         "v96f_address": null,
         "v105_address": "0x43b850"
     },
@@ -1907,7 +1907,7 @@
         "v105_address": "0x43b870"
     },
     {
-        "name": "Car_BC::sub_43BB90",
+        "name": "Car_BC::GetFireExplosionType_43BB90",
         "v96f_address": null,
         "v105_address": "0x43bb90"
     },
@@ -2113,7 +2113,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_43DD60",
+        "name": "Car_BC::DestroyWhileSinking_43DD60",
         "v96f_address": "0x427290",
         "v105_address": "0x43dd60",
         "v96f_auto": true
@@ -2151,7 +2151,7 @@
         "v105_address": "0x4403a0"
     },
     {
-        "name": "Car_BC::sub_440510",
+        "name": "Car_BC::GetMaxTurnRate_440510",
         "v96f_address": "0x4234a0",
         "v105_address": "0x440510"
     },
@@ -2501,7 +2501,7 @@
         "v105_address": "0x443170"
     },
     {
-        "name": "Car_BC::sub_443330",
+        "name": "Car_BC::UpdateOnCraneHook_443330",
         "v96f_address": "0x429FC0",
         "v105_address": "0x443330"
     },
@@ -2528,7 +2528,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::sub_4435F0",
+        "name": "Car_BC::UpdateSpriteNum_4435F0",
         "v96f_address": "0x424400",
         "v105_address": "0x4435f0",
         "v96f_auto": true
@@ -2986,7 +2986,7 @@
         "v105_address": "0x46efd0"
     },
     {
-        "name": "PurpleDoom::Empty_478A10",
+        "name": "SpriteGrid_400::Empty_478A10",
         "v96f_address": null,
         "v105_address": "0x478a10"
     },
@@ -3737,13 +3737,13 @@
         "v105_address": "0x463aa0"
     },
     {
-        "name": "Marz_3::ctor",
+        "name": "PatrolPoint_3::ctor",
         "v96f_address": "0x433830",
         "v105_address": "0x463f90",
         "v96f_auto": true
     },
     {
-        "name": "Marz_3::dtor",
+        "name": "PatrolPoint_3::dtor",
         "v96f_address": "0x433840",
         "v105_address": "0x463fa0",
         "v96f_auto": true
@@ -4029,7 +4029,7 @@
         "v105_address": "0x469fc0"
     },
     {
-        "name": "Ped::sub_469FE0",
+        "name": "Ped::CallPoliceCar_469FE0",
         "v96f_address": "0x43cfc0",
         "v105_address": "0x469fe0",
         "v96f_auto": true
@@ -4664,293 +4664,293 @@
         "v105_address": "0x471710"
     },
     {
-        "name": "Hamburger_40::ResetEntry_4747B0",
+        "name": "CarChaseTask_40::ResetEntry_4747B0",
         "v96f_address": "0x4461a0",
         "v105_address": "0x4747b0",
         "v96f_auto": true
     },
     {
-        "name": "Hamburger_500::AllocateEntry_474810",
+        "name": "CarChaseTaskTable_500::AllocateEntry_474810",
         "v96f_address": "0x446200",
         "v105_address": "0x474810",
         "v96f_auto": true
     },
     {
-        "name": "Hamburger_500::ArePedsCompatible_474850",
+        "name": "CarChaseTaskTable_500::AreAllies_474850",
         "v96f_address": "0x4462f0",
         "v105_address": "0x474850",
         "v96f_auto": true
     },
     {
-        "name": "Hamburger_500::FindOwnerForFollowCode_4748A0",
+        "name": "CarChaseTaskTable_500::FindDriverInState_4748A0",
         "v96f_address": "0x446340",
         "v105_address": "0x4748a0",
         "v96f_auto": true
     },
     {
-        "name": "Hamburger_500::CountFollowers_474920",
+        "name": "CarChaseTaskTable_500::CountPursuers_474920",
         "v96f_address": null,
         "v105_address": "0x474920"
     },
     {
-        "name": "Hamburger_500::HasAnyFollower_474970",
+        "name": "CarChaseTaskTable_500::HasAnyPursuer_474970",
         "v96f_address": "0x446240",
         "v105_address": "0x474970",
         "v96f_auto": true
     },
     {
-        "name": "Hamburger_500::HasRelationshipCode_13_15_4749B0",
+        "name": "CarChaseTaskTable_500::HasPursuerInFront_4749B0",
         "v96f_address": null,
         "v105_address": "0x4749b0"
     },
     {
-        "name": "Hamburger_500::HasRelationshipCode_8_474A20",
+        "name": "CarChaseTaskTable_500::HasPursuerAlongsideLeft_474A20",
         "v96f_address": null,
         "v105_address": "0x474a20"
     },
     {
-        "name": "Hamburger_500::HasRelationshipCode_6_8_10_474A80",
+        "name": "CarChaseTaskTable_500::HasPursuerOnLeft_474A80",
         "v96f_address": null,
         "v105_address": "0x474a80"
     },
     {
-        "name": "Hamburger_500::HasRelationshipCode_9_474AF0",
+        "name": "CarChaseTaskTable_500::HasPursuerAlongsideRight_474AF0",
         "v96f_address": null,
         "v105_address": "0x474af0"
     },
     {
-        "name": "Hamburger_500::HasRelationshipCode_7_9_11_474B50",
+        "name": "CarChaseTaskTable_500::HasPursuerOnRight_474B50",
         "v96f_address": null,
         "v105_address": "0x474b50"
     },
     {
-        "name": "Hamburger_500::HasRelationshipCode_6_7_8_9_13_474BC0",
+        "name": "CarChaseTaskTable_500::HasPursuerAlongside_474BC0",
         "v96f_address": null,
         "v105_address": "0x474bc0"
     },
     {
-        "name": "Hamburger_500::HasRelationshipCode_4_5_474C30",
+        "name": "CarChaseTaskTable_500::HasPursuerChoosingSide_474C30",
         "v96f_address": null,
         "v105_address": "0x474c30"
     },
     {
-        "name": "Hamburger_40::ctor",
+        "name": "CarChaseTask_40::ctor",
         "v96f_address": null,
         "v105_address": "0x474ca0"
     },
     {
-        "name": "Hamburger_40::dtor",
+        "name": "CarChaseTask_40::dtor",
         "v96f_address": "0x446280",
         "v105_address": "0x474cb0",
         "v96f_auto": true
     },
     {
-        "name": "Hamburger_500::FreeEntry_474CC0",
+        "name": "CarChaseTaskTable_500::FreeEntry_474CC0",
         "v96f_address": "0x446290",
         "v105_address": "0x474cc0",
         "v96f_auto": true
     },
     {
-        "name": "Hamburger_500::ctor",
+        "name": "CarChaseTaskTable_500::ctor",
         "v96f_address": "0x446710",
         "v105_address": "0x474d10"
     },
     {
-        "name": "Hamburger_500::dtor",
+        "name": "CarChaseTaskTable_500::dtor",
         "v96f_address": null,
         "v105_address": "0x474d30"
     },
     {
-        "name": "Rozza_28::IsObj2C_477A10",
+        "name": "CollisionTarget_28::IsObj2C_477A10",
         "v96f_address": null,
         "v105_address": "0x477a10"
     },
     {
-        "name": "PurpleDoom::DrawSpritesClipped_477A40",
+        "name": "SpriteGrid_400::DrawSpritesClipped_477A40",
         "v96f_address": null,
         "v105_address": "0x477a40"
     },
     {
-        "name": "PurpleDoom::AddToSingleBucket_477AE0",
+        "name": "SpriteGrid_400::AddToSingleBucket_477AE0",
         "v96f_address": "0x447ba0",
         "v105_address": "0x477ae0"
     },
     {
-        "name": "PurpleDoom::Remove_477B00",
+        "name": "SpriteGrid_400::Remove_477B00",
         "v96f_address": "0x447bd0",
         "v105_address": "0x477b00"
     },
     {
-        "name": "PurpleDoom::AddToRegionBuckets_477B20",
+        "name": "SpriteGrid_400::AddToRegionBuckets_477B20",
         "v96f_address": "0x447c00",
         "v105_address": "0x477b20"
     },
     {
-        "name": "PurpleDoom::AddToSpriteRectBuckets_477B60",
+        "name": "SpriteGrid_400::AddToSpriteRectBuckets_477B60",
         "v96f_address": "0x447c40",
         "v105_address": "0x477b60",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::DebugLogAll_477BA0",
+        "name": "SpriteGrid_400::DebugLogAll_477BA0",
         "v96f_address": null,
         "v105_address": "0x477ba0"
     },
     {
-        "name": "PurpleDoom::CheckAndHandleCollisionInStrips_477BD0",
+        "name": "SpriteGrid_400::CheckAndHandleCollisionInStrips_477BD0",
         "v96f_address": "0x447480",
         "v105_address": "0x477bd0"
     },
     {
-        "name": "PurpleDoom::CheckAndHandleAllCollisionsForSprite_477C30",
+        "name": "SpriteGrid_400::CheckAndHandleAllCollisionsForSprite_477C30",
         "v96f_address": "0x4474e0",
         "v105_address": "0x477c30",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::FindNearestSprite_SpiralSearch_477C90",
+        "name": "SpriteGrid_400::FindNearestSprite_SpiralSearch_477C90",
         "v96f_address": "0x447540",
         "v105_address": "0x477c90",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::SetSpriteToExclude_477E50",
+        "name": "SpriteGrid_400::SetSpriteToExclude_477E50",
         "v96f_address": "0x446730",
         "v105_address": "0x477e50",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::FindNearestSpriteOfType_477E60",
+        "name": "SpriteGrid_400::FindNearestSpriteOfType_477E60",
         "v96f_address": "0x447740",
         "v105_address": "0x477e60",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::CollectRectCollisions_477F30",
+        "name": "SpriteGrid_400::CollectRectCollisions_477F30",
         "v96f_address": "0x447c80",
         "v105_address": "0x477f30",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::CheckRectForCollisions_477F60",
+        "name": "SpriteGrid_400::CheckRectForCollisions_477F60",
         "v96f_address": "0x4477b0",
         "v105_address": "0x477f60",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::ctor",
+        "name": "SpriteGrid_400::ctor",
         "v96f_address": "0x446b60",
         "v105_address": "0x478040",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::dtor",
+        "name": "SpriteGrid_400::dtor",
         "v96f_address": null,
         "v105_address": "0x478050"
     },
     {
-        "name": "PurpleDoom::CheckTileSpritesForClosestMatch_478060",
+        "name": "SpriteGrid_400::CheckTileSpritesForClosestMatch_478060",
         "v96f_address": "0x446b80",
         "v105_address": "0x478060",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::SearchTileColumnForClosestSprite_478160",
+        "name": "SpriteGrid_400::SearchTileColumnForClosestSprite_478160",
         "v96f_address": "0x446cb0",
         "v105_address": "0x478160",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::SearchTileStripForClosestSprite_4781E0",
+        "name": "SpriteGrid_400::SearchTileStripForClosestSprite_4781E0",
         "v96f_address": "0x446d00",
         "v105_address": "0x4781e0",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::AddToDrawList_478240",
+        "name": "SpriteGrid_400::AddToDrawList_478240",
         "v96f_address": "0x446d60",
         "v105_address": "0x478240",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::DoRemove_4782C0",
+        "name": "SpriteGrid_400::DoRemove_4782C0",
         "v96f_address": "0x447850",
         "v105_address": "0x4782c0"
     },
     {
-        "name": "PurpleDoom::AddToColumnBuckets_478370",
+        "name": "SpriteGrid_400::AddToColumnBuckets_478370",
         "v96f_address": "0x447900",
         "v105_address": "0x478370",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::AddToSingleBucket_478440",
+        "name": "SpriteGrid_400::AddToSingleBucket_478440",
         "v96f_address": "0x4479d0",
         "v105_address": "0x478440",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::AddToRowBuckets_4784D0",
+        "name": "SpriteGrid_400::AddToRowBuckets_4784D0",
         "v96f_address": "0x447a60",
         "v105_address": "0x4784d0",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::GetFirstXCellInRow_478590",
+        "name": "SpriteGrid_400::GetFirstXCellInRow_478590",
         "v96f_address": "0x446740",
         "v105_address": "0x478590",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::CheckRowForRectCollisions_4785D0",
+        "name": "SpriteGrid_400::CheckRowForRectCollisions_4785D0",
         "v96f_address": "0x446de0",
         "v105_address": "0x4785d0",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::CheckAndHandleCollisionsInStrip_478750",
+        "name": "SpriteGrid_400::CheckAndHandleCollisionsInStrip_478750",
         "v96f_address": "0x446f30",
         "v105_address": "0x478750",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::CheckAndHandleRowCollisionsForSprite_4787E0",
+        "name": "SpriteGrid_400::CheckAndHandleRowCollisionsForSprite_4787E0",
         "v96f_address": "0x446fd0",
         "v105_address": "0x4787e0",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::FindNearestSpriteInRow_478880",
+        "name": "SpriteGrid_400::FindNearestSpriteInRow_478880",
         "v96f_address": "0x4470b0",
         "v105_address": "0x478880",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::DebugLog_478950",
+        "name": "SpriteGrid_400::DebugLog_478950",
         "v96f_address": "0x446780",
         "v105_address": "0x478950",
         "v96f_auto": true
     },
     {
-        "name": "PurpleDoom::Clear_4789F0",
+        "name": "SpriteGrid_400::Clear_4789F0",
         "v96f_address": "0x446860",
         "v105_address": "0x4789f0",
         "v96f_auto": true
     },
     {
-        "name": "Collide_C::ResetCount_478A20",
+        "name": "CollisionCounters_C::ResetCount_478A20",
         "v96f_address": "0x446890",
         "v105_address": "0x478a20",
         "v96f_auto": true
     },
     {
-        "name": "Collide_C::ctor",
+        "name": "CollisionCounters_C::ctor",
         "v96f_address": "0x4471b0",
         "v105_address": "0x478a30",
         "v96f_auto": true
     },
     {
-        "name": "Collide_C::dtor",
+        "name": "CollisionCounters_C::dtor",
         "v96f_address": "0x447b20",
         "v105_address": "0x478bf0",
         "v96f_auto": true
@@ -5163,37 +5163,37 @@
         "v105_address": "0x4833b0"
     },
     {
-        "name": "sleepy_stonebraker_0x6C::ctor",
+        "name": "CreditsLine_6C::ctor",
         "v96f_address": "0x449ca0",
         "v105_address": "0x483e30",
         "v96f_auto": true
     },
     {
-        "name": "sleepy_stonebraker_0x6C::dtor",
+        "name": "CreditsLine_6C::dtor",
         "v96f_address": "0x449cd0",
         "v105_address": "0x483e60",
         "v96f_auto": true
     },
     {
-        "name": "xenodochial_morse::ctor",
+        "name": "CreditsText_FD22::ctor",
         "v96f_address": "0x449ce0",
         "v105_address": "0x483e70",
         "v96f_auto": true
     },
     {
-        "name": "xenodochial_morse::dtor",
+        "name": "CreditsText_FD22::dtor",
         "v96f_address": "0x449d10",
         "v105_address": "0x483ea0",
         "v96f_auto": true
     },
     {
-        "name": "xenodochial_morse::ReadNextNonBlankChar_483EC0",
+        "name": "CreditsText_FD22::ReadNextNonBlankChar_483EC0",
         "v96f_address": "0x449d30",
         "v105_address": "0x483ec0",
         "v96f_auto": true
     },
     {
-        "name": "xenodochial_morse::LoadCredits_483F20",
+        "name": "CreditsText_FD22::LoadCredits_483F20",
         "v96f_address": "0x449d70",
         "v105_address": "0x483f20",
         "v96f_auto": true
@@ -5251,49 +5251,49 @@
         "v96f_auto": true
     },
     {
-        "name": "zealous_borg::ctor",
+        "name": "PlayerCrimeStats_3C::ctor",
         "v96f_address": "0x44a1d0",
         "v105_address": "0x484ed0",
         "v96f_auto": true
     },
     {
-        "name": "zealous_borg::dtor",
+        "name": "PlayerCrimeStats_3C::dtor",
         "v96f_address": "0x449f50",
         "v105_address": "0x484ee0",
         "v96f_auto": true
     },
     {
-        "name": "zealous_borg::Reset_484EF0",
+        "name": "PlayerCrimeStats_3C::Reset_484EF0",
         "v96f_address": "0x449f60",
         "v105_address": "0x484ef0",
         "v96f_auto": true
     },
     {
-        "name": "zealous_borg::Service_484F20",
+        "name": "PlayerCrimeStats_3C::Service_484F20",
         "v96f_address": "0x44a1e0",
         "v105_address": "0x484f20",
         "v96f_auto": true
     },
     {
-        "name": "zealous_borg::ResetCrimeCountFlags_484F30",
+        "name": "PlayerCrimeStats_3C::ResetCrimeCountFlags_484F30",
         "v96f_address": "0x449f90",
         "v105_address": "0x484f30",
         "v96f_auto": true
     },
     {
-        "name": "zealous_borg::IncrementCrimeCount_484F50",
+        "name": "PlayerCrimeStats_3C::IncrementCrimeCount_484F50",
         "v96f_address": "0x449fb0",
         "v105_address": "0x484f50",
         "v96f_auto": true
     },
     {
-        "name": "zealous_borg::AddCarDamageCost_484FA0",
+        "name": "PlayerCrimeStats_3C::AddCarDamageCost_484FA0",
         "v96f_address": "0x44a000",
         "v105_address": "0x484fa0",
         "v96f_auto": true
     },
     {
-        "name": "zealous_borg::AddEvasionRating_484FB0",
+        "name": "PlayerCrimeStats_3C::AddEvasionRating_484FB0",
         "v96f_address": "0x44a010",
         "v105_address": "0x484fb0",
         "v96f_auto": true
@@ -5404,13 +5404,13 @@
         "v96f_auto": true
     },
     {
-        "name": "sub_48E720",
+        "name": "IsNoKillCreditObject_48E720",
         "v96f_address": "0x44ab20",
         "v105_address": "0x48e720",
         "v96f_auto": true
     },
     {
-        "name": "sub_48E780",
+        "name": "GetDeathCauseForObjectModel_48E780",
         "v96f_address": "0x44ab80",
         "v105_address": "0x48e780",
         "v96f_auto": true
@@ -5473,50 +5473,50 @@
         "v96f_auto": true
     },
     {
-        "name": "thirsty_lamarr::ctor",
+        "name": "RollingDigitCounter_38::ctor",
         "v96f_address": "0x44b1d0",
         "v105_address": "0x4920b0"
     },
     {
-        "name": "thirsty_lamarr::SetupDigitsParams_492110",
+        "name": "RollingDigitCounter_38::SetupDigitsParams_492110",
         "v96f_address": "0x44b220",
         "v105_address": "0x492110"
     },
     {
-        "name": "thirsty_lamarr::InitDigitSprites_492150",
+        "name": "RollingDigitCounter_38::InitDigitSprites_492150",
         "v96f_address": "0x44b260",
         "v105_address": "0x492150",
         "v96f_auto": true
     },
     {
-        "name": "thirsty_lamarr::ChangeStatByAmount_4921B0",
+        "name": "RollingDigitCounter_38::ChangeStatByAmount_4921B0",
         "v96f_address": "0x44b2c0",
         "v105_address": "0x4921b0"
     },
     {
-        "name": "thirsty_lamarr::ColorDigits_4921F0",
+        "name": "RollingDigitCounter_38::ColorDigits_4921F0",
         "v96f_address": "0x44b300",
         "v105_address": "0x4921f0"
     },
     {
-        "name": "thirsty_lamarr::DrawDigits_492260",
+        "name": "RollingDigitCounter_38::DrawDigitsRightAligned_492260",
         "v96f_address": "0x44b500",
         "v105_address": "0x492260",
         "v96f_auto": true
     },
     {
-        "name": "thirsty_lamarr::sub_492430",
+        "name": "RollingDigitCounter_38::DrawDigitsLeftAligned_492430",
         "v96f_address": "0x44b6e0",
         "v105_address": "0x492430",
         "v96f_auto": true
     },
     {
-        "name": "thirsty_lamarr::IsAnyDigitRolling_4925C0",
+        "name": "RollingDigitCounter_38::IsAnyDigitRolling_4925C0",
         "v96f_address": "0x44b370",
         "v105_address": "0x4925c0"
     },
     {
-        "name": "thirsty_lamarr::UpdateRollingDigits_4925E0",
+        "name": "RollingDigitCounter_38::UpdateRollingDigits_4925E0",
         "v96f_address": "0x44b390",
         "v105_address": "0x4925e0",
         "v96f_auto": true
@@ -5532,28 +5532,28 @@
         "v105_address": "0x495470"
     },
     {
-        "name": "Montana::ResetAll_4954F0",
+        "name": "SpriteRenderer_1C::ResetAll_4954F0",
         "v96f_address": null,
         "v105_address": "0x4954f0"
     },
     {
-        "name": "Montana::DisplayAdd_495510",
+        "name": "SpriteRenderer_1C::DisplayAdd_495510",
         "v96f_address": "0x44b990",
         "v105_address": "0x495510",
         "v96f_auto": true
     },
     {
-        "name": "Montana::Draw_495560",
+        "name": "SpriteRenderer_1C::Draw_495560",
         "v96f_address": "0x44B8B0",
         "v105_address": "0x495560"
     },
     {
-        "name": "Montana::ctor",
+        "name": "SpriteRenderer_1C::ctor",
         "v96f_address": "0x44b8f0",
         "v105_address": "0x4955a0"
     },
     {
-        "name": "Montana::dtor",
+        "name": "SpriteRenderer_1C::dtor",
         "v96f_address": "0x44b9e0",
         "v105_address": "0x495630",
         "v96f_auto": true
@@ -5577,13 +5577,13 @@
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_1::free_input_devices_4987A0",
+        "name": "InputDevices_1::free_input_devices_4987A0",
         "v96f_address": "0x44bad0",
         "v105_address": "0x4987a0",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_1::make_input_devices_498800",
+        "name": "InputDevices_1::make_input_devices_498800",
         "v96f_address": "0x44bb30",
         "v105_address": "0x498800",
         "v96f_auto": true
@@ -5595,43 +5595,43 @@
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_1::set_game_pad_device_properties_4989C0",
+        "name": "InputDevices_1::set_game_pad_device_properties_4989C0",
         "v96f_address": "0x44bcf0",
         "v105_address": "0x4989c0",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_1::game_pads_init_498BA0",
+        "name": "InputDevices_1::game_pads_init_498BA0",
         "v96f_address": "0x44bed0",
         "v105_address": "0x498ba0",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_1::get_registry_controls_498C00",
+        "name": "InputDevices_1::get_registry_controls_498C00",
         "v96f_address": "0x44bf30",
         "v105_address": "0x498c00",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_1::input_devices_init_498C40",
+        "name": "InputDevices_1::input_devices_init_498C40",
         "v96f_address": "0x44bf70",
         "v105_address": "0x498c40",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_1::AddKeyToInputBits_498C80",
+        "name": "InputDevices_1::AddKeyToInputBits_498C80",
         "v96f_address": "0x44bfb0",
         "v105_address": "0x498c80",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_1::SetAltKeyState_498CB0",
+        "name": "InputDevices_1::SetAltKeyState_498CB0",
         "v96f_address": "0x44bfe0",
         "v105_address": "0x498cb0",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_1::read_keyboard_and_gamepad_498CC0",
+        "name": "InputDevices_1::read_keyboard_and_gamepad_498CC0",
         "v96f_address": "0x44bff0",
         "v105_address": "0x498cc0",
         "v96f_auto": true
@@ -5643,13 +5643,13 @@
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_1::game_pad_read_498D20",
+        "name": "InputDevices_1::game_pad_read_498D20",
         "v96f_address": "0x44c070",
         "v105_address": "0x498d20",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_1::read_input_device_498DA0",
+        "name": "InputDevices_1::read_input_device_498DA0",
         "v96f_address": "0x44c0f0",
         "v105_address": "0x498da0",
         "v96f_auto": true
@@ -7062,30 +7062,30 @@
         "v105_address": "0x4bbfa0"
     },
     {
-        "name": "Frismo_C_Pool::dtor",
+        "name": "ScriptStackFramePool_25C::dtor",
         "v96f_address": null,
         "v105_address": "0x4bc300"
     },
     {
-        "name": "Phi_8CA8::dtor",
+        "name": "ObjectDefinitions_8CA8::dtor",
         "v96f_address": "0x45adf0",
         "v105_address": "0x4bdf40",
         "v96f_auto": true
     },
     {
-        "name": "Phi_74::dtor",
+        "name": "ObjectDefinition_74::dtor",
         "v96f_address": "0x45ade0",
         "v105_address": "0x4bdf60",
         "v96f_auto": true
     },
     {
-        "name": "Marz_1D7E::dtor",
+        "name": "PatrolRoutePool_1D7E::dtor",
         "v96f_address": "0x45ae20",
         "v105_address": "0x4bdf70",
         "v96f_auto": true
     },
     {
-        "name": "Marz_96::dtor",
+        "name": "PatrolRoute_96::dtor",
         "v96f_address": "0x45ae10",
         "v105_address": "0x4bdf90",
         "v96f_auto": true
@@ -7113,13 +7113,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Frismo_C::ctor",
+        "name": "ScriptStackFrame_C::ctor",
         "v96f_address": "0x45b110",
         "v105_address": "0x4bea80",
         "v96f_auto": true
     },
     {
-        "name": "Frismo_C::dtor",
+        "name": "ScriptStackFrame_C::dtor",
         "v96f_address": "0x45b130",
         "v105_address": "0x4beaa0",
         "v96f_auto": true
@@ -7373,269 +7373,269 @@
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::LoadDebugSettings_4C53D0",
+        "name": "GameSession_578::LoadDebugSettings_4C53D0",
         "v96f_address": null,
         "v105_address": "0x4c53d0"
     },
     {
-        "name": "lucid_hamilton::SetMapName_4C5870",
+        "name": "GameSession_578::SetMapName_4C5870",
         "v96f_address": "0x45e410",
         "v105_address": "0x4c5870",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetStyleName_4C5890",
+        "name": "GameSession_578::SetStyleName_4C5890",
         "v96f_address": "0x45e430",
         "v105_address": "0x4c5890",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetScriptName_4C58B0",
+        "name": "GameSession_578::SetScriptName_4C58B0",
         "v96f_address": "0x45e450",
         "v105_address": "0x4c58b0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::DebugStr_4C58D0",
+        "name": "GameSession_578::DebugStr_4C58D0",
         "v96f_address": "0x45e470",
         "v105_address": "0x4c58d0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetMainStageIdx_4C58F0",
+        "name": "GameSession_578::SetMainStageIdx_4C58F0",
         "v96f_address": "0x45e490",
         "v105_address": "0x4c58f0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetStage_4C5900",
+        "name": "GameSession_578::SetStage_4C5900",
         "v96f_address": "0x45e4a0",
         "v105_address": "0x4c5900",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetBonusStage_4C5910",
+        "name": "GameSession_578::SetBonusStage_4C5910",
         "v96f_address": "0x45e4b0",
         "v105_address": "0x4c5910",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetPlySlotIdx_4C5920",
+        "name": "GameSession_578::SetPlySlotIdx_4C5920",
         "v96f_address": "0x45e4c0",
         "v105_address": "0x4c5920",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetLevelFinishBonusType_4C5930",
+        "name": "GameSession_578::SetLevelFinishBonusType_4C5930",
         "v96f_address": "0x45e4d0",
         "v105_address": "0x4c5930",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetMapName_4C5940",
+        "name": "GameSession_578::GetMapName_4C5940",
         "v96f_address": "0x45e4e0",
         "v105_address": "0x4c5940",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetStyleName_4C5950",
+        "name": "GameSession_578::GetStyleName_4C5950",
         "v96f_address": "0x45e4f0",
         "v105_address": "0x4c5950",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetScriptName_4C5960",
+        "name": "GameSession_578::GetScriptName_4C5960",
         "v96f_address": "0x45e500",
         "v105_address": "0x4c5960",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetDebugStr_4C5970",
+        "name": "GameSession_578::GetDebugStr_4C5970",
         "v96f_address": "0x45e510",
         "v105_address": "0x4c5970",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetMainStageIdx_4C5980",
+        "name": "GameSession_578::GetMainStageIdx_4C5980",
         "v96f_address": "0x45e520",
         "v105_address": "0x4c5980",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetStage_4C5990",
+        "name": "GameSession_578::GetStage_4C5990",
         "v96f_address": "0x45e530",
         "v105_address": "0x4c5990",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::IsBonusStage_4C59A0",
+        "name": "GameSession_578::IsBonusStage_4C59A0",
         "v96f_address": "0x45e540",
         "v105_address": "0x4c59a0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetPlySlotIdx_4C59B0",
+        "name": "GameSession_578::GetPlySlotIdx_4C59B0",
         "v96f_address": "0x45e550",
         "v105_address": "0x4c59b0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetLevelFinishBonusType_4C59C0",
+        "name": "GameSession_578::GetLevelFinishBonusType_4C59C0",
         "v96f_address": "0x45e560",
         "v105_address": "0x4c59c0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetStatistic_4C59D0",
+        "name": "GameSession_578::SetStatistic_4C59D0",
         "v96f_address": "0x45e570",
         "v105_address": "0x4c59d0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetStatistic_4C59F0",
+        "name": "GameSession_578::GetStatistic_4C59F0",
         "v96f_address": "0x45e590",
         "v105_address": "0x4c59f0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::StoreCrimeStats_4C5A10",
+        "name": "GameSession_578::StoreCrimeStats_4C5A10",
         "v96f_address": "0x45ec20",
         "v105_address": "0x4c5a10",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetCarDamageCost_4C5A70",
+        "name": "GameSession_578::SetCarDamageCost_4C5A70",
         "v96f_address": null,
         "v105_address": "0x4c5a70"
     },
     {
-        "name": "lucid_hamilton::GetCarDamageCost_4C5A80",
+        "name": "GameSession_578::GetCarDamageCost_4C5A80",
         "v96f_address": "0x45e5c0",
         "v105_address": "0x4c5a80",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetEvasionRating_4C5A90",
+        "name": "GameSession_578::SetEvasionRating_4C5A90",
         "v96f_address": "0x45e5b0",
         "v105_address": "0x4c5a90",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetEvasionRating_4C5AA0",
+        "name": "GameSession_578::GetEvasionRating_4C5AA0",
         "v96f_address": "0x45e5e0",
         "v105_address": "0x4c5aa0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetBonusRatingTextIdx_4C5AB0",
+        "name": "GameSession_578::SetBonusRatingTextIdx_4C5AB0",
         "v96f_address": "0x45e5f0",
         "v105_address": "0x4c5ab0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetBonusRatingTextIdx_4C5AC0",
+        "name": "GameSession_578::GetBonusRatingTextIdx_4C5AC0",
         "v96f_address": "0x45e600",
         "v105_address": "0x4c5ac0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetStartedFromPlayBonusMenu_4C5AD0",
+        "name": "GameSession_578::SetStartedFromPlayBonusMenu_4C5AD0",
         "v96f_address": "0x45e610",
         "v105_address": "0x4c5ad0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::IsStartedFromPlayBonusMenu_4C5AE0",
+        "name": "GameSession_578::IsStartedFromPlayBonusMenu_4C5AE0",
         "v96f_address": "0x45e620",
         "v105_address": "0x4c5ae0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::init_4C5AF0",
+        "name": "GameSession_578::init_4C5AF0",
         "v96f_address": "0x45e630",
         "v105_address": "0x4c5af0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetMultiplayerParams_4C5B80",
+        "name": "GameSession_578::SetMultiplayerParams_4C5B80",
         "v96f_address": "0x45e6c0",
         "v105_address": "0x4c5b80",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetMultiplayerGamemode_4C5BC0",
+        "name": "GameSession_578::GetMultiplayerGamemode_4C5BC0",
         "v96f_address": "0x45e700",
         "v105_address": "0x4c5bc0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetMultiplayerPointsLimit_4C5BD0",
+        "name": "GameSession_578::GetMultiplayerPointsLimit_4C5BD0",
         "v96f_address": "0x45e710",
         "v105_address": "0x4c5bd0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetUserPlayerIdx_4C5BE0",
+        "name": "GameSession_578::GetUserPlayerIdx_4C5BE0",
         "v96f_address": "0x45e720",
         "v105_address": "0x4c5be0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetMaxPlayers_4C5BF0",
+        "name": "GameSession_578::GetMaxPlayers_4C5BF0",
         "v96f_address": "0x45e730",
         "v105_address": "0x4c5bf0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetWinnerIdx_4C5C00",
+        "name": "GameSession_578::SetWinnerIdx_4C5C00",
         "v96f_address": "0x45e740",
         "v105_address": "0x4c5c00",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetWinnerIdx_4C5C20",
+        "name": "GameSession_578::GetWinnerIdx_4C5C20",
         "v96f_address": "0x45e760",
         "v105_address": "0x4c5c20",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::SetPlayerName_4C5C30",
+        "name": "GameSession_578::SetPlayerName_4C5C30",
         "v96f_address": "0x45e770",
         "v105_address": "0x4c5c30",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetPlayerName_4C5C60",
+        "name": "GameSession_578::GetPlayerName_4C5C60",
         "v96f_address": "0x45e7a0",
         "v105_address": "0x4c5c60",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::ChangePointsForPlayerIdxByAmount_4C5C80",
+        "name": "GameSession_578::ChangePointsForPlayerIdxByAmount_4C5C80",
         "v96f_address": "0x45e7c0",
         "v105_address": "0x4c5c80",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetPointsForPlayerIdx_4C5CB0",
+        "name": "GameSession_578::GetPointsForPlayerIdx_4C5CB0",
         "v96f_address": "0x45e7f0",
         "v105_address": "0x4c5cb0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::UpdateFrags_4C5CD0",
+        "name": "GameSession_578::UpdateFrags_4C5CD0",
         "v96f_address": "0x45ec70",
         "v105_address": "0x4c5cd0",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetFragsForPlayerIdx_4C5D60",
+        "name": "GameSession_578::GetFragsForPlayerIdx_4C5D60",
         "v96f_address": "0x45e810",
         "v105_address": "0x4c5d60",
         "v96f_auto": true
     },
     {
-        "name": "lucid_hamilton::GetFragsOnPlayer_4C5D80",
+        "name": "GameSession_578::GetFragsOnPlayer_4C5D80",
         "v96f_address": "0x45e830",
         "v105_address": "0x4c5d80",
         "v96f_auto": true
@@ -7856,131 +7856,131 @@
         "v105_address": "0x4cb870"
     },
     {
-        "name": "BurgerKing_67F8B0::StaticShutdown_4CDCD0",
+        "name": "InputRecorder_67F8B0::StaticShutdown_4CDCD0",
         "v96f_address": null,
         "v105_address": "0x4cdcd0"
     },
     {
-        "name": "BurgerKing_67F8B0::clear_inputs_4CDCE0",
+        "name": "InputRecorder_67F8B0::clear_inputs_4CDCE0",
         "v96f_address": "0x45f9f0",
         "v105_address": "0x4cdce0",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::set_input_4CDCF0",
+        "name": "InputRecorder_67F8B0::set_input_4CDCF0",
         "v96f_address": "0x45ed10",
         "v105_address": "0x4cdcf0",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::clear_input_4CDD10",
+        "name": "InputRecorder_67F8B0::clear_input_4CDD10",
         "v96f_address": "0x45ed30",
         "v105_address": "0x4cdd10",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::should_ignore_input_4CDD80",
+        "name": "InputRecorder_67F8B0::should_ignore_input_4CDD80",
         "v96f_address": "0x45ed50",
         "v105_address": "0x4cdd80",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::should_ignore_input_4CDDF0",
+        "name": "InputRecorder_67F8B0::should_ignore_input_4CDDF0",
         "v96f_address": "0x45edc0",
         "v105_address": "0x4cddf0",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::save_replay_record_4CDE20",
+        "name": "InputRecorder_67F8B0::save_replay_record_4CDE20",
         "v96f_address": "0x45fa50",
         "v105_address": "0x4cde20",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::SaveReplay_4CDED0",
+        "name": "InputRecorder_67F8B0::SaveReplay_4CDED0",
         "v96f_address": "0x45fb10",
         "v105_address": "0x4cded0",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::modify_inputs_4CDF30",
+        "name": "InputRecorder_67F8B0::modify_inputs_4CDF30",
         "v96f_address": null,
         "v105_address": "0x4cdf30"
     },
     {
-        "name": "BurgerKing_67F8B0::AppendReplayHeader_4CDF70",
+        "name": "InputRecorder_67F8B0::AppendReplayHeader_4CDF70",
         "v96f_address": "0x45eec0",
         "v105_address": "0x4cdf70",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::LoadReplayHeader_4CE380",
+        "name": "InputRecorder_67F8B0::LoadReplayHeader_4CE380",
         "v96f_address": "0x45f270",
         "v105_address": "0x4ce380",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::VerifyAttractFilesExist_4CE650",
+        "name": "InputRecorder_67F8B0::VerifyAttractFilesExist_4CE650",
         "v96f_address": "0x45f580",
         "v105_address": "0x4ce650",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::GetNextAttrReplay_4CE6E0",
+        "name": "InputRecorder_67F8B0::GetNextAttrReplay_4CE6E0",
         "v96f_address": "0x45f600",
         "v105_address": "0x4ce6e0",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::input_init_replay_4CE740",
+        "name": "InputRecorder_67F8B0::input_init_replay_4CE740",
         "v96f_address": "0x45f640",
         "v105_address": "0x4ce740",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::input_init_live_4CE880",
+        "name": "InputRecorder_67F8B0::input_init_live_4CE880",
         "v96f_address": "0x45f780",
         "v105_address": "0x4ce880",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::Shutdown_4CEA00",
+        "name": "InputRecorder_67F8B0::Shutdown_4CEA00",
         "v96f_address": "0x45fb60",
         "v105_address": "0x4cea00",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::replay_save_4CEA40",
+        "name": "InputRecorder_67F8B0::replay_save_4CEA40",
         "v96f_address": "0x45fba0",
         "v105_address": "0x4cea40",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::get_input_bits_4CEAC0",
+        "name": "InputRecorder_67F8B0::get_input_bits_4CEAC0",
         "v96f_address": "0x45fd10",
         "v105_address": "0x4ceac0",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::save_replay_inputs_4CED00",
+        "name": "InputRecorder_67F8B0::save_replay_inputs_4CED00",
         "v96f_address": "0x45fc20",
         "v105_address": "0x4ced00",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::DisplayInputBits_4CED90",
+        "name": "InputRecorder_67F8B0::DisplayInputBits_4CED90",
         "v96f_address": "0x45f900",
         "v105_address": "0x4ced90",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::RecOrPlayBackState_4CEDF0",
+        "name": "InputRecorder_67F8B0::RecOrPlayBackState_4CEDF0",
         "v96f_address": "0x45f970",
         "v105_address": "0x4cedf0",
         "v96f_auto": true
     },
     {
-        "name": "BurgerKing_67F8B0::ShowInput_4CEE10",
+        "name": "InputRecorder_67F8B0::ShowInput_4CEE10",
         "v96f_address": "0x45f990",
         "v105_address": "0x4cee10",
         "v96f_auto": true
@@ -7991,73 +7991,73 @@
         "v105_address": "0x4cffb0"
     },
     {
-        "name": "magical_germain_0x8EC::LoadChunks_4D1FC0",
+        "name": "KanjiFont_8EC::LoadChunks_4D1FC0",
         "v96f_address": "0x45ff70",
         "v105_address": "0x4d1fc0"
     },
     {
-        "name": "magical_germain_0x8EC::Load_kanji_dat_4D2090",
+        "name": "KanjiFont_8EC::Load_kanji_dat_4D2090",
         "v96f_address": "0x460f10",
         "v105_address": "0x4d2090"
     },
     {
-        "name": "magical_germain_0x8EC::sub_4D2150",
+        "name": "KanjiFont_8EC::OutlineGlyph_4D2150",
         "v96f_address": null,
         "v105_address": "0x4d2150"
     },
     {
-        "name": "magical_germain_0x8EC::sub_4D2240",
+        "name": "KanjiFont_8EC::ExpandSmallGlyph_4D2240",
         "v96f_address": null,
         "v105_address": "0x4d2240"
     },
     {
-        "name": "magical_germain_0x8EC::sub_4D23B0",
+        "name": "KanjiFont_8EC::ExpandLargeGlyph_4D23B0",
         "v96f_address": null,
         "v105_address": "0x4d23b0"
     },
     {
-        "name": "magical_germain_0x8EC::RenderSmallGlyph_4D2610",
+        "name": "KanjiFont_8EC::RenderSmallGlyph_4D2610",
         "v96f_address": null,
         "v105_address": "0x4d2610"
     },
     {
-        "name": "magical_germain_0x8EC::RenderLargeGlyph_4D2690",
+        "name": "KanjiFont_8EC::RenderLargeGlyph_4D2690",
         "v96f_address": null,
         "v105_address": "0x4d2690"
     },
     {
-        "name": "magical_germain_0x8EC::GetSmallGlyphTexture_4D2710",
+        "name": "KanjiFont_8EC::GetSmallGlyphTexture_4D2710",
         "v96f_address": null,
         "v105_address": "0x4d2710"
     },
     {
-        "name": "magical_germain_0x8EC::GetLargeGlyphTexture_4D27D0",
+        "name": "KanjiFont_8EC::GetLargeGlyphTexture_4D27D0",
         "v96f_address": null,
         "v105_address": "0x4d27d0"
     },
     {
-        "name": "magical_germain_0x8EC::SetGlyphParamsFromFont_4D28A0",
+        "name": "KanjiFont_8EC::SetGlyphParamsFromFont_4D28A0",
         "v96f_address": null,
         "v105_address": "0x4d28a0"
     },
     {
-        "name": "magical_germain_0x8EC::SetGlyphParamsFromRemap_4D29D0",
+        "name": "KanjiFont_8EC::SetGlyphParamsFromRemap_4D29D0",
         "v96f_address": null,
         "v105_address": "0x4d29d0"
     },
     {
-        "name": "magical_germain_0x8EC::InitGlyphCaches_4D2B40",
+        "name": "KanjiFont_8EC::InitGlyphCaches_4D2B40",
         "v96f_address": "0x460de0",
         "v105_address": "0x4d2b40",
         "v96f_auto": true
     },
     {
-        "name": "magical_germain_0x8EC::ctor",
+        "name": "KanjiFont_8EC::ctor",
         "v96f_address": "0x460fb0",
         "v105_address": "0x4d2c80"
     },
     {
-        "name": "magical_germain_0x8EC::dtor",
+        "name": "KanjiFont_8EC::dtor",
         "v96f_address": "0x460e90",
         "v105_address": "0x4d2cc0",
         "v96f_auto": true
@@ -8113,38 +8113,38 @@
         "v105_address": "0x4d6000"
     },
     {
-        "name": "nostalgic_ellis_0x28::ctor",
+        "name": "Light_28::ctor",
         "v96f_address": "0x4612f0",
         "v105_address": "0x4d6d20"
     },
     {
-        "name": "nostalgic_ellis_0x28::dtor",
+        "name": "Light_28::dtor",
         "v96f_address": "0x461290",
         "v105_address": "0x4d6d60"
     },
     {
-        "name": "nostalgic_ellis_0x28::AddToGrid_4D6D70",
+        "name": "Light_28::AddToGrid_4D6D70",
         "v96f_address": "0x461360",
         "v105_address": "0x4d6d70"
     },
     {
-        "name": "nostalgic_ellis_0x28::RemoveFromGrid_4D6DC0",
+        "name": "Light_28::RemoveFromGrid_4D6DC0",
         "v96f_address": null,
         "v105_address": "0x4d6dc0"
     },
     {
-        "name": "Light::AllocGrid_4D6E00",
+        "name": "LightGrid::AllocGrid_4D6E00",
         "v96f_address": null,
         "v105_address": "0x4d6e00"
     },
     {
-        "name": "Light::FreeGrid_4D6E30",
+        "name": "LightGrid::FreeGrid_4D6E30",
         "v96f_address": "0x4612d0",
         "v105_address": "0x4d6e30",
         "v96f_auto": true
     },
     {
-        "name": "Light::SubmitLightsInArea_4D6E50",
+        "name": "LightGrid::SubmitLightsInArea_4D6E50",
         "v96f_address": "0x461400",
         "v105_address": "0x4d6e50",
         "v96f_auto": true
@@ -9447,19 +9447,19 @@
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::FindStringById_503080",
+        "name": "ScriptManager_C1EA8::FindStringById_503080",
         "v96f_address": "0x474f00",
         "v105_address": "0x503080",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::StrEntryByString_5030B0",
+        "name": "ScriptManager_C1EA8::StrEntryByString_5030B0",
         "v96f_address": "0x474f30",
         "v105_address": "0x5030b0",
         "v96f_auto": true
     },
     {
-        "name": "Frismo_C::PoolAllocate",
+        "name": "ScriptStackFrame_C::PoolAllocate",
         "v96f_address": "0x474f90",
         "v105_address": "0x503110",
         "v96f_auto": true
@@ -10910,28 +10910,28 @@
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::sub_511A70",
+        "name": "ScriptManager_C1EA8::SetGeneratorTypeForCar_511A70",
         "v96f_address": null,
         "v105_address": "0x511a70"
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::sub_511B10",
+        "name": "ScriptManager_C1EA8::AddCranePowerupTrigger_511B10",
         "v96f_address": "0x47edb0",
         "v105_address": "0x511b10"
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::SaveScriptCounters_511B90",
+        "name": "ScriptManager_C1EA8::SaveScriptCounters_511B90",
         "v96f_address": "0x47ee70",
         "v105_address": "0x511b90",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::LoadScriptCounters_511C30",
+        "name": "ScriptManager_C1EA8::LoadScriptCounters_511C30",
         "v96f_address": null,
         "v105_address": "0x511c30"
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::sub_511C60",
+        "name": "ScriptManager_C1EA8::RestoreAnsweredPhones_511C60",
         "v96f_address": "0x481200",
         "v105_address": "0x511c60",
         "v96f_auto": true
@@ -10943,159 +10943,159 @@
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::SaveMapInfo_511D40",
+        "name": "ScriptManager_C1EA8::SaveMapInfo_511D40",
         "v96f_address": null,
         "v105_address": "0x511d40"
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::SaveGame_511E10",
+        "name": "ScriptManager_C1EA8::SaveGame_511E10",
         "v96f_address": "0x47ef40",
         "v105_address": "0x511e10",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::LoadSave_511F80",
+        "name": "ScriptManager_C1EA8::LoadSave_511F80",
         "v96f_address": "0x47F0B0",
         "v105_address": "0x511f80"
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::SpawnThread_5120C0",
+        "name": "ScriptManager_C1EA8::SpawnThread_5120C0",
         "v96f_address": "0x47f200",
         "v105_address": "0x5120c0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::FindCommandByType_512100",
+        "name": "ScriptManager_C1EA8::FindCommandByType_512100",
         "v96f_address": "0x47f230",
         "v105_address": "0x512100",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::Update_512160",
+        "name": "ScriptManager_C1EA8::Update_512160",
         "v96f_address": "0x481890",
         "v105_address": "0x512160"
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0",
+        "name": "ScriptManager_C1EA8::LoadStringTbl_5121E0",
         "v96f_address": "0x475d30",
         "v105_address": "0x5121e0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::GetScrFileName_5122D0",
+        "name": "ScriptManager_C1EA8::GetScrFileName_5122D0",
         "v96f_address": "0x475e00",
         "v105_address": "0x5122d0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::Load_512330",
+        "name": "ScriptManager_C1EA8::Load_512330",
         "v96f_address": "0x47f280",
         "v105_address": "0x512330",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::LoadMissionScript_512400",
+        "name": "ScriptManager_C1EA8::LoadMissionScript_512400",
         "v96f_address": "0x475e90",
         "v105_address": "0x512400",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::LoadSubScripts_5125F0",
+        "name": "ScriptManager_C1EA8::LoadSubScripts_5125F0",
         "v96f_address": "0x476070",
         "v105_address": "0x5125f0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::GetBasePointer_512770",
+        "name": "ScriptManager_C1EA8::GetBasePointer_512770",
         "v96f_address": "0x476200",
         "v105_address": "0x512770",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::ExecuteScriptThreads_5127A0",
+        "name": "ScriptManager_C1EA8::ExecuteScriptThreads_5127A0",
         "v96f_address": null,
         "v105_address": "0x5127a0"
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::FindCarThread_5128A0",
+        "name": "ScriptManager_C1EA8::FindCarThread_5128A0",
         "v96f_address": "0x476240",
         "v105_address": "0x5128a0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::AddCarThread_5128D0",
+        "name": "ScriptManager_C1EA8::AddCarThread_5128D0",
         "v96f_address": "0x476280",
         "v105_address": "0x5128d0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::TriggerCarThread_512910",
+        "name": "ScriptManager_C1EA8::TriggerCarThread_512910",
         "v96f_address": "0x47f340",
         "v105_address": "0x512910",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::FindPhoneThread_512980",
+        "name": "ScriptManager_C1EA8::FindPhoneThread_512980",
         "v96f_address": "0x476320",
         "v105_address": "0x512980",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::AddPhoneThread_5129B0",
+        "name": "ScriptManager_C1EA8::AddPhoneThread_5129B0",
         "v96f_address": "0x476370",
         "v105_address": "0x5129b0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::AnswerPhone_5129F0",
+        "name": "ScriptManager_C1EA8::AnswerPhone_5129F0",
         "v96f_address": "0x47f3b0",
         "v105_address": "0x5129f0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::RemovePhoneThread_512A70",
+        "name": "ScriptManager_C1EA8::RemovePhoneThread_512A70",
         "v96f_address": "0x4763b0",
         "v105_address": "0x512a70",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::RemovePhoneThreadByObjId_512AA0",
+        "name": "ScriptManager_C1EA8::RemovePhoneThreadByObjId_512AA0",
         "v96f_address": "0x47f420",
         "v105_address": "0x512aa0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::FindPhoneThreadByObjId_512AD0",
+        "name": "ScriptManager_C1EA8::FindPhoneThreadByObjId_512AD0",
         "v96f_address": "0x4763e0",
         "v105_address": "0x512ad0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::sub_512AF0",
+        "name": "ScriptManager_C1EA8::TestAndRecordWeaponHit_512AF0",
         "v96f_address": "0x476400",
         "v105_address": "0x512af0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::sub_512BA0",
+        "name": "ScriptManager_C1EA8::ClearWeaponHitFlag_512BA0",
         "v96f_address": "0x4764d0",
         "v105_address": "0x512ba0",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::RecordWeaponHit_512C00",
+        "name": "ScriptManager_C1EA8::RecordWeaponHit_512C00",
         "v96f_address": "0x476530",
         "v105_address": "0x512c00",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::IsWeaponHitRecorded_512C70",
+        "name": "ScriptManager_C1EA8::IsWeaponHitRecorded_512C70",
         "v96f_address": "0x4765a0",
         "v105_address": "0x512c70",
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::ctor",
+        "name": "ScriptManager_C1EA8::ctor",
         "v96f_address": "0x481960",
         "v105_address": "0x512ce0"
     },
@@ -11106,7 +11106,7 @@
         "v96f_auto": true
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::dtor",
+        "name": "ScriptManager_C1EA8::dtor",
         "v96f_address": "0x481c30",
         "v105_address": "0x5130e0",
         "v96f_auto": true
@@ -11186,24 +11186,24 @@
         "v105_address": "0x5137b0"
     },
     {
-        "name": "youthful_einstein::ctor_516560",
+        "name": "TagGame_28::Init_516560",
         "v96f_address": "0x482050",
         "v105_address": "0x516560",
         "v96f_auto": true
     },
     {
-        "name": "youthful_einstein::SetNewFugitive_516590",
+        "name": "TagGame_28::SetNewFugitive_516590",
         "v96f_address": "0x4820D0",
         "v105_address": "0x516590"
     },
     {
-        "name": "youthful_einstein::ExecuteGamemodeTick_516660",
+        "name": "TagGame_28::ExecuteGamemodeTick_516660",
         "v96f_address": "0x4821c0",
         "v105_address": "0x516660",
         "v96f_auto": true
     },
     {
-        "name": "youthful_einstein::UpdateFugitive_516740",
+        "name": "TagGame_28::UpdateFugitive_516740",
         "v96f_address": null,
         "v105_address": "0x516740"
     },
@@ -11975,7 +11975,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Object_2C::CanCollideWithSpriteByVarrok_522250",
+        "name": "Object_2C::CanCollideWithSpriteByOwnerRef_522250",
         "v96f_address": "0x482e80",
         "v105_address": "0x522250",
         "v96f_auto": true
@@ -12471,7 +12471,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Object_5C::NewWithVarrokIdx_5299F0",
+        "name": "Object_5C::NewWithPedRefIdx_5299F0",
         "v96f_address": "0x485320",
         "v105_address": "0x5299f0",
         "v96f_auto": true
@@ -12625,7 +12625,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Phi_6C::ctor",
+        "name": "CodeObjectTemplate_6C::ctor",
         "v96f_address": "0x488210",
         "v105_address": "0x531860"
     },
@@ -12635,123 +12635,123 @@
         "v105_address": "0x531940"
     },
     {
-        "name": "Phi_54::ctor",
+        "name": "MapObjectOverride_54::ctor",
         "v96f_address": null,
         "v105_address": "0x532fb0"
     },
     {
-        "name": "Phi_74::SetDimensions_533060",
+        "name": "ObjectDefinition_74::SetDimensions_533060",
         "v96f_address": "0x487f60",
         "v105_address": "0x533060"
     },
     {
-        "name": "Phi_74::SetDimensionsFromSprite_533090",
+        "name": "ObjectDefinition_74::SetDimensionsFromSprite_533090",
         "v96f_address": "0x487fa0",
         "v105_address": "0x533090"
     },
     {
-        "name": "Phi_74::SetRemap_533110",
+        "name": "ObjectDefinition_74::SetRemap_533110",
         "v96f_address": "0x488060",
         "v105_address": "0x533110",
         "v96f_auto": true
     },
     {
-        "name": "Phi_74::AddSpritePaletteAndSetAnimSpeed_533150",
+        "name": "ObjectDefinition_74::AddSpritePaletteAndSetAnimSpeed_533150",
         "v96f_address": "0x4880a0",
         "v105_address": "0x533150",
         "v96f_auto": true
     },
     {
-        "name": "Phi_74::CreateSpriteFromDefinition_533170",
+        "name": "ObjectDefinition_74::CreateSpriteFromDefinition_533170",
         "v96f_address": null,
         "v105_address": "0x533170"
     },
     {
-        "name": "Phi_74::ApplyDefinitionToSprite_5331A0",
+        "name": "ObjectDefinition_74::ApplyDefinitionToSprite_5331A0",
         "v96f_address": "0x4883a0",
         "v105_address": "0x5331a0"
     },
     {
-        "name": "Phi_74::ctor",
+        "name": "ObjectDefinition_74::ctor",
         "v96f_address": "0x4880c0",
         "v105_address": "0x533220",
         "v96f_auto": true
     },
     {
-        "name": "Phi_8CA8::AllocDefinitionWithSprite_5332D0",
+        "name": "ObjectDefinitions_8CA8::AllocDefinitionWithSprite_5332D0",
         "v96f_address": "0x488420",
         "v105_address": "0x5332d0",
         "v96f_auto": true
     },
     {
-        "name": "Phi_8CA8::CreateMapObjectDefinitions_533300",
+        "name": "ObjectDefinitions_8CA8::CreateMapObjectDefinitions_533300",
         "v96f_address": "0x488450",
         "v105_address": "0x533300",
         "v96f_auto": true
     },
     {
-        "name": "Phi_8CA8::ApplyPhi54Definitions_533360",
+        "name": "ObjectDefinitions_8CA8::ApplyMapObjectOverrides_533360",
         "v96f_address": "0x4884b0",
         "v105_address": "0x533360"
     },
     {
-        "name": "Phi_8CA8::sub_533420",
+        "name": "ObjectDefinitions_8CA8::CloneAnimatedDefinitions_533420",
         "v96f_address": "0x488570",
         "v105_address": "0x533420"
     },
     {
-        "name": "Phi_8CA8::CreateCodeObjectDefinitions_533B30",
+        "name": "ObjectDefinitions_8CA8::CreateCodeObjectDefinitions_533B30",
         "v96f_address": "0x488d10",
         "v105_address": "0x533b30"
     },
     {
-        "name": "Phi_8CA8::sub_533C90",
+        "name": "ObjectDefinitions_8CA8::CloneRemappedDefinitions_533C90",
         "v96f_address": "0x488f70",
         "v105_address": "0x533c90"
     },
     {
-        "name": "Phi_8CA8::ClearColour1PixelsOfDefinitions287To293_534270",
+        "name": "ObjectDefinitions_8CA8::ClearColour1PixelsOfDefinitions287To293_534270",
         "v96f_address": "0x488f10",
         "v105_address": "0x534270",
         "v96f_auto": true
     },
     {
-        "name": "Phi_8CA8::CacheDef112SpritePalette_5342D0",
+        "name": "ObjectDefinitions_8CA8::CacheDef112SpritePalette_5342D0",
         "v96f_address": null,
         "v105_address": "0x5342d0"
     },
     {
-        "name": "Phi_8CA8::ClearColour1PixelsOfDefinitionSprite_5342F0",
+        "name": "ObjectDefinitions_8CA8::ClearColour1PixelsOfDefinitionSprite_5342F0",
         "v96f_address": "0x488e70",
         "v105_address": "0x5342f0",
         "v96f_auto": true
     },
     {
-        "name": "Phi_8CA8::InitDefinitions_534330",
+        "name": "ObjectDefinitions_8CA8::InitDefinitions_534330",
         "v96f_address": "0x489530",
         "v105_address": "0x534330",
         "v96f_auto": true
     },
     {
-        "name": "Phi_8CA8::GetObjectDefinition_534360",
+        "name": "ObjectDefinitions_8CA8::GetObjectDefinition_534360",
         "v96f_address": "0x488170",
         "v105_address": "0x534360",
         "v96f_auto": true
     },
     {
-        "name": "Phi_8CA8::CloneDefinition_534370",
+        "name": "ObjectDefinitions_8CA8::CloneDefinition_534370",
         "v96f_address": "0x488180",
         "v105_address": "0x534370",
         "v96f_auto": true
     },
     {
-        "name": "Phi_8CA8::AllocDefinition_5343C0",
+        "name": "ObjectDefinitions_8CA8::AllocDefinition_5343C0",
         "v96f_address": "0x4881d0",
         "v105_address": "0x5343c0",
         "v96f_auto": true
     },
     {
-        "name": "Phi_8CA8::ctor",
+        "name": "ObjectDefinitions_8CA8::ctor",
         "v96f_address": "0x488eb0",
         "v105_address": "0x5343f0",
         "v96f_auto": true
@@ -12979,13 +12979,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Wolfy_30::ctor",
+        "name": "Explosion_30::ctor",
         "v96f_address": "0x48a2c0",
         "v105_address": "0x5408f0",
         "v96f_auto": true
     },
     {
-        "name": "Wolfy_30::dtor",
+        "name": "Explosion_30::dtor",
         "v96f_address": "0x48a380",
         "v105_address": "0x540a10",
         "v96f_auto": true
@@ -12996,124 +12996,124 @@
         "v105_address": "0x540a40"
     },
     {
-        "name": "Wolfy_30::state_3_12_540D30",
+        "name": "Explosion_30::EmitFireTrail_3_12_540D30",
         "v96f_address": null,
         "v105_address": "0x540d30"
     },
     {
-        "name": "Wolfy_30::state_4_540F90",
+        "name": "Explosion_30::EmitFireTrail_4_540F90",
         "v96f_address": null,
         "v105_address": "0x540f90"
     },
     {
-        "name": "Wolfy_30::state_13_14_5411E0",
+        "name": "Explosion_30::EmitFireTrail_13_14_5411E0",
         "v96f_address": null,
         "v105_address": "0x5411e0"
     },
     {
-        "name": "Wolfy_30::state_5_541430",
+        "name": "Explosion_30::EmitFireTrail_5_541430",
         "v96f_address": "0x48e8b0",
         "v105_address": "0x541430",
         "v96f_auto": true
     },
     {
-        "name": "Wolfy_30::sub_541680",
+        "name": "Explosion_30::GetBlastRadius_541680",
         "v96f_address": "0x541680",
         "v105_address": "0x541680"
     },
     {
-        "name": "Wolfy_30::sub_541710",
+        "name": "Explosion_30::GetBlastHeight_541710",
         "v96f_address": "0x541710",
         "v105_address": "0x541710"
     },
     {
-        "name": "Wolfy_30::sub_541760",
+        "name": "Explosion_30::SpawnFlashParticle_541760",
         "v96f_address": "0x541760",
         "v105_address": "0x541760"
     },
     {
-        "name": "Wolfy_30::TimerAfter50Handler_541850",
+        "name": "Explosion_30::ApplyBlastDamage_541850",
         "v96f_address": "0x490d60",
         "v105_address": "0x541850",
         "v96f_auto": true
     },
     {
-        "name": "Wolfy_30::state_18_33_541D60",
+        "name": "Explosion_30::EmitExplosion_18_33_541D60",
         "v96f_address": "0x48eb00",
         "v105_address": "0x541d60",
         "v96f_auto": true
     },
     {
-        "name": "Wolfy_30::state_19_32_542060",
+        "name": "Explosion_30::EmitExplosion_19_32_542060",
         "v96f_address": "0x48ed40",
         "v105_address": "0x542060",
         "v96f_auto": true
     },
     {
-        "name": "Wolfy_30::state_20_542340",
+        "name": "Explosion_30::EmitExplosion_20_542340",
         "v96f_address": "0x48ef90",
         "v105_address": "0x542340",
         "v96f_auto": true
     },
     {
-        "name": "Wolfy_30::state_18_19_20_32_33_542790",
+        "name": "Explosion_30::UpdateExplosion_18_19_20_32_33_542790",
         "v96f_address": "0x491240",
         "v105_address": "0x542790",
         "v96f_auto": true
     },
     {
-        "name": "Wolfy_30::state_22_23_24_25_542E30",
+        "name": "Explosion_30::EmitBuildingDebris_22_23_24_25_542E30",
         "v96f_address": null,
         "v105_address": "0x542e30"
     },
     {
-        "name": "Wolfy_30::Update_5434A0",
+        "name": "Explosion_30::Update_5434A0",
         "v96f_address": "0x491a70",
         "v105_address": "0x5434a0",
         "v96f_auto": true
     },
     {
-        "name": "Wolfy_30::IsState_5435D0",
+        "name": "Explosion_30::IsFireType_5435D0",
         "v96f_address": "0x48a4d0",
         "v105_address": "0x5435d0",
         "v96f_auto": true
     },
     {
-        "name": "Wolfy_30::DeInit_543610",
+        "name": "Explosion_30::Release_543610",
         "v96f_address": "0x48a510",
         "v105_address": "0x543610",
         "v96f_auto": true
     },
     {
-        "name": "Wolfy_30::Init_543650",
+        "name": "Explosion_30::Init_543650",
         "v96f_address": null,
         "v105_address": "0x543650"
     },
     {
-        "name": "Wolfy_30::Set_Obj2C_543680",
+        "name": "Explosion_30::SetObject_543680",
         "v96f_address": "0x48a590",
         "v105_address": "0x543680",
         "v96f_auto": true
     },
     {
-        "name": "Wolfy_7A8::sub_543690",
+        "name": "ExplosionPool_7A8::FreeLowestPriority_543690",
         "v96f_address": "0x48a5a0",
         "v105_address": "0x543690",
         "v96f_auto": true
     },
     {
-        "name": "Wolfy_7A8::New_40_543800",
+        "name": "ExplosionPool_7A8::Allocate_543800",
         "v96f_address": "0x48a6c0",
         "v105_address": "0x543800",
         "v96f_auto": true
     },
     {
-        "name": "Wolfy_7A8::ctor",
+        "name": "ExplosionPool_7A8::ctor",
         "v96f_address": "0x48a7b0",
         "v105_address": "0x5438b0"
     },
     {
-        "name": "Wolfy_7A8::dtor",
+        "name": "ExplosionPool_7A8::dtor",
         "v96f_address": "0x48a7f0",
         "v105_address": "0x5438f0",
         "v96f_auto": true
@@ -13125,12 +13125,12 @@
         "v96f_auto": true
     },
     {
-        "name": "Wolfy_3D4::ctor",
+        "name": "ExplosionPool_3D4::ctor",
         "v96f_address": "0x48a880",
         "v105_address": "0x543980"
     },
     {
-        "name": "Wolfy_3D4::dtor",
+        "name": "ExplosionPool_3D4::dtor",
         "v96f_address": "0x48a8c0",
         "v105_address": "0x5439c0",
         "v96f_auto": true
@@ -13148,24 +13148,24 @@
         "v96f_auto": true
     },
     {
-        "name": "Marz_96::sub_543EC0",
+        "name": "PatrolRoute_96::sub_543EC0",
         "v96f_address": "0x491cf0",
         "v105_address": "0x543ec0",
         "v96f_auto": true
     },
     {
-        "name": "Marz_1D7E::ctor",
+        "name": "PatrolRoutePool_1D7E::ctor",
         "v96f_address": "0x491da0",
         "v105_address": "0x543ed0"
     },
     {
-        "name": "Marz_1D7E::AllocPatrolList_543F10",
+        "name": "PatrolRoutePool_1D7E::AllocPatrolList_543F10",
         "v96f_address": "0x491d00",
         "v105_address": "0x543f10",
         "v96f_auto": true
     },
     {
-        "name": "Marz_96::ctor",
+        "name": "PatrolRoute_96::ctor",
         "v96f_address": null,
         "v105_address": "0x544bf0"
     },
@@ -13522,76 +13522,76 @@
         "v96f_auto": true
     },
     {
-        "name": "Orca_2FD4::CanMoveInDirection_554080",
+        "name": "PathFinder_2FD4::CanMoveInDirection_554080",
         "v96f_address": "0x49c680",
         "v105_address": "0x554080",
         "v96f_auto": true
     },
     {
-        "name": "Orca_2FD4::TestDiagonalMove_5540E0",
+        "name": "PathFinder_2FD4::TestDiagonalMove_5540E0",
         "v96f_address": "0x49dce0",
         "v105_address": "0x5540e0",
         "v96f_auto": true
     },
     {
-        "name": "Orca_2FD4::Internel_CanMoveDiagonally_554110",
+        "name": "PathFinder_2FD4::CanMoveDiagonally_554110",
         "v96f_address": "0x49CB60",
         "v105_address": "0x554110"
     },
     {
-        "name": "Orca_2FD4::Internel_ClearGrid_5545C0",
+        "name": "PathFinder_2FD4::ClearGrid_5545C0",
         "v96f_address": "0x49c6e0",
         "v105_address": "0x5545c0",
         "v96f_auto": true
     },
     {
-        "name": "Orca_2FD4::init_5545E0",
+        "name": "PathFinder_2FD4::Init_5545E0",
         "v96f_address": "0x45c130",
         "v105_address": "0x5545e0"
     },
     {
-        "name": "Orca_2FD4::remove_ped_554620",
+        "name": "PathFinder_2FD4::RemovePed_554620",
         "v96f_address": "0x49c740",
         "v105_address": "0x554620",
         "v96f_auto": true
     },
     {
-        "name": "Orca_2FD4::Internel_EvaluateBehaviorGridCell_554640",
+        "name": "PathFinder_2FD4::EvaluateGridCell_554640",
         "v96f_address": "0x49c760",
         "v105_address": "0x554640",
         "v96f_auto": true
     },
     {
-        "name": "Orca_2FD4::Internel_UpdateBehaviorGrid_554710",
+        "name": "PathFinder_2FD4::AddGridCell_554710",
         "v96f_address": "0x49c820",
         "v105_address": "0x554710",
         "v96f_auto": true
     },
     {
-        "name": "Orca_2FD4::Internal_ProcessBehaviorGrid_5548C0",
+        "name": "PathFinder_2FD4::ProcessGridCell_5548C0",
         "v96f_address": "0x49CF10",
         "v105_address": "0x5548c0"
     },
     {
-        "name": "Orca_2FD4::RestoreSavedPosition_554920",
+        "name": "PathFinder_2FD4::RestoreSavedPosition_554920",
         "v96f_address": "0x49c9d0",
         "v105_address": "0x554920",
         "v96f_auto": true
     },
     {
-        "name": "Orca_2FD4::IsFirstPassenger_554A90",
+        "name": "PathFinder_2FD4::IsFirstPassenger_554A90",
         "v96f_address": "0x49cb40",
         "v105_address": "0x554a90",
         "v96f_auto": true
     },
     {
-        "name": "Orca_2FD4::ComputePath_554AB0",
+        "name": "PathFinder_2FD4::ComputePath_554AB0",
         "v96f_address": "0x49cf70",
         "v105_address": "0x554ab0",
         "v96f_auto": true
     },
     {
-        "name": "Orca_2FD4::FindNearbyTileMatchingSlopeType_5552B0",
+        "name": "PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0",
         "v96f_address": "0x49D7A0",
         "v105_address": "0x5552b0"
     },
@@ -14698,164 +14698,164 @@
         "v105_address": "0x56a940"
     },
     {
-        "name": "high_score_table_0xF0::ctor",
+        "name": "HighScoreTable_F0::ctor",
         "v96f_address": "0x4a8f70",
         "v105_address": "0x56b500",
         "v96f_auto": true
     },
     {
-        "name": "high_score_table_0xF0::dtor",
+        "name": "HighScoreTable_F0::dtor",
         "v96f_address": null,
         "v105_address": "0x56b510"
     },
     {
-        "name": "high_score_table_0xF0::Init_56B520",
+        "name": "HighScoreTable_F0::Init_56B520",
         "v96f_address": "0x4a8600",
         "v105_address": "0x56b520",
         "v96f_auto": true
     },
     {
-        "name": "high_score_table_0xF0::InsertScore_56B550",
+        "name": "HighScoreTable_F0::InsertScore_56B550",
         "v96f_address": "0x4a8630",
         "v105_address": "0x56b550",
         "v96f_auto": true
     },
     {
-        "name": "player_stats_0xA4::ctor",
+        "name": "PlySlot_A4::ctor",
         "v96f_address": null,
         "v105_address": "0x56b610"
     },
     {
-        "name": "player_stats_0xA4::dtor",
+        "name": "PlySlot_A4::dtor",
         "v96f_address": null,
         "v105_address": "0x56b620"
     },
     {
-        "name": "player_stats_0xA4::ResetPlayerSlot_56B630",
+        "name": "PlySlot_A4::ResetPlayerSlot_56B630",
         "v96f_address": "0x4a8700",
         "v105_address": "0x56b630",
         "v96f_auto": true
     },
     {
-        "name": "player_stats_0xA4::GetTotalLatestScore_56B680",
+        "name": "PlySlot_A4::GetTotalLatestScore_56B680",
         "v96f_address": "0x4a8750",
         "v105_address": "0x56b680",
         "v96f_auto": true
     },
     {
-        "name": "player_stats_0xA4::GetTotalBestScore_56B6B0",
+        "name": "PlySlot_A4::GetTotalBestScore_56B6B0",
         "v96f_address": "0x4a8780",
         "v105_address": "0x56b6b0",
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::ctor",
+        "name": "PlyDat_2BC0::ctor",
         "v96f_address": "0x4A9290",
         "v105_address": "0x56b6e0"
     },
     {
-        "name": "jolly_poitras_0x2BC0::dtor",
+        "name": "PlyDat_2BC0::dtor",
         "v96f_address": "0x4a87b0",
         "v105_address": "0x56b810",
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::GetPlySlotDatName_56B8A0",
+        "name": "PlyDat_2BC0::GetPlySlotDatName_56B8A0",
         "v96f_address": "0x4a8820",
         "v105_address": "0x56b8a0",
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::PlySlotDatExists_56B940",
+        "name": "PlyDat_2BC0::PlySlotDatExists_56B940",
         "v96f_address": "0x4a88c0",
         "v105_address": "0x56b940",
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::LoadPlySlotDat_56B990",
+        "name": "PlyDat_2BC0::LoadPlySlotDat_56B990",
         "v96f_address": "0x4A8CB0",
         "v105_address": "0x56b990"
     },
     {
-        "name": "jolly_poitras_0x2BC0::SavePlySlotDat_56BA60",
+        "name": "PlyDat_2BC0::SavePlySlotDat_56BA60",
         "v96f_address": "0x4A89E0",
         "v105_address": "0x56ba60"
     },
     {
-        "name": "jolly_poitras_0x2BC0::UpdateStageScore_56BB10",
+        "name": "PlyDat_2BC0::UpdateStageScore_56BB10",
         "v96f_address": "0x4a8f90",
         "v105_address": "0x56bb10",
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::UnlockStage_56BBD0",
+        "name": "PlyDat_2BC0::UnlockStage_56BBD0",
         "v96f_address": "0x4a8a90",
         "v105_address": "0x56bbd0",
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::UnlockAllStages_56BC40",
+        "name": "PlyDat_2BC0::UnlockAllStages_56BC40",
         "v96f_address": "0x4a8b00",
         "v105_address": "0x56bc40",
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::HiScoreHscExists_56BCA0",
+        "name": "PlyDat_2BC0::HiScoreHscExists_56BCA0",
         "v96f_address": null,
         "v105_address": "0x56bca0"
     },
     {
-        "name": "jolly_poitras_0x2BC0::GetHiScoreHscFileName_56BCF0",
+        "name": "PlyDat_2BC0::GetHiScoreHscFileName_56BCF0",
         "v96f_address": "0x4a8b60",
         "v105_address": "0x56bcf0",
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::sub_56BD20",
+        "name": "PlyDat_2BC0::InitAltHiScores_56BD20",
         "v96f_address": "0x4a8b80",
         "v105_address": "0x56bd20",
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::LoadHiScores_56BE50",
+        "name": "PlyDat_2BC0::LoadHiScores_56BE50",
         "v96f_address": null,
         "v105_address": "0x56be50"
     },
     {
-        "name": "jolly_poitras_0x2BC0::SaveHiScores_56BF20",
+        "name": "PlyDat_2BC0::SaveHiScores_56BF20",
         "v96f_address": "0x4a8d80",
         "v105_address": "0x56bf20",
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::sub_56C010",
+        "name": "PlyDat_2BC0::UpdateHiScores_56C010",
         "v96f_address": "0x4a90a0",
         "v105_address": "0x56c010",
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::sub_56C170",
+        "name": "PlyDat_2BC0::sub_56C170",
         "v96f_address": null,
         "v105_address": "0x56c170"
     },
     {
-        "name": "jolly_poitras_0x2BC0::InitDefaultHiScores_56C1D0",
+        "name": "PlyDat_2BC0::InitDefaultHiScores_56C1D0",
         "v96f_address": "0x4a8ed0",
         "v105_address": "0x56c1d0",
         "v96f_auto": true
     },
     {
-        "name": "jolly_poitras_0x2BC0::DoMuchCashCheat_56C250",
+        "name": "PlyDat_2BC0::DoMuchCashCheat_56C250",
         "v96f_address": null,
         "v105_address": "0x56c250"
     },
     {
-        "name": "jolly_poitras_0x2BC0::create_56C2C0",
+        "name": "PlyDat_2BC0::Create_56C2C0",
         "v96f_address": "0x4A93B0",
         "v105_address": "0x56c2c0"
     },
     {
-        "name": "jolly_poitras_0x2BC0::destroy_56C340",
+        "name": "PlyDat_2BC0::Destroy_56C340",
         "v96f_address": null,
         "v105_address": "0x56c340"
     },
@@ -15533,7 +15533,7 @@
         "v105_address": "0x583870"
     },
     {
-        "name": "Car_14::sub_5838E0",
+        "name": "Car_14::GetLaneOffset_5838E0",
         "v96f_address": null,
         "v105_address": "0x5838e0"
     },
@@ -16281,138 +16281,138 @@
         "v105_address": "0x58e980"
     },
     {
-        "name": "eager_benz::ctor",
+        "name": "PlayerScoreTracker_36C::ctor",
         "v96f_address": "0x4b73f0",
         "v105_address": "0x591bd0",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::Service_591C70",
+        "name": "PlayerScoreTracker_36C::Service_591C70",
         "v96f_address": "0x4b7770",
         "v105_address": "0x591c70",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::Init_5922F0",
+        "name": "PlayerScoreTracker_36C::Init_5922F0",
         "v96f_address": "0x4b7490",
         "v105_address": "0x5922f0",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::Reset_592330",
+        "name": "PlayerScoreTracker_36C::Reset_592330",
         "v96f_address": "0x4b7d50",
         "v105_address": "0x592330",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::GetScoreDigits_592360",
+        "name": "PlayerScoreTracker_36C::GetScoreDigits_592360",
         "v96f_address": "0x4b74d0",
         "v105_address": "0x592360",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::GetScore_592370",
+        "name": "PlayerScoreTracker_36C::GetScore_592370",
         "v96f_address": "0x433dc0",
         "v105_address": "0x592370",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::ResetCarModelFlags_592380",
+        "name": "PlayerScoreTracker_36C::ResetCarModelFlags_592380",
         "v96f_address": "0x4b75b0",
         "v105_address": "0x592380",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::CheckAllCarModelsFlagged_592430",
+        "name": "PlayerScoreTracker_36C::CheckAllCarModelsFlagged_592430",
         "v96f_address": "0x4b7d80",
         "v105_address": "0x592430",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::SetCarModelFlag_592570",
+        "name": "PlayerScoreTracker_36C::SetCarModelFlag_592570",
         "v96f_address": "0x4b7e90",
         "v105_address": "0x592570",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::GetCarScoreValue_5925B0",
+        "name": "PlayerScoreTracker_36C::GetCarScoreValue_5925B0",
         "v96f_address": "0x4b7500",
         "v105_address": "0x5925b0",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::AddCash_592620",
+        "name": "PlayerScoreTracker_36C::AddCash_592620",
         "v96f_address": "0x4b7660",
         "v105_address": "0x592620",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::OnPedKilled_592660",
+        "name": "PlayerScoreTracker_36C::AwardPedKilledScore_592660",
         "v96f_address": "0x4b7eb0",
         "v105_address": "0x592660",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::OnCarDestroyed_592DD0",
+        "name": "PlayerScoreTracker_36C::AwardCarDestroyedScore_592DD0",
         "v96f_address": "0x4b85b0",
         "v105_address": "0x592dd0",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::AwardCarDamageScore_593030",
+        "name": "PlayerScoreTracker_36C::AwardCarDamageScore_593030",
         "v96f_address": "0x4b8870",
         "v105_address": "0x593030",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::sub_593150",
+        "name": "PlayerScoreTracker_36C::sub_593150",
         "v96f_address": "0x4b89b0",
         "v105_address": "0x593150",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::sub_593220",
+        "name": "PlayerScoreTracker_36C::sub_593220",
         "v96f_address": null,
         "v105_address": "0x593220"
     },
     {
-        "name": "eager_benz::OnCarHijacked_593240",
+        "name": "PlayerScoreTracker_36C::AwardCarHijackedScore_593240",
         "v96f_address": "0x4b8a70",
         "v105_address": "0x593240",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::OnBusStolen_593370",
+        "name": "PlayerScoreTracker_36C::AwardBusStolenScore_593370",
         "v96f_address": "0x4b8bd0",
         "v105_address": "0x593370",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::OnFullBusDestroyed_593410",
+        "name": "PlayerScoreTracker_36C::AwardFullBusDestroyedScore_593410",
         "v96f_address": "0x4b8c80",
         "v105_address": "0x593410",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::UpdateAccuracyCount_5934F0",
+        "name": "PlayerScoreTracker_36C::UpdateAccuracyCount_5934F0",
         "v96f_address": "0x4b76a0",
         "v105_address": "0x5934f0",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::GetMultiplayerFragDigits_5935B0",
+        "name": "PlayerScoreTracker_36C::GetMultiplayerFragDigits_5935B0",
         "v96f_address": "0x4b7570",
         "v105_address": "0x5935b0",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::GetFrags_5935C0",
+        "name": "PlayerScoreTracker_36C::GetFrags_5935C0",
         "v96f_address": "0x4b8fd0",
         "v105_address": "0x5935c0",
         "v96f_auto": true
     },
     {
-        "name": "eager_benz::ChangeFragsByAmount_5935D0",
+        "name": "PlayerScoreTracker_36C::ChangeFragsByAmount_5935D0",
         "v96f_address": "0x4b8a60",
         "v105_address": "0x5935d0",
         "v96f_auto": true
@@ -16506,30 +16506,30 @@
         "v105_address": "0x597100"
     },
     {
-        "name": "Varrok_7F8::AllocForPed_59B060",
+        "name": "PedRefTable_7F8::AllocForPed_59B060",
         "v96f_address": "0x4b98d0",
         "v105_address": "0x59b060",
         "v96f_auto": true
     },
     {
-        "name": "Varrok_7F8::IncrementRefCount_59B0B0",
+        "name": "PedRefTable_7F8::IncrementRefCount_59B0B0",
         "v96f_address": null,
         "v105_address": "0x59b0b0"
     },
     {
-        "name": "Varrok_7F8::DecrementRefCount_59B0D0",
+        "name": "PedRefTable_7F8::DecrementRefCount_59B0D0",
         "v96f_address": "0x4b9940",
         "v105_address": "0x59b0d0",
         "v96f_auto": true
     },
     {
-        "name": "Varrok_7F8::ctor",
+        "name": "PedRefTable_7F8::ctor",
         "v96f_address": "0x4b9960",
         "v105_address": "0x59b0f0",
         "v96f_auto": true
     },
     {
-        "name": "Varrok_7F8::dtor",
+        "name": "PedRefTable_7F8::dtor",
         "v96f_address": "0x4b9980",
         "v105_address": "0x59b110",
         "v96f_auto": true
@@ -17647,120 +17647,120 @@
         "v105_address": "0x5b6050"
     },
     {
-        "name": "festive_hopper::Alloc_5B8E90",
+        "name": "RemapTextureSet_14::Alloc_5B8E90",
         "v96f_address": "0x4c2710",
         "v105_address": "0x5b8e90",
         "v96f_auto": true
     },
     {
-        "name": "festive_hopper::LoadTextures_5B8F00",
+        "name": "RemapTextureSet_14::LoadTextures_5B8F00",
         "v96f_address": "0x4c2780",
         "v105_address": "0x5b8f00",
         "v96f_auto": true
     },
     {
-        "name": "festive_hopper::LoadRemappedTextures_5B8F70",
+        "name": "RemapTextureSet_14::LoadRemappedTextures_5B8F70",
         "v96f_address": "0x4c27f0",
         "v105_address": "0x5b8f70",
         "v96f_auto": true
     },
     {
-        "name": "festive_hopper::dtor",
+        "name": "RemapTextureSet_14::dtor",
         "v96f_address": "0x4c28d0",
         "v105_address": "0x5b9050",
         "v96f_auto": true
     },
     {
-        "name": "festive_hopper::get_texture_5B90A0",
+        "name": "RemapTextureSet_14::get_texture_5B90A0",
         "v96f_address": "0x4c2920",
         "v105_address": "0x5b90a0",
         "v96f_auto": true
     },
     {
-        "name": "festive_hopper::GetRemappedTexture_5B90D0",
+        "name": "RemapTextureSet_14::GetRemappedTexture_5B90D0",
         "v96f_address": "0x4c2950",
         "v105_address": "0x5b90d0",
         "v96f_auto": true
     },
     {
-        "name": "sharp_pare_0x15D8::LoadPals_5B90F0",
+        "name": "TextureCache_15D8::LoadPals_5B90F0",
         "v96f_address": "0x4c2970",
         "v105_address": "0x5b90f0",
         "v96f_auto": true
     },
     {
-        "name": "sharp_pare_0x15D8::FreePals_5B9140",
+        "name": "TextureCache_15D8::FreePals_5B9140",
         "v96f_address": "0x4c29c0",
         "v105_address": "0x5b9140",
         "v96f_auto": true
     },
     {
-        "name": "sharp_pare_0x15D8::LoadTextures2_5B9180",
+        "name": "TextureCache_15D8::LoadCarDamageTextures_5B9180",
         "v96f_address": "0x4c2f90",
         "v105_address": "0x5b9180",
         "v96f_auto": true
     },
     {
-        "name": "sharp_pare_0x15D8::RegisterDigits_5B9220",
+        "name": "TextureCache_15D8::RegisterDigits_5B9220",
         "v96f_address": "0x4c2a00",
         "v105_address": "0x5b9220",
         "v96f_auto": true
     },
     {
-        "name": "sharp_pare_0x15D8::ReadTextures_5B92E0",
+        "name": "TextureCache_15D8::ReadTextures_5B92E0",
         "v96f_address": "0x4c3040",
         "v105_address": "0x5b92e0",
         "v96f_auto": true
     },
     {
-        "name": "sharp_pare_0x15D8::LoadStyleTextures_5B9350",
+        "name": "TextureCache_15D8::LoadStyleTextures_5B9350",
         "v96f_address": "0x4c30a0",
         "v105_address": "0x5b9350",
         "v96f_auto": true
     },
     {
-        "name": "sharp_pare_0x15D8::GetSpriteTexture_5B94F0",
+        "name": "TextureCache_15D8::GetSpriteTexture_5B94F0",
         "v96f_address": "0x4c2ac0",
         "v105_address": "0x5b94f0",
         "v96f_auto": true
     },
     {
-        "name": "sharp_pare_0x15D8::GetTexture2_5B95D0",
+        "name": "TextureCache_15D8::GetCarDamageTexture_5B95D0",
         "v96f_address": "0x4c2ba0",
         "v105_address": "0x5b95d0",
         "v96f_auto": true
     },
     {
-        "name": "sharp_pare_0x15D8::GetDigitTexture_5B95F0",
+        "name": "TextureCache_15D8::GetDigitTexture_5B95F0",
         "v96f_address": "0x4c2bc0",
         "v105_address": "0x5b95f0",
         "v96f_auto": true
     },
     {
-        "name": "sharp_pare_0x15D8::SetPal_5B9660",
+        "name": "TextureCache_15D8::SetPal_5B9660",
         "v96f_address": "0x4c2c30",
         "v105_address": "0x5b9660",
         "v96f_auto": true
     },
     {
-        "name": "sharp_pare_0x15D8::SetTexture2SizeAndPalette_5B96B0",
+        "name": "TextureCache_15D8::SetCarDamageTextureSizeAndPalette_5B96B0",
         "v96f_address": "0x4c2c80",
         "v105_address": "0x5b96b0",
         "v96f_auto": true
     },
     {
-        "name": "sharp_pare_0x15D8::SetSharedTextureData_5B9710",
+        "name": "TextureCache_15D8::SetSharedTextureData_5B9710",
         "v96f_address": "0x4c2ce0",
         "v105_address": "0x5b9710",
         "v96f_auto": true
     },
     {
-        "name": "sharp_pare_0x15D8::ctor",
+        "name": "TextureCache_15D8::ctor",
         "v96f_address": "0x4c3190",
         "v105_address": "0x5b9790"
     },
     {
-        "name": "sharp_pare_0x15D8::dtor",
+        "name": "TextureCache_15D8::dtor",
         "v96f_address": "0x4c2d60",
         "v105_address": "0x5b9900",
         "v96f_auto": true
@@ -17842,42 +17842,42 @@
         "v96f_auto": true
     },
     {
-        "name": "distracted_einstein_0xC::AccumulateElapsed_5BEBF0",
+        "name": "ProfilerTimer_C::AccumulateElapsed_5BEBF0",
         "v96f_address": "0x4c3680",
         "v105_address": "0x5bebf0",
         "v96f_auto": true
     },
     {
-        "name": "distracted_einstein_0xC::ctor",
+        "name": "ProfilerTimer_C::ctor",
         "v96f_address": "0x4c36a0",
         "v105_address": "0x5bec10",
         "v96f_auto": true
     },
     {
-        "name": "distracted_einstein_0xC::dtor",
+        "name": "ProfilerTimer_C::dtor",
         "v96f_address": "0x4c36b0",
         "v105_address": "0x5bec20",
         "v96f_auto": true
     },
     {
-        "name": "sharp_bose_0x54::ShowFps_5BEC30",
+        "name": "FpsCounter_54::ShowFps_5BEC30",
         "v96f_address": "0x4c36c0",
         "v105_address": "0x5bec30",
         "v96f_auto": true
     },
     {
-        "name": "sharp_bose_0x54::ctor",
+        "name": "FpsCounter_54::ctor",
         "v96f_address": "0x4c3700",
         "v105_address": "0x5bec70"
     },
     {
-        "name": "sharp_bose_0x54::dtor",
+        "name": "FpsCounter_54::dtor",
         "v96f_address": "0x4c3750",
         "v105_address": "0x5becc0",
         "v96f_auto": true
     },
     {
-        "name": "sharp_bose_0x54::UpdateFpsCounters_5BECF0",
+        "name": "FpsCounter_54::UpdateFpsCounters_5BECF0",
         "v96f_address": "0x4c3760",
         "v105_address": "0x5becf0",
         "v96f_auto": true
@@ -17948,40 +17948,40 @@
         "v105_address": "0x5c5cd0"
     },
     {
-        "name": "Montana_4::AddSprite_5C5CF0",
+        "name": "SpriteTree_4::AddSprite_5C5CF0",
         "v96f_address": "0x4c4bf0",
         "v105_address": "0x5c5cf0",
         "v96f_auto": true
     },
     {
-        "name": "Montana_4::Draw_5C5DF0",
+        "name": "SpriteTree_4::Draw_5C5DF0",
         "v96f_address": "0x4c4d20",
         "v105_address": "0x5c5df0",
         "v96f_auto": true
     },
     {
-        "name": "Montana_4::Reset_5C5E50",
+        "name": "SpriteTree_4::Reset_5C5E50",
         "v96f_address": "0x4c4d60",
         "v105_address": "0x5c5e50"
     },
     {
-        "name": "Montana_4::ctor",
+        "name": "SpriteTree_4::ctor",
         "v96f_address": "0x4c4df0",
         "v105_address": "0x5c5e70"
     },
     {
-        "name": "Montana_4::dtor",
+        "name": "SpriteTree_4::dtor",
         "v96f_address": "0x4c4e60",
         "v105_address": "0x5c5f10",
         "v96f_auto": true
     },
     {
-        "name": "Montana_2EE4::ctor",
+        "name": "SpriteTreeNodePool_2EE4::ctor",
         "v96f_address": "0x4c4dc0",
         "v105_address": "0x5c5f60"
     },
     {
-        "name": "Montana_2EE4::dtor",
+        "name": "SpriteTreeNodePool_2EE4::dtor",
         "v96f_address": null,
         "v105_address": "0x5c5f90"
     },
@@ -18004,7 +18004,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Car_214::sub_5C8780",
+        "name": "Car_214::CheckThreadTrigger_5C8780",
         "v96f_address": "0x4c4fe0",
         "v105_address": "0x5c8780",
         "v96f_auto": true
@@ -18075,50 +18075,50 @@
         "v96f_auto": true
     },
     {
-        "name": "Garox_4::ShowNextNumberedBrief_5CF620",
+        "name": "Hud_BriefSelector_4::ShowNextNumberedBrief_5CF620",
         "v96f_address": null,
         "v105_address": "0x5cf620"
     },
     {
-        "name": "Garox_4::ShowPrevNumberedBrief_5CF6B0",
+        "name": "Hud_BriefSelector_4::ShowPrevNumberedBrief_5CF6B0",
         "v96f_address": null,
         "v105_address": "0x5cf6b0"
     },
     {
-        "name": "Garox_110C_sub::Update_5CF730",
+        "name": "Hud_UnderRoofArrowMarker_C::Update_5CF730",
         "v96f_address": null,
         "v105_address": "0x5cf730"
     },
     {
-        "name": "Garox_110C_sub::Draw_5CF910",
+        "name": "Hud_UnderRoofArrowMarker_C::Draw_5CF910",
         "v96f_address": "0x4c74a0",
         "v105_address": "0x5cf910",
         "v96f_auto": true
     },
     {
-        "name": "Garox_27B5_sub::ShowPlayerCoords_5CF970",
+        "name": "Hud_ShowCoords_1::ShowPlayerCoords_5CF970",
         "v96f_address": "0x4ca680",
         "v105_address": "0x5cf970",
         "v96f_auto": true
     },
     {
-        "name": "Garox_107C_sub::DrawGangRespectBars_5CFA70",
+        "name": "Hud_GangRespectBars_1::DrawGangRespectBars_5CFA70",
         "v96f_address": "0x4c74f0",
         "v105_address": "0x5cfa70",
         "v96f_auto": true
     },
     {
-        "name": "Garox_107C_sub::Empty_5CFE20",
+        "name": "Hud_GangRespectBars_1::Empty_5CFE20",
         "v96f_address": null,
         "v105_address": "0x5cfe20"
     },
     {
-        "name": "Garox_107C_sub::Empty_5CFE30",
+        "name": "Hud_GangRespectBars_1::Empty_5CFE30",
         "v96f_address": null,
         "v105_address": "0x5cfe30"
     },
     {
-        "name": "Garox_13C0_sub::DrawPlayerNames_5CFE40",
+        "name": "Hud_PlayerNames_4::DrawPlayerNames_5CFE40",
         "v96f_address": null,
         "v105_address": "0x5cfe40"
     },
@@ -18145,7 +18145,7 @@
         "v105_address": "0x5d0210"
     },
     {
-        "name": "Garox_1108_sub::DrawHealth_5D0260",
+        "name": "Hud_Health_4::DrawHealth_5D0260",
         "v96f_address": "0x4c7b70",
         "v105_address": "0x5d0260",
         "v96f_auto": true
@@ -18285,48 +18285,48 @@
         "v105_address": "0x5d1350"
     },
     {
-        "name": "Garox_12EC_sub::IsOnQuitMessage_5D13C0",
+        "name": "Hud_QuitMessage_1::IsOnQuitMessage_5D13C0",
         "v96f_address": "0x4c8690",
         "v105_address": "0x5d13c0",
         "v96f_auto": true
     },
     {
-        "name": "Garox_12EC_sub::DrawQuitMessage_5D1430",
+        "name": "Hud_QuitMessage_1::DrawQuitMessage_5D1430",
         "v96f_address": "0x4c8710",
         "v105_address": "0x5d1430",
         "v96f_auto": true
     },
     {
-        "name": "Garox_12EC_sub::IsQuitMessageKey_5D15A0",
+        "name": "Hud_QuitMessage_1::IsQuitMessageKey_5D15A0",
         "v96f_address": "0x4c5f30",
         "v105_address": "0x5d15a0",
         "v96f_auto": true
     },
     {
-        "name": "Garox_12EC_sub::ShowQuitMessage_5D15D0",
+        "name": "Hud_QuitMessage_1::ShowQuitMessage_5D15D0",
         "v96f_address": "0x4c5f60",
         "v105_address": "0x5d15d0",
         "v96f_auto": true
     },
     {
-        "name": "Garox_2A25_sub::IsTypingOnChat_5D15E0",
+        "name": "Hud_ChatInput_1::IsTypingOnChat_5D15E0",
         "v96f_address": null,
         "v105_address": "0x5d15e0"
     },
     {
-        "name": "Garox_2A25_sub::DrawChatMessages_5D16B0",
+        "name": "Hud_ChatInput_1::DrawChatMessages_5D16B0",
         "v96f_address": "0x4c8910",
         "v105_address": "0x5d16b0",
         "v96f_auto": true
     },
     {
-        "name": "Garox_2A25_sub::IsChatInputKey_5D17D0",
+        "name": "Hud_ChatInput_1::IsChatInputKey_5D17D0",
         "v96f_address": "0x4c5f70",
         "v105_address": "0x5d17d0",
         "v96f_auto": true
     },
     {
-        "name": "Garox_2A25_sub::StartChatting_5D1830",
+        "name": "Hud_ChatInput_1::StartChatting_5D1830",
         "v96f_address": null,
         "v105_address": "0x5d1830"
     },
@@ -18366,55 +18366,55 @@
         "v96f_auto": true
     },
     {
-        "name": "Garox_C4::FormatAndSetupText_5D1B10",
+        "name": "Hud_TextEntry_C4::FormatAndSetupText_5D1B10",
         "v96f_address": "0x4c8aa0",
         "v105_address": "0x5d1b10",
         "v96f_auto": true
     },
     {
-        "name": "Garox_C4::Draw_5D1D00",
+        "name": "Hud_TextEntry_C4::Draw_5D1D00",
         "v96f_address": "0x4c8b90",
         "v105_address": "0x5d1d00",
         "v96f_auto": true
     },
     {
-        "name": "Garox_C4::DecrementDisplayTime_5D1DB0",
+        "name": "Hud_TextEntry_C4::DecrementDisplayTime_5D1DB0",
         "v96f_address": "0x4c60f0",
         "v105_address": "0x5d1db0",
         "v96f_auto": true
     },
     {
-        "name": "Garox_C4::operator_equals_5D1E10",
+        "name": "Hud_TextEntry_C4::operator_equals_5D1E10",
         "v96f_address": "0x4c6110",
         "v105_address": "0x5d1e10",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1700_L::ExpireDuplicates_5D1EB0",
+        "name": "Hud_TextList_968::ExpireDuplicates_5D1EB0",
         "v96f_address": "0x4c8be0",
         "v105_address": "0x5d1eb0",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1700_L::DisplayText_5D1F50",
+        "name": "Hud_TextList_968::DisplayText_5D1F50",
         "v96f_address": "0x4c8c20",
         "v105_address": "0x5d1f50",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1700_L::Service_5D2010",
+        "name": "Hud_TextList_968::Service_5D2010",
         "v96f_address": "0x4c8c80",
         "v105_address": "0x5d2010",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1700_L::RemoveExpired_5D2050",
+        "name": "Hud_TextList_968::RemoveExpired_5D2050",
         "v96f_address": "0x4c6170",
         "v105_address": "0x5d2050",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1700_L::ctor",
+        "name": "Hud_TextList_968::ctor",
         "v96f_address": "0x4c6250",
         "v105_address": "0x5d2280",
         "v96f_auto": true
@@ -18599,67 +18599,67 @@
         "v96f_auto": true
     },
     {
-        "name": "Garox_1::CalcTextWidth_5D53E0",
+        "name": "Hud_PickupText_88::CalcTextWidth_5D53E0",
         "v96f_address": "0x4c69d0",
         "v105_address": "0x5d53e0",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1::Draw_5D5420",
+        "name": "Hud_PickupText_88::Draw_5D5420",
         "v96f_address": "0x4c9690",
         "v105_address": "0x5d5420",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1::ShowPickupText_5D5600",
+        "name": "Hud_PickupText_88::ShowPickupText_5D5600",
         "v96f_address": "0x4c69f0",
         "v105_address": "0x5d5600",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1::DecrementTimer_5D5690",
+        "name": "Hud_PickupText_88::DecrementTimer_5D5690",
         "v96f_address": "0x4c6a40",
         "v105_address": "0x5d5690",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1::ctor",
+        "name": "Hud_PickupText_88::ctor",
         "v96f_address": "0x4c6a50",
         "v105_address": "0x5d56a0",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1_v2::CalcTextWidth_5D56B0",
+        "name": "Hud_MpMessage_D0::CalcTextWidth_5D56B0",
         "v96f_address": "0x4c6a60",
         "v105_address": "0x5d56b0",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1_v2::Draw_5D56D0",
+        "name": "Hud_MpMessage_D0::Draw_5D56D0",
         "v96f_address": "0x4c96f0",
         "v105_address": "0x5d56d0",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1_v2::ShowText_5D5730",
+        "name": "Hud_MpMessage_D0::ShowText_5D5730",
         "v96f_address": "0x4c6a80",
         "v105_address": "0x5d5730",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1_v2::DecrementTimer_5D5760",
+        "name": "Hud_MpMessage_D0::DecrementTimer_5D5760",
         "v96f_address": "0x4c60b0",
         "v105_address": "0x5d5760",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1_v2::AnnounceKill_5D5770",
+        "name": "Hud_MpMessage_D0::AnnounceKill_5D5770",
         "v96f_address": "0x4c9750",
         "v105_address": "0x5d5770",
         "v96f_auto": true
     },
     {
-        "name": "Garox_1_v2::ctor",
+        "name": "Hud_MpMessage_D0::ctor",
         "v96f_address": "0x4c6ac0",
         "v105_address": "0x5d58f0",
         "v96f_auto": true
@@ -18701,7 +18701,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Garox_1118_sub::DrawPlayerStats_5D5C80",
+        "name": "Hud_PlayerStats_4::DrawPlayerStats_5D5C80",
         "v96f_address": "0x4C9C20",
         "v105_address": "0x5d5c80"
     },
@@ -18718,13 +18718,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Garox_1118_sub::UpdateRollingDigits_5D6290",
+        "name": "Hud_PlayerStats_4::UpdateRollingDigits_5D6290",
         "v96f_address": "0x4c6ca0",
         "v105_address": "0x5d6290",
         "v96f_auto": true
     },
     {
-        "name": "Garox_12E4_sub::DrawPause_5D63B0",
+        "name": "Hud_PauseScreen_2::DrawPause_5D63B0",
         "v96f_address": "0x4c9fa0",
         "v105_address": "0x5d63b0",
         "v96f_auto": true

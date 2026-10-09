@@ -42,7 +42,7 @@ fi
 # Per-file flags, as in cmake/vc6.cmake.
 case "$(basename "$SRC")" in
     Network_20324.cpp) export EXTRA_CFLAGS="/Gz" ;;
-    sharp_bose_0x54.cpp) export EXTRA_CFLAGS="/GX-" ;;
+    FpsCounter_54.cpp) export EXTRA_CFLAGS="/GX-" ;;
     gbh_graphics.cpp) export EXTRA_CFLAGS="/Od /ZI" ;;
 esac
 
