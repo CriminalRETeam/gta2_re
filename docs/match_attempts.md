@@ -3548,3 +3548,56 @@ Tried, all worse or no change:
 - `Hud_Arrow_7C::UpdateScreenPos_5D0850` (86): not x87, the frame/CSE issue already described; not retried.
 - `Map_0x370::sub_4E6660` (4): `pPrev = pBlock` after `sub_4E65A0(x, y, &z, 1, 1)` again pushes `%ebx`
   for both 1s; no new lever found.
+
+## Oct 9: ten new matches, and what the near misses still need
+
+Matched this round (see `matching_quirks.md` and the commit messages for each trick):
+`PedGroup::sub_4C8E60`, `DrawTexture_5D8470`, `DrawGradientSlopeSouthwards_4F1660`,
+`DrawGradientSlopeEastwards_4F33B0`, `sound_obj::ProcessActiveQueues_41AB80`,
+`PathFinder_2FD4::AddGridCell_554710`, `PathFinder_2FD4::ComputePath_554AB0`,
+`Ped::GotoAreaByAnyMeans_469060`, `Sprite::Draw_59EFF0`, `Ped::CallPoliceCar_469FE0`.
+
+Levers that did it, beyond what this file already lists:
+
+- **Regalloc priority tipping by adding definitions or blocks.** A local assigned in both arms of
+  an if (instead of init + `+=`) gets an extra def and outranks competitors (554710). Writing a
+  label-shared tail out per case, or duplicating a fail tail in each branch, adds blocks for
+  priority counting; VC6 cross-jumps the copies back together after allocation, so the code is
+  unchanged (554AB0, 469FE0). This also works for a constant's register (469FE0: zero went from
+  priority 2, dropped, to 10). `priolog` shows the numbers.
+- **Round-robin rotation.** Removing a no-op `Fix16(x, 0)` construction removed one register pick
+  and fixed the eax/ecx/edx rotation for the rest of the loop (41AB80).
+- **Combine "worse" ideas.** 469060 matched with two changes that were each recorded as worse alone.
+- **`cmp %bl,%al` on a call result** comes from comparing a byte variable:
+  `u8 bFound = 0; if (...) bFound = Call(); if (bFound)` (469060, 469FE0).
+
+Near misses, new findings (not matched):
+
+- `PoliceCrew_38::State6_ShutDown_574720` (2 lines): `u8 i;` with no initialiser, accessed through
+  a `const u8&` inline, and `*(volatile u8*)&i = 0;` after the `gCurrentCrewPed_6FEDDC` store.
+  A volatile store isn't counted as a use of constant 0, so there's no `xor ebp,ebp`. Left: the
+  original places `movb $0,8(%esp)` between the `field_10` and `field_4` loads; volatile stores keep
+  their order relative to other stores, so it can't be moved there.
+- `DrawPlayerStatsHelper_5D61A0`: `s32 width` + `s32 x_offset = n < 10 ? 18 : 22;` before the y
+  ctor + `(u32)(base_xpos - x_offset)` matches all but width/base_xpos swapped in ebx/ebp. priolog:
+  width 30 (tie 33), base_xpos 32 (tie 13); width needs +2.
+- `TagGameHudUpdate_4DADA0`: a volatile store of the 1 changes nothing; even with the constant-1
+  live range forced to priority -2 it still gets ebx and `test %dl,%bl`.
+- `CarAI_78::DetectCarAhead_44D1D0`: `goto tail_1/tail_2` in both probe switches gives 16 lines
+  (from 150). Left: `last` (prio 52, its `dec` folded into itself) beats `next` (36, its `inc`
+  folded into the dying `arrow_idx`).
+- `miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180`: pParam2 prio 5 vs zero 4 is the whole problem.
+  Taking the first `GetBasePointer` argument from `pCmd->field_8_unsigned_1` gives the right
+  registers but loses the separate `mov gBasePtr,%eax`. Untried: one more value referenced in the
+  2nd or 3rd SetUniNum block.
+- `CarAI_78::ScanAheadForObstacles_452060`: a local's slot size comes from its first reference in
+  IL order (`lea` or dword access = 4), so a ctor-built `Ang16 v83(&v86, 0)` is always size 4.
+- `MapRenderer::draw_bottom_4ED290` / `DrawRightSide_4EAF40`: first diff is the z sum before the
+  out-of-line `ProjectVert_4EB940` call: original `add %esi,%ecx` in place, ours
+  `lea (%esi,%ecx),%edx`, an extra round-robin pick.
+- `CarAI_78::FollowRoadDirection_44A1F0`: the only real difference is which of two
+  `SetGoStraight(); return;` copies in the right_3/east_3 case VC6 keeps.
+- `Map_0x370::sub_4E8370`, `sub_4E6660`, `GetLayout_4D6000`, `ProcessPoliceRadioWordsPlayback_427220`,
+  `FreeLowestPriority_543690`: retried, nothing new.
+- `SetGamma_5D9910` and `TextureCache_15D8::ReadTextures_5B92E0` would match only by removing code
+  kept on purpose for the standalone exe (see their source comments); left as they are.
