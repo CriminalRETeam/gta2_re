@@ -2457,6 +2457,14 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   `verts[i].x = ((x_pos + point.x).ToFloat());` (double parentheses), one no-op node per conversion. Without them
   regsearch reports 2 nodes short per window; with them the windows break where the original's do (78 -> 8,
   and part of DrawFigure's match). An `f32` local per store gives the same node count.
+- **An x87 instruction is not issued in a cycle where a much higher-priority node is one cycle from ready.**
+  The field_60 `fmuls` before the next vertex's `idiv` (`DrawGradientSlopeSouthwards_4F1660`, `Eastwards_4F33B0`):
+  with the `idiv` (p ~110) ready next cycle, ours issued `fmuls`/its no-op (p 84-86) first, the original waited
+  (p 66 at the same spot). Converting field_60 first and both y operands through two `f32` locals
+  (`f32 f = v.mValue; f32 g = f / 16384.0f; return g;`, `(K(field_60) * K(ypos)) * (pVert->z)`) lowers it, but
+  only at the vertex right before an `idiv` vertex; elsewhere it moves other loads. So those vertices use their
+  own projector (`VertProjector4`); both functions match. `DrawTexture_5D8470` likewise matched with an `f32`
+  local conversion on vertex 1's x only. Search per call site, not per inline.
 - **The order of two `++field` statements decides a late `push ebp`.** In `AddGridCell_554710`,
   `++field_8_pNode; ++field_C_node_count;` lets the pointer increment use esi, so ebp is used only inside the
   distance branch and VC6 pushes it there (the original's late push); the other order used ebp for the
