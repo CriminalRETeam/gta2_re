@@ -826,14 +826,25 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FEB44, Fix16(0x666, 0), 0x6FEB44);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FED08, Fix16(4), 0x6FED08);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FECB8, Fix16(0x147, 0), 0x6FECB8);
 
+// MaxAbsDistance_42A6B0 as State5_PursueOrChase_572920 inlines it: past the nested inline budget, Max is the named
+// out-of-line copy Max_44E540 (as in Weapon_30's MaxAbsDistance_5DF270)
+static inline Fix16 MaxAbsDistance_572920(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
+{
+    Fix16 diff_x;
+    diff_x = x2 - x1;
+    Fix16 diff_y;
+    diff_y = y2 - y1;
+    Fix16 result;
+    result = Fix16::Max_44E540(Fix16::Abs(diff_x), Fix16::Abs(diff_y));
+    return result;
+}
+
 // The crew chasing the criminal: like State3_AlertedSearch_572340, then each member follows the criminal on foot
 // or in the car depending on how far away and how fast the criminal is.
-// 10.5 left: (1) MaxAbsDistance_42A6B0 gets nested budget 272 (19 sites left); the original's cut-offs (one Abs
-// negate inline, Max out of line) need 287..321, i.e. one free site fewer after it (any getter written as a field
-// access gives 244 -> 72, inlsim agrees). (2) Then only goto_area_in_car_14's trailing `field_28 = 1; break;`: the
-// original keeps it (objective_43's copy merged into it), ours merges it into objective_43's; patch_c2.py
-// --rank 144:0,354:1 (lines from the function start) gives 2, the callee name only.
-WIP_FUNC(0x572920)
+// The inline cut-offs of MaxAbsDistance (one Abs negate inline, Max out of line) need its nested budget at 287..321,
+// i.e. the 18 sites left after it: the enter-car test reads field_278_ped_state_1 directly. `default: break;` first in
+// the objective switch keeps goto_area_in_car_14's trailing `field_28 = 1; break;` as the copy objective_43 merges into.
+MATCH_FUNC(0x572920)
 void PoliceCrew_38::State5_PursueOrChase_572920()
 {
     u8 bUnk = true;
@@ -949,6 +960,8 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
             {
                 switch (pPed->get_objective_403A80())
                 {
+                    default:
+                        break;
                     case objectives_enum::goto_area_in_car_14:
                         if (pPed == field_10_subObj->field_4_ped)
                         {
@@ -1083,7 +1096,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
                             if (field_14_pPursuitTarget->field_0_criminal_ped)
                             {
                                 // 9.6f: MaxAbsDistance_42A6B0
-                                field_8 = Fix16::MaxAbsDistance_42A6B0(gCurrentCrewPed_6FEDDC->get_cam_x(),
+                                field_8 = MaxAbsDistance_572920(gCurrentCrewPed_6FEDDC->get_cam_x(),
                                                                           gCurrentCrewPed_6FEDDC->get_cam_y(),
                                                                           field_14_pPursuitTarget->field_0_criminal_ped->get_cam_x(),
                                                                           field_14_pPursuitTarget->field_0_criminal_ped->get_cam_y());
@@ -1122,7 +1135,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
                                 if (bEnterCar)
                                 {
                                     // The criminal is too far or too fast to chase on foot
-                                    if (gCurrentCrewPed_6FEDDC->get_objective_403A80() == objectives_enum::objective_32 && gCurrentCrewPed_6FEDDC->GetPedState_403990() != ped_state_1::flee_or_running_1)
+                                    if (gCurrentCrewPed_6FEDDC->get_objective_403A80() == objectives_enum::objective_32 && gCurrentCrewPed_6FEDDC->field_278_ped_state_1 != ped_state_1::flee_or_running_1)
                                     {
                                         break;
                                     }
@@ -1236,19 +1249,11 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
 }
 
 // https://decomp.me/scratch/mAN9o
-WIP_FUNC(0x574720)
+MATCH_FUNC(0x574720)
 void PoliceCrew_38::State6_ShutDown_574720()
 {
-    // The original stores the zero at the top of the function and keeps the counter in its
-    // stack slot (load, inc, store at the one increment). A plain `u8 i = 0;` anywhere at the
-    // top makes `i` a register candidate live from the entry; it fails to colour, and the
-    // restart that follows lowers the zero constant's priority below the ~4 mask's, so the mask
-    // takes ebp first and the zero shares it (`xor ebp,ebp` for every zero in the function).
-    // A volatile store isn't a definition for the allocator, so it avoids that; it is only
-    // scheduled one load later than the original's `movb $0` (docs/match_attempts.md).
-    u8 i;
+    u8 i = 0;
     byte_6FEB48 = 1;
-    *(volatile u8*)&i = 0;
     gCurrentCrewPed_6FEDDC = field_10_subObj->field_4_ped;
     if (field_10_subObj->field_0_car)
     {
@@ -1343,7 +1348,14 @@ void PoliceCrew_38::State6_ShutDown_574720()
                     {
                         switch (gCurrentCrewPed_6FEDDC->get_objective_403A80())
                         {
+                            // Cases 14 and 52 are written out separately (VC6 tail merges them). With one shared
+                            // body the zero constant has one store fewer, its priority drops below the ~4 of
+                            // ClearPanicking_403960 and VC6 keeps 0 in ebp for the whole function.
                             case objectives_enum::goto_area_in_car_14:
+                                gCurrentCrewPed_6FEDDC->SetObjective2_463830(0, 9999);
+                                gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::objective_43, 9999);
+                                byte_6FEB48 = 0;
+                                break;
                             case objectives_enum::objective_52:
                                 gCurrentCrewPed_6FEDDC->SetObjective2_463830(0, 9999);
                                 gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::objective_43, 9999);
@@ -2484,16 +2496,15 @@ WIP_FUNC(0x575ff0)
 char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
 {
     Car_BC* pCar = 0;
-    u8 bEdge = 0;
     u8 tries = 0;
     char_type bFound;
-    u8 width;
     u8 lane;
     Ang16 angle;
 
     if (orientation == 2)
     {
         // Find the road's edges along y
+        u8 bEdge = 0;
         s32 z_below = z - 1;
         do
         {
@@ -2529,7 +2540,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
             }
         } while (!bFound);
 
-        width = 0;
+        u8 width = 0;
         if (bEdge == 1)
         {
             width = 1;
@@ -2794,6 +2805,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
     else
     {
         // Find the road's edges along x
+        u8 bEdge = 0;
         s32 z_below = z - 1;
         do
         {
@@ -2829,7 +2841,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
             }
         } while (!bFound);
 
-        width = 0;
+        u8 width = 0;
         if (bEdge == 1)
         {
             width = 1;
