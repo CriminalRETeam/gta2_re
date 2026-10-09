@@ -8350,11 +8350,9 @@ void Ped::UpdateKillerIdTimer_469030()
 }
 
 // https://decomp.me/scratch/rHsAD
-WIP_FUNC(0x469060)
+MATCH_FUNC(0x469060)
 void Ped::GotoAreaByAnyMeans_469060()
 {
-    WIP_IMPLEMENTED;
-
     u8 bCanAllocate;
     u8 xpos;
     u8 ypos;
@@ -8451,7 +8449,8 @@ void Ped::GotoAreaByAnyMeans_469060()
 
                 case objectives_enum::kill_char_on_foot_20:
                 {
-                    if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, field_14C_internal_target_ped->field_1AC_cam.x, field_14C_internal_target_ped->field_1AC_cam.y) >
+                    // 9.6f calls get_cam_x/get_cam_y here; with bFound below they give the original's register allocation
+                    if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, field_14C_internal_target_ped->get_cam_x(), field_14C_internal_target_ped->get_cam_y()) >
                             kFpTwo_678658 ||
                         field_226_internal_objective_status == 1)
                     {
@@ -8510,8 +8509,14 @@ void Ped::GotoAreaByAnyMeans_469060()
                             ypos = field_1AC_cam.y.ToUInt8();
                             zpos = field_1AC_cam.z.ToUInt8();
 
+                            // bFound reaches another block, so the original's `cmp %bl,%al` (zero register) instead of `test`
+                            u8 bFound = 0;
                             bCanAllocate = gCar_6C_677930->CanAllocateOfType_446930(1);
-                            if (bCanAllocate && gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, 1))
+                            if (bCanAllocate)
+                            {
+                                bFound = gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, 1);
+                            }
+                            if (bFound)
                             {
                                 pCar = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(field_274_gang_car_model, xpos, ypos, zpos);
                                 if (pCar)
@@ -8560,8 +8565,12 @@ void Ped::GotoAreaByAnyMeans_469060()
                             ypos = field_1AC_cam.y.ToUInt8();
                             zpos = field_1AC_cam.z.ToUInt8();
 
-                            if (gCar_6C_677930->CanAllocateOfType_446930(1) &&
-                                gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, 1))
+                            u8 bFound = 0;
+                            if (gCar_6C_677930->CanAllocateOfType_446930(1))
+                            {
+                                bFound = gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, 1);
+                            }
+                            if (bFound)
                             {
                                 pCar = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(Ped::GetValueByIdParity_469010(), xpos, ypos, zpos);
                                 if (pCar)
