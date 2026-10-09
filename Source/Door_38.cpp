@@ -79,7 +79,7 @@ bool Door_38::CanOpen_49C6D0(Car_BC* a2)
             ret = true;
             break;
         case door_open_type::one_car:
-            if (this->field_10_car_bc && a2 == this->field_10_car_bc && a2->field_6C_maybe_id == this->field_14_target_id)
+            if (this->field_10_car_bc && a2 == this->field_10_car_bc && a2->field_6C_car_id == this->field_14_target_id)
             {
                 ret = true;
                 break;
@@ -104,7 +104,7 @@ bool Door_38::CanOpen_49C6D0(Car_BC* a2)
             {
                 break;
             }
-            if (a2->field_6C_maybe_id != this->field_14_target_id)
+            if (a2->field_6C_car_id != this->field_14_target_id)
             {
                 break;
             }

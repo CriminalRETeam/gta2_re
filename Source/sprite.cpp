@@ -985,7 +985,7 @@ void Sprite::ShowId_59EB30(f32& x, f32& y)
             xpos = Fix16((s32)((x / (f32)(u32)window_width_706630) * 640.0f));
             Fix16 ypos;
             ypos = Fix16((s32)((y / (f32)(u32)window_height_706B50) * 480.0f));
-            swprintf(tmpBuff_67BD9C, L"%d", pCar->field_6C_maybe_id);
+            swprintf(tmpBuff_67BD9C, L"%d", pCar->field_6C_car_id);
             DrawTextScaled_4BA2C0(tmpBuff_67BD9C, xpos, ypos, word_703BAA);
         }
         else
@@ -2779,7 +2779,7 @@ void Sprite_18::sub_5A6A20()
     {
         if (cBC->field_88_despawn_status != car_despawn_status::despawn_pending_2 && cBC->field_88_despawn_status != car_despawn_status::marked_for_despawn_4 && cBC->field_88_despawn_status != car_despawn_status::despawn_soon_3)
         {
-            cBC->sub_43DD60();
+            cBC->DestroyWhileSinking_43DD60();
         }
     }
 }

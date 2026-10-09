@@ -461,7 +461,7 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
         {
             pPointer->field_8_car->SetF98To4_475C30();
             pPointer->field_8_car->set_f78_0x10_476270();
-            pPointer->field_8_car->sub_4435F0();
+            pPointer->field_8_car->UpdateSpriteNum_4435F0();
         }
     }
     else //  There is a trailer
@@ -749,7 +749,7 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE2_5045D0(SCR_THREAD* pThread, s16* pThrea
 
     if (pParam1->field_8_char && pParam2->field_8_car)
     {
-        gScriptManager_6F8060->AddCarThread_5128D0(pParam1->field_8_char->get_id(), pParam2->field_8_car->field_6C_maybe_id, *pThreadIdx);
+        gScriptManager_6F8060->AddCarThread_5128D0(pParam1->field_8_char->get_id(), pParam2->field_8_car->field_6C_car_id, *pThreadIdx);
         pParam2->field_8_car->set_f8D_bit1_476360();
     }
 }
@@ -1069,7 +1069,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* pCmd)
             if (ped_ptr != NULL)
             {
                 pCmd->field_8_door->set_open_details_car_bc(door_open_type::one_car, ped_ptr);
-                pCmd->field_8_door->set_target_id(tmp->field_8_car->field_6C_maybe_id);
+                pCmd->field_8_door->set_target_id(tmp->field_8_car->field_6C_car_id);
             }
             break;
         }
@@ -1354,7 +1354,7 @@ void miss2_0x11C::DisableThread_505790(u16 idx)
             SCR_POINTER* pParam2 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pThread->field_12_car_or_phone_idx);
 
             s32 charId = pParam1->field_8_char->get_id();
-            ThreadTrigger_C* pThreadC = gScriptManager_6F8060->FindCarThread_5128A0(charId, pParam2->field_8_car->field_6C_maybe_id);
+            ThreadTrigger_C* pThreadC = gScriptManager_6F8060->FindCarThread_5128A0(charId, pParam2->field_8_car->field_6C_car_id);
 
             if (pThreadC)
             {
@@ -1386,7 +1386,7 @@ void miss2_0x11C::DeallocOrDeleteItem_505B10(u16 idx)
             pCarCmdPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(idx);
             if (pCarCmdPointer->field_8_car)
             {
-                gScriptManager_6F8060->ClearWeaponHitFlag_512BA0(pCarCmdPointer->field_8_car->field_6C_maybe_id, 0);
+                gScriptManager_6F8060->ClearWeaponHitFlag_512BA0(pCarCmdPointer->field_8_car->field_6C_car_id, 0);
                 pCarCmdPointer->field_8_car->MarkForDespawn_421470();
                 pCarCmdPointer->field_8_car = NULL;
             }
@@ -2407,11 +2407,11 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
 
             if (gStoredCar_6F7560 != NULL)
             {
-                if (pCar != gStoredCar_6F7560 && gStoredCar_6F7560->field_6C_maybe_id != pCar->field_6C_maybe_id)
+                if (pCar != gStoredCar_6F7560 && gStoredCar_6F7560->field_6C_car_id != pCar->field_6C_car_id)
                 {
                     s32 four = 4;
 
-                    if (gStoredCar_6F7560->field_6C_maybe_id == gStoredCarId_6F78B4)
+                    if (gStoredCar_6F7560->field_6C_car_id == gStoredCarId_6F78B4)
                     {
                         if (gCar_6C_677930->CanAllocateOfType_446930(1))
                         {
@@ -2449,7 +2449,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                     }
 
                     gStoredCar_6F7560 = pParam2->field_8_car;
-                    gStoredCarId_6F78B4 = pParam2->field_8_car->field_6C_maybe_id;
+                    gStoredCarId_6F78B4 = pParam2->field_8_car->field_6C_car_id;
 
                     gStoredCar_6F7560->ReassignAllocatedCarType_443EE0(8);
 
@@ -2464,7 +2464,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
             else
             {
                 gStoredCar_6F7560 = pCar;
-                gStoredCarId_6F78B4 = pParam2->field_8_car->field_6C_maybe_id;
+                gStoredCarId_6F78B4 = pParam2->field_8_car->field_6C_car_id;
                 gStoredCar_6F7560->ReassignAllocatedCarType_443EE0(8);
             }
         }
@@ -3868,7 +3868,7 @@ void miss2_0x11C::SCRCMD_GIVE_DRIVER_BRAKE_50B600()
             pPointer->field_8_car->SpawnDriverPed();
         }
         pPointer->field_8_car->InitCarAIControl_440590();
-        pPointer->field_8_car->SetA6Bit5_421540();
+        pPointer->field_8_car->SetAIHalted_421540();
         pPointer->field_8_car->SetUniNum_421560(5);
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -4626,13 +4626,13 @@ void miss2_0x11C::SCRCMD_UPDATE_DOOR_50C7D0()
             pTarget = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_target_idx);
 
             pDoorPointer->field_8_door->set_open_details_car_bc(3, pTarget->field_8_car);
-            pDoorPointer->field_8_door->set_target_id(pTarget->field_8_car->field_6C_maybe_id);
+            pDoorPointer->field_8_door->set_target_id(pTarget->field_8_car->field_6C_car_id);
             break;
         case 6:
             pTarget = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_target_idx);
 
             pDoorPointer->field_8_door->set_open_details_car_bc(6, pTarget->field_8_car);
-            pDoorPointer->field_8_door->set_target_id(pTarget->field_8_car->field_6C_maybe_id);
+            pDoorPointer->field_8_door->set_target_id(pTarget->field_8_car->field_6C_car_id);
             break;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -5925,13 +5925,13 @@ void miss2_0x11C::SCRCMD_WEAP_HIT_CAR_50EBD0()
         char hit;
         if (gBasePtr_6F8070->field_2_type == SCRCMD_WEAP_HIT_CAR)
         {
-            hit = gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_car->field_6C_maybe_id, pCmd->field_C_weapon, 0);
+            hit = gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_car->field_6C_car_id, pCmd->field_C_weapon, 0);
         }
         else
         {
-            hit = gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_car->field_6C_maybe_id, 23, 0);
+            hit = gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_car->field_6C_car_id, 23, 0);
         }
-        if (hit && gScriptManager_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_car->field_6C_maybe_id, pCmd->field_C_weapon, 0))
+        if (hit && gScriptManager_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_car->field_6C_car_id, pCmd->field_C_weapon, 0))
         {
             field_8_cond_result = true;
             pCmd->field_A_status = 0;
@@ -5944,7 +5944,7 @@ void miss2_0x11C::SCRCMD_WEAP_HIT_CAR_50EBD0()
     }
     else
     {
-        if (gScriptManager_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_car->field_6C_maybe_id, pCmd->field_C_weapon, 0))
+        if (gScriptManager_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_car->field_6C_car_id, pCmd->field_C_weapon, 0))
         {
             field_8_cond_result = true;
             pCmd->field_A_status = 0;

@@ -165,7 +165,7 @@ void Crane_15C::DropHookedCar_47ECC0()
 {
     Car_BC* pCar = field_74_pSprite_on_hook->AsCar_40FEB0();
     gSpriteGrid_1_679208->AddToRegionBuckets_477B20(field_74_pSprite_on_hook);
-    pCar->sub_4435F0();
+    pCar->UpdateSpriteNum_4435F0();
     pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
     gCar_BC_Pool_67792C->UpdateNextPrev(pCar);
     pCar->SetF_88_447ea0();
@@ -267,7 +267,7 @@ void Crane_15C::HookPickupCar_47EF80()
 
     gCar_BC_Pool_67792C->field_0_pool.UnlinkFromActiveList_420F30(pCar);
 
-    pCar->SetF_88_4214E0();
+    pCar->SetDeactivatedStatus_4214E0();
     pCar->DeAllocateCarPhysics_43BD00();
     gSpriteGrid_1_679208->AddToSpriteRectBuckets_477B60(field_68_pickup_car);
 
@@ -816,7 +816,7 @@ void Crane_15C::Service_480310()
 
     if (field_74_pSprite_on_hook)
     {
-        field_74_pSprite_on_hook->AsCar_40FEB0()->sub_443330();
+        field_74_pSprite_on_hook->AsCar_40FEB0()->UpdateOnCraneHook_443330();
     }
 
     if (field_74_pSprite_on_hook)

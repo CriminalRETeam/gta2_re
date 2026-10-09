@@ -220,7 +220,7 @@ void PoliceCrew_38::SpawnPoliceInCar_570BF0()
     field_10_subObj->field_28_state = crew_state::update_6;
     field_10_subObj->field_0_car->SetUniNum_421560(5);
     field_10_subObj->field_0_car->InitCarAIControl_440590();
-    field_10_subObj->field_0_car->sub_43AF40();
+    field_10_subObj->field_0_car->ResumeAIDriving_43AF40();
     field_10_subObj->field_0_car->ActivateEmergencyLights_43C920();
     field_10_subObj->field_8_group = pGroup;
 }
@@ -266,7 +266,7 @@ void PoliceCrew_38::SpawnSWAT_570E30()
     field_10_subObj->field_28_state = crew_state::update_6;
     field_10_subObj->field_0_car->SetUniNum_421560(5);
     field_10_subObj->field_0_car->InitCarAIControl_440590();
-    field_10_subObj->field_0_car->sub_43AF40();
+    field_10_subObj->field_0_car->ResumeAIDriving_43AF40();
     field_10_subObj->field_0_car->ActivateEmergencyLights_43C920();
     field_10_subObj->field_8_group = pSwatGroup;
 }
@@ -292,7 +292,7 @@ void PoliceCrew_38::SpawnFBI_nonused_571150()
     field_10_subObj->field_28_state = crew_state::update_6;
     field_10_subObj->field_0_car->SetUniNum_421560(5);
     field_10_subObj->field_0_car->InitCarAIControl_440590();
-    field_10_subObj->field_0_car->sub_43AF40();
+    field_10_subObj->field_0_car->ResumeAIDriving_43AF40();
     field_10_subObj->field_0_car->ActivateEmergencyLights_43C920();
     field_10_subObj->field_8_group = NULL;
 }
@@ -473,7 +473,7 @@ void PoliceCrew_38::sub_571A30()
             else
             {
                 u8 bAllReady = 1;
-                field_10_subObj->field_0_car->sub_43AF60();
+                field_10_subObj->field_0_car->HaltAIDriving_43AF60();
 
                 PedGroup* pGroup2 = field_10_subObj->field_8_group;
                 u8 j = 0;
@@ -1356,7 +1356,7 @@ void PoliceCrew_38::State6_ShutDown_574720()
                                         gCurrentCrewPed_6FEDDC->SetObjective2_463830(0, 9999);
                                         gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::objective_43, 9999);
                                         gCurrentCrewPed_6FEDDC->field_16C_car->InitCarAIControl_440590();
-                                        gCurrentCrewPed_6FEDDC->field_16C_car->sub_43AF40();
+                                        gCurrentCrewPed_6FEDDC->field_16C_car->ResumeAIDriving_43AF40();
                                         byte_6FEB48 = 0;
                                     }
                                 }
@@ -1450,7 +1450,7 @@ void PoliceCrew_38::State1_Patrol_574F10()
     }
     else
     {
-        pCarUnk->ClearA6Bit5_421550();
+        pCarUnk->ClearAIHalted_421550();
         if (field_10_subObj->field_28_state == crew_state::update_6)
         {
             PoliceCrew_38::sub_5720C0();
@@ -1586,7 +1586,7 @@ void PoliceCrew_38::sub_575210()
         }
         else
         {
-            field_10_subObj->field_0_car->SetA6Bit5_421540();
+            field_10_subObj->field_0_car->SetAIHalted_421540();
         }
     }
     else

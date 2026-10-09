@@ -258,7 +258,7 @@ void Player::SetKFCarWeapon_564710(Car_BC* pCar, s32 weapon_kind)
 
     this->field_1C_kf_weapon_kind = weapon_kind;
     this->field_20_kf_car = pCar;
-    this->field_24_kf_car_id = pCar->field_6C_maybe_id;
+    this->field_24_kf_car_id = pCar->field_6C_car_id;
 
     pWeapon->set_infinite_ammo_4A4F90();
 
@@ -291,7 +291,7 @@ void Player::ClearKFWeapon_5647D0()
     {
         if (gWeapon_8_707018->is_car_weapon_433820(field_1C_kf_weapon_kind))
         {
-            if (field_20_kf_car->field_6C_maybe_id == this->field_24_kf_car_id)
+            if (field_20_kf_car->field_6C_car_id == this->field_24_kf_car_id)
             {
                 Weapon_30* pWeapon = gWeapon_8_707018->find_5E3D20(field_20_kf_car, this->field_1C_kf_weapon_kind);
                 pWeapon->SetAmmo_4A4FF0(this->field_1A_pre_kf_ammo);

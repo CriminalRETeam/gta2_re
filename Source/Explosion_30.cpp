@@ -430,7 +430,7 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
                 {
                     if ((timerVal > explosion_timer::damage_phase_50 && timerVal < 60u) || (timerVal > 80u && timerVal < 90u))
                     {
-                        if (!pCar->IsMaxDamage_40F890() && !pCar->IsTrainModel_403BA0() && !pCar->sub_43B850(field_10_type))
+                        if (!pCar->IsMaxDamage_40F890() && !pCar->IsTrainModel_403BA0() && !pCar->IsImmuneToExplosionType_43B850(field_10_type))
                         {
                             if (Fix16::MaxAbsDistance_42A6B0(pSprite->field_14_xy.x, pSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y) <= this->field_28_blast_radius)
                             {

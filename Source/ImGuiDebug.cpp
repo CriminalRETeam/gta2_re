@@ -543,7 +543,7 @@ EXPORT void __stdcall NoRefs_sub_5B1170()
     gTestCar1_704418->field_98_door_lock = 4;
     gTestCar1_704418->IncrementCarStats_443D70(8);
     gTestCar1_704418->field_78_flags |= 0x10;
-    gTestCar1_704418->sub_4435F0();
+    gTestCar1_704418->UpdateSpriteNum_4435F0();
     gWeapon_8_707018->allocate_5E3D50(23, 1, gTestCar1_704418);
     gTestCar1_704418->IsBeingCrushed_43DD50();
     gTestTrailer_7041A8 = gCar_6C_677930->SpawnCabAndTrailer_446530(98, 179, word_70420C, 64, 66);
@@ -1815,7 +1815,7 @@ void CC ImGuiDebugDraw()
 
                     pNewCar->field_78_flags |= 0x10u;
 
-                    pNewCar->sub_4435F0();
+                    pNewCar->UpdateSpriteNum_4435F0();
 
                     pPlayer->AddCarToHistory_5645B0(pNewCar);
 

@@ -262,7 +262,7 @@ void Firefighter_28::Update_4A81F0()
                 }
                 field_1C_car->SetUniNum_421560(3);
                 field_1C_car->InitCarAIControl_440590();
-                field_1C_car->sub_43AF40();
+                field_1C_car->ResumeAIDriving_43AF40();
                 field_1C_car->DeactivateEmergencyLights_43C9D0();
                 if (field_1C_car->field_54_driver)
                 {

@@ -806,7 +806,7 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
                         pTrain->field_C_carriages[j + 1]->SpawnDriverPed();
                         pTrain->field_C_carriages[j + 1]->SetUniNum_421560(5);
                         pTrain->field_C_carriages[j + 1]->SetupCarPhysicsAndSpriteBinding_43BCA0();
-                        pTrain->field_C_carriages[j + 1]->sub_426E00();
+                        pTrain->field_C_carriages[j + 1]->StartEngine_426E00();
                         if (pTrain->field_C_carriages[j + 1]->field_84_car_info_idx == car_model_enum::TRAINFB)
                         {
                             pTrain->field_C_carriages[j + 1]->SetField98To4_475C30();
@@ -819,7 +819,7 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
                     pTrain->field_56_passenger_count = 6;
                     pTrain->field_57 = pStation->field_2F_track_idx;
                     pTrain->field_C_carriages[0]->InitCarAIControl_440590();
-                    pTrain->field_C_carriages[0]->sub_43AF60();
+                    pTrain->field_C_carriages[0]->HaltAIDriving_43AF60();
                     pStation->field_14_used = 2;
                     pStation->field_1C = 1;
                     pStation->field_18 = pTrain;
@@ -1313,7 +1313,7 @@ void PublicTransport_181C::BusesService_579CA0()
                     field_17C0_bus.field_C_carriages[0]->SpawnDriverPed();
                     field_17C0_bus.field_C_carriages[0]->SetUniNum_421560(4);
                     field_17C0_bus.field_C_carriages[0]->InitCarAIControl_440590();
-                    field_17C0_bus.field_C_carriages[0]->sub_426E00();
+                    field_17C0_bus.field_C_carriages[0]->StartEngine_426E00();
 
                     byte_6FF1CD = 1;
                     field_17C0_bus.field_48 = 0;
@@ -1393,7 +1393,7 @@ void PublicTransport_181C::BusesService_579CA0()
                     {
                         case 12:
                             --field_17C0_bus.field_4;
-                            field_17C0_bus.field_C_carriages[0]->sub_43AF60();
+                            field_17C0_bus.field_C_carriages[0]->HaltAIDriving_43AF60();
                             if (!field_17C0_bus.field_4)
                             {
                                 field_17C0_bus.field_48 = 5;
@@ -1441,7 +1441,7 @@ void PublicTransport_181C::BusesService_579CA0()
                             break;
 
                         case 14:
-                            field_17C0_bus.field_C_carriages[0]->sub_43AF40();
+                            field_17C0_bus.field_C_carriages[0]->ResumeAIDriving_43AF40();
                             if (!--field_17C0_bus.field_4)
                             {
                                 field_17C0_bus.field_48 = 0;

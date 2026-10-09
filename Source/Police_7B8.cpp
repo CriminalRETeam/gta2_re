@@ -973,7 +973,7 @@ bool Police_7B8::SpawnCrewInCar_5703E0(Car_BC* pCar)
     pEmergencyCrew->field_28_state = crew_state::update_6;
     pEmergencyCrew->field_0_car->SetUniNum_421560(5);
     pEmergencyCrew->field_0_car->InitCarAIControl_440590();
-    pEmergencyCrew->field_0_car->sub_43AF40();
+    pEmergencyCrew->field_0_car->ResumeAIDriving_43AF40();
     ++field_658_police_car_count;
     return true;
 }

@@ -2568,14 +2568,14 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
 
         DirectionBetweenCoMs_Scaled = (ThisCoM - OtherCoM).NormalizeSafe_442AD0().DivideInl_55F9E0(10);
 
-        // sub_49EFE0 and CanCollideOver_4216E0 with get_car_info_5AA3B0 and the driver check out of line
+        // CanCrushCars_49EFE0 and CanCollideOver_4216E0 with get_car_info_5AA3B0 and the driver check out of line
         // (IsDrivenByNonPlayer_564300)
         pThisCar = field_5C_pCar;
         if (gGtx_0x106C_703DD4->get_car_info_5AA3B0(pThisCar->field_84_car_info_idx)->is_0x1_41FF00() &&
             (pThisCar->IsTank_411900() || !pThisCar->IsDrivenByNonPlayer_564300()) &&
             !gGtx_0x106C_703DD4->get_car_info_5AA3B0(pOtherCar->field_84_car_info_idx)->is_0x1_41FF00())
         {
-            field_5C_pCar->sub_49EFC0();
+            field_5C_pCar->SetCrushFlag_49EFC0();
         }
         else
         {
@@ -2593,15 +2593,15 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
     u8 bGreatCollision;
 
     // Implement developments of collision with CopCar
-    // sub_49EFE0 with get_car_info_5AA3B0 called out of line
+    // CanCrushCars_49EFE0 with get_car_info_5AA3B0 called out of line
     pThisCar = field_5C_pCar;
     if (gGtx_0x106C_703DD4->get_car_info_5AA3B0(pThisCar->field_84_car_info_idx)->is_0x1_41FF00() &&
-        (pThisCar->IsTank_411900() || !pThisCar->sub_4214F0()) &&
+        (pThisCar->IsTank_411900() || !pThisCar->HasNonPlayerDriver_4214F0()) &&
         !gGtx_0x106C_703DD4->get_car_info_5AA3B0(pOtherCar->field_84_car_info_idx)->is_0x1_41FF00() &&
         ImpulseForce.GetLength_all_out_of_line_abs_y_negate_2() > dword_6FDFD8 && GetLinearSpeed_4211A0() > dword_6FE1C4)
     {
         bGreatCollision = true;
-        field_5C_pCar->sub_49EFC0();
+        field_5C_pCar->SetCrushFlag_49EFC0();
         if (pOtherCar->IsPoliceCar_439EC0())
         {
             Ped* pDriver = field_5C_pCar->GetEffectiveDriver_43E990();
@@ -3472,7 +3472,7 @@ void CarPhysics_B0::ApplyArrowSteerAssist_5626F0()
 
                         if (dword_6FE0B0 != kFP16Zero_6FE20C)
                         {
-                            theta_fp = field_5C_pCar->sub_440510();
+                            theta_fp = field_5C_pCar->GetMaxTurnRate_440510();
                             if (dword_6FE0B0 > kFP16Zero_6FE20C)
                             {
                                 if (dword_6FE0B0 > theta_fp)

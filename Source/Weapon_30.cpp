@@ -1237,7 +1237,7 @@ void Weapon_30::sub_5DFB60(u8 a2, Sprite* a3, Ang16 a4)
                                 field_24_pPed->AddThreateningPedToList_46FC70();
                             }
                             bHit = 1;
-                            gScriptManager_6F8060->RecordWeaponHit_512C00(pHit->field_8_car_bc_ptr->field_6C_maybe_id, 160, 0);
+                            gScriptManager_6F8060->RecordWeaponHit_512C00(pHit->field_8_car_bc_ptr->field_6C_car_id, 160, 0);
                         }
                     }
                     break;

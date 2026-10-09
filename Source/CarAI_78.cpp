@@ -145,7 +145,7 @@ inline void CarAI_78::TurnAround_447970()
 {
     field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
     field_0_car->field_60->field_22_bFollowingRoute = 0;
-    field_0_car->sub_43AF60();
+    field_0_car->HaltAIDriving_43AF60();
     field_0_car->field_60->field_26_bRouteFinished = 1;
 }
 
@@ -166,8 +166,8 @@ void CarAI_78::PlanTurnAtNextJunction_447710()
                 switch (Ang16::GetAngleFace_4F78F0(this->field_10_angle))
                 {
                     case 1:
-                        this->field_0_car->ClearA6Bit0_42ACA0();
-                        this->field_0_car->ClearA6Bit1_42ACB0();
+                        this->field_0_car->ClearTurnRight_42ACA0();
+                        this->field_0_car->ClearTurnLeft_42ACB0();
                         switch (v5)
                         {
                             case 2:
@@ -176,18 +176,18 @@ void CarAI_78::PlanTurnAtNextJunction_447710()
                                 break;
                             case 3:
                                 //goto LABEL_14;
-                                this->field_0_car->SetA6Bit0_42AC70();
+                                this->field_0_car->SetTurnRight_42AC70();
                                 break;
                             case 4:
                                 //goto LABEL_8;
-                                this->field_0_car->SetA6Bit1_42AC80();
+                                this->field_0_car->SetTurnLeft_42AC80();
                                 break;
                         }
                         break;
 
                     case 2:
-                        this->field_0_car->ClearA6Bit0_42ACA0();
-                        this->field_0_car->ClearA6Bit1_42ACB0();
+                        this->field_0_car->ClearTurnRight_42ACA0();
+                        this->field_0_car->ClearTurnLeft_42ACB0();
                         switch (v5)
                         {
                             case 1:
@@ -196,27 +196,27 @@ void CarAI_78::PlanTurnAtNextJunction_447710()
                                 break;
                             case 3:
                                 //goto LABEL_8;
-                                this->field_0_car->SetA6Bit1_42AC80();
+                                this->field_0_car->SetTurnLeft_42AC80();
                                 break;
                             case 4:
                                 //goto LABEL_14;
-                                this->field_0_car->SetA6Bit0_42AC70();
+                                this->field_0_car->SetTurnRight_42AC70();
                                 break;
                         }
                         break;
 
                     case 3:
-                        this->field_0_car->ClearA6Bit0_42ACA0();
-                        this->field_0_car->ClearA6Bit1_42ACB0();
+                        this->field_0_car->ClearTurnRight_42ACA0();
+                        this->field_0_car->ClearTurnLeft_42ACB0();
                         switch (v5)
                         {
                             case 1:
                                 //goto LABEL_14;
-                                this->field_0_car->SetA6Bit0_42AC70();
+                                this->field_0_car->SetTurnRight_42AC70();
                                 break;
                             case 2:
                                 //goto LABEL_8;
-                                this->field_0_car->SetA6Bit1_42AC80();
+                                this->field_0_car->SetTurnLeft_42AC80();
                                 break;
                             case 3:
                                 this->field_38_junction_turn_direction = 4;
@@ -226,17 +226,17 @@ void CarAI_78::PlanTurnAtNextJunction_447710()
                         break;
 
                     case 4:
-                        this->field_0_car->ClearA6Bit0_42ACA0();
-                        this->field_0_car->ClearA6Bit1_42ACB0();
+                        this->field_0_car->ClearTurnRight_42ACA0();
+                        this->field_0_car->ClearTurnLeft_42ACB0();
                         switch (v5)
                         {
                             case 1:
                                 //LABEL_8:
-                                this->field_0_car->SetA6Bit1_42AC80();
+                                this->field_0_car->SetTurnLeft_42AC80();
                                 break;
                             case 2:
                                 //LABEL_14:
-                                this->field_0_car->SetA6Bit0_42AC70();
+                                this->field_0_car->SetTurnRight_42AC70();
                                 break;
                             case 4:
                                 this->field_38_junction_turn_direction = 3;
@@ -256,21 +256,21 @@ void CarAI_78::PlanTurnAtNextJunction_447710()
                 if (v12 > -1)
                 {
                     Car_BC* pCar = this->field_0_car;
-                    if (pCar->IsA6Bit0Set_42AC20())
+                    if (pCar->IsTurnRight_42AC20())
                     {
                         if (v6)
                         {
-                            if (!pCar->IsA6Bit2Set_42AC40())
+                            if (!pCar->IsTurnRightReady_42AC40())
                             {
-                                ClearA6Bits2And3_4539B0();
-                                this->field_0_car->SetA6Bit2_42AC90();
+                                ClearTurnReady_4539B0();
+                                this->field_0_car->SetTurnRightReady_42AC90();
                             }
                         }
                     }
-                    else if (pCar->IsA6Bit1Set_42AC30() && v6 != v12 - 1 && !pCar->IsA6Bit3Set_42AC50())
+                    else if (pCar->IsTurnLeft_42AC30() && v6 != v12 - 1 && !pCar->IsTurnLeftReady_42AC50())
                     {
-                        ClearA6Bits2And3_4539B0();
-                        this->field_0_car->SetA6Bit3_421530();
+                        ClearTurnReady_4539B0();
+                        this->field_0_car->SetTurnLeftReady_421530();
                     }
                 }
             }
@@ -293,7 +293,7 @@ void CarAI_78::DoShortcutsUsingJunctions_447970()
         {
             gRouteFinder_6FFDC8->CancelRoute_589930(field_28_junc_idx);
             this->field_28_junc_idx = -1;
-            this->field_0_car->sub_43AF60();
+            this->field_0_car->HaltAIDriving_43AF60();
             this->field_0_car->field_60->field_26_bRouteFinished = 1;
             return;
         }
@@ -932,7 +932,7 @@ void CarAI_78::CheckRoadAhead_448770()
                 ChooseRandomTurn_4537D0();
             }
 
-            if (this->field_0_car->IsA6Bit1Set_42AC30())
+            if (this->field_0_car->IsTurnLeft_42AC30())
             {
                 Fix16 new_x = (u8)dword_677A74.ToInt();
                 Fix16 new_y = (u8)dword_677A80.ToInt();
@@ -974,7 +974,7 @@ void CarAI_78::CheckRoadAhead_448770()
                     }
                 }
             }
-            else if (this->field_0_car->IsA6Bit0Set_42AC20())
+            else if (this->field_0_car->IsTurnRight_42AC20())
             {
                 BrakeForBlockedRoadAhead_4482C0();
             }
@@ -3430,7 +3430,7 @@ void CarAI_78::UpdateStateMachine_44E560()
 
             case car_chase_state::target_stopped_15:
                 this->field_24_flags |= 0x100000u;
-                field_0_car->SetA6Bit5_421540();
+                field_0_car->SetAIHalted_421540();
                 break;
 
             default:
@@ -5053,7 +5053,7 @@ void CarAI_78::UpdateDriving_453470()
 
     if (this->field_0_car->field_80)
     {
-        this->field_0_car->SetA6Bit5_421540(); // stop the vehicle
+        this->field_0_car->SetAIHalted_421540(); // stop the vehicle
     }
 
     if (this->field_30_forced_stop_timer > 0)
@@ -5062,15 +5062,15 @@ void CarAI_78::UpdateDriving_453470()
 
         if (this->field_30_forced_stop_timer)
         {
-            this->field_0_car->SetA6Bit5_421540(); // stop the vehicle
+            this->field_0_car->SetAIHalted_421540(); // stop the vehicle
         }
         else
         {
-            this->field_0_car->ClearA6Bit5_421550();
+            this->field_0_car->ClearAIHalted_421550();
         }
     }
 
-    if (this->field_0_car->IsA6Bit5Set_42AC60()) // if the vehicle is forced to stop
+    if (this->field_0_car->IsAIHalted_42AC60()) // if the vehicle is forced to stop
     {
         if (this->field_24_bf.b20)
         {
@@ -5141,7 +5141,7 @@ void CarAI_78::RaiseSpeedTo_453990(Fix16 a2)
 }
 
 MATCH_FUNC(0x4539b0)
-void CarAI_78::ClearA6Bits2And3_4539B0()
+void CarAI_78::ClearTurnReady_4539B0()
 {
     this->field_0_car->field_A6 &= ~4u;
     this->field_0_car->field_A6 &= ~8u;

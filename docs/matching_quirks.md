@@ -253,7 +253,7 @@ gave the original's layout in both of its switches (150 -> 16). The same `goto` 
 `SetGoStraight(); return;` tails of `CarAI_78::FollowRoadDirection_44A1F0`, so it is not a general "keep the first copy" switch.
 
 Merging is of the final machine code, so a block that would merge can be kept apart by its exit. In
-`Car_214::sub_5C8780` case 7's ped body is byte for byte case 6's, but ours ends it with a copy of the 2-instruction
+`Car_214::CheckThreadTrigger_5C8780` case 7's ped body is byte for byte case 6's, but ours ends it with a copy of the 2-instruction
 exit block (`mov pSprite,%edi; mov %ebp,0x14(%esi); jmp tail`) while case 6's arm falls into that exit block, and
 the two are then never merged; the original has case 7 as `cmp; jne exit; jmp <case 6 body>`. Changing the body's
 locals (a `pCmd` local in one copy only) moves the registers and only the matching suffix merges.
@@ -333,7 +333,7 @@ the `if` in the source.
 
 **`if/else` block order follows the condition.** The `then` block is usually laid out first.
 If the original has your `else` block first, invert the condition and swap the blocks
-(`Car_BC::sub_440510`, `GetDamageMultiplier_45CF90`, `Ang16::SnapToAng4_405640`). VC6 sometimes normalises
+(`Car_BC::GetMaxTurnRate_440510`, `GetDamageMultiplier_45CF90`, `Ang16::SnapToAng4_405640`). VC6 sometimes normalises
 both spellings to the same code, in which case this won't help (`Ped::ProcessInCarObjective_463FB0`).
 
 **`je tail; jmp next`** for an `if/else` whose branches share a tail comes from a `goto`.
@@ -383,7 +383,7 @@ once (`Registry::Get_Int_Setting_5874E0`). Likewise one result set in an if/else
 
 **A function can tail call a chunk that isn't in the function list.** `Ped::BecomeDummyOnPlayerDisconnect_470300`
 ends in a jump into code at 0x43AA20 that IDA counts as a chunk of another function. It is written as its own
-method (`Car_BC::sub_43AA20`, no marker since 0x43AA20 isn't in `og_function_data_v105.csv`), called in tail
+method (`Car_BC::SetDummyControl_43AA20`, no marker since 0x43AA20 isn't in `og_function_data_v105.csv`), called in tail
 position. `Hud_2B00::UpdatePauseSection_5D69C0` is the thunk form of the same thing (`add $0x2A1C,%ecx; jmp
 0x5D6300`): the body moved to `Hud_PauseScreen_2::UpdatePauseSection_5D6300`, which is unverified for the same reason.
 
@@ -641,7 +641,7 @@ helpers and keeps the first result in a byte register, `f() || g()` short-circui
 **`Fix16(u8)` delays the shift.** With the `Fix16(u8)` constructor VC6 keeps the u8 around and
 shifts at the use; `Fix16(v << 14, 0)` shifts at once like the original (`Car_BC::CarShrinkSprite_43DC80`).
 
-**Declaration order of `Fix16` locals picks which product goes first.** In `Trailer::sub_407BD0`
+**Declaration order of `Fix16` locals picks which product goes first.** In `Trailer::GetHitchPosition_407BD0`
 swapping the operands of `+` didn't change the multiply order, declaring `cos` before `sin` did.
 
 **Call arguments are evaluated right to left, inline expressions included.** Writing the
@@ -886,7 +886,7 @@ original's `testb` (`ApplyImpactForcesAndDamage_55FA60`, 205 -> 19).
 
 | Source | Code |
 |--------|------|
-| `s->f & 0x200 \|\| s->f & 0x400` | `mov 0x78(%eax),%ax; test $6,%ah`: the two tests are merged on the loaded word (`Car_BC::sub_43B850`) |
+| `s->f & 0x200 \|\| s->f & 0x400` | `mov 0x78(%eax),%ax; test $6,%ah`: the two tests are merged on the loaded word (`Car_BC::IsImmuneToExplosionType_43B850`) |
 | `(s->f & 0x600) != 0` as a value | `mov ax; and $0x600; neg; sbb; neg` |
 | `(s->f & 0x200) != 0` as a value | `mov ax; shr $9; and $1` |
 | `if (s->f & 0xff00)` | `testb $-1,0x79(%eax)`, a memory test on the byte |
@@ -1198,7 +1198,7 @@ moving includes and check `compare_builds.py` for regressions.
 inside an inline helper in the original. Moving it into one (a `static inline` function
 or a class inline) made VC6 stop inlining after the first operator in
 `RouteFinder::ShowJunctionIds_588620`. The reverse also happens: adding an inline call
-before a formula can push the formula's operators out of line (`Trailer::sub_407BD0`).
+before a formula can push the formula's operators out of line (`Trailer::GetHitchPosition_407BD0`).
 
 **Inline functions: often only the first call gets inlined.** When a function calls the same
 inline function several times, VC6 often inlines the first call and emits real `call`s for
@@ -1801,7 +1801,7 @@ that may be `FromPolar_41E210` or `Ang16::PolarToCartesian_41FC20`.
 
 
 Before blaming the budget, check whether the out-of-line calls look written by name. In
-`Trailer::sub_407BD0` the rotation's y line calls `Negate_4086A0`, `Multiply_408680` and the
+`Trailer::GetHitchPosition_407BD0` the rotation's y line calls `Negate_4086A0`, `Multiply_408680` and the
 out-of-line `operator+` (0x408660) while the x line is inlined; writing those calls explicitly
 kept the rest inlined (0.476 -> 0.843). It matched `Crane_15C::ComputeHookPos_47E620` and
 `_47E730`. `GetDoorWorldPos_43B420` has the same shape, and it may help `fire_truck_gun_5E0E70`
@@ -2410,8 +2410,8 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   the function. The ternary written inside the condition is what VC6 needs.
 - **A reload stub at the end comes from two copies of the same tail.** The original's
   `mov 0x150(%esi),%ecx; jmp` after the abort code (other paths enter the abort with `ecx` already
-  loaded) came from `if (max > two || bit) { field_150->sub_43AF40(); ...; return; }` followed by
-  `Car_BC* pCar = field_150; if (empty && !despawning) break; pCar->sub_43AF40(); ...` with the abort
+  loaded) came from `if (max > two || bit) { field_150->ResumeAIDriving_43AF40(); ...; return; }` followed by
+  `Car_BC* pCar = field_150; if (empty && !despawning) break; pCar->ResumeAIDriving_43AF40(); ...` with the abort
   written twice. One shared abort block in any if/else polarity gave the stub in front of the abort.
 - **9.6f is an older build; arithmetic can differ.** In `Garage_48::ParkCarAtDoor_534700` 9.6f computes
   `Fix16(y) - (d + w1)` while 10.5 has two `sub`s (`Fix16(y) - d - w1`). The rest of the 9.6f

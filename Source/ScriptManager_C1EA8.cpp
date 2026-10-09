@@ -781,7 +781,7 @@ void ScriptManager_C1EA8::RecordWeaponHit_512C00(s32 entity_id, s32 projectile_m
 {
     WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
 
-    s8 projectile_type = sub_48E780(projectile_model);
+    s8 projectile_type = GetDeathCauseForObjectModel_48E780(projectile_model);
 
     for (u8 i = 0; i < 15; pTable++, i++)
     {

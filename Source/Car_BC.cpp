@@ -271,7 +271,7 @@ struct Car_18_Cmd : SCR_CMD_HEADER
 };
 
 WIP_FUNC(0x5c8780)
-void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
+void Car_214::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
 {
     Car_18* pEntry = &field_0_triggers[idx];
     if (pEntry->field_14_enable_state != 1 || !pEntry->field_4_O2C)
@@ -299,7 +299,7 @@ void Car_214::sub_5C8780(u8 idx, Sprite* pSprite)
             {
                 pCar = pSprite->field_8_car_bc_ptr;
                 pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(((Car_18_Cmd*)pEntry->field_0_pScriptCmd)->field_8_idx);
-                if (pCar->field_6C_maybe_id == pPointer->field_8_car->field_6C_maybe_id)
+                if (pCar->field_6C_car_id == pPointer->field_8_car->field_6C_car_id)
                 {
                     pEntry->field_14_enable_state = 0;
                 }
@@ -852,7 +852,7 @@ Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
     for (Car_BC* pCarIter = gCar_BC_Pool_67792C->GetFirstCar_420E50(); pCarIter; pCarIter = pCarIter->mpNext)
     {
         if (!pCarIter->IsMaxDamage_40F890() && !pCarIter->inline_check_0x10_info_421640() &&
-            (bIgnorePedRestrictions || !pCarIter->IsDoorLockedForPed_43B2B0(pPed)) && !pCarIter->HasSpriteZoom_43A230() && !pCarIter->sub_4214D0() &&
+            (bIgnorePedRestrictions || !pCarIter->IsDoorLockedForPed_43B2B0(pPed)) && !pCarIter->HasSpriteZoom_43A230() && !pCarIter->IsDeactivated_4214D0() &&
             !pCarIter->IsCarInAir_43A3C0() && pCarIter->GetCarInfoIdx_411940() != car_model_enum::TRAINFB &&
             (!bMatchDriverless || !pCarIter->field_54_driver))
         {
@@ -1420,7 +1420,7 @@ Car_BC* Car_6C::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rota
     }
 
     pCar->SetSirens_4441B0();
-    pCar->sub_4435F0();
+    pCar->UpdateSpriteNum_4435F0();
     pCar->field_50_car_sprite->CreateSoundObj_5A29D0();
     return pCar;
 }
@@ -1788,7 +1788,7 @@ MATCH_FUNC(0x445360)
 bool Car_BC::IsEnterable_445360()
 {
     if (!this->IsMaxDamage_40F890() && !inline_check_0x10_info_421640() &&
-        !IsDoorLockedForPed_43B2B0(gSpriteGrid_ped_678F64) && !HasSpriteZoom_43A230() && !sub_4214D0() && !IsCarInAir_43A3C0())
+        !IsDoorLockedForPed_43B2B0(gSpriteGrid_ped_678F64) && !HasSpriteZoom_43A230() && !IsDeactivated_4214D0() && !IsCarInAir_43A3C0())
     {
         // Not TRAIN (0x3B) itself, only the carriages
         if (field_84_car_info_idx != car_model_enum::boxcar && field_84_car_info_idx != car_model_enum::TRAINFB &&
@@ -1895,7 +1895,7 @@ Fix16 Car_BC::get_mass_43A120()
 {
     ModelPhysics_48* pCarInfo = gCarInfo_808_678098->GetModelPhysicsFromIdx_4546B0(field_84_car_info_idx);
 
-    if (sub_4215C0())
+    if (HasPlayerDriver_4215C0())
     {
         return ApplyScale_421910(pCarInfo->field_4_mass) * (kFP16One_6777D0 + dword_6777A0);
     }
@@ -2120,7 +2120,7 @@ void Car_BC::AssignRandomRemap_43A7D0()
 MATCH_FUNC(0x43a850)
 char_type Car_BC::GetCarModelForPhysics_43A850()
 {
-    if (sub_4214F0())
+    if (HasNonPlayerDriver_4214F0())
     {
         if (!IsTrainModel_403BA0())
         {
@@ -2284,7 +2284,7 @@ void Car_BC::StartLightFlashing_43CAC0()
 
 // Not in IDA's function list: tail called from Ped::BecomeDummyOnPlayerDisconnect_470300
 MATCH_FUNC(0x43AA20)
-void Car_BC::sub_43AA20()
+void Car_BC::SetDummyControl_43AA20()
 {
     const s32 info_idx = field_84_car_info_idx;
     if (info_idx != car_model_enum::TRAIN && info_idx != car_model_enum::TRAINCAB && info_idx != car_model_enum::TRAINFB &&
@@ -2305,7 +2305,7 @@ void Car_BC::Deactivate_43AA60()
     gSpriteGrid_1_679208->AddToSpriteRectBuckets_477B60(field_50_car_sprite);
     gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_50_car_sprite);
     gCar_BC_Pool_67792C->field_0_pool.UnlinkFromActiveList_420F30(this);
-    SetF_88_4214E0();
+    SetDeactivatedStatus_4214E0();
 }
 
 MATCH_FUNC(0x43AAE0)
@@ -2546,21 +2546,21 @@ bool Car_BC::CanExitCar_43AF10()
 }
 
 MATCH_FUNC(0x43af40)
-void Car_BC::sub_43AF40()
+void Car_BC::ResumeAIDriving_43AF40()
 {
     if (field_5C_AI)
     {
         field_5C_AI->field_18_target_speed = k_dword_6778E0;
-        ClearA6Bit5_421550();
+        ClearAIHalted_421550();
     }
 }
 
 MATCH_FUNC(0x43af60)
-void Car_BC::sub_43AF60()
+void Car_BC::HaltAIDriving_43AF60()
 {
     if (field_5C_AI)
     {
-        SetA6Bit5_421540();
+        SetAIHalted_421540();
     }
 }
 
@@ -2707,7 +2707,7 @@ void Car_BC::GetDoorWorldPos_43B420(u8 door_idx, Fix16* pXPos, Fix16* pYPos)
 
     // Ang16::RotateVector_41FC90 written out: old_xpos copy and an Ang16& to the sprite angle as in the
     // inline, the new x kept in x_off, and the y line through the out-of-line Multiply_408680 and
-    // operator+ (0x408660) like Trailer::sub_407BD0. An Ang16 copy of the angle swaps which of
+    // operator+ (0x408660) like Trailer::GetHitchPosition_407BD0. An Ang16 copy of the angle swaps which of
     // sin/cos stays in a register.
     Fix16 old_xpos = door_x;
     Ang16& rotation = field_50_car_sprite->field_0;
@@ -2720,7 +2720,7 @@ void Car_BC::GetDoorWorldPos_43B420(u8 door_idx, Fix16* pXPos, Fix16* pYPos)
 }
 
 MATCH_FUNC(0x43B540)
-bool Car_BC::sub_43B540(u8 targetDoor)
+bool Car_BC::IsDoorOffsetLarge_43B540(u8 targetDoor)
 {
     s8* array = (s8*)gGtx_0x106C_703DD4->get_car_remap_5AA3D0(field_84_car_info_idx);
     if (Fix16::Abs(gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(array[2 * targetDoor + 1])) >= kFpOne_677908)
@@ -2881,7 +2881,7 @@ void Car_BC::AssignDriverBlameForExplosion_43B7B0(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x43b850)
-bool Car_BC::sub_43B850(s32 wofly_type_or_state)
+bool Car_BC::IsImmuneToExplosionType_43B850(s32 wofly_type_or_state)
 {
     // Two separate bit tests: VC6 loads the u16 once into cx and merges them into 'test $6,%ch'
     return (field_78_flags & 0x200 || field_78_flags & 0x400) && wofly_type_or_state != 20 ? true : false;
@@ -3694,7 +3694,7 @@ void Car_BC::RepairDamage_43D400()
     }
 
     field_0_qq.CleanupSpriteList_5A7080();
-    sub_421570();
+    ResetEngineStatus_421570();
 }
 
 MATCH_FUNC(0x43d690)
@@ -3944,7 +3944,7 @@ bool Car_BC::IsBeingCrushed_43DD50()
 }
 
 MATCH_FUNC(0x43dd60)
-void Car_BC::sub_43DD60()
+void Car_BC::DestroyWhileSinking_43DD60()
 {
     bool bUnknown; // bl
     Ped* field_54_driver; // eax
@@ -4025,7 +4025,7 @@ void Car_BC::sub_43DD60()
         AssignKillerToOccupants_43B770();
         KillContainedPeds_43DB80();
 
-        sub_421590();
+        SetEngineDamaged_421590();
         PrepareForExplosion_43C1C0();
         field_0_qq.DestroyAllSprites_5A7010();
         field_50_car_sprite->set_z_lazy_420660(gFix16_6777CC);
@@ -4045,7 +4045,7 @@ char_type Car_BC::ManageDrowning_43E560()
             this->field_94_exploder_timer = 50;
         }
 
-        sub_43DD60();
+        DestroyWhileSinking_43DD60();
 
         gParticle_8_6FD5E8->EmitWaterSplash_53F060(field_50_car_sprite->field_14_xy.x,
                                                    field_50_car_sprite->field_14_xy.y,
@@ -4120,13 +4120,13 @@ char_type Car_BC::OnObjectTouched_43EA60(Object_2C* pObj)
             field_58_physics->ApplyObjectImpact_559E20(pObj); // push car into conveyor direction
             break;
         case objects::savepoint_161:
-            gCar_214_705F20->sub_5C8780(pObj->field_27, this->field_50_car_sprite);
+            gCar_214_705F20->CheckThreadTrigger_5C8780(pObj->field_27, this->field_50_car_sprite);
             break;
 
         case objects::destructor_141:
             if (!field_54_driver)
             {
-                sub_421490();
+                DespawnSoon_421490();
             }
             break;
 
@@ -4142,7 +4142,7 @@ char_type Car_BC::OnObjectTouched_43EA60(Object_2C* pObj)
 
 // TODO: move
 MATCH_FUNC(0x48E720)
-char_type __stdcall sub_48E720(s32 model)
+char_type __stdcall IsNoKillCreditObject_48E720(s32 model)
 {
     char_type result;
     switch (model)
@@ -4163,7 +4163,7 @@ char_type __stdcall sub_48E720(s32 model)
 
 // TODO: move
 MATCH_FUNC(0x48E780);
-s32 __stdcall sub_48E780(s32 model)
+s32 __stdcall GetDeathCauseForObjectModel_48E780(s32 model)
 {
     if (model <= 192)
     {
@@ -4255,17 +4255,17 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
         return 0;
     }
 
-    if (pObj->field_18_model != 198 && !sub_48E720(pObj->field_18_model))
+    if (pObj->field_18_model != 198 && !IsNoKillCreditObject_48E720(pObj->field_18_model))
     {
         if (pFoundPed)
         {
             this->field_70_exploder_ped_id = pFoundPed->field_200_id;
-            this->field_90 = sub_48E780(pObj->field_18_model);
+            this->field_90 = GetDeathCauseForObjectModel_48E780(pObj->field_18_model);
             this->field_94_exploder_timer = 50;
         }
     }
 
-    gScriptManager_6F8060->RecordWeaponHit_512C00(field_6C_maybe_id, pObj->field_18_model, 0);
+    gScriptManager_6F8060->RecordWeaponHit_512C00(field_6C_car_id, pObj->field_18_model, 0);
 
     switch (pObj->field_18_model)
     {
@@ -4380,7 +4380,7 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
 }
 
 MATCH_FUNC(0x440510)
-Fix16 Car_BC::sub_440510()
+Fix16 Car_BC::GetMaxTurnRate_440510()
 {
     if (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->h <= 64u)
     {
@@ -4422,7 +4422,7 @@ void Car_BC::InitCarAIControl_440590()
                 this->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
             }
             this->field_5C_AI->SetCar_453BF0(this);
-            sub_426E00();
+            StartEngine_426E00();
         }
     }
 }
@@ -4481,11 +4481,11 @@ void Car_BC::AssignDriver_4406E0(Ped* pPed)
         DeAllocateAI_4446E0();
     }
 
-    sub_4215F0();
+    CancelDespawn_4215F0();
 
     if (GetField8DBit0_4218F0())
     {
-        if (gScriptManager_6F8060->TriggerCarThread_512910(pPed->get_id(), field_6C_maybe_id))
+        if (gScriptManager_6F8060->TriggerCarThread_512910(pPed->get_id(), field_6C_car_id))
         {
             ClearField8DBit0_4218E0();
         }
@@ -5043,7 +5043,7 @@ void Car_BC::TryHonkHorn_4416D0(s32 a2)
     {
         if (!this->field_A8_horn_cooldown)
         {
-            if (!IsTrainModel_403BA0() && field_84_car_info_idx != car_model_enum::TANK && (this->field_6C_maybe_id & 7) == 0)
+            if (!IsTrainModel_403BA0() && field_84_car_info_idx != car_model_enum::TANK && (this->field_6C_car_id & 7) == 0)
             {
                 if (a2 == 2)
                 {
@@ -5070,7 +5070,7 @@ void Car_BC::TryHonkHorn_4416D0(s32 a2)
             if (field_84_car_info_idx == car_model_enum::FIRETRUK || field_84_car_info_idx == car_model_enum::COPCAR ||
                 field_84_car_info_idx == car_model_enum::MEDICAR || field_84_car_info_idx == car_model_enum::SWATVAN ||
                 field_84_car_info_idx == car_model_enum::TANK || is_FBI_car_411920() || IsTrainModel_403BA0() ||
-                (this->field_6C_maybe_id & 3) == 0)
+                (this->field_6C_car_id & 3) == 0)
             {
                 this->field_A7_horn = 45;
                 this->field_A8_horn_cooldown = -1;
@@ -6158,7 +6158,7 @@ char_type Car_BC::PoolUpdate()
 }
 
 MATCH_FUNC(0x443330)
-void Car_BC::sub_443330()
+void Car_BC::UpdateOnCraneHook_443330()
 {
     Car_BC::ServiceDoorsLightsAndHorn_4426D0();
     if (field_0_qq.field_0_p18)
@@ -6253,7 +6253,7 @@ s32 Car_BC::GetCrashSoundCategory_4435B0()
 }
 
 MATCH_FUNC(0x4435f0)
-void Car_BC::sub_4435F0()
+void Car_BC::UpdateSpriteNum_4435F0()
 {
     if (inline_check_0x10_info_421640())
     {
@@ -6288,7 +6288,7 @@ void Car_BC::ApplyExplosionImpulse_443710(Fix16_Point* xy)
     Fix16_Point v4;
     Fix16_Point v9;
 
-    if (!sub_4214D0())
+    if (!IsDeactivated_4214D0())
     {
         SetupCarPhysicsAndSpriteBinding_43BCA0();
 
@@ -6486,7 +6486,7 @@ void Car_BC::ResprayOrCleanPlates(u8 remap)
 MATCH_FUNC(0x443c40)
 void Car_BC::HandleShops_443C40(Object_2C* pObj)
 {
-    if (sub_4215C0() && pObj->field_18_model == objects::car_shop_130)
+    if (HasPlayerDriver_4215C0() && pObj->field_18_model == objects::car_shop_130)
     {
         const u8 idx = pObj->get_field_26_420FF0();
         if (idx >= objects::shop_car_smg_250 && (idx <= objects::shop_car_mines_252 || idx == objects::machine_gun_bullet_254))
@@ -6690,7 +6690,7 @@ void Car_BC::SetSirens_4441B0()
 MATCH_FUNC(0x444490)
 void Car_BC::PoolAllocate()
 {
-    this->field_6C_maybe_id = gCar_6C_677930->field_14_next_car_id++;
+    this->field_6C_car_id = gCar_6C_677930->field_14_next_car_id++;
     this->field_74_damage = 0;
     this->field_8C_damage_level = 0;
     this->field_8_damaged_areas.ClearAllBits_420D90();
@@ -6771,7 +6771,7 @@ void Car_BC::PoolDeallocate()
     gWeapon_8_707018->dealloc_car_weapon_5E3DF0(this);
     gCar_6C_677930->DecrementAllocatedCarType_4466C0(field_A0_car_kind);
 
-    field_6C_maybe_id = 0;
+    field_6C_car_id = 0;
 }
 
 MATCH_FUNC(0x444860)
@@ -6793,7 +6793,7 @@ Car_BC::Car_BC()
     field_58_physics = 0;
     field_5C_AI = 0;
     field_88_despawn_status = car_despawn_status::none_0;
-    field_6C_maybe_id = 0xFFFF;
+    field_6C_car_id = 0xFFFF;
     field_64_pTrailer = 0;
     field_78_flags = 0;
     this->field_0_qq.DestroyAllSprites_5A7010();
@@ -6879,7 +6879,7 @@ void Trailer::SetTruckCabAndTrailerCar_407BB0(Car_BC* pTruckCab, Car_BC* pTraile
 }
 
 MATCH_FUNC(0x407bd0)
-Fix16_Point Trailer::sub_407BD0()
+Fix16_Point Trailer::GetHitchPosition_407BD0()
 {
     // The y line calls the out-of-line Negate/Multiply/operator+ in the original, as if it
     // were written with them; with the inline RotateByAngle_40F6B0 the tail stops inlining.
@@ -6941,7 +6941,7 @@ void Trailer::UpdateTrailerAlignment_407CE0()
     {
         if (IsVelocityAlignedWithHeading_40F840(pCabPhys) && pCabPhys->IsGasPedalPressedEnough_5626A0())
         {
-            new_theta = sub_405DA0(new_theta, &cab_theta, &field_8_truck_cab->sub_440510());
+            new_theta = sub_405DA0(new_theta, &cab_theta, &field_8_truck_cab->GetMaxTurnRate_440510());
         }
     }
 
@@ -7658,8 +7658,8 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                     Fix16 mid_y;
                     if (road_len == 1)
                     {
-                        front_x = xpos + x_one * sub_5838E0(last_idx);
-                        front_y = ypos + y_one * sub_5838E0(last_idx);
+                        front_x = xpos + x_one * GetLaneOffset_5838E0(last_idx);
+                        front_y = ypos + y_one * GetLaneOffset_5838E0(last_idx);
                         mid_x = front_x;
                         mid_y = front_y;
                         back_x = front_x;
@@ -7668,19 +7668,19 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                     }
                     else if (road_len == 2)
                     {
-                        front_x = xpos + x_one * sub_5838E0(last_idx);
-                        front_y = ypos + y_one * sub_5838E0(last_idx);
-                        back_x = xpos + x_one * sub_5838E0(first_idx);
-                        back_y = ypos + y_one * sub_5838E0(first_idx);
+                        front_x = xpos + x_one * GetLaneOffset_5838E0(last_idx);
+                        front_y = ypos + y_one * GetLaneOffset_5838E0(last_idx);
+                        back_x = xpos + x_one * GetLaneOffset_5838E0(first_idx);
+                        back_y = ypos + y_one * GetLaneOffset_5838E0(first_idx);
                         mid_x = back_x;
                         mid_y = back_y;
                     }
                     else if (road_len == 3)
                     {
-                        front_x = xpos + x_one * sub_5838E0(last_idx);
-                        front_y = ypos + y_one * sub_5838E0(last_idx);
-                        back_x = xpos + x_one * sub_5838E0(first_idx);
-                        back_y = ypos + y_one * sub_5838E0(first_idx);
+                        front_x = xpos + x_one * GetLaneOffset_5838E0(last_idx);
+                        front_y = ypos + y_one * GetLaneOffset_5838E0(last_idx);
+                        back_x = xpos + x_one * GetLaneOffset_5838E0(first_idx);
+                        back_y = ypos + y_one * GetLaneOffset_5838E0(first_idx);
                         mid_x = (back_x + front_x) / kFpTwo_6FF77C;
                         mid_y = (back_y + front_y) / kFpTwo_6FF77C;
                     }
@@ -7790,7 +7790,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                                             pNewCar->SpawnDriverPed();
                                         }
                                         pNewCar->InitCarAIControl_440590();
-                                        pNewCar->sub_426E00();
+                                        pNewCar->StartEngine_426E00();
                                         pNewCar->field_5C_AI->field_74_max_speed = gTrafficCarSpeed_6FF570;
                                     }
                                     else if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::police_6) &&
@@ -7801,7 +7801,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                                     else
                                     {
                                         pNewCar->IncrementCarStats_443D70(car_kind::recycled_1);
-                                        pNewCar->sub_421490();
+                                        pNewCar->DespawnSoon_421490();
                                     }
 
                                     gGame_0x40_67E008->ReduceTrafficSpawnCounterOfOtherViewers_4B9D60(pNewCar->field_50_car_sprite,
@@ -7860,7 +7860,7 @@ char_type Car_14::IsFlatRoadAt_583870(Fix16 xpos, Fix16 ypos)
 }
 
 MATCH_FUNC(0x5838E0)
-s32 Car_14::sub_5838E0(u8 a1)
+s32 Car_14::GetLaneOffset_5838E0(u8 a1)
 {
     switch (a1)
     {

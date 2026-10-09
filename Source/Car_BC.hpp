@@ -97,7 +97,7 @@ class Car_214
     EXPORT void FreeTrigger_5C8680(u8 idx);
     EXPORT char_type AddThreadTrigger_5C86C0(const s32& pType, const s32& f_C, SCR_THREAD* f_0, Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16 a8, Fix16 a9);
     EXPORT void Reset_5C8750();
-    EXPORT void sub_5C8780(u8 idx, Sprite* pSprite);
+    EXPORT void CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite);
 
     // 9.6f 0x4768C0
     inline void SetTriggerEnableState_4768C0(u8 idx, s32 state)
@@ -330,7 +330,7 @@ class Trailer
     EXPORT Ped* GetTruckCabDriver_407B80();
     EXPORT Car_BC* GetCabOrLoadedCar_407B90(Car_BC* a2);
     EXPORT void SetTruckCabAndTrailerCar_407BB0(Car_BC* a2, Car_BC* a3);
-    EXPORT Fix16_Point sub_407BD0();
+    EXPORT Fix16_Point GetHitchPosition_407BD0();
     EXPORT void UpdateTrailerAlignment_407CE0();
     EXPORT char_type ServicePhysics_408140();
     EXPORT void SetupCarPhysicsAndSpriteBinding_408190();
@@ -380,31 +380,31 @@ class Car_BC
 {
   public:
     // 9.6f 0x42AC70
-    inline void SetA6Bit0_42AC70()
+    inline void SetTurnRight_42AC70()
     {
         field_A6 |= 1u;
     }
 
     // 9.6f 0x42AC80
-    inline void SetA6Bit1_42AC80()
+    inline void SetTurnLeft_42AC80()
     {
         field_A6 |= 2u;
     }
 
     // 9.6f 0x42AC90
-    inline void SetA6Bit2_42AC90()
+    inline void SetTurnRightReady_42AC90()
     {
         field_A6 |= 4u;
     }
 
     // 9.6f 0x421530
-    inline void SetA6Bit3_421530()
+    inline void SetTurnLeftReady_421530()
     {
         field_A6 |= 8u;
     }
 
     // 9.6f 0x421540
-    inline void SetA6Bit5_421540()
+    inline void SetAIHalted_421540()
     {
         field_A6 |= 0x20u;
     }
@@ -416,49 +416,49 @@ class Car_BC
     }
 
     // 9.6f 0x421550
-    inline void ClearA6Bit5_421550()
+    inline void ClearAIHalted_421550()
     {
         field_A6 &= ~0x20u;
     }
 
     // 9.6f 0x42ACA0
-    inline void ClearA6Bit0_42ACA0()
+    inline void ClearTurnRight_42ACA0()
     {
         field_A6 &= ~1u;
     }
 
     // 9.6f 0x42ACB0
-    inline void ClearA6Bit1_42ACB0()
+    inline void ClearTurnLeft_42ACB0()
     {
         field_A6 &= ~2u;
     }
 
     // 9.6f 0x42AC60
-    inline bool IsA6Bit5Set_42AC60()
+    inline bool IsAIHalted_42AC60()
     {
         return (field_A6 & 0x20) == 0x20;
     }
 
     // 9.6f 0x42AC20
-    inline bool IsA6Bit0Set_42AC20()
+    inline bool IsTurnRight_42AC20()
     {
         return (field_A6 & 1) == 1;
     }
 
     // 9.6f 0x42AC30
-    inline bool IsA6Bit1Set_42AC30()
+    inline bool IsTurnLeft_42AC30()
     {
         return (field_A6 & 2) == 2;
     }
 
     // 9.6f 0x42AC40
-    inline bool IsA6Bit2Set_42AC40()
+    inline bool IsTurnRightReady_42AC40()
     {
         return (field_A6 & 4) == 4;
     }
 
     // 9.6f 0x42AC50
-    inline bool IsA6Bit3Set_42AC50()
+    inline bool IsTurnLeftReady_42AC50()
     {
         return (field_A6 & 8) == 8;
     }
@@ -521,15 +521,15 @@ class Car_BC
     EXPORT void DoBrakeAndHandbrake_43A970();
     EXPORT void SetDriver(Ped* a2);
     EXPORT void ApplyVisualDamage_43A9F0();
-    EXPORT void sub_43AA20();
+    EXPORT void SetDummyControl_43AA20();
     EXPORT void StartLightFlashing_43CAC0();
     EXPORT void Deactivate_43AA60();
     EXPORT char_type IsThreatToSearchingPed_43AAE0();
     EXPORT char_type CanCarCollideWithSprite_43AAF0(Sprite* a2);
     EXPORT void ProcessCarToCarImpact_43ADC0(Sprite* a2);
     EXPORT bool CanExitCar_43AF10();
-    EXPORT void sub_43AF40();
-    EXPORT void sub_43AF60();
+    EXPORT void ResumeAIDriving_43AF40();
+    EXPORT void HaltAIDriving_43AF60();
     EXPORT char_type IsDoorAccessible_43AFE0(u8 target_door);
     EXPORT bool IsStoppedWithPavementAtDoor_43B140(u8 a2);
     EXPORT bool IsDoorLockedForPed_43B2B0(Ped* a2);
@@ -538,13 +538,13 @@ class Car_BC
     EXPORT void OpenAllDoors_43B380();
     EXPORT void CloseAllDoors_43B3D0();
     EXPORT void GetDoorWorldPos_43B420(u8 door_idx, Fix16* pXPos, Fix16* pYPos);
-    EXPORT bool sub_43B540(u8 targetDoor);
+    EXPORT bool IsDoorOffsetLarge_43B540(u8 targetDoor);
     EXPORT void GetDoorWorldPosition_43B5A0(u8 targetDoor, Fix16* pOutX, Fix16* pOutY);
     EXPORT char_type IsOnScreenForAnyPlayer_43B730();
     EXPORT char_type IsVisibleToAnyPlayer_43B750();
     EXPORT void AssignKillerToOccupants_43B770();
     EXPORT void AssignDriverBlameForExplosion_43B7B0(Car_BC* a2);
-    EXPORT bool sub_43B850(s32 a2);
+    EXPORT bool IsImmuneToExplosionType_43B850(s32 a2);
     EXPORT void SpawnDamageFireEffect_43B870(s32 a2, Fix16_Point* a3);
     // Called without this in SpawnDamageFireEffect_43B870: a static __stdcall
     EXPORT static s32 __stdcall GetFireExplosionType_43BB90(u8 fire_level);
@@ -589,13 +589,13 @@ class Car_BC
     EXPORT bool IsSpriteShrunk_43DC00();
     EXPORT bool CarShrinkSprite_43DC80(s32 a2, s32 a3);
     EXPORT bool IsBeingCrushed_43DD50();
-    EXPORT void sub_43DD60();
+    EXPORT void DestroyWhileSinking_43DD60();
     EXPORT char_type ManageDrowning_43E560();
     EXPORT Car_BC* GetCabOrSelf_43E8D0();
     EXPORT Ped* GetEffectiveDriver_43E990();
     EXPORT char_type OnObjectTouched_43EA60(Object_2C* a2);
     EXPORT char_type HandleCarHitByObject_43F130(Object_2C* a2);
-    EXPORT Fix16 sub_440510();
+    EXPORT Fix16 GetMaxTurnRate_440510();
     EXPORT char_type GetPassengersCount_440570();
     EXPORT void InitCarAIControl_440590();
     EXPORT void SpawnDriverPed();
@@ -663,11 +663,11 @@ class Car_BC
     EXPORT char_type TrainUpdate_442D70();
     EXPORT char_type TrailerUpdate_443130();
     EXPORT char_type PoolUpdate();
-    EXPORT void sub_443330();
+    EXPORT void UpdateOnCraneHook_443330();
     EXPORT bool UpdateAttachedToSprite_443360(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot);
     EXPORT void InitDoors_4435A0();
     EXPORT s32 GetCrashSoundCategory_4435B0();
-    EXPORT void sub_4435F0();
+    EXPORT void UpdateSpriteNum_4435F0();
     EXPORT void ApplyExplosionImpulse_443710(Fix16_Point* a2);
     EXPORT static s32 __stdcall get_car_weapon_cost_443A50(s32 weapon_kind);
     EXPORT void BuyCarWeapon_4438C0(s32 weapon_kind);
@@ -818,7 +818,7 @@ class Car_BC
     }
 
     // 9.6f 0x411950
-    inline s32 TakeFieldAC_411950()
+    inline s32 TakeSoundEvent_411950()
     {
         s32 ret = field_AC;
         field_AC = 0;
@@ -1072,7 +1072,7 @@ class Car_BC
     }
 
     // 9.6f 0x4215F0
-    inline void sub_4215F0()
+    inline void CancelDespawn_4215F0()
     {
         if (field_88_despawn_status == 2 || field_88_despawn_status == 4 || field_88_despawn_status == 3)
         {
@@ -1093,7 +1093,7 @@ class Car_BC
     }
 
     // 9.6f 0x421570
-    inline void sub_421570()
+    inline void ResetEngineStatus_421570()
     {
         if (field_9C_engine_status == car_engine_status::destroyed_6 || field_9C_engine_status == car_engine_status::unknown_5)
         {
@@ -1102,7 +1102,7 @@ class Car_BC
     }
 
     // 9.6f 0x421590
-    inline void sub_421590()
+    inline void SetEngineDamaged_421590()
     {
         if (field_9C_engine_status != car_engine_status::destroyed_6)
         {
@@ -1111,7 +1111,7 @@ class Car_BC
     }
 
     // 9.6f 0x421490
-    inline void sub_421490()
+    inline void DespawnSoon_421490()
     {
         if (field_88_despawn_status != 5)
         {
@@ -1127,12 +1127,12 @@ class Car_BC
         }
     }
 
-    bool sub_4214D0()
+    bool IsDeactivated_4214D0()
     {
         return field_88_despawn_status == 7;
     }
 
-    void SetF_88_4214E0()
+    void SetDeactivatedStatus_4214E0()
     {
         field_88_despawn_status = 7;
     }
@@ -1206,7 +1206,7 @@ class Car_BC
         return this->field_84_car_info_idx == car_model_enum::TRUKTRNS;
     }
 
-    bool sub_4215C0()
+    bool HasPlayerDriver_4215C0()
     {
         return field_54_driver && field_54_driver->field_15C_player &&
             field_54_driver->get_occupation_403980() != ped_ocupation_enum::empty;
@@ -1282,7 +1282,7 @@ class Car_BC
         return !IsCab_421620() && !gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->is_0x10() && !IsTrainModel_403BA0() && !IsLongerThanOneBlock_447ED0();
     }
 
-    void sub_426E00()
+    void StartEngine_426E00()
     {
         field_9C_engine_status = 3;
         HeadlightsOn_43BFE0();
@@ -1308,24 +1308,24 @@ class Car_BC
         return pCarInfo->is_0x1_41FF00();
     }
 
-    inline bool sub_4214F0()
+    inline bool HasNonPlayerDriver_4214F0()
     {
         return field_54_driver && !field_54_driver->PedTypeIs_45EDE0(ped_type::player_2);
     }
 
-    inline bool sub_49EFE0()
+    inline bool CanCrushCars_49EFE0()
     {
-        return CanCollideOver_4216E0() && (IsTank_411900() || !sub_4214F0());
+        return CanCollideOver_4216E0() && (IsTank_411900() || !HasNonPlayerDriver_4214F0());
     }
 
-    inline void sub_421890(u16 flag)
+    inline void AddFlags_421890(u16 flag)
     {
         field_78_flags |= flag;
     }
 
-    inline void sub_49EFC0()
+    inline void SetCrushFlag_49EFC0()
     {
-        sub_421890(0x2000);
+        AddFlags_421890(0x2000);
     }
 
     EXPORT char SnapCarToGreenArrow_444E40(Fix16 xpos, Fix16 ypos, Fix16 zpos);
@@ -1343,7 +1343,7 @@ class Car_BC
     CarChaseTask_40* field_60;
     Trailer* field_64_pTrailer;
     Fix16 field_68_scale;
-    s32 field_6C_maybe_id;
+    s32 field_6C_car_id;
     s32 field_70_exploder_ped_id;
     s16 field_74_damage;
     s16 field_76_last_seen_timer;
@@ -1468,7 +1468,7 @@ struct Car_14
 
     EXPORT char_type IsFlatRoadAt_583870(Fix16 xpos, Fix16 ypos);
 
-    EXPORT s32 sub_5838E0(u8 a1);
+    EXPORT s32 GetLaneOffset_5838E0(u8 a1);
     EXPORT char_type sub_583930(char_type a1, char_type a2);
 
     Camera_0xBC* field_0_cam;
@@ -1493,5 +1493,5 @@ EXTERN_GLOBAL(char_type, gbRngRemapTableDone_679C0A);
 
 // TODO: move
 EXPORT s32 __stdcall GetDamageMultiplier_45CF90(Ped* pPed);
-EXPORT s32 __stdcall sub_48E780(s32 model);
-EXPORT char_type __stdcall sub_48E720(s32 model);
+EXPORT s32 __stdcall GetDeathCauseForObjectModel_48E780(s32 model);
+EXPORT char_type __stdcall IsNoKillCreditObject_48E720(s32 model);

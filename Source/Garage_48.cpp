@@ -350,7 +350,7 @@ void Garage_48::GaragesService_5349D0()
                 field_0->SetDespawn3IfNot5_421490();
             }
             field_4 = field_0;
-            field_8 = field_4->field_6C_maybe_id;
+            field_8 = field_4->field_6C_car_id;
             field_0 = NULL;
             Reset_489650();
             break;

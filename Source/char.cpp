@@ -5404,7 +5404,7 @@ void Char_B4::state_3_551A00()
                 field_40_rotation.rValue = field_84_target_car->field_50_car_sprite->field_0.rValue;
                 field_6C_animation_state = Char_Anim_state::Entering_Car_6;
                 field_68_animation_frame = 0;
-                if (field_84_target_car->sub_43B540(field_7C_pPed->get_target_car_door_403A60()))
+                if (field_84_target_car->IsDoorOffsetLarge_43B540(field_7C_pPed->get_target_car_door_403A60()))
                 {
                     field_58_flags_bf.b4 = true;
                 }
@@ -5426,7 +5426,7 @@ void Char_B4::state_4_551B30()
         field_6C_animation_state = Char_Anim_state::Exiting_Car_7;
         field_68_animation_frame = 0;
         s8 target_door = field_7C_pPed->get_target_car_door_403A60();
-        if (field_84_target_car->sub_43B540(target_door))
+        if (field_84_target_car->IsDoorOffsetLarge_43B540(target_door))
         {
             field_58_flags_bf.b4 = true;
         }
@@ -5483,7 +5483,7 @@ void Char_B4::state_5_551BB0()
                                               &field_80_sprite_ptr->field_14_xy.y);
         this->field_6C_animation_state = 6;
         this->field_68_animation_frame = 0;
-        if (field_84_target_car->sub_43B540(field_7C_pPed->get_target_car_door_403A60()))
+        if (field_84_target_car->IsDoorOffsetLarge_43B540(field_7C_pPed->get_target_car_door_403A60()))
         {
             this->field_70_frame_timer = 3;
         }
@@ -6427,7 +6427,7 @@ char_type Char_B4::OnObjectTouched_553640(Object_2C* p2c)
             break;
 
         case objects::savepoint_161:
-            gCar_214_705F20->sub_5C8780(p2c->field_27, this->field_80_sprite_ptr);
+            gCar_214_705F20->CheckThreadTrigger_5C8780(p2c->field_27, this->field_80_sprite_ptr);
             break;
 
         case objects::blue_phone_164:
