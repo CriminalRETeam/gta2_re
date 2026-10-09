@@ -84,3 +84,14 @@ void operator delete[](void* p) throw()
 {
     crt::free(p);
 }
+
+// Destroys count objects of size bytes at ptr, last to first (like the CRT's `??_M`).
+void __stdcall __ehvec_dtor(void* ptr, unsigned size, int count, EhVecDtorFn pDtor)
+{
+    char* p = static_cast<char*>(ptr) + size * count;
+    while (--count >= 0)
+    {
+        p -= size;
+        pDtor(p);
+    }
+}
