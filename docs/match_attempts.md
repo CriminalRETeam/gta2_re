@@ -3394,3 +3394,81 @@ flag test that later disappears still shapes the block order and the exit placem
   the second merges into it; the other two returns keep the `b11 = true` arm out of T1 (subsets: 38-376).
 - `Ped::FindUsableCarDoor_467090` (74, unchanged): needs the `found` block right after the driver loop, i.e. the
   passenger branch with no edge to `found` at layout time; neither folded flags nor per-site copies give it.
+
+## WIP sweep with the logging guards off (Oct 9)
+
+`WIP_IMPLEMENTED` adds a logging guard to the body, so a WIP's diff against `10.5.exe` is
+worthless until the guard is gone. With `NOT_IMPLEMENTED`/`WIP_IMPLEMENTED` defined empty in
+`Function.hpp`, all 81 `WIP_FUNC`s rank from 2 lines up; none is at 0.
+
+Smallest, all of them instruction scheduling or register allocation, with nothing in the source
+left to steer:
+
+- `keybrd_0x204::GetLayout_4D6000` 2, `sound_obj::ProcessPoliceRadioWordsPlayback_427220` 2,
+  `MapRenderer::DrawGradientSlopeSouthwards_4F1660` 2, `Map_0x370::sub_4E6660` 2,
+  `Map_0x370::sub_4E8370` 4, `DrawTexture_5D8470` 4, `PathFinder_2FD4::ComputePath_554AB0` 4,
+  `MapRenderer::DrawGradientSlopeEastwards_4F33B0` 4.
+
+Negatives worth not repeating:
+
+- **Window limits explain none of the current near misses.** `regsearch.py` over the limits
+  62..80 on the five smallest, from two different angles (x87-heavy and integer-only):
+
+  | function | diff | best limit |
+  |---|---|---|
+  | `MapRenderer::DrawGradientSlopeSouthwards_4F1660` | 2 | stock 80 |
+  | `Map_0x370::sub_4E6660` | 3 | stock 80 |
+  | `DrawTexture_5D8470` | 4 | stock 80 |
+  | `PathFinder_2FD4::ComputePath_554AB0` | 5 | stock 80 |
+  | `MapRenderer::draw_bottom_4ED290` | 55 at every limit | stock 80 |
+
+  A lower limit never helps, so none of them is a window-break problem and adding no-op nodes
+  (parentheses, `(f32)` casts, `f32` locals) cannot fix them. The leftover instructions are
+  priority/colouring decisions inside one window, and the integer-only ones have no no-op node
+  lever at all.
+- `Map_0x370::sub_4E8370` (4): hoisting `new_idx`/`pNew` out of the `do_drop` branches gets the
+  original's load order but recolours the whole function (4 -> ~200).
+- `DrawPlayerStatsHelper_5D61A0` (7): `s32 width` does give the original's
+  `xor %ebx,%ebx; mov 4(%eax),%bl` instead of `movzbw`+`movswl`, but then width lands in `ebp`
+  and `base_xpos` in `ebx`, the mirror of the original (7 -> 47). The `s16` comment stays right.
+- `ProcessPoliceRadioWordsPlayback_427220` (2): the original keeps a dead load+store of
+  `field_552C[idx]` (`PlayAtIdx` reloads it). `volatile s32 old` is what forces it, and that
+  volatile store is exactly what pins `cmp $0xF,%al` below it; without `volatile` the dead load
+  goes away and the constants move into `ebx` (2 -> ~40). It needs a non-volatile form that
+  still keeps a dead store.
+- `PathFinder_2FD4::AddGridCell_554710` (8): the original computes
+  `xpos - xEnd` before `ypos - yEnd`. Swapping the terms in the sum changes nothing (VC6 picks
+  its own order); `dx`/`dy` locals do give the original's order, but then `v12` keeps a register
+  instead of the original's stack slot (8 -> ~90).
+- `ExplosionPool_7A8::FreeLowestPriority_543690` (12): the two exit blocks differ only in which scratch register holds
+  the index. Indexing the early return with `next_idx` (equal to `last_idx` there) gives it its
+  own stack slot and a bigger frame (12 -> ~50).
+- `ScriptManager_C1EA8::LoadStringTbl_5121E0` (44): the original masks the `u16` parameter
+  once into a stack temp and tests that 32-bit (`test %ecx,%ecx; jbe`), where we keep the raw
+  parameter in `ebx` and test it 16-bit; it also keeps a dead `(len + 9) & ~1`. A `const u32
+  size` local gives the 32-bit test but is enregistered, so it isn't spilled like the original's
+  temp, and the dead local is deleted (44 unchanged).
+
+## Call-target mismatches: nothing left to fix (`compare_callees.py`)
+
+Run over the WIPs with a locally generated `target_asm.json`
+(`Scripts/bin_comp/gen_target_asm.py`). Every row turned out to be an artifact, so don't start
+from this list without checking a candidate by hand:
+
+- Most rows are COMDAT inline copies of `Fix16`/`Ang16` operators: the same code, a different
+  symbol.
+- `compare_callees.py` aligns the two call *sequences*, so a different call order shows up as an
+  insert plus a delete. That is all the `DMA_Video_LoadDll_5EB970` "17 missing `sprintf`s" and
+  the `FindUsableCarDoor_467090` "extra `IsDoorAccessible_43AFE0`" were; the call multisets are
+  identical (3 and 3).
+- Both builds also have to be compared with the `WIP_IMPLEMENTED` guards off, or the guard's own
+  `LogFuncAddr` call shifts every alignment.
+- What is left is the original calling something **more often than we do**, and in both cases it
+  is one source site that 10.5 duplicated during layout, not a missing call:
+  `Ped::MeleeAttackStateMachine_46B670` (og calls `eager_benz::AddCash_592620` twice, we call it
+  once from the single `AddScore_41DC40(-10)` site; the two original call sites have byte
+  identical context) and `Map_0x370::CanMoveOntoSlopeTile_4E0130` (26 `GetEffectiveBlock_4DFE60`
+  against our 25).
+
+So the whole WIP set is codegen-bound: no WIP has a wrong callee, a missing call or a wrong
+argument count.
