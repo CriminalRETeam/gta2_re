@@ -270,7 +270,7 @@ struct Car_18_Cmd : SCR_CMD_HEADER
     u16 field_24_idx;
 };
 
-WIP_FUNC(0x5c8780)
+MATCH_FUNC(0x5c8780)
 void Car_214::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
 {
     Car_18* pEntry = &field_0_triggers[idx];
@@ -326,6 +326,13 @@ void Car_214::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
                 if (pPed->get_id() == pPointer->field_8_char->get_id())
                 {
                     pEntry->field_14_enable_state = 0;
+                }
+                else
+                {
+                    // The empty else makes the success path an else-skip jump, which VC6 retargets
+                    // to the switch tail late; that list order lets case 4 and then case 7 merge
+                    // into case 6's ped check, as in the original
+                    break;
                 }
             }
             break;
@@ -391,11 +398,21 @@ void Car_214::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
             break;
 
         case 7:
-            if (pSprite->get_type_416B40() != sprite_types_enum::ped_3)
+            // Same ped check as case 6 (written out in full as in 9.6f; VC6 cross-jumps it into case 6)
+            if (pSprite->get_type_416B40() == sprite_types_enum::ped_3)
             {
-                break;
+                pPed = pSprite->AsCharB4_40FEA0()->get_ped_433A20();
+                if (pPed)
+                {
+                    pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(((Car_18_Cmd*)pEntry->field_0_pScriptCmd)->field_8_idx);
+                    if (pPed->GetGameObjectVelocity_433C20() == kZero_705DD8 &&
+                        pPed->get_id() == pPointer->field_8_char->get_id())
+                    {
+                        pEntry->field_14_enable_state = 0;
+                    }
+                }
             }
-            // fall through: the ped check is the same as case 6
+            break;
 
         case 6:
             if (pSprite->get_type_416B40() == sprite_types_enum::ped_3)
