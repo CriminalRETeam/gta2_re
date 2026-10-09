@@ -568,13 +568,14 @@ void PedGroup::add_ped_to_list_4C9B30(Ped* ptr, u8 idx)
 // The original never sets a return value
 #pragma warning(push)
 #pragma warning(disable : 4716)
-WIP_FUNC(0x4c9b60)
+MATCH_FUNC(0x4c9b60)
 char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* pPed)
 {
     s8 i;
-    if (!pPed->field_164_ped_group)
+    field_30 = 1;
+    PedGroup* pOther = pPed->field_164_ped_group;
+    if (!pOther)
     {
-        field_30 = 1;
         for (i = field_34_count - 1; i >= 0; i--)
         {
             Ped* pMember = field_4_ped_list[i];
@@ -584,17 +585,22 @@ char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* pPed)
                 {
                     pMember->SetObjective2_463830(7, 9999);
                     pMember->SetInternalTargetPed_403AE0(field_2C_ped_leader);
+                    pMember->SetPanicking_403950();
                 }
-                else
+                // Two copies of the follow-pPed body (VC6 cross-jumps them back together). The extra
+                // pPed reference gives pPed edi over the list cursor.
+                else if (0x23 != field_2C_ped_leader->GetInternalObjective_403A90())
                 {
-                    if (0x23 == field_2C_ped_leader->GetInternalObjective_403A90() && !IsLeaderCloseToTargetCar_4CAD40())
-                    {
-                        continue;
-                    }
                     pMember->SetObjective2_463830(20, 9999);
                     pMember->SetInternalTargetPed_403AE0(pPed);
+                    pMember->SetPanicking_403950();
                 }
-                pMember->SetPanicking_403950();
+                else if (IsLeaderCloseToTargetCar_4CAD40())
+                {
+                    pMember->SetObjective2_463830(20, 9999);
+                    pMember->SetInternalTargetPed_403AE0(pPed);
+                    pMember->SetPanicking_403950();
+                }
             }
         }
 
@@ -608,8 +614,6 @@ char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* pPed)
     }
     else
     {
-        field_30 = 1;
-        PedGroup* pOther = pPed->field_164_ped_group;
         for (i = field_34_count - 1; i >= 0; i--)
         {
             Ped* pMember = field_4_ped_list[i];
