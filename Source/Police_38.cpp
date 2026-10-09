@@ -2558,7 +2558,19 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                 case ROAD:
                     width++;
                     break;
+                // PAVEMENT and FIELD written out separately (VC6 merges them again): closer than a shared
+                // label (226 vs 286). The x branch's order and the zpos declaration also only move registers.
                 case PAVEMENT:
+                    if (!bEdge)
+                    {
+                        width++;
+                        bEdge = 1;
+                    }
+                    else
+                    {
+                        bFound = 1;
+                    }
+                    break;
                 case FIELD:
                     if (!bEdge)
                     {
@@ -2807,6 +2819,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
         // Find the road's edges along x
         u8 bEdge = 0;
         s32 z_below = z - 1;
+        Fix16 zpos;
         do
         {
             bFound = 0;
@@ -2863,8 +2876,8 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                 case FIELD:
                     if (!bEdge)
                     {
-                        width++;
                         bEdge = 1;
+                        width++;
                     }
                     else
                     {
@@ -2894,7 +2907,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
         Fix16 y_top = Fix16(y) + dword_6FEBF4;
         Fix16 x_right = Fix16(x_start + width + 1);
         Fix16 y_bottom = Fix16(y) + dword_6FEBF4;
-        Fix16 zpos = Fix16(z);
+        zpos = Fix16(z);
         field_A0_rect->SetRect_41E350(x_left, x_right, y_top - dword_6FEBF4, y_bottom + dword_6FEBF4);
         field_A0_rect->SetHiLowZ_41E370(zpos - dword_6FECEC, zpos + dword_6FECEC);
         if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_A0_rect, 0, 0, 0))
