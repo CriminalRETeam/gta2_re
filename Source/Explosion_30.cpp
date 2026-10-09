@@ -983,11 +983,12 @@ void Explosion_30::SetObject_543680(Object_2C* pObj)
 
 // Every explosion gets a priority from its type: 1 (unknown types, evicted straight away) up to 6, and a late fire or
 // explosion counts as 3. The one with the lowest priority has its timer set to 0 so that it ends on its next update.
-WIP_FUNC(0x543690)
-void ExplosionPool_7A8::FreeLowestPriority_543690()
+// The early exit returns the freed index (eax), the fall-through path returns nothing like the original.
+#pragma warning(push)
+#pragma warning(disable : 4715) // not all control paths return a value
+MATCH_FUNC(0x543690)
+s32 ExplosionPool_7A8::FreeLowestPriority_543690()
 {
-    WIP_IMPLEMENTED;
-
     u8 lowest_priority = 99;
     u8 lowest_idx = 99;
     u8 priority = 0;
@@ -1099,8 +1100,9 @@ void ExplosionPool_7A8::FreeLowestPriority_543690()
 
             if (priority == 1)
             {
-                this->field_0_explosions[cur_idx].field_1A_timer = 0;
-                return;
+                s32 i = cur_idx;
+                this->field_0_explosions[i].field_1A_timer = 0;
+                return i;
             }
 
             if (priority < lowest_priority)
@@ -1113,6 +1115,7 @@ void ExplosionPool_7A8::FreeLowestPriority_543690()
     } while (idx < GTA2_COUNTOF(field_0_explosions));
     this->field_0_explosions[lowest_idx].field_1A_timer = 0;
 }
+#pragma warning(pop)
 
 MATCH_FUNC(0x543800)
 Explosion_30* ExplosionPool_7A8::Allocate_543800()

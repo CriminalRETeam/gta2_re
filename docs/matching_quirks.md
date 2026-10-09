@@ -1510,6 +1510,10 @@ MapRenderer cluster, and how to check helpers against 9.6f with VC7: `docs/x87_h
 
 ## Functions, thunks and calling conventions
 
+**A "void" function whose return tails disagree on `eax` may return a value.** If one exit keeps the index in `eax`
+and computes the address in another register while a second exit overwrites `eax`, the first exit probably returns
+that value and the other returns nothing (C4715 silenced). `ExplosionPool_7A8::FreeLowestPriority_543690`, 12 -> 0.
+
 **An EH frame for a member in only one owner's ctor.** If one class's ctor has an EH frame for
 a member and the other owners of that member type have none, the member's type has a
 destructor only there: give that member a derived type with an empty destructor
