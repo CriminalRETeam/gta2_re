@@ -236,7 +236,7 @@ class Ped
     EXPORT void ChangePedStatesByMode_463300(u8 mode);
     EXPORT void SetStatesForObjective_4633E0(char_type bMainObj);
     EXPORT void SetObjective(s32 objective, s16 objective_timer);
-    EXPORT void SetObjective2_463830(s32 car_state, s16 car_state_timer);
+    EXPORT void SetObjective2_463830(s32 internal_objective, s16 internal_objective_timer);
     EXPORT void ProcessOnFootObjective_463AA0();
     EXPORT void ProcessInCarObjective_463FB0();
     EXPORT void CalcApproachPointNearTargetPed_4645B0();
