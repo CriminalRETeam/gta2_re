@@ -56,7 +56,11 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FD218, Fix16(0x3333, 0), 0x6FD218);
 // Car_BC::IsLongerThanOneBlock_447ED0 (9.6f), with this file's copy of the 1.0 constant
 static inline bool IsLongerThanOneBlock_447ED0(Car_BC* pCar)
 {
-    return (pCar->field_50_car_sprite->GetH_447E70() > dword_6FD124) ? true : false;
+    if (pCar->field_50_car_sprite->GetH_447E70() > dword_6FD124)
+    {
+        return true;
+    }
+    return false;
 }
 
 // 9.6f 0x489B10
@@ -92,7 +96,7 @@ DEFINE_GLOBAL_INIT(Ang16, word_6FD07E, Ang16(720), 0x6FD07E);
 DEFINE_GLOBAL_INIT(Ang16, word_6FD0A4, Ang16(1080), 0x6FD0A4);
 DEFINE_GLOBAL_INIT(Ang16, word_6FD25C, Ang16(0), 0x6FD25C);
 
-WIP_FUNC(0x534700)
+MATCH_FUNC(0x534700)
 u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
 {
     field_0 = pCar;
@@ -132,6 +136,8 @@ u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
         w2 = dword_6FD124;
     }
 
+    // The half size goes before the constant in the y sums (`Fix16(y) + w1 + 1`), the other order changes
+    // VC6's operand order and register choices.
     // 9.6f: the park rectangle corners (field_18/1C, field_20/24) and the target (field_30/34) are
     // Fix16 pairs set with Fix16_Point_POD::SetXY_432860
     switch (field_38)
@@ -139,24 +145,24 @@ u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
         case 1:
             if (field_10->IsDoubleDoor_489600())
             {
-                ((Fix16_Point_POD*)&field_18_park_x_min)->SetXY_432860(Fix16(x), Fix16(y) - dword_6FD124 - w1);
+                ((Fix16_Point_POD*)&field_18_park_x_min)->SetXY_432860(Fix16(x), Fix16(y) - w1 - dword_6FD124);
             }
             else
             {
                 ((Fix16_Point_POD*)&field_18_park_x_min)->SetXY_432860(Fix16(x), Fix16(y) - w1);
             }
-            ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + dword_6FD124 + w2, Fix16(y) + dword_6FD124 + w1);
+            ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + dword_6FD124 + w2, Fix16(y) + w1 + dword_6FD124);
             ((Fix16_Point_POD*)&field_30_target_x)->SetXY_432860(Fix16(x) - dword_6FD218, Fix16(y) + dword_6FCF98);
             break;
         case 2:
             ((Fix16_Point_POD*)&field_18_park_x_min)->SetXY_432860(Fix16(x) - w2, Fix16(y) - w1);
             if (field_10->IsDoubleDoor_489600())
             {
-                ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + dword_6FD124, Fix16(y) + kFpTwo_6FD128 + w1);
+                ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + dword_6FD124, Fix16(y) + w1 + kFpTwo_6FD128);
             }
             else
             {
-                ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + dword_6FD124, Fix16(y) + dword_6FD124 + w1);
+                ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + dword_6FD124, Fix16(y) + w1 + dword_6FD124);
             }
             ((Fix16_Point_POD*)&field_30_target_x)->SetXY_432860(Fix16(x) + dword_6FD124 + dword_6FD218, Fix16(y) + dword_6FCF98);
             break;
@@ -164,11 +170,11 @@ u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
             ((Fix16_Point_POD*)&field_18_park_x_min)->SetXY_432860(Fix16(x) - w1, Fix16(y));
             if (field_10->IsDoubleDoor_489600())
             {
-                ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + kFpTwo_6FD128 + w1, Fix16(y) + dword_6FD124 + w2);
+                ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + kFpTwo_6FD128 + w1, Fix16(y) + w2 + dword_6FD124);
             }
             else
             {
-                ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + dword_6FD124 + w1, Fix16(y) + dword_6FD124 + w2);
+                ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + dword_6FD124 + w1, Fix16(y) + w2 + dword_6FD124);
             }
             ((Fix16_Point_POD*)&field_30_target_x)->SetXY_432860(Fix16(x) + dword_6FCF98, Fix16(y) - dword_6FD218);
             break;
