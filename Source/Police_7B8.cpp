@@ -799,7 +799,7 @@ void Police_7B8::Service_570270()
 
     if (field_7B0_last_firing_emergency_ped != NULL)
     {
-        if (field_7B0_last_firing_emergency_ped->GetPedState_403990() == 9)
+        if (field_7B0_last_firing_emergency_ped->GetPedState_403990() == ped_state_1::dead_9)
         {
             field_7B0_last_firing_emergency_ped = NULL;
         }

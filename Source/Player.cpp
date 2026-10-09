@@ -1428,7 +1428,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
                     pPed->SetObjective(objectives_enum::no_obj_0, 9999);
                     pPed->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                     pPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
-                    pPed->ChangeNextPedState2_45C540(10);
+                    pPed->ChangeNextPedState2_45C540(ped_state_2::ped2_driving_10);
                 }
             }
         }

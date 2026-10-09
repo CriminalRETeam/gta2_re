@@ -200,8 +200,8 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
 
     if (pPed)
     {
-        pPed->ChangeNextPedState1_45C500(0);
-        pPed->ChangeNextPedState2_45C540(0);
+        pPed->ChangeNextPedState1_45C500(ped_state_1::walking_0);
+        pPed->ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
         pPed->SetPedType_403920(ped_type::dummy_3);
         pPed->SetOffscreenCounter_433B80(1);
         pPed->set_remap_433B90(3);
@@ -421,8 +421,8 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
 
         if (gSpriteGrid_1_679208->FindNearestSpriteOfType_477E60(pPed->field_168_game_object->field_80_sprite_ptr, 0))
         {
-            pPed->ChangeNextPedState1_45C500(9);
-            pPed->ChangeNextPedState2_45C540(15);
+            pPed->ChangeNextPedState1_45C500(ped_state_1::dead_9);
+            pPed->ChangeNextPedState2_45C540(ped_state_2::Unknown_15);
             pPed->Deallocate_45EB60();
             gSpriteGrid_1_679208->AddToRegionBuckets_477B20(pPed->field_168_game_object->field_80_sprite_ptr);
             return;
@@ -825,7 +825,7 @@ Ped* PedManager::SpawnDriver_470B00(Car_BC* pCar)
     pNewPed->field_16C_car = pCar;
     pNewPed->field_168_game_object = 0;
     pNewPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
-    pNewPed->ChangeNextPedState2_45C540(10);
+    pNewPed->ChangeNextPedState2_45C540(ped_state_2::ped2_driving_10);
     pNewPed->set_enter_car_as_passenger_4039B0(0);
     pNewPed->set_target_car_door_403A70(0);
     pNewPed->field_288_threat_search = threat_search_enum::area_2; //area_2;
@@ -847,7 +847,7 @@ Ped* PedManager::SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang)
     pNewPed->field_16C_car = pCar;
     pNewPed->field_168_game_object = 0;
     pNewPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
-    pNewPed->ChangeNextPedState2_45C540(10);
+    pNewPed->ChangeNextPedState2_45C540(ped_state_2::ped2_driving_10);
     pNewPed->set_enter_car_as_passenger_4039B0(0);
     pNewPed->set_target_car_door_403A70(0);
     pNewPed->field_288_threat_search = threat_search_enum::area_2;
@@ -963,8 +963,8 @@ Ped* PedManager::SpawnTrainLeaver_470E30()
     pPed->SetPedType_403920(ped_type::special_ped_4);
     pPed->set_occupation_403970(ped_ocupation_enum::train_customer_9);
     pPed->field_168_game_object = 0;
-    pPed->ChangeNextPedState1_45C500(10);
-    pPed->ChangeNextPedState2_45C540(10);
+    pPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
+    pPed->ChangeNextPedState2_45C540(ped_state_2::ped2_driving_10);
     pPed->set_health_4039A0(50);
     pPed->field_288_threat_search = threat_search_enum::area_2;
     pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;

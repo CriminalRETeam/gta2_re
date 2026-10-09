@@ -1122,7 +1122,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
                                 if (bEnterCar)
                                 {
                                     // The criminal is too far or too fast to chase on foot
-                                    if (gCurrentCrewPed_6FEDDC->get_objective_403A80() == objectives_enum::objective_32 && gCurrentCrewPed_6FEDDC->GetPedState_403990() != 1)
+                                    if (gCurrentCrewPed_6FEDDC->get_objective_403A80() == objectives_enum::objective_32 && gCurrentCrewPed_6FEDDC->GetPedState_403990() != ped_state_1::flee_or_running_1)
                                     {
                                         break;
                                     }

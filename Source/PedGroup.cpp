@@ -699,7 +699,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
     if (state == 3 || state == 10 || state == 5)
     {
         field_30 = 1;
-        if (pLeader->GetPedState_403990() == 10 || pLeader->FindUsableCarDoor_467090())
+        if (pLeader->GetPedState_403990() == ped_state_1::in_car_10 || pLeader->FindUsableCarDoor_467090())
         {
             Car_BC* pCar;
             if (field_2C_ped_leader->field_168_game_object)
@@ -951,7 +951,7 @@ void PedGroup::UpdateFormation_4CA4B0()
                     pIter->field_14C_internal_target_ped = field_4_ped_list[i - 1];
                 }
             }
-            else if (pIter->field_278_ped_state_1 != 9)
+            else if (pIter->field_278_ped_state_1 != ped_state_1::dead_9)
             {
                 if (field_2C_ped_leader->GetPedVelocity_45C920() != dword_67F610)
                 {

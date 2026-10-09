@@ -559,8 +559,8 @@ void Ped::Reset_45AFC0()
     field_227_unused = 0;
     field_228_hit_count = 0;
     field_15C_player = 0;
-    field_278_ped_state_1 = 0;
-    field_27C_ped_state_2 = 0;
+    field_278_ped_state_1 = ped_state_1::walking_0;
+    field_27C_ped_state_2 = ped_state_2::ped2_walking_0;
     field_164_ped_group = 0;
     field_168_game_object = 0;
     field_16C_car = 0;
@@ -598,7 +598,7 @@ void Ped::Reset_45AFC0()
     field_184_pObj2C = 0;
     field_267_ped_ref_idx = 0;
     field_280_stored_ped_state_1 = 11;
-    field_284_stored_ped_state_2 = 28;
+    field_284_stored_ped_state_2 = ped_state_2::Unknown_28;
     field_208_invulnerability = 0;
     field_20A_wanted_points = 0;
     field_20C_target_unseen_counter = 0;
@@ -1300,7 +1300,7 @@ void Ped::ChangeNextPedState2_45C540(s32 new_state)
     {
         field_27C_ped_state_2 = new_state; // just update, dont store previous
     }
-    else if (field_27C_ped_state_2 < 17 || field_27C_ped_state_2 > 28)
+    else if (field_27C_ped_state_2 < ped_state_2::Unknown_17 || field_27C_ped_state_2 > ped_state_2::Unknown_28)
     {
         field_284_stored_ped_state_2 = field_27C_ped_state_2; // store previous state
         field_27C_ped_state_2 = new_state; // update
@@ -1595,8 +1595,8 @@ void Ped::HandleClosePedInteraction_45CAA0()
                 }
                 if (PedTypeIs_45EDE0(ped_type::player_2))
                 {
-                    pNearPed_->ChangeNextPedState2_45C540(22);
-                    pNearPed_->ChangeNextPedState1_45C500(8);
+                    pNearPed_->ChangeNextPedState2_45C540(ped_state_2::lying_on_floor_22);
+                    pNearPed_->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
                     pNearPed_->SetStateInitPending_433B50();
                     pNearPed_->field_168_game_object->SetCharState_433A60(33);
                 }
@@ -2924,8 +2924,8 @@ void Ped::CarThief_AI_45FF60()
             else
             {
                 this->field_218_objective_timer = 40;
-                ChangeNextPedState1_45C500(0);
-                ChangeNextPedState2_45C540(0);
+                ChangeNextPedState1_45C500(ped_state_1::walking_0);
+                ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
             }
             return;
 
@@ -3819,7 +3819,7 @@ void Ped::UpdateAI_462280()
         field_21C_bf.bLeftVehicle = 0;
         Ped::ProcessOnFootObjective_463AA0();
         Ped::ProcessInCarObjective_463FB0();
-        if (field_278_ped_state_1 > 0 && field_278_ped_state_1 <= 7)
+        if (field_278_ped_state_1 > ped_state_1::walking_0 && field_278_ped_state_1 <= ped_state_1::standing_still_7)
         {
             Ped::UpdateFacingAngle_461A60();
         }
@@ -4144,7 +4144,7 @@ char_type Ped::StateMachineTick_4626B0()
             if (this->field_168_game_object)
             {
                 u16 f20E = ++this->field_20E_offscreen_counter;
-                if (this->field_278_ped_state_1 == 1)
+                if (this->field_278_ped_state_1 == ped_state_1::flee_or_running_1)
                 {
                     if (f20E == 200)
                     {
@@ -4404,7 +4404,7 @@ bool Ped::PoolUpdate()
                     }
                     if (field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15)
                     {
-                        if (field_278_ped_state_1 > 0 && field_278_ped_state_1 <= 7) // not walking neither dead/immobilized
+                        if (field_278_ped_state_1 > ped_state_1::walking_0 && field_278_ped_state_1 <= ped_state_1::standing_still_7) // not walking neither dead/immobilized
                         {
                             Ped::UpdateFacingAngle_461A60();
                         }
@@ -4598,7 +4598,7 @@ void Ped::SetObjective(s32 objective, s16 objective_timer)
     PatrolRoute_96* pPatrolRoute_96; // eax
     PatrolPoint_3* pPoint;
 
-    if (this->field_278_ped_state_1 != 9 || objective == objectives_enum::objective_28)
+    if (this->field_278_ped_state_1 != ped_state_1::dead_9 || objective == objectives_enum::objective_28)
     {
         this->field_258_objective = objective;
         this->field_218_objective_timer = objective_timer;
@@ -6297,7 +6297,7 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                 goto ret_false;
             }
 
-            if (field_278_ped_state_1 == 9 || field_278_ped_state_1 == 8)
+            if (field_278_ped_state_1 == ped_state_1::dead_9 || field_278_ped_state_1 == ped_state_1::immobilized_8)
             {
                 goto ret_false;
             }
@@ -6643,7 +6643,7 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                 goto ret_false;
             }
 
-            if (field_278_ped_state_1 == 9 || field_278_ped_state_1 == 8)
+            if (field_278_ped_state_1 == ped_state_1::dead_9 || field_278_ped_state_1 == ped_state_1::immobilized_8)
             {
                 goto ret_false;
             }
@@ -6666,7 +6666,7 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                 goto ret_false;
             }
 
-            if (field_278_ped_state_1 == 9 || field_278_ped_state_1 == 8)
+            if (field_278_ped_state_1 == ped_state_1::dead_9 || field_278_ped_state_1 == ped_state_1::immobilized_8)
             {
                 goto ret_false;
             }
@@ -6705,7 +6705,7 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                 goto ret_false;
             }
 
-            if (field_278_ped_state_1 == 9 || field_278_ped_state_1 == 8)
+            if (field_278_ped_state_1 == ped_state_1::dead_9 || field_278_ped_state_1 == ped_state_1::immobilized_8)
             {
                 goto ret_false;
             }
@@ -6739,7 +6739,7 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
             }
 
         case 5:
-            if (field_278_ped_state_1 == 9 || field_278_ped_state_1 == 8)
+            if (field_278_ped_state_1 == ped_state_1::dead_9 || field_278_ped_state_1 == ped_state_1::immobilized_8)
             {
                 goto ret_false;
             }
@@ -7245,16 +7245,16 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
         }
         else if (!bUnk1)
         {
-            Ped::ChangeNextPedState1_45C500(1);
-            Ped::ChangeNextPedState2_45C540(2);
+            Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
+            Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_2);
             field_21C_bf.bFlag15 = false;
             field_21C_bf.bFlag16 = false;
             return;
         }
         // line 22d
         byte_678554 = 1;
-        Ped::ChangeNextPedState1_45C500(2);
-        Ped::ChangeNextPedState2_45C540(0);
+        Ped::ChangeNextPedState1_45C500(ped_state_1::findind_path_2);
+        Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
         if (!field_21C_bf.bInPathList)
         {
             gPathFinder_6FDEF0->field_3C_ped_list.AddPedToBackIfMissing_471160(this);
@@ -7315,8 +7315,8 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                     if (field_18C_current_path_point->field_0_x == 0 && field_18C_current_path_point->field_1_y == 0)
                     {
                     LINE_3A9:
-                        Ped::ChangeNextPedState1_45C500(1);
-                        Ped::ChangeNextPedState2_45C540(2);
+                        Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
+                        Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_2);
                         field_21C_bf.bFlag15 = false;
                         field_0_patrol_points[0].field_0_x = 0;
                         field_0_patrol_points[0].field_1_y = 0;
@@ -7355,8 +7355,8 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                 {
                     field_0_patrol_points[0].field_0_x = 0;
                     field_0_patrol_points[0].field_1_y = 0;
-                    Ped::ChangeNextPedState1_45C500(1);
-                    Ped::ChangeNextPedState2_45C540(2);
+                    Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
+                    Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_2);
                     field_21C_bf.bFlag15 = false;
                 }
 
@@ -7385,8 +7385,8 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
     else
     {
         // 5a5
-        Ped::ChangeNextPedState1_45C500(1);
-        Ped::ChangeNextPedState2_45C540(2);
+        Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
+        Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_2);
         field_21C_bf.bFlag15 = false;
         field_21C_bf.bFlag16 = false;
     }
@@ -7766,8 +7766,8 @@ void Ped::ProcessAirborneMovement_468040()
                     field_168_game_object->RegulateVelocityByRef_433970(kFpZero_678438);
                 }
 
-                ChangeNextPedState1_45C500(7);
-                ChangeNextPedState2_45C540(14);
+                ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
+                ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
             }
             else
             {
@@ -8291,8 +8291,8 @@ void Ped::UpdateFollowPedObjective_468E80()
                         field_168_game_object->RegulateVelocityByRef_433970(kFpZero_678438);
                         ++this->field_260_wait_counter;
                     }
-                    Ped::ChangeNextPedState1_45C500(7);
-                    Ped::ChangeNextPedState2_45C540(14);
+                    Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
+                    Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
                     this->field_225_objective_status = 1;
                 }
                 else
@@ -8792,16 +8792,16 @@ void Ped::GuardSpot_469BF0()
             {
                 if ((field_224 & ped_flag8_mask::waiting_on_target) != 0)
                 {
-                    Ped::ChangeNextPedState1_45C500(7);
-                    Ped::ChangeNextPedState2_45C540(14);
+                    Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
+                    Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
                     field_168_game_object->RegulateVelocityByRef_433970(kFpZero_678438);
                     ++this->field_260_wait_counter;
                     this->field_130_target_facing_angle = this->field_134_rotation;
                 }
                 else
                 {
-                    Ped::ChangeNextPedState1_45C500(7);
-                    Ped::ChangeNextPedState2_45C540(14);
+                    Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
+                    Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
                     this->field_130_target_facing_angle = this->field_134_rotation;
                 }
             }
@@ -9488,8 +9488,8 @@ void Ped::FollowTargetStateMachine_46AC20()
                 {
                     if ((field_224 & ped_flag8_mask::waiting_on_target) != 0)
                     {
-                        Ped::ChangeNextPedState1_45C500(7);
-                        Ped::ChangeNextPedState2_45C540(14);
+                        Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
+                        Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
                         field_168_game_object->RegulateVelocityByRef_433970(kFpZero_678438);
                     }
                     else if (gDistanceToTarget_678750 > kFpOneThirtySecond_6784CC)
@@ -9511,8 +9511,8 @@ void Ped::FollowTargetStateMachine_46AC20()
                     {
                         if (field_14C_internal_target_ped->GetPedVelocity_45C920() == kFpZero_678660)
                         {
-                            Ped::ChangeNextPedState1_45C500(7);
-                            Ped::ChangeNextPedState2_45C540(14);
+                            Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
+                            Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
                             field_168_game_object->RegulateVelocityByRef_433970(kFpZero_678438);
                         }
                         else
@@ -9523,8 +9523,8 @@ void Ped::FollowTargetStateMachine_46AC20()
                 }
                 else
                 {
-                    Ped::ChangeNextPedState1_45C500(7);
-                    Ped::ChangeNextPedState2_45C540(14);
+                    Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
+                    Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
                     field_168_game_object->RegulateVelocityByRef_433970(kFpZero_678438);
                 }
             }
@@ -9597,15 +9597,15 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
     if (field_14C_internal_target_ped->field_168_game_object)
     {
         field_226_internal_objective_status = 2;
-        Ped::ChangeNextPedState1_45C500(0);
-        Ped::ChangeNextPedState2_45C540(0);
+        Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
+        Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
         return;
     }
     if (pCar->IsTrainModel_403BA0())
     {
         field_226_internal_objective_status = 2;
-        Ped::ChangeNextPedState1_45C500(0);
-        Ped::ChangeNextPedState2_45C540(0);
+        Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
+        Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
         return;
     }
 
@@ -9653,15 +9653,15 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
                         if (pCar->GetVelocity_43A4C0() > v14)
                         {
                             field_226_internal_objective_status = 2;
-                            Ped::ChangeNextPedState1_45C500(0);
-                            Ped::ChangeNextPedState2_45C540(0);
+                            Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
+                            Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
                         }
                         else
                         {
                             field_21C_bf.bLeftVehicle = true;
                             if (field_168_game_object->field_68_animation_frame == 4)
                             {
-                                Ped::ChangeNextPedState2_45C540(9);
+                                Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_9);
                                 field_168_game_object->field_68_animation_frame = 9;
                             }
                             field_168_game_object->SetCharState_433A60(36);
@@ -9676,7 +9676,7 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
                             Car_Door_10* Door = pCar->GetDoor(field_24C_target_car_door);
                             Door->Close_439EA0();
                             Door->set_ped_421380(0);
-                            Ped::ChangeNextPedState2_45C540(14);
+                            Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
                         }
                         else
                         {
@@ -9690,8 +9690,8 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
                         if (pCar->GetVelocity_43A4C0() > v14)
                         {
                             field_226_internal_objective_status = 2;
-                            Ped::ChangeNextPedState1_45C500(0);
-                            Ped::ChangeNextPedState2_45C540(0);
+                            Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
+                            Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
                             return;
                         }
                         else
@@ -9699,8 +9699,8 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
                             field_21C_bf.bLeftVehicle = true;
                             field_168_game_object->field_6C_animation_state = Char_Anim_state::Unknown_9;
                             field_168_game_object->field_68_animation_frame = 0;
-                            Ped::ChangeNextPedState1_45C500(7);
-                            Ped::ChangeNextPedState2_45C540(8);
+                            Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
+                            Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_8);
                             field_168_game_object->SetCharState_433A60(36);
                             field_168_game_object->SetMaxSpeedByRef_433920(kFpZero_678438);
                         }
@@ -9711,8 +9711,8 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
         }
     }
 
-    Ped::ChangeNextPedState1_45C500(0);
-    Ped::ChangeNextPedState2_45C540(0);
+    Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
+    Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
     field_226_internal_objective_status = 2;
 }
 
@@ -10033,8 +10033,8 @@ void Ped::EnterCarStateMachine_46BDC0()
             Ang16 ang_to_use = (kAng45_6784FC + pCarSprite->field_0);
             field_168_game_object->HandleGenericImpact_553E00(ang_to_use, kFpPoint05_678634, kFpZero_678660, 1);
         }
-        ChangeNextPedState1_45C500(0);
-        ChangeNextPedState2_45C540(0);
+        ChangeNextPedState1_45C500(ped_state_1::walking_0);
+        ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
         return;
     }
 
@@ -10057,8 +10057,8 @@ void Ped::EnterCarStateMachine_46BDC0()
             field_27C_ped_state_2 == ped_state_2::Unknown_5)
         {
             pDoor = field_154_target_to_enter->GetDoor(field_24C_target_car_door);
-            ChangeNextPedState2_45C540(6);
-            ChangeNextPedState1_45C500(3);
+            ChangeNextPedState2_45C540(ped_state_2::ped2_entering_a_car_6);
+            ChangeNextPedState1_45C500(ped_state_1::entering_car_3);
             if (this->field_25C_internal_objective != 37)
             {
                 pDoor->set_ped_421380(this);
@@ -10100,8 +10100,8 @@ void Ped::EnterCarStateMachine_46BDC0()
     {
         if (IsOtherPedEnteringAsDriver_46BD50(field_154_target_to_enter))
         {
-            ChangeNextPedState1_45C500(7);
-            ChangeNextPedState2_45C540(14);
+            ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
+            ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
             pDoor = field_154_target_to_enter->GetDoor(this->field_24C_target_car_door);
             if (pDoor)
             {
@@ -10188,8 +10188,8 @@ void Ped::ExitCarStateMachine_46C250()
                     SetRemap_433C10(get_remap_433BA0());
                 }
 
-                ChangeNextPedState2_45C540(7);
-                ChangeNextPedState1_45C500(4);
+                ChangeNextPedState2_45C540(ped_state_2::ped2_getting_out_a_car_7);
+                ChangeNextPedState1_45C500(ped_state_1::exiting_car_4);
 
                 this->field_16C_car = 0;
                 field_168_game_object->Set_F84_433900(field_154_target_to_enter);
@@ -10214,8 +10214,8 @@ void Ped::ExitCarStateMachine_46C250()
                 SetRemap_433C10(get_remap_433BA0());
             }
 
-            ChangeNextPedState2_45C540(0);
-            ChangeNextPedState1_45C500(0);
+            ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
+            ChangeNextPedState1_45C500(ped_state_1::walking_0);
 
             this->field_168_game_object->SetMaxSpeedByRef_433920(kFpZero_678438);
             field_168_game_object->DoJump_5454D0();
@@ -10247,8 +10247,8 @@ void Ped::ExitCarStateMachine_46C250()
                     {
                         SetRemap_433C10(get_remap_433BA0());
                     }
-                    ChangeNextPedState2_45C540(7);
-                    ChangeNextPedState1_45C500(4);
+                    ChangeNextPedState2_45C540(ped_state_2::ped2_getting_out_a_car_7);
+                    ChangeNextPedState1_45C500(ped_state_1::exiting_car_4);
                     this->field_16C_car = 0;
                     field_168_game_object->Set_F84_433900(field_154_target_to_enter);
                     this->field_154_target_to_enter = 0;
@@ -10277,8 +10277,8 @@ void Ped::ExitCarStateMachine_46C250()
                 {
                     SetRemap_433C10(get_remap_433BA0());
                 }
-                ChangeNextPedState2_45C540(0);
-                ChangeNextPedState1_45C500(0);
+                ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
+                ChangeNextPedState1_45C500(ped_state_1::walking_0);
                 field_168_game_object->DoJump_5454D0();
                 this->field_168_game_object->field_80_sprite_ptr->field_0 = this->field_154_target_to_enter->field_50_car_sprite->field_0;
                 this->field_168_game_object->set_rotation_433A30(this->field_154_target_to_enter->field_50_car_sprite->field_0);
@@ -10922,7 +10922,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
 
     if (field_198_hit_target_ped) // line 185
     {
-        Ped::ChangeNextPedState1_45C500(7);
+        Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
         Ped::ChangeNextPedState2_45C540(11);
         field_21C_bf.bAttacking = true;
     }
@@ -10944,8 +10944,8 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                     // weapon->field_4 == 1
                     if (gDistanceToTarget_678750 < v5 && !field_168_game_object->IsCollidingWithASprite_433AA0())
                     {
-                        Ped::ChangeNextPedState1_45C500(1);
-                        Ped::ChangeNextPedState2_45C540(2);
+                        Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
+                        Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_2);
                         field_21C_bf.bAttacking = true;
                         byte_6787D4 = 1;
                         field_168_game_object->RegulateVelocity_433970(field_1F0_max_speed);
@@ -10961,8 +10961,8 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
 
                     if (field_21C_bf.bFlag22 == false)
                     {
-                        Ped::ChangeNextPedState1_45C500(1);
-                        Ped::ChangeNextPedState2_45C540(2);
+                        Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
+                        Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_2);
                         field_21C_bf.bAttacking = true;
                         field_168_game_object->RegulateVelocity_433970(field_1F0_max_speed);
                         return;
@@ -11000,8 +11000,8 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                                 {
                                     field_168_game_object->SetMaxSpeed_433920(-field_1F4_walk_speed);
                                 }
-                                Ped::ChangeNextPedState1_45C500(1);
-                                Ped::ChangeNextPedState2_45C540(2);
+                                Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
+                                Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_2);
                             }
                         }
                         return;
@@ -11018,8 +11018,8 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                             (field_168_game_object->field_80_sprite_ptr->field_14_xy.y).ToInt(),
                             (field_168_game_object->field_80_sprite_ptr->field_1C_zpos + kFpOne_678664).ToInt()) != AIR)
                     {
-                        Ped::ChangeNextPedState1_45C500(1);
-                        Ped::ChangeNextPedState2_45C540(2);
+                        Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
+                        Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_2);
                         field_21C_bf.bAttacking = false;
                         field_168_game_object->RegulateVelocity_433970(field_1F0_max_speed);
                     }
@@ -11032,7 +11032,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                     {
                         if (field_168_game_object->GetCharState_433A80() != 15) // jumping
                         {
-                            Ped::ChangeNextPedState1_45C500(7); // line 5b5
+                            Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7); // line 5b5
                             Ped::ChangeNextPedState2_45C540(11);
                             field_21C_bf.bAttacking = true;
                         }
@@ -11049,7 +11049,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                 }
                 else if (field_168_game_object->GetCharState_433A80() != 15) // line 5fe
                 {
-                    Ped::ChangeNextPedState1_45C500(7);
+                    Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
                     Ped::ChangeNextPedState2_45C540(11);
                     field_21C_bf.bAttacking = true;
                     // 9.6f: Char_B4::SetMaxSpeed_433920 (inlined, using it makes the diff worse)

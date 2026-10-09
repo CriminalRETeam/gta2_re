@@ -644,7 +644,7 @@ void Camera_0xBC::UpdateFollowPedCamera_436540(Ped* pPed)
             Camera_0xBC::ApplyCarVelocityCameraOffset_436200(pCar_2, &xpos, &ypos, &zposToUse);
         }
         Fix16 zoom = dword_6767B4;
-        if (pPed->GetPedState_403990() != 9)
+        if (pPed->GetPedState_403990() != ped_state_1::dead_9)
         {
             zoom = kDefaultZoom_6766D4;
         }
