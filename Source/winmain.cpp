@@ -1330,7 +1330,7 @@ EXPORT void Net_Set_Local_Player_Inputs_4DAD50()
     }
 }
 
-WIP_FUNC(0x4DADA0)
+MATCH_FUNC(0x4DADA0)
 EXPORT void TagGameHudUpdate_4DADA0()
 {
     if (gNetTimeLimitEnabled_6F58A4)
@@ -1358,11 +1358,17 @@ EXPORT void TagGameHudUpdate_4DADA0()
             (minutes == gGameSession_67E8E0.GetTimeLimit_461DC0() && seconds == 0) ||
             (minutes == gGameSession_67E8E0.GetTimeLimit_461DC0() - 1 && seconds >= 50))
         {
-            bShow = true;
+            // bShow is set in both arms (not once before the if): with a single store, VC6 sees bl == 1 at the
+            // blink test and uses "test dl, bl" there instead of "test dl, 1"
             if (!byte_6F59C0)
             {
+                bShow = true;
                 dword_6F5B74 = 59;
                 byte_6F59C0 = 1;
+            }
+            else
+            {
+                bShow = true;
             }
         }
         if (!bShow)
