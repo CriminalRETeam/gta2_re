@@ -386,15 +386,15 @@ char_type Particle_4C::UpdateBeamSegment_state_43_538A40()
 // original stores the 16-bit sum as a dword before the call (UpdateObjectBeamLink_state_38_538AC0)
 static inline Ang16 NormalizedAng(s16 value)
 {
-    Ang16 r(&value, 0);
-    return r;
+    return Ang16(&value, 0);
 }
 
-// radius * sin/cos with the out-of-line Multiply_408680: the by-value factor and the result
-// temporary share one slot across both calls, as in the original
-static inline void MulInto(Fix16& out, Fix16& r, Fix16 v)
+// 9.6f 0x41E210 (Fix16_Point::SetFromPolar(Fix16& radius, Ang16& angle)) with the multiplies out of line.
+// The angle is a temporary passed by reference, so the table index is reloaded after each multiply.
+static inline void SetFromPolar_OOL_41E210(Fix16_Point& p, const Fix16& radius, const Ang16& angle)
 {
-    out = r.Multiply_408680(v);
+    p.x = radius.Multiply_408680(Ang16::sine_40F500(angle));
+    p.y = radius.Multiply_408680(Ang16::cosine_40F520(angle));
 }
 
 // Inlined Fix16::Max_44E540: compares and returns the values, not references
@@ -407,10 +407,11 @@ static inline Fix16 MaxValue_44E540(const Fix16& a, const Fix16& b)
     return b;
 }
 
-// 9.6f 0x48F230: SetXY_432860 for src/dst, delta = dst - src, delta.atan2_40F790() (unused), segments from
-// delta.MaxAbs_48A270() / dword_6FD364, delta.DivideAssign_48A250(segments), cur += delta, mid = cur - prev,
+// 9.6f 0x48F230: SetXY_432860 for src/dst, delta = dst - src, delta.atan2_40F790() (result discarded), segments
+// from delta.MaxAbs_48A270() / dword_6FD364, delta.DivideAssign_48A250(segments), cur += delta, mid = cur - prev,
 // mid.DivideAssign_48A250(2), mid += prev, SetFlags_4337D0(2, 20); the function-scope Ang16 is the jitter;
-// dst.SetXY(target) then dst += src. Left (343): stack slot layout (frame 0x5C vs 0x54).
+// each case is one SetFromPolar(radius, angle sum) call with both arguments as temporaries;
+// dst.SetXY(target) then dst += src. Left (4): `add %edx,%esi` where the original has `add %esi,%edx` for dst.x.
 WIP_FUNC(0x538ac0)
 char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
 {
@@ -428,7 +429,7 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
         src.SetXY_432860(field_30_pNext->field_14_xy.x, field_30_pNext->field_14_xy.y);
         dst.SetXY_432860(field_28_pSprite->field_14_xy.x, field_28_pSprite->field_14_xy.y);
         delta = dst - src;
-        Ang16 unused_angle = delta.atan2_40F790();
+        delta.atan2_40F790();
         Fix16 segments = delta.MaxAbs_48A270() / dword_6FD364;
 
         if (segments != kFP16Zero_6FD49C)
@@ -464,7 +465,7 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
 
         Fix16_Point_POD target;
         target.SetXY_432860(field_28_pSprite->field_14_xy.x, field_28_pSprite->field_14_xy.y);
-        jitter = word_6FD5CC.MultiplyByFix16_401CB0(Fix16(gRng_6F6784.get_int_4F7AE0(16) - 8));
+        jitter = word_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(gRng_6F6784.get_int_4F7AE0(16) - 8));
 
         switch (field_46_sub_state)
         {
@@ -472,20 +473,17 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
             case 2:
             case 3:
             {
-                Ang16 ang = NormalizedAng(field_28_pSprite->field_0.rValue + kAng180_6FD3EE.rValue);
-                Fix16 radius = Fix16(field_46_sub_state) * dword_6FD46C;
-                MulInto(src.x, radius, Ang16::sine_40F500(ang));
-                MulInto(src.y, radius, Ang16::cosine_40F520(ang));
+                SetFromPolar_OOL_41E210(src,
+                                        Fix16(field_46_sub_state) * dword_6FD46C,
+                                        NormalizedAng(field_28_pSprite->field_0.rValue + kAng180_6FD3EE.rValue));
                 break;
             }
             case 4:
             case 5:
             {
-                Ang16 base = NormalizedAng(field_28_pSprite->field_0.rValue + kAng180_6FD3EE.rValue);
-                Ang16 ang = NormalizedAng(base.rValue + jitter.rValue);
-                Fix16 radius = Fix16(field_46_sub_state) * dword_6FD46C + dword_6FD45C;
-                MulInto(src.x, radius, Ang16::sine_40F500(ang));
-                MulInto(src.y, radius, Ang16::cosine_40F520(ang));
+                SetFromPolar_OOL_41E210(src,
+                                        Fix16(field_46_sub_state) * dword_6FD46C + dword_6FD45C,
+                                        NormalizedAng(NormalizedAng(field_28_pSprite->field_0.rValue + kAng180_6FD3EE.rValue).rValue + jitter.rValue));
                 break;
             }
         }
