@@ -1239,6 +1239,10 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
 WIP_FUNC(0x574720)
 void PoliceCrew_38::State6_ShutDown_574720()
 {
+    // The original stores the zero at the top of the function and keeps the counter in its
+    // stack slot (load, inc, store at the one increment). Plain `u8 i = 0;` here lets VC6
+    // hold the known zero in ebp and reuse it for every other zero in the function.
+    volatile u8 i = 0;
     byte_6FEB48 = 1;
     gCurrentCrewPed_6FEDDC = field_10_subObj->field_4_ped;
     if (field_10_subObj->field_0_car)
@@ -1327,10 +1331,6 @@ void PoliceCrew_38::State6_ShutDown_574720()
             {
                 gCurrentCrewPed_6FEDDC->ClearAttacking_403A40();
 
-                // Declared here: declared any earlier, VC6 treats the known zero as a value
-                // and keeps it in ebp for every other zero in the function. The original
-                // still stores it at the top of the function.
-                u8 i = 0;
                 for (; gCurrentCrewPed_6FEDDC; ++i)
                 {
                     if (gCurrentCrewPed_6FEDDC->field_278_ped_state_1 != ped_state_1::dead_9 &&
