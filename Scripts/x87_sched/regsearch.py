@@ -28,10 +28,21 @@ STOCK = 80
 X = os.path.join(ROOT, 'build_vc6', 'x87_c2')
 
 
+def sched_cmd(args):
+    """sched.sh is a shell script: on Windows it needs a bash, with POSIX paths."""
+    sh = os.path.join(HERE, 'sched.sh')
+    if os.name != 'nt':
+        return [sh] + args
+    def posix(p):
+        p = os.path.abspath(p).replace(os.sep, '/')
+        return '/' + p[0].lower() + p[2:] if p[1:2] == ':' else p
+    return [os.environ.get('BASH', 'bash')] + [posix(sh)] +            [posix(a) if os.path.exists(a) else a for a in args]
+
+
 def compile_tu(src, job, lim='', log=False):
     out = os.path.join(X, 'job%d' % job)
-    env = dict(os.environ, X87_OUT=out, LIM=lim)
-    r = subprocess.run([os.path.join(HERE, 'sched.sh'), '-l' if log else '-q', src], env=env,
+    env = dict(os.environ, X87_OUT=out, LIM=lim, MSYSTEM=os.environ.get('MSYSTEM', 'MINGW64'))
+    r = subprocess.run(sched_cmd(['-l' if log else '-q', src]), env=env,
                        capture_output=True, text=True)
     obj = os.path.join(out, 'last.obj')
     if r.returncode or not os.path.exists(obj):

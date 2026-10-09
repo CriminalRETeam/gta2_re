@@ -3394,3 +3394,138 @@ flag test that later disappears still shapes the block order and the exit placem
   the second merges into it; the other two returns keep the `b11 = true` arm out of T1 (subsets: 38-376).
 - `Ped::FindUsableCarDoor_467090` (74, unchanged): needs the `found` block right after the driver loop, i.e. the
   passenger branch with no edge to `found` at layout time; neither folded flags nor per-site copies give it.
+
+## WIP sweep with the logging guards off (Oct 9)
+
+`WIP_IMPLEMENTED` adds a logging guard to the body, so a WIP's diff against `10.5.exe` is
+worthless until the guard is gone. With `NOT_IMPLEMENTED`/`WIP_IMPLEMENTED` defined empty in
+`Function.hpp`, all 81 `WIP_FUNC`s rank from 2 lines up; none is at 0.
+
+Smallest, all of them instruction scheduling or register allocation, with nothing in the source
+left to steer:
+
+- `keybrd_0x204::GetLayout_4D6000` 2, `sound_obj::ProcessPoliceRadioWordsPlayback_427220` 2,
+  `MapRenderer::DrawGradientSlopeSouthwards_4F1660` 2, `Map_0x370::sub_4E6660` 2,
+  `Map_0x370::sub_4E8370` 4, `DrawTexture_5D8470` 4, `PathFinder_2FD4::ComputePath_554AB0` 4,
+  `MapRenderer::DrawGradientSlopeEastwards_4F33B0` 4.
+
+Negatives worth not repeating:
+
+- **Window limits explain none of the current near misses.** `regsearch.py` over the limits
+  62..80 on the five smallest, from two different angles (x87-heavy and integer-only):
+
+  | function | diff | best limit |
+  |---|---|---|
+  | `MapRenderer::DrawGradientSlopeSouthwards_4F1660` | 2 | stock 80 |
+  | `Map_0x370::sub_4E6660` | 3 | stock 80 |
+  | `DrawTexture_5D8470` | 4 | stock 80 |
+  | `PathFinder_2FD4::ComputePath_554AB0` | 5 | stock 80 |
+  | `MapRenderer::draw_bottom_4ED290` | 55 at every limit | stock 80 |
+
+  A lower limit never helps, so none of them is a window-break problem and adding no-op nodes
+  (parentheses, `(f32)` casts, `f32` locals) cannot fix them. The leftover instructions are
+  priority/colouring decisions inside one window, and the integer-only ones have no no-op node
+  lever at all.
+- `Map_0x370::sub_4E8370` (4): hoisting `new_idx`/`pNew` out of the `do_drop` branches gets the
+  original's load order but recolours the whole function (4 -> ~200).
+- `DrawPlayerStatsHelper_5D61A0` (7): `s32 width` does give the original's
+  `xor %ebx,%ebx; mov 4(%eax),%bl` instead of `movzbw`+`movswl`, but then width lands in `ebp`
+  and `base_xpos` in `ebx`, the mirror of the original (7 -> 47). The `s16` comment stays right.
+- `ProcessPoliceRadioWordsPlayback_427220` (2): the original keeps a dead load+store of
+  `field_552C[idx]` (`PlayAtIdx` reloads it). `volatile s32 old` is what forces it, and that
+  volatile store is exactly what pins `cmp $0xF,%al` below it; without `volatile` the dead load
+  goes away and the constants move into `ebx` (2 -> ~40). It needs a non-volatile form that
+  still keeps a dead store.
+- `PathFinder_2FD4::AddGridCell_554710` (8): the original computes
+  `xpos - xEnd` before `ypos - yEnd`. Swapping the terms in the sum changes nothing (VC6 picks
+  its own order); `dx`/`dy` locals do give the original's order, but then `v12` keeps a register
+  instead of the original's stack slot (8 -> ~90).
+- `ExplosionPool_7A8::FreeLowestPriority_543690` (12): the two exit blocks differ only in which scratch register holds
+  the index. Indexing the early return with `next_idx` (equal to `last_idx` there) gives it its
+  own stack slot and a bigger frame (12 -> ~50).
+- `ScriptManager_C1EA8::LoadStringTbl_5121E0` (44): the original masks the `u16` parameter
+  once into a stack temp and tests that 32-bit (`test %ecx,%ecx; jbe`), where we keep the raw
+  parameter in `ebx` and test it 16-bit; it also keeps a dead `(len + 9) & ~1`. A `const u32
+  size` local gives the 32-bit test but is enregistered, so it isn't spilled like the original's
+  temp, and the dead local is deleted (44 unchanged).
+
+## Call-target mismatches: nothing left to fix (`compare_callees.py`)
+
+Run over the WIPs with a locally generated `target_asm.json`
+(`Scripts/bin_comp/gen_target_asm.py`). Every row turned out to be an artifact, so don't start
+from this list without checking a candidate by hand:
+
+- Most rows are COMDAT inline copies of `Fix16`/`Ang16` operators: the same code, a different
+  symbol.
+- `compare_callees.py` aligns the two call *sequences*, so a different call order shows up as an
+  insert plus a delete. That is all the `DMA_Video_LoadDll_5EB970` "17 missing `sprintf`s" and
+  the `FindUsableCarDoor_467090` "extra `IsDoorAccessible_43AFE0`" were; the call multisets are
+  identical (3 and 3).
+- Both builds also have to be compared with the `WIP_IMPLEMENTED` guards off, or the guard's own
+  `LogFuncAddr` call shifts every alignment.
+- What is left is the original calling something **more often than we do**, and in both cases it
+  is one source site that 10.5 duplicated during layout, not a missing call:
+  `Ped::MeleeAttackStateMachine_46B670` (og calls `eager_benz::AddCash_592620` twice, we call it
+  once from the single `AddScore_41DC40(-10)` site; the two original call sites have byte
+  identical context) and `Map_0x370::CanMoveOntoSlopeTile_4E0130` (26 `GetEffectiveBlock_4DFE60`
+  against our 25).
+
+So the whole WIP set is codegen-bound: no WIP has a wrong callee, a missing call or a wrong
+argument count.
+
+## `DMA_Video_LoadDll_5EB970`: 891 -> 702, and what the rest is
+
+22 `GetProcAddress` sites, each with an error path (`sprintf` into a buffer, `MessageBoxA`,
+`FreeLibrary`, `return -1`). The original's shape, per site:
+
+```
+push <name>;  lea 8(%esp),%ecx;  push <fmt>;  push %ecx;  call sprintf;  add $0xC,%esp
+lea 4(%esp),%edx;  push $0;  push <title>;  jmp <tail>
+```
+
+- **The error buffer is declared per failure site**, not once for the function. With one
+  function-scope buffer every site is identical and VC6 cross-jumps the whole error block,
+  leaving `push <name>; jmp` at each site; declaring it inside the `if` gives the original's
+  per-site `sprintf` (891 -> 702). The frame stays `sub $0xF8,%esp` either way, so the slots are
+  still shared.
+- What is left is **how many copies of the tail the cross-jumper leaves**: the original has 4
+  (`or $0xFFFFFFFF,%eax` x4, 9 indirect calls, 19 `jmp`s), we have 11 (23 indirect calls, 12
+  `jmp`s). 4 = the three distinct tails the eax/ecx/edx round robin produces for the buffer
+  pointer (two picks per site, so the pattern repeats every third site) plus the one for the
+  `LoadLibrary` failure, and 19 = the other sites jumping into them. Ours differ in more than
+  that register, so fewer of them merge.
+- A local for the module handle (`FreeLibrary(hDll)` instead of the global) makes the tails
+  merge too far: 2 tails, 5 indirect calls, 814 lines. A function-scope buffer with that local
+  is 818. The committed combination (per-site buffer, global handle) is the best of the four.
+- The call order of the 22 `Vid_*` loads already matches the original exactly (checked by reading
+  the pushed name strings out of both exes).
+
+## `State6_ShutDown_574720`: 46 -> 30
+
+The whole diff was one missing instruction, `movb $0,8(%esp)` at the top of the function: the
+original initialises the `for` counter in its stack slot there, and keeps it in that slot
+(`mov 8(%esp),%dl; inc %dl; mov %dl,8(%esp)` at the one increment). Declaring `u8 i = 0;` at
+the top gives VC6 a known zero that it parks in `ebp` and reuses for every other zero in the
+function (46 -> 254), which is what the old comment in the source was about. `volatile u8 i = 0;`
+at the top keeps it in memory and gets the store (46 -> 30).
+
+What is left there: the slot is at `0xB(%esp)` against the original's `8(%esp)` (VC6 packs our
+byte at the top of its dword, the original's at the bottom), so the use reads it as a byte and
+masks where the original loads the dword and masks, plus two register choices.
+
+## `Fix16_Point::NormalizeSafe_442AD0` (52): the frame is 8 bytes too big
+
+Every instruction matches; the only difference is `sub $0x28,%esp` against the original's
+`sub $0x20,%esp` and the offsets that follow from it. The extra space is one 8-byte object at
+offset 32 that the original doesn't have (slot use: ours 32:2 then 40:4, the original 32:4).
+Tried, all worse or no change:
+
+- `Divide_442CB0(length)` instead of `operator/` at both sites: no change (52).
+- `Fix16_Point& scaled = MultBy_442C80(128);` (VC6 binds a non-const reference to the
+  temporary): no change, so the named copy is not the extra object.
+- `Fix16_Point(scaled.x / length, scaled.y / length)` at the return sites, to build the result
+  in place: 211.
+- `x * x + y * y` instead of `x.Multiply_408680(x).Add_408660(y * y)` in the two
+  `GetLength_*_442AD0` inline helpers: 203. The explicit out-of-line form in the source is
+  right; don't "simplify" it.
+

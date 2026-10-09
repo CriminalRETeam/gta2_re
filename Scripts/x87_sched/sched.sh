@@ -26,7 +26,11 @@ fi
 b=$(basename "$SRC")
 sed -E 's/^\s*(WIP|NOT)_IMPLEMENTED;\s*$//' "$SRC" > "$OUTD/$b"
 case "$b" in Network_20324.cpp) XF="/Gz";; FpsCounter_54.cpp) XF="/GX-";; gbh_graphics.cpp) XF="/Od /ZI";; esac
-export WINEPATH="$(winpath "$B/VC98/Bin");$(winpath "$RT/Common/MSDev98/Bin")"
+if [ -n "$MSYSTEM" ]; then
+  export PATH="$B/VC98/Bin:$RT/Common/MSDev98/Bin:$PATH"
+else
+  export WINEPATH="$(winpath "$B/VC98/Bin");$(winpath "$RT/Common/MSDev98/Bin")"
+fi
 export INCLUDE="$(winpath "$RT/VC98/ATL/Include");$(winpath "$RT/VC98/Include");$(winpath "$RT/VC98/MFC/Include")"
 FLAGS="/DWIN32 /D_WINDOWS /D_CRT_SECURE_NO_WARNINGS /D_CRT_NON_CONFORMING_SWPRINTFS /DIMGUI_DLL /W3 /EHsc /GX /ML /O2 /DNDEBUG $XF"
 INCS="/I$(winpath "$(dirname "$SRC")") /I$(winpath "$ROOT/Source") /I$(winpath "$ROOT") /I$(winpath "$RT")"
@@ -35,7 +39,7 @@ RT_ROOT=$(realpath -m "$RT/../..")
 [ "$RT_ROOT" != "$ROOT" ] && INCS="$INCS /I$(winpath "$RT_ROOT")"
 LST=; [ -z "$Q" ] && LST="/FAs /Fa$(winpath "$OUTD/last.asm")"
 rm -f "$OUTD/last.obj"
-$WRAP ${WINE:-wine} "$B/VC98/Bin/CL.EXE" /nologo /TP /c $INCS $FLAGS /Zm1000 $LST /Fo"$(winpath "$OUTD/last.obj")" \
+$WRAP ${MSYSTEM:+env MSYS2_ARG_CONV_EXCL=*} ${WINE-wine} "$B/VC98/Bin/CL.EXE" /nologo /TP /c $INCS $FLAGS /Zm1000 $LST /Fo"$(winpath "$OUTD/last.obj")" \
   "$(winpath "$OUTD/$b")" 2>&1 | tr -d '\r' > "$OUTD/last.log"
 grep -E " error " "$OUTD/last.log"
 [ -f "$OUTD/last.obj" ] || exit 1
