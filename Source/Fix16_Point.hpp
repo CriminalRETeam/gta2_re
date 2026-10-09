@@ -390,6 +390,10 @@ class Fix16_Point
     // inline operator- called out of line gets none (CarPhysics_B0::HandleCarCollision_55FF20)
     EXPORT Fix16_Point Sub_40AC80(const Fix16_Point& rhs);
 
+    // operator+/operator- with their bodies defined at the end of Car_BC.cpp (HandleCarHitByObject_43F130)
+    inline Fix16_Point AddLate_40AC50(const Fix16_Point& in);
+    inline Fix16_Point SubLate_40AC80(const Fix16_Point& rhs);
+
     // Out of line operator+ (CarPhysics_B0::SpawnSkidSegment_55D200)
     EXPORT Fix16_Point Add_40AC50(const Fix16_Point& in);
 
