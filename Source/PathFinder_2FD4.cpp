@@ -517,7 +517,7 @@ s32 PathFinder_2FD4::IsFirstPassenger_554A90(Ped* pPed)
 }
 
 // https://decomp.me/scratch/Fr0bT
-WIP_FUNC(0x554ab0)
+MATCH_FUNC(0x554ab0)
 char_type PathFinder_2FD4::ComputePath_554AB0(s32 ped_id,
                                         Ped* pPed,
                                         u8 x_start,
@@ -529,8 +529,6 @@ char_type PathFinder_2FD4::ComputePath_554AB0(s32 ped_id,
                                         s32 angle_face,
                                         u8* pOutPathFailCount)
 {
-    WIP_IMPLEMENTED;
-
     PathNode_8* v23; // eax
     PathNode_8* v40; // ecx
     u8 yCoord;
@@ -784,17 +782,14 @@ LABEL_35:
         {
             if (abs(cur_z - (u8)v40->field_4_zpos) < 1)
             {
-                // new_z first, so the branches don't start with the same ypos load (VC6 hoists it above
-                // the jge). Left: the original stores field_1B before loading new_z / t
-                new_z = v40->field_4_zpos;
                 field_1B_direction = v40->field_3_ypos;
+                new_z = v40->field_4_zpos;
                 v40->field_0_idx1 = 0;
             }
             else
             {
-                // ypos read first: with idx2 first VC6 swaps al/dl for new_z and the switch index
-                u8 t = v40->field_3_ypos;
                 field_1B_direction = v40->field_1_idx2;
+                u8 t = v40->field_3_ypos;
                 new_z = v40->field_2_xpos;
                 v40->field_1_idx2 = t;
                 v40->field_0_idx1 = 0;
@@ -822,8 +817,12 @@ LABEL_35:
                 cur_x--;
                 goto LABEL_52;
             case 4:
+                // ++cur_x written out in cases 4, 7 and 8 (VC6 tail-merges them after register allocation);
+                // a shared ++cur_x label gives new_z 2 more regalloc priority than the switch temp, so new_z
+                // took eax (al) instead of edx (dl)
                 ++v40;
-                goto LABEL_51;
+                ++cur_x;
+                goto LABEL_52;
             case 5:
                 ++yCoord;
                 v40 += 33;
@@ -837,11 +836,11 @@ LABEL_35:
             case 7:
                 --yCoord;
                 v40 -= 33;
-                goto LABEL_51;
+                ++cur_x;
+                goto LABEL_52;
             case 8:
                 ++yCoord;
                 v40 += 35;
-            LABEL_51:
                 ++cur_x;
             LABEL_52:
                 field_8_pNode++;
