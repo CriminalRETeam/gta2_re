@@ -16,12 +16,35 @@ This lets a hypothesis ("what if the original also had a local X, referenced N t
 live from line A to line B") be checked for its resulting slot layout and total frame
 size in milliseconds, instead of editing source and running a full VC6 build.
 
-It is an approximation: it only models named locals/params you describe, not the
-compiler's own IL temps ($T) from multi-use subexpressions, and "reference count" here
-means textual occurrences, not IL node count (the two usually track closely for plain
-reads/writes of a scalar or struct local, but calls like a.Method(x) still count as one
-reference to `a`). Calibrate against a real slotlog.py dump of a function you already
-understand before trusting it on a new hypothesis (see --calibrate).
+EH frames (confirmed, not a separate wrinkle): for a NAMED local that the optimizer keeps,
+the listing's "_name$ = -NN" is directly (address - ESP at function entry), no further
+transform needed -- checked against real /FAs output + objdump of the .obj for a minimal
+EH-enabled probe (push -1/push handler/push old fs:0 / sub esp,N / ... ; the three EH-setup
+pushes are NOT part of the "sub" amount, and `__$EHRec$`'s own sub-fields, e.g. the state
+word, are accessed with a per-site [esp+adj] literal that bakes in the field offset --
+irrelevant for this tool, which only cares about named locals' base addresses). So what I'd
+flagged as "EH-offset handling" was not actually the blocker.
+
+The REAL open gap, found while chasing that down: the (size, refs DESC, first-ref ASC) sort
+only reproduces the project's own worked probes (see _probe_tests) when each local has a
+single reference. Two independent minimal probes with three equally-sized, equally-referenced
+(3 refs each) locals gave creation orders that are NOT source declaration/first-use order,
+and are not consistent with each other (b,c,a in one, c,a,b in a variant that only changed
+whether the later reads were a combined "a.x+b.x+c.x" expression or three separate
+statements) -- see PROBES_UNRESOLVED below for the exact repro files and results. So "first
+reference" for a multi-ref local is not simply its first textual occurrence; it's some other
+IL-order quantity this tool doesn't model yet. Treat `first_ref` as reliable only when every
+candidate local in a hypothesis has refs=1 (as in the project's own documented probes), or
+when ties don't matter (every tied group differs in size or refs already). For anything with
+real multi-reference locals, use this tool for the "does it merge at all / how many total
+slots" question (which only needs size + overlap, both confirmed solid) and get the exact
+offsets from a real build.
+
+Besides that gap, this is still an approximation in one more way: it only models named
+locals/params you describe, not the compiler's own IL temps ($T) from multi-use
+subexpressions. "Reference count" means textual occurrences, not IL node count (the two
+track closely for plain reads/writes of a scalar or struct local, but calls like
+a.Method(x) still count as one reference to `a`).
 
 Usage:
   Write a small Python list of locals and call simulate() -- see __main__ below for the
@@ -86,6 +109,39 @@ def render(slots, total, base=0):
         offset += s.size
     lines.append(f"total frame (named locals only): {total} bytes")
     return "\n".join(lines)
+
+
+# Minimal repro files for the unresolved multi-ref tie-break (see module docstring):
+# probe_slot_tiebreak_eh.cpp, probe_slot_tiebreak_pod.cpp, probe_slot_tiebreak_split.cpp
+# in this directory. Compile each with Scripts/x87_sched/sched.sh -l <file> (stock /EHsc
+# /GX /ML /O2), then read the `_a$`/`_b$`/`_c$` lines in last.asm. "order" below is
+# bottom-of-frame-first (most negative offset = created first), matching simulate()'s
+# creation order.
+PROBES_UNRESOLVED = [
+    dict(
+        file="probe_slot_tiebreak_eh.cpp",
+        desc="struct Point{int x,y; Point(){} ~Point(){}}; a,b,c each: ext(p) x2, "
+             "then one combined `return a.x+b.x+c.x`. All refs=3 (tied), same size (tied).",
+        source_order=["a", "b", "c"],
+        observed_creation_order=["b", "c", "a"],
+    ),
+    dict(
+        file="probe_slot_tiebreak_pod.cpp",
+        desc="Same as above but POD (no ctor/dtor, no EH) -- rules out EH machinery as "
+             "the cause of the reordering: same tie, same result.",
+        source_order=["a", "b", "c"],
+        observed_creation_order=["b", "c", "a"],
+    ),
+    dict(
+        file="probe_slot_tiebreak_split.cpp",
+        desc="Same as the POD one, but the three reads after the repeated ext() calls are "
+             "separate statements (g=a.x; g=b.x; g=c.x;) instead of one combined expression. "
+             "Changing just that changed the order again, so the combined-expression tree "
+             "shape also matters, not only reference count.",
+        source_order=["a", "b", "c"],
+        observed_creation_order=["c", "a", "b"],
+    ),
+]
 
 
 def _probe_tests():
