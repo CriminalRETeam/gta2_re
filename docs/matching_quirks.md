@@ -2754,3 +2754,10 @@ changed for one variant only (used for the `ofstream` member and for `operator+=
   `lea (%esi,%ecx)`; `Fix16 z;` at the top of the function and `z = ...` there gives `add %esi,%ecx` and the
   later `mov kTileTexSize,%eax; imul %esi`. In draw_bottom the declaration also raised the inline budget by
   28 (one more out-of-line operator+ got inlined); `if (texture_idx)` for `!= 0` took back enough size.
+
+**A register rotation that starts at a by-value return can be an inline cut-off.** In
+`Ped::IsPedAThreat_465D00` the original's `mov (%eax),%eax` after the Max call (the deref merged with the
+dying pointer, no round-robin pick) came from `MaxAbsDistance_42A6B0` inlined with `Max_41E130` cut off;
+an explicit call to the named `Max_44E540` gives `mov (%eax),%reg` with a pick, and every later temp
+rotates by one. Inline getters after the call (`get_idx_4219D0`, `get_wanted_points_433DC0`) set the
+cut-off (`Scripts/inline_budget/inl.sh`), the target's `get_cam_x/y` the load order.
