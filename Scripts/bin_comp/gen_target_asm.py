@@ -19,6 +19,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, '..', '..'))
 sys.path.insert(0, HERE)
 import compare_function  # noqa: E402
+import post_process_asm  # noqa: E402
 
 
 def marked():
@@ -43,8 +44,9 @@ def main():
             if va not in want:
                 continue
             off, size = int(off, 16), int(size, 16)
-            res[hex(va)] = {'name': name, 'status': want[va],
-                            'asm': compare_function.dism_func(og[off:off + size])}
+            asm = compare_function.dism_func(og[off:off + size])
+            res[hex(va)] = {'name': name, 'status': want[va], 'size': size,
+                            'asm': asm, 'pp': post_process_asm.post_process_asm(asm)}
     json.dump(res, open(a.out, 'w'))
     print('%d functions -> %s' % (len(res), a.out))
 
