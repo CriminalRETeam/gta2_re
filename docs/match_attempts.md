@@ -939,7 +939,7 @@ Matched (116 -> 0) with two changes:
   position of the `dir.x = 0` store (the original's is after the call in the shared tail); `dir.x = 0` after
   `set_id` in both 4 and 5 schedules case 4's tail differently and loses the cross-jump (71).
 
-## Particle_4C::UpdateObjectBeamLink_state_38_538AC0 (WIP, was STUB)
+## Particle_4C::UpdateObjectBeamLink_state_38_538AC0 (MATCH, was STUB)
 
 - 0.147, but the structure is right:
   - Draws a beam from this sprite to `field_28_pSprite` (it must be a `code_obj1_4` sprite).
@@ -954,6 +954,12 @@ Matched (116 -> 0) with two changes:
 - Added `Fix16::operator/=` (out-of-line copy at 0x539F90) to fix16.hpp.
 - Oct 5: 574 lines. The frame is 0x1C too big (scalar temps), and the original passes the `Ang16` sum to
   `AssignNormalized_409300` as a 32-bit temporary.
+- Oct 9: MATCH (4 -> 0, found by the permuter). The last diff was the operand order of the x add in
+  `dst.SetXY(target); dst += src;` (`add %edx,%esi` vs `add %esi,%edx`; y already matched). Fix: declare the
+  `Fix16_Point_POD target` local ahead of `src` (anywhere before it; after `src` it stays at 4). An operand dump
+  of C2 (Scripts/regalloc/opdump.py) showed the order is decided before register allocation, by commutative
+  canonicalisation over symbol order: the first operand becomes the 2-address destination. Source spellings of
+  the add (operand order, raw `mValue` sums, `Fix16(...)`, other destination points) did not move it.
 
 ## Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280 (MATCH, see "Particle pass (9.6f unpaired counterparts)")
 
@@ -2659,6 +2665,17 @@ Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 
   call, `vector += vector_2 + get_x_y()`, `Set_2C_0x4_Flag_4337F0()`): 9.6f constructs only `Ang16 angle` up front
   (no `Fix16_Point(Fix16(0), Fix16(0))`), builds the New_53E3C0 x/y as two `Fix16(0)` locals, and the car branch
   `Fix16(0)`s in place; not rewritten.
+  - Oct 9 (151, unchanged): the plain `pos += offset + pSprt->get_x_y()` / `ped_offset = ped_offset + ...`
+    (9.6f `sum_40F5C0`) gets no EH stores around the operator+ call in the real (no-PCH) build: the operator's
+    copy is compiled after `GunMuzzelFlash_53E970`. `quick_score.sh` compiles with `/YX` and keeps the stores
+    (694 vs 725 with `NO_PCH=1`), so score EH-store questions with `NO_PCH=1`. With the plain operator 50
+    `(void)0;` pads give 0; it needs caller size +91..+320 (first car rotation: nested `(B-141)/31` must reach
+    57). Code-neutral gains found: `get_type_416B40()` +2, `vel = Fix16_Point(0, 0)` for the two re-zeroing
+    stores +22, the named `get_x_y_443580()` (no site, no 58 charge; then +40 is left). `__forceinline
+    Fix16_Point()` leaves +7 (0 with the `vel` assignment) but breaks 21 matched functions in other TUs
+    (fullexp), so the ctor is charged in 10.5. `Set_2C_0x4_Flag_4337F0()` adds a site after the rotations (worse);
+    the 9.6f operand orders (`vec_x + field`, `dword_6FD2E8 + dword_6FD468`) are neutral only once the budget is
+    right. Extra points copy-initialised from `vel`, or built from uninitialised locals, keep their stores.
 - `Particle_8::GunMuzzelFlash_53E970` (428 / 933): 9.6f has no unused sin/cos multiplies in the car branch (ours
   needs them for the 10.5 Multiply count), `AsCharB4_40FEA0()` inline in the `offset + ...` expression (579 /
   933), removing the multiplies 998 / 841. Not pursued.
