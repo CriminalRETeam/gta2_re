@@ -4035,10 +4035,9 @@ void CarAI_78::UpdateStateMachine_44E560()
     }
 }
 
-WIP_FUNC(0x451980)
+MATCH_FUNC(0x451980)
 void CarAI_78::ReactToNearbyCar_451980()
 {
-    WIP_IMPLEMENTED;
     Fix16 v2 = gF16fOne_677B94;
     bool flag1 = false;
     u8 bUnknown = 0;
@@ -4097,14 +4096,13 @@ void CarAI_78::ReactToNearbyCar_451980()
                 if ((field_24_flags & 0x200000) != 0)
                 {
                     flag1 = 1;
-                    field_0_car->TryHonkHorn_4416D0(2);
                 }
                 else
                 {
                     byte_677B3C = 0;
                     field_0_car->field_58_physics->NeutralGear_42AC00();
-                    field_0_car->TryHonkHorn_4416D0(2);
                 }
+                field_0_car->TryHonkHorn_4416D0(2);
             }
             else if ((field_24_flags & 0x20000) != 0)
             {
@@ -4163,14 +4161,13 @@ void CarAI_78::ReactToNearbyCar_451980()
             if ((field_24_flags & 0x200000) != 0)
             {
                 flag1 = 1;
-                field_0_car->TryHonkHorn_4416D0(2);
             }
             else
             {
                 byte_677B3C = 0;
                 field_0_car->field_58_physics->NeutralGear_42AC00();
-                field_0_car->TryHonkHorn_4416D0(2);
             }
+            field_0_car->TryHonkHorn_4416D0(2);
         }
         else
         {
@@ -4215,8 +4212,10 @@ void CarAI_78::ReactToNearbyCar_451980()
                                 Fix16 pMaybeY_FP16 = cBC->field_50_car_sprite->field_14_xy.x - gCurrCarAI_xpos_677C38;
                                 Fix16 pMaybeX_FP16 = cBC->field_50_car_sprite->field_14_xy.y - gCurrCarAI_ypos_677C30;
 
-                                Ang16 v21 = Fix16::atan2_fixed_405320(pMaybeX_FP16, pMaybeY_FP16);
-                                
+                                // Copied out of the returned temporary, so v21 lives in a register (bp)
+                                Ang16 v21;
+                                v21 = Fix16::atan2_fixed_405320(pMaybeX_FP16, pMaybeY_FP16);
+
                                 if (field_0_car->field_60_pChaseTask)
                                 {
                                     switch (field_0_car->field_60_pChaseTask->field_C_chase_state)
@@ -4253,7 +4252,7 @@ void CarAI_78::ReactToNearbyCar_451980()
                                     else
                                     {
                                         v26 = field_10_angle + kAng180_677ADE;
-                                        v27 = kAng180_677ADE + v21;
+                                        v27 = v21 + kAng180_677ADE;
                                     }
 
                                     if (v26 < v27)
@@ -4341,11 +4340,15 @@ void CarAI_78::ReactToNearbyPed_451FF0()
     field_0_car->TryHonkHorn_4416D0(2);
 }
 
-WIP_FUNC(0x452060)
+// 9.6f 0x42ACE0 (a Car_BC method there): sets the flag Object_5C reads while the car probes ahead
+static inline void SetByte6771DC_42ACE0(u8 value)
+{
+    byte_6771DC = value;
+}
+
+MATCH_FUNC(0x452060)
 void CarAI_78::ScanAheadForObstacles_452060()
 {
-    WIP_IMPLEMENTED;
-
     Fix16 v1;
     v1 = gF16fOne_677B94;
 
@@ -4372,71 +4375,44 @@ void CarAI_78::ScanAheadForObstacles_452060()
         new_z = pCar->field_50_car_sprite->field_1C_zpos;
     }
 
-
     Fix16 zpos_ = new_z;
-    //f10 *= 4;
-
 
     Fix16 v9;
     Fix16 v10;
-    {
-        Fix16 v7 = v1 + kFpThreeQuarters_677A4C;
-        v9 = Ang16::sine_40F500(this->field_10_angle) * v7;
-        v10 = Ang16::cosine_40F520(this->field_10_angle).Multiply_408680(v7);
+    Ang16::PolarToCartesian_41FC20(this->field_10_angle, v1 + kFpThreeQuarters_677A4C, v9, v10);
+    field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v9 + field_0_car->field_50_car_sprite->field_14_xy.x,
+                                                          v10 + field_0_car->field_50_car_sprite->field_14_xy.y,
+                                                          new_z);
 
-        Fix16 new_x = v9 + field_0_car->field_50_car_sprite->field_14_xy.x;
-        Fix16 new_y = v10 + field_0_car->field_50_car_sprite->field_14_xy.y;
-
-        field_0_car->field_50_car_sprite->set_xyz_lazy_420600(new_x, new_y, new_z);
-    }
-
-    byte_6771DC = 1;
-
-    Fix16 new_x_1;
-    Fix16 new_y_2;
-
-
-
+    SetByte6771DC_42ACE0(1);
 
     if (this->field_24_flags & 0x80)
     {
         field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_xpos_677C38, gCurrCarAI_ypos_677C30, gCurrCarAI_zpos_677C48);
 
-        Fix16 v86 = (Fix16(word_677A3A.rValue) * Fix16(this->field_0_car->field_58_physics->field_AD_turn_direction));
-        Ang16 v83(&v86, 0);
-
-        Ang16 v82 = this->field_10_angle + v83;
-
-        // The table read directly (not the sine_40F500 copy) keeps the sine in eax as the imul's left operand
-        v9 = gSin_table_667A80[v82.rValue] * gF16fOne_677B94;
-        v10 = Ang16::cosine_40F520(v82).Multiply_408680(gF16fOne_677B94);
-        new_x_1 = v9 + field_0_car->field_50_car_sprite->field_14_xy.x;
-        new_y_2 = v10 + field_0_car->field_50_car_sprite->field_14_xy.y;
-
-        this->field_0_car->field_50_car_sprite->set_xyz_lazy_420600(new_x_1, new_y_2, new_z);
+        Ang16::PolarToCartesian_41FC20(this->field_10_angle + word_677A3A.MultiplyByFix16_401CB0_ctor_ool(Fix16(this->field_0_car->field_58_physics->field_AD_turn_direction)),
+                                       gF16fOne_677B94, v9, v10);
+        this->field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v9 + field_0_car->field_50_car_sprite->field_14_xy.x,
+                                                                    v10 + field_0_car->field_50_car_sprite->field_14_xy.y,
+                                                                    new_z);
 
         this->field_70_nearest_entity = gSpriteGrid_1_679208->FindNearestSpriteOfType_477E60(this->field_0_car->field_50_car_sprite, 0);
     }
     else
     {
-
         this->field_70_nearest_entity = gSpriteGrid_1_679208->FindNearestSpriteOfType_477E60(this->field_0_car->field_50_car_sprite, 0);
         if (!this->field_70_nearest_entity || bIsOnGradientSlope_677C90)
         {
             field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_xpos_677C38, gCurrCarAI_ypos_677C30, gCurrCarAI_zpos_677C48);
 
-            v9 = (Ang16::sine_40F500(this->field_10_angle) * v85);
-            v10 = Ang16::cosine_40F520(this->field_10_angle).Multiply_408680(v85);
-
-            Fix16 new_x_2 = v9 + field_0_car->field_50_car_sprite->field_14_xy.x;
-            Fix16 new_y_4 = v10 + field_0_car->field_50_car_sprite->field_14_xy.y;
-
-            field_0_car->field_50_car_sprite->set_xyz_lazy_420600(new_x_2, new_y_4, new_z);
+            Ang16::PolarToCartesian_41FC20(this->field_10_angle, v85, v9, v10);
+            field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v9 + field_0_car->field_50_car_sprite->field_14_xy.x,
+                                                                  v10 + field_0_car->field_50_car_sprite->field_14_xy.y,
+                                                                  new_z);
 
             this->field_70_nearest_entity = gSpriteGrid_1_679208->FindNearestSpriteOfType_477E60(this->field_0_car->field_50_car_sprite, 0);
         }
     }
-
 
     if (!this->field_70_nearest_entity)
     {
@@ -4457,32 +4433,23 @@ void CarAI_78::ScanAheadForObstacles_452060()
 
     if (field_24_bf.b6)
     {
-        Fix16 v36;
-        Fix16 v37;
-        v36 = Ang16::sine_40F500(this->field_10_angle) * kFpHalf_677A84;
-        v37 = Ang16::cosine_40F520(this->field_10_angle).Multiply_408680(kFpHalf_677A84);
-        field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v36 + field_0_car->field_50_car_sprite->field_14_xy.x,
-                                                              v37 + field_0_car->field_50_car_sprite->field_14_xy.y,
+        Ang16::PolarToCartesian_41FC20(this->field_10_angle, kFpHalf_677A84, v9, v10);
+        field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v9 + field_0_car->field_50_car_sprite->field_14_xy.x,
+                                                              v10 + field_0_car->field_50_car_sprite->field_14_xy.y,
                                                               new_z);
         bCheckMovement = field_0_car->field_50_car_sprite->CheckSpriteMovementRegion_5A2500();
         if (!bCheckMovement)
         {
-            Fix16 v42;
-            Fix16 v43;
-            v42 = Ang16::sine_40F500(this->field_10_angle) * kFpHalf_677A84;
-            v43 = Ang16::cosine_40F520(this->field_10_angle).Multiply_408680(kFpHalf_677A84);
-            field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v42 + field_0_car->field_50_car_sprite->field_14_xy.x,
-                                                                  v43 + field_0_car->field_50_car_sprite->field_14_xy.y,
+            Ang16::PolarToCartesian_41FC20(this->field_10_angle, kFpHalf_677A84, v9, v10);
+            field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v9 + field_0_car->field_50_car_sprite->field_14_xy.x,
+                                                                  v10 + field_0_car->field_50_car_sprite->field_14_xy.y,
                                                                   new_z);
             bCheckMovement = field_0_car->field_50_car_sprite->CheckSpriteMovementRegion_5A2500();
             if (!bCheckMovement)
             {
-                Fix16 v47;
-                Fix16 v48;
-                v47 = Ang16::sine_40F500(this->field_10_angle).Multiply_408680(kFpHalf_677A84);
-                v48 = Ang16::cosine_40F520(this->field_10_angle).Multiply_408680(kFpHalf_677A84);
-                field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v47 + field_0_car->field_50_car_sprite->field_14_xy.x,
-                                                                      v48 + field_0_car->field_50_car_sprite->field_14_xy.y,
+                Ang16::PolarToCartesian_41FC20(this->field_10_angle, kFpHalf_677A84, v9, v10);
+                field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v9 + field_0_car->field_50_car_sprite->field_14_xy.x,
+                                                                      v10 + field_0_car->field_50_car_sprite->field_14_xy.y,
                                                                       new_z);
                 bCheckMovement = field_0_car->field_50_car_sprite->CheckSpriteMovementRegion_5A2500();
             }
@@ -4490,17 +4457,14 @@ void CarAI_78::ScanAheadForObstacles_452060()
     }
     else
     {
-        Fix16 v52;
-        Fix16 v53;
-        v52 = Ang16::sine_40F500(this->field_10_angle).Multiply_408680(gF16fOne_677B94);
-        v53 = Ang16::cosine_40F520(this->field_10_angle).Multiply_408680(gF16fOne_677B94);
-        field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v52 + field_0_car->field_50_car_sprite->field_14_xy.x,
-                                                              v53 + field_0_car->field_50_car_sprite->field_14_xy.y,
+        Ang16::PolarToCartesian_41FC20(this->field_10_angle, gF16fOne_677B94, v9, v10);
+        field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v9 + field_0_car->field_50_car_sprite->field_14_xy.x,
+                                                              v10 + field_0_car->field_50_car_sprite->field_14_xy.y,
                                                               new_z);
         bCheckMovement = field_0_car->field_50_car_sprite->CheckSpriteMovementRegion_5A2500();
     }
 
-    byte_6771DC = 0;
+    SetByte6771DC_42ACE0(0);
     if (bIsOnGradientSlope_677C90)
     {
         if (bCheckMovement)
@@ -4593,7 +4557,7 @@ void CarAI_78::ScanAheadForObstacles_452060()
                                                                    f70->field_1C_zpos.ToInt()))
         {
         react:
-            switch (this->field_70_nearest_entity->field_30_sprite_type_enum)
+            switch (this->field_70_nearest_entity->get_type_416B40())
             {
                 case sprite_types_enum::unknown_1:
                 case sprite_types_enum::code_obj1_4:
