@@ -34,10 +34,9 @@ Fix16_Point Fix16_Point::Multiply_438FE0(Fix16& in)
     return Fix16_Point(x * in, y * in);
 }
 
-WIP_FUNC(0x442AD0)
+MATCH_FUNC(0x442AD0)
 Fix16_Point Fix16_Point::NormalizeSafe_442AD0()
 {
-    WIP_IMPLEMENTED;
     Fix16 length = GetLength_inline_442AD0();
     if (length == gFix16_6777CC)
     {
