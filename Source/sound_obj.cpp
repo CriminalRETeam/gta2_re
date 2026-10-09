@@ -6466,10 +6466,9 @@ void sound_obj::EnqueueRadioWord_4271B0(u32 val)
     }
 }
 
-WIP_FUNC(0x427220)
+MATCH_FUNC(0x427220)
 void sound_obj::ProcessPoliceRadioWordsPlayback_427220()
 {
-    WIP_IMPLEMENTED;
     if (!(field_5448_m_FrameCounter % 10u) && field_5520_bCanPlay == 0 && !gSampManager_6FFF00.SampleNotDone_58E880())
     {
         gSampManager_6FFF00.EndSample_58E960();
@@ -6478,15 +6477,17 @@ void sound_obj::ProcessPoliceRadioWordsPlayback_427220()
 
     if (field_5528_idx15_cur != field_5529_idx15 && !gSampManager_6FFF00.SampleNotDone_58E880() && field_5520_bCanPlay == 1)
     {
-        // todo: this load is missing without volatile! Seems to cache the old value but strange because
-        // surely it can't know if SampleNotDone_58E880 may have modified it
-        volatile s32 old = field_552C_15array[field_5528_idx15_cur];
+        // The original keeps this dead load + store of `old`, scheduled like a plain (non volatile) store:
+        // `cmp $0xF,%al` goes before it. `old` must be address-taken for VC6 to keep the store, and
+        // `&old - &old` below does that while folding to 0 only after dead store elimination has run.
+        // (`volatile` also keeps the store, but its barrier pins the cmp below it.)
+        s32 old = field_552C_15array[field_5528_idx15_cur];
         if (field_5528_idx15_cur >= 15)
         {
             field_5528_idx15_cur = 15;
         }
 
-        gSampManager_6FFF00.PlayAtIdx_58E7F0(field_552C_15array[field_5528_idx15_cur]);
+        gSampManager_6FFF00.PlayAtIdx_58E7F0(field_552C_15array[field_5528_idx15_cur] + (&old - &old));
         gSampManager_6FFF00.SetSampleVol_58E7D0((110 * (u32)field_24_sfx_vol) / 128);
         field_5528_idx15_cur = (field_5528_idx15_cur + 1) % 15;
     }
