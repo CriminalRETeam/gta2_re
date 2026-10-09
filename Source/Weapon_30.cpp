@@ -727,6 +727,23 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
 
 EXPORT void __stdcall sub_5DE910(Fix16_Point_POD a1, Fix16_Point& a2, Fix16 a3);
 
+// GetLength_41E260 with both Abs and the x multiply, the add and the square root out of line
+static inline Fix16 BeamLength_5DE4F0(Fix16_Point& d)
+{
+    if (d.x == dword_706EB8)
+    {
+        return Fix16::Abs_436A50(d.y);
+    }
+    else if (d.y == dword_706EB8)
+    {
+        return Fix16::Abs_436A50(d.x);
+    }
+    else
+    {
+        return Fix16::SquareRoot_436A70(d.x.Multiply_408680(d.x).Add_408660(d.y * d.y));
+    }
+}
+
 WIP_FUNC(0x5de4f0)
 void Weapon_30::sub_5DE4F0()
 {
@@ -739,71 +756,79 @@ void Weapon_30::sub_5DE4F0()
     angle = Fix16::atan2_fixed_405320(field_24_pPed->field_198_hit_target_ped->get_cam_y() - field_24_pPed->get_cam_y(),
                                             field_24_pPed->field_198_hit_target_ped->get_cam_x() - field_24_pPed->get_cam_x());
 
-    Fix16 dist = delta.GetLength_41E260();
-
-    if (dist > dword_706EC4)
+    // Block scopes from the original frame: dist and i share a slot, and the atan2 argument temporaries
+    // share theirs with angle and step_y.
     {
-        field_24_pPed->field_198_hit_target_ped = NULL;
-        return;
-    }
-
-    pBeam->set_xyz_lazy_420600(field_24_pPed->field_1AC_cam.x, field_24_pPed->field_1AC_cam.y, field_24_pPed->field_1AC_cam.z);
-    pBeam->set_ang_lazy_420690(angle);
-    pBeam->AllocInternal_59F950(dword_706CF0, dword_706CF0, dword_706CF0);
-
-    Fix16 steps;
-    Fix16 step_len;
-    if (dist != dword_706EB8)
-    {
-        steps = dist / dword_706CF0;
-        step_len = dist / steps;
-    }
-    else
-    {
-        steps = dword_706EB8;
-        step_len = dword_706EB8;
-    }
-
-    if (steps < dword_706EBC)
-    {
-        steps = dword_706EBC;
-        step_len = dist;
-    }
-
-    Fix16 step_x;
-    Fix16 step_y;
-    Ang16::PolarToCartesian_41FC20(angle, step_len, step_x, step_y);
-    for (u8 i = 1; i <= steps.ToInt(); i++)
-    {
-        gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(pBeam->field_14_xy.x, pBeam->field_14_xy.y, pBeam->field_1C_zpos);
-        pBeam->set_xy_lazy_447E20(pBeam->field_14_xy.x + step_x, pBeam->field_14_xy.y + step_y);
-        if (pBeam->sub_5A2440())
+        Fix16 steps;
+        Fix16 step_x;
+        Fix16 step_y;
         {
-            break;
-        }
+            Fix16 dist = BeamLength_5DE4F0(delta);
 
-        Sprite* pHit = pBeam->QuerySpriteCollision_59E7D0(2);
-        if (pHit)
-        {
-            switch (pHit->field_30_sprite_type_enum)
+            if (dist > dword_706EC4)
             {
-                case sprite_types_enum::car_2:
-                    field_24_pPed->field_170_selected_weapon->field_4 = 1;
-                    field_24_pPed->field_198_hit_target_ped = 0;
-                    return;
+                field_24_pPed->field_198_hit_target_ped = NULL;
+                return;
+            }
 
-                case sprite_types_enum::ped_3:
+            pBeam->set_xyz_lazy_420600(field_24_pPed->field_1AC_cam.x, field_24_pPed->field_1AC_cam.y, field_24_pPed->field_1AC_cam.z);
+            pBeam->set_ang_lazy_420690(angle);
+            pBeam->AllocInternal_59F950(dword_706CF0, dword_706CF0, dword_706CF0);
+
+            Fix16 step_len;
+            if (dist != dword_706EB8)
+            {
+                steps = dist / dword_706CF0;
+                step_len = dist / steps;
+            }
+            else
+            {
+                steps = dword_706EB8;
+                step_len = dword_706EB8;
+            }
+
+            if (steps < dword_706EBC)
+            {
+                steps = dword_706EBC;
+                step_len = dist;
+            }
+
+            // the radius goes through step_y (the original stores the length once, after the joins)
+            step_y = step_len;
+            Ang16::PolarToCartesian_41FC20(angle, step_y, step_x, step_y);
+        }
+        for (u8 i = 1; i <= steps.ToInt(); i++)
+        {
+            gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(pBeam->field_14_xy.x, pBeam->field_14_xy.y, pBeam->field_1C_zpos);
+            pBeam->set_xy_lazy_447E20(pBeam->field_14_xy.x + step_x, pBeam->field_14_xy.y + step_y);
+            if (pBeam->sub_5A2440())
+            {
+                break;
+            }
+
+            Sprite* pHit = pBeam->QuerySpriteCollision_59E7D0(2);
+            if (pHit)
+            {
+                switch (pHit->field_30_sprite_type_enum)
                 {
-                    if (pHit->field_8_char_b4_ptr->field_7C_pPed != field_24_pPed->field_198_hit_target_ped &&
-                        pHit->field_8_char_b4_ptr->field_7C_pPed != field_24_pPed)
+                    case sprite_types_enum::car_2:
+                        field_24_pPed->field_170_selected_weapon->field_4 = 1;
+                        field_24_pPed->field_198_hit_target_ped = 0;
+                        return;
+
+                    case sprite_types_enum::ped_3:
                     {
-                        s32 state = pHit->field_8_char_b4_ptr->field_7C_pPed->field_278_ped_state_1;
-                        if (state < 8 || state > 9)
+                        if (pHit->field_8_char_b4_ptr->field_7C_pPed != field_24_pPed->field_198_hit_target_ped &&
+                            pHit->field_8_char_b4_ptr->field_7C_pPed != field_24_pPed)
                         {
-                            field_24_pPed->field_170_selected_weapon->field_4 = 1;
+                            s32 state = pHit->field_8_char_b4_ptr->field_7C_pPed->field_278_ped_state_1;
+                            if (state < 8 || state > 9)
+                            {
+                                field_24_pPed->field_170_selected_weapon->field_4 = 1;
+                            }
                         }
+                        break;
                     }
-                    break;
                 }
             }
         }
