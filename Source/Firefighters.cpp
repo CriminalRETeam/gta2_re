@@ -166,7 +166,7 @@ void Firefighter_28::Update_4A81F0()
                     field_1C_car->field_5C_AI->SetCar_453BF0(field_1C_car);
 
                     field_20_ped = gPedManager_6787BC->AllocatePed_470F30();
-                    field_20_ped->SetField238_403920(ped_type::special_ped_4);
+                    field_20_ped->SetPedType_403920(ped_type::special_ped_4);
                     field_20_ped->set_occupation_403970(ped_ocupation_enum::fireman);
                     field_20_ped->SpawnPedInCar_45C730(field_1C_car);
                     field_20_ped->SetObjective(objectives_enum::goto_area_in_car_14, 9999);

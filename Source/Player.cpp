@@ -2300,7 +2300,7 @@ MATCH_FUNC(0x569600)
 void Player::StartRemoteControl_569600(Car_BC* pCar)
 {
     field_2C8_aux_ped = gPedManager_6787BC->SpawnDriver_470B00(pCar);
-    field_2C8_aux_ped->SetField238_403920(ped_type::player_2);
+    field_2C8_aux_ped->SetPedType_403920(ped_type::player_2);
     field_2C8_aux_ped->set_occupation_403970(ped_ocupation_enum::empty);
     field_2C8_aux_ped->SetPlayer_45B560(this, 1);
     field_2C8_aux_ped->UpdatePositionFromCar_45C4B0();

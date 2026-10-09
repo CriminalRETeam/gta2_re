@@ -148,7 +148,7 @@ void PoliceCrew_38::SpawnPoliceInCar_570BF0()
 {
     PedGroup* pGroup = PedGroup::New_4CB0D0();
     Ped* pCopLeader = gPedManager_6787BC->AllocatePed_470F30();
-    pCopLeader->SetField238_403920(ped_type::special_ped_4);
+    pCopLeader->SetPedType_403920(ped_type::special_ped_4);
     pCopLeader->set_occupation_403970(ped_ocupation_enum::police);
     pCopLeader->SpawnPedInCar_45C730(field_10_subObj->field_0_car);
     pCopLeader->SetObjective(objectives_enum::goto_area_in_car_14, 0);
@@ -185,7 +185,7 @@ void PoliceCrew_38::SpawnPoliceInCar_570BF0()
 
     Ped* pCopSupporter = gPedManager_6787BC->AllocatePed_470F30();
     pCopSupporter->EnterCarAsPassenger_45C7F0(field_10_subObj->field_0_car);
-    pCopSupporter->SetField238_403920(ped_type::special_ped_4);
+    pCopSupporter->SetPedType_403920(ped_type::special_ped_4);
     pCopSupporter->set_occupation_403970(ped_ocupation_enum::police);
     pCopSupporter->SetObjective(objectives_enum::no_obj_0, 9999);
     pCopSupporter->set_remap_433B90(0);
@@ -230,7 +230,7 @@ void PoliceCrew_38::SpawnSWAT_570E30()
 {
     PedGroup* pSwatGroup = PedGroup::New_4CB0D0();
     Ped* pSwatLeader = gPedManager_6787BC->AllocatePed_470F30();
-    pSwatLeader->SetField238_403920(ped_type::special_ped_4);
+    pSwatLeader->SetPedType_403920(ped_type::special_ped_4);
     pSwatLeader->set_occupation_403970(ped_ocupation_enum::swat);
     pSwatLeader->SpawnPedInCar_45C730(field_10_subObj->field_0_car);
     pSwatLeader->SetObjective(objectives_enum::goto_area_in_car_14, 0);
@@ -249,7 +249,7 @@ void PoliceCrew_38::SpawnSWAT_570E30()
     {
         Ped* pSwatMember = gPedManager_6787BC->AllocatePed_470F30();
         pSwatMember->EnterCarAsPassenger_45C7F0(field_10_subObj->field_0_car);
-        pSwatMember->SetField238_403920(ped_type::special_ped_4);
+        pSwatMember->SetPedType_403920(ped_type::special_ped_4);
         pSwatMember->set_occupation_403970(ped_ocupation_enum::swat);
         pSwatMember->SetObjective(objectives_enum::no_obj_0, 9999);
         pSwatMember->set_remap_433B90(-1);
@@ -275,7 +275,7 @@ MATCH_FUNC(0x571150)
 void PoliceCrew_38::SpawnFBI_nonused_571150()
 {
     Ped* pFBI = gPedManager_6787BC->AllocatePed_470F30();
-    pFBI->SetField238_403920(ped_type::special_ped_4);
+    pFBI->SetPedType_403920(ped_type::special_ped_4);
     pFBI->set_occupation_403970(ped_ocupation_enum::fbi);
     pFBI->SpawnPedInCar_45C730(field_10_subObj->field_0_car);
     pFBI->SetObjective(objectives_enum::goto_area_in_car_14, 0);
@@ -373,7 +373,7 @@ void PoliceCrew_38::sub_571540()
             Ped* pPed = field_10_subObj->field_4_ped;
             if (pPed)
             {
-                if (pPed->GetOffscreenCounter() > 30 && pCar->Get_F76_4A9AD0() > 200)
+                if (pPed->GetOffscreenCounter_4039F0() > 30 && pCar->Get_F76_4A9AD0() > 200)
                 {
                     pPed->Deallocate_45EB60();
                     field_10_subObj->field_0_car->MarkForDespawn_421470();
@@ -458,7 +458,7 @@ void PoliceCrew_38::sub_571A30()
                 u8 i = 0;
                 for (Ped* pPedIter = field_10_subObj->field_4_ped; pPedIter; pPedIter = field_10_subObj->field_8_group->field_4_ped_list[i++])
                 {
-                    pPedIter->SetField238_403920(3);
+                    pPedIter->SetPedType_403920(3);
                     pPedIter->ClearGroupAndGroupIdx_403A30();
                     if (!field_10_subObj->field_8_group)
                     {
@@ -2387,7 +2387,7 @@ void PoliceRoadblock_A4::RemoveRoadblock_575CA0()
         }
         else
         {
-            field_88_guard_1->SetField238_403920(ped_type::dummy_3);
+            field_88_guard_1->SetPedType_403920(ped_type::dummy_3);
         }
         field_88_guard_1 = 0;
     }
@@ -2400,7 +2400,7 @@ void PoliceRoadblock_A4::RemoveRoadblock_575CA0()
         }
         else
         {
-            field_8C_guard_2->SetField238_403920(ped_type::dummy_3);
+            field_8C_guard_2->SetPedType_403920(ped_type::dummy_3);
         }
         field_8C_guard_2 = 0;
     }
@@ -2413,7 +2413,7 @@ void PoliceRoadblock_A4::RemoveRoadblock_575CA0()
         }
         else
         {
-            field_90_guard_3->SetField238_403920(ped_type::dummy_3);
+            field_90_guard_3->SetPedType_403920(ped_type::dummy_3);
         }
         field_90_guard_3 = 0;
     }
@@ -2426,7 +2426,7 @@ void PoliceRoadblock_A4::RemoveRoadblock_575CA0()
         }
         else
         {
-            field_94_guard_4->SetField238_403920(ped_type::dummy_3);
+            field_94_guard_4->SetPedType_403920(ped_type::dummy_3);
         }
         field_94_guard_4 = 0;
     }
@@ -2439,7 +2439,7 @@ void PoliceRoadblock_A4::RemoveRoadblock_575CA0()
         }
         else
         {
-            field_98_guard_5->SetField238_403920(ped_type::dummy_3);
+            field_98_guard_5->SetPedType_403920(ped_type::dummy_3);
         }
         field_98_guard_5 = 0;
     }
@@ -2453,7 +2453,7 @@ void PoliceRoadblock_A4::RemoveRoadblock_575CA0()
             field_0_bActive = 0;
             return;
         }
-        field_9C_guard_6->SetField238_403920(ped_type::dummy_3);
+        field_9C_guard_6->SetPedType_403920(ped_type::dummy_3);
         field_9C_guard_6 = 0;
     }
     field_0_bActive = 0;
@@ -2653,7 +2653,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                                 byte_624FBC = 0;
                                 byte_624FBD = 0;
                                 Ped* pDriver = gPedManager_6787BC->SpawnDriver_470B00(pCar);
-                                pDriver->SetField238_403920(5);
+                                pDriver->SetPedType_403920(5);
                                 pDriver->set_occupation_403970(0x27);
                                 pDriver->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
                                 pCar->field_0_qq.GetSpriteForModel_5A6A50(148)->field_10_rot = word_6FEB74;
@@ -2950,7 +2950,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                                 byte_624FBC = 0;
                                 byte_624FBD = 0;
                                 Ped* pDriver = gPedManager_6787BC->SpawnDriver_470B00(pCar);
-                                pDriver->SetField238_403920(5);
+                                pDriver->SetPedType_403920(5);
                                 pDriver->set_occupation_403970(0x27);
                                 pDriver->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
                             }

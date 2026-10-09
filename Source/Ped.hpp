@@ -408,7 +408,7 @@ class Ped
         field_21C_bf.bElectroFingers = false;
     }
 
-    bool IsActive()
+    bool IsActive_433B40()
     {
         return field_21C_bf.bActive != 0;
     }
@@ -441,17 +441,17 @@ class Ped
         field_23C_group_idx = group_idx;
     }
 
-    u16 GetOffscreenCounter() const
+    u16 GetOffscreenCounter_4039F0() const
     {
         return field_20E_offscreen_counter;
     }
 
-    bool has_field_16C_car() const
+    bool has_car_403B80() const
     {
         return field_16C_car != NULL;
     }
 
-    s32 get_ped_state1() const
+    s32 GetPedState_403990() const
     {
         return field_278_ped_state_1;
     }
@@ -502,9 +502,9 @@ class Ped
         return field_150_target_objective_car;
     }
 
-    void set_ped_type(s32 ped_type)
+    void SetPedType_403920(s32 type)
     {
-        field_238_ped_type = ped_type;
+        field_238_ped_type = type;
     }
 
     // 9.6f 0x403A00
@@ -541,11 +541,6 @@ class Ped
     inline s16 get_wanted_points_433DC0()
     {
         return field_20A_wanted_points;
-    }
-
-    inline bool has_car_403B80()
-    {
-        return field_16C_car != 0;
     }
 
     inline bool not_enter_car_as_passenger_4A5040()
@@ -642,11 +637,6 @@ class Ped
     s32 get_occupation_403980()
     {
         return field_240_occupation;
-    }
-
-    void SetField238_403920(s32 unk)
-    {
-        field_238_ped_type = unk;
     }
 
     void SetMoveTargetX_433C50(Fix16 x)
@@ -746,22 +736,6 @@ class Ped
         field_168_game_object->set_rotation_433A30(rotation);
     }
 
-    // 9.6f 0x433C20
-    inline Fix16 GetCharVelocity_433C20()
-    {
-        return field_168_game_object->get_velocity_41B080();
-    }
-
-    inline bool IsActive_433B40()
-    {
-        return field_21C_bf.bActive;
-    }
-
-    inline s32 GetPedState_403990()
-    {
-        return field_278_ped_state_1;
-    }
-
     inline s32 GetPedState2_433B60()
     {
         return field_27C_ped_state_2;
@@ -827,11 +801,6 @@ class Ped
     bool isDead_403B60()
     {
         return this->field_278_ped_state_1 == ped_state_1::dead_9;
-    }
-
-    u16 GetOffscreenCounter_4039F0()
-    {
-        return this->field_20E_offscreen_counter;
     }
 
     PedGroup* GetGroup_475AF0()

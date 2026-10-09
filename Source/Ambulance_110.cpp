@@ -294,7 +294,7 @@ bool Ambulance_20::SpawnParamedicCrew_4FA820()
     {
         return false;
     }
-    pPed1->SetField238_403920(ped_type::special_ped_4);
+    pPed1->SetPedType_403920(ped_type::special_ped_4);
     pPed1->set_occupation_403970(ped_ocupation_enum::paramedic_23);
     pPed1->SetJumpOverMode_433BB0(ped_jump_over_mode::can_jump_2);
     pPed1->SpawnPedInCar_45C730(field_4_paramedics_crew->field_0_car);
@@ -315,7 +315,7 @@ bool Ambulance_20::SpawnParamedicCrew_4FA820()
     }
 
     pPed2->EnterCarAsPassenger_45C7F0(field_4_paramedics_crew->field_0_car);
-    pPed2->SetField238_403920(ped_type::special_ped_4);
+    pPed2->SetPedType_403920(ped_type::special_ped_4);
     pPed2->set_occupation_403970(ped_ocupation_enum::paramedic_23);
     pPed2->SetJumpOverMode_433BB0(ped_jump_over_mode::can_jump_2);
     pPed2->SetObjective(objectives_enum::no_obj_0, 9999);
@@ -574,7 +574,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                         gParamedicCrewPed_6F6D60->SetObjective(36, 9999);
                         bBusy = 1;
                         gParamedicCrewPed_6F6D60->SetTargetObjectiveCar(field_4_paramedics_crew->field_0_car);
-                        gParamedicCrewPed_6F6D60->SetField238_403920(4);
+                        gParamedicCrewPed_6F6D60->SetPedType_403920(4);
                     }
                     else
                     {
@@ -650,7 +650,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                             pVictim->field_1DC_objective_target_x = pVictim->get_cam_x();
                             pVictim->field_1E0_objective_target_y = pVictim->get_cam_y();
                             pVictim->field_1E4_objective_target_z = pVictim->get_cam_z();
-                            pVictim->SetField238_403920(3);
+                            pVictim->SetPedType_403920(3);
                             pVictim->set_occupation_403970(3);
                             pVictim->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
                         }

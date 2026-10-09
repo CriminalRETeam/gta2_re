@@ -411,7 +411,7 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
 
         if (pPed != NULL)
         {
-            pPed->SetField238_403920(ped_type::player_2);
+            pPed->SetPedType_403920(ped_type::player_2);
             if (!gScriptManager_6F8060->get_field_C1E2C_475A20())
             {
                 pPed->set_health_4039A0(100);
@@ -564,7 +564,7 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_P
 
     if (pPed)
     {
-        pPointer->field_8_char->SetField238_403920(ped_type::script_created_5);
+        pPointer->field_8_char->SetPedType_403920(ped_type::script_created_5);
         pPointer->field_8_char->set_occupation_403970(pCmd->field_1C_occupation);
         pPointer->field_8_char->field_26C_graphic_type = ped_graphic_type::character_1;
         pPointer->field_8_char->SetObjective(objectives_enum::wait_on_foot_26, 9999);

@@ -488,7 +488,7 @@ void EmergencyCrew_30::CleanupExpiredEntities_5CC1C0()
             {
                 if (pPedListIter->field_168_game_object)
                 {
-                    if (pPedListIter->GetOffscreenCounter() < this->field_1A_idle_limit)
+                    if (pPedListIter->GetOffscreenCounter_4039F0() < this->field_1A_idle_limit)
                     {
                         bClearPedAndGroup = 0;
                     }

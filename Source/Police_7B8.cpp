@@ -152,7 +152,7 @@ Ped* Police_7B8::SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, 
     {
         case crew_kind::fbi_3:
             pCop = gPedManager_6787BC->SpawnPedAt(xpos, ypos, zpos, 0, rotation);
-            pCop->SetField238_403920(ped_type::special_ped_4);
+            pCop->SetPedType_403920(ped_type::special_ped_4);
             pCop->set_occupation_403970(ped_ocupation_enum::roadblock_cop_37);
             pCop->SetObjective(objectives_enum::guard_spot_24, 0);
             pCop->set_remap_433B90(8);
@@ -164,7 +164,7 @@ Ped* Police_7B8::SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, 
             break;
         case crew_kind::police_1:
             pCop = gPedManager_6787BC->SpawnPedAt(xpos, ypos, zpos, 0, rotation);
-            pCop->SetField238_403920(ped_type::special_ped_4);
+            pCop->SetPedType_403920(ped_type::special_ped_4);
             pCop->set_occupation_403970(ped_ocupation_enum::roadblock_cop_37);
             pCop->SetObjective(objectives_enum::guard_spot_24, 0);
             pCop->set_remap_433B90(0);
@@ -820,13 +820,13 @@ void Police_7B8::SpawnWalkingGuard_570320(Ped* pPed, Fix16 xpos, Fix16 ypos, Fix
     if (field_65C_highest_crew_type_in_pursuit == crew_type::army_6)
     {
         pPed->set_occupation_403970(ped_ocupation_enum::unknown_cop_occu_31);
-        pPed->SetField238_403920(3);
+        pPed->SetPedType_403920(3);
         pPed->set_remap_433B90(ped_remap_enum::ped_remap_army);
     }
     else
     {
         pPed->set_occupation_403970(ped_ocupation_enum::walking_guard_29);
-        pPed->SetField238_403920(3);
+        pPed->SetPedType_403920(3);
         pPed->set_remap_433B90(ped_remap_enum::ped_remap_blue_police);
     }
     pPed->field_26C_graphic_type = ped_graphic_type::cop_2;
@@ -869,7 +869,7 @@ bool Police_7B8::SpawnCrewInCar_5703E0(Car_BC* pCar)
     pEmergencyCrew->field_0_car = pCar;
     PedGroup* pNewPedGroup = PedGroup::New_4CB0D0();
     Ped* pNewPed1 = gPedManager_6787BC->AllocatePed_470F30();
-    pNewPed1->SetField238_403920(4);
+    pNewPed1->SetPedType_403920(4);
     pNewPed1->set_occupation_403970(ped_ocupation_enum::police);
     pNewPed1->SpawnPedInCar_45C730(pEmergencyCrew->field_0_car);
     pNewPed1->SetObjective(objectives_enum::objective_43, 9999);
@@ -878,7 +878,7 @@ bool Police_7B8::SpawnCrewInCar_5703E0(Car_BC* pCar)
     Ped* pNewPed2 = gPedManager_6787BC->AllocatePed_470F30();
     pNewPed2->SetObjective(objectives_enum::no_obj_0, 9999);
     pNewPed2->EnterCarAsPassenger_45C7F0(pEmergencyCrew->field_0_car);
-    pNewPed2->SetField238_403920(4);
+    pNewPed2->SetPedType_403920(4);
     pNewPed2->set_occupation_403970(ped_ocupation_enum::police);
     pNewPed2->field_288_threat_search = threat_search_enum::line_of_sight_1;
     pNewPed2->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;

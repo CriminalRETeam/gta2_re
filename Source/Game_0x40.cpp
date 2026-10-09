@@ -229,7 +229,7 @@ EXPORT void __stdcall sub_46DD70(char_type remap, u8 count)
     gLastTestPed_6787E8->set_occupation_403970(0x11);
     gLastTestPed_6787E8->set_remap_433B90(remap);
     gLastTestPed_6787E8->field_26C_graphic_type = pPlayerPed->field_26C_graphic_type;
-    gLastTestPed_6787E8->SetField238_403920(5);
+    gLastTestPed_6787E8->SetPedType_403920(5);
     if (!gLastTestPed_6787E8->AllocCharB4_45C830(pPlayerPed->field_1AC_cam.x, pPlayerPed->field_1AC_cam.y, pPlayerPed->field_1AC_cam.z))
     // 9.6f: Ped::get_cam_x/get_cam_y/sub_416B50 (inlined, using them changes the code)
     {
@@ -246,7 +246,7 @@ EXPORT void __stdcall sub_46DD70(char_type remap, u8 count)
         pPed->set_occupation_403970(0x11);
         pPed->set_remap_433B90(remap);
         pPed->field_26C_graphic_type = pPlayerPed->field_26C_graphic_type;
-        pPed->SetField238_403920(5);
+        pPed->SetPedType_403920(5);
         pPed->AllocCharB4_45C830(pPlayerPed->field_1AC_cam.x, pPlayerPed->field_1AC_cam.y, pPlayerPed->field_1AC_cam.z);
         pPed->SetRemap_433C10(pPed->get_remap_433BA0());
         pPed->set_health_4039A0(100);

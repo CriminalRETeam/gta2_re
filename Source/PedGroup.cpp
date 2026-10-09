@@ -217,9 +217,9 @@ bool PedGroup::IsLeaderInCar_4C9210()
 MATCH_FUNC(0x4c9220)
 bool PedGroup::IsLeaderEnteringCarOrUnknown5_4C9220()
 {
-    if (field_2C_ped_leader->get_ped_state1() != ped_state1_enum::ped_entering_a_car)
+    if (field_2C_ped_leader->GetPedState_403990() != ped_state1_enum::ped_entering_a_car)
     {
-        if (field_2C_ped_leader->get_ped_state1() != ped_state1_enum::unused2)
+        if (field_2C_ped_leader->GetPedState_403990() != ped_state1_enum::unused2)
         {
             return false;
         }
@@ -274,7 +274,7 @@ void PedGroup::DisbandGroup_4C92A0()
                 }
                 (*pppVar1)->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                 (*pppVar1)->ClearGroupAndGroupIdx_403A30();
-                (*pppVar1)->SetField238_403920(ped_type_enum::New_Name_2);
+                (*pppVar1)->SetPedType_403920(ped_type_enum::New_Name_2);
             }
             (*pppVar1)->field_21C |= ped_flag_mask::k_ped_scheduled_for_removal;
         }
@@ -317,14 +317,14 @@ void PedGroup::DestroyGroup_4C93A0()
                     (*pppVar1)->SetObjective(objectives_enum::objective_34, 9999);
                     (*pppVar1)->SetTargetObjectiveCar((*pppVar1)->field_16C_car);
                     (*pppVar1)->ClearGroupAndGroupIdx_403A30();
-                    (*pppVar1)->SetField238_403920(ped_type_enum::New_Name_2);
+                    (*pppVar1)->SetPedType_403920(ped_type_enum::New_Name_2);
                 }
                 else
                 {
                     ppVar2->SetObjective(objectives_enum::no_obj_0, 9999);
                     (*pppVar1)->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                     (*pppVar1)->ClearGroupAndGroupIdx_403A30();
-                    (*pppVar1)->SetField238_403920(ped_type_enum::New_Name_2);
+                    (*pppVar1)->SetPedType_403920(ped_type_enum::New_Name_2);
                 }
             }
         }
@@ -378,7 +378,7 @@ void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
                 this->field_4_ped_list[i]->ClearHitCount_403A20();
                 this->field_4_ped_list[i]->field_168_game_object->field_3C_run_or_jump_speed = k_dword_67EEE4;
                 this->field_4_ped_list[i]->ClearGroupAndGroupIdx_403A30();
-                this->field_4_ped_list[i]->SetField238_403920(ped_type::dummy_3);
+                this->field_4_ped_list[i]->SetPedType_403920(ped_type::dummy_3);
             }
         }
         PedGroup::ClearGroupData_4C8E90();

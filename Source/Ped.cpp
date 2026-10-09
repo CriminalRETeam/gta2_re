@@ -1258,7 +1258,7 @@ void Ped::ResetForPlayerRespawn_45C410()
     this->field_1AC_cam.z = pB4->field_80_sprite_ptr->field_1C_zpos;
 
     this->set_health_4039A0(100);
-    this->SetField238_403920(ped_type::player_2);
+    this->SetPedType_403920(ped_type::player_2);
     this->field_208_invulnerability = 50;
     this->field_234_lifetime_timer = ped_lifetime::never_expires_99;
     this->field_15C_player = pPlayer;
@@ -2463,7 +2463,7 @@ void Ped::DeallocateWithGroupCleanup_45EA00()
 {
     if (field_164_ped_group)
     {
-        if (GetOffscreenCounter() <= 0x1E)
+        if (GetOffscreenCounter_4039F0() <= 0x1E)
         {
             return;
         }
@@ -2493,7 +2493,7 @@ void Ped::DeallocateWithGroupCleanup_45EA00()
 
                 while (member)
                 {
-                    if (member->GetOffscreenCounter() < 0x1E && member->field_168_game_object)
+                    if (member->GetOffscreenCounter_4039F0() < 0x1E && member->field_168_game_object)
                     {
                         all_members_in_car = false;
                     }
@@ -2528,7 +2528,7 @@ void Ped::DeallocateWithGroupCleanup_45EA00()
     }
     else
     {
-        if (GetOffscreenCounter() <= 0x1E)
+        if (GetOffscreenCounter_4039F0() <= 0x1E)
         {
             return;
         }
@@ -3118,7 +3118,7 @@ void Ped::TaxiCustomer_AI_460820()
                     SetObjective(objectives_enum::no_obj_0, 9999);
                     SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                     this->set_occupation_403970(ped_ocupation_enum::dummy);
-                    this->SetField238_403920(ped_type::dummy_3);
+                    this->SetPedType_403920(ped_type::dummy_3);
                     return;
                 }
                 Car_BC* pCar = this->field_150_target_objective_car;
@@ -3130,7 +3130,7 @@ void Ped::TaxiCustomer_AI_460820()
                 SetObjective(objectives_enum::no_obj_0, 9999);
                 SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                 this->set_occupation_403970(ped_ocupation_enum::dummy);
-                this->SetField238_403920(ped_type::dummy_3);
+                this->SetPedType_403920(ped_type::dummy_3);
             }
             else if (this->field_150_target_objective_car->IsDespawning_4215B0())
             {
@@ -3171,7 +3171,7 @@ void Ped::TaxiCustomer_AI_460820()
                     // taxi without driver -> exit
                     SetObjective(objectives_enum::leave_car_36, 9999);
                     SetOccupation_45EE00(3);
-                    this->SetField238_403920(ped_type::dummy_3);
+                    this->SetPedType_403920(ped_type::dummy_3);
                     this->field_150_target_objective_car = this->field_16C_car;
                 }
             }
@@ -3195,7 +3195,7 @@ void Ped::BusCustomer_AI_461290()
         case objectives_enum::leave_train_38:
             if (this->field_225_objective_status != objective_status::not_finished_0)
             {
-                this->SetField238_403920(ped_type::dummy_3);
+                this->SetPedType_403920(ped_type::dummy_3);
                 SetOccupation_45EE00(3);
                 SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                 SetObjective(objectives_enum::flee_on_foot_till_safe_1, 9999);
@@ -3236,7 +3236,7 @@ void Ped::BusCustomer_AI_461290()
                     SetObjective(objectives_enum::no_obj_0, 9999);
                     SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                     this->set_occupation_403970(3);
-                    this->SetField238_403920(ped_type::dummy_3);
+                    this->SetPedType_403920(ped_type::dummy_3);
                 }
                 else
                 {
@@ -3257,7 +3257,7 @@ void Ped::BusCustomer_AI_461290()
         case objectives_enum::objective_34:
             if (this->field_25C_internal_objective == 36 && this->field_226_internal_objective_status == 1)
             {
-                this->SetField238_403920(ped_type::dummy_3);
+                this->SetPedType_403920(ped_type::dummy_3);
                 SetOccupation_45EE00(3);
                 SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                 SetObjective(objectives_enum::flee_on_foot_till_safe_1, 9999);
@@ -3303,7 +3303,7 @@ void Ped::TrainCustomer_AI_461530()
         case 37:
             if (field_154_target_to_enter->GetVelocity_43A4C0() != kFpZero_678660)
             {
-                this->SetField238_403920(ped_type::dummy_3);
+                this->SetPedType_403920(ped_type::dummy_3);
                 SetOccupation_45EE00(3);
                 SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                 SetObjective(objectives_enum::no_obj_0, 9999);
@@ -3315,7 +3315,7 @@ void Ped::TrainCustomer_AI_461530()
         case 38:
             if (this->field_226_internal_objective_status)
             {
-                this->SetField238_403920(ped_type::dummy_3);
+                this->SetPedType_403920(ped_type::dummy_3);
                 SetOccupation_45EE00(3);
                 SetObjective2_463830(objectives_enum::no_obj_0, 9999);
                 SetObjective(objectives_enum::flee_on_foot_till_safe_1, 9999);
@@ -3362,7 +3362,7 @@ void Ped::RobbedDriver_AI_461630()
                     {
                         case 19:
                             // gang member or very angry driver (2.5% chance): shoot at the thief
-                            this->SetField238_403920(ped_type::dummy_with_occupation_6);
+                            this->SetPedType_403920(ped_type::dummy_with_occupation_6);
                             this->field_240_occupation = ped_ocupation_enum::very_angry_armed_robbed_driver_13;
                             SetVoiceEvent_IfBit24Clear_433DD0(14);
                             ForceDoNothing_462590();
@@ -3375,7 +3375,7 @@ void Ped::RobbedDriver_AI_461630()
                         case 16:
                         case 32:
                             // 3 over 40 = 7.5% of chance of being an armed and angry driver
-                            this->SetField238_403920(ped_type::dummy_with_occupation_6);
+                            this->SetPedType_403920(ped_type::dummy_with_occupation_6);
                             this->field_240_occupation = ped_ocupation_enum::angry_armed_robbed_driver_12;
                             SetVoiceEvent_IfBit24Clear_433DD0(13);
                             SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
@@ -3383,7 +3383,7 @@ void Ped::RobbedDriver_AI_461630()
                             this->field_150_target_objective_car = field_140_stolen_car;
                             if (field_140_stolen_car->IsDespawning_4215B0())
                             {
-                                this->SetField238_403920(ped_type::dummy_3);
+                                this->SetPedType_403920(ped_type::dummy_3);
                                 this->field_240_occupation = ped_ocupation_enum::fleeing_robbed_driver_11;
                                 ForceDoNothing_462590();
                                 SetObjective(objectives_enum::flee_char_on_foot_till_safe_2, 9999);
@@ -3400,7 +3400,7 @@ void Ped::RobbedDriver_AI_461630()
 
                         default:
                             // normal behaviour: flee
-                            this->SetField238_403920(ped_type::dummy_3);
+                            this->SetPedType_403920(ped_type::dummy_3);
                             this->field_240_occupation = ped_ocupation_enum::fleeing_robbed_driver_11;
                             this->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
                             ForceDoNothing_462590();
@@ -3414,7 +3414,7 @@ void Ped::RobbedDriver_AI_461630()
                 {
                     if (this->field_140_stolen_car->IsDespawning_4215B0())
                     {
-                        this->SetField238_403920(ped_type::dummy_3);
+                        this->SetPedType_403920(ped_type::dummy_3);
                         this->field_240_occupation = ped_ocupation_enum::fleeing_robbed_driver_11;
                         ForceDoNothing_462590();
                         SetObjective(objectives_enum::flee_char_on_foot_till_safe_2, 9999);
@@ -3436,7 +3436,7 @@ void Ped::RobbedDriver_AI_461630()
                 else
                 {
                     this->field_240_occupation = ped_ocupation_enum::driver;
-                    this->SetField238_403920(ped_type::dummy_3);
+                    this->SetPedType_403920(ped_type::dummy_3);
                     if (target_objective_car)
                     {
                         target_objective_car->SetUniNum_421560(3);
@@ -3453,14 +3453,14 @@ void Ped::RobbedDriver_AI_461630()
                 this->field_240_occupation = ped_ocupation_enum::dummy;
                 SetObjective(objectives_enum::no_obj_0, 9999);
                 SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                this->SetField238_403920(ped_type::dummy_3);
+                this->SetPedType_403920(ped_type::dummy_3);
             }
             return;
 
         case ped_ocupation_enum::very_angry_armed_robbed_driver_13:
             if (this->field_225_objective_status == objective_status::passed_1)
             {
-                this->SetField238_403920(ped_type::dummy_with_occupation_6);
+                this->SetPedType_403920(ped_type::dummy_with_occupation_6);
                 this->field_240_occupation = ped_ocupation_enum::angry_armed_robbed_driver_12;
                 if (field_140_stolen_car && !field_140_stolen_car->IsDespawning_4215B0())
                 {
@@ -3474,7 +3474,7 @@ void Ped::RobbedDriver_AI_461630()
                     this->field_240_occupation = ped_ocupation_enum::dummy;
                     SetObjective(objectives_enum::no_obj_0, 9999);
                     SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                    this->SetField238_403920(ped_type::dummy_3);
+                    this->SetPedType_403920(ped_type::dummy_3);
                 }
             }
             else
@@ -3494,7 +3494,7 @@ void Ped::RobbedDriver_AI_461630()
                     this->field_240_occupation = ped_ocupation_enum::dummy;
                     SetObjective(objectives_enum::no_obj_0, 9999);
                     SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                    this->SetField238_403920(ped_type::dummy_3);
+                    this->SetPedType_403920(ped_type::dummy_3);
                 }
             }
             return;
@@ -3651,7 +3651,7 @@ void Ped::Occupation_AI_461F20()
                         set_occupation_403970(ped_ocupation_enum::taxi_customer_7);
                         if (field_238_ped_type == ped_type::dummy_3)
                         {
-                            SetField238_403920(ped_type::dummy_with_occupation_6);
+                            SetPedType_403920(ped_type::dummy_with_occupation_6);
                         }
                         Ped::SetObjective(objectives_enum::no_obj_0, 40);
                         ++gNewTaxiCustomersThisTick_6787D2;
@@ -3712,7 +3712,7 @@ void Ped::Occupation_AI_461F20()
             if (!gPedManager_6787BC->field_7_make_all_muggers)
             {
                 set_occupation_403970(ped_ocupation_enum::dummy);
-                SetField238_403920(ped_type::dummy_3);
+                SetPedType_403920(ped_type::dummy_3);
                 Ped::ForceDoNothing_462590();
             }
             break;
@@ -4033,7 +4033,7 @@ char_type Ped::StateMachineTick_4626B0()
                 }
                 if (Ped::GetMoveDirection_45C9B0() == kFpZero_678660 && Ped::GetTurnSpeed_45C900() == gDummyPedAng_6787A8)
                 {
-                    if (field_278_ped_state_1 == ped_state_1::walking_0 && GetCharVelocity_433C20() == kFpZero_678660)
+                    if (field_278_ped_state_1 == ped_state_1::walking_0 && GetGameObjectVelocity_433C20() == kFpZero_678660)
                     {
                         Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
                         Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
@@ -11138,7 +11138,7 @@ void Ped::SetupFollower_46DF70(Ped* pToFollow, s32 weaponIdx)
     field_17C_pGang = pToFollow->field_17C_pGang;
     SetJumpOverMode_433BB0(ped_jump_over_mode::cannot_jump_1);
     SetPedClass_433BC0(ped_class::gang_member_1);
-    SetField238_403920(4);
+    SetPedType_403920(4);
 }
 
 MATCH_FUNC(0x46e020)
@@ -11247,7 +11247,7 @@ void Ped::SpawnPedGroupFollowers_46E200(u8 total)
             pNewPed->set_occupation_403970(this->field_240_occupation);
             pNewPed->set_remap_433B90(this->field_244_remap);
             pNewPed->field_26C_graphic_type = this->field_26C_graphic_type;
-            pNewPed->SetField238_403920(this->field_238_ped_type);
+            pNewPed->SetPedType_403920(this->field_238_ped_type);
             Fix16 xy_off = kFpOneSixth_678504 * Fix16(i);
             pNewPed->AllocCharB4_45C830(xy_off + this->field_1AC_cam.x, xy_off + this->field_1AC_cam.y, this->field_1AC_cam.z);
             pNewPed->SetRemap_433C10(this->get_remap_433BA0());

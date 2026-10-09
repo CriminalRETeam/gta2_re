@@ -1357,7 +1357,7 @@ void PublicTransport_181C::BusesService_579CA0()
                             field_17C0_bus.field_0 = 0;
                             field_17C0_bus.field_2 = 0;
                             pBusCar->field_54_driver->set_occupation_403970(ped_ocupation_enum::driver);
-                            field_17C0_bus.field_C_carriages[0]->field_54_driver->SetField238_403920(3);
+                            field_17C0_bus.field_C_carriages[0]->field_54_driver->SetPedType_403920(3);
                         }
                     }
                 }
