@@ -751,9 +751,12 @@ void MapRenderer::ProjectVertBottom_4EAEA0(Fix16& xCoord, Fix16& yCoord, Vert* p
 }
 
 // https://decomp.me/scratch/mWsfM
-WIP_FUNC(0x4eaf40)
+MATCH_FUNC(0x4eaf40)
 void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
 {
+    // Declared up front and assigned later: VC6 numbers it before gZCoordFp_6F6518, so the z sum for
+    // the out-of-line ProjectVert_4EB940 is `add %esi,%ecx` into the gZ load (like the original), not a `lea`
+    Fix16 unknown_z_4;
     if (!bSkip_right_67D4E4)
     {
         switch (gCurrentSlope_6F646C.field_0_gradient_direction)
@@ -846,7 +849,7 @@ void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
                 }
                 else
                 {
-                    Fix16 unknown_z_4 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480;
+                    unknown_z_4 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480;
                     ProjectVert_4EB940(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8, gZCoordFp_6F6518 + unknown_z_4, &gTileVerts_6F65A8[0]);
                     gTileVerts_6F65A8[0].v = 63.999901f - (unknown_z_4 * kTileTexSize_6F6548).ToFloat();
                 }
@@ -1174,9 +1177,12 @@ void MapRenderer::DrawDiagonalDownRightFace_4ECE40(u16& right_word)
 
 // https://decomp.me/scratch/4EDti
 // 9.6f: MapRenderer::sub_46D9A0
-WIP_FUNC(0x4ed290)
+MATCH_FUNC(0x4ed290)
 void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
 {
+    // See DrawRightSide_4EAF40: declared up front for the operand order of the z sum. That raises the
+    // inline budget; `if (texture_idx)` below takes it back so the default case's operator+ stays out of line
+    Fix16 z_unk_4;
     if (!bSkip_bottom_67D4E7)
     {
         switch (gCurrentSlope_6F646C.field_0_gradient_direction)
@@ -1279,7 +1285,7 @@ void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
                 }
                 else
                 {
-                    Fix16 z_unk_4 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480;
+                    z_unk_4 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480;
                     ProjectVert_4EB940(gXCoord_6F63AC, 
                                gYCoord_6F63B8 + kZeroOnePoint_6F6484.y,
                                gZCoordFp_6F6518 + z_unk_4,
@@ -1319,7 +1325,7 @@ void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
         }
 
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(bottom_word & 0x3FF);
-        if (texture_idx != 0)
+        if (texture_idx)
         {
             if ((*(((u8*)&bottom_word) + 1) & 0x10) != 0)
             {

@@ -2741,3 +2741,16 @@ Before adding a statement on the strength of that tool, resolve the original's c
 .cpp (and, when needed, of a header) compiles with `compile.sh`, since the source's own directory heads the
 include path. Several variants then score in parallel without touching `build_vc6/`, and a header can be
 changed for one variant only (used for the `ofstream` member and for `operator+=` probes).
+
+### Round-2 levers (Hud / MapRenderer)
+
+- **An inline helper's parameter is a live range of its own, even when block-local** (`DrawPlayerStatsHelper_5D61A0`).
+  Passing `gGtx_0x106C_703DD4` through a static inline (`GetPowerupSpriteIndex_5D61A0(pGtx, idx)`) adds one
+  live range to the first block (N 8 -> 9) without changing code; that lifts `width` (tie 33) to the same
+  priority as `base_xpos` (tie 13), so `width` is coloured first and gets `ebx` like the original.
+- **Commutative operand order: declare the local before the global's first use** (`DrawRightSide_4EAF40`,
+  `draw_bottom_4ED290`). VC6 puts the later-numbered operand first (numbering is first use in IL order). With
+  `Fix16 z = ...` in the last gradient case, `z` is numbered after `gZCoordFp_6F6518` and the sum became
+  `lea (%esi,%ecx)`; `Fix16 z;` at the top of the function and `z = ...` there gives `add %esi,%ecx` and the
+  later `mov kTileTexSize,%eax; imul %esi`. In draw_bottom the declaration also raised the inline budget by
+  28 (one more out-of-line operator+ got inlined); `if (texture_idx)` for `!= 0` took back enough size.
