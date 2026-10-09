@@ -5932,10 +5932,9 @@ Fix16 __stdcall sub_4614E0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
 }
 
 // https://decomp.me/scratch/Fh1iq
-WIP_FUNC(0x465d00)
+MATCH_FUNC(0x465d00)
 bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
 {
-    WIP_IMPLEMENTED;
 
 
     char_type flag = 0;
@@ -6071,12 +6070,7 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
                         goto ret_true;
                     }
 
-                    Fix16 dy = pTargetPed->field_1AC_cam.y - this->field_1AC_cam.y;
-                    Fix16 dx = pTargetPed->field_1AC_cam.x - this->field_1AC_cam.x;
-                    Fix16 dyabs = Fix16::Abs_negate_out_of_line(dy);
-                    Fix16 dxabs = Fix16::Abs_negate_out_of_line(dx);
-
-                    if (Fix16::Max_44E540(dxabs, dyabs) <= kFpOne_678798)
+                    if (Fix16::MaxAbsDistance_42A6B0(this->field_1AC_cam.x, this->field_1AC_cam.y, pTargetPed->get_cam_x(), pTargetPed->get_cam_y()) <= kFpOne_678798)
                     {
                         goto ret_true;
                     }
@@ -6085,7 +6079,7 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
                 }
 
                 {
-                    u8 player_idx = pTargetPed->field_15C_player->field_2E_idx;
+                    u8 player_idx = pTargetPed->field_15C_player->get_idx_4219D0();
 
                     if (this->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(player_idx))
                     {
@@ -6104,7 +6098,7 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
         block_465F75:
             if (pTargetPed->IsActivePlayerPed_45EDC0() || pTargetPed->field_240_occupation == ped_ocupation_enum::empty)
             {
-                u8 player_idx = pTargetPed->field_15C_player->field_2E_idx;
+                u8 player_idx = pTargetPed->field_15C_player->get_idx_4219D0();
 
                 if (this->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(player_idx))
                 {
@@ -6170,7 +6164,7 @@ block_466022:
         if (!((((BitSet32*)&pTargetPed->field_21C)->check_bit(ped_bit_index::attacking_11)) && pTargetPed->field_170_selected_weapon != 0 &&
               pTargetPed->field_170_selected_weapon->sub_5DCEF0()))
         {
-            if (pTargetPed->field_20A_wanted_points < 0x258 && this->field_144_attacker != pTargetPed && pTargetPed->field_26A_recent_crime_timer <= 0u)
+            if (pTargetPed->get_wanted_points_433DC0() < 0x258 && this->field_144_attacker != pTargetPed && pTargetPed->field_26A_recent_crime_timer <= 0u)
             {
                 goto ret_false;
             }
@@ -6186,7 +6180,7 @@ block_466022:
                 goto ret_true;
             }
 
-            if (pTargetPed->field_20A_wanted_points < 0x258)
+            if (pTargetPed->get_wanted_points_433DC0() < 0x258)
             {
                 pTargetPed->field_20A_wanted_points = 0x258;
             }
@@ -6194,7 +6188,7 @@ block_466022:
             return 0;
         }
 
-        if (pTargetPed->field_20A_wanted_points >= 0x258)
+        if (pTargetPed->get_wanted_points_433DC0() >= 0x258)
         {
             goto ret_true;
         }
@@ -7331,13 +7325,10 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                         Fix16 dist_1 = (kFpHalf_67853C + Fix16(field_1C4_move_target_x.ToUInt8())) - field_1AC_cam.x;
                         Fix16 dist_2 = (kFpHalf_67853C + Fix16(field_1C8_move_target_y.ToUInt8())) - field_1AC_cam.y;
 
-                        Fix16* pGreater_abs = &dist_1;
-                        if (Fix16::Abs(dist_1) <= Fix16::Abs(dist_2))
-                        {
-                            pGreater_abs = &dist_2;
-                        }
+                        Fix16 a1 = Fix16::Abs(dist_1);
+                        Fix16 a2 = Fix16::Abs(dist_2);
 
-                        if (*pGreater_abs < kFpHalf_678790 || ((field_168_game_object->field_58_flags & 0x40) != 0))
+                        if (Fix16::Max_41E130(a1, a2) < kFpHalf_678790 || ((field_168_game_object->field_58_flags & 0x40) != 0))
                         {
                             field_18C_current_path_point++;
                             field_1C4_move_target_x = kFpHalf_67853C + Fix16(field_18C_current_path_point->field_0_x);
