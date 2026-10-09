@@ -320,15 +320,20 @@ char_type PathFinder_2FD4::EvaluateGridCell_554640()
 }
 
 // https://decomp.me/scratch/f8WDL
-WIP_FUNC(0x554710)
+MATCH_FUNC(0x554710)
 void PathFinder_2FD4::AddGridCell_554710()
 {
-    WIP_IMPLEMENTED;
     u16 v12;
-    u8 zpos = field_22_zpos;
+    // zpos assigned in both arms (not `zpos = field_22_zpos; if (..) zpos += ..;`): the extra
+    // definition raises its priority above dx/dy so it is coloured first and keeps edx.
+    u8 zpos;
     if (gPathFinder_SlopeZDelta_6FDEEC)
     {
-        zpos += gPathFinder_SlopeZDelta_6FDEEC;
+        zpos = field_22_zpos + gPathFinder_SlopeZDelta_6FDEEC;
+    }
+    else
+    {
+        zpos = field_22_zpos;
     }
 
     if (zpos != field_13_zEnd)
@@ -352,8 +357,11 @@ void PathFinder_2FD4::AddGridCell_554710()
         if (field_4_bFindTileMode == 0)
         {
             // The sum assigned first and `*= v12` after (one expression keeps v12's multiply in the sum's
-            // register and pushes ebp at the top instead of inside this branch).
-            v7 = (field_21_ypos - field_12_yEnd) * (field_21_ypos - field_12_yEnd) + (field_20_xpos - field_11_xEnd) * (field_20_xpos - field_11_xEnd);
+            // register and pushes ebp at the top instead of inside this branch). The dx/dy locals give
+            // the original's evaluation order (x difference first).
+            u16 dx = field_20_xpos - field_11_xEnd;
+            u16 dy = field_21_ypos - field_12_yEnd;
+            v7 = dy * dy + dx * dx;
             v7 *= v12;
         }
         else
