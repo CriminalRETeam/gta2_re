@@ -1130,6 +1130,14 @@ Still different:
   the inline all fold or change nothing. Case order in the two direction switches is canonicalised
   (no effect). The fully raw `(last_z.mValue - k.mValue) >> 14` keeps the registers (202) but loads the
   neighbour args in the wrong order (structure 32).
+- Round 6 (218 -> 170): the loop's green-arrow step was semantically off. In the original a null first lookup
+  jumps straight to the not-green branch (`test %esi; je 0x6d7`), so the `pBlock != pPrev` step sits inside
+  `if (pBlock)` after the slope re-lookup (written out). Everything up to the KeepDir block now lines up at the
+  same offsets. Left: KeepDir's temp gets `eax` (ralog prio 72: pref eax -2 vs ebp -1; the original coalesces it
+  with `new_direction` in `ebp`); the `dist`/kFpOne-CSE `ebx`/`ebp` swap (dist prio 138 avoids ebx because the
+  byte `bTurned` live range, only-ebx, adds 1500 to its ebx score; the CSE temps of kFpOne are the prio-132 k=3
+  ranges); the cached switch constant (2 vs 1); slots: in the original `tmp`, the `pPrev` spill and `pBefore`
+  share one slot below `last_x` (so it has more than 5 refs), ours puts `tmp` above `last_y` and pPrev/pBefore apart.
 
 ### PublicTransport_181C::SpawnTrainsFromStations_578860 (0x578860): WIP 0.90
 - For each of the first 10 stations with wagons: takes a train, places the wagons and the engine
@@ -3617,3 +3625,79 @@ Tried, all worse:
 What it needs is six more *temporaries* with overlapping lifetimes and no extra code, which is a
 property of how the original's expressions nest, not of a local declaration.
 
+
+## Round 5 (Oct 9): cross-jump agent
+
+- **`CarAI_78::FollowRoadDirection_44A1F0` (122 -> 0, MATCH).** `return;` right after the first `SetGoStraight_42ABB0()`
+  of right_3/east_3 (the `v17 <= dword_6779C8` arm). That jump no longer goes through the nested end-of-if labels that
+  are retargeted to the exit, so it is created in source order, the later copy (the `else` arm) becomes the cross-jump
+  target, and the first copy jumps into it as in the original (122 -> 70). The second change, `return;` after
+  left_4/south_2's `TurnClockwise_42ABA0()` (either arm works), fixes the one remaining jump (west_4's `je` into the
+  right_3/south_2 copy). Found by adding `return;` after every call site, one at a time, on top of the first change:
+  all other sites stay at 70. Earlier notes said "return in either arm: 122"; that was the other arm or another base.
+- `Ped::FindUsableCarDoor_467090` (74): ildump shows the loop pass duplicating the `IsDoorAccessible` test as the loop
+  head (the do-while's first block exits the loop). A `for`/`while` driver loop gives the original's loop shape
+  (`jb top`) but 216: the return-0 exit then directly follows the latch (dupB moves it there because `found` is the last
+  block). `found` has to be laid out between the driver latch and the passenger branch, which needs the passenger code
+  to have no edge to `found` or to the shared `return 1` block at layout time; per-site copies of the store + `return 1`
+  still share one return-1 join (cjlog), and flag variants are all 74.
+- `Car_214::CheckThreadTrigger_5C8780` (70): with case 7 written out (104) the case 7 tail is `mov 0x1C(%esp),%edi`
+  (pCar reload) then the state store, case 6's store then reload, so the first compare fails. `break` after any
+  state store, an early `!= ped_3` break, an empty `else if`, all 104 or worse.
+
+Round 5 findings from the other agents (not matched):
+
+- `PoliceCrew_38::State6_ShutDown_574720`: a plain `i = 0;` between the `byte_6FEB48 = 1` and `gCurrentCrewPed_6FEDDC` stores (with `i` read through the `const u8&` inline) puts `movb $0` exactly where the original has it, but the zero then takes `ebp`. priolog: zero at -41 (plain) / -85 (volatile), w=2, ebp in both. Making the other zero stores volatile doesn't help.
+- `Map_0x370::sub_4E8370` (8 at head): hoisting `new_idx`/`pNew` fixes the head; `column_idx` then goes to prio 9 / `ecx` instead of -7 / `eax`.
+- `Char_B4::HandlePedCollision_548BD0`: `Ang16 res;` declared at the function top with `res = atan2(...)` at the `kAng180 + atan2` site gives the original's operand order but loads instead of `add (%eax),%cx`.
+- `TagGameHudUpdate_4DADA0`, `FreeLowestPriority_543690`, `GetLayout_4D6000`, `ProcessPoliceRadioWordsPlayback_427220`, `state_8_5520A0`: pointer-param inlines and more spellings tried, no change.
+- `miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180`: the constant 8 shared by `CanAlloc_446870(8)` and the tail's `ReassignAllocatedCarType_443EE0(8)` is one live range worth +18 to pParam2 in the tail block. Changing either 8 to 9 (diagnostic only) gives the original's ebx/esi/edi. pCar's ecx comes from its preference for the else-branch `Reassign(8)` `this`. Writing the despawn checks like `MissionCleanUp_502DC0` gives identical code but lowers zero to 2.
+- `CarAI_78::DetectCarAhead_44D1D0`: `last` keeps a separate load + `dec` because `arrow_count` is address-taken; `next` would need `arrow_idx` to be memory-resident too (it's a returned value, no source form found). Equal priority would suffice (next has the higher tie-break).
+- `PedGroup::MergeWithOtherGroup_4C9B60`: pPed's live range is ~-11 (one use in loop 1), so it fails and splits; the original keeps pPed in edi and spills the list pointer into pPed's argument slot.
+- `Hud_Arrow_7C::UpdateScreenPos_5D0850`: the inline-budget cause is found: writing `get_camera_434900` out as an if/else and keeping `atan2_40F790` gives the original's 14 out-of-line calls, and `const Fix16& r = field_10_radius_pos;` reproduces the original's field reload. But the frame is then 0x3C instead of 0x38 (the projection's `Add` return temps don't share slot 0x10 with `distance`), so the score gets worse (86 -> 128+). Next: slotlog on the `$T` Add returns.
+
+## Round 6 (agent a)
+
+- `Weapon_30::sub_5DE4F0` 222 -> 99 (difflines 138 -> 71). (1) The length is not `GetLength_41E260`: the original
+  calls `Abs_436A50` at both zero checks, inlines `y * y` and calls `Multiply_408680`/`Add_408660`/`SquareRoot_436A70`
+  (`BeamLength_5DE4F0`, a single budget cut-off can't give an out-of-line Abs of size 57 and an inline `operator*` of
+  size 57 at the same level). (2) Block scopes: `dist` in an inner block (shares slot 0 with `i` and the atan2 return
+  temp), the steps/loop part in a block after the atan2 statement (its argument temps then share slots with
+  `angle`, the cos temp and `step_y`). (3) The original stores the step length to the stack once after the two joins:
+  `step_y = step_len; PolarToCartesian(angle, step_y, step_x, step_y)` gives that (a separate `Fix16 radius` copy
+  gives the 0x24 frame but `angle` keeps `ebx` and the `dist << 14` temp loses it, 151). Left: frame 0x28 vs 0x24
+  (`step_y` has 4 memory refs and sorts before the atan2 temps; the original's slot list needs it after them),
+  and round-robin shifts in the `car_2` tail and the `i++` (`al` vs `dl`).
+- `SetWindowedMode_5D9510` (14): `regsearch.py --range 20:80` finds an exact match at window limit 37 (window 4 cut
+  after the `window_height` load, so the RECT loads can't be hoisted above `push $0x316`). With the stock limit that
+  needs 43 more nodes before that point in the block (or a label there); dead `f32` locals and inline wrappers for
+  the API calls add none. Unexplained which source construct does it.
+
+Round 6 findings (not matched):
+
+- `Char_B4::GetNextRotationToward_550F60`: the per-case registers are round-robin temps; the target takes 5 picks per case, ours 7 because each return's reload is an extra pick. Writing each case as `return Ang16(cond ? rot + v12 : rot - v12);` fixes the rotation in every case block. What's left: the return copy (join pointer prio 14 takes eax before the return pointer, prio 12 tie 210) and the final `inputAng > rot` tail, cross-jumped into the else arm in the target and the then arm in ours.
+- `Char_B4::HandleCarImpact_5538A0`: a constant-0 live range (prio -18) still gets ebx; the target has no zero register. `field_267` byte test is the first candidate for the extra saving ref.
+- `Char_B4::ContinueMovementAfterCollision_54B8F0`: late push of ebx/ebp/edi, and our `set_xy_lazy` + return tails cross-jump where the target keeps them separate.
+
+## Ped.cpp round 6 (worker d)
+- `Ped::IsPedAThreat_465D00` 142 -> 0 (**MATCH**). The register rotation in the two `player_idx` blocks and the
+  `mov (%eax),%eax` (merged) deref before `cmp kFpOne` came from the MaxAbs code: the original inlines
+  `Fix16::MaxAbsDistance_42A6B0(x, y, pTargetPed->get_cam_x(), pTargetPed->get_cam_y())`, with both inner
+  unary minus and `Max_41E130` out of line. That cut-off needs a nested budget of 218..279, i.e. about 10
+  top-level sites after the call: `get_idx_4219D0()` at both IsRespect sites and `get_wanted_points_433DC0()`
+  at the three `0x258` compares give it (inl.sh: sites_left 5 -> 10). The target getters fix the load order
+  (diff_y in eax). Adding `GetInternalObjective_403A90()` too (13 sites) sends Abs out of line.
+- `Ped::HandlePedHitByObject_45D000` (137, unchanged): its 0x4614E0 call is MaxAbsDistance's out-of-line copy, so
+  the inline copy can call `Fix16::MaxAbsDistance_42A6B0(..., get_cam_x(), get_cam_y())` (COMDAT copy, accepted by the
+  verifier): 139. Left is still a one-pick rotation (ours is one round-robin pick ahead from the MaxAbs compare
+  on, which also stops the `5 * mult` TakeDamage tail from cross-jumping into the `lea (%eax,%eax,4),%edx` copy).
+- `Ped::UpdateMovementTowardsTarget_4672E0` 560 -> 206: the waypoint distance test is
+  `Fix16 a1 = Abs(dist_1); Fix16 a2 = Abs(dist_2); if (Max_41E130(a1, a2) < kFpHalf_678790 ...` (the original
+  stores both Abs values and selects a pointer to one). Left: the layout of the path switch. The original has
+  no gotos there: by reverse postorder its out-of-line blocks (dist, null path, LINE_54E) are copies that
+  FlowOpts cross-jumped into the LINE_3A9 / LINE_3D9 code, but a version with every tail written out (310) and a
+  goto version with LINE_3D6/LINE_41C/LINE_526 labels (247) are both worse. Also a dead `mov 0x28(%esp),%al`
+  (type) in the `bUnk1 = true` arm.
+- `Ped::MeleeAttackStateMachine_46B670` (454): AddScore spellings in the health >= 20 mugger block (direct
+  `AddCash_592620`, a `Player*` local, `if (++count > 9)`, an explicit `return`) don't stop it merging into
+  the else-if copy. The +2 callee penalty is only the Max_41E130 COMDAT name.

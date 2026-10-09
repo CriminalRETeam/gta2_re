@@ -1607,10 +1607,9 @@ void CarAI_78::ManageTrafficCarDirection_448CE0()
 }
 
 // https://decomp.me/scratch/FqWRo
-WIP_FUNC(0x44a1f0)
+MATCH_FUNC(0x44a1f0)
 void CarAI_78::FollowRoadDirection_44A1F0()
 {
-    WIP_IMPLEMENTED;
     Ang16 v2 = kAng0_677CE8;
     Ang16 v3 = kAng0_677CE8;
     Fix16 vec_x;
@@ -1830,6 +1829,8 @@ void CarAI_78::FollowRoadDirection_44A1F0()
                                 if (v3 > Ang16(v39.rValue - dword_677A08.rValue, 0))
                                 {
                                     field_0_car->field_58_physics->SetGoStraight_42ABB0();
+                                    // This return (and the one in left_4/south_2) decide which identical tail VC6 keeps when cross-jumping
+                                    return;
                                 }
                                 else
                                 {
@@ -1900,6 +1901,7 @@ void CarAI_78::FollowRoadDirection_44A1F0()
                     if ((field_24_flags & 0x80u) != 0 && field_44_target_direction == car_ai_target_direction::westwards_4)
                     {
                         field_0_car->field_58_physics->TurnClockwise_42ABA0();
+                        return;
                     }
                     else
                     {

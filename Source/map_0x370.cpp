@@ -3855,11 +3855,20 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
             last_z = z;
             pPrev = pBlock;
             StepOneBlock_4E6660(&x, &y, dist, direction);
-            SetRoadBlockAtOrNull_4E7190(pBlock, x, y, z);
-            if (pBlock != pPrev)
+            // Not SetRoadBlockAtOrNull_4E7190: when the first lookup finds no block the original goes straight
+            // to the not-green branch (`test %esi; je`), skipping the pBlock != pPrev step
+            pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
+            if (pBlock)
             {
-                sub_4E65A0(x, y, &z, 0, 0);
-                SetRoadBlockAtOrNull_4E7190(pBlock, x, y, z);
+                if ((pBlock->field_B_slope_type & 0xFC) == 0xFC)
+                {
+                    pBlock = get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
+                }
+                if (pBlock != pPrev)
+                {
+                    sub_4E65A0(x, y, &z, 0, 0);
+                    SetRoadBlockAtOrNull_4E7190(pBlock, x, y, z);
+                }
             }
             if (!pBlock || !HasGreenArrowForPathDirection_4E5E90(pBlock, direction, 0))
             {
