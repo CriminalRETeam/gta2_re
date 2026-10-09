@@ -3596,3 +3596,35 @@ Near misses, new findings (not matched):
   `FreeLowestPriority_543690`: retried, nothing new.
 - `SetGamma_5D9910` and `TextureCache_15D8::ReadTextures_5B92E0` would match only by removing code
   kept on purpose for the standalone exe (see their source comments); left as they are.
+
+## Round 5 (Oct 9): cross-jump agent
+
+- **`CarAI_78::FollowRoadDirection_44A1F0` (122 -> 0, MATCH).** `return;` right after the first `SetGoStraight_42ABB0()`
+  of right_3/east_3 (the `v17 <= dword_6779C8` arm). That jump no longer goes through the nested end-of-if labels that
+  are retargeted to the exit, so it is created in source order, the later copy (the `else` arm) becomes the cross-jump
+  target, and the first copy jumps into it as in the original (122 -> 70). The second change, `return;` after
+  left_4/south_2's `TurnClockwise_42ABA0()` (either arm works), fixes the one remaining jump (west_4's `je` into the
+  right_3/south_2 copy). Found by adding `return;` after every call site, one at a time, on top of the first change:
+  all other sites stay at 70. Earlier notes said "return in either arm: 122"; that was the other arm or another base.
+- `Ped::FindUsableCarDoor_467090` (74): ildump shows the loop pass duplicating the `IsDoorAccessible` test as the loop
+  head (the do-while's first block exits the loop). A `for`/`while` driver loop gives the original's loop shape
+  (`jb top`) but 216: the return-0 exit then directly follows the latch (dupB moves it there because `found` is the last
+  block). `found` has to be laid out between the driver latch and the passenger branch, which needs the passenger code
+  to have no edge to `found` or to the shared `return 1` block at layout time; per-site copies of the store + `return 1`
+  still share one return-1 join (cjlog), and flag variants are all 74.
+- `Car_214::CheckThreadTrigger_5C8780` (70): with case 7 written out (104) the case 7 tail is `mov 0x1C(%esp),%edi`
+  (pCar reload) then the state store, case 6's store then reload, so the first compare fails. `break` after any
+  state store, an early `!= ped_3` break, an empty `else if`, all 104 or worse.
+
+Round 5 findings from the other agents (not matched):
+
+- `PoliceCrew_38::State6_ShutDown_574720`: a plain `i = 0;` between the `byte_6FEB48 = 1` and `gCurrentCrewPed_6FEDDC` stores (with `i` read through the `const u8&` inline) puts `movb $0` exactly where the original has it, but the zero then takes `ebp`. priolog: zero at -41 (plain) / -85 (volatile), w=2, ebp in both. Making the other zero stores volatile doesn't help.
+- `Map_0x370::sub_4E8370` (8 at head): hoisting `new_idx`/`pNew` fixes the head; `column_idx` then goes to prio 9 / `ecx` instead of -7 / `eax`.
+- `Char_B4::HandlePedCollision_548BD0`: `Ang16 res;` declared at the function top with `res = atan2(...)` at the `kAng180 + atan2` site gives the original's operand order but loads instead of `add (%eax),%cx`.
+- `TagGameHudUpdate_4DADA0`, `FreeLowestPriority_543690`, `GetLayout_4D6000`, `ProcessPoliceRadioWordsPlayback_427220`, `state_8_5520A0`: pointer-param inlines and more spellings tried, no change.
+- `miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180`: the constant 8 shared by `CanAlloc_446870(8)` and the tail's `ReassignAllocatedCarType_443EE0(8)` is one live range worth +18 to pParam2 in the tail block. Changing either 8 to 9 (diagnostic only) gives the original's ebx/esi/edi. pCar's ecx comes from its preference for the else-branch `Reassign(8)` `this`. Writing the despawn checks like `MissionCleanUp_502DC0` gives identical code but lowers zero to 2.
+- `CarAI_78::DetectCarAhead_44D1D0`: `last` keeps a separate load + `dec` because `arrow_count` is address-taken; `next` would need `arrow_idx` to be memory-resident too (it's a returned value, no source form found). Equal priority would suffice (next has the higher tie-break).
+- `PedGroup::MergeWithOtherGroup_4C9B60`: pPed's live range is ~-11 (one use in loop 1), so it fails and splits; the original keeps pPed in edi and spills the list pointer into pPed's argument slot.
+- `Hud_Arrow_7C::UpdateScreenPos_5D0850`: the inline-budget cause is found: writing `get_camera_434900` out as an if/else and keeping `atan2_40F790` gives the original's 14 out-of-line calls, and `const Fix16& r = field_10_radius_pos;` reproduces the original's field reload. But the frame is then 0x3C instead of 0x38 (the projection's `Add` return temps don't share slot 0x10 with `distance`), so the score gets worse (86 -> 128+). Next: slotlog on the `$T` Add returns.
+- `Char_B4::GetNextRotationToward_550F60`: the per-case rotation values are colour-pass live ranges (prio 36), not round-robin temps; the fix is priority/tie order, not pick count.
+- `Map_0x370::sub_4E7190`: `dist` (138) gets ebp and `pPrev` (132) gets ebx; the original has them swapped.
