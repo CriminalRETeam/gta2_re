@@ -247,8 +247,17 @@ s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
     }
 }
 
+// Converts through an f32 local: the store to it is an x87 no-op node between the fildl and the fmuls
+// (as Fix16ToF32_Rounded in MapRenderer.cpp), which lets the scheduler put two integer loads between them.
+// Free inline (size <= 40), so it doesn't touch the inline budget.
+static inline f32 Fix16ToF32_Rounded(const Fix16& v)
+{
+    f32 f = v.mValue;
+    return (f / 16384.0f);
+}
+
 // https://decomp.me/scratch/SCz1D
-WIP_FUNC(0x5D8470);
+MATCH_FUNC(0x5D8470);
 void __stdcall DrawTexture_5D8470(STexture* pTexture,
                                  Fix16 x_pos,
                                  Fix16 y_pos,
@@ -289,7 +298,8 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
     point.SetXY_432860(v12, -v13);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[1].x = ((x_pos + point.x).ToFloat());
+    // Only this vertex converts through an f32 local (the original issues the fmuls two loads later)
+    gQuadVerts_706B88.field_0_verts[1].x = Fix16ToF32_Rounded(x_pos + point.x);
     gQuadVerts_706B88.field_0_verts[1].y = ((y_pos + point.y).ToFloat());
     gQuadVerts_706B88.field_0_verts[1].z = 0.000099999997f;
 
