@@ -3549,13 +3549,14 @@ Tried, all worse or no change:
 - `Map_0x370::sub_4E6660` (4): `pPrev = pBlock` after `sub_4E65A0(x, y, &z, 1, 1)` again pushes `%ebx`
   for both 1s; no new lever found.
 
-## Oct 9: ten new matches, and what the near misses still need
+## Oct 9: thirteen new matches, and what the near misses still need
 
 Matched this round (see `matching_quirks.md` and the commit messages for each trick):
 `PedGroup::sub_4C8E60`, `DrawTexture_5D8470`, `DrawGradientSlopeSouthwards_4F1660`,
 `DrawGradientSlopeEastwards_4F33B0`, `sound_obj::ProcessActiveQueues_41AB80`,
 `PathFinder_2FD4::AddGridCell_554710`, `PathFinder_2FD4::ComputePath_554AB0`,
-`Ped::GotoAreaByAnyMeans_469060`, `Sprite::Draw_59EFF0`, `Ped::CallPoliceCar_469FE0`.
+`Ped::GotoAreaByAnyMeans_469060`, `Sprite::Draw_59EFF0`, `Ped::CallPoliceCar_469FE0`, `DrawPlayerStatsHelper_5D61A0`,
+`MapRenderer::DrawRightSide_4EAF40`, `MapRenderer::draw_bottom_4ED290`.
 
 Levers that did it, beyond what this file already lists:
 
@@ -3578,9 +3579,6 @@ Near misses, new findings (not matched):
   A volatile store isn't counted as a use of constant 0, so there's no `xor ebp,ebp`. Left: the
   original places `movb $0,8(%esp)` between the `field_10` and `field_4` loads; volatile stores keep
   their order relative to other stores, so it can't be moved there.
-- `DrawPlayerStatsHelper_5D61A0`: `s32 width` + `s32 x_offset = n < 10 ? 18 : 22;` before the y
-  ctor + `(u32)(base_xpos - x_offset)` matches all but width/base_xpos swapped in ebx/ebp. priolog:
-  width 30 (tie 33), base_xpos 32 (tie 13); width needs +2.
 - `TagGameHudUpdate_4DADA0`: a volatile store of the 1 changes nothing; even with the constant-1
   live range forced to priority -2 it still gets ebx and `test %dl,%bl`.
 - `CarAI_78::DetectCarAhead_44D1D0`: `goto tail_1/tail_2` in both probe switches gives 16 lines
@@ -3592,9 +3590,6 @@ Near misses, new findings (not matched):
   2nd or 3rd SetUniNum block.
 - `CarAI_78::ScanAheadForObstacles_452060`: a local's slot size comes from its first reference in
   IL order (`lea` or dword access = 4), so a ctor-built `Ang16 v83(&v86, 0)` is always size 4.
-- `MapRenderer::draw_bottom_4ED290` / `DrawRightSide_4EAF40`: first diff is the z sum before the
-  out-of-line `ProjectVert_4EB940` call: original `add %esi,%ecx` in place, ours
-  `lea (%esi,%ecx),%edx`, an extra round-robin pick.
 - `CarAI_78::FollowRoadDirection_44A1F0`: the only real difference is which of two
   `SetGoStraight(); return;` copies in the right_3/east_3 case VC6 keeps.
 - `Map_0x370::sub_4E8370`, `sub_4E6660`, `GetLayout_4D6000`, `ProcessPoliceRadioWordsPlayback_427220`,
