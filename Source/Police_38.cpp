@@ -1240,10 +1240,15 @@ WIP_FUNC(0x574720)
 void PoliceCrew_38::State6_ShutDown_574720()
 {
     // The original stores the zero at the top of the function and keeps the counter in its
-    // stack slot (load, inc, store at the one increment). Plain `u8 i = 0;` here lets VC6
-    // hold the known zero in ebp and reuse it for every other zero in the function.
-    volatile u8 i = 0;
+    // stack slot (load, inc, store at the one increment). A plain `u8 i = 0;` anywhere at the
+    // top makes `i` a register candidate live from the entry; it fails to colour, and the
+    // restart that follows lowers the zero constant's priority below the ~4 mask's, so the mask
+    // takes ebp first and the zero shares it (`xor ebp,ebp` for every zero in the function).
+    // A volatile store isn't a definition for the allocator, so it avoids that; it is only
+    // scheduled one load later than the original's `movb $0` (docs/match_attempts.md).
+    u8 i;
     byte_6FEB48 = 1;
+    *(volatile u8*)&i = 0;
     gCurrentCrewPed_6FEDDC = field_10_subObj->field_4_ped;
     if (field_10_subObj->field_0_car)
     {
