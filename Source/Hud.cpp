@@ -26,9 +26,6 @@
 #include "text_0x14.hpp"
 #include "winmain.hpp"
 
-// Forward declarations: the functions below are in address order
-static inline void ProjectWorldToScreen_Hud_OutOfLine_4B90E0(Camera_0xBC* pCam, Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2);
-
 DEFINE_GLOBAL(Hud_2B00*, gHud_2B00_706620, 0x706620);
 DEFINE_GLOBAL(s16, gDebugFont_706600, 0x706600); //, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL(s16, word_7064B8, 0x7064B8); //, TODO, 0xUNKNOWN);
@@ -227,7 +224,10 @@ void Hud_UnderRoofArrowMarker_C::Draw_5CF910()
     if (field_A_ped_under_solid)
     {
         const s32 drawtype = 2;
-        Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+        // get_camera_434900 written out: as an inline call it shifts the inline budget and the projection's
+    // operators no longer go out of line as in the original
+    Camera_0xBC* pCamera;
+    Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
         Camera_0xBC* pCam;
         pCam = pPlayer->get_camera_434900();
 
@@ -240,7 +240,10 @@ void Hud_ShowCoords_1::ShowPlayerCoords_5CF970()
 {
     if (field_0_show_coords)
     {
-        Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+        // get_camera_434900 written out: as an inline call it shifts the inline budget and the projection's
+    // operators no longer go out of line as in the original
+    Camera_0xBC* pCamera;
+    Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
 
         Ped* pPed = pPlayer->GetActivePed_4A5150();
 
@@ -644,7 +647,10 @@ bool Hud_Arrow_7C::CheckVisibility_5D0530()
             {
                 return false; // player is on mission, so do not display gang phone arrows
             }
-            Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+            // get_camera_434900 written out: as an inline call it shifts the inline budget and the projection's
+    // operators no longer go out of line as in the original
+    Camera_0xBC* pCamera;
+    Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
             Gang_144* pCurrLocationGang = pPlayer->get_gang_curr_location_4766D0();
             if (pCurrLocationGang)
             {
@@ -733,10 +739,9 @@ bool Hud_Arrow_7C::UpdateTargets_5D0620()
 }
 
 // https://decomp.me/scratch/CoKn3
-WIP_FUNC(0x5d0850)
+MATCH_FUNC(0x5d0850)
 void Hud_Arrow_7C::UpdateScreenPos_5D0850()
 {
-    WIP_IMPLEMENTED;
     Fix16_Point displacement;
     Fix16 player_xpos;
     Fix16 player_ypos;
@@ -748,13 +753,9 @@ void Hud_Arrow_7C::UpdateScreenPos_5D0850()
 
     field_8_rotation = displacement.atan2_40F790();
 
-    // GetLength_41E260 with this file's zero and the out-of-line helpers. Written out as a ternary: as an
-    // inline the function runs out of inline expansions (one operator/ out of line).
-    Fix16 distance = displacement.x == kFpZero_7064C0 ?
-        Fix16::Abs_436A50(displacement.y) :
-        displacement.y == kFpZero_7064C0 ?
-        Fix16::Abs_436A50(displacement.x) :
-        Fix16::SquareRoot_436A70(displacement.x.Multiply_408680(displacement.x).Add_408660(displacement.y.Multiply_408680(displacement.y)));
+    // Assigned, not initialised: GetLength's result goes through a temporary that shares the atan2 temp's slot
+    Fix16 distance;
+    distance = displacement.GetLength_41E260();
     Fix16 intended_radius;
 
     if (field_18.field_60_curr_target->field_20_bIsTargetVisible)
@@ -805,22 +806,35 @@ void Hud_Arrow_7C::UpdateScreenPos_5D0850()
         field_14_reposition_speed = kArrowBaseRepositionSpeed_7063B0;
     }
 
-    Camera_0xBC* pCamera = gGame_0x40_67E008->field_38_orf1->get_camera_434900();
+    // get_camera_434900 written out: as an inline call it shifts the inline budget and the projection's
+    // operators no longer go out of line as in the original
+    Camera_0xBC* pCamera;
+    Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+    if (pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3)
+    {
+        pCamera = &pPlayer->field_208_aux_game_camera;
+    }
+    else
+    {
+        pCamera = &pPlayer->field_90_game_camera;
+    }
 
-    Fix16 factor = kFpOne_7064C4 / ((kFpEight_7064E8 - field_18.field_60_curr_target->field_1C_aim_z) + pCamera->field_98_cam_pos2.field_8_z);
+    Fix16 factor;
+    factor = kFpOne_7064C4 / ((kFpEight_7064E8 - field_18.field_60_curr_target->field_1C_aim_z) + pCamera->field_98_cam_pos2.field_8_z);
     // multiply by 64
-    Fix16 projected_radius = ((field_10_radius_pos * 64) / (pCamera->field_60.x * factor)) * pCamera->field_A8_ui_scale;
+    Fix16& radius = field_10_radius_pos;
+    Fix16 projected_radius = ((radius * 64) / (pCamera->field_60.x * factor)) * pCamera->field_A8_ui_scale;
 
     Fix16 zpos_2;
     if (distance != kFpZero_7064C0 && !field_18.field_60_curr_target->field_20_bIsTargetVisible)
     {
-        zpos_2 = player_zpos + ((field_10_radius_pos / distance) * (field_18.field_60_curr_target->field_1C_aim_z - player_zpos));
+        zpos_2 = player_zpos + ((radius / distance) * (field_18.field_60_curr_target->field_1C_aim_z - player_zpos));
     }
     else
     {
         zpos_2 = field_18.field_60_curr_target->field_1C_aim_z;
     }
-    ProjectWorldToScreen_Hud_OutOfLine_4B90E0(pCamera,
+    ProjectWorldToScreen_Hud_4B90E0(pCamera,
                                               player_xpos - (Ang16::sine_40F500(field_8_rotation) * projected_radius),
                                               player_ypos - (Ang16::cosine_40F520(field_8_rotation) * projected_radius),
                                               zpos_2,
@@ -1939,20 +1953,6 @@ void Hud_Pager_C_Array::ClearPager_5D3280(s32 idx)
     }
 }
 
-// ProjectWorldToScreen_Hud_4B90E0 with the out-of-line Fix16 helpers (Hud_Arrow_7C::UpdateScreenPos_5D0850).
-// With the plain inline and GetLength_41E260 (FIX16_POINT_ZERO kFpZero_7064C0) that WIP gets every original
-// out-of-line call only at a caller size 66..103 bigger (inlsim --scan): the source difference is not found yet.
-static inline void ProjectWorldToScreen_Hud_OutOfLine_4B90E0(Camera_0xBC* pCam, Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
-{
-    Fix16 scale = kFpOne_7064C4 / ((kFpEight_7064E8 - z) + pCam->field_98_cam_pos2.field_8_z);
-
-    *pOut1 = (x.Subtract_436A00(pCam->field_98_cam_pos2.field_0_x).Multiply_408680(pCam->field_60.x).Multiply_408680(scale))
-                 .Add_408660(Fix16(pCam->field_70_screen_px_center_x));
-
-    *pOut2 = (y.Subtract_436A00(pCam->field_98_cam_pos2.field_4_y).Multiply_408680(pCam->field_60.x).Multiply_408680(scale))
-                 .Add_408660(Fix16(pCam->field_74_screen_px_center_y));
-}
-
 MATCH_FUNC(0x5d32d0)
 void Hud_Pager_C_Array::ClearClockOnly_5D32D0(s32 pager_idx)
 {
@@ -2756,6 +2756,9 @@ Hud_MapZone_98::Hud_MapZone_98()
 MATCH_FUNC(0x5d5c80)
 void Hud_PlayerStats_4::DrawPlayerStats_5D5C80()
 {
+    // get_camera_434900 written out: as an inline call it shifts the inline budget and the projection's
+    // operators no longer go out of line as in the original
+    Camera_0xBC* pCamera;
     Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
 
     s16 ammo_idx = pPlayer->field_788_curr_weapon_idx;
@@ -2925,6 +2928,9 @@ void Hud_PlayerStats_4::UpdateRollingDigits_5D6290()
         pLamarr2->UpdateRollingDigits_4925E0();
         pPlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10();
     }
+    // get_camera_434900 written out: as an inline call it shifts the inline budget and the projection's
+    // operators no longer go out of line as in the original
+    Camera_0xBC* pCamera;
     Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
     pPlayer->field_684_lives.UpdateRollingDigits_4925E0();
     pPlayer->field_6BC_multpliers.UpdateRollingDigits_4925E0();
