@@ -57,7 +57,7 @@ class Explosion_30
 class ExplosionPool_7A8
 {
   public:
-    EXPORT void FreeLowestPriority_543690();
+    EXPORT s32 FreeLowestPriority_543690();
     EXPORT Explosion_30* Allocate_543800();
     EXPORT ExplosionPool_7A8();
     EXPORT ~ExplosionPool_7A8();
