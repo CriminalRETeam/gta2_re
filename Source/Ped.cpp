@@ -5931,16 +5931,16 @@ Fix16 __stdcall sub_4614E0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
 
 // https://decomp.me/scratch/Fh1iq
 WIP_FUNC(0x465d00)
-bool Ped::IsPedAThreat_465D00(Ped* a2)
+bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
 {
     WIP_IMPLEMENTED;
 
 
     char_type flag = 0;
 
-    if ((a2->field_21C & ped_flag_mask::k_ped_invisible) != 0)
+    if ((pTargetPed->field_21C & ped_flag_mask::k_ped_invisible) != 0)
     {
-        if (a2->field_168_game_object != 0)
+        if (pTargetPed->field_168_game_object != 0)
         {
             goto ret_false;
         }
@@ -5948,7 +5948,7 @@ bool Ped::IsPedAThreat_465D00(Ped* a2)
 
     if (this->field_288_threat_search == threat_search_enum::area_player_threat_only_3 || this->field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4)
     {
-        if (!a2->PedTypeIs_45EDE0(ped_type::player_2))
+        if (!pTargetPed->PedTypeIs_45EDE0(ped_type::player_2))
         {
             goto ret_false;
         }
@@ -5956,7 +5956,7 @@ bool Ped::IsPedAThreat_465D00(Ped* a2)
 
     if (this->field_288_threat_search == threat_search_enum::area_player_only_5 || this->field_288_threat_search == threat_search_enum::line_of_sight_player_only_6)
     {
-        if (a2->IsActivePlayerPed_45EDC0())
+        if (pTargetPed->IsActivePlayerPed_45EDC0())
         {
             goto ret_true;
         }
@@ -5967,14 +5967,14 @@ bool Ped::IsPedAThreat_465D00(Ped* a2)
         flag = 1;
     }
 
-    if (this->field_164_ped_group == a2->field_164_ped_group && this->field_164_ped_group != 0)
+    if (this->field_164_ped_group == pTargetPed->field_164_ped_group && this->field_164_ped_group != 0)
     {
         goto ret_false;
     }
 
     if (this->field_240_occupation == 0x28)
     {
-        Car_BC* pCar = a2->field_16C_car;
+        Car_BC* pCar = pTargetPed->field_16C_car;
 
         if (pCar == 0)
         {
@@ -5986,7 +5986,7 @@ bool Ped::IsPedAThreat_465D00(Ped* a2)
             goto ret_true;
         }
 
-        if (a2->field_238_ped_type == 4)
+        if (pTargetPed->field_238_ped_type == 4)
         {
             goto ret_false;
         }
@@ -5999,7 +5999,7 @@ bool Ped::IsPedAThreat_465D00(Ped* a2)
 
         if (pMyGang != 0)
         {
-            Gang_144* pOtherGang = a2->field_17C_pGang;
+            Gang_144* pOtherGang = pTargetPed->field_17C_pGang;
 
             if (pOtherGang != 0)
             {
@@ -6024,12 +6024,12 @@ bool Ped::IsPedAThreat_465D00(Ped* a2)
                 }
 
             check_threat_level:
-                if ((u8)a2->field_263_prev_attackers_count >= 4)
+                if ((u8)pTargetPed->field_263_prev_attackers_count >= 4)
                 {
                     goto ret_false;
                 }
 
-                if ((u8)a2->field_262_attackers_count >= 4)
+                if ((u8)pTargetPed->field_262_attackers_count >= 4)
                 {
                     goto ret_false;
                 }
@@ -6039,7 +6039,7 @@ bool Ped::IsPedAThreat_465D00(Ped* a2)
 
             if (pMyGang->field_110_high_respect != 0)
             {
-                switch (a2->field_240_occupation)
+                switch (pTargetPed->field_240_occupation)
                 {
                     case 0x18:
                     case 0x19:
@@ -6055,11 +6055,11 @@ bool Ped::IsPedAThreat_465D00(Ped* a2)
                 }
             }
 
-            if (((BitSet32*)&a2->field_21C)->check_bit(ped_bit_index::attacking_11))
+            if (((BitSet32*)&pTargetPed->field_21C)->check_bit(ped_bit_index::attacking_11))
             {
-                if (!a2->IsActivePlayerPed_45EDC0() && a2->field_240_occupation != 1)
+                if (!pTargetPed->IsActivePlayerPed_45EDC0() && pTargetPed->field_240_occupation != 1)
                 {
-                    if (a2->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
+                    if (pTargetPed->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
                     {
                         goto merge_178;
                     }
@@ -6069,8 +6069,8 @@ bool Ped::IsPedAThreat_465D00(Ped* a2)
                         goto ret_true;
                     }
 
-                    Fix16 dy = a2->field_1AC_cam.y - this->field_1AC_cam.y;
-                    Fix16 dx = a2->field_1AC_cam.x - this->field_1AC_cam.x;
+                    Fix16 dy = pTargetPed->field_1AC_cam.y - this->field_1AC_cam.y;
+                    Fix16 dx = pTargetPed->field_1AC_cam.x - this->field_1AC_cam.x;
                     Fix16 dyabs = Fix16::Abs_negate_out_of_line(dy);
                     Fix16 dxabs = Fix16::Abs_negate_out_of_line(dx);
 
@@ -6083,7 +6083,7 @@ bool Ped::IsPedAThreat_465D00(Ped* a2)
                 }
 
                 {
-                    u8 player_idx = a2->field_15C_player->field_2E_idx;
+                    u8 player_idx = pTargetPed->field_15C_player->field_2E_idx;
 
                     if (this->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(player_idx))
                     {
@@ -6100,9 +6100,9 @@ bool Ped::IsPedAThreat_465D00(Ped* a2)
             }
 
         block_465F75:
-            if (a2->IsActivePlayerPed_45EDC0() || a2->field_240_occupation == 1)
+            if (pTargetPed->IsActivePlayerPed_45EDC0() || pTargetPed->field_240_occupation == 1)
             {
-                u8 player_idx = a2->field_15C_player->field_2E_idx;
+                u8 player_idx = pTargetPed->field_15C_player->field_2E_idx;
 
                 if (this->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(player_idx))
                 {
@@ -6124,21 +6124,21 @@ no_my_gang:
     switch (this->field_240_occupation)
     {
         case 0x21:
-            if (a2->field_240_occupation == 0x21)
+            if (pTargetPed->field_240_occupation == 0x21)
             {
                 return 0;
             }
 
             goto merge_178;
         case 0x22:
-            if (a2->field_240_occupation == 0x22)
+            if (pTargetPed->field_240_occupation == 0x22)
             {
                 return 0;
             }
 
             goto merge_178;
         case 0x16:
-            if (a2->PedTypeIs_45EDE0(ped_type::player_2))
+            if (pTargetPed->PedTypeIs_45EDE0(ped_type::player_2))
             {
                 return 0;
             }
@@ -6158,52 +6158,52 @@ no_my_gang:
     }
 
 block_466022:
-    if (a2->IsActivePlayerPed_45EDC0())
+    if (pTargetPed->IsActivePlayerPed_45EDC0())
     {
-        if (a2->field_168_game_object != 0 && a2->field_168_game_object->field_10_char_state == 0xF)
+        if (pTargetPed->field_168_game_object != 0 && pTargetPed->field_168_game_object->field_10_char_state == 0xF)
         {
             goto ret_false;
         }
 
-        if (!((((BitSet32*)&a2->field_21C)->check_bit(ped_bit_index::attacking_11)) && a2->field_170_selected_weapon != 0 &&
-              a2->field_170_selected_weapon->sub_5DCEF0()))
+        if (!((((BitSet32*)&pTargetPed->field_21C)->check_bit(ped_bit_index::attacking_11)) && pTargetPed->field_170_selected_weapon != 0 &&
+              pTargetPed->field_170_selected_weapon->sub_5DCEF0()))
         {
-            if (a2->field_20A_wanted_points < 0x258 && this->field_144_attacker != a2 && a2->field_26A_recent_crime_timer <= 0u)
+            if (pTargetPed->field_20A_wanted_points < 0x258 && this->field_144_attacker != pTargetPed && pTargetPed->field_26A_recent_crime_timer <= 0u)
             {
                 goto ret_false;
             }
         }
 
         this->field_144_attacker = 0;
-        gPolice_7B8_6FEE40->UpdateLastSeenCoordsForCriminal_5708C0(a2);
+        gPolice_7B8_6FEE40->UpdateLastSeenCoordsForCriminal_5708C0(pTargetPed);
 
         if (this->field_258_objective == 0x2B)
         {
-            if (gPolice_7B8_6FEE40->TryAssignCarCrewToCriminal_5707B0(this->field_16C_car, a2))
+            if (gPolice_7B8_6FEE40->TryAssignCarCrewToCriminal_5707B0(this->field_16C_car, pTargetPed))
             {
                 goto ret_true;
             }
 
-            if (a2->field_20A_wanted_points < 0x258)
+            if (pTargetPed->field_20A_wanted_points < 0x258)
             {
-                a2->field_20A_wanted_points = 0x258;
+                pTargetPed->field_20A_wanted_points = 0x258;
             }
 
             return 0;
         }
 
-        if (a2->field_20A_wanted_points >= 0x258)
+        if (pTargetPed->field_20A_wanted_points >= 0x258)
         {
             goto ret_true;
         }
 
-        a2->field_20A_wanted_points = 0x258;
+        pTargetPed->field_20A_wanted_points = 0x258;
         return 1;
     }
 
 block_4660FB:
 {
-    s32 a2_state = a2->field_240_occupation;
+    s32 a2_state = pTargetPed->field_240_occupation;
     switch (a2_state)
     {
         case 0x17:
@@ -6226,12 +6226,12 @@ block_4660FB:
         goto ret_true;
     }
 
-    if (((BitSet32*)&a2->field_21C)->check_bit(ped_bit_index::attacking_11))
+    if (((BitSet32*)&pTargetPed->field_21C)->check_bit(ped_bit_index::attacking_11))
     {
         goto ret_true;
     }
 
-    if (a2->field_25C_internal_objective != 0x14)
+    if (pTargetPed->field_25C_internal_objective != 0x14)
     {
         goto merge_178;
     }
@@ -6242,17 +6242,17 @@ block_4660FB:
 block_46613E:
     if (this->field_164_ped_group != 0)
     {
-        if (this->field_164_ped_group->field_2C_ped_leader != a2->field_14C_internal_target_ped)
+        if (this->field_164_ped_group->field_2C_ped_leader != pTargetPed->field_14C_internal_target_ped)
         {
             goto merge_178;
         }
 
-        if (a2->field_25C_internal_objective == 0x14)
+        if (pTargetPed->field_25C_internal_objective == 0x14)
         {
             goto ret_true;
         }
 
-        if (a2->field_25C_internal_objective != 0x17)
+        if (pTargetPed->field_25C_internal_objective != 0x17)
         {
             goto merge_178;
         }
@@ -6260,7 +6260,7 @@ block_46613E:
         return 1;
     }
 
-    if (((BitSet32*)&a2->field_21C)->check_bit(ped_bit_index::attacking_11))
+    if (((BitSet32*)&pTargetPed->field_21C)->check_bit(ped_bit_index::attacking_11))
     {
         goto ret_true;
     }
