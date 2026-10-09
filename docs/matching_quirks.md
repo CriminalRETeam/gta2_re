@@ -456,6 +456,12 @@ width: moving `gBlockLeft_6F62F6`/`gBlockRight_6F63C6` to `map_0x370.cpp` matche
 `MapRenderer::DrawPartialBlock*` functions. Try each global separately: there, moving
 `gBlockTop` changed nothing and moving `gBlockBottom` made it worse.
 
+**`cmp $0xFFFF,%di` with a 16-bit immediate means a `u16` compared with `0xFFFF`.** `s16 x; x != -1`
+encodes the constant as a sign-extended byte (`66 83 ff ff`, 4 bytes); `u16 x; x != 0xFFFF` uses the
+full imm16 (`66 81 ff ff ff`, 5 bytes). Both disassemble to the same text, so the only visible symptom
+is every later jump target off by one byte. Look at the raw bytes when that happens
+(`Sprite::Draw_59EFF0`, the two `Delta_48F8B0` results; `cmp $0xFFFF,%ax` is `66 3d ff ff` either way).
+
 **A flag returned with no `setne` is `char_type`, not `bool`.** If the original returns a
 `char` local as is, a `bool` return makes VC6 normalise it (`Ped::HandlePickupCollision_45DE80`).
 
@@ -1462,6 +1468,15 @@ Other float shapes that change the code:
   neither do (u32)/(unsigned)/`*(u32*)&` variants of the u32 -> float conversion. Compiler flags and
   builds (RTM to SP6) don't change the schedule either.
 
+- **Moving one window break without moving the next ones.** When `regsearch.py` (or a manual `LIM` run)
+  finds that two adjacent windows need limits like `76,84` (one break 4 nodes earlier, the next one where it
+  is), add 4 no-op nodes before the first break and remove 4 between the two breaks, in a per-call-site
+  copy of the inline helper. To find which conversions sit before which break, compile each single change
+  with `sched.sh -l` and align the window op lists against the base (difflib on the op codes): that gives
+  each change's node delta before every break, and the combinations can be picked arithmetically instead
+  of scored blindly (`Sprite::Draw_59EFF0`: an `ProjectWorldPointToScreen_First_4BA4D0` copy for the first
+  of four expansions, 2 lines -> MATCH).
+
 A quick way to test such variants: `Scripts/tu_harness/tu.sh` compiles a preprocessed copy of the TU
 (about 3 seconds) and diffs single functions, `score.py` scores a whole TU. Status and next steps for the
 MapRenderer cluster, and how to check helpers against 9.6f with VC7: `docs/x87_handoff.md`.
@@ -2457,6 +2472,14 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   `verts[i].x = ((x_pos + point.x).ToFloat());` (double parentheses), one no-op node per conversion. Without them
   regsearch reports 2 nodes short per window; with them the windows break where the original's do (78 -> 8,
   and part of DrawFigure's match). An `f32` local per store gives the same node count.
+- **An x87 instruction is not issued in a cycle where a much higher-priority node is one cycle from ready.**
+  The field_60 `fmuls` before the next vertex's `idiv` (`DrawGradientSlopeSouthwards_4F1660`, `Eastwards_4F33B0`):
+  with the `idiv` (p ~110) ready next cycle, ours issued `fmuls`/its no-op (p 84-86) first, the original waited
+  (p 66 at the same spot). Converting field_60 first and both y operands through two `f32` locals
+  (`f32 f = v.mValue; f32 g = f / 16384.0f; return g;`, `(K(field_60) * K(ypos)) * (pVert->z)`) lowers it, but
+  only at the vertex right before an `idiv` vertex; elsewhere it moves other loads. So those vertices use their
+  own projector (`VertProjector4`); both functions match. `DrawTexture_5D8470` likewise matched with an `f32`
+  local conversion on vertex 1's x only. Search per call site, not per inline.
 - **The order of two `++field` statements decides a late `push ebp`.** In `AddGridCell_554710`,
   `++field_8_pNode; ++field_C_node_count;` lets the pointer increment use esi, so ebp is used only inside the
   distance branch and VC6 pushes it there (the original's late push); the other order used ebp for the
@@ -2513,6 +2536,17 @@ is turned into expression temps before allocation (`int rot = o->f4->ang; g = ro
 (`i * 0x30` becomes `t = i; lea (t,t,2)`), are colour-pass values and don't move the cursor. To shift a rotation
 by one, add or remove an intermediate before it, or make a single-block local reach a second block (or the
 reverse).
+
+A by-value `Fix16(raw, 0)` argument built from an `s32` field costs one pick even though the emitted code is the
+same `mov field,%ecx; push %ecx` as a plain copy. `sound_obj::ProcessActiveQueues_41AB80` matched by passing
+`reinterpret_cast<Fix16&>(sample.field_3C_speed_multiplier)` instead: the asm of that block is unchanged, but the
+`AdjustPlaybackRate` rate load after it moves from eax to edx, and so do the registers in the rest of the loop.
+
+A byte compare against the zero register (`cmp %bl,%al`) where ours has `test %al,%al` means the original compared
+a symbol, not a call result. Assigning the call result to a local that reaches another block
+(`u8 bFound = 0; if (CanAllocate()) bFound = Find(); if (bFound)`) gives the `cmp`
+(`Ped::GotoAreaByAnyMeans_469060`). There it also raises the zero constant's colour priority above the switch
+index, which moves the rest of the function (290), so that function is still WIP.
 
 ### Late `push` of callee-saved registers (shrink-wrapping)
 
@@ -2707,3 +2741,16 @@ Before adding a statement on the strength of that tool, resolve the original's c
 .cpp (and, when needed, of a header) compiles with `compile.sh`, since the source's own directory heads the
 include path. Several variants then score in parallel without touching `build_vc6/`, and a header can be
 changed for one variant only (used for the `ofstream` member and for `operator+=` probes).
+
+### Round-2 levers (Hud / MapRenderer)
+
+- **An inline helper's parameter is a live range of its own, even when block-local** (`DrawPlayerStatsHelper_5D61A0`).
+  Passing `gGtx_0x106C_703DD4` through a static inline (`GetPowerupSpriteIndex_5D61A0(pGtx, idx)`) adds one
+  live range to the first block (N 8 -> 9) without changing code; that lifts `width` (tie 33) to the same
+  priority as `base_xpos` (tie 13), so `width` is coloured first and gets `ebx` like the original.
+- **Commutative operand order: declare the local before the global's first use** (`DrawRightSide_4EAF40`,
+  `draw_bottom_4ED290`). VC6 puts the later-numbered operand first (numbering is first use in IL order). With
+  `Fix16 z = ...` in the last gradient case, `z` is numbered after `gZCoordFp_6F6518` and the sum became
+  `lea (%esi,%ecx)`; `Fix16 z;` at the top of the function and `z = ...` there gives `add %esi,%ecx` and the
+  later `mov kTileTexSize,%eax; imul %esi`. In draw_bottom the declaration also raised the inline budget by
+  28 (one more out-of-line operator+ got inlined); `if (texture_idx)` for `!= 0` took back enough size.

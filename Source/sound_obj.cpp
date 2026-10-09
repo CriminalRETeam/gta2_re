@@ -4174,10 +4174,9 @@ void sound_obj::AddReleasingSounds_41A9D0()
 }
 
 // https://decomp.me/scratch/uOtew matching this function will make sound works
-WIP_FUNC(0x41AB80)
+MATCH_FUNC(0x41AB80)
 void sound_obj::ProcessActiveQueues_41AB80()
 {
-    WIP_IMPLEMENTED;
     serene_brattain position;
     f32 x;
     f32 y;
@@ -4276,8 +4275,9 @@ void sound_obj::ProcessActiveQueues_41AB80()
             s32 old_dist = active.field_28_distance.ToInt();
             s32 new_dist = sample.field_28_distance.ToInt();
             active.field_28_distance = Fix16(new_dist);
+            // The speed multiplier is passed as its raw bits (a copy of the s32, no Fix16 constructor)
             sample.field_20_rate =
-                AdjustPlaybackRate_41A580(sample.field_20_rate, old_dist, new_dist, Fix16(sample.field_3C_speed_multiplier, 0));
+                AdjustPlaybackRate_41A580(sample.field_20_rate, old_dist, new_dist, reinterpret_cast<Fix16&>(sample.field_3C_speed_multiplier));
             if (sample.field_20_rate != active.field_20_rate)
             {
                 u32 freq = Clamp2(sample.field_20_rate, active.field_20_rate, 6000);

@@ -8350,11 +8350,9 @@ void Ped::UpdateKillerIdTimer_469030()
 }
 
 // https://decomp.me/scratch/rHsAD
-WIP_FUNC(0x469060)
+MATCH_FUNC(0x469060)
 void Ped::GotoAreaByAnyMeans_469060()
 {
-    WIP_IMPLEMENTED;
-
     u8 bCanAllocate;
     u8 xpos;
     u8 ypos;
@@ -8451,7 +8449,8 @@ void Ped::GotoAreaByAnyMeans_469060()
 
                 case objectives_enum::kill_char_on_foot_20:
                 {
-                    if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, field_14C_internal_target_ped->field_1AC_cam.x, field_14C_internal_target_ped->field_1AC_cam.y) >
+                    // 9.6f calls get_cam_x/get_cam_y here; with bFound below they give the original's register allocation
+                    if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, field_14C_internal_target_ped->get_cam_x(), field_14C_internal_target_ped->get_cam_y()) >
                             kFpTwo_678658 ||
                         field_226_internal_objective_status == 1)
                     {
@@ -8510,8 +8509,14 @@ void Ped::GotoAreaByAnyMeans_469060()
                             ypos = field_1AC_cam.y.ToUInt8();
                             zpos = field_1AC_cam.z.ToUInt8();
 
+                            // bFound reaches another block, so the original's `cmp %bl,%al` (zero register) instead of `test`
+                            u8 bFound = 0;
                             bCanAllocate = gCar_6C_677930->CanAllocateOfType_446930(1);
-                            if (bCanAllocate && gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, 1))
+                            if (bCanAllocate)
+                            {
+                                bFound = gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, 1);
+                            }
+                            if (bFound)
                             {
                                 pCar = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(field_274_gang_car_model, xpos, ypos, zpos);
                                 if (pCar)
@@ -8560,8 +8565,12 @@ void Ped::GotoAreaByAnyMeans_469060()
                             ypos = field_1AC_cam.y.ToUInt8();
                             zpos = field_1AC_cam.z.ToUInt8();
 
-                            if (gCar_6C_677930->CanAllocateOfType_446930(1) &&
-                                gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, 1))
+                            u8 bFound = 0;
+                            if (gCar_6C_677930->CanAllocateOfType_446930(1))
+                            {
+                                bFound = gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, 1);
+                            }
+                            if (bFound)
                             {
                                 pCar = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(Ped::GetValueByIdParity_469010(), xpos, ypos, zpos);
                                 if (pCar)
@@ -8930,11 +8939,11 @@ void Ped::WaitInCurrentCar_469FC0()
     }
 }
 
-WIP_FUNC(0x469fe0)
+// The fail tail is written out per branch (VC6 cross-jumps the copies back into one): each copy adds to the
+// zero constant's regalloc priority, so it keeps 0 in ebx. bFound reaching another block gives `cmp %bl,%al`.
+MATCH_FUNC(0x469fe0)
 void Ped::CallPoliceCar_469FE0()
 {
-    WIP_IMPLEMENTED;
-
     Car_BC* pCar;
     if (!this->field_150_target_objective_car)
     {
@@ -8945,42 +8954,56 @@ void Ped::CallPoliceCar_469FE0()
         if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::Unknown_10))
         {
             pCar = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::COPCAR, x, y, z);
+            u8 bFound = 0;
             if (pCar)
             {
                 pCar->IncrementCarStats_443D70(car_kind::Unknown_10);
-                if (gPolice_7B8_6FEE40->SpawnCrewInCar_5703E0(pCar))
-                {
-                    this->field_278_ped_state_1 = ped_state_1::in_car_10;
-                    this->field_27C_ped_state_2 = ped_state_2::ped2_driving_10;
-                    this->field_168_game_object->field_84_target_car = pCar;
-                    this->field_248_enter_car_as_passenger = 1;
-                    this->field_150_target_objective_car = pCar;
-                    return;
-                }
+                bFound = gPolice_7B8_6FEE40->SpawnCrewInCar_5703E0(pCar);
             }
+            if (bFound)
+            {
+                this->field_278_ped_state_1 = ped_state_1::in_car_10;
+                this->field_27C_ped_state_2 = ped_state_2::ped2_driving_10;
+                this->field_168_game_object->field_84_target_car = pCar;
+                this->field_248_enter_car_as_passenger = 1;
+                this->field_150_target_objective_car = pCar;
+                return;
+            }
+            this->field_278_ped_state_1 = ped_state_1::walking_0;
+            this->field_27C_ped_state_2 = ped_state_2::ped2_walking_0;
+            SetObjective(objectives_enum::no_obj_0, 9999);
+            SetObjective2_463830(objectives_enum::no_obj_0, 9999);
         }
         else if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::police_6))
         {
             pCar = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::COPCAR, x, y, z);
+            u8 bFound = 0;
             if (pCar)
             {
                 pCar->IncrementCarStats_443D70(car_kind::police_6);
-                if (gPolice_7B8_6FEE40->SpawnCrewInCar_5703E0(pCar))
-                {
-                    this->field_278_ped_state_1 = ped_state_1::in_car_10;
-                    this->field_27C_ped_state_2 = ped_state_2::ped2_driving_10;
-                    this->field_168_game_object->field_84_target_car = pCar;
-                    this->field_248_enter_car_as_passenger = 1;
-                    this->field_150_target_objective_car = pCar;
-                    return;
-                }
+                bFound = gPolice_7B8_6FEE40->SpawnCrewInCar_5703E0(pCar);
             }
+            if (bFound)
+            {
+                this->field_278_ped_state_1 = ped_state_1::in_car_10;
+                this->field_27C_ped_state_2 = ped_state_2::ped2_driving_10;
+                this->field_168_game_object->field_84_target_car = pCar;
+                this->field_248_enter_car_as_passenger = 1;
+                this->field_150_target_objective_car = pCar;
+                return;
+            }
+            this->field_278_ped_state_1 = ped_state_1::walking_0;
+            this->field_27C_ped_state_2 = ped_state_2::ped2_walking_0;
+            SetObjective(objectives_enum::no_obj_0, 9999);
+            SetObjective2_463830(objectives_enum::no_obj_0, 9999);
         }
-
-        this->field_278_ped_state_1 = ped_state_1::walking_0;
-        this->field_27C_ped_state_2 = ped_state_2::ped2_walking_0;
-        SetObjective(objectives_enum::no_obj_0, 9999);
-        SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+        else
+        {
+            this->field_278_ped_state_1 = ped_state_1::walking_0;
+            this->field_27C_ped_state_2 = ped_state_2::ped2_walking_0;
+            SetObjective(objectives_enum::no_obj_0, 9999);
+            SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+        }
     }
     else if (!this->field_218_objective_timer)
     {

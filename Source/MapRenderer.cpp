@@ -198,6 +198,30 @@ struct VertProjector3
 
 static VertProjector3 gVertProjector3;
 
+// Converts through two f32 locals (the stores are x87 no-op nodes).
+static inline f32 Fix16ToF32_Stored(const Fix16& v)
+{
+    f32 f = v.mValue;
+    f32 g = f / 16384.0f;
+    return g;
+}
+
+// As VertProjector3, with field_60 converted first in the y line and both conversions stored to f32
+// locals. Used for the vertex right before one whose z needs an idiv: the extra no-op nodes keep the
+// field_60 fmuls behind that idiv, as in the original.
+struct VertProjector4
+{
+    inline void ProjectVert_46BC70(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
+    {
+        set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, zpos, pVert);
+        pVert->z = 1.0f / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
+        pVert->x = Fix16ToF32_Rounded2(xpos) * Fix16ToF32_Rounded3(gViewCamera_676978->field_60.x) * (pVert->z) + (u32)gViewCamera_676978->field_70_screen_px_center_x;
+        pVert->y = (Fix16ToF32_Stored(gViewCamera_676978->field_60.x) * Fix16ToF32_Stored(ypos)) * (pVert->z) + (u32)gViewCamera_676978->field_74_screen_px_center_y;
+    }
+};
+
+static VertProjector4 gVertProjector4;
+
 static inline void set_vert_xyz_relative_to_cam_inlined(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert* pVerts)
 {
     Camera_0xBC* pCam = gViewCamera_676978;
@@ -727,9 +751,12 @@ void MapRenderer::ProjectVertBottom_4EAEA0(Fix16& xCoord, Fix16& yCoord, Vert* p
 }
 
 // https://decomp.me/scratch/mWsfM
-WIP_FUNC(0x4eaf40)
+MATCH_FUNC(0x4eaf40)
 void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
 {
+    // Declared up front and assigned later: VC6 numbers it before gZCoordFp_6F6518, so the z sum for
+    // the out-of-line ProjectVert_4EB940 is `add %esi,%ecx` into the gZ load (like the original), not a `lea`
+    Fix16 unknown_z_4;
     if (!bSkip_right_67D4E4)
     {
         switch (gCurrentSlope_6F646C.field_0_gradient_direction)
@@ -822,7 +849,7 @@ void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
                 }
                 else
                 {
-                    Fix16 unknown_z_4 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480;
+                    unknown_z_4 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480;
                     ProjectVert_4EB940(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8, gZCoordFp_6F6518 + unknown_z_4, &gTileVerts_6F65A8[0]);
                     gTileVerts_6F65A8[0].v = 63.999901f - (unknown_z_4 * kTileTexSize_6F6548).ToFloat();
                 }
@@ -1150,9 +1177,12 @@ void MapRenderer::DrawDiagonalDownRightFace_4ECE40(u16& right_word)
 
 // https://decomp.me/scratch/4EDti
 // 9.6f: MapRenderer::sub_46D9A0
-WIP_FUNC(0x4ed290)
+MATCH_FUNC(0x4ed290)
 void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
 {
+    // See DrawRightSide_4EAF40: declared up front for the operand order of the z sum. That raises the
+    // inline budget; `if (texture_idx)` below takes it back so the default case's operator+ stays out of line
+    Fix16 z_unk_4;
     if (!bSkip_bottom_67D4E7)
     {
         switch (gCurrentSlope_6F646C.field_0_gradient_direction)
@@ -1255,7 +1285,7 @@ void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
                 }
                 else
                 {
-                    Fix16 z_unk_4 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480;
+                    z_unk_4 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480;
                     ProjectVert_4EB940(gXCoord_6F63AC, 
                                gYCoord_6F63B8 + kZeroOnePoint_6F6484.y,
                                gZCoordFp_6F6518 + z_unk_4,
@@ -1295,7 +1325,7 @@ void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
         }
 
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(bottom_word & 0x3FF);
-        if (texture_idx != 0)
+        if (texture_idx)
         {
             if ((*(((u8*)&bottom_word) + 1) & 0x10) != 0)
             {
@@ -1954,10 +1984,9 @@ char_type MapRenderer::GetColour_4F0BD0(s32 lid_type)
 }
 
 // https://decomp.me/scratch/HfCiT
-WIP_FUNC(0x4f1660)
+MATCH_FUNC(0x4f1660)
 void MapRenderer::DrawGradientSlopeSouthwards_4F1660()
 {
-    WIP_IMPLEMENTED;
     
     if (gBlockLeft_6F62F6)
     {
@@ -2048,7 +2077,7 @@ void MapRenderer::DrawGradientSlopeSouthwards_4F1660()
         }
         else
         {
-            gVertProjector3.ProjectVert_46BC70(gXCoord_6F63AC,
+            gVertProjector4.ProjectVert_46BC70(gXCoord_6F63AC,
                        gYCoord_6F63B8,
                        gZCoordFp_6F6518 + (Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480),
                        &gTileVerts_6F65A8[0]);
@@ -2209,10 +2238,9 @@ void MapRenderer::DrawGradientSlopeWestwards_4F22F0()
 }
 
 // https://decomp.me/scratch/cvW2D
-WIP_FUNC(0x4f33b0)
+MATCH_FUNC(0x4f33b0)
 void MapRenderer::DrawGradientSlopeEastwards_4F33B0()
 {
-    WIP_IMPLEMENTED;
     
     if (gBlockLeft_6F62F6)
     {
@@ -2285,7 +2313,7 @@ void MapRenderer::DrawGradientSlopeEastwards_4F33B0()
         }
         else
         {
-            gVertProjector3.ProjectVert_46BC70(gXCoord_6F63AC,
+            gVertProjector4.ProjectVert_46BC70(gXCoord_6F63AC,
                        gYCoord_6F63B8,
                        gZCoordFp_6F6518 + (Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480),
                        &gTileVerts_6F65A8[0]);
@@ -2302,7 +2330,7 @@ void MapRenderer::DrawGradientSlopeEastwards_4F33B0()
         }
         else
         {
-            gVertProjector3.ProjectVert_46BC70(gXCoord_6F63AC + kZeroOnePoint_6F6484.y,
+            gVertProjector4.ProjectVert_46BC70(gXCoord_6F63AC + kZeroOnePoint_6F6484.y,
                        gYCoord_6F63B8,
                        gZCoordFp_6F6518 + (Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C) / gGradientSize_6F6480),
                        &gTileVerts_6F65A8[1]);

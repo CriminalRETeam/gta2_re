@@ -86,16 +86,34 @@ static inline void __stdcall SaveUnprojectedVertex_4B9990(f32 xCoord, f32 yCoord
 }
 
 // partially matched: https://decomp.me/scratch/qtmIe
-// 9.6f 0x4BA4D0 takes zpos by value (on the stack, ret $4); the body compiles to the 9.6f code with VC7
+// 9.6f 0x4BA4D0 takes zpos by value (on the stack, ret $4); the body compiles to the 9.6f code with VC7.
+// The extra parentheses are x87 no-op nodes for VC6's scheduler (VC7 ignores them): they put the 81-node
+// window breaks of Sprite::Draw_59EFF0's four expansions where the original's are (Scripts/x87_sched).
 static inline void ProjectWorldPointToScreen_4BA4D0(Fix16_Point& point, Vert* pVert, Fix16 zpos)
 {
     SaveUnprojectedVertex_4B9990(point.x.ToFloat(), point.y.ToFloat(), zpos.ToFloat(), pVert);
     pVert->z = 1.0 / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0 - zpos.ToFloat()));
-    pVert->x = gViewCamera_676978->field_60.x.ToFloat() * (point.x.ToFloat() - gViewCamera_676978->field_98_cam_pos2.field_0_x.ToFloat()) *
-            pVert->z +
+    pVert->x = ((((gViewCamera_676978->field_60.x.ToFloat())) * (((point.x.ToFloat()) - (gViewCamera_676978->field_98_cam_pos2.field_0_x.ToFloat())))) * (pVert->z)) +
         (u32)gViewCamera_676978->field_70_screen_px_center_x;
-    pVert->y = gViewCamera_676978->field_60.x.ToFloat() * (point.y.ToFloat() - gViewCamera_676978->field_98_cam_pos2.field_4_y.ToFloat()) *
-            pVert->z +
+    pVert->y = (((((gViewCamera_676978->field_60.x.ToFloat())) * ((point.y.ToFloat() - (gViewCamera_676978->field_98_cam_pos2.field_4_y.ToFloat())))) * (pVert->z)) +
+        (u32)gViewCamera_676978->field_74_screen_px_center_y);
+}
+
+static inline f32 Fix16ToFloat_Paren(const Fix16& v)
+{
+    return ((v.mValue / 16384.0f));
+}
+
+// The first expansion in Draw_59EFF0: four more no-op nodes before the y line (point.x/point.y) and four
+// fewer in it, so the window break falls between the field_60 load and its fmul and the y line's fmulp
+// waits behind the centre store, as in the original (regsearch: window 9 limit 76, window 10 limit 84).
+static inline void ProjectWorldPointToScreen_First_4BA4D0(Fix16_Point& point, Vert* pVert, Fix16 zpos)
+{
+    SaveUnprojectedVertex_4B9990((Fix16ToFloat_Paren(point.x)), (point.y.ToFloat()), zpos.ToFloat(), pVert);
+    pVert->z = 1.0 / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0 - zpos.ToFloat()));
+    pVert->x = ((((gViewCamera_676978->field_60.x.ToFloat())) * (((point.x.ToFloat()) - (gViewCamera_676978->field_98_cam_pos2.field_0_x.ToFloat())))) * (pVert->z)) +
+        (u32)gViewCamera_676978->field_70_screen_px_center_x;
+    pVert->y = ((gViewCamera_676978->field_60.x.ToFloat())) * ((point.y.ToFloat() - (gViewCamera_676978->field_98_cam_pos2.field_4_y.ToFloat()))) * pVert->z +
         (u32)gViewCamera_676978->field_74_screen_px_center_y;
 }
 
@@ -1067,10 +1085,9 @@ void Sprite::ShowHorn_59EE40(f32& x, f32& y)
 }
 
 // https://decomp.me/scratch/EHeIY
-WIP_FUNC(0x59eff0)
+MATCH_FUNC(0x59eff0)
 void Sprite::Draw_59EFF0()
 {
-    WIP_IMPLEMENTED;
     sprite_index* pSpriteIndex;
     u16 converted_pal;
     sprite_index* pSpriteIndex2;
@@ -1121,7 +1138,7 @@ void Sprite::Draw_59EFF0()
 
     Fix16 new_zpos = RoundZToLayer_4B9C70(field_1C_zpos);
 
-    ProjectWorldPointToScreen_4BA4D0(pRect[0], &gTileVerts_7036D0[0], new_zpos);
+    ProjectWorldPointToScreen_First_4BA4D0(pRect[0], &gTileVerts_7036D0[0], new_zpos);
     ProjectWorldPointToScreen_4BA4D0(pRect[1], &gTileVerts_7036D0[1], new_zpos);
     ProjectWorldPointToScreen_4BA4D0(pRect[2], &gTileVerts_7036D0[2], new_zpos);
     ProjectWorldPointToScreen_4BA4D0(pRect[3], &gTileVerts_7036D0[3], new_zpos);
@@ -1155,8 +1172,8 @@ void Sprite::Draw_59EFF0()
             pCar->field_8_damaged_areas.ClearGlobalFlags_4BA340();
         }
         u8 bRet;
-        s16 unkDeltaRelated = pCar->field_8_damaged_areas.Delta_48F8B0(sprite_idx, bRet, Sprite::GetTruePalette_59EAA0(), false);
-        if (unkDeltaRelated != -1)
+        u16 unkDeltaRelated = pCar->field_8_damaged_areas.Delta_48F8B0(sprite_idx, bRet, Sprite::GetTruePalette_59EAA0(), false);
+        if (unkDeltaRelated != 0xFFFF)
         {
             if (bRet)
             {
@@ -1221,8 +1238,8 @@ void Sprite::Draw_59EFF0()
         pCar->field_8_damaged_areas.MaskWithGlobalFlags_4BA330();
 
         u8 bRet;
-        s16 unkDeltaRelated = pCar->field_8_damaged_areas.Delta_48F8B0(sprite_idx, bRet, Sprite::GetTruePalette_59EAA0(), true);
-        if (unkDeltaRelated != -1)
+        u16 unkDeltaRelated = pCar->field_8_damaged_areas.Delta_48F8B0(sprite_idx, bRet, Sprite::GetTruePalette_59EAA0(), true);
+        if (unkDeltaRelated != 0xFFFF)
         {
             if (bRet)
             {

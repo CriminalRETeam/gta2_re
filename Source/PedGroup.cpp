@@ -5,6 +5,7 @@
 #include "Ped.hpp"
 #include "enums.hpp"
 #include "rng.hpp"
+#include "crt_stubs.hpp"
 
 DEFINE_GLOBAL_ARRAY(PedGroup, pedGroups_67EF20, 20, 0x67EF20);
 DEFINE_GLOBAL_INIT(Fix16, dword_67F60C, Fix16(0x270F00, 0), 0x67F60C);
@@ -15,19 +16,20 @@ DEFINE_GLOBAL_INIT(Fix16, k_dword_67EEE4, Fix16(0x500, 0), 0x67EEE4);
 DEFINE_GLOBAL_INIT(char_type, byte_620838, 1, 0x620838);
 DEFINE_GLOBAL_INIT(Fix16, dword_67F630, Fix16(4), 0x67F630);
 
-// The original is the static destructor of pedGroups_67EF20 (a ??_M vector destructor call).
-// A struct wrapping the array gets an implicit destructor with that ??_M call, but VC6 doesn't
-// inline it (not even with an explicit __forceinline destructor), see docs/match_attempts.md.
-struct PedGroupArray_4C8E60
+// The original is the compiler generated static destructor of pedGroups_67EF20: a call to the
+// CRT's vector destructor iterator `??_M` (`__ehvec_dtor`, which VC6 maps to that name). The CRT's
+// version takes a __thiscall destructor pointer (`P6E`), which VC6 can't declare (no __thiscall
+// keyword), and a destructor's address can't be taken, so __ehvec_dtor (crt_stubs.cpp) takes a
+// __cdecl pointer to a destructor thunk here.
+static void __cdecl PedGroup_dtor_4CB870(void* pGroup)
 {
-    PedGroup field_0_groups[20];
-};
+    static_cast<PedGroup*>(pGroup)->~PedGroup();
+}
 
-WIP_FUNC(0x4c8e60)
+MATCH_FUNC(0x4c8e60)
 void PedGroup::sub_4C8E60()
 {
-    WIP_IMPLEMENTED;
-    reinterpret_cast<PedGroupArray_4C8E60*>(pedGroups_67EF20)->~PedGroupArray_4C8E60();
+    __ehvec_dtor(pedGroups_67EF20, sizeof(PedGroup), GTA2_COUNTOF(pedGroups_67EF20), PedGroup_dtor_4CB870);
 }
 
 MATCH_FUNC(0x4c8e80)
