@@ -371,10 +371,9 @@ bool InputDevices_1::game_pad_read_498D20()
 }
 
 // https://decomp.me/scratch/75Pau
-WIP_FUNC(0x498DA0)
+MATCH_FUNC(0x498DA0)
 void InputDevices_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
 {
-    WIP_IMPLEMENTED;
     bool bFirstPass = true;
     s32 bReleased = 0;
     DWORD padItems = 1;
@@ -518,7 +517,7 @@ void InputDevices_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                                     }
                                     else if (gInputRecorder_67F8B0.IsInputSet_44C050(input))
                                     {
-                                        bRelease = true;
+                                        bReleased = 1;
                                     }
                                 }
                                 break;
@@ -531,7 +530,7 @@ void InputDevices_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                                     }
                                     else if (gInputRecorder_67F8B0.IsInputSet_44C050(input))
                                     {
-                                        bRelease = true;
+                                        bReleased = 1;
                                     }
                                 }
                                 break;
@@ -550,6 +549,13 @@ void InputDevices_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                                 break;
                         }
 
+                        // The X axis and button cases set bRelease, the Y axis cases set bReleased directly.
+                        // VC6 merges the stores of 1 later but counts them all, so bReleased gets the lowest slot
+                        if (bRelease)
+                        {
+                            bReleased = 1;
+                        }
+
                         if (bPressed)
                         {
                             bHandled = true;
@@ -558,9 +564,8 @@ void InputDevices_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                                 gInputRecorder_67F8B0.set_input_4CDCF0(input);
                             }
                         }
-                        else if (bRelease)
+                        else if (bReleased)
                         {
-                            bReleased = 1;
                             if (bUnknown && gInputRecorder_67F8B0.IsInputSet_44C050(input))
                             {
                                 gInputRecorder_67F8B0.clear_input_4CDD10(input);

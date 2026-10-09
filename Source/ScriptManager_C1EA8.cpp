@@ -349,18 +349,26 @@ void ScriptManager_C1EA8::Update_512160()
 
 // https://decomp.me/scratch/W4gXh
 // See docs/match_attempts.md
-WIP_FUNC(0x5121E0)
+MATCH_FUNC(0x5121E0)
 void ScriptManager_C1EA8::LoadStringTbl_5121E0(u16 tableSize)
 {
-    WIP_IMPLEMENTED;
-
     u32 total_str_length = 0;
     BYTE* pStringDataIter1 = (BYTE*)field_1334C_strings;
     while (total_str_length < tableSize)
     {
         s32 str_length = pStringDataIter1[8] + 9;
-        total_str_length += str_length;
-        pStringDataIter1 += str_length;
+        // Both arms are the same: the original keeps the even length check's (len & ~1) as a dead value in a
+        // register, which only an if/else whose arms VC6 merges reproduces (9.6f has it too).
+        if ((str_length & ~1) == str_length)
+        {
+            total_str_length += str_length;
+            pStringDataIter1 += str_length;
+        }
+        else
+        {
+            total_str_length += str_length;
+            pStringDataIter1 += str_length;
+        }
     }
 
     field_13350_pStringTbl = reinterpret_cast<str_table_normalized*>(Memory::malloc_4FE4D0(sizeof(str_table_normalized)));
@@ -368,19 +376,16 @@ void ScriptManager_C1EA8::LoadStringTbl_5121E0(u16 tableSize)
 
     str_table_entry* pStringDataIter2 = field_1334C_strings;
     s32 str_count = 0;
-    if (tableSize)
+    u32 total_str_length_ = 0;
+    while (total_str_length_ < tableSize)
     {
-        u32 total_str_length_ = 0;
-        do
-        {
-            pStringDataIter2->field_2_zone_idx = gMap_0x370_6F6268->zone_idx_by_name_4DF050((char_type*)&pStringDataIter2[1],
-                                                                                            strlen((const char_type*)&pStringDataIter2[1]));
-            field_13350_pStringTbl->field_4[str_count] = pStringDataIter2;
-            s32 str_length_ = pStringDataIter2->field_8_length + 9;
-            total_str_length_ += str_length_;
-            pStringDataIter2 = (str_table_entry*)((char_type*)pStringDataIter2 + str_length_);
-            ++str_count;
-        } while (total_str_length_ < tableSize);
+        pStringDataIter2->field_2_zone_idx = gMap_0x370_6F6268->zone_idx_by_name_4DF050((char_type*)&pStringDataIter2[1],
+                                                                                        strlen((const char_type*)&pStringDataIter2[1]));
+        field_13350_pStringTbl->field_4[str_count] = pStringDataIter2;
+        s32 str_length_ = pStringDataIter2->field_8_length + 9;
+        total_str_length_ += str_length_;
+        pStringDataIter2 = (str_table_entry*)((char_type*)pStringDataIter2 + str_length_);
+        ++str_count;
     }
     field_13350_pStringTbl->field_0_string_count = str_count;
 }

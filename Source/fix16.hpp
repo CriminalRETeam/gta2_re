@@ -353,7 +353,7 @@ class Fix16
         }
     }
     EXPORT static Fix16 __stdcall Abs_436A50(Fix16& a2);
-    EXPORT static Fix16 __stdcall SquareRoot_436A70(Fix16& a2);
+    EXPORT static Fix16 __stdcall SquareRoot_436A70(Fix16& a2) throw();
     // throw(): the original calls these out-of-line copies without an EH frame (their inline
     // bodies were visible there), see CarPhysics_B0::UpdateReferencePoint_563460
     // Out-of-line copy of operator+ (0x408660)

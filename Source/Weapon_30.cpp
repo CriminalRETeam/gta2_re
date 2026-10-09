@@ -744,11 +744,21 @@ static inline Fix16 BeamLength_5DE4F0(Fix16_Point& d)
     }
 }
 
-WIP_FUNC(0x5de4f0)
+// PolarToCartesian_41FC20 with the cosine multiply out of line. The radius is a by-value copy: the original
+// stores it once after the joins and its slot is shared with step_y, which is not address-taken.
+static inline void BeamStep_5DE4F0(Ang16& angle, Fix16 radius, Fix16& ret1, Fix16& ret2)
+{
+    ret1 = Ang16::sine_40F500(angle) * radius;
+    ret2 = Ang16::cosine_40F520(angle).Multiply_408680(radius);
+}
+
+// The direct field_1AC_cam.x read in `delta` (instead of get_cam_x()) drops one register candidate from the
+// first block, so `angle` loses ebx to the `dist << 14` temp and is spilled like in the original.
+MATCH_FUNC(0x5de4f0)
 void Weapon_30::sub_5DE4F0()
 {
     Sprite* pBeam = gObject_5C_6F8F84->field_58_collision_probe_sprite;
-    Fix16_Point delta(field_24_pPed->field_198_hit_target_ped->get_cam_x() - field_24_pPed->get_cam_x(),
+    Fix16_Point delta(field_24_pPed->field_198_hit_target_ped->field_1AC_cam.x - field_24_pPed->get_cam_x(),
                       field_24_pPed->field_198_hit_target_ped->get_cam_y() - field_24_pPed->get_cam_y());
     gCollisionTarget_679188.Reset_4637B0();
 
@@ -757,7 +767,7 @@ void Weapon_30::sub_5DE4F0()
                                             field_24_pPed->field_198_hit_target_ped->get_cam_x() - field_24_pPed->get_cam_x());
 
     // Block scopes from the original frame: dist and i share a slot, and the atan2 argument temporaries
-    // share theirs with angle and step_y.
+    // share theirs with angle and the radius.
     {
         Fix16 steps;
         Fix16 step_x;
@@ -793,9 +803,7 @@ void Weapon_30::sub_5DE4F0()
                 step_len = dist;
             }
 
-            // the radius goes through step_y (the original stores the length once, after the joins)
-            step_y = step_len;
-            Ang16::PolarToCartesian_41FC20(angle, step_y, step_x, step_y);
+            BeamStep_5DE4F0(angle, step_len, step_x, step_y);
         }
         for (u8 i = 1; i <= steps.ToInt(); i++)
         {
@@ -812,7 +820,7 @@ void Weapon_30::sub_5DE4F0()
                 switch (pHit->field_30_sprite_type_enum)
                 {
                     case sprite_types_enum::car_2:
-                        field_24_pPed->field_170_selected_weapon->field_4 = 1;
+                        field_24_pPed->field_170_selected_weapon->Set_F4_433810(1);
                         field_24_pPed->field_198_hit_target_ped = 0;
                         return;
 
@@ -824,7 +832,7 @@ void Weapon_30::sub_5DE4F0()
                             s32 state = pHit->field_8_char_b4_ptr->field_7C_pPed->field_278_ped_state_1;
                             if (state < 8 || state > 9)
                             {
-                                field_24_pPed->field_170_selected_weapon->field_4 = 1;
+                                field_24_pPed->field_170_selected_weapon->Set_F4_433810(1);
                             }
                         }
                         break;
@@ -834,7 +842,7 @@ void Weapon_30::sub_5DE4F0()
         }
     }
 
-    field_24_pPed->field_198_hit_target_ped->field_144_attacker = field_24_pPed;
+    field_24_pPed->field_198_hit_target_ped->SetAttacker_433BF0(field_24_pPed);
     field_24_pPed->field_198_hit_target_ped->field_204_killer_id = field_24_pPed->field_200_id;
     field_24_pPed->field_198_hit_target_ped->field_21C_bf.bHitByAttacker = 1;
     if (field_24_pPed->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
@@ -970,7 +978,22 @@ void __stdcall sub_5DE910(Fix16_Point_POD a1, Fix16_Point& a2, Fix16 a3)
     }
 }
 
-WIP_FUNC(0x5DF270)
+// MaxAbsDistance_42A6B0 as sub_5DF270 inlines it: past the inline budget, Max is the named out-of-line copy
+// Max_44E540 (the Abs calls and the y subtraction go out of line by themselves)
+static inline Fix16 MaxAbsDistance_5DF270(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
+{
+    Fix16 diff_x;
+    diff_x = x2 - x1;
+    Fix16 diff_y;
+    diff_y = y2 - y1;
+    Fix16 result;
+    result = Fix16::Max_44E540(Fix16::Abs(diff_x), Fix16::Abs(diff_y));
+    return result;
+}
+
+// The a6 check is a do-while under an if (the first loop's exit jumps straight to the tail, which stays last),
+// and the !a4 (shock counter) branch comes first in the source: its get_x_y temporaries take EH states 0/1.
+MATCH_FUNC(0x5DF270)
 void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped* a5, Sprite* a6)
 {
     // 9.6f 0x4CEF40
@@ -991,39 +1014,42 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
         {
             // Every hit nearer than a6 must be inside the angle window
             pHit = hits.TakeClosestSprite_5A6EA0(xpos, ypos);
-            while (pHit)
+            if (pHit)
             {
-                if (!pHit->AsCharB4_40FEA0())
+                do
                 {
-                    diff = Fix16::atan2_fixed_405320(pHit->field_14_xy.y - ypos, pHit->field_14_xy.x - xpos) - angle;
-                    if (diff < word_706D6C || diff > word_706E28)
+                    if (!pHit->AsCharB4_40FEA0())
                     {
-                        hits.ClearList_5A6E10();
-                        if (a5->field_170_selected_weapon)
+                        diff = Fix16::atan2_fixed_405320(pHit->field_14_xy.y - ypos, pHit->field_14_xy.x - xpos) - angle;
+                        if (diff < word_706D6C || diff > word_706E28)
                         {
-                            a5->field_170_selected_weapon->Set_F4_433810(1);
+                            hits.ClearList_5A6E10();
+                            if (a5->field_170_selected_weapon)
+                            {
+                                a5->field_170_selected_weapon->Set_F4_433810(1);
+                            }
+                            return;
                         }
-                        return;
                     }
-                }
-                else
-                {
-                    if (pHit == a6)
+                    else
                     {
-                        break;
-                    }
-                    diff = Fix16::atan2_fixed_405320(pHit->field_14_xy.y - ypos, pHit->field_14_xy.x - xpos) - angle;
-                    if (diff < word_706D6C || diff > word_706E28)
-                    {
-                        hits.ClearList_5A6E10();
-                        if (a5->field_170_selected_weapon)
+                        if (pHit == a6)
                         {
-                            a5->field_170_selected_weapon->Set_F4_433810(1);
+                            break;
                         }
-                        return;
+                        diff = Fix16::atan2_fixed_405320(pHit->field_14_xy.y - ypos, pHit->field_14_xy.x - xpos) - angle;
+                        if (diff < word_706D6C || diff > word_706E28)
+                        {
+                            hits.ClearList_5A6E10();
+                            if (a5->field_170_selected_weapon)
+                            {
+                                a5->field_170_selected_weapon->Set_F4_433810(1);
+                            }
+                            return;
+                        }
                     }
-                }
-                pHit = hits.TakeClosestSprite_5A6EA0(xpos, ypos);
+                    pHit = hits.TakeClosestSprite_5A6EA0(xpos, ypos);
+                } while (pHit);
             }
         }
         else
@@ -1055,7 +1081,7 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
                 }
 
                 // The result is unused
-                Fix16::MaxAbsDistance_42A6B0(a5->get_cam_x(), a5->get_cam_y(), pB4->field_80_sprite_ptr->field_14_xy.x, pB4->field_80_sprite_ptr->field_14_xy.y);
+                MaxAbsDistance_5DF270(a5->get_cam_x(), a5->get_cam_y(), pB4->field_80_sprite_ptr->field_14_xy.x, pB4->field_80_sprite_ptr->field_14_xy.y);
 
                 if (bOutside)
                 {
@@ -1073,21 +1099,7 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
                         pB4->field_7C_pPed->field_204_killer_id = a5->field_200_id;
                         pB4->field_7C_pPed->field_290_death_cause = ped_death_cause::rocket_18;
                         pB4->field_7C_pPed->field_264_killer_id_timer = 50;
-                        if (a4)
-                        {
-                            Fix16 z;
-                            if (pHit->field_1C_zpos > zpos)
-                            {
-                                z = pHit->field_1C_zpos;
-                            }
-                            else
-                            {
-                                z = zpos;
-                            }
-                            sub_5DE910(a1->get_x_y(), pHit->get_x_y(), z);
-                            pB4->field_7C_pPed->TakeDamage(3);
-                        }
-                        else
+                        if (!a4)
                         {
                             Fix16 z;
                             if (pHit->field_1C_zpos > zpos)
@@ -1106,6 +1118,20 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
                             }
                             hits.ClearList_5A6E10();
                             return;
+                        }
+                        else
+                        {
+                            Fix16 z;
+                            if (pHit->field_1C_zpos > zpos)
+                            {
+                                z = pHit->field_1C_zpos;
+                            }
+                            else
+                            {
+                                z = zpos;
+                            }
+                            sub_5DE910(a1->get_x_y(), pHit->get_x_y(), z);
+                            pB4->field_7C_pPed->TakeDamage(3);
                         }
                     }
                 }
