@@ -2522,6 +2522,17 @@ is turned into expression temps before allocation (`int rot = o->f4->ang; g = ro
 by one, add or remove an intermediate before it, or make a single-block local reach a second block (or the
 reverse).
 
+A by-value `Fix16(raw, 0)` argument built from an `s32` field costs one pick even though the emitted code is the
+same `mov field,%ecx; push %ecx` as a plain copy. `sound_obj::ProcessActiveQueues_41AB80` matched by passing
+`reinterpret_cast<Fix16&>(sample.field_3C_speed_multiplier)` instead: the asm of that block is unchanged, but the
+`AdjustPlaybackRate` rate load after it moves from eax to edx, and so do the registers in the rest of the loop.
+
+A byte compare against the zero register (`cmp %bl,%al`) where ours has `test %al,%al` means the original compared
+a symbol, not a call result. Assigning the call result to a local that reaches another block
+(`u8 bFound = 0; if (CanAllocate()) bFound = Find(); if (bFound)`) gives the `cmp`
+(`Ped::GotoAreaByAnyMeans_469060`). There it also raises the zero constant's colour priority above the switch
+index, which moves the rest of the function (290), so that function is still WIP.
+
 ### Late `push` of callee-saved registers (shrink-wrapping)
 
 VC6 doesn't always save esi/edi/ebx/ebp at entry. The prologue pass (`0x10724460` -> `0x10724A58`, reversed Oct 7)
