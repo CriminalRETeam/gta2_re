@@ -15,6 +15,27 @@ Game functions by size:
 | 65-256 | 49 |
 | > 256 | 18 |
 
+## Don't try to mark these (checked, rejected)
+
+The unmarked list is mostly dead code and library code. Before implementing anything from it,
+check **Excluded: never called** below, and don't redo these:
+
+- **Small out-of-line copies of inline methods (COMDAT).** The `Fix16` constructor copies at
+  0x45C4E0, 0x4AE970, 0x41B480, 0x4369F0, 0x4926F0 and the `ClampToRangeFlexible` copy at
+  0x55EEE0 are copies of code `fix16.hpp` already defines and marks. Marking them again on a
+  holder struct adds nothing, and a declaration added to `fix16.hpp` or `ang16.hpp` changes
+  inlining in every TU that includes it: it broke `MapRenderer::Draw4SidedDiagonalUpLeft_4EF880`
+  and `Draw3SidedDiagonalDownRight_4EF520`. The same goes for the `Ang16` copies at 0x4516F0
+  and 0x525D50.
+- **Empty functions nothing calls**, for example `nullsub_141` (0x48B9A0) and `nullsub_239`
+  (0x53F050). 325 of the unmarked functions are a single `ret`.
+- **CRT and iostream code**, including the out-of-line copies of the empty `Iostream_init`
+  constructor (0x419DF0, 0x531940, 0x5B2750).
+- **Thunks**: 158 import thunks (`jmpl *ADDR`), six static-destructor thunks
+  (`mov $ADDR,%ecx; jmp ADDR`), and the eleven 21-byte atexit guards at 0x558E70..0x5593F0.
+
+Only the `WIP_FUNC` functions are worth working on: they are real, called game code.
+
 ## Game functions without a marker
 
 | Address | Size | Name |
