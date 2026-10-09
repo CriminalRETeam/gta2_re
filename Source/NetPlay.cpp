@@ -28,6 +28,12 @@ static inline s32 SeqDiff(u8 a, u8 b)
     return diff;
 }
 
+// Advances a player's 8-bit sequence number
+static inline void NextSeq(Network_Unknown* pN2, s32 idx)
+{
+    pN2->field_8[idx] = ((u8)pN2->field_8[idx] + 1) % 256;
+}
+
 MATCH_FUNC(0x51d6b0)
 NetPlay::NetPlay()
 {
@@ -2120,10 +2126,9 @@ void NetPlay::Remove_521870(s32 idx)
     field_8F8_packets[idx].field_10_used = 0;
 }
 
-WIP_FUNC(0x521890)
+MATCH_FUNC(0x521890)
 char_type NetPlay::ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u32* pType)
 {
-    WIP_IMPLEMENTED;
     char_type bGotMessage;
     char_type bCheckBuffered;
     char_type seq;
@@ -2161,8 +2166,7 @@ char_type NetPlay::ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u
             {
                 Remove_521870(slot);
                 sub_521820((s32**)pOut, *pPlayerIdx);
-                s32 idx = *pPlayerIdx;
-                field_758_n2.field_8[idx] = ((u8)field_758_n2.field_8[idx] + 1) % 256;
+                NextSeq(&field_758_n2, *pPlayerIdx);
             }
             else
             {
@@ -2177,7 +2181,8 @@ char_type NetPlay::ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u
             if (Receive_51F010(&pData, &dataLen, &recvId, &senderId))
             {
                 *pType = ((u8*)pData)[3];
-                *pPlayerIdx = IndexOf_520E30(senderId, &field_758_n2);
+                Network_Unknown* pN2 = &field_758_n2;
+                *pPlayerIdx = IndexOf_520E30(senderId, pN2);
                 if (*pPlayerIdx != 0xEEEEEEEE)
                 {
                     bGotMessage = 1;
@@ -2185,9 +2190,8 @@ char_type NetPlay::ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u
                     pOut->field_0 = (u8*)pData + 5;
                     if (*pType == 3)
                     {
-                        u8 packetSeq = ((u8*)pData)[1];
-                        s32 diff = SeqDiff(packetSeq, field_758_n2.field_8[*pPlayerIdx]);
-                        s32 diffLocal = SeqDiff(packetSeq, field_758_n2.field_8[GetPlayerIdx_409C40()]);
+                        s32 diff = SeqDiff(((u8*)pData)[1], field_758_n2.field_8[*pPlayerIdx]);
+                        s32 diffLocal = SeqDiff(((u8*)pData)[1], field_758_n2.field_8[GetPlayerIdx_409C40()]);
                         if (diff < 0)
                         {
                             bGotMessage = 0;
@@ -2195,14 +2199,13 @@ char_type NetPlay::ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u
                         else if (diff <= 0 && diffLocal < 0)
                         {
                             sub_521820((s32**)pOut, *pPlayerIdx);
-                            s32 idx = *pPlayerIdx;
-                            field_758_n2.field_8[idx] = ((u8)field_758_n2.field_8[idx] + 1) % 256;
+                            NextSeq(pN2, *pPlayerIdx);
                         }
                         else
                         {
                             // Not the next one in sequence yet: buffer it
                             bGotMessage = 0;
-                            Add_5216E0(pOut, *pPlayerIdx, packetSeq);
+                            Add_5216E0(pOut, *pPlayerIdx, ((u8*)pData)[1]);
                         }
                     }
                 }
