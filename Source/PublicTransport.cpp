@@ -445,7 +445,7 @@ void Train_58::UpdatePassengerAI_578390()
                             Car_BC* pTargetCar = this->field_C_carriages[0];
                             pNewPed_1->SetTargetObjectiveCar(pTargetCar);
                             pNewPed_1->set_target_car_door_403A70(2);
-                            pNewPed_1->set_occupation_403970(8);
+                            pNewPed_1->set_occupation_403970(ped_ocupation_enum::bus_customer_8);
                             if (this->field_0 == 1)
                             {
                                 this->field_56_passenger_count--;
@@ -460,7 +460,7 @@ void Train_58::UpdatePassengerAI_578390()
                         Car_BC* pTargetCar_ = this->field_C_carriages[0];
                         pRemoved->SetTargetObjectiveCar(pTargetCar_);
                         pRemoved->set_target_car_door_403A70(2);
-                        pRemoved->set_occupation_403970(8);
+                        pRemoved->set_occupation_403970(ped_ocupation_enum::bus_customer_8);
                         if (this->field_0 == 1)
                         {
                             if (this->field_56_passenger_count > 0)

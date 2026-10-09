@@ -226,7 +226,7 @@ EXPORT void __stdcall sub_46DD70(char_type remap, u8 count)
     pGroup->field_38_group_type = 2;
 
     gLastTestPed_6787E8 = gPedPool_6787B8->Allocate();
-    gLastTestPed_6787E8->set_occupation_403970(0x11);
+    gLastTestPed_6787E8->set_occupation_403970(ped_ocupation_enum::bank_robber);
     gLastTestPed_6787E8->set_remap_433B90(remap);
     gLastTestPed_6787E8->field_26C_graphic_type = pPlayerPed->field_26C_graphic_type;
     gLastTestPed_6787E8->SetPedType_403920(5);
@@ -243,7 +243,7 @@ EXPORT void __stdcall sub_46DD70(char_type remap, u8 count)
     for (u8 i = 1; i < count; i++)
     {
         Ped* pPed = gPedPool_6787B8->Allocate();
-        pPed->set_occupation_403970(0x11);
+        pPed->set_occupation_403970(ped_ocupation_enum::bank_robber);
         pPed->set_remap_433B90(remap);
         pPed->field_26C_graphic_type = pPlayerPed->field_26C_graphic_type;
         pPed->SetPedType_403920(5);

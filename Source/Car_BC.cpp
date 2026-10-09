@@ -2656,7 +2656,7 @@ bool Car_BC::IsDoorLockedForPed_43B2B0(Ped* pPed)
             return pPed->PedTypeIs_45EDE0(ped_type::player_2);
         }
         if (!pPed->PedTypeIs_45EDE0(ped_type::player_2) &&
-            !(pPed->PedTypeIs_45EDE0(ped_type::script_created_5) && pPed->GetInternalObjective_403A90() == 35 && pPed->get_target_to_enter_403B10() == this))
+            !(pPed->PedTypeIs_45EDE0(ped_type::script_created_5) && pPed->GetInternalObjective_403A90() == objectives_enum::enter_car_as_driver_35 && pPed->get_target_to_enter_403B10() == this))
         {
             return field_98_door_lock == 1 || field_98_door_lock == 4 || field_98_door_lock == 2;
         }
@@ -2816,7 +2816,7 @@ void Car_BC::AssignKillerToOccupants_43B770()
     Ped* pDriver = this->field_54_driver;
     if (pDriver)
     {
-        if (pDriver->get_occupation_403980() != 4)
+        if (pDriver->get_occupation_403980() != ped_ocupation_enum::unknown_2)
         {
             pDriver->field_204_killer_id = this->field_70_exploder_ped_id;
             this->field_54_driver->field_290_death_cause = this->field_90;
@@ -3877,7 +3877,7 @@ void Car_BC::KillContainedPeds_43DB80()
     pDriver = this->field_54_driver;
     if (pDriver)
     {
-        if (pDriver->get_occupation_403980() != 4)
+        if (pDriver->get_occupation_403980() != ped_ocupation_enum::unknown_2)
         {
             if (pDriver->is_player_41B0A0())
             {
@@ -4524,7 +4524,7 @@ void Car_BC::ClearDriver_4407F0()
     Player* pPlayer = field_54_driver->field_15C_player;
     if (pPlayer)
     {
-        if (field_54_driver->get_occupation_403980() != 1)
+        if (field_54_driver->get_occupation_403980() != ped_ocupation_enum::empty)
         {
             if (pPlayer->IsUser_41DC70())
             {
@@ -6633,7 +6633,7 @@ u32 Car_BC::GetEffectiveDriverPedId_444090()
     }
 
     Ped* pDriver = a1->field_54_driver;
-    if (pDriver->get_occupation_403980() == 4)
+    if (pDriver->get_occupation_403980() == ped_ocupation_enum::unknown_2)
     {
         return a1->field_70_exploder_ped_id;
     }

@@ -1646,7 +1646,7 @@ void PoliceCrew_38::sub_575310()
                                             field_14_pPursuitTarget->field_0_criminal_ped->get_cam_y());
         if (dist < dword_6FECF0 + dword_6FEBF4)
         {
-            gCurrentCrewPed_6FEDDC->SetObjective(27, 9999);
+            gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::wait_in_car_27, 9999);
             if (field_10_subObj && field_10_subObj->field_0_car && field_10_subObj->field_0_car->field_60)
             {
                 gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_10_subObj->field_0_car->field_60);
@@ -1676,7 +1676,7 @@ void PoliceCrew_38::sub_575310()
         if (pChase->field_C_chase_state == car_chase_state::target_stopped_15)
         {
                 pCar->field_5C_AI->field_24_flags |= 0x100000;
-                gCurrentCrewPed_6FEDDC->SetObjective(27, 9999);
+                gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::wait_in_car_27, 9999);
                 field_14_pPursuitTarget->field_E += field_10_subObj->field_0_car->field_60->field_3C_block_counter;
                 if (field_10_subObj->field_0_car->field_60)
                 {
@@ -1707,7 +1707,7 @@ void PoliceCrew_38::sub_575310()
         if (dist < dword_6FECF4 && field_10_subObj->field_0_car->GetVelocity_43A4C0() < dword_6FEDE0 &&
             field_14_pPursuitTarget->field_0_criminal_ped->field_16C_car->GetVelocity_43A4C0() < dword_6FEDE0)
         {
-            gCurrentCrewPed_6FEDDC->SetObjective(27, 9999);
+            gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::wait_in_car_27, 9999);
             if (field_10_subObj->field_0_car->field_60)
             {
                 gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_10_subObj->field_0_car->field_60);
@@ -2654,7 +2654,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                                 byte_624FBD = 0;
                                 Ped* pDriver = gPedManager_6787BC->SpawnDriver_470B00(pCar);
                                 pDriver->SetPedType_403920(5);
-                                pDriver->set_occupation_403970(0x27);
+                                pDriver->set_occupation_403970(ped_ocupation_enum::road_block_tank_man);
                                 pDriver->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
                                 pCar->field_0_qq.GetSpriteForModel_5A6A50(148)->field_10_rot = word_6FEB74;
                             }
@@ -2951,7 +2951,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                                 byte_624FBD = 0;
                                 Ped* pDriver = gPedManager_6787BC->SpawnDriver_470B00(pCar);
                                 pDriver->SetPedType_403920(5);
-                                pDriver->set_occupation_403970(0x27);
+                                pDriver->set_occupation_403970(ped_ocupation_enum::road_block_tank_man);
                                 pDriver->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
                             }
                             break;

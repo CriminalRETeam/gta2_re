@@ -821,7 +821,7 @@ Ped* PedManager::SpawnDriver_470B00(Car_BC* pCar)
 {
     Ped* pNewPed = gPedPool_6787B8->Allocate();
     pNewPed->SetPedType_403920(ped_type::dummy_3);
-    pNewPed->set_occupation_403970(4); //unknown_2;
+    pNewPed->set_occupation_403970(ped_ocupation_enum::unknown_2); //unknown_2;
     pNewPed->field_16C_car = pCar;
     pNewPed->field_168_game_object = 0;
     pNewPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
@@ -887,7 +887,7 @@ Ped* PedManager::CreateDummyDriver_470CC0(Car_BC* pCar)
     pNewPed->set_remap_433B90(-1);
     pNewPed->field_26C_graphic_type = ped_graphic_type::civilian_0;
     pNewPed->SetPedType_403920(ped_type::dummy_3);
-    pNewPed->set_occupation_403970(4); //unknown_2;
+    pNewPed->set_occupation_403970(ped_ocupation_enum::unknown_2); //unknown_2;
     pNewPed->field_16C_car = pCar;
     pNewPed->field_168_game_object = 0;
     pNewPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);

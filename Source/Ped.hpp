@@ -790,7 +790,7 @@ class Ped
 
     inline bool IsPedGoingToEnterCar_492FD0()
     {
-        return field_258_objective == objectives_enum::enter_car_as_driver_35 || field_25C_internal_objective == 35;
+        return field_258_objective == objectives_enum::enter_car_as_driver_35 || field_25C_internal_objective == objectives_enum::enter_car_as_driver_35;
     }
 
     Ang16 GetAimAngle_4CCA90()

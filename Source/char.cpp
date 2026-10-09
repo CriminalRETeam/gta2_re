@@ -1038,7 +1038,7 @@ void Char_B4::UpdateAnimState_546360()
                                 break;
                         }
 
-                        if (field_7C_pPed->GetInternalObjective_403A90() == 35 && field_7C_pPed->GetInternalObjectiveStatus_4039D0() == 1)
+                        if (field_7C_pPed->GetInternalObjective_403A90() == objectives_enum::enter_car_as_driver_35 && field_7C_pPed->GetInternalObjectiveStatus_4039D0() == 1)
                         {
                             field_7C_pPed->SetInternalObjectiveStatus_403B50(0);
                         }
@@ -1675,7 +1675,7 @@ void Char_B4::DispatchCollision_548670(char_type a2)
                 }
                 else
                 {
-                    if (field_7C_pPed->GetPedType_420B70() >= 2 && field_7C_pPed->field_238_ped_type <= 6)
+                    if (field_7C_pPed->GetPedType_420B70() >= ped_type::player_2 && field_7C_pPed->field_238_ped_type <= ped_type::dummy_with_occupation_6)
                     {
                         Char_B4::HandlePedCollision_548BD0(pNearSprite->AsCharB4_40FEA0());
                         this->field_18_collided_entity = 0;
@@ -1907,7 +1907,7 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                     {
                         break;
                     }
-                    if (pOther->field_7C_pPed->field_240_occupation != 43)
+                    if (pOther->field_7C_pPed->field_240_occupation != ped_ocupation_enum::stand_still_bloke)
                     {
                         pOther->field_6A = 4;
                         pOther->field_74 = Ang16(Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
@@ -1954,7 +1954,7 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                     {
                         if (field_8_ped_state_1 != 3)
                         {
-                            if (field_7C_pPed->field_25C_internal_objective != 11)
+                            if (field_7C_pPed->field_25C_internal_objective != objectives_enum::objective_11)
                             {
                                 field_40_rotation += word_6FD888;
                                 field_10_char_state = 10;
@@ -2002,7 +2002,7 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                     {
                         if (field_8_ped_state_1 != 3)
                         {
-                            if (field_7C_pPed->field_25C_internal_objective != 11)
+                            if (field_7C_pPed->field_25C_internal_objective != objectives_enum::objective_11)
                             {
                                 field_40_rotation += word_6FD888;
                                 field_10_char_state = 10;

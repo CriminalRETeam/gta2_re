@@ -296,7 +296,7 @@ void Ped_List_4::ApplyPassengerBusStopBehavior_471630()
 {
     for (Char_8* pIter = field_0_pFirstPed; pIter; pIter = pIter->mpNext)
     {
-        if (pIter->field_0_char_ped->get_occupation_403980() == 8)
+        if (pIter->field_0_char_ped->get_occupation_403980() == ped_ocupation_enum::bus_customer_8)
         {
             pIter->field_0_char_ped->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
             pIter->field_0_char_ped->SetObjective(objectives_enum::objective_34, 9999);
@@ -310,7 +310,7 @@ void Ped_List_4::ForceTaxiPassengersToExit_471680()
 {
     for (Char_8* pIter = field_0_pFirstPed; pIter; pIter = pIter->mpNext)
     {
-        if (pIter->field_0_char_ped->field_240_occupation == 7)
+        if (pIter->field_0_char_ped->field_240_occupation == ped_ocupation_enum::taxi_customer_7)
         {
             pIter->field_0_char_ped->field_21C |= ped_flag_mask::k_ped_forced_out_of_taxi;
         }
