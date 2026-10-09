@@ -3472,3 +3472,31 @@ from this list without checking a candidate by hand:
 
 So the whole WIP set is codegen-bound: no WIP has a wrong callee, a missing call or a wrong
 argument count.
+
+## `DMA_Video_LoadDll_5EB970`: 891 -> 702, and what the rest is
+
+22 `GetProcAddress` sites, each with an error path (`sprintf` into a buffer, `MessageBoxA`,
+`FreeLibrary`, `return -1`). The original's shape, per site:
+
+```
+push <name>;  lea 8(%esp),%ecx;  push <fmt>;  push %ecx;  call sprintf;  add $0xC,%esp
+lea 4(%esp),%edx;  push $0;  push <title>;  jmp <tail>
+```
+
+- **The error buffer is declared per failure site**, not once for the function. With one
+  function-scope buffer every site is identical and VC6 cross-jumps the whole error block,
+  leaving `push <name>; jmp` at each site; declaring it inside the `if` gives the original's
+  per-site `sprintf` (891 -> 702). The frame stays `sub $0xF8,%esp` either way, so the slots are
+  still shared.
+- What is left is **how many copies of the tail the cross-jumper leaves**: the original has 4
+  (`or $0xFFFFFFFF,%eax` x4, 9 indirect calls, 19 `jmp`s), we have 11 (23 indirect calls, 12
+  `jmp`s). 4 = the three distinct tails the eax/ecx/edx round robin produces for the buffer
+  pointer (two picks per site, so the pattern repeats every third site) plus the one for the
+  `LoadLibrary` failure, and 19 = the other sites jumping into them. Ours differ in more than
+  that register, so fewer of them merge.
+- A local for the module handle (`FreeLibrary(hDll)` instead of the global) makes the tails
+  merge too far: 2 tails, 5 indirect calls, 814 lines. A function-scope buffer with that local
+  is 818. The committed combination (per-site buffer, global handle) is the best of the four.
+- The call order of the 22 `Vid_*` loads already matches the original exactly (checked by reading
+  the pushed name strings out of both exes).
+
