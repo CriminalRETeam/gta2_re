@@ -3500,3 +3500,32 @@ lea 4(%esp),%edx;  push $0;  push <title>;  jmp <tail>
 - The call order of the 22 `Vid_*` loads already matches the original exactly (checked by reading
   the pushed name strings out of both exes).
 
+## `State6_ShutDown_574720`: 46 -> 30
+
+The whole diff was one missing instruction, `movb $0,8(%esp)` at the top of the function: the
+original initialises the `for` counter in its stack slot there, and keeps it in that slot
+(`mov 8(%esp),%dl; inc %dl; mov %dl,8(%esp)` at the one increment). Declaring `u8 i = 0;` at
+the top gives VC6 a known zero that it parks in `ebp` and reuses for every other zero in the
+function (46 -> 254), which is what the old comment in the source was about. `volatile u8 i = 0;`
+at the top keeps it in memory and gets the store (46 -> 30).
+
+What is left there: the slot is at `0xB(%esp)` against the original's `8(%esp)` (VC6 packs our
+byte at the top of its dword, the original's at the bottom), so the use reads it as a byte and
+masks where the original loads the dword and masks, plus two register choices.
+
+## `Fix16_Point::NormalizeSafe_442AD0` (52): the frame is 8 bytes too big
+
+Every instruction matches; the only difference is `sub $0x28,%esp` against the original's
+`sub $0x20,%esp` and the offsets that follow from it. The extra space is one 8-byte object at
+offset 32 that the original doesn't have (slot use: ours 32:2 then 40:4, the original 32:4).
+Tried, all worse or no change:
+
+- `Divide_442CB0(length)` instead of `operator/` at both sites: no change (52).
+- `Fix16_Point& scaled = MultBy_442C80(128);` (VC6 binds a non-const reference to the
+  temporary): no change, so the named copy is not the extra object.
+- `Fix16_Point(scaled.x / length, scaled.y / length)` at the return sites, to build the result
+  in place: 211.
+- `x * x + y * y` instead of `x.Multiply_408680(x).Add_408660(y * y)` in the two
+  `GetLength_*_442AD0` inline helpers: 203. The explicit out-of-line form in the source is
+  right; don't "simplify" it.
+
