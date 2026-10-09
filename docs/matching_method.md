@@ -33,6 +33,28 @@ Compare call multisets, not call sequences: `compare_callees.py` aligns the two 
 different call order reads as an insert plus a delete. `compare_callees_multiset.py`, or a direct
 count, tells you whether a call is really missing.
 
+## 2b. Read the compiler listing, not just the asm
+
+`Scripts/x87_sched/sched.sh -l <file.cpp>` leaves a `/FAs` listing in
+`build_vc6/x87_c2/out/last.asm`. It interleaves the source lines with the generated code and,
+above each function, prints the **frame symbol table**: every named local and every compiler
+temporary with its offset. That turns "our frame is 8 bytes too big" into a list:
+
+```
+_length$ = -52
+_scaled$44052 = -20
+$T44390 = -44      $T44391 = -48      $T44394 = -44
+$T44421 = -36      $T44422 = -44      $T44423 = -40
+$T44464 = -24      $T44465 = -32      $T44466 = -28
+__$EHRec$ = -12
+```
+
+Here each `operator/` call site has its own trio of temporaries; the original's frame is two
+dwords smaller, so its two return paths share theirs. Reading the table first tells you whether
+you are looking for a missing local, a temporary that should be shared, or an object with a
+destructor (the `$T` numbering also shows how many temporaries each statement creates, which is
+what drives the EH state numbers).
+
 ## 3. The priorities are not fixed - this is the key
 
 The mistake that wasted a whole round here: assuming that because the emitted code has to stay
