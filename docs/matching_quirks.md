@@ -1554,6 +1554,15 @@ callee ends in `ret $N` without reading `ecx`, declare it `static ... __stdcall`
 
 **A variadic member is `__cdecl` with `this` on the stack.** A plain `ret` hints at `...`.
 
+**A function with no parameters can still be `__stdcall`, and it changes the schedule.** `ret` is the same
+either way, but in a `__cdecl` function VC6's scheduler gives the instructions after a call no call-clobber
+latency: the first write of `eax`/`ecx`/`edx` after the call is ready at once instead of 2 cycles later
+(`Scripts/x87_sched/sched.sh -r` prints the edge latencies as `sN/lat`). The symptom is a load into one of
+those registers scheduled right after a call where the original puts something else first: a `push $imm`,
+a `lea` or a global load into another register. `GetLayout_4D6000` (`lea &v2` before the KLID byte loads)
+and `SetWindowedMode_5D9510` (`push $0x316` before the rect loads) matched once declared `__stdcall`, like
+their matched neighbours (`UpdateWinXY_5D8E70`); no other change was needed.
+
 **Duplicate helper copies.** The original has two identical copies of some small functions. For the `Fix16(int)`
 constructor they are really two constructors: `0x4369F0` is `Fix16(s32)` and `0x4926F0` is `Fix16(u32)`, with
 identical code. Passing a `u32` where the original calls `0x4926F0` matched `Hud_PauseScreen_2::DrawPause_5D63B0`; the

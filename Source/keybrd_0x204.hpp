@@ -22,7 +22,7 @@ class keybrd_0x204
 
     EXPORT static void RecreateIfLayoutChanged_4D5FD0();
 
-    EXPORT static s32 GetLayout_4D6000();
+    EXPORT static s32 __stdcall GetLayout_4D6000();
 
     s16 field_0_keys[256];
     s32 field_200_keyBoardLayout;
