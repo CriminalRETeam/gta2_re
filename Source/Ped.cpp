@@ -5292,10 +5292,12 @@ void Ped::CalcApproachPointNearTargetPed_4645B0()
         switch (field_23C_group_idx)
         {
             case 0:
-                angle += kAng90_678502;
+                angle.rValue += kAng90_678502.rValue;
+                angle.Normalize_406C20();
                 if (bUnk)
                 {
-                    angle += kAng180_6785A6;
+                    angle.rValue += kAng180_6785A6.rValue;
+                    angle.Normalize_406C20();
                     radius = kFpThreeQuarters_678794;
                 }
                 PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
@@ -5303,10 +5305,12 @@ void Ped::CalcApproachPointNearTargetPed_4645B0()
                 field_1C8_move_target_y += vec_y;
                 break;
             case 1:
-                angle += kAng270_6785D0;
+                angle.rValue += kAng270_6785D0.rValue;
+                angle.Normalize_406C20();
                 if (bUnk)
                 {
-                    angle += kAng180_6785A6;
+                    angle.rValue += kAng180_6785A6.rValue;
+                    angle.Normalize_406C20();
                     radius = kFpThreeQuarters_678794;
                 }
                 PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
@@ -5317,7 +5321,8 @@ void Ped::CalcApproachPointNearTargetPed_4645B0()
                 angle = AddAng16_ool_4645B0(kAng180_6785A6, angle);
                 if (bUnk)
                 {
-                    angle += kAng180_6785A6;
+                    angle.rValue += kAng180_6785A6.rValue;
+                    angle.Normalize_406C20();
                     radius = kFpThreeQuarters_678794;
                 }
                 PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
@@ -5329,7 +5334,8 @@ void Ped::CalcApproachPointNearTargetPed_4645B0()
                 PolarToCartesianMul_4645B0(angle, radius, vec_x, vec_y);
                 if (bUnk)
                 {
-                    angle += kAng180_6785A6;
+                    angle.rValue += kAng180_6785A6.rValue;
+                    angle.Normalize_406C20();
                     radius = kFpThreeQuarters_678794;
                 }
                 field_1C4_move_target_x += vec_x;
@@ -5337,10 +5343,12 @@ void Ped::CalcApproachPointNearTargetPed_4645B0()
                 break;
 
             case 4:
-                angle += kAng225_6786B8;
+                angle.rValue += kAng225_6786B8.rValue;
+                angle.Normalize_406C20();
                 if (bUnk)
                 {
-                    angle += kAng180_6785A6;
+                    angle.rValue += kAng180_6785A6.rValue;
+                    angle.Normalize_406C20();
                     radius = kFpThreeQuarters_678794;
                 }
                 else
@@ -5353,10 +5361,12 @@ void Ped::CalcApproachPointNearTargetPed_4645B0()
                 break;
 
             case 5:
-                angle += kAng45_6784E2;
+                angle.rValue += kAng45_6784E2.rValue;
+                angle.Normalize_406C20();
                 if (bUnk)
                 {
-                    angle += kAng180_6785A6;
+                    angle.rValue += kAng180_6785A6.rValue;
+                    angle.Normalize_406C20();
                     radius = kFpThreeQuarters_678794;
                 }
                 else
@@ -5369,10 +5379,12 @@ void Ped::CalcApproachPointNearTargetPed_4645B0()
                 break;
 
             case 6:
-                angle += kAng315_6785A8;
+                angle.rValue += kAng315_6785A8.rValue;
+                angle.Normalize_406C20();
                 if (bUnk)
                 {
-                    angle += kAng180_6785A6;
+                    angle.rValue += kAng180_6785A6.rValue;
+                    angle.Normalize_406C20();
                     radius = kFpThreeQuarters_678794;
                 }
                 else
@@ -5385,10 +5397,12 @@ void Ped::CalcApproachPointNearTargetPed_4645B0()
                 break;
 
             case 7:
-                angle += kAng135_67844C;
+                angle.rValue += kAng135_67844C.rValue;
+                angle.Normalize_406C20();
                 if (bUnk)
                 {
-                    angle += kAng180_6785A6;
+                    angle.rValue += kAng180_6785A6.rValue;
+                    angle.Normalize_406C20();
                     radius = kFpThreeQuarters_678794;
                 }
                 else
@@ -5401,10 +5415,12 @@ void Ped::CalcApproachPointNearTargetPed_4645B0()
                 break;
 
             default:
-                angle += kAng225_6786B8;
+                angle.rValue += kAng225_6786B8.rValue;
+                angle.Normalize_406C20();
                 if (bUnk)
                 {
-                    angle += kAng180_6785A6;
+                    angle.rValue += kAng180_6785A6.rValue;
+                    angle.Normalize_406C20();
                     radius = kFpThreeQuarters_678794;
                 }
                 else
@@ -5428,7 +5444,8 @@ void Ped::CalcApproachPointNearTargetPed_4645B0()
                 angle -= kAng45_6784FC;
                 break;
             case 1:
-                angle += kAng45_6784FC;
+                angle.rValue += kAng45_6784FC.rValue;
+                angle.Normalize_406C20();
                 break;
             case 2:
                 break;
@@ -5437,7 +5454,8 @@ void Ped::CalcApproachPointNearTargetPed_4645B0()
                 radius = kFpHalf_678790;
                 break;
             case 7:
-                angle += kAng45_6784FC;
+                angle.rValue += kAng45_6784FC.rValue;
+                angle.Normalize_406C20();
                 radius = kFpHalf_678790;
                 break;
             default:
