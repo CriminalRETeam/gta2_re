@@ -553,10 +553,10 @@ EXPORT void __stdcall ShowCursor_5D9660()
 }
 
 // todo: move
-WIP_FUNC(0x5D9510)
-EXPORT char_type SetWindowedMode_5D9510()
+// __stdcall, not __cdecl: see GetLayout_4D6000 (the `push 0x316` goes before the rect loads)
+MATCH_FUNC(0x5D9510)
+EXPORT char_type __stdcall SetWindowedMode_5D9510()
 {
-    WIP_IMPLEMENTED;
 
     if (!IsWindowedModeAvailable_5D92C0())
     {
