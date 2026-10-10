@@ -4057,27 +4057,3 @@ regressed hard (92.67% -> 82.33%), reverted; the per-statement repeated expressi
 other 2 call sites want, so a blanket CSE breaks them. No source form found that gets the 3rd
 call site's reuse without breaking the first two. Frame size matches (`0x54` both sides). Not a
 full match. `build.py` still 3359/3359.
-## `Object_2C::HandleSpriteZCollision_5238B0` / `IntegrateHorizontalMovementAndCollisions_524630` (still WIP)
-
-Same named-vs-generic category, this time a getter rather than an operator: `Sprite::get_x_y()`
-(generic inline, `sprite.hpp`) returns a `Fix16_Point` by value, so under `/GX` it's charged to the
-caller's budget and always called out of line (never truly expanded) per the header's own comment -
-but the out-of-line copy it calls is the plain `get_x_y`, not the separately declared
-`get_x_y_443580()`. Changing `a2->get_x_y()` / `v5->get_x_y()` to `->get_x_y_443580()` at the sites
-that mismatched (2 of 3 in `HandleSpriteZCollision_5238B0`, all 4 of 4 in
-`IntegrateHorizontalMovementAndCollisions_524630` - found via the `objdiff-cli` call-target scan)
-removes every such mismatch in both functions (confirmed by rerunning the scan - zero left). Overall
-match-percent barely moves (65.34% -> 65.38%, 85.10% -> 85.13%) since both functions have much
-larger unrelated diffs elsewhere, but this specific category of mismatch is now fully gone from
-both. Not a full match on either. `build.py` still 3359/3359.
-
-Also tried on `Char_B4::state_8_5520A0` (93.14%, 2 `Fix16::Negate_4086A0` vs plain unary `operator-`
-mismatches, same scan) and on `Char_B4::state_1_5504F0` (86.98%, `Fix16::Abs_436A50`/`Max_44E540` vs
-generic `Abs`/`Max_41E130`, inside the shared `MaxAbsDistance_42A6B0` inline helper): neither
-responded the way the `Normalize_406C20`/`Subtract_436A00`/`get_x_y_443580` cases did.
-`state_8_5520A0`: converting either site alone, or both, all regressed (93.14% -> 88.5-92.75%).
-`state_1_5504F0` and `Ped::MeleeAttackStateMachine_46B670` both have the identical
-`MaxAbsDistance_42A6B0`-internal `Abs`/`Max` mismatch, which can't be fixed per call-site without
-touching the shared header (risky - it's used in dozens of already-matched functions) or writing a
-per-call-site variant (which `CLAUDE.md` warns against without the `inline_budget` tools pointing at
-a specific, verified caller-size change); not attempted further this round.
