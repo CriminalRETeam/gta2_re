@@ -2004,10 +2004,9 @@ ret_false:
 }
 
 // https://decomp.me/scratch/Yg4cw
-WIP_FUNC(0x45d000)
+MATCH_FUNC(0x45d000)
 char_type Ped::HandlePedHitByObject_45D000(Object_2C* pTargetPed)
 {
-    WIP_IMPLEMENTED;
 
     Ang16 angle;
     Ped* pBlamedPed = NULL;
@@ -2154,6 +2153,7 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pTargetPed)
             {
                 Ped::TakeDamage(5 * GetDamageMultiplier_45CF90(pBlamedPed));
             }
+            gParticle_8_6FD5E8->EmitBloodBurst_53E450(field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, pTargetPed->field_4->field_0);
             break;
 
         case objects::rocket_bullet_128:
@@ -2204,6 +2204,7 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pTargetPed)
                 // Non-player ped
                 Ped::TakeDamage(25 * damage_amplifier * GetDamageMultiplier_45CF90(pBlamedPed));
             }
+            gParticle_8_6FD5E8->EmitBloodBurst_53E450(field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, pTargetPed->field_4->field_0);
             break;
         }
 
@@ -2218,7 +2219,6 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pTargetPed)
         default:
             return true;
     }
-    gParticle_8_6FD5E8->EmitBloodBurst_53E450(field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, pTargetPed->field_4->field_0);
     return true;
 }
 
