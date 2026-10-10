@@ -36,7 +36,7 @@ EXTERN_GLOBAL(s16, gNumPedsCrossingRoad_6787D0);
 EXTERN_GLOBAL(u8, gNewTaxiCustomersThisTick_6787D2);
 EXTERN_GLOBAL(char_type, gNumberBusCustomers_6787D3);
 EXTERN_GLOBAL(u8, byte_6787D4);
-EXTERN_GLOBAL(u8, gTargetSearchMode_6787D7);
+DEFINE_GLOBAL(u8, gTargetSearchMode_6787D7, 0x6787D7);
 EXTERN_GLOBAL(u8, byte_6787D8);
 EXTERN_GLOBAL(u8, byte_6787D9);
 EXTERN_GLOBAL(Ped*, gSearchingPed_6787DC);

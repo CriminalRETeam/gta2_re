@@ -66,7 +66,7 @@ DEFINE_GLOBAL_INIT(u8, byte_61A8A0, 1, 0x61A8A0);
 DEFINE_GLOBAL(u8, gNumDummyChars_6787E2, 0x6787E2);
 DEFINE_GLOBAL(u8, gNumScriptCreatedPeds_6787E3, 0x6787E3);
 DEFINE_GLOBAL(u8, gNumEmergencyPeds_6787E4, 0x6787E4);
-DEFINE_GLOBAL(u8, gTargetSearchMode_6787D7, 0x6787D7);
+EXTERN_GLOBAL(u8, gTargetSearchMode_6787D7);
 DEFINE_GLOBAL(u8, byte_6787D4, 0x6787D4);
 DEFINE_GLOBAL(u8, byte_678554, 0x678554);
 DEFINE_GLOBAL(u8, byte_6787D8, 0x6787D8);
@@ -1795,10 +1795,9 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
                         goto ret_true;
                     }
 
-                    Fix16 candY = pTargetPed->field_1AC_cam.y;
-                    Fix16 candX = pTargetPed->field_1AC_cam.x;
-
-                    if (sub_4614E0(this->field_1AC_cam.x, this->field_1AC_cam.y, candX, candY) <= kFpOne_678798)
+                    Fix16 result;
+                    result = sub_4614E0(this->field_1AC_cam.x, this->field_1AC_cam.y, pTargetPed->get_cam_x(), pTargetPed->get_cam_y());
+                    if (result <= kFpOne_678798)
                     {
                         goto ret_true;
                     }
@@ -1807,7 +1806,9 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
                 }
 
                 {
-                    if (this->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(pTargetPed->field_15C_player->field_2E_idx))
+                    u8 player_idx = pTargetPed->field_15C_player->get_idx_4219D0();
+
+                    if (this->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(player_idx))
                     {
                         if (gPolice_7B8_6FEE40->field_7B4_crew_ped_onscreen == 0)
                         {
@@ -2008,7 +2009,7 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pTargetPed)
 {
     WIP_IMPLEMENTED;
 
-    Ang16 angle; // default ctor here
+    Ang16 angle;
     Ped* pBlamedPed = NULL;
 
     if ((field_278_ped_state_1 == ped_state_1::immobilized_8 ||
@@ -2122,8 +2123,8 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pTargetPed)
 
         case objects::maybe_bullet_on_fire_198:
             Ped::PutOutFire();
-            if (ComputeShortestAngleDelta_4056C0(field_168_game_object->field_80_sprite_ptr->field_0, pTargetPed->field_4->field_0) >
-                kAng90_6784B0)
+            angle = ComputeShortestAngleDelta_4056C0(field_168_game_object->field_80_sprite_ptr->field_0, pTargetPed->field_4->field_0);
+            if (angle > kAng90_6784B0)
             {
                 field_168_game_object->SetCharState_433A60(33); // TODO: include and use Char_B4_state enum
             }
@@ -2162,8 +2163,8 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pTargetPed)
         case objects::machine_gun_bullet_254:
         case objects::pistol_bullet_265:
         {
-            if (ComputeShortestAngleDelta_4056C0(field_168_game_object->field_80_sprite_ptr->field_0, pTargetPed->field_4->field_0) >
-                kAng90_6784B0)
+            angle = ComputeShortestAngleDelta_4056C0(field_168_game_object->field_80_sprite_ptr->field_0, pTargetPed->field_4->field_0);
+            if (angle > kAng90_6784B0)
             {
                 field_168_game_object->SetCharState_433A60(33); // TODO: include and use Char_B4_state enum
             }
@@ -6434,11 +6435,9 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                                 goto ret_true;
                             }
 
-                            Fix16 candY = this->field_1AC_cam.y;
-                            Fix16 candX = this->field_1AC_cam.x;
-
-                            if (sub_4614E0(pSearcher->field_1AC_cam.x, pSearcher->field_1AC_cam.y, candX, candY).mValue <=
-                                kFpOne_678798.mValue)
+                            Fix16 result;
+                            result = sub_4614E0(pSearcher->field_1AC_cam.x, pSearcher->field_1AC_cam.y, this->get_cam_x(), this->get_cam_y());
+                            if (result <= kFpOne_678798)
                             {
                                 goto ret_true;
                             }
@@ -6447,7 +6446,9 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                         }
 
                         {
-                            if (pSearcher->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(this->field_15C_player->field_2E_idx))
+                            u8 player_idx = this->field_15C_player->get_idx_4219D0();
+
+                            if (pSearcher->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(player_idx))
                             {
                                 if (gPolice_7B8_6FEE40->field_7B4_crew_ped_onscreen == 0)
                                 {
