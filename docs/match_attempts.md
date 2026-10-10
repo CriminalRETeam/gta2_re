@@ -4206,3 +4206,24 @@ right structure (see `/tmp/claude-0/agents/misc7/pol_best188.cpp` while it exist
   `Scripts/flowopt/patch_c2.py --rev 4:4` / `--rank`) forcing A's returns to the head of the exit list: 280/240, so
   the exit-list order alone is not it. A as the else arm (408), A without returns + the rest in an else (294), a
   trailing `return;` (294): no.
+
+## char.cpp round 8 (char8)
+- `Char_B4::HandleCarImpact_5538A0`: **MATCH** (404 -> 0). The whole diff (zero constant in ebx, pCar in
+  ebp, the 3a/3b `ChangeNextPedState2` tails merged) came from the 3b block: in the original tanVec is
+  loaded into a register right after `PedTypeIs(player_2)`, before `test %al,%al`, so its split piece
+  covers the Kill arm too. That is `if (PedTypeIs(player_2) && uni_num != 2) { if (lying) { Kill; return; }
+  ... } else { Kill; } EmitBloodBurst(..., tanVec);` with one blood burst after the if/else (the last
+  else already had that shape), not a copy in each arm. The 3b piece then takes ebp (edi holds
+  -kFpPoint1), pCar gets ebx and the zero constant has no register left.
+- `Char_B4::state_1_5504F0` 262 -> 86: `v71/v77/v70 = 0` before `byte_6FDB54 = 0` (store order, 252);
+  the permuter's `field_58_flags ^= (field_58_flags ^ (u8)(cond && cond)) & 1` without the `u8 v9`
+  local (32-bit mov/xor, sizes match from 0x282 on, 88); the second `PolarToCartesian` takes `v73` like
+  the first (logic fix, 86). Left: v77's slot, get_block's Y/X loads ahead of `push zpos`, the
+  xor/and/xor bit insert (every s32 form puts v9 in edx with a copy into ebp; a probe TU reproduces it),
+  kFP16One's register at HasBlockAnyArrows, MaxAbs diff_x/diff_y and x_u8/x_tile slots. Tried without
+  effect: v77 init forms, x_int/y_int locals (zpos then loses eax), shared z_below, local MaxAbs copies.
+- `Char_B4::HandleGenericCollision_54A530` (267, unchanged): the original's jump-over block is `test al;
+  jne X; test pChar; jne A; DoJump; A:` with `X: cmp $3,8(%esi); jmp` to that jne placed after the
+  Jumping_15 ret, and the cond-false `!bNoJump` re-test placed just before the else block. Two DoJump
+  sites (either arm order), ternary, swapped if/else, flat `&& !bNoJump`, A duplicated into the cond arm,
+  pChar-arm statement order and declaration orders are all worse (367-573) or equal.

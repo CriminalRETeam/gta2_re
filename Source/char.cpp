@@ -4610,12 +4610,12 @@ void Char_B4::state_1_5504F0()
     Ang16 angle = 0;
     field_58_flags_bf.b3 = false;
     field_58_flags_bf.b6 = false;
-    byte_6FDB54 = 0;
-    gCharB4_Saved_TileX_6FDAD8 = gCharB4_Saved_Xpos_6FD7F8.ToUInt8();
-    gCharB4_Saved_TileY_6FDAD9 = gCharB4_Saved_Ypos_6FD800.ToUInt8();
     v71 = 0;
     v77 = 0;
     v70 = 0;
+    byte_6FDB54 = 0;
+    gCharB4_Saved_TileX_6FDAD8 = gCharB4_Saved_Xpos_6FD7F8.ToUInt8();
+    gCharB4_Saved_TileY_6FDAD9 = gCharB4_Saved_Ypos_6FD800.ToUInt8();
     u8 unk_xpos = gCharB4_Saved_Xpos_6FD7F8.ToUInt8();
     u8 unk_ypos = gCharB4_Saved_Ypos_6FD800.ToUInt8();
     u8 block_type;
@@ -4639,8 +4639,7 @@ void Char_B4::state_1_5504F0()
         gMap_0x370_6F6268->get_block_4DFE10(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), zpos);
     if (pBlock)
     {
-        u8 v9 = (pBlock->field_B_slope_type & 0xFC) != 0 && (pBlock->field_B_slope_type & 0xFC) != 0xFC;
-        field_58_flags ^= (field_58_flags ^ v9) & 1;
+        field_58_flags ^= (field_58_flags ^ (u8)((pBlock->field_B_slope_type & 0xFC) != 0 && (pBlock->field_B_slope_type & 0xFC) != 0xFC)) & 1;
         if (gGtx_0x106C_703DD4->IsElectrifiedFloorType_491F80(pBlock->field_8_lid & 0x3FF) && field_10_char_state != 15)
         {
             if (field_7C_pPed->field_21C_bf.bLeftVehicle == false)
@@ -4845,7 +4844,7 @@ LABEL_65:
         }
         else
         {
-            Ang16::PolarToCartesian_41FC20(angle, kFP16Quarter_6FD828, pMaybeX_FP16, pMaybeY_FP16);
+            Ang16::PolarToCartesian_41FC20(v73, kFP16Quarter_6FD828, pMaybeX_FP16, pMaybeY_FP16);
         }
         pMaybeX_FP16 += gCharB4_Saved_Xpos_6FD7F8;
         pMaybeY_FP16 += gCharB4_Saved_Ypos_6FD800;
@@ -6554,7 +6553,7 @@ static inline Fix16 GetLength_inline_5538A0(Fix16_Point& p)
     }
 }
 
-WIP_FUNC(0x5538A0)
+MATCH_FUNC(0x5538A0)
 #define SPAWN_KNOCKDOWN_OBJ(speed) \
     gObject_5C_6F8F84->NewUnknown_52A240(110, \
                                          this->field_80_sprite_ptr->field_14_xy.x, \
@@ -6567,8 +6566,6 @@ WIP_FUNC(0x5538A0)
                                          kFP16Zero_6FD9E4)
 void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, u8 bUnknown, Fix16 x, Fix16 y)
 {
-    WIP_IMPLEMENTED;
-
     Fix16_Point p(x, y);
     Fix16 vecLen = GetLength_inline_5538A0(p);
     Ang16 tanVec;
@@ -6665,14 +6662,15 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, u8 bUnknown, Fix16 x, Fix16 y
                                                               tanVec);
                 }
             }
-            else if (this->field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2) && pCar->field_7C_uni_num != 2)
+            else
             {
-                if (this->field_C_ped_state_2 == ped_state_2::lying_on_floor_22)
+                if (this->field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2) && pCar->field_7C_uni_num != 2)
                 {
-                    this->field_7C_pPed->Kill_46F9D0();
-                }
-                else
-                {
+                    if (this->field_C_ped_state_2 == ped_state_2::lying_on_floor_22)
+                    {
+                        this->field_7C_pPed->Kill_46F9D0();
+                        return;
+                    }
                     this->field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
                     this->field_7C_pPed->field_184_pObj2C = SPAWN_KNOCKDOWN_OBJ(vecLen / gFix16_Two_6FD9EC);
                     this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = kFpPoint1_6FD824;
@@ -6688,16 +6686,11 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, u8 bUnknown, Fix16 x, Fix16 y
                     }
 
                     this->field_C_ped_state_2 = ped_state_2::Unknown_24;
-
-                    gParticle_8_6FD5E8->EmitBloodBurst_53E450(this->field_80_sprite_ptr->field_14_xy.x,
-                                                              this->field_80_sprite_ptr->field_14_xy.y,
-                                                              this->field_80_sprite_ptr->field_1C_zpos,
-                                                              tanVec);
                 }
-            }
-            else
-            {
-                this->field_7C_pPed->Kill_46F9D0();
+                else
+                {
+                    this->field_7C_pPed->Kill_46F9D0();
+                }
                 gParticle_8_6FD5E8->EmitBloodBurst_53E450(this->field_80_sprite_ptr->field_14_xy.x,
                                                           this->field_80_sprite_ptr->field_14_xy.y,
                                                           this->field_80_sprite_ptr->field_1C_zpos,
