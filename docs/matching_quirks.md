@@ -2374,6 +2374,18 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   So after `kAng180 - d`, `kAng180 + d` gives the original's `mov d,%dx; add kAng180,%dx`, and after an
   earlier use of `d`, `kAng90 + d` gives `mov kAng90; add d`. A free `Sub(kAng180, d)` numbers `d` first
   (right-to-left arguments) and flips the later adds. A top-level `Ang16(a.rValue + b.rValue)` keeps source order.
+- **Between symbols of different kinds the operand order is a rank.** An opdump C2 variant shows
+  the first operand of a commutative op is the lowest of: compiler temporary < global < block-scope local <
+  register-coloured local or parameter (value numbering above only orders symbols of the same kind). So
+  when the original has `ground_z + one` with `one` a named local, `ground_z` was an expression temporary
+  there, not a named local; VC6 copy-propagates most rewrites (const-ref binding, `Fix16(x)` copies) back
+  to the named local, so they don't move it (`Car_6C::SpawnCarOnRoadNetwork_4458B0`, 2 left).
+- **Head-merging the same store above a branch needs a declaration without an initialiser.**
+  `u8 bEdge; ... if (c) { bEdge = 0; ... } else { bEdge = 0; ... }` gives the original's single
+  `movb $0` before the `jne` (FlowOpts merges the two identical stores of one symbol), and because its
+  first reference is then after a dead parameter's last read, `bEdge` takes that parameter's stack slot.
+  `u8 bEdge = 0;` at the top, or a declaration in each arm, does neither
+  (`PoliceRoadblock_A4::CreateRoadblock_575FF0`).
 - **One `Fix16 x_off; Fix16 y_off;` per switch instead of one per case** removed 12 free `Fix16()` sites
   (and their size): the nested budgets of the operator sites rose just enough to inline the normalizing
   ctor while its Normalize stays out of line (13 out-of-line / 2 inline, 6 out-of-line products, all eight
