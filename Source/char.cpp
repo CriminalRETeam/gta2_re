@@ -1793,8 +1793,8 @@ static inline bool CanJumpOver_54A530(Char_B4* pThis, Char_B4* pChar)
 }
 
 // RotateAndTranslatePoint_42A720 as HandleGenericCollision_54A530 expands it: past the inline
-// budget; the multiplies, the negate and the adds are the named out-of-line copies, the
-// subtractions follow the budget
+// budget, so multiplies, negate, adds and subtractions are all the named out-of-line copies
+// (0x54a530 79.1% -> 92.7% objdiff match with Subtract_436A00 here instead of operator-)
 static inline void RotateAndTranslatePoint_OOL_42A720(Fix16& pInX,
                                                       Fix16& pInY,
                                                       Ang16& pRotAng,
@@ -1803,13 +1803,13 @@ static inline void RotateAndTranslatePoint_OOL_42A720(Fix16& pInX,
                                                       Fix16& pRotTransX,
                                                       Fix16& pRotTransY)
 {
-    pRotTransX = (pInX - pTransX)
+    pRotTransX = pInX.Subtract_436A00(pTransX)
                      .Multiply_408680(Ang16::cosine_40F520(pRotAng))
-                     .Add_408660((pInY - pTransY).Multiply_408680(Ang16::sine_40F500(pRotAng)));
-    pRotTransY = (pInX - pTransX)
+                     .Add_408660(pInY.Subtract_436A00(pTransY).Multiply_408680(Ang16::sine_40F500(pRotAng)));
+    pRotTransY = pInX.Subtract_436A00(pTransX)
                      .Negate_4086A0()
                      .Multiply_408680(Ang16::sine_40F500(pRotAng))
-                     .Add_408660((pInY - pTransY).Multiply_408680(Ang16::cosine_40F520(pRotAng)));
+                     .Add_408660(pInY.Subtract_436A00(pTransY).Multiply_408680(Ang16::cosine_40F520(pRotAng)));
 }
 
 MATCH_FUNC(0x548840)

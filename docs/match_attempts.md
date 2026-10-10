@@ -4039,3 +4039,21 @@ regressed hard (dropped to 70.07%) - reverted. So, same as before, only some sit
 pattern found yet for which. Frame size matches (`0x14` both sides) so the remaining ~22.6% must be
 the usual scattered register/scheduling noise plus whatever that one leftover mismatch cascades
 into. Not a full match. `build.py` still 3359/3359.
+## `Char_B4::HandleGenericCollision_54A530` (still WIP, 79.1% -> 92.7%)
+
+Same named-vs-generic-out-of-line category, found the same way (`objdiff-cli` call-target scan).
+The file-local inline helper `RotateAndTranslatePoint_OOL_42A720` (used 3x in this function) already
+had a comment: "the multiplies, the negate and the adds are the named out-of-line copies, the
+subtractions follow the budget" - i.e. previously left as plain `operator-`. Changing both
+`(pInX - pTransX)` / `(pInY - pTransY)` to `.Subtract_436A00(...)` (matching the already-named
+`Multiply_408680`/`Negate_4086A0`/`Add_408660` siblings) moves this function's objdiff match
+79.14% -> 92.67% in one shot, all 4 sites wanted.
+
+One mismatch is left: at the function's 3rd call site, the original computes `pInX - pTransX` once
+and reuses it for both `pRotTransX` and `pRotTransY` (true CSE across the two statements only
+there, not at the other 2 call sites - inline-budget/instance dependent, not source-visible). Tried
+introducing an explicit `Fix16 dx = ...; Fix16 dy = ...;` pair to force the reuse everywhere -
+regressed hard (92.67% -> 82.33%), reverted; the per-statement repeated expression is what the
+other 2 call sites want, so a blanket CSE breaks them. No source form found that gets the 3rd
+call site's reuse without breaking the first two. Frame size matches (`0x54` both sides). Not a
+full match. `build.py` still 3359/3359.
