@@ -4020,22 +4020,3 @@ exactly that gap). `add_96f_target.py 0x44e560=0x42d820` + `show_96f.py 0x44e560
 but - because 9.6f barely inlines anything - doesn't expose 10.5's inline-budget-driven
 named-vs-generic `Normalize` choice directly, so it didn't explain the `+` vs `-` asymmetry either.
 Left unresolved.
-## `Ped::CalcApproachPointNearTargetPed_4645B0` (still WIP)
-
-Same category as `CarAI_78::UpdateStateMachine_44E560` (see that branch's notes): `angle += kAngXXX;`
-(`Ang16::operator+=`) runs its internal `Normalize()` out of its nested inline budget and falls back
-to the generic out-of-line copy, while the original calls the named `Ang16::Normalize_406C20()`
-there instead. Found via `objdiff-cli` against a target object from the local `10.5.exe` (a small
-Python scan over the diff's call-target mismatches, comparing demangled symbol names at matching
-instruction indices, is a fast way to spot this pattern across many WIP functions at once - see
-the two committed branches for the technique).
-
-Rewriting all 18 `angle += kAngXXX;` sites in this function (`angle.rValue += kAngXXX.rValue;
-angle.Normalize_406C20();`) moves the match-percent from 71.90% to 77.42%, all in one shot - no
-mixed results this time (unlike `UpdateStateMachine`'s addition-sites). One remaining `Normalize`
-mismatch is the very first assignment, `angle = kAng180_6785A6 + field_14C_internal_target_ped->
-...->field_40_rotation;` (plain `operator+`, not `+=`): tried the same transform there too, and it
-regressed hard (dropped to 70.07%) - reverted. So, same as before, only some sites want this; no
-pattern found yet for which. Frame size matches (`0x14` both sides) so the remaining ~22.6% must be
-the usual scattered register/scheduling noise plus whatever that one leftover mismatch cascades
-into. Not a full match. `build.py` still 3359/3359.
