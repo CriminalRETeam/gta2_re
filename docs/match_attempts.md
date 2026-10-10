@@ -4007,3 +4007,16 @@ other diffs, mostly ordinary register/scheduling noise) but isn't close to flipp
 Next step for whoever picks this up: audit the back half of the function (lines ~3800-4312) the
 same way - the `inl.sh` trace and `objdiff-cli` diff are the fast path, not guessing from the
 Python diff.
+
+Follow-up (same round): tried each of the 6 `+ kAng90_6779E4` sites individually (not just in
+bulk) and the `v240`/`v244` one-offs individually - every single one regressed alone too, so it
+isn't a bulk-averaging artifact; these really shouldn't get the same transform. Checked the 9.6f
+pair (`sub_42D820`, already in `docs/inlines_96f.md` with its own prior note: "PolarToCartesian
+sites (many += into globals) and 4463C0..4465B0 helpers not done" - this session's finding is
+exactly that gap). `add_96f_target.py 0x44e560=0x42d820` + `show_96f.py 0x44e560` dumps it
+(needs `dump_fingerprints.py` and `match_96f.py` run first, since `match_96f.json`/
+`fingerprints.json` aren't checked in). 9.6f confirms the overall call shape (`ang16::subtraction_
+40E5D0`, `PolarToCartesian_41FC20`, `Fix16::add_40E530` for the `+=`s, `MaxAbsDistance_42A6B0`)
+but - because 9.6f barely inlines anything - doesn't expose 10.5's inline-budget-driven
+named-vs-generic `Normalize` choice directly, so it didn't explain the `+` vs `-` asymmetry either.
+Left unresolved.
