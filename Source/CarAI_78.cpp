@@ -3031,7 +3031,8 @@ void CarAI_78::UpdateStateMachine_44E560()
                 if (gCurrCarAI_TargetCar_6779B0)
                 {
                     field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4, gCurrCarAI_zpos_677C48);
-                    Ang16 angle = gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0 - kAng180_677ADE;
+                    Ang16 angle(gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0.rValue - kAng180_677ADE.rValue);
+                    angle.Normalize_406C20();
                     Ang16::PolarToCartesian_41FC20(angle, kFpThree_677B9C, dx, dy);
                     gCurrCarAI_TargetX_6779F0 += dx;
                     gCurrCarAI_TargetY_6779F4 += dy;
@@ -3049,7 +3050,8 @@ void CarAI_78::UpdateStateMachine_44E560()
                 if (gCurrCarAI_TargetCar_6779B0)
                 {
                     field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4, gCurrCarAI_zpos_677C48);
-                    Ang16 angle = gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0 - kAng180_677ADE;
+                    Ang16 angle(gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0.rValue - kAng180_677ADE.rValue);
+                    angle.Normalize_406C20();
                     Ang16::PolarToCartesian_41FC20(angle, kFpThree_677B9C, dx, dy);
                     gCurrCarAI_TargetX_6779F0 += dx;
                     gCurrCarAI_TargetY_6779F4 += dy;
@@ -3066,7 +3068,8 @@ void CarAI_78::UpdateStateMachine_44E560()
                 if (gCurrCarAI_TargetCar_6779B0)
                 {
                     field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4, gCurrCarAI_zpos_677C48);
-                    Ang16 angle = gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0 - kAng180_677ADE;
+                    Ang16 angle(gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0.rValue - kAng180_677ADE.rValue);
+                    angle.Normalize_406C20();
                     Ang16::PolarToCartesian_41FC20(angle, kFpThree_677B9C, dx, dy);
                     gCurrCarAI_TargetX_6779F0 += dx;
                     gCurrCarAI_TargetY_6779F4 += dy;
@@ -3078,7 +3081,8 @@ void CarAI_78::UpdateStateMachine_44E560()
             case car_chase_state::move_left_3:
             {
                 field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4, gCurrCarAI_zpos_677C48);
-                Ang16 angle = gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0 - kAng90_6779E4;
+                Ang16 angle(gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0.rValue - kAng90_6779E4.rValue);
+                angle.Normalize_406C20();
                 Ang16::PolarToCartesian_41FC20(angle, gF16fOne_677B94, dx, dy);
                 gCurrCarAI_TargetX_6779F0 += dx;
                 gCurrCarAI_TargetY_6779F4 += dy;
@@ -3095,7 +3099,8 @@ void CarAI_78::UpdateStateMachine_44E560()
                 if (police_level == 1)
                 {
                     field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4, gCurrCarAI_zpos_677C48);
-                    Ang16 angle = gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0 - kAng180_677ADE;
+                    Ang16 angle(gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0.rValue - kAng180_677ADE.rValue);
+                    angle.Normalize_406C20();
                     Ang16::PolarToCartesian_41FC20(angle, gF16fOne_677B94, dx, dy);
                     gCurrCarAI_TargetX_6779F0 += dx;
                     gCurrCarAI_TargetY_6779F4 += dy;
@@ -3124,7 +3129,8 @@ void CarAI_78::UpdateStateMachine_44E560()
             {
                 MakeAgressiveSirensAndLights_4476F0();
                 field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4, gCurrCarAI_zpos_677C48);
-                Ang16 angle = gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0 - kAng90_6779E4;
+                Ang16 angle(gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0.rValue - kAng90_6779E4.rValue);
+                angle.Normalize_406C20();
                 Ang16::PolarToCartesian_41FC20(angle, kFpThreeQuarters_677A4C, dx, dy);
                 gCurrCarAI_TargetX_6779F0 += dx;
                 gCurrCarAI_TargetY_6779F4 += dy;
@@ -3213,7 +3219,8 @@ void CarAI_78::UpdateStateMachine_44E560()
                 {
                     ++pChase->field_2E_wait_counter;
                     field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4, gCurrCarAI_zpos_677C48);
-                    Ang16 angle = gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0 - kAng90_6779E4;
+                    Ang16 angle(gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0.rValue - kAng90_6779E4.rValue);
+                    angle.Normalize_406C20();
                     Ang16::PolarToCartesian_41FC20(angle, kFpThreeQuarters_677A4C, dx, dy);
                     gCurrCarAI_TargetX_6779F0 += dx;
                     gCurrCarAI_TargetY_6779F4 += dy;
@@ -3366,7 +3373,8 @@ void CarAI_78::UpdateStateMachine_44E560()
             {
                 MakeAgressiveSirensAndLights_4476F0();
                 field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4, gCurrCarAI_zpos_677C48);
-                Ang16 angle = gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0 - kAng90_6779E4;
+                Ang16 angle(gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0.rValue - kAng90_6779E4.rValue);
+                angle.Normalize_406C20();
                 Ang16::PolarToCartesian_41FC20(angle, kFpThreeQuarters_677A4C, dx, dy);
                 gCurrCarAI_TargetX_6779F0 += dx;
                 gCurrCarAI_TargetY_6779F4 += dy;
@@ -3612,7 +3620,8 @@ void CarAI_78::UpdateStateMachine_44E560()
                 {
                     gCurrCarAI_TargetX_6779F0 = savedTargetX;
                     gCurrCarAI_TargetY_6779F4 = savedTargetY;
-                    Ang16 angle = gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0 - kAng180_677ADE;
+                    Ang16 angle(gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0.rValue - kAng180_677ADE.rValue);
+                    angle.Normalize_406C20();
                     Ang16::PolarToCartesian_41FC20(angle, kFpTwo_677B98, dx, dy);
                     gCurrCarAI_TargetX_6779F0 += dx;
                     gCurrCarAI_TargetY_6779F4 += dy;
@@ -3681,7 +3690,8 @@ void CarAI_78::UpdateStateMachine_44E560()
                 if (pChase->field_2C_side_counter == 10)
                 {
                     field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4, gCurrCarAI_zpos_677C48);
-                    Ang16 angle = gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0 - kAng90_6779E4;
+                    Ang16 angle(gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0.rValue - kAng90_6779E4.rValue);
+                    angle.Normalize_406C20();
                     Ang16::PolarToCartesian_41FC20(angle, gF16fOne_677B94, dx, dy);
                     field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + dx,
                                                                           field_0_car->field_50_car_sprite->field_14_xy.y + dy,
@@ -3808,7 +3818,8 @@ void CarAI_78::UpdateStateMachine_44E560()
                     if (bTryLeft)
                     {
                         field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4, gCurrCarAI_zpos_677C48);
-                        Ang16 angle = gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0 - kAng90_6779E4;
+                        Ang16 angle(gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0.rValue - kAng90_6779E4.rValue);
+                        angle.Normalize_406C20();
                         Ang16::PolarToCartesian_41FC20(angle, gF16fOne_677B94, dx, dy);
                         field_0_car->field_50_car_sprite->set_xyz_lazy_420600(field_0_car->field_50_car_sprite->field_14_xy.x + dx,
                                                                               field_0_car->field_50_car_sprite->field_14_xy.y + dy,
