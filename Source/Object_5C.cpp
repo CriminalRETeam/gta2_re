@@ -1298,8 +1298,8 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
     while (1)
     {
         v61 = v5->field_14_xy.x;
-        v55 = v5->field_0;
         v57 = v5->field_14_xy.y;
+        v55 = v5->field_0;
         field_10_obj_3c->field_2A_bAirborne = 0;
 
         if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(v5->field_14_xy.x.ToInt(), v5->field_14_xy.y.ToInt(), v5->field_1C_zpos.ToInt()))
@@ -1329,30 +1329,32 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
 
         if (v5->CheckSpriteMovementRegion_5A2500())
         {
-            if (v50 != 1)
+            if (v50 == 1)
+            {
+                v5->field_1C_zpos = v5->field_1C_zpos.GetRoundValue();
+                if (v5->field_1C_zpos > kFP16Half_6F8D10)
+                {
+                    v5->field_1C_zpos++;
+                }
+
+                if (v5->CheckSpriteMovementRegion_5A2500() || SelectCollisionSprite_522460(v5))
+                {
+                    hitPoint = v5->get_x_y();
+                    ComputeWallHitSide_524550();
+                    goto LABEL_48;
+                }
+            }
+            else
             {
                 hitPoint = v5->get_x_y();
                 ComputeWallHitSide_524550();
-                break;
-            }
-
-            v5->field_1C_zpos = v5->field_1C_zpos.GetRoundValue();
-            if (v5->field_1C_zpos > kFP16Half_6F8D10)
-            {
-                v5->field_1C_zpos++;
-            }
-
-            if (v5->CheckSpriteMovementRegion_5A2500() || SelectCollisionSprite_522460(v5))
-            {
-                hitPoint = v5->get_x_y();
-                ComputeWallHitSide_524550();
-                break;
+                goto LABEL_48;
             }
         }
         else if (SelectCollisionSprite_522460(v5))
         {
             hitPoint = v5->get_x_y();
-            break;
+            goto LABEL_48;
         }
         if (++a2_ > t)
         {
@@ -1361,12 +1363,12 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
     }
 
 LABEL_48:
+    Fix16 step = v52;
 
     v5->set_xy_lazy_447E20(v61, v57);
     v5->set_ang_lazy_420690(v55);
 
     Sprite_UpdateZFromSlopeAndTile_522FA0(v5);
-    Fix16 step = v52;
     s32 tries = 3;
     do
     {
