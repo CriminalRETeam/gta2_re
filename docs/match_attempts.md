@@ -3971,3 +3971,65 @@ priority (52 vs 36). Declaration order (`next_idx`/`last_idx` either way) makes 
 the priority comes from the address-taken/register-resident asymmetry, not source order. Giving
 `arrow_idx` a source form that also makes it memory-resident (so both live ranges get equal priority,
 tie-break then picking `next_idx` first as the original does) still has no source form found.
+
+## `CarAI_78::UpdateStateMachine_44E560` (still WIP, still `NOT_IMPLEMENTED`)
+
+Huge (~1370 line) car-chase state machine, scored 0.377 by `compare_target_asm.py` with
+`NOT_IMPLEMENTED` stripped (frame `0x13c` vs our `0x12c`). `objdiff-cli` (built from the local
+`10.5.exe` with `generate_target_asm_for_objs.py`, since the `claude/target-asm` branch didn't exist
+this round) gives a cleaner instruction match-percent, 80.66%, and shows a real, repeated pattern:
+every `Ang16 angle = X - kAng180_677ADE;` / `X - kAng90_6779E4;` style construction (feeding
+`PolarToCartesian_41FC20`) compiles, in the original, to a call to the named out-of-line
+`Ang16::Normalize_406C20()` (already a real `MATCH_FUNC`, used explicitly like this all over the
+codebase - see `CarPhysics_B0.cpp:1577`, `char.cpp:2486`), while ours falls back to the generic,
+unnamed `Ang16::Normalize()` out-of-line copy once the nested inline budget for the normalizing
+`Ang16(const s16&, s32)` ctor runs out (`Scripts/inline_budget/inl.sh`, nested budget 17 down to
+14 and lower at each site). Rewriting those 11 **subtraction** sites (5x `- kAng180_677ADE`, 6x
+`- kAng90_6779E4`) as `Ang16 angle(a.rValue - b.rValue); angle.Normalize_406C20();` (construct via
+the non-normalizing `Ang16(s32)` ctor, call the named method explicitly - the same idiom already
+used at the cited call sites) moves match-percent 80.66% -> 81.05%, with no change to `build.py`'s
+3359/3359 (confirmed with `--single_cpp` + a direct `objdiff-cli` diff against
+`Source/CarAI_78.cpp.obj`, which is where `--single_cpp` actually writes its object, *not*
+`build_vc6/CMakeFiles/gta2_lib.dir/...` - that one is stale until a full relink).
+
+Tried and reverted (each individually, each made it worse): the same transform on all 6
+**addition** sites (`+ kAng90_6779E4`, -> 79.21% in bulk; the single worst site alone,
+line 3116, -> 80.22%), and the 3 one-off expressions `v240 = v248 + kAng90_6779E4`,
+`v240/v244 = ... - word_677CE2` (chained), `v240 = v244 + this->field_10_angle` (each -> ~79.6-80.3%
+alone). So only genuine **subtractions** against these two constants benefit; the additions and the
+chained/one-off expressions already inline correctly in the original and forcing them out-of-line
+the same way regresses. No source-level reasoning found for why `-` differs from `+` here -
+empirical only. The remaining ~13 out-of-line `Normalize` mismatches (scattered through the back
+half of the function, all on `+ kAng90_6779E4` sites) were deliberately left alone per the above.
+
+This is real, measured progress (not a full match - the function is enormous and has plenty of
+other diffs, mostly ordinary register/scheduling noise) but isn't close to flipping to `MATCH_FUNC`.
+Next step for whoever picks this up: audit the back half of the function (lines ~3800-4312) the
+same way - the `inl.sh` trace and `objdiff-cli` diff are the fast path, not guessing from the
+Python diff.
+
+Follow-up (same round): tried each of the 6 `+ kAng90_6779E4` sites individually (not just in
+bulk) and the `v240`/`v244` one-offs individually - every single one regressed alone too, so it
+isn't a bulk-averaging artifact; these really shouldn't get the same transform. Checked the 9.6f
+pair (`sub_42D820`, already in `docs/inlines_96f.md` with its own prior note: "PolarToCartesian
+sites (many += into globals) and 4463C0..4465B0 helpers not done" - this session's finding is
+exactly that gap). `add_96f_target.py 0x44e560=0x42d820` + `show_96f.py 0x44e560` dumps it
+(needs `dump_fingerprints.py` and `match_96f.py` run first, since `match_96f.json`/
+`fingerprints.json` aren't checked in). 9.6f confirms the overall call shape (`ang16::subtraction_
+40E5D0`, `PolarToCartesian_41FC20`, `Fix16::add_40E530` for the `+=`s, `MaxAbsDistance_42A6B0`)
+but - because 9.6f barely inlines anything - doesn't expose 10.5's inline-budget-driven
+named-vs-generic `Normalize` choice directly, so it didn't explain the `+` vs `-` asymmetry either.
+Left unresolved.
+
+**Measure with the linked exe, not objdiff's percentage.** The real metric (`compare_target_asm.py`
+with `NOT_IMPLEMENTED` stripped) for this change is 0.377 -> 0.477, so it does help. But the same
+"named out-of-line copy" idea applied elsewhere looked good in `objdiff-cli` and was wrong:
+`Ped::CalcApproachPointNearTargetPed_4645B0` (`angle += k` -> `rValue +=` + `Normalize_406C20()`,
+objdiff 71.9% -> 77.4%) is 0.528 -> 0.445 in the linked exe; `Char_B4::HandleGenericCollision_54A530`
+(`Subtract_436A00` in `RotateAndTranslatePoint_OOL_42A720`, objdiff 79.1% -> 92.7%) is 0.855 -> 0.735;
+`Object_2C`'s `get_x_y()` -> `get_x_y_443580()` is unchanged (0.721, 0.863). The linker folds the
+generic out-of-line copy (`Normalize`, `operator-`, `get_x_y`) with the named one (identical bodies),
+so in the exe the call goes to the same address either way. objdiff compares objects, where the
+names still differ, and counts every such call as a mismatch. A name difference objdiff reports is
+not a difference the verifier sees; only the codegen around it (inlining, temporaries, scheduling)
+is. Those three changes were reverted.
