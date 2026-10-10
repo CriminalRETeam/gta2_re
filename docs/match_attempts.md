@@ -4020,3 +4020,16 @@ exactly that gap). `add_96f_target.py 0x44e560=0x42d820` + `show_96f.py 0x44e560
 but - because 9.6f barely inlines anything - doesn't expose 10.5's inline-budget-driven
 named-vs-generic `Normalize` choice directly, so it didn't explain the `+` vs `-` asymmetry either.
 Left unresolved.
+
+**Measure with the linked exe, not objdiff's percentage.** The real metric (`compare_target_asm.py`
+with `NOT_IMPLEMENTED` stripped) for this change is 0.377 -> 0.477, so it does help. But the same
+"named out-of-line copy" idea applied elsewhere looked good in `objdiff-cli` and was wrong:
+`Ped::CalcApproachPointNearTargetPed_4645B0` (`angle += k` -> `rValue +=` + `Normalize_406C20()`,
+objdiff 71.9% -> 77.4%) is 0.528 -> 0.445 in the linked exe; `Char_B4::HandleGenericCollision_54A530`
+(`Subtract_436A00` in `RotateAndTranslatePoint_OOL_42A720`, objdiff 79.1% -> 92.7%) is 0.855 -> 0.735;
+`Object_2C`'s `get_x_y()` -> `get_x_y_443580()` is unchanged (0.721, 0.863). The linker folds the
+generic out-of-line copy (`Normalize`, `operator-`, `get_x_y`) with the named one (identical bodies),
+so in the exe the call goes to the same address either way. objdiff compares objects, where the
+names still differ, and counts every such call as a mismatch. A name difference objdiff reports is
+not a difference the verifier sees; only the codegen around it (inlining, temporaries, scheduling)
+is. Those three changes were reverted.
