@@ -3911,10 +3911,11 @@ bool Char_B4::CanStepForwardWithRegionCheck_54ECB0(s32 direction)
 }
 
 // https://decomp.me/scratch/Ub1EN
-WIP_FUNC(0x54ef60)
+// 9.6f 0x495BF0: the collision offset division is written at each use (VC6 CSEs it), bCanStep is set
+// in each leaf and leaves 2-4 return explicitly (leaf 1's tail is the cross-jump keeper).
+MATCH_FUNC(0x54EF60)
 bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
 {
-    WIP_IMPLEMENTED;
     bool bIsNearXposBlockBoundary = true;
     bool bIsNearYposBlockBoundary = true;
 
@@ -3929,16 +3930,15 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
     gCharB4_StepXpos_6FD8B8 = gCharB4_Saved_Xpos_6FD7F8 + xpos;
     gCharB4_StepYpos_6FD8BC = gCharB4_Saved_Ypos_6FD800 + ypos;
 
-    Fix16 collision_offset = gCharB4_WorldCollisionOffset_6FD8D8 / gFix16_Two_6FD9EC;
 
     // Get the x diff of the neareast block on left/right side, if it's very close to them
     // Test if it is near right block
-    s8 x_diff = (gCharB4_StepXpos_6FD8B8 + collision_offset).ToInt() - (sprite_xpos).ToInt();
+    s8 x_diff = (gCharB4_StepXpos_6FD8B8 + gCharB4_WorldCollisionOffset_6FD8D8 / gFix16_Two_6FD9EC).ToInt() - (sprite_xpos).ToInt();
 
     if (x_diff == 0)
     {
         // Test if it is near left block
-        x_diff = (gCharB4_StepXpos_6FD8B8 - collision_offset).ToInt() - (sprite_xpos).ToInt();
+        x_diff = (gCharB4_StepXpos_6FD8B8 - gCharB4_WorldCollisionOffset_6FD8D8 / gFix16_Two_6FD9EC).ToInt() - (sprite_xpos).ToInt();
         if (x_diff == 0)
         {
             bIsNearXposBlockBoundary = false;
@@ -3947,12 +3947,12 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
 
     // Get the y diff of the neareast block on north/south side, if it's very close to them
     // Test if it is near south block
-    s8 y_diff = (gCharB4_StepYpos_6FD8BC + collision_offset).ToInt() - (sprite_ypos).ToInt();
+    s8 y_diff = (gCharB4_StepYpos_6FD8BC + gCharB4_WorldCollisionOffset_6FD8D8 / gFix16_Two_6FD9EC).ToInt() - (sprite_ypos).ToInt();
 
     if (y_diff == 0)
     {
         // Test if it is near north block
-        y_diff = (gCharB4_StepYpos_6FD8BC - collision_offset).ToInt() - (sprite_ypos).ToInt();
+        y_diff = (gCharB4_StepYpos_6FD8BC - gCharB4_WorldCollisionOffset_6FD8D8 / gFix16_Two_6FD9EC).ToInt() - (sprite_ypos).ToInt();
         if (y_diff == 0)
         {
             bIsNearYposBlockBoundary = false;
@@ -3975,9 +3975,9 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
         bool bCanStep;
         if (x_diff == -1)
         {
-            bCanStep = true;
             if (y_diff == -1)
             {
+                bCanStep = true;
                 field_80_sprite_ptr->field_14_xy.x.subtract_one_491F00();
                 if (field_58_flags & 1)
                 {
@@ -4052,6 +4052,7 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
             }
             else
             {
+                bCanStep = true;
                 field_80_sprite_ptr->field_14_xy.x.subtract_one_491F00();
                 if (field_58_flags & 1)
                 {
@@ -4123,13 +4124,14 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
                     }
                 }
                 field_45_slope_gradient_direction = old_f45;
+                return bCanStep;
             }
         }
         else
         {
-            bCanStep = true;
             if (y_diff == -1)
             {
+                bCanStep = true;
                 field_80_sprite_ptr->field_14_xy.x.add_one_491EF0();
                 if (field_58_flags & 1)
                 {
@@ -4196,14 +4198,16 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
                     }
                     if (!CanStepForwardWithRegionCheck_54ECB0(path_direction::up_1) && !gMap_0x370_6F6268->sub_4E0110())
                     {
-                        gCharB4_PathDirection_623F44 = path_direction::up_1;
                         bCanStep = false;
+                        gCharB4_PathDirection_623F44 = path_direction::up_1;
                     }
                 }
                 field_45_slope_gradient_direction = old_f45;
+                return bCanStep;
             }
             else
             {
+                bCanStep = true;
                 field_80_sprite_ptr->field_14_xy.x.add_one_491EF0();
                 if (field_58_flags & 1)
                 {
@@ -4273,6 +4277,7 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
                     }
                 }
                 field_45_slope_gradient_direction = old_f45;
+                return bCanStep;
             }
         }
         return bCanStep;
