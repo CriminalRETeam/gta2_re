@@ -7060,10 +7060,9 @@ Ped* Ped::GetLastProcessedPedOnFoot_467070()
     return gLastProcessedPed_6787C0->field_168_game_object != 0 ? gLastProcessedPed_6787C0 : 0;
 }
 
-WIP_FUNC(0x467090)
+MATCH_FUNC(0x467090)
 char_type Ped::FindUsableCarDoor_467090()
 {
-    WIP_IMPLEMENTED;
     Car_BC* pTargetToEnter = this->field_154_target_to_enter;
     if (pTargetToEnter ||
         (!this->field_150_target_objective_car || this->field_27C_ped_state_2 == ped_state_2::ped2_getting_out_a_car_7 ||
@@ -7085,28 +7084,23 @@ char_type Ped::FindUsableCarDoor_467090()
             u8 door = this->field_24C_target_car_door;
             if (!this->field_248_enter_car_as_passenger)
             {
-                if (door < (u8)pTargetToEnter->GetRemap())
+                for (; door < (u8)pTargetToEnter->GetRemap(); door++)
                 {
-                    do
+                    if (pTargetToEnter->IsDoorAccessible_43AFE0(door))
                     {
-                        if (pTargetToEnter->IsDoorAccessible_43AFE0(door))
-                        {
-                            goto found;
-                        }
-                        Car_Door_10* pDoor = pTargetToEnter->GetDoor(this->field_24C_target_car_door);
-                        pDoor->Close_439EA0();
-                        pDoor->set_ped_421380(0);
-                        if (this->field_27C_ped_state_2 == ped_state_2::ped2_entering_a_car_6 ||
-                            this->field_27C_ped_state_2 == ped_state_2::ped2_getting_out_a_car_7)
-                        {
-                            return 0;
-                        }
-                    } while (++door < (u8)pTargetToEnter->GetRemap());
-                    return 0;
-                found: // the passenger searches below jump here too
-                    this->field_24C_target_car_door = door;
-                    return 1;
+                        this->field_24C_target_car_door = door;
+                        return 1;
+                    }
+                    Car_Door_10* pDoor = pTargetToEnter->GetDoor(this->field_24C_target_car_door);
+                    pDoor->Close_439EA0();
+                    pDoor->set_ped_421380(0);
+                    if (this->field_27C_ped_state_2 == ped_state_2::ped2_entering_a_car_6 ||
+                        this->field_27C_ped_state_2 == ped_state_2::ped2_getting_out_a_car_7)
+                    {
+                        return 0;
+                    }
                 }
+                return 0;
             }
             else
             {
@@ -7114,7 +7108,8 @@ char_type Ped::FindUsableCarDoor_467090()
                 {
                     if (pTargetToEnter->IsDoorAccessible_43AFE0(door))
                     {
-                        goto found;
+                        this->field_24C_target_car_door = door;
+                        return 1;
                     }
                     Car_Door_10* pDoor = pTargetToEnter->GetDoor(this->field_24C_target_car_door);
                     pDoor->Close_439EA0();
@@ -7129,9 +7124,11 @@ char_type Ped::FindUsableCarDoor_467090()
                 {
                     if (pTargetToEnter->IsDoorAccessible_43AFE0(door))
                     {
-                        goto found;
+                        this->field_24C_target_car_door = door;
+                        return 1;
                     }
                 }
+                return 0;
             }
         }
     }

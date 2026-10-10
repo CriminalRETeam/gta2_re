@@ -1236,6 +1236,7 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
     WIP_IMPLEMENTED;
 
     bool v50 = 0;
+    Fix16_Point hitPoint;
     //v4 = a2;
     Sprite* v5 = gObject_5C_6F8F84->field_58_collision_probe_sprite;
     //v63 = 0;
@@ -1273,13 +1274,19 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
 
     Fix16 v53;
     Fix16 v13;
-    v53 = Ang16::sine_40F500(a3) * v52;
-    v13 = Ang16::cosine_40F520(a3).Multiply_408680(v52); // 9.6f inlined: PolarToCartesian_41FC20
+    {
+        // 9.6f: PolarToCartesian_41FC20 on a copy of the step
+        Fix16 radius = v52;
+        v53 = Ang16::sine_40F500(a3) * radius;
+        v13 = Ang16::cosine_40F520(a3).Multiply_408680(radius);
+    } // 9.6f inlined: PolarToCartesian_41FC20
+
+    Ang16 v55;
+    Fix16 v57;
+    Fix16 v61;
 
     u8 a2_ = 1;
-    //v59.x = v13;
     s32 t = v11.ToInt();
-    //    v60.x = v11.ToInt();
     if (t < 1)
     {
     LABEL_56:
@@ -1287,12 +1294,6 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
         field_4->set_ang_lazy_420690(v5->field_0);
         return;
     }
-
-    Fix16_Point hitPoint;
-
-    Ang16 v55;
-    Fix16 v57;
-    Fix16 v61;
 
     while (1)
     {
@@ -1326,43 +1327,38 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
             }
         }
 
-        if (!v5->CheckSpriteMovementRegion_5A2500())
+        if (v5->CheckSpriteMovementRegion_5A2500())
         {
+            if (v50 != 1)
+            {
+                hitPoint = v5->get_x_y();
+                ComputeWallHitSide_524550();
+                break;
+            }
+
+            v5->field_1C_zpos = v5->field_1C_zpos.GetRoundValue();
+            if (v5->field_1C_zpos > kFP16Half_6F8D10)
+            {
+                v5->field_1C_zpos++;
+            }
+
+            if (v5->CheckSpriteMovementRegion_5A2500() || SelectCollisionSprite_522460(v5))
+            {
+                hitPoint = v5->get_x_y();
+                ComputeWallHitSide_524550();
+                break;
+            }
+        }
+        else if (SelectCollisionSprite_522460(v5))
+        {
+            hitPoint = v5->get_x_y();
             break;
         }
-
-        if (v50 != 1)
-        {
-            goto LABEL_47;
-        }
-
-        v5->field_1C_zpos = v5->field_1C_zpos.GetRoundValue();
-        if (v5->field_1C_zpos > kFP16Half_6F8D10)
-        {
-            v5->field_1C_zpos++;
-        }
-
-        if (v5->CheckSpriteMovementRegion_5A2500() || SelectCollisionSprite_522460(v5))
-        {
-        LABEL_47:
-            hitPoint = v5->get_x_y();
-            ComputeWallHitSide_524550();
-            goto LABEL_48;
-        }
-    LABEL_45:
-        a2_ = a2_ + 1;
-        if (a2_ > t)
+        if (++a2_ > t)
         {
             goto LABEL_56;
         }
     }
-
-    if (!SelectCollisionSprite_522460(v5))
-    {
-        goto LABEL_45;
-    }
-
-    hitPoint = v5->get_x_y();
 
 LABEL_48:
 
@@ -1370,34 +1366,27 @@ LABEL_48:
     v5->set_ang_lazy_420690(v55);
 
     Sprite_UpdateZFromSlopeAndTile_522FA0(v5);
-    a2_ = 3;
-
-    while (1)
+    Fix16 step = v52;
+    s32 tries = 3;
+    do
     {
         Fix16 old_x = v5->field_14_xy.x;
         Fix16 old_y = v5->field_14_xy.y;
-        Ang16 old_ang = v5->field_0;
-        // Search closer?
-        v61 = v52 / 2;
-
-        v5->set_xy_lazy_447E20(v5->field_14_xy.x + (gSin_table_667A80[a3.rValue] * (v61)),
-                               v5->field_14_xy.y + (gCos_table_669260[a3.rValue] * (v61)));
+        v55 = v5->field_0;
+        step = step / 2;
+        v53 = Ang16::sine_40F500(a3) * step;
+        v13 = Ang16::cosine_40F520(a3) * step;
+        v5->set_xy_lazy_447E20(v5->field_14_xy.x + v53, v5->field_14_xy.y + v13);
         v5->set_ang_lazy_420690(a3);
 
         if (v5->CheckSpriteMovementRegion_5A2500() || SelectCollisionSprite_522460(v5))
         {
             hitPoint = v5->get_x_y();
             v5->set_xy_lazy_447E20(old_x, old_y);
-            v5->set_ang_lazy_420690(old_ang);
+            v5->set_ang_lazy_420690(v55);
             Sprite_UpdateZFromSlopeAndTile_522FA0(v5);
         }
-
-        if (!--a2_)
-        {
-            break;
-        }
-        v52 = v61;
-    }
+    } while (--tries);
 
     field_4->set_xyz_lazy_420600(v5->field_14_xy.x, v5->field_14_xy.y, v5->field_1C_zpos);
     field_4->set_ang_lazy_420690(v5->field_0);

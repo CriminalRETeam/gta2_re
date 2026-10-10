@@ -2393,24 +2393,20 @@ WIP_FUNC(0x509180)
 void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
 {
     SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_unsigned_1);
+    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     SCR_POINTER* pParam2 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2);
     Ped* pChar = pPointer->field_8_char;
 
     if (pChar != NULL)
     {
-        Car_BC* pCar = pChar->field_16C_car;
-
-        if (pCar != NULL)
+        if (pChar->field_16C_car != NULL)
         {
-            pParam2->field_8_car = pCar;
+            pParam2->field_8_car = pChar->field_16C_car;
 
             if (gStoredCar_6F7560 != NULL)
             {
-                if (pCar != gStoredCar_6F7560 && gStoredCar_6F7560->field_6C_car_id != pCar->field_6C_car_id)
+                if (gStoredCar_6F7560 != pParam2->field_8_car && gStoredCar_6F7560->field_6C_car_id != pParam2->field_8_car->field_6C_car_id)
                 {
-                    s32 four = 4;
-
                     if (gStoredCar_6F7560->field_6C_car_id == gStoredCarId_6F78B4)
                     {
                         if (gCar_6C_677930->CanAllocateOfType_446930(1))
@@ -2419,10 +2415,9 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                             gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
                             gStoredCar_6F7560->SetUniNum_421560(3);
 
-                            if (gStoredCar_6F7560->field_88_despawn_status != car_despawn_status::deactivated_7 && gStoredCar_6F7560->field_88_despawn_status != car_despawn_status::despawning_5 && gStoredCar_6F7560->field_88_despawn_status != car_despawn_status::despawn_pending_2 &&
-                                gStoredCar_6F7560->field_88_despawn_status != car_despawn_status::despawn_soon_3)
+                            if (!gStoredCar_6F7560->IsDeactivated_4214D0())
                             {
-                                gStoredCar_6F7560->field_88_despawn_status = four;
+                                gStoredCar_6F7560->MarkForDespawn_421470();
                             }
                         }
                         else if (gCar_6C_677930->CanAlloc_446870(8))
@@ -2430,10 +2425,9 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                             gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
                             gStoredCar_6F7560->SetUniNum_421560(3);
 
-                            if (gStoredCar_6F7560->field_88_despawn_status != car_despawn_status::deactivated_7 && gStoredCar_6F7560->field_88_despawn_status != car_despawn_status::despawning_5 && gStoredCar_6F7560->field_88_despawn_status != car_despawn_status::despawn_pending_2 &&
-                                gStoredCar_6F7560->field_88_despawn_status != car_despawn_status::despawn_soon_3)
+                            if (!gStoredCar_6F7560->IsDeactivated_4214D0())
                             {
-                                gStoredCar_6F7560->field_88_despawn_status = four;
+                                gStoredCar_6F7560->MarkForDespawn_421470();
                             }
                         }
                         else
@@ -2441,10 +2435,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                             gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
                             gStoredCar_6F7560->SetUniNum_421560(3);
 
-                            if (gStoredCar_6F7560->field_88_despawn_status != car_despawn_status::despawning_5)
-                            {
-                                gStoredCar_6F7560->field_88_despawn_status = car_despawn_status::despawn_soon_3;
-                            }
+                            gStoredCar_6F7560->DespawnSoon_421490();
                         }
                     }
 
@@ -2453,17 +2444,15 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
 
                     gStoredCar_6F7560->ReassignAllocatedCarType_443EE0(8);
 
-                    if (!gPublicTransport_181C_6FF1D4->is_bus_579AA0(pParam2->field_8_car) && pParam2->field_8_car->field_98_door_lock != four)
+                    if (!gPublicTransport_181C_6FF1D4->is_bus_579AA0(pParam2->field_8_car))
                     {
-                        pParam2->field_8_car->field_98_door_lock = 2;
-                        miss2_0x11C::Next_503620(gBasePtr_6F8070);
-                        return;
+                        pParam2->field_8_car->SetF98To2IfNot4_475C40();
                     }
                 }
             }
             else
             {
-                gStoredCar_6F7560 = pCar;
+                gStoredCar_6F7560 = pParam2->field_8_car;
                 gStoredCarId_6F78B4 = pParam2->field_8_car->field_6C_car_id;
                 gStoredCar_6F7560->ReassignAllocatedCarType_443EE0(8);
             }
