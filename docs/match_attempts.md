@@ -4114,6 +4114,23 @@ Scores are `quick_score.sh` lines (same with `NO_PCH=1`).
 - `Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0` (463), `Particle_8::EmitFlameStreamSegment_53F4C0`
   (151), `GunMuzzelFlash_53E970` (444): scored and read only, no new idea beyond the logged ones.
 
+## Object_5C pass (Oct 10, agent obj8)
+
+- `Object_2C::IntegrateHorizontalMovementAndCollisions_524630` 2 -> **MATCH**. The latch: `jle top; jmp tail`
+  can only come from loop rotation (the RPO pass `0x10706181` inverts every `jcc->top` back edge to
+  `jcc(!c)->tail; jmp top`, with a `jmp tail` stub when the tail is not adjacent; the rotated `for`/`while` test
+  replaces the `jmp top` afterwards), so the loop is `for (u8 a2_ = 1; a2_ <= t; a2_++)` with the no-hit tail after
+  it. That alone puts the tail at the end (the for's exit edge is visited first, obj7's V21/V60). The original's
+  layout (latch, hit stubs, tail, half-step loop) needs the LABEL_48 code visited *before* the for's exit: a
+  `while (1) { for (...) {...} tail; return; } LABEL_48:` does it through the dead exit test of the `while (1)`
+  (folded later); `if (1)` works too, `for (;;)` has no dead test and does not. Simulating the RPO DFS on the
+  ildump IL (`/tmp/claude-0/agents/obj8/bin/rpo.py`, jump targets first, then fall-through) reproduced the
+  sinklog indices exactly and was what made the structure clear; see `docs/matching_quirks.md`
+  ("A loop latch of the form `jcc top; jmp tail` only comes from loop rotation"). Dead ends logged in
+  `/tmp/claude-0/agents/obj8/notes.md`: explicit-label goto loops (179), `for (;;)` + test at the top of the
+  body (tail right after the latch, 182), `while (1)` + test at the top (double test, 433), do-while inside
+  `if (t >= 1)` inside `while (1)` with/without an inverted else-if and an explicit `goto` (all 2, inverted).
+
 ## char.cpp round 7 (char7)
 - `Char_B4::CanStepDiagonal_54EF60`: **MATCH** (344 -> 0). Three things, all from the 9.6f shape (0x495BF0):
   (1) `bCanStep = true;` in each of the four leaves instead of the two x arms (the head merge then hoists it

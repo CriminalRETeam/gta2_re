@@ -274,6 +274,26 @@ vs `return`, early return, `do {} while (0)`, dead code after the switch or extr
 (all tried on `Ambulance_20::UpdateState_4FB330`, where the original's `jle` goes to an earlier exit copy and the
 block falls into its own copy; an if/else chain or a jump-table switch gives that shape at once).
 
+**A loop latch of the form `jcc top; jmp tail` only comes from loop rotation.** The reverse-postorder pass
+(`0x10706181`, `Scripts/flowopt/README.md`) canonicalises every loop so that the back edge is an unconditional
+`jmp`: a `do {} while (c)` latch (`jcc(c)->top; jmp/fall tail`) or an `if (c) goto top` is inverted to
+`jcc(!c)->tail; jmp top` (with a `jmp tail` stub when the tail is not adjacent), and `if (!c) goto tail; (jmp top)`
+is kept as written. Only a rotated `for`/`while` test is created after that: the header's test is copied in front
+of the loop as the guard (`cmp $1,%edi; jl tail`, a2_ = 1 folded) and replaces the latch's `jmp top`, giving
+`inc; cmp; jle top; jmp tail`. So `jle top; jmp tail` means a `for`/`while` loop in the source, never a do-while
+or an `if (++i > n) goto` (`Object_2C::IntegrateHorizontalMovementAndCollisions_524630`).
+
+**The tail of a `for`/`while` loop is laid out last unless something is visited before it.** The DFS takes the
+header's exit edge first, so the code after the loop finishes first and lands at the end of the function, and the
+loop-sinking pass puts every out-of-loop run (hit blocks and the code they `goto`) between the latch and it. When
+the original has the loop's exit code *before* a block that the loop body jumps to (the no-hit tail between the
+hit stubs and the half-step loop in 0x524630), that block was reached first through a dead edge: a `while (1)`
+around the `for` with the `goto` target after it (`while (1) { for (...) { ... goto LABEL_48; } tail; return; }
+LABEL_48:`) visits LABEL_48 from the never-taken exit test before the `for`'s own exit, and the dead test is
+folded away afterwards. `for (;;)` has no such test and does not work; `if (1)` does. A `break` instead of the
+`goto` or putting the tail inside `if (t < 1) { LABEL_56: ... }` (visited from the latch) give the right layout but
+the inverted latch, since the real test then no longer rotates.
+
 **Cross-jumping keeps the copy whose jump was generated last** (reversed from C2; tools and the full rules in
 `Scripts/flowopt/README.md`). The pass runs after register allocation and before scheduling, per join label.
 The unconditional jumps to the label are kept in reverse creation order. The first, normally the last copy in

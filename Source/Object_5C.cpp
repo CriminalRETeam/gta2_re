@@ -1230,11 +1230,9 @@ void Object_2C::ComputeWallHitSide_524550()
     }
 }
 
-WIP_FUNC(0x524630)
+MATCH_FUNC(0x524630)
 void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 a3)
 {
-    WIP_IMPLEMENTED;
-
     bool v50 = 0;
     Fix16_Point hitPoint;
     //v4 = a2;
@@ -1285,81 +1283,77 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
     Fix16 v57;
     Fix16 v61;
 
-    u8 a2_ = 1;
     s32 t = v11.ToInt();
-    if (t < 1)
-    {
-    LABEL_56:
-        field_4->set_xyz_lazy_420600(v5->field_14_xy.x, v5->field_14_xy.y, v5->field_1C_zpos);
-        field_4->set_ang_lazy_420690(v5->field_0);
-        return;
-    }
-
+    // The while (1) never iterates (the body returns), but its dead exit edge makes VC6 visit the LABEL_48
+    // code first in its reverse-postorder layout, which puts the no-hit tail between the hit blocks and the
+    // half-step loop; a rotated for/while test gives the `jle top; jmp tail` latch. Both are needed to match.
     while (1)
     {
-        v61 = v5->field_14_xy.x;
-        v57 = v5->field_14_xy.y;
-        v55 = v5->field_0;
-        field_10_obj_3c->field_2A_bAirborne = 0;
-
-        if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(v5->field_14_xy.x.ToInt(), v5->field_14_xy.y.ToInt(), v5->field_1C_zpos.ToInt()))
+        for (u8 a2_ = 1; a2_ <= t; a2_++)
         {
-            v50 = 1;
-        }
+            v61 = v5->field_14_xy.x;
+            v57 = v5->field_14_xy.y;
+            v55 = v5->field_0;
+            field_10_obj_3c->field_2A_bAirborne = 0;
 
-        v5->set_xy_lazy_447E20(v5->field_14_xy.x + v53, v5->field_14_xy.y + v13);
-        v5->set_ang_lazy_420690(a3);
+            if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(v5->field_14_xy.x.ToInt(), v5->field_14_xy.y.ToInt(), v5->field_1C_zpos.ToInt()))
+            {
+                v50 = 1;
+            }
 
-        if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(v5->field_14_xy.x.ToInt(), v5->field_14_xy.y.ToInt(), v5->field_1C_zpos.ToInt()))
-        {
-            Sprite_UpdateZFromSlopeAndTile_522FA0(v5);
-        }
+            v5->set_xy_lazy_447E20(v5->field_14_xy.x + v53, v5->field_14_xy.y + v13);
+            v5->set_ang_lazy_420690(a3);
 
-        if (!gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(v5->field_14_xy.x.ToInt(),
-                                                           v5->field_14_xy.y.ToInt(),
-                                                           (v5->field_1C_zpos - kFP16One_6F8E14).ToInt()))
-        {
-            if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(v5->field_14_xy.x.ToInt(),
-                                                            v5->field_14_xy.y.ToInt(),
-                                                            (v5->field_1C_zpos - kFP16One_6F8E14).ToInt()))
+            if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(v5->field_14_xy.x.ToInt(), v5->field_14_xy.y.ToInt(), v5->field_1C_zpos.ToInt()))
             {
                 Sprite_UpdateZFromSlopeAndTile_522FA0(v5);
             }
-        }
 
-        if (v5->CheckSpriteMovementRegion_5A2500())
-        {
-            if (v50 == 1)
+            if (!gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(v5->field_14_xy.x.ToInt(),
+                                                               v5->field_14_xy.y.ToInt(),
+                                                               (v5->field_1C_zpos - kFP16One_6F8E14).ToInt()))
             {
-                v5->field_1C_zpos = v5->field_1C_zpos.GetRoundValue();
-                if (v5->field_1C_zpos > kFP16Half_6F8D10)
+                if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(v5->field_14_xy.x.ToInt(),
+                                                                v5->field_14_xy.y.ToInt(),
+                                                                (v5->field_1C_zpos - kFP16One_6F8E14).ToInt()))
                 {
-                    v5->field_1C_zpos++;
+                    Sprite_UpdateZFromSlopeAndTile_522FA0(v5);
                 }
+            }
 
-                if (v5->CheckSpriteMovementRegion_5A2500() || SelectCollisionSprite_522460(v5))
+            if (v5->CheckSpriteMovementRegion_5A2500())
+            {
+                if (v50 == 1)
+                {
+                    v5->field_1C_zpos = v5->field_1C_zpos.GetRoundValue();
+                    if (v5->field_1C_zpos > kFP16Half_6F8D10)
+                    {
+                        v5->field_1C_zpos++;
+                    }
+
+                    if (v5->CheckSpriteMovementRegion_5A2500() || SelectCollisionSprite_522460(v5))
+                    {
+                        hitPoint = v5->get_x_y();
+                        ComputeWallHitSide_524550();
+                        goto LABEL_48;
+                    }
+                }
+                else
                 {
                     hitPoint = v5->get_x_y();
                     ComputeWallHitSide_524550();
                     goto LABEL_48;
                 }
             }
-            else
+            else if (SelectCollisionSprite_522460(v5))
             {
                 hitPoint = v5->get_x_y();
-                ComputeWallHitSide_524550();
                 goto LABEL_48;
             }
         }
-        else if (SelectCollisionSprite_522460(v5))
-        {
-            hitPoint = v5->get_x_y();
-            goto LABEL_48;
-        }
-        if (++a2_ > t)
-        {
-            goto LABEL_56;
-        }
+        field_4->set_xyz_lazy_420600(v5->field_14_xy.x, v5->field_14_xy.y, v5->field_1C_zpos);
+        field_4->set_ang_lazy_420690(v5->field_0);
+        return;
     }
 
 LABEL_48:
