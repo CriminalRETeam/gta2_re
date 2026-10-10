@@ -3953,3 +3953,21 @@ Round 6 findings (not matched):
   `if (field_24_flags & 0x200000) {flag1 = 1;} else {...NeutralGear...}` pairs instead of in both arms.
 - Tooling note: the slotlog/ralog/priolog C2 variants can be built outside build_vc6 by setting `patch_c2.X` and
   passing `X87_C2=../../../../../<abs dir>/<variant>` to sched.sh.
+
+## `CarAI_78::DetectCarAhead_44D1D0` (committed, still WIP)
+
+The `goto tail_1`/`goto tail_2` fix found earlier (round 6, "not committed") is now applied: both probe
+switches end every case with `goto tail_N;` instead of `break;`, with the label on the first statement
+after the switch (where `break` would land anyway). This keeps the north copy of each switch's merged
+tail, matching the original, instead of the west copy `break` keeps (see matching_quirks.md, "Which copy
+survives can also depend on how the cases leave the switch"). ratio 0.937 -> 0.994 (all switch-merge
+differences gone).
+
+Left (16 lines, unchanged from the earlier analysis): `next_idx`/`last_idx` in the tail-2 epilogue swap
+`al`/`cl`. `last_idx = arrow_count - 1` is a separate load + `dec` because `arrow_count` is address-taken
+(passed as `&arrow_count` to `CountConsecutiveArrowBlocks_4410D0`); `next_idx = arrow_idx + 1`'s `inc`
+folds into the dying `arrow_idx` register instead, so the two live ranges get unequal colour-pass
+priority (52 vs 36). Declaration order (`next_idx`/`last_idx` either way) makes no difference, confirming
+the priority comes from the address-taken/register-resident asymmetry, not source order. Giving
+`arrow_idx` a source form that also makes it memory-resident (so both live ranges get equal priority,
+tie-break then picking `next_idx` first as the original does) still has no source form found.
