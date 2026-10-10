@@ -987,7 +987,7 @@ LABEL_29:
         field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed;
         field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
         field_10_obj_3c->field_2A_bAirborne = 0;
-        *a3 = a2->get_x_y();
+        *a3 = a2->get_x_y_443580();
         *a4 = true;
         Object_2C::ComputeWallHitSide_524550();
         return true;
@@ -1002,7 +1002,7 @@ LABEL_29:
         else if (gObject2C_HitWallOrDoor_6F8F94)
         {
             field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed.mValue;
-            *a3 = a2->get_x_y();
+            *a3 = a2->get_x_y_443580();
             *a4 = true;
             return true;
         }
@@ -1331,7 +1331,7 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
         {
             if (v50 != 1)
             {
-                hitPoint = v5->get_x_y();
+                hitPoint = v5->get_x_y_443580();
                 ComputeWallHitSide_524550();
                 break;
             }
@@ -1344,14 +1344,14 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
 
             if (v5->CheckSpriteMovementRegion_5A2500() || SelectCollisionSprite_522460(v5))
             {
-                hitPoint = v5->get_x_y();
+                hitPoint = v5->get_x_y_443580();
                 ComputeWallHitSide_524550();
                 break;
             }
         }
         else if (SelectCollisionSprite_522460(v5))
         {
-            hitPoint = v5->get_x_y();
+            hitPoint = v5->get_x_y_443580();
             break;
         }
         if (++a2_ > t)
@@ -1381,7 +1381,7 @@ LABEL_48:
 
         if (v5->CheckSpriteMovementRegion_5A2500() || SelectCollisionSprite_522460(v5))
         {
-            hitPoint = v5->get_x_y();
+            hitPoint = v5->get_x_y_443580();
             v5->set_xy_lazy_447E20(old_x, old_y);
             v5->set_ang_lazy_420690(v55);
             Sprite_UpdateZFromSlopeAndTile_522FA0(v5);
