@@ -772,6 +772,13 @@ copies kept (8: the pre-`if` copy is dead and removed). From the fully hoisted f
 initialised at its declaration (323), `offset` assigned on its own line (381), an explicit `else` around
 the in-place part (323). The hoisted form gives `offset` priority 14 (fails, split) and `column_idx` 9,
 so `column_idx` takes `ecx`; in the arm form `offset` is 28 (ecx) and `column_idx` -7 (eax).
+Oct 10 (agent map7, still 8): in the hoisted form `offset`'s middle piece (prio 8) takes `eax` across the
+`do_drop` test, so the memory-compare split loads `cl`, and `column_idx` (prio 9) finds `eax` disallowed
+(loop temps of prio 47/40/24/12 took it; in the arm form the same temps avoid `eax` because of a weight-1
+`eax` preference of an interfering uncoloured range). Hoisted-form variants, all 323 or worse: `offset`
+assigned before the test (381), the two range tests split (371), `(s32)column_idx` (323), `u8 offset`
+(438), `u8 height` (417), `u32 new_idx` (323), `pNew = pColumn - column_idx + new_idx` (414), four
+declaration orders (323). Permuter from the hoisted form (1200 iterations) only finds the arm form.
 
 ## Garage_48::ParkCarAtDoor_534700 (MATCH, was STUB)
 
@@ -1236,6 +1243,9 @@ Matched (116 -> 0) with two changes:
   live through the whole function only spills `pPrev` (pushes stay `%ebx`), and a lone `2` in the
   call is not cached while `2, 2` gets `ebx`: the original must have some *coloured* value in `ebx`
   across those pushes, which nothing in the asm shows. Not found.
+- Oct 10 (agent map7, still 4): `pPrev = pBlock` before the `sub_4E5E00` call or before the `to_edge > 0`
+  test spills `pPrev` (64). `pPrev`'s pieces prefer `edi` (ralog score -3/-5) but `edi` is disallowed by
+  pBlock's whole-function web, so they take `ebx` either way.
 
 ### Map_0x370::sub_4E7190 (0x4E7190): WIP
 - The reverse road follower. When it runs off the road it looks for a turn in the neighbouring
@@ -2484,6 +2494,18 @@ Scores are `quick_score.sh` lines. `DrawGradientSlopeNorthwards_4F0420` 399 -> 0
   register instead of a spill slot (frame 0x24 vs 0x20), the lights block's tail duplicated into the loop
   init, the first inlined `AddToDrawList` storing y through the `lea`'d pointer. Indexed stores in the
   helper (746) and `Fix16(gZCoord_6F63E0)`/`Fix16(gZCoordTop_6F62B0)` for the z factors (728) are worse.
+  Oct 10 (agent map7, 442 -> 204): the original's block loops are fully strength-reduced (`max - rel` and
+  `min + rel` both as induction variables, the loop variable turned into a `rel + 1` count-down), which
+  VC6 only does when the coordinates are written in the calls (`AddToDrawListByVal(this, max_x - xpos_rel,
+  max_y - ypos_rel)`; with `xpos_right`/`ypos_upwards` locals it reduces one IV per loop and keeps `jge`;
+  a file-local by-value inline, since the header's `s32&` parameters can't take rvalues): 286. Z factors
+  as `cam.z - Fix16(zLayer) + Fix16(8)` with `s32 top_layer = zLayer + 1` shared by the `gZCoordTop` store
+  (`Fix16(zLayer + 1)` folds to `(7 - zLayer) << 14`): 220. `min_x` before `max_x` (and y) and named
+  `half_x = layer_row_width / 2` / `half_y`: 204. Left: the top's allocation (zLayer `ebx`, the
+  `zLayer << 14` CSE spilled to 0x28 so the column width keeps `ebp`; ours keeps the CSE in `ebp`,
+  coalesced with zLayer's `shl` in place, and spills the column width), the rotated `mov 0x14(%esp),%ebp`
+  reload on the inner loop's back edge, `lea -1(%eax),%ecx` in the draw loop. No effect:
+  `Fix16(gZCoord_6F63E0)`/`(u32)`/raw `<< 14` for gZCoordFp, a `layer_z` local, `/=`, a `count` local.
 
 ## Police_38 / CarPhysics_B0 pass (9.6f first)
 Scores are `quick_score.sh` lines (10.5) and `permuter_score.py --96f` lines (VC7 vs 9.6f).
@@ -4034,3 +4056,33 @@ to the named one compare equal as long as the same targets are called in the sam
 compares symbol names and counts every such call as a mismatch. A name difference objdiff reports is
 not a difference the verifier sees; only the codegen around it (inlining, temporaries, scheduling)
 is. Those three changes were reverted.
+
+## Car_BC / CarAI_78 / PublicTransport / TrafficLights pass (Oct 10, agent car7)
+
+Scores are `quick_score.sh` lines. No new match; all source left as on the base.
+
+- `Car_6C::SpawnCarOnRoadNetwork_4458B0` (2): the `lea` operand order is a symbol rank, found with the
+  `opdump` C2 variant (boundary 10765a67): in every inlined commutative add of Car_BC.cpp the first operand is
+  the lowest of kind-3 compiler temp < kind-7 global < kind-4 block-local < coloured local/param. The matched
+  `SpawnBusAtValidRoadPosition_4453E0` has (one, ground_z) from the same source line; the original 4458B0 has
+  ground_z first, so its ground_z is an expression temporary, not a named local. Every spelling that tries to
+  make it one copy-propagates back to the local (`const Fix16&` binding, `Fix16(ground_z) + one`,
+  `Add_ref(Fix16(ground_z), one)`, raw `mValue` sum, `one + ground_z`, a by-value `SetZRange(rect, Fix16 z)`
+  inline, declaration after width/height/rect): all 2. Function/loop-scope `Fix16 ground_z;`: 254. The spawn
+  block as a static inline taking z by value straight from the call: 530.
+- `CarAI_78::DetectCarAhead_44D1D0` (16): ralog shows `next_idx` is a piece of arrow_idx's split live range
+  (prio 24, tie 260) that only takes ecx because of a weight-1 ecx preference (score -1); `last_idx` (prio 6)
+  then gets eax. The preference's source is unknown. `next = arrow_idx; next++`, s8 locals with u8 compares,
+  function-scope locals: 16; `!(next <= last)`, last-first with `next > last`: 18; compare on the field: 84/96;
+  a `Min_u8` inline: 76.
+- `TrafficLight_20::Init_5C1D00` (738): the frame is 4 bytes bigger because ours CSEs both `y & 0xFF` and the
+  shifted `Fix16(y)` (used at the north light's y argument and the two `Fix16 yOff(y)` inits); the original keeps
+  only the int and shifts at every site. `Fix16((s32)y)` / `Fix16(y << 14, 0)` at the FindGroundZ call: 734;
+  `s32 yi = y`, `Fix16 yOff = Fix16((s32)y)`: 738.
+- `PublicTransport_181C::SpawnTrainsFromStations_578860` (601): the original reads `stop_point->field_2_y`
+  (byte, kept in a stack temp) and `dword_6FEF88` (ebx) before the __allmul/GetWagonType calls and does the
+  zext/shl/add after them; ours finishes the sum before the calls. `dword + Fix16(y)`, `mul + Fix16(x)`, a `u8 sy`
+  local: 601 unchanged.
+- `CarAI_78::ManageTrafficCarDirection_448CE0` (1897): the original holds the constant 0x10 in ecx across the
+  first switch (`or %ecx,%eax` at the 8 `|= 0x10` sites); ours folds `or $0x10,%al`. Literal signedness,
+  `flags = flags | 0x10`, a `u32 flag` local, `SetBit(u32&, u32)` / `const u32&` inlines: 1893-1897.
