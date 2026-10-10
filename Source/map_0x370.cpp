@@ -957,6 +957,9 @@ char_type Map_0x370::sub_4E0120()
 // 0xFF (-1) when it steps down onto a slope one level below.
 // Inside the switch a `break` means "blocked": it leaves the switch for the final `return true`.
 // (Matching needs these as breaks: a then-branch `return true` gets its own inline epilogue.)
+// Exception: the "blocked by terrain" exit after the below-block pBaseSlope check is a `return true` in the
+// up, down and right cases and a `break` in the left case. That decides which identical tails VC6 cross-jumps
+// (the up case jumps into the down case's below-block code, the right case keeps its own third lookup).
 WIP_FUNC(0x4E0130)
 bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direction, u8* pSlopeZDelta, char_type bReportStepUp)
 {
@@ -1125,7 +1128,7 @@ bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direct
                         return false;
                     }
                     field_36E_bBlockedByTerrain = 1;
-                    break;
+                    return true;
                 }
             }
             else
@@ -1273,7 +1276,7 @@ bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direct
                         return false;
                     }
                     field_36E_bBlockedByTerrain = 1;
-                    break;
+                    return true;
                 }
             }
             else
@@ -1434,7 +1437,7 @@ bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direct
                         return false;
                     }
                     field_36E_bBlockedByTerrain = 1;
-                    break;
+                    return true;
                 }
             }
             else
@@ -2930,13 +2933,19 @@ bool Map_0x370::CanPlaceOilOrMine_4E5480(Fix16 x, Fix16 y, Fix16 z, Fix16 unk_z_
     return false;
 }
 
+// Ang16::PolarToCartesian_41FC20 with the radius taken by value: the original copies value_2 into a
+// temporary before the two multiplications (the by-reference version passes value_2's own slot).
+static inline void __stdcall PolarToCartesianByVal(Ang16& angle, Fix16 radius, Fix16& ret1, Fix16& ret2)
+{
+    ret1 = Ang16::sine_40F500(angle) * radius;
+    ret2 = Ang16::cosine_40F520(angle) * radius;
+}
+
 // Walks the collision probe sprite from (x_1, y_1, z_1) towards (x_2, y_2, z_2) in steps of about `height`,
 // returning 0 as soon as it hits something (line of sight / clear path test).
-// Left: mostly stack slots (pos_diff's ctor is inline, like the original's).
-WIP_FUNC(0x4E5640)
+MATCH_FUNC(0x4E5640)
 char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_1, Fix16 y_1, Fix16 z_1, Fix16 x_2, Fix16 y_2, Fix16 z_2)
 {
-    WIP_IMPLEMENTED;
     Sprite* pObjSprt = gObject_5C_6F8F84->field_58_collision_probe_sprite;
     Fix16 z_diff = z_2 - z_1;
     Ang16 angle;
@@ -2978,7 +2987,7 @@ char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_
     Fix16 vec_x;
     Fix16 vec_y;
 
-    Ang16::PolarToCartesian_41FC20(angle, value_2, vec_x, vec_y);
+    PolarToCartesianByVal(angle, value_2, vec_x, vec_y);
 
     for (u8 i = 1; i <= value_1.ToInt(); i++)
     {
@@ -3044,9 +3053,10 @@ char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_
                                                                       pObjSprt->field_14_xy.y.ToInt(),
                                                                       pObjSprt->field_1C_zpos.ToInt()))
                     {
-                        if (gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(pObjSprt->field_14_xy.x,
+                        ground_z = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(pObjSprt->field_14_xy.x,
                                                                             pObjSprt->field_14_xy.y,
-                                                                            pObjSprt->field_1C_zpos) > pObjSprt->field_1C_zpos)
+                                                                            pObjSprt->field_1C_zpos);
+                        if (ground_z > pObjSprt->field_1C_zpos)
                         {
                             return 0;
                         }
@@ -3057,11 +3067,11 @@ char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_
                     pObjSprt->set_xyz_lazy_420600(pObjSprt->field_14_xy.x, pObjSprt->field_14_xy.y, ground_z);
                     return 0;
                 }
-            }
 
-            if (pObjSprt->CheckSpriteMovementRegion_5A2500())
-            {
-                return 0;
+                if (pObjSprt->CheckSpriteMovementRegion_5A2500())
+                {
+                    return 0;
+                }
             }
         }
     }
@@ -3747,8 +3757,13 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
     SetRoadBlockAt_4E6660(pBlock, x, y, z);
     s32 direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
 
-    Fix16 tmp;
-    Fix16 side = *sub_4E5D70(&tmp, x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
+    Fix16 side;
+    {
+        Fix16 tmp;
+        side = *sub_4E5D70(&tmp, x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
+    }
+    // The case order of this switch picks which constant used twice VC6 keeps in a register (1, like the
+    // original, in this order; 2 in up, down, left, right order).
     if (side > kFpHalf_6F5F18)
     {
         switch (direction)
@@ -3756,14 +3771,14 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
             case road_direction::up_1:
                 direction = road_direction::right_3;
                 break;
+            case road_direction::right_3:
+                direction = road_direction::down_2;
+                break;
             case road_direction::down_2:
                 direction = road_direction::left_4;
                 break;
             case road_direction::left_4:
                 direction = road_direction::up_1;
-                break;
-            case road_direction::right_3:
-                direction = road_direction::down_2;
                 break;
         }
     }
@@ -3790,6 +3805,7 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
     if (side != kFpHalf_6F5F18)
     {
         pPrev = pBlock;
+        Fix16 tmp;
         Fix16 to_centre = *sub_4E5E00(&tmp, x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
         if (to_centre > kFpZero_6F610C)
         {
@@ -3817,6 +3833,7 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
     }
     else
     {
+        Fix16 tmp;
         Fix16 to_edge = *sub_4E5E00(&tmp, x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
         if (to_edge > kFpZero_6F610C)
         {
@@ -3873,6 +3890,7 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
             if (!pBlock || !HasGreenArrowForPathDirection_4E5E90(pBlock, direction, 0))
             {
                 gmp_block_info* pBefore = pBlock;
+                Fix16 tmp;
                 Fix16 to_edge = *sub_4E5E00(&tmp, x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
                 sub_4E5D10(&x,
                            &y,

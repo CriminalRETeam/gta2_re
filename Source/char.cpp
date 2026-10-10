@@ -639,11 +639,27 @@ void Char_B4::DrownPed_5459E0()
 }
 
 // 9.6f 0x497DF0
-WIP_FUNC(0x546360)
+// By-value angle, as TurnBy16Deg_548BD0: the copy is what loads field_40 before adding kAng180
+// By-value angle, like TurnBy16Deg_548BD0: the copy makes VC6 load field_40 first and add kAng180
+static inline Ang16 TurnBy180Deg_546360(Ang16 a)
+{
+    return a + kAng180_6FD936;
+}
+
+// Frame delay of the lying-on-floor animations (cases 15/16): an if/return inline returning u8
+// gives the original's byte compare with the delay in al and field_68 kept in cl
+static inline u8 FrameDelay_546360(Char_B4* pThis)
+{
+    if (pThis->field_68_animation_frame > 5)
+    {
+        return 3;
+    }
+    return 4;
+}
+
+MATCH_FUNC(0x546360)
 void Char_B4::UpdateAnimState_546360()
 {
-    WIP_IMPLEMENTED;
-
     s16 newId = 0;
     u8 frame_limit = 0;
 
@@ -1096,13 +1112,13 @@ void Char_B4::UpdateAnimState_546360()
 
             if (field_58_flags & 0x10)
             {
-                field_40_rotation = field_40_rotation + kAng180_6FD936;
+                field_40_rotation = TurnBy180Deg_546360(field_40_rotation);
             }
 
             if ((u8)field_70_frame_timer > frame_limit)
             {
-                field_70_frame_timer = 0;
                 field_68_animation_frame++;
+                field_70_frame_timer = 0;
                 if (field_68_animation_frame == 13)
                 {
                     field_68_animation_frame = 4;
@@ -1324,8 +1340,8 @@ void Char_B4::UpdateAnimState_546360()
 
             if ((u8)field_70_frame_timer > frame_limit)
             {
-                field_70_frame_timer = 0;
                 field_68_animation_frame++;
+                field_70_frame_timer = 0;
                 if (field_68_animation_frame == 13)
                 {
                     field_68_animation_frame = 4;
@@ -1531,7 +1547,7 @@ void Char_B4::UpdateAnimState_546360()
             break;
 
         case 15:
-            if ((u8)field_70_frame_timer > (field_68_animation_frame > 5 ? 3 : 4))
+            if ((u8)field_70_frame_timer > FrameDelay_546360(this))
             {
                 field_68_animation_frame++;
                 if (field_68_animation_frame > 7)
@@ -1552,7 +1568,7 @@ void Char_B4::UpdateAnimState_546360()
             break;
 
         case 16:
-            if ((u8)field_70_frame_timer > (field_68_animation_frame > 5 ? 3 : 4))
+            if ((u8)field_70_frame_timer > FrameDelay_546360(this))
             {
                 field_68_animation_frame++;
                 if (field_68_animation_frame > 7)
@@ -2440,17 +2456,19 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
 }
 
 // https://decomp.me/scratch/aRlEV
-WIP_FUNC(0x54b8f0)
+MATCH_FUNC(0x54b8f0)
 char_type Char_B4::ContinueMovementAfterCollision_54B8F0()
 {
-    WIP_IMPLEMENTED;
     Fix16 x_vec;
     Fix16 y_vec = kFP16Zero_6FD9E4;
+    // Every path past the early return leaves through `done`: the original pushes ebx/ebp/edi only
+    // after the Jumping_15 check, which needs a single exit block (separate returns keep the pushes
+    // at entry). bMoved stays in memory, as in the original.
+    char_type bMoved = false;
     if (field_10_char_state == Char_B4_state::Jumping_15)
     {
         return 1;
     }
-    volatile char_type bMoved = false;
 
     if (field_18_collided_entity)
     {
@@ -2474,9 +2492,10 @@ char_type Char_B4::ContinueMovementAfterCollision_54B8F0()
             if (field_18_collided_entity)
             {
                 field_80_sprite_ptr->set_xy_lazy_447E20(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
-                return bMoved;
+                goto done;
             }
         }
+        bMoved = true;
     }
     else
     {
@@ -2527,7 +2546,7 @@ char_type Char_B4::ContinueMovementAfterCollision_54B8F0()
                     {
                         field_80_sprite_ptr->set_xy_lazy_447E20(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
                     }
-                    return bMoved;
+                    goto done;
                 }
             }
             else
@@ -2541,7 +2560,7 @@ char_type Char_B4::ContinueMovementAfterCollision_54B8F0()
                 if (field_18_collided_entity)
                 {
                     field_80_sprite_ptr->setxy_lazy_54EC80(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
-                    return bMoved;
+                    goto done;
                 }
             }
         }
@@ -2557,11 +2576,14 @@ char_type Char_B4::ContinueMovementAfterCollision_54B8F0()
             if (field_18_collided_entity)
             {
                 field_80_sprite_ptr->setxy_lazy_54EC80(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
-                return bMoved;
+                goto done;
             }
+            bMoved = true;
+            goto done;
         }
+        bMoved = true;
     }
-    bMoved = true;
+done:
     return bMoved;
 }
 
@@ -4950,17 +4972,16 @@ LABEL_65:
 }
 
 // https://decomp.me/scratch/4eLOQ
-WIP_FUNC(0x550f60)
+MATCH_FUNC(0x550f60)
 Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 inputAng)
 {
-    WIP_IMPLEMENTED;
-
     u8 side_curr = field_40_rotation.ToAng4_405680();
     u8 side_input_ang = inputAng.ToAng4_405680();
 
     // 9.6f has no trace of this; 10.5 constructs the step angle from it and then overwrites it.
     // The product is a temporary inside the inline: the step angle sits in the temporaries area.
     Ang16 v12 = word_6FDB2E.MultiplyByFix16_401CB0(field_38_velocity);
+    Ang16 result;
 
     if (field_10_char_state == 10)
     {
@@ -4990,12 +5011,13 @@ Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 inputAng)
             {
                 if (ComputeShortestAngleDelta_4056C0(inputAng, field_40_rotation) > kAng180_6FD936)
                 {
-                    return Ang16(field_40_rotation + v12);
+                    result = field_40_rotation + v12;
                 }
                 else
                 {
-                    return Ang16(field_40_rotation - v12);
+                    result = field_40_rotation - v12;
                 }
+                return result;
             }
             break;
         case 2: // north
@@ -5003,12 +5025,13 @@ Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 inputAng)
             {
                 if (ComputeShortestAngleDelta_4056C0(inputAng, field_40_rotation) > kAng180_6FD936)
                 {
-                    return Ang16(field_40_rotation + v12);
+                    result = field_40_rotation + v12;
                 }
                 else
                 {
-                    return Ang16(field_40_rotation - v12);
+                    result = field_40_rotation - v12;
                 }
+                return result;
             }
             break;
         case 1: // east
@@ -5016,12 +5039,13 @@ Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 inputAng)
             {
                 if (ComputeShortestAngleDelta_4056C0(field_40_rotation, inputAng) < kAng180_6FD936)
                 {
-                    return Ang16(field_40_rotation - v12);
+                    result = field_40_rotation - v12;
                 }
                 else
                 {
-                    return Ang16(field_40_rotation + v12);
+                    result = field_40_rotation + v12;
                 }
+                return result;
             }
             break;
         case 0: // south
@@ -5030,12 +5054,13 @@ Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 inputAng)
                 case 2:
                     if (ComputeShortestAngleDelta_4056C0(field_40_rotation, inputAng) < kAng180_6FD936)
                     {
-                        return Ang16(field_40_rotation - v12);
+                        result = field_40_rotation - v12;
                     }
                     else
                     {
-                        return Ang16(field_40_rotation + v12);
+                        result = field_40_rotation + v12;
                     }
+                    return result;
                     break;
                 case 3:
                     if (ComputeShortestAngleDelta_4056C0(inputAng, field_40_rotation) < v12)
@@ -5052,7 +5077,6 @@ Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 inputAng)
     }
 
     // Close enough to the target: snap to it (the original returns inputAng here, not field_40_rotation)
-    Ang16 result;
     if (inputAng > field_40_rotation)
     {
         if (ComputeShortestAngleDelta_4056C0(inputAng, field_40_rotation) > v12)
@@ -5063,6 +5087,7 @@ Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 inputAng)
         {
             result = inputAng;
         }
+        return result;
     }
     else
     {

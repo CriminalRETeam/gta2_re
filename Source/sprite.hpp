@@ -207,6 +207,8 @@ class Sprite
     {
         return Fix16_Point(field_14_xy.x, field_14_xy.y);
     }
+    // get_x_y with its body defined at the end of Car_BC.cpp (Car_BC::HandleCarHitByObject_43F130)
+    inline Fix16_Point get_x_y_late_443580();
     EXPORT void set_xyz_lazy_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void setxy_lazy_54EC80(Fix16 xpos, Fix16 ypos);
     EXPORT bool IsControlledByActivePlayer_59E170();
