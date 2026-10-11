@@ -317,9 +317,9 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
             {
                 gNetPlay_7071E8.EnumSessions_51E650();
                 wchar_t playerNameW[260];
-                playerData.field_0 = 0;
+                playerData.field_0_data = 0;
                 playerData.field_4_len = 0;
-                groupData.field_0 = 0;
+                groupData.field_0_data = 0;
                 groupData.field_4_len = 0;
                 GetDlgItemTextA(hDlg, 1004, playerName, 259);
                 Network_20324::GetString_519A50(playerNameW, playerName, 260);
@@ -329,7 +329,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
                 {
                     if (gNetPlay_7071E8.JoinSession_520570(0, playerNameW, &playerData, &groupData))
                     {
-                        pThis->ApplyHostGameSettings_51B810((const char_type*)groupData.field_0);
+                        pThis->ApplyHostGameSettings_51B810((const char_type*)groupData.field_0_data);
                         pThis->ShowSpecificWindow_51ABF0(2);
                     }
                 }
@@ -337,9 +337,9 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
             else
             {
                 wchar_t playerNameW[260];
-                playerData.field_0 = 0;
+                playerData.field_0_data = 0;
                 playerData.field_4_len = 0;
-                groupData.field_0 = 0;
+                groupData.field_0_data = 0;
                 groupData.field_4_len = 0;
                 GetDlgItemTextA(hDlg, 1004, playerName, 259);
                 Network_20324::GetString_519A50(playerNameW, playerName, 260);
@@ -351,7 +351,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
                     LRESULT idx = SendDlgItemMessageA(hDlg, 1000, LB_GETITEMDATA, sel, 0);
                     if (gNetPlay_7071E8.JoinSession_520570(idx, playerNameW, &playerData, &groupData))
                     {
-                        pThis->ApplyHostGameSettings_51B810((const char_type*)groupData.field_0);
+                        pThis->ApplyHostGameSettings_51B810((const char_type*)groupData.field_0_data);
                         pThis->ShowSpecificWindow_51ABF0(2);
                     }
                 }
@@ -362,9 +362,9 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
             if (notify == LBN_DBLCLK)
             {
                 wchar_t playerNameW[260];
-                playerData.field_0 = 0;
+                playerData.field_0_data = 0;
                 playerData.field_4_len = 0;
-                groupData.field_0 = 0;
+                groupData.field_0_data = 0;
                 groupData.field_4_len = 0;
                 GetDlgItemTextA(hDlg, 1004, playerName, 259);
                 Network_20324::GetString_519A50(playerNameW, playerName, 260);
@@ -415,9 +415,9 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
         {
             Network_20324* pThis = (Network_20324*)GetWindowLongA(hDlg, 8);
             NetworkGameSettings settings = pThis->field_20088_game_settings;
-            groupData.field_0 = &settings;
+            groupData.field_0_data = &settings;
             groupData.field_4_len = sizeof(NetworkGameSettings);
-            playerData.field_0 = 0;
+            playerData.field_0_data = 0;
             playerData.field_4_len = 0;
             GetDlgItemTextA(hDlg, 1004, playerName, 259);
             sprintf(sessionName, "%s's game", playerName);
@@ -1158,9 +1158,9 @@ void Network_20324::SetSetting_51B9C0(s32 setting, s32 value)
             break;
     }
 
-    data.field_0 = &field_20088_game_settings;
+    data.field_0_data = &field_20088_game_settings;
     data.field_4_len = sizeof(field_20088_game_settings);
-    gNetPlay_7071E8.SetGroupData_521170(&data);
+    gNetPlay_7071E8.SetGameSettings_521170(&data);
 }
 #pragma warning(pop)
 

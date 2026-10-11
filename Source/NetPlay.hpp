@@ -21,8 +21,8 @@ class PacketHeader
 class Packet_Ping_C
 {
   public:
-    s32 field_0_player_id;
-    s32 field_4;
+    s32 field_0_player_id_1;
+    s32 field_4_player_id_2;
     s32 field_8_time;
 };
 
@@ -37,9 +37,9 @@ class Packet_SubType_3
 {
   public:
     PacketHeader header;
-    char_type field_8;
+    u8 field_8_seq; // mod 256
     s32 field_9;
-    s32 field_D;
+    s32 field_D_data;
     s32 field_11_len;
 };
 #pragma pack(pop)
@@ -60,15 +60,25 @@ class Nework_2C
     s32 field_28;
 };
 
+struct Network_Data
+{
+    u8 field_0;
+    u8 field_1_tick;
+    u8 field_2;
+    u8 field_3_type;
+    u8 field_4_length;
+    void* field_5_data;
+};
+
 class Network_Unknown
 {
   public:
     s32 field_0_group_id;
     u32 field_4_count;
-    char_type field_8[4];
+    u8 field_8_packet_game_tick[4]; // game tick mod 256
     s32 field_C;
     Nework_2C field_10_players[MAX_PLAYERS];
-    u8* field_118_group_data;
+    u8* field_118_game_settings;
     s32 field_11C_group_data_len;
     DPSESSIONDESC2 field_120_session_desc;
 };
@@ -107,7 +117,7 @@ struct Network_4
 
 struct Network_8
 {
-    void* field_0;
+    void* field_0_data;
     s32 field_4_len;
 };
 
@@ -143,9 +153,9 @@ struct Network_14
 {
     Network_InputData_0x8 field_0_inputs;
     s32 field_8_id;
-    s32 field_C;
+    s32 field_C_len;
     u8 field_10_used;
-    char_type field_11_type;
+    char_type field_11_game_tick; // mod 256
     char field_12;
     char field_13;
 };
@@ -220,7 +230,7 @@ struct NetPlay
     EXPORT void Set21_5210D0(s32 a2, s32 a3);
     EXPORT void GetPlayerName_521100(wchar_t* Destination, u32 idx);
     EXPORT void Set24_521140(s32 a2, s32 a3);
-    EXPORT s32 SetGroupData_521170(Network_8* a2);
+    EXPORT s32 SetGameSettings_521170(Network_8* a2);
     EXPORT void Set27SavePlayerName_5211F0(s32 a2, s32 a3);
     EXPORT void DisableJoining_521220();
     EXPORT s32 GetField5CC_5212E0();
@@ -229,9 +239,9 @@ struct NetPlay
     EXPORT void Send_521370();
     EXPORT bool WaitForPlayersSync_5213E0();
     EXPORT s32 CopyConnection_5215B0(u32 a2, u32* a3, size_t* a4);
-    EXPORT s32 SendToPlayer_521630(Network_8* pSendData, s32 idx, char_type a4);
-    EXPORT void Add_5216E0(Network_8* pData, s32 id, char_type type);
-    EXPORT u32 sub_521770(Network_8* pOut, char_type* pSeq, u32* pPlayerId);
+    EXPORT s32 SendToPlayer_521630(Network_8* pSendData, s32 player_idx, char_type delayed_ticks);
+    EXPORT void Add_5216E0(Network_8* pData, s32 id, char_type game_tick);
+    EXPORT u32 GetLatestPacket_521770(Network_8* pOut, char_type* pSeq, u32* pPlayerId);
     EXPORT void sub_521820(s32** a2, s32 idx);
     EXPORT void Remove_521870(s32 idx);
     EXPORT char_type ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u32* pType);
