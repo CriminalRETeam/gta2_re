@@ -5240,3 +5240,36 @@ re-scored identical to the base. Scratch: `/tmp/claude-0/agents/near23/` (`v/` v
   Keeping the local live across the store (no reload) hoists the sprite load (130); one direct re-read
   argument among local ones 144-158; direct re-reads for the checks 162; `SetStateInitPending_433B50`
   inline at both sites 264.
+
+## Agent near25 (ChangeMenuPage_4B3170 8, SetupMenuStringsOptionsElements_4B0220 84; neither moved, nothing kept in Source/)
+
+- `Frontend::ChangeMenuPage_4B3170` (8, unchanged). Re-checked the frame walk with reflog (scratch
+  `/tmp/claude-0/agents/near25/rl.sh` prints score + the walk positions of the four byte locals): base order is
+  23 S store, 24 bc, 25 B store, 26-27 bsi, 28 B test load, 29 `bc = 0`, 30 S region-entry load, 31-33 bc
+  (decode arm), 34 bsi (compare). New things tried, all identical walk (8): `u8 saved_main_stage = 0` at the
+  declaration, `saved_main_stage = 0` after the compare block, `saved_main_stage = saved_main_stage` in the
+  not-bonus arm (dead stores and self-copies are removed before the frame pass, no extra ref), the B test through
+  a pointer / `(&saved_is_bonus)[0]` / `== 0` (all normalised to the same `mov 0x2B,%al; test`). The opdump at
+  the frame boundary (10765c2d, build with `build_opdump.py`) confirms S's only memory operands are the top store
+  and the splitter's entry load in the `bc = 0` block. Noted for whoever continues: the post-frame passes do change
+  memory reference counts in this function (the final asm has 17 refs of `stage_idx` 0x14 vs 16 in the walk, and
+  8 of `user_idx` 0x24 vs 9: copy elimination can turn a `mov reg,reg` into a slot reload and a reload into a
+  register use), so the original's S may have had a frame-time ref that the final code no longer shows; a
+  mechanism for S (a value that is only ever in memory before the test) was not found.
+- `Frontend::SetupMenuStringsOptionsElements_4B0220` (84, unchanged). Only one new probe: the top block's store
+  chain in the original is `0x134, 0x136, v2 spill 0x10(%esp), 0x13A, 0x13C`, which looks like
+  `field_134 = 16; number_of_options = 3; v2 = ...;` but that order moves the `gText->field_10` load below the
+  two stores (loads don't cross stores), so v2's `mov %ecx,0x10(%esp)` is a spill store placed by the spiller,
+  not an IL store: v2 must stay first (near20's sweep stands). Priolog on the base: only 4 constants are
+  coloured webs (1 ebx, 0 edi, 3 ebp, one more ebp), the 0xC5/0x118/0x17C/0x136 constants are block temps.
+  sched.sh on the base (`/tmp/claude-0/agents/near25/sched_4B0220.txt`) shows how the constant defs are placed:
+  CSE puts a constant's def in IL right before its first use (`mov ebx,1` is s15, its store s16), the scheduler
+  gives it priority = that store's + 4, and consecutive chained stores differ by 2, so the def of the constant
+  used by the k-th store of a block has the priority of store k-2 and lands two stores earlier. The original's
+  defs at the block top therefore mean their first-use stores are EARLY in the IL store chain: in the top
+  block the original's chain is `0x134, 0x136 (bp), v2 slot store, 0x13A (bl), 0x13C (di), 0x13E`, ours
+  `0x134, 0x13A, 0x13C, 0x136, v2, 0x13E`; `number_of_options = 3` right after `field_134 = 16` with the v2
+  store third needs v2 computed first (its load can't cross the stores: tested, worse) but stored after
+  `0x136`, i.e. v2 held in a register piece and spilled late, or the load kept in a temp used twice. Same
+  reading for the other hunks (`xor %edi,%edi` after the call = the first `%di` store is early in that chain,
+  `mov $0xC5,%eax` at the top = `ypos = 197` is the 2nd store of its block in the original IL). Not resolved.
