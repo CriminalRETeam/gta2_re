@@ -4408,3 +4408,16 @@ No source change kept. Nothing matched.
     `gMap` into ecx before the `sub`, so its `this` must be live across the `(Z - one)` evaluation.
   Permuter 900 on the kept source (swap_logical, invert_if, cond_split, switch_dup, tail_return, reorder_saves, named_op,
   noop_node, temp_for_expr, --auto-method-aliases): no improvement over 50.
+
+## Agent cheap2 (Char_B4::HandleGenericCollision_54A530)
+Start 267, final 267 (no change kept), not matched. `NO_PCH=1 quick_score.sh` line.
+- Permuter (swap_logical, do_while, noop_node, invert_if, cond_split, goto_exit, tail_return, switch_dup,
+  reorder_saves), 42 compiles: no improvement. Each compile recompiles all of char.cpp, so it is slow
+  (about 1 compile per 30 s under load).
+- Random order of the nine top-of-function declarations, 150 orders: all 267, so the declaration order has no effect.
+- Moved to function scope: `half_w`/`half_h` 494, `Fix16 xpos`/`ypos` declared first 281, `step_x`/`step_y` 267
+  (no change), `corner_ang`/`hit_ang` swapped 267 (no change).
+- `pSprt = pObj->field_4` moved after the half-size locals 506; `target_y` initialised late 1507;
+  `u8 side` declared at the first use 287.
+- Nothing kept. The diff starts at the frame layout (xpos at 0x24 in the original, 0x28 here), then the
+  jump-over block order and the `bNoJump` re-test placement, which the 54A530 entry above already covers.
