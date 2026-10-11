@@ -2818,3 +2818,17 @@ dying pointer, no round-robin pick) came from `MaxAbsDistance_42A6B0` inlined wi
 an explicit call to the named `Max_44E540` gives `mov (%eax),%reg` with a pick, and every later temp
 rotates by one. Inline getters after the call (`get_idx_4219D0`, `get_wanted_points_433DC0`) set the
 cut-off (`Scripts/inline_budget/inl.sh`), the target's `get_cam_x/y` the load order.
+
+### A flag test VC6 threads away decides the block layout (`Object_2C::HandleSpriteZCollision_5238B0`)
+
+The landing code after the slope/non-slope split sits in the original after the non-slope `bAirborne = 1`
+block and right before the shared tail, with its then-arm moved up to the slope path by dupB. With a
+`goto LABEL_10` from the non-slope arm (or the code falling out of the slope arm) that layout is impossible:
+the jump-target-first DFS (RPO, above) reaches the landing code through the non-slope `jl` first and lays it
+out after that arm, whatever the source position. The original tested a flag after the if-else:
+`bool bLanded = false; ... if (bLanded) { field_50 code }`, set on the three landing paths. VC6 threads the
+test away on every predecessor (the flag never appears in the code), but at RPO time the test block is
+reached first through the non-slope `else` (J -> T -> landing code -> tail), which is the original's order.
+Side effects that confirm it: the then-arm keeps `mov %al,(%ecx)` (field_50 known == 1 after the compare) so
+it no longer cross-jumps into the non-slope copy, and the two `bAirborne = 1` copies merge, since J now ends
+in a `jmp`. When a block is laid out "too late" for the DFS, look for a threaded flag before layout tricks.

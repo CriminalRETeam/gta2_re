@@ -876,14 +876,15 @@ char_type Object_2C::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite
 }
 
 // https://decomp.me/scratch/1RN5H
-WIP_FUNC(0x5238B0)
+MATCH_FUNC(0x5238B0)
 char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* a2, Fix16_Point* a3, u8* a4, u8* a5, Fix16 a6)
 {
-    WIP_IMPLEMENTED;
-    Fix16 v18;
-    Object_3C* v22;
     Fix16 v14;
     bool v23 = false;
+    // The landing code after the slope/non-slope split is reached through this flag, not a goto: VC6
+    // threads the `if (bLanded)` test away on every path, which puts the `field_50 != 1` arms after the
+    // non-slope `bAirborne = 1` block (and lets the two `bAirborne = 1` tails merge there).
+    bool bLanded = false;
 
     if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(a2->field_14_xy.x.ToInt(), a2->field_14_xy.y.ToInt(), a2->field_1C_zpos.ToInt()))
     {
@@ -899,36 +900,18 @@ char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* a2, Fix16_Point* a3, 
                     a2->set_xyz_lazy_420600(a2->field_14_xy.x, a2->field_14_xy.y, v14);
                     Object_2C::Sprite_UpdateZFromSlopeAndTile_522FA0(a2);
                     field_10_obj_3c->field_2A_bAirborne = 0;
+                    bLanded = true;
                 }
                 else
                 {
                     field_10_obj_3c->field_2A_bAirborne = 1;
-                    goto LABEL_29;
                 }
             }
             else
             {
                 Object_2C::Sprite_UpdateZFromSlopeAndTile_522FA0(a2);
                 field_10_obj_3c->field_2A_bAirborne = 0;
-            }
-
-        LABEL_10:
-            //v15 = field_8->field_50;
-            if (field_8->field_50 == 1)
-            {
-                *a5 = 1;
-                field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
-                field_10_obj_3c->field_C_speed = kFpZero_6F8E10;
-            }
-            else
-            {
-                if (field_8->field_50 == 4)
-                {
-                    *a5 = true;
-                    return true;
-                }
-                *a5 = true;
-                field_10_obj_3c->field_10_z_speed = kObjectBounceRestitution_6F8DBC * (-field_10_obj_3c->field_10_z_speed);
+                bLanded = true;
             }
         }
         else
@@ -946,7 +929,6 @@ char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* a2, Fix16_Point* a3, 
 
             if (field_10_obj_3c->field_10_z_speed < kObjectGravity_6F8DA8)
             {
-
                 if (!gObject2C_LastCollisionSprite_6F8F8C)
                 {
                     if (field_10_obj_3c->field_10_z_speed >= -k_dword_6F8C58)
@@ -957,7 +939,7 @@ char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* a2, Fix16_Point* a3, 
                     }
                     else
                     {
-                        goto LABEL_10;
+                        bLanded = true;
                     }
                 }
                 else
@@ -981,7 +963,26 @@ char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* a2, Fix16_Point* a3, 
         }
     }
 
-LABEL_29:
+    if (bLanded)
+    {
+        if (field_8->field_50 == 1)
+        {
+            *a5 = true;
+            field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
+            field_10_obj_3c->field_C_speed = kFpZero_6F8E10;
+        }
+        else
+        {
+            if (field_8->field_50 == 4)
+            {
+                *a5 = true;
+                return true;
+            }
+            *a5 = true;
+            field_10_obj_3c->field_10_z_speed = kObjectBounceRestitution_6F8DBC * (-field_10_obj_3c->field_10_z_speed);
+        }
+    }
+
     if (a2->CheckSpriteMovementRegion_5A2500())
     {
         field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed;
@@ -1008,7 +1009,7 @@ LABEL_29:
         }
         else
         {
-            v22 = field_10_obj_3c;
+            Object_3C* v22 = field_10_obj_3c;
             if (v22->field_34 == 2)
             {
                 v22->field_34 = 1;
