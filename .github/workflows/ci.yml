@@ -64,7 +64,7 @@ jobs:
       run: |
         pip install -r requirements.txt
         python vc6_setup.py
-        # build.log is read by Scripts/report_progress_to_discord.py to count warnings
+        # build.log keeps the compiler output (warnings) for the run
         python build.py 2>&1 | Tee-Object -FilePath build.log
         if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
         build_vc6/decomp_main.exe --check_vars_only
