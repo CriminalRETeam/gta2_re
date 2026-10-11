@@ -5170,3 +5170,73 @@ top-level site after `--rm`/`--free`/`--scan` edits, `try.sh`/`inl.sh` mirror sc
   compares +2 each; `this->`, parentheses, `(u8)` casts, `!(a == b)`, declared-then-assigned u8/bool are +0.
   Final size 2779 = the bottom of the window (2779..2840).
 - Not needed: `__forceinline`, `s16 corner_ang`, by-ref helpers (near21's dead ends).
+
+## Agent near24 (Oct 11): SCRCMD_STORE_CAR_INFO_509180 (46 kept / 80 in the true shape, unchanged)
+
+Scores are `NO_PCH=1 quick_score.sh`. No source or header changes kept (mirror-only experiments in
+`/tmp/claude-0/agents/near24/`, opdump/ildump C2 variants built there, `v.py` splices `variants/*.cpp`).
+
+- `miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180`: the committed 46 keeps the else-branch read through pChar; the
+  shape the original's asm forces (else reload `mov 8(%ebx),%edx`, the 9.6f 0x4790F0 structure) scores 80, and
+  everything below is about that 80. Two independent colour-order facts remain, both pure priority (priolog):
+  (A) zero (2) must be coloured before pParam2 (7) (gives zero esi, pParam2 ebx because of the pPointer edi
+  conflict, 4 edi); (B) the constant 3 (7) must be coloured before branch 1's IsDeactivated/MarkForDespawn
+  gStoredCar web (14, tie 45), else the web takes ecx and 3 gets edx. Term breakdown: zero = 5+4+4 (c=1 stores in
+  the three SetUniNum blocks, N=5/4/4) - 11 (live through B4..B7 and the CanAlloc test block; it is not live
+  after a SetUniNum block); pParam2 = 14 (B1 def, N=7) + 8 (store, N=4) + 18 (tail: 3 loads, N=3 with the
+  forwarded gStoredCar web and the `8` symbol) + 6 (is_bus block) + 6 (else) - 45; 3 = 5+4+4+2 - 8 (live
+  through the `cmp 5`/`cmp 2` blocks of branches 1 and 2 up to its `cmp 3`); web = 10+4+4-4. (A) needs -6 on
+  pParam2 or +6 on zero, (B) +8 on 3 or -8 on the web; no spelling found that changes any of these.
+- Constant-symbol rules read off opdump at boundary 10765bbd (op 0x163 const defs): a literal gets a symbol
+  only when one use can share a def with another; a later use reachable from an earlier use hoists the def to
+  their nearest common dominator (2 and 4: `cmp 2`/store 4 in MarkForDespawn + the SetF98 tail -> def in the
+  `id == gStoredCarId` block; 8: CanAlloc(8) + the tail's Reassign(8) -> same block, which is why the tail
+  block has N=3); uses in sibling arms get one def each (3: one `mov $3` per SetUniNum site, first in walk
+  order), and a literal with one use per sibling arm (5, 7, the else's 8 in the CanAlloc(9) diagnostic) gets no
+  symbol at all. The def site is the statement of the first use (zero in B1 after the calls, `1` at
+  `if (CanAllocateOfType(1))`), not a call-free block (replacing CanAllocateOfType by a field test does not
+  hoist 3). Constants are keyed by value only: `3u`, an enum-typed 3, and a `uni_num - uni_num` SetUniNum body
+  (3 refs of the inline parameter, still substituted) all leave the d9 diagnostic at 20.
+- Inline `this` handling (opdump 10765baa): SetUniNum, MarkForDespawn, DespawnSoon and SetF98To2IfNot4 get a
+  kind-4 local for `this` (2+ uses, one load each), IsDeactivated's single use is the global placeholder itself;
+  CSE then merges MarkForDespawn's local load with that use into one global web (the `mov gStoredCar,%edx`).
+  So N in the SetUniNum blocks is {1, SetUniNum this, 3, zero, web} = 5 (branch 1) / 4 / 4 and nothing in the
+  asm can add a range there; the only -6 for pParam2 would be the tail block without the `8` symbol (near18's
+  CanAlloc(9) diagnostic: 20, with (B) left).
+- Tried at 80, no change: merged `pChar && pChar->field_16C_car` condition, no pChar local (CSE'd
+  `pPointer->field_8_char`), `has_car_403B80()`/`get_car_416B60()`, IsDeactivated written as
+  `field_88 != 7`; arm swap `if (!gStoredCar) {...} else {...}` 376; first argument via `pCmd->field_8`: 86
+  (pParam2 5, prologue loses the `mov gBasePtr,%eax` copy). Permuter on the 80 shape with
+  --auto-method-aliases, 630 compiles: best 50 = the else's `gStoredCar = ...` store dropped (rejected); on the
+  46 shape with the structural passes it exhausted after 167 compiles at 46.
+
+## Agent near23 (Char_B4::state_1_5504F0 49 -> 30, state_8_5520A0 12 unchanged, state_0_54DDF0 184 read only)
+`NO_PCH=1 quick_score.sh` lines. Only `Source/char.cpp` changed (state_1 body plus a `static inline s32
+IsOnSlopeBlock(gmp_block_info*)` helper right before it), no header edits. Every other MATCH_FUNC of char.cpp
+re-scored identical to the base. Scratch: `/tmp/claude-0/agents/near23/` (`v/` variants with `.out` diffs,
+`ra/d1p` priolog, `f96_*.txt` 9.6f dumps, `perm/` permuter run).
+- `state_1_5504F0` 49 -> **30** (kept, `v/d1.cpp`). Two changes together:
+  - The bit insert `((v ^ f) & 1) ^ f` with the `&&` value FIRST (no `mov %ecx,%ebp` copy) comes from the
+    value being an inlined helper's return: `field_58_flags_bf.b0 = IsOnSlopeBlock(pBlock)` with the helper
+    written `if (a && b) return 1; return 0;` (s32 return). Every direct spelling (`bf.b0 = cond`, named
+    `s32`/`u32` locals, if/else-assigned local, `u32 flags` copy of the field, helper `return a && b` or
+    `return r` with a local) keeps the copy form (271/299/253 only for the if/return helper). All other
+    xor/and/xor inserts in the exe (CopyStatsFromPed, state_0) are the copy form, so state_1's site is special.
+    9.6f has no call there (/Ob0), so the original was probably a macro or a `__forceinline`-free equivalent;
+    the helper is just the IL shape.
+  - near9's get_block shape: `pBlock = get_block(X.ToInt(), Y.ToInt(), Z.ToInt() [- 1])` in each arm of
+    the b0/frac/z if-else, no `zpos` local (VC6 tail-merges the two calls). Alone it shifts the insert by a
+    byte (195); with the helper the whole get_block + insert section matches.
+  - Left (30): (1) HasBlockAnyArrows arms: `kFP16One` in edx (target) vs ecx; everything else there (gMap
+    `this` loaded before the sub, Y after) follows from that one register. (2) the set_xyz site: `sprite_z`
+    edx / sine ecx swapped and the sine spill store before the cosine load (one round-robin pick off; it was
+    already so on the 49 base). Tried for (2): `Sprite* pSpr` block local (129), `Fix16 vel` local (56),
+    commuted `sine * vel + x` (30). Permuter 1500 on the 30 base (swap_logical, noop_node, invert_if,
+    cond_split, tail_return, reorder_saves, temp_for_expr, named_op, switch_dup, --auto-method-aliases): 30.
+- `state_8_5520A0` (12, unchanged). New data points: the 9.6f version (0x496880) also re-reads
+  `0x184(%ecx)` after the `= 12` store and loads field_4 once, so the source is the reload (direct re-reads
+  or a reassigned local give the same IL). Unrelated webs elsewhere don't move the site-1 register
+  (a `Sprite* pSpr` local in the sinking case: identical 12), so the colour tie is not a global counter.
+  Keeping the local live across the store (no reload) hoists the sprite load (130); one direct re-read
+  argument among local ones 144-158; direct re-reads for the checks 162; `SetStateInitPending_433B50`
+  inline at both sites 264.

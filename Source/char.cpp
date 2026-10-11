@@ -4592,13 +4592,21 @@ bool Char_B4::CanReachTile_550090(u8 xpos, u8 ypos)
     return false;
 }
 
+static inline s32 IsOnSlopeBlock(gmp_block_info* pBlock)
+{
+    if ((pBlock->field_B_slope_type & 0xFC) != 0 && (pBlock->field_B_slope_type & 0xFC) != 0xFC)
+    {
+        return 1;
+    }
+    return 0;
+}
+
 // https://decomp.me/scratch/chZqY
 WIP_FUNC(0x5504f0)
 void Char_B4::state_1_5504F0()
 {
     WIP_IMPLEMENTED;
     Ang16 v77;
-    s32 zpos;
     Ang16 v29;
     Ang16 v30;
     Ang16 v39;
@@ -4625,27 +4633,30 @@ void Char_B4::state_1_5504F0()
     u8 unk_xpos = gCharB4_Saved_Xpos_6FD7F8.ToUInt8();
     u8 unk_ypos = gCharB4_Saved_Ypos_6FD800.ToUInt8();
     u8 block_type;
+    gmp_block_info* pBlock;
     if (field_58_flags_bf.b0 == false && gCharB4_Saved_Zpos_6FD7FC.GetFracValue() == kFP16Zero_6FD9E4 &&
         gCharB4_Saved_Zpos_6FD7FC > kFP16Zero_6FD9E4)
     {
         block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos_6FD7F8.ToInt(),
                                                                    gCharB4_Saved_Ypos_6FD800.ToInt(),
                                                                    gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1);
-        zpos = gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1;
+        pBlock = gMap_0x370_6F6268->get_block_4DFE10(gCharB4_Saved_Xpos_6FD7F8.ToInt(),
+                                                     gCharB4_Saved_Ypos_6FD800.ToInt(),
+                                                     gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1);
     }
     else
     {
         block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos_6FD7F8.ToInt(),
                                                                    gCharB4_Saved_Ypos_6FD800.ToInt(),
                                                                    gCharB4_Saved_Zpos_6FD7FC.ToInt());
-        zpos = gCharB4_Saved_Zpos_6FD7FC.ToInt();
+        pBlock = gMap_0x370_6F6268->get_block_4DFE10(gCharB4_Saved_Xpos_6FD7F8.ToInt(),
+                                                     gCharB4_Saved_Ypos_6FD800.ToInt(),
+                                                     gCharB4_Saved_Zpos_6FD7FC.ToInt());
     }
 
-    gmp_block_info* pBlock =
-        gMap_0x370_6F6268->get_block_4DFE10(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), zpos);
     if (pBlock)
     {
-        field_58_flags ^= (field_58_flags ^ (u8)((pBlock->field_B_slope_type & 0xFC) != 0 && (pBlock->field_B_slope_type & 0xFC) != 0xFC)) & 1;
+        field_58_flags_bf.b0 = IsOnSlopeBlock(pBlock);
         if (gGtx_0x106C_703DD4->IsElectrifiedFloorType_491F80(pBlock->field_8_lid & 0x3FF) && field_10_char_state != 15)
         {
             if (field_7C_pPed->field_21C_bf.bLeftVehicle == false)
