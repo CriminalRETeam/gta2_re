@@ -22,6 +22,7 @@
 #include "rng.hpp"
 #include "resource.h"
 #include "root_sound.hpp"
+#include "network_data.hpp"
 #include "FpsCounter_54.hpp"
 #include <ddraw.h>
 #include <direct.h>
@@ -1104,7 +1105,7 @@ EXPORT void Net_Receive_Players_Inputs_4DA9F0()
                     }
                     break;
                 }
-                case 3: // input for the latest/current tick
+                case 3: // store player input for the latest/current tick
                     memcpy(&gCurrentNetInputs_6F57D8.field_0_inputs[player_idx], gpInputBuffer_6F58C0, gCurrentInputsBufferSize_6F58C4);
                     waiting_bits &= ~(1 << player_idx);
                     if (bDo_sync_check_67D6C1 &&
@@ -1135,7 +1136,7 @@ EXPORT void Net_Receive_Players_Inputs_4DA9F0()
                 {
                     waiting_bits &= ~(1 << j);
                     gNetInUsePlayerBits_6F56B8 |= 1 << j;
-                    gNetPlay_7071E8.Send_521DB0(j);
+                    gNetPlay_7071E8.SendGiveUp_521DB0(j);
                     gNetPlayerDropped_6F8470[j] = 1;
                 }
             }
@@ -1156,24 +1157,6 @@ EXPORT void Net_Receive_Players_Inputs_4DA9F0()
     }
 }
 
-#pragma pack(push, 1)
-// What each player sends at the start of a network game, so everyone can check they run the same
-// game, data files and settings
-struct SyncCheckData_1F
-{
-    u8 field_0_type; // 5
-    u32 field_1_flags; // 1: log random extra, 2: sync check, 4: log random
-    s32 field_5_map_size;
-    s32 field_9;
-    s32 field_D_script_sum;
-    s32 field_11_exe_a;
-    s32 field_15_exe_b;
-    s32 field_19_gci_sum;
-    u8 field_1D_bFrench;
-    u8 field_1E_player_idx;
-};
-#pragma pack(pop)
-
 // Sum of all the bytes of a file
 MATCH_FUNC(0x4DB120)
 EXPORT s32 __stdcall FileByteSum_4DB120(FILE* hFile)
@@ -1189,13 +1172,13 @@ EXPORT s32 __stdcall FileByteSum_4DB120(FILE* hFile)
 
 // Fills in the sync check data that is compared between players at the start of a network game
 MATCH_FUNC(0x4DB2E0)
-EXPORT void __stdcall sub_4DB2E0(u8* pSyncData)
+EXPORT void __stdcall MakeInitialSyncData_4DB2E0(u8* pSyncData)
 {
     SyncCheckData_1F* pData = (SyncCheckData_1F*)pSyncData;
     struct _stat st;
 
     memset(pData, 0, sizeof(SyncCheckData_1F));
-    pData->field_0_type = 5;
+    pData->field_0_type = std_packet_subtype::SyncCheckData_5;
     if (gCar_6C_677930)
     {
         gCar_6C_677930->field_69_do_free_shopping = bDo_free_shopping_67D6CD;

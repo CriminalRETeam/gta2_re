@@ -26,10 +26,10 @@ class Packet_Ping_C
     s32 field_8_time;
 };
 
-class Packet_Byte_S32
+class Standard_Packet
 {
   public:
-    char_type field_0;
+    char_type field_0_std_packet_subtype;
     s32 field_1;
 };
 
@@ -206,7 +206,7 @@ struct NetPlay
     EXPORT void SendOrReceivePacket_51F0D0(void* pPacket, s32 a3, s32 a4, s32 a5);
     EXPORT void ProcessPingOrHandshakeSend_51F110(void* pPacket, s32 a3, s32 a4, s32 a5);
     EXPORT s32 CalcPacketLen_51F210(s32 pPacket, u32 packetLen);
-    EXPORT void MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pDataLen);
+    EXPORT void MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pDataLen); // Format data before using IDirectPlay3::Send
     EXPORT void OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, s32 a5);
     EXPORT s32 MovePlayerToGroup_520040(s32 toFind, Network_Game_Session* pStru, Network_Game_Session* pDst, u32* pOutIdx);
     EXPORT void FreePlayerSlot_5201A0(s32 idx, Network_Game_Session* pStru);
@@ -249,8 +249,8 @@ struct NetPlay
     EXPORT s32 NoRefs_Send_521BE0(Network_8* pSendData, s32 a3);
     EXPORT s32 NoRefs_Send_521C80(s32 pSendData);
     EXPORT s32 SendKeepAlive_521D20();
-    EXPORT s32 Send_521DB0(s32 value);
-    EXPORT s32 Send_521E40(s32 pSendData);
+    EXPORT s32 SendGiveUp_521DB0(s32 value);
+    EXPORT s32 SendSyncCheckData_521E40(s32 pSendData);
     EXPORT static void static_dtor_5E4DD0();
 
     // 9.6f 0x461DA0
@@ -296,7 +296,7 @@ struct NetPlay
     s32 field_8E4_p0x1800_1;
     s32 field_8E8_time;
     s32 field_8EC;
-    char field_8F0;
+    char field_8F0_disabled; // Receive_51F010 and ReceiveGameMessage_521890 always returns false if this var is true
     char field_8F1;
     char field_8F2;
     char field_8F3;
