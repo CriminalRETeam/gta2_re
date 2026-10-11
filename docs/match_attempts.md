@@ -4452,3 +4452,35 @@ wrong, so no type, structure, inline or scheduling work applies. Left unchanged.
   the `lea`/`push` pairs around `wcsncpy` calls, plus the read at `0x4860(%esi)` (the element 7 font, page 7
   line `GetCenteredXPos(... elements_array[7].field_6A_font_type ...)`), which the candidate reads from another
   address. Not chased further.
+
+## Agent near11 (Oct 11): HandleSpriteZCollision_5238B0 (MATCH), sub_4E7190 slots and registers
+
+- `Object_2C::HandleSpriteZCollision_5238B0` 146 -> **0 (MATCH)**. The landing code (`field_50 == 1` /
+  `== 4` / bounce) is not reached by a `goto LABEL_10` from the non-slope arm: it follows the whole
+  slope/non-slope if-else behind a flag, `bool bLanded = false; ... if (bLanded) { ... }`, set on the three
+  landing paths. VC6 threads the flag test away on every predecessor (the flag leaves no trace), and the CFG
+  this gives at RPO time is the only one that puts the `!= 1` arms after the non-slope `bAirborne = 1` block
+  and right before CheckSpriteMovementRegion: with a goto, the jump-target-first DFS reaches the landing code
+  through the non-slope `jl` and lays it out after X (ours), and no source position of the code changes that
+  (a CFG argument, see `docs/matching_quirks.md`). The flag form also leaves the then-arm with `mov %al,(%ecx)`
+  (so it does not cross-jump into X) and lets the two `bAirborne = 1` copies merge into 0x1DB.
+- `Map_0x370::sub_4E7190` 160 -> 92 (full build 3388/3388 with the Object_5C change, map change checked with
+  quick_score only). (1) `pBefore` is `pPrev`, and the else branch writes `pPrev = pBlock` in both arms of
+  `if (dist >= kFpOne)`: FlowOpts head-merges the two stores into the one between `cmp` and `jl` that the
+  original has, but the frame pass runs first and counts both, so pPrev's slot (shared with the three
+  block-scoped `tmp` out-params) gets 6 refs and is created before `last_x`/`last_y` (5): tmp F+0x20, last_x
+  F+0x24, last_y F+0x28 as in the original (160 -> 124). (2) The ebx/ebp swap of dist, to_edge, pPrev and the
+  kFpOne CSE temps is a colour-order effect: the loop's `to_edge` (prio 120) was coloured after the two kind-3
+  kFpOne CSE temps of the neighbour lookups (132), which take ebx because ebp is new_direction's; moving
+  `bTurned = 1` up into to_edge's block (the permuter's find; N + 2 there, to_edge 144) colours to_edge first
+  (ebp) and dist lands in ebx (124 -> 98, 92 with the second switch in right, left, down, up order and
+  `pPrev = pBlock` first in the green branch). The original has the store after the re-lookup, so the real
+  cause of its order is still open: `&last_z` as the GetRailwayZBelowCoord out-param gives the same order
+  (last_z no longer a candidate, the lookup blocks lose a range, temps 116; permuter 34) but the wrong slot
+  (the original's `found_z` sits in the dead `dist` parameter slot, as ours does); `s32 bTurned`, a Fix16_Point
+  or array for last_x/y/z, a dead extra `bTurned = 1`, function-scope `to_edge`/`new_direction`, and the
+  `dist` update forms all do not. Left: KeepDir's temp `d` takes eax (affinity -2 from the call result vs -1
+  from the copy to new_direction) where the original coalesces it into ebp; the `bTurned = 1` position. All
+  24 case orders of each direction switch swept on the final form. The byte-penalty mechanism from map2's
+  note: a byte-sized colour candidate (bTurned's webs) adds ~400 per web plus 400 for the byte temps to the
+  ebx score of every conflicting range; `s=` only shows costs for registers the range may use.
