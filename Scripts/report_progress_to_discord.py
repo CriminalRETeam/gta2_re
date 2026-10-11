@@ -61,19 +61,15 @@ def code_symbol_addresses(map_file):
 
 
 def normalize_for_score(line):
-    """One instruction without what WIP_IMPLEMENTED moves around: it adds a logging prologue and an
-    ebp frame, so registers, stack offsets, jump targets and the stable_name numbering all shift."""
-    line = re.sub(r"stable_name_\w+", "S", line)
-    line = re.sub(r"%[re]?(ax|bx|cx|dx|si|di|bp|sp)\b|%[a-d][lh]\b", "R", line)
-    line = re.sub(r"-?(0x[0-9A-Fa-f]+|\d+)\(", "N(", line)
-    return re.sub(r"^(j\w+|call) 0x[0-9A-Fa-f]+", r"\1 T", line)
+    """One instruction with its jump target masked: a size difference anywhere moves every later one."""
+    return re.sub(r"^(j\w+) 0x[0-9A-Fa-f]+", r"\1 T", line)
 
 
 def wip_score(func, og_file_offset, og_size, new_size):
-    """(% of the original's instructions the build reproduces, instructions it doesn't) for a WIP
-    function, from the verifier's post processed asm with registers, stack offsets, jump targets
-    and symbol numbering ignored (normalize_for_score). The build's copy is read at its own size:
-    WIP_IMPLEMENTED makes it longer than the original, and its extra lines don't count."""
+    """(similarity %, differing lines) of a WIP function against the original, from the verifier's
+    post processed asm with jump targets masked (normalize_for_score). Needs a build without the
+    logging code (build.py --no_wip_logging), which would shift everything else. The build's copy
+    is read at its own size from the map file."""
     import compare_function
     import post_process_asm
 
@@ -88,7 +84,8 @@ def wip_score(func, og_file_offset, og_size, new_size):
     new = asm(NEW_EXE, int(func["func_fo"], 16), new_size)
     matcher = difflib.SequenceMatcher(None, og, new, autojunk=False)
     same = sum(block.size for block in matcher.get_matching_blocks())
-    return pct(same, len(og)), len(og) - same
+    longest = max(len(og), len(new))
+    return pct(same, longest), longest - same
 
 
 def count_fields_and_methods(source_dir):
@@ -165,7 +162,7 @@ def main():
     wip = len(wip_funcs)
     total = matched + stub + wip
 
-    # how close each WIP is: % of the original's instructions reproduced and how many aren't, by original address
+    # how close each WIP is: similarity % and differing lines, by original address
     wip_scores = {}
     names = {}
     can_score = os.path.exists(NEW_EXE) and os.path.exists(OG_EXE) and os.path.exists(NEW_MAP)
@@ -215,17 +212,17 @@ def main():
     out = [COMMIT_MESSAGE, ""]
     out.append(f"Remaining WIP functions: {wip}{fmt_delta(prev('wip'), wip, with_pct=False)}")
     if wip_scores:
-        out.append(f"{ind}(scored on instructions, registers and stack offsets ignored)")
+        out.append(f"{ind}(asm lines that differ from the original, jump targets ignored)")
     if wip_scores:
         avg = sum(v[0] for v in wip_scores.values()) / len(wip_scores)
         prev_avg = None
         if prev_scores:
             prev_avg = sum(v[0] for v in prev_scores.values()) / len(prev_scores)
         avg_delta = f" | **{avg - prev_avg:+.2f}%**" if prev_avg is not None and round(avg - prev_avg, 2) else ""
-        out.append(f"{ind}Average: {avg:.2f}% of the original instructions reproduced{avg_delta}")
-        # closest first: by missing instructions, then %
+        out.append(f"{ind}Average similarity: {avg:.2f}%{avg_delta}")
+        # closest first: by differing lines, then similarity
         for key, (similarity, differing) in sorted(wip_scores.items(), key=lambda kv: (kv[1][1], -kv[1][0])):
-            line = f"{ind}{names[key]}: {similarity:.2f}% ({differing} missing)"
+            line = f"{ind}{names[key]}: {similarity:.2f}% ({differing} lines differ)"
             if key in prev_scores and prev_scores[key][1] != differing:
                 line += f" | **{differing - prev_scores[key][1]:+d}**"
             elif key not in prev_scores and prev_scores:

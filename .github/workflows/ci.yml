@@ -84,6 +84,14 @@ jobs:
         path: ./Scripts/progress.json
         key: progress-json-${{ github.event.before }}
 
+    # The WIP scores on discord compare the WIP functions with the original, so rebuild the files that
+    # use WIP_IMPLEMENTED/NOT_IMPLEMENTED without the logging code (after the exe was uploaded above)
+    - name: Rebuild WIP functions without logging (Windows_VC6)
+      if: github.event_name == 'push' && !github.event.repository.fork
+      run: |
+        python build.py --ignore_no_match --no_wip_logging
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
     - name: "Post function status on discord (Windows_VC6)"
       env:
         DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}

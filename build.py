@@ -106,6 +106,7 @@ def main():
     parser.add_argument("--reccmp", help="Run debug build for reccmp analysis", action="store_true")
     parser.add_argument("--single_cpp", help="Build only n.cpp using cl.exe and produce n.obj using most common project flags", type=str)
     parser.add_argument("--cores", help="Limit cpu cores to build with (use all if not passed, else 1 if reccmp build)", type=int)
+    parser.add_argument("--no_wip_logging", help="Build WIP/stub functions without the WIP_IMPLEMENTED/NOT_IMPLEMENTED logging code, so they can be compared with the original", action="store_true")
 
     args = parser.parse_args()
 
@@ -126,7 +127,7 @@ def main():
         returncode = build_single_cpp(args.single_cpp)
     else:
         core_count_to_use = args.cores
-        returncode = build_cmake(args.reccmp, core_count_to_use)
+        returncode = build_cmake(args.reccmp, core_count_to_use, args.no_wip_logging)
     if returncode != 0:
         print(f"Build failed with return code {returncode}")
         sys.exit(returncode)
@@ -277,8 +278,49 @@ def build_single_cpp(cpp_file: str):
 
     return exit_code
 
-def build_cmake(reccmp : bool, core_count_to_use : int):
+def sources_with_wip_logging():
+    """Source/*.cpp files that use WIP_IMPLEMENTED / NOT_IMPLEMENTED."""
+    macro_re = re.compile(r"^\s*(WIP|NOT)_IMPLEMENTED\b", re.M)
+    source_dir = os.path.join(CURRENT_DIRECTORY, "Source")
+    found = []
+    for name in sorted(os.listdir(source_dir)):
+        if name.endswith(".cpp"):
+            with open(os.path.join(source_dir, name), errors="replace") as f:
+                if macro_re.search(f.read()):
+                    found.append(name)
+    return found
+
+
+def prepare_wip_logging(no_wip_logging: bool):
+    """--no_wip_logging compiles with CL=/DNO_WIP_LOGGING (Source/Function.hpp then empties the logging
+    macros). The makefiles don't see that flag, so when the mode changes from the last build, delete
+    the objects of the files that use the macros: only those are rebuilt."""
+    mode_file = os.path.join(BUILD_DIRECTORY, "wip_logging_mode.txt")
+    mode = "off" if no_wip_logging else "on"
+    old_mode = "on"
+    if os.path.exists(mode_file):
+        with open(mode_file) as f:
+            old_mode = f.read().strip()
+    if old_mode != mode:
+        cmake_files = os.path.join(BUILD_DIRECTORY, "CMakeFiles")
+        if os.path.isdir(cmake_files):
+            for target_dir in os.listdir(cmake_files):
+                for name in sources_with_wip_logging():
+                    obj = os.path.join(cmake_files, target_dir, "Source", name + ".obj")
+                    if os.path.exists(obj):
+                        os.remove(obj)
+    with open(mode_file, "w") as f:
+        f.write(mode)
+
+
+def build_cmake(reccmp : bool, core_count_to_use : int, no_wip_logging : bool = False):
     os.makedirs(BUILD_FOLDER_NAME, exist_ok=True)
+    prepare_wip_logging(no_wip_logging)
+    # cl.exe adds the options in the CL environment variable to every compile
+    build_env = dict(os.environ)
+    build_env.pop("CL", None)
+    if no_wip_logging:
+        build_env["CL"] = "/DNO_WIP_LOGGING"
 
     vc6_env = get_vc6_env()
     lib, include, path = vc6_env
@@ -298,7 +340,8 @@ def build_cmake(reccmp : bool, core_count_to_use : int):
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
-            shell=True
+            shell=True,
+            env=build_env
         )
     else:  # Windows
         p1 = subprocess.Popen(
@@ -307,7 +350,8 @@ def build_cmake(reccmp : bool, core_count_to_use : int):
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
-            text=True
+            text=True,
+            env=build_env
         )
         p1.stdin.write(f"set LIB={lib}\n")
         p1.stdin.write(f"set INCLUDE={include}\n")
