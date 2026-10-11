@@ -4834,3 +4834,22 @@ root with `VC6_TOOLS`-free `patch_c2.X` set to a scratch dir, see `Scripts/regal
   `w + x` / `x + w - 1` / `y + h` in the pavement and road-type calls. None lowers the score.
 - Not tried: the permuter (`/tmp/permute.lock` was held by another sweep, not waited on). A `this`-spill or
   parameter-priority change needs a structure that changes the register weights of x, y and `this` in the first block.
+
+## Agent cheap17: SpawnTrainsFromStations_578860 (Oct 11)
+- Start 601, end 601 (no change kept, main tree untouched). Not matched.
+- `--skeleton` scores 0 (same jumps, block order and call order); `--structure` 274. So the rest is in-block
+  scheduling, slot numbering and frame size (ours 0x58, original 0x68; original `this` at 0x3C, ours 0x2C).
+- Argument evaluation order in the first arm (dir 4): the original computes the x sum (`__allmul` + `Fix16(x)`)
+  before `GetWagonType_577f80(j)` and the y sum (`Fix16(y) + dword_6FEF88`, y byte kept in a stack temp 0x2C)
+  after it. Ours computes the y sum before the `__allmul`, and the x sum after the call. Tried:
+  - `u8 sy = stop->field_2_y` local with `Fix16(sy)` at the y arg: 601 (identical asm, VC6 CSEs it).
+  - `s32 wt = GetWagonType(j)` local before the spawn: 866.
+  - `Fix16 xpos = x + dword*Fix16(j+1)` local before the spawn: 724.
+  - `u8 sy` plus `Fix16 xpos` plus `wt` together: 696.
+  Local splitting of the args only moves the scheduling the wrong way; the original's order is not a plain
+  statement order.
+- Eight inlined `SpawnCarAtCorrectZ_Scaled` sites each keep their own `temp_z` (the `lea` temps, one per site),
+  and the original's frame is 16 bytes bigger. A per-site temp is what the inline gives already, so the
+  remaining gap is the slot numbering; not explored further (it would need a file-local copy of the inline).
+- Unexplored: a file-local copy of the spawn inline with function-scope temps (the inline's header is shared
+  with ImGuiDebug and Police_38, so it must not change there).
