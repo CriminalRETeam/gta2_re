@@ -5005,3 +5005,61 @@ Scores are `NO_PCH=1 quick_score.sh`. No header edits; only `Source/miss2_0x11C.
   dropped stores) and 171 with the structural passes (80).
 - `Map_0x370::sub_4E7190` (92): permuter with switch_dup/tail_return/invert_if/swap_logical/cond_split/goto_exit/
   do_while/noop_node/dead_wrap: no improvement in 1253 compiles. No manual work.
+
+## Agent cheap18
+
+- `sound_obj::HandleVocalStreamSwitching_57DF10`: start 108, final 108 (no source change kept). Not matched.
+- Permuter (`-j 2`, passes switch_dup, tail_return, invert_if, swap_logical, cond_split, goto_exit, do_while,
+  dead_wrap, `--auto-method-aliases`): about 140 iterations in 35 min (the wine compile is the bottleneck),
+  0 outputs below 108. Stopped there.
+- Tried: one station block selected by a single flag, `bool bStation = (eq) ? bStationChanged : bFast;`, then
+  `if (bStation) STATION; else if (eq) Update; else MODE;`. Score 319, reverted. The `!changed` Update
+  is then a separate return path, not the cross-jump the target has (`je` into the SetVocalPos tail).
+- Conclusion: the 108 is the station-head duplication, as logged by cheap7 and sound2. Not a permuter-reachable
+  shape.
+
+## Agent near19 (EmitFlameStreamSegment_53F4C0 MATCH, GunMuzzelFlash_53E970 444->391, state_0_54DDF0 184 unchanged)
+
+- `Particle_8::EmitFlameStreamSegment_53F4C0` 66 -> **0** (kept, `MATCH_FUNC`). The last 66 were EH states and the
+  frame: the original enters with state 4 and sets no state in the car branch, ours had state 3 plus `movb $4/$5/$3`
+  around the `Add_40AC50`/`GetPointVelocity` temporaries. What fixed it, in order (NO_PCH=1 quick_score):
+  - `Fix16_Point point_velocity;` at function scope (the 5th tracked point, entry state 4) and the plain inline
+    `operator+` in `pos += offset + pSprt->get_x_y_443580()`: the inline is charged (81, udt-abort) and called out
+    of line with no EH state for the temporaries. 168 (budget off: PolarToCartesian's first `operator*` and the
+    first car rotation's lost their inline).
+  - `Ang16 angle` at function scope as 9.6f (0x48D4E0 constructs it first): its free ctor site moves before
+    PolarToCartesian, so `sites_left` there drops by one and the nested budget is back to 57. 128.
+  - The first car rotation then needed +25..+231 front-end size (`inlsim.py --scan`). Code-neutral size found by
+    measuring single spellings with `inl.sh` (size= line): `Fix16_Point vel(0, 0)` +8 and `vel = Fix16_Point(0, 0)`
+    +22 (an implicit int -> Fix16 conversion is 14 nodes each; explicit `Fix16(0)` args are 14 smaller, so
+    `New_53E3C0(.., Fix16(0), Fix16(0), Fix16(0))` costs -42), `Fix16 zpos; zpos = ...` +9, `x = x | n` +6/+11,
+    `!= 0` +2/+3, `Fix16(expr)` casts +2 each, `Ang16(expr)` +7. With vel's two forms: 3 (only the ped branch's
+    `Add_40AC50` symbol and its temp slot differed).
+  - The ped branch must call the same `operator+` symbol (the original calls 0x40AC50 in both branches): the plain
+    operator there adds a charged site after the rotations, which needs +27 more size: `zpos` declared then
+    assigned, `field_4_flags = field_4_flags | 1`, `field_2C_flags = field_2C_flags | 4`,
+    `CheckSpriteMovementRegion_5A2500() != 0`. 0. The slot story: block-scoped `point_velocity` gives the original's
+    ped temp slot (shared, F+0x44) but a `movb $4` state store; function-scoped gives entry state 4 and the temp in
+    the car temps' slot (3). With the plain operator in the ped branch the temp lands on F+0x44 anyway.
+  - Probes (`/tmp/claude-0/agents/near19/probe/p1.cpp`): a tracked block-scoped object always gets a state store
+    at the first call while it is alive, also when declared after the calls (`P pv; pv = g();` stores before `g`);
+    copy-init from any call expression, even through a `(POD&)` cast, is RVO'd (no copy, no temp slot). An unused
+    `Fix16_Point` gets an EH state but no frame slot; a `Fix16_Point_POD` local is enregistered (no slot, stores
+    dropped), a `Fix16_Point` is address-taken by the EH registration (2 refs = its stores).
+- `Particle_8::GunMuzzelFlash_53E970` 444 -> **391** (kept): `a2->field_30_sprite_type_enum == car_2` (the original
+  compares memory, the getter loads first) and `corner_1.x = ...; corner_1.y = ...;` as two statements (the original
+  evaluates x before y; `SetXY_432860`'s by-ref arguments go right to left). The same for corner_2 is worse (512).
+  Frame/EH analysis of the original: 5 tracked points at the top (vel at F+0x34, offset F+0x2C, three without a
+  slot = unused), 3 in the car block (corner_1 F+0x1C, corner_2 F+0x24, one unused; the ped `operator+` temp shares
+  corner_2's slot), the unused `sine*r`/`cosine*r` products call 0x408680 = the same symbol as the rotations' out-of-line
+  `operator*`, so they are `operator*` sites (PolarToCartesian with unused dx/dy) or everything is `Multiply_408680`.
+  Rotation budgets from the call pattern (method-call argument before `this`: `y*sin` is visited before `x*cos`):
+  corner_1 nested budget in [42,52), corner_2 in [52,57), ped rotation in [57,99), ped PolarToCartesian in [57,114).
+  The current source already has those nested budgets by luck; declaring the 3+1 unused points (`Fix16_Point x;`,
+  42 charged each plus a dtor site) needs +180..+209 caller size with explicit `Multiply_408680` (g2/g4 in the
+  scratch dir), +252 with PolarToCartesian sites; `get_x_y_443580()` instead of `get_x_y()` saves 2 sites and 116
+  budget (+90..+131 left). Unused points written `Fix16_Point pos(0, 0)` are free sites and land exactly in the
+  window, but their zero stores stay (frame 0x54). Not solved: where the original's extra ~100 nodes of
+  code-neutral source are.
+- `Char_B4::state_0_54DDF0` (184): read only, no new idea beyond the logged ones (the two spots are the
+  `GetBlockTypeAtCoord_420420` inline's arm order plus unfolded test, and the conveyor add order).
