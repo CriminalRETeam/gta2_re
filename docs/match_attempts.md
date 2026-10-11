@@ -4588,3 +4588,20 @@ Files changed: `Source/Ped.cpp` only (no header edits).
   that give one station block change the cross-jump direction, and the two-copy form cannot merge the
   heads. Needs a new idea (for example a structure where the station head is one block with two
   predecessors and the Update tail stays merged), not more reorderings.
+
+## Agent cheap8 (Char_B4::state_1_5504F0)
+Start 50, final **49** (kept), not matched. `NO_PCH=1 quick_score.sh` line.
+- Kept: `Fix16 sprite_z = field_80_sprite_ptr->field_1C_zpos;` read just before the `set_xyz_lazy_420600` call
+  and passed as the third argument. The original loads the zpos field first (`mov 0x1C(%edi),%edx` before the
+  sine/cos table loads); reading it inside the call's argument list loads it last. Remaining diff there is only
+  the edx/ecx swap of zpos vs the sine temp.
+- Bit insert, tried (all worse or equal): `u8 b0_v` + `((b0_v ^ f) & 1) ^ f` 214; `b0 = cond` 272; `(f & 0xFE) | (b0_v & 1)`
+  56; `(u8)(((b0_v ^ f) & 1) ^ f)` 308; `((cond ^ f) & 1 ^ f)` with cast 50; the original `f ^= (f ^ v) & 1` 50.
+- `Fix16 one_fp = kFP16One_6FD9E8` local for the two HasBlockAnyArrows `(Z - one)` args: 251 (worse).
+  `Map_0x370* pMap = gMap_0x370_6F6268` local for the two HasBlockAnyArrows calls: 177 (worse).
+- `sprite_z` declared at function scope with the assignment at the call: 49 (no change).
+- Permuter, 402 compiles on the 49 base (swap_logical, noop_node, invert_if, cond_split, tail_return,
+  reorder_saves, temp_for_expr, --auto-method-aliases): no improvement.
+- Remaining diffs: the get_block arg register/push order (target keeps z in eax while y/x are computed, we push
+  z first); the kOne constant in edx (target, hoisted above both HasBlockAnyArrows arms) vs ecx; the
+  `mov y` load placed after the `sub` in the target; the bit insert `((v^f)&1)^f` as before.

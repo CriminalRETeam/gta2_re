@@ -4907,9 +4907,10 @@ LABEL_65:
         field_38_velocity = gRunOrJumpSpeed_6FD7D0;
     }
 
+    Fix16 sprite_z = field_80_sprite_ptr->field_1C_zpos;
     field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + Ang16::sine_40F500(field_40_rotation) * field_38_velocity,
                                              field_80_sprite_ptr->field_14_xy.y + Ang16::cosine_40F520(field_40_rotation) * field_38_velocity,
-                                             field_80_sprite_ptr->field_1C_zpos);
+                                             sprite_z);
 
     field_80_sprite_ptr->set_ang_lazy_420690(field_40_rotation);
     if (field_69_is_colliding_with_sprite)
