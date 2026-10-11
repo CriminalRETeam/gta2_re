@@ -5140,3 +5140,33 @@ variant and its diff: `/tmp/claude-0/agents/near21/v/` (v1..v11), inline-budget 
 - Dead ends: `s16 corner_ang` (241), by-ref helpers (176), inline `Normalize()` through a file-local helper at the
   `.Normalized_406C20()` sites (1927: nested budget 72 > 67 inlines the loop there).
 - `Map_0x370::CanMoveOntoSlopeTile_4E0130` (442): not worked on (time).
+
+## Agent near22 (Char_B4::HandleGenericCollision_54A530 16 -> 0, MATCH)
+`NO_PCH=1 quick_score.sh` and plain `quick_score.sh` both 0. Only `Source/char.cpp` changed (the function body, the
+now unused `RotateAndTranslatePoint_OOL_42A720` helper removed), no header edits. Scratch: `/tmp/claude-0/agents/near22/`
+(`v/` variants with diffs, `inl/` budget logs, `sim.py` = inlsim driver that reports the OOL Normalize sites per
+top-level site after `--rm`/`--free`/`--scan` edits, `try.sh`/`inl.sh` mirror scorers).
+- Start from near21's v11 (every Ang16 normalise as the plain operator, real `RotateAndTranslatePoint_42A720`,
+  `PolarToCartesian_41FC20` in the player arm). The original has 18 normalise sites: 9 out of line (the COMDAT
+  `?Normalize@Ang16` is fine for the verifier as long as nothing calls `Normalize_406C20` by name), 9 inline, cut
+  between side 0 and side 1 of the cascade. With `Ang16(const s16&, s32)` (44) inside `operator+` (54), a site inlines
+  its Normalize iff budget_after_charge / sites_left >= 111, so the window is B(side0) < 111*L and B(side1) >= 111*(L-2)
+  with B(side1) = B(side0) - 98: about 124 budget = 62 front-end nodes wide.
+- Target block (`target_x/target_y` from field_40): 9.6f calls PolarToCartesian_41FC20 there too, and
+  `PolarToCartesian_41FC20(field_40_rotation, dword_6FDA04, target_x, target_y)` gives the original's inline sine
+  multiply + out-of-line cosine multiply through the nested budget, with ONE multiply symbol (the named
+  `Multiply_408680` in v11 was a second call target). near21's 2131 for it was the frame: `Ang16 rot` (never
+  referenced, copy-propagated) owned a slot; `Fix16 step_x; Fix16 step_y;` at function scope (used by BOTH
+  PolarToCartesian calls, the player arm's included, like `x_vec/y_vec` in ContinueMovementAfterCollision_54B8F0)
+  gives the same frame. Separate block-scoped dx/dy in the player arm plus 3 PolarToCartesian expansions flip the
+  player arm's multiply to `imull (%ebx)` (orig `mov (%ebx),%eax; imul %ecx`); so do the 9.6f `GetW_420590()/
+  GetH_447E10()` getters and explicit `Fix16(member)` copies: all left as field accesses.
+- `GetF8_492170() > kFP16Half` in the else branch must stay a getter: the field access swaps the compare's registers
+  and the tail's `mov %dx,0x2A(%esi)`.
+- With that shape (v13) every remaining diff was the budget: `v13 + 65 x (void)0;` scored 0. The window needed
+  +123..+184 front-end nodes; measured code-neutral spellings (inl.sh size= line): `!= 0`/`== 0` on 18 pointer/bool
+  tests +40, declared-then-assigned xpos/ypos +18 and target_y +9, `default: break;` ~+8, explicit
+  `Fix16(gCharB4_Saved_*)` copies in the five saved-position restores +45, `(x == y) != 0` on the two Ang16
+  compares +2 each; `this->`, parentheses, `(u8)` casts, `!(a == b)`, declared-then-assigned u8/bool are +0.
+  Final size 2779 = the bottom of the window (2779..2840).
+- Not needed: `__forceinline`, `s16 corner_ang`, by-ref helpers (near21's dead ends).

@@ -1814,26 +1814,6 @@ static inline bool CanJumpOver_54A530(Char_B4* pThis, Char_B4* pChar)
     return false;
 }
 
-// RotateAndTranslatePoint_42A720 as HandleGenericCollision_54A530 expands it: past the inline
-// budget; the multiplies, the negate and the adds are the named out-of-line copies, the
-// subtractions follow the budget
-static inline void RotateAndTranslatePoint_OOL_42A720(Fix16& pInX,
-                                                      Fix16& pInY,
-                                                      Ang16& pRotAng,
-                                                      Fix16& pTransX,
-                                                      Fix16& pTransY,
-                                                      Fix16& pRotTransX,
-                                                      Fix16& pRotTransY)
-{
-    pRotTransX = (pInX - pTransX)
-                     .Multiply_408680(Ang16::cosine_40F520(pRotAng))
-                     .Add_408660((pInY - pTransY).Multiply_408680(Ang16::sine_40F500(pRotAng)));
-    pRotTransY = (pInX - pTransX)
-                     .Negate_4086A0()
-                     .Multiply_408680(Ang16::sine_40F500(pRotAng))
-                     .Add_408660((pInY - pTransY).Multiply_408680(Ang16::cosine_40F520(pRotAng)));
-}
-
 MATCH_FUNC(0x548840)
 void Char_B4::HandleObjectCollision_548840(Object_2C* pObj)
 {
@@ -2131,43 +2111,56 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
 }
 
 // https://decomp.me/scratch/ph2wn
-WIP_FUNC(0x54a530)
+// 9.6f 0x4948C0. The 18 Ang16 normalisations are the plain operators (`-pSprt->field_0`, `kAng180 +
+// corner_ang`, `pSprt->field_0 - kAng90`): the first 9 go out of line (one Normalize target), the rest
+// inline, and the inline budget only cuts there (side 0 out of line, side 1 inline) when the function's
+// front-end size is in a window of about 60 nodes (Scripts/inline_budget/inlsim.py --scan). The
+// `!= 0` / `== 0` tests, the declared-then-assigned xpos/ypos/target_y, the `default: break;` and the
+// explicit `Fix16(...)` copies in the saved-position restores are code-neutral spellings that put it
+// there. step_x/step_y are the one pair of function-scope locals for both PolarToCartesian calls (the
+// player arm's too): separate block locals flip the player arm's imul operand order. The width/height
+// getters (9.6f GetW/GetH) do the same, so those stay field accesses.
+MATCH_FUNC(0x54a530)
 void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_B4* pChar)
 {
-    WIP_IMPLEMENTED;
     Ang16 corner_ang;
     Ang16 hit_ang;
     Sprite* pSprt;
     Fix16 rot_x;
     Fix16 rot_y;
     Fix16 target_x;
-    Fix16 target_y = kFP16Zero_6FD9E4;
+    Fix16 target_y;
+    Fix16 step_x;
+    Fix16 step_y;
+    target_y = kFP16Zero_6FD9E4;
     u8 side = 0;
     bool bNoJump = false;
 
-    Fix16 xpos = field_80_sprite_ptr->field_14_xy.x;
-    Fix16 ypos = field_80_sprite_ptr->field_14_xy.y;
+    Fix16 xpos;
+    Fix16 ypos;
+    xpos = field_80_sprite_ptr->field_14_xy.x;
+    ypos = field_80_sprite_ptr->field_14_xy.y;
 
     if (field_10_char_state != Char_B4_state::Jumping_15)
     {
-        field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
+        field_80_sprite_ptr->set_xyz_lazy_420600(Fix16(gCharB4_Saved_Xpos_6FD7F8), Fix16(gCharB4_Saved_Ypos_6FD800), Fix16(gCharB4_Saved_Zpos_6FD7FC));
         field_45_slope_gradient_direction = gCharB4_Saved_SlopeGradDir_6FD7B0.ToInt();
         field_10_char_state = Char_B4_state::Colliding_With_Car_27;
     }
 
-    if (!field_69_is_colliding_with_sprite)
+    if (field_69_is_colliding_with_sprite == 0)
     {
-        if (pCar)
+        if (pCar != 0)
         {
             corner_ang = pCar->GetCornerAngle_4403A0();
             pSprt = pCar->field_50_car_sprite;
-            if (gGarage_48_6FD26C->IsMaybeParkingCar_493540(pCar))
+            if (gGarage_48_6FD26C->IsMaybeParkingCar_493540(pCar) != 0)
             {
                 bNoJump = true;
                 byte_6FDB58 = 1;
             }
         }
-        else if (pObj)
+        else if (pObj != 0)
         {
             pSprt = pObj->field_4;
             Fix16 half_w;
@@ -2190,11 +2183,11 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
 
         if ((field_7C_pPed->GetJumpOverMode_492C20() == ped_jump_over_mode::can_jump_2 || field_5C > 0) && field_10_char_state != Char_B4_state::Jumping_15)
         {
-            if (!bNoJump)
+            if (bNoJump == 0)
             {
-                if (!field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2))
+                if (field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2) == 0)
                 {
-                    if (!pChar)
+                    if (pChar == 0)
                     {
                         Char_B4::DoJump_5454D0();
                     }
@@ -2206,33 +2199,31 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
             }
         }
 
-        if (bNoJump)
+        if (bNoJump != 0)
         {
             field_2A = kAng90_6FD854;
-            if (field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2))
+            if (field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2) != 0)
             {
                 if (field_10_char_state != Char_B4_state::Jumping_15 && field_8_ped_state_1 != ped_state_1::entering_car_3)
                 {
-                    field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
+                    field_80_sprite_ptr->set_xyz_lazy_420600(Fix16(gCharB4_Saved_Xpos_6FD7F8), Fix16(gCharB4_Saved_Ypos_6FD800), Fix16(gCharB4_Saved_Zpos_6FD7FC));
                     field_45_slope_gradient_direction = gCharB4_Saved_SlopeGradDir_6FD7B0.ToInt();
                     field_10_char_state = Char_B4_state::Colliding_With_Car_27;
                     return;
                 }
                 else if (field_20 == 1)
                 {
-                    field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
-                    field_40_rotation = Ang16(field_80_sprite_ptr->field_0.rValue + kAng180_6FD936.rValue).Normalized_406C20();
+                    field_80_sprite_ptr->set_xyz_lazy_420600(Fix16(gCharB4_Saved_Xpos_6FD7F8), Fix16(gCharB4_Saved_Ypos_6FD800), Fix16(gCharB4_Saved_Zpos_6FD7FC));
+                    field_40_rotation = field_80_sprite_ptr->field_0 + kAng180_6FD936;
                     return;
                 }
                 else
                 {
-                    field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
+                    field_80_sprite_ptr->set_xyz_lazy_420600(Fix16(gCharB4_Saved_Xpos_6FD7F8), Fix16(gCharB4_Saved_Ypos_6FD800), Fix16(gCharB4_Saved_Zpos_6FD7FC));
                     field_40_rotation = pSprt->field_0;
-                    Fix16 dx = Ang16::sine_40F500(field_40_rotation) * field_38_velocity;
-                    Fix16 dy;
-                    dy = Ang16::cosine_40F520(field_40_rotation).Multiply_408680(field_38_velocity);
-                    field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + dx,
-                                                             field_80_sprite_ptr->field_14_xy.y + dy,
+                    Ang16::PolarToCartesian_41FC20(field_40_rotation, field_38_velocity, step_x, step_y);
+                    field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + step_x,
+                                                             field_80_sprite_ptr->field_14_xy.y + step_y,
                                                              field_80_sprite_ptr->field_1C_zpos);
                 }
             }
@@ -2258,7 +2249,7 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
                 }
                 field_69_is_colliding_with_sprite = 0;
 
-                if (pCar)
+                if (pCar != 0)
                 {
                     if (pCar->field_50_car_sprite->field_1C_zpos >= field_80_sprite_ptr->field_1C_zpos)
                     {
@@ -2271,9 +2262,9 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
         }
 
         // Work out which side of the obstacle we hit, in the obstacle's local space
-        RotateAndTranslatePoint_OOL_42A720(field_80_sprite_ptr->field_14_xy.x,
+        RotateAndTranslatePoint_42A720(field_80_sprite_ptr->field_14_xy.x,
                                        field_80_sprite_ptr->field_14_xy.y,
-                                       Ang16(-pSprt->field_0.rValue).Normalized_406C20(),
+                                       -pSprt->field_0,
                                        pSprt->field_14_xy.x,
                                        pSprt->field_14_xy.y,
                                        rot_x,
@@ -2284,21 +2275,19 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
         target_y = field_7C_pPed->GetMoveTargetY_492CF0();
         if (target_x == kFP16MinusOne_6FD790 || target_y == kFP16MinusOne_6FD790)
         {
-            Ang16 rot = field_40_rotation;
-            target_x = Ang16::sine_40F500(rot) * dword_6FDA04;
-            target_y = Ang16::cosine_40F520(rot).Multiply_408680(dword_6FDA04);
+            Ang16::PolarToCartesian_41FC20(field_40_rotation, dword_6FDA04, target_x, target_y);
             target_x += field_80_sprite_ptr->field_14_xy.x;
             target_y += field_80_sprite_ptr->field_14_xy.y;
         }
 
-        RotateAndTranslatePoint_OOL_42A720(target_x, target_y, Ang16(-pSprt->field_0.rValue).Normalized_406C20(), pSprt->field_14_xy.x, pSprt->field_14_xy.y, rot_x, rot_y);
+        RotateAndTranslatePoint_42A720(target_x, target_y, -pSprt->field_0, pSprt->field_14_xy.x, pSprt->field_14_xy.y, rot_x, rot_y);
         target_x = pSprt->field_14_xy.x + rot_x;
         target_y = pSprt->field_14_xy.y + rot_y;
-        RotateAndTranslatePoint_OOL_42A720(xpos, ypos, Ang16(-pSprt->field_0.rValue).Normalized_406C20(), pSprt->field_14_xy.x, pSprt->field_14_xy.y, rot_x, rot_y);
+        RotateAndTranslatePoint_42A720(xpos, ypos, -pSprt->field_0, pSprt->field_14_xy.x, pSprt->field_14_xy.y, rot_x, rot_y);
         xpos = pSprt->field_14_xy.x + rot_x;
         ypos = pSprt->field_14_xy.y + rot_y;
 
-        if (hit_ang < Ang16(-corner_ang.rValue).Normalized_406C20())
+        if (hit_ang < -corner_ang)
         {
             side = 3;
             if (hit_ang < kAng180_6FD936 + corner_ang)
@@ -2312,12 +2301,12 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
                         side = 0;
                         if (target_x < xpos)
                         {
-                            field_28 = Ang16(pSprt->field_0.rValue - kAng90_6FD854.rValue).Normalized_406C20();
+                            field_28 = pSprt->field_0 - kAng90_6FD854;
                             field_2A = kAng90_6FD8A2;
                         }
                         else
                         {
-                            field_28 = Ang16(pSprt->field_0.rValue + kAng90_6FD854.rValue).Normalized_406C20();
+                            field_28 = pSprt->field_0 + kAng90_6FD854;
                             field_2A = kAng270_6FD94C;
                         }
                     }
@@ -2345,7 +2334,7 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
             }
             else if (target_y < ypos)
             {
-                if (field_2A == kAng90_6FD8A2)
+                if ((field_2A == kAng90_6FD8A2) != 0)
                 {
                     field_28 = pSprt->field_0 + kAng180_6FD936;
                     field_2A = kAng90_6FD8A2;
@@ -2358,7 +2347,7 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
             }
             else
             {
-                if (field_2A == kAng90_6FD8A2)
+                if ((field_2A == kAng90_6FD8A2) != 0)
                 {
                     field_28 = pSprt->field_0 + kAng180_6FD936;
                     field_2A = kAng90_6FD8A2;
@@ -2382,26 +2371,24 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
         }
 
         field_69_is_colliding_with_sprite = true;
-        field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
+        field_80_sprite_ptr->set_xyz_lazy_420600(Fix16(gCharB4_Saved_Xpos_6FD7F8), Fix16(gCharB4_Saved_Ypos_6FD800), Fix16(gCharB4_Saved_Zpos_6FD7FC));
 
-        if (field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2))
+        if (field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2) != 0)
         {
             if (field_7C_pPed->GetInternalObjective_403A90() != objectives_enum::enter_car_as_driver_35 ||
-                gGarage_48_6FD26C->IsMaybeParkingCar_493540(field_7C_pPed->get_target_to_enter_403B10()))
+                gGarage_48_6FD26C->IsMaybeParkingCar_493540(field_7C_pPed->get_target_to_enter_403B10()) != 0)
             {
                 return;
             }
         }
 
-        Fix16 step_x;
-        Fix16 step_y;
         Ang16::PolarToCartesian_41FC20(field_28, field_38_velocity, step_x, step_y);
         field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + step_x,
                                                  field_80_sprite_ptr->field_14_xy.y + step_y,
                                                  field_80_sprite_ptr->field_1C_zpos);
         Char_B4::DispatchCollision_548670(byte_623F48);
 
-        if (field_18_collided_entity)
+        if (field_18_collided_entity != 0)
         {
             switch (side)
             {
@@ -2413,6 +2400,8 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
                     break;
                 case 3:
                     field_28 = pSprt->field_0 - kAng90_6FD854;
+                    break;
+                default:
                     break;
             }
 
@@ -2428,12 +2417,12 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
             }
         }
 
-        if (pCar)
+        if (pCar != 0)
         {
             field_1C_prev_collided_entity = pCar;
             field_18_collided_entity = pCar;
         }
-        else if (pObj)
+        else if (pObj != 0)
         {
             field_1C_prev_collided_entity = pObj;
             field_18_collided_entity = pObj;
@@ -2447,10 +2436,10 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
     else
     {
         void* pAny = pCar;
-        if (!pCar)
+        if (pCar == 0)
         {
             pAny = pObj;
-            if (pObj)
+            if (pObj != 0)
             {
                 if (pObj->field_4->field_C_sprite_4c_ptr->GetF8_492170() > kFP16Half_6FD8E4)
                 {
@@ -2463,7 +2452,7 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
             }
         }
 
-        if (field_1C_prev_collided_entity == pAny || !field_1C_prev_collided_entity)
+        if (field_1C_prev_collided_entity == pAny || field_1C_prev_collided_entity == 0)
         {
             if (field_10_char_state != Char_B4_state::Jumping_15)
             {
@@ -2476,7 +2465,7 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
                 field_2A = kAng0_6FDB34;
             }
         }
-        else if (field_20 != 2 && !bNoJump)
+        else if (field_20 != 2 && bNoJump == 0)
         {
             if (field_10_char_state != Char_B4_state::Jumping_15)
             {
