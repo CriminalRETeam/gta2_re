@@ -4801,3 +4801,23 @@ root with `VC6_TOOLS`-free `patch_c2.X` set to a scratch dir, see `Scripts/regal
   spread word 0x28, zpos 0x2C, u8 temp 0x30; ours are permuted), `gun_angle` reloaded through `edx` (target `eax`),
   and the set_id inline layout in the 31 arm. Not matched. The permuter was not run (instructed to skip /tmp/permute.lock and do
   manual variants), so a permuter pass is the next step.
+
+## Agent cheap15 (Particle_8::GunMuzzelFlash_53E970)
+
+- Start 444, end 444 (no change kept). Not matched. Main tree `Source/Particle_8.cpp` is unchanged.
+- Diagnostics (NO_PCH=1): `--structure` 183, `--skeleton` 12. The diff is mostly register/stack, but the car
+  corner rotations also differ in call kind: the original calls `Multiply_408680` explicitly for every product
+  and `Negate` as an inline `neg`, while the baseline's `corner_N.RotateByAngle_40F6B0` calls the `operator*`/
+  `operator+` copies out of line.
+- Operand order: `197 + palette` at each of the three `set_id_lazy_4206C0` sites, alone: 444 each (no change).
+  `Fix16 dy` declared before `dx`: 444. `Fix16 zpos` moved above the `field_46`/`field_48` stores: 468 (worse).
+- Rotation spellings (header variants, all local to the call sites):
+  - `corner_1.RotateByAngle_OOL_40F6B0` (x: `x.Mul(cos).Add(y.Mul(sin))`, y: `(-x_old).Mul(sin).Add(y.Mul(cos))`):
+    corner_1 matches the original's call order (skeleton 12 -> 11, structure 183 -> 182), score 444, so not kept.
+  - `corner_2` in the same spelling: 574/575. `RotateByAngle_all_out_of_line` on both corners: 1078 (skeleton 27).
+  - `RotateByAngle_NegOOL` on both: 1078. Hand-spelled corner_2 bodies with every add/neg inline or out-of-line
+    (8 combinations, with and without the corner_1 change): 544 to 1134. All worse.
+- The original's second car section (state 41) has an inline `add` between two `Multiply` results and an extra
+  pair of `Multiply` calls the baseline does not make. Matching it needs the inline budget of the whole function
+  (the inline/out-of-line split of the Fix16 operators is budget-sensitive, see docs/matching_quirks.md on inline budget),
+  not a local statement change. Not pursued further.
