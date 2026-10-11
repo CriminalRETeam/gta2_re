@@ -312,7 +312,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
 
     switch (id)
     {
-        case 1001:
+        case 1001: // "Join" button
             if (gNetPlay_7071E8.field_4_bModem)
             {
                 gNetPlay_7071E8.EnumSessions_51E650();
@@ -358,7 +358,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
             }
             break;
 
-        case 1000:
+        case 1000: // Double click on the network game session
             if (notify == LBN_DBLCLK)
             {
                 wchar_t playerNameW[260];
@@ -411,7 +411,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
             break;
         }
 
-        case 1002:
+        case 1002: // "Create" button
         {
             Network_20324* pThis = (Network_20324*)GetWindowLongA(hDlg, 8);
             NetworkGameSettings settings = pThis->field_20088_game_settings;
@@ -434,7 +434,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
             break;
         }
 
-        case 1023:
+        case 1023: // "Send" button ?
         {
             GetWindowLongA(hDlg, 8);
             GetDlgItemTextA(hDlg, 1025, chatText, 127);
@@ -446,7 +446,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
             break;
         }
 
-        case 1021:
+        case 1021: // "Cancel" button (inside game session) ?
         {
             gNetPlay_7071E8.NetworkTick_51ED00();
             Sleep(100);
@@ -459,7 +459,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
             break;
         }
 
-        case 1020:
+        case 1020: // "Reject" button
         {
             Network_20324* pThis = (Network_20324*)GetWindowLongA(hDlg, 8);
             HWND hList = GetDlgItem(pThis->Get_202E0_HWND_519E20(), 1024);
@@ -477,7 +477,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
             break;
         }
 
-        case 1026:
+        case 1026: // Map list
             switch (notify)
             {
                 case CBN_SELCHANGE:
@@ -491,7 +491,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
             }
             break;
 
-        case 1052:
+        case 1052: // "Send" again?
         {
             Network_20324* pThis = (Network_20324*)GetWindowLongA(hDlg, 8);
             GetDlgItemTextA(hDlg, 1053, chatText, 127);
@@ -502,7 +502,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
             break;
         }
 
-        case 1036:
+        case 1036: // Game type
             switch (notify)
             {
                 case CBN_SELCHANGE:
@@ -516,7 +516,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
             }
             break;
 
-        case 1059:
+        case 1059: // Frags/Points to win
             if (notify == EN_CHANGE)
             {
                 GetDlgItemTextA(hDlg, 1059, chatText, 127);
@@ -551,7 +551,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
             }
             break;
 
-        case 1038:
+        case 1038: // Game time limit
             if (notify == EN_CHANGE)
             {
                 GetDlgItemTextA(hDlg, 1038, chatText, 127);
