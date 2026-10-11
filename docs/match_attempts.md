@@ -4503,3 +4503,12 @@ wrong, so no type, structure, inline or scheduling work applies. Left unchanged.
 - Slot order: with equal refs and size (the two save bytes, both 2 refs) the stack-slot list did not follow
   declaration or statement order in any variant tried. Reading the frame rule alone did not explain it; the
   `slotlog` build writes into `build_vc6/x87_c2/`, so it was not run (rule: no writes to build_vc6).
+
+## Agent cheap5 (CanMoveOntoSlopeTile_4E0130)
+
+Start 442, final 442, not matched, no change kept. Most of the diff is a y/z register swap: priolog gives
+z prio 80 (edi), y 78 (ebp), x 72 (ebx), while the original has y in edi and z in ebp. Extra z references
+raise z's priority (wrong way), and no behaviour-preserving edit tried raised y's. The first pBlock use
+also reloads from 0x24(%esp) instead of using eax. Tried: `else if (z >= 1)` (442), hoisted `z - 1`
+local (442), moving the field_36E store (446), hoisted zUp/zDown locals (1014-2200). Queued for a
+permuter sweep.
