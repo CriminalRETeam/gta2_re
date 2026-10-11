@@ -4821,3 +4821,16 @@ root with `VC6_TOOLS`-free `patch_c2.X` set to a scratch dir, see `Scripts/regal
   pair of `Multiply` calls the baseline does not make. Matching it needs the inline budget of the whole function
   (the inline/out-of-line split of the Fix16 operators is budget-sensitive, see docs/matching_quirks.md on inline budget),
   not a local statement change. Not pursued further.
+
+## Agent cheap16 (TrafficLight_20::Init_5C1D00, 738, no change kept)
+- Start 738, final 738 (no change kept, `Source/TrafficLights_194.cpp` is byte-identical to the base). Not matched.
+- Structure: `permuter_score.py --skeleton` gives 0 on the function (branches, block order and call order match);
+  `--structure` is 466, all of it block-internal scheduling and register/stack choice. So this is not a control flow issue.
+- Top of function: the original keeps x in `ebx` (loaded at entry) and the masked y in `edi` (loaded first, shifted for
+  the first ctor). Ours gives `ebx` to y and `ebp` to `this`, and the original spills `this` to 0x14. Frame 0x24 vs ours 0x28.
+- Tried (all 738 unless noted): explicit `Fix16(x), Fix16(y)` in the FindGround call (870), `Fix16(y, 0)` (1343),
+  `Fix16 zpos;` declared then assigned (1715), `s32 zi` / `(u8)` zTmp, `s32 yi = y` for the call, `u8 xs = x` for the
+  call, `u8 zTmp;` declared before the call, `zpos.ToInt() - 1` without the u8 cast, operand order `y + h - 1`,
+  `w + x` / `x + w - 1` / `y + h` in the pavement and road-type calls. None lowers the score.
+- Not tried: the permuter (`/tmp/permute.lock` was held by another sweep, not waited on). A `this`-spill or
+  parameter-priority change needs a structure that changes the register weights of x, y and `this` in the first block.
