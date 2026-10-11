@@ -4541,3 +4541,26 @@ Files changed: `Source/Ped.cpp` only (no header edits).
   `s8` locals (414-588), an inline rng wrapper (424), a local `off` in `get_block_42A850` (362, wrong shape),
   comma/else-if chains alone (46: statement scope does not change the temp slots). Permuter runs from the
   414 base found only 408.
+
+## Agent cheap6 (MeleeAttackStateMachine_46B670, 56 -> 2)
+
+- `Ped::MeleeAttackStateMachine_46B670` 56 -> 2 (NO_PCH=1 and PCH both 2). Still WIP: the 2 is the scorer's COMDAT
+  penalty for `Max_41E130` (ours calls it from the inlined `MaxAbsDistance_42A6B0`, the original's out-of-line
+  call is `Max_44E540`, same body). Per the Max_41E130 note above, the build verifier accepts that name, so the
+  function should flip to MATCH after a full `build.py` run (not run here: build_vc6 is shared).
+- Two changes, both in `Source/Ped.cpp` only:
+  1. The early `field_226 = field_25C == punch ? 2 : 1` (dead-target branch) is `if (field_25C != punch) { field_226 = 1; return; } field_226 = 2; return;`.
+     The `2` arm falls into the shared epilogue and the `1` arm keeps its own copy, as in the original (0x69C / 0x4BD).
+     The if/else-with-one-return form (454) and the early `== punch` return form (454) both moved every block; the
+     `!=`-first early return is the one that keeps the layout.
+  2. The hurt block of the `animframe == 0` branch nests the mugger test under `PedTypeIs_45EDE0(player)`, with the
+     `field_240 != criminal` check written out in both the player branch's else and the non-player else. VC6 then keeps
+     the original's two copies of that check (`je 331` / `jne 337`), and the `mov 0x240(%esi),%eax; cmp %edi,%eax`
+     load-compare of the first copy comes out right.
+- Rejected (all scored worse or equal): `mov $1` / bitfield read variants for `!IsActive_433B40()` (56, no change);
+  swapping `&&` operands in the mugger test (58, the load order changes); a `s32` local for `field_240` in that
+  block (178).
+- Tip: an offset-level comparison is easier than the score lines: disassemble the original
+  with its byte offsets (10.5.exe, PE RVA to file offset) and the candidate's COFF function with the same decoder
+  (iced_x86), then diff instruction text with the jump targets and globals normalised. A 2-byte offset slip before a
+  jump is what made the early-return variant look like 92 lines of diff.

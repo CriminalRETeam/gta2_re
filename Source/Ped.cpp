@@ -9777,15 +9777,19 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
 }
 
 // https://decomp.me/scratch/aE2Ac
-// Logic follows the 10.5 asm. Only remaining difference: VC6 tail-merges the mugging block of the
-// health >= 20 path into the one in the `target == field_148` path, the original keeps its own copy.
-WIP_FUNC(0x46b670)
+// Logic follows the 10.5 asm. The mugging and criminal checks of the hurt block are nested per player
+// test, so VC6 keeps the original's separate copies.
+MATCH_FUNC(0x46b670)
 void Ped::MeleeAttackStateMachine_46B670()
 {
-    WIP_IMPLEMENTED;
     if (field_14C_internal_target_ped->GetPedState_403990() == ped_state_1::dead_9 || !field_14C_internal_target_ped->IsActive_433B40())
     {
-        field_226_internal_objective_status = field_25C_internal_objective == objectives_enum::punch_char_23 ? 2 : 1;
+        if (field_25C_internal_objective != objectives_enum::punch_char_23)
+        {
+            field_226_internal_objective_status = 1;
+            return;
+        }
+        field_226_internal_objective_status = 2;
         return;
     }
 
@@ -9844,13 +9848,20 @@ void Ped::MeleeAttackStateMachine_46B670()
         {
             if (field_168_game_object->field_68_animation_frame == 0)
             {
-                if (field_14C_internal_target_ped->PedTypeIs_45EDE0(ped_type::player_2) && field_240_occupation == ped_ocupation_enum::mugger)
+                if (field_14C_internal_target_ped->PedTypeIs_45EDE0(ped_type::player_2))
                 {
-                    field_14C_internal_target_ped->field_15C_player->AddScore_41DC40(-10);
-                    ++field_229_mug_count;
-                    if (field_229_mug_count > 9)
+                    if (field_240_occupation == ped_ocupation_enum::mugger)
                     {
-                        field_226_internal_objective_status = 1;
+                        field_14C_internal_target_ped->field_15C_player->AddScore_41DC40(-10);
+                        ++field_229_mug_count;
+                        if (field_229_mug_count > 9)
+                        {
+                            field_226_internal_objective_status = 1;
+                        }
+                    }
+                    else if (field_14C_internal_target_ped->field_240_occupation != ped_ocupation_enum::criminal_type_1)
+                    {
+                        field_14C_internal_target_ped->TakeDamage(10);
                     }
                 }
                 else if (field_14C_internal_target_ped->field_240_occupation != ped_ocupation_enum::criminal_type_1)
