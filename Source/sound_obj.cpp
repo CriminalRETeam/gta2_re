@@ -2861,9 +2861,8 @@ void sound_obj::HandleCarDoorSounds_4182E0(Sound_Params_8* a2)
                     s32 samp_idx_for_car = get_samp_idx_for_car_417D70(pCar, 1, bTrainOrBus);
                     this->field_30_sQueueSample.field_14_samp_idx = samp_idx_for_car;
                     this->field_30_sQueueSample.field_3C_speed_multiplier = 0;
-                    s32 displacement = RandomDisplacement_41A650(samp_idx_for_car);
-                    this->field_30_sQueueSample.field_20_rate =
-                        displacement + gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(this->field_30_sQueueSample.field_14_samp_idx);
+                    this->field_30_sQueueSample.field_20_rate = RandomDisplacement_41A650(samp_idx_for_car);
+                    this->field_30_sQueueSample.field_20_rate += gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(samp_idx_for_car);
                     this->field_30_sQueueSample.field_30_loop_count = 1;
                     this->field_30_sQueueSample.field_34_loop_start = 0;
                     this->field_30_sQueueSample.field_38_loop_end = -1;

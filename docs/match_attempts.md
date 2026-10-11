@@ -4605,3 +4605,19 @@ Start 50, final **49** (kept), not matched. `NO_PCH=1 quick_score.sh` line.
 - Remaining diffs: the get_block arg register/push order (target keeps z in eax while y/x are computed, we push
   z first); the kOne constant in edx (target, hoisted above both HasBlockAnyArrows arms) vs ecx; the
   `mov y` load placed after the `sub` in the target; the bit insert `((v^f)&1)^f` as before.
+
+## Agent cheap9: HandleCarDoorSounds_4182E0 (Oct 11)
+
+- `sound_obj::HandleCarDoorSounds_4182E0`: 88 -> 54 (kept; still WIP_FUNC, not matching). Open block only:
+  `field_20_rate = RandomDisplacement(samp)` stored straight into the sample, then `field_20_rate += GetPlay(samp)`
+  with the local `samp_idx_for_car` for both calls. The `s32 displacement` local is gone, so the Random result is
+  no longer kept in a register across the GetPlay call. Same stored value (u32 += s32 is the same bits).
+- What is left (54): the original has a 0x1C frame and ours 0x18. The original spills the Random result to a
+  stack slot across the GetPlay call (`mov %edx,0x28(%esp)` ... `mov 0x24(%esp),%ecx; add %eax,%ecx`) with `samp`
+  in edi. Every variant that keeps the Random result live across GetPlay (a named `displacement` local with
+  `+ GetPlay(samp)`, `s32 play`, function-scope `displacement`, `Random(field_14)` + `GetPlay(samp)`) drops the
+  zero constant out of ebx: the whole prologue changes (278). With `GetPlay(this->field_14)` (reload) the zero
+  stays in ebx but samp moves to a reload and displacement takes edi (88).
+- Tried, no gain (scores): statement orders of the open block (58-70), `s32 rate` local (54), `field_20 = disp;
+  field_20 = field_20 + GetPlay` (146/54), `Random(this->field_14)` with `GetPlay(samp)` (278), `disp` at
+  function scope (278), the close block unchanged (it already matches apart from the frame shift).
