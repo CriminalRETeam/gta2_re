@@ -4421,3 +4421,21 @@ Start 267, final 267 (no change kept), not matched. `NO_PCH=1 quick_score.sh` li
   `u8 side` declared at the first use 287.
 - Nothing kept. The diff starts at the frame layout (xpos at 0x24 in the original, 0x28 here), then the
   jump-over block order and the `bNoJump` re-test placement, which the 54A530 entry above already covers.
+
+## Agent near10: `SetGamma_5D9910` (8) and `TextureCache_15D8::ReadTextures_5B92E0` (78)
+
+Both are maintainer decisions, re-confirmed rather than retried: each scores 0 the moment the kept code goes
+(the commented `gErrorLog_67C530.Write_4D9620` call, the `if (i > 992) return;` guard) and nothing else is
+wrong, so no type, structure, inline or scheduling work applies. Left unchanged. New facts for whoever decides:
+- `SetGamma`: the assumed crash cause, writing to a never-opened classic `ofstream`, does not reproduce with the
+  VC6 CRT: a `/ML` test exe with a default-constructed `ErrorLog`-like global (`ofstream` member, `<< msg <<
+  endl << flush`) runs fine under wine, the stream just sets failbit (6). The original constructs both logs in
+  static initializers that the decomp lacks: `0x4A06E0` `ErrorLog gErrorLog_67CF58("test\\error.log", 1)` and
+  `0x4A0730` `ErrorLog gErrorLog_67C530("test\\warning.log", 1)` (dtor thunks `0x4A0710`/`log_4A0760`);
+  `error.cpp` only default-constructs them (`DEFINE_GLOBAL` cannot pass ctor args). Other matched callers of
+  `Write_4D9620` on the same objects (`RouteFinder`, `InputRecorder`, `ExitGameCallback_4DB0D0`) are not hit at
+  boot, which is the only difference from `SetGamma` (called from the gamma counter loop while
+  `counter_706C4C > 0`). The crash therefore needs a real repro in `decomp_main.exe` before the call goes back.
+- `ReadTextures`: the guard cannot move: `get_tile_4C2EB0` is an inline used by matched code,
+  `pgbh_RegisterTexture` is a DLL function pointer and `load_tiles_5AADF0` (the `Aligned_malloc_4FE510` of
+  `tile_chunk_len`) is matched, so padding the tile buffer to 1024 tiles would break a match.
