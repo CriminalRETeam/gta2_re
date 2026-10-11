@@ -3907,8 +3907,11 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     wcsncpy(field_136_menu_pages_array[6].field_4_options_array[0].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("repbons"),
             0x32u);
+    // The original reads the option's own (never written) font field here, not field_120_selected_font
     field_136_menu_pages_array[6].field_4_options_array[0].field_2_x_pos =
-        Frontend::GetCenteredXPos_4B0190(field_136_menu_pages_array[6].field_4_options_array[0].field_6_option_name_str, field_120_selected_font, 320);
+        Frontend::GetCenteredXPos_4B0190(field_136_menu_pages_array[6].field_4_options_array[0].field_6_option_name_str,
+                             field_136_menu_pages_array[6].field_4_options_array[0].field_6A_font_type,
+                             320);
     field_136_menu_pages_array[6].field_4_options_array[0].field_80_menu_page_target = 259;
     field_136_menu_pages_array[6].field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[6].field_4_options_array[1].field_4_y_pos = 360;
@@ -4028,12 +4031,10 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     wcsncpy(field_136_menu_pages_array[10].field_518_elements_array[0].field_6_element_name_str,
             gText_0x14_704DFC->Find_5B5F90("nicetry"),
             0x32u);
-    //    v46 = field_130;
-    field_136_menu_pages_array[10].field_518_elements_array[0].field_6A_font_type = field_130; // v46;
+    s16 v46 = field_130;
+    field_136_menu_pages_array[10].field_518_elements_array[0].field_6A_font_type = v46;
     field_136_menu_pages_array[10].field_518_elements_array[0].field_2_xpos =
-        GetCenteredXPos_4B0190(field_136_menu_pages_array[10].field_518_elements_array[0].field_6_element_name_str,
-                   field_130, //v46,
-                   320);
+        GetCenteredXPos_4B0190(field_136_menu_pages_array[10].field_518_elements_array[0].field_6_element_name_str, v46, 320);
     field_136_menu_pages_array[10].field_518_elements_array[0].field_6C_font_palette = 4;
     field_136_menu_pages_array[10].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[10].field_4_options_array[0].field_2_x_pos = 180;

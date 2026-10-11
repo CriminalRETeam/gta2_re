@@ -5063,3 +5063,43 @@ Scores are `NO_PCH=1 quick_score.sh`. No header edits; only `Source/miss2_0x11C.
   code-neutral source are.
 - `Char_B4::state_0_54DDF0` (184): read only, no new idea beyond the logged ones (the two spots are the
   `GetBlockTypeAtCoord_420420` inline's arm order plus unfolded test, and the conveyor add order).
+
+## Agent near20 (SetupMenuStringsOptionsElements_4B0220 130 -> 84, state_0_54DDF0 184 unchanged)
+Scores are `NO_PCH=1 quick_score.sh` lines. Only `Source/Frontend.cpp` changed (two spots in 4B0220), no header edits.
+- `Frontend::SetupMenuStringsOptionsElements_4B0220` 130 -> 84, not matched. (1) The page 6 `GetCenteredXPos_4B0190`
+  call for `options[0]` reads `0x4860(%esi)` in the original = `field_136_menu_pages_array[6].field_4_options_array[0]
+  .field_6A_font_type` (the option's own, never written, font field), not `field_120_selected_font` (130 -> 128; the
+  cheap3 entry's "reads from another address" was this). (2) The page 10 `elements[0]` font store and the following
+  `GetCenteredXPos` argument are two separate loads of `field_130` in the original (`mov 0x130,%dx ... mov 0x130,%ax`)
+  where ours CSE'd one: the decompiler's `v46` was real, `s16 v46 = field_130;` used at both sites gives the two loads
+  (128 -> 84; the block-local is forward-substituted into each use). The cheap3 `v38` finding for page 6 is the same
+  mechanism. Look for more such pairs if someone continues: every `GetCenteredXPos(..., field_1XX, ...)` next to a
+  `.field_6A_font_type = field_1XX` store.
+- What is left (all scheduling of register-only instructions among a totally ordered store chain; `sched.sh` shows
+  every store depends on every later store, so the store order is the IL order and only constant defs, `lea`s and
+  `add $0xC,%esp` move): the top block (`mov $3,%ebp` / `movw $0x10,0x134` placement: all 360 orders of the first six
+  statements swept, none below 84), `xor %edi,%edi` / `mov $0xC5,%eax` / `mov $0x96,%ebp` constant defs that the
+  original issues right after the preceding call or block top while ours places them two IL instructions before the
+  first use (priority = first use + 4 in the sv.py log, so ours cannot hoist them; the original's defs sit at the
+  start of the web, cause unknown: not /G5-/G6, not a statement order), eight `add $0xC,%esp` placements, the
+  `0x17C/0x136` constant register swap on page 1 (the permuter's move of `elements[7].shape = 4` earlier fixes it
+  but breaks the `0x1520` store order, 118 from 128), and the `lea`/`push` rotation around the page 14 wcsncpy calls.
+  `regsearch.py` (scratch copy, X pointed outside build_vc6): stock 42 lines, best 40 with window 14 at 76, so the
+  window limits are not it. Permuter (store/decl passes, 3500 compiles over two runs): 118 from 128, 84 from 84.
+- `Char_B4::state_0_54DDF0` (184, unchanged). New facts on the pAhead spot from priolog: with the
+  `GetBlockTypeAtCoord_420420` inline the `this` temp is a coloured range (kind a0804, prio 24 = 4 * N_join) and z's
+  ternary web has prio 20 (defs in the two `sar` arms, N = 2 each, plus the use in the join), so `this` is coloured
+  first and takes ecx by the call affinity, z moves to edx (`mov %ecx,%edx; mov gMap,%ecx`); the original keeps z in
+  ecx and loads gMap into edx before `push z`, i.e. z was coloured first or the this load is a round-robin temp with
+  eax (y) and ecx (z) busy. A named `s32 z` (ternary, if/else, `z = ToInt(); if (frac == 0) z--`), with the inline,
+  a local null-first/non-null-first helper, or the direct `get_block` call: 184-714, none changes the order. The
+  unfolded `test %bl,%bl` needs the and-arm to fall into a join that tests a copy; all inline forms give it only
+  with the non-null arm first.
+- Late finding on 4B0220, not kept (84 -> 244): the page 5 `elements[1].font = word_703C3C` statement is the decompiler's
+  `v34`: `s16 v34 = word_703C3C;` right after `elements[1].ypos = 185` and `... = v34` after the two 197 ypos stores gives
+  the original's IL (the global load before the ypos stores, the `v2` reload, then the font store: the block-local is
+  NOT forward-substituted past the this-> stores, which may alias the global). What breaks is the colour order: v34 is a
+  coloured range (prio 204 = 4 x 51 ranges in the block) and takes eax before the 0xC5 constant (ecx), v2's reload
+  goes to edx; the original has 0xC5 in eax, v34 in dx, v2 in ax, so eax must have had a positive score for v34 there.
+  `u16`/`s32`/function-scope/other-position v34 all 244, `const s16&` 84 (same code as no local). Worth combining with
+  whatever lowers v34's eax score; the shape is right.
