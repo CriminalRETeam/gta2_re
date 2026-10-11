@@ -5103,3 +5103,40 @@ Scores are `NO_PCH=1 quick_score.sh` lines. Only `Source/Frontend.cpp` changed (
   goes to edx; the original has 0xC5 in eax, v34 in dx, v2 in ax, so eax must have had a positive score for v34 there.
   `u16`/`s32`/function-scope/other-position v34 all 244, `const s16&` 84 (same code as no local). Worth combining with
   whatever lowers v34's eax score; the shape is right.
+
+## Agent near21 (Char_B4::HandleGenericCollision_54A530 267 -> 16, CanMoveOntoSlopeTile_4E0130 not touched)
+`NO_PCH=1 quick_score.sh` lines. Only `Source/char.cpp` changed (the function body), no header edits. Scratch with every
+variant and its diff: `/tmp/claude-0/agents/near21/v/` (v1..v11), inline-budget logs in `inl/`.
+- 267 -> 208: the whole jump-over layout (the `cmp $3,8(%esi); jmp` block and the `bNoJump` re-test after the
+  Jumping_15 `ret`, B's non-player `else if` block in the middle of the side cascade, A/J right after DoJump) comes
+  from two things together: (1) two `DoJump` sites in `if (!player) { if (!pChar) DoJump(); } else if (state_1 == 3)
+  DoJump();` order (the player copy is the one deleted by the "jmp into the code that falls into the label" cross-jump,
+  so it must be the arm written second... it is the `else` arm, which the DFS visits first) and (2) the second test
+  written `if (bNoJump) { B } else { Jumping_15 handling }` (bNoJump positive). With that, RPO lays out
+  `T P Q D X E B [arms] A J JOIN`, dupB rule 1 moves `A J` up behind D's `jmp A`, and the N block lands between the
+  side-0 arms by itself. Either change alone is worse (char8's 573 for the swap, 496/510 for two DoJump sites).
+- 208 -> 152: pChar arm as `pSprt = pChar->field_80_sprite_ptr; corner_ang = kAng45; pSprt->field_0 = kAng0;` (pChar
+  load picks eax first). Block-local `Fix16 dx = sin * vel; Fix16 dy; dy = cos.Multiply(vel);` in the player arm
+  (char2's frame fix, now a real gain).
+- 152 -> 16: the cascade's three normalised compares are the 9.6f operators: `hit_ang < kAng180_6FD936 + corner_ang`
+  and `hit_ang < kAng180_6FD936 - corner_ang` (`-corner_ang` too, 17/16 either way). Only the operator form makes
+  corner_ang a dword range in edi with 32-bit `add %edi,%ecx`/`sub`; every explicit spelling (`Ang16(k.rValue +
+  corner_ang.rValue)`, `s16`/`s32` corner_ang locals, by-ref helpers with `Normalize_406C20`, `s16 value` + cast) keeps
+  the 16-bit `add %bp,%cx` and a separate dword temp for the `neg` (probes in `probe/q*.cpp`).
+- What is left (16): the operator sites call the out-of-line COMDAT copy of the inline `Ang16::Normalize()` while the
+  other six sites (`Ang16(...).Normalized_406C20()`) call `Normalize_406C20` by name: two call targets where the
+  original has one, so the real verifier would also fail. The way out is the full 9.6f shape, checked as far as:
+  `-pSprt->field_0` with the real `RotateAndTranslatePoint_42A720` inline (its nested budget 75 gives exactly the
+  original's first-subtraction-inline / Multiply-Negate-Add out of line pattern, v11), player-arm
+  `Fix16 dx; Fix16 dy; Ang16::PolarToCartesian_41FC20(field_40_rotation, field_38_velocity, dx, dy);` (fixes the last
+  register difference in that arm: `mov (%edi),%dx`, `lea`, cos in eax), arm2 `field_0 + kAng180`, side-0 `field_0 -/+
+  kAng90`. That shape (v11, 327) has every block and call right except that the three side-1 `Normalize` must inline
+  (nested 56-61 < 67) while side-0's stay out of line (53): `inlsim --scan` says the caller's front-end size must be
+  +140..+195 (2857-2912 vs our 2717), i.e. the original source carried that much more statement/expression text, or
+  ~160-390 less charged budget before the side cascade. Using the hand-expanded `_OOL` helpers instead mixes
+  `Multiply_408680`/COMDAT `operator*` names (v10a, 339: same mixing problem). `PolarToCartesian` for the
+  `target_x/target_y` block is wrong (2131). Not tried: `__forceinline` on one of the three RotateAndTranslate sites
+  (frees 231 budget, inside the window), padding statements.
+- Dead ends: `s16 corner_ang` (241), by-ref helpers (176), inline `Normalize()` through a file-local helper at the
+  `.Normalized_406C20()` sites (1927: nested budget 72 > 67 inlines the loop there).
+- `Map_0x370::CanMoveOntoSlopeTile_4E0130` (442): not worked on (time).
