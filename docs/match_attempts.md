@@ -4621,3 +4621,53 @@ Start 50, final **49** (kept), not matched. `NO_PCH=1 quick_score.sh` line.
 - Tried, no gain (scores): statement orders of the open block (58-70), `s32 rate` local (54), `field_20 = disp;
   field_20 = field_20 + GetPlay` (146/54), `Random(this->field_14)` with `GetPlay(samp)` (278), `disp` at
   function scope (278), the close block unchanged (it already matches apart from the frame shift).
+
+## Agent near13 (Oct 11): sub_4E6660 (4, unchanged), DetectCarAhead_44D1D0 (16, unchanged)
+
+Goal was to replace the gotos with the structure the original had (threaded flags, trailing ifs). Neither
+function moved; no source change kept. Scores are `NO_PCH=1 quick_score.sh`.
+
+- `Map_0x370::sub_4E6660` (4): the two `goto done` as `dist = 0` (the loop test is then threaded into `jmp exit`
+  but the dead `xor %ebp,%ebp` stays, 55); `if (side == half) {== arm} else {!= arm}` (1342/1354, the layout
+  changes). Folded spellings of the == arm's 1s with `pPrev = pBlock` after the call (`!bTurned`, `bTurned + 1`,
+  `bTurned == 0`, both args): all fold to the same constant web (48). What the C2 logs say about the 48 (copy
+  after the call, the original's IL position, 9.6f agrees): opdump (10765bbd) shows all 22 `1`s as one web
+  (`163` reload at the top, placeholder uses everywhere). priolog logs TWO priority passes for it: the whole web
+  (-282/-352, fails to colour) and then the splitter's piece, which is the set of live blocks where ebx is free:
+  base (copy before the call) 9 blocks, prio -8, stops at the == block's first instruction (the copy); copy after
+  the call: the piece also takes the == block up to the copy (`211:3 212:ref`, prio -15) and so the two pushes.
+  Growth is set-based (it skips the != arm where to_centre holds ebx and continues into the == block), so the
+  original must have an ebx conflict (or a different web) in the == block before the pushes that leaves no trace;
+  not found. `ralog --force` to reg 0 on that piece ICEs (p2/main.c 494), so "no register" can't be simulated.
+  A mirror dir of Source/ with the variant copied in (`try.sh`) scores variants in parallel without touching
+  Source/; the C2 variants (ildump, ralog --force) build fine into a scratch dir by overriding `patch_c2.X`.
+- `CarAI_78::DetectCarAhead_44D1D0` (16): root cause of the al/cl swap found, no source form yet. opdump/priolog:
+  `next_idx` (symbol, prio 36 = 3 refs x N=6: copy-def, store, cmp) and `last_idx` (prio 52 = 4 refs x 6 + 4:
+  load-def, dec-use, dec-def, cmp, + the conditional store) are coloured in priority order, so last takes eax
+  first and next gets ecx; the arrow_idx reload piece (prio 24) then prefers next's ecx (the weight-1 ecx
+  preference car7 saw is the copy hint to `next`). The asymmetry: `arrow_idx + 1` loads the *register* symbol
+  arrow_idx into a temp, so the `inc` temp coalesces into arrow_idx's piece and `next = t` stays a copy (3 refs),
+  while `arrow_count - 1` loads the address-taken (memory) arrow_count, so the `dec` temp coalesces into last
+  (4 refs). Equal priority would do (next's tie 1417 > last's 1414). Confirmed both ways: `s8 count =
+  arrow_count;` right after the call, used only in the tail (count's reload piece takes the dec, last 3 refs)
+  gives next=al/last=cl exactly, but count's spill slot is a third byte slot (arrow_count 0x11, arrow_idx 0x12,
+  count 0x13 vs the original's 0x12/0x13, 176); making arrow_idx's address escape (diagnostic) also flips the
+  tail (next gets the load+inc, 5 refs) but changes the middle. A `count` copy used in the middle checks
+  (178/18), `count` assigned in the tail (substituted, 18), `(u8)arrow_idx + 1`, `(s32)arrow_idx + 1`,
+  `arrow_idx + (u8)1`, `last = arrow_count; last--`, the store before `last`'s def, `(void)&arrow_idx`, a
+  reference alias: all 16/18. `arrow_count - 1` re-read in the store block gives arrow_count a reload web in
+  the tail (cl) and next=al, but the two `- 1` are not CSE'd (two decs, 84/92/100). The tail of 9.6f 0x42C8B0
+  has the same `inc %al` / `dec %cl` / `cmp %cl,%al; jbe` shape, with arrow_idx at 0x12 and arrow_count at
+  0x13 there. Permuter 730 compiles on the `next > last` form: only the behaviour-changing store move (14).
+  Still needed: a source form in which the tail's `arrow_count` read is a register-symbol copy without a
+  third byte slot, or `arrow_idx`'s tail read a memory operand, or last with 3 refs.
+
+## Agent cheap10 (CreateRoadblock_575FF0)
+- Start 122, final 122 (NO_PCH=1), not matched. Source left unchanged (no legit improvement found).
+- Tried, all worse or equal: function-scope `u8 bEdge;` with `bEdge = 0` in both arms (188, the misc7
+  recipe, alone); function-scope bEdge for the y arm only (122); assigning the outer `y_bottom`/`zpos` in
+  the y arm instead of shadowing them (184); `u8 width` hoisted to function scope (319); `tries` declared
+  after `angle` (122); `s32 tries` (1140).
+- The remaining diff is stack-slot assignment across the whole body (0x20/0x24/0x28/0x2C/0x30 and
+  0x7C/0x84/0x88 swapped), plus one early `mov 0x80(%esp),%eax` before `push %edi` in the original that
+  our code loads after the `jne`. Not reached by declaration order or shadowing tweaks.
