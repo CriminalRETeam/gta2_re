@@ -5346,3 +5346,31 @@ Police_38.cpp (CreateRoadblock_575FF0) was not attempted.
   after the set_id call (as the original: `mov $0xE,%bl` after the call) which spills max_sub_state (cheap14).
 - Permuter (two runs, ~2800 compiles, default passes): only size tricks (`Fix16 dx_arr[2]`, duplicated statements)
   that realign jump offsets; nothing real.
+
+## Agent near28 (Oct 11): CanMoveOntoSlopeTile_4E0130 still 290, not matched
+
+- No source change kept (`Source/map_0x370.cpp` untouched). All work was on near26's probe (copies in
+  `/tmp/claude-0/agents/near28/`: `probe_gen.py` with a case-template/tail argument, `run.sh`, `sc.sh`, `pl.sh`)
+  and on scored copies of the real function.
+- The 2-byte diff is settled as the splitter's choice of the first piece of pBlock: `{def}` only (store from eax,
+  then-use reloads) instead of `{def, then}`. Findings from the probe (4 cases + else arm, all else equal):
+  the piece grows into the then-block when the then-arm has NO definition of a stack variable there (member
+  store `field_36F = get_slope_idx(p->field_B)`: direct `mov 0xB(%eax),%cl`), and does not grow as soon as the
+  then-arm defines one (`b = get_slope_struct(..)`, `s32 k = get_slope_idx(..)` with no multiply, or an
+  address-taken `b`). An extra live-through local defined in the def block (`k = dir * 3` before the call) gives
+  the copy form `mov %eax,%ecx; mov 0xB(%ecx),%dl` (piece `{def, then}` in ecx because eax is taken in the def
+  block), so the growth is per register and block-granular: it starts with the def's register and stops at the
+  first block where that register is held. The same holds on the real function: with the then-arm as a member
+  store it uses eax directly (352, everything else shifts), with any `pBaseSlope = ...` form it reloads.
+- Not it (all 290 on the real function): `u32`/`s32 idx` locals for the shifted index (block scope), the raw
+  `gGmpSlopes + (type >> 2)`, `(u8*)gGmpSlopes + idx * 12`, pSlope/pBaseSlope as a 2-element array, pBaseSlope
+  address-taken, 3 vs 4 cases, fewer/more pBlock refs in the cases (probe: fewer refs or 3 cases flip p to the
+  whole-range-in-eax form with reloads after calls, which is a different shape from the original's).
+- priolog (`pl.sh`, `ra_base/`): pBlock whole range prio 14 (def block +32 at N=8, then-block +6, 142 of
+  live-through penalties), the then-block x12 kind-3 temp (`mov %ecx,%eax; shr; lea (%eax,%eax,2)`, 5 refs,
+  N=3) prio 30 coloured eax before pBlock is split; pBaseSlope -299. But the probe's p has prio 44 > its temp's
+  30 and still doesn't grow, so the temp's colour order is not the (only) blocker; what in the then-block
+  stops the growth when a local is defined there is still open (candidates: Chow-style colourability count of
+  live ranges in the block, or the def's own interference). Next: build a probe where the then-arm defines a
+  local but the piece still grows, by varying what else is live in the then-block (K5 vs L2 differ only in
+  whether the local is defined there or live-through), then port.
