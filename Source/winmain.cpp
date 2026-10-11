@@ -1078,24 +1078,24 @@ EXPORT void Net_Receive_Players_Inputs_4DA9F0()
         }
 
         s32 player_idx;
-        u32 type;
-        if (gNetPlay_7071E8.ReceiveGameMessage_521890((Network_8*)&gpInputBuffer_6F58C0, &player_idx, &type))
+        u32 packet_subtype;
+        if (gNetPlay_7071E8.ReceiveGameMessage_521890((Network_8*)&gpInputBuffer_6F58C0, &player_idx, &packet_subtype))
         {
-            switch (type)
+            switch (packet_subtype)
             {
-                case 2:
+                case packet_subtype::StandardPacket_2:
                 {
-                    switch (*(u8*)gpInputBuffer_6F58C0)
+                    switch (*(u8*)gpInputBuffer_6F58C0) // std_packet_subtype
                     {
-                        case 1:
+                        case std_packet_subtype::GiveUp_1:
                             waiting_bits &= ~(1 << *(s32*)((u8*)gpInputBuffer_6F58C0 + 1));
                             gNetInUsePlayerBits_6F56B8 |= 1 << *(s32*)((u8*)gpInputBuffer_6F58C0 + 1);
                             break;
-                        case 2:
+                        case std_packet_subtype::KeepAlive_2:
                             waiting_bits &= ~(1 << player_idx);
                             gNetInUsePlayerBits_6F56B8 |= 1 << player_idx;
                             break;
-                        case 3:
+                        case std_packet_subtype::Unknown_3:
                             waiting_bits = 0;
                             gPlayerQuit_6F5AEC = 1;
                             break;
@@ -1105,7 +1105,7 @@ EXPORT void Net_Receive_Players_Inputs_4DA9F0()
                     }
                     break;
                 }
-                case 3: // store player input for the latest/current tick
+                case packet_subtype::PlayerInputs_3: // store player input for the latest/current tick
                     memcpy(&gCurrentNetInputs_6F57D8.field_0_inputs[player_idx], gpInputBuffer_6F58C0, gCurrentInputsBufferSize_6F58C4);
                     waiting_bits &= ~(1 << player_idx);
                     if (bDo_sync_check_67D6C1 &&

@@ -964,7 +964,7 @@ void NetPlay::ProcessPingOrHandshakeSend_51F110(void* pPacket, s32 a3, s32 a4, s
     {
         switch (pBytes[3])
         {
-            case 1:
+            case packet_subtype::Ping_1:
             {
                 Packet_Ping_C* pPing = (Packet_Ping_C*)(pBytes + 5);
                 if (field_5D8_player_id == pPing->field_0_sender_player_id)
@@ -986,7 +986,7 @@ void NetPlay::ProcessPingOrHandshakeSend_51F110(void* pPacket, s32 a3, s32 a4, s
                 }
                 break;
             }
-            case 4:
+            case packet_subtype::DisableJoining_4:
                 ProcessIncomingPacket_520230(9, 0);
                 field_48 = 2;
                 break;
@@ -1002,22 +1002,22 @@ s32 NetPlay::CalcPacketLen_51F210(s32 pPacket, u32 packetLen)
     u8* pBytes = (u8*)pPacket;
     // The message header (type, length) is written through its own pointer: VC6 then reloads
     // pMsg[1] after the pBytes[0]/pBytes[1] stores, as the original does
-    u8* pMsg = pBytes + 3;
-    u8* pPayload = pBytes + 5;
+    u8* pMsg = pBytes + 3; // pPacket[3] = packet_subtype
+    u8* pPayload = pBytes + 5; // pPacket[5] = payload/data
     s32 len = 0;
 
     memcpy(copy, pBytes, packetLen);
     switch (copy[0])
     {
-        case 9:
-            pMsg[0] = 3;
+        case pkt_data_type::PlayerTickOnly_9:
+            pMsg[0] = packet_subtype::PlayerInputs_3;
             if (bDo_sync_check_67D6C1)
             {
-                pMsg[1] = 8;
+                pMsg[1] = 8; // pPacket[4]
             }
             else
             {
-                pMsg[1] = 4;
+                pMsg[1] = 4; // pPacket[4]
             }
             pBytes[0] = 1;
             pBytes[1] = copy[1];
@@ -1030,8 +1030,8 @@ s32 NetPlay::CalcPacketLen_51F210(s32 pPacket, u32 packetLen)
             len = pMsg[1] + 5;
             break;
 
-        case 1:
-            pMsg[0] = 3;
+        case pkt_data_type::PlayerInputsAndTick_1:
+            pMsg[0] = packet_subtype::PlayerInputs_3;
             pMsg[1] = packetLen - 2;
             pBytes[0] = 1;
             pBytes[1] = copy[1];
@@ -1040,8 +1040,8 @@ s32 NetPlay::CalcPacketLen_51F210(s32 pPacket, u32 packetLen)
             len = packetLen + 3;
             break;
 
-        case 2:
-            pMsg[0] = 1;
+        case pkt_data_type::Ping_2:
+            pMsg[0] = packet_subtype::Ping_1;
             pMsg[1] = packetLen - 1;
             pBytes[0] = 1;
             pBytes[1] = copy[1];
@@ -1050,7 +1050,7 @@ s32 NetPlay::CalcPacketLen_51F210(s32 pPacket, u32 packetLen)
             len = packetLen + 4;
             break;
 
-        case 4:
+        case pkt_data_type::Unknown_4:
             pBytes[0] = 2;
             pBytes[1] = 0;
             pBytes[2] = 0;
@@ -1060,8 +1060,8 @@ s32 NetPlay::CalcPacketLen_51F210(s32 pPacket, u32 packetLen)
         // Separate (identical) cases: with more than 8 paths into the final return, VC6 keeps len in a
         // register (ebp, zeroed up front) instead of copying the return into each case and folding the
         // constants. The compiler merges the four bodies again.
-        case 3:
-            pMsg[0] = 2;
+        case pkt_data_type::SyncCheckData_3:
+            pMsg[0] = packet_subtype::StandardPacket_2;
             pMsg[1] = packetLen - 1;
             pBytes[0] = 1;
             pBytes[1] = 0;
@@ -1070,8 +1070,8 @@ s32 NetPlay::CalcPacketLen_51F210(s32 pPacket, u32 packetLen)
             len = packetLen + 4;
             break;
 
-        case 5:
-            pMsg[0] = 2;
+        case pkt_data_type::KeepAlive_5:
+            pMsg[0] = packet_subtype::StandardPacket_2;
             pMsg[1] = packetLen - 1;
             pBytes[0] = 1;
             pBytes[1] = 0;
@@ -1080,8 +1080,8 @@ s32 NetPlay::CalcPacketLen_51F210(s32 pPacket, u32 packetLen)
             len = packetLen + 4;
             break;
 
-        case 6:
-            pMsg[0] = 2;
+        case pkt_data_type::GiveUp_6:
+            pMsg[0] = packet_subtype::StandardPacket_2;
             pMsg[1] = packetLen - 1;
             pBytes[0] = 1;
             pBytes[1] = 0;
@@ -1090,8 +1090,8 @@ s32 NetPlay::CalcPacketLen_51F210(s32 pPacket, u32 packetLen)
             len = packetLen + 4;
             break;
 
-        case 7:
-            pMsg[0] = 2;
+        case pkt_data_type::Unknown_7:
+            pMsg[0] = packet_subtype::StandardPacket_2;
             pMsg[1] = packetLen - 1;
             pBytes[0] = 1;
             pBytes[1] = 0;
@@ -1100,8 +1100,8 @@ s32 NetPlay::CalcPacketLen_51F210(s32 pPacket, u32 packetLen)
             len = packetLen + 4;
             break;
 
-        case 8:
-            pMsg[0] = 4;
+        case pkt_data_type::DisableJoining_8:
+            pMsg[0] = packet_subtype::DisableJoining_4;
             pMsg[1] = 0;
             pBytes[0] = 1;
             pBytes[1] = 0;
@@ -1980,7 +1980,7 @@ bool NetPlay::WaitForPlayersSync_5213E0()
         if (Receive_51F010(&pData, &dataLen, &recvId, &senderId))
         {
             u8* pPacket = (u8*)pData;
-            if (pPacket[0] == 2)
+            if (pPacket[0] == packet_type::Type2_2)
             {
                 u32 idx = IndexOf_520E30(senderId, &field_758_n2);
                 if (idx == 0xEEEEEEEE)
@@ -1989,7 +1989,9 @@ bool NetPlay::WaitForPlayersSync_5213E0()
                 }
                 waitingForAck &= ~(1 << idx);
             }
-            else if (pPacket[0] == 1 && pPacket[3] == 2 && pPacket[5] == 5)
+            else if (pPacket[0] == packet_type::DataPacket_1 
+                && pPacket[3] == packet_subtype::StandardPacket_2 
+                && pPacket[5] == std_packet_subtype::SyncCheckData_5)
             {
                 CompareRemotePlayers_4DB440(gSyncCheckData_6F58E0, pPacket + 5);
                 u32 idx = IndexOf_520E30(senderId, &field_758_n2);
@@ -2133,7 +2135,7 @@ void NetPlay::Remove_521870(s32 idx)
 }
 
 MATCH_FUNC(0x521890)
-char_type NetPlay::ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u32* pType)
+char_type NetPlay::ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u32* packet_subtype)
 {
     char_type bGotMessage;
     char_type bCheckBuffered;
@@ -2165,7 +2167,7 @@ char_type NetPlay::ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u
         if (bCheckBuffered && (slot = GetLatestPacket_521770(pOut, &receivedTick, (u32*)pPlayerIdx)) != -1)
         {
             // The oldest buffered (out of order) packet
-            *pType = 3;
+            *packet_subtype = packet_subtype::PlayerInputs_3;
             bGotMessage = 1;
 
             // diff: received player tick - our (buffered?) current stored tick for the same player
@@ -2196,7 +2198,7 @@ char_type NetPlay::ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u
             // No buffered packet: try a new one in the same pass (bCheckBuffered stays set)
             if (Receive_51F010(&pData, &dataLen, &recvId, &senderId))
             {
-                *pType = ((u8*)pData)[3];
+                *packet_subtype = ((u8*)pData)[3];
                 Network_Game_Session* pN2 = &field_758_n2;
                 *pPlayerIdx = IndexOf_520E30(senderId, pN2);
                 if (*pPlayerIdx != 0xEEEEEEEE)
@@ -2204,7 +2206,7 @@ char_type NetPlay::ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u
                     bGotMessage = 1;
                     pOut->field_4_len = ((u8*)pData)[4];
                     pOut->field_0_data = (u8*)pData + 5;
-                    if (*pType == 3)
+                    if (*packet_subtype == packet_subtype::PlayerInputs_3)
                     {
                         s32 diff = SeqDiff(((u8*)pData)[1], field_758_n2.field_8_packet_game_tick[*pPlayerIdx]);
                         s32 diffLocal = SeqDiff(((u8*)pData)[1], field_758_n2.field_8_packet_game_tick[GetPlayerIdx_409C40()]);
@@ -2320,7 +2322,7 @@ MATCH_FUNC(0x521db0)
 s32 NetPlay::SendGiveUp_521DB0(s32 player_idx)
 {
     Standard_Packet payload;
-    payload.field_0_std_packet_subtype = 1;
+    payload.field_0_std_packet_subtype = std_packet_subtype::GiveUp_1;
     payload.field_1 = player_idx;
 
     u32 dataLen;
@@ -2328,7 +2330,7 @@ s32 NetPlay::SendGiveUp_521DB0(s32 player_idx)
     Packet_SubType_3 pStru;
 
     memset(&pStru, 0, sizeof(pStru));
-    pStru.header.field_0_type = 1;
+    pStru.header.field_0_type = packet_type::DataPacket_1;
     pStru.field_9_bLoadData = 1;
     pStru.field_D_data = (void*)&payload;
     pStru.header.field_4_sub_type = packet_subtype::StandardPacket_2;

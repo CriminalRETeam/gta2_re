@@ -446,7 +446,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
             break;
         }
 
-        case 1021: // "Cancel" button (inside game session) ?
+        case 1021: // ?
         {
             gNetPlay_7071E8.NetworkTick_51ED00();
             Sleep(100);

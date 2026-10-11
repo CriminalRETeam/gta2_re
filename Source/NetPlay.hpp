@@ -205,7 +205,7 @@ struct NetPlay
     EXPORT char_type Receive_51F010(s32* pOutData, s32* pOutDataLen, unsigned long* recvId, unsigned long* senderId);
     EXPORT void SendOrReceivePacket_51F0D0(void* pPacket, s32 a3, s32 a4, s32 a5);
     EXPORT void ProcessPingOrHandshakeSend_51F110(void* pPacket, s32 a3, s32 a4, s32 a5);
-    EXPORT s32 CalcPacketLen_51F210(s32 pPacket, u32 packetLen);
+    EXPORT s32 CalcPacketLen_51F210(s32 pPacket, u32 packetLen); // Also converts enums back
     EXPORT void MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pDataLen); // Format data before using IDirectPlay3::Send
     EXPORT void OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, s32 a5);
     EXPORT s32 MovePlayerToGroup_520040(s32 toFind, Network_Game_Session* pStru, Network_Game_Session* pDst, u32* pOutIdx);
@@ -244,7 +244,7 @@ struct NetPlay
     EXPORT u32 GetLatestPacket_521770(Network_8* pOut, char_type* pSeq, u32* pPlayerId);
     EXPORT void sub_521820(s32** a2, s32 idx);
     EXPORT void Remove_521870(s32 idx);
-    EXPORT char_type ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u32* pType);
+    EXPORT char_type ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u32* packet_subtype);
     EXPORT void SendToAll_521B20(Network_8* pSendData);
     EXPORT s32 NoRefs_Send_521BE0(Network_8* pSendData, s32 a3);
     EXPORT s32 NoRefs_Send_521C80(s32 pSendData);
