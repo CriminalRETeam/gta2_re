@@ -17,6 +17,9 @@ OG_EXE = "./bin_comp/10.5.exe"
 # CRT / iostream library code (stubs for fopen, malloc ...) starts here, it's not ours to match
 LIBRARY_START = 0x5ED000
 
+# most WIPs listed one by one; the rest are summed up in one line (keeps the embed short)
+MAX_LISTED_WIPS = 30
+
 # Keys of progress.json whose change makes us post an update
 PROGRESS_KEYS = ["matched", "wip", "wip_scores", "named_fields", "named_funcs"]
 
@@ -221,13 +224,16 @@ def main():
         avg_delta = f" | **{avg - prev_avg:+.2f}%**" if prev_avg is not None and round(avg - prev_avg, 2) else ""
         out.append(f"{ind}Average similarity: {avg:.2f}%{avg_delta}")
         # closest first: by differing lines, then similarity
-        for key, (similarity, differing) in sorted(wip_scores.items(), key=lambda kv: (kv[1][1], -kv[1][0])):
+        ranked = sorted(wip_scores.items(), key=lambda kv: (kv[1][1], -kv[1][0]))
+        for key, (similarity, differing) in ranked[:MAX_LISTED_WIPS]:
             line = f"{ind}{names[key]}: {similarity:.2f}% ({differing} lines differ)"
             if key in prev_scores and prev_scores[key][1] != differing:
                 line += f" | **{differing - prev_scores[key][1]:+d}**"
             elif key not in prev_scores and prev_scores:
                 line += " | **new**"
             out.append(line)
+        if len(ranked) > MAX_LISTED_WIPS:
+            out.append(f"{ind}...and {len(ranked) - MAX_LISTED_WIPS} more")
     elif wip:
         out.append(f"{ind}(not scored: the original exe or the build is missing)")
     # WIPs from last time that are gone now (matched, or demoted to stubs)
