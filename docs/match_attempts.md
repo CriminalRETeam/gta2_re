@@ -4301,3 +4301,30 @@ Scores are `quick_score.sh` lines (NO_PCH=1, WIP_IMPLEMENTED emptied).
   treats the displacement as a byte somewhere; check the asm around the rate add.
 - `SCRCMD_STORE_CAR_INFO_509180`: 80 -> 58 only with a `(u8)` pointer test (not applied).
 - No change in 25 min each: 53F4C0 (66), 4E6660 (4), 4E8370 (8), 5520A0 (12).
+
+## Agent types1 (Oct 11): types/9.6f pass on HandleCarDoorSounds, STORE_CAR_INFO
+
+- `sound_obj::HandleCarDoorSounds_4182E0` 286 -> 88 (kept). It DOES have a 9.6f counterpart: `sub_4143B0`
+  (0x3C8 bytes; `docs/inlines_96f.md` lists it as the 10.5 dispatcher's pair by mistake). Its shape: `model =
+  pCar->GetCarInfoIdx_411940()`, `IsStartingToOpen/Close` as out-of-line `sub_411870/sub_411890` (`lea 0xC(%ecx,%edi)`
+  as `this`), the distances are `(Fix16(15) / Fix16(2)) * (Fix16(15) / Fix16(2))` and `Fix16(15) / Fix16(2)` with
+  9.6f's 14-bit Fix16 (= 0xE1000 / 0x1E000 raw, the same raw values 10.5 keeps), `field_1C = 3/5` if-converted by VC7
+  (`sete; lea 3(%eax,%eax)`), and the rate calls in the same order as 10.5 (open: get_samp, Random, GetPlay with the
+  Random result spilled to the stack; close: get_samp, GetPlay, Random(field_14) with the GetPlay result in a register).
+  What moved the score: the close block written as `field_14 = get_samp(..); field_3C = 0; field_20 = Random(field_14)
+  + GetPlay(field_14)` (no `samp_idx`/`rate` locals, forwarded `push %eax` + 0x44 reload as the original), the open
+  block's `GetPlay(field_14)` (reload) instead of `GetPlay(samp)` (286 -> 94), `pCar` declared after the two flags
+  (-> 88). Left: the open block's `samp` is in `edi` and `displacement` spilled in the original; ours has
+  `displacement` in `edi`, and the round-robin picks in the close block follow from it. Priolog: the zero constant
+  gets prio -12 with `s32 displacement` + a named `samp` (two named locals in the busy tail block, N=20) and is
+  folded to immediates; any form that removes a colour candidate there (`u8`/`s16 displacement`, a ternary in one
+  block, `GetPlay(field_14)` instead of `GetPlay(samp)`) gives it prio 11..86 and the original's ebx/ebp/edi. VC6
+  evaluates `GetPlay(..) + Random(..)` and `Random(..) + GetPlay(..)` both GetPlay-first (the global `this` operand
+  goes first), so the open block's Random-first order needs a statement (a named local) and that local is what gets
+  the register the original spills. Not found: a dword form of that local that stays in memory.
+- `miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180` (80, unchanged). `CanAlloc_446870(u32)` (param type, header) does not
+  split the shared 8 constant (constants are keyed by value: 80). Priolog on the permuter's `(u8)gStoredCar` 58:
+  the constant `4` is coloured at prio -25 in both forms; in the base it gets ebx and is folded to immediates, in
+  the (u8) form it gets edi and is used. So a constant whose register would be the only use of ebx (an extra
+  push/pop) is folded; the original's order zero(esi) > 4(edi) > pParam2(ebx) needs both constants above pParam2
+  (7), i.e. a smaller live-through penalty for `4` (it is live through ~15 blocks, N 1-5 each).

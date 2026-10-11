@@ -2802,6 +2802,15 @@ changed for one variant only (used for the `ofstream` member and for `operator+=
   `lea (%esi,%ecx)`; `Fix16 z;` at the top of the function and `z = ...` there gives `add %esi,%ecx` and the
   later `mov kTileTexSize,%eax; imul %esi`. In draw_bottom the declaration also raised the inline budget by
   28 (one more out-of-line operator+ got inlined); `if (texture_idx)` for `!= 0` took back enough size.
+- **Call operand order: a call on a global object goes first** (`HandleCarDoorSounds_4182E0`). VC6
+  evaluates both `GetPlay(x) + Random(x)` and `Random(x) + GetPlay(x)` with the call on the global
+  `gSampManager_6FFF00` (constant `this`) first, so a Random-first order in the asm needs a statement
+  (a named local).
+- **A constant gets a register only when its colour priority stays positive** (`4182E0`, `509180`). A
+  constant's priority is its refs minus live-through penalties. When the priority ends up negative, or the
+  register would be pushed for that constant alone, VC6 folds it back to immediates. Removing one named
+  local from the busiest block (for example reading a just-stored field instead) can flip it: in 4182E0 the
+  zero constant went from prio -12 to the original's ebx, 286 -> 88.
 
 **A register rotation that starts at a by-value return can be an inline cut-off.** In
 `Ped::IsPedAThreat_465D00` the original's `mov (%eax),%eax` after the Max call (the deref merged with the

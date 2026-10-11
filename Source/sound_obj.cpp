@@ -2821,9 +2821,9 @@ void sound_obj::HandleCarDoorSounds_4182E0(Sound_Params_8* a2)
 {
     WIP_IMPLEMENTED;
 
-    Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
     bool bQueued1 = 0;
     bool bQueued2 = 0;
+    Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
     s32 model = pCar->field_84_car_info_idx;
     BYTE* car_remap_5AA3D0 = gGtx_0x106C_703DD4->get_car_remap_5AA3D0(model);
     for (u8 i = 0; i < (u8)pCar->GetRemap(); ++i)
@@ -2862,10 +2862,10 @@ void sound_obj::HandleCarDoorSounds_4182E0(Sound_Params_8* a2)
                     this->field_30_sQueueSample.field_14_samp_idx = samp_idx_for_car;
                     this->field_30_sQueueSample.field_3C_speed_multiplier = 0;
                     s32 displacement = RandomDisplacement_41A650(samp_idx_for_car);
-                    s32 new_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(samp_idx_for_car);
+                    this->field_30_sQueueSample.field_20_rate =
+                        displacement + gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(this->field_30_sQueueSample.field_14_samp_idx);
                     this->field_30_sQueueSample.field_30_loop_count = 1;
                     this->field_30_sQueueSample.field_34_loop_start = 0;
-                    this->field_30_sQueueSample.field_20_rate = displacement + new_rate;
                     this->field_30_sQueueSample.field_38_loop_end = -1;
                     AddSampleToRequestedQueue_41A850();
                 }
@@ -2896,12 +2896,11 @@ void sound_obj::HandleCarDoorSounds_4182E0(Sound_Params_8* a2)
                         {
                             this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 5;
                         }
-                        s32 samp_idx = get_samp_idx_for_car_417D70(pCar, 0, bTrainOrBus);
-                        this->field_30_sQueueSample.field_14_samp_idx = samp_idx;
+                        this->field_30_sQueueSample.field_14_samp_idx = get_samp_idx_for_car_417D70(pCar, 0, bTrainOrBus);
                         this->field_30_sQueueSample.field_3C_speed_multiplier = 0;
-                        s32 rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(samp_idx);
                         this->field_30_sQueueSample.field_20_rate =
-                            rate + RandomDisplacement_41A650(this->field_30_sQueueSample.field_14_samp_idx);
+                            RandomDisplacement_41A650(this->field_30_sQueueSample.field_14_samp_idx) +
+                            gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(this->field_30_sQueueSample.field_14_samp_idx);
                         this->field_30_sQueueSample.field_30_loop_count = 1;
                         this->field_30_sQueueSample.field_34_loop_start = 0;
                         this->field_30_sQueueSample.field_38_loop_end = -1;
