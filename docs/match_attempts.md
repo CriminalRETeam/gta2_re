@@ -4901,3 +4901,36 @@ root with `VC6_TOOLS`-free `patch_c2.X` set to a scratch dir, see `Scripts/regal
   `mov %ecx,%edx; mov gMap,%ecx` (the inline's `this` temp takes ecx and evicts z) where the original keeps z in
   ecx and loads gMap into edx (`mov %edx,%ecx` before the call); the direct get_block call loads gMap into ecx after
   `push z`. The conveyor-add order (second spot) not revisited.
+
+## Agent near16 (ChangeMenuPage_4B3170 8, Char_B4::state_1_5504F0 49; neither moved, nothing kept in Source/)
+
+- `Frontend::ChangeMenuPage_4B3170` (8, unchanged). Only the `saved_main_stage` (S) / `saved_is_bonus` (B) slot
+  swap is left. New tool `Scripts/regalloc/reflog.py` (slotlog + one `@REF` per counted reference, in the frame
+  walk's order) confirms the mechanics exactly: the walk (`0x10724286`) goes over the block list in layout
+  order, D operands then S operands, +1 per stack-symbol operand (kind 2, or kind 6 with a stack base; register
+  placeholders and references through the frame symbol don't count), on every instruction (bit 0 of `[ins+9]` is
+  set at creation and never cleared). Base order: 22 S store, 23 bonus_count, 24 B store, 25-26
+  bonus_stage_idx, 27 **B test load**, 28 bonus_count = 0, 29 **S load** (the splitter's region-entry load in the
+  not-bonus arm), ... so B reaches its final count 2 first and is listed first. Post-frame passes delete only
+  register copies here (12 `mov reg,reg`), no memory refs, and the target has no sign of a cross-jump or head
+  merge around the test (nothing between `test` and `jne`, no extra jumps into 0x2D8-0x2FB). So the original
+  needs S's second memory ref before B's test or a third one, and no source form gives that with the same code:
+  `u8 cmp_main = saved_main_stage` before the test flips the list (S first, correct slots) but hoists the load
+  above the test (8, different diff); a copy in the arm (`cmp_main = saved_main_stage` in the not-bonus arm,
+  decode into cmp_main in the other) keeps the load in the arm and the wrong order (8); explicit shifts, a `u8
+  code` temp, `s8` B, self-assignments (folded), `if (B) decode; if (!B) bc = 0` (20, decode arm first, like the
+  swapped arms), `if (!B) bc = 0; if (B) decode` (threaded early, identical to base: 8), the compare as nested
+  ifs (12), pPage before the test (134), a `pSlot` pointer to the plySlots entry (120), S/B as `u8 saved[2]`
+  or a 2-byte struct (102: same code, the frame shrinks by 4 and everything moves). Permuter 1500 on the base:
+  nothing. Frame packing note (not in the README yet): the 1-byte locals land in the top bytes of 4-byte
+  granules (bsi at 0x1F in 0x1C, S/B at 0x2A/0x2B in 0x28, nothing references 0x1C-0x1E/0x28-0x29), and the
+  first of the two in the list takes the lower byte; `user_idx`/`opponent_idx` have one more ref in the list
+  than in the final code, so a post-frame pass can drop a memory ref, but not one of S here.
+- `Char_B4::state_1_5504F0` (49, unchanged). The `+2` callee penalty is the out-of-line `Max_41E130` COMDAT
+  (the inliner already leaves both `Abs` and `Max` out of line inside the inlined `MaxAbsDistance`, as the
+  original's `436A50, 436A50, 44E540` calls show: budget 23 at those sites). The bit insert: the target's
+  `xor %edx,%ecx; and $1,%ecx; xor %edx,%ecx` has the `&&` temp as the xor's destination (dies there) and the
+  flags load second. Every spelling that puts the `&&` value first in the source (`bf.b0 = cond` 271, `(cond ^ f)
+  & 1 ^ f` 271, `s32`/`(s32)` 271, `bool b0_v` 215, `cond != 0` 239) comes out with the flags load first and a
+  copy (`mov %ecx,%ebp; xor %edx,%ebp`), and the and/or form (`(f & 0xFE) | cond` 63, `(u8)cond` 51); C2 orders
+  the commutative operands itself (the "rank" also open in `SpawnCarOnRoadNetwork_4458B0`). Not solved.
