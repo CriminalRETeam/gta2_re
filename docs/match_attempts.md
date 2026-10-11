@@ -5308,3 +5308,41 @@ re-scored identical to the base. Scratch: `/tmp/claude-0/agents/near23/` (`v/` v
 - Next idea: find what the original's source did in the top block so that pBlock's first piece is split off with the
   else arm present (or an equivalent shape where the else arm is not a successor of the `je`), e.g. probe variants
   of the Probe function (p_4A*.cpp) rather than the real function; each compile is ~15 s via asm2.sh.
+
+## Agent near27 (Oct 11): Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0 (123, not matched; source unchanged)
+
+Scores are `NO_PCH=1 quick_score.sh` (raw) plus a "masked" count (same diff with jump offsets and stable_name
+numbers masked, `/tmp/claude-0/agents/near27/msc.py`). The raw score is misleading here: the base (123, masked 84)
+happens to have the original's byte size, so every change that moves the function size costs ~50 jump-offset lines.
+The best variant (`/tmp/claude-0/agents/near27/best_masked70_Particle_4C.cpp`, raw 200, masked 70) is NOT in the tree.
+Police_38.cpp (CreateRoadblock_575FF0) was not attempted.
+
+- Real changes found (each verified against the target asm, not just the score):
+  - `Fix16_Point attach;` declared before the `GetSpriteForModel_5A6A50(114)` call: the original stores EH state 2
+    once before the call (`movb $2,0x74(%esp)`), ours stored 1 before and 2 after. Function 5 bytes shorter (raw 210).
+  - Gun arm: `offset.x = 0; offset.y = kFP16Eighth_6FD2D0;` (x first, as in the else arm): the original's constant
+    def sits two stores before the 0x64 store (near25's rule), i.e. x then y in both arms.
+  - 9.6f shape (0x490130) for the three Ang16 sites, all in operator form: `Ang16 spread =
+    Ang16::Fix16_To_Ang16_40F540(dword_6FD328 * (Fix16(sub) + Fix16(rng) - dword_6FD4AC))` puts the Fix16(u8) byte
+    temp in the original's slot 0x30 (ours 0x10); `car_angle = pGun->field_0->field_0 + kAng180_6FD3EE;` fixes the
+    `mov (%eax),%eax; mov (%eax),%ax` chain; `PolarToXY_6FD2E8(angle + spread, dx, dy)` (either operand order).
+    `Ang16 spread; ... spread = ...` gives identical code. Masked 84 -> 70.
+- The blocker, now understood but not solved: the original multiplies as `mov %eax,%ecx; mov dword_6FD328,%eax;
+  imul %ecx`, ours `imull dword_6FD328` in every spelling (operand order, named locals, `*=`, explicit `Fix16()`
+  copies, by-value/by-ref helper inlines, cast placement, globals defined vs extern, `+` for `-`: ~25 variants).
+  opdump: the mul's D list is `[dword_6FD328 (kind 2), temp]` for both source orders; the selection gives eax to an
+  uncoloured temp and keeps the global as the memory operand. The original's form appears only when the temp is a
+  COLOURED web (sound_obj::Type6_413A10's `ratio`): a diagnostic `Fix16 v = ...; if (timer == 100) v = k;` (a
+  cross-block use) reproduces `mov %eax,%ecx; mov g,%eax; imul %ecx` exactly. A register copy of the global
+  (`Fix16(dword_6FD328)`, a helper with `Fix16 base = dword_6FD328;`, by-value `Fix16 a` param) gives the reverse
+  (`mov g,%ecx; imul %ecx`, temp in eax). So the original's `(Fix16(sub) + Fix16(rng) - k)` value was a colour
+  candidate: a variable whose use reaches another block, or an optimizer (CSE) temp. No branch is visible between
+  the `sub` and the `imul`, so the open question is which natural source makes it one (a folded branch, or a
+  second use of the value).
+- The remaining masked diffs after that: the car arms' constant registers (eax vs edx, probably the round-robin
+  shift from the missing `mov %eax,%ecx` pick), the PolarToXY else arm's cos register, the tail `stru_6FD388 +=`
+  (original: both sums into edx/ecx, stru_x in edi, stores last; every scalar spelling incl. 9.6f's `+= dx + vel.x`
+  gives our `add %ecx,%ebp` form; Fix16_Point forms call operator+ out of line, worse), and `max_sub_state = 14`
+  after the set_id call (as the original: `mov $0xE,%bl` after the call) which spills max_sub_state (cheap14).
+- Permuter (two runs, ~2800 compiles, default passes): only size tricks (`Fix16 dx_arr[2]`, duplicated statements)
+  that realign jump offsets; nothing real.
