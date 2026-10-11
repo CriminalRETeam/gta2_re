@@ -4747,3 +4747,37 @@ What is left (diff ~840 lines): the first-branch `Ang16(&value, 0)` is out of li
 ctor, AssignNormalized) where the original inlines the `(s16, u8)` normalizing ctor; the case 0-7 blocks are
 then offset by the first branch's size, so the jump displacements of every case differ. The first-branch
 temp slot (0x10 angle vs 0xC value) and the sine temp (0x20) need to be fixed together.
+
+## Agent cheap13: MapRenderer::Draw_4F6A20 (0x4F6A20), 154 -> 154 (no change kept)
+
+Not matched. Source left as committed (score 154). Skeleton and call order already match (`permuter_score.py
+--skeleton` = 0, call targets fine); `--structure` = 50, so the rest is register allocation and stack layout.
+Current diff is confined to the top of the zLayer loop body (the first ~130 asm lines); the four inline
+AddToDrawList loops, the draw loop and the tail match except the zLayer register at the tail (ebx vs ebp).
+
+Analysis (9.6f 0x472110 disassembled from 9.6f.exe, VC7, not inlined, for shape only):
+- The first differing instruction is `xor %ebx,%ebx` vs `xor %ebp,%ebp`: zLayer's first register piece. In the
+  original, zLayer is in ebx only from entry to the `shl` of `zLayer << 14` (stored to slot 0x28); afterwards it
+  lives in the memory slot 0x10 and is reloaded. ebx then goes to the zoom (`mov %eax,%ebx`), ebp to the
+  numerator's high word (`mov %edx,%ebp`).
+- priolog (scratch copy of the toolchain, not build_vc6) on the current source: the `zLayer << 14` CSE temp
+  has prio 202 and takes ebp, so the column width (`layer_column_width`, ebp in the original) is spilled to
+  0x28 in ours. The original's CSE temp is spilled, which means its web is live through the gZCoordFp block
+  without a reference there: in the original, `gZCoordFp_6F6518 = Fix16(zLayer)` does not reuse the top's
+  shl (it reloads zLayer and shifts again), and only `unk_Z_Factor` reads the slot. Ours CSEs gZCoordFp with
+  the top value. Every spelling of gZCoordFp tried still CSEs (see below), so this is the open point.
+
+Tried, all 154 or worse (quick_score, same main tree):
+- min_x/max_x order swapped (214); `half_x + x` operand order, `Fix16 cam_x` copy, `min_fx/max_fx` temps (154).
+- gZCoord_6F63E0 / gZCoordFp order swapped (154); gZCoordFp from `gZCoord_6F63E0` (300); `Fix16(zLayer*1)`,
+  `zLayer-0`, `(s32)zLayer`, `Fix16(Fix16(zLayer).ToInt())`, `+ Fix16(0)` (154, all CSE the same).
+- Outer loop as while with `zLayer++` / `+= 1` / `= zLayer + 1` at the bottom, `for ... += 1`, `++zLayer` (154).
+- `z_dist` local for the numerator (154); `zoom` local before the numerator (212); `zoom` first (212).
+- `if (zLayer > 0)` for `!= 0` (156).
+- `s32 top_layer` moved after the gScreenScaleBottom store (196). In the original the gZCoordTop store uses a
+  fresh `mov 0x10(%esp),%eax; inc %eax`, after the division; ours still computes `lea 1(%edx)` early.
+
+Not done: the permuter (lock held elsewhere, per instructions). The next step is the colour model for the
+top block, not spelling variants: spill the CSE temp by making its gZCoordFp use come from a separate block,
+or raise `layer_column_width`'s priority, and check with priolog (ralog/priolog variants built under a scratch
+root with `VC6_TOOLS`-free `patch_c2.X` set to a scratch dir, see `Scripts/regalloc/README.md`).
