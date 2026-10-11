@@ -2802,10 +2802,17 @@ changed for one variant only (used for the `ofstream` member and for `operator+=
   `lea (%esi,%ecx)`; `Fix16 z;` at the top of the function and `z = ...` there gives `add %esi,%ecx` and the
   later `mov kTileTexSize,%eax; imul %esi`. In draw_bottom the declaration also raised the inline budget by
   28 (one more out-of-line operator+ got inlined); `if (texture_idx)` for `!= 0` took back enough size.
-- **Call operand order: a call on a global object goes first** (`HandleCarDoorSounds_4182E0`). VC6
-  evaluates both `GetPlay(x) + Random(x)` and `Random(x) + GetPlay(x)` with the call on the global
-  `gSampManager_6FFF00` (constant `this`) first, so a Random-first order in the asm needs a statement
-  (a named local).
+- **Call operand order: a call on a global object goes first, unless the operands read a field that was
+  just stored** (`HandleCarDoorSounds_4182E0`, matched Oct 11). With a local `samp`, VC6 evaluates both
+  `GetPlay(samp) + Random(samp)` and `Random(samp) + GetPlay(samp)` with the call on the global
+  `gSampManager_6FFF00` (constant `this`) first (`Type6_2_412D40` and the close-door block). The open-door
+  block of the original calls `Random` first, keeps the result in a stack slot across `GetPlay`, and pushes
+  a `mov %eax,%edx` copy of the `get_samp_idx` result: that is the *same* source form as the close block,
+  `field_14 = get_samp_idx(..); field_3C = 0; field_20 = Random(field_14) + GetPlay(field_14);`, with
+  both arguments reading the just-stored field (the forwarded store value is a temp, kept in `edi` for the
+  second call). Every spelling with a named local (`s32`/`u16` samp, `displacement`, `rate`, assignment
+  chains in the argument, `+=` of the field) is 54-286. The `u16 samp_idx` the permuter found (34) only
+  shortened the jump offsets.
 - **A constant gets a register only when its colour priority stays positive** (`4182E0`, `509180`). A
   constant's priority is its refs minus live-through penalties. When the priority ends up negative, or the
   register would be pushed for that constant alone, VC6 folds it back to immediates. Removing one named

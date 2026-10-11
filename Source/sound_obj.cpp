@@ -2816,11 +2816,9 @@ char_type sound_obj::Type_2_4182A0(sound_0x68* pObj)
     return 1;
 }
 
-WIP_FUNC(0x4182E0)
+MATCH_FUNC(0x4182E0)
 void sound_obj::HandleCarDoorSounds_4182E0(Sound_Params_8* a2)
 {
-    WIP_IMPLEMENTED;
-
     bool bQueued1 = 0;
     bool bQueued2 = 0;
     Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
@@ -2858,11 +2856,11 @@ void sound_obj::HandleCarDoorSounds_4182E0(Sound_Params_8* a2)
                     {
                         this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 5;
                     }
-                    s32 samp_idx_for_car = get_samp_idx_for_car_417D70(pCar, 1, bTrainOrBus);
-                    this->field_30_sQueueSample.field_14_samp_idx = samp_idx_for_car;
+                    this->field_30_sQueueSample.field_14_samp_idx = get_samp_idx_for_car_417D70(pCar, 1, bTrainOrBus);
                     this->field_30_sQueueSample.field_3C_speed_multiplier = 0;
-                    this->field_30_sQueueSample.field_20_rate = RandomDisplacement_41A650(samp_idx_for_car);
-                    this->field_30_sQueueSample.field_20_rate += gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(samp_idx_for_car);
+                    this->field_30_sQueueSample.field_20_rate =
+                        RandomDisplacement_41A650(this->field_30_sQueueSample.field_14_samp_idx) +
+                        gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(this->field_30_sQueueSample.field_14_samp_idx);
                     this->field_30_sQueueSample.field_30_loop_count = 1;
                     this->field_30_sQueueSample.field_34_loop_start = 0;
                     this->field_30_sQueueSample.field_38_loop_end = -1;

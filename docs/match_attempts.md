@@ -4934,3 +4934,40 @@ root with `VC6_TOOLS`-free `patch_c2.X` set to a scratch dir, see `Scripts/regal
   & 1 ^ f` 271, `s32`/`(s32)` 271, `bool b0_v` 215, `cond != 0` 239) comes out with the flags load first and a
   copy (`mov %ecx,%ebp; xor %edx,%ebp`), and the and/or form (`(f & 0xFE) | cond` 63, `(u8)cond` 51); C2 orders
   the commutative operands itself (the "rank" also open in `SpawnCarOnRoadNetwork_4458B0`). Not solved.
+
+## Agent near17 (Oct 11): HandleCarDoorSounds_4182E0 (MATCH), sub_4E8370 (8, unchanged)
+
+- `sound_obj::HandleCarDoorSounds_4182E0` 54 -> 0 (MATCH_FUNC, full build 3393/3393). The open-door block is
+  the same source form as the close-door block: `field_14_samp_idx = get_samp_idx_for_car_417D70(pCar, 1, b);
+  field_3C = 0; field_20_rate = RandomDisplacement_41A650(field_14_samp_idx) +
+  gSampManager.GetPlayBackRateIdx_58DBF0(field_14_samp_idx);`, no local at all. VC6 then calls Random first
+  (the forwarded store value is `mov %eax,%edx; push %edx`, kept in `edi` for GetPlay), spills the Random
+  result to the 0x1C frame slot across GetPlay, and the zero stays in `ebx`. In the close block the identical
+  form gives GetPlay first with `push %eax` and a reload for Random, as before. The permuter's `u16
+  samp_idx_for_car` (34) was a fake: `and $0xFFFF` only moved the jump offsets. Assignment chains as the Random
+  argument (`Random(field_14 = samp = get(..))`, near15's pattern) 58-278, `Random(samp = get(..)) +
+  GetPlay(samp)` 88, `Random(field_14 = get(..)) + GetPlay(field_14)` 4 (only the `field_3C = 0` store is
+  scheduled before the get call), `s32 displacement` with the chain 278. `get_samp_idx_for_car_417D70`'s
+  `s32` return and the `u32` field / `u32`/`s32` parameters are fine as they are.
+- `Map_0x370::sub_4E8370` (8, no source change kept). New findings, all on the hoisted form (`new_idx`/`pNew`
+  before `if (do_drop)`, 292-323):
+  - The exact original allocation (column_idx `eax`, offset `ecx` -> 0x18, this spilled late, `mov
+    0x20(%esp),%al; test`) appears when BOTH arms end with their own `field_360 += ...; return new_idx;`
+    (permuter early_return, 72; `m1`/`m2`/`u1`/`u2` in /tmp/claude-0/agents/near17): the only diff left is
+    that the do_drop arm keeps its own tail copy with an epilogue instead of jumping to the else arm's. With
+    one `return new_idx` after the if/else (f2, `+=` in each arm, 310) or one `+=` after it (a5, 292) the
+    allocation is wrong again; replacing either `return new_idx` by `return 0` breaks it too (650/676), so the
+    second return reference of `new_idx` is what flips it (new_idx's eax copy hint / the `this` reload piece
+    then takes `ecx`, and column_idx colours into `eax` at prio -7 unsplit). `u16 new_idx` on f2 (permuter,
+    42) has the same effect through a conversion temp but adds `and $0xFFFF`. No effect on f2 (310): `u32`/
+    `const`/function-scope `new_idx`, `(s32)` casts, `pNew` from `field_360` directly, `pNew` at function
+    scope (292 on a5), `u32 offset`/`height`, declaration order.
+  - Why the two tails don't merge (cjlog, built into a scratch dir): FlowOpts compares the pair (`@J` lines 47
+    vs 80, identical op lists `c:1 c:1 c:45 c:1 c:33 c:50 c:1 c:52 c:1 c:52`) and rejects it, with 3 or 5
+    predecessors of the exit label. In the arm form (base), the three `+=` copies survive until the second
+    FlowOpts call (ildump 10765cc7 -> 10765cda) and are then merged into the copy that FALLS THROUGH into the
+    `return new_idx` label (the label moves to the else arm's copy); with per-arm returns the exit label's
+    fall-through predecessor is the out-of-line `return -1` block, so nothing matches. The original's tail
+    (one block at 0x218 with its own epilogue copy, `return -1` last) therefore came from a `+=`/`return`
+    join, not from two returns. Open: a form with the join AND two eax-hinted references of `new_idx`.
+  - Permuter: 1500 on a5 (new passes) -> 42 (u16) / 72 (per-arm return); 400 on m1 -> nothing better.
