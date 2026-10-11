@@ -4269,3 +4269,25 @@ Scores are `quick_score.sh` lines (NO_PCH=1, WIP_IMPLEMENTED emptied).
   (`mov 0x184(%ecx),%ecx`, 18-32) and evaluate the sprite `this` after `field_4` (the target has
   reload, sprite, field_4); `if (ok) {...} else {Kill}` layouts (kill block after the reload in IL order):
   12/18/162. Permuter 800 with --calling-conventions --auto-method-aliases: 12.
+
+## Car_BC / CarAI_78 near-miss pass (Oct 11, car8)
+- `Car_6C::SpawnCarOnRoadNetwork_4458B0` (2, unchanged): the `lea` operand order does flip when `ground_z` is a
+  *reference parameter of an inlined helper* bound directly to the `FindGroundZForCoord_4E5B60(x, y)` call result
+  (`static inline ... (Fix16_Rect& rect, Fix16 x, Fix16 y, Fix16& z, ...)` with the `z - one`/`z + one`/SpawnCar
+  uses inside: the ranked operand becomes the call's hidden-return temp, `lea (%eax,%ecx)`). A by-value `Fix16 z`
+  parameter, a `const Fix16&` or `Fix16&` local bound to the call, and a `RefZ(Fix16& z) { return z; }` wrapper do
+  not (the local/pointer stays). But any helper that also keeps the call order (FindGroundZ before get_car_info)
+  has to hold get_car_info, SwapIf3or4, the rect and SpawnCar: its nested inline budget is 2890/10 = 289
+  (`inl.sh`), so SetRect/operators go out of line (494-758), and with a site-free loop tail (mValue arithmetic,
+  only an experiment) the frame grows by 8-12 bytes and route_idx/dir swap registers (402-478). `s32 ground_z =
+  call().mValue` + `Fix16(ground_z, 0)` uses, `Fix16 ground_z; ground_z = call();`, `const Fix16 ground_z` with
+  `Fix16(ground_z)` copies: 254/254/2. A user copy ctor on Fix16 (mirror-header experiment): 945.
+  9.6f (0x428540) has the same shape as the bus (0x427D60) here, so the 9.6f asm doesn't say what the helper is.
+- `CarAI_78::DetectCarAhead_44D1D0` (16, unchanged): `arrow_idx + 1` takes `ecx` and `arrow_count - 1` `eax`
+  whatever the spelling: `next > last` 18, `field_2F = arrow_count - 1` in the body 84 (VC6 then CSEs the count
+  load into ecx with a `dl` copy; the idx piece gets eax, so whichever of the two is coloured first gets ecx),
+  if/else stores 82, compare on `(u8)field_2F` 16/84, `next_idx++`/`last_idx--` 16, either local defined before
+  the flag/2D/2E stores 82, both before 22, `s8 arrow_idx` 16, a separate `u8`/`char_type` copy of arrow_idx made
+  right after the CountConsecutiveArrowBlocks call for the tail (its own stack slot, so not a split piece) 16, an
+  extra `field_2E = 0` in the body 76. Permuter 800 with the new passes: only the known 12 (store after the if).
+  9.6f (0x42C8B0) also has next in `al`, last in `cl`, loads count first.
