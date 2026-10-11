@@ -3401,7 +3401,7 @@ void Char_B4::state_0_54DDF0()
             field_10_char_state != Char_B4_state::Jumping_15)
         {
             //if ((field_7C_pPed->field_21C & 0x8000000) == 0)
-            if (field_7C_pPed->field_21C_bf.bLeftVehicle == 0)
+            if (!field_7C_pPed->field_21C_bf.bLeftVehicle)
             {
                 field_7C_pPed->field_210_shock_counter += 3;
                 s32 Leader_id = field_7C_pPed->field_204_killer_id;
@@ -3521,7 +3521,7 @@ void Char_B4::state_0_54DDF0()
                 }
                 else
                 {
-                    if (field_38_velocity < field_3C_run_or_jump_speed)
+                    if (field_3C_run_or_jump_speed > field_38_velocity)
                     {
                         this->field_38_velocity += dword_6FD99C;
                     }
