@@ -4370,3 +4370,41 @@ No source change kept. Nothing matched.
 - Remaining diffs: the EH state (target starts `movl $4`, ours `$3`), extra `movb $N` EH-state stores in ours
   inside the car branch, and the frame (0x4C vs 0x34). 9.6f 0x48D4E0 builds `Ang16` and the `Fix16` temporaries
   through `lea`/`call 0x401af0` on the stack, which is a different shape from ours. Not rewritten.
+
+## Agent near9 (Oct 11): 4458B0 lea rank, Char_B4::state_1_5504F0 slots
+- `Car_6C::SpawnCarOnRoadNetwork_4458B0` (2, unchanged). Checked the slot story: `ground_z` is the hidden-return
+  slot in both (0x20, no copy), so only the add's operand rank differs. New data points, all 2 unless noted:
+  removing the junction prologue / the AI tail / CancelRoute / the `field_28` store (E1-E5, 250-718, lea
+  unchanged) shows the rank is not a context effect of the car-only code. `Fix16* p = &Find...()` with `*p` uses
+  (220) does flip the lea (`mov (%ebx),%eax; lea (%eax,%ecx)`) but keeps the pointer in ebx + a spill; the
+  declare-then-assign forms (`Fix16 ground_z; ground_z = ...` at block, loop or function scope: all 254) put
+  ground_z in edi and the $T in memory. `Fix16(call())`, `Fix16(call().mValue, 0)`, `Fix16&` local, a by-value
+  `Fix16 range` helper param and a `Fix16 one = kFP16One` local all copy-propagate (2). The budget of car8's
+  `Fix16& z` helper is hopeless: `inlsim --scan` wants the caller +1476 nodes; the helper sits with 9 sites
+  left (8 free: the step `+=`s and the bounds compares), so the nested budget is 2440/9. Permuter 1200 with
+  the new passes and --auto-method-aliases: 2. 9.6f car (0x428540) and bus (0x427D60) spawn blocks are
+  instruction-identical apart from frame slots, so no helper existed; the rank difference is still unexplained.
+- `Char_B4::state_1_5504F0` 86 -> **50** (kept): the original's `x_u8`/`y_u8` slots (0x24/0x20) are shared
+  with the collision block's `x_tile`/`y_tile` and have 4 refs, which is what puts them below `v77` (3 refs,
+  0x28) in the slot list. One pair of `u8 x_u8, y_u8` at function scope, assigned at both sites, gives the
+  original's frame (all slot diffs gone). Findings for the rest, with the diff now purely register/order:
+  - get_block: 9.6f (0x49B0D0) calls `to_int` three times before `get_block` in each arm, i.e. two
+    `pBlock = get_block(X.ToInt(), Y.ToInt(), Z.ToInt() [- 1])` calls, one per arm of the `b0 == false &&
+    frac == 0 && z > 0` if/else, tail-merged by VC6 exactly like the original (no `zpos` local). With it the
+    get_block section matches (Z1 spec), but the score goes to 195 because the bit insert below is then
+    1 byte off and every jump shifts; keep it in mind once the insert is solved.
+  - the `b0` insert: the original is `mov $1,%ecx / xor %ecx,%ecx; mov 0x58(%esi),%edx; xor %edx,%ecx; and $1,%ecx;
+    xor %edx,%ecx; mov %ecx,0x58(%esi)` = the FE's int-source bitfield insert `((v ^ f) & 1) ^ f` with v FIRST.
+    The natural `field_58_flags_bf.b0 = (s & 0xFC) != 0 && (s & 0xFC) != 0xFC` gives the same insert with
+    v second (`mov %ecx,%ebp; xor %edx,%ebp; ...`, a copy, 2 bytes longer; `54DDF0`'s original has exactly
+    this copy form). opdump: both operands are kind-3 temps (v = the `&&` $T stored in two blocks, f = the
+    CSE'd load) and f sorts first; with `(cond) == 1` (75) the `sete` result is a kind-1 reg temp and sorts
+    first with no copy, but costs cmp/sete and frees edi/ebp's constants. Narrow sources (`(u8)`, `(bool)`,
+    `(s8)`, `(s32)(u8)`) switch the FE to the and/and/or insert (88). No-op spellings (`!= 0`, `> 0`, `!!`,
+    `| 0`, `^ 0`, `+ 0`, `* 1`, `>> 0`, `<< 0`, `& 0xFF`, `% 2`, `? true : false`, `? 1 : 0`, `(u32)`, `(s16)`,
+    `(u16)`, `get_slope_bits()` helpers, `!(a == 0 || b == 0xFC)`) all fold back to the $T (197-308).
+    Needed: an int-typed, instruction-free way to make v a kind-1 temp, or the flags load a kind-4 symbol.
+  - HasBlockAnyArrows (two arms): only `kFP16One`'s register (edx vs our ecx) differs; the original loads
+    `gMap` into ecx before the `sub`, so its `this` must be live across the `(Z - one)` evaluation.
+  Permuter 900 on the kept source (swap_logical, invert_if, cond_split, switch_dup, tail_return, reorder_saves, named_op,
+  noop_node, temp_for_expr, --auto-method-aliases): no improvement over 50.

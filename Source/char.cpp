@@ -4612,6 +4612,8 @@ void Char_B4::state_1_5504F0()
 
     Ang16 v20;
     Ang16 v73;
+    u8 x_u8;
+    u8 y_u8;
 
     field_4A = 500;
     Ang16 angle = 0;
@@ -4855,8 +4857,8 @@ LABEL_65:
         }
         pMaybeX_FP16 += gCharB4_Saved_Xpos_6FD7F8;
         pMaybeY_FP16 += gCharB4_Saved_Ypos_6FD800;
-        u8 x_u8 = pMaybeX_FP16.ToUInt8();
-        u8 y_u8 = pMaybeY_FP16.ToUInt8();
+        x_u8 = pMaybeX_FP16.ToUInt8();
+        y_u8 = pMaybeY_FP16.ToUInt8();
         if (unk_xpos != x_u8 || unk_ypos != y_u8)
         {
             Char_B4::ManageZCoordAndSlopes_548590();
@@ -4936,14 +4938,14 @@ LABEL_65:
             Fix16 x = field_80_sprite_ptr->field_14_xy.x;
             Fix16 y = field_80_sprite_ptr->field_14_xy.y;
 
-            u8 x_tile = x.ToUInt8();
-            u8 y_tile = y.ToUInt8();
-            if (gCharB4_Saved_Xpos_6FD7F8.ToUInt8() != x_tile || gCharB4_Saved_Ypos_6FD800.ToUInt8() != y_tile)
+            x_u8 = x.ToUInt8();
+            y_u8 = y.ToUInt8();
+            if (gCharB4_Saved_Xpos_6FD7F8.ToUInt8() != x_u8 || gCharB4_Saved_Ypos_6FD800.ToUInt8() != y_u8)
             {
                 field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
 
                 field_45_slope_gradient_direction = gCharB4_Saved_SlopeGradDir_6FD7B0.ToUInt8();
-                if (!Char_B4::CanReachTile_550090(x_tile, y_tile))
+                if (!Char_B4::CanReachTile_550090(x_u8, y_u8))
                 {
                     field_69_is_colliding_with_sprite = 0;
                     field_5C = 10;
