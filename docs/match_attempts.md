@@ -4244,3 +4244,28 @@ right structure (see `/tmp/claude-0/agents/misc7/pol_best188.cpp` while it exist
   Jumping_15 ret, and the cond-false `!bNoJump` re-test placed just before the else block. Two DoJump
   sites (either arm order), ternary, swapped if/else, flat `&& !bNoJump`, A duplicated into the cond arm,
   pChar-arm statement order and declaration orders are all worse (367-573) or equal.
+
+## char.cpp pass (Oct 10, agent char9)
+Scores are `quick_score.sh` lines (NO_PCH=1, WIP_IMPLEMENTED emptied).
+- `Char_B4::HandlePedCollision_548BD0` 16 -> **0 (MATCH)**. The two "operand order" spots were never an operand
+  order problem: the original calls `Normalize_406C20` out of line at the first three `atan2 + kAng180` sites
+  and inlines it at the last two because the inline *budget* runs out (`budget / sites_left`), and our
+  `Ang16(a.rValue + b.rValue).Normalized_406C20()` spelling of that cut-off made different IL at site 3.
+  Writing every site as plain `atan2(..) + kAng180_6FD936` and restoring the 9.6f getters (0x494280 calls
+  `GetPedType_420B70`, `get_ped_state_1_48A4C0` x2, `is_player_41B0A0` x3, `Is_occupation_elvis_433C90`,
+  `get_occupation_403980`, `get_id` x4, `GetInternalObjective_403A90` x6, `compound_add_41FA70` x2, and
+  two Ped helpers 0x493040/0x493000 for the collided-char blocks, now file-local static inlines
+  `CollideWithElvis_493040` / `CollideWithPed_493000`) adds enough free sites that
+  `Scripts/inline_budget/inlsim.py` predicts exactly sites 1-3 OOL / 4-5 inline, and the build matches.
+  Lesson: when the original calls a `Normalize`/ctor copy out of line in a function whose 9.6f version is
+  full of getter calls, count the getters as free sites before trying spellings. Side finding, for the
+  record: an unused `Ang16 dummy;` anywhere in the old version flipped the `mov (%eax)`/`mov kAng180` order at
+  one of the other sites with period 4 in the number of dummies (opdump: the swap happens between
+  boundaries 10765a2d and 10765a67), so that order also depends on symbol allocation, not only on kind.
+- `Char_B4::state_8_5520A0` (12, unchanged): the final-boundary opdump shows our reload
+  `field_184_pObj2C = field_7C_pPed->field_184_pObj2C` is the coloured local (eax) while the target's `edx` is
+  consistent with a plain round-robin pick (cursor at edx after the ped-pointer pick) that is *not* merged
+  with the dying ped pointer. Direct re-reads in the set_xyz arguments make it a temp but merge it
+  (`mov 0x184(%ecx),%ecx`, 18-32) and evaluate the sprite `this` after `field_4` (the target has
+  reload, sprite, field_4); `if (ok) {...} else {Kill}` layouts (kill block after the reload in IL order):
+  12/18/162. Permuter 800 with --calling-conventions --auto-method-aliases: 12.

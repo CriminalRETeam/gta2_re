@@ -1899,39 +1899,56 @@ void Char_B4::HandleObjectCollision_548840(Object_2C* pObj)
 }
 
 // What happens when this ped walks into pOther, by the types of both peds (field_238)
-WIP_FUNC(0x548bd0)
+// 9.6f 0x41FA70
+static inline Ang16& compound_add_41FA70(Ang16& a, const Ang16& b)
+{
+    a.rValue += b.rValue;
+    a.Normalize();
+    return a;
+}
+
+// 9.6f 0x493040 (a Ped method there)
+static inline void CollideWithElvis_493040(Ped* pPed, Char_B4* pChar)
+{
+    if ((s32)pChar != pPed->field_138_collided_char_b4)
+    {
+        pPed->field_138_collided_char_b4 = (s32)pChar;
+        pPed->field_224 &= ~ped_flag8_mask::collided_with_ped;
+        pChar->field_7C_pPed->field_138_collided_char_b4 = (s32)pPed->field_168_game_object;
+        pPed->SetVoiceEvent_IfBit24Clear_433DD0(ped_ocupation_enum::elvis);
+    }
+}
+
+// 9.6f 0x493000 (a Ped method there)
+static inline void CollideWithPed_493000(Ped* pPed, Char_B4* pOther)
+{
+    if ((s32)pOther != pPed->field_138_collided_char_b4)
+    {
+        pPed->field_138_collided_char_b4 = (s32)pOther;
+        pPed->field_224 |= ped_flag8_mask::collided_with_ped;
+        pOther->field_7C_pPed->field_138_collided_char_b4 = (s32)pPed->field_168_game_object;
+    }
+}
+
+MATCH_FUNC(0x548bd0)
 void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
 {
-    s32 my_type = field_7C_pPed->field_238_ped_type;
-    s32 other_type = pOther->field_7C_pPed->field_238_ped_type;
-    if (pOther->field_8_ped_state_1 == 9 || pOther->field_8_ped_state_1 == 8 || (field_58_flags & 0x80) || field_10_char_state == 15)
+    s32 my_type = field_7C_pPed->GetPedType_420B70();
+    s32 other_type = pOther->field_7C_pPed->GetPedType_420B70();
+    if (pOther->get_ped_state_1_48A4C0() == 9 || pOther->get_ped_state_1_48A4C0() == 8 || (field_58_flags & 0x80) || field_10_char_state == 15)
     {
         return;
     }
 
-    Ped* pMyPed = field_7C_pPed;
-    Ped* pOtherPed = pOther->field_7C_pPed;
-    if (pMyPed->field_15C_player && pOtherPed->field_240_occupation == ped_ocupation_enum::elvis)
+    if (field_7C_pPed->is_player_41B0A0() && pOther->field_7C_pPed->Is_occupation_elvis_433C90())
     {
-        Char_B4* pMyChar = pMyPed->field_168_game_object;
-        if ((s32)pMyChar != pOtherPed->field_138_collided_char_b4)
-        {
-            pOtherPed->field_138_collided_char_b4 = (s32)pMyChar;
-            pOtherPed->field_224 &= ~ped_flag8_mask::collided_with_ped;
-            pMyChar->field_7C_pPed->field_138_collided_char_b4 = (s32)pOtherPed->field_168_game_object;
-            if (!(pOtherPed->field_21C & ped_flag_mask::k_ped_on_fire))
-            {
-                pOtherPed->field_250_voice_event = ped_ocupation_enum::elvis;
-            }
-        }
+        CollideWithElvis_493040(pOther->field_7C_pPed, field_7C_pPed->field_168_game_object);
     }
-    else if (pMyPed->field_15C_player || !(pMyPed->field_200_id & 3))
+    else if (field_7C_pPed->is_player_41B0A0() || !(field_7C_pPed->field_200_id & 3))
     {
-        if (!pOtherPed->field_15C_player && (s32)pOther != pMyPed->field_138_collided_char_b4)
+        if (!pOther->field_7C_pPed->is_player_41B0A0())
         {
-            pMyPed->field_224 |= ped_flag8_mask::collided_with_ped;
-            pMyPed->field_138_collided_char_b4 = (s32)pOther;
-            pOther->field_7C_pPed->field_138_collided_char_b4 = (s32)pMyPed->field_168_game_object;
+            CollideWithPed_493000(field_7C_pPed, pOther);
         }
     }
 
@@ -1945,11 +1962,11 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                     {
                         break;
                     }
-                    if (pOther->field_7C_pPed->field_240_occupation != ped_ocupation_enum::stand_still_bloke)
+                    if (pOther->field_7C_pPed->get_occupation_403980() != ped_ocupation_enum::stand_still_bloke)
                     {
                         pOther->field_6A = 4;
-                        pOther->field_74 = Ang16(Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
-                                                                           field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x).rValue + kAng180_6FD936.rValue).Normalized_406C20();
+                        pOther->field_74 = Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
+                                                         field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x) + kAng180_6FD936;
                     }
                     else
                     {
@@ -1972,10 +1989,8 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                         break;
                     }
                     pOther->field_6A = 4;
-                    pOther->field_74 = Ang16(Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
-                                                                       field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x).rValue +
-                                             kAng180_6FD936.rValue)
-                                           .Normalized_406C20();
+                    pOther->field_74 = Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
+                                                         field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x) + kAng180_6FD936;
                     break;
             }
             break;
@@ -1984,7 +1999,7 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
             switch (other_type)
             {
                 case 5:
-                    if (field_10_char_state == 10 || field_7C_pPed->field_200_id >= pOther->field_7C_pPed->field_200_id)
+                    if (field_10_char_state == 10 || field_7C_pPed->get_id() >= pOther->field_7C_pPed->get_id())
                     {
                         field_10_char_state = 1;
                     }
@@ -1992,9 +2007,9 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                     {
                         if (field_8_ped_state_1 != 3)
                         {
-                            if (field_7C_pPed->field_25C_internal_objective != objectives_enum::objective_11)
+                            if (field_7C_pPed->GetInternalObjective_403A90() != objectives_enum::objective_11)
                             {
-                                field_40_rotation += word_6FD888;
+                                compound_add_41FA70(field_40_rotation, word_6FD888);
                                 field_10_char_state = 10;
                             }
                             else
@@ -2014,13 +2029,10 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                 case 3:
                 case 4:
                 case 6:
-                {
                     pOther->field_6A = 4;
-                    pOther->field_74 = Ang16(kAng180_6FD936.rValue + Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
-                                                                                              field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x).rValue)
-                                           .Normalized_406C20();
+                    pOther->field_74 = Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
+                                                         field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x) + kAng180_6FD936;
                     break;
-                }
             }
             break;
 
@@ -2030,7 +2042,7 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
             {
                 case 4:
                 case 6:
-                    if (field_10_char_state == 10 || field_7C_pPed->field_200_id >= pOther->field_7C_pPed->field_200_id)
+                    if (field_10_char_state == 10 || field_7C_pPed->get_id() >= pOther->field_7C_pPed->get_id())
                     {
                         field_10_char_state = 1;
                         // A return, not a break: the original keeps the type 5 copy of this tail
@@ -2040,9 +2052,9 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                     {
                         if (field_8_ped_state_1 != 3)
                         {
-                            if (field_7C_pPed->field_25C_internal_objective != objectives_enum::objective_11)
+                            if (field_7C_pPed->GetInternalObjective_403A90() != objectives_enum::objective_11)
                             {
-                                field_40_rotation += word_6FD888;
+                                compound_add_41FA70(field_40_rotation, word_6FD888);
                                 field_10_char_state = 10;
                             }
                             else
@@ -2059,19 +2071,16 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                     }
                     break;
                 case 3:
-                {
                     pOther->field_6A = 4;
                     pOther->field_74 = Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
-                                                                 field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x) + kAng180_6FD936;
+                                                         field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x) + kAng180_6FD936;
                     break;
-                }
             }
             break;
 
         case 3:
-        {
-            s32 objective = field_7C_pPed->field_25C_internal_objective;
-            if (objective == 48 || objective == 37 || objective == 38 || objective == 12)
+            if (field_7C_pPed->GetInternalObjective_403A90() == 48 || field_7C_pPed->GetInternalObjective_403A90() == 37 ||
+                field_7C_pPed->GetInternalObjective_403A90() == 38 || field_7C_pPed->GetInternalObjective_403A90() == 12)
             {
                 field_38_velocity = k_dword_6FD7CC;
                 break;
@@ -2090,7 +2099,7 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                     else
                     {
                         field_40_rotation = Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
-                                                                      field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x);
+                                                         field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x);
                     }
                     break;
                 case 5:
@@ -2101,7 +2110,7 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                     else
                     {
                         field_40_rotation = Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
-                                                                      field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x);
+                                                         field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x);
                     }
                     break;
                 case 4:
@@ -2113,13 +2122,11 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                     {
                         pOther->field_6A = 4;
                         pOther->field_74 = TurnBy16Deg_548BD0(Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
-                                                                                         field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x) +
-                                                              kAng180_6FD936);
+                                                         field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x) + kAng180_6FD936);
                     }
                     break;
             }
             break;
-        }
     }
 }
 
