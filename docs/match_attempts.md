@@ -772,6 +772,13 @@ copies kept (8: the pre-`if` copy is dead and removed). From the fully hoisted f
 initialised at its declaration (323), `offset` assigned on its own line (381), an explicit `else` around
 the in-place part (323). The hoisted form gives `offset` priority 14 (fails, split) and `column_idx` 9,
 so `column_idx` takes `ecx`; in the arm form `offset` is 28 (ecx) and `column_idx` -7 (eax).
+Oct 10 (agent map7, still 8): in the hoisted form `offset`'s middle piece (prio 8) takes `eax` across the
+`do_drop` test, so the memory-compare split loads `cl`, and `column_idx` (prio 9) finds `eax` disallowed
+(loop temps of prio 47/40/24/12 took it; in the arm form the same temps avoid `eax` because of a weight-1
+`eax` preference of an interfering uncoloured range). Hoisted-form variants, all 323 or worse: `offset`
+assigned before the test (381), the two range tests split (371), `(s32)column_idx` (323), `u8 offset`
+(438), `u8 height` (417), `u32 new_idx` (323), `pNew = pColumn - column_idx + new_idx` (414), four
+declaration orders (323). Permuter from the hoisted form (1200 iterations) only finds the arm form.
 
 ## Garage_48::ParkCarAtDoor_534700 (MATCH, was STUB)
 
@@ -1236,6 +1243,9 @@ Matched (116 -> 0) with two changes:
   live through the whole function only spills `pPrev` (pushes stay `%ebx`), and a lone `2` in the
   call is not cached while `2, 2` gets `ebx`: the original must have some *coloured* value in `ebx`
   across those pushes, which nothing in the asm shows. Not found.
+- Oct 10 (agent map7, still 4): `pPrev = pBlock` before the `sub_4E5E00` call or before the `to_edge > 0`
+  test spills `pPrev` (64). `pPrev`'s pieces prefer `edi` (ralog score -3/-5) but `edi` is disallowed by
+  pBlock's whole-function web, so they take `ebx` either way.
 
 ### Map_0x370::sub_4E7190 (0x4E7190): WIP
 - The reverse road follower. When it runs off the road it looks for a turn in the neighbouring
@@ -2484,6 +2494,18 @@ Scores are `quick_score.sh` lines. `DrawGradientSlopeNorthwards_4F0420` 399 -> 0
   register instead of a spill slot (frame 0x24 vs 0x20), the lights block's tail duplicated into the loop
   init, the first inlined `AddToDrawList` storing y through the `lea`'d pointer. Indexed stores in the
   helper (746) and `Fix16(gZCoord_6F63E0)`/`Fix16(gZCoordTop_6F62B0)` for the z factors (728) are worse.
+  Oct 10 (agent map7, 442 -> 204): the original's block loops are fully strength-reduced (`max - rel` and
+  `min + rel` both as induction variables, the loop variable turned into a `rel + 1` count-down), which
+  VC6 only does when the coordinates are written in the calls (`AddToDrawListByVal(this, max_x - xpos_rel,
+  max_y - ypos_rel)`; with `xpos_right`/`ypos_upwards` locals it reduces one IV per loop and keeps `jge`;
+  a file-local by-value inline, since the header's `s32&` parameters can't take rvalues): 286. Z factors
+  as `cam.z - Fix16(zLayer) + Fix16(8)` with `s32 top_layer = zLayer + 1` shared by the `gZCoordTop` store
+  (`Fix16(zLayer + 1)` folds to `(7 - zLayer) << 14`): 220. `min_x` before `max_x` (and y) and named
+  `half_x = layer_row_width / 2` / `half_y`: 204. Left: the top's allocation (zLayer `ebx`, the
+  `zLayer << 14` CSE spilled to 0x28 so the column width keeps `ebp`; ours keeps the CSE in `ebp`,
+  coalesced with zLayer's `shl` in place, and spills the column width), the rotated `mov 0x14(%esp),%ebp`
+  reload on the inner loop's back edge, `lea -1(%eax),%ecx` in the draw loop. No effect:
+  `Fix16(gZCoord_6F63E0)`/`(u32)`/raw `<< 14` for gZCoordFp, a `layer_z` local, `/=`, a `count` local.
 
 ## Police_38 / CarPhysics_B0 pass (9.6f first)
 Scores are `quick_score.sh` lines (10.5) and `permuter_score.py --96f` lines (VC7 vs 9.6f).
@@ -4034,3 +4056,672 @@ to the named one compare equal as long as the same targets are called in the sam
 compares symbol names and counts every such call as a mismatch. A name difference objdiff reports is
 not a difference the verifier sees; only the codegen around it (inlining, temporaries, scheduling)
 is. Those three changes were reverted.
+
+## Car_BC / CarAI_78 / PublicTransport / TrafficLights pass (Oct 10, agent car7)
+
+Scores are `quick_score.sh` lines. No new match; all source left as on the base.
+
+- `Car_6C::SpawnCarOnRoadNetwork_4458B0` (2): the `lea` operand order is a symbol rank, found with the
+  `opdump` C2 variant (boundary 10765a67): in every inlined commutative add of Car_BC.cpp the first operand is
+  the lowest of kind-3 compiler temp < kind-7 global < kind-4 block-local < coloured local/param. The matched
+  `SpawnBusAtValidRoadPosition_4453E0` has (one, ground_z) from the same source line; the original 4458B0 has
+  ground_z first, so its ground_z is an expression temporary, not a named local. Every spelling that tries to
+  make it one copy-propagates back to the local (`const Fix16&` binding, `Fix16(ground_z) + one`,
+  `Add_ref(Fix16(ground_z), one)`, raw `mValue` sum, `one + ground_z`, a by-value `SetZRange(rect, Fix16 z)`
+  inline, declaration after width/height/rect): all 2. Function/loop-scope `Fix16 ground_z;`: 254. The spawn
+  block as a static inline taking z by value straight from the call: 530.
+- `CarAI_78::DetectCarAhead_44D1D0` (16): ralog shows `next_idx` is a piece of arrow_idx's split live range
+  (prio 24, tie 260) that only takes ecx because of a weight-1 ecx preference (score -1); `last_idx` (prio 6)
+  then gets eax. The preference's source is unknown. `next = arrow_idx; next++`, s8 locals with u8 compares,
+  function-scope locals: 16; `!(next <= last)`, last-first with `next > last`: 18; compare on the field: 84/96;
+  a `Min_u8` inline: 76.
+- `TrafficLight_20::Init_5C1D00` (738): the frame is 4 bytes bigger because ours CSEs both `y & 0xFF` and the
+  shifted `Fix16(y)` (used at the north light's y argument and the two `Fix16 yOff(y)` inits); the original keeps
+  only the int and shifts at every site. `Fix16((s32)y)` / `Fix16(y << 14, 0)` at the FindGroundZ call: 734;
+  `s32 yi = y`, `Fix16 yOff = Fix16((s32)y)`: 738.
+- `PublicTransport_181C::SpawnTrainsFromStations_578860` (601): the original reads `stop_point->field_2_y`
+  (byte, kept in a stack temp) and `dword_6FEF88` (ebx) before the __allmul/GetWagonType calls and does the
+  zext/shl/add after them; ours finishes the sum before the calls. `dword + Fix16(y)`, `mul + Fix16(x)`, a `u8 sy`
+  local: 601 unchanged.
+- `CarAI_78::ManageTrafficCarDirection_448CE0` (1897): the original holds the constant 0x10 in ecx across the
+  first switch (`or %ecx,%eax` at the 8 `|= 0x10` sites); ours folds `or $0x10,%al`. Literal signedness,
+  `flags = flags | 0x10`, a `u32 flag` local, `SetBit(u32&, u32)` / `const u32&` inlines: 1893-1897.
+
+## Object_5C / Particle_8 / Particle_4C pass (Oct 10, agent obj7)
+
+Scores are `quick_score.sh` lines (same with `NO_PCH=1`).
+
+- `Object_2C::IntegrateHorizontalMovementAndCollisions_524630` 136 -> **2** (kept). Four changes, each
+  checked alone: the three loop hits as `goto LABEL_48` instead of `break` (114: with `break` the exit label
+  is a jump-only block, its jumps are retargeted and the cross-jump keeps the wrong copy; see
+  `Scripts/flowopt/README.md`); `if (v50 == 1) { rounding; inner hit } else { hit }` (108: the cross-jump keeps
+  the copy written last, the original keeps the `v50 != 1` copy as the full block and the inner hit as the
+  `lea; jmp` stub); the loop-top saves as `x; y; ang` (100); `Fix16 step = v52;` as the first statement at
+  LABEL_48, before `set_xy_lazy` (2: the original loads v52 into edi right after ComputeWallHitSide and skips
+  the do-loop's header load on entry).
+  Left: the latch. Original `jle top; jmp tail`, ours `jg tail; jmp top`. From ildump (`0x10706181` boundary):
+  a `do {} while (++a2_ <= t)` is `jcc->top; jmp tail` before the RPO pass and gets flipped by it; a rotated
+  `for`/`while` bottom test is created after it and keeps `jcc->top`, but the while's top test (still there at
+  DFS time) jumps to the exit, so the tail block is visited first and laid out at the end (`jl 0x573`), where the
+  original has it between the third hit block and the do-loop. `if (t < 1) { LABEL_56: tail }` + `while (1)` +
+  `if (++a2_ > t) goto LABEL_56` is the only shape found that puts the tail there. Tried: for/while after that
+  if with `goto LABEL_56` after the loop (VC6 folds the two tests, tail at the end), `if (t >= 1) { do..while }`,
+  `do..while; goto LABEL_56`, `if (c) continue; goto`, duplicated tail blocks (no cross-jump, inline copy), a
+  `for` on `tries` for the inner loop. Not a trade: the four changes above don't touch the latch.
+- `Object_2C::HandleSpriteZCollision_5238B0` (146): looked at only (see the Oct 9 mixed2 entry); the
+  `je X` is the cross-jump of the LABEL_10 then-arm into the non-slope copy, which the original avoids because
+  its then-arm stores `%al` (field_50 known == 1) and so differs at cross-jump time.
+- `Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0` (463), `Particle_8::EmitFlameStreamSegment_53F4C0`
+  (151), `GunMuzzelFlash_53E970` (444): scored and read only, no new idea beyond the logged ones.
+
+## Object_5C pass (Oct 10, agent obj8)
+
+- `Object_2C::IntegrateHorizontalMovementAndCollisions_524630` 2 -> **MATCH**. The latch: `jle top; jmp tail`
+  can only come from loop rotation (the RPO pass `0x10706181` inverts every `jcc->top` back edge to
+  `jcc(!c)->tail; jmp top`, with a `jmp tail` stub when the tail is not adjacent; the rotated `for`/`while` test
+  replaces the `jmp top` afterwards), so the loop is `for (u8 a2_ = 1; a2_ <= t; a2_++)` with the no-hit tail after
+  it. That alone puts the tail at the end (the for's exit edge is visited first, obj7's V21/V60). The original's
+  layout (latch, hit stubs, tail, half-step loop) needs the LABEL_48 code visited *before* the for's exit: a
+  `while (1) { for (...) {...} tail; return; } LABEL_48:` does it through the dead exit test of the `while (1)`
+  (folded later); `if (1)` works too, `for (;;)` has no dead test and does not. Simulating the RPO DFS on the
+  ildump IL (`/tmp/claude-0/agents/obj8/bin/rpo.py`, jump targets first, then fall-through) reproduced the
+  sinklog indices exactly and was what made the structure clear; see `docs/matching_quirks.md`
+  ("A loop latch of the form `jcc top; jmp tail` only comes from loop rotation"). Dead ends logged in
+  `/tmp/claude-0/agents/obj8/notes.md`: explicit-label goto loops (179), `for (;;)` + test at the top of the
+  body (tail right after the latch, 182), `while (1)` + test at the top (double test, 433), do-while inside
+  `if (t >= 1)` inside `while (1)` with/without an inverted else-if and an explicit `goto` (all 2, inverted).
+
+## char.cpp round 7 (char7)
+- `Char_B4::CanStepDiagonal_54EF60`: **MATCH** (344 -> 0). Three things, all from the 9.6f shape (0x495BF0):
+  (1) `bCanStep = true;` in each of the four leaves instead of the two x arms (the head merge then hoists it
+  one level only, giving `cmp $0xFF,%cl; jne; cmp %cl,%al; mov 0x80(%esi),%eax; mov $1,%bl; jne`): 214;
+  (2) explicit `return bCanStep;` at the end of leaves 2, 3 and 4 only, so leaf 1's tail is the cross-jump
+  keeper that leaves 2/4 jump into and leaf 3's success path shares (every other return placement 180-240):
+  60; leaf 3's second check back in `bCanStep = false; dir = up_1;` order: 2;
+  (3) the `lea (%edi,%ebx)` operand order of the first x_diff sum: no `collision_offset` local, the division
+  `gCharB4_WorldCollisionOffset_6FD8D8 / gFix16_Two_6FD9EC` written at each of the four uses as 9.6f does
+  (VC6 CSEs it; the local changed the operand numbering of only the first sum): 0. Add_ref, operand orders,
+  casts, declaration positions and step_x/step_y locals had no effect on that lea.
+- `Char_B4::state_0_54DDF0` (188, unchanged): the conveyor-add asymmetry (x adds Saved_X first, y adds field_50
+  first) is created in the optimizer pass between boundaries 10765a2d and 10765a67 (opdump): the IL is symmetric
+  before it. Swapping the DEFINE_GLOBAL order of Saved_Xpos/Ypos, `+=` orders, `ret1 = ret1 + ...`, `.mValue +=`,
+  a combined `+= a + b`: identical code (188); a small probe TU gives the original's order for both, so it is
+  the function context. The pAhead site: the original is `jne nonnull; xor bl; mov; jmp AIR; nonnull: and; test;
+  mov; jne`, i.e. null arm first AND an unfolded `test %bl,%bl`; every spelling gives one or the other
+  (ternary/if-else null first 188, non-null first or the GetBlockTypeAtCoord inline 198-204, u8 temp 691-705,
+  `block_type = 0; if (pAhead)` 194).
+- `Char_B4::state_8_5520A0` (12): the site-1 reload is not a round-robin pick (a cursor probe in the sinking
+  init case moves sites 2/3 but not it): it is the merge chain reload -> field_4 -> x (coloured eax). A separate
+  block-local `Object_2C*` for the reload is identical (12); direct re-reads hoist the sprite load (162).
+- `Char_B4::HandlePedCollision_548BD0` (16): `Ang16 angle = kAng180; angle += atan2()` at the type-5 site loads
+  kAng180 early and inlines the Normalize loop (162); `angle.rValue = kAng180.rValue + ...; Normalize_406C20()`
+  block-local 110; site-A spellings ((s16)/(s32) casts, +0, parens, s16 local, global first) all 16.
+
+## Ped.cpp pass (agent ped7)
+Scores are `quick_score.sh` lines (WIP_IMPLEMENTED emptied).
+- `Ped::HandlePedHitByObject_45D000` 137 -> 49: in the hand-expanded `IsPedAThreat_Inline_465D00`, the MaxAbs
+  compare written as 465D00 has it, with an assigned (not initialised) local: `Fix16 result; result =
+  sub_4614E0(x, y, pTargetPed->get_cam_x(), pTargetPed->get_cam_y()); if (result <= kFpOne)` merges the deref
+  into the dying eax (`mov (%eax),%eax`) and fixes the rotation after it; then `u8 player_idx = ...get_idx_4219D0()`
+  at the first IsRespect site too gives both spills with the original registers (53). The same for the two
+  `ComputeShortestAngleDelta` compares in the switch: the function-scope `Ang16 angle` (which was declared but
+  unused) assigned at both sites, `if (angle > kAng90)`: case 198 then matches including the cross-jumped
+  `5 * mult` lea (49). Left: the bullet case is one round-robin pick ahead from its first load on (ralog: the
+  cursor goes from eax to a pick of ecx with no logged pick in between, so eax is busy there: a constant live
+  range coloured to eax, `@R k=100d prio=4 w=1 reg=1`). `damage_amplifier` as s32 (402) / u8 (51) / function
+  scope (49), `amp * 10 * mult` operand order (49); permuter 1500 at 53: nothing.
+- `Ped::IsThreatToSearchingPed_4661F0` 418 -> 372: `gTargetSearchMode_6787D7` defined in Char_Pool.cpp instead of
+  Ped.cpp (extern-only in the TU gives the original's `xor eax,eax; mov al,[g]` switch head, 384; matched functions
+  of both TUs are byte-identical before/after), plus the same `Fix16 result; result = sub_4614E0(...)` form and a
+  `u8 player_idx` getter local at the first IsRespect site (372). With `Fix16::MaxAbsDistance_42A6B0` instead of
+  `sub_4614E0` the budget here inlines it (476). Left: frame 0x50 vs 0x48 (the original keeps the two player_idx
+  spills in separate slots 0x2C/0x30 and the MaxAbs return temp at the top of the frame), and the second IsRespect
+  site's `test %al; jmp` tail merge.
+- `Ped::UpdateMovementTowardsTarget_4672E0` (206, unchanged): 9.6f shows the waypoint Max as an lvalue ternary of two
+  address-taken locals, `Fix16 a1; Fix16 a2; a1 = Abs(dist_1); a2 = Abs(dist_2); if ((a1 > a2 ? a1 : a2) < kFpHalf`,
+  which gives the original's stores (a1 in distance's dead slot 0x24, a2 at 0x1C), the `lea/lea/mov (%eax),%eax`
+  select and the same frame (the `Fix16 a1 = Abs()` init form packs a2 into the 2-byte atan2 return slot and grows
+  the frame), but the score is 285 (dist block rotation, layout). The dead `mov type,%al` in the
+  `distance >= kFpOne` arm is in 9.6f too (`mov 0x58(%esp),%al`); a nested `if (distance < kFpOne) ... else
+  {bUnk1 = true}` alone doesn't produce it, a `switch (type) { default: }` there grows the frame (347). Layout: the
+  RPO is C1, D, 54E, C0, 3A9, DIST, NULL, JOIN, TC, FINAL, EXIT (ildump); the original needs 54E after NULL (then
+  dupB's first loop moves JOIN+TC up behind 3A9, which also gives its two epilogues). With the current graph no
+  DFS order can finish 54E before NULL (54E is only reachable from the default case, explored after case 0's
+  subtree); tried: `goto LINE_3D6` from the null arm, 54E placed between the null arm and the join, default case
+  after case 0, 54E as then/else arm with its own type-check copy and break/return, per-path type-check copies
+  (NULL's copy doesn't merge, scheduling differs): 285-408.
+
+## misc7 pass (Oct 10): CreateRoadblock bEdge slot, STORE_CAR_INFO, HandleVocalStreamSwitching
+Scores are `quick_score.sh` lines. No new match; the Police change is left out of the tree (188 > 138) but is the
+right structure (see `/tmp/claude-0/agents/misc7/pol_best188.cpp` while it exists, recipe below).
+- `PoliceRoadblock_A4::CreateRoadblock_575FF0` (138; structure 28 -> 6, full 188 with the recipe): the one
+  `movb $0,0x88(%esp)` (bEdge in the dead `orientation` parameter slot) before the `jne` comes from a
+  **function-scope `u8 bEdge;` declared without an initialiser and assigned `bEdge = 0;` as the first statement of
+  both arms** (probe `probe/p5.cpp` g6): FlowOpts head-merges the two stores of the same symbol above the `jcc`,
+  and since bEdge's first reference is then after the parameter's last read it takes the parameter's slot. `u8
+  bEdge = 0;` at the top stores before the read (own slot, police2's 370); per-arm `u8 bEdge = 0;` are different
+  symbols and are not hoisted (two stores, police2's 286). The same for `tries` (`u8 tries;` + `tries = 0;` in both
+  arms) gives the original's store order bEdge, tries (192 -> 188); `pCar = 0` in both arms: 192/194. A function-scope
+  `u8 lane;` (already so) shares the slot with bEdge like the original (probe g9). With that, the x branch's second
+  loop wants the y branch's form (PAVEMENT/FIELD as two identical bodies with `width++; bEdge = 1;`: 204 -> 192).
+  Left (all slot order): the dword slots 0x24/0x28/0x2C (the original has the `(s32)width` temp of BOTH branches in
+  0x24 ahead of the y switch temps at 0x28 and pCar/angle at 0x2C; ours has the switch temps at 0x24, pCar 0x28 and
+  one width temp per branch at 0x2C/0x30), and the swapped temp slots in both rect sections (0x84/0x8C, 0x7C/0x88).
+  A function-scope `u8 width` (323), a function-scope `s32 num_lanes = width` copy (1590), `y_bottom +
+  (dword_6FEBF4 - dword_6FEDA0)` / `dword_6FEBF4 + y_bottom` in the x branch (373): worse.
+- `miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180` (80): 9.6f 0x4790F0 is the counterpart (`has_car_403B80` /
+  `get_car_416B60`, `gStoredCar`/`gStoredCarId` = 0x6644B0/0x6644B4). Written in that shape (pCar local: 140;
+  getters + reload: 80; `pChar->get_car()` as the else `this`: 112), an explicit `s32 stored_id` local (80, identical
+  code), `gStoredCarId == gStoredCar->field_6C` (80). `MissionCleanUp_502DC0` (matched) loads `gStoredCarId` into a
+  register for the same compare because its field operand is an IL temp; here it is the CSE'd kind-3 temp, so the
+  global stays a memory operand: the original's `mov gStoredCarId,%eax` needs the field value not to be a shared
+  temp, which the `!=`/`==` pair makes it. Not solved.
+- `sound_obj::HandleVocalStreamSwitching_57DF10` (108): dupB's "move forward target" rule explains the original's
+  layout from ONE station block after `if (eq) { if (!changed) { Update; return; } } else if (!bFast) { mode;
+  return; }` (the station head up to the PlayVocal then-arm's `jmp` is moved up behind the `!changed` test), so the
+  single-station source is right and only the cross-jump directions differ (312). With a patched C2 (cjrev/cjrank,
+  `Scripts/flowopt/patch_c2.py --rev 4:4` / `--rank`) forcing A's returns to the head of the exit list: 280/240, so
+  the exit-list order alone is not it. A as the else arm (408), A without returns + the rest in an else (294), a
+  trailing `return;` (294): no.
+
+## char.cpp round 8 (char8)
+- `Char_B4::HandleCarImpact_5538A0`: **MATCH** (404 -> 0). The whole diff (zero constant in ebx, pCar in
+  ebp, the 3a/3b `ChangeNextPedState2` tails merged) came from the 3b block: in the original tanVec is
+  loaded into a register right after `PedTypeIs(player_2)`, before `test %al,%al`, so its split piece
+  covers the Kill arm too. That is `if (PedTypeIs(player_2) && uni_num != 2) { if (lying) { Kill; return; }
+  ... } else { Kill; } EmitBloodBurst(..., tanVec);` with one blood burst after the if/else (the last
+  else already had that shape), not a copy in each arm. The 3b piece then takes ebp (edi holds
+  -kFpPoint1), pCar gets ebx and the zero constant has no register left.
+- `Char_B4::state_1_5504F0` 262 -> 86: `v71/v77/v70 = 0` before `byte_6FDB54 = 0` (store order, 252);
+  the permuter's `field_58_flags ^= (field_58_flags ^ (u8)(cond && cond)) & 1` without the `u8 v9`
+  local (32-bit mov/xor, sizes match from 0x282 on, 88); the second `PolarToCartesian` takes `v73` like
+  the first (logic fix, 86). Left: v77's slot, get_block's Y/X loads ahead of `push zpos`, the
+  xor/and/xor bit insert (every s32 form puts v9 in edx with a copy into ebp; a probe TU reproduces it),
+  kFP16One's register at HasBlockAnyArrows, MaxAbs diff_x/diff_y and x_u8/x_tile slots. Tried without
+  effect: v77 init forms, x_int/y_int locals (zpos then loses eax), shared z_below, local MaxAbs copies.
+- `Char_B4::HandleGenericCollision_54A530` (267, unchanged): the original's jump-over block is `test al;
+  jne X; test pChar; jne A; DoJump; A:` with `X: cmp $3,8(%esi); jmp` to that jne placed after the
+  Jumping_15 ret, and the cond-false `!bNoJump` re-test placed just before the else block. Two DoJump
+  sites (either arm order), ternary, swapped if/else, flat `&& !bNoJump`, A duplicated into the cond arm,
+  pChar-arm statement order and declaration orders are all worse (367-573) or equal.
+
+## char.cpp pass (Oct 10, agent char9)
+Scores are `quick_score.sh` lines (NO_PCH=1, WIP_IMPLEMENTED emptied).
+- `Char_B4::HandlePedCollision_548BD0` 16 -> **0 (MATCH)**. The two "operand order" spots were never an operand
+  order problem: the original calls `Normalize_406C20` out of line at the first three `atan2 + kAng180` sites
+  and inlines it at the last two because the inline *budget* runs out (`budget / sites_left`), and our
+  `Ang16(a.rValue + b.rValue).Normalized_406C20()` spelling of that cut-off made different IL at site 3.
+  Writing every site as plain `atan2(..) + kAng180_6FD936` and restoring the 9.6f getters (0x494280 calls
+  `GetPedType_420B70`, `get_ped_state_1_48A4C0` x2, `is_player_41B0A0` x3, `Is_occupation_elvis_433C90`,
+  `get_occupation_403980`, `get_id` x4, `GetInternalObjective_403A90` x6, `compound_add_41FA70` x2, and
+  two Ped helpers 0x493040/0x493000 for the collided-char blocks, now file-local static inlines
+  `CollideWithElvis_493040` / `CollideWithPed_493000`) adds enough free sites that
+  `Scripts/inline_budget/inlsim.py` predicts exactly sites 1-3 OOL / 4-5 inline, and the build matches.
+  Lesson: when the original calls a `Normalize`/ctor copy out of line in a function whose 9.6f version is
+  full of getter calls, count the getters as free sites before trying spellings. Side finding, for the
+  record: an unused `Ang16 dummy;` anywhere in the old version flipped the `mov (%eax)`/`mov kAng180` order at
+  one of the other sites with period 4 in the number of dummies (opdump: the swap happens between
+  boundaries 10765a2d and 10765a67), so that order also depends on symbol allocation, not only on kind.
+- `Char_B4::state_8_5520A0` (12, unchanged): the final-boundary opdump shows our reload
+  `field_184_pObj2C = field_7C_pPed->field_184_pObj2C` is the coloured local (eax) while the target's `edx` is
+  consistent with a plain round-robin pick (cursor at edx after the ped-pointer pick) that is *not* merged
+  with the dying ped pointer. Direct re-reads in the set_xyz arguments make it a temp but merge it
+  (`mov 0x184(%ecx),%ecx`, 18-32) and evaluate the sprite `this` after `field_4` (the target has
+  reload, sprite, field_4); `if (ok) {...} else {Kill}` layouts (kill block after the reload in IL order):
+  12/18/162. Permuter 800 with --calling-conventions --auto-method-aliases: 12.
+
+## Car_BC / CarAI_78 near-miss pass (Oct 11, car8)
+- `Car_6C::SpawnCarOnRoadNetwork_4458B0` (2, unchanged): the `lea` operand order does flip when `ground_z` is a
+  *reference parameter of an inlined helper* bound directly to the `FindGroundZForCoord_4E5B60(x, y)` call result
+  (`static inline ... (Fix16_Rect& rect, Fix16 x, Fix16 y, Fix16& z, ...)` with the `z - one`/`z + one`/SpawnCar
+  uses inside: the ranked operand becomes the call's hidden-return temp, `lea (%eax,%ecx)`). A by-value `Fix16 z`
+  parameter, a `const Fix16&` or `Fix16&` local bound to the call, and a `RefZ(Fix16& z) { return z; }` wrapper do
+  not (the local/pointer stays). But any helper that also keeps the call order (FindGroundZ before get_car_info)
+  has to hold get_car_info, SwapIf3or4, the rect and SpawnCar: its nested inline budget is 2890/10 = 289
+  (`inl.sh`), so SetRect/operators go out of line (494-758), and with a site-free loop tail (mValue arithmetic,
+  only an experiment) the frame grows by 8-12 bytes and route_idx/dir swap registers (402-478). `s32 ground_z =
+  call().mValue` + `Fix16(ground_z, 0)` uses, `Fix16 ground_z; ground_z = call();`, `const Fix16 ground_z` with
+  `Fix16(ground_z)` copies: 254/254/2. A user copy ctor on Fix16 (mirror-header experiment): 945.
+  9.6f (0x428540) has the same shape as the bus (0x427D60) here, so the 9.6f asm doesn't say what the helper is.
+- `CarAI_78::DetectCarAhead_44D1D0` (16, unchanged): `arrow_idx + 1` takes `ecx` and `arrow_count - 1` `eax`
+  whatever the spelling: `next > last` 18, `field_2F = arrow_count - 1` in the body 84 (VC6 then CSEs the count
+  load into ecx with a `dl` copy; the idx piece gets eax, so whichever of the two is coloured first gets ecx),
+  if/else stores 82, compare on `(u8)field_2F` 16/84, `next_idx++`/`last_idx--` 16, either local defined before
+  the flag/2D/2E stores 82, both before 22, `s8 arrow_idx` 16, a separate `u8`/`char_type` copy of arrow_idx made
+  right after the CountConsecutiveArrowBlocks call for the tail (its own stack slot, so not a split piece) 16, an
+  extra `field_2E = 0` in the body 76. Permuter 800 with the new passes: only the known 12 (store after the if).
+  9.6f (0x42C8B0) also has next in `al`, last in `cl`, loads count first.
+
+## Permuter sweep 2 (Oct 11, remove_stmt off)
+- `PoliceRoadblock_A4::CreateRoadblock_575FF0`: 138 -> 122 (y_bottom/zpos declared at the top).
+- `Ped::IsThreatToSearchingPed_4661F0`: 372 -> 294 (merged player-only condition, camera pick as a
+  ternary, field load orders, sx/dx declared at the top).
+- `sound_obj::HandleCarDoorSounds_4182E0`: 286 -> 76 only with `u8 displacement =
+  RandomDisplacement_41A650(...)`, which truncates a signed value (not applied). Hint: the original
+  treats the displacement as a byte somewhere; check the asm around the rate add.
+- `SCRCMD_STORE_CAR_INFO_509180`: 80 -> 58 only with a `(u8)` pointer test (not applied).
+- No change in 25 min each: 53F4C0 (66), 4E6660 (4), 4E8370 (8), 5520A0 (12).
+
+## Agent types1 (Oct 11): types/9.6f pass on HandleCarDoorSounds, STORE_CAR_INFO
+
+- `sound_obj::HandleCarDoorSounds_4182E0` 286 -> 88 (kept). It DOES have a 9.6f counterpart: `sub_4143B0`
+  (0x3C8 bytes; `docs/inlines_96f.md` lists it as the 10.5 dispatcher's pair by mistake). Its shape: `model =
+  pCar->GetCarInfoIdx_411940()`, `IsStartingToOpen/Close` as out-of-line `sub_411870/sub_411890` (`lea 0xC(%ecx,%edi)`
+  as `this`), the distances are `(Fix16(15) / Fix16(2)) * (Fix16(15) / Fix16(2))` and `Fix16(15) / Fix16(2)` with
+  9.6f's 14-bit Fix16 (= 0xE1000 / 0x1E000 raw, the same raw values 10.5 keeps), `field_1C = 3/5` if-converted by VC7
+  (`sete; lea 3(%eax,%eax)`), and the rate calls in the same order as 10.5 (open: get_samp, Random, GetPlay with the
+  Random result spilled to the stack; close: get_samp, GetPlay, Random(field_14) with the GetPlay result in a register).
+  What moved the score: the close block written as `field_14 = get_samp(..); field_3C = 0; field_20 = Random(field_14)
+  + GetPlay(field_14)` (no `samp_idx`/`rate` locals, forwarded `push %eax` + 0x44 reload as the original), the open
+  block's `GetPlay(field_14)` (reload) instead of `GetPlay(samp)` (286 -> 94), `pCar` declared after the two flags
+  (-> 88). Left: the open block's `samp` is in `edi` and `displacement` spilled in the original; ours has
+  `displacement` in `edi`, and the round-robin picks in the close block follow from it. Priolog: the zero constant
+  gets prio -12 with `s32 displacement` + a named `samp` (two named locals in the busy tail block, N=20) and is
+  folded to immediates; any form that removes a colour candidate there (`u8`/`s16 displacement`, a ternary in one
+  block, `GetPlay(field_14)` instead of `GetPlay(samp)`) gives it prio 11..86 and the original's ebx/ebp/edi. VC6
+  evaluates `GetPlay(..) + Random(..)` and `Random(..) + GetPlay(..)` both GetPlay-first (the global `this` operand
+  goes first), so the open block's Random-first order needs a statement (a named local) and that local is what gets
+  the register the original spills. Not found: a dword form of that local that stays in memory.
+- `miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180` (80, unchanged). `CanAlloc_446870(u32)` (param type, header) does not
+  split the shared 8 constant (constants are keyed by value: 80). Priolog on the permuter's `(u8)gStoredCar` 58:
+  the constant `4` is coloured at prio -25 in both forms; in the base it gets ebx and is folded to immediates, in
+  the (u8) form it gets edi and is used. So a constant whose register would be the only use of ebx (an extra
+  push/pop) is folded; the original's order zero(esi) > 4(edi) > pParam2(ebx) needs both constants above pParam2
+  (7), i.e. a smaller live-through penalty for `4` (it is live through ~15 blocks, N 1-5 each).
+
+## Agent map8 (Oct 11): deeper causes on map_0x370 near misses
+
+- `Map_0x370::sub_4E6660` (4, unchanged): 9.6f `sub_467110` is the real counterpart (9 `sub_4E65A0`, 16 `sub_4E5D10`,
+  4 `HasGreenArrow`, 4 `GetArrowDir`, 6 `>=`, 4 `>`, 3 `!=`, 1 `<`) and already has our shape, including
+  `pPrev = pBlock` after `sub_4E65A0(x, y, &z, 1, 1)` and the `pNext` null checks. opdump: all 22 `1`s are one CSE
+  constant temp; priolog shows one coloured piece (ebx, prio -8/-15) referenced only at the top, live through
+  everything, and the later uses become immediates in the local pass. With the copy after the call (48): a dead
+  duplicate copy before the call, `pOld = pBlock` before + `pPrev = pOld` after (propagated), `bTurned = 0` after the
+  first call (52), `pPrev` declared at the top or inside the loop, a shared `Fix16` for `to_centre`/`to_edge`, the
+  loop's `to_edge` at function scope: all 48.
+- `Map_0x370::sub_4E8370` (8, unchanged): the hoisted form's wrong allocation comes from an uncoloured range that
+  can only use `ecx` (priolog ecx score 100 x prio: 14xx hoisted, 6xx with a single `field_360 +=` tail after the
+  if/else (292), 2xx with an `s8` first-loop counter): it pushes the `this` reload piece and `column_idx` off
+  ecx/eax. When the penalty is <= 3 or gone the whole top matches (column_idx eax, offset ecx, this spilled late,
+  `mov 0x20(%esp),%al; test`); the permuter (800 on the tail form) gets that only by moving the last sub-arm's
+  zero store before its loop (108-116, wrong order) or an `s8` counter (198). The range is most likely the zero
+  constant's first piece (the `xor %ecx,%ecx; mov 1(%esi),%cl` idiom). No effect on the tail form: declaration
+  orders, `pNew` with init, `else` around the in-place part, split range test (328), `+=` in 2/5 arms (310/323),
+  const/pointer locals in the first loop, casts of the second-loop bound, function-scope `i`, `do_drop != 0`.
+
+## Agent cheap1 (DetectCarAhead_44D1D0, EmitFlameStreamSegment_53F4C0)
+
+Both functions scored unchanged: 44D1D0 16 -> 16, 53F4C0 66 -> 66 (`NO_PCH=1 quick_score.sh`, which the verifier matches).
+No source change kept. Nothing matched.
+
+`CarAI_78::DetectCarAhead_44D1D0` (16), tried this round, all 16 or worse:
+- Permuter, ~200 compiles, passes swap_logical, do_while, noop_node, invert_if, cond_split, goto_exit,
+  tail_return, switch_dup, remove_stmt off: no candidate below 16.
+- Tail block rewrites: `arrow_idx++` then `next_idx = arrow_idx` (16, same as before), `arrow_idx++` used
+  directly (102), `last_idx` declared first (16), `if (next_idx > last_idx)` (18), `last - next < 0` (96),
+  ternary `(last < next) ? last : next` (76), a `u8 end_idx` local (72), if/else with both stores (82).
+- Target has `al = arrow_idx + 1`, `cl = arrow_count - 1`; ours is the other way round. Nothing above flips it.
+
+`Particle_8::EmitFlameStreamSegment_53F4C0` (66), tried this round:
+- Permuter, ~100 compiles, same passes: no candidate below 66. Stalled after about 100 compiles.
+- Declaration changes: `Fix16_Point vel;` plus two `Fix16(0)` stores (185, worse); `Ang16 angle;` at the top of
+  the block (66, no change); `Fix16 vec_x/vec_y` moved to the block top (66); `point_velocity` at the top (179);
+  `point_velocity` at the top with its inner declaration removed (70).
+- Remaining diffs: the EH state (target starts `movl $4`, ours `$3`), extra `movb $N` EH-state stores in ours
+  inside the car branch, and the frame (0x4C vs 0x34). 9.6f 0x48D4E0 builds `Ang16` and the `Fix16` temporaries
+  through `lea`/`call 0x401af0` on the stack, which is a different shape from ours. Not rewritten.
+
+## Agent near9 (Oct 11): 4458B0 lea rank, Char_B4::state_1_5504F0 slots
+- `Car_6C::SpawnCarOnRoadNetwork_4458B0` (2, unchanged). Checked the slot story: `ground_z` is the hidden-return
+  slot in both (0x20, no copy), so only the add's operand rank differs. New data points, all 2 unless noted:
+  removing the junction prologue / the AI tail / CancelRoute / the `field_28` store (E1-E5, 250-718, lea
+  unchanged) shows the rank is not a context effect of the car-only code. `Fix16* p = &Find...()` with `*p` uses
+  (220) does flip the lea (`mov (%ebx),%eax; lea (%eax,%ecx)`) but keeps the pointer in ebx + a spill; the
+  declare-then-assign forms (`Fix16 ground_z; ground_z = ...` at block, loop or function scope: all 254) put
+  ground_z in edi and the $T in memory. `Fix16(call())`, `Fix16(call().mValue, 0)`, `Fix16&` local, a by-value
+  `Fix16 range` helper param and a `Fix16 one = kFP16One` local all copy-propagate (2). The budget of car8's
+  `Fix16& z` helper is hopeless: `inlsim --scan` wants the caller +1476 nodes; the helper sits with 9 sites
+  left (8 free: the step `+=`s and the bounds compares), so the nested budget is 2440/9. Permuter 1200 with
+  the new passes and --auto-method-aliases: 2. 9.6f car (0x428540) and bus (0x427D60) spawn blocks are
+  instruction-identical apart from frame slots, so no helper existed; the rank difference is still unexplained.
+- `Char_B4::state_1_5504F0` 86 -> **50** (kept): the original's `x_u8`/`y_u8` slots (0x24/0x20) are shared
+  with the collision block's `x_tile`/`y_tile` and have 4 refs, which is what puts them below `v77` (3 refs,
+  0x28) in the slot list. One pair of `u8 x_u8, y_u8` at function scope, assigned at both sites, gives the
+  original's frame (all slot diffs gone). Findings for the rest, with the diff now purely register/order:
+  - get_block: 9.6f (0x49B0D0) calls `to_int` three times before `get_block` in each arm, i.e. two
+    `pBlock = get_block(X.ToInt(), Y.ToInt(), Z.ToInt() [- 1])` calls, one per arm of the `b0 == false &&
+    frac == 0 && z > 0` if/else, tail-merged by VC6 exactly like the original (no `zpos` local). With it the
+    get_block section matches (Z1 spec), but the score goes to 195 because the bit insert below is then
+    1 byte off and every jump shifts; keep it in mind once the insert is solved.
+  - the `b0` insert: the original is `mov $1,%ecx / xor %ecx,%ecx; mov 0x58(%esi),%edx; xor %edx,%ecx; and $1,%ecx;
+    xor %edx,%ecx; mov %ecx,0x58(%esi)` = the FE's int-source bitfield insert `((v ^ f) & 1) ^ f` with v FIRST.
+    The natural `field_58_flags_bf.b0 = (s & 0xFC) != 0 && (s & 0xFC) != 0xFC` gives the same insert with
+    v second (`mov %ecx,%ebp; xor %edx,%ebp; ...`, a copy, 2 bytes longer; `54DDF0`'s original has exactly
+    this copy form). opdump: both operands are kind-3 temps (v = the `&&` $T stored in two blocks, f = the
+    CSE'd load) and f sorts first; with `(cond) == 1` (75) the `sete` result is a kind-1 reg temp and sorts
+    first with no copy, but costs cmp/sete and frees edi/ebp's constants. Narrow sources (`(u8)`, `(bool)`,
+    `(s8)`, `(s32)(u8)`) switch the FE to the and/and/or insert (88). No-op spellings (`!= 0`, `> 0`, `!!`,
+    `| 0`, `^ 0`, `+ 0`, `* 1`, `>> 0`, `<< 0`, `& 0xFF`, `% 2`, `? true : false`, `? 1 : 0`, `(u32)`, `(s16)`,
+    `(u16)`, `get_slope_bits()` helpers, `!(a == 0 || b == 0xFC)`) all fold back to the $T (197-308).
+    Needed: an int-typed, instruction-free way to make v a kind-1 temp, or the flags load a kind-4 symbol.
+  - HasBlockAnyArrows (two arms): only `kFP16One`'s register (edx vs our ecx) differs; the original loads
+    `gMap` into ecx before the `sub`, so its `this` must be live across the `(Z - one)` evaluation.
+  Permuter 900 on the kept source (swap_logical, invert_if, cond_split, switch_dup, tail_return, reorder_saves, named_op,
+  noop_node, temp_for_expr, --auto-method-aliases): no improvement over 50.
+
+## Agent cheap2 (Char_B4::HandleGenericCollision_54A530)
+Start 267, final 267 (no change kept), not matched. `NO_PCH=1 quick_score.sh` line.
+- Permuter (swap_logical, do_while, noop_node, invert_if, cond_split, goto_exit, tail_return, switch_dup,
+  reorder_saves), 42 compiles: no improvement. Each compile recompiles all of char.cpp, so it is slow
+  (about 1 compile per 30 s under load).
+- Random order of the nine top-of-function declarations, 150 orders: all 267, so the declaration order has no effect.
+- Moved to function scope: `half_w`/`half_h` 494, `Fix16 xpos`/`ypos` declared first 281, `step_x`/`step_y` 267
+  (no change), `corner_ang`/`hit_ang` swapped 267 (no change).
+- `pSprt = pObj->field_4` moved after the half-size locals 506; `target_y` initialised late 1507;
+  `u8 side` declared at the first use 287.
+- Nothing kept. The diff starts at the frame layout (xpos at 0x24 in the original, 0x28 here), then the
+  jump-over block order and the `bNoJump` re-test placement, which the 54A530 entry above already covers.
+
+## Agent near10: `SetGamma_5D9910` (8) and `TextureCache_15D8::ReadTextures_5B92E0` (78)
+
+Both are maintainer decisions, re-confirmed rather than retried: each scores 0 the moment the kept code goes
+(the commented `gErrorLog_67C530.Write_4D9620` call, the `if (i > 992) return;` guard) and nothing else is
+wrong, so no type, structure, inline or scheduling work applies. Left unchanged. New facts for whoever decides:
+- `SetGamma`: the assumed crash cause, writing to a never-opened classic `ofstream`, does not reproduce with the
+  VC6 CRT: a `/ML` test exe with a default-constructed `ErrorLog`-like global (`ofstream` member, `<< msg <<
+  endl << flush`) runs fine under wine, the stream just sets failbit (6). The original constructs both logs in
+  static initializers that the decomp lacks: `0x4A06E0` `ErrorLog gErrorLog_67CF58("test\\error.log", 1)` and
+  `0x4A0730` `ErrorLog gErrorLog_67C530("test\\warning.log", 1)` (dtor thunks `0x4A0710`/`log_4A0760`);
+  `error.cpp` only default-constructs them (`DEFINE_GLOBAL` cannot pass ctor args). Other matched callers of
+  `Write_4D9620` on the same objects (`RouteFinder`, `InputRecorder`, `ExitGameCallback_4DB0D0`) are not hit at
+  boot, which is the only difference from `SetGamma` (called from the gamma counter loop while
+  `counter_706C4C > 0`). The crash therefore needs a real repro in `decomp_main.exe` before the call goes back.
+- `ReadTextures`: the guard cannot move: `get_tile_4C2EB0` is an inline used by matched code,
+  `pgbh_RegisterTexture` is a DLL function pointer and `load_tiles_5AADF0` (the `Aligned_malloc_4FE510` of
+  `tile_chunk_len`) is matched, so padding the tile buffer to 1024 tiles would break a match.
+
+## Agent cheap3 (SetupMenuStringsOptionsElements_4B0220)
+- Start 254, final 158 (NO_PCH=1 quick_score). Not matched.
+- Permuter (default passes, 1500 compiles, -j 2): best 158. Its candidates were mostly independent
+  store reorders plus `s16 & v38` / `const u16 &` / extra temporaries. Checking one change at a time, the
+  whole gain comes from `s16 v38 = field_120_selected_font;` (page 6). Making it a reference alias
+  (`s16 & v38`) or reading `field_120_selected_font` directly at its two uses both give 158. The store
+  reorders and the `'j' != x` operand swap change nothing alone. Behaviour is unchanged: no write to
+  `field_120` in this function, and `GetCenteredXPos_4B0190` and `Find_5B5F90` do not write it.
+- The remaining diff is register rotation of the constants (`0x17C`, `0x136`, `0x1CC`, `0x186`) and of
+  the `lea`/`push` pairs around `wcsncpy` calls, plus the read at `0x4860(%esi)` (the element 7 font, page 7
+  line `GetCenteredXPos(... elements_array[7].field_6A_font_type ...)`), which the candidate reads from another
+  address. Not chased further.
+
+## Agent near11 (Oct 11): HandleSpriteZCollision_5238B0 (MATCH), sub_4E7190 slots and registers
+
+- `Object_2C::HandleSpriteZCollision_5238B0` 146 -> **0 (MATCH)**. The landing code (`field_50 == 1` /
+  `== 4` / bounce) is not reached by a `goto LABEL_10` from the non-slope arm: it follows the whole
+  slope/non-slope if-else behind a flag, `bool bLanded = false; ... if (bLanded) { ... }`, set on the three
+  landing paths. VC6 threads the flag test away on every predecessor (the flag leaves no trace), and the CFG
+  this gives at RPO time is the only one that puts the `!= 1` arms after the non-slope `bAirborne = 1` block
+  and right before CheckSpriteMovementRegion: with a goto, the jump-target-first DFS reaches the landing code
+  through the non-slope `jl` and lays it out after X (ours), and no source position of the code changes that
+  (a CFG argument, see `docs/matching_quirks.md`). The flag form also leaves the then-arm with `mov %al,(%ecx)`
+  (so it does not cross-jump into X) and lets the two `bAirborne = 1` copies merge into 0x1DB.
+- `Map_0x370::sub_4E7190` 160 -> 92 (full build 3388/3388 with the Object_5C change, map change checked with
+  quick_score only). (1) `pBefore` is `pPrev`, and the else branch writes `pPrev = pBlock` in both arms of
+  `if (dist >= kFpOne)`: FlowOpts head-merges the two stores into the one between `cmp` and `jl` that the
+  original has, but the frame pass runs first and counts both, so pPrev's slot (shared with the three
+  block-scoped `tmp` out-params) gets 6 refs and is created before `last_x`/`last_y` (5): tmp F+0x20, last_x
+  F+0x24, last_y F+0x28 as in the original (160 -> 124). (2) The ebx/ebp swap of dist, to_edge, pPrev and the
+  kFpOne CSE temps is a colour-order effect: the loop's `to_edge` (prio 120) was coloured after the two kind-3
+  kFpOne CSE temps of the neighbour lookups (132), which take ebx because ebp is new_direction's; moving
+  `bTurned = 1` up into to_edge's block (the permuter's find; N + 2 there, to_edge 144) colours to_edge first
+  (ebp) and dist lands in ebx (124 -> 98, 92 with the second switch in right, left, down, up order and
+  `pPrev = pBlock` first in the green branch). The original has the store after the re-lookup, so the real
+  cause of its order is still open: `&last_z` as the GetRailwayZBelowCoord out-param gives the same order
+  (last_z no longer a candidate, the lookup blocks lose a range, temps 116; permuter 34) but the wrong slot
+  (the original's `found_z` sits in the dead `dist` parameter slot, as ours does); `s32 bTurned`, a Fix16_Point
+  or array for last_x/y/z, a dead extra `bTurned = 1`, function-scope `to_edge`/`new_direction`, and the
+  `dist` update forms all do not. Left: KeepDir's temp `d` takes eax (affinity -2 from the call result vs -1
+  from the copy to new_direction) where the original coalesces it into ebp; the `bTurned = 1` position. All
+  24 case orders of each direction switch swept on the final form. The byte-penalty mechanism from map2's
+  note: a byte-sized colour candidate (bTurned's webs) adds ~400 per web plus 400 for the byte temps to the
+  ebx score of every conflicting range; `s=` only shows costs for registers the range may use.
+
+## Agent cheap4
+
+- `Frontend::ChangeMenuPage_4B3170` (start 353, final 353, no change kept, not matched). Permuter run with
+  swap_logical, do_while, noop_node, invert_if, cond_split, goto_exit, tail_return, switch_dup (about 570
+  iterations, no candidate below 353). Tried by hand, all 353 or worse: reversed switch case order (the
+  case blocks already sit at the same addresses as the original, so the block order is fine); the three
+  save-slot assignments in the other statement orders (359); `s32` / `u32` / `u16` for `playerSlotSetting`
+  and an explicit `(char_type)` or `& 0xFF` on the SetPlySlotIdx argument (the target's `mov %al,%cl; push
+  %ecx` is not produced from any of them: VC6 pushes `%eax` for a truncating argument); `pStats` declared
+  later (363); `pPage` at function scope (508) or removed (626); `pCurPage` removed (405); `game_mode`,
+  `player`, `i`, `opponent_idx`, `user_idx`, `bonus_stage_idx` retyped (468 to 760, worse).
+- Frame size is 0x108 in ours too (the normalised `stable_name_808` in the diff is a stable-name artefact, not a
+  frame difference). The register and slot differences are the pair swaps `0x2A/0x2B` (saved_main_stage vs
+  saved_is_bonus), `0x14/0x18` (pStats and the `main_stage_idx` byte), and the `dx/ax/cx` rotation in the
+  multiplayer case bodies; the address shifts after them are 2-byte size differences from `mov %al,%cl`.
+- Slot order: with equal refs and size (the two save bytes, both 2 refs) the stack-slot list did not follow
+  declaration or statement order in any variant tried. Reading the frame rule alone did not explain it; the
+  `slotlog` build writes into `build_vc6/x87_c2/`, so it was not run (rule: no writes to build_vc6).
+
+## Agent cheap5 (CanMoveOntoSlopeTile_4E0130)
+
+Start 442, final 442, not matched, no change kept. Most of the diff is a y/z register swap: priolog gives
+z prio 80 (edi), y 78 (ebp), x 72 (ebx), while the original has y in edi and z in ebp. Extra z references
+raise z's priority (wrong way), and no behaviour-preserving edit tried raised y's. The first pBlock use
+also reloads from 0x24(%esp) instead of using eax. Tried: `else if (z >= 1)` (442), hoisted `z - 1`
+local (442), moving the field_36E store (446), hoisted zUp/zDown locals (1014-2200). Queued for a
+permuter sweep.
+
+## Agent near12 (Ped.cpp: UpdateMovementTowardsTarget_4672E0, StartCrossingRoad_45E4A0)
+
+Both matched (NO_PCH quick_score 0, checked with the whole Ped.cpp object: no other function changes).
+Files changed: `Source/Ped.cpp` only (no header edits).
+
+- `Ped::UpdateMovementTowardsTarget_4672E0` 206 -> 0, all five gotos removed. In order: (1) `goto LINE_54E`
+  from the default case -> `bNextPoint = true` and `if (bNextPoint) { 54E code; bUnk2 = true; }` after the
+  switch, `goto LINE_3D9` from the dist/54E blocks -> `bUnk2 = true` (206 -> 84: the 54E block now follows the
+  null block, since the flag test is first reached through case 0's null arm). (2) The Max as
+  `Fix16 a1; Fix16 a2; a1 = Abs(dist_1); a2 = Abs(dist_2); if (Fix16::Max(a1, a2) < kFpHalf` (84 -> 70; the
+  ternary form gives the select but one extra pick, 206; `Max_41E130`/`Fix16 result = ...` forms 84-108).
+  (3) The dead `mov 0x28(%esp),%al` in the `distance >= kFpOne` arm is a
+  `switch (type) { case 3: case 4: bUnk1 = true; break; default: bUnk1 = true; break; }` (70 -> 38); every
+  other dead use of `type` is folded. (4) The exit-in-the-middle layout: `if (bUnk2) { type check }` after the
+  top-level if/else, whose else only sets `bGiveUp = true`, `else if (!bUnk1) { bGiveUp = true; }` with the
+  rest of the then arm under `if (!bGiveUp)`, and `if (bGiveUp) { flee }` after the if/else (38 -> 0). A
+  `goto fail;` into a label in the else arm also gives 0 (`fail:` as shared failure block), the flag was
+  kept. `return;` in the else (38), the type check inside the then arm (38), the flee code as an out-of-line
+  else arm `else if (bUnk1) {...} else {...}` (155-163) don't work. (5) `goto LINE_3A9` -> the flee code
+  written out in the default case (cross-jumped as in the original), `goto LINE_38E` -> `bUseCurrentPath`.
+- `Ped::StartCrossingRoad_45E4A0` 414 -> 0. `u8 z = ToInt()` with `z - 1` passed at each of the four lookups
+  (414 -> 98: per-lookup conversion temps instead of one `(int)z` in ebp), `u8 y` instead of `s32 y`
+  (98 -> 46), four named `s16 max_*` locals at function scope assigned `2` before each `get_int_4F7AE0`
+  (46 -> 0: four unshared `movl $2` slots, frame 0x2C). The gotos became `do { ... break; } while (0)`
+  (an else-if chain with comma expressions also gives 0). Dead ends: `const u8&` helper params (414),
+  `s8` locals (414-588), an inline rng wrapper (424), a local `off` in `get_block_42A850` (362, wrong shape),
+  comma/else-if chains alone (46: statement scope does not change the temp slots). Permuter runs from the
+  414 base found only 408.
+
+## Agent cheap6 (MeleeAttackStateMachine_46B670, 56 -> 2)
+
+- `Ped::MeleeAttackStateMachine_46B670` 56 -> 2 (NO_PCH=1 and PCH both 2). Still WIP: the 2 is the scorer's COMDAT
+  penalty for `Max_41E130` (ours calls it from the inlined `MaxAbsDistance_42A6B0`, the original's out-of-line
+  call is `Max_44E540`, same body). Per the Max_41E130 note above, the build verifier accepts that name, so the
+  function should flip to MATCH after a full `build.py` run (not run here: build_vc6 is shared).
+- Two changes, both in `Source/Ped.cpp` only:
+  1. The early `field_226 = field_25C == punch ? 2 : 1` (dead-target branch) is `if (field_25C != punch) { field_226 = 1; return; } field_226 = 2; return;`.
+     The `2` arm falls into the shared epilogue and the `1` arm keeps its own copy, as in the original (0x69C / 0x4BD).
+     The if/else-with-one-return form (454) and the early `== punch` return form (454) both moved every block; the
+     `!=`-first early return is the one that keeps the layout.
+  2. The hurt block of the `animframe == 0` branch nests the mugger test under `PedTypeIs_45EDE0(player)`, with the
+     `field_240 != criminal` check written out in both the player branch's else and the non-player else. VC6 then keeps
+     the original's two copies of that check (`je 331` / `jne 337`), and the `mov 0x240(%esi),%eax; cmp %edi,%eax`
+     load-compare of the first copy comes out right.
+- Rejected (all scored worse or equal): `mov $1` / bitfield read variants for `!IsActive_433B40()` (56, no change);
+  swapping `&&` operands in the mugger test (58, the load order changes); a `s32` local for `field_240` in that
+  block (178).
+- Tip: an offset-level comparison is easier than the score lines: disassemble the original
+  with its byte offsets (10.5.exe, PE RVA to file offset) and the candidate's COFF function with the same decoder
+  (iced_x86), then diff instruction text with the jump targets and globals normalised. A 2-byte offset slip before a
+  jump is what made the early-return variant look like 92 lines of diff.
+
+## Agent cheap7: sound_obj::HandleVocalStreamSwitching_57DF10 (108, unchanged)
+
+- Start 108, final 108 (no source change kept). Not matched.
+- Original layout (from the target bytes with offsets): one station head at 0x139 (`cmp $5,dl`, GetPos,
+  Close, bFast, ternary PlayVocal, `jmp 0x25e`). It is reached by the fallthrough of `== && changed` and by
+  `jne 0x139` from the `!=` path. The mode block (0x1ae..0x256) sits between the head and the 101-arm
+  (0x25c, `push 0x65`), which falls into the join 0x25e. Length<=0 closes share the tails 0x2f0/0x2f7.
+  The `!changed` Update jumps into the middle of block A's SetVocalPos tail (`je 0x104`).
+- Our 108 shape has two full station copies (`== && changed` at 0x13d, `!= && bFast` at 0x28a). Their
+  tails merge from 0x333 on, but the heads and the ternary arms do not, so the diff is the duplicated head.
+- Single-station shapes (one station block, the CFG of the original) all score worse:
+  `if (==) { if (!changed) {Update; return;} } else if (!bFast) {mode; return;} STATION` 312;
+  the same with the first block as `if (length > 0) {...} else Close; return;` 294; the bool flags
+  `bMode` / `bDone` tested after the chain 312 each; `if (!=) {if (!bFast) MODE} else {if (!changed) U}` 306;
+  `if (eq && !changed) U; if (neq && !bFast) MODE` 372; `if (!changed) { if (eq) U; else MODE }` 640.
+  In these the `!changed` Update return is not cross-jumped into A's SetVocalPos tail (A's Update call and
+  the early Update stay two copies), which is the part the 108 shape gets right.
+- Permuter (passes swap_logical, do_while, noop_node, invert_if, cond_split, tail_return, goto_exit,
+  dead_wrap; -n 800, -j 2, stopped after about 15 min): 0 outputs, best 108.
+- Conclusion: the remaining 108 is the station-head duplication plus the 101-arm position. Source forms
+  that give one station block change the cross-jump direction, and the two-copy form cannot merge the
+  heads. Needs a new idea (for example a structure where the station head is one block with two
+  predecessors and the Update tail stays merged), not more reorderings.
+
+## Agent cheap8 (Char_B4::state_1_5504F0)
+Start 50, final **49** (kept), not matched. `NO_PCH=1 quick_score.sh` line.
+- Kept: `Fix16 sprite_z = field_80_sprite_ptr->field_1C_zpos;` read just before the `set_xyz_lazy_420600` call
+  and passed as the third argument. The original loads the zpos field first (`mov 0x1C(%edi),%edx` before the
+  sine/cos table loads); reading it inside the call's argument list loads it last. Remaining diff there is only
+  the edx/ecx swap of zpos vs the sine temp.
+- Bit insert, tried (all worse or equal): `u8 b0_v` + `((b0_v ^ f) & 1) ^ f` 214; `b0 = cond` 272; `(f & 0xFE) | (b0_v & 1)`
+  56; `(u8)(((b0_v ^ f) & 1) ^ f)` 308; `((cond ^ f) & 1 ^ f)` with cast 50; the original `f ^= (f ^ v) & 1` 50.
+- `Fix16 one_fp = kFP16One_6FD9E8` local for the two HasBlockAnyArrows `(Z - one)` args: 251 (worse).
+  `Map_0x370* pMap = gMap_0x370_6F6268` local for the two HasBlockAnyArrows calls: 177 (worse).
+- `sprite_z` declared at function scope with the assignment at the call: 49 (no change).
+- Permuter, 402 compiles on the 49 base (swap_logical, noop_node, invert_if, cond_split, tail_return,
+  reorder_saves, temp_for_expr, --auto-method-aliases): no improvement.
+- Remaining diffs: the get_block arg register/push order (target keeps z in eax while y/x are computed, we push
+  z first); the kOne constant in edx (target, hoisted above both HasBlockAnyArrows arms) vs ecx; the
+  `mov y` load placed after the `sub` in the target; the bit insert `((v^f)&1)^f` as before.
+
+## Agent cheap9: HandleCarDoorSounds_4182E0 (Oct 11)
+
+- `sound_obj::HandleCarDoorSounds_4182E0`: 88 -> 54 (kept; still WIP_FUNC, not matching). Open block only:
+  `field_20_rate = RandomDisplacement(samp)` stored straight into the sample, then `field_20_rate += GetPlay(samp)`
+  with the local `samp_idx_for_car` for both calls. The `s32 displacement` local is gone, so the Random result is
+  no longer kept in a register across the GetPlay call. Same stored value (u32 += s32 is the same bits).
+- What is left (54): the original has a 0x1C frame and ours 0x18. The original spills the Random result to a
+  stack slot across the GetPlay call (`mov %edx,0x28(%esp)` ... `mov 0x24(%esp),%ecx; add %eax,%ecx`) with `samp`
+  in edi. Every variant that keeps the Random result live across GetPlay (a named `displacement` local with
+  `+ GetPlay(samp)`, `s32 play`, function-scope `displacement`, `Random(field_14)` + `GetPlay(samp)`) drops the
+  zero constant out of ebx: the whole prologue changes (278). With `GetPlay(this->field_14)` (reload) the zero
+  stays in ebx but samp moves to a reload and displacement takes edi (88).
+- Tried, no gain (scores): statement orders of the open block (58-70), `s32 rate` local (54), `field_20 = disp;
+  field_20 = field_20 + GetPlay` (146/54), `Random(this->field_14)` with `GetPlay(samp)` (278), `disp` at
+  function scope (278), the close block unchanged (it already matches apart from the frame shift).
+
+## Agent near13 (Oct 11): sub_4E6660 (4, unchanged), DetectCarAhead_44D1D0 (16, unchanged)
+
+Goal was to replace the gotos with the structure the original had (threaded flags, trailing ifs). Neither
+function moved; no source change kept. Scores are `NO_PCH=1 quick_score.sh`.
+
+- `Map_0x370::sub_4E6660` (4): the two `goto done` as `dist = 0` (the loop test is then threaded into `jmp exit`
+  but the dead `xor %ebp,%ebp` stays, 55); `if (side == half) {== arm} else {!= arm}` (1342/1354, the layout
+  changes). Folded spellings of the == arm's 1s with `pPrev = pBlock` after the call (`!bTurned`, `bTurned + 1`,
+  `bTurned == 0`, both args): all fold to the same constant web (48). What the C2 logs say about the 48 (copy
+  after the call, the original's IL position, 9.6f agrees): opdump (10765bbd) shows all 22 `1`s as one web
+  (`163` reload at the top, placeholder uses everywhere). priolog logs TWO priority passes for it: the whole web
+  (-282/-352, fails to colour) and then the splitter's piece, which is the set of live blocks where ebx is free:
+  base (copy before the call) 9 blocks, prio -8, stops at the == block's first instruction (the copy); copy after
+  the call: the piece also takes the == block up to the copy (`211:3 212:ref`, prio -15) and so the two pushes.
+  Growth is set-based (it skips the != arm where to_centre holds ebx and continues into the == block), so the
+  original must have an ebx conflict (or a different web) in the == block before the pushes that leaves no trace;
+  not found. `ralog --force` to reg 0 on that piece ICEs (p2/main.c 494), so "no register" can't be simulated.
+  A mirror dir of Source/ with the variant copied in (`try.sh`) scores variants in parallel without touching
+  Source/; the C2 variants (ildump, ralog --force) build fine into a scratch dir by overriding `patch_c2.X`.
+- `CarAI_78::DetectCarAhead_44D1D0` (16): root cause of the al/cl swap found, no source form yet. opdump/priolog:
+  `next_idx` (symbol, prio 36 = 3 refs x N=6: copy-def, store, cmp) and `last_idx` (prio 52 = 4 refs x 6 + 4:
+  load-def, dec-use, dec-def, cmp, + the conditional store) are coloured in priority order, so last takes eax
+  first and next gets ecx; the arrow_idx reload piece (prio 24) then prefers next's ecx (the weight-1 ecx
+  preference car7 saw is the copy hint to `next`). The asymmetry: `arrow_idx + 1` loads the *register* symbol
+  arrow_idx into a temp, so the `inc` temp coalesces into arrow_idx's piece and `next = t` stays a copy (3 refs),
+  while `arrow_count - 1` loads the address-taken (memory) arrow_count, so the `dec` temp coalesces into last
+  (4 refs). Equal priority would do (next's tie 1417 > last's 1414). Confirmed both ways: `s8 count =
+  arrow_count;` right after the call, used only in the tail (count's reload piece takes the dec, last 3 refs)
+  gives next=al/last=cl exactly, but count's spill slot is a third byte slot (arrow_count 0x11, arrow_idx 0x12,
+  count 0x13 vs the original's 0x12/0x13, 176); making arrow_idx's address escape (diagnostic) also flips the
+  tail (next gets the load+inc, 5 refs) but changes the middle. A `count` copy used in the middle checks
+  (178/18), `count` assigned in the tail (substituted, 18), `(u8)arrow_idx + 1`, `(s32)arrow_idx + 1`,
+  `arrow_idx + (u8)1`, `last = arrow_count; last--`, the store before `last`'s def, `(void)&arrow_idx`, a
+  reference alias: all 16/18. `arrow_count - 1` re-read in the store block gives arrow_count a reload web in
+  the tail (cl) and next=al, but the two `- 1` are not CSE'd (two decs, 84/92/100). The tail of 9.6f 0x42C8B0
+  has the same `inc %al` / `dec %cl` / `cmp %cl,%al; jbe` shape, with arrow_idx at 0x12 and arrow_count at
+  0x13 there. Permuter 730 compiles on the `next > last` form: only the behaviour-changing store move (14).
+  Still needed: a source form in which the tail's `arrow_count` read is a register-symbol copy without a
+  third byte slot, or `arrow_idx`'s tail read a memory operand, or last with 3 refs.
+
+## Agent cheap10 (CreateRoadblock_575FF0)
+- Start 122, final 122 (NO_PCH=1), not matched. Source left unchanged (no legit improvement found).
+- Tried, all worse or equal: function-scope `u8 bEdge;` with `bEdge = 0` in both arms (188, the misc7
+  recipe, alone); function-scope bEdge for the y arm only (122); assigning the outer `y_bottom`/`zpos` in
+  the y arm instead of shadowing them (184); `u8 width` hoisted to function scope (319); `tries` declared
+  after `angle` (122); `s32 tries` (1140).
+- The remaining diff is stack-slot assignment across the whole body (0x20/0x24/0x28/0x2C/0x30 and
+  0x7C/0x84/0x88 swapped), plus one early `mov 0x80(%esp),%eax` before `push %edi` in the original that
+  our code loads after the `jne`. Not reached by declaration order or shadowing tweaks.
+
+## Agent cheap11: Map_0x370::sub_4E7190 (no change kept, score 92 -> 92, not matched)
+
+- Start 92 (NO_PCH=1 quick_score). Permuter run was refused by the auto-mode classifier (CPU/workload
+  reason), so only manual variants were tried. None lowered the score; the source is unchanged.
+- Skeleton (`permuter_score.py --skeleton`, control flow only): 12 on the baseline. Items 0-92 of the
+  jump/call sequence already agree; the divergence starts at the green branch's `if (!pBlock || !green)`
+  (target `jne 26` straight to the join, ours to the not-green block) and again at the slope re-lookup
+  (target `call get_block(z); bTurned=1; jmp 26`, ours falls into `pBlock != pPrev`).
+- Tried, all worse than 92: `bTurned = 1` at the end of the to_edge block (130); at its top, inside the
+  `if (!pBlock || !green)` branch (92, same); the slope branch setting `bTurned` and skipping the
+  `pBlock != pPrev` block via `else if` (206); the `else if` alone, keeping the original store (128);
+  `z = last_z` moved to the top of the to_edge block (458).
+- Read of the original (asm listing): the constant cached in `%ebp` is 1 (`mov $1,%ebp`, used by the
+  second switch's `up_1` store), ours caches 4. The `bTurned` store is in the slope re-lookup path
+  (`call; mov %eax,%esi; movb $1,0x11(%esp); jmp`), not in the to_edge branch. That fits a source shape
+  where the slope path skips the `pBlock != pPrev` step, but the else-if form scores worse, so the
+  original's order of the `sub_4E65A0` call relative to the slope lookup is still open.
+
+## Agent near14 (Oct 11): IsThreatToSearchingPed_4661F0 (294 -> 4, MATCH), state_8_5520A0 (12, unchanged)
+
+- `Ped::IsThreatToSearchingPed_4661F0` 294 -> 4 (**MATCH**: the asm is identical, the 4 is `permuter_score.py`'s
+  penalty for the two COMDAT inline copies `Max_41E130`/`IsInvisibleOnFoot_433DA0` where the original calls the
+  exports; the full build verifies it, 3392/3392). What it took, in order:
+  - Mode 1 is `return gSearchingPed_6787DC->IsPedAThreat_Inline_465D00(this);` after the three common checks
+    (9.6f 0x437670 calls 0x4371D0 = IsPedAThreat there). The inlinee's `return 0`/`goto ret_false` become
+    `jcc 8FD` into the function's own exit and the two `player_idx` locals get separate slots (0x2C/0x30, inlined
+    locals never share), which the hand-expanded copy with gotos could not give (the second IsRespect site's
+    `test %al; jmp` tail merge appears by itself). `if (...) return 1; return 0;` is 362 vs `return ...;` 407.
+  - The inlinee calls `IsInvisibleOnFoot_433DA0` out of line only because its front-end size is above the nested
+    budget (42 here, 71 in HandlePedHitByObject_45D000, which inlines it): the header's `return a && b;` was 35
+    (free). Rewritten as the matched out-of-line copy's body (`if (a && b) return 1; return 0;`, 47); the
+    inline copy now calls it instead of writing the test out (45D000 stays 0).
+  - Mode 3 is `!(Fix16::MaxAbsDistance_42A6B0(x, y, pS->get_cam_x(), pS->get_cam_y()) <= kFpQuarter)`: with the
+    inlinee charged first, the nested budget (42) sends its `operator-`/Abs/Max out of line by itself.
+  - Modes 4/5: `a = atan2(dy, dx); rel = SubAng16(a, pS->GetRotation()); range = SubAng16(gDummyPedAng, word);`
+    with `Ang16 a; Ang16 rel; Ang16 range;` at function scope (9.6f default-constructs three Ang16 at the top)
+    and a local `SubAng16` = `NormalizedAng(lhs.rValue - rhs.rValue)` (by-value `s16` -> the dword store before
+    the out-of-line ctor). The function-scope `a` is the enregistered `mov (%eax),%si` copy before the
+    GetRotation call; `rel` enregistered in `si` gives the 16-bit reload `mov 0x14(%esp),%si` right after the
+    ctor. Block-scoped `Ang16`/`s16 rel = ...rValue` forms all load a dword (4-byte slot) or at the wrong place.
+  - The mode 5 calls take `gSearchingPed_6787DC->get_cam_x/y/z()` as arguments (9.6f), not sx/sy/sz locals:
+    head merging hoists the three loads before the `je`, with the type compare between them.
+  - Frame: `Fix16 dx, dy, dx2, dy2, dz` at function scope (v2: 84 -> 4). Function-scope locals never share a
+    slot, which is exactly the original's layout (0x3C..0x4C each its own slot) while the mode 1/3 temporaries
+    do share (0x28..0x30); one shared `dx/dy` pair gives 124.
+- `Char_B4::state_8_5520A0` (12, unchanged). New data: opdump shows our reload
+  `field_184_pObj2C = field_7C_pPed->field_184_pObj2C` is the second web of the kind-4 local (coloured; scores
+  eax 0 / ecx -1 disallowed / edx 0 -> eax), `field_7C_pPed` a kind-3 CSE temp (ecx) and `->field_4` a kind-3 CSE
+  temp coloured eax first (prio 64 > 32). The original's `edx` needs either eax disallowed for that web (a
+  conflict with the field_4 temp or the first read) or an IL-temp reload with the cursor at edx and `pPed` not
+  dying there. Block-local `Object_2C* pObj` (merges into the dying `ecx`: 18), `Sprite* pSrc` (32-162),
+  pMySprite before/after (148/12), direct re-reads (32), reload before the `= 12` store (130). Permuter 600
+  on the block-local form: no improvement.

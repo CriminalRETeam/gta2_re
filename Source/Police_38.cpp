@@ -2501,6 +2501,8 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
     u8 lane;
     Ang16 angle;
 
+    Fix16 y_bottom;
+    Fix16 zpos;
     if (orientation == 2)
     {
         // Find the road's edges along y
@@ -2819,7 +2821,6 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
         // Find the road's edges along x
         u8 bEdge = 0;
         s32 z_below = z - 1;
-        Fix16 zpos;
         do
         {
             bFound = 0;
@@ -2906,7 +2907,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
         Fix16 x_left = Fix16(x_start);
         Fix16 y_top = Fix16(y) + dword_6FEBF4;
         Fix16 x_right = Fix16(x_start + width + 1);
-        Fix16 y_bottom = Fix16(y) + dword_6FEBF4;
+        y_bottom = Fix16(y) + dword_6FEBF4;
         zpos = Fix16(z);
         field_A0_rect->SetRect_41E350(x_left, x_right, y_top - dword_6FEBF4, y_bottom + dword_6FEBF4);
         field_A0_rect->SetHiLowZ_41E370(zpos - dword_6FECEC, zpos + dword_6FECEC);

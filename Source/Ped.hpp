@@ -741,9 +741,16 @@ class Ped
         return field_27C_ped_state_2;
     }
 
+    // Same body as the out-of-line copy IsInvisibleOnFoot_466B70: this form's front-end size (47) is what
+    // makes the inlined IsPedAThreat in IsThreatToSearchingPed_4661F0 call the copy (nested budget 42)
     inline bool IsInvisibleOnFoot_433DA0()
     {
-        return field_21C_bf.bInvisible && field_168_game_object;
+        if ((field_21C & ped_flag_mask::k_ped_invisible) != 0 && field_168_game_object != 0)
+        {
+            return 1;
+        }
+
+        return 0;
     }
 
     bool bHasGameObject_403B70()

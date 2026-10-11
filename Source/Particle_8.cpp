@@ -336,83 +336,86 @@ WIP_FUNC(0x53F4C0)
 void Particle_8::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
 {
     WIP_IMPLEMENTED;
-    Ang16 angle;
-    Fix16_Point vel(Fix16(0), Fix16(0));
-    Fix16_Point pos;
-    Fix16_Point offset;
-    Fix16_Point ped_offset;
-    // Five points up front (the EH state is 4 at entry). point_velocity only receives the unused result
-    // of GetPointVelocity_561350.
-    Fix16_Point point_velocity;
-    if (!bSkip_particles_67D64D)
     {
-        if (!field_0_fire_hit_obj)
+        Fix16_Point vel(Fix16(0), Fix16(0));
+        Fix16_Point pos;
+        Fix16_Point offset;
+        Fix16_Point ped_offset;
+        // point_velocity (declared in the car branch) only receives the unused result of
+        // GetPointVelocity_561350.
+        if (!bSkip_particles_67D64D)
         {
-            field_0_fire_hit_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::fire_hitting_194, 0, 0, 0, kAngZero_6FD5D4);
-        }
-        vel.x = Fix16(0);
-        vel.y = Fix16(0);
-        Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
-        if (pParticle)
-        {
-            pParticle->field_4_flags |= 1;
-            pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
-            pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 73);
-            pParticle->field_30_pNext->AllocInternal_59F950(dword_6FD554 * dword_6FD508, dword_6FD554 * dword_6FD508, kFP16Quarter_6FD2EC);
-            pParticle->field_34 = 0;
-            pParticle->field_38_state = 31;
-            Fix16 vec_x;
-            Fix16 vec_y;
-            Ang16::PolarToCartesian_41FC20(pSprt->field_0, dword_6FD2E8, vec_x, vec_y);
-            pParticle->field_2C_counter = 100;
-            pParticle->field_46_sub_state = 0;
-            pParticle->field_48_timer = 0;
-            stru_6FD388 = pSprt->field_14_xy.x + vec_x;
-            stru_6FD38C = pSprt->field_14_xy.y + vec_y;
-            Fix16 zpos = pSprt->field_1C_zpos;
-            // Both loaded before the type check (one load of field_8, kept for both branches)
-            Car_BC* pCar = pSprt->field_8_car_bc_ptr;
-            Char_B4* pPed = pSprt->field_8_char_b4_ptr;
-            if (pSprt->field_30_sprite_type_enum == sprite_types_enum::car_2)
+            if (!field_0_fire_hit_obj)
             {
-                Sprite_18* pSprt18 = pCar->field_0_attachments.GetSpriteForModel_5A6A50(114);
-                if (pSprt18)
+                field_0_fire_hit_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::fire_hitting_194, 0, 0, 0, kAngZero_6FD5D4);
+            }
+            vel.x = Fix16(0);
+            vel.y = Fix16(0);
+            Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
+            if (pParticle)
+            {
+                pParticle->field_4_flags |= 1;
+                pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
+                pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 73);
+                Particle_4C* tmp = pParticle;
+                tmp->field_30_pNext->AllocInternal_59F950(dword_6FD554 * dword_6FD508, dword_6FD554 * dword_6FD508, kFP16Quarter_6FD2EC);
+                pParticle->field_38_state = 31;
+                pParticle->field_34 = 0;
+                Fix16 vec_x;
+                Fix16 vec_y;
+                Ang16::PolarToCartesian_41FC20(pSprt->field_0, dword_6FD2E8, vec_x, vec_y);
+                pParticle->field_2C_counter = 100;
+                pParticle->field_46_sub_state = 0;
+                pParticle->field_48_timer = 0;
+                stru_6FD388 = pSprt->field_14_xy.x + vec_x;
+                stru_6FD38C = pSprt->field_14_xy.y + vec_y;
+                Fix16 zpos = pSprt->field_1C_zpos;
+                // Both loaded before the type check (one load of field_8, kept for both branches)
+                Car_BC* pCar = pSprt->field_8_car_bc_ptr;
+                Char_B4* pPed = pSprt->field_8_char_b4_ptr;
+                if (pSprt->field_30_sprite_type_enum == sprite_types_enum::car_2)
                 {
-                    angle = pSprt18->field_0->field_0 + kAng180_6FD3EE;
-                    pos.SetXY_432860(Fix16(0), dword_6FD2D4);
-                    pos.RotateByAngle_40F6B0(angle);
-                    offset.SetXY_432860(Fix16(0), kFP16Eighth_6FD2D0);
+                    Sprite_18* pSprt18 = pCar->field_0_attachments.GetSpriteForModel_5A6A50(114);
+                    Ang16 angle;
+                    if (pSprt18)
+                    {
+                        angle = pSprt18->field_0->field_0 + kAng180_6FD3EE;
+                        pos.SetXY_432860(Fix16(0), dword_6FD2D4);
+                        pos.RotateByAngle_40F6B0(angle);
+                        offset.SetXY_432860(Fix16(0), kFP16Eighth_6FD2D0);
+                    }
+                    else
+                    {
+                        Sprite_18* pSprt18_2 = pCar->field_0_attachments.GetSpriteForModel_5A6A50(248);
+                        angle = pSprt18_2->field_0->field_0;
+                        pos.SetXY_432860(Fix16(0), dword_6FD48C);
+                        pos.RotateByAngle_40F6B0(angle);
+                        offset.SetXY_432860(Fix16(0), dword_6FD4CC);
+                    }
+                    pParticle->field_30_pNext->set_ang_lazy_420690(angle);
+                    offset.RotateByAngle_40F6B0(pSprt->field_0);
+                    pos += offset.Add_40AC50(pSprt->get_x_y_443580());
+                    Fix16_Point point_velocity;
+                    point_velocity = pSprt->field_8_car_bc_ptr->field_58_physics->GetPointVelocity_561350(&pos); // not used
+                    pParticle->field_30_pNext->set_xyz_lazy_420600(pos.x, pos.y, zpos);
                 }
                 else
                 {
-                    Sprite_18* pSprt18_2 = pCar->field_0_attachments.GetSpriteForModel_5A6A50(248);
-                    angle = pSprt18_2->field_0->field_0;
-                    pos.SetXY_432860(Fix16(0), dword_6FD48C);
-                    pos.RotateByAngle_40F6B0(angle);
-                    offset.SetXY_432860(Fix16(0), dword_6FD4CC);
+                    ped_offset.x = -dword_6FD464;
+                    ped_offset.y = dword_6FD468 + dword_6FD2E8;
+                    ped_offset.RotateByAngle_40F6B0(pSprt->field_0);
+                    ped_offset = ped_offset.Add_40AC50(*(Fix16_Point*)&pPed->field_98_velocity_vector);
+                    pParticle->field_30_pNext->set_ang_lazy_420690(pSprt->field_0);
+                    pParticle->field_30_pNext->set_xyz_lazy_420600(pSprt->field_14_xy.x + ped_offset.x, pSprt->field_14_xy.y + ped_offset.y, zpos);
                 }
-                pParticle->field_30_pNext->set_ang_lazy_420690(angle);
-                offset.RotateByAngle_40F6B0(pSprt->field_0);
-                pos += offset.Add_40AC50(pSprt->get_x_y());
-                point_velocity = pSprt->field_8_car_bc_ptr->field_58_physics->GetPointVelocity_561350(&pos); // not used
-                pParticle->field_30_pNext->set_xyz_lazy_420600(pos.x, pos.y, zpos);
+                pParticle->field_28_pSprite = pSprt;
+                if (pParticle->field_30_pNext->CheckSpriteMovementRegion_5A2500())
+                {
+                    pParticle->field_2C_counter = 0;
+                }
+                gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+                pParticle->field_30_pNext->field_2C_flags |= 4;
             }
-            else
-            {
-                ped_offset.x = -dword_6FD464;
-                ped_offset.y = dword_6FD468 + dword_6FD2E8;
-                ped_offset.RotateByAngle_40F6B0(pSprt->field_0);
-                ped_offset = ped_offset.Add_40AC50(*(Fix16_Point*)&pPed->field_98_velocity_vector);
-                pParticle->field_30_pNext->set_ang_lazy_420690(pSprt->field_0);
-                pParticle->field_30_pNext->set_xyz_lazy_420600(pSprt->field_14_xy.x + ped_offset.x, pSprt->field_14_xy.y + ped_offset.y, zpos);
-            }
-            pParticle->field_28_pSprite = pSprt;
-            if (pParticle->field_30_pNext->CheckSpriteMovementRegion_5A2500())
-            {
-                pParticle->field_2C_counter = 0;
-            }
-            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
-            pParticle->field_30_pNext->field_2C_flags |= 4;
         }
     }
 }

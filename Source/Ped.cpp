@@ -66,7 +66,7 @@ DEFINE_GLOBAL_INIT(u8, byte_61A8A0, 1, 0x61A8A0);
 DEFINE_GLOBAL(u8, gNumDummyChars_6787E2, 0x6787E2);
 DEFINE_GLOBAL(u8, gNumScriptCreatedPeds_6787E3, 0x6787E3);
 DEFINE_GLOBAL(u8, gNumEmergencyPeds_6787E4, 0x6787E4);
-DEFINE_GLOBAL(u8, gTargetSearchMode_6787D7, 0x6787D7);
+EXTERN_GLOBAL(u8, gTargetSearchMode_6787D7);
 DEFINE_GLOBAL(u8, byte_6787D4, 0x6787D4);
 DEFINE_GLOBAL(u8, byte_678554, 0x678554);
 DEFINE_GLOBAL(u8, byte_6787D8, 0x6787D8);
@@ -1658,18 +1658,17 @@ void Ped::HandlePedCrossingTrigger_45CF20(Object_2C* pObj)
 Fix16 __stdcall sub_4614E0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2);
 
 // 10.5 inlines this into HandlePedHitByObject_45D000 (the first call there; the second one
-// calls 0x465D00), so it has to be defined before it. 0x465D00 is the out-of-line copy.
+// calls 0x465D00) and into IsThreatToSearchingPed_4661F0 (search mode 1), so it has to be defined
+// before them. 0x465D00 is the out-of-line copy. IsInvisibleOnFoot_433DA0 is called here (not written
+// out as in the copy): 4661F0's nested budget (42) sends it out of line, 45D000's (71) inlines it.
 inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
 {
 
     char_type flag = 0;
 
-    if ((pTargetPed->field_21C & ped_flag_mask::k_ped_invisible) != 0)
+    if (pTargetPed->IsInvisibleOnFoot_433DA0())
     {
-        if (pTargetPed->field_168_game_object != 0)
-        {
-            goto ret_false;
-        }
+        goto ret_false;
     }
 
     if (this->field_288_threat_search == threat_search_enum::area_player_threat_only_3 || this->field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4)
@@ -1795,10 +1794,9 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
                         goto ret_true;
                     }
 
-                    Fix16 candY = pTargetPed->field_1AC_cam.y;
-                    Fix16 candX = pTargetPed->field_1AC_cam.x;
-
-                    if (sub_4614E0(this->field_1AC_cam.x, this->field_1AC_cam.y, candX, candY) <= kFpOne_678798)
+                    Fix16 result;
+                    result = sub_4614E0(this->field_1AC_cam.x, this->field_1AC_cam.y, pTargetPed->get_cam_x(), pTargetPed->get_cam_y());
+                    if (result <= kFpOne_678798)
                     {
                         goto ret_true;
                     }
@@ -1807,7 +1805,9 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
                 }
 
                 {
-                    if (this->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(pTargetPed->field_15C_player->field_2E_idx))
+                    u8 player_idx = pTargetPed->field_15C_player->get_idx_4219D0();
+
+                    if (this->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(player_idx))
                     {
                         if (gPolice_7B8_6FEE40->field_7B4_crew_ped_onscreen == 0)
                         {
@@ -2003,12 +2003,11 @@ ret_false:
 }
 
 // https://decomp.me/scratch/Yg4cw
-WIP_FUNC(0x45d000)
+MATCH_FUNC(0x45d000)
 char_type Ped::HandlePedHitByObject_45D000(Object_2C* pTargetPed)
 {
-    WIP_IMPLEMENTED;
 
-    Ang16 angle; // default ctor here
+    Ang16 angle;
     Ped* pBlamedPed = NULL;
 
     if ((field_278_ped_state_1 == ped_state_1::immobilized_8 ||
@@ -2122,8 +2121,8 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pTargetPed)
 
         case objects::maybe_bullet_on_fire_198:
             Ped::PutOutFire();
-            if (ComputeShortestAngleDelta_4056C0(field_168_game_object->field_80_sprite_ptr->field_0, pTargetPed->field_4->field_0) >
-                kAng90_6784B0)
+            angle = ComputeShortestAngleDelta_4056C0(field_168_game_object->field_80_sprite_ptr->field_0, pTargetPed->field_4->field_0);
+            if (angle > kAng90_6784B0)
             {
                 field_168_game_object->SetCharState_433A60(33); // TODO: include and use Char_B4_state enum
             }
@@ -2153,6 +2152,7 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pTargetPed)
             {
                 Ped::TakeDamage(5 * GetDamageMultiplier_45CF90(pBlamedPed));
             }
+            gParticle_8_6FD5E8->EmitBloodBurst_53E450(field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, pTargetPed->field_4->field_0);
             break;
 
         case objects::rocket_bullet_128:
@@ -2162,8 +2162,8 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pTargetPed)
         case objects::machine_gun_bullet_254:
         case objects::pistol_bullet_265:
         {
-            if (ComputeShortestAngleDelta_4056C0(field_168_game_object->field_80_sprite_ptr->field_0, pTargetPed->field_4->field_0) >
-                kAng90_6784B0)
+            angle = ComputeShortestAngleDelta_4056C0(field_168_game_object->field_80_sprite_ptr->field_0, pTargetPed->field_4->field_0);
+            if (angle > kAng90_6784B0)
             {
                 field_168_game_object->SetCharState_433A60(33); // TODO: include and use Char_B4_state enum
             }
@@ -2203,6 +2203,7 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pTargetPed)
                 // Non-player ped
                 Ped::TakeDamage(25 * damage_amplifier * GetDamageMultiplier_45CF90(pBlamedPed));
             }
+            gParticle_8_6FD5E8->EmitBloodBurst_53E450(field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, pTargetPed->field_4->field_0);
             break;
         }
 
@@ -2217,7 +2218,6 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pTargetPed)
         default:
             return true;
     }
-    gParticle_8_6FD5E8->EmitBloodBurst_53E450(field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, pTargetPed->field_4->field_0);
     return true;
 }
 
@@ -2378,63 +2378,74 @@ void Ped::SpawnWeaponOnDeath_45E080()
 }
 
 // https://decomp.me/scratch/PNiZo
-WIP_FUNC(0x45e4a0)
+MATCH_FUNC(0x45e4a0)
 void Ped::StartCrossingRoad_45E4A0()
 {
-    WIP_IMPLEMENTED;
-
     if (field_240_occupation != ped_ocupation_enum::dummy || field_258_objective != objectives_enum::no_obj_0 || field_25C_internal_objective != objectives_enum::no_obj_0)
     {
         return;
     }
 
     u8 x = field_1AC_cam.x.ToInt();
-    s32 y = field_1AC_cam.y.ToInt();
-    u8 z = field_1AC_cam.z.ToInt() - 1;
+    u8 y = field_1AC_cam.y.ToInt();
+    u8 z = field_1AC_cam.z.ToInt();
 
     s8 direction;
+    // Named locals: the original gives each max its own stack slot (as in ApplyAimJitter_46F1E0).
+    s16 max_north;
+    s16 max_east;
+    s16 max_south;
+    s16 max_west;
 
     // 9.6f: 0x433470/0x4334A0/0x4334D0/0x433500 (N/E/S/W). The first two rng results are
     // tested as u8 (test al,al; ja), the last two as s16 (test ax,ax; jg), in both builds.
-    if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(x, y - 1, z))
+    // z - 1 is passed as an expression: a plain u8 local would give one (int)z for all four
+    // block lookups, the original converts it again at each one.
+    do
     {
-        direction = 0;
-        if ((u8)gRng_6F6784.get_int_4F7AE0(2) > 0)
+        if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(x, y - 1, z - 1))
         {
-            goto dispatch;
+            direction = 0;
+            max_north = 2;
+            if ((u8)gRng_6F6784.get_int_4F7AE0(max_north) > 0)
+            {
+                break;
+            }
         }
-    }
 
-    if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(x + 1, y, z))
-    {
-        direction = 1;
-        if ((u8)gRng_6F6784.get_int_4F7AE0(2) > 0)
+        if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(x + 1, y, z - 1))
         {
-            goto dispatch;
+            direction = 1;
+            max_east = 2;
+            if ((u8)gRng_6F6784.get_int_4F7AE0(max_east) > 0)
+            {
+                break;
+            }
         }
-    }
 
-    if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(x, y + 1, z))
-    {
-        direction = 2;
-        if (gRng_6F6784.get_int_4F7AE0(2) > 0)
+        if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(x, y + 1, z - 1))
         {
-            goto dispatch;
+            direction = 2;
+            max_south = 2;
+            if (gRng_6F6784.get_int_4F7AE0(max_south) > 0)
+            {
+                break;
+            }
         }
-    }
 
-    if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(x - 1, y, z))
-    {
-        direction = 3;
-        if (gRng_6F6784.get_int_4F7AE0(2) > 0)
+        if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(x - 1, y, z - 1))
         {
-            goto dispatch;
+            direction = 3;
+            max_west = 2;
+            if (gRng_6F6784.get_int_4F7AE0(max_west) > 0)
+            {
+                break;
+            }
         }
-    }
 
-    direction = 4;
+        direction = 4;
+    } while (0);
 
-dispatch:
     switch (direction)
     {
         case 0:
@@ -6276,14 +6287,35 @@ ret_false:
     return 0;
 }
 
+// The normalizing Ang16 ctor (out of line, AssignNormalized_409300) on a by-value parameter: the
+// original stores the 16-bit difference as a dword before the call (as Particle_4C's NormalizedAng)
+static inline Ang16 NormalizedAng(s16 value)
+{
+    return Ang16(&value, 0);
+}
+
+// Ang16::operator- with the normalizing ctor called out of line and its argument stored as a dword
+static inline Ang16 SubAng16(const Ang16& lhs, const Ang16& rhs)
+{
+    return NormalizedAng(lhs.rValue - rhs.rValue);
+}
+
 // https://decomp.me/scratch/0VTTk
-WIP_FUNC(0x4661F0)
+// 9.6f 0x437670. Mode 1 is IsPedAThreat (9.6f 0x4371D0) inlined, with the nested budget (42) sending
+// IsInvisibleOnFoot and MaxAbsDistance out of line. The angle and distance locals are at function scope
+// (9.6f default-constructs three Ang16 at the top): the original's 4-byte slots for the mode 4 and 5
+// differences never share with the mode 1 and 3 temporaries, and the 2-byte Ang16 temps stay 2 bytes.
+MATCH_FUNC(0x4661F0)
 char_type Ped::IsThreatToSearchingPed_4661F0()
 {
-    WIP_IMPLEMENTED;
-
-    Ped* pSearcher;
-    char_type flag;
+    Ang16 a;
+    Ang16 rel;
+    Ang16 range;
+    Fix16 dx;
+    Fix16 dy;
+    Fix16 dx2;
+    Fix16 dy2;
+    Fix16 dz;
 
     switch (gTargetSearchMode_6787D7)
     {
@@ -6303,335 +6335,13 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                 goto ret_false;
             }
 
-            pSearcher = gSearchingPed_6787DC;
-            flag = 0;
-
-            if (IsInvisibleOnFoot_466B70())
+            // 9.6f 0x437670: a call to IsPedAThreat (0x4371D0), inlined here in 10.5
+            if (gSearchingPed_6787DC->IsPedAThreat_Inline_465D00(this))
             {
-                goto ret_false;
-            }
-
-            if (pSearcher->field_288_threat_search == threat_search_enum::area_player_threat_only_3 || pSearcher->field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4)
-            {
-                if (!this->PedTypeIs_45EDE0(ped_type::player_2))
-                {
-                    goto ret_false;
-                }
-            }
-
-            if (pSearcher->field_288_threat_search == threat_search_enum::area_player_only_5 || pSearcher->field_288_threat_search == threat_search_enum::line_of_sight_player_only_6)
-            {
-                if (this->IsActivePlayerPed_45EDC0())
-                {
-                    goto ret_true;
-                }
-            }
-
-            if (pSearcher->IsActivePlayerPed_45EDC0())
-            {
-                flag = 1;
-            }
-
-            if (pSearcher->field_164_ped_group == this->field_164_ped_group && pSearcher->field_164_ped_group != 0)
-            {
-                goto ret_false;
-            }
-
-            if (pSearcher->field_240_occupation == ped_ocupation_enum::mad_mugger_40)
-            {
-                Car_BC* pCar = this->field_16C_car;
-
-                if (pCar == 0)
-                {
-                    goto ret_true;
-                }
-
-                if (!pCar->IsPoliceCar_439EC0())
-                {
-                    goto ret_true;
-                }
-
-                if (this->field_238_ped_type == ped_type::special_ped_4)
-                {
-                    goto ret_false;
-                }
-
                 return 1;
             }
 
-            {
-                Gang_144* pMyGang = pSearcher->field_17C_pGang;
-
-                if (pMyGang != 0)
-                {
-                    Gang_144* pOtherGang = this->field_17C_pGang;
-
-                    if (pOtherGang != 0)
-                    {
-                        if (pOtherGang == pMyGang)
-                        {
-                            goto merge_178;
-                        }
-
-                        if (!pMyGang->IsHostileToGang_4BEDF0(pOtherGang->field_1_gang_idx))
-                        {
-                            goto ret_false;
-                        }
-
-                        if (pSearcher->field_238_ped_type == ped_type::special_ped_4)
-                        {
-                            goto check_threat_level;
-                        }
-
-                        if (pSearcher->field_238_ped_type != ped_type::dummy_with_occupation_6)
-                        {
-                            goto ret_true;
-                        }
-
-                    check_threat_level:
-                        if ((u8)this->field_263_prev_attackers_count >= 4)
-                        {
-                            goto ret_false;
-                        }
-
-                        if ((u8)this->field_262_attackers_count >= 4)
-                        {
-                            goto ret_false;
-                        }
-
-                        return 1;
-                    }
-
-                    if (pMyGang->field_110_high_respect != 0)
-                    {
-                        switch (this->field_240_occupation)
-                        {
-                            case ped_ocupation_enum::police:
-                            case ped_ocupation_enum::swat:
-                            case ped_ocupation_enum::fbi:
-                            case ped_ocupation_enum::army_army:
-                            case ped_ocupation_enum::walking_guard_29:
-                            case ped_ocupation_enum::unknown_cop_occu_30:
-                            case ped_ocupation_enum::unknown_cop_occu_31:
-                            case ped_ocupation_enum::roadblock_cop_37:
-                                goto ret_true;
-                            default:
-                                break;
-                        }
-                    }
-
-                    if (((BitSet32*)&this->field_21C)->check_bit(ped_bit_index::attacking_11))
-                    {
-                        if (!this->IsActivePlayerPed_45EDC0() && this->field_240_occupation != ped_ocupation_enum::empty)
-                        {
-                            if (this->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
-                            {
-                                goto merge_178;
-                            }
-
-                            if (pSearcher->field_170_selected_weapon != 0)
-                            {
-                                goto ret_true;
-                            }
-
-                            Fix16 candY = this->field_1AC_cam.y;
-                            Fix16 candX = this->field_1AC_cam.x;
-
-                            if (sub_4614E0(pSearcher->field_1AC_cam.x, pSearcher->field_1AC_cam.y, candX, candY).mValue <=
-                                kFpOne_678798.mValue)
-                            {
-                                goto ret_true;
-                            }
-
-                            goto merge_178;
-                        }
-
-                        {
-                            if (pSearcher->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(this->field_15C_player->field_2E_idx))
-                            {
-                                if (gPolice_7B8_6FEE40->field_7B4_crew_ped_onscreen == 0)
-                                {
-                                    goto ret_true;
-                                }
-
-                                return 0;
-                            }
-
-                            goto ret_false;
-                        }
-                    }
-
-                    if (this->IsActivePlayerPed_45EDC0() || this->field_240_occupation == ped_ocupation_enum::empty)
-                    {
-                        u8 player_idx = this->field_15C_player->field_2E_idx;
-
-                        if (pSearcher->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(player_idx))
-                        {
-                            if (gPolice_7B8_6FEE40->field_7B4_crew_ped_onscreen == 0)
-                            {
-                                goto ret_true;
-                            }
-
-                            return 0;
-                        }
-
-                        goto ret_false;
-                    }
-
-                    goto merge_178;
-                }
-            }
-
-            switch (pSearcher->field_240_occupation)
-            {
-                case ped_ocupation_enum::criminal_type_1:
-                    if (this->field_240_occupation == ped_ocupation_enum::criminal_type_1)
-                    {
-                        goto ret_false;
-                    }
-
-                    goto merge_178;
-                case ped_ocupation_enum::criminal_type_2:
-                    if (this->field_240_occupation == ped_ocupation_enum::criminal_type_2)
-                    {
-                        goto ret_false;
-                    }
-
-                    goto merge_178;
-                case ped_ocupation_enum::elvis:
-                    if (this->PedTypeIs_45EDE0(ped_type::player_2))
-                    {
-                        goto ret_false;
-                    }
-
-                    goto merge_178;
-                case ped_ocupation_enum::police:
-                case ped_ocupation_enum::swat:
-                case ped_ocupation_enum::fbi:
-                case ped_ocupation_enum::army_army:
-                case ped_ocupation_enum::walking_guard_29:
-                case ped_ocupation_enum::unknown_cop_occu_30:
-                case ped_ocupation_enum::unknown_cop_occu_31:
-                case ped_ocupation_enum::roadblock_cop_37:
-                    goto block_466022;
-                default:
-                    goto block_46613E;
-            }
-
-        block_466022:
-            if (this->IsActivePlayerPed_45EDC0())
-            {
-                if (this->field_168_game_object != 0 && this->field_168_game_object->field_10_char_state == 0xF)
-                {
-                    goto ret_false;
-                }
-
-                if (!((((BitSet32*)&this->field_21C)->check_bit(ped_bit_index::attacking_11)) && this->field_170_selected_weapon != 0 &&
-                      this->field_170_selected_weapon->sub_5DCEF0()))
-                {
-                    if (this->field_20A_wanted_points < 0x258 && pSearcher->field_144_attacker != this && this->field_26A_recent_crime_timer <= 0u)
-                    {
-                        goto ret_false;
-                    }
-                }
-
-                pSearcher->field_144_attacker = 0;
-                gPolice_7B8_6FEE40->UpdateLastSeenCoordsForCriminal_5708C0(this);
-
-                if (pSearcher->field_258_objective == objectives_enum::objective_43)
-                {
-                    if (gPolice_7B8_6FEE40->TryAssignCarCrewToCriminal_5707B0(pSearcher->field_16C_car, this))
-                    {
-                        goto ret_true;
-                    }
-
-                    if (this->field_20A_wanted_points < 0x258)
-                    {
-                        this->field_20A_wanted_points = 0x258;
-                    }
-
-                    return 0;
-                }
-
-                if (this->field_20A_wanted_points >= 0x258)
-                {
-                    goto ret_true;
-                }
-
-                this->field_20A_wanted_points = 0x258;
-                return 1;
-            }
-
-            {
-                s32 target_occupation = this->field_240_occupation;
-                switch (target_occupation)
-                {
-                    case ped_ocupation_enum::paramedic_23:
-                    case ped_ocupation_enum::police:
-                    case ped_ocupation_enum::swat:
-                    case ped_ocupation_enum::fbi:
-                    case ped_ocupation_enum::army_army:
-                    case ped_ocupation_enum::walking_guard_29:
-                    case ped_ocupation_enum::unknown_cop_occu_30:
-                    case ped_ocupation_enum::unknown_cop_occu_31:
-                    case ped_ocupation_enum::roadblock_cop_37:
-                    case ped_ocupation_enum::road_block_tank_man:
-                        goto merge_178;
-                    default:
-                        break;
-                }
-
-                if (target_occupation == ped_ocupation_enum::empty)
-                {
-                    goto ret_true;
-                }
-
-                if (((BitSet32*)&this->field_21C)->check_bit(ped_bit_index::attacking_11))
-                {
-                    goto ret_true;
-                }
-
-                if (this->field_25C_internal_objective != objectives_enum::kill_char_on_foot_20)
-                {
-                    goto merge_178;
-                }
-
-                return 1;
-            }
-
-        block_46613E:
-            if (pSearcher->field_164_ped_group != 0)
-            {
-                if (pSearcher->field_164_ped_group->field_2C_ped_leader != this->field_14C_internal_target_ped)
-                {
-                    goto merge_178;
-                }
-
-                if (this->field_25C_internal_objective == objectives_enum::kill_char_on_foot_20)
-                {
-                    goto ret_true;
-                }
-
-                if (this->field_25C_internal_objective != objectives_enum::punch_char_23)
-                {
-                    goto merge_178;
-                }
-
-                return 1;
-            }
-
-            if (((BitSet32*)&this->field_21C)->check_bit(ped_bit_index::attacking_11))
-            {
-                goto ret_true;
-            }
-
-        merge_178:
-            if (flag == 1)
-            {
-                goto ret_true;
-            }
-
-            goto ret_false;
+            return 0;
 
         case threat_search_enum::area_2:
             if (field_16C_car != 0)
@@ -6680,14 +6390,7 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                     goto ret_false;
                 }
 
-                Fix16 sy = pS->field_1AC_cam.y;
-                Fix16 sx = pS->field_1AC_cam.x;
-                Fix16 dx;
-                dx = sx.Subtract_436A00(this->field_1AC_cam.x);
-                Fix16 dy;
-                dy = sy.Subtract_436A00(this->field_1AC_cam.y);
-
-                if (Fix16::Max_44E540(Fix16::Abs_436A50(dx), Fix16::Abs_436A50(dy)).mValue > kFpQuarter_678788.mValue)
+                if (!(Fix16::MaxAbsDistance_42A6B0(this->field_1AC_cam.x, this->field_1AC_cam.y, pS->get_cam_x(), pS->get_cam_y()) <= kFpQuarter_678788))
                 {
                     goto ret_false;
                 }
@@ -6719,10 +6422,11 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                     goto ret_false;
                 }
 
-                Fix16 dx = this->field_1AC_cam.x - pS->field_1AC_cam.x;
-                Fix16 dy = this->field_1AC_cam.y - pS->field_1AC_cam.y;
-                Ang16 rel(Ang16(Fix16::atan2_fixed_405320(dy, dx).rValue - gSearchingPed_6787DC->GetRotation().rValue), 0);
-                Ang16 range(Ang16(gDummyPedAng_6787A8.rValue - word_6784F0.rValue), 0);
+                dx = this->field_1AC_cam.x - pS->get_cam_x();
+                dy = this->field_1AC_cam.y - pS->get_cam_y();
+                a = Fix16::atan2_fixed_405320(dy, dx);
+                rel = SubAng16(a, gSearchingPed_6787DC->GetRotation());
+                range = SubAng16(gDummyPedAng_6787A8, word_6784F0);
 
                 if (!(rel < word_6784F0))
                 {
@@ -6754,17 +6458,10 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
             }
             else
             {
-                Player* pPlayer = this->field_15C_player;
                 Camera_0xBC* pCam;
 
-                if (pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3)
-                {
-                    pCam = &pPlayer->field_208_aux_game_camera;
-                }
-                else
-                {
-                    pCam = &pPlayer->field_90_game_camera;
-                }
+                Player* pPlayer = this->field_15C_player;
+                pCam = &(pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3 ? pPlayer->field_208_aux_game_camera : pPlayer->field_90_game_camera);
 
                 Char_B4* pObj = gSearchingPed_6787DC->field_168_game_object;
 
@@ -6794,10 +6491,11 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                     goto ret_false;
                 }
 
-                Fix16 dx = this->field_1AC_cam.x - pS->field_1AC_cam.x;
-                Fix16 dy = this->field_1AC_cam.y - pS->field_1AC_cam.y;
-                Ang16 rel(Ang16(Fix16::atan2_fixed_405320(dy, dx).rValue - gSearchingPed_6787DC->GetRotation().rValue), 0);
-                Ang16 range(Ang16(gDummyPedAng_6787A8.rValue - word_6784F0.rValue), 0);
+                dx2 = this->field_1AC_cam.x - pS->get_cam_x();
+                dy2 = this->field_1AC_cam.y - pS->get_cam_y();
+                a = Fix16::atan2_fixed_405320(dy2, dx2);
+                rel = SubAng16(a, gSearchingPed_6787DC->GetRotation());
+                range = SubAng16(gDummyPedAng_6787A8, word_6784F0);
 
                 if (!(rel < word_6784F0))
                 {
@@ -6811,7 +6509,7 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
             {
                 if (gSearchingPed_6787DC->field_164_ped_group != 0 && gSearchingPed_6787DC->field_164_ped_group->field_2C_ped_leader->field_15C_player != 0)
                 {
-                    Fix16 dz = gSearchingPed_6787DC->field_1AC_cam.z - this->field_1AC_cam.z;
+                    dz = gSearchingPed_6787DC->field_1AC_cam.z - this->field_1AC_cam.z;
 
                     if (Fix16::Abs_negate_out_of_line(dz) >= kFpOne_678664)
                     {
@@ -6819,18 +6517,14 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                     }
                 }
 
-                Fix16 sx = gSearchingPed_6787DC->field_1AC_cam.x;
-                Fix16 sy = gSearchingPed_6787DC->field_1AC_cam.y;
-                Fix16 sz = gSearchingPed_6787DC->field_1AC_cam.z;
-
                 if (field_238_ped_type != ped_type::player_2)
                 {
                     return gMap_0x370_6F6268->sub_4E5640(gSpawnJitterScale_678618 * 2,
                                                          kFpQuarter_678484,
                                                          gSpawnJitterScale_678618,
-                                                         sx,
-                                                         sy,
-                                                         sz,
+                                                         gSearchingPed_6787DC->get_cam_x(),
+                                                         gSearchingPed_6787DC->get_cam_y(),
+                                                         gSearchingPed_6787DC->get_cam_z(),
                                                          this->field_1AC_cam.x,
                                                          this->field_1AC_cam.y,
                                                          this->field_1AC_cam.z);
@@ -6839,9 +6533,9 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                 if (gMap_0x370_6F6268->sub_4E5640(kFpQuarter_678484,
                                                   kFpQuarter_678484,
                                                   gSpawnJitterScale_678618,
-                                                  sx,
-                                                  sy,
-                                                  sz,
+                                                  gSearchingPed_6787DC->get_cam_x(),
+                                                  gSearchingPed_6787DC->get_cam_y(),
+                                                  gSearchingPed_6787DC->get_cam_z(),
                                                   this->field_1AC_cam.x,
                                                   this->field_1AC_cam.y,
                                                   this->field_1AC_cam.z))
@@ -7151,16 +6845,21 @@ Sprite* Ped::ResetAnimAndFindNearestSprite_467280()
 }
 
 // https://decomp.me/scratch/ec0hn
-WIP_FUNC(0x4672e0)
+MATCH_FUNC(0x4672e0)
 void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
 {
-    WIP_IMPLEMENTED;
     Ang16 angle;
     Fix16 x;
     Fix16 y;
     Fix16 z;
     u8 bUnk2 = false;
     u8 bUnk1 = true;
+    // Flags VC6 threads away: none of them appears in the code, but they decide the block layout (the
+    // bNextPoint block sits after the null-path block, the give-up block is laid out last with its own
+    // epilogue and the exit is moved up behind the type check). See docs/matching_quirks.md.
+    u8 bNextPoint = false;
+    u8 bUseCurrentPath = false;
+    u8 bGiveUp = false;
     field_21C_bf.bFlag17 = false;
 
     switch (type)
@@ -7214,17 +6913,34 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
     {
         if (distance < kFpTwo_678658)
         {
-            if (distance < kFpOne_678798 &&
-                (field_1AC_cam.z == z ||
-                 (Fix16::Abs(field_1AC_cam.z - z) <= kFpHalf_67853C && field_1AC_cam.x.ToUInt8() == x.ToUInt8() &&
-                  field_1AC_cam.y.ToUInt8() == y.ToUInt8())))
+            if (distance < kFpOne_678798)
             {
-                bUnk1 = false;
-                field_266_path_fail_count = 0;
+                if (field_1AC_cam.z == z ||
+                    (Fix16::Abs(field_1AC_cam.z - z) <= kFpHalf_67853C && field_1AC_cam.x.ToUInt8() == x.ToUInt8() &&
+                     field_1AC_cam.y.ToUInt8() == y.ToUInt8()))
+                {
+                    bUnk1 = false;
+                    field_266_path_fail_count = 0;
+                }
+                else
+                {
+                    bUnk1 = true;
+                }
             }
             else
             {
-                bUnk1 = true;
+                // Every case does the same thing. The original (9.6f too) keeps a dead load of type here,
+                // which a switch with two case labels folded into its default leaves behind.
+                switch (type)
+                {
+                    case ped_move_target_type::objective_target_ped_3:
+                    case ped_move_target_type::objective_target_pos_4:
+                        bUnk1 = true;
+                        break;
+                    default:
+                        bUnk1 = true;
+                        break;
+                }
             }
         }
 
@@ -7238,76 +6954,89 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
         }
         else if (!bUnk1)
         {
-            Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
-            Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_2);
-            field_21C_bf.bFlag15 = false;
-            field_21C_bf.bFlag16 = false;
-            return;
-        }
-        // line 22d
-        byte_678554 = 1;
-        Ped::ChangeNextPedState1_45C500(ped_state_1::findind_path_2);
-        Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
-        if (!field_21C_bf.bInPathList)
-        {
-            gPathFinder_6FDEF0->field_3C_ped_list.AddPedToBackIfMissing_471160(this);
-            field_21C_bf.bInPathList = true;
+            bGiveUp = true;
         }
 
-        switch (gPathFinder_6FDEF0->IsFirstPassenger_554A90(this))
+        if (!bGiveUp)
         {
-            case 1:
-                if (!gPathFinder_6FDEF0->ComputePath_554AB0(field_200_id,
-                                                           this,
-                                                           field_1AC_cam.x.ToUInt8(),
-                                                           field_1AC_cam.y.ToUInt8(),
-                                                           field_1AC_cam.z.ToUInt8(),
-                                                           x.ToInt(),
-                                                           y.ToInt(),
-                                                           z.ToInt(),
-                                                           Ang16::GetAngleFace_4F78F0(angle),
-                                                           &this->field_266_path_fail_count))
-                {
-                    goto LINE_38E;
-                }
+            // line 22d
+            byte_678554 = 1;
+            Ped::ChangeNextPedState1_45C500(ped_state_1::findind_path_2);
+            Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
+            if (!field_21C_bf.bInPathList)
+            {
+                gPathFinder_6FDEF0->field_3C_ped_list.AddPedToBackIfMissing_471160(this);
+                field_21C_bf.bInPathList = true;
+            }
 
-                gPathFinder_6FDEF0->field_3C_ped_list.RemovePed_4711F0(this);
-                field_18C_current_path_point = &field_0_patrol_points[0];
-                field_21C_bf.bInPathList = false;
-
-                while (1)
-                {
-                    if (field_18C_current_path_point->field_0_x == 0)
+            switch (gPathFinder_6FDEF0->IsFirstPassenger_554A90(this))
+            {
+                case 1:
+                    if (!gPathFinder_6FDEF0->ComputePath_554AB0(field_200_id,
+                                                               this,
+                                                               field_1AC_cam.x.ToUInt8(),
+                                                               field_1AC_cam.y.ToUInt8(),
+                                                               field_1AC_cam.z.ToUInt8(),
+                                                               x.ToInt(),
+                                                               y.ToInt(),
+                                                               z.ToInt(),
+                                                               Ang16::GetAngleFace_4F78F0(angle),
+                                                               &this->field_266_path_fail_count))
                     {
-                        field_18C_current_path_point = &field_0_patrol_points[0];
+                        bUseCurrentPath = true;
                         break;
                     }
-                    if (field_18C_current_path_point->field_0_x == field_1AC_cam.x.ToUInt8() &&
-                        field_18C_current_path_point->field_1_y == field_1AC_cam.y.ToUInt8() &&
-                        field_18C_current_path_point->field_2_z == field_1AC_cam.z.ToUInt8())
+
+                    gPathFinder_6FDEF0->field_3C_ped_list.RemovePed_4711F0(this);
+                    field_18C_current_path_point = &field_0_patrol_points[0];
+                    field_21C_bf.bInPathList = false;
+
+                    while (1)
                     {
-                        break;
+                        if (field_18C_current_path_point->field_0_x == 0)
+                        {
+                            field_18C_current_path_point = &field_0_patrol_points[0];
+                            break;
+                        }
+                        if (field_18C_current_path_point->field_0_x == field_1AC_cam.x.ToUInt8() &&
+                            field_18C_current_path_point->field_1_y == field_1AC_cam.y.ToUInt8() &&
+                            field_18C_current_path_point->field_2_z == field_1AC_cam.z.ToUInt8())
+                        {
+                            break;
+                        }
+                        field_18C_current_path_point++;
                     }
-                    field_18C_current_path_point++;
-                }
-                // fall through
+                    // fall through
 
-            default:
-                // line 361
-                if (field_18C_current_path_point->field_0_x != 0 || field_18C_current_path_point->field_1_y != 0)
-                {
-                    goto LINE_54E;
-                }
-                field_21C_bf.bFlag17 = true;
-                goto LINE_3A9;
+                default:
+                    // line 361
+                    if (field_18C_current_path_point->field_0_x != 0 || field_18C_current_path_point->field_1_y != 0)
+                    {
+                        bNextPoint = true;
+                    }
+                    else
+                    {
+                        field_21C_bf.bFlag17 = true;
+                        Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
+                        Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_2);
+                        field_21C_bf.bFlag15 = false;
+                        field_0_patrol_points[0].field_0_x = 0;
+                        field_0_patrol_points[0].field_1_y = 0;
+                    }
+                    break;
 
-            case 0:
-            LINE_38E:
+                case 0:
+                    bUseCurrentPath = true;
+                    break;
+            }
+
+            if (bUseCurrentPath)
+            {
+                // line 38e
                 if (field_18C_current_path_point)
                 {
                     if (field_18C_current_path_point->field_0_x == 0 && field_18C_current_path_point->field_1_y == 0)
                     {
-                    LINE_3A9:
                         Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
                         Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_2);
                         field_21C_bf.bFlag15 = false;
@@ -7322,10 +7051,13 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                         Fix16 dist_1 = (kFpHalf_67853C + Fix16(field_1C4_move_target_x.ToUInt8())) - field_1AC_cam.x;
                         Fix16 dist_2 = (kFpHalf_67853C + Fix16(field_1C8_move_target_y.ToUInt8())) - field_1AC_cam.y;
 
-                        Fix16 a1 = Fix16::Abs(dist_1);
-                        Fix16 a2 = Fix16::Abs(dist_2);
+                        // Assigned, not initialised: both stay in memory for the pointer select of the Max.
+                        Fix16 a1;
+                        Fix16 a2;
+                        a1 = Fix16::Abs(dist_1);
+                        a2 = Fix16::Abs(dist_2);
 
-                        if (Fix16::Max_41E130(a1, a2) < kFpHalf_678790 || ((field_168_game_object->field_58_flags & 0x40) != 0))
+                        if (Fix16::Max(a1, a2) < kFpHalf_678790 || ((field_168_game_object->field_58_flags & 0x40) != 0))
                         {
                             field_18C_current_path_point++;
                             field_1C4_move_target_x = kFpHalf_67853C + Fix16(field_18C_current_path_point->field_0_x);
@@ -7338,7 +7070,7 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                             field_1C8_move_target_y = kFpHalf_67853C + Fix16(field_18C_current_path_point->field_1_y);
                             field_1CC_move_target_z = Fix16(field_18C_current_path_point->field_2_z);
                         }
-                        goto LINE_3D9;
+                        bUnk2 = true;
                     }
                 }
                 else
@@ -7349,36 +7081,42 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                     Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_2);
                     field_21C_bf.bFlag15 = false;
                 }
+            }
 
-                if (bUnk2)
-                {
-                LINE_3D9:
-                    if (type >= 3 && (type <= 5 || type == 7))
-                    {
-                        field_1B8_target_x = field_1C4_move_target_x;
-                        field_1BC_target_y = field_1C8_move_target_y;
-                        field_1C0_target_z = field_1CC_move_target_z;
-                    }
-                }
-                break;
-
-            // Line 361's else, placed at the end in the original
-            LINE_54E:
+            if (bNextPoint)
+            {
+                // line 54e
                 field_1C4_move_target_x = kFpHalf_67853C + Fix16(field_18C_current_path_point->field_0_x);
                 field_1C8_move_target_y = kFpHalf_67853C + Fix16(field_18C_current_path_point->field_1_y);
                 field_1CC_move_target_z = Fix16(field_18C_current_path_point->field_2_z);
                 field_21C_bf.bFlag16 = true;
                 byte_61A8A1 = 0;
-                goto LINE_3D9;
+                bUnk2 = true;
+            }
         }
     }
     else
+    {
+        bGiveUp = true;
+    }
+
+    if (bGiveUp)
     {
         // 5a5
         Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
         Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_2);
         field_21C_bf.bFlag15 = false;
         field_21C_bf.bFlag16 = false;
+    }
+
+    if (bUnk2)
+    {
+        if (type >= 3 && (type <= 5 || type == 7))
+        {
+            field_1B8_target_x = field_1C4_move_target_x;
+            field_1BC_target_y = field_1C8_move_target_y;
+            field_1C0_target_z = field_1CC_move_target_z;
+        }
     }
 }
 
@@ -9730,22 +9468,19 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
 }
 
 // https://decomp.me/scratch/aE2Ac
-// Logic follows the 10.5 asm. Only remaining difference: VC6 tail-merges the mugging block of the
-// health >= 20 path into the one in the `target == field_148` path, the original keeps its own copy.
-WIP_FUNC(0x46b670)
+// Logic follows the 10.5 asm. The mugging and criminal checks of the hurt block are nested per player
+// test, so VC6 keeps the original's separate copies.
+MATCH_FUNC(0x46b670)
 void Ped::MeleeAttackStateMachine_46B670()
 {
-    WIP_IMPLEMENTED;
     if (field_14C_internal_target_ped->GetPedState_403990() == ped_state_1::dead_9 || !field_14C_internal_target_ped->IsActive_433B40())
     {
-        if (field_25C_internal_objective == objectives_enum::punch_char_23)
-        {
-            field_226_internal_objective_status = 2;
-        }
-        else
+        if (field_25C_internal_objective != objectives_enum::punch_char_23)
         {
             field_226_internal_objective_status = 1;
+            return;
         }
+        field_226_internal_objective_status = 2;
         return;
     }
 
@@ -9804,13 +9539,20 @@ void Ped::MeleeAttackStateMachine_46B670()
         {
             if (field_168_game_object->field_68_animation_frame == 0)
             {
-                if (field_14C_internal_target_ped->PedTypeIs_45EDE0(ped_type::player_2) && field_240_occupation == ped_ocupation_enum::mugger)
+                if (field_14C_internal_target_ped->PedTypeIs_45EDE0(ped_type::player_2))
                 {
-                    field_14C_internal_target_ped->field_15C_player->AddScore_41DC40(-10);
-                    ++field_229_mug_count;
-                    if (field_229_mug_count > 9)
+                    if (field_240_occupation == ped_ocupation_enum::mugger)
                     {
-                        field_226_internal_objective_status = 1;
+                        field_14C_internal_target_ped->field_15C_player->AddScore_41DC40(-10);
+                        ++field_229_mug_count;
+                        if (field_229_mug_count > 9)
+                        {
+                            field_226_internal_objective_status = 1;
+                        }
+                    }
+                    else if (field_14C_internal_target_ped->field_240_occupation != ped_ocupation_enum::criminal_type_1)
+                    {
+                        field_14C_internal_target_ped->TakeDamage(10);
                     }
                 }
                 else if (field_14C_internal_target_ped->field_240_occupation != ped_ocupation_enum::criminal_type_1)

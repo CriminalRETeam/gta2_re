@@ -274,6 +274,26 @@ vs `return`, early return, `do {} while (0)`, dead code after the switch or extr
 (all tried on `Ambulance_20::UpdateState_4FB330`, where the original's `jle` goes to an earlier exit copy and the
 block falls into its own copy; an if/else chain or a jump-table switch gives that shape at once).
 
+**A loop latch of the form `jcc top; jmp tail` only comes from loop rotation.** The reverse-postorder pass
+(`0x10706181`, `Scripts/flowopt/README.md`) canonicalises every loop so that the back edge is an unconditional
+`jmp`: a `do {} while (c)` latch (`jcc(c)->top; jmp/fall tail`) or an `if (c) goto top` is inverted to
+`jcc(!c)->tail; jmp top` (with a `jmp tail` stub when the tail is not adjacent), and `if (!c) goto tail; (jmp top)`
+is kept as written. Only a rotated `for`/`while` test is created after that: the header's test is copied in front
+of the loop as the guard (`cmp $1,%edi; jl tail`, a2_ = 1 folded) and replaces the latch's `jmp top`, giving
+`inc; cmp; jle top; jmp tail`. So `jle top; jmp tail` means a `for`/`while` loop in the source, never a do-while
+or an `if (++i > n) goto` (`Object_2C::IntegrateHorizontalMovementAndCollisions_524630`).
+
+**The tail of a `for`/`while` loop is laid out last unless something is visited before it.** The DFS takes the
+header's exit edge first, so the code after the loop finishes first and lands at the end of the function, and the
+loop-sinking pass puts every out-of-loop run (hit blocks and the code they `goto`) between the latch and it. When
+the original has the loop's exit code *before* a block that the loop body jumps to (the no-hit tail between the
+hit stubs and the half-step loop in 0x524630), that block was reached first through a dead edge: a `while (1)`
+around the `for` with the `goto` target after it (`while (1) { for (...) { ... goto LABEL_48; } tail; return; }
+LABEL_48:`) visits LABEL_48 from the never-taken exit test before the `for`'s own exit, and the dead test is
+folded away afterwards. `for (;;)` has no such test and does not work; `if (1)` does. A `break` instead of the
+`goto` or putting the tail inside `if (t < 1) { LABEL_56: ... }` (visited from the latch) give the right layout but
+the inverted latch, since the real test then no longer rotates.
+
 **Cross-jumping keeps the copy whose jump was generated last** (reversed from C2; tools and the full rules in
 `Scripts/flowopt/README.md`). The pass runs after register allocation and before scheduling, per join label.
 The unconditional jumps to the label are kept in reverse creation order. The first, normally the last copy in
@@ -2374,6 +2394,18 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   So after `kAng180 - d`, `kAng180 + d` gives the original's `mov d,%dx; add kAng180,%dx`, and after an
   earlier use of `d`, `kAng90 + d` gives `mov kAng90; add d`. A free `Sub(kAng180, d)` numbers `d` first
   (right-to-left arguments) and flips the later adds. A top-level `Ang16(a.rValue + b.rValue)` keeps source order.
+- **Between symbols of different kinds the operand order is a rank.** An opdump C2 variant shows
+  the first operand of a commutative op is the lowest of: compiler temporary < global < block-scope local <
+  register-coloured local or parameter (value numbering above only orders symbols of the same kind). So
+  when the original has `ground_z + one` with `one` a named local, `ground_z` was an expression temporary
+  there, not a named local; VC6 copy-propagates most rewrites (const-ref binding, `Fix16(x)` copies) back
+  to the named local, so they don't move it (`Car_6C::SpawnCarOnRoadNetwork_4458B0`, 2 left).
+- **Head-merging the same store above a branch needs a declaration without an initialiser.**
+  `u8 bEdge; ... if (c) { bEdge = 0; ... } else { bEdge = 0; ... }` gives the original's single
+  `movb $0` before the `jne` (FlowOpts merges the two identical stores of one symbol), and because its
+  first reference is then after a dead parameter's last read, `bEdge` takes that parameter's stack slot.
+  `u8 bEdge = 0;` at the top, or a declaration in each arm, does neither
+  (`PoliceRoadblock_A4::CreateRoadblock_575FF0`).
 - **One `Fix16 x_off; Fix16 y_off;` per switch instead of one per case** removed 12 free `Fix16()` sites
   (and their size): the nested budgets of the operator sites rose just enough to inline the normalizing
   ctor while its Normalize stays out of line (13 out-of-line / 2 inline, 6 out-of-line products, all eight
@@ -2770,6 +2802,15 @@ changed for one variant only (used for the `ofstream` member and for `operator+=
   `lea (%esi,%ecx)`; `Fix16 z;` at the top of the function and `z = ...` there gives `add %esi,%ecx` and the
   later `mov kTileTexSize,%eax; imul %esi`. In draw_bottom the declaration also raised the inline budget by
   28 (one more out-of-line operator+ got inlined); `if (texture_idx)` for `!= 0` took back enough size.
+- **Call operand order: a call on a global object goes first** (`HandleCarDoorSounds_4182E0`). VC6
+  evaluates both `GetPlay(x) + Random(x)` and `Random(x) + GetPlay(x)` with the call on the global
+  `gSampManager_6FFF00` (constant `this`) first, so a Random-first order in the asm needs a statement
+  (a named local).
+- **A constant gets a register only when its colour priority stays positive** (`4182E0`, `509180`). A
+  constant's priority is its refs minus live-through penalties. When the priority ends up negative, or the
+  register would be pushed for that constant alone, VC6 folds it back to immediates. Removing one named
+  local from the busiest block (for example reading a just-stored field instead) can flip it: in 4182E0 the
+  zero constant went from prio -12 to the original's ebx, 286 -> 88.
 
 **A register rotation that starts at a by-value return can be an inline cut-off.** In
 `Ped::IsPedAThreat_465D00` the original's `mov (%eax),%eax` after the Max call (the deref merged with the
@@ -2777,3 +2818,93 @@ dying pointer, no round-robin pick) came from `MaxAbsDistance_42A6B0` inlined wi
 an explicit call to the named `Max_44E540` gives `mov (%eax),%reg` with a pick, and every later temp
 rotates by one. Inline getters after the call (`get_idx_4219D0`, `get_wanted_points_433DC0`) set the
 cut-off (`Scripts/inline_budget/inl.sh`), the target's `get_cam_x/y` the load order.
+
+### A flag test VC6 threads away decides the block layout (`Object_2C::HandleSpriteZCollision_5238B0`)
+
+The landing code after the slope/non-slope split sits in the original after the non-slope `bAirborne = 1`
+block and right before the shared tail, with its then-arm moved up to the slope path by dupB. With a
+`goto LABEL_10` from the non-slope arm (or the code falling out of the slope arm) that layout is impossible:
+the jump-target-first DFS (RPO, above) reaches the landing code through the non-slope `jl` first and lays it
+out after that arm, whatever the source position. The original tested a flag after the if-else:
+`bool bLanded = false; ... if (bLanded) { field_50 code }`, set on the three landing paths. VC6 threads the
+test away on every predecessor (the flag never appears in the code), but at RPO time the test block is
+reached first through the non-slope `else` (J -> T -> landing code -> tail), which is the original's order.
+Side effects that confirm it: the then-arm keeps `mov %al,(%ecx)` (field_50 known == 1 after the compare) so
+it no longer cross-jumps into the non-slope copy, and the two `bAirborne = 1` copies merge, since J now ends
+in a `jmp`. When a block is laid out "too late" for the DFS, look for a threaded flag before layout tricks.
+
+### Three threaded flags and a trailing `if` move the exit block (`Ped::UpdateMovementTowardsTarget_4672E0`)
+
+Matched by replacing all five gotos with structure VC6 threads away (206 -> 0, with the fixes below):
+
+- **A block laid out after the null-path block, reachable only from the switch's default case**, is a flag
+  tested after the switch: `if (bNextPoint) { ... bUnk2 = true; }`. The flag's test block is first reached
+  through case 0's null arm (the `je` target of the DFS), so the block is laid out there; the default case's
+  `jne` then goes straight to it (test threaded), and its `bUnk2 = true` threads the `if (bUnk2)` test too.
+- **A case-1 failure that "jumps into" case 0's code** is the same: `bUseCurrentPath = true; break;` in
+  case 1 and in case 0, with the code after the switch under `if (bUseCurrentPath)`. The empty case 0 block
+  is threaded away so the jump table points at the shared code.
+- **The exit block in the middle (`jcc exit` targets at 0x412) and the last block ending in its own
+  epilogue copy** (dupB, `Scripts/flowopt/README.md`) come from the last source statement sitting *after*
+  the big if/else: `if (bFlag15 == true) { ... } else { bGiveUp = true; } if (bGiveUp) { flee } if (bUnk2)
+  { type check }`. The else arm (the `jne` target, explored first, laid out last) reaches the `if (bUnk2)`
+  test with the flag known false, so VC6 threads it into `jmp exit`: the last block now ends in a `jmp`,
+  dupB's first loop moves the exit up behind the type check's own `jmp exit`, and the last block gets an
+  epilogue copy (with `pop %edi` scheduled into its `mov/and/mov` flag clear). With `return;` in the else
+  (or the type check inside the then arm) the else falls into the exit and the exit stays last (38 vs 0).
+  The early-return copy of the flee code (`else if (!bUnk1)`) is the same flag (`bGiveUp = true` and the
+  rest under `if (!bGiveUp)`), which also makes the top `jne` and the `je` share one block as in the original.
+- **A dead `mov type,%al` before `bUnk1 = true`** (in 9.6f too) is a `switch (type)` with two case labels
+  whose bodies equal the default's: the front end folds the cases, the load of the switch value stays.
+  `switch (type) { default: }`, `if (type) ... else ...` and `(type, true)` are folded completely.
+- **The `lea/lea/mov (%eax),%eax` Max select with the deref merged** needs assigned (not initialised)
+  locals and the ref-taking inline: `Fix16 a1; Fix16 a2; a1 = Abs(..); a2 = Abs(..); if (Fix16::Max(a1, a2)
+  < k)`. `Max_41E130(a1, a2)` keeps both in registers (value select); `(a1 > a2 ? a1 : a2)` gives the select
+  but an extra round-robin pick, so every temp after it rotates by one (206 vs 70).
+
+### Per-site `(int)u8` conversion temps and a named `s16` per rng call (`Ped::StartCrossingRoad_45E4A0`)
+
+414 -> 0 without changing the helpers (`IsBlockRoadTypeInlined_433470` -> `get_block_42A850`, both inline):
+
+- **One `(int)z` for all four inlined lookups vs. a conversion temp slot per lookup.** A plain `u8 z` local
+  passed to the four `u8` helpers is converted once (`mov home,%ebp; and $0xFF`, kept across the calls);
+  the original stores `z` to a fresh slot and reloads it as a dword at each lookup (`mov %al,0x20(%esp)` ...
+  `mov 0x20(%esp),%edx; and $0xFF,%edx`). That is what an *expression* argument gives: `u8 z = ToInt();`
+  and `helper(x, y - 1, z - 1)` at every call (`dec %al` once, CSE'd, spilled to a byte slot, but the
+  u8 temp passed to each inline is converted again). `s8`/`s32` locals and `const u8&` params don't do it.
+- **`u8 y` (not `s32`)** gives the original's `mov %bl,slot; mov slot,%ebp; and $0xFF` for the unmodified
+  `y` argument instead of a register `and`.
+- **Four `get_int_4F7AE0(2)` calls with four distinct `movl $2` slots** (never shared with the conversion
+  temps) are four named `s16` locals at function scope, each assigned `2` before its call, as in
+  `ApplyAimJitter_46F1E0`; the temporaries of a literal argument share the dead temp slots instead. The
+  `goto dispatch`s are a `do { ... break; ... } while (0)` (or an else-if chain), same code.
+
+### An inlined sibling function, its nested budget, and function-scope locals (`Ped::IsThreatToSearchingPed_4661F0`)
+
+294 -> match. 9.6f (0x437670) has search mode 1 as one call to 0x4371D0 = `IsPedAThreat_465D00`; 10.5 inlines it:
+
+- **Write the call, not the expansion.** `if (gSearchingPed_6787DC->IsPedAThreat_Inline_465D00(this)) return 1;
+  return 0;` gives what no goto copy of the body could: the inlinee's `return 0` paths thread into the caller's
+  exit (`jcc 8FD` everywhere, one `xor al,al` epilogue), its two block-scoped `player_idx` get *separate* slots
+  (inlined locals never share, unlike in the standalone 465D00 where they share 0x24), and the second IsRespect
+  site's `test %al; jmp` into the first site's tail appears by itself.
+- **The nested budget decides what the inlinee calls.** After charging the 1399-node inlinee the nested budget is
+  42, so `IsInvisibleOnFoot_433DA0` (header inline) is called out of line only if its front-end size is above
+  that: `return a && b;` is 35 (free, always inlined), the matched copy's body `if (a && b) return 1; return 0;`
+  is 47. `HandlePedHitByObject_45D000`, which inlines it, has a nested budget of 71. Spellings measured with
+  `inl.sh -a`: `if/else` 53, nested ifs 54, two early returns 57, with a pointer local 62, if/else/else 69.
+- **Locals that never share a slot are function-scope.** The original's `dx`/`dy` of mode 4, `dx`/`dy` of mode 5
+  and `dz` each have their own 4-byte slot (0x3C..0x4C) while the mode 1/3 temporaries pack into 0x28..0x30. Five
+  function-scope `Fix16` (distinct names per mode) give that (84 -> 4); block-scoped ones share (12 lines of
+  slot moves), one shared pair 124.
+- **A 2-byte `Ang16` reloaded as 16 bits** (`mov 0x14(%esp),%si` right after the out-of-line ctor, then two
+  `cmp` on `si`) is a function-scope `Ang16 rel` assigned from the ctor's temporary (RVO: the ctor's `this` is
+  `rel`'s 2-byte home) and enregistered in `si`. `Ang16 rel` in a block, `s16 r = rel.rValue`, `(s16)`, `const`
+  and reference spellings all give a 4-byte slot and `mov slot,%esi`; `rel.AssignNormalized_409300(...)` on a
+  default-constructed local keeps the `movw $0` init and loads at the first use. The enregistered copy of the
+  atan2 result before `GetRotation()` (`mov (%eax),%si`) is a function-scope `Ang16 a` too (9.6f default-constructs
+  three Ang16 at entry: a, rel, range).
+- **Arguments as getters in each arm** (`sub_4E5640(..., pS->get_cam_x(), get_cam_y(), get_cam_z(), ...)` in both
+  calls, as 9.6f): head merging hoists the three loads above the `je` with the type compare in between
+  (`mov type,%ecx; mov 1B0,%edx; cmp $2,%ecx; mov 1B4,%ecx; mov 1AC,%eax`); `sx/sy/sz` locals load them up front
+  in a different order and register.

@@ -1899,39 +1899,56 @@ void Char_B4::HandleObjectCollision_548840(Object_2C* pObj)
 }
 
 // What happens when this ped walks into pOther, by the types of both peds (field_238)
-WIP_FUNC(0x548bd0)
+// 9.6f 0x41FA70
+static inline Ang16& compound_add_41FA70(Ang16& a, const Ang16& b)
+{
+    a.rValue += b.rValue;
+    a.Normalize();
+    return a;
+}
+
+// 9.6f 0x493040 (a Ped method there)
+static inline void CollideWithElvis_493040(Ped* pPed, Char_B4* pChar)
+{
+    if ((s32)pChar != pPed->field_138_collided_char_b4)
+    {
+        pPed->field_138_collided_char_b4 = (s32)pChar;
+        pPed->field_224 &= ~ped_flag8_mask::collided_with_ped;
+        pChar->field_7C_pPed->field_138_collided_char_b4 = (s32)pPed->field_168_game_object;
+        pPed->SetVoiceEvent_IfBit24Clear_433DD0(ped_ocupation_enum::elvis);
+    }
+}
+
+// 9.6f 0x493000 (a Ped method there)
+static inline void CollideWithPed_493000(Ped* pPed, Char_B4* pOther)
+{
+    if ((s32)pOther != pPed->field_138_collided_char_b4)
+    {
+        pPed->field_138_collided_char_b4 = (s32)pOther;
+        pPed->field_224 |= ped_flag8_mask::collided_with_ped;
+        pOther->field_7C_pPed->field_138_collided_char_b4 = (s32)pPed->field_168_game_object;
+    }
+}
+
+MATCH_FUNC(0x548bd0)
 void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
 {
-    s32 my_type = field_7C_pPed->field_238_ped_type;
-    s32 other_type = pOther->field_7C_pPed->field_238_ped_type;
-    if (pOther->field_8_ped_state_1 == 9 || pOther->field_8_ped_state_1 == 8 || (field_58_flags & 0x80) || field_10_char_state == 15)
+    s32 my_type = field_7C_pPed->GetPedType_420B70();
+    s32 other_type = pOther->field_7C_pPed->GetPedType_420B70();
+    if (pOther->get_ped_state_1_48A4C0() == 9 || pOther->get_ped_state_1_48A4C0() == 8 || (field_58_flags & 0x80) || field_10_char_state == 15)
     {
         return;
     }
 
-    Ped* pMyPed = field_7C_pPed;
-    Ped* pOtherPed = pOther->field_7C_pPed;
-    if (pMyPed->field_15C_player && pOtherPed->field_240_occupation == ped_ocupation_enum::elvis)
+    if (field_7C_pPed->is_player_41B0A0() && pOther->field_7C_pPed->Is_occupation_elvis_433C90())
     {
-        Char_B4* pMyChar = pMyPed->field_168_game_object;
-        if ((s32)pMyChar != pOtherPed->field_138_collided_char_b4)
-        {
-            pOtherPed->field_138_collided_char_b4 = (s32)pMyChar;
-            pOtherPed->field_224 &= ~ped_flag8_mask::collided_with_ped;
-            pMyChar->field_7C_pPed->field_138_collided_char_b4 = (s32)pOtherPed->field_168_game_object;
-            if (!(pOtherPed->field_21C & ped_flag_mask::k_ped_on_fire))
-            {
-                pOtherPed->field_250_voice_event = ped_ocupation_enum::elvis;
-            }
-        }
+        CollideWithElvis_493040(pOther->field_7C_pPed, field_7C_pPed->field_168_game_object);
     }
-    else if (pMyPed->field_15C_player || !(pMyPed->field_200_id & 3))
+    else if (field_7C_pPed->is_player_41B0A0() || !(field_7C_pPed->field_200_id & 3))
     {
-        if (!pOtherPed->field_15C_player && (s32)pOther != pMyPed->field_138_collided_char_b4)
+        if (!pOther->field_7C_pPed->is_player_41B0A0())
         {
-            pMyPed->field_224 |= ped_flag8_mask::collided_with_ped;
-            pMyPed->field_138_collided_char_b4 = (s32)pOther;
-            pOther->field_7C_pPed->field_138_collided_char_b4 = (s32)pMyPed->field_168_game_object;
+            CollideWithPed_493000(field_7C_pPed, pOther);
         }
     }
 
@@ -1945,11 +1962,11 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                     {
                         break;
                     }
-                    if (pOther->field_7C_pPed->field_240_occupation != ped_ocupation_enum::stand_still_bloke)
+                    if (pOther->field_7C_pPed->get_occupation_403980() != ped_ocupation_enum::stand_still_bloke)
                     {
                         pOther->field_6A = 4;
-                        pOther->field_74 = Ang16(Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
-                                                                           field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x).rValue + kAng180_6FD936.rValue).Normalized_406C20();
+                        pOther->field_74 = Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
+                                                         field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x) + kAng180_6FD936;
                     }
                     else
                     {
@@ -1972,10 +1989,8 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                         break;
                     }
                     pOther->field_6A = 4;
-                    pOther->field_74 = Ang16(Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
-                                                                       field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x).rValue +
-                                             kAng180_6FD936.rValue)
-                                           .Normalized_406C20();
+                    pOther->field_74 = Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
+                                                         field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x) + kAng180_6FD936;
                     break;
             }
             break;
@@ -1984,7 +1999,7 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
             switch (other_type)
             {
                 case 5:
-                    if (field_10_char_state == 10 || field_7C_pPed->field_200_id >= pOther->field_7C_pPed->field_200_id)
+                    if (field_10_char_state == 10 || field_7C_pPed->get_id() >= pOther->field_7C_pPed->get_id())
                     {
                         field_10_char_state = 1;
                     }
@@ -1992,9 +2007,9 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                     {
                         if (field_8_ped_state_1 != 3)
                         {
-                            if (field_7C_pPed->field_25C_internal_objective != objectives_enum::objective_11)
+                            if (field_7C_pPed->GetInternalObjective_403A90() != objectives_enum::objective_11)
                             {
-                                field_40_rotation += word_6FD888;
+                                compound_add_41FA70(field_40_rotation, word_6FD888);
                                 field_10_char_state = 10;
                             }
                             else
@@ -2014,13 +2029,10 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                 case 3:
                 case 4:
                 case 6:
-                {
                     pOther->field_6A = 4;
-                    pOther->field_74 = Ang16(kAng180_6FD936.rValue + Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
-                                                                                              field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x).rValue)
-                                           .Normalized_406C20();
+                    pOther->field_74 = Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
+                                                         field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x) + kAng180_6FD936;
                     break;
-                }
             }
             break;
 
@@ -2030,7 +2042,7 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
             {
                 case 4:
                 case 6:
-                    if (field_10_char_state == 10 || field_7C_pPed->field_200_id >= pOther->field_7C_pPed->field_200_id)
+                    if (field_10_char_state == 10 || field_7C_pPed->get_id() >= pOther->field_7C_pPed->get_id())
                     {
                         field_10_char_state = 1;
                         // A return, not a break: the original keeps the type 5 copy of this tail
@@ -2040,9 +2052,9 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                     {
                         if (field_8_ped_state_1 != 3)
                         {
-                            if (field_7C_pPed->field_25C_internal_objective != objectives_enum::objective_11)
+                            if (field_7C_pPed->GetInternalObjective_403A90() != objectives_enum::objective_11)
                             {
-                                field_40_rotation += word_6FD888;
+                                compound_add_41FA70(field_40_rotation, word_6FD888);
                                 field_10_char_state = 10;
                             }
                             else
@@ -2059,19 +2071,16 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                     }
                     break;
                 case 3:
-                {
                     pOther->field_6A = 4;
                     pOther->field_74 = Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
-                                                                 field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x) + kAng180_6FD936;
+                                                         field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x) + kAng180_6FD936;
                     break;
-                }
             }
             break;
 
         case 3:
-        {
-            s32 objective = field_7C_pPed->field_25C_internal_objective;
-            if (objective == 48 || objective == 37 || objective == 38 || objective == 12)
+            if (field_7C_pPed->GetInternalObjective_403A90() == 48 || field_7C_pPed->GetInternalObjective_403A90() == 37 ||
+                field_7C_pPed->GetInternalObjective_403A90() == 38 || field_7C_pPed->GetInternalObjective_403A90() == 12)
             {
                 field_38_velocity = k_dword_6FD7CC;
                 break;
@@ -2090,7 +2099,7 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                     else
                     {
                         field_40_rotation = Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
-                                                                      field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x);
+                                                         field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x);
                     }
                     break;
                 case 5:
@@ -2101,7 +2110,7 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                     else
                     {
                         field_40_rotation = Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
-                                                                      field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x);
+                                                         field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x);
                     }
                     break;
                 case 4:
@@ -2113,13 +2122,11 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                     {
                         pOther->field_6A = 4;
                         pOther->field_74 = TurnBy16Deg_548BD0(Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
-                                                                                         field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x) +
-                                                              kAng180_6FD936);
+                                                         field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x) + kAng180_6FD936);
                     }
                     break;
             }
             break;
-        }
     }
 }
 
@@ -3394,7 +3401,7 @@ void Char_B4::state_0_54DDF0()
             field_10_char_state != Char_B4_state::Jumping_15)
         {
             //if ((field_7C_pPed->field_21C & 0x8000000) == 0)
-            if (field_7C_pPed->field_21C_bf.bLeftVehicle == 0)
+            if (!field_7C_pPed->field_21C_bf.bLeftVehicle)
             {
                 field_7C_pPed->field_210_shock_counter += 3;
                 s32 Leader_id = field_7C_pPed->field_204_killer_id;
@@ -3514,7 +3521,7 @@ void Char_B4::state_0_54DDF0()
                 }
                 else
                 {
-                    if (field_38_velocity < field_3C_run_or_jump_speed)
+                    if (field_3C_run_or_jump_speed > field_38_velocity)
                     {
                         this->field_38_velocity += dword_6FD99C;
                     }
@@ -3911,10 +3918,11 @@ bool Char_B4::CanStepForwardWithRegionCheck_54ECB0(s32 direction)
 }
 
 // https://decomp.me/scratch/Ub1EN
-WIP_FUNC(0x54ef60)
+// 9.6f 0x495BF0: the collision offset division is written at each use (VC6 CSEs it), bCanStep is set
+// in each leaf and leaves 2-4 return explicitly (leaf 1's tail is the cross-jump keeper).
+MATCH_FUNC(0x54EF60)
 bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
 {
-    WIP_IMPLEMENTED;
     bool bIsNearXposBlockBoundary = true;
     bool bIsNearYposBlockBoundary = true;
 
@@ -3929,16 +3937,15 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
     gCharB4_StepXpos_6FD8B8 = gCharB4_Saved_Xpos_6FD7F8 + xpos;
     gCharB4_StepYpos_6FD8BC = gCharB4_Saved_Ypos_6FD800 + ypos;
 
-    Fix16 collision_offset = gCharB4_WorldCollisionOffset_6FD8D8 / gFix16_Two_6FD9EC;
 
     // Get the x diff of the neareast block on left/right side, if it's very close to them
     // Test if it is near right block
-    s8 x_diff = (gCharB4_StepXpos_6FD8B8 + collision_offset).ToInt() - (sprite_xpos).ToInt();
+    s8 x_diff = (gCharB4_StepXpos_6FD8B8 + gCharB4_WorldCollisionOffset_6FD8D8 / gFix16_Two_6FD9EC).ToInt() - (sprite_xpos).ToInt();
 
     if (x_diff == 0)
     {
         // Test if it is near left block
-        x_diff = (gCharB4_StepXpos_6FD8B8 - collision_offset).ToInt() - (sprite_xpos).ToInt();
+        x_diff = (gCharB4_StepXpos_6FD8B8 - gCharB4_WorldCollisionOffset_6FD8D8 / gFix16_Two_6FD9EC).ToInt() - (sprite_xpos).ToInt();
         if (x_diff == 0)
         {
             bIsNearXposBlockBoundary = false;
@@ -3947,12 +3954,12 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
 
     // Get the y diff of the neareast block on north/south side, if it's very close to them
     // Test if it is near south block
-    s8 y_diff = (gCharB4_StepYpos_6FD8BC + collision_offset).ToInt() - (sprite_ypos).ToInt();
+    s8 y_diff = (gCharB4_StepYpos_6FD8BC + gCharB4_WorldCollisionOffset_6FD8D8 / gFix16_Two_6FD9EC).ToInt() - (sprite_ypos).ToInt();
 
     if (y_diff == 0)
     {
         // Test if it is near north block
-        y_diff = (gCharB4_StepYpos_6FD8BC - collision_offset).ToInt() - (sprite_ypos).ToInt();
+        y_diff = (gCharB4_StepYpos_6FD8BC - gCharB4_WorldCollisionOffset_6FD8D8 / gFix16_Two_6FD9EC).ToInt() - (sprite_ypos).ToInt();
         if (y_diff == 0)
         {
             bIsNearYposBlockBoundary = false;
@@ -3975,9 +3982,9 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
         bool bCanStep;
         if (x_diff == -1)
         {
-            bCanStep = true;
             if (y_diff == -1)
             {
+                bCanStep = true;
                 field_80_sprite_ptr->field_14_xy.x.subtract_one_491F00();
                 if (field_58_flags & 1)
                 {
@@ -4052,6 +4059,7 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
             }
             else
             {
+                bCanStep = true;
                 field_80_sprite_ptr->field_14_xy.x.subtract_one_491F00();
                 if (field_58_flags & 1)
                 {
@@ -4123,13 +4131,14 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
                     }
                 }
                 field_45_slope_gradient_direction = old_f45;
+                return bCanStep;
             }
         }
         else
         {
-            bCanStep = true;
             if (y_diff == -1)
             {
+                bCanStep = true;
                 field_80_sprite_ptr->field_14_xy.x.add_one_491EF0();
                 if (field_58_flags & 1)
                 {
@@ -4196,14 +4205,16 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
                     }
                     if (!CanStepForwardWithRegionCheck_54ECB0(path_direction::up_1) && !gMap_0x370_6F6268->sub_4E0110())
                     {
-                        gCharB4_PathDirection_623F44 = path_direction::up_1;
                         bCanStep = false;
+                        gCharB4_PathDirection_623F44 = path_direction::up_1;
                     }
                 }
                 field_45_slope_gradient_direction = old_f45;
+                return bCanStep;
             }
             else
             {
+                bCanStep = true;
                 field_80_sprite_ptr->field_14_xy.x.add_one_491EF0();
                 if (field_58_flags & 1)
                 {
@@ -4273,6 +4284,7 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
                     }
                 }
                 field_45_slope_gradient_direction = old_f45;
+                return bCanStep;
             }
         }
         return bCanStep;
@@ -4600,17 +4612,19 @@ void Char_B4::state_1_5504F0()
 
     Ang16 v20;
     Ang16 v73;
+    u8 x_u8;
+    u8 y_u8;
 
     field_4A = 500;
     Ang16 angle = 0;
     field_58_flags_bf.b3 = false;
     field_58_flags_bf.b6 = false;
-    byte_6FDB54 = 0;
-    gCharB4_Saved_TileX_6FDAD8 = gCharB4_Saved_Xpos_6FD7F8.ToUInt8();
-    gCharB4_Saved_TileY_6FDAD9 = gCharB4_Saved_Ypos_6FD800.ToUInt8();
     v71 = 0;
     v77 = 0;
     v70 = 0;
+    byte_6FDB54 = 0;
+    gCharB4_Saved_TileX_6FDAD8 = gCharB4_Saved_Xpos_6FD7F8.ToUInt8();
+    gCharB4_Saved_TileY_6FDAD9 = gCharB4_Saved_Ypos_6FD800.ToUInt8();
     u8 unk_xpos = gCharB4_Saved_Xpos_6FD7F8.ToUInt8();
     u8 unk_ypos = gCharB4_Saved_Ypos_6FD800.ToUInt8();
     u8 block_type;
@@ -4634,8 +4648,7 @@ void Char_B4::state_1_5504F0()
         gMap_0x370_6F6268->get_block_4DFE10(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), zpos);
     if (pBlock)
     {
-        u8 v9 = (pBlock->field_B_slope_type & 0xFC) != 0 && (pBlock->field_B_slope_type & 0xFC) != 0xFC;
-        field_58_flags ^= (field_58_flags ^ v9) & 1;
+        field_58_flags ^= (field_58_flags ^ (u8)((pBlock->field_B_slope_type & 0xFC) != 0 && (pBlock->field_B_slope_type & 0xFC) != 0xFC)) & 1;
         if (gGtx_0x106C_703DD4->IsElectrifiedFloorType_491F80(pBlock->field_8_lid & 0x3FF) && field_10_char_state != 15)
         {
             if (field_7C_pPed->field_21C_bf.bLeftVehicle == false)
@@ -4840,12 +4853,12 @@ LABEL_65:
         }
         else
         {
-            Ang16::PolarToCartesian_41FC20(angle, kFP16Quarter_6FD828, pMaybeX_FP16, pMaybeY_FP16);
+            Ang16::PolarToCartesian_41FC20(v73, kFP16Quarter_6FD828, pMaybeX_FP16, pMaybeY_FP16);
         }
         pMaybeX_FP16 += gCharB4_Saved_Xpos_6FD7F8;
         pMaybeY_FP16 += gCharB4_Saved_Ypos_6FD800;
-        u8 x_u8 = pMaybeX_FP16.ToUInt8();
-        u8 y_u8 = pMaybeY_FP16.ToUInt8();
+        x_u8 = pMaybeX_FP16.ToUInt8();
+        y_u8 = pMaybeY_FP16.ToUInt8();
         if (unk_xpos != x_u8 || unk_ypos != y_u8)
         {
             Char_B4::ManageZCoordAndSlopes_548590();
@@ -4894,9 +4907,10 @@ LABEL_65:
         field_38_velocity = gRunOrJumpSpeed_6FD7D0;
     }
 
+    Fix16 sprite_z = field_80_sprite_ptr->field_1C_zpos;
     field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + Ang16::sine_40F500(field_40_rotation) * field_38_velocity,
                                              field_80_sprite_ptr->field_14_xy.y + Ang16::cosine_40F520(field_40_rotation) * field_38_velocity,
-                                             field_80_sprite_ptr->field_1C_zpos);
+                                             sprite_z);
 
     field_80_sprite_ptr->set_ang_lazy_420690(field_40_rotation);
     if (field_69_is_colliding_with_sprite)
@@ -4925,14 +4939,14 @@ LABEL_65:
             Fix16 x = field_80_sprite_ptr->field_14_xy.x;
             Fix16 y = field_80_sprite_ptr->field_14_xy.y;
 
-            u8 x_tile = x.ToUInt8();
-            u8 y_tile = y.ToUInt8();
-            if (gCharB4_Saved_Xpos_6FD7F8.ToUInt8() != x_tile || gCharB4_Saved_Ypos_6FD800.ToUInt8() != y_tile)
+            x_u8 = x.ToUInt8();
+            y_u8 = y.ToUInt8();
+            if (gCharB4_Saved_Xpos_6FD7F8.ToUInt8() != x_u8 || gCharB4_Saved_Ypos_6FD800.ToUInt8() != y_u8)
             {
                 field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
 
                 field_45_slope_gradient_direction = gCharB4_Saved_SlopeGradDir_6FD7B0.ToUInt8();
-                if (!Char_B4::CanReachTile_550090(x_tile, y_tile))
+                if (!Char_B4::CanReachTile_550090(x_u8, y_u8))
                 {
                     field_69_is_colliding_with_sprite = 0;
                     field_5C = 10;
@@ -6549,7 +6563,7 @@ static inline Fix16 GetLength_inline_5538A0(Fix16_Point& p)
     }
 }
 
-WIP_FUNC(0x5538A0)
+MATCH_FUNC(0x5538A0)
 #define SPAWN_KNOCKDOWN_OBJ(speed) \
     gObject_5C_6F8F84->NewUnknown_52A240(110, \
                                          this->field_80_sprite_ptr->field_14_xy.x, \
@@ -6562,8 +6576,6 @@ WIP_FUNC(0x5538A0)
                                          kFP16Zero_6FD9E4)
 void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, u8 bUnknown, Fix16 x, Fix16 y)
 {
-    WIP_IMPLEMENTED;
-
     Fix16_Point p(x, y);
     Fix16 vecLen = GetLength_inline_5538A0(p);
     Ang16 tanVec;
@@ -6660,14 +6672,15 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, u8 bUnknown, Fix16 x, Fix16 y
                                                               tanVec);
                 }
             }
-            else if (this->field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2) && pCar->field_7C_uni_num != 2)
+            else
             {
-                if (this->field_C_ped_state_2 == ped_state_2::lying_on_floor_22)
+                if (this->field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2) && pCar->field_7C_uni_num != 2)
                 {
-                    this->field_7C_pPed->Kill_46F9D0();
-                }
-                else
-                {
+                    if (this->field_C_ped_state_2 == ped_state_2::lying_on_floor_22)
+                    {
+                        this->field_7C_pPed->Kill_46F9D0();
+                        return;
+                    }
                     this->field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
                     this->field_7C_pPed->field_184_pObj2C = SPAWN_KNOCKDOWN_OBJ(vecLen / gFix16_Two_6FD9EC);
                     this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = kFpPoint1_6FD824;
@@ -6683,16 +6696,11 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, u8 bUnknown, Fix16 x, Fix16 y
                     }
 
                     this->field_C_ped_state_2 = ped_state_2::Unknown_24;
-
-                    gParticle_8_6FD5E8->EmitBloodBurst_53E450(this->field_80_sprite_ptr->field_14_xy.x,
-                                                              this->field_80_sprite_ptr->field_14_xy.y,
-                                                              this->field_80_sprite_ptr->field_1C_zpos,
-                                                              tanVec);
                 }
-            }
-            else
-            {
-                this->field_7C_pPed->Kill_46F9D0();
+                else
+                {
+                    this->field_7C_pPed->Kill_46F9D0();
+                }
                 gParticle_8_6FD5E8->EmitBloodBurst_53E450(this->field_80_sprite_ptr->field_14_xy.x,
                                                           this->field_80_sprite_ptr->field_14_xy.y,
                                                           this->field_80_sprite_ptr->field_1C_zpos,

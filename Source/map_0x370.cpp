@@ -3762,8 +3762,8 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
         Fix16 tmp;
         side = *sub_4E5D70(&tmp, x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
     }
-    // The case order of this switch picks which constant used twice VC6 keeps in a register (1, like the
-    // original, in this order; 2 in up, down, left, right order).
+    // The case order of the two switches picks which constant used twice VC6 keeps in a register (all 24
+    // orders of each swept; the original's `mov $1,%ebp` not reached since the bTurned change below).
     if (side > kFpHalf_6F5F18)
     {
         switch (direction)
@@ -3786,17 +3786,17 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
     {
         switch (direction)
         {
-            case road_direction::up_1:
-                direction = road_direction::left_4;
-                break;
-            case road_direction::down_2:
-                direction = road_direction::right_3;
+            case road_direction::right_3:
+                direction = road_direction::up_1;
                 break;
             case road_direction::left_4:
                 direction = road_direction::down_2;
                 break;
-            case road_direction::right_3:
-                direction = road_direction::up_1;
+            case road_direction::down_2:
+                direction = road_direction::right_3;
+                break;
+            case road_direction::up_1:
+                direction = road_direction::left_4;
                 break;
         }
     }
@@ -3867,10 +3867,11 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
     {
         if (HasGreenArrowForPathDirection_4E5E90(pBlock, direction, 0) && !bTurned)
         {
+            // pPrev first: the last_z store is scheduled after the pPrev copy
+            pPrev = pBlock;
             last_x = x;
             last_y = y;
             last_z = z;
-            pPrev = pBlock;
             StepOneBlock_4E6660(&x, &y, dist, direction);
             // Not SetRoadBlockAtOrNull_4E7190: when the first lookup finds no block the original goes straight
             // to the not-green branch (`test %esi; je`), skipping the pBlock != pPrev step
@@ -3889,7 +3890,8 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
             }
             if (!pBlock || !HasGreenArrowForPathDirection_4E5E90(pBlock, direction, 0))
             {
-                gmp_block_info* pBefore = pBlock;
+                // pPrev is reused here (the original shares its slot with the tmp out-params below last_x)
+                pPrev = pBlock;
                 Fix16 tmp;
                 Fix16 to_edge = *sub_4E5E00(&tmp, x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
                 sub_4E5D10(&x,
@@ -3903,14 +3905,18 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
                            Ang16::GetAngleFace_4F78F0(
                                Ang16(ReturnAngleFromRoadDirection_4F7940(&direction).rValue + word_6F603E.rValue).Normalized_406C20()));
                 dist += kFpOne_6F6110 + kFpOne_6F6110 - to_edge;
+                // Set here rather than after the re-lookup: the extra references in this block put the
+                // loop's to_edge ahead of the switch's kFpOne CSE temps in the colour order, which gives the
+                // original's ebx/ebp split (dist/to_edge ebx, pPrev/new_direction ebp). The original stores
+                // it after the re-lookup; not found how it gets the same order there.
+                bTurned = 1;
                 z = last_z;
                 SetRoadBlockAt_4E6660(pBlock, x, y, z);
-                if (pBlock != pBefore)
+                if (pBlock != pPrev)
                 {
                     sub_4E65A0(x, y, &z, 0, 0);
                     SetRoadBlockAt_4E6660(pBlock, x, y, z);
                 }
-                bTurned = 1;
             }
         }
         else
@@ -3955,9 +3961,11 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
                     break;
             }
 
-            pPrev = pBlock;
+            // `pPrev = pBlock` in both arms: FlowOpts hoists it back in front of the `jl`, but the slot list
+            // (built before that) counts both stores, which puts pPrev's slot ahead of last_x/last_y
             if (dist >= kFpOne_6F6110)
             {
+                pPrev = pBlock;
                 sub_4E5D10(&x, &y, kFpHalf_6F5F18, direction);
                 GetRoadBlockAt_4E6660(x, y, z);
                 direction = new_direction;
@@ -3973,6 +3981,7 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
             }
             else
             {
+                pPrev = pBlock;
                 if (dist > kFpHalf_6F5F18)
                 {
                     sub_4E5D10(&x, &y, kFpHalf_6F5F18, direction);
