@@ -4484,3 +4484,22 @@ wrong, so no type, structure, inline or scheduling work applies. Left unchanged.
   24 case orders of each direction switch swept on the final form. The byte-penalty mechanism from map2's
   note: a byte-sized colour candidate (bTurned's webs) adds ~400 per web plus 400 for the byte temps to the
   ebx score of every conflicting range; `s=` only shows costs for registers the range may use.
+
+## Agent cheap4
+
+- `Frontend::ChangeMenuPage_4B3170` (start 353, final 353, no change kept, not matched). Permuter run with
+  swap_logical, do_while, noop_node, invert_if, cond_split, goto_exit, tail_return, switch_dup (about 570
+  iterations, no candidate below 353). Tried by hand, all 353 or worse: reversed switch case order (the
+  case blocks already sit at the same addresses as the original, so the block order is fine); the three
+  save-slot assignments in the other statement orders (359); `s32` / `u32` / `u16` for `playerSlotSetting`
+  and an explicit `(char_type)` or `& 0xFF` on the SetPlySlotIdx argument (the target's `mov %al,%cl; push
+  %ecx` is not produced from any of them: VC6 pushes `%eax` for a truncating argument); `pStats` declared
+  later (363); `pPage` at function scope (508) or removed (626); `pCurPage` removed (405); `game_mode`,
+  `player`, `i`, `opponent_idx`, `user_idx`, `bonus_stage_idx` retyped (468 to 760, worse).
+- Frame size is 0x108 in ours too (the normalised `stable_name_808` in the diff is a stable-name artefact, not a
+  frame difference). The register and slot differences are the pair swaps `0x2A/0x2B` (saved_main_stage vs
+  saved_is_bonus), `0x14/0x18` (pStats and the `main_stage_idx` byte), and the `dx/ax/cx` rotation in the
+  multiplayer case bodies; the address shifts after them are 2-byte size differences from `mov %al,%cl`.
+- Slot order: with equal refs and size (the two save bytes, both 2 refs) the stack-slot list did not follow
+  declaration or statement order in any variant tried. Reading the frame rule alone did not explain it; the
+  `slotlog` build writes into `build_vc6/x87_c2/`, so it was not run (rule: no writes to build_vc6).
