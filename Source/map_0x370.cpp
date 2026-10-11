@@ -960,6 +960,9 @@ char_type Map_0x370::sub_4E0120()
 // Exception: the "blocked by terrain" exit after the below-block pBaseSlope check is a `return true` in the
 // up, down and right cases and a `break` in the left case. That decides which identical tails VC6 cross-jumps
 // (the up case jumps into the down case's below-block code, the right case keeps its own third lookup).
+// The up and down cases step y in place (`y--` / `y++`) before the shared lookups: that keeps y referenced in the
+// below-block lookups (priority 98 vs z 76, x 68), which puts y in edi and z in ebp like the original. The right
+// and left cases keep `x + 1` / `x - 1` expressions (an in-place `x++` lifts x above z: 484).
 WIP_FUNC(0x4E0130)
 bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direction, u8* pSlopeZDelta, char_type bReportStepUp)
 {
@@ -1072,7 +1075,8 @@ bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direct
                 }
             }
 
-            pNext = GetEffectiveBlock_4DFE60(x, y - 1, z);
+            y--;
+            pNext = GetEffectiveBlock_4DFE60(x, y, z);
             if (pNext)
             {
                 if (pNext->field_6_bottom & 0x400)
@@ -1110,7 +1114,7 @@ bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direct
 
             if (z > 0)
             {
-                pBelow = GetEffectiveBlock_4DFE60(x, y - 1, z - 1);
+                pBelow = GetEffectiveBlock_4DFE60(x, y, z - 1);
                 if (pBelow && !is_air_type(pBelow->field_B_slope_type))
                 {
                     if (!is_gradient_slope(pBelow->field_B_slope_type))
@@ -1220,7 +1224,8 @@ bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direct
                 }
             }
 
-            pNext = GetEffectiveBlock_4DFE60(x, y + 1, z);
+            y++;
+            pNext = GetEffectiveBlock_4DFE60(x, y, z);
             if (pNext)
             {
                 if (pNext->field_4_top & 0x400)
@@ -1258,7 +1263,7 @@ bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direct
 
             if (z > 0)
             {
-                pBelow = GetEffectiveBlock_4DFE60(x, y + 1, z - 1);
+                pBelow = GetEffectiveBlock_4DFE60(x, y, z - 1);
                 if (pBelow && !is_air_type(pBelow->field_B_slope_type))
                 {
                     if (!is_gradient_slope(pBelow->field_B_slope_type))

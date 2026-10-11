@@ -5273,3 +5273,38 @@ re-scored identical to the base. Scratch: `/tmp/claude-0/agents/near23/` (`v/` v
   `0x136`, i.e. v2 held in a register piece and spilled late, or the load kept in a temp used twice. Same
   reading for the other hunks (`xor %edi,%edi` after the call = the first `%di` store is early in that chain,
   `mov $0xC5,%eax` at the top = `ypos = 197` is the 2nd store of its block in the original IL). Not resolved.
+
+## Agent near26 (Oct 11): CanMoveOntoSlopeTile_4E0130 442 -> 290 (kept), not matched
+
+- `Map_0x370::CanMoveOntoSlopeTile_4E0130` 442 -> 290 (NO_PCH quick_score; `Source/map_0x370.cpp` only, no header
+  edits). The y/z register swap was a priority effect: priolog gave z 80 / y 78 (z first -> edi). The original's
+  up/down cases do `dec %edi` / `inc %edi` in place and then push the stepped y in the below-block lookups, i.e. the
+  source steps `y--` / `y++` once before the shared `pNext = GetEffectiveBlock(x, y, z)` and reuses `y` in the
+  `z > 0` lookup. With that y is referenced in the four below-block call blocks (98 vs z 76, x 68) and gets edi, z ebp,
+  x ebx as in the original. The same for x in the right/left cases (`x++`/`x--`) lifts x above z (484), so those keep
+  the `x + 1` / `x - 1` expressions; the pSlope branches keep `y - 1` expressions too (they return, so in-place or not
+  gives the same code). The 9.6f build (0x4656D0, 23 GetEffectiveBlock calls, no other callee) has the same
+  register split, so the helpers are macros or plain expressions there.
+- Remaining 290 is one 2-byte difference in the first block that shifts every later jump offset: the original uses
+  the GetEffectiveBlock result from eax after `mov %eax,0x24(%esp); je` (`xor %ecx,%ecx; mov 0xB(%eax),%cl;
+  mov %ecx,%eax; shr`), ours reloads `mov 0x24(%esp),%ecx; xor %eax,%eax; mov 0xB(%ecx),%al`. opdump (10765bbd)
+  shows pBlock as a colour candidate placeholder with the IL copy before the shift; priolog gives the whole range
+  prio 14 but it never gets an @R line or a split (the split passes only cover pSlope/pBaseSlope and three more).
+  A probe (`/tmp/claude-0/agents/near26/probe_gen.py`, a Probe function with the same shape) reproduces it: with
+  4 cases and NO else arm after `if (p)` the first piece of p is coloured eax (`xor %ecx,%ecx; mov 0xB(%eax),%cl`),
+  with 2 cases plus the else arm too, but 4 cases plus ANY else arm (a second lookup, a plain `if (z > 1)` use of p,
+  a block-local q) gives the reload. Extra live-through blocks inside a case (1-6) do not switch the split off, so it
+  is not a block-count threshold; the else arm of the def block's test is what matters. Colour loop: a popped range
+  without flag `[lr+5] & 4` goes through 0x1074E2BC (0x1074E234 collects coloured interfering ranges, 0x1074E44A
+  splits), else 0x10722650 + select 0x107233B6; a failed select is silent in ralog.
+- Tried for the first block, all 290 (or 442 before the y-- change): by-value `GetSlopeStructV(u8)`, the raw
+  `&gGmpSlopes[type >> 2]`, a u8 local (block or function scope), a `GetBlockSlope(pBlock)` inline, `if ((pBlock =
+  ...) != 0)`, a `pTop` block-local copied into pBlock (copy-propagated into one variable), `pBlock = pTop =`,
+  pNext/pBelow/pBlockBelow at function scope for the else lookup, pBlock reassigned in the else arm (294), the
+  declaration order, `if (!pBlock) {...} else` (352: then/else layout flips), `if (pBlock) A; if (!pBlock && z > 0)
+  B;` and `if (pBlock == 0)` re-tests (290, same CFG). Permuter 1501 compiles on the 290 base (swap_logical,
+  noop_node, invert_if, cond_split, tail_return, temp_for_expr, reorder_saves, switch_dup, dead_wrap): the 258 it
+  found is the inverted top `if` (a fake: the diff just aligns differently).
+- Next idea: find what the original's source did in the top block so that pBlock's first piece is split off with the
+  else arm present (or an equivalent shape where the else arm is not a successor of the `je`), e.g. probe variants
+  of the Probe function (p_4A*.cpp) rather than the real function; each compile is ~15 s via asm2.sh.
