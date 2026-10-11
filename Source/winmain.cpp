@@ -1041,15 +1041,15 @@ u8 gNetPlayerDropped_6F8470[6];//DEFINE_GLOBAL_ARRAY(u8, gNetPlayerDropped_6F847
 
 // Re-sends our inputs of a previous frame to one player.
 MATCH_FUNC(0x4DA9B0)
-EXPORT void __stdcall Net_4DA9B0(Network_InputData_0x8* pInputs, s32 type, u8 player_idx)
+EXPORT void __stdcall Net_4DA9B0(Network_InputData_0x8* pInputs, s32 delayed_ticks, u8 player_idx)
 {
-    gInputSendData_6F5B18.field_0 = pInputs;
+    gInputSendData_6F5B18.field_0_data = pInputs;
     gInputSendData_6F5B18.field_4_len = bDo_sync_check_67D6C1 ? sizeof(Network_InputData_0x8) : sizeof(u32);
-    gNetPlay_7071E8.SendToPlayer_521630(&gInputSendData_6F5B18, player_idx, type);
+    gNetPlay_7071E8.SendToPlayer_521630(&gInputSendData_6F5B18, player_idx, delayed_ticks);
 }
 
 MATCH_FUNC(0x4DA9F0)
-EXPORT void Net_4DA9F0()
+EXPORT void Net_Receive_Players_Inputs_4DA9F0()
 {
     s32 retries = 0;
     s32 max_retries = bRecordStartTime_6F593C ? 25 : 6;
@@ -1104,7 +1104,7 @@ EXPORT void Net_4DA9F0()
                     }
                     break;
                 }
-                case 3:
+                case 3: // input for the latest/current tick
                     memcpy(&gCurrentNetInputs_6F57D8.field_0_inputs[player_idx], gpInputBuffer_6F58C0, gCurrentInputsBufferSize_6F58C4);
                     waiting_bits &= ~(1 << player_idx);
                     if (bDo_sync_check_67D6C1 &&
@@ -1304,12 +1304,12 @@ EXPORT void Net_Send_Our_Inputs_4DACB0()
             // Send the inputs plus an rng value the other players check against
             s16 max = 100;
             gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8].field_4_rng = gRng_6F6784.get_int_4F7AE0(max);
-            gInputSendData_6F5B18.field_0 = &gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8];
+            gInputSendData_6F5B18.field_0_data = &gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8];
             gInputSendData_6F5B18.field_4_len = sizeof(Network_InputData_0x8);
         }
         else
         {
-            gInputSendData_6F5B18.field_0 = &gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8];
+            gInputSendData_6F5B18.field_0_data = &gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8];
             gInputSendData_6F5B18.field_4_len = sizeof(u32);
         }
         gNetPlay_7071E8.SendToAll_521B20(&gInputSendData_6F5B18);
@@ -1442,7 +1442,7 @@ EXPORT void __stdcall do_network_and_local_inputs_4DAF30()
             gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8].field_0_Inputs = gInputRecorder_67F8B0.get_input_bits_4CEAC0();
             Net_Send_Our_Inputs_4DACB0();
             Draw_4DA7B0();
-            Net_4DA9F0();
+            Net_Receive_Players_Inputs_4DA9F0();
             memcpy(&gPrevNetInputs_6F5B28, &gCurrentNetInputs_6F57D8, sizeof(gPrevNetInputs_6F5B28));
         }
         else

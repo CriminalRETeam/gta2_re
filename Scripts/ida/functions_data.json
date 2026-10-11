@@ -8270,7 +8270,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Net_4DA9F0",
+        "name": "Net_Receive_Players_Inputs_4DA9F0",
         "v96f_address": "0x462140",
         "v105_address": "0x4da9f0",
         "v96f_auto": true
@@ -11840,7 +11840,7 @@
         "v96f_auto": true
     },
     {
-        "name": "NetPlay::SetGroupData_521170",
+        "name": "NetPlay::SetGameSettings_521170",
         "v96f_address": "0x409e10",
         "v105_address": "0x521170",
         "v96f_auto": true
@@ -11902,7 +11902,7 @@
         "v96f_auto": true
     },
     {
-        "name": "NetPlay::sub_521770",
+        "name": "NetPlay::GetLatestPacket_521770",
         "v96f_address": "0x40a190",
         "v105_address": "0x521770",
         "v96f_auto": true
