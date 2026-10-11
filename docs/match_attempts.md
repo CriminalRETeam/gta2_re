@@ -4564,3 +4564,27 @@ Files changed: `Source/Ped.cpp` only (no header edits).
   with its byte offsets (10.5.exe, PE RVA to file offset) and the candidate's COFF function with the same decoder
   (iced_x86), then diff instruction text with the jump targets and globals normalised. A 2-byte offset slip before a
   jump is what made the early-return variant look like 92 lines of diff.
+
+## Agent cheap7: sound_obj::HandleVocalStreamSwitching_57DF10 (108, unchanged)
+
+- Start 108, final 108 (no source change kept). Not matched.
+- Original layout (from the target bytes with offsets): one station head at 0x139 (`cmp $5,dl`, GetPos,
+  Close, bFast, ternary PlayVocal, `jmp 0x25e`). It is reached by the fallthrough of `== && changed` and by
+  `jne 0x139` from the `!=` path. The mode block (0x1ae..0x256) sits between the head and the 101-arm
+  (0x25c, `push 0x65`), which falls into the join 0x25e. Length<=0 closes share the tails 0x2f0/0x2f7.
+  The `!changed` Update jumps into the middle of block A's SetVocalPos tail (`je 0x104`).
+- Our 108 shape has two full station copies (`== && changed` at 0x13d, `!= && bFast` at 0x28a). Their
+  tails merge from 0x333 on, but the heads and the ternary arms do not, so the diff is the duplicated head.
+- Single-station shapes (one station block, the CFG of the original) all score worse:
+  `if (==) { if (!changed) {Update; return;} } else if (!bFast) {mode; return;} STATION` 312;
+  the same with the first block as `if (length > 0) {...} else Close; return;` 294; the bool flags
+  `bMode` / `bDone` tested after the chain 312 each; `if (!=) {if (!bFast) MODE} else {if (!changed) U}` 306;
+  `if (eq && !changed) U; if (neq && !bFast) MODE` 372; `if (!changed) { if (eq) U; else MODE }` 640.
+  In these the `!changed` Update return is not cross-jumped into A's SetVocalPos tail (A's Update call and
+  the early Update stay two copies), which is the part the 108 shape gets right.
+- Permuter (passes swap_logical, do_while, noop_node, invert_if, cond_split, tail_return, goto_exit,
+  dead_wrap; -n 800, -j 2, stopped after about 15 min): 0 outputs, best 108.
+- Conclusion: the remaining 108 is the station-head duplication plus the 101-arm position. Source forms
+  that give one station block change the cross-jump direction, and the two-copy form cannot merge the
+  heads. Needs a new idea (for example a structure where the station head is one block with two
+  predecessors and the Update tail stays merged), not more reorderings.
