@@ -4971,3 +4971,37 @@ root with `VC6_TOOLS`-free `patch_c2.X` set to a scratch dir, see `Scripts/regal
     (one block at 0x218 with its own epilogue copy, `return -1` last) therefore came from a `+=`/`return`
     join, not from two returns. Open: a form with the join AND two eax-hinted references of `new_idx`.
   - Permuter: 1500 on a5 (new passes) -> 42 (u16) / 72 (per-arm return); 400 on m1 -> nothing better.
+
+## Agent near18 (Oct 11): state_8_5520A0 (12, unchanged), SCRCMD_STORE_CAR_INFO_509180 (80 -> 46), sub_4E7190 (92, permuter only)
+
+Scores are `NO_PCH=1 quick_score.sh`. No header edits; only `Source/miss2_0x11C.cpp` changed.
+
+- `Char_B4::state_8_5520A0` (12, unchanged). ralog/priolog on the base: the reload
+  `field_184_pObj2C = field_7C_pPed->field_184_pObj2C` is a coloured web (prio 32, tie 185) with scores eax 0 /
+  ecx -1 (its own preference, disallowed) / edx 0, coloured after the `->field_4` temp (64/182) and the sprite
+  `this` temp (32/340, the shared `this` symbol of all set_xyz_lazy expansions, hence the high tie). Whenever ecx
+  is allowed it takes ecx (`set_xyz_lazy_inlined_420600` copy at this site, 18; direct re-reads / `Sprite* pSrc`
+  forms, 32: there the reload is a block-local temp merged into the dying coloured pPed `mov 0x184(%ecx),%ecx`,
+  while at the matched v60 site pPed is a fresh temp and no merge happens). The target's edx therefore needs the
+  reload to be a coloured web whose eax is disallowed, i.e. live across the `x` temp (`mov 0x14(%eax),%eax`, prio
+  36, pref eax) or the field_4 temp; no spelling found that extends it there without code changes. Also tried:
+  checks through pPed with the local only after the store (12), reusing the function-scope `v60`/`v54` for
+  field_4 at the init site (32), 0-4 unused dummy locals (12), permuter 1500 with the new passes and
+  --auto-method-aliases (12).
+- `miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180` 80 -> 46 (kept: else branch `gStoredCarId = pChar->field_16C_car->
+  field_6C_car_id`). Priolog on the base: pParam2 prio 7 (7 refs, +18 from the tail block whose N=3 includes the
+  shared `8` constant range of `CanAlloc(8)`/`Reassign(8)`), 3 prio 7, zero 2, 4 -25; colour order pParam2 (esi),
+  3 (edx), zero (edi), 4 (ebx, folded because ebx would be its only user). Any form that removes pParam2's
+  else-branch reload reference (prio 7 -> 1) gives the original's zero esi / 4 edi / pParam2 ebx AND the
+  `mov gStoredCarId,%eax` load: `gStoredCarId = gStoredCar->field_6C` in the else (48, forwarded, no reload),
+  through pChar (46, reload `mov 0x16C(%edx),%edx` instead of the original's `mov 8(%ebx),%edx`), the permuter's
+  dropped store (44, rejected). The original keeps the pParam2 reload, so its pParam2 prio must come down (or
+  zero up by 6) elsewhere: the tail block's N (the `9` diagnostic, 20) or the prologue/store/is_bus blocks. The
+  remaining diff in every variant is the `3` constant (ecx in the original, ours edx): the gStoredCar web for
+  IsDeactivated/MarkForDespawn (prio 14) is coloured before `3` (7) and takes ecx; `3` would need prio > 14 or an
+  ecx preference. Tried without effect: SetUniNum/DespawnSoon/MarkForDespawn written out (80-122), `u8`/`s8`/`s16`/
+  `u16` CanAlloc parameter (80, constants keyed by value), `u32` gStoredCarId (80), operand order of the id
+  compare (80), permuter 1500 with --calling-conventions/--auto-method-aliases (only convention changes and
+  dropped stores) and 171 with the structural passes (80).
+- `Map_0x370::sub_4E7190` (92): permuter with switch_dup/tail_return/invert_if/swap_logical/cond_split/goto_exit/
+  do_while/noop_node/dead_wrap: no improvement in 1253 compiles. No manual work.
