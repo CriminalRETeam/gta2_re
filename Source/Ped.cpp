@@ -2379,63 +2379,74 @@ void Ped::SpawnWeaponOnDeath_45E080()
 }
 
 // https://decomp.me/scratch/PNiZo
-WIP_FUNC(0x45e4a0)
+MATCH_FUNC(0x45e4a0)
 void Ped::StartCrossingRoad_45E4A0()
 {
-    WIP_IMPLEMENTED;
-
     if (field_240_occupation != ped_ocupation_enum::dummy || field_258_objective != objectives_enum::no_obj_0 || field_25C_internal_objective != objectives_enum::no_obj_0)
     {
         return;
     }
 
     u8 x = field_1AC_cam.x.ToInt();
-    s32 y = field_1AC_cam.y.ToInt();
-    u8 z = field_1AC_cam.z.ToInt() - 1;
+    u8 y = field_1AC_cam.y.ToInt();
+    u8 z = field_1AC_cam.z.ToInt();
 
     s8 direction;
+    // Named locals: the original gives each max its own stack slot (as in ApplyAimJitter_46F1E0).
+    s16 max_north;
+    s16 max_east;
+    s16 max_south;
+    s16 max_west;
 
     // 9.6f: 0x433470/0x4334A0/0x4334D0/0x433500 (N/E/S/W). The first two rng results are
     // tested as u8 (test al,al; ja), the last two as s16 (test ax,ax; jg), in both builds.
-    if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(x, y - 1, z))
+    // z - 1 is passed as an expression: a plain u8 local would give one (int)z for all four
+    // block lookups, the original converts it again at each one.
+    do
     {
-        direction = 0;
-        if ((u8)gRng_6F6784.get_int_4F7AE0(2) > 0)
+        if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(x, y - 1, z - 1))
         {
-            goto dispatch;
+            direction = 0;
+            max_north = 2;
+            if ((u8)gRng_6F6784.get_int_4F7AE0(max_north) > 0)
+            {
+                break;
+            }
         }
-    }
 
-    if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(x + 1, y, z))
-    {
-        direction = 1;
-        if ((u8)gRng_6F6784.get_int_4F7AE0(2) > 0)
+        if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(x + 1, y, z - 1))
         {
-            goto dispatch;
+            direction = 1;
+            max_east = 2;
+            if ((u8)gRng_6F6784.get_int_4F7AE0(max_east) > 0)
+            {
+                break;
+            }
         }
-    }
 
-    if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(x, y + 1, z))
-    {
-        direction = 2;
-        if (gRng_6F6784.get_int_4F7AE0(2) > 0)
+        if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(x, y + 1, z - 1))
         {
-            goto dispatch;
+            direction = 2;
+            max_south = 2;
+            if (gRng_6F6784.get_int_4F7AE0(max_south) > 0)
+            {
+                break;
+            }
         }
-    }
 
-    if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(x - 1, y, z))
-    {
-        direction = 3;
-        if (gRng_6F6784.get_int_4F7AE0(2) > 0)
+        if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(x - 1, y, z - 1))
         {
-            goto dispatch;
+            direction = 3;
+            max_west = 2;
+            if (gRng_6F6784.get_int_4F7AE0(max_west) > 0)
+            {
+                break;
+            }
         }
-    }
 
-    direction = 4;
+        direction = 4;
+    } while (0);
 
-dispatch:
     switch (direction)
     {
         case 0:
@@ -7143,16 +7154,21 @@ Sprite* Ped::ResetAnimAndFindNearestSprite_467280()
 }
 
 // https://decomp.me/scratch/ec0hn
-WIP_FUNC(0x4672e0)
+MATCH_FUNC(0x4672e0)
 void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
 {
-    WIP_IMPLEMENTED;
     Ang16 angle;
     Fix16 x;
     Fix16 y;
     Fix16 z;
     u8 bUnk2 = false;
     u8 bUnk1 = true;
+    // Flags VC6 threads away: none of them appears in the code, but they decide the block layout (the
+    // bNextPoint block sits after the null-path block, the give-up block is laid out last with its own
+    // epilogue and the exit is moved up behind the type check). See docs/matching_quirks.md.
+    u8 bNextPoint = false;
+    u8 bUseCurrentPath = false;
+    u8 bGiveUp = false;
     field_21C_bf.bFlag17 = false;
 
     switch (type)
@@ -7206,17 +7222,34 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
     {
         if (distance < kFpTwo_678658)
         {
-            if (distance < kFpOne_678798 &&
-                (field_1AC_cam.z == z ||
-                 (Fix16::Abs(field_1AC_cam.z - z) <= kFpHalf_67853C && field_1AC_cam.x.ToUInt8() == x.ToUInt8() &&
-                  field_1AC_cam.y.ToUInt8() == y.ToUInt8())))
+            if (distance < kFpOne_678798)
             {
-                bUnk1 = false;
-                field_266_path_fail_count = 0;
+                if (field_1AC_cam.z == z ||
+                    (Fix16::Abs(field_1AC_cam.z - z) <= kFpHalf_67853C && field_1AC_cam.x.ToUInt8() == x.ToUInt8() &&
+                     field_1AC_cam.y.ToUInt8() == y.ToUInt8()))
+                {
+                    bUnk1 = false;
+                    field_266_path_fail_count = 0;
+                }
+                else
+                {
+                    bUnk1 = true;
+                }
             }
             else
             {
-                bUnk1 = true;
+                // Every case does the same thing. The original (9.6f too) keeps a dead load of type here,
+                // which a switch with two case labels folded into its default leaves behind.
+                switch (type)
+                {
+                    case ped_move_target_type::objective_target_ped_3:
+                    case ped_move_target_type::objective_target_pos_4:
+                        bUnk1 = true;
+                        break;
+                    default:
+                        bUnk1 = true;
+                        break;
+                }
             }
         }
 
@@ -7230,76 +7263,89 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
         }
         else if (!bUnk1)
         {
-            Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
-            Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_2);
-            field_21C_bf.bFlag15 = false;
-            field_21C_bf.bFlag16 = false;
-            return;
-        }
-        // line 22d
-        byte_678554 = 1;
-        Ped::ChangeNextPedState1_45C500(ped_state_1::findind_path_2);
-        Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
-        if (!field_21C_bf.bInPathList)
-        {
-            gPathFinder_6FDEF0->field_3C_ped_list.AddPedToBackIfMissing_471160(this);
-            field_21C_bf.bInPathList = true;
+            bGiveUp = true;
         }
 
-        switch (gPathFinder_6FDEF0->IsFirstPassenger_554A90(this))
+        if (!bGiveUp)
         {
-            case 1:
-                if (!gPathFinder_6FDEF0->ComputePath_554AB0(field_200_id,
-                                                           this,
-                                                           field_1AC_cam.x.ToUInt8(),
-                                                           field_1AC_cam.y.ToUInt8(),
-                                                           field_1AC_cam.z.ToUInt8(),
-                                                           x.ToInt(),
-                                                           y.ToInt(),
-                                                           z.ToInt(),
-                                                           Ang16::GetAngleFace_4F78F0(angle),
-                                                           &this->field_266_path_fail_count))
-                {
-                    goto LINE_38E;
-                }
+            // line 22d
+            byte_678554 = 1;
+            Ped::ChangeNextPedState1_45C500(ped_state_1::findind_path_2);
+            Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
+            if (!field_21C_bf.bInPathList)
+            {
+                gPathFinder_6FDEF0->field_3C_ped_list.AddPedToBackIfMissing_471160(this);
+                field_21C_bf.bInPathList = true;
+            }
 
-                gPathFinder_6FDEF0->field_3C_ped_list.RemovePed_4711F0(this);
-                field_18C_current_path_point = &field_0_patrol_points[0];
-                field_21C_bf.bInPathList = false;
-
-                while (1)
-                {
-                    if (field_18C_current_path_point->field_0_x == 0)
+            switch (gPathFinder_6FDEF0->IsFirstPassenger_554A90(this))
+            {
+                case 1:
+                    if (!gPathFinder_6FDEF0->ComputePath_554AB0(field_200_id,
+                                                               this,
+                                                               field_1AC_cam.x.ToUInt8(),
+                                                               field_1AC_cam.y.ToUInt8(),
+                                                               field_1AC_cam.z.ToUInt8(),
+                                                               x.ToInt(),
+                                                               y.ToInt(),
+                                                               z.ToInt(),
+                                                               Ang16::GetAngleFace_4F78F0(angle),
+                                                               &this->field_266_path_fail_count))
                     {
-                        field_18C_current_path_point = &field_0_patrol_points[0];
+                        bUseCurrentPath = true;
                         break;
                     }
-                    if (field_18C_current_path_point->field_0_x == field_1AC_cam.x.ToUInt8() &&
-                        field_18C_current_path_point->field_1_y == field_1AC_cam.y.ToUInt8() &&
-                        field_18C_current_path_point->field_2_z == field_1AC_cam.z.ToUInt8())
+
+                    gPathFinder_6FDEF0->field_3C_ped_list.RemovePed_4711F0(this);
+                    field_18C_current_path_point = &field_0_patrol_points[0];
+                    field_21C_bf.bInPathList = false;
+
+                    while (1)
                     {
-                        break;
+                        if (field_18C_current_path_point->field_0_x == 0)
+                        {
+                            field_18C_current_path_point = &field_0_patrol_points[0];
+                            break;
+                        }
+                        if (field_18C_current_path_point->field_0_x == field_1AC_cam.x.ToUInt8() &&
+                            field_18C_current_path_point->field_1_y == field_1AC_cam.y.ToUInt8() &&
+                            field_18C_current_path_point->field_2_z == field_1AC_cam.z.ToUInt8())
+                        {
+                            break;
+                        }
+                        field_18C_current_path_point++;
                     }
-                    field_18C_current_path_point++;
-                }
-                // fall through
+                    // fall through
 
-            default:
-                // line 361
-                if (field_18C_current_path_point->field_0_x != 0 || field_18C_current_path_point->field_1_y != 0)
-                {
-                    goto LINE_54E;
-                }
-                field_21C_bf.bFlag17 = true;
-                goto LINE_3A9;
+                default:
+                    // line 361
+                    if (field_18C_current_path_point->field_0_x != 0 || field_18C_current_path_point->field_1_y != 0)
+                    {
+                        bNextPoint = true;
+                    }
+                    else
+                    {
+                        field_21C_bf.bFlag17 = true;
+                        Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
+                        Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_2);
+                        field_21C_bf.bFlag15 = false;
+                        field_0_patrol_points[0].field_0_x = 0;
+                        field_0_patrol_points[0].field_1_y = 0;
+                    }
+                    break;
 
-            case 0:
-            LINE_38E:
+                case 0:
+                    bUseCurrentPath = true;
+                    break;
+            }
+
+            if (bUseCurrentPath)
+            {
+                // line 38e
                 if (field_18C_current_path_point)
                 {
                     if (field_18C_current_path_point->field_0_x == 0 && field_18C_current_path_point->field_1_y == 0)
                     {
-                    LINE_3A9:
                         Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
                         Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_2);
                         field_21C_bf.bFlag15 = false;
@@ -7314,10 +7360,13 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                         Fix16 dist_1 = (kFpHalf_67853C + Fix16(field_1C4_move_target_x.ToUInt8())) - field_1AC_cam.x;
                         Fix16 dist_2 = (kFpHalf_67853C + Fix16(field_1C8_move_target_y.ToUInt8())) - field_1AC_cam.y;
 
-                        Fix16 a1 = Fix16::Abs(dist_1);
-                        Fix16 a2 = Fix16::Abs(dist_2);
+                        // Assigned, not initialised: both stay in memory for the pointer select of the Max.
+                        Fix16 a1;
+                        Fix16 a2;
+                        a1 = Fix16::Abs(dist_1);
+                        a2 = Fix16::Abs(dist_2);
 
-                        if (Fix16::Max_41E130(a1, a2) < kFpHalf_678790 || ((field_168_game_object->field_58_flags & 0x40) != 0))
+                        if (Fix16::Max(a1, a2) < kFpHalf_678790 || ((field_168_game_object->field_58_flags & 0x40) != 0))
                         {
                             field_18C_current_path_point++;
                             field_1C4_move_target_x = kFpHalf_67853C + Fix16(field_18C_current_path_point->field_0_x);
@@ -7330,7 +7379,7 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                             field_1C8_move_target_y = kFpHalf_67853C + Fix16(field_18C_current_path_point->field_1_y);
                             field_1CC_move_target_z = Fix16(field_18C_current_path_point->field_2_z);
                         }
-                        goto LINE_3D9;
+                        bUnk2 = true;
                     }
                 }
                 else
@@ -7341,36 +7390,42 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                     Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_2);
                     field_21C_bf.bFlag15 = false;
                 }
+            }
 
-                if (bUnk2)
-                {
-                LINE_3D9:
-                    if (type >= 3 && (type <= 5 || type == 7))
-                    {
-                        field_1B8_target_x = field_1C4_move_target_x;
-                        field_1BC_target_y = field_1C8_move_target_y;
-                        field_1C0_target_z = field_1CC_move_target_z;
-                    }
-                }
-                break;
-
-            // Line 361's else, placed at the end in the original
-            LINE_54E:
+            if (bNextPoint)
+            {
+                // line 54e
                 field_1C4_move_target_x = kFpHalf_67853C + Fix16(field_18C_current_path_point->field_0_x);
                 field_1C8_move_target_y = kFpHalf_67853C + Fix16(field_18C_current_path_point->field_1_y);
                 field_1CC_move_target_z = Fix16(field_18C_current_path_point->field_2_z);
                 field_21C_bf.bFlag16 = true;
                 byte_61A8A1 = 0;
-                goto LINE_3D9;
+                bUnk2 = true;
+            }
         }
     }
     else
+    {
+        bGiveUp = true;
+    }
+
+    if (bGiveUp)
     {
         // 5a5
         Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
         Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_2);
         field_21C_bf.bFlag15 = false;
         field_21C_bf.bFlag16 = false;
+    }
+
+    if (bUnk2)
+    {
+        if (type >= 3 && (type <= 5 || type == 7))
+        {
+            field_1B8_target_x = field_1C4_move_target_x;
+            field_1BC_target_y = field_1C8_move_target_y;
+            field_1C0_target_z = field_1CC_move_target_z;
+        }
     }
 }
 

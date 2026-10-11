@@ -4512,3 +4512,32 @@ raise z's priority (wrong way), and no behaviour-preserving edit tried raised y'
 also reloads from 0x24(%esp) instead of using eax. Tried: `else if (z >= 1)` (442), hoisted `z - 1`
 local (442), moving the field_36E store (446), hoisted zUp/zDown locals (1014-2200). Queued for a
 permuter sweep.
+
+## Agent near12 (Ped.cpp: UpdateMovementTowardsTarget_4672E0, StartCrossingRoad_45E4A0)
+
+Both matched (NO_PCH quick_score 0, checked with the whole Ped.cpp object: no other function changes).
+Files changed: `Source/Ped.cpp` only (no header edits).
+
+- `Ped::UpdateMovementTowardsTarget_4672E0` 206 -> 0, all five gotos removed. In order: (1) `goto LINE_54E`
+  from the default case -> `bNextPoint = true` and `if (bNextPoint) { 54E code; bUnk2 = true; }` after the
+  switch, `goto LINE_3D9` from the dist/54E blocks -> `bUnk2 = true` (206 -> 84: the 54E block now follows the
+  null block, since the flag test is first reached through case 0's null arm). (2) The Max as
+  `Fix16 a1; Fix16 a2; a1 = Abs(dist_1); a2 = Abs(dist_2); if (Fix16::Max(a1, a2) < kFpHalf` (84 -> 70; the
+  ternary form gives the select but one extra pick, 206; `Max_41E130`/`Fix16 result = ...` forms 84-108).
+  (3) The dead `mov 0x28(%esp),%al` in the `distance >= kFpOne` arm is a
+  `switch (type) { case 3: case 4: bUnk1 = true; break; default: bUnk1 = true; break; }` (70 -> 38); every
+  other dead use of `type` is folded. (4) The exit-in-the-middle layout: `if (bUnk2) { type check }` after the
+  top-level if/else, whose else only sets `bGiveUp = true`, `else if (!bUnk1) { bGiveUp = true; }` with the
+  rest of the then arm under `if (!bGiveUp)`, and `if (bGiveUp) { flee }` after the if/else (38 -> 0). A
+  `goto fail;` into a label in the else arm also gives 0 (`fail:` as shared failure block), the flag was
+  kept. `return;` in the else (38), the type check inside the then arm (38), the flee code as an out-of-line
+  else arm `else if (bUnk1) {...} else {...}` (155-163) don't work. (5) `goto LINE_3A9` -> the flee code
+  written out in the default case (cross-jumped as in the original), `goto LINE_38E` -> `bUseCurrentPath`.
+- `Ped::StartCrossingRoad_45E4A0` 414 -> 0. `u8 z = ToInt()` with `z - 1` passed at each of the four lookups
+  (414 -> 98: per-lookup conversion temps instead of one `(int)z` in ebp), `u8 y` instead of `s32 y`
+  (98 -> 46), four named `s16 max_*` locals at function scope assigned `2` before each `get_int_4F7AE0`
+  (46 -> 0: four unshared `movl $2` slots, frame 0x2C). The gotos became `do { ... break; } while (0)`
+  (an else-if chain with comma expressions also gives 0). Dead ends: `const u8&` helper params (414),
+  `s8` locals (414-588), an inline rng wrapper (424), a local `off` in `get_block_42A850` (362, wrong shape),
+  comma/else-if chains alone (46: statement scope does not change the temp slots). Permuter runs from the
+  414 base found only 408.

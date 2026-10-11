@@ -2832,3 +2832,49 @@ reached first through the non-slope `else` (J -> T -> landing code -> tail), whi
 Side effects that confirm it: the then-arm keeps `mov %al,(%ecx)` (field_50 known == 1 after the compare) so
 it no longer cross-jumps into the non-slope copy, and the two `bAirborne = 1` copies merge, since J now ends
 in a `jmp`. When a block is laid out "too late" for the DFS, look for a threaded flag before layout tricks.
+
+### Three threaded flags and a trailing `if` move the exit block (`Ped::UpdateMovementTowardsTarget_4672E0`)
+
+Matched by replacing all five gotos with structure VC6 threads away (206 -> 0, with the fixes below):
+
+- **A block laid out after the null-path block, reachable only from the switch's default case**, is a flag
+  tested after the switch: `if (bNextPoint) { ... bUnk2 = true; }`. The flag's test block is first reached
+  through case 0's null arm (the `je` target of the DFS), so the block is laid out there; the default case's
+  `jne` then goes straight to it (test threaded), and its `bUnk2 = true` threads the `if (bUnk2)` test too.
+- **A case-1 failure that "jumps into" case 0's code** is the same: `bUseCurrentPath = true; break;` in
+  case 1 and in case 0, with the code after the switch under `if (bUseCurrentPath)`. The empty case 0 block
+  is threaded away so the jump table points at the shared code.
+- **The exit block in the middle (`jcc exit` targets at 0x412) and the last block ending in its own
+  epilogue copy** (dupB, `Scripts/flowopt/README.md`) come from the last source statement sitting *after*
+  the big if/else: `if (bFlag15 == true) { ... } else { bGiveUp = true; } if (bGiveUp) { flee } if (bUnk2)
+  { type check }`. The else arm (the `jne` target, explored first, laid out last) reaches the `if (bUnk2)`
+  test with the flag known false, so VC6 threads it into `jmp exit`: the last block now ends in a `jmp`,
+  dupB's first loop moves the exit up behind the type check's own `jmp exit`, and the last block gets an
+  epilogue copy (with `pop %edi` scheduled into its `mov/and/mov` flag clear). With `return;` in the else
+  (or the type check inside the then arm) the else falls into the exit and the exit stays last (38 vs 0).
+  The early-return copy of the flee code (`else if (!bUnk1)`) is the same flag (`bGiveUp = true` and the
+  rest under `if (!bGiveUp)`), which also makes the top `jne` and the `je` share one block as in the original.
+- **A dead `mov type,%al` before `bUnk1 = true`** (in 9.6f too) is a `switch (type)` with two case labels
+  whose bodies equal the default's: the front end folds the cases, the load of the switch value stays.
+  `switch (type) { default: }`, `if (type) ... else ...` and `(type, true)` are folded completely.
+- **The `lea/lea/mov (%eax),%eax` Max select with the deref merged** needs assigned (not initialised)
+  locals and the ref-taking inline: `Fix16 a1; Fix16 a2; a1 = Abs(..); a2 = Abs(..); if (Fix16::Max(a1, a2)
+  < k)`. `Max_41E130(a1, a2)` keeps both in registers (value select); `(a1 > a2 ? a1 : a2)` gives the select
+  but an extra round-robin pick, so every temp after it rotates by one (206 vs 70).
+
+### Per-site `(int)u8` conversion temps and a named `s16` per rng call (`Ped::StartCrossingRoad_45E4A0`)
+
+414 -> 0 without changing the helpers (`IsBlockRoadTypeInlined_433470` -> `get_block_42A850`, both inline):
+
+- **One `(int)z` for all four inlined lookups vs. a conversion temp slot per lookup.** A plain `u8 z` local
+  passed to the four `u8` helpers is converted once (`mov home,%ebp; and $0xFF`, kept across the calls);
+  the original stores `z` to a fresh slot and reloads it as a dword at each lookup (`mov %al,0x20(%esp)` ...
+  `mov 0x20(%esp),%edx; and $0xFF,%edx`). That is what an *expression* argument gives: `u8 z = ToInt();`
+  and `helper(x, y - 1, z - 1)` at every call (`dec %al` once, CSE'd, spilled to a byte slot, but the
+  u8 temp passed to each inline is converted again). `s8`/`s32` locals and `const u8&` params don't do it.
+- **`u8 y` (not `s32`)** gives the original's `mov %bl,slot; mov slot,%ebp; and $0xFF` for the unmodified
+  `y` argument instead of a register `and`.
+- **Four `get_int_4F7AE0(2)` calls with four distinct `movl $2` slots** (never shared with the conversion
+  temps) are four named `s16` locals at function scope, each assigned `2` before its call, as in
+  `ApplyAimJitter_46F1E0`; the temporaries of a literal argument share the dead temp slots instead. The
+  `goto dispatch`s are a `do { ... break; ... } while (0)` (or an else-if chain), same code.
