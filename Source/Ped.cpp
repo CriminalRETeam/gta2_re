@@ -9730,14 +9730,7 @@ void Ped::MeleeAttackStateMachine_46B670()
     WIP_IMPLEMENTED;
     if (field_14C_internal_target_ped->GetPedState_403990() == ped_state_1::dead_9 || !field_14C_internal_target_ped->IsActive_433B40())
     {
-        if (field_25C_internal_objective == objectives_enum::punch_char_23)
-        {
-            field_226_internal_objective_status = 2;
-        }
-        else
-        {
-            field_226_internal_objective_status = 1;
-        }
+        field_226_internal_objective_status = field_25C_internal_objective == objectives_enum::punch_char_23 ? 2 : 1;
         return;
     }
 
