@@ -4853,3 +4853,51 @@ root with `VC6_TOOLS`-free `patch_c2.X` set to a scratch dir, see `Scripts/regal
   remaining gap is the slot numbering; not explored further (it would need a file-local copy of the inline).
 - Unexplored: a file-local copy of the spawn inline with function-scope temps (the inline's header is shared
   with ImGuiDebug and Police_38, so it must not change there).
+
+## Agent near15 (ChangeMenuPage_4B3170, Char_B4::state_0_54DDF0)
+
+- `Frontend::ChangeMenuPage_4B3170` (start 353, final **8**, not matched; kept). What moved it, in order:
+  - `SetPlySlotIdx_4C5920(field_70 = field_6E = Create_Player_Setting("plyrslot"))` as one chained assignment
+    gives the original's `mov %al,%cl; mov %ax,0xD72; push %ecx; ...; mov %ax,0xD74` (the pushed byte is a temp of the
+    *call result*). With an `s16`/`DWORD`/`u16` local, `(u8)`/`(char_type)`/`& 0xFF` casts, a `u8` copy local
+    (forward-substituted) or a chain on a local (c2), VC6 pushes `%eax`. That byte temp is one round-robin pick,
+    which also fixed the eax/ecx/edx rotation of the three switch bodies and `setne %dl` after it (353 -> 543 on the
+    line count, because the loops then diverged, but the structure was right).
+  - The permuter (on that base) found: a block-local `u8 game_mode_2` for case 7 (separate from the DEAD-page
+    `game_mode`; it shares 0x2C with the lea temp and the function-scope one gets its own slot) and
+    `StrToUpper(player_name)` once after the quit/non-quit if/else instead of in both arms: 543 -> 214. Each alone is
+    worse (527 / 232).
+  - The TAG loop as a select: `s32 time = GetTime(i); if (time <= best_opponent) time = best_opponent;
+    best_opponent = time;` gives `mov (%edx),%ecx; cmp %edi,%ecx; jg; mov %edi,%ecx; mov %ecx,%edi` and raises
+    best_opponent's colour priority so it takes edi across the three loops (int-i ebp, the reloaded u8 i ebx) with
+    the ebp reloads at the merge / on the two edges as in the original: 214 -> 16. The ternary
+    `best = time > best ? time : best` and `if (GetTime(i) > best) best = GetTime(i)` both spill best (ebp + 0x14).
+    Only works together with the goto-free tail (below); on the goto version it gave 208.
+  - The two gotos (`goto lose` from HasQuit(user_idx), `goto draw` from the unknown-mode else) are
+    `s32 user_value = 0; if (HasQuit(user)) user_value = -1; else if (FRAG) {...; user_value = X - best;} ...`
+    then `if (user_value > 0) win else if (< 0) lose else draw`: VC6 threads the constants into the two jumps,
+    tail-merges the three `sub %edi,%eax` and gives the `jge draw; jmp lose+7` over the edge reload block. Same code
+    as the goto version (0 lines), so kept as the readable form.
+  - The last FatalError pushes 0xA5 = `Gta2Error::NoValidMenuOptions`, not `FreeloaderEpisodeUnknown` (0x10): a 3-byte
+    `push` difference that showed up only as the final `jne 0x925/0x922` offsets. 16 -> 8.
+  - Left (8): `saved_main_stage`/`saved_is_bonus` swapped (0x2A/0x2B, both 1 byte, 2 refs). The frame list
+    (slotlog, `Scripts/regalloc/README.md`) orders equal-count symbols by which one reached its final count first in
+    the IL walk (0x1072EE45: a new symbol is appended after the same-size ones, a count increase moves it ahead of
+    strictly smaller counts), i.e. saved_is_bonus (its test load comes first) before saved_main_stage (reloaded in the
+    not-bonus arm). The original needs saved_main_stage first. Tried: all 6 store orders, declaration order, block
+    scope for either/both, `bool`, `if (saved_is_bonus)` arms swapped (28), compare operand order, a `u8 saved_main`
+    register copy (22), a `u8*` to it (8), the DecodeStage by-ref inline (same code as the written-out shifts). A third
+    ref of saved_main_stage still present at frame time (e.g. the DecodeStage store eliminated late) would explain it.
+  - Also: `DecodeStage_453A60(GetStage(), &main_stage_idx, &bonus_stage_idx)` and
+    `DecodeStage_453A60(bonus_count, &saved_main_stage, &bonus_count)` (the 9.6f shape) compile to the same code as
+    the written-out shifts, contrary to the old comment.
+- `Char_B4::state_0_54DDF0` (184, unchanged, nothing kept). 9.6f (0x49A560) calls GetBlockTypeAtCoord (0x420420) at the
+  pAhead site and tests the copied result (`mov %al,%bl; test %bl,%bl; mov %bl,0x28; jne`), so the 10.5 site is the
+  inline with its return value copied to block_type. The `Map_0x370::GetBlockTypeAtCoord_420420` inline there gives
+  the original's `and $3,%bl; test %bl,%bl; mov %bl,0x1C` (the compare is on the copy, not folded into the `and`)
+  but the non-null arm first and the null arm (`xor %bl,%bl; mov; jmp`) after the fall-through `ret` (204); a
+  helper spelled `if (!pBlock) return 0; return ...` or `return !pBlock ? 0 : ...` gives the original's null-first
+  layout but folds the test (188-192); `u8 t = 0; if (pBlock) t = ...` 703. All helper forms also give
+  `mov %ecx,%edx; mov gMap,%ecx` (the inline's `this` temp takes ecx and evicts z) where the original keeps z in
+  ecx and loads gMap into edx (`mov %edx,%ecx` before the call); the direct get_block call loads gMap into ecx after
+  `push z`. The conveyor-add order (second spot) not revisited.

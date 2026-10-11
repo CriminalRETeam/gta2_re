@@ -523,26 +523,20 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
         }
         else
         {
-            // 9.6f: GameSession_578::DecodeStage_453A60 here and below (inlined, using it changes the code)
-            u8 stage = gGameSession_67E8E0.GetStage_4C5990();
-            main_stage_idx = stage >> 4;
-            bonus_stage_idx = stage & 0xF;
+            gGameSession_67E8E0.DecodeStage_453A60(gGameSession_67E8E0.GetStage_4C5990(), &main_stage_idx, &bonus_stage_idx);
         }
 
-        u8 saved_main;
         if (!saved_is_bonus)
         {
-            saved_main = saved_main_stage;
             bonus_count = 0;
         }
         else
         {
-            saved_main = bonus_count >> 4;
-            bonus_count = bonus_count & 0xF;
+            gGameSession_67E8E0.DecodeStage_453A60(bonus_count, &saved_main_stage, &bonus_count);
         }
 
         MenuPage_0xBCA* pPage = &field_136_menu_pages_array[menu_page_idx];
-        if (main_stage_idx == saved_main && bonus_stage_idx == bonus_count)
+        if (main_stage_idx == saved_main_stage && bonus_stage_idx == bonus_count)
         {
             pPage->field_4_options_array[stage_idx].field_1_is_unlocked = 1;
             pPage->field_B8A[stage_idx].field_4_is_option_unlocked = 1;
@@ -556,10 +550,11 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
 
     if (menu_page_idx == MENUPAGE_PLAY)
     {
-        s16 playerSlotSetting = gRegistry_6FF968.Create_Player_Setting_587810("plyrslot");
-        field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx = playerSlotSetting;
-        field_136_menu_pages_array[1].field_4_options_array[0].field_70 = playerSlotSetting;
-        gGameSession_67E8E0.SetPlySlotIdx_4C5920(playerSlotSetting);
+        // One chained assignment: the slot index pushed to SetPlySlotIdx is a byte temp of the call result
+        // (`mov %al,%cl; push %ecx`), which an s16 local gives as `push %eax`
+        gGameSession_67E8E0.SetPlySlotIdx_4C5920(field_136_menu_pages_array[1].field_4_options_array[0].field_70 =
+                                                     field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx =
+                                                         gRegistry_6FF968.Create_Player_Setting_587810("plyrslot"));
         UpdateMenuForCurrPlayer_4B42E0();
     }
     else if (menu_page_idx == MENUPAGE_MULTIPLAYER_RESULTS)
@@ -567,9 +562,9 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
         stage_idx = gGameSession_67E8E0.GetMaxPlayers_4C5BF0();
         gTagGame_6F8450.GetLeaderIdx_453AB0();
         user_idx = (u8)gGameSession_67E8E0.GetUserPlayerIdx_4C5BE0();
-        game_mode = gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0();
+        u8 game_mode_2 = gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0();
 
-        switch (game_mode)
+        switch (game_mode_2)
         {
             case FRAG_GAME_1:
                 wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[13].field_6_element_name_str,
@@ -632,13 +627,12 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
                          gGameSession_67E8E0.GetPlayerName_4C5C60(player)->field_0_name,
                          gText_0x14_704DFC->Find_5B5F90("mult_q"));
                 wcscpy(player_name, quit_name);
-                gText_0x14_704DFC->StrToUpper_5B5B80(player_name);
             }
             else
             {
                 wcsncpy(player_name, gGameSession_67E8E0.GetPlayerName_4C5C60(player)->field_0_name, 50);
-                gText_0x14_704DFC->StrToUpper_5B5B80(player_name);
             }
+            gText_0x14_704DFC->StrToUpper_5B5B80(player_name);
             wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[player + 1].field_6_element_name_str, player_name, 50);
             if (player != user_idx)
             {
@@ -647,14 +641,15 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
             }
         }
 
+        // A quitter loses and a game without a known mode draws: both go through user_value (the tests
+        // below are threaded away), which also keeps best_opponent in edi across the three loops
         s32 best_opponent = -1;
-        s32 user_value;
+        s32 user_value = 0;
         if (gTagGame_6F8450.HasQuit_453A90(user_idx))
         {
-            goto lose;
+            user_value = -1;
         }
-
-        if (game_mode == FRAG_GAME_1)
+        else if (game_mode_2 == FRAG_GAME_1)
         {
             for (i = 0; i < stage_idx; i++)
             {
@@ -664,9 +659,9 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
                     best_opponent = (s16)gGameSession_67E8E0.GetFragsForPlayerIdx_4C5D60(i);
                 }
             }
-            user_value = (s16)gGameSession_67E8E0.GetFragsForPlayerIdx_4C5D60(user_idx);
+            user_value = (s16)gGameSession_67E8E0.GetFragsForPlayerIdx_4C5D60(user_idx) - best_opponent;
         }
-        else if (game_mode == POINTS_GAME_2)
+        else if (game_mode_2 == POINTS_GAME_2)
         {
             for (i = 0; i < stage_idx; i++)
             {
@@ -676,26 +671,26 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
                     best_opponent = gGameSession_67E8E0.GetPointsForPlayerIdx_4C5CB0(i);
                 }
             }
-            user_value = gGameSession_67E8E0.GetPointsForPlayerIdx_4C5CB0(user_idx);
+            user_value = gGameSession_67E8E0.GetPointsForPlayerIdx_4C5CB0(user_idx) - best_opponent;
         }
-        else if (game_mode == TAG_GAME_3)
+        else if (game_mode_2 == TAG_GAME_3)
         {
             for (i = 0; i < stage_idx; i++)
             {
                 if (i != user_idx && !gTagGame_6F8450.HasQuit_453A90(i))
                 {
+                    // A select (`cmp; jg; mov; mov`), not `best = time > best ? time : best` (spills best)
                     s32 time = gTagGame_6F8450.GetTime_453AA0(i);
-                    best_opponent = time > best_opponent ? time : best_opponent;
+                    if (time <= best_opponent)
+                    {
+                        time = best_opponent;
+                    }
+                    best_opponent = time;
                 }
             }
-            user_value = gTagGame_6F8450.GetTime_453AA0(user_idx);
-        }
-        else
-        {
-            goto draw;
+            user_value = gTagGame_6F8450.GetTime_453AA0(user_idx) - best_opponent;
         }
 
-        user_value -= best_opponent;
         if (user_value > 0)
         {
             wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[0].field_6_element_name_str,
@@ -704,14 +699,12 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
         }
         else if (user_value < 0)
         {
-        lose:
             wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[0].field_6_element_name_str,
                     gText_0x14_704DFC->Find_5B5F90("mult_l"),
                     50);
         }
         else
         {
-        draw:
             wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[0].field_6_element_name_str,
                     gText_0x14_704DFC->Find_5B5F90("mult_d"),
                     50);
@@ -746,7 +739,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
         pCurPage->SelectNextOption_4B6200();
         if (!pCurPage->field_4_options_array[pCurPage->field_BC6_current_option_idx].field_1_is_unlocked)
         {
-            FatalError_4A38C0(Gta2Error::FreeloaderEpisodeUnknown,
+            FatalError_4A38C0(Gta2Error::NoValidMenuOptions,
                               "C:\\Splitting\\GTA2\\Source\\frontend2.cpp",
                               4269); // the menu contains no valid options
         }
