@@ -6745,7 +6745,7 @@
         "v105_address": "0x521d20"
     },
     {
-        "name": "NetPlay::Send_521DB0",
+        "name": "NetPlay::SendGiveUp_521DB0",
         "v96f_address": null,
         "v105_address": "0x521db0"
     },
@@ -8324,7 +8324,7 @@
         "v96f_auto": true
     },
     {
-        "name": "sub_4DB2E0",
+        "name": "MakeInitialSyncData_4DB2E0",
         "v96f_address": "0x461c60",
         "v105_address": "0x4db2e0",
         "v96f_auto": true
@@ -11858,7 +11858,7 @@
         "v96f_auto": true
     },
     {
-        "name": "NetPlay:NoRefs",
+        "name": "NetPlay::IsUserHost_5212E0",
         "v96f_address": "0x409f20",
         "v105_address": "0x5212e0",
         "v96f_auto": true
@@ -11942,17 +11942,17 @@
         "v105_address": "0x521c80"
     },
     {
-        "name": "NetPlay::Send_521E40",
+        "name": "NetPlay::SendSyncCheckData_521E40",
         "v96f_address": null,
         "v105_address": "0x521e40"
     },
     {
-        "name": "NetPlay::Send_521E40",
+        "name": "NetPlay::SendSyncCheckData_521E40",
         "v96f_address": null,
         "v105_address": "0x521e40"
     },
     {
-        "name": "NetPlay::Send_521E40",
+        "name": "NetPlay::SendSyncCheckData_521E40",
         "v96f_address": null,
         "v105_address": "0x521e40"
     },

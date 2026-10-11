@@ -94,6 +94,7 @@ set(gta2_lib_src
   Source/PlyDat_2BC0.cpp
   Source/NetPlay.hpp
   Source/NetPlay.cpp
+  Source/network_data.hpp
   Source/input.hpp
   Source/input.cpp
   Source/GameSession_578.hpp
