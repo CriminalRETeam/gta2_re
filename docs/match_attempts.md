@@ -4328,3 +4328,23 @@ Scores are `quick_score.sh` lines (NO_PCH=1, WIP_IMPLEMENTED emptied).
   the (u8) form it gets edi and is used. So a constant whose register would be the only use of ebx (an extra
   push/pop) is folded; the original's order zero(esi) > 4(edi) > pParam2(ebx) needs both constants above pParam2
   (7), i.e. a smaller live-through penalty for `4` (it is live through ~15 blocks, N 1-5 each).
+
+## Agent map8 (Oct 11): deeper causes on map_0x370 near misses
+
+- `Map_0x370::sub_4E6660` (4, unchanged): 9.6f `sub_467110` is the real counterpart (9 `sub_4E65A0`, 16 `sub_4E5D10`,
+  4 `HasGreenArrow`, 4 `GetArrowDir`, 6 `>=`, 4 `>`, 3 `!=`, 1 `<`) and already has our shape, including
+  `pPrev = pBlock` after `sub_4E65A0(x, y, &z, 1, 1)` and the `pNext` null checks. opdump: all 22 `1`s are one CSE
+  constant temp; priolog shows one coloured piece (ebx, prio -8/-15) referenced only at the top, live through
+  everything, and the later uses become immediates in the local pass. With the copy after the call (48): a dead
+  duplicate copy before the call, `pOld = pBlock` before + `pPrev = pOld` after (propagated), `bTurned = 0` after the
+  first call (52), `pPrev` declared at the top or inside the loop, a shared `Fix16` for `to_centre`/`to_edge`, the
+  loop's `to_edge` at function scope: all 48.
+- `Map_0x370::sub_4E8370` (8, unchanged): the hoisted form's wrong allocation comes from an uncoloured range that
+  can only use `ecx` (priolog ecx score 100 x prio: 14xx hoisted, 6xx with a single `field_360 +=` tail after the
+  if/else (292), 2xx with an `s8` first-loop counter): it pushes the `this` reload piece and `column_idx` off
+  ecx/eax. When the penalty is <= 3 or gone the whole top matches (column_idx eax, offset ecx, this spilled late,
+  `mov 0x20(%esp),%al; test`); the permuter (800 on the tail form) gets that only by moving the last sub-arm's
+  zero store before its loop (108-116, wrong order) or an `s8` counter (198). The range is most likely the zero
+  constant's first piece (the `xor %ecx,%ecx; mov 1(%esi),%cl` idiom). No effect on the tail form: declaration
+  orders, `pNew` with init, `else` around the in-place part, split range test (328), `+=` in 2/5 arms (310/323),
+  const/pointer locals in the first loop, casts of the second-loop bound, function-scope `i`, `do_drop != 0`.
