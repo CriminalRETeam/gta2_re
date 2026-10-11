@@ -11858,7 +11858,7 @@
         "v96f_auto": true
     },
     {
-        "name": "NetPlay:NoRefs",
+        "name": "NetPlay::IsUserHost_5212E0",
         "v96f_address": "0x409f20",
         "v105_address": "0x5212e0",
         "v96f_auto": true
