@@ -4601,11 +4601,23 @@ static inline s32 IsOnSlopeBlock(gmp_block_info* pBlock)
     return 0;
 }
 
+// MaxAbsDistance_42A6B0 as state_1_5504F0 inlines it: past the nested inline budget, Max is the named
+// out-of-line copy Max_44E540 (as in Weapon_30's MaxAbsDistance_5DF270)
+static inline Fix16 MaxAbsDistance_5504F0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
+{
+    Fix16 diff_x;
+    diff_x = x2 - x1;
+    Fix16 diff_y;
+    diff_y = y2 - y1;
+    Fix16 result;
+    result = Fix16::Max_44E540(Fix16::Abs(diff_x), Fix16::Abs(diff_y));
+    return result;
+}
+
 // https://decomp.me/scratch/chZqY
-WIP_FUNC(0x5504f0)
+MATCH_FUNC(0x5504f0)
 void Char_B4::state_1_5504F0()
 {
-    WIP_IMPLEMENTED;
     Ang16 v77;
     Ang16 v29;
     Ang16 v30;
@@ -4685,9 +4697,10 @@ void Char_B4::state_1_5504F0()
     {
         if (field_10_char_state != 15)
         {
+            // The z argument is the raw subtraction: Fix16::operator- here gives other registers
             if (gMap_0x370_6F6268->HasBlockAnyArrows_492140(gCharB4_Saved_Xpos_6FD7F8.ToInt(),
                                                             gCharB4_Saved_Ypos_6FD800.ToInt(),
-                                                            (gCharB4_Saved_Zpos_6FD7FC - kFP16One_6FD9E8).ToInt()))
+                                                            (gCharB4_Saved_Zpos_6FD7FC.mValue - kFP16One_6FD9E8.mValue) >> 14))
             {
                 Char_B4::DoJump_5454D0();
                 field_38_velocity = kZeroVelocity_6FD7C0;
@@ -4706,7 +4719,7 @@ void Char_B4::state_1_5504F0()
         {
             if (gMap_0x370_6F6268->HasBlockAnyArrows_492140(gCharB4_Saved_Xpos_6FD7F8.ToInt(),
                                                             gCharB4_Saved_Ypos_6FD800.ToInt(),
-                                                            (gCharB4_Saved_Zpos_6FD7FC - kFP16One_6FD9E8).ToInt()))
+                                                            (gCharB4_Saved_Zpos_6FD7FC.mValue - kFP16One_6FD9E8.mValue) >> 14))
             {
                 Char_B4::DoJump_5454D0();
                 field_58_flags_bf.b6 = true;
@@ -4816,10 +4829,10 @@ LABEL_65:
         angle = v20;
         if (field_58_flags_bf.b7) // line 434
         {
-            if (Fix16::MaxAbsDistance_42A6B0(gCharB4_Saved_Xpos_6FD7F8,
-                                             gCharB4_Saved_Ypos_6FD800,
-                                             kFP16Half_6FD8E4 + Fix16(field_72_next_tile_x),
-                                             kFP16Half_6FD8E4 + Fix16(field_73_next_tile_y)) < kFP16Quarter_6FD828)
+            if (MaxAbsDistance_5504F0(gCharB4_Saved_Xpos_6FD7F8,
+                                      gCharB4_Saved_Ypos_6FD800,
+                                      kFP16Half_6FD8E4 + Fix16(field_72_next_tile_x),
+                                      kFP16Half_6FD8E4 + Fix16(field_73_next_tile_y)) < kFP16Quarter_6FD828)
             {
                 field_58_flags_bf.b7 = 0;
             }
@@ -4915,10 +4928,9 @@ LABEL_65:
         field_38_velocity = gRunOrJumpSpeed_6FD7D0;
     }
 
-    Fix16 sprite_z = field_80_sprite_ptr->field_1C_zpos;
-    field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + Ang16::sine_40F500(field_40_rotation) * field_38_velocity,
-                                             field_80_sprite_ptr->field_14_xy.y + Ang16::cosine_40F520(field_40_rotation) * field_38_velocity,
-                                             sprite_z);
+    Fix16 nx = field_80_sprite_ptr->field_14_xy.x + Ang16::sine_40F500(field_40_rotation) * field_38_velocity;
+    Fix16 ny = field_80_sprite_ptr->field_14_xy.y + Ang16::cosine_40F520(field_40_rotation) * field_38_velocity;
+    field_80_sprite_ptr->set_xyz_lazy_420600(nx, ny, field_80_sprite_ptr->field_1C_zpos);
 
     field_80_sprite_ptr->set_ang_lazy_420690(field_40_rotation);
     if (field_69_is_colliding_with_sprite)

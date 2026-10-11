@@ -5374,3 +5374,22 @@ Police_38.cpp (CreateRoadblock_575FF0) was not attempted.
   live ranges in the block, or the def's own interference). Next: build a probe where the then-arm defines a
   local but the piece still grows, by varying what else is live in the then-block (K5 vs L2 differ only in
   whether the local is defined there or live-through), then port.
+
+## Agent near32 (Oct 11): Char_B4::state_1_5504F0 30 -> 0 (MATCH)
+`try.sh` (NO_PCH compile + `permuter_score.py`, masked with near27's `msc.py`); diff and variants in
+`/tmp/claude-0/agents/near32/` (`final.cpp`, `final.diff`, `v2/`). Only `Source/char.cpp` (state_1 body plus a
+`static inline MaxAbsDistance_5504F0` helper right before it). Every other function of the TU compiles to the same
+code as before (objdump compare, only EH `$T` names differ). Three independent fixes:
+- HasBlockAnyArrows arms (the `kFP16One` edx/ecx swap): the z argument as the raw
+  `(gCharB4_Saved_Zpos_6FD7FC.mValue - kFP16One_6FD9E8.mValue) >> 14` in both arms instead of
+  `(Z - kOne).ToInt()`. The inlined `Fix16::operator-` (local + `Fix16(value, 0)`) leaves a different IL shape
+  whose hoisted kOne load gets ecx; `Fix16(Z - kOne).ToInt()` changes nothing. 30 -> 12.
+- set_xyz site (zpos/sine register swap): compute the x (and y) argument before the zpos read:
+  `Fix16 nx = spr->x + sine * vel; Fix16 ny = ...; set_xyz_lazy_420600(nx, ny, spr->field_1C_zpos);`
+  (also matches with a `Fix16 s = sine(...)` local before `sprite_z`, but NOT with `sprite_z` first and `s` after).
+  The IL order sine-then-zpos gives the original's round-robin picks (sine ecx, zpos edx); a zpos read in the
+  argument list or in a local before the call puts it first. 12 -> 2.
+- The remaining +2 was the callee check: `Fix16::MaxAbsDistance_42A6B0` emits `Max_41E130`, the original calls
+  `Max_44E540`. Same fix as Weapon_30/Police_38: a local `MaxAbsDistance_5504F0` copy calling `Fix16::Max_44E540`. 2 -> 0.
+- The earlier permuter run (2100 compiles on the 30 base, default passes + `--keep-ties`) found nothing: neither
+  the raw subtraction nor the argument-order change is in its pass set.
