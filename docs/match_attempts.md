@@ -4348,3 +4348,25 @@ Scores are `quick_score.sh` lines (NO_PCH=1, WIP_IMPLEMENTED emptied).
   constant's first piece (the `xor %ecx,%ecx; mov 1(%esi),%cl` idiom). No effect on the tail form: declaration
   orders, `pNew` with init, `else` around the in-place part, split range test (328), `+=` in 2/5 arms (310/323),
   const/pointer locals in the first loop, casts of the second-loop bound, function-scope `i`, `do_drop != 0`.
+
+## Agent cheap1 (DetectCarAhead_44D1D0, EmitFlameStreamSegment_53F4C0)
+
+Both functions scored unchanged: 44D1D0 16 -> 16, 53F4C0 66 -> 66 (`NO_PCH=1 quick_score.sh`, which the verifier matches).
+No source change kept. Nothing matched.
+
+`CarAI_78::DetectCarAhead_44D1D0` (16), tried this round, all 16 or worse:
+- Permuter, ~200 compiles, passes swap_logical, do_while, noop_node, invert_if, cond_split, goto_exit,
+  tail_return, switch_dup, remove_stmt off: no candidate below 16.
+- Tail block rewrites: `arrow_idx++` then `next_idx = arrow_idx` (16, same as before), `arrow_idx++` used
+  directly (102), `last_idx` declared first (16), `if (next_idx > last_idx)` (18), `last - next < 0` (96),
+  ternary `(last < next) ? last : next` (76), a `u8 end_idx` local (72), if/else with both stores (82).
+- Target has `al = arrow_idx + 1`, `cl = arrow_count - 1`; ours is the other way round. Nothing above flips it.
+
+`Particle_8::EmitFlameStreamSegment_53F4C0` (66), tried this round:
+- Permuter, ~100 compiles, same passes: no candidate below 66. Stalled after about 100 compiles.
+- Declaration changes: `Fix16_Point vel;` plus two `Fix16(0)` stores (185, worse); `Ang16 angle;` at the top of
+  the block (66, no change); `Fix16 vec_x/vec_y` moved to the block top (66); `point_velocity` at the top (179);
+  `point_velocity` at the top with its inner declaration removed (70).
+- Remaining diffs: the EH state (target starts `movl $4`, ours `$3`), extra `movb $N` EH-state stores in ours
+  inside the car branch, and the frame (0x4C vs 0x34). 9.6f 0x48D4E0 builds `Ang16` and the `Fix16` temporaries
+  through `lea`/`call 0x401af0` on the stack, which is a different shape from ours. Not rewritten.
