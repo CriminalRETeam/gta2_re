@@ -3581,8 +3581,8 @@ void MapRenderer::Draw_4F6A20()
             gZCoord_6F63E0 = zLayer;
             gZCoordFp_6F6518 = Fix16(zLayer);
 
-            Fix16 unknown_1;
             Fix16 unk_Z_Factor = gViewCamera_676978->field_98_cam_pos2.field_8_z - Fix16(zLayer) + Fix16(8);
+            Fix16 unknown_1;
             if (unk_Z_Factor == kZeroOnePoint_6F6484.x)
             {
                 unknown_1 = kZeroOnePoint_6F6484.x;
@@ -3593,8 +3593,8 @@ void MapRenderer::Draw_4F6A20()
             }
 
             gInvDepthBottom_6F6318 = unknown_1;
-            gScreenScaleBottom_6F633C = unknown_1 * gViewCamera_676978->field_60.x;
             s32 top_layer = zLayer + 1;
+            gScreenScaleBottom_6F633C = unknown_1 * gViewCamera_676978->field_60.x;
             gZCoordTop_6F62B0 = top_layer;
 
             Fix16 unknown_2;
