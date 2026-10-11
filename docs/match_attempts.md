@@ -4781,3 +4781,23 @@ Not done: the permuter (lock held elsewhere, per instructions). The next step is
 top block, not spelling variants: spill the CSE temp by making its gZCoordFp use come from a separate block,
 or raise `layer_column_width`'s priority, and check with priolog (ralog/priolog variants built under a scratch
 root with `VC6_TOOLS`-free `patch_c2.X` set to a scratch dir, see `Scripts/regalloc/README.md`).
+
+## Agent cheap14: Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0 (53BAC0)
+
+- Start 463, now 217 (NO_PCH=1 quick_score), still WIP_FUNC. Changed only `Source/Particle_4C.cpp`.
+- **Kept:** `max_sub_state = 14;` moved before the `set_id_lazy_4206C0` call in the `field_38_state == 31` arm. It puts
+  `max_sub_state` in `bl` as the original does (463 -> 219). Behaviour is unchanged: the set_id call does not read it.
+- **Kept:** the two `stru_6FD388`/`stru_6FD38C` updates swapped (x first, then y): 219 -> 217. Independent globals.
+- **Tried, no gain:** folding `spread_val` into one `Ang16` declaration (neutral, 463 -> 463), `offset.y` before
+  `offset.x` (worse, 463 -> 471; 219 -> 221 on top of the max move), operand order / `+=` / commuted multiply in the
+  spread (neutral), a function-scope `Ang16 angle` without init (neutral), `xpos`/`ypos` chained-assign split (worse),
+  `gun_angle` flattened out of its block (544) or made function scope (530), `car_angle` from `pGun` directly (645),
+  `max_sub_state` as a ternary at the declaration (225) or after the spread (563), a second `if (state == 31)` for
+  `max_sub_state` (548).
+- **Structure:** the skeleton score goes 3 -> 5 with the moved max. Target keeps the set_id inline in the 31 arm with
+  `mov $0xE,%bl` after its call and `je` to the join; with max first VC6 threads the inline's equal-id branch away.
+  The moved version is still the best score, so the skeleton is not the goal here.
+- **Still differs:** the whole frame (target slots: angle word 0x14, ypos 0x18, pCar 0x1C, pB4 0x20, xpos 0x24,
+  spread word 0x28, zpos 0x2C, u8 temp 0x30; ours are permuted), `gun_angle` reloaded through `edx` (target `eax`),
+  and the set_id inline layout in the 31 arm. Not matched. The permuter was not run (instructed to skip /tmp/permute.lock and do
+  manual variants), so a permuter pass is the next step.

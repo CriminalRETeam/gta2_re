@@ -1541,13 +1541,13 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
     {
         PolarToXY_6FD2E8(field_30_pNext->field_0, dx, dy);
     }
-    stru_6FD38C = stru_6FD38C + (vel.y + dy);
     stru_6FD388 = stru_6FD388 + (vel.x + dx);
+    stru_6FD38C = stru_6FD38C + (vel.y + dy);
 
     if (field_38_state == 31)
     {
-        field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 73);
         max_sub_state = 14;
+        field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 73);
     }
     else
     {
