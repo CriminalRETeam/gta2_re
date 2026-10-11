@@ -6281,6 +6281,8 @@ ret_false:
 WIP_FUNC(0x4661F0)
 char_type Ped::IsThreatToSearchingPed_4661F0()
 {
+    Fix16 sx;
+    Fix16 dx;
     WIP_IMPLEMENTED;
 
     Ped* pSearcher;
@@ -6304,25 +6306,22 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                 goto ret_false;
             }
 
-            pSearcher = gSearchingPed_6787DC;
             flag = 0;
+            pSearcher = gSearchingPed_6787DC;
 
             if (IsInvisibleOnFoot_466B70())
             {
                 goto ret_false;
             }
 
-            if (pSearcher->field_288_threat_search == threat_search_enum::area_player_threat_only_3 || pSearcher->field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4)
+            if ((pSearcher->field_288_threat_search == threat_search_enum::area_player_threat_only_3 || pSearcher->field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4) && !this->PedTypeIs_45EDE0(ped_type::player_2))
             {
-                if (!this->PedTypeIs_45EDE0(ped_type::player_2))
-                {
-                    goto ret_false;
-                }
+                goto ret_false;
             }
 
             if (pSearcher->field_288_threat_search == threat_search_enum::area_player_only_5 || pSearcher->field_288_threat_search == threat_search_enum::line_of_sight_player_only_6)
             {
-                if (this->IsActivePlayerPed_45EDC0())
+                if (this->IsActivePlayerPed_45EDC0() != 0)
                 {
                     goto ret_true;
                 }
@@ -6390,7 +6389,7 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                         }
 
                     check_threat_level:
-                        if ((u8)this->field_263_prev_attackers_count >= 4)
+                        if (4 <= (u8)this->field_263_prev_attackers_count)
                         {
                             goto ret_false;
                         }
@@ -6423,7 +6422,7 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
 
                     if (((BitSet32*)&this->field_21C)->check_bit(ped_bit_index::attacking_11))
                     {
-                        if (!this->IsActivePlayerPed_45EDC0() && this->field_240_occupation != ped_ocupation_enum::empty)
+                        if (!this->IsActivePlayerPed_45EDC0() && (this->field_240_occupation != ped_ocupation_enum::empty))
                         {
                             if (this->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
                             {
@@ -6676,16 +6675,15 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
             {
                 Ped* pS = gSearchingPed_6787DC;
 
+                Fix16 dy;
                 if (pS == this)
                 {
                     goto ret_false;
                 }
 
                 Fix16 sy = pS->field_1AC_cam.y;
-                Fix16 sx = pS->field_1AC_cam.x;
-                Fix16 dx;
+                sx = pS->field_1AC_cam.x;
                 dx = sx.Subtract_436A00(this->field_1AC_cam.x);
-                Fix16 dy;
                 dy = sy.Subtract_436A00(this->field_1AC_cam.y);
 
                 if (Fix16::Max_44E540(Fix16::Abs_436A50(dx), Fix16::Abs_436A50(dy)).mValue > kFpQuarter_678788.mValue)
@@ -6720,7 +6718,7 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                     goto ret_false;
                 }
 
-                Fix16 dx = this->field_1AC_cam.x - pS->field_1AC_cam.x;
+                Fix16 dx = this->field_1AC_cam.x - pS->get_cam_x();
                 Fix16 dy = this->field_1AC_cam.y - pS->field_1AC_cam.y;
                 Ang16 rel(Ang16(Fix16::atan2_fixed_405320(dy, dx).rValue - gSearchingPed_6787DC->GetRotation().rValue), 0);
                 Ang16 range(Ang16(gDummyPedAng_6787A8.rValue - word_6784F0.rValue), 0);
@@ -6755,17 +6753,10 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
             }
             else
             {
-                Player* pPlayer = this->field_15C_player;
                 Camera_0xBC* pCam;
 
-                if (pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3)
-                {
-                    pCam = &pPlayer->field_208_aux_game_camera;
-                }
-                else
-                {
-                    pCam = &pPlayer->field_90_game_camera;
-                }
+                Player* pPlayer = this->field_15C_player;
+                pCam = &(pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3 ? pPlayer->field_208_aux_game_camera : pPlayer->field_90_game_camera);
 
                 Char_B4* pObj = gSearchingPed_6787DC->field_168_game_object;
 
@@ -6796,7 +6787,7 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                 }
 
                 Fix16 dx = this->field_1AC_cam.x - pS->field_1AC_cam.x;
-                Fix16 dy = this->field_1AC_cam.y - pS->field_1AC_cam.y;
+                Fix16 dy = this->field_1AC_cam.y - pS->get_cam_y();
                 Ang16 rel(Ang16(Fix16::atan2_fixed_405320(dy, dx).rValue - gSearchingPed_6787DC->GetRotation().rValue), 0);
                 Ang16 range(Ang16(gDummyPedAng_6787A8.rValue - word_6784F0.rValue), 0);
 
@@ -6820,9 +6811,9 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                     }
                 }
 
-                Fix16 sx = gSearchingPed_6787DC->field_1AC_cam.x;
-                Fix16 sy = gSearchingPed_6787DC->field_1AC_cam.y;
                 Fix16 sz = gSearchingPed_6787DC->field_1AC_cam.z;
+                Fix16 sy = gSearchingPed_6787DC->field_1AC_cam.y;
+                Fix16 sx = gSearchingPed_6787DC->field_1AC_cam.x;
 
                 if (field_238_ped_type != ped_type::player_2)
                 {

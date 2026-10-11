@@ -4291,3 +4291,13 @@ Scores are `quick_score.sh` lines (NO_PCH=1, WIP_IMPLEMENTED emptied).
   right after the CountConsecutiveArrowBlocks call for the tail (its own stack slot, so not a split piece) 16, an
   extra `field_2E = 0` in the body 76. Permuter 800 with the new passes: only the known 12 (store after the if).
   9.6f (0x42C8B0) also has next in `al`, last in `cl`, loads count first.
+
+## Permuter sweep 2 (Oct 11, remove_stmt off)
+- `PoliceRoadblock_A4::CreateRoadblock_575FF0`: 138 -> 122 (y_bottom/zpos declared at the top).
+- `Ped::IsThreatToSearchingPed_4661F0`: 372 -> 294 (merged player-only condition, camera pick as a
+  ternary, field load orders, sx/dx declared at the top).
+- `sound_obj::HandleCarDoorSounds_4182E0`: 286 -> 76 only with `u8 displacement =
+  RandomDisplacement_41A650(...)`, which truncates a signed value (not applied). Hint: the original
+  treats the displacement as a byte somewhere; check the asm around the rate add.
+- `SCRCMD_STORE_CAR_INFO_509180`: 80 -> 58 only with a `(u8)` pointer test (not applied).
+- No change in 25 min each: 53F4C0 (66), 4E6660 (4), 4E8370 (8), 5520A0 (12).
