@@ -4439,3 +4439,16 @@ wrong, so no type, structure, inline or scheduling work applies. Left unchanged.
 - `ReadTextures`: the guard cannot move: `get_tile_4C2EB0` is an inline used by matched code,
   `pgbh_RegisterTexture` is a DLL function pointer and `load_tiles_5AADF0` (the `Aligned_malloc_4FE510` of
   `tile_chunk_len`) is matched, so padding the tile buffer to 1024 tiles would break a match.
+
+## Agent cheap3 (SetupMenuStringsOptionsElements_4B0220)
+- Start 254, final 158 (NO_PCH=1 quick_score). Not matched.
+- Permuter (default passes, 1500 compiles, -j 2): best 158. Its candidates were mostly independent
+  store reorders plus `s16 & v38` / `const u16 &` / extra temporaries. Checking one change at a time, the
+  whole gain comes from `s16 v38 = field_120_selected_font;` (page 6). Making it a reference alias
+  (`s16 & v38`) or reading `field_120_selected_font` directly at its two uses both give 158. The store
+  reorders and the `'j' != x` operand swap change nothing alone. Behaviour is unchanged: no write to
+  `field_120` in this function, and `GetCenteredXPos_4B0190` and `Find_5B5F90` do not write it.
+- The remaining diff is register rotation of the constants (`0x17C`, `0x136`, `0x1CC`, `0x186`) and of
+  the `lea`/`push` pairs around `wcsncpy` calls, plus the read at `0x4860(%esi)` (the element 7 font, page 7
+  line `GetCenteredXPos(... elements_array[7].field_6A_font_type ...)`), which the candidate reads from another
+  address. Not chased further.

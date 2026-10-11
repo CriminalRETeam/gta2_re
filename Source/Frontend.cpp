@@ -3909,15 +3909,14 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     field_136_menu_pages_array[6].field_518_elements_array[2].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[6].field_518_elements_array[2].field_2_xpos = 400;
     field_136_menu_pages_array[6].field_518_elements_array[2].field_4_ypos = 250;
-    s16 v38 = field_120_selected_font;
     field_136_menu_pages_array[6].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[6].field_518_elements_array[2].field_6A_font_type = v38;
+    field_136_menu_pages_array[6].field_518_elements_array[2].field_6A_font_type = field_120_selected_font;
     field_136_menu_pages_array[6].field_4_options_array[0].field_4_y_pos = 340;
     wcsncpy(field_136_menu_pages_array[6].field_4_options_array[0].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("repbons"),
             0x32u);
     field_136_menu_pages_array[6].field_4_options_array[0].field_2_x_pos =
-        Frontend::GetCenteredXPos_4B0190(field_136_menu_pages_array[6].field_4_options_array[0].field_6_option_name_str, v38, 320);
+        Frontend::GetCenteredXPos_4B0190(field_136_menu_pages_array[6].field_4_options_array[0].field_6_option_name_str, field_120_selected_font, 320);
     field_136_menu_pages_array[6].field_4_options_array[0].field_80_menu_page_target = 259;
     field_136_menu_pages_array[6].field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[6].field_4_options_array[1].field_4_y_pos = 360;
