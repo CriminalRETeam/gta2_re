@@ -2878,3 +2878,33 @@ Matched by replacing all five gotos with structure VC6 threads away (206 -> 0, w
   temps) are four named `s16` locals at function scope, each assigned `2` before its call, as in
   `ApplyAimJitter_46F1E0`; the temporaries of a literal argument share the dead temp slots instead. The
   `goto dispatch`s are a `do { ... break; ... } while (0)` (or an else-if chain), same code.
+
+### An inlined sibling function, its nested budget, and function-scope locals (`Ped::IsThreatToSearchingPed_4661F0`)
+
+294 -> match. 9.6f (0x437670) has search mode 1 as one call to 0x4371D0 = `IsPedAThreat_465D00`; 10.5 inlines it:
+
+- **Write the call, not the expansion.** `if (gSearchingPed_6787DC->IsPedAThreat_Inline_465D00(this)) return 1;
+  return 0;` gives what no goto copy of the body could: the inlinee's `return 0` paths thread into the caller's
+  exit (`jcc 8FD` everywhere, one `xor al,al` epilogue), its two block-scoped `player_idx` get *separate* slots
+  (inlined locals never share, unlike in the standalone 465D00 where they share 0x24), and the second IsRespect
+  site's `test %al; jmp` into the first site's tail appears by itself.
+- **The nested budget decides what the inlinee calls.** After charging the 1399-node inlinee the nested budget is
+  42, so `IsInvisibleOnFoot_433DA0` (header inline) is called out of line only if its front-end size is above
+  that: `return a && b;` is 35 (free, always inlined), the matched copy's body `if (a && b) return 1; return 0;`
+  is 47. `HandlePedHitByObject_45D000`, which inlines it, has a nested budget of 71. Spellings measured with
+  `inl.sh -a`: `if/else` 53, nested ifs 54, two early returns 57, with a pointer local 62, if/else/else 69.
+- **Locals that never share a slot are function-scope.** The original's `dx`/`dy` of mode 4, `dx`/`dy` of mode 5
+  and `dz` each have their own 4-byte slot (0x3C..0x4C) while the mode 1/3 temporaries pack into 0x28..0x30. Five
+  function-scope `Fix16` (distinct names per mode) give that (84 -> 4); block-scoped ones share (12 lines of
+  slot moves), one shared pair 124.
+- **A 2-byte `Ang16` reloaded as 16 bits** (`mov 0x14(%esp),%si` right after the out-of-line ctor, then two
+  `cmp` on `si`) is a function-scope `Ang16 rel` assigned from the ctor's temporary (RVO: the ctor's `this` is
+  `rel`'s 2-byte home) and enregistered in `si`. `Ang16 rel` in a block, `s16 r = rel.rValue`, `(s16)`, `const`
+  and reference spellings all give a 4-byte slot and `mov slot,%esi`; `rel.AssignNormalized_409300(...)` on a
+  default-constructed local keeps the `movw $0` init and loads at the first use. The enregistered copy of the
+  atan2 result before `GetRotation()` (`mov (%eax),%si`) is a function-scope `Ang16 a` too (9.6f default-constructs
+  three Ang16 at entry: a, rel, range).
+- **Arguments as getters in each arm** (`sub_4E5640(..., pS->get_cam_x(), get_cam_y(), get_cam_z(), ...)` in both
+  calls, as 9.6f): head merging hoists the three loads above the `je` with the type compare in between
+  (`mov type,%ecx; mov 1B0,%edx; cmp $2,%ecx; mov 1B4,%ecx; mov 1AC,%eax`); `sx/sy/sz` locals load them up front
+  in a different order and register.

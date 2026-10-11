@@ -4689,3 +4689,39 @@ function moved; no source change kept. Scores are `NO_PCH=1 quick_score.sh`.
   (`call; mov %eax,%esi; movb $1,0x11(%esp); jmp`), not in the to_edge branch. That fits a source shape
   where the slope path skips the `pBlock != pPrev` step, but the else-if form scores worse, so the
   original's order of the `sub_4E65A0` call relative to the slope lookup is still open.
+
+## Agent near14 (Oct 11): IsThreatToSearchingPed_4661F0 (294 -> 4, MATCH), state_8_5520A0 (12, unchanged)
+
+- `Ped::IsThreatToSearchingPed_4661F0` 294 -> 4 (**MATCH**: the asm is identical, the 4 is `permuter_score.py`'s
+  penalty for the two COMDAT inline copies `Max_41E130`/`IsInvisibleOnFoot_433DA0` where the original calls the
+  exports; the full build verifies it, 3392/3392). What it took, in order:
+  - Mode 1 is `return gSearchingPed_6787DC->IsPedAThreat_Inline_465D00(this);` after the three common checks
+    (9.6f 0x437670 calls 0x4371D0 = IsPedAThreat there). The inlinee's `return 0`/`goto ret_false` become
+    `jcc 8FD` into the function's own exit and the two `player_idx` locals get separate slots (0x2C/0x30, inlined
+    locals never share), which the hand-expanded copy with gotos could not give (the second IsRespect site's
+    `test %al; jmp` tail merge appears by itself). `if (...) return 1; return 0;` is 362 vs `return ...;` 407.
+  - The inlinee calls `IsInvisibleOnFoot_433DA0` out of line only because its front-end size is above the nested
+    budget (42 here, 71 in HandlePedHitByObject_45D000, which inlines it): the header's `return a && b;` was 35
+    (free). Rewritten as the matched out-of-line copy's body (`if (a && b) return 1; return 0;`, 47); the
+    inline copy now calls it instead of writing the test out (45D000 stays 0).
+  - Mode 3 is `!(Fix16::MaxAbsDistance_42A6B0(x, y, pS->get_cam_x(), pS->get_cam_y()) <= kFpQuarter)`: with the
+    inlinee charged first, the nested budget (42) sends its `operator-`/Abs/Max out of line by itself.
+  - Modes 4/5: `a = atan2(dy, dx); rel = SubAng16(a, pS->GetRotation()); range = SubAng16(gDummyPedAng, word);`
+    with `Ang16 a; Ang16 rel; Ang16 range;` at function scope (9.6f default-constructs three Ang16 at the top)
+    and a local `SubAng16` = `NormalizedAng(lhs.rValue - rhs.rValue)` (by-value `s16` -> the dword store before
+    the out-of-line ctor). The function-scope `a` is the enregistered `mov (%eax),%si` copy before the
+    GetRotation call; `rel` enregistered in `si` gives the 16-bit reload `mov 0x14(%esp),%si` right after the
+    ctor. Block-scoped `Ang16`/`s16 rel = ...rValue` forms all load a dword (4-byte slot) or at the wrong place.
+  - The mode 5 calls take `gSearchingPed_6787DC->get_cam_x/y/z()` as arguments (9.6f), not sx/sy/sz locals:
+    head merging hoists the three loads before the `je`, with the type compare between them.
+  - Frame: `Fix16 dx, dy, dx2, dy2, dz` at function scope (v2: 84 -> 4). Function-scope locals never share a
+    slot, which is exactly the original's layout (0x3C..0x4C each its own slot) while the mode 1/3 temporaries
+    do share (0x28..0x30); one shared `dx/dy` pair gives 124.
+- `Char_B4::state_8_5520A0` (12, unchanged). New data: opdump shows our reload
+  `field_184_pObj2C = field_7C_pPed->field_184_pObj2C` is the second web of the kind-4 local (coloured; scores
+  eax 0 / ecx -1 disallowed / edx 0 -> eax), `field_7C_pPed` a kind-3 CSE temp (ecx) and `->field_4` a kind-3 CSE
+  temp coloured eax first (prio 64 > 32). The original's `edx` needs either eax disallowed for that web (a
+  conflict with the field_4 temp or the first read) or an IL-temp reload with the cursor at edx and `pPed` not
+  dying there. Block-local `Object_2C* pObj` (merges into the dying `ecx`: 18), `Sprite* pSrc` (32-162),
+  pMySprite before/after (148/12), direct re-reads (32), reload before the `= 12` store (130). Permuter 600
+  on the block-local form: no improvement.
