@@ -4725,3 +4725,25 @@ function moved; no source change kept. Scores are `NO_PCH=1 quick_score.sh`.
   dying there. Block-local `Object_2C* pObj` (merges into the dying `ecx`: 18), `Sprite* pSrc` (32-162),
   pMySprite before/after (148/12), direct re-reads (32), reload before the `= 12` store (130). Permuter 600
   on the block-local form: no improvement.
+
+## Agent cheap12: Ped::CalcApproachPointNearTargetPed_4645B0 (266 -> 257, not matched)
+
+Scores are `NO_PCH=1 quick_score.sh` (identical with PCH). Kept: `radius = kFpThreeEighths_67878C;` moved
+above `angle = kAng180 + rotation;` in the first (target moving) branch (266 -> 257). No header edits.
+
+Tried and rejected (all scores worse than 257):
+- `kAng180 + rot` operand swap (`rot + kAng180`): no change (266).
+- `Ang16(a.rValue + b.rValue, (u8)0)` in the first branch: 324. It gives the target's `call Normalize`
+  (`Ang16(s16,u8)` ctor, Normalize_406C20 out of line), but the sum goes to a 0xC temp, not the angle slot 0x10.
+- `angle.rValue = kAng180.rValue + rot.rValue; angle.Normalized_406C20();` (with radius before, after or between):
+  694-708. The first branch then matches the original's `mov %cx,0x10; lea; call Normalize`, but the frame moves:
+  the sine temp of case 0 lands at 0x14 instead of 0x20, so every later jump offset shifts (the score counts
+  unaligned lines, and jump targets are not masked).
+- Same with the constant loaded first (`angle.rValue = kAng180.rValue; angle.rValue += rot.rValue;`): ~700.
+- Splitting all 18 `angle += kAngN;` into `angle.rValue += kAngN.rValue; angle.Normalized_406C20();`: 524.
+- Swapping the operands of `AddAng16_ool_4645B0`'s `a.rValue + b.rValue`: no change (257).
+
+What is left (diff ~840 lines): the first-branch `Ang16(&value, 0)` is out of line in ours (the `const s16&, s32`
+ctor, AssignNormalized) where the original inlines the `(s16, u8)` normalizing ctor; the case 0-7 blocks are
+then offset by the first branch's size, so the jump displacements of every case differ. The first-branch
+temp slot (0x10 angle vs 0xC value) and the sine temp (0x20) need to be fixed together.
