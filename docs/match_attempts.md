@@ -4671,3 +4671,21 @@ function moved; no source change kept. Scores are `NO_PCH=1 quick_score.sh`.
 - The remaining diff is stack-slot assignment across the whole body (0x20/0x24/0x28/0x2C/0x30 and
   0x7C/0x84/0x88 swapped), plus one early `mov 0x80(%esp),%eax` before `push %edi` in the original that
   our code loads after the `jne`. Not reached by declaration order or shadowing tweaks.
+
+## Agent cheap11: Map_0x370::sub_4E7190 (no change kept, score 92 -> 92, not matched)
+
+- Start 92 (NO_PCH=1 quick_score). Permuter run was refused by the auto-mode classifier (CPU/workload
+  reason), so only manual variants were tried. None lowered the score; the source is unchanged.
+- Skeleton (`permuter_score.py --skeleton`, control flow only): 12 on the baseline. Items 0-92 of the
+  jump/call sequence already agree; the divergence starts at the green branch's `if (!pBlock || !green)`
+  (target `jne 26` straight to the join, ours to the not-green block) and again at the slope re-lookup
+  (target `call get_block(z); bTurned=1; jmp 26`, ours falls into `pBlock != pPrev`).
+- Tried, all worse than 92: `bTurned = 1` at the end of the to_edge block (130); at its top, inside the
+  `if (!pBlock || !green)` branch (92, same); the slope branch setting `bTurned` and skipping the
+  `pBlock != pPrev` block via `else if` (206); the `else if` alone, keeping the original store (128);
+  `z = last_z` moved to the top of the to_edge block (458).
+- Read of the original (asm listing): the constant cached in `%ebp` is 1 (`mov $1,%ebp`, used by the
+  second switch's `up_1` store), ours caches 4. The `bTurned` store is in the slope re-lookup path
+  (`call; mov %eax,%esi; movb $1,0x11(%esp); jmp`), not in the to_edge branch. That fits a source shape
+  where the slope path skips the `pBlock != pPrev` step, but the else-if form scores worse, so the
+  original's order of the `sub_4E65A0` call relative to the slope lookup is still open.
