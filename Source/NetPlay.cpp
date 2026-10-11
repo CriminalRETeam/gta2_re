@@ -50,8 +50,8 @@ NetPlay::NetPlay()
     field_8F4_time_diff = 0;
     field_5E4_pDPlay3 = 0;
     field_5E0_pDPlayLobby2 = 0;
-    field_8E4_p0x1800_1 = (s32)operator new(0x1800);
-    field_8E0_p0x1800_2 = (s32)operator new(0x1800);
+    field_8E4_pReceivedDataBuffer = (s32)operator new(0x1800);
+    field_8E0_pSendDataBuffer = (s32)operator new(0x1800);
     memset(&field_C4_sessions, 0, sizeof(field_C4_sessions));
     memset(field_4C_func_ptrs_and_params, 0, sizeof(field_4C_func_ptrs_and_params));
     memset(&field_30_enumed_connections, 0, sizeof(field_30_enumed_connections));
@@ -122,8 +122,8 @@ NetPlay::~NetPlay()
     }
 
     operator delete(field_758_n2.field_118_game_settings);
-    operator delete((void*)field_8E4_p0x1800_1);
-    operator delete((void*)field_8E0_p0x1800_2);
+    operator delete((void*)field_8E4_pReceivedDataBuffer);
+    operator delete((void*)field_8E0_pSendDataBuffer);
     operator delete(field_758_n2.field_120_session_desc.lpszSessionName);
     field_30_enumed_connections.field_8_connections_count = 0;
     field_30_enumed_connections.field_C_f4_d_array_count = 0;
@@ -904,7 +904,7 @@ char_type NetPlay::Receive_51F010(s32* pOutData, s32* pOutDataLen, unsigned long
     unsigned long readLen = 0x1800;
     // The shared return 0 has to sit at the end of the loop body to get the original layout;
     // early returns or a break out of the loop change the code
-    if (field_5E4_pDPlay3->Receive(senderId, recvId, DPRECEIVE_ALL, (void*)field_8E4_p0x1800_1, &readLen))
+    if (field_5E4_pDPlay3->Receive(senderId, recvId, DPRECEIVE_ALL, (void*)field_8E4_pReceivedDataBuffer, &readLen))
     {
         goto failed;
     }
@@ -917,14 +917,14 @@ char_type NetPlay::Receive_51F010(s32* pOutData, s32* pOutDataLen, unsigned long
         }
 
         // A system message: handle it and read the next message
-        OnPacketReceived_51F870((char*)field_8E4_p0x1800_1, readLen, *recvId, 0);
+        OnPacketReceived_51F870((char*)field_8E4_pReceivedDataBuffer, readLen, *recvId, 0);
         if (field_8F0_disabled)
         {
             goto failed;
         }
 
         readLen = 0x1800;
-        if (!field_5E4_pDPlay3->Receive(senderId, recvId, DPRECEIVE_ALL, (void*)field_8E4_p0x1800_1, &readLen))
+        if (!field_5E4_pDPlay3->Receive(senderId, recvId, DPRECEIVE_ALL, (void*)field_8E4_pReceivedDataBuffer, &readLen))
         {
             continue;
         }
@@ -933,8 +933,8 @@ char_type NetPlay::Receive_51F010(s32* pOutData, s32* pOutDataLen, unsigned long
         return 0;
     }
 
-    s32 outDataLen = CalcPacketLen_51F210(field_8E4_p0x1800_1, readLen);
-    *pOutData = field_8E4_p0x1800_1;
+    s32 outDataLen = CalcPacketLen_51F210(field_8E4_pReceivedDataBuffer, readLen);
+    *pOutData = field_8E4_pReceivedDataBuffer;
     *pOutDataLen = outDataLen;
     return 1;
 }
@@ -1120,7 +1120,7 @@ s32 NetPlay::CalcPacketLen_51F210(s32 pPacket, u32 packetLen)
 MATCH_FUNC(0x51f420)
 void NetPlay::MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pDataLen)
 {
-    u8* pBuffer = (u8*)field_8E0_p0x1800_2;
+    u8* pBuffer = (u8*)field_8E0_pSendDataBuffer;
     *pDataLen = 0;
 
     switch (pPacket->header.field_0_type)

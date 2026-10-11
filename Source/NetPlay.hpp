@@ -292,8 +292,8 @@ struct NetPlay
     Network_Game_Session field_5E8_n1;
     Network_Game_Session field_758_n2;
     naughty_sinoussi_0x800* field_8C8_not_used[MAX_PLAYERS];
-    s32 field_8E0_p0x1800_2;
-    s32 field_8E4_p0x1800_1;
+    s32 field_8E0_pSendDataBuffer; // 0x1800 of alloc size
+    s32 field_8E4_pReceivedDataBuffer; // 0x1800 of alloc size
     s32 field_8E8_time;
     s32 field_8EC;
     char field_8F0_disabled; // Receive_51F010 and ReceiveGameMessage_521890 always returns false if this var is true
