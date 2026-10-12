@@ -1521,7 +1521,7 @@ void CC ImGuiDebugDraw()
                     {
                         ImGui::Text("Driver occupation: %s", GetOccupationStrFromPed(pCarIter->field_54_driver));
                         ShowPedBitMask(pCarIter->field_54_driver);
-                        ShowPedBitMaskSetting((BitSet32*)&pCarIter->field_54_driver->field_21C);
+                        ShowPedBitMaskSetting((BitSet32*)&pCarIter->field_54_driver->field_21C_bf);
                     }
 
                     static bool bits[32];
@@ -2713,7 +2713,7 @@ void CC ImGuiDebugDraw()
                             ImGui::SliderS16("health", &pPedIter->field_216_health, 0, 32767);
                             ImGui::SliderInt("occupation", &pPedIter->field_240_occupation, 0, 500);
                             ShowPedBitMask(pPedIter);
-                            ShowPedBitMaskSetting((BitSet32*)&pPedIter->field_21C);
+                            ShowPedBitMaskSetting((BitSet32*)&pPedIter->field_21C_bf);
 
                             ImGui::End();
                             ImGui::TreePop();

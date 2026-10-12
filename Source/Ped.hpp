@@ -903,19 +903,10 @@ class Ped
     u16 field_218_objective_timer;
     u16 field_21A_car_state_timer;
 
-    union
-    {
-        PedFlags32 field_21C_bf;
-        // TODO: Move everything to use the above field and remove union
-        s32 field_21C;
-    };
+    PedFlags32 field_21C_bf;
 
     s32 field_220_last_voice_rng;
-    union
-    {
-        PedFlags8 field_224_bf;
-        char_type field_224;
-    };
+    PedFlags8 field_224_bf;
     u8 field_225_objective_status; // it uses objective_status enum
     char_type field_226_internal_objective_status;
     char_type field_227_unused;
@@ -937,7 +928,7 @@ class Ped
     //char_type field_257;
     s32 field_258_objective;
     s32 field_25C_internal_objective;
-    char_type field_260_wait_counter; // frames waited on the target (flag 0x10 of field_224)
+    char_type field_260_wait_counter; // frames waited on the target (field_224_bf.bWaitingOnTarget)
     char_type field_261_unused;
     u8 field_262_attackers_count;
     u8 field_263_prev_attackers_count;

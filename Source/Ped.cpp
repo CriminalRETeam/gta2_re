@@ -1807,7 +1807,7 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
                 }
             }
 
-            if (((BitSet32*)&pTargetPed->field_21C)->check_bit(ped_bit_index::attacking_11))
+            if (((BitSet32*)&pTargetPed->field_21C_bf)->check_bit(ped_bit_index::attacking_11))
             {
                 if (!pTargetPed->IsActivePlayerPed_45EDC0() && pTargetPed->field_240_occupation != ped_ocupation_enum::empty)
                 {
@@ -1914,7 +1914,7 @@ block_466022:
             goto ret_false;
         }
 
-        if (!((((BitSet32*)&pTargetPed->field_21C)->check_bit(ped_bit_index::attacking_11)) && pTargetPed->field_170_selected_weapon != 0 &&
+        if (!((((BitSet32*)&pTargetPed->field_21C_bf)->check_bit(ped_bit_index::attacking_11)) && pTargetPed->field_170_selected_weapon != 0 &&
               pTargetPed->field_170_selected_weapon->sub_5DCEF0()))
         {
             if (pTargetPed->field_20A_wanted_points < 0x258 && this->field_144_attacker != pTargetPed && pTargetPed->field_26A_recent_crime_timer <= 0u)
@@ -1975,7 +1975,7 @@ block_4660FB:
         goto ret_true;
     }
 
-    if (((BitSet32*)&pTargetPed->field_21C)->check_bit(ped_bit_index::attacking_11))
+    if (((BitSet32*)&pTargetPed->field_21C_bf)->check_bit(ped_bit_index::attacking_11))
     {
         goto ret_true;
     }
@@ -2009,7 +2009,7 @@ block_46613E:
         return 1;
     }
 
-    if (((BitSet32*)&pTargetPed->field_21C)->check_bit(ped_bit_index::attacking_11))
+    if (((BitSet32*)&pTargetPed->field_21C_bf)->check_bit(ped_bit_index::attacking_11))
     {
         goto ret_true;
     }
