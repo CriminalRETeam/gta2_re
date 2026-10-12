@@ -9,21 +9,19 @@ import urllib.request
 
 DISCORD_WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL")
 COMMIT_MESSAGE = os.environ.get("COMMIT_MESSAGE")
-# Optional: the captured output of build.py, used to count compiler warnings
-BUILD_LOG = os.environ.get("BUILD_LOG", "../build.log")
 
 NEW_EXE = "../build_vc6/decomp_main.exe"
+NEW_MAP = "../build_vc6/output.map"
 OG_EXE = "./bin_comp/10.5.exe"
 
 # CRT / iostream library code (stubs for fopen, malloc ...) starts here, it's not ours to match
 LIBRARY_START = 0x5ED000
 
-# A WIP function with at most this share of differing lines counts as a close miss
-CLOSE_MAX_DIFF_RATIO = 0.05
+# most WIPs listed one by one; the rest are summed up in one line (keeps the embed short)
+MAX_LISTED_WIPS = 30
 
 # Keys of progress.json whose change makes us post an update
-PROGRESS_KEYS = ["matched", "total", "stub", "wip", "wip_reg_alloc", "wip_stack_layout",
-                 "wip_instr_order", "wip_close", "wip_structural", "wip_unclassified", "wip_ready"]
+PROGRESS_KEYS = ["matched", "wip", "wip_scores", "named_fields", "named_funcs"]
 
 
 def fmt_delta(old, new, always=False, with_pct=True):
@@ -44,39 +42,53 @@ def pct(part, whole):
     return part / whole * 100 if whole else 0.0
 
 
-def normalize_layout(asm):
-    asm = re.sub(r"-?0x[0-9A-Fa-f]+\(%esp\)", "N(%esp)", asm)
-    return re.sub(r"^(j\w+) 0x[0-9A-Fa-f]+", r"\1 T", asm, flags=re.M)
+def demangle(mangled):
+    """'?Name@Class@@QAEXXZ' -> 'Class::Name' (enough for display)."""
+    m = re.match(r"^\?([^@]+)@([^@]*)@", mangled)
+    if not m:
+        return mangled.lstrip("?_")
+    return f"{m.group(2)}::{m.group(1)}" if m.group(2) else m.group(1)
 
 
-def classify_wip(func, og_file_offset, og_size):
-    """What kind of mismatch a WIP function has, from its asm compared with the original's."""
+def code_symbol_addresses(map_file):
+    """Sorted addresses of every symbol in the code section of the build's map file (publics and
+    statics), to get the size of a function in the build: the distance to the next symbol."""
+    sym_re = re.compile(r"^\s*0001:[0-9a-fA-F]{8}\s+\S+\s+([0-9a-fA-F]{8})\b")
+    addrs = set()
+    with open(map_file, errors="replace") as f:
+        for line in f:
+            m = sym_re.match(line)
+            if m:
+                addrs.add(int(m.group(1), 16))
+    return sorted(addrs)
+
+
+def normalize_for_score(line):
+    """One instruction with its jump target masked: a size difference anywhere moves every later one."""
+    return re.sub(r"^(j\w+) 0x[0-9A-Fa-f]+", r"\1 T", line)
+
+
+def wip_score(func, og_file_offset, og_size, new_size):
+    """(similarity %, differing lines) of a WIP function against the original, from the verifier's
+    post processed asm with jump targets masked (normalize_for_score). Needs a build without the
+    logging code (build.py --no_wip_logging), which would shift everything else. The build's copy
+    is read at its own size from the map file."""
     import compare_function
     import post_process_asm
-    import regonly
 
-    def asm(exe, offset):
-        return post_process_asm.post_process_asm(compare_function.dism_func(compare_function.get_bytes_from_file(exe, offset, og_size)))
+    def asm(exe, offset, size):
+        lines = post_process_asm.post_process_asm(compare_function.dism_func(compare_function.get_bytes_from_file(exe, offset, size))).split("\n")
+        # alignment padding up to the next function
+        while lines and lines[-1].strip() in ("int3", "nop", ""):
+            lines.pop()
+        return [normalize_for_score(line) for line in lines]
 
-    og = asm(OG_EXE, og_file_offset)
-    new = asm(NEW_EXE, int(func["func_fo"], 16))
-    if new == og:
-        return "ready"  # already identical: can be promoted to MATCH_FUNC
-    if regonly.canon(new) == regonly.canon(og) or regonly.shape(new) == regonly.shape(og):
-        return "wip_reg_alloc"
-    # also ignore stack slot offsets and jump targets, which move when anything else changes
-    og_n, new_n = normalize_layout(regonly.shape(og)), normalize_layout(regonly.shape(new))
-    if og_n == new_n:
-        return "wip_stack_layout"
-    if sorted(og_n.split("\n")) == sorted(new_n.split("\n")):
-        return "wip_instr_order"
-    # share of lines that differ, with registers, stack offsets and jump targets ignored
-    matcher = difflib.SequenceMatcher(None, og_n.split("\n"), new_n.split("\n"), autojunk=False)
+    og = asm(OG_EXE, og_file_offset, og_size)
+    new = asm(NEW_EXE, int(func["func_fo"], 16), new_size)
+    matcher = difflib.SequenceMatcher(None, og, new, autojunk=False)
     same = sum(block.size for block in matcher.get_matching_blocks())
-    differing = max(len(og_n.split("\n")), len(new_n.split("\n"))) - same
-    if differing <= CLOSE_MAX_DIFF_RATIO * max(len(og_n.split("\n")), len(new_n.split("\n"))):
-        return "wip_close"
-    return "wip_structural"
+    longest = max(len(og), len(new))
+    return pct(same, longest), longest - same
 
 
 def count_fields_and_methods(source_dir):
@@ -114,19 +126,6 @@ def count_fields_and_methods(source_dir):
     return named_fields, unnamed_fields, named_funcs, unnamed_funcs
 
 
-def count_warnings(build_log):
-    """Unique compiler warnings in Source/ (the same TU is compiled for several targets)."""
-    if not os.path.exists(build_log):
-        return None
-    warn_re = re.compile(r"Source[\\/](?!3rdParty).*\(\d+\) : warning C\d+")
-    seen = set()
-    with open(build_log, errors="replace") as f:
-        for line in f:
-            if warn_re.search(line):
-                seen.add(line.strip())
-    return len(seen)
-
-
 def main():
     # The embed text has non-ASCII characters; the Windows runner's console encoding (cp1252) can't print them
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -144,7 +143,6 @@ def main():
             sys.exit(1)
 
     sys.path.insert(0, os.path.abspath("./bin_comp"))
-    sys.path.insert(0, os.path.abspath("./regalloc"))
 
     with open("./bin_comp/new_data.json", "rt") as file:
         new_data = json.load(file)
@@ -167,42 +165,38 @@ def main():
     wip = len(wip_funcs)
     total = matched + stub + wip
 
-    # what kind of mismatch each WIP has
-    wip_buckets = {"wip_reg_alloc": 0, "wip_stack_layout": 0, "wip_instr_order": 0, "wip_close": 0, "wip_structural": 0, "wip_unclassified": 0}
-    wip_ready = 0
-    can_classify = os.path.exists(NEW_EXE) and os.path.exists(OG_EXE)
+    # how close each WIP is: similarity % and differing lines, by original address
+    wip_scores = {}
+    names = {}
+    can_score = os.path.exists(NEW_EXE) and os.path.exists(OG_EXE) and os.path.exists(NEW_MAP)
+    symbol_addrs = code_symbol_addresses(NEW_MAP) if can_score else []
     for func in wip_funcs:
-        if not can_classify:
-            wip_buckets["wip_unclassified"] += 1
+        key = func["og_addr"].lower()
+        names[key] = demangle(func["mangled_name"])
+        if not can_score:
             continue
         _, og_offset, og_size = og_funcs[int(func["og_addr"], 16)]
+        va = int(func["func_va"], 16)
+        next_addr = next((a for a in symbol_addrs if a > va), va + og_size)
         try:
-            kind = classify_wip(func, og_offset, og_size)
+            similarity, differing = wip_score(func, og_offset, og_size, next_addr - va)
         except Exception as e:
-            print(f"couldn't classify {func['mangled_name']}: {e}")
-            kind = "wip_unclassified"
-        if kind == "ready":
-            print(f"{func['mangled_name']} matches, promote it to MATCH_FUNC")
-            wip_ready += 1
-        else:
-            wip_buckets[kind] += 1
+            print(f"couldn't score {func['mangled_name']}: {e}")
+            continue
+        wip_scores[key] = [round(similarity, 2), differing]
 
     named_fields, unnamed_fields, named_funcs, unnamed_funcs = count_fields_and_methods("../Source")
-    warnings = count_warnings(BUILD_LOG)
 
     new_progress_json = {
         "total_matches": matched,
         "matched": matched,
         "total": total,
-        "stub": stub,
         "wip": wip,
-        "wip_ready": wip_ready,
-        **wip_buckets,
+        "wip_scores": wip_scores,
         "named_fields": named_fields,
         "unnamed_fields": unnamed_fields,
         "named_funcs": named_funcs,
         "unnamed_funcs": unnamed_funcs,
-        "warnings": warnings,
     }
 
     previous_progress_json = {}
@@ -213,53 +207,47 @@ def main():
     except OSError:
         prev_json_available = False
     prev = previous_progress_json.get
-
-    def d(key):
-        return fmt_delta(prev(key), new_progress_json[key])
-
-    match_pct = pct(matched, total)
-
-    def count_line(label, key, value=None, of=None):
-        """'Label: 12 | **+2** (1.5%)', or 'Label [12/93] 12.90% | ...' when there's a total.
-        Hidden when zero, unless it was non-zero last time."""
-        n = new_progress_json[key] if value is None else value
-        if n == 0 and not prev(key):
-            return None
-        delta = fmt_delta(prev(key), n)
-        if of is None:
-            return f"{label}: {n}{delta}"
-        return f"{label} [{n}/{of}] {pct(n, of):.2f}%{delta}"
-
-    def lines(*entries):
-        return [e for e in entries if e is not None]
+    prev_scores = prev("wip_scores") or {}
 
     # Discord drops leading spaces, so indent with em spaces
     ind = "\u2003\u2003"
 
     out = [COMMIT_MESSAGE, ""]
-    out += lines(count_line("Stubs", "stub"))
-    out.append(f"WIP: {wip}{d('wip')}")
-    # the WIP ones by what's still wrong, as a share of all WIP functions
-    out += [ind + e for e in lines(
-        count_line("RegAlloc", "wip_reg_alloc", of=wip),
-        count_line("Stack layout / jump targets", "wip_stack_layout", of=wip),
-        count_line("Instruction order", "wip_instr_order", of=wip),
-        count_line("Close, under 5% of lines differ", "wip_close", of=wip),
-        count_line("Far, control flow / other", "wip_structural", of=wip),
-        count_line("Unclassified", "wip_unclassified", of=wip),
-        count_line("Identical, ready to promote", "wip_ready", of=wip),
-    )]
+    out.append(f"Remaining WIP functions: {wip}{fmt_delta(prev('wip'), wip, with_pct=False)}")
+    if wip_scores:
+        out.append(f"{ind}(asm lines that differ from the original, jump targets ignored)")
+    if wip_scores:
+        avg = sum(v[0] for v in wip_scores.values()) / len(wip_scores)
+        prev_avg = None
+        if prev_scores:
+            prev_avg = sum(v[0] for v in prev_scores.values()) / len(prev_scores)
+        avg_delta = f" | **{avg - prev_avg:+.2f}%**" if prev_avg is not None and round(avg - prev_avg, 2) else ""
+        out.append(f"{ind}Average similarity: {avg:.2f}%{avg_delta}")
+        # closest first: by differing lines, then similarity
+        ranked = sorted(wip_scores.items(), key=lambda kv: (kv[1][1], -kv[1][0]))
+        for key, (similarity, differing) in ranked[:MAX_LISTED_WIPS]:
+            line = f"{ind}{names[key]}: {similarity:.2f}% ({differing} lines differ)"
+            if key in prev_scores and prev_scores[key][1] != differing:
+                line += f" | **{differing - prev_scores[key][1]:+d}**"
+            elif key not in prev_scores and prev_scores:
+                line += " | **new**"
+            out.append(line)
+        if len(ranked) > MAX_LISTED_WIPS:
+            out.append(f"{ind}...and {len(ranked) - MAX_LISTED_WIPS} more")
+    elif wip:
+        out.append(f"{ind}(not scored: the original exe or the build is missing)")
+    # WIPs from last time that are gone now (matched, or demoted to stubs)
+    gone = [k for k in prev_scores if k not in names]
+    if gone:
+        out.append(f"{ind}Done since last time: {len(gone)}")
     out.append("")
-    out.append("Docs/naming:")
+    out.append("Renames:")
     out.append(f"{ind}Fields named [{named_fields}/{named_fields + unnamed_fields}] {pct(named_fields, named_fields + unnamed_fields):.2f}%"
                f"{fmt_delta(prev('named_fields'), named_fields)}")
     out.append(f"{ind}Functions named [{named_funcs}/{named_funcs + unnamed_funcs}] {pct(named_funcs, named_funcs + unnamed_funcs):.2f}%"
                f"{fmt_delta(prev('named_funcs'), named_funcs)}")
-    if warnings is not None:
-        out.append("")
-        out.append(f"Build warnings: {warnings}{fmt_delta(prev('warnings'), warnings, with_pct=False)}")
     out.append("")
-    out.append(f"Overall progress: [{matched}/{total}] {match_pct:.2f}%{fmt_delta(prev('matched'), matched, always=True)}")
+    out.append(f"Matched: [{matched}/{total}] {pct(matched, total):.2f}%{fmt_delta(prev('matched'), matched, always=True)}")
 
     webhook_message = {
         "content": None,

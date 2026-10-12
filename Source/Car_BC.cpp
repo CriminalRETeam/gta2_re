@@ -1122,7 +1122,7 @@ Car_BC* Car_6C::SpawnBusAtValidRoadPosition_4453E0(Fix16 x, Fix16 y, s32 road_di
 
 // Finds a route junction near (xpos, ypos) and walks along the road from it until a free, off
 // screen spot is found, then spawns a car there with an AI that follows the route.
-WIP_FUNC(0x4458b0)
+MATCH_FUNC(0x4458b0)
 Car_BC* Car_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 road_direction, s32 car_model_type)
 {
     u8 unused;
@@ -1194,8 +1194,8 @@ Car_BC* Car_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 road_di
                     switch (road_direction)
                     {
                         case road_direction::up_1:
-                            y -= kFP16One_6777D0;
-                            x += kFP16One_6777D0;
+                            y = y - kFP16One_6777D0;
+                            x = x + kFP16One_6777D0;
                             pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
                             if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::left_4))
                             {
@@ -1203,7 +1203,7 @@ Car_BC* Car_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 road_di
                             }
                             else
                             {
-                                x -= k_dword_6777D4;
+                                x = x - k_dword_6777D4;
                                 pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
                                 if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::right_3))
                                 {
@@ -1212,8 +1212,8 @@ Car_BC* Car_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 road_di
                             }
                             break;
                         case road_direction::down_2:
-                            y += kFP16One_6777D0;
-                            x += kFP16One_6777D0;
+                            y = y + kFP16One_6777D0;
+                            x = x + kFP16One_6777D0;
                             pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
                             if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::left_4))
                             {
@@ -1221,7 +1221,7 @@ Car_BC* Car_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 road_di
                             }
                             else
                             {
-                                x -= k_dword_6777D4;
+                                x = x - k_dword_6777D4;
                                 pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
                                 if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::right_3))
                                 {
@@ -1230,8 +1230,8 @@ Car_BC* Car_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 road_di
                             }
                             break;
                         case road_direction::right_3:
-                            x += kFP16One_6777D0;
-                            y -= kFP16One_6777D0;
+                            x = x + kFP16One_6777D0;
+                            y = y - kFP16One_6777D0;
                             pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
                             if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::down_2))
                             {
@@ -1239,7 +1239,7 @@ Car_BC* Car_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 road_di
                             }
                             else
                             {
-                                y += k_dword_6777D4;
+                                y = y + k_dword_6777D4;
                                 pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
                                 if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::up_1))
                                 {
@@ -1248,8 +1248,8 @@ Car_BC* Car_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 road_di
                             }
                             break;
                         case road_direction::left_4:
-                            x -= kFP16One_6777D0;
-                            y -= kFP16One_6777D0;
+                            x = x - kFP16One_6777D0;
+                            y = y - kFP16One_6777D0;
                             pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
                             if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::down_2))
                             {
@@ -1257,7 +1257,7 @@ Car_BC* Car_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 road_di
                             }
                             else
                             {
-                                y += k_dword_6777D4;
+                                y = y + k_dword_6777D4;
                                 pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
                                 if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::up_1))
                                 {
@@ -1303,16 +1303,16 @@ Car_BC* Car_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 road_di
         switch (road_direction)
         {
             case road_direction::up_1:
-                y += kFP16One_6777D0;
+                y = y + kFP16One_6777D0;
                 break;
             case road_direction::down_2:
-                y -= kFP16One_6777D0;
+                y = y - kFP16One_6777D0;
                 break;
             case road_direction::right_3:
-                x -= kFP16One_6777D0;
+                x = x - kFP16One_6777D0;
                 break;
             case road_direction::left_4:
-                x += kFP16One_6777D0;
+                x = x + kFP16One_6777D0;
                 break;
             default:
                 break;

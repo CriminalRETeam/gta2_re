@@ -5279,8 +5279,8 @@ void Ped::CalcApproachPointNearTargetPed_4645B0()
 
     if (field_14C_internal_target_ped->GetPedVelocity_45C920() > kFpZero_678660)
     {
-        angle = kAng180_6785A6 + field_14C_internal_target_ped->field_168_game_object->field_40_rotation;
         radius = kFpThreeEighths_67878C;
+        angle = kAng180_6785A6 + field_14C_internal_target_ped->field_168_game_object->field_40_rotation;
     }
     else
     {

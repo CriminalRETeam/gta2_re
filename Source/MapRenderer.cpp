@@ -3638,10 +3638,13 @@ void MapRenderer::Draw_4F6A20()
             }
 
             // Now draw tiles in reverse order
+            s32 j = field_2EFC_curr_draw_layer_size - 1;
             Nanobotz_8* pIter = &field_1C_draw_list[field_2EFC_curr_draw_layer_size - 1];
-            for (s32 j = field_2EFC_curr_draw_layer_size - 1; j >= 0; j--, pIter--)
+            while (j >= 0)
             {
                 MapRenderer::RenderBlockAt_4F6880(pIter->field_0_x, pIter->field_4_y);
+                j--;
+                pIter--;
             }
         }
     }

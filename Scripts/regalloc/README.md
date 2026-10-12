@@ -138,6 +138,9 @@ awk '/^@SLOTS/{p=index($0,"sub_452060")} p' /tmp/sl/last.log | grep -a '^@SLOT'
 #   @SLOT _v7$59027 size=4 refs=2      (shares slot 0: its block and v82's don't overlap)
 ```
 
+`reflog.py` builds `reflog`, the same plus one `@REF <name>` line per counted reference, in walk order, so the
+tie-break between equal-count symbols can be read off directly (the one whose last reference comes first wins).
+
 The listing (`last.asm`) names only the declared locals (`_v7$59027 = -28`); `$T` temporaries are in the list
 but not in the listing. To get a local lower in the frame: give it more memory references than the ones
 below it, or make it smaller. To make two locals share a slot, put them in disjoint scopes. A local declared

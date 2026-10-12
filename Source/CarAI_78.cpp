@@ -2383,11 +2383,9 @@ void CarAI_78::AlignToLaneCenter_44AF00()
     }
 }
 
-WIP_FUNC(0x44d1d0)
+MATCH_FUNC(0x44d1d0)
 void CarAI_78::DetectCarAhead_44D1D0()
 {
-    WIP_IMPLEMENTED;
-
     Fix16 x_off;
     Fix16 y_off;
     s8 arrow_count = 0;
@@ -2756,9 +2754,11 @@ probe_sides:
         this->field_2D_arrow_start = 0;
         this->field_2E_arrow_cur = 0;
         u8 next_idx = arrow_idx + 1;
-        u8 last_idx = arrow_count - 1;
+        // --arrow_count (not arrow_count - 1): the dec then belongs to arrow_count, last_idx is only a copy
+        // (colour priority 28 instead of 52), so next_idx (36) is coloured first and gets al, as in 10.5
+        u8 last_idx = --arrow_count;
         this->field_2F_arrow_end = next_idx;
-        if (last_idx < next_idx)
+        if (next_idx > last_idx)
         {
             this->field_2F_arrow_end = last_idx;
         }

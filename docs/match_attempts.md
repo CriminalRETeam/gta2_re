@@ -1107,7 +1107,7 @@ Matched (116 -> 0) with two changes:
   `claude/target-asm-request` now also dumps strings (and other data) referenced by
   `push $imm`/`mov $imm` into `target_data.json`, cut at the NUL when it looks like text.
 
-### Car_6C::SpawnCarOnRoadNetwork_4458B0 (0x4458B0): WIP 0.580
+### Car_6C::SpawnCarOnRoadNetwork_4458B0 (0x4458B0): MATCH (near36, see the "Agent near36" entry)
 - Finds a junction near the point (`RouteFinder::sub_58A130`, whose `s16` result the original
   narrows to `char`), heads out of it, then walks the road like `SpawnBusAtValidRoadPosition_4453E0`
   until a free, off-screen spot is found. The car gets an AI following the route.
@@ -4725,3 +4725,857 @@ function moved; no source change kept. Scores are `NO_PCH=1 quick_score.sh`.
   dying there. Block-local `Object_2C* pObj` (merges into the dying `ecx`: 18), `Sprite* pSrc` (32-162),
   pMySprite before/after (148/12), direct re-reads (32), reload before the `= 12` store (130). Permuter 600
   on the block-local form: no improvement.
+
+## Agent cheap12: Ped::CalcApproachPointNearTargetPed_4645B0 (266 -> 257, not matched)
+
+Scores are `NO_PCH=1 quick_score.sh` (identical with PCH). Kept: `radius = kFpThreeEighths_67878C;` moved
+above `angle = kAng180 + rotation;` in the first (target moving) branch (266 -> 257). No header edits.
+
+Tried and rejected (all scores worse than 257):
+- `kAng180 + rot` operand swap (`rot + kAng180`): no change (266).
+- `Ang16(a.rValue + b.rValue, (u8)0)` in the first branch: 324. It gives the target's `call Normalize`
+  (`Ang16(s16,u8)` ctor, Normalize_406C20 out of line), but the sum goes to a 0xC temp, not the angle slot 0x10.
+- `angle.rValue = kAng180.rValue + rot.rValue; angle.Normalized_406C20();` (with radius before, after or between):
+  694-708. The first branch then matches the original's `mov %cx,0x10; lea; call Normalize`, but the frame moves:
+  the sine temp of case 0 lands at 0x14 instead of 0x20, so every later jump offset shifts (the score counts
+  unaligned lines, and jump targets are not masked).
+- Same with the constant loaded first (`angle.rValue = kAng180.rValue; angle.rValue += rot.rValue;`): ~700.
+- Splitting all 18 `angle += kAngN;` into `angle.rValue += kAngN.rValue; angle.Normalized_406C20();`: 524.
+- Swapping the operands of `AddAng16_ool_4645B0`'s `a.rValue + b.rValue`: no change (257).
+
+What is left (diff ~840 lines): the first-branch `Ang16(&value, 0)` is out of line in ours (the `const s16&, s32`
+ctor, AssignNormalized) where the original inlines the `(s16, u8)` normalizing ctor; the case 0-7 blocks are
+then offset by the first branch's size, so the jump displacements of every case differ. The first-branch
+temp slot (0x10 angle vs 0xC value) and the sine temp (0x20) need to be fixed together.
+
+## Agent cheap13: MapRenderer::Draw_4F6A20 (0x4F6A20), 154 -> 154 (no change kept)
+
+Not matched. Source left as committed (score 154). Skeleton and call order already match (`permuter_score.py
+--skeleton` = 0, call targets fine); `--structure` = 50, so the rest is register allocation and stack layout.
+Current diff is confined to the top of the zLayer loop body (the first ~130 asm lines); the four inline
+AddToDrawList loops, the draw loop and the tail match except the zLayer register at the tail (ebx vs ebp).
+
+Analysis (9.6f 0x472110 disassembled from 9.6f.exe, VC7, not inlined, for shape only):
+- The first differing instruction is `xor %ebx,%ebx` vs `xor %ebp,%ebp`: zLayer's first register piece. In the
+  original, zLayer is in ebx only from entry to the `shl` of `zLayer << 14` (stored to slot 0x28); afterwards it
+  lives in the memory slot 0x10 and is reloaded. ebx then goes to the zoom (`mov %eax,%ebx`), ebp to the
+  numerator's high word (`mov %edx,%ebp`).
+- priolog (scratch copy of the toolchain, not build_vc6) on the current source: the `zLayer << 14` CSE temp
+  has prio 202 and takes ebp, so the column width (`layer_column_width`, ebp in the original) is spilled to
+  0x28 in ours. The original's CSE temp is spilled, which means its web is live through the gZCoordFp block
+  without a reference there: in the original, `gZCoordFp_6F6518 = Fix16(zLayer)` does not reuse the top's
+  shl (it reloads zLayer and shifts again), and only `unk_Z_Factor` reads the slot. Ours CSEs gZCoordFp with
+  the top value. Every spelling of gZCoordFp tried still CSEs (see below), so this is the open point.
+
+Tried, all 154 or worse (quick_score, same main tree):
+- min_x/max_x order swapped (214); `half_x + x` operand order, `Fix16 cam_x` copy, `min_fx/max_fx` temps (154).
+- gZCoord_6F63E0 / gZCoordFp order swapped (154); gZCoordFp from `gZCoord_6F63E0` (300); `Fix16(zLayer*1)`,
+  `zLayer-0`, `(s32)zLayer`, `Fix16(Fix16(zLayer).ToInt())`, `+ Fix16(0)` (154, all CSE the same).
+- Outer loop as while with `zLayer++` / `+= 1` / `= zLayer + 1` at the bottom, `for ... += 1`, `++zLayer` (154).
+- `z_dist` local for the numerator (154); `zoom` local before the numerator (212); `zoom` first (212).
+- `if (zLayer > 0)` for `!= 0` (156).
+- `s32 top_layer` moved after the gScreenScaleBottom store (196). In the original the gZCoordTop store uses a
+  fresh `mov 0x10(%esp),%eax; inc %eax`, after the division; ours still computes `lea 1(%edx)` early.
+
+Not done: the permuter (lock held elsewhere, per instructions). The next step is the colour model for the
+top block, not spelling variants: spill the CSE temp by making its gZCoordFp use come from a separate block,
+or raise `layer_column_width`'s priority, and check with priolog (ralog/priolog variants built under a scratch
+root with `VC6_TOOLS`-free `patch_c2.X` set to a scratch dir, see `Scripts/regalloc/README.md`).
+
+## Agent cheap14: Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0 (53BAC0)
+
+- Start 463, now 217 (NO_PCH=1 quick_score), still WIP_FUNC. Changed only `Source/Particle_4C.cpp`.
+- **Kept:** `max_sub_state = 14;` moved before the `set_id_lazy_4206C0` call in the `field_38_state == 31` arm. It puts
+  `max_sub_state` in `bl` as the original does (463 -> 219). Behaviour is unchanged: the set_id call does not read it.
+- **Kept:** the two `stru_6FD388`/`stru_6FD38C` updates swapped (x first, then y): 219 -> 217. Independent globals.
+- **Tried, no gain:** folding `spread_val` into one `Ang16` declaration (neutral, 463 -> 463), `offset.y` before
+  `offset.x` (worse, 463 -> 471; 219 -> 221 on top of the max move), operand order / `+=` / commuted multiply in the
+  spread (neutral), a function-scope `Ang16 angle` without init (neutral), `xpos`/`ypos` chained-assign split (worse),
+  `gun_angle` flattened out of its block (544) or made function scope (530), `car_angle` from `pGun` directly (645),
+  `max_sub_state` as a ternary at the declaration (225) or after the spread (563), a second `if (state == 31)` for
+  `max_sub_state` (548).
+- **Structure:** the skeleton score goes 3 -> 5 with the moved max. Target keeps the set_id inline in the 31 arm with
+  `mov $0xE,%bl` after its call and `je` to the join; with max first VC6 threads the inline's equal-id branch away.
+  The moved version is still the best score, so the skeleton is not the goal here.
+- **Still differs:** the whole frame (target slots: angle word 0x14, ypos 0x18, pCar 0x1C, pB4 0x20, xpos 0x24,
+  spread word 0x28, zpos 0x2C, u8 temp 0x30; ours are permuted), `gun_angle` reloaded through `edx` (target `eax`),
+  and the set_id inline layout in the 31 arm. Not matched. The permuter was not run (instructed to skip /tmp/permute.lock and do
+  manual variants), so a permuter pass is the next step.
+
+## Agent cheap15 (Particle_8::GunMuzzelFlash_53E970)
+
+- Start 444, end 444 (no change kept). Not matched. Main tree `Source/Particle_8.cpp` is unchanged.
+- Diagnostics (NO_PCH=1): `--structure` 183, `--skeleton` 12. The diff is mostly register/stack, but the car
+  corner rotations also differ in call kind: the original calls `Multiply_408680` explicitly for every product
+  and `Negate` as an inline `neg`, while the baseline's `corner_N.RotateByAngle_40F6B0` calls the `operator*`/
+  `operator+` copies out of line.
+- Operand order: `197 + palette` at each of the three `set_id_lazy_4206C0` sites, alone: 444 each (no change).
+  `Fix16 dy` declared before `dx`: 444. `Fix16 zpos` moved above the `field_46`/`field_48` stores: 468 (worse).
+- Rotation spellings (header variants, all local to the call sites):
+  - `corner_1.RotateByAngle_OOL_40F6B0` (x: `x.Mul(cos).Add(y.Mul(sin))`, y: `(-x_old).Mul(sin).Add(y.Mul(cos))`):
+    corner_1 matches the original's call order (skeleton 12 -> 11, structure 183 -> 182), score 444, so not kept.
+  - `corner_2` in the same spelling: 574/575. `RotateByAngle_all_out_of_line` on both corners: 1078 (skeleton 27).
+  - `RotateByAngle_NegOOL` on both: 1078. Hand-spelled corner_2 bodies with every add/neg inline or out-of-line
+    (8 combinations, with and without the corner_1 change): 544 to 1134. All worse.
+- The original's second car section (state 41) has an inline `add` between two `Multiply` results and an extra
+  pair of `Multiply` calls the baseline does not make. Matching it needs the inline budget of the whole function
+  (the inline/out-of-line split of the Fix16 operators is budget-sensitive, see docs/matching_quirks.md on inline budget),
+  not a local statement change. Not pursued further.
+
+## Agent cheap16 (TrafficLight_20::Init_5C1D00, 738, no change kept)
+- Start 738, final 738 (no change kept, `Source/TrafficLights_194.cpp` is byte-identical to the base). Not matched.
+- Structure: `permuter_score.py --skeleton` gives 0 on the function (branches, block order and call order match);
+  `--structure` is 466, all of it block-internal scheduling and register/stack choice. So this is not a control flow issue.
+- Top of function: the original keeps x in `ebx` (loaded at entry) and the masked y in `edi` (loaded first, shifted for
+  the first ctor). Ours gives `ebx` to y and `ebp` to `this`, and the original spills `this` to 0x14. Frame 0x24 vs ours 0x28.
+- Tried (all 738 unless noted): explicit `Fix16(x), Fix16(y)` in the FindGround call (870), `Fix16(y, 0)` (1343),
+  `Fix16 zpos;` declared then assigned (1715), `s32 zi` / `(u8)` zTmp, `s32 yi = y` for the call, `u8 xs = x` for the
+  call, `u8 zTmp;` declared before the call, `zpos.ToInt() - 1` without the u8 cast, operand order `y + h - 1`,
+  `w + x` / `x + w - 1` / `y + h` in the pavement and road-type calls. None lowers the score.
+- Not tried: the permuter (`/tmp/permute.lock` was held by another sweep, not waited on). A `this`-spill or
+  parameter-priority change needs a structure that changes the register weights of x, y and `this` in the first block.
+
+## Agent cheap17: SpawnTrainsFromStations_578860 (Oct 11)
+- Start 601, end 601 (no change kept, main tree untouched). Not matched.
+- `--skeleton` scores 0 (same jumps, block order and call order); `--structure` 274. So the rest is in-block
+  scheduling, slot numbering and frame size (ours 0x58, original 0x68; original `this` at 0x3C, ours 0x2C).
+- Argument evaluation order in the first arm (dir 4): the original computes the x sum (`__allmul` + `Fix16(x)`)
+  before `GetWagonType_577f80(j)` and the y sum (`Fix16(y) + dword_6FEF88`, y byte kept in a stack temp 0x2C)
+  after it. Ours computes the y sum before the `__allmul`, and the x sum after the call. Tried:
+  - `u8 sy = stop->field_2_y` local with `Fix16(sy)` at the y arg: 601 (identical asm, VC6 CSEs it).
+  - `s32 wt = GetWagonType(j)` local before the spawn: 866.
+  - `Fix16 xpos = x + dword*Fix16(j+1)` local before the spawn: 724.
+  - `u8 sy` plus `Fix16 xpos` plus `wt` together: 696.
+  Local splitting of the args only moves the scheduling the wrong way; the original's order is not a plain
+  statement order.
+- Eight inlined `SpawnCarAtCorrectZ_Scaled` sites each keep their own `temp_z` (the `lea` temps, one per site),
+  and the original's frame is 16 bytes bigger. A per-site temp is what the inline gives already, so the
+  remaining gap is the slot numbering; not explored further (it would need a file-local copy of the inline).
+- Unexplored: a file-local copy of the spawn inline with function-scope temps (the inline's header is shared
+  with ImGuiDebug and Police_38, so it must not change there).
+
+## Agent near15 (ChangeMenuPage_4B3170, Char_B4::state_0_54DDF0)
+
+- `Frontend::ChangeMenuPage_4B3170` (start 353, final **8**, not matched; kept). What moved it, in order:
+  - `SetPlySlotIdx_4C5920(field_70 = field_6E = Create_Player_Setting("plyrslot"))` as one chained assignment
+    gives the original's `mov %al,%cl; mov %ax,0xD72; push %ecx; ...; mov %ax,0xD74` (the pushed byte is a temp of the
+    *call result*). With an `s16`/`DWORD`/`u16` local, `(u8)`/`(char_type)`/`& 0xFF` casts, a `u8` copy local
+    (forward-substituted) or a chain on a local (c2), VC6 pushes `%eax`. That byte temp is one round-robin pick,
+    which also fixed the eax/ecx/edx rotation of the three switch bodies and `setne %dl` after it (353 -> 543 on the
+    line count, because the loops then diverged, but the structure was right).
+  - The permuter (on that base) found: a block-local `u8 game_mode_2` for case 7 (separate from the DEAD-page
+    `game_mode`; it shares 0x2C with the lea temp and the function-scope one gets its own slot) and
+    `StrToUpper(player_name)` once after the quit/non-quit if/else instead of in both arms: 543 -> 214. Each alone is
+    worse (527 / 232).
+  - The TAG loop as a select: `s32 time = GetTime(i); if (time <= best_opponent) time = best_opponent;
+    best_opponent = time;` gives `mov (%edx),%ecx; cmp %edi,%ecx; jg; mov %edi,%ecx; mov %ecx,%edi` and raises
+    best_opponent's colour priority so it takes edi across the three loops (int-i ebp, the reloaded u8 i ebx) with
+    the ebp reloads at the merge / on the two edges as in the original: 214 -> 16. The ternary
+    `best = time > best ? time : best` and `if (GetTime(i) > best) best = GetTime(i)` both spill best (ebp + 0x14).
+    Only works together with the goto-free tail (below); on the goto version it gave 208.
+  - The two gotos (`goto lose` from HasQuit(user_idx), `goto draw` from the unknown-mode else) are
+    `s32 user_value = 0; if (HasQuit(user)) user_value = -1; else if (FRAG) {...; user_value = X - best;} ...`
+    then `if (user_value > 0) win else if (< 0) lose else draw`: VC6 threads the constants into the two jumps,
+    tail-merges the three `sub %edi,%eax` and gives the `jge draw; jmp lose+7` over the edge reload block. Same code
+    as the goto version (0 lines), so kept as the readable form.
+  - The last FatalError pushes 0xA5 = `Gta2Error::NoValidMenuOptions`, not `FreeloaderEpisodeUnknown` (0x10): a 3-byte
+    `push` difference that showed up only as the final `jne 0x925/0x922` offsets. 16 -> 8.
+  - Left (8): `saved_main_stage`/`saved_is_bonus` swapped (0x2A/0x2B, both 1 byte, 2 refs). The frame list
+    (slotlog, `Scripts/regalloc/README.md`) orders equal-count symbols by which one reached its final count first in
+    the IL walk (0x1072EE45: a new symbol is appended after the same-size ones, a count increase moves it ahead of
+    strictly smaller counts), i.e. saved_is_bonus (its test load comes first) before saved_main_stage (reloaded in the
+    not-bonus arm). The original needs saved_main_stage first. Tried: all 6 store orders, declaration order, block
+    scope for either/both, `bool`, `if (saved_is_bonus)` arms swapped (28), compare operand order, a `u8 saved_main`
+    register copy (22), a `u8*` to it (8), the DecodeStage by-ref inline (same code as the written-out shifts). A third
+    ref of saved_main_stage still present at frame time (e.g. the DecodeStage store eliminated late) would explain it.
+  - Also: `DecodeStage_453A60(GetStage(), &main_stage_idx, &bonus_stage_idx)` and
+    `DecodeStage_453A60(bonus_count, &saved_main_stage, &bonus_count)` (the 9.6f shape) compile to the same code as
+    the written-out shifts, contrary to the old comment.
+- `Char_B4::state_0_54DDF0` (184, unchanged, nothing kept). 9.6f (0x49A560) calls GetBlockTypeAtCoord (0x420420) at the
+  pAhead site and tests the copied result (`mov %al,%bl; test %bl,%bl; mov %bl,0x28; jne`), so the 10.5 site is the
+  inline with its return value copied to block_type. The `Map_0x370::GetBlockTypeAtCoord_420420` inline there gives
+  the original's `and $3,%bl; test %bl,%bl; mov %bl,0x1C` (the compare is on the copy, not folded into the `and`)
+  but the non-null arm first and the null arm (`xor %bl,%bl; mov; jmp`) after the fall-through `ret` (204); a
+  helper spelled `if (!pBlock) return 0; return ...` or `return !pBlock ? 0 : ...` gives the original's null-first
+  layout but folds the test (188-192); `u8 t = 0; if (pBlock) t = ...` 703. All helper forms also give
+  `mov %ecx,%edx; mov gMap,%ecx` (the inline's `this` temp takes ecx and evicts z) where the original keeps z in
+  ecx and loads gMap into edx (`mov %edx,%ecx` before the call); the direct get_block call loads gMap into ecx after
+  `push z`. The conveyor-add order (second spot) not revisited.
+
+## Agent near16 (ChangeMenuPage_4B3170 8, Char_B4::state_1_5504F0 49; neither moved, nothing kept in Source/)
+
+- `Frontend::ChangeMenuPage_4B3170` (8, unchanged). Only the `saved_main_stage` (S) / `saved_is_bonus` (B) slot
+  swap is left. New tool `Scripts/regalloc/reflog.py` (slotlog + one `@REF` per counted reference, in the frame
+  walk's order) confirms the mechanics exactly: the walk (`0x10724286`) goes over the block list in layout
+  order, D operands then S operands, +1 per stack-symbol operand (kind 2, or kind 6 with a stack base; register
+  placeholders and references through the frame symbol don't count), on every instruction (bit 0 of `[ins+9]` is
+  set at creation and never cleared). Base order: 22 S store, 23 bonus_count, 24 B store, 25-26
+  bonus_stage_idx, 27 **B test load**, 28 bonus_count = 0, 29 **S load** (the splitter's region-entry load in the
+  not-bonus arm), ... so B reaches its final count 2 first and is listed first. Post-frame passes delete only
+  register copies here (12 `mov reg,reg`), no memory refs, and the target has no sign of a cross-jump or head
+  merge around the test (nothing between `test` and `jne`, no extra jumps into 0x2D8-0x2FB). So the original
+  needs S's second memory ref before B's test or a third one, and no source form gives that with the same code:
+  `u8 cmp_main = saved_main_stage` before the test flips the list (S first, correct slots) but hoists the load
+  above the test (8, different diff); a copy in the arm (`cmp_main = saved_main_stage` in the not-bonus arm,
+  decode into cmp_main in the other) keeps the load in the arm and the wrong order (8); explicit shifts, a `u8
+  code` temp, `s8` B, self-assignments (folded), `if (B) decode; if (!B) bc = 0` (20, decode arm first, like the
+  swapped arms), `if (!B) bc = 0; if (B) decode` (threaded early, identical to base: 8), the compare as nested
+  ifs (12), pPage before the test (134), a `pSlot` pointer to the plySlots entry (120), S/B as `u8 saved[2]`
+  or a 2-byte struct (102: same code, the frame shrinks by 4 and everything moves). Permuter 1500 on the base:
+  nothing. Frame packing note (not in the README yet): the 1-byte locals land in the top bytes of 4-byte
+  granules (bsi at 0x1F in 0x1C, S/B at 0x2A/0x2B in 0x28, nothing references 0x1C-0x1E/0x28-0x29), and the
+  first of the two in the list takes the lower byte; `user_idx`/`opponent_idx` have one more ref in the list
+  than in the final code, so a post-frame pass can drop a memory ref, but not one of S here.
+- `Char_B4::state_1_5504F0` (49, unchanged). The `+2` callee penalty is the out-of-line `Max_41E130` COMDAT
+  (the inliner already leaves both `Abs` and `Max` out of line inside the inlined `MaxAbsDistance`, as the
+  original's `436A50, 436A50, 44E540` calls show: budget 23 at those sites). The bit insert: the target's
+  `xor %edx,%ecx; and $1,%ecx; xor %edx,%ecx` has the `&&` temp as the xor's destination (dies there) and the
+  flags load second. Every spelling that puts the `&&` value first in the source (`bf.b0 = cond` 271, `(cond ^ f)
+  & 1 ^ f` 271, `s32`/`(s32)` 271, `bool b0_v` 215, `cond != 0` 239) comes out with the flags load first and a
+  copy (`mov %ecx,%ebp; xor %edx,%ebp`), and the and/or form (`(f & 0xFE) | cond` 63, `(u8)cond` 51); C2 orders
+  the commutative operands itself (the "rank" also open in `SpawnCarOnRoadNetwork_4458B0`). Not solved.
+
+## Agent near17 (Oct 11): HandleCarDoorSounds_4182E0 (MATCH), sub_4E8370 (8, unchanged)
+
+- `sound_obj::HandleCarDoorSounds_4182E0` 54 -> 0 (MATCH_FUNC, full build 3393/3393). The open-door block is
+  the same source form as the close-door block: `field_14_samp_idx = get_samp_idx_for_car_417D70(pCar, 1, b);
+  field_3C = 0; field_20_rate = RandomDisplacement_41A650(field_14_samp_idx) +
+  gSampManager.GetPlayBackRateIdx_58DBF0(field_14_samp_idx);`, no local at all. VC6 then calls Random first
+  (the forwarded store value is `mov %eax,%edx; push %edx`, kept in `edi` for GetPlay), spills the Random
+  result to the 0x1C frame slot across GetPlay, and the zero stays in `ebx`. In the close block the identical
+  form gives GetPlay first with `push %eax` and a reload for Random, as before. The permuter's `u16
+  samp_idx_for_car` (34) was a fake: `and $0xFFFF` only moved the jump offsets. Assignment chains as the Random
+  argument (`Random(field_14 = samp = get(..))`, near15's pattern) 58-278, `Random(samp = get(..)) +
+  GetPlay(samp)` 88, `Random(field_14 = get(..)) + GetPlay(field_14)` 4 (only the `field_3C = 0` store is
+  scheduled before the get call), `s32 displacement` with the chain 278. `get_samp_idx_for_car_417D70`'s
+  `s32` return and the `u32` field / `u32`/`s32` parameters are fine as they are.
+- `Map_0x370::sub_4E8370` (8, no source change kept). New findings, all on the hoisted form (`new_idx`/`pNew`
+  before `if (do_drop)`, 292-323):
+  - The exact original allocation (column_idx `eax`, offset `ecx` -> 0x18, this spilled late, `mov
+    0x20(%esp),%al; test`) appears when BOTH arms end with their own `field_360 += ...; return new_idx;`
+    (permuter early_return, 72; `m1`/`m2`/`u1`/`u2` in /tmp/claude-0/agents/near17): the only diff left is
+    that the do_drop arm keeps its own tail copy with an epilogue instead of jumping to the else arm's. With
+    one `return new_idx` after the if/else (f2, `+=` in each arm, 310) or one `+=` after it (a5, 292) the
+    allocation is wrong again; replacing either `return new_idx` by `return 0` breaks it too (650/676), so the
+    second return reference of `new_idx` is what flips it (new_idx's eax copy hint / the `this` reload piece
+    then takes `ecx`, and column_idx colours into `eax` at prio -7 unsplit). `u16 new_idx` on f2 (permuter,
+    42) has the same effect through a conversion temp but adds `and $0xFFFF`. No effect on f2 (310): `u32`/
+    `const`/function-scope `new_idx`, `(s32)` casts, `pNew` from `field_360` directly, `pNew` at function
+    scope (292 on a5), `u32 offset`/`height`, declaration order.
+  - Why the two tails don't merge (cjlog, built into a scratch dir): FlowOpts compares the pair (`@J` lines 47
+    vs 80, identical op lists `c:1 c:1 c:45 c:1 c:33 c:50 c:1 c:52 c:1 c:52`) and rejects it, with 3 or 5
+    predecessors of the exit label. In the arm form (base), the three `+=` copies survive until the second
+    FlowOpts call (ildump 10765cc7 -> 10765cda) and are then merged into the copy that FALLS THROUGH into the
+    `return new_idx` label (the label moves to the else arm's copy); with per-arm returns the exit label's
+    fall-through predecessor is the out-of-line `return -1` block, so nothing matches. The original's tail
+    (one block at 0x218 with its own epilogue copy, `return -1` last) therefore came from a `+=`/`return`
+    join, not from two returns. Open: a form with the join AND two eax-hinted references of `new_idx`.
+  - Permuter: 1500 on a5 (new passes) -> 42 (u16) / 72 (per-arm return); 400 on m1 -> nothing better.
+
+## Agent near18 (Oct 11): state_8_5520A0 (12, unchanged), SCRCMD_STORE_CAR_INFO_509180 (80 -> 46), sub_4E7190 (92, permuter only)
+
+Scores are `NO_PCH=1 quick_score.sh`. No header edits; only `Source/miss2_0x11C.cpp` changed.
+
+- `Char_B4::state_8_5520A0` (12, unchanged). ralog/priolog on the base: the reload
+  `field_184_pObj2C = field_7C_pPed->field_184_pObj2C` is a coloured web (prio 32, tie 185) with scores eax 0 /
+  ecx -1 (its own preference, disallowed) / edx 0, coloured after the `->field_4` temp (64/182) and the sprite
+  `this` temp (32/340, the shared `this` symbol of all set_xyz_lazy expansions, hence the high tie). Whenever ecx
+  is allowed it takes ecx (`set_xyz_lazy_inlined_420600` copy at this site, 18; direct re-reads / `Sprite* pSrc`
+  forms, 32: there the reload is a block-local temp merged into the dying coloured pPed `mov 0x184(%ecx),%ecx`,
+  while at the matched v60 site pPed is a fresh temp and no merge happens). The target's edx therefore needs the
+  reload to be a coloured web whose eax is disallowed, i.e. live across the `x` temp (`mov 0x14(%eax),%eax`, prio
+  36, pref eax) or the field_4 temp; no spelling found that extends it there without code changes. Also tried:
+  checks through pPed with the local only after the store (12), reusing the function-scope `v60`/`v54` for
+  field_4 at the init site (32), 0-4 unused dummy locals (12), permuter 1500 with the new passes and
+  --auto-method-aliases (12).
+- `miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180` 80 -> 46 (kept: else branch `gStoredCarId = pChar->field_16C_car->
+  field_6C_car_id`). Priolog on the base: pParam2 prio 7 (7 refs, +18 from the tail block whose N=3 includes the
+  shared `8` constant range of `CanAlloc(8)`/`Reassign(8)`), 3 prio 7, zero 2, 4 -25; colour order pParam2 (esi),
+  3 (edx), zero (edi), 4 (ebx, folded because ebx would be its only user). Any form that removes pParam2's
+  else-branch reload reference (prio 7 -> 1) gives the original's zero esi / 4 edi / pParam2 ebx AND the
+  `mov gStoredCarId,%eax` load: `gStoredCarId = gStoredCar->field_6C` in the else (48, forwarded, no reload),
+  through pChar (46, reload `mov 0x16C(%edx),%edx` instead of the original's `mov 8(%ebx),%edx`), the permuter's
+  dropped store (44, rejected). The original keeps the pParam2 reload, so its pParam2 prio must come down (or
+  zero up by 6) elsewhere: the tail block's N (the `9` diagnostic, 20) or the prologue/store/is_bus blocks. The
+  remaining diff in every variant is the `3` constant (ecx in the original, ours edx): the gStoredCar web for
+  IsDeactivated/MarkForDespawn (prio 14) is coloured before `3` (7) and takes ecx; `3` would need prio > 14 or an
+  ecx preference. Tried without effect: SetUniNum/DespawnSoon/MarkForDespawn written out (80-122), `u8`/`s8`/`s16`/
+  `u16` CanAlloc parameter (80, constants keyed by value), `u32` gStoredCarId (80), operand order of the id
+  compare (80), permuter 1500 with --calling-conventions/--auto-method-aliases (only convention changes and
+  dropped stores) and 171 with the structural passes (80).
+- `Map_0x370::sub_4E7190` (92): permuter with switch_dup/tail_return/invert_if/swap_logical/cond_split/goto_exit/
+  do_while/noop_node/dead_wrap: no improvement in 1253 compiles. No manual work.
+
+## Agent cheap18
+
+- `sound_obj::HandleVocalStreamSwitching_57DF10`: start 108, final 108 (no source change kept). Not matched.
+- Permuter (`-j 2`, passes switch_dup, tail_return, invert_if, swap_logical, cond_split, goto_exit, do_while,
+  dead_wrap, `--auto-method-aliases`): about 140 iterations in 35 min (the wine compile is the bottleneck),
+  0 outputs below 108. Stopped there.
+- Tried: one station block selected by a single flag, `bool bStation = (eq) ? bStationChanged : bFast;`, then
+  `if (bStation) STATION; else if (eq) Update; else MODE;`. Score 319, reverted. The `!changed` Update
+  is then a separate return path, not the cross-jump the target has (`je` into the SetVocalPos tail).
+- Conclusion: the 108 is the station-head duplication, as logged by cheap7 and sound2. Not a permuter-reachable
+  shape.
+
+## Agent near19 (EmitFlameStreamSegment_53F4C0 MATCH, GunMuzzelFlash_53E970 444->391, state_0_54DDF0 184 unchanged)
+
+- `Particle_8::EmitFlameStreamSegment_53F4C0` 66 -> **0** (kept, `MATCH_FUNC`). The last 66 were EH states and the
+  frame: the original enters with state 4 and sets no state in the car branch, ours had state 3 plus `movb $4/$5/$3`
+  around the `Add_40AC50`/`GetPointVelocity` temporaries. What fixed it, in order (NO_PCH=1 quick_score):
+  - `Fix16_Point point_velocity;` at function scope (the 5th tracked point, entry state 4) and the plain inline
+    `operator+` in `pos += offset + pSprt->get_x_y_443580()`: the inline is charged (81, udt-abort) and called out
+    of line with no EH state for the temporaries. 168 (budget off: PolarToCartesian's first `operator*` and the
+    first car rotation's lost their inline).
+  - `Ang16 angle` at function scope as 9.6f (0x48D4E0 constructs it first): its free ctor site moves before
+    PolarToCartesian, so `sites_left` there drops by one and the nested budget is back to 57. 128.
+  - The first car rotation then needed +25..+231 front-end size (`inlsim.py --scan`). Code-neutral size found by
+    measuring single spellings with `inl.sh` (size= line): `Fix16_Point vel(0, 0)` +8 and `vel = Fix16_Point(0, 0)`
+    +22 (an implicit int -> Fix16 conversion is 14 nodes each; explicit `Fix16(0)` args are 14 smaller, so
+    `New_53E3C0(.., Fix16(0), Fix16(0), Fix16(0))` costs -42), `Fix16 zpos; zpos = ...` +9, `x = x | n` +6/+11,
+    `!= 0` +2/+3, `Fix16(expr)` casts +2 each, `Ang16(expr)` +7. With vel's two forms: 3 (only the ped branch's
+    `Add_40AC50` symbol and its temp slot differed).
+  - The ped branch must call the same `operator+` symbol (the original calls 0x40AC50 in both branches): the plain
+    operator there adds a charged site after the rotations, which needs +27 more size: `zpos` declared then
+    assigned, `field_4_flags = field_4_flags | 1`, `field_2C_flags = field_2C_flags | 4`,
+    `CheckSpriteMovementRegion_5A2500() != 0`. 0. The slot story: block-scoped `point_velocity` gives the original's
+    ped temp slot (shared, F+0x44) but a `movb $4` state store; function-scoped gives entry state 4 and the temp in
+    the car temps' slot (3). With the plain operator in the ped branch the temp lands on F+0x44 anyway.
+  - Probes (`/tmp/claude-0/agents/near19/probe/p1.cpp`): a tracked block-scoped object always gets a state store
+    at the first call while it is alive, also when declared after the calls (`P pv; pv = g();` stores before `g`);
+    copy-init from any call expression, even through a `(POD&)` cast, is RVO'd (no copy, no temp slot). An unused
+    `Fix16_Point` gets an EH state but no frame slot; a `Fix16_Point_POD` local is enregistered (no slot, stores
+    dropped), a `Fix16_Point` is address-taken by the EH registration (2 refs = its stores).
+- `Particle_8::GunMuzzelFlash_53E970` 444 -> **391** (kept): `a2->field_30_sprite_type_enum == car_2` (the original
+  compares memory, the getter loads first) and `corner_1.x = ...; corner_1.y = ...;` as two statements (the original
+  evaluates x before y; `SetXY_432860`'s by-ref arguments go right to left). The same for corner_2 is worse (512).
+  Frame/EH analysis of the original: 5 tracked points at the top (vel at F+0x34, offset F+0x2C, three without a
+  slot = unused), 3 in the car block (corner_1 F+0x1C, corner_2 F+0x24, one unused; the ped `operator+` temp shares
+  corner_2's slot), the unused `sine*r`/`cosine*r` products call 0x408680 = the same symbol as the rotations' out-of-line
+  `operator*`, so they are `operator*` sites (PolarToCartesian with unused dx/dy) or everything is `Multiply_408680`.
+  Rotation budgets from the call pattern (method-call argument before `this`: `y*sin` is visited before `x*cos`):
+  corner_1 nested budget in [42,52), corner_2 in [52,57), ped rotation in [57,99), ped PolarToCartesian in [57,114).
+  The current source already has those nested budgets by luck; declaring the 3+1 unused points (`Fix16_Point x;`,
+  42 charged each plus a dtor site) needs +180..+209 caller size with explicit `Multiply_408680` (g2/g4 in the
+  scratch dir), +252 with PolarToCartesian sites; `get_x_y_443580()` instead of `get_x_y()` saves 2 sites and 116
+  budget (+90..+131 left). Unused points written `Fix16_Point pos(0, 0)` are free sites and land exactly in the
+  window, but their zero stores stay (frame 0x54). Not solved: where the original's extra ~100 nodes of
+  code-neutral source are.
+- `Char_B4::state_0_54DDF0` (184): read only, no new idea beyond the logged ones (the two spots are the
+  `GetBlockTypeAtCoord_420420` inline's arm order plus unfolded test, and the conveyor add order).
+
+## Agent near20 (SetupMenuStringsOptionsElements_4B0220 130 -> 84, state_0_54DDF0 184 unchanged)
+Scores are `NO_PCH=1 quick_score.sh` lines. Only `Source/Frontend.cpp` changed (two spots in 4B0220), no header edits.
+- `Frontend::SetupMenuStringsOptionsElements_4B0220` 130 -> 84, not matched. (1) The page 6 `GetCenteredXPos_4B0190`
+  call for `options[0]` reads `0x4860(%esi)` in the original = `field_136_menu_pages_array[6].field_4_options_array[0]
+  .field_6A_font_type` (the option's own, never written, font field), not `field_120_selected_font` (130 -> 128; the
+  cheap3 entry's "reads from another address" was this). (2) The page 10 `elements[0]` font store and the following
+  `GetCenteredXPos` argument are two separate loads of `field_130` in the original (`mov 0x130,%dx ... mov 0x130,%ax`)
+  where ours CSE'd one: the decompiler's `v46` was real, `s16 v46 = field_130;` used at both sites gives the two loads
+  (128 -> 84; the block-local is forward-substituted into each use). The cheap3 `v38` finding for page 6 is the same
+  mechanism. Look for more such pairs if someone continues: every `GetCenteredXPos(..., field_1XX, ...)` next to a
+  `.field_6A_font_type = field_1XX` store.
+- What is left (all scheduling of register-only instructions among a totally ordered store chain; `sched.sh` shows
+  every store depends on every later store, so the store order is the IL order and only constant defs, `lea`s and
+  `add $0xC,%esp` move): the top block (`mov $3,%ebp` / `movw $0x10,0x134` placement: all 360 orders of the first six
+  statements swept, none below 84), `xor %edi,%edi` / `mov $0xC5,%eax` / `mov $0x96,%ebp` constant defs that the
+  original issues right after the preceding call or block top while ours places them two IL instructions before the
+  first use (priority = first use + 4 in the sv.py log, so ours cannot hoist them; the original's defs sit at the
+  start of the web, cause unknown: not /G5-/G6, not a statement order), eight `add $0xC,%esp` placements, the
+  `0x17C/0x136` constant register swap on page 1 (the permuter's move of `elements[7].shape = 4` earlier fixes it
+  but breaks the `0x1520` store order, 118 from 128), and the `lea`/`push` rotation around the page 14 wcsncpy calls.
+  `regsearch.py` (scratch copy, X pointed outside build_vc6): stock 42 lines, best 40 with window 14 at 76, so the
+  window limits are not it. Permuter (store/decl passes, 3500 compiles over two runs): 118 from 128, 84 from 84.
+- `Char_B4::state_0_54DDF0` (184, unchanged). New facts on the pAhead spot from priolog: with the
+  `GetBlockTypeAtCoord_420420` inline the `this` temp is a coloured range (kind a0804, prio 24 = 4 * N_join) and z's
+  ternary web has prio 20 (defs in the two `sar` arms, N = 2 each, plus the use in the join), so `this` is coloured
+  first and takes ecx by the call affinity, z moves to edx (`mov %ecx,%edx; mov gMap,%ecx`); the original keeps z in
+  ecx and loads gMap into edx before `push z`, i.e. z was coloured first or the this load is a round-robin temp with
+  eax (y) and ecx (z) busy. A named `s32 z` (ternary, if/else, `z = ToInt(); if (frac == 0) z--`), with the inline,
+  a local null-first/non-null-first helper, or the direct `get_block` call: 184-714, none changes the order. The
+  unfolded `test %bl,%bl` needs the and-arm to fall into a join that tests a copy; all inline forms give it only
+  with the non-null arm first.
+- Late finding on 4B0220, not kept (84 -> 244): the page 5 `elements[1].font = word_703C3C` statement is the decompiler's
+  `v34`: `s16 v34 = word_703C3C;` right after `elements[1].ypos = 185` and `... = v34` after the two 197 ypos stores gives
+  the original's IL (the global load before the ypos stores, the `v2` reload, then the font store: the block-local is
+  NOT forward-substituted past the this-> stores, which may alias the global). What breaks is the colour order: v34 is a
+  coloured range (prio 204 = 4 x 51 ranges in the block) and takes eax before the 0xC5 constant (ecx), v2's reload
+  goes to edx; the original has 0xC5 in eax, v34 in dx, v2 in ax, so eax must have had a positive score for v34 there.
+  `u16`/`s32`/function-scope/other-position v34 all 244, `const s16&` 84 (same code as no local). Worth combining with
+  whatever lowers v34's eax score; the shape is right.
+
+## Agent near21 (Char_B4::HandleGenericCollision_54A530 267 -> 16, CanMoveOntoSlopeTile_4E0130 not touched)
+`NO_PCH=1 quick_score.sh` lines. Only `Source/char.cpp` changed (the function body), no header edits. Scratch with every
+variant and its diff: `/tmp/claude-0/agents/near21/v/` (v1..v11), inline-budget logs in `inl/`.
+- 267 -> 208: the whole jump-over layout (the `cmp $3,8(%esi); jmp` block and the `bNoJump` re-test after the
+  Jumping_15 `ret`, B's non-player `else if` block in the middle of the side cascade, A/J right after DoJump) comes
+  from two things together: (1) two `DoJump` sites in `if (!player) { if (!pChar) DoJump(); } else if (state_1 == 3)
+  DoJump();` order (the player copy is the one deleted by the "jmp into the code that falls into the label" cross-jump,
+  so it must be the arm written second... it is the `else` arm, which the DFS visits first) and (2) the second test
+  written `if (bNoJump) { B } else { Jumping_15 handling }` (bNoJump positive). With that, RPO lays out
+  `T P Q D X E B [arms] A J JOIN`, dupB rule 1 moves `A J` up behind D's `jmp A`, and the N block lands between the
+  side-0 arms by itself. Either change alone is worse (char8's 573 for the swap, 496/510 for two DoJump sites).
+- 208 -> 152: pChar arm as `pSprt = pChar->field_80_sprite_ptr; corner_ang = kAng45; pSprt->field_0 = kAng0;` (pChar
+  load picks eax first). Block-local `Fix16 dx = sin * vel; Fix16 dy; dy = cos.Multiply(vel);` in the player arm
+  (char2's frame fix, now a real gain).
+- 152 -> 16: the cascade's three normalised compares are the 9.6f operators: `hit_ang < kAng180_6FD936 + corner_ang`
+  and `hit_ang < kAng180_6FD936 - corner_ang` (`-corner_ang` too, 17/16 either way). Only the operator form makes
+  corner_ang a dword range in edi with 32-bit `add %edi,%ecx`/`sub`; every explicit spelling (`Ang16(k.rValue +
+  corner_ang.rValue)`, `s16`/`s32` corner_ang locals, by-ref helpers with `Normalize_406C20`, `s16 value` + cast) keeps
+  the 16-bit `add %bp,%cx` and a separate dword temp for the `neg` (probes in `probe/q*.cpp`).
+- What is left (16): the operator sites call the out-of-line COMDAT copy of the inline `Ang16::Normalize()` while the
+  other six sites (`Ang16(...).Normalized_406C20()`) call `Normalize_406C20` by name: two call targets where the
+  original has one, so the real verifier would also fail. The way out is the full 9.6f shape, checked as far as:
+  `-pSprt->field_0` with the real `RotateAndTranslatePoint_42A720` inline (its nested budget 75 gives exactly the
+  original's first-subtraction-inline / Multiply-Negate-Add out of line pattern, v11), player-arm
+  `Fix16 dx; Fix16 dy; Ang16::PolarToCartesian_41FC20(field_40_rotation, field_38_velocity, dx, dy);` (fixes the last
+  register difference in that arm: `mov (%edi),%dx`, `lea`, cos in eax), arm2 `field_0 + kAng180`, side-0 `field_0 -/+
+  kAng90`. That shape (v11, 327) has every block and call right except that the three side-1 `Normalize` must inline
+  (nested 56-61 < 67) while side-0's stay out of line (53): `inlsim --scan` says the caller's front-end size must be
+  +140..+195 (2857-2912 vs our 2717), i.e. the original source carried that much more statement/expression text, or
+  ~160-390 less charged budget before the side cascade. Using the hand-expanded `_OOL` helpers instead mixes
+  `Multiply_408680`/COMDAT `operator*` names (v10a, 339: same mixing problem). `PolarToCartesian` for the
+  `target_x/target_y` block is wrong (2131). Not tried: `__forceinline` on one of the three RotateAndTranslate sites
+  (frees 231 budget, inside the window), padding statements.
+- Dead ends: `s16 corner_ang` (241), by-ref helpers (176), inline `Normalize()` through a file-local helper at the
+  `.Normalized_406C20()` sites (1927: nested budget 72 > 67 inlines the loop there).
+- `Map_0x370::CanMoveOntoSlopeTile_4E0130` (442): not worked on (time).
+
+## Agent near22 (Char_B4::HandleGenericCollision_54A530 16 -> 0, MATCH)
+`NO_PCH=1 quick_score.sh` and plain `quick_score.sh` both 0. Only `Source/char.cpp` changed (the function body, the
+now unused `RotateAndTranslatePoint_OOL_42A720` helper removed), no header edits. Scratch: `/tmp/claude-0/agents/near22/`
+(`v/` variants with diffs, `inl/` budget logs, `sim.py` = inlsim driver that reports the OOL Normalize sites per
+top-level site after `--rm`/`--free`/`--scan` edits, `try.sh`/`inl.sh` mirror scorers).
+- Start from near21's v11 (every Ang16 normalise as the plain operator, real `RotateAndTranslatePoint_42A720`,
+  `PolarToCartesian_41FC20` in the player arm). The original has 18 normalise sites: 9 out of line (the COMDAT
+  `?Normalize@Ang16` is fine for the verifier as long as nothing calls `Normalize_406C20` by name), 9 inline, cut
+  between side 0 and side 1 of the cascade. With `Ang16(const s16&, s32)` (44) inside `operator+` (54), a site inlines
+  its Normalize iff budget_after_charge / sites_left >= 111, so the window is B(side0) < 111*L and B(side1) >= 111*(L-2)
+  with B(side1) = B(side0) - 98: about 124 budget = 62 front-end nodes wide.
+- Target block (`target_x/target_y` from field_40): 9.6f calls PolarToCartesian_41FC20 there too, and
+  `PolarToCartesian_41FC20(field_40_rotation, dword_6FDA04, target_x, target_y)` gives the original's inline sine
+  multiply + out-of-line cosine multiply through the nested budget, with ONE multiply symbol (the named
+  `Multiply_408680` in v11 was a second call target). near21's 2131 for it was the frame: `Ang16 rot` (never
+  referenced, copy-propagated) owned a slot; `Fix16 step_x; Fix16 step_y;` at function scope (used by BOTH
+  PolarToCartesian calls, the player arm's included, like `x_vec/y_vec` in ContinueMovementAfterCollision_54B8F0)
+  gives the same frame. Separate block-scoped dx/dy in the player arm plus 3 PolarToCartesian expansions flip the
+  player arm's multiply to `imull (%ebx)` (orig `mov (%ebx),%eax; imul %ecx`); so do the 9.6f `GetW_420590()/
+  GetH_447E10()` getters and explicit `Fix16(member)` copies: all left as field accesses.
+- `GetF8_492170() > kFP16Half` in the else branch must stay a getter: the field access swaps the compare's registers
+  and the tail's `mov %dx,0x2A(%esi)`.
+- With that shape (v13) every remaining diff was the budget: `v13 + 65 x (void)0;` scored 0. The window needed
+  +123..+184 front-end nodes; measured code-neutral spellings (inl.sh size= line): `!= 0`/`== 0` on 18 pointer/bool
+  tests +40, declared-then-assigned xpos/ypos +18 and target_y +9, `default: break;` ~+8, explicit
+  `Fix16(gCharB4_Saved_*)` copies in the five saved-position restores +45, `(x == y) != 0` on the two Ang16
+  compares +2 each; `this->`, parentheses, `(u8)` casts, `!(a == b)`, declared-then-assigned u8/bool are +0.
+  Final size 2779 = the bottom of the window (2779..2840).
+- Not needed: `__forceinline`, `s16 corner_ang`, by-ref helpers (near21's dead ends).
+
+## Agent near24 (Oct 11): SCRCMD_STORE_CAR_INFO_509180 (46 kept / 80 in the true shape, unchanged)
+
+Scores are `NO_PCH=1 quick_score.sh`. No source or header changes kept (mirror-only experiments in
+`/tmp/claude-0/agents/near24/`, opdump/ildump C2 variants built there, `v.py` splices `variants/*.cpp`).
+
+- `miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180`: the committed 46 keeps the else-branch read through pChar; the
+  shape the original's asm forces (else reload `mov 8(%ebx),%edx`, the 9.6f 0x4790F0 structure) scores 80, and
+  everything below is about that 80. Two independent colour-order facts remain, both pure priority (priolog):
+  (A) zero (2) must be coloured before pParam2 (7) (gives zero esi, pParam2 ebx because of the pPointer edi
+  conflict, 4 edi); (B) the constant 3 (7) must be coloured before branch 1's IsDeactivated/MarkForDespawn
+  gStoredCar web (14, tie 45), else the web takes ecx and 3 gets edx. Term breakdown: zero = 5+4+4 (c=1 stores in
+  the three SetUniNum blocks, N=5/4/4) - 11 (live through B4..B7 and the CanAlloc test block; it is not live
+  after a SetUniNum block); pParam2 = 14 (B1 def, N=7) + 8 (store, N=4) + 18 (tail: 3 loads, N=3 with the
+  forwarded gStoredCar web and the `8` symbol) + 6 (is_bus block) + 6 (else) - 45; 3 = 5+4+4+2 - 8 (live
+  through the `cmp 5`/`cmp 2` blocks of branches 1 and 2 up to its `cmp 3`); web = 10+4+4-4. (A) needs -6 on
+  pParam2 or +6 on zero, (B) +8 on 3 or -8 on the web; no spelling found that changes any of these.
+- Constant-symbol rules read off opdump at boundary 10765bbd (op 0x163 const defs): a literal gets a symbol
+  only when one use can share a def with another; a later use reachable from an earlier use hoists the def to
+  their nearest common dominator (2 and 4: `cmp 2`/store 4 in MarkForDespawn + the SetF98 tail -> def in the
+  `id == gStoredCarId` block; 8: CanAlloc(8) + the tail's Reassign(8) -> same block, which is why the tail
+  block has N=3); uses in sibling arms get one def each (3: one `mov $3` per SetUniNum site, first in walk
+  order), and a literal with one use per sibling arm (5, 7, the else's 8 in the CanAlloc(9) diagnostic) gets no
+  symbol at all. The def site is the statement of the first use (zero in B1 after the calls, `1` at
+  `if (CanAllocateOfType(1))`), not a call-free block (replacing CanAllocateOfType by a field test does not
+  hoist 3). Constants are keyed by value only: `3u`, an enum-typed 3, and a `uni_num - uni_num` SetUniNum body
+  (3 refs of the inline parameter, still substituted) all leave the d9 diagnostic at 20.
+- Inline `this` handling (opdump 10765baa): SetUniNum, MarkForDespawn, DespawnSoon and SetF98To2IfNot4 get a
+  kind-4 local for `this` (2+ uses, one load each), IsDeactivated's single use is the global placeholder itself;
+  CSE then merges MarkForDespawn's local load with that use into one global web (the `mov gStoredCar,%edx`).
+  So N in the SetUniNum blocks is {1, SetUniNum this, 3, zero, web} = 5 (branch 1) / 4 / 4 and nothing in the
+  asm can add a range there; the only -6 for pParam2 would be the tail block without the `8` symbol (near18's
+  CanAlloc(9) diagnostic: 20, with (B) left).
+- Tried at 80, no change: merged `pChar && pChar->field_16C_car` condition, no pChar local (CSE'd
+  `pPointer->field_8_char`), `has_car_403B80()`/`get_car_416B60()`, IsDeactivated written as
+  `field_88 != 7`; arm swap `if (!gStoredCar) {...} else {...}` 376; first argument via `pCmd->field_8`: 86
+  (pParam2 5, prologue loses the `mov gBasePtr,%eax` copy). Permuter on the 80 shape with
+  --auto-method-aliases, 630 compiles: best 50 = the else's `gStoredCar = ...` store dropped (rejected); on the
+  46 shape with the structural passes it exhausted after 167 compiles at 46.
+
+## Agent near23 (Char_B4::state_1_5504F0 49 -> 30, state_8_5520A0 12 unchanged, state_0_54DDF0 184 read only)
+`NO_PCH=1 quick_score.sh` lines. Only `Source/char.cpp` changed (state_1 body plus a `static inline s32
+IsOnSlopeBlock(gmp_block_info*)` helper right before it), no header edits. Every other MATCH_FUNC of char.cpp
+re-scored identical to the base. Scratch: `/tmp/claude-0/agents/near23/` (`v/` variants with `.out` diffs,
+`ra/d1p` priolog, `f96_*.txt` 9.6f dumps, `perm/` permuter run).
+- `state_1_5504F0` 49 -> **30** (kept, `v/d1.cpp`). Two changes together:
+  - The bit insert `((v ^ f) & 1) ^ f` with the `&&` value FIRST (no `mov %ecx,%ebp` copy) comes from the
+    value being an inlined helper's return: `field_58_flags_bf.b0 = IsOnSlopeBlock(pBlock)` with the helper
+    written `if (a && b) return 1; return 0;` (s32 return). Every direct spelling (`bf.b0 = cond`, named
+    `s32`/`u32` locals, if/else-assigned local, `u32 flags` copy of the field, helper `return a && b` or
+    `return r` with a local) keeps the copy form (271/299/253 only for the if/return helper). All other
+    xor/and/xor inserts in the exe (CopyStatsFromPed, state_0) are the copy form, so state_1's site is special.
+    9.6f has no call there (/Ob0), so the original was probably a macro or a `__forceinline`-free equivalent;
+    the helper is just the IL shape.
+  - near9's get_block shape: `pBlock = get_block(X.ToInt(), Y.ToInt(), Z.ToInt() [- 1])` in each arm of
+    the b0/frac/z if-else, no `zpos` local (VC6 tail-merges the two calls). Alone it shifts the insert by a
+    byte (195); with the helper the whole get_block + insert section matches.
+  - Left (30): (1) HasBlockAnyArrows arms: `kFP16One` in edx (target) vs ecx; everything else there (gMap
+    `this` loaded before the sub, Y after) follows from that one register. (2) the set_xyz site: `sprite_z`
+    edx / sine ecx swapped and the sine spill store before the cosine load (one round-robin pick off; it was
+    already so on the 49 base). Tried for (2): `Sprite* pSpr` block local (129), `Fix16 vel` local (56),
+    commuted `sine * vel + x` (30). Permuter 1500 on the 30 base (swap_logical, noop_node, invert_if,
+    cond_split, tail_return, reorder_saves, temp_for_expr, named_op, switch_dup, --auto-method-aliases): 30.
+- `state_8_5520A0` (12, unchanged). New data points: the 9.6f version (0x496880) also re-reads
+  `0x184(%ecx)` after the `= 12` store and loads field_4 once, so the source is the reload (direct re-reads
+  or a reassigned local give the same IL). Unrelated webs elsewhere don't move the site-1 register
+  (a `Sprite* pSpr` local in the sinking case: identical 12), so the colour tie is not a global counter.
+  Keeping the local live across the store (no reload) hoists the sprite load (130); one direct re-read
+  argument among local ones 144-158; direct re-reads for the checks 162; `SetStateInitPending_433B50`
+  inline at both sites 264.
+
+## Agent near25 (ChangeMenuPage_4B3170 8, SetupMenuStringsOptionsElements_4B0220 84; neither moved, nothing kept in Source/)
+
+- `Frontend::ChangeMenuPage_4B3170` (8, unchanged). Re-checked the frame walk with reflog (scratch
+  `/tmp/claude-0/agents/near25/rl.sh` prints score + the walk positions of the four byte locals): base order is
+  23 S store, 24 bc, 25 B store, 26-27 bsi, 28 B test load, 29 `bc = 0`, 30 S region-entry load, 31-33 bc
+  (decode arm), 34 bsi (compare). New things tried, all identical walk (8): `u8 saved_main_stage = 0` at the
+  declaration, `saved_main_stage = 0` after the compare block, `saved_main_stage = saved_main_stage` in the
+  not-bonus arm (dead stores and self-copies are removed before the frame pass, no extra ref), the B test through
+  a pointer / `(&saved_is_bonus)[0]` / `== 0` (all normalised to the same `mov 0x2B,%al; test`). The opdump at
+  the frame boundary (10765c2d, build with `build_opdump.py`) confirms S's only memory operands are the top store
+  and the splitter's entry load in the `bc = 0` block. Noted for whoever continues: the post-frame passes do change
+  memory reference counts in this function (the final asm has 17 refs of `stage_idx` 0x14 vs 16 in the walk, and
+  8 of `user_idx` 0x24 vs 9: copy elimination can turn a `mov reg,reg` into a slot reload and a reload into a
+  register use), so the original's S may have had a frame-time ref that the final code no longer shows; a
+  mechanism for S (a value that is only ever in memory before the test) was not found.
+- `Frontend::SetupMenuStringsOptionsElements_4B0220` (84, unchanged). Only one new probe: the top block's store
+  chain in the original is `0x134, 0x136, v2 spill 0x10(%esp), 0x13A, 0x13C`, which looks like
+  `field_134 = 16; number_of_options = 3; v2 = ...;` but that order moves the `gText->field_10` load below the
+  two stores (loads don't cross stores), so v2's `mov %ecx,0x10(%esp)` is a spill store placed by the spiller,
+  not an IL store: v2 must stay first (near20's sweep stands). Priolog on the base: only 4 constants are
+  coloured webs (1 ebx, 0 edi, 3 ebp, one more ebp), the 0xC5/0x118/0x17C/0x136 constants are block temps.
+  sched.sh on the base (`/tmp/claude-0/agents/near25/sched_4B0220.txt`) shows how the constant defs are placed:
+  CSE puts a constant's def in IL right before its first use (`mov ebx,1` is s15, its store s16), the scheduler
+  gives it priority = that store's + 4, and consecutive chained stores differ by 2, so the def of the constant
+  used by the k-th store of a block has the priority of store k-2 and lands two stores earlier. The original's
+  defs at the block top therefore mean their first-use stores are EARLY in the IL store chain: in the top
+  block the original's chain is `0x134, 0x136 (bp), v2 slot store, 0x13A (bl), 0x13C (di), 0x13E`, ours
+  `0x134, 0x13A, 0x13C, 0x136, v2, 0x13E`; `number_of_options = 3` right after `field_134 = 16` with the v2
+  store third needs v2 computed first (its load can't cross the stores: tested, worse) but stored after
+  `0x136`, i.e. v2 held in a register piece and spilled late, or the load kept in a temp used twice. Same
+  reading for the other hunks (`xor %edi,%edi` after the call = the first `%di` store is early in that chain,
+  `mov $0xC5,%eax` at the top = `ypos = 197` is the 2nd store of its block in the original IL). Not resolved.
+
+## Agent near26 (Oct 11): CanMoveOntoSlopeTile_4E0130 442 -> 290 (kept), not matched
+
+- `Map_0x370::CanMoveOntoSlopeTile_4E0130` 442 -> 290 (NO_PCH quick_score; `Source/map_0x370.cpp` only, no header
+  edits). The y/z register swap was a priority effect: priolog gave z 80 / y 78 (z first -> edi). The original's
+  up/down cases do `dec %edi` / `inc %edi` in place and then push the stepped y in the below-block lookups, i.e. the
+  source steps `y--` / `y++` once before the shared `pNext = GetEffectiveBlock(x, y, z)` and reuses `y` in the
+  `z > 0` lookup. With that y is referenced in the four below-block call blocks (98 vs z 76, x 68) and gets edi, z ebp,
+  x ebx as in the original. The same for x in the right/left cases (`x++`/`x--`) lifts x above z (484), so those keep
+  the `x + 1` / `x - 1` expressions; the pSlope branches keep `y - 1` expressions too (they return, so in-place or not
+  gives the same code). The 9.6f build (0x4656D0, 23 GetEffectiveBlock calls, no other callee) has the same
+  register split, so the helpers are macros or plain expressions there.
+- Remaining 290 is one 2-byte difference in the first block that shifts every later jump offset: the original uses
+  the GetEffectiveBlock result from eax after `mov %eax,0x24(%esp); je` (`xor %ecx,%ecx; mov 0xB(%eax),%cl;
+  mov %ecx,%eax; shr`), ours reloads `mov 0x24(%esp),%ecx; xor %eax,%eax; mov 0xB(%ecx),%al`. opdump (10765bbd)
+  shows pBlock as a colour candidate placeholder with the IL copy before the shift; priolog gives the whole range
+  prio 14 but it never gets an @R line or a split (the split passes only cover pSlope/pBaseSlope and three more).
+  A probe (`/tmp/claude-0/agents/near26/probe_gen.py`, a Probe function with the same shape) reproduces it: with
+  4 cases and NO else arm after `if (p)` the first piece of p is coloured eax (`xor %ecx,%ecx; mov 0xB(%eax),%cl`),
+  with 2 cases plus the else arm too, but 4 cases plus ANY else arm (a second lookup, a plain `if (z > 1)` use of p,
+  a block-local q) gives the reload. Extra live-through blocks inside a case (1-6) do not switch the split off, so it
+  is not a block-count threshold; the else arm of the def block's test is what matters. Colour loop: a popped range
+  without flag `[lr+5] & 4` goes through 0x1074E2BC (0x1074E234 collects coloured interfering ranges, 0x1074E44A
+  splits), else 0x10722650 + select 0x107233B6; a failed select is silent in ralog.
+- Tried for the first block, all 290 (or 442 before the y-- change): by-value `GetSlopeStructV(u8)`, the raw
+  `&gGmpSlopes[type >> 2]`, a u8 local (block or function scope), a `GetBlockSlope(pBlock)` inline, `if ((pBlock =
+  ...) != 0)`, a `pTop` block-local copied into pBlock (copy-propagated into one variable), `pBlock = pTop =`,
+  pNext/pBelow/pBlockBelow at function scope for the else lookup, pBlock reassigned in the else arm (294), the
+  declaration order, `if (!pBlock) {...} else` (352: then/else layout flips), `if (pBlock) A; if (!pBlock && z > 0)
+  B;` and `if (pBlock == 0)` re-tests (290, same CFG). Permuter 1501 compiles on the 290 base (swap_logical,
+  noop_node, invert_if, cond_split, tail_return, temp_for_expr, reorder_saves, switch_dup, dead_wrap): the 258 it
+  found is the inverted top `if` (a fake: the diff just aligns differently).
+- Next idea: find what the original's source did in the top block so that pBlock's first piece is split off with the
+  else arm present (or an equivalent shape where the else arm is not a successor of the `je`), e.g. probe variants
+  of the Probe function (p_4A*.cpp) rather than the real function; each compile is ~15 s via asm2.sh.
+
+## Agent near27 (Oct 11): Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0 (123, not matched; source unchanged)
+
+Scores are `NO_PCH=1 quick_score.sh` (raw) plus a "masked" count (same diff with jump offsets and stable_name
+numbers masked, `/tmp/claude-0/agents/near27/msc.py`). The raw score is misleading here: the base (123, masked 84)
+happens to have the original's byte size, so every change that moves the function size costs ~50 jump-offset lines.
+The best variant (`/tmp/claude-0/agents/near27/best_masked70_Particle_4C.cpp`, raw 200, masked 70) is NOT in the tree.
+Police_38.cpp (CreateRoadblock_575FF0) was not attempted.
+
+- Real changes found (each verified against the target asm, not just the score):
+  - `Fix16_Point attach;` declared before the `GetSpriteForModel_5A6A50(114)` call: the original stores EH state 2
+    once before the call (`movb $2,0x74(%esp)`), ours stored 1 before and 2 after. Function 5 bytes shorter (raw 210).
+  - Gun arm: `offset.x = 0; offset.y = kFP16Eighth_6FD2D0;` (x first, as in the else arm): the original's constant
+    def sits two stores before the 0x64 store (near25's rule), i.e. x then y in both arms.
+  - 9.6f shape (0x490130) for the three Ang16 sites, all in operator form: `Ang16 spread =
+    Ang16::Fix16_To_Ang16_40F540(dword_6FD328 * (Fix16(sub) + Fix16(rng) - dword_6FD4AC))` puts the Fix16(u8) byte
+    temp in the original's slot 0x30 (ours 0x10); `car_angle = pGun->field_0->field_0 + kAng180_6FD3EE;` fixes the
+    `mov (%eax),%eax; mov (%eax),%ax` chain; `PolarToXY_6FD2E8(angle + spread, dx, dy)` (either operand order).
+    `Ang16 spread; ... spread = ...` gives identical code. Masked 84 -> 70.
+- The blocker, now understood but not solved: the original multiplies as `mov %eax,%ecx; mov dword_6FD328,%eax;
+  imul %ecx`, ours `imull dword_6FD328` in every spelling (operand order, named locals, `*=`, explicit `Fix16()`
+  copies, by-value/by-ref helper inlines, cast placement, globals defined vs extern, `+` for `-`: ~25 variants).
+  opdump: the mul's D list is `[dword_6FD328 (kind 2), temp]` for both source orders; the selection gives eax to an
+  uncoloured temp and keeps the global as the memory operand. The original's form appears only when the temp is a
+  COLOURED web (sound_obj::Type6_413A10's `ratio`): a diagnostic `Fix16 v = ...; if (timer == 100) v = k;` (a
+  cross-block use) reproduces `mov %eax,%ecx; mov g,%eax; imul %ecx` exactly. A register copy of the global
+  (`Fix16(dword_6FD328)`, a helper with `Fix16 base = dword_6FD328;`, by-value `Fix16 a` param) gives the reverse
+  (`mov g,%ecx; imul %ecx`, temp in eax). So the original's `(Fix16(sub) + Fix16(rng) - k)` value was a colour
+  candidate: a variable whose use reaches another block, or an optimizer (CSE) temp. No branch is visible between
+  the `sub` and the `imul`, so the open question is which natural source makes it one (a folded branch, or a
+  second use of the value).
+- The remaining masked diffs after that: the car arms' constant registers (eax vs edx, probably the round-robin
+  shift from the missing `mov %eax,%ecx` pick), the PolarToXY else arm's cos register, the tail `stru_6FD388 +=`
+  (original: both sums into edx/ecx, stru_x in edi, stores last; every scalar spelling incl. 9.6f's `+= dx + vel.x`
+  gives our `add %ecx,%ebp` form; Fix16_Point forms call operator+ out of line, worse), and `max_sub_state = 14`
+  after the set_id call (as the original: `mov $0xE,%bl` after the call) which spills max_sub_state (cheap14).
+- Permuter (two runs, ~2800 compiles, default passes): only size tricks (`Fix16 dx_arr[2]`, duplicated statements)
+  that realign jump offsets; nothing real.
+
+## Agent near28 (Oct 11): CanMoveOntoSlopeTile_4E0130 still 290, not matched
+
+- No source change kept (`Source/map_0x370.cpp` untouched). All work was on near26's probe (copies in
+  `/tmp/claude-0/agents/near28/`: `probe_gen.py` with a case-template/tail argument, `run.sh`, `sc.sh`, `pl.sh`)
+  and on scored copies of the real function.
+- The 2-byte diff is settled as the splitter's choice of the first piece of pBlock: `{def}` only (store from eax,
+  then-use reloads) instead of `{def, then}`. Findings from the probe (4 cases + else arm, all else equal):
+  the piece grows into the then-block when the then-arm has NO definition of a stack variable there (member
+  store `field_36F = get_slope_idx(p->field_B)`: direct `mov 0xB(%eax),%cl`), and does not grow as soon as the
+  then-arm defines one (`b = get_slope_struct(..)`, `s32 k = get_slope_idx(..)` with no multiply, or an
+  address-taken `b`). An extra live-through local defined in the def block (`k = dir * 3` before the call) gives
+  the copy form `mov %eax,%ecx; mov 0xB(%ecx),%dl` (piece `{def, then}` in ecx because eax is taken in the def
+  block), so the growth is per register and block-granular: it starts with the def's register and stops at the
+  first block where that register is held. The same holds on the real function: with the then-arm as a member
+  store it uses eax directly (352, everything else shifts), with any `pBaseSlope = ...` form it reloads.
+- Not it (all 290 on the real function): `u32`/`s32 idx` locals for the shifted index (block scope), the raw
+  `gGmpSlopes + (type >> 2)`, `(u8*)gGmpSlopes + idx * 12`, pSlope/pBaseSlope as a 2-element array, pBaseSlope
+  address-taken, 3 vs 4 cases, fewer/more pBlock refs in the cases (probe: fewer refs or 3 cases flip p to the
+  whole-range-in-eax form with reloads after calls, which is a different shape from the original's).
+- priolog (`pl.sh`, `ra_base/`): pBlock whole range prio 14 (def block +32 at N=8, then-block +6, 142 of
+  live-through penalties), the then-block x12 kind-3 temp (`mov %ecx,%eax; shr; lea (%eax,%eax,2)`, 5 refs,
+  N=3) prio 30 coloured eax before pBlock is split; pBaseSlope -299. But the probe's p has prio 44 > its temp's
+  30 and still doesn't grow, so the temp's colour order is not the (only) blocker; what in the then-block
+  stops the growth when a local is defined there is still open (candidates: Chow-style colourability count of
+  live ranges in the block, or the def's own interference). Next: build a probe where the then-arm defines a
+  local but the piece still grows, by varying what else is live in the then-block (K5 vs L2 differ only in
+  whether the local is defined there or live-through), then port.
+
+## Agent near32 (Oct 11): Char_B4::state_1_5504F0 30 -> 0 (MATCH)
+`try.sh` (NO_PCH compile + `permuter_score.py`, masked with near27's `msc.py`); diff and variants in
+`/tmp/claude-0/agents/near32/` (`final.cpp`, `final.diff`, `v2/`). Only `Source/char.cpp` (state_1 body plus a
+`static inline MaxAbsDistance_5504F0` helper right before it). Every other function of the TU compiles to the same
+code as before (objdump compare, only EH `$T` names differ). Three independent fixes:
+- HasBlockAnyArrows arms (the `kFP16One` edx/ecx swap): the z argument as the raw
+  `(gCharB4_Saved_Zpos_6FD7FC.mValue - kFP16One_6FD9E8.mValue) >> 14` in both arms instead of
+  `(Z - kOne).ToInt()`. The inlined `Fix16::operator-` (local + `Fix16(value, 0)`) leaves a different IL shape
+  whose hoisted kOne load gets ecx; `Fix16(Z - kOne).ToInt()` changes nothing. 30 -> 12.
+- set_xyz site (zpos/sine register swap): compute the x (and y) argument before the zpos read:
+  `Fix16 nx = spr->x + sine * vel; Fix16 ny = ...; set_xyz_lazy_420600(nx, ny, spr->field_1C_zpos);`
+  (also matches with a `Fix16 s = sine(...)` local before `sprite_z`, but NOT with `sprite_z` first and `s` after).
+  The IL order sine-then-zpos gives the original's round-robin picks (sine ecx, zpos edx); a zpos read in the
+  argument list or in a local before the call puts it first. 12 -> 2.
+- The remaining +2 was the callee check: `Fix16::MaxAbsDistance_42A6B0` emits `Max_41E130`, the original calls
+  `Max_44E540`. Same fix as Weapon_30/Police_38: a local `MaxAbsDistance_5504F0` copy calling `Fix16::Max_44E540`. 2 -> 0.
+- The earlier permuter run (2100 compiles on the 30 base, default passes + `--keep-ties`) found nothing: neither
+  the raw subtraction nor the argument-order change is in its pass set.
+
+## Agent near30 (Oct 11): Map_0x370::sub_4E8370 8 -> 0 (MATCH, byte-identical to 10.5.exe)
+
+- **The fix:** the fully hoisted form (`new_idx = field_360_column_words; pNew = ...[new_idx];` before
+  `if (do_drop)`, `field_360_column_words += ...` at the end of each arm) with the join written as
+  `if (do_drop) { return new_idx; } return new_idx;`. VC6 folds the two returns into one block, but the colour
+  pass still sees two `mov new_idx -> eax` copies, i.e. near17's "second eax-hinted reference of new_idx", and
+  the join stays one tail that the drop arm jumps into (the "jmp L into the code that falls into L" rule). Found
+  as the second of two `return` spellings tried on the hoisted+join form (`do_drop ? new_idx : new_idx` is
+  folded earlier and gives 310). Masked 0, raw 0, `flowopt/jumps.py` same targets, all 0x2AE bytes equal to the exe.
+- Why per-arm returns could never work: cjlog on near17's `m1` (per-arm `+=; return new_idx;`, the original's
+  allocation, 72): the two tails (`@J` drop line 47 vs else line 80, identical op lists) are compared and rejected
+  by the cost check (`Scripts/flowopt/README.md` 3a). The jumper's matched instructions summed first to last stop
+  at exactly 20 (`xor` 2, `mov (%edx),%al` 2, `xor` 2, `mov 1(%edx),%bl` 3, `sub` 2, `inc` 1,
+  `mov 0x360(%ecx),%edx` 6, `add` 2) plus `[jmp+0x12]` 0, and a merge needs > 20.
+- Hoisted+join with one return (`f2`, 310): a global eax/ecx mirror of the target. priolog: in m1 the drop arm's
+  second-loop dest pointer (prio 47) sees eax +2 from new_idx's two return copies and takes ebx; with one return
+  it takes eax and new_idx is left with only ecx (the 1000-1003 ecx penalties on later ranges).
+- Not needed in the end: an enumeration of all `+=`/`return` placements (597 per form), `result` locals,
+  `column_idx` reused as new_idx, `new_height` variants, and the permuter on the base (1652 compiles, nothing below 8).
+- Tooling note: copying a variant onto a symlink mirror (`cp v.cpp $M/map_0x370.cpp`) overwrites the linked file.
+  `rm` the link first.
+
+## Agent near29 (Char_B4::state_0_54DDF0 184 -> 0, MATCH)
+`NO_PCH=1 quick_score.sh` lines. Only `Source/char.cpp` changed (the function body), no header edits.
+- `Char_B4::state_0_54DDF0` MATCH. The last spot (the `pAhead` block type: `mov gMap,%edx` at the top of the join with z
+  kept in ecx, the null arm first, the unfolded `test %bl,%bl` after `and $3`) is ONE `GetBlockTypeAtCoord_420420`
+  call per z case: `if (Saved_Z.GetFracValue() == kFP16Zero) block_type = gMap->GetBlockTypeAtCoord_420420(x, y,
+  Saved_Z.ToInt() - 1); else block_type = gMap->GetBlockTypeAtCoord_420420(x, y, Saved_Z.ToInt());`. VC6 tail-merges
+  the two inline copies late (after colouring and the test-folding peephole), leaving only the `dec` in the arm; the
+  ternary form (one call, z as a ternary argument) can't give it. Before finding it (all no gain): priolog of the
+  ternary+inline form (join N=6: inline `this` def+use prio 24 beats z's 20, so `this` takes ecx), inline bodies
+  null/non-null first, ternary/`r` local/s32 returns, z param types (long/u32/const ref), named `pMap`/`rMap`,
+  `(*gMap).`, cast, `GetMapPtr()` inline, the 9.6f static `GetFracValue_42A630`, x/y locals before z, a z inline
+  helper, eight ternary spellings of the block type. Every one-call inline form also flipped the x conveyor add order.
+- Lesson: when the original has a single call whose argument alone differs between two arms (only `dec` in one arm)
+  and the register/layout of the shared tail can't be reached with a ternary argument, try the call duplicated per
+  branch (the permuter's `ternary_arg` pass does this): VC6's cross-jumping merges the copies after allocation.
+
+## Agent near33 (Oct 11): SCRCMD_STORE_CAR_INFO_509180 (46 committed / 80 true shape, unchanged)
+
+`NO_PCH=1 quick_score.sh` lines plus jump-masked counts. No source changes kept. Scratch: `/tmp/claude-0/agents/near33/`
+(`mk.sh` splices a function variant into the 80 shape `b80.cpp` and prints the priolog colour list, `notes.md`).
+- Priolog detail not in the earlier entries: hoisted constant defs count in the N of the block they are placed in
+  (the `id == gStoredCarId` block has N=4: the field web plus the 8, 4 and 2 defs), and constant refs are c=1 only
+  as a store or a memory compare operand (`mov $3`, `mov %si`, `cmp %edi,0x98(..)`), c=0 in a register compare.
+- One IL knob found, no code change: the despawn chain read once (`s32 st = gStoredCar->field_88; if (st != 7 &&
+  st != 5 && st != 2 && st != 3) gStoredCar->field_88 = 4;`, or `IsDeactivated()` followed by direct `field_88 != 5
+  && ...` compares) moves the 0x88 load into the SetUniNum block: zero 2 -> 4, the 3 constant 7 -> 11, the
+  IsDeactivated/MarkForDespawn gStoredCar web 14 -> 11. Still 80 (and 46 on the committed shape): the web wins the
+  tie (47 vs 0), and pParam2 (7) still beats zero. All "read once" spellings give the same IL; only the
+  `MarkForDespawn_421470` inline call gives the old one. Not applied: 9.6f calls IsDeactivated/MarkForDespawn.
+  So both problems shrink to: 3 needs +1 (or the web -1), zero needs +4 over pParam2.
+- A `switch` on 5/2/3 inside `if (!IsDeactivated())` gives the 3 constant 13 and ecx (the original's ecx/edx in
+  all three despawn copies) but emits range compares (`cmp $2; jl; cmp %ecx; jle`), so it is no use.
+- No IL change: casts/`8u`/`(u8)` on `CanAlloc(8)`, `s32 kind = 8` locals at either use, an inline function
+  returning 8 (const-prop runs before the constant symbols are built), `!= false`/`!= 0` on the bool calls,
+  redundant null tests (removed before priority), nested/negated forms of the gStoredCar compares, `gStoredCarId ==`
+  operand swap, `is_bus(..) == false`/a bool local, SetF98 written out, a local `p` for SetUniNum/DespawnSoon, a `st`
+  local in DespawnSoon (folded into the memory compare), MarkForDespawn's body with a local (header copy test).
+- Worse: a local car pointer used as the else's `this` (140, pCar takes ecx from the thiscall preference), branch 1
+  and 2 sharing one SetUniNum/despawn tail after their own PushCarInfo (121, different layout), different despawn
+  forms in branches 1 and 2 (115, breaks the cross-jump at the PushCarInfo call).
+
+## Agent near31 (ChangeMenuPage_4B3170 8, unchanged; nothing kept in Source/)
+
+- `Frontend::ChangeMenuPage_4B3170` (8, unchanged). Still only the `saved_main_stage` (S) / `saved_is_bonus` (B)
+  byte slot swap. New this round:
+  - 9.6f (0x4587B0) has the same read / IsBonusStage / B-test / compare structure (DecodeStage is a real call
+    there, S and bc address-taken; AREA_COMPLETE is not part of that block in 9.6f). No missing inline or local.
+  - ildump of the base: the IL at the frame pass (boundary 10765c1a) is plain source order; after it only the
+    head-merged `mov ecx,this` of the IsBonusStage arms and one decode-arm register copy change. A push-adjusted
+    scan finds no other reference to 0x2A/0x2B in the target, so nothing else shares S's slot.
+  - Every B-test spelling tried keeps the list order (bc, bsi, B, S): ternaries for S and bc (20), `if (B) S = ..`
+    plus a ternary (20), `u8 code = bc; bc = 0; if (B) decode(code, ..)` (20), `switch (B)` (20), arms swapped (20),
+    static inline helpers taking B by value and S/bc by pointer/reference (8, identical), compare-only helpers (8/14).
+    A helper doing B test + decode + compare with S BY VALUE (174) is the only one that puts S before B: the param
+    copy of S is loaded at the call site before the test (the hoisted-load shape, not the target). 2-byte struct
+    for S/B: the struct lands at 0x1C (102).
+  - Mechanism found for an invisible frame-walk reference: writing the stage_idx ternary as an if/else with
+    `game_mode = GetPlySlotIdx(); saved_main_stage = ...field_1;` copied into BOTH arms (x1, scratch
+    /tmp/claude-0/agents/near31/x1.cpp) gives code identical to the target except stack slots (54): the second
+    FlowOpts, which runs after the frame pass, cross-jumps the two arm tails back into one, so the walk counted S's
+    store twice (S reaches 2 at walk 26, before B's test at 28). But S then has 3 refs at the not-bonus load (33)
+    while bsi has 2 there (its 3rd is the compare at 34), so S also passes bsi (list bc, S, bsi, B), and game_mode's
+    store/reload doubles (4 refs, it leaves gm2's 0x2C slot and joins user_idx's). Dead stores added to the copied
+    arms are removed before the frame pass; copying the compare into both B arms (to give bsi 4 refs) does not
+    merge back because the not-bonus copy is simplified with bc == 0 known (218/262). So the target's order
+    (bc, bsi, S, B) needs S to get its extra walk reference AFTER bsi's compare, or bsi to get one before the
+    not-bonus load. Neither was found.
+  - Permuter (default pass set, --auto-method-aliases) on the base: 1731 compiles, nothing below 8 (stopped). Note: `reorder_decls` and the `perm_*` names are not passes of this build (`cpp_permuter
+    --list-passes`); a run with them dies at once.
+
+## Agent near35 (Oct 12): CarAI_78::DetectCarAhead_44D1D0 16 -> 0 (MATCH)
+`NO_PCH=1 quick_score.sh` lines. Only `Source/CarAI_78.cpp` changed (the tail_2 block and the marker), no header edits;
+the other 30 MATCH_FUNCs of the TU compile to identical code (base vs new obj compare).
+- **The fix:** `u8 last_idx = --arrow_count;` instead of `arrow_count - 1`, with the compare written `next_idx > last_idx`
+  (the old `last_idx < next_idx` gives the mirrored `cmp`, 4). The decrement then belongs to arrow_count's own
+  (memory) temp and last_idx is only a copy: priolog last 52 -> 28 while next stays 36, so next is coloured first and
+  takes eax. arrow_count is dead afterwards, so no store back is emitted.
+- How it was found: a small probe TU (`/tmp/claude-0/agents/near35/probe/`, `run.sh` = priolog compile + Tail asm +
+  colour list) with a spilled byte `idx`, an address-taken `cnt` and the same tail reproduces the swap; ten tail
+  spellings in one batch, two gave `idx` in al (`--cnt`, and the compare on the stored field, which is 96 in the real
+  function).
+- Diagnostics on the way (not kept): making the tail read a memory-resident copy of arrow_idx (address escape, or
+  `s8 arrow_info[2]` with `&arrow_info[0]` passed) fixes the tail (next gets the load + inc, 5 refs, 60) but ends
+  arrow_idx's web before the second switch, which flips the ebx/ebp halves of two `sine * dword_6779D4` pairs there
+  (the byte web's only-ebx penalty is gone): the original keeps arrow_idx live into the tail. A diagnostic later use
+  of arrow_idx (`gDiag = arrow_idx` at the end) gives the right tail too (the inc temp then can't merge into the
+  dying reload piece). Permuter (800 compiles, default passes + --auto-method-aliases): only the known 12.
+- Lesson: when `a - 1` of an address-taken/memory local loses a colour race because its dec temp coalesces into the
+  new local (4 refs), try the in-place `--a` / `a--` form at the use: the dec stays with the memory variable and the
+  local drops to a copy.
+
+## Agent near36 (Oct 12): Car_6C::SpawnCarOnRoadNetwork_4458B0 MATCH (2 -> 0)
+- The last diff was the `lea` operand order of `ground_z + kFP16One`. Fix: write the corner switch and the step
+  switch in the 9.6f shape, `x = x + kFP16One_6777D0;` / `y = y - k_dword_6777D4;` instead of `+=`/`-=` (9.6f
+  0x428540 calls `Fix16::sum/subtract` with `this` = the variable and stores the result back). The generated code of
+  those statements doesn't change; what changes is the symbol numbering.
+- Why: the commutative operand order is not a "kind rank". C2 sorts each commutative D list (0x1070A16E with the
+  comparator 0x1070A298) by a key built in 0x107086A7/0x10708766 from the symbol's per-function number
+  `[sym+0x1C]`: key = number << 5 (compiler temps kind 3: number << 6), bit 16 set for non-constants, larger key
+  first. User locals and front-end temporaries are numbered 1..0x1F in order of first reference in the FE IL, the
+  globals 0x20.. in order of first reference, and locals that don't fit into 1..0x1F overflow to 0xA0+ (inline
+  expansion locals get 0x1A0+). So a local normally loses to every global (`one + ground_z` order), except when
+  more than 0x1F locals/temps are referenced before it. Each `x = x + one` makes an operator+ return temporary that
+  survives the FE (kind 4, low number); 6+ of them before `ground_z` push it past 0x1F to 0xA0+, above the global
+  (0x23), which gives the original's `lea (%eax,%ecx)`. Single-use named locals (`s16 dir = f(); switch (dir)`,
+  `s32 x_block = x.ToInt()`, `bool b = call()`) are forwarded by the FE before numbering and don't count; six
+  never-used `s32 dummy = 0;` locals also matched (proof of the rule, not kept).
+- Tools: `opdump1c.py` in /tmp/claude-0/agents/near36 (opdump printing `[sym+0x1C]` instead of `[sym+0x30]`) and
+  `ids.sh` (number map per function). All other 247 MATCH_FUNCs in Car_BC.cpp produce identical code.
+
+
+## Agent near37 (Oct 12): Map_0x370::sub_4E7190 92 -> 34 raw / 35 -> 18 masked (not matched, nothing in Source/)
+
+NO_PCH private-copy scores (`try.sh`: near27's `msc.py` masked + `permuter_score.py` raw). Variant and function-only
+diff in `/tmp/claude-0/agents/near37/` (`v/final.cpp`, `final.diff`, `notes.md`). Source/map_0x370.cpp left alone
+(near34 owns the file this round).
+- `bTurned = 1` goes at the END of the turn block (after `if (pBlock != pPrev) {...}`), as in 9.6f (0x468a37) and
+  sub_4E6660: the target's `movb $1` is the join target of both `jne`/`je`. On its own that swaps ebx/ebp (142/130).
+  priolog with source names (`names.py`: `@T line=` + the function's first line; `blk.py`: per-block N and refs):
+  the loop's `to_edge` (only in its block, N=10 x bw 2 x 6 = 120) must colour before the two `last_y.ToInt()` CSE
+  temps (k=3, 132 = 108 first lookup - 20 through the KeepDir blocks + 44 second lookup); after them it takes ebx at a
+  0/0 score tie (register order), before them ebp.
+- The fix the permuter found in 2 minutes (near11 had seen it): `*pZ = *GetRailwayZBelowCoord_4E6400(&last_z, ...)`
+  instead of a `found_z` local. last_z address-taken is no colour candidate, the lookup blocks lose a range and the
+  CSE temps drop to 116 < 120. With the second side switch in up/left/down/right order (its bodies cross-jump into the
+  first switch's) and the KeepDir inline replaced by the equivalent direct code `s32 d = Get(); if (d != 3) { d = 0; }
+  new_direction = d;` (identical code, and 9.6f has no call there, so KeepDir can't have been an inline): 34/18.
+  The permuter's invert_if of the loop `if` came with it but is neutral.
+- Left (18 masked): (1) the out-param: the original's is in the dead `dist` parameter slot (`lea 0x5C` with 3 pushes),
+  ours in last_z's slot, so the original had a separate local there and last_z off the candidate list some other way.
+  Not it: `(void)&last_z`, an unused `Fix16* = &last_z`, stores through a pointer/reference local, `Fix16 last[3]`
+  (VC6 scalarises constant-index arrays, still ranges), raw-mValue z args (r1: fixes the order through the z inline
+  temp but loads the lookup args in another order). No other `lea` of last_z exists in the target. (2) `d` takes eax
+  (prefs eax -2/-3 from the call result vs ebp -1 from the copy to new_direction) where the original coalesces it
+  into new_direction's ebp. All give identical code: KeepDir nested in another inline, `const s32&`, swapped params,
+  assignment inside the argument, out-reference, u32, `d` at case or else scope, `new_direction = Get(); d =
+  new_direction` (copy-propagated away), the test as `== 0` or merged into `if (!pBlock || !(nd = ...))`. Zeroing
+  new_direction itself (any spelling, also `^=`, `-=`, `&= 0`, `*= 0`) or a KeepDir on the test lets VC6 drop the
+  zero and thread the test (136); ternaries give setne code; two-return inlines or copies in both arms add a frame slot.
+- Permuter: 778 compiles on the b2 shape (found the 34), 786 on the 34 shape (nothing).
+
+## Agent near34 (Oct 12): Map_0x370::sub_4E6660 4 raw / 2 masked, unchanged (nothing in Source/)
+
+`NO_PCH=1` private compiles of a copy of the TU (`/tmp/claude-0/agents/near34/`, `notes.md`, variants in `v/`).
+Base for all diagnostics: `pPrev = pBlock` after `sub_4E65A0(x, y, &z, 1, 1)` (the original's IL position, 48 raw /
+4 masked: only the two `push %ebx` differ).
+- New: what stops the constant-1 piece. It grows from the top along CFG edges (je-block -> to_edge block -> then-block)
+  and stops at the first block on that path where ebx is held: a diagnostic value live in ebx across the then-block's
+  first call, or across the to_edge block's calls, gives `push $1` with the copy in the original's place (only the two
+  diagnostic lines differ). A def of the byte candidate `bTurned` (`bTurned = 0;` or `= 1;`) at the start of the
+  to_edge block does the same with one extra `movb` (46 raw / 1 masked). Not stopping it: stores to `tmp`
+  (address-taken), a spilled `pPrev = pBlock` there, a `pBlock` read, `gBlockInfo0 = 0/1`, the `bTurned` store inside
+  the then-block, a piece priority of -16 (no priority floor). So the original had an ebx occupant or a bTurned-like
+  candidate def on that path that leaves no instruction; neither was found.
+- No effect (48), to_edge block / then-block spellings: `Fix16 t; t = ...`, `Fix16(...)` copy, ctor form, `Fix16*` local,
+  raw `mValue` compare, `!(to_edge <= 0)`, empty then-arm with else, pNext via `GetRoadBlockAtOrNull_4E7190`, swapped
+  else tail, `operator+` angle (49), `pPrev = NULL/pBlock` dead defs before the if (removed early). Worse: an Ang16 local for
+  the angle (54), a `step` local for `kFpOne - to_edge`, a char/bool/s32 flag from the compare (setg), `dist = 0`
+  / `dist -= dist` / `dist = kFpZero` at the two `goto done` (11/55: dead xor/load stays).
+- 9.6f 0x467110: the == block has `mov %edi,%ebx` right after the 0x467020 call too, and evaluates `kFpOne - to_edge`
+  (0x401B40) before the angle argument; no extra statement visible.
+- Permuter on the copy-after form (700 compiles, default passes + `--auto-method-aliases`): only re-found the
+  copy-before 4.

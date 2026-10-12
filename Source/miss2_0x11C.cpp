@@ -2389,6 +2389,10 @@ void miss2_0x11C::SCRCMD_CHECK_HEALTH_509030()
 
 // See docs/match_attempts.md. Both ReassignAllocatedCarType(8) calls take the value just stored to
 // gStoredCar (VC6 forwards it: first load of pParam2->field_8_car in the inner block, pCar in the else).
+// The else branch reads the car id through pChar: the original reloads it through pParam2 (`mov 8(%ebx),%edx`),
+// but that reference lifts pParam2's colour priority (7) above the zero constant (2), which swaps the
+// callee-saved registers (original: zero esi, 4 edi, pParam2 ebx) and folds the gStoredCarId load; with the
+// read through pChar the else block does not reference pParam2 (prio 1) and all of that matches (80 -> 46).
 WIP_FUNC(0x509180)
 void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
 {
@@ -2453,7 +2457,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
             else
             {
                 gStoredCar_6F7560 = pParam2->field_8_car;
-                gStoredCarId_6F78B4 = pParam2->field_8_car->field_6C_car_id;
+                gStoredCarId_6F78B4 = pChar->field_16C_car->field_6C_car_id;
                 gStoredCar_6F7560->ReassignAllocatedCarType_443EE0(8);
             }
         }
