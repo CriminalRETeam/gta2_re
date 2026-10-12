@@ -5556,3 +5556,26 @@ diff in `/tmp/claude-0/agents/near37/` (`v/final.cpp`, `final.diff`, `notes.md`)
   new_direction itself (any spelling, also `^=`, `-=`, `&= 0`, `*= 0`) or a KeepDir on the test lets VC6 drop the
   zero and thread the test (136); ternaries give setne code; two-return inlines or copies in both arms add a frame slot.
 - Permuter: 778 compiles on the b2 shape (found the 34), 786 on the 34 shape (nothing).
+
+## Agent near34 (Oct 12): Map_0x370::sub_4E6660 4 raw / 2 masked, unchanged (nothing in Source/)
+
+`NO_PCH=1` private compiles of a copy of the TU (`/tmp/claude-0/agents/near34/`, `notes.md`, variants in `v/`).
+Base for all diagnostics: `pPrev = pBlock` after `sub_4E65A0(x, y, &z, 1, 1)` (the original's IL position, 48 raw /
+4 masked: only the two `push %ebx` differ).
+- New: what stops the constant-1 piece. It grows from the top along CFG edges (je-block -> to_edge block -> then-block)
+  and stops at the first block on that path where ebx is held: a diagnostic value live in ebx across the then-block's
+  first call, or across the to_edge block's calls, gives `push $1` with the copy in the original's place (only the two
+  diagnostic lines differ). A def of the byte candidate `bTurned` (`bTurned = 0;` or `= 1;`) at the start of the
+  to_edge block does the same with one extra `movb` (46 raw / 1 masked). Not stopping it: stores to `tmp`
+  (address-taken), a spilled `pPrev = pBlock` there, a `pBlock` read, `gBlockInfo0 = 0/1`, the `bTurned` store inside
+  the then-block, a piece priority of -16 (no priority floor). So the original had an ebx occupant or a bTurned-like
+  candidate def on that path that leaves no instruction; neither was found.
+- No effect (48), to_edge block / then-block spellings: `Fix16 t; t = ...`, `Fix16(...)` copy, ctor form, `Fix16*` local,
+  raw `mValue` compare, `!(to_edge <= 0)`, empty then-arm with else, pNext via `GetRoadBlockAtOrNull_4E7190`, swapped
+  else tail, `operator+` angle (49), `pPrev = NULL/pBlock` dead defs before the if (removed early). Worse: an Ang16 local for
+  the angle (54), a `step` local for `kFpOne - to_edge`, a char/bool/s32 flag from the compare (setg), `dist = 0`
+  / `dist -= dist` / `dist = kFpZero` at the two `goto done` (11/55: dead xor/load stays).
+- 9.6f 0x467110: the == block has `mov %edi,%ebx` right after the 0x467020 call too, and evaluates `kFpOne - to_edge`
+  (0x401B40) before the angle argument; no extra statement visible.
+- Permuter on the copy-after form (700 compiles, default passes + `--auto-method-aliases`): only re-found the
+  copy-before 4.
