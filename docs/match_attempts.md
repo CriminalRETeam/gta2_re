@@ -5393,3 +5393,95 @@ code as before (objdump compare, only EH `$T` names differ). Three independent f
   `Max_44E540`. Same fix as Weapon_30/Police_38: a local `MaxAbsDistance_5504F0` copy calling `Fix16::Max_44E540`. 2 -> 0.
 - The earlier permuter run (2100 compiles on the 30 base, default passes + `--keep-ties`) found nothing: neither
   the raw subtraction nor the argument-order change is in its pass set.
+
+## Agent near30 (Oct 11): Map_0x370::sub_4E8370 8 -> 0 (MATCH, byte-identical to 10.5.exe)
+
+- **The fix:** the fully hoisted form (`new_idx = field_360_column_words; pNew = ...[new_idx];` before
+  `if (do_drop)`, `field_360_column_words += ...` at the end of each arm) with the join written as
+  `if (do_drop) { return new_idx; } return new_idx;`. VC6 folds the two returns into one block, but the colour
+  pass still sees two `mov new_idx -> eax` copies, i.e. near17's "second eax-hinted reference of new_idx", and
+  the join stays one tail that the drop arm jumps into (the "jmp L into the code that falls into L" rule). Found
+  as the second of two `return` spellings tried on the hoisted+join form (`do_drop ? new_idx : new_idx` is
+  folded earlier and gives 310). Masked 0, raw 0, `flowopt/jumps.py` same targets, all 0x2AE bytes equal to the exe.
+- Why per-arm returns could never work: cjlog on near17's `m1` (per-arm `+=; return new_idx;`, the original's
+  allocation, 72): the two tails (`@J` drop line 47 vs else line 80, identical op lists) are compared and rejected
+  by the cost check (`Scripts/flowopt/README.md` 3a). The jumper's matched instructions summed first to last stop
+  at exactly 20 (`xor` 2, `mov (%edx),%al` 2, `xor` 2, `mov 1(%edx),%bl` 3, `sub` 2, `inc` 1,
+  `mov 0x360(%ecx),%edx` 6, `add` 2) plus `[jmp+0x12]` 0, and a merge needs > 20.
+- Hoisted+join with one return (`f2`, 310): a global eax/ecx mirror of the target. priolog: in m1 the drop arm's
+  second-loop dest pointer (prio 47) sees eax +2 from new_idx's two return copies and takes ebx; with one return
+  it takes eax and new_idx is left with only ecx (the 1000-1003 ecx penalties on later ranges).
+- Not needed in the end: an enumeration of all `+=`/`return` placements (597 per form), `result` locals,
+  `column_idx` reused as new_idx, `new_height` variants, and the permuter on the base (1652 compiles, nothing below 8).
+- Tooling note: copying a variant onto a symlink mirror (`cp v.cpp $M/map_0x370.cpp`) overwrites the linked file.
+  `rm` the link first.
+
+## Agent near29 (Char_B4::state_0_54DDF0 184 -> 0, MATCH)
+`NO_PCH=1 quick_score.sh` lines. Only `Source/char.cpp` changed (the function body), no header edits.
+- `Char_B4::state_0_54DDF0` MATCH. The last spot (the `pAhead` block type: `mov gMap,%edx` at the top of the join with z
+  kept in ecx, the null arm first, the unfolded `test %bl,%bl` after `and $3`) is ONE `GetBlockTypeAtCoord_420420`
+  call per z case: `if (Saved_Z.GetFracValue() == kFP16Zero) block_type = gMap->GetBlockTypeAtCoord_420420(x, y,
+  Saved_Z.ToInt() - 1); else block_type = gMap->GetBlockTypeAtCoord_420420(x, y, Saved_Z.ToInt());`. VC6 tail-merges
+  the two inline copies late (after colouring and the test-folding peephole), leaving only the `dec` in the arm; the
+  ternary form (one call, z as a ternary argument) can't give it. Before finding it (all no gain): priolog of the
+  ternary+inline form (join N=6: inline `this` def+use prio 24 beats z's 20, so `this` takes ecx), inline bodies
+  null/non-null first, ternary/`r` local/s32 returns, z param types (long/u32/const ref), named `pMap`/`rMap`,
+  `(*gMap).`, cast, `GetMapPtr()` inline, the 9.6f static `GetFracValue_42A630`, x/y locals before z, a z inline
+  helper, eight ternary spellings of the block type. Every one-call inline form also flipped the x conveyor add order.
+- Lesson: when the original has a single call whose argument alone differs between two arms (only `dec` in one arm)
+  and the register/layout of the shared tail can't be reached with a ternary argument, try the call duplicated per
+  branch (the permuter's `ternary_arg` pass does this): VC6's cross-jumping merges the copies after allocation.
+
+## Agent near33 (Oct 11): SCRCMD_STORE_CAR_INFO_509180 (46 committed / 80 true shape, unchanged)
+
+`NO_PCH=1 quick_score.sh` lines plus jump-masked counts. No source changes kept. Scratch: `/tmp/claude-0/agents/near33/`
+(`mk.sh` splices a function variant into the 80 shape `b80.cpp` and prints the priolog colour list, `notes.md`).
+- Priolog detail not in the earlier entries: hoisted constant defs count in the N of the block they are placed in
+  (the `id == gStoredCarId` block has N=4: the field web plus the 8, 4 and 2 defs), and constant refs are c=1 only
+  as a store or a memory compare operand (`mov $3`, `mov %si`, `cmp %edi,0x98(..)`), c=0 in a register compare.
+- One IL knob found, no code change: the despawn chain read once (`s32 st = gStoredCar->field_88; if (st != 7 &&
+  st != 5 && st != 2 && st != 3) gStoredCar->field_88 = 4;`, or `IsDeactivated()` followed by direct `field_88 != 5
+  && ...` compares) moves the 0x88 load into the SetUniNum block: zero 2 -> 4, the 3 constant 7 -> 11, the
+  IsDeactivated/MarkForDespawn gStoredCar web 14 -> 11. Still 80 (and 46 on the committed shape): the web wins the
+  tie (47 vs 0), and pParam2 (7) still beats zero. All "read once" spellings give the same IL; only the
+  `MarkForDespawn_421470` inline call gives the old one. Not applied: 9.6f calls IsDeactivated/MarkForDespawn.
+  So both problems shrink to: 3 needs +1 (or the web -1), zero needs +4 over pParam2.
+- A `switch` on 5/2/3 inside `if (!IsDeactivated())` gives the 3 constant 13 and ecx (the original's ecx/edx in
+  all three despawn copies) but emits range compares (`cmp $2; jl; cmp %ecx; jle`), so it is no use.
+- No IL change: casts/`8u`/`(u8)` on `CanAlloc(8)`, `s32 kind = 8` locals at either use, an inline function
+  returning 8 (const-prop runs before the constant symbols are built), `!= false`/`!= 0` on the bool calls,
+  redundant null tests (removed before priority), nested/negated forms of the gStoredCar compares, `gStoredCarId ==`
+  operand swap, `is_bus(..) == false`/a bool local, SetF98 written out, a local `p` for SetUniNum/DespawnSoon, a `st`
+  local in DespawnSoon (folded into the memory compare), MarkForDespawn's body with a local (header copy test).
+- Worse: a local car pointer used as the else's `this` (140, pCar takes ecx from the thiscall preference), branch 1
+  and 2 sharing one SetUniNum/despawn tail after their own PushCarInfo (121, different layout), different despawn
+  forms in branches 1 and 2 (115, breaks the cross-jump at the PushCarInfo call).
+
+## Agent near31 (ChangeMenuPage_4B3170 8, unchanged; nothing kept in Source/)
+
+- `Frontend::ChangeMenuPage_4B3170` (8, unchanged). Still only the `saved_main_stage` (S) / `saved_is_bonus` (B)
+  byte slot swap. New this round:
+  - 9.6f (0x4587B0) has the same read / IsBonusStage / B-test / compare structure (DecodeStage is a real call
+    there, S and bc address-taken; AREA_COMPLETE is not part of that block in 9.6f). No missing inline or local.
+  - ildump of the base: the IL at the frame pass (boundary 10765c1a) is plain source order; after it only the
+    head-merged `mov ecx,this` of the IsBonusStage arms and one decode-arm register copy change. A push-adjusted
+    scan finds no other reference to 0x2A/0x2B in the target, so nothing else shares S's slot.
+  - Every B-test spelling tried keeps the list order (bc, bsi, B, S): ternaries for S and bc (20), `if (B) S = ..`
+    plus a ternary (20), `u8 code = bc; bc = 0; if (B) decode(code, ..)` (20), `switch (B)` (20), arms swapped (20),
+    static inline helpers taking B by value and S/bc by pointer/reference (8, identical), compare-only helpers (8/14).
+    A helper doing B test + decode + compare with S BY VALUE (174) is the only one that puts S before B: the param
+    copy of S is loaded at the call site before the test (the hoisted-load shape, not the target). 2-byte struct
+    for S/B: the struct lands at 0x1C (102).
+  - Mechanism found for an invisible frame-walk reference: writing the stage_idx ternary as an if/else with
+    `game_mode = GetPlySlotIdx(); saved_main_stage = ...field_1;` copied into BOTH arms (x1, scratch
+    /tmp/claude-0/agents/near31/x1.cpp) gives code identical to the target except stack slots (54): the second
+    FlowOpts, which runs after the frame pass, cross-jumps the two arm tails back into one, so the walk counted S's
+    store twice (S reaches 2 at walk 26, before B's test at 28). But S then has 3 refs at the not-bonus load (33)
+    while bsi has 2 there (its 3rd is the compare at 34), so S also passes bsi (list bc, S, bsi, B), and game_mode's
+    store/reload doubles (4 refs, it leaves gm2's 0x2C slot and joins user_idx's). Dead stores added to the copied
+    arms are removed before the frame pass; copying the compare into both B arms (to give bsi 4 refs) does not
+    merge back because the not-bonus copy is simplified with bc == 0 known (218/262). So the target's order
+    (bc, bsi, S, B) needs S to get its extra walk reference AFTER bsi's compare, or bsi to get one before the
+    not-bonus load. Neither was found.
+  - Permuter (default pass set, --auto-method-aliases) on the base: 1731 compiles, nothing below 8 (stopped). Note: `reorder_decls` and the `perm_*` names are not passes of this build (`cpp_permuter
+    --list-passes`); a run with them dies at once.
