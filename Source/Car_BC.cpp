@@ -287,7 +287,7 @@ void Car_214::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
     switch (pEntry->field_8_type)
     {
         case 1:
-            if (pSprite->get_type_416B40() == sprite_types_enum::car_2)
+            if (pSprite->GetType_416B40() == sprite_types_enum::car_2)
             {
                 pEntry->field_14_enable_state = 0;
                 pCar = pSprite->AsCar_40FEB0();
@@ -295,7 +295,7 @@ void Car_214::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
             break;
 
         case 2:
-            if (pSprite->get_type_416B40() == sprite_types_enum::car_2)
+            if (pSprite->GetType_416B40() == sprite_types_enum::car_2)
             {
                 pCar = pSprite->field_8_car_bc_ptr;
                 pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(((Car_18_Cmd*)pEntry->field_0_pScriptCmd)->field_8_idx);
@@ -307,7 +307,7 @@ void Car_214::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
             break;
 
         case 4:
-            if (pSprite->get_type_416B40() == sprite_types_enum::ped_3)
+            if (pSprite->GetType_416B40() == sprite_types_enum::ped_3)
             {
                 pPed = pSprite->AsCharB4_40FEA0()->get_ped_433A20();
                 pCmd = (Car_18_Cmd*)pEntry->field_0_pScriptCmd;
@@ -338,7 +338,7 @@ void Car_214::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
             break;
 
         case 3:
-            if (pSprite->get_type_416B40() == sprite_types_enum::ped_3)
+            if (pSprite->GetType_416B40() == sprite_types_enum::ped_3)
             {
                 pPed = pSprite->AsCharB4_40FEA0()->get_ped_433A20();
                 if (pPed)
@@ -358,7 +358,7 @@ void Car_214::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
                     }
                 }
             }
-            else if (pSprite->get_type_416B40() == sprite_types_enum::car_2)
+            else if (pSprite->GetType_416B40() == sprite_types_enum::car_2)
             {
                 pCar = pSprite->field_8_car_bc_ptr;
                 pPed = pCar->get_driver_4118B0();
@@ -382,7 +382,7 @@ void Car_214::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
             break;
 
         case 5:
-            if (pSprite->get_type_416B40() == sprite_types_enum::car_2)
+            if (pSprite->GetType_416B40() == sprite_types_enum::car_2)
             {
                 pCar = pSprite->field_8_car_bc_ptr;
                 pPed = pCar->get_driver_4118B0();
@@ -399,7 +399,7 @@ void Car_214::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
 
         case 7:
             // Same ped check as case 6 (written out in full as in 9.6f; VC6 cross-jumps it into case 6)
-            if (pSprite->get_type_416B40() == sprite_types_enum::ped_3)
+            if (pSprite->GetType_416B40() == sprite_types_enum::ped_3)
             {
                 pPed = pSprite->AsCharB4_40FEA0()->get_ped_433A20();
                 if (pPed)
@@ -415,7 +415,7 @@ void Car_214::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
             break;
 
         case 6:
-            if (pSprite->get_type_416B40() == sprite_types_enum::ped_3)
+            if (pSprite->GetType_416B40() == sprite_types_enum::ped_3)
             {
                 pPed = pSprite->AsCharB4_40FEA0()->get_ped_433A20();
                 if (pPed)
@@ -428,7 +428,7 @@ void Car_214::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
                     }
                 }
             }
-            else if (pSprite->get_type_416B40() == sprite_types_enum::car_2)
+            else if (pSprite->GetType_416B40() == sprite_types_enum::car_2)
             {
                 pCar = pSprite->field_8_car_bc_ptr;
                 pPed = pCar->get_driver_4118B0();
@@ -445,7 +445,7 @@ void Car_214::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
             break;
 
         case 8:
-            if (pSprite->get_type_416B40() == sprite_types_enum::car_2)
+            if (pSprite->GetType_416B40() == sprite_types_enum::car_2)
             {
                 pCar = pSprite->field_8_car_bc_ptr;
                 pPed = pCar->get_driver_4118B0();
@@ -929,7 +929,7 @@ Car_BC* Car_6C::GetNearestFrontVehicle_445210(Sprite* pSprite, u8 k3)
 
     Fix16 new_x;
     Fix16 new_y;
-    Ang16::PolarToCartesian_41FC20(pSprite->field_0, kFpHalf_6772D0, new_x, new_y);
+    Ang16::PolarToCartesian_41FC20(pSprite->field_0_rotation, kFpHalf_6772D0, new_x, new_y);
 
     pSprite->set_xyz_lazy_420600(pSprite->field_14_xy.x + new_x, pSprite->field_14_xy.y + new_y, pSprite->field_1C_zpos);
 
@@ -1376,8 +1376,8 @@ Car_BC* Car_6C::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rota
     pCar->field_50_car_sprite->set_ang_lazy_420690(rotation);
     pCar->field_50_car_sprite->SetType_4206F0(sprite_types_enum::car_2);
     pCar->field_50_car_sprite->set_id_lazy_4206C0(pCarInfo->sprite);
-    pCar->field_50_car_sprite->Set_Car_420710(pCar);
-    pCar->field_50_car_sprite->AllocInternal_59F950(gPixelsToFix16_6F6850.list[pCarInfo->w], gPixelsToFix16_6F6850.list[pCarInfo->h], kFpHalf_6771FC);
+    pCar->field_50_car_sprite->SetCar_420710(pCar);
+    pCar->field_50_car_sprite->AllocCollisionShape_59F950(gPixelsToFix16_6F6850.list[pCarInfo->w], gPixelsToFix16_6F6850.list[pCarInfo->h], kFpHalf_6771FC);
 
     pCar->field_68_scale = maybe_w_scale; // 19b
 
@@ -1906,7 +1906,7 @@ Fix16_Point Car_BC::GetHitchPoint_439FB0()
         point = kCabHitchOffset_677358;
     }
 
-    point.RotateByAngle_40F6B0(field_50_car_sprite->field_0);
+    point.RotateByAngle_40F6B0(field_50_car_sprite->field_0_rotation);
     return point + field_50_car_sprite->get_x_y_443580();
 }
 
@@ -2001,7 +2001,7 @@ Ang16 Car_BC::GetOrientationAngle_43A3E0()
 {
     if (!field_58_physics)
     {
-        return field_50_car_sprite->field_0;
+        return field_50_car_sprite->field_0_rotation;
     }
     else
     {
@@ -2644,11 +2644,11 @@ bool Car_BC::IsStoppedWithPavementAtDoor_43B140(u8 target_car_door)
         {
             case 0:
             case 2:
-                angToUse = field_50_car_sprite->field_0 + kAng90_677234;
+                angToUse = field_50_car_sprite->field_0_rotation + kAng90_677234;
                 break;
             case 1:
             case 3:
-                angToUse = field_50_car_sprite->field_0 - kAng90_677234;
+                angToUse = field_50_car_sprite->field_0_rotation - kAng90_677234;
                 break;
             default:
                 break;
@@ -2656,7 +2656,7 @@ bool Car_BC::IsStoppedWithPavementAtDoor_43B140(u8 target_car_door)
     }
     else
     {
-        angToUse = field_50_car_sprite->field_0 - kAng90_677234;
+        angToUse = field_50_car_sprite->field_0_rotation - kAng90_677234;
     }
 
     Fix16 t1;
@@ -2737,7 +2737,7 @@ void Car_BC::GetDoorWorldPos_43B420(u8 door_idx, Fix16* pXPos, Fix16* pYPos)
     // operator+ (0x408660) like Trailer::GetHitchPosition_407BD0. An Ang16 copy of the angle swaps which of
     // sin/cos stays in a register.
     Fix16 old_xpos = door_x;
-    Ang16& rotation = field_50_car_sprite->field_0;
+    Ang16& rotation = field_50_car_sprite->field_0_rotation;
     Fix16 x_off;
     x_off = door_x * Ang16::cosine_40F520(rotation) + door_y * Ang16::sine_40F500(rotation);
     door_y = (-old_xpos).Multiply_408680(Ang16::sine_40F500(rotation)).Add_408660(door_y.Multiply_408680(Ang16::cosine_40F520(rotation)));
@@ -2819,7 +2819,7 @@ void Car_BC::GetDoorWorldPosition_43B5A0(u8 target_door, Fix16* pOutX, Fix16* pO
             break;
     }
 
-    RotateVector_41FC90_NewX(door_relative_xpos, door_relative_ypos, field_50_car_sprite->field_0);
+    RotateVector_41FC90_NewX(door_relative_xpos, door_relative_ypos, field_50_car_sprite->field_0_rotation);
 
     *pOutX = door_relative_xpos + field_50_car_sprite->field_14_xy.x;
     *pOutY = door_relative_ypos + field_50_car_sprite->field_14_xy.y;
@@ -2990,7 +2990,7 @@ void Car_BC::SpawnDamageFireEffect_43B870(s32 k1Or2, Fix16_Point* pPos)
     else
     {
         rot_point = *pPos - field_50_car_sprite->get_x_y();
-        rot_point.RotateByAngle_40F6B0(field_50_car_sprite->field_0);
+        rot_point.RotateByAngle_40F6B0(field_50_car_sprite->field_0_rotation);
         x_hit = rot_point.x;
         y_hit = rot_point.y;
     }
@@ -3938,8 +3938,8 @@ bool Car_BC::IsSpriteShrunk_43DC00()
     car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
     if (field_74_damage == 32001)
     {
-        SpriteShape_4C* pSprite4C = field_50_car_sprite->field_C_sprite_4c_ptr;
-        SpriteShape_4C* pLen = field_50_car_sprite->field_4_0x4C_len;
+        SpriteShape_4C* pSprite4C = field_50_car_sprite->field_C_pCollisionShape;
+        SpriteShape_4C* pLen = field_50_car_sprite->field_4_pVisualShape;
         Fix16 sprite4CWidth = pSprite4C->field_0_width;
         Fix16 lenWidth = pLen->field_0_width;
         return lenWidth != sprite4CWidth;
@@ -3947,7 +3947,7 @@ bool Car_BC::IsSpriteShrunk_43DC00()
 
     u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::car_2, pInfo->sprite);
     sprite_index* pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
-    Fix16 lenWidth = field_50_car_sprite->field_4_0x4C_len->field_0_width;
+    Fix16 lenWidth = field_50_car_sprite->field_4_pVisualShape->field_0_width;
     return lenWidth.mValue != gPixelsToFix16_6F6850.list[pSpriteIndex->field_4_width].mValue;
 }
 
@@ -4077,7 +4077,7 @@ char_type Car_BC::ManageDrowning_43E560()
         gParticle_8_6FD5E8->EmitWaterSplash_53F060(field_50_car_sprite->field_14_xy.x,
                                                    field_50_car_sprite->field_14_xy.y,
                                                    field_50_car_sprite->field_1C_zpos,
-                                                   field_50_car_sprite->field_0 + kAng180_677326,
+                                                   field_50_car_sprite->field_0_rotation + kAng180_677326,
                                                    1);
     }
     return ret;
@@ -4311,14 +4311,14 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
                 if (!IsMaxDamage_40F890())
                 {
                     offset = pObj->field_4->get_x_y_late_443580().SubLate_40AC80(field_50_car_sprite->get_x_y_late_443580());
-                    offset.RotateByAngle_40F6B0(-field_50_car_sprite->field_0);
+                    offset.RotateByAngle_40F6B0(-field_50_car_sprite->field_0_rotation);
                     EmitExplosion_43D690(18, offset.x, offset.y);
                 }
             }
             else
             {
                 offset = pObj->field_4->get_x_y_late_443580().SubLate_40AC80(field_50_car_sprite->get_x_y_late_443580());
-                offset.RotateByAngle_40F6B0(-field_50_car_sprite->field_0);
+                offset.RotateByAngle_40F6B0(-field_50_car_sprite->field_0_rotation);
                 EmitExplosion_43D690(18, offset.x, offset.y);
             }
             break;
@@ -4340,7 +4340,7 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
                     if (!IsMaxDamage_40F890())
                     {
                         offset = pObj->field_4->get_x_y_late_443580().SubLate_40AC80(field_50_car_sprite->get_x_y_late_443580());
-                        offset.RotateByAngle_40F6B0(-field_50_car_sprite->field_0);
+                        offset.RotateByAngle_40F6B0(-field_50_car_sprite->field_0_rotation);
                         EmitExplosion_43D690(18, offset.x, offset.y);
                     }
                 }
@@ -4629,17 +4629,17 @@ char_type Car_BC::RotateRoofObjectTowardTarget_440C10(Ang16 targetAngle)
     if (IsFireTruck_4118F0())
     {
         pFound = field_0_attachments.GetSpriteForModel_5A6A50(114);
-        ang = pFound->field_0->field_0 + kAng180_677326;
+        ang = pFound->field_0_pSprite->field_0_rotation + kAng180_677326;
     }
     else if (IsTank_411900())
     {
         pFound = field_0_attachments.GetSpriteForModel_5A6A50(148);
-        ang = pFound->field_0->field_0;
+        ang = pFound->field_0_pSprite->field_0_rotation;
     }
     else if (IsGunJeep_411910())
     {
         pFound = field_0_attachments.GetSpriteForModel_5A6A50(248);
-        ang = pFound->field_0->field_0;
+        ang = pFound->field_0_pSprite->field_0_rotation;
     }
 
     if (ComputeShortestAngleDelta_4056C0(ang, targetAngle) <= kRoofTurretAutoRotSpeed_677910)
@@ -4649,11 +4649,11 @@ char_type Car_BC::RotateRoofObjectTowardTarget_440C10(Ang16 targetAngle)
 
     if (Ang16::IsAngleAhead_405C60(&ang, &targetAngle))
     {
-        pFound->field_10_rot += kRoofTurretAutoRotSpeed_677910;
+        pFound->field_10_offset_rot += kRoofTurretAutoRotSpeed_677910;
     }
     else
     {
-        pFound->field_10_rot -= kRoofTurretAutoRotSpeed_677910;
+        pFound->field_10_offset_rot -= kRoofTurretAutoRotSpeed_677910;
     }
     return 0;
 }
@@ -4684,12 +4684,12 @@ char_type Car_BC::HandleRoofTurretRotation_440D90(char_type bLeftOn)
         AttachedSprite_18* pSprite = field_0_attachments.GetSpriteForModel_5A6A50(114);
         if (bLeftOn)
         {
-            compound_add_41FA70(pSprite->field_10_rot, kFireTruckCannonRotSpeed_6771C0);
+            compound_add_41FA70(pSprite->field_10_offset_rot, kFireTruckCannonRotSpeed_6771C0);
             this->field_B8_turret_rotated = 1;
         }
         else
         {
-            compound_subtract_41FA90(pSprite->field_10_rot, kFireTruckCannonRotSpeed_6771C0);
+            compound_subtract_41FA90(pSprite->field_10_offset_rot, kFireTruckCannonRotSpeed_6771C0);
             this->field_B8_turret_rotated = 1;
         }
         return 1;
@@ -4700,12 +4700,12 @@ char_type Car_BC::HandleRoofTurretRotation_440D90(char_type bLeftOn)
         AttachedSprite_18* pSprite = field_0_attachments.GetSpriteForModel_5A6A50(148);
         if (bLeftOn)
         {
-            compound_add_41FA70(pSprite->field_10_rot, kTankTurretRotSpeed_677352);
+            compound_add_41FA70(pSprite->field_10_offset_rot, kTankTurretRotSpeed_677352);
             this->field_B8_turret_rotated = 1;
         }
         else
         {
-            compound_subtract_41FA90(pSprite->field_10_rot, kTankTurretRotSpeed_677352);
+            compound_subtract_41FA90(pSprite->field_10_offset_rot, kTankTurretRotSpeed_677352);
             this->field_B8_turret_rotated = 1;
         }
         return 1;
@@ -4716,12 +4716,12 @@ char_type Car_BC::HandleRoofTurretRotation_440D90(char_type bLeftOn)
         AttachedSprite_18* pSprite = field_0_attachments.GetSpriteForModel_5A6A50(248);
         if (bLeftOn)
         {
-            compound_add_41FA70(pSprite->field_10_rot, kGunJeepTurretRotSpeed_677810);
+            compound_add_41FA70(pSprite->field_10_offset_rot, kGunJeepTurretRotSpeed_677810);
             this->field_B8_turret_rotated = 1;
         }
         else
         {
-            compound_subtract_41FA90(pSprite->field_10_rot, kGunJeepTurretRotSpeed_677810);
+            compound_subtract_41FA90(pSprite->field_10_offset_rot, kGunJeepTurretRotSpeed_677810);
             this->field_B8_turret_rotated = 1;
         }
         return 1;
@@ -4893,7 +4893,7 @@ void Car_BC::TurnToWreck_4436A0()
     car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
     s32 wreck_idx = pCarInfo->wreck + car_model_enum::WRECK0;
     field_50_car_sprite->field_22_sprite_id = gGtx_0x106C_703DD4->get_car_info_5AA3B0(wreck_idx)->sprite;
-    field_50_car_sprite->sub_59E2E0();
+    field_50_car_sprite->CopyCollisionShapeToVisual_59E2E0();
     field_50_car_sprite->field_34_palette_type = palette_types_enum::sprites_2;
     field_8_damaged_areas.m_var = 0;
     PrepareForExplosion_43C1C0();
@@ -5024,7 +5024,7 @@ void Car_BC::UpdateEngineStatus_441520()
             field_9C_engine_status = car_engine_status::destroyed_6;
             break;
         case car_engine_status::crushed_7:
-            field_50_car_sprite->sub_59E300();
+            field_50_car_sprite->CopyVisualShapeToCollision_59E300();
             break;
         default:
             return;
@@ -5052,7 +5052,7 @@ Fix16_Rect Car_BC::NoRefs_441600()
     Fix16 half_w = gPixelsToFix16_6F6850.list[pInfo->w] / k_dword_6777D4;
     Fix16 half_h = gPixelsToFix16_6F6850.list[pInfo->h] / k_dword_6777D4;
 
-    s32 face = Ang16::GetAngleFace_4F78F0(field_50_car_sprite->field_0);
+    s32 face = Ang16::GetAngleFace_4F78F0(field_50_car_sprite->field_0_rotation);
     if (face >= 3 && face <= 4)
     {
         Fix16 tmp = half_w;
@@ -5662,7 +5662,7 @@ Ang16 Car_BC::GetRadioTowerAngle_442520()
 {
     Fix16_Point xy;
     xy = gCar_6C_677930->field_4C_tv_van_dir - field_50_car_sprite->get_x_y();
-    return xy.atan2_40F790() - field_50_car_sprite->field_0;
+    return xy.atan2_40F790() - field_50_car_sprite->field_0_rotation;
 }
 
 
@@ -5764,11 +5764,11 @@ void Car_BC::ManageTVAntenna_4425D0()
     if (pSprite)
     {
         towerAng = GetRadioTowerAngle_442520();
-        if (pSprite->field_10_rot != towerAng)
+        if (pSprite->field_10_offset_rot != towerAng)
         {
             zero = gFix16_6777CC;
             // A reference makes VC6 reload the rotation instead of reusing the compared value
-            Ang16& rot = pSprite->field_10_rot;
+            Ang16& rot = pSprite->field_10_offset_rot;
             spriteAngFp = Ang16::Ang16_to_Fix16(rot);
             SmoothApproachAngle_405CE0(Ang16::Ang16_to_Fix16(towerAng), zero, spriteAngFp, kAngFix16OneDegree_677920, kAngFix16OneDegree_677920);
             rot = Ang16::Fix16_To_Ang16_40F540(spriteAngFp);
@@ -5915,8 +5915,8 @@ void Car_BC::LightUpdate_442D10()
     AttachedSprite_18* p18 = field_0_attachments.GetSpriteForModel_5A6A50(165);
     if (p18)
     {
-        Sprite* pSprite = p18->field_0;
-        Object_2C* o2c = pSprite->As2C_40FEC0();
+        Sprite* pSprite = p18->field_0_pSprite;
+        Object_2C* o2c = pSprite->AsObject2C_40FEC0();
         if (gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(pSprite->field_14_xy.x, pSprite->field_14_xy.y, pSprite->field_1C_zpos))
         {
             o2c->Light_527990();
@@ -5960,7 +5960,7 @@ char_type Car_BC::TrainUpdate_442D70()
         else
         {
             Fix16_Rect rect;
-            switch (Ang16::GetAngleFace_4F78F0(field_50_car_sprite->field_0))
+            switch (Ang16::GetAngleFace_4F78F0(field_50_car_sprite->field_0_rotation))
             {
                 case 2:
                 {
@@ -6215,7 +6215,7 @@ bool Car_BC::UpdateAttachedToSprite_443360(Sprite* pSprite, Fix16 x, Fix16 y, An
     {
         sprite_x = x;
         sprite_y = y;
-        Ang16::RotateVector_41FC90(sprite_x, sprite_y, pSprite->field_0);
+        Ang16::RotateVector_41FC90(sprite_x, sprite_y, pSprite->field_0_rotation);
 
         sprite_x = pSprite->field_14_xy.x + sprite_x;
         sprite_y = pSprite->field_14_xy.y + sprite_y;
@@ -6227,7 +6227,7 @@ bool Car_BC::UpdateAttachedToSprite_443360(Sprite* pSprite, Fix16 x, Fix16 y, An
     }
 
     field_50_car_sprite->set_xyz_lazy_420600(sprite_x, sprite_y, pSprite->field_1C_zpos);
-    Ang16 tmp = pSprite->field_0;
+    Ang16 tmp = pSprite->field_0_rotation;
     tmp += rot;
     field_50_car_sprite->set_ang_lazy_420690(tmp);
 

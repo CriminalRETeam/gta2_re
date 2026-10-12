@@ -153,7 +153,7 @@ void TextureCache_15D8::LoadCarDamageTextures_5B9180()
 
             field_1004_car_damage_textures[idx] = pgbh_RegisterTexture(width_height, 
                 width_height, 
-                gSpriteMaskCache_67AF1C->get_s14(idx), 
+                gSpriteMaskCache_67AF1C->GetMaskPixels(idx), 
                 pal_idx, 
                 0);
         }

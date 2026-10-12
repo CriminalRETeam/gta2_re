@@ -141,14 +141,14 @@ char_type Camera_0xBC::IsSpriteInView_435630(Sprite* pSprite, s32 bUnknown)
                         field_98_cam_pos2.field_4_y - v6,
                         field_98_cam_pos2.field_4_y + v6);
 
-    Fix16_Rect* pBox = &pSprite->field_C_sprite_4c_ptr->field_30_boundingBox;
+    Fix16_Rect* pBox = &pSprite->field_C_pCollisionShape->field_30_boundingBox;
     if (rect.field_0_left.IntervalIntersectsRange_438FB0_inline(rect.field_4_right, pBox->field_0_left, pBox->field_4_right) &&
         IntervalIntersectsRange_438FB0(rect.field_8_top, rect.field_C_bottom, pBox->field_8_top, pBox->field_C_bottom) &&
         IntervalIntersectsRange_438FB0(rect.field_10_low_z, rect.field_14_high_z, pBox->field_10_low_z, pBox->field_14_high_z))
     {
-        SpriteShape_4C* p4C = pSprite->field_C_sprite_4c_ptr;
-        if ((p4C->field_0_width == p4C->field_4_height && p4C->field_0_width <= dword_676694) || pSprite->field_0.rValue == 0 ||
-            pSprite->field_0 == 360 || pSprite->field_0 == 720 || pSprite->field_0 == 1080 || pSprite->IntersectsRectSAT_59FB10(&rect) ||
+        SpriteShape_4C* p4C = pSprite->field_C_pCollisionShape;
+        if ((p4C->field_0_width == p4C->field_4_height && p4C->field_0_width <= dword_676694) || pSprite->field_0_rotation.rValue == 0 ||
+            pSprite->field_0_rotation == 360 || pSprite->field_0_rotation == 720 || pSprite->field_0_rotation == 1080 || pSprite->IntersectsRectSAT_59FB10(&rect) ||
             rect.IntersectsSpriteRenderingRect_59DDF0(pSprite))
         {
             return 1;

@@ -241,11 +241,11 @@ Object_2C* Weapon_30::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypo
     probe_y = field_24_pPed->get_cam_y() + (ypos - field_24_pPed->get_cam_y()) / kFP16Two_706EC0;
     p5CSprite->set_xyz_lazy_420600(probe_x, probe_y, zpos);
 
-    p5CSprite->set_ang_lazy_420690(pNewBullet->field_4->field_0);
+    p5CSprite->set_ang_lazy_420690(pNewBullet->field_4->field_0_rotation);
 
-    p5CSprite->AllocInternal_59F950(pNewBullet->field_8->field_0_width, kFP16Quarter_706CF4, pNewBullet->field_8->field_8_depth);
-    p5CSprite->SetType_4206F0(pNewBullet->field_4->get_type_416B40());
-    p5CSprite->SetObj2C_482A30(pNewBullet->field_4->field_8_object_2C_ptr);
+    p5CSprite->AllocCollisionShape_59F950(pNewBullet->field_8->field_0_width, kFP16Quarter_706CF4, pNewBullet->field_8->field_8_depth);
+    p5CSprite->SetType_4206F0(pNewBullet->field_4->GetType_416B40());
+    p5CSprite->SetObject2C_482A30(pNewBullet->field_4->field_8_object_2C_ptr);
 
     pNewBullet->SetDamageOwner_529080(field_24_pPed->get_ped_ref_idx_420B50());
 
@@ -522,7 +522,7 @@ void Weapon_30::smg_5DDD20()
             point.x = -dword_706E7C;
             point.y = dword_706CF0 + dword_706E80;
 
-            point.RotateByAngle_40F6B0(field_24_pPed->field_168_game_object->field_80_sprite_ptr->field_0);
+            point.RotateByAngle_40F6B0(field_24_pPed->field_168_game_object->field_80_sprite_ptr->field_0_rotation);
 
             point = point.Add_40AC50(field_24_pPed->GetVelocityVector_45B520());
 
@@ -783,7 +783,7 @@ void Weapon_30::sub_5DE4F0()
 
             pBeam->set_xyz_lazy_420600(field_24_pPed->field_1AC_cam.x, field_24_pPed->field_1AC_cam.y, field_24_pPed->field_1AC_cam.z);
             pBeam->set_ang_lazy_420690(angle);
-            pBeam->AllocInternal_59F950(dword_706CF0, dword_706CF0, dword_706CF0);
+            pBeam->AllocCollisionShape_59F950(dword_706CF0, dword_706CF0, dword_706CF0);
 
             Fix16 step_len;
             if (dist != dword_706EB8)
@@ -1001,7 +1001,7 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
     Fix16 xpos = a1->field_14_xy.x;
     Fix16 ypos = a1->field_14_xy.y;
     Fix16 zpos = a1->field_1C_zpos;
-    Ang16 angle = a1->field_0;
+    Ang16 angle = a1->field_0_rotation;
     Ang16 diff;
 
     Fix16_Rect rect;
@@ -1180,7 +1180,7 @@ void Weapon_30::sub_5DFB60(u8 a2, Sprite* a3, Ang16 a4)
     rect.SetRect_41E350(left, right, top, bottom);
     rect.SetHiLowZ_41E370(a3->field_1C_zpos - dword_706EBC, a3->field_1C_zpos + dword_706EBC);
 
-    word_707004 = field_24_pPed->field_168_game_object->field_80_sprite_ptr->field_0;
+    word_707004 = field_24_pPed->field_168_game_object->field_80_sprite_ptr->field_0_rotation;
     // The original copies the returned point through the return pointer, as a struct assignment
     reinterpret_cast<Fix16_Point&>(stru_706E58) = field_24_pPed->GetVelocityVector_45B520();
 
@@ -1194,7 +1194,7 @@ void Weapon_30::sub_5DFB60(u8 a2, Sprite* a3, Ang16 a4)
             // out-of-line Normalize_406C20 while the car branch's is inlined.
             Ang16 angle;
             Ang16 diff;
-            switch (pHit->get_type_416B40())
+            switch (pHit->GetType_416B40())
             {
                 case sprite_types_enum::ped_3:
                     if (a3 != pHit && !gWeapon_8_707018->field_0.SpriteExists_5A6D80(pHit))
@@ -1313,7 +1313,7 @@ void Weapon_30::shocker_5E06B0()
 
     sub_5DFB60(0,
                this->field_24_pPed->field_168_game_object->field_80_sprite_ptr,
-               this->field_24_pPed->field_168_game_object->field_80_sprite_ptr->field_0);
+               this->field_24_pPed->field_168_game_object->field_80_sprite_ptr->field_0_rotation);
     Ped* pPed = this->field_24_pPed;
     if (pPed->field_15C_player)
     {
@@ -1418,7 +1418,7 @@ void Weapon_30::fire_truck_flamethrower_5E0B10()
     pTurret = field_14_car->field_0_attachments.GetSpriteForModel_5A6A50(114);
     if (pTurret)
     {
-        gun_ang = pTurret->field_0->field_0 + word_706DFA;
+        gun_ang = pTurret->field_0_pSprite->field_0_rotation + word_706DFA;
 
         bullet_pos.SetXY_432860(Fix16(0), dword_706CDC);
         bullet_pos.RotateByAngle_40F6B0(gun_ang);
@@ -1426,14 +1426,14 @@ void Weapon_30::fire_truck_flamethrower_5E0B10()
     }
     else
     {
-        gun_ang = field_14_car->field_0_attachments.GetSpriteForModel_5A6A50(248)->field_0->field_0;
+        gun_ang = field_14_car->field_0_attachments.GetSpriteForModel_5A6A50(248)->field_0_pSprite->field_0_rotation;
 
         bullet_pos.SetXY_432860(Fix16(0), dword_706EA4);
         bullet_pos.RotateByAngle_40F6B0(gun_ang);
         offset.SetXY_432860(Fix16(0), dword_706EE8);
     }
 
-    offset.RotateByAngle_40F6B0(field_14_car->field_50_car_sprite->field_0);
+    offset.RotateByAngle_40F6B0(field_14_car->field_50_car_sprite->field_0_rotation);
 
     bullet_pos += offset.Add_40AC50(field_14_car->field_50_car_sprite->get_x_y_443580());
 
@@ -1467,13 +1467,13 @@ void Weapon_30::fire_truck_gun_5E0E70()
     field_24_pPed = field_14_car->get_driver_4118B0();
 
     AttachedSprite_18* pTurret = field_14_car->field_0_attachments.GetSpriteForModel_5A6A50(114);
-    gun_ang = pTurret->field_0->field_0 + word_706DFA;
+    gun_ang = pTurret->field_0_pSprite->field_0_rotation + word_706DFA;
 
     bullet_pos.SetXY_432860(Fix16(0), dword_706CDC);
     bullet_pos.RotateByAngle_40F6B0(gun_ang);
     offset.SetXY_432860(Fix16(0), dword_706CD8);
 
-    offset.RotateByAngle_40F6B0(field_14_car->field_50_car_sprite->field_0);
+    offset.RotateByAngle_40F6B0(field_14_car->field_50_car_sprite->field_0_rotation);
 
     bullet_pos += offset + field_14_car->field_50_car_sprite->get_x_y();
 
@@ -1531,7 +1531,7 @@ void Weapon_30::tank_main_gun_5E10E0()
     {
         field_24_pPed = field_14_car->get_driver_4118B0();
         cannon_angle = field_14_car->field_0_attachments.GetSpriteForModel_5A6A50(148)
-                           ->field_0->field_0;
+                           ->field_0_pSprite->field_0_rotation;
         cannon_pos.SetXY_432860(Fix16(0), gTankCannonLength_706E20);
         {
             // RotateByAngle_MixOOL_40F6B0 written out, y * sin with the left-wide multiply
@@ -1543,7 +1543,7 @@ void Weapon_30::tank_main_gun_5E10E0()
         }
 
         offset.SetXY_432860(Fix16(0), dword_706D88);
-        RotateByAngle_40F6B0_no_budget3(offset, field_14_car->field_50_car_sprite->field_0);
+        RotateByAngle_40F6B0_no_budget3(offset, field_14_car->field_50_car_sprite->field_0_rotation);
 
         cannon_pos += offset.Add_40AC50(field_14_car->field_50_car_sprite->get_x_y());
 
@@ -1606,7 +1606,7 @@ void Weapon_30::army_gun_jeep_5E13E0()
     {
         field_24_pPed = field_14_car->get_driver_4118B0();
 
-        gun_ang = field_14_car->field_0_attachments.GetSpriteForModel_5A6A50(248)->field_0->field_0;
+        gun_ang = field_14_car->field_0_attachments.GetSpriteForModel_5A6A50(248)->field_0_pSprite->field_0_rotation;
 
         bullet_pos.SetXY_432860(Fix16(0), dword_706EA4);
         {
@@ -1619,7 +1619,7 @@ void Weapon_30::army_gun_jeep_5E13E0()
         }
 
         v41.SetXY_432860(Fix16(0), dword_706EE8);
-        RotateByAngle_40F6B0_no_budget3(v41, field_14_car->field_50_car_sprite->field_0);
+        RotateByAngle_40F6B0_no_budget3(v41, field_14_car->field_50_car_sprite->field_0_rotation);
 
         bullet_pos += v41.Add_40AC50(field_14_car->field_50_car_sprite->get_x_y());
 
@@ -1663,7 +1663,7 @@ void Weapon_30::oil_stain_5E1DC0()
 {
     Fix16_Point vector;
     Sprite* pSprt = field_14_car->GetSprite_440840();
-    vector.y = (-(pSprt->field_C_sprite_4c_ptr->GetH_447E10() + k_dword_706EB4)) / kFP16Two_706EC0;
+    vector.y = (-(pSprt->field_C_pCollisionShape->GetHeight_447E10() + k_dword_706EB4)) / kFP16Two_706EC0;
 
     if (get_ammo_4A4FB0() % 2 != 0)
     {
@@ -1674,10 +1674,10 @@ void Weapon_30::oil_stain_5E1DC0()
         vector.x = k_dword_706E6C;
     }
 
-    vector.RotateByAngle_40F6B0(pSprt->field_0);
+    vector.RotateByAngle_40F6B0(pSprt->field_0_rotation);
     vector += pSprt->get_x_y_443580();
 
-    Fix16 half_depth = pSprt->field_C_sprite_4c_ptr->GetF8_492170() / 2;
+    Fix16 half_depth = pSprt->field_C_pCollisionShape->GetDepth_492170() / 2;
     Fix16 zpos_lower = pSprt->field_1C_zpos - half_depth;
     Fix16 zpos_upper = pSprt->field_1C_zpos + half_depth;
 
@@ -1688,7 +1688,7 @@ void Weapon_30::oil_stain_5E1DC0()
     Fix16 found_z;
     if (gMap_0x370_6F6268->CanPlaceOilOrMine_4E5480(vector.x, vector.y, zpos_lower, zpos_upper, &found_z))
     {
-        gObject_5C_6F8F84->NewPhysicsObj_5299B0(8, vector.x, vector.y, found_z, pSprt->field_0);
+        gObject_5C_6F8F84->NewPhysicsObj_5299B0(8, vector.x, vector.y, found_z, pSprt->field_0_rotation);
         decrement_ammo_4CCA30();
         set_field_2C_4CCA80(1);
     }
@@ -1703,14 +1703,14 @@ void Weapon_30::car_mine_5E2550()
 
     Sprite* Sprite_440840 = field_14_car->GetSprite_440840();
 
-    p.y = -(dword_706FF4 + (dword_706FEC + Sprite_440840->field_C_sprite_4c_ptr->GetH_447E10()) / kFP16Two_706EC0);
+    p.y = -(dword_706FF4 + (dword_706FEC + Sprite_440840->field_C_pCollisionShape->GetHeight_447E10()) / kFP16Two_706EC0);
     p.x = dword_706EB8;
 
-    p.RotateByAngle_40F6B0(Sprite_440840->field_0);
+    p.RotateByAngle_40F6B0(Sprite_440840->field_0_rotation);
 
     p += Sprite_440840->get_x_y();
 
-    Fix16 half_depth = Sprite_440840->field_C_sprite_4c_ptr->field_8_depth / 2;
+    Fix16 half_depth = Sprite_440840->field_C_pCollisionShape->field_8_depth / 2;
     Fix16 z_low = Sprite_440840->field_1C_zpos - half_depth;
     Fix16 z_high = Sprite_440840->field_1C_zpos + half_depth;
     if (z_high >= k_dword_706EDC)
@@ -1721,7 +1721,7 @@ void Weapon_30::car_mine_5E2550()
     Fix16 newZ;
     if (gMap_0x370_6F6268->CanPlaceOilOrMine_4E5480(p.x, p.y, z_low, z_high, &newZ))
     {
-        Object_2C* pMine = gObject_5C_6F8F84->NewPhysicsObj_5299B0(10, p.x, p.y, newZ, Sprite_440840->field_0);
+        Object_2C* pMine = gObject_5C_6F8F84->NewPhysicsObj_5299B0(10, p.x, p.y, newZ, Sprite_440840->field_0_rotation);
         pMine->SetDamageOwner_529080(field_24_pPed->field_267_ped_ref_idx);
 
         decrement_ammo_4CCA30(); // NOTE: Didn't get inlined without __forceinline here, wtf??
@@ -1749,7 +1749,7 @@ void Weapon_30::car_smg_5E2940()
         field_24_pPed = field_14_car->get_driver_4118B0();
 
         Sprite* pCarSprite = field_14_car->field_50_car_sprite;
-        sprite_ang = field_14_car->field_50_car_sprite->field_0;
+        sprite_ang = field_14_car->field_50_car_sprite->field_0_rotation;
 
         Fix16 tmpx = dword_706DCC + field_14_car->get_car_width() / 2;
         Fix16 tmpy = dword_706FD0 + field_14_car->get_car_height() / 2;

@@ -28,7 +28,7 @@ void Fix16_Rect::DoSetCurrentRect_59DD60()
 MATCH_FUNC(0x59ddf0)
 bool Fix16_Rect::IntersectsSpriteRenderingRect_59DDF0(Sprite* a2)
 {
-    Fix16_Point* v3 = a2->field_C_sprite_4c_ptr->field_C_renderingRect;
+    Fix16_Point* v3 = a2->field_C_pCollisionShape->field_C_corners;
 
     return (IsPointInRect_4B9FD0(&v3[0]) || IsPointInRect_4B9FD0(&v3[1]) 
         || IsPointInRect_4B9FD0(&v3[2]) || IsPointInRect_4B9FD0(&v3[3]));

@@ -327,29 +327,29 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
     {
         case 0:
         case 1:
-            field_30_pNext->SetFlags_4337D0(1, 10);
+            field_30_pNext->SetBlendAndAlpha_4337D0(1, 10);
             break;
         case 2:
-            field_30_pNext->SetFlags_4337D0(1, 10);
+            field_30_pNext->SetBlendAndAlpha_4337D0(1, 10);
             break;
         case 3:
-            field_30_pNext->SetFlags_4337D0(2, 10);
+            field_30_pNext->SetBlendAndAlpha_4337D0(2, 10);
             break;
         case 4:
-            field_30_pNext->SetFlags_4337D0(2, 15);
+            field_30_pNext->SetBlendAndAlpha_4337D0(2, 15);
             break;
         case 5:
-            field_30_pNext->SetFlags_4337D0(2, 20);
+            field_30_pNext->SetBlendAndAlpha_4337D0(2, 20);
             break;
         case 6:
-            field_30_pNext->SetFlags_4337D0(2, 25);
+            field_30_pNext->SetBlendAndAlpha_4337D0(2, 25);
             break;
         case 7:
-            field_30_pNext->SetFlags_4337D0(2, 30);
+            field_30_pNext->SetBlendAndAlpha_4337D0(2, 30);
             break;
     }
 
-    field_30_pNext->Set_2C_0x4_Flag_4337F0();
+    field_30_pNext->SetNoLighting_4337F0();
     if (field_40_pExplosion)
     {
         field_30_pNext->ResolveZOrder_5A1B30(field_40_pExplosion->field_14_pObj2C->field_4);
@@ -376,8 +376,8 @@ char_type Particle_4C::UpdateBeamSegment_state_43_538A40()
 
     field_30_pNext->set_id_lazy_4206C0(field_46_sub_state + gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 103);
 
-    this->field_30_pNext->SetFlags_4337D0(2, 20);
-    this->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+    this->field_30_pNext->SetBlendAndAlpha_4337D0(2, 20);
+    this->field_30_pNext->SetNoLighting_4337F0();
     gSpriteGrid_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
     return 0;
 }
@@ -409,7 +409,7 @@ static inline Fix16 MaxValue_44E540(const Fix16& a, const Fix16& b)
 
 // 9.6f 0x48F230: SetXY_432860 for src/dst, delta = dst - src, delta.atan2_40F790() (result discarded), segments
 // from delta.MaxAbs_48A270() / dword_6FD364, delta.DivideAssign_48A250(segments), cur += delta, mid = cur - prev,
-// mid.DivideAssign_48A250(2), mid += prev, SetFlags_4337D0(2, 20); the function-scope Ang16 is the jitter;
+// mid.DivideAssign_48A250(2), mid += prev, SetBlendAndAlpha_4337D0(2, 20); the function-scope Ang16 is the jitter;
 // each case is one SetFromPolar(radius, angle sum) call with both arguments as temporaries;
 // dst.SetXY(target) then dst += src (target declared ahead of src, else the x add's operands swap).
 MATCH_FUNC(0x538ac0)
@@ -426,7 +426,7 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
     Fix16_Point prev;
     Fix16_Point mid;
     gSpriteGrid_3_679210->Remove_477B00(field_30_pNext);
-    if (field_46_sub_state != 6 && field_28_pSprite->get_type_416B40() == sprite_types_enum::code_obj1_4)
+    if (field_46_sub_state != 6 && field_28_pSprite->GetType_416B40() == sprite_types_enum::code_obj1_4)
     {
         src.SetXY_432860(field_30_pNext->field_14_xy.x, field_30_pNext->field_14_xy.y);
         dst.SetXY_432860(field_28_pSprite->field_14_xy.x, field_28_pSprite->field_14_xy.y);
@@ -457,8 +457,8 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
                     pSegment->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
                     pSegment->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 104);
                     pSegment->field_30_pNext->set_xyz_lazy_420600(mid.x, mid.y, field_30_pNext->field_1C_zpos);
-                    pSegment->field_30_pNext->SetFlags_4337D0(2, 20);
-                    pSegment->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+                    pSegment->field_30_pNext->SetBlendAndAlpha_4337D0(2, 20);
+                    pSegment->field_30_pNext->SetNoLighting_4337F0();
                     gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pSegment->field_30_pNext);
                 }
                 prev = cur;
@@ -476,7 +476,7 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
             {
                 SetFromPolar_OOL_41E210(src,
                                         Fix16(field_46_sub_state) * dword_6FD46C,
-                                        NormalizedAng(field_28_pSprite->field_0.rValue + kAng180_6FD3EE.rValue));
+                                        NormalizedAng(field_28_pSprite->field_0_rotation.rValue + kAng180_6FD3EE.rValue));
                 break;
             }
             case 4:
@@ -484,7 +484,7 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
             {
                 SetFromPolar_OOL_41E210(src,
                                         Fix16(field_46_sub_state) * dword_6FD46C + dword_6FD45C,
-                                        NormalizedAng(NormalizedAng(field_28_pSprite->field_0.rValue + kAng180_6FD3EE.rValue).rValue + jitter.rValue));
+                                        NormalizedAng(NormalizedAng(field_28_pSprite->field_0_rotation.rValue + kAng180_6FD3EE.rValue).rValue + jitter.rValue));
                 break;
             }
         }
@@ -492,11 +492,11 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
         dst.SetXY_432860(target.x, target.y);
         dst += src;
 
-        if (field_28_pSprite->get_type_416B40() == sprite_types_enum::code_obj1_4)
+        if (field_28_pSprite->GetType_416B40() == sprite_types_enum::code_obj1_4)
         {
             field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 163);
-            field_30_pNext->SetFlags_4337D0(2, 20);
-            field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            field_30_pNext->SetBlendAndAlpha_4337D0(2, 20);
+            field_30_pNext->SetNoLighting_4337F0();
             field_30_pNext->set_xyz_lazy_420600(dst.x, dst.y, field_30_pNext->field_1C_zpos);
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
             return 0;
@@ -600,8 +600,8 @@ char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
                 field_30_pNext->set_xyz_lazy_420600(field_30_pNext->field_14_xy.x, field_30_pNext->field_14_xy.y, zpos);
             }
 
-            field_30_pNext->SetFlags_4337D0(2, 15);
-            field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            field_30_pNext->SetBlendAndAlpha_4337D0(2, 15);
+            field_30_pNext->SetNoLighting_4337F0();
             field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16One_6FD4A0 + Fix16(field_46_sub_state) * dword_6FD2E8, 0);
             if (field_40_pExplosion)
             {
@@ -709,8 +709,8 @@ char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
                 field_30_pNext->set_xyz_lazy_420600(field_30_pNext->field_14_xy.x, field_30_pNext->field_14_xy.y, zpos);
             }
 
-            field_30_pNext->SetFlags_4337D0(2, 15);
-            field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            field_30_pNext->SetBlendAndAlpha_4337D0(2, 15);
+            field_30_pNext->SetNoLighting_4337F0();
             if (field_40_pExplosion)
             {
                 field_30_pNext->ResolveZOrder_5A1B30(field_40_pExplosion->field_14_pObj2C->field_4);
@@ -784,16 +784,16 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
                 return true;
             }
             field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 102);
-            field_30_pNext->SetFlags_4337D0(1, 25);
-            field_30_pNext->Clear_2C_0x4_Flag_433800();
+            field_30_pNext->SetBlendAndAlpha_4337D0(1, 25);
+            field_30_pNext->ClearNoLighting_433800();
             dir.x = 0;
             dir.y = dword_6FD300 * field_20_speed;
             bJitter = 0;
             break;
         case 3:
             field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 101);
-            field_30_pNext->SetFlags_4337D0(1, 25);
-            field_30_pNext->Clear_2C_0x4_Flag_433800();
+            field_30_pNext->SetBlendAndAlpha_4337D0(1, 25);
+            field_30_pNext->ClearNoLighting_433800();
             dir.x = 0;
             dir.y = dword_6FD304 * field_20_speed;
             break;
@@ -907,7 +907,7 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
     }
 
     field_30_pNext->field_2C_flags = 0xA2;
-    field_30_pNext->Set_2C_0x4_Flag_4337F0();
+    field_30_pNext->SetNoLighting_4337F0();
     gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
 
     if (++field_46_sub_state > 8)
@@ -975,7 +975,7 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
             return true;
         }
 
-        Ang16 angle = field_28_pSprite->field_0;
+        Ang16 angle = field_28_pSprite->field_0_rotation;
         Fix16 half_w;
         Fix16 half_h;
         if (sub < 4)
@@ -1018,9 +1018,9 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
 
         field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 200);
         field_30_pNext->field_2C_flags = 0xA2;
-        field_30_pNext->set_ang_lazy_420690(field_28_pSprite->field_0);
+        field_30_pNext->set_ang_lazy_420690(field_28_pSprite->field_0_rotation);
         field_30_pNext->set_xyz_lazy_420600(corner.x, corner.y, field_28_pSprite->field_1C_zpos);
-        field_30_pNext->Set_2C_0x4_Flag_4337F0();
+        field_30_pNext->SetNoLighting_4337F0();
         gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
         return 0;
     }
@@ -1047,7 +1047,7 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
             offset.x = -dword_6FD46C;
             offset.y = dword_6FD2F8;
         }
-        offset.RotateByAngle_OneMulInline_40F6B0(field_28_pSprite->field_0);
+        offset.RotateByAngle_OneMulInline_40F6B0(field_28_pSprite->field_0_rotation);
         offset = offset.Add_40AC50(pB4->field_98_velocity_vector);
 
         field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + field_46_sub_state + 197);
@@ -1055,7 +1055,7 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
         field_30_pNext->set_xyz_lazy_420600(field_28_pSprite->field_14_xy.x + offset.x,
                                             field_28_pSprite->field_14_xy.y + offset.y,
                                             field_28_pSprite->field_1C_zpos);
-        field_30_pNext->Set_2C_0x4_Flag_4337F0();
+        field_30_pNext->SetNoLighting_4337F0();
         gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
         return 0;
     }
@@ -1244,7 +1244,7 @@ char_type Particle_4C::UpdateShortAnim_state_37_53B580()
             break;
     }
 
-    this->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+    this->field_30_pNext->SetNoLighting_4337F0();
     gSpriteGrid_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
     return 0;
 }
@@ -1264,7 +1264,7 @@ char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
     Sprite* pSprite = field_28_pSprite;
     Fix16 zpos = field_30_pNext->field_1C_zpos;
     Fix16_Point_POD offset;
-    if (pSprite->get_type_416B40() != sprite_types_enum::ped_3)
+    if (pSprite->GetType_416B40() != sprite_types_enum::ped_3)
     {
         return true;
     }
@@ -1303,26 +1303,26 @@ char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
                 {
                     Fix16 radius;
                     radius = dword_6FD540 * dword_6FD4A8;
-                    Ang16::PolarToCartesian_41FC20(field_28_pSprite->field_0 + jitter, radius, offset.x, offset.y);
+                    Ang16::PolarToCartesian_41FC20(field_28_pSprite->field_0_rotation + jitter, radius, offset.x, offset.y);
                 }
-                field_30_pNext->SetFlags_4337D0(1, 10);
+                field_30_pNext->SetBlendAndAlpha_4337D0(1, 10);
                 field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 17);
                 zpos += dword_6FD470;
             }
             else
             {
                 Fix16 radius = kFP16One_6FD4A0 * dword_6FD540;
-                Ang16::PolarToCartesian_41FC20(field_30_pNext->field_0, radius, offset.x, offset.y);
+                Ang16::PolarToCartesian_41FC20(field_30_pNext->field_0_rotation, radius, offset.x, offset.y);
                 field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 17);
-                field_30_pNext->SetFlags_4337D0(1, 5);
+                field_30_pNext->SetBlendAndAlpha_4337D0(1, 5);
                 zpos += dword_6FD470;
             }
         }
         else
         {
             Fix16 radius = dword_6FD540 * dword_6FD4A8;
-            Ang16::PolarToCartesian_41FC20(field_28_pSprite->field_0, radius, offset.x, offset.y);
-            field_30_pNext->SetFlags_4337D0(1, 20);
+            Ang16::PolarToCartesian_41FC20(field_28_pSprite->field_0_rotation, radius, offset.x, offset.y);
+            field_30_pNext->SetBlendAndAlpha_4337D0(1, 20);
             field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 17);
         }
         stru_6FD388 += offset.x;
@@ -1380,8 +1380,8 @@ char_type Particle_4C::UpdateBurstAnimation_state_29_30_53B9F0()
 
     field_30_pNext->set_id_4206E0(idx + gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 37);
     gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
-    field_30_pNext->SetFlags_4337D0(2, 10);
-    field_30_pNext->Set_2C_0x4_Flag_4337F0();
+    field_30_pNext->SetBlendAndAlpha_4337D0(2, 10);
+    field_30_pNext->SetNoLighting_4337F0();
     field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16One_6FD4A0 + scale_related * Fix16(field_46_sub_state), 0);
     return false;
 }
@@ -1464,7 +1464,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
             {
                 field_4_flags &= ~1;
             }
-            angle = pTarget->field_0;
+            angle = pTarget->field_0_rotation;
             break;
     }
 
@@ -1501,7 +1501,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
         if (pGun)
         {
             {
-                Ang16 gun_angle = pGun->field_0->field_0;
+                Ang16 gun_angle = pGun->field_0_pSprite->field_0_rotation;
                 gun_angle += kAng180_6FD3EE.rValue;
                 gun_angle.Normalize_406C20();
                 car_angle = gun_angle;
@@ -1514,14 +1514,14 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
         }
         else
         {
-            car_angle = pCar->field_0_attachments.GetSpriteForModel_5A6A50(248)->field_0->field_0;
+            car_angle = pCar->field_0_attachments.GetSpriteForModel_5A6A50(248)->field_0_pSprite->field_0_rotation;
             attach.x = 0;
             attach.y = dword_6FD48C;
             attach.RotateByAngle_OneMulInline_40F6B0(car_angle);
             offset.x = 0;
             offset.y = dword_6FD4CC;
         }
-        offset.RotateByAngle_OneMulInline_40F6B0(pCar->field_50_car_sprite->field_0);
+        offset.RotateByAngle_OneMulInline_40F6B0(pCar->field_50_car_sprite->field_0_rotation);
         attach += offset.Add_40AC50(pCar->field_50_car_sprite->get_x_y());
         vel = pCar->field_58_physics->GetPointVelocity_561350(&attach);
         angle = car_angle;
@@ -1540,7 +1540,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
     }
     else
     {
-        PolarToXY_6FD2E8(field_30_pNext->field_0, dx, dy);
+        PolarToXY_6FD2E8(field_30_pNext->field_0_rotation, dx, dy);
     }
     stru_6FD388 = stru_6FD388 + (vel.x + dx);
     stru_6FD38C = stru_6FD38C + (vel.y + dy);
@@ -1610,7 +1610,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
                     {
                         gParticle_8_6FD5E8->field_4->HandleObjectHit_528990(pHit);
                     }
-                    if (pHit->get_type_416B40() == sprite_types_enum::ped_3)
+                    if (pHit->GetType_416B40() == sprite_types_enum::ped_3)
                     {
                         pHit->field_8_char_b4_ptr->HandleGenericImpact_553E00(angle, dword_6FD2E8 + dword_6FD46C, kFP16Zero_6FD49C, 0);
                         Ped* pHitPed = pHit->field_8_char_b4_ptr->field_7C_pPed;
@@ -1927,8 +1927,8 @@ void Particle_4C::PoolDeallocate()
 {
     if (field_30_pNext)
     {
-        field_30_pNext->Clear_2C_0x4_Flag_433800();
-        field_30_pNext->SetFlags_4337D0(0, 0);
+        field_30_pNext->ClearNoLighting_433800();
+        field_30_pNext->SetBlendAndAlpha_4337D0(0, 0);
         gSpritePool_703818->remove(field_30_pNext);
         field_30_pNext = 0;
     }

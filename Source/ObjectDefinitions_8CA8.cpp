@@ -691,7 +691,7 @@ void ObjectDefinition_74::ApplyDefinitionToSprite_5331A0(Sprite* pSprite)
     f40 = this->field_40_collision_bucket_category;
     if (f40 > 0 && (f40 <= 3 || f40 == 4))
     {
-        pSprite->AllocInternal_59F950(this->field_0_width, this->field_4_height, this->field_8_depth);
+        pSprite->AllocCollisionShape_59F950(this->field_0_width, this->field_4_height, this->field_8_depth);
     }
 
     if (this->field_70_has_sound)

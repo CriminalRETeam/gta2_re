@@ -324,14 +324,14 @@ static void ShowRectAndPointsForSprite4C(SpriteShape_4C* p4C)
 
     if (ImGui::TreeNode("rendering rect"))
     {
-        ImGui::Value("0 x:", p4C->field_C_renderingRect[0].x.ToFloat(), "%.2f");
-        ImGui::Value("0 y:", p4C->field_C_renderingRect[0].y.ToFloat(), "%.2f");
-        ImGui::Value("1 x:", p4C->field_C_renderingRect[1].x.ToFloat(), "%.2f");
-        ImGui::Value("1 y:", p4C->field_C_renderingRect[1].y.ToFloat(), "%.2f");
-        ImGui::Value("2 x:", p4C->field_C_renderingRect[2].x.ToFloat(), "%.2f");
-        ImGui::Value("2 y:", p4C->field_C_renderingRect[2].y.ToFloat(), "%.2f");
-        ImGui::Value("3 x:", p4C->field_C_renderingRect[3].x.ToFloat(), "%.2f");
-        ImGui::Value("3 y:", p4C->field_C_renderingRect[3].y.ToFloat(), "%.2f");
+        ImGui::Value("0 x:", p4C->field_C_corners[0].x.ToFloat(), "%.2f");
+        ImGui::Value("0 y:", p4C->field_C_corners[0].y.ToFloat(), "%.2f");
+        ImGui::Value("1 x:", p4C->field_C_corners[1].x.ToFloat(), "%.2f");
+        ImGui::Value("1 y:", p4C->field_C_corners[1].y.ToFloat(), "%.2f");
+        ImGui::Value("2 x:", p4C->field_C_corners[2].x.ToFloat(), "%.2f");
+        ImGui::Value("2 y:", p4C->field_C_corners[2].y.ToFloat(), "%.2f");
+        ImGui::Value("3 x:", p4C->field_C_corners[3].x.ToFloat(), "%.2f");
+        ImGui::Value("3 y:", p4C->field_C_corners[3].y.ToFloat(), "%.2f");
         ImGui::TreePop();
     }
 }
@@ -379,56 +379,53 @@ static void ShowPedBitMask(Ped* pPed)
     }
 }
 
+// Bit order of PedFlags32
+static const char* const kPedFlagNames[32] = {
+    "bActive",
+    "bUnused1",
+    "bPanicking",
+    "bDriveAggressively",
+    "bStayInCar",
+    "bBusted",
+    "bSkipCarSearch",
+    "bUseCarWeapon",
+    "bHitByAttacker",
+    "bNoWeapon",
+    "bScheduledForRemoval",
+    "bAttacking",
+    "bUnused12",
+    "bWeaponChosen",
+    "bInPathList",
+    "bFlag15",
+    "bFlag16",
+    "bFlag17",
+    "bUnused18",
+    "bFlag19",
+    "bUnused20",
+    "bUnused21",
+    "bFlag22",
+    "bSpottedPlayer",
+    "bOnFire",
+    "bInvisible",
+    "bElectroFingers",
+    "bLeftVehicle",
+    "bArmedGangMember",
+    "bForcedOutOfTaxi",
+    "bUnused30",
+    "bUnused31",
+};
+
 static void ShowPedBitMaskSetting(PedFlags32* flags)
 {
-    if (flags)
+    if (flags && ImGui::TreeNode("Ped BitMask Setting"))
     {
-        if (ImGui::TreeNode("Ped BitMask Setting"))
+        // PedFlags32 is one dword of single bit fields, so the flags can be edited as a plain mask
+        u32* pMask = reinterpret_cast<u32*>(flags);
+        for (u32 bit = 0; bit < 32; bit++)
         {
-            // A bit field can't be passed by reference, so each flag goes through a local
-#define PED_FLAG_CHECKBOX(name) \
-    { \
-        bool bValue = flags->name; \
-        if (ImGui::Checkbox(#name, &bValue)) \
-        { \
-            flags->name = bValue; \
-        } \
-    }
-            PED_FLAG_CHECKBOX(bActive);
-            PED_FLAG_CHECKBOX(bUnused1);
-            PED_FLAG_CHECKBOX(bPanicking);
-            PED_FLAG_CHECKBOX(bDriveAggressively);
-            PED_FLAG_CHECKBOX(bStayInCar);
-            PED_FLAG_CHECKBOX(bBusted);
-            PED_FLAG_CHECKBOX(bSkipCarSearch);
-            PED_FLAG_CHECKBOX(bUseCarWeapon);
-            PED_FLAG_CHECKBOX(bHitByAttacker);
-            PED_FLAG_CHECKBOX(bNoWeapon);
-            PED_FLAG_CHECKBOX(bScheduledForRemoval);
-            PED_FLAG_CHECKBOX(bAttacking);
-            PED_FLAG_CHECKBOX(bUnused12);
-            PED_FLAG_CHECKBOX(bWeaponChosen);
-            PED_FLAG_CHECKBOX(bInPathList);
-            PED_FLAG_CHECKBOX(bFlag15);
-            PED_FLAG_CHECKBOX(bFlag16);
-            PED_FLAG_CHECKBOX(bFlag17);
-            PED_FLAG_CHECKBOX(bUnused18);
-            PED_FLAG_CHECKBOX(bFlag19);
-            PED_FLAG_CHECKBOX(bUnused20);
-            PED_FLAG_CHECKBOX(bUnused21);
-            PED_FLAG_CHECKBOX(bFlag22);
-            PED_FLAG_CHECKBOX(bSpottedPlayer);
-            PED_FLAG_CHECKBOX(bOnFire);
-            PED_FLAG_CHECKBOX(bInvisible);
-            PED_FLAG_CHECKBOX(bElectroFingers);
-            PED_FLAG_CHECKBOX(bLeftVehicle);
-            PED_FLAG_CHECKBOX(bArmedGangMember);
-            PED_FLAG_CHECKBOX(bForcedOutOfTaxi);
-            PED_FLAG_CHECKBOX(bUnused30);
-            PED_FLAG_CHECKBOX(bUnused31);
-#undef PED_FLAG_CHECKBOX
-            ImGui::TreePop();
+            ImGui::CheckboxFlags(kPedFlagNames[bit], pMask, 1u << bit);
         }
+        ImGui::TreePop();
     }
 }
 
@@ -1484,7 +1481,7 @@ void CC ImGuiDebugDraw()
 
                     ImGui::SliderInt("field_A0_car_kind", &pCarIter->field_A0_car_kind, 0, 120);
 
-                    ImGui::Text("ang %d", pCarIter->field_50_car_sprite->field_0.rValue);
+                    ImGui::Text("ang %d", pCarIter->field_50_car_sprite->field_0_rotation.rValue);
                     ImGui::Text("field_7C_uni_num %d", pCarIter->field_7C_uni_num);
                     ImGui::Text("field_74_damage %d", pCarIter->field_74_damage);
 
@@ -2281,7 +2278,7 @@ void CC ImGuiDebugDraw()
                                 if (ImGui::TreeNode("Sprite"))
                                 {
                                     ImGui::Input_char_type("Sprt F38", &pSprt->field_38_zoom, 1, 1);
-                                    SpriteShape_4C* p4C = pSprt->field_4_0x4C_len;
+                                    SpriteShape_4C* p4C = pSprt->field_4_pVisualShape;
                                     if (p4C)
                                     {
                                         ShowRectAndPointsForSprite4C(p4C);
@@ -2420,9 +2417,9 @@ void CC ImGuiDebugDraw()
                     if (pPlayerSprite)
                     {
                         ImGui::Input_char_type("Sprt F38", &pPlayerSprite->field_38_zoom, 1, 1);
-                        if (pPlayerSprite->field_4_0x4C_len)
+                        if (pPlayerSprite->field_4_pVisualShape)
                         {
-                            ShowRectAndPointsForSprite4C(pPlayerSprite->field_4_0x4C_len);
+                            ShowRectAndPointsForSprite4C(pPlayerSprite->field_4_pVisualShape);
                         }
                     }
 
@@ -3048,7 +3045,7 @@ void CC ImGuiDebugDraw()
                     {
                         PointArrowToEntity(0, gCollisionTarget_679188.field_20_pHitSprite->field_8_car_bc_ptr, 0);
                     }
-                    else if (gCollisionTarget_679188.field_20_pHitSprite->As2C_40FEC0())
+                    else if (gCollisionTarget_679188.field_20_pHitSprite->AsObject2C_40FEC0())
                     {
                         PointArrowToEntity(0, 0, gCollisionTarget_679188.field_20_pHitSprite->field_8_object_2C_ptr);
                     }
@@ -3092,7 +3089,7 @@ void CC ImGuiDebugDraw()
 
             if (ImGui::Button("Create Particle"))
             {
-                particle_velocity.FromPolar_41E210(speed, pPlayerSprite->field_0);
+                particle_velocity.FromPolar_41E210(speed, pPlayerSprite->field_0_rotation);
                 Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(particle_velocity.x, particle_velocity.y, unknown, 0, 0, 0);
 
                 if (pParticle)

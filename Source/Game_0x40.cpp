@@ -283,7 +283,7 @@ void Game_0x40::BootGame_4B8EB0()
     InvalidateCachedScreenDimension_5D8DF0();
     ConvertColourBanks_5D7CB0();
     UpdateGameScreenSize_5D8E00();
-    gSpriteManager_703820->sub_5A5870();
+    gSpriteManager_703820->AllocScratchSprite_5A5870();
     gTileAnim_2_7052C4->Empty_5BC300();
     gPublicTransport_181C_6FF1D4->SetupTrainAndBusStops_5794B0();
     gObject_5C_6F8F84->CreateDiagonalWallObjects_5297F0();

@@ -1676,7 +1676,7 @@ void CarPhysics_B0::DispatchCollision_55CA70(Fix16_Point& a2, Ang16 a3)
                 }
                 else
                 {
-                    Object_2C* p2C = gCollisionTarget_679188.field_20_pHitSprite->As2C_40FEC0();
+                    Object_2C* p2C = gCollisionTarget_679188.field_20_pHitSprite->AsObject2C_40FEC0();
                     HandleObjectCollision_5606C0(p2C, gCollisionArea_6FDFC4);
                 }
             }
@@ -2082,7 +2082,7 @@ void CarPhysics_B0::ApplyTurningForce_55F020()
 {
     Fix16_Point v6;
     Fix16 v17 = dword_6FE358;
-    Object_2C* pObj = gCollisionTarget_679188.field_20_pHitSprite->As2C_40FEC0();
+    Object_2C* pObj = gCollisionTarget_679188.field_20_pHitSprite->AsObject2C_40FEC0();
     Fix16 v4;
 
     if (pObj && pObj->field_18_model == objects::diagonal_wall_collision_obj_166)
@@ -3305,7 +3305,7 @@ Fix16 CarPhysics_B0::CalculateRearWheelForce_5620D0()
 MATCH_FUNC(0x562450)
 Fix16_Point Sprite::GetBoundingBoxCorner_562450(s32 idx)
 {
-    return Fix16_Point(field_C_sprite_4c_ptr->field_C_renderingRect[idx].x, field_C_sprite_4c_ptr->field_C_renderingRect[idx].y);
+    return Fix16_Point(field_C_pCollisionShape->field_C_corners[idx].x, field_C_pCollisionShape->field_C_corners[idx].y);
 }
 
 MATCH_FUNC(0x562480)
@@ -3829,7 +3829,7 @@ void CarPhysics_B0::SetSprite_563560(Sprite* a2)
     field_38_cp1.x = a2->field_14_xy.x;
     field_38_cp1.y = a2->field_14_xy.y;
     field_6C_cp3 = a2->field_1C_zpos;
-    field_58_theta = a2->field_0;
+    field_58_theta = a2->field_0_rotation;
     field_78_pointing_ang_rad = 0;
     UpdateCenterOfMassPoint_563350();
 }
@@ -3837,7 +3837,7 @@ void CarPhysics_B0::SetSprite_563560(Sprite* a2)
 MATCH_FUNC(0x563590)
 void CarPhysics_B0::SnapVelocityToSpriteDirection_563590(Sprite* pSprt)
 {
-    field_40_linvel_1.SetFromPolar_41E210(field_40_linvel_1.GetLength_41E260(), pSprt->field_0);
+    field_40_linvel_1.SetFromPolar_41E210(field_40_linvel_1.GetLength_41E260(), pSprt->field_0_rotation);
     CarPhysics_B0::SetSprite_563560(pSprt);
 }
 

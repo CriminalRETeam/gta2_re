@@ -365,7 +365,7 @@ void sound_obj::ProcessType1_Sprite_412740(s32 idx)
     if (entity.field_0_pObj)
     {
 
-        entity.field_0_pObj->GetXYZ_4117B0(&field_30_sQueueSample.field_8_obj.field_0_x,
+        entity.field_0_pObj->GetPosition_4117B0(&field_30_sQueueSample.field_8_obj.field_0_x,
                                            &field_30_sQueueSample.field_8_obj.field_4_y,
                                            &field_30_sQueueSample.field_8_obj.field_8_z);
 
@@ -386,7 +386,7 @@ void sound_obj::ProcessType1_Sprite_412740(s32 idx)
         {
             sound_obj::ProcessCar_412B80(&entity);
         }
-        else if (entity.field_0_pObj->As2C_40FEC0())
+        else if (entity.field_0_pObj->AsObject2C_40FEC0())
         {
             sound_obj::ProcessObject_41E820(&entity);
         }
@@ -402,7 +402,7 @@ void sound_obj::ProcessType8_Crane_412820(s32 idx)
         Sprite* pSprite = pCrane->GetRotorSprite_411A00();
         if (pSprite)
         {
-            pSprite->GetXYZ_4117B0(&field_30_sQueueSample.field_8_obj.field_0_x,
+            pSprite->GetPosition_4117B0(&field_30_sQueueSample.field_8_obj.field_0_x,
                                    &field_30_sQueueSample.field_8_obj.field_4_y,
                                    &field_30_sQueueSample.field_8_obj.field_8_z);
 
@@ -3603,7 +3603,7 @@ s32 sound_obj::AddSoundObject_419FA0(SoundObject_10* pTuring)
                     Sprite* v7 = field_147C_audio_entities[idx].field_4_pObj->field_C_pAny.pSprite;
                     if (v7)
                     {
-                        switch (v7->get_type_416B40())
+                        switch (v7->GetType_416B40())
                         {
                             case sprite_types_enum::car_2: // note: sub eax, 2 added via switch case instead of if
                                 sound_unknown_0xC* pNewObj = new sound_unknown_0xC();
@@ -3654,7 +3654,7 @@ void sound_obj::FreeSoundEntry_41A090(u32 idx)
             if (pTuring->field_C_pAny.pSprite)
             {
                 Sprite* pAny = pTuring->field_C_pAny.pSprite;
-                switch (pAny->get_type_416B40())
+                switch (pAny->GetType_416B40())
                 {
                     case sprite_types_enum::car_2:
                         if (field_147C_audio_entities[idx].field_8_pAlloc)

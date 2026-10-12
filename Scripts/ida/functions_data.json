@@ -16590,12 +16590,12 @@
         "v96f_auto": true
     },
     {
-        "name": "Sprite::sub_59E2E0",
+        "name": "Sprite::CopyCollisionShapeToVisual_59E2E0",
         "v96f_address": null,
         "v105_address": "0x59e2e0"
     },
     {
-        "name": "Sprite::sub_59E300",
+        "name": "Sprite::CopyVisualShapeToCollision_59E300",
         "v96f_address": null,
         "v105_address": "0x59e300"
     },
@@ -16707,13 +16707,13 @@
         "v105_address": "0x59eff0"
     },
     {
-        "name": "Sprite::AllocInternal_59F950",
+        "name": "Sprite::AllocCollisionShape_59F950",
         "v96f_address": "0x4bcb90",
         "v105_address": "0x59f950",
         "v96f_auto": true
     },
     {
-        "name": "Sprite::Update_4C_59F990",
+        "name": "Sprite::EnsureVisualShape_59F990",
         "v96f_address": "0x4bcbd0",
         "v105_address": "0x59f990",
         "v96f_auto": true
@@ -16725,7 +16725,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Sprite::FreeSprite4CChildren_59FAD0",
+        "name": "Sprite::FreeShapes_59FAD0",
         "v96f_address": "0x4bccc0",
         "v105_address": "0x59fad0",
         "v96f_auto": true
@@ -16933,7 +16933,7 @@
         "v96f_auto": true
     },
     {
-        "name": "SpriteManager_8::sub_5A5870",
+        "name": "SpriteManager_8::AllocScratchSprite_5A5870",
         "v96f_address": "0x4bdc60",
         "v105_address": "0x5a5870"
     },
@@ -16991,17 +16991,17 @@
         "v105_address": "0x5a5e50"
     },
     {
-        "name": "AttachedSprite_18::PoolUpdate_5A6910",
+        "name": "AttachedSprite_18::UpdateAttached_5A6910",
         "v96f_address": "0x4BE870",
         "v105_address": "0x5a6910"
     },
     {
-        "name": "AttachedSprite_18::sub_5A69E0",
+        "name": "AttachedSprite_18::DestroyAttached_5A69E0",
         "v96f_address": null,
         "v105_address": "0x5a69e0"
     },
     {
-        "name": "AttachedSprite_18::sub_5A6A20",
+        "name": "AttachedSprite_18::SinkAttachedCar_5A6A20",
         "v96f_address": null,
         "v105_address": "0x5a6a20"
     },

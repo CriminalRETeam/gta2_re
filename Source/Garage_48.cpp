@@ -56,7 +56,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FD218, Fix16(0x3333, 0), 0x6FD218);
 // Car_BC::IsLongerThanOneBlock_447ED0 (9.6f), with this file's copy of the 1.0 constant
 static inline bool IsLongerThanOneBlock_447ED0(Car_BC* pCar)
 {
-    if (pCar->field_50_car_sprite->GetH_447E70() > dword_6FD124)
+    if (pCar->field_50_car_sprite->GetHeight_447E70() > dword_6FD124)
     {
         return true;
     }
@@ -269,8 +269,8 @@ void Garage_48::GaragesService_5349D0()
             field_0->field_58_physics->StopMoving_4895D0();
 
             car_pos.SetXY_432860(field_0->get_x_41E430(), field_0->get_y_41E440());
-            SpriteShape_4C* pBox = field_0->field_50_car_sprite->field_C_sprite_4c_ptr;
-            field_28_push_dir = (pBox->field_C_renderingRect[idx1] + pBox->field_C_renderingRect[idx2]).Divide_442CB0(kFpTwo_6FD128) - car_pos;
+            SpriteShape_4C* pBox = field_0->field_50_car_sprite->field_C_pCollisionShape;
+            field_28_push_dir = (pBox->field_C_corners[idx1] + pBox->field_C_corners[idx2]).Divide_442CB0(kFpTwo_6FD128) - car_pos;
             if (field_28_push_dir.x == dword_6FD120 && field_28_push_dir.y == dword_6FD120)
             {
                 field_3D = 1;

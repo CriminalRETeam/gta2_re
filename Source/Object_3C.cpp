@@ -85,7 +85,7 @@ AttachedSprite_18* struct_4::GetSpriteForModel_5A6A50(s32 obj_type)
     AttachedSprite_18* pIter = this->field_0_p18;
     while (pIter)
     {
-        Object_2C* o5c = pIter->field_0->As2C_40FEC0();
+        Object_2C* o5c = pIter->field_0_pSprite->AsObject2C_40FEC0();
         if (o5c)
         {
             if (o5c->field_18_model == obj_type)
@@ -104,11 +104,11 @@ Object_2C* struct_4::FindObject2CByModel_5A6A90(s32 obj_type)
     AttachedSprite_18* pIter = this->field_0_p18;
     while (pIter)
     {
-        const s32 sprite_type_enum = pIter->field_0->field_30_sprite_type_enum;
+        const s32 sprite_type_enum = pIter->field_0_pSprite->field_30_sprite_type_enum;
         if (sprite_type_enum == sprite_types_enum::code_obj1_4 || sprite_type_enum == sprite_types_enum::map_obj_5 ||
             sprite_type_enum == sprite_types_enum::unknown_1)
         {
-            Object_2C* p2C = pIter->field_0->field_8_object_2C_ptr;
+            Object_2C* p2C = pIter->field_0_pSprite->field_8_object_2C_ptr;
             if (p2C)
             {
                 if (p2C->field_18_model == obj_type)
@@ -128,10 +128,10 @@ AttachedSprite_18* struct_4::FindFirstActiveObject_5A6AD0()
     AttachedSprite_18* pObjIter = this->field_0_p18;
     while (pObjIter)
     {
-        const s32 sprite_type = pObjIter->field_0->field_30_sprite_type_enum;
+        const s32 sprite_type = pObjIter->field_0_pSprite->field_30_sprite_type_enum;
         if (sprite_type == 4 || sprite_type == 5 || sprite_type == 1)
         {
-            Object_2C* o2c = pObjIter->field_0->field_8_object_2C_ptr;
+            Object_2C* o2c = pObjIter->field_0_pSprite->field_8_object_2C_ptr;
             if (o2c)
             {
                 if (o2c->sub_525AC0())
@@ -152,7 +152,7 @@ void struct_4::RemoveSprite_5A6B10(Sprite* toFind)
     AttachedSprite_18* pIter = this->field_0_p18;
     for (;;)
     {
-        if (pIter->field_0 == toFind)
+        if (pIter->field_0_pSprite == toFind)
         {
             if (pLast)
             {
@@ -178,7 +178,7 @@ void struct_4::RemoveSpriteSafe_5A6B60(Sprite* toFind)
     AttachedSprite_18* pIter = this->field_0_p18;
     while (pIter)
     {
-        if (pIter->field_0 == toFind)
+        if (pIter->field_0_pSprite == toFind)
         {
             if (pLast)
             {
@@ -202,7 +202,7 @@ void struct_4::sub_5A6BB0()
 {
     for (AttachedSprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
-        p18Iter->sub_5A69E0();
+        p18Iter->DestroyAttached_5A69E0();
     }
 }
 
@@ -211,7 +211,7 @@ void struct_4::sub_5A6BD0()
 {
     for (AttachedSprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
-        p18Iter->sub_5A6A20();
+        p18Iter->SinkAttachedCar_5A6A20();
     }
 }
 
@@ -220,7 +220,7 @@ void struct_4::DispatchCarImpactEvents_5A6BF0(Sprite* pSprite)
 {
     for (AttachedSprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
-        p18Iter->field_0->ProcessCarToCarImpactIfCar_59E910(pSprite);
+        p18Iter->field_0_pSprite->ProcessCarToCarImpactIfCar_59E910(pSprite);
     }
 }
 
@@ -231,7 +231,7 @@ char_type struct_4::TagSpriteWithRng_5A6C10(Sprite* toFind)
     {
         for (AttachedSprite_18* pNext = field_0_p18; pNext != NULL; pNext = pNext->mpNext)
         {
-            if (pNext->field_0 == toFind)
+            if (pNext->field_0_pSprite == toFind)
             {
                 pNext->field_14_rng = gpRng_67AB34->get_cur_rng_41CFE0();
                 return 1;
@@ -280,9 +280,9 @@ Sprite* struct_4::FirstSpriteOfType_5A6CA0(s32 sprite_type)
     {
         for (AttachedSprite_18* pNext = field_0_p18; pNext != NULL; pNext = pNext->mpNext)
         {
-            if (pNext->field_0->field_30_sprite_type_enum == sprite_type)
+            if (pNext->field_0_pSprite->field_30_sprite_type_enum == sprite_type)
             {
-                return pNext->field_0;
+                return pNext->field_0_pSprite;
             }
         }
     }
@@ -293,10 +293,10 @@ MATCH_FUNC(0x5a6cd0)
 void struct_4::AddSprite_5A6CD0(Sprite* pSprite)
 {
     AttachedSprite_18* p18 = gAttachedSpritePool_703B80->Allocate();
-    p18->field_0 = pSprite;
+    p18->field_0_pSprite = pSprite;
     p18->mpNext = this->field_0_p18;
-    p18->field_6_x = 0;
-    p18->field_8_y = 0;
+    p18->field_6_offset_x = 0;
+    p18->field_8_offset_y = 0;
     field_0_p18 = p18;
 }
 
@@ -304,11 +304,11 @@ MATCH_FUNC(0x5a6d00)
 void struct_4::PushImpactEvent_5A6D00(Sprite* pSprite1, Fix16 x, Fix16 y, Ang16 angle)
 {
     AttachedSprite_18* p18 = gAttachedSpritePool_703B80->Allocate();
-    p18->field_0 = pSprite1;
+    p18->field_0_pSprite = pSprite1;
     p18->mpNext = field_0_p18;
-    p18->field_6_x = x;
-    p18->field_8_y = y;
-    p18->field_10_rot = angle;
+    p18->field_6_offset_x = x;
+    p18->field_8_offset_y = y;
+    p18->field_10_offset_rot = angle;
     field_0_p18 = p18;
 }
 
@@ -318,7 +318,7 @@ void struct_4::PushSprite_5A6D40(Sprite* pToFind)
     AttachedSprite_18* pIter = this->field_0_p18;
     while (pIter)
     {
-        if (pIter->field_0 == pToFind)
+        if (pIter->field_0_pSprite == pToFind)
         {
             return;
         }
@@ -326,7 +326,7 @@ void struct_4::PushSprite_5A6D40(Sprite* pToFind)
     }
 
     AttachedSprite_18* pNew = gAttachedSpritePool_703B80->Allocate();
-    pNew->field_0 = pToFind;
+    pNew->field_0_pSprite = pToFind;
 
     pNew->mpNext = this->field_0_p18;
     this->field_0_p18 = pNew;
@@ -338,7 +338,7 @@ char_type struct_4::SpriteExists_5A6D80(Sprite* pToFind)
     AttachedSprite_18* pIter = this->field_0_p18;
     while (pIter)
     {
-        if (pIter->field_0 == pToFind)
+        if (pIter->field_0_pSprite == pToFind)
         {
             return 1;
         }
@@ -355,7 +355,7 @@ Sprite* struct_4::PopFrontSprite_5A6DA0()
     {
         return 0;
     }
-    Sprite* pOld = p18->field_0;
+    Sprite* pOld = p18->field_0_pSprite;
     this->field_0_p18 = p18->mpNext;
     gAttachedSpritePool_703B80->DeAllocate(p18);
     return pOld;
@@ -372,7 +372,7 @@ Sprite* struct_4::PopBackSprite_5A6DC0()
         pIter = pIter->mpNext;
     }
 
-    Sprite* result = pIter->field_0;
+    Sprite* result = pIter->field_0_pSprite;
     if (pLast)
     {
         pLast->mpNext = 0;
@@ -408,10 +408,10 @@ Sprite* struct_4::FindClosestSprite_5A6E40(Fix16 xOff, Fix16 yOff)
     Sprite* new_ret = 0;
     for (AttachedSprite_18* pIter = this->field_0_p18; pIter; pIter = pIter->mpNext)
     {
-        Fix16 yDelta = Fix16::MaxAbsDistance_42A6B0(xOff, yOff, pIter->field_0->field_14_xy.x, pIter->field_0->field_14_xy.y);
+        Fix16 yDelta = Fix16::MaxAbsDistance_42A6B0(xOff, yOff, pIter->field_0_pSprite->field_14_xy.x, pIter->field_0_pSprite->field_14_xy.y);
         if (yDelta < smallest)
         {
-            new_ret = pIter->field_0;
+            new_ret = pIter->field_0_pSprite;
             smallest = yDelta;
         }
     }
@@ -429,7 +429,7 @@ Sprite* struct_4::TakeClosestSprite_5A6EA0(Fix16 xpos, Fix16 ypos)
 
     for (AttachedSprite_18* pIter = field_0_p18; pIter; pIter = pIter->mpNext)
     {
-        distance = Fix16::MaxAbsDistance_42A6B0(xpos, ypos, pIter->field_0->field_14_xy.x, pIter->field_0->field_14_xy.y);
+        distance = Fix16::MaxAbsDistance_42A6B0(xpos, ypos, pIter->field_0_pSprite->field_14_xy.x, pIter->field_0_pSprite->field_14_xy.y);
         if (distance < smallest)
         {
             pClosest = pIter;
@@ -444,7 +444,7 @@ Sprite* struct_4::TakeClosestSprite_5A6EA0(Fix16 xpos, Fix16 ypos)
         return 0;
     }
 
-    Sprite* pSprite = pClosest->field_0;
+    Sprite* pSprite = pClosest->field_0_pSprite;
     if (pBeforeClosest)
     {
         pBeforeClosest->mpNext = pClosest->mpNext;
@@ -469,7 +469,7 @@ void struct_4::PoolUpdate_5A6F70(Sprite* a2)
     while (pCurrItem)
     {
         AttachedSprite_18* pNext = pCurrItem->mpNext;
-        if (pCurrItem->PoolUpdate_5A6910(a2))
+        if (pCurrItem->UpdateAttached_5A6910(a2))
         {
             if (pPreviousItem && pPreviousItem->mpNext != pCurrItem)
             {
@@ -513,8 +513,8 @@ void struct_4::DestroyAllSprites_5A7010()
     AttachedSprite_18* p18Iter = this->field_0_p18;
     while (p18Iter)
     {
-        Sprite* pSprite = p18Iter->field_0;
-        switch (p18Iter->field_0->get_type_416B40())
+        Sprite* pSprite = p18Iter->field_0_pSprite;
+        switch (p18Iter->field_0_pSprite->GetType_416B40())
         {
             case sprite_types_enum::car_2:
                 gCar_6C_677930->RemoveFromPoolAndCollision_446730(pSprite->field_8_car_bc_ptr);
@@ -541,10 +541,10 @@ void struct_4::CleanupSpriteList_5A7080()
     while (pIter)
     {
         bool bUnlinkHead = false;
-        s32 type = pIter->field_0->get_type_416B40();
-        if ((type == 1 || type > 3 && type <= 5) && pIter->field_0->field_8_object_2C_ptr->sub_4BE830())
+        s32 type = pIter->field_0_pSprite->GetType_416B40();
+        if ((type == 1 || type > 3 && type <= 5) && pIter->field_0_pSprite->field_8_object_2C_ptr->sub_4BE830())
         {
-            gObject_5C_6F8F84->RemoveAndFree_52A610(pIter->field_0->field_8_object_2C_ptr);
+            gObject_5C_6F8F84->RemoveAndFree_52A610(pIter->field_0_pSprite->field_8_object_2C_ptr);
             if (pLast)
             {
                 pLast->mpNext = pIter->mpNext;
@@ -582,7 +582,7 @@ void struct_4::ClearGangIconSprite_5A7110()
     {
         while (pIter)
         {
-            p5C = pIter->field_0->As2C_40FEC0();
+            p5C = pIter->field_0_pSprite->AsObject2C_40FEC0();
             if (p5C)
             {
                 // If it is car gang icon
@@ -619,10 +619,10 @@ s32 struct_4::GetGangIdxFromSpriteIfAny_5A71A0()
     AttachedSprite_18* p18Iter = this->field_0_p18;
     while (p18Iter)
     {
-        const s32 type = p18Iter->field_0->field_30_sprite_type_enum;
+        const s32 type = p18Iter->field_0_pSprite->field_30_sprite_type_enum;
         if (type == sprite_types_enum::code_obj1_4 || type == sprite_types_enum::map_obj_5 || type == sprite_types_enum::unknown_1)
         {
-            Object_2C* o5c = p18Iter->field_0->field_8_object_2C_ptr;
+            Object_2C* o5c = p18Iter->field_0_pSprite->field_8_object_2C_ptr;
             if (o5c)
             {
                 // If it is car gang icon
@@ -646,13 +646,13 @@ void struct_4::sub_5A71F0()
 {
     for (AttachedSprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
-        const s32 type = p18Iter->field_0->get_type_416B40();
+        const s32 type = p18Iter->field_0_pSprite->GetType_416B40();
         if (type == 1 || type > 3 && type <= 5)
         {
-            Object_2C* o2c = p18Iter->field_0->field_8_object_2C_ptr;
+            Object_2C* o2c = p18Iter->field_0_pSprite->field_8_object_2C_ptr;
             if (o2c->sub_4BE830())
             {
-                p18Iter->field_0->field_8_object_2C_ptr->field_C_pAny.pExplosion->field_1A_timer = 2;
+                p18Iter->field_0_pSprite->field_8_object_2C_ptr->field_C_pAny.pExplosion->field_1A_timer = 2;
             }
         }
     }
@@ -668,7 +668,7 @@ void struct_4::PruneNonCollidingSprites_5A7240(Sprite* pSprite)
 
     while (pNext)
     {
-        if (pSprite->CollisionCheck_59E590(pNext->field_0))
+        if (pSprite->CollisionCheck_59E590(pNext->field_0_pSprite))
         {
             pLast = pNext;
             pNext = pNext->mpNext;
@@ -698,9 +698,9 @@ void struct_4::PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bUnknown)
     AttachedSprite_18* p18Iter;
     for (p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
-        if (p18Iter->field_0->IsTypeAbove1_446950()) // object_5c type
+        if (p18Iter->field_0_pSprite->IsTypeAbove1_446950()) // object_5c type
         {
-            const char_type cur_val = p18Iter->field_0->ComputeZLayer_5A1BD0();
+            const char_type cur_val = p18Iter->field_0_pSprite->ComputeZLayer_5A1BD0();
             if (cur_val > max_val)
             {
                 max_val = cur_val;
@@ -715,7 +715,7 @@ void struct_4::PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bUnknown)
 
     for (p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
-        p18Iter->field_0->set_z_col_4BA220(max_val);
+        p18Iter->field_0_pSprite->set_z_col_4BA220(max_val);
     }
 }
 
@@ -725,7 +725,7 @@ char_type struct_4::sub_5A7310()
     AttachedSprite_18* p18Iter;
     for (p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
-        if (p18Iter->field_0->sub_5A1A60())
+        if (p18Iter->field_0_pSprite->sub_5A1A60())
         {
             return 1;
         }

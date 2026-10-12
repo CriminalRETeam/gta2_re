@@ -28,6 +28,8 @@ marked unlisted addresses into `target_extra.json`) before trusting the marker.
 - Removing padding fields from `Car_BC` in `Car_BC.hpp` (12 unused `char_type`/`s16` pads) hits the same two
   `MapRenderer` functions, even though the layout is unchanged: the count of member names in the TU is what matters.
   Rename such pads (`field_7A_pad`) instead of deleting them.
+- Deleting the unused `ped_bit_index` enum (32 names) from `ped_flags.hpp` hits the same two functions once
+  `ped_flag_mask` was already gone, so it stays, unused, with a comment.
 - The fix is to keep the enum out of every header `MapRenderer.cpp` includes: `ped_graphic_type.hpp` is a
   small header included only by the .cpp files that use it.
 After adding any enum or constants to a widely included header, run the whole `build.py` (not just
@@ -815,7 +817,7 @@ the explicit `..._4086A0` call (`Sprite::RotatedRectCollisionSAT_5A0380`). Expli
 declared-only `EXPORT` functions add an EH frame while an object with a destructor is alive; `throw()`
 on those declarations removes it (`CarPhysics_B0::UpdateReferencePoint_563460`).
 
-**Calling a small inline helper costs an inline expansion.** Writing out `HalfWH_4BA0A0`'s two
+**Calling a small inline helper costs an inline expansion.** Writing out `GetHalfExtents_4BA0A0`'s two
 divisions kept both inline (`Sprite::FindOverlappingBoundingBoxCorners_5A0150`). A Fix16 multiply is
 `imul` when it is the only inline one, `__allmul` when several share a sign-extended operand.
 
@@ -874,7 +876,7 @@ each use; writing the expression out each time gave the original's stack slot.
 **A one-case switch gives `dec; je`** where an `if` gives `sbb` (`ExplodingScore_50::DrawSingleNumber_597100`).
 
 **A trivial inline getter instead of a direct field read changes load order**: with the getter the
-global was loaded before the pointer chain (`Weapon_30::car_mine_5E2550`, `GetH_447E10`).
+global was loaded before the pointer chain (`Weapon_30::car_mine_5E2550`, `GetHeight_447E10`).
 
 **Calling a non-`throw()` function while a `Fix16_Point` is alive creates the EH frame.** The original
 `ComputeRelativePointVelocity_561130` has none. It matched with the inline-bodied `operator-` above;
@@ -1686,7 +1688,7 @@ address against the csv before chasing the state store.
 **Trivial getters and setters are free; a by-value `Fix16` setter is not.** Replacing a raw
 field access with a one-line inline helper (a scalar or pointer field get/set, `field == K`)
 left the code of every matching function unchanged, so those can be used wherever 9.6f calls
-them. Adding these helpers made `Object_2C::sub_526B40` match (`Sprite::get_type_416B40`,
+them. Adding these helpers made `Object_2C::sub_526B40` match (`Sprite::GetType_416B40`,
 `Char_B4::get_velocity_41B080`, `Sprite::set_num_40F7B0`). The exception is
 `Char_B4::SetMaxSpeed_433920(Fix16)`: as a by-value `Fix16` parameter it changed six matching
 `Ped` functions (`WalkToTargetPoint_46C770` and others), although 9.6f calls it there. Those keep the plain
@@ -1869,7 +1871,7 @@ inline `PolarToCartesian` that calls `Multiply_408680`, and `Normalize_406C20`, 
 `Add_408660`, `Negate_4086A0`, `Divide_436A20` instead of the operators
 (`Char_B4::ApplyMovement_54CC40`, `HandleGenericCollision_54A530`). `Sprite::IntersectsRectSAT_59FB10`
 matched with each operator through one named copy: `RotateAndTranslatePoint_ool_42A720`,
-`HalfWH_ool_4BA0A0`, `Negate_4086A0` and the const `operator+` for the last x sum.
+`GetHalfExtents_ool_4BA0A0`, `Negate_4086A0` and the const `operator+` for the last x sum.
 
 **No jump table and compares in source order mean an if-chain, not a switch.** If the original
 tests the value in one else-if chain (14, 9, 3, 6, 2||11, ...) and builds no jump table, write the

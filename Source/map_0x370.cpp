@@ -2959,7 +2959,7 @@ char_type Map_0x370::sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_
     distance = pos_diff.GetLength_41E260();
     pObjSprt->set_xyz_lazy_420600(x_1, y_1, z_1);
     pObjSprt->set_ang_lazy_420690(angle);
-    pObjSprt->AllocInternal_59F950(width, height, depth);
+    pObjSprt->AllocCollisionShape_59F950(width, height, depth);
 
     Fix16 value_1;
     Fix16 value_2;

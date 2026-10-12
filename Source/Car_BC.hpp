@@ -1043,13 +1043,13 @@ class Car_BC
     // 0x48A930
     Fix16 get_car_width()
     {
-        return field_50_car_sprite->GetW_420740();
+        return field_50_car_sprite->GetWidth_420740();
     }
 
     // 0x48A950
     Fix16 get_car_height()
     {
-        return field_50_car_sprite->GetH_447E70();
+        return field_50_car_sprite->GetHeight_447E70();
     }
 
     bool IsMarkedForDespawn_4214B0()
@@ -1272,7 +1272,7 @@ class Car_BC
 
     bool IsLongerThanOneBlock_447ED0()
     {
-        return (field_50_car_sprite->GetH_447E70() > kFpOne_679E74) ? true : false;
+        return (field_50_car_sprite->GetHeight_447E70() > kFpOne_679E74) ? true : false;
     }
 
     bool CanBeLiftedByCrane_447F00()
@@ -1297,7 +1297,7 @@ class Car_BC
     // 9.6f 0x416BB0
     inline Ang16 get_car_rotation_416BB0()
     {
-        return field_50_car_sprite->field_0;
+        return field_50_car_sprite->field_0_rotation;
     }
 
     inline bool CanCollideOver_4216E0()

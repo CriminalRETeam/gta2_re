@@ -305,81 +305,81 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car_BC* pCar, 
                     case 0:
                         y_pos -= kFpPoint1_6FD824;
                         x_pos -= kFpPoint1_6FD824;
-                        outAng = pCar->field_50_car_sprite->field_0;
+                        outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 1:
                         y_pos -= kFpPoint1_6FD824;
                         x_pos -= dword_6FD9B0;
-                        outAng = pCar->field_50_car_sprite->field_0;
+                        outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 2:
                         y_pos -= kFpPoint1_6FD824;
-                        outAng = pCar->field_50_car_sprite->field_0;
+                        outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 3:
                         y_pos -= kFpPoint1_6FD824;
                         x_pos += dword_6FD9B0;
-                        outAng = pCar->field_50_car_sprite->field_0;
+                        outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 4:
                         y_pos -= dword_6FD9B0;
                         x_pos -= kFpPoint1_6FD824;
-                        outAng = pCar->field_50_car_sprite->field_0;
+                        outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 5:
                         y_pos -= dword_6FD9B0;
                         x_pos -= kFpPoint1_6FD824 + dword_6FD9B0;
-                        outAng = pCar->field_50_car_sprite->field_0;
+                        outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 6:
                         y_pos -= dword_6FD9B0;
                         x_pos -= dword_6FD82C;
-                        outAng = pCar->field_50_car_sprite->field_0;
+                        outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 7:
                         y_pos -= dword_6FD9B0;
                         x_pos -= dword_6FD82C + dword_6FD9B0;
-                        outAng = pCar->field_50_car_sprite->field_0;
+                        outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 8:
                         y_pos -= dword_6FD9B0;
                         x_pos -= kFpPoint3_6FD830;
-                        outAng = pCar->field_50_car_sprite->field_0;
+                        outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 9:
                         y_pos -= kFpPoint02_6FD9AC + kFpPoint1_6FD824;
                         x_pos -= kFpPoint04_6FD9B8;
-                        outAng = pCar->field_50_car_sprite->field_0;
+                        outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 10:
                         y_pos -= kFpPoint02_6FD9AC + kFpPoint1_6FD824;
                         x_pos -= kFpPoint04_6FD9B8;
-                        outAng = pCar->field_50_car_sprite->field_0;
+                        outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 11:
                         y_pos -= kFpPoint02_6FD9AC + kFpPoint1_6FD824;
                         x_pos -= kFpPoint04_6FD9B8;
-                        outAng = pCar->field_50_car_sprite->field_0;
+                        outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 12:
                         y_pos -= kFpPoint02_6FD9AC + kFpPoint1_6FD824;
                         x_pos -= kFpPoint04_6FD9B8;
-                        outAng = pCar->field_50_car_sprite->field_0;
+                        outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 99:
                         x_pos += kFpPoint1_6FD824;
-                        outAng = pCar->field_50_car_sprite->field_0;
+                        outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                 }
                 break;
             }
             if (!bFront)
             {
-                outAng = pCar->field_50_car_sprite->field_0 + kAng90_6FD854;
+                outAng = pCar->field_50_car_sprite->field_0_rotation + kAng90_6FD854;
             }
             else
             {
-                outAng = pCar->field_50_car_sprite->field_0 + kAng180_6FD936;
+                outAng = pCar->field_50_car_sprite->field_0_rotation + kAng180_6FD936;
             }
             break;
         case 1:
@@ -422,42 +422,42 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car_BC* pCar, 
                     case 0:
                         y_pos -= kFpPoint1_6FD824;
                         x_pos += kFpPoint1_6FD824;
-                        outAng = pCar->field_50_car_sprite->field_0 + kAng180_6FD936;
+                        outAng = pCar->field_50_car_sprite->field_0_rotation + kAng180_6FD936;
                         break;
                     case 1:
                         y_pos -= kFpPoint1_6FD824;
                         x_pos += dword_6FD9B0;
-                        outAng = pCar->field_50_car_sprite->field_0 + kAng180_6FD936;
+                        outAng = pCar->field_50_car_sprite->field_0_rotation + kAng180_6FD936;
                         break;
                     case 2:
                         y_pos -= kFpPoint1_6FD824;
-                        outAng = pCar->field_50_car_sprite->field_0 + kAng180_6FD936;
+                        outAng = pCar->field_50_car_sprite->field_0_rotation + kAng180_6FD936;
                         break;
                     case 3:
                         y_pos -= kFpPoint1_6FD824;
                         x_pos -= dword_6FD9B0;
-                        outAng = pCar->field_50_car_sprite->field_0 + kAng180_6FD936;
+                        outAng = pCar->field_50_car_sprite->field_0_rotation + kAng180_6FD936;
                         break;
                     case 5:
                         y_pos -= dword_6FD9B0;
                         x_pos += kFpPoint1_6FD824 + dword_6FD9B0;
-                        outAng = pCar->field_50_car_sprite->field_0;
+                        outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 6:
                         y_pos -= dword_6FD9B0;
                         x_pos += dword_6FD82C;
-                        outAng = pCar->field_50_car_sprite->field_0;
+                        outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 7:
                         y_pos -= dword_6FD9B0;
                         x_pos += dword_6FD82C + dword_6FD9B0;
-                        outAng = pCar->field_50_car_sprite->field_0;
+                        outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 4:
                     case 8:
                         y_pos -= dword_6FD9B0;
                         x_pos += kFpPoint1_6FD824;
-                        outAng = pCar->field_50_car_sprite->field_0;
+                        outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 9:
                     case 10:
@@ -465,23 +465,23 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car_BC* pCar, 
                     case 12:
                         y_pos -= kFpPoint1_6FD824;
                         x_pos += kFpPoint04_6FD9B8;
-                        outAng = pCar->field_50_car_sprite->field_0 + kAng90_6FD854;
+                        outAng = pCar->field_50_car_sprite->field_0_rotation + kAng90_6FD854;
                         break;
                     case 99:
                         x_pos -= kFpPoint1_6FD824;
-                        outAng = pCar->field_50_car_sprite->field_0;
+                        outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                 }
             }
             if (bUnk)
             {
-                outAng = pCar->field_50_car_sprite->field_0 - kAng90_6FD854;
+                outAng = pCar->field_50_car_sprite->field_0_rotation - kAng90_6FD854;
             }
             break;
         default:
             break;
     }
-    Ang16::RotateVector_41FC90(x_pos, y_pos, pCar->field_50_car_sprite->field_0);
+    Ang16::RotateVector_41FC90(x_pos, y_pos, pCar->field_50_car_sprite->field_0_rotation);
     outX = pCar->field_50_car_sprite->field_14_xy.x + x_pos;
     outY = pCar->field_50_car_sprite->field_14_xy.y + y_pos;
 }
@@ -961,7 +961,7 @@ bool Ped::CloseDoorIfCarApproaching_45BD20(Car_BC* pCar)
     Car_Door_10* Door = field_154_target_to_enter->GetDoor(field_24C_target_car_door);
     Door->Close_439EA0();
 
-    field_168_game_object->HandleGenericImpact_553E00(kAng45_6784FC + pCar->field_50_car_sprite->field_0,
+    field_168_game_object->HandleGenericImpact_553E00(kAng45_6784FC + pCar->field_50_car_sprite->field_0_rotation,
                                                       kFpPoint05_678634 + kFpPoint1_678480,
                                                       kFpZero_678660,
                                                       1);
@@ -1462,7 +1462,7 @@ char_type Ped::AllocCharB4_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     Sprite* pSprite = pSprite = pChar->field_80_sprite_ptr;
     pSprite->set_xyz_lazy_420600(xpos, ypos, zpos);
 
-    pChar->field_80_sprite_ptr->AllocInternal_59F950(gDummyW_678530, gDummyW_678530, gDummyZ_67841C);
+    pChar->field_80_sprite_ptr->AllocCollisionShape_59F950(gDummyW_678530, gDummyW_678530, gDummyZ_67841C);
 
     gSpriteGrid_1_679208->AddToRegionBuckets_477B20(pChar->field_80_sprite_ptr);
     field_168_game_object->set_pPed_4338E0(this);
@@ -1511,7 +1511,7 @@ Ang16 Ped::GetRotation()
 
     if (field_16C_car != NULL)
     {
-        return field_16C_car->field_50_car_sprite->field_0;
+        return field_16C_car->field_50_car_sprite->field_0_rotation;
     }
 
     return gDummyPedAng_6787A8;
@@ -1807,7 +1807,7 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
                 }
             }
 
-            if (((BitSet32*)&pTargetPed->field_21C_bf)->check_bit(ped_bit_index::attacking_11))
+            if (pTargetPed->GetAttacking_433CA0())
             {
                 if (!pTargetPed->IsActivePlayerPed_45EDC0() && pTargetPed->field_240_occupation != ped_ocupation_enum::empty)
                 {
@@ -1914,7 +1914,7 @@ block_466022:
             goto ret_false;
         }
 
-        if (!((((BitSet32*)&pTargetPed->field_21C_bf)->check_bit(ped_bit_index::attacking_11)) && pTargetPed->field_170_selected_weapon != 0 &&
+        if (!((pTargetPed->GetAttacking_433CA0()) && pTargetPed->field_170_selected_weapon != 0 &&
               pTargetPed->field_170_selected_weapon->sub_5DCEF0()))
         {
             if (pTargetPed->field_20A_wanted_points < 0x258 && this->field_144_attacker != pTargetPed && pTargetPed->field_26A_recent_crime_timer <= 0u)
@@ -1975,7 +1975,7 @@ block_4660FB:
         goto ret_true;
     }
 
-    if (((BitSet32*)&pTargetPed->field_21C_bf)->check_bit(ped_bit_index::attacking_11))
+    if (pTargetPed->GetAttacking_433CA0())
     {
         goto ret_true;
     }
@@ -2009,7 +2009,7 @@ block_46613E:
         return 1;
     }
 
-    if (((BitSet32*)&pTargetPed->field_21C_bf)->check_bit(ped_bit_index::attacking_11))
+    if (pTargetPed->GetAttacking_433CA0())
     {
         goto ret_true;
     }
@@ -2148,7 +2148,7 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pTargetPed)
 
         case objects::maybe_bullet_on_fire_198:
             Ped::PutOutFire();
-            angle = ComputeShortestAngleDelta_4056C0(field_168_game_object->field_80_sprite_ptr->field_0, pTargetPed->field_4->field_0);
+            angle = ComputeShortestAngleDelta_4056C0(field_168_game_object->field_80_sprite_ptr->field_0_rotation, pTargetPed->field_4->field_0_rotation);
             if (angle > kAng90_6784B0)
             {
                 field_168_game_object->SetCharState_433A60(33); // TODO: include and use Char_B4_state enum
@@ -2179,7 +2179,7 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pTargetPed)
             {
                 Ped::TakeDamage(5 * GetDamageMultiplier_45CF90(pBlamedPed));
             }
-            gParticle_8_6FD5E8->EmitBloodBurst_53E450(field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, pTargetPed->field_4->field_0);
+            gParticle_8_6FD5E8->EmitBloodBurst_53E450(field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, pTargetPed->field_4->field_0_rotation);
             break;
 
         case objects::rocket_bullet_128:
@@ -2189,7 +2189,7 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pTargetPed)
         case objects::machine_gun_bullet_254:
         case objects::pistol_bullet_265:
         {
-            angle = ComputeShortestAngleDelta_4056C0(field_168_game_object->field_80_sprite_ptr->field_0, pTargetPed->field_4->field_0);
+            angle = ComputeShortestAngleDelta_4056C0(field_168_game_object->field_80_sprite_ptr->field_0_rotation, pTargetPed->field_4->field_0_rotation);
             if (angle > kAng90_6784B0)
             {
                 field_168_game_object->SetCharState_433A60(33); // TODO: include and use Char_B4_state enum
@@ -2230,7 +2230,7 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pTargetPed)
                 // Non-player ped
                 Ped::TakeDamage(25 * damage_amplifier * GetDamageMultiplier_45CF90(pBlamedPed));
             }
-            gParticle_8_6FD5E8->EmitBloodBurst_53E450(field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, pTargetPed->field_4->field_0);
+            gParticle_8_6FD5E8->EmitBloodBurst_53E450(field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, pTargetPed->field_4->field_0_rotation);
             break;
         }
 
@@ -6715,7 +6715,7 @@ Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
 
     if (pNear)
     {
-        switch (pNear->get_type_416B40())
+        switch (pNear->GetType_416B40())
         {
             case sprite_types_enum::car_2:
                 return pNear->AsCar_40FEB0()->get_driver_4118B0();
@@ -8844,7 +8844,7 @@ void Ped::FollowCarOnFootWithOffset_46A350()
     }
     else
     {
-        Ang16 ang = field_150_target_objective_car->field_50_car_sprite->field_0;
+        Ang16 ang = field_150_target_objective_car->field_50_car_sprite->field_0_rotation;
         ang -= field_132_follow_car_offset_angle;
         Fix16 sin_v = Ang16::sine_40F500(ang) * this->field_1FC_follow_car_offset_distance;
         Fix16 cos_v = Ang16::cosine_40F520(ang) * this->field_1FC_follow_car_offset_distance;
@@ -8887,7 +8887,7 @@ MATCH_FUNC(0x46a530)
 void Ped::FireAtObject_46A530()
 {
     AttachedSprite_18* pSprite_148 = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(148);
-    Sprite* pSprite_18 = pSprite_148->field_0;
+    Sprite* pSprite_18 = pSprite_148->field_0_pSprite;
     Fix16 x_v = pSprite_18->field_14_xy.x;
     Fix16 y_v = pSprite_18->field_14_xy.y;
     Ang16 v7;
@@ -8918,7 +8918,7 @@ void Ped::FireAtPlayer_46A5E0()
     Ped* pPlayerPed = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped;
     if (!pPlayerPed->IsInvisibleOnFoot_433DA0())
     {
-        Sprite* pSprite_148 = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(148)->field_0;
+        Sprite* pSprite_148 = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(148)->field_0_pSprite;
         Fix16 x = pSprite_148->field_14_xy.x;
         Fix16 y = pSprite_148->field_14_xy.y;
         Ang16 v6;
@@ -8951,8 +8951,8 @@ void Ped::AimVehicleTurretStateMachine_46A6D0()
         AttachedSprite_18* p18 = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(114);
         field_21C_bf.bUseCarWeapon = true;
 
-        Fix16 x = p18->field_0->field_14_xy.x;
-        Fix16 y = p18->field_0->field_14_xy.y;
+        Fix16 x = p18->field_0_pSprite->field_14_xy.x;
+        Fix16 y = p18->field_0_pSprite->field_14_xy.y;
         Ang16 angle;
         angle = Fix16::atan2_fixed_405320(field_150_target_objective_car->field_50_car_sprite->field_14_xy.y - y,
                                           field_150_target_objective_car->field_50_car_sprite->field_14_xy.x - x);
@@ -9537,7 +9537,7 @@ void Ped::MeleeAttackStateMachine_46B670()
         if (field_27C_ped_state_2 == ped_state_2::Unknown_9)
         {
             Sprite* pNearestSprt = gSpriteGrid_1_679208->FindNearestSpriteOfType_477E60(field_168_game_object->field_80_sprite_ptr, 2);
-            if (pNearestSprt && pNearestSprt->get_type_416B40() == sprite_types_enum::car_2)
+            if (pNearestSprt && pNearestSprt->GetType_416B40() == sprite_types_enum::car_2)
             {
                 field_278_ped_state_1 = ped_state_1::immobilized_8;
                 field_27C_ped_state_2 = ped_state_2::Unknown_17;
@@ -9812,7 +9812,7 @@ void Ped::EnterCarStateMachine_46BDC0()
         if (this->field_27C_ped_state_2 == ped_state_2::ped2_entering_a_car_6)
         {
             Sprite* pCarSprite = this->field_154_target_to_enter->field_50_car_sprite;
-            Ang16 ang_to_use = (kAng45_6784FC + pCarSprite->field_0);
+            Ang16 ang_to_use = (kAng45_6784FC + pCarSprite->field_0_rotation);
             field_168_game_object->HandleGenericImpact_553E00(ang_to_use, kFpPoint05_678634, kFpZero_678660, 1);
         }
         ChangeNextPedState1_45C500(ped_state_1::walking_0);
@@ -9830,8 +9830,8 @@ void Ped::EnterCarStateMachine_46BDC0()
 
     if (field_154_target_to_enter->GetVelocity_43A4C0() < vel_to_check &&
         (gDistanceToTarget_678750 < kFpFiveThirtySeconds_678778 || this->field_27C_ped_state_2 == ped_state_2::ped2_entering_a_car_6) &&
-        field_168_game_object->field_80_sprite_ptr->field_C_sprite_4c_ptr->field_30_boundingBox.OverlapsZ_433560(
-            &field_154_target_to_enter->field_50_car_sprite->field_C_sprite_4c_ptr->field_30_boundingBox))
+        field_168_game_object->field_80_sprite_ptr->field_C_pCollisionShape->field_30_boundingBox.OverlapsZ_433560(
+            &field_154_target_to_enter->field_50_car_sprite->field_C_pCollisionShape->field_30_boundingBox))
     {
         this->field_21C_bf.bLeftVehicle = true;
         field_168_game_object->SetMaxSpeedByRef_433920(kFpZero_678438);
@@ -9857,8 +9857,8 @@ void Ped::EnterCarStateMachine_46BDC0()
             {
                 UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, ped_move_target_type::move_target_pos_2);
             }
-            else if (!field_168_game_object->field_80_sprite_ptr->field_C_sprite_4c_ptr->field_30_boundingBox.OverlapsZ_433560(
-                         &field_154_target_to_enter->field_50_car_sprite->field_C_sprite_4c_ptr->field_30_boundingBox))
+            else if (!field_168_game_object->field_80_sprite_ptr->field_C_pCollisionShape->field_30_boundingBox.OverlapsZ_433560(
+                         &field_154_target_to_enter->field_50_car_sprite->field_C_pCollisionShape->field_30_boundingBox))
             {
                 UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, ped_move_target_type::move_target_pos_2);
             }
@@ -9997,8 +9997,8 @@ void Ped::ExitCarStateMachine_46C250()
 
             this->field_168_game_object->SetMaxSpeedByRef_433920(kFpZero_678438);
             field_168_game_object->DoJump_5454D0();
-            field_168_game_object->field_80_sprite_ptr->field_0 = field_154_target_to_enter->field_50_car_sprite->field_0;
-            this->field_168_game_object->set_rotation_433A30(this->field_154_target_to_enter->field_50_car_sprite->field_0);
+            field_168_game_object->field_80_sprite_ptr->field_0_rotation = field_154_target_to_enter->field_50_car_sprite->field_0_rotation;
+            this->field_168_game_object->set_rotation_433A30(this->field_154_target_to_enter->field_50_car_sprite->field_0_rotation);
             this->field_16C_car = 0;
             this->field_226_internal_objective_status = 1;
             field_168_game_object->Set_F84_433900(field_154_target_to_enter);
@@ -10054,8 +10054,8 @@ void Ped::ExitCarStateMachine_46C250()
                 ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
                 ChangeNextPedState1_45C500(ped_state_1::walking_0);
                 field_168_game_object->DoJump_5454D0();
-                this->field_168_game_object->field_80_sprite_ptr->field_0 = this->field_154_target_to_enter->field_50_car_sprite->field_0;
-                this->field_168_game_object->set_rotation_433A30(this->field_154_target_to_enter->field_50_car_sprite->field_0);
+                this->field_168_game_object->field_80_sprite_ptr->field_0_rotation = this->field_154_target_to_enter->field_50_car_sprite->field_0_rotation;
+                this->field_168_game_object->set_rotation_433A30(this->field_154_target_to_enter->field_50_car_sprite->field_0_rotation);
                 this->field_168_game_object->field_5C = 10;
                 this->field_16C_car = 0;
                 field_168_game_object->Set_F84_433900(field_154_target_to_enter);
@@ -11334,7 +11334,7 @@ void Ped::ManageWeapon_46F390()
     {
         if (field_168_game_object)
         {
-            field_12E_aim_angle = field_168_game_object->field_80_sprite_ptr->field_0;
+            field_12E_aim_angle = field_168_game_object->field_80_sprite_ptr->field_0_rotation;
         }
     }
     if (field_21C_bf.bAttacking == true)
@@ -11952,8 +11952,8 @@ void Ped::AimRoofGun_470050()
         pHit = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(248);
     }
 
-    Fix16 x = pHit->field_0->field_14_xy.x;
-    Fix16 y = pHit->field_0->field_14_xy.y;
+    Fix16 x = pHit->field_0_pSprite->field_14_xy.x;
+    Fix16 y = pHit->field_0_pSprite->field_14_xy.y;
     Ped* objective_target_ped = this->field_148_objective_target_ped;
     Ang16 tan_v;
     tan_v = Fix16::atan2_fixed_405320(objective_target_ped->get_cam_y() - y, objective_target_ped->get_cam_x() - x);
@@ -12008,7 +12008,7 @@ bool Ped::IsNearestSpriteACar_4701D0()
     Sprite* pSprite = gSpriteGrid_1_679208->FindNearestSpriteOfType_477E60(this->field_168_game_object->field_80_sprite_ptr, 0);
     if (pSprite)
     {
-        return (pSprite->get_type_416B40() != sprite_types_enum::car_2) ? false : true;
+        return (pSprite->GetType_416B40() != sprite_types_enum::car_2) ? false : true;
     }
     return false;
 }
