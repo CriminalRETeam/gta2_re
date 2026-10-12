@@ -229,6 +229,6 @@ X87_C2=sinklog X87_OUT=/tmp/sk Scripts/x87_sched/sched.sh -l Source/Explosion_30
 ```
 
 Consequence for register-only near misses: with this pass, a block's place in codegen order follows from its place
-in the final layout (no later pass moves these blocks, dupB aside). When the layout already matches but the
-round-robin rotation doesn't, the difference is the number of picks, not the block order (`docs/match_attempts.md`,
-`ExplosionPool_7A8::FreeLowestPriority_543690`).
+in the final layout, except for the blocks dupB moves. When the layout already matches but the round-robin rotation
+doesn't, the difference is the number of picks (`ExplosionPool_7A8::FreeLowestPriority_543690`), or the codegen
+place of a block dupB moves (`CarDoorAlignmentSolver_545AF0`; both in `docs/match_attempts.md`).

@@ -93,6 +93,7 @@ callees through the existing pairs and compares them with the calls of every unp
 | `Particle_4C::PoolUpdate` 0x53D260 | 0x490760 | 25/28 |
 | `Particle_4C::UpdateObjectBeamLink_state_38_538AC0` | 0x48F230 | 12/24 |
 | `Particle_8::EmitElectricArcParticle` 0x540320 | 0x48DDC0 | 9/18 |
+| `CarDoorAlignmentSolver_545AF0` | 0x493940 | 2/9 (found through its callers: 21 calls from the paired 10.5 callers) |
 
 Matching the source against 9.6f first settles its shape fast (VC7 compiles in about 1 s): for
 `FindBestTargetPed_466BF0`, `Fix16 dz; dz = Abs(...); if (dz >= kFpOne) return 0;` (9.6f calls

@@ -2843,6 +2843,34 @@ Side effects that confirm it: the then-arm keeps `mov %al,(%ecx)` (field_50 know
 it no longer cross-jumps into the non-slope copy, and the two `bAirborne = 1` copies merge, since J now ends
 in a `jmp`. When a block is laid out "too late" for the DFS, look for a threaded flag before layout tricks.
 
+### What follows a switch decides which case keeps the merged tail (`CarDoorAlignmentSolver_545AF0`)
+
+When a switch ends an arm that closes with a `jmp` over an `else`, its end label holds only that `jmp`, and codegen
+retargets the case `break` jumps through it in source order. Cross-jumping then takes the last case as the target,
+so cases 6/7 kept the merged `add` and cases 0..4 stayed separate (`sub mem,%esi`). A statement between the switch and
+the `jmp` (a flag store the later threading removes) keeps the jumps in creation order: case 0 heads the list and
+cases 1, 3, 4 jump into case 0's `mov K,%eax; sub %eax,%esi`. When the arm falls through instead (no `else`), the bare
+switch gives case 0 and the same flag store gives case 7. `patch_c2.py --rank <line>:0` on the case 0 jump line shows
+the effect before searching for the source change.
+
+### A round-robin rotation can come from block order even when the layout matches (`CarDoorAlignmentSolver_545AF0`)
+
+Codegen order is the RPO taken before the flag tests are threaded, and dupB later moves blocks, so two sources can
+give the same final layout with blocks generated in a different order. A block whose first pick is forced (eax busy)
+generates the same registers from two cursor positions, and moving it shifts the rotation of the blocks after it.
+There, sw3 written as `else if (!bUnk)` after the `if (bFront)` switch, rather than in the `else` of `if (bUnk)`, moves
+it ahead of the two angle blocks (4 picks each), which fixed an eax/edx swap in the next switch; dupB moves the angle
+blocks to the same place either way. When an extra pick can't be found in the blocks just before the rotated one, look
+for blocks that dupB moves.
+
+### `Ang16` operators, not explicit `Normalized_406C20()` calls, for angle sums
+
+A function that mixes inline normalizes with calls to `Normalize_406C20` usually wrote every site as
+`a + b` / `a - b` (`Ang16::operator+`/`-`, 9.6f 0x40E5A0/0x40E5D0). The operator is inlined everywhere, and its
+nested `Normalize()` only fits the nested budget (`budget / sites_left`) at the later sites, so the early ones call
+the out-of-line copy (`CarDoorAlignmentSolver_545AF0`: 332 -> 60). Writing the out-of-line ones as
+`Ang16(x).Normalized_406C20()` gets the calls but not the `s16 value` locals or the budget of the others.
+
 ### Three threaded flags and a trailing `if` move the exit block (`Ped::UpdateMovementTowardsTarget_4672E0`)
 
 Matched by replacing all five gotos with structure VC6 threads away (206 -> 0, with the fixes below):
