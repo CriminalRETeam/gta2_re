@@ -153,24 +153,24 @@ class Weapon_30
         return field_1C_idx;
     }
     
-    void Set_F4_433810(s32 value)
+    void SetTargetHit_433810(s32 value)
     {
-        field_4 = value;
+        field_4_bTargetHit = value;
     }
 
-    s32 Get_F4_41CC70()
+    s32 IsTargetHit_41CC70()
     {
-        return field_4;
+        return field_4_bTargetHit;
     }
 
     u16 field_0_ammo;
     u8 field_2_reload_speed;
-    s8 field_3;
-    s32 field_4;
-    s32 field_8;
-    s32 field_C;
-    s16 field_10;
-    s16 field_12;
+    s8 field_3_unused;
+    s32 field_4_bTargetHit;
+    s32 field_8_unused;
+    s32 field_C_unused;
+    s16 field_10_unused;
+    s16 field_12_unused;
     Car_BC* field_14_car;
     Weapon_30* mpNext;
     s32 field_1C_idx; // weapon_type

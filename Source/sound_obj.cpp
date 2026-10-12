@@ -6594,7 +6594,7 @@ void sound_obj::ProcessType7_Weapon_42A500(s32 idx)
     {
         if (pWeapon)
         {
-            if (!pWeapon->Get_F4_41CC70()) // bSuppressSound ?
+            if (!pWeapon->IsTargetHit_41CC70()) // bSuppressSound ?
             {
                 switch (pWeapon->GetWeaponType_41CC90())
                 {

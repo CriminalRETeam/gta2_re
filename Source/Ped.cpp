@@ -2058,14 +2058,14 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pTargetPed)
                     {
                         if (pBlamedPed->field_174_pWeapon)
                         {
-                            pBlamedPed->field_174_pWeapon->Set_F4_433810(0);
+                            pBlamedPed->field_174_pWeapon->SetTargetHit_433810(0);
                         }
                     }
                     else
                     {
                         if (pBlamedPed->field_170_selected_weapon)
                         {
-                            pBlamedPed->field_170_selected_weapon->Set_F4_433810(0);
+                            pBlamedPed->field_170_selected_weapon->SetTargetHit_433810(0);
                         }
                     }
 
@@ -2088,14 +2088,14 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pTargetPed)
                     {
                         if (pBlamedPed->field_174_pWeapon)
                         {
-                            pBlamedPed->field_174_pWeapon->Set_F4_433810(0);
+                            pBlamedPed->field_174_pWeapon->SetTargetHit_433810(0);
                         }
                     }
                     else
                     {
                         if (pBlamedPed->field_170_selected_weapon)
                         {
-                            pBlamedPed->field_170_selected_weapon->Set_F4_433810(0);
+                            pBlamedPed->field_170_selected_weapon->SetTargetHit_433810(0);
                         }
                     }
                     pBlamedPed->field_15C_player->field_2D4_scores.UpdateAccuracyCount_5934F0(accuracy_event::hit_other_ped_3, pTargetPed->field_18_model, this);
@@ -2119,14 +2119,14 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pTargetPed)
                     {
                         if (pBlamedPed->field_174_pWeapon)
                         {
-                            pBlamedPed->field_174_pWeapon->Set_F4_433810(1);
+                            pBlamedPed->field_174_pWeapon->SetTargetHit_433810(1);
                         }
                     }
                     else
                     {
                         if (pBlamedPed->field_170_selected_weapon)
                         {
-                            pBlamedPed->field_170_selected_weapon->Set_F4_433810(1);
+                            pBlamedPed->field_170_selected_weapon->SetTargetHit_433810(1);
                         }
                     }
                     if (field_144_attacker != pBlamedPed)
@@ -4024,7 +4024,7 @@ char_type Ped::StateMachineTick_4626B0()
 
             if (this->field_170_selected_weapon)
             {
-                this->field_170_selected_weapon->Set_F4_433810(0);
+                this->field_170_selected_weapon->SetTargetHit_433810(0);
             }
 
             this->field_288_threat_search = threat_search_enum::no_threats_0;
@@ -10704,7 +10704,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
     {
         if (field_240_occupation == ped_ocupation_enum::stand_still_bloke) // line 294
         {
-            pWeapon->Set_F4_433810(0);
+            pWeapon->SetTargetHit_433810(0);
         }
 
         if (field_266_path_fail_count < 4 && gDistanceToTarget_678750 < v6 && abs_sub_less_than_epislon_45AE40(field_1AC_cam.z, zpos) ||
@@ -10713,7 +10713,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
             // correct
             if (pWeapon) // correct
             {
-                if (pWeapon->Get_F4_41CC70() == 1) // correct
+                if (pWeapon->IsTargetHit_41CC70() == 1) // correct
                 {
                     // weapon->field_4 == 1
                     if (gDistanceToTarget_678750 < v5 && !field_168_game_object->IsCollidingWithASprite_433AA0())
@@ -11464,7 +11464,7 @@ void Ped::ForceWeapon_46F600(s32 weapon_kind)
     {
         Weapon_30* pWeapon = gWeapon_8_707018->allocate_5E3C10(weapon_kind, this, 99u);
         this->field_170_selected_weapon = pWeapon;
-        pWeapon->Set_F4_433810(1);
+        pWeapon->SetTargetHit_433810(1);
         if (field_170_selected_weapon->IsExplosiveWeapon_5E3BD0())
         {
             GiveWeapon_46F650(weapon_type::pistol);
@@ -11478,7 +11478,7 @@ void Ped::GiveWeapon_46F650(s32 weapon_kind)
     RemoveSecondaryWeapon_462550();
     Weapon_30* pWeapon = gWeapon_8_707018->allocate_5E3C10(weapon_kind, this, 99u);
     this->field_174_pWeapon = pWeapon;
-    pWeapon->Set_F4_433810(1);
+    pWeapon->SetTargetHit_433810(1);
 }
 
 MATCH_FUNC(0x46f680)
@@ -11813,11 +11813,11 @@ void Ped::HandleShootingAtCar_46FC90(Car_BC* pCar, s32 model)
 
         if (pCar == field_154_target_to_enter)
         {
-            pWeapon->Set_F4_433810(0);
+            pWeapon->SetTargetHit_433810(0);
         }
         else if (field_14C_internal_target_ped && field_14C_internal_target_ped->field_16C_car && field_14C_internal_target_ped->field_16C_car == pCar)
         {
-            pWeapon->Set_F4_433810(0);
+            pWeapon->SetTargetHit_433810(0);
         }
         else
         {
@@ -11825,18 +11825,18 @@ void Ped::HandleShootingAtCar_46FC90(Car_BC* pCar, s32 model)
             max_range = kFpHalf_678790 + kFpOne_678798;
             if (dist_to_cam < max_range && pCar->GetVelocity_43A4C0() < kFpPoint02_678630)
             {
-                pWeapon->Set_F4_433810(1);
+                pWeapon->SetTargetHit_433810(1);
                 return;
             }
 
             if (!pWeapon->IsExplosiveWeapon_5E3BD0())
             {
-                pWeapon->Set_F4_433810(0);
+                pWeapon->SetTargetHit_433810(0);
             }
 
             if (field_14C_internal_target_ped && field_14C_internal_target_ped->get_car_416B60() && pCar == field_14C_internal_target_ped->get_car_416B60())
             {
-                pWeapon->Set_F4_433810(0);
+                pWeapon->SetTargetHit_433810(0);
             }
         }
     }
@@ -11862,15 +11862,15 @@ void Ped::ProcessWeaponHitResponse_46FE20(Object_2C* pObj)
 
         if (pObj == field_1A4_internal_target_object)
         {
-            pWeapon->Set_F4_433810(0);
+            pWeapon->SetTargetHit_433810(0);
         }
         else if (dist < kFpTwo_678658)
         {
-            pWeapon->Set_F4_433810(1);
+            pWeapon->SetTargetHit_433810(1);
         }
         else if (!pWeapon->IsExplosiveWeapon_5E3BD0())
         {
-            pWeapon->Set_F4_433810(0);
+            pWeapon->SetTargetHit_433810(0);
         }
     }
 }
@@ -11899,11 +11899,11 @@ void Ped::NotifyWeaponHit_46FF00(Fix16 xpos, Fix16 ypos, s32 model)
         {
             if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, xpos, ypos) < kFpTwo_678658)
             {
-                pWeapon->Set_F4_433810(1);
+                pWeapon->SetTargetHit_433810(1);
             }
             else
             {
-                pWeapon->Set_F4_433810(0);
+                pWeapon->SetTargetHit_433810(0);
             }
         }
     }
@@ -11922,7 +11922,7 @@ void Ped::HandleWeaponFireEnd_46FFF0(s32 model)
         Weapon_30* pWeapon = this->field_174_pWeapon;
         if (pWeapon)
         {
-            pWeapon->Set_F4_433810(0);
+            pWeapon->SetTargetHit_433810(0);
         }
     }
     else
@@ -11930,7 +11930,7 @@ void Ped::HandleWeaponFireEnd_46FFF0(s32 model)
         Weapon_30* pSelectedWeapon = this->field_170_selected_weapon;
         if (pSelectedWeapon)
         {
-            pSelectedWeapon->Set_F4_433810(0);
+            pSelectedWeapon->SetTargetHit_433810(0);
         }
     }
 }

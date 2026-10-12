@@ -1970,7 +1970,7 @@ Found by tracing C2.DLL (see `Scripts/inline_budget/`); the instrumented compile
   fail (tank_main_gun, army_gun_jeep, Crane_15C::ComputeHookPolar lose their EH stores; others the
   budget); defined at the end of each TU, 5 fail, all by the inline budget alone (`inl.sh`: the extra
   81-unit `CALL(udt)` site flips `Fix16::operator+/-`, or `RotateByAngle_40F6B0` in Trailer 407CE0), and
-  fire_truck_flamethrower only because of its compensating `Get_F4_41CC70()`. So in smg_5DDD20,
+  fire_truck_flamethrower only because of its compensating `IsTargetHit_41CC70()`. So in smg_5DDD20,
   SpawnSkidSegment_55D200, SpawnCabAndTrailerHelper_408370 and Trailer::UpdateTrailerAlignment_407CE0 the
   add/sub costs no budget: an ordinary named function, as the repo has it. The likeliest original: a real
   `Fix16_Point.cpp` with named non-inline methods (10.5 0x40AC50 add, 0x40AC80 sub, 0x40ACB0 negate,
@@ -2091,7 +2091,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   the `movb $3/$2` EH stores around their `Fix16_Point` add. In one TU only the first caller of the inline
   `operator+` can keep them (see the nothrow rule above), so one of the pair calls the `EXPORT` copy
   `Add_40AC50` and the other the inline operator. That also moves a site, which the free 9.6f getters
-  `Get_F4_41CC70()` (for `field_4`) and `Car_BC::get_driver_4118B0()` put back: with them the plain
+  `IsTargetHit_41CC70()` (for `field_4`) and `Car_BC::get_driver_4118B0()` put back: with them the plain
   `RotateByAngle_40F6B0` gives the original's out-of-line `Negate_4086A0` in the second rotation, and the
   `*_OOL_40F6B0` variants aren't needed.
 - **A getter is not a field read for register allocation.** `get_driver_4118B0()` sits before every budgeted
@@ -2142,7 +2142,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   branch calls 9.6f's `Car_BC::is_f78_0x400_425770()` wrapper (one free site after both calls) and
   passes `atan2_fixed_405320` its differences as temporaries like 9.6f (named `dx`/`dy` locals were 5
   size units too many: the ped site's nested budget was 104 where its y difference needs < 104).
-  `Ped::HandleShootingAtCar_46FC90` needed the 9.6f `Weapon_30::Set_F4_433810` and
+  `Ped::HandleShootingAtCar_46FC90` needed the 9.6f `Weapon_30::SetTargetHit_433810` and
   `Ped::get_car_416B60` calls after it (free sites), `Ped::TaxiCustomer_AI_460820` has
   `case no_obj_0` first in its switch (the later cases' sites leave the y difference and Abs out of
   line; the code layout doesn't change).

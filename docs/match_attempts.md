@@ -1024,7 +1024,7 @@ Matched (116 -> 0) with two changes:
     of the `dist << 14` pair and keeps ebx.
   - `field_198_hit_target_ped->field_1AC_cam.x` instead of `get_cam_x()` in `delta` removes one live range
     from the first block (N 23 -> 22), `angle` drops to 36, ties with the pair and loses (tie-break): 28.
-  - `Set_F4_433810(1)` in both switch cases and `SetAttacker_433BF0` after the loop fix the round-robin
+  - `SetTargetHit_433810(1)` in both switch cases and `SetAttacker_433BF0` after the loop fix the round-robin
     rotation in the i++, car_2 and post-loop blocks.
 
 ## Weapon_30::sub_5DFB60 (WIP, was STUB)
@@ -3468,10 +3468,10 @@ All 96 WIPs scored, plain and `--structure`; the listed 9.6f partners of the big
 `Draw_4F6A20`, 53BAC0, 54B8F0) add no missing inlines: their unpaired 9.6f callees are the 10.5 MapRenderer
 helpers under other names, or plain Fix16/Ang16 operators.
 - **`Weapon_30::fire_truck_gun_5E0E70` (10 -> 0, MATCH).** The flamethrower's shape with the plain
-  `RotateByAngle_40F6B0` and `operator+` (171), then `Get_F4_41CC70()` for `field_4` (30: the second
+  `RotateByAngle_40F6B0` and `operator+` (171), then `IsTargetHit_41CC70()` for `field_4` (30: the second
   rotation's negate goes out of line), a `pTurret` local (16), `get_driver_4118B0()` (0 when placed before
   the flamethrower; the permuter found the getter). In source order the flamethrower's inline `operator+`
-  had made the add nothrow, so the flamethrower now calls `Add_40AC50`, with `Get_F4_41CC70()` for its own
+  had made the add nothrow, so the flamethrower now calls `Add_40AC50`, with `IsTargetHit_41CC70()` for its own
   budget split. See matching_quirks.md, "Two fire truck guns, one opaque add".
 
 ### Markers, function order and global initialisers (Oct 7)
