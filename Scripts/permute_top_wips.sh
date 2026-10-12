@@ -1,8 +1,9 @@
 #!/bin/bash
-# Ranks every WIP_FUNC by its unmodified permuter score, then runs every pass and every pair of
-# passes (exhaustive, "a+b" = a, b and a-then-b) on the best N, one after the other.
+# Ranks every WIP_FUNC by its unmodified permuter score, then runs every pass (exhaustive) on the
+# best N, one after the other. --pairs adds every ordered pair of passes ("a+b" = a, b and a-then-b):
+# that is millions of candidates per function at ~130 compiles/min, so only use it with --max-candidates.
 #
-#   Scripts/permute_top_wips.sh [-n 3] [-j N] [-o /some/dir] [--depth 1] [--max-candidates N]
+#   Scripts/permute_top_wips.sh [-n 3] [-j N] [-o /some/dir] [--depth 1] [--max-candidates N] [--pairs]
 #   Scripts/permute_top_wips.sh -f sub_4E6660 [-f Class::Func] [-f 4d6000] ...
 #
 # -f NAME permutes that WIP_FUNC instead of the top N (no ranking). NAME is the function name
@@ -17,10 +18,11 @@
 # Base scores are cached in <out>/base_scores.json; delete it to re-rank.
 set -e
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-N=3; JOBS=$(nproc); OUT="$ROOT/permuter_top_wips"; DEPTH=1; MAXC=0; ONLY=""
+N=3; JOBS=$(nproc); OUT="$ROOT/permuter_top_wips"; DEPTH=1; MAXC=0; ONLY=""; PAIRS=""
 while [ $# -gt 0 ]; do
     case "$1" in
         -f) ONLY="$ONLY$2"$'\n'; shift 2 ;;
+        --pairs) PAIRS=1; shift ;;
         -n) N=$2; shift 2 ;;
         -j) JOBS=$2; shift 2 ;;
         -o) OUT=$2; shift 2 ;;
@@ -67,14 +69,16 @@ with open(os.path.join(out, "top.txt"), "w") as fh:
 EOF
 echo "functions to permute:"; cat "$OUT/top.txt"
 
-# 2. every pass alone and every pair of passes
+# 2. every pass on its own (and, with --pairs, every ordered pair "a+b": millions of candidates)
 PASSES=$("$BIN" --list-passes | grep -E '^  [a-z_0-9]+$' | tr -d ' ')
 LIST=""
 for a in $PASSES; do
     LIST="$LIST,$a"
-    for b in $PASSES; do
-        [ "$a" != "$b" ] && LIST="$LIST,$a+$b"
-    done
+    if [ -n "$PAIRS" ]; then
+        for b in $PASSES; do
+            [ "$a" != "$b" ] && LIST="$LIST,$a+$b"
+        done
+    fi
 done
 LIST="${LIST#,}"
 
