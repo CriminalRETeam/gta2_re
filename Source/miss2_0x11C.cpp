@@ -575,12 +575,10 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_P
 }
 
 MATCH_FUNC(0x504110)
-Ped* miss2_0x11C::SetCharObjective_504110(SCR_CHAR_OBJECTIVE* pCmd, SCR_POINTER* pPointer)
+void miss2_0x11C::SetCharObjective_504110(SCR_CHAR_OBJECTIVE* pCmd, SCR_POINTER* pPointer)
 {
-    (pPointer->field_8_char)->SetObjective(pCmd->field_A_objective);
-    Ped* pPed = pPointer->field_8_char;
-    pPed->field_21C_bf.bScheduledForRemoval = false;
-    return pPed;
+    pPointer->field_8_char->SetObjective(pCmd->field_A_objective);
+    pPointer->field_8_char->field_21C_bf.bScheduledForRemoval = false;
 }
 
 MATCH_FUNC(0x504150)
@@ -5944,7 +5942,6 @@ void miss2_0x11C::SCRCMD_WEAP_HIT_CAR_50EBD0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-// TODO: https://decomp.me/scratch/NMvtk trying to match this using CompilerBitField32 instead of BitSet32
 MATCH_FUNC(0x50ece0)
 void miss2_0x11C::SCRCMD_IS_CHAR_ON_FIRE_50ECE0()
 {
