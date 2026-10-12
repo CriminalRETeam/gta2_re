@@ -108,12 +108,12 @@ bool EmergencyCrew_30::IsLeaderAlive_5CBC60()
 }
 
 MATCH_FUNC(0x5cbc90)
-char_type EmergencyCrew_30::ReplaceLeaderIfNeeded_5CBC90()
+bool EmergencyCrew_30::ReplaceLeaderIfNeeded_5CBC90()
 {
     PedGroup* pGroup = this->field_8_group;
     if (!pGroup)
     {
-        return 0;
+        return false;
     }
 
     u8 idx = 0;
@@ -139,12 +139,12 @@ char_type EmergencyCrew_30::ReplaceLeaderIfNeeded_5CBC90()
                 pPedAtIdx->set_occupation_403970(occupation);
                 pPedAtIdx->SetObjective(objectives_enum::objective_28, 9999);
             }
-            return 1;
+            return true;
         }
         idx++;
         pPedAtIdx = pGroup->field_4_ped_list[idx];
     }
-    return 0;
+    return false;
 }
 
 // https://decomp.me/scratch/sUPg8

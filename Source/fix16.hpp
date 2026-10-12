@@ -421,7 +421,7 @@ class Fix16
     }
 
     // https://decomp.me/scratch/MqQPJ
-    inline static Fix16 __stdcall MaxAbsDistance_42A6B0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
+    inline static Fix16 __stdcall MaxAbsDistance_42A6B0(const Fix16& x1, const Fix16& y1, const Fix16& x2, const Fix16& y2)
     {
         Fix16 diff_x;
         diff_x = x2 - x1;

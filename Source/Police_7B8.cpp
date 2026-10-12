@@ -94,13 +94,13 @@ bool Police_7B8::TryReplaceCrewLeaderOnDeath_56F4D0(Ped* pPed)
         {
             if (pCrew->field_10_subObj->field_4_ped == pPed)
             {
-                char_type bLeaderReplaced = pCrew->field_10_subObj->ReplaceLeaderIfNeeded_5CBC90();
+                bool bLeaderReplaced = pCrew->field_10_subObj->ReplaceLeaderIfNeeded_5CBC90();
                 EmergencyCrew_30* pEmergencyCrew = pCrew->field_10_subObj;
                 if (pCrew->field_10_subObj->field_8_group)
                 {
                     pEmergencyCrew->field_4_ped = pEmergencyCrew->field_8_group->field_2C_ped_leader;
                 }
-                if (bLeaderReplaced != 0)
+                if (bLeaderReplaced)
                 {
                     return true;
                 }

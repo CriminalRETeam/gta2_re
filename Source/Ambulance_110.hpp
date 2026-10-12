@@ -54,7 +54,7 @@ class Ambulance_110
     EXPORT ~Ambulance_110();
     EXPORT void init_4FA310();
     EXPORT bool HandlePedDeath_4FA330(Ped* pDeadPed);
-    EXPORT char_type TryAddPatient_4FA470(Ped* a2);
+    EXPORT bool TryAddPatient_4FA470(Ped* pPed);
     EXPORT Ambulance_20* AllocateTaskSlot_4FA4B0();
     EXPORT void ProcessPatientQueue_4FA500();
     EXPORT void AmbulancesService_4FA790();

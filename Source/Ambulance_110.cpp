@@ -60,7 +60,7 @@ bool Ambulance_110::HandlePedDeath_4FA330(Ped* pDeadPed)
         {
             if (pIter->field_4_paramedics_crew->field_4_ped == pDeadPed) // the dead person is one of the paramedics?
             {
-                char_type v9 = pIter->field_4_paramedics_crew->ReplaceLeaderIfNeeded_5CBC90();
+                bool bLeaderReplaced = pIter->field_4_paramedics_crew->ReplaceLeaderIfNeeded_5CBC90();
                 if (pIter->field_4_paramedics_crew->field_8_group)
                 {
                     pIter->field_4_paramedics_crew->field_4_ped = pIter->field_4_paramedics_crew->field_8_group->field_2C_ped_leader;
@@ -78,7 +78,7 @@ bool Ambulance_110::HandlePedDeath_4FA330(Ped* pDeadPed)
                     pIter->field_C = 0;
                 }
 
-                if (v9 != 0)
+                if (bLeaderReplaced)
                 {
                     return true;
                 }
@@ -116,17 +116,17 @@ bool Ambulance_110::HandlePedDeath_4FA330(Ped* pDeadPed)
 }
 
 MATCH_FUNC(0x4fa470)
-char_type Ambulance_110::TryAddPatient_4FA470(Ped* pPed)
+bool Ambulance_110::TryAddPatient_4FA470(Ped* pPed)
 {
     if (pPed->PedTypeIs_45EDE0(ped_type::player_2) || field_1_f8_idx >= 25)
     {
-        return 0;
+        return false;
     }
 
     field_4_patient_queue.AddPed_471140(pPed);
     field_1_f8_idx++;
 
-    return 1;
+    return true;
 }
 
 EXTERN_GLOBAL(Fix16, dword_6F6FC0);
