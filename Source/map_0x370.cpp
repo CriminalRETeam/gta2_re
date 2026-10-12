@@ -4219,7 +4219,7 @@ s32 Map_0x370::CloneColumnExtendedToZ_4E8220(u32 column_idx, s32 z)
     return local_column_words;
 }
 
-WIP_FUNC(0x4E8370)
+MATCH_FUNC(0x4E8370)
 s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
 {
     s32 offset;
@@ -4232,17 +4232,17 @@ s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
 
     if (column_idx < field_358_column_words)
     {
-        // new_idx is assigned in both do_drop branches (VC6 hoists the common code): assigned once
-        // before the if, the do_drop test is a `cmpb` scheduled before the new_idx store.
+        // new_idx/pNew are computed once before the do_drop test (that gives the original's load order ahead of
+        // `mov do_drop,%al; test`); the do_drop arms each update field_360 and join at one return (see below).
         s32 new_idx;
         // The copied height reads through a reference: with `pColumn->field_0_height` directly, both VC6
         // and VC7 load the two operands of every `height - offset` loop bound below in the other order.
         const u8& new_height = pColumn->field_0_height;
         gmp_col_info* pNew;
+        new_idx = field_360_column_words;
+        pNew = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[new_idx];
         if (do_drop)
         {
-            new_idx = field_360_column_words;
-            pNew = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[new_idx];
             if (z == height - 1)
             {
                 pNew->field_0_height = new_height - 1;
@@ -4251,7 +4251,6 @@ s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
                 {
                     pNew->field_4_blockd[i] = pColumn->field_4_blockd[i];
                 }
-                field_360_column_words += pNew->field_0_height - pNew->field_1_offset + 1;
             }
             else
             {
@@ -4266,13 +4265,11 @@ s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
                 {
                     pNew->field_4_blockd[i] = pColumn->field_4_blockd[i + 1];
                 }
-                field_360_column_words += pNew->field_0_height - pNew->field_1_offset + 1;
             }
+            field_360_column_words += pNew->field_0_height - pNew->field_1_offset + 1;
         }
         else
         {
-            new_idx = field_360_column_words;
-            pNew = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[new_idx];
             if (z == height - 1)
             {
                 pNew->field_0_height = new_height - 1;
@@ -4302,6 +4299,13 @@ s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
                 pNew->field_4_blockd[z - pColumn->field_1_offset] = 0;
             }
             field_360_column_words += pNew->field_0_height - pNew->field_1_offset + 1;
+        }
+        // Two returns of new_idx (folded into one): their two eax copy hints give the original's register
+        // allocation. One plain return colours eax/ecx the other way round; a return at the end of each arm
+        // gives the right allocation but its two tails don't cross-jump (FlowOpts cost check: exactly 20).
+        if (do_drop)
+        {
+            return new_idx;
         }
         return new_idx;
     }
