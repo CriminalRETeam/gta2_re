@@ -696,11 +696,6 @@ void Char_B4::UpdateAnimState_546360()
     u8 bThrowWeapon = 0;
     s32 baseId;
 
-    // Separate function scope slots for the sub_4E4E50 results, the original doesn't share them
-    Fix16 driverZ;
-    Fix16 carZ69;
-    Fix16 carZ7;
-
     switch (field_7C_pPed->field_26C_graphic_type)
     {
         case ped_graphic_type::civilian_0:
@@ -1087,7 +1082,7 @@ void Char_B4::UpdateAnimState_546360()
                         pDriver->AllocCharB4_45C830(
                             newx,
                             newy,
-                            *gMap_0x370_6F6268->sub_4E4E50(&driverZ, newx, newy, pCar->field_50_car_sprite->field_1C_zpos));
+                            gMap_0x370_6F6268->sub_4E4E50(newx, newy, pCar->field_50_car_sprite->field_1C_zpos));
                         pDriver->field_168_game_object->set_rotation_433A30(pCar->field_50_car_sprite->field_0);
                         pDriver->field_168_game_object->Set_F8_ped_state_1_433910(8);
                         pDriver->set_target_car_door_403A70(field_7C_pPed->get_target_car_door_403A60());
@@ -1130,7 +1125,7 @@ void Char_B4::UpdateAnimState_546360()
             field_80_sprite_ptr->set_xyz_lazy_420600(
                 newx,
                 newy,
-                *gMap_0x370_6F6268->sub_4E4E50(&carZ69, newx, newy, pCar->field_50_car_sprite->field_1C_zpos));
+                gMap_0x370_6F6268->sub_4E4E50(newx, newy, pCar->field_50_car_sprite->field_1C_zpos));
 
             if (field_58_flags & 0x10)
             {
@@ -1358,7 +1353,7 @@ void Char_B4::UpdateAnimState_546360()
             field_80_sprite_ptr->set_xyz_lazy_420600(
                 newx,
                 newy,
-                *gMap_0x370_6F6268->sub_4E4E50(&carZ7, newx, newy, pCar->field_50_car_sprite->field_1C_zpos));
+                gMap_0x370_6F6268->sub_4E4E50(newx, newy, pCar->field_50_car_sprite->field_1C_zpos));
 
             if ((u8)field_70_frame_timer > frame_limit)
             {

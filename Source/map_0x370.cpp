@@ -2645,7 +2645,7 @@ Fix16 Map_0x370::FindGroundZBelowCoord_4E4D40(Fix16 x_pos, Fix16 y_pos, Fix16 z_
 }
 
 MATCH_FUNC(0x4E4E50)
-Fix16* Map_0x370::sub_4E4E50(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
+Fix16 Map_0x370::sub_4E4E50(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 {
     for (Fix16 curr_z = z_pos; curr_z < z_pos + kFpOne_6F6110; curr_z = kFpOne_6F6110 + curr_z.GetRoundValue())
     {
@@ -2665,8 +2665,7 @@ Fix16* Map_0x370::sub_4E4E50(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_p
                     u8 slope = get_slope_bits(slope_byte);
                     if (slope <= 0 || slope >= 0xB4u) // !is_gradient_slope(slope_byte)
                     {
-                        *found_z = curr_z;
-                        return found_z;
+                        return curr_z;
                     }
                 }
             }
@@ -2679,14 +2678,12 @@ Fix16* Map_0x370::sub_4E4E50(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_p
                 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, unk_z_coord);
                 if (unk_z_coord >= curr_z)
                 {
-                    *found_z = unk_z_coord;
-                    return found_z;
+                    return unk_z_coord;
                 }
             }
         }
     }
-    *found_z = z_pos;
-    return found_z;
+    return z_pos;
 }
 
 MATCH_FUNC(0x4E4F40)

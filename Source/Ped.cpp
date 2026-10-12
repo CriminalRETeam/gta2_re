@@ -9931,11 +9931,9 @@ void Ped::ExitCarStateMachine_46C250()
             if (FindUsableCarDoor_467090())
             {
                 field_154_target_to_enter->GetDoorWorldPosition_43B5A0(field_24C_target_car_door, &char_x, &char_y);
-                Fix16 zTmp;
                 AllocCharB4_45C830(char_x,
                                    char_y,
-                                   *gMap_0x370_6F6268->sub_4E4E50(&zTmp,
-                                                                  char_x,
+                                   gMap_0x370_6F6268->sub_4E4E50(char_x,
                                                                   char_y,
                                                                   this->field_154_target_to_enter->field_50_car_sprite->field_1C_zpos));
 
@@ -9953,11 +9951,9 @@ void Ped::ExitCarStateMachine_46C250()
             }
 
             {
-                Fix16 zpos;
                 if (!AllocCharB4_45C830(field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
                                         field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
-                                        *gMap_0x370_6F6268->sub_4E4E50(&zpos,
-                                                                       field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
+                                        gMap_0x370_6F6268->sub_4E4E50(field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
                                                                        field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
                                                                        field_154_target_to_enter->field_50_car_sprite->field_1C_zpos)))
                 {
@@ -9992,11 +9988,9 @@ void Ped::ExitCarStateMachine_46C250()
                     field_16C_car->field_4_passengers_list.RemovePed_471240(this);
                     field_154_target_to_enter->GetDoorWorldPosition_43B5A0(field_24C_target_car_door, &char_x, &char_y);
 
-                    Fix16 zTmp;
                     AllocCharB4_45C830(char_x,
                                        char_y,
-                                       *gMap_0x370_6F6268->sub_4E4E50(&zTmp,
-                                                                      char_x,
+                                       gMap_0x370_6F6268->sub_4E4E50(char_x,
                                                                       char_y,
                                                                       this->field_154_target_to_enter->field_50_car_sprite->field_1C_zpos));
                     {
@@ -10021,11 +10015,9 @@ void Ped::ExitCarStateMachine_46C250()
                 field_16C_car->field_4_passengers_list.RemovePed_471240(this);
 
                 {
-                    Fix16 zpos;
                     AllocCharB4_45C830(field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
                                        field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
-                                       *gMap_0x370_6F6268->sub_4E4E50(&zpos,
-                                                                      field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
+                                       gMap_0x370_6F6268->sub_4E4E50(field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
                                                                       field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
                                                                       field_154_target_to_enter->field_50_car_sprite->field_1C_zpos));
                 }
