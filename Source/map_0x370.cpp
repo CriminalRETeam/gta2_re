@@ -3709,9 +3709,7 @@ s32 Map_0x370::sub_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
 done:
     *pX = x;
     *pY = y;
-    {
-        *pZ = GetRailwayZBelowCoord_4E6400(x, y, z);
-    }
+    *pZ = GetRailwayZBelowCoord_4E6400(x, y, z);
     return direction;
 }
 
