@@ -1107,7 +1107,7 @@ Matched (116 -> 0) with two changes:
   `claude/target-asm-request` now also dumps strings (and other data) referenced by
   `push $imm`/`mov $imm` into `target_data.json`, cut at the NUL when it looks like text.
 
-### Car_6C::SpawnCarOnRoadNetwork_4458B0 (0x4458B0): WIP 0.580
+### Car_6C::SpawnCarOnRoadNetwork_4458B0 (0x4458B0): MATCH (near36, see the "Agent near36" entry)
 - Finds a junction near the point (`RouteFinder::sub_58A130`, whose `s16` result the original
   narrows to `char`), heads out of it, then walks the road like `SpawnBusAtValidRoadPosition_4453E0`
   until a free, off-screen spot is found. The car gets an AI following the route.
@@ -5485,3 +5485,44 @@ code as before (objdump compare, only EH `$T` names differ). Three independent f
     not-bonus load. Neither was found.
   - Permuter (default pass set, --auto-method-aliases) on the base: 1731 compiles, nothing below 8 (stopped). Note: `reorder_decls` and the `perm_*` names are not passes of this build (`cpp_permuter
     --list-passes`); a run with them dies at once.
+
+## Agent near35 (Oct 12): CarAI_78::DetectCarAhead_44D1D0 16 -> 0 (MATCH)
+`NO_PCH=1 quick_score.sh` lines. Only `Source/CarAI_78.cpp` changed (the tail_2 block and the marker), no header edits;
+the other 30 MATCH_FUNCs of the TU compile to identical code (base vs new obj compare).
+- **The fix:** `u8 last_idx = --arrow_count;` instead of `arrow_count - 1`, with the compare written `next_idx > last_idx`
+  (the old `last_idx < next_idx` gives the mirrored `cmp`, 4). The decrement then belongs to arrow_count's own
+  (memory) temp and last_idx is only a copy: priolog last 52 -> 28 while next stays 36, so next is coloured first and
+  takes eax. arrow_count is dead afterwards, so no store back is emitted.
+- How it was found: a small probe TU (`/tmp/claude-0/agents/near35/probe/`, `run.sh` = priolog compile + Tail asm +
+  colour list) with a spilled byte `idx`, an address-taken `cnt` and the same tail reproduces the swap; ten tail
+  spellings in one batch, two gave `idx` in al (`--cnt`, and the compare on the stored field, which is 96 in the real
+  function).
+- Diagnostics on the way (not kept): making the tail read a memory-resident copy of arrow_idx (address escape, or
+  `s8 arrow_info[2]` with `&arrow_info[0]` passed) fixes the tail (next gets the load + inc, 5 refs, 60) but ends
+  arrow_idx's web before the second switch, which flips the ebx/ebp halves of two `sine * dword_6779D4` pairs there
+  (the byte web's only-ebx penalty is gone): the original keeps arrow_idx live into the tail. A diagnostic later use
+  of arrow_idx (`gDiag = arrow_idx` at the end) gives the right tail too (the inc temp then can't merge into the
+  dying reload piece). Permuter (800 compiles, default passes + --auto-method-aliases): only the known 12.
+- Lesson: when `a - 1` of an address-taken/memory local loses a colour race because its dec temp coalesces into the
+  new local (4 refs), try the in-place `--a` / `a--` form at the use: the dec stays with the memory variable and the
+  local drops to a copy.
+
+## Agent near36 (Oct 12): Car_6C::SpawnCarOnRoadNetwork_4458B0 MATCH (2 -> 0)
+- The last diff was the `lea` operand order of `ground_z + kFP16One`. Fix: write the corner switch and the step
+  switch in the 9.6f shape, `x = x + kFP16One_6777D0;` / `y = y - k_dword_6777D4;` instead of `+=`/`-=` (9.6f
+  0x428540 calls `Fix16::sum/subtract` with `this` = the variable and stores the result back). The generated code of
+  those statements doesn't change; what changes is the symbol numbering.
+- Why: the commutative operand order is not a "kind rank". C2 sorts each commutative D list (0x1070A16E with the
+  comparator 0x1070A298) by a key built in 0x107086A7/0x10708766 from the symbol's per-function number
+  `[sym+0x1C]`: key = number << 5 (compiler temps kind 3: number << 6), bit 16 set for non-constants, larger key
+  first. User locals and front-end temporaries are numbered 1..0x1F in order of first reference in the FE IL, the
+  globals 0x20.. in order of first reference, and locals that don't fit into 1..0x1F overflow to 0xA0+ (inline
+  expansion locals get 0x1A0+). So a local normally loses to every global (`one + ground_z` order), except when
+  more than 0x1F locals/temps are referenced before it. Each `x = x + one` makes an operator+ return temporary that
+  survives the FE (kind 4, low number); 6+ of them before `ground_z` push it past 0x1F to 0xA0+, above the global
+  (0x23), which gives the original's `lea (%eax,%ecx)`. Single-use named locals (`s16 dir = f(); switch (dir)`,
+  `s32 x_block = x.ToInt()`, `bool b = call()`) are forwarded by the FE before numbering and don't count; six
+  never-used `s32 dummy = 0;` locals also matched (proof of the rule, not kept).
+- Tools: `opdump1c.py` in /tmp/claude-0/agents/near36 (opdump printing `[sym+0x1C]` instead of `[sym+0x30]`) and
+  `ids.sh` (number map per function). All other 247 MATCH_FUNCs in Car_BC.cpp produce identical code.
+
