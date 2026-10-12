@@ -36,7 +36,7 @@ struct sound_unknown_0xC
     //char_type field_7;
     s16 field_8;
     u8 field_A;
-    char_type field_B;
+    char_type field_B_unused;
 };
 
 struct vigilant_maxwell
@@ -81,9 +81,9 @@ struct sound_0x68
 {
     s32 field_0_EntityIndex;
     char_type field_4_SampleIndex;
-    char_type field_5;
+    char_type field_5_unused;
     char_type field_6;
-    char_type field_7;
+    char_type field_7_unused;
     serene_brattain field_8_obj;
     u32 field_14_samp_idx;
     char_type field_18_bIs2D;
@@ -93,36 +93,36 @@ struct sound_0x68
     u32 field_1C_ReleasingVolumeModificator;
     u32 field_20_rate;
     u8 field_24_nVolume;
-    char_type field_25;
-    char_type field_26;
+    char_type field_25_unused;
+    char_type field_26_unused;
     char_type field_27;
     Fix16 field_28_distance;
     char_type field_2C_bIsBeingPlayed;
     char_type field_2D_bIsPlayingFinished;
-    char_type field_2E;
-    char_type field_2F;
+    char_type field_2E_unused;
+    char_type field_2F_unused;
     u32 field_30_loop_count;
     s32 field_34_loop_start;
     s32 field_38_loop_end;
     s32 field_3C_speed_multiplier;
     char_type field_40_pan;
     char_type field_41;
-    char_type field_42;
-    char_type field_43;
+    char_type field_42_unused;
+    char_type field_43_unused;
     s32 field_44_frames_to_play;
     u32 field_48_nCalculatedVolume;
     u32 field_4C_releasing_volume_divider;
     u8 field_50_volume_change;
-    char_type field_51;
-    char_type field_52;
-    char_type field_53;
+    char_type field_51_unused;
+    char_type field_52_unused;
+    char_type field_53_unused;
     Fix16 field_54_sound_intensity;
     s32 field_58_type;
     sound_0x68* field_5C;
     u8 field_60_nEmittingVolume;
     char_type field_61;
-    char_type field_62;
-    char_type field_63;
+    char_type field_62_unused;
+    char_type field_63_unused;
     s32 field_64_max_distance;
 };
 
@@ -133,7 +133,7 @@ struct Sound_Params_8
     char_type field_5_bHasSolidAbove;
     // pad?
     char_type field_6;
-    char_type field_7;
+    char_type field_7_unused;
 };
 
 class sound_obj
@@ -147,12 +147,12 @@ class sound_obj
     u8 field_8_frames_per_second;
     char_type field_9;
     char_type field_A;
-    char_type field_B;
+    char_type field_B_unused;
     s32 field_C;
     u8 field_10_nActiveSamples;
-    char_type field_11;
+    char_type field_11_unused;
     char_type field_12;
-    char_type field_13;
+    char_type field_13_unused;
     s32 field_14_sample_rate;
     char_type field_18;
     char_type field_19;
@@ -160,18 +160,18 @@ class sound_obj
     char_type field_1B;
     u8 field_1C_samp_count;
     char_type field_1D_b3d_sound;
-    char_type field_1E;
-    char_type field_1F;
+    char_type field_1E_unused;
+    char_type field_1F_unused;
     s32 field_20;
     u8 field_24_sfx_vol;
     u8 field_25_cdVol;
-    char_type field_26;
+    char_type field_26_unused;
     char_type field_27;
     Fix16 field_28_dist_related;
     char_type field_2C_distCalculated;
-    char_type field_2D;
-    char_type field_2E;
-    char_type field_2F;
+    char_type field_2D_unused;
+    char_type field_2E_unused;
+    char_type field_2F_unused;
     sound_0x68 field_30_sQueueSample;
     u8 field_98_nActiveSampleQueue;
     char_type field_99_pad;
@@ -180,26 +180,26 @@ class sound_obj
     sound_0x68 field_9C_asSamples[2][16];
     u8 field_D9C_abSampleQueueIndexTable[2][16];
     u8 field_DBC_SampleRequestQueuesStatus[2];
-    s16 field_DBE;
+    s16 field_DBE_unused;
     sound_0x68 field_DC0_ActiveSamples[16];
-    s32 field_1440;
-    char_type field_1444;
-    char_type field_1445;
-    char_type field_1446;
-    char_type field_1447;
-    s32 field_1448;
-    s32 field_144C;
+    s32 field_1440_unused;
+    char_type field_1444_unused;
+    char_type field_1445_unused;
+    char_type field_1446_unused;
+    char_type field_1447_unused;
+    s32 field_1448_unused;
+    s32 field_144C_unused;
     char_type field_1450;
-    char_type field_1451;
-    char_type field_1452;
-    char_type field_1453;
+    char_type field_1451_unused;
+    char_type field_1452_unused;
+    char_type field_1453_unused;
     u32 field_1454_anRandomTable[5];
     Fix16 field_1468_v1;
     Fix16 field_146C_v2;
     Fix16 field_1470_v3;
     Ang16 field_1474_rotation;
-    char_type field_1476;
-    char_type field_1477;
+    char_type field_1476_unused;
+    char_type field_1477_unused;
     s32 field_1478_type5Idx;
     vigilant_maxwell field_147C_audio_entities[1020];
     u32 field_444C_AudioEntityOrderList[1020];
@@ -215,27 +215,27 @@ class sound_obj
         return ((sound_f16_pos_0x1C*)field_544C)[idx];
     }
 
-    char_type field_54D8[5];
-    char_type field_54DD;
-    char_type field_54DE;
-    char_type field_54DF;
-    char_type field_54E0;
-    char_type field_54E1;
-    char_type field_54E2;
-    char_type field_54E3;
-    char_type field_54E4;
-    char_type field_54E5;
-    char_type field_54E6;
-    char_type field_54E7;
+    char_type field_54D8_unused[5];
+    char_type field_54DD_unused;
+    char_type field_54DE_unused;
+    char_type field_54DF_unused;
+    char_type field_54E0_unused;
+    char_type field_54E1_unused;
+    char_type field_54E2_unused;
+    char_type field_54E3_unused;
+    char_type field_54E4_unused;
+    char_type field_54E5_unused;
+    char_type field_54E6_unused;
+    char_type field_54E7_unused;
     s16 field_54E8[5];
     u8 field_54F2[5];
     u8 field_54F7[5];
     s32 field_54FC;
     s32 field_5500;
     char_type field_5504_radio_station_change_mode;
-    char_type field_5505;
+    char_type field_5505_unused;
     char_type field_5506;
-    char_type field_5507;
+    char_type field_5507_unused;
     s32 field_5508_radio_entity_idx;
     SoundObject_10 field_550C_radio_entity;
     s32 field_551C;
@@ -254,7 +254,7 @@ class sound_obj
     s16 field_556C_timer;
     s16 field_556E_timer;
     s16 field_5570_timer;
-    s16 field_5572; // pad?
+    s16 field_5572_unused; // pad?
     s32 field_5574_car_info_idx;
 
     EXPORT sound_obj();

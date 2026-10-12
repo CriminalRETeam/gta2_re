@@ -28,8 +28,8 @@ class Generator_2C
     u16 field_1E_kill_timer;
     char_type field_20;
     char_type field_21;
-    char_type field_22;
-    char_type field_23;
+    char_type field_22_unused;
+    char_type field_23_unused;
     Object_2C* field_24_obj;
     s32 field_28_id;
 };
@@ -45,9 +45,9 @@ class GeneratorPool_14AC
     s32 field_14A0_count;
     s32 field_14A4_kill_count;
     u8 field_14A8_count_d3;
-    char_type field_14A9;
-    char_type field_14AA;
-    char_type field_14AB;
+    char_type field_14A9_unused;
+    char_type field_14AA_unused;
+    char_type field_14AB_unused;
 };
 
 EXTERN_GLOBAL(GeneratorPool_14AC*, gGeneratorPool_14AC_67E5D0);

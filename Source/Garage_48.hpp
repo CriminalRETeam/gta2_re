@@ -76,9 +76,9 @@ class Garage_48
     u8 field_3E;
     char_type field_3F_no_respawn;
     char_type field_40;
-    char_type field_41;
-    char_type field_42;
-    char_type field_43;
+    char_type field_41_unused;
+    char_type field_42_unused;
+    char_type field_43_unused;
     u32 field_44;
 };
 

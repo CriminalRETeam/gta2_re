@@ -145,7 +145,7 @@ struct gmp_dmap_info
     u32 field_0_column_idx;
     u8 field_4_x;
     u8 field_5_y;
-    u16 field_6_unk;
+    u16 field_6_unused;
 };
 
 struct Map_sub

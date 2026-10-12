@@ -41,7 +41,7 @@ class Particle_4C
     Fix16 field_1C;
     Fix16 field_20_speed;
     Ang16 field_24_angle;
-    s16 field_26;
+    s16 field_26_unused;
     Sprite* field_28_pSprite;
     u16 field_2C_counter;
     u16 field_2E;
@@ -52,9 +52,9 @@ class Particle_4C
     Explosion_30* field_40_pExplosion;
     s16 field_44;
     u8 field_46_sub_state;
-    char_type field_47;
+    char_type field_47_unused;
     u8 field_48_timer;
-    char_type field_49;
+    char_type field_49_unused;
     char_type field_4A;
-    char_type field_4B;
+    char_type field_4B_unused;
 };

@@ -118,21 +118,21 @@ class Game_0x40
     char_type field_22_bAuxCamIterated;
     u8 field_23_num_players;
     u8 field_24_cur_idx;
-    char_type field_25;
-    char_type field_26;
+    char_type field_25_unused;
+    char_type field_26_unused;
     char_type field_27;
     s32 field_28_timer;
     s32 field_2C_game_exit_type;
     char_type field_30_bLimitFramerate;
-    char_type field_31;
-    char_type field_32;
-    char_type field_33;
+    char_type field_31_unused;
+    char_type field_32_unused;
+    char_type field_33_unused;
     s32 field_34_network_frame_ms;
     Player* field_38_orf1;
     bool field_3C_bSkipPolice;
     char_type field_3D;
     char_type field_3E;
-    char_type field_3F;
+    char_type field_3F_unused;
 };
 
 EXTERN_GLOBAL(Game_0x40*, gGame_0x40_67E008);

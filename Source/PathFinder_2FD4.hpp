@@ -16,7 +16,7 @@ class PathNode_8
     u8 field_2_xpos;
     u8 field_3_ypos;
     u8 field_4_zpos;
-    char_type field_5;
+    char_type field_5_unused;
     s16 field_6_cost;
 };
 #pragma pack(pop)
@@ -78,7 +78,7 @@ class PathFinder_2FD4
     char_type field_28;
     char_type field_29;
     char_type field_2A;
-    char_type field_2B;
+    char_type field_2B_unused;
     s16 field_2C;
     u16 field_2E_iteration_budget;
     s32 field_30;
@@ -89,10 +89,10 @@ class PathFinder_2FD4
     Ped_List_4 field_3C_ped_list;
     PathNode_8 field_40_grid[1122];
     PathNode_8 field_2350_nodes[398];
-    s32 field_2FC0;
-    s32 field_2FC4;
-    s32 field_2FC8;
-    s32 field_2FCC;
+    s32 field_2FC0_unused;
+    s32 field_2FC4_unused;
+    s32 field_2FC8_unused;
+    s32 field_2FCC_unused;
     char_type field_2FD0_bTimedOut;
     u8 field_2FD1_time_out_counter;
 };

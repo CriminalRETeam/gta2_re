@@ -687,10 +687,10 @@ class ScriptManager_C1EA8
     s16 field_2;
     ThreadTrigger_C field_4_car_triggers[32];
     s16 field_184_phone_trigger_count;
-    s16 field_186;
+    s16 field_186_unused;
     ThreadTrigger_C field_188_phone_triggers[20];
     s16 field_278_weapon_check_count;
-    s16 field_27A;
+    s16 field_27A_unused;
     WeaponCheckTable field_27C_weapon_check_table[15];
     s32 field_2F4_bPreloadMissionScripts;
     Fix16_Rect field_2F8_area_rect;
@@ -718,9 +718,9 @@ class ScriptManager_C1EA8
     s16 field_35A_gang_3_death_base;
     char_type field_35C_full_scr_file_name[256];
     char_type field_45C_scr_file_name[9];
-    char_type field_465;
-    char_type field_466;
-    char_type field_467;
+    char_type field_465_unused;
+    char_type field_466_unused;
+    char_type field_467_unused;
     s32 field_468;
     u16 field_46C_base_pointers[6000];
     BYTE field_334C_script_data[65536];
@@ -738,7 +738,7 @@ class ScriptManager_C1EA8
     u16 field_C1E32_phone_ids[31];
     u32 field_C1E70_wanted_car_model;
     u16 field_C1E74_basic_kf[25];
-    s16 field_C1EA6;
+    s16 field_C1EA6_unused;
 };
 
 EXTERN_GLOBAL(ScriptManager_C1EA8*, gScriptManager_6F8060);

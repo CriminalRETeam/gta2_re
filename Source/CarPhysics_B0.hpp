@@ -478,7 +478,7 @@ class CarPhysics_B0
     Fix16_Point field_48_force_accum;
     Fix16_Point field_50_linear_accel;
     Ang16 field_58_theta;
-    s16 field_5A;
+    s16 field_5A_unused;
     Car_BC* field_5C_pCar;
     Fix16 field_60_gas_pedal;
     Fix16 field_64_brake_pressure;
@@ -498,8 +498,8 @@ class CarPhysics_B0
     char_type field_93_is_forward_gas_on;
     char_type field_94_is_backward_gas_on;
     char_type field_95;
-    char_type field_96;
-    char_type field_97;
+    char_type field_96_unused;
+    char_type field_97_unused;
     s32 field_98_surface_type;
     s32 field_9C_block_spec;
     s32 field_A0_oil_spin_dir;
@@ -513,8 +513,8 @@ class CarPhysics_B0
     char_type field_AB_tpa;
     u8 field_AC_drive_wheels_locked_q;
     char_type field_AD_turn_direction;
-    char_type field_AE;
-    char_type field_AF;
+    char_type field_AE_unused;
+    char_type field_AF_unused;
 };
 
 class CarPhyisicsPool : public PoolBasic<CarPhysics_B0, 306>

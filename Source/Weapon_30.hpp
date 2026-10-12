@@ -176,12 +176,12 @@ class Weapon_30
     s32 field_1C_idx; // weapon_type
     s8 field_20;
     s8 field_21;
-    s8 field_22;
-    s8 field_23;
+    s8 field_22_unused;
+    s8 field_23_unused;
     Ped* field_24_pPed;
     SoundObject_10* field_28_pSound;
     s8 field_2C_shot_fired;
-    s8 field_2D;
-    s8 field_2E;
-    s8 field_2F;
+    s8 field_2D_unused;
+    s8 field_2E_unused;
+    s8 field_2F_unused;
 };

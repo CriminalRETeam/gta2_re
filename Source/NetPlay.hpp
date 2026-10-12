@@ -157,7 +157,7 @@ struct Network_14
     u8 field_10_used;
     char_type field_11_game_tick; // mod 256
     char field_12;
-    char field_13;
+    char field_13_unused;
 };
 
 struct Network_Unknown_0x30
@@ -269,7 +269,7 @@ struct NetPlay
     char field_4_bModem;
     char field_5_modem_num;
     char field_6;
-    char field_7;
+    char field_7_unused;
     GUID field_8_ip_or_ipx_guid;
     s32 field_18;
     s32 field_1C;
@@ -297,9 +297,9 @@ struct NetPlay
     s32 field_8E8_time;
     s32 field_8EC;
     char field_8F0_disabled; // Receive_51F010 and ReceiveGameMessage_521890 always returns false if this var is true
-    char field_8F1;
-    char field_8F2;
-    char field_8F3;
+    char field_8F1_unused;
+    char field_8F2_unused;
+    char field_8F3_unused;
     s32 field_8F4_time_diff;
     Network_14 field_8F8_packets[48];
     s32 field_CB8_count;

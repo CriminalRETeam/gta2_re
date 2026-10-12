@@ -126,8 +126,8 @@ class Object_3C
     char_type field_2E;
     char_type field_2F_bOnSlope;
     u8 field_30_bSkipAnim;
-    u8 field_31;
-    u16 field_32;
+    u8 field_31_unused;
+    u16 field_32_unused;
     s32 field_34;
     char_type field_38_conveyor_speed;
     char_type field_39;

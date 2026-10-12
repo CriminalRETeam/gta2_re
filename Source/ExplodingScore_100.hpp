@@ -24,7 +24,7 @@ class ExplodingScore_50
     Fix16 field_30_z;
     s16 field_34_palette;
     char_type field_36; // draw figure param
-    char_type field_37; // pad ?
+    char_type field_37_unused; // pad ?
     s32 field_38; // scale factor?
     s32 field_3C; // xoff ?
     s32 field_40; // yoff ?

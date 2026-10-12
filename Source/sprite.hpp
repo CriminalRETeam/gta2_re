@@ -177,9 +177,9 @@ class SpriteShape_4C
     SpriteShape_4C* mpNext;
     Fix16_Rect field_30_boundingBox;
     bool field_48_bbox_up_to_date;
-    char_type field_49;
+    char_type field_49_unused;
     char_type field_4A;
-    char_type field_4B;
+    char_type field_4B_unused;
 };
 
 class Sprite
@@ -615,7 +615,7 @@ class Sprite
     char_type field_38_zoom;
     char_type field_39_z_col;
     char_type field_3A;
-    char_type field_3B;
+    char_type field_3B_unused;
 };
 
 class SpriteMask_14
@@ -650,7 +650,7 @@ class SpriteMask_14
     u8* field_0_pixels;
     s16 field_4_sprite_idx;
     char_type field_6;
-    char_type field_7;
+    char_type field_7_unused;
     s32 field_8_delta_mask;
     s32 field_C_last_used;
     u16 field_10_idx;

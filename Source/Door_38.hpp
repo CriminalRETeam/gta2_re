@@ -164,8 +164,8 @@ class Door_38
     char_type field_2B_bReversed;
     char_type field_2C;
     char_type field_2D_play_open_sound;
-    char_type field_2E;
-    char_type field_2F;
+    char_type field_2E_unused;
+    char_type field_2F_unused;
     Fix16 field_30_x;
     Fix16 field_34_y;
 };

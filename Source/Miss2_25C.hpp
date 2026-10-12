@@ -16,9 +16,9 @@ class Miss2_C
         Ped* field_0_ped;
     };
     u8 field_4_type; // determines what the union types are
-    s8 field_5;
+    s8 field_5_unused;
     s8 field_6;
-    s8 field_7;
+    s8 field_7_unused;
     s32 field_8_entity_id;
 };
 
@@ -37,9 +37,9 @@ class Miss2_25C
     Miss2_C field_0_entries[50];
 
     char_type field_258_count;
-    char_type field_259;
-    char_type field_25A;
-    char_type field_25B;
+    char_type field_259_unused;
+    char_type field_25A_unused;
+    char_type field_25B_unused;
 };
 
 EXTERN_GLOBAL(Miss2_25C*, gMiss2_25C_6F805C);

@@ -31,7 +31,7 @@ struct SCR_CMD_HEADER
 struct SCR_ONEVAR_RECT : SCR_CMD_HEADER
 {
     u16 field_8_varname;
-    u16 field_A_unk;
+    u16 field_A_unused;
     SCR_Rect_f field_C_rect;
 };
 
@@ -47,7 +47,7 @@ struct SCR_PLAYER_PED
 struct SCR_CAR_DATA_DEC : SCR_CMD_HEADER
 {
     u16 field_8_car_idx;
-    u16 field_A_unk;
+    u16 field_A_unused;
     SCR_XYZ_f field_C_pos;
     Ang16 field_18_rot;
     s16 field_1A_remap;
@@ -246,7 +246,7 @@ struct SCR_EXPLODE_WALL : SCR_CMD_HEADER
 struct SCR_SOUND_DECSET : SCR_CMD_HEADER
 {
     u16 field_8_varname;
-    u16 field_A_unk;
+    u16 field_A_unused;
     SCR_XYZ_f field_C_pos;
     u8 field_18_sound_id;
     u8 field_19_play_type;
@@ -392,7 +392,7 @@ struct SCR_CHAR_INTO_CAR : SCR_CMD_HEADER
     u16 field_8_char_idx;
     u16 field_A;
     u8 field_C_remap;
-    u8 field_D;
+    u8 field_D_unused;
     s16 field_E_occupation;
     u16 field_10_car_idx;
 };
@@ -505,7 +505,7 @@ struct SCR_WARP_FROM_CAR : SCR_CMD_HEADER
 
 struct SCR_SET_GROUP_TYPE : SCR_CMD_HEADER
 {
-    u32 field_8_unk;
+    u32 field_8_unused;
     u32 field_C_group_type;
 };
 
@@ -518,7 +518,7 @@ struct SCR_CHECK_CURRENT_WEAPON : SCR_CMD_HEADER
 
 struct SCR_DECLARE_POLICELEVEL : SCR_CMD_HEADER
 {
-    u16 field_8_unk;
+    u16 field_8_unused;
     u16 field_A_wanted_level;
 };
 
@@ -531,14 +531,14 @@ struct SCR_ADD_ONSCREEN_COUNTER : SCR_CMD_HEADER
 struct SCR_SET_KF_WEAPON : SCR_CMD_HEADER
 {
     u16 field_8_ped_idx;
-    u16 field_A_unk;
+    u16 field_A_unused;
     u32 field_C_weapon_idx;
 };
 
 struct SCR_SET_FAV_CAR : SCR_CMD_HEADER
 {
     u16 field_8_ped_idx;
-    u16 field_A_unk;
+    u16 field_A_unused;
     u32 field_C_favourite_car;
 };
 
@@ -578,7 +578,7 @@ struct SCR_CHECK_WEAPONHIT : SCR_CMD_HEADER
 
 struct SCR_FINISH_LEVEL : SCR_CMD_HEADER
 {
-    u16 field_8_unk;
+    u16 field_8_unused;
     s16 field_A_bonus_type;
 };
 
@@ -591,7 +591,7 @@ struct SCR_CHECK_HEADS_GREATER : SCR_CMD_HEADER
 struct SCR_SET_CAR_GRAPHIC : SCR_CMD_HEADER
 {
     u16 field_8_car_idx;
-    u16 field_A_unk;
+    u16 field_A_unused;
     u16 field_C_number;
 };
 
@@ -1151,19 +1151,19 @@ class miss2_0x11C
     miss2_0x11C* mpNext;
     u16 field_4_next_cmd;
     char_type field_6;
-    char_type field_7;
+    char_type field_7_unused;
     s32 field_8_cond_result;
     char_type field_C_cmd_initialised;
-    char_type field_D;
+    char_type field_D_unused;
     s16 field_E_phone_timer;
     char_type field_10_stopped;
-    char_type field_11;
+    char_type field_11_unused;
     s16 field_12_exec_flag;
     char_type field_14_str[255];
-    char_type field_113;
+    char_type field_113_unused;
     miss2_8* field_114_gosub_stack;
     char_type field_118_in_level_start;
-    char_type field_119;
+    char_type field_119_unused;
     s16 field_11A_thread_id;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(miss2_0x11C, 0x11C)

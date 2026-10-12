@@ -82,11 +82,11 @@ class PedGroup
     u8 field_34_count;
     char_type field_35;
     char_type field_36_count;
-    char_type field_37;
+    char_type field_37_unused;
     s32 field_38_group_type;
     s32 field_3C;
     char_type field_40_in_use;
-    char_type field_41;
-    char_type field_42;
-    char_type field_43;
+    char_type field_41_unused;
+    char_type field_42_unused;
+    char_type field_43_unused;
 };

@@ -59,8 +59,8 @@ class Car_Door_10
     s32 field_4_state;
     Ped* field_8_pObj;
     u8 field_C_stay_open_timer;
-    s8 field_D;
+    s8 field_D_unused;
     s8 field_E;
-    s8 field_F;
+    s8 field_F_unused;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Car_Door_10, 0x10)

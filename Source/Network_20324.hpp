@@ -129,7 +129,7 @@ class Network_20324
     s32 field_202D4_showing_specific_window_idx;
     s32 field_202D8_last_showing_specific_window_idx;
     s16 field_202DC;
-    s16 field_2031A;
+    s16 field_2031A_unused;
     HWND field_202E0_dlg_hwnd;
     HINSTANCE field_202E4_hInstance;
 };

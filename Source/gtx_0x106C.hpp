@@ -418,7 +418,7 @@ class gtx_0x106C
     u8* field_64_car_recycling_info;
     s16 field_68_recy_chunk_size;
     char_type field_6A_palettes_converted;
-    char_type field_6B;
+    char_type field_6B_unused;
     s32 field_6C_spec[1024];
 };
 

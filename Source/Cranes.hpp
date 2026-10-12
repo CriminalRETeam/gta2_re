@@ -149,13 +149,13 @@ class Crane_15C
     Fix16 field_138_target2_rot;
     Fix16 field_13C_target2_hook_depth;
     s16 field_140_powerup_cmd;
-    s16 field_142;
+    s16 field_142_unused;
     s32 field_144;
     s32 field_148_disabled;
     char_type field_14C_return_delay;
     char_type field_14D_is_busy;
-    char_type field_14E;
-    char_type field_14F;
+    char_type field_14E_unused;
+    char_type field_14F_unused;
     s32 field_150;
     char_type field_154;
     char_type field_155;
@@ -163,8 +163,8 @@ class Crane_15C
     char_type field_157_is_radius_changing;
     char_type field_158_is_hook_depth_changing;
     char_type field_159_hooked_car_this_frame;
-    char_type field_15A;
-    char_type field_15B;
+    char_type field_15A_unused;
+    char_type field_15B_unused;
 };
 
 class CranePool_D9C

@@ -331,9 +331,9 @@ class Object_2C
     s32 field_14_id;
     s32 field_18_model;
     char_type field_1C_bHasExplosion;
-    char_type field_1D;
-    char_type field_1E;
-    char_type field_1F;
+    char_type field_1D_unused;
+    char_type field_1E_unused;
+    char_type field_1F_unused;
     s32 field_20_pool_list_state;
     u8 field_24_bDoneThisFrame;
     u8 field_25_removal_state;
@@ -342,7 +342,7 @@ class Object_2C
     char_type field_28;
     char_type field_29;
     char_type field_2A;
-    char_type field_2B;
+    char_type field_2B_unused;
 };
 
 struct SavedObjectData_164;
@@ -410,7 +410,7 @@ class Object_5C
     u16 field_1A;
     struct_4 field_1C_sprite_list;
     u8 field_20_bUnCollectedTokens[50];
-    u16 field_52; // pad?
+    u16 field_52_unused; // pad?
     s32 field_54_uncollected_token_index;
     Sprite* field_58_collision_probe_sprite;
 };

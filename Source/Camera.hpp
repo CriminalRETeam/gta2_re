@@ -184,9 +184,9 @@ class Camera_0xBC
     s32 field_3C_followed_ped_id;
     Fix16 field_40_tgt_elevation;
     u8 field_44_suspicion;
-    char_type field_45;
-    char_type field_46;
-    char_type field_47;
+    char_type field_45_unused;
+    char_type field_46_unused;
+    char_type field_47_unused;
     Fix16 field_48_pan_x;
     Fix16 field_4C_pan_y;
     Fix16 field_50_pan_speed_up;

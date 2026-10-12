@@ -107,7 +107,7 @@ class Car_214
 
     Car_18 field_0_triggers[22];
     s16 field_210_count;
-    s16 field_212;
+    s16 field_212_unused;
 };
 
 EXTERN_GLOBAL(Car_214*, gCar_214_705F20);
@@ -305,19 +305,19 @@ class Car_6C
     Fix16_Point field_4C_tv_van_dir;
     u8 field_54;
     char_type field_55_visible_cars_count;
-    char_type field_56;
+    char_type field_56_unused;
     char_type field_57;
     s32 field_58_model_to_check_destroy;
     char_type field_5C_model_check_destroyed;
-    char_type field_5D;
-    char_type field_5E;
-    char_type field_5F;
+    char_type field_5D_unused;
+    char_type field_5E_unused;
+    char_type field_5F_unused;
     s32 field_60;
     Fix16 field_64_zpos;
     char_type field_68;
     char_type field_69_do_free_shopping;
     char_type field_6A;
-    char_type field_6B;
+    char_type field_6B_unused;
 };
 
 EXTERN_GLOBAL(Car_6C*, gCar_6C_677930);
@@ -1474,7 +1474,7 @@ struct Car_14
     s8 field_8;
     s8 field_9;
     s8 field_A;
-    s8 field_B;
+    s8 field_B_unused;
     Player* field_C_player;
     gmp_zone_info* field_10_zone;
 };

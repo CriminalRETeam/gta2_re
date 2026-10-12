@@ -27,15 +27,15 @@ class Train_58
     char_type field_3;
     s16 field_4;
     char_type field_6;
-    char_type field_7;
+    char_type field_7_unused;
     s32 field_8;
     Car_BC* field_C_carriages[11];
     char_type field_38_explosion_timers[11];
     u8 field_43_idx;
     char_type field_44;
-    char_type field_45;
-    char_type field_46;
-    char_type field_47;
+    char_type field_45_unused;
+    char_type field_46_unused;
+    char_type field_47_unused;
     s32 field_48;
     TrainStation_34* field_4C_maybe_train_station;
     s32 field_50_state;
@@ -69,9 +69,9 @@ class TrainStation_34
     char_type field_2E_wagons_number;
     char_type field_2F_track_idx;
     char_type field_30;
-    char_type field_31;
-    char_type field_32;
-    char_type field_33;
+    char_type field_31_unused;
+    char_type field_32_unused;
+    char_type field_33_unused;
 };
 
 struct TrainStationList
@@ -115,9 +115,9 @@ class PublicTransport_181C
     Train_58 field_1450_train_array[10];
     Train_58 field_17C0_bus;
     char_type field_1818_stop_getting_off_bus;
-    char_type field_1819;
-    char_type field_181A;
-    char_type field_181B;
+    char_type field_1819_unused;
+    char_type field_181A_unused;
+    char_type field_181B_unused;
 };
 
 EXTERN_GLOBAL(PublicTransport_181C*, gPublicTransport_181C_6FF1D4);
