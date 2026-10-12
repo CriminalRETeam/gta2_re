@@ -442,7 +442,7 @@ class Map_0x370
     EXPORT Fix16* GetRailwayZCoordAtXY_4E6510(Fix16* found_z, Fix16 x, Fix16 y);
     EXPORT void sub_4E65A0(Fix16 x, Fix16 y, Fix16* z_pos, char_type a5, char_type a6);
     EXPORT void sub_4E5D10(Fix16* pX, Fix16* pY, Fix16 dist, s32 direction);
-    EXPORT Fix16* sub_4E5D70(Fix16* pOut, Fix16 x, Fix16 y, Ang16 angle);
+    EXPORT Fix16 sub_4E5D70(Fix16 x, Fix16 y, Ang16 angle);
     EXPORT Fix16* sub_4E5E00(Fix16* pOut, Fix16 x, Fix16 y, Ang16 angle);
 
     // The block under (x, y, z), or the one at z when the one under is a lid-less "air" block

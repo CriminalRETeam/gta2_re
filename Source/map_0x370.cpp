@@ -3191,7 +3191,7 @@ void Map_0x370::sub_4E5D10(Fix16* pX, Fix16* pY, Fix16 dist, s32 direction)
 }
 
 MATCH_FUNC(0x4E5D70)
-Fix16* Map_0x370::sub_4E5D70(Fix16* pOut, Fix16 x, Fix16 y, Ang16 angle)
+Fix16 Map_0x370::sub_4E5D70(Fix16 x, Fix16 y, Ang16 angle)
 {
     Fix16 result = kFpZero_6F610C;
     switch (Ang16::GetAngleFace_4F78F0(angle))
@@ -3209,8 +3209,7 @@ Fix16* Map_0x370::sub_4E5D70(Fix16* pOut, Fix16 x, Fix16 y, Ang16 angle)
             result = kFpOne_6F6110 - y.GetFracValue();
             break;
     }
-    *pOut = result;
-    return pOut;
+    return result;
 }
 
 MATCH_FUNC(0x4E5E00)
@@ -3532,11 +3531,7 @@ s32 Map_0x370::sub_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
     SetRoadBlockAt_4E6660(pBlock, x, y, z);
     s32 direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 1);
 
-    Fix16 side;
-    {
-        Fix16 tmp;
-        side = *sub_4E5D70(&tmp, x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
-    }
+    Fix16 side = sub_4E5D70(x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
     if (side > kFpHalf_6F5F18)
     {
         switch (direction)
@@ -3750,11 +3745,7 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
     SetRoadBlockAt_4E6660(pBlock, x, y, z);
     s32 direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
 
-    Fix16 side;
-    {
-        Fix16 tmp;
-        side = *sub_4E5D70(&tmp, x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
-    }
+    Fix16 side = sub_4E5D70(x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
     // The case order of the two switches picks which constant used twice VC6 keeps in a register
     // (the original's `mov $1,%ebp`; the second switch's bodies are cross-jumped into the first's).
     if (side > kFpHalf_6F5F18)
