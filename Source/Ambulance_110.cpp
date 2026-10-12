@@ -809,7 +809,7 @@ void Ambulance_20::UpdateState_4FB330()
             }
             break;
         }
-        case 5:
+        case crew_state::clean_up_5:
         {
             while (!field_10_patients.IsEmpty_420EA0())
             {
@@ -826,7 +826,7 @@ void Ambulance_20::UpdateState_4FB330()
             }
             break;
         }
-        case 6:
+        case crew_state::update_6:
         {
             EvaluatePickupState_4FA9D0();
             break;
