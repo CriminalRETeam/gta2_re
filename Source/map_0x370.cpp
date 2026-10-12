@@ -3734,18 +3734,6 @@ done:
     return direction;
 }
 
-// The neighbour arrow check of sub_4E7190: the original's `cmp; je; xor; test; jne` (the zero not
-// folded into the following test) comes from an inline returning the direction. Its budget is paid
-// for by the neighbour z offsets skipping ToInt().
-static inline s32 KeepDir(s32 d, s32 want)
-{
-    if (d != want)
-    {
-        d = 0;
-    }
-    return d;
-}
-
 WIP_FUNC(0x4E7190)
 s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
 {
@@ -3767,8 +3755,8 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
         Fix16 tmp;
         side = *sub_4E5D70(&tmp, x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
     }
-    // The case order of the two switches picks which constant used twice VC6 keeps in a register (all 24
-    // orders of each swept; the original's `mov $1,%ebp` not reached since the bTurned change below).
+    // The case order of the two switches picks which constant used twice VC6 keeps in a register
+    // (the original's `mov $1,%ebp`; the second switch's bodies are cross-jumped into the first's).
     if (side > kFpHalf_6F5F18)
     {
         switch (direction)
@@ -3791,8 +3779,8 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
     {
         switch (direction)
         {
-            case road_direction::right_3:
-                direction = road_direction::up_1;
+            case road_direction::up_1:
+                direction = road_direction::left_4;
                 break;
             case road_direction::left_4:
                 direction = road_direction::down_2;
@@ -3800,8 +3788,8 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
             case road_direction::down_2:
                 direction = road_direction::right_3;
                 break;
-            case road_direction::up_1:
-                direction = road_direction::left_4;
+            case road_direction::right_3:
+                direction = road_direction::up_1;
                 break;
         }
     }
@@ -3910,11 +3898,6 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
                            Ang16::GetAngleFace_4F78F0(
                                Ang16(ReturnAngleFromRoadDirection_4F7940(&direction).rValue + word_6F603E.rValue).Normalized_406C20()));
                 dist += kFpOne_6F6110 + kFpOne_6F6110 - to_edge;
-                // Set here rather than after the re-lookup: the extra references in this block put the
-                // loop's to_edge ahead of the switch's kFpOne CSE temps in the colour order, which gives the
-                // original's ebx/ebp split (dist/to_edge ebx, pPrev/new_direction ebp). The original stores
-                // it after the re-lookup; not found how it gets the same order there.
-                bTurned = 1;
                 z = last_z;
                 SetRoadBlockAt_4E6660(pBlock, x, y, z);
                 if (pBlock != pPrev)
@@ -3922,6 +3905,7 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
                     sub_4E65A0(x, y, &z, 0, 0);
                     SetRoadBlockAt_4E6660(pBlock, x, y, z);
                 }
+                bTurned = 1;
             }
         }
         else
@@ -3937,7 +3921,13 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
                                                                  ((last_z - kFpOne_6F6110).mValue >> 14));
                     if (pBlock)
                     {
-                        new_direction = KeepDir(GetArrowDirectionFromBlock_4E5FC0(pBlock, 0), road_direction::right_3);
+                        // Through d: zeroing new_direction itself lets VC6 drop the zero and thread the test
+                        s32 d = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
+                        if (d != road_direction::right_3)
+                        {
+                            d = 0;
+                        }
+                        new_direction = d;
                     }
                     if (!new_direction)
                     {
@@ -3954,7 +3944,13 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
                                                                  ((last_z - kFpOne_6F6110).mValue >> 14));
                     if (pBlock)
                     {
-                        new_direction = KeepDir(GetArrowDirectionFromBlock_4E5FC0(pBlock, 0), road_direction::down_2);
+                        // Through d: zeroing new_direction itself lets VC6 drop the zero and thread the test
+                        s32 d = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
+                        if (d != road_direction::down_2)
+                        {
+                            d = 0;
+                        }
+                        new_direction = d;
                     }
                     if (!new_direction)
                     {
@@ -4008,8 +4004,12 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
     *pX = x;
     *pY = y;
     {
-        Fix16 found_z;
-        *pZ = *GetRailwayZBelowCoord_4E6400(&found_z, x, y, z);
+        // last_z as the out-param (dead by now): with last_z address-taken it is no colour candidate, which
+        // drops it from the neighbour lookup blocks and colours the loop's to_edge before the last_y.ToInt()
+        // CSE temps (the original's ebx/ebp split of dist/to_edge/pPrev). The original's out-param sits in
+        // the dead dist parameter slot instead, so it had another local here and last_z off the candidate
+        // list for some other reason (not found).
+        *pZ = *GetRailwayZBelowCoord_4E6400(&last_z, x, y, z);
     }
 
     // 9.6f: sub_42A660 reverses the direction (inlined, using it as a helper changes the code: 103 -> 301)
