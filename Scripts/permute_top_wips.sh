@@ -12,6 +12,8 @@
 # Needs the same setup as Scripts/permute.sh (a build, wine, Scripts/bin_comp/target_asm.json).
 # The WIP/NOT_IMPLEMENTED logging guards are switched off with /DNO_WIP_LOGGING (see Function.hpp),
 # so nothing in the source needs editing. Results: <out>/<addr>/permuter_out/output-<score>-<n>/.
+# Ctrl-C stops cleanly and saves a checkpoint (also saved every 2 s); running the same command again
+# resumes where it left off, per function. Delete <out>/<addr>/permuter_out to start that one over.
 # Base scores are cached in <out>/base_scores.json; delete it to re-rank.
 set -e
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -80,8 +82,10 @@ LIST="${LIST#,}"
 while read -r SRC FUNC ADDR BASE; do
     echo "=== $FUNC ($ADDR, base $BASE) ==="
     mkdir -p "$OUT/$ADDR"
+    RESUME=""
+    [ -f "$OUT/$ADDR/permuter_out/checkpoint.txt" ] && RESUME="--resume" && echo "resuming from checkpoint"
     (cd "$OUT/$ADDR" && "$ROOT/Scripts/permute.sh" "$ROOT/$SRC" "$FUNC" "$ADDR" \
-        -m exhaustive -p "$LIST" --depth "$DEPTH" --max-candidates "$MAXC" -j "$JOBS" \
+        -m exhaustive -p "$LIST" --depth "$DEPTH" --max-candidates "$MAXC" $RESUME -j "$JOBS" \
         2>&1 | tee run.log)
 done < "$OUT/top.txt"
 echo "done; best candidates: ls -d $OUT/*/permuter_out/output-* | sort -t- -k2 -n"
