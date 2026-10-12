@@ -10,7 +10,7 @@ EXTERN_GLOBAL(u32, gObj3C_dealloc_count_6F8F0C);
 EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
 
 class Sprite;
-class Sprite_18;
+class AttachedSprite_18;
 class Object_2C;
 
 class struct_4
@@ -26,9 +26,9 @@ class struct_4
         field_0_p18 = 0;
     }
 
-    EXPORT Sprite_18* GetSpriteForModel_5A6A50(s32 a2);
+    EXPORT AttachedSprite_18* GetSpriteForModel_5A6A50(s32 a2);
     EXPORT Object_2C* FindObject2CByModel_5A6A90(s32 obj_type);
-    EXPORT Sprite_18* FindFirstActiveObject_5A6AD0();
+    EXPORT AttachedSprite_18* FindFirstActiveObject_5A6AD0();
     EXPORT void RemoveSprite_5A6B10(Sprite* a2);
     EXPORT void RemoveSpriteSafe_5A6B60(Sprite* a2);
     EXPORT void sub_5A6BB0();
@@ -43,7 +43,7 @@ class struct_4
     EXPORT char_type SpriteExists_5A6D80(Sprite* pToFind);
     EXPORT Sprite* PopFrontSprite_5A6DA0();
     EXPORT Sprite* PopBackSprite_5A6DC0();
-    EXPORT Sprite_18* ClearList_5A6E10();
+    EXPORT AttachedSprite_18* ClearList_5A6E10();
     EXPORT Sprite* FindClosestSprite_5A6E40(Fix16 xOff, Fix16 yOff);
     EXPORT Sprite* TakeClosestSprite_5A6EA0(Fix16 xpos, Fix16 ypos);
 
@@ -58,7 +58,7 @@ class struct_4
     EXPORT char_type sub_5A7310();
 
   public:
-    Sprite_18* field_0_p18;
+    AttachedSprite_18* field_0_p18;
 };
 
 class Object_3C

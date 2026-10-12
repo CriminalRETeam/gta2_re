@@ -360,7 +360,7 @@ class Fix16
     EXPORT Fix16 Add_408660(const Fix16& rhs) const throw();
     EXPORT Fix16 Multiply_408680(const Fix16& in) const throw();
     // Out-of-line copies of operators, which big functions call once they run out of inline
-    // expansions (Sprite_4C::DrawCollisionBox_5A4DA0)
+    // expansions (SpriteShape_4C::DrawCollisionBox_5A4DA0)
     EXPORT Fix16 Subtract_436A00(const Fix16& in) const;
     EXPORT Fix16 Divide_436A20(const Fix16& in) const;
     EXPORT s32 IsLess_451670(const Fix16& other) const;

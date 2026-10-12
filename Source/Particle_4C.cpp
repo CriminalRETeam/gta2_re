@@ -1496,7 +1496,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
     {
         Ang16 car_angle;
         Fix16_Point offset;
-        Sprite_18* pGun = pCar->field_0_attachments.GetSpriteForModel_5A6A50(114);
+        AttachedSprite_18* pGun = pCar->field_0_attachments.GetSpriteForModel_5A6A50(114);
         Fix16_Point attach;
         if (pGun)
         {
@@ -1929,7 +1929,7 @@ void Particle_4C::PoolDeallocate()
     {
         field_30_pNext->Clear_2C_0x4_Flag_433800();
         field_30_pNext->SetFlags_4337D0(0, 0);
-        gSprite_Pool_703818->remove(field_30_pNext);
+        gSpritePool_703818->remove(field_30_pNext);
         field_30_pNext = 0;
     }
 }

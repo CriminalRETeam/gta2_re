@@ -62,7 +62,7 @@ class Ambulance_110
     EXPORT void AmbulancesService_4FA790();
 
     char_type field_0_unused; // set to 1 by init_4FA310, never read
-    u8 field_1_queue_count;   // bodies waiting for an ambulance in field_4_patient_queue (an index into the slots below, once)
+    u8 field_1_corpse_count;   // bodies waiting in field_4_patient_queue (an index into the slots below, once)
     char_type field_2_pad;
     char_type field_3_pad;
     Ped_List_4 field_4_patient_queue;

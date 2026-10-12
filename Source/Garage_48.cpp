@@ -269,7 +269,7 @@ void Garage_48::GaragesService_5349D0()
             field_0->field_58_physics->StopMoving_4895D0();
 
             car_pos.SetXY_432860(field_0->get_x_41E430(), field_0->get_y_41E440());
-            Sprite_4C* pBox = field_0->field_50_car_sprite->field_C_sprite_4c_ptr;
+            SpriteShape_4C* pBox = field_0->field_50_car_sprite->field_C_sprite_4c_ptr;
             field_28_push_dir = (pBox->field_C_renderingRect[idx1] + pBox->field_C_renderingRect[idx2]).Divide_442CB0(kFpTwo_6FD128) - car_pos;
             if (field_28_push_dir.x == dword_6FD120 && field_28_push_dir.y == dword_6FD120)
             {

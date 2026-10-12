@@ -308,7 +308,7 @@ static void GetPlayerPos(Fix16& xpos, Fix16& ypos, Fix16& zpos)
     }
 }
 
-static void ShowRectAndPointsForSprite4C(Sprite_4C* p4C)
+static void ShowRectAndPointsForSprite4C(SpriteShape_4C* p4C)
 {
     Fix16_Rect rect = p4C->field_30_boundingBox;
     if (ImGui::TreeNode("bounding box"))
@@ -2284,7 +2284,7 @@ void CC ImGuiDebugDraw()
                                 if (ImGui::TreeNode("Sprite"))
                                 {
                                     ImGui::Input_char_type("Sprt F38", &pSprt->field_38_zoom, 1, 1);
-                                    Sprite_4C* p4C = pSprt->field_4_0x4C_len;
+                                    SpriteShape_4C* p4C = pSprt->field_4_0x4C_len;
                                     if (p4C)
                                     {
                                         ShowRectAndPointsForSprite4C(p4C);

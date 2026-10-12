@@ -5416,46 +5416,46 @@
         "v96f_auto": true
     },
     {
-        "name": "Sprite_14::MarkUsed_48F5A0",
+        "name": "SpriteMask_14::MarkUsed_48F5A0",
         "v96f_address": "0x44af50",
         "v105_address": "0x48f5a0",
         "v96f_auto": true
     },
     {
-        "name": "Sprite_14::ClearMask_48F5C0",
+        "name": "SpriteMask_14::ClearMask_48F5C0",
         "v96f_address": "0x44ad50",
         "v105_address": "0x48f5c0",
         "v96f_auto": true
     },
     {
-        "name": "Sprite_3CC::FindCachedMask_48F600",
+        "name": "SpriteMaskCache_3CC::FindCachedMask_48F600",
         "v96f_address": "0x44ad90",
         "v105_address": "0x48f600",
         "v96f_auto": true
     },
     {
-        "name": "Sprite_3CC::FindLeastRecentlyUsed_48F690",
+        "name": "SpriteMaskCache_3CC::FindLeastRecentlyUsed_48F690",
         "v96f_address": "0x44ae20",
         "v105_address": "0x48f690",
         "v96f_auto": true
     },
     {
-        "name": "Sprite_3CC::InvalidateMasksByType_48F6E0",
+        "name": "SpriteMaskCache_3CC::InvalidateMasksByType_48F6E0",
         "v96f_address": null,
         "v105_address": "0x48f6e0"
     },
     {
-        "name": "Sprite_3CC::InvalidateAllMasks_48F710",
+        "name": "SpriteMaskCache_3CC::InvalidateAllMasks_48F710",
         "v96f_address": "0x44afe0",
         "v105_address": "0x48f710"
     },
     {
-        "name": "Sprite_3CC::ctor",
+        "name": "SpriteMaskCache_3CC::ctor",
         "v96f_address": "0x44b000",
         "v105_address": "0x48f730"
     },
     {
-        "name": "Sprite_3CC::dtor",
+        "name": "SpriteMaskCache_3CC::dtor",
         "v96f_address": "0x44ae70",
         "v105_address": "0x48f7f0",
         "v96f_auto": true
@@ -16883,19 +16883,19 @@
         "v105_address": "0x5a3540"
     },
     {
-        "name": "Sprite_4C::UpdateRotatedBoundingBox_5A3550",
+        "name": "SpriteShape_4C::UpdateRotatedBoundingBox_5A3550",
         "v96f_address": "0x4bbd40",
         "v105_address": "0x5a3550",
         "v96f_auto": true
     },
     {
-        "name": "Sprite_4C::SetCurrentRect_5A4D90",
+        "name": "SpriteShape_4C::SetCurrentRect_5A4D90",
         "v96f_address": "0x4bc580",
         "v105_address": "0x5a4d90",
         "v96f_auto": true
     },
     {
-        "name": "Sprite_4C::DrawCollisionBox_5A4DA0",
+        "name": "SpriteShape_4C::DrawCollisionBox_5A4DA0",
         "v96f_address": null,
         "v105_address": "0x5a4da0"
     },
@@ -16905,12 +16905,12 @@
         "v105_address": "0x5a5690"
     },
     {
-        "name": "Sprite_4C::PoolAllocate",
+        "name": "SpriteShape_4C::PoolAllocate",
         "v96f_address": null,
         "v105_address": "0x5a57a0"
     },
     {
-        "name": "Sprite_4C::ctor",
+        "name": "SpriteShape_4C::ctor",
         "v96f_address": "0x4bc900",
         "v105_address": "0x5a57b0",
         "v96f_auto": true
@@ -16921,24 +16921,24 @@
         "v105_address": "0x5a57e0"
     },
     {
-        "name": "Sprite_4C::dtor",
+        "name": "SpriteShape_4C::dtor",
         "v96f_address": "0x4bc930",
         "v105_address": "0x5a5840",
         "v96f_auto": true
     },
     {
-        "name": "Sprite_8::ResetDrawnSpriteCount_5A5860",
+        "name": "SpriteManager_8::ResetDrawnSpriteCount_5A5860",
         "v96f_address": "0x4b9e50",
         "v105_address": "0x5a5860",
         "v96f_auto": true
     },
     {
-        "name": "Sprite_8::sub_5A5870",
+        "name": "SpriteManager_8::sub_5A5870",
         "v96f_address": "0x4bdc60",
         "v105_address": "0x5a5870"
     },
     {
-        "name": "Sprite_8::ctor",
+        "name": "SpriteManager_8::ctor",
         "v96f_address": "0x4be5b0",
         "v105_address": "0x5a58a0"
     },
@@ -16948,34 +16948,34 @@
         "v105_address": "0x5a5aa0"
     },
     {
-        "name": "Sprite_8::dtor",
+        "name": "SpriteManager_8::dtor",
         "v96f_address": "0x4be730",
         "v105_address": "0x5a5b50",
         "v96f_auto": true
     },
     {
-        "name": "Sprite_4C_Pool::dtor",
+        "name": "SpriteShapePool::dtor",
         "v96f_address": null,
         "v105_address": "0x5a5be0"
     },
     {
-        "name": "Sprite_Pool::dtor",
+        "name": "SpritePool::dtor",
         "v96f_address": null,
         "v105_address": "0x5a5c00"
     },
     {
-        "name": "Sprite_18_Pool::dtor",
+        "name": "AttachedSpritePool::dtor",
         "v96f_address": null,
         "v105_address": "0x5a5c20"
     },
     {
-        "name": "Sprite_18::dtor",
+        "name": "AttachedSprite_18::dtor",
         "v96f_address": "0x4bc990",
         "v105_address": "0x5a5c40",
         "v96f_auto": true
     },
     {
-        "name": "Sprite_18::ctor",
+        "name": "AttachedSprite_18::ctor",
         "v96f_address": "0x4bca70",
         "v105_address": "0x5a5c50",
         "v96f_auto": true
@@ -16991,17 +16991,17 @@
         "v105_address": "0x5a5e50"
     },
     {
-        "name": "Sprite_18::PoolUpdate_5A6910",
+        "name": "AttachedSprite_18::PoolUpdate_5A6910",
         "v96f_address": "0x4BE870",
         "v105_address": "0x5a6910"
     },
     {
-        "name": "Sprite_18::sub_5A69E0",
+        "name": "AttachedSprite_18::sub_5A69E0",
         "v96f_address": null,
         "v105_address": "0x5a69e0"
     },
     {
-        "name": "Sprite_18::sub_5A6A20",
+        "name": "AttachedSprite_18::sub_5A6A20",
         "v96f_address": null,
         "v105_address": "0x5a6a20"
     },

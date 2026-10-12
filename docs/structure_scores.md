@@ -128,7 +128,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 2 | 189 | 395 | - | 0x4645b0 | `Ped::CalcApproachPointNearTargetPed_4645B0` | Ped.cpp |
 | 2 | 303 | 776 | 243 | 0x53e970 | `Particle_8::GunMuzzelFlash_53E970` | Particle_8.cpp |
 | 3 | 15 | 61 | 102 | 0x53b670 | `Particle_4C::UpdateAttachedEmitter_state_9_10_53B670` | Particle_4C.cpp |
-| 3 | 41 | 55 | 591 | 0x5a3550 | `Sprite_4C::UpdateRotatedBoundingBox_5A3550` | sprite.cpp |
+| 3 | 41 | 55 | 591 | 0x5a3550 | `SpriteShape_4C::UpdateRotatedBoundingBox_5A3550` | sprite.cpp |
 | 4 | 8 | 20 | 113 | 0x4b7ae0 | `Frontend::DrawCredits_4B7AE0` | Frontend.cpp |
 | 4 | 12 | 12 | - | 0x4c8e60 | `PedGroup::sub_4C8E60` | PedGroup.cpp |
 | 4 | 18 | 196 | 1240 | 0x4e7190 | `Map_0x370::sub_4E7190` | map_0x370.cpp |

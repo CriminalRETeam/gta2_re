@@ -394,7 +394,7 @@ void Char_B4::PoolDeallocate()
     if (field_80_sprite_ptr)
     {
         gSpriteGrid_1_679208->AddToSpriteRectBuckets_477B60(field_80_sprite_ptr);
-        gSprite_Pool_703818->remove(field_80_sprite_ptr);
+        gSpritePool_703818->remove(field_80_sprite_ptr);
         field_80_sprite_ptr = NULL;
     }
     field_88_obj_2c.DestroyAllSprites_5A7010();
@@ -502,7 +502,7 @@ MATCH_FUNC(0x5456a0)
 void Char_B4::InitSprite_5456A0()
 {
     // TODO: maybe an inline here: temp var not needed
-    Sprite* pFirst = gSprite_Pool_703818->get_new_sprite();
+    Sprite* pFirst = gSpritePool_703818->get_new_sprite();
     field_80_sprite_ptr = pFirst;
     pFirst->SetType_4206F0(sprite_types_enum::ped_3);
     field_80_sprite_ptr->AllocInternal_59F950(gCharB4_WorldCollisionOffset_6FD8D8, gCharB4_WorldCollisionOffset_6FD8D8, kFP16Quarter_6FD7A4);

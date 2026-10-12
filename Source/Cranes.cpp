@@ -888,7 +888,7 @@ void Crane_15C::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_8_drop_offset.y = 0;
     field_11C_drop_hook_depth = kZero_679E70;
 
-    Sprite* current_sprite = gSprite_Pool_703818->get_new_sprite();
+    Sprite* current_sprite = gSpritePool_703818->get_new_sprite();
     field_60_probe_sprite = current_sprite;
     current_sprite->AllocInternal_59F950(kZero_679E70, kZero_679E70, kZero_679E70);
     field_14C_return_delay = 60;

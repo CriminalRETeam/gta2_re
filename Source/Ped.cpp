@@ -8886,7 +8886,7 @@ void Ped::FollowCarOnFootWithOffset_46A350()
 MATCH_FUNC(0x46a530)
 void Ped::FireAtObject_46A530()
 {
-    Sprite_18* pSprite_148 = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(148);
+    AttachedSprite_18* pSprite_148 = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(148);
     Sprite* pSprite_18 = pSprite_148->field_0;
     Fix16 x_v = pSprite_18->field_14_xy.x;
     Fix16 y_v = pSprite_18->field_14_xy.y;
@@ -8948,7 +8948,7 @@ void Ped::AimVehicleTurretStateMachine_46A6D0()
     }
     else
     {
-        Sprite_18* p18 = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(114);
+        AttachedSprite_18* p18 = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(114);
         field_21C_bf.bUseCarWeapon = true;
 
         Fix16 x = p18->field_0->field_14_xy.x;
@@ -11938,7 +11938,7 @@ void Ped::HandleWeaponFireEnd_46FFF0(s32 model)
 MATCH_FUNC(0x470050)
 void Ped::AimRoofGun_470050()
 {
-    Sprite_18* pHit = 0;
+    AttachedSprite_18* pHit = 0;
     if (field_16C_car->IsFireTruck_4118F0())
     {
         pHit = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(114);

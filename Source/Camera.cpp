@@ -146,7 +146,7 @@ char_type Camera_0xBC::IsSpriteInView_435630(Sprite* pSprite, s32 bUnknown)
         IntervalIntersectsRange_438FB0(rect.field_8_top, rect.field_C_bottom, pBox->field_8_top, pBox->field_C_bottom) &&
         IntervalIntersectsRange_438FB0(rect.field_10_low_z, rect.field_14_high_z, pBox->field_10_low_z, pBox->field_14_high_z))
     {
-        Sprite_4C* p4C = pSprite->field_C_sprite_4c_ptr;
+        SpriteShape_4C* p4C = pSprite->field_C_sprite_4c_ptr;
         if ((p4C->field_0_width == p4C->field_4_height && p4C->field_0_width <= dword_676694) || pSprite->field_0.rValue == 0 ||
             pSprite->field_0 == 360 || pSprite->field_0 == 720 || pSprite->field_0 == 1080 || pSprite->IntersectsRectSAT_59FB10(&rect) ||
             rect.IntersectsSpriteRenderingRect_59DDF0(pSprite))

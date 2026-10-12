@@ -283,7 +283,7 @@ void Game_0x40::BootGame_4B8EB0()
     InvalidateCachedScreenDimension_5D8DF0();
     ConvertColourBanks_5D7CB0();
     UpdateGameScreenSize_5D8E00();
-    gSprite_8_703820->sub_5A5870();
+    gSpriteManager_703820->sub_5A5870();
     gTileAnim_2_7052C4->Empty_5BC300();
     gPublicTransport_181C_6FF1D4->SetupTrainAndBusStops_5794B0();
     gObject_5C_6F8F84->CreateDiagonalWallObjects_5297F0();
@@ -381,7 +381,7 @@ void Game_0x40::Draw_4B92D0()
     gViewCamera_676978 = &field_1C_view_player->field_14C_view_camera;
 
     gpMapRenderer_6F66E4->ClearDrawnTileCount_4F6A10();
-    gSprite_8_703820->ResetDrawnSpriteCount_5A5860();
+    gSpriteManager_703820->ResetDrawnSpriteCount_5A5860();
     gSpriteRenderer_67B580->ResetAll_4954F0();
 
     gSpriteGrid_3_679210->DrawSpritesClipped_477A40();
@@ -1034,8 +1034,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1836);
     }
 
-    gSprite_8_703820 = new Sprite_8(); // ctor call
-    if (!gSprite_8_703820)
+    gSpriteManager_703820 = new SpriteManager_8(); // ctor call
+    if (!gSpriteManager_703820)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1839);
     }
@@ -1307,7 +1307,7 @@ Game_0x40::~Game_0x40()
 
     GTA2_DELETE_AND_NULL(gFpsCounter_7055D4);
 
-    GTA2_DELETE_AND_NULL(gSprite_8_703820);
+    GTA2_DELETE_AND_NULL(gSpriteManager_703820);
     GTA2_DELETE_AND_NULL(gCollisionCounters_6791FC);
     GTA2_DELETE_AND_NULL(gPedRefTable_7F8_703398);
     GTA2_DELETE_AND_NULL(gPublicTransport_181C_6FF1D4);

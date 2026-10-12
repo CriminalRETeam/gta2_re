@@ -896,7 +896,7 @@ slot; declared at the top (assigned later), both share the parameter slot as in 
 
 **Declared, then assigned locals copy one by one.** `Fix16 left = rect.field_0_left; ...` for four fields
 interleaves the copies through two registers; declaring the four first and assigning them (through the
-getters 9.6f calls) gives the original's `eax`-only load/store pairs (`Sprite_4C::UpdateRotatedBoundingBox_5A3550`).
+getters 9.6f calls) gives the original's `eax`-only load/store pairs (`SpriteShape_4C::UpdateRotatedBoundingBox_5A3550`).
 
 **`Fix16(rng(3) - 1)` in the Particle_4C jitter** is `movswl; add $0x3FFFF; shl $0xE` in all five
 originals. Initialising, `FromInt` or an inline helper give `shl; sub $0x4000`. The `add` form comes
@@ -1675,7 +1675,7 @@ touching a shared header.
 the four rect reads in `Map_0x370::sub_4E4820`; by value, read in the original order (left,
 right, top, bottom), it matched. Check the 9.6f getter's `ret $4` and hidden return pointer.
 Reading the sides through the by-value getters also fixed the argument-copy slots and the inline
-budget of `Sprite_4C::DrawCollisionBox_5A4DA0`.
+budget of `SpriteShape_4C::DrawCollisionBox_5A4DA0`.
 
 **A missing EH state store can mean the wrong callee.** `ApplyTurningForce_55F020` lacked the
 `movb $1,N(%esp)` before multiplying the `NormalizeSafe_442AD0()` temporary. The source used the
@@ -2178,7 +2178,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   update (`Car_BC::CountConsecutiveArrowBlocks_4410D0`).
 - **EH states reveal source order.** A path with lower EH state numbers comes first in the source even
   when the block layout puts it last (`sub_5DF270`). The EH state at entry tells how many destructible
-  locals are declared at the top (`Sprite_4C::UpdateRotatedBoundingBox_5A3550`).
+  locals are declared at the top (`SpriteShape_4C::UpdateRotatedBoundingBox_5A3550`).
 - **A by-value `Fix16_Point` argument copied as two dwords from a temporary** means the parameter is
   `Fix16_Point_POD` (`sub_5DE910`).
 - **`default: break;`** changes which case keeps a shared tail when cases cross-jump (461A60).
@@ -2748,7 +2748,7 @@ tried are in the WIP status report.
 
 **A 9.6f getter inline can move `this` to another register.** `UpdateSkidOrScrapeSpark_53A280` had `this` in
 `esi` (original `edi`) and every other callee-saved register swapped with it; reading the car box through
-`get_car_width()`/`get_car_height()` (9.6f 0x48A930/0x48A950) instead of the `Sprite_4C` fields gave the
+`get_car_width()`/`get_car_height()` (9.6f 0x48A930/0x48A950) instead of the `SpriteShape_4C` fields gave the
 original's allocation. When 9.6f shows a small getter call, use the inline even if the field read looks
 identical.
 

@@ -9,7 +9,7 @@
 class Sprite;
 class Car_BC;
 class Trailer;
-class Sprite_4C;
+class SpriteShape_4C;
 class Ped;
 class ModelPhysics_48;
 class CarAI_78;

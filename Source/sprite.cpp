@@ -33,14 +33,14 @@ EXPORT void __stdcall ProjectOntoAxis_5A5AA0(Fix16& xpos1, Fix16& ypos1, Ang16& 
 static inline void ProjectToScreen_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2);
 EXTERN_GLOBAL(u16, gDebugColour_626260);
 
-DEFINE_GLOBAL(Sprite_8*, gSprite_8_703820, 0x703820);
+DEFINE_GLOBAL(SpriteManager_8*, gSpriteManager_703820, 0x703820);
 // Used by map_0x370.cpp and Camera.cpp, which must only see them as extern (see the notes there)
 DEFINE_GLOBAL(s16, gFaceCollisionMask_6F6002, 0x6F6002);
 DEFINE_GLOBAL_INIT(Ang16, kAng180_676772, Ang16(720), 0x676772);
-DEFINE_GLOBAL(Sprite_4C_Pool*, gSprite_4C_Pool_70381C, 0x70381C);
-DEFINE_GLOBAL(Sprite_Pool*, gSprite_Pool_703818, 0x703818);
-DEFINE_GLOBAL(Sprite_3CC*, gSprite_3CC_67AF1C, 0x67AF1C);
-DEFINE_GLOBAL(Sprite_18_Pool*, gSprite_18_Pool_703B80, 0x703B80);
+DEFINE_GLOBAL(SpriteShapePool*, gSpriteShapePool_70381C, 0x70381C);
+DEFINE_GLOBAL(SpritePool*, gSpritePool_703818, 0x703818);
+DEFINE_GLOBAL(SpriteMaskCache_3CC*, gSpriteMaskCache_67AF1C, 0x67AF1C);
+DEFINE_GLOBAL(AttachedSpritePool*, gAttachedSpritePool_703B80, 0x703B80);
 DEFINE_GLOBAL(Sprite*, gSprite_703814, 0x703814);
 DEFINE_GLOBAL(Sprite*, gSprite_6F61E8, 0x6F61E8);
 DEFINE_GLOBAL_INIT(Fix16, kFP16One_7035C4, Fix16(1), 0x7035C4);
@@ -180,15 +180,15 @@ void Sprite::set_angle_4833B0(Ang16 ang)
 }
 
 MATCH_FUNC(0x48F5A0)
-void Sprite_14::MarkUsed_48F5A0()
+void SpriteMask_14::MarkUsed_48F5A0()
 {
-    Sprite_3CC* pSprt = gSprite_3CC_67AF1C;
+    SpriteMaskCache_3CC* pSprt = gSpriteMaskCache_67AF1C;
     s32 new_idx = ++pSprt->field_3C0_use_counter;
     field_C_last_used = new_idx;
 }
 
 MATCH_FUNC(0x48F5C0)
-EXPORT void Sprite_14::ClearMask_48F5C0(u8 xCount, u8 yCount)
+EXPORT void SpriteMask_14::ClearMask_48F5C0(u8 xCount, u8 yCount)
 {
     u8* pData = this->field_0_pixels;
     for (s32 y = 0; y < yCount; y++)
@@ -199,11 +199,11 @@ EXPORT void Sprite_14::ClearMask_48F5C0(u8 xCount, u8 yCount)
 }
 
 MATCH_FUNC(0x48f600)
-Sprite_14* Sprite_3CC::FindCachedMask_48F600(u16& sprite_idx, u32* a3, u32* a4, const u16* a5)
+SpriteMask_14* SpriteMaskCache_3CC::FindCachedMask_48F600(u16& sprite_idx, u32* a3, u32* a4, const u16* a5)
 {
     s32 final_idx;
     s32 start_idx = 0;
-    Sprite_14* pSprt = NULL;
+    SpriteMask_14* pSprt = NULL;
     if (!*a3)
     {
         final_idx = 32;
@@ -215,7 +215,7 @@ Sprite_14* Sprite_3CC::FindCachedMask_48F600(u16& sprite_idx, u32* a3, u32* a4, 
     }
 
     s32 count = start_idx;
-    for (Sprite_14* pIter = &field_0[start_idx]; count < final_idx; count++, ++pIter)
+    for (SpriteMask_14* pIter = &field_0[start_idx]; count < final_idx; count++, ++pIter)
     {
         s32 sprite_idx_copy = sprite_idx;
         if (pIter->field_4_sprite_idx == sprite_idx_copy && pIter->field_12 == *a5)
@@ -234,12 +234,12 @@ Sprite_14* Sprite_3CC::FindCachedMask_48F600(u16& sprite_idx, u32* a3, u32* a4, 
 }
 
 MATCH_FUNC(0x48f690)
-Sprite_14* Sprite_3CC::FindLeastRecentlyUsed_48F690(u32* a2)
+SpriteMask_14* SpriteMaskCache_3CC::FindLeastRecentlyUsed_48F690(u32* a2)
 {
     u32 min_value = -1;
     s32 start_idx;
     s32 final_idx;
-    Sprite_14* pSprt = NULL;
+    SpriteMask_14* pSprt = NULL;
     if (!*a2)
     {
         start_idx = 0;
@@ -252,7 +252,7 @@ Sprite_14* Sprite_3CC::FindLeastRecentlyUsed_48F690(u32* a2)
     }
 
     s32 count = start_idx;
-    for (Sprite_14* pIter = &field_0[start_idx]; count < final_idx; count++, ++pIter)
+    for (SpriteMask_14* pIter = &field_0[start_idx]; count < final_idx; count++, ++pIter)
     {
         if (pIter->field_C_last_used < min_value)
         {
@@ -264,10 +264,10 @@ Sprite_14* Sprite_3CC::FindLeastRecentlyUsed_48F690(u32* a2)
 }
 
 MATCH_FUNC(0x48f6e0)
-void Sprite_3CC::InvalidateMasksByType_48F6E0(u16* sprite_idx)
+void SpriteMaskCache_3CC::InvalidateMasksByType_48F6E0(u16* sprite_idx)
 {
     s32 count = 0;
-    for (Sprite_14* pIter = &this->field_0[0]; count < 48; count++, ++pIter)
+    for (SpriteMask_14* pIter = &this->field_0[0]; count < 48; count++, ++pIter)
     {
         if (pIter->field_4_sprite_idx == *sprite_idx)
         {
@@ -277,9 +277,9 @@ void Sprite_3CC::InvalidateMasksByType_48F6E0(u16* sprite_idx)
 }
 
 MATCH_FUNC(0x48f710)
-void Sprite_3CC::InvalidateAllMasks_48F710()
+void SpriteMaskCache_3CC::InvalidateAllMasks_48F710()
 {
-    Sprite_14* psVar1 = field_0;
+    SpriteMask_14* psVar1 = field_0;
     s32 iVar2 = 0x30;
     do
     {
@@ -290,7 +290,7 @@ void Sprite_3CC::InvalidateAllMasks_48F710()
 }
 
 MATCH_FUNC(0x48f730)
-Sprite_3CC::Sprite_3CC()
+SpriteMaskCache_3CC::SpriteMaskCache_3CC()
 {
     u32 iVar4;
     field_3C0_use_counter = 0;
@@ -302,7 +302,7 @@ Sprite_3CC::Sprite_3CC()
     u8* pvVar2 = (u8*)Memory::Aligned_malloc_4FE510(0x40000, (void**)(&field_3C8_unaligned_alloc));
     field_3C4_aligned_buffer = pvVar2;
 
-    Sprite_14* tmp = field_0;
+    SpriteMask_14* tmp = field_0;
     for (iVar4 = 8; iVar4 != 0; iVar4--, pvVar2 += 0x4000, tmp += 4)
     {
         tmp[0].field_0_pixels = pvVar2;
@@ -329,7 +329,7 @@ Sprite_3CC::Sprite_3CC()
 }
 
 MATCH_FUNC(0x48F7F0)
-Sprite_3CC::~Sprite_3CC()
+SpriteMaskCache_3CC::~SpriteMaskCache_3CC()
 {
     if (this->field_3C8_unaligned_alloc)
     {
@@ -384,7 +384,7 @@ s16 CarFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& a4, const u32& 
     }
     sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
     u32 bUnk = sprite_index_5AA440->field_5_height > 0x40u;
-    Sprite_14* pSprt14 = gSprite_3CC_67AF1C->FindCachedMask_48F600(sprite_idx, &bUnk, &m_var, &a4);
+    SpriteMask_14* pSprt14 = gSpriteMaskCache_67AF1C->FindCachedMask_48F600(sprite_idx, &bUnk, &m_var, &a4);
     if (pSprt14)
     {
         if (pSprt14->field_8_delta_mask < m_var)
@@ -402,7 +402,7 @@ s16 CarFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& a4, const u32& 
     else
     {
         bRet = 1;
-        pSprt14 = gSprite_3CC_67AF1C->FindLeastRecentlyUsed_48F690(&bUnk);
+        pSprt14 = gSpriteMaskCache_67AF1C->FindLeastRecentlyUsed_48F690(&bUnk);
         if (!a5)
         {
             sprite_index_5AA440->CopyPixels_5ABB00(pSprt14->field_0_pixels);
@@ -593,13 +593,13 @@ MATCH_FUNC(0x59e2e0)
 void Sprite::sub_59E2E0(void)
 {
     Update_4C_59F990();
-    memcpy(field_4_0x4C_len, field_C_sprite_4c_ptr, sizeof(Sprite_4C));
+    memcpy(field_4_0x4C_len, field_C_sprite_4c_ptr, sizeof(SpriteShape_4C));
 }
 
 MATCH_FUNC(0x59e300)
 void Sprite::sub_59E300()
 {
-    memcpy(field_C_sprite_4c_ptr, field_4_0x4C_len, sizeof(Sprite_4C));
+    memcpy(field_C_sprite_4c_ptr, field_4_0x4C_len, sizeof(SpriteShape_4C));
 }
 
 MATCH_FUNC(0x59e320)
@@ -890,8 +890,8 @@ static inline void __stdcall RotateAndTranslatePoint_ool_42A720(Fix16& pInX,
                      .Add_408660((pInY - pTransY) * Ang16::cosine_40F520(pRotAng));
 }
 
-// Sprite_4C::HalfWH_4BA0A0 with the out-of-line Fix16 / s32 copy
-static inline void HalfWH_ool_4BA0A0(Sprite_4C* pThis, Fix16* pHalfW, Fix16* pHalfH)
+// SpriteShape_4C::HalfWH_4BA0A0 with the out-of-line Fix16 / s32 copy
+static inline void HalfWH_ool_4BA0A0(SpriteShape_4C* pThis, Fix16* pHalfW, Fix16* pHalfH)
 {
     *pHalfW = pThis->field_0_width.DivideInt_53E860(2);
     *pHalfH = pThis->field_4_height.DivideInt_53E860(2);
@@ -1149,7 +1149,7 @@ void Sprite::Draw_59EFF0()
     {
         if (field_38_zoom)
         {
-            gSprite_3CC_67AF1C->InvalidateMasksByType_48F6E0(&sprite_idx);
+            gSpriteMaskCache_67AF1C->InvalidateMasksByType_48F6E0(&sprite_idx);
         }
         car_flags = pCar->field_8_damaged_areas.GetRaw_4A5190();
         if (gLighting_626A09)
@@ -1255,7 +1255,7 @@ void Sprite::Draw_59EFF0()
         pCar->field_8_damaged_areas.m_var = car_flags; // TODO: use CopyAll_4A51A0
     }
 
-    ++gSprite_8_703820->field_0_drawn_sprite_count;
+    ++gSpriteManager_703820->field_0_drawn_sprite_count;
     if (bDo_show_collision_box_67D6E5)
     {
         if (field_C_sprite_4c_ptr)
@@ -1273,7 +1273,7 @@ void Sprite::AllocInternal_59F950(Fix16 a2, Fix16 a3, Fix16 a4)
 {
     if (field_C_sprite_4c_ptr == NULL)
     {
-        field_C_sprite_4c_ptr = gSprite_4C_Pool_70381C->Allocate();
+        field_C_sprite_4c_ptr = gSpriteShapePool_70381C->Allocate();
     }
 
     field_C_sprite_4c_ptr->SetDimensions_482980(a2, a3, a4);
@@ -1284,7 +1284,7 @@ void Sprite::Update_4C_59F990()
 {
     if (this->field_4_0x4C_len == NULL)
     {
-        this->field_4_0x4C_len = gSprite_4C_Pool_70381C->Allocate();
+        this->field_4_0x4C_len = gSpriteShapePool_70381C->Allocate();
 
         const u16 sprite_idx = GetTrueSpriteIdx_4BA230();
         const sprite_index* sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
@@ -1333,13 +1333,13 @@ void Sprite::FreeSprite4CChildren_59FAD0()
 {
     if (field_C_sprite_4c_ptr)
     {
-        gSprite_4C_Pool_70381C->Remove(field_C_sprite_4c_ptr);
+        gSpriteShapePool_70381C->Remove(field_C_sprite_4c_ptr);
         field_C_sprite_4c_ptr = 0;
     }
 
     if (field_4_0x4C_len)
     {
-        gSprite_4C_Pool_70381C->Remove(field_4_0x4C_len);
+        gSpriteShapePool_70381C->Remove(field_4_0x4C_len);
         field_4_0x4C_len = 0;
     }
 }
@@ -1895,7 +1895,7 @@ char Sprite::sub_5A1A60()
 {
     Update_4C_59F990();
 
-    Sprite_4C* p4C = this->field_4_0x4C_len;
+    SpriteShape_4C* p4C = this->field_4_0x4C_len;
 
     if (!p4C->field_48_bBoxUpToDate)
     {
@@ -1948,8 +1948,8 @@ char_type Sprite::CheckCornerZCollisions_5A1CA0(u32* pCount)
 
     UpdateCollisionBoundsIfNeeded_59E9C0();
 
-    Sprite_4C* p4C = field_C_sprite_4c_ptr;
-    // 9.6f: Sprite_4C::GetF8_492170 for the depth (inlined, using it changes the code)
+    SpriteShape_4C* p4C = field_C_sprite_4c_ptr;
+    // 9.6f: SpriteShape_4C::GetF8_492170 for the depth (inlined, using it changes the code)
     Fix16 v6 = field_1C_zpos - (p4C->field_8_depth / 2);
     Fix16 v7 = field_1C_zpos + (p4C->field_8_depth / 2);
 
@@ -2063,7 +2063,7 @@ Fix16 Sprite::MinDistanceToAnySpriteBBoxCorner_5A22B0(Sprite* pOther)
     s32 k4Counter = 4;
     do
     {
-        Sprite_4C* p4C = pOther->field_C_sprite_4c_ptr;
+        SpriteShape_4C* p4C = pOther->field_C_sprite_4c_ptr;
         Fix16 d = Fix16::MaxAbsDistance_42A6B0(field_14_xy.x, field_14_xy.y, p4C->field_C_renderingRect[box_idx].x, p4C->field_C_renderingRect[box_idx].y);
         if (d < xy_pos_max)
         {
@@ -2257,7 +2257,7 @@ void Sprite::ResolveCollisionWithCarPedOrObject_5A2A30()
     struct_4 collisions;
     collisions.field_0_p18 = 0;
     gSpriteGrid_1_679208->CollectRectCollisions_477F30(&field_C_sprite_4c_ptr->field_30_boundingBox, 0, 0, this, &collisions);
-    for (Sprite_18* pCollisionIter = collisions.field_0_p18; pCollisionIter; pCollisionIter = pCollisionIter->mpNext)
+    for (AttachedSprite_18* pCollisionIter = collisions.field_0_p18; pCollisionIter; pCollisionIter = pCollisionIter->mpNext)
     {
         Sprite* pCurrent = pCollisionIter->field_0;
         if (pCurrent->get_type_416B40() == sprite_types_enum::car_2)
@@ -2312,10 +2312,10 @@ void Sprite::PoolAllocate()
     this->field_10_sound = 0;
 
     // TODO: Probably an inline
-    this->field_20_id = gSprite_8_703820->field_4_id_base++;
-    if (!gSprite_8_703820->field_4_id_base)
+    this->field_20_id = gSpriteManager_703820->field_4_id_base++;
+    if (!gSpriteManager_703820->field_4_id_base)
     {
-        gSprite_8_703820->field_4_id_base = 1;
+        gSpriteManager_703820->field_4_id_base = 1;
     }
 }
 
@@ -2377,7 +2377,7 @@ Sprite::~Sprite()
 
 // https://decomp.me/scratch/RAdGk
 MATCH_FUNC(0x5A3550)
-void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
+void SpriteShape_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {
     // The five points are constructed up front (EH state 4 at the start), in this order to get the
     // original's stack slots, and the corners
@@ -2533,13 +2533,13 @@ void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 zp
 }
 
 MATCH_FUNC(0x5A4D90)
-void Sprite_4C::SetCurrentRect_5A4D90()
+void SpriteShape_4C::SetCurrentRect_5A4D90()
 {
     field_30_boundingBox.DoSetCurrentRect_59DD60();
 }
 
 MATCH_FUNC(0x5A4DA0)
-void Sprite_4C::DrawCollisionBox_5A4DA0(Fix16 zpos)
+void SpriteShape_4C::DrawCollisionBox_5A4DA0(Fix16 zpos)
 {
     // The bounding box sides go through the Fix16_Rect getters (by-value returns): they decide
     // the argument copies' stack slots and use up the inline budget like the original.
@@ -2606,7 +2606,7 @@ static inline void ProjectToScreen_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut
 DEFINE_GLOBAL_INIT(u16, gDebugColour_626260, 0x1111, 0x626260);
 
 MATCH_FUNC(0x5a57a0)
-s32 Sprite_4C::PoolAllocate()
+s32 SpriteShape_4C::PoolAllocate()
 {
     mpNext = NULL;
     field_48_bBoxUpToDate = false;
@@ -2614,52 +2614,52 @@ s32 Sprite_4C::PoolAllocate()
 }
 
 MATCH_FUNC(0x5a57b0)
-Sprite_4C::Sprite_4C()
+SpriteShape_4C::SpriteShape_4C()
 {
     PoolAllocate();
 }
 
 MATCH_FUNC(0x5a5840)
-Sprite_4C::~Sprite_4C()
+SpriteShape_4C::~SpriteShape_4C()
 {
 }
 
 MATCH_FUNC(0x5a5860)
-void Sprite_8::ResetDrawnSpriteCount_5A5860()
+void SpriteManager_8::ResetDrawnSpriteCount_5A5860()
 {
     field_0_drawn_sprite_count = 0;
 }
 
 MATCH_FUNC(0x5a5870)
-void Sprite_8::sub_5A5870()
+void SpriteManager_8::sub_5A5870()
 {
-    gSprite_703814 = gSprite_Pool_703818->get_new_sprite();
+    gSprite_703814 = gSpritePool_703818->get_new_sprite();
     gSprite_703814->AllocInternal_59F950(gFix16_7035C0, gFix16_7035C0, gFix16_7035C0);
 }
 
 MATCH_FUNC(0x5a58a0)
-Sprite_8::Sprite_8()
+SpriteManager_8::SpriteManager_8()
 {
-    gSprite_Pool_703818 = new Sprite_Pool();
-    if (gSprite_Pool_703818 == NULL)
+    gSpritePool_703818 = new SpritePool();
+    if (gSpritePool_703818 == NULL)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 5039);
     }
 
-    gSprite_4C_Pool_70381C = new Sprite_4C_Pool();
-    if (gSprite_4C_Pool_70381C == NULL)
+    gSpriteShapePool_70381C = new SpriteShapePool();
+    if (gSpriteShapePool_70381C == NULL)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 5041);
     }
 
-    gSprite_3CC_67AF1C = new Sprite_3CC();
-    if (gSprite_3CC_67AF1C == NULL)
+    gSpriteMaskCache_67AF1C = new SpriteMaskCache_3CC();
+    if (gSpriteMaskCache_67AF1C == NULL)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 5043);
     }
 
-    gSprite_18_Pool_703B80 = new Sprite_18_Pool();
-    if (gSprite_18_Pool_703B80 == NULL)
+    gAttachedSpritePool_703B80 = new AttachedSpritePool();
+    if (gAttachedSpritePool_703B80 == NULL)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 5046);
     }
@@ -2676,40 +2676,40 @@ EXPORT void __stdcall ProjectOntoAxis_5A5AA0(Fix16& xpos1, Fix16& ypos1, Ang16& 
 }
 
 MATCH_FUNC(0x5a5b50)
-Sprite_8::~Sprite_8()
+SpriteManager_8::~SpriteManager_8()
 {
-    GTA2_DELETE_AND_NULL(gSprite_Pool_703818);
-    GTA2_DELETE_AND_NULL(gSprite_4C_Pool_70381C);
-    GTA2_DELETE_AND_NULL(gSprite_3CC_67AF1C);
-    GTA2_DELETE_AND_NULL(gSprite_18_Pool_703B80);
+    GTA2_DELETE_AND_NULL(gSpritePool_703818);
+    GTA2_DELETE_AND_NULL(gSpriteShapePool_70381C);
+    GTA2_DELETE_AND_NULL(gSpriteMaskCache_67AF1C);
+    GTA2_DELETE_AND_NULL(gAttachedSpritePool_703B80);
     gSprite_703814 = 0;
 }
 
 MATCH_FUNC(0x5a5be0)
-Sprite_4C_Pool::~Sprite_4C_Pool()
+SpriteShapePool::~SpriteShapePool()
 {
     field_0_pool.field_0_pHead = 0;
 }
 
 MATCH_FUNC(0x5A5C00)
-Sprite_Pool::~Sprite_Pool()
+SpritePool::~SpritePool()
 {
     field_0_pool.field_0_pHead = 0;
 }
 
 MATCH_FUNC(0x5a5c20)
-Sprite_18_Pool::~Sprite_18_Pool()
+AttachedSpritePool::~AttachedSpritePool()
 {
     field_0_pool.field_0_pHead = 0;
 }
 
 MATCH_FUNC(0x5a5c40)
-Sprite_18::~Sprite_18()
+AttachedSprite_18::~AttachedSprite_18()
 {
 }
 
 MATCH_FUNC(0x5a5c50)
-Sprite_18::Sprite_18()
+AttachedSprite_18::AttachedSprite_18()
 {
     field_10_rot = 0;
 }
@@ -2736,7 +2736,7 @@ Sprite::Sprite() : field_0(gAng16_703804)
 }
 
 MATCH_FUNC(0x5A6910)
-bool Sprite_18::PoolUpdate_5A6910(Sprite* a2)
+bool AttachedSprite_18::PoolUpdate_5A6910(Sprite* a2)
 {
     bool bRet;
     Object_2C* o2c = field_0->As2C_40FEC0();
@@ -2771,7 +2771,7 @@ bool Sprite_18::PoolUpdate_5A6910(Sprite* a2)
 }
 
 MATCH_FUNC(0x5A69E0)
-void Sprite_18::sub_5A69E0()
+void AttachedSprite_18::sub_5A69E0()
 {
     Object_2C* pO2c = field_0->As2C_40FEC0();
     if (pO2c)
@@ -2789,7 +2789,7 @@ void Sprite_18::sub_5A69E0()
 }
 
 MATCH_FUNC(0x5A6A20)
-void Sprite_18::sub_5A6A20()
+void AttachedSprite_18::sub_5A6A20()
 {
     Car_BC* cBC = this->field_0->AsCar_40FEB0();
     if (cBC)

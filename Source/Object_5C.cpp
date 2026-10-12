@@ -156,7 +156,7 @@ void Object_2C::PoolDeallocate()
     Object_2C::ReleaseSubObjects_527F10();
     if (field_4)
     {
-        gSprite_Pool_703818->remove(field_4);
+        gSpritePool_703818->remove(field_4);
         this->field_4 = 0;
     }
     this->field_14_id = 0;
@@ -3184,7 +3184,7 @@ Object_5C::Object_5C()
         FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\object.cpp", 4245);
     }
 
-    field_58_collision_probe_sprite = gSprite_Pool_703818->get_new_sprite();
+    field_58_collision_probe_sprite = gSpritePool_703818->get_new_sprite();
     field_58_collision_probe_sprite->set_xyz_lazy_451950(0, 0, 0);
 
     field_58_collision_probe_sprite->set_ang_lazy_420690(kZeroAng_6F8F68);
@@ -3201,7 +3201,7 @@ Object_5C::~Object_5C()
 {
     if (field_58_collision_probe_sprite)
     {
-        gSprite_Pool_703818->remove(field_58_collision_probe_sprite);
+        gSpritePool_703818->remove(field_58_collision_probe_sprite);
         field_58_collision_probe_sprite = 0;
     }
 

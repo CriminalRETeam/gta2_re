@@ -16,7 +16,7 @@ EXPORT void __stdcall UnpackSignedNibbles_529050(u8 a1, s8* a2, s8* a3);
 
 class Object_2C;
 class Sprite;
-class Sprite_4C;
+class SpriteShape_4C;
 class Car_BC;
 class ObjectDefinition_74;
 class Object_3C;

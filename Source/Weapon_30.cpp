@@ -1411,7 +1411,7 @@ void Weapon_30::fire_truck_flamethrower_5E0B10()
     Fix16_Point offset;
     Fix16_Point velocity;
 
-    Sprite_18* pTurret;
+    AttachedSprite_18* pTurret;
     Ped* pDriver = field_14_car->field_54_driver;
     field_24_pPed = pDriver;
 
@@ -1466,7 +1466,7 @@ void Weapon_30::fire_truck_gun_5E0E70()
 
     field_24_pPed = field_14_car->get_driver_4118B0();
 
-    Sprite_18* pTurret = field_14_car->field_0_attachments.GetSpriteForModel_5A6A50(114);
+    AttachedSprite_18* pTurret = field_14_car->field_0_attachments.GetSpriteForModel_5A6A50(114);
     gun_ang = pTurret->field_0->field_0 + word_706DFA;
 
     bullet_pos.SetXY_432860(Fix16(0), dword_706CDC);

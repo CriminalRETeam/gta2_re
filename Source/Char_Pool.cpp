@@ -711,7 +711,7 @@ PedManager::PedManager()
         }
     }
 
-    field_8 = gSprite_Pool_703818->get_new_sprite();
+    field_8 = gSpritePool_703818->get_new_sprite();
     // Plain 0s: implicit Fix16 conversions, out of line (Fix16::FromInt_4369F0) once the inline budget runs out
     field_8->set_xyz_lazy_451950(0, 0, 0); // 9.6f inlined set_xyz_lazy_420600
     field_8->set_ang_lazy_420690(gDummyPedAng_6787A8);
@@ -790,7 +790,7 @@ PedManager::~PedManager()
 
     if (field_8)
     {
-        gSprite_Pool_703818->remove(field_8);
+        gSpritePool_703818->remove(field_8);
         field_8 = 0;
     }
 }

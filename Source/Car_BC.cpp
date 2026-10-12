@@ -1366,7 +1366,7 @@ Car_BC* Car_6C::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rota
     pCar->field_84_car_info_idx = car_info_idx;
     pCar->field_88_despawn_status = car_despawn_status::active_1;
 
-    pCar->field_50_car_sprite = gSprite_Pool_703818->get_new_sprite();
+    pCar->field_50_car_sprite = gSpritePool_703818->get_new_sprite();
     pCar->field_50_car_sprite->set_xyz_lazy_420600(xpos, ypos, zpos);
 
     // Sprite* pCarSprite = pNewSprite;
@@ -3938,8 +3938,8 @@ bool Car_BC::IsSpriteShrunk_43DC00()
     car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
     if (field_74_damage == 32001)
     {
-        Sprite_4C* pSprite4C = field_50_car_sprite->field_C_sprite_4c_ptr;
-        Sprite_4C* pLen = field_50_car_sprite->field_4_0x4C_len;
+        SpriteShape_4C* pSprite4C = field_50_car_sprite->field_C_sprite_4c_ptr;
+        SpriteShape_4C* pLen = field_50_car_sprite->field_4_0x4C_len;
         Fix16 sprite4CWidth = pSprite4C->field_0_width;
         Fix16 lenWidth = pLen->field_0_width;
         return lenWidth != sprite4CWidth;
@@ -4623,7 +4623,7 @@ void Car_BC::PutTV_Antenna_440BB0()
 MATCH_FUNC(0x440c10)
 char_type Car_BC::RotateRoofObjectTowardTarget_440C10(Ang16 targetAngle)
 {
-    Sprite_18* pFound = 0;
+    AttachedSprite_18* pFound = 0;
     Ang16 ang = 0;
 
     if (IsFireTruck_4118F0())
@@ -4681,7 +4681,7 @@ char_type Car_BC::HandleRoofTurretRotation_440D90(char_type bLeftOn)
     // single store after the if/else keeps the angle in %di across the second Normalize loop)
     if (field_84_car_info_idx == car_model_enum::FIRETRUK)
     {
-        Sprite_18* pSprite = field_0_attachments.GetSpriteForModel_5A6A50(114);
+        AttachedSprite_18* pSprite = field_0_attachments.GetSpriteForModel_5A6A50(114);
         if (bLeftOn)
         {
             compound_add_41FA70(pSprite->field_10_rot, kFireTruckCannonRotSpeed_6771C0);
@@ -4697,7 +4697,7 @@ char_type Car_BC::HandleRoofTurretRotation_440D90(char_type bLeftOn)
 
     if (field_84_car_info_idx == car_model_enum::TANK)
     {
-        Sprite_18* pSprite = field_0_attachments.GetSpriteForModel_5A6A50(148);
+        AttachedSprite_18* pSprite = field_0_attachments.GetSpriteForModel_5A6A50(148);
         if (bLeftOn)
         {
             compound_add_41FA70(pSprite->field_10_rot, kTankTurretRotSpeed_677352);
@@ -4713,7 +4713,7 @@ char_type Car_BC::HandleRoofTurretRotation_440D90(char_type bLeftOn)
 
     if (field_84_car_info_idx == car_model_enum::GUNJEEP)
     {
-        Sprite_18* pSprite = field_0_attachments.GetSpriteForModel_5A6A50(248);
+        AttachedSprite_18* pSprite = field_0_attachments.GetSpriteForModel_5A6A50(248);
         if (bLeftOn)
         {
             compound_add_41FA70(pSprite->field_10_rot, kGunJeepTurretRotSpeed_677810);
@@ -5760,7 +5760,7 @@ void Car_BC::ManageTVAntenna_4425D0()
     Ang16 towerAng;
     Fix16 zero;
     Fix16 spriteAngFp;
-    Sprite_18* pSprite = field_0_attachments.GetSpriteForModel_5A6A50(149);
+    AttachedSprite_18* pSprite = field_0_attachments.GetSpriteForModel_5A6A50(149);
     if (pSprite)
     {
         towerAng = GetRadioTowerAngle_442520();
@@ -5912,7 +5912,7 @@ void Car_BC::TryHitchTrailer_442810()
 MATCH_FUNC(0x442d10)
 void Car_BC::LightUpdate_442D10()
 {
-    Sprite_18* p18 = field_0_attachments.GetSpriteForModel_5A6A50(165);
+    AttachedSprite_18* p18 = field_0_attachments.GetSpriteForModel_5A6A50(165);
     if (p18)
     {
         Sprite* pSprite = p18->field_0;
@@ -6788,7 +6788,7 @@ void Car_BC::PoolDeallocate()
 
     if (field_50_car_sprite)
     {
-        gSprite_Pool_703818->remove(field_50_car_sprite);
+        gSpritePool_703818->remove(field_50_car_sprite);
         field_50_car_sprite = 0;
     }
 

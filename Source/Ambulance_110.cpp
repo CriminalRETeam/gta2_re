@@ -40,7 +40,7 @@ MATCH_FUNC(0x4fa310)
 void Ambulance_110::init_4FA310()
 {
     field_0_unused = 1;
-    field_1_queue_count = 0;
+    field_1_corpse_count = 0;
     field_4_patient_queue.ClearList_420E90();
 
     for (s32 i = 0; i < 25; i++)
@@ -118,13 +118,13 @@ bool Ambulance_110::HandlePedDeath_4FA330(Ped* pDeadPed)
 MATCH_FUNC(0x4fa470)
 bool Ambulance_110::TryAddPatient_4FA470(Ped* pPed)
 {
-    if (pPed->PedTypeIs_45EDE0(ped_type::player_2) || field_1_queue_count >= 25)
+    if (pPed->PedTypeIs_45EDE0(ped_type::player_2) || field_1_corpse_count >= 25)
     {
         return false;
     }
 
     field_4_patient_queue.AddPedToFront_471140(pPed);
-    field_1_queue_count++;
+    field_1_corpse_count++;
 
     return true;
 }
@@ -148,8 +148,8 @@ MATCH_FUNC(0x4fa500)
 void Ambulance_110::ProcessPatientQueue_4FA500()
 {
     u8 x, y, z;
-    field_1_queue_count -= field_4_patient_queue.RemoveNonCorpses_471290();
-    if (field_1_queue_count == 0)
+    field_1_corpse_count -= field_4_patient_queue.RemoveNonCorpses_471290();
+    if (field_1_corpse_count == 0)
     {
         return;
     }
@@ -157,7 +157,7 @@ void Ambulance_110::ProcessPatientQueue_4FA500()
     Ped* pPed = field_4_patient_queue.RemoveFirstPed_471320();
     if (pPed->IsNearestSpriteACar_4701D0())
     {
-        field_1_queue_count--;
+        field_1_corpse_count--;
         gAmbulance_110_6F70A8->TryAddPatient_4FA470(pPed);
         return;
     }
@@ -168,7 +168,7 @@ void Ambulance_110::ProcessPatientQueue_4FA500()
         z = pPed->field_1AC_cam.z.ToInt();
         if (!gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &x, &y, &z, 0))
         {
-            field_1_queue_count--;
+            field_1_corpse_count--;
             pPed->SetObjective(objectives_enum::objective_50);
             return;
         }
@@ -185,7 +185,7 @@ void Ambulance_110::ProcessPatientQueue_4FA500()
                     pAmbulance->field_14_patient_count < 10)
                 {
                     pAmbulance->AddPassenger_4FA800(pPed);
-                    field_1_queue_count--;
+                    field_1_corpse_count--;
                     EmergencyCrew_30* pCrew = pAmbulance->field_4_paramedics_crew;
                     if (pCrew->field_28_state != crew_state::update_6)
                     {
@@ -212,7 +212,7 @@ void Ambulance_110::ProcessPatientQueue_4FA500()
             pNew->field_4_paramedics_crew = gEmergencyCrewPool_706280->AllocateSlot_5CBB80();
             if (!pNew->field_4_paramedics_crew)
             {
-                field_1_queue_count--;
+                field_1_corpse_count--;
                 pPed->SetObjective(objectives_enum::objective_50);
                 pNew->ClearTask_4FA7D0();
                 return;
@@ -231,13 +231,13 @@ void Ambulance_110::ProcessPatientQueue_4FA500()
             pNew->AddPassenger_4FA800(pPed);
         }
     }
-    field_1_queue_count--;
+    field_1_corpse_count--;
 }
 
 MATCH_FUNC(0x4fa790)
 void Ambulance_110::AmbulancesService_4FA790()
 {
-    if (field_1_queue_count > 0)
+    if (field_1_corpse_count > 0)
     {
         ProcessPatientQueue_4FA500();
     }

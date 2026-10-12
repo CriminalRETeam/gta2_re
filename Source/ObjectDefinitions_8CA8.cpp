@@ -664,7 +664,7 @@ void ObjectDefinition_74::AddSpritePaletteAndSetAnimSpeed_533150(s16 a2, s16 a3)
 MATCH_FUNC(0x533170)
 Sprite* ObjectDefinition_74::CreateSpriteFromDefinition_533170()
 {
-    Sprite* pFreeSprite = gSprite_Pool_703818->get_new_sprite();
+    Sprite* pFreeSprite = gSpritePool_703818->get_new_sprite();
     ApplyDefinitionToSprite_5331A0(pFreeSprite);
     return pFreeSprite;
 }

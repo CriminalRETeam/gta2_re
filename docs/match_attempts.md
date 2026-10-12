@@ -1589,7 +1589,7 @@ Each was a few asm lines away from the original. What is left and what was tried
   - 0x4E1E00 `Map_0x370::CanSpriteEnterTile`: 2022->2018 diff lines. `!gSprite || Check()` for all 23 checks gets the size right but VC6 then shares one `return 1`; the original also uses two copies of the Fix16 int ctor (`FromInt_4369F0`, `FromInt_4926F0`).
   - 0x4626B0 `Ped::StateMachineTick` (fable): one goto kept, the null-ped-group exit into dummy_3's last `Deallocate` block; no structured spelling produced that forward jump.
   - 0x43F130 `Car_BC::HandleCarHitByObject`: 0.130->0.090 by the ratio, kept because the frame (0x118), EH numbering, compare-tree case order (128/138, 10, 194, 210, default, 265, 198) and the first case's calls now match; the ratio sees one big hunk either way. New inline `const Fix16_Point&` overload of `AccumulateDamage_43DA90`. Left: damage in ebx, RotateByAngle operator variants, tail merges.
-  - 0x5A3550 `Sprite_4C::UpdateRotatedBoundingBox`: not attempted (>2 KB, ratio <0.04).
+  - 0x5A3550 `SpriteShape_4C::UpdateRotatedBoundingBox`: not attempted (>2 KB, ratio <0.04).
 
 ## x87 scheduling pass (MapRenderer)
 
@@ -1746,7 +1746,7 @@ Tail merging and block layout:
   into the canonical one in ours, the original keeps it inline.
 - `Object_2C::HandleSpriteZCollision_5238B0` (146): the `field_50 == 1` branch (the original's
   `mov %al,(%ecx)` reuses the compared value) and else-path block order.
-- `Sprite_4C::UpdateRotatedBoundingBox_5A3550` (55): one instruction scheduled differently in the 90/270
+- `SpriteShape_4C::UpdateRotatedBoundingBox_5A3550` (55): one instruction scheduled differently in the 90/270
   branches, so no cross-jump.
 - `CarAI_78::FollowRoadDirection_44A1F0` (525 -> 140): which merged `SetGoStraight` copy VC6 keeps (the original keeps the
   second), one add operand load order.
@@ -2191,7 +2191,7 @@ Scores are `sc.sh` lines.
 - `Char_B4::sub_54C3E0` (58): non-const / `u32` / assigned `face`, `char_type unknown`, `unknown` declared
   after `face`: 58-66. Permuter 700: nothing. The original's tail copies use different registers per copy
   (B: ecx/edx, C: eax/ecx), so only one of them cross-jumps one instruction earlier.
-- `Sprite_4C::UpdateRotatedBoundingBox_5A3550` (57): height declared first (302), depth first (782), declare
+- `SpriteShape_4C::UpdateRotatedBoundingBox_5A3550` (57): height declared first (302), depth first (782), declare
   then assign (57). Permuter 600: nothing.
 - `Ped::CallPoliceCar_469FE0` (102): the original keeps 0 in `ebx` (9.6f and VC7 too). `u8 x = 0, y = 0, z = 0;` at the
   top (then assigned) gives the zero register and 30 lines, but adds three byte stores the original doesn't
@@ -2300,7 +2300,7 @@ Scores are `sc.sh` lines.
 ### FPO marker follow-up (near misses)
 - Matched with the FPO markers: `Char_B4::HandleObjectCollision_548840` (three unused `Fix16_Point` locals give
   EH state 4, the shared-epilogue jump now comes for free), `CarPhysics_B0::SpawnSkidSegment_55D200` (`Fix16 len`
-  declared at the top: it and the `/ 2` temporary then share the dead `box_idx` slot), `Sprite_4C::UpdateRotatedBoundingBox_5A3550`
+  declared at the top: it and the `/ 2` temporary then share the dead `box_idx` slot), `SpriteShape_4C::UpdateRotatedBoundingBox_5A3550`
   (left/right/top/bottom declared, then assigned through the `Fix16_Rect` getters 9.6f calls; initialised they
   interleave), `Map_0x370::SpriteHitsDiagonalWall_4E1520` (`Fix16((u32)x).Add_408660(half)` and plain `z_pos`
   for the by-value z argument), `Start_NetworkGame_5E5A30` (`char path[MAX_PATH]`, the frame was 4 bytes short).

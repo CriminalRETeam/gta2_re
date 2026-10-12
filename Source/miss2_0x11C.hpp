@@ -18,7 +18,7 @@ class Light_28;
 class Door_38;
 class miss2_0x11C;
 class Hud_Arrow_7C;
-class Sprite_18;
+class AttachedSprite_18;
 
 struct SCR_CMD_HEADER
 {
@@ -145,7 +145,7 @@ struct SCR_POINTER : SCR_CMD_HEADER
         } words;
         Generator_2C* field_8_generator;
         Hud_Arrow_7C* field_8_arrow;
-        Sprite_18* field_8_sprite;
+        AttachedSprite_18* field_8_sprite;
     };
 };
 

@@ -7,7 +7,7 @@
 
 class Object_2C;
 class DoorData_10;
-class Sprite_4C;
+class SpriteShape_4C;
 class Ped;
 class Car_BC;
 
