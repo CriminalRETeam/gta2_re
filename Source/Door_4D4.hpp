@@ -51,7 +51,7 @@ inline bool Door_38::IsOpen_44C860()
 
 inline void Door_38::CloseDoors_476A30()
 {
-    if (field_28)
+    if (field_28_bClosing)
     {
         if (field_0_primary_door_data)
         {

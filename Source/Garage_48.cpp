@@ -69,7 +69,7 @@ void Garage_48::ValidateParkCommand_534650()
 {
     // The result is unused (the out-of-line Add_408660 on a const Fix16)
     {
-        const Fix16 v4(this->field_10->field_0_primary_door_data->field_6_z);
+        const Fix16 v4(this->field_10_door->field_0_primary_door_data->field_6_z);
         v4.Add_408660(kFpEighth_6FCF60);
     }
 
@@ -77,14 +77,14 @@ void Garage_48::ValidateParkCommand_534650()
                                       (field_20_park_x_max - kFpOne64th_6FD1D8).ToInt(),
                                       field_1C_park_y_min.ToInt(),
                                       (field_24_park_y_max - kFpOne64th_6FD1D8).ToInt(),
-                                      field_10->field_0_primary_door_data->get_z_489640()))
+                                      field_10_door->field_0_primary_door_data->get_z_489640()))
     {
         FatalError_4A38C0(Gta2Error::ErrorInSetupOfParkCommand,
                           "C:\\Splitting\\Gta2\\Source\\park.cpp",
                           62,
-                          this->field_10->field_0_primary_door_data->get_x_489620(),
-                          this->field_10->field_0_primary_door_data->get_y_489630(),
-                          this->field_10->field_0_primary_door_data->get_z_489640());
+                          this->field_10_door->field_0_primary_door_data->get_x_489620(),
+                          this->field_10_door->field_0_primary_door_data->get_y_489630(),
+                          this->field_10_door->field_0_primary_door_data->get_z_489640());
     }
 }
 
@@ -99,32 +99,32 @@ DEFINE_GLOBAL_INIT(Ang16, word_6FD25C, Ang16(0), 0x6FD25C);
 MATCH_FUNC(0x534700)
 u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
 {
-    field_0 = pCar;
-    field_44 = 0;
-    field_10 = pDoor;
-    field_C = 1;
-    field_14 = 0;
-    field_3C = 30;
-    field_3D = 0;
-    if (field_3E == 255)
+    field_0_parking_car = pCar;
+    field_44_wait_ticks = 0;
+    field_10_door = pDoor;
+    field_C_state = 1;
+    field_14_driver = 0;
+    field_3C_settle_ticks = 30;
+    field_3D_in_position = 0;
+    if (field_3E_park_ticket == 255)
     {
-        field_3E = 1;
+        field_3E_park_ticket = 1;
     }
     else
     {
-        field_3E++;
+        field_3E_park_ticket++;
     }
 
-    field_40 = IsLongerThanOneBlock_447ED0(pCar);
+    field_40_long_car = IsLongerThanOneBlock_447ED0(pCar);
 
     u8 x;
     u8 y;
     u8 z;
-    field_10->get_door_xyz_face_49CEE0(&x, &y, &z, (u32*)&field_38);
+    field_10_door->get_door_xyz_face_49CEE0(&x, &y, &z, (u32*)&field_38_door_face);
 
     Fix16 w1;
     Fix16 w2;
-    if (field_40)
+    if (field_40_long_car)
     {
         // Assigned separately: `w2 = w1` lets VC6 merge the two and lose the second register (ebp)
         w1 = kFpTwo_6FD128;
@@ -140,10 +140,10 @@ u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
     // VC6's operand order and register choices.
     // 9.6f: the park rectangle corners (field_18/1C, field_20/24) and the target (field_30/34) are
     // Fix16 pairs set with Fix16_Point_POD::SetXY_432860
-    switch (field_38)
+    switch (field_38_door_face)
     {
         case 1:
-            if (field_10->IsDoubleDoor_489600())
+            if (field_10_door->IsDoubleDoor_489600())
             {
                 ((Fix16_Point_POD*)&field_18_park_x_min)->SetXY_432860(Fix16(x), Fix16(y) - w1 - dword_6FD124);
             }
@@ -156,7 +156,7 @@ u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
             break;
         case 2:
             ((Fix16_Point_POD*)&field_18_park_x_min)->SetXY_432860(Fix16(x) - w2, Fix16(y) - w1);
-            if (field_10->IsDoubleDoor_489600())
+            if (field_10_door->IsDoubleDoor_489600())
             {
                 ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + dword_6FD124, Fix16(y) + w1 + kFpTwo_6FD128);
             }
@@ -168,7 +168,7 @@ u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
             break;
         case 3:
             ((Fix16_Point_POD*)&field_18_park_x_min)->SetXY_432860(Fix16(x) - w1, Fix16(y));
-            if (field_10->IsDoubleDoor_489600())
+            if (field_10_door->IsDoubleDoor_489600())
             {
                 ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + kFpTwo_6FD128 + w1, Fix16(y) + w2 + dword_6FD124);
             }
@@ -179,7 +179,7 @@ u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
             ((Fix16_Point_POD*)&field_30_target_x)->SetXY_432860(Fix16(x) + dword_6FCF98, Fix16(y) - dword_6FD218);
             break;
         case 4:
-            if (field_10->IsDoubleDoor_489600())
+            if (field_10_door->IsDoubleDoor_489600())
             {
                 ((Fix16_Point_POD*)&field_18_park_x_min)->SetXY_432860(Fix16(x) - dword_6FD124 - w1, Fix16(y) - w2);
             }
@@ -193,7 +193,7 @@ u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
     }
 
     ValidateParkCommand_534650();
-    return field_3E;
+    return field_3E_park_ticket;
 }
 
 MATCH_FUNC(0x5349d0)
@@ -203,21 +203,21 @@ void Garage_48::GaragesService_5349D0()
     u8 idx2;
     Fix16_Point car_pos;
 
-    switch (field_C)
+    switch (field_C_state)
     {
         case 1:
         {
-            if (!field_0->field_50_car_sprite)
+            if (!field_0_parking_car->field_50_car_sprite)
             {
-                field_C = 3;
+                field_C_state = 3;
                 return;
             }
-            if (field_0->get_driver_4118B0() && field_0->field_54_driver != field_14)
+            if (field_0_parking_car->get_driver_4118B0() && field_0_parking_car->field_54_driver != field_14_driver)
             {
-                field_14 = field_0->get_driver_4118B0();
+                field_14_driver = field_0_parking_car->get_driver_4118B0();
             }
 
-            u8 collision = field_0->field_50_car_sprite->CollisionCheck_5A0320(&field_18_park_x_min, &field_20_park_x_max, &idx1, &idx2);
+            u8 collision = field_0_parking_car->field_50_car_sprite->CollisionCheck_5A0320(&field_18_park_x_min, &field_20_park_x_max, &idx1, &idx2);
             if (collision == 2)
             {
                 if (idx1 == 0)
@@ -249,7 +249,7 @@ void Garage_48::GaragesService_5349D0()
             {
                 if (collision >= 4)
                 {
-                    field_C = 2;
+                    field_C_state = 2;
                     return;
                 }
             }
@@ -259,105 +259,105 @@ void Garage_48::GaragesService_5349D0()
             }
 
         park:
-            field_0->set_f78_0x2_44A3E0();
-            field_0->set_f78_0x8_4218A0();
-            if (field_0->is_driven_by_player())
+            field_0_parking_car->set_f78_0x2_44A3E0();
+            field_0_parking_car->set_f78_0x8_4218A0();
+            if (field_0_parking_car->is_driven_by_player())
             {
-                field_0->GetDriverPlayer_421870()->DisableAllControls_569FF0();
+                field_0_parking_car->GetDriverPlayer_421870()->DisableAllControls_569FF0();
             }
-            field_0->SetF98To1IfNot4_475C10();
-            field_0->field_58_physics->StopMoving_4895D0();
+            field_0_parking_car->SetF98To1IfNot4_475C10();
+            field_0_parking_car->field_58_physics->StopMoving_4895D0();
 
-            car_pos.SetXY_432860(field_0->get_x_41E430(), field_0->get_y_41E440());
-            SpriteShape_4C* pBox = field_0->field_50_car_sprite->field_C_pCollisionShape;
+            car_pos.SetXY_432860(field_0_parking_car->get_x_41E430(), field_0_parking_car->get_y_41E440());
+            SpriteShape_4C* pBox = field_0_parking_car->field_50_car_sprite->field_C_pCollisionShape;
             field_28_push_dir = (pBox->field_C_corners[idx1] + pBox->field_C_corners[idx2]).Divide_442CB0(kFpTwo_6FD128) - car_pos;
             if (field_28_push_dir.x == dword_6FD120 && field_28_push_dir.y == dword_6FD120)
             {
-                field_3D = 1;
-                field_C = 2;
+                field_3D_in_position = 1;
+                field_C_state = 2;
             }
             else
             {
                 field_28_push_dir = field_28_push_dir.NormalizeSafe_442AD0().Multiply_438FE0(dword_6FCF10);
             }
-            field_0->field_58_physics->ApplyForceScaledByMass_55F9A0(field_28_push_dir);
-            field_C = 2;
+            field_0_parking_car->field_58_physics->ApplyForceScaledByMass_55F9A0(field_28_push_dir);
+            field_C_state = 2;
             break;
         }
 
         case 2:
         {
-            if (!field_0->field_58_physics)
+            if (!field_0_parking_car->field_58_physics)
             {
-                field_0->SetupCarPhysicsAndSpriteBinding_43BCA0();
+                field_0_parking_car->SetupCarPhysicsAndSpriteBinding_43BCA0();
             }
-            if (++field_44 >= 300)
+            if (++field_44_wait_ticks >= 300)
             {
-                field_C = 3;
+                field_C_state = 3;
                 return;
             }
-            if (field_0->get_driver_4118B0() && !field_0->is_driven_by_player())
+            if (field_0_parking_car->get_driver_4118B0() && !field_0_parking_car->is_driven_by_player())
             {
-                field_0->get_driver_4118B0()->SetObjective(objectives_enum::wait_in_car_27);
+                field_0_parking_car->get_driver_4118B0()->SetObjective(objectives_enum::wait_in_car_27);
             }
 
-            if (field_0->field_50_car_sprite->CollisionCheck_5A0320(&field_18_park_x_min, &field_20_park_x_max, &idx1, &idx2) != 4 && !field_3D)
+            if (field_0_parking_car->field_50_car_sprite->CollisionCheck_5A0320(&field_18_park_x_min, &field_20_park_x_max, &idx1, &idx2) != 4 && !field_3D_in_position)
             {
-                field_0->field_58_physics->StopMoving_4895D0();
-                field_0->field_58_physics->ApplyForceScaledByMass_55F9A0(field_28_push_dir);
+                field_0_parking_car->field_58_physics->StopMoving_4895D0();
+                field_0_parking_car->field_58_physics->ApplyForceScaledByMass_55F9A0(field_28_push_dir);
                 return;
             }
 
-            field_3D = 1;
-            --field_3C;
-            field_0->field_58_physics->StopMoving_4895D0();
-            if (field_3C == 0)
+            field_3D_in_position = 1;
+            --field_3C_settle_ticks;
+            field_0_parking_car->field_58_physics->StopMoving_4895D0();
+            if (field_3C_settle_ticks == 0)
             {
-                field_C = 3;
-                field_0->field_58_physics->StopMoving_4895D0();
+                field_C_state = 3;
+                field_0_parking_car->field_58_physics->StopMoving_4895D0();
             }
             break;
         }
 
         case 3:
         {
-            if (field_0->field_50_car_sprite)
+            if (field_0_parking_car->field_50_car_sprite)
             {
                 // 9.6f: Car_BC 0x476230/0x4895E0 (clear f78 bits 2 and 8, inlined)
-                field_0->field_78_flags &= ~2;
-                field_0->field_78_flags &= ~8;
-                field_10->CloseDoors_476A30();
-                field_10->ClearF2C_4895F0();
-                field_0->SetF98To4_475C30();
-                field_0->PrepareForExplosion_43C1C0();
-                field_0->field_4_passengers_list.KillAndClearAllPeds_4715A0();
-                if (field_0->is_driven_by_player())
+                field_0_parking_car->field_78_flags &= ~2;
+                field_0_parking_car->field_78_flags &= ~8;
+                field_10_door->CloseDoors_476A30();
+                field_10_door->ClearF2C_4895F0();
+                field_0_parking_car->SetF98To4_475C30();
+                field_0_parking_car->PrepareForExplosion_43C1C0();
+                field_0_parking_car->field_4_passengers_list.KillAndClearAllPeds_4715A0();
+                if (field_0_parking_car->is_driven_by_player())
                 {
-                    field_0->get_driver_4118B0()->field_15C_player->EnableAllControls_56A000();
+                    field_0_parking_car->get_driver_4118B0()->field_15C_player->EnableAllControls_56A000();
                 }
                 if (!field_3F_no_respawn)
                 {
-                    Ped* pDriver = field_0->get_driver_4118B0();
+                    Ped* pDriver = field_0_parking_car->get_driver_4118B0();
                     if (pDriver)
                     {
-                        pDriver->StartPedWalking_470200(field_30_target_x, field_34_target_y, field_0->get_z_41E450());
-                        field_0->ClearDriver_4407F0();
-                        pDriver->SetRotation_433C00(sub_5345E0(field_38));
-                        field_0->field_54_driver = NULL;
+                        pDriver->StartPedWalking_470200(field_30_target_x, field_34_target_y, field_0_parking_car->get_z_41E450());
+                        field_0_parking_car->ClearDriver_4407F0();
+                        pDriver->SetRotation_433C00(sub_5345E0(field_38_door_face));
+                        field_0_parking_car->field_54_driver = NULL;
                         pDriver->field_168_game_object->field_5C = 20;
                     }
-                    else if (field_14 && field_14->get_cam_x() >= field_18_park_x_min && field_14->get_cam_x() <= field_20_park_x_max &&
-                             field_14->get_cam_y() >= field_1C_park_y_min && field_14->get_cam_y() <= field_24_park_y_max)
+                    else if (field_14_driver && field_14_driver->get_cam_x() >= field_18_park_x_min && field_14_driver->get_cam_x() <= field_20_park_x_max &&
+                             field_14_driver->get_cam_y() >= field_1C_park_y_min && field_14_driver->get_cam_y() <= field_24_park_y_max)
                     {
-                        field_14->StartPedWalking_470200(field_30_target_x, field_34_target_y, field_0->get_z_41E450());
-                        field_14->SetRotation_433C00(sub_5345E0(field_38));
+                        field_14_driver->StartPedWalking_470200(field_30_target_x, field_34_target_y, field_0_parking_car->get_z_41E450());
+                        field_14_driver->SetRotation_433C00(sub_5345E0(field_38_door_face));
                     }
                 }
-                field_0->SetDespawn3IfNot5_421490();
+                field_0_parking_car->SetDespawn3IfNot5_421490();
             }
-            field_4 = field_0;
-            field_8 = field_4->field_6C_car_id;
-            field_0 = NULL;
+            field_4_parked_car = field_0_parking_car;
+            field_8_parked_car_id = field_4_parked_car->field_6C_car_id;
+            field_0_parking_car = NULL;
             Reset_489650();
             break;
         }
@@ -367,24 +367,24 @@ void Garage_48::GaragesService_5349D0()
 MATCH_FUNC(0x534e80)
 Garage_48::Garage_48()
 {
-    field_0 = 0;
-    field_10 = 0;
-    field_14 = 0;
-    field_C = 0;
+    field_0_parking_car = 0;
+    field_10_door = 0;
+    field_14_driver = 0;
+    field_C_state = 0;
     field_28_push_dir.x = 0;
     field_28_push_dir.y = 0;
     field_18_park_x_min = 0;
     field_1C_park_y_min = 0;
     field_20_park_x_max = 0;
     field_24_park_y_max = 0;
-    field_38 = 0;
+    field_38_door_face = 0;
     field_30_target_x = 0;
     field_34_target_y = 0;
-    field_3C = 30;
-    field_3D = 0;
-    field_3E = 0;
+    field_3C_settle_ticks = 30;
+    field_3D_in_position = 0;
+    field_3E_park_ticket = 0;
     field_3F_no_respawn = 0;
-    field_40 = 0;
-    field_4 = 0;
-    field_8 = 0;
+    field_40_long_car = 0;
+    field_4_parked_car = 0;
+    field_8_parked_car_id = 0;
 }

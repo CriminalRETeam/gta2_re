@@ -9779,7 +9779,7 @@ void Ped::EnterCarStateMachine_46BDC0()
         return;
     }
 
-    if (gGarage_48_6FD26C->IsParkingCarAndF3D_434AF0(this->field_154_target_to_enter))
+    if (gGarage_48_6FD26C->IsParkingCarInPosition_434AF0(this->field_154_target_to_enter))
     {
         if (PedTypeIs_45EDE0(ped_type::player_2))
         {

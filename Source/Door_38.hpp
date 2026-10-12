@@ -45,7 +45,7 @@ struct DoorAnimInfo_A
     s16 field_4_internal_tile_idx;
     s16 field_6_open_internal_tile_idx;
     u8 field_8_speed;
-    s8 field_9;
+    s8 field_9_unused;
 };
 
 class Door_38
@@ -82,7 +82,7 @@ class Door_38
     // 9.6f 0x4895F0
     inline void ClearF2C_4895F0()
     {
-        field_2C = 0;
+        field_2C_bCanAutoOpen = 0;
     }
 
     // 9.6f 0x489600
@@ -116,7 +116,7 @@ class Door_38
     {
         field_20_state = open;
         field_10_car_bc = car_bc_ptr;
-        field_2C = 1;
+        field_2C_bCanAutoOpen = 1;
     }
 
     // inlined in 0x4769a0
@@ -124,7 +124,7 @@ class Door_38
     {
         field_20_state = open;
         field_10_model_id = id;
-        field_2C = 1;
+        field_2C_bCanAutoOpen = 1;
     }
 
     // inlined in 0x4769c0
@@ -132,14 +132,14 @@ class Door_38
     {
         field_20_state = open;
         field_10_ped = ped_ptr;
-        field_2C = 1;
+        field_2C_bCanAutoOpen = 1;
     }
 
     // inlined in 0x476a00
     inline void set_target_id(s32 id)
     {
         field_14_target_id = id;
-        field_2C = 1;
+        field_2C_bCanAutoOpen = 1;
     }
 
     DoorData_10* field_0_primary_door_data;
@@ -153,16 +153,16 @@ class Door_38
         s32 field_10_model_id; // Active when field_20_state is door_open_type::one_model
     };
     s32 field_14_target_id;
-    s32 field_18;
+    s32 field_18_unused;
     s16 field_1C_close_delay;
     u16 field_1E_close_timer;
     s32 field_20_state;
     s32 field_24_close_type;
-    char_type field_28;
+    char_type field_28_bClosing;
     char_type field_29_bAuto;
     char_type field_2A_bDoFlip;
     char_type field_2B_bReversed;
-    char_type field_2C;
+    char_type field_2C_bCanAutoOpen;
     char_type field_2D_play_open_sound;
     char_type field_2E_unused;
     char_type field_2F_unused;

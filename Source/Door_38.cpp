@@ -29,9 +29,9 @@ Door_38::Door_38()
     field_20_state = 0;
     field_24_close_type = 0;
     field_10_model_id = 0;
-    field_18 = 0;
-    field_28 = 1;
-    field_2C = 1;
+    field_18_unused = 0;
+    field_28_bClosing = 1;
+    field_2C_bCanAutoOpen = 1;
     field_1C_close_delay = 0;
     field_1E_close_timer = 0;
     field_14_target_id = 0;
@@ -174,7 +174,7 @@ void Door_38::Open_49C840()
     {
         this->field_4_secondary_door_data->Open_49C4E0(this->field_2A_bDoFlip);
     }
-    this->field_28 = 0;
+    this->field_28_bClosing = 0;
 }
 
 MATCH_FUNC(0x49c870)
@@ -184,7 +184,7 @@ void Door_38::TryOpenForCar_49C870(Car_BC* a2)
     {
         if (CanOpen_49C6D0(a2))
         {
-            if (field_2C)
+            if (field_2C_bCanAutoOpen)
             {
                 Open_49C840();
             }
@@ -199,7 +199,7 @@ void Door_38::TryOpenForPed_49C8A0(Ped* a2)
     {
         if (CanOpenForPed_49C7F0(a2))
         {
-            if (field_2C)
+            if (field_2C_bCanAutoOpen)
             {
                 Open_49C840();
             }
@@ -254,8 +254,8 @@ void Door_38::InitSingleNoCheck_49C8D0(u8 a1, u8 a2, u8 a3, u8 a4, u8 a5, s32 a6
             break;
     }
 
-    field_28 = 1;
-    field_2C = 1;
+    field_28_bClosing = 1;
+    field_2C_bCanAutoOpen = 1;
 
     field_1E_close_timer = field_1C_close_delay = (gDoorAnimInfo_67BB38[a2].field_2_end_frame - gDoorAnimInfo_67BB38[a2].field_0_start_frame) * gDoorAnimInfo_67BB38[a2].field_8_speed;
 
@@ -316,8 +316,8 @@ void Door_38::InitSingle_49CAC0(DoorData_10* a1, char_type a2, u8 a3, Fix16 a4, 
             }
             break;
     }
-    field_28 = 1;
-    field_2C = 1;
+    field_28_bClosing = 1;
+    field_2C_bCanAutoOpen = 1;
     u16 sVar1 = (gDoorAnimInfo_67BB38[a1->field_7_gr_id].field_2_end_frame - gDoorAnimInfo_67BB38[a1->field_7_gr_id].field_0_start_frame);
     field_1E_close_timer = field_1C_close_delay = sVar1 * gDoorAnimInfo_67BB38[a1->field_7_gr_id].field_8_speed + 0x28;
     if (a2)
@@ -374,8 +374,8 @@ void Door_38::InitDouble_49CC00(DoorData_10* a1, char_type a2, u8 a3, Fix16 a4, 
             }
             break;
     }
-    field_28 = 1;
-    field_2C = 1;
+    field_28_bClosing = 1;
+    field_2C_bCanAutoOpen = 1;
     u16 sVar1 = (gDoorAnimInfo_67BB38[a1->field_7_gr_id].field_2_end_frame - gDoorAnimInfo_67BB38[a1->field_7_gr_id].field_0_start_frame);
     field_1E_close_timer = field_1C_close_delay = sVar1 * gDoorAnimInfo_67BB38[a1->field_7_gr_id].field_8_speed + 0x28;
     if (a2)
@@ -403,18 +403,18 @@ void Door_38::UpdateAutoClose_49CD90()
                     if (CanOpen_49C6D0(field_10_car_bc) == false && CanOpenForPed_49C7F0(field_10_ped) == false &&
                         !IsSpriteClearOfDoorCollision_49C6A0(field_10_car_bc->field_50_car_sprite))
                     {
-                        field_28 = 1;
+                        field_28_bClosing = 1;
                         field_1E_close_timer = 0;
                     }
                 }
-                if (field_28 != 0)
+                if (field_28_bClosing != 0)
                 {
                     if (field_1E_close_timer > 0)
                     {
                         field_1E_close_timer--;
                     }
                 }
-                if (field_28 != '\0' && field_1E_close_timer == 0)
+                if (field_28_bClosing != '\0' && field_1E_close_timer == 0)
                 {
                     field_1E_close_timer = field_1C_close_delay;
                     if (field_0_primary_door_data != NULL)
@@ -445,7 +445,7 @@ char_type Door_38::Service_49CE90()
     {
         UpdateAutoClose_49CD90();
     }
-    field_28 = 1;
+    field_28_bClosing = 1;
     return 0;
 }
 

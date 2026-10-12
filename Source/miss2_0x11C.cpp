@@ -4650,7 +4650,7 @@ void miss2_0x11C::SCRCMD_DOOR_50C8A0()
         {
             Door_38* door = pPointer->field_8_door;
 
-            if (!door->field_28)
+            if (!door->field_28_bClosing)
             {
                 break;
             }
@@ -4914,7 +4914,7 @@ void miss2_0x11C::SCRCMD_CAR_DAMAGE_POS_50CDB0()
 MATCH_FUNC(0x50ce10)
 void miss2_0x11C::SCRCMD_PARK_FINISHED_50CE10()
 {
-    if (gGarage_48_6FD26C->field_C == 3)
+    if (gGarage_48_6FD26C->field_C_state == 3)
     {
         field_8_cond_result = true;
     }
