@@ -86,8 +86,20 @@ LIST="${LIST#,}"
 while read -r SRC FUNC ADDR BASE; do
     echo "=== $FUNC ($ADDR, base $BASE) ==="
     mkdir -p "$OUT/$ADDR"
+    # a checkpoint only resumes the same search: same source, passes, depth and cap. When any of
+    # them changed, keep the old output aside and start over.
+    FP=$( (echo "$LIST $DEPTH $MAXC"; md5sum < "$ROOT/$SRC") | md5sum | cut -c1-12)
     RESUME=""
-    [ -f "$OUT/$ADDR/permuter_out/checkpoint.txt" ] && RESUME="--resume" && echo "resuming from checkpoint"
+    if [ -f "$OUT/$ADDR/permuter_out/checkpoint.txt" ]; then
+        if [ "$(cat "$OUT/$ADDR/fingerprint.txt" 2>/dev/null)" = "$FP" ]; then
+            RESUME="--resume"; echo "resuming from checkpoint"
+        else
+            OLD="$OUT/$ADDR/permuter_out.old.$(date +%s)"
+            mv "$OUT/$ADDR/permuter_out" "$OLD"
+            echo "search changed since the checkpoint; old output moved to $OLD"
+        fi
+    fi
+    echo "$FP" > "$OUT/$ADDR/fingerprint.txt"
     (cd "$OUT/$ADDR" && "$ROOT/Scripts/permute.sh" "$ROOT/$SRC" "$FUNC" "$ADDR" \
         -m exhaustive -p "$LIST" --depth "$DEPTH" --max-candidates "$MAXC" $RESUME -j "$JOBS" \
         2>&1 | tee run.log)
