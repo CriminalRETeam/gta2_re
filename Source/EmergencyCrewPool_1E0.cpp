@@ -68,7 +68,7 @@ void EmergencyCrew_30::Init_5CBC00()
     field_28_state = crew_state::idle_0;
     field_8_group = NULL;
     field_2C_ready = 0;
-    field_1C_unused = 0;
+    field_1C_spawn_wait_ticks = 0;
 }
 
 MATCH_FUNC(0x5cbc30)

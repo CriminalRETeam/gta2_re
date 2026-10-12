@@ -53,7 +53,7 @@ class EmergencyCrew_30
     Fix16 field_14_spawn_z;
     s16 field_18_spawn_delay; // counts down to 0 before the crew is serviced, then to -80
     s16 field_1A_idle_limit; // car unseen / ped idle limit before the crew is cleaned up
-    s16 field_1C_unused;
+    s16 field_1C_spawn_wait_ticks; // frames spent waiting for the car to spawn (spawn_car_3); the paramedics give up after 500
     char_type field_1E_is_used;
     s32 field_20_crew_type; // crew_type
     s32 field_24_phase; // crew_phase

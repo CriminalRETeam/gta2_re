@@ -224,7 +224,7 @@ void Ambulance_110::ProcessPatientQueue_4FA500()
             pCrew->field_24_phase = crew_phase::in_car_1;
             pCrew->field_28_state = crew_state::spawn_car_3;
             pCrew->field_18_spawn_delay = 300;
-            pCrew->field_1C_unused = 0;
+            pCrew->field_1C_spawn_wait_ticks = 0;
             pCrew->field_C_spawn_x = Fix16(x);
             pCrew->field_10_spawn_y = Fix16(y);
             pCrew->field_14_spawn_z = Fix16(z);
@@ -800,8 +800,8 @@ void Ambulance_20::UpdateState_4FB330()
             }
             else
             {
-                ++field_4_paramedics_crew->field_1C_unused;
-                if (field_4_paramedics_crew->field_1C_unused > 500)
+                ++field_4_paramedics_crew->field_1C_spawn_wait_ticks;
+                if (field_4_paramedics_crew->field_1C_spawn_wait_ticks > 500)
                 {
                     field_4_paramedics_crew->field_28_state = crew_state::clean_up_5;
                 }
