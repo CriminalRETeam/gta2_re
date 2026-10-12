@@ -3861,7 +3861,7 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
             }
             if (!pBlock || !HasGreenArrowForPathDirection_4E5E90(pBlock, direction, 0))
             {
-                // pPrev is reused here (the original shares its slot with the tmp out-params below last_x)
+                // pPrev is reused here (tuned when sub_4E5E00 still took a tmp out-param: re-check, the original may not do this)
                 pPrev = pBlock;
                 Fix16 to_edge;
                 to_edge = sub_4E5E00(x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
@@ -3981,11 +3981,7 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
 
     *pX = x;
     *pY = y;
-    {
-        // (was written with last_z as the out-param; the call returns by value now, which changes how
-        // last_z is coloured in this WIP: re-check its diff)
-        *pZ = GetRailwayZBelowCoord_4E6400(x, y, z);
-    }
+    *pZ = GetRailwayZBelowCoord_4E6400(x, y, z);
 
     // 9.6f: sub_42A660 reverses the direction (inlined, using it as a helper changes the code: 103 -> 301)
     switch (direction)
