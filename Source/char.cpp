@@ -1978,7 +1978,7 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                     {
                         field_10_char_state = 1;
                     }
-                    else if (!field_7C_pPed->field_164_ped_group || field_7C_pPed->field_164_ped_group->field_30)
+                    else if (!field_7C_pPed->field_164_ped_group || field_7C_pPed->field_164_ped_group->field_30_panicking)
                     {
                         if (field_8_ped_state_1 != 3)
                         {
@@ -2023,7 +2023,7 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                         // A return, not a break: the original keeps the type 5 copy of this tail
                         return;
                     }
-                    else if (!field_7C_pPed->field_164_ped_group || field_7C_pPed->field_164_ped_group->field_30)
+                    else if (!field_7C_pPed->field_164_ped_group || field_7C_pPed->field_164_ped_group->field_30_panicking)
                     {
                         if (field_8_ped_state_1 != 3)
                         {

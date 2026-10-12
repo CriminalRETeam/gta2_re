@@ -43,7 +43,7 @@ void PedGroup::ClearGroupData_4C8E90()
 {
     field_40_in_use = false;
     field_38_group_type = 2;
-    field_30 = 0;
+    field_30_panicking = 0;
     field_36_count = 0;
     field_34_count = 0;
     if (field_2C_ped_leader != NULL)
@@ -71,7 +71,7 @@ void PedGroup::Reset_4C8EF0()
 {
     field_40_in_use = 0;
     field_38_group_type = 2;
-    field_30 = 0;
+    field_30_panicking = 0;
     field_36_count = 0;
     field_2C_ped_leader = NULL;
     field_0 = 1;
@@ -572,7 +572,7 @@ MATCH_FUNC(0x4c9b60)
 char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* pPed)
 {
     s8 i;
-    field_30 = 1;
+    field_30_panicking = 1;
     PedGroup* pOther = pPed->field_164_ped_group;
     if (!pOther)
     {
@@ -704,7 +704,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
     s32 state = pLeader->GetPedState_403990();
     if (state == 3 || state == 10 || state == 5)
     {
-        field_30 = 1;
+        field_30_panicking = 1;
         if (pLeader->GetPedState_403990() == ped_state_1::in_car_10 || pLeader->FindUsableCarDoor_467090())
         {
             Car_BC* pCar;
@@ -888,14 +888,14 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
         {
             if (field_4_ped_list[i]->GetPanicking() == 1)
             {
-                field_30 = 1;
+                field_30_panicking = 1;
                 return;
             }
         }
-        field_30 = 0;
+        field_30_panicking = 0;
         return;
     }
-    field_30 = 1;
+    field_30_panicking = 1;
 }
 
 MATCH_FUNC(0x4ca3e0)

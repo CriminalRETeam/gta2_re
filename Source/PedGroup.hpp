@@ -78,7 +78,7 @@ class PedGroup
     Ped* field_4_ped_list[9];
     s32 field_28;
     Ped* field_2C_ped_leader;
-    s32 field_30;
+    s32 field_30_panicking; // UpdateFormation recomputes it as "the leader or a member is panicking"; merging groups, a leader in state 3/5/10 and the paramedics' revive step also set it. A dword in the original, so not a bool
     u8 field_34_count;
     char_type field_35;
     char_type field_36_count;

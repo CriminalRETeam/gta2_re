@@ -594,7 +594,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                         gParamedicCrewPed_6F6D60->SetObjective(objectives_enum::goto_char_on_foot_16);
                         gParamedicCrewPed_6F6D60->set_objective_target_ped_403AC0(pPatient);
                         field_14_patient_count--;
-                        field_4_paramedics_crew->field_8_group->field_30 = 1;
+                        field_4_paramedics_crew->field_8_group->field_30_panicking = 1;
                     }
                     field_C_member_patient = pPatient;
                 }
