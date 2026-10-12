@@ -178,7 +178,8 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
     }
 
     Particle_4C* pParticle;
-    if (a2->get_type_416B40() == sprite_types_enum::car_2)
+    // The original compares field_30 in memory (cmpl $2,0x30(%esi)); the get_type_416B40 getter loads it first
+    if (a2->field_30_sprite_type_enum == sprite_types_enum::car_2)
     {
         // 9.6f: the corners rotate by a local copy of the sprite angle (it also sets the inline budget for the
         // second rotation: first + inline, the negate out of line)
@@ -202,7 +203,9 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
 
             // One expression: the original loads the sprite's field_C once for both
             angle = a2->field_0;
-            corner_1.SetXY_432860(pCar->get_car_width() / 2 + dword_6FD3C0, pCar->get_car_height() / 2 + dword_6FD5A8);
+            // Two statements: the original computes x before y (SetXY's by-ref arguments go right to left)
+            corner_1.x = pCar->get_car_width() / 2 + dword_6FD3C0;
+            corner_1.y = pCar->get_car_height() / 2 + dword_6FD5A8;
             corner_1.RotateByAngle_40F6B0(angle);
             corner_1 += a2->get_x_y();
 
@@ -332,29 +335,37 @@ void Particle_8::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang1
 }
 
 // https://decomp.me/scratch/3Ars7
-WIP_FUNC(0x53F4C0)
+// 9.6f 0x48D4E0. The original enters with EH state 4 (five points) and sets no state in the car
+// branch: the `offset + get_x_y()` sum is the plain inline operator+ (charged, called out of line,
+// no EH state for the temporaries) in both branches. `Ang16 angle` is at function scope as in 9.6f.
+// The inline budget is tight: the first car rotation must inline exactly one operator* and
+// PolarToCartesian_41FC20 one, which needs the front-end size of the function in a window of
+// about 230 nodes. The implicit int -> Fix16 conversions in the vel constructions, the declared
+// then assigned zpos, the `x = x | n` flag stores and the `!= 0` are code-neutral spellings that
+// put it there (Scripts/inline_budget/inlsim.py --scan); explicit `Fix16(0)` / `|=` forms fall short.
+MATCH_FUNC(0x53F4C0)
 void Particle_8::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
 {
-    WIP_IMPLEMENTED;
     {
-        Fix16_Point vel(Fix16(0), Fix16(0));
+        Fix16_Point vel(0, 0);
         Fix16_Point pos;
         Fix16_Point offset;
         Fix16_Point ped_offset;
-        // point_velocity (declared in the car branch) only receives the unused result of
-        // GetPointVelocity_561350.
+        // point_velocity only receives the unused result of GetPointVelocity_561350 (9.6f passed it
+        // to set_xyz_lazy instead of pos).
+        Fix16_Point point_velocity;
+        Ang16 angle;
         if (!bSkip_particles_67D64D)
         {
             if (!field_0_fire_hit_obj)
             {
                 field_0_fire_hit_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::fire_hitting_194, 0, 0, 0, kAngZero_6FD5D4);
             }
-            vel.x = Fix16(0);
-            vel.y = Fix16(0);
+            vel = Fix16_Point(0, 0);
             Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
             if (pParticle)
             {
-                pParticle->field_4_flags |= 1;
+                pParticle->field_4_flags = pParticle->field_4_flags | 1;
                 pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
                 pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 73);
                 Particle_4C* tmp = pParticle;
@@ -369,14 +380,14 @@ void Particle_8::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
                 pParticle->field_48_timer = 0;
                 stru_6FD388 = pSprt->field_14_xy.x + vec_x;
                 stru_6FD38C = pSprt->field_14_xy.y + vec_y;
-                Fix16 zpos = pSprt->field_1C_zpos;
+                Fix16 zpos;
+                zpos = pSprt->field_1C_zpos;
                 // Both loaded before the type check (one load of field_8, kept for both branches)
                 Car_BC* pCar = pSprt->field_8_car_bc_ptr;
                 Char_B4* pPed = pSprt->field_8_char_b4_ptr;
                 if (pSprt->field_30_sprite_type_enum == sprite_types_enum::car_2)
                 {
                     Sprite_18* pSprt18 = pCar->field_0_attachments.GetSpriteForModel_5A6A50(114);
-                    Ang16 angle;
                     if (pSprt18)
                     {
                         angle = pSprt18->field_0->field_0 + kAng180_6FD3EE;
@@ -394,8 +405,7 @@ void Particle_8::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
                     }
                     pParticle->field_30_pNext->set_ang_lazy_420690(angle);
                     offset.RotateByAngle_40F6B0(pSprt->field_0);
-                    pos += offset.Add_40AC50(pSprt->get_x_y_443580());
-                    Fix16_Point point_velocity;
+                    pos += offset + pSprt->get_x_y_443580();
                     point_velocity = pSprt->field_8_car_bc_ptr->field_58_physics->GetPointVelocity_561350(&pos); // not used
                     pParticle->field_30_pNext->set_xyz_lazy_420600(pos.x, pos.y, zpos);
                 }
@@ -404,17 +414,17 @@ void Particle_8::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
                     ped_offset.x = -dword_6FD464;
                     ped_offset.y = dword_6FD468 + dword_6FD2E8;
                     ped_offset.RotateByAngle_40F6B0(pSprt->field_0);
-                    ped_offset = ped_offset.Add_40AC50(*(Fix16_Point*)&pPed->field_98_velocity_vector);
+                    ped_offset = ped_offset + *(Fix16_Point*)&pPed->field_98_velocity_vector;
                     pParticle->field_30_pNext->set_ang_lazy_420690(pSprt->field_0);
                     pParticle->field_30_pNext->set_xyz_lazy_420600(pSprt->field_14_xy.x + ped_offset.x, pSprt->field_14_xy.y + ped_offset.y, zpos);
                 }
                 pParticle->field_28_pSprite = pSprt;
-                if (pParticle->field_30_pNext->CheckSpriteMovementRegion_5A2500())
+                if (pParticle->field_30_pNext->CheckSpriteMovementRegion_5A2500() != 0)
                 {
                     pParticle->field_2C_counter = 0;
                 }
                 gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
-                pParticle->field_30_pNext->field_2C_flags |= 4;
+                pParticle->field_30_pNext->field_2C_flags = pParticle->field_30_pNext->field_2C_flags | 4;
             }
         }
     }

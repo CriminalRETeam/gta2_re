@@ -139,6 +139,15 @@ void __stdcall LogFuncAddr(u32 codeAddr, s32 mode);
                     logged = true;                                                                                                 \
                 }                                                                                                                  \
             } while (0)
+
+        // build.py --no_wip_logging: no logging code in WIP/stub functions, so their asm can be
+        // compared with the original's (Scripts/report_progress_to_discord.py scores the WIPs on it)
+        #ifdef NO_WIP_LOGGING
+            #undef NOT_IMPLEMENTED
+            #define NOT_IMPLEMENTED
+            #undef WIP_IMPLEMENTED
+            #define WIP_IMPLEMENTED
+        #endif
     #else
         #define NOT_IMPLEMENTED                               \
             static bool done___ = false;                      \

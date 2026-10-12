@@ -960,6 +960,9 @@ char_type Map_0x370::sub_4E0120()
 // Exception: the "blocked by terrain" exit after the below-block pBaseSlope check is a `return true` in the
 // up, down and right cases and a `break` in the left case. That decides which identical tails VC6 cross-jumps
 // (the up case jumps into the down case's below-block code, the right case keeps its own third lookup).
+// The up and down cases step y in place (`y--` / `y++`) before the shared lookups: that keeps y referenced in the
+// below-block lookups (priority 98 vs z 76, x 68), which puts y in edi and z in ebp like the original. The right
+// and left cases keep `x + 1` / `x - 1` expressions (an in-place `x++` lifts x above z: 484).
 WIP_FUNC(0x4E0130)
 bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direction, u8* pSlopeZDelta, char_type bReportStepUp)
 {
@@ -1072,7 +1075,8 @@ bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direct
                 }
             }
 
-            pNext = GetEffectiveBlock_4DFE60(x, y - 1, z);
+            y--;
+            pNext = GetEffectiveBlock_4DFE60(x, y, z);
             if (pNext)
             {
                 if (pNext->field_6_bottom & 0x400)
@@ -1110,7 +1114,7 @@ bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direct
 
             if (z > 0)
             {
-                pBelow = GetEffectiveBlock_4DFE60(x, y - 1, z - 1);
+                pBelow = GetEffectiveBlock_4DFE60(x, y, z - 1);
                 if (pBelow && !is_air_type(pBelow->field_B_slope_type))
                 {
                     if (!is_gradient_slope(pBelow->field_B_slope_type))
@@ -1220,7 +1224,8 @@ bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direct
                 }
             }
 
-            pNext = GetEffectiveBlock_4DFE60(x, y + 1, z);
+            y++;
+            pNext = GetEffectiveBlock_4DFE60(x, y, z);
             if (pNext)
             {
                 if (pNext->field_4_top & 0x400)
@@ -1258,7 +1263,7 @@ bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direct
 
             if (z > 0)
             {
-                pBelow = GetEffectiveBlock_4DFE60(x, y + 1, z - 1);
+                pBelow = GetEffectiveBlock_4DFE60(x, y, z - 1);
                 if (pBelow && !is_air_type(pBelow->field_B_slope_type))
                 {
                     if (!is_gradient_slope(pBelow->field_B_slope_type))
@@ -3729,18 +3734,6 @@ done:
     return direction;
 }
 
-// The neighbour arrow check of sub_4E7190: the original's `cmp; je; xor; test; jne` (the zero not
-// folded into the following test) comes from an inline returning the direction. Its budget is paid
-// for by the neighbour z offsets skipping ToInt().
-static inline s32 KeepDir(s32 d, s32 want)
-{
-    if (d != want)
-    {
-        d = 0;
-    }
-    return d;
-}
-
 WIP_FUNC(0x4E7190)
 s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
 {
@@ -3762,8 +3755,8 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
         Fix16 tmp;
         side = *sub_4E5D70(&tmp, x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
     }
-    // The case order of the two switches picks which constant used twice VC6 keeps in a register (all 24
-    // orders of each swept; the original's `mov $1,%ebp` not reached since the bTurned change below).
+    // The case order of the two switches picks which constant used twice VC6 keeps in a register
+    // (the original's `mov $1,%ebp`; the second switch's bodies are cross-jumped into the first's).
     if (side > kFpHalf_6F5F18)
     {
         switch (direction)
@@ -3786,8 +3779,8 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
     {
         switch (direction)
         {
-            case road_direction::right_3:
-                direction = road_direction::up_1;
+            case road_direction::up_1:
+                direction = road_direction::left_4;
                 break;
             case road_direction::left_4:
                 direction = road_direction::down_2;
@@ -3795,8 +3788,8 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
             case road_direction::down_2:
                 direction = road_direction::right_3;
                 break;
-            case road_direction::up_1:
-                direction = road_direction::left_4;
+            case road_direction::right_3:
+                direction = road_direction::up_1;
                 break;
         }
     }
@@ -3905,11 +3898,6 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
                            Ang16::GetAngleFace_4F78F0(
                                Ang16(ReturnAngleFromRoadDirection_4F7940(&direction).rValue + word_6F603E.rValue).Normalized_406C20()));
                 dist += kFpOne_6F6110 + kFpOne_6F6110 - to_edge;
-                // Set here rather than after the re-lookup: the extra references in this block put the
-                // loop's to_edge ahead of the switch's kFpOne CSE temps in the colour order, which gives the
-                // original's ebx/ebp split (dist/to_edge ebx, pPrev/new_direction ebp). The original stores
-                // it after the re-lookup; not found how it gets the same order there.
-                bTurned = 1;
                 z = last_z;
                 SetRoadBlockAt_4E6660(pBlock, x, y, z);
                 if (pBlock != pPrev)
@@ -3917,6 +3905,7 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
                     sub_4E65A0(x, y, &z, 0, 0);
                     SetRoadBlockAt_4E6660(pBlock, x, y, z);
                 }
+                bTurned = 1;
             }
         }
         else
@@ -3932,7 +3921,13 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
                                                                  ((last_z - kFpOne_6F6110).mValue >> 14));
                     if (pBlock)
                     {
-                        new_direction = KeepDir(GetArrowDirectionFromBlock_4E5FC0(pBlock, 0), road_direction::right_3);
+                        // Through d: zeroing new_direction itself lets VC6 drop the zero and thread the test
+                        s32 d = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
+                        if (d != road_direction::right_3)
+                        {
+                            d = 0;
+                        }
+                        new_direction = d;
                     }
                     if (!new_direction)
                     {
@@ -3949,7 +3944,13 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
                                                                  ((last_z - kFpOne_6F6110).mValue >> 14));
                     if (pBlock)
                     {
-                        new_direction = KeepDir(GetArrowDirectionFromBlock_4E5FC0(pBlock, 0), road_direction::down_2);
+                        // Through d: zeroing new_direction itself lets VC6 drop the zero and thread the test
+                        s32 d = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
+                        if (d != road_direction::down_2)
+                        {
+                            d = 0;
+                        }
+                        new_direction = d;
                     }
                     if (!new_direction)
                     {
@@ -4003,8 +4004,12 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
     *pX = x;
     *pY = y;
     {
-        Fix16 found_z;
-        *pZ = *GetRailwayZBelowCoord_4E6400(&found_z, x, y, z);
+        // last_z as the out-param (dead by now): with last_z address-taken it is no colour candidate, which
+        // drops it from the neighbour lookup blocks and colours the loop's to_edge before the last_y.ToInt()
+        // CSE temps (the original's ebx/ebp split of dist/to_edge/pPrev). The original's out-param sits in
+        // the dead dist parameter slot instead, so it had another local here and last_z off the candidate
+        // list for some other reason (not found).
+        *pZ = *GetRailwayZBelowCoord_4E6400(&last_z, x, y, z);
     }
 
     // 9.6f: sub_42A660 reverses the direction (inlined, using it as a helper changes the code: 103 -> 301)
@@ -4214,7 +4219,7 @@ s32 Map_0x370::CloneColumnExtendedToZ_4E8220(u32 column_idx, s32 z)
     return local_column_words;
 }
 
-WIP_FUNC(0x4E8370)
+MATCH_FUNC(0x4E8370)
 s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
 {
     s32 offset;
@@ -4227,17 +4232,17 @@ s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
 
     if (column_idx < field_358_column_words)
     {
-        // new_idx is assigned in both do_drop branches (VC6 hoists the common code): assigned once
-        // before the if, the do_drop test is a `cmpb` scheduled before the new_idx store.
+        // new_idx/pNew are computed once before the do_drop test (that gives the original's load order ahead of
+        // `mov do_drop,%al; test`); the do_drop arms each update field_360 and join at one return (see below).
         s32 new_idx;
         // The copied height reads through a reference: with `pColumn->field_0_height` directly, both VC6
         // and VC7 load the two operands of every `height - offset` loop bound below in the other order.
         const u8& new_height = pColumn->field_0_height;
         gmp_col_info* pNew;
+        new_idx = field_360_column_words;
+        pNew = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[new_idx];
         if (do_drop)
         {
-            new_idx = field_360_column_words;
-            pNew = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[new_idx];
             if (z == height - 1)
             {
                 pNew->field_0_height = new_height - 1;
@@ -4246,7 +4251,6 @@ s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
                 {
                     pNew->field_4_blockd[i] = pColumn->field_4_blockd[i];
                 }
-                field_360_column_words += pNew->field_0_height - pNew->field_1_offset + 1;
             }
             else
             {
@@ -4261,13 +4265,11 @@ s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
                 {
                     pNew->field_4_blockd[i] = pColumn->field_4_blockd[i + 1];
                 }
-                field_360_column_words += pNew->field_0_height - pNew->field_1_offset + 1;
             }
+            field_360_column_words += pNew->field_0_height - pNew->field_1_offset + 1;
         }
         else
         {
-            new_idx = field_360_column_words;
-            pNew = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[new_idx];
             if (z == height - 1)
             {
                 pNew->field_0_height = new_height - 1;
@@ -4297,6 +4299,13 @@ s32 Map_0x370::sub_4E8370(u32 column_idx, s32 z, char_type do_drop)
                 pNew->field_4_blockd[z - pColumn->field_1_offset] = 0;
             }
             field_360_column_words += pNew->field_0_height - pNew->field_1_offset + 1;
+        }
+        // Two returns of new_idx (folded into one): their two eax copy hints give the original's register
+        // allocation. One plain return colours eax/ecx the other way round; a return at the end of each arm
+        // gives the right allocation but its two tails don't cross-jump (FlowOpts cost check: exactly 20).
+        if (do_drop)
+        {
+            return new_idx;
         }
         return new_idx;
     }
