@@ -39,14 +39,14 @@ Ambulance_110::~Ambulance_110()
 MATCH_FUNC(0x4fa310)
 void Ambulance_110::init_4FA310()
 {
-    field_0 = 1;
-    field_1_f8_idx = 0;
+    field_0_unused = 1;
+    field_1_queue_count = 0;
     field_4_patient_queue.ClearList_420E90();
 
     for (s32 i = 0; i < 25; i++)
     {
-        field_8[i].field_0 = 0;
-        field_8[i].field_4 = 0;
+        field_8_unused_slots[i].field_0_unused = 0;
+        field_8_unused_slots[i].field_4_unused = 0;
     }
 }
 
@@ -66,16 +66,16 @@ bool Ambulance_110::HandlePedDeath_4FA330(Ped* pDeadPed)
                     pIter->field_4_paramedics_crew->field_4_ped = pIter->field_4_paramedics_crew->field_8_group->field_2C_ped_leader;
                 }
 
-                if (pIter->field_8 && pIter->field_8->GetPedState_403990() == ped_state_1::dead_9)
+                if (pIter->field_8_leader_patient && pIter->field_8_leader_patient->GetPedState_403990() == ped_state_1::dead_9)
                 {
-                    TryAddPatient_4FA470(pIter->field_8);
-                    pIter->field_8 = 0;
+                    TryAddPatient_4FA470(pIter->field_8_leader_patient);
+                    pIter->field_8_leader_patient = 0;
                 }
 
-                if (pIter->field_C && pIter->field_C->GetPedState_403990() == ped_state_1::dead_9)
+                if (pIter->field_C_member_patient && pIter->field_C_member_patient->GetPedState_403990() == ped_state_1::dead_9)
                 {
-                    TryAddPatient_4FA470(pIter->field_C);
-                    pIter->field_C = 0;
+                    TryAddPatient_4FA470(pIter->field_C_member_patient);
+                    pIter->field_C_member_patient = 0;
                 }
 
                 if (bLeaderReplaced)
@@ -98,9 +98,9 @@ bool Ambulance_110::HandlePedDeath_4FA330(Ped* pDeadPed)
                     pIter->field_4_paramedics_crew->RemovePed_5CBC40(pDeadPed);
                 }
 
-                if (pIter->field_C && pIter->field_C->GetPedState_403990() == ped_state_1::dead_9)
+                if (pIter->field_C_member_patient && pIter->field_C_member_patient->GetPedState_403990() == ped_state_1::dead_9)
                 {
-                    TryAddPatient_4FA470(pIter->field_C);
+                    TryAddPatient_4FA470(pIter->field_C_member_patient);
                 }
 
                 if (pDeadPed->field_168_game_object)
@@ -118,13 +118,13 @@ bool Ambulance_110::HandlePedDeath_4FA330(Ped* pDeadPed)
 MATCH_FUNC(0x4fa470)
 bool Ambulance_110::TryAddPatient_4FA470(Ped* pPed)
 {
-    if (pPed->PedTypeIs_45EDE0(ped_type::player_2) || field_1_f8_idx >= 25)
+    if (pPed->PedTypeIs_45EDE0(ped_type::player_2) || field_1_queue_count >= 25)
     {
         return false;
     }
 
     field_4_patient_queue.AddPed_471140(pPed);
-    field_1_f8_idx++;
+    field_1_queue_count++;
 
     return true;
 }
@@ -148,8 +148,8 @@ MATCH_FUNC(0x4fa500)
 void Ambulance_110::ProcessPatientQueue_4FA500()
 {
     u8 x, y, z;
-    field_1_f8_idx -= field_4_patient_queue.RemovePedsInSpecificState_471290();
-    if (field_1_f8_idx == 0)
+    field_1_queue_count -= field_4_patient_queue.RemovePedsInSpecificState_471290();
+    if (field_1_queue_count == 0)
     {
         return;
     }
@@ -157,7 +157,7 @@ void Ambulance_110::ProcessPatientQueue_4FA500()
     Ped* pPed = field_4_patient_queue.RemoveFirstPed_471320();
     if (pPed->IsNearestSpriteACar_4701D0())
     {
-        field_1_f8_idx--;
+        field_1_queue_count--;
         gAmbulance_110_6F70A8->TryAddPatient_4FA470(pPed);
         return;
     }
@@ -168,7 +168,7 @@ void Ambulance_110::ProcessPatientQueue_4FA500()
         z = pPed->field_1AC_cam.z.ToInt();
         if (!gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &x, &y, &z, 0))
         {
-            field_1_f8_idx--;
+            field_1_queue_count--;
             pPed->SetObjective(objectives_enum::objective_50);
             return;
         }
@@ -180,12 +180,12 @@ void Ambulance_110::ProcessPatientQueue_4FA500()
             {
                 if (Fix16::MaxAbsDistance_42A6B0(pPed->get_cam_x(),
                                                  pPed->get_cam_y(),
-                                                 Fix16((u8)pAmbulance->field_0_target_x),
-                                                 Fix16((u8)pAmbulance->field_1_target_y)) < dword_6F6FC0 &&
-                    (u8)pAmbulance->field_14_count < 10)
+                                                 Fix16(pAmbulance->field_0_target_x),
+                                                 Fix16(pAmbulance->field_1_target_y)) < dword_6F6FC0 &&
+                    pAmbulance->field_14_patient_count < 10)
                 {
                     pAmbulance->AddPassenger_4FA800(pPed);
-                    field_1_f8_idx--;
+                    field_1_queue_count--;
                     EmergencyCrew_30* pCrew = pAmbulance->field_4_paramedics_crew;
                     if (pCrew->field_28_state != crew_state::update_6)
                     {
@@ -212,7 +212,7 @@ void Ambulance_110::ProcessPatientQueue_4FA500()
             pNew->field_4_paramedics_crew = gEmergencyCrewPool_706280->AllocateSlot_5CBB80();
             if (!pNew->field_4_paramedics_crew)
             {
-                field_1_f8_idx--;
+                field_1_queue_count--;
                 pPed->SetObjective(objectives_enum::objective_50);
                 pNew->ClearTask_4FA7D0();
                 return;
@@ -231,13 +231,13 @@ void Ambulance_110::ProcessPatientQueue_4FA500()
             pNew->AddPassenger_4FA800(pPed);
         }
     }
-    field_1_f8_idx--;
+    field_1_queue_count--;
 }
 
 MATCH_FUNC(0x4fa790)
 void Ambulance_110::AmbulancesService_4FA790()
 {
-    if (field_1_f8_idx > 0)
+    if (field_1_queue_count > 0)
     {
         ProcessPatientQueue_4FA500();
     }
@@ -258,21 +258,21 @@ void Ambulance_20::ClearTask_4FA7D0()
     field_0_target_x = 0;
     field_1_target_y = 0;
     field_2_target_z = 0;
-    field_14_count = 0;
-    field_16 = 0;
+    field_14_patient_count = 0;
+    field_16_unused = 0;
     field_18_in_use = 0;
-    field_1C = 0;
+    field_1C_done = 0;
     field_4_paramedics_crew = NULL;
-    field_8 = NULL;
-    field_C = NULL;
-    field_1D = 0;
+    field_8_leader_patient = NULL;
+    field_C_member_patient = NULL;
+    field_1D_revive_ticks = 0;
 }
 
 MATCH_FUNC(0x4fa800)
 void Ambulance_20::AddPassenger_4FA800(Ped* pPed)
 {
     field_10_patients.AddPed_471140(pPed);
-    field_14_count++;
+    field_14_patient_count++;
 }
 
 MATCH_FUNC(0x4fa820)
@@ -299,9 +299,9 @@ bool Ambulance_20::SpawnParamedicCrew_4FA820()
     pPed1->SetJumpOverMode_433BB0(ped_jump_over_mode::can_jump_2);
     pPed1->SpawnPedInCar_45C730(field_4_paramedics_crew->field_0_car);
     pPed1->SetObjective(objectives_enum::goto_area_in_car_14, 0);
-    pPed1->field_1DC_objective_target_x = (unsigned __int8)this->field_0_target_x << 14;
-    pPed1->field_1E0_objective_target_y = (unsigned __int8)this->field_1_target_y << 14;
-    pPed1->field_1E4_objective_target_z = (unsigned __int8)this->field_2_target_z << 14;
+    pPed1->field_1DC_objective_target_x = this->field_0_target_x << 14;
+    pPed1->field_1E0_objective_target_y = this->field_1_target_y << 14;
+    pPed1->field_1E4_objective_target_z = this->field_2_target_z << 14;
     pPed1->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
     pPed1->field_288_threat_search = threat_search_enum::no_threats_0;
     pPed1->set_remap_433B90(16);
@@ -374,7 +374,7 @@ void Ambulance_20::EvaluatePickupState_4FA9D0()
     {
         field_4_paramedics_crew->field_24_phase = crew_phase::finished_2;
     }
-    else if (field_1C)
+    else if (field_1C_done)
     {
         if (!field_4_paramedics_crew->field_24_phase)
         {
@@ -404,7 +404,7 @@ void Ambulance_20::EvaluatePickupState_4FA9D0()
 DEFINE_GLOBAL_INIT(Fix16, dword_6F6FC0, Fix16(8), 0x6F6FC0);
 
 // Runs the paramedic crew (the leader, then each group member, in gParamedicCrewPed_6F6D60): pick up the
-// patients in field_10_patients one by one, revive them, then drive off. Sets field_1C when nobody had
+// patients in field_10_patients one by one, revive them, then drive off. Sets field_1C_done when nobody had
 // anything left to do.
 MATCH_FUNC(0x4faac0)
 void Ambulance_20::HandleObjectiveState_4FAAC0()
@@ -414,7 +414,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
     u8 i = 0;
     gParamedicCrewPed_6F6D60 = field_4_paramedics_crew->field_4_ped;
     u8 bNoCar = field_4_paramedics_crew->field_24_phase == crew_phase::on_foot_0;
-    Ped* pTarget = field_8;
+    Ped* pTarget = field_8_leader_patient;
 
     while (gParamedicCrewPed_6F6D60)
     {
@@ -426,13 +426,13 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                 {
                     gParamedicCrewPed_6F6D60->SetObjective(objectives_enum::no_obj_0);
                 }
-                if (pTarget == field_8)
+                if (pTarget == field_8_leader_patient)
                 {
-                    field_8 = 0;
+                    field_8_leader_patient = 0;
                 }
                 else
                 {
-                    field_C = 0;
+                    field_C_member_patient = 0;
                 }
             }
             else if (gParamedicCrewPed_6F6D60->field_168_game_object && pTarget->IsNearestSpriteACar_4701D0())
@@ -442,13 +442,13 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                 {
                     gParamedicCrewPed_6F6D60->SetObjective(objectives_enum::no_obj_0);
                 }
-                if (pTarget == field_8)
+                if (pTarget == field_8_leader_patient)
                 {
-                    field_8 = 0;
+                    field_8_leader_patient = 0;
                 }
                 else
                 {
-                    field_C = 0;
+                    field_C_member_patient = 0;
                 }
             }
         }
@@ -476,8 +476,8 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                         // 9.6f calls MaxAbsDistance_42A6B0(get_cam_x(), get_cam_y(), ...)
                         if (Fix16::MaxAbsDistance_42A6B0(gParamedicCrewPed_6F6D60->get_cam_x(),
                                                             gParamedicCrewPed_6F6D60->get_cam_y(),
-                                                            Fix16((u8)field_0_target_x),
-                                                            Fix16((u8)field_1_target_y)) >= dword_6F6FC0)
+                                                            Fix16(field_0_target_x),
+                                                            Fix16(field_1_target_y)) >= dword_6F6FC0)
                         {
                             break;
                         }
@@ -567,7 +567,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                             gParamedicCrewPed_6F6D60->set_target_car_door_403A70(0);
                         }
                         bBusy = 1;
-                        field_14_count--;
+                        field_14_patient_count--;
                     }
                     else if (gParamedicCrewPed_6F6D60->field_16C_car && !(gParamedicCrewPed_6F6D60->field_21C & ped_flag_mask::k_ped_left_vehicle))
                     {
@@ -583,7 +583,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                         bBusy = 1;
                         gParamedicCrewPed_6F6D60->set_objective_target_ped_403AC0(pPatient);
                     }
-                    field_8 = pPatient;
+                    field_8_leader_patient = pPatient;
                 }
                 else if (gParamedicCrewPed_6F6D60->GetInternalObjective_403A90() == objectives_enum::objective_9)
                 {
@@ -593,10 +593,10 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                         gParamedicCrewPed_6F6D60->SetObjective2_463830(0);
                         gParamedicCrewPed_6F6D60->SetObjective(objectives_enum::goto_char_on_foot_16);
                         gParamedicCrewPed_6F6D60->set_objective_target_ped_403AC0(pPatient);
-                        field_14_count--;
+                        field_14_patient_count--;
                         field_4_paramedics_crew->field_8_group->field_30 = 1;
                     }
-                    field_C = pPatient;
+                    field_C_member_patient = pPatient;
                 }
                 break;
 
@@ -624,7 +624,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                 {
                     gParamedicCrewPed_6F6D60->SetObjective2_463830(0);
                     gParamedicCrewPed_6F6D60->SetObjective(objectives_enum::goto_char_on_foot_16);
-                    gParamedicCrewPed_6F6D60->set_objective_target_ped_403AC0(field_8);
+                    gParamedicCrewPed_6F6D60->set_objective_target_ped_403AC0(field_8_leader_patient);
                 }
                 bBusy = 1;
                 break;
@@ -634,7 +634,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                 Ped* pVictim = gParamedicCrewPed_6F6D60->get_objective_target_ped_403AD0();
                 if (gParamedicCrewPed_6F6D60->GetObjectiveStatus_450CB0())
                 {
-                    if (++field_1D == 50)
+                    if (++field_1D_revive_ticks == 50)
                     {
                         if (pVictim->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
                         {
@@ -660,16 +660,16 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                         }
                         pVictim->set_health_4039A0(100);
                         pVictim->field_21C &= ~ped_flag_mask::k_ped_panicking;
-                        if (pVictim == field_8)
+                        if (pVictim == field_8_leader_patient)
                         {
-                            field_8 = 0;
+                            field_8_leader_patient = 0;
                         }
                         else
                         {
-                            field_C = 0;
+                            field_C_member_patient = 0;
                         }
                         gParamedicCrewPed_6F6D60->SetObjective(objectives_enum::no_obj_0);
-                        field_1D = 0;
+                        field_1D_revive_ticks = 0;
                     }
                 }
                 bBusy = 1;
@@ -733,14 +733,14 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                         gParamedicCrewPed_6F6D60->SetObjective2_463830(0);
                         gParamedicCrewPed_6F6D60->SetObjective(objectives_enum::goto_char_on_foot_16);
                         gParamedicCrewPed_6F6D60->set_objective_target_ped_403AC0(pPatient);
-                        field_14_count--;
+                        field_14_patient_count--;
                         if (gParamedicCrewPed_6F6D60->field_23C_group_idx == 99)
                         {
-                            field_8 = pPatient;
+                            field_8_leader_patient = pPatient;
                         }
                         else
                         {
-                            field_C = pPatient;
+                            field_C_member_patient = pPatient;
                         }
                     }
                 }
@@ -751,7 +751,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
         if (field_4_paramedics_crew->field_8_group)
         {
             gParamedicCrewPed_6F6D60 = field_4_paramedics_crew->field_8_group->field_4_ped_list[i];
-            pTarget = field_C;
+            pTarget = field_C_member_patient;
         }
         else
         {
@@ -762,7 +762,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
 
     if (!bBusy)
     {
-        field_1C = 1;
+        field_1C_done = 1;
     }
 }
 
@@ -791,7 +791,7 @@ void Ambulance_20::UpdateState_4FB330()
                 else
                 {
                     gParamedicCrewPed_6F6D60 = field_4_paramedics_crew->field_4_ped;
-                    this->field_1C = 0;
+                    this->field_1C_done = 0;
                     if (field_4_paramedics_crew->field_0_car)
                     {
                         field_4_paramedics_crew->field_0_car->ActivateEmergencyLights_43C920();

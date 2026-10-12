@@ -145,7 +145,7 @@ void force_link()
     phi_8ca8.AllocDefinitionWithSprite_5332D0(0, 0, 0, 0);
 
     Ambulance_20 jaw_20;
-    jaw_20.field_14_count = 1;
+    jaw_20.field_14_patient_count = 1;
 
     CollisionSoundQueue_C88 collision_sound_queue;
     collision_sound_queue.field_0_pSoundObj = 0;

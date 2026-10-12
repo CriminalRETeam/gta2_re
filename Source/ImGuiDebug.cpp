@@ -2797,9 +2797,9 @@ void CC ImGuiDebugDraw()
 
                 for (i = 0; i < 25; i++)
                 {
-                    jawwie_8& j8 = gAmbulance_110_6F70A8->field_8[i];
-                    ImGui::Value("field_0", j8.field_0);
-                    ImGui::Value("field_4", j8.field_4);
+                    PatientSlot_8& j8 = gAmbulance_110_6F70A8->field_8_unused_slots[i];
+                    ImGui::Value("field_0_unused", j8.field_0_unused);
+                    ImGui::Value("field_4_unused", j8.field_4_unused);
                 }
 
                 for (i = 0; i < 2; i++)
@@ -2809,11 +2809,9 @@ void CC ImGuiDebugDraw()
 
                 /*
                 // TODO:
-                    char_type field_0;
-                    u8 field_1_f8_idx;
-                    char_type field_2;
-                    char_type field_3;
-                    Ped_Unknown_4 field_4;
+                    char_type field_0_unused;
+                    u8 field_1_queue_count;
+                    Ped_List_4 field_4_patient_queue;
                 */
             }
             ImGui::TreePop();

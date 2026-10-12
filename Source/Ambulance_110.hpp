@@ -6,11 +6,13 @@
 class Ped;
 class EmergencyCrew_30;
 
-class jawwie_8
+// 25 of these sit in Ambulance_110 (the same 25 as the patient queue limit in TryAddPatient_4FA470).
+// init_4FA310 zeroes them and nothing else touches them: the queue is a Ped_List_4 now.
+class PatientSlot_8
 {
   public:
-    s32 field_0;
-    s32 field_4;
+    s32 field_0_unused;
+    s32 field_4_unused;
 };
 
 class Ambulance_20
@@ -25,22 +27,22 @@ class Ambulance_20
     EXPORT void HandleObjectiveState_4FAAC0();
     EXPORT void UpdateState_4FB330();
 
-    char_type field_0_target_x;
-    char_type field_1_target_y;
-    char_type field_2_target_z;
-    char_type field_3;
+    u8 field_0_target_x; // pickup tile
+    u8 field_1_target_y;
+    u8 field_2_target_z;
+    char_type field_3_pad;
     EmergencyCrew_30* field_4_paramedics_crew;
-    Ped* field_8;
-    Ped* field_C;
-    Ped_List_4 field_10_patients;
-    char_type field_14_count;
-    char_type field_15;
-    s16 field_16;
+    Ped* field_8_leader_patient; // the patient the leader is heading for or carrying
+    Ped* field_C_member_patient; // same for the second paramedic
+    Ped_List_4 field_10_patients; // patients still to be picked up
+    u8 field_14_patient_count;
+    u8 field_15_pad;
+    s16 field_16_unused;
     s32 field_18_in_use;
-    char_type field_1C;
-    char_type field_1D;
-    char_type field_1E;
-    char_type field_1F;
+    char_type field_1C_done; // set when no paramedic had anything left to do
+    char_type field_1D_revive_ticks; // counts to 50 while the paramedic stands at the patient
+    char_type field_1E_pad;
+    char_type field_1F_pad;
 };
 
 class Ambulance_110
@@ -59,12 +61,12 @@ class Ambulance_110
     EXPORT void ProcessPatientQueue_4FA500();
     EXPORT void AmbulancesService_4FA790();
 
-    char_type field_0;
-    u8 field_1_f8_idx;
-    char_type field_2;
-    char_type field_3;
+    char_type field_0_unused; // set to 1 by init_4FA310, never read
+    u8 field_1_queue_count;   // patients waiting in field_4_patient_queue (an index into the slots below, once)
+    char_type field_2_pad;
+    char_type field_3_pad;
     Ped_List_4 field_4_patient_queue;
-    jawwie_8 field_8[25];
+    PatientSlot_8 field_8_unused_slots[25];
     Ambulance_20 field_D0_tasks[2];
 };
 
