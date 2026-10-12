@@ -3390,10 +3390,9 @@ s16 Map_0x370::sub_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 a5, char_type a6)
 }
 
 MATCH_FUNC(0x4E62B0)
-Fix16* Map_0x370::FloorPlusOne_4E62B0(Fix16* a1, Fix16 a2)
+Fix16 Map_0x370::FloorPlusOne_4E62B0(Fix16 a2)
 {
-    *a1 = kFpOne_6F6110 + a2.GetRoundValue();
-    return a1;
+    return kFpOne_6F6110 + a2.GetRoundValue();
 }
 
 MATCH_FUNC(0x4E62D0)
@@ -3503,8 +3502,7 @@ void Map_0x370::sub_4E65A0(Fix16 x, Fix16 y, Fix16* z_pos, char_type a5, char_ty
     gmp_block_info* block_4DFE10 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), (*z_pos - kFpOne_6F6110).ToInt());
     if (get_slope_bits(block_4DFE10->field_B_slope_type) == 0xFC)
     {
-        Fix16 temp;
-        *z_pos = *FloorPlusOne_4E62B0(&temp, *z_pos);
+        *z_pos = FloorPlusOne_4E62B0(*z_pos);
         block_4DFE10 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), (*z_pos - kFpOne_6F6110).ToInt());
     }
     s32 v11 = GetArrowDirectionFromBlock_4E5FC0(block_4DFE10, a5);
