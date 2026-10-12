@@ -2278,12 +2278,15 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     _getcwd(gWorkingDir_707F64, 256);
 
     ParseCommandLine_4DA320(lpCmdLine);
-    if (!Start_NetworkGame_5E5A30(hInstance))
+    if (!Start_NetworkGame_5E5A30(hInstance)) // start NetUI if multiplayer. Stays here while players don't click "start", "cancel" etc
     {
         ReleaseMutex(gMutex_707078);
         CloseHandle(gMutex_707078);
         return 0;
     }
+
+    // Starting game...
+
     sprintf(gTmpBuffer_67C598, "GTA2");
     gHwnd_707F04 = CreateWindowExA(0, "WinMain", gTmpBuffer_67C598, 0xCF0000u, 0, 0, 100, 100, 0, 0, hInstance, 0);
     if (!gHwnd_707F04)
@@ -2346,6 +2349,8 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
         gRoot_sound_66B038.Set3DSound_40F160(gRegistry_6FF968.Get_Sound_Settting_586A70("do_3d_sound"));
         gRegistry_6FF968.Clear_Or_Delete_Sound_Setting_586BF0("do_3d_sound", gRoot_sound_66B038.Get3DSound_40F180());
     }
+
+    // Game loop
 
     u8 bQuit = 0; //  %bl
 
