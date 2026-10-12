@@ -5579,3 +5579,36 @@ Base for all diagnostics: `pPrev = pBlock` after `sub_4E65A0(x, y, &z, 1, 1)` (t
   (0x401B40) before the angle argument; no extra statement visible.
 - Permuter on the copy-after form (700 compiles, default passes + `--auto-method-aliases`): only re-found the
   copy-before 4.
+
+## CarDoorAlignmentSolver_545AF0 (Oct 12): 875 -> 0 (MATCH)
+
+- 9.6f counterpart is 0x493940 (`add_96f_target.py 545af0=493940`). `find_96f_counterparts.py` misses it (2/9
+  callees); the paired 10.5 callers (0x463AA0, 0x463FB0, 0x546360) call it 21 times in 9.6f. 9.6f computes `offset`
+  as `gCharB4_WorldCollisionOffset_6FD8D8 / 1` (`divide_401BF0`); adding it here changes nothing (folded).
+- What gave the layout (each step checked with a C2 patched to dump the CFG before the RPO pass and a Python RPO
+  replay of it; codegen order is the RPO of the first dump, taken before the flag tests are threaded):
+  - sw1 (x == 0) after the if/else under `if (bFront)`: the else arm reaches the test first, so sw1 lands after
+    sw2; dupB then moves sw1's dispatch and case 0 behind `y -= offset` (875 -> 809).
+  - The angles after the arms: `if (!bFront) +90 else +180`, written with `Ang16::operator+`/`-` as in 9.6f. The
+    nested inline budget then sends the first sites to `Normalize_406C20` and inlines the later ones, as in the
+    original (332 -> 60). The old `Ang16(...).Normalized_406C20()` spellings only imitated that.
+  - Doors 1/3: the -90 angle after the if/else under `if (bUnk)` puts it before the tail block, so dupB moves
+    angle + tail behind case 0 (695 -> 332). sw5's `case 4: case 8:` goes after case 7 (jump table order).
+- sw3 cases 9..12 written as four identical bodies: each is generated (3 round-robin picks each, so no rotation) and
+  cross-jumped into one later. The extra size gives the original's inline cut-offs (sw5 case 1 inlines `Normalize`)
+  and pCar keeps ebx (60 -> 14). `inlsim.py --scan` had asked for about +25 caller size; padding with `{}` gave the
+  cut-offs but lost ebx.
+- The last rotation (14 -> 0): sw4 cases 1/2 had eax/edx swapped, i.e. the round-robin cursor was one pick behind at
+  sw4. sw3 as `else if (!bUnk)` after the `if (bFront)` switch, instead of the `else` of `if (bUnk)` with a `break`,
+  moves it from after the two angle blocks to before them in codegen order. Its first pick lands on ecx from either
+  cursor (eax holds y), and the two angle blocks (4 picks each, ending on edx) now run just before sw4. dupB still
+  moves both angle blocks to the same place, so the layout doesn't change. The old structure needed a
+  `bFront = false;` after sw2 to keep case 0 as sw2's cross-jump target; in the new one sw2 ends an arm that falls
+  through, and that store now gives the case 7 merge instead (76), so it went.
+- Dead ends on the rotation, for the record: an extra `Ang16` temp in sw3 case 99 fixes sw4 but rotates case 99 (8);
+  casts and `Fix16` copies at the doors 1/3 head, sum operand order, `switch (animPhase)` without the cast, about 17k
+  permuter compiles and a greedy search over the 19 `outAng = ...->field_0` sites didn't help. They all looked for an
+  extra pick in sw4's own blocks, while the cause was block order.
+- Behaviour checked against 10.5.exe: original and ours run in unicorn on the same random memory (globals, door table,
+  sprite, sin/cos tables; `get_car_remap_5AA3D0` stubbed), 100k cases, every original instruction covered, outputs equal.
+  Mutants (one sign, one constant, `bFront = true` dropped) are all caught.
