@@ -1537,7 +1537,7 @@ void PoliceCrew_38::State1_Patrol_574F10()
                                 {
                                     byte_6FEB48 = 0;
                                 }
-                                else if ((pPedIter->field_21C & ped_flag_mask::k_ped_left_vehicle) == 0)
+                                else if (!pPedIter->field_21C_bf.bLeftVehicle)
                                 {
                                     pPedIter->SetObjective2_463830(objectives_enum::no_obj_0);
                                     gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::enter_car_as_driver_35);

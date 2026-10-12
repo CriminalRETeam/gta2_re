@@ -5630,7 +5630,7 @@ MATCH_FUNC(0x50e4a0)
 void miss2_0x11C::SCRCMD_CHAR_ARRESTED_50E4A0()
 {
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    if ((pPointer->field_8_char->field_21C & ped_flag_mask::k_ped_busted) != 0)
+    if (pPointer->field_8_char->field_21C_bf.bBusted)
     {
         field_8_cond_result = true;
     }

@@ -2168,7 +2168,7 @@ void Player::Service_5687F0()
 
     if (field_2C4_player_ped)
     {
-        if ((field_2C4_player_ped->field_21C & ped_flag_mask::k_ped_busted) != 0)
+        if (field_2C4_player_ped->field_21C_bf.bBusted)
         {
             this->field_640_busted = 1;
         }

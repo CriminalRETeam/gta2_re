@@ -730,7 +730,7 @@ void Char_B4::UpdateAnimState_546360()
             bThrowWeapon = 1;
         }
 
-        if (field_7C_pPed->field_170_selected_weapon && (field_7C_pPed->field_21C & ped_flag_mask::k_ped_attacking) == 0)
+        if (field_7C_pPed->field_170_selected_weapon && !field_7C_pPed->field_21C_bf.bAttacking)
         {
             if ((field_7C_pPed->field_170_selected_weapon->field_1C_idx == weapon_type::molotov ||
                  field_7C_pPed->field_170_selected_weapon->field_1C_idx == weapon_type::grenade) &&
