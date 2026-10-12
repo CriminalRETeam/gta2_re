@@ -773,6 +773,11 @@ class Ped
         return field_21C_bf.bOnFire;
     }
 
+    u8 HasSpottedPlayer()
+    {
+        return field_21C_bf.bSpottedPlayer;
+    }
+
     inline s32 get_objective_403A80()
     {
         return field_258_objective;

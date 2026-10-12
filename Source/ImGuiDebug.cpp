@@ -379,57 +379,54 @@ static void ShowPedBitMask(Ped* pPed)
     }
 }
 
-static void ShowPedBitMaskSetting(BitSet32* flags)
+static void ShowPedBitMaskSetting(PedFlags32* flags)
 {
     if (flags)
     {
         if (ImGui::TreeNode("Ped BitMask Setting"))
         {
-            static bool bits[32];
-            ImGui::Checkbox("bActive", &bits[0]);
-            ImGui::Checkbox("bUnused1", &bits[1]);
-            ImGui::Checkbox("bPanicking", &bits[2]);
-            ImGui::Checkbox("bDriveAggressively", &bits[3]);
-            ImGui::Checkbox("bStayInCar", &bits[4]);
-            ImGui::Checkbox("bBusted", &bits[5]);
-            ImGui::Checkbox("bSkipCarSearch", &bits[6]);
-            ImGui::Checkbox("bUseCarWeapon", &bits[7]);
-            ImGui::Checkbox("bHitByAttacker", &bits[8]);
-            ImGui::Checkbox("bNoWeapon", &bits[9]);
-            ImGui::Checkbox("bScheduledForRemoval", &bits[10]);
-            ImGui::Checkbox("bAttacking", &bits[11]);
-            ImGui::Checkbox("bUnused12", &bits[12]);
-            ImGui::Checkbox("bWeaponChosen", &bits[13]);
-            ImGui::Checkbox("bInPathList", &bits[14]);
-            ImGui::Checkbox("bFlag15", &bits[15]);
-            ImGui::Checkbox("bFlag16", &bits[16]);
-            ImGui::Checkbox("bFlag17", &bits[17]);
-            ImGui::Checkbox("bUnused18", &bits[18]);
-            ImGui::Checkbox("bFlag19", &bits[19]);
-            ImGui::Checkbox("bUnused20", &bits[20]);
-            ImGui::Checkbox("bUnused21", &bits[21]);
-            ImGui::Checkbox("bFlag22", &bits[22]);
-            ImGui::Checkbox("bSpottedPlayer", &bits[23]);
-            ImGui::Checkbox("bOnFire", &bits[24]);
-            ImGui::Checkbox("bInvisible", &bits[25]);
-            ImGui::Checkbox("bElectroFingers", &bits[26]);
-            ImGui::Checkbox("bLeftVehicle", &bits[27]);
-            ImGui::Checkbox("bArmedGangMember", &bits[28]);
-            ImGui::Checkbox("bForcedOutOfTaxi", &bits[29]);
-            ImGui::Checkbox("bUnused30", &bits[30]);
-            ImGui::Checkbox("bUnused31", &bits[31]);
-
-            for (u8 i = 0; i < 32; i++)
-            {
-                if (bits[i])
-                {
-                    flags->set_bit(i);
-                }
-                else
-                {
-                    flags->clear_bit(i);
-                }
-            }
+            // A bit field can't be passed by reference, so each flag goes through a local
+#define PED_FLAG_CHECKBOX(name) \
+    { \
+        bool bValue = flags->name; \
+        if (ImGui::Checkbox(#name, &bValue)) \
+        { \
+            flags->name = bValue; \
+        } \
+    }
+            PED_FLAG_CHECKBOX(bActive);
+            PED_FLAG_CHECKBOX(bUnused1);
+            PED_FLAG_CHECKBOX(bPanicking);
+            PED_FLAG_CHECKBOX(bDriveAggressively);
+            PED_FLAG_CHECKBOX(bStayInCar);
+            PED_FLAG_CHECKBOX(bBusted);
+            PED_FLAG_CHECKBOX(bSkipCarSearch);
+            PED_FLAG_CHECKBOX(bUseCarWeapon);
+            PED_FLAG_CHECKBOX(bHitByAttacker);
+            PED_FLAG_CHECKBOX(bNoWeapon);
+            PED_FLAG_CHECKBOX(bScheduledForRemoval);
+            PED_FLAG_CHECKBOX(bAttacking);
+            PED_FLAG_CHECKBOX(bUnused12);
+            PED_FLAG_CHECKBOX(bWeaponChosen);
+            PED_FLAG_CHECKBOX(bInPathList);
+            PED_FLAG_CHECKBOX(bFlag15);
+            PED_FLAG_CHECKBOX(bFlag16);
+            PED_FLAG_CHECKBOX(bFlag17);
+            PED_FLAG_CHECKBOX(bUnused18);
+            PED_FLAG_CHECKBOX(bFlag19);
+            PED_FLAG_CHECKBOX(bUnused20);
+            PED_FLAG_CHECKBOX(bUnused21);
+            PED_FLAG_CHECKBOX(bFlag22);
+            PED_FLAG_CHECKBOX(bSpottedPlayer);
+            PED_FLAG_CHECKBOX(bOnFire);
+            PED_FLAG_CHECKBOX(bInvisible);
+            PED_FLAG_CHECKBOX(bElectroFingers);
+            PED_FLAG_CHECKBOX(bLeftVehicle);
+            PED_FLAG_CHECKBOX(bArmedGangMember);
+            PED_FLAG_CHECKBOX(bForcedOutOfTaxi);
+            PED_FLAG_CHECKBOX(bUnused30);
+            PED_FLAG_CHECKBOX(bUnused31);
+#undef PED_FLAG_CHECKBOX
             ImGui::TreePop();
         }
     }
@@ -1521,7 +1518,7 @@ void CC ImGuiDebugDraw()
                     {
                         ImGui::Text("Driver occupation: %s", GetOccupationStrFromPed(pCarIter->field_54_driver));
                         ShowPedBitMask(pCarIter->field_54_driver);
-                        ShowPedBitMaskSetting((BitSet32*)&pCarIter->field_54_driver->field_21C_bf);
+                        ShowPedBitMaskSetting(&pCarIter->field_54_driver->field_21C_bf);
                     }
 
                     static bool bits[32];
@@ -2713,7 +2710,7 @@ void CC ImGuiDebugDraw()
                             ImGui::SliderS16("health", &pPedIter->field_216_health, 0, 32767);
                             ImGui::SliderInt("occupation", &pPedIter->field_240_occupation, 0, 500);
                             ShowPedBitMask(pPedIter);
-                            ShowPedBitMaskSetting((BitSet32*)&pPedIter->field_21C_bf);
+                            ShowPedBitMaskSetting(&pPedIter->field_21C_bf);
 
                             ImGui::End();
                             ImGui::TreePop();

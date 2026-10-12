@@ -579,9 +579,7 @@ Ped* miss2_0x11C::SetCharObjective_504110(SCR_CHAR_OBJECTIVE* pCmd, SCR_POINTER*
 {
     (pPointer->field_8_char)->SetObjective(pCmd->field_A_objective);
     Ped* pPed = pPointer->field_8_char;
-    BitSet32 flag = *(BitSet32*)&pPed->field_21C_bf;
-    flag.clear_bit(ped_bit_index::scheduled_for_removal_10);
-    *(s32*)&pPed->field_21C_bf = flag.m_var;
+    pPed->field_21C_bf.bScheduledForRemoval = false;
     return pPed;
 }
 
@@ -3990,9 +3988,7 @@ void miss2_0x11C::SCRCMD_IS_CHAR_FIRING_AREA_50B910()
 
     Ped* pPed = pPointer->field_8_char;
 
-    BitSet32 flag = *(BitSet32*)&pPointer->field_8_char->field_21C_bf;
-
-    if (flag.check_bit(ped_bit_index::attacking_11) && pPed->IsWithinArea(&pCmd->field_C_rect))
+    if (pPed->GetAttacking_433CA0() && pPed->IsWithinArea(&pCmd->field_C_rect))
     {
         field_8_cond_result = true;
     }
@@ -4388,9 +4384,7 @@ MATCH_FUNC(0x50c2f0)
 void miss2_0x11C::SCRCMD_SPOTTED_PLAYER_50C2F0()
 {
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    BitSet32 flag;
-    flag.m_var = *(s32*)&pPointer->field_8_char->field_21C_bf;
-    if (flag.check_bit(ped_bit_index::spotted_player_23))
+    if (pPointer->field_8_char->HasSpottedPlayer())
     {
         field_8_cond_result = true;
     }
@@ -5955,9 +5949,7 @@ MATCH_FUNC(0x50ece0)
 void miss2_0x11C::SCRCMD_IS_CHAR_ON_FIRE_50ECE0()
 {
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    BitSet32 flag = *(BitSet32*)&pPointer->field_8_char->field_21C_bf;
-
-    if (flag.check_bit(ped_bit_index::on_fire_24))
+    if (pPointer->field_8_char->IsOnFire_475B50())
     {
         field_8_cond_result = true;
     }
