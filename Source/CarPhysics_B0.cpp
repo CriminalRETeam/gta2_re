@@ -1234,20 +1234,17 @@ void CarPhysics_B0::UpdateZPosition_55B4F0(Fix16 a2)
         }
     }
 
-    Fix16 a2_;
     if (zCoordTmp <= field_6C_cp3 - kFP16Half_6FE0C0)
     {
-        a2_ = a2;
         this->field_68_z_pos = ComputeSlopeCorrection_55AB50(&v14);
         zCoordTmp = field_6C_cp3 + field_68_z_pos;
-        if (a2_ != kFP16Zero_6FE20C)
+        if (a2 != kFP16Zero_6FE20C)
         {
-            field_68_z_pos /= a2_;
+            field_68_z_pos /= a2;
         }
     }
     else
     {
-        a2_ = a2;
         if (zCoordTmp < field_6C_cp3)
         {
             UpdateSpriteFromPhysics_563670();
@@ -1265,9 +1262,9 @@ void CarPhysics_B0::UpdateZPosition_55B4F0(Fix16 a2)
 
     this->field_70_z_vel = zCoordTmp - this->field_6C_cp3;
     this->field_6C_cp3 += field_70_z_vel;
-    if (a2_ != kFP16Zero_6FE20C)
+    if (a2 != kFP16Zero_6FE20C)
     {
-        field_70_z_vel = field_70_z_vel / a2_;
+        field_70_z_vel = field_70_z_vel / a2;
     }
 }
 

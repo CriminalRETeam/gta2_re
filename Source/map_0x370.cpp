@@ -3518,7 +3518,8 @@ s32 Map_0x370::sub_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
     SetRoadBlockAt_4E6660(pBlock, x, y, z);
     s32 direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 1);
 
-    Fix16 side = sub_4E5D70(x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
+    Fix16 side;
+    side = sub_4E5D70(x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
     if (side > kFpHalf_6F5F18)
     {
         switch (direction)
@@ -3600,7 +3601,8 @@ s32 Map_0x370::sub_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
     }
     else
     {
-        Fix16 to_edge = sub_4E5E00(x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
+        Fix16 to_edge;
+        to_edge = sub_4E5E00(x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
         if (to_edge > kFpZero_6F610C)
         {
             // Before the call, not after it as the original schedules it: after it, VC6 keeps
@@ -3650,7 +3652,8 @@ s32 Map_0x370::sub_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
             if (!HasGreenArrowForPathDirection_4E5E90(pBlock, direction, 1))
             {
                 pPrev = pBlock;
-                Fix16 to_edge = sub_4E5E00(x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
+                Fix16 to_edge;
+                to_edge = sub_4E5E00(x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
                 sub_4E5D10(&x,
                            &y,
                            kFpOne_6F6110 - to_edge,
@@ -3728,7 +3731,8 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
     SetRoadBlockAt_4E6660(pBlock, x, y, z);
     s32 direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
 
-    Fix16 side = sub_4E5D70(x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
+    Fix16 side;
+    side = sub_4E5D70(x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
     // The case order of the two switches picks which constant used twice VC6 keeps in a register
     // (the original's `mov $1,%ebp`; the second switch's bodies are cross-jumped into the first's).
     if (side > kFpHalf_6F5F18)
@@ -3772,7 +3776,8 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
     if (side != kFpHalf_6F5F18)
     {
         pPrev = pBlock;
-        Fix16 to_centre = sub_4E5E00(x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
+        Fix16 to_centre;
+        to_centre = sub_4E5E00(x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
         if (to_centre > kFpZero_6F610C)
         {
             if (dist >= to_centre)
@@ -3799,7 +3804,8 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
     }
     else
     {
-        Fix16 to_edge = sub_4E5E00(x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
+        Fix16 to_edge;
+        to_edge = sub_4E5E00(x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
         if (to_edge > kFpZero_6F610C)
         {
             sub_4E65A0(x, y, &z, 0, 1);
@@ -3857,7 +3863,8 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
             {
                 // pPrev is reused here (the original shares its slot with the tmp out-params below last_x)
                 pPrev = pBlock;
-                Fix16 to_edge = sub_4E5E00(x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
+                Fix16 to_edge;
+                to_edge = sub_4E5E00(x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
                 sub_4E5D10(&x,
                            &y,
                            kFpOne_6F6110,
