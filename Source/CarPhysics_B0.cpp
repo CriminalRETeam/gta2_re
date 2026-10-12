@@ -1218,17 +1218,16 @@ MATCH_FUNC(0x55b4f0)
 void CarPhysics_B0::UpdateZPosition_55B4F0(Fix16 a2)
 {
     Fix16 v14;
-    Fix16 zCoord;
-    Fix16* pZCoord = gMap_0x370_6F6268->GetRailwayZCoordAtXY_4E6510(&zCoord, this->field_38_cp1.x, this->field_38_cp1.y);
-    Fix16 zCoordTmp = *pZCoord;
-    if (*pZCoord == kFP16Zero_6FE20C)
+    Fix16 zCoordTmp;
+    zCoordTmp = gMap_0x370_6F6268->GetRailwayZCoordAtXY_4E6510(this->field_38_cp1.x, this->field_38_cp1.y);
+    if (zCoordTmp == kFP16Zero_6FE20C)
     {
         zCoordTmp = k_dword_6FE210;
     }
 
     if (zCoordTmp >= field_6C_cp3 + kFP16Half_6FE0C0)
     {
-        zCoordTmp = *gMap_0x370_6F6268->GetRailwayZBelowCoord_4E6400(&zCoord, field_38_cp1.x, field_38_cp1.y, zCoordTmp - k_dword_6FE210);
+        zCoordTmp = gMap_0x370_6F6268->GetRailwayZBelowCoord_4E6400(field_38_cp1.x, field_38_cp1.y, zCoordTmp - k_dword_6FE210);
         if (zCoordTmp >= field_6C_cp3 + k_dword_6FE210)
         {
             zCoordTmp = this->field_6C_cp3;

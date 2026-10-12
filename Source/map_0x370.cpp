@@ -3432,7 +3432,7 @@ gmp_block_info* Map_0x370::FindRailwayBelowZAtCoord_4E6360(s32 x, s32 y, s32& z)
 }
 
 MATCH_FUNC(0x4E6400)
-Fix16* Map_0x370::GetRailwayZBelowCoord_4E6400(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
+Fix16 Map_0x370::GetRailwayZBelowCoord_4E6400(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 {
     u8 slope_byte;
     Fix16 new_z;
@@ -3445,8 +3445,7 @@ Fix16* Map_0x370::GetRailwayZBelowCoord_4E6400(Fix16* found_z, Fix16 x_pos, Fix1
         gBlockInfo0_6F5EB0 = pBlock;
         if (pBlock == NULL)
         {
-            *found_z = Fix16(1);
-            return found_z;
+            return Fix16(1);
         }
         slope_byte = pBlock->field_B_slope_type;
         if (is_gradient_slope(slope_byte) && !is_air_type(slope_byte))
@@ -3459,20 +3458,18 @@ Fix16* Map_0x370::GetRailwayZBelowCoord_4E6400(Fix16* found_z, Fix16 x_pos, Fix1
             new_z = Fix16(v14) + 1;
         }
     }
-    *found_z = new_z;
-    return found_z;
+    return new_z;
 }
 
 MATCH_FUNC(0x4E6510)
-Fix16* Map_0x370::GetRailwayZCoordAtXY_4E6510(Fix16* found_z, Fix16 x, Fix16 y)
+Fix16 Map_0x370::GetRailwayZCoordAtXY_4E6510(Fix16 x, Fix16 y)
 {
     s32 rail_z_coord;
     gBlockInfo0_6F5EB0 = Map_0x370::FindRailwayAtCoord_4E62D0(x.ToInt(), y.ToInt(), rail_z_coord);
 
     if (!gBlockInfo0_6F5EB0)
     {
-        *found_z = 0;
-        return found_z;
+        return Fix16(0);
     }
     else
     {
@@ -3486,8 +3483,7 @@ Fix16* Map_0x370::GetRailwayZCoordAtXY_4E6510(Fix16* found_z, Fix16 x, Fix16 y)
         {
             new_z = Fix16(rail_z_coord + 1);
         }
-        *found_z = new_z;
-        return found_z;
+        return new_z;
     }
 }
 
@@ -3504,8 +3500,7 @@ void Map_0x370::sub_4E65A0(Fix16 x, Fix16 y, Fix16* z_pos, char_type a5, char_ty
 
     if (Map_0x370::sub_4E6190(x, y, *z_pos - kFpOne_6F6110, v11, a6) != 3)
     {
-        Fix16 z_temp;
-        *z_pos = *Map_0x370::GetRailwayZBelowCoord_4E6400(&z_temp, x, y, *z_pos);
+        *z_pos = Map_0x370::GetRailwayZBelowCoord_4E6400(x, y, *z_pos);
     }
 }
 
@@ -3712,8 +3707,7 @@ done:
     *pX = x;
     *pY = y;
     {
-        Fix16 found_z;
-        *pZ = *GetRailwayZBelowCoord_4E6400(&found_z, x, y, z);
+        *pZ = GetRailwayZBelowCoord_4E6400(x, y, z);
     }
     return direction;
 }
@@ -3981,12 +3975,9 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
     *pX = x;
     *pY = y;
     {
-        // last_z as the out-param (dead by now): with last_z address-taken it is no colour candidate, which
-        // drops it from the neighbour lookup blocks and colours the loop's to_edge before the last_y.ToInt()
-        // CSE temps (the original's ebx/ebp split of dist/to_edge/pPrev). The original's out-param sits in
-        // the dead dist parameter slot instead, so it had another local here and last_z off the candidate
-        // list for some other reason (not found).
-        *pZ = *GetRailwayZBelowCoord_4E6400(&last_z, x, y, z);
+        // (was written with last_z as the out-param; the call returns by value now, which changes how
+        // last_z is coloured in this WIP: re-check its diff)
+        *pZ = GetRailwayZBelowCoord_4E6400(x, y, z);
     }
 
     // 9.6f: sub_42A660 reverses the direction (inlined, using it as a helper changes the code: 103 -> 301)
