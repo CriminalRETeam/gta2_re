@@ -938,7 +938,7 @@ void CarPhysics_B0::HandleGravityOnSlope_55AA00()
 }
 
 MATCH_FUNC(0x55ab50)
-Fix16* CarPhysics_B0::ComputeSlopeCorrection_55AB50(Fix16* pOutX, Fix16* pOutY)
+Fix16 CarPhysics_B0::ComputeSlopeCorrection_55AB50(Fix16* pOutY)
 {
 
     Fix16_Point point_to_sub;
@@ -958,7 +958,7 @@ Fix16* CarPhysics_B0::ComputeSlopeCorrection_55AB50(Fix16* pOutX, Fix16* pOutY)
     Fix16 slope_val;
     Fix16 lower;
     Fix16 upper;
-    Fix16* result;
+    Fix16 result;
 
     switch (field_98_surface_type)
     {
@@ -978,8 +978,7 @@ Fix16* CarPhysics_B0::ComputeSlopeCorrection_55AB50(Fix16* pOutX, Fix16* pOutY)
 
         default:
             *pOutY = kFP16Zero_6FE20C;
-            *pOutX = kFP16Zero_6FE20C;
-            return pOutX;
+            return kFP16Zero_6FE20C;
     }
 
     switch (this->field_A5_current_slope_length)
@@ -1011,8 +1010,7 @@ Fix16* CarPhysics_B0::ComputeSlopeCorrection_55AB50(Fix16* pOutX, Fix16* pOutY)
         {
             *pOutY = lower;
         }
-        result = pOutX;
-        *pOutX = lower;
+        result = lower;
     }
     else
     {
@@ -1027,9 +1025,8 @@ Fix16* CarPhysics_B0::ComputeSlopeCorrection_55AB50(Fix16* pOutX, Fix16* pOutY)
                 }
             }
         }
-        result = pOutX;
         *pOutY = lower;
-        *pOutX = lower;
+        result = lower;
     }
     return result;
 }
@@ -1106,8 +1103,7 @@ void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 a2)
 
         if (zpos <= field_6C_cp3 - kFP16Half_6FE0C0 || zpos < field_6C_cp3 && field_AA_sbw && field_AB_tpa)
         {
-            Fix16 corr_x;
-            field_68_z_pos = *ComputeSlopeCorrection_55AB50(&corr_x, &a2);
+            field_68_z_pos = ComputeSlopeCorrection_55AB50(&a2);
             zpos = field_6C_cp3 + a2;
             if (a2_ != kFP16Zero_6FE20C)
             {
@@ -1221,7 +1217,7 @@ void CarPhysics_B0::SyncZWithTrailer_55B3F0(Fix16 a2)
 MATCH_FUNC(0x55b4f0)
 void CarPhysics_B0::UpdateZPosition_55B4F0(Fix16 a2)
 {
-
+    Fix16 v14;
     Fix16 zCoord;
     Fix16* pZCoord = gMap_0x370_6F6268->GetRailwayZCoordAtXY_4E6510(&zCoord, this->field_38_cp1.x, this->field_38_cp1.y);
     Fix16 zCoordTmp = *pZCoord;
@@ -1243,8 +1239,7 @@ void CarPhysics_B0::UpdateZPosition_55B4F0(Fix16 a2)
     if (zCoordTmp <= field_6C_cp3 - kFP16Half_6FE0C0)
     {
         a2_ = a2;
-        Fix16 v14;
-        this->field_68_z_pos = *ComputeSlopeCorrection_55AB50(&a2, &v14);
+        this->field_68_z_pos = ComputeSlopeCorrection_55AB50(&v14);
         zCoordTmp = field_6C_cp3 + field_68_z_pos;
         if (a2_ != kFP16Zero_6FE20C)
         {

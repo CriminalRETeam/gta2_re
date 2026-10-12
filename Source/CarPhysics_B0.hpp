@@ -168,7 +168,7 @@ class CarPhysics_B0
                                         char_type a5,
                                         char_type bHandBrakeOn);
     EXPORT void HandleGravityOnSlope_55AA00();
-    EXPORT Fix16* ComputeSlopeCorrection_55AB50(Fix16* a2, Fix16* a3);
+    EXPORT Fix16 ComputeSlopeCorrection_55AB50(Fix16* pOutY);
     EXPORT void UpdateZPhysics_55AD90(Fix16 a2);
     EXPORT void SyncZWithTrailer_55B3F0(Fix16 a2);
     EXPORT void UpdateZPosition_55B4F0(Fix16 a2);
