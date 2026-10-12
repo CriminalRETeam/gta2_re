@@ -203,7 +203,7 @@ void Init_InputRecorder()
     gInputRecorder_67F8B0.VerifyAttractFilesExist_4CE650();
 }
 
-static void EnableBoot2MapDebugOptions()
+void EnableBoot2MapDebugOptions()
 {
     // Init Phi else its over fr
     InitMapObjectOverrides();

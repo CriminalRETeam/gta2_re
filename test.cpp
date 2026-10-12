@@ -18,6 +18,8 @@
 
 #pragma comment(lib, "Winmm.lib")
 
+extern void EnableBoot2MapDebugOptions();
+
 void test_file()
 {
     File::GetFileSize_4A6B10(0);
@@ -185,6 +187,8 @@ s32 APIENTRY WinMain(HINSTANCE hInstance,
     GetGlobalsRegistry()->CheckVars();
 
     LoadBeginSceneCBPtr();
+    EnableBoot2MapDebugOptions();
+
     WinMain_5E53F0(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
 
     return 0;
