@@ -528,7 +528,7 @@ Ped::~Ped()
     this->field_174_pWeapon = 0;
     this->field_180_car_thief = 0;
     this->field_18C_current_path_point = 0;
-    this->field_21C &= ~ped_flag_mask::k_ped_in_path_list;
+    this->field_21C_bf.bInPathList = false;
     this->field_184_pObj2C = 0;
     this->field_208_invulnerability = 0;
     this->field_204_killer_id = 0;
@@ -693,7 +693,7 @@ void Ped::PoolAllocate()
 {
     Ped::Reset_45AFC0();
     field_200_id = gPedId_61A89C++;
-    field_21C |= ped_flag_mask::k_ped_active;
+    field_21C_bf.bActive = true;
     field_234_lifetime_timer = ped_lifetime::never_expires_99;
 
     switch (field_240_occupation)
@@ -991,7 +991,7 @@ void Ped::SetOnFire()
 {
     if ((field_21C & ped_flag_mask::k_ped_on_fire) == 0)
     {
-        field_21C |= ped_flag_mask::k_ped_on_fire;
+        field_21C_bf.bOnFire = true;
         DrawFlamesAndStartScreamTimer();
     }
 }
@@ -1006,7 +1006,7 @@ void Ped::PutOutFire()
         {
             pB4->RemoveFireSprites_5454B0();
         }
-        this->field_21C &= ~ped_flag_mask::k_ped_on_fire;
+        this->field_21C_bf.bOnFire = false;
     }
 }
 
@@ -1045,7 +1045,7 @@ void Ped::ManageBurning_45BEC0()
                 {
                     if (field_25C_internal_objective != objectives_enum::flee_on_foot_till_safe_1) // not in flee/running state?
                     {
-                        field_21C |= ped_flag_mask::k_ped_panicking;
+                        field_21C_bf.bPanicking = true;
 
                         SetObjective2_463830(objectives_enum::flee_on_foot_till_safe_1); // make them flee
 
@@ -1075,14 +1075,14 @@ void Ped::DrawFlamesAndStartScreamTimer()
 MATCH_FUNC(0x45bfd0)
 void Ped::SetInvisible()
 {
-    field_21C |= ped_flag_mask::k_ped_invisible;
+    field_21C_bf.bInvisible = true;
     SetSpriteSemiTransIfInvisible();
 }
 
 MATCH_FUNC(0x45bfe0)
 void Ped::SetVisible()
 {
-    this->field_21C &= ~ped_flag_mask::k_ped_invisible;
+    this->field_21C_bf.bInvisible = false;
     Char_B4* pB4 = this->field_168_game_object;
     if (pB4)
     {
@@ -1279,7 +1279,7 @@ void Ped::ResetForPlayerRespawn_45C410()
     this->field_244_remap = remap;
     this->field_168_game_object = pB4;
 
-    this->field_21C |= ped_flag_mask::k_ped_active;
+    this->field_21C_bf.bActive = true;
 
     this->field_1AC_cam.x = pB4->field_80_sprite_ptr->field_14_xy.x;
     this->field_1AC_cam.y = pB4->field_80_sprite_ptr->field_14_xy.y;
@@ -1635,7 +1635,7 @@ void Ped::HandleClosePedInteraction_45CAA0()
                     {
                         pNearPed_->SetObjective2_463830(objectives_enum::flee_char_on_foot_till_safe_2);
                         pNearPed_->SetInternalTargetPed_403AE0(this);
-                        this->field_21C |= ped_flag_mask::k_ped_panicking;
+                        this->field_21C_bf.bPanicking = true;
                     }
                 }
             }
@@ -3194,7 +3194,7 @@ void Ped::TaxiCustomer_AI_460820()
             {
                 if (pTaxi->field_8C_damage_level >= 3)
                 {
-                    this->field_21C |= ped_flag_mask::k_ped_forced_out_of_taxi;
+                    this->field_21C_bf.bForcedOutOfTaxi = true;
                 }
                 if (pTaxi->field_54_driver && (this->field_21C & ped_flag_mask::k_ped_forced_out_of_taxi) == 0)
                 {
@@ -3573,7 +3573,7 @@ void Ped::RoadBlockTank_AI_4619F0()
     else
     {
         SetObjective(objectives_enum::no_obj_0);
-        this->field_21C &= ~ped_flag_mask::k_ped_attacking;
+        this->field_21C_bf.bAttacking = false;
     }
 }
 
@@ -3963,7 +3963,7 @@ void Ped::ForceDoNothing_462590()
     SetObjective(objectives_enum::no_obj_0);
     SetObjective2_463830(objectives_enum::no_obj_0);
 
-    field_21C &= ~ped_flag_mask::k_ped_panicking;
+    field_21C_bf.bPanicking = false;
 
     if (field_16C_car)
     {
@@ -5075,7 +5075,7 @@ void Ped::ProcessInCarObjective_463FB0()
 
     if (field_226_internal_objective_status == 2)
     {
-        this->field_21C &= ~ped_flag_mask::k_ped_panicking;
+        this->field_21C_bf.bPanicking = false;
     }
 
     if (field_25C_internal_objective && !field_226_internal_objective_status)
@@ -5845,7 +5845,7 @@ void Ped::ReactToAttacker_465B20()
     if (field_144_attacker->isDead_403B60() || !field_144_attacker->IsActive_433B40())
     {
         this->field_144_attacker = 0;
-        this->field_21C &= ~ped_flag_mask::k_ped_panicking;
+        this->field_21C_bf.bPanicking = false;
     }
     else if (!field_144_attacker->IsInvisibleOnFoot_433DA0())
     {
@@ -5853,7 +5853,7 @@ void Ped::ReactToAttacker_465B20()
         if (pZone && pZone == field_144_attacker->field_17C_pGang)
         {
             this->field_144_attacker = 0;
-            this->field_21C &= ~ped_flag_mask::k_ped_panicking;
+            this->field_21C_bf.bPanicking = false;
         }
         else
         {
@@ -5861,7 +5861,7 @@ void Ped::ReactToAttacker_465B20()
             if (pGroup && pGroup == field_144_attacker->field_164_ped_group)
             {
                 this->field_144_attacker = 0;
-                this->field_21C &= ~ped_flag_mask::k_ped_panicking;
+                this->field_21C_bf.bPanicking = false;
             }
             else
             {
@@ -5894,7 +5894,7 @@ void Ped::ReactToAttacker_465B20()
                                     Ped::SetObjective2_463830(objectives_enum::punch_char_23);
                                 }
                                 this->field_14C_internal_target_ped = this->field_144_attacker;
-                                this->field_21C |= ped_flag_mask::k_ped_panicking;
+                                this->field_21C_bf.bPanicking = true;
                             }
                             else
                             {
@@ -7504,7 +7504,7 @@ void Ped::ProcessAirborneMovement_468040()
     if ((field_224 & ped_flag8_mask::waiting_on_target) != 0 && (this->field_21C & ped_flag_mask::k_ped_panicking) != 0)
     {
         this->field_260_wait_counter = 0;
-        this->field_224 &= ~ped_flag8_mask::waiting_on_target;
+        this->field_224_bf.bWaitingOnTarget = false;
     }
 
     if (bUnknown)
@@ -7525,7 +7525,7 @@ void Ped::ProcessAirborneMovement_468040()
             }
             else
             {
-                this->field_224 |= ped_flag8_mask::waiting_on_target;
+                this->field_224_bf.bWaitingOnTarget = true;
             }
         }
         else
@@ -8029,7 +8029,7 @@ void Ped::UpdateFollowPedObjective_468E80()
         if ((field_224 & ped_flag8_mask::waiting_on_target) != 0 && ((this->field_21C & ped_flag_mask::k_ped_panicking) != 0 || this->field_260_wait_counter > 0xC8u))
         {
             this->field_260_wait_counter = 0;
-            this->field_224 &= ~ped_flag8_mask::waiting_on_target;
+            this->field_224_bf.bWaitingOnTarget = false;
         }
 
         if (bUnknown2)
@@ -8051,7 +8051,7 @@ void Ped::UpdateFollowPedObjective_468E80()
                 }
                 else
                 {
-                    this->field_224 |= ped_flag8_mask::waiting_on_target;
+                    this->field_224_bf.bWaitingOnTarget = true;
                 }
             }
             else
@@ -8532,7 +8532,7 @@ void Ped::GuardSpot_469BF0()
 {
     u8 bUnknown = 1;
 
-    this->field_21C |= ped_flag_mask::k_ped_flag22;
+    this->field_21C_bf.bFlag22 = true;
 
     if (!byte_61A8A3)
     {
@@ -8542,7 +8542,7 @@ void Ped::GuardSpot_469BF0()
     if ((field_224 & ped_flag8_mask::waiting_on_target) != 0 && ((field_21C & ped_flag_mask::k_ped_panicking) != 0 || this->field_260_wait_counter > 200u))
     {
         this->field_260_wait_counter = 0;
-        this->field_224 &= ~ped_flag8_mask::waiting_on_target;
+        this->field_224_bf.bWaitingOnTarget = false;
     }
 
     if (bUnknown)
@@ -8570,7 +8570,7 @@ void Ped::GuardSpot_469BF0()
             }
             else
             {
-                this->field_224 |= ped_flag8_mask::waiting_on_target;
+                this->field_224_bf.bWaitingOnTarget = true;
             }
         }
         else
@@ -8893,15 +8893,15 @@ void Ped::FireAtObject_46A530()
     v7 = Fix16::atan2_fixed_405320(field_1A0_objective_target_object->field_4->field_14_xy.y - y_v,
                                    field_1A0_objective_target_object->field_4->field_14_xy.x - x_v);
 
-    field_21C |= ped_flag_mask::k_ped_use_car_weapon;
+    field_21C_bf.bUseCarWeapon = true;
 
     if (field_16C_car->RotateRoofObjectTowardTarget_440C10(v7))
     {
-        field_21C |= ped_flag_mask::k_ped_attacking;
+        field_21C_bf.bAttacking = true;
     }
     else
     {
-        field_21C &= ~ped_flag_mask::k_ped_attacking;
+        field_21C_bf.bAttacking = false;
     }
 }
 
@@ -8923,18 +8923,18 @@ void Ped::FireAtPlayer_46A5E0()
         Ang16 v6;
         v6 = Fix16::atan2_fixed_405320(pPlayerPed->get_cam_y() - y, pPlayerPed->get_cam_x() - x);
 
-        this->field_21C |= ped_flag_mask::k_ped_use_car_weapon;
+        this->field_21C_bf.bUseCarWeapon = true;
 
         if (field_16C_car->RotateRoofObjectTowardTarget_440C10(v6))
         {
             if (!this->field_16C_car->field_76_last_seen_timer)
             {
-                this->field_21C |= ped_flag_mask::k_ped_attacking;
+                this->field_21C_bf.bAttacking = true;
             }
             return;
         }
     }
-    this->field_21C &= ~ped_flag_mask::k_ped_attacking;
+    this->field_21C_bf.bAttacking = false;
 }
 
 
@@ -8948,7 +8948,7 @@ void Ped::AimVehicleTurretStateMachine_46A6D0()
     else
     {
         Sprite_18* p18 = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(114);
-        field_21C |= ped_flag_mask::k_ped_use_car_weapon;
+        field_21C_bf.bUseCarWeapon = true;
 
         Fix16 x = p18->field_0->field_14_xy.x;
         Fix16 y = p18->field_0->field_14_xy.y;
@@ -8957,7 +8957,7 @@ void Ped::AimVehicleTurretStateMachine_46A6D0()
                                           field_150_target_objective_car->field_50_car_sprite->field_14_xy.x - x);
         if (field_16C_car->RotateRoofObjectTowardTarget_440C10(angle))
         {
-            field_21C |= ped_flag_mask::k_ped_attacking;
+            field_21C_bf.bAttacking = true;
 
             if (field_218_objective_timer == 9999)
             {
@@ -8966,7 +8966,7 @@ void Ped::AimVehicleTurretStateMachine_46A6D0()
         }
         else
         {
-            field_21C &= ~ped_flag_mask::k_ped_attacking;
+            field_21C_bf.bAttacking = false;
         }
 
         if (field_218_objective_timer == 0)
@@ -9203,12 +9203,12 @@ void Ped::FollowTargetStateMachine_46AC20()
 
     if (field_14C_internal_target_ped->field_25C_internal_objective == objectives_enum::objective_18 || bUnknown)
     {
-        field_224 &= ~ped_flag8_mask::waiting_on_target;
+        field_224_bf.bWaitingOnTarget = false;
     }
 
     if ((field_224 & ped_flag8_mask::waiting_on_target) != 0 && field_14C_internal_target_ped->GetPedVelocity_45C920() != kFpZero_678660)
     {
-        field_224 &= ~ped_flag8_mask::waiting_on_target;
+        field_224_bf.bWaitingOnTarget = false;
     }
 
     if (field_278_ped_state_1 != ped_state_1::immobilized_8)
@@ -9307,7 +9307,7 @@ void Ped::FollowTargetStateMachine_46AC20()
             }
             else
             {
-                field_224 |= ped_flag8_mask::waiting_on_target;
+                field_224_bf.bWaitingOnTarget = true;
             }
         }
     }
@@ -9790,7 +9790,7 @@ void Ped::EnterCarStateMachine_46BDC0()
         return;
     }
 
-    this->field_224 &= ~ped_flag8_mask::waiting_on_target;
+    this->field_224_bf.bWaitingOnTarget = false;
 
     if (field_278_ped_state_1 == ped_state_1::immobilized_8)
     {
@@ -9832,7 +9832,7 @@ void Ped::EnterCarStateMachine_46BDC0()
         field_168_game_object->field_80_sprite_ptr->field_C_sprite_4c_ptr->field_30_boundingBox.OverlapsZ_433560(
             &field_154_target_to_enter->field_50_car_sprite->field_C_sprite_4c_ptr->field_30_boundingBox))
     {
-        this->field_21C |= ped_flag_mask::k_ped_left_vehicle;
+        this->field_21C_bf.bLeftVehicle = true;
         field_168_game_object->SetMaxSpeedByRef_433920(kFpZero_678438);
         if (field_27C_ped_state_2 == ped_state_2::ped2_staying_14 || field_27C_ped_state_2 == ped_state_2::ped2_following_a_car_4 ||
             field_27C_ped_state_2 == ped_state_2::Unknown_5)
@@ -9937,7 +9937,7 @@ void Ped::ExitCarStateMachine_46C250()
     // Shared by both door paths; the z temporaries are block scoped (this gives the frame layout)
     Fix16 char_x;
     Fix16 char_y;
-    this->field_21C |= ped_flag_mask::k_ped_left_vehicle;
+    this->field_21C_bf.bLeftVehicle = true;
 
     if (field_27C_ped_state_2 == ped_state_2::ped2_driving_10)
     {
@@ -10251,7 +10251,7 @@ void Ped::FollowPedInCar_46CA70()
         field_16C_car->field_60_pChaseTask->field_8_task_type = car_task_type::kill_ped_5;
         if ((field_21C & ped_flag_mask::k_ped_use_car_weapon) != 0)
         {
-            this->field_21C |= ped_flag_mask::k_ped_attacking;
+            this->field_21C_bf.bAttacking = true;
         }
     }
     else
@@ -10417,7 +10417,7 @@ void Ped::EnterTrainStateMachine_46D0D0()
 
     found_door = 0;
     state1 = field_278_ped_state_1;
-    field_21C |= ped_flag_mask::k_ped_left_vehicle;
+    field_21C_bf.bLeftVehicle = true;
     if (state1 != ped_state_1::immobilized_8)
     {
         if (gDistanceToTarget_678750 > kFpFour_678680)
@@ -10481,7 +10481,7 @@ void Ped::ExitTrainStateMachine_46D240()
 
     door_available = 1;
     field_248_enter_car_as_passenger = 1;
-    field_21C |= ped_flag_mask::k_ped_left_vehicle;
+    field_21C_bf.bLeftVehicle = true;
     if (field_27C_ped_state_2 == ped_state_2::ped2_driving_10)
     {
         found_usable_door = 0;
@@ -11212,7 +11212,7 @@ Weapon_30* Ped::GetWeaponFromPed_46F110()
         {
             if (field_170_selected_weapon && field_170_selected_weapon->field_1C_idx >= weapon_type::car_bomb)
             {
-                field_21C |= ped_flag_mask::k_ped_use_car_weapon;
+                field_21C_bf.bUseCarWeapon = true;
                 return field_170_selected_weapon;
             }
         }
@@ -11220,7 +11220,7 @@ Weapon_30* Ped::GetWeaponFromPed_46F110()
         {
             if (!field_170_selected_weapon)
             {
-                field_21C |= ped_flag_mask::k_ped_no_weapon;
+                field_21C_bf.bNoWeapon = true;
             }
             else
             {
@@ -11957,8 +11957,8 @@ void Ped::AimRoofGun_470050()
     Ang16 tan_v;
     tan_v = Fix16::atan2_fixed_405320(objective_target_ped->get_cam_y() - y, objective_target_ped->get_cam_x() - x);
 
-    this->field_21C &= ~ped_flag_mask::k_ped_attacking;
-    this->field_21C |= ped_flag_mask::k_ped_use_car_weapon;
+    this->field_21C_bf.bAttacking = false;
+    this->field_21C_bf.bUseCarWeapon = true;
 
     if (field_16C_car->RotateRoofObjectTowardTarget_440C10(tan_v))
     {
@@ -11966,17 +11966,17 @@ void Ped::AimRoofGun_470050()
         {
             if (!this->field_16C_car->field_76_last_seen_timer)
             {
-                this->field_21C |= ped_flag_mask::k_ped_attacking;
+                this->field_21C_bf.bAttacking = true;
             }
         }
         else if (gDistanceToTarget_678750 < kFpFour_678680)
         {
-            this->field_21C |= ped_flag_mask::k_ped_attacking;
+            this->field_21C_bf.bAttacking = true;
         }
     }
     else
     {
-        this->field_21C &= ~ped_flag_mask::k_ped_attacking;
+        this->field_21C_bf.bAttacking = false;
     }
 }
 

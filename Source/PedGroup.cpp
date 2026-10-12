@@ -278,7 +278,7 @@ void PedGroup::DisbandGroup_4C92A0()
                 (*pppVar1)->ClearGroupAndGroupIdx_403A30();
                 (*pppVar1)->SetPedType_403920(ped_type_enum::New_Name_2);
             }
-            (*pppVar1)->field_21C |= ped_flag_mask::k_ped_scheduled_for_removal;
+            (*pppVar1)->field_21C_bf.bScheduledForRemoval = true;
         }
     }
     ClearGroupData_4C8E90();
@@ -468,7 +468,7 @@ void PedGroup::PromoteMemberToLeader_4C9680(u8 idx)
     if (pTmp->field_238_ped_type == ped_type::script_created_5)
     {
         pTmp->PoolAllocate();
-        pTmp->field_21C |= ped_flag_mask::k_ped_scheduled_for_removal;
+        pTmp->field_21C_bf.bScheduledForRemoval = true;
     }
     else
     {
@@ -488,7 +488,7 @@ void PedGroup::RemovePed_4C9970(Ped* pPed)
         {
             if (field_2C_ped_leader->GetPedState_403990() == ped_state_1::dead_9 && field_2C_ped_leader->field_238_ped_type == ped_type::script_created_5)
             {
-                field_2C_ped_leader->field_21C |= ped_flag_mask::k_ped_scheduled_for_removal;
+                field_2C_ped_leader->field_21C_bf.bScheduledForRemoval = true;
             }
 
             Ped* pNewLeader = field_4_ped_list[0];
@@ -539,7 +539,7 @@ void PedGroup::RemovePed_4C9970(Ped* pPed)
                     field_4_ped_list[field_34_count - 1] = 0;
                     if (pPed->field_238_ped_type == ped_type::script_created_5)
                     {
-                        pPed->field_21C |= ped_flag_mask::k_ped_scheduled_for_removal;
+                        pPed->field_21C_bf.bScheduledForRemoval = true;
                     }
                 }
                 field_34_count--;
@@ -997,7 +997,7 @@ MATCH_FUNC(0x4ca5e0)
 void PedGroup::UpdateMemberAIState_4CA5E0(u8 idx)
 {
     Ped* pMember = field_4_ped_list[idx];
-    if (pMember->field_21C & ped_flag_mask::k_ped_left_vehicle)
+    if (pMember->field_21C_bf.bLeftVehicle)
     {
         return;
     }
@@ -1040,7 +1040,7 @@ void PedGroup::UpdateMemberAIState_4CA5E0(u8 idx)
     {
         if (pMember->bHasGameObject_403B70())
         {
-            if (!(pLeader->field_21C & ped_flag_mask::k_ped_left_vehicle))
+            if (!pLeader->field_21C_bf.bLeftVehicle)
             {
                 Ped* pNearest = FindNearestOtherMember_4CAE80(idx);
                 if (pNearest)

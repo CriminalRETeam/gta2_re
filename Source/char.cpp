@@ -745,7 +745,7 @@ void Char_B4::UpdateAnimState_546360()
             if (field_7C_pPed->field_170_selected_weapon->field_1C_idx == weapon_type::molotov ||
                 field_7C_pPed->field_170_selected_weapon->field_1C_idx == weapon_type::grenade)
             {
-                field_7C_pPed->field_21C &= ~ped_flag_mask::k_ped_attacking;
+                field_7C_pPed->field_21C_bf.bAttacking = false;
             }
         }
     }
@@ -1888,7 +1888,7 @@ static inline void CollideWithElvis_493040(Ped* pPed, Char_B4* pChar)
     if ((s32)pChar != pPed->field_138_collided_char_b4)
     {
         pPed->field_138_collided_char_b4 = (s32)pChar;
-        pPed->field_224 &= ~ped_flag8_mask::collided_with_ped;
+        pPed->field_224_bf.bCollidedWithPed = false;
         pChar->field_7C_pPed->field_138_collided_char_b4 = (s32)pPed->field_168_game_object;
         pPed->SetVoiceEvent_IfBit24Clear_433DD0(ped_ocupation_enum::elvis);
     }
@@ -1900,7 +1900,7 @@ static inline void CollideWithPed_493000(Ped* pPed, Char_B4* pOther)
     if ((s32)pOther != pPed->field_138_collided_char_b4)
     {
         pPed->field_138_collided_char_b4 = (s32)pOther;
-        pPed->field_224 |= ped_flag8_mask::collided_with_ped;
+        pPed->field_224_bf.bCollidedWithPed = true;
         pOther->field_7C_pPed->field_138_collided_char_b4 = (s32)pPed->field_168_game_object;
     }
 }
@@ -5914,7 +5914,7 @@ void Char_B4::state_8_5520A0()
                     field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::Unknown_15);
                     field_7C_pPed->RestorePreviousPedState_45C5A0();
                     field_80_sprite_ptr->set_z_lazy_420660(kFP16Zero_6FD9E4);
-                    field_7C_pPed->field_224 &= ~ped_flag8_mask::drops_weapon_on_death;
+                    field_7C_pPed->field_224_bf.bDropsWeaponOnDeath = false;
                 }
                 break;
 
@@ -6195,7 +6195,7 @@ void Char_B4::state_8_5520A0()
                     field_C_ped_state_2 = 0;
                     field_7C_pPed->field_27C_ped_state_2 = ped_state_2::ped2_walking_0;
                     field_7C_pPed->field_278_ped_state_1 = ped_state_1::walking_0;
-                    field_7C_pPed->field_224 &= ~ped_flag8_mask::drops_weapon_on_death;
+                    field_7C_pPed->field_224_bf.bDropsWeaponOnDeath = false;
                     if (field_7C_pPed->field_15C_player)
                     {
                         gRoot_sound_66B038.PlayVoice_40F090(voice_line::shocking_25);

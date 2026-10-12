@@ -3154,7 +3154,7 @@ void miss2_0x11C::SCRCMD_SET_CHAR_OBJ2_50A200()
     }
 
     Ped* pPed = pPointer->field_8_char;
-    pPed->field_21C &= ~ped_flag_mask::k_ped_scheduled_for_removal;
+    pPed->field_21C_bf.bScheduledForRemoval = false;
 
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -3175,7 +3175,7 @@ void miss2_0x11C::SCRCMD_SET_CHAR_OBJ3_50A3E0()
         (pPointer->field_8_char)->field_1E0_objective_target_y = pCmd->field_C_pos.field_4_y.mValue;
         (pPointer->field_8_char)->field_1E4_objective_target_z = pCmd->field_C_pos.field_8_z.mValue;
 
-        (pPointer->field_8_char)->field_21C &= ~ped_flag_mask::k_ped_scheduled_for_removal; // TODO: Maybe BitSet32
+        (pPointer->field_8_char)->field_21C_bf.bScheduledForRemoval = false; // TODO: Maybe BitSet32
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -3213,7 +3213,7 @@ void miss2_0x11C::SCRCMD_SET_CHAR_OBJ_FOLLOW_50A460()
 
         (pPointer->field_8_char)->field_132_follow_car_offset_angle = rotation.rValue;
         (pPointer->field_8_char)->field_1FC_follow_car_offset_distance = pCmd->field_12_offset;
-        (pPointer->field_8_char)->field_21C &= ~ped_flag_mask::k_ped_scheduled_for_removal; // TODO: Maybe BitSet32
+        (pPointer->field_8_char)->field_21C_bf.bScheduledForRemoval = false; // TODO: Maybe BitSet32
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -6333,22 +6333,22 @@ void miss2_0x11C::SCRCMD_SET_CHAR_FLAGS_50F5E0()
             case SCRCMD_SET_STAY_IN_CAR:
                 if (pCmd->field_A_status == 1)
                 {
-                    pPed->field_21C |= ped_flag_mask::k_ped_stay_in_car;
+                    pPed->field_21C_bf.bStayInCar = true;
                 }
                 else
                 {
-                    pPed->field_21C &= ~ped_flag_mask::k_ped_stay_in_car;
+                    pPed->field_21C_bf.bStayInCar = false;
                 }
 
                 break;
             case SCRCMD_SET_USE_CAR_WEAPON:
                 if (pCmd->field_A_status == 1)
                 {
-                    pPed->field_21C |= ped_flag_mask::k_ped_use_car_weapon;
+                    pPed->field_21C_bf.bUseCarWeapon = true;
                 }
                 else
                 {
-                    pPed->field_21C &= ~ped_flag_mask::k_ped_use_car_weapon;
+                    pPed->field_21C_bf.bUseCarWeapon = false;
                 }
 
                 break;

@@ -312,7 +312,7 @@ void Ped_List_4::ForceTaxiPassengersToExit_471680()
     {
         if (pIter->field_0_char_ped->field_240_occupation == ped_ocupation_enum::taxi_customer_7)
         {
-            pIter->field_0_char_ped->field_21C |= ped_flag_mask::k_ped_forced_out_of_taxi;
+            pIter->field_0_char_ped->field_21C_bf.bForcedOutOfTaxi = true;
         }
     }
 }

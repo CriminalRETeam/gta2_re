@@ -2055,7 +2055,7 @@ void Weapon_30::rocket_5E3850()
     {
         if (!field_20)
         {
-            field_24_pPed->field_21C &= ~ped_flag_mask::k_ped_flag22;
+            field_24_pPed->field_21C_bf.bFlag22 = false;
         }
         field_2_reload_speed--;
     }
