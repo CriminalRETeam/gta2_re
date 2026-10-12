@@ -3347,10 +3347,9 @@ static inline bool IsBlockTypeInRange_1_4(u8 block_type)
 }
 
 // https://decomp.me/scratch/56qkT
-WIP_FUNC(0x54ddf0)
+MATCH_FUNC(0x54ddf0)
 void Char_B4::state_0_54DDF0()
 {
-    WIP_IMPLEMENTED;
     char v88;
     char v89;
     u8 v91;
@@ -3446,13 +3445,16 @@ void Char_B4::state_0_54DDF0()
         ret1 += gCharB4_Saved_Xpos_6FD7F8;
         ret2 += gCharB4_Saved_Ypos_6FD800;
 
-        gmp_block_info* pAhead = gMap_0x370_6F6268->get_block_4DFE10(ret1.ToInt(),
-                                                                ret2.ToInt(),
-                                                                gCharB4_Saved_Zpos_6FD7FC.GetFracValue() == kFP16Zero_6FD9E4 ?
-                                                                    gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1 :
-                                                                    gCharB4_Saved_Zpos_6FD7FC.ToInt());
-        // Written out: the GetBlockTypeAtCoord_420420 inline puts the null case after the call here
-        block_type = !pAhead ? 0 : pAhead->field_B_slope_type & 3;
+        // One GetBlockTypeAtCoord_420420 call per z case: VC6 tail-merges the two copies (gMap in edx, the
+        // null arm first and the unfolded test after the merge)
+        if (gCharB4_Saved_Zpos_6FD7FC.GetFracValue() == kFP16Zero_6FD9E4)
+        {
+            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(ret1.ToInt(), ret2.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1);
+        }
+        else
+        {
+            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(ret1.ToInt(), ret2.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt());
+        }
         if (block_type == AIR)
         {
             if (field_10_char_state != Char_B4_state::Jumping_15)
