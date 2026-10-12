@@ -740,7 +740,7 @@ void Char_B4::UpdateAnimState_546360()
                 field_68_animation_frame = 0;
             }
         }
-        else if (field_7C_pPed->field_170_selected_weapon && (field_7C_pPed->field_21C & ped_flag_mask::k_ped_attacking) != 0)
+        else if (field_7C_pPed->field_170_selected_weapon && field_7C_pPed->field_21C_bf.bAttacking)
         {
             if (field_7C_pPed->field_170_selected_weapon->field_1C_idx == weapon_type::molotov ||
                 field_7C_pPed->field_170_selected_weapon->field_1C_idx == weapon_type::grenade)
@@ -751,7 +751,7 @@ void Char_B4::UpdateAnimState_546360()
     }
     else
     {
-        if (field_7C_pPed->field_170_selected_weapon && (field_7C_pPed->field_21C & ped_flag_mask::k_ped_attacking) != 0 &&
+        if (field_7C_pPed->field_170_selected_weapon && field_7C_pPed->field_21C_bf.bAttacking &&
             (field_7C_pPed->field_170_selected_weapon->field_1C_idx == weapon_type::molotov ||
              field_7C_pPed->field_170_selected_weapon->field_1C_idx == weapon_type::grenade))
         {
@@ -4759,7 +4759,7 @@ void Char_B4::state_1_5504F0()
                 {
                     goto LABEL_65;
                 }
-                if ((field_7C_pPed->field_224 & ped_flag8_mask::waiting_on_target) == 0)
+                if (!field_7C_pPed->field_224_bf.bWaitingOnTarget)
                 {
                     v20 = field_7C_pPed->GetTargetFacingAngle_492CC0();
                 }
@@ -4772,7 +4772,7 @@ void Char_B4::state_1_5504F0()
 
             if (field_58_flags_bf.b6 == false)
             {
-                if ((field_7C_pPed->field_224 & ped_flag8_mask::waiting_on_target) != 0)
+                if (field_7C_pPed->field_224_bf.bWaitingOnTarget)
                 {
                     if (gCharB4_DistanceToTarget_6FD80C < dword_6FD87C)
                     {
@@ -5922,7 +5922,7 @@ void Char_B4::state_8_5520A0()
 
                 if (field_48_lying_on_floor_timer == 0)
                 {
-                    if ((field_7C_pPed->field_21C & ped_flag_mask::k_ped_busted) == 0)
+                    if (!field_7C_pPed->field_21C_bf.bBusted)
                     {
                         field_7C_pPed->field_210_shock_counter = 0;
                         if (field_7C_pPed->field_280_stored_ped_state_1 == ped_state_1::dead_9)
@@ -6619,7 +6619,7 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, u8 bUnknown, Fix16 x, Fix16 y
 
         if (pCar->field_54_driver)
         {
-            if ((pCar->field_54_driver->field_21C & ped_flag_mask::k_ped_drive_aggressively) == 0 && pCar->field_54_driver->PedTypeIs_45EDE0(ped_type::dummy_3))
+            if (!pCar->field_54_driver->field_21C_bf.bDriveAggressively && pCar->field_54_driver->PedTypeIs_45EDE0(ped_type::dummy_3))
             {
                 if (pCar->field_5C_AI)
                 {

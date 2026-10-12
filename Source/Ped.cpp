@@ -856,10 +856,10 @@ void Ped::CopyStatsFromPed_45B5B0(Ped* pSrc)
     SetSpriteFlagIfInvulnerable_45C070();
     field_26C_graphic_type = pSrc->field_26C_graphic_type;
     field_250_voice_event = pSrc->field_250_voice_event;
-    field_224 = ((field_224 ^ pSrc->field_224) & ped_flag8_mask::unused0) ^ field_224;
-    field_224 = ((field_224 ^ pSrc->field_224) & ped_flag8_mask::unused1) ^ field_224;
-    field_224 = ((field_224 ^ pSrc->field_224) & ped_flag8_mask::collided_with_ped) ^ field_224;
-    field_224 = ((field_224 ^ pSrc->field_224) & ped_flag8_mask::unused3) ^ field_224;
+    field_224_bf.bUnused0 = pSrc->field_224_bf.bUnused0;
+    field_224_bf.bUnused1 = pSrc->field_224_bf.bUnused1;
+    field_224_bf.bCollidedWithPed = pSrc->field_224_bf.bCollidedWithPed;
+    field_224_bf.bUnused3 = pSrc->field_224_bf.bUnused3;
     field_138_collided_char_b4 = pSrc->field_138_collided_char_b4;
     field_13C_pTrainStation = pSrc->field_13C_pTrainStation;
     field_26A_recent_crime_timer = pSrc->field_26A_recent_crime_timer;
@@ -874,7 +874,7 @@ void Ped::CopyStatsFromPed_45B5B0(Ped* pSrc)
     field_21C_bf.bScheduledForRemoval = pSrc->field_21C_bf.bScheduledForRemoval;
     field_274_gang_car_model = pSrc->field_274_gang_car_model;
     field_1A8_ped_killer = pSrc->field_1A8_ped_killer;
-    field_224 = ((field_224 ^ pSrc->field_224) & ped_flag8_mask::waiting_on_target) ^ field_224;
+    field_224_bf.bWaitingOnTarget = pSrc->field_224_bf.bWaitingOnTarget;
     field_21C_bf.bArmedGangMember = pSrc->field_21C_bf.bArmedGangMember;
     field_21C_bf.bForcedOutOfTaxi = pSrc->field_21C_bf.bForcedOutOfTaxi;
     field_260_wait_counter = pSrc->field_260_wait_counter;
@@ -6380,7 +6380,7 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                 goto ret_false;
             }
 
-            if ((field_21C & ped_flag_mask::k_ped_active) == 0)
+            if (!field_21C_bf.bActive)
             {
                 goto ret_false;
             }
@@ -6403,7 +6403,7 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                 goto ret_false;
             }
 
-            if ((field_21C & ped_flag_mask::k_ped_active) == 0)
+            if (!field_21C_bf.bActive)
             {
                 goto ret_false;
             }
@@ -6435,7 +6435,7 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                 goto ret_false;
             }
 
-            if ((field_21C & ped_flag_mask::k_ped_active) == 0)
+            if (!field_21C_bf.bActive)
             {
                 goto ret_false;
             }
@@ -6470,7 +6470,7 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                 goto ret_false;
             }
 
-            if ((field_21C & ped_flag_mask::k_ped_active) == 0)
+            if (!field_21C_bf.bActive)
             {
                 goto ret_false;
             }
@@ -6566,11 +6566,11 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                                                   this->field_1AC_cam.y,
                                                   this->field_1AC_cam.z))
                 {
-                    gSearchingPed_6787DC->field_21C |= ped_flag_mask::k_ped_spotted_player;
+                    gSearchingPed_6787DC->field_21C_bf.bSpottedPlayer = true;
                     return gSearchingPed_6787DC->IsPedAThreat_465D00(this);
                 }
 
-                gSearchingPed_6787DC->field_21C &= ~ped_flag_mask::k_ped_spotted_player;
+                gSearchingPed_6787DC->field_21C_bf.bSpottedPlayer = false;
                 return 0;
             }
     }
