@@ -1776,12 +1776,12 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
                 }
 
             check_threat_level:
-                if ((u8)pTargetPed->field_263_prev_attackers_count >= 4)
+                if (pTargetPed->field_263_prev_attackers_count >= 4)
                 {
                     goto ret_false;
                 }
 
-                if ((u8)pTargetPed->field_262_attackers_count >= 4)
+                if (pTargetPed->field_262_attackers_count >= 4)
                 {
                     goto ret_false;
                 }
@@ -6063,12 +6063,12 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
                 }
 
             check_threat_level:
-                if ((u8)pTargetPed->field_263_prev_attackers_count >= 4)
+                if (pTargetPed->field_263_prev_attackers_count >= 4)
                 {
                     goto ret_false;
                 }
 
-                if ((u8)pTargetPed->field_262_attackers_count >= 4)
+                if (pTargetPed->field_262_attackers_count >= 4)
                 {
                     goto ret_false;
                 }
