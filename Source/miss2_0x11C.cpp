@@ -567,7 +567,7 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_P
         pPointer->field_8_char->SetPedType_403920(ped_type::script_created_5);
         pPointer->field_8_char->set_occupation_403970(pCmd->field_1C_occupation);
         pPointer->field_8_char->field_26C_graphic_type = ped_graphic_type::character_1;
-        pPointer->field_8_char->SetObjective(objectives_enum::wait_on_foot_26, 9999);
+        pPointer->field_8_char->SetObjective(objectives_enum::wait_on_foot_26);
         pPointer->field_8_char->set_health_4039A0(100);
         Sprite* pSprite = pPointer->field_8_char->GetSprite_46DF50();
         pSprite->ResolveCollisionWithCarPedOrObject_5A2A30();
@@ -577,7 +577,7 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_P
 MATCH_FUNC(0x504110)
 Ped* miss2_0x11C::SetCharObjective_504110(SCR_CHAR_OBJECTIVE* pCmd, SCR_POINTER* pPointer)
 {
-    (pPointer->field_8_char)->SetObjective(pCmd->field_A_objective, 9999);
+    (pPointer->field_8_char)->SetObjective(pCmd->field_A_objective);
     Ped* pPed = pPointer->field_8_char;
     BitSet32 flag = pPed->field_21C;
     flag.clear_bit(ped_bit_index::scheduled_for_removal_10);
@@ -3654,7 +3654,7 @@ void miss2_0x11C::SCRCMD_ADD_PATROL_POINT_50B0E0()
     {
         if (pPed->get_objective_403A80() != objectives_enum::patrol_on_foot_42)
         {
-            pPed->SetObjective(objectives_enum::patrol_on_foot_42, 9999);
+            pPed->SetObjective(objectives_enum::patrol_on_foot_42);
         }
         pPointer->field_8_char->PushPatrolPoint_4702A0(pCmd->field_C_pos.field_0_x.ToInt(),
                                                        pCmd->field_C_pos.field_4_y.ToInt(),
@@ -3824,8 +3824,8 @@ void miss2_0x11C::SCRCMD_CHAR_TO_DRIVE_CAR_50B4F0()
     {
         if (gBasePtr_6F8070->field_2_type != SCRCMD_CHAR_TO_BACKDOOR)
         {
-            pPtrPed->field_8_char->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-            pPtrPed->field_8_char->SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
+            pPtrPed->field_8_char->SetObjective2_463830(objectives_enum::no_obj_0);
+            pPtrPed->field_8_char->SetObjective(objectives_enum::enter_car_as_driver_35);
             pPtrPed->field_8_char->SetTargetObjectiveCar(pPtrCar->field_8_car);
             pPtrPed->field_8_char->set_enter_car_as_passenger_4039B0(false);
         }
@@ -3843,8 +3843,8 @@ void miss2_0x11C::SCRCMD_DRIVER_OUT_CAR_50B5A0()
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     if (pPointer->field_8_char)
     {
-        pPointer->field_8_char->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-        pPointer->field_8_char->SetObjective(objectives_enum::leave_car_36, 9999);
+        pPointer->field_8_char->SetObjective2_463830(objectives_enum::no_obj_0);
+        pPointer->field_8_char->SetObjective(objectives_enum::leave_car_36);
         pPointer->field_8_char->field_150_target_objective_car = pPointer->field_8_char->field_16C_car;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);

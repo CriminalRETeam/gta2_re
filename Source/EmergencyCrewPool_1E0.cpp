@@ -132,12 +132,12 @@ bool EmergencyCrew_30::ReplaceLeaderIfNeeded_5CBC90()
                 pGroup->PromoteMemberToLeader_4C9680(idx);
                 Ped* pLeader = this->field_8_group->field_2C_ped_leader;
                 this->field_4_ped = pLeader;
-                pLeader->SetObjective(objectives_enum::no_obj_0, 9999);
+                pLeader->SetObjective(objectives_enum::no_obj_0);
                 const s32 occupation = pPedAtIdx->get_occupation_403980();
                 pPedAtIdx->set_occupation_403970(ped_ocupation_enum::dummy);
                 pPedAtIdx->Kill_46F9D0();
                 pPedAtIdx->set_occupation_403970(occupation);
-                pPedAtIdx->SetObjective(objectives_enum::objective_28, 9999);
+                pPedAtIdx->SetObjective(objectives_enum::objective_28);
             }
             return true;
         }
@@ -317,8 +317,8 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
                         field_4_ped = field_8_group->field_4_ped_list[0];
                         field_8_group->ClearGroupData_4C8E90();
                         field_8_group = NULL;
-                        field_4_ped->SetObjective(objectives_enum::no_obj_0, 9999);
-                        field_4_ped->SetObjective2_463830(0, 9999);
+                        field_4_ped->SetObjective(objectives_enum::no_obj_0);
+                        field_4_ped->SetObjective2_463830(0);
                         field_24_phase = crew_phase::on_foot_0;
                     }
                     else
@@ -337,8 +337,8 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
                     field_4_ped = field_8_group->field_2C_ped_leader;
                     field_8_group->DestroyGroup_4C93A0();
                     field_8_group = NULL;
-                    field_4_ped->SetObjective(objectives_enum::no_obj_0, 9999);
-                    field_4_ped->SetObjective2_463830(0, 9999);
+                    field_4_ped->SetObjective(objectives_enum::no_obj_0);
+                    field_4_ped->SetObjective2_463830(0);
                     field_24_phase = crew_phase::on_foot_0;
                 }
             }
@@ -346,8 +346,8 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
             {
                 if (field_4_ped->field_168_game_object)
                 {
-                    field_4_ped->SetObjective(objectives_enum::no_obj_0, 9999);
-                    field_4_ped->SetObjective2_463830(0, 9999);
+                    field_4_ped->SetObjective(objectives_enum::no_obj_0);
+                    field_4_ped->SetObjective2_463830(0);
                     field_24_phase = crew_phase::on_foot_0;
                 }
             }

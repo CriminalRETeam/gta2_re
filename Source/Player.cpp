@@ -1373,15 +1373,15 @@ void Player::HandleControls_5668D0(Ped* pPed)
                 Car_BC* pCar = gCar_6C_677930->GetNearestFrontVehicle_445210(pPed->field_168_game_object->field_80_sprite_ptr, 3u);
                 if (pCar)
                 {
-                    pPed->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                    pPed->SetObjective2_463830(objectives_enum::no_obj_0);
 
                     if (pCar->IsTrainModel_403BA0())
                     {
-                        pPed->SetObjective(objectives_enum::enter_train_37, 9999);
+                        pPed->SetObjective(objectives_enum::enter_train_37);
                     }
                     else
                     {
-                        pPed->SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
+                        pPed->SetObjective(objectives_enum::enter_car_as_driver_35);
                     }
 
                     pPed->SetTargetObjectiveCar(pCar);
@@ -1394,14 +1394,14 @@ void Player::HandleControls_5668D0(Ped* pPed)
         {
             if (pPedCar->CanExitCar_43AF10())
             {
-                pPed->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                pPed->SetObjective2_463830(objectives_enum::no_obj_0);
                 if (pPed->get_car_416B60()->field_84_car_info_idx == car_model_enum::TRAIN)
                 {
-                    pPed->SetObjective(objectives_enum::leave_train_38, 9999);
+                    pPed->SetObjective(objectives_enum::leave_train_38);
                 }
                 else
                 {
-                    pPed->SetObjective(objectives_enum::leave_car_36, 9999);
+                    pPed->SetObjective(objectives_enum::leave_car_36);
                 }
                 pPed->SetTargetObjectiveCar(pPed->get_car_416B60());
             }
@@ -1416,8 +1416,8 @@ void Player::HandleControls_5668D0(Ped* pPed)
             {
                 if (pPed->GetObjectiveStatus_450CB0() == objective_status::failed_2 || !pPed->get_target_objective_car_403AB0())
                 {
-                    pPed->SetObjective(objectives_enum::no_obj_0, 9999);
-                    pPed->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                    pPed->SetObjective(objectives_enum::no_obj_0);
+                    pPed->SetObjective2_463830(objectives_enum::no_obj_0);
                     pPed->field_168_game_object->field_38_velocity = kZero_6FE41C;
                 }
             }
@@ -1425,8 +1425,8 @@ void Player::HandleControls_5668D0(Ped* pPed)
             {
                 if (pPed->GetObjectiveStatus_450CB0() != objective_status::not_finished_0)
                 {
-                    pPed->SetObjective(objectives_enum::no_obj_0, 9999);
-                    pPed->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                    pPed->SetObjective(objectives_enum::no_obj_0);
+                    pPed->SetObjective2_463830(objectives_enum::no_obj_0);
                     pPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
                     pPed->ChangeNextPedState2_45C540(ped_state_2::ped2_driving_10);
                 }

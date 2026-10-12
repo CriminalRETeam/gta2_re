@@ -412,7 +412,7 @@ void Train_58::UpdatePassengerAI_578390()
                                 {
                                     Ped* pNewPed = gPedManager_6787BC->SpawnTrainLeaver_470E30();
                                     pNewPed->field_16C_car = *pTrainCar;
-                                    pNewPed->SetObjective(objectives_enum::leave_train_38, 9999);
+                                    pNewPed->SetObjective(objectives_enum::leave_train_38);
                                     Ped_List_4* pLink = &pNewPed->field_16C_car->field_4_passengers_list;
                                     pNewPed->SetTargetObjectiveCar(*pTrainCar);
                                     pLink->AddPed_471140(pNewPed);
@@ -441,7 +441,7 @@ void Train_58::UpdatePassengerAI_578390()
                             Ped* pNewPed_1 = gPedManager_6787BC->SpawnTrainLeaver_470E30();
                             pNewPed_1->field_16C_car = this->field_C_carriages[0];
                             this->field_C_carriages[0]->field_4_passengers_list.AddPed_471140(pNewPed_1);
-                            pNewPed_1->SetObjective(objectives_enum::leave_train_38, 9999);
+                            pNewPed_1->SetObjective(objectives_enum::leave_train_38);
                             Car_BC* pTargetCar = this->field_C_carriages[0];
                             pNewPed_1->SetTargetObjectiveCar(pTargetCar);
                             pNewPed_1->set_target_car_door_403A70(2);
@@ -456,7 +456,7 @@ void Train_58::UpdatePassengerAI_578390()
                     {
                         Ped* pRemoved = this->field_C_carriages[0]->field_4_passengers_list.RemoveFirstPed_471320();
                         pRemoved->field_16C_car = this->field_C_carriages[0];
-                        pRemoved->SetObjective(objectives_enum::leave_train_38, 9999);
+                        pRemoved->SetObjective(objectives_enum::leave_train_38);
                         Car_BC* pTargetCar_ = this->field_C_carriages[0];
                         pRemoved->SetTargetObjectiveCar(pTargetCar_);
                         pRemoved->set_target_car_door_403A70(2);

@@ -1057,13 +1057,13 @@ void Char_B4::UpdateAnimState_546360()
                                 {
                                     gPolice_7B8_6FEE40->TryAssignCarCrewToCriminal_5707B0(pDriver->field_16C_car, field_7C_pPed);
                                 }
-                                pDriver->SetObjective(objectives_enum::no_obj_0, 9999);
+                                pDriver->SetObjective(objectives_enum::no_obj_0);
                                 break;
 
                             default:
                                 if (pDriver->field_17C_pGang)
                                 {
-                                    pDriver->SetObjective2_463830(20, 9999);
+                                    pDriver->SetObjective2_463830(20);
                                     pDriver->SetInternalTargetPed_403AE0(field_7C_pPed);
                                 }
                                 pDriver->SetStolenCar_492CB0(pCar);
@@ -3663,7 +3663,7 @@ void Char_B4::state_0_54DDF0()
                         if (field_7C_pPed->get_objective_403A80() == objectives_enum::no_obj_0 ||
                             field_7C_pPed->get_objective_403A80() == objectives_enum::objective_8)
                         {
-                            field_7C_pPed->SetObjective2_463830(17, 9999);
+                            field_7C_pPed->SetObjective2_463830(17);
                         }
                         break;
                     default:
@@ -5930,7 +5930,7 @@ void Char_B4::state_8_5520A0()
                             field_7C_pPed->RestorePreviousPedState_45C5A0();
                             if (!field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2) && !field_7C_pPed->PedTypeIs_45EDE0(ped_type::script_created_5))
                             {
-                                field_7C_pPed->SetObjective(objectives_enum::objective_28, 9999);
+                                field_7C_pPed->SetObjective(objectives_enum::objective_28);
                             }
                         }
                         else

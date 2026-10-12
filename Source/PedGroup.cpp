@@ -87,15 +87,15 @@ void PedGroup::Reset_4C8EF0()
 MATCH_FUNC(0x4c8f20)
 void PedGroup::ResetGroupObjectives_4C8F20()
 {
-    field_2C_ped_leader->SetObjective(objectives_enum::no_obj_0, 9999);
-    field_2C_ped_leader->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+    field_2C_ped_leader->SetObjective(objectives_enum::no_obj_0);
+    field_2C_ped_leader->SetObjective2_463830(objectives_enum::no_obj_0);
 
     u8 bVar1 = 0;
 
     while (bVar1 < field_34_count)
     {
-        field_4_ped_list[bVar1]->SetObjective(objectives_enum::no_obj_0, 9999);
-        field_4_ped_list[bVar1]->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+        field_4_ped_list[bVar1]->SetObjective(objectives_enum::no_obj_0);
+        field_4_ped_list[bVar1]->SetObjective2_463830(objectives_enum::no_obj_0);
         bVar1++;
     }
 }
@@ -103,8 +103,8 @@ void PedGroup::ResetGroupObjectives_4C8F20()
 MATCH_FUNC(0x4c8f90)
 void PedGroup::add_ped_to_end_of_list_4C8F90(Ped* pPed)
 {
-    pPed->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-    pPed->SetObjective(objectives_enum::no_obj_0, 9999);
+    pPed->SetObjective2_463830(objectives_enum::no_obj_0);
+    pPed->SetObjective(objectives_enum::no_obj_0);
     add_ped_to_list_4C9B30(pPed, field_34_count);
     ++field_34_count;
     ++field_36_count;
@@ -119,7 +119,7 @@ void PedGroup::replace_leader_4C8FE0(Ped* new_leader)
 
     for (u8 i = 0; i < field_34_count; i++)
     {
-        field_4_ped_list[i]->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+        field_4_ped_list[i]->SetObjective2_463830(objectives_enum::no_obj_0);
     }
 }
 
@@ -198,7 +198,7 @@ void PedGroup::ResetMembersToFollowLeader_4C91B0()
     for (u8 i = 0; i < field_34_count; i++)
     {
         field_4_ped_list[i]->ClearPanicking_403960();
-        field_4_ped_list[i]->SetObjective2_463830(objectives_enum::objective_9, 9999);
+        field_4_ped_list[i]->SetObjective2_463830(objectives_enum::objective_9);
         field_4_ped_list[i]->SetInternalTargetPed_403AE0(field_2C_ped_leader);
     }
 }
@@ -267,14 +267,14 @@ void PedGroup::DisbandGroup_4C92A0()
             {
                 if (this_00->has_car_403B80())
                 {
-                    this_00->SetObjective(objectives_enum::objective_34, 9999);
+                    this_00->SetObjective(objectives_enum::objective_34);
                     (*pppVar1)->SetTargetObjectiveCar((*pppVar1)->field_16C_car);
                 }
                 else
                 {
-                    this_00->SetObjective(objectives_enum::no_obj_0, 9999);
+                    this_00->SetObjective(objectives_enum::no_obj_0);
                 }
-                (*pppVar1)->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                (*pppVar1)->SetObjective2_463830(objectives_enum::no_obj_0);
                 (*pppVar1)->ClearGroupAndGroupIdx_403A30();
                 (*pppVar1)->SetPedType_403920(ped_type_enum::New_Name_2);
             }
@@ -295,8 +295,8 @@ void PedGroup::DestroyGroup_4C93A0()
     Ped* ppVar2 = field_2C_ped_leader;
     if ((ppVar2->GetPedState_403990() != ped_state1_enum::ped_wasted) && (ppVar2->field_280_stored_ped_state_1 != ped_state1_enum::ped_wasted))
     {
-        ppVar2->SetObjective(objectives_enum::no_obj_0, 9999);
-        field_2C_ped_leader->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+        ppVar2->SetObjective(objectives_enum::no_obj_0);
+        field_2C_ped_leader->SetObjective2_463830(objectives_enum::no_obj_0);
     }
 
     field_2C_ped_leader->ClearGroupAndGroupIdx_403A30();
@@ -315,16 +315,16 @@ void PedGroup::DestroyGroup_4C93A0()
             {
                 if (ppVar2->has_car_403B80() == true)
                 {
-                    ppVar2->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                    (*pppVar1)->SetObjective(objectives_enum::objective_34, 9999);
+                    ppVar2->SetObjective2_463830(objectives_enum::no_obj_0);
+                    (*pppVar1)->SetObjective(objectives_enum::objective_34);
                     (*pppVar1)->SetTargetObjectiveCar((*pppVar1)->field_16C_car);
                     (*pppVar1)->ClearGroupAndGroupIdx_403A30();
                     (*pppVar1)->SetPedType_403920(ped_type_enum::New_Name_2);
                 }
                 else
                 {
-                    ppVar2->SetObjective(objectives_enum::no_obj_0, 9999);
-                    (*pppVar1)->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                    ppVar2->SetObjective(objectives_enum::no_obj_0);
+                    (*pppVar1)->SetObjective2_463830(objectives_enum::no_obj_0);
                     (*pppVar1)->ClearGroupAndGroupIdx_403A30();
                     (*pppVar1)->SetPedType_403920(ped_type_enum::New_Name_2);
                 }
@@ -348,9 +348,9 @@ void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
     {
         if (!field_2C_ped_leader->PedTypeIs_45EDE0(ped_type::player_2))
         {
-            this->field_2C_ped_leader->SetObjective(objectives_enum::flee_char_on_foot_always_3, 9999);
+            this->field_2C_ped_leader->SetObjective(objectives_enum::flee_char_on_foot_always_3);
             this->field_2C_ped_leader->set_objective_target_ped_403AC0(pAttacker);
-            this->field_2C_ped_leader->SetObjective2_463830(3, 9999);
+            this->field_2C_ped_leader->SetObjective2_463830(3);
             this->field_2C_ped_leader->SetInternalTargetPed_403AE0(pAttacker);
             this->field_2C_ped_leader->SetPanicking_403950();
             this->field_2C_ped_leader->ClearHitCount_403A20();
@@ -364,17 +364,17 @@ void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
             s32 i = i_;
             if (field_4_ped_list[i]->has_car_403B80())
             {
-                this->field_4_ped_list[i]->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-                this->field_4_ped_list[i]->SetObjective(objectives_enum::flee_char_always_once_car_stopped_6, 9999);
+                this->field_4_ped_list[i]->SetObjective2_463830(objectives_enum::no_obj_0);
+                this->field_4_ped_list[i]->SetObjective(objectives_enum::flee_char_always_once_car_stopped_6);
                 this->field_4_ped_list[i]->set_objective_target_ped_403AC0(pAttacker);
                 this->field_4_ped_list[i]->ClearHitCount_403A20();
                 this->field_4_ped_list[i]->ClearGroupAndGroupIdx_403A30();
             }
             else
             {
-                this->field_4_ped_list[i]->SetObjective(objectives_enum::flee_char_on_foot_always_3, 9999);
+                this->field_4_ped_list[i]->SetObjective(objectives_enum::flee_char_on_foot_always_3);
                 this->field_4_ped_list[i]->set_objective_target_ped_403AC0(pAttacker);
-                this->field_4_ped_list[i]->SetObjective2_463830(3, 9999);
+                this->field_4_ped_list[i]->SetObjective2_463830(3);
                 this->field_4_ped_list[i]->SetInternalTargetPed_403AE0(pAttacker);
                 this->field_4_ped_list[i]->SetPanicking_403950();
                 this->field_4_ped_list[i]->ClearHitCount_403A20();
@@ -583,7 +583,7 @@ char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* pPed)
             {
                 if (IsMemberTooFarFromLeader_4CAC20(i))
                 {
-                    pMember->SetObjective2_463830(7, 9999);
+                    pMember->SetObjective2_463830(7);
                     pMember->SetInternalTargetPed_403AE0(field_2C_ped_leader);
                     pMember->SetPanicking_403950();
                 }
@@ -591,13 +591,13 @@ char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* pPed)
                 // pPed reference gives pPed edi over the list cursor.
                 else if (0x23 != field_2C_ped_leader->GetInternalObjective_403A90())
                 {
-                    pMember->SetObjective2_463830(20, 9999);
+                    pMember->SetObjective2_463830(20);
                     pMember->SetInternalTargetPed_403AE0(pPed);
                     pMember->SetPanicking_403950();
                 }
                 else if (IsLeaderCloseToTargetCar_4CAD40())
                 {
-                    pMember->SetObjective2_463830(20, 9999);
+                    pMember->SetObjective2_463830(20);
                     pMember->SetInternalTargetPed_403AE0(pPed);
                     pMember->SetPanicking_403950();
                 }
@@ -607,7 +607,7 @@ char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* pPed)
         if (!field_2C_ped_leader->PedTypeIs_45EDE0(ped_type::player_2) && !field_2C_ped_leader->GetPanicking() && !field_2C_ped_leader->has_car_403B80() &&
             !field_2C_ped_leader->field_21C_bf.bLeftVehicle && !field_2C_ped_leader->field_16C_car)
         {
-            field_2C_ped_leader->SetObjective2_463830(20, 9999);
+            field_2C_ped_leader->SetObjective2_463830(20);
             field_2C_ped_leader->SetInternalTargetPed_403AE0(pPed);
             field_2C_ped_leader->SetPanicking_403950();
         }
@@ -622,12 +622,12 @@ char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* pPed)
                 Ped* pTarget = pOther->sub_4C9ED0();
                 if (pTarget)
                 {
-                    pMember->SetObjective2_463830(20, 9999);
+                    pMember->SetObjective2_463830(20);
                     pMember->SetInternalTargetPed_403AE0(pTarget);
                     pMember->SetPanicking_403950();
                     if (!pTarget->has_car_403B80())
                     {
-                        pTarget->SetObjective2_463830(20, 9999);
+                        pTarget->SetObjective2_463830(20);
                         pTarget->SetInternalTargetPed_403AE0(pMember);
                         pTarget->SetPanicking_403950();
                     }
@@ -642,7 +642,7 @@ char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* pPed)
                         {
                             continue;
                         }
-                        pMember->SetObjective2_463830(20, 9999);
+                        pMember->SetObjective2_463830(20);
                         pMember->SetInternalTargetPed_403AE0(pOther->field_2C_ped_leader);
                     }
                     else
@@ -651,7 +651,7 @@ char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* pPed)
                         {
                             continue;
                         }
-                        pMember->SetObjective2_463830(20, 9999);
+                        pMember->SetObjective2_463830(20);
                         pMember->SetInternalTargetPed_403AE0(pOther->field_4_ped_list[rnd]);
                     }
                     pMember->SetPanicking_403950();
@@ -664,7 +664,7 @@ char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* pPed)
             if (!field_2C_ped_leader->PedTypeIs_45EDE0(ped_type::player_2) && !field_2C_ped_leader->field_21C_bf.bLeftVehicle &&
                 field_2C_ped_leader->field_168_game_object)
             {
-                field_2C_ped_leader->SetObjective2_463830(20, 9999);
+                field_2C_ped_leader->SetObjective2_463830(20);
                 field_2C_ped_leader->SetInternalTargetPed_403AE0(pOther->field_2C_ped_leader);
                 field_2C_ped_leader->SetPanicking_403950();
             }
@@ -672,7 +672,7 @@ char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* pPed)
             if (!pOther->field_2C_ped_leader->PedTypeIs_45EDE0(ped_type::player_2) && !pOther->field_2C_ped_leader->field_21C_bf.bLeftVehicle &&
                 pOther->field_2C_ped_leader->field_168_game_object)
             {
-                pOther->field_2C_ped_leader->SetObjective2_463830(20, 9999);
+                pOther->field_2C_ped_leader->SetObjective2_463830(20);
                 pOther->field_2C_ped_leader->SetInternalTargetPed_403AE0(field_2C_ped_leader);
                 pOther->field_2C_ped_leader->SetPanicking_403950();
             }
@@ -729,7 +729,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
 
                 if (field_2C_ped_leader->field_16C_car && field_2C_ped_leader->field_16C_car->IsTrainModel_403BA0())
                 {
-                    pMember->SetObjective2_463830(0x25, 9999);
+                    pMember->SetObjective2_463830(0x25);
                     pMember->set_target_to_enter_403B00(field_2C_ped_leader->field_16C_car);
                     continue;
                 }
@@ -739,14 +739,14 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
                     pMember->field_21C_bf.bPanicking = 0;
                     if (field_2C_ped_leader->field_168_game_object)
                     {
-                        pMember->SetObjective2_463830(0x12, 9999);
+                        pMember->SetObjective2_463830(0x12);
                         pMember->set_enter_car_as_passenger_4039B0(1);
                         pMember->set_target_to_enter_403B00(field_2C_ped_leader->field_168_game_object->field_84_target_car);
                     }
                     else
                     {
-                        pMember->SetObjective(objectives_enum::no_obj_0, 9999);
-                        pMember->SetObjective2_463830(0x23, 9999);
+                        pMember->SetObjective(objectives_enum::no_obj_0);
+                        pMember->SetObjective2_463830(0x23);
                         pMember->set_enter_car_as_passenger_4039B0(1);
                         pMember->set_target_to_enter_403B00(field_2C_ped_leader->field_16C_car);
                     }
@@ -835,7 +835,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
                     if (pOther != pMember && pOther->field_25C_internal_objective == objectives_enum::objective_18 &&
                         pMember->field_24C_target_car_door == pOther->get_target_car_door_403A60())
                     {
-                        pMember->SetObjective2_463830(9, 9999);
+                        pMember->SetObjective2_463830(9);
                         pMember->field_14C_internal_target_ped = pOther;
                     }
                 }
@@ -847,8 +847,8 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
                 Ped* pMember = field_4_ped_list[i];
                 if (pMember->get_objective_403A80() != objectives_enum::objective_8)
                 {
-                    pMember->SetObjective(objectives_enum::objective_8, 9999);
-                    pMember->SetObjective2_463830(0, 9999);
+                    pMember->SetObjective(objectives_enum::objective_8);
+                    pMember->SetObjective2_463830(0);
                 }
             }
         }
@@ -865,7 +865,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
             {
                 if (field_2C_ped_leader->get_objective_403A80() != objectives_enum::goto_area_any_means_13 && field_2C_ped_leader->field_25C_internal_objective != objectives_enum::leave_car_36)
                 {
-                    field_2C_ped_leader->SetObjective2_463830(9, 9999);
+                    field_2C_ped_leader->SetObjective2_463830(9);
                     field_2C_ped_leader->field_14C_internal_target_ped = pFarthest;
                     field_3C = 1;
                 }
@@ -873,7 +873,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
             }
             else if (field_3C == 1)
             {
-                field_2C_ped_leader->SetObjective2_463830(0, 9999);
+                field_2C_ped_leader->SetObjective2_463830(0);
             }
         }
         if (!bWaiting)
@@ -943,7 +943,7 @@ void PedGroup::UpdateFormation_4CA4B0()
             {
                 if (pIter->field_168_game_object)
                 {
-                    pIter->SetObjective2_463830(9, 9999);
+                    pIter->SetObjective2_463830(9);
                 }
             }
             if (field_38_group_type == 1)
@@ -1006,7 +1006,7 @@ void PedGroup::UpdateMemberAIState_4CA5E0(u8 idx)
     {
         if (pMember->GetInternalObjective_403A90() == objectives_enum::objective_9)
         {
-            pMember->SetObjective2_463830(0, 9999);
+            pMember->SetObjective2_463830(0);
         }
         return;
     }
@@ -1045,7 +1045,7 @@ void PedGroup::UpdateMemberAIState_4CA5E0(u8 idx)
                 Ped* pNearest = FindNearestOtherMember_4CAE80(idx);
                 if (pNearest)
                 {
-                    pMember->SetObjective2_463830(20, 9999);
+                    pMember->SetObjective2_463830(20);
                     pMember->SetInternalTargetPed_403AE0(pNearest->GetInternalTargetPed_403AF0());
                     pMember->SetPanicking_403950();
                 }
@@ -1057,19 +1057,19 @@ void PedGroup::UpdateMemberAIState_4CA5E0(u8 idx)
                     }
                     if (field_2C_ped_leader->GetInternalObjective_403A90() == objectives_enum::destroy_car_59)
                     {
-                        pMember->SetObjective2_463830(0x3B, 9999);
+                        pMember->SetObjective2_463830(0x3B);
                         pMember->set_target_to_enter_403B00(field_2C_ped_leader->get_target_to_enter_403B10());
                     }
                 }
                 else if (pMember->GetInternalObjective_403A90() == objectives_enum::objective_9)
                 {
-                    pMember->SetObjective(objectives_enum::no_obj_0, 9999);
+                    pMember->SetObjective(objectives_enum::no_obj_0);
                 }
             }
         }
         else if (pMember->GetInternalObjective_403A90() != objectives_enum::leave_car_36)
         {
-            pMember->SetObjective2_463830(0x24, 9999);
+            pMember->SetObjective2_463830(0x24);
             pMember->set_target_to_enter_403B00(pMember->field_16C_car);
         }
     }
@@ -1078,15 +1078,15 @@ void PedGroup::UpdateMemberAIState_4CA5E0(u8 idx)
         s32 occupation = pMember->get_occupation_403980();
         if ((occupation < 0x18 || occupation > 0x1B) && pMember->GetInternalTargetPed_403AF0()->has_car_403B80() && pMember->field_258_objective != objectives_enum::objective_8)
         {
-            pMember->SetObjective(objectives_enum::objective_8, 9999);
-            pMember->SetObjective2_463830(0, 9999);
+            pMember->SetObjective(objectives_enum::objective_8);
+            pMember->SetObjective2_463830(0);
         }
     }
 
     Ped* pFollow = pMember->field_14C_internal_target_ped;
     if (pFollow && pMember->field_25C_internal_objective == objectives_enum::objective_11 && !pFollow->field_168_game_object)
     {
-        pMember->SetObjective2_463830(0, 9999);
+        pMember->SetObjective2_463830(0);
     }
 }
 
@@ -1102,19 +1102,19 @@ void PedGroup::UpdateMemberTightFollowState_4CA820(u8 idx)
         Fix16 y_abs = Fix16::Abs(y_diff);
         if (Fix16::Max(x_abs, y_abs) < dword_67F670)
         {
-            pMember->SetObjective2_463830(9, 9999);
+            pMember->SetObjective2_463830(9);
             pMember->SetInternalTargetPed_403AE0(field_2C_ped_leader);
             pMember->ClearAttacking();
-            pMember->SetObjective(objectives_enum::no_obj_0, 9999);
+            pMember->SetObjective(objectives_enum::no_obj_0);
         }
         else if (pMember->field_14C_internal_target_ped == field_2C_ped_leader && pMember->field_25C_internal_objective == objectives_enum::objective_9)
         {
-            pMember->SetObjective2_463830(0, 9999);
+            pMember->SetObjective2_463830(0);
         }
     }
     else if (pMember->field_14C_internal_target_ped == field_2C_ped_leader && pMember->field_25C_internal_objective == objectives_enum::objective_9)
     {
-        pMember->SetObjective2_463830(0, 9999);
+        pMember->SetObjective2_463830(0);
     }
 }
 

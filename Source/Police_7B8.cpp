@@ -872,11 +872,11 @@ bool Police_7B8::SpawnCrewInCar_5703E0(Car_BC* pCar)
     pNewPed1->SetPedType_403920(4);
     pNewPed1->set_occupation_403970(ped_ocupation_enum::police);
     pNewPed1->SpawnPedInCar_45C730(pEmergencyCrew->field_0_car);
-    pNewPed1->SetObjective(objectives_enum::objective_43, 9999);
+    pNewPed1->SetObjective(objectives_enum::objective_43);
     pNewPed1->field_288_threat_search = threat_search_enum::line_of_sight_1;
     pNewPed1->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
     Ped* pNewPed2 = gPedManager_6787BC->AllocatePed_470F30();
-    pNewPed2->SetObjective(objectives_enum::no_obj_0, 9999);
+    pNewPed2->SetObjective(objectives_enum::no_obj_0);
     pNewPed2->EnterCarAsPassenger_45C7F0(pEmergencyCrew->field_0_car);
     pNewPed2->SetPedType_403920(4);
     pNewPed2->set_occupation_403970(ped_ocupation_enum::police);
