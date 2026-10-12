@@ -374,7 +374,7 @@ Door_4D4::Door_4D4()
     }
     memset(gDoorAnimInfo_67BB38, 0, sizeof(gDoorAnimInfo_67BB38));
     this->field_4D0_count = 0;
-    this->field_4D2 = 205;
+    this->field_4D2_unused = 205;
 }
 
 // The EH frame needs <new> kept out of the TU (see gbh_graphics.hpp)

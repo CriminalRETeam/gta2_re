@@ -2084,9 +2084,9 @@ void CC ImGuiDebugDraw()
                         ImGui::Value("Obj3C field_2F", obj_3c->field_2F_bOnSlope);
 
                         ImGui::Value("Obj3C field_38", obj_3c->field_38_conveyor_speed);
-                        ImGui::Value("Obj3C field_39", obj_3c->field_39);
+                        ImGui::Value("Obj3C field_39_unused", obj_3c->field_39_unused);
                         ImGui::Value("Obj3C field_3A", obj_3c->field_3A);
-                        ImGui::Value("Obj3C field_3B", obj_3c->field_3B);
+                        ImGui::Value("Obj3C field_3B_unused", obj_3c->field_3B_unused);
                     }
                     ImGui::TreePop();
                 }
@@ -2538,7 +2538,7 @@ void CC ImGuiDebugDraw()
 
                     if (pHud_Brief_704)
                     {
-                        ImGui::Value("field_500", pHud_Brief_704->field_500);
+                        ImGui::Value("field_500_unused", pHud_Brief_704->field_500_unused);
                         ImGui::InputU8("field_502_face_idx", &pHud_Brief_704->field_502_face_idx, 1, 1);
                         ImGui::Value("field_504_tick_timer", pHud_Brief_704->field_504_tick_timer);
                         ImGui::Value("field_508_num_lines", pHud_Brief_704->field_508_num_lines);
@@ -2837,7 +2837,7 @@ void CC ImGuiDebugDraw()
                 ImGui::Value("field_0_next_idx", gObjectDefinitions_6FCF00->field_0_next_idx);
                 ImGui::Value("field_2", gObjectDefinitions_6FCF00->field_2);
                 ImGui::Value("field_8CA4_def112_sprite_palette", gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette);
-                ImGui::Value("field_8CA6", gObjectDefinitions_6FCF00->field_8CA6);
+                ImGui::Value("field_8CA6_unused", gObjectDefinitions_6FCF00->field_8CA6_unused);
 
                 //static s32 phi_74_id = 0;
                 //ImGui::SliderInt("ObjectDefinition_74 id", &phi_74_id, 0, 299);

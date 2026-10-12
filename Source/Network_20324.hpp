@@ -123,12 +123,12 @@ class Network_20324
     WNDPROC field_1FD74_old_proc;
     wchar_t field_1FD78_player_name_2[260];
     char_type field_1FF80_player_name[260];
-    s32 field_20084;
+    s32 field_20084_unused;
     NetworkGameSettings field_20088_game_settings;
     HWND field_201A8_ui_control_hwnds[3][30];
     s32 field_202D4_showing_specific_window_idx;
     s32 field_202D8_last_showing_specific_window_idx;
-    s16 field_202DC;
+    s16 field_202DC_unused;
     s16 field_2031A_unused;
     HWND field_202E0_dlg_hwnd;
     HINSTANCE field_202E4_hInstance;

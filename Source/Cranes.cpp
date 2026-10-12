@@ -879,7 +879,7 @@ void Crane_15C::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_108_transporter_cargo_rot = kZero_679E70;
     field_10C_transporter_cargo_hook_depth = kZero_679E70;
     field_74_pSprite_on_hook = 0;
-    field_154 = 0;
+    field_154_unused = 0;
     field_150 = 0;
     field_114_drop_radius = kZero_679E70;
     field_110_drop_angle = kZero_679E70;

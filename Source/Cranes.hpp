@@ -157,7 +157,7 @@ class Crane_15C
     char_type field_14E_unused;
     char_type field_14F_unused;
     s32 field_150;
-    char_type field_154;
+    char_type field_154_unused;
     char_type field_155;
     char_type field_156_is_rotating;
     char_type field_157_is_radius_changing;

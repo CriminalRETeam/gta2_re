@@ -785,13 +785,13 @@ class Map_0x370
     s32 field_35C_column_word_extra;
     u32 field_360_column_words;
     u16 field_364_cur_zone_idx;
-    s16 field_366;
+    s16 field_366_unused;
     u8 field_368_zone_type;
-    u8 field_369;
+    u8 field_369_unused;
     u8 field_36A_zone_x;
     u8 field_36B_zone_y;
     char_type field_36C_bMatchPos;
-    char_type field_36D;
+    char_type field_36D_unused;
     char_type field_36E_bBlockedByTerrain;
     char_type field_36F_bLowerBlockHasArrows;
 };

@@ -130,9 +130,9 @@ class Object_3C
     u16 field_32_unused;
     s32 field_34;
     char_type field_38_conveyor_speed;
-    char_type field_39;
+    char_type field_39_unused;
     char_type field_3A;
-    char_type field_3B;
+    char_type field_3B_unused;
 };
 
 EXTERN_GLOBAL(struct_4, stru_67727C);

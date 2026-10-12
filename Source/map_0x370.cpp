@@ -4756,9 +4756,9 @@ Map_0x370::Map_0x370()
     field_36A_zone_x = 0;
     field_36B_zone_y = 0;
     field_36C_bMatchPos = 0;
-    field_366 = 0;
-    field_369 = 0xff; // dl
-    field_36D = 0;
+    field_366_unused = 0;
+    field_369_unused = 0xff; // dl
+    field_36D_unused = 0;
     field_36E_bBlockedByTerrain = 0;
     field_36F_bLowerBlockHasArrows = 0;
 

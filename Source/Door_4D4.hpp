@@ -138,7 +138,7 @@ class Door_4D4
 
     Door_38 field_0_doors[22];
     u16 field_4D0_count;
-    s16 field_4D2;
+    s16 field_4D2_unused;
 };
 
 EXTERN_GLOBAL(Door_4D4*, gDoor_4D4_67BD2C);

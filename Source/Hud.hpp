@@ -624,7 +624,7 @@ class Hud_Brief_704 // size 0x704
     EXPORT Hud_Brief_704();
 
     wchar_t field_0_str[640];
-    s16 field_500;
+    s16 field_500_unused;
     u8 field_502_face_idx;
     u16 field_504_tick_timer;
     s32 field_508_num_lines;

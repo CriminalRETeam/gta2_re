@@ -913,7 +913,7 @@ ScriptManager_C1EA8::ScriptManager_C1EA8()
     field_355_death_arr_state = 0;
     field_C1E2E_death_arrest_flag = 0;
     field_C1E2D_bKillFrenzyActive = 0;
-    field_468 = 0;
+    field_468_unused = 0;
 
     if (gDo_miss_logging_67D6BC)
     {

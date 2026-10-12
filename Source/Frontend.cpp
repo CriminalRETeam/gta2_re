@@ -3486,13 +3486,13 @@ void Frontend::SetFontTypes_4AF0E0()
         this->field_11C_normal_font = 101;
         this->field_11E = 101;
         this->field_120_selected_font = 102;
-        this->field_122 = 101;
+        this->field_122_unused = 101;
         this->field_124_font_type = 101;
         this->field_126 = 101;
         this->field_128 = 101;
         this->field_12A_score_font = 101;
         this->field_12C = 106;
-        this->field_12E = 102;
+        this->field_12E_unused = 102;
         this->field_130 = 201;
     }
     else
@@ -3500,13 +3500,13 @@ void Frontend::SetFontTypes_4AF0E0()
         this->field_11C_normal_font = word_703D0C;
         this->field_11E = word_703D0C;
         this->field_120_selected_font = word_703C16;
-        this->field_122 = word_703C8C;
+        this->field_122_unused = word_703C8C;
         this->field_124_font_type = font_type_703C14;
         this->field_126 = word_703C3C;
         this->field_128 = word_703C8A;
         this->field_12A_score_font = word_703BE2;
         this->field_12C = word_703B88;
-        this->field_12E = word_703DAC;
+        this->field_12E_unused = word_703DAC;
         this->field_130 = word_703B9C;
     }
 }

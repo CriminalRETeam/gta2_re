@@ -3474,7 +3474,7 @@ sound_obj::sound_obj()
 
     ClearActivateSamples_41B7A0();
 
-    field_1450 = 0;
+    field_1450_unused = 0;
     field_1468_v1 = Fix16(0);
     field_146C_v2 = Fix16(0);
     field_1470_v3 = Fix16(0);
@@ -3485,7 +3485,7 @@ sound_obj::sound_obj()
     field_1B = 0;
     field_1C_samp_count = 0;
     field_10_nActiveSamples = 0;
-    field_5444 = 0;
+    field_5444_unused = 0;
     field_5440 = 0;
     field_1D_b3d_sound = 0;
     field_14_sample_rate = 22050;
@@ -3774,7 +3774,7 @@ void sound_obj::Reacquire_41A2A0()
     ClearRequestedQueue_41B700();
     ClearActivateSamples_41B7A0();
 
-    field_1450 = 0;
+    field_1450_unused = 0;
 
     gSampManager_6FFF00.Reacquire_58E2A0();
 }

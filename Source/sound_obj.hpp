@@ -189,7 +189,7 @@ class sound_obj
     char_type field_1447_unused;
     s32 field_1448_unused;
     s32 field_144C_unused;
-    char_type field_1450;
+    char_type field_1450_unused;
     char_type field_1451_unused;
     char_type field_1452_unused;
     char_type field_1453_unused;
@@ -205,7 +205,7 @@ class sound_obj
     u32 field_444C_AudioEntityOrderList[1020];
     u32 field_543C_444C_nAudioEntitiesCount;
     s32 field_5440;
-    s32 field_5444;
+    s32 field_5444_unused;
     u32 field_5448_m_FrameCounter;
     sound_7 field_544C[5]; // sound_f16_pos_0x1C instead of sound_7 ?
 

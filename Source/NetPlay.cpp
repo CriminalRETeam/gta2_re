@@ -59,7 +59,7 @@ NetPlay::NetPlay()
     memset(dword_6F8A4C, 0xFF, sizeof(dword_6F8A4C));
     memset(byte_6F8A64, 0, sizeof(byte_6F8A64));
     field_5DC_handle = CreateEventA(NULL, FALSE, FALSE, NULL);
-    field_8EC = 0;
+    field_8EC_unused = 0;
     field_48 = 5;
 
     for (s32 j = 0; j < MAX_PLAYERS; j++)

@@ -721,7 +721,7 @@ class ScriptManager_C1EA8
     char_type field_465_unused;
     char_type field_466_unused;
     char_type field_467_unused;
-    s32 field_468;
+    s32 field_468_unused;
     u16 field_46C_base_pointers[6000];
     BYTE field_334C_script_data[65536];
     str_table_entry* field_1334C_strings;

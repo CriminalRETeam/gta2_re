@@ -1014,10 +1014,10 @@ Network_20324::Network_20324()
 {
     this->field_202E4_hInstance = 0;
     this->field_202E0_dlg_hwnd = 0;
-    this->field_202DC = 0;
+    this->field_202DC_unused = 0;
     this->field_202D4_showing_specific_window_idx = 0;
     this->field_202D8_last_showing_specific_window_idx = 3;
-    this->field_20084 = 0;
+    this->field_20084_unused = 0;
     this->field_1FD6C_count = 0;
     this->field_1FD64_total_map_count = 0;
     this->field_1FD68_bEndDialog = 0;

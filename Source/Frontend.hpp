@@ -240,13 +240,13 @@ struct Frontend
     u16 field_11C_normal_font;
     s16 field_11E;
     s16 field_120_selected_font;
-    s16 field_122;
+    s16 field_122_unused;
     u16 field_124_font_type;
     s16 field_126;
     s16 field_128;
     s16 field_12A_score_font;
     s16 field_12C;
-    s16 field_12E;
+    s16 field_12E_unused;
     s16 field_130;
     u16 field_132_f136_idx;
     s16 field_134;
