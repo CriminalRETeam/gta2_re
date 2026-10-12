@@ -482,13 +482,13 @@ class Ped
 
     bool IsPanicking()
     {
-        return field_21C & ped_flag_mask::k_ped_panicking ? true : false;
+        return field_21C_bf.bPanicking;
     }
 
     // 9.6f 0x403960
     void ClearPanicking_403960()
     {
-        field_21C &= ~ped_flag_mask::k_ped_panicking;
+        field_21C_bf.bPanicking = false;
     }
 
     // 9.6f 0x403AA0
@@ -745,7 +745,7 @@ class Ped
     // makes the inlined IsPedAThreat in IsThreatToSearchingPed_4661F0 call the copy (nested budget 42)
     inline bool IsInvisibleOnFoot_433DA0()
     {
-        if ((field_21C & ped_flag_mask::k_ped_invisible) != 0 && field_168_game_object != 0)
+        if (field_21C_bf.bInvisible && field_168_game_object != 0)
         {
             return 1;
         }
