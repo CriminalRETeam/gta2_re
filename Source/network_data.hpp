@@ -20,11 +20,21 @@ struct SyncCheckData_1F
 };
 #pragma pack(pop)
 
-struct ReceivedPacket
+/*   TODO: unify all packets using unions
+union ReceivedPacket
 {
-    u8 field_0_type;
-    void* field_1_pData;
+    struct InputData_0x8
+    {
+        u32 field_0_Inputs;
+        u32 field_4_rng;
+    };
+    struct SPacket
+    {
+        u8 field_0_subtype;
+        void* field_4_pData;
+    };
 };
+*/
 
 
 namespace pkt_data_type // first byte of data sent/received
