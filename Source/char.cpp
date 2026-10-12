@@ -825,7 +825,7 @@ void Char_B4::UpdateAnimState_546360()
         }
 
         case 2:
-            if ((field_7C_pPed->field_21C & ped_flag_mask::k_ped_attacking) == 0x800)
+            if (field_7C_pPed->field_21C_bf.bAttacking == 1)
             {
                 newId = baseId + 139;
             }

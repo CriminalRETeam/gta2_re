@@ -237,7 +237,7 @@ Ped* Ped_List_4::FindClosestPedInViewCone_4713C0(Fix16 x, Fix16 y, Ang16 facing,
 
     for (; pIter; pIter = pIter->mpNext)
     {
-        if (((u8)pIter->field_0_char_ped->field_21C & ped_flag_mask::k_ped_active) == 1) // byte read: mov 0x21C,%cl; and $1,%cl
+        if (pIter->field_0_char_ped->IsActive_433B40() == 1)
         {
             bool withinCone = false;
             distance = Fix16::MaxAbsDistance_42A6B0(x, y, pIter->field_0_char_ped->get_cam_x(), pIter->field_0_char_ped->get_cam_y());
