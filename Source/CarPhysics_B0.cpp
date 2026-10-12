@@ -1087,11 +1087,10 @@ void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 a2)
                 zpos = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(field_38_cp1.x, field_38_cp1.y, zpos - kFP16One64th_6FE2E0);
                 if (zpos > field_6C_cp3)
                 {
-                    Fix16 tmp;
-                    Fix16 below = *gMap_0x370_6F6268->GetGroundZBelowCoord_4E4F40(&tmp,
-                                                                                    field_38_cp1.x,
-                                                                                    field_38_cp1.y,
-                                                                                    zpos - kFP16One64th_6FE2E0);
+                    Fix16 below;
+                    below = gMap_0x370_6F6268->GetGroundZBelowCoord_4E4F40(field_38_cp1.x,
+                                                                           field_38_cp1.y,
+                                                                           zpos - kFP16One64th_6FE2E0);
                     if (below > kFP16Zero_6FE20C)
                     {
                         zpos = below;

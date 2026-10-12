@@ -2690,7 +2690,7 @@ Fix16* Map_0x370::sub_4E4E50(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_p
 }
 
 MATCH_FUNC(0x4E4F40)
-Fix16* Map_0x370::GetGroundZBelowCoord_4E4F40(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z)
+Fix16 Map_0x370::GetGroundZBelowCoord_4E4F40(Fix16 x, Fix16 y, Fix16 z)
 {
     Fix16 new_z;
 
@@ -2702,8 +2702,7 @@ Fix16* Map_0x370::GetGroundZBelowCoord_4E4F40(Fix16* found_z, Fix16 x, Fix16 y, 
 
         if (!gBlockInfo0_6F5EB0)
         {
-            *found_z = kFpZero_6F610C;
-            return found_z;
+            return kFpZero_6F610C;
         }
         if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type) && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
         {
@@ -2715,8 +2714,7 @@ Fix16* Map_0x370::GetGroundZBelowCoord_4E4F40(Fix16* found_z, Fix16 x, Fix16 y, 
             new_z = Fix16(int_z + 1);
         }
     }
-    *found_z = new_z;
-    return found_z;
+    return new_z;
 }
 
 MATCH_FUNC(0x4E5050)
