@@ -5526,3 +5526,33 @@ the other 30 MATCH_FUNCs of the TU compile to identical code (base vs new obj co
 - Tools: `opdump1c.py` in /tmp/claude-0/agents/near36 (opdump printing `[sym+0x1C]` instead of `[sym+0x30]`) and
   `ids.sh` (number map per function). All other 247 MATCH_FUNCs in Car_BC.cpp produce identical code.
 
+
+## Agent near37 (Oct 12): Map_0x370::sub_4E7190 92 -> 34 raw / 35 -> 18 masked (not matched, nothing in Source/)
+
+NO_PCH private-copy scores (`try.sh`: near27's `msc.py` masked + `permuter_score.py` raw). Variant and function-only
+diff in `/tmp/claude-0/agents/near37/` (`v/final.cpp`, `final.diff`, `notes.md`). Source/map_0x370.cpp left alone
+(near34 owns the file this round).
+- `bTurned = 1` goes at the END of the turn block (after `if (pBlock != pPrev) {...}`), as in 9.6f (0x468a37) and
+  sub_4E6660: the target's `movb $1` is the join target of both `jne`/`je`. On its own that swaps ebx/ebp (142/130).
+  priolog with source names (`names.py`: `@T line=` + the function's first line; `blk.py`: per-block N and refs):
+  the loop's `to_edge` (only in its block, N=10 x bw 2 x 6 = 120) must colour before the two `last_y.ToInt()` CSE
+  temps (k=3, 132 = 108 first lookup - 20 through the KeepDir blocks + 44 second lookup); after them it takes ebx at a
+  0/0 score tie (register order), before them ebp.
+- The fix the permuter found in 2 minutes (near11 had seen it): `*pZ = *GetRailwayZBelowCoord_4E6400(&last_z, ...)`
+  instead of a `found_z` local. last_z address-taken is no colour candidate, the lookup blocks lose a range and the
+  CSE temps drop to 116 < 120. With the second side switch in up/left/down/right order (its bodies cross-jump into the
+  first switch's) and the KeepDir inline replaced by the equivalent direct code `s32 d = Get(); if (d != 3) { d = 0; }
+  new_direction = d;` (identical code, and 9.6f has no call there, so KeepDir can't have been an inline): 34/18.
+  The permuter's invert_if of the loop `if` came with it but is neutral.
+- Left (18 masked): (1) the out-param: the original's is in the dead `dist` parameter slot (`lea 0x5C` with 3 pushes),
+  ours in last_z's slot, so the original had a separate local there and last_z off the candidate list some other way.
+  Not it: `(void)&last_z`, an unused `Fix16* = &last_z`, stores through a pointer/reference local, `Fix16 last[3]`
+  (VC6 scalarises constant-index arrays, still ranges), raw-mValue z args (r1: fixes the order through the z inline
+  temp but loads the lookup args in another order). No other `lea` of last_z exists in the target. (2) `d` takes eax
+  (prefs eax -2/-3 from the call result vs ebp -1 from the copy to new_direction) where the original coalesces it
+  into new_direction's ebp. All give identical code: KeepDir nested in another inline, `const s32&`, swapped params,
+  assignment inside the argument, out-reference, u32, `d` at case or else scope, `new_direction = Get(); d =
+  new_direction` (copy-propagated away), the test as `== 0` or merged into `if (!pBlock || !(nd = ...))`. Zeroing
+  new_direction itself (any spelling, also `^=`, `-=`, `&= 0`, `*= 0`) or a KeepDir on the test lets VC6 drop the
+  zero and thread the test (136); ternaries give setne code; two-return inlines or copies in both arms add a frame slot.
+- Permuter: 778 compiles on the b2 shape (found the 34), 786 on the 34 shape (nothing).
