@@ -1444,7 +1444,7 @@ void Ped::EnterCarAsPassenger_45C7F0(Car_BC* pCar)
     this->field_24C_target_car_door = 1;
     this->field_278_ped_state_1 = ped_state_1::in_car_10;
     this->field_27C_ped_state_2 = ped_state_2::ped2_driving_10;
-    pCar->field_4_passengers_list.AddPed_471140(this);
+    pCar->field_4_passengers_list.AddPedToFront_471140(this);
 }
 
 MATCH_FUNC(0x45c830)
@@ -4259,7 +4259,7 @@ void Ped::UpdateCharB4_462B80()
             {
                 field_16C_car->ShowCarName_4406B0(this);
                 if (field_25C_internal_objective == objectives_enum::enter_train_37 && field_238_ped_type == ped_type::dummy_3 ||
-                    (field_16C_car->field_4_passengers_list.AddPed_471140(this), field_238_ped_type == ped_type::dummy_3))
+                    (field_16C_car->field_4_passengers_list.AddPedToFront_471140(this), field_238_ped_type == ped_type::dummy_3))
                 {
                     if (field_25C_internal_objective == objectives_enum::enter_train_37)
                     {
@@ -5524,7 +5524,7 @@ void Ped::Threat_Reaction_AI_465270()
                 if (bHaveThreateningPeds_6787DA && field_25C_internal_objective != objectives_enum::flee_char_on_foot_till_safe_2 &&
                     !field_21C_bf.bLeftVehicle)
                 {
-                    Ped* pDangerousPed = gThreateningPedsList_678468.GetFromListClosestPedToPoint_471340(field_1AC_cam.x, field_1AC_cam.y);
+                    Ped* pDangerousPed = gThreateningPedsList_678468.FindClosestActivePed_471340(field_1AC_cam.x, field_1AC_cam.y);
                     if (pDangerousPed && (pDangerousPed->field_170_selected_weapon || pDangerousPed->field_16C_car) && pDangerousPed != this)
                     {
                         abs_x = Fix16::Abs(pDangerousPed->get_cam_x() - field_1AC_cam.x);
@@ -6644,12 +6644,12 @@ Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
             }
             else
             {
-                pClosest = gThreateningPedsList_678468.GetFromListClosestPedToPoint_471340(field_1AC_cam.x, field_1AC_cam.y);
+                pClosest = gThreateningPedsList_678468.FindClosestActivePed_471340(field_1AC_cam.x, field_1AC_cam.y);
             }
         }
         else
         {
-            pClosest = gThreateningPedsList_678468.GetFromListClosestPedToPoint_471340(field_1AC_cam.x, field_1AC_cam.y);
+            pClosest = gThreateningPedsList_678468.FindClosestActivePed_471340(field_1AC_cam.x, field_1AC_cam.y);
         }
 
         if (IsNetworkGame_434B10() && field_164_ped_group)

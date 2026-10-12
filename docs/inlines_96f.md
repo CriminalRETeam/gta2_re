@@ -407,7 +407,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4418B0 | `Car_BC::DetachTrailerAndUpdateDamage_4418B0` | 0x427B20 | `Car_BC::sub_425DF0` | done | add_f78_bits_421890(1), code unchanged; 425DF0 = FlashHeadlights_43BD40 (called) |
 | 0x441A70 | `Car_BC::sub_441A70` | 0x423AA0 | ✓ `Car_10::set_obj_421380`, ✓ `sub_421340` | done | new Car_Door_10::ResetState_421340, code unchanged |
 | 0x441E70 | `Car_BC::sub_441E70` | 0x426140 | `sub_423B80`, `sub_425ED0`, ✓ `sub_425590`, ✓ `sub_4213D0`, ✓ `sub_425650`, ✓ `sub_421430`, ✓ `inline_check_0x2_info_421700`, `sub_423C30`, ✓ `Car_BC::inline_check_0x20_info_4216C0`, `sub_423B50`, ✓ `sub_411920` | checked | 423B80/425ED0/423C30/423B50 = called UpdateRoofLightFlasher/StopLightFlashing_43CBE0 etc (pairing) |
-| 0x4421B0 | `Car_BC::sub_4421B0` | 0x420450 | `TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0` (10.5 0x445EC0) | checked | 445EC0 listed is HasPassengerWith_F238_Is_5_471710 (pairing) |
+| 0x4421B0 | `Car_BC::sub_4421B0` | 0x420450 | `TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0` (10.5 0x445EC0) | checked | 445EC0 listed is HasScriptCreatedPed_471710 (pairing) |
 | 0x442200 | `Car_BC::sub_442200` | 0x424030 | ✓ `IsMaxDamage_40F890`, ✓ `Car_BC::sub_403BA0` | done | all 9.6f inlines used |
 | 0x442310 | `Car_BC::ManageDespawning_442310` | 0x424090 | ✓ `Car_BC::sub_403BA0`, ✓ `Game_0x40::get_player_4219E0`, ✓ `sub_421790`, ✓ `sub_4118F0`, ✓ `sub_4217A0`, ✓ `Car_BC::sub_411900`, ✓ `Car_BC::sub_411910`, ✓ `sub_411920`, ✓ `sub_4214B0`, ✓ `sub_421470` | done | all 9.6f inlines used |
 | 0x4424C0 | `Car_BC::UpdateCarDespawnStatus_4424C0` | 0x4241C0 | `sub_424010` | checked | 424010 = IsCarInConditionsToDespawn_442170 (called) |
@@ -544,16 +544,16 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x470F30 | `Char_C::sub_470F30` | 0x436070 | `Car_BC::sub_4221D0` (10.5 0x43A9A0), `Car_BC::sub_421560`, `CancelDespawn_4215F0` | checked | pairing error (Car_BC callees in a 2-line alloc function) |
 | 0x470F90 | `Char_C::sub_470F90` | 0x43DFB0 | ✓ `PedPool::sub_403890`, ✓ `cool_nash_0x294::sub_416B50`, ✓ `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), ✓ `cool_nash_0x294::get_cam_x_403A00`, ✓ `cool_nash_0x294::get_remap_433BA0`, ✓ `sub_433C10`, ✓ `sub_433C00`, ✓ `cool_nash_0x294::sub_433B50` | inlines added | code unchanged; SetRemap_433C10 breaks the match (commented) |
 | 0x4710C0 | `Char_C::PedById` | 0x43AE10 | ✓ `PedPool::sub_435530` | done | code unchanged; new PedPool::GetFirstPed_435530 |
-| 0x471140 | `Ped_List_4::AddPed_471140` | 0x445F10 | ✓ `sub_445EF0` | done | code unchanged |
+| 0x471140 | `Ped_List_4::AddPedToFront_471140` | 0x445F10 | ✓ `sub_445EF0` | done | code unchanged |
 | 0x471160 | `Ped_List_4::AddPedToBackIfMissing_471160` | 0x445F30 | ✓ `sub_445EF0` | done | code unchanged |
 | 0x4711B0 | `Ped_List_4::AddPedToFrontIfMissing_4711B0` | 0x445F80 | ✓ `sub_445EF0` | done | code unchanged |
 | 0x4711F0 | `Ped_List_4::RemovePed_4711F0` | 0x445FC0 | ✓ `Char_8_Pool::sub_445F00` | done | code unchanged |
 | 0x471240 | `Ped_List_4::RemovePed_471240` | 0x446010 | ✓ `Char_8_Pool::sub_445F00` | done | code unchanged |
-| 0x471290 | `Ped_List_4::RemovePedsInSpecificState_471290` | 0x446060 | ✓ `cool_nash_0x294::sub_433B40`, ✓ `Char_8_Pool::sub_445F00` | done | follow-up: IsActive_433B40, code unchanged |
+| 0x471290 | `Ped_List_4::RemoveNonCorpses_471290` | 0x446060 | ✓ `cool_nash_0x294::sub_433B40`, ✓ `Char_8_Pool::sub_445F00` | done | follow-up: IsActive_433B40, code unchanged |
 | 0x471320 | `Ped_List_4::RemoveFirstPed_471320` | 0x446100 | ✓ `Char_8_Pool::sub_445F00` | done | code unchanged |
-| 0x471340 | `Ped_List_4::GetFromListClosestPedToPoint_471340` | 0x445C30 | ✓ `cool_nash_0x294::sub_433B40`, ✓ `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), ✓ `cool_nash_0x294::get_cam_x_403A00`, `MaxAbsDistance_42A6B0` | matched | all 9.6f inlines used |
-| 0x4715A0 | `Ped_List_4::KillAllPedsFromList_4715A0` | 0x446120 | ✓ `Char_8_Pool::sub_445F00` | done | code unchanged |
-| 0x4715E0 | `Ped_List_4::KillAllPedsAndClearCarRef_4715E0` | 0x446160 | ✓ `Char_8_Pool::sub_445F00` | done | code unchanged |
+| 0x471340 | `Ped_List_4::FindClosestActivePed_471340` | 0x445C30 | ✓ `cool_nash_0x294::sub_433B40`, ✓ `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), ✓ `cool_nash_0x294::get_cam_x_403A00`, `MaxAbsDistance_42A6B0` | matched | all 9.6f inlines used |
+| 0x4715A0 | `Ped_List_4::KillAndClearAllPeds_4715A0` | 0x446120 | ✓ `Char_8_Pool::sub_445F00` | done | code unchanged |
+| 0x4715E0 | `Ped_List_4::KillAndClearAllPedsResetCarRef_4715E0` | 0x446160 | ✓ `Char_8_Pool::sub_445F00` | done | code unchanged |
 | 0x471630 | `Ped_List_4::ApplyPassengerBusStopBehavior_471630` | 0x445E40 | ✓ `cool_nash_0x294::get_occupation_403980`, ✓ `cool_nash_0x294::set_target_objective_car_403AA0` | done | all 9.6f inlines used |
 | 0x474850 | `CarChaseTaskTable_500::AreAllies_474850` | 0x4462F0 | ✓ `cool_nash_0x294::get_occupation_403980` | done | all 9.6f inlines used |
 | 0x477C90 | `SpriteGrid_400::FindNearestSprite_SpiralSearch_477C90` | 0x447540 | `sub_4BAA70` | checked | sub_4BAA70 = Sprite::GetPed_59E1B0 (called) |

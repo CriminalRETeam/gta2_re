@@ -123,7 +123,7 @@ bool Ambulance_110::TryAddPatient_4FA470(Ped* pPed)
         return false;
     }
 
-    field_4_patient_queue.AddPed_471140(pPed);
+    field_4_patient_queue.AddPedToFront_471140(pPed);
     field_1_queue_count++;
 
     return true;
@@ -148,7 +148,7 @@ MATCH_FUNC(0x4fa500)
 void Ambulance_110::ProcessPatientQueue_4FA500()
 {
     u8 x, y, z;
-    field_1_queue_count -= field_4_patient_queue.RemovePedsInSpecificState_471290();
+    field_1_queue_count -= field_4_patient_queue.RemoveNonCorpses_471290();
     if (field_1_queue_count == 0)
     {
         return;
@@ -271,7 +271,7 @@ void Ambulance_20::ClearTask_4FA7D0()
 MATCH_FUNC(0x4fa800)
 void Ambulance_20::AddPassenger_4FA800(Ped* pPed)
 {
-    field_10_patients.AddPed_471140(pPed);
+    field_10_patients.AddPedToFront_471140(pPed);
     field_14_patient_count++;
 }
 
@@ -771,7 +771,7 @@ MATCH_FUNC(0x4fb330)
 void Ambulance_20::UpdateState_4FB330()
 {
     bool bHandle = true;
-    field_10_patients.RemovePedsInSpecificState_471290();
+    field_10_patients.RemoveNonCorpses_471290();
     switch (field_4_paramedics_crew->field_28_state)
     {
         case crew_state::spawn_car_3:

@@ -3918,7 +3918,7 @@ void Car_BC::KillContainedPeds_43DB80()
         }
         this->field_54_driver = 0;
     }
-    field_4_passengers_list.KillAllPedsAndClearCarRef_4715E0();
+    field_4_passengers_list.KillAndClearAllPedsResetCarRef_4715E0();
 }
 
 MATCH_FUNC(0x43dbd0)
@@ -5538,7 +5538,7 @@ void Car_BC::ServicePhysics_442190()
 MATCH_FUNC(0x4421b0)
 char_type Car_BC::IsMissionRelated_4421B0()
 {
-    if (field_A0_car_kind != car_kind::mission_car_8 && field_7C_uni_num != 5 && !field_4_passengers_list.HasPassengerWith_F238_Is_5_471710())
+    if (field_A0_car_kind != car_kind::mission_car_8 && field_7C_uni_num != 5 && !field_4_passengers_list.HasScriptCreatedPed_471710())
     {
         return 0;
     }

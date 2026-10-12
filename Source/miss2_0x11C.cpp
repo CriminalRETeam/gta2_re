@@ -4435,7 +4435,7 @@ MATCH_FUNC(0x50c410)
 void miss2_0x11C::SCRCMD_KILL_ALL_PASSENG_50C410()
 {
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    pPointer->field_8_car->field_4_passengers_list.KillAllPedsFromList_4715A0();
+    pPointer->field_8_car->field_4_passengers_list.KillAndClearAllPeds_4715A0();
 
     if (gPublicTransport_181C_6FF1D4->is_bus_579AA0(pPointer->field_8_car))
     {

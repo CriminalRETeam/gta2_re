@@ -2147,7 +2147,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
 - **`Car_BC::IsFlagSet_411930` is `if (...) return true; return false;`.** The `!= 0` form gives a
   `shr`/`test $1` for `!IsFlagSet(0x400)`; the if form gives the original's `testb $4,0x79(%eax)`. Both
   bodies compile to 9.6f 0x411930 with VC7.
-- **10.5 inlines `Max_44E540` in small functions** (`Ped_List_4::GetFromListClosestPedToPoint_471340`,
+- **10.5 inlines `Max_44E540` in small functions** (`Ped_List_4::FindClosestActivePed_471340`,
   `struct_4::FindClosestSprite_5A6E40`, `PoliceCrew_38::sub_572210` all have the compare and no call),
   so 0x44E540 is probably the out-of-line copy of 9.6f's `Max_41E130` inline (`if (a > b) return a;
   else return b;`, size 62, VC7-identical to 9.6f), which `MaxAbsDistance_42A6B0` calls. Making

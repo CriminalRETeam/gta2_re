@@ -4566,7 +4566,7 @@
         "v105_address": "0x471110"
     },
     {
-        "name": "Ped_List_4::AddPed_471140",
+        "name": "Ped_List_4::AddPedToFront_471140",
         "v96f_address": "0x445f10",
         "v105_address": "0x471140",
         "v96f_auto": true
@@ -4596,7 +4596,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped_List_4::RemovePedsInSpecificState_471290",
+        "name": "Ped_List_4::RemoveNonCorpses_471290",
         "v96f_address": "0x446060",
         "v105_address": "0x471290",
         "v96f_auto": true
@@ -4613,7 +4613,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped_List_4::GetFromListClosestPedToPoint_471340",
+        "name": "Ped_List_4::FindClosestActivePed_471340",
         "v96f_address": "0x445c30",
         "v105_address": "0x471340",
         "v96f_auto": true
@@ -4624,13 +4624,13 @@
         "v105_address": "0x4713c0"
     },
     {
-        "name": "Ped_List_4::KillAllPedsFromList_4715A0",
+        "name": "Ped_List_4::KillAndClearAllPeds_4715A0",
         "v96f_address": "0x446120",
         "v105_address": "0x4715a0",
         "v96f_auto": true
     },
     {
-        "name": "Ped_List_4::KillAllPedsAndClearCarRef_4715E0",
+        "name": "Ped_List_4::KillAndClearAllPedsResetCarRef_4715E0",
         "v96f_address": "0x446160",
         "v105_address": "0x4715e0",
         "v96f_auto": true
@@ -4659,7 +4659,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Ped_List_4::HasPassengerWith_F238_Is_5_471710",
+        "name": "Ped_List_4::HasScriptCreatedPed_471710",
         "v96f_address": null,
         "v105_address": "0x471710"
     },

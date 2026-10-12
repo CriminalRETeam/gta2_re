@@ -415,7 +415,7 @@ void Train_58::UpdatePassengerAI_578390()
                                     pNewPed->SetObjective(objectives_enum::leave_train_38);
                                     Ped_List_4* pLink = &pNewPed->field_16C_car->field_4_passengers_list;
                                     pNewPed->SetTargetObjectiveCar(*pTrainCar);
-                                    pLink->AddPed_471140(pNewPed);
+                                    pLink->AddPedToFront_471140(pNewPed);
                                     pNewPed->set_target_car_door_403A70(gTargetCarDoor_6FF1D8);
                                     --this->field_56_passenger_count;
                                 }
@@ -440,7 +440,7 @@ void Train_58::UpdatePassengerAI_578390()
                         {
                             Ped* pNewPed_1 = gPedManager_6787BC->SpawnTrainLeaver_470E30();
                             pNewPed_1->field_16C_car = this->field_C_carriages[0];
-                            this->field_C_carriages[0]->field_4_passengers_list.AddPed_471140(pNewPed_1);
+                            this->field_C_carriages[0]->field_4_passengers_list.AddPedToFront_471140(pNewPed_1);
                             pNewPed_1->SetObjective(objectives_enum::leave_train_38);
                             Car_BC* pTargetCar = this->field_C_carriages[0];
                             pNewPed_1->SetTargetObjectiveCar(pTargetCar);
@@ -1139,7 +1139,7 @@ void PublicTransport_181C::KillAllPassengers_579B20()
     if (!bSkip_buses_67D558)
     {
         this->field_17C0_bus.field_56_passenger_count = 0;
-        field_17C0_bus.field_C_carriages[0]->field_4_passengers_list.KillAllPedsFromList_4715A0();
+        field_17C0_bus.field_C_carriages[0]->field_4_passengers_list.KillAndClearAllPeds_4715A0();
     }
 }
 

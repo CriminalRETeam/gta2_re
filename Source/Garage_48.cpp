@@ -330,7 +330,7 @@ void Garage_48::GaragesService_5349D0()
                 field_10->ClearF2C_4895F0();
                 field_0->SetF98To4_475C30();
                 field_0->PrepareForExplosion_43C1C0();
-                field_0->field_4_passengers_list.KillAllPedsFromList_4715A0();
+                field_0->field_4_passengers_list.KillAndClearAllPeds_4715A0();
                 if (field_0->is_driven_by_player())
                 {
                     field_0->get_driver_4118B0()->field_15C_player->EnableAllControls_56A000();
