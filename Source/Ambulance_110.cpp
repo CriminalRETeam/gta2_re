@@ -675,7 +675,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                 bBusy = 1;
                 if (field_4_paramedics_crew->field_8_group)
                 {
-                    field_4_paramedics_crew->field_8_group->field_1 = 0;
+                    field_4_paramedics_crew->field_8_group->field_1_wait_for_members = false;
                 }
                 break;
             }
@@ -703,7 +703,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                         {
                             if (field_4_paramedics_crew->field_8_group)
                             {
-                                field_4_paramedics_crew->field_8_group->field_1 = 1;
+                                field_4_paramedics_crew->field_8_group->field_1_wait_for_members = true;
                             }
                         }
                         else
@@ -719,7 +719,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                         {
                             if (field_4_paramedics_crew->field_8_group)
                             {
-                                field_4_paramedics_crew->field_8_group->field_1 = 1;
+                                field_4_paramedics_crew->field_8_group->field_1_wait_for_members = true;
                             }
                         }
                         else

@@ -72,7 +72,7 @@ class PedGroup
     }
 
     char_type field_0;
-    char_type field_1;
+    bool field_1_wait_for_members; // while set, UpdateFormation makes the leader wait (objective 9) for a member who has fallen too far behind
     char_type field_2; // padding
     char_type field_3; // padding
     Ped* field_4_ped_list[9];

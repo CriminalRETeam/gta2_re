@@ -52,7 +52,7 @@ void PedGroup::ClearGroupData_4C8E90()
     }
     field_2C_ped_leader = NULL;
     field_0 = 1;
-    field_1 = 0;
+    field_1_wait_for_members = false;
     field_34_count = 0;
     field_35 = 0;
 
@@ -75,7 +75,7 @@ void PedGroup::Reset_4C8EF0()
     field_36_count = 0;
     field_2C_ped_leader = NULL;
     field_0 = 1;
-    field_1 = 0;
+    field_1_wait_for_members = false;
     field_34_count = 0;
     field_35 = 0;
     for (s32 i = 0; i < 9; i++)
@@ -858,7 +858,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
     if (pLeader->field_168_game_object)
     {
         bool bWaiting = false;
-        if (field_1)
+        if (field_1_wait_for_members)
         {
             Ped* pFarthest = FindFarthestMember_4CA3F0(&distance);
             if (distance > dword_67F608 && !field_2C_ped_leader->PedTypeIs_45EDE0(ped_type::player_2))
