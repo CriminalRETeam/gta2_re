@@ -1352,12 +1352,12 @@ void PoliceCrew_38::State6_ShutDown_574720()
                             // body the zero constant has one store fewer, its priority drops below the ~4 of
                             // ClearPanicking_403960 and VC6 keeps 0 in ebp for the whole function.
                             case objectives_enum::goto_area_in_car_14:
-                                gCurrentCrewPed_6FEDDC->SetObjective2_463830(0);
+                                gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0);
                                 gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::objective_43);
                                 byte_6FEB48 = 0;
                                 break;
                             case objectives_enum::objective_52:
-                                gCurrentCrewPed_6FEDDC->SetObjective2_463830(0);
+                                gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0);
                                 gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::objective_43);
                                 byte_6FEB48 = 0;
                                 break;
@@ -1370,7 +1370,7 @@ void PoliceCrew_38::State6_ShutDown_574720()
                                 {
                                     if (!field_10_subObj->field_8_group || field_10_subObj->field_8_group->IsAllMembersInSomeCar_4CAA20())
                                     {
-                                        gCurrentCrewPed_6FEDDC->SetObjective2_463830(0);
+                                        gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0);
                                         gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::objective_43);
                                         gCurrentCrewPed_6FEDDC->field_16C_car->InitCarAIControl_440590();
                                         gCurrentCrewPed_6FEDDC->field_16C_car->ResumeAIDriving_43AF40();
@@ -1381,7 +1381,7 @@ void PoliceCrew_38::State6_ShutDown_574720()
                                 {
                                     if (field_10_subObj->field_24_phase == crew_phase::in_car_1 && !gCurrentCrewPed_6FEDDC->field_21C_bf.bLeftVehicle)
                                     {
-                                        gCurrentCrewPed_6FEDDC->SetObjective2_463830(0);
+                                        gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0);
                                         gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::enter_car_as_driver_35);
                                         gCurrentCrewPed_6FEDDC->SetTargetObjectiveCar(field_10_subObj->field_0_car);
                                         gCurrentCrewPed_6FEDDC->ClearPanicking_403960();

@@ -318,7 +318,7 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
                         field_8_group->ClearGroupData_4C8E90();
                         field_8_group = NULL;
                         field_4_ped->SetObjective(objectives_enum::no_obj_0);
-                        field_4_ped->SetObjective2_463830(0);
+                        field_4_ped->SetObjective2_463830(objectives_enum::no_obj_0);
                         field_24_phase = crew_phase::on_foot_0;
                     }
                     else
@@ -338,7 +338,7 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
                     field_8_group->DestroyGroup_4C93A0();
                     field_8_group = NULL;
                     field_4_ped->SetObjective(objectives_enum::no_obj_0);
-                    field_4_ped->SetObjective2_463830(0);
+                    field_4_ped->SetObjective2_463830(objectives_enum::no_obj_0);
                     field_24_phase = crew_phase::on_foot_0;
                 }
             }
@@ -347,7 +347,7 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
                 if (field_4_ped->field_168_game_object)
                 {
                     field_4_ped->SetObjective(objectives_enum::no_obj_0);
-                    field_4_ped->SetObjective2_463830(0);
+                    field_4_ped->SetObjective2_463830(objectives_enum::no_obj_0);
                     field_24_phase = crew_phase::on_foot_0;
                 }
             }

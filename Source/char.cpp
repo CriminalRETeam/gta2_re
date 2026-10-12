@@ -1063,7 +1063,7 @@ void Char_B4::UpdateAnimState_546360()
                             default:
                                 if (pDriver->field_17C_pGang)
                                 {
-                                    pDriver->SetObjective2_463830(20);
+                                    pDriver->SetObjective2_463830(objectives_enum::kill_char_on_foot_20);
                                     pDriver->SetInternalTargetPed_403AE0(field_7C_pPed);
                                 }
                                 pDriver->SetStolenCar_492CB0(pCar);
@@ -2054,8 +2054,8 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
             break;
 
         case 3:
-            if (field_7C_pPed->GetInternalObjective_403A90() == 48 || field_7C_pPed->GetInternalObjective_403A90() == 37 ||
-                field_7C_pPed->GetInternalObjective_403A90() == 38 || field_7C_pPed->GetInternalObjective_403A90() == 12)
+            if (field_7C_pPed->GetInternalObjective_403A90() == objectives_enum::objective_48 || field_7C_pPed->GetInternalObjective_403A90() == objectives_enum::enter_train_37 ||
+                field_7C_pPed->GetInternalObjective_403A90() == objectives_enum::leave_train_38 || field_7C_pPed->GetInternalObjective_403A90() == objectives_enum::goto_area_on_foot_12)
             {
                 field_38_velocity = k_dword_6FD7CC;
                 break;
@@ -3663,7 +3663,7 @@ void Char_B4::state_0_54DDF0()
                         if (field_7C_pPed->get_objective_403A80() == objectives_enum::no_obj_0 ||
                             field_7C_pPed->get_objective_403A80() == objectives_enum::objective_8)
                         {
-                            field_7C_pPed->SetObjective2_463830(17);
+                            field_7C_pPed->SetObjective2_463830(objectives_enum::objective_17);
                         }
                         break;
                     default:
