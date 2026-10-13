@@ -5725,7 +5725,7 @@ MATCH_FUNC(0x50e7f0)
 void miss2_0x11C::SCRCMD_GIVE_CAR_ALARM_50E7F0()
 {
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    pPointer->field_8_car->field_78_flags |= 0x80;
+    pPointer->field_8_car->field_78_bf.bCarAlarm = true;
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -5743,33 +5743,33 @@ void miss2_0x11C::SCRCMD_CAR_WEAPON_KIND_PROOF_50E820()
             pCar = pPointer->field_8_car;
             if (pCmd->field_A_status == 1)
             {
-                pCar->field_78_flags |= 0x100;
+                pCar->field_78_bf.bBulletproof = true;
             }
             else
             {
-                pCar->field_78_flags &= ~0x100;
+                pCar->field_78_bf.bBulletproof = false;
             }
             break;
         case SCRCMD_CAR_ROCKETPROOF:
             pCar = pPointer->field_8_car;
             if (pCmd->field_A_status == 1)
             {
-                pCar->field_78_flags |= 0x200;
+                pCar->field_78_bf.bRocketproof = true;
             }
             else
             {
-                pCar->field_78_flags &= ~0x200;
+                pCar->field_78_bf.bRocketproof = false;
             }
             break;
         case SCRCMD_CAR_FLAMEPROOF:
             pCar = pPointer->field_8_car;
             if (pCmd->field_A_status == 1)
             {
-                pCar->field_78_flags |= 0x400;
+                pCar->field_78_bf.bFlameproof = true;
             }
             else
             {
-                pCar->field_78_flags &= ~0x400;
+                pCar->field_78_bf.bFlameproof = false;
             }
             break;
     }
@@ -6496,11 +6496,11 @@ void miss2_0x11C::SCRCMD_SET_CAR_JAMMED_50FA70()
     {
         if (pCmd->field_A_status == 1)
         {
-            pCar->field_78_flags |= 0x1000;
+            pCar->field_78_bf.bFlag12 = true;
         }
         else
         {
-            pCar->field_78_flags &= ~0x1000u;
+            pCar->field_78_bf.bFlag12 = false;
         }
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);

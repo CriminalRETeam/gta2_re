@@ -2201,14 +2201,14 @@ char_type CarPhysics_B0::CheckPendingCollision_55F360()
 {
     // 9.6f: Car_BC flag helpers 0x414F70 (IsFlagSet_411930(0x2000)) and 0x49EFD0 (clear 0x2000)
     // (inlined, using IsFlagSet_411930 here changes the code)
-    if ((this->field_5C_pCar->field_78_flags & 0x2000) != 0)
+    if (this->field_5C_pCar->field_78_bf.bFlag13)
     {
         gCar_6C_677930->field_60 = 1;
         if (gSpriteGrid_1_679208->CheckAndHandleAllCollisionsForSprite_477C30(field_5C_pCar->field_50_car_sprite, 2))
         {
             return 1;
         }
-        this->field_5C_pCar->field_78_flags &= ~0x2000u;
+        this->field_5C_pCar->field_78_bf.bFlag13 = false;
     }
     return 0;
 }

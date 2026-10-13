@@ -324,8 +324,8 @@ void Garage_48::GaragesService_5349D0()
             if (field_0_parking_car->field_50_car_sprite)
             {
                 // 9.6f: Car_BC 0x476230/0x4895E0 (clear f78 bits 2 and 8, inlined)
-                field_0_parking_car->field_78_flags &= ~2;
-                field_0_parking_car->field_78_flags &= ~8;
+                field_0_parking_car->field_78_bf.bNoCollide = false;
+                field_0_parking_car->field_78_bf.bFlag3 = false;
                 field_10_door->CloseDoors_476A30();
                 field_10_door->ClearF2C_4895F0();
                 field_0_parking_car->SetF98To4_475C30();
