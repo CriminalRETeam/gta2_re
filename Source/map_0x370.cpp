@@ -3316,7 +3316,7 @@ s32 Map_0x370::GetArrowDirectionFromBlock_4E5FC0(gmp_block_info* pBlock, bool bD
 
 // https://decomp.me/scratch/RZ1Gp
 MATCH_FUNC(0x4E6190)
-s16 Map_0x370::ClassifyArrowOnSlope_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 arrow_dir, char_type bReverse)
+s16 Map_0x370::ClassifyArrowOnSlope_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 arrow_dir, bool bReverse)
 {
     if (!IsGradientSlopeAt_466CF0(x.ToInt(), y.ToInt(), z.ToInt()))
     {

@@ -456,7 +456,7 @@ class Map_0x370
     EXPORT u8 UpdateZFromSlopeAtCoord_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_pos);
     EXPORT char_type HasGreenArrowForPathDirection_4E5E90(gmp_block_info* pBlock, s32 direction, char_type bDefault);
     EXPORT s32 GetArrowDirectionFromBlock_4E5FC0(gmp_block_info* pBlock, bool bDontFlip);
-    EXPORT s16 ClassifyArrowOnSlope_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 arrow_dir, char_type bReverse);
+    EXPORT s16 ClassifyArrowOnSlope_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 arrow_dir, bool bReverse);
     EXPORT Fix16 FloorPlusOne_4E62B0(Fix16 value);
     EXPORT gmp_block_info* FindRailwayAtCoord_4E62D0(s32 x, s32 y, s32& found_z);
     EXPORT gmp_block_info* FindRailwayBelowZAtCoord_4E6360(s32 x, s32 y, s32& z);
