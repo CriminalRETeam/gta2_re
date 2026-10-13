@@ -1,5 +1,6 @@
 #pragma once
 
+#include "car_flags.hpp"
 #include "BitSet32.hpp"
 #include "Car_10.hpp"
 #include "Fix16.hpp"
@@ -107,7 +108,7 @@ class Car_214
 
     Car_18 field_0_triggers[22];
     s16 field_210_count;
-    s16 field_212;
+    s16 field_212_unused;
 };
 
 EXTERN_GLOBAL(Car_214*, gCar_214_705F20);
@@ -146,13 +147,13 @@ class Car_6C
     // 9.6f 0x421960
     inline Ped* GetSpareDriver_421960()
     {
-        return field_4;
+        return field_4_unused;
     }
 
     // 9.6f 0x421970
     inline void SetSpareDriver_421970(Ped* pPed)
     {
-        field_4 = pPed;
+        field_4_unused = pPed;
     }
 
     void sub_4C39F0()
@@ -237,11 +238,10 @@ class Car_6C
     // As SpawnCarAtCorrectZ_426E40 with the scale passed in (PublicTransport_181C::SpawnTrainsFromStations_578860)
     inline Car_BC* SpawnCarAtCorrectZ_Scaled(Fix16 xpos, Fix16 ypos, const Ang16& rotation, s32 car_model, const Fix16& scale)
     {
-        Fix16 temp_z;
         if (car_model == car_model_enum::TRAIN || car_model == car_model_enum::TRAINCAB || car_model == car_model_enum::TRAINFB ||
             car_model == car_model_enum::boxcar)
         {
-            return SpawnCarAt_446230(xpos, ypos, *gMap_0x370_6F6268->GetRailwayZCoordAtXY_4E6510(&temp_z, xpos, ypos), rotation, car_model, scale);
+            return SpawnCarAt_446230(xpos, ypos, gMap_0x370_6F6268->GetRailwayZCoordAtXY_4E6510(xpos, ypos), rotation, car_model, scale);
         }
         else
         {
@@ -252,11 +252,10 @@ class Car_6C
     // As SpawnCarAtCorrectZ_426E40 but with the scale passed in (Car_14::SpawnTrafficCar_582480 passes its own kFpOne_6FF778)
     inline Car_BC* SpawnCarAtCorrectZ_WithScale(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_model, const Fix16& scale)
     {
-        Fix16 temp_z;
         if (car_model == car_model_enum::TRAIN || car_model == car_model_enum::TRAINCAB || car_model == car_model_enum::TRAINFB ||
             car_model == car_model_enum::boxcar)
         {
-            return SpawnCarAt_446230(xpos, ypos, *gMap_0x370_6F6268->GetRailwayZCoordAtXY_4E6510(&temp_z, xpos, ypos), rotation, car_model, scale);
+            return SpawnCarAt_446230(xpos, ypos, gMap_0x370_6F6268->GetRailwayZCoordAtXY_4E6510(xpos, ypos), rotation, car_model, scale);
         }
         else
         {
@@ -269,8 +268,7 @@ class Car_6C
         if (car_model == car_model_enum::TRAIN || car_model == car_model_enum::TRAINCAB || car_model == car_model_enum::TRAINFB ||
             car_model == car_model_enum::boxcar)
         {
-            Fix16 temp_z;
-            return SpawnCarAt_446230(xpos, ypos, *gMap_0x370_6F6268->GetRailwayZCoordAtXY_4E6510(&temp_z, xpos, ypos), rotation, car_model, kFP16One_6777D0);
+            return SpawnCarAt_446230(xpos, ypos, gMap_0x370_6F6268->GetRailwayZCoordAtXY_4E6510(xpos, ypos), rotation, car_model, kFP16One_6777D0);
         }
         else
         {
@@ -279,8 +277,8 @@ class Car_6C
     }
 
     Car_2 field_0;
-    s16 field_2;
-    Ped* field_4;
+    s16 field_2_unused;
+    Ped* field_4_unused;
     char_type field_8;
     u8 field_9_good_car_idx;
     u8 field_A_bad_car_idx;
@@ -290,9 +288,9 @@ class Car_6C
     Car_2 field_12;
     s32 field_14_next_car_id;
     char_type field_18;
-    char_type field_19;
+    char_type field_19_unused;
     char_type field_1A_fire_effect_cycle;
-    char_type field_1B;
+    char_type field_1B_unused;
     s32 field_1C_explosion_offset_cycle;
     s32 field_20;
     s32 field_24;
@@ -304,23 +302,23 @@ class Car_6C
     s32 field_3C_mission_cars;
     s32 field_40_proto_recycled_cars;
     s32 field_44_parked_cars;
-    s32 field_48;
+    s32 field_48_kind10_cars;
     Fix16_Point field_4C_tv_van_dir;
-    u8 field_54;
+    u8 field_54_spawn_block;
     char_type field_55_visible_cars_count;
-    char_type field_56;
+    char_type field_56_unused;
     char_type field_57;
     s32 field_58_model_to_check_destroy;
     char_type field_5C_model_check_destroyed;
-    char_type field_5D;
-    char_type field_5E;
-    char_type field_5F;
+    char_type field_5D_unused;
+    char_type field_5E_unused;
+    char_type field_5F_unused;
     s32 field_60;
     Fix16 field_64_zpos;
     char_type field_68;
     char_type field_69_do_free_shopping;
-    char_type field_6A;
-    char_type field_6B;
+    char_type field_6A_unused;
+    char_type field_6B_unused;
 };
 
 EXTERN_GLOBAL(Car_6C*, gCar_6C_677930);
@@ -364,9 +362,9 @@ class Trailer
     }
 
     char_type field_0;
-    char_type field_1;
-    char_type field_2;
-    char_type field_3;
+    char_type field_1_unused;
+    char_type field_2_unused;
+    char_type field_3_unused;
     Trailer* mpNext;
     Car_BC* field_8_truck_cab;
     Car_BC* field_C_pCarOnTrailer;
@@ -677,7 +675,7 @@ class Car_BC
     EXPORT void ResprayOrCleanPlates(u8 remap);
     EXPORT void HandleShops_443C40(Object_2C* pObj);
     EXPORT void SetPosition_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos);
-    EXPORT void IncrementCarStats_443D70(s32 car_type);
+    EXPORT void IncrementCarStats_443D70(s32 car_kind);
     EXPORT void IncrementAllocatedCarType_443DA0(s32 car_kind);
     EXPORT void MarkProtoRecycled_443E50();
     EXPORT void MarkRecycled_443E80();
@@ -1046,13 +1044,13 @@ class Car_BC
     // 0x48A930
     Fix16 get_car_width()
     {
-        return field_50_car_sprite->GetW_420740();
+        return field_50_car_sprite->GetWidth_420740();
     }
 
     // 0x48A950
     Fix16 get_car_height()
     {
-        return field_50_car_sprite->GetH_447E70();
+        return field_50_car_sprite->GetHeight_447E70();
     }
 
     bool IsMarkedForDespawn_4214B0()
@@ -1275,7 +1273,7 @@ class Car_BC
 
     bool IsLongerThanOneBlock_447ED0()
     {
-        return (field_50_car_sprite->GetH_447E70() > kFpOne_679E74) ? true : false;
+        return (field_50_car_sprite->GetHeight_447E70() > kFpOne_679E74) ? true : false;
     }
 
     bool CanBeLiftedByCrane_447F00()
@@ -1300,7 +1298,7 @@ class Car_BC
     // 9.6f 0x416BB0
     inline Ang16 get_car_rotation_416BB0()
     {
-        return field_50_car_sprite->field_0;
+        return field_50_car_sprite->field_0_rotation;
     }
 
     inline bool CanCollideOver_4216E0()
@@ -1332,9 +1330,9 @@ class Car_BC
     EXPORT char SnapCarToGreenArrow_444E40(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT char TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, Fix16 ypos, s32 maybe_direction);
 
-    struct_4 field_0_attachments;
+    SpriteList_4 field_0_attachments;
     Ped_List_4 field_4_passengers_list;
-    CarFlags field_8_damaged_areas; // TODO: check if it's a bitset
+    DamageAreaFlags field_8_damaged_areas; // TODO: check if it's a bitset
     Car_Door_10 field_C_doors[4];
     Car_BC* mpNext;
     Sprite* field_50_car_sprite;
@@ -1353,7 +1351,11 @@ class Car_BC
     0x200 = rocket proof
     0x400 = flame proof
     */
-    u16 field_78_flags;
+    union
+    {
+        u16 field_78_flags;
+        CarFlags16 field_78_bf;
+    };
     s16 field_7A_pad;
     s32 field_7C_uni_num;
     char_type field_80_bAbandoned;
@@ -1374,9 +1376,17 @@ class Car_BC
     s32 field_98_door_lock;
     s32 field_9C_engine_status;
     s32 field_A0_car_kind; // police car, fire engine, mission car etc
-    char_type field_A4_light_flags;
+    union
+    {
+        char_type field_A4_light_flags;
+        CarLightFlags8 field_A4_bf;
+    };
     char_type field_A5_flash_phase_counter;
-    char_type field_A6_turn_flags;
+    union
+    {
+        char_type field_A6_turn_flags;
+        CarTurnFlags8 field_A6_bf;
+    };
     u8 field_A7_horn;
     u8 field_A8_horn_cooldown;
     char_type field_A9_timer; // explode/turn to wreck timer?
@@ -1457,7 +1467,7 @@ struct Car_14
 {
     EXPORT Car_14();
     EXPORT ~Car_14();
-    EXPORT char sub_582360(int param_1, Fix16 param_2, Fix16 param_3);
+    EXPORT char sub_582360(int direction, Fix16 x, Fix16 y);
     EXPORT void MakeTrafficForCurrCamera_5832C0();
     EXPORT char_type SpawnTrafficCarFacing_583260(s32 angle_face);
     EXPORT void GenerateTraffic_583670();
@@ -1465,7 +1475,7 @@ struct Car_14
     // 9.6f 0x4B3230. A thiscall member: SpawnTrafficCar_582480 sets ecx = this before calling it
     EXPORT Fix16 GetRandomTrafficSpeed_583750(Fix16 max_speed, u8* pOut);
 
-    EXPORT char_type SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4);
+    EXPORT char_type SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direction, s32 blocked_direction);
 
     EXPORT char_type IsFlatRoadAt_583870(Fix16 xpos, Fix16 ypos);
 
@@ -1476,8 +1486,8 @@ struct Car_14
     Fix16_Rect* field_4_rect;
     s8 field_8;
     s8 field_9;
-    s8 field_A;
-    s8 field_B;
+    s8 field_A_unused;
+    s8 field_B_unused;
     Player* field_C_player;
     gmp_zone_info* field_10_zone;
 };

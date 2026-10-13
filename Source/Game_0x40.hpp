@@ -71,7 +71,7 @@ class Game_0x40
     EXPORT void ExitGameNoBonus_4B8C00(s32 new_timer, s32 exit_type);
     EXPORT s8 UpdateExitTimer_4B8C20();
     EXPORT void LoadGameFiles_4B8C40();
-    EXPORT void SetScreenSize_4B8E00(u32 a1, u32 a2);
+    EXPORT void SetScreenSize_4B8E00(u32 width, u32 height);
     EXPORT void ApplyNetworkGameSettings_4B8E50();
     EXPORT void BootGame_4B8EB0();
     EXPORT void ShowCounters_4B8FF0();
@@ -87,21 +87,21 @@ class Game_0x40
     EXPORT void SinglePlayerStepFrame_4B9710();
     EXPORT void sub_4B9720();
     EXPORT Player* GetFirstPlayerWithoutPed_4B9750();
-    EXPORT void ShakeCamerasAtPos_4B9790(Fix16 a2, Fix16 a3, Fix16 a4);
-    EXPORT s8 IsSpriteOnScreenForAnyPlayer_4B97E0(Sprite* a2, Fix16 a3);
-    EXPORT s8 IsSpriteVisibleToAnyPlayer_4B9830(Sprite* pCarSprite, Fix16 a3);
-    EXPORT s8 IsSpriteInAnyPlayerView_4B9890(Sprite* a2, s32 a3);
-    EXPORT bool IsSpriteInPlayerView_4B98E0(Sprite* a2, u8 playerIdx, s32 a4);
+    EXPORT void ShakeCamerasAtPos_4B9790(Fix16 amount, Fix16 x, Fix16 y);
+    EXPORT s8 IsSpriteOnScreenForAnyPlayer_4B97E0(Sprite* pSprite, Fix16 margin);
+    EXPORT s8 IsSpriteVisibleToAnyPlayer_4B9830(Sprite* pCarSprite, Fix16 margin);
+    EXPORT s8 IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 margin);
+    EXPORT bool IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 playerIdx, s32 margin);
     EXPORT s8 IsSpriteOnScreen_4B9950(Sprite* pCarSprite, u8 playerIdx, Fix16 margin);
-    EXPORT bool IsSpriteCameraSubjectForPlayer_4B9A10(Sprite* a2, u8 playerIdx);
+    EXPORT bool IsSpriteCameraSubjectForPlayer_4B9A10(Sprite* pSprite, u8 playerIdx);
     EXPORT bool is_point_on_screen_4B9A80(Fix16 a2_fp, Fix16 a3_fp);
     EXPORT s8 IsRectVisibleToAnyPlayer_4B9B10(Fix16_Rect* pBounds);
     EXPORT Camera_0xBC* IteratePlayerCamera_4B9BC0();
-    EXPORT s8 IsCarInAnyPlayerHistory_4B9C10(Car_BC* a2);
+    EXPORT s8 IsCarInAnyPlayerHistory_4B9C10(Car_BC* pCar);
     EXPORT Camera_0xBC* IterateNextPlayerCamera_4B9C50();
     EXPORT Player* IterateFirstPlayer_4B9CD0();
     EXPORT Player* IterateNextPlayer_4B9D10();
-    EXPORT void ReduceTrafficSpawnCounterOfOtherViewers_4B9D60(Sprite* a2, Player* pExclude);
+    EXPORT void ReduceTrafficSpawnCounterOfOtherViewers_4B9D60(Sprite* pSprite, Player* pExclude);
     EXPORT Game_0x40(u8 max_players, s8 player_idx); // 4B9DE0
     EXPORT ~Game_0x40(); // 4BAE30
 
@@ -118,21 +118,21 @@ class Game_0x40
     char_type field_22_bAuxCamIterated;
     u8 field_23_num_players;
     u8 field_24_cur_idx;
-    char_type field_25;
-    char_type field_26;
-    char_type field_27;
+    char_type field_25_unused;
+    char_type field_26_unused;
+    char_type field_27_unused;
     s32 field_28_timer;
     s32 field_2C_game_exit_type;
     char_type field_30_bLimitFramerate;
-    char_type field_31;
-    char_type field_32;
-    char_type field_33;
+    char_type field_31_unused;
+    char_type field_32_unused;
+    char_type field_33_unused;
     s32 field_34_network_frame_ms;
     Player* field_38_orf1;
     bool field_3C_bSkipPolice;
-    char_type field_3D;
-    char_type field_3E;
-    char_type field_3F;
+    char_type field_3D_unused;
+    char_type field_3E_unused;
+    char_type field_3F_unused;
 };
 
 EXTERN_GLOBAL(Game_0x40*, gGame_0x40_67E008);

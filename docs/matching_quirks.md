@@ -28,6 +28,8 @@ marked unlisted addresses into `target_extra.json`) before trusting the marker.
 - Removing padding fields from `Car_BC` in `Car_BC.hpp` (12 unused `char_type`/`s16` pads) hits the same two
   `MapRenderer` functions, even though the layout is unchanged: the count of member names in the TU is what matters.
   Rename such pads (`field_7A_pad`) instead of deleting them.
+- Deleting the unused `ped_bit_index` enum (32 names) from `ped_flags.hpp` hits the same two functions once
+  `ped_flag_mask` was already gone, so it stays, unused, with a comment.
 - The fix is to keep the enum out of every header `MapRenderer.cpp` includes: `ped_graphic_type.hpp` is a
   small header included only by the .cpp files that use it.
 After adding any enum or constants to a widely included header, run the whole `build.py` (not just
@@ -815,7 +817,7 @@ the explicit `..._4086A0` call (`Sprite::RotatedRectCollisionSAT_5A0380`). Expli
 declared-only `EXPORT` functions add an EH frame while an object with a destructor is alive; `throw()`
 on those declarations removes it (`CarPhysics_B0::UpdateReferencePoint_563460`).
 
-**Calling a small inline helper costs an inline expansion.** Writing out `HalfWH_4BA0A0`'s two
+**Calling a small inline helper costs an inline expansion.** Writing out `GetHalfExtents_4BA0A0`'s two
 divisions kept both inline (`Sprite::FindOverlappingBoundingBoxCorners_5A0150`). A Fix16 multiply is
 `imul` when it is the only inline one, `__allmul` when several share a sign-extended operand.
 
@@ -874,7 +876,7 @@ each use; writing the expression out each time gave the original's stack slot.
 **A one-case switch gives `dec; je`** where an `if` gives `sbb` (`ExplodingScore_50::DrawSingleNumber_597100`).
 
 **A trivial inline getter instead of a direct field read changes load order**: with the getter the
-global was loaded before the pointer chain (`Weapon_30::car_mine_5E2550`, `GetH_447E10`).
+global was loaded before the pointer chain (`Weapon_30::car_mine_5E2550`, `GetHeight_447E10`).
 
 **Calling a non-`throw()` function while a `Fix16_Point` is alive creates the EH frame.** The original
 `ComputeRelativePointVelocity_561130` has none. It matched with the inline-bodied `operator-` above;
@@ -896,7 +898,7 @@ slot; declared at the top (assigned later), both share the parameter slot as in 
 
 **Declared, then assigned locals copy one by one.** `Fix16 left = rect.field_0_left; ...` for four fields
 interleaves the copies through two registers; declaring the four first and assigning them (through the
-getters 9.6f calls) gives the original's `eax`-only load/store pairs (`Sprite_4C::UpdateRotatedBoundingBox_5A3550`).
+getters 9.6f calls) gives the original's `eax`-only load/store pairs (`SpriteShape_4C::UpdateRotatedBoundingBox_5A3550`).
 
 **`Fix16(rng(3) - 1)` in the Particle_4C jitter** is `movswl; add $0x3FFFF; shl $0xE` in all five
 originals. Initialising, `FromInt` or an inline helper give `shl; sub $0x4000`. The `add` form comes
@@ -1540,7 +1542,7 @@ that value and the other returns nothing (C4715 silenced). `ExplosionPool_7A8::F
 **An EH frame for a member in only one owner's ctor.** If one class's ctor has an EH frame for
 a member and the other owners of that member type have none, the member's type has a
 destructor only there: give that member a derived type with an empty destructor
-(`struct_4_dtor` in `char.hpp`, `Char_B4::ctor_544FF0`). An empty destructor on `struct_4`
+(`SpriteList_4_dtor` in `char.hpp`, `Char_B4::ctor_544FF0`). An empty destructor on `SpriteList_4`
 itself adds frames to the `Car_BC`, `Object_5C` and `Weapon_8` ctors and dtors.
 
 **A store through a reference keeps a later load after it.** Clearing a bitfield through an
@@ -1675,7 +1677,7 @@ touching a shared header.
 the four rect reads in `Map_0x370::sub_4E4820`; by value, read in the original order (left,
 right, top, bottom), it matched. Check the 9.6f getter's `ret $4` and hidden return pointer.
 Reading the sides through the by-value getters also fixed the argument-copy slots and the inline
-budget of `Sprite_4C::DrawCollisionBox_5A4DA0`.
+budget of `SpriteShape_4C::DrawCollisionBox_5A4DA0`.
 
 **A missing EH state store can mean the wrong callee.** `ApplyTurningForce_55F020` lacked the
 `movb $1,N(%esp)` before multiplying the `NormalizeSafe_442AD0()` temporary. The source used the
@@ -1686,7 +1688,7 @@ address against the csv before chasing the state store.
 **Trivial getters and setters are free; a by-value `Fix16` setter is not.** Replacing a raw
 field access with a one-line inline helper (a scalar or pointer field get/set, `field == K`)
 left the code of every matching function unchanged, so those can be used wherever 9.6f calls
-them. Adding these helpers made `Object_2C::sub_526B40` match (`Sprite::get_type_416B40`,
+them. Adding these helpers made `Object_2C::sub_526B40` match (`Sprite::GetType_416B40`,
 `Char_B4::get_velocity_41B080`, `Sprite::set_num_40F7B0`). The exception is
 `Char_B4::SetMaxSpeed_433920(Fix16)`: as a by-value `Fix16` parameter it changed six matching
 `Ped` functions (`WalkToTargetPoint_46C770` and others), although 9.6f calls it there. Those keep the plain
@@ -1711,7 +1713,7 @@ an unrelated unused inline in an included header is a (blind) knob worth trying.
 **A by-reference inline helper changes the load order.** When 9.6f calls a helper that takes
 its operands by reference (`MaxAbsDistance_42A6B0(Fix16&, ...)`), VC6 10.5 inlines it but still
 loads all the operands before computing, where the open-coded form interleaves loads and
-subtractions. `struct_4::TakeClosestSprite_5A6EA0` matches with the plain
+subtractions. `SpriteList_4::TakeClosestSprite_5A6EA0` matches with the plain
 `distance = Fix16::MaxAbsDistance_42A6B0(...)` (an earlier file-local copy wrote the result through an
 out parameter; that turned out not to be needed).
 
@@ -1869,7 +1871,7 @@ inline `PolarToCartesian` that calls `Multiply_408680`, and `Normalize_406C20`, 
 `Add_408660`, `Negate_4086A0`, `Divide_436A20` instead of the operators
 (`Char_B4::ApplyMovement_54CC40`, `HandleGenericCollision_54A530`). `Sprite::IntersectsRectSAT_59FB10`
 matched with each operator through one named copy: `RotateAndTranslatePoint_ool_42A720`,
-`HalfWH_ool_4BA0A0`, `Negate_4086A0` and the const `operator+` for the last x sum.
+`GetHalfExtents_ool_4BA0A0`, `Negate_4086A0` and the const `operator+` for the last x sum.
 
 **No jump table and compares in source order mean an if-chain, not a switch.** If the original
 tests the value in one else-if chain (14, 9, 3, 6, 2||11, ...) and builds no jump table, write the
@@ -1968,7 +1970,7 @@ Found by tracing C2.DLL (see `Scripts/inline_budget/`); the instrumented compile
   fail (tank_main_gun, army_gun_jeep, Crane_15C::ComputeHookPolar lose their EH stores; others the
   budget); defined at the end of each TU, 5 fail, all by the inline budget alone (`inl.sh`: the extra
   81-unit `CALL(udt)` site flips `Fix16::operator+/-`, or `RotateByAngle_40F6B0` in Trailer 407CE0), and
-  fire_truck_flamethrower only because of its compensating `Get_F4_41CC70()`. So in smg_5DDD20,
+  fire_truck_flamethrower only because of its compensating `IsTargetHit_41CC70()`. So in smg_5DDD20,
   SpawnSkidSegment_55D200, SpawnCabAndTrailerHelper_408370 and Trailer::UpdateTrailerAlignment_407CE0 the
   add/sub costs no budget: an ordinary named function, as the repo has it. The likeliest original: a real
   `Fix16_Point.cpp` with named non-inline methods (10.5 0x40AC50 add, 0x40AC80 sub, 0x40ACB0 negate,
@@ -2089,7 +2091,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   the `movb $3/$2` EH stores around their `Fix16_Point` add. In one TU only the first caller of the inline
   `operator+` can keep them (see the nothrow rule above), so one of the pair calls the `EXPORT` copy
   `Add_40AC50` and the other the inline operator. That also moves a site, which the free 9.6f getters
-  `Get_F4_41CC70()` (for `field_4`) and `Car_BC::get_driver_4118B0()` put back: with them the plain
+  `IsTargetHit_41CC70()` (for `field_4`) and `Car_BC::get_driver_4118B0()` put back: with them the plain
   `RotateByAngle_40F6B0` gives the original's out-of-line `Negate_4086A0` in the second rotation, and the
   `*_OOL_40F6B0` variants aren't needed.
 - **A getter is not a field read for register allocation.** `get_driver_4118B0()` sits before every budgeted
@@ -2140,20 +2142,20 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   branch calls 9.6f's `Car_BC::is_f78_0x400_425770()` wrapper (one free site after both calls) and
   passes `atan2_fixed_405320` its differences as temporaries like 9.6f (named `dx`/`dy` locals were 5
   size units too many: the ped site's nested budget was 104 where its y difference needs < 104).
-  `Ped::HandleShootingAtCar_46FC90` needed the 9.6f `Weapon_30::Set_F4_433810` and
+  `Ped::HandleShootingAtCar_46FC90` needed the 9.6f `Weapon_30::SetTargetHit_433810` and
   `Ped::get_car_416B60` calls after it (free sites), `Ped::TaxiCustomer_AI_460820` has
   `case no_obj_0` first in its switch (the later cases' sites leave the y difference and Abs out of
   line; the code layout doesn't change).
 - **`Car_BC::IsFlagSet_411930` is `if (...) return true; return false;`.** The `!= 0` form gives a
   `shr`/`test $1` for `!IsFlagSet(0x400)`; the if form gives the original's `testb $4,0x79(%eax)`. Both
   bodies compile to 9.6f 0x411930 with VC7.
-- **10.5 inlines `Max_44E540` in small functions** (`Ped_List_4::GetFromListClosestPedToPoint_471340`,
-  `struct_4::FindClosestSprite_5A6E40`, `PoliceCrew_38::sub_572210` all have the compare and no call),
+- **10.5 inlines `Max_44E540` in small functions** (`Ped_List_4::FindClosestActivePed_471340`,
+  `SpriteList_4::FindClosestSprite_5A6E40`, `PoliceCrew_38::sub_572210` all have the compare and no call),
   so 0x44E540 is probably the out-of-line copy of 9.6f's `Max_41E130` inline (`if (a > b) return a;
   else return b;`, size 62, VC7-identical to 9.6f), which `MaxAbsDistance_42A6B0` calls. Making
   `MaxAbsDistance_42A6B0` call that inline is not consistent yet: the extra nested site leaves
   `Taxi_4::GetTaxiNear_457BF0`, `Sprite::MinDistanceToAnySpriteBBoxCorner_5A22B0` and
-  `struct_4::TakeClosestSprite_5A6EA0` one unit short for their first Abs's negate (nested 41, needs
+  `SpriteList_4::TakeClosestSprite_5A6EA0` one unit short for their first Abs's negate (nested 41, needs
   42) unless Abs loses its `else` (size 58, also VC7-identical to 9.6f 0x403840), which then breaks
   `Car_BC::GetCarLinearSpeed_43A240` (through `GetLength_41E260`) and needs one more site after the
   car call in `Weapon_30::sub_5DFB60`. Reusing `diff_x` for the result (size 112) fixes those three
@@ -2178,7 +2180,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   update (`Car_BC::CountConsecutiveArrowBlocks_4410D0`).
 - **EH states reveal source order.** A path with lower EH state numbers comes first in the source even
   when the block layout puts it last (`sub_5DF270`). The EH state at entry tells how many destructible
-  locals are declared at the top (`Sprite_4C::UpdateRotatedBoundingBox_5A3550`).
+  locals are declared at the top (`SpriteShape_4C::UpdateRotatedBoundingBox_5A3550`).
 - **A by-value `Fix16_Point` argument copied as two dwords from a temporary** means the parameter is
   `Fix16_Point_POD` (`sub_5DE910`).
 - **`default: break;`** changes which case keeps a shared tail when cases cross-jump (461A60).
@@ -2748,7 +2750,7 @@ tried are in the WIP status report.
 
 **A 9.6f getter inline can move `this` to another register.** `UpdateSkidOrScrapeSpark_53A280` had `this` in
 `esi` (original `edi`) and every other callee-saved register swapped with it; reading the car box through
-`get_car_width()`/`get_car_height()` (9.6f 0x48A930/0x48A950) instead of the `Sprite_4C` fields gave the
+`get_car_width()`/`get_car_height()` (9.6f 0x48A930/0x48A950) instead of the `SpriteShape_4C` fields gave the
 original's allocation. When 9.6f shows a small getter call, use the inline even if the field read looks
 identical.
 

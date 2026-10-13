@@ -18,7 +18,7 @@ class Gang_144
     // 9.6f 0x433B30
     inline char get_field_111_433B30()
     {
-        return field_111;
+        return field_111_bKillAffectsRespect;
     }
 
     // 9.6f 0x4758A0
@@ -60,7 +60,7 @@ class Gang_144
     // 9.6f 0x475900
     inline void set_field_111_475900(char v)
     {
-        field_111 = v;
+        field_111_bKillAffectsRespect = v;
     }
 
     // 9.6f 0x475910
@@ -104,79 +104,79 @@ class Gang_144
     u8 field_0_used;
     u8 field_1_gang_idx;
     char field_2_name[4];
-    char field_6;
-    char field_7;
-    u32 field_8;
-    u32 field_C;
-    u32 field_10;
-    u32 field_14;
-    u32 field_18;
-    u32 field_1C;
-    u32 field_20;
-    u32 field_24;
-    u32 field_28;
-    u32 field_2C;
-    u32 field_30;
-    u32 field_34;
-    u32 field_38;
-    u32 field_3C;
-    u32 field_40;
-    u32 field_44;
-    u32 field_48;
-    u32 field_4C;
-    u32 field_50;
-    u32 field_54;
-    u32 field_58;
-    u32 field_5C;
-    u32 field_60;
-    u32 field_64;
-    u32 field_68;
-    u32 field_6C;
-    u32 field_70;
-    u32 field_74;
-    u32 field_78;
-    u32 field_7C;
-    u32 field_80;
-    u32 field_84;
-    u32 field_88;
-    u32 field_8C;
-    u32 field_90;
-    u32 field_94;
-    u32 field_98;
-    u32 field_9C;
-    u32 field_A0;
-    u32 field_A4;
-    u32 field_A8;
-    u32 field_AC;
-    u32 field_B0;
-    u32 field_B4;
-    u32 field_B8;
-    u32 field_BC;
-    u32 field_C0;
-    u32 field_C4;
-    u32 field_C8;
-    u32 field_CC;
-    u32 field_D0;
-    u32 field_D4;
-    u32 field_D8;
-    u32 field_DC;
-    u32 field_E0;
-    u32 field_E4;
-    u32 field_E8;
-    u32 field_EC;
-    u32 field_F0;
-    u32 field_F4;
-    u32 field_F8;
-    u32 field_FC;
-    char field_100;
+    char field_6_unused;
+    char field_7_unused;
+    u32 field_8_unused;
+    u32 field_C_unused;
+    u32 field_10_unused;
+    u32 field_14_unused;
+    u32 field_18_unused;
+    u32 field_1C_unused;
+    u32 field_20_unused;
+    u32 field_24_unused;
+    u32 field_28_unused;
+    u32 field_2C_unused;
+    u32 field_30_unused;
+    u32 field_34_unused;
+    u32 field_38_unused;
+    u32 field_3C_unused;
+    u32 field_40_unused;
+    u32 field_44_unused;
+    u32 field_48_unused;
+    u32 field_4C_unused;
+    u32 field_50_unused;
+    u32 field_54_unused;
+    u32 field_58_unused;
+    u32 field_5C_unused;
+    u32 field_60_unused;
+    u32 field_64_unused;
+    u32 field_68_unused;
+    u32 field_6C_unused;
+    u32 field_70_unused;
+    u32 field_74_unused;
+    u32 field_78_unused;
+    u32 field_7C_unused;
+    u32 field_80_unused;
+    u32 field_84_unused;
+    u32 field_88_unused;
+    u32 field_8C_unused;
+    u32 field_90_unused;
+    u32 field_94_unused;
+    u32 field_98_unused;
+    u32 field_9C_unused;
+    u32 field_A0_unused;
+    u32 field_A4_unused;
+    u32 field_A8_unused;
+    u32 field_AC_unused;
+    u32 field_B0_unused;
+    u32 field_B4_unused;
+    u32 field_B8_unused;
+    u32 field_BC_unused;
+    u32 field_C0_unused;
+    u32 field_C4_unused;
+    u32 field_C8_unused;
+    u32 field_CC_unused;
+    u32 field_D0_unused;
+    u32 field_D4_unused;
+    u32 field_D8_unused;
+    u32 field_DC_unused;
+    u32 field_E0_unused;
+    u32 field_E4_unused;
+    u32 field_E8_unused;
+    u32 field_EC_unused;
+    u32 field_F0_unused;
+    u32 field_F4_unused;
+    u32 field_F8_unused;
+    u32 field_FC_unused;
+    char field_100_unused;
     char field_101_remap;
-    char field_102;
-    char field_103;
+    char field_102_unused;
+    char field_103_unused;
     u32 field_104_basic_weapon;
     u32 field_108_angry_weapon;
     u32 field_10C_hate_weapon;
     char field_110_high_respect;
-    char field_111;
+    char field_111_bKillAffectsRespect;
     char field_112_hostile_to_gang[10];
     s8 field_11C_respect[MAX_PLAYERS];
     char field_122_gang_kill_reaction[10];
@@ -185,13 +185,13 @@ class Gang_144
     Fix16 field_134_info_phone_z;
     u8 field_138_arrow_colour;
     u8 field_139_kill_respect_change;
-    char field_13A;
-    char field_13B;
+    char field_13A_unused;
+    char field_13B_unused;
     u32 field_13C_gang_car_model;
     char field_140_gang_car_remap;
-    char field_141;
-    char field_142;
-    char field_143;
+    char field_141_bAlwaysBasicWeapon;
+    char field_142_unused;
+    char field_143_unused;
 };
 
 class GangPool_CA8

@@ -27,7 +27,7 @@ struct str_table_entry
 struct str_table_normalized
 {
     u16 field_0_string_count;
-    s16 field_2; // pad ?
+    s16 field_2_unused; // pad ?
     str_table_entry* field_4[999];
 };
 
@@ -495,7 +495,7 @@ class ThreadTrigger_C
     s32 field_0_ped_id;
     s32 field_4_obj_f14;
     u16 field_8_cmd_line;
-    u16 field_A;
+    u16 field_A_unused;
 };
 
 // Player/world info
@@ -564,7 +564,7 @@ struct SavedScriptCounter_4
 struct SavedCarAndScriptData_500
 {
     SavedCarInfo field_0; // 3x saved cars
-    s16 field_44; // pad ??
+    s16 field_44_unused; // pad ??
     s16 field_46_script_ptr_count; // count of populated array entries
     s32 field_48_flags;
     s32 field_4C; // never used ?
@@ -584,7 +584,7 @@ class SaveData_748
     char_type field_4D_bonus_stage;
     char_type field_4E_pad;
     char_type field_4F_pad;
-    s32 field_50; // never used ?
+    s32 field_50_unused; // never used ?
     SavedPlayerStats_90 field_54_player_and_world_stats;
     SavedCarAndScriptData_500 field_E4_car_and_script_data;
     SavedObjectData_164 field_5E4_object_data;
@@ -657,13 +657,13 @@ class ScriptManager_C1EA8
     EXPORT void SaveMapInfo_511D40();
     EXPORT void SaveGame_511E10(char_type* FileName);
     EXPORT void LoadSave_511F80(char_type* FileName);
-    EXPORT miss2_0x11C* SpawnThread_5120C0(s16 start_cmd, char_type a2);
+    EXPORT miss2_0x11C* SpawnThread_5120C0(s16 start_cmd, char_type bFlag);
     EXPORT SCR_CMD_HEADER* FindCommandByType_512100(u16 toFind, u16 startOff);
     EXPORT void Update_512160();
     EXPORT void LoadStringTbl_5121E0(u16 tableSize);
     EXPORT void GetScrFileName_5122D0();
     EXPORT void Load_512330(const char_type* pScrName);
-    EXPORT u16 LoadMissionScript_512400(const char_type* String1, u16* a3);
+    EXPORT u16 LoadMissionScript_512400(const char_type* String1, u16* pStartCmd);
     EXPORT void LoadSubScripts_5125F0();
     EXPORT SCR_CMD_HEADER* GetBasePointer_512770(u16 idx);
     EXPORT void ExecuteScriptThreads_5127A0();
@@ -684,13 +684,13 @@ class ScriptManager_C1EA8
     EXPORT ~ScriptManager_C1EA8();
 
     s16 field_0_car_trigger_count;
-    s16 field_2;
+    s16 field_2_unused;
     ThreadTrigger_C field_4_car_triggers[32];
     s16 field_184_phone_trigger_count;
-    s16 field_186;
+    s16 field_186_unused;
     ThreadTrigger_C field_188_phone_triggers[20];
     s16 field_278_weapon_check_count;
-    s16 field_27A;
+    s16 field_27A_unused;
     WeaponCheckTable field_27C_weapon_check_table[15];
     s32 field_2F4_bPreloadMissionScripts;
     Fix16_Rect field_2F8_area_rect;
@@ -718,10 +718,10 @@ class ScriptManager_C1EA8
     s16 field_35A_gang_3_death_base;
     char_type field_35C_full_scr_file_name[256];
     char_type field_45C_scr_file_name[9];
-    char_type field_465;
-    char_type field_466;
-    char_type field_467;
-    s32 field_468;
+    char_type field_465_unused;
+    char_type field_466_unused;
+    char_type field_467_unused;
+    s32 field_468_unused;
     u16 field_46C_base_pointers[6000];
     BYTE field_334C_script_data[65536];
     str_table_entry* field_1334C_strings;
@@ -738,7 +738,7 @@ class ScriptManager_C1EA8
     u16 field_C1E32_phone_ids[31];
     u32 field_C1E70_wanted_car_model;
     u16 field_C1E74_basic_kf[25];
-    s16 field_C1EA6;
+    s16 field_C1EA6_unused;
 };
 
 EXTERN_GLOBAL(ScriptManager_C1EA8*, gScriptManager_6F8060);

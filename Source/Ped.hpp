@@ -186,8 +186,8 @@ class Ped
     EXPORT void RespawnPed_45C350(gmp_map_zone* pZone);
     EXPORT void ResetForPlayerRespawn_45C410();
     EXPORT void UpdatePositionFromCar_45C4B0();
-    EXPORT void ChangeNextPedState1_45C500(s32 a2);
-    EXPORT void ChangeNextPedState2_45C540(s32 a2);
+    EXPORT void ChangeNextPedState1_45C500(s32 new_state);
+    EXPORT void ChangeNextPedState2_45C540(s32 new_state);
     EXPORT void RestorePreviousPedState_45C5A0();
     EXPORT void CancelEnterCarObjective_45C5C0();
     EXPORT void SpawnDriverRunAway_45C650(Car_BC* pCar, Ped* pPed);
@@ -235,8 +235,8 @@ class Ped
     EXPORT void ProcessObjective_4632E0();
     EXPORT void ChangePedStatesByMode_463300(u8 mode);
     EXPORT void SetStatesForObjective_4633E0(char_type bMainObj);
-    EXPORT void SetObjective(s32 objective, s16 objective_timer);
-    EXPORT void SetObjective2_463830(s32 internal_objective, s16 internal_objective_timer);
+    EXPORT void SetObjective(s32 objective, s16 objective_timer = 9999); // 9999: never times out
+    EXPORT void SetObjective2_463830(s32 internal_objective, s16 internal_objective_timer = 9999);
     EXPORT void ProcessOnFootObjective_463AA0();
     EXPORT void ProcessInCarObjective_463FB0();
     EXPORT void CalcApproachPointNearTargetPed_4645B0();
@@ -482,13 +482,13 @@ class Ped
 
     bool IsPanicking()
     {
-        return field_21C & ped_flag_mask::k_ped_panicking ? true : false;
+        return field_21C_bf.bPanicking;
     }
 
     // 9.6f 0x403960
     void ClearPanicking_403960()
     {
-        field_21C &= ~ped_flag_mask::k_ped_panicking;
+        field_21C_bf.bPanicking = false;
     }
 
     // 9.6f 0x403AA0
@@ -745,7 +745,7 @@ class Ped
     // makes the inlined IsPedAThreat in IsThreatToSearchingPed_4661F0 call the copy (nested budget 42)
     inline bool IsInvisibleOnFoot_433DA0()
     {
-        if ((field_21C & ped_flag_mask::k_ped_invisible) != 0 && field_168_game_object != 0)
+        if (field_21C_bf.bInvisible && field_168_game_object != 0)
         {
             return 1;
         }
@@ -771,6 +771,11 @@ class Ped
     u8 IsOnFire_475B50()
     {
         return field_21C_bf.bOnFire;
+    }
+
+    u8 HasSpottedPlayer()
+    {
+        return field_21C_bf.bSpottedPlayer;
     }
 
     inline s32 get_objective_403A80()
@@ -903,19 +908,10 @@ class Ped
     u16 field_218_objective_timer;
     u16 field_21A_car_state_timer;
 
-    union
-    {
-        PedFlags32 field_21C_bf;
-        // TODO: Move everything to use the above field and remove union
-        s32 field_21C;
-    };
+    PedFlags32 field_21C_bf;
 
     s32 field_220_last_voice_rng;
-    union
-    {
-        PedFlags8 field_224_bf;
-        char_type field_224;
-    };
+    PedFlags8 field_224_bf;
     u8 field_225_objective_status; // it uses objective_status enum
     char_type field_226_internal_objective_status;
     char_type field_227_unused;
@@ -937,7 +933,7 @@ class Ped
     //char_type field_257;
     s32 field_258_objective;
     s32 field_25C_internal_objective;
-    char_type field_260_wait_counter; // frames waited on the target (flag 0x10 of field_224)
+    char_type field_260_wait_counter; // frames waited on the target (field_224_bf.bWaitingOnTarget)
     char_type field_261_unused;
     u8 field_262_attackers_count;
     u8 field_263_prev_attackers_count;

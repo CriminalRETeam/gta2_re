@@ -184,9 +184,9 @@ s32 __stdcall keybrd_0x204::GetLayout_4D6000()
     Buffer[0] = pwszKLID[6];
     Buffer[1] = pwszKLID[7];
 
-    s32 v2;
-    sscanf(Buffer, "%x", &v2);
-    switch (v2)
+    s32 key_code;
+    sscanf(Buffer, "%x", &key_code);
+    switch (key_code)
     {
         case 12:
             result = 1;

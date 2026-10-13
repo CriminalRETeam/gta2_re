@@ -192,9 +192,9 @@ s16 gtx_0x106C::GetTruePalette_5AA5F0(s32 palette_type, s16 pal)
 }
 
 MATCH_FUNC(0x5AA6A0)
-BYTE* gtx_0x106C::GetPalData_5AA6A0(u16 a2)
+BYTE* gtx_0x106C::GetPalData_5AA6A0(u16 palette_idx)
 {
-    return (BYTE*)field_2C_physical_palettes + 4 * ((a2 & 63) + ((a2 & 0xFFFFC0) << 8));
+    return (BYTE*)field_2C_physical_palettes + 4 * ((palette_idx & 63) + ((palette_idx & 0xFFFFC0) << 8));
 }
 
 MATCH_FUNC(0x5AA6F0)
@@ -455,11 +455,11 @@ void gtx_0x106C::SetDeltaDataPtrs_5AABF0()
     s32 size;
     delta_entry* i = (delta_entry*)field_50_delta_buffer;
 
-    for (u32 v1 = 0; v1 < field_60_delta_len; v1 += size)
+    for (u32 offset = 0; offset < field_60_delta_len; offset += size)
     {
-        for (u32 v3 = 0; v3 < i->field_2_delta_count; v3++)
+        for (u32 delta_idx = 0; delta_idx < i->field_2_delta_count; delta_idx++)
         {
-            *(u32*)&i->field_4_delta[4 * v3] += *(u32*)&field_48_delta_store; // TODO: fix me
+            *(u32*)&i->field_4_delta[4 * delta_idx] += *(u32*)&field_48_delta_store; // TODO: fix me
         }
         size = 8 * (u8)i->field_2_delta_count + 4;
         i = (delta_entry*)((char_type*)i + size);
@@ -470,13 +470,13 @@ MATCH_FUNC(0x5AAC40)
 void gtx_0x106C::SetSpriteIndexDataPtrs_5AAC40()
 {
     u8* field_0_pData;
-    sprite_index* v4;
+    sprite_index* pSpriteIndex;
 
     for (u32 i = 0; i < (u16)this->field_4_sprite_index_count; i++)
     {
         field_0_pData = this->field_20_sprite_index[i].field_0_pData;
-        v4 = &this->field_20_sprite_index[i];
-        v4->field_0_pData = &this->field_34_sprite_graphics[(u32)field_0_pData];
+        pSpriteIndex = &this->field_20_sprite_index[i];
+        pSpriteIndex->field_0_pData = &this->field_34_sprite_graphics[(u32)field_0_pData];
     }
 }
 
@@ -658,15 +658,15 @@ void gtx_0x106C::load_tiles_5AADF0(u32 tile_chunk_len)
 }
 
 MATCH_FUNC(0x5AAE20)
-void gtx_0x106C::skip_ovly_5AAE20(u32 a1)
+void gtx_0x106C::skip_ovly_5AAE20(u32 size)
 {
-    File::Global_Seek_4A7140(&a1);
+    File::Global_Seek_4A7140(&size);
 }
 
 MATCH_FUNC(0x5AAE30)
-void gtx_0x106C::skip_psxt_5AAE30(u32 a1)
+void gtx_0x106C::skip_psxt_5AAE30(u32 size)
 {
-    File::Global_Seek_4A7140(&a1);
+    File::Global_Seek_4A7140(&size);
 }
 
 MATCH_FUNC(0x5AAE40)
@@ -1100,7 +1100,7 @@ gtx_0x106C::~gtx_0x106C()
     palette_index* local_field_28_palette_index; // ecx
     void* local_field_30_physical_palettes_size; // eax
     void* local_field_44_aligned_tiles_size; // eax
-    void* local_v12; // eax
+    void* pUnaligned; // eax
     delta_store_entry* local_field_48_delta_store; // eax
     void* local_field_50_delta_buffer; // eax
     void* local_field_58_car_info; // eax
@@ -1163,12 +1163,12 @@ gtx_0x106C::~gtx_0x106C()
     {
         crt::free(local_field_44_aligned_tiles_size);
     }
-    local_v12 = (void*)field_38_sprite_graphics_unaligned;
+    pUnaligned = (void*)field_38_sprite_graphics_unaligned;
     field_3C_tiles = 0;
     field_44_aligned_tiles_size = 0;
-    if (local_v12)
+    if (pUnaligned)
     {
-        crt::free(local_v12);
+        crt::free(pUnaligned);
     }
     local_field_48_delta_store = field_48_delta_store;
     field_34_sprite_graphics = 0;

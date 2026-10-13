@@ -71,7 +71,7 @@ class Police_7B8
     EXPORT void TryCreateRoadblockAt_577370(u8 tileX, u8 tileY, s32 roadblock_type);
 
   private:
-    u8 field_0_unused; // set to 1 in Init, never read
+    u8 field_0; // set to 1 in Init, never read
 
   public:
     PoliceCrew_38 field_4_cop_crew[MAX_POLICE_CREWS];

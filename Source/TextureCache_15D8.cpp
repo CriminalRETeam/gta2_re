@@ -141,8 +141,8 @@ void TextureCache_15D8::LoadCarDamageTextures_5B9180()
     {
         field_1000_bFreeCarDamageTextures = 1;
         u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::car_2, 0);
-        u16 v4 = gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(palette_types_enum::sprites_2, sprite_idx);
-        u16 pal_idx = (u16)gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(v4);
+        u16 true_pal_idx = gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(palette_types_enum::sprites_2, sprite_idx);
+        u16 pal_idx = (u16)gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(true_pal_idx);
 
         for (u32 idx = 0; idx < 48; idx++)
         {
@@ -153,7 +153,7 @@ void TextureCache_15D8::LoadCarDamageTextures_5B9180()
 
             field_1004_car_damage_textures[idx] = pgbh_RegisterTexture(width_height, 
                 width_height, 
-                gSprite_3CC_67AF1C->get_s14(idx), 
+                gSpriteMaskCache_67AF1C->GetMaskPixels(idx), 
                 pal_idx, 
                 0);
         }

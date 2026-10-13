@@ -132,9 +132,9 @@ void Bink::CloseSlot2_513390()
 // The csv size (0x166) stops after the last FatalError call: the shared slot store and epilogue
 // after it are not compared
 MATCH_FUNC(0x5133E0)
-void __stdcall Bink::OpenSlot2_5133E0(const char_type* pFileName, HDIGDRIVER a2)
+void __stdcall Bink::OpenSlot2_5133E0(const char_type* pFileName, HDIGDRIVER hDriver)
 {
-    BinkSetSoundSystem((void*)BinkOpenMiles, (s32)a2);
+    BinkSetSoundSystem((void*)BinkOpenMiles, (s32)hDriver);
     BinkSetIOSize(600000);
 
     gBinkHandleSlot2_6F83B0 = BinkOpen(pFileName, 0x4000000);
@@ -207,9 +207,9 @@ void __stdcall Bink::OpenSlot2_5133E0(const char_type* pFileName, HDIGDRIVER a2)
 }
 
 MATCH_FUNC(0x513560)
-void __stdcall Bink::OpenSlot1_513560(const char_type* pFileName, HDIGDRIVER a2)
+void __stdcall Bink::OpenSlot1_513560(const char_type* pFileName, HDIGDRIVER hDriver)
 {
-    BinkSetSoundSystem((void*)BinkOpenMiles, (s32)a2);
+    BinkSetSoundSystem((void*)BinkOpenMiles, (s32)hDriver);
     BinkSetIOSize(600000);
 
     gBinkHandleSlot1_6F8168 = BinkOpen(pFileName, 0x4000000);

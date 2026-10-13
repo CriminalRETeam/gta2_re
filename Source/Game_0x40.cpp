@@ -181,11 +181,11 @@ void Game_0x40::LoadGameFiles_4B8C40()
 }
 
 MATCH_FUNC(0x4B8E00)
-void Game_0x40::SetScreenSize_4B8E00(u32 a1, u32 a2)
+void Game_0x40::SetScreenSize_4B8E00(u32 width, u32 height)
 {
-    field_38_orf1->field_90_game_camera.SetScreenSize_4361B0(a1, a2);
-    field_38_orf1->field_208_aux_game_camera.SetScreenSize_4361B0(a1, a2);
-    field_38_orf1->field_14C_view_camera.SetScreenSize_4361B0(a1, a2);
+    field_38_orf1->field_90_game_camera.SetScreenSize_4361B0(width, height);
+    field_38_orf1->field_208_aux_game_camera.SetScreenSize_4361B0(width, height);
+    field_38_orf1->field_14C_view_camera.SetScreenSize_4361B0(width, height);
     gHud_2B00_706620->RecalcTextLayout_5D6AB0();
 }
 
@@ -283,7 +283,7 @@ void Game_0x40::BootGame_4B8EB0()
     InvalidateCachedScreenDimension_5D8DF0();
     ConvertColourBanks_5D7CB0();
     UpdateGameScreenSize_5D8E00();
-    gSprite_8_703820->sub_5A5870();
+    gSpriteManager_703820->AllocScratchSprite_5A5870();
     gTileAnim_2_7052C4->Empty_5BC300();
     gPublicTransport_181C_6FF1D4->SetupTrainAndBusStops_5794B0();
     gObject_5C_6F8F84->CreateDiagonalWallObjects_5297F0();
@@ -353,7 +353,7 @@ void Game_0x40::ShowCounters_4B8FF0()
         const u32 x = field_38_orf1->field_2C4_player_ped->get_cam_x().ToInt();
         const u32 y = field_38_orf1->field_2C4_player_ped->get_cam_y().ToInt();
 
-        gmp_zone_info* pNavZone = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(x, y);
+        gmp_zone_info* pNavZone = gMap_0x370_6F6268->GetZoneInfoAt_4DF890(x, y);
 
         swprintf(tmpBuff_67BD9C, L"density:%d", pNavZone->field_0_car_density);
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 160, gDebugFont_706600, 1);
@@ -381,7 +381,7 @@ void Game_0x40::Draw_4B92D0()
     gViewCamera_676978 = &field_1C_view_player->field_14C_view_camera;
 
     gpMapRenderer_6F66E4->ClearDrawnTileCount_4F6A10();
-    gSprite_8_703820->ResetDrawnSpriteCount_5A5860();
+    gSpriteManager_703820->ResetDrawnSpriteCount_5A5860();
     gSpriteRenderer_67B580->ResetAll_4954F0();
 
     gSpriteGrid_3_679210->DrawSpritesClipped_477A40();
@@ -683,14 +683,14 @@ Player* Game_0x40::GetFirstPlayerWithoutPed_4B9750()
 }
 
 MATCH_FUNC(0x4B9790)
-void Game_0x40::ShakeCamerasAtPos_4B9790(Fix16 a2, Fix16 a3, Fix16 a4)
+void Game_0x40::ShakeCamerasAtPos_4B9790(Fix16 amount, Fix16 x, Fix16 y)
 {
     Camera_0xBC* pCam = IteratePlayerCamera_4B9BC0();
     while (pCam)
     {
-        if (pCam->check_camera(a3, a4))
+        if (pCam->check_camera(x, y))
         {
-            pCam->SetShake_436120(a2);
+            pCam->SetShake_436120(amount);
         }
         pCam = IterateNextPlayerCamera_4B9C50();
     }
@@ -723,11 +723,11 @@ s8 Game_0x40::IsSpriteVisibleToAnyPlayer_4B9830(Sprite* pCarSprite, Fix16 margin
 }
 
 MATCH_FUNC(0x4B9890)
-s8 Game_0x40::IsSpriteInAnyPlayerView_4B9890(Sprite* a2, s32 a3)
+s8 Game_0x40::IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 margin)
 {
     for (u8 i = 0; i < field_23_num_players; i++)
     {
-        if (IsSpriteInPlayerView_4B98E0(a2, i, a3))
+        if (IsSpriteInPlayerView_4B98E0(pSprite, i, margin))
         {
             return 1;
         }
@@ -736,15 +736,15 @@ s8 Game_0x40::IsSpriteInAnyPlayerView_4B9890(Sprite* a2, s32 a3)
 }
 
 MATCH_FUNC(0x4B98E0)
-bool Game_0x40::IsSpriteInPlayerView_4B98E0(Sprite* a2, u8 playerIdx, s32 a4)
+bool Game_0x40::IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 playerIdx, s32 margin)
 {
     if (field_4_players[playerIdx]->field_8E_bInUse)
     {
-        if (field_4_players[playerIdx]->field_90_game_camera.IsSpriteInView_435630(a2, a4))
+        if (field_4_players[playerIdx]->field_90_game_camera.IsSpriteInView_435630(pSprite, margin))
         {
             return true;
         }
-        return field_4_players[playerIdx]->field_2D0_bAuxCamActive && field_4_players[playerIdx]->field_208_aux_game_camera.IsSpriteInView_435630(a2, a4) ? true :
+        return field_4_players[playerIdx]->field_2D0_bAuxCamActive && field_4_players[playerIdx]->field_208_aux_game_camera.IsSpriteInView_435630(pSprite, margin) ? true :
                                                                                                                                    false;
     }
     return false;
@@ -911,14 +911,14 @@ Player* Game_0x40::IterateNextPlayer_4B9D10()
 }
 
 MATCH_FUNC(0x4B9D60)
-void Game_0x40::ReduceTrafficSpawnCounterOfOtherViewers_4B9D60(Sprite* a2, Player* pExclude)
+void Game_0x40::ReduceTrafficSpawnCounterOfOtherViewers_4B9D60(Sprite* pSprite, Player* pExclude)
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_4_players); i++)
     {
         Player* p = gGame_0x40_67E008->get_player_4219E0(i);
         if (p && p != pExclude)
         {
-            if (gGame_0x40_67E008->IsSpriteOnScreen_4B9950(a2, i, dword_67DFB4))
+            if (gGame_0x40_67E008->IsSpriteOnScreen_4B9950(pSprite, i, dword_67DFB4))
             {
                 if (p->field_680_traffic_spawn_counter > p->field_682_traffic_spawn_threshold)
                 {
@@ -1034,8 +1034,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1836);
     }
 
-    gSprite_8_703820 = new Sprite_8(); // ctor call
-    if (!gSprite_8_703820)
+    gSpriteManager_703820 = new SpriteManager_8(); // ctor call
+    if (!gSpriteManager_703820)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1839);
     }
@@ -1307,7 +1307,7 @@ Game_0x40::~Game_0x40()
 
     GTA2_DELETE_AND_NULL(gFpsCounter_7055D4);
 
-    GTA2_DELETE_AND_NULL(gSprite_8_703820);
+    GTA2_DELETE_AND_NULL(gSpriteManager_703820);
     GTA2_DELETE_AND_NULL(gCollisionCounters_6791FC);
     GTA2_DELETE_AND_NULL(gPedRefTable_7F8_703398);
     GTA2_DELETE_AND_NULL(gPublicTransport_181C_6FF1D4);

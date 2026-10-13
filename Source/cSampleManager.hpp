@@ -22,13 +22,13 @@ class cSampleManager
 
     EXPORT char_type SoundInit_58D6C0(s32* a2);
 
-    EXPORT char_type OpenDigitalDriver_58D720(char_type a2, char_type a3, s32 sampleRate);
+    EXPORT char_type OpenDigitalDriver_58D720(char_type bFlag, char_type bStereo, s32 sampleRate);
 
     // todo: order
 
     EXPORT char_type AllocSamples_58D9F0(s32 a2);
 
-    EXPORT void PlaySampleRange_58E8C0(u32 idx, u32 a3);
+    EXPORT void PlaySampleRange_58E8C0(u32 idx, u32 end_idx);
 
     EXPORT char_type Init3DProvider_58D820(BYTE* pMaxSamples);
 
@@ -46,13 +46,13 @@ class cSampleManager
 
     EXPORT s32 GetRandomDisplacement_58DC10(s32 idx);
 
-    EXPORT s32 GetLoopStart_58DC30(s32 a2);
+    EXPORT s32 GetLoopStart_58DC30(s32 sample_idx);
 
-    EXPORT s32 GetLoopEnd_58DC50(s32 a2);
+    EXPORT s32 GetLoopEnd_58DC50(s32 sample_idx);
 
-    EXPORT s32 GetSampleLength_maybe_58DC70(s32 a2);
+    EXPORT s32 GetSampleLength_maybe_58DC70(s32 sample_idx);
 
-    EXPORT void InitialiseChannel_58DC90(s32 channel, s32 a3);
+    EXPORT void InitialiseChannel_58DC90(s32 channel, s32 sample_idx);
 
     EXPORT void SetChannelVolume_58DCE0(s32 channel, s32 volume);
 
@@ -76,15 +76,15 @@ class cSampleManager
 
     EXPORT void SetChannel3DPosition_58DEA0(s32 channel, f32 x, f32 y, f32 z);
 
-    EXPORT void SetChannel3DDistances_58DED0(s32 a2, f32 a3, f32 a4);
+    EXPORT void SetChannel3DDistances_58DED0(s32 channel, f32 maxDist, f32 minDist);
 
-    EXPORT void SetChannel3DFrequency_58DF00(s32 a2, s32 a3);
+    EXPORT void SetChannel3DFrequency_58DF00(s32 channel, s32 freq);
 
-    EXPORT void SetChannel3DLoopPoints_58DF20(s32 a2, s32 a3, s32 a4);
+    EXPORT void SetChannel3DLoopPoints_58DF20(s32 channel, s32 loop_start, s32 loop_end);
 
-    EXPORT void SetChannel3DLoopCount_58DF50(s32 channel, s32 a3);
+    EXPORT void SetChannel3DLoopCount_58DF50(s32 channel, s32 loop_count);
 
-    EXPORT bool GetChannel3DUsedFlag_58DF70(s32 a2);
+    EXPORT bool GetChannel3DUsedFlag_58DF70(s32 channel);
 
     EXPORT void StartChannel3D_58DFA0(s32 samp_idx);
 
@@ -93,7 +93,7 @@ class cSampleManager
     EXPORT u8 Get3DSampleCount_58E000();
     EXPORT void SetEaxEnvironment_58E010(s32 env_idx);
 
-    EXPORT char_type Open3DProvider_58E140(s32 a2);
+    EXPORT char_type Open3DProvider_58E140(s32 envIdx);
 
     // todo order
     EXPORT void Close3DProvider_58E1C0();
@@ -107,7 +107,7 @@ class cSampleManager
 
     EXPORT void StreamSetVolume_58E2F0(u8 vol);
 
-    EXPORT void OpenStream_58E320(u32 a2);
+    EXPORT void OpenStream_58E320(u32 stream_idx);
 
     EXPORT void CloseStream_58E460();
 

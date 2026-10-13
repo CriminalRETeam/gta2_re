@@ -15,10 +15,10 @@ enum
 };
 }; // namespace DataType
 
-struct UnknownList
+struct PixelsToFix16Table
 {
     
-    UnknownList()
+    PixelsToFix16Table()
     {
         Init_4F79F0();
     }
@@ -48,7 +48,7 @@ struct UnknownList
     Fix16 list[256];
 };
 
-EXTERN_GLOBAL(UnknownList, gPixelsToFix16_6F6850);
+EXTERN_GLOBAL(PixelsToFix16Table, gPixelsToFix16_6F6850);
 
 class ModelPhysics_48
 {
@@ -124,14 +124,14 @@ class CarInfo_808
                                                         ModelPhysics_48* output,
                                                         size_t output_size,
                                                         u32* next_position);
-    EXPORT static char* __stdcall SetErr_430AC0(s32 a1);
-    EXPORT static s32 __stdcall ReadToken_430B10(char* param_1);
-    EXPORT static s32 __stdcall PushData_430E60(void* param_1, u32 param_2);
-    EXPORT static s32 __stdcall HexStr2Int_430EC0(const char* param_1, s32* param_2);
-    EXPORT static s32 __stdcall HexStr2Int_430F30(const char* param_1, s16* param_2);
-    EXPORT static s32 __stdcall StrToInt_430FA0(const char* param_1, s32* param_2);
-    EXPORT static s32 __stdcall FloatStrToFix16_431000(char* param_1, Fix16& param_2);
-    EXPORT static s32 __stdcall StrToInt_431080(const char* param_1, s16* param_2);
+    EXPORT static char* __stdcall SetErr_430AC0(s32 error_code);
+    EXPORT static s32 __stdcall ReadToken_430B10(char* pOut);
+    EXPORT static s32 __stdcall PushData_430E60(void* pSrc, u32 size);
+    EXPORT static s32 __stdcall HexStr2Int_430EC0(const char* pStr, s32* pOut);
+    EXPORT static s32 __stdcall HexStr2Int_430F30(const char* pStr, s16* pOut);
+    EXPORT static s32 __stdcall StrToInt_430FA0(const char* pStr, s32* pOut);
+    EXPORT static s32 __stdcall FloatStrToFix16_431000(char* pStr, Fix16& pOut);
+    EXPORT static s32 __stdcall StrToInt_431080(const char* pStr, s16* pOut);
 
     CarInfo_2C* field_0_ptr_array[256];
     CarInfo_2C* field_400_raw_data;

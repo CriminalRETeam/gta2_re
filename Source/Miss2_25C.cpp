@@ -133,9 +133,9 @@ void Miss2_25C::push_type_3_ped_502FB0(Ped* pPed)
     if (pFree)
     {
         pFree->field_0_ped = pPed;
-        const s32 v4 = pPed->field_200_id;
+        const s32 entity_id = pPed->field_200_id;
         pFree->field_4_type = 3;
-        pFree->field_8_entity_id = v4;
+        pFree->field_8_entity_id = entity_id;
         field_258_count++;
     }
 }
@@ -163,9 +163,9 @@ void Miss2_25C::push_type_2_503050(Object_2C* pObj)
     if (pC)
     {
         pC->field_0_obj = pObj;
-        const s32 v4 = pObj->field_14_id;
+        const s32 entity_id = pObj->field_14_id;
         pC->field_4_type = 2;
-        pC->field_8_entity_id = v4;
+        pC->field_8_entity_id = entity_id;
         field_258_count++;
     }
 }

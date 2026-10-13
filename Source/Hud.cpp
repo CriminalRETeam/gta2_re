@@ -388,7 +388,7 @@ void Hud_PlayerNames_4::DrawPlayerNames_5CFE40()
             if (!pIter->field_0_bIsUser)
             {
                 Ped* pPlayerPed = pIter->field_2C4_player_ped;
-                if (!pPlayerPed || (pPlayerPed->field_21C & ped_flag_mask::k_ped_invisible) == 0)
+                if (!pPlayerPed || !pPlayerPed->field_21C_bf.bInvisible)
                 {
                     Fix16 x = pPlayerPed->field_1AC_cam.x;
                     Fix16 y = pPlayerPed->field_1AC_cam.y;

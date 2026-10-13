@@ -158,7 +158,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
 
     ++gSpawnCounter_6787C6;
 
-    gmp_zone_info* pZone = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(xpos.ToInt(), ypos.ToInt());
+    gmp_zone_info* pZone = gMap_0x370_6F6268->GetZoneInfoAt_4DF890(xpos.ToInt(), ypos.ToInt());
 
     if (rng_val < (u16)pZone->field_C_mugger_ratio)
     {
@@ -241,7 +241,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                 pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
                 pPed->field_26C_graphic_type = ped_graphic_type::civilian_0;
                 //pPed->field_21C = v13;
-                pPed->field_21C |= ped_flag_mask::k_ped_drive_aggressively;
+                pPed->field_21C_bf.bDriveAggressively = true;
                 pPed->field_1F8_run_speed = kFpFour_678670;
                 break;
 
@@ -280,8 +280,8 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                         pPed->ForceWeapon_46F600(pPed->field_17C_pGang->GetGangCurrWeapon_4BF0C0());
                         if (pPed->field_170_selected_weapon && pPed->field_170_selected_weapon->field_1C_idx)
                         {
-                            pPed->field_21C |= ped_flag_mask::k_ped_armed_gang_member;
-                            pGang->field_141 = 1;
+                            pPed->field_21C_bf.bArmedGangMember = true;
+                            pGang->field_141_bAlwaysBasicWeapon = 1;
                         }
                         pPed->GiveWeapon_46F650(weapon_type::pistol);
                         pPed->field_270_fire_mode = ped_fire_mode::random_shots_0;
@@ -562,14 +562,14 @@ void PedManager::SpawnDummies_46EB60(Camera_0xBC* pCam)
         if (xpos > kFpOne_678664 && xpos < kFp255_678414 - kFpOne_678664 && ypos > kFpOne_678664 &&
             ypos < kFp255_678414 - kFpOne_678664)
         {
-            gmp_zone_info* pZoneInfo = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(xpos.ToInt(), ypos.ToInt());
+            gmp_zone_info* pZoneInfo = gMap_0x370_6F6268->GetZoneInfoAt_4DF890(xpos.ToInt(), ypos.ToInt());
             if ((u8)field_6_num_peds_on_screen < (u16)pZoneInfo->field_A_ped_density / 25)
             {
                 if (gMap_0x370_6F6268->FindPavementBlockForCoord_4E4BB0(xpos.ToInt(), ypos.ToInt(), zpos))
                 {
                     pSprite->set_xyz_lazy_451950(xpos, ypos, (zpos + 1));
                     pSprite->set_ang_lazy_420690(gDummyPedAng_6787A8);
-                    pSprite->AllocInternal_59F950(gDummyW_678530, gDummyH_678584, gDummyZ_67841C);
+                    pSprite->AllocCollisionShape_59F950(gDummyW_678530, gDummyH_678584, gDummyZ_67841C);
                     if (!gGame_0x40_67E008->is_point_on_screen_4B9A80(pSprite->field_14_xy.x, pSprite->field_14_xy.y))
                     {
                         if (!gMap_0x370_6F6268->IsSlopeB4ToD0At_433430((u8)(xpos.ToInt()), (u8)(ypos.ToInt()), (u8)zpos + 1))
@@ -587,12 +587,12 @@ void PedManager::SpawnDummies_46EB60(Camera_0xBC* pCam)
 MATCH_FUNC(0x470330)
 void PedManager::Dummies_470330()
 {
-    s16 v1 = gPedManager_6787BC->field_0_max_dummy_chars;
+    s16 max_dummies = gPedManager_6787BC->field_0_max_dummy_chars;
     if (gPolice_7B8_6FEE40->field_654_max_wanted_level > 3)
     {
-        v1 = (u16)v1 >> 1;
+        max_dummies = (u16)max_dummies >> 1;
     }
-    if (gNumDummyChars_6787E2 < v1)
+    if (gNumDummyChars_6787E2 < max_dummies)
     {
         for (Camera_0xBC* pCam = gGame_0x40_67E008->IteratePlayerCamera_4B9BC0(); pCam; pCam = gGame_0x40_67E008->IterateNextPlayerCamera_4B9C50())
         {
@@ -711,11 +711,11 @@ PedManager::PedManager()
         }
     }
 
-    field_8 = gSprite_Pool_703818->get_new_sprite();
+    field_8 = gSpritePool_703818->get_new_sprite();
     // Plain 0s: implicit Fix16 conversions, out of line (Fix16::FromInt_4369F0) once the inline budget runs out
     field_8->set_xyz_lazy_451950(0, 0, 0); // 9.6f inlined set_xyz_lazy_420600
     field_8->set_ang_lazy_420690(gDummyPedAng_6787A8);
-    field_8->AllocInternal_59F950(0, 0, 0);
+    field_8->AllocCollisionShape_59F950(0, 0, 0);
 
     field_2_num_dummy_chars = 0;
     field_3_num_peds_updated = 0;
@@ -790,7 +790,7 @@ PedManager::~PedManager()
 
     if (field_8)
     {
-        gSprite_Pool_703818->remove(field_8);
+        gSpritePool_703818->remove(field_8);
         field_8 = 0;
     }
 }

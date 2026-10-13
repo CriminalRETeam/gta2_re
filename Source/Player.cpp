@@ -336,10 +336,10 @@ Weapon_30* Player::GetCurrPlayerWeapon_5648F0()
 }
 
 MATCH_FUNC(0x564910)
-void Player::SetWeapon_564910(Weapon_30* a2)
+void Player::SetWeapon_564910(Weapon_30* pWeapon)
 {
-    s16 idx = a2->field_1C_idx;
-    this->field_718_weapons[idx] = a2;
+    s16 idx = pWeapon->field_1C_idx;
+    this->field_718_weapons[idx] = pWeapon;
     if (!this->field_31_kf_weapon_mode)
     {
         this->field_788_curr_weapon_idx = idx;
@@ -607,7 +607,7 @@ void Player::ClearPowerUps_564CC0()
 MATCH_FUNC(0x564CF0)
 void Player::ClearPowerUpsExceptJailCard_564CF0()
 {
-    u16 v2 = field_6F4_power_up_timers[power_up_indices::JailCard_4];
+    u16 jail_card_timer = field_6F4_power_up_timers[power_up_indices::JailCard_4];
     if (field_6F4_power_up_timers[power_up_indices::Invulnerability_6])
     {
         field_2C4_player_ped->ClearInvulnerable_45C050();
@@ -624,7 +624,7 @@ void Player::ClearPowerUpsExceptJailCard_564CF0()
         }
     }
     ClearPowerUps_564CC0();
-    field_6F4_power_up_timers[power_up_indices::JailCard_4] = v2;
+    field_6F4_power_up_timers[power_up_indices::JailCard_4] = jail_card_timer;
 }
 
 MATCH_FUNC(0x564D60)
@@ -860,7 +860,7 @@ void Player::InitPlayerPed_565490(Ped* pPed)
     field_8_turn_speed = kAngZero_6FE754;
     field_A_turn_accel = kJumpTurnAccel_6FE74C + (word_6FE750 + kJumpTurnAccel_6FE74C);
     field_C_move_direction = kZero_6FE610;
-    field_10_unused = 0;
+    field_10 = 0;
     field_680_traffic_spawn_counter = 0;
     field_682_traffic_spawn_threshold = 1000;
     pPed->SetPlayer_45B560(this, 0);
@@ -1373,15 +1373,15 @@ void Player::HandleControls_5668D0(Ped* pPed)
                 Car_BC* pCar = gCar_6C_677930->GetNearestFrontVehicle_445210(pPed->field_168_game_object->field_80_sprite_ptr, 3u);
                 if (pCar)
                 {
-                    pPed->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                    pPed->SetObjective2_463830(objectives_enum::no_obj_0);
 
                     if (pCar->IsTrainModel_403BA0())
                     {
-                        pPed->SetObjective(objectives_enum::enter_train_37, 9999);
+                        pPed->SetObjective(objectives_enum::enter_train_37);
                     }
                     else
                     {
-                        pPed->SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
+                        pPed->SetObjective(objectives_enum::enter_car_as_driver_35);
                     }
 
                     pPed->SetTargetObjectiveCar(pCar);
@@ -1394,14 +1394,14 @@ void Player::HandleControls_5668D0(Ped* pPed)
         {
             if (pPedCar->CanExitCar_43AF10())
             {
-                pPed->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                pPed->SetObjective2_463830(objectives_enum::no_obj_0);
                 if (pPed->get_car_416B60()->field_84_car_info_idx == car_model_enum::TRAIN)
                 {
-                    pPed->SetObjective(objectives_enum::leave_train_38, 9999);
+                    pPed->SetObjective(objectives_enum::leave_train_38);
                 }
                 else
                 {
-                    pPed->SetObjective(objectives_enum::leave_car_36, 9999);
+                    pPed->SetObjective(objectives_enum::leave_car_36);
                 }
                 pPed->SetTargetObjectiveCar(pPed->get_car_416B60());
             }
@@ -1416,8 +1416,8 @@ void Player::HandleControls_5668D0(Ped* pPed)
             {
                 if (pPed->GetObjectiveStatus_450CB0() == objective_status::failed_2 || !pPed->get_target_objective_car_403AB0())
                 {
-                    pPed->SetObjective(objectives_enum::no_obj_0, 9999);
-                    pPed->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                    pPed->SetObjective(objectives_enum::no_obj_0);
+                    pPed->SetObjective2_463830(objectives_enum::no_obj_0);
                     pPed->field_168_game_object->field_38_velocity = kZero_6FE41C;
                 }
             }
@@ -1425,8 +1425,8 @@ void Player::HandleControls_5668D0(Ped* pPed)
             {
                 if (pPed->GetObjectiveStatus_450CB0() != objective_status::not_finished_0)
                 {
-                    pPed->SetObjective(objectives_enum::no_obj_0, 9999);
-                    pPed->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
+                    pPed->SetObjective(objectives_enum::no_obj_0);
+                    pPed->SetObjective2_463830(objectives_enum::no_obj_0);
                     pPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
                     pPed->ChangeNextPedState2_45C540(ped_state_2::ped2_driving_10);
                 }
@@ -2168,7 +2168,7 @@ void Player::Service_5687F0()
 
     if (field_2C4_player_ped)
     {
-        if ((field_2C4_player_ped->field_21C & ped_flag_mask::k_ped_busted) != 0)
+        if (field_2C4_player_ped->field_21C_bf.bBusted)
         {
             this->field_640_busted = 1;
         }
@@ -2927,7 +2927,7 @@ Player::Player(u8 player_idx)
     field_8_turn_speed = kAngZero_6FE754;
     field_A_turn_accel = kAngZero_6FE754;
     field_C_move_direction = kZero_6FE610;
-    field_10_unused = 0;
+    field_10 = 0;
     field_788_curr_weapon_idx = 0;
     field_68_camera_mode = 1;
     field_6C_bIn_debug_cam_mode = 0;

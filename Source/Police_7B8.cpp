@@ -35,7 +35,7 @@ Police_7B8::~Police_7B8()
 MATCH_FUNC(0x56f400)
 void Police_7B8::Init_56F400()
 {
-    field_0_unused = 1;
+    field_0 = 1;
     for (s32 i = 0; i < MAX_PURSUIT_TARGETS; i++)
     {
         field_464_pursuit_targets[i].field_0_criminal_ped = NULL;
@@ -47,7 +47,7 @@ void Police_7B8::Init_56F400()
         field_464_pursuit_targets[i].field_72_num_swat_crews = 0;
         field_464_pursuit_targets[i].field_73_num_fbi_crews = 0;
         field_464_pursuit_targets[i].field_74_num_army_crews = 0;
-        field_464_pursuit_targets[i].field_76 = 0;
+        field_464_pursuit_targets[i].field_76_unused = 0;
 
         field_464_pursuit_targets[i].field_4_wanted_level = cop_level_enum::none_0;
         field_464_pursuit_targets[i].field_8_state = pursuit_state::idle_0;
@@ -94,13 +94,13 @@ bool Police_7B8::TryReplaceCrewLeaderOnDeath_56F4D0(Ped* pPed)
         {
             if (pCrew->field_10_subObj->field_4_ped == pPed)
             {
-                char_type bLeaderReplaced = pCrew->field_10_subObj->ReplaceLeaderIfNeeded_5CBC90();
+                bool bLeaderReplaced = pCrew->field_10_subObj->ReplaceLeaderIfNeeded_5CBC90();
                 EmergencyCrew_30* pEmergencyCrew = pCrew->field_10_subObj;
                 if (pCrew->field_10_subObj->field_8_group)
                 {
                     pEmergencyCrew->field_4_ped = pEmergencyCrew->field_8_group->field_2C_ped_leader;
                 }
-                if (bLeaderReplaced != 0)
+                if (bLeaderReplaced)
                 {
                     return true;
                 }
@@ -434,7 +434,7 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
     {
         pPursuitTarget->field_78_is_actively_chased = 0;
         Ped* pCriminal = pPursuitTarget->field_0_criminal_ped;
-        if (pCriminal->GetPedType_420B70() == ped_type::player_2 && (pCriminal->field_21C & ped_flag_mask::k_ped_busted) == 0x20)
+        if (pCriminal->GetPedType_420B70() == ped_type::player_2 && pCriminal->field_21C_bf.bBusted == 1)
         {
             pCriminal->field_15C_player->field_640_busted = 1;
         }
@@ -750,7 +750,7 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
                 pPursuitTarget->field_70_num_police_crews = 0;
                 pPursuitTarget->field_71_target_police_crews = 0;
                 pPursuitTarget->field_75_num_crews = 0;
-                pPursuitTarget->field_76 = 0;
+                pPursuitTarget->field_76_unused = 0;
                 pPursuitTarget->field_E = 0;
                 bHaveCriminals_6FEE44--;
                 gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit = crew_type::police_3;
@@ -872,11 +872,11 @@ bool Police_7B8::SpawnCrewInCar_5703E0(Car_BC* pCar)
     pNewPed1->SetPedType_403920(4);
     pNewPed1->set_occupation_403970(ped_ocupation_enum::police);
     pNewPed1->SpawnPedInCar_45C730(pEmergencyCrew->field_0_car);
-    pNewPed1->SetObjective(objectives_enum::objective_43, 9999);
+    pNewPed1->SetObjective(objectives_enum::objective_43);
     pNewPed1->field_288_threat_search = threat_search_enum::line_of_sight_1;
     pNewPed1->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
     Ped* pNewPed2 = gPedManager_6787BC->AllocatePed_470F30();
-    pNewPed2->SetObjective(objectives_enum::no_obj_0, 9999);
+    pNewPed2->SetObjective(objectives_enum::no_obj_0);
     pNewPed2->EnterCarAsPassenger_45C7F0(pEmergencyCrew->field_0_car);
     pNewPed2->SetPedType_403920(4);
     pNewPed2->set_occupation_403970(ped_ocupation_enum::police);

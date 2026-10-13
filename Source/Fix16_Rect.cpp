@@ -26,12 +26,12 @@ void Fix16_Rect::DoSetCurrentRect_59DD60()
 
 // 0x4BA6C0 9.6f
 MATCH_FUNC(0x59ddf0)
-bool Fix16_Rect::IntersectsSpriteRenderingRect_59DDF0(Sprite* a2)
+bool Fix16_Rect::IntersectsSpriteRenderingRect_59DDF0(Sprite* pSprite)
 {
-    Fix16_Point* v3 = a2->field_C_sprite_4c_ptr->field_C_renderingRect;
+    Fix16_Point* pCorners = pSprite->field_C_pCollisionShape->field_C_corners;
 
-    return (IsPointInRect_4B9FD0(&v3[0]) || IsPointInRect_4B9FD0(&v3[1]) 
-        || IsPointInRect_4B9FD0(&v3[2]) || IsPointInRect_4B9FD0(&v3[3]));
+    return (IsPointInRect_4B9FD0(&pCorners[0]) || IsPointInRect_4B9FD0(&pCorners[1]) 
+        || IsPointInRect_4B9FD0(&pCorners[2]) || IsPointInRect_4B9FD0(&pCorners[3]));
 }
 
 MATCH_FUNC(0x59de80)
@@ -45,29 +45,29 @@ char_type Fix16_Rect::CanRectEnterMovementRegion_59DE80()
 }
 
 MATCH_FUNC(0x59dee0)
-void Fix16_Rect::ExpandToIncludePoint_59DEE0(Fix16 a2, Fix16 a3)
+void Fix16_Rect::ExpandToIncludePoint_59DEE0(Fix16 x, Fix16 y)
 {
-    if (a2 < field_0_left)
+    if (x < field_0_left)
     {
-        field_0_left = a2;
+        field_0_left = x;
     }
     else
     {
-        if (a2 > field_4_right)
+        if (x > field_4_right)
         {
-            field_4_right = a2;
+            field_4_right = x;
         }
     }
 
-    if (a3 < field_8_top)
+    if (y < field_8_top)
     {
-        field_8_top = a3;
+        field_8_top = y;
     }
     else
     {
-        if (a3 > field_C_bottom)
+        if (y > field_C_bottom)
         {
-            field_C_bottom = a3;
+            field_C_bottom = y;
         }
     }
 }
@@ -95,19 +95,19 @@ bool Fix16_Rect::RectOverlapsZone_59DF20(u8 zone_type)
 }
 
 MATCH_FUNC(0x59dfb0)
-bool Fix16_Rect::EveryTileMatchesArrowType_59DFB0(s32 a2)
+bool Fix16_Rect::EveryTileMatchesArrowType_59DFB0(s32 arrow_type)
 {
     u8 y_pos = field_8_top.ToUInt8();
     u8 x_pos;
 
-    bool v3 = true;
+    bool bMatches = true;
 
     while (y_pos <= field_C_bottom.ToUInt8())
     {
         x_pos = field_0_left.ToUInt8();
         while (x_pos <= field_4_right.ToUInt8())
         {
-            if (!v3)
+            if (!bMatches)
             {
                 return false;
             }
@@ -116,19 +116,19 @@ bool Fix16_Rect::EveryTileMatchesArrowType_59DFB0(s32 a2)
             if (block_4DFE10)
             {
                 
-                switch (a2)
+                switch (arrow_type)
                 {
                     case 1:
-                        v3 = (block_4DFE10->field_A_arrows & 0xF) == 4;  //  green arrow up
+                        bMatches = (block_4DFE10->field_A_arrows & 0xF) == 4;  //  green arrow up
                         break;
                     case 2:
-                        v3 = (block_4DFE10->field_A_arrows & 0xF) == 8;  //  green arrow down
+                        bMatches = (block_4DFE10->field_A_arrows & 0xF) == 8;  //  green arrow down
                         break;
                     case 3:
-                        v3 = (block_4DFE10->field_A_arrows & 0xF) == 2;  //  green arrow right
+                        bMatches = (block_4DFE10->field_A_arrows & 0xF) == 2;  //  green arrow right
                         break;
                     case 4:
-                        v3 = (block_4DFE10->field_A_arrows & 0xF) == 1;  //  green arrow left
+                        bMatches = (block_4DFE10->field_A_arrows & 0xF) == 1;  //  green arrow left
                         break;
                     default:
                         break;
@@ -136,7 +136,7 @@ bool Fix16_Rect::EveryTileMatchesArrowType_59DFB0(s32 a2)
             }
             else
             {
-                v3 = false;
+                bMatches = false;
             }
             ++x_pos;
         }
