@@ -66,20 +66,20 @@ char* __stdcall CarInfo_808::parse_gci_file_430A30(void* pGciData,
     processed_output_676250 = 0;
     modelPhyArrLen_675F90 = modelPhyArrLen;
 
-    s32 v6;
-    s32 v5 = 0;
-    while (v5 == 0)
+    s32 parse_result;
+    s32 token_result = 0;
+    while (token_result == 0)
     {
-        v5 = ReadToken_430B10(token_buffer_676024);
-        if (v5 < 0)
+        token_result = ReadToken_430B10(token_buffer_676024);
+        if (token_result < 0)
         {
-            return SetErr_430AC0(v5);
+            return SetErr_430AC0(token_result);
         }
 
-        v6 = ParseTokenAndPush_430C70(token_buffer_676024);
-        if (v6 < 0)
+        parse_result = ParseTokenAndPush_430C70(token_buffer_676024);
+        if (parse_result < 0)
         {
-            return SetErr_430AC0(v6);
+            return SetErr_430AC0(parse_result);
         }
     }
 

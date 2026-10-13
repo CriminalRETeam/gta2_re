@@ -138,7 +138,7 @@ Fix16 __stdcall Fix16::SquareRoot_436A70(Fix16& input)
 MATCH_FUNC(0x405320)
 Ang16 __stdcall Fix16::atan2_fixed_405320(Fix16& x, Fix16& y)
 {
-    Ang16 v9;
+    Ang16 table_angle;
     if (y == kFPZero_6691B0)
     {
         if (x >= kFPZero_6691B0)
@@ -163,23 +163,23 @@ Ang16 __stdcall Fix16::atan2_fixed_405320(Fix16& x, Fix16& y)
     }
     else
     {
-        v9 = ArcTanLookup_405500(Fix16::Abs(x / y));
+        table_angle = ArcTanLookup_405500(Fix16::Abs(x / y));
 
         if (x > kFPZero_6691B0)
         {
             if (y > kFPZero_6691B0)
             {
-                return kAng90_667A7C - v9;
+                return kAng90_667A7C - table_angle;
             }
             else
             {
-                if (v9 == kAng90_667A7C)
+                if (table_angle == kAng90_667A7C)
                 {
                     return kAngZero_66A920;
                 }
                 else
                 {
-                    return kAng270_66916C + v9;
+                    return kAng270_66916C + table_angle;
                 }
             }
         }
@@ -187,11 +187,11 @@ Ang16 __stdcall Fix16::atan2_fixed_405320(Fix16& x, Fix16& y)
         {
             if (y > kFPZero_6691B0)
             {
-                return kAng90_667A7C + v9;
+                return kAng90_667A7C + table_angle;
             }
             else
             {
-                return kAng270_66916C - v9;
+                return kAng270_66916C - table_angle;
             }
         }
     }

@@ -808,10 +808,10 @@ s32 Frontend::Run_4AEDB0()
     u16 local_field_132_f136_idx; // cx
     //const char_type* v5; // eax
     char_type* local_field_8_keys; // edi
-    s32 v7; // ebx
+    s32 key_count; // ebx
     s32 result; // eax
-    char_type* v9; // ecx
-    s32 v10; // edx
+    char_type* pKey; // ecx
+    s32 remaining; // edx
     char_type v12; // al
     HDIGDRIVER local_field_0_hDriver; // [esp-4h] [ebp-10h]
 
@@ -846,7 +846,7 @@ s32 Frontend::Run_4AEDB0()
         read_menu_input_4AFEB0();
 
         local_field_8_keys = field_8_keys;
-        v7 = 256;
+        key_count = 256;
         do
         {
             if ((*local_field_8_keys & 0x80u) != 0)
@@ -860,8 +860,8 @@ s32 Frontend::Run_4AEDB0()
                 ChangeMenuPage_4B3170(MENUPAGE_START_MENU);
             }
             ++local_field_8_keys;
-            --v7;
-        } while (v7);
+            --key_count;
+        } while (key_count);
 
         return field_108_winmain_next_state;
     }
@@ -869,17 +869,17 @@ s32 Frontend::Run_4AEDB0()
     {
         if (local_field_132_f136_idx == MENUPAGE_START_MENU)
         {
-            v9 = field_8_keys;
-            v10 = 256;
+            pKey = field_8_keys;
+            remaining = 256;
             do
             {
-                if ((*v9 & 0x80u) != 0)
+                if ((*pKey & 0x80u) != 0)
                 {
                     field_C9E4_last_input_time = Time;
                 }
-                ++v9;
-                --v10;
-            } while (v10);
+                ++pKey;
+                --remaining;
+            } while (remaining);
             if (Time - field_C9E4_last_input_time > 60000)
             {
                 return 4;
