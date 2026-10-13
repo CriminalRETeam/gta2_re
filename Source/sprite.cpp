@@ -2135,7 +2135,7 @@ char_type Sprite::CheckSpriteMovementRegion_5A2500()
     s16 val;
     if (pObject2C)
     {
-        val = pObject2C->sub_5222B0();
+        val = pObject2C->GetMovementRegionSize_5222B0();
     }
     else
     {
@@ -2776,7 +2776,7 @@ void AttachedSprite_18::DestroyAttached_5A69E0()
     Object_2C* pO2c = field_0_pSprite->AsObject2C_40FEC0();
     if (pO2c)
     {
-        pO2c->sub_525100();
+        pO2c->OnAttachedSpriteDestroyed_525100();
     }
     else
     {

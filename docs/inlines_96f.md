@@ -190,14 +190,14 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x522710 | `Object_2C::ResolveCollisionWithObject_522710` | 0x486580 | `sub_482C30`, `sub_40F600`, ✓ `sub_482C90`, ✓ `sub_482C80`, `sub_40F640` (10.5 0x43D5D0), `sub_40EAB0` | matched | GetMass_482C80 added, sub_482C90 used; 482C30/40EAB0/40F640 are real calls in 10.5; diff 235->177 |
 | 0x522B20 | `Object_2C::ResolveCollisionWithWorld_522B20` | 0x486950 | ✓ `sub_482C80`, `sub_482C30` | done | GetMass_482C80 x2 (482C30 = GetXY_52AE70, still called in 10.5); diff 53->48 |
 | 0x522E10 | `Object_2C::HandleCollision_522E10` | 0x486C60 | ✓ `sub_40FEB0`, ✓ `sub_482CC0`, ✓ `sub_40FEA0`, `sub_4867E0`, ✓ `sub_40FEC0` | done | HandleObjectCollisionAt_482CC0 added (CarPhysics_B0.hpp), v13 hoisted; 4867E0=ResolveCollisionWithPed (called); diff 52->17 (left: 5229B0 a4 is s32 but orig passes unextended, tail merge) |
-| 0x5238B0 | `Object_2C::HandleSpriteZCollision_5238B0` | 0x4843A0 | ✓ `sub_466CF0`, ✓ `sub_420420`, `sub_4699A0` (10.5 0x4E4F40), ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), `sub_483100`, `sub_4BD670`, `sub_4207B0`, `sub_483500`, ✓ `sub_482BE0` | done | set_xyz_lazy_420600 x2; 4699A0/483100/4BD670/4207B0/483500 are called in 10.5 (pairing noise); diff 85->85 |
-| 0x523BF0 | `Object_2C::sub_523BF0` | 0x486E90 | ✓ `sub_482BE0`, ✓ `sub_4637B0`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `Car_3C::set_ang_lazy_420690`, ✓ `sub_416B40`, ✓ `Car_3C::SetType_4206F0`, ✓ `sub_482A30`, ✓ `sub_466CF0`, ✓ `PolarToCartesian_41FC20`, `sub_484260`, `sub_483100`, `sub_4BD670`, `sub_4207B0` | checked | 484260=HandleSpriteGroundAndCollisionSimple_523770, 483100=522FA0, 4BD670=5A2500, 4207B0=get_x_y_443580: all still called in 10.5 (pairing noise) |
+| 0x5238B0 | `Object_2C::HandleSpriteZCollision_5238B0` | 0x4843A0 | ✓ `sub_466CF0`, ✓ `sub_420420`, `sub_4699A0` (10.5 0x4E4F40), ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), `sub_483100`, `sub_4BD670`, `sub_4207B0`, `sub_483500`, ✓ `ApplyDefinitionDrawLayer_482BE0` | done | set_xyz_lazy_420600 x2; 4699A0/483100/4BD670/4207B0/483500 are called in 10.5 (pairing noise); diff 85->85 |
+| 0x523BF0 | `Object_2C::sub_523BF0` | 0x486E90 | ✓ `ApplyDefinitionDrawLayer_482BE0`, ✓ `sub_4637B0`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `Car_3C::set_ang_lazy_420690`, ✓ `sub_416B40`, ✓ `Car_3C::SetType_4206F0`, ✓ `sub_482A30`, ✓ `sub_466CF0`, ✓ `PolarToCartesian_41FC20`, `sub_484260`, `sub_483100`, `sub_4BD670`, `sub_4207B0` | checked | 484260=HandleSpriteGroundAndCollisionSimple_523770, 483100=522FA0, 4BD670=5A2500, 4207B0=get_x_y_443580: all still called in 10.5 (pairing noise) |
 | 0x524630 | `Object_2C::IntegrateHorizontalMovementAndCollisions_524630` | 0x4874D0 | ✓ `sub_4637B0`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `Car_3C::set_ang_lazy_420690`, ✓ `sub_416B40`, ✓ `Car_3C::SetType_4206F0`, ✓ `sub_482A30`, ✓ `PolarToCartesian_41FC20`, ✓ `sub_466CF0`, `sub_483100`, ✓ `sub_420420`, `sub_4BD670`, `sub_4824E0`, `sub_4207B0`, `sub_483500` | done | 4637B0, 416B40, 4206F0, 482A30, 41FC20, 466CF0 x3, 420420 used; Fix16::operator++(int) added (4824E0); 483100/4BD670/4207B0/483500 called in 10.5; diff 518->349 |
-| 0x525370 | `Object_2C::ShouldCollideWithSprite_525370` | 0x4835E0 | `sub_483570`, `sub_421050`, ✓ `sub_40FEB0`, ✓ `Car_BC::sub_403BA0`, ✓ `sub_482C90`, ✓ `sub_416B40`, ✓ `sub_40FEC0`, ✓ `check_is_shop_421060` | matched | sub_482C90 used; 483570=525290 (called), 421050=get_field_26 (already); diff 49->43 |
+| 0x525370 | `Object_2C::ShouldCollideWithSprite_525370` | 0x4835E0 | `sub_483570`, `sub_421050`, ✓ `sub_40FEB0`, ✓ `Car_BC::sub_403BA0`, ✓ `sub_482C90`, ✓ `sub_416B40`, ✓ `sub_40FEC0`, ✓ `IsShop_421060` | matched | sub_482C90 used; 483570=525290 (called), 421050=get_field_26 (already); diff 49->43 |
 | 0x527070 | `Object_2C::UpdateMovementAndEffects_527070` | 0x486130 | `sub_482F80`, ✓ `RotateVector_41FC90`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `Car_3C::set_ang_lazy_420690`, ✓ `sub_482D30`, ✓ `sub_416B40`, ✓ `sub_420660` | checked | 482F80 = PoolTake_522360, still called in 10.5 |
 | 0x527F10 | `Object_2C::sub_527F10` | 0x484760 | ✓ `sub_47F4F0`, `sub_483FC0`, `sub_484000` | matched | 483FC0/484000 are the pool DeAllocate inlines, already used |
 | 0x5283C0 | `Object_2C::TickObject_5283C0` | 0x485760 | ✓ `sub_482400`, ✓ `sub_420F10`, `sub_482790`, ✓ `sub_41E210`, `Object_2C::sub_4826A0` (10.5 0x525AE0), `Object_3C_Pool::sub_483FE0`, `sub_483FC0`, `sub_484000`, `Object_8_Pool::sub_483FA0`, ✓ `sub_4206C0`, `sub_482F80` | done | 482400 (branches swapped), 420F10, 41E210 used; pool Allocate/DeAllocate already used; 482790/482F80/4826A0 are calls in 10.5; diff 321->301 |
-| 0x528E50 | `Object_2C::HandleImpact_528E50` | 0x486410 | `sub_482F60`, ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `check_is_shop_421060`, `sub_410480`, `sub_410460` | checked | 482F60=PoolGive_522340, 410480/410460=CollisionTarget AddSpriteCollision_40BDD0: all calls in 10.5 |
+| 0x528E50 | `Object_2C::HandleImpact_528E50` | 0x486410 | `sub_482F60`, ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `IsShop_421060`, `sub_410480`, `sub_410460` | checked | 482F60=PoolGive_522340, 410480/410460=CollisionTarget AddSpriteCollision_40BDD0: all calls in 10.5 |
 | 0x534700 | `Garage_48::ParkCarAtDoor_534700` | 0x489BC0 | ✓ `sub_447ED0`, ✓ `sub_489600`, `sub_432860` | inlines added | diff 191->187; 447ED0 commented (different constant), 432860 point setter commented |
 | 0x5349D0 | `Garage_48::GaragesService_5349D0` | 0x489680 | matched | inlines added CloseDoors_476A30, StopMoving_4895D0, Reset_489650; matched 2026-10-03 | diff 283->208; f78 clears, Door 476A30, 4895D0 physics stop, 489650 reset, point helpers left |
 | 0x5384C0 | `Particle_4C::sub_5384C0` | 0x48AE70 | ✓ `sub_4206C0`, ✓ `sub_40F6B0`, ✓ `sub_4337D0`, ✓ `sub_4337F0` | inlines added | Sprite::SetBlendAndAlpha_4337D0 added+used; RotateByAngle_40F6B0 commented (192->198); diff 192->192 |
@@ -217,7 +217,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x543800 | `ExplosionPool_7A8::New_543800` | 0x48A6C0 | `Explosion_30::sub_48A550` | checked | 48A550 = Explosion_30::Init_543650, still called in 10.5 |
 | 0x544FF0 | `Char_B4::ctor_544FF0` | 0x497A60 | `SpriteList_4::ctor_424620` | checked | SpriteList_4 ctor (424620) already inline; remaining diff (19, with needle ??0Char_B4) is an EH frame: orig SpriteList_4 seems to have a destructor (not changed) |
 | 0x546360 | `Char_B4::UpdateAnimState_546360` | 0x497DF0 | ✓ `cool_nash_0x294::get_remap_433BA0`, ✓ `sub_420700`, ✓ `sub_4206C0`, ✓ `cool_nash_0x294::get_target_car_door_403A60`, `sub_493940`, ✓ `sub_421360`, ✓ `sub_40F7B0`, ✓ `cool_nash_0x294::get_occupation_403980`, ✓ `cool_nash_0x294::sub_403AE0`, ✓ `cool_nash_0x294::get_objective_403A80`, ✓ `cool_nash_0x294::set_occupation_403970`, ✓ `sub_492CB0`, ✓ `sub_433B90`, ✓ `cool_nash_0x294::get_car_state_403A90`, ✓ `cool_nash_0x294::sub_4039D0`, ✓ `cool_nash_0x294::sub_403B50`, ✓ `sub_433A30`, ✓ `sub_433910`, ✓ `cool_nash_0x294::set_target_car_door_403A70`, ✓ `sub_433A50`, ✓ `sub_433C10`, ✓ `cool_nash_0x294::sub_433B50`, ✓ `sub_41B0A0`, ✓ `cool_nash_0x294::sub_433DD0`, ✓ `Car_10::set_obj_421380`, ✓ `sub_466CF0`, `IsInvisibleOnFoot_466B70` (10.5 0x466B70), `sub_472C60`, `sub_4BDEF0` | done | IsStateActive_421360, SetPaletteSprites_420700, SetStolenCar_492CB0 added; SetInternalTargetPed_403AE0, GetInternalObjectiveStatus_4039D0, IsGradientSlopeAt_466CF0 x2 used; 493940/466B70/472C60/4BDEF0 are calls in 10.5; diff 2285->1931 |
-| 0x548840 | `Char_B4::HandleObjectCollision_548840` | 0x4993B0 | ✓ `sub_421080`, ✓ `sub_420FF0`, ✓ `sub_482C90`, ✓ `sub_482C80`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), `sub_4867E0` | done | is_not_type6_to_12_421080, sub_482C90, GetMass_482C80 used; 4867E0 = ResolveCollisionWithPed (called); diff 55->13 |
+| 0x548840 | `Char_B4::HandleObjectCollision_548840` | 0x4993B0 | ✓ `sub_421080`, ✓ `sub_420FF0`, ✓ `sub_482C90`, ✓ `sub_482C80`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), `sub_4867E0` | done | IsNotShopOrLightBehavior_421080, sub_482C90, GetMass_482C80 used; 4867E0 = ResolveCollisionWithPed (called); diff 55->13 |
 | 0x54A530 | `Char_B4::HandleGenericCollision_54A530` | 0x4948C0 | ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), `sub_41FAC0`, ✓ `sub_493540`, ✓ `sub_420590`, ✓ `sub_447E10`, `sub_40E8D0`, ✓ `sub_492170`, ✓ `sub_492C20`, ✓ `PolarToCartesian_41FC20`, ✓ `sub_42A720`, ✓ `sub_492CE0`, ✓ `sub_492CF0`, ✓ `cool_nash_0x294::get_car_state_403A90`, ✓ `cool_nash_0x294::get_target_to_enter_403B10`, ✓ `set_xy_lazy_447E20` | done | GetJumpOverMode_492C20 added; 41FAC0=GetCornerAngle_4403A0, 40E8D0=atan2 (called); code unchanged (716) |
 | 0x54DDF0 | `Char_B4::state_0_54DDF0` | 0x49A560 | ✓ `sub_42A630`, ✓ `sub_420420`, ✓ `sub_491F80`, `ApplyCarVelocityCameraOffset_436200`, ✓ `PolarToCartesian_41FC20`, `sub_436140`, ✓ `cool_nash_0x294::sub_403A40`, `sub_433970`, `sub_491FA0`, ✓ `cool_nash_0x294::get_objective_403A80`, `sub_4995A0`, `sub_495470` (10.5 0x495470), ✓ `sub_4923D0`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `sub_466CF0`, `sub_49A080`, ✓ `sub_4923A0`, `sub_4994D0` | inlines added | ClearAttacking_403A40 x2 used; RegulateVelocity_433970 skipped (uses kFpOne256th_678620, code uses dword_6FD99C); rest are 10.5 calls; diff 556->556 |
 | 0x54ECB0 | `Char_B4::CanStepForwardWithRegionCheck_54ECB0` | 0x495980 | ✓ `sub_466CF0`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), `sub_4BD670`, ✓ `sub_492130`, ✓ `sub_420420`, ✓ `sub_42A630`, `sub_492190` | checked | 492190 = CanStepForward_54FEC0, 4BD670 = CheckSpriteMovementRegion_5A2500: both called in 10.5 |
@@ -273,7 +273,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x5A0380 | `Sprite::RotatedRectCollisionSAT_5A0380` | 0x4BB560 | ✓ `sub_41E390`, ✓ `sub_4BA0A0`, ✓ `sub_42A720` | matched | all 9.6f inlines used |
 | 0x5A2710 | `Sprite::FindCollisionIntersectionPoint_5A2710` | 0x4BD8A0 | matched | checked | 4207B0=get_x_y_443580 and 4BB3C0=FindOverlappingBoundingBoxCorners_5A0150 are called in 10.5; 49E360 is Fix16_Point operator/ (used) |
 | 0x5A3550 | `SpriteShape_4C::UpdateRotatedBoundingBox_5A3550` | 0x4BBD40 | ✓ `sub_432860`, ✓ `sub_40F6B0`, ✓ `sub_45ADB0`, `sub_45ADA0`, `sub_45ADD0`, `sub_45ADC0`, `sub_4B9E60` | inlines added | SetXY_432860 x21 (836->638); rect getters 45ADB0.. commented (->648); 4B9E60 = FindMinMax_5A57E0 |
-| 0x5A7080 | `SpriteList_4::CleanupSpriteList_5A7080` | 0x4BF070 | ✓ `sub_416B40`, ✓ `sub_4BE830`, `sub_485260`, `AttachedSpritePool::sub_4BEC50` | checked | 485260 = Object_5C::RemoveAndFree_52A610 (called), 4BEC50 = DeAllocate (already) |
+| 0x5A7080 | `SpriteList_4::CleanupSpriteList_5A7080` | 0x4BF070 | ✓ `sub_416B40`, ✓ `IsFlameObject_4BE830`, `sub_485260`, `AttachedSpritePool::sub_4BEC50` | checked | 485260 = Object_5C::RemoveAndFree_52A610 (called), 4BEC50 = DeAllocate (already) |
 | 0x5AA9A0 | `gtx_0x106C::load_car_info_5AA9A0` | 0x4C0410 | `sub_4C03F0` | checked | Door count/offset arithmetic: 10.5 keeps num_remaps in edi then adds 0xE after the first read; not reproduced yet |
 | 0x5B5BC0 | `text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0` | 0x4C2450 | ✓ `sub_4C23D0`, ✓ `sub_4539D0` | inlines added | new GetSpaceWidth_4C23D0 (gtx_0x106C.hpp) 70->62; GetCharWidth_4539D0 noted (Draw.hpp include changes static init/dtor code) |
 | 0x5B92E0 | `TextureCache_15D8::ReadTextures_5B92E0` | 0x4C3040 | ✓ `gtx_0x106C::has_tiles_4C2EE0`, ✓ `gtx_0x106C::get_tile_4C2EB0` | done | all 9.6f inlines used |
@@ -314,7 +314,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x408220 | `Car_A4_10::sub_408220` | 0x40FBE0 | `sub_40F490`, ✓ `sub_40F7B0`, `sub_40FB70` | checked | 40F490 = Car_BC_Pool::Remove (already), 40FB70 = ExplodeBothIfOneDestroyed_4081D0 (called), SetDrawLayer_40F7B0 already |
 | 0x40B890 | `CollisionEvent_28::sub_40B890` | 0x40FF20 | ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FEF0` | done | all 9.6f inlines used |
 | 0x40B980 | `CollisionEvent_28::sub_40B980` | 0x410010 | ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FEF0` | done | all 9.6f inlines used |
-| 0x40BA60 | `CollisionEvent_28::sub_40BA60` | 0x4100F0 | ✓ `sub_40FF00`, ✓ `sub_40FEF0`, ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0` | done | Object_2C::GetDefField63_40FF00 (second use); Still matches. |
+| 0x40BA60 | `CollisionEvent_28::sub_40BA60` | 0x4100F0 | ✓ `sub_40FF00`, ✓ `sub_40FEF0`, ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0` | done | Object_2C::GetDefHasShadowsField_40FF00 (second use); Still matches. |
 | 0x40BBA0 | `CollisionSoundQueue_C88::AddCollision_40BBA0` | 0x410210 | ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FF10` | done | all 9.6f inlines used |
 | 0x40BC40 | `CollisionSoundQueue_C88::AddFloorCollision_40BC40` | 0x410370 | ✓ `sub_40FF10`, ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FEF0` | done | all 9.6f inlines used |
 | 0x40BD10 | `CollisionSoundQueue_C88::AddBlockCollision_40BD10` | 0x4102A0 | ✓ `sub_40FF10`, ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FEF0` | done | all 9.6f inlines used |
@@ -381,7 +381,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x43BC30 | `Car_BC::SetupCarPhysicsAndSpriteBinding_43BC30` | 0x425D90 | `Car_BC::sub_423A50`, `sub_4A1D30`, `CarPhysics_B0::sub_49EE10` (10.5 0x563670), ✓ `Car_BC::sub_403BA0` | checked | 423A50/4A1D30/49EE10 = AllocCarPhysics_4419E0/SetCar_5638C0/SetSprite_563560 (called in 10.5) |
 | 0x43BD00 | `Car_BC::DeAllocateCarPhysics_43BD00` | 0x426F40 | `sub_426120` | checked | 426120 = DeAllocateCarPhysics_441A10 (called) |
 | 0x43C1C0 | `Car_BC::PrepareForExplosion_43C1C0` | 0x426F60 | `sub_425ED0`, ✓ `sub_414F20`, `sub_425E60` | inlines added | HasEmergencyLights_414F20 used, code unchanged; 425ED0/425E60 = StopLightFlashing_43CBE0/HeadlightsOff_43C0C0 (called) |
-| 0x43C310 | `Car_BC::ResetTopRightRoofLight_43C310` | 0x422980 | ✓ `sub_4216A0`, ✓ `sub_420E20`, ✓ `maybe_flags::clear_420DE0`, `sub_4BE9C0`, `sub_483A00` | checked | inline_check_0x80/mask_bit/clear_bit already used; 4BE9C0/483A00 = FindObject2CByModel_5A6A90/Light_527990 (called) |
+| 0x43C310 | `Car_BC::ResetTopRightRoofLight_43C310` | 0x422980 | ✓ `sub_4216A0`, ✓ `sub_420E20`, ✓ `maybe_flags::clear_420DE0`, `sub_4BE9C0`, `sub_483A00` | checked | inline_check_0x80/mask_bit/clear_bit already used; 4BE9C0/483A00 = FindObject2CByModel_5A6A90/TurnOffLight_527990 (called) |
 | 0x43C650 | `Car_BC::ResetRoofLights_43C650` | 0x422B70 | ✓ `maybe_flags::clear_420DE0`, `sub_4BE9C0`, `sub_483A00`, ✓ `sub_4217A0`, ✓ `sub_4118F0` | checked | same as 0x43C310 |
 | 0x43C840 | `Car_BC::ResetBottomLeftRoofLight_43C840` | 0x422A40 | `sub_4216A0`, `sub_420E20`, ✓ `maybe_flags::clear_420DE0`, `sub_4BE9C0`, `sub_483A00` | checked | pairing to a different 9.6f function; calls match 10.5 |
 | 0x43C920 | `Car_BC::ActivateEmergencyLights_43C920` | 0x422D20 | ✓ `sub_411920`, ✓ `maybe_flags::set_420DC0` | done | all 9.6f inlines used |
@@ -393,7 +393,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x43DA90 | `Car_BC::AccumulateDamage_43DA90` | 0x427180 | ✓ `IsMaxDamage_40F890`, `sub_4226C0` | matched | 4226C0 = SpawnDamageFireEffect_43B870 (pairing); fixed clamp logic per 9.6f, still 4 (anti_s load order) |
 | 0x43DB80 | `Car_BC::KillContainedPeds_43DB80` | 0x423290 | ✓ `cool_nash_0x294::get_occupation_403980`, ✓ `sub_4212A0` | done | is_player_41B0A0, SetField8C_to_1; code unchanged |
 | 0x43DD60 | `Car_BC::DestroyWhileSinking_43DD60` | 0x427290 | `sub_4232E0`, `sub_4233B0`, ✓ `cool_nash_0x294::get_occupation_403980`, `sub_4B8A60` (10.5 0x5935D0), ✓ `angry_lewin_0x85C::sub_4219D0`, ✓ `sub_41B0A0`, ✓ `SetEngineDamaged_421590`, ✓ `sub_420660`, ✓ `sub_421470` | done | CANDIDATE MATCH (24->0); new Car_BC::SetEngineDamaged_421590, set_z_lazy_420660, MarkForDespawn_421470, is_player_41B0A0; s16 gang idx, branch orders; 4232E0/4233B0 = StopMovement_43DBD0/CarShrinkSprite_43DC80 |
-| 0x43EA60 | `Car_BC::OnObjectTouched_43EA60` | 0x4293D0 | ✓ `check_is_shop_421060`, `sub_421050`, ✓ `DespawnSoon_421490`, `sub_423480` | done | DespawnSoon_421490 used (if !driver), code unchanged; 421050 = get_field_26_420FF0, 423480 = GetEffectiveDriver_43E990 |
+| 0x43EA60 | `Car_BC::OnObjectTouched_43EA60` | 0x4293D0 | ✓ `IsShop_421060`, `sub_421050`, ✓ `DespawnSoon_421490`, `sub_423480` | done | DespawnSoon_421490 used (if !driver), code unchanged; 421050 = get_field_26_420FF0, 423480 = GetEffectiveDriver_43E990 |
 | 0x440510 | `Car_BC::GetMaxTurnRate_440510` | 0x4234A0 | `Car_BC::sub_421D90` | checked | 421D90 = GetCarLinearSpeed_43A240 (called) |
 | 0x440590 | `Car_BC::InitCarAIControl_440590` | 0x4279E0 | ✓ `sub_421260`, ✓ `sub_420B70`, `sub_421510`, ✓ `StartEngine_426E00` | done | new CarPhysics_B0::SetHandBrakeOff_421260, StartEngine_426E00; 421510 open-coded (AI alloc); code unchanged |
 | 0x4405F0 | `Car_BC::SpawnDriverPed` | 0x423510 | ✓ `sub_421960`, ✓ `sub_421970` | done | new CarManager_6C::GetSpareDriver_421960/SetSpareDriver_421970; code unchanged |
@@ -423,7 +423,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x443C40 | `Car_BC::HandleShops_443C40` | 0x427D10 | ✓ `HasPlayerDriver_4215C0`, `sub_421020`, `sub_420760` | done | HasPlayerDriver_4215C0, GetDriverPlayer_421870; code unchanged; 421020/420760 = get_field_26_420FF0/ObjectTypeToWeaponType_443CB0 |
 | 0x443D00 | `Car_BC::sub_443D00` | 0x4207F0 | ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), `CarPhysics_B0::sub_49EE10` (10.5 0x563670) | checked | 49EE10 = SetSprite_563560 (called), set_xyz_lazy already used |
 | 0x443D70 | `Car_BC::IncrementCarStats_443D70` | 0x424630 | ✓ `Car_BC::has_trailer_41E460` | done | IsTrailerCab_41E460, code unchanged |
-| 0x443F30 | `Car_BC::sub_443F30` | 0x420950 | `sub_483A00` | checked | 483A00 = Light_527990 (called) |
+| 0x443F30 | `Car_BC::sub_443F30` | 0x420950 | `sub_483A00` | checked | 483A00 = TurnOffLight_527990 (called) |
 | 0x444090 | `Car_BC::GetEffectiveDriverPedId_444090` | 0x4246A0 | ✓ `cool_nash_0x294::get_occupation_403980`, ✓ `sub_420C30` | done | IsPlayerPedId_420C30 used, code unchanged |
 | 0x4441B0 | `Car_BC::SetSirens_4441B0` | 0x424700 | ✓ `sub_421780`, ✓ `sub_421790`, ✓ `sub_4217A0`, ✓ `sub_4118F0`, ✓ `sub_411920` | done | IsMediCar_421780/IsCopCar/IsSwatVan/IsFireTruck/is_FBI_car tests, code unchanged |
 | 0x444490 | `Car_BC::PoolAllocate` | 0x424880 | ✓ `sub_420D90`, ✓ `Ped_Unknown_4::ClearList_420E90`, ✓ `Car_BC::sub_421460` | done | ClearAllBits/ClearList already, ClearHorn_421460 now used; code unchanged |
@@ -738,12 +738,12 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4FA9D0 | `Ambulance_20::EvaluatePickupState_4FA9D0` | 0x473320 | ✓ `cool_nash_0x294::sub_403B60`, ✓ `IsMaxDamage_40F890` | done | all 9.6f inlines used |
 | 0x4FFA90 | `Mike_A80::sub_4FFA90` | 0x474C60 | ✓ `sub_474430`, ✓ `sub_474450` | done | TakeElapsed/AddSample are 474430/474450 (address comments added) |
 | 0x502DC0 | `Miss2_25C::MissionCleanUp_502DC0` | 0x476BC0 | ✓ `Car_BC::sub_421560`, ✓ `IsDeactivated_4214D0`, ✓ `sub_421470` | done | all 9.6f inlines used |
-| 0x502FF0 | `Miss2_25C::push_type_2_502FF0` | 0x476D50 | ✓ `sub_40FEF0` | done | Object_2C::get_model_40FEF0 x4; code unchanged |
+| 0x502FF0 | `Miss2_25C::push_type_2_502FF0` | 0x476D50 | ✓ `sub_40FEF0` | done | Object_2C::GetModel_40FEF0 x4; code unchanged |
 | 0x503130 | `miss2_8::dtor_503130` | 0x476DC0 | ✓ `ScriptStackFramePool_25C::sub_476780` | done | ScriptStackFramePool_25C::DeAllocate_476780 (new); code unchanged |
 | 0x503200 | `miss2_0x11C::sub_503200` | 0x47F550 | ✓ `sub_476700`, ✓ `sub_476730`, `sub_4105B0` | done | Player::IsBustedNotObjective54_476700 and IsBustedObjective54_476730 (new); code unchanged |
 | 0x5035D0 | `miss2_0x11C::Log_5035D0` | 0x476E10 | ✓ `rng::get_cur_rng_41CFE0` | done | all 9.6f inlines used |
 | 0x503680 | `miss2_0x11C::SCRCMD_OBJ_DECSET_2D_3D_503680` | 0x476EA0 | ✓ `sub_475AA0`, `sub_4CA910` | done | Object_2C::IsModel176To181_475AA0 (new); sub_4CA910 is place_gang_phone (called); code unchanged |
-| 0x5038D0 | `miss2_0x11C::SCRCMD_OBJ_DECSET_5038D0` | 0x476FF0 | ✓ `sub_475A70`, ✓ `sub_447E90`, ✓ `check_is_shop_421060`, ✓ `sub_45E0A0`, ✓ `sub_475A60`, `sub_475A50` | done | Object_2C::IsBehavior1_475A70 (new); check_is_busy_shop noted as 9.6f 0x475A60; set_field_26 and check_is_shop_421060 already used; code unchanged |
+| 0x5038D0 | `miss2_0x11C::SCRCMD_OBJ_DECSET_5038D0` | 0x476FF0 | ✓ `sub_475A70`, ✓ `sub_447E90`, ✓ `IsShop_421060`, ✓ `sub_45E0A0`, ✓ `sub_475A60`, `sub_475A50` | done | Object_2C::IsBehavior1_475A70 (new); IsBusyShop_475A60 noted as 9.6f 0x475A60; set_field_26 and IsShop_421060 already used; code unchanged |
 | 0x503A20 | `miss2_0x11C::SCRCMD_PLAYER_PED_503A20` | 0x477140 | ✓ `sub_475A20`, ✓ `cool_nash_0x294::sub_403920`, ✓ `cool_nash_0x294::set_health_4039A0` | done | all 9.6f inlines used |
 | 0x503BC0 | `miss2_0x11C::SCRCMD_CAR_DECSET_503BC0` | 0x477290 | ✓ `EnqueueRadioLocationPhrase_426E10`, ✓ `sub_4764A0`, ✓ `sub_475C30`, ✓ `sub_476270`, ✓ `Car_BC::sub_421560`, ✓ `sub_475C40` | done | Car_BC::LockoutThiefUnlessPermanent_475C40 and SetFlag4_476270 (new), LockPermanently_475C30, sub_421560; SpawnCar_426E10/4764A0 already used; code unchanged |
 | 0x503FB0 | `miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0` | 0x477560 | ✓ `cool_nash_0x294::sub_403920`, ✓ `cool_nash_0x294::set_occupation_403970`, ✓ `cool_nash_0x294::set_health_4039A0` | done | all 9.6f inlines used |
@@ -853,24 +853,24 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x521B20 | `NetPlay::Send_521B20` | 0x40AD70 | ✓ `sub_409C40` | done | GetPlayerIdx_409C40 x2; still matches |
 | 0x521BE0 | `NetPlay::NoRefs_Send_521BE0` | 0x40AE30 | ✓ `sub_409C40` | done | GetPlayerIdx_409C40; still matches |
 | 0x521C80 | `NetPlay::NoRefs_Send_521C80` | 0x40AED0 | ✓ `sub_409C40` | done | GetPlayerIdx_409C40; still matches |
-| 0x522180 | `Object_2C::sub_522180` | 0x484910 | ✓ `sub_421080`, ✓ `SpritePool::sub_421030` | done | is_not_type6_to_12_421080 used; code unchanged |
-| 0x522250 | `Object_2C::CanCollideWithSpriteByOwnerRef_522250` | 0x482E80 | ✓ `sub_421080`, ✓ `sub_420FF0`, ✓ `sub_40FEA0`, ✓ `sub_420B50` | done | is_not_type6_to_12_421080 used; code unchanged |
+| 0x522180 | `Object_2C::sub_522180` | 0x484910 | ✓ `sub_421080`, ✓ `SpritePool::sub_421030` | done | IsNotShopOrLightBehavior_421080 used; code unchanged |
+| 0x522250 | `Object_2C::CanCollideWithSpriteByOwnerRef_522250` | 0x482E80 | ✓ `sub_421080`, ✓ `sub_420FF0`, ✓ `sub_40FEA0`, ✓ `sub_420B50` | done | IsNotShopOrLightBehavior_421080 used; code unchanged |
 | 0x5223C0 | `Object_2C::ShouldCollideWith_5223C0` | 0x482FA0 | ✓ `sub_416B40` | done | all 9.6f inlines used |
 | 0x522460 | `Object_2C::SelectCollisionSprite_522460` | 0x483060 | ✓ `sub_416B40`, ✓ `sub_40FEE0` | done | GetType_416B40 + CollisionTarget SetSprite_40FEE0 used; code unchanged |
 | 0x5226A0 | `Object_2C::sub_5226A0` | 0x484AA0 | `sub_4847D0` | checked | 4847D0 = NewObj3C_528130, still called |
 | 0x522BE0 | `Object_2C::ResolveCollisionWithMapTile_522BE0` | 0x4869E0 | `sub_4BCD00`, ✓ `sub_432860`, `sub_4828C0`, `sub_40F640` (10.5 0x43D5D0) | done | SetXY_432860 + operator-= (4828C0) like 522D00, point decl order fixed; 4BCD00=GetNearestHorizontalEdge (called); diff 50->0 CANDIDATE MATCH |
 | 0x522D00 | `Object_2C::ResolveCollisionWithMapTileHorizontal_522D00` | 0x486B20 | `sub_4BCFA0`, ✓ `sub_432860`, `sub_4828C0`, `sub_40F640` (10.5 0x43D5D0) | done | already used SetXY/-=; point decl order + t2.x restore fixed; 4BCFA0=GetNearestVerticalEdge (called); diff 63->0 CANDIDATE MATCH |
-| 0x5233A0 | `Object_2C::sub_5233A0` | 0x483460 | ✓ `sub_482BF0`, ✓ `sub_40F7B0` | done | sub_482BF0 added+used; code unchanged |
+| 0x5233A0 | `Object_2C::TryStartSlide_5233A0` | 0x483460 | ✓ `SetTopDrawLayer_482BF0`, ✓ `sub_40F7B0` | done | SetTopDrawLayer_482BF0 added+used; code unchanged |
 | 0x523440 | `Object_2C::HandleCollisionOutcome_523440` | 0x486D70 | ✓ `sub_420660`, ✓ `sub_482A70`, ✓ `sub_482A80` | done | CollisionTarget_28::SetType4_482A70/SetType5_482A80 added+used; code unchanged |
 | 0x5235B0 | `Object_2C::HandleSpriteGroundAndCollision_5235B0` | 0x484090 | ✓ `sub_466CF0`, `sub_4699A0` (10.5 0x4E4F40), `sub_483100`, ✓ `sub_420420`, `sub_4BD670`, `sub_4207B0`, `sub_483500` | checked | 4699A0/483100/4BD670/4207B0/483500 are calls in 10.5 |
-| 0x525190 | `Object_2C::sub_525190` | 0x4856E0 | ✓ `sub_482400`, ✓ `sub_420F10`, `sub_482790` | matched | IsDefinitionIdx39To42_482400 added, GetPedId_420F10 used; 482790=SetDamageOwner_529080 (called); diff 32->31 (PoolGiveAndSetDone_5291E0 arg looks s32 in orig) |
-| 0x5257D0 | `Object_2C::UpdateAninmation_5257D0` | 0x485FD0 | ✓ `sub_4206C0`, ✓ `sub_482C10` | done | set_id_lazy_4206C0 + IsAnimFinished_482C10 (added) used; code unchanged |
+| 0x525190 | `Object_2C::OnExplosionNearby_525190` | 0x4856E0 | ✓ `sub_482400`, ✓ `sub_420F10`, `sub_482790` | matched | IsExplosiveItemDefinition_482400 added, GetPedId_420F10 used; 482790=SetDamageOwner_529080 (called); diff 32->31 (PoolGiveAndSetDone_5291E0 arg looks s32 in orig) |
+| 0x5257D0 | `Object_2C::UpdateAnimation_5257D0` | 0x485FD0 | ✓ `sub_4206C0`, ✓ `sub_482C10` | done | set_id_lazy_4206C0 + IsAnimFinished_482C10 (added) used; code unchanged |
 | 0x525AE0 | `Object_2C::CheckCollisionForModel_139_And_141_525AE0` | 0x4826A0 | `sub_447BD0` (10.5 0x477B00), `SpriteGrid_400::sub_447C40` (10.5 0x477B60) | checked | 447BD0/447C40 pair with SpriteGrid_400 Remove/477B60; 10.5 calls CheckAndHandleCollisionInStrips_477BD0 |
 | 0x525B80 | `Object_2C::UpdatePhysicsAndMovement_525B80` | 0x487A30 | ✓ `sub_482730`, ✓ `sub_421080`, ✓ `sub_420FF0`, ✓ `sub_420F10` | done | all 9.6f inlines used |
 | 0x525D90 | `Object_2C::UpdatePhysicsMovementAndAnimation_525D90` | 0x487BC0 | ✓ `sub_482730`, ✓ `sub_421080`, ✓ `sub_420FF0` | commented | get_field_26_420FF0 changes the matching code |
 | 0x5263D0 | `Object_2C::Service_5263D0` | 0x487E80 | `Object_2C::sub_4826A0` (10.5 0x525AE0) | checked | 4826A0 pairs with CheckCollisionForModel_139_And_141_525AE0; not open-coded here |
-| 0x526790 | `Object_2C::TriggerCarExplosionIfApplicable_526790` | 0x4837F0 | ✓ `sub_475A80`, ✓ `sub_482C10`, ✓ `sub_482400`, ✓ `sub_40FEB0`, ✓ `sub_420FF0`, ✓ `sub_420F10` | done | IsAnimFinished_482C10 + IsDefinitionIdx39To42_482400 used; code unchanged |
-| 0x526B40 | `Object_2C::sub_526B40` | 0x483880 | ✓ `sub_416B40`, ✓ `sub_41B080` (10.5 0x41B480), ✓ `sub_40F7B0`, `Car_BC::sub_421D90`, ✓ `sub_40FEB0` | matched | Sprite::GetType_416B40, Char_B4::get_velocity_41B080, Sprite::SetDrawLayer_40F7B0 |
+| 0x526790 | `Object_2C::TriggerCarExplosionIfApplicable_526790` | 0x4837F0 | ✓ `sub_475A80`, ✓ `sub_482C10`, ✓ `sub_482400`, ✓ `sub_40FEB0`, ✓ `sub_420FF0`, ✓ `sub_420F10` | done | IsAnimFinished_482C10 + IsExplosiveItemDefinition_482400 used; code unchanged |
+| 0x526B40 | `Object_2C::InheritMotionFromSprite_526B40` | 0x483880 | ✓ `sub_416B40`, ✓ `sub_41B080` (10.5 0x41B480), ✓ `sub_40F7B0`, `Car_BC::sub_421D90`, ✓ `sub_40FEB0` | matched | Sprite::GetType_416B40, Char_B4::get_velocity_41B080, Sprite::SetDrawLayer_40F7B0 |
 | 0x527630 | `Object_2C::InitializeObject_527630` | 0x483990 | `ObjectDefinition_74::sub_488EF0`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `Car_3C::set_ang_lazy_420690`, ✓ `sub_482A30` | done | SetObject2C_482A30 used; 488EF0 = CreateSpriteFromDefinition (called); code unchanged |
 | 0x528240 | `Object_2C::HandleRotationStateTransition_528240` | 0x483A20 | `sub_4BED60` | checked | 4BED60 = SpriteList_4::AddSprite_5A6CD0 (called) |
 | 0x5288B0 | `Object_2C::OnObjectTouched_5288B0` | 0x483B50 | ✓ `sub_40FEA0`, ✓ `sub_40FEB0` | done | all 9.6f inlines used |
@@ -881,8 +881,8 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x5291B0 | `Object_2C::Dealloc_5291B0` | 0x483C40 | `sub_482F60` | checked | 482F60 = PoolGive_522340 (called) |
 | 0x5291D0 | `Object_2C::sub_5291D0` | 0x483C50 | `sub_482F60` | checked | 482F60 = PoolGive_522340 (called) |
 | 0x5291E0 | `Object_2C::sub_5291E0` | 0x483C60 | `sub_482F60` | checked | 482F60 = PoolGive_522340 (called) |
-| 0x529240 | `Object_2C::sub_529240` | 0x483CC0 | `sub_421050`, ✓ `gtx_0x106C::sub_462FD0` | done | gtx::sub_462FD0 added+used x2; 421050 = get_field_26 (already); code unchanged |
-| 0x5292D0 | `Object_2C::get_weapon_default_ammo_5292D0` | 0x483D50 | ✓ `sub_45E0A0` | checked | 45E0A0 = set_field_26 copy (already used, noted in header) |
+| 0x529240 | `Object_2C::GetMapBlockSoundSpec_529240` | 0x483CC0 | `sub_421050`, ✓ `gtx_0x106C::sub_462FD0` | done | gtx::sub_462FD0 added+used x2; 421050 = get_field_26 (already); code unchanged |
+| 0x5292D0 | `Object_2C::SetDefaultWeaponAmmo_5292D0` | 0x483D50 | ✓ `sub_45E0A0` | checked | 45E0A0 = set_field_26 copy (already used, noted in header) |
 | 0x529300 | `Object_5C::sub_529300` | 0x485E40 | ✓ `sub_40FEC0`, ✓ `sub_420FF0`, ✓ `sub_420F10` | done | GetPedId_420F10 used; code unchanged |
 | 0x529430 | `Object_5C::ctor_529430` | 0x484AF0 | `SpriteList_4::ctor_424620`, `Object_2C_Pool::ctor_483F10`, `Object_8_Pool::ctor_483F60`, `Object_3C_Pool::ctor_4848C0`, ✓ `SpritePool::sub_421000`, `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `Car_3C::set_ang_lazy_420690` | checked | pool ctors / SpriteList_4 ctor are implicit member ctors |
 | 0x529750 | `Object_5C::dtor_529750` | 0x484CF0 | ✓ `SpritePool::sub_421030`, `Object_2C_Pool::gdtor_484820`, `Object_8_Pool::gdtor_484840`, `Object_3C_Pool::gdtor_484860` | checked | pool dtors are implicit |
@@ -891,7 +891,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x5299F0 | `Object_5C::sub_5299F0` | 0x485320 | ✓ `sub_482C00` | checked | 482C00 = set_field_26 copy (already used, noted in header) |
 | 0x529A40 | `Object_5C::NewLight_529A40` | 0x485370 | ✓ `sub_482D60` | done | all 9.6f inlines used |
 | 0x529AB0 | `Object_5C::NewLight_529AB0` | 0x4853C0 | ✓ `sub_482D60` | done | all 9.6f inlines used |
-| 0x529C00 | `Object_5C::New_529C00` | 0x484E00 | `Object_2C_Pool::sub_4829A0`, `Object_2C_Pool::sub_4829C0`, `sub_482790`, `Object_2C_Pool::sub_484D60`, `Object_2C_Pool::sub_484DB0`, `sub_4BED60`, `Object_8_Pool::sub_483FA0`, `Object_3C_Pool::sub_483FE0`, ✓ `check_is_shop_421060`, ✓ `sub_447E90` | checked | pool Allocate/AllocateUntracked/DeAllocate, SetDamageOwner, AddSprite already used/called |
+| 0x529C00 | `Object_5C::New_529C00` | 0x484E00 | `Object_2C_Pool::sub_4829A0`, `Object_2C_Pool::sub_4829C0`, `sub_482790`, `Object_2C_Pool::sub_484D60`, `Object_2C_Pool::sub_484DB0`, `sub_4BED60`, `Object_8_Pool::sub_483FA0`, `Object_3C_Pool::sub_483FE0`, ✓ `IsShop_421060`, ✓ `sub_447E90` | checked | pool Allocate/AllocateUntracked/DeAllocate, SetDamageOwner, AddSprite already used/called |
 | 0x52A2C0 | `Object_5C::New_52A2C0` | 0x485180 | `Object_3C_Pool::sub_483FE0` | checked | 483FE0 = Object_3C pool Allocate (already used) |
 | 0x52A3D0 | `Object_5C::CreateExplosion_52A3D0` | 0x485540 | ✓ `sub_482A90`, `Object_3C_Pool::sub_483FE0` | done | Explosion_30::SetType_482A90 added+used; 483FE0 = pool Allocate (already); code unchanged |
 | 0x52A590 | `Object_5C::RestoreObjects_52A590` | 0x485640 | ✓ `sub_45E0A0` | checked | 45E0A0 = set_field_26 copy (already used, noted in header) |
@@ -931,7 +931,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x552E90 | `Char_B4::state_9_552E90` | 0x49C120 | ✓ `cool_nash_0x294::sub_403A40`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `sub_40F7B0` | done | all 9.6f inlines used |
 | 0x5532C0 | `Char_B4::sub_5532C0` | 0x497410 | `sub_4937D0`, `sub_493810` | checked | 4937D0/493810 = GetTileFracX64_545640/GetTileFracY64_545670, called |
 | 0x5535B0 | `Char_B4::PhoneTouched_5535B0` | 0x4930C0 | ✓ `sub_420B60` | done | all 9.6f inlines used |
-| 0x553640 | `Char_B4::OnObjectTouched_553640` | 0x4930F0 | ✓ `check_is_shop_421060`, `sub_421050`, ✓ `sub_433A20`, ✓ `sub_493090` | done | Object_2C::GetConveyorDirection_493090 added+used; 421050 = get_field_26 (already); code unchanged |
+| 0x553640 | `Char_B4::OnObjectTouched_553640` | 0x4930F0 | ✓ `IsShop_421060`, `sub_421050`, ✓ `sub_433A20`, ✓ `sub_493090` | done | Object_2C::GetConveyorDirection_493090 added+used; 421050 = get_field_26 (already); code unchanged |
 | 0x553E00 | `Char_B4::HandleGenericImpact_553E00` | 0x493390 | ✓ `cool_nash_0x294::sub_403990`, `sub_482790` | matched | 482790 = SetDamageOwner_529080, called in 10.5 |
 | 0x5545E0 | `PathFinder_2FD4::Init_5545E0` | 0x45C130 | `Ped_Unknown_4::ctor_425450`, `PathFinder_2FD4::init_49C700` | checked | 9.6f caller inlined init_49C700 (= this function); Ped_Unknown_4 ctor is the member ctor |
 | 0x5597B0 | `CarPhysics_B0::ShowSpeedRevsDamage_5597B0` | 0x49F010 | `sub_4211A0`, `sub_49E820` | checked | 49E820 = get_revs_561940 (called), 4211A0 speed uses the special out-of-line length variants |
@@ -1110,7 +1110,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x5A6F70 | `SpriteList_4::PoolUpdate_5A6F70` | 0x4BEF70 | `AttachedSpritePool::sub_4BEC50` | checked | 4BEC50 = DeAllocate (already) |
 | 0x5A7010 | `SpriteList_4::DestroyAllSprites_5A7010` | 0x4BF000 | ✓ `sub_416B40`, `sub_428F70`, `sub_485260` | checked | 428F70 = CarManager_6C::RemoveFromPoolAndCollision_446730, 485260 = RemoveAndFree_52A610 (called) |
 | 0x5A7110 | `SpriteList_4::ClearGangIconSprite_5A7110` | 0x4BF100 | ✓ `sub_40FEC0`, ✓ `sub_4BE850`, `sub_485260`, `AttachedSpritePool::sub_4BEC50` | done | AsObject2C_40FEC0 + IsGangIcon_4BE850 (added) used; 485260/4BEC50 called/already; code unchanged |
-| 0x5A71F0 | `Object_3C::sub_5A71F0` | 0x4BEB70 | ✓ `sub_416B40`, ✓ `sub_4BE830` | done | Object_2C::sub_4BE830 used; code unchanged |
+| 0x5A71F0 | `Object_3C::sub_5A71F0` | 0x4BEB70 | ✓ `sub_416B40`, ✓ `IsFlameObject_4BE830` | done | Object_2C::IsFlameObject_4BE830 used; code unchanged |
 | 0x5A7240 | `Object_3C::PruneNonCollidingSprites_5A7240` | 0x4BF180 | `AttachedSpritePool::sub_4BEC50` | checked | 4BEC50 = DeAllocate (already) |
 | 0x5A72B0 | `Object_3C::PropagateMaxZLayer_5A72B0` | 0x4BEBC0 | ✓ `sub_446950`, ✓ `sub_4BA220` | done | Sprite::IsTypeAbove1_446950 added+used; code unchanged |
 | 0x5AB0F0 | `gtx_0x106C::load_font_base_5AB0F0` | 0x4BFDD0 | `sub_4BF790` | checked | sub_4BF790 is ConvertToVirtualOffsets_5AB1A0 (called) |
@@ -1138,7 +1138,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x5C5E50 | `SpriteTree_4::Reset_5C5E50` | 0x4C4D60 | ✓ `SpriteTreeNodePool_2EE4::sub_4C4B70` | done | new SpriteTreeNodePool_2EE4::Reset_4C4B70; still matches |
 | 0x5C5E70 | `SpriteTree_4::ctor_5C5E70` | 0x4C4DF0 | `SpriteTreeStack_FA4::ctor_4C4BD0` | matched | SpriteTreeStack_FA4 ctor (4C4BD0) already inline in class |
 | 0x5C5F60 | `SpriteTreeNodePool_2EE4::ctor_5C5F60` | 0x4C4DC0 | ✓ `SpriteTreeNodePool_2EE4::sub_4C4B70` | done | SpriteTreeNodePool_2EE4::Reset_4C4B70; still matches |
-| 0x5C86C0 | `CarThreadTriggers_214::sub_5C86C0` | 0x4C4F30 | ✓ `sub_4C4F10` | done | new Object_2C::set_field_27_4C4F10, code unchanged |
+| 0x5C86C0 | `CarThreadTriggers_214::sub_5C86C0` | 0x4C4F30 | ✓ `sub_4C4F10` | done | new Object_2C::SetThreadTriggerIdx_4C4F10, code unchanged |
 | 0x5CBC90 | `EmergencyCrew_30::ReplaceLeaderIfNeeded_5CBC90` | 0x4C5510 | ✓ `cool_nash_0x294::sub_403990`, ✓ `cool_nash_0x294::get_occupation_403980`, ✓ `cool_nash_0x294::set_occupation_403970` | done | all 9.6f inlines used |
 | 0x5CC1C0 | `EmergencyCrew_30::CleanupExpiredEntities_5CC1C0` | 0x4C5A00 | ✓ `sub_4215B0`, ✓ `IsMaxDamage_40F890`, ✓ `sub_4A9AD0`, ✓ `sub_421470`, ✓ `cool_nash_0x294::sub_4039F0`, ✓ `cool_nash_0x294::sub_403B60`, ✓ `cool_nash_0x294::set_occupation_403970`, ✓ `cool_nash_0x294::sub_403A30` | done | all 9.6f inlines used |
 | 0x5CF910 | `Hud_UnderRoofArrowMarker_C::Draw_5CF910` | 0x4C74A0 | ✓ `angry_lewin_0x85C::get_camera_434900` | done | Player::get_camera_434900; Still matches. |
@@ -1338,7 +1338,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x420F10 | `sub_420F10` | 15 |  | Source/PedRefTable_7F8.hpp:31 | 2/9 | todo |  |
 | 0x420F30 | `sub_420F30` | 69 |  | Source/Pool.hpp:293 | 2/2 | todo |  |
 | 0x421050 | `sub_421050` | 4 |  |  | 2/3 | todo |  |
-| 0x421060 | `check_is_shop_421060` | 32 |  | Source/Object_5C.hpp:219 | 2/4 | todo |  |
+| 0x421060 | `IsShop_421060` | 32 |  | Source/Object_5C.hpp:219 | 2/4 | todo |  |
 | 0x4211A0 | `sub_4211A0` | 20 |  | Source/CarPhysics_B0.hpp:310 | 2/3 | todo |  |
 | 0x421490 | `DespawnSoon_421490` | 20 |  | Source/Car_BC.hpp:914, Source/Car_BC.hpp:1082 | 2/1 | todo |  |
 | 0x4214B0 | `sub_4214B0` | 27 |  | Source/Car_BC.hpp:1026 | 2/2 | todo |  |
@@ -1370,7 +1370,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x462E40 | `Map_0x370::sub_462E40` | 22 |  |  | 2/7 | todo |  |
 | 0x475C30 | `sub_475C30` | 11 |  | Source/Car_BC.hpp:397, Source/Car_BC.hpp:908 | 2/2 | todo |  |
 | 0x4828C0 | `sub_4828C0` | 33 |  | Source/Fix16_Point.hpp:114 | 2/2 | todo |  |
-| 0x482BE0 | `sub_482BE0` | 16 |  | Source/Object_5C.hpp:288 | 2/0 | todo |  |
+| 0x482BE0 | `ApplyDefinitionDrawLayer_482BE0` | 16 |  | Source/Object_5C.hpp:288 | 2/0 | todo |  |
 | 0x482F80 | `sub_482F80` | 30 |  |  | 2/1 | todo |  |
 | 0x483500 | `sub_483500` | 108 |  |  | 2/1 | todo |  |
 | 0x483C20 | `sub_483C20` | 28 |  |  | 2/0 | todo |  |
@@ -1734,7 +1734,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4BCFA0 | `sub_4BCFA0` | 683 |  |  | 1/1 | todo |  |
 | 0x4BD490 | `sub_4BD490` | 381 |  |  | 1/0 | todo |  |
 | 0x4BDDD0 | `sub_4BDDD0` | 276 |  |  | 1/1 | todo |  |
-| 0x4BE830 | `sub_4BE830` | 22 |  | Source/Object_5C.hpp:261 | 1/1 | todo |  |
+| 0x4BE830 | `IsFlameObject_4BE830` | 22 |  | Source/Object_5C.hpp:261 | 1/1 | todo |  |
 | 0x4BEA60 | `sub_4BEA60` | 48 | 0x5A6AD0 MATCH |  | 1/0 | todo |  |
 | 0x4BEC50 | `AttachedSpritePool::sub_4BEC50` | 14 |  |  | 1/9 | todo |  |
 | 0x4BED60 | `sub_4BED60` | 43 |  |  | 1/5 | todo |  |
@@ -2325,7 +2325,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x482A70 | `sub_482A70` | 14 |  | Source/CollisionSoundQueue_C88.hpp:29 | 0/1 | todo |  |
 | 0x482A80 | `sub_482A80` | 14 |  | Source/CollisionSoundQueue_C88.hpp:36 | 0/1 | todo |  |
 | 0x482A90 | `sub_482A90` | 10 |  | Source/Explosion_30.hpp:34 | 0/1 | todo |  |
-| 0x482BF0 | `sub_482BF0` | 11 |  | Source/Object_5C.hpp:302 | 0/1 | todo |  |
+| 0x482BF0 | `SetTopDrawLayer_482BF0` | 11 |  | Source/Object_5C.hpp:302 | 0/1 | todo |  |
 | 0x482C00 | `sub_482C00` | 10 |  | Source/Object_5C.hpp:182 | 0/1 | todo |  |
 | 0x482C10 | `sub_482C10` | 23 |  | Source/Object_5C.cpp:99, Source/Object_5C.hpp:293 | 0/2 | todo |  |
 | 0x482D60 | `sub_482D60` | 43 |  | Source/Light_28.hpp:80 | 0/2 | todo |  |

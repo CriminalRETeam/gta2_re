@@ -29,15 +29,15 @@ class Object_2C
 {
   public:
     // 9.6f 0x4C4F10
-    inline void set_field_27_4C4F10(char_type v)
+    inline void SetThreadTriggerIdx_4C4F10(char_type v)
     {
-        field_27 = v;
+        field_27_thread_trigger_idx = v;
     }
 
     EXPORT Object_2C();
     EXPORT void PoolDeallocate();
     EXPORT bool CanCollideWithSpriteByOwnerRef_522250(Sprite* pSprite);
-    EXPORT s32 sub_5222B0();
+    EXPORT s32 GetMovementRegionSize_5222B0();
     EXPORT void UpdatePhysics_5222D0();
     EXPORT void PoolGive_522340();
     EXPORT void PoolTake_522360();
@@ -54,15 +54,15 @@ class Object_2C
     EXPORT void ResolveCollisionWithMapTile_522BE0(Fix16_Point* pPoint);
     EXPORT void ResolveCollisionWithMapTileHorizontal_522D00(Fix16_Point* pPoint);
     EXPORT void HandleCollision_522E10(Fix16_Point* pPoint);
-    EXPORT char_type sub_5233A0(Fix16 value);
+    EXPORT char_type TryStartSlide_5233A0(Fix16 value);
     EXPORT void HandleCollisionOutcome_523440(Fix16_Point point, char_type bUnknown1, char_type bUnknown2);
     EXPORT char_type HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, Fix16 found_z);
     EXPORT char_type HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, u8* pHit2);
     EXPORT char_type HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, u8* pHit2, Fix16 found_z);
     EXPORT void ComputeWallHitSide_524550();
     EXPORT void IntegrateHorizontalMovementAndCollisions_524630(Fix16 move_len, Ang16 move_angle);
-    EXPORT void sub_525190(u8 ped_ref_idx);
-    EXPORT void UpdateAninmation_5257D0();
+    EXPORT void OnExplosionNearby_525190(u8 ped_ref_idx);
+    EXPORT void UpdateAnimation_5257D0();
     EXPORT bool DispatchFrameAction_525910();
     EXPORT char ShouldCollideWithSprite_525370(Sprite* pSprite);
     EXPORT void CheckCollisionForModel_139_And_141_525AE0();
@@ -73,11 +73,11 @@ class Object_2C
     EXPORT void Update_525F30();
     EXPORT bool PoolUpdate();
     EXPORT void TriggerCarExplosionIfApplicable_526790(Sprite* pSprite);
-    EXPORT static s32 __stdcall sub_526830(s32 type);
-    EXPORT void sub_526B40(Sprite* pSprite);
+    EXPORT static s32 __stdcall GetExplosionTypeForItemDefinition_526830(s32 type);
+    EXPORT void InheritMotionFromSprite_526B40(Sprite* pSprite);
     EXPORT bool UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot);
     EXPORT void InitializeObject_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
-    EXPORT void Light_527990();
+    EXPORT void TurnOffLight_527990();
     EXPORT void AssignToBucket_527AE0();
     EXPORT void RemoveFromCollisionBuckets_527D00();
     EXPORT void ReleaseSubObjects_527F10();
@@ -96,8 +96,8 @@ class Object_2C
     EXPORT void SetConveyorSpeed_529030(s8 speed_x, s8 speed_y);
     EXPORT void ApplyConveyorSpeedFrom_529070(Object_2C* pObj);
     EXPORT s32 GetExplosionSideFromDiagonalWall_529210();
-    EXPORT s32 sub_529240();
-    EXPORT void get_weapon_default_ammo_5292D0();
+    EXPORT s32 GetMapBlockSoundSpec_529240();
+    EXPORT void SetDefaultWeaponAmmo_5292D0();
     EXPORT void SetDamageOwner_529080(u8 ped_ref_idx);
     EXPORT void RequestRemoval_5290A0();
     EXPORT void RequestRemovalWhenOffScreen_5290B0();
@@ -124,11 +124,11 @@ class Object_2C
 
     // TODO: ordering
     EXPORT void SetSpriteIdxOffset_5290C0(u8 offset);
-    EXPORT Fix16 sub_5290F0();
-    EXPORT char sub_525AC0();
+    EXPORT Fix16 GetEffectiveSpeed_5290F0();
+    EXPORT char IsFireExplosion_525AC0();
     EXPORT void UpdateEffectPool_525B20();
     EXPORT void UpdateLight_527A30();
-    EXPORT void sub_525100();
+    EXPORT void OnAttachedSpriteDestroyed_525100();
 
     EXPORT void IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 angle);
     EXPORT void Sprite_UpdateZFromSlopeAndTile_522FA0(Sprite* pSprite);
@@ -140,7 +140,7 @@ class Object_2C
     }
 
     // 9.6f 0x475A60
-    inline bool check_is_busy_shop()
+    inline bool IsBusyShop_475A60()
     {
         s32 v1 = field_8->field_34_behavior_type;
         return v1 == object_behavior_type::behavior_10;
@@ -171,7 +171,7 @@ class Object_2C
         return false;
     }
 
-    bool is_not_type6_to_12_421080()
+    bool IsNotShopOrLightBehavior_421080()
     {
         s32 type = this->field_8->field_34_behavior_type;
         return type != object_behavior_type::behavior_6 && type != object_behavior_type::behavior_7 &&
@@ -181,12 +181,12 @@ class Object_2C
     }
 
     // Sucky names but better than just "sub" for now
-    bool is_not_type6_to_12_and_idx_matches_4973E0(u8 a2)
+    bool IsNotShopOrLightBehaviorAndParamMatches_4973E0(u8 a2)
     {
-        return is_not_type6_to_12_421080() && field_26_ped_ref_idx == a2;
+        return IsNotShopOrLightBehavior_421080() && field_26_ped_ref_idx == a2;
     }
 
-    bool is_region_bucket_3_4210B0()
+    bool IsSpriteGrid2Region3_4210B0()
     {
         return field_8->field_40_collision_bucket_category == collision_bucket_category::sprite_grid_2_region_3;
     }
@@ -210,13 +210,13 @@ class Object_2C
     }
 
     // 9.6f 0x40FEF0
-    s32 get_model_40FEF0()
+    s32 GetModel_40FEF0()
     {
         return field_18_model;
     }
 
     // 9.6f 0x40FF00
-    inline char_type GetDefField63_40FF00()
+    inline char_type GetDefHasShadowsField_40FF00()
     {
         return field_8->field_63;
     }
@@ -228,7 +228,7 @@ class Object_2C
         return model == 176 || model == 177 || model == 178 || model == 179 || model == 180 || model == 181;
     }
 
-    bool check_is_shop_421060()
+    bool IsShop_421060()
     {
         return field_8->field_34_behavior_type == object_behavior_type::behavior_6 ||
             field_8->field_34_behavior_type == object_behavior_type::behavior_7 ||
@@ -244,22 +244,22 @@ class Object_2C
         field_26_ped_ref_idx = 99;
         field_10_obj_3c = 0;
         field_C_pAny.o8 = 0;
-        field_1C_bHasExplosion = 0;
+        field_1C_has_explosion = 0;
         field_4 = 0;
         field_18_model = 0;
     }
 
-    inline Fix16 get_x_4340D0()
+    inline Fix16 GetX_4340D0()
     {
         return field_4->field_14_xy.x;
     }
 
-    inline Fix16 get_y_4340E0()
+    inline Fix16 GetY_4340E0()
     {
         return field_4->field_14_xy.y;
     }
 
-    inline Fix16 get_z_4340F0()
+    inline Fix16 GetZ_4340F0()
     {
         return field_4->field_1C_zpos;
     }
@@ -270,14 +270,14 @@ class Object_2C
         return field_18_model >= 287 && field_18_model <= 293; // loonies_icon_287 .. russian_mafia_icon_293
     }
 
-    char sub_4BE830()
+    char IsFlameObject_4BE830()
     {
         if (this->field_18_model == 197)
         {
             return 1;
         }
 
-        if (sub_525AC0())
+        if (IsFireExplosion_525AC0())
         {
             return 1;
         }
@@ -286,7 +286,7 @@ class Object_2C
     }
 
     // 9.6f 0x482400
-    static inline bool IsDefinitionIdx39To42_482400(s32 idx)
+    static inline bool IsExplosiveItemDefinition_482400(s32 idx)
     {
         return idx >= 39 && idx <= 42;
     }
@@ -297,7 +297,7 @@ class Object_2C
         return field_8->field_18_mass;
     }
 
-    void sub_482BE0()
+    void ApplyDefinitionDrawLayer_482BE0()
     {
         field_4->SetDrawLayer_40F7B0(field_8->field_2C_draw_layer);
     }
@@ -312,7 +312,7 @@ class Object_2C
     }
 
     // 9.6f 0x482BF0
-    void sub_482BF0()
+    void SetTopDrawLayer_482BF0()
     {
         field_4->SetDrawLayer_40F7B0(29);
     }
@@ -330,15 +330,15 @@ class Object_2C
     Object_3C* field_10_obj_3c;
     s32 field_14_id;
     s32 field_18_model;
-    char_type field_1C_bHasExplosion;
+    char_type field_1C_has_explosion;
     char_type field_1D_unused;
     char_type field_1E_unused;
     char_type field_1F_unused;
     s32 field_20_pool_list_state;
-    u8 field_24_bDoneThisFrame;
+    u8 field_24_touched_result;
     u8 field_25_removal_state;
     u8 field_26_ped_ref_idx; // Seems to be a generic index. Sometimes it's the current idx of its object type. For many objects, it's unused (equal to 99).
-    char_type field_27;
+    char_type field_27_thread_trigger_idx;
     char_type field_28;
     char_type field_29_unused;
     char_type field_2A;

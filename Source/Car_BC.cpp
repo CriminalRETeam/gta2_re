@@ -230,7 +230,7 @@ char_type CarThreadTriggers_214::AddThreadTrigger_5C86C0(const s32& type, const 
                                                                          width,
                                                                          height,
                                                                          kFpOne_705DDC);
-            pIter->field_4_O2C->set_field_27_4C4F10(idx);
+            pIter->field_4_O2C->SetThreadTriggerIdx_4C4F10(idx);
             field_210_count++;
             return idx;
         }
@@ -3287,7 +3287,7 @@ void Car_BC::ResetTopRightRoofLight_43C310()
         Object_2C* pLight = field_0_attachments.FindObject2CByModel_5A6A90(173);
         if (pLight)
         {
-            pLight->Light_527990();
+            pLight->TurnOffLight_527990();
         }
     }
 }
@@ -3312,7 +3312,7 @@ void Car_BC::ResetTopLeftRoofLight_43C470()
         Object_2C* pLight = field_0_attachments.FindObject2CByModel_5A6A90(173);
         if (pLight)
         {
-            pLight->Light_527990();
+            pLight->TurnOffLight_527990();
         }
     }
 }
@@ -3347,7 +3347,7 @@ void Car_BC::ResetRoofLights_43C650()
     Object_2C* pObj1 = field_0_attachments.FindObject2CByModel_5A6A90(165);
     if (pObj1)
     {
-        pObj1->Light_527990();
+        pObj1->TurnOffLight_527990();
     }
 
     if (IsSwatVan_4217A0() || IsFireTruck_4118F0())
@@ -3355,7 +3355,7 @@ void Car_BC::ResetRoofLights_43C650()
         Object_2C* pObj2 = field_0_attachments.FindObject2CByModel_5A6A90(172);
         if (pObj2)
         {
-            pObj2->Light_527990();
+            pObj2->TurnOffLight_527990();
         }
     }
 }
@@ -3395,7 +3395,7 @@ void Car_BC::ResetBottomLeftRoofLight_43C840()
         Object_2C* p2C = field_0_attachments.FindObject2CByModel_5A6A90(171);
         if (p2C)
         {
-            p2C->Light_527990();
+            p2C->TurnOffLight_527990();
         }
     }
 
@@ -3404,7 +3404,7 @@ void Car_BC::ResetBottomLeftRoofLight_43C840()
         Object_2C* p2C = field_0_attachments.FindObject2CByModel_5A6A90(173);
         if (p2C)
         {
-            p2C->Light_527990();
+            p2C->TurnOffLight_527990();
         }
     }
 }
@@ -4109,7 +4109,7 @@ Ped* Car_BC::GetEffectiveDriver_43E990()
 MATCH_FUNC(0x43ea60)
 char_type Car_BC::OnObjectTouched_43EA60(Object_2C* pObj)
 {
-    if (pObj->check_is_shop_421060() || pObj->field_18_model == objects::secret_token_266)
+    if (pObj->IsShop_421060() || pObj->field_18_model == objects::secret_token_266)
     {
         Ped* pPed = Car_BC::GetEffectiveDriver_43E990();
         if (pPed)
@@ -4147,7 +4147,7 @@ char_type Car_BC::OnObjectTouched_43EA60(Object_2C* pObj)
             field_58_physics->ApplyObjectImpact_559E20(pObj); // push car into conveyor direction
             break;
         case objects::savepoint_161:
-            gCarThreadTriggers_214_705F20->CheckThreadTrigger_5C8780(pObj->field_27, this->field_50_car_sprite);
+            gCarThreadTriggers_214_705F20->CheckThreadTrigger_5C8780(pObj->field_27_thread_trigger_idx, this->field_50_car_sprite);
             break;
 
         case objects::destructor_141:
@@ -5919,7 +5919,7 @@ void Car_BC::LightUpdate_442D10()
         Object_2C* o2c = pSprite->AsObject2C_40FEC0();
         if (gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(pSprite->field_14_xy.x, pSprite->field_14_xy.y, pSprite->field_1C_zpos))
         {
-            o2c->Light_527990();
+            o2c->TurnOffLight_527990();
         }
         else
         {
@@ -6635,7 +6635,7 @@ MATCH_FUNC(0x443f30)
 void Car_BC::AttachLight_443F30(s32 object_type, s32 argb, s32 x_offset, s32 y_offset)
 {
     Object_2C* pObj = gObject_5C_6F8F84->NewLight_529AB0(object_type, 0, 0, 0, argb, kFpOneAndHalf_6772AC, 200);
-    pObj->Light_527990();
+    pObj->TurnOffLight_527990();
     field_50_car_sprite->DispatchCollisionEvent_5A3100(pObj->field_4, (kFpOne64th_677888 * x_offset), (kFpOne64th_677888 * y_offset), kAngZero_67791C);
 }
 

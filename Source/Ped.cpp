@@ -5145,9 +5145,9 @@ void Ped::ProcessInCarObjective_463FB0()
 
         if (field_1A4_internal_target_object)
         {
-            this->field_1C4_move_target_x = field_1A4_internal_target_object->get_x_4340D0();
-            this->field_1C8_move_target_y = field_1A4_internal_target_object->get_y_4340E0();
-            this->field_1CC_move_target_z = field_1A4_internal_target_object->get_z_4340F0();
+            this->field_1C4_move_target_x = field_1A4_internal_target_object->GetX_4340D0();
+            this->field_1C8_move_target_y = field_1A4_internal_target_object->GetY_4340E0();
+            this->field_1CC_move_target_z = field_1A4_internal_target_object->GetZ_4340F0();
         }
 
         if (field_1D0_internal_target_x != kFpZero_678660)
@@ -6922,14 +6922,14 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
             z = field_150_target_objective_car->field_50_car_sprite->field_1C_zpos;
             break;
         case ped_move_target_type::internal_target_object_6:
-            x = field_1A4_internal_target_object->get_x_4340D0();
-            y = field_1A4_internal_target_object->get_y_4340E0();
-            z = field_1A4_internal_target_object->get_z_4340F0();
+            x = field_1A4_internal_target_object->GetX_4340D0();
+            y = field_1A4_internal_target_object->GetY_4340E0();
+            z = field_1A4_internal_target_object->GetZ_4340F0();
             break;
         case ped_move_target_type::objective_target_object_7:
-            x = field_1A0_objective_target_object->get_x_4340D0();
-            y = field_1A0_objective_target_object->get_y_4340E0();
-            z = field_1A0_objective_target_object->get_z_4340F0();
+            x = field_1A0_objective_target_object->GetX_4340D0();
+            y = field_1A0_objective_target_object->GetY_4340E0();
+            z = field_1A0_objective_target_object->GetZ_4340F0();
             break;
         default:
             break;
@@ -10657,7 +10657,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
             break;
 
         case ped_attack_target_type::object_2: // target is a object
-            zpos = field_1A4_internal_target_object->get_z_4340F0();
+            zpos = field_1A4_internal_target_object->GetZ_4340F0();
             if (field_1A4_internal_target_object->IsDestroyedPowergen_434140())
             {
                 field_226_internal_objective_status = 1;
@@ -11858,7 +11858,7 @@ void Ped::ProcessWeaponHitResponse_46FE20(Object_2C* pObj)
 
     if (pWeapon && !Ped::PedTypeIs_45EDE0(ped_type::player_2))
     {
-        dist = Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, pObj->get_x_4340D0(), pObj->get_y_4340E0());
+        dist = Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, pObj->GetX_4340D0(), pObj->GetY_4340E0());
 
         if (pObj == field_1A4_internal_target_object)
         {

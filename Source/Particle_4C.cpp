@@ -108,7 +108,7 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
         {
             if (field_40_pExplosion->field_14_pObj2C->field_4)
             {
-                field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
+                field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->GetEffectiveSpeed_5290F0();
                 field_24_angle = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->field_10_obj_3c->field_4_angle;
             }
             if (field_40_pExplosion->field_1A_timer == 1)
@@ -211,7 +211,7 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
         {
             if (field_40_pExplosion->field_14_pObj2C->field_4)
             {
-                field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
+                field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->GetEffectiveSpeed_5290F0();
                 field_24_angle = field_40_pExplosion->field_14_pObj2C->field_10_obj_3c->field_4_angle;
             }
             if (field_40_pExplosion->field_1A_timer == 1)
@@ -529,7 +529,7 @@ char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
             {
                 if (field_40_pExplosion->field_14_pObj2C->field_4)
                 {
-                    field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
+                    field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->GetEffectiveSpeed_5290F0();
                     field_24_angle = field_40_pExplosion->field_14_pObj2C->field_10_obj_3c->field_4_angle;
                 }
                 if (field_40_pExplosion->field_1A_timer == 1)
@@ -638,7 +638,7 @@ char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
             {
                 if (field_40_pExplosion->field_14_pObj2C->field_4)
                 {
-                    field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
+                    field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->GetEffectiveSpeed_5290F0();
                     field_24_angle = field_40_pExplosion->field_14_pObj2C->field_10_obj_3c->field_4_angle;
                 }
                 if (field_40_pExplosion->field_1A_timer == 1)
@@ -746,7 +746,7 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
         {
             if (field_40_pExplosion->field_14_pObj2C->field_4)
             {
-                field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
+                field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->GetEffectiveSpeed_5290F0();
                 field_24_angle = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->field_10_obj_3c->field_4_angle;
             }
             if (field_40_pExplosion->field_1A_timer == 1)

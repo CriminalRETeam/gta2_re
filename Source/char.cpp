@@ -1828,7 +1828,7 @@ void Char_B4::HandleObjectCollision_548840(Object_2C* pObj)
 
     s32 phi_type = pObj->field_8->field_34_behavior_type;
 
-    if (!pObj->is_not_type6_to_12_421080() || (pObj->get_field_26_420FF0()) == 0 ||
+    if (!pObj->IsNotShopOrLightBehavior_421080() || (pObj->get_field_26_420FF0()) == 0 ||
         pObj->get_field_26_420FF0() != this->field_7C_pPed->field_267_ped_ref_idx)
     {
         if (!pObj->sub_482C90())
@@ -6100,7 +6100,7 @@ void Char_B4::state_8_5520A0()
                     field_7C_pPed->field_27C_ped_state_2 = ped_state_2::Unknown_15;
                     return;
                 }
-                if (field_7C_pPed->field_184_pObj2C->sub_5290F0() == kFP16Zero_6FD9E4 || !field_4A)
+                if (field_7C_pPed->field_184_pObj2C->GetEffectiveSpeed_5290F0() == kFP16Zero_6FD9E4 || !field_4A)
                 {
                     switch (field_C_ped_state_2)
                     {
@@ -6402,12 +6402,12 @@ bool Char_B4::ShouldCollideWithSprite_553340(Sprite* pSprite)
                 if (pObj)
                 {
                     u8 idx = field_7C_pPed->get_ped_ref_idx_420B50();
-                    if (pObj->is_not_type6_to_12_and_idx_matches_4973E0(idx))
+                    if (pObj->IsNotShopOrLightBehaviorAndParamMatches_4973E0(idx))
                     {
                         return 0;
                     }
 
-                    if (pObj->is_region_bucket_3_4210B0())
+                    if (pObj->IsSpriteGrid2Region3_4210B0())
                     {
                         return 0;
                     }
@@ -6486,7 +6486,7 @@ char_type Char_B4::OnObjectTouched_553640(Object_2C* p2c)
     s8 conveyor_x;
     s8 conveyor_y;
 
-    if (p2c->check_is_shop_421060())
+    if (p2c->IsShop_421060())
     {
         return get_ped_433A20()->HandlePickupCollision_45DE80(p2c);
     }
@@ -6505,7 +6505,7 @@ char_type Char_B4::OnObjectTouched_553640(Object_2C* p2c)
             break;
 
         case objects::savepoint_161:
-            gCarThreadTriggers_214_705F20->CheckThreadTrigger_5C8780(p2c->field_27, this->field_80_sprite_ptr);
+            gCarThreadTriggers_214_705F20->CheckThreadTrigger_5C8780(p2c->field_27_thread_trigger_idx, this->field_80_sprite_ptr);
             break;
 
         case objects::blue_phone_164:

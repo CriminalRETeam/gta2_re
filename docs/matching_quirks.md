@@ -640,7 +640,7 @@ then the type store) matches without a dead store.
 
 **A tail call after a null test comes from an early return.** `test; jne L; xor al,al; ret;
 L: jmp callee` is `if (!p) return 0; return p->F();`, not if/else, which puts the `jmp` elsewhere
-(`Car_BC::IsThreatToSearchingPed_43AAE0`, `Object_2C::sub_525100`).
+(`Car_BC::IsThreatToSearchingPed_43AAE0`, `Object_2C::OnAttachedSpriteDestroyed_525100`).
 
 **`u8 + int` passed to a `u8` parameter is added in a byte register.** An `s32` temporary keeps
 the `mov cl; mov eax,ecx; add eax` shape (`Car_BC::TurnToWreck_4436A0`).
@@ -1575,7 +1575,7 @@ address to the csv (see the top of this file).
 **A "member" that doesn't use `this` may be static `__stdcall`.** If the caller overwrites
 `ecx` with the argument just before the call (`mov 0x3C(%eax),%ecx; push %ecx; call`) and the
 callee ends in `ret $N` without reading `ecx`, declare it `static ... __stdcall`
-(`Object_2C::sub_526830`, which fixed its caller `TriggerCarExplosionIfApplicable_526790`).
+(`Object_2C::GetExplosionTypeForItemDefinition_526830`, which fixed its caller `TriggerCarExplosionIfApplicable_526790`).
 
 **A variadic member is `__cdecl` with `this` on the stack.** A plain `ret` hints at `...`.
 
@@ -1688,7 +1688,7 @@ address against the csv before chasing the state store.
 **Trivial getters and setters are free; a by-value `Fix16` setter is not.** Replacing a raw
 field access with a one-line inline helper (a scalar or pointer field get/set, `field == K`)
 left the code of every matching function unchanged, so those can be used wherever 9.6f calls
-them. Adding these helpers made `Object_2C::sub_526B40` match (`Sprite::GetType_416B40`,
+them. Adding these helpers made `Object_2C::InheritMotionFromSprite_526B40` match (`Sprite::GetType_416B40`,
 `Char_B4::get_velocity_41B080`, `Sprite::SetDrawLayer_40F7B0`). The exception is
 `Char_B4::SetMaxSpeed_433920(Fix16)`: as a by-value `Fix16` parameter it changed six matching
 `Ped` functions (`WalkToTargetPoint_46C770` and others), although 9.6f calls it there. Those keep the plain
@@ -2719,7 +2719,7 @@ tried are in the WIP status report.
   once each branch only set lo, hi and the random factor and one shared `*pRet = lo + t*(hi-lo)` ended the
   function; the final sum is still in `ecx` instead of `eax` there.
 - A `switch` that clobbers its value (`add $-39,%eax`) and reloads the parameter for
-  `default`, where ours uses `lea` into another register (`Object_2C::sub_526830`).
+  `default`, where ours uses `lea` into another register (`Object_2C::GetExplosionTypeForItemDefinition_526830`).
   Also `Network_20324::SetGameSpeedTextLabelAndSlider_51CFC0`. There each case also repeats the whole
   `SetDlgItemTextA` call where we share one tail. 200 permuter compiles found nothing.
 - An `s16` parameter returned with a 32-bit `mov` in `default` (`gtx_0x106C::GetSpriteTrueIndex_5AA460`).

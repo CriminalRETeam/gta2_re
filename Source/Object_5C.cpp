@@ -116,13 +116,13 @@ Object_2C::Object_2C()
     field_C_pAny.o8 = 0;
     field_10_obj_3c = 0;
     field_14_id = 99;
-    field_24_bDoneThisFrame = 0;
+    field_24_touched_result = 0;
     field_25_removal_state = 0;
     field_26_ped_ref_idx = 99;
     field_20_pool_list_state = 0;
-    field_27 = 0;
+    field_27_thread_trigger_idx = 0;
     field_28 = -51;
-    field_1C_bHasExplosion = 0;
+    field_1C_has_explosion = 0;
 }
 
 MATCH_FUNC(0x522180)
@@ -144,7 +144,7 @@ void Object_2C::PoolDeallocate()
 
     --dword_6F8F88;
 
-    if (is_not_type6_to_12_421080())
+    if (IsNotShopOrLightBehavior_421080())
     {
         if (field_26_ped_ref_idx > 0)
         {
@@ -165,7 +165,7 @@ void Object_2C::PoolDeallocate()
 MATCH_FUNC(0x522250)
 bool Object_2C::CanCollideWithSpriteByOwnerRef_522250(Sprite* pSprite)
 {
-    if (is_not_type6_to_12_421080())
+    if (IsNotShopOrLightBehavior_421080())
     {
         u8 ped_ref_idx = this->get_field_26_420FF0();
         if (ped_ref_idx > 0)
@@ -187,7 +187,7 @@ bool Object_2C::CanCollideWithSpriteByOwnerRef_522250(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5222b0)
-s32 Object_2C::sub_5222B0()
+s32 Object_2C::GetMovementRegionSize_5222B0()
 {
     return this->field_8->field_68 != 0 ? 2048 : 1024;
 }
@@ -664,7 +664,7 @@ void Object_2C::Sprite_UpdateZFromSlopeAndTile_522FA0(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5233a0)
-char_type Object_2C::sub_5233A0(Fix16 value)
+char_type Object_2C::TryStartSlide_5233A0(Fix16 value)
 {
     gObject2C_LastCollisionSprite_6F8F8C = 0;
 
@@ -685,7 +685,7 @@ char_type Object_2C::sub_5233A0(Fix16 value)
 
         if (this->field_10_obj_3c->field_34 == 1)
         {
-            sub_482BF0();
+            SetTopDrawLayer_482BF0();
         }
         else
         {
@@ -1013,7 +1013,7 @@ char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point*
             if (pObj3C->field_34 == 2)
             {
                 pObj3C->field_34 = 1;
-                sub_482BE0();
+                ApplyDefinitionDrawLayer_482BE0();
                 field_10_obj_3c->field_10_z_speed = kObjectBounceRestitution_6F8DBC * (-field_10_obj_3c->field_10_z_speed);
             }
             return true;
@@ -1041,8 +1041,8 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
     Fix16 step_count;
     Sprite* pSprt = gObject_5C_6F8F84->field_58_collision_probe_sprite;
     gObject2C_WallHitSide_6F8F90 = 0;
-    sub_482BE0();
-    if (Object_2C::sub_5233A0(mov_speed))
+    ApplyDefinitionDrawLayer_482BE0();
+    if (Object_2C::TryStartSlide_5233A0(mov_speed))
     {
         mov_speed_copy = field_10_obj_3c->field_C_speed;
     }
@@ -1195,7 +1195,7 @@ void Object_2C::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 ang
             }
         }
 
-        Object_2C::sub_5233A0(mov_speed);
+        Object_2C::TryStartSlide_5233A0(mov_speed);
         if (field_4->field_14_xy.x < kFpZero_6F8E10 || field_4->field_14_xy.x >= kMapSize_6F8BF4 || field_4->field_14_xy.y < kFpZero_6F8E10 ||
             field_4->field_14_xy.y >= kMapSize_6F8BF4)
         {
@@ -1404,7 +1404,7 @@ LABEL_48:
 }
 
 MATCH_FUNC(0x525100)
-void Object_2C::sub_525100()
+void Object_2C::OnAttachedSpriteDestroyed_525100()
 {
     const s32 behavior = field_8->field_34_behavior_type;
     if (behavior >= 0 && behavior <= 1)
@@ -1422,10 +1422,10 @@ void Object_2C::sub_525100()
 
 // https://decomp.me/scratch/jLuSq
 MATCH_FUNC(0x525190)
-void Object_2C::sub_525190(u8 ped_ref_idx)
+void Object_2C::OnExplosionNearby_525190(u8 ped_ref_idx)
 {
 
-    if (IsDefinitionIdx39To42_482400(field_8->field_3C_next_definition_idx))
+    if (IsExplosiveItemDefinition_482400(field_8->field_3C_next_definition_idx))
     {
         PoolGiveAndSetDone_5291E0(field_8->field_3C_next_definition_idx);
     }
@@ -1567,7 +1567,7 @@ char Object_2C::ShouldCollideWithSprite_525370(Sprite* pSprite)
                     }
 
                     // Don't collide shops, I guess
-                    if (pObj2C->check_is_shop_421060() && !check_is_shop_421060())
+                    if (pObj2C->IsShop_421060() && !IsShop_421060())
                     {
                         return 0;
                     }
@@ -1579,7 +1579,7 @@ char Object_2C::ShouldCollideWithSprite_525370(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5257d0)
-void Object_2C::UpdateAninmation_5257D0()
+void Object_2C::UpdateAnimation_5257D0()
 {
     ++this->field_C_pAny.o8->field_6_frame_counter;
     if (field_C_pAny.o8->field_6_frame_counter >= this->field_8->field_64_next_frame_max)
@@ -1608,7 +1608,7 @@ void Object_2C::UpdateAninmation_5257D0()
 MATCH_FUNC(0x525910)
 bool Object_2C::DispatchFrameAction_525910()
 {
-    if (field_24_bDoneThisFrame)
+    if (field_24_touched_result)
     {
         switch (field_8->field_44)
         {
@@ -1618,30 +1618,30 @@ bool Object_2C::DispatchFrameAction_525910()
             case 6:
             case 8:
             case 11:
-                if (field_24_bDoneThisFrame == 1)
+                if (field_24_touched_result == 1)
                 {
                     TickObject_5283C0(field_8->field_38);
                 }
                 else
                 {
-                    TickObject_5283C0(field_24_bDoneThisFrame);
+                    TickObject_5283C0(field_24_touched_result);
                 }
-                field_24_bDoneThisFrame = 0;
+                field_24_touched_result = 0;
                 return true;
             case 4:
-                if (field_24_bDoneThisFrame != 1)
+                if (field_24_touched_result != 1)
                 {
-                    TickObject_5283C0(field_24_bDoneThisFrame);
+                    TickObject_5283C0(field_24_touched_result);
                 }
-                field_24_bDoneThisFrame = 0;
+                field_24_touched_result = 0;
                 return true;
             case 7:
             case 10:
-                field_24_bDoneThisFrame = 0;
+                field_24_touched_result = 0;
                 RequestRemoval_5290A0();
                 return true;
             default:
-                field_24_bDoneThisFrame = 0;
+                field_24_touched_result = 0;
                 return false;
         }
     }
@@ -1655,7 +1655,7 @@ bool Object_2C::DispatchFrameAction_525910()
 }
 
 MATCH_FUNC(0x525AC0)
-char Object_2C::sub_525AC0()
+char Object_2C::IsFireExplosion_525AC0()
 {
     if (field_18_model == objects::explosion_113)
     {
@@ -1773,7 +1773,7 @@ void Object_2C::UpdatePhysicsAndMovement_525B80()
             this->field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
 
             TickObject_5283C0(field_8->field_38);
-            if (is_not_type6_to_12_421080())
+            if (IsNotShopOrLightBehavior_421080())
             {
                 if (get_field_26_420FF0() > 0)
                 {
@@ -1816,7 +1816,7 @@ void Object_2C::UpdatePhysicsMovementAndAnimation_525D90()
     {
         if (!this->field_10_obj_3c->field_30_bSkipAnim)
         {
-            UpdateAninmation_5257D0();
+            UpdateAnimation_5257D0();
         }
     }
 
@@ -1840,7 +1840,7 @@ void Object_2C::UpdatePhysicsMovementAndAnimation_525D90()
 
                 if (field_18_model != 183)
                 {
-                    if (is_not_type6_to_12_421080())
+                    if (IsNotShopOrLightBehavior_421080())
                     {
                         // 9.6f: Object_2C::get_field_26_420FF0 (inlined, using it changes the code)
                         if (field_26_ped_ref_idx > 0)
@@ -1908,7 +1908,7 @@ void Object_2C::Update_525F30()
                 if (!DispatchFrameAction_525910())
                 {
                     UpdateEffectPool_525B20();
-                    UpdateAninmation_5257D0();
+                    UpdateAnimation_5257D0();
                 }
                 return;
 
@@ -1970,7 +1970,7 @@ void Object_2C::TriggerCarExplosionIfApplicable_526790(Sprite* pSprite)
     {
         if (IsAnimFinished_482C10())
         {
-            if (IsDefinitionIdx39To42_482400(pDefinition->field_3C_next_definition_idx)) // car
+            if (IsExplosiveItemDefinition_482400(pDefinition->field_3C_next_definition_idx)) // car
             {
                 Car_BC* pCar = pSprite->AsCar_40FEB0();
                 if (pCar)
@@ -1986,7 +1986,7 @@ void Object_2C::TriggerCarExplosionIfApplicable_526790(Sprite* pSprite)
                             pCar->field_94_exploder_timer = 50;
                         }
                     }
-                    s32 t = sub_526830(field_8->field_3C_next_definition_idx);
+                    s32 t = GetExplosionTypeForItemDefinition_526830(field_8->field_3C_next_definition_idx);
                     pCar->HandleCarExplosion_43D840(t);
                 }
             }
@@ -1995,7 +1995,7 @@ void Object_2C::TriggerCarExplosionIfApplicable_526790(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x526830)
-s32 __stdcall Object_2C::sub_526830(s32 type)
+s32 __stdcall Object_2C::GetExplosionTypeForItemDefinition_526830(s32 type)
 {
     switch (type)
     {
@@ -2013,7 +2013,7 @@ s32 __stdcall Object_2C::sub_526830(s32 type)
 }
 
 MATCH_FUNC(0x526b40)
-void Object_2C::sub_526B40(Sprite* pSprite)
+void Object_2C::InheritMotionFromSprite_526B40(Sprite* pSprite)
 {
     Object_3C* p3C; // eax
 
@@ -2056,7 +2056,7 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
 
     if (field_10_obj_3c)
     {
-        sub_526B40(pSprite);
+        InheritMotionFromSprite_526B40(pSprite);
     }
 
     if (field_8->field_34_behavior_type != object_behavior_type::light_type_11)
@@ -2090,7 +2090,7 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
         switch (field_8->field_34_behavior_type)
         {
             case object_behavior_type::behavior_2:
-                UpdateAninmation_5257D0();
+                UpdateAnimation_5257D0();
                 break;
 
             case object_behavior_type::explosion_5:
@@ -2173,7 +2173,7 @@ void Object_2C::InitializeObject_527630(s32 object_type, Fix16 xpos, Fix16 ypos,
     ObjectDefinition_74* phi74 = gObjectDefinitions_6FCF00->GetObjectDefinition_534360(object_type);
     field_8 = phi74;
     field_18_model = object_type;
-    field_24_bDoneThisFrame = 0;
+    field_24_touched_result = 0;
 
     if (field_4)
     {
@@ -2191,7 +2191,7 @@ void Object_2C::InitializeObject_527630(s32 object_type, Fix16 xpos, Fix16 ypos,
 }
 
 MATCH_FUNC(0x527990)
-void Object_2C::Light_527990()
+void Object_2C::TurnOffLight_527990()
 {
     field_C_pAny.pLight->field_0.flag &= ~0xFF;
 }
@@ -2256,7 +2256,7 @@ void Object_2C::ReleaseSubObjects_527F10()
             gLight_1D4CC_6F5520->DeallocLight_47F4F0(field_C_pAny.pLight);
             this->field_C_pAny.o8 = 0;
         }
-        else if (this->field_1C_bHasExplosion)
+        else if (this->field_1C_has_explosion)
         {
             field_C_pAny.pExplosion->Release_543610();
             this->field_C_pAny.o8 = 0;
@@ -2369,13 +2369,13 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
     }
     else
     {
-        if (IsDefinitionIdx39To42_482400(obj_type))
+        if (IsExplosiveItemDefinition_482400(obj_type))
         {
             Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(field_4->field_14_xy.x,
                                                                               field_4->field_14_xy.y,
                                                                               field_4->field_1C_zpos,
                                                                               kZeroAng_6F8F68,
-                                                                              sub_526830(obj_type),
+                                                                              GetExplosionTypeForItemDefinition_526830(obj_type),
                                                                               gPedRefTable_7F8_703398->GetPedId_420F10(field_26_ped_ref_idx));
             if (pExplosion)
             {
@@ -2806,9 +2806,9 @@ MATCH_FUNC(0x528e50)
 void Object_2C::HandleImpact_528E50(Sprite* pSprite)
 {
     // Case order decides VC6's block layout and tail merging; case 11 has to come before case 3.
-    if (!this->field_24_bDoneThisFrame && (!pSprite || ShouldCollideWith_5223C0(pSprite)))
+    if (!this->field_24_touched_result && (!pSprite || ShouldCollideWith_5223C0(pSprite)))
     {
-        this->field_24_bDoneThisFrame = 1;
+        this->field_24_touched_result = 1;
         switch (field_8->field_44)
         {
             case 1:
@@ -2820,14 +2820,14 @@ void Object_2C::HandleImpact_528E50(Sprite* pSprite)
             case 8:
                 if (pSprite)
                 {
-                    this->field_24_bDoneThisFrame = HandleObjectHit_528990(pSprite);
+                    this->field_24_touched_result = HandleObjectHit_528990(pSprite);
                 }
                 else
                 {
                     HandleImpactNoSprite_528BA0();
                 }
 
-                if (!field_24_bDoneThisFrame)
+                if (!field_24_touched_result)
                 {
                     return;
                 }
@@ -2835,32 +2835,32 @@ void Object_2C::HandleImpact_528E50(Sprite* pSprite)
                 break;
 
             case 6:
-                this->field_24_bDoneThisFrame = OnObjectTouched_5288B0(pSprite);
-                if (field_24_bDoneThisFrame)
+                this->field_24_touched_result = OnObjectTouched_5288B0(pSprite);
+                if (field_24_touched_result)
                 {
                     PoolGive_522340(); // destroy
                 }
                 break;
 
             case 9:
-                this->field_24_bDoneThisFrame = OnObjectTouched_5288B0(pSprite);
+                this->field_24_touched_result = OnObjectTouched_5288B0(pSprite);
                 break;
 
             case 11:
-                this->field_24_bDoneThisFrame = 0;
+                this->field_24_touched_result = 0;
                 break;
 
             case 3:
                 if (pSprite->AsCar_40FEB0())
                 {
-                    this->field_24_bDoneThisFrame = 1;
+                    this->field_24_touched_result = 1;
                 }
                 else
                 {
-                    this->field_24_bDoneThisFrame = 0;
+                    this->field_24_touched_result = 0;
                 }
 
-                if (!field_24_bDoneThisFrame)
+                if (!field_24_touched_result)
                 {
                     return;
                 }
@@ -2871,14 +2871,14 @@ void Object_2C::HandleImpact_528E50(Sprite* pSprite)
             case 5:
                 if (pSprite->AsCharB4_40FEA0())
                 {
-                    this->field_24_bDoneThisFrame = 1; // is_charb4
+                    this->field_24_touched_result = 1; // is_charb4
                 }
                 else
                 {
-                    this->field_24_bDoneThisFrame = 0;
+                    this->field_24_touched_result = 0;
                 }
 
-                if (!field_24_bDoneThisFrame)
+                if (!field_24_touched_result)
                 {
                     return;
                 }
@@ -2892,11 +2892,11 @@ void Object_2C::HandleImpact_528E50(Sprite* pSprite)
                 }
                 if (pSprite->AsCharB4_40FEA0())
                 {
-                    this->field_24_bDoneThisFrame = 1;
+                    this->field_24_touched_result = 1;
                 }
                 else
                 {
-                    this->field_24_bDoneThisFrame = 0;
+                    this->field_24_touched_result = 0;
                 }
                 break;
 
@@ -2904,11 +2904,11 @@ void Object_2C::HandleImpact_528E50(Sprite* pSprite)
                 break;
         }
 
-        if (this->field_24_bDoneThisFrame)
+        if (this->field_24_touched_result)
         {
             if (pSprite)
             {
-                if (!check_is_shop_421060() || !pSprite->IsControlledByActivePlayer_59E170())
+                if (!IsShop_421060() || !pSprite->IsControlledByActivePlayer_59E170())
                 {
                     gCollisionSoundQueue_66AFE0->AddSpriteCollision_40BDD0(field_4, pSprite);
                 }
@@ -2991,7 +2991,7 @@ void Object_2C::SetSpriteIdxOffset_5290C0(u8 offset)
 }
 
 MATCH_FUNC(0x5290F0)
-Fix16 Object_2C::sub_5290F0()
+Fix16 Object_2C::GetEffectiveSpeed_5290F0()
 {
     if (field_10_obj_3c)
     {
@@ -3034,14 +3034,14 @@ MATCH_FUNC(0x5291d0)
 void Object_2C::PoolGiveAndMarkDone_5291D0()
 {
     PoolGive_522340();
-    field_24_bDoneThisFrame = 1;
+    field_24_touched_result = 1;
 }
 
 MATCH_FUNC(0x5291E0)
 void Object_2C::PoolGiveAndSetDone_5291E0(s32 bDone)
 {
     PoolGive_522340();
-    field_24_bDoneThisFrame = bDone;
+    field_24_touched_result = bDone;
 }
 
 MATCH_FUNC(0x529200)
@@ -3067,7 +3067,7 @@ s32 Object_2C::GetExplosionSideFromDiagonalWall_529210()
 }
 
 MATCH_FUNC(0x529240)
-s32 Object_2C::sub_529240()
+s32 Object_2C::GetMapBlockSoundSpec_529240()
 {
     s32 result;
     gmp_block_info* pBlockInfo =
@@ -3092,7 +3092,7 @@ s32 Object_2C::sub_529240()
 }
 
 MATCH_FUNC(0x5292D0)
-void Object_2C::get_weapon_default_ammo_5292D0()
+void Object_2C::SetDefaultWeaponAmmo_5292D0()
 {
     s32 wepon_kind;
     if (field_18_model >= 200)
@@ -3445,7 +3445,7 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             pNew2C->field_C_pAny.pExplosion = pNew30;
             if (pNew30) // 225
             {
-                pNew2C->field_1C_bHasExplosion = 1;
+                pNew2C->field_1C_has_explosion = 1;
             }
             else
             {
@@ -3516,9 +3516,9 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
     ++dword_6F8F88;
 
     pNew2C->field_18_model = object_type;
-    if (pNew2C->check_is_shop_421060())
+    if (pNew2C->IsShop_421060())
     {
-        pNew2C->get_weapon_default_ammo_5292D0();
+        pNew2C->SetDefaultWeaponAmmo_5292D0();
     }
 
     if (pNew2C->field_18_model == objects::power_generator_281)
@@ -3626,7 +3626,7 @@ Object_2C* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 ro
     Object_2C* pNew2C = NewPhysicsObj_5299B0(objects::explosion_113, x, y, z, rot);
     if (pNew2C)
     {
-        pNew2C->field_1C_bHasExplosion = 1;
+        pNew2C->field_1C_has_explosion = 1;
 
         if (!pNew2C->field_C_pAny.pExplosion)
         {
@@ -3681,11 +3681,11 @@ void Object_5C::SaveObjects_52A500(SavedObjectData_164* pData)
     Object_2C* pObj = gObject_2C_Pool_6F8F80->field_8_pool;
     for (u16 i = 0; i < 3825; pObj++, i++)
     {
-        if (pObj->field_18_model && pObj->check_is_shop_421060())
+        if (pObj->field_18_model && pObj->IsShop_421060())
         {
-            pData->field_0_obj_x[0][saved_count].field_0 = pObj->get_x_4340D0();
-            pData->field_0_obj_x[1][saved_count].field_0 = pObj->get_y_4340E0();
-            pData->field_0_obj_x[2][saved_count].field_0 = pObj->get_z_4340F0();
+            pData->field_0_obj_x[0][saved_count].field_0 = pObj->GetX_4340D0();
+            pData->field_0_obj_x[1][saved_count].field_0 = pObj->GetY_4340E0();
+            pData->field_0_obj_x[2][saved_count].field_0 = pObj->GetZ_4340F0();
             pData->field_F0_model[saved_count] = pObj->field_18_model;
             pData->field_118_ped_ref_idx[saved_count] = pObj->field_26_ped_ref_idx;
             saved_count++;

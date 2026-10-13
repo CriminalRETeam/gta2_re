@@ -6750,7 +6750,7 @@
         "v105_address": "0x521db0"
     },
     {
-        "name": "Object_2C::sub_525100",
+        "name": "Object_2C::OnAttachedSpriteDestroyed_525100",
         "v96f_address": null,
         "v105_address": "0x525100"
     },
@@ -11981,7 +11981,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Object_2C::sub_5222B0",
+        "name": "Object_2C::GetMovementRegionSize_5222B0",
         "v96f_address": null,
         "v105_address": "0x5222b0"
     },
@@ -12083,7 +12083,7 @@
         "v105_address": "0x523060"
     },
     {
-        "name": "Object_2C::sub_5233A0",
+        "name": "Object_2C::TryStartSlide_5233A0",
         "v96f_address": "0x483460",
         "v105_address": "0x5233a0",
         "v96f_auto": true
@@ -12129,7 +12129,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Object_2C::sub_525190",
+        "name": "Object_2C::OnExplosionNearby_525190",
         "v96f_address": "0x4856e0",
         "v105_address": "0x525190",
         "v96f_auto": true
@@ -12146,7 +12146,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Object_2C::UpdateAninmation_5257D0",
+        "name": "Object_2C::UpdateAnimation_5257D0",
         "v96f_address": "0x485fd0",
         "v105_address": "0x5257d0",
         "v96f_auto": true
@@ -12158,7 +12158,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Object_2C::sub_525AC0",
+        "name": "Object_2C::IsFireExplosion_525AC0",
         "v96f_address": null,
         "v105_address": "0x525ac0"
     },
@@ -12222,13 +12222,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Object_2C::sub_526830",
+        "name": "Object_2C::GetExplosionTypeForItemDefinition_526830",
         "v96f_address": "0x4825e0",
         "v105_address": "0x526830",
         "v96f_auto": true
     },
     {
-        "name": "Object_2C::sub_526B40",
+        "name": "Object_2C::InheritMotionFromSprite_526B40",
         "v96f_address": "0x483880",
         "v105_address": "0x526b40",
         "v96f_auto": true
@@ -12246,7 +12246,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Object_2C::Light_527990",
+        "name": "Object_2C::TurnOffLight_527990",
         "v96f_address": "0x527990",
         "v105_address": "0x527990"
     },
@@ -12379,7 +12379,7 @@
         "v105_address": "0x5290c0"
     },
     {
-        "name": "Object_2C::sub_5290F0",
+        "name": "Object_2C::GetEffectiveSpeed_5290F0",
         "v96f_address": "0x4827d0",
         "v105_address": "0x5290f0",
         "v96f_auto": true
@@ -12414,13 +12414,13 @@
         "v105_address": "0x529210"
     },
     {
-        "name": "Object_2C::sub_529240",
+        "name": "Object_2C::GetMapBlockSoundSpec_529240",
         "v96f_address": "0x483cc0",
         "v105_address": "0x529240",
         "v96f_auto": true
     },
     {
-        "name": "Object_2C::get_weapon_default_ammo_5292D0",
+        "name": "Object_2C::SetDefaultWeaponAmmo_5292D0",
         "v96f_address": "0x483d50",
         "v105_address": "0x5292d0",
         "v96f_auto": true

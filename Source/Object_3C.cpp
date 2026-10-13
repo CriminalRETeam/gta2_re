@@ -134,7 +134,7 @@ AttachedSprite_18* SpriteList_4::FindFirstActiveObject_5A6AD0()
             Object_2C* o2c = pObjIter->field_0_pSprite->field_8_object_2C_ptr;
             if (o2c)
             {
-                if (o2c->sub_525AC0())
+                if (o2c->IsFireExplosion_525AC0())
                 {
                     return pObjIter;
                 }
@@ -542,7 +542,7 @@ void SpriteList_4::CleanupSpriteList_5A7080()
     {
         bool bUnlinkHead = false;
         s32 type = pIter->field_0_pSprite->GetType_416B40();
-        if ((type == 1 || type > 3 && type <= 5) && pIter->field_0_pSprite->field_8_object_2C_ptr->sub_4BE830())
+        if ((type == 1 || type > 3 && type <= 5) && pIter->field_0_pSprite->field_8_object_2C_ptr->IsFlameObject_4BE830())
         {
             gObject_5C_6F8F84->RemoveAndFree_52A610(pIter->field_0_pSprite->field_8_object_2C_ptr);
             if (pLast)
@@ -650,7 +650,7 @@ void SpriteList_4::sub_5A71F0()
         if (type == 1 || type > 3 && type <= 5)
         {
             Object_2C* o2c = p18Iter->field_0_pSprite->field_8_object_2C_ptr;
-            if (o2c->sub_4BE830())
+            if (o2c->IsFlameObject_4BE830())
             {
                 p18Iter->field_0_pSprite->field_8_object_2C_ptr->field_C_pAny.pExplosion->field_1A_timer = 2;
             }
