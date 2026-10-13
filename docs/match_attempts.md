@@ -3863,7 +3863,7 @@ Round 5 findings from the other agents (not matched):
 - `Map_0x370::sub_4E8370` (8 at head): hoisting `new_idx`/`pNew` fixes the head; `column_idx` then goes to prio 9 / `ecx` instead of -7 / `eax`.
 - `Char_B4::HandlePedCollision_548BD0`: `Ang16 res;` declared at the function top with `res = atan2(...)` at the `kAng180 + atan2` site gives the original's operand order but loads instead of `add (%eax),%cx`.
 - `TagGameHudUpdate_4DADA0`, `FreeLowestPriority_543690`, `GetLayout_4D6000`, `ProcessPoliceRadioWordsPlayback_427220`, `state_8_5520A0`: pointer-param inlines and more spellings tried, no change.
-- `miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180`: the constant 8 shared by `CanAlloc_446870(8)` and the tail's `ReassignAllocatedCarType_443EE0(8)` is one live range worth +18 to pParam2 in the tail block. Changing either 8 to 9 (diagnostic only) gives the original's ebx/esi/edi. pCar's ecx comes from its preference for the else-branch `Reassign(8)` `this`. Writing the despawn checks like `MissionCleanUp_502DC0` gives identical code but lowers zero to 2.
+- `miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180`: the constant 8 shared by `CanAllocateCarOfKindWithSpare_446870(8)` and the tail's `ReassignAllocatedCarType_443EE0(8)` is one live range worth +18 to pParam2 in the tail block. Changing either 8 to 9 (diagnostic only) gives the original's ebx/esi/edi. pCar's ecx comes from its preference for the else-branch `Reassign(8)` `this`. Writing the despawn checks like `MissionCleanUp_502DC0` gives identical code but lowers zero to 2.
 - `CarAI_78::DetectCarAhead_44D1D0`: `last` keeps a separate load + `dec` because `arrow_count` is address-taken; `next` would need `arrow_idx` to be memory-resident too (it's a returned value, no source form found). Equal priority would suffice (next has the higher tie-break).
 - `PedGroup::MergeWithOtherGroup_4C9B60`: pPed's live range is ~-11 (one use in loop 1), so it fails and splits; the original keeps pPed in edi and spills the list pointer into pPed's argument slot.
 - `Hud_Arrow_7C::UpdateScreenPos_5D0850`: the inline-budget cause is found: writing `get_camera_434900` out as an if/else and keeping `atan2_40F790` gives the original's 14 out-of-line calls, and `const Fix16& r = field_10_radius_pos;` reproduces the original's field reload. But the frame is then 0x3C instead of 0x38 (the projection's `Add` return temps don't share slot 0x10 with `distance`), so the score gets worse (86 -> 128+). Next: slotlog on the `$T` Add returns.
@@ -3952,7 +3952,7 @@ Round 6 findings (not matched):
   (3) the tail is `if (!is_bus(car)) car->SetF98To2IfNot4_475C40();` (fixes the else branch temps);
   (4) despawn checks written with `IsDeactivated_4214D0`/`MarkForDespawn_421470`/`DespawnSoon_421490` like
   `MissionCleanUp_502DC0` (no `four` local; same code). Left (priolog): pParam2 prio 7 vs zero 2, so pParam2 takes
-  esi and the constant 4 gets no register (the original: zero esi, 4 edi, pParam2 ebx). Changing `CanAlloc_446870(8)`
+  esi and the constant 4 gets no register (the original: zero esi, 4 edi, pParam2 ebx). Changing `CanAllocateCarOfKindWithSpare_446870(8)`
   to 9 (diagnostic only) gives pParam2 3 / zero 4 and score 20; the rest is the constant 3 (ours edx, original ecx:
   the gStored reload live ranges, prio 12-14, are coloured before it at prio 7). Explicit despawn chains raise
   pParam2 (11); `has_car`/`get_car` inlines, a store-car inline helper and `&&`-merged null checks change nothing.
@@ -4322,7 +4322,7 @@ Scores are `quick_score.sh` lines (NO_PCH=1, WIP_IMPLEMENTED emptied).
   evaluates `GetPlay(..) + Random(..)` and `Random(..) + GetPlay(..)` both GetPlay-first (the global `this` operand
   goes first), so the open block's Random-first order needs a statement (a named local) and that local is what gets
   the register the original spills. Not found: a dword form of that local that stays in memory.
-- `miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180` (80, unchanged). `CanAlloc_446870(u32)` (param type, header) does not
+- `miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180` (80, unchanged). `CanAllocateCarOfKindWithSpare_446870(u32)` (param type, header) does not
   split the shared 8 constant (constants are keyed by value: 80). Priolog on the permuter's `(u8)gStoredCar` 58:
   the constant `4` is coloured at prio -25 in both forms; in the base it gets ebx and is folded to immediates, in
   the (u8) form it gets edi and is used. So a constant whose register would be the only use of ebx (an extra

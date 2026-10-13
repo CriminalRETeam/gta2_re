@@ -443,7 +443,7 @@ found item or NULL. Open-coded loops make VC6 send all the returns to one shared
 
 **`return a < N;` per case vs a bool local.** Returning the comparison in each case gives
 `xor eax; mov field,edx; cmp; setl`; setting a bool local gives `cmpl $N,mem; setl` with no `xor`
-(`Car_6C::CanAllocateOfType_446930`, cases in the original block order).
+(`Car_6C::CanAllocateCarOfKind_446930`, cases in the original block order).
 
 **A pointer local can block cross-jumping.** In `ExplosionPool_7A8::Allocate_543800` a `p = &arr[idx]` local
 changed the registers of two identical init blocks so VC6 no longer merged them; indexing `arr[idx]`

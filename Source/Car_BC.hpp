@@ -200,8 +200,8 @@ class Car_6C
     EXPORT void DecrementAllocatedCarType_4466C0(s32 car_kind);
     EXPORT void EnableFreeShoppingIfAllKFsPassed_446760();
     EXPORT void CarsService_446790();
-    EXPORT bool CanAlloc_446870(s32 type);
-    EXPORT bool CanAllocateOfType_446930(s32 type);
+    EXPORT bool CanAllocateCarOfKindWithSpare_446870(s32 type);
+    EXPORT bool CanAllocateCarOfKind_446930(s32 type);
     EXPORT Car_6C();
     EXPORT ~Car_6C();
 

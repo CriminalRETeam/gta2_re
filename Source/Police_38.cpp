@@ -2639,7 +2639,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                     angle = word_6FEE30;
                 }
 
-                if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::roadblock_car_7))
+                if (gCar_6C_677930->CanAllocateCarOfKind_446930(car_kind::roadblock_car_7))
                 {
                     switch (gCrewKind_6FEDB8)
                     {
@@ -2940,7 +2940,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                     angle = word_6FEB74;
                 }
 
-                if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::roadblock_car_7))
+                if (gCar_6C_677930->CanAllocateCarOfKind_446930(car_kind::roadblock_car_7))
                 {
                     switch (gCrewKind_6FEDB8)
                     {

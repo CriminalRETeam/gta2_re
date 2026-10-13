@@ -2409,9 +2409,9 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                 {
                     if (gStoredCar_6F7560->field_6C_car_id == gStoredCarId_6F78B4)
                     {
-                        if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::recycled_1))
+                        if (gCar_6C_677930->CanAllocateCarOfKind_446930(car_kind::recycled_1))
                         {
-                            gStoredCar_6F7560->ReassignAllocatedCarType_443EE0(1);
+                            gStoredCar_6F7560->ReassignAllocatedCarType_443EE0(car_kind::recycled_1);
                             gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
                             gStoredCar_6F7560->SetUniNum_421560(3);
 
@@ -2420,7 +2420,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                                 gStoredCar_6F7560->MarkForDespawn_421470();
                             }
                         }
-                        else if (gCar_6C_677930->CanAlloc_446870(car_kind::mission_car_8))
+                        else if (gCar_6C_677930->CanAllocateCarOfKindWithSpare_446870(car_kind::mission_car_8))
                         {
                             gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
                             gStoredCar_6F7560->SetUniNum_421560(3);
@@ -2442,7 +2442,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                     gStoredCar_6F7560 = pParam2->field_8_car;
                     gStoredCarId_6F78B4 = pParam2->field_8_car->field_6C_car_id;
 
-                    gStoredCar_6F7560->ReassignAllocatedCarType_443EE0(8);
+                    gStoredCar_6F7560->ReassignAllocatedCarType_443EE0(car_kind::mission_car_8);
 
                     if (!gPublicTransport_181C_6FF1D4->is_bus_579AA0(pParam2->field_8_car))
                     {
@@ -2454,7 +2454,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
             {
                 gStoredCar_6F7560 = pParam2->field_8_car;
                 gStoredCarId_6F78B4 = pChar->field_16C_car->field_6C_car_id;
-                gStoredCar_6F7560->ReassignAllocatedCarType_443EE0(8);
+                gStoredCar_6F7560->ReassignAllocatedCarType_443EE0(car_kind::mission_car_8);
             }
         }
     }

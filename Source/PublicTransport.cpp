@@ -1225,7 +1225,7 @@ void PublicTransport_181C::BusesService_579CA0()
     {
         u16 i;
         s32 found_z;
-        if (dword_6FF1D0 || byte_6FF1CD || !gCar_6C_677930->CanAllocateOfType_446930(car_kind::recycled_1))
+        if (dword_6FF1D0 || byte_6FF1CD || !gCar_6C_677930->CanAllocateCarOfKind_446930(car_kind::recycled_1))
         {
             if (--dword_6FF1D0 < 0)
             {

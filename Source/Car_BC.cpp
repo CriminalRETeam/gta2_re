@@ -1608,7 +1608,7 @@ void Car_6C::CarsService_446790()
 }
 
 MATCH_FUNC(0x446870)
-bool Car_6C::CanAlloc_446870(s32 type)
+bool Car_6C::CanAllocateCarOfKindWithSpare_446870(s32 type)
 {
     switch (type)
     {
@@ -1634,7 +1634,7 @@ bool Car_6C::CanAlloc_446870(s32 type)
 }
 
 MATCH_FUNC(0x446930)
-bool Car_6C::CanAllocateOfType_446930(s32 type)
+bool Car_6C::CanAllocateCarOfKind_446930(s32 type)
 {
     switch (type)
     {
@@ -7827,7 +7827,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direction, s3
                                         pNewCar->StartEngine_426E00();
                                         pNewCar->field_5C_AI->field_74_max_speed = gTrafficCarSpeed_6FF570;
                                     }
-                                    else if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::police_6) &&
+                                    else if (gCar_6C_677930->CanAllocateCarOfKind_446930(car_kind::police_6) &&
                                              gPolice_7B8_6FEE40->SpawnCrewInCar_5703E0(pNewCar))
                                     {
                                         pNewCar->IncrementCarStats_443D70(car_kind::police_6);

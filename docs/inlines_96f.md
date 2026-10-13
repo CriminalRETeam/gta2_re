@@ -565,10 +565,10 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x478370 | `SpriteGrid_400::AddToColumnBuckets_478370` | 0x447900 | `sub_447360`, `sub_447380` | checked | sub_447350/60/70/80 are the GridSpriteLink_8 / GridCell_C pool Allocate/DeAllocate (template, already used) |
 | 0x478440 | `SpriteGrid_400::AddToSingleBucket_478440` | 0x4479D0 | `sub_447350`, `sub_447370` | checked | sub_447350/60/70/80 are the GridSpriteLink_8 / GridCell_C pool Allocate/DeAllocate (template, already used) |
 | 0x4784D0 | `SpriteGrid_400::AddToRowBuckets_4784D0` | 0x447A60 | `sub_447350`, `sub_447370` | checked | sub_447350/60/70/80 are the GridSpriteLink_8 / GridCell_C pool Allocate/DeAllocate (template, already used) |
-| 0x4785D0 | `SpriteGrid_400::CheckRowForRectCollisions_4785D0` | 0x446DE0 | ✓ `sub_446940`, ✓ `CanAllocateOfType_446930`, `sub_4B9A30`, ✓ `sub_41E390`, `sub_4BED60`, ✓ `sub_446920` | checked | sub_4B9A30 = ShouldCollideWithSprite_59E850, sub_4BED60 = AddSprite_5A6CD0 (called) |
-| 0x478750 | `SpriteGrid_400::CheckAndHandleCollisionsInStrip_478750` | 0x446F30 | ✓ `CanAllocateOfType_446930`, ✓ `sub_446920` | done | all 9.6f inlines used |
-| 0x4787E0 | `SpriteGrid_400::CheckAndHandleRowCollisionsForSprite_4787E0` | 0x446FD0 | ✓ `sub_446940`, ✓ `CanAllocateOfType_446930`, `sub_4B9A80`, ✓ `sub_446920` | checked | sub_4B9A80 = ProcessCarToCarImpactIfCar_59E910 (called) |
-| 0x478880 | `SpriteGrid_400::FindNearestSpriteInRow_478880` | 0x4470B0 | ✓ `sub_446940`, ✓ `CanAllocateOfType_446930`, `sub_4B9A30`, ✓ `sub_446920` | checked | sub_4B9A30 = ShouldCollideWithSprite_59E850 (called) |
+| 0x4785D0 | `SpriteGrid_400::CheckRowForRectCollisions_4785D0` | 0x446DE0 | ✓ `sub_446940`, ✓ `CanAllocateCarOfKind_446930`, `sub_4B9A30`, ✓ `sub_41E390`, `sub_4BED60`, ✓ `sub_446920` | checked | sub_4B9A30 = ShouldCollideWithSprite_59E850, sub_4BED60 = AddSprite_5A6CD0 (called) |
+| 0x478750 | `SpriteGrid_400::CheckAndHandleCollisionsInStrip_478750` | 0x446F30 | ✓ `CanAllocateCarOfKind_446930`, ✓ `sub_446920` | done | all 9.6f inlines used |
+| 0x4787E0 | `SpriteGrid_400::CheckAndHandleRowCollisionsForSprite_4787E0` | 0x446FD0 | ✓ `sub_446940`, ✓ `CanAllocateCarOfKind_446930`, `sub_4B9A80`, ✓ `sub_446920` | checked | sub_4B9A80 = ProcessCarToCarImpactIfCar_59E910 (called) |
+| 0x478880 | `SpriteGrid_400::FindNearestSpriteInRow_478880` | 0x4470B0 | ✓ `sub_446940`, ✓ `CanAllocateCarOfKind_446930`, `sub_4B9A30`, ✓ `sub_446920` | checked | sub_4B9A30 = ShouldCollideWithSprite_59E850 (called) |
 | 0x478A30 | `CollisionCounters_C::ctor_478A30` | 0x4471B0 | `GridSpriteLink_Pool::ctor_4468C0`, `GridCell_Pool::ctor_4468F0` | checked | pool ctors are compiler-generated (new) |
 | 0x478BF0 | `CollisionCounters_C::dtor_478BF0` | 0x447B20 | `SpriteGrid_400::gdtor_4472F0`, `GridSpriteLink_Pool::gdtor_447310`, `GridCell_Pool::gdtor_447330` | checked | pool dtors are compiler-generated (delete) |
 | 0x47E610 | `Crane_15C::ctor_47E610` | 0x449860 | `SpriteList_4::ctor_424620` | checked | SpriteList_4 ctor is the member's implicit ctor |
@@ -2053,7 +2053,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4468C0 | `GridSpriteLink_Pool::ctor_4468C0` | 41 |  |  | 0/1 | todo |  |
 | 0x4468F0 | `GridCell_Pool::ctor_4468F0` | 41 |  |  | 0/1 | todo |  |
 | 0x446920 | `sub_446920` | 10 |  | Source/sprite.hpp:44 | 0/4 | todo |  |
-| 0x446930 | `CanAllocateOfType_446930` | 15 |  | Source/Car_BC.hpp:202, Source/sprite.hpp:49 | 0/4 | todo |  |
+| 0x446930 | `CanAllocateCarOfKind_446930` | 15 |  | Source/Car_BC.hpp:202, Source/sprite.hpp:49 | 0/4 | todo |  |
 | 0x446940 | `sub_446940` | 15 |  | Source/sprite.hpp:277 | 0/4 | todo |  |
 | 0x446950 | `sub_446950` | 8 |  | Source/sprite.hpp:344 | 0/2 | todo |  |
 | 0x446960 | `sub_446960` | 92 |  | Source/sprite.hpp:338 | 0/1 | todo |  |

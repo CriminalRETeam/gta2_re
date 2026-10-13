@@ -8264,7 +8264,7 @@ void Ped::GotoAreaByAnyMeans_469060()
 
                             // bFound reaches another block, so the original's `cmp %bl,%al` (zero register) instead of `test`
                             u8 bFound = 0;
-                            bCanAllocate = gCar_6C_677930->CanAllocateOfType_446930(car_kind::recycled_1);
+                            bCanAllocate = gCar_6C_677930->CanAllocateCarOfKind_446930(car_kind::recycled_1);
                             if (bCanAllocate)
                             {
                                 bFound = gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, 1);
@@ -8319,7 +8319,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                             zpos = field_1AC_cam.z.ToUInt8();
 
                             u8 bFound = 0;
-                            if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::recycled_1))
+                            if (gCar_6C_677930->CanAllocateCarOfKind_446930(car_kind::recycled_1))
                             {
                                 bFound = gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, 1);
                             }
@@ -8704,7 +8704,7 @@ void Ped::CallPoliceCar_469FE0()
         u8 y = this->field_1AC_cam.y.ToUInt8();
         u8 z = this->field_1AC_cam.z.ToUInt8();
         gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &x, &y, &z, 1);
-        if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::Unknown_10))
+        if (gCar_6C_677930->CanAllocateCarOfKind_446930(car_kind::Unknown_10))
         {
             pCar = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::COPCAR, x, y, z);
             u8 bFound = 0;
@@ -8727,7 +8727,7 @@ void Ped::CallPoliceCar_469FE0()
             SetObjective(objectives_enum::no_obj_0);
             SetObjective2_463830(objectives_enum::no_obj_0);
         }
-        else if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::police_6))
+        else if (gCar_6C_677930->CanAllocateCarOfKind_446930(car_kind::police_6))
         {
             pCar = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::COPCAR, x, y, z);
             u8 bFound = 0;
