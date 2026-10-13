@@ -4104,7 +4104,7 @@ char_type Ped::StateMachineTick_4626B0()
             this->field_210_shock_counter = 0;
             ++this->field_20E_offscreen_counter;
             if (this->field_16C_car->field_50_car_sprite &&
-                gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(this->field_16C_car->field_50_car_sprite, kFpZero_678660))
+                gGame_0x40_67E008->IsSpriteInAnyPlayerBounds_4B97E0(this->field_16C_car->field_50_car_sprite, kFpZero_678660))
             {
                 this->field_20E_offscreen_counter = 0;
             }
@@ -4121,7 +4121,7 @@ char_type Ped::StateMachineTick_4626B0()
             }
             ++this->field_20E_offscreen_counter;
             if (this->field_16C_car->field_50_car_sprite &&
-                gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(this->field_16C_car->field_50_car_sprite, kFpZero_678660))
+                gGame_0x40_67E008->IsSpriteInAnyPlayerBounds_4B97E0(this->field_16C_car->field_50_car_sprite, kFpZero_678660))
             {
                 this->field_20E_offscreen_counter = 0;
             }
@@ -4164,7 +4164,7 @@ char_type Ped::StateMachineTick_4626B0()
             }
             ++this->field_20E_offscreen_counter;
             if (this->field_16C_car && this->field_16C_car->field_50_car_sprite &&
-                gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(this->field_16C_car->field_50_car_sprite, kFpZero_678660))
+                gGame_0x40_67E008->IsSpriteInAnyPlayerBounds_4B97E0(this->field_16C_car->field_50_car_sprite, kFpZero_678660))
             {
                 this->field_20E_offscreen_counter = 0;
             }
@@ -4202,7 +4202,7 @@ char_type Ped::StateMachineTick_4626B0()
             }
             ++this->field_20E_offscreen_counter;
             if (this->field_16C_car->field_50_car_sprite &&
-                gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(this->field_16C_car->field_50_car_sprite, kFpZero_678660))
+                gGame_0x40_67E008->IsSpriteInAnyPlayerBounds_4B97E0(this->field_16C_car->field_50_car_sprite, kFpZero_678660))
             {
                 this->field_20E_offscreen_counter = 0;
             }

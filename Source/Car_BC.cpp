@@ -2828,13 +2828,13 @@ void Car_BC::GetDoorWorldPosition_43B5A0(u8 target_door, Fix16* pOutX, Fix16* pO
 MATCH_FUNC(0x43b730)
 char_type Car_BC::IsOnScreenForAnyPlayer_43B730()
 {
-    return gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(field_50_car_sprite, kFpFive_6778D0);
+    return gGame_0x40_67E008->IsSpriteInAnyPlayerBounds_4B97E0(field_50_car_sprite, kFpFive_6778D0);
 }
 
 MATCH_FUNC(0x43b750)
 char_type Car_BC::IsVisibleToAnyPlayer_43B750()
 {
-    return gGame_0x40_67E008->IsSpriteVisibleToAnyPlayer_4B9830(field_50_car_sprite, kFpFive_6778D0);
+    return gGame_0x40_67E008->IsSpriteInBoundsOrFollowedByAnyPlayer_4B9830(field_50_car_sprite, kFpFive_6778D0);
 }
 
 MATCH_FUNC(0x43b770)
@@ -5590,7 +5590,7 @@ void Car_BC::ManageDespawning_442310()
         {
             if (gGame_0x40_67E008->GetPlayer_4219E0(i))
             {
-                if (gGame_0x40_67E008->IsSpriteOnScreen_4B9950(field_50_car_sprite, i, kFpFive_6778D0))
+                if (gGame_0x40_67E008->IsSpriteInPlayerBounds_4B9950(field_50_car_sprite, i, kFpFive_6778D0))
                 {
                     bOnScreenForAnyPlayer = true;
                 }

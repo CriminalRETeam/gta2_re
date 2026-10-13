@@ -2826,7 +2826,7 @@ void CarAI_78::Init_AI_Chase_44E0C0()
     {
         if (p60->field_34_snap_timer == 0)
         {
-            if (!gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(this->field_0_car->field_50_car_sprite, kFpFive_677CA0))
+            if (!gGame_0x40_67E008->IsSpriteInAnyPlayerBounds_4B97E0(this->field_0_car->field_50_car_sprite, kFpFive_677CA0))
             {
                 if (this->field_0_car->field_58_physics)
                 {

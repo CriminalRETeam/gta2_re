@@ -513,7 +513,7 @@ void Char_B4::InitSprite_5456A0()
 MATCH_FUNC(0x545700)
 bool Char_B4::IsOnScreen_545700()
 {
-    return gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(this->field_80_sprite_ptr, kFP16Zero_6FD9E4) == 1;
+    return gGame_0x40_67E008->IsSpriteInAnyPlayerBounds_4B97E0(this->field_80_sprite_ptr, kFP16Zero_6FD9E4) == 1;
 }
 
 MATCH_FUNC(0x545720)

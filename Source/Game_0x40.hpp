@@ -88,11 +88,11 @@ class Game_0x40
     EXPORT void ReinitAfterVideoModeChange_4B9720();
     EXPORT Player* GetFirstPlayerWithoutPed_4B9750();
     EXPORT void ShakeCamerasAtPos_4B9790(Fix16 amount, Fix16 x, Fix16 y);
-    EXPORT bool IsSpriteOnScreenForAnyPlayer_4B97E0(Sprite* pSprite, Fix16 margin);
-    EXPORT bool IsSpriteVisibleToAnyPlayer_4B9830(Sprite* pSprite, Fix16 margin);
-    EXPORT bool IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 margin);
-    EXPORT bool IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 player_idx, s32 margin);
-    EXPORT bool IsSpriteOnScreen_4B9950(Sprite* pSprite, u8 player_idx, Fix16 margin);
+    EXPORT bool IsSpriteInAnyPlayerBounds_4B97E0(Sprite* pSprite, Fix16 margin);
+    EXPORT bool IsSpriteInBoundsOrFollowedByAnyPlayer_4B9830(Sprite* pSprite, Fix16 margin);
+    EXPORT bool IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 wide_view);
+    EXPORT bool IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 player_idx, s32 wide_view);
+    EXPORT bool IsSpriteInPlayerBounds_4B9950(Sprite* pSprite, u8 player_idx, Fix16 margin);
     EXPORT bool IsSpriteCameraSubjectForPlayer_4B9A10(Sprite* pSprite, u8 player_idx);
     EXPORT bool IsPointOnScreen_4B9A80(Fix16 x, Fix16 y);
     EXPORT bool IsRectVisibleToAnyPlayer_4B9B10(Fix16_Rect* pBounds);

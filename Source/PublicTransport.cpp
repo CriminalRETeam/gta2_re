@@ -401,7 +401,7 @@ void Train_58::UpdatePassengerAI_578390()
                 if ((*pTrainCar)->GetCarInfoIdx_411940() == car_model_enum::TRAIN)
                 {
                     this->field_56_passenger_count = 1;
-                    if (gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0((*pTrainCar)->field_50_car_sprite, kFpZero_6FF078))
+                    if (gGame_0x40_67E008->IsSpriteInAnyPlayerBounds_4B97E0((*pTrainCar)->field_50_car_sprite, kFpZero_6FF078))
                     {
                         if (this->field_54_passenger_timer <= 0)
                         {
@@ -429,7 +429,7 @@ void Train_58::UpdatePassengerAI_578390()
         }
         else
         {
-            if (gGame_0x40_67E008->IsSpriteOnScreenForAnyPlayer_4B97E0(this->field_C_carriages[0]->field_50_car_sprite, kFpZero_6FF078) &&
+            if (gGame_0x40_67E008->IsSpriteInAnyPlayerBounds_4B97E0(this->field_C_carriages[0]->field_50_car_sprite, kFpZero_6FF078) &&
                 this->field_54_passenger_timer <= 0 && !gPublicTransport_181C_6FF1D4->field_1818_stop_getting_off_bus)
             {
                 if (this->field_C_carriages[0]->IsStoppedWithPavementAtDoor_43B140(2))

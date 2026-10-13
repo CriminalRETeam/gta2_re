@@ -633,7 +633,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4B9750 | `Game_0x40::GetFirstPlayerWithoutPed_4B9750` | 0x45BAB0 | ✓ `angry_lewin_0x85C::sub_45B0C0` | done | Player::has_player_ped_45B0C0; code unchanged |
 | 0x4B9790 | `Game_0x40::sub_4B9790` | 0x45BB00 | ✓ `DrawUnk_0xBC::sub_40CF60`, `DrawUnk_0xBC::sub_41EAD0` | done | Camera_0xBC::IsPointInViewBounds_40CF60 (9.6f 0x40CF60); sub_41EAD0 is sub_436120, still called; code unchanged |
 | 0x4B98E0 | `Game_0x40::sub_4B98E0` | 0x45A730 | `DrawUnk_0xBC::sub_41F180` | checked | DrawUnk_0xBC::sub_41F180 is a 368-byte callee, source calls the 10.5 function |
-| 0x4B9950 | `Game_0x40::IsSpriteOnScreen_4B9950` | 0x45BBA0 | ✓ `DrawUnk_0xBC::sub_45AEA0` | done | Camera_0xBC::IsSpriteInBounds_45AEA0 (new) + Player*& slot ref; 3->0 CANDIDATE MATCH |
+| 0x4B9950 | `Game_0x40::IsSpriteInPlayerBounds_4B9950` | 0x45BBA0 | ✓ `DrawUnk_0xBC::sub_45AEA0` | done | Camera_0xBC::IsSpriteInBounds_45AEA0 (new) + Player*& slot ref; 3->0 CANDIDATE MATCH |
 | 0x4B9A80 | `Game_0x40::IsPointOnScreen_4B9A80` | 0x45BC10 | ✓ `DrawUnk_0xBC::sub_40CF60` | matched | DrawUnk_0xBC::sub_40CF60 is IsPointInViewBounds_40CF60, already used (comment updated to 9.6f 0x40CF60); remaining 26 lines are register allocation |
 | 0x4B9B10 | `Game_0x40::IsRectVisibleToAnyPlayer_4B9B10` | 0x45BC90 | ✓ `DrawUnk_0xBC::sub_45AF40` | done | Camera_0xBC::IsRectInBounds_45AF40 (new) + s32 loop index; 85->16 (register swap left) |
 | 0x4B9D60 | `Game_0x40::sub_4B9D60` | 0x45BD40 | ✓ `Game_0x40::GetPlayer_4219E0` | done | Game_0x40::GetPlayer_4219E0; code unchanged |

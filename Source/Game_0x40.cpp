@@ -708,11 +708,11 @@ void Game_0x40::ShakeCamerasAtPos_4B9790(Fix16 amount, Fix16 x, Fix16 y)
 }
 
 MATCH_FUNC(0x4B97E0)
-bool Game_0x40::IsSpriteOnScreenForAnyPlayer_4B97E0(Sprite* pSprite, Fix16 margin)
+bool Game_0x40::IsSpriteInAnyPlayerBounds_4B97E0(Sprite* pSprite, Fix16 margin)
 {
     for (u8 i = 0; i < field_23_num_players; i++)
     {
-        if (IsSpriteOnScreen_4B9950(pSprite, i, margin))
+        if (IsSpriteInPlayerBounds_4B9950(pSprite, i, margin))
         {
             return 1;
         }
@@ -721,11 +721,11 @@ bool Game_0x40::IsSpriteOnScreenForAnyPlayer_4B97E0(Sprite* pSprite, Fix16 margi
 }
 
 MATCH_FUNC(0x4B9830)
-bool Game_0x40::IsSpriteVisibleToAnyPlayer_4B9830(Sprite* pSprite, Fix16 margin)
+bool Game_0x40::IsSpriteInBoundsOrFollowedByAnyPlayer_4B9830(Sprite* pSprite, Fix16 margin)
 {
     for (u8 i = 0; i < field_23_num_players; i++)
     {
-        if (IsSpriteOnScreen_4B9950(pSprite, i, margin) || IsSpriteCameraSubjectForPlayer_4B9A10(pSprite, i))
+        if (IsSpriteInPlayerBounds_4B9950(pSprite, i, margin) || IsSpriteCameraSubjectForPlayer_4B9A10(pSprite, i))
         {
             return 1;
         }
@@ -734,11 +734,11 @@ bool Game_0x40::IsSpriteVisibleToAnyPlayer_4B9830(Sprite* pSprite, Fix16 margin)
 }
 
 MATCH_FUNC(0x4B9890)
-bool Game_0x40::IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 margin)
+bool Game_0x40::IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 wide_view)
 {
     for (u8 i = 0; i < field_23_num_players; i++)
     {
-        if (IsSpriteInPlayerView_4B98E0(pSprite, i, margin))
+        if (IsSpriteInPlayerView_4B98E0(pSprite, i, wide_view))
         {
             return 1;
         }
@@ -747,22 +747,22 @@ bool Game_0x40::IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 margin)
 }
 
 MATCH_FUNC(0x4B98E0)
-bool Game_0x40::IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 player_idx, s32 margin)
+bool Game_0x40::IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 player_idx, s32 wide_view)
 {
     if (field_4_players[player_idx]->field_8E_in_use)
     {
-        if (field_4_players[player_idx]->field_90_game_camera.IsSpriteInView_435630(pSprite, margin))
+        if (field_4_players[player_idx]->field_90_game_camera.IsSpriteInView_435630(pSprite, wide_view))
         {
             return true;
         }
-        return field_4_players[player_idx]->field_2D0_aux_cam_active && field_4_players[player_idx]->field_208_aux_game_camera.IsSpriteInView_435630(pSprite, margin) ? true :
+        return field_4_players[player_idx]->field_2D0_aux_cam_active && field_4_players[player_idx]->field_208_aux_game_camera.IsSpriteInView_435630(pSprite, wide_view) ? true :
                                                                                                                                    false;
     }
     return false;
 }
 
 MATCH_FUNC(0x4B9950)
-bool Game_0x40::IsSpriteOnScreen_4B9950(Sprite* pSprite, u8 player_idx, Fix16 margin)
+bool Game_0x40::IsSpriteInPlayerBounds_4B9950(Sprite* pSprite, u8 player_idx, Fix16 margin)
 {
     Player*& pPlayer = this->field_4_players[player_idx]; // a reference: 9.6f keeps the slot address too
     if (!pPlayer->field_8E_in_use)
@@ -929,7 +929,7 @@ void Game_0x40::ReduceTrafficSpawnCounterOfOtherViewers_4B9D60(Sprite* pSprite, 
         Player* p = gGame_0x40_67E008->GetPlayer_4219E0(i);
         if (p && p != pExclude)
         {
-            if (gGame_0x40_67E008->IsSpriteOnScreen_4B9950(pSprite, i, dword_67DFB4))
+            if (gGame_0x40_67E008->IsSpriteInPlayerBounds_4B9950(pSprite, i, dword_67DFB4))
             {
                 if (p->field_680_traffic_spawn_counter > p->field_682_traffic_spawn_threshold)
                 {
