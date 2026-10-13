@@ -7146,14 +7146,14 @@ char TrafficSpawner_14::IsInsideCameraEdge_582360(int direction, Fix16 x, Fix16 
         case 2:
             if (field_8_spawn_side == 0)
             {
-                if (x < (field_0_cam->field_78_boundaries_non_neg.field_4_right - kFpOne_6FF778))
+                if (x < (field_0_cam->field_78_view_bounds.field_4_right - kFpOne_6FF778))
                 {
                     return 1;
                 }
             }
             else
             {
-                if (x > (field_0_cam->field_78_boundaries_non_neg.field_0_left + kFpOne_6FF778))
+                if (x > (field_0_cam->field_78_view_bounds.field_0_left + kFpOne_6FF778))
                 {
                     return 1;
                 }
@@ -7163,14 +7163,14 @@ char TrafficSpawner_14::IsInsideCameraEdge_582360(int direction, Fix16 x, Fix16 
         case 4:
             if (field_8_spawn_side == 0)
             {
-                if (y < (field_0_cam->field_78_boundaries_non_neg.field_C_bottom - kFpOne_6FF778))
+                if (y < (field_0_cam->field_78_view_bounds.field_C_bottom - kFpOne_6FF778))
                 {
                     return 1;
                 }
             }
             else
             {
-                if (y > (field_0_cam->field_78_boundaries_non_neg.field_8_top + kFpOne_6FF778))
+                if (y > (field_0_cam->field_78_view_bounds.field_8_top + kFpOne_6FF778))
                 {
                     return 1;
                 }
@@ -7217,8 +7217,8 @@ void TrafficSpawner_14::MakeTrafficForCurrCamera_5832C0()
         }
 
         // 9.6f: width and height into locals first, then multiplied
-        w = field_0_cam->GetBoundariesWidth_4B3110();
-        Fix16 h = field_0_cam->GetBoundariesHeight_4B3130();
+        w = field_0_cam->GetPaddedViewBoundsWidth_4B3110();
+        Fix16 h = field_0_cam->GetPaddedViewBoundsHeight_4B3130();
         Fix16 t = h * w;
         t = t / Fix16(86);
         // w is declared at the top of the function: with it declared here, the field_9_traffic_car_model store after
@@ -7436,54 +7436,54 @@ char_type TrafficSpawner_14::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_di
     switch (spawn_type)
     {
         case 1:
-            ypos = field_0_cam->field_78_boundaries_non_neg.field_8_top - kFpFive_6FF6D4;
+            ypos = field_0_cam->field_78_view_bounds.field_8_top - kFpFive_6FF6D4;
             if (!field_8_spawn_side)
             {
-                xpos = field_0_cam->field_78_boundaries_non_neg.field_0_left - kFpOne_6FF778;
+                xpos = field_0_cam->field_78_view_bounds.field_0_left - kFpOne_6FF778;
                 x_step = 1;
             }
             else
             {
-                xpos = field_0_cam->field_78_boundaries_non_neg.field_4_right + kFpOne_6FF778;
+                xpos = field_0_cam->field_78_view_bounds.field_4_right + kFpOne_6FF778;
                 x_step = -1;
             }
             break;
         case 2:
-            ypos = field_0_cam->field_78_boundaries_non_neg.field_C_bottom + kFpFive_6FF6D4;
+            ypos = field_0_cam->field_78_view_bounds.field_C_bottom + kFpFive_6FF6D4;
             if (!field_8_spawn_side)
             {
-                xpos = field_0_cam->field_78_boundaries_non_neg.field_0_left - kFpOne_6FF778;
+                xpos = field_0_cam->field_78_view_bounds.field_0_left - kFpOne_6FF778;
                 x_step = 1;
             }
             else
             {
-                xpos = field_0_cam->field_78_boundaries_non_neg.field_4_right + kFpOne_6FF778;
+                xpos = field_0_cam->field_78_view_bounds.field_4_right + kFpOne_6FF778;
                 x_step = -1;
             }
             break;
         case 4:
-            xpos = field_0_cam->field_78_boundaries_non_neg.field_0_left - kFpFive_6FF6D4;
+            xpos = field_0_cam->field_78_view_bounds.field_0_left - kFpFive_6FF6D4;
             if (!field_8_spawn_side)
             {
-                ypos = field_0_cam->field_78_boundaries_non_neg.field_8_top - kFpOne_6FF778;
+                ypos = field_0_cam->field_78_view_bounds.field_8_top - kFpOne_6FF778;
                 y_step = 1;
             }
             else
             {
-                ypos = field_0_cam->field_78_boundaries_non_neg.field_C_bottom + kFpOne_6FF778;
+                ypos = field_0_cam->field_78_view_bounds.field_C_bottom + kFpOne_6FF778;
                 y_step = -1;
             }
             break;
         case 3:
-            xpos = field_0_cam->field_78_boundaries_non_neg.field_4_right + kFpFive_6FF6D4;
+            xpos = field_0_cam->field_78_view_bounds.field_4_right + kFpFive_6FF6D4;
             if (!field_8_spawn_side)
             {
-                ypos = field_0_cam->field_78_boundaries_non_neg.field_8_top - kFpOne_6FF778;
+                ypos = field_0_cam->field_78_view_bounds.field_8_top - kFpOne_6FF778;
                 y_step = 1;
             }
             else
             {
-                ypos = field_0_cam->field_78_boundaries_non_neg.field_C_bottom + kFpOne_6FF778;
+                ypos = field_0_cam->field_78_view_bounds.field_C_bottom + kFpOne_6FF778;
                 y_step = -1;
             }
             break;

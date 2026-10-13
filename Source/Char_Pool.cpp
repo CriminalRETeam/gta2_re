@@ -475,10 +475,10 @@ void PedManager::SpawnDummies_46EB60(Camera_0xBC* pCam)
     s16 tileRight;
     s16 tileTop;
     s16 bottom;
-    tileLeft = (pCam->field_78_boundaries_non_neg.field_0_left - kFpHalf_67853C).ToInt();
-    tileRight = (pCam->field_78_boundaries_non_neg.field_4_right + kFpHalf_67853C).ToInt();
-    tileTop = (pCam->field_78_boundaries_non_neg.field_8_top - kFpHalf_67853C).ToInt();
-    bottom = (pCam->field_78_boundaries_non_neg.field_C_bottom + kFpHalf_67853C).ToInt();
+    tileLeft = (pCam->field_78_view_bounds.field_0_left - kFpHalf_67853C).ToInt();
+    tileRight = (pCam->field_78_view_bounds.field_4_right + kFpHalf_67853C).ToInt();
+    tileTop = (pCam->field_78_view_bounds.field_8_top - kFpHalf_67853C).ToInt();
+    bottom = (pCam->field_78_view_bounds.field_C_bottom + kFpHalf_67853C).ToInt();
 
     s16 bound_max = 0;
 

@@ -49,7 +49,7 @@ class Camera_0xBC
     // 9.6f 0x416B70
     inline Ped* GetFollowedPed_416B70()
     {
-        return field_34_ped;
+        return field_34_target_ped;
     }
 
     EXPORT bool IsSpriteTheCameraSubject_4355D0(Sprite* pSprite);
@@ -129,26 +129,26 @@ class Camera_0xBC
     // 9.6f 0x45AEA0
     inline bool IsSpriteInBounds_45AEA0(Sprite* pSprite, Fix16 margin)
     {
-        return pSprite->field_14_xy.x >= field_20_boundaries.field_0_left - margin &&
-            pSprite->field_14_xy.x <= field_20_boundaries.field_4_right + margin &&
-            pSprite->field_14_xy.y >= field_20_boundaries.field_8_top - margin &&
-            pSprite->field_14_xy.y <= field_20_boundaries.field_C_bottom + margin;
+        return pSprite->field_14_xy.x >= field_20_padded_view_bounds.field_0_left - margin &&
+            pSprite->field_14_xy.x <= field_20_padded_view_bounds.field_4_right + margin &&
+            pSprite->field_14_xy.y >= field_20_padded_view_bounds.field_8_top - margin &&
+            pSprite->field_14_xy.y <= field_20_padded_view_bounds.field_C_bottom + margin;
     }
 
     // 9.6f 0x45AF40
     inline bool IsRectInBounds_45AF40(Fix16_Rect* pRect)
     {
-        return pRect->get_top_45ADD0() <= field_20_boundaries.field_C_bottom &&
-            pRect->get_bottom_45ADC0() >= field_20_boundaries.field_8_top &&
-            pRect->get_left_45ADB0() <= field_20_boundaries.field_4_right &&
-            pRect->get_right_45ADA0() >= field_20_boundaries.field_0_left;
+        return pRect->get_top_45ADD0() <= field_20_padded_view_bounds.field_C_bottom &&
+            pRect->get_bottom_45ADC0() >= field_20_padded_view_bounds.field_8_top &&
+            pRect->get_left_45ADB0() <= field_20_padded_view_bounds.field_4_right &&
+            pRect->get_right_45ADA0() >= field_20_padded_view_bounds.field_0_left;
     }
 
     // 9.6f 0x40CF60
     inline bool IsPointInViewBounds_40CF60(Fix16 x, Fix16 y)
     {
-        return x >= field_78_boundaries_non_neg.field_0_left && x <= field_78_boundaries_non_neg.field_4_right &&
-            y >= field_78_boundaries_non_neg.field_8_top && y <= field_78_boundaries_non_neg.field_C_bottom;
+        return x >= field_78_view_bounds.field_0_left && x <= field_78_view_bounds.field_4_right &&
+            y >= field_78_view_bounds.field_8_top && y <= field_78_view_bounds.field_C_bottom;
     }
 
     inline void CommitPendingTarget_41E410()
@@ -164,35 +164,35 @@ class Camera_0xBC
     // 9.6f inline 0x433E90
     inline bool HasFollowTarget_433E90()
     {
-        return field_34_ped || field_38_car;
+        return field_34_target_ped || field_38_target_car;
     }
 
     inline void SetPendingTarget_41E3D0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16 zoom)
     {
         field_10_pending_target_pos.field_0_x = xpos;
         field_10_pending_target_pos.field_4_y = ypos;
-        field_10_pending_target_pos.field_8_z = zpos + field_40_tgt_elevation;
+        field_10_pending_target_pos.field_8_z = zpos + field_40_target_elevation;
         field_10_pending_target_pos.field_C_zoom = zoom;
     }
 
-    Fix16 GetBoundariesWidth_4B3110()
+    Fix16 GetPaddedViewBoundsWidth_4B3110()
     {
-        return field_20_boundaries.field_4_right - field_20_boundaries.field_0_left;
+        return field_20_padded_view_bounds.field_4_right - field_20_padded_view_bounds.field_0_left;
     }
 
-    Fix16 GetBoundariesHeight_4B3130()
+    Fix16 GetPaddedViewBoundsHeight_4B3130()
     {
-        return field_20_boundaries.field_C_bottom - field_20_boundaries.field_8_top;
+        return field_20_padded_view_bounds.field_C_bottom - field_20_padded_view_bounds.field_8_top;
     }
 
     CameraPos field_0_target_pos;
     CameraPos field_10_pending_target_pos;
-    WorldRect field_20_boundaries;
-    Fix16 field_30_shake;
-    Ped* field_34_ped;
-    Car_BC* field_38_car;
+    WorldRect field_20_padded_view_bounds;
+    Fix16 field_30_shake_amount;
+    Ped* field_34_target_ped;
+    Car_BC* field_38_target_car;
     s32 field_3C_follow_mode;
-    Fix16 field_40_tgt_elevation;
+    Fix16 field_40_target_elevation;
     u8 field_44_suspicion;
     char_type field_45_unused;
     char_type field_46_unused;
@@ -208,7 +208,7 @@ class Camera_0xBC
     s32 field_6C_screen_px_height;
     s32 field_70_screen_px_center_x;
     s32 field_74_screen_px_center_y;
-    WorldRect field_78_boundaries_non_neg;
+    WorldRect field_78_view_bounds;
     CameraPos field_88_prev_pos;
     CameraPos field_98_cur_pos;
     Fix16 field_A8_ui_scale;
