@@ -1651,7 +1651,7 @@ char_type Map_0x370::RectHitsDiagonalWall_4E11E0(Fix16_Rect* pRect)
             gmp_block_info* pBlock = GetBlock_4DFE10(x_count, y_count, z_calc);
             if (pBlock)
             {
-                s32 slope_mask = pBlock->field_B_slope_type & 0xFC;
+                s32 slope_mask = GET_SLOPE_BITS(pBlock->field_B_slope_type);
                 if (slope_mask >= DIAGONAL_WALL_UP_LEFT && slope_mask <= TRIANGULAR_SIDES_DIAGONAL_DOWN_RIGHT)
                 {
                     // 9.6f: Fix16_Point::SetXY_432860 for p1/p2 (inlined, using it changes the code)
@@ -1696,7 +1696,7 @@ bool Map_0x370::SpriteHitsDiagonalWall_4E1520(s32 z_pos)
 
             if (pBlock != NULL)
             {
-                u32 slope_type = pBlock->field_B_slope_type & 0xFC;
+                u32 slope_type = GET_SLOPE_BITS(pBlock->field_B_slope_type);
                 if (slope_type >= DIAGONAL_WALL_UP_LEFT && slope_type <= TRIANGULAR_SIDES_DIAGONAL_DOWN_RIGHT)
                 {
                     // 9.6f: Fix16_Point::SetXY_432860 for both points (inlined, using it changes the code)
@@ -4027,7 +4027,7 @@ char_type Map_0x370::CheckColumnHasSolidAbove_4E7FC0(Fix16 x, Fix16 y, Fix16 z)
             if ((pDMap->field_4000C_block[block_idx].field_8_lid & 0x1000) == 0)
             {
                 u8 slope_type = pDMap->field_4000C_block[block_idx].field_B_slope_type;
-                u8 slope_type_masked = slope_type & 0xFC;
+                u8 slope_type_masked = GET_SLOPE_BITS(slope_type);
                 if ((GET_SLOPE_BITS(slope_type) < DIAGONAL_WALL_UP_LEFT || slope_type_masked > PARTIAL_CENTRE_BLOCK) &&
                     (!IS_GRADIENT_SLOPE(slope_type) || IS_AIR_TYPE(slope_type)))
                 {
@@ -4046,7 +4046,7 @@ char_type Map_0x370::CheckColumnHasSolidAbove_4E7FC0(Fix16 x, Fix16 y, Fix16 z)
             {
                 if ((pDMap->field_4000C_block[idx].field_8_lid & 0x1000) == 0)
                 {
-                    u8 slope_type_masked_ = pDMap->field_4000C_block[idx].field_B_slope_type & 0xFC;
+                    u8 slope_type_masked_ = GET_SLOPE_BITS(pDMap->field_4000C_block[idx].field_B_slope_type);
                     if (slope_type_masked_ < DIAGONAL_WALL_UP_LEFT || slope_type_masked_ > PARTIAL_CENTRE_BLOCK)
                     {
                         return 1;

@@ -694,7 +694,7 @@ class Map_0x370
         gmp_block_info* pBlock = GetBlock_4DFE10(xpos, ypos, zpos);
         if (pBlock)
         {
-            u32 slope_type = pBlock->field_B_slope_type & 0xFC;
+            u32 slope_type = GET_SLOPE_BITS(pBlock->field_B_slope_type);
             if (slope_type >= DIAGONAL_WALL_UP_LEFT && slope_type <= TRIANGULAR_SIDES_DIAGONAL_DOWN_RIGHT)
             {
                 return true;
