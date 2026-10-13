@@ -2473,25 +2473,25 @@ void __stdcall Set_UV_4F4190(Fix16& a1, Fix16& a2, const u32& pVertIdx)
 
 // https://decomp.me/scratch/dGqKl
 MATCH_FUNC(0x4f4250)
-void MapRenderer::draw_right_4F4250(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
+void MapRenderer::draw_right_4F4250(u16& side_word, Fix16& x_off, Fix16& y_off_a, Fix16& y_off_b)
 {
     if (!bSkip_right_67D4E4)
     {
-        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a3, &gTileVerts_6F65A8[1]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a3, &gTileVerts_6F65A8[0]);
+        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + x_off, gYCoord_6F63B8 + y_off_a, &gTileVerts_6F65A8[1]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_off, gYCoord_6F63B8 + y_off_a, &gTileVerts_6F65A8[0]);
         if (gTileVerts_6F65A8[0].x > gTileVerts_6F65A8[1].x)
         {
             return;
         }
-        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[2]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[3]);
+        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + x_off, gYCoord_6F63B8 + y_off_b, &gTileVerts_6F65A8[2]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_off, gYCoord_6F63B8 + y_off_b, &gTileVerts_6F65A8[3]);
 
         draw_4F3FB0(kRightSideFlags_620F44[side_word >> 13]);
 
-        Set_UV_4F4190(kZeroOnePoint_6F6484.x, a3, 0);
-        Set_UV_4F4190(kZeroOnePoint_6F6484.y, a3, 1);
-        Set_UV_4F4190(kZeroOnePoint_6F6484.y, a4, 2);
-        Set_UV_4F4190(kZeroOnePoint_6F6484.x, a4, 3);
+        Set_UV_4F4190(kZeroOnePoint_6F6484.x, y_off_a, 0);
+        Set_UV_4F4190(kZeroOnePoint_6F6484.y, y_off_a, 1);
+        Set_UV_4F4190(kZeroOnePoint_6F6484.y, y_off_b, 2);
+        Set_UV_4F4190(kZeroOnePoint_6F6484.x, y_off_b, 3);
 
         gTileDrawFlags_6F6560 = 16389;
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(side_word & 0x3FF);
@@ -2514,25 +2514,25 @@ void MapRenderer::draw_right_4F4250(u16& side_word, Fix16& a2, Fix16& a3, Fix16&
 
 // https://decomp.me/scratch/7xF8P
 MATCH_FUNC(0x4f4600)
-void MapRenderer::draw_top_4F4600(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
+void MapRenderer::draw_top_4F4600(u16& side_word, Fix16& x_off_a, Fix16& x_off_b, Fix16& y_off)
 {
     if (!bSkip_top_67D574)
     {
-        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[0]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[3]);
+        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + x_off_a, gYCoord_6F63B8 + y_off, &gTileVerts_6F65A8[0]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_off_a, gYCoord_6F63B8 + y_off, &gTileVerts_6F65A8[3]);
         if (gTileVerts_6F65A8[0].y > gTileVerts_6F65A8[3].y)
         {
             return;
         }
-        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + a3, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[1]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + a3, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[2]);
+        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + x_off_b, gYCoord_6F63B8 + y_off, &gTileVerts_6F65A8[1]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_off_b, gYCoord_6F63B8 + y_off, &gTileVerts_6F65A8[2]);
 
         draw_4F3FB0(kTopSideFlags_620F64[side_word >> 13]);
 
-        Set_UV_4F4190(a2, kZeroOnePoint_6F6484.x, 0);
-        Set_UV_4F4190(a3, kZeroOnePoint_6F6484.x, 1);
-        Set_UV_4F4190(a3, kZeroOnePoint_6F6484.y, 2);
-        Set_UV_4F4190(a2, kZeroOnePoint_6F6484.y, 3);
+        Set_UV_4F4190(x_off_a, kZeroOnePoint_6F6484.x, 0);
+        Set_UV_4F4190(x_off_b, kZeroOnePoint_6F6484.x, 1);
+        Set_UV_4F4190(x_off_b, kZeroOnePoint_6F6484.y, 2);
+        Set_UV_4F4190(x_off_a, kZeroOnePoint_6F6484.y, 3);
 
         gTileDrawFlags_6F6560 = 16389;
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(side_word & 0x3FF);
@@ -2555,25 +2555,25 @@ void MapRenderer::draw_top_4F4600(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a
 
 // https://decomp.me/scratch/QiYzx
 MATCH_FUNC(0x4f49b0)
-void MapRenderer::draw_bottom_4F49B0(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
+void MapRenderer::draw_bottom_4F49B0(u16& side_word, Fix16& x_off_a, Fix16& x_off_b, Fix16& y_off)
 {
     if (!bSkip_bottom_67D4E7)
     {
-        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[3]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[0]);
+        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + x_off_a, gYCoord_6F63B8 + y_off, &gTileVerts_6F65A8[3]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_off_a, gYCoord_6F63B8 + y_off, &gTileVerts_6F65A8[0]);
         if (gTileVerts_6F65A8[0].y > gTileVerts_6F65A8[3].y)
         {
             return;
         }
-        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + a3, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[2]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + a3, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[1]);
+        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + x_off_b, gYCoord_6F63B8 + y_off, &gTileVerts_6F65A8[2]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_off_b, gYCoord_6F63B8 + y_off, &gTileVerts_6F65A8[1]);
 
         draw_4F3FB0(kBottomSideFlags_620F84[side_word >> 13]);
 
-        Set_UV_4F4190(a2, kZeroOnePoint_6F6484.x, 0);
-        Set_UV_4F4190(a3, kZeroOnePoint_6F6484.x, 1);
-        Set_UV_4F4190(a3, kZeroOnePoint_6F6484.y, 2);
-        Set_UV_4F4190(a2, kZeroOnePoint_6F6484.y, 3);
+        Set_UV_4F4190(x_off_a, kZeroOnePoint_6F6484.x, 0);
+        Set_UV_4F4190(x_off_b, kZeroOnePoint_6F6484.x, 1);
+        Set_UV_4F4190(x_off_b, kZeroOnePoint_6F6484.y, 2);
+        Set_UV_4F4190(x_off_a, kZeroOnePoint_6F6484.y, 3);
 
         gTileDrawFlags_6F6560 = 16389;
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(side_word & 0x3FF);

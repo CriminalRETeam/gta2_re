@@ -54,7 +54,7 @@ class Camera_0xBC
     EXPORT Fix16 ReturnOwnerVelocity_435A20();
     EXPORT s32 IsCoordsPosVisible_435A70(Fix16 x, Fix16 y, Fix16 z);
     EXPORT void UpdateBoundaries_435B90();
-    EXPORT void MoveTarget_435D20(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7);
+    EXPORT void MoveTarget_435D20(char_type bMoveNorth, char_type bMoveSouth, char_type bMoveWest, char_type bMoveEast, char_type bZoomIn, char_type bZoomOut);
     EXPORT void ResetCameraSmoothing_435DD0();
     EXPORT void AccumulateSuspicionOnDriver_435F90(Car_BC* pCar);
     EXPORT void Update_435FF0();

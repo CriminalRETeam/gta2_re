@@ -425,35 +425,35 @@ void Camera_0xBC::UpdateBoundaries_435B90()
 }
 
 MATCH_FUNC(0x435D20)
-void Camera_0xBC::MoveTarget_435D20(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7)
+void Camera_0xBC::MoveTarget_435D20(char_type bMoveNorth, char_type bMoveSouth, char_type bMoveWest, char_type bMoveEast, char_type bZoomIn, char_type bZoomOut)
 {
     ResetPendingCameraTarget();
-    if (a2)
+    if (bMoveNorth)
     {
         field_10_cam_pos_tgt2.field_4_y -= dword_67671C;
     }
 
-    if (a3)
+    if (bMoveSouth)
     {
         field_10_cam_pos_tgt2.field_4_y += dword_67671C;
     }
 
-    if (a4)
+    if (bMoveWest)
     {
         field_10_cam_pos_tgt2.field_0_x -= dword_67671C;
     }
 
-    if (a5)
+    if (bMoveEast)
     {
         field_10_cam_pos_tgt2.field_0_x += dword_67671C;
     }
 
-    if (a6)
+    if (bZoomIn)
     {
         field_10_cam_pos_tgt2.field_8_z += kOne_67681C;
     }
 
-    if (a7)
+    if (bZoomOut)
     {
         field_10_cam_pos_tgt2.field_8_z -= kOne_67681C;
     }
