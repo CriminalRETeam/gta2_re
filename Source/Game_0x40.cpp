@@ -109,7 +109,7 @@ void Game_0x40::ExitGameNoBonus_4B8C00(s32 new_timer, s32 exit_type)
 }
 
 MATCH_FUNC(0x4B8C20)
-s8 Game_0x40::UpdateExitTimer_4B8C20()
+bool Game_0x40::UpdateExitTimer_4B8C20()
 {
     if (field_28_exit_timer == 0)
     {
@@ -697,7 +697,7 @@ void Game_0x40::ShakeCamerasAtPos_4B9790(Fix16 amount, Fix16 x, Fix16 y)
 }
 
 MATCH_FUNC(0x4B97E0)
-s8 Game_0x40::IsSpriteOnScreenForAnyPlayer_4B97E0(Sprite* pSprite, Fix16 margin)
+bool Game_0x40::IsSpriteOnScreenForAnyPlayer_4B97E0(Sprite* pSprite, Fix16 margin)
 {
     for (u8 i = 0; i < field_23_num_players; i++)
     {
@@ -710,7 +710,7 @@ s8 Game_0x40::IsSpriteOnScreenForAnyPlayer_4B97E0(Sprite* pSprite, Fix16 margin)
 }
 
 MATCH_FUNC(0x4B9830)
-s8 Game_0x40::IsSpriteVisibleToAnyPlayer_4B9830(Sprite* pCarSprite, Fix16 margin)
+bool Game_0x40::IsSpriteVisibleToAnyPlayer_4B9830(Sprite* pCarSprite, Fix16 margin)
 {
     for (u8 i = 0; i < field_23_num_players; i++)
     {
@@ -723,7 +723,7 @@ s8 Game_0x40::IsSpriteVisibleToAnyPlayer_4B9830(Sprite* pCarSprite, Fix16 margin
 }
 
 MATCH_FUNC(0x4B9890)
-s8 Game_0x40::IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 margin)
+bool Game_0x40::IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 margin)
 {
     for (u8 i = 0; i < field_23_num_players; i++)
     {
@@ -751,7 +751,7 @@ bool Game_0x40::IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 playerIdx, s32 m
 }
 
 MATCH_FUNC(0x4B9950)
-s8 Game_0x40::IsSpriteOnScreen_4B9950(Sprite* pCarSprite, u8 playerIdx, Fix16 margin)
+bool Game_0x40::IsSpriteOnScreen_4B9950(Sprite* pCarSprite, u8 playerIdx, Fix16 margin)
 {
     Player*& pPlayer = this->field_4_players[playerIdx]; // a reference: 9.6f keeps the slot address too
     if (!pPlayer->field_8E_in_use)
@@ -811,7 +811,7 @@ bool Game_0x40::IsPointOnScreen_4B9A80(Fix16 x, Fix16 y)
 }
 
 MATCH_FUNC(0x4B9B10)
-s8 Game_0x40::IsRectVisibleToAnyPlayer_4B9B10(Fix16_Rect* pBounds)
+bool Game_0x40::IsRectVisibleToAnyPlayer_4B9B10(Fix16_Rect* pBounds)
 {
     s32 i;
     Player** ppPlayer = field_4_players;
@@ -848,7 +848,7 @@ Camera_0xBC* Game_0x40::IteratePlayerCamera_4B9BC0()
 }
 
 MATCH_FUNC(0x4B9C10)
-s8 Game_0x40::IsCarInAnyPlayerHistory_4B9C10(Car_BC* pCar)
+bool Game_0x40::IsCarInAnyPlayerHistory_4B9C10(Car_BC* pCar)
 {
     Player* pPlayer = IterateFirstPlayer_4B9CD0();
     while (pPlayer)
