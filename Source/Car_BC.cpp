@@ -2252,7 +2252,7 @@ void Car_BC::SetDriver(Ped* pNewDriver)
 MATCH_FUNC(0x43a9f0)
 void Car_BC::ApplyVisualDamage_43A9F0()
 {
-    if (!field_54_driver && (field_78_bf.bCarAlarm) && field_7C_uni_num != 2 && !field_A4_bf.bLightFlashing && field_74_damage != 32001)
+    if (!field_54_driver && (field_78_bf.bCarAlarm) && field_7C_ped_type != ped_type::player_2 && !field_A4_bf.bLightFlashing && field_74_damage != 32001)
     {
         StartLightFlashing_43CAC0();
     }
@@ -2317,7 +2317,7 @@ void Car_BC::SetDummyControl_43AA20()
     if (info_idx != car_model_enum::TRAIN && info_idx != car_model_enum::TRAINCAB && info_idx != car_model_enum::TRAINFB &&
         info_idx != car_model_enum::boxcar)
     {
-        SetUniNum_421560(3);
+        SetDriverPedType_421560(ped_type::dummy_3);
         CarPhysics_B0* pCarPhysics = field_58_physics;
         if (pCarPhysics)
         {
@@ -4471,7 +4471,7 @@ void Car_BC::SpawnDriverPed()
         gCar_6C_677930->SetSpareDriver_421970(pNextPed);
     }
     SetDriver(pNextPed);
-    this->field_7C_uni_num = 3;
+    this->field_7C_ped_type = ped_type::dummy_3;
 }
 
 MATCH_FUNC(0x440630)
@@ -4479,7 +4479,7 @@ void Car_BC::AddGangDriver_440630(Gang_144* pGang)
 {
     Ped* pNewPed = gPedManager_6787BC->SpawnGangDriver_470BA0(this, pGang);
     SetDriver(pNewPed);
-    field_7C_uni_num = 3;
+    field_7C_ped_type = ped_type::dummy_3;
 }
 
 MATCH_FUNC(0x440660)
@@ -4509,7 +4509,7 @@ void Car_BC::AssignDriver_4406E0(Ped* pPed)
     Player* pPlayer = pPed->field_15C_player;
     SetDriver(pPed);
     InitCarAIControl_440590();
-    SetUniNum_421560(pPed->GetPedType_420B70());
+    SetDriverPedType_421560(pPed->GetPedType_420B70());
     if (pPed->PedTypeIs_45EDE0(ped_type::player_2))
     {
         DeAllocateAI_4446E0();
@@ -5538,7 +5538,7 @@ void Car_BC::ServicePhysics_442190()
 MATCH_FUNC(0x4421b0)
 char_type Car_BC::IsMissionRelated_4421B0()
 {
-    if (field_A0_car_kind != car_kind::mission_car_8 && field_7C_uni_num != 5 && !field_4_passengers_list.HasScriptCreatedPed_471710())
+    if (field_A0_car_kind != car_kind::mission_car_8 && field_7C_ped_type != ped_type::script_created_5 && !field_4_passengers_list.HasScriptCreatedPed_471710())
     {
         return 0;
     }
@@ -5556,7 +5556,7 @@ bool Car_BC::CanDespawn_442200()
 
     if (!IsTrainModel_403BA0() && !gGame_0x40_67E008->IsCarInAnyPlayerHistory_4B9C10(this) && !Car_BC::IsMissionRelated_4421B0())
     {
-        if (field_7C_uni_num != 4 && (field_7C_uni_num != 6 || !field_54_driver))
+        if (field_7C_ped_type != ped_type::special_ped_4 && (field_7C_ped_type != ped_type::dummy_with_occupation_6 || !field_54_driver))
         {
             return 1;
         }
@@ -6735,7 +6735,7 @@ void Car_BC::PoolAllocate()
     this->field_A4_light_flags = 0;
     this->field_A5_flash_phase_counter = 0;
     this->field_76_last_seen_timer = 0;
-    this->field_7C_uni_num = 3;
+    this->field_7C_ped_type = ped_type::dummy_3;
     this->field_50_car_sprite = 0;
     this->field_9C_engine_status = car_engine_status::off_1;
     this->field_A6_turn_flags = 0;
@@ -6816,7 +6816,7 @@ Car_BC::Car_BC()
     field_8C_damage_level = 0;
     field_98_door_lock = 0;
     field_9C_engine_status = 0;
-    field_7C_uni_num = 0;
+    field_7C_ped_type = 0;
     field_76_last_seen_timer = 0;
     field_A4_light_flags = 0;
     field_A5_flash_phase_counter = 0;

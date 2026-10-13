@@ -218,7 +218,7 @@ void PoliceCrew_38::SpawnPoliceInCar_570BF0()
     pGroup->field_0 = 0;
     field_10_subObj->field_4_ped = pCopLeader;
     field_10_subObj->field_28_state = crew_state::update_6;
-    field_10_subObj->field_0_car->SetUniNum_421560(5);
+    field_10_subObj->field_0_car->SetDriverPedType_421560(ped_type::script_created_5);
     field_10_subObj->field_0_car->InitCarAIControl_440590();
     field_10_subObj->field_0_car->ResumeAIDriving_43AF40();
     field_10_subObj->field_0_car->ActivateEmergencyLights_43C920();
@@ -264,7 +264,7 @@ void PoliceCrew_38::SpawnSWAT_570E30()
     pSwatGroup->field_0 = 0;
     field_10_subObj->field_4_ped = pSwatLeader;
     field_10_subObj->field_28_state = crew_state::update_6;
-    field_10_subObj->field_0_car->SetUniNum_421560(5);
+    field_10_subObj->field_0_car->SetDriverPedType_421560(ped_type::script_created_5);
     field_10_subObj->field_0_car->InitCarAIControl_440590();
     field_10_subObj->field_0_car->ResumeAIDriving_43AF40();
     field_10_subObj->field_0_car->ActivateEmergencyLights_43C920();
@@ -290,7 +290,7 @@ void PoliceCrew_38::SpawnFBI_nonused_571150()
     pFBI->field_26C_graphic_type = ped_graphic_type::character_1;
     field_10_subObj->field_4_ped = pFBI;
     field_10_subObj->field_28_state = crew_state::update_6;
-    field_10_subObj->field_0_car->SetUniNum_421560(5);
+    field_10_subObj->field_0_car->SetDriverPedType_421560(ped_type::script_created_5);
     field_10_subObj->field_0_car->InitCarAIControl_440590();
     field_10_subObj->field_0_car->ResumeAIDriving_43AF40();
     field_10_subObj->field_0_car->ActivateEmergencyLights_43C920();
@@ -530,7 +530,7 @@ void PoliceCrew_38::sub_571A30()
             }
 
             Car_BC* pCar = field_10_subObj->field_0_car;
-            if (pCar->Get_F76_4A9AD0() <= 200 && pCar->field_7C_uni_num != 2)
+            if (pCar->Get_F76_4A9AD0() <= 200 && pCar->field_7C_ped_type != ped_type::player_2)
             {
                 return;
             }
@@ -548,7 +548,7 @@ void PoliceCrew_38::sub_571A30()
             field_10_subObj->field_8_group->ClearGroupData_4C8E90();
 
             pCar = field_10_subObj->field_0_car;
-            if (pCar->field_7C_uni_num != 2)
+            if (pCar->field_7C_ped_type != ped_type::player_2)
             {
                 pCar->MarkForDespawn_421470();
             }
@@ -558,7 +558,7 @@ void PoliceCrew_38::sub_571A30()
         else
         {
             Car_BC* pCar = field_10_subObj->field_0_car;
-            if (pCar->Get_F76_4A9AD0() <= 200 && pCar->field_7C_uni_num != 2)
+            if (pCar->Get_F76_4A9AD0() <= 200 && pCar->field_7C_ped_type != ped_type::player_2)
             {
                 return;
             }
@@ -566,7 +566,7 @@ void PoliceCrew_38::sub_571A30()
             {
                 return;
             }
-            if (pCar->field_7C_uni_num != 2)
+            if (pCar->field_7C_ped_type != ped_type::player_2)
             {
                 pCar->MarkForDespawn_421470();
             }
@@ -1890,7 +1890,7 @@ void PoliceRoadblock_A4::Update_5757B0()
         {
             if (field_10_car_1)
             {
-                if (field_10_car_1->field_7C_uni_num != 4)
+                if (field_10_car_1->field_7C_ped_type != ped_type::special_ped_4)
                 {
                     field_10_car_1 = 0;
                 }
@@ -1905,7 +1905,7 @@ void PoliceRoadblock_A4::Update_5757B0()
 
             if (field_14_car_2)
             {
-                if (field_14_car_2->field_7C_uni_num != 4)
+                if (field_14_car_2->field_7C_ped_type != ped_type::special_ped_4)
                 {
                     field_14_car_2 = 0;
                 }
@@ -1920,7 +1920,7 @@ void PoliceRoadblock_A4::Update_5757B0()
 
             if (field_18_car_3)
             {
-                if (field_18_car_3->field_7C_uni_num != 4)
+                if (field_18_car_3->field_7C_ped_type != ped_type::special_ped_4)
                 {
                     field_18_car_3 = 0;
                 }
@@ -1935,7 +1935,7 @@ void PoliceRoadblock_A4::Update_5757B0()
 
             if (field_1C_car_4)
             {
-                if (field_1C_car_4->field_7C_uni_num != 4)
+                if (field_1C_car_4->field_7C_ped_type != ped_type::special_ped_4)
                 {
                     field_1C_car_4 = 0;
                 }
@@ -1950,7 +1950,7 @@ void PoliceRoadblock_A4::Update_5757B0()
 
             if (field_20_car_5)
             {
-                if (field_20_car_5->field_7C_uni_num != 4)
+                if (field_20_car_5->field_7C_ped_type != ped_type::special_ped_4)
                 {
                     field_20_car_5 = 0;
                 }
@@ -1965,7 +1965,7 @@ void PoliceRoadblock_A4::Update_5757B0()
 
             if (field_24_car_6)
             {
-                if (field_24_car_6->field_7C_uni_num != 4)
+                if (field_24_car_6->field_7C_ped_type != ped_type::special_ped_4)
                 {
                     field_24_car_6 = 0;
                 }
@@ -2250,41 +2250,41 @@ void PoliceRoadblock_A4::RemoveRoadblock_575CA0()
     if (field_10_car_1)
     {
         field_10_car_1->MarkForDespawn_421470();
-        field_10_car_1->SetUniNum_421560(3);
+        field_10_car_1->SetDriverPedType_421560(ped_type::dummy_3);
         field_10_car_1 = 0;
     }
 
     if (field_14_car_2)
     {
         field_14_car_2->MarkForDespawn_421470();
-        field_14_car_2->SetUniNum_421560(3);
+        field_14_car_2->SetDriverPedType_421560(ped_type::dummy_3);
         field_14_car_2 = 0;
     }
     if (field_18_car_3)
     {
         field_18_car_3->MarkForDespawn_421470();
-        field_18_car_3->SetUniNum_421560(3);
+        field_18_car_3->SetDriverPedType_421560(ped_type::dummy_3);
         field_18_car_3 = 0;
     }
 
     if (field_1C_car_4)
     {
         field_1C_car_4->MarkForDespawn_421470();
-        field_1C_car_4->SetUniNum_421560(3);
+        field_1C_car_4->SetDriverPedType_421560(ped_type::dummy_3);
         field_1C_car_4 = 0;
     }
 
     if (field_20_car_5)
     {
         field_20_car_5->MarkForDespawn_421470();
-        field_20_car_5->SetUniNum_421560(3);
+        field_20_car_5->SetDriverPedType_421560(ped_type::dummy_3);
         field_20_car_5 = 0;
     }
 
     if (field_24_car_6)
     {
         field_24_car_6->MarkForDespawn_421470();
-        field_24_car_6->SetUniNum_421560(3);
+        field_24_car_6->SetDriverPedType_421560(ped_type::dummy_3);
         field_24_car_6 = 0;
     }
 
@@ -2692,7 +2692,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                     }
                     if (pCar)
                     {
-                        pCar->SetUniNum_421560(4);
+                        pCar->SetDriverPedType_421560(ped_type::special_ped_4);
                         pCar->IncrementCarStats_443D70(7);
                         if (pCar->HasEmergencyLights_414F20())
                         {
@@ -2989,7 +2989,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                     }
                     if (pCar)
                     {
-                        pCar->SetUniNum_421560(4);
+                        pCar->SetDriverPedType_421560(ped_type::special_ped_4);
                         pCar->IncrementCarStats_443D70(7);
                         if (pCar->HasEmergencyLights_414F20())
                         {

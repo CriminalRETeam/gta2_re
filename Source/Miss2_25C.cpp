@@ -38,7 +38,7 @@ void Miss2_25C::MissionCleanUp_502DC0()
         if (gStoredCar_6F7560->field_6C_car_id == gStoredCarId_6F78B4)
         {
             gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
-            gStoredCar_6F7560->SetUniNum_421560(3);
+            gStoredCar_6F7560->SetDriverPedType_421560(ped_type::dummy_3);
             if (!gStoredCar_6F7560->IsDeactivated_4214D0())
             {
                 gStoredCar_6F7560->MarkForDespawn_421470();
@@ -77,7 +77,7 @@ void Miss2_25C::MissionCleanUp_502DC0()
                     if (pIter->field_0_car->field_6C_car_id == pIter->field_8_entity_id)
                     {
                         gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(pIter->field_0_car);
-                        pIter->field_0_car->SetUniNum_421560(3);
+                        pIter->field_0_car->SetDriverPedType_421560(ped_type::dummy_3);
                         if (!pIter->field_0_car->IsDeactivated_4214D0())
                         {
                             pIter->field_0_car->MarkForDespawn_421470();

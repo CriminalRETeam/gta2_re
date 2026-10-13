@@ -217,7 +217,7 @@ void Train_58::ReassignTrainHead_578030()
 
         pFirst->DeAllocateAI_4446E0();
 
-        this->field_C_carriages[0]->SetUniNum_421560(this->field_C_carriages[0]->field_54_driver->GetPedType_420B70());
+        this->field_C_carriages[0]->SetDriverPedType_421560(this->field_C_carriages[0]->field_54_driver->GetPedType_420B70());
     }
 }
 
@@ -796,7 +796,7 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
                     }
                     pTrain->field_C_carriages[0]->field_5C_AI->SetCar_453BF0(pTrain->field_C_carriages[0]);
                     pTrain->field_C_carriages[0]->SpawnDriverPed();
-                    pTrain->field_C_carriages[0]->SetUniNum_421560(5);
+                    pTrain->field_C_carriages[0]->SetDriverPedType_421560(ped_type::script_created_5);
                     Object_2C* pLight = gObject_5C_6F8F84->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
                     pTrain->field_C_carriages[0]->field_0_attachments.PushImpactEvent_5A6D00(pLight->field_4, 0, 2, kAng0_6FF1BC);
                     pTrain->field_C_carriages[0]->SetField98To4_475C30();
@@ -804,7 +804,7 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
                     for (j = 0; j < wagons; j++)
                     {
                         pTrain->field_C_carriages[j + 1]->SpawnDriverPed();
-                        pTrain->field_C_carriages[j + 1]->SetUniNum_421560(5);
+                        pTrain->field_C_carriages[j + 1]->SetDriverPedType_421560(ped_type::script_created_5);
                         pTrain->field_C_carriages[j + 1]->SetupCarPhysicsAndSpriteBinding_43BCA0();
                         pTrain->field_C_carriages[j + 1]->StartEngine_426E00();
                         if (pTrain->field_C_carriages[j + 1]->field_84_car_info_idx == car_model_enum::TRAINFB)
@@ -1311,7 +1311,7 @@ void PublicTransport_181C::BusesService_579CA0()
                     }
                     field_17C0_bus.field_C_carriages[0]->field_5C_AI->SetCar_453BF0(field_17C0_bus.field_C_carriages[0]);
                     field_17C0_bus.field_C_carriages[0]->SpawnDriverPed();
-                    field_17C0_bus.field_C_carriages[0]->SetUniNum_421560(4);
+                    field_17C0_bus.field_C_carriages[0]->SetDriverPedType_421560(ped_type::special_ped_4);
                     field_17C0_bus.field_C_carriages[0]->InitCarAIControl_440590();
                     field_17C0_bus.field_C_carriages[0]->StartEngine_426E00();
 
@@ -1492,7 +1492,7 @@ void PublicTransport_181C::PublicTransportService_57A7A0()
             {
                 if (!pTrain->field_C_carriages[0]->field_54_driver)
                 {
-                    pCar->SetUniNum_421560(1);
+                    pCar->SetDriverPedType_421560(1);
                     pTrain->field_0 = 0;
                 }
                 else

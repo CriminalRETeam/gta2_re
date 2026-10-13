@@ -3376,7 +3376,7 @@ static inline void MultiplyAssign_inline_408680(Fix16& a, const Fix16& b)
 MATCH_FUNC(0x562560)
 void CarPhysics_B0::UpdateSteeringAngle_562560()
 {
-    if (field_5C_pCar->field_7C_uni_num != 2)
+    if (field_5C_pCar->field_7C_ped_type != ped_type::player_2)
     {
         field_78_pointing_ang_rad = CarPhysics_B0::GetTrailerAwareTurnRatio_55A100() * field_AD_turn_direction;
     }
@@ -3401,7 +3401,7 @@ bool CarPhysics_B0::IsGasPedalPressedEnough_5626A0()
 MATCH_FUNC(0x5626c0)
 Fix16 CarPhysics_B0::MinGasPedalPressure_5626C0()
 {
-    if (field_5C_pCar->field_7C_uni_num == 2) // ??
+    if (field_5C_pCar->field_7C_ped_type == ped_type::player_2) // ??
     {
         return kFP16Two_6FDFB0;
     }

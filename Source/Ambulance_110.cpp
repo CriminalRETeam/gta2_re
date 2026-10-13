@@ -330,7 +330,7 @@ bool Ambulance_20::SpawnParamedicCrew_4FA820()
     
     field_4_paramedics_crew->field_4_ped = pPed1;
     field_4_paramedics_crew->field_28_state = crew_state::update_6;
-    field_4_paramedics_crew->field_0_car->SetUniNum_421560(4);
+    field_4_paramedics_crew->field_0_car->SetDriverPedType_421560(ped_type::special_ped_4);
     field_4_paramedics_crew->field_0_car->SetupCarPhysicsAndSpriteBinding_43BCA0();
     field_4_paramedics_crew->field_0_car->InitCarAIControl_440590();
     field_4_paramedics_crew->field_0_car->ResumeAIDriving_43AF40();

@@ -251,9 +251,9 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
             if (field_0_car)
             {
                 field_0_car->field_76_last_seen_timer = 0;
-                if (field_0_car->field_7C_uni_num != 2)
+                if (field_0_car->field_7C_ped_type != ped_type::player_2)
                 {
-                    field_0_car->field_7C_uni_num = 3;
+                    field_0_car->field_7C_ped_type = ped_type::dummy_3;
                 }
                 if (field_0_car->field_60_pChaseTask)
                 {
@@ -383,7 +383,7 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
                 {
                     if (field_0_car)
                     {
-                        field_0_car->SetUniNum_421560(3);
+                        field_0_car->SetDriverPedType_421560(ped_type::dummy_3);
                         field_0_car->field_76_last_seen_timer = -200;
                     }
                 }

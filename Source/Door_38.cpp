@@ -71,7 +71,7 @@ bool Door_38::CanOpen_49C6D0(Car_BC* pCar)
         case door_open_type::any_player:
             if (!pCar->is_driven_by_player())
             {
-                if (ped_type_enum::ped_player != pCar->field_7C_uni_num)
+                if (ped_type::player_2 != pCar->field_7C_ped_type)
                 {
                     break;
                 }

@@ -513,7 +513,7 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
         }
 
         Car_BC* pCar = pPointer->field_8_car;
-        pCar->SetUniNum_421560(5);
+        pCar->SetDriverPedType_421560(ped_type::script_created_5);
 
         pPointer->field_8_car->SetF98To2IfNot4_475C40();
         pPointer->field_8_car->IncrementCarStats_443D70(car_kind::mission_car_8);
@@ -537,7 +537,7 @@ void miss2_0x11C::SCRCMD_PARKED_CAR_DECSET_503F80(SCR_POINTER* pCmd)
     miss2_0x11C::SCRCMD_CAR_DECSET_503BC0((SCR_CAR_DATA_DEC*)pCmd, pCmd);
     (pCmd->field_8_car)->ReassignCarStats_443EB0(9);
     Car_BC* pCar = pCmd->field_8_car;
-    pCar->field_7C_uni_num = 4;
+    pCar->field_7C_ped_type = 4;
     pCar->field_76_last_seen_timer = 0;
 }
 
@@ -2184,7 +2184,7 @@ void miss2_0x11C::SCRCMD_MAKE_CAR_DUMMY_508220()
         }
         pPointer->field_8_car->InitCarAIControl_440590();
 
-        pPointer->field_8_car->SetUniNum_421560(5);
+        pPointer->field_8_car->SetDriverPedType_421560(ped_type::script_created_5);
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -2413,7 +2413,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                         {
                             gStoredCar_6F7560->ReassignAllocatedCarType_443EE0(car_kind::recycled_1);
                             gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
-                            gStoredCar_6F7560->SetUniNum_421560(3);
+                            gStoredCar_6F7560->SetDriverPedType_421560(ped_type::dummy_3);
 
                             if (!gStoredCar_6F7560->IsDeactivated_4214D0())
                             {
@@ -2423,7 +2423,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                         else if (gCar_6C_677930->CanAllocateCarOfKindWithSpare_446870(car_kind::mission_car_8))
                         {
                             gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
-                            gStoredCar_6F7560->SetUniNum_421560(3);
+                            gStoredCar_6F7560->SetDriverPedType_421560(ped_type::dummy_3);
 
                             if (!gStoredCar_6F7560->IsDeactivated_4214D0())
                             {
@@ -2433,7 +2433,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                         else
                         {
                             gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
-                            gStoredCar_6F7560->SetUniNum_421560(3);
+                            gStoredCar_6F7560->SetDriverPedType_421560(ped_type::dummy_3);
 
                             gStoredCar_6F7560->DespawnSoon_421490();
                         }
@@ -3858,7 +3858,7 @@ void miss2_0x11C::SCRCMD_GIVE_DRIVER_BRAKE_50B600()
         }
         pPointer->field_8_car->InitCarAIControl_440590();
         pPointer->field_8_car->SetAIHalted_421540();
-        pPointer->field_8_car->SetUniNum_421560(5);
+        pPointer->field_8_car->SetDriverPedType_421560(ped_type::script_created_5);
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -6107,7 +6107,7 @@ void miss2_0x11C::SCRCMD_CHAR_INTO_CAR_50F060()
 
     if (pCarTest)
     {
-        pCarTest->field_7C_uni_num = 5;
+        pCarTest->field_7C_ped_type = ped_type::script_created_5;
         pCarTest->field_76_last_seen_timer = 0;
 
         Car_BC* pCar = pParam2->field_8_car;

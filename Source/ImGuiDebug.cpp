@@ -1482,7 +1482,7 @@ void CC ImGuiDebugDraw()
                     ImGui::SliderInt("field_A0_car_kind", &pCarIter->field_A0_car_kind, 0, 120);
 
                     ImGui::Text("ang %d", pCarIter->field_50_car_sprite->field_0_rotation.rValue);
-                    ImGui::Text("field_7C_uni_num %d", pCarIter->field_7C_uni_num);
+                    ImGui::Text("field_7C_ped_type %d", pCarIter->field_7C_ped_type);
                     ImGui::Text("field_74_damage %d", pCarIter->field_74_damage);
 
                     if (ImGui::Button("TurnToWreck_4436A0"))
@@ -1793,7 +1793,7 @@ void CC ImGuiDebugDraw()
                     pNewCar->field_5C_AI->SetCar_453BF0(pNewCar);
                     pNewCar->SpawnDriverPed();
 
-                    pNewCar->field_7C_uni_num = 5;
+                    pNewCar->field_7C_ped_type = ped_type::script_created_5;
                     pNewCar->field_76_last_seen_timer = 0;
                     if (pNewCar->field_98_door_lock != 4)
                     {

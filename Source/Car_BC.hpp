@@ -786,9 +786,9 @@ class Car_BC
     }
 
     // 9.6f inline 0x421560
-    void SetUniNum_421560(s32 uni_num)
+    void SetDriverPedType_421560(s32 driver_ped_type)
     {
-        field_7C_uni_num = uni_num;
+        field_7C_ped_type = driver_ped_type;
         field_76_last_seen_timer = 0;
     }
 
@@ -1357,7 +1357,7 @@ class Car_BC
         CarFlags16 field_78_bf;
     };
     s16 field_7A_pad;
-    s32 field_7C_uni_num;
+    s32 field_7C_ped_type;
     char_type field_80_bAbandoned;
     char_type field_81_pad;
     char_type field_82_pad;

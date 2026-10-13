@@ -157,7 +157,7 @@ void Firefighter_28::Update_4A81F0()
                 if (field_1C_car)
                 {
                     field_1C_car->IncrementCarStats_443D70(5);
-                    field_1C_car->SetUniNum_421560(4);
+                    field_1C_car->SetDriverPedType_421560(ped_type::special_ped_4);
                     Car_BC* pCar = field_1C_car;
                     if (!pCar->field_5C_AI)
                     {
@@ -260,7 +260,7 @@ void Firefighter_28::Update_4A81F0()
                 {
                     field_1C_car->field_54_driver->field_21C_bf.bDriveAggressively = 1;
                 }
-                field_1C_car->SetUniNum_421560(3);
+                field_1C_car->SetDriverPedType_421560(ped_type::dummy_3);
                 field_1C_car->InitCarAIControl_440590();
                 field_1C_car->ResumeAIDriving_43AF40();
                 field_1C_car->DeactivateEmergencyLights_43C9D0();

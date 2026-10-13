@@ -668,7 +668,7 @@ both branches (0.812), an explicit `return` after it (no change).
 
 Shut-down for the other crew kinds. If the player is driving, the crew either gets back
 into its car (group members flagged `field_238 = 3`) or, once everyone is ready, leaves
-and despawns; otherwise like `TryDespawnOffscreenCrew_571350`, with `field_7C_uni_num == 2` cars kept. Now
+and despawns; otherwise like `TryDespawnOffscreenCrew_571350`, with `field_7C_ped_type == 2` cars kept. Now
 `void`. Ratio 0.748.
 
 - `gCurrentCrewPed_6FEDDC == pCar->field_54_driver` (the global on the left) gives the original's

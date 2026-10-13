@@ -6672,7 +6672,7 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, u8 bUnknown, Fix16 x, Fix16 y
                     {
                         this->field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::Unknown_24);
                     }
-                    else if (pCar->field_7C_uni_num == 2)
+                    else if (pCar->field_7C_ped_type == ped_type::player_2)
                     {
                         this->field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::Unknown_26);
                     }
@@ -6691,7 +6691,7 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, u8 bUnknown, Fix16 x, Fix16 y
             }
             else
             {
-                if (this->field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2) && pCar->field_7C_uni_num != 2)
+                if (this->field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2) && pCar->field_7C_ped_type != ped_type::player_2)
                 {
                     if (this->field_C_ped_state_2 == ped_state_2::lying_on_floor_22)
                     {

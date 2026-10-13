@@ -4092,7 +4092,7 @@ void CarAI_78::ReactToNearbyCar_451980()
         {
             flag1 = 1;
         }
-        if (cBC->field_7C_uni_num == 2)
+        if (cBC->field_7C_ped_type == ped_type::player_2)
         {
             DetectCarAhead_44D1D0();
         }
@@ -4175,7 +4175,7 @@ void CarAI_78::ReactToNearbyCar_451980()
                 field_0_car->field_58_physics->NeutralGear_42AC00();
             }
         }
-        else if (cBC->field_7C_uni_num == 2)
+        else if (cBC->field_7C_ped_type == ped_type::player_2)
         {
             if (field_24_bf.bFlag21)
             {
@@ -4221,7 +4221,7 @@ void CarAI_78::ReactToNearbyCar_451980()
                         {
                             if (cBC->field_76_last_seen_timer > 5)
                             {
-                                if (cBC->field_7C_uni_num == 3)
+                                if (cBC->field_7C_ped_type == ped_type::dummy_3)
                                 {
                                     cBC->MarkForDespawn_421470();
                                 }
@@ -4308,7 +4308,7 @@ void CarAI_78::ReactToNearbyCar_451980()
     else
     {
         byte_677B3C = 0;
-        if (!field_24_bf.bFlag12 || field_68_car_in_collision->field_7C_uni_num != 2)
+        if (!field_24_bf.bFlag12 || field_68_car_in_collision->field_7C_ped_type != ped_type::player_2)
         {
             if (gCurrCarAI_Velocity_677B00 > dword_6779C8)
             {
@@ -4378,7 +4378,7 @@ void CarAI_78::ScanAheadForObstacles_452060()
 
     Car_BC* pCar = this->field_0_car;
 
-    if (pCar->field_7C_uni_num == 2)
+    if (pCar->field_7C_ped_type == ped_type::player_2)
     {
         this->field_24_bf.bFlag4 = 0;
         probe_height = gF16fOne_677B94;
@@ -4909,7 +4909,7 @@ void CarAI_78::UpdateDrivingAI_452DF0()
     if (field_3C_seeking_road)
     {
         ++field_58_off_road_timer;
-        if (field_0_car->field_7C_uni_num != 5)
+        if (field_0_car->field_7C_ped_type != ped_type::script_created_5)
         {
             if (field_58_off_road_timer > 200)
             {
