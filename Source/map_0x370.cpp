@@ -1652,10 +1652,11 @@ char_type Map_0x370::RectHitsDiagonalWall_4E11E0(Fix16_Rect* pRect)
             if (pBlock)
             {
                 s32 slope_mask = pBlock->field_B_slope_type & 0xFC;
-                if (slope_mask >= 0xB4 && slope_mask <= 0xD0)
+                if (slope_mask >= DIAGONAL_WALL_UP_LEFT && slope_mask <= TRIANGULAR_SIDES_DIAGONAL_DOWN_RIGHT)
                 {
                     // 9.6f: Fix16_Point::SetXY_432860 for p1/p2 (inlined, using it changes the code)
-                    if (slope_mask == 0xB4 || slope_mask == 0xC0 || slope_mask == 0xC4 || slope_mask == 0xD0)
+                    if (slope_mask == DIAGONAL_WALL_UP_LEFT || slope_mask == DIAGONAL_WALL_DOWN_RIGHT || slope_mask == TRIANGULAR_SIDES_DIAGONAL_UP_LEFT ||
+                        slope_mask == TRIANGULAR_SIDES_DIAGONAL_DOWN_RIGHT)
                     {
                         p1.x = Fix16(x_count);
                         p1.y = Fix16(y_count + 1);
@@ -1696,7 +1697,7 @@ bool Map_0x370::SpriteHitsDiagonalWall_4E1520(s32 z_pos)
             if (pBlock != NULL)
             {
                 u32 slope_type = pBlock->field_B_slope_type & 0xFC;
-                if (slope_type >= 0xB4 && slope_type <= 0xD0)
+                if (slope_type >= DIAGONAL_WALL_UP_LEFT && slope_type <= TRIANGULAR_SIDES_DIAGONAL_DOWN_RIGHT)
                 {
                     // 9.6f: Fix16_Point::SetXY_432860 for both points (inlined, using it changes the code)
                     if (slope_type == DIAGONAL_WALL_UP_LEFT || slope_type == DIAGONAL_WALL_DOWN_RIGHT ||
@@ -2336,7 +2337,7 @@ char_type Map_0x370::CheckSlopeTopInSpriteGrid_4E4630(Fix16 z_pos)
                 }
                 else
                 {
-                    if (bFractionalZ && GET_SLOPE_BITS(slope_byte) == 0xFCu)
+                    if (bFractionalZ && IS_SLOPE_IN_BLOCK_ABOVE(slope_byte))
                     {
                         return 2;
                     }
@@ -2405,19 +2406,19 @@ char_type Map_0x370::AllBlocksInRectHaveSlopeBits_4E4820(Fix16_Rect* pRect, u8 s
                     }
                     break;
                 case 1:
-                    if (gBlockInfo0_6F5EB0 && (gBlockInfo0_6F5EB0->field_B_slope_type & 3) != 1)
+                    if (gBlockInfo0_6F5EB0 && GET_BLOCK_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type) != 1)
                     {
                         return false;
                     }
                     break;
                 case 2:
-                    if (gBlockInfo0_6F5EB0 && (gBlockInfo0_6F5EB0->field_B_slope_type & 3) != 2)
+                    if (gBlockInfo0_6F5EB0 && GET_BLOCK_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type) != 2)
                     {
                         return false;
                     }
                     break;
                 case 3:
-                    if (gBlockInfo0_6F5EB0 && (gBlockInfo0_6F5EB0->field_B_slope_type & 3) != 3)
+                    if (gBlockInfo0_6F5EB0 && GET_BLOCK_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type) != 3)
                     {
                         return false;
                     }
@@ -3489,7 +3490,7 @@ MATCH_FUNC(0x4E65A0)
 void Map_0x370::SnapZToRailway_4E65A0(Fix16 x, Fix16 y, Fix16* pZ, bool bDontFlip, bool bReverse)
 {
     gmp_block_info* pBlockAtPos = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), (*pZ - kFpOne_6F6110).ToInt());
-    if (GET_SLOPE_BITS(pBlockAtPos->field_B_slope_type) == 0xFC)
+    if (IS_SLOPE_IN_BLOCK_ABOVE(pBlockAtPos->field_B_slope_type))
     {
         *pZ = FloorPlusOne_4E62B0(*pZ);
         pBlockAtPos = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), (*pZ - kFpOne_6F6110).ToInt());
@@ -3614,7 +3615,7 @@ s32 Map_0x370::AdvanceAlongRailway_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
                            Ang16(ReturnAngleFromRoadDirection_4F7940(direction).rValue + word_6F603E.rValue).Normalized_406C20()));
             dist += kFpOne_6F6110 - to_edge;
             gmp_block_info* pNext = GetBlock_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
-            if (pNext && (pNext->field_B_slope_type & 0xFC) == 0xFC)
+            if (pNext && IS_SLOPE_IN_BLOCK_ABOVE(pNext->field_B_slope_type))
             {
                 pNext = GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
             }
@@ -3843,7 +3844,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
             pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
             if (pBlock)
             {
-                if ((pBlock->field_B_slope_type & 0xFC) == 0xFC)
+                if (IS_SLOPE_IN_BLOCK_ABOVE(pBlock->field_B_slope_type))
                 {
                     pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
                 }
@@ -4027,8 +4028,8 @@ char_type Map_0x370::CheckColumnHasSolidAbove_4E7FC0(Fix16 x, Fix16 y, Fix16 z)
             {
                 u8 slope_type = pDMap->field_4000C_block[block_idx].field_B_slope_type;
                 u8 slope_type_masked = slope_type & 0xFC;
-                if (((slope_type & 0xFCu) < 0xB4 || slope_type_masked > 0xF4u) &&
-                    (slope_type_masked <= 0 || slope_type_masked >= 0xB4u || (slope_type & 3) == 0))
+                if ((GET_SLOPE_BITS(slope_type) < DIAGONAL_WALL_UP_LEFT || slope_type_masked > PARTIAL_CENTRE_BLOCK) &&
+                    (!IS_GRADIENT_SLOPE(slope_type) || IS_AIR_TYPE(slope_type)))
                 {
                     return 1;
                 }
@@ -4046,7 +4047,7 @@ char_type Map_0x370::CheckColumnHasSolidAbove_4E7FC0(Fix16 x, Fix16 y, Fix16 z)
                 if ((pDMap->field_4000C_block[idx].field_8_lid & 0x1000) == 0)
                 {
                     u8 slope_type_masked_ = pDMap->field_4000C_block[idx].field_B_slope_type & 0xFC;
-                    if (slope_type_masked_ < 0xB4u || slope_type_masked_ > 0xF4u)
+                    if (slope_type_masked_ < DIAGONAL_WALL_UP_LEFT || slope_type_masked_ > PARTIAL_CENTRE_BLOCK)
                     {
                         return 1;
                     }

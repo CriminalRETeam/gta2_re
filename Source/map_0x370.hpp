@@ -341,6 +341,7 @@ EXPORT Ang16 __stdcall ReturnAngleFromRoadDirection_4F7940(s32& road_direction);
 #define IS_AIR_TYPE(slope_byte) (((slope_byte) & 3) == 0)
 #define IS_GRADIENT_SLOPE(slope_byte) (GET_SLOPE_BITS(slope_byte) > 0 && GET_SLOPE_BITS(slope_byte) < 0xB4u) // slope idx 1 to 44
 #define GET_BLOCK_TYPE(slope_byte) ((u8)((slope_byte) & 3))
+#define IS_SLOPE_IN_BLOCK_ABOVE(slope_byte) (GET_SLOPE_BITS(slope_byte) == 0xFC) // slope idx 63: the slope is in the block above
 #define IS_PARTIAL_BLOCK(slope) ((slope) >= 0xD4 && (slope) <= 0xF4)
 #define IS_TRIDIAGONAL_BLOCK(slope) ((slope) >= 0xC4 && (slope) <= 0xD0)
 
@@ -481,7 +482,7 @@ class Map_0x370
     inline gmp_block_info* GetRoadBlockAt_4E6660(Fix16& x, Fix16& y, Fix16& z)
     {
         gmp_block_info* pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
-        if ((pBlock->field_B_slope_type & 0xFC) == 0xFC)
+        if (IS_SLOPE_IN_BLOCK_ABOVE(pBlock->field_B_slope_type))
         {
             pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
         }
@@ -493,7 +494,7 @@ class Map_0x370
     inline void SetRoadBlockAt_4E6660(gmp_block_info*& pBlock, Fix16& x, Fix16& y, Fix16& z)
     {
         pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
-        if ((pBlock->field_B_slope_type & 0xFC) == 0xFC)
+        if (IS_SLOPE_IN_BLOCK_ABOVE(pBlock->field_B_slope_type))
         {
             pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
         }
@@ -503,7 +504,7 @@ class Map_0x370
     inline void SetRoadBlockAtOrNull_4E7190(gmp_block_info*& pBlock, Fix16& x, Fix16& y, Fix16& z)
     {
         pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
-        if (pBlock && (pBlock->field_B_slope_type & 0xFC) == 0xFC)
+        if (pBlock && IS_SLOPE_IN_BLOCK_ABOVE(pBlock->field_B_slope_type))
         {
             pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
         }
@@ -513,7 +514,7 @@ class Map_0x370
     inline gmp_block_info* GetRoadBlockAtOrNull_4E7190(Fix16& x, Fix16& y, Fix16& z)
     {
         gmp_block_info* pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
-        if (pBlock && (pBlock->field_B_slope_type & 0xFC) == 0xFC)
+        if (pBlock && IS_SLOPE_IN_BLOCK_ABOVE(pBlock->field_B_slope_type))
         {
             pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
         }
@@ -627,7 +628,7 @@ class Map_0x370
     bool IsBlockPavementType_42A8C0(u8 x, u8 y, u8 z)
     {
         gmp_block_info* pBlock = GetBlockOrNull_452980(x, y, z);
-        if (pBlock && (pBlock->field_B_slope_type & 3) == PAVEMENT)
+        if (pBlock && GET_BLOCK_TYPE(pBlock->field_B_slope_type) == PAVEMENT)
         {
             return true;
         }
@@ -639,7 +640,7 @@ class Map_0x370
         gmp_block_info* pBlock = get_block_42A850(x, y, z);
         if (pBlock)
         {
-            return (pBlock->field_B_slope_type & 3) == PAVEMENT;
+            return GET_BLOCK_TYPE(pBlock->field_B_slope_type) == PAVEMENT;
         }
         return false;
     }
@@ -650,7 +651,7 @@ class Map_0x370
         gmp_block_info* pBlock = GetBlockOrNull_452980(x, y, z);
         if (pBlock)
         {
-            return (pBlock->field_B_slope_type & 3) == PAVEMENT;
+            return GET_BLOCK_TYPE(pBlock->field_B_slope_type) == PAVEMENT;
         }
         return false;
     }
@@ -660,7 +661,7 @@ class Map_0x370
         gmp_block_info* pBlock = GetBlockOrNull_452980(x, y, z);
         if (pBlock)
         {
-            return (pBlock->field_B_slope_type & 3) == ROAD;
+            return GET_BLOCK_TYPE(pBlock->field_B_slope_type) == ROAD;
         }
         return false;
     }
@@ -671,7 +672,7 @@ class Map_0x370
         gmp_block_info* pBlock = get_block_42A850(x, y, z);
         if (pBlock)
         {
-            return (pBlock->field_B_slope_type & 3) == ROAD;
+            return GET_BLOCK_TYPE(pBlock->field_B_slope_type) == ROAD;
         }
         return false;
     }
@@ -694,7 +695,7 @@ class Map_0x370
         if (pBlock)
         {
             u32 slope_type = pBlock->field_B_slope_type & 0xFC;
-            if (slope_type >= 0xB4 && slope_type <= 0xD0)
+            if (slope_type >= DIAGONAL_WALL_UP_LEFT && slope_type <= TRIANGULAR_SIDES_DIAGONAL_DOWN_RIGHT)
             {
                 return true;
             }
@@ -752,7 +753,7 @@ class Map_0x370
         gmp_block_info* pBlock = GetBlockOrNull_452980(x, y - 1, z);
         if (pBlock)
         {
-            return (pBlock->field_B_slope_type & 3) == ROAD;
+            return GET_BLOCK_TYPE(pBlock->field_B_slope_type) == ROAD;
         }
         return false;
     }
@@ -762,7 +763,7 @@ class Map_0x370
         gmp_block_info* pBlock = GetBlockOrNull_452980(x + 1, y, z);
         if (pBlock)
         {
-            return (pBlock->field_B_slope_type & 3) == ROAD;
+            return GET_BLOCK_TYPE(pBlock->field_B_slope_type) == ROAD;
         }
         return false;
     }
@@ -772,7 +773,7 @@ class Map_0x370
         gmp_block_info* pBlock = get_block_42A850(x, y + 1, z);
         if (pBlock)
         {
-            return (pBlock->field_B_slope_type & 3) == ROAD;
+            return GET_BLOCK_TYPE(pBlock->field_B_slope_type) == ROAD;
         }
         return false;
     }
@@ -782,7 +783,7 @@ class Map_0x370
         gmp_block_info* pBlock = get_block_42A850(x - 1, y, z);
         if (pBlock)
         {
-            return (pBlock->field_B_slope_type & 3) == ROAD;
+            return GET_BLOCK_TYPE(pBlock->field_B_slope_type) == ROAD;
         }
         return false;
     }
@@ -792,7 +793,7 @@ class Map_0x370
         gmp_block_info* pBlock = GetBlockOrNull_452980(x, y, z);
         if (pBlock)
         {
-            return (pBlock->field_B_slope_type & 3) != AIR;
+            return GET_BLOCK_TYPE(pBlock->field_B_slope_type) != AIR;
         }
         return false;
     }
