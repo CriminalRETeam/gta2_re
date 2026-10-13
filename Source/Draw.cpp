@@ -143,7 +143,7 @@ void __stdcall MakeScreenTableAndSetWindow_5D7D30()
 }
 
 // https://decomp.me/scratch/Zmms7
-// 9.6f 0x4CBA50: v12/v13 are assigned after their declaration (the multiply result is copied into
+// 9.6f 0x4CBA50: half_w/half_h are assigned after their declaration (the multiply result is copied into
 // them), the flags test is one equality condition and the widths go through the Fix16(u8) ctor.
 // The ternary, the field reads in u/v and `u32 flags` set the front-end size that gives the
 // original's inline cut-offs: the second rotation's Negate_4086A0 inline, the others out of line.
@@ -305,7 +305,7 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
 
     // point 3
 
-    point.SetXY_432860(v12, v13);
+    point.SetXY_432860(half_w, half_h);
     point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[2].x = ((x_pos + point.x).ToFloat());
@@ -314,7 +314,7 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
 
     // point 4
 
-    point.SetXY_432860(-v12, v13);
+    point.SetXY_432860(-half_w, half_h);
     point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[3].x = ((x_pos + point.x).ToFloat());
