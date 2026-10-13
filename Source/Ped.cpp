@@ -1118,7 +1118,7 @@ void Ped::ClearInvulnerable_45C050()
     Char_B4* pB4 = field_168_game_object;
     if (pB4)
     {
-        pB4->field_80_sprite_ptr->field_2C_flags &= ~4u;
+        pB4->field_80_sprite_ptr->field_2C_bf.bNoLighting = false;
     }
 }
 
@@ -1130,7 +1130,7 @@ void Ped::SetSpriteFlagIfInvulnerable_45C070()
         Char_B4* pB4 = this->field_168_game_object;
         if (pB4)
         {
-            pB4->field_80_sprite_ptr->field_2C_flags |= 4u;
+            pB4->field_80_sprite_ptr->field_2C_bf.bNoLighting = true;
         }
     }
 }

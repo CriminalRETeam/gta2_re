@@ -213,7 +213,7 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* pSprite)
             pParticle->field_30_pNext->set_ang_lazy_420690(pSprite->field_0_rotation);
             pParticle->field_30_pNext->set_xyz_lazy_420600(corner_1.x, corner_1.y, pSprite->field_1C_zpos);
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
-            pParticle->field_30_pNext->field_2C_flags |= 4;
+            pParticle->field_30_pNext->field_2C_bf.bNoLighting = true;
         }
 
         pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
@@ -273,7 +273,7 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* pSprite)
     }
     gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
     // 9.6f: Sprite::SetNoLighting_4337F0 here and above (inlined, using it in both places makes the diff worse)
-    pParticle->field_30_pNext->field_2C_flags |= 4;
+    pParticle->field_30_pNext->field_2C_bf.bNoLighting = true;
 }
 
 // Something wrong with the velocities https://decomp.me/scratch/2Kz9I
@@ -488,7 +488,7 @@ void Particle_8::EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite)
                 pParticle->field_2C_counter = 0;
             }
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
-            pParticle->field_30_pNext->field_2C_flags |= 4;
+            pParticle->field_30_pNext->field_2C_bf.bNoLighting = true;
         }
     }
 }

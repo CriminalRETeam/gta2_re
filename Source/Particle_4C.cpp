@@ -1690,7 +1690,7 @@ char_type Particle_4C::PoolUpdate()
                 {
                     this->field_30_pNext->field_2C_flags = 0xA2; // sub_4337D0
                 }
-                this->field_30_pNext->field_2C_flags |= 4u;
+                this->field_30_pNext->field_2C_bf.bNoLighting = true;
                 return false;
             }
             break;
@@ -1732,7 +1732,7 @@ char_type Particle_4C::PoolUpdate()
                 {
                     this->field_30_pNext->field_2C_flags = 0xA2;
                 }
-                field_30_pNext->field_2C_flags |= 4u;
+                field_30_pNext->field_2C_bf.bNoLighting = true;
                 field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16One_6FD4A0 + kFP16Half_6FD39C, 0);
                 return false;
             }
@@ -1777,7 +1777,7 @@ char_type Particle_4C::PoolUpdate()
                     this->field_30_pNext->field_2C_flags = -94;
                 }
 
-                field_30_pNext->field_2C_flags |= 4u;
+                field_30_pNext->field_2C_bf.bNoLighting = true;
                 field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16Two_6FD4A4, 0);
                 return false;
             }
@@ -1826,7 +1826,7 @@ char_type Particle_4C::PoolUpdate()
 
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
             field_30_pNext->field_2C_flags = 82;
-            field_30_pNext->field_2C_flags |= 4u;
+            field_30_pNext->field_2C_bf.bNoLighting = true;
             return false;
 
         case 5:
@@ -1877,7 +1877,7 @@ char_type Particle_4C::PoolUpdate()
             }
             field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette);
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(this->field_30_pNext);
-            field_30_pNext->field_2C_flags |= 4u;
+            field_30_pNext->field_2C_bf.bNoLighting = true;
             return false;
 
         case 28:
