@@ -67,6 +67,17 @@
 
 DEFINE_GLOBAL_INIT(Fix16, dword_67DECC, Fix16(5), 0x67DECC);
 DEFINE_GLOBAL_INIT(Fix16, dword_67DFB4, dword_67DECC, 0x67DFB4);
+// Network game speed setting; selects the frame duration in ApplyNetworkGameSettings_4B8E50
+namespace network_game_speed
+{
+enum
+{
+    slow_0 = 0, // 50 ms per frame
+    normal_1 = 1, // 40 ms per frame
+    fast_2 = 2, // 33 ms per frame
+};
+} // namespace network_game_speed
+
 DEFINE_GLOBAL(s32, gNetworkGameSpeed_7071A0, 0x7071A0);
 DEFINE_GLOBAL(s32, gNetworkPolice_7071B0, 0x7071B0);
 DEFINE_GLOBAL(s32, gCachedScreenDimension_706C58, 0x706C58);
@@ -194,15 +205,15 @@ void Game_0x40::ApplyNetworkGameSettings_4B8E50()
 {
     switch (gNetworkGameSpeed_7071A0)
     {
-        case 0:
+        case network_game_speed::slow_0:
             field_34_network_frame_ms = 50;
             break;
 
-        case 1:
+        case network_game_speed::normal_1:
             field_34_network_frame_ms = 40;
             break;
 
-        case 2:
+        case network_game_speed::fast_2:
             field_34_network_frame_ms = 33;
             break;
     }
