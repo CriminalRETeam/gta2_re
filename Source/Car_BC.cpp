@@ -7321,7 +7321,7 @@ void TrafficSpawner_14::GenerateTraffic_583670()
 
         while (field_0_cam)
         {
-            if (field_0_cam->has_camera_car_or_ped_433E90())
+            if (field_0_cam->HasFollowTarget_433E90())
             {
                 TrafficSpawner_14::MakeTrafficForCurrCamera_5832C0();
             }

@@ -92,10 +92,10 @@ static inline void __stdcall SaveUnprojectedVertex_4B9990(f32 xCoord, f32 yCoord
 static inline void ProjectWorldPointToScreen_4BA4D0(Fix16_Point& point, Vert* pVert, Fix16 zpos)
 {
     SaveUnprojectedVertex_4B9990(point.x.ToFloat(), point.y.ToFloat(), zpos.ToFloat(), pVert);
-    pVert->z = 1.0 / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0 - zpos.ToFloat()));
-    pVert->x = ((((gViewCamera_676978->field_60.x.ToFloat())) * (((point.x.ToFloat()) - (gViewCamera_676978->field_98_cam_pos2.field_0_x.ToFloat())))) * (pVert->z)) +
+    pVert->z = 1.0 / (gViewCamera_676978->field_98_cur_pos.field_8_z.ToFloat() + (8.0 - zpos.ToFloat()));
+    pVert->x = ((((gViewCamera_676978->field_60_screen_scale.x.ToFloat())) * (((point.x.ToFloat()) - (gViewCamera_676978->field_98_cur_pos.field_0_x.ToFloat())))) * (pVert->z)) +
         (u32)gViewCamera_676978->field_70_screen_px_center_x;
-    pVert->y = (((((gViewCamera_676978->field_60.x.ToFloat())) * ((point.y.ToFloat() - (gViewCamera_676978->field_98_cam_pos2.field_4_y.ToFloat())))) * (pVert->z)) +
+    pVert->y = (((((gViewCamera_676978->field_60_screen_scale.x.ToFloat())) * ((point.y.ToFloat() - (gViewCamera_676978->field_98_cur_pos.field_4_y.ToFloat())))) * (pVert->z)) +
         (u32)gViewCamera_676978->field_74_screen_px_center_y);
 }
 
@@ -110,10 +110,10 @@ static inline f32 Fix16ToFloat_Paren(const Fix16& v)
 static inline void ProjectWorldPointToScreen_First_4BA4D0(Fix16_Point& point, Vert* pVert, Fix16 zpos)
 {
     SaveUnprojectedVertex_4B9990((Fix16ToFloat_Paren(point.x)), (point.y.ToFloat()), zpos.ToFloat(), pVert);
-    pVert->z = 1.0 / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0 - zpos.ToFloat()));
-    pVert->x = ((((gViewCamera_676978->field_60.x.ToFloat())) * (((point.x.ToFloat()) - (gViewCamera_676978->field_98_cam_pos2.field_0_x.ToFloat())))) * (pVert->z)) +
+    pVert->z = 1.0 / (gViewCamera_676978->field_98_cur_pos.field_8_z.ToFloat() + (8.0 - zpos.ToFloat()));
+    pVert->x = ((((gViewCamera_676978->field_60_screen_scale.x.ToFloat())) * (((point.x.ToFloat()) - (gViewCamera_676978->field_98_cur_pos.field_0_x.ToFloat())))) * (pVert->z)) +
         (u32)gViewCamera_676978->field_70_screen_px_center_x;
-    pVert->y = ((gViewCamera_676978->field_60.x.ToFloat())) * ((point.y.ToFloat() - (gViewCamera_676978->field_98_cam_pos2.field_4_y.ToFloat()))) * pVert->z +
+    pVert->y = ((gViewCamera_676978->field_60_screen_scale.x.ToFloat())) * ((point.y.ToFloat() - (gViewCamera_676978->field_98_cur_pos.field_4_y.ToFloat()))) * pVert->z +
         (u32)gViewCamera_676978->field_74_screen_px_center_y;
 }
 
@@ -2577,10 +2577,10 @@ void SpriteShape_4C::DrawCollisionBox_5A4DA0(Fix16 zpos)
 MATCH_FUNC(0x5A5690)
 EXPORT void __stdcall sub_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
 {
-    z = kFP16One_7035C4 / ((kFP16Eight_7035E4 - z) + gViewCamera_676978->field_98_cam_pos2.field_8_z);
-    *pOut1 = (((x - gViewCamera_676978->field_98_cam_pos2.field_0_x) * gViewCamera_676978->field_60.x) * z) +
+    z = kFP16One_7035C4 / ((kFP16Eight_7035E4 - z) + gViewCamera_676978->field_98_cur_pos.field_8_z);
+    *pOut1 = (((x - gViewCamera_676978->field_98_cur_pos.field_0_x) * gViewCamera_676978->field_60_screen_scale.x) * z) +
         Fix16(gViewCamera_676978->field_70_screen_px_center_x);
-    *pOut2 = (((y - gViewCamera_676978->field_98_cam_pos2.field_4_y) * gViewCamera_676978->field_60.x) * z) +
+    *pOut2 = (((y - gViewCamera_676978->field_98_cur_pos.field_4_y) * gViewCamera_676978->field_60_screen_scale.x) * z) +
         Fix16(gViewCamera_676978->field_74_screen_px_center_y);
 }
 
@@ -2592,13 +2592,13 @@ static inline void ProjectToScreen_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut
 {
     Fix16 scale;
     scale =
-        kFP16One_7035C4.Divide_436A20((kFP16Eight_7035E4.Subtract_436A00(z)).Add_408660(gViewCamera_676978->field_98_cam_pos2.field_8_z));
-    *pOut1 = (x.Subtract_436A00(gViewCamera_676978->field_98_cam_pos2.field_0_x)
-                  .Multiply_408680(gViewCamera_676978->field_60.x)
+        kFP16One_7035C4.Divide_436A20((kFP16Eight_7035E4.Subtract_436A00(z)).Add_408660(gViewCamera_676978->field_98_cur_pos.field_8_z));
+    *pOut1 = (x.Subtract_436A00(gViewCamera_676978->field_98_cur_pos.field_0_x)
+                  .Multiply_408680(gViewCamera_676978->field_60_screen_scale.x)
                   .Multiply_408680(scale))
                  .Add_408660(Fix16(gViewCamera_676978->field_70_screen_px_center_x));
-    *pOut2 = (y.Subtract_436A00(gViewCamera_676978->field_98_cam_pos2.field_4_y)
-                  .Multiply_408680(gViewCamera_676978->field_60.x)
+    *pOut2 = (y.Subtract_436A00(gViewCamera_676978->field_98_cur_pos.field_4_y)
+                  .Multiply_408680(gViewCamera_676978->field_60_screen_scale.x)
                   .Multiply_408680(scale))
                  .Add_408660(Fix16(gViewCamera_676978->field_74_screen_px_center_y));
 }

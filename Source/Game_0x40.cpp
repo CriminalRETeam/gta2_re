@@ -699,7 +699,7 @@ void Game_0x40::ShakeCamerasAtPos_4B9790(Fix16 amount, Fix16 x, Fix16 y)
     Camera_0xBC* pCam = IteratePlayerCamera_4B9BC0();
     while (pCam)
     {
-        if (pCam->check_camera(x, y))
+        if (pCam->IsPointInViewBounds_40CF60(x, y))
         {
             pCam->SetShake_436120(amount);
         }
@@ -808,11 +808,11 @@ bool Game_0x40::IsPointOnScreen_4B9A80(Fix16 x, Fix16 y)
         Player* pPlayer = *ppPlayer;
         if (pPlayer->field_8E_in_use)
         {
-            if (pPlayer->field_90_game_camera.check_camera(x, y))
+            if (pPlayer->field_90_game_camera.IsPointInViewBounds_40CF60(x, y))
             {
                 return true;
             }
-            if (pPlayer->field_2D0_aux_cam_active && pPlayer->field_208_aux_game_camera.check_camera(x, y))
+            if (pPlayer->field_2D0_aux_cam_active && pPlayer->field_208_aux_game_camera.IsPointInViewBounds_40CF60(x, y))
             {
                 return true;
             }

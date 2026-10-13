@@ -93,10 +93,10 @@ static inline void DrawFigureScaled_4C71B0(s32 type, s16 pal, Fix16 x_pos, Fix16
 // with this file's copies of the 1 and 8 constants
 static inline void WorldToScreen_Hud_40CFC0(Camera_0xBC* pCam, Fix16 x, Fix16 y, Fix16 z, Fix16* pOutX, Fix16* pOutY)
 {
-    Fix16 u = pCam->field_98_cam_pos2.field_8_z - z;
+    Fix16 u = pCam->field_98_cur_pos.field_8_z - z;
     Fix16 t(kFpOne_7064C4 / Fix16(u.mValue + kFpEight_7064E8.mValue, 0));
-    *pOutX = (((x - pCam->field_98_cam_pos2.field_0_x) * pCam->field_60.y) * t) + Fix16(320);
-    *pOutY = (((y - pCam->field_98_cam_pos2.field_4_y) * pCam->field_60.y) * t) + Fix16(240);
+    *pOutX = (((x - pCam->field_98_cur_pos.field_0_x) * pCam->field_60_screen_scale.y) * t) + Fix16(320);
+    *pOutY = (((y - pCam->field_98_cur_pos.field_4_y) * pCam->field_60_screen_scale.y) * t) + Fix16(240);
 }
 
 // 9.6f 0x4C7280: DrawText_5D8A10 at a position and size scaled by the UI scale
@@ -117,9 +117,9 @@ static inline void DrawTextScaled_4C7280(const wchar_t* pStr, Fix16 x, Fix16 y, 
 // 1 and 8 constants
 static inline void ProjectWorldToScreen_Hud_4B90E0(Camera_0xBC* pCam, Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
 {
-    Fix16 scale = kFpOne_7064C4 / ((kFpEight_7064E8 - z) + pCam->field_98_cam_pos2.field_8_z);
-    *pOut1 = (((x - pCam->field_98_cam_pos2.field_0_x) * pCam->field_60.x) * scale) + Fix16(pCam->field_70_screen_px_center_x);
-    *pOut2 = (((y - pCam->field_98_cam_pos2.field_4_y) * pCam->field_60.x) * scale) + Fix16(pCam->field_74_screen_px_center_y);
+    Fix16 scale = kFpOne_7064C4 / ((kFpEight_7064E8 - z) + pCam->field_98_cur_pos.field_8_z);
+    *pOut1 = (((x - pCam->field_98_cur_pos.field_0_x) * pCam->field_60_screen_scale.x) * scale) + Fix16(pCam->field_70_screen_px_center_x);
+    *pOut2 = (((y - pCam->field_98_cur_pos.field_4_y) * pCam->field_60_screen_scale.x) * scale) + Fix16(pCam->field_74_screen_px_center_y);
 }
 
 MATCH_FUNC(0x4bbbb0)
@@ -820,10 +820,10 @@ void Hud_Arrow_7C::UpdateScreenPos_5D0850()
     }
 
     Fix16 factor;
-    factor = kFpOne_7064C4 / ((kFpEight_7064E8 - field_18.field_60_curr_target->field_1C_aim_z) + pCamera->field_98_cam_pos2.field_8_z);
+    factor = kFpOne_7064C4 / ((kFpEight_7064E8 - field_18.field_60_curr_target->field_1C_aim_z) + pCamera->field_98_cur_pos.field_8_z);
     // multiply by 64
     Fix16& radius = field_10_radius_pos;
-    Fix16 projected_radius = ((radius * 64) / (pCamera->field_60.x * factor)) * pCamera->field_A8_ui_scale;
+    Fix16 projected_radius = ((radius * 64) / (pCamera->field_60_screen_scale.x * factor)) * pCamera->field_A8_ui_scale;
 
     Fix16 zpos_2;
     if (distance != kFpZero_7064C0 && !field_18.field_60_curr_target->field_20_bIsTargetVisible)

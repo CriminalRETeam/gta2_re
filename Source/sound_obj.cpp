@@ -4001,7 +4001,7 @@ void sound_obj::InterrogateAudioEntities_41A730()
 
     if (field_1478_type5Idx != 0 && (pTmp = field_147C_audio_entities[field_1478_type5Idx].field_4_pObj->field_C_pAny.pCamera_0xBC) != NULL)
     {
-        Ped* pPed = pTmp->get_ped_416B70();
+        Ped* pPed = pTmp->GetFollowedPed_416B70();
 
         if (pPed != NULL)
         {
@@ -4021,9 +4021,9 @@ void sound_obj::InterrogateAudioEntities_41A730()
         }
         else
         {
-            field_1468_listener_x = pTmp->field_98_cam_pos2.field_0_x;
-            field_146C_listener_y = pTmp->field_98_cam_pos2.field_4_y;
-            field_1470_listener_z = pTmp->field_98_cam_pos2.field_8_z;
+            field_1468_listener_x = pTmp->field_98_cur_pos.field_0_x;
+            field_146C_listener_y = pTmp->field_98_cur_pos.field_4_y;
+            field_1470_listener_z = pTmp->field_98_cur_pos.field_8_z;
         }
     }
     else

@@ -820,21 +820,21 @@ void Player::RestorePowerUpsFromSave_5651F0(SavedPlayerStats_90* pSave)
 MATCH_FUNC(0x565310)
 void Player::TeleportToDebugCam_565310()
 {
-    field_2C4_player_ped->TeleportToCoord_45BC10(this->field_14C_view_camera.field_98_cam_pos2.field_0_x,
-                                                 this->field_14C_view_camera.field_98_cam_pos2.field_4_y);
+    field_2C4_player_ped->TeleportToCoord_45BC10(this->field_14C_view_camera.field_98_cur_pos.field_0_x,
+                                                 this->field_14C_view_camera.field_98_cur_pos.field_4_y);
     memcpy(&this->field_90_game_camera, &this->field_14C_view_camera, sizeof(this->field_90_game_camera));
     this->field_6C_in_debug_cam_mode = 0;
     this->field_68_camera_mode = 0;
-    this->field_90_game_camera.inline_set_ped_id_to_1_475B60();
+    this->field_90_game_camera.SetSmoothFollow_475B60();
     gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("tport"), hud_message_priority::important_3);
 }
 
 MATCH_FUNC(0x5653E0)
 void Player::DebugWatchNearestCar_5653E0()
 {
-    Car_BC* pCar = gCarManager_6C_677930->GetNearestEnterableCarFromCoord_444FA0(field_14C_view_camera.field_98_cam_pos2.field_0_x,
-                                                                          field_14C_view_camera.field_98_cam_pos2.field_4_y,
-                                                                          field_14C_view_camera.field_98_cam_pos2.field_8_z,
+    Car_BC* pCar = gCarManager_6C_677930->GetNearestEnterableCarFromCoord_444FA0(field_14C_view_camera.field_98_cur_pos.field_0_x,
+                                                                          field_14C_view_camera.field_98_cur_pos.field_4_y,
+                                                                          field_14C_view_camera.field_98_cur_pos.field_8_z,
                                                                           0);
     if (pCar)
     {
@@ -1033,14 +1033,14 @@ void Player::Hud_Controls_565890(u16 action)
                 if (bDo_debug_keys_67D6CF)
                 {
                     this->field_68_camera_mode = 0;
-                    this->field_90_game_camera.inline_set_ped_id_to_1_475B60();
+                    this->field_90_game_camera.SetSmoothFollow_475B60();
                 }
                 break;
             case DIK_F12:
                 if (bDo_debug_keys_67D6CF)
                 {
                     this->field_68_camera_mode = 1;
-                    this->field_90_game_camera.inline_set_ped_id_to_2();
+                    this->field_90_game_camera.SetSnapFollow_4A5070();
                 }
                 break;
             case DIK_ADD:
@@ -1640,24 +1640,24 @@ void Player::ShowDebugInfo_566EE0(char_type skip)
         if (bDo_show_camera_67D58A)
         {
             // fmuls vs fmull
-            double x = this->field_90_game_camera.field_98_cam_pos2.field_0_x.AsDouble();
-            double y = this->field_90_game_camera.field_98_cam_pos2.field_4_y.AsDouble();
-            double z = this->field_90_game_camera.field_98_cam_pos2.field_8_z.AsDouble();
+            double x = this->field_90_game_camera.field_98_cur_pos.field_0_x.AsDouble();
+            double y = this->field_90_game_camera.field_98_cur_pos.field_4_y.AsDouble();
+            double z = this->field_90_game_camera.field_98_cur_pos.field_8_z.AsDouble();
             swprintf(tmpBuff_67BD9C, L"game camera: (%3.3f,%3.3f,%3.3f)", x, y, z);
             gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 64, gDebugFont_706600, 1);
 
             swprintf(tmpBuff_67BD9C,
                      L"aux game camera: (%3.3f,%3.3f,%3.3f)",
-                     this->field_208_aux_game_camera.field_98_cam_pos2.field_0_x.AsDouble(),
-                     this->field_208_aux_game_camera.field_98_cam_pos2.field_4_y.AsDouble(),
-                     this->field_208_aux_game_camera.field_98_cam_pos2.field_8_z.AsDouble());
+                     this->field_208_aux_game_camera.field_98_cur_pos.field_0_x.AsDouble(),
+                     this->field_208_aux_game_camera.field_98_cur_pos.field_4_y.AsDouble(),
+                     this->field_208_aux_game_camera.field_98_cur_pos.field_8_z.AsDouble());
             gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 80, gDebugFont_706600, 1);
 
             swprintf(tmpBuff_67BD9C,
                      L"view camera: (%3.3f,%3.3f,%3.3f)",
-                     this->field_14C_view_camera.field_98_cam_pos2.field_0_x.AsDouble(),
-                     this->field_14C_view_camera.field_98_cam_pos2.field_4_y.AsDouble(),
-                     this->field_14C_view_camera.field_98_cam_pos2.field_8_z.AsDouble());
+                     this->field_14C_view_camera.field_98_cur_pos.field_0_x.AsDouble(),
+                     this->field_14C_view_camera.field_98_cur_pos.field_4_y.AsDouble(),
+                     this->field_14C_view_camera.field_98_cur_pos.field_8_z.AsDouble());
             gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 96, gDebugFont_706600, 1);
         }
 
@@ -1790,7 +1790,7 @@ void Player::Wasted_567130()
                 }
                 field_68_camera_mode = 0;
                 field_90_game_camera.ResetCameraSmoothing_435DD0();
-                field_90_game_camera.inline_set_ped_id_to_1_475B60();
+                field_90_game_camera.SetSmoothFollow_475B60();
 
                 if (field_2C8_aux_ped != NULL)
                 {
@@ -1907,7 +1907,7 @@ void Player::Busted_5679E0()
                 }
                 field_68_camera_mode = 0;
                 field_90_game_camera.ResetCameraSmoothing_435DD0();
-                field_90_game_camera.inline_set_ped_id_to_1_475B60();
+                field_90_game_camera.SetSmoothFollow_475B60();
                 field_2C8_aux_ped->field_210_shock_counter = 0;
                 field_2C8_aux_ped->field_210_shock_counter = 0;
                 field_2C8_aux_ped->field_20A_wanted_points = 0;
@@ -2149,7 +2149,7 @@ void Player::Service_5687F0()
 
     if (this->field_6C_in_debug_cam_mode == 1)
     {
-        this->field_14C_view_camera.inline_set_ped_id_to_2();
+        this->field_14C_view_camera.SetSnapFollow_4A5070();
 
         field_14C_view_camera.MoveTarget_435D20(this->field_70_dbg_cam_north,
                                          this->field_71_dbg_cam_south,
@@ -2246,7 +2246,7 @@ void Player::UpdatePaused_569410()
     }
     if (field_6C_in_debug_cam_mode == 1)
     {
-        field_14C_view_camera.inline_set_ped_id_to_2();
+        field_14C_view_camera.SetSnapFollow_4A5070();
         field_14C_view_camera.MoveTarget_435D20(field_70_dbg_cam_north,
                                          field_71_dbg_cam_south,
                                          field_72_dbg_cam_west,
@@ -2292,7 +2292,7 @@ void Player::ResetAuxCamera_5695A0()
         field_2C8_aux_ped = 0;
         field_2CC_watched_car = 0;
         field_2D0_aux_cam_active = 0;
-        field_90_game_camera.inline_set_ped_id_to_1_475B60();
+        field_90_game_camera.SetSmoothFollow_475B60();
     }
 }
 
@@ -2308,7 +2308,7 @@ void Player::StartRemoteControl_569600(Car_BC* pCar)
     pCar->LockUnlessPermanent_475C10();
     field_68_camera_mode = 2;
     field_208_aux_game_camera.UpdateFollowPedCamera_436540(field_2C8_aux_ped);
-    field_208_aux_game_camera.CommitCameraTarget_41E410();
+    field_208_aux_game_camera.CommitPendingTarget_41E410();
     field_208_aux_game_camera.ResetCameraSmoothing_435DD0();
     field_2D0_aux_cam_active = 1;
     Player::UnloadCarWeapons_564C00();
@@ -2322,7 +2322,7 @@ void Player::WatchCar_5696D0(Car_BC* pCar)
     {
         field_2CC_watched_car = pCar;
         field_208_aux_game_camera.UpdateFollowCarCamera_4364A0(pCar);
-        field_208_aux_game_camera.CommitCameraTarget_41E410();
+        field_208_aux_game_camera.CommitPendingTarget_41E410();
         field_208_aux_game_camera.ResetCameraSmoothing_435DD0();
         field_68_camera_mode = 3;
         field_2D0_aux_cam_active = 1;
@@ -2359,9 +2359,9 @@ void Player::GetPosU8_569840(u8& x, u8& y, u8& z)
         {
             pCam = &field_90_game_camera;
         }
-        x = pCam->field_98_cam_pos2.field_0_x.ToUInt8();
-        y = pCam->field_98_cam_pos2.field_4_y.ToUInt8();
-        z = (kTwo_6FE618 + pCam->field_98_cam_pos2.field_8_z).ToUInt8();
+        x = pCam->field_98_cur_pos.field_0_x.ToUInt8();
+        y = pCam->field_98_cur_pos.field_4_y.ToUInt8();
+        z = (kTwo_6FE618 + pCam->field_98_cur_pos.field_8_z).ToUInt8();
     }
 }
 
@@ -2413,9 +2413,9 @@ void Player::get_pos_569920(Fix16* out_x, Fix16* out_y, Fix16* out_z)
     else
     {
         Camera_0xBC* pCam = get_camera_434900();
-        *out_x = pCam->field_98_cam_pos2.field_0_x;
-        *out_y = pCam->field_98_cam_pos2.field_4_y;
-        *out_z = pCam->field_98_cam_pos2.field_8_z + kTwo_6FE618;
+        *out_x = pCam->field_98_cur_pos.field_0_x;
+        *out_y = pCam->field_98_cur_pos.field_4_y;
+        *out_z = pCam->field_98_cur_pos.field_8_z + kTwo_6FE618;
     }
 }
 
@@ -2552,13 +2552,13 @@ void Player::InitializePlayerState_569CB0()
     }
 
     field_90_game_camera.UpdateFollowPedCamera_436540(field_2C4_player_ped);
-    field_90_game_camera.inline_set_ped_id_to_1_475B60();
-    field_90_game_camera.CommitCameraTarget_41E410();
+    field_90_game_camera.SetSmoothFollow_475B60();
+    field_90_game_camera.CommitPendingTarget_41E410();
     field_90_game_camera.ResetCameraSmoothing_435DD0();
 
     field_208_aux_game_camera.UpdateFollowPedCamera_436540(field_2C4_player_ped);
-    field_208_aux_game_camera.inline_set_ped_id_to_1_475B60();
-    field_208_aux_game_camera.CommitCameraTarget_41E410();
+    field_208_aux_game_camera.SetSmoothFollow_475B60();
+    field_208_aux_game_camera.CommitPendingTarget_41E410();
     field_208_aux_game_camera.ResetCameraSmoothing_435DD0();
 
     field_2D0_aux_cam_active = 0;

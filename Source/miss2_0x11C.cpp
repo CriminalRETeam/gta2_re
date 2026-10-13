@@ -6208,10 +6208,10 @@ void miss2_0x11C::SCRCMD_WARP_CHAR_50F270() // WARP_FROM_CAR_TO_POINT
 
         Camera_0xBC* p_game_camera = &(gGame_0x40_67E008->field_38_local_player->field_90_game_camera);
 
-        p_game_camera->CommitCameraTarget_41E410();
+        p_game_camera->CommitPendingTarget_41E410();
 
         gGame_0x40_67E008->field_38_local_player->field_90_game_camera.ResetCameraSmoothing_435DD0();
-        gGame_0x40_67E008->field_38_local_player->field_90_game_camera.inline_set_ped_id_to_1_475B60();
+        gGame_0x40_67E008->field_38_local_player->field_90_game_camera.SetSmoothFollow_475B60();
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }

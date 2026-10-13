@@ -107,10 +107,10 @@ void RouteFinder::ShowJunctionIds_588620()
 // be used here
 static inline void WorldToScreen_RouteFinder_40CFC0(Camera_0xBC* pCam, Fix16 x, Fix16 y, Fix16 z, Fix16* pOutX, Fix16* pOutY)
 {
-    Fix16 u = pCam->field_98_cam_pos2.field_8_z - z;
+    Fix16 u = pCam->field_98_cur_pos.field_8_z - z;
     Fix16 t(dword_6FFC7C / Fix16(u.mValue + dword_6FFC9C.mValue, 0));
-    *pOutX = (((x - pCam->field_98_cam_pos2.field_0_x) * pCam->field_60.y) * t) + Fix16(320);
-    *pOutY = (((y - pCam->field_98_cam_pos2.field_4_y) * pCam->field_60.y) * t) + Fix16(240);
+    *pOutX = (((x - pCam->field_98_cur_pos.field_0_x) * pCam->field_60_screen_scale.y) * t) + Fix16(320);
+    *pOutY = (((y - pCam->field_98_cur_pos.field_4_y) * pCam->field_60_screen_scale.y) * t) + Fix16(240);
 }
 
 MATCH_FUNC(0x588810)

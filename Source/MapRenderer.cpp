@@ -134,9 +134,9 @@ struct VertProjector
     inline void ProjectVert_46BC70(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
     {
         set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, zpos, pVert);
-        pVert->z = 1.0f / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
-        pVert->x = xpos.ToFloat() * Fix16ToFloat_Paren(gViewCamera_676978->field_60.x) * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
-        pVert->y = ypos.ToFloat() * Fix16ToFloat_Paren(gViewCamera_676978->field_60.x) * pVert->z + (u32)gViewCamera_676978->field_74_screen_px_center_y;
+        pVert->z = 1.0f / (gViewCamera_676978->field_98_cur_pos.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
+        pVert->x = xpos.ToFloat() * Fix16ToFloat_Paren(gViewCamera_676978->field_60_screen_scale.x) * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
+        pVert->y = ypos.ToFloat() * Fix16ToFloat_Paren(gViewCamera_676978->field_60_screen_scale.x) * pVert->z + (u32)gViewCamera_676978->field_74_screen_px_center_y;
     }
 };
 
@@ -175,9 +175,9 @@ struct VertProjector2
     inline void ProjectVert_46BC70(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
     {
         set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, zpos, pVert);
-        pVert->z = 1.0f / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
-        pVert->x = Fix16ToF32_Rounded3(xpos) * Fix16ToF32_Rounded2(gViewCamera_676978->field_60.x) * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
-        pVert->y = Fix16ToF32_Rounded3(ypos) * Fix16ToF32_Rounded2(gViewCamera_676978->field_60.x) * pVert->z + (u32)gViewCamera_676978->field_74_screen_px_center_y;
+        pVert->z = 1.0f / (gViewCamera_676978->field_98_cur_pos.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
+        pVert->x = Fix16ToF32_Rounded3(xpos) * Fix16ToF32_Rounded2(gViewCamera_676978->field_60_screen_scale.x) * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
+        pVert->y = Fix16ToF32_Rounded3(ypos) * Fix16ToF32_Rounded2(gViewCamera_676978->field_60_screen_scale.x) * pVert->z + (u32)gViewCamera_676978->field_74_screen_px_center_y;
     }
 };
 
@@ -189,10 +189,10 @@ struct VertProjector3
     inline void ProjectVert_46BC70(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
     {
         set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, zpos, pVert);
-        pVert->z = 1.0f / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
-        pVert->x = Fix16ToF32_Rounded2(xpos) * Fix16ToF32_Rounded3(gViewCamera_676978->field_60.x) * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
+        pVert->z = 1.0f / (gViewCamera_676978->field_98_cur_pos.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
+        pVert->x = Fix16ToF32_Rounded2(xpos) * Fix16ToF32_Rounded3(gViewCamera_676978->field_60_screen_scale.x) * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
         // No f32 local for field_60 and a no-op after the product: S 8 -> 4, E 16 -> 8 (docs/match_attempts.md).
-        pVert->y = Fix16ToF32_Rounded2(ypos) * Fix16ToF32_P3(gViewCamera_676978->field_60.x) * (pVert->z) + (u32)gViewCamera_676978->field_74_screen_px_center_y;
+        pVert->y = Fix16ToF32_Rounded2(ypos) * Fix16ToF32_P3(gViewCamera_676978->field_60_screen_scale.x) * (pVert->z) + (u32)gViewCamera_676978->field_74_screen_px_center_y;
     }
 };
 
@@ -214,9 +214,9 @@ struct VertProjector4
     inline void ProjectVert_46BC70(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
     {
         set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, zpos, pVert);
-        pVert->z = 1.0f / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
-        pVert->x = Fix16ToF32_Rounded2(xpos) * Fix16ToF32_Rounded3(gViewCamera_676978->field_60.x) * (pVert->z) + (u32)gViewCamera_676978->field_70_screen_px_center_x;
-        pVert->y = (Fix16ToF32_Stored(gViewCamera_676978->field_60.x) * Fix16ToF32_Stored(ypos)) * (pVert->z) + (u32)gViewCamera_676978->field_74_screen_px_center_y;
+        pVert->z = 1.0f / (gViewCamera_676978->field_98_cur_pos.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
+        pVert->x = Fix16ToF32_Rounded2(xpos) * Fix16ToF32_Rounded3(gViewCamera_676978->field_60_screen_scale.x) * (pVert->z) + (u32)gViewCamera_676978->field_70_screen_px_center_x;
+        pVert->y = (Fix16ToF32_Stored(gViewCamera_676978->field_60_screen_scale.x) * Fix16ToF32_Stored(ypos)) * (pVert->z) + (u32)gViewCamera_676978->field_74_screen_px_center_y;
     }
 };
 
@@ -230,8 +230,8 @@ static inline void set_vert_xyz_relative_to_cam_inlined(Fix16 xCoord, Fix16 yCoo
 
     // Only ProjectVert_4EB940 inlines this copy. The f32 locals (Fix16ToF32_Rounded) move the index
     // computation's mov behind the z temp store, as in the original (22 -> 4 lines).
-    gTileVerts_6F65A8[next_idx].x = Fix16ToF32_Rounded(xCoord + pCam->field_98_cam_pos2.field_0_x);
-    gTileVerts_6F65A8[next_idx].y = Fix16ToF32_Rounded(yCoord + pCam->field_98_cam_pos2.field_4_y);
+    gTileVerts_6F65A8[next_idx].x = Fix16ToF32_Rounded(xCoord + pCam->field_98_cur_pos.field_0_x);
+    gTileVerts_6F65A8[next_idx].y = Fix16ToF32_Rounded(yCoord + pCam->field_98_cur_pos.field_4_y);
     gTileVerts_6F65A8[next_idx].z = z_val.ToFloat();
 }
 
@@ -724,8 +724,8 @@ void __stdcall set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, F
 
     // Only ProjectVert_4EB940 inlines this copy. The f32 locals (Fix16ToF32_Rounded) move the index
     // computation's mov behind the z temp store, as in the original (22 -> 4 lines).
-    gTileVerts_6F65A8[next_idx].x = Fix16ToF32_Rounded(xCoord + pCam->field_98_cam_pos2.field_0_x);
-    gTileVerts_6F65A8[next_idx].y = Fix16ToF32_Rounded(yCoord + pCam->field_98_cam_pos2.field_4_y);
+    gTileVerts_6F65A8[next_idx].x = Fix16ToF32_Rounded(xCoord + pCam->field_98_cur_pos.field_0_x);
+    gTileVerts_6F65A8[next_idx].y = Fix16ToF32_Rounded(yCoord + pCam->field_98_cur_pos.field_4_y);
     gTileVerts_6F65A8[next_idx].z = z_val.ToFloat();
 }
 
@@ -909,11 +909,11 @@ void MapRenderer::ProjectVert_4EB940(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert
     set_vert_xyz_relative_to_cam_inlined(xpos, ypos, zpos, pVert);
 
     // The same conversion forms as VertProjector3::ProjectVert_46BC70 (field_60 is loaded first here too).
-    pVert->z = 1.0f / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
-    pVert->x = Fix16ToF32_Rounded2(xpos) * Fix16ToF32_Rounded3(gViewCamera_676978->field_60.x) * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
+    pVert->z = 1.0f / (gViewCamera_676978->field_98_cur_pos.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
+    pVert->x = Fix16ToF32_Rounded2(xpos) * Fix16ToF32_Rounded3(gViewCamera_676978->field_60_screen_scale.x) * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
     // The y line's parentheses are x87 no-op nodes: the one after the product delays `pop ebx` past
     // `fmuls 8(%ecx)` in the epilogue (see Scripts/x87_sched).
-    pVert->y = (Fix16ToF32_Rounded2(ypos) * Fix16ToF32_Rounded3(gViewCamera_676978->field_60.x)) * (pVert->z) + (u32)gViewCamera_676978->field_74_screen_px_center_y;
+    pVert->y = (Fix16ToF32_Rounded2(ypos) * Fix16ToF32_Rounded3(gViewCamera_676978->field_60_screen_scale.x)) * (pVert->z) + (u32)gViewCamera_676978->field_74_screen_px_center_y;
 }
 
 // https://decomp.me/scratch/a6z18
@@ -3458,8 +3458,8 @@ void MapRenderer::RenderBlockAt_4F6880(s32& pXCoord, s32& pYCoord)
                 gBlockBottom_6F6468 = gBlockBottom_6F6468 | 0x260;
             }
         }
-        gXCoord_6F63AC = Fix16(pXCoord) - gViewCamera_676978->field_98_cam_pos2.field_0_x;
-        gYCoord_6F63B8 = Fix16(pYCoord) - gViewCamera_676978->field_98_cam_pos2.field_4_y;
+        gXCoord_6F63AC = Fix16(pXCoord) - gViewCamera_676978->field_98_cur_pos.field_0_x;
+        gYCoord_6F63B8 = Fix16(pYCoord) - gViewCamera_676978->field_98_cur_pos.field_4_y;
 
         u8 slope = pBlock->field_B_slope_type & 0xFC;
 
@@ -3548,15 +3548,15 @@ void MapRenderer::Draw_4F6A20()
         if (!bSkip_tiles_67D655)
         {
             // compute tile rendering boundaries
-            Fix16 layer_row_width = (gViewCamera_676978->field_98_cam_pos2.field_8_z - Fix16(zLayer) + Fix16(8)) / gViewCamera_676978->field_98_cam_pos2.field_C_zoom;
+            Fix16 layer_row_width = (gViewCamera_676978->field_98_cur_pos.field_8_z - Fix16(zLayer) + Fix16(8)) / gViewCamera_676978->field_98_cur_pos.field_C_zoom;
 
             // narrow the y direction because of assymetric monitor resolution
             Fix16 layer_column_width = layer_row_width * kScreenAspectRatio_6F638C;
 
             // compute x boundary
             Fix16 half_x = layer_row_width / 2;
-            s32 min_x = (gViewCamera_676978->field_98_cam_pos2.field_0_x - half_x).ToInt();
-            s32 max_x = (gViewCamera_676978->field_98_cam_pos2.field_0_x + half_x).ToInt();
+            s32 min_x = (gViewCamera_676978->field_98_cur_pos.field_0_x - half_x).ToInt();
+            s32 max_x = (gViewCamera_676978->field_98_cur_pos.field_0_x + half_x).ToInt();
 
             // 10.5: the half-widths grow by one when the range is even, and the loops below start at
             // half-width - 1 (an earlier version here left the increment out and started at half-width).
@@ -3568,8 +3568,8 @@ void MapRenderer::Draw_4F6A20()
 
             // compute y boundary
             Fix16 half_y = layer_column_width / 2;
-            s32 min_y = (gViewCamera_676978->field_98_cam_pos2.field_4_y - half_y).ToInt();
-            s32 max_y = (gViewCamera_676978->field_98_cam_pos2.field_4_y + half_y).ToInt();
+            s32 min_y = (gViewCamera_676978->field_98_cur_pos.field_4_y - half_y).ToInt();
+            s32 max_y = (gViewCamera_676978->field_98_cur_pos.field_4_y + half_y).ToInt();
 
             s32 y_semi_distance = (max_y - min_y + 1) / 2;
             if ((max_y - min_y) % 2 != 1)
@@ -3581,7 +3581,7 @@ void MapRenderer::Draw_4F6A20()
             gZCoord_6F63E0 = zLayer;
             gZCoordFp_6F6518 = Fix16(zLayer);
 
-            Fix16 unk_Z_Factor = gViewCamera_676978->field_98_cam_pos2.field_8_z - Fix16(zLayer) + Fix16(8);
+            Fix16 unk_Z_Factor = gViewCamera_676978->field_98_cur_pos.field_8_z - Fix16(zLayer) + Fix16(8);
             Fix16 unknown_1;
             if (unk_Z_Factor == kZeroOnePoint_6F6484.x)
             {
@@ -3594,11 +3594,11 @@ void MapRenderer::Draw_4F6A20()
 
             gInvDepthBottom_6F6318 = unknown_1;
             s32 top_layer = zLayer + 1;
-            gScreenScaleBottom_6F633C = unknown_1 * gViewCamera_676978->field_60.x;
+            gScreenScaleBottom_6F633C = unknown_1 * gViewCamera_676978->field_60_screen_scale.x;
             gZCoordTop_6F62B0 = top_layer;
 
             Fix16 unknown_2;
-            Fix16 unk_Z_Factor_2 = gViewCamera_676978->field_98_cam_pos2.field_8_z - Fix16(top_layer) + Fix16(8);
+            Fix16 unk_Z_Factor_2 = gViewCamera_676978->field_98_cur_pos.field_8_z - Fix16(top_layer) + Fix16(8);
             if (unk_Z_Factor_2 == kZeroOnePoint_6F6484.x)
             {
                 unknown_2 = kZeroOnePoint_6F6484.x;
@@ -3609,7 +3609,7 @@ void MapRenderer::Draw_4F6A20()
             }
 
             gInvDepthTop_6F656C = unknown_2;
-            gScreenScaleTop_6F628C = unknown_2 * gViewCamera_676978->field_60.x;
+            gScreenScaleTop_6F628C = unknown_2 * gViewCamera_676978->field_60_screen_scale.x;
 
             // if zLayer = 0, reset lights
             if (zLayer == 0 && gLighting_626A09)

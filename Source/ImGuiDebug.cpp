@@ -828,12 +828,12 @@ EXTERN_GLOBAL(s16, gDebugFont_706600);
 static void ProjectXYZ_intoScreen(Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16& screen_x, Fix16& screen_y, Camera_0xBC* pCam)
 {
     Fix16 zCalc = (kFpOne_7064C4) /
-        (kFpEight_7064E8 + (pCam->field_98_cam_pos2.field_8_z - zpos)); // kFpOne_7064C4 ??
+        (kFpEight_7064E8 + (pCam->field_98_cur_pos.field_8_z - zpos)); // kFpOne_7064C4 ??
 
-    Fix16 xTmp = pCam->field_60.x * (xpos - pCam->field_98_cam_pos2.field_0_x);
+    Fix16 xTmp = pCam->field_60_screen_scale.x * (xpos - pCam->field_98_cur_pos.field_0_x);
     screen_x = ((zCalc * xTmp)) + Fix16(320);
 
-    Fix16 yTmp = (pCam->field_60.y * (ypos - pCam->field_98_cam_pos2.field_4_y));
+    Fix16 yTmp = (pCam->field_60_screen_scale.y * (ypos - pCam->field_98_cur_pos.field_4_y));
     screen_y = ((zCalc * yTmp) + Fix16(240));
 }
 
@@ -1648,13 +1648,13 @@ void CC ImGuiDebugDraw()
             {
                 if (gViewCamera_676978)
                 {
-                    ImGui::InputInt("field_60_full", &gViewCamera_676978->field_60.x.mValue, 1, 1);
-                    ImGui::InputInt("field_60_frac", &gViewCamera_676978->field_60.y.mValue, 1, 1);
+                    ImGui::InputInt("field_60_full", &gViewCamera_676978->field_60_screen_scale.x.mValue, 1, 1);
+                    ImGui::InputInt("field_60_frac", &gViewCamera_676978->field_60_screen_scale.y.mValue, 1, 1);
                     ImGui::Text("field_78_win_left %f", gViewCamera_676978->field_78_boundaries_non_neg.field_0_left.ToFloat());
                     ImGui::Text("field_7C_right %f", gViewCamera_676978->field_78_boundaries_non_neg.field_4_right.ToFloat());
                     ImGui::Text("field_80_win_top %f", gViewCamera_676978->field_78_boundaries_non_neg.field_8_top.ToFloat());
                     ImGui::Text("field_84_win_bottom %f", gViewCamera_676978->field_78_boundaries_non_neg.field_C_bottom.ToFloat());
-                    ImGui::SliderInt("field_A4", &gViewCamera_676978->field_98_cam_pos2.field_C_zoom.mValue, 0, 30000);
+                    ImGui::SliderInt("field_A4", &gViewCamera_676978->field_98_cur_pos.field_C_zoom.mValue, 0, 30000);
                     ImGui::SliderInt("screen_px_center_x", &gViewCamera_676978->field_70_screen_px_center_x, 0, 2000);
                     ImGui::SliderInt("screen_px_center_y", &gViewCamera_676978->field_74_screen_px_center_y, 0, 1200);
 
@@ -1687,7 +1687,7 @@ void CC ImGuiDebugDraw()
                         //Camera_0xBC* aux_camera = &pPlayer->field_208_aux_game_camera;
                         if (game_camera)
                         {
-                            ImGui::SliderInt("field_A4", &game_camera->field_98_cam_pos2.field_C_zoom.mValue, 0, 25000);
+                            ImGui::SliderInt("field_A4", &game_camera->field_98_cur_pos.field_C_zoom.mValue, 0, 25000);
                         }
                     }
                 }
