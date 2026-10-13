@@ -315,13 +315,13 @@ bool RouteFinder::HasBlockDesiredArrow_588CA0(gmp_block_info* block, s32 arrow_t
             switch (arrow_type)
             {
                 case green_1:
-                    if ((block->field_A_arrows & 4) != 0) // green up
+                    if ((block->field_A_arrows & block_arrow::green_up_4) != 0) // green up
                     {
                         return true;
                     }
                     break;
                 case red_2:
-                    if ((block->field_A_arrows & 0x40) != 0) // red up
+                    if ((block->field_A_arrows & block_arrow::red_up_40) != 0) // red up
                     {
                         return true;
                     }
@@ -339,13 +339,13 @@ bool RouteFinder::HasBlockDesiredArrow_588CA0(gmp_block_info* block, s32 arrow_t
             switch (arrow_type)
             {
                 case green_1:
-                    if ((block->field_A_arrows & 8) != 0) // green down
+                    if ((block->field_A_arrows & block_arrow::green_down_8) != 0) // green down
                     {
                         return true;
                     }
                     break;
                 case red_2:
-                    if ((block->field_A_arrows & 0x80) != 0) // red down
+                    if ((block->field_A_arrows & block_arrow::red_down_80) != 0) // red down
                     {
                         return true;
                     }
@@ -363,19 +363,19 @@ bool RouteFinder::HasBlockDesiredArrow_588CA0(gmp_block_info* block, s32 arrow_t
             switch (arrow_type)
             {
                 case green_1:
-                    if ((block->field_A_arrows & 1) != 0) // green left
+                    if ((block->field_A_arrows & block_arrow::green_left_1) != 0) // green left
                     {
                         return true;
                     }
                     break;
                 case red_2:
-                    if ((block->field_A_arrows & 0x10) != 0) // red left
+                    if ((block->field_A_arrows & block_arrow::red_left_10) != 0) // red left
                     {
                         return true;
                     }
                     break;
                 case green_or_red_3:
-                    if ((block->field_A_arrows & 0x11) != 0) // green or red left
+                    if ((block->field_A_arrows & block_arrow::left_mask) != 0) // green or red left
                     {
                         return true;
                     }
@@ -387,19 +387,19 @@ bool RouteFinder::HasBlockDesiredArrow_588CA0(gmp_block_info* block, s32 arrow_t
             switch (arrow_type)
             {
                 case green_1:
-                    if ((block->field_A_arrows & 2) != 0) // green right
+                    if ((block->field_A_arrows & block_arrow::green_right_2) != 0) // green right
                     {
                         return true;
                     }
                     break;
                 case red_2:
-                    if ((block->field_A_arrows & 0x20) != 0) // red right
+                    if ((block->field_A_arrows & block_arrow::red_right_20) != 0) // red right
                     {
                         return true;
                     }
                     break;
                 case green_or_red_3:
-                    if ((block->field_A_arrows & 0x22) != 0) // green or red right
+                    if ((block->field_A_arrows & block_arrow::right_mask) != 0) // green or red right
                     {
                         return true;
                     }

@@ -54,7 +54,7 @@ char __stdcall HasBlockGreenArrowAtDirection_577E20(s32 direction, gmp_block_inf
         case road_direction::right_3:
             return param_2->field_A_arrows >> 1 & 1; // right
         case road_direction::left_4:
-            return param_2->field_A_arrows & 1; // left
+            return param_2->field_A_arrows & block_arrow::green_left_1; // left
         default:
             return true;
     }

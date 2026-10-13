@@ -425,7 +425,7 @@ char_type CarAI_78::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBloc
             {
                 if (field_0_car->IsTurnLeft_42AC30())
                 {
-                    if ((pBlock->field_A_arrows & 2) && ComputeShortestAngleDelta_4056C0(kAng90_6779E4, angle) > kAng45_677A38)
+                    if ((pBlock->field_A_arrows & block_arrow::green_right_2) && ComputeShortestAngleDelta_4056C0(kAng90_6779E4, angle) > kAng45_677A38)
                     {
                         field_44_target_direction = car_ai_target_direction::eastwards_3;
                         return 1;
@@ -433,7 +433,7 @@ char_type CarAI_78::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBloc
                 }
                 else
                 {
-                    if ((pBlock->field_A_arrows & 1) && ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) > kAng45_677A38)
+                    if ((pBlock->field_A_arrows & block_arrow::green_left_1) && ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) > kAng45_677A38)
                     {
                         field_44_target_direction = car_ai_target_direction::westwards_4;
                         return 1;
@@ -441,7 +441,7 @@ char_type CarAI_78::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBloc
                 }
             }
 
-            if ((pBlock->field_A_arrows & 0xF) == 1)
+            if ((pBlock->field_A_arrows & block_arrow::green_mask) == block_arrow::green_left_1)
             {
                 if (ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) <= kAng45_677A38)
                 {
@@ -451,7 +451,7 @@ char_type CarAI_78::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBloc
                 return 1;
             }
 
-            if ((pBlock->field_A_arrows & 0xF) != 2)
+            if ((pBlock->field_A_arrows & block_arrow::green_mask) != block_arrow::green_right_2)
             {
                 return 0;
             }
@@ -470,7 +470,7 @@ char_type CarAI_78::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBloc
                 {
                     if (byte_677CA8)
                     {
-                        if ((pBlock->field_A_arrows & 0x11) && ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) > kAng45_677A38)
+                        if ((pBlock->field_A_arrows & block_arrow::left_mask) && ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) > kAng45_677A38)
                         {
                             field_44_target_direction = car_ai_target_direction::westwards_4;
                             return 1;
@@ -478,7 +478,7 @@ char_type CarAI_78::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBloc
                     }
                     else
                     {
-                        if ((pBlock->field_A_arrows & 1) && ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) > kAng45_677A38)
+                        if ((pBlock->field_A_arrows & block_arrow::green_left_1) && ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) > kAng45_677A38)
                         {
                             field_44_target_direction = car_ai_target_direction::westwards_4;
                             return 1;
@@ -490,7 +490,7 @@ char_type CarAI_78::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBloc
                     if (byte_677CA8)
                     {
                         // Note: the original compares against 270 here although it turns east
-                        if ((pBlock->field_A_arrows & 0x22) && ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) > kAng45_677A38)
+                        if ((pBlock->field_A_arrows & block_arrow::right_mask) && ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) > kAng45_677A38)
                         {
                             field_44_target_direction = car_ai_target_direction::eastwards_3;
                             return 1;
@@ -498,7 +498,7 @@ char_type CarAI_78::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBloc
                     }
                     else
                     {
-                        if ((pBlock->field_A_arrows & 2) && ComputeShortestAngleDelta_4056C0(kAng90_6779E4, angle) > kAng45_677A38)
+                        if ((pBlock->field_A_arrows & block_arrow::green_right_2) && ComputeShortestAngleDelta_4056C0(kAng90_6779E4, angle) > kAng45_677A38)
                         {
                             field_44_target_direction = car_ai_target_direction::eastwards_3;
                             return 1;
@@ -507,9 +507,9 @@ char_type CarAI_78::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBloc
                 }
             }
 
-            if (byte_677CA8 && (pBlock->field_A_arrows & 0xF0) && !(pBlock->field_A_arrows & 0xF))
+            if (byte_677CA8 && (pBlock->field_A_arrows & block_arrow::red_mask) && !(pBlock->field_A_arrows & block_arrow::green_mask))
             {
-                if ((pBlock->field_A_arrows & 0xF0) == 0x10)
+                if ((pBlock->field_A_arrows & block_arrow::red_mask) == block_arrow::red_left_10)
                 {
                     if (ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) <= kAng45_677A38)
                     {
@@ -519,7 +519,7 @@ char_type CarAI_78::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBloc
                     return 1;
                 }
 
-                if ((pBlock->field_A_arrows & 0xF0) != 0x20)
+                if ((pBlock->field_A_arrows & block_arrow::red_mask) != block_arrow::red_right_20)
                 {
                     return 0;
                 }
@@ -532,12 +532,12 @@ char_type CarAI_78::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBloc
                 return 1;
             }
 
-            if (!(pBlock->field_A_arrows & 0xF) || (pBlock->field_A_arrows & 0xF0))
+            if (!(pBlock->field_A_arrows & block_arrow::green_mask) || (pBlock->field_A_arrows & block_arrow::red_mask))
             {
                 return 0;
             }
 
-            if ((pBlock->field_A_arrows & 0xF) == 1)
+            if ((pBlock->field_A_arrows & block_arrow::green_mask) == block_arrow::green_left_1)
             {
                 if (ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) > kAng45_677A38)
                 {
@@ -545,7 +545,7 @@ char_type CarAI_78::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBloc
                     return 1;
                 }
             }
-            else if ((pBlock->field_A_arrows & 0xF) == 2)
+            else if ((pBlock->field_A_arrows & block_arrow::green_mask) == block_arrow::green_right_2)
             {
                 if (ComputeShortestAngleDelta_4056C0(kAng90_6779E4, angle) > kAng45_677A38)
                 {
@@ -560,7 +560,7 @@ char_type CarAI_78::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBloc
             {
                 if (field_0_car->IsTurnLeft_42AC30())
                 {
-                    if ((pBlock->field_A_arrows & 4) && ComputeShortestAngleDelta_4056C0(kAng180_677ADE, angle) > kAng45_677A38)
+                    if ((pBlock->field_A_arrows & block_arrow::green_up_4) && ComputeShortestAngleDelta_4056C0(kAng180_677ADE, angle) > kAng45_677A38)
                     {
                         field_44_target_direction = car_ai_target_direction::northwards_1;
                         return 1;
@@ -568,7 +568,7 @@ char_type CarAI_78::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBloc
                 }
                 else
                 {
-                    if ((pBlock->field_A_arrows & 8) && ComputeShortestAngleDelta_4056C0(kAng0_677CE8, angle) > kAng45_677A38)
+                    if ((pBlock->field_A_arrows & block_arrow::green_down_8) && ComputeShortestAngleDelta_4056C0(kAng0_677CE8, angle) > kAng45_677A38)
                     {
                         field_44_target_direction = car_ai_target_direction::southwards_2;
                         return 1;
@@ -576,7 +576,7 @@ char_type CarAI_78::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBloc
                 }
             }
 
-            if ((pBlock->field_A_arrows & 0xF) == 8)
+            if ((pBlock->field_A_arrows & block_arrow::green_mask) == block_arrow::green_down_8)
             {
                 if (ComputeShortestAngleDelta_4056C0(kAng0_677CE8, angle) > kAng45_677A38)
                 {
@@ -584,7 +584,7 @@ char_type CarAI_78::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBloc
                     return 1;
                 }
             }
-            else if ((pBlock->field_A_arrows & 0xF) == 4)
+            else if ((pBlock->field_A_arrows & block_arrow::green_mask) == block_arrow::green_up_4)
             {
                 if (ComputeShortestAngleDelta_4056C0(kAng180_677ADE, angle) > kAng45_677A38)
                 {
@@ -599,7 +599,7 @@ char_type CarAI_78::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBloc
             {
                 if (field_0_car->IsTurnLeft_42AC30())
                 {
-                    if ((pBlock->field_A_arrows & 8) && ComputeShortestAngleDelta_4056C0(kAng0_677CE8, angle) > kAng45_677A38)
+                    if ((pBlock->field_A_arrows & block_arrow::green_down_8) && ComputeShortestAngleDelta_4056C0(kAng0_677CE8, angle) > kAng45_677A38)
                     {
                         field_44_target_direction = car_ai_target_direction::southwards_2;
                         return 1;
@@ -607,7 +607,7 @@ char_type CarAI_78::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBloc
                 }
                 else
                 {
-                    if ((pBlock->field_A_arrows & 4) && ComputeShortestAngleDelta_4056C0(kAng180_677ADE, angle) > kAng45_677A38)
+                    if ((pBlock->field_A_arrows & block_arrow::green_up_4) && ComputeShortestAngleDelta_4056C0(kAng180_677ADE, angle) > kAng45_677A38)
                     {
                         field_44_target_direction = car_ai_target_direction::northwards_1;
                         return 1;
@@ -615,7 +615,7 @@ char_type CarAI_78::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBloc
                 }
             }
 
-            if ((pBlock->field_A_arrows & 0xF) == 8)
+            if ((pBlock->field_A_arrows & block_arrow::green_mask) == block_arrow::green_down_8)
             {
                 if (ComputeShortestAngleDelta_4056C0(kAng0_677CE8, angle) > kAng45_677A38)
                 {
@@ -623,7 +623,7 @@ char_type CarAI_78::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBloc
                     return 1;
                 }
             }
-            else if ((pBlock->field_A_arrows & 0xF) == 4)
+            else if ((pBlock->field_A_arrows & block_arrow::green_mask) == block_arrow::green_up_4)
             {
                 if (ComputeShortestAngleDelta_4056C0(kAng180_677ADE, angle) > kAng45_677A38)
                 {
@@ -1092,13 +1092,13 @@ void CarAI_78::ManageTrafficCarDirection_448CE0()
         switch (field_4C_curr_direction)
         {
             case car_ai_direction::north_1:
-                if ((pBlock->field_A_arrows & 4) != 0)
+                if ((pBlock->field_A_arrows & block_arrow::green_up_4) != 0)
                 {
                     field_24_bf.bFlag4 = true;
                 }
                 else
                 {
-                    if ((pBlock->field_A_arrows & 0x40) == 0)
+                    if ((pBlock->field_A_arrows & block_arrow::red_up_40) == 0)
                     {
                         field_24_bf.bFlag4 = false;
                     }
@@ -1111,7 +1111,7 @@ void CarAI_78::ManageTrafficCarDirection_448CE0()
                 break;
 
             case car_ai_direction::south_2:
-                if ((pBlock->field_A_arrows & 8) != 0)
+                if ((pBlock->field_A_arrows & block_arrow::green_down_8) != 0)
                 {
                     field_24_bf.bFlag4 = true;
                 }
@@ -1129,13 +1129,13 @@ void CarAI_78::ManageTrafficCarDirection_448CE0()
                 break;
 
             case car_ai_direction::east_3:
-                if ((pBlock->field_A_arrows & 2) != 0)
+                if ((pBlock->field_A_arrows & block_arrow::green_right_2) != 0)
                 {
                     field_24_bf.bFlag4 = true;
                 }
                 else
                 {
-                    if ((pBlock->field_A_arrows & 0x20) == 0)
+                    if ((pBlock->field_A_arrows & block_arrow::red_right_20) == 0)
                     {
                         field_24_bf.bFlag4 = false;
                     }
@@ -1147,13 +1147,13 @@ void CarAI_78::ManageTrafficCarDirection_448CE0()
                 break;
 
             case car_ai_direction::west_4:
-                if ((pBlock->field_A_arrows & 1) != 0)
+                if ((pBlock->field_A_arrows & block_arrow::green_left_1) != 0)
                 {
                     field_24_bf.bFlag4 = true;
                 }
                 else
                 {
-                    if ((pBlock->field_A_arrows & 0x40) == 0)
+                    if ((pBlock->field_A_arrows & block_arrow::red_up_40) == 0)
                     {
                         field_24_bf.bFlag4 = false;
                     }

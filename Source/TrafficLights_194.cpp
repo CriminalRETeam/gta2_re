@@ -158,7 +158,7 @@ void TrafficLight_20::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
             gmp_block_info* pBlock1 = gMap_0x370_6F6268->get_block_4DFE10((xIter1 + kFpHalf_705714).ToInt(),
                                                                           (Fix16(y) - dword_705660).ToInt(),
                                                                           (zpos - kFpOne_70580C).ToInt());
-            if (pBlock1 && (pBlock1->field_A_arrows & 8) != 0)
+            if (pBlock1 && (pBlock1->field_A_arrows & block_arrow::green_down_8) != 0)
             {
                 gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pedestrian_crossing_marker_122, xIter1 + kFpHalf_705714, Fix16(y) - dword_705660, zpos, kAng0_705948);
             }
@@ -174,7 +174,7 @@ void TrafficLight_20::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
             gmp_block_info* pBlock2 = gMap_0x370_6F6268->get_block_4DFE10((xIter2 + kFpHalf_705714).ToInt(),
                                                                           (Fix16(y + h) + dword_705660).ToInt(),
                                                                           (zpos - kFpOne_70580C).ToInt());
-            if (pBlock2 && (pBlock2->field_A_arrows & 4) != 0)
+            if (pBlock2 && (pBlock2->field_A_arrows & block_arrow::green_up_4) != 0)
             {
                 gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pedestrian_crossing_marker_122, xIter2 + kFpHalf_705714, Fix16(y + h) + dword_705660, zpos, kAng0_705948);
             }
@@ -190,7 +190,7 @@ void TrafficLight_20::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
             gmp_block_info* pBlock3 = gMap_0x370_6F6268->get_block_4DFE10((Fix16(x + w) + dword_705660).ToInt(),
                                                                           (yOff + kFpHalf_705714).ToInt(),
                                                                           (zpos - kFpOne_70580C).ToInt());
-            if (pBlock3 && (pBlock3->field_A_arrows & 1) != 0)
+            if (pBlock3 && (pBlock3->field_A_arrows & block_arrow::green_left_1) != 0)
             {
                 gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pedestrian_crossing_marker_122, Fix16(x + w) + dword_705660, yOff + kFpHalf_705714, zpos, kAng90_705690);
             }
@@ -206,7 +206,7 @@ void TrafficLight_20::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
             gmp_block_info* pBlock4 = gMap_0x370_6F6268->get_block_4DFE10((Fix16(x) - (dword_705660)).ToInt(),
                                                                           (yOff + kFpHalf_705714).ToInt(),
                                                                           (zpos - kFpOne_70580C).ToInt());
-            if (pBlock4 && (pBlock4->field_A_arrows & 2) != 0)
+            if (pBlock4 && (pBlock4->field_A_arrows & block_arrow::green_right_2) != 0)
             {
                 gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pedestrian_crossing_marker_122, Fix16(x) - dword_705660, yOff + kFpHalf_705714, zpos, kAng90_705690);
             }

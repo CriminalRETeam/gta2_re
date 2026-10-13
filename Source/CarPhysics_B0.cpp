@@ -3430,7 +3430,7 @@ void CarPhysics_B0::ApplyArrowSteerAssist_5626F0()
                 {
                     if ((pBlock->field_B_slope_type & 3) == 1)
                     {
-                        if ((pBlock->field_A_arrows & 0x33) != 0)
+                        if ((pBlock->field_A_arrows & block_arrow::horizontal_mask) != 0)
                         {
                             if (theta_fp > dword_6FE10C - k_dword_6FE134 && theta_fp < k_dword_6FE134 + dword_6FE10C)
                             {
@@ -3444,7 +3444,7 @@ void CarPhysics_B0::ApplyArrowSteerAssist_5626F0()
                                 }
                             }
                         }
-                        else if ((pBlock->field_A_arrows & 0xCC) != 0)
+                        else if ((pBlock->field_A_arrows & block_arrow::vertical_mask) != 0)
                         {
                             if (theta_fp > kAngFix16HalfCircle_6FE260 - k_dword_6FE134 && theta_fp < kAngFix16HalfCircle_6FE260 + k_dword_6FE134)
                             {
