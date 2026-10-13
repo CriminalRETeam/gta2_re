@@ -3713,7 +3713,7 @@ done:
     return direction;
 }
 
-WIP_FUNC(0x4E7190)
+MATCH_FUNC(0x4E7190)
 s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
 {
     char_type bTurned = 0;
@@ -3731,8 +3731,7 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
 
     Fix16 side;
     side = sub_4E5D70(x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
-    // The case order of the two switches picks which constant used twice VC6 keeps in a register
-    // (the original's `mov $1,%ebp`; the second switch's bodies are cross-jumped into the first's).
+    // The case order of the two switches picks which constants VC6 keeps in registers (`mov $1,%ebp; mov $3,%ebx`)
     if (side > kFpHalf_6F5F18)
     {
         switch (direction)
@@ -3740,14 +3739,14 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
             case road_direction::up_1:
                 direction = road_direction::right_3;
                 break;
-            case road_direction::right_3:
-                direction = road_direction::down_2;
-                break;
             case road_direction::down_2:
                 direction = road_direction::left_4;
                 break;
             case road_direction::left_4:
                 direction = road_direction::up_1;
+                break;
+            case road_direction::right_3:
+                direction = road_direction::down_2;
                 break;
         }
     }
@@ -3758,11 +3757,11 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
             case road_direction::up_1:
                 direction = road_direction::left_4;
                 break;
-            case road_direction::left_4:
-                direction = road_direction::down_2;
-                break;
             case road_direction::down_2:
                 direction = road_direction::right_3;
+                break;
+            case road_direction::left_4:
+                direction = road_direction::down_2;
                 break;
             case road_direction::right_3:
                 direction = road_direction::up_1;
@@ -3811,9 +3810,8 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
             sub_4E5D10(&x,
                        &y,
                        kFpOne_6F6110 - to_edge,
-                       Ang16::GetAngleFace_4F78F0(
-                           Ang16(ReturnAngleFromRoadDirection_4F7940(&direction).rValue + word_6F603E.rValue).Normalized_406C20()));
-            dist.mValue += kFpOne_6F6110.mValue - to_edge.mValue;
+                       Ang16::GetAngleFace_4F78F0(ReturnAngleFromRoadDirection_4F7940(&direction) + word_6F603E));
+            dist += kFpOne_6F6110 - to_edge;
             gmp_block_info* pNext = GetRoadBlockAtOrNull_4E7190(x, y, z);
             if (!pNext || !HasGreenArrowForPathDirection_4E5E90(pNext, direction, 0))
             {
@@ -3859,20 +3857,17 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
             }
             if (!pBlock || !HasGreenArrowForPathDirection_4E5E90(pBlock, direction, 0))
             {
-                // pPrev is reused here (tuned when sub_4E5E00 still took a tmp out-param: re-check, the original may not do this)
                 pPrev = pBlock;
                 Fix16 to_edge;
                 to_edge = sub_4E5E00(x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
                 sub_4E5D10(&x,
                            &y,
                            kFpOne_6F6110,
-                           Ang16::GetAngleFace_4F78F0(
-                               Ang16(ReturnAngleFromRoadDirection_4F7940(&direction).rValue + word_6F603E.rValue).Normalized_406C20()));
+                           Ang16::GetAngleFace_4F78F0(ReturnAngleFromRoadDirection_4F7940(&direction) + word_6F603E));
                 sub_4E5D10(&x,
                            &y,
                            kFpOne_6F6110 - to_edge,
-                           Ang16::GetAngleFace_4F78F0(
-                               Ang16(ReturnAngleFromRoadDirection_4F7940(&direction).rValue + word_6F603E.rValue).Normalized_406C20()));
+                           Ang16::GetAngleFace_4F78F0(ReturnAngleFromRoadDirection_4F7940(&direction) + word_6F603E));
                 dist += kFpOne_6F6110 + kFpOne_6F6110 - to_edge;
                 z = last_z;
                 SetRoadBlockAt_4E6660(pBlock, x, y, z);
@@ -3894,22 +3889,20 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
                 case road_direction::down_2:
                     pBlock = gMap_0x370_6F6268->get_block_4DFE10((last_x + kFpOne_6F6110).ToInt(),
                                                                  last_y.ToInt(),
-                                                                 ((last_z - kFpOne_6F6110).mValue >> 14));
+                                                                 (last_z - kFpOne_6F6110).ToInt());
                     if (pBlock)
                     {
-                        // Through d: zeroing new_direction itself lets VC6 drop the zero and thread the test
-                        s32 d = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
-                        if (d != road_direction::right_3)
+                        new_direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
+                        if (new_direction != road_direction::right_3)
                         {
-                            d = 0;
+                            new_direction = 0;
                         }
-                        new_direction = d;
                     }
-                    if (!new_direction)
+                    if (!pBlock || !new_direction)
                     {
                         pBlock = gMap_0x370_6F6268->get_block_4DFE10((last_x - kFpOne_6F6110).ToInt(),
                                                                      last_y.ToInt(),
-                                                                     ((last_z - kFpOne_6F6110).mValue >> 14));
+                                                                     (last_z - kFpOne_6F6110).ToInt());
                         new_direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
                     }
                     break;
@@ -3917,22 +3910,20 @@ s32 Map_0x370::sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
                 case road_direction::left_4:
                     pBlock = gMap_0x370_6F6268->get_block_4DFE10(last_x.ToInt(),
                                                                  (last_y + kFpOne_6F6110).ToInt(),
-                                                                 ((last_z - kFpOne_6F6110).mValue >> 14));
+                                                                 (last_z - kFpOne_6F6110).ToInt());
                     if (pBlock)
                     {
-                        // Through d: zeroing new_direction itself lets VC6 drop the zero and thread the test
-                        s32 d = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
-                        if (d != road_direction::down_2)
+                        new_direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
+                        if (new_direction != road_direction::down_2)
                         {
-                            d = 0;
+                            new_direction = 0;
                         }
-                        new_direction = d;
                     }
-                    if (!new_direction)
+                    if (!pBlock || !new_direction)
                     {
                         pBlock = gMap_0x370_6F6268->get_block_4DFE10(last_x.ToInt(),
                                                                      (last_y - kFpOne_6F6110).ToInt(),
-                                                                     ((last_z - kFpOne_6F6110).mValue >> 14));
+                                                                     (last_z - kFpOne_6F6110).ToInt());
                         new_direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
                     }
                     break;

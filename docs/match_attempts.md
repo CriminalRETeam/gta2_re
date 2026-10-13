@@ -1250,6 +1250,7 @@ Matched (116 -> 0) with two changes:
 ### Map_0x370::sub_4E7190 (0x4E7190): WIP
 - The reverse road follower. When it runs off the road it looks for a turn in the neighbouring
   blocks, via `gMap_0x370_6F6268` rather than `this`, and returns the opposite direction.
+- Current state: "Map_0x370::sub_4E7190 (Oct 13)" below. The notes from here to there are older.
 - Same helpers as sub_4E6660, plus the null-checking lookup. The function runs out of inline
   expansions (see matching_quirks.md), so the neighbour z offsets use raw `mValue` arithmetic
   and the arrow check and `dist` update are written out. Left: `dist` and `pPrev` swap `%ebx`
@@ -5632,3 +5633,29 @@ Base for all diagnostics: `pPrev = pBlock` after `sub_4E65A0(x, y, &z, 1, 1)` (t
   VC7 score (one-by-one check with both compilers). With the current source VC7 differs from 9.6f only in 2 `je`
   targets (which `TurnAntiClockwise` + `ret` copy survives); no single exit change or pair of flips fixes them
   without breaking VC6.
+
+## Map_0x370::sub_4E7190 (Oct 13): matched
+
+- 9.6f 0x467F80 (disassembled from 9.6f.exe, `target_96f.json` has no entry) has the same structure as our source.
+  Its turn block takes `pPrev = pBlock` first, which settles the old open question about that store.
+- `.ToInt()` and `dist += kFpOne_6F6110 - to_edge` in place of the raw `mValue` forms: the budget workaround is no
+  longer needed (all `operator-` sites inline, score unchanged at 122).
+- The angle as in 9.6f, `GetAngleFace_4F78F0(ReturnAngleFromRoadDirection_4F7940(&direction) + word_6F603E)`, three
+  sites (122 -> 38). The nested budget sends `Normalize` out of line at each of them, giving the same code as the old
+  `Ang16(... .rValue + ...).Normalized_406C20()`, but the operator's locals raise the loop `to_edge`'s priority
+  (120 -> 144, above the 132 of the two `last_y`/`last_x` `ToInt` CSE temps): it takes ebp and `dist` gets ebx, as in
+  the original. Moving `bTurned = 1` to the top of the turn block did the same through N (94), but the original's
+  store is at the end (10.5 and 9.6f).
+- Both side switches in up, down, left, right order (the only common order among the 5 of 576 that give the
+  original's `mov $1,%ebp; mov $3,%ebx`): 38 -> 32.
+- The last 32 lines were the neighbour arrow check. The original is
+  `if (pBlock) { new_direction = Get(pBlock, 0); if (new_direction != right_3) new_direction = 0; }` followed by
+  `if (!pBlock || !new_direction)` for the second neighbour, with no temp. Found with VC7 as the oracle: compiling
+  candidate forms of that block in the real TU, only this one gives 9.6f's `cmp $3,%ebp; jne; test %ebp,%ebp; jne`,
+  and VC6 then gives the original exactly. The forms tried before it: a `d` temp copied into `new_direction` (32, `d`
+  takes eax, see `Scripts/regalloc/README.md`, "Preferences"), `new_direction` alone with `if (!new_direction)` (44,
+  VC6 threads both paths), ternaries (36 or worse), a file-local inline (budget, and 9.6f has no call there).
+- The single `pPrev = pBlock` before `if (dist >= kFpOne_6F6110)` that 9.6f shows still costs 42 in VC6: the
+  two-arm stores stay (frame slot order, see near11 above).
+- `sub_4E6660` with the same angle form stays at 4: its last difference becomes the `pPrev = pBlock` copy's place
+  around `sub_4E65A0(x, y, &z, 1, 1)`, and moving it after the call brings back the `push %ebx` pair (48).

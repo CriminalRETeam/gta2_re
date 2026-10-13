@@ -131,7 +131,6 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 3 | 41 | 55 | 591 | 0x5a3550 | `SpriteShape_4C::UpdateRotatedBoundingBox_5A3550` | sprite.cpp |
 | 4 | 8 | 20 | 113 | 0x4b7ae0 | `Frontend::DrawCredits_4B7AE0` | Frontend.cpp |
 | 4 | 12 | 12 | - | 0x4c8e60 | `PedGroup::sub_4C8E60` | PedGroup.cpp |
-| 4 | 18 | 196 | 1240 | 0x4e7190 | `Map_0x370::sub_4E7190` | map_0x370.cpp |
 | 4 | 18 | 22 | 113 | 0x4e11e0 | `Map_0x370::RectHitsDiagonalWall_4E11E0` | map_0x370.cpp |
 | 4 | 20 | 32 | 52 | 0x55fa60 | `CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60` | CarPhysics_B0.cpp |
 | 4 | 20 | 36 | 0 | 0x548840 | `Char_B4::HandleObjectCollision_548840` | char.cpp |
