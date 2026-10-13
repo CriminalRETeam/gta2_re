@@ -1052,7 +1052,7 @@ void Player::Hud_Controls_565890(u16 action)
             case DIK_SUBTRACT:
                 if (bDo_debug_keys_67D6CF)
                 {
-                    gGame_0x40_67E008->ToggleLimitFramerate_4A4750();
+                    gGame_0x40_67E008->ToggleFastForward_4A4750();
                 }
                 break;
             case DIK_NUMPAD2:
@@ -1671,7 +1671,7 @@ void Player::ShowDebugInfo_566EE0(char_type skip)
             gInputRecorder_67F8B0.ShowInput_4CEE10(); // input
         }
 
-        gGame_0x40_67E008->DebugShowCarStatsAndFrameSkip_4B9270();
+        gGame_0x40_67E008->ShowDebugOverlay_4B9270();
     }
 }
 

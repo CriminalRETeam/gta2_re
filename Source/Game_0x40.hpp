@@ -37,9 +37,9 @@ class Game_0x40
 {
   public:
     // 9.6f 0x4A4750
-    inline void ToggleLimitFramerate_4A4750()
+    inline void ToggleFastForward_4A4750()
     {
-        field_30_limit_framerate = field_30_limit_framerate == 0;
+        field_30_fast_forward = field_30_fast_forward == 0;
     }
 
     // 9.6f 0x416BC0
@@ -75,7 +75,7 @@ class Game_0x40
     EXPORT void ApplyNetworkGameSettings_4B8E50();
     EXPORT void BootGame_4B8EB0();
     EXPORT void ShowCounters_4B8FF0();
-    EXPORT void DebugShowCarStatsAndFrameSkip_4B9270();
+    EXPORT void ShowDebugOverlay_4B9270();
     EXPORT void Draw_4B92D0();
     EXPORT void UpdateAllPlayersControls_4B9380();
     EXPORT void UpdatePaused_4B93C0();
@@ -89,11 +89,11 @@ class Game_0x40
     EXPORT Player* GetFirstPlayerWithoutPed_4B9750();
     EXPORT void ShakeCamerasAtPos_4B9790(Fix16 amount, Fix16 x, Fix16 y);
     EXPORT bool IsSpriteOnScreenForAnyPlayer_4B97E0(Sprite* pSprite, Fix16 margin);
-    EXPORT bool IsSpriteVisibleToAnyPlayer_4B9830(Sprite* pCarSprite, Fix16 margin);
+    EXPORT bool IsSpriteVisibleToAnyPlayer_4B9830(Sprite* pSprite, Fix16 margin);
     EXPORT bool IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 margin);
-    EXPORT bool IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 playerIdx, s32 margin);
-    EXPORT bool IsSpriteOnScreen_4B9950(Sprite* pCarSprite, u8 playerIdx, Fix16 margin);
-    EXPORT bool IsSpriteCameraSubjectForPlayer_4B9A10(Sprite* pSprite, u8 playerIdx);
+    EXPORT bool IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 player_idx, s32 margin);
+    EXPORT bool IsSpriteOnScreen_4B9950(Sprite* pSprite, u8 player_idx, Fix16 margin);
+    EXPORT bool IsSpriteCameraSubjectForPlayer_4B9A10(Sprite* pSprite, u8 player_idx);
     EXPORT bool IsPointOnScreen_4B9A80(Fix16 x, Fix16 y);
     EXPORT bool IsRectVisibleToAnyPlayer_4B9B10(Fix16_Rect* pBounds);
     EXPORT Camera_0xBC* IteratePlayerCamera_4B9BC0();
@@ -123,7 +123,7 @@ class Game_0x40
     char_type field_27_unused;
     s32 field_28_exit_timer;
     s32 field_2C_game_exit_type;
-    bool field_30_limit_framerate;
+    bool field_30_fast_forward;
     char_type field_31_unused;
     char_type field_32_unused;
     char_type field_33_unused;

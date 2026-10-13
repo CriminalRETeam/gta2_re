@@ -96,7 +96,7 @@ s32 Game_0x40::GetFrameDurationMs_4B8BB0()
 {
     if (bStartNetworkGame_7081F0 == false)
     {
-        return field_30_limit_framerate == false ? 33 : 11;
+        return field_30_fast_forward == false ? 33 : 11;
     }
     return field_34_network_frame_ms;
 }
@@ -228,7 +228,7 @@ DEFINE_GLOBAL(Ped*, gLastTestPed_6787E8, 0x6787E8);
 
 // Gives the player a group of count peds with the given remap
 MATCH_FUNC(0x46DD70)
-EXPORT void __stdcall sub_46DD70(char_type remap, u8 count)
+EXPORT void __stdcall SpawnTestGroup_46DD70(char_type remap, u8 count)
 {
     Ped* pPlayerPed = gGame_0x40_67E008->field_38_local_player->GetPlayerPed_41D020();
     PedGroup* pGroup = PedGroup::New_4CB0D0();
@@ -269,9 +269,9 @@ EXPORT void __stdcall sub_46DD70(char_type remap, u8 count)
 
 // TODO: move
 MATCH_FUNC(0x46E370)
-EXPORT void IanTest_46E370()
+EXPORT void SpawnTestGroupDefault_46E370()
 {
-    sub_46DD70(4, 4);
+    SpawnTestGroup_46DD70(4, 4);
 }
 
 // TODO: move
@@ -310,7 +310,7 @@ void Game_0x40::BootGame_4B8EB0()
     gGame_0x40_67E008->field_38_local_player->ApplyCheats_56A490();
     if (bDo_iain_test_67D4E9)
     {
-        IanTest_46E370();
+        SpawnTestGroupDefault_46E370();
     }
     gRouteFinder_6FFDC8->Reset_588C60();
     gHud_2B00_706620->Init_5D6BE0();
@@ -351,18 +351,18 @@ void Game_0x40::ShowCounters_4B8FF0()
     swprintf(tmpBuff_67BD9C, L"dummy_chars : %d", (unsigned __int8)gPedManager_6787BC->field_2_num_dummy_chars);
     gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 112, gDebugFont_706600, 1);
 
-    Player* field_38_local_player = gGame_0x40_67E008->field_38_local_player;
-    if (field_38_local_player)
+    Player* pLocalPlayer = gGame_0x40_67E008->field_38_local_player;
+    if (pLocalPlayer)
     {
-        swprintf(tmpBuff_67BD9C, L"accuracy_count : %d", (unsigned __int8)field_38_local_player->field_2D4_scores.get_accuracy_count_45B0A0());
+        swprintf(tmpBuff_67BD9C, L"accuracy_count : %d", (unsigned __int8)pLocalPlayer->field_2D4_scores.get_accuracy_count_45B0A0());
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 128, gDebugFont_706600, 1);
 
-        swprintf(tmpBuff_67BD9C, L"reverse_count : %d", field_38_local_player->field_2D4_scores.get_reverse_count_45B0B0());
+        swprintf(tmpBuff_67BD9C, L"reverse_count : %d", pLocalPlayer->field_2D4_scores.get_reverse_count_45B0B0());
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 144, gDebugFont_706600, 1);
 
         // TODO: Seems strange, converted to a local integer point or something ??
-        const u32 x = field_38_local_player->field_2C4_player_ped->get_cam_x().ToInt();
-        const u32 y = field_38_local_player->field_2C4_player_ped->get_cam_y().ToInt();
+        const u32 x = pLocalPlayer->field_2C4_player_ped->get_cam_x().ToInt();
+        const u32 y = pLocalPlayer->field_2C4_player_ped->get_cam_y().ToInt();
 
         gmp_zone_info* pNavZone = gMap_0x370_6F6268->GetZoneInfoAt_4DF890(x, y);
 
@@ -372,14 +372,14 @@ void Game_0x40::ShowCounters_4B8FF0()
 }
 
 MATCH_FUNC(0x4B9270)
-void Game_0x40::DebugShowCarStatsAndFrameSkip_4B9270()
+void Game_0x40::ShowDebugOverlay_4B9270()
 {
     if (gDo_show_counter_67D6E6)
     {
         ShowCounters_4B8FF0();
     }
 
-    if (field_30_limit_framerate)
+    if (field_30_fast_forward)
     {
         Hud_TextEntry_C4* pC4 = gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(L"FF", 0, 440, gDebugFont_706600, 1);
         pC4->SetDrawKind8_45AFD0(6);
@@ -721,11 +721,11 @@ bool Game_0x40::IsSpriteOnScreenForAnyPlayer_4B97E0(Sprite* pSprite, Fix16 margi
 }
 
 MATCH_FUNC(0x4B9830)
-bool Game_0x40::IsSpriteVisibleToAnyPlayer_4B9830(Sprite* pCarSprite, Fix16 margin)
+bool Game_0x40::IsSpriteVisibleToAnyPlayer_4B9830(Sprite* pSprite, Fix16 margin)
 {
     for (u8 i = 0; i < field_23_num_players; i++)
     {
-        if (IsSpriteOnScreen_4B9950(pCarSprite, i, margin) || IsSpriteCameraSubjectForPlayer_4B9A10(pCarSprite, i))
+        if (IsSpriteOnScreen_4B9950(pSprite, i, margin) || IsSpriteCameraSubjectForPlayer_4B9A10(pSprite, i))
         {
             return 1;
         }
@@ -747,35 +747,35 @@ bool Game_0x40::IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 margin)
 }
 
 MATCH_FUNC(0x4B98E0)
-bool Game_0x40::IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 playerIdx, s32 margin)
+bool Game_0x40::IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 player_idx, s32 margin)
 {
-    if (field_4_players[playerIdx]->field_8E_in_use)
+    if (field_4_players[player_idx]->field_8E_in_use)
     {
-        if (field_4_players[playerIdx]->field_90_game_camera.IsSpriteInView_435630(pSprite, margin))
+        if (field_4_players[player_idx]->field_90_game_camera.IsSpriteInView_435630(pSprite, margin))
         {
             return true;
         }
-        return field_4_players[playerIdx]->field_2D0_aux_cam_active && field_4_players[playerIdx]->field_208_aux_game_camera.IsSpriteInView_435630(pSprite, margin) ? true :
+        return field_4_players[player_idx]->field_2D0_aux_cam_active && field_4_players[player_idx]->field_208_aux_game_camera.IsSpriteInView_435630(pSprite, margin) ? true :
                                                                                                                                    false;
     }
     return false;
 }
 
 MATCH_FUNC(0x4B9950)
-bool Game_0x40::IsSpriteOnScreen_4B9950(Sprite* pCarSprite, u8 playerIdx, Fix16 margin)
+bool Game_0x40::IsSpriteOnScreen_4B9950(Sprite* pSprite, u8 player_idx, Fix16 margin)
 {
-    Player*& pPlayer = this->field_4_players[playerIdx]; // a reference: 9.6f keeps the slot address too
+    Player*& pPlayer = this->field_4_players[player_idx]; // a reference: 9.6f keeps the slot address too
     if (!pPlayer->field_8E_in_use)
     {
         return 0;
     }
 
-    if (pPlayer->field_90_game_camera.IsSpriteInBounds_45AEA0(pCarSprite, margin))
+    if (pPlayer->field_90_game_camera.IsSpriteInBounds_45AEA0(pSprite, margin))
     {
         return 1;
     }
 
-    if (pPlayer->field_2D0_aux_cam_active && pPlayer->field_208_aux_game_camera.IsSpriteInBounds_45AEA0(pCarSprite, margin))
+    if (pPlayer->field_2D0_aux_cam_active && pPlayer->field_208_aux_game_camera.IsSpriteInBounds_45AEA0(pSprite, margin))
     {
         return 1;
     }
@@ -784,15 +784,15 @@ bool Game_0x40::IsSpriteOnScreen_4B9950(Sprite* pCarSprite, u8 playerIdx, Fix16 
 }
 
 MATCH_FUNC(0x4B9A10)
-bool Game_0x40::IsSpriteCameraSubjectForPlayer_4B9A10(Sprite* pSprite, u8 playerIdx)
+bool Game_0x40::IsSpriteCameraSubjectForPlayer_4B9A10(Sprite* pSprite, u8 player_idx)
 {
-    if (field_4_players[playerIdx]->field_8E_in_use)
+    if (field_4_players[player_idx]->field_8E_in_use)
     {
-        if (field_4_players[playerIdx]->field_90_game_camera.IsSpriteTheCameraSubject_4355D0(pSprite))
+        if (field_4_players[player_idx]->field_90_game_camera.IsSpriteTheCameraSubject_4355D0(pSprite))
         {
             return true;
         }
-        return field_4_players[playerIdx]->field_2D0_aux_cam_active && field_4_players[playerIdx]->field_208_aux_game_camera.IsSpriteTheCameraSubject_4355D0(pSprite) ? true : false;
+        return field_4_players[player_idx]->field_2D0_aux_cam_active && field_4_players[player_idx]->field_208_aux_game_camera.IsSpriteTheCameraSubject_4355D0(pSprite) ? true : false;
     }
     return false;
 }
@@ -1273,7 +1273,7 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
     gbRngRemapTableDone_679C0A = 0;
     field_20_player_iter_idx = 0;
     field_28_exit_timer = -1;
-    field_30_limit_framerate = 0;
+    field_30_fast_forward = 0;
     field_2C_game_exit_type = GameExitType::None;
     field_34_network_frame_ms = 0;
     if (!bSkip_audio_67D6BE)

@@ -4279,7 +4279,7 @@
         "v105_address": "0x46dd50"
     },
     {
-        "name": "sub_46DD70",
+        "name": "SpawnTestGroup_46DD70",
         "v96f_address": "0x4400a0",
         "v105_address": "0x46dd70",
         "v96f_auto": true
@@ -4314,7 +4314,7 @@
         "v96f_auto": true
     },
     {
-        "name": "IanTest_46E370",
+        "name": "SpawnTestGroupDefault_46E370",
         "v96f_address": "0x4404e0",
         "v105_address": "0x46e370",
         "v96f_auto": true
@@ -6877,7 +6877,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Game_0x40::DebugShowCarStatsAndFrameSkip_4B9270",
+        "name": "Game_0x40::ShowDebugOverlay_4B9270",
         "v96f_address": "0x45ba10",
         "v105_address": "0x4b9270",
         "v96f_auto": true
