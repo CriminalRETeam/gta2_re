@@ -123,7 +123,7 @@ class Object_2C
     }
 
     // TODO: ordering
-    EXPORT void SetSpriteIdOffset_5290C0(u8 id_base);
+    EXPORT void SetSpriteFrame_5290C0(u8 frame);
     EXPORT Fix16 sub_5290F0();
     EXPORT char sub_525AC0();
     EXPORT void UpdateEffectPool_525B20();

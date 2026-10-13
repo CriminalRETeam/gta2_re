@@ -1415,7 +1415,7 @@ void Object_2C::sub_525100()
         }
         else
         {
-            SetSpriteIdOffset_5290C0(1u);
+            SetSpriteFrame_5290C0(1u);
         }
     }
 }
@@ -2979,9 +2979,9 @@ void Object_2C::RequestRemovalWhenOffScreen_5290B0()
 }
 
 MATCH_FUNC(0x5290C0)
-void Object_2C::SetSpriteIdOffset_5290C0(u8 id_base)
+void Object_2C::SetSpriteFrame_5290C0(u8 frame)
 {
-    s16 new_id = id_base + field_8->field_1E_sprite_palette;
+    s16 new_id = frame + field_8->field_1E_sprite_palette;
     Sprite* pSprite = field_4;
     if (pSprite->field_22_type_sprite_idx != new_id)
     {

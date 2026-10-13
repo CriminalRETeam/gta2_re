@@ -2392,7 +2392,7 @@ Object_2C::ApplyConveyorSpeedFrom_529070,0x529070,0x129070,0x10
 Object_2C::SetDamageOwner_529080,0x529080,0x129080,0x16
 Object_2C::RequestRemoval_5290A0,0x5290a0,0x1290a0,0x5
 Object_2C::RequestRemovalWhenOffScreen_5290B0,0x5290b0,0x1290b0,0x5
-Object_2C::SetSpriteIdOffset_5290C0,0x5290c0,0x1290c0,0x25
+Object_2C::SetSpriteFrame_5290C0,0x5290c0,0x1290c0,0x25
 Object_2C::sub_5290F0,0x5290f0,0x1290f0,0x81
 Object_2C::Dealloc_5291B0,0x5291b0,0x1291b0,0x11
 Object_2C::PoolGiveAndMarkDone_5291D0,0x5291d0,0x1291d0,0xe
