@@ -191,7 +191,7 @@ void ScriptManager_C1EA8::SaveGame_511E10(char_type* pFileName)
     gmp_block_info* pBlockInfo;
     unsigned int blockInfoBytes;
 
-    Map_sub* pMapSub;
+    DmapInfoList* pMapSub;
     int mapSubBytes;
 
     if (!pFileName || !*pFileName)
@@ -257,7 +257,7 @@ void ScriptManager_C1EA8::LoadSave_511F80(char_type* pFileName)
     size_t colDataLen;
     u16** pColData;
     gmp_block_info* pBlockInfo;
-    Map_sub* pMapSub;
+    DmapInfoList* pMapSub;
 
     gMap_0x370_6F6268->GetModifiedMapData_4E8CF0(&pColData, &colDataLen, &pBlockInfo, &blockInfoLen, &pMapSub, (s32*)&mapSubLen);
     File::Global_Open_4A7060(pFileName);

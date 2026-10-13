@@ -101,11 +101,11 @@ struct gmp_header
     s16 field_4_version;
 };
 
-struct Map_sub;
+struct DmapInfoList;
 
 struct gmp_compressed_map_32
 {
-    EXPORT void ApplyDmapInfos_4E80A0(Map_sub* pMapSub);
+    EXPORT void ApplyDmapInfos_4E80A0(DmapInfoList* pMapSub);
 
     // 9.6f 0x4630B0
     gmp_compressed_map_32()
@@ -148,10 +148,10 @@ struct gmp_dmap_info
     u16 field_6_unused;
 };
 
-struct Map_sub
+struct DmapInfoList
 {
     // 9.6f 0x4630A0
-    Map_sub()
+    DmapInfoList()
     {
         field_320_max_idx = 0;
     }
@@ -522,7 +522,7 @@ class Map_0x370
                            u32* outColumnBytes,
                            gmp_block_info** outBlockPtr,
                            u32* outBlockBytes,
-                           Map_sub** outSubObj,
+                           DmapInfoList** outSubObj,
                            s32* outSubObjBytes);
 
     EXPORT void do_process_loaded_zone_data_4E8E30();
@@ -768,7 +768,7 @@ class Map_0x370
 
   public:
     gmp_compressed_map_32* field_0_pDmap;
-    Map_sub field_4_obj;
+    DmapInfoList field_4_obj;
     gmp_map_zone* field_328_pZoneData;
     gmp_zone_list* field_32C_pZones;
     BYTE* field_330_pZoneArray;

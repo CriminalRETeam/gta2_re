@@ -5461,13 +5461,13 @@
         "v96f_auto": true
     },
     {
-        "name": "CarFlags::Delta_48F820",
+        "name": "DamageAreaFlags::Delta_48F820",
         "v96f_address": "0x44aea0",
         "v105_address": "0x48f820",
         "v96f_auto": true
     },
     {
-        "name": "CarFlags::Delta_48F8B0",
+        "name": "DamageAreaFlags::Delta_48F8B0",
         "v96f_address": "0x44b0c0",
         "v105_address": "0x48f8b0",
         "v96f_auto": true
@@ -8821,7 +8821,7 @@
         "v105_address": "0x4e80a0"
     },
     {
-        "name": "Map_sub::AddOrUpdateDmapInfo_4E80E0",
+        "name": "DmapInfoList::AddOrUpdateDmapInfo_4E80E0",
         "v96f_address": "0x463990",
         "v105_address": "0x4e80e0"
     },

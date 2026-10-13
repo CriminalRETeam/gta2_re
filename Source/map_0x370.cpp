@@ -4071,7 +4071,7 @@ char_type Map_0x370::CheckColumnHasSolidAbove_4E7FC0(Fix16 x, Fix16 y, Fix16 z)
 
 
 MATCH_FUNC(0x4E80A0)
-void gmp_compressed_map_32::ApplyDmapInfos_4E80A0(Map_sub* pMapSub)
+void gmp_compressed_map_32::ApplyDmapInfos_4E80A0(DmapInfoList* pMapSub)
 {
     u32 j = 0;
     for (u32 i = 0; i < pMapSub->field_320_max_idx; i++, j++)
@@ -4083,7 +4083,7 @@ void gmp_compressed_map_32::ApplyDmapInfos_4E80A0(Map_sub* pMapSub)
 }
 
 MATCH_FUNC(0x4E80E0)
-void Map_sub::AddOrUpdateDmapInfo_4E80E0(u8 x, u8 y, u32 column_idx)
+void DmapInfoList::AddOrUpdateDmapInfo_4E80E0(u8 x, u8 y, u32 column_idx)
 {
     u32 local_max_idx = field_320_max_idx;
     gmp_dmap_info* pInfo = &field_0_dmap_infos[0];
@@ -4424,7 +4424,7 @@ void Map_0x370::GetModifiedMapData_4E8CF0(u16*** outColumnPtr,
                            u32* outColumnBytes,
                            gmp_block_info** outBlockPtr,
                            u32* outBlockBytes,
-                           Map_sub** outSubObj,
+                           DmapInfoList** outSubObj,
                            s32* outSubObjBytes)
 {
     *outColumnPtr = &this->field_0_pDmap->field_40008_pColumn[this->field_0_pDmap->field_40000_column_words];

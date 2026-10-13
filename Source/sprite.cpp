@@ -340,7 +340,7 @@ SpriteMaskCache_3CC::~SpriteMaskCache_3CC()
 }
 
 MATCH_FUNC(0x48F820)
-void CarFlags::Delta_48F820(u16& sprite_idx, u8* pArray, u32& a3, u8& width)
+void DamageAreaFlags::Delta_48F820(u16& sprite_idx, u8* pArray, u32& a3, u8& width)
 {
     u32 unknown = a3;
     u32 delta_idx = 0;
@@ -376,7 +376,7 @@ inline u16 Sprite::GetTrueSpriteIdx_4BA230()
 }
 
 MATCH_FUNC(0x48F8B0)
-s16 CarFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& a4, const u32& a5)
+s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& a4, const u32& a5)
 {
     if (!m_var)
     {

@@ -49,7 +49,7 @@ struct AudioEntity_C
     SoundPosEntry_C* field_8_pAlloc;
 };
 
-struct sound_7
+struct SoundEntry_1C
 {
     char_type field_0;
     char_type field_1_unused;
@@ -207,7 +207,7 @@ class sound_obj
     s32 field_5440;
     s32 field_5444_unused;
     u32 field_5448_m_FrameCounter;
-    sound_7 field_544C[5]; // sound_f16_pos_0x1C instead of sound_7 ?
+    SoundEntry_1C field_544C[5]; // sound_f16_pos_0x1C instead of SoundEntry_1C ?
 
     // Radio emitters use indices 1..5
     inline sound_f16_pos_0x1C& RadioEmitter(s32 idx)
