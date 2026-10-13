@@ -455,14 +455,14 @@ class Map_0x370
     EXPORT Fix16 FindGroundZForCoord_4E5B60(Fix16 x_pos, Fix16 y_pos);
     EXPORT u8 UpdateZFromSlopeAtCoord_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_pos);
     EXPORT char_type HasGreenArrowForPathDirection_4E5E90(gmp_block_info* pBlock, s32 direction, char_type bDefault);
-    EXPORT s32 GetArrowDirectionFromBlock_4E5FC0(gmp_block_info* pBlock, char_type bDontFlip);
+    EXPORT s32 GetArrowDirectionFromBlock_4E5FC0(gmp_block_info* pBlock, bool bDontFlip);
     EXPORT s16 ClassifyArrowOnSlope_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 arrow_dir, char_type bReverse);
     EXPORT Fix16 FloorPlusOne_4E62B0(Fix16 value);
     EXPORT gmp_block_info* FindRailwayAtCoord_4E62D0(s32 x, s32 y, s32& found_z);
     EXPORT gmp_block_info* FindRailwayBelowZAtCoord_4E6360(s32 x, s32 y, s32& z);
     EXPORT Fix16 GetRailwayZBelowCoord_4E6400(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos);
     EXPORT Fix16 GetRailwayZCoordAtXY_4E6510(Fix16 x, Fix16 y);
-    EXPORT void SnapZToRailway_4E65A0(Fix16 x, Fix16 y, Fix16* pZ, char_type bDontFlip, char_type bReverse);
+    EXPORT void SnapZToRailway_4E65A0(Fix16 x, Fix16 y, Fix16* pZ, bool bDontFlip, bool bReverse);
     EXPORT void MovePosAlongDirection_4E5D10(Fix16* pX, Fix16* pY, Fix16 dist, s32 direction);
     EXPORT Fix16 GetLateralOffsetInBlock_4E5D70(Fix16 x, Fix16 y, Ang16 angle);
     EXPORT Fix16 GetForwardOffsetInBlock_4E5E00(Fix16 x, Fix16 y, Ang16 angle);

@@ -3264,7 +3264,7 @@ char_type Map_0x370::HasGreenArrowForPathDirection_4E5E90(gmp_block_info* pBlock
 }
 
 MATCH_FUNC(0x4E5FC0)
-s32 Map_0x370::GetArrowDirectionFromBlock_4E5FC0(gmp_block_info* pBlock, char_type bDontFlip)
+s32 Map_0x370::GetArrowDirectionFromBlock_4E5FC0(gmp_block_info* pBlock, bool bDontFlip)
 {
     s32 result = 0;
     if (gRouteFinder_6FFDC8->HasBlockDesiredArrow_588CA0(pBlock, green_or_red_3, RIGHT_4))
@@ -3488,7 +3488,7 @@ Fix16 Map_0x370::GetRailwayZCoordAtXY_4E6510(Fix16 x, Fix16 y)
 }
 
 MATCH_FUNC(0x4E65A0)
-void Map_0x370::SnapZToRailway_4E65A0(Fix16 x, Fix16 y, Fix16* pZ, char_type bDontFlip, char_type bReverse)
+void Map_0x370::SnapZToRailway_4E65A0(Fix16 x, Fix16 y, Fix16* pZ, bool bDontFlip, bool bReverse)
 {
     gmp_block_info* pBlockAtPos = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), (*pZ - kFpOne_6F6110).ToInt());
     if (get_slope_bits(pBlockAtPos->field_B_slope_type) == 0xFC)
