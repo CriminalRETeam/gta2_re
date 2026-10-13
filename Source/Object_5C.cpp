@@ -264,7 +264,7 @@ void Object_2C::PoolTake_522360()
 }
 
 MATCH_FUNC(0x5223c0)
-char Object_2C::ShouldCollideWith_5223C0(Sprite* pSprite)
+bool Object_2C::ShouldCollideWith_5223C0(Sprite* pSprite)
 {
     s32 sprite_type;
 
@@ -322,7 +322,7 @@ bool Object_2C::ShouldCollideWithSprite_522430(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x522460)
-char_type Object_2C::SelectCollisionSprite_522460(Sprite* pProbe)
+bool Object_2C::SelectCollisionSprite_522460(Sprite* pProbe)
 {
     gObject2C_HitWallOrDoor_6F8F94 = 0;
 
@@ -664,7 +664,7 @@ void Object_2C::Sprite_UpdateZFromSlopeAndTile_522FA0(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5233a0)
-char_type Object_2C::TryStartSlide_5233A0(Fix16 value)
+bool Object_2C::TryStartSlide_5233A0(Fix16 value)
 {
     gObject2C_LastCollisionSprite_6F8F8C = 0;
 
@@ -755,7 +755,7 @@ void Object_2C::HandleCollisionOutcome_523440(Fix16_Point point, char_type bUnkn
 }
 
 MATCH_FUNC(0x5235b0)
-char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, Fix16 found_z)
+bool Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, Fix16 found_z)
 {
     Fix16 temp_z;
     bool bOnGround;
@@ -823,7 +823,7 @@ char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix1
 
 // https://decomp.me/scratch/soZJL
 MATCH_FUNC(0x523770)
-char_type Object_2C::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, u8* pHit2)
+bool Object_2C::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, u8* pHit2)
 {
     field_10_obj_3c->field_2A_bAirborne = 1;
 
@@ -877,7 +877,7 @@ char_type Object_2C::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite
 
 // https://decomp.me/scratch/1RN5H
 MATCH_FUNC(0x5238B0)
-char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, u8* pHit2, Fix16 found_z)
+bool Object_2C::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, u8* pHit2, Fix16 found_z)
 {
     Fix16 ground_z;
     bool bOverGap = false;
@@ -1655,7 +1655,7 @@ bool Object_2C::DispatchFrameAction_525910()
 }
 
 MATCH_FUNC(0x525AC0)
-char Object_2C::IsFireExplosion_525AC0()
+bool Object_2C::IsFireExplosion_525AC0()
 {
     if (field_18_model == objects::explosion_113)
     {
@@ -1704,7 +1704,7 @@ void Object_2C::SpawnSpriteParticlesForRocketBullet_525B40()
 }
 
 MATCH_FUNC(0x525B60)
-char_type Object_2C::CheckWaterDeath_525B60()
+bool Object_2C::CheckWaterDeath_525B60()
 {
     // TODO: Forced eax -> al
     const u8 isWater = field_4->IsOnWater_59E1D0();
@@ -2294,7 +2294,7 @@ void Object_2C::NewObj3C_528130(Fix16_Point& speed)
 }
 
 MATCH_FUNC(0x528240)
-char_type Object_2C::HandleRotationStateTransition_528240(s32 current, s32 desired)
+bool Object_2C::HandleRotationStateTransition_528240(s32 current, s32 desired)
 {
     switch (current)
     {
@@ -2603,7 +2603,7 @@ void Object_2C::HandleWaterDeath_528900()
 }
 
 MATCH_FUNC(0x528960)
-char_type Object_2C::HandleObjectHitIfExplosive_528960(Object_2C* pOther)
+bool Object_2C::HandleObjectHitIfExplosive_528960(Object_2C* pOther)
 {
     // Check is explosive range
     if (field_8->field_48 < 12 || field_8->field_48 > 13)

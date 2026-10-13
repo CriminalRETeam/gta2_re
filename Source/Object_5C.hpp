@@ -41,10 +41,10 @@ class Object_2C
     EXPORT void UpdatePhysics_5222D0();
     EXPORT void PoolGive_522340();
     EXPORT void PoolTake_522360();
-    EXPORT char_type ShouldCollideWith_5223C0(Sprite* pSprite);
+    EXPORT bool ShouldCollideWith_5223C0(Sprite* pSprite);
     EXPORT bool ShouldStopAtTrafficLight_525290(Sprite* pSprite);
     EXPORT bool ShouldCollideWithSprite_522430(Sprite* pSprite);
-    EXPORT char_type SelectCollisionSprite_522460(Sprite* pProbe);
+    EXPORT bool SelectCollisionSprite_522460(Sprite* pProbe);
     EXPORT void SetMovementVector_5224E0(Fix16_Point& speed);
     EXPORT void SetMovementVectorWithRandomState_522640(Fix16_Point& point);
     EXPORT void SetConveyorPush_5226A0(char_type conveyor_speed);
@@ -54,11 +54,11 @@ class Object_2C
     EXPORT void ResolveCollisionWithMapTile_522BE0(Fix16_Point* pPoint);
     EXPORT void ResolveCollisionWithMapTileHorizontal_522D00(Fix16_Point* pPoint);
     EXPORT void HandleCollision_522E10(Fix16_Point* pPoint);
-    EXPORT char_type TryStartSlide_5233A0(Fix16 value);
+    EXPORT bool TryStartSlide_5233A0(Fix16 value);
     EXPORT void HandleCollisionOutcome_523440(Fix16_Point point, char_type bUnknown1, char_type bUnknown2);
-    EXPORT char_type HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, Fix16 found_z);
-    EXPORT char_type HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, u8* pHit2);
-    EXPORT char_type HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, u8* pHit2, Fix16 found_z);
+    EXPORT bool HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, Fix16 found_z);
+    EXPORT bool HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, u8* pHit2);
+    EXPORT bool HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, u8* pHit2, Fix16 found_z);
     EXPORT void ComputeWallHitSide_524550();
     EXPORT void IntegrateHorizontalMovementAndCollisions_524630(Fix16 move_len, Ang16 move_angle);
     EXPORT void OnExplosionNearby_525190(u8 ped_ref_idx);
@@ -67,7 +67,7 @@ class Object_2C
     EXPORT char ShouldCollideWithSprite_525370(Sprite* pSprite);
     EXPORT void CheckCollisionForModel_139_And_141_525AE0();
     EXPORT void SpawnSpriteParticlesForRocketBullet_525B40();
-    EXPORT char_type CheckWaterDeath_525B60();
+    EXPORT bool CheckWaterDeath_525B60();
     EXPORT void UpdatePhysicsAndMovement_525B80();
     EXPORT void UpdatePhysicsMovementAndAnimation_525D90();
     EXPORT void Update_525F30();
@@ -82,12 +82,12 @@ class Object_2C
     EXPORT void RemoveFromCollisionBuckets_527D00();
     EXPORT void ReleaseSubObjects_527F10();
     EXPORT void NewObj3C_528130(Fix16_Point& speed);
-    EXPORT char_type HandleRotationStateTransition_528240(s32 current, s32 desired);
+    EXPORT bool HandleRotationStateTransition_528240(s32 current, s32 desired);
     EXPORT void TickObject_5283C0(s32 obj_type);
     EXPORT char_type OnObjectTouched_5288B0(Sprite* pSprite);
     EXPORT void HandleWaterDeath_528900();
     EXPORT static s32 __stdcall GetExplosionTypeForWallSide_528E00(s32 wall_side); // TODO: Check if thiscall
-    EXPORT char_type HandleObjectHitIfExplosive_528960(Object_2C* pOther);
+    EXPORT bool HandleObjectHitIfExplosive_528960(Object_2C* pOther);
     EXPORT char_type HandleObjectHit_528990(Sprite* pSprite);
     EXPORT void ProcessObjectExplosionImpact_528A20(Object_2C* pObj);
     EXPORT void HandleImpactNoSprite_528BA0();
@@ -125,7 +125,7 @@ class Object_2C
     // TODO: ordering
     EXPORT void SetSpriteIdxOffset_5290C0(u8 offset);
     EXPORT Fix16 GetEffectiveSpeed_5290F0();
-    EXPORT char IsFireExplosion_525AC0();
+    EXPORT bool IsFireExplosion_525AC0();
     EXPORT void UpdateEffectPool_525B20();
     EXPORT void UpdateLight_527A30();
     EXPORT void OnAttachedSpriteDestroyed_525100();
@@ -270,7 +270,7 @@ class Object_2C
         return field_18_model >= 287 && field_18_model <= 293; // loonies_icon_287 .. russian_mafia_icon_293
     }
 
-    char IsFlameObject_4BE830()
+    bool IsFlameObject_4BE830()
     {
         if (this->field_18_model == 197)
         {
