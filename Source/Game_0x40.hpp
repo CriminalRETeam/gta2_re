@@ -112,7 +112,7 @@ class Game_0x40
 
     s32 field_0_game_state;
     Player* field_4_players[MAX_PLAYERS];
-    Player* field_1C_draw_player; // the player whose view camera Draw_4B92D0 renders from (gViewCamera_676978); the local player
+    Player* field_1C_draw_player; // set to field_38_local_player in the ctor and never changed; only Draw_4B92D0 reads it (gViewCamera_676978)
     u8 field_20_player_iter_idx;
     u8 field_21_camera_iter_idx;
     bool field_22_aux_cam_iterated;
@@ -128,7 +128,7 @@ class Game_0x40
     char_type field_32_unused;
     char_type field_33_unused;
     s32 field_34_network_frame_ms;
-    Player* field_38_local_player;
+    Player* field_38_local_player; // field_4_players[field_24_local_player_idx], the player controlled on this machine
     bool field_3C_skip_police;
     char_type field_3D_unused;
     char_type field_3E_unused;
