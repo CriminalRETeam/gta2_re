@@ -3471,20 +3471,18 @@ Fix16 Map_0x370::GetRailwayZCoordAtXY_4E6510(Fix16 x, Fix16 y)
     {
         return Fix16(0);
     }
+
+    Fix16 new_z;
+    if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type) && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
+    {
+        new_z = Fix16(rail_z_coord);
+        Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
+    }
     else
     {
-        Fix16 new_z;
-        if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type) && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
-        {
-            new_z = Fix16(rail_z_coord);
-            Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
-        }
-        else
-        {
-            new_z = Fix16(rail_z_coord + 1);
-        }
-        return new_z;
+        new_z = Fix16(rail_z_coord + 1);
     }
+    return new_z;
 }
 
 MATCH_FUNC(0x4E65A0)
