@@ -190,7 +190,7 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* pSprite)
         pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
         if (pParticle)
         {
-            pParticle->field_4_flags |= 1;
+            pParticle->field_4_bf.bDriverAttacking = true;
             pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 197);
             pParticle->field_34_unused = 0;
@@ -221,7 +221,7 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* pSprite)
         {
             return;
         }
-        pParticle->field_4_flags |= 1;
+        pParticle->field_4_bf.bDriverAttacking = true;
         pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
         pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 197);
         pParticle->field_34_unused = 0;
@@ -247,7 +247,7 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* pSprite)
         {
             return;
         }
-        pParticle->field_4_flags |= 1;
+        pParticle->field_4_bf.bDriverAttacking = true;
         pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
         pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 197);
         pParticle->field_34_unused = 0;
@@ -448,7 +448,7 @@ void Particle_8::EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite)
         Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(vector.x, vector.y, dword_6FD330, 0, 0, 0);
         if (pParticle)
         {
-            pParticle->field_4_flags |= 1;
+            pParticle->field_4_bf.bDriverAttacking = true;
             pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 111);
             pParticle->field_30_pNext->AllocCollisionShape_59F950(dword_6FD554 * dword_6FD508, dword_6FD554 * dword_6FD508, kFP16Quarter_6FD2EC);

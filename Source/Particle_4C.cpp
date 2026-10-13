@@ -1443,7 +1443,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
             }
             if (!pCar->field_54_driver->field_21C_bf.bAttacking)
             {
-                field_4_flags &= ~1;
+                field_4_bf.bDriverAttacking = false;
             }
             if (!pCar->field_58_physics)
             {
@@ -1462,7 +1462,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
             }
             if (!pB4->field_7C_pPed->field_21C_bf.bAttacking)
             {
-                field_4_flags &= ~1;
+                field_4_bf.bDriverAttacking = false;
             }
             angle = pTarget->field_0_rotation;
             break;
@@ -1532,7 +1532,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
     u8 max_sub_state = 12;
     Fix16 dx;
     Fix16 dy;
-    if ((field_4_flags & 1) && max_sub_state >= field_46_sub_state)
+    if ((field_4_bf.bDriverAttacking) && max_sub_state >= field_46_sub_state)
     {
         Ang16 dir(spread.rValue + angle.rValue);
         dir.Normalize_406C20();
@@ -1919,7 +1919,7 @@ void Particle_4C::PoolAllocate()
     field_C_speed_y = 0;
     field_10 = 0;
     field_40_pExplosion = 0;
-    field_4_flags &= ~1;
+    field_4_bf.bDriverAttacking = false;
 }
 
 MATCH_FUNC(0x53e2e0)
