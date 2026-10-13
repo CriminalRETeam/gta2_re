@@ -723,11 +723,11 @@ s8 Game_0x40::IsSpriteVisibleToAnyPlayer_4B9830(Sprite* pCarSprite, Fix16 margin
 }
 
 MATCH_FUNC(0x4B9890)
-s8 Game_0x40::IsSpriteInAnyPlayerView_4B9890(Sprite* a2, s32 a3)
+s8 Game_0x40::IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 a3)
 {
     for (u8 i = 0; i < field_23_num_players; i++)
     {
-        if (IsSpriteInPlayerView_4B98E0(a2, i, a3))
+        if (IsSpriteInPlayerView_4B98E0(pSprite, i, a3))
         {
             return 1;
         }
@@ -736,15 +736,15 @@ s8 Game_0x40::IsSpriteInAnyPlayerView_4B9890(Sprite* a2, s32 a3)
 }
 
 MATCH_FUNC(0x4B98E0)
-bool Game_0x40::IsSpriteInPlayerView_4B98E0(Sprite* a2, u8 playerIdx, s32 a4)
+bool Game_0x40::IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 playerIdx, s32 a4)
 {
     if (field_4_players[playerIdx]->field_8E_bInUse)
     {
-        if (field_4_players[playerIdx]->field_90_game_camera.IsSpriteInView_435630(a2, a4))
+        if (field_4_players[playerIdx]->field_90_game_camera.IsSpriteInView_435630(pSprite, a4))
         {
             return true;
         }
-        return field_4_players[playerIdx]->field_2D0_bAuxCamActive && field_4_players[playerIdx]->field_208_aux_game_camera.IsSpriteInView_435630(a2, a4) ? true :
+        return field_4_players[playerIdx]->field_2D0_bAuxCamActive && field_4_players[playerIdx]->field_208_aux_game_camera.IsSpriteInView_435630(pSprite, a4) ? true :
                                                                                                                                    false;
     }
     return false;
@@ -911,14 +911,14 @@ Player* Game_0x40::IterateNextPlayer_4B9D10()
 }
 
 MATCH_FUNC(0x4B9D60)
-void Game_0x40::ReduceTrafficSpawnCounterOfOtherViewers_4B9D60(Sprite* a2, Player* pExclude)
+void Game_0x40::ReduceTrafficSpawnCounterOfOtherViewers_4B9D60(Sprite* pSprite, Player* pExclude)
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_4_players); i++)
     {
         Player* p = gGame_0x40_67E008->get_player_4219E0(i);
         if (p && p != pExclude)
         {
-            if (gGame_0x40_67E008->IsSpriteOnScreen_4B9950(a2, i, dword_67DFB4))
+            if (gGame_0x40_67E008->IsSpriteOnScreen_4B9950(pSprite, i, dword_67DFB4))
             {
                 if (p->field_680_traffic_spawn_counter > p->field_682_traffic_spawn_threshold)
                 {

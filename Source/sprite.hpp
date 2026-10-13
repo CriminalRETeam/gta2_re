@@ -710,7 +710,7 @@ class AttachedSprite_18
 
     EXPORT void DestroyAttached_5A69E0();
 
-    EXPORT bool UpdateAttached_5A6910(Sprite* a2);
+    EXPORT bool UpdateAttached_5A6910(Sprite* pSprite);
 
     Sprite* field_0_pSprite;
     AttachedSprite_18* mpNext;

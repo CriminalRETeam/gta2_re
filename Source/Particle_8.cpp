@@ -164,7 +164,7 @@ void Particle_8::SpawnBlood_53E880(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 }
 
 WIP_FUNC(0x53e970)
-void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
+void Particle_8::GunMuzzelFlash_53E970(Sprite* pSprite)
 {
     WIP_IMPLEMENTED;
     // The original enters with EH state 4 and sets 7 at the top of the car branch, as five points up
@@ -179,14 +179,14 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
 
     Particle_4C* pParticle;
     // The original compares field_30 in memory (cmpl $2,0x30(%esi)); the GetType_416B40 getter loads it first
-    if (a2->field_30_sprite_type_enum == sprite_types_enum::car_2)
+    if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
     {
         // 9.6f: the corners rotate by a local copy of the sprite angle (it also sets the inline budget for the
         // second rotation: first + inline, the negate out of line)
         Ang16 angle;
         Fix16_Point corner_1;
         Fix16_Point corner_2;
-        Car_BC* pCar = a2->field_8_car_bc_ptr;
+        Car_BC* pCar = pSprite->field_8_car_bc_ptr;
         pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
         if (pParticle)
         {
@@ -196,22 +196,22 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
             pParticle->field_34_unused = 0;
             pParticle->field_38_state = 40;
             // PolarToCartesian_41FC20 (9.6f) with the results unused: the multiplies stay as calls
-            Ang16::sine_40F500(a2->field_0_rotation).Multiply_408680(dword_6FD2E8);
-            Ang16::cosine_40F520(a2->field_0_rotation).Multiply_408680(dword_6FD2E8);
+            Ang16::sine_40F500(pSprite->field_0_rotation).Multiply_408680(dword_6FD2E8);
+            Ang16::cosine_40F520(pSprite->field_0_rotation).Multiply_408680(dword_6FD2E8);
             pParticle->field_46_sub_state = 0;
             pParticle->field_48_timer = 0;
 
             // One expression: the original loads the sprite's field_C once for both
-            angle = a2->field_0_rotation;
+            angle = pSprite->field_0_rotation;
             // Two statements: the original computes x before y (SetXY's by-ref arguments go right to left)
             corner_1.x = pCar->get_car_width() / 2 + dword_6FD3C0;
             corner_1.y = pCar->get_car_height() / 2 + dword_6FD5A8;
             corner_1.RotateByAngle_40F6B0(angle);
-            corner_1 += a2->get_x_y();
+            corner_1 += pSprite->get_x_y();
 
-            pParticle->field_28_pSprite = a2;
-            pParticle->field_30_pNext->set_ang_lazy_420690(a2->field_0_rotation);
-            pParticle->field_30_pNext->set_xyz_lazy_420600(corner_1.x, corner_1.y, a2->field_1C_zpos);
+            pParticle->field_28_pSprite = pSprite;
+            pParticle->field_30_pNext->set_ang_lazy_420690(pSprite->field_0_rotation);
+            pParticle->field_30_pNext->set_xyz_lazy_420600(corner_1.x, corner_1.y, pSprite->field_1C_zpos);
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
             pParticle->field_30_pNext->field_2C_flags |= 4;
         }
@@ -226,19 +226,19 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
         pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 197);
         pParticle->field_34_unused = 0;
         pParticle->field_38_state = 41;
-        Ang16::sine_40F500(a2->field_0_rotation).Multiply_408680(dword_6FD2E8);
-        Ang16::cosine_40F520(a2->field_0_rotation).Multiply_408680(dword_6FD2E8);
+        Ang16::sine_40F500(pSprite->field_0_rotation).Multiply_408680(dword_6FD2E8);
+        Ang16::cosine_40F520(pSprite->field_0_rotation).Multiply_408680(dword_6FD2E8);
         pParticle->field_46_sub_state = 0;
         pParticle->field_48_timer = 0;
 
-        angle = a2->field_0_rotation;
+        angle = pSprite->field_0_rotation;
         corner_2.SetXY_432860(-(pCar->get_car_width() / 2 + dword_6FD3C0), pCar->get_car_height() / 2 + dword_6FD5A8);
         corner_2.RotateByAngle_40F6B0(angle);
-        corner_2 += a2->get_x_y();
+        corner_2 += pSprite->get_x_y();
 
-        pParticle->field_30_pNext->set_ang_lazy_420690(a2->field_0_rotation);
-        pParticle->field_30_pNext->set_xyz_lazy_420600(corner_2.x, corner_2.y, a2->field_1C_zpos);
-        pParticle->field_28_pSprite = a2;
+        pParticle->field_30_pNext->set_ang_lazy_420690(pSprite->field_0_rotation);
+        pParticle->field_30_pNext->set_xyz_lazy_420600(corner_2.x, corner_2.y, pSprite->field_1C_zpos);
+        pParticle->field_28_pSprite = pSprite;
     }
     else
     {
@@ -254,22 +254,22 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
         pParticle->field_38_state = 40;
         Fix16 dx;
         Fix16 dy;
-        Ang16::PolarToCartesian_41FC20(a2->field_0_rotation, dword_6FD2E8, dx, dy);
+        Ang16::PolarToCartesian_41FC20(pSprite->field_0_rotation, dword_6FD2E8, dx, dy);
         pParticle->field_46_sub_state = 0;
         pParticle->field_48_timer = 0;
-        stru_6FD388 = a2->field_14_xy.x + dx;
-        stru_6FD38C = a2->field_14_xy.y + dy;
-        Fix16 zpos = a2->field_1C_zpos;
+        stru_6FD388 = pSprite->field_14_xy.x + dx;
+        stru_6FD38C = pSprite->field_14_xy.y + dy;
+        Fix16 zpos = pSprite->field_1C_zpos;
 
-        Char_B4* pB4 = a2->AsCharB4_40FEA0();
+        Char_B4* pB4 = pSprite->AsCharB4_40FEA0();
         offset.x = -dword_6FD464;
         offset.y = dword_6FD468 + dword_6FD2E8;
-        offset.RotateByAngle_40F6B0(a2->field_0_rotation);
+        offset.RotateByAngle_40F6B0(pSprite->field_0_rotation);
         offset = offset + pB4->field_98_velocity_vector;
 
-        pParticle->field_30_pNext->set_ang_lazy_420690(a2->field_0_rotation);
-        pParticle->field_30_pNext->set_xyz_lazy_420600(a2->field_14_xy.x + offset.x, a2->field_14_xy.y + offset.y, zpos);
-        pParticle->field_28_pSprite = a2;
+        pParticle->field_30_pNext->set_ang_lazy_420690(pSprite->field_0_rotation);
+        pParticle->field_30_pNext->set_xyz_lazy_420600(pSprite->field_14_xy.x + offset.x, pSprite->field_14_xy.y + offset.y, zpos);
+        pParticle->field_28_pSprite = pSprite;
     }
     gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
     // 9.6f: Sprite::SetNoLighting_4337F0 here and above (inlined, using it in both places makes the diff worse)

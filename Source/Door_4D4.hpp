@@ -128,8 +128,8 @@ class Door_4D4
                                               u8 flip,
                                               u8 reversed);
     EXPORT void RegisterDoorInfo_49D2D0(s16 start_frame, s16 end_frame, char_type speed);
-    EXPORT void TryOpenDoorForCar_49D340(Car_BC* a2, u8 a3);
-    EXPORT void TryOpenDoorForPed_49D370(Ped* a2, u8 idx);
+    EXPORT void TryOpenDoorForCar_49D340(Car_BC* pCar, u8 a3);
+    EXPORT void TryOpenDoorForPed_49D370(Ped* pPed, u8 idx);
     EXPORT Door_38* GetNextFreeDoor_49D3A0();
     EXPORT char_type CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx);
     EXPORT void DoorsService_49D460();

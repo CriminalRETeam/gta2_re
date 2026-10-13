@@ -298,15 +298,15 @@ void Door_4D4::RegisterDoorInfo_49D2D0(s16 start_frame, s16 end_frame, char_type
 }
 
 MATCH_FUNC(0x49d340)
-void Door_4D4::TryOpenDoorForCar_49D340(Car_BC* a2, u8 a3)
+void Door_4D4::TryOpenDoorForCar_49D340(Car_BC* pCar, u8 a3)
 {
-    field_0_doors[a3].TryOpenForCar_49C870(a2);
+    field_0_doors[a3].TryOpenForCar_49C870(pCar);
 }
 
 MATCH_FUNC(0x49d370)
-void Door_4D4::TryOpenDoorForPed_49D370(Ped* a2, u8 idx)
+void Door_4D4::TryOpenDoorForPed_49D370(Ped* pPed, u8 idx)
 {
-    field_0_doors[idx].TryOpenForPed_49C8A0(a2);
+    field_0_doors[idx].TryOpenForPed_49C8A0(pPed);
 }
 
 MATCH_FUNC(0x49d3a0)

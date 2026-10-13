@@ -47,7 +47,7 @@ class SpriteList_4
     EXPORT Sprite* FindClosestSprite_5A6E40(Fix16 xOff, Fix16 yOff);
     EXPORT Sprite* TakeClosestSprite_5A6EA0(Fix16 xpos, Fix16 ypos);
 
-    EXPORT void PoolUpdate_5A6F70(Sprite* a2);
+    EXPORT void PoolUpdate_5A6F70(Sprite* pSprite);
     EXPORT void DestroyAllSprites_5A7010();
     EXPORT void CleanupSpriteList_5A7080();
     EXPORT void ClearGangIconSprite_5A7110();

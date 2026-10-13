@@ -48,7 +48,7 @@ class Object_2C
     EXPORT void SetMovementVector_5224E0(Fix16_Point& speed);
     EXPORT void SetMovementVectorWithRandomState_522640(Fix16_Point& a2);
     EXPORT void SetConveyorPush_5226A0(char_type conveyor_speed);
-    EXPORT void ResolveCollisionWithObject_522710(Object_2C* a2, Fix16_Point* a3);
+    EXPORT void ResolveCollisionWithObject_522710(Object_2C* pObj, Fix16_Point* a3);
     EXPORT void ResolveCollisionWithPed_5229B0(Char_B4* pB4, Fix16_Point* pPoint, u8 not_used);
     EXPORT void ResolveCollisionWithWorld_522B20(Fix16_Point* f18, Fix16_Point* a3, Fix16_Point* speed);
     EXPORT void ResolveCollisionWithMapTile_522BE0(Fix16_Point* a2);
@@ -56,9 +56,9 @@ class Object_2C
     EXPORT void HandleCollision_522E10(Fix16_Point* a2);
     EXPORT char_type sub_5233A0(Fix16 a2);
     EXPORT void HandleCollisionOutcome_523440(Fix16_Point point, char_type bUnknown1, char_type bUnknown2);
-    EXPORT char_type HandleSpriteGroundAndCollision_5235B0(Sprite* a2, Fix16_Point* a3, u8* a4, Fix16 a5);
+    EXPORT char_type HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point* a3, u8* a4, Fix16 a5);
     EXPORT char_type HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, u8* a4, u8* a5);
-    EXPORT char_type HandleSpriteZCollision_5238B0(Sprite* a2, Fix16_Point* a3, u8* a4, u8* a5, Fix16 a6);
+    EXPORT char_type HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* a3, u8* a4, u8* a5, Fix16 a6);
     EXPORT void ComputeWallHitSide_524550();
     EXPORT void IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 a3);
     EXPORT void sub_525190(u8 ped_ref_idx);
@@ -84,7 +84,7 @@ class Object_2C
     EXPORT void NewObj3C_528130(Fix16_Point& speed);
     EXPORT char_type HandleRotationStateTransition_528240(s32 current, s32 desired);
     EXPORT void TickObject_5283C0(s32 obj_type);
-    EXPORT char_type OnObjectTouched_5288B0(Sprite* a2);
+    EXPORT char_type OnObjectTouched_5288B0(Sprite* pSprite);
     EXPORT void HandleWaterDeath_528900();
     EXPORT static s32 __stdcall GetExplosionTypeForWallSide_528E00(s32 a1); // TODO: Check if thiscall
     EXPORT char_type HandleObjectHitIfExplosive_528960(Object_2C* pOther);

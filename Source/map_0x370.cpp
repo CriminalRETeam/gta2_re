@@ -2239,9 +2239,9 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
 }
 
 MATCH_FUNC(0x4E4460)
-char_type Map_0x370::CanSpriteEnterMovementRegion_4E4460(s32 a2, s32 a3, s32 a4, Sprite* a5, s16 a6)
+char_type Map_0x370::CanSpriteEnterMovementRegion_4E4460(s32 a2, s32 a3, s32 a4, Sprite* pSprite, s16 a6)
 {
-    gSprite_6F61E8 = a5;
+    gSprite_6F61E8 = pSprite;
     gFaceCollisionMask_6F6002 = a6;
     if (gSpriteGrid_right_6F5B80 - gSpriteGrid_left_6F5FD4 >= 3 || a2 > gSpriteGrid_left_6F5FD4 + 1 || a2 < gSpriteGrid_right_6F5B80 - 1)
     {

@@ -78,9 +78,9 @@ void EmergencyCrew_30::ReInit_5CBC30()
 }
 
 MATCH_FUNC(0x5cbc40)
-void EmergencyCrew_30::RemovePed_5CBC40(Ped* a2)
+void EmergencyCrew_30::RemovePed_5CBC40(Ped* pPed)
 {
-    field_8_group->RemovePed_4C9970(a2);
+    field_8_group->RemovePed_4C9970(pPed);
     field_4_ped = field_8_group->field_2C_ped_leader;
 }
 

@@ -53,25 +53,25 @@ Door_38::~Door_38()
 }
 
 MATCH_FUNC(0x49c6a0)
-bool Door_38::IsSpriteClearOfDoorCollision_49C6A0(Sprite* a1)
+bool Door_38::IsSpriteClearOfDoorCollision_49C6A0(Sprite* pSprite)
 {
-    if (a1)
+    if (pSprite)
     {
-        return field_8_door_obj->field_4->RotatedRectCollisionSAT_5A0380(a1) == false;
+        return field_8_door_obj->field_4->RotatedRectCollisionSAT_5A0380(pSprite) == false;
     }
     return true;
 }
 
 MATCH_FUNC(0x49c6d0)
-bool Door_38::CanOpen_49C6D0(Car_BC* a2)
+bool Door_38::CanOpen_49C6D0(Car_BC* pCar)
 {
     bool ret = false;
     switch (field_20_state)
     {
         case door_open_type::any_player:
-            if (!a2->is_driven_by_player())
+            if (!pCar->is_driven_by_player())
             {
-                if (ped_type_enum::ped_player != a2->field_7C_uni_num)
+                if (ped_type_enum::ped_player != pCar->field_7C_uni_num)
                 {
                     break;
                 }
@@ -79,7 +79,7 @@ bool Door_38::CanOpen_49C6D0(Car_BC* a2)
             ret = true;
             break;
         case door_open_type::one_car:
-            if (this->field_10_car_bc && a2 == this->field_10_car_bc && a2->field_6C_car_id == this->field_14_target_id)
+            if (this->field_10_car_bc && pCar == this->field_10_car_bc && pCar->field_6C_car_id == this->field_14_target_id)
             {
                 ret = true;
                 break;
@@ -88,7 +88,7 @@ bool Door_38::CanOpen_49C6D0(Car_BC* a2)
             break;
 
         case door_open_type::one_model:
-            if (a2->field_84_car_info_idx != this->field_10_model_id)
+            if (pCar->field_84_car_info_idx != this->field_10_model_id)
             {
                 break;
             }
@@ -100,22 +100,22 @@ bool Door_38::CanOpen_49C6D0(Car_BC* a2)
             {
                 break;
             }
-            if (a2 != this->field_10_car_bc)
+            if (pCar != this->field_10_car_bc)
             {
                 break;
             }
-            if (a2->field_6C_car_id != this->field_14_target_id)
+            if (pCar->field_6C_car_id != this->field_14_target_id)
             {
                 break;
             }
 
-            if (IsSpriteClearOfDoorCollision_49C6A0(a2->field_50_car_sprite) && (!a2->is_driven_by_player() || gGarage_48_6FD26C->sub_44C870(a2)))
+            if (IsSpriteClearOfDoorCollision_49C6A0(pCar->field_50_car_sprite) && (!pCar->is_driven_by_player() || gGarage_48_6FD26C->sub_44C870(pCar)))
             {
-                if (a2->is_driven_by_player())
+                if (pCar->is_driven_by_player())
                 {
                     break;
                 }
-                if (!gGarage_48_6FD26C->sub_44C870(a2))
+                if (!gGarage_48_6FD26C->sub_44C870(pCar))
                 {
                     break;
                 }
@@ -130,13 +130,13 @@ bool Door_38::CanOpen_49C6D0(Car_BC* a2)
 }
 
 MATCH_FUNC(0x49c7f0)
-bool Door_38::CanOpenForPed_49C7F0(Ped* a2)
+bool Door_38::CanOpenForPed_49C7F0(Ped* pPed)
 {
     bool ret = false;
     switch (field_20_state)
     {
         case 1:
-            if (a2->is_player_41B0A0())
+            if (pPed->is_player_41B0A0())
             {
                 ret = true;
             }
@@ -145,9 +145,9 @@ bool Door_38::CanOpenForPed_49C7F0(Ped* a2)
         case 5:
             if (field_10_ped)
             {
-                if (a2 == field_10_ped)
+                if (pPed == field_10_ped)
                 {
-                    if (a2->field_200_id == this->field_14_target_id)
+                    if (pPed->field_200_id == this->field_14_target_id)
                     {
                         ret = true;
                     }
@@ -178,11 +178,11 @@ void Door_38::Open_49C840()
 }
 
 MATCH_FUNC(0x49c870)
-void Door_38::TryOpenForCar_49C870(Car_BC* a2)
+void Door_38::TryOpenForCar_49C870(Car_BC* pCar)
 {
     if (field_29_bAuto)
     {
-        if (CanOpen_49C6D0(a2))
+        if (CanOpen_49C6D0(pCar))
         {
             if (field_2C_bCanAutoOpen)
             {
@@ -193,11 +193,11 @@ void Door_38::TryOpenForCar_49C870(Car_BC* a2)
 }
 
 MATCH_FUNC(0x49c8a0)
-void Door_38::TryOpenForPed_49C8A0(Ped* a2)
+void Door_38::TryOpenForPed_49C8A0(Ped* pPed)
 {
     if (field_29_bAuto)
     {
-        if (CanOpenForPed_49C7F0(a2))
+        if (CanOpenForPed_49C7F0(pPed))
         {
             if (field_2C_bCanAutoOpen)
             {

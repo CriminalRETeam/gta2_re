@@ -5236,9 +5236,9 @@ void CarAI_78::AI_Service_453BB0()
 }
 
 MATCH_FUNC(0x453bf0)
-void CarAI_78::SetCar_453BF0(Car_BC* a2)
+void CarAI_78::SetCar_453BF0(Car_BC* pCar)
 {
-    field_0_car = a2;
+    field_0_car = pCar;
 }
 
 // https://decomp.me/scratch/kidaG

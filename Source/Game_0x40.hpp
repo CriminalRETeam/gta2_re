@@ -90,8 +90,8 @@ class Game_0x40
     EXPORT void ShakeCamerasAtPos_4B9790(Fix16 a2, Fix16 a3, Fix16 a4);
     EXPORT s8 IsSpriteOnScreenForAnyPlayer_4B97E0(Sprite* pSprite, Fix16 margin);
     EXPORT s8 IsSpriteVisibleToAnyPlayer_4B9830(Sprite* pCarSprite, Fix16 margin);
-    EXPORT s8 IsSpriteInAnyPlayerView_4B9890(Sprite* a2, s32 a3);
-    EXPORT bool IsSpriteInPlayerView_4B98E0(Sprite* a2, u8 playerIdx, s32 a4);
+    EXPORT s8 IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 a3);
+    EXPORT bool IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 playerIdx, s32 a4);
     EXPORT s8 IsSpriteOnScreen_4B9950(Sprite* pCarSprite, u8 playerIdx, Fix16 margin);
     EXPORT bool IsSpriteCameraSubjectForPlayer_4B9A10(Sprite* pSprite, u8 playerIdx);
     EXPORT bool is_point_on_screen_4B9A80(Fix16 a2_fp, Fix16 a3_fp);
@@ -101,7 +101,7 @@ class Game_0x40
     EXPORT Camera_0xBC* IterateNextPlayerCamera_4B9C50();
     EXPORT Player* IterateFirstPlayer_4B9CD0();
     EXPORT Player* IterateNextPlayer_4B9D10();
-    EXPORT void ReduceTrafficSpawnCounterOfOtherViewers_4B9D60(Sprite* a2, Player* pExclude);
+    EXPORT void ReduceTrafficSpawnCounterOfOtherViewers_4B9D60(Sprite* pSprite, Player* pExclude);
     EXPORT Game_0x40(u8 max_players, s8 player_idx); // 4B9DE0
     EXPORT ~Game_0x40(); // 4BAE30
 

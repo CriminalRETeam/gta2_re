@@ -344,28 +344,28 @@ void Crane_15C::SetTransporterCargoTarget_47F220(Fix16 a2, Fix16 a3, Sprite* a4,
 }
 
 MATCH_FUNC(0x47f290)
-void Crane_15C::SetDropTransporterTarget_47F290(Fix16 a2, Fix16 a3, Sprite* a4)
+void Crane_15C::SetDropTransporterTarget_47F290(Fix16 a2, Fix16 a3, Sprite* pSprite)
 {
     field_BC_drop_transporter_radius = a2;
     field_C0_drop_transporter_angle = a3;
-    field_64_drop_transporter = a4;
-    field_D0_drop_transporter_rot = Ang16::Ang16_to_Fix16(a4->field_0_rotation);
-    field_C4_drop_transporter_pos.x = a4->field_14_xy.x;
-    field_C4_drop_transporter_pos.y = a4->field_14_xy.y;
-    field_CC_drop_transporter_z = a4->field_1C_zpos;
+    field_64_drop_transporter = pSprite;
+    field_D0_drop_transporter_rot = Ang16::Ang16_to_Fix16(pSprite->field_0_rotation);
+    field_C4_drop_transporter_pos.x = pSprite->field_14_xy.x;
+    field_C4_drop_transporter_pos.y = pSprite->field_14_xy.y;
+    field_CC_drop_transporter_z = pSprite->field_1C_zpos;
     field_D4_drop_transporter_hook_depth = field_80_ground_z - field_CC_drop_transporter_z;
 }
 
 MATCH_FUNC(0x47f2f0)
-void Crane_15C::SetPickupCarTarget_47F2F0(Fix16 a2, Fix16 a3, Sprite* a4)
+void Crane_15C::SetPickupCarTarget_47F2F0(Fix16 a2, Fix16 a3, Sprite* pSprite)
 {
     field_D8_pickup_car_radius = a2;
     field_DC_pickup_car_angle = a3;
-    field_68_pickup_car = a4;
-    field_EC_pickup_car_rot = Ang16::Ang16_to_Fix16(a4->field_0_rotation);
-    field_E0_pickup_car_x = a4->field_14_xy.x;
-    field_E4_pickup_car_y = a4->field_14_xy.y;
-    field_E8_pickup_car_z = a4->field_1C_zpos;
+    field_68_pickup_car = pSprite;
+    field_EC_pickup_car_rot = Ang16::Ang16_to_Fix16(pSprite->field_0_rotation);
+    field_E0_pickup_car_x = pSprite->field_14_xy.x;
+    field_E4_pickup_car_y = pSprite->field_14_xy.y;
+    field_E8_pickup_car_z = pSprite->field_1C_zpos;
     field_F0_pickup_car_hook_depth = field_80_ground_z - field_E8_pickup_car_z;
 }
 
@@ -988,9 +988,9 @@ Car_BC* Crane_15C::GetCarFromCrane_480DA0()
 }
 
 MATCH_FUNC(0x480e00)
-void CranePool_D9C::PickUpCar_480E00(Car_BC* a2, u8 a3)
+void CranePool_D9C::PickUpCar_480E00(Car_BC* pCar, u8 a3)
 {
-    field_0_cranes[a3].PickUpCar_47F930(a2);
+    field_0_cranes[a3].PickUpCar_47F930(pCar);
 }
 
 MATCH_FUNC(0x480e50)

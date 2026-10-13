@@ -336,10 +336,10 @@ Weapon_30* Player::GetCurrPlayerWeapon_5648F0()
 }
 
 MATCH_FUNC(0x564910)
-void Player::SetWeapon_564910(Weapon_30* a2)
+void Player::SetWeapon_564910(Weapon_30* pWeapon)
 {
-    s16 idx = a2->field_1C_idx;
-    this->field_718_weapons[idx] = a2;
+    s16 idx = pWeapon->field_1C_idx;
+    this->field_718_weapons[idx] = pWeapon;
     if (!this->field_31_kf_weapon_mode)
     {
         this->field_788_curr_weapon_idx = idx;

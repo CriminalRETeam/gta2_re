@@ -68,7 +68,7 @@ class CarAI_78
     EXPORT void UpdateSpeedTowardTarget_4539D0();
     EXPORT void UpdateTrainMovement_453A40();
     EXPORT void AI_Service_453BB0();
-    EXPORT void SetCar_453BF0(Car_BC* a2);
+    EXPORT void SetCar_453BF0(Car_BC* pCar);
     EXPORT void ReverseOrNeutral_453C00();
     EXPORT void PoolAllocate();
     EXPORT CarAI_78();

@@ -2736,13 +2736,13 @@ Sprite::Sprite() : field_0_rotation(gAng16_703804)
 }
 
 MATCH_FUNC(0x5A6910)
-bool AttachedSprite_18::UpdateAttached_5A6910(Sprite* a2)
+bool AttachedSprite_18::UpdateAttached_5A6910(Sprite* pSprite)
 {
     bool bRet;
     Object_2C* o2c = field_0_pSprite->AsObject2C_40FEC0();
     if (o2c)
     {
-        bRet = o2c->UpdateMovementAndEffects_527070(a2, field_6_offset_x, field_8_offset_y, field_10_offset_rot);
+        bRet = o2c->UpdateMovementAndEffects_527070(pSprite, field_6_offset_x, field_8_offset_y, field_10_offset_rot);
         if (bRet)
         {
             gObject_2C_Pool_6F8F80->DeAllocate(o2c);
@@ -2754,7 +2754,7 @@ bool AttachedSprite_18::UpdateAttached_5A6910(Sprite* a2)
         Car_BC* cBC = field_0_pSprite->AsCar_40FEB0();
         if (cBC)
         {
-            bRet = cBC->UpdateAttachedToSprite_443360(a2, field_6_offset_x, field_8_offset_y, field_10_offset_rot);
+            bRet = cBC->UpdateAttachedToSprite_443360(pSprite, field_6_offset_x, field_8_offset_y, field_10_offset_rot);
             if (bRet)
             {
                 gCar_BC_Pool_67792C->Remove(cBC);

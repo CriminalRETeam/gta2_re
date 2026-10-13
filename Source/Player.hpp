@@ -221,7 +221,7 @@ class Player
     EXPORT void SetKFWeapon_564790(s32 idx);
     EXPORT void ClearKFWeapon_5647D0();
     EXPORT Weapon_30* GetCurrPlayerWeapon_5648F0();
-    EXPORT void SetWeapon_564910(Weapon_30* a2);
+    EXPORT void SetWeapon_564910(Weapon_30* pWeapon);
     EXPORT char_type HasAnyAmmo_564940();
     EXPORT char_type AddWeaponWithAmmo_564960(s32 weapon_kind, u8 ammo);
     EXPORT void SelectNextOrPrevWeapon_5649D0(char_type bFowards, char_type bBackwards);

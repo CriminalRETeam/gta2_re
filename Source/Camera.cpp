@@ -205,12 +205,12 @@ void Camera_0xBC::ClampTargetZ_435840()
 }
 
 MATCH_FUNC(0x435860)
-void Camera_0xBC::ApplyMovementDeltaFrom_435860(Camera_0xBC* a2)
+void Camera_0xBC::ApplyMovementDeltaFrom_435860(Camera_0xBC* pCamera)
 {
-    field_10_cam_pos_tgt2.field_0_x += a2->field_98_cam_pos2.field_0_x - a2->field_88_cam_pos1.field_0_x;
-    field_10_cam_pos_tgt2.field_4_y += a2->field_98_cam_pos2.field_4_y - a2->field_88_cam_pos1.field_4_y;
-    field_10_cam_pos_tgt2.field_8_z += a2->field_98_cam_pos2.field_8_z - a2->field_88_cam_pos1.field_8_z;
-    field_10_cam_pos_tgt2.field_C_zoom += a2->field_98_cam_pos2.field_C_zoom - a2->field_88_cam_pos1.field_C_zoom;
+    field_10_cam_pos_tgt2.field_0_x += pCamera->field_98_cam_pos2.field_0_x - pCamera->field_88_cam_pos1.field_0_x;
+    field_10_cam_pos_tgt2.field_4_y += pCamera->field_98_cam_pos2.field_4_y - pCamera->field_88_cam_pos1.field_4_y;
+    field_10_cam_pos_tgt2.field_8_z += pCamera->field_98_cam_pos2.field_8_z - pCamera->field_88_cam_pos1.field_8_z;
+    field_10_cam_pos_tgt2.field_C_zoom += pCamera->field_98_cam_pos2.field_C_zoom - pCamera->field_88_cam_pos1.field_C_zoom;
     ClampTargetZ_435840();
 }
 
@@ -475,11 +475,11 @@ void Camera_0xBC::ResetCameraSmoothing_435DD0()
 }
 
 MATCH_FUNC(0x435F90)
-void Camera_0xBC::AccumulateSuspicionOnDriver_435F90(Car_BC* a2)
+void Camera_0xBC::AccumulateSuspicionOnDriver_435F90(Car_BC* pCar)
 {
-    if (a2->field_54_driver &&
-        (gPolice_7B8_6FEE40->IsActivelyChased_56F880(a2->field_54_driver) ||
-         gCarChaseTaskTable_678E30->HasAnyPursuer_474970(a2->field_54_driver)))
+    if (pCar->field_54_driver &&
+        (gPolice_7B8_6FEE40->IsActivelyChased_56F880(pCar->field_54_driver) ||
+         gCarChaseTaskTable_678E30->HasAnyPursuer_474970(pCar->field_54_driver)))
     {
         field_44_suspicion++;
         if (field_44_suspicion > 80u)
@@ -745,9 +745,9 @@ void Camera_0xBC::ResetPanning_436830()
 }
 
 MATCH_FUNC(0x436860)
-void Camera_0xBC::ApplyZOffsetToScreenPosition_436860(Ped* a2, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos)
+void Camera_0xBC::ApplyZOffsetToScreenPosition_436860(Ped* pPed, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos)
 {
-    Fix16 v5 = (z_pos - a2->get_cam_z() + Fix16(8)) / field_60.y;
+    Fix16 v5 = (z_pos - pPed->get_cam_z() + Fix16(8)) / field_60.y;
     x_pos += field_48_pan_x * v5;
     y_pos += field_4C_pan_y * v5;
 }

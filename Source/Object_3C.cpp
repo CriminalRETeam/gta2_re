@@ -458,7 +458,7 @@ Sprite* SpriteList_4::TakeClosestSprite_5A6EA0(Fix16 xpos, Fix16 ypos)
 }
 
 MATCH_FUNC(0x5a6f70)
-void SpriteList_4::PoolUpdate_5A6F70(Sprite* a2)
+void SpriteList_4::PoolUpdate_5A6F70(Sprite* pSprite)
 {
     // TODO: Pretty much an exact match of UpdatePoolNoDeallocate but this one passes an extra
     // argument to PoolUpdate, probably DeAllocate was inlined - need to try to consolidate and refactor
@@ -469,7 +469,7 @@ void SpriteList_4::PoolUpdate_5A6F70(Sprite* a2)
     while (pCurrItem)
     {
         AttachedSprite_18* pNext = pCurrItem->mpNext;
-        if (pCurrItem->UpdateAttached_5A6910(a2))
+        if (pCurrItem->UpdateAttached_5A6910(pSprite))
         {
             if (pPreviousItem && pPreviousItem->mpNext != pCurrItem)
             {

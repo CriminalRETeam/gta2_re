@@ -411,7 +411,7 @@ class Map_0x370
     EXPORT bool HasWallInArea_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z);
     EXPORT bool sub_4E1A30(s32 tileX_min, s32 tileX_max, s32 tileY_min, s32 tileY_max, s32 zLevel);
     EXPORT char_type CanSpriteEnterTile_4E1E00(s32 regionLeft, s32 regionRight, s32 regionTop, s32 regionBottom, s32 tileX, s32 tileY, s32 zLevel);
-    EXPORT char_type CanSpriteEnterMovementRegion_4E4460(s32 a2, s32 a3, s32 a4, Sprite* a5, s16 a6);
+    EXPORT char_type CanSpriteEnterMovementRegion_4E4460(s32 a2, s32 a3, s32 a4, Sprite* pSprite, s16 a6);
     EXPORT char_type sub_4E4630(Fix16 zpos_f16);
     EXPORT bool sub_4E4770(Fix16 z_pos);
     EXPORT char_type sub_4E4820(Fix16_Rect* pRect, u8 slope_type);

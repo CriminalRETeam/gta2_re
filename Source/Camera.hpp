@@ -49,14 +49,14 @@ class Camera_0xBC
     EXPORT void DecreaseElevation_435810();
     EXPORT void ReturnToDefaultZoom_435830();
     EXPORT void ClampTargetZ_435840();
-    EXPORT void ApplyMovementDeltaFrom_435860(Camera_0xBC* a2);
+    EXPORT void ApplyMovementDeltaFrom_435860(Camera_0xBC* pCamera);
     EXPORT Ang16 ComputeTargetFacingAngle_4358D0();
     EXPORT Fix16 ReturnOwnerVelocity_435A20();
     EXPORT s32 IsCoordsPosVisible_435A70(Fix16 x, Fix16 y, Fix16 z);
     EXPORT void UpdateBoundaries_435B90();
     EXPORT void MoveTarget_435D20(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7);
     EXPORT void ResetCameraSmoothing_435DD0();
-    EXPORT void AccumulateSuspicionOnDriver_435F90(Car_BC* a2);
+    EXPORT void AccumulateSuspicionOnDriver_435F90(Car_BC* pCar);
     EXPORT void Update_435FF0();
     EXPORT void RefreshBoundaries_436110();
     EXPORT void SetShake_436120(Fix16 a2);
@@ -67,7 +67,7 @@ class Camera_0xBC
     EXPORT void UpdateFollowPedCamera_436540(Ped* pPed);
     EXPORT void HandlePanning_436710(char_type bForwardGasOn, char_type bFootBrakeOn, char_type a4, char_type a5);
     EXPORT void ResetPanning_436830();
-    EXPORT void ApplyZOffsetToScreenPosition_436860(Ped* a2, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos);
+    EXPORT void ApplyZOffsetToScreenPosition_436860(Ped* pPed, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos);
     EXPORT Camera_0xBC(); // 4368E0
     EXPORT ~Camera_0xBC(); // empty 4369E0
     EXPORT void SetTarget_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5);

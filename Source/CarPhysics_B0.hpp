@@ -324,7 +324,7 @@ class CarPhysics_B0
     EXPORT void UpdateCp1FromCm1_563280();
     EXPORT void UpdateCenterOfMassPoint_563350();
     EXPORT void UpdateReferencePoint_563460();
-    EXPORT void SetSprite_563560(Sprite* a2);
+    EXPORT void SetSprite_563560(Sprite* pSprite);
     EXPORT void SnapVelocityToSpriteDirection_563590(Sprite* pSprt);
     EXPORT void UpdateSpriteFromPhysics_563670();
     EXPORT void UpdateCarAndTrailerSpriteFromPhysics_5636C0();

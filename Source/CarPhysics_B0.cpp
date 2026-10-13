@@ -3824,12 +3824,12 @@ void CarPhysics_B0::UpdateReferencePoint_563460()
 }
 
 MATCH_FUNC(0x563560)
-void CarPhysics_B0::SetSprite_563560(Sprite* a2)
+void CarPhysics_B0::SetSprite_563560(Sprite* pSprite)
 {
-    field_38_cp1.x = a2->field_14_xy.x;
-    field_38_cp1.y = a2->field_14_xy.y;
-    field_6C_cp3 = a2->field_1C_zpos;
-    field_58_theta = a2->field_0_rotation;
+    field_38_cp1.x = pSprite->field_14_xy.x;
+    field_38_cp1.y = pSprite->field_14_xy.y;
+    field_6C_cp3 = pSprite->field_1C_zpos;
+    field_58_theta = pSprite->field_0_rotation;
     field_78_pointing_ang_rad = 0;
     UpdateCenterOfMassPoint_563350();
 }

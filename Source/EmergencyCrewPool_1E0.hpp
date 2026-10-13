@@ -39,7 +39,7 @@ class EmergencyCrew_30
     EXPORT ~EmergencyCrew_30();
     EXPORT void Init_5CBC00();
     EXPORT void ReInit_5CBC30();
-    EXPORT void RemovePed_5CBC40(Ped* a2);
+    EXPORT void RemovePed_5CBC40(Ped* pPed);
     EXPORT bool IsLeaderAlive_5CBC60();
     EXPORT bool ReplaceLeaderIfNeeded_5CBC90();
     EXPORT void UpdateStateMachine_5CBD50();
