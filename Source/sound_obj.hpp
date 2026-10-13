@@ -194,9 +194,9 @@ class sound_obj
     char_type field_1452_unused;
     char_type field_1453_unused;
     u32 field_1454_anRandomTable[5];
-    Fix16 field_1468_v1;
-    Fix16 field_146C_v2;
-    Fix16 field_1470_v3;
+    Fix16 field_1468_listener_x;
+    Fix16 field_146C_listener_y;
+    Fix16 field_1470_listener_z;
     Ang16 field_1474_rotation;
     char_type field_1476_unused;
     char_type field_1477_unused;
