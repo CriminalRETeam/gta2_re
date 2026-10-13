@@ -504,7 +504,7 @@ void Camera_0xBC::Update_435FF0()
 
     switch (field_3C_follow_mode)
     {
-        case 1:
+        case camera_follow_mode::smooth_1:
             SmoothApproach_4F7540(field_0_target_pos.field_0_x,
                                   field_AC_cam_velocity.field_0_x,
                                   field_98_cur_pos.field_0_x,
@@ -528,7 +528,7 @@ void Camera_0xBC::Update_435FF0()
                                   dword_6766FC,
                                   dword_6766A4);
             break;
-        case 2:
+        case camera_follow_mode::snap_2:
             field_98_cur_pos.field_0_x = field_0_target_pos.field_0_x;
             field_98_cur_pos.field_4_y = field_0_target_pos.field_4_y;
             field_98_cur_pos.field_8_z = field_0_target_pos.field_8_z;
@@ -766,7 +766,7 @@ Camera_0xBC::Camera_0xBC()
     field_AC_cam_velocity.field_0_x = kZero_676818;
     field_AC_cam_velocity.field_4_y = kZero_676818;
     field_AC_cam_velocity.field_8_z = kZero_676818;
-    field_3C_follow_mode = 0;
+    field_3C_follow_mode = camera_follow_mode::none_0;
     field_30_shake = kZero_676818;
     field_34_ped = NULL;
     SetScreenSize_4361B0(640, 480);

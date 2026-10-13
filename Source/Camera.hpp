@@ -17,6 +17,16 @@ EXTERN_GLOBAL(Fix16, kOne_67681C);
 EXTERN_GLOBAL(Fix16, dword_702E04);
 EXTERN_GLOBAL(Fix16, dword_702DE4);
 
+namespace camera_follow_mode
+{
+enum
+{
+    none_0 = 0,
+    smooth_1 = 1, // eases towards the target (Update_435FF0)
+    snap_2 = 2, // copies the target straight in (debug/free camera)
+};
+} // namespace camera_follow_mode
+
 struct CameraPos
 {
     Fix16 field_0_x;
@@ -94,13 +104,13 @@ class Camera_0xBC
 
     inline void SetSmoothFollow_475B60()
     {
-        field_3C_follow_mode = 1;
+        field_3C_follow_mode = camera_follow_mode::smooth_1;
     }
 
     // 9.6f 0x4A5070
     inline void SetSnapFollow_4A5070()
     {
-        field_3C_follow_mode = 2;
+        field_3C_follow_mode = camera_follow_mode::snap_2;
     }
 
     // FUNCTION: 96f 0x40cfc0
