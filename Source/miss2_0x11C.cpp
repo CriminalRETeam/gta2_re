@@ -1164,7 +1164,7 @@ void miss2_0x11C::SCRCMD_SET_STATION_EMPTY_STATION_505030(SCR_SET_STATION* pCmd)
     if (!bSkip_trains_67D550)
     {
         str_table_entry* StringById_503080 = gScriptManager_6F8060->FindStringById_503080(pCmd->field_8_platform);
-        gmp_map_zone* station_zone = gMap_0x370_6F6268->zone_by_name_4DEFD0((const char*)&StringById_503080[1]);
+        gmp_map_zone* station_zone = gMap_0x370_6F6268->FindZoneByName_4DEFD0((const char*)&StringById_503080[1]);
         TrainStation_34* pStation = gPublicTransport_181C_6FF1D4->TrainStationForZone_57B4B0(station_zone);
 
         for (u8 wagon_idx = 0; wagon_idx < 10; wagon_idx++)
@@ -1210,7 +1210,7 @@ void miss2_0x11C::CRCMD_SET_TRAIN_STATIONS_505210(SCR_TWO_PARAMS* pCmd)
     {
         StringById = gScriptManager_6F8060->FindStringById_503080(pCmd->field_8_unsigned_1);
         const char* station_zone_name = (const char*)&StringById[1];
-        gmp_map_zone* station_zone = gMap_0x370_6F6268->zone_by_name_4DEFD0(station_zone_name);
+        gmp_map_zone* station_zone = gMap_0x370_6F6268->FindZoneByName_4DEFD0(station_zone_name);
         TrainStation_34* pTrainStation = gPublicTransport_181C_6FF1D4->TrainStationForZone_57B4B0(station_zone);
         pTrainStation->CalculateWagonCount_578820((u8*)&pCmd->field_A_unsigned_2); //  The parameter may be the train wagon array, not sure
     }
@@ -3944,7 +3944,7 @@ void miss2_0x11C::SCRCMD_IS_CHAR_IN_GANG_50B7D0()
     }
     else
     {
-        gmp_map_zone* pZone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(pPed->get_cam_x().ToInt(), pPed->get_cam_y().ToInt(), Gang_14);
+        gmp_map_zone* pZone = gMap_0x370_6F6268->GetZoneAtPosOfType_4DF4D0(pPed->get_cam_x().ToInt(), pPed->get_cam_y().ToInt(), Gang_14);
         if (pZone && !_strnicmp(pZone->field_6_name, pGang->field_2_name, pZone->field_5_name_length))
         {
             field_8_cond_result = true;
@@ -4239,10 +4239,10 @@ void miss2_0x11C::SCRCMD_IS_CHAR_IN_ZONE_50BF40()
     }
     else
     {
-        pZone1 = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(pPointer->field_8_char->get_cam_x().ToInt(),
+        pZone1 = gMap_0x370_6F6268->GetZoneAtPosOfType_4DF4D0(pPointer->field_8_char->get_cam_x().ToInt(),
                                                                 pPointer->field_8_char->get_cam_y().ToInt(),
                                                                 16);
-        pZone2 = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(pPointer->field_8_char->get_cam_x().ToInt(),
+        pZone2 = gMap_0x370_6F6268->GetZoneAtPosOfType_4DF4D0(pPointer->field_8_char->get_cam_x().ToInt(),
                                                                 pPointer->field_8_char->get_cam_y().ToInt(),
                                                                 1);
     }
@@ -5472,7 +5472,7 @@ void miss2_0x11C::StartBonus_50DF10()
     // u16 > 0xFFFF is never true, left over dead code?
     if (pCmd->field_8_zone_str_id > 0xFFFF)
     {
-        gMap_0x370_6F6268->zone_by_name_4DEFD0(gScriptManager_6F8060->FindStringById_503080(pCmd->field_8_zone_str_id)->get_name());
+        gMap_0x370_6F6268->FindZoneByName_4DEFD0(gScriptManager_6F8060->FindStringById_503080(pCmd->field_8_zone_str_id)->get_name());
     }
 
     pPointer->field_8_counter = gGame_0x40_67E008->field_38_local_player->field_2D4_scores.field_1A8_bonuses.AllocRule_431FE0(flag,

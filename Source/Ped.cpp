@@ -2768,8 +2768,8 @@ void Ped::SetOccupation_45EE00(u32 occupation)
 MATCH_FUNC(0x45ee70)
 void Ped::EnterPublicTransport_45EE70()
 {
-    for (gmp_map_zone* pZoneIter = gMap_0x370_6F6268->first_zone_by_pos_4DF6A0(field_1AC_cam.x.ToInt(), field_1AC_cam.y.ToInt()); pZoneIter;
-         pZoneIter = gMap_0x370_6F6268->next_zone_4DF770())
+    for (gmp_map_zone* pZoneIter = gMap_0x370_6F6268->GetFirstZoneAtPos_4DF6A0(field_1AC_cam.x.ToInt(), field_1AC_cam.y.ToInt()); pZoneIter;
+         pZoneIter = gMap_0x370_6F6268->GetNextZone_4DF770())
     {
         if (bSkip_trains_67D550 || pZoneIter->field_0_zone_type != Railway_Station_Platform_6)
         {
@@ -5676,7 +5676,7 @@ void Ped::Threat_Reaction_AI_465270()
                     }
                     else if (!field_21C_bf.bFlag19 && byte_61A8A2 == 1)
                     {
-                        if (!gMap_0x370_6F6268->sub_4E5640(gSpawnJitterScale_678618,
+                        if (!gMap_0x370_6F6268->IsProbePathClear_4E5640(gSpawnJitterScale_678618,
                                                            kFpQuarter_678484,
                                                            gSpawnJitterScale_678618,
                                                            field_1AC_cam.x,
@@ -6546,7 +6546,7 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
 
                 if (field_238_ped_type != ped_type::player_2)
                 {
-                    return gMap_0x370_6F6268->sub_4E5640(gSpawnJitterScale_678618 * 2,
+                    return gMap_0x370_6F6268->IsProbePathClear_4E5640(gSpawnJitterScale_678618 * 2,
                                                          kFpQuarter_678484,
                                                          gSpawnJitterScale_678618,
                                                          gSearchingPed_6787DC->get_cam_x(),
@@ -6557,7 +6557,7 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                                                          this->field_1AC_cam.z);
                 }
 
-                if (gMap_0x370_6F6268->sub_4E5640(kFpQuarter_678484,
+                if (gMap_0x370_6F6268->IsProbePathClear_4E5640(kFpQuarter_678484,
                                                   kFpQuarter_678484,
                                                   gSpawnJitterScale_678618,
                                                   gSearchingPed_6787DC->get_cam_x(),
@@ -9960,7 +9960,7 @@ void Ped::ExitCarStateMachine_46C250()
                 field_154_target_to_enter->GetDoorWorldPosition_43B5A0(field_24C_target_car_door, &char_x, &char_y);
                 AllocCharB4_45C830(char_x,
                                    char_y,
-                                   gMap_0x370_6F6268->sub_4E4E50(char_x,
+                                   gMap_0x370_6F6268->FindGroundZAboveCoord_4E4E50(char_x,
                                                                   char_y,
                                                                   this->field_154_target_to_enter->field_50_car_sprite->field_1C_zpos));
 
@@ -9980,7 +9980,7 @@ void Ped::ExitCarStateMachine_46C250()
             {
                 if (!AllocCharB4_45C830(field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
                                         field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
-                                        gMap_0x370_6F6268->sub_4E4E50(field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
+                                        gMap_0x370_6F6268->FindGroundZAboveCoord_4E4E50(field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
                                                                        field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
                                                                        field_154_target_to_enter->field_50_car_sprite->field_1C_zpos)))
                 {
@@ -10017,7 +10017,7 @@ void Ped::ExitCarStateMachine_46C250()
 
                     AllocCharB4_45C830(char_x,
                                        char_y,
-                                       gMap_0x370_6F6268->sub_4E4E50(char_x,
+                                       gMap_0x370_6F6268->FindGroundZAboveCoord_4E4E50(char_x,
                                                                       char_y,
                                                                       this->field_154_target_to_enter->field_50_car_sprite->field_1C_zpos));
                     {
@@ -10044,7 +10044,7 @@ void Ped::ExitCarStateMachine_46C250()
                 {
                     AllocCharB4_45C830(field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
                                        field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
-                                       gMap_0x370_6F6268->sub_4E4E50(field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
+                                       gMap_0x370_6F6268->FindGroundZAboveCoord_4E4E50(field_154_target_to_enter->field_50_car_sprite->field_14_xy.x,
                                                                       field_154_target_to_enter->field_50_car_sprite->field_14_xy.y,
                                                                       field_154_target_to_enter->field_50_car_sprite->field_1C_zpos));
                 }

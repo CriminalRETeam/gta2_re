@@ -697,7 +697,7 @@ Car_BC* CarManager_6C::SpawnCarAtRoadDirection_444CF0(s32 car_model_type, Fix16 
     u8 z = zpos.ToInt();
     Car_BC* pCar = 0;
 
-    gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(tile_x, tile_y, z - 1);
+    gmp_block_info* pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(tile_x, tile_y, z - 1);
 
     if (gMap_0x370_6F6268->CheckGreenArrowDirection_4E4B40(4, pBlock))
     {
@@ -725,7 +725,7 @@ char Car_BC::SnapCarToGreenArrow_444E40(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     const u8 x_int = xpos.ToInt();
     const u8 y_int = ypos.ToInt();
     const u8 z_int = zpos.ToInt();
-    gmp_block_info* pBlockInfo = gMap_0x370_6F6268->get_block_4DFE10(x_int, y_int, z_int - 1);
+    gmp_block_info* pBlockInfo = gMap_0x370_6F6268->GetBlock_4DFE10(x_int, y_int, z_int - 1);
 
     if (pBlockInfo)
     {
@@ -4822,14 +4822,14 @@ char_type Car_BC::CountConsecutiveArrowBlocks_4410D0(Ang16 ang, s8* pOutCount, F
             break;
     }
 
-    gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(x, y, z);
+    gmp_block_info* pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(x, y, z);
     if (pBlock && ((pBlock->field_A_arrows & mask1) || (pBlock->field_A_arrows & mask2)))
     {
         x += x_add;
         y += y_add;
 
         u8 count = 0;
-        for (pBlock = gMap_0x370_6F6268->get_block_4DFE10(x, y, z); pBlock; pBlock = gMap_0x370_6F6268->get_block_4DFE10(x, y, z))
+        for (pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(x, y, z); pBlock; pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(x, y, z))
         {
             if (!(pBlock->field_A_arrows & mask1) && !(pBlock->field_A_arrows & mask2))
             {
@@ -4847,7 +4847,7 @@ char_type Car_BC::CountConsecutiveArrowBlocks_4410D0(Ang16 ang, s8* pOutCount, F
         x_add = -x_add;
         y_add = -y_add;
 
-        for (pBlock = gMap_0x370_6F6268->get_block_4DFE10(x, y, z); pBlock; pBlock = gMap_0x370_6F6268->get_block_4DFE10(x, y, z))
+        for (pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(x, y, z); pBlock; pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(x, y, z))
         {
             if (!(pBlock->field_A_arrows & mask1) && !(pBlock->field_A_arrows & mask2))
             {
@@ -4966,12 +4966,12 @@ void Car_BC::UpdateTrainCarriagesOnTrack_4413B0(Fix16 xpos, Fix16 ypos, Fix16 zp
         Ang16 carriage_angle;
         if (bUnknown)
         {
-            s32 track_dir_a = gMap_0x370_6F6268->sub_4E7190(&newx, &newy, &newz, k_dword_6777D4);
+            s32 track_dir_a = gMap_0x370_6F6268->AdvanceAlongRailwayChecked_4E7190(&newx, &newy, &newz, k_dword_6777D4);
             carriage_angle = ReturnAngleFromRoadDirection_4F7940(&track_dir_a);
         }
         else
         {
-            s32 track_dir_b = gMap_0x370_6F6268->sub_4E6660(&newx, &newy, &newz, k_dword_6777D4);
+            s32 track_dir_b = gMap_0x370_6F6268->AdvanceAlongRailway_4E6660(&newx, &newy, &newz, k_dword_6777D4);
             carriage_angle = ReturnAngleFromRoadDirection_4F7940(&track_dir_b);
         }
 

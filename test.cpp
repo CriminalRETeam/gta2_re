@@ -144,7 +144,7 @@ void test_wizardly_margulis()
 void test_Map_0x370()
 {
     Map_0x370 t;
-    t.get_block_452980(0, 0, 0);
+    t.GetBlockOrNull_452980(0, 0, 0);
 }
 
 void test_ScriptManager_C1EA8()

@@ -551,11 +551,11 @@ s32 Sprite::IsOnWater_59E1D0()
     const Fix16 zpos = field_1C_zpos;
     if (zpos > gFix16_7035C0)
     {
-        pBlock = gMap_0x370_6F6268->get_block_4DFE10(field_14_xy.x.ToInt(), field_14_xy.y.ToInt(), (zpos - kFP16One_7035C4).ToInt());
+        pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(field_14_xy.x.ToInt(), field_14_xy.y.ToInt(), (zpos - kFP16One_7035C4).ToInt());
     }
     else
     {
-        pBlock = gMap_0x370_6F6268->get_block_4DFE10(field_14_xy.x.ToInt(), field_14_xy.y.ToInt(), zpos.ToInt());
+        pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(field_14_xy.x.ToInt(), field_14_xy.y.ToInt(), zpos.ToInt());
     }
 
     if (pBlock)
@@ -1887,7 +1887,7 @@ char_type Sprite::sub_5A19C0()
         field_4_pVisualShape->UpdateRotatedBoundingBox_5A3550(field_14_xy.x, field_14_xy.y, field_1C_zpos, field_0_rotation);
     }
     field_4_pVisualShape->SetCurrentRect_5A4D90();
-    return gMap_0x370_6F6268->sub_4E4770(field_1C_zpos);
+    return gMap_0x370_6F6268->SlopeBordersFlatInSpriteGrid_4E4770(field_1C_zpos);
 }
 
 MATCH_FUNC(0x5a1a60)
@@ -1906,7 +1906,7 @@ char Sprite::sub_5A1A60()
 
     ClampPurpleRectToMap_4B9F80();
 
-    return gMap_0x370_6F6268->sub_4E4630(field_1C_zpos);
+    return gMap_0x370_6F6268->CheckSlopeTopInSpriteGrid_4E4630(field_1C_zpos);
 }
 
 MATCH_FUNC(0x5a1b30)

@@ -443,7 +443,7 @@ void CarPhysics_B0::ScarePedsOnDrivingFast_559C30()
         cp3 = field_6C_cp3 - k_dword_6FE210;
     }
 
-    gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(field_38_cp1.x.ToInt(), field_38_cp1.y.ToInt(), cp3.ToInt());
+    gmp_block_info* pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(field_38_cp1.x.ToInt(), field_38_cp1.y.ToInt(), cp3.ToInt());
     if (pBlock)
     {
         u8 type = pBlock->field_B_slope_type & 3; //get_block_type(pBlock->field_B_slope_type);
@@ -1164,7 +1164,7 @@ void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 dt)
 // 9.6f 0x49EBE0 (a Map_0x370 method: 9.6f calls it with gMap in ecx)
 inline u8 Map_0x370::GetBlockSurfaceType_49EBE0(s32 x, s32 y, s32 z, u8* pGradientSize, u8* pGradientLevel)
 {
-    gmp_block_info* pBlock = get_block_4DFE10(x, y, z);
+    gmp_block_info* pBlock = GetBlock_4DFE10(x, y, z);
     if (pBlock)
     {
         if (gGtx_0x106C_703DD4->IsRemappedWaterTile_49E540(pBlock->field_8_lid & 0x3FF))
@@ -1725,7 +1725,7 @@ void CarPhysics_B0::SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 
 
     arg_4 += this->field_38_cp1;
 
-    char_type map_ret = gMap_0x370_6F6268->sub_4E52A0(arg_4.x, arg_4.y, field_6C_cp3);
+    char_type map_ret = gMap_0x370_6F6268->GetSurfaceTypeBelowCoord_4E52A0(arg_4.x, arg_4.y, field_6C_cp3);
     if (map_ret == 5 || surface == 3 && map_ret != 7)
     {
         Fix16_Point* pBoxCorner_ = &this->field_10_last_skid_pos[(u8)box_idx];
@@ -3423,7 +3423,7 @@ void CarPhysics_B0::ApplyArrowSteerAssist_5626F0()
         {
             if (IsVelocityAlignedWithHeading_40F840() && !this->field_40_linvel_1.IsNull() && !this->field_A0_oil_spin_dir)
             {
-                gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(this->field_38_cp1.x.ToInt(),
+                gmp_block_info* pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(this->field_38_cp1.x.ToInt(),
                                                                              this->field_38_cp1.y.ToInt(),
                                                                              (this->field_6C_cp3 - k_dword_6FE210).ToInt());
                 if (pBlock)

@@ -153,7 +153,7 @@ void TrafficLight_20::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
     {
         for (s32 i = 0; i < w; i++)
         {
-            gmp_block_info* pBlock1 = gMap_0x370_6F6268->get_block_4DFE10((Fix16(x + i) + kFpHalf_705714).ToInt(),
+            gmp_block_info* pBlock1 = gMap_0x370_6F6268->GetBlock_4DFE10((Fix16(x + i) + kFpHalf_705714).ToInt(),
                                                                           (Fix16(y) - dword_705660).ToInt(),
                                                                           (zpos - kFpOne_70580C).ToInt());
             if (pBlock1 && (pBlock1->field_A_arrows & block_arrow::green_down_8) != 0)
@@ -168,7 +168,7 @@ void TrafficLight_20::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
         Fix16 xIter2(x);
         for (s32 i = 0; i < w; i++)
         {
-            gmp_block_info* pBlock2 = gMap_0x370_6F6268->get_block_4DFE10((xIter2 + kFpHalf_705714).ToInt(),
+            gmp_block_info* pBlock2 = gMap_0x370_6F6268->GetBlock_4DFE10((xIter2 + kFpHalf_705714).ToInt(),
                                                                           (Fix16(y + h) + dword_705660).ToInt(),
                                                                           (zpos - kFpOne_70580C).ToInt());
             if (pBlock2 && (pBlock2->field_A_arrows & block_arrow::green_up_4) != 0)
@@ -184,7 +184,7 @@ void TrafficLight_20::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
         Fix16 yOff(y);
         for (s32 i = 0; i < h; i++)
         {
-            gmp_block_info* pBlock3 = gMap_0x370_6F6268->get_block_4DFE10((Fix16(x + w) + dword_705660).ToInt(),
+            gmp_block_info* pBlock3 = gMap_0x370_6F6268->GetBlock_4DFE10((Fix16(x + w) + dword_705660).ToInt(),
                                                                           (yOff + kFpHalf_705714).ToInt(),
                                                                           (zpos - kFpOne_70580C).ToInt());
             if (pBlock3 && (pBlock3->field_A_arrows & block_arrow::green_left_1) != 0)
@@ -200,7 +200,7 @@ void TrafficLight_20::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
         Fix16 yOff(y);
         for (s32 i = 0; i < h; i++)
         {
-            gmp_block_info* pBlock4 = gMap_0x370_6F6268->get_block_4DFE10((Fix16(x) - (dword_705660)).ToInt(),
+            gmp_block_info* pBlock4 = gMap_0x370_6F6268->GetBlock_4DFE10((Fix16(x) - (dword_705660)).ToInt(),
                                                                           (yOff + kFpHalf_705714).ToInt(),
                                                                           (zpos - kFpOne_70580C).ToInt());
             if (pBlock4 && (pBlock4->field_A_arrows & block_arrow::green_right_2) != 0)
@@ -365,11 +365,11 @@ void TrafficLights_194::ShowTrafficLightsInfo_5C2A10()
 MATCH_FUNC(0x5c2ac0)
 void TrafficLights_194::CreateFromMapZones_5C2AC0()
 {
-    gmp_map_zone* pZoneIter = gMap_0x370_6F6268->first_zone_by_type_4DF1D0(Traffic_light_2);
+    gmp_map_zone* pZoneIter = gMap_0x370_6F6268->GetFirstZoneOfType_4DF1D0(Traffic_light_2);
     while (pZoneIter)
     {
         AddTrafficLight_5C2910(pZoneIter->field_1_x, pZoneIter->field_2_y, pZoneIter->field_3_w, pZoneIter->field_4_h);
-        pZoneIter = gMap_0x370_6F6268->next_zone_4DF770();
+        pZoneIter = gMap_0x370_6F6268->GetNextZone_4DF770();
     }
 }
 
