@@ -196,7 +196,6 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 44 | 195 | 376 | 358 | 0x592660 | `PlayerScoreTracker_36C::AwardPedKilledScore_592660` | PlayerScoreTracker_36C.cpp |
 | 52 | 146 | 166 | 70 | 0x463830 | `Ped::SetObjective2_463830` | Ped.cpp |
 | 55 | 316 | 584 | 573 | 0x524630 | `Object_2C::IntegrateHorizontalMovementAndCollisions_524630` | Object_5C.cpp |
-| 55 | 876 | 1897 | 2397 | 0x448ce0 | `CarAI_78::ManageTrafficCarDirection_448CE0` | CarAI_78.cpp |
 | 60 | 172 | 376 | 358 | 0x5c8780 | `CarThreadTriggers_214::sub_5C8780` | Car_BC.cpp |
 | 60 | 3734 | 5885 | 3175 | 0x44e560 | `CarAI_78::UpdateStateMachine_44E560` | CarAI_78.cpp |
 | 114 | 380 | 1580 | 380 | 0x5eb970 | `DMA_Video_LoadDll_5EB970` | dma_video.cpp |
