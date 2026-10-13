@@ -366,11 +366,11 @@ void CarPhysics_B0::UpdateTrailerPhysicsFromTowingCar_559A40()
 {
     if (field_5C_pCar->field_64_pTrailer)
     {
-        Fix16 v6 = (k_dword_6FE210) / gRemainingTimeStep_6FE198;
+        Fix16 inv_step = (k_dword_6FE210) / gRemainingTimeStep_6FE198;
         CarPhysics_B0* pPhysics = field_5C_pCar->field_64_pTrailer->field_C_pCarOnTrailer->field_58_physics;
-        pPhysics->field_40_linvel_1 = (pPhysics->field_38_cp1 - gTrailer_cp1_6FE3A8) * v6;
-        pPhysics->field_74_ang_vel_rad = v6 * Ang16::Ang16_to_Fix16(ComputeShortestAngleDelta_4056C0(gTrailer_theta_6FE018, pPhysics->field_58_theta));
-        pPhysics->field_70_z_vel = (v6 * (pPhysics->field_6C_cp3 - gTrailer_cp3_6FE1B4));
+        pPhysics->field_40_linvel_1 = (pPhysics->field_38_cp1 - gTrailer_cp1_6FE3A8) * inv_step;
+        pPhysics->field_74_ang_vel_rad = inv_step * Ang16::Ang16_to_Fix16(ComputeShortestAngleDelta_4056C0(gTrailer_theta_6FE018, pPhysics->field_58_theta));
+        pPhysics->field_70_z_vel = (inv_step * (pPhysics->field_6C_cp3 - gTrailer_cp3_6FE1B4));
     }
 }
 
@@ -498,11 +498,11 @@ void CarPhysics_B0::ApplyForcedSteering_559DD0()
 MATCH_FUNC(0x559e20)
 void CarPhysics_B0::ApplyObjectImpact_559E20(Object_2C* pObj)
 {
-    s8 v1;
-    s8 v2;
-    pObj->GetConveyorDirection_493090(&v1, &v2);
-    stru_6FDF50.x += kFP16One64th_6FE2E0 * v1;
-    stru_6FDF50.y += kFP16One64th_6FE2E0 * v2;
+    s8 conveyor_x;
+    s8 conveyor_y;
+    pObj->GetConveyorDirection_493090(&conveyor_x, &conveyor_y);
+    stru_6FDF50.x += kFP16One64th_6FE2E0 * conveyor_x;
+    stru_6FDF50.y += kFP16One64th_6FE2E0 * conveyor_y;
     AddDamage_49EF50(15);
 }
 
@@ -785,7 +785,7 @@ void CarPhysics_B0::save_state_55A600()
 MATCH_FUNC(0x55a6a0)
 Fix16 CarPhysics_B0::ComputeRequiredSweepSteps_55A6A0()
 {
-    Fix16 v9 = MaxByValue_55A6A0((Fix16::ClampToRangeFlexible_55EEE0(Fix16::Abs(gSaved_cm1_6FE3C8.x - g_cm1_6FDF10.x),
+    Fix16 steps = MaxByValue_55A6A0((Fix16::ClampToRangeFlexible_55EEE0(Fix16::Abs(gSaved_cm1_6FE3C8.x - g_cm1_6FDF10.x),
                                                               Fix16::Abs(gSaved_cm1_6FE3C8.y - g_cm1_6FDF10.y),
                                                               Fix16::Abs(gSaved_cp3_6FDF84 - g_cp3_6FDF08))) /
                               field_5C_pCar->GetMinDimension_43A5B0(),
@@ -794,8 +794,8 @@ Fix16 CarPhysics_B0::ComputeRequiredSweepSteps_55A6A0()
     if (field_5C_pCar->field_64_pTrailer)
     {
 
-        v9 = Fix16::ClampToRangeFlexible_55EEE0(
-            v9,
+        steps = Fix16::ClampToRangeFlexible_55EEE0(
+            steps,
             (Fix16::ClampToRangeFlexible_55EEE0(Fix16::Abs(gSaved_trailer_cm1_6FE160.x - g_trailer_cm1_6FE068.x),
                                                 Fix16::Abs(gSaved_trailer_cm1_6FE160.y - g_trailer_cm1_6FE068.y),
                                                 Fix16::Abs(gSaved_trailed_cp3_6FDF8C - gTrailer_cp3_6FE1B4)) /
@@ -803,7 +803,7 @@ Fix16 CarPhysics_B0::ComputeRequiredSweepSteps_55A6A0()
             Ang16::NormalizeAngleDeltaScaled_405B60(gTrailer_theta_6FE018, gSaved_trailer_theta_6FE310, word_6FE058));
     }
 
-    return v9;
+    return steps;
 }
 
 // 9.6f 0x42A630 called as a static with the value by reference (its 9.6f copy takes a pointer and a hidden
@@ -842,8 +842,8 @@ void CarPhysics_B0::HandleUserInputs_55A860(char_type bForwardGasOn,
     else
     {
         // IsVelocityAlignedWithHeading_40F840 inlined
-        Ang16 v14 = (field_40_linvel_1.atan2_40F790() - field_58_theta);
-        bool aligned = v14 <= kAng90_6FE00C || v14 >= kAng270_6FE154;
+        Ang16 heading_delta = (field_40_linvel_1.atan2_40F790() - field_58_theta);
+        bool aligned = heading_delta <= kAng90_6FE00C || heading_delta >= kAng270_6FE154;
         if (aligned)
         {
             if (this->field_94_is_backward_gas_on)
@@ -1217,7 +1217,7 @@ void CarPhysics_B0::SyncZWithTrailer_55B3F0(Fix16 a2)
 MATCH_FUNC(0x55b4f0)
 void CarPhysics_B0::UpdateZPosition_55B4F0(Fix16 a2)
 {
-    Fix16 v14;
+    Fix16 slope_y;
     Fix16 zCoordTmp;
     zCoordTmp = gMap_0x370_6F6268->GetRailwayZCoordAtXY_4E6510(this->field_38_cp1.x, this->field_38_cp1.y);
     if (zCoordTmp == kFP16Zero_6FE20C)
@@ -1236,7 +1236,7 @@ void CarPhysics_B0::UpdateZPosition_55B4F0(Fix16 a2)
 
     if (zCoordTmp <= field_6C_cp3 - kFP16Half_6FE0C0)
     {
-        this->field_68_z_pos = ComputeSlopeCorrection_55AB50(&v14);
+        this->field_68_z_pos = ComputeSlopeCorrection_55AB50(&slope_y);
         zCoordTmp = field_6C_cp3 + field_68_z_pos;
         if (a2 != kFP16Zero_6FE20C)
         {
@@ -1314,7 +1314,7 @@ char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* 
     Fix16_Point unused_point;
     s32 corner_idx_ = 0;
     u8 mask_;
-    u32 v29;
+    u32 corner_result;
     this->field_AB_tpa = 0;
 
     if (IsInAir_55A0B0())
@@ -1328,8 +1328,8 @@ char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* 
     if (!gMap_0x370_6F6268->IsZOnGround_4E5170(this->field_38_cp1.x, this->field_38_cp1.y, this->field_6C_cp3))
     {
         this->field_9C_block_spec = 0;
-        *check_mask = pSprite->CheckCornerZCollisions_5A1CA0(&v29);
-        if (v29 == 1 || v29 == 2)
+        *check_mask = pSprite->CheckCornerZCollisions_5A1CA0(&corner_result);
+        if (corner_result == 1 || corner_result == 2)
         {
             this->field_AB_tpa = 1;
         }
@@ -1385,16 +1385,16 @@ char_type CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970(char_type* 
     s32 cp3_int = cp3.ToInt();
     u8 gradient_level;
     u8 graident_size;
-    s32 v28 = gMap_0x370_6F6268->GetBlockSurfaceType_49EBE0(field_38_cp1.x.ToInt(), this->field_38_cp1.y.ToInt(), cp3_int, &graident_size, &gradient_level);
+    s32 surface_type = gMap_0x370_6F6268->GetBlockSurfaceType_49EBE0(field_38_cp1.x.ToInt(), this->field_38_cp1.y.ToInt(), cp3_int, &graident_size, &gradient_level);
 
     //LABEL_37:
-    if (v28 != 5)
+    if (surface_type != 5)
     {
-        this->field_98_surface_type = v28;
+        this->field_98_surface_type = surface_type;
         this->field_A5_current_slope_length = (char)graident_size;
         this->field_A6_current_slope_left_tiles = gradient_level;
         this->field_A7_current_tile_z = cp3_int;
-        if (v28 == 7)
+        if (surface_type == 7)
         {
             u8 water_mask = pSprite->GetWaterCornerMask_59E250();
             if (water_mask == 15)
@@ -1718,7 +1718,7 @@ MATCH_FUNC(0x55d200)
 void CarPhysics_B0::SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 surface)
 {
     Fix16_Point t;
-    Fix16_Point v15;
+    Fix16_Point skid_mid;
     Fix16 len; // declared up here: its stack slot is the dead box_idx one, shared with the / 2 temporary
 
     arg_4.RotateByAngle_40F6B0_out_of_line(field_58_theta);
@@ -1737,9 +1737,9 @@ void CarPhysics_B0::SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 
         if (!pBoxCorner->IsNull())
         {
             t = arg_4 - *pBoxCorner;
-            v15 = pBoxCorner->Add_40AC50(arg_4) / 2;
-            Fix16 obj_x = v15.x;
-            Fix16 obj_y = v15.y;
+            skid_mid = pBoxCorner->Add_40AC50(arg_4) / 2;
+            Fix16 obj_x = skid_mid.x;
+            Fix16 obj_y = skid_mid.y;
 
             Ang16 r = t.atan2_40F790();
             len = t.GetLength_all_out_of_line_abs();
@@ -2080,40 +2080,40 @@ void CarPhysics_B0::ApplyReverseEngineForce_55EF20()
 MATCH_FUNC(0x55f020)
 void CarPhysics_B0::ApplyTurningForce_55F020()
 {
-    Fix16_Point v6;
-    Fix16 v17 = dword_6FE358;
+    Fix16_Point local_offset;
+    Fix16 turn_force = dword_6FE358;
     Object_2C* pObj = gCollisionTarget_679188.field_20_pHitSprite->AsObject2C_40FEC0();
-    Fix16 v4;
+    Fix16 turn_torque;
 
     if (pObj && pObj->field_18_model == objects::diagonal_wall_collision_obj_166)
     {
-        v4 = k_dword_6FDFA4;
-        v17 = stru_6FDF80;
+        turn_torque = k_dword_6FDFA4;
+        turn_force = stru_6FDF80;
     }
     else
     {
         if (field_5C_pCar->is_driven_by_player())
         {
-            v4 = dword_6FE078;
-            v17 = dword_6FE390;
+            turn_torque = dword_6FE078;
+            turn_force = dword_6FE390;
         }
         else
         {
-            v4 = dword_6FE080;
-            v17 = dword_6FE358;
+            turn_torque = dword_6FE080;
+            turn_force = dword_6FE358;
         }
     }
 
-    v6 = (field_38_cp1 - CollisionIntersectionPoint_6FE1A0);
+    local_offset = (field_38_cp1 - CollisionIntersectionPoint_6FE1A0);
 
-    v6.RotateByAngle_40F6B0(-field_58_theta);
+    local_offset.RotateByAngle_40F6B0(-field_58_theta);
 
-    if (v6.x >= kFP16Zero_6FE20C)
+    if (local_offset.x >= kFP16Zero_6FE20C)
     {
-        v4 = -v4;
+        turn_torque = -turn_torque;
     }
-    ApplyAngularImpulse_55F970(v4);
-    ApplyForceScaledByMass_55F9A0(stru_6FE1F0.NormalizeSafe_442AD0().Multiply_438FE0(v17));
+    ApplyAngularImpulse_55F970(turn_torque);
+    ApplyForceScaledByMass_55F9A0(stru_6FE1F0.NormalizeSafe_442AD0().Multiply_438FE0(turn_force));
 }
 
 MATCH_FUNC(0x55f240)
@@ -2335,10 +2335,10 @@ void CarPhysics_B0::ApplyForceAtPoint_55F800(Fix16_Point* a2, Fix16_Point* a3, s
 
     field_48_force_accum += *a3;
 
-    Fix16 v11 = (point.y - field_30_cm1.y) * a3->x;
-    Fix16 v9 = (point.x - field_30_cm1.x) * a3->y;
-    Fix16 v10 = v9 - v11;
-    field_7C_torque_accum = field_7C_torque_accum + v10;
+    Fix16 cross_a = (point.y - field_30_cm1.y) * a3->x;
+    Fix16 cross_b = (point.x - field_30_cm1.x) * a3->y;
+    Fix16 torque = cross_b - cross_a;
+    field_7C_torque_accum = field_7C_torque_accum + torque;
 }
 
 MATCH_FUNC(0x55f930)
@@ -2780,7 +2780,7 @@ void CarPhysics_B0::HandleObjectCollision_5606C0(Object_2C* p2C, char_type damag
 MATCH_FUNC(0x560b40)
 void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
 {
-    Fix16_Point v16; // a local with a destructor: the original constructs 4 points up front (EH state 3)
+    Fix16_Point impact_dir; // a local with a destructor: the original constructs 4 points up front (EH state 3)
     Fix16_Point pIntersection;
     Fix16_Point relativePointVel;
     Fix16_Point sprite_xy(pCharB4->get_sprite_xpos(), pCharB4->get_sprite_ypos());
@@ -2817,7 +2817,7 @@ void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
     Car_BC* pCar = this->field_5C_pCar;
 
     // Nothrow alias: no EH state around the Negate_40ACB0 temporary
-    v16 = pIntersection.Negate_40ACB0().DivideInl_442CB0(kFP16Half_6FE2F8);
+    impact_dir = pIntersection.Negate_40ACB0().DivideInl_442CB0(kFP16Half_6FE2F8);
 
     Ped* pCarDriver = field_5C_pCar->field_54_driver;
     if (pCarDriver)
@@ -2872,7 +2872,7 @@ void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
         }
     }
 
-    pCharB4->HandleCarImpact_5538A0(pCar, bUnknown, v16.x, v16.y);
+    pCharB4->HandleCarImpact_5538A0(pCar, bUnknown, impact_dir.x, impact_dir.y);
 }
 
 MATCH_FUNC(0x560eb0)
@@ -2885,16 +2885,16 @@ void CarPhysics_B0::UpdateLinearAndAngularAccel_560EB0()
 MATCH_FUNC(0x560f20)
 void CarPhysics_B0::ApplyMovementStep_560F20(Fix16 a2)
 {
-    Fix16 v3 = (gRemainingTimeStep_6FE198 * a2);
+    Fix16 dt = (gRemainingTimeStep_6FE198 * a2);
 
-    if (v3 != kFP16Zero_6FE20C)
+    if (dt != kFP16Zero_6FE20C)
     {
         // 9.6f: Ang16::Fix16_To_Ang16_40F540, written out so Normalize is inlined on a register
-        Ang16 tmp((s16)((v3 * field_74_ang_vel_rad).GetRaw_40F4B0() / 71), (u8)0);
+        Ang16 tmp((s16)((dt * field_74_ang_vel_rad).GetRaw_40F4B0() / 71), (u8)0);
         this->field_58_theta = Ang16(field_58_theta.rValue + tmp.rValue).Normalized_406C20();
 
         // 9.6f: Fix16_Point operator+= (0x40F680, inlined)
-        this->field_30_cm1 += (field_40_linvel_1 * v3);
+        this->field_30_cm1 += (field_40_linvel_1 * dt);
 
         UpdateCp1FromCm1_563280();
 
@@ -2930,12 +2930,12 @@ void CarPhysics_B0::IntegrateAndClampVelocities_5610B0()
 MATCH_FUNC(0x561130)
 Fix16_Point CarPhysics_B0::ComputeRelativePointVelocity_561130(Fix16_Point* pPoint)
 {
-    Fix16_Point v11 = (*pPoint - field_38_cp1);
-    v11.RotateByAngle_40F6B0(-field_58_theta);
-    v11 -= gCarInfo_2C_6FE0E4->field_C_center_of_mass_offset;
-    v11.RotateByAngle_40F6B0(Ang16::Fix16_To_Ang16_40F540(field_74_ang_vel_rad) + field_58_theta);
-    v11 += (field_30_cm1 + field_40_linvel_1);
-    return v11 - *pPoint;
+    Fix16_Point rel_pos = (*pPoint - field_38_cp1);
+    rel_pos.RotateByAngle_40F6B0(-field_58_theta);
+    rel_pos -= gCarInfo_2C_6FE0E4->field_C_center_of_mass_offset;
+    rel_pos.RotateByAngle_40F6B0(Ang16::Fix16_To_Ang16_40F540(field_74_ang_vel_rad) + field_58_theta);
+    rel_pos += (field_30_cm1 + field_40_linvel_1);
+    return rel_pos - *pPoint;
 }
 
 MATCH_FUNC(0x561350)
@@ -2979,7 +2979,7 @@ MATCH_FUNC(0x5615d0)
 Fix16 CarPhysics_B0::ApplyDriveForce_5615D0(Fix16_Point& a3, Ang16 angle, Fix16_Point& a5, Fix16 a6)
 {
     Fix16_Point force;
-    Fix16_Point v40;
+    Fix16_Point local_vel;
     Fix16 y_abs;
     Fix16 x_abs;
 
@@ -2989,14 +2989,14 @@ Fix16 CarPhysics_B0::ApplyDriveForce_5615D0(Fix16_Point& a3, Ang16 angle, Fix16_
     }
     else
     {
-        v40 = ComputePointVelocity_561380(a3);
-        v40.RotateByAngle_40F6B0(-angle);
+        local_vel = ComputePointVelocity_561380(a3);
+        local_vel.RotateByAngle_40F6B0(-angle);
 
-        force.x = (v40.x * -a5.x);
-        force.y = (v40.y * -a5.y);
+        force.x = (local_vel.x * -a5.x);
+        force.y = (local_vel.y * -a5.y);
     }
 
-    y_abs = Fix16::Abs(v40.y);
+    y_abs = Fix16::Abs(local_vel.y);
     x_abs = Fix16::Abs(force.x);
 
     if (field_8C_state == 2 && !field_5C_pCar->IsTank_411900())
@@ -3131,29 +3131,29 @@ Fix16 CarPhysics_B0::CalculateFrontWheelForce_561E50()
     }
     else
     {
-        Fix16 v6;
+        Fix16 grip_scale;
         Fix16 front_torque = CarPhysics_B0::ComputeEngineTorque_561970() * gCarInfo_48_6FE258->field_8_front_drive_bias;
 
         if (field_AD_turn_direction != car_turn_direction::none_0)
         {
-            v6 = k_dword_6FE210 + gCarInfo_48_6FE258->field_14_turn_in;
+            grip_scale = k_dword_6FE210 + gCarInfo_48_6FE258->field_14_turn_in;
         }
         else
         {
-            v6 = k_dword_6FE210;
+            grip_scale = k_dword_6FE210;
         }
 
         // The declaration order picks the registers of the default case's loads
-        Fix16 v9;
-        Fix16 v10;
+        Fix16 force_x;
+        Fix16 force_y_base;
         Fix16 lodword_v5;
         Fix16 pointing_ang_rad;
 
         switch (field_A0_oil_spin_dir)
         {
             case 0:
-                v9 = kFP16One_6FE3D0 * v6;
-                v10 = dword_6FE3D4;
+                force_x = kFP16One_6FE3D0 * grip_scale;
+                force_y_base = dword_6FE3D4;
                 lodword_v5 = gBrakeForce_6FE0D8 * dword_6FE320;
                 pointing_ang_rad = this->field_78_pointing_ang_rad;
                 break;
@@ -3163,14 +3163,14 @@ Fix16 CarPhysics_B0::CalculateFrontWheelForce_561E50()
                 {
                     // Copying the zero from lodword_v5 keeps kFP16Zero_6FE20C out of a register
                     lodword_v5 = kFP16Zero_6FE20C;
-                    v9 = lodword_v5;
-                    v10 = lodword_v5;
+                    force_x = lodword_v5;
+                    force_y_base = lodword_v5;
                     pointing_ang_rad = this->field_78_pointing_ang_rad;
                 }
                 else
                 {
-                    v9 = kFP16One_6FE3D0 * v6;
-                    v10 = dword_6FE3D4;
+                    force_x = kFP16One_6FE3D0 * grip_scale;
+                    force_y_base = dword_6FE3D4;
                     if (field_A0_oil_spin_dir == 1)
                     {
                         pointing_ang_rad = this->field_78_pointing_ang_rad + kAngFix16OneDegree_6FE3C4 * 30;
@@ -3188,8 +3188,8 @@ Fix16 CarPhysics_B0::CalculateFrontWheelForce_561E50()
         }
 
         // 9.6f: Fix16_Point::SetXY_432860
-        point2.x = v9;
-        point2.y = v10 + lodword_v5;
+        point2.x = force_x;
+        point2.y = force_y_base + lodword_v5;
 
         // 9.6f: theta + Fix16_To_Ang16_40F540(pointing_ang_rad). Written with the Ang16 ctor directly,
         // since Normalize is too deep to inline through those helpers
@@ -3203,7 +3203,7 @@ MATCH_FUNC(0x5620d0)
 Fix16 CarPhysics_B0::CalculateRearWheelForce_5620D0()
 {
     Fix16_Point wheel_point(Fix16(0), gCarInfo_2C_6FE0E4->field_8_rear_wheel_offset);
-    Fix16_Point v25;
+    Fix16_Point rear_force;
     Fix16 v;
 
     if (IsInAir_55A0B0())
@@ -3212,16 +3212,16 @@ Fix16 CarPhysics_B0::CalculateRearWheelForce_5620D0()
     }
 
     Fix16& front_drive_bias = gCarInfo_2C_6FE0E4->field_20_front_drive_bias;
-    Fix16 v5 = ComputeEngineTorque_561970() * front_drive_bias;
+    Fix16 engine_torque = ComputeEngineTorque_561970() * front_drive_bias;
 
-    Fix16 v7;
+    Fix16 grip_scale;
     if (field_AD_turn_direction != car_turn_direction::none_0)
     {
-        v7 = k_dword_6FE210 - gCarInfo_48_6FE258->field_14_turn_in;
+        grip_scale = k_dword_6FE210 - gCarInfo_48_6FE258->field_14_turn_in;
     }
     else
     {
-        v7 = k_dword_6FE210;
+        grip_scale = k_dword_6FE210;
     }
 
     Fix16 new_x;
@@ -3235,7 +3235,7 @@ Fix16 CarPhysics_B0::CalculateRearWheelForce_5620D0()
         if (field_A0_oil_spin_dir > 0 && field_A0_oil_spin_dir <= 2)
         {
             brake_force2 = kFP16Zero_6FE20C;
-            if (v5.mValue == kFP16Zero_6FE20C.mValue)
+            if (engine_torque.mValue == kFP16Zero_6FE20C.mValue)
             {
                 new_x = kFP16Zero_6FE20C;
                 brake_force1 = kFP16Zero_6FE20C;
@@ -3245,7 +3245,7 @@ Fix16 CarPhysics_B0::CalculateRearWheelForce_5620D0()
             }
             else
             {
-                new_x = kFP16One_6FE3D0 * v7;
+                new_x = kFP16One_6FE3D0 * grip_scale;
                 brake_force1 = dword_6FE3D4;
                 if (field_A0_oil_spin_dir == 1)
                 {
@@ -3271,20 +3271,20 @@ Fix16 CarPhysics_B0::CalculateRearWheelForce_5620D0()
             {
                 field_A8_hand_brake_force++;
             }
-            new_x = kFP16One_6FE3D0 * v7 * gCarInfo_48_6FE258->field_20_handbrake_slide_value;
+            new_x = kFP16One_6FE3D0 * grip_scale * gCarInfo_48_6FE258->field_20_handbrake_slide_value;
             brake_force3 = gCarInfo_48_6FE258->field_10_brake_friction * (s32)(u8)field_A8_hand_brake_force / 128;
         }
         else
         {
             this->field_A8_hand_brake_force = 0;
-            new_x = kFP16One_6FE3D0 * v7;
+            new_x = kFP16One_6FE3D0 * grip_scale;
             brake_force3 = kFP16Zero_6FE20C;
         }
         pointing_ang_rad = this->field_78_pointing_ang_rad;
     }
 
-    v25.SetXY_432860(new_x, brake_force1 + brake_force2 + brake_force3);
-    v25.MultiplyByFix16_inline_5620D0(gCarInfo_48_6FE258->field_1C_rear_end_stability);
+    rear_force.SetXY_432860(new_x, brake_force1 + brake_force2 + brake_force3);
+    rear_force.MultiplyByFix16_inline_5620D0(gCarInfo_48_6FE258->field_1C_rear_end_stability);
 
     // The function is at VC6's inline budget: Fix16_To_Ang16_40F540 / Ang16 - Ang16 here push the Ang16
     // constructors and y * y out of line, so the angle is built and normalised (Normalize_406C20) by hand.
@@ -3295,7 +3295,7 @@ Fix16 CarPhysics_B0::CalculateRearWheelForce_5620D0()
         ang.Normalize_406C20();
         Ang16 steer(field_58_theta.rValue - ang.rValue);
         steer.Normalize_406C20();
-        return ApplyDriveForce_5615D0(wheel_point, steer, v25, v5);
+        return ApplyDriveForce_5615D0(wheel_point, steer, rear_force, engine_torque);
     }
 }
 
@@ -3382,12 +3382,12 @@ void CarPhysics_B0::UpdateSteeringAngle_562560()
     }
     else
     {
-        Fix16 v6 = dword_6FE228 - field_40_linvel_1.GetLength_out_of_line_x_squared();
-        if (v6.mValue < dword_6FE374.mValue)
+        Fix16 speed_factor = dword_6FE228 - field_40_linvel_1.GetLength_out_of_line_x_squared();
+        if (speed_factor.mValue < dword_6FE374.mValue)
         {
-            v6 = dword_6FE374;
+            speed_factor = dword_6FE374;
         }
-        field_78_pointing_ang_rad = GetScaledTurnRatio(v6 / (dword_6FE228 * dword_6FE104), field_AD_turn_direction);
+        field_78_pointing_ang_rad = GetScaledTurnRatio(speed_factor / (dword_6FE228 * dword_6FE104), field_AD_turn_direction);
     }
 }
 

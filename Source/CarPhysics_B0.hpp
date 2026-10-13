@@ -163,10 +163,10 @@ class CarPhysics_B0
     EXPORT Fix16 ComputeRequiredSweepSteps_55A6A0();
     EXPORT void ResetForceAccumulators_55A840();
     EXPORT void HandleUserInputs_55A860(char_type bForwardGasOn,
-                                        char_type bFootBrakeOn,
-                                        char_type a4,
-                                        char_type a5,
-                                        char_type bHandBrakeOn);
+                                            char_type bFootBrakeOn,
+                                            char_type bLeftOn,
+                                            char_type bRightOn,
+                                            char_type bHandBrakeOn);
     EXPORT void HandleGravityOnSlope_55AA00();
     EXPORT Fix16 ComputeSlopeCorrection_55AB50(Fix16* pOutY);
     EXPORT void UpdateZPhysics_55AD90(Fix16 a2);
