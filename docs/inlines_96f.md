@@ -891,8 +891,8 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x5299F0 | `Object_5C::sub_5299F0` | 0x485320 | ✓ `sub_482C00` | checked | 482C00 = set_field_26 copy (already used, noted in header) |
 | 0x529A40 | `Object_5C::NewLight_529A40` | 0x485370 | ✓ `sub_482D60` | done | all 9.6f inlines used |
 | 0x529AB0 | `Object_5C::NewLight_529AB0` | 0x4853C0 | ✓ `sub_482D60` | done | all 9.6f inlines used |
-| 0x529C00 | `Object_5C::New_529C00` | 0x484E00 | `Object_2C_Pool::sub_4829A0`, `Object_2C_Pool::sub_4829C0`, `sub_482790`, `Object_2C_Pool::sub_484D60`, `Object_2C_Pool::sub_484DB0`, `sub_4BED60`, `Object_8_Pool::sub_483FA0`, `Object_3C_Pool::sub_483FE0`, ✓ `IsShop_421060`, ✓ `sub_447E90` | checked | pool Allocate/AllocateUntracked/DeAllocate, SetDamageOwner, AddSprite already used/called |
-| 0x52A2C0 | `Object_5C::New_52A2C0` | 0x485180 | `Object_3C_Pool::sub_483FE0` | checked | 483FE0 = Object_3C pool Allocate (already used) |
+| 0x529C00 | `Object_5C::CreateObject_529C00` | 0x484E00 | `Object_2C_Pool::sub_4829A0`, `Object_2C_Pool::sub_4829C0`, `sub_482790`, `Object_2C_Pool::sub_484D60`, `Object_2C_Pool::sub_484DB0`, `sub_4BED60`, `Object_8_Pool::sub_483FA0`, `Object_3C_Pool::sub_483FE0`, ✓ `IsShop_421060`, ✓ `sub_447E90` | checked | pool Allocate/AllocateUntracked/DeAllocate, SetDamageOwner, AddSprite already used/called |
+| 0x52A2C0 | `Object_5C::CreateMovingObj_52A2C0` | 0x485180 | `Object_3C_Pool::sub_483FE0` | checked | 483FE0 = Object_3C pool Allocate (already used) |
 | 0x52A3D0 | `Object_5C::CreateExplosion_52A3D0` | 0x485540 | ✓ `sub_482A90`, `Object_3C_Pool::sub_483FE0` | done | Explosion_30::SetType_482A90 added+used; 483FE0 = pool Allocate (already); code unchanged |
 | 0x52A590 | `Object_5C::RestoreObjects_52A590` | 0x485640 | ✓ `sub_45E0A0` | checked | 45E0A0 = set_field_26 copy (already used, noted in header) |
 | 0x52A6D0 | `Object_5C::ReactivateObjectAfterImpact_52A6D0` | 0x483E50 | `Object_2C::sub_4826A0` (10.5 0x525AE0), `sub_482F80`, ✓ `sub_40FEB0`, ✓ `sub_40F7B0` | checked | 4826A0 = RemoveFromCollisionBuckets/525AE0 pairing, 482F80 = PoolTake_522360 (called) |

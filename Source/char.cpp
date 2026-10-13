@@ -5970,7 +5970,7 @@ void Char_B4::state_8_5520A0()
 
                     if (field_84_target_car->field_58_physics)
                     {
-                        field_7C_pPed->field_184_pObj2C = gObject_5C_6F8F84->NewUnknown_52A240(110,
+                        field_7C_pPed->field_184_pObj2C = gObject_5C_6F8F84->NewMovingObj_52A240(110,
                                                                                                field_80_sprite_ptr->field_14_xy.x,
                                                                                                field_80_sprite_ptr->field_14_xy.y,
                                                                                                field_80_sprite_ptr->field_1C_zpos,
@@ -5982,7 +5982,7 @@ void Char_B4::state_8_5520A0()
                     }
                     else
                     {
-                        field_7C_pPed->field_184_pObj2C = gObject_5C_6F8F84->NewUnknown_52A240(110,
+                        field_7C_pPed->field_184_pObj2C = gObject_5C_6F8F84->NewMovingObj_52A240(110,
                                                                                                field_80_sprite_ptr->field_14_xy.x,
                                                                                                field_80_sprite_ptr->field_14_xy.y,
                                                                                                field_80_sprite_ptr->field_1C_zpos,
@@ -6041,7 +6041,7 @@ void Char_B4::state_8_5520A0()
                         }
                         if (NearestSpriteOfType_477E60)
                         {
-                            field_7C_pPed->field_184_pObj2C = gObject_5C_6F8F84->NewUnknown_52A240(110,
+                            field_7C_pPed->field_184_pObj2C = gObject_5C_6F8F84->NewMovingObj_52A240(110,
                                                                                                    field_80_sprite_ptr->field_14_xy.x,
                                                                                                    field_80_sprite_ptr->field_14_xy.y,
                                                                                                    field_80_sprite_ptr->field_1C_zpos,
@@ -6582,7 +6582,7 @@ static inline Fix16 GetLength_inline_5538A0(Fix16_Point& p)
 
 MATCH_FUNC(0x5538A0)
 #define SPAWN_KNOCKDOWN_OBJ(speed) \
-    gObject_5C_6F8F84->NewUnknown_52A240(110, \
+    gObject_5C_6F8F84->NewMovingObj_52A240(110, \
                                          this->field_80_sprite_ptr->field_14_xy.x, \
                                          this->field_80_sprite_ptr->field_14_xy.y, \
                                          this->field_80_sprite_ptr->field_1C_zpos, \
@@ -6760,7 +6760,7 @@ void Char_B4::HandleGenericImpact_553E00(Ang16 ang, Fix16 impact_x, Fix16 impact
     if (field_7C_pPed->GetPedState_403990() != ped_state_1::dead_9)
     {
         this->field_16_state_init_pending = 1;
-        this->field_7C_pPed->field_184_pObj2C = gObject_5C_6F8F84->NewUnknown_52A240(110,
+        this->field_7C_pPed->field_184_pObj2C = gObject_5C_6F8F84->NewMovingObj_52A240(110,
                                                                                      field_80_sprite_ptr->field_14_xy.x,
                                                                                      field_80_sprite_ptr->field_14_xy.y,
                                                                                      field_80_sprite_ptr->field_1C_zpos,

@@ -207,7 +207,7 @@ void ScriptManager_C1EA8::SaveGame_511E10(char_type* pFileName)
     gObject_5C_6F8F84->SaveObjects_52A500(&gGameSave_6F78C8.field_5E4_object_data);
 
     memcpy(gGameSave_6F78C8.field_5E4_object_data.field_12C_obj_5C_bUnCollectedTokens,
-           &gObject_5C_6F8F84->field_20_bUnCollectedTokens,
+           &gObject_5C_6F8F84->field_20_uncollected_tokens,
            50u);
 
     gGameSave_6F78C8.field_5E4_object_data.field_160_secret_tokens_collected = gGameSession_67E8E0.get_secret_tokens_collected_453A80();
@@ -288,9 +288,9 @@ void ScriptManager_C1EA8::LoadSave_511F80(char_type* pFileName)
 
     gObject_5C_6F8F84->RestoreObjects_52A590(&gGameSave_6F78C8.field_5E4_object_data);
 
-    memcpy(&gObject_5C_6F8F84->field_20_bUnCollectedTokens,
+    memcpy(&gObject_5C_6F8F84->field_20_uncollected_tokens,
            gGameSave_6F78C8.field_5E4_object_data.field_12C_obj_5C_bUnCollectedTokens,
-           sizeof(gObject_5C_6F8F84->field_20_bUnCollectedTokens));
+           sizeof(gObject_5C_6F8F84->field_20_uncollected_tokens));
 
     gGameSession_67E8E0.set_secret_tokens_collected_476B10(gGameSave_6F78C8.field_5E4_object_data.field_160_secret_tokens_collected);
     field_C1E2C_bLoadedFromSave = true;

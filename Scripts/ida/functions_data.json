@@ -12495,12 +12495,12 @@
         "v96f_auto": true
     },
     {
-        "name": "Object_5C::sub_529BC0",
+        "name": "Object_5C::NewPhysicsObjUnlessBlocked_529BC0",
         "v96f_address": "0x485480",
         "v105_address": "0x529bc0"
     },
     {
-        "name": "Object_5C::New_529C00",
+        "name": "Object_5C::CreateObject_529C00",
         "v96f_address": "0x484E00",
         "v105_address": "0x529c00"
     },
@@ -12510,17 +12510,17 @@
         "v105_address": "0x52a210"
     },
     {
-        "name": "Object_5C::NewUnknown_52A240",
+        "name": "Object_5C::NewMovingObj_52A240",
         "v96f_address": "0x4854C0",
         "v105_address": "0x52a240"
     },
     {
-        "name": "Object_5C::sub_52A280",
+        "name": "Object_5C::NewMovingObjUnlessBlocked_52A280",
         "v96f_address": null,
         "v105_address": "0x52a280"
     },
     {
-        "name": "Object_5C::New_52A2C0",
+        "name": "Object_5C::CreateMovingObj_52A2C0",
         "v96f_address": "0x485180",
         "v105_address": "0x52a2c0"
     },

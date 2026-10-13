@@ -58,7 +58,7 @@ EXPORT void Generator_2C::SpawnObject_4C1B10()
         }
         else
         {
-            Object_2C* pObj = gObject_5C_6F8F84->sub_529BC0(field_0_gen_type, field_4_x, field_8_y, field_C_z, field_10_rot);
+            Object_2C* pObj = gObject_5C_6F8F84->NewPhysicsObjUnlessBlocked_529BC0(field_0_gen_type, field_4_x, field_8_y, field_C_z, field_10_rot);
             if (pObj)
             {
                 field_24_obj = pObj;
@@ -83,7 +83,7 @@ EXPORT void Generator_2C::SpawnObject_4C1B10()
     }
     else
     {
-        Object_2C* pObj = gObject_5C_6F8F84->sub_529BC0(field_0_gen_type, field_4_x, field_8_y, field_C_z, field_10_rot);
+        Object_2C* pObj = gObject_5C_6F8F84->NewPhysicsObjUnlessBlocked_529BC0(field_0_gen_type, field_4_x, field_8_y, field_C_z, field_10_rot);
         if (pObj)
         {
             if (field_1E_kill_timer < 0xFFFF)

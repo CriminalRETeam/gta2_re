@@ -755,7 +755,7 @@ void Explosion_30::UpdateExplosion_18_19_20_32_33_542790()
                 Object_2C* pExplosionObj = gObject_5C_6F8F84->CreateExplosion_52A3D0(Fix16(113), Fix16(145), 2, kAngZero_6FD5D4, explosion_type::molotov_fire_5, field_2C_owner_ped_id);
                 if (pExplosionObj)
                 {
-                    Object_2C* pDebris = gObject_5C_6F8F84->NewUnknown_52A240(127,
+                    Object_2C* pDebris = gObject_5C_6F8F84->NewMovingObj_52A240(127,
                                                                              field_14_pObj2C->field_4->field_14_xy.x,
                                                                              field_14_pObj2C->field_4->field_14_xy.y,
                                                                              field_14_pObj2C->field_4->field_1C_zpos,
