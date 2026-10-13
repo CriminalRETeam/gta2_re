@@ -853,7 +853,7 @@ Matched (116 -> 0) with two changes:
 
 - 0.429. Added `gNetworkGameSettings_707098` (NetworkGameSettings). It overlaps the existing `gNetworkGameSpeed_7071A0` /
   `gNetworkPolice_7071B0` in Game_0x40.cpp (game_speed / police_on fields).
-- The registry part reads `UseProtocol` (GUID) and `UseConnection` (a `Connection_Unknown` buffer via
+- The registry part reads `UseProtocol` (GUID) and `UseConnection` (a `Network_Buffer_8` buffer via
   `operator new`), and `ModemNumber` when `gNetPlay.field_4` is set. Then it runs `Network_20324` UI →
   `CopyGameSettings`, the map/sty/scr names, and `SetMultiplayerParams`.
 - Remaining 1: every `return 0` in the target is `xor al,al; jmp <shared epilogue>`, while ours duplicates the

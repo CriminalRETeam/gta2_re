@@ -137,7 +137,7 @@ struct Network_504
     u32 field_5C4_session_count;
 };
 
-struct Connection_Unknown
+struct Network_Buffer_8
 {
     void* field_0;
     s32 field_4_len;
@@ -160,7 +160,7 @@ struct Network_14
     char field_13_unused;
 };
 
-struct Network_Unknown_0x30
+struct Network_PlayerInputs_0x30
 {
     Network_InputData_0x8 field_0_inputs[MAX_PLAYERS];
 };
@@ -184,7 +184,7 @@ struct NetPlay
                                          const DPNAME* lpName,
                                          unsigned long dwFlags,
                                          void* lpContext);
-    EXPORT s32 SetProtoAndConnection_51DAE0(GUID* pProtocolGuid, Connection_Unknown* pUseThisConnection);
+    EXPORT s32 SetProtoAndConnection_51DAE0(GUID* pProtocolGuid, Network_Buffer_8* pUseThisConnection);
     EXPORT void DirectPlayDestroy_51DC90();
     EXPORT s32 DirectPlayCreate_51DCD0();
     EXPORT s32 DirectPlayCreate_51DED0();

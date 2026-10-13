@@ -521,7 +521,7 @@ s32 __stdcall CarInfo_808::StrToInt_431080(const char* pStr, s16* pOut)
 }
 
 MATCH_FUNC(0x440860)
-Fix16 UnknownList::SignedPixelsToFix16_440860(s8 var)
+Fix16 PixelsToFix16Table::SignedPixelsToFix16_440860(s8 var)
 {
     if (var < 0)
     {
