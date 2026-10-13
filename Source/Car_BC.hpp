@@ -381,31 +381,31 @@ class Car_BC
     // 9.6f 0x42AC70
     inline void SetTurnRight_42AC70()
     {
-        field_A6_turn_flags |= 1u;
+        field_A6_bf.bTurnRight = 1;
     }
 
     // 9.6f 0x42AC80
     inline void SetTurnLeft_42AC80()
     {
-        field_A6_turn_flags |= 2u;
+        field_A6_bf.bTurnLeft = 1;
     }
 
     // 9.6f 0x42AC90
     inline void SetTurnRightReady_42AC90()
     {
-        field_A6_turn_flags |= 4u;
+        field_A6_bf.bTurnRightReady = 1;
     }
 
     // 9.6f 0x421530
     inline void SetTurnLeftReady_421530()
     {
-        field_A6_turn_flags |= 8u;
+        field_A6_bf.bTurnLeftReady = 1;
     }
 
     // 9.6f 0x421540
     inline void SetAIHalted_421540()
     {
-        field_A6_turn_flags |= 0x20u;
+        field_A6_bf.bAIHalted = 1;
     }
 
     // 9.6f 0x475C30
@@ -417,49 +417,49 @@ class Car_BC
     // 9.6f 0x421550
     inline void ClearAIHalted_421550()
     {
-        field_A6_turn_flags &= ~0x20u;
+        field_A6_bf.bAIHalted = 0;
     }
 
     // 9.6f 0x42ACA0
     inline void ClearTurnRight_42ACA0()
     {
-        field_A6_turn_flags &= ~1u;
+        field_A6_bf.bTurnRight = 0;
     }
 
     // 9.6f 0x42ACB0
     inline void ClearTurnLeft_42ACB0()
     {
-        field_A6_turn_flags &= ~2u;
+        field_A6_bf.bTurnLeft = 0;
     }
 
     // 9.6f 0x42AC60
     inline bool IsAIHalted_42AC60()
     {
-        return (field_A6_turn_flags & 0x20) == 0x20;
+        return field_A6_bf.bAIHalted == 1;
     }
 
     // 9.6f 0x42AC20
     inline bool IsTurnRight_42AC20()
     {
-        return (field_A6_turn_flags & 1) == 1;
+        return field_A6_bf.bTurnRight == 1;
     }
 
     // 9.6f 0x42AC30
     inline bool IsTurnLeft_42AC30()
     {
-        return (field_A6_turn_flags & 2) == 2;
+        return field_A6_bf.bTurnLeft == 1;
     }
 
     // 9.6f 0x42AC40
     inline bool IsTurnRightReady_42AC40()
     {
-        return (field_A6_turn_flags & 4) == 4;
+        return field_A6_bf.bTurnRightReady == 1;
     }
 
     // 9.6f 0x42AC50
     inline bool IsTurnLeftReady_42AC50()
     {
-        return (field_A6_turn_flags & 8) == 8;
+        return field_A6_bf.bTurnLeftReady == 1;
     }
 
     // 9.6f 0x4118C0
