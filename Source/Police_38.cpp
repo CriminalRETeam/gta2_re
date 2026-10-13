@@ -1692,7 +1692,7 @@ void PoliceCrew_38::sub_575310()
 
         if (pChase->field_C_chase_state == car_chase_state::target_stopped_15)
         {
-                pCar->field_5C_AI->field_24_flags |= 0x100000;
+                pCar->field_5C_AI->field_24_bf.bAIHalted = true;
                 gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::wait_in_car_27);
                 field_14_pPursuitTarget->field_E += field_10_subObj->field_0_car->field_60_pChaseTask->field_3C_block_counter;
                 if (field_10_subObj->field_0_car->field_60_pChaseTask)

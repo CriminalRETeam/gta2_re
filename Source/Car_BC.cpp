@@ -6143,7 +6143,7 @@ char_type Car_BC::PoolUpdate()
                 }
             }
             field_5C_AI->field_68_car_in_collision = 0;
-            field_5C_AI->field_24_flags &= ~0x1000u;
+            field_5C_AI->field_24_bf.bFlag12 = false;
         }
         ServicePhysics_442190();
     }
