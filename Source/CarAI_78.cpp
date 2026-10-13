@@ -2847,7 +2847,7 @@ void CarAI_78::Init_AI_Chase_44E0C0()
                             this->field_24_flags &= ~0x4540u;
                             this->field_0_car->field_60_pChaseTask->field_C_chase_state = car_chase_state::follow_behind_0;
                             this->field_0_car->field_60_pChaseTask->field_2A_settle_counter = 0;
-                            this->field_0_car->field_80_bAbandoned = 0;
+                            this->field_0_car->field_80_abandoned = 0;
                             field_0_car->RepairDamage_43D400();
                             gPolice_7B8_6FEE40->DespawnCrewInCar_56F6D0(this->field_0_car);
                         }
@@ -4913,7 +4913,7 @@ void CarAI_78::UpdateDrivingAI_452DF0()
         {
             if (field_58_off_road_timer > 200)
             {
-                field_0_car->field_80_bAbandoned = 1;
+                field_0_car->field_80_abandoned = 1;
             }
         }
         else
@@ -5036,7 +5036,7 @@ void CarAI_78::UpdateDriving_453470()
     Fix16 t = field_0_car->field_58_physics->GetLinearSpeed_4211A0();
     gCurrCarAI_Velocity_677B00 = t;
 
-    if (this->field_0_car->field_80_bAbandoned)
+    if (this->field_0_car->field_80_abandoned)
     {
         this->field_0_car->SetAIHalted_421540(); // stop the vehicle
     }

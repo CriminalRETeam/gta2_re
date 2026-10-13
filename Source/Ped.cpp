@@ -8351,7 +8351,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                         }
                     }
 
-                    if (pCar && !pCar->field_80_bAbandoned && !pCar->IsDespawning_4215B0())
+                    if (pCar && !pCar->field_80_abandoned && !pCar->IsDespawning_4215B0())
                     {
                         Ped::SetObjective2_463830(objectives_enum::enter_car_as_driver_35);
                         if (field_21C_bf.bSkipCarSearch)
@@ -8382,7 +8382,7 @@ void Ped::GotoAreaByAnyMeans_469060()
         }
         else if (field_21C_bf.bSkipCarSearch && !field_16C_car->field_54_driver)
         {
-            field_16C_car->field_80_bAbandoned = 1;
+            field_16C_car->field_80_abandoned = 1;
             field_16C_car->SetDriverPedType_421560(ped_type::dummy_3);
             Ped::SetObjective2_463830(objectives_enum::leave_car_36);
             field_218_objective_timer = 0;
@@ -8393,7 +8393,7 @@ void Ped::GotoAreaByAnyMeans_469060()
         {
             if (field_16C_car->field_8C_damage_level >= 4)
             {
-                field_16C_car->field_80_bAbandoned = 1;
+                field_16C_car->field_80_abandoned = 1;
                 field_16C_car->SetDriverPedType_421560(ped_type::dummy_3);
                 Ped::SetObjective2_463830(objectives_enum::leave_car_36);
                 field_218_objective_timer = 0;
@@ -8404,7 +8404,7 @@ void Ped::GotoAreaByAnyMeans_469060()
             {
                 if (++field_218_objective_timer > 500)
                 {
-                    field_16C_car->field_80_bAbandoned = 1;
+                    field_16C_car->field_80_abandoned = 1;
                     field_16C_car->SetDriverPedType_421560(ped_type::dummy_3);
                     Ped::SetObjective2_463830(objectives_enum::leave_car_36);
                     field_218_objective_timer = 0;
@@ -8443,7 +8443,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                     field_218_objective_timer = 0;
                     if (!gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &target_x, &target_y, &target_z, 0))
                     {
-                        field_16C_car->field_80_bAbandoned = 1;
+                        field_16C_car->field_80_abandoned = 1;
                         field_16C_car->SetDriverPedType_421560(ped_type::dummy_3);
                         Ped::SetObjective2_463830(objectives_enum::leave_car_36);
                         field_218_objective_timer = 0;

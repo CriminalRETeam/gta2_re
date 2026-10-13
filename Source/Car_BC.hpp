@@ -1336,15 +1336,10 @@ class Car_BC
     s32 field_70_exploder_ped_id;
     s16 field_74_damage;
     s16 field_76_last_seen_timer;
-    /*
-    0x100 = bullet proof
-    0x200 = rocket proof
-    0x400 = flame proof
-    */
-    u16 field_78_flags;
+    u16 field_78_flags; // car_flag masks
     s16 field_7A_pad;
     s32 field_7C_ped_type;
-    char_type field_80_bAbandoned;
+    char_type field_80_abandoned;
     char_type field_81_pad;
     char_type field_82_pad;
     char_type field_83_pad;
@@ -1375,7 +1370,7 @@ class Car_BC
     };
     u8 field_A7_horn;
     u8 field_A8_horn_cooldown;
-    char_type field_A9_timer; // explode/turn to wreck timer?
+    char_type field_A9_wreck_countdown;
     char_type field_AA_pad;
     char_type field_AB_pad;
     s32 field_AC_sound_event;

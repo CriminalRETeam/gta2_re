@@ -4877,10 +4877,10 @@ Fix16 Car_BC::GetZPos_441330()
 MATCH_FUNC(0x441360)
 void Car_BC::CountDownToWreck_441360()
 {
-    if (field_A9_timer)
+    if (field_A9_wreck_countdown)
     {
-        field_A9_timer--;
-        if (field_A9_timer == 0)
+        field_A9_wreck_countdown--;
+        if (field_A9_wreck_countdown == 0)
         {
             TurnToWreck_4436A0(); // jmp to function chunk
         }
@@ -4904,13 +4904,13 @@ void Car_BC::TurnToWreck_4436A0()
 MATCH_FUNC(0x441380)
 void Car_BC::StartWreckCountdown_441380()
 {
-    if (this->field_A9_timer == 0)
+    if (this->field_A9_wreck_countdown == 0)
     {
         if (this->field_9C_engine_status != car_engine_status::destroyed_6)
         {
             this->field_9C_engine_status = car_engine_status::unknown_5;
         }
-        this->field_A9_timer = 50;
+        this->field_A9_wreck_countdown = 50;
     }
 }
 
@@ -6739,7 +6739,7 @@ void Car_BC::PoolAllocate()
     this->field_50_car_sprite = 0;
     this->field_9C_engine_status = car_engine_status::off_1;
     this->field_A6_turn_flags = 0;
-    this->field_80_bAbandoned = 0;
+    this->field_80_abandoned = 0;
     this->field_78_flags = 0;
     //clear();
 
@@ -6758,7 +6758,7 @@ void Car_BC::PoolAllocate()
 
     this->field_8E_flash_count = 0;
     this->field_A8_horn_cooldown = 0;
-    this->field_A9_timer = 0;
+    this->field_A9_wreck_countdown = 0;
     this->field_B4_weapon_kind = 0;
     this->field_B8_turret_rotated = 0;
     this->field_B0_emitter_status = 0;
@@ -6832,7 +6832,7 @@ Car_BC::Car_BC()
     field_78_flags = 0;
     this->field_0_attachments.DestroyAllSprites_5A7010();
     ClearHorn_421460();
-    field_80_bAbandoned = 0;
+    field_80_abandoned = 0;
     field_A0_car_kind = 0;
     field_8D_car_thread_flags = 0;
     field_70_exploder_ped_id = 0;
