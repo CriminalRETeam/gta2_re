@@ -250,7 +250,7 @@ class Car_6C
         }
     }
 
-    // As SpawnCarAtCorrectZ_426E40 but with the scale passed in (Car_14::SpawnTrafficCar_582480 passes its own kFpOne_6FF778)
+    // As SpawnCarAtCorrectZ_426E40 but with the scale passed in (TrafficSpawner_14::SpawnTrafficCar_582480 passes its own kFpOne_6FF778)
     inline Car_BC* SpawnCarAtCorrectZ_WithScale(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_model, const Fix16& scale)
     {
         if (car_model == car_model_enum::TRAIN || car_model == car_model_enum::TRAINCAB || car_model == car_model_enum::TRAINFB ||
@@ -1444,10 +1444,10 @@ class TrailerPool
     PoolBasic<Trailer, 10> field_0_pool;
 };
 
-struct Car_14
+struct TrafficSpawner_14
 {
-    EXPORT Car_14();
-    EXPORT ~Car_14();
+    EXPORT TrafficSpawner_14();
+    EXPORT ~TrafficSpawner_14();
     EXPORT char IsInsideCameraEdge_582360(int direction, Fix16 x, Fix16 y);
     EXPORT void MakeTrafficForCurrCamera_5832C0();
     EXPORT char_type SpawnTrafficCarFacing_583260(s32 angle_face);
@@ -1479,7 +1479,7 @@ EXTERN_GLOBAL(Sprite*, gSprite_6F61E8);
 
 EXTERN_GLOBAL(TrailerPool*, gTrailerPool_66AC80);
 
-EXTERN_GLOBAL(Car_14*, gCar_14_677934);
+EXTERN_GLOBAL(TrafficSpawner_14*, gTrafficSpawner_14_677934);
 
 EXTERN_GLOBAL(char_type, gbRngRemapTableDone_679C0A);
 

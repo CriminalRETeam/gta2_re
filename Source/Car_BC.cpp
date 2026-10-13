@@ -53,7 +53,7 @@ DEFINE_GLOBAL(Fix16_Point, gTrailerHitchOffset_66AAC8, 0x66AAC8);
 DEFINE_GLOBAL(Fix16_Point, gTrailerCabOffset_66AAE0, 0x66AAE0);
 DEFINE_GLOBAL_INIT(Ang16, word_66A9C8, Ang16(360), 0x66A9C8);
 DEFINE_GLOBAL_INIT(Ang16, word_66AABC, Ang16(1080), 0x66AABC);
-DEFINE_GLOBAL(Car_14*, gCar_14_677934, 0x677934);
+DEFINE_GLOBAL(TrafficSpawner_14*, gTrafficSpawner_14_677934, 0x677934);
 DEFINE_GLOBAL_INIT(Fix16, kFpOneAndHalf_6772AC, Fix16(0x6000, 0), 0x6772AC);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6FF70C, Fix16(0x1999, 0), 0x6FF70C);
@@ -1599,7 +1599,7 @@ void Car_6C::CarsService_446790()
 
     gCar_BC_Pool_67792C->field_0_pool.UpdatePool();
 
-    gCar_14_677934->GenerateTraffic_583670();
+    gTrafficSpawner_14_677934->GenerateTraffic_583670();
 
     if (field_54_spawn_block > 0)
     {
@@ -1680,10 +1680,10 @@ Car_6C::Car_6C()
         }
     }
 
-    if (!gCar_14_677934)
+    if (!gTrafficSpawner_14_677934)
     {
-        gCar_14_677934 = new Car_14();
-        if (!gCar_14_677934)
+        gTrafficSpawner_14_677934 = new TrafficSpawner_14();
+        if (!gTrafficSpawner_14_677934)
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8329);
         }
@@ -1771,9 +1771,9 @@ Car_6C::~Car_6C()
         GTA2_DELETE_AND_NULL(gCarPhysicsPool_6FE3E0);
     }
 
-    if (gCar_14_677934)
+    if (gTrafficSpawner_14_677934)
     {
-        GTA2_DELETE_AND_NULL(gCar_14_677934);
+        GTA2_DELETE_AND_NULL(gTrafficSpawner_14_677934);
     }
 
     if (gCarAI_78_Pool_677CF8)
@@ -7115,7 +7115,7 @@ void ResetTrafficSpawnGlobals_5822E0()
 }
 
 MATCH_FUNC(0x582310)
-Car_14::Car_14()
+TrafficSpawner_14::TrafficSpawner_14()
 {
     field_9_traffic_car_model = 0;
     field_A_unused = 0;
@@ -7128,7 +7128,7 @@ Car_14::Car_14()
 }
 
 MATCH_FUNC(0x582340)
-Car_14::~Car_14()
+TrafficSpawner_14::~TrafficSpawner_14()
 {
     delete field_4_rect;
     field_4_rect = NULL;
@@ -7138,7 +7138,7 @@ Car_14::~Car_14()
 }
 
 MATCH_FUNC(0x582360)
-char Car_14::IsInsideCameraEdge_582360(int direction, Fix16 x, Fix16 y)
+char TrafficSpawner_14::IsInsideCameraEdge_582360(int direction, Fix16 x, Fix16 y)
 {
     switch (direction)
     {
@@ -7182,7 +7182,7 @@ char Car_14::IsInsideCameraEdge_582360(int direction, Fix16 x, Fix16 y)
 
 // 9.6f 0x4B4A60
 MATCH_FUNC(0x5832C0)
-void Car_14::MakeTrafficForCurrCamera_5832C0()
+void TrafficSpawner_14::MakeTrafficForCurrCamera_5832C0()
 {
     Fix16 w;
 
@@ -7267,7 +7267,7 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
                 this->field_8_spawn_side = 0;
                 if (!SpawnTrafficCar_582480(3, 4, 0) &&
                     (gPolice_7B8_6FEE40->field_654_max_wanted_level >= 3 || !(u8)maybe_vel || !SpawnTrafficCarFacing_583260(angleFace)) &&
-                    !SpawnTrafficCar_582480(1, 2, 0) && !Car_14::SpawnTrafficCar_582480(2, 1, 0))
+                    !SpawnTrafficCar_582480(1, 2, 0) && !TrafficSpawner_14::SpawnTrafficCar_582480(2, 1, 0))
                 {
                     SpawnTrafficCar_582480(4, 3, 0);
                 }
@@ -7289,7 +7289,7 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
 }
 
 MATCH_FUNC(0x583260)
-char_type Car_14::SpawnTrafficCarFacing_583260(s32 angle_face)
+char_type TrafficSpawner_14::SpawnTrafficCarFacing_583260(s32 angle_face)
 {
     switch (angle_face)
     {
@@ -7307,7 +7307,7 @@ char_type Car_14::SpawnTrafficCarFacing_583260(s32 angle_face)
 
 // 9.6f: the y read is Ped::get_cam_y (0x403A10, inlined, using it changes the code)
 MATCH_FUNC(0x583670)
-void Car_14::GenerateTraffic_583670()
+void TrafficSpawner_14::GenerateTraffic_583670()
 {
     if (!bSkip_recycling_67D575)
     {
@@ -7323,7 +7323,7 @@ void Car_14::GenerateTraffic_583670()
         {
             if (field_0_cam->has_camera_car_or_ped_433E90())
             {
-                Car_14::MakeTrafficForCurrCamera_5832C0();
+                TrafficSpawner_14::MakeTrafficForCurrCamera_5832C0();
             }
             field_0_cam = gGame_0x40_67E008->IterateNextPlayerCamera_4B9C50();
 
@@ -7353,7 +7353,7 @@ void Car_14::GenerateTraffic_583670()
 }
 
 MATCH_FUNC(0x583750)
-Fix16 Car_14::GetRandomTrafficSpeed_583750(Fix16 max_speed, u8* pOut)
+Fix16 TrafficSpawner_14::GetRandomTrafficSpeed_583750(Fix16 max_speed, u8* pOut)
 {
 
     Fix16 roll;
@@ -7395,7 +7395,7 @@ Fix16 Car_14::GetRandomTrafficSpeed_583750(Fix16 max_speed, u8* pOut)
 
 // 9.6f 0x4B34E0
 MATCH_FUNC(0x582480)
-char_type Car_14::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direction, s32 blocked_direction)
+char_type TrafficSpawner_14::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direction, s32 blocked_direction)
 {
     char_type x_step = 0;
     char_type y_step = 0;
@@ -7868,7 +7868,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direction, s3
 }
 
 MATCH_FUNC(0x583870)
-char_type Car_14::IsFlatRoadAt_583870(Fix16 xpos, Fix16 ypos)
+char_type TrafficSpawner_14::IsFlatRoadAt_583870(Fix16 xpos, Fix16 ypos)
 {
     if (xpos > kFpZero_6FF774 && ypos > kFpZero_6FF774 && xpos < kFp255_6FF558 && ypos < kFp255_6FF558)
     {
@@ -7894,7 +7894,7 @@ char_type Car_14::IsFlatRoadAt_583870(Fix16 xpos, Fix16 ypos)
 }
 
 MATCH_FUNC(0x5838E0)
-s32 Car_14::GetLaneOffset_5838E0(u8 lane_idx)
+s32 TrafficSpawner_14::GetLaneOffset_5838E0(u8 lane_idx)
 {
     switch (lane_idx)
     {
@@ -7911,7 +7911,7 @@ s32 Car_14::GetLaneOffset_5838E0(u8 lane_idx)
 }
 
 MATCH_FUNC(0x583930)
-char_type Car_14::ResolveSpawnDirection_583930(char_type a1, char_type a2)
+char_type TrafficSpawner_14::ResolveSpawnDirection_583930(char_type a1, char_type a2)
 {
     if (a2 == 3)
     {

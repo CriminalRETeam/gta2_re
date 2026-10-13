@@ -244,7 +244,7 @@ Which copy survives a tail merge can depend on how the copies are reached: VC6 m
 tail into the earlier copy when the later ones were jump targets (else branches), into the later one
 when they were fall-through (`ManageTrafficCarDirection_448CE0`, the `ClearSteeringIfTurning_4538B0` path). Not universal.
 
-More on which copy survives (from `Car_14::SpawnTrafficCar_582480`): when one of two identical tails is a whole
+More on which copy survives (from `TrafficSpawner_14::SpawnTrafficCar_582480`): when one of two identical tails is a whole
 block starting at a label (an else arm), that copy is dropped and its label retargeted into the other one,
 wherever they are; with both whole, the later copy survives.
 
@@ -254,7 +254,7 @@ ret; jmp tail`). With `break` VC6 keeps the west copy (the last, the one falling
 and jumps the others into it; the original keeps the north copy (the first). Ending every case with `goto tail;`
 (the label on the first statement after the switch, which is where `break` goes anyway) keeps the first copy and
 gave the original's layout in both of its switches (150 -> 16). The same `goto` changed nothing in
-`Car_14::SpawnTrafficCar_582480` (two else-arm copies, no `default: return;` in that switch) or for the two
+`TrafficSpawner_14::SpawnTrafficCar_582480` (two else-arm copies, no `default: return;` in that switch) or for the two
 `SetGoStraight(); return;` tails of `CarAI_78::FollowRoadDirection_44A1F0`, so it is not a general "keep the first copy" switch.
 
 Merging is of the final machine code, so a block that would merge can be kept apart by its exit. In
@@ -728,7 +728,7 @@ doesn't (`Car_BC::IsSwatVanOrBankVan_403BC0` in `PedGroup::CoordinateGroupCarEnt
 (`UpdateCarEngineAudio_57E220`, 6 -> 1 diff lines). With `field_28_distance = 0;` VC6 can't hoist
 the following `mov ecx, esi` or a constant load above the neighbouring stores; `.mValue = 0` or
 `= Fix16(0, 0)` removes the barrier. `operator=` on a dead local is not a barrier. By-value Fix16 returns assigned through
-`operator=` on a named local give the ecx return slot + `mov eax,ecx` (`Car_14::GetRandomTrafficSpeed_583750`).
+`operator=` on a named local give the ecx return slot + `mov eax,ecx` (`TrafficSpawner_14::GetRandomTrafficSpeed_583750`).
 
 **Pick the GetLength variant from the call targets.** Resolve the calls in the og csv: one
 variant has out-of-line Negate/Abs/Multiply for x*x and inline y*y (`CarPhysics_B0::ScarePedsOnDrivingFast_559C30`).
@@ -2263,7 +2263,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   `Ped::RobbedDriver_AI_461630` (310 -> 50) and `SpawnPedestrianAt_46E380`.
 - **`T x; x = Fix16(...)` vs `T x(...)`** for locals built from float conversions changed the register
   allocation of the whole function (`Sprite::ShowId_59EB30`, 463 -> 74). Declaring a variable at the top and
-  assigning it later also kept a value in one register across a loop (`Car_14::SpawnTrafficCar_582480`,
+  assigning it later also kept a value in one register across a loop (`TrafficSpawner_14::SpawnTrafficCar_582480`,
   1805 -> 467).
 - **Helpers that 9.6f writes out were not inline functions.** 9.6f (`/Ob0`) shows real calls for real
   helpers; plain code there means plain code in the source. Turning such code into inline helpers spends
@@ -2715,7 +2715,7 @@ tried are in the WIP status report.
 - A compare scheduled before a volatile load instead of after it (`cmp $0xF,%al` in
   `sound_obj::ProcessPoliceRadioWordsPlayback_427220`).
 - A store scheduled before the `lea` of an out pointer rather than after it
-  (`sound_obj::InterrogateAudioEntities_41A730`). In `Car_14::GetRandomTrafficSpeed_583750` it went away
+  (`sound_obj::InterrogateAudioEntities_41A730`). In `TrafficSpawner_14::GetRandomTrafficSpeed_583750` it went away
   once each branch only set lo, hi and the random factor and one shared `*pRet = lo + t*(hi-lo)` ended the
   function; the final sum is still in `ecx` instead of `eax` there.
 - A `switch` that clobbers its value (`add $-39,%eax`) and reloads the parameter for

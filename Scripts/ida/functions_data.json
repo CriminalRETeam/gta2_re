@@ -15487,58 +15487,58 @@
         "v105_address": "0x5822e0"
     },
     {
-        "name": "Car_14::ctor",
+        "name": "TrafficSpawner_14::ctor",
         "v96f_address": "0x4B3490",
         "v105_address": "0x582310"
     },
     {
-        "name": "Car_14::dtor",
+        "name": "TrafficSpawner_14::dtor",
         "v96f_address": "0x4b3020",
         "v105_address": "0x582340"
     },
     {
-        "name": "Car_14::IsInsideCameraEdge_582360",
+        "name": "TrafficSpawner_14::IsInsideCameraEdge_582360",
         "v96f_address": "0x4b3150",
         "v105_address": "0x582360"
     },
     {
-        "name": "Car_14::SpawnTrafficCar_582480",
+        "name": "TrafficSpawner_14::SpawnTrafficCar_582480",
         "v96f_address": "0x4b34e0",
         "v105_address": "0x582480",
         "v96f_auto": true
     },
     {
-        "name": "Car_14::SpawnTrafficCarFacing_583260",
+        "name": "TrafficSpawner_14::SpawnTrafficCarFacing_583260",
         "v96f_address": "0x4B4A00",
         "v105_address": "0x583260"
     },
     {
-        "name": "Car_14::MakeTrafficForCurrCamera_5832C0",
+        "name": "TrafficSpawner_14::MakeTrafficForCurrCamera_5832C0",
         "v96f_address": "0x4B4A60",
         "v105_address": "0x5832c0"
     },
     {
-        "name": "Car_14::GenerateTraffic_583670",
+        "name": "TrafficSpawner_14::GenerateTraffic_583670",
         "v96f_address": "0x4B4E60",
         "v105_address": "0x583670"
     },
     {
-        "name": "Car_14::GetRandomTrafficSpeed_583750",
+        "name": "TrafficSpawner_14::GetRandomTrafficSpeed_583750",
         "v96f_address": null,
         "v105_address": "0x583750"
     },
     {
-        "name": "Car_14::IsFlatRoadAt_583870",
+        "name": "TrafficSpawner_14::IsFlatRoadAt_583870",
         "v96f_address": null,
         "v105_address": "0x583870"
     },
     {
-        "name": "Car_14::GetLaneOffset_5838E0",
+        "name": "TrafficSpawner_14::GetLaneOffset_5838E0",
         "v96f_address": null,
         "v105_address": "0x5838e0"
     },
     {
-        "name": "Car_14::ResolveSpawnDirection_583930",
+        "name": "TrafficSpawner_14::ResolveSpawnDirection_583930",
         "v96f_address": null,
         "v105_address": "0x583930"
     },
