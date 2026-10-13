@@ -559,7 +559,7 @@ void sound_obj::ProcessCar_412B80(Sound_Params_8* pParams)
     Car_BC* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
     if (pCar)
     {
-        pParams->field_4_bDrivenByPlayer = pCar->is_driven_by_player();
+        pParams->field_4_bDrivenByPlayer = pCar->IsDrivenByPlayer_4118D0();
 
         SoundPosEntry_C* pAlloc = field_147C_audio_entities[field_30_sQueueSample.field_0_EntityIndex].field_8_pAlloc;
         if (pAlloc)
@@ -1922,7 +1922,7 @@ void sound_obj::HandleCarAlarmSound_415570(Sound_Params_8* pParams, SoundPosEntr
     Car_BC* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
     if (pCar->IsFireTruck_4118F0() || !pCar->HasEmergencyLights_414F20() || !pCar->AreEmergencyLightsOn_414F80())
     {
-        if (!pCar->IsFireTruck_4118F0() && !pCar->IsTank_411900() && !pCar->IsGunJeep_411910() || !pCar->get_B8_4119F0())
+        if (!pCar->IsFireTruck_4118F0() && !pCar->IsTank_411900() && !pCar->IsGunJeep_411910() || !pCar->IsTurretRotated_4119F0())
         {
             if (pParams->field_0_pObj->field_8_car_bc_ptr->IsEmittingHorn_411970())
             {
@@ -2330,7 +2330,7 @@ MATCH_FUNC(0x4178C0)
 void sound_obj::HandleSirenActivationSound_4178C0(Sound_Params_8* pParams)
 {
     Car_BC* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
-    if ((pCar->HasEmergencyInfoFlag() || pCar->is_FBI_car_411920()) && (pCar->field_A4_bf.bEmergencyLights))
+    if ((pCar->HasEmergencyInfoFlag() || pCar->IsFbiCar_411920()) && (pCar->field_A4_bf.bEmergencyLights))
     {
         Car_BC* pCar_ = pParams->field_0_pObj->field_8_car_bc_ptr;
         if (pCar_->field_9C_engine_status == car_engine_status::on_3)
@@ -4009,7 +4009,7 @@ void sound_obj::InterrogateAudioEntities_41A730()
             if (field_16C_car != NULL)
             {
                 field_16C_car->GetXYZ_416B80(&field_1468_listener_x, &field_146C_listener_y, &field_1470_listener_z);
-                field_1474_rotation = field_16C_car->get_car_rotation_416BB0();
+                field_1474_rotation = field_16C_car->GetCarRotation_416BB0();
             }
             else
             {

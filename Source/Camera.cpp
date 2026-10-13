@@ -226,7 +226,7 @@ Ang16 Camera_0xBC::ComputeTargetFacingAngle_4358D0()
         Car_BC* field_16C_car = field_34_ped->get_car_416B60();
         if (field_16C_car)
         {
-            CarRotation = field_16C_car->get_car_rotation_416BB0();
+            CarRotation = field_16C_car->GetCarRotation_416BB0();
             CarPhysics_B0* pCarPhysics = field_16C_car->field_58_physics;
 
             if (pCarPhysics && pCarPhysics->is_backward_gas_on_411810())
@@ -250,7 +250,7 @@ Ang16 Camera_0xBC::ComputeTargetFacingAngle_4358D0()
     {
         if (field_38_car)
         {
-            CarRotation = field_38_car->get_car_rotation_416BB0();
+            CarRotation = field_38_car->GetCarRotation_416BB0();
             CarPhysics_B0* pCarPhysics = field_38_car->field_58_physics;
 
             if (pCarPhysics && pCarPhysics->is_backward_gas_on_411810())
@@ -307,7 +307,7 @@ void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, F
     }
     else
     {
-        vel = pCar->get_linvel_43A450() * dword_67696C;
+        vel = pCar->GetLinearVelocity_43A450() * dword_67696C;
         speed = vel.GetLength_41E260();
     }
 
@@ -329,7 +329,7 @@ void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, F
                 dist = Fix16(180);
             }
 
-            if (pCar->is_trailer_cab_41E460())
+            if (pCar->IsTrailerCab_41E460())
             {
                 dist *= dword_6768E0;
             }
@@ -595,11 +595,11 @@ void Camera_0xBC::UpdateFollowCarCamera_4364A0(Car_BC* pCar)
     if (pCar)
     {
         Fix16 new_x;
-        new_x = pCar->get_x_41E430();
+        new_x = pCar->GetX_41E430();
         Fix16 new_y;
-        new_y = pCar->get_y_41E440();
+        new_y = pCar->GetY_41E440();
         Fix16 new_z;
-        new_z = Max_41E130(pCar->get_z_41E450() - kTwo_676820, kOne_67681C);
+        new_z = Max_41E130(pCar->GetZ_41E450() - kTwo_676820, kOne_67681C);
         Fix16 zoom = kDefaultZoom_6766D4;
 
         AccumulateSuspicionOnDriver_435F90(pCar);
@@ -636,9 +636,9 @@ void Camera_0xBC::UpdateFollowPedCamera_436540(Ped* pPed)
         }
         else
         {
-            xpos = pCar_2->get_x_41E430();
-            ypos = pCar_2->get_y_41E440();
-            zpos = Max_41E130(pCar_2->get_z_41E450() - kTwo_676820, kOne_67681C);
+            xpos = pCar_2->GetX_41E430();
+            ypos = pCar_2->GetY_41E440();
+            zpos = Max_41E130(pCar_2->GetZ_41E450() - kTwo_676820, kOne_67681C);
             zposToUse = zpos;
             Camera_0xBC::AccumulateSuspicionOnDriver_435F90(pCar_2);
             Camera_0xBC::ApplyCarVelocityCameraOffset_436200(pCar_2, &xpos, &ypos, &zposToUse);

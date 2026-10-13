@@ -740,9 +740,9 @@ Already in `Source/` with a marker, but also dead (kept, listed for reference):
 | Address | Size | Name | Referenced from |
 |---|---|---|---|
 | 0x407BD0 | 266 | `Trailer::sub_407BD0` | (nothing) |
-| 0x43A1F0 | 18 | `Car_BC::is_bus_43A1F0` | (nothing) |
+| 0x43A1F0 | 18 | `Car_BC::IsBus_43A1F0` | (nothing) |
 | 0x43B420 | 285 | `Car_BC::GetDoorWorldPos_43B420` | (nothing) |
-| 0x441600 | 203 | `Car_BC::NoRefs_441600` | (nothing) |
+| 0x441600 | 203 | `Car_BC::GetOrientedHalfExtentsRect_441600` | (nothing) |
 | 0x454A50 | 38 | `CarInfo_808::Reload_454A50` | (nothing) |
 | 0x477BA0 | 40 | `SpriteGrid_400::DebugLogAll_477BA0` | (nothing) |
 | 0x478950 | 157 | `SpriteGrid_400::DebugLog_478950` | 0x477BA0 |

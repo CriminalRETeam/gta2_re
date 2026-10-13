@@ -782,8 +782,8 @@ void PlayerScoreTracker_36C::AwardCarDestroyedScore_592DD0(Car_BC* pCar, Ped* pK
 
     s32 cur_rng = gpRng_67AB34->get_cur_rng_41CFE0();
     if (pCar->IsFireTruck_4118F0() || pCar->IsCopCar_421790() ||
-        pCar->IsMediCar() || pCar->IsSwatVan_4217A0() ||
-        pCar->is_FBI_car_411920())
+        pCar->IsMediCar_421780() || pCar->IsSwatVan_4217A0() ||
+        pCar->IsFbiCar_411920())
     {
 
         if ((unsigned int)(gpRng_67AB34->get_cur_rng_41CFE0() - field_1A0_last_emergency_car_kill_time) > 150)
@@ -823,9 +823,9 @@ void PlayerScoreTracker_36C::AwardCarDestroyedScore_592DD0(Car_BC* pCar, Ped* pK
         {
             if (field_368_player->IsUser_41DC70())
             {
-                gExplodingScorePool->PushScore_596890(pCar->get_x_41E430(),
-                                                       pCar->get_y_41E440(),
-                                                       pCar->get_z_41E450(),
+                gExplodingScorePool->PushScore_596890(pCar->GetX_41E430(),
+                                                       pCar->GetY_41E440(),
+                                                       pCar->GetZ_41E450(),
                                                        multiplier * kill_car_score);
             }
         }
@@ -883,9 +883,9 @@ void PlayerScoreTracker_36C::AwardCarDamageScore_593030(Car_BC* pCar, s16 damage
             {
                 if (this->field_368_player->IsUser_41DC70())
                 {
-                    gExplodingScorePool->PushScore_596890(pCar->get_x_41E430(),
-                                                           pCar->get_y_41E440(),
-                                                           pCar->get_z_41E450(),
+                    gExplodingScorePool->PushScore_596890(pCar->GetX_41E430(),
+                                                           pCar->GetY_41E440(),
+                                                           pCar->GetZ_41E450(),
                                                            multiplier * base_score);
                 }
             }
@@ -954,9 +954,9 @@ void PlayerScoreTracker_36C::AwardCarHijackedScore_593240(Car_BC* pCar)
     const s32 base_score = GetCarScoreValue_5925B0(pCar->field_84_car_info_idx, car_score_tier::hijacked_0);
     if (!bExplodingScoresOff_67D4FB && field_368_player->IsUser_41DC70())
     {
-        gExplodingScorePool->PushScore_596890(pCar->get_x_41E430(),
-                                               pCar->get_y_41E440(),
-                                               pCar->get_z_41E450(),
+        gExplodingScorePool->PushScore_596890(pCar->GetX_41E430(),
+                                               pCar->GetY_41E440(),
+                                               pCar->GetZ_41E450(),
                                                multiplier * base_score);
     }
     field_368_player->AddScore_41DC40(base_score);
@@ -970,9 +970,9 @@ void PlayerScoreTracker_36C::AwardBusStolenScore_593370(Car_BC* pCar)
 {
     if (!bExplodingScoresOff_67D4FB && field_368_player->IsUser_41DC70())
     {
-        gExplodingScorePool->PushScore_596890(pCar->get_x_41E430(),
-                                               pCar->get_y_41E440(),
-                                               pCar->get_z_41E450(),
+        gExplodingScorePool->PushScore_596890(pCar->GetX_41E430(),
+                                               pCar->GetY_41E440(),
+                                               pCar->GetZ_41E450(),
                                                field_368_player->get_multiplier_4766A0() * 10);
     }
 
@@ -988,9 +988,9 @@ void PlayerScoreTracker_36C::AwardFullBusDestroyedScore_593410(Car_BC* pCar)
     {
         if (field_368_player->IsUser_41DC70())
         {
-            gExplodingScorePool->PushScore_596890(pCar->get_x_41E430(),
-                                                   pCar->get_y_41E440(),
-                                                   pCar->get_z_41E450(),
+            gExplodingScorePool->PushScore_596890(pCar->GetX_41E430(),
+                                                   pCar->GetY_41E440(),
+                                                   pCar->GetZ_41E450(),
                                                    multiplier * 100);
         }
     }

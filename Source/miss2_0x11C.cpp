@@ -746,7 +746,7 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE2_5045D0(SCR_THREAD* pThread, s16* pThrea
     if (pParam1->field_8_char && pParam2->field_8_car)
     {
         gScriptManager_6F8060->AddCarThread_5128D0(pParam1->field_8_char->get_id(), pParam2->field_8_car->field_6C_car_id, *pThreadIdx);
-        pParam2->field_8_car->SetField8DBit1_476360();
+        pParam2->field_8_car->SetCarThreadPending_476360();
     }
 }
 
@@ -2178,7 +2178,7 @@ void miss2_0x11C::SCRCMD_MAKE_CAR_DUMMY_508220()
 
     if (pPointer->field_8_car != NULL)
     {
-        if (!pPointer->field_8_car->get_driver_4118B0())
+        if (!pPointer->field_8_car->GetDriver_4118B0())
         {
             pPointer->field_8_car->SpawnDriverPed();
         }
@@ -3852,7 +3852,7 @@ void miss2_0x11C::SCRCMD_GIVE_DRIVER_BRAKE_50B600()
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     if (pPointer->field_8_car)
     {
-        if (pPointer->field_8_car->get_driver_4118B0() == NULL)
+        if (pPointer->field_8_car->GetDriver_4118B0() == NULL)
         {
             pPointer->field_8_car->SpawnDriverPed();
         }
@@ -4297,7 +4297,7 @@ void miss2_0x11C::SCRCMD_IS_TRAILER_ATT_50C0E0()
     {
         pCar = pParam1->field_8_car;
 
-        if (pCar->is_on_trailer_421720() || pParam1->field_8_car->is_trailer_cab_41E460())
+        if (pCar->IsOnTrailer_421720() || pParam1->field_8_car->IsTrailerCab_41E460())
         {
             field_8_cond_result = true;
         }
@@ -5786,7 +5786,7 @@ void miss2_0x11C::SCRCMD_PUT_CAR_ON_TRAILER_50E900()
     Car_BC* pDstCar = pDstCarPointer->field_8_car;
     if (pDstCar->field_88_despawn_status != car_despawn_status::despawned_6)
     {
-        if (pDstCar->is_trailer_cab_41E460())
+        if (pDstCar->IsTrailerCab_41E460())
         {
             // put car on the trailer attached to the truck cab
             pDstCar->GetSprite_440840()->DispatchCollisionEvent_5A3100(pCarPointer->field_8_car->field_50_car_sprite,

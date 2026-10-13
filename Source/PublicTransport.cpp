@@ -201,7 +201,7 @@ void Train_58::ReassignTrainHead_578030()
         }
 
         Car_BC* pHead = this->field_C_carriages[0];
-        if (pHead->is_driven_by_player())
+        if (pHead->IsDrivenByPlayer_4118D0())
         {
             pHead->field_58_physics->SetField8C_to_2();
         }
@@ -1329,7 +1329,7 @@ void PublicTransport_181C::BusesService_579CA0()
         {
             if (!field_17C0_bus.field_0)
             {
-                if (field_17C0_bus.field_C_carriages[0]->is_driven_by_player())
+                if (field_17C0_bus.field_C_carriages[0]->IsDrivenByPlayer_4118D0())
                 {
                     field_17C0_bus.field_0 = 1;
                     pBusCar->field_54_driver->field_15C_player->field_2D4_scores.AwardBusStolenScore_593370(pBusCar);
@@ -1348,7 +1348,7 @@ void PublicTransport_181C::BusesService_579CA0()
             }
             else
             {
-                if (!field_17C0_bus.field_C_carriages[0]->is_driven_by_player())
+                if (!field_17C0_bus.field_C_carriages[0]->IsDrivenByPlayer_4118D0())
                 {
                     if (pBusCar->field_54_driver)
                     {
@@ -1371,7 +1371,7 @@ void PublicTransport_181C::BusesService_579CA0()
                 }
             }
 
-            if (field_17C0_bus.field_C_carriages[0]->Get_F76_4A9AD0() > 200)
+            if (field_17C0_bus.field_C_carriages[0]->GetLastSeenTimer_4A9AD0() > 200)
             {
                 field_17C0_bus.field_C_carriages[0]->MarkForDespawn_421470();
                 field_17C0_bus.field_C_carriages[0] = 0;
@@ -1488,7 +1488,7 @@ void PublicTransport_181C::PublicTransportService_57A7A0()
 
             pTrain->ProcessTrainExplosionChain_578670();
             Car_BC* pCar = pTrain->field_C_carriages[0];
-            if (pCar->is_driven_by_player())
+            if (pCar->IsDrivenByPlayer_4118D0())
             {
                 if (!pTrain->field_C_carriages[0]->field_54_driver)
                 {

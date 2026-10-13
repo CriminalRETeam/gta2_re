@@ -1652,23 +1652,23 @@
         "v105_address": "0x439fb0"
     },
     {
-        "name": "Car_BC::get_rear_wheel_offset_43A0E0",
+        "name": "Car_BC::GetRearWheelOffset_43A0E0",
         "v96f_address": null,
         "v105_address": "0x43a0e0"
     },
     {
-        "name": "Car_BC::get_mass_43A120",
+        "name": "Car_BC::GetMass_43A120",
         "v96f_address": "0x421cf0",
         "v105_address": "0x43a120"
     },
     {
-        "name": "Car_BC::get_anti_strngth_43A1D0",
+        "name": "Car_BC::GetAntiStrength_43A1D0",
         "v96f_address": "0x41f730",
         "v105_address": "0x43a1d0",
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::is_bus_43A1F0",
+        "name": "Car_BC::IsBus_43A1F0",
         "v96f_address": null,
         "v105_address": "0x43a1f0"
     },
@@ -1694,7 +1694,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::get_linvel_43A450",
+        "name": "Car_BC::GetLinearVelocity_43A450",
         "v96f_address": "0x421e70",
         "v105_address": "0x43a450",
         "v96f_auto": true
@@ -1755,7 +1755,7 @@
         "v105_address": "0x43a850"
     },
     {
-        "name": "Car_BC::DoBreak_43A950",
+        "name": "Car_BC::DoBrake_43A950",
         "v96f_address": null,
         "v105_address": "0x43a950"
     },
@@ -2304,7 +2304,7 @@
         "v105_address": "0x4415c0"
     },
     {
-        "name": "Car_BC::NoRefs_441600",
+        "name": "Car_BC::GetOrientedHalfExtentsRect_441600",
         "v96f_address": null,
         "v105_address": "0x441600"
     },
@@ -2546,7 +2546,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Car_BC::get_car_weapon_cost_443A50",
+        "name": "Car_BC::GetCarWeaponCost_443A50",
         "v96f_address": "0x41f7d0",
         "v105_address": "0x443a50",
         "v96f_auto": true

@@ -1160,7 +1160,7 @@ void Sprite::Draw_59EFF0()
             }
             else
             {
-                if (pCar->is_FBI_car_411920()) // line 6a8
+                if (pCar->IsFbiCar_411920()) // line 6a8
                 {
                     pCar->field_8_damaged_areas.SetGlobal1_4BA370();
                 }

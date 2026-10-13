@@ -1462,7 +1462,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 - `Ped::RecruitNearbyPeds_46E080`: 116->56. sub_4204D0 inline stays a comment (worse). Left: z stored in desiredCount's param slot
 - `DoorData_10::Init_49C340`: 116->16 (flip flag is 0x3C00, old source had 0x2C00). Left: v8 stored before the tile load
 - `Frontend::DrawCredits_4B7AE0`: draw_x u16. Left: case 0 jumps into case 1's tail; goto duplicates it
-- `PickUpCar_47F930`: closer (car_info::is_0x10). Left: EH epilogue copied into 3 exits
+- `PickUpCar_47F930`: closer (car_info::IsTrailer). Left: EH epilogue copied into 3 exits
 - `Ped::BusCustomer_AI_461290`: 134->41 (case order 38,35,31,34). Left: whole-function register rotation
 - No change: `571A30` (shared ret block placement), `51F210` (register allocation)
 - Matched: `Sprite::RotatedRectCollisionSAT_5A0380` (inline budget: last point via out-of-line ProjectOntoAxis_5A5AA0/GetNegatedAngle_5A26E0), `Car_BC::UpdateTrainCarriagesOnTrack_4413B0` (logic fix, carriage positions chain), `Object_2C::NewObj3C_528130` (file-local GetLength, block-scoped Ang16 local for the atan2 result)
@@ -2418,7 +2418,7 @@ address order and callee overlap: `PoolUpdate_53D260` -> 0x490760, `UpdateObject
   Duplicating whole case bodies per label is not merged either (392/1026). Same trick as
   `Weapon_30::throwable_5DDFC0`.
 - `Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280` 166 -> 0 (**MATCH**). 9.6f 0x48BEE0 reads the car box
-  through `get_car_width()`/`get_car_height()` (9.6f 0x48A930/0x48A950, `GetWidth_420740`/`GetHeight_447E70` inlines)
+  through `GetCarWidth_48A930()`/`GetCarHeight_48A950()` (9.6f 0x48A930/0x48A950, `GetWidth_420740`/`GetHeight_447E70` inlines)
   instead of `field_50_car_sprite->field_C_pCollisionShape->field_0_width`; with the inlines `this` goes to `edi`
   like the original and `half_w` to `esi` (166 -> 66). Then `u8 sub = ++field_46_sub_state;` (66 -> 0): the copy
   (`dl`) outlives the stored value (`bl`, reused for the angle). With the old register layout the same spelling
@@ -2543,7 +2543,7 @@ Scores are `quick_score.sh` lines (10.5) and `permuter_score.py --96f` lines (VC
 Scores are `permuter_score.py` lines (10.5) and `--96f` lines (9.6f) unless noted.
 - `Ped::BusCustomer_AI_461290` 12 -> 0 (**MATCH**; 9.6f 0x4427E0: 128 -> 14). 9.6f shape: case 38 holds a full
   copy of case 34's "leave bus and flee" block (VC6 tail-merges them), `SetField238_403920` /
-  `set_occupation_403970` / `is_driven_by_player` inlines. The two eax/edx swaps (`field_150` pointer, door byte)
+  `set_occupation_403970` / `IsDrivenByPlayer_4118D0` inlines. The two eax/edx swaps (`field_150` pointer, door byte)
   disappeared with the duplicate block; the merge then kept case 38's copy until case 34 was written as if/else
   (`if (36 && status) { block } else { pCar_ && IsDespawning ... }`): the copy whose block is a jump target is the
   one dropped, so case 38's then-arm copy is the one that jumps forward. Case 31 got its own despawn check
@@ -3233,7 +3233,7 @@ file, so a header could be swapped per variant) without touching `build_vc6/`.
   first expansion's `y*y` (0xC) stays unexplained.
 - `Camera_0xBC::ApplyCarVelocityCameraOffset_436200` (58): `compare_callees_multiset.py` reports a missing
   `ErrorLog::Write_4D9620` call, but mapping every original `call` through the csv shows none (the targets are
-  `Multiply/Add_40866x`, `atan2_fixed_405320`, `Abs_436A50`, `SquareRoot_436A70`, `get_linvel_43A450`,
+  `Multiply/Add_40866x`, `atan2_fixed_405320`, `Abs_436A50`, `SquareRoot_436A70`, `GetLinearVelocity_43A450`,
   `Multiply_438FE0` and the `__all*` helpers), so that report is a tool artefact. 9.6f 0x41EBF0 calls
   `SetFromPolar_41E210` on `offset` by reference and then two `add_40E530`, i.e. our shape. The one dead
   `offset.x` store: `SetFromPolar_41E210` overload (62), the two assignments written out (162), by-value
@@ -3469,7 +3469,7 @@ All 96 WIPs scored, plain and `--structure`; the listed 9.6f partners of the big
 helpers under other names, or plain Fix16/Ang16 operators.
 - **`Weapon_30::fire_truck_gun_5E0E70` (10 -> 0, MATCH).** The flamethrower's shape with the plain
   `RotateByAngle_40F6B0` and `operator+` (171), then `IsTargetHit_41CC70()` for `field_4` (30: the second
-  rotation's negate goes out of line), a `pTurret` local (16), `get_driver_4118B0()` (0 when placed before
+  rotation's negate goes out of line), a `pTurret` local (16), `GetDriver_4118B0()` (0 when placed before
   the flamethrower; the permuter found the getter). In source order the flamethrower's inline `operator+`
   had made the add nothrow, so the flamethrower now calls `Add_40AC50`, with `IsTargetHit_41CC70()` for its own
   budget split. See matching_quirks.md, "Two fire truck guns, one opaque add".

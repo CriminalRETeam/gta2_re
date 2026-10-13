@@ -946,7 +946,7 @@ char_type Particle_4C::UpdateStaticAnim_state_39_53A180()
     return 0;
 }
 
-// 9.6f 0x48BEE0: the car box is read through get_car_width/get_car_height (puts this in edi)
+// 9.6f 0x48BEE0: the car box is read through GetCarWidth_48A930/GetCarHeight_48A950 (puts this in edi)
 MATCH_FUNC(0x53a280)
 char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
 {
@@ -980,13 +980,13 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
         Fix16 half_h;
         if (sub < 4)
         {
-            half_w = pCar->get_car_width() / 2 + dword_6FD3C0;
-            half_h = pCar->get_car_height() / 2 + dword_6FD5A8;
+            half_w = pCar->GetCarWidth_48A930() / 2 + dword_6FD3C0;
+            half_h = pCar->GetCarHeight_48A950() / 2 + dword_6FD5A8;
         }
         else
         {
-            half_w = pCar->get_car_width() / 2 + dword_6FD3C0;
-            half_h = pCar->get_car_height() / 2 + dword_6FD2E8 + dword_6FD554;
+            half_w = pCar->GetCarWidth_48A930() / 2 + dword_6FD3C0;
+            half_h = pCar->GetCarHeight_48A950() / 2 + dword_6FD2E8 + dword_6FD554;
         }
 
         // The rotations are written out (RotateByAngle_OOL_40F6B0 shape): with the helper in both

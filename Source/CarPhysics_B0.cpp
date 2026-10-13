@@ -533,8 +533,8 @@ Fix16_Point CarPhysics_B0::ComputeCombinedCenterOfMass_559EC0()
     {
         Fix16 cab_mass;
         Fix16 trailer_mass;
-        cab_mass = field_5C_pCar->field_64_pTrailer->field_8_truck_cab->get_mass_43A120();
-        trailer_mass = field_5C_pCar->field_64_pTrailer->field_C_pCarOnTrailer->get_mass_43A120();
+        cab_mass = field_5C_pCar->field_64_pTrailer->field_8_truck_cab->GetMass_43A120();
+        trailer_mass = field_5C_pCar->field_64_pTrailer->field_C_pCarOnTrailer->GetMass_43A120();
 
         Fix16 total_mass = trailer_mass + cab_mass;
 
@@ -552,12 +552,12 @@ Fix16 CarPhysics_B0::CalculateMass_559FF0()
 {
     if (field_5C_pCar->field_64_pTrailer)
     {
-        return field_5C_pCar->field_64_pTrailer->field_8_truck_cab->get_mass_43A120() +
-            field_5C_pCar->field_64_pTrailer->field_C_pCarOnTrailer->get_mass_43A120();
+        return field_5C_pCar->field_64_pTrailer->field_8_truck_cab->GetMass_43A120() +
+            field_5C_pCar->field_64_pTrailer->field_C_pCarOnTrailer->GetMass_43A120();
     }
     else
     {
-        return field_5C_pCar->get_mass_43A120();
+        return field_5C_pCar->GetMass_43A120();
     }
 }
 
@@ -591,7 +591,7 @@ u8 CarPhysics_B0::IsInAir_55A0B0()
 MATCH_FUNC(0x55a100)
 Fix16 CarPhysics_B0::GetTrailerAwareTurnRatio_55A100()
 {
-    if (field_5C_pCar->is_trailer_cab_41E460())
+    if (field_5C_pCar->IsTrailerCab_41E460())
     {
         return dword_6FE1B0 * gCarInfo_48_6FE258->field_18_turn_ratio;
     }
@@ -943,7 +943,7 @@ Fix16 CarPhysics_B0::ComputeSlopeCorrection_55AB50(Fix16* pOutY)
 
     Fix16_Point point_to_sub;
     Fix16_Point sub_point;
-    if (field_5C_pCar->is_on_trailer_421720())
+    if (field_5C_pCar->IsOnTrailer_421720())
     {
         point_to_sub = gTrailer_cp1_6FE3A8;
     }
@@ -1836,7 +1836,7 @@ void CarPhysics_B0::UpdateWheelSkidEffects_55DC00()
 
         s32 b_d9C = (field_9C_block_spec == 2 || field_9C_block_spec == 10) ? 2 : 0;
 
-        Fix16 half_width = field_5C_pCar->get_car_width() * dword_6FE004;
+        Fix16 half_width = field_5C_pCar->GetCarWidth_48A930() * dword_6FE004;
         rear_wheel_offset_ = field_5C_pCar->ApplyScale_421910(gCarInfo_2C_6FE0E4->field_8_rear_wheel_offset);
         front_wheel_offset_ = field_5C_pCar->ApplyScale_421910(gCarInfo_2C_6FE0E4->field_4_front_wheel_offset);
 
@@ -2092,7 +2092,7 @@ void CarPhysics_B0::ApplyTurningForce_55F020()
     }
     else
     {
-        if (field_5C_pCar->is_driven_by_player())
+        if (field_5C_pCar->IsDrivenByPlayer_4118D0())
         {
             turn_torque = dword_6FE078;
             turn_force = dword_6FE390;
@@ -2276,7 +2276,7 @@ MATCH_FUNC(0x55f740)
 void CarPhysics_B0::ApplyForceWithTrailerRedirect_55F740(Fix16_Point* pPoint, Fix16_Point* pForce)
 {
 
-    if (field_5C_pCar->is_on_trailer_421720())
+    if (field_5C_pCar->IsOnTrailer_421720())
     {
         CarPhysics_B0* pB0 = field_5C_pCar->field_64_pTrailer->field_8_truck_cab->field_58_physics;
         pB0->SetCurrentCarInfoAndModelPhysics_562EF0();
@@ -2370,7 +2370,7 @@ void CarPhysics_B0::ApplyForceScaledByMass_55F9A0(Fix16_Point& pForce)
 MATCH_FUNC(0x55fa10)
 void CarPhysics_B0::ApplyImpulseWithTrailerRedirect_55FA10(Fix16_Point* pPoint)
 {
-    if (field_5C_pCar->is_on_trailer_421720())
+    if (field_5C_pCar->IsOnTrailer_421720())
     {
         // We are on the trailer so apply impulse to the truck cab instead
         CarPhysics_B0* pPhysics = field_5C_pCar->field_64_pTrailer->field_8_truck_cab->field_58_physics;
@@ -2397,7 +2397,7 @@ Fix16 CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce
 
         if (field_5C_pCar->IsFlagSet_411930(car_flag::Jammed))
         {
-            if (!field_5C_pCar->is_driven_by_player())
+            if (!field_5C_pCar->IsDrivenByPlayer_4118D0())
             {
                 Fix16 MaybeVelocity = get_car_velocity_4211C0();
                 if (MaybeVelocity <= dword_6FE1D4 || field_92_is_hand_brake_on)
@@ -2414,7 +2414,7 @@ Fix16 CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce
             ApplyForceWithTrailerRedirect_55F740(&PointOfForce, &NewImpulse);
             AddDamage_49EF50(base_dmg);
 
-            if (!field_5C_pCar->is_driven_by_player())
+            if (!field_5C_pCar->IsDrivenByPlayer_4118D0())
             {
                 ClearHandBrake_421260();
             }
@@ -2464,7 +2464,7 @@ void CarPhysics_B0::AccumulateImpulse_55FC30(Fix16_Point& point, s32 base_dmg)
             this->field_8_total_damage_q = rng_damage;
         }
 
-        if (!field_5C_pCar->is_driven_by_player())
+        if (!field_5C_pCar->IsDrivenByPlayer_4118D0())
         {
             this->field_92_is_hand_brake_on = 0;
         }
@@ -2568,9 +2568,9 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
         // CanCrushCars_49EFE0 and CanCollideOver_4216E0 with get_car_info_5AA3B0 and the driver check out of line
         // (IsDrivenByNonPlayer_564300)
         pThisCar = field_5C_pCar;
-        if (gGtx_0x106C_703DD4->get_car_info_5AA3B0(pThisCar->field_84_car_info_idx)->is_0x1_41FF00() &&
+        if (gGtx_0x106C_703DD4->get_car_info_5AA3B0(pThisCar->field_84_car_info_idx)->IsHeavy_41FF00() &&
             (pThisCar->IsTank_411900() || !pThisCar->IsDrivenByNonPlayer_564300()) &&
-            !gGtx_0x106C_703DD4->get_car_info_5AA3B0(pOtherCar->field_84_car_info_idx)->is_0x1_41FF00())
+            !gGtx_0x106C_703DD4->get_car_info_5AA3B0(pOtherCar->field_84_car_info_idx)->IsHeavy_41FF00())
         {
             field_5C_pCar->SetCrushFlag_49EFC0();
         }
@@ -2592,9 +2592,9 @@ void CarPhysics_B0::HandleCarCollision_55FF20(Car_BC* pOtherCar)
     // Implement developments of collision with CopCar
     // CanCrushCars_49EFE0 with get_car_info_5AA3B0 called out of line
     pThisCar = field_5C_pCar;
-    if (gGtx_0x106C_703DD4->get_car_info_5AA3B0(pThisCar->field_84_car_info_idx)->is_0x1_41FF00() &&
+    if (gGtx_0x106C_703DD4->get_car_info_5AA3B0(pThisCar->field_84_car_info_idx)->IsHeavy_41FF00() &&
         (pThisCar->IsTank_411900() || !pThisCar->HasNonPlayerDriver_4214F0()) &&
-        !gGtx_0x106C_703DD4->get_car_info_5AA3B0(pOtherCar->field_84_car_info_idx)->is_0x1_41FF00() &&
+        !gGtx_0x106C_703DD4->get_car_info_5AA3B0(pOtherCar->field_84_car_info_idx)->IsHeavy_41FF00() &&
         ImpulseForce.GetLength_all_out_of_line_abs_y_negate_2() > dword_6FDFD8 && GetLinearSpeed_4211A0() > dword_6FE1C4)
     {
         bGreatCollision = true;
@@ -2840,7 +2840,7 @@ void CarPhysics_B0::ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType)
         Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
         if (pTrailer)
         {
-            // is_on_trailer_421720 ?
+            // IsOnTrailer_421720 ?
             Car_BC* pCarOnTrailer = pTrailer->field_C_pCarOnTrailer;
             if (pCarOnTrailer)
             {
@@ -3730,7 +3730,7 @@ bool CarPhysics_B0::ProcessCarPhysicsStateMachine_562FE0()
             flag = ProcessCollisionAndClampVelocity_55F280() | flag;
             flag = CheckPendingCollision_55F360() | flag;
             DoSkidmarks_55E260();
-            if (this->field_5C_pCar->is_driven_by_player())
+            if (this->field_5C_pCar->IsDrivenByPlayer_4118D0())
             {
                 SetField8C_to_2();
             }
@@ -3745,7 +3745,7 @@ bool CarPhysics_B0::ProcessCarPhysicsStateMachine_562FE0()
             flag = ProcessCollisionAndClampVelocity_55F280() | flag;
             flag = CheckPendingCollision_55F360() | flag;
             DoSkidmarks_55E260();
-            if (this->field_5C_pCar->is_driven_by_player())
+            if (this->field_5C_pCar->IsDrivenByPlayer_4118D0())
             {
                 SetField8C_to_2();
             }
@@ -3759,7 +3759,7 @@ bool CarPhysics_B0::ProcessCarPhysicsStateMachine_562FE0()
             StepPhysics_55F330();
             ProcessGroundCollisionAndEmitImpactParticles_55BFE0();
             DoSkidmarks_55E260();
-            if (this->field_5C_pCar->is_driven_by_player())
+            if (this->field_5C_pCar->IsDrivenByPlayer_4118D0())
             {
                 SetField8C_to_2();
             }

@@ -447,7 +447,7 @@ void EmergencyCrew_30::CleanupExpiredEntities_5CC1C0()
     {
         if (this->field_0_car && !field_0_car->IsDespawning_4215B0() && !field_0_car->IsMaxDamage_40F890())
         {
-            if (field_0_car->Get_F76_4A9AD0() > this->field_1A_idle_limit)
+            if (field_0_car->GetLastSeenTimer_4A9AD0() > this->field_1A_idle_limit)
             {
                 field_0_car->MarkForDespawn_421470();
                 bClearRouteAndTryClearOthers = 1;

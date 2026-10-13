@@ -2399,9 +2399,9 @@ void Player::get_pos_569920(Fix16* out_x, Fix16* out_y, Fix16* out_z)
         Car_BC* pCar = pPed->GetCarBeingEnteredOrExited_45BBF0();
         if (pCar)
         {
-            *out_x = pCar->get_x_41E430();
-            *out_y = pCar->get_y_41E440();
-            *out_z = pCar->get_z_41E450();
+            *out_x = pCar->GetX_41E430();
+            *out_y = pCar->GetY_41E440();
+            *out_z = pCar->GetZ_41E450();
         }
         else
         {
@@ -2731,7 +2731,7 @@ void Player::RestoreCarsFromSave_56A0F0()
                                                                 kOne_6FE614);
             AddCarToHistory_5645B0(pNewCar);
             pNewCar->field_8_damaged_areas.m_var = gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_30_damaged_areas[i];
-            pNewCar->set_damage_4A51B0(gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_2A_damage[i]);
+            pNewCar->SetDamage_4A51B0(gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_2A_damage[i]);
         }
     }
     memset(&gGameSave_6F78C8.field_E4_car_and_script_data.field_0, 0, 68u);

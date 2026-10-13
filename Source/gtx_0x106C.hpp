@@ -124,19 +124,19 @@ class car_info
         return num_remaps > 1;
     }
 
-    bool is_0x8_41FEA0() const
+    bool IsTruckCab_41FEA0() const
     {
         return (this->info_flags & car_info_flag::truck_cab) == car_info_flag::truck_cab;
     }
 
-    // Like is_0x8_41FEA0; going through a car_info method keeps the check a plain branch in
+    // Like IsTruckCab_41FEA0; going through a car_info method keeps the check a plain branch in
     // Car_BC::CanBeLiftedByCrane_447F00 (a direct `(flags & 0x10) == 0x10` there gives a sete)
-    bool is_0x10() const
+    bool IsTrailer() const
     {
         return (this->info_flags & car_info_flag::trailer) == car_info_flag::trailer;
     }
 
-    bool is_0x1_41FF00() const
+    bool IsHeavy_41FF00() const
     {
         return (this->info_flags_2 & car_info_flag2::heavy) == car_info_flag2::heavy;
     }

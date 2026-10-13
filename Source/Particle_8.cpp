@@ -204,8 +204,8 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* pSprite)
             // One expression: the original loads the sprite's field_C once for both
             angle = pSprite->field_0_rotation;
             // Two statements: the original computes x before y (SetXY's by-ref arguments go right to left)
-            corner_1.x = pCar->get_car_width() / 2 + dword_6FD3C0;
-            corner_1.y = pCar->get_car_height() / 2 + dword_6FD5A8;
+            corner_1.x = pCar->GetCarWidth_48A930() / 2 + dword_6FD3C0;
+            corner_1.y = pCar->GetCarHeight_48A950() / 2 + dword_6FD5A8;
             corner_1.RotateByAngle_40F6B0(angle);
             corner_1 += pSprite->get_x_y();
 
@@ -232,7 +232,7 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* pSprite)
         pParticle->field_48_timer = 0;
 
         angle = pSprite->field_0_rotation;
-        corner_2.SetXY_432860(-(pCar->get_car_width() / 2 + dword_6FD3C0), pCar->get_car_height() / 2 + dword_6FD5A8);
+        corner_2.SetXY_432860(-(pCar->GetCarWidth_48A930() / 2 + dword_6FD3C0), pCar->GetCarHeight_48A950() / 2 + dword_6FD5A8);
         corner_2.RotateByAngle_40F6B0(angle);
         corner_2 += pSprite->get_x_y();
 

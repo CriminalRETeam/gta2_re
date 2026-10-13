@@ -685,7 +685,7 @@ void CarAI_78::BrakeForBlockedRoadAhead_4482C0()
             --word_677CFC;
         }
 
-        this->field_0_car->DoBreak_43A950();
+        this->field_0_car->DoBrake_43A950();
         this->field_8_maneuver_active = 0;
         this->field_24_bf.bFlag7 = false;
     }
@@ -731,7 +731,7 @@ void CarAI_78::BrakeForBlockedRoadAhead_4482C0()
                     }
                     if (field_70_nearest_entity->field_8_car_bc_ptr->GetCarLinearSpeed_43A240() > kF16Zero_677B90)
                     {
-                        field_0_car->DoBreak_43A950();
+                        field_0_car->DoBrake_43A950();
                     }
                 }
             }
@@ -968,7 +968,7 @@ void CarAI_78::CheckRoadAhead_448770()
                 {
                     if (pNearestSpriteOfType->GetType_416B40() == sprite_types_enum::car_2)
                     {
-                        this->field_0_car->DoBreak_43A950();
+                        this->field_0_car->DoBrake_43A950();
                         this->field_8_maneuver_active = 0;
                         this->field_24_bf.bFlag7 = false;
                     }
@@ -3420,7 +3420,7 @@ void CarAI_78::UpdateStateMachine_44E560()
                     aim_angle = Fix16::atan2_fixed_405320(savedTargetY - gCurrCarAI_ypos_677C30, savedTargetX - gCurrCarAI_xpos_677C38);
                     if (dword_677A8C < dword_677B58)
                     {
-                        field_0_car->DoBreak_43A950();
+                        field_0_car->DoBrake_43A950();
                         pChase->field_2C_side_counter = 0;
                         pChase->field_C_chase_state = car_chase_state::target_stopped_15;
                         return;
@@ -3597,7 +3597,7 @@ void CarAI_78::UpdateStateMachine_44E560()
 
     if (dword_677A8C < dword_677B58)
     {
-        field_0_car->DoBreak_43A950();
+        field_0_car->DoBrake_43A950();
         pChase->field_2C_side_counter = 0;
         pChase->field_C_chase_state = car_chase_state::target_stopped_15;
         return;
@@ -3879,7 +3879,7 @@ void CarAI_78::UpdateStateMachine_44E560()
                     {
                         if (gCurrCarAI_Velocity_677B00 > dword_677A8C + dword_677B5C)
                         {
-                            field_0_car->DoBreak_43A950();
+                            field_0_car->DoBrake_43A950();
                             return;
                         }
                         CarPhysics_B0* pPhysics = this->field_0_car->field_58_physics;
@@ -3900,7 +3900,7 @@ void CarAI_78::UpdateStateMachine_44E560()
                     }
                     else if (gCurrCarAI_Velocity_677B00 > dword_677A8C + dword_677B5C)
                     {
-                        field_0_car->DoBreak_43A950();
+                        field_0_car->DoBrake_43A950();
                     }
                     else
                     {
@@ -3985,7 +3985,7 @@ void CarAI_78::UpdateStateMachine_44E560()
                 {
                     if (gCurrCarAI_Velocity_677B00 > dword_677A8C)
                     {
-                        field_0_car->DoBreak_43A950();
+                        field_0_car->DoBrake_43A950();
                     }
                     else
                     {
@@ -4126,7 +4126,7 @@ void CarAI_78::ReactToNearbyCar_451980()
             else if (field_24_bf.bFlag17)
             {
                 byte_677B3C = 0;
-                field_0_car->DoBreak_43A950();
+                field_0_car->DoBrake_43A950();
             }
             else if (byte_677BBC && gCurrCarAI_TargetCar_6779B0)
             {
@@ -4139,7 +4139,7 @@ void CarAI_78::ReactToNearbyCar_451980()
                     {
                         if (dword_677A8C == kF16Zero_677B90)
                         {
-                            field_0_car->DoBreak_43A950();
+                            field_0_car->DoBrake_43A950();
                         }
                         else if (gCurrCarAI_Velocity_677B00 >= dword_677A8C)
                         {
@@ -4316,7 +4316,7 @@ void CarAI_78::ReactToNearbyCar_451980()
             }
             else
             {
-                field_0_car->DoBreak_43A950();
+                field_0_car->DoBrake_43A950();
             }
         }
     }
@@ -4352,7 +4352,7 @@ void CarAI_78::ReactToNearbyPed_451FF0()
                 field_0_car->TryHonkHorn_4416D0(2);
                 return;
             }
-            field_0_car->DoBreak_43A950();
+            field_0_car->DoBrake_43A950();
             byte_677B3C = 0;
         }
     }
@@ -4535,7 +4535,7 @@ void CarAI_78::ScanAheadForObstacles_452060()
             }
             else
             {
-                field_0_car->DoBreak_43A950();
+                field_0_car->DoBrake_43A950();
             }
         }
         else
@@ -4670,7 +4670,7 @@ void CarAI_78::ScanAheadForObstacles_452060()
         }
         else if (gCurrCarAI_Velocity_677B00 > dword_677B78)
         {
-            field_0_car->DoBreak_43A950();
+            field_0_car->DoBrake_43A950();
         }
         else if (gCurrCarAI_Velocity_677B00 > target_speed)
         {
@@ -5065,7 +5065,7 @@ void CarAI_78::UpdateDriving_453470()
             }
             else
             {
-                field_0_car->DoBreak_43A950();
+                field_0_car->DoBrake_43A950();
             }
             this->field_68_car_in_collision = 0;
             this->field_24_bf.bFlag12 = 0;

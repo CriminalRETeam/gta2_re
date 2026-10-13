@@ -3256,7 +3256,7 @@ void Ped::BusCustomer_AI_461290()
                     gNumberBusCustomers_6787D3 = 0;
                 }
                 Car_BC* pCar = this->field_16C_car;
-                if (pCar->is_driven_by_player())
+                if (pCar->IsDrivenByPlayer_4118D0())
                 {
                     gPublicTransport_181C_6FF1D4->IncrementBusPassengerCount_579B10();
                     SetObjective(objectives_enum::time_waited_in_car_31, 0);
@@ -6718,7 +6718,7 @@ Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
         switch (pNear->GetType_416B40())
         {
             case sprite_types_enum::car_2:
-                return pNear->AsCar_40FEB0()->get_driver_4118B0();
+                return pNear->AsCar_40FEB0()->GetDriver_4118B0();
             case sprite_types_enum::ped_3:
                 return pNear->AsCharB4_40FEA0()->field_7C_pPed;
         }
@@ -8345,7 +8345,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                             pCar->SetDriverPedType_421560(6);
                             pCar->InitCarAIControl_440590();
                             // 9.6f: Car_BC::StartEngine_426E00
-                            pCar->field_9C_engine_status = 3;
+                            pCar->field_9C_engine_status = car_engine_status::on_3;
                             pCar->HeadlightsOn_43BFE0();
                             pCar->HaltAIDriving_43AF60();
                         }
@@ -9894,7 +9894,7 @@ void Ped::EnterCarStateMachine_46BDC0()
             return;
         }
 
-        if (field_154_target_to_enter->get_driver_4118B0())
+        if (field_154_target_to_enter->GetDriver_4118B0())
         {
             if (field_168_game_object->field_6C_animation_state == 6)
             {
@@ -10646,7 +10646,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
             break;
 
         case ped_attack_target_type::car_1: // target is a car
-            zpos = field_154_target_to_enter->get_z_41E450();
+            zpos = field_154_target_to_enter->GetZ_41E450();
             if (field_154_target_to_enter->IsMaxDamage_40F890())
             {
                 bTargetGone = 1;

@@ -5474,7 +5474,7 @@ void Char_B4::state_3_551A00()
         Sprite* nearestSprt = gSpriteGrid_1_679208->FindNearestSpriteOfType_477E60(field_80_sprite_ptr, 0);
         if (!nearestSprt || nearestSprt->GetType_416B40() != sprite_types_enum::car_2 ||
             (nearestSprt->field_8_car_bc_ptr == field_7C_pPed->get_target_to_enter_403B10()) ||
-            nearestSprt->field_8_car_bc_ptr->is_on_trailer_421720() || field_7C_pPed->CloseDoorIfCarApproaching_45BD20(nearestSprt->field_8_car_bc_ptr))
+            nearestSprt->field_8_car_bc_ptr->IsOnTrailer_421720() || field_7C_pPed->CloseDoorIfCarApproaching_45BD20(nearestSprt->field_8_car_bc_ptr))
         {
             if (field_6C_animation_state != Char_Anim_state::Entering_Car_6)
             {

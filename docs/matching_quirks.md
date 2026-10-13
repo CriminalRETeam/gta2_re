@@ -177,7 +177,7 @@ the switch form when the original has the load and `dec`
 **A redundant null test that VC6 doesn't fold.** The original tests the driver twice in a
 row (`cmp %ebx,%ecx; je; cmp %ebx,0x15C(%ecx); je; cmp %ebx,%ecx; jne`). Testing the same
 local twice folds away. Reloading the pointer through another path keeps the second test:
-`if (pCar->is_driven_by_player()) { if (!pTrain->field_C_carriages[0]->field_54_driver) ...`.
+`if (pCar->IsDrivenByPlayer_4118D0()) { if (!pTrain->field_C_carriages[0]->field_54_driver) ...`.
 VC6 CSEs the load into the same register but doesn't thread the branch
 (`PublicTransport_181C::PublicTransportService_57A7A0`).
 
@@ -1157,7 +1157,7 @@ passed. So a function that fills a pointer argument and returns it, with `ret $4
 "argument", is really `T Func()`. Declare it that way. Build the object in the `return`
 statement (`return Fix16_Rect(...)`, adding an inline constructor if needed): VC6 has no
 named return value optimisation, so `T t; ...; return t;` adds a copy
-(`Car_BC::NoRefs_441600` went from 0.712 with a named local to a match;
+(`Car_BC::GetOrientedHalfExtentsRect_441600` went from 0.712 with a named local to a match;
 `Ang16::SubtractNormalized_409340` with `return Ang16(rValue - toSub.rValue, 0)`). On the caller's side
 this also removes the need for a raw buffer to get around a zeroing default constructor
 (`sound_obj::HandleTruckCorneringAudio_417FD0`).
@@ -1792,7 +1792,7 @@ and find the source difference that moves the cut-off. With the 9.6f-verified
 `MaxAbsDistance_42A6B0` (by reference, `Fix16 d; d = a - b;`), one inline reproduces the hand variants
 in `Explosion_30::ApplyBlastDamage_541850`, all 16 `CarAI_78` sites and
 `Sprite::MinDistanceToAnySpriteBBoxCorner_5A22B0`. `Firefighter_28::Update_4A81F0` also needed field
-accesses in place of the `get_driver_4118B0` getters (fewer free sites after the call), and
+accesses in place of the `GetDriver_4118B0` getters (fewer free sites after the call), and
 `EmergencyCrew_30::UpdateStateMachine_5CBD50` the 9.6f `ClearGroupAndGroupIdx_403A30` call (one more).
 
 The older notes below (which calls lose, "freeing budget brings inlines back", "a ternary costs less")
@@ -2091,10 +2091,10 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   the `movb $3/$2` EH stores around their `Fix16_Point` add. In one TU only the first caller of the inline
   `operator+` can keep them (see the nothrow rule above), so one of the pair calls the `EXPORT` copy
   `Add_40AC50` and the other the inline operator. That also moves a site, which the free 9.6f getters
-  `IsTargetHit_41CC70()` (for `field_4`) and `Car_BC::get_driver_4118B0()` put back: with them the plain
+  `IsTargetHit_41CC70()` (for `field_4`) and `Car_BC::GetDriver_4118B0()` put back: with them the plain
   `RotateByAngle_40F6B0` gives the original's out-of-line `Negate_4086A0` in the second rotation, and the
   `*_OOL_40F6B0` variants aren't needed.
-- **A getter is not a field read for register allocation.** `get_driver_4118B0()` sits before every budgeted
+- **A getter is not a field read for register allocation.** `GetDriver_4118B0()` sits before every budgeted
   site, so it changes no inlining decision, yet it alone took 5E0E70 from 236 to 22 (every
   `eax`/`ecx`/`edx` choice in both rotations). The expanded inline body adds IL temporaries and so moves the
   register tie-breaks. When a near miss differs only in register rotation, try the 9.6f getters for the
@@ -2750,7 +2750,7 @@ tried are in the WIP status report.
 
 **A 9.6f getter inline can move `this` to another register.** `UpdateSkidOrScrapeSpark_53A280` had `this` in
 `esi` (original `edi`) and every other callee-saved register swapped with it; reading the car box through
-`get_car_width()`/`get_car_height()` (9.6f 0x48A930/0x48A950) instead of the `SpriteShape_4C` fields gave the
+`GetCarWidth_48A930()`/`GetCarHeight_48A950()` (9.6f 0x48A930/0x48A950) instead of the `SpriteShape_4C` fields gave the
 original's allocation. When 9.6f shows a small getter call, use the inline even if the field read looks
 identical.
 

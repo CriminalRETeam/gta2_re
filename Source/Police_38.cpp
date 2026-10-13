@@ -350,7 +350,7 @@ void PoliceCrew_38::sub_571540()
     {
         if (pGroup)
         {
-            if (pCar->Get_F76_4A9AD0() > 200 && pGroup->AreAllMembersOffScreen_4C9150())
+            if (pCar->GetLastSeenTimer_4A9AD0() > 200 && pGroup->AreAllMembersOffScreen_4C9150())
             {
                 u8 ped_idx = 0;
                 for (Ped* pPedIter = field_10_subObj->field_4_ped; pPedIter; pPedIter = field_10_subObj->field_8_group->field_4_ped_list[ped_idx++])
@@ -373,7 +373,7 @@ void PoliceCrew_38::sub_571540()
             Ped* pPed = field_10_subObj->field_4_ped;
             if (pPed)
             {
-                if (pPed->GetOffscreenCounter_4039F0() > 30 && pCar->Get_F76_4A9AD0() > 200)
+                if (pPed->GetOffscreenCounter_4039F0() > 30 && pCar->GetLastSeenTimer_4A9AD0() > 200)
                 {
                     pPed->Deallocate_45EB60();
                     field_10_subObj->field_0_car->MarkForDespawn_421470();
@@ -381,7 +381,7 @@ void PoliceCrew_38::sub_571540()
                     field_10_subObj->field_2C_ready = 1;
                 }
             }
-            else if (pCar->Get_F76_4A9AD0() > 200)
+            else if (pCar->GetLastSeenTimer_4A9AD0() > 200)
             {
                 pCar->MarkForDespawn_421470();
                 field_10_subObj->field_28_state = crew_state::clean_up_5;
@@ -448,7 +448,7 @@ void PoliceCrew_38::sub_571A30()
         PedGroup* pGroup = field_10_subObj->field_8_group;
         if (pGroup)
         {
-            if (field_10_subObj->field_0_car->Get_F76_4A9AD0() <= 200)
+            if (field_10_subObj->field_0_car->GetLastSeenTimer_4A9AD0() <= 200)
             {
                 return;
             }
@@ -511,7 +511,7 @@ void PoliceCrew_38::sub_571A30()
         else
         {
             Car_BC* pCar = field_10_subObj->field_0_car;
-            if (pCar->Get_F76_4A9AD0() > 80)
+            if (pCar->GetLastSeenTimer_4A9AD0() > 80)
             {
                 pCar->MarkForDespawn_421470();
                 field_10_subObj->field_28_state = crew_state::clean_up_5;
@@ -530,7 +530,7 @@ void PoliceCrew_38::sub_571A30()
             }
 
             Car_BC* pCar = field_10_subObj->field_0_car;
-            if (pCar->Get_F76_4A9AD0() <= 200 && pCar->field_7C_ped_type != ped_type::player_2)
+            if (pCar->GetLastSeenTimer_4A9AD0() <= 200 && pCar->field_7C_ped_type != ped_type::player_2)
             {
                 return;
             }
@@ -558,7 +558,7 @@ void PoliceCrew_38::sub_571A30()
         else
         {
             Car_BC* pCar = field_10_subObj->field_0_car;
-            if (pCar->Get_F76_4A9AD0() <= 200 && pCar->field_7C_ped_type != ped_type::player_2)
+            if (pCar->GetLastSeenTimer_4A9AD0() <= 200 && pCar->field_7C_ped_type != ped_type::player_2)
             {
                 return;
             }
