@@ -4591,7 +4591,7 @@ bool Char_B4::CanReachTile_550090(u8 xpos, u8 ypos)
 
 static inline s32 IsOnSlopeBlock(gmp_block_info* pBlock)
 {
-    if ((pBlock->field_B_slope_type & 0xFC) != 0 && (pBlock->field_B_slope_type & 0xFC) != 0xFC)
+    if (GET_SLOPE_BITS(pBlock->field_B_slope_type) != 0 && GET_SLOPE_BITS(pBlock->field_B_slope_type) != 0xFC)
     {
         return 1;
     }

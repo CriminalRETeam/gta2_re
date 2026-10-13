@@ -705,9 +705,8 @@ class Map_0x370
     inline bool IsGradientSlopeAt_466CF0(s32 xpos, s32 ypos, s32 zpos)
     {
         gmp_block_info* pBlockAtPos = GetBlock_4DFE10(xpos, ypos, zpos);
-        if (pBlockAtPos && (pBlockAtPos->field_B_slope_type & 0xFC) > 0 &&
-            (pBlockAtPos->field_B_slope_type & 0xFC) < 0xB4 //IS_GRADIENT_SLOPE(pBlockAtPos->field_B_slope_type)
-            && (pBlockAtPos->field_B_slope_type & 3) != 0) // !IS_AIR_TYPE(pBlockAtPos->field_B_slope_type)
+        if (pBlockAtPos && IS_GRADIENT_SLOPE(pBlockAtPos->field_B_slope_type)
+            && !IS_AIR_TYPE(pBlockAtPos->field_B_slope_type))
         {
             return true;
         }

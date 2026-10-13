@@ -3437,7 +3437,7 @@ void MapRenderer::RenderBlockAt_4F6880(s32& pXCoord, s32& pYCoord)
 
         if (bShow_hidden_faces_67D5CD)
         {
-            if (!lid_idx && (pBlock->field_B_slope_type & 3) != 0)
+            if (!lid_idx && !IS_AIR_TYPE(pBlock->field_B_slope_type))
             {
                 gLidType_6F6274 = 0x260;
             }
