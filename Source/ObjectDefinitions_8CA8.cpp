@@ -1387,8 +1387,8 @@ void ObjectDefinitions_8CA8::CacheDef112SpritePalette_5342D0()
 MATCH_FUNC(0x5342f0)
 void ObjectDefinitions_8CA8::ClearColour1PixelsOfDefinitionSprite_5342F0(s32 idx)
 {
-    ObjectDefinition_74* v2 = GetObjectDefinition_534360(idx);
-    u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(4, v2->field_1E_sprite_palette);
+    ObjectDefinition_74* pDef = GetObjectDefinition_534360(idx);
+    u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(4, pDef->field_1E_sprite_palette);
     sprite_index* psprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
     psprite_index->ClearPixelsOfColour_5ABAA0(1);
 }

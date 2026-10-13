@@ -4448,7 +4448,7 @@ void Map_0x370::GetModifiedMapData_4E8CF0(u16*** outColumnPtr,
 MATCH_FUNC(0x4E8E30)
 void Map_0x370::do_process_loaded_zone_data_4E8E30()
 {
-    u16 v16 = 0;
+    u16 zone_count = 0;
     // The original reads the zone count before the null test.
     u16 num_zones = field_32C_pZones->field_0_num_zones;
     u16 zonesSize = field_328_pZoneData ? num_zones : 0;
@@ -4467,16 +4467,16 @@ void Map_0x370::do_process_loaded_zone_data_4E8E30()
         }
 
         bool done = false;
-        for (u16 v7 = 0; v7 < zoneIdx; v7++)
+        for (u16 src_idx = 0; src_idx < zoneIdx; src_idx++)
         {
-            const char v8 = field_330_pZoneArray[v7];
-            if (v8)
+            const char zone_char = field_330_pZoneArray[src_idx];
+            if (zone_char)
             {
-                gmp_map_zone* zone2 = get_zone_4DFB30(v7);
+                gmp_map_zone* zone2 = get_zone_4DFB30(src_idx);
                 if (zone1->field_5_name_length == zone2->field_5_name_length &&
                     !strncmp(zone1->field_6_name, zone2->field_6_name, (u8)zone1->field_5_name_length))
                 {
-                    field_330_pZoneArray[zoneIdx] = v8;
+                    field_330_pZoneArray[zoneIdx] = zone_char;
                     done = true;
                     break;
                 }
@@ -4485,11 +4485,11 @@ void Map_0x370::do_process_loaded_zone_data_4E8E30()
 
         if (!done)
         {
-            field_330_pZoneArray[zoneIdx] = ++v16;
+            field_330_pZoneArray[zoneIdx] = ++zone_count;
         }
     }
 
-    s32 zoneCount = v16 + 1;
+    s32 zoneCount = zone_count + 1;
     gmp_zone_info* pZoneInfo = (gmp_zone_info*)Memory::malloc_4FE4D0(sizeof(gmp_zone_info) * zoneCount);
     field_334_pUnknownZoneData = pZoneInfo;
     s32 t = 0;

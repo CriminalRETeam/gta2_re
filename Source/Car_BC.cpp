@@ -7356,7 +7356,7 @@ MATCH_FUNC(0x583750)
 Fix16 Car_14::GetRandomTrafficSpeed_583750(Fix16 max_speed, u8* pOut)
 {
 
-    Fix16 v7;
+    Fix16 roll;
     Fix16 lo;
     Fix16 hi;
 
@@ -7368,28 +7368,28 @@ Fix16 Car_14::GetRandomTrafficSpeed_583750(Fix16 max_speed, u8* pOut)
     if (max_speed >= dword_6FF85C)
     {
         *pOut = 2;
-        v7 = Fix16(gRng_6F6784.get_uint8_4F7B70(100)) / Fix16(1638400, 0);
+        roll = Fix16(gRng_6F6784.get_uint8_4F7B70(100)) / Fix16(1638400, 0);
         lo = dword_6FF85C;
         hi = dword_6FF70C;
     }
     else if (max_speed >= dword_6FF724)
     {
         *pOut = 1;
-        v7 = Fix16(gRng_6F6784.get_uint8_4F7B70(100)) / Fix16(1638400, 0);
+        roll = Fix16(gRng_6F6784.get_uint8_4F7B70(100)) / Fix16(1638400, 0);
         lo = dword_6FF724;
         hi = dword_6FF85C;
     }
     else
     {
         *pOut = 0;
-        v7 = Fix16(gRng_6F6784.get_uint8_4F7B70(100)) / Fix16(0x190000, 0);
+        roll = Fix16(gRng_6F6784.get_uint8_4F7B70(100)) / Fix16(0x190000, 0);
         lo = dword_6FF6A4;
         hi = dword_6FF724;
     }
     // Fix16::operator= (not the copy ctor) on the result: it loads the return slot
     // into ecx before the add and gives the trailing `mov eax, ecx`.
     Fix16 result;
-    result = lo + v7 * (hi - lo);
+    result = lo + roll * (hi - lo);
     return result;
 }
 

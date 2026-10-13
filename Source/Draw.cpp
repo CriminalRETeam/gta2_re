@@ -164,10 +164,10 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
         gGtx_0x106C_703DD4->get_sprite_index_5AA440(gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_type, sprite_idx));
     Fix16_Point point;
 
-    Fix16 v12;
-    Fix16 v13;
-    v12 = (Fix16(sprite_index_5AA440->field_4_width) / 2) * scale;
-    v13 = (Fix16(sprite_index_5AA440->field_5_height) / 2) * scale;
+    Fix16 half_w;
+    Fix16 half_h;
+    half_w = (Fix16(sprite_index_5AA440->field_4_width) / 2) * scale;
+    half_h = (Fix16(sprite_index_5AA440->field_5_height) / 2) * scale;
 
     u32 flags;
 
@@ -177,28 +177,28 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
         flags |= 0x20000u;
     }
 
-    point.SetXY_432860(-v12, -v13);
+    point.SetXY_432860(-half_w, -half_h);
     point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[0].x = ((x_pos + point.x).ToFloat());
     gQuadVerts_706B88.field_0_verts[0].y = ((y_pos + point.y).ToFloat());
     gQuadVerts_706B88.field_0_verts[0].z = 0.000099999997f;
 
-    point.SetXY_432860(v12, -v13);
+    point.SetXY_432860(half_w, -half_h);
     point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[1].x = ((x_pos + point.x).ToFloat());
     gQuadVerts_706B88.field_0_verts[1].y = ((y_pos + point.y).ToFloat());
     gQuadVerts_706B88.field_0_verts[1].z = 0.000099999997f;
 
-    point.SetXY_432860(v12, v13);
+    point.SetXY_432860(half_w, half_h);
     point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[2].x = ((x_pos + point.x).ToFloat());
     gQuadVerts_706B88.field_0_verts[2].y = ((y_pos + point.y).ToFloat());
     gQuadVerts_706B88.field_0_verts[2].z = 0.000099999997f;
 
-    point.SetXY_432860(-v12, v13);
+    point.SetXY_432860(-half_w, half_h);
     point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[3].x = ((x_pos + point.x).ToFloat());
@@ -270,8 +270,8 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
 {
     Fix16_Point point;
     u32 flags;
-    Fix16 v12;
-    Fix16 v13;
+    Fix16 half_w;
+    Fix16 half_h;
     if (scale == kFpOne_706A6C && rotation == kAngZero_706C3C)
     {
         flags = 0x10000;
@@ -281,12 +281,12 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
         flags = 0;
     }
 
-    v12 = (Fix16(width) / 2) * scale;
-    v13 = (Fix16(height) / 2) * scale;
+    half_w = (Fix16(width) / 2) * scale;
+    half_h = (Fix16(height) / 2) * scale;
 
     // point 1
 
-    point.SetXY_432860(-v12, -v13);
+    point.SetXY_432860(-half_w, -half_h);
     point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[0].x = ((x_pos + point.x).ToFloat());
@@ -295,7 +295,7 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
 
     // point 2
 
-    point.SetXY_432860(v12, -v13);
+    point.SetXY_432860(half_w, -half_h);
     point.RotateByAngle_40F6B0(rotation);
 
     // Only this vertex converts through an f32 local (the original issues the fmuls two loads later)

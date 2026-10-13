@@ -587,12 +587,12 @@ void PedManager::SpawnDummies_46EB60(Camera_0xBC* pCam)
 MATCH_FUNC(0x470330)
 void PedManager::Dummies_470330()
 {
-    s16 v1 = gPedManager_6787BC->field_0_max_dummy_chars;
+    s16 max_dummies = gPedManager_6787BC->field_0_max_dummy_chars;
     if (gPolice_7B8_6FEE40->field_654_max_wanted_level > 3)
     {
-        v1 = (u16)v1 >> 1;
+        max_dummies = (u16)max_dummies >> 1;
     }
-    if (gNumDummyChars_6787E2 < v1)
+    if (gNumDummyChars_6787E2 < max_dummies)
     {
         for (Camera_0xBC* pCam = gGame_0x40_67E008->IteratePlayerCamera_4B9BC0(); pCam; pCam = gGame_0x40_67E008->IterateNextPlayerCamera_4B9C50())
         {

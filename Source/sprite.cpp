@@ -1950,15 +1950,15 @@ char_type Sprite::CheckCornerZCollisions_5A1CA0(u32* pCount)
 
     SpriteShape_4C* p4C = field_C_pCollisionShape;
     // 9.6f: SpriteShape_4C::GetDepth_492170 for the depth (inlined, using it changes the code)
-    Fix16 v6 = field_1C_zpos - (p4C->field_8_depth / 2);
-    Fix16 v7 = field_1C_zpos + (p4C->field_8_depth / 2);
+    Fix16 z_min = field_1C_zpos - (p4C->field_8_depth / 2);
+    Fix16 z_max = field_1C_zpos + (p4C->field_8_depth / 2);
 
-    if (v7 > k_dword_7033C0)
+    if (z_max > k_dword_7033C0)
     {
-        v7 = k_dword_7033C0;
+        z_max = k_dword_7033C0;
     }
 
-    if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(p4C->field_C_corners[0].x, p4C->field_C_corners[0].y, v6, v7))
+    if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(p4C->field_C_corners[0].x, p4C->field_C_corners[0].y, z_min, z_max))
     {
         flags = 1;
         *pCount = 1;
@@ -1969,19 +1969,19 @@ char_type Sprite::CheckCornerZCollisions_5A1CA0(u32* pCount)
         *pCount = 0;
     }
 
-    if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(p4C->field_C_corners[1].x, p4C->field_C_corners[1].y, v6, v7))
+    if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(p4C->field_C_corners[1].x, p4C->field_C_corners[1].y, z_min, z_max))
     {
         ++*pCount;
         flags |= 2u;
     }
 
-    if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(p4C->field_C_corners[2].x, p4C->field_C_corners[2].y, v6, v7))
+    if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(p4C->field_C_corners[2].x, p4C->field_C_corners[2].y, z_min, z_max))
     {
         ++*pCount;
         flags |= 4u;
     }
 
-    if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(p4C->field_C_corners[3].x, p4C->field_C_corners[3].y, v6, v7))
+    if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(p4C->field_C_corners[3].x, p4C->field_C_corners[3].y, z_min, z_max))
     {
         ++*pCount;
         flags |= 8;

@@ -455,11 +455,11 @@ void gtx_0x106C::SetDeltaDataPtrs_5AABF0()
     s32 size;
     delta_entry* i = (delta_entry*)field_50_delta_buffer;
 
-    for (u32 v1 = 0; v1 < field_60_delta_len; v1 += size)
+    for (u32 offset = 0; offset < field_60_delta_len; offset += size)
     {
-        for (u32 v3 = 0; v3 < i->field_2_delta_count; v3++)
+        for (u32 delta_idx = 0; delta_idx < i->field_2_delta_count; delta_idx++)
         {
-            *(u32*)&i->field_4_delta[4 * v3] += *(u32*)&field_48_delta_store; // TODO: fix me
+            *(u32*)&i->field_4_delta[4 * delta_idx] += *(u32*)&field_48_delta_store; // TODO: fix me
         }
         size = 8 * (u8)i->field_2_delta_count + 4;
         i = (delta_entry*)((char_type*)i + size);
@@ -470,13 +470,13 @@ MATCH_FUNC(0x5AAC40)
 void gtx_0x106C::SetSpriteIndexDataPtrs_5AAC40()
 {
     u8* field_0_pData;
-    sprite_index* v4;
+    sprite_index* pSpriteIndex;
 
     for (u32 i = 0; i < (u16)this->field_4_sprite_index_count; i++)
     {
         field_0_pData = this->field_20_sprite_index[i].field_0_pData;
-        v4 = &this->field_20_sprite_index[i];
-        v4->field_0_pData = &this->field_34_sprite_graphics[(u32)field_0_pData];
+        pSpriteIndex = &this->field_20_sprite_index[i];
+        pSpriteIndex->field_0_pData = &this->field_34_sprite_graphics[(u32)field_0_pData];
     }
 }
 

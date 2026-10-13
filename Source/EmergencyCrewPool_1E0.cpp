@@ -198,9 +198,9 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
             if (field_8_group)
             {
                 idx = 0;
-                for (Ped* v7 = field_8_group->field_4_ped_list[0]; v7; v7 = field_8_group->field_4_ped_list[++idx])
+                for (Ped* pMember = field_8_group->field_4_ped_list[0]; pMember; pMember = field_8_group->field_4_ped_list[++idx])
                 {
-                    if (v7->field_168_game_object)
+                    if (pMember->field_168_game_object)
                     {
                         bNoPedsAlive = 0;
                     }
@@ -363,9 +363,9 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
                 if (field_8_group)
                 {
                     idx = 0;
-                    for (Ped* v28 = field_8_group->field_4_ped_list[0]; v28; v28 = field_8_group->field_4_ped_list[++idx])
+                    for (Ped* pMember = field_8_group->field_4_ped_list[0]; pMember; pMember = field_8_group->field_4_ped_list[++idx])
                     {
-                        if (!v28->isDead_403B60())
+                        if (!pMember->isDead_403B60())
                         {
                             bCarGone = 0;
                         }
@@ -395,9 +395,9 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
         if (field_8_group)
         {
             idx = 0;
-            for (Ped* v32 = field_8_group->field_4_ped_list[0]; v32; v32 = field_8_group->field_4_ped_list[++idx])
+            for (Ped* pMember = field_8_group->field_4_ped_list[0]; pMember; pMember = field_8_group->field_4_ped_list[++idx])
             {
-                if (!v32->isDead_403B60())
+                if (!pMember->isDead_403B60())
                 {
                     bCarGone = 0;
                 }

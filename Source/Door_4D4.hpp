@@ -15,7 +15,7 @@ class DoorData_10 // Contains only position, face and DoorInfo id
 {
   public:
     EXPORT void PoolAllocate();
-    EXPORT void Init_49C340(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip);
+    EXPORT void Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip);
     EXPORT void Open_49C4E0(u8 bFlip);
     EXPORT void Close_49C590(u8 bDoFlip);
     EXPORT static s32 __stdcall GetOppositeFace_4DEEB0(s32 v);

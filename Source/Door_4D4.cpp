@@ -38,38 +38,38 @@ void DoorData_10::Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
     DoorAnimInfo_A* pInfo = &gDoorAnimInfo_67BB38[anim_id];
     gGtx_0x106C_703DD4->SetTileRemap_5AA930(pInfo->field_4_internal_tile_idx, pInfo->field_0_start_frame);
 
-    u16 v8 = pInfo->field_4_internal_tile_idx | 0x1C00; // wall, bullet wall and flat
+    u16 tile_word = pInfo->field_4_internal_tile_idx | 0x1C00; // wall, bullet wall and flat
     if (bDoFlip)
     {
-        v8 |= 0x2000; // flip
+        tile_word |= 0x2000; // flip
     }
 
     if (gMap_0x370_6F6268->get_block_4DFE10(this->field_4_x, this->field_5_y, this->field_6_z))
     {
-        gMap_0x370_6F6268->ChangeBlock_4E8620(this->field_4_x, this->field_5_y, this->field_6_z, this->field_8_face, v8);
+        gMap_0x370_6F6268->ChangeBlock_4E8620(this->field_4_x, this->field_5_y, this->field_6_z, this->field_8_face, tile_word);
         gMap_0x370_6F6268->ChangeBlock_4E8620(this->field_4_x, this->field_5_y, this->field_6_z, GetOppositeFace_4DEEB0(this->field_8_face), pInfo->field_4_internal_tile_idx);
     }
     else
     {
         blockData.init_44C840();
 
-        // Remaining diff: the original stores v8 before loading the tile idx in each case
+        // Remaining diff: the original stores tile_word before loading the tile idx in each case
         switch (field_8_face)
         {
             case 1:
-                blockData.field_0_left = v8;
+                blockData.field_0_left = tile_word;
                 blockData.field_2_right = pInfo->field_4_internal_tile_idx;
                 break;
             case 2:
-                blockData.field_2_right = v8;
+                blockData.field_2_right = tile_word;
                 blockData.field_0_left = pInfo->field_4_internal_tile_idx;
                 break;
             case 3:
-                blockData.field_4_top = v8;
+                blockData.field_4_top = tile_word;
                 blockData.field_6_bottom = pInfo->field_4_internal_tile_idx;
                 break;
             case 4:
-                blockData.field_6_bottom = v8;
+                blockData.field_6_bottom = tile_word;
                 blockData.field_4_top = pInfo->field_4_internal_tile_idx;
                 break;
             default:
