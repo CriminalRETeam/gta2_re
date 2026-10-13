@@ -4302,8 +4302,8 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
 
     switch (pObj->field_18_model)
     {
-        case 128:
-        case 138:
+        case objects::rocket_bullet_128:
+        case objects::moving_molotov_138:
             if (!IsFlagSet_411930(car_flag::Rocketproof) && !IsMaxDamage_40F890())
             {
                 damage = AccumulateDamage_43DA90(
@@ -4324,7 +4324,7 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
             }
             break;
 
-        case 10:
+        case objects::mine_10:
             if (!gCarManager_6C_677930->field_68_object_hit_active)
             {
                 gCarManager_6C_677930->field_68_object_hit_active = 1;
@@ -4348,7 +4348,7 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
             }
             break;
 
-        case 194:
+        case objects::fire_hitting_194:
             if (!IsFlameproof_425770())
             {
                 damage = AccumulateDamage_43DA90(
@@ -4357,7 +4357,7 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
             }
             break;
 
-        case 265:
+        case objects::pistol_bullet_265:
             if (!IsFlagSet_411930(car_flag::Bulletproof))
             {
                 damage = AccumulateDamage_43DA90(
@@ -4384,19 +4384,19 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
                                                            impact_vec);
             break;
 
-        case 198:
+        case objects::maybe_bullet_on_fire_198:
             field_0_attachments.CleanupSpriteList_5A7080();
             break;
 
-        case 277:
+        case objects::electrobaton_bullet_277:
             break;
     }
 
     switch (pObj->field_18_model)
     {
-        case 192:
-        case 254:
-        case 265:
+        case objects::shotgun_bullet_192:
+        case objects::machine_gun_bullet_254:
+        case objects::pistol_bullet_265:
             this->field_AC_sound_event = 3;
             break;
     }

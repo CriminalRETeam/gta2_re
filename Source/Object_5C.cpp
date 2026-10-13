@@ -1552,11 +1552,11 @@ char Object_2C::ShouldCollideWithSprite_525370(Sprite* pSprite)
                     {
                         switch (field_8->field_48)
                         {
-                            case 0:
+                            case objects::object_0:
                                 return 0;
-                            case 12:
+                            case objects::crate_12:
                                 return 1;
-                            case 13:
+                            case objects::footy_13:
                                 return 1;
                         }
                     }
@@ -1838,7 +1838,7 @@ void Object_2C::UpdatePhysicsMovementAndAnimation_525D90()
                 field_10_obj_3c->field_1C_z_accel = kFpZero_6F8E10;
                 field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
 
-                if (field_18_model != 183)
+                if (field_18_model != objects::grenade_obj_183)
                 {
                     if (UsesParamAsPedRef_421080())
                     {
@@ -2648,8 +2648,8 @@ void Object_2C::ProcessObjectExplosionImpact_528A20(Object_2C* pObj)
 {
     switch (this->field_18_model)
     {
-        case 128:
-        case 138:
+        case objects::rocket_bullet_128:
+        case objects::moving_molotov_138:
         {
             s32 remapped;
             if (pObj->field_18_model == objects::diagonal_wall_collision_obj_166)
@@ -2680,17 +2680,17 @@ void Object_2C::ProcessObjectExplosionImpact_528A20(Object_2C* pObj)
             break;
         }
 
-        case 154:
-        case 159:
-        case 192:
-        case 193:
-        case 194:
-        case 195:
-        case 198:
-        case 199:
-        case 254:
-        case 265:
-        case 277:
+        case objects::flamethrower_fire_154:
+        case objects::object_159:
+        case objects::shotgun_bullet_192:
+        case objects::tanktop_193:
+        case objects::fire_hitting_194:
+        case objects::object_195:
+        case objects::maybe_bullet_on_fire_198:
+        case objects::object_199:
+        case objects::machine_gun_bullet_254:
+        case objects::pistol_bullet_265:
+        case objects::electrobaton_bullet_277:
             break;
         default:
             return;
@@ -2723,8 +2723,8 @@ void Object_2C::HandleImpactNoSprite_528BA0()
 
     switch (this->field_18_model)
     {
-        case 128:
-        case 138:
+        case objects::rocket_bullet_128:
+        case objects::moving_molotov_138:
         {
             Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(field_4->field_14_xy.x,
                                                                               field_4->field_14_xy.y,
@@ -2739,8 +2739,8 @@ void Object_2C::HandleImpactNoSprite_528BA0()
             // Fall through
         }
 
-        case 254:
-        case 265:
+        case objects::machine_gun_bullet_254:
+        case objects::pistol_bullet_265:
         {
             point.FromPolar_41E210(k_dword_6F8C9C, field_4->field_0_rotation + kAng180_6F8D62);
             gParticle_8_6FD5E8->EmitImpactParticles_53FE40(field_4->field_14_xy.x,
@@ -2750,15 +2750,15 @@ void Object_2C::HandleImpactNoSprite_528BA0()
             break;
         }
 
-        case 154:
-        case 159:
-        case 192:
-        case 193:
-        case 194:
-        case 195:
-        case 198:
-        case 199:
-        case 277:
+        case objects::flamethrower_fire_154:
+        case objects::object_159:
+        case objects::shotgun_bullet_192:
+        case objects::tanktop_193:
+        case objects::fire_hitting_194:
+        case objects::object_195:
+        case objects::maybe_bullet_on_fire_198:
+        case objects::object_199:
+        case objects::electrobaton_bullet_277:
             break;
 
         default:
@@ -2934,11 +2934,11 @@ void Object_2C::HandleCollisionWithObject_529000(Object_2C* pObj)
 {
     switch (pObj->field_18_model)
     {
-        case 139:
+        case objects::conveyor_139:
             ApplyConveyorSpeedFrom_529070(pObj);
             break;
 
-        case 141:
+        case objects::destructor_141:
             if (field_8->field_60)
             {
                 Dealloc_5291B0();

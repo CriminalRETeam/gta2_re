@@ -5397,7 +5397,7 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* pParams)
             break;
         }
 
-        case 5:
+        case objects::blaster_5:
             samp_idx = 145;
             volume = 50;
             bLoop = 0;

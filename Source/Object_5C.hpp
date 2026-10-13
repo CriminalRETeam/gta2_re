@@ -154,7 +154,7 @@ class Object_2C
 
     inline bool IsDestroyedPowergen_434140()
     {
-        if (field_18_model == 285 || field_18_model == 282)
+        if (field_18_model == objects::destroyed_invisible_powergen_285 || field_18_model == objects::destroyed_powergen_282)
         {
             return true;
         }
