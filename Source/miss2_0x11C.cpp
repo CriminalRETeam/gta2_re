@@ -3167,7 +3167,7 @@ void miss2_0x11C::SCRCMD_SET_CHAR_OBJ3_50A3E0()
 
     if (pPointer->field_8_char)
     {
-        (pPointer->field_8_char)->field_1DC_objective_target_x = pCmd->field_C_pos.field_0_x.mValue; //  TODO: May be Fix16 in cool_nash
+        (pPointer->field_8_char)->field_1DC_objective_target_x = pCmd->field_C_pos.field_0_x.mValue; //  TODO: May be Fix16 in the original
         (pPointer->field_8_char)->field_1E0_objective_target_y = pCmd->field_C_pos.field_4_y.mValue;
         (pPointer->field_8_char)->field_1E4_objective_target_z = pCmd->field_C_pos.field_8_z.mValue;
 

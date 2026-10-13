@@ -19,7 +19,7 @@ struct ScoreTableLine_18;
 
 #pragma pack(push)
 #pragma pack(1)
-struct svg_stru
+struct SaveSlotInfo_52
 {
     char_type field_0_map_name[25];
     char_type field_19_style_name[25];
@@ -33,16 +33,16 @@ struct svg_stru
 #pragma pack(pop)
 
 // todo: move
-struct admiring_euler_4
+struct SaveSlotSummary_4
 {
     char_type field_0_save_exists;
     char_type field_1_last_saved_stage;
     char_type field_2_last_saved_bonus_stage_code;
     char_type field_3_last_saved_is_bonus;
 
-    EXPORT admiring_euler_4();
+    EXPORT SaveSlotSummary_4();
 
-    EXPORT ~admiring_euler_4();
+    EXPORT ~SaveSlotSummary_4();
 
     EXPORT void LoadPlySlotSvg_4B6480(const char_type* FileName);
 };
@@ -100,12 +100,12 @@ struct menu_option_0x82
 #pragma pack(pop)
 
 // todo: move
-struct kind_beaver_6
+struct MenuOption_6
 {
   public:
-    EXPORT kind_beaver_6();
+    EXPORT MenuOption_6();
 
-    EXPORT ~kind_beaver_6();
+    EXPORT ~MenuOption_6();
 
     s16 field_0;
     s16 field_2_unused;
@@ -128,7 +128,7 @@ struct MenuPage_0xBCA
     u16 field_2_number_of_elements;
     menu_option_0x82 field_4_options_array[10];
     menu_element_0x6E field_518_elements_array[15];
-    kind_beaver_6 field_B8A[10];
+    MenuOption_6 field_B8A[10];
     u16 field_BC6_current_option_idx;
     s16 field_BC8_default_option_idx;
 };
@@ -284,7 +284,7 @@ struct Frontend
     char_type field_C9E3_unused;
     s32 field_C9E4_last_input_time;
     MainBlockStrings field_C9E8_blocks[3][4];
-    admiring_euler_4 field_EDE8_plySlots[8];
+    SaveSlotSummary_4 field_EDE8_plySlots[8];
     char_type field_EE08_menu_screen;
     char_type field_EE09_unused;
     u16 field_EE0A_dialog_cursor_ypos;

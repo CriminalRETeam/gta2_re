@@ -339,7 +339,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x417A00 | `sound_obj::Type_4_417A00` | 0x413D40 | ✓ `sub_411940`, ✓ `sub_411970` | done | all 9.6f inlines used |
 | 0x417D70 | `sub_417D70` | 0x413DF0 | ✓ `sub_411940` | matched | Use GetCarInfoIdx_411940; 'a2 ? 27 : 28' gives the neg/sbb/add |
 | 0x418B60 | `sound_obj::ProcessType11_HudPager_418B60` | 0x414E50 | ✓ `sub_411A40` | done | Hud_Pager_C::get_timer_411A40 (new); code unchanged |
-| 0x419FA0 | `sound_obj::AddSoundObject_419FA0` | 0x417DB0 | ✓ `sub_416B40`, ✓ `ctor_416C00` | done | sound_unknown_0xC empty ctor (9.6f 0x416C00); GetType_416B40 already used; code unchanged (ImGuiDebug.cpp shows a DIFF in an unmarked function that also showed before, unrelated) |
+| 0x419FA0 | `sound_obj::AddSoundObject_419FA0` | 0x417DB0 | ✓ `sub_416B40`, ✓ `ctor_416C00` | done | SoundPosEntry_C empty ctor (9.6f 0x416C00); GetType_416B40 already used; code unchanged (ImGuiDebug.cpp shows a DIFF in an unmarked function that also showed before, unrelated) |
 | 0x41A090 | `sound_obj::FreeSoundEntry_41A090` | 0x416C10 | ✓ `sub_416B40` | done | all 9.6f inlines used |
 | 0x41A3F0 | `sound_obj::CalcVolume_41A3F0` | 0x416DA0 | ✓ `sub_410BF0` | done | Round_To_Int_410BF0 + s32 clamp + reuse a3 like 9.6f; 31->0 CANDIDATE MATCH |
 | 0x41A730 | `sound_obj::InterrogateAudioEntities_41A730` | 0x417030 | ✓ `sub_416B70`, ✓ `cool_nash_0x294::get_car_416B60`, ✓ `Car_BC::sub_416B80`, ✓ `sub_416BB0`, ✓ `cool_nash_0x294::get_cam_x_403A00`, ✓ `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), ✓ `cool_nash_0x294::sub_416B50` | done | Car_BC::GetXYZ_416B80 (new) + get_car_rotation_416BB0 + get_car_416B60 + get_cam_z; 4->0 CANDIDATE MATCH |

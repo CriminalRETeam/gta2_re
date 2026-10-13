@@ -3217,80 +3217,80 @@ void CC ImGuiDebugDraw()
         {
             //if (gFrontend_67DC84)
             {
-                static s32 loving_id = 0;
-                ImGui::SliderInt("Loving ID", &loving_id, 0, 16);
+                static s32 page_idx = 0;
+                ImGui::SliderInt("Menu page", &page_idx, 0, 16);
 
-                MenuPage_0xBCA* loving_borg = &gFrontend_67DC84->field_136_menu_pages_array[loving_id];
-                ImGui::Value("field_0_number_of_options", loving_borg->field_0_number_of_options);
-                ImGui::Value("field_2", loving_borg->field_2_number_of_elements);
-                ImGui::Value("field_BC6_current_option_idx", loving_borg->field_BC6_current_option_idx);
-                ImGui::Value("field_BC8", loving_borg->field_BC8_default_option_idx);
+                MenuPage_0xBCA* pMenuPage = &gFrontend_67DC84->field_136_menu_pages_array[page_idx];
+                ImGui::Value("field_0_number_of_options", pMenuPage->field_0_number_of_options);
+                ImGui::Value("field_2", pMenuPage->field_2_number_of_elements);
+                ImGui::Value("field_BC6_current_option_idx", pMenuPage->field_BC6_current_option_idx);
+                ImGui::Value("field_BC8", pMenuPage->field_BC8_default_option_idx);
 
                 if (ImGui::TreeNode("menu_option_0x82"))
                 {
-                    static s32 nifty_id = 0;
-                    ImGui::SliderInt("Nifty Maxwell ID", &nifty_id, 0, 9);
+                    static s32 option_entry_idx = 0;
+                    ImGui::SliderInt("Nifty Maxwell ID", &option_entry_idx, 0, 9);
 
-                    menu_option_0x82* nifty_maxwell = &loving_borg->field_4_options_array[nifty_id];
+                    menu_option_0x82* pOptionEntry = &pMenuPage->field_4_options_array[option_entry_idx];
 
-                    ImGui::Value("field_0", nifty_maxwell->field_0_option_type);
-                    ImGui::Value("field_1", nifty_maxwell->field_1_is_unlocked);
+                    ImGui::Value("field_0", pOptionEntry->field_0_option_type);
+                    ImGui::Value("field_1", pOptionEntry->field_1_is_unlocked);
 
-                    ImGui::SliderS16("field_2", &nifty_maxwell->field_2_x_pos, 0, 1000);
-                    ImGui::SliderS16("field_4", &nifty_maxwell->field_4_y_pos, 0, 700);
+                    ImGui::SliderS16("field_2", &pOptionEntry->field_2_x_pos, 0, 1000);
+                    ImGui::SliderS16("field_4", &pOptionEntry->field_4_y_pos, 0, 700);
 
                     static char str_buf[50];
-                    wchar_to_char(nifty_maxwell->field_6_option_name_str, str_buf, 50);
+                    wchar_to_char(pOptionEntry->field_6_option_name_str, str_buf, 50);
                     ImGui::Text(str_buf);
 
-                    ImGui::Value("field_6A", nifty_maxwell->field_6A_font_type);
-                    ImGui::Value("field_6C", nifty_maxwell->field_6C_palette);
-                    ImGui::Value("field_6E_count", nifty_maxwell->field_6E_horizontal_selected_idx);
-                    ImGui::Value("field_70", nifty_maxwell->field_70);
+                    ImGui::Value("field_6A", pOptionEntry->field_6A_font_type);
+                    ImGui::Value("field_6C", pOptionEntry->field_6C_palette);
+                    ImGui::Value("field_6E_count", pOptionEntry->field_6E_horizontal_selected_idx);
+                    ImGui::Value("field_70", pOptionEntry->field_70);
 
-                    ImGui::Text(nifty_maxwell->field_72_horizontal_idx_enabled);
+                    ImGui::Text(pOptionEntry->field_72_horizontal_idx_enabled);
 
-                    ImGui::Value("field_7E", nifty_maxwell->field_7E_horizontal_max_idx);
-                    ImGui::Value("field_80", nifty_maxwell->field_80_menu_page_target);
+                    ImGui::Value("field_7E", pOptionEntry->field_7E_horizontal_max_idx);
+                    ImGui::Value("field_80", pOptionEntry->field_80_menu_page_target);
 
                     ImGui::TreePop();
                 }
 
                 if (ImGui::TreeNode("menu_element_0x6E"))
                 {
-                    static s32 noyce_id = 0;
-                    ImGui::SliderInt("Competent Noyce ID", &noyce_id, 0, 14);
+                    static s32 element_idx = 0;
+                    ImGui::SliderInt("Competent Noyce ID", &element_idx, 0, 14);
 
-                    menu_element_0x6E* competent_noyce = &loving_borg->field_518_elements_array[noyce_id];
+                    menu_element_0x6E* pElement = &pMenuPage->field_518_elements_array[element_idx];
 
-                    ImGui::Value("field_0", competent_noyce->field_0_element_type);
-                    ImGui::Value("field_1", competent_noyce->field_1_is_it_displayed);
+                    ImGui::Value("field_0", pElement->field_0_element_type);
+                    ImGui::Value("field_1", pElement->field_1_is_it_displayed);
 
-                    ImGui::SliderS16("field_2_xpos", &competent_noyce->field_2_xpos, 0, 1000);
-                    ImGui::SliderS16("field_4_ypos", &competent_noyce->field_4_ypos, 0, 700);
+                    ImGui::SliderS16("field_2_xpos", &pElement->field_2_xpos, 0, 1000);
+                    ImGui::SliderS16("field_4_ypos", &pElement->field_4_ypos, 0, 700);
 
                     static char str_buf_2[50];
-                    wchar_to_char(competent_noyce->field_6_element_name_str, str_buf_2, 50);
+                    wchar_to_char(pElement->field_6_element_name_str, str_buf_2, 50);
                     ImGui::Text(str_buf_2);
 
-                    ImGui::InputU16("field_6A", &competent_noyce->field_6A_font_type, 1, 1);
-                    ImGui::InputU16("field_6C", &competent_noyce->field_6C_font_palette, 1, 1);
+                    ImGui::InputU16("field_6A", &pElement->field_6A_font_type, 1, 1);
+                    ImGui::InputU16("field_6C", &pElement->field_6C_font_palette, 1, 1);
 
                     ImGui::TreePop();
                 }
 
-                if (ImGui::TreeNode("kind_beaver_6"))
+                if (ImGui::TreeNode("MenuOption_6"))
                 {
-                    static s32 k_beaver_id = 0;
-                    ImGui::SliderInt("Kind Beaver ID", &k_beaver_id, 0, 9);
+                    static s32 option_idx = 0;
+                    ImGui::SliderInt("Kind Beaver ID", &option_idx, 0, 9);
 
-                    kind_beaver_6* kind_beaver = &loving_borg->field_B8A[k_beaver_id];
+                    MenuOption_6* menu_option = &pMenuPage->field_B8A[option_idx];
 
-                    ImGui::SliderS16("field_0", &kind_beaver->field_0, 0, 1000);
-                    ImGui::SliderS16("field_2_unused", &kind_beaver->field_2_unused, 0, 700);
+                    ImGui::SliderS16("field_0", &menu_option->field_0, 0, 1000);
+                    ImGui::SliderS16("field_2_unused", &menu_option->field_2_unused, 0, 700);
 
-                    ImGui::Input_char_type("field_4_is_option_unlocked", &kind_beaver->field_4_is_option_unlocked, 1, 1);
-                    ImGui::Input_char_type("field_5_unused", &kind_beaver->field_5_unused, 1, 1);
+                    ImGui::Input_char_type("field_4_is_option_unlocked", &menu_option->field_4_is_option_unlocked, 1, 1);
+                    ImGui::Input_char_type("field_5_unused", &menu_option->field_5_unused, 1, 1);
 
                     ImGui::TreePop();
                 }
@@ -3298,19 +3298,19 @@ void CC ImGuiDebugDraw()
             ImGui::TreePop();
         }
 
-        if (ImGui::TreeNode("admiring_euler_4"))
+        if (ImGui::TreeNode("SaveSlotSummary_4"))
         {
             //if (gFrontend_67DC84)
             {
-                static s32 euler_id = 0;
-                ImGui::SliderInt("Euler ID", &euler_id, 0, 7);
+                static s32 slot_idx = 0;
+                ImGui::SliderInt("Save slot", &slot_idx, 0, 7);
 
-                admiring_euler_4* admiring_euler = &gFrontend_67DC84->field_EDE8_plySlots[euler_id];
+                SaveSlotSummary_4* pSlot = &gFrontend_67DC84->field_EDE8_plySlots[slot_idx];
 
-                ImGui::Value("field_0", admiring_euler->field_0_save_exists);
-                ImGui::Value("field_1", admiring_euler->field_1_last_saved_stage);
-                ImGui::Value("field_2", admiring_euler->field_2_last_saved_bonus_stage_code);
-                ImGui::Value("field_3", admiring_euler->field_3_last_saved_is_bonus);
+                ImGui::Value("field_0", pSlot->field_0_save_exists);
+                ImGui::Value("field_1", pSlot->field_1_last_saved_stage);
+                ImGui::Value("field_2", pSlot->field_2_last_saved_bonus_stage_code);
+                ImGui::Value("field_3", pSlot->field_3_last_saved_is_bonus);
             }
             ImGui::TreePop();
         }
@@ -3421,31 +3421,31 @@ void CC ImGuiDebugDraw()
 
             if (ImGui::TreeNode("HighScoreTable_F0"))
             {
-                static s32 agitated_type = 0;
+                static s32 table_type = 0;
 
-                const char* agitated_fields[] = {"field_1890", "field_23D0_total_scores", "field_24C0_alt_scores", "field_25B0"};
-                ImGui::Combo("agitated_field", &agitated_type, agitated_fields, 4);
+                const char* table_names[] = {"field_1890", "field_23D0_total_scores", "field_24C0_alt_scores", "field_25B0"};
+                ImGui::Combo("table_field", &table_type, table_names, 4);
 
                 static s32 id_1 = 0;
                 static s32 id_2 = 0;
                 ImGui::SliderInt("field_1890 ID 1", &id_1, 0, 2);
                 ImGui::SliderInt("field_1890 ID 2", &id_2, 0, 3);
 
-                HighScoreTable_F0* agitated_keldysh;
+                HighScoreTable_F0* pTable;
 
-                switch (agitated_type)
+                switch (table_type)
                 {
                     case 0:
-                        agitated_keldysh = &gPlyDat_6FEAC0->field_1890_stage_scores[id_1][id_2];
+                        pTable = &gPlyDat_6FEAC0->field_1890_stage_scores[id_1][id_2];
                         break;
                     case 1:
-                        agitated_keldysh = &gPlyDat_6FEAC0->field_23D0_total_scores;
+                        pTable = &gPlyDat_6FEAC0->field_23D0_total_scores;
                         break;
                     case 2:
-                        agitated_keldysh = &gPlyDat_6FEAC0->field_24C0_alt_scores;
+                        pTable = &gPlyDat_6FEAC0->field_24C0_alt_scores;
                         break;
                     case 3:
-                        agitated_keldysh = &gPlyDat_6FEAC0->field_25B0;
+                        pTable = &gPlyDat_6FEAC0->field_25B0;
                         break;
                     default:
                         break;
@@ -3453,7 +3453,7 @@ void CC ImGuiDebugDraw()
 
                 static s32 string_id = 0;
                 ImGui::SliderInt("string_id", &string_id, 0, 9);
-                ScoreTableLine_18* s_string = &agitated_keldysh->field_0_score_table_line[string_id];
+                ScoreTableLine_18* s_string = &pTable->field_0_score_table_line[string_id];
 
                 static char str_buf_3[10];
                 wchar_to_char(s_string->field_0_player_name, str_buf_3, 10);
@@ -3465,9 +3465,9 @@ void CC ImGuiDebugDraw()
 
             if (ImGui::TreeNode("PlySlot_A4"))
             {
-                static s32 dreamy_id = 0;
-                ImGui::SliderInt("dreamy_id", &dreamy_id, 0, 7);
-                PlySlot_A4* dreamy = &gPlyDat_6FEAC0->field_26A0_plyr_stats[dreamy_id];
+                static s32 table_idx = 0;
+                ImGui::SliderInt("table_idx", &table_idx, 0, 7);
+                PlySlot_A4* dreamy = &gPlyDat_6FEAC0->field_26A0_plyr_stats[table_idx];
 
                 static char str_buf_4[9];
                 wchar_to_char(dreamy->field_90_strPlayerName, str_buf_4, 9);

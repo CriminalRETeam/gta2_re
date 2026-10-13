@@ -561,7 +561,7 @@ void sound_obj::ProcessCar_412B80(Sound_Params_8* pParams)
     {
         pParams->field_4_bDrivenByPlayer = pCar->is_driven_by_player();
 
-        sound_unknown_0xC* pAlloc = field_147C_audio_entities[field_30_sQueueSample.field_0_EntityIndex].field_8_pAlloc;
+        SoundPosEntry_C* pAlloc = field_147C_audio_entities[field_30_sQueueSample.field_0_EntityIndex].field_8_pAlloc;
         if (pAlloc)
         {
             CarPhysics_B0* pPhysics = pSprite->field_8_car_bc_ptr->field_58_physics; // +8 = Car_BC*
@@ -1355,7 +1355,7 @@ char_type sound_obj::Type6_413A10(CollisionEvent_28* pEvent)
 }
 
 MATCH_FUNC(0x413B90)
-void sound_obj::ProcessTrainCab_413B90(Sound_Params_8* a2, sound_unknown_0xC* a3)
+void sound_obj::ProcessTrainCab_413B90(Sound_Params_8* a2, SoundPosEntry_C* a3)
 {
     if (a2->field_0_pObj->field_8_car_bc_ptr->field_58_physics)
     {
@@ -1377,7 +1377,7 @@ void sound_obj::ProcessTrain_413BE0(Sound_Params_8* a2)
 }
 
 MATCH_FUNC(0x413BF0)
-void sound_obj::ProcessTank_413BF0(Sound_Params_8* a2, sound_unknown_0xC* pAlloc)
+void sound_obj::ProcessTank_413BF0(Sound_Params_8* a2, SoundPosEntry_C* pAlloc)
 {
     if (a2->field_0_pObj->field_8_car_bc_ptr->field_58_physics)
     {
@@ -1392,7 +1392,7 @@ void sound_obj::ProcessTank_413BF0(Sound_Params_8* a2, sound_unknown_0xC* pAlloc
 }
 
 MATCH_FUNC(0x413C50)
-void sound_obj::ProcessOtherCarTypes_413C50(Sound_Params_8* a2, sound_unknown_0xC* pAlloc)
+void sound_obj::ProcessOtherCarTypes_413C50(Sound_Params_8* a2, SoundPosEntry_C* pAlloc)
 {
     Car_BC* cBC = a2->field_0_pObj->field_8_car_bc_ptr;
     pAlloc->field_4 = (u32)cBC; // TODO: Likely another union??
@@ -1917,7 +1917,7 @@ void sound_obj::HandleCarWeaponHitSound_415480(Sound_Params_8* a2)
 DEFINE_GLOBAL_ARRAY(char_type, gSoundFileName_674E28, 80, 0x674E28);
 
 MATCH_FUNC(0x415570)
-void sound_obj::HandleCarAlarmSound_415570(Sound_Params_8* a2, sound_unknown_0xC* pAlloc)
+void sound_obj::HandleCarAlarmSound_415570(Sound_Params_8* a2, SoundPosEntry_C* pAlloc)
 {
     Car_BC* pCar = a2->field_0_pObj->field_8_car_bc_ptr;
     if (pCar->IsFireTruck_4118F0() || !pCar->HasEmergencyLights_414F20() || !pCar->AreEmergencyLightsOn_414F80())
@@ -2654,7 +2654,7 @@ s32 sound_obj::get_samp_idx_for_car_417D70(Car_BC* pCar, bool a2, bool bTrainOrB
 }
 
 MATCH_FUNC(0x417E30)
-void sound_obj::HandleHeavyVehicleStopSound_417E30(Sound_Params_8* a2, sound_unknown_0xC* a3)
+void sound_obj::HandleHeavyVehicleStopSound_417E30(Sound_Params_8* a2, SoundPosEntry_C* a3)
 {
     Car_BC* cBC = a2->field_0_pObj->field_8_car_bc_ptr;
     Fix16 v5;
@@ -3572,10 +3572,10 @@ s32 sound_obj::AddSoundObject_419FA0(SoundObject_10* pTuring)
         return 0;
     }
 
-    vigilant_maxwell* pMaxwellIter = &field_147C_audio_entities[1];
+    AudioEntity_C* pEntityIter = &field_147C_audio_entities[1];
     while (idx < 1020)
     {
-        if (!pMaxwellIter->field_0_bUsed)
+        if (!pEntityIter->field_0_bUsed)
         {
             if (pTuring->field_0_object_type == SoundObjectTypeEnum::Camera_0xBC_5)
             {
@@ -3606,7 +3606,7 @@ s32 sound_obj::AddSoundObject_419FA0(SoundObject_10* pTuring)
                         switch (v7->GetType_416B40())
                         {
                             case sprite_types_enum::car_2: // note: sub eax, 2 added via switch case instead of if
-                                sound_unknown_0xC* pNewObj = new sound_unknown_0xC();
+                                SoundPosEntry_C* pNewObj = new SoundPosEntry_C();
                                 field_147C_audio_entities[idx].field_8_pAlloc = pNewObj;
                                 pNewObj->field_0_x = kFpZero_674CD8;
                                 pNewObj->field_8 = 0;
@@ -3628,7 +3628,7 @@ s32 sound_obj::AddSoundObject_419FA0(SoundObject_10* pTuring)
         }
         idx++;
 
-        ++pMaxwellIter;
+        ++pEntityIter;
     }
 
     return 0;
@@ -4173,7 +4173,7 @@ void sound_obj::AddReleasingSounds_41A9D0()
 MATCH_FUNC(0x41AB80)
 void sound_obj::ProcessActiveQueues_41AB80()
 {
-    serene_brattain position;
+    SoundPos_C position;
     f32 x;
     f32 y;
     f32 z;
@@ -4471,7 +4471,7 @@ void sound_obj::UpdateFramesToPlay_41B490(sound_0x68* pObj)
 }
 
 MATCH_FUNC(0x41B4E0)
-void sound_obj::VecDiff_41B4E0(serene_brattain* pVec, serene_brattain* pRet)
+void sound_obj::VecDiff_41B4E0(SoundPos_C* pVec, SoundPos_C* pRet)
 {
     pRet->field_0_x = pVec->field_0_x - field_1468_v1;
     pRet->field_4_y = pVec->field_4_y - field_146C_v2;

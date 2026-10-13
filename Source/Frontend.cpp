@@ -5058,9 +5058,9 @@ void Frontend::sub_4B4EC0()
     }
     File::Global_Open_4A7060(FileName);
 
-    svg_stru svg;
+    SaveSlotInfo_52 svg;
     {
-        u32 len = sizeof(svg_stru);
+        u32 len = sizeof(SaveSlotInfo_52);
         File::Global_Read_4A71C0(&svg, len);
     }
 
@@ -5301,7 +5301,7 @@ bool menu_option_0x82::SelectPrevHorizontalIdx_4B6390()
 }
 
 MATCH_FUNC(0x4B6260)
-kind_beaver_6::kind_beaver_6()
+MenuOption_6::MenuOption_6()
 {
     field_0 = 0;
     field_2_unused = 0;
@@ -5309,7 +5309,7 @@ kind_beaver_6::kind_beaver_6()
 }
 
 MATCH_FUNC(0x4B6280)
-kind_beaver_6::~kind_beaver_6()
+MenuOption_6::~MenuOption_6()
 {
     field_0 = 0;
     field_2_unused = 0;
@@ -5317,7 +5317,7 @@ kind_beaver_6::~kind_beaver_6()
 }
 
 MATCH_FUNC(0x4B6440)
-admiring_euler_4::admiring_euler_4()
+SaveSlotSummary_4::SaveSlotSummary_4()
 {
     field_0_save_exists = false;
     field_1_last_saved_stage = 0;
@@ -5326,7 +5326,7 @@ admiring_euler_4::admiring_euler_4()
 }
 
 MATCH_FUNC(0x4B6450)
-admiring_euler_4::~admiring_euler_4()
+SaveSlotSummary_4::~SaveSlotSummary_4()
 {
     field_0_save_exists = false;
     field_1_last_saved_stage = 0;
@@ -5335,12 +5335,12 @@ admiring_euler_4::~admiring_euler_4()
 }
 
 MATCH_FUNC(0x4B6480)
-void admiring_euler_4::LoadPlySlotSvg_4B6480(const char_type* FileName)
+void SaveSlotSummary_4::LoadPlySlotSvg_4B6480(const char_type* FileName)
 {
     File::Global_Open_4A7060(FileName);
 
-    svg_stru svg;
-    u32 len = sizeof(svg_stru);
+    SaveSlotInfo_52 svg;
+    u32 len = sizeof(SaveSlotInfo_52);
     File::Global_Read_4A71C0(&svg, len);
 
     File::Global_Close_4A70C0();

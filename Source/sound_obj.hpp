@@ -12,7 +12,7 @@ class gmp_map_zone;
 class CollisionEvent_28;
 class SoundObject_10;
 
-class serene_brattain
+class SoundPos_C
 {
   public:
     // Compiler-generated constructor at 0x419DF0
@@ -21,10 +21,10 @@ class serene_brattain
     Fix16 field_8_z;
 };
 
-struct sound_unknown_0xC
+struct SoundPosEntry_C
 {
     // 9.6f 0x416C00
-    sound_unknown_0xC()
+    SoundPosEntry_C()
     {
     }
 
@@ -39,14 +39,14 @@ struct sound_unknown_0xC
     char_type field_B_unused;
 };
 
-struct vigilant_maxwell
+struct AudioEntity_C
 {
     char_type field_0_bUsed;
     u8 field_1_age;
     char_type field_2_unused;
     char_type field_3;
     SoundObject_10* field_4_pObj;
-    sound_unknown_0xC* field_8_pAlloc;
+    SoundPosEntry_C* field_8_pAlloc;
 };
 
 struct sound_7
@@ -84,7 +84,7 @@ struct sound_0x68
     char_type field_5_unused;
     char_type field_6_unused;
     char_type field_7_unused;
-    serene_brattain field_8_obj;
+    SoundPos_C field_8_obj;
     u32 field_14_samp_idx;
     char_type field_18_bIs2D;
     char_type field_19_unused;
@@ -201,7 +201,7 @@ class sound_obj
     char_type field_1476_unused;
     char_type field_1477_unused;
     s32 field_1478_type5Idx;
-    vigilant_maxwell field_147C_audio_entities[1020];
+    AudioEntity_C field_147C_audio_entities[1020];
     u32 field_444C_AudioEntityOrderList[1020];
     u32 field_543C_444C_nAudioEntitiesCount;
     s32 field_5440;
@@ -293,10 +293,10 @@ class sound_obj
     EXPORT char_type Type6_12_4136D0(CollisionEvent_28* pEvent);
     EXPORT void ProcessType6_CollisionSoundQueue_413760(s32 idx);
     EXPORT char_type Type6_413A10(CollisionEvent_28* pEvent);
-    EXPORT void ProcessTrainCab_413B90(Sound_Params_8* a2, sound_unknown_0xC* a3);
+    EXPORT void ProcessTrainCab_413B90(Sound_Params_8* a2, SoundPosEntry_C* a3);
     EXPORT void ProcessTrain_413BE0(Sound_Params_8* a2);
-    EXPORT void ProcessTank_413BF0(Sound_Params_8* a2, sound_unknown_0xC* pAlloc);
-    EXPORT void ProcessOtherCarTypes_413C50(Sound_Params_8* a2, sound_unknown_0xC* pAlloc);
+    EXPORT void ProcessTank_413BF0(Sound_Params_8* a2, SoundPosEntry_C* pAlloc);
+    EXPORT void ProcessOtherCarTypes_413C50(Sound_Params_8* a2, SoundPosEntry_C* pAlloc);
     EXPORT void HandleAICarHornBeep_413D10(Sound_Params_8* a2);
     EXPORT void HandleTrainEngineSound_4140C0(Sound_Params_8* a2);
 
@@ -315,7 +315,7 @@ class sound_obj
     EXPORT void Tank_415190(Sound_Params_8* a2);
     EXPORT char_type Type_13_4153F0(sound_0x68* a1);
     EXPORT void HandleCarWeaponHitSound_415480(Sound_Params_8* a2);
-    EXPORT void HandleCarAlarmSound_415570(Sound_Params_8* a2, sound_unknown_0xC* pAlloc);
+    EXPORT void HandleCarAlarmSound_415570(Sound_Params_8* a2, SoundPosEntry_C* pAlloc);
     EXPORT char_type Type_5_InitEngineSoundProfile_415730(sound_0x68* a1);
     EXPORT void HandleCarEngineSound_4157C0(Sound_Params_8* a2);
     EXPORT char_type Type_1_6_416260(sound_0x68* a2);
@@ -326,7 +326,7 @@ class sound_obj
     EXPORT char_type Type_4_417A00(sound_0x68* a2);
     EXPORT s32 GetVehicleAudioClass_417BA0(s32 a1);
     EXPORT s32 ConvertToPlayBackRate_417C60(s32 a1);
-    EXPORT void HandleHeavyVehicleStopSound_417E30(Sound_Params_8* a2, sound_unknown_0xC* a3);
+    EXPORT void HandleHeavyVehicleStopSound_417E30(Sound_Params_8* a2, SoundPosEntry_C* a3);
     EXPORT s32 Type_7_417EF0(sound_0x68* a2);
     EXPORT char_type IsHeavyTruckOrBus_417F40(s32 a1);
     EXPORT void HandleTruckCorneringAudio_417FD0(Sound_Params_8* a2);
@@ -368,7 +368,7 @@ class sound_obj
     EXPORT void ProcessActiveQueues_41AB80();
 
     EXPORT void UpdateFramesToPlay_41B490(sound_0x68* pObj);
-    EXPORT void VecDiff_41B4E0(serene_brattain* pVec, serene_brattain* pRet);
+    EXPORT void VecDiff_41B4E0(SoundPos_C* pVec, SoundPos_C* pRet);
     EXPORT void FromFix16_41B520(Fix16 fixVal, f32* s32Val);
     EXPORT void AdjustSamplesVolume_41B540();
     EXPORT char_type ComputeEmittingVolume_41B660(u8 emittingVolume, u32 maxDistance, u32 distance);

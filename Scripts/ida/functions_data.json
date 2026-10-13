@@ -6380,13 +6380,13 @@
         "v96f_auto": true
     },
     {
-        "name": "kind_beaver_6::ctor",
+        "name": "MenuOption_6::ctor",
         "v96f_address": "0x452b00",
         "v105_address": "0x4b6260",
         "v96f_auto": true
     },
     {
-        "name": "kind_beaver_6::dtor",
+        "name": "MenuOption_6::dtor",
         "v96f_address": "0x452b20",
         "v105_address": "0x4b6280",
         "v96f_auto": true
@@ -6428,19 +6428,19 @@
         "v96f_auto": true
     },
     {
-        "name": "admiring_euler_4::ctor",
+        "name": "SaveSlotSummary_4::ctor",
         "v96f_address": "0x452ce0",
         "v105_address": "0x4b6440",
         "v96f_auto": true
     },
     {
-        "name": "admiring_euler_4::dtor",
+        "name": "SaveSlotSummary_4::dtor",
         "v96f_address": "0x452cf0",
         "v105_address": "0x4b6450",
         "v96f_auto": true
     },
     {
-        "name": "admiring_euler_4::LoadPlySlotSvg_4B6480",
+        "name": "SaveSlotSummary_4::LoadPlySlotSvg_4B6480",
         "v96f_address": "0x452d00",
         "v105_address": "0x4b6480",
         "v96f_auto": true
