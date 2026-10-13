@@ -857,13 +857,13 @@ char_type sound_obj::Type6_5_413090(u8 a2)
 }
 
 MATCH_FUNC(0x4130E0)
-char_type sound_obj::Type6_7_4130E0(CollisionEvent_28* a2)
+char_type sound_obj::Type6_7_4130E0(CollisionEvent_28* pEvent)
 {
-    if ((a2->field_18_object_model < 200 || a2->field_18_object_model > 244) && (a2->field_18_object_model < 64 || a2->field_18_object_model > 108))
+    if ((pEvent->field_18_object_model < 200 || pEvent->field_18_object_model > 244) && (pEvent->field_18_object_model < 64 || pEvent->field_18_object_model > 108))
     {
-        return SelectObjectImpactSound_413120(a2, 7);
+        return SelectObjectImpactSound_413120(pEvent, 7);
     }
-    Type6_Play_412D90(a2->field_18_object_model);
+    Type6_Play_412D90(pEvent->field_18_object_model);
     return 1;
 }
 
@@ -1073,9 +1073,9 @@ rate_20000:
 }
 
 MATCH_FUNC(0x413540)
-char_type sound_obj::Type6_9_413540(CollisionEvent_28* a2)
+char_type sound_obj::Type6_9_413540(CollisionEvent_28* pEvent)
 {
-    switch (a2->field_1C_other_object_model)
+    switch (pEvent->field_1C_other_object_model)
     {
         case 169:
         case 182:
@@ -1088,7 +1088,7 @@ char_type sound_obj::Type6_9_413540(CollisionEvent_28* a2)
         case 286:
         case 294:
         case 295:
-            return SelectObjectImpactSound_413120(a2, 9);
+            return SelectObjectImpactSound_413120(pEvent, 9);
 
         case 1:
         case 2:
@@ -1136,7 +1136,7 @@ char_type sound_obj::Type6_9_413540(CollisionEvent_28* a2)
         case 157:
         case 158:
         case 166:
-            return SelectObjectImpactSound_413120(a2, 9);
+            return SelectObjectImpactSound_413120(pEvent, 9);
 
         default:
             return 0;
@@ -1144,10 +1144,10 @@ char_type sound_obj::Type6_9_413540(CollisionEvent_28* a2)
 }
 
 MATCH_FUNC(0x4136D0)
-char_type sound_obj::Type6_12_4136D0(CollisionEvent_28* a2)
+char_type sound_obj::Type6_12_4136D0(CollisionEvent_28* pEvent)
 {
     s32 samp_idx;
-    switch (a2->field_20_map_block_spec)
+    switch (pEvent->field_20_map_block_spec)
     {
         case 4:
             samp_idx = 68;

@@ -70,7 +70,7 @@ class text_0x14
 
     EXPORT u16 RemapExtendedChar_5B58D0(u16 a2);
 
-    EXPORT void RemapExtendedCharsIfNotJapanese_5B5910(wchar_t* a2);
+    EXPORT void RemapExtendedCharsIfNotJapanese_5B5910(wchar_t* pText);
 
     EXPORT void RemapExtendedChars_5B5930(wchar_t* pStr);
 
@@ -90,7 +90,7 @@ class text_0x14
 
     EXPORT static s32 __stdcall InsertLineBreaksAndGetNumLines_5B5BC0(wchar_t* pDestStr, const wchar_t* pSrcStr, s32 max_line_width, u16 font_type);
 
-    EXPORT static char_type* __stdcall Wide2PesudoAscii_5B5D10(const wchar_t* a1);
+    EXPORT static char_type* __stdcall Wide2PesudoAscii_5B5D10(const wchar_t* pText);
 
     EXPORT static wchar_t* __stdcall Ascii2Wide_5B5DF0(char_type* pStr);
 

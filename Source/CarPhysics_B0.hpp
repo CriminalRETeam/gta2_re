@@ -181,7 +181,7 @@ class CarPhysics_B0
     EXPORT void BinarySearchCollisionTime_55C560(Fix16& a2, Fix16& a3);
     EXPORT void HandleMapBoundaryCollisionY_55C5C0(Fix16_Point& pPoint, Ang16 angle);
     EXPORT void HandleMapBoundaryCollisionX_55C820(Fix16_Point& pPoint, Ang16 angle);
-    EXPORT void DispatchCollision_55CA70(Fix16_Point& a2, Ang16 a3);
+    EXPORT void DispatchCollision_55CA70(Fix16_Point& point, Ang16 a3);
     EXPORT void ReplayAndDispatchCollision_55CBB0(Fix16 a2, Fix16 a3);
     EXPORT void SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 surface);
     EXPORT void UpdateWheelSkidEffects_55DC00();
@@ -196,12 +196,12 @@ class CarPhysics_B0
     EXPORT void StepPhysics_55F330();
     EXPORT char_type CheckPendingCollision_55F360();
     EXPORT void ApplyForceWithTrailerRedirect_55F740(Fix16_Point* a2, Fix16_Point* a3);
-    EXPORT void ApplyForceAndIntegrate_55F7A0(Fix16_Point* a2, Fix16_Point a3);
+    EXPORT void ApplyForceAndIntegrate_55F7A0(Fix16_Point* pPoint, Fix16_Point a3);
     EXPORT void ApplyForceAtPoint_55F800(Fix16_Point* a2, Fix16_Point* a3, s32 bRotate);
-    EXPORT void AccumulateImpulse_55F930(Fix16_Point* a2);
+    EXPORT void AccumulateImpulse_55F930(Fix16_Point* pPoint);
     EXPORT void ApplyAngularImpulse_55F970(Fix16 a2);
     EXPORT void ApplyForceScaledByMass_55F9A0(Fix16_Point& pForce);
-    EXPORT void ApplyImpulseWithTrailerRedirect_55FA10(Fix16_Point* a2);
+    EXPORT void ApplyImpulseWithTrailerRedirect_55FA10(Fix16_Point* pPoint);
     EXPORT Fix16 ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce, Fix16_Point& Impulse, s32 base_dmg);
     EXPORT void AccumulateImpulse_55FC30(Fix16_Point& a2, s32 base_dmg);
     EXPORT void HandleWorldCollision_55FD00(Fix16_Point& pHitPoint);
@@ -211,8 +211,8 @@ class CarPhysics_B0
     EXPORT void UpdateLinearAndAngularAccel_560EB0();
     EXPORT void ApplyMovementStep_560F20(Fix16 a2);
     EXPORT void IntegrateAndClampVelocities_5610B0();
-    EXPORT Fix16_Point ComputeRelativePointVelocity_561130(Fix16_Point* a3);
-    EXPORT Fix16_Point GetPointVelocity_561350(Fix16_Point* a3);
+    EXPORT Fix16_Point ComputeRelativePointVelocity_561130(Fix16_Point* pPoint);
+    EXPORT Fix16_Point GetPointVelocity_561350(Fix16_Point* pPoint);
     EXPORT Fix16_Point ComputePointVelocity_561380(Fix16_Point& point);
     EXPORT Fix16 ApplyDriveForce_5615D0(Fix16_Point& a3, Ang16 angle, Fix16_Point& a5, Fix16 a6);
     EXPORT bool get_revs_561940();

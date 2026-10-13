@@ -65,11 +65,11 @@ u16 text_0x14::RemapExtendedChar_5B58D0(u16 a2)
 }
 
 MATCH_FUNC(0x5B5910)
-void text_0x14::RemapExtendedCharsIfNotJapanese_5B5910(wchar_t* a2)
+void text_0x14::RemapExtendedCharsIfNotJapanese_5B5910(wchar_t* pText)
 {
     if (field_10_lang_code != 'j')
     {
-        RemapExtendedChars_5B5930(a2);
+        RemapExtendedChars_5B5930(pText);
     }
 }
 
@@ -286,9 +286,9 @@ s32 __stdcall text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(wchar_t* pDestStr
 }
 
 MATCH_FUNC(0x5B5D10)
-char* text_0x14::Wide2PesudoAscii_5B5D10(const wchar_t* a1)
+char* text_0x14::Wide2PesudoAscii_5B5D10(const wchar_t* pText)
 {
-    const wchar_t* pSrc = a1;
+    const wchar_t* pSrc = pText;
     // jnb forced to jge by changing u32 loop index to int
     s32 dstIdx = 0;
     while (pSrc) // bug: should be *pSrc

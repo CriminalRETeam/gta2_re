@@ -105,15 +105,15 @@ Ang16 Ang16::Fix16_To_Ang16_482740(Fix16& a2)
 }
 
 MATCH_FUNC(0x4F78F0)
-s32 __stdcall Ang16::GetAngleFace_4F78F0(Ang16& a1)
+s32 __stdcall Ang16::GetAngleFace_4F78F0(Ang16& angle)
 {
-    if (a1 <= kAng45_6F677C || a1 > kAng315_6F680C) //  45° and 315°
+    if (angle <= kAng45_6F677C || angle > kAng315_6F680C) //  45° and 315°
     {
         return 2; //  North
     }
-    if (a1 < kAng135_6F6800) // kAng135_6F6800 = 135°
+    if (angle < kAng135_6F6800) // kAng135_6F6800 = 135°
     {
         return 3; //  East
     }
-    return a1 < kAng225_6F67DC ? 1 : 4; // kAng225_6F67DC = 225°  ,  1 = South, 4 = West
+    return angle < kAng225_6F67DC ? 1 : 4; // kAng225_6F67DC = 225°  ,  1 = South, 4 = West
 }

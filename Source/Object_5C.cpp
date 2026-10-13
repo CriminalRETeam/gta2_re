@@ -359,9 +359,9 @@ void Object_2C::SetMovementVector_5224E0(Fix16_Point& speed)
 }
 
 MATCH_FUNC(0x522640)
-void Object_2C::SetMovementVectorWithRandomState_522640(Fix16_Point& a2)
+void Object_2C::SetMovementVectorWithRandomState_522640(Fix16_Point& point)
 {
-    SetMovementVector_5224E0(a2);
+    SetMovementVector_5224E0(point);
 
     if (field_8->field_4C == 3 && field_10_obj_3c->field_34 == 2)
     {
@@ -392,7 +392,7 @@ void Object_2C::SetConveyorPush_5226A0(char_type conveyor_speed)
 }
 
 MATCH_FUNC(0x522710)
-void Object_2C::ResolveCollisionWithObject_522710(Object_2C* pObj, Fix16_Point* a3)
+void Object_2C::ResolveCollisionWithObject_522710(Object_2C* pObj, Fix16_Point* pPoint)
 {
     Fix16_Point v26;
     Fix16_Point v27;
@@ -402,7 +402,7 @@ void Object_2C::ResolveCollisionWithObject_522710(Object_2C* pObj, Fix16_Point* 
     Fix16_Point v29 = GetXY_52AE70();
 
     Ang16 v25 = 0;
-    v26 = (v29 - *a3);
+    v26 = (v29 - *pPoint);
 
     if (pObj->sub_482C90())
     {
@@ -411,7 +411,7 @@ void Object_2C::ResolveCollisionWithObject_522710(Object_2C* pObj, Fix16_Point* 
                                                  pObj->GetMass_482C80(),
                                                  v27,
                                                  v26,
-                                                 *a3,
+                                                 *pPoint,
                                                  v29,
                                                  v30,
                                                  kFP16One_6F8D38,
@@ -432,7 +432,7 @@ void Object_2C::ResolveCollisionWithObject_522710(Object_2C* pObj, Fix16_Point* 
                                                  kFP16MinusOne_6F8BE8,
                                                  v27,
                                                  v26,
-                                                 *a3,
+                                                 *pPoint,
                                                  v29,
                                                  v30,
                                                  kFP16One_6F8D38,
@@ -497,13 +497,13 @@ void Object_2C::ResolveCollisionWithPed_5229B0(Char_B4* pB4, Fix16_Point* pPoint
 }
 
 MATCH_FUNC(0x522b20)
-void Object_2C::ResolveCollisionWithWorld_522B20(Fix16_Point* f18, Fix16_Point* a3, Fix16_Point* speed)
+void Object_2C::ResolveCollisionWithWorld_522B20(Fix16_Point* f18, Fix16_Point* pPoint, Fix16_Point* speed)
 {
     // GetXY_52AE70() is a temporary argument, not a local: that gives the original EH states (0, 2, 3) and frame
     Fix16_Point v9 = ComputeLineLineIntersection_55F3B0(GetMass_482C80(),
                                                         kFP16MinusOne_6F8BE8,
                                                         *speed,
-                                                        *a3,
+                                                        *pPoint,
                                                         *f18,
                                                         GetXY_52AE70(),
                                                         gZeroVector_6F8EF0,
@@ -515,7 +515,7 @@ void Object_2C::ResolveCollisionWithWorld_522B20(Fix16_Point* f18, Fix16_Point* 
 }
 
 MATCH_FUNC(0x522be0)
-void Object_2C::ResolveCollisionWithMapTile_522BE0(Fix16_Point* a2)
+void Object_2C::ResolveCollisionWithMapTile_522BE0(Fix16_Point* pPoint)
 {
     Fix16_Point v12;
     Fix16_Point t1;
@@ -529,7 +529,7 @@ void Object_2C::ResolveCollisionWithMapTile_522BE0(Fix16_Point* a2)
     else
     {
         t1.SetXY_432860(gCollisionTarget_679188.field_14_vseg_x, gCollisionTarget_679188.field_18_hseg_y);
-        t1 -= *a2;
+        t1 -= *pPoint;
         t1.x += field_4->field_14_xy.x;
         t1.y = gCollisionTarget_679188.field_18_hseg_y;
 
@@ -589,17 +589,17 @@ void Object_2C::ResolveCollisionWithMapTileHorizontal_522D00(Fix16_Point* pPoint
 }
 
 MATCH_FUNC(0x522e10)
-void Object_2C::HandleCollision_522E10(Fix16_Point* a4)
+void Object_2C::HandleCollision_522E10(Fix16_Point* pPoint)
 {
 
     Fix16_Point v13;
     switch (gCollisionTarget_679188.field_0_type)
     {
         case collision_target_type::horizontal_edge_1:
-            ResolveCollisionWithMapTile_522BE0(a4);
+            ResolveCollisionWithMapTile_522BE0(pPoint);
             break;
         case collision_target_type::vertical_edge_2:
-            ResolveCollisionWithMapTileHorizontal_522D00(a4);
+            ResolveCollisionWithMapTileHorizontal_522D00(pPoint);
             break;
 
         case collision_target_type::sprite_3:
@@ -607,7 +607,7 @@ void Object_2C::HandleCollision_522E10(Fix16_Point* a4)
             u8 a7;
             u8 a8;
             u8 a9;
-            v13 = field_4->FindCollisionIntersectionPoint_5A2710(gCollisionTarget_679188.field_20_pHitSprite, *a4, field_4->field_0_rotation, a7, a8, a9);
+            v13 = field_4->FindCollisionIntersectionPoint_5A2710(gCollisionTarget_679188.field_20_pHitSprite, *pPoint, field_4->field_0_rotation, a7, a8, a9);
             Car_BC* pCar = gCollisionTarget_679188.field_20_pHitSprite->AsCar_40FEB0();
             if (pCar)
             {
@@ -755,7 +755,7 @@ void Object_2C::HandleCollisionOutcome_523440(Fix16_Point point, char_type bUnkn
 }
 
 MATCH_FUNC(0x5235b0)
-char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point* a3, u8* a4, Fix16 a5)
+char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point* pPoint, u8* a4, Fix16 a5)
 {
     Fix16 temp_z;
     bool v15;
@@ -802,7 +802,7 @@ char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix1
 
     if (pSprite->CheckSpriteMovementRegion_5A2500())
     {
-        *a3 = pSprite->get_x_y();
+        *pPoint = pSprite->get_x_y();
         *a4 = 1;
         ComputeWallHitSide_524550();
         return 1;
@@ -812,7 +812,7 @@ char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix1
         field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed.mValue;
         field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
         field_10_obj_3c->field_2A_bAirborne = 0;
-        *a3 = pSprite->get_x_y();
+        *pPoint = pSprite->get_x_y();
         return 1;
     }
     else
@@ -877,7 +877,7 @@ char_type Object_2C::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite
 
 // https://decomp.me/scratch/1RN5H
 MATCH_FUNC(0x5238B0)
-char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* a3, u8* a4, u8* a5, Fix16 a6)
+char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint, u8* a4, u8* a5, Fix16 a6)
 {
     Fix16 v14;
     bool v23 = false;
@@ -988,7 +988,7 @@ char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point*
         field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed;
         field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
         field_10_obj_3c->field_2A_bAirborne = 0;
-        *a3 = pSprite->get_x_y();
+        *pPoint = pSprite->get_x_y();
         *a4 = true;
         Object_2C::ComputeWallHitSide_524550();
         return true;
@@ -1003,7 +1003,7 @@ char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point*
         else if (gObject2C_HitWallOrDoor_6F8F94)
         {
             field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed.mValue;
-            *a3 = pSprite->get_x_y();
+            *pPoint = pSprite->get_x_y();
             *a4 = true;
             return true;
         }

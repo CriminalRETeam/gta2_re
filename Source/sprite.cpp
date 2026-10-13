@@ -1670,7 +1670,7 @@ char_type Sprite::CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 sca
 
 // https://decomp.me/scratch/EK1Y2
 MATCH_FUNC(0x5A0A70)
-bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& a3, u8& a4)
+bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& point, u8& a4)
 {
     // Same as GetNearestVerticalEdgeToCoordinate_5A1030
     UpdateCollisionBoundsIfNeeded_59E9C0();
@@ -1681,7 +1681,7 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& 
     Fix16 least_abs;
     least_abs = Fix16::Abs(diff);
 
-    a3 = RenderingRect[0];
+    point = RenderingRect[0];
     a4 = 0;
 
     diff = RenderingRect[1].y - a2;
@@ -1694,13 +1694,13 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& 
     if (diff < least_abs)
     {
         least_abs = diff;
-        a3.x = RenderingRect[1].x;
-        a3.y = RenderingRect[1].y;
+        point.x = RenderingRect[1].x;
+        point.y = RenderingRect[1].y;
         a4 = 1;
     }
     else if (diff == least_abs)
     {
-        a3.x = (a3.x + RenderingRect[1].x) / kFP16Two_7035C8;
+        point.x = (point.x + RenderingRect[1].x) / kFP16Two_7035C8;
         a4 = 5;
     }
 
@@ -1714,13 +1714,13 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& 
     if (diff < least_abs)
     {
         least_abs = diff;
-        a3.x = RenderingRect[2].x;
-        a3.y = RenderingRect[2].y;
+        point.x = RenderingRect[2].x;
+        point.y = RenderingRect[2].y;
         a4 = 2;
     }
     else if (diff == least_abs)
     {
-        a3.x = (a3.x + RenderingRect[2].x) / kFP16Two_7035C8;
+        point.x = (point.x + RenderingRect[2].x) / kFP16Two_7035C8;
         a4 = 5;
     }
 
@@ -1733,13 +1733,13 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& 
     diff = Fix16::Abs(diff);
     if (diff < least_abs)
     {
-        a3.x = RenderingRect[3].x;
-        a3.y = RenderingRect[3].y;
+        point.x = RenderingRect[3].x;
+        point.y = RenderingRect[3].y;
         a4 = 3;
     }
     else if (diff == least_abs)
     {
-        a3.x = (a3.x + RenderingRect[3].x) / kFP16Two_7035C8;
+        point.x = (point.x + RenderingRect[3].x) / kFP16Two_7035C8;
         a4 = 5;
     }
 

@@ -259,7 +259,7 @@ class Ang16
     // Non-inlined version of above function
     EXPORT static void __stdcall PolarToCartesian_451730(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2);
 
-    EXPORT static s32 __stdcall Ang16::GetAngleFace_4F78F0(Ang16& a1);
+    EXPORT static s32 __stdcall Ang16::GetAngleFace_4F78F0(Ang16& angle);
 
     // inlined from 0x40f580 on v9.6f
     // I was tempted to put this on the Fix16 header, but that will create a circular dependency...
