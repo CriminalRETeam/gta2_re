@@ -5,6 +5,7 @@
 #include "Pool.hpp"
 #include "ang16.hpp"
 #include "enums.hpp"
+#include "sprite_flags.hpp"
 #include "fix16.hpp"
 #include "gbh_graphics.hpp"
 
@@ -606,7 +607,11 @@ class Sprite
     char_type field_26_pad;
     char_type field_27_pad;
     s32 field_28_num;
-    u8 field_2C_flags;
+    union
+    {
+        u8 field_2C_flags;
+        SpriteFlags8 field_2C_bf;
+    };
     char_type field_2D_pad;
     char_type field_2E_pad;
     char_type field_2F_pad;
