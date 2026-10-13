@@ -1376,9 +1376,17 @@ class Car_BC
     s32 field_98_door_lock;
     s32 field_9C_engine_status;
     s32 field_A0_car_kind; // police car, fire engine, mission car etc
-    char_type field_A4_light_flags;
+    union
+    {
+        char_type field_A4_light_flags;
+        CarLightFlags8 field_A4_bf;
+    };
     char_type field_A5_flash_phase_counter;
-    char_type field_A6_turn_flags;
+    union
+    {
+        char_type field_A6_turn_flags;
+        CarTurnFlags8 field_A6_bf;
+    };
     u8 field_A7_horn;
     u8 field_A8_horn_cooldown;
     char_type field_A9_timer; // explode/turn to wreck timer?

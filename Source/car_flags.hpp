@@ -25,6 +25,33 @@ struct CarFlags16
     u16 bFlag15 : 1; // bit 15
 };
 
+
+// Car_BC::field_A6_bf (aliases field_A6_turn_flags).
+struct CarTurnFlags8
+{
+    u8 bTurnRight : 1; // bit 0
+    u8 bTurnLeft : 1; // bit 1
+    u8 bTurnRightReady : 1; // bit 2
+    u8 bTurnLeftReady : 1; // bit 3
+    u8 bFlag4 : 1; // bit 4
+    u8 bAIHalted : 1; // bit 5
+    u8 bFlag6 : 1; // bit 6
+    u8 bFlag7 : 1; // bit 7
+};
+
+// Car_BC::field_A4_bf (aliases field_A4_light_flags).
+struct CarLightFlags8
+{
+    u8 bBrakeLights : 1; // bit 0
+    u8 bHeadlights : 1; // bit 1
+    u8 bEmergencyLights : 1; // bit 2
+    u8 bLightFlashing : 1; // bit 3
+    u8 bHeadlightFlash : 1; // bit 4
+    u8 bFlag5 : 1; // bit 5
+    u8 bFlag6 : 1; // bit 6
+    u8 bFlag7 : 1; // bit 7
+};
+
 // Keeps the number of names MapRenderer.cpp sees at the count that makes Draw3SidedDiagonalDownRight_4EF520 and
 // Draw4SidedDiagonalUpLeft_4EF880 match (docs/matching_quirks.md). Do not remove without running the whole build.
 enum
