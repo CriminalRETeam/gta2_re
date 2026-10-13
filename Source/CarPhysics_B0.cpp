@@ -446,7 +446,7 @@ void CarPhysics_B0::ScarePedsOnDrivingFast_559C30()
     gmp_block_info* pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(field_38_cp1.x.ToInt(), field_38_cp1.y.ToInt(), cp3.ToInt());
     if (pBlock)
     {
-        u8 type = pBlock->field_B_slope_type & 3; //get_block_type(pBlock->field_B_slope_type);
+        u8 type = pBlock->field_B_slope_type & 3; //GET_BLOCK_TYPE(pBlock->field_B_slope_type);
         if (type == PAVEMENT || type == FIELD)
         {
             if (field_5C_pCar->field_54_driver)

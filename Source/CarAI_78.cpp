@@ -901,8 +901,8 @@ void CarAI_78::CheckRoadAhead_448770()
     {
         pBlock_ = gMap_0x370_6F6268->GetBlock_4DFE10(dword_677A74.ToInt(), dword_677A80.ToInt(), field_0_car->field_50_car_sprite->field_1C_zpos.ToInt());
         if (pBlock_ && (pBlock_->field_B_slope_type & 0xFC) > 0 &&
-            (pBlock_->field_B_slope_type & 0xFC) < 0xB4 //is_gradient_slope(pBlockAtPos->field_B_slope_type)
-            && (pBlock_->field_B_slope_type & 3) != 0) // !is_air_type(pBlockAtPos->field_B_slope_type)
+            (pBlock_->field_B_slope_type & 0xFC) < 0xB4 //IS_GRADIENT_SLOPE(pBlockAtPos->field_B_slope_type)
+            && (pBlock_->field_B_slope_type & 3) != 0) // !IS_AIR_TYPE(pBlockAtPos->field_B_slope_type)
         {
         }
         else
@@ -1000,8 +1000,8 @@ void CarAI_78::CheckRoadAhead_448770()
     {
         pBlock___ = gMap_0x370_6F6268->GetBlock_4DFE10(dword_677A74.ToInt(), dword_677A80.ToInt(), field_0_car->field_50_car_sprite->field_1C_zpos.ToInt());
         if (pBlock___ && (pBlock___->field_B_slope_type & 0xFC) > 0 &&
-            (pBlock___->field_B_slope_type & 0xFC) < 0xB4 //is_gradient_slope(pBlockAtPos->field_B_slope_type)
-            && (pBlock___->field_B_slope_type & 3) != 0) // !is_air_type(pBlockAtPos->field_B_slope_type)
+            (pBlock___->field_B_slope_type & 0xFC) < 0xB4 //IS_GRADIENT_SLOPE(pBlockAtPos->field_B_slope_type)
+            && (pBlock___->field_B_slope_type & 3) != 0) // !IS_AIR_TYPE(pBlockAtPos->field_B_slope_type)
         {
         }
         else

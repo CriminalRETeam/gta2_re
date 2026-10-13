@@ -7524,7 +7524,7 @@ char_type TrafficSpawner_14::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_di
         if (pBlock)
         {
             u8 slope_type = pBlock->field_B_slope_type;
-            if (!(is_gradient_slope(slope_type) && get_block_type(slope_type) != 0) && get_block_type(slope_type) == 1)
+            if (!(IS_GRADIENT_SLOPE(slope_type) && GET_BLOCK_TYPE(slope_type) != 0) && GET_BLOCK_TYPE(slope_type) == 1)
             {
                 Fix16 nav_x = xpos.GetRoundValue() + kFpHalf_6FF674;
                 Fix16 nav_y = ypos.GetRoundValue() + kFpHalf_6FF674;
@@ -7881,12 +7881,12 @@ char_type TrafficSpawner_14::IsFlatRoadAt_583870(Fix16 xpos, Fix16 ypos)
         }
 
         u8 slope_type = pHighBlock->field_B_slope_type;
-        if (is_gradient_slope(slope_type) && get_block_type(slope_type) != 0)
+        if (IS_GRADIENT_SLOPE(slope_type) && GET_BLOCK_TYPE(slope_type) != 0)
         {
             return 0;
         }
 
-        if (get_block_type(slope_type) == 1)
+        if (GET_BLOCK_TYPE(slope_type) == 1)
         {
             return 1;
         }

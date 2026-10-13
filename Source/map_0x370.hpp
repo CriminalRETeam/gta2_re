@@ -334,6 +334,16 @@ extern Fix16 kFpOne_6F6110;
 EXTERN_GLOBAL(Ang16, word_6F603E);
 EXPORT Ang16 __stdcall ReturnAngleFromRoadDirection_4F7940(s32& road_direction);
 
+// Slope byte tests. 9.6f (inlining off) has no functions for these, so the original wrote them inline.
+// Bits 0-1 are the ground type (0 air, 1 road, 2 pavement, 3 field), bits 2-7 the slope index (0-63).
+#define GET_SLOPE_BITS(slope_byte) ((u8)((slope_byte) & 0xFCu)) // slope_byte with its first 2 bits cleared
+#define GET_SLOPE_IDX(slope_byte) ((u8)((slope_byte) >> 2))     // 0 to 63
+#define IS_AIR_TYPE(slope_byte) (((slope_byte) & 3) == 0)
+#define IS_GRADIENT_SLOPE(slope_byte) (GET_SLOPE_BITS(slope_byte) > 0 && GET_SLOPE_BITS(slope_byte) < 0xB4u) // slope idx 1 to 44
+#define GET_BLOCK_TYPE(slope_byte) ((u8)((slope_byte) & 3))
+#define IS_PARTIAL_BLOCK(slope) ((slope) >= 0xD4 && (slope) <= 0xF4)
+#define IS_TRIDIAGONAL_BLOCK(slope) ((slope) >= 0xC4 && (slope) <= 0xD0)
+
 struct gmp_zone_list
 {
     u16 field_0_num_zones;
@@ -696,8 +706,8 @@ class Map_0x370
     {
         gmp_block_info* pBlockAtPos = GetBlock_4DFE10(xpos, ypos, zpos);
         if (pBlockAtPos && (pBlockAtPos->field_B_slope_type & 0xFC) > 0 &&
-            (pBlockAtPos->field_B_slope_type & 0xFC) < 0xB4 //is_gradient_slope(pBlockAtPos->field_B_slope_type)
-            && (pBlockAtPos->field_B_slope_type & 3) != 0) // !is_air_type(pBlockAtPos->field_B_slope_type)
+            (pBlockAtPos->field_B_slope_type & 0xFC) < 0xB4 //IS_GRADIENT_SLOPE(pBlockAtPos->field_B_slope_type)
+            && (pBlockAtPos->field_B_slope_type & 3) != 0) // !IS_AIR_TYPE(pBlockAtPos->field_B_slope_type)
         {
             return true;
         }
@@ -826,43 +836,7 @@ EXTERN_GLOBAL(s32, gSpriteGrid_right_6F5B80);
 
 EXPORT void Init_gmp_slopes_array();
 
-static inline u8 get_slope_bits(u8& slope_byte) // slope_byte but with its first 2 bits cleared
-{
-    return slope_byte & 0xFCu;
-}
-
-static inline u8 get_slope_idx(u8& slope_byte) // 0 to 63
-{
-    return slope_byte >> 2;
-}
-
-static inline bool is_air_type(u8& slope_byte)
-{
-    return (slope_byte & 3) == 0;
-}
-
-static inline bool is_gradient_slope(u8& slope_byte)
-{
-    u8 slope = get_slope_bits(slope_byte);
-    return slope > 0 && slope < 0xB4u; // slope idx in range 1 to 45
-}
-
-static inline u8 get_block_type(u8& slope_byte)
-{
-    return slope_byte & 3;
-}
-
-static inline bool is_partial_block(s32& slope)
-{
-    return slope >= 0xD4 && slope <= 0xF4;
-}
-
-static inline bool is_tridiagonal_block(s32& slope)
-{
-    return slope >= 0xC4 && slope <= 0xD0;
-}
-
 static inline gmp_map_slope* get_slope_struct(u8& slope_byte)
 {
-    return &gGmpSlopes_6F5BA8[get_slope_idx(slope_byte)];
+    return &gGmpSlopes_6F5BA8[GET_SLOPE_IDX(slope_byte)];
 }

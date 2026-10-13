@@ -3387,7 +3387,7 @@ void Char_B4::state_0_54DDF0()
     if (pBlock)
     {
         // bit 0: standing on a slope
-        field_58_flags_bf.bOnSlope = get_slope_bits(pBlock->field_B_slope_type) != 0 && get_slope_bits(pBlock->field_B_slope_type) != 0xFC;
+        field_58_flags_bf.bOnSlope = GET_SLOPE_BITS(pBlock->field_B_slope_type) != 0 && GET_SLOPE_BITS(pBlock->field_B_slope_type) != 0xFC;
         if (gGtx_0x106C_703DD4->IsElectrifiedFloorType_491F80(pBlock->field_8_lid & 0x3FF) &&
             field_10_char_state != Char_B4_state::Jumping_15)
         {
