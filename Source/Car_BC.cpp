@@ -7315,7 +7315,7 @@ void Car_14::GenerateTraffic_583670()
         field_C_player = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0();
         if (field_C_player)
         {
-            field_10_zone = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(field_C_player->field_2C4_player_ped->get_cam_x().ToInt(),
+            field_10_zone = gMap_0x370_6F6268->GetZoneInfoAt_4DF890(field_C_player->field_2C4_player_ped->get_cam_x().ToInt(),
                                                                            field_C_player->field_2C4_player_ped->field_1AC_cam.y.ToInt());
         }
 
@@ -7346,7 +7346,7 @@ void Car_14::GenerateTraffic_583670()
             }
             if (pPed)
             {
-                field_10_zone = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(pPed->get_cam_x().ToInt(), pPed->field_1AC_cam.y.ToInt());
+                field_10_zone = gMap_0x370_6F6268->GetZoneInfoAt_4DF890(pPed->get_cam_x().ToInt(), pPed->field_1AC_cam.y.ToInt());
             }
         }
     }
@@ -7532,7 +7532,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
                 field_4_rect->SetHiLowZ_41E370(ground_z - kFpOne_6FF778, ground_z + kFpOne_6FF778);
                 if (field_4_rect->EveryTileMatchesArrowType_59DFB0(arrow_direction))
                 {
-                    gmp_zone_info* pZone = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(nav_x.ToInt(), nav_y.ToInt());
+                    gmp_zone_info* pZone = gMap_0x370_6F6268->GetZoneInfoAt_4DF890(nav_x.ToInt(), nav_y.ToInt());
                     if (pZone && !pZone->field_0_car_density)
                     {
                         return 0;

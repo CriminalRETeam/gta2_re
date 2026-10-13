@@ -693,7 +693,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4DF4D0 | `Map_0x370::zone_by_pos_and_type_4DF4D0` | 0x464FE0 | `Map_0x370::sub_462E40`, ✓ `gmp_map_zone::sub_463020` | done | Overlaps -> gmp_map_zone::ContainsPoint_463020 (sub_462E40 = get_zone_4DFB30 called); still matches |
 | 0x4DF6A0 | `Map_0x370::sub_4DF6A0` | 0x465130 | `Map_0x370::sub_462E40`, ✓ `gmp_map_zone::sub_463020` | done | Overlaps -> gmp_map_zone::ContainsPoint_463020 (sub_462E40 = get_zone_4DFB30 called); still matches |
 | 0x4DF770 | `Map_0x370::next_zone_4DF770` | 0x4651C0 | `Map_0x370::sub_462E40`, ✓ `gmp_map_zone::sub_463020` | done | Overlaps -> gmp_map_zone::ContainsPoint_463020 (sub_462E40 = get_zone_4DFB30 called); still matches |
-| 0x4DF890 | `Map_0x370::get_nav_zone_unknown_4DF890` | 0x465250 | `Map_0x370::sub_465090` | checked | sub_465090 is nav_zone_by_pos_4DF5C0, called |
+| 0x4DF890 | `Map_0x370::GetZoneInfoAt_4DF890` | 0x465250 | `Map_0x370::sub_465090` | checked | sub_465090 is nav_zone_by_pos_4DF5C0, called |
 | 0x4DFE10 | `Map_0x370::get_block_4DFE10` | 0x4653C0 | ✓ `gmp_compressed_map_32::sub_42A830` | done | gmp_compressed_map_32::get_base_42A830; still matches |
 | 0x4DFE60 | `Map_0x370::GetEffectiveBlock_4DFE60` | 0x465410 | ✓ `gmp_compressed_map_32::sub_42A830` | done | gmp_compressed_map_32::get_base_42A830; still matches |
 | 0x4DFEE0 | `Map_0x370::sub_4DFEE0` | 0x465490 | ✓ `gmp_compressed_map_32::sub_42A830` | done | gmp_compressed_map_32::get_base_42A830; still matches |

@@ -105,7 +105,7 @@ struct Map_sub;
 
 struct gmp_compressed_map_32
 {
-    EXPORT void ApplyDmapInfos_4E80A0(Map_sub* a2);
+    EXPORT void ApplyDmapInfos_4E80A0(Map_sub* pMapSub);
 
     // 9.6f 0x4630B0
     gmp_compressed_map_32()
@@ -344,9 +344,9 @@ class Map_0x370
 
     EXPORT gmp_zone_info* cur_zone_4DF840();
 
-    EXPORT gmp_zone_info* get_nav_zone_unknown_4DF890(s32 zone_x, s32 zone_y);
+    EXPORT gmp_zone_info* GetZoneInfoAt_4DF890(s32 zone_x, s32 zone_y);
 
-    EXPORT void set_nav_unknown_data_4DF8C0(s32 zone_idx,
+    EXPORT void SetZoneInfo_4DF8C0(s32 zone_idx,
                                             s16 car_density,
                                             s16 goodcar_ratio,
                                             s16 badcar_ratio,
@@ -359,29 +359,29 @@ class Map_0x370
                                             s16 gangchar_ratio,
                                             s16 policeped_ratio);
 
-    EXPORT gmp_zone_info* get_zone_unknown_4DF9A0(u16 zone_idx);
+    EXPORT gmp_zone_info* GetZoneInfo_4DF9A0(u16 zone_idx);
 
-    EXPORT void set_nav_unknown_f0_4DF9D0(u16 a2, s16 a3);
+    EXPORT void SetZoneCarDensity_4DF9D0(u16 zone_idx, s16 value);
 
-    EXPORT void set_nav_unknown_f2_4DF9F0(u16 a2, s16 a3);
+    EXPORT void SetZoneGoodCarRatio_4DF9F0(u16 zone_idx, s16 value);
 
-    EXPORT void set_nav_unknown_f4_4DFA10(u16 a2, s16 a3);
+    EXPORT void SetZoneBadCarRatio_4DFA10(u16 zone_idx, s16 value);
 
-    EXPORT void set_nav_unknown_f6_4DFA30(u16 a2, s16 a3);
+    EXPORT void SetZonePoliceCarRatio_4DFA30(u16 zone_idx, s16 value);
 
-    EXPORT void set_nav_unknown_f8_4DFA50(u16 a2, s16 a3);
+    EXPORT void SetZoneGangCarRatio_4DFA50(u16 zone_idx, s16 value);
 
-    EXPORT void set_nav_unknown_fA_4DFA70(u16 a2, s16 a3);
+    EXPORT void SetZonePedDensity_4DFA70(u16 zone_idx, s16 value);
 
-    EXPORT void set_nav_unknown_fC_4DFA90(u16 a2, s16 a3);
+    EXPORT void SetZoneMuggerRatio_4DFA90(u16 zone_idx, s16 value);
 
-    EXPORT void set_nav_unknown_fE_4DFAB0(u16 a2, s16 a3);
+    EXPORT void SetZoneCarThiefRatio_4DFAB0(u16 zone_idx, s16 value);
 
-    EXPORT void set_nav_unknown_f10_4DFAD0(u16 a2, s16 a3);
+    EXPORT void SetZoneElvisRatio_4DFAD0(u16 zone_idx, s16 value);
 
-    EXPORT void set_nav_unknown_f12_4DFAF0(u16 a2, s16 a3);
+    EXPORT void SetZoneGangCharRatio_4DFAF0(u16 zone_idx, s16 value);
 
-    EXPORT void set_nav_unknown_f14_4DFB10(u16 a2, s16 a3);
+    EXPORT void SetZonePolicePedRatio_4DFB10(u16 zone_idx, s16 value);
 
     EXPORT gmp_map_zone* get_zone_4DFB30(u16 zone_idx);
 
@@ -411,7 +411,7 @@ class Map_0x370
     EXPORT bool HasWallInArea_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z);
     EXPORT bool sub_4E1A30(s32 tileX_min, s32 tileX_max, s32 tileY_min, s32 tileY_max, s32 zLevel);
     EXPORT char_type CanSpriteEnterTile_4E1E00(s32 regionLeft, s32 regionRight, s32 regionTop, s32 regionBottom, s32 tileX, s32 tileY, s32 zLevel);
-    EXPORT char_type CanSpriteEnterMovementRegion_4E4460(s32 a2, s32 a3, s32 a4, Sprite* pSprite, s16 a6);
+    EXPORT char_type CanSpriteEnterMovementRegion_4E4460(s32 tile_x, s32 tile_y, s32 tile_z, Sprite* pSprite, s16 collision_mask);
     EXPORT char_type sub_4E4630(Fix16 zpos_f16);
     EXPORT bool sub_4E4770(Fix16 z_pos);
     EXPORT char_type sub_4E4820(Fix16_Rect* pRect, u8 slope_type);
@@ -432,15 +432,15 @@ class Map_0x370
     EXPORT char_type sub_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 x_1, Fix16 y_1, Fix16 z_1, Fix16 x_2, Fix16 y_2, Fix16 z_2);
     EXPORT Fix16 FindGroundZForCoord_4E5B60(Fix16 x_pos, Fix16 y_pos);
     EXPORT u8 UpdateZFromSlopeAtCoord_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_pos);
-    EXPORT char_type HasGreenArrowForPathDirection_4E5E90(gmp_block_info* pBlock, s32 direction, char_type a3);
+    EXPORT char_type HasGreenArrowForPathDirection_4E5E90(gmp_block_info* pBlock, s32 direction, char_type bDefault);
     EXPORT s32 GetArrowDirectionFromBlock_4E5FC0(gmp_block_info* pBlock, char_type bDontFlip);
-    EXPORT s16 sub_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 a5, char_type a6);
-    EXPORT Fix16 FloorPlusOne_4E62B0(Fix16 a3);
+    EXPORT s16 sub_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 arrow_dir, char_type bFlag);
+    EXPORT Fix16 FloorPlusOne_4E62B0(Fix16 value);
     EXPORT gmp_block_info* FindRailwayAtCoord_4E62D0(s32 x, s32 y, s32& found_z);
     EXPORT gmp_block_info* FindRailwayBelowZAtCoord_4E6360(s32 x, s32 y, s32& z);
     EXPORT Fix16 GetRailwayZBelowCoord_4E6400(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos);
     EXPORT Fix16 GetRailwayZCoordAtXY_4E6510(Fix16 x, Fix16 y);
-    EXPORT void sub_4E65A0(Fix16 x, Fix16 y, Fix16* z_pos, char_type a5, char_type a6);
+    EXPORT void sub_4E65A0(Fix16 x, Fix16 y, Fix16* z_pos, char_type arrow_param, char_type bFlag);
     EXPORT void sub_4E5D10(Fix16* pX, Fix16* pY, Fix16 dist, s32 direction);
     EXPORT Fix16 sub_4E5D70(Fix16 x, Fix16 y, Ang16 angle);
     EXPORT Fix16 sub_4E5E00(Fix16 x, Fix16 y, Ang16 angle);
@@ -505,7 +505,7 @@ class Map_0x370
 
     EXPORT s32 sub_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist);
     EXPORT s32 sub_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist);
-    EXPORT char_type FindFirstPavementCoord_4E7E90(u8* a2, char_type* a3);
+    EXPORT char_type FindFirstPavementCoord_4E7E90(u8* pX, char_type* pY);
     EXPORT char_type CheckColumnHasSolidAbove_4E7FC0(Fix16 x, Fix16 y, Fix16 z);
     EXPORT s32 AddBlock_4E8140(gmp_block_info* pBlockInfo);
     EXPORT s32 CloneOriginalBlock_4E8180(u32 read_block_idx);
@@ -517,7 +517,7 @@ class Map_0x370
     EXPORT void RemoveBlock_4E8940(s32 x_pos, s32 y_pos, s32 offset, char_type do_drop);
     EXPORT void LowerColumn_4E8A10(s32 x_pos, s32 y_pos);
     EXPORT void LowerLevel_4E8B70(s32 x_min, s32 x_max, s32 y_min, s32 y_max);
-    EXPORT void OnModifiedMapDataLoaded_4E8C00(u32 a2, u32 a3, u32 a4);
+    EXPORT void OnModifiedMapDataLoaded_4E8C00(u32 column_bytes, u32 block_bytes, u32 obj_bytes);
     EXPORT void GetModifiedMapData_4E8CF0(u16*** outColumnPtr,
                            u32* outColumnBytes,
                            gmp_block_info** outBlockPtr,
@@ -533,9 +533,9 @@ class Map_0x370
 
     EXPORT void load_mobj_4E91A0(size_t len);
 
-    EXPORT void load_lght_4E9200(size_t a2);
+    EXPORT void load_lght_4E9200(size_t size);
 
-    EXPORT void load_zone_4E9250(size_t a2);
+    EXPORT void load_zone_4E9250(size_t size);
 
     EXPORT void load_anim_4E9280(size_t size);
 

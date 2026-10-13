@@ -353,7 +353,7 @@ void Game_0x40::ShowCounters_4B8FF0()
         const u32 x = field_38_orf1->field_2C4_player_ped->get_cam_x().ToInt();
         const u32 y = field_38_orf1->field_2C4_player_ped->get_cam_y().ToInt();
 
-        gmp_zone_info* pNavZone = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(x, y);
+        gmp_zone_info* pNavZone = gMap_0x370_6F6268->GetZoneInfoAt_4DF890(x, y);
 
         swprintf(tmpBuff_67BD9C, L"density:%d", pNavZone->field_0_car_density);
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 160, gDebugFont_706600, 1);
