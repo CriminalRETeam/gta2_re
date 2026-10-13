@@ -1542,7 +1542,7 @@ that value and the other returns nothing (C4715 silenced). `ExplosionPool_7A8::F
 **An EH frame for a member in only one owner's ctor.** If one class's ctor has an EH frame for
 a member and the other owners of that member type have none, the member's type has a
 destructor only there: give that member a derived type with an empty destructor
-(`struct_4_dtor` in `char.hpp`, `Char_B4::ctor_544FF0`). An empty destructor on `struct_4`
+(`SpriteList_4_dtor` in `char.hpp`, `Char_B4::ctor_544FF0`). An empty destructor on `SpriteList_4`
 itself adds frames to the `Car_BC`, `Object_5C` and `Weapon_8` ctors and dtors.
 
 **A store through a reference keeps a later load after it.** Clearing a bitfield through an
@@ -1713,7 +1713,7 @@ an unrelated unused inline in an included header is a (blind) knob worth trying.
 **A by-reference inline helper changes the load order.** When 9.6f calls a helper that takes
 its operands by reference (`MaxAbsDistance_42A6B0(Fix16&, ...)`), VC6 10.5 inlines it but still
 loads all the operands before computing, where the open-coded form interleaves loads and
-subtractions. `struct_4::TakeClosestSprite_5A6EA0` matches with the plain
+subtractions. `SpriteList_4::TakeClosestSprite_5A6EA0` matches with the plain
 `distance = Fix16::MaxAbsDistance_42A6B0(...)` (an earlier file-local copy wrote the result through an
 out parameter; that turned out not to be needed).
 
@@ -2150,12 +2150,12 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   `shr`/`test $1` for `!IsFlagSet(0x400)`; the if form gives the original's `testb $4,0x79(%eax)`. Both
   bodies compile to 9.6f 0x411930 with VC7.
 - **10.5 inlines `Max_44E540` in small functions** (`Ped_List_4::FindClosestActivePed_471340`,
-  `struct_4::FindClosestSprite_5A6E40`, `PoliceCrew_38::sub_572210` all have the compare and no call),
+  `SpriteList_4::FindClosestSprite_5A6E40`, `PoliceCrew_38::sub_572210` all have the compare and no call),
   so 0x44E540 is probably the out-of-line copy of 9.6f's `Max_41E130` inline (`if (a > b) return a;
   else return b;`, size 62, VC7-identical to 9.6f), which `MaxAbsDistance_42A6B0` calls. Making
   `MaxAbsDistance_42A6B0` call that inline is not consistent yet: the extra nested site leaves
   `Taxi_4::GetTaxiNear_457BF0`, `Sprite::MinDistanceToAnySpriteBBoxCorner_5A22B0` and
-  `struct_4::TakeClosestSprite_5A6EA0` one unit short for their first Abs's negate (nested 41, needs
+  `SpriteList_4::TakeClosestSprite_5A6EA0` one unit short for their first Abs's negate (nested 41, needs
   42) unless Abs loses its `else` (size 58, also VC7-identical to 9.6f 0x403840), which then breaks
   `Car_BC::GetCarLinearSpeed_43A240` (through `GetLength_41E260`) and needs one more site after the
   car call in `Weapon_30::sub_5DFB60`. Reusing `diff_x` for the result (size 112) fixes those three

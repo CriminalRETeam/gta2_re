@@ -10948,7 +10948,7 @@ void Ped::RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius)
     Char_B4* pB4; // eax
     Ped* pPed; // edi
     PedGroup* pGroup; // ecx
-    struct_4 collision_list; // [esp+8h] [ebp-1Ch] BYREF
+    SpriteList_4 collision_list; // [esp+8h] [ebp-1Ch] BYREF
     Fix16_Rect rect; // [esp+Ch] [ebp-18h] BYREF
 
     pGroup_ = this->field_164_ped_group;

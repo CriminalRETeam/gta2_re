@@ -408,7 +408,7 @@ class Object_5C
     u8 field_18_pending_damage_owner;
     u8 field_19_unused;
     u16 field_1A_unused;
-    struct_4 field_1C_sprite_list;
+    SpriteList_4 field_1C_sprite_list;
     u8 field_20_bUnCollectedTokens[50];
     u16 field_52_unused; // pad?
     s32 field_54_uncollected_token_index;

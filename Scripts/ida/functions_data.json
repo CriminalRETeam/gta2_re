@@ -17006,167 +17006,167 @@
         "v105_address": "0x5a6a20"
     },
     {
-        "name": "struct_4::GetSpriteForModel_5A6A50",
+        "name": "SpriteList_4::GetSpriteForModel_5A6A50",
         "v96f_address": "0x4be980",
         "v105_address": "0x5a6a50",
         "v96f_auto": true
     },
     {
-        "name": "struct_4::FindObject2CByModel_5A6A90",
+        "name": "SpriteList_4::FindObject2CByModel_5A6A90",
         "v96f_address": null,
         "v105_address": "0x5a6a90"
     },
     {
-        "name": "struct_4::FindFirstActiveObject_5A6AD0",
+        "name": "SpriteList_4::FindFirstActiveObject_5A6AD0",
         "v96f_address": "0x4bea60",
         "v105_address": "0x5a6ad0",
         "v96f_auto": true
     },
     {
-        "name": "struct_4::RemoveSprite_5A6B10",
+        "name": "SpriteList_4::RemoveSprite_5A6B10",
         "v96f_address": "0x4bec60",
         "v105_address": "0x5a6b10",
         "v96f_auto": true
     },
     {
-        "name": "struct_4::RemoveSpriteSafe_5A6B60",
+        "name": "SpriteList_4::RemoveSpriteSafe_5A6B60",
         "v96f_address": "0x4becb0",
         "v105_address": "0x5a6b60",
         "v96f_auto": true
     },
     {
-        "name": "struct_4::sub_5A6BB0",
+        "name": "SpriteList_4::sub_5A6BB0",
         "v96f_address": "0x4bea20",
         "v105_address": "0x5a6bb0",
         "v96f_auto": true
     },
     {
-        "name": "struct_4::sub_5A6BD0",
+        "name": "SpriteList_4::sub_5A6BD0",
         "v96f_address": "0x4bea40",
         "v105_address": "0x5a6bd0",
         "v96f_auto": true
     },
     {
-        "name": "struct_4::DispatchCarImpactEvents_5A6BF0",
+        "name": "SpriteList_4::DispatchCarImpactEvents_5A6BF0",
         "v96f_address": "0x4be7a0",
         "v105_address": "0x5a6bf0",
         "v96f_auto": true
     },
     {
-        "name": "struct_4::TagSpriteWithRng_5A6C10",
+        "name": "SpriteList_4::TagSpriteWithRng_5A6C10",
         "v96f_address": null,
         "v105_address": "0x5a6c10"
     },
     {
-        "name": "struct_4::RemoveByRngValue_5A6C40",
+        "name": "SpriteList_4::RemoveByRngValue_5A6C40",
         "v96f_address": "0x4bed00",
         "v105_address": "0x5a6c40"
     },
     {
-        "name": "struct_4::FirstSpriteOfType_5A6CA0",
+        "name": "SpriteList_4::FirstSpriteOfType_5A6CA0",
         "v96f_address": null,
         "v105_address": "0x5a6ca0"
     },
     {
-        "name": "struct_4::AddSprite_5A6CD0",
+        "name": "SpriteList_4::AddSprite_5A6CD0",
         "v96f_address": null,
         "v105_address": "0x5a6cd0"
     },
     {
-        "name": "struct_4::PushImpactEvent_5A6D00",
+        "name": "SpriteList_4::PushImpactEvent_5A6D00",
         "v96f_address": "0x4bed90",
         "v105_address": "0x5a6d00",
         "v96f_auto": true
     },
     {
-        "name": "struct_4::PushSprite_5A6D40",
+        "name": "SpriteList_4::PushSprite_5A6D40",
         "v96f_address": "0x4bedd0",
         "v105_address": "0x5a6d40",
         "v96f_auto": true
     },
     {
-        "name": "struct_4::SpriteExists_5A6D80",
+        "name": "SpriteList_4::SpriteExists_5A6D80",
         "v96f_address": "0x4be7c0",
         "v105_address": "0x5a6d80",
         "v96f_auto": true
     },
     {
-        "name": "struct_4::PopFrontSprite_5A6DA0",
+        "name": "SpriteList_4::PopFrontSprite_5A6DA0",
         "v96f_address": null,
         "v105_address": "0x5a6da0"
     },
     {
-        "name": "struct_4::PopBackSprite_5A6DC0",
+        "name": "SpriteList_4::PopBackSprite_5A6DC0",
         "v96f_address": "0x4bee30",
         "v105_address": "0x5a6dc0",
         "v96f_auto": true
     },
     {
-        "name": "struct_4::ClearList_5A6E10",
+        "name": "SpriteList_4::ClearList_5A6E10",
         "v96f_address": "0x4bee80",
         "v105_address": "0x5a6e10",
         "v96f_auto": true
     },
     {
-        "name": "struct_4::FindClosestSprite_5A6E40",
+        "name": "SpriteList_4::FindClosestSprite_5A6E40",
         "v96f_address": "0x4beac0",
         "v105_address": "0x5a6e40",
         "v96f_auto": true
     },
     {
-        "name": "struct_4::TakeClosestSprite_5A6EA0",
+        "name": "SpriteList_4::TakeClosestSprite_5A6EA0",
         "v96f_address": "0x4beeb0",
         "v105_address": "0x5a6ea0",
         "v96f_auto": true
     },
     {
-        "name": "struct_4::PoolUpdate_5A6F70",
+        "name": "SpriteList_4::PoolUpdate_5A6F70",
         "v96f_address": "0x4BEF70",
         "v105_address": "0x5a6f70"
     },
     {
-        "name": "struct_4::DestroyAllSprites_5A7010",
+        "name": "SpriteList_4::DestroyAllSprites_5A7010",
         "v96f_address": "0x4bf000",
         "v105_address": "0x5a7010",
         "v96f_auto": true
     },
     {
-        "name": "struct_4::CleanupSpriteList_5A7080",
+        "name": "SpriteList_4::CleanupSpriteList_5A7080",
         "v96f_address": "0x4bf070",
         "v105_address": "0x5a7080",
         "v96f_auto": true
     },
     {
-        "name": "struct_4::ClearGangIconSprite_5A7110",
+        "name": "SpriteList_4::ClearGangIconSprite_5A7110",
         "v96f_address": "0x4bf100",
         "v105_address": "0x5a7110",
         "v96f_auto": true
     },
     {
-        "name": "struct_4::GetGangIdxFromSpriteIfAny_5A71A0",
+        "name": "SpriteList_4::GetGangIdxFromSpriteIfAny_5A71A0",
         "v96f_address": null,
         "v105_address": "0x5a71a0"
     },
     {
-        "name": "struct_4::sub_5A71F0",
+        "name": "SpriteList_4::sub_5A71F0",
         "v96f_address": "0x4beb70",
         "v105_address": "0x5a71f0",
         "v96f_auto": true
     },
     {
-        "name": "struct_4::PruneNonCollidingSprites_5A7240",
+        "name": "SpriteList_4::PruneNonCollidingSprites_5A7240",
         "v96f_address": "0x4bf180",
         "v105_address": "0x5a7240",
         "v96f_auto": true
     },
     {
-        "name": "struct_4::PropagateMaxZLayer_5A72B0",
+        "name": "SpriteList_4::PropagateMaxZLayer_5A72B0",
         "v96f_address": "0x4bebc0",
         "v105_address": "0x5a72b0",
         "v96f_auto": true
     },
     {
-        "name": "struct_4::sub_5A7310",
+        "name": "SpriteList_4::sub_5A7310",
         "v96f_address": "0x4be7e0",
         "v105_address": "0x5a7310",
         "v96f_auto": true

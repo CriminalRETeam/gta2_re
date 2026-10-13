@@ -27,7 +27,7 @@ DEFINE_GLOBAL(u8, bDoCollisionCheck_679006, 0x679006);
 DEFINE_GLOBAL(s32, gSpriteGrid_exclude_types_678F88, 0x678F88);
 DEFINE_GLOBAL(s32, gSpriteGrid_start_x_679090, 0x679090);
 DEFINE_GLOBAL(s32, gSpriteGrid_start_y_679098, 0x679098);
-DEFINE_GLOBAL(struct_4*, gSpriteGrid_list_679214, 0x679214);
+DEFINE_GLOBAL(SpriteList_4*, gSpriteGrid_list_679214, 0x679214);
 EXTERN_GLOBAL(CollisionCounters_C*, gCollisionCounters_6791FC);
 EXTERN_GLOBAL(GridCell_Pool*, gGridCell_Pool_679204);
 EXTERN_GLOBAL(GridSpriteLink_Pool*, gGridSpriteLink_Pool_679200);
@@ -275,7 +275,7 @@ Sprite* SpriteGrid_400::FindNearestSpriteOfType_477E60(Sprite* pSprite, s32 desi
 }
 
 MATCH_FUNC(0x477f30)
-bool SpriteGrid_400::CollectRectCollisions_477F30(Fix16_Rect* pRect, char_type bDeepCheck, s32 exclude_sprite_type, Sprite* pExclude, struct_4* pOutList)
+bool SpriteGrid_400::CollectRectCollisions_477F30(Fix16_Rect* pRect, char_type bDeepCheck, s32 exclude_sprite_type, Sprite* pExclude, SpriteList_4* pOutList)
 {
     gSpriteGrid_list_679214 = pOutList;
     bool bRet = SpriteGrid_400::CheckRectForCollisions_477F60(pRect, bDeepCheck, exclude_sprite_type, pExclude);

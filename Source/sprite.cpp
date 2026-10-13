@@ -2254,7 +2254,7 @@ void Sprite::FreeSound_5A2A00()
 MATCH_FUNC(0x5a2a30)
 void Sprite::ResolveCollisionWithCarPedOrObject_5A2A30()
 {
-    struct_4 collisions;
+    SpriteList_4 collisions;
     collisions.field_0_p18 = 0;
     gSpriteGrid_1_679208->CollectRectCollisions_477F30(&field_C_pCollisionShape->field_30_boundingBox, 0, 0, this, &collisions);
     for (AttachedSprite_18* pCollisionIter = collisions.field_0_p18; pCollisionIter; pCollisionIter = pCollisionIter->mpNext)

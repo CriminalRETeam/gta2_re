@@ -79,7 +79,7 @@ class Crane_15C
     Fix16_Point field_10_hooked_sprite_offset;
     Fix16_Point field_18_target1_offset;
     Fix16_Point field_20_target2_offset;
-    struct_4 field_28_strct4;
+    SpriteList_4 field_28_strct4;
     Object_2C* field_2C_rotor_obj;
     Object_2C* field_30_part_obj_0;
     Object_2C* field_34_part_obj_1;

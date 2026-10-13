@@ -38,7 +38,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 6 | 52 | - | 0x442ad0 | `Fix16_Point::NormalizeSafe_442AD0` | Fix16_Point.cpp |
 | 0 | 6 | 58 | 184 | 0x436200 | `Camera_0xBC::ApplyCarVelocityCameraOffset_436200` | Camera.cpp |
 | 0 | 8 | 142 | - | 0x465d00 | `Ped::IsPedAThreat_465D00` | Ped.cpp |
-| 0 | 8 | 20 | 8 | 0x5a7080 | `struct_4::CleanupSpriteList_5A7080` | Object_3C.cpp |
+| 0 | 8 | 20 | 8 | 0x5a7080 | `SpriteList_4::CleanupSpriteList_5A7080` | Object_3C.cpp |
 | 0 | 8 | 30 | - | 0x5e13e0 | `Weapon_30::army_gun_jeep_5E13E0` | Weapon_30.cpp |
 | 0 | 8 | 34 | - | 0x5e10e0 | `Weapon_30::tank_main_gun_5E10E0` | Weapon_30.cpp |
 | 0 | 8 | 8 | 0 | 0x559430 | `CarPhysics_B0::ShowPhysicsDebug_559430` | CarPhysics_B0.cpp |

@@ -1330,7 +1330,7 @@ class Car_BC
     EXPORT char SnapCarToGreenArrow_444E40(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT char TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, Fix16 ypos, s32 maybe_direction);
 
-    struct_4 field_0_attachments;
+    SpriteList_4 field_0_attachments;
     Ped_List_4 field_4_passengers_list;
     CarFlags field_8_damaged_areas; // TODO: check if it's a bitset
     Car_Door_10 field_C_doors[4];

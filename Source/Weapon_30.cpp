@@ -997,7 +997,7 @@ MATCH_FUNC(0x5DF270)
 void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped* a5, Sprite* a6)
 {
     // 9.6f 0x4CEF40
-    struct_4 hits;
+    SpriteList_4 hits;
     Fix16 xpos = a1->field_14_xy.x;
     Fix16 ypos = a1->field_14_xy.y;
     Fix16 zpos = a1->field_1C_zpos;
@@ -1154,7 +1154,7 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
 MATCH_FUNC(0x5dfb60)
 void Weapon_30::sub_5DFB60(u8 a2, Sprite* a3, Ang16 a4)
 {
-    struct_4 hits;
+    SpriteList_4 hits;
     char_type bHit = 0;
 
     // Both branches compute the four bounds into registers and share the stores.

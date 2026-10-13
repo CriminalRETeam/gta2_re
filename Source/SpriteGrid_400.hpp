@@ -6,7 +6,7 @@ class Sprite;
 class Object_3C;
 class GridSpriteLink_8;
 class Fix16_Rect;
-class struct_4;
+class SpriteList_4;
 class Ped;
 
 // One occupied x cell of a grid row: the sprites in cell (field_0_x, row). Cells of a row are sorted by x.
@@ -74,7 +74,7 @@ class SpriteGrid_400
                                              char_type bDeepCheck,
                                              s32 exclude_sprite_type,
                                              Sprite* pExclude,
-                                             struct_4* pOutList);
+                                             SpriteList_4* pOutList);
     EXPORT bool CheckRectForCollisions_477F60(Fix16_Rect* pRect, char_type bDeepCheck, s32 exclude_sprite_type, Sprite* pExclude);
     EXPORT SpriteGrid_400();
     EXPORT ~SpriteGrid_400();

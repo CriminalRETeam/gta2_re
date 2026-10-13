@@ -13,10 +13,10 @@ class Sprite;
 class AttachedSprite_18;
 class Object_2C;
 
-class struct_4
+class SpriteList_4
 {
   public:
-    struct_4() // 424620 inline
+    SpriteList_4() // 424620 inline
     {
         ResetHead_4207E0();
     }
@@ -109,7 +109,7 @@ class Object_3C
 
     EXPORT void GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle);
 
-    struct_4 field_0;
+    SpriteList_4 field_0;
     Ang16 field_4_angle;
     s16 field_6_unused;
     Object_3C* mpNext;
@@ -135,4 +135,4 @@ class Object_3C
     char_type field_3B_unused;
 };
 
-EXTERN_GLOBAL(struct_4, stru_67727C);
+EXTERN_GLOBAL(SpriteList_4, stru_67727C);

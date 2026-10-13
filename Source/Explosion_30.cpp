@@ -417,7 +417,7 @@ void Explosion_30::SpawnFlashParticle_541760()
 MATCH_FUNC(0x541850)
 void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
 {
-    struct_4 collision_list;
+    SpriteList_4 collision_list;
 
     Fix16 half_height = Explosion_30::GetBlastHeight_541710();
 
