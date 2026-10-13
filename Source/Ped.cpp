@@ -8264,7 +8264,7 @@ void Ped::GotoAreaByAnyMeans_469060()
 
                             // bFound reaches another block, so the original's `cmp %bl,%al` (zero register) instead of `test`
                             u8 bFound = 0;
-                            bCanAllocate = gCar_6C_677930->CanAllocateOfType_446930(1);
+                            bCanAllocate = gCar_6C_677930->CanAllocateOfType_446930(car_kind::recycled_1);
                             if (bCanAllocate)
                             {
                                 bFound = gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, 1);
@@ -8319,7 +8319,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                             zpos = field_1AC_cam.z.ToUInt8();
 
                             u8 bFound = 0;
-                            if (gCar_6C_677930->CanAllocateOfType_446930(1))
+                            if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::recycled_1))
                             {
                                 bFound = gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, 1);
                             }

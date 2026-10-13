@@ -632,7 +632,7 @@ bool EmergencyCrew_30::Service_5CC480()
     switch (field_20_crew_type)
     {
         case crew_type::paramedic_1:
-            if (gCar_6C_677930->CanAllocateOfType_446930(4))
+            if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::paramedic_car_4))
             {
                 this->field_0_car = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::MEDICAR,
                                                                                    this->field_C_spawn_x,

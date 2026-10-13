@@ -2409,7 +2409,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                 {
                     if (gStoredCar_6F7560->field_6C_car_id == gStoredCarId_6F78B4)
                     {
-                        if (gCar_6C_677930->CanAllocateOfType_446930(1))
+                        if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::recycled_1))
                         {
                             gStoredCar_6F7560->ReassignAllocatedCarType_443EE0(1);
                             gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);

@@ -151,7 +151,7 @@ void Firefighter_28::Update_4A81F0()
     {
         case firefighter_state::spawn_truck_1:
             if (field_C_target_car && field_C_target_car->field_88_despawn_status != car_despawn_status::despawned_6 &&
-                !field_C_target_car->IsDespawning_4215B0() && gCar_6C_677930->CanAllocateOfType_446930(5))
+                !field_C_target_car->IsDespawning_4215B0() && gCar_6C_677930->CanAllocateOfType_446930(car_kind::firefighter_5))
             {
                 field_1C_car = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::FIRETRUK, field_10_xpos, field_14_ypos, field_18_zpos);
                 if (field_1C_car)
