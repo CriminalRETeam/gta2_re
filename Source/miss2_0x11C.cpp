@@ -6176,11 +6176,11 @@ void miss2_0x11C::SCRCMD_SUPPRESS_MODEL_50F220()
 {
     if ((u16)gBasePtr_6F8070->field_8_index == 0xFFFFu) //  TODO: fix gBasePtr_6F8070
     {
-        gCar_6C_677930->field_C_model_unk = car_model_enum::none; //  No model suppressed
+        gCar_6C_677930->field_C_suppressed_model = car_model_enum::none; //  No model suppressed
     }
     else
     {
-        gCar_6C_677930->field_C_model_unk = (u16)gBasePtr_6F8070->field_8_index;
+        gCar_6C_677930->field_C_suppressed_model = (u16)gBasePtr_6F8070->field_8_index;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }

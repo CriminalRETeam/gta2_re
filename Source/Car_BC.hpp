@@ -159,22 +159,22 @@ class Car_6C
 
     void ToggleTrafficLightState_4C39F0()
     {
-        if (field_20 != 4)
+        if (field_20_light_state_a != 4)
         {
-            field_20 = 4;
+            field_20_light_state_a = 4;
         }
         else
         {
-            field_20 = 3;
+            field_20_light_state_a = 3;
         }
 
-        if (field_24 != 1)
+        if (field_24_light_state_b != 1)
         {
-            field_24 = 1;
+            field_24_light_state_b = 1;
         }
         else
         {
-            field_24 = 2;
+            field_24_light_state_b = 2;
         }
     }
 
@@ -280,21 +280,21 @@ class Car_6C
     Car_2 field_0;
     s16 field_2_unused;
     Ped* field_4_unused;
-    char_type field_8;
+    char_type field_8_unused;
     u8 field_9_good_car_idx;
     u8 field_A_bad_car_idx;
     u8 field_B_average_car_idx;
-    s32 field_C_model_unk;
+    s32 field_C_suppressed_model;
     Car_2 field_10_remap_rng;
-    Car_2 field_12;
+    Car_2 field_12_unused;
     s32 field_14_next_car_id;
-    char_type field_18;
+    char_type field_18_unused;
     char_type field_19_unused;
     char_type field_1A_fire_effect_cycle;
     char_type field_1B_unused;
     s32 field_1C_explosion_offset_cycle;
-    s32 field_20;
-    s32 field_24;
+    s32 field_20_light_state_a;
+    s32 field_24_light_state_b;
     s32 field_28_recycled_cars;
     s32 field_2C_paramedic_cars;
     s32 field_30_firefighter_cars;
@@ -308,15 +308,15 @@ class Car_6C
     u8 field_54_spawn_block;
     char_type field_55_visible_cars_count;
     char_type field_56_unused;
-    char_type field_57;
+    char_type field_57_unused;
     s32 field_58_model_to_check_destroy;
     char_type field_5C_model_check_destroyed;
     char_type field_5D_unused;
     char_type field_5E_unused;
     char_type field_5F_unused;
-    s32 field_60;
+    s32 field_60_impact_mode;
     Fix16 field_64_zpos;
-    char_type field_68;
+    char_type field_68_object_hit_active;
     char_type field_69_do_free_shopping;
     char_type field_6A_unused;
     char_type field_6B_unused;
@@ -531,15 +531,15 @@ class Car_BC
     EXPORT char_type GetRemap();
     EXPORT void OpenAllDoors_43B380();
     EXPORT void CloseAllDoors_43B3D0();
-    EXPORT void GetDoorWorldPos_43B420(u8 door_idx, Fix16* pXPos, Fix16* pYPos);
+    EXPORT void GetDoorWorldPos_43B420(u8 door_idx, Fix16* pOutX, Fix16* pOutY);
     EXPORT bool IsDoorOffsetLarge_43B540(u8 targetDoor);
     EXPORT void GetDoorWorldPosition_43B5A0(u8 targetDoor, Fix16* pOutX, Fix16* pOutY);
     EXPORT char_type IsOnScreenForAnyPlayer_43B730();
     EXPORT char_type IsVisibleToAnyPlayer_43B750();
     EXPORT void AssignKillerToOccupants_43B770();
     EXPORT void AssignDriverBlameForExplosion_43B7B0(Car_BC* pCar);
-    EXPORT bool IsImmuneToExplosionType_43B850(s32 wofly_type_or_state);
-    EXPORT void SpawnDamageFireEffect_43B870(s32 k1Or2, const Fix16_Point* pPos);
+    EXPORT bool IsImmuneToExplosionType_43B850(s32 explosion_type);
+    EXPORT void SpawnDamageFireEffect_43B870(s32 fire_size, const Fix16_Point* pPos);
     // Called without this in SpawnDamageFireEffect_43B870: a static __stdcall
     EXPORT static s32 __stdcall GetFireExplosionType_43BB90(u8 fire_level);
     EXPORT void SpawnFire_43BBC0();
@@ -604,11 +604,11 @@ class Car_BC
     EXPORT void PutMachineGunOnRoof_440B60();
     EXPORT void PutTV_Antenna_440BB0();
     EXPORT char_type RotateRoofObjectTowardTarget_440C10(Ang16 targetAngle);
-    EXPORT char_type HandleRoofTurretRotation_440D90(char_type bLeftOn);
+    EXPORT char_type HandleRoofTurretRotation_440D90(char_type left_on);
     EXPORT void FireCarBomb_440F90(char_type instant_bomb);
-    EXPORT void GoToBlockTest_441030(u8 x, u8 y, u8 z, s32 maybe_direction);
-    EXPORT void GotoBlock_441080(u8 x, u8 y, u8 z, s32 maybe_direction);
-    EXPORT char_type CountConsecutiveArrowBlocks_4410D0(Ang16 ang, s8* pRet, Fix16 spritex, Fix16 spritey);
+    EXPORT void GoToBlockTest_441030(u8 x, u8 y, u8 z, s32 direction);
+    EXPORT void GotoBlock_441080(u8 x, u8 y, u8 z, s32 direction);
+    EXPORT char_type CountConsecutiveArrowBlocks_4410D0(Ang16 ang, s8* pOutCount, Fix16 sprite_x, Fix16 sprite_y);
     EXPORT Fix16 GetZPos_441330();
     EXPORT void CountDownToWreck_441360();
     EXPORT void TurnToWreck_4436A0();
@@ -620,17 +620,17 @@ class Car_BC
     EXPORT void TryHonkHorn_4416D0(s32 horn_mode);
     EXPORT void UpdateHorn_4417D0();
     EXPORT void HonkHorn_4417F0();
-    EXPORT void HandleSpecialInput_441800(char_type bNowSpecialPressed);
+    EXPORT void HandleSpecialInput_441800(char_type now_special_pressed);
     EXPORT void DoDetachTrailer_4418A0();
     EXPORT void DetachTrailerAndUpdateDamage_4418B0();
-    EXPORT void HandleUserInput_4418D0(char_type bForwardGasOn,
-                                       char_type bFootBrakeOn,
-                                       char_type bLeftOn,
-                                       char_type bRightOn,
-                                       char_type bHandBrakeOn,
-                                       char_type bNowSpecialPressed,
-                                       char_type bWasSpecialPressed,
-                                       char_type bAttack);
+    EXPORT void HandleUserInput_4418D0(char_type forward_gas_on,
+                                    char_type foot_brake_on,
+                                    char_type left_on,
+                                    char_type right_on,
+                                    char_type hand_brake_on,
+                                    char_type now_special_pressed,
+                                    char_type was_special_pressed,
+                                    char_type attack);
     EXPORT void AllocCarPhysics_4419E0();
     EXPORT void DeAllocateCarPhysics_441A10();
     EXPORT char_type AreAllDoorsClosed_441A40();
@@ -1318,7 +1318,7 @@ class Car_BC
     }
 
     EXPORT char SnapCarToGreenArrow_444E40(Fix16 xpos, Fix16 ypos, Fix16 zpos);
-    EXPORT char TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, Fix16 ypos, s32 maybe_direction);
+    EXPORT char TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, Fix16 ypos, s32 direction);
 
     SpriteList_4 field_0_attachments;
     Ped_List_4 field_4_passengers_list;
@@ -1470,8 +1470,8 @@ struct Car_14
 
     Camera_0xBC* field_0_cam;
     Fix16_Rect* field_4_rect;
-    s8 field_8;
-    s8 field_9;
+    s8 field_8_spawn_side;
+    s8 field_9_traffic_car_model;
     s8 field_A_unused;
     s8 field_B_unused;
     Player* field_C_player;
