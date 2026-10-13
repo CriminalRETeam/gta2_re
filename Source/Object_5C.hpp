@@ -25,6 +25,26 @@ class Explosion_30;
 class Object_8;
 class Light_28;
 
+namespace object_pool_state
+{
+enum
+{
+    none_0 = 0,
+    in_pool_list_1 = 1, // linked into the pool's list of live objects (PoolGive_522340)
+    out_of_pool_list_2 = 2, // allocated but not linked (PoolTake_522360, AllocateUntracked)
+};
+} // namespace object_pool_state
+
+namespace object_removal_state
+{
+enum
+{
+    none_0 = 0,
+    requested_1 = 1, // RequestRemoval_5290A0
+    when_off_screen_2 = 2, // RequestRemovalWhenOffScreen_5290B0
+};
+} // namespace object_removal_state
+
 class Object_2C
 {
   public:
@@ -241,7 +261,7 @@ class Object_2C
     inline void PoolAllocate()
     {
         field_14_id = gObj2C_id_623EC0++;
-        field_25_removal_state = 0;
+        field_25_removal_state = object_removal_state::none_0;
         field_26_ped_ref_idx = 99;
         field_10_obj_3c = 0;
         field_C_pAny.o8 = 0;

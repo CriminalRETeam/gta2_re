@@ -117,9 +117,9 @@ Object_2C::Object_2C()
     field_10_obj_3c = 0;
     field_14_id = 99;
     field_24_touched_result = 0;
-    field_25_removal_state = 0;
+    field_25_removal_state = object_removal_state::none_0;
     field_26_ped_ref_idx = 99;
-    field_20_pool_list_state = 0;
+    field_20_pool_list_state = object_pool_state::none_0;
     field_27_thread_trigger_idx = 0;
     field_28 = -51;
     field_1C_has_explosion = 0;
@@ -220,13 +220,13 @@ void Object_2C::UpdatePhysics_5222D0()
 MATCH_FUNC(0x522340)
 void Object_2C::PoolGive_522340()
 {
-    if (field_20_pool_list_state == 2)
+    if (field_20_pool_list_state == object_pool_state::out_of_pool_list_2)
     {
         // TODO: Missing inline here
         TObject_2C_Pool* pRoot = gObject_2C_Pool_6F8F80;
         mpNext = pRoot->field_4_pPrev;
         pRoot->field_4_pPrev = this;
-        field_20_pool_list_state = 1;
+        field_20_pool_list_state = object_pool_state::in_pool_list_1;
     }
 }
 
@@ -236,7 +236,7 @@ void Object_2C::PoolTake_522360()
     Object_2C* pLast;
     Object_2C* pIter;
 
-    if (field_20_pool_list_state == 1)
+    if (field_20_pool_list_state == object_pool_state::in_pool_list_1)
     {
         pLast = 0;
         for (pIter = gObject_2C_Pool_6F8F80->field_4_pPrev; pIter; pIter = pIter->mpNext)
@@ -259,7 +259,7 @@ void Object_2C::PoolTake_522360()
                 pLast = pIter;
             }
         }
-        field_20_pool_list_state = 2;
+        field_20_pool_list_state = object_pool_state::out_of_pool_list_2;
     }
 }
 
@@ -1887,7 +1887,7 @@ void Object_2C::Update_525F30()
                 {
                     if (pExplosion->Update_5434A0(kFpZero_6F8E10, kZeroAng_6F8F68))
                     {
-                        this->field_25_removal_state = 1;
+                        this->field_25_removal_state = object_removal_state::requested_1;
                     }
                 }
                 return;
@@ -1945,12 +1945,12 @@ bool Object_2C::PoolUpdate()
 {
     byte_6F8C4C = 0;
     byte_6F8F40 = 0;
-    if (field_25_removal_state != 1)
+    if (field_25_removal_state != object_removal_state::requested_1)
     {
         Object_2C::Update_525F30();
     }
 
-    if (field_25_removal_state <= 0 || (field_25_removal_state == 2 && gGame_0x40_67E008->IsSpriteInAnyPlayerBounds_4B97E0(field_4, kFpZero_6F8E10)))
+    if (field_25_removal_state <= object_removal_state::none_0 || (field_25_removal_state == object_removal_state::when_off_screen_2 && gGame_0x40_67E008->IsSpriteInAnyPlayerBounds_4B97E0(field_4, kFpZero_6F8E10)))
     {
         return false;
     }
@@ -2969,13 +2969,13 @@ void Object_2C::SetDamageOwner_529080(u8 ped_ref_idx)
 MATCH_FUNC(0x5290a0)
 void Object_2C::RequestRemoval_5290A0()
 {
-    field_25_removal_state = 1;
+    field_25_removal_state = object_removal_state::requested_1;
 }
 
 MATCH_FUNC(0x5290B0)
 void Object_2C::RequestRemovalWhenOffScreen_5290B0()
 {
-    field_25_removal_state = 2;
+    field_25_removal_state = object_removal_state::when_off_screen_2;
 }
 
 MATCH_FUNC(0x5290C0)
@@ -3389,12 +3389,12 @@ Object_2C* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypo
     if (pDefinition->field_61) // 6c
     {
         pNew2C = gObject_2C_Pool_6F8F80->Allocate();
-        pNew2C->field_20_pool_list_state = 1;
+        pNew2C->field_20_pool_list_state = object_pool_state::in_pool_list_1;
     }
     else
     {
         pNew2C = gObject_2C_Pool_6F8F80->AllocateUntracked();
-        pNew2C->field_20_pool_list_state = 2;
+        pNew2C->field_20_pool_list_state = object_pool_state::out_of_pool_list_2;
     }
 
     pNew2C->InitializeObject_527630(object_type, xpos, ypos, zpos, rotation);
@@ -3409,7 +3409,7 @@ Object_2C* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypo
          (pDefinition->field_40_collision_bucket_category == collision_bucket_category::sprite_grid_2_region_3 &&
           gSpriteGrid_2_67920C->FindNearestSpriteOfType_477E60(pNew2C->field_4, 0))))
     {
-        if (pNew2C->field_20_pool_list_state == 1) // 154: ~> cmpl    $0x1,0x0(%ebp)
+        if (pNew2C->field_20_pool_list_state == object_pool_state::in_pool_list_1) // 154: ~> cmpl    $0x1,0x0(%ebp)
         {
             gObject_2C_Pool_6F8F80->FindAndDeAllocate(pNew2C);
         }
