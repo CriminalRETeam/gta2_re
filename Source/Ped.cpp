@@ -2645,9 +2645,9 @@ void Ped::Deallocate_45EB60()
 
     if (field_17C_pGang)
     {
-        if (field_17C_pGang->field_141)
+        if (field_17C_pGang->field_141_bAlwaysBasicWeapon)
         {
-            field_17C_pGang->field_141 = 0;
+            field_17C_pGang->field_141_bAlwaysBasicWeapon = 0;
         }
     }
     field_164_ped_group = field_164_ped_group;
@@ -11500,7 +11500,7 @@ void Ped::ApplyGangRespectForKill_46F680(Ped* pPed)
     }
     else
     {
-        if (field_19C_dummy_gang && field_19C_dummy_gang->field_111)
+        if (field_19C_dummy_gang && field_19C_dummy_gang->field_111_bKillAffectsRespect)
         {
             if (field_290_death_cause != ped_death_cause::run_over_by_stolen_car_3 && field_290_death_cause != ped_death_cause::run_over_1)
             {

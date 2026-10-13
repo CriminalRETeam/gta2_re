@@ -72,7 +72,7 @@ void Gang_144::init_4BED70()
     field_0_used = 0;
     field_101_remap = 1;
     field_110_high_respect = 0;
-    field_111 = 0;
+    field_111_bKillAffectsRespect = 0;
     field_104_basic_weapon = 0;
     field_108_angry_weapon = 0;
     field_10C_hate_weapon = 0;
@@ -90,7 +90,7 @@ void Gang_144::init_4BED70()
     {
         field_11C_respect[j] = 0;
     }
-    field_141 = 0;
+    field_141_bAlwaysBasicWeapon = 0;
 }
 
 MATCH_FUNC(0x4BEDF0)
@@ -243,7 +243,7 @@ void Gang_144::set_name_4BF090(const char_type* pName, u8 nameLen)
 MATCH_FUNC(0x4BF0C0);
 s32 Gang_144::GetGangCurrWeapon_4BF0C0()
 {
-    if (bStartNetworkGame_7081F0 || field_141)
+    if (bStartNetworkGame_7081F0 || field_141_bAlwaysBasicWeapon)
     {
         return field_104_basic_weapon;
     }

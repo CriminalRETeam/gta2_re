@@ -18,7 +18,7 @@ class Gang_144
     // 9.6f 0x433B30
     inline char get_field_111_433B30()
     {
-        return field_111;
+        return field_111_bKillAffectsRespect;
     }
 
     // 9.6f 0x4758A0
@@ -60,7 +60,7 @@ class Gang_144
     // 9.6f 0x475900
     inline void set_field_111_475900(char v)
     {
-        field_111 = v;
+        field_111_bKillAffectsRespect = v;
     }
 
     // 9.6f 0x475910
@@ -106,26 +106,26 @@ class Gang_144
     char field_2_name[4];
     char field_6_unused;
     char field_7_unused;
-    u32 field_8;
+    u32 field_8_unused;
     u32 field_C_unused;
-    u32 field_10;
-    u32 field_14;
-    u32 field_18;
-    u32 field_1C;
-    u32 field_20;
-    u32 field_24;
-    u32 field_28;
+    u32 field_10_unused;
+    u32 field_14_unused;
+    u32 field_18_unused;
+    u32 field_1C_unused;
+    u32 field_20_unused;
+    u32 field_24_unused;
+    u32 field_28_unused;
     u32 field_2C_unused;
     u32 field_30_unused;
     u32 field_34_unused;
     u32 field_38_unused;
     u32 field_3C_unused;
-    u32 field_40;
+    u32 field_40_unused;
     u32 field_44_unused;
     u32 field_48_unused;
     u32 field_4C_unused;
     u32 field_50_unused;
-    u32 field_54;
+    u32 field_54_unused;
     u32 field_58_unused;
     u32 field_5C_unused;
     u32 field_60_unused;
@@ -135,7 +135,7 @@ class Gang_144
     u32 field_70_unused;
     u32 field_74_unused;
     u32 field_78_unused;
-    u32 field_7C;
+    u32 field_7C_unused;
     u32 field_80_unused;
     u32 field_84_unused;
     u32 field_88_unused;
@@ -176,7 +176,7 @@ class Gang_144
     u32 field_108_angry_weapon;
     u32 field_10C_hate_weapon;
     char field_110_high_respect;
-    char field_111;
+    char field_111_bKillAffectsRespect;
     char field_112_hostile_to_gang[10];
     s8 field_11C_respect[MAX_PLAYERS];
     char field_122_gang_kill_reaction[10];
@@ -189,7 +189,7 @@ class Gang_144
     char field_13B_unused;
     u32 field_13C_gang_car_model;
     char field_140_gang_car_remap;
-    char field_141;
+    char field_141_bAlwaysBasicWeapon;
     char field_142_unused;
     char field_143_unused;
 };
