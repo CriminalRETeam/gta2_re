@@ -8890,13 +8890,13 @@ void Ped::FireAtObject_46A530()
     Sprite* pSprite_18 = pSprite_148->field_0_pSprite;
     Fix16 x_v = pSprite_18->field_14_xy.x;
     Fix16 y_v = pSprite_18->field_14_xy.y;
-    Ang16 v7;
-    v7 = Fix16::atan2_fixed_405320(field_1A0_objective_target_object->field_4->field_14_xy.y - y_v,
+    Ang16 aim_angle;
+    aim_angle = Fix16::atan2_fixed_405320(field_1A0_objective_target_object->field_4->field_14_xy.y - y_v,
                                    field_1A0_objective_target_object->field_4->field_14_xy.x - x_v);
 
     field_21C_bf.bUseCarWeapon = true;
 
-    if (field_16C_car->RotateRoofObjectTowardTarget_440C10(v7))
+    if (field_16C_car->RotateRoofObjectTowardTarget_440C10(aim_angle))
     {
         field_21C_bf.bAttacking = true;
     }
@@ -8921,12 +8921,12 @@ void Ped::FireAtPlayer_46A5E0()
         Sprite* pSprite_148 = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(148)->field_0_pSprite;
         Fix16 x = pSprite_148->field_14_xy.x;
         Fix16 y = pSprite_148->field_14_xy.y;
-        Ang16 v6;
-        v6 = Fix16::atan2_fixed_405320(pPlayerPed->get_cam_y() - y, pPlayerPed->get_cam_x() - x);
+        Ang16 aim_angle;
+        aim_angle = Fix16::atan2_fixed_405320(pPlayerPed->get_cam_y() - y, pPlayerPed->get_cam_x() - x);
 
         this->field_21C_bf.bUseCarWeapon = true;
 
-        if (field_16C_car->RotateRoofObjectTowardTarget_440C10(v6))
+        if (field_16C_car->RotateRoofObjectTowardTarget_440C10(aim_angle))
         {
             if (!this->field_16C_car->field_76_last_seen_timer)
             {
@@ -9406,14 +9406,14 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
             {
                 gDistanceToTarget_678750 = kFpOne64th_6784C4;
             }
-            Fix16 v14;
+            Fix16 max_speed;
             if (!Ped::IsLawEnforcement_45B4E0())
             {
-                v14 = kFpPoint2_67856C;
+                max_speed = kFpPoint2_67856C;
             }
             else
             {
-                v14 = kFpPoint1_678428;
+                max_speed = kFpPoint1_678428;
             }
             if (field_27C_ped_state_2 != ped_state_2::Unknown_9 &&
                 (gDistanceToTarget_678750 >= kFpThreeSixteenths_678780 ||
@@ -9428,7 +9428,7 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
                 switch (field_27C_ped_state_2)
                 {
                     case ped_state_2::Unknown_8:
-                        if (pCar->GetVelocity_43A4C0() > v14)
+                        if (pCar->GetVelocity_43A4C0() > max_speed)
                         {
                             field_226_internal_objective_status = 2;
                             Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
@@ -9465,7 +9465,7 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
                         break;
 
                     default:
-                        if (pCar->GetVelocity_43A4C0() > v14)
+                        if (pCar->GetVelocity_43A4C0() > max_speed)
                         {
                             field_226_internal_objective_status = 2;
                             Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
@@ -10561,7 +10561,7 @@ void Ped::FollowCarOnFoot_46D300()
 MATCH_FUNC(0x46d460)
 void Ped::AttackTargetStateMachine_46D460(u8 targetType)
 {
-    Fix16 v6;
+    Fix16 attack_range;
 
     u8 v40 = 0;
     u8 v41 = 0;
@@ -10570,8 +10570,8 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
 
     field_21C_bf.bWeaponChosen = false;
     Weapon_30* pWeapon = Ped::ChooseAttackWeapon_46F490();
-    Fix16 v5 = kFpOne_678664;
-    Fix16 v42 = kFpOne_678798 + kFpQuarter_678788;
+    Fix16 close_range = kFpOne_678664;
+    Fix16 explosive_range = kFpOne_678798 + kFpQuarter_678788;
     if (field_168_game_object)
     {
         if (pWeapon)
@@ -10579,47 +10579,47 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
             switch (pWeapon->field_1C_idx)
             {
                 case weapon_type::flamethrower:
-                    v6 = kFpTwo_678658;
-                    v42 = kFpOne_678798;
+                    attack_range = kFpTwo_678658;
+                    explosive_range = kFpOne_678798;
                     break;
 
                 case weapon_type::molotov:
-                    v6 = kFpTwo_678658 * 2;
-                    v42 = kFpOne_678798 + kFpHalf_678790;
+                    attack_range = kFpTwo_678658 * 2;
+                    explosive_range = kFpOne_678798 + kFpHalf_678790;
                     v40 = 1;
                     break;
 
                 case weapon_type::grenade:
-                    v6 = kFpHalf_678790 + kFpTwo_678658;
-                    v42 = kFpTwo_678658;
+                    attack_range = kFpHalf_678790 + kFpTwo_678658;
+                    explosive_range = kFpTwo_678658;
                     v40 = 1;
                     break;
 
                 case weapon_type::electro_batton:
-                    v5 = kFpHalf_67853C;
-                    v6 = kFpTwo_678658;
+                    close_range = kFpHalf_67853C;
+                    attack_range = kFpTwo_678658;
                     v41 = 1;
                     break;
 
                 case weapon_type::shotgun:
-                    v5 = kFpHalf_67853C;
-                    v6 = kFpOne_678798;
+                    close_range = kFpHalf_67853C;
+                    attack_range = kFpOne_678798;
                     v41 = 1;
                     break;
 
                 default:
-                    v6 = kFpFour_678680;
+                    attack_range = kFpFour_678680;
                     break;
             }
         }
         else
         {
-            v6 = kFpTwo_678658; // no weapon
+            attack_range = kFpTwo_678658; // no weapon
         }
     }
     else
     {
-        v6 = kFpFour_678680; // probably in a car
+        attack_range = kFpFour_678680; // probably in a car
     }
 
     field_21C_bf.bFlag15 = false;
@@ -10637,8 +10637,8 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
             {
                 if (field_14C_internal_target_ped->field_16C_car->GetVelocity_43A4C0() <= kFpPoint02_678630)
                 {
-                    v6 = kFpTwo_678668;
-                    v5 = kFpTwo_678668 + kFpHalf_67853C;
+                    attack_range = kFpTwo_678668;
+                    close_range = kFpTwo_678668 + kFpHalf_67853C;
                     v39 = 1;
                 }
             }
@@ -10651,8 +10651,8 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
             {
                 v3 = 1;
             }
-            v5 = kFpThree_67866C;
-            v6 = kFpTwo_678668 + kFpHalf_67853C;
+            close_range = kFpThree_67866C;
+            attack_range = kFpTwo_678668 + kFpHalf_67853C;
             v39 = 1;
             break;
 
@@ -10664,8 +10664,8 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
             }
             if (field_240_occupation != ped_ocupation_enum::stand_still_bloke)
             {
-                v5 = kFpThree_67866C;
-                v6 = kFpTwo_678668 + kFpHalf_67853C;
+                close_range = kFpThree_67866C;
+                attack_range = kFpTwo_678668 + kFpHalf_67853C;
                 v39 = 1;
             }
             break;
@@ -10707,7 +10707,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
             pWeapon->SetTargetHit_433810(0);
         }
 
-        if (field_266_path_fail_count < 4 && gDistanceToTarget_678750 < v6 && abs_sub_less_than_epislon_45AE40(field_1AC_cam.z, zpos) ||
+        if (field_266_path_fail_count < 4 && gDistanceToTarget_678750 < attack_range && abs_sub_less_than_epislon_45AE40(field_1AC_cam.z, zpos) ||
             field_21C_bf.bFlag22 == true)
         {
             // correct
@@ -10716,7 +10716,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                 if (pWeapon->IsTargetHit_41CC70() == 1) // correct
                 {
                     // weapon->field_4 == 1
-                    if (gDistanceToTarget_678750 < v5 && !field_168_game_object->IsCollidingWithASprite_433AA0())
+                    if (gDistanceToTarget_678750 < close_range && !field_168_game_object->IsCollidingWithASprite_433AA0())
                     {
                         Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
                         Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_2);
@@ -10748,7 +10748,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                 }
                 else
                 {
-                    if (pWeapon->IsExplosiveWeapon_5E3BD0() && gDistanceToTarget_678750 < v42)
+                    if (pWeapon->IsExplosiveWeapon_5E3BD0() && gDistanceToTarget_678750 < explosive_range)
                     {
                         if (field_174_pWeapon)
                         {

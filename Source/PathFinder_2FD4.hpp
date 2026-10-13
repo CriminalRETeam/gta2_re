@@ -46,7 +46,16 @@ class PathFinder_2FD4
     EXPORT bool ProcessGridCell_5548C0();
     EXPORT void RestoreSavedPosition_554920();
     EXPORT s32 IsFirstPassenger_554A90(Ped* pPed);
-    EXPORT char_type ComputePath_554AB0(s32 ped_id, Ped* pPed, u8 x_start, u8 y_start, u8 z_start, u8 x_end, u8 y_end, u8 z_end, s32 angle_face, u8* pOutPathFailCount);
+    EXPORT char_type ComputePath_554AB0(s32 ped_id,
+                                        Ped* pPed,
+                                        u8 x_start,
+                                        u8 y_start,
+                                        u8 z_start,
+                                        u8 x_end,
+                                        u8 y_end,
+                                        u8 z_end,
+                                        s32 angle_face,
+                                        u8* pOutPathFailCount);
     EXPORT bool FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, u8* ypos, u8* zpos, char_type maybe_timer);
 
     s32 field_0_ped_id;
