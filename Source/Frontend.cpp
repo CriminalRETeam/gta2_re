@@ -1823,7 +1823,6 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
     u16 current_option_idx; // cx
     menu_option_0x82* pOption_prev; // edi
     bool bWrapped_prev; // bl
-    s32 v13; // eax
     u16 option_idx; // cx
     menu_option_0x82* pOption_next; // edi
     bool bWrapped_next; // bl
