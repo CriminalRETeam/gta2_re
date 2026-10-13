@@ -2818,7 +2818,7 @@ void CC ImGuiDebugDraw()
                 for (s32 i = 0; i < 20; i++)
                 {
                     CarChaseTask_40& hb = gCarChaseTaskTable_678E30->field_0_entries[i];
-                    ImGui::Value("field_0", hb.field_0_bInUse);
+                    ImGui::Value("field_0", hb.field_0_in_use);
                 }
             }
             ImGui::TreePop();

@@ -144,9 +144,9 @@ void CarAI_78::MakeAgressiveSirensAndLights_4476F0()
 inline void CarAI_78::TurnAround_447970()
 {
     field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
-    field_0_car->field_60_pChaseTask->field_22_bFollowingRoute = 0;
+    field_0_car->field_60_pChaseTask->field_22_following_route = 0;
     field_0_car->HaltAIDriving_43AF60();
-    field_0_car->field_60_pChaseTask->field_26_bRouteFinished = 1;
+    field_0_car->field_60_pChaseTask->field_26_route_finished = 1;
 }
 
 MATCH_FUNC(0x447710)
@@ -294,7 +294,7 @@ void CarAI_78::DoShortcutsUsingJunctions_447970()
             gRouteFinder_6FFDC8->CancelRoute_589930(field_28_junc_idx);
             this->field_28_junc_idx = -1;
             this->field_0_car->HaltAIDriving_43AF60();
-            this->field_0_car->field_60_pChaseTask->field_26_bRouteFinished = 1;
+            this->field_0_car->field_60_pChaseTask->field_26_route_finished = 1;
             return;
         }
 
@@ -1636,7 +1636,7 @@ void CarAI_78::FollowRoadDirection_44A1F0()
         field_24_flags &= ~0xC0;
         if (byte_677BBC)
         {
-            field_0_car->field_60_pChaseTask->field_22_bFollowingRoute = 1;
+            field_0_car->field_60_pChaseTask->field_22_following_route = 1;
         }
     }
 
@@ -2808,7 +2808,7 @@ void CarAI_78::Init_AI_Chase_44E0C0()
             this->field_28_junc_idx = -1;
         }
 
-        this->field_0_car->field_60_pChaseTask->field_22_bFollowingRoute = 0;
+        this->field_0_car->field_60_pChaseTask->field_22_following_route = 0;
 
         if (gPolice_7B8_6FEE40->field_654_max_wanted_level > 2 || field_0_car->IsPoliceCar_439EC0())
         {
@@ -2822,7 +2822,7 @@ void CarAI_78::Init_AI_Chase_44E0C0()
     }
 
     CarChaseTask_40* p60 = this->field_0_car->field_60_pChaseTask;
-    if (p60->field_20_bCanSnapToTarget)
+    if (p60->field_20_can_snap_to_target)
     {
         if (p60->field_34_snap_timer == 0)
         {
@@ -2892,7 +2892,7 @@ void CarAI_78::Init_AI_Chase_44E0C0()
                     this->field_28_junc_idx = -1;
                 }
 
-                this->field_0_car->field_60_pChaseTask->field_22_bFollowingRoute = 0;
+                this->field_0_car->field_60_pChaseTask->field_22_following_route = 0;
 
                 if (gPolice_7B8_6FEE40->field_654_max_wanted_level > 2 || field_0_car->IsPoliceCar_439EC0())
                 {
@@ -2923,7 +2923,7 @@ void CarAI_78::Init_AI_Chase_44E0C0()
         }
 
         GoToBlock_447CA0(gCurrCarAI_TargetX_6779F0.ToInt(), gCurrCarAI_TargetY_6779F4.ToInt(), maybe_z.ToInt(), 3);
-        this->field_0_car->field_60_pChaseTask->field_22_bFollowingRoute = 1;
+        this->field_0_car->field_60_pChaseTask->field_22_following_route = 1;
     }
 }
 
@@ -3012,7 +3012,7 @@ void CarAI_78::UpdateStateMachine_44E560()
     if (!field_3C_seeking_road)
     {
         byte_677A5D = 0;
-        switch ((u8)gCarChaseTaskTable_678E30->CountPursuers_474920(pChase->field_30_pTargetPed, this->field_0_car->field_54_driver))
+        switch (gCarChaseTaskTable_678E30->CountPursuers_474920(pChase->field_30_pTargetPed, this->field_0_car->field_54_driver))
         {
             case 1:
                 speed_limit = dword_6779C0;
@@ -3169,7 +3169,7 @@ void CarAI_78::UpdateStateMachine_44E560()
                         }
                         else
                         {
-                            switch ((u8)gCarChaseTaskTable_678E30->CountPursuers_474920(pChase->field_30_pTargetPed, field_0_car->field_54_driver))
+                            switch (gCarChaseTaskTable_678E30->CountPursuers_474920(pChase->field_30_pTargetPed, field_0_car->field_54_driver))
                             {
                                 case 1:
                                     waitCount = gPolice_7B8_6FEE40->field_654_max_wanted_level != 1 ? 10 : 50;
@@ -3237,7 +3237,7 @@ void CarAI_78::UpdateStateMachine_44E560()
                         pChase->field_C_chase_state = car_chase_state::pull_ahead_left_10;
                         return;
                     }
-                    pChase->field_10_bRamTarget = 1;
+                    pChase->field_10_ram_target = 1;
                     field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4, gCurrCarAI_zpos_677C48);
                     Ang16::PolarToCartesian_41FC20(gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0_rotation, gF16fOne_677B94, dx, dy);
                     gCurrCarAI_TargetX_6779F0 += dx;
@@ -3291,7 +3291,7 @@ void CarAI_78::UpdateStateMachine_44E560()
                         }
                         else
                         {
-                            switch ((u8)gCarChaseTaskTable_678E30->CountPursuers_474920(pChase->field_30_pTargetPed, field_0_car->field_54_driver))
+                            switch (gCarChaseTaskTable_678E30->CountPursuers_474920(pChase->field_30_pTargetPed, field_0_car->field_54_driver))
                             {
                                 case 1:
                                     waitCount = gPolice_7B8_6FEE40->field_654_max_wanted_level != 1 ? 10 : 50;
@@ -3358,7 +3358,7 @@ void CarAI_78::UpdateStateMachine_44E560()
                         pChase->field_C_chase_state = car_chase_state::pull_ahead_right_11;
                         return;
                     }
-                    pChase->field_10_bRamTarget = 1;
+                    pChase->field_10_ram_target = 1;
                     field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4, gCurrCarAI_zpos_677C48);
                     Ang16::PolarToCartesian_41FC20(gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0_rotation, gF16fOne_677B94, dx, dy);
                     gCurrCarAI_TargetX_6779F0 += dx;
@@ -3743,7 +3743,7 @@ void CarAI_78::UpdateStateMachine_44E560()
 
             case car_chase_state::choose_side_5:
             {
-                switch ((u8)gCarChaseTaskTable_678E30->CountPursuers_474920(pChase->field_30_pTargetPed, this->field_0_car->field_54_driver))
+                switch (gCarChaseTaskTable_678E30->CountPursuers_474920(pChase->field_30_pTargetPed, this->field_0_car->field_54_driver))
                 {
                     case 1:
                         bTryRight = 1;
@@ -4211,7 +4211,7 @@ void CarAI_78::ReactToNearbyCar_451980()
     {
         if (byte_677BBC)
         {
-            if (!field_0_car->field_60_pChaseTask->field_22_bFollowingRoute)
+            if (!field_0_car->field_60_pChaseTask->field_22_following_route)
             {
                 if (!cBC->field_60_pChaseTask || field_0_car->field_60_pChaseTask->field_30_pTargetPed != cBC->field_60_pChaseTask->field_30_pTargetPed)
                 {
@@ -4509,7 +4509,7 @@ void CarAI_78::ScanAheadForObstacles_452060()
             ++this->field_5A_obstacle_timer;
         }
 
-        if (!byte_677BBC || this->field_0_car->field_60_pChaseTask->field_22_bFollowingRoute)
+        if (!byte_677BBC || this->field_0_car->field_60_pChaseTask->field_22_following_route)
         {
             DetectCarAhead_44D1D0();
         }
@@ -4711,7 +4711,7 @@ void CarAI_78::ManageCollisions_452A20()
         {
             if (field_0_car->field_60_pChaseTask)
             {
-                if (field_0_car->field_60_pChaseTask->field_10_bRamTarget)
+                if (field_0_car->field_60_pChaseTask->field_10_ram_target)
                 {
                     // Past the inline budget: the second multiply is out of line
                     impact_point.FromPolar_41E210(kF16Zero_677B90, kAng0_677CE8);
@@ -4899,7 +4899,7 @@ void CarAI_78::UpdateDrivingAI_452DF0()
 
     if (byte_677BBC)
     {
-        if (!field_0_car->field_60_pChaseTask->field_22_bFollowingRoute)
+        if (!field_0_car->field_60_pChaseTask->field_22_following_route)
         {
             bUpdateStateMachine = true;
             field_24_bf.bFlag21 = true;
@@ -5004,7 +5004,7 @@ void CarAI_78::UpdateDrivingAI_452DF0()
         //CarChaseTask_40* v19 = field_0->field_60;
         if (field_0_car->field_60_pChaseTask)
         {
-            if (field_0_car->field_60_pChaseTask->field_22_bFollowingRoute == 1)
+            if (field_0_car->field_60_pChaseTask->field_22_following_route == 1)
             {
                 DoShortcutsUsingJunctions_447970();
             }
