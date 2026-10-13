@@ -477,7 +477,7 @@ struct Frontend
 
     EXPORT void DrawMultiplayerScores_4B55F0();
 
-    EXPORT void DrawLastAndBestStats_4B57B0(u16 a3, u16 a5);
+    EXPORT void DrawLastAndBestStats_4B57B0(u16 text_xpos, u16 text_ypos);
 
     EXPORT void DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, u16 palette, u16 scale, u16 a7, u8 pStr);
 
