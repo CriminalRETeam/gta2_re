@@ -805,7 +805,7 @@ char Car_BC::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, F
                     {
                         field_50_car_sprite->set_xyz_lazy_420600(xpos, ypos, pos_z);
 
-                        field_50_car_sprite->set_ang_lazy_420690(ReturnAngleFromRoadDirection_4F7940(&direction));
+                        field_50_car_sprite->set_ang_lazy_420690(ReturnAngleFromRoadDirection_4F7940(direction));
 
                         if (field_58_physics)
                         {
@@ -1089,7 +1089,7 @@ Car_BC* CarManager_6C::SpawnBusAtValidRoadPosition_4453E0(Fix16 x, Fix16 y, s32 
                 if (!gSpriteGrid_1_679208->CheckRectForCollisions_477F60(&rect, 0, 0, 0) && !rect.CanRectEnterMovementRegion_59DE80() &&
                     !gGame_0x40_67E008->IsRectVisibleToAnyPlayer_4B9B10(&rect))
                 {
-                    return CarManager_6C::SpawnCar_426E10_v2(x, y, ground_z, ReturnAngleFromRoadDirection_4F7940(&road_direction), car_model);
+                    return CarManager_6C::SpawnCar_426E10_v2(x, y, ground_z, ReturnAngleFromRoadDirection_4F7940(road_direction), car_model);
                 }
             }
         }
@@ -1288,7 +1288,7 @@ Car_BC* CarManager_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 
                     !gGame_0x40_67E008->IsRectVisibleToAnyPlayer_4B9B10(&rect))
                 {
                     Car_BC* pCar =
-                        SpawnCar_426E10_v2(x, y, ground_z, ReturnAngleFromRoadDirection_4F7940(&road_direction), car_model_type);
+                        SpawnCar_426E10_v2(x, y, ground_z, ReturnAngleFromRoadDirection_4F7940(road_direction), car_model_type);
                     pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
                     if (!pCar->field_5C_AI)
                     {
@@ -4916,9 +4916,9 @@ void Car_BC::StartWreckCountdown_441380()
 }
 
 MATCH_FUNC(0x4F7940)
-EXPORT Ang16 __stdcall ReturnAngleFromRoadDirection_4F7940(s32* road_direction)
+EXPORT Ang16 __stdcall ReturnAngleFromRoadDirection_4F7940(s32& road_direction)
 {
-    switch (*road_direction)
+    switch (road_direction)
     {
         case road_direction::up_1:
             return kAng180_6F67EA;
@@ -4967,12 +4967,12 @@ void Car_BC::UpdateTrainCarriagesOnTrack_4413B0(Fix16 xpos, Fix16 ypos, Fix16 zp
         if (bUnknown)
         {
             s32 track_dir_a = gMap_0x370_6F6268->AdvanceAlongRailwayChecked_4E7190(&newx, &newy, &newz, k_dword_6777D4);
-            carriage_angle = ReturnAngleFromRoadDirection_4F7940(&track_dir_a);
+            carriage_angle = ReturnAngleFromRoadDirection_4F7940(track_dir_a);
         }
         else
         {
             s32 track_dir_b = gMap_0x370_6F6268->AdvanceAlongRailway_4E6660(&newx, &newy, &newz, k_dword_6777D4);
-            carriage_angle = ReturnAngleFromRoadDirection_4F7940(&track_dir_b);
+            carriage_angle = ReturnAngleFromRoadDirection_4F7940(track_dir_b);
         }
 
         pTrainCarIter->field_50_car_sprite->set_xyz_lazy_420600(newx, newy, newz);
@@ -7798,7 +7798,7 @@ char_type TrafficSpawner_14::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_di
                                 {
                                     Car_BC* pNewCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_WithScale(car_x,
                                                                                                 car_y,
-                                                                                                ReturnAngleFromRoadDirection_4F7940(&arrow_direction),
+                                                                                                ReturnAngleFromRoadDirection_4F7940(arrow_direction),
                                                                                                 car_model,
                                                                                                 kFpOne_6FF778);
                                     if (car_model != car_model_enum::SWATVAN && car_model != car_model_enum::COPCAR &&

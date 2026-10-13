@@ -3519,7 +3519,7 @@ s32 Map_0x370::AdvanceAlongRailway_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
     s32 direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 1);
 
     Fix16 side;
-    side = GetLateralOffsetInBlock_4E5D70(x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
+    side = GetLateralOffsetInBlock_4E5D70(x, y, ReturnAngleFromRoadDirection_4F7940(direction));
     if (side > kFpHalf_6F5F18)
     {
         switch (direction)
@@ -3560,7 +3560,7 @@ s32 Map_0x370::AdvanceAlongRailway_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
     gmp_block_info* pPrev;
     if (side != kFpHalf_6F5F18)
     {
-        to_centre = GetForwardOffsetInBlock_4E5E00(x, y, ReturnAngleFromRoadDirection_4F7940(&direction)) - kFpHalf_6F5F18;
+        to_centre = GetForwardOffsetInBlock_4E5E00(x, y, ReturnAngleFromRoadDirection_4F7940(direction)) - kFpHalf_6F5F18;
         if (to_centre > kFpZero_6F610C)
         {
             if (dist >= to_centre)
@@ -3602,7 +3602,7 @@ s32 Map_0x370::AdvanceAlongRailway_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
     else
     {
         Fix16 to_edge;
-        to_edge = GetForwardOffsetInBlock_4E5E00(x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
+        to_edge = GetForwardOffsetInBlock_4E5E00(x, y, ReturnAngleFromRoadDirection_4F7940(direction));
         if (to_edge > kFpZero_6F610C)
         {
             // Before the call, not after it as the original schedules it: after it, VC6 keeps
@@ -3613,7 +3613,7 @@ s32 Map_0x370::AdvanceAlongRailway_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
                        &y,
                        kFpOne_6F6110 - to_edge,
                        Ang16::GetAngleFace_4F78F0(
-                           Ang16(ReturnAngleFromRoadDirection_4F7940(&direction).rValue + word_6F603E.rValue).Normalized_406C20()));
+                           Ang16(ReturnAngleFromRoadDirection_4F7940(direction).rValue + word_6F603E.rValue).Normalized_406C20()));
             dist += kFpOne_6F6110 - to_edge;
             gmp_block_info* pNext = GetBlock_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
             if (pNext && (pNext->field_B_slope_type & 0xFC) == 0xFC)
@@ -3653,12 +3653,12 @@ s32 Map_0x370::AdvanceAlongRailway_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
             {
                 pPrev = pBlock;
                 Fix16 to_edge;
-                to_edge = GetForwardOffsetInBlock_4E5E00(x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
+                to_edge = GetForwardOffsetInBlock_4E5E00(x, y, ReturnAngleFromRoadDirection_4F7940(direction));
                 MovePosAlongDirection_4E5D10(&x,
                            &y,
                            kFpOne_6F6110 - to_edge,
                            Ang16::GetAngleFace_4F78F0(
-                               Ang16(ReturnAngleFromRoadDirection_4F7940(&direction).rValue + word_6F603E.rValue).Normalized_406C20()));
+                               Ang16(ReturnAngleFromRoadDirection_4F7940(direction).rValue + word_6F603E.rValue).Normalized_406C20()));
                 dist += kFpOne_6F6110 - to_edge;
                 SetRoadBlockAt_4E6660(pBlock, x, y, z);
                 if (pBlock != pPrev)
@@ -3730,7 +3730,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
     s32 direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
 
     Fix16 side;
-    side = GetLateralOffsetInBlock_4E5D70(x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
+    side = GetLateralOffsetInBlock_4E5D70(x, y, ReturnAngleFromRoadDirection_4F7940(direction));
     // The case order of the two switches picks which constants VC6 keeps in registers (`mov $1,%ebp; mov $3,%ebx`)
     if (side > kFpHalf_6F5F18)
     {
@@ -3774,7 +3774,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
     {
         pPrev = pBlock;
         Fix16 to_centre;
-        to_centre = GetForwardOffsetInBlock_4E5E00(x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
+        to_centre = GetForwardOffsetInBlock_4E5E00(x, y, ReturnAngleFromRoadDirection_4F7940(direction));
         if (to_centre > kFpZero_6F610C)
         {
             if (dist >= to_centre)
@@ -3802,7 +3802,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
     else
     {
         Fix16 to_edge;
-        to_edge = GetForwardOffsetInBlock_4E5E00(x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
+        to_edge = GetForwardOffsetInBlock_4E5E00(x, y, ReturnAngleFromRoadDirection_4F7940(direction));
         if (to_edge > kFpZero_6F610C)
         {
             SnapZToRailway_4E65A0(x, y, &z, 0, 1);
@@ -3810,7 +3810,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
             MovePosAlongDirection_4E5D10(&x,
                        &y,
                        kFpOne_6F6110 - to_edge,
-                       Ang16::GetAngleFace_4F78F0(ReturnAngleFromRoadDirection_4F7940(&direction) + word_6F603E));
+                       Ang16::GetAngleFace_4F78F0(ReturnAngleFromRoadDirection_4F7940(direction) + word_6F603E));
             dist += kFpOne_6F6110 - to_edge;
             gmp_block_info* pNext = GetRoadBlockAtOrNull_4E7190(x, y, z);
             if (!pNext || !HasGreenArrowForPathDirection_4E5E90(pNext, direction, 0))
@@ -3859,15 +3859,15 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
             {
                 pPrev = pBlock;
                 Fix16 to_edge;
-                to_edge = GetForwardOffsetInBlock_4E5E00(x, y, ReturnAngleFromRoadDirection_4F7940(&direction));
+                to_edge = GetForwardOffsetInBlock_4E5E00(x, y, ReturnAngleFromRoadDirection_4F7940(direction));
                 MovePosAlongDirection_4E5D10(&x,
                            &y,
                            kFpOne_6F6110,
-                           Ang16::GetAngleFace_4F78F0(ReturnAngleFromRoadDirection_4F7940(&direction) + word_6F603E));
+                           Ang16::GetAngleFace_4F78F0(ReturnAngleFromRoadDirection_4F7940(direction) + word_6F603E));
                 MovePosAlongDirection_4E5D10(&x,
                            &y,
                            kFpOne_6F6110 - to_edge,
-                           Ang16::GetAngleFace_4F78F0(ReturnAngleFromRoadDirection_4F7940(&direction) + word_6F603E));
+                           Ang16::GetAngleFace_4F78F0(ReturnAngleFromRoadDirection_4F7940(direction) + word_6F603E));
                 dist += kFpOne_6F6110 + kFpOne_6F6110 - to_edge;
                 z = last_z;
                 SetRoadBlockAt_4E6660(pBlock, x, y, z);

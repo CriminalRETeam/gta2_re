@@ -2680,7 +2680,7 @@ void Char_B4::sub_54C090()
         AngleFace_4F78F0 = new_dir;
     }
 
-    field_40_rotation = ReturnAngleFromRoadDirection_4F7940(&AngleFace_4F78F0);
+    field_40_rotation = ReturnAngleFromRoadDirection_4F7940(AngleFace_4F78F0);
 
     if (field_10_char_state != 15)
     {
@@ -2806,21 +2806,21 @@ void Char_B4::sub_54C3E0()
             {
                 if (!(gCharB4_UpdateCounter_6FDB48 % 2))
                 {
-                    SetTurnTarget_492400(ReturnAngleFromRoadDirection_4F7940(&ccw_face));
+                    SetTurnTarget_492400(ReturnAngleFromRoadDirection_4F7940(ccw_face));
                 }
                 else
                 {
-                    SetTurnTarget_492400(ReturnAngleFromRoadDirection_4F7940(&cw_face));
+                    SetTurnTarget_492400(ReturnAngleFromRoadDirection_4F7940(cw_face));
                 }
             }
             else
             {
-                SetTurnTarget_492400(ReturnAngleFromRoadDirection_4F7940(&ccw_face));
+                SetTurnTarget_492400(ReturnAngleFromRoadDirection_4F7940(ccw_face));
             }
         }
         else if (cw_free == 1)
         {
-            SetTurnTarget_492400(ReturnAngleFromRoadDirection_4F7940(&cw_face));
+            SetTurnTarget_492400(ReturnAngleFromRoadDirection_4F7940(cw_face));
         }
     }
 }

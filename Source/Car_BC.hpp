@@ -36,7 +36,7 @@ class Player;
 
 EXTERN_GLOBAL(Fix16, kFP16One_6777D0);
 
-EXPORT Ang16 __stdcall ReturnAngleFromRoadDirection_4F7940(s32* road_direction);
+EXPORT Ang16 __stdcall ReturnAngleFromRoadDirection_4F7940(s32& road_direction);
 
 namespace car_kind
 {

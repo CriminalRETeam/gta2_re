@@ -332,7 +332,7 @@ EXTERN_GLOBAL(Fix16, kGradientScaleSize8_6F6214);
 EXTERN_GLOBAL(Fix16, kFpZero_6F610C);
 extern Fix16 kFpOne_6F6110;
 EXTERN_GLOBAL(Ang16, word_6F603E);
-EXPORT Ang16 __stdcall ReturnAngleFromRoadDirection_4F7940(s32* road_direction);
+EXPORT Ang16 __stdcall ReturnAngleFromRoadDirection_4F7940(s32& road_direction);
 
 struct gmp_zone_list
 {
