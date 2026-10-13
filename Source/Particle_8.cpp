@@ -158,7 +158,7 @@ void Particle_8::SpawnBlood_53E880(Fix16 xpos, Fix16 ypos, Fix16 zpos)
         pNew4C->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
         pNew4C->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 191);
         pNew4C->field_30_pNext->set_xyz_lazy_420600(xpos, ypos, zpos);
-        pNew4C->field_30_pNext->set_num_40F7B0(2);
+        pNew4C->field_30_pNext->SetDrawLayer_40F7B0(2);
         gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
     }
 }

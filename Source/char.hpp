@@ -53,7 +53,7 @@ class Char_B4
     // 9.6f 0x4338F0
     inline void SetSpriteNum_4338F0(s32 num)
     {
-        field_80_sprite_ptr->set_num_40F7B0(num);
+        field_80_sprite_ptr->SetDrawLayer_40F7B0(num);
     }
 
     // 9.6f 0x41B090

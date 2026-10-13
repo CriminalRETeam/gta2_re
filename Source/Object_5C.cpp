@@ -689,7 +689,7 @@ char_type Object_2C::sub_5233A0(Fix16 value)
         }
         else
         {
-            this->field_4->set_num_40F7B0(6);
+            this->field_4->SetDrawLayer_40F7B0(6);
         }
         this->field_10_obj_3c->field_C_speed = k_dword_6F8C58;
         this->field_10_obj_3c->field_18_friction = this->field_8->field_14_friction;
@@ -2022,13 +2022,13 @@ void Object_2C::sub_526B40(Sprite* pSprite)
         case sprite_types_enum::ped_3: //sprite_type_3_Char_B4:
             this->field_10_obj_3c->field_C_speed = (pSprite->field_8_char_b4_ptr->get_velocity_41B080() * k_dword_6F8C9C);
             this->field_10_obj_3c->field_4_angle = pSprite->field_0_rotation;
-            this->field_4->set_num_40F7B0(27);
+            this->field_4->SetDrawLayer_40F7B0(27);
             break;
 
         case sprite_types_enum::car_2: // 2
             this->field_10_obj_3c->field_C_speed = pSprite->field_8_car_bc_ptr->GetCarLinearSpeed_43A240();
             this->field_10_obj_3c->field_4_angle = pSprite->field_8_car_bc_ptr->GetOrientationAngle_43A3E0();
-            this->field_4->set_num_40F7B0(pSprite->AsCar_40FEB0()->GetCrashSoundCategory_4435B0());
+            this->field_4->SetDrawLayer_40F7B0(pSprite->AsCar_40FEB0()->GetCrashSoundCategory_4435B0());
             break;
 
         case sprite_types_enum::code_obj1_4: //sprite_type_4_Object_5C:
@@ -2040,7 +2040,7 @@ void Object_2C::sub_526B40(Sprite* pSprite)
                 this->field_10_obj_3c->field_4_angle = pSprite->field_8_object_2C_ptr->field_10_obj_3c->field_4_angle;
                 this->field_10_obj_3c->field_10_z_speed = pSprite->field_8_object_2C_ptr->field_10_obj_3c->field_10_z_speed;
             }
-            this->field_4->set_num_40F7B0(12);
+            this->field_4->SetDrawLayer_40F7B0(12);
             break;
 
         default:
@@ -3767,7 +3767,7 @@ void Object_2C::ReactivateObjectAfterImpact_52A6D0(Sprite* pSprite)
     Car_BC* pObj = pSprite->AsCar_40FEB0();
     if (pObj)
     {
-        field_4->set_num_40F7B0(pObj->GetCrashSoundCategory_4435B0());
+        field_4->SetDrawLayer_40F7B0(pObj->GetCrashSoundCategory_4435B0());
     }
 }
 

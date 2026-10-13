@@ -5842,7 +5842,7 @@ void Car_BC::TryHitchTrailer_442810()
     Fix16_Point offset;
     Fix16_Point hitch_point; // the original sets EH state 3 up front: 4 points constructed
 
-    field_50_car_sprite->set_num_40F7B0(15);
+    field_50_car_sprite->SetDrawLayer_40F7B0(15);
 
     if (!HasSpriteZoom_43A230() && !IsMaxDamage_40F890() && !IsMarkedForDespawn_4214B0() && !IsDespawning_4215B0())
     {
@@ -5858,7 +5858,7 @@ void Car_BC::TryHitchTrailer_442810()
         {
             if (field_50_car_sprite->sub_5A1A60() || stru_67727C.sub_5A7310())
             {
-                this->field_50_car_sprite->set_num_40F7B0(8);
+                this->field_50_car_sprite->SetDrawLayer_40F7B0(8);
                 stru_67727C.PropagateMaxZLayer_5A72B0(this->field_50_car_sprite, 1);
             }
 
@@ -6234,13 +6234,13 @@ bool Car_BC::UpdateAttachedToSprite_443360(Sprite* pSprite, Fix16 x, Fix16 y, An
     switch (pSprite->field_30_sprite_type_enum)
     {
         case sprite_types_enum::car_2:
-            field_50_car_sprite->set_num_40F7B0(18);
+            field_50_car_sprite->SetDrawLayer_40F7B0(18);
             break;
 
         case sprite_types_enum::unknown_1:
         case sprite_types_enum::code_obj1_4:
         case sprite_types_enum::map_obj_5:
-            field_50_car_sprite->set_num_40F7B0(17);
+            field_50_car_sprite->SetDrawLayer_40F7B0(17);
             break;
 
         default:
@@ -6291,25 +6291,25 @@ void Car_BC::UpdateSpriteNum_4435F0()
 {
     if (IsTrailerInfo_421640())
     {
-        this->field_50_car_sprite->set_num_40F7B0(16);
+        this->field_50_car_sprite->SetDrawLayer_40F7B0(16);
     }
     else
     {
         if ((field_78_flags & car_flag::Flag4))
         {
-            this->field_50_car_sprite->set_num_40F7B0(13);
+            this->field_50_car_sprite->SetDrawLayer_40F7B0(13);
         }
         else if ((field_78_flags & car_flag::Flag6))
         {
-            this->field_50_car_sprite->set_num_40F7B0(19);
+            this->field_50_car_sprite->SetDrawLayer_40F7B0(19);
         }
         else if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags_2 & car_info_flag2::heavy) == car_info_flag2::heavy)
         {
-            this->field_50_car_sprite->set_num_40F7B0(21);
+            this->field_50_car_sprite->SetDrawLayer_40F7B0(21);
         }
         else
         {
-            this->field_50_car_sprite->set_num_40F7B0(15);
+            this->field_50_car_sprite->SetDrawLayer_40F7B0(15);
         }
     }
 }
@@ -7071,7 +7071,7 @@ s32 Trailer::Update_408220()
             }
         }
 
-        field_8_truck_cab->field_50_car_sprite->set_num_40F7B0(15);
+        field_8_truck_cab->field_50_car_sprite->SetDrawLayer_40F7B0(15);
 
         field_8_truck_cab->ServiceDoorsLightsAndHorn_4426D0();
         field_C_pCarOnTrailer->ServiceDoorsLightsAndHorn_4426D0();

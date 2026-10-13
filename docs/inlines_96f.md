@@ -311,7 +311,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x405CE0 | `sub_405CE0` | 0x40ECB0 | ✓ `sub_40E790` | matched | all 9.6f inlines used |
 | 0x408140 | `Car_A4_10::sub_408140` | 0x40FB20 | `sub_427450` | checked | 427450 = a called Car_BC method (ManageDrowning_43E560 or physics state machine) |
 | 0x4081B0 | `Car_A4_10::DeAllocateCarPhysics_4081B0` | 0x40F470 | `sub_426120` | checked | 426120 = DeAllocateCarPhysics_441A10 (called) |
-| 0x408220 | `Car_A4_10::sub_408220` | 0x40FBE0 | `sub_40F490`, ✓ `sub_40F7B0`, `sub_40FB70` | checked | 40F490 = Car_BC_Pool::Remove (already), 40FB70 = ExplodeBothIfOneDestroyed_4081D0 (called), set_num_40F7B0 already |
+| 0x408220 | `Car_A4_10::sub_408220` | 0x40FBE0 | `sub_40F490`, ✓ `sub_40F7B0`, `sub_40FB70` | checked | 40F490 = Car_BC_Pool::Remove (already), 40FB70 = ExplodeBothIfOneDestroyed_4081D0 (called), SetDrawLayer_40F7B0 already |
 | 0x40B890 | `CollisionEvent_28::sub_40B890` | 0x40FF20 | ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FEF0` | done | all 9.6f inlines used |
 | 0x40B980 | `CollisionEvent_28::sub_40B980` | 0x410010 | ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FEF0` | done | all 9.6f inlines used |
 | 0x40BA60 | `CollisionEvent_28::sub_40BA60` | 0x4100F0 | ✓ `sub_40FF00`, ✓ `sub_40FEF0`, ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0` | done | Object_2C::GetDefField63_40FF00 (second use); Still matches. |
@@ -870,7 +870,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x525D90 | `Object_2C::UpdatePhysicsMovementAndAnimation_525D90` | 0x487BC0 | ✓ `sub_482730`, ✓ `sub_421080`, ✓ `sub_420FF0` | commented | get_field_26_420FF0 changes the matching code |
 | 0x5263D0 | `Object_2C::Service_5263D0` | 0x487E80 | `Object_2C::sub_4826A0` (10.5 0x525AE0) | checked | 4826A0 pairs with CheckCollisionForModel_139_And_141_525AE0; not open-coded here |
 | 0x526790 | `Object_2C::TriggerCarExplosionIfApplicable_526790` | 0x4837F0 | ✓ `sub_475A80`, ✓ `sub_482C10`, ✓ `sub_482400`, ✓ `sub_40FEB0`, ✓ `sub_420FF0`, ✓ `sub_420F10` | done | IsAnimFinished_482C10 + IsDefinitionIdx39To42_482400 used; code unchanged |
-| 0x526B40 | `Object_2C::sub_526B40` | 0x483880 | ✓ `sub_416B40`, ✓ `sub_41B080` (10.5 0x41B480), ✓ `sub_40F7B0`, `Car_BC::sub_421D90`, ✓ `sub_40FEB0` | matched | Sprite::GetType_416B40, Char_B4::get_velocity_41B080, Sprite::set_num_40F7B0 |
+| 0x526B40 | `Object_2C::sub_526B40` | 0x483880 | ✓ `sub_416B40`, ✓ `sub_41B080` (10.5 0x41B480), ✓ `sub_40F7B0`, `Car_BC::sub_421D90`, ✓ `sub_40FEB0` | matched | Sprite::GetType_416B40, Char_B4::get_velocity_41B080, Sprite::SetDrawLayer_40F7B0 |
 | 0x527630 | `Object_2C::InitializeObject_527630` | 0x483990 | `ObjectDefinition_74::sub_488EF0`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `Car_3C::set_ang_lazy_420690`, ✓ `sub_482A30` | done | SetObject2C_482A30 used; 488EF0 = CreateSpriteFromDefinition (called); code unchanged |
 | 0x528240 | `Object_2C::HandleRotationStateTransition_528240` | 0x483A20 | `sub_4BED60` | checked | 4BED60 = SpriteList_4::AddSprite_5A6CD0 (called) |
 | 0x5288B0 | `Object_2C::OnObjectTouched_5288B0` | 0x483B50 | ✓ `sub_40FEA0`, ✓ `sub_40FEB0` | done | all 9.6f inlines used |

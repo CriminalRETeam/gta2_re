@@ -1689,7 +1689,7 @@ address against the csv before chasing the state store.
 field access with a one-line inline helper (a scalar or pointer field get/set, `field == K`)
 left the code of every matching function unchanged, so those can be used wherever 9.6f calls
 them. Adding these helpers made `Object_2C::sub_526B40` match (`Sprite::GetType_416B40`,
-`Char_B4::get_velocity_41B080`, `Sprite::set_num_40F7B0`). The exception is
+`Char_B4::get_velocity_41B080`, `Sprite::SetDrawLayer_40F7B0`). The exception is
 `Char_B4::SetMaxSpeed_433920(Fix16)`: as a by-value `Fix16` parameter it changed six matching
 `Ped` functions (`WalkToTargetPoint_46C770` and others), although 9.6f calls it there. Those keep the plain
 assignment for now. `SetMaxSpeedByRef_433920` (by reference) changes register choice later in the

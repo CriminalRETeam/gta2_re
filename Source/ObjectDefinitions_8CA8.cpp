@@ -680,7 +680,7 @@ void ObjectDefinition_74::ApplyDefinitionToSprite_5331A0(Sprite* pSprite)
     pSprite->SetType_4206F0(this->field_28_sprite_type);
     pSprite->set_id_lazy_4206C0(this->field_1E_sprite_palette);
 
-    pSprite->set_num_40F7B0(this->field_2C);
+    pSprite->SetDrawLayer_40F7B0(this->field_2C);
     pSprite->field_2C_flags = this->field_20_sprite_flags;
 
     if (this->field_30 != 2)

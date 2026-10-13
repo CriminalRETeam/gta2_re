@@ -589,7 +589,7 @@ void Char_B4::Update_545720(Fix16 distance_to_target)
         {
             if (field_8_ped_state_1 != ped_state_1::dead_9)
             {
-                field_80_sprite_ptr->set_num_40F7B0(34);
+                field_80_sprite_ptr->SetDrawLayer_40F7B0(34);
             }
         }
         if (field_10_char_state == Char_B4_state::Jumping_15)
@@ -958,7 +958,7 @@ void Char_B4::UpdateAnimState_546360()
                                                       newx,
                                                       newy,
                                                       field_40_rotation);
-                        field_80_sprite_ptr->set_num_40F7B0(9);
+                        field_80_sprite_ptr->SetDrawLayer_40F7B0(9);
                         newId = baseId + field_68_animation_frame;
                     }
                     else
@@ -988,7 +988,7 @@ void Char_B4::UpdateAnimState_546360()
                                                       newy,
                                                       field_40_rotation);
                         newId = baseId + field_68_animation_frame;
-                        field_80_sprite_ptr->set_num_40F7B0(9);
+                        field_80_sprite_ptr->SetDrawLayer_40F7B0(9);
                     }
                     else
                     {
@@ -999,7 +999,7 @@ void Char_B4::UpdateAnimState_546360()
                                                       newy,
                                                       field_40_rotation);
                         frame_limit = 1;
-                        field_80_sprite_ptr->set_num_40F7B0(9);
+                        field_80_sprite_ptr->SetDrawLayer_40F7B0(9);
                         newId = field_68_animation_frame + baseId + 28;
                     }
                     break;
@@ -1011,7 +1011,7 @@ void Char_B4::UpdateAnimState_546360()
                                                   newx,
                                                   newy,
                                                   field_40_rotation);
-                    field_80_sprite_ptr->set_num_40F7B0(9);
+                    field_80_sprite_ptr->SetDrawLayer_40F7B0(9);
                     field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::ped2_driving_10);
                     field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
                     field_C_ped_state_2 = 10;
@@ -1088,7 +1088,7 @@ void Char_B4::UpdateAnimState_546360()
                         pDriver->set_target_car_door_403A70(field_7C_pPed->get_target_car_door_403A60());
                         pDriver->field_168_game_object->SetPedState2_433A50(17);
                         pDriver->field_168_game_object->field_84_target_car = pCar;
-                        pDriver->field_168_game_object->field_80_sprite_ptr->set_num_40F7B0(6);
+                        pDriver->field_168_game_object->field_80_sprite_ptr->SetDrawLayer_40F7B0(6);
                         {
                             pDriver->SetRemap_433C10(pDriver->get_remap_433BA0());
                         }
@@ -1171,7 +1171,7 @@ void Char_B4::UpdateAnimState_546360()
             }
 
             field_80_sprite_ptr->set_xyz_lazy_420600(newx, newy, pCar->field_50_car_sprite->field_1C_zpos);
-            field_80_sprite_ptr->set_num_40F7B0(6);
+            field_80_sprite_ptr->SetDrawLayer_40F7B0(6);
             byte_6FDB54 = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
                                                                       field_80_sprite_ptr->field_14_xy.y.ToInt(),
                                                                       field_80_sprite_ptr->field_1C_zpos.ToInt() - 1);
@@ -1203,7 +1203,7 @@ void Char_B4::UpdateAnimState_546360()
                     {
                         CarDoorAlignmentSolver_545AF0(7, pCar, field_7C_pPed->get_target_car_door_403A60(), newx, newy, field_40_rotation);
                         frame_limit = 3;
-                        field_80_sprite_ptr->set_num_40F7B0(9);
+                        field_80_sprite_ptr->SetDrawLayer_40F7B0(9);
                         newId = baseId + 36;
                     }
                     break;
@@ -1219,7 +1219,7 @@ void Char_B4::UpdateAnimState_546360()
                     {
                         CarDoorAlignmentSolver_545AF0(6, pCar, field_7C_pPed->get_target_car_door_403A60(), newx, newy, field_40_rotation);
                         frame_limit = 3;
-                        field_80_sprite_ptr->set_num_40F7B0(9);
+                        field_80_sprite_ptr->SetDrawLayer_40F7B0(9);
                         newId = baseId + 35;
                     }
                     break;
@@ -1235,7 +1235,7 @@ void Char_B4::UpdateAnimState_546360()
                     {
                         CarDoorAlignmentSolver_545AF0(5, pCar, field_7C_pPed->get_target_car_door_403A60(), newx, newy, field_40_rotation);
                         frame_limit = 3;
-                        field_80_sprite_ptr->set_num_40F7B0(9);
+                        field_80_sprite_ptr->SetDrawLayer_40F7B0(9);
                         newId = baseId + 34;
                     }
                     break;
@@ -1251,7 +1251,7 @@ void Char_B4::UpdateAnimState_546360()
                     {
                         CarDoorAlignmentSolver_545AF0(4, pCar, field_7C_pPed->get_target_car_door_403A60(), newx, newy, field_40_rotation);
                         frame_limit = 3;
-                        field_80_sprite_ptr->set_num_40F7B0(9);
+                        field_80_sprite_ptr->SetDrawLayer_40F7B0(9);
                         newId = baseId + 33;
                     }
                     break;
@@ -1267,7 +1267,7 @@ void Char_B4::UpdateAnimState_546360()
                     {
                         CarDoorAlignmentSolver_545AF0(0, pCar, field_7C_pPed->get_target_car_door_403A60(), newx, newy, field_40_rotation);
                         frame_limit = 1;
-                        field_80_sprite_ptr->set_num_40F7B0(23);
+                        field_80_sprite_ptr->SetDrawLayer_40F7B0(23);
                         newId = field_68_animation_frame + baseId + 24;
                     }
                     break;
@@ -1283,7 +1283,7 @@ void Char_B4::UpdateAnimState_546360()
                     {
                         CarDoorAlignmentSolver_545AF0(1, pCar, field_7C_pPed->get_target_car_door_403A60(), newx, newy, field_40_rotation);
                         frame_limit = 1;
-                        field_80_sprite_ptr->set_num_40F7B0(23);
+                        field_80_sprite_ptr->SetDrawLayer_40F7B0(23);
                         newId = field_68_animation_frame + baseId + 24;
                     }
                     break;
@@ -1299,7 +1299,7 @@ void Char_B4::UpdateAnimState_546360()
                     {
                         CarDoorAlignmentSolver_545AF0(2, pCar, field_7C_pPed->get_target_car_door_403A60(), newx, newy, field_40_rotation);
                         frame_limit = 1;
-                        field_80_sprite_ptr->set_num_40F7B0(23);
+                        field_80_sprite_ptr->SetDrawLayer_40F7B0(23);
                         newId = field_68_animation_frame + baseId + 24;
                     }
                     break;
@@ -1315,14 +1315,14 @@ void Char_B4::UpdateAnimState_546360()
                     {
                         CarDoorAlignmentSolver_545AF0(3, pCar, field_7C_pPed->get_target_car_door_403A60(), newx, newy, field_40_rotation);
                         frame_limit = 1;
-                        field_80_sprite_ptr->set_num_40F7B0(23);
+                        field_80_sprite_ptr->SetDrawLayer_40F7B0(23);
                         newId = field_68_animation_frame + baseId + 24;
                     }
                     break;
 
                 case 8:
                 {
-                    field_80_sprite_ptr->set_num_40F7B0(23);
+                    field_80_sprite_ptr->SetDrawLayer_40F7B0(23);
                     field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
                     field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::walking_0);
                     field_C_ped_state_2 = 0;
@@ -1623,7 +1623,7 @@ void Char_B4::UpdateAnimState_546360()
             {
                 field_80_sprite_ptr->SetPaletteSprites_420700();
             }
-            field_80_sprite_ptr->set_num_40F7B0(6);
+            field_80_sprite_ptr->SetDrawLayer_40F7B0(6);
             newId = field_68_animation_frame + baseId + 151;
             break;
     }
@@ -5804,7 +5804,7 @@ void Char_B4::state_8_5520A0()
                         field_6C_animation_state = 10;
                         break;
                 }
-                field_80_sprite_ptr->set_num_40F7B0(6);
+                field_80_sprite_ptr->SetDrawLayer_40F7B0(6);
                 break;
 
             case ped_state_2::falling_19:
@@ -5871,7 +5871,7 @@ void Char_B4::state_8_5520A0()
                 }
                 if (!field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_34)
                 {
-                    field_80_sprite_ptr->set_num_40F7B0(6);
+                    field_80_sprite_ptr->SetDrawLayer_40F7B0(6);
                 }
                 field_4A = 300;
                 break;
@@ -6130,7 +6130,7 @@ void Char_B4::state_8_5520A0()
 
                     if (!field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_34)
                     {
-                        field_80_sprite_ptr->set_num_40F7B0(6);
+                        field_80_sprite_ptr->SetDrawLayer_40F7B0(6);
                     }
                     field_7C_pPed->field_184_pObj2C->RequestRemoval_5290A0();
                     field_7C_pPed->field_184_pObj2C = 0;
@@ -6163,7 +6163,7 @@ void Char_B4::state_8_5520A0()
                     }
                     if (!field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_34)
                     {
-                        field_80_sprite_ptr->set_num_40F7B0(6);
+                        field_80_sprite_ptr->SetDrawLayer_40F7B0(6);
                     }
                 }
                 break;
@@ -6334,7 +6334,7 @@ void Char_B4::state_9_552E90()
                                                              field_80_sprite_ptr->field_1C_zpos);
                 }
 
-                field_80_sprite_ptr->field_28_num = 6;
+                field_80_sprite_ptr->field_28_draw_layer = 6;
                 break;
             default:
                 if (field_6C_animation_state != 21)
@@ -6354,7 +6354,7 @@ void Char_B4::state_9_552E90()
                     }
                 }
                 field_68_animation_frame = 0;
-                field_80_sprite_ptr->set_num_40F7B0(6);
+                field_80_sprite_ptr->SetDrawLayer_40F7B0(6);
                 break;
         }
     }

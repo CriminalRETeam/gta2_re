@@ -845,30 +845,30 @@ bool Sprite::IsObjectModelEqual_59E930(s32 model)
 }
 
 MATCH_FUNC(0x59e960)
-void Sprite::SetDefaultNumBySpriteType_59E960()
+void Sprite::SetDefaultDrawLayerBySpriteType_59E960()
 {
     switch (this->field_30_sprite_type_enum)
     {
         case sprite_types_enum::car_2:
-            this->field_28_num = 15;
+            this->field_28_draw_layer = 15;
             break;
         case sprite_types_enum::ped_3:
-            this->field_28_num = 23;
+            this->field_28_draw_layer = 23;
             break;
         case sprite_types_enum::code_obj1_4:
-            this->field_28_num = 2;
+            this->field_28_draw_layer = 2;
             break;
         case sprite_types_enum::map_obj_5:
-            this->field_28_num = 2;
+            this->field_28_draw_layer = 2;
             break;
         case sprite_types_enum::code_obj2_8:
-            this->field_28_num = 33;
+            this->field_28_draw_layer = 33;
             break;
         case sprite_types_enum::unknown_0:
-            this->field_28_num = 0;
+            this->field_28_draw_layer = 0;
             break;
         case sprite_types_enum::unknown_1:
-            this->field_28_num = 0;
+            this->field_28_draw_layer = 0;
             break;
         default:
             return;
@@ -2296,7 +2296,7 @@ MATCH_FUNC(0x5a2cf0)
 void Sprite::PoolAllocate()
 {
     this->field_2C_flags = 0;
-    this->field_28_num = 0;
+    this->field_28_draw_layer = 0;
     this->field_8_car_bc_ptr = 0;
     this->field_14_xy.x = gFix16_7035C0;
     this->field_14_xy.y = gFix16_7035C0;
@@ -2724,7 +2724,7 @@ Sprite::Sprite() : field_0_rotation(gAng16_703804)
     field_20_id = 0;
     field_22_sprite_id = 0;
     field_24_remap = 0;
-    field_28_num = NULL;
+    field_28_draw_layer = NULL;
     field_2C_flags = 0;
     field_30_sprite_type_enum = 0;
     field_34_palette_type = 0;
