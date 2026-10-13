@@ -1,5 +1,6 @@
 #pragma once
 
+#include "car_flags.hpp"
 #include "BitSet32.hpp"
 #include "Car_10.hpp"
 #include "Fix16.hpp"
@@ -1350,7 +1351,11 @@ class Car_BC
     0x200 = rocket proof
     0x400 = flame proof
     */
-    u16 field_78_flags;
+    union
+    {
+        u16 field_78_flags;
+        CarFlags16 field_78_bf;
+    };
     s16 field_7A_pad;
     s32 field_7C_uni_num;
     char_type field_80_bAbandoned;
