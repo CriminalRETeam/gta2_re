@@ -276,7 +276,7 @@ void PedGroup::DisbandGroup_4C92A0()
                 }
                 (*ppSlot)->SetObjective2_463830(objectives_enum::no_obj_0);
                 (*ppSlot)->ClearGroupAndGroupIdx_403A30();
-                (*ppSlot)->SetPedType_403920(ped_type_enum::New_Name_2);
+                (*ppSlot)->SetPedType_403920(ped_type::dummy_3);
             }
             (*ppSlot)->field_21C_bf.bScheduledForRemoval = true;
         }
@@ -319,14 +319,14 @@ void PedGroup::DestroyGroup_4C93A0()
                     (*ppSlot)->SetObjective(objectives_enum::objective_34);
                     (*ppSlot)->SetTargetObjectiveCar((*ppSlot)->field_16C_car);
                     (*ppSlot)->ClearGroupAndGroupIdx_403A30();
-                    (*ppSlot)->SetPedType_403920(ped_type_enum::New_Name_2);
+                    (*ppSlot)->SetPedType_403920(ped_type::dummy_3);
                 }
                 else
                 {
                     pPed->SetObjective(objectives_enum::no_obj_0);
                     (*ppSlot)->SetObjective2_463830(objectives_enum::no_obj_0);
                     (*ppSlot)->ClearGroupAndGroupIdx_403A30();
-                    (*ppSlot)->SetPedType_403920(ped_type_enum::New_Name_2);
+                    (*ppSlot)->SetPedType_403920(ped_type::dummy_3);
                 }
             }
         }
