@@ -112,7 +112,7 @@ class Game_0x40
 
     s32 field_0_game_state;
     Player* field_4_players[MAX_PLAYERS];
-    Player* field_1C_view_player;
+    Player* field_1C_draw_player; // the player whose view camera Draw_4B92D0 renders from (gViewCamera_676978); the local player
     u8 field_20_player_iter_idx;
     u8 field_21_camera_iter_idx;
     bool field_22_aux_cam_iterated;

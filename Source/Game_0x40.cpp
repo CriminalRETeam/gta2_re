@@ -378,7 +378,7 @@ void Game_0x40::DebugShowCarStatsAndFrameSkip_4B9270()
 MATCH_FUNC(0x4B92D0)
 void Game_0x40::Draw_4B92D0()
 {
-    gViewCamera_676978 = &field_1C_view_player->field_14C_view_camera;
+    gViewCamera_676978 = &field_1C_draw_player->field_14C_view_camera;
 
     gpMapRenderer_6F66E4->ClearDrawnTileCount_4F6A10();
     gSpriteManager_703820->ResetDrawnSpriteCount_5A5860();
@@ -960,7 +960,7 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
     Player* pPlayer = field_4_players[field_24_local_player_idx];
     field_38_local_player = pPlayer;
     pPlayer->field_0_is_user = 1;
-    field_1C_view_player = field_38_local_player;
+    field_1C_draw_player = field_38_local_player;
 
     gpRng_67AB34 = new rng(); // inline
     if (!gpRng_67AB34)
@@ -1356,6 +1356,6 @@ Game_0x40::~Game_0x40()
         GTA2_DELETE_AND_NULL(gKanjiFont_6F5168);
     }
 
-    field_1C_view_player = 0;
+    field_1C_draw_player = 0;
     field_38_local_player = 0;
 }
