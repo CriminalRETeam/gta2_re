@@ -675,7 +675,7 @@ class Car_BC
     EXPORT void ResprayOrCleanPlates(u8 remap);
     EXPORT void HandleShops_443C40(Object_2C* pObj);
     EXPORT void SetPosition_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos);
-    EXPORT void IncrementCarStats_443D70(s32 car_type);
+    EXPORT void IncrementCarStats_443D70(s32 car_kind);
     EXPORT void IncrementAllocatedCarType_443DA0(s32 car_kind);
     EXPORT void MarkProtoRecycled_443E50();
     EXPORT void MarkRecycled_443E80();
@@ -1467,7 +1467,7 @@ struct Car_14
 {
     EXPORT Car_14();
     EXPORT ~Car_14();
-    EXPORT char sub_582360(int param_1, Fix16 param_2, Fix16 param_3);
+    EXPORT char sub_582360(int direction, Fix16 x, Fix16 y);
     EXPORT void MakeTrafficForCurrCamera_5832C0();
     EXPORT char_type SpawnTrafficCarFacing_583260(s32 angle_face);
     EXPORT void GenerateTraffic_583670();
@@ -1475,7 +1475,7 @@ struct Car_14
     // 9.6f 0x4B3230. A thiscall member: SpawnTrafficCar_582480 sets ecx = this before calling it
     EXPORT Fix16 GetRandomTrafficSpeed_583750(Fix16 max_speed, u8* pOut);
 
-    EXPORT char_type SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4);
+    EXPORT char_type SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direction, s32 blocked_direction);
 
     EXPORT char_type IsFlatRoadAt_583870(Fix16 xpos, Fix16 ypos);
 

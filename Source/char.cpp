@@ -487,15 +487,15 @@ void Char_B4::ClearCollisionState_545600()
 }
 
 MATCH_FUNC(0x545640)
-void Char_B4::GetTileFracX64_545640(Fix16 a1, s16* output)
+void Char_B4::GetTileFracX64_545640(Fix16 coord, s16* output)
 {
-    *output = (a1.GetFracValue() * Fix16(64)).ToInt();
+    *output = (coord.GetFracValue() * Fix16(64)).ToInt();
 }
 
 MATCH_FUNC(0x545670)
-void Char_B4::GetTileFracY64_545670(Fix16 a1, s16* output)
+void Char_B4::GetTileFracY64_545670(Fix16 coord, s16* output)
 {
-    *output = (a1.GetFracValue() * Fix16(64)).ToInt();
+    *output = (coord.GetFracValue() * Fix16(64)).ToInt();
 }
 
 MATCH_FUNC(0x5456a0)
@@ -517,7 +517,7 @@ bool Char_B4::IsOnScreen_545700()
 }
 
 MATCH_FUNC(0x545720)
-void Char_B4::Update_545720(Fix16 a2)
+void Char_B4::Update_545720(Fix16 distance_to_target)
 {
     if (++gCharB4_UpdateCounter_6FDB48 > 20)
     {
@@ -527,7 +527,7 @@ void Char_B4::Update_545720(Fix16 a2)
     {
         field_4A--;
     }
-    gCharB4_DistanceToTarget_6FD80C = a2;
+    gCharB4_DistanceToTarget_6FD80C = distance_to_target;
 
     if (field_5C > 0)
     {
@@ -1682,7 +1682,7 @@ static inline Ang16 TurnBy16Deg_548BD0(Ang16 angle)
 
 // 9.6f 0x499F00
 MATCH_FUNC(0x548670)
-void Char_B4::DispatchCollision_548670(char_type a2)
+void Char_B4::DispatchCollision_548670(char_type bFlag)
 {
     u8 bUnknown; // bl
     if (this->field_69_is_colliding_with_sprite == 1 && this->field_20 && this->field_24 != 3)
@@ -1691,7 +1691,7 @@ void Char_B4::DispatchCollision_548670(char_type a2)
     }
     else
     {
-        bUnknown = a2;
+        bUnknown = bFlag;
     }
 
     Sprite* pNearSprite = field_80_sprite_ptr->QuerySpriteCollision_59E7D0(2);
@@ -3915,7 +3915,7 @@ bool Char_B4::CanStepForwardWithRegionCheck_54ECB0(s32 direction)
 // 9.6f 0x495BF0: the collision offset division is written at each use (VC6 CSEs it), bCanStep is set
 // in each leaf and leaves 2-4 return explicitly (leaf 1's tail is the cross-jump keeper).
 MATCH_FUNC(0x54EF60)
-bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
+bool Char_B4::CanStepDiagonal_54EF60(char_type target_x, char_type target_y)
 {
     bool bIsNearXposBlockBoundary = true;
     bool bIsNearYposBlockBoundary = true;
@@ -3962,8 +3962,8 @@ bool Char_B4::CanStepDiagonal_54EF60(char_type a2, char_type a3)
 
     if (!bIsNearXposBlockBoundary && !bIsNearYposBlockBoundary)
     {
-        x_diff = a2 - field_80_sprite_ptr->field_14_xy.x.ToInt();
-        y_diff = a3 - field_80_sprite_ptr->field_14_xy.y.ToInt();
+        x_diff = target_x - field_80_sprite_ptr->field_14_xy.x.ToInt();
+        y_diff = target_y - field_80_sprite_ptr->field_14_xy.y.ToInt();
         if (x_diff == 0 && y_diff == 0)
         {
             return true;
@@ -6749,12 +6749,12 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, u8 bUnknown, Fix16 x, Fix16 y
 #undef SPAWN_KNOCKDOWN_OBJ
 
 MATCH_FUNC(0x553E00)
-void Char_B4::HandleGenericImpact_553E00(Ang16 ang, Fix16 a3, Fix16 a4, char_type a5)
+void Char_B4::HandleGenericImpact_553E00(Ang16 ang, Fix16 impact_x, Fix16 impact_z, char_type impact_type)
 {
 
     if (field_7C_pPed->field_208_invulnerability > 0)
     {
-        a5 = 0;
+        impact_type = 0;
     }
 
     if (field_7C_pPed->GetPedState_403990() != ped_state_1::dead_9)
@@ -6766,9 +6766,9 @@ void Char_B4::HandleGenericImpact_553E00(Ang16 ang, Fix16 a3, Fix16 a4, char_typ
                                                                                      field_80_sprite_ptr->field_1C_zpos,
                                                                                      ang,
                                                                                      field_80_sprite_ptr->field_0_rotation,
-                                                                                     a3,
+                                                                                     impact_x,
                                                                                      -kFpPoint02_6FD9AC,
-                                                                                     a4);
+                                                                                     impact_z);
         if (!field_7C_pPed->field_267_ped_ref_idx)
         {
             field_7C_pPed->field_267_ped_ref_idx = gPedRefTable_7F8_703398->AllocForPed_59B060(field_7C_pPed->field_200_id);
@@ -6776,7 +6776,7 @@ void Char_B4::HandleGenericImpact_553E00(Ang16 ang, Fix16 a3, Fix16 a4, char_typ
         field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(field_7C_pPed->field_267_ped_ref_idx);
         field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
 
-        switch (a5)
+        switch (impact_type)
         {
             case 0:
                 field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = kFP16Zero_6FD9E4;
@@ -6785,7 +6785,7 @@ void Char_B4::HandleGenericImpact_553E00(Ang16 ang, Fix16 a3, Fix16 a4, char_typ
                 break;
 
             case 1:
-                field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = a4;
+                field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = impact_z;
                 if (field_7C_pPed->field_208_invulnerability > 0)
                 {
 
@@ -6811,7 +6811,7 @@ void Char_B4::HandleGenericImpact_553E00(Ang16 ang, Fix16 a3, Fix16 a4, char_typ
                 break;
 
             case 2:
-                field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = a4;
+                field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = impact_z;
                 if (field_7C_pPed->field_208_invulnerability > 0)
                 {
                     field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::Unknown_24);

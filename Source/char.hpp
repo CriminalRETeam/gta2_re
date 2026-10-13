@@ -343,16 +343,16 @@ class Char_B4
     EXPORT s32 IsOnWater_545570();
     EXPORT void KillPed_5455F0();
     EXPORT void ClearCollisionState_545600();
-    EXPORT void GetTileFracX64_545640(Fix16 a1, s16* output);
-    EXPORT void GetTileFracY64_545670(Fix16 a1, s16* output);
+    EXPORT void GetTileFracX64_545640(Fix16 coord, s16* output);
+    EXPORT void GetTileFracY64_545670(Fix16 coord, s16* output);
     EXPORT void InitSprite_5456A0();
     EXPORT bool IsOnScreen_545700();
-    EXPORT void Update_545720(Fix16 a2);
+    EXPORT void Update_545720(Fix16 distance_to_target);
     EXPORT void CheckAndHandleCollisions_5459C0();
     EXPORT void DrownPed_5459E0();
     EXPORT void UpdateAnimState_546360();
     EXPORT void ManageZCoordAndSlopes_548590();
-    EXPORT void DispatchCollision_548670(char_type a2);
+    EXPORT void DispatchCollision_548670(char_type bFlag);
     EXPORT void HandleObjectCollision_548840(Object_2C* pObj);
     EXPORT void HandlePedCollision_548BD0(Char_B4* pOther);
     EXPORT void HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_B4* pChar);
@@ -370,7 +370,7 @@ class Char_B4
     EXPORT void sub_54DD70();
     EXPORT void state_0_54DDF0();
     EXPORT bool CanStepForwardWithRegionCheck_54ECB0(s32 direction);
-    EXPORT bool CanStepDiagonal_54EF60(char_type a2, char_type a3);
+    EXPORT bool CanStepDiagonal_54EF60(char_type target_x, char_type target_y);
     EXPORT bool CanStepForward_54FEC0(s32 direction);
     EXPORT bool CanReachTile_550090(u8 xpos, u8 ypos);
     EXPORT void state_1_5504F0();
@@ -394,7 +394,7 @@ class Char_B4
     EXPORT char_type OnObjectTouched_553640(Object_2C* p2c);
     EXPORT char_type HandlePedObjectHit_5537F0(Object_2C* p2c);
     EXPORT void HandleCarImpact_5538A0(Car_BC* pCar, u8 bUnknown, Fix16 x, Fix16 y);
-    EXPORT void HandleGenericImpact_553E00(Ang16 ang, Fix16 a3, Fix16 a4, char_type a5);
+    EXPORT void HandleGenericImpact_553E00(Ang16 ang, Fix16 impact_x, Fix16 impact_z, char_type impact_type);
 
     EXPORT void nullsub_28();
 };

@@ -59,7 +59,7 @@ class Camera_0xBC
     EXPORT void AccumulateSuspicionOnDriver_435F90(Car_BC* pCar);
     EXPORT void Update_435FF0();
     EXPORT void RefreshBoundaries_436110();
-    EXPORT void SetShake_436120(Fix16 a2);
+    EXPORT void SetShake_436120(Fix16 amount);
     EXPORT void ApplyShake_436140();
     EXPORT void SetScreenSize_4361B0(u32 x_pos, u32 y_pos);
     EXPORT void ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, Fix16* pY, Fix16* pZ);
@@ -70,8 +70,8 @@ class Camera_0xBC
     EXPORT void ApplyZOffsetToScreenPosition_436860(Ped* pPed, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos);
     EXPORT Camera_0xBC(); // 4368E0
     EXPORT ~Camera_0xBC(); // empty 4369E0
-    EXPORT void SetTarget_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5);
-    EXPORT bool IsPointInBoundaries_58CF10(Fix16 a2, Fix16 a3);
+    EXPORT void SetTarget_4397D0(Fix16 x, Fix16 y, Fix16 z, Fix16 zoom);
+    EXPORT bool IsPointInBoundaries_58CF10(Fix16 x, Fix16 y);
 
     void ProjectWorldToScreen_4B90E0(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
     {

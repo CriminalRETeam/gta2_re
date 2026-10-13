@@ -36,9 +36,9 @@ class Crane_15C
     EXPORT void HookTransporterCargo_47EDF0();
     EXPORT void HookPickupCar_47EF80();
     EXPORT void sub_47F170();
-    EXPORT void SetTransporterCargoTarget_47F220(Fix16 a2, Fix16 a3, Sprite* a4, Sprite* a5);
-    EXPORT void SetDropTransporterTarget_47F290(Fix16 a2, Fix16 a3, Sprite* pSprite);
-    EXPORT void SetPickupCarTarget_47F2F0(Fix16 a2, Fix16 a3, Sprite* pSprite);
+    EXPORT void SetTransporterCargoTarget_47F220(Fix16 radius, Fix16 angle, Sprite* pCargo, Sprite* pTransporter);
+    EXPORT void SetDropTransporterTarget_47F290(Fix16 radius, Fix16 angle, Sprite* pSprite);
+    EXPORT void SetPickupCarTarget_47F2F0(Fix16 radius, Fix16 angle, Sprite* pSprite);
     EXPORT bool IsTransporterCargoTargetValid_47F350();
     EXPORT bool IsPickupCarTargetValid_47F3D0();
     EXPORT bool IsDropTransporterTargetValid_47F450();
@@ -52,7 +52,7 @@ class Crane_15C
     EXPORT void UpdateCraneTick_47FD50();
     EXPORT void UpdateCraneSprites_47FE10();
     EXPORT void Service_480310();
-    EXPORT void InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4);
+    EXPORT void InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type obj_id);
     EXPORT void CraneTargetPickupCheck_480900(Fix16 xpos, Fix16 ypos, Ang16 ang);
     EXPORT void ComputePickupAlignment_480B60(Fix16 xpos, Fix16 ypos, Ang16 ang);
     EXPORT Car_BC* GetCarFromCrane_480DA0();
@@ -170,7 +170,7 @@ class Crane_15C
 class CranePool_D9C
 {
   public:
-    EXPORT void PickUpCar_480E00(Car_BC* pCar, u8 a3);
+    EXPORT void PickUpCar_480E00(Car_BC* pCar, u8 crane_idx);
     EXPORT void CranesService_480E50();
     EXPORT Crane_15C* NewCrane_480EC0(Fix16 x_pos, Fix16 y_pos);
     EXPORT CranePool_D9C();

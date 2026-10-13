@@ -94,7 +94,7 @@ class MapRenderer
     EXPORT void DrawGradientSlopeSouthwards_4F1660();
     EXPORT void DrawGradientSlopeWestwards_4F22F0();
     EXPORT void DrawGradientSlopeEastwards_4F33B0();
-    EXPORT void draw_left_4F3C00(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4);
+    EXPORT void draw_left_4F3C00(u16& side_word, Fix16& x_off, Fix16& y_off_a, Fix16& y_off_b);
     EXPORT void draw_right_4F4250(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4);
     EXPORT void draw_top_4F4600(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4);
     EXPORT void draw_bottom_4F49B0(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4);

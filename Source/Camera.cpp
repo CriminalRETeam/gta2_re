@@ -550,9 +550,9 @@ void Camera_0xBC::RefreshBoundaries_436110()
 }
 
 MATCH_FUNC(0x436120)
-void Camera_0xBC::SetShake_436120(Fix16 a2)
+void Camera_0xBC::SetShake_436120(Fix16 amount)
 {
-    field_30_shake = a2 * dword_6768D8;
+    field_30_shake = amount * dword_6768D8;
 }
 
 MATCH_FUNC(0x436140)
@@ -780,13 +780,13 @@ Camera_0xBC::~Camera_0xBC()
 }
 
 MATCH_FUNC(0x4397D0)
-void Camera_0xBC::SetTarget_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5)
+void Camera_0xBC::SetTarget_4397D0(Fix16 x, Fix16 y, Fix16 z, Fix16 zoom)
 {
-    field_10_cam_pos_tgt2.field_0_x = a2;
-    field_10_cam_pos_tgt2.field_4_y = a3;
-    a4 += field_40_tgt_elevation;
-    field_10_cam_pos_tgt2.field_8_z = a4;
-    field_10_cam_pos_tgt2.field_C_zoom = a5;
+    field_10_cam_pos_tgt2.field_0_x = x;
+    field_10_cam_pos_tgt2.field_4_y = y;
+    z += field_40_tgt_elevation;
+    field_10_cam_pos_tgt2.field_8_z = z;
+    field_10_cam_pos_tgt2.field_C_zoom = zoom;
 }
 
 // TODO: move
@@ -908,8 +908,8 @@ EXPORT void __stdcall SmoothApproachClamped_4F75D0(Fix16* target_coord,
 }
 
 MATCH_FUNC(0x58CF10)
-bool Camera_0xBC::IsPointInBoundaries_58CF10(Fix16 a2, Fix16 a3)
+bool Camera_0xBC::IsPointInBoundaries_58CF10(Fix16 x, Fix16 y)
 {
-    return a2 >= field_78_boundaries_non_neg.field_0_left && a2 <= field_78_boundaries_non_neg.field_4_right &&
-        a3 >= field_78_boundaries_non_neg.field_8_top && a3 <= field_78_boundaries_non_neg.field_C_bottom;
+    return x >= field_78_boundaries_non_neg.field_0_left && x <= field_78_boundaries_non_neg.field_4_right &&
+        y >= field_78_boundaries_non_neg.field_8_top && y <= field_78_boundaries_non_neg.field_C_bottom;
 }

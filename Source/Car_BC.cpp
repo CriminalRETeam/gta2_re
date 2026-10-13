@@ -6547,13 +6547,13 @@ void Car_BC::SetPosition_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 }
 
 MATCH_FUNC(0x443d70)
-void Car_BC::IncrementCarStats_443D70(s32 a2)
+void Car_BC::IncrementCarStats_443D70(s32 car_kind)
 {
-    IncrementAllocatedCarType_443DA0(a2);
+    IncrementAllocatedCarType_443DA0(car_kind);
 
     if (is_trailer_cab_41E460())
     {
-        field_64_pTrailer->field_C_pCarOnTrailer->IncrementAllocatedCarType_443DA0(a2);
+        field_64_pTrailer->field_C_pCarOnTrailer->IncrementAllocatedCarType_443DA0(car_kind);
     }
 }
 
@@ -7138,22 +7138,22 @@ Car_14::~Car_14()
 }
 
 MATCH_FUNC(0x582360)
-char Car_14::sub_582360(int param_1, Fix16 param_2, Fix16 param_3)
+char Car_14::sub_582360(int direction, Fix16 x, Fix16 y)
 {
-    switch (param_1)
+    switch (direction)
     {
         case 1:
         case 2:
             if (field_8 == 0)
             {
-                if (param_2 < (field_0_cam->field_78_boundaries_non_neg.field_4_right - kFpOne_6FF778))
+                if (x < (field_0_cam->field_78_boundaries_non_neg.field_4_right - kFpOne_6FF778))
                 {
                     return 1;
                 }
             }
             else
             {
-                if (param_2 > (field_0_cam->field_78_boundaries_non_neg.field_0_left + kFpOne_6FF778))
+                if (x > (field_0_cam->field_78_boundaries_non_neg.field_0_left + kFpOne_6FF778))
                 {
                     return 1;
                 }
@@ -7163,14 +7163,14 @@ char Car_14::sub_582360(int param_1, Fix16 param_2, Fix16 param_3)
         case 4:
             if (field_8 == 0)
             {
-                if (param_3 < (field_0_cam->field_78_boundaries_non_neg.field_C_bottom - kFpOne_6FF778))
+                if (y < (field_0_cam->field_78_boundaries_non_neg.field_C_bottom - kFpOne_6FF778))
                 {
                     return 1;
                 }
             }
             else
             {
-                if (param_3 > (field_0_cam->field_78_boundaries_non_neg.field_8_top + kFpOne_6FF778))
+                if (y > (field_0_cam->field_78_boundaries_non_neg.field_8_top + kFpOne_6FF778))
                 {
                     return 1;
                 }
@@ -7395,7 +7395,7 @@ Fix16 Car_14::GetRandomTrafficSpeed_583750(Fix16 max_speed, u8* pOut)
 
 // 9.6f 0x4B34E0
 MATCH_FUNC(0x582480)
-char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
+char_type Car_14::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direction, s32 blocked_direction)
 {
     char_type x_step = 0;
     char_type y_step = 0;
@@ -7405,7 +7405,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
     s32 found_z;
     Fix16 ground_z;
 
-    if (gCar_6C_677930->field_28_recycled_cars + gCar_6C_677930->field_40_proto_recycled_cars == 16 || arrow_direction == a4 ||
+    if (gCar_6C_677930->field_28_recycled_cars + gCar_6C_677930->field_40_proto_recycled_cars == 16 || arrow_direction == blocked_direction ||
         gCar_6C_677930->field_54_spawn_block > 0)
     {
         return 0;
@@ -7433,7 +7433,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
     Fix16 ypos;
     // Case order 1, 2, 4, 3 follows the 10.5 block layout (case 4 jumps into case 3's tail). The empty
     // default is needed: without it case 1's x_step = -1 block merges into case 2's instead of the reverse.
-    switch (a2)
+    switch (spawn_type)
     {
         case 1:
             ypos = field_0_cam->field_78_boundaries_non_neg.field_8_top - kFpFive_6FF6D4;
@@ -7859,7 +7859,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
 
         xpos += Fix16(x_step);
         ypos += Fix16(y_step);
-        if (!sub_582360(a2, xpos, ypos))
+        if (!sub_582360(spawn_type, xpos, ypos))
         {
             return 0;
         }

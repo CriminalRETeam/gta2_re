@@ -71,7 +71,7 @@ class Game_0x40
     EXPORT void ExitGameNoBonus_4B8C00(s32 new_timer, s32 exit_type);
     EXPORT s8 UpdateExitTimer_4B8C20();
     EXPORT void LoadGameFiles_4B8C40();
-    EXPORT void SetScreenSize_4B8E00(u32 a1, u32 a2);
+    EXPORT void SetScreenSize_4B8E00(u32 width, u32 height);
     EXPORT void ApplyNetworkGameSettings_4B8E50();
     EXPORT void BootGame_4B8EB0();
     EXPORT void ShowCounters_4B8FF0();

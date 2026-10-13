@@ -181,11 +181,11 @@ void Game_0x40::LoadGameFiles_4B8C40()
 }
 
 MATCH_FUNC(0x4B8E00)
-void Game_0x40::SetScreenSize_4B8E00(u32 a1, u32 a2)
+void Game_0x40::SetScreenSize_4B8E00(u32 width, u32 height)
 {
-    field_38_orf1->field_90_game_camera.SetScreenSize_4361B0(a1, a2);
-    field_38_orf1->field_208_aux_game_camera.SetScreenSize_4361B0(a1, a2);
-    field_38_orf1->field_14C_view_camera.SetScreenSize_4361B0(a1, a2);
+    field_38_orf1->field_90_game_camera.SetScreenSize_4361B0(width, height);
+    field_38_orf1->field_208_aux_game_camera.SetScreenSize_4361B0(width, height);
+    field_38_orf1->field_14C_view_camera.SetScreenSize_4361B0(width, height);
     gHud_2B00_706620->RecalcTextLayout_5D6AB0();
 }
 

@@ -2366,25 +2366,25 @@ void MapRenderer::DrawGradientSlopeEastwards_4F33B0()
 
 // https://decomp.me/scratch/zty5O
 MATCH_FUNC(0x4f3c00)
-void MapRenderer::draw_left_4F3C00(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
+void MapRenderer::draw_left_4F3C00(u16& side_word, Fix16& x_off, Fix16& y_off_a, Fix16& y_off_b)
 {
     if (!bSkip_left_67D6BF)
     {
-        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a3, &gTileVerts_6F65A8[0]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a3, &gTileVerts_6F65A8[1]);
+        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + x_off, gYCoord_6F63B8 + y_off_a, &gTileVerts_6F65A8[0]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_off, gYCoord_6F63B8 + y_off_a, &gTileVerts_6F65A8[1]);
         if (gTileVerts_6F65A8[0].x > gTileVerts_6F65A8[1].x)
         {
             return;
         }
-        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[3]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[2]);
+        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + x_off, gYCoord_6F63B8 + y_off_b, &gTileVerts_6F65A8[3]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_off, gYCoord_6F63B8 + y_off_b, &gTileVerts_6F65A8[2]);
 
         draw_4F3FB0(kLeftSideFlags_620F24[side_word >> 13]);
 
-        Set_UV_4F4190(kZeroOnePoint_6F6484.x, a3, 0);
-        Set_UV_4F4190(kZeroOnePoint_6F6484.y, a3, 1);
-        Set_UV_4F4190(kZeroOnePoint_6F6484.y, a4, 2);
-        Set_UV_4F4190(kZeroOnePoint_6F6484.x, a4, 3);
+        Set_UV_4F4190(kZeroOnePoint_6F6484.x, y_off_a, 0);
+        Set_UV_4F4190(kZeroOnePoint_6F6484.y, y_off_a, 1);
+        Set_UV_4F4190(kZeroOnePoint_6F6484.y, y_off_b, 2);
+        Set_UV_4F4190(kZeroOnePoint_6F6484.x, y_off_b, 3);
 
         gTileDrawFlags_6F6560 = 16389;
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(side_word & 0x3FF);

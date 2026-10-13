@@ -28,19 +28,19 @@ class Registry
 
     EXPORT bool Get_Debug_Setting_586E20(const char_type* lpValueName);
 
-    EXPORT void Get_Debug_Setting_586E90(const char_type* lpValueName, LPBYTE lpData, s32 a3);
+    EXPORT void Get_Debug_Setting_586E90(const char_type* lpValueName, LPBYTE lpData, s32 data_size);
 
     EXPORT void Get_Option_586F00(const char_type* lpValueName, BYTE* pBuffer, s32 bufferSize);
 
-    EXPORT s32 Set_Option_586F70(const char_type* lpValueName, s32 a3);
+    EXPORT s32 Set_Option_586F70(const char_type* lpValueName, s32 value);
 
-    EXPORT s32 Set_Control_Setting_587010(s32 a1, s32 a2);
+    EXPORT s32 Set_Control_Setting_587010(s32 control_idx, s32 value);
 
-    EXPORT s32 Get_Screen_Setting_5870D0(const char_type* lpValueName, s32 a2);
+    EXPORT s32 Get_Screen_Setting_5870D0(const char_type* lpValueName, s32 default_value);
 
     EXPORT void null_587290();
 
-    EXPORT char_type Set_Binary_5872A0(HKEY hKey, const char_type* a2, BYTE* lpData, u32 Data);
+    EXPORT char_type Set_Binary_5872A0(HKEY hKey, const char_type* base_name, BYTE* lpData, u32 Data);
 
     EXPORT bool Get_Binary_587340(HKEY hKey, const char_type* keyPath, s32 value, LPBYTE lpData);
 
@@ -56,7 +56,7 @@ class Registry
 
     EXPORT char_type Network_Setting_Exists_587620(const char_type* lpValueName);
 
-    EXPORT s32 Set_Network_Setting_587690(const char_type* lpValueName, s32 a2);
+    EXPORT s32 Set_Network_Setting_587690(const char_type* lpValueName, s32 value);
 
     EXPORT void Set_Network_Setting_587730(const char_type* lpValueName, BYTE Data);
 
