@@ -28,6 +28,10 @@ enum
 } // namespace car_flag
 
 
+// TODO: CarTurnFlags8 and CarLightFlags8 are unions with the raw flag byte, which the original source can't have been
+// (it was either a bitfield or a mask word, like field_78 whose IsFlagSet/AddFlags helpers take masks). Decide which one
+// field_A4 / field_A6 really are and drop the other form. See docs/matching_quirks.md.
+
 // Car_BC::field_A6_bf (aliases field_A6_turn_flags).
 struct CarTurnFlags8
 {

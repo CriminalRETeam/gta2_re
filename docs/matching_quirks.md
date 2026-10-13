@@ -2948,3 +2948,14 @@ Matched by replacing all five gotos with structure VC6 threads away (206 -> 0, w
   calls, as 9.6f): head merging hoists the three loads above the `je` with the type compare in between
   (`mov type,%ecx; mov 1B0,%edx; cmp $2,%ecx; mov 1B4,%ecx; mov 1AC,%eax`); `sx/sy/sz` locals load them up front
   in a different order and register.
+
+## TODO: Car_BC field_A4 / field_A6 are both a bitfield and a mask word
+
+`field_A6_turn_flags` and `field_A4_light_flags` are unions of a raw byte and a bit field struct (`CarTurnFlags8`,
+`CarLightFlags8`). The original source can only have used one form. For `field_78` the 9.6f helpers `IsFlagSet_411930(flag)`
+and `AddFlags_421890(flag)` take the mask as a parameter, so it is a mask word and has no bitfield (now `car_flag` masks).
+For `field_A6` the 9.6f helpers (`IsTurnRight_42AC20`, `SetAIHalted_421540`, ...) have one fixed bit each. They compile
+identically as bitfield accesses (getters must compare `== 1`) and as masks, so the evidence does not say which the
+original used. `field_A4` still has mask sites (`& 0x1C` over three bits, `= 0` clears). To decide later: pick one form per
+field, convert every site, and keep 3401/3401.
+
