@@ -640,20 +640,20 @@ char_type sound_obj::SelectObjectImpactSound_1_10_412D30(CollisionEvent_28* pObj
 }
 
 MATCH_FUNC(0x412D40)
-char_type sound_obj::Type6_2_412D40(u8 a2)
+char_type sound_obj::Type6_2_412D40(u8 roll)
 {
     s32 samp_idx;
 
-    if (a2 < 15u)
+    if (roll < 15u)
     {
         return 0;
     }
 
-    if (a2 < 40u)
+    if (roll < 40u)
     {
         samp_idx = 37;
     }
-    else if (a2 < 90u)
+    else if (roll < 90u)
     {
         samp_idx = 38;
     }
@@ -807,15 +807,15 @@ char_type sound_obj::Type6_3_413000(CollisionEvent_28* pObj)
 }
 
 MATCH_FUNC(0x413040)
-char_type sound_obj::Type6_4_413040(u8 a2)
+char_type sound_obj::Type6_4_413040(u8 roll)
 {
-    if (a2 < 15u)
+    if (roll < 15u)
     {
         return 0;
     }
 
     s32 idx_to_use;
-    if (a2 < 23)
+    if (roll < 23)
     {
         idx_to_use = 40;
     }
@@ -832,14 +832,14 @@ char_type sound_obj::Type6_4_413040(u8 a2)
 }
 
 MATCH_FUNC(0x413090)
-char_type sound_obj::Type6_5_413090(u8 a2)
+char_type sound_obj::Type6_5_413090(u8 roll)
 {
     s32 idx_to_use;
-    if (a2 < 40u)
+    if (roll < 40u)
     {
         idx_to_use = 37;
     }
-    else if (a2 < 90u)
+    else if (roll < 90u)
     {
         idx_to_use = 38;
     }
@@ -2541,9 +2541,9 @@ s32 sound_obj::GetVehicleAudioClass_417BA0(s32 car_model)
 }
 
 MATCH_FUNC(0x417C60)
-s32 sound_obj::ConvertToPlayBackRate_417C60(s32 a1)
+s32 sound_obj::ConvertToPlayBackRate_417C60(s32 car_model)
 {
-    switch (a1)
+    switch (car_model)
     {
         case 13:
         case 36:
@@ -2613,9 +2613,9 @@ s32 sound_obj::ConvertToPlayBackRate_417C60(s32 a1)
 }
 
 MATCH_FUNC(0x417D70)
-s32 sound_obj::get_samp_idx_for_car_417D70(Car_BC* pCar, bool a2, bool bTrainOrBus)
+s32 sound_obj::get_samp_idx_for_car_417D70(Car_BC* pCar, bool bDoorOpening, bool bTrainOrBus)
 {
-    // TODO: a2 = door opening or closing?
+    // TODO: bDoorOpening = door opening or closing?
     s32 result;
 
     if (bTrainOrBus)
@@ -2635,7 +2635,7 @@ s32 sound_obj::get_samp_idx_for_car_417D70(Car_BC* pCar, bool a2, bool bTrainOrB
         case car_model_enum::TRUKCAB1:
         case car_model_enum::TRUKCAB2:
         case car_model_enum::KRSNABUS:
-            result = a2 ? 27 : 28;
+            result = bDoorOpening ? 27 : 28;
             break;
 
         case car_model_enum::boxcar:
@@ -2647,7 +2647,7 @@ s32 sound_obj::get_samp_idx_for_car_417D70(Car_BC* pCar, bool a2, bool bTrainOrB
             break;
 
         default:
-            result = a2 ? 25 : 26;
+            result = bDoorOpening ? 25 : 26;
             break;
     }
     return result;
@@ -2696,9 +2696,9 @@ s32 sound_obj::Type_7_417EF0(sound_0x68* pObj)
 }
 
 MATCH_FUNC(0x417F40)
-char_type sound_obj::IsHeavyTruckOrBus_417F40(s32 a1)
+char_type sound_obj::IsHeavyTruckOrBus_417F40(s32 car_model)
 {
-    switch (a1)
+    switch (car_model)
     {
         case 3:
         case 7:
@@ -3137,9 +3137,9 @@ char_type sound_obj::Type_10_HandleCarSkidSound_418940(sound_0x68* pSound)
 }
 
 MATCH_FUNC(0x418B60)
-void sound_obj::ProcessType11_HudPager_418B60(s32 a2)
+void sound_obj::ProcessType11_HudPager_418B60(s32 entity_idx)
 {
-    Hud_Pager_C* pPager = field_147C_audio_entities[a2].field_4_pObj->field_C_pAny.pHud_Pager_C;
+    Hud_Pager_C* pPager = field_147C_audio_entities[entity_idx].field_4_pObj->field_C_pAny.pHud_Pager_C;
     if (pPager)
     {
         if (pPager->get_timer_411A40() > 0)
@@ -3162,7 +3162,7 @@ void sound_obj::ProcessType11_HudPager_418B60(s32 a2)
             }
 
             field_30_sQueueSample.field_14_samp_idx = 57;
-            field_30_sQueueSample.field_0_EntityIndex = a2;
+            field_30_sQueueSample.field_0_EntityIndex = entity_idx;
             field_30_sQueueSample.field_5C = 0;
             field_30_sQueueSample.field_24_nVolume = vol;
             field_30_sQueueSample.field_60_nEmittingVolume = vol;
@@ -3415,9 +3415,9 @@ void sound_obj::ProcessType10_Vocals_418CA0()
 }
 
 MATCH_FUNC(0x419020)
-char_type sound_obj::CalculateDistance_419020(Fix16 a2)
+char_type sound_obj::CalculateDistance_419020(Fix16 max_dist)
 {
-    if (field_28_dist_related < a2)
+    if (field_28_dist_related < max_dist)
     {
         if (!field_2C_distCalculated)
         {
@@ -3430,11 +3430,11 @@ char_type sound_obj::CalculateDistance_419020(Fix16 a2)
 }
 
 MATCH_FUNC(0x419070)
-bool sound_obj::VolCalc_419070(u8 a2, Fix16 a3, char_type a4)
+bool sound_obj::VolCalc_419070(u8 base_volume, Fix16 max_dist, char_type bFlag)
 {
-    u8 volume = CalcVolume_41A3F0(a2, a3, field_30_sQueueSample.field_28_distance);
+    u8 volume = CalcVolume_41A3F0(base_volume, max_dist, field_30_sQueueSample.field_28_distance);
     field_30_sQueueSample.field_24_nVolume = volume;
-    if (a4)
+    if (bFlag)
     {
         field_30_sQueueSample.field_24_nVolume = volume >> 1;
     }
@@ -3854,16 +3854,16 @@ void sound_obj::ServiceSoundEffects_41A3A0()
     }
 }
 MATCH_FUNC(0x41A3F0)
-char_type sound_obj::CalcVolume_41A3F0(u8 a1, Fix16 a2, Fix16 a3)
+char_type sound_obj::CalcVolume_41A3F0(u8 base_volume, Fix16 max_dist, Fix16 dist)
 {
-    if (a2 == kFpZero_674CD8)
+    if (max_dist == kFpZero_674CD8)
     {
         return 0;
     }
 
-    Fix16 falloff = (a2 - a3) / a2;
-    a3 = Fix16(a1); // 9.6f also reuses the a3 slot here
-    s32 volume = Fix16::Round_To_Int_410BF0(falloff * falloff * a3);
+    Fix16 falloff = (max_dist - dist) / max_dist;
+    dist = Fix16(base_volume); // 9.6f also reuses the dist slot here
+    s32 volume = Fix16::Round_To_Int_410BF0(falloff * falloff * dist);
     if (volume > 127)
     {
         volume = 127;
@@ -4479,9 +4479,9 @@ void sound_obj::VecDiff_41B4E0(SoundPos_C* pVec, SoundPos_C* pRet)
 }
 
 MATCH_FUNC(0x41B520)
-void sound_obj::FromFix16_41B520(Fix16 a1, f32* a2)
+void sound_obj::FromFix16_41B520(Fix16 value, f32* pOut)
 {
-    *a2 = a1.ToFloat();
+    *pOut = value.ToFloat();
 }
 
 MATCH_FUNC(0x41B540)

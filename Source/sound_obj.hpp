@@ -267,7 +267,7 @@ class sound_obj
     EXPORT void Release_41A290();
     EXPORT u8 GetCDVol_41A280();
     EXPORT void Init_419E10();
-    EXPORT s32 get_samp_idx_for_car_417D70(Car_BC* pCar, bool a2, bool bTrainOrBus);
+    EXPORT s32 get_samp_idx_for_car_417D70(Car_BC* pCar, bool bDoorOpening, bool bTrainOrBus);
     EXPORT s32 samp_idx_for_model_417AC0(s32 car_model);
     EXPORT s32 GetSirenSampleIdx_417B80(s32 car_model, bool bHornOn);
 
@@ -282,11 +282,11 @@ class sound_obj
     EXPORT void ProcessCar_412B80(Sound_Params_8* pType2Entity);
     EXPORT char_type Type6_412C90(CollisionEvent_28* pEvent, u8 base_sample);
     EXPORT char_type SelectObjectImpactSound_1_10_412D30(CollisionEvent_28* pEvent);
-    EXPORT char_type Type6_2_412D40(u8 a2);
+    EXPORT char_type Type6_2_412D40(u8 roll);
     EXPORT void Type6_Play_412D90(s32 model);
     EXPORT char_type Type6_3_413000(CollisionEvent_28* pEvent);
-    EXPORT char_type Type6_4_413040(u8 a2);
-    EXPORT char_type Type6_5_413090(u8 a2);
+    EXPORT char_type Type6_4_413040(u8 roll);
+    EXPORT char_type Type6_5_413090(u8 roll);
     EXPORT char_type Type6_7_4130E0(CollisionEvent_28* pEvent);
     EXPORT char_type SelectObjectImpactSound_413120(CollisionEvent_28* pEvent, s32 interactionType);
     EXPORT char_type Type6_9_413540(CollisionEvent_28* pEvent);
@@ -325,10 +325,10 @@ class sound_obj
     EXPORT void HandleSirenActivationSound_4178C0(Sound_Params_8* pParams);
     EXPORT char_type Type_4_417A00(sound_0x68* pSound);
     EXPORT s32 GetVehicleAudioClass_417BA0(s32 car_model);
-    EXPORT s32 ConvertToPlayBackRate_417C60(s32 a1);
+    EXPORT s32 ConvertToPlayBackRate_417C60(s32 car_model);
     EXPORT void HandleHeavyVehicleStopSound_417E30(Sound_Params_8* pParams, SoundPosEntry_C* pAlloc);
     EXPORT s32 Type_7_417EF0(sound_0x68* pObj);
-    EXPORT char_type IsHeavyTruckOrBus_417F40(s32 a1);
+    EXPORT char_type IsHeavyTruckOrBus_417F40(s32 car_model);
     EXPORT void HandleTruckCorneringAudio_417FD0(Sound_Params_8* pParams);
     EXPORT char_type Type_8_418130(sound_0x68* pObj);
     EXPORT void HandleAICarEngineSound_418190(Sound_Params_8* pParams);
@@ -338,13 +338,13 @@ class sound_obj
     EXPORT char_type Type_9_4186D0(sound_0x68* pObj);
     EXPORT void HandleCarTireScrubSound_418720(Sound_Params_8* pParams);
     EXPORT char_type Type_10_HandleCarSkidSound_418940(sound_0x68* pSound);
-    EXPORT void ProcessType11_HudPager_418B60(s32 a2);
+    EXPORT void ProcessType11_HudPager_418B60(s32 entity_idx);
     EXPORT void AddVocalsEntity_418C20();
     EXPORT void RemoveVocalsEntity_418C60();
     EXPORT void PlayVocal_418C80(s32 vocal_idx);
     EXPORT void ProcessType10_Vocals_418CA0();
-    EXPORT char_type CalculateDistance_419020(Fix16 new_dist);
-    EXPORT bool VolCalc_419070(u8 a2, Fix16 a3, char_type a4);
+    EXPORT char_type CalculateDistance_419020(Fix16 max_dist);
+    EXPORT bool VolCalc_419070(u8 base_volume, Fix16 max_dist, char_type bFlag);
     EXPORT Fix16 ComputeEmitterDistanceSquared_4190B0();
     EXPORT s32 AddSoundObject_419FA0(SoundObject_10* pTuring);
 
@@ -355,7 +355,7 @@ class sound_obj
     EXPORT void SetCDVol_41A270(u8 cdVol);
     EXPORT char_type Set3DSound_41A2F0(char_type b3dSound);
     EXPORT void ServiceSoundEffects_41A3A0();
-    EXPORT char_type CalcVolume_41A3F0(u8 a1, Fix16 a2, Fix16 a3);
+    EXPORT char_type CalcVolume_41A3F0(u8 base_volume, Fix16 max_dist, Fix16 dist);
     EXPORT u8 ComputePan_41A4A0(Fix16 a1, Fix16 a2);
     EXPORT s32 AdjustPlaybackRate_41A580(s32 snd_rate, Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT s32 RandomDisplacement_41A650(u32 seed);
@@ -369,7 +369,7 @@ class sound_obj
 
     EXPORT void UpdateFramesToPlay_41B490(sound_0x68* pObj);
     EXPORT void VecDiff_41B4E0(SoundPos_C* pVec, SoundPos_C* pRet);
-    EXPORT void FromFix16_41B520(Fix16 fixVal, f32* s32Val);
+    EXPORT void FromFix16_41B520(Fix16 value, f32* pOut);
     EXPORT void AdjustSamplesVolume_41B540();
     EXPORT char_type ComputeEmittingVolume_41B660(u8 emittingVolume, u32 maxDistance, u32 distance);
     EXPORT void ClearRequestedQueue_41B700();
