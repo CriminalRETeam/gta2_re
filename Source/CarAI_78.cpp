@@ -421,9 +421,9 @@ char_type CarAI_78::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBloc
     switch (this->field_4C_curr_direction)
     {
         case car_ai_direction::north_1:
-            if ((field_0_car->field_A6_turn_flags & 2) == 2 || (field_0_car->field_A6_turn_flags & 1) == 1)
+            if (field_0_car->IsTurnLeft_42AC30() || field_0_car->IsTurnRight_42AC20())
             {
-                if ((field_0_car->field_A6_turn_flags & 2) == 2)
+                if (field_0_car->IsTurnLeft_42AC30())
                 {
                     if ((pBlock->field_A_arrows & 2) && ComputeShortestAngleDelta_4056C0(kAng90_6779E4, angle) > kAng45_677A38)
                     {
@@ -464,9 +464,9 @@ char_type CarAI_78::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBloc
             return 1;
 
         case car_ai_direction::south_2:
-            if ((field_0_car->field_A6_turn_flags & 2) == 2 || (field_0_car->field_A6_turn_flags & 1) == 1)
+            if (field_0_car->IsTurnLeft_42AC30() || field_0_car->IsTurnRight_42AC20())
             {
-                if ((field_0_car->field_A6_turn_flags & 2) == 2)
+                if (field_0_car->IsTurnLeft_42AC30())
                 {
                     if (byte_677CA8)
                     {
@@ -556,9 +556,9 @@ char_type CarAI_78::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBloc
             return 0;
 
         case car_ai_direction::west_4:
-            if ((field_0_car->field_A6_turn_flags & 2) == 2 || (field_0_car->field_A6_turn_flags & 1) == 1)
+            if (field_0_car->IsTurnLeft_42AC30() || field_0_car->IsTurnRight_42AC20())
             {
-                if ((field_0_car->field_A6_turn_flags & 2) == 2)
+                if (field_0_car->IsTurnLeft_42AC30())
                 {
                     if ((pBlock->field_A_arrows & 4) && ComputeShortestAngleDelta_4056C0(kAng180_677ADE, angle) > kAng45_677A38)
                     {
@@ -595,9 +595,9 @@ char_type CarAI_78::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBloc
             return 0;
 
         case car_ai_direction::east_3:
-            if ((field_0_car->field_A6_turn_flags & 2) == 2 || (field_0_car->field_A6_turn_flags & 1) == 1)
+            if (field_0_car->IsTurnLeft_42AC30() || field_0_car->IsTurnRight_42AC20())
             {
-                if ((field_0_car->field_A6_turn_flags & 2) == 2)
+                if (field_0_car->IsTurnLeft_42AC30())
                 {
                     if ((pBlock->field_A_arrows & 8) && ComputeShortestAngleDelta_4056C0(kAng0_677CE8, angle) > kAng45_677A38)
                     {
@@ -5093,7 +5093,7 @@ void CarAI_78::UpdateDriving_453470()
 MATCH_FUNC(0x4537d0)
 void CarAI_78::ChooseRandomTurn_4537D0()
 {
-    if ((this->field_0_car->field_A6_turn_flags & 2) != 2 && (this->field_0_car->field_A6_turn_flags & 1) != 1)
+    if (!this->field_0_car->IsTurnLeft_42AC30() && !this->field_0_car->IsTurnRight_42AC20())
     {
         if (gRng_6F6784.get_int_4F7AE0(2) > 0)
         {
