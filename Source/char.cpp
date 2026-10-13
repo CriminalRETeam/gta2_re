@@ -920,7 +920,7 @@ void Char_B4::UpdateAnimState_546360()
                 case 0:
                 {
                     Car_Door_10* pDoor = field_84_target_car->GetDoor(field_7C_pPed->get_target_car_door_403A60());
-                    if (field_58_flags & 0x10)
+                    if (field_58_flags_bf.bFlag4)
                     {
                         frame_limit = 1;
                         pDoor->Open_439E60();

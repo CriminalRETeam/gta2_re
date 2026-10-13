@@ -237,7 +237,7 @@ Ang16 Camera_0xBC::ComputeTargetFacingAngle_4358D0()
         }
         PedRotation = field_34_ped->GetRotation();
         Char_B4* field_168_game_object = field_34_ped->field_168_game_object;
-        if (field_168_game_object && (field_168_game_object->field_58_flags & 8) != 0)
+        if (field_168_game_object && field_168_game_object->field_58_flags_bf.bReverseVelocity)
         {
             return PedRotation + kAng180_676772;
         }

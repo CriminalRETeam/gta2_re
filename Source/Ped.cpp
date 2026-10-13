@@ -7084,7 +7084,7 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                         a1 = Fix16::Abs(dist_1);
                         a2 = Fix16::Abs(dist_2);
 
-                        if (Fix16::Max(a1, a2) < kFpHalf_678790 || ((field_168_game_object->field_58_flags & 0x40) != 0))
+                        if (Fix16::Max(a1, a2) < kFpHalf_678790 || (field_168_game_object->field_58_flags_bf.bFlag6))
                         {
                             field_18C_current_path_point++;
                             field_1C4_move_target_x = kFpHalf_67853C + Fix16(field_18C_current_path_point->field_0_x);
@@ -10724,7 +10724,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                         byte_6787D4 = 1;
                         field_168_game_object->RegulateVelocity_433970(field_1F0_max_speed);
 
-                        if ((field_168_game_object->field_58_flags & 0x80) != 0) // line 375
+                        if (field_168_game_object->field_58_flags_bf.bFlag7) // line 375
                         {
                             Ped::SetObjective2_463830(objectives_enum::flee_on_foot_till_safe_1); // line 462
                             field_1C4_move_target_x = field_1AC_cam.x;
@@ -10762,7 +10762,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
 
                         if (field_21C_bf.bFlag22 == false)
                         {
-                            if ((field_168_game_object->field_58_flags & 0x80) != 0) // line 45c
+                            if (field_168_game_object->field_58_flags_bf.bFlag7) // line 45c
                             {
                                 Ped::SetObjective2_463830(objectives_enum::flee_on_foot_till_safe_1); // line 384
                                 field_1C4_move_target_x = field_1AC_cam.x;

@@ -644,7 +644,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                                                                                dword_706CF0);
                         if (pProjectile)
                         {
-                            if ((field_24_pPed->field_168_game_object->field_58_flags & 8) == 0)
+                            if (!field_24_pPed->field_168_game_object->field_58_flags_bf.bReverseVelocity)
                             {
                                 vector = field_24_pPed->GetVelocityVector_45B520();
                                 pProjectile->SetMovementVector_5224E0(vector);

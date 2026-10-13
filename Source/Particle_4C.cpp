@@ -1037,7 +1037,7 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
             return true;
         }
 
-        if (!(pB4->field_58_flags & 8))
+        if (!pB4->field_58_flags_bf.bReverseVelocity)
         {
             offset.x = -dword_6FD46C;
             offset.y = dword_6FD2F4;
