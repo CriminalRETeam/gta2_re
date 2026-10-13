@@ -28,10 +28,10 @@ void Fix16_Rect::DoSetCurrentRect_59DD60()
 MATCH_FUNC(0x59ddf0)
 bool Fix16_Rect::IntersectsSpriteRenderingRect_59DDF0(Sprite* pSprite)
 {
-    Fix16_Point* v3 = pSprite->field_C_pCollisionShape->field_C_corners;
+    Fix16_Point* pCorners = pSprite->field_C_pCollisionShape->field_C_corners;
 
-    return (IsPointInRect_4B9FD0(&v3[0]) || IsPointInRect_4B9FD0(&v3[1]) 
-        || IsPointInRect_4B9FD0(&v3[2]) || IsPointInRect_4B9FD0(&v3[3]));
+    return (IsPointInRect_4B9FD0(&pCorners[0]) || IsPointInRect_4B9FD0(&pCorners[1]) 
+        || IsPointInRect_4B9FD0(&pCorners[2]) || IsPointInRect_4B9FD0(&pCorners[3]));
 }
 
 MATCH_FUNC(0x59de80)
@@ -100,14 +100,14 @@ bool Fix16_Rect::EveryTileMatchesArrowType_59DFB0(s32 arrow_type)
     u8 y_pos = field_8_top.ToUInt8();
     u8 x_pos;
 
-    bool v3 = true;
+    bool bMatches = true;
 
     while (y_pos <= field_C_bottom.ToUInt8())
     {
         x_pos = field_0_left.ToUInt8();
         while (x_pos <= field_4_right.ToUInt8())
         {
-            if (!v3)
+            if (!bMatches)
             {
                 return false;
             }
@@ -119,16 +119,16 @@ bool Fix16_Rect::EveryTileMatchesArrowType_59DFB0(s32 arrow_type)
                 switch (arrow_type)
                 {
                     case 1:
-                        v3 = (block_4DFE10->field_A_arrows & 0xF) == 4;  //  green arrow up
+                        bMatches = (block_4DFE10->field_A_arrows & 0xF) == 4;  //  green arrow up
                         break;
                     case 2:
-                        v3 = (block_4DFE10->field_A_arrows & 0xF) == 8;  //  green arrow down
+                        bMatches = (block_4DFE10->field_A_arrows & 0xF) == 8;  //  green arrow down
                         break;
                     case 3:
-                        v3 = (block_4DFE10->field_A_arrows & 0xF) == 2;  //  green arrow right
+                        bMatches = (block_4DFE10->field_A_arrows & 0xF) == 2;  //  green arrow right
                         break;
                     case 4:
-                        v3 = (block_4DFE10->field_A_arrows & 0xF) == 1;  //  green arrow left
+                        bMatches = (block_4DFE10->field_A_arrows & 0xF) == 1;  //  green arrow left
                         break;
                     default:
                         break;
@@ -136,7 +136,7 @@ bool Fix16_Rect::EveryTileMatchesArrowType_59DFB0(s32 arrow_type)
             }
             else
             {
-                v3 = false;
+                bMatches = false;
             }
             ++x_pos;
         }

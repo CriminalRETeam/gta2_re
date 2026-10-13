@@ -189,9 +189,9 @@ s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr)
     s32 type;
     s32 error_ret;
     s16 negated;
-    s32 v9;
+    s32 parsed_value;
     Fix16 fix16_num;
-    s32 v11;
+    s32 negated_value;
     s16 tmp;
 
     char_type* pCurr = pStr;
@@ -313,23 +313,23 @@ s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr)
                 case DataType::dword:
                     if (bHex == 1)
                     {
-                        error_ret = CarInfo_808::HexStr2Int_430EC0(pCurr, &v9);
+                        error_ret = CarInfo_808::HexStr2Int_430EC0(pCurr, &parsed_value);
                     }
                     else
                     {
-                        error_ret = CarInfo_808::StrToInt_430FA0(pCurr, &v9);
+                        error_ret = CarInfo_808::StrToInt_430FA0(pCurr, &parsed_value);
                     }
 
                     if (!error_ret)
                     {
                         if (bNegate)
                         {
-                            v11 = -(s16)v9;
-                            error_ret = CarInfo_808::PushData_430E60(&v11, sizeof(DWORD));
+                            negated_value = -(s16)parsed_value;
+                            error_ret = CarInfo_808::PushData_430E60(&negated_value, sizeof(DWORD));
                         }
                         else
                         {
-                            error_ret = CarInfo_808::PushData_430E60(&v9, sizeof(DWORD));
+                            error_ret = CarInfo_808::PushData_430E60(&parsed_value, sizeof(DWORD));
                         }
 
                         if (error_ret >= 0)

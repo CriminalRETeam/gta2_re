@@ -1728,10 +1728,10 @@ void Network_20324::PopulateMainUI_51AFA0()
     memset(columnInfo, 0, sizeof(columnInfo));
     columnInfo[0] = 36;
     columnInfo[3] = (LPARAM) "Player Name";
-    u16 v4 = 3 * (gUiControlDefinitions_621430.data[2][0].field_0_windowParams.field_8_w >> 2);
+    u16 col_width = 3 * (gUiControlDefinitions_621430.data[2][0].field_0_windowParams.field_8_w >> 2);
     columnInfo[7] = 0;
     SendDlgItemMessageA(field_202E0_dlg_hwnd, 1050, 0x101B, 0, (LPARAM)columnInfo);
-    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1050, 0x101Eu, 0, v4);
+    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1050, 0x101Eu, 0, col_width);
     memset(columnInfo, 0, sizeof(columnInfo));
     columnInfo[0] = 37;
     columnInfo[1] = 0;
@@ -1740,18 +1740,18 @@ void Network_20324::PopulateMainUI_51AFA0()
     SendDlgItemMessageA(field_202E0_dlg_hwnd, 1050, 0x101B, 1u, (LPARAM)columnInfo);
     SendDlgItemMessageA(field_202E0_dlg_hwnd, 1050, 0x101E, 1u, 65534);
 
-    for (u32 v5 = 0; v5 < field_1FD64_total_map_count; v5++)
+    for (u32 map_idx = 0; map_idx < field_1FD64_total_map_count; map_idx++)
     {
-        LRESULT v6 = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1026, CB_ADDSTRING, 0, (LPARAM)field_4_maps[v5].field_30C_description);
-        SendDlgItemMessageA(field_202E0_dlg_hwnd, 1026, CB_SETITEMDATA, v6, v5);
+        LRESULT item_idx = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1026, CB_ADDSTRING, 0, (LPARAM)field_4_maps[map_idx].field_30C_description);
+        SendDlgItemMessageA(field_202E0_dlg_hwnd, 1026, CB_SETITEMDATA, item_idx, map_idx);
     }
 
-    LRESULT v8 = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, 323u, 0, (LPARAM)GetString_519A00("netui19"));
-    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, CB_SETITEMDATA, v8, 0);
-    LRESULT v10 = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, CB_ADDSTRING, 0, (LPARAM)GetString_519A00("netui20"));
-    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, CB_SETITEMDATA, v10, 1);
-    LRESULT v12 = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, 0x143u, 0, (LPARAM)GetString_519A00("netui22"));
-    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, CB_SETITEMDATA, v12, 2);
+    LRESULT item_a = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, 323u, 0, (LPARAM)GetString_519A00("netui19"));
+    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, CB_SETITEMDATA, item_a, 0);
+    LRESULT item_b = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, CB_ADDSTRING, 0, (LPARAM)GetString_519A00("netui20"));
+    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, CB_SETITEMDATA, item_b, 1);
+    LRESULT item_c = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, 0x143u, 0, (LPARAM)GetString_519A00("netui22"));
+    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, CB_SETITEMDATA, item_c, 2);
     Network_20324::LoadGameSettingsFromRegistry_51C830();
     SendDlgItemMessageA(field_202E0_dlg_hwnd, 1026, CB_SETCURSEL, field_20088_game_settings.field_2018C_map_idx, 0);
     SendDlgItemMessageA(field_202E0_dlg_hwnd, COMBO_GAME_TYPE_1036, CB_SETCURSEL, field_20088_game_settings.field_20198_game_type - 1, 0);
@@ -1920,10 +1920,10 @@ void Network_20324::SetPlayerNameText_51B7C0()
 MATCH_FUNC(0x51b7e0)
 void Network_20324::cb_sub_51B7E0(Network_20324* pNetUi, const char_type** ppData)
 {
-    const char_type* v2 = *ppData;
+    const char_type* pData = *ppData;
     if (pNetUi->Get_202D4_active_control_idx_51ACC0() == 2)
     {
-        pNetUi->ApplyHostGameSettings_51B810(v2);
+        pNetUi->ApplyHostGameSettings_51B810(pData);
     }
 }
 

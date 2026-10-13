@@ -1600,8 +1600,8 @@ void Weapon_30::army_gun_jeep_5E13E0()
 {
     Ang16 gun_ang;
     Fix16_Point bullet_pos;
-    Fix16_Point v41;
-    Fix16_Point v42;
+    Fix16_Point muzzle_offset;
+    Fix16_Point muzzle_vel;
     if (field_2_reload_speed == 0)
     {
         field_24_pPed = field_14_car->get_driver_4118B0();
@@ -1618,18 +1618,18 @@ void Weapon_30::army_gun_jeep_5E13E0()
             bullet_pos.y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(bullet_pos.y.Multiply_408680(cos));
         }
 
-        v41.SetXY_432860(Fix16(0), dword_706EE8);
-        RotateByAngle_40F6B0_no_budget3(v41, field_14_car->field_50_car_sprite->field_0_rotation);
+        muzzle_offset.SetXY_432860(Fix16(0), dword_706EE8);
+        RotateByAngle_40F6B0_no_budget3(muzzle_offset, field_14_car->field_50_car_sprite->field_0_rotation);
 
-        bullet_pos += v41.Add_40AC50(field_14_car->field_50_car_sprite->get_x_y());
+        bullet_pos += muzzle_offset.Add_40AC50(field_14_car->field_50_car_sprite->get_x_y());
 
-        v42 = field_14_car->field_58_physics->GetPointVelocity_561350(&bullet_pos);
+        muzzle_vel = field_14_car->field_58_physics->GetPointVelocity_561350(&bullet_pos);
 
         set_field_2C_4CCA80(1);
 
         if (!field_4_bTargetHit)
         {
-            if (spawn_bullet_5DCF60(254, bullet_pos.x, bullet_pos.y, field_14_car->field_50_car_sprite->field_1C_zpos, gun_ang, v42))
+            if (spawn_bullet_5DCF60(254, bullet_pos.x, bullet_pos.y, field_14_car->field_50_car_sprite->field_1C_zpos, gun_ang, muzzle_vel))
             {
                 if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2) && !is_infinite_ammo_4A4FA0())
                 {
@@ -1646,7 +1646,7 @@ void Weapon_30::army_gun_jeep_5E13E0()
         }
         else
         {
-            spawn_bullet_5DCF60(154, bullet_pos.x, bullet_pos.y, field_14_car->field_50_car_sprite->field_1C_zpos, gun_ang, v42);
+            spawn_bullet_5DCF60(154, bullet_pos.x, bullet_pos.y, field_14_car->field_50_car_sprite->field_1C_zpos, gun_ang, muzzle_vel);
             field_2_reload_speed = 1;
         }
         TickReloadSpeed_5DCF40();
@@ -1854,9 +1854,9 @@ void Weapon_30::ChuckThrowable_5E34B0()
                     s32 obj_type = (field_1C_idx != weapon_type::molotov ? 183 : 138);
                     if (field_24_pPed->field_15C_player->IsThrowCharging_4CCB00())
                     {
-                        s32 v1 = field_24_pPed->field_15C_player->GetThrowStrength_4CCAD0();
-                        s32 v2 = field_24_pPed->field_15C_player->GetThrowCharge_4CCAE0();
-                        throwable_5DDFC0(obj_type, v1, v2);
+                        s32 throw_strength = field_24_pPed->field_15C_player->GetThrowStrength_4CCAD0();
+                        s32 throw_charge = field_24_pPed->field_15C_player->GetThrowCharge_4CCAE0();
+                        throwable_5DDFC0(obj_type, throw_strength, throw_charge);
                     }
                     field_24_pPed->field_15C_player->ResetThrowCharge_4A5180();
                 }

@@ -615,10 +615,10 @@ void SpriteGrid_400::AddToRowBuckets_4784D0(s32 y_pos, Sprite* pSprite)
             if (pNewNext->field_0_x == purple_left)
             {
                 ++purple_left;
-                GridSpriteLink_8* v7 = gGridSpriteLink_Pool_679200->Allocate();
-                v7->field_0_pSprite = pSprite;
-                v7->mpNext = pNewNext->field_4_pSpriteLinks;
-                pNewNext->field_4_pSpriteLinks = v7;
+                GridSpriteLink_8* pLink = gGridSpriteLink_Pool_679200->Allocate();
+                pLink->field_0_pSprite = pSprite;
+                pLink->mpNext = pNewNext->field_4_pSpriteLinks;
+                pNewNext->field_4_pSpriteLinks = pLink;
                 if (purple_left > gSpriteGrid_right_6F5B80)
                 {
                     return;
@@ -628,8 +628,8 @@ void SpriteGrid_400::AddToRowBuckets_4784D0(s32 y_pos, Sprite* pSprite)
             pNewNext = pNewNext->mpNext;
         }
 
-        GridSpriteLink_8* v8 = gGridSpriteLink_Pool_679200->Allocate();
-        v8->field_0_pSprite = pSprite;
+        GridSpriteLink_8* pLink = gGridSpriteLink_Pool_679200->Allocate();
+        pLink->field_0_pSprite = pSprite;
         GridCell_C* pCIter = gGridCell_Pool_679204->Allocate();
 
         if (!purple_x)
@@ -641,9 +641,9 @@ void SpriteGrid_400::AddToRowBuckets_4784D0(s32 y_pos, Sprite* pSprite)
             purple_x->mpNext = pCIter;
         }
         pCIter->mpNext = pNewNext;
-        pCIter->field_4_pSpriteLinks = v8;
+        pCIter->field_4_pSpriteLinks = pLink;
         pCIter->field_0_x = purple_left;
-        v8->mpNext = 0;
+        pLink->mpNext = 0;
         pNewNext = pCIter->mpNext;
         ++purple_left;
         purple_x = pCIter;

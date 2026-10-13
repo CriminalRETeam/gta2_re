@@ -3356,20 +3356,20 @@ void MapRenderer::DrawGradientSlope_4F6630()
 MATCH_FUNC(0x4f66c0)
 void MapRenderer::RenderFlatBlock_4F66C0()
 {
-    u16 v6;
+    u16 side_word;
     gCurrentSlope_6F646C.field_0_gradient_direction = 0;
 
     if (gBlockLeft_6F62F6 && gBlockRight_6F63C6)
     {
         if ((gBlockRight_6F63C6 & 0x1000) != 0)
         {
-            v6 = gBlockLeft_6F62F6 | 0x1000;
-            MapRenderer::draw_left_4F3C00(v6, kZeroOnePoint_6F6484.y, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.y);
+            side_word = gBlockLeft_6F62F6 | 0x1000;
+            MapRenderer::draw_left_4F3C00(side_word, kZeroOnePoint_6F6484.y, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.y);
         }
         if ((gBlockLeft_6F62F6 & 0x1000) != 0)
         {
-            v6 = gBlockRight_6F63C6 | 0x1000;
-            MapRenderer::draw_right_4F4250(v6, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.y);
+            side_word = gBlockRight_6F63C6 | 0x1000;
+            MapRenderer::draw_right_4F4250(side_word, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.y);
         }
     }
 
@@ -3377,13 +3377,13 @@ void MapRenderer::RenderFlatBlock_4F66C0()
     {
         if ((gBlockBottom_6F6468 & 0x1000) != 0)
         {
-            v6 = gBlockTop_6F62F4 | 0x1000;
-            MapRenderer::draw_top_4F4600(v6, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.y, kZeroOnePoint_6F6484.y);
+            side_word = gBlockTop_6F62F4 | 0x1000;
+            MapRenderer::draw_top_4F4600(side_word, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.y, kZeroOnePoint_6F6484.y);
         }
         if ((gBlockTop_6F62F4 & 0x1000) != 0)
         {
-            v6 = gBlockBottom_6F6468 | 0x1000;
-            MapRenderer::draw_bottom_4F49B0(v6, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.y, kZeroOnePoint_6F6484.x);
+            side_word = gBlockBottom_6F6468 | 0x1000;
+            MapRenderer::draw_bottom_4F49B0(side_word, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.y, kZeroOnePoint_6F6484.x);
         }
     }
     if (gBlockLeft_6F62F6) // line 103

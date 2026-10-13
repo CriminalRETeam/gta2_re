@@ -111,7 +111,7 @@ class RouteFinder
     EXPORT s32 NoRefs_589210(u8 x, u8 y, s32 a4, u8 direction, s32 a6, u16 junction_idx);
     EXPORT RouteFinder_10* NewChildNode_5892F0(RouteFinder_10* pRoute, u16 idx, s16 step_cost);
     EXPORT RouteFinder_10* NewStartNode_589390(u16 junction_idx);
-    EXPORT void InsertIntoOpenList_589420(RouteFinder_10* a2);
+    EXPORT void InsertIntoOpenList_589420(RouteFinder_10* pRoute);
     EXPORT char_type InitSearch_589480(u8 start_x, u8 start_y, u8 start_z, u8 dest_x, u8 dest_y, u8 dest_z, s32 arrow_type);
     EXPORT char_type sub_5895C0(u8 x, u8 y, u8 z, s32 arrow_type, s32 direction);
     EXPORT void CancelRoute_589930(s16 idx);
