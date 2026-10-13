@@ -306,8 +306,8 @@ void PoliceCrew_38::TryDespawnOffscreenCrew_571350()
     {
         if (pGroup->AreAllMembersOffScreen_4C9150())
         {
-            u8 group_idx = 0;
-            for (Ped* pPedIter = field_10_subObj->field_4_ped; pPedIter; pPedIter = field_10_subObj->field_8_group->field_4_ped_list[group_idx++])
+            u8 ped_idx = 0;
+            for (Ped* pPedIter = field_10_subObj->field_4_ped; pPedIter; pPedIter = field_10_subObj->field_8_group->field_4_ped_list[ped_idx++])
             {
                 pPedIter->ClearGroupAndGroupIdx_403A30();
                 pPedIter->Deallocate_45EB60();
@@ -352,8 +352,8 @@ void PoliceCrew_38::sub_571540()
         {
             if (pCar->Get_F76_4A9AD0() > 200 && pGroup->AreAllMembersOffScreen_4C9150())
             {
-                u8 group_idx = 0;
-                for (Ped* pPedIter = field_10_subObj->field_4_ped; pPedIter; pPedIter = field_10_subObj->field_8_group->field_4_ped_list[group_idx++])
+                u8 ped_idx = 0;
+                for (Ped* pPedIter = field_10_subObj->field_4_ped; pPedIter; pPedIter = field_10_subObj->field_8_group->field_4_ped_list[ped_idx++])
                 {
                     pPedIter->ClearGroupAndGroupIdx_403A30();
                     pPedIter->Deallocate_45EB60();
@@ -393,8 +393,8 @@ void PoliceCrew_38::sub_571540()
     {
         if (pGroup->AreAllMembersOffScreen_4C9150())
         {
-            u8 group_idx = 0;
-            for (Ped* pPedIter = field_10_subObj->field_4_ped; pPedIter; pPedIter = field_10_subObj->field_8_group->field_4_ped_list[group_idx++])
+            u8 ped_idx = 0;
+            for (Ped* pPedIter = field_10_subObj->field_4_ped; pPedIter; pPedIter = field_10_subObj->field_8_group->field_4_ped_list[ped_idx++])
             {
                 pPedIter->ClearGroupAndGroupIdx_403A30();
                 pPedIter->Deallocate_45EB60();
@@ -2497,7 +2497,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
 {
     Car_BC* pCar = 0;
     u8 tries = 0;
-    char_type group_idx;
+    char_type bFound;
     u8 lane;
     Ang16 angle;
 
@@ -2510,12 +2510,12 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
         s32 z_below = z - 1;
         do
         {
-            group_idx = 0;
+            bFound = 0;
             y--;
             switch (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x, y, z_below))
             {
                 case AIR:
-                    group_idx = 1;
+                    bFound = 1;
                     y++;
                     break;
                 case PAVEMENT:
@@ -2526,7 +2526,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                     }
                     else
                     {
-                        group_idx = 1;
+                        bFound = 1;
                     }
                     break;
                 case ROAD:
@@ -2540,7 +2540,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
             {
                 return 0;
             }
-        } while (!group_idx);
+        } while (!bFound);
 
         u8 width = 0;
         if (bEdge == 1)
@@ -2553,7 +2553,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
         tries = 0;
         do
         {
-            group_idx = 0;
+            bFound = 0;
             y++;
             switch (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x, y, z_below))
             {
@@ -2570,7 +2570,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                     }
                     else
                     {
-                        group_idx = 1;
+                        bFound = 1;
                     }
                     break;
                 case FIELD:
@@ -2581,11 +2581,11 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                     }
                     else
                     {
-                        group_idx = 1;
+                        bFound = 1;
                     }
                     break;
                 case AIR:
-                    group_idx = 1;
+                    bFound = 1;
                     break;
                 case 4:
                     return 0;
@@ -2596,7 +2596,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
             {
                 return 0;
             }
-        } while (!group_idx);
+        } while (!bFound);
 
         if (width > 12)
         {
@@ -2823,12 +2823,12 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
         s32 z_below = z - 1;
         do
         {
-            group_idx = 0;
+            bFound = 0;
             x--;
             switch (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x, y, z_below))
             {
                 case AIR:
-                    group_idx = 1;
+                    bFound = 1;
                     x++;
                     break;
                 case PAVEMENT:
@@ -2839,7 +2839,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                     }
                     else
                     {
-                        group_idx = 1;
+                        bFound = 1;
                     }
                     break;
                 case ROAD:
@@ -2853,7 +2853,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
             {
                 return 0;
             }
-        } while (!group_idx);
+        } while (!bFound);
 
         u8 width = 0;
         if (bEdge == 1)
@@ -2866,7 +2866,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
         tries = 0;
         do
         {
-            group_idx = 0;
+            bFound = 0;
             x++;
             switch (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x, y, z_below))
             {
@@ -2882,11 +2882,11 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                     }
                     else
                     {
-                        group_idx = 1;
+                        bFound = 1;
                     }
                     break;
                 case AIR:
-                    group_idx = 1;
+                    bFound = 1;
                     break;
                 case 4:
                     return 0;
@@ -2897,7 +2897,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
             {
                 return 0;
             }
-        } while (!group_idx);
+        } while (!bFound);
 
         if (width > 12)
         {
