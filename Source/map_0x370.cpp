@@ -2336,7 +2336,7 @@ char_type Map_0x370::CheckSlopeTopInSpriteGrid_4E4630(Fix16 z_pos)
                 }
                 else
                 {
-                    if (bFractionalZ && get_slope_bits(slope_byte) == 0xFCu)
+                    if (bFractionalZ && is_slope_in_block_above(slope_byte))
                     {
                         return 2;
                     }
@@ -3489,7 +3489,7 @@ MATCH_FUNC(0x4E65A0)
 void Map_0x370::SnapZToRailway_4E65A0(Fix16 x, Fix16 y, Fix16* pZ, bool bDontFlip, bool bReverse)
 {
     gmp_block_info* pBlockAtPos = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), (*pZ - kFpOne_6F6110).ToInt());
-    if (get_slope_bits(pBlockAtPos->field_B_slope_type) == 0xFC)
+    if (is_slope_in_block_above(pBlockAtPos->field_B_slope_type))
     {
         *pZ = FloorPlusOne_4E62B0(*pZ);
         pBlockAtPos = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), (*pZ - kFpOne_6F6110).ToInt());
@@ -3614,7 +3614,7 @@ s32 Map_0x370::AdvanceAlongRailway_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
                            Ang16(ReturnAngleFromRoadDirection_4F7940(direction).rValue + word_6F603E.rValue).Normalized_406C20()));
             dist += kFpOne_6F6110 - to_edge;
             gmp_block_info* pNext = GetBlock_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
-            if (pNext && (pNext->field_B_slope_type & 0xFC) == 0xFC)
+            if (pNext && is_slope_in_block_above(pNext->field_B_slope_type))
             {
                 pNext = GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
             }
@@ -3843,7 +3843,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
             pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
             if (pBlock)
             {
-                if ((pBlock->field_B_slope_type & 0xFC) == 0xFC)
+                if (is_slope_in_block_above(pBlock->field_B_slope_type))
                 {
                     pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
                 }
