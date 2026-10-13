@@ -142,8 +142,8 @@ void NetPlay::AddEnumeratedConnection_51D930(EnumeratedConnection* pConnectionIn
         EnumeratedConnection* pConnections = this->field_30_enumed_connections.field_0_enumed_connections;
         if (pConnections)
         {
-            EnumeratedConnection* v5 = &pConnections[connection_idx];
-            v5->field_0_sp_guid = pConnectionInfo->field_0_sp_guid;
+            EnumeratedConnection* pConnection = &pConnections[connection_idx];
+            pConnection->field_0_sp_guid = pConnectionInfo->field_0_sp_guid;
             this->field_30_enumed_connections.field_0_enumed_connections[this->field_30_enumed_connections.field_8_connections_count]
                 .field_10_pConnectionName = new wchar_t[wcslen(pConnectionInfo->field_10_pConnectionName) + 1];
             wcscpy(this->field_30_enumed_connections.field_0_enumed_connections[this->field_30_enumed_connections.field_8_connections_count]

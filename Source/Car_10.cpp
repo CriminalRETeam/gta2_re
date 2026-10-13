@@ -94,10 +94,10 @@ void Car_Door_10::Service_439DA0(u32* a3a)
             break;
     }
 
-    Ped* v4 = field_8_pObj;
-    if (v4)
+    Ped* pPed = field_8_pObj;
+    if (pPed)
     {
-        if (v4->isDead_403B60() || !v4->field_21C_bf.bLeftVehicle)
+        if (pPed->isDead_403B60() || !pPed->field_21C_bf.bLeftVehicle)
         {
             field_8_pObj = 0;
         }

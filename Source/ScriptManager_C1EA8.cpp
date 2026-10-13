@@ -443,16 +443,16 @@ u16 ScriptManager_C1EA8::LoadMissionScript_512400(const char_type* String1, u16*
     u16 Buffer = 0;
     if (gScriptManager_6F8060->field_2F4_bPreloadMissionScripts == 0)
     {
-        u32 v8;
+        u32 remainder;
         strcpy(gTmpBuffer_67C598, "data\\");
         strcat(gTmpBuffer_67C598, (const char*)String1);
         Error_SetName_4A0770(gTmpBuffer_67C598);
         File::Global_Open_4A7060(gTmpBuffer_67C598);
         File::Global_Read_4A71C0(&Buffer, 2);
         File::Global_Read_4A71C0(a3, 2);
-        File::Global_Read_4A71C0(&v8, 4);
+        File::Global_Read_4A71C0(&remainder, 4);
         File::Global_Read_4A71C0(&field_46C_base_pointers[(u16)Buffer], 0xC00);
-        File::GetRemainderSize_4A7250(&field_334C_script_data[field_46C_base_pointers[(u16)Buffer]], &v8);
+        File::GetRemainderSize_4A7250(&field_334C_script_data[field_46C_base_pointers[(u16)Buffer]], &remainder);
         File::Global_Close_4A70C0();
     }
     else

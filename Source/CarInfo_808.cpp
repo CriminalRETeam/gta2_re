@@ -771,15 +771,15 @@ CarInfo_808::~CarInfo_808()
 MATCH_FUNC(0x5618F0)
 EXPORT Fix16 __stdcall ComputeThrustWithTurbo_5618F0(Fix16 half_thrust, Fix16 thrust_div5, s8 bTurbo)
 {
-    Fix16 v4;
+    Fix16 thrust;
     if (bTurbo)
     {
-        v4 = (k_dword_6FE210 + k_dword_6FDFEC) * ((thrust_div5 * k_dword_6FDEFC));
+        thrust = (k_dword_6FE210 + k_dword_6FDFEC) * ((thrust_div5 * k_dword_6FDEFC));
     }
     else
     {
-        v4 = thrust_div5 * k_dword_6FDEFC;
+        thrust = thrust_div5 * k_dword_6FDEFC;
     }
-    v4 = v4 + half_thrust;
-    return v4;
+    thrust = thrust + half_thrust;
+    return thrust;
 }

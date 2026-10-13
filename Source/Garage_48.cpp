@@ -69,8 +69,8 @@ void Garage_48::ValidateParkCommand_534650()
 {
     // The result is unused (the out-of-line Add_408660 on a const Fix16)
     {
-        const Fix16 v4(this->field_10_door->field_0_primary_door_data->field_6_z);
-        v4.Add_408660(kFpEighth_6FCF60);
+        const Fix16 door_z(this->field_10_door->field_0_primary_door_data->field_6_z);
+        door_z.Add_408660(kFpEighth_6FCF60);
     }
 
     if (gMap_0x370_6F6268->HasWallInArea_4E18A0(field_18_park_x_min.ToInt(),

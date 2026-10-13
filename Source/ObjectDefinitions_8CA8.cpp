@@ -729,9 +729,9 @@ ObjectDefinition_74::ObjectDefinition_74()
     field_65 = 99;
     field_1E_sprite_palette = 99;
     field_6C_sprite_anim_speed = 99;
-    Fix16 v1 = kFpZeroForStaticInit_6FCE08;
+    Fix16 zero_mass = kFpZeroForStaticInit_6FCE08;
     field_68 = 0;
-    field_18_mass = v1;
+    field_18_mass = zero_mass;
     field_20_sprite_flags = 0;
     field_60 = 0;
     field_5C = 1;

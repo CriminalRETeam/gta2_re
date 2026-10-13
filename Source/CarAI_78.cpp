@@ -5246,8 +5246,8 @@ void CarAI_78::SetCar_453BF0(Car_BC* pCar)
 // their stack slot (as in the original)
 static inline bool IsMovingBackwards_453C00(CarPhysics_B0* pPhysics)
 {
-    Ang16 v6 = pPhysics->field_40_linvel_1.atan2_40F790() - pPhysics->field_58_theta;
-    return v6 <= kAng90_6779E4 || v6 >= kAng270_677B08;
+    Ang16 heading_delta = pPhysics->field_40_linvel_1.atan2_40F790() - pPhysics->field_58_theta;
+    return heading_delta <= kAng90_6779E4 || heading_delta >= kAng270_677B08;
 }
 
 MATCH_FUNC(0x453c00)

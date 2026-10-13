@@ -607,7 +607,7 @@ void Player::ClearPowerUps_564CC0()
 MATCH_FUNC(0x564CF0)
 void Player::ClearPowerUpsExceptJailCard_564CF0()
 {
-    u16 v2 = field_6F4_power_up_timers[power_up_indices::JailCard_4];
+    u16 jail_card_timer = field_6F4_power_up_timers[power_up_indices::JailCard_4];
     if (field_6F4_power_up_timers[power_up_indices::Invulnerability_6])
     {
         field_2C4_player_ped->ClearInvulnerable_45C050();
@@ -624,7 +624,7 @@ void Player::ClearPowerUpsExceptJailCard_564CF0()
         }
     }
     ClearPowerUps_564CC0();
-    field_6F4_power_up_timers[power_up_indices::JailCard_4] = v2;
+    field_6F4_power_up_timers[power_up_indices::JailCard_4] = jail_card_timer;
 }
 
 MATCH_FUNC(0x564D60)

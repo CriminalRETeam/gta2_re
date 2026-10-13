@@ -155,7 +155,7 @@ void GeneratorPool_14AC::sub_4C1CD0()
     if (count > 4)
     {
         Generator_2C* pIter = &field_0_pool[0];
-        for (u8 v2 = 0; v2 < field_14A0_count; v2++)
+        for (u8 i = 0; i < field_14A0_count; i++)
         {
             pIter->field_12_min_delay = pIter->field_12_min_delay >> 2;
             pIter->field_14_max_delay = pIter->field_14_max_delay >> 2;
@@ -165,7 +165,7 @@ void GeneratorPool_14AC::sub_4C1CD0()
     if (bStartNetworkGame_7081F0)
     {
         Generator_2C* pIter_2 = &field_0_pool[0];
-        for (u8 v4 = 0; v4 < field_14A0_count; v4++)
+        for (u8 i = 0; i < field_14A0_count; i++)
         {
             pIter_2->field_18_cycle = 1;
             pIter_2++;

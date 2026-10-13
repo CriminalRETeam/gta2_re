@@ -1569,7 +1569,7 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
     LPDIRECTDRAW pDDraw; // [esp+54h] [ebp-114h] BYREF
     LPDIRECTDRAWSURFACE pDSurface; // [esp+58h] [ebp-110h] BYREF
     LPDIRECTDRAW pDraw2; // [esp+5Ch] [ebp-10Ch] BYREF
-    s32 v18; // [esp+60h] [ebp-108h] BYREF
+    s32 pSurface2; // [esp+60h] [ebp-108h] BYREF
     LPDIRECTDRAWSURFACE pDSurface4; // [esp+64h] [ebp-104h] BYREF
     DDSURFACEDESC surfaceDesc; // [esp+68h] [ebp-100h] BYREF
     struct _OSVERSIONINFOA osVersionInfo; // [esp+D4h] [ebp-94h] BYREF
@@ -1577,7 +1577,7 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
     pDDraw = 0;
     pDraw2 = 0;
     pDSurface = 0;
-    v18 = 0;
+    pSurface2 = 0;
     pDSurface4 = 0;
     osVersionInfo.dwOSVersionInfoSize = sizeof(osVersionInfo);
 
@@ -1703,7 +1703,7 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
         return;
     }
 
-    if (pDSurface->QueryInterface(IID_IDirectDrawSurface2, (LPVOID*)&v18) < 0)
+    if (pDSurface->QueryInterface(IID_IDirectDrawSurface2, (LPVOID*)&pSurface2) < 0)
     {
         pDDraw->Release();
         FreeLibrary(hDDraw);
@@ -2301,8 +2301,8 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     RECT windowRec;
     GetWindowRect(gHwnd_707F04, &windowRec);
 
-    s32 v8 = window_width_706630 + (windowRec.right - windowRec.left) - (clientRec.right - clientRec.left);
-    s32 v9 = window_height_706B50 + (windowRec.bottom - windowRec.top) - (clientRec.bottom - clientRec.top);
+    s32 window_w = window_width_706630 + (windowRec.right - windowRec.left) - (clientRec.right - clientRec.left);
+    s32 window_h = window_height_706B50 + (windowRec.bottom - windowRec.top) - (clientRec.bottom - clientRec.top);
 
     if (bDo_corner_window_67D4EE)
     {
@@ -2311,11 +2311,11 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     }
     else
     {
-        gWindowX_706B60 = (int)(GetSystemMetrics(0) - v8) / 2;
-        gWindowY_706B64 = (int)(GetSystemMetrics(1) - v9) / 2;
+        gWindowX_706B60 = (int)(GetSystemMetrics(0) - window_w) / 2;
+        gWindowY_706B64 = (int)(GetSystemMetrics(1) - window_h) / 2;
     }
 
-    if (!SetWindowPos(gHwnd_707F04, 0, gWindowX_706B60, gWindowY_706B64, v8, v9, 0x314u))
+    if (!SetWindowPos(gHwnd_707F04, 0, gWindowX_706B60, gWindowY_706B64, window_w, window_h, 0x314u))
     {
         FatalError_4A38C0(Gta2Error::SetWindowPosFail, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 661);
     }

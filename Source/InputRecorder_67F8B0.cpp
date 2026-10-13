@@ -289,9 +289,9 @@ void InputDevices_1::get_registry_controls_498C00()
 {
     for (u32 i = 0; i < 12; ++i)
     {
-        const u32 v1 = gRegistry_6FF968.Set_Control_Setting_587010(i, gDefaultControls_61A9E4[i]);
-        gMaybeDeviceType_67B91C[i] = v1 >> 15;
-        gPlayerControlsBinding_67B6E8[i] = (u8)v1;
+        const u32 setting = gRegistry_6FF968.Set_Control_Setting_587010(i, gDefaultControls_61A9E4[i]);
+        gMaybeDeviceType_67B91C[i] = setting >> 15;
+        gPlayerControlsBinding_67B6E8[i] = (u8)setting;
     }
 }
 

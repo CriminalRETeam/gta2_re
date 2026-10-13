@@ -10563,10 +10563,10 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
 {
     Fix16 attack_range;
 
-    u8 v40 = 0;
-    u8 v41 = 0;
-    u8 v3 = 0;
-    u8 v39 = 0;
+    u8 bThrownWeapon = 0;
+    u8 bMeleeWeapon = 0;
+    u8 bTargetGone = 0;
+    u8 bAttackingVehicleOrObject = 0;
 
     field_21C_bf.bWeaponChosen = false;
     Weapon_30* pWeapon = Ped::ChooseAttackWeapon_46F490();
@@ -10586,25 +10586,25 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                 case weapon_type::molotov:
                     attack_range = kFpTwo_678658 * 2;
                     explosive_range = kFpOne_678798 + kFpHalf_678790;
-                    v40 = 1;
+                    bThrownWeapon = 1;
                     break;
 
                 case weapon_type::grenade:
                     attack_range = kFpHalf_678790 + kFpTwo_678658;
                     explosive_range = kFpTwo_678658;
-                    v40 = 1;
+                    bThrownWeapon = 1;
                     break;
 
                 case weapon_type::electro_batton:
                     close_range = kFpHalf_67853C;
                     attack_range = kFpTwo_678658;
-                    v41 = 1;
+                    bMeleeWeapon = 1;
                     break;
 
                 case weapon_type::shotgun:
                     close_range = kFpHalf_67853C;
                     attack_range = kFpOne_678798;
-                    v41 = 1;
+                    bMeleeWeapon = 1;
                     break;
 
                 default:
@@ -10631,7 +10631,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
             zpos = field_14C_internal_target_ped->get_cam_z();
             if (field_14C_internal_target_ped->isDead_403B60() || !field_14C_internal_target_ped->IsActive_433B40())
             {
-                v3 = 1;
+                bTargetGone = 1;
             }
             if (field_14C_internal_target_ped->get_car_416B60())
             {
@@ -10639,7 +10639,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                 {
                     attack_range = kFpTwo_678668;
                     close_range = kFpTwo_678668 + kFpHalf_67853C;
-                    v39 = 1;
+                    bAttackingVehicleOrObject = 1;
                 }
             }
 
@@ -10649,11 +10649,11 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
             zpos = field_154_target_to_enter->get_z_41E450();
             if (field_154_target_to_enter->IsMaxDamage_40F890())
             {
-                v3 = 1;
+                bTargetGone = 1;
             }
             close_range = kFpThree_67866C;
             attack_range = kFpTwo_678668 + kFpHalf_67853C;
-            v39 = 1;
+            bAttackingVehicleOrObject = 1;
             break;
 
         case ped_attack_target_type::object_2: // target is a object
@@ -10666,12 +10666,12 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
             {
                 close_range = kFpThree_67866C;
                 attack_range = kFpTwo_678668 + kFpHalf_67853C;
-                v39 = 1;
+                bAttackingVehicleOrObject = 1;
             }
             break;
     }
 
-    if (v3)
+    if (bTargetGone)
     {
         field_21C_bf.bAttacking = false;
         field_226_internal_objective_status = 1;
@@ -10785,7 +10785,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
 
                 // line 4c9 and 4d2
 
-                if (v40)
+                if (bThrownWeapon)
                 {
                     if (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(
                             (field_168_game_object->field_80_sprite_ptr->field_14_xy.x).ToInt(),
@@ -10799,8 +10799,8 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                     }
                 }
 
-                if ((field_240_occupation == ped_ocupation_enum::fbi || field_23C_group_idx == 99 || v41) &&
-                    field_240_occupation != ped_ocupation_enum::stand_still_bloke && !v39)
+                if ((field_240_occupation == ped_ocupation_enum::fbi || field_23C_group_idx == 99 || bMeleeWeapon) &&
+                    field_240_occupation != ped_ocupation_enum::stand_still_bloke && !bAttackingVehicleOrObject)
                 {
                     if (gDistanceToTarget_678750 < kFpHalf_67853C)
                     {

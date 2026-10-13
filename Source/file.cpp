@@ -261,9 +261,9 @@ void __stdcall File::Global_Close_4A70C0()
 {
     if (gbGlobalFileOpen_67D160)
     {
-        s32 v0 = crt::fclose(ghFile_67CFEC);
+        s32 close_result = crt::fclose(ghFile_67CFEC);
         gbGlobalFileOpen_67D160 = 0;
-        if (v0)
+        if (close_result)
         {
             FatalError_4A38C0(Gta2Error::FileCloseError, "C:\\Splitting\\Gta2\\Source\\File.cpp", 345);
         }

@@ -48,10 +48,10 @@ ScriptStackFrame_C* miss2_8::remove_503180()
 MATCH_FUNC(0x5031A0)
 ScriptStackFrame_C* miss2_8::AllocFrame_5031A0()
 {
-    ScriptStackFrame_C* v1 = gScriptStackFramePool_6F8068->field_0_pool.field_0_pHead;
+    ScriptStackFrame_C* pFrame = gScriptStackFramePool_6F8068->field_0_pool.field_0_pHead;
     gScriptStackFramePool_6F8068->field_0_pool.field_0_pHead = gScriptStackFramePool_6F8068->field_0_pool.field_0_pHead->mpNext;
-    v1->PoolAllocate();
-    return v1;
+    pFrame->PoolAllocate();
+    return pFrame;
 
     // TOOD: Pools - this should match but doesn't ??
 //    return gScriptStackFramePool_6F8068->field_0_pool.Allocate();

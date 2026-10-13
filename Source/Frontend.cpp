@@ -812,7 +812,7 @@ s32 Frontend::Run_4AEDB0()
     s32 result; // eax
     char_type* pKey; // ecx
     s32 remaining; // edx
-    char_type v12; // al
+    char_type frames; // al
     HDIGDRIVER local_field_0_hDriver; // [esp-4h] [ebp-10h]
 
     Time = timeGetTime();
@@ -893,9 +893,9 @@ s32 Frontend::Run_4AEDB0()
         if (Time >= field_C9DC_next_frame_time || (field_C9E0_updates_since_render == 3))
         {
             Update_4AEC00();
-            v12 = field_C9E0_updates_since_render + 1;
+            frames = field_C9E0_updates_since_render + 1;
             field_C9DC_next_frame_time += 33;
-            field_C9E0_updates_since_render = v12;
+            field_C9E0_updates_since_render = frames;
         }
         else if (field_C9E0_updates_since_render)
         {
