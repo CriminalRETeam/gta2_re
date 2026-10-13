@@ -301,9 +301,9 @@ class Car_6C
     s32 field_3C_mission_cars;
     s32 field_40_proto_recycled_cars;
     s32 field_44_parked_cars;
-    s32 field_48;
+    s32 field_48_kind10_cars;
     Fix16_Point field_4C_tv_van_dir;
-    u8 field_54;
+    u8 field_54_spawn_block;
     char_type field_55_visible_cars_count;
     char_type field_56_unused;
     char_type field_57;

@@ -8304,7 +8304,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                                 }
                                 if (!bCanAllocate)
                                 {
-                                    gCar_6C_677930->field_54 = 2;
+                                    gCar_6C_677930->field_54_spawn_block = 2;
                                 }
                             }
                         }

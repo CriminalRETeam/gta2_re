@@ -1540,7 +1540,7 @@ void Car_6C::DecrementAllocatedCarType_4466C0(s32 car_kind)
             break;
 
         case 10:
-            --this->field_48;
+            --this->field_48_kind10_cars;
             break;
 
         case 4:
@@ -1601,9 +1601,9 @@ void Car_6C::CarsService_446790()
 
     gCar_14_677934->GenerateTraffic_583670();
 
-    if (field_54 > 0)
+    if (field_54_spawn_block > 0)
     {
-        field_54--;
+        field_54_spawn_block--;
     }
 }
 
@@ -1621,7 +1621,7 @@ bool Car_6C::CanAlloc_446870(s32 type)
         case 7:
             return this->field_38_roadblock_cars < 11;
         case 10:
-            return this->field_48 < 11;
+            return this->field_48_kind10_cars < 11;
         case 9:
             return this->field_44_parked_cars < 200;
         case 1:
@@ -1647,7 +1647,7 @@ bool Car_6C::CanAllocateOfType_446930(s32 type)
         case car_kind::roadblock_car_7:
             return this->field_38_roadblock_cars < 12;
         case car_kind::Unknown_10:
-            return this->field_48 < 12;
+            return this->field_48_kind10_cars < 12;
         case car_kind::parked_car_9:
             return this->field_44_parked_cars < 200;
         case car_kind::recycled_1:
@@ -1750,7 +1750,7 @@ Car_6C::Car_6C()
     //field_50_tv_van_dir = 0;
     field_4C_tv_van_dir.x = Fix16(0);
     field_4C_tv_van_dir.y = Fix16(0);
-    field_54 = 0;
+    field_54_spawn_block = 0;
     field_55_visible_cars_count = 0;
     field_58_model_to_check_destroy = car_model_enum::none;
     field_5C_model_check_destroyed = 0;
@@ -6573,7 +6573,7 @@ void Car_BC::IncrementAllocatedCarType_443DA0(s32 car_kind)
             ++gCar_6C_677930->field_30_firefighter_cars;
             break;
         case car_kind::Unknown_10:
-            ++gCar_6C_677930->field_48;
+            ++gCar_6C_677930->field_48_kind10_cars;
             break;
         case car_kind::paramedic_car_4:
             ++gCar_6C_677930->field_2C_paramedic_cars;
@@ -7406,7 +7406,7 @@ char_type Car_14::SpawnTrafficCar_582480(s32 a2, s32 arrow_direction, s32 a4)
     Fix16 ground_z;
 
     if (gCar_6C_677930->field_28_recycled_cars + gCar_6C_677930->field_40_proto_recycled_cars == 16 || arrow_direction == a4 ||
-        gCar_6C_677930->field_54 > 0)
+        gCar_6C_677930->field_54_spawn_block > 0)
     {
         return 0;
     }
