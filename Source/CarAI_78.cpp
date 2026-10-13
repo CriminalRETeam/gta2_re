@@ -4898,7 +4898,7 @@ void CarAI_78::UpdateDrivingAI_452DF0()
                                                                  field_0_car->field_50_car_sprite->field_1C_zpos.ToInt());
 
     if (pBlock && IS_GRADIENT_SLOPE(pBlock->field_B_slope_type) &&
-        (pBlock->field_B_slope_type & 3) != AIR)
+        GET_BLOCK_TYPE(pBlock->field_B_slope_type) != AIR)
     {
         bOnGradientSlope_677C90 = true;
     }

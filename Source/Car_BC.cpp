@@ -765,7 +765,7 @@ char Car_BC::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, F
         ++zTmpInt;
         if (pBlock)
         {
-            if ((pBlock->field_B_slope_type & 3) == ROAD)
+            if (GET_BLOCK_TYPE(pBlock->field_B_slope_type) == ROAD)
             {
                 if (!gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, direction))
                 {
@@ -972,7 +972,7 @@ Car_BC* CarManager_6C::SpawnBusAtValidRoadPosition_4453E0(Fix16 x, Fix16 y, s32 
         gmp_block_info* pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
         if (pBlock)
         {
-            if ((pBlock->field_B_slope_type & 3) == 1 && !gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction))
+            if (GET_BLOCK_TYPE(pBlock->field_B_slope_type) == 1 && !gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction))
             {
                 if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::up_1))
                 {
@@ -1072,7 +1072,7 @@ Car_BC* CarManager_6C::SpawnBusAtValidRoadPosition_4453E0(Fix16 x, Fix16 y, s32 
                     }
                 }
             }
-            if ((pBlock->field_B_slope_type & 3) == 1 && !gGame_0x40_67E008->IsPointOnScreen_4B9A80(x, y))
+            if (GET_BLOCK_TYPE(pBlock->field_B_slope_type) == 1 && !gGame_0x40_67E008->IsPointOnScreen_4B9A80(x, y))
             {
                 Fix16 ground_z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(x, y);
                 car_info* car_info_5AA3B0 = gGtx_0x106C_703DD4->get_car_info_5AA3B0(car_model);
@@ -1171,7 +1171,7 @@ Car_BC* CarManager_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 
         gmp_block_info* pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
         if (pBlock)
         {
-            if (!gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction) && (pBlock->field_B_slope_type & 3) == 1)
+            if (!gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction) && GET_BLOCK_TYPE(pBlock->field_B_slope_type) == 1)
             {
                 if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::up_1))
                 {
@@ -1270,7 +1270,7 @@ Car_BC* CarManager_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 
                     }
                 }
             }
-            if ((pBlock->field_B_slope_type & 3) == 1 && !gGame_0x40_67E008->IsPointOnScreen_4B9A80(x, y))
+            if (GET_BLOCK_TYPE(pBlock->field_B_slope_type) == 1 && !gGame_0x40_67E008->IsPointOnScreen_4B9A80(x, y))
             {
                 Fix16 ground_z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(x, y);
                 car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(car_model_type);

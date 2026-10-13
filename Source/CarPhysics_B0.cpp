@@ -446,7 +446,7 @@ void CarPhysics_B0::ScarePedsOnDrivingFast_559C30()
     gmp_block_info* pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(field_38_cp1.x.ToInt(), field_38_cp1.y.ToInt(), cp3.ToInt());
     if (pBlock)
     {
-        u8 type = pBlock->field_B_slope_type & 3; //GET_BLOCK_TYPE(pBlock->field_B_slope_type);
+        u8 type = GET_BLOCK_TYPE(pBlock->field_B_slope_type);
         if (type == PAVEMENT || type == FIELD)
         {
             if (field_5C_pCar->field_54_driver)
@@ -1172,7 +1172,7 @@ inline u8 Map_0x370::GetBlockSurfaceType_49EBE0(s32 x, s32 y, s32 z, u8* pGradie
             return 7;
         }
 
-        if ((pBlock->field_B_slope_type & 3) != 0)
+        if (!IS_AIR_TYPE(pBlock->field_B_slope_type))
         {
             if (gGtx_0x106C_703DD4->sub_49E570(pBlock->field_8_lid & 0x3FF))
             {
@@ -3428,7 +3428,7 @@ void CarPhysics_B0::ApplyArrowSteerAssist_5626F0()
                                                                              (this->field_6C_cp3 - k_dword_6FE210).ToInt());
                 if (pBlock)
                 {
-                    if ((pBlock->field_B_slope_type & 3) == 1)
+                    if (GET_BLOCK_TYPE(pBlock->field_B_slope_type) == 1)
                     {
                         if ((pBlock->field_A_arrows & block_arrow::horizontal_mask) != 0)
                         {

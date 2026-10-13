@@ -683,7 +683,7 @@ class Map_0x370
         gmp_block_info* pBlock = GetBlock_4DFE10(a2, a3, a4);
         if (pBlock)
         {
-            return pBlock->field_B_slope_type & 3;
+            return GET_BLOCK_TYPE(pBlock->field_B_slope_type);
         }
         return 0;
     }
