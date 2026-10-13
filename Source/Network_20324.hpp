@@ -71,16 +71,16 @@ class Network_20324
     EXPORT static void __stdcall OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notify);
     EXPORT static void __stdcall OnTimer_51A9D0(HWND hWnd, s32 a2);
     EXPORT void CreateMainUi_51AA90(HWND hWndParent);
-    EXPORT void ShowSpecificWindow_51ABF0(s32 a2);
+    EXPORT void ShowSpecificWindow_51ABF0(s32 showing_specific_window_idx);
     EXPORT static s32 OnInitDialog_51AC60(HWND hWnd, s32 a2, Network_20324* thisPtr);
     EXPORT s32 Get_202D4_active_control_idx_51ACC0();
-    EXPORT static void __stdcall cb_sub_51ACD0(Network_20324* a1, wchar_t* Source);
-    EXPORT static void _stdcall cb_Disconnect_51ADE0(Network_20324* a1);
+    EXPORT static void __stdcall cb_sub_51ACD0(Network_20324* pNetUi, wchar_t* Source);
+    EXPORT static void _stdcall cb_Disconnect_51ADE0(Network_20324* pNetUi);
     EXPORT void ClearTreeView_51AE20(s32 nIDDlgItem);
     EXPORT static s32 __stdcall cb_SetPlayerPing_51AE50(Network_20324* pNetUi, Network_PlayerPing* pPing);
     EXPORT void PopulateMainUI_51AFA0();
     EXPORT static LRESULT __stdcall cb_AddChatMessage_51B2F0(Network_20324* pNetUi, Network_ChatMessage* pMsg);
-    EXPORT s32 AppendChatMessage_51B4F0(s32 a2, const char_type* a3);
+    EXPORT s32 AppendChatMessage_51B4F0(s32 a2, const char_type* pMsg);
     EXPORT void SetPlayerNameText_51B7C0();
     EXPORT static void __stdcall cb_sub_51B7E0(Network_20324* a1, const char_type** a2);
     EXPORT void ApplyHostGameSettings_51B810(const char_type* a2);
@@ -97,7 +97,7 @@ class Network_20324
     EXPORT static LRESULT __stdcall subclass_proc_51BDD0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
     EXPORT void OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 a3);
     EXPORT void EnumerateMaps_51BFA0();
-    EXPORT static void __stdcall OnWmHScroll_51C630(HWND hWnd, HWND a2, s32 a3, s32 a4);
+    EXPORT static void __stdcall OnWmHScroll_51C630(HWND hWnd, HWND hTrackBar, s32 code, s32 pos);
     EXPORT void CopyGameSettings_51C7F0(NetworkGameSettings* pSettings);
     EXPORT void LoadGameSettingsFromRegistry_51C830();
     EXPORT char_type* GetMapName_51CA10();
@@ -110,9 +110,9 @@ class Network_20324
     EXPORT void SetJoinedGamePoliceEnabledText_51CD30(s32 bPoliceOn, HWND hDlg);
     EXPORT void SetFragsNumberAndLabel_51CDC0(s32 gameType, s32 fragLimit, HWND hDlg);
     EXPORT void SetGameSpeedTextLabelAndSlider_51CFC0(LPARAM game_speed, HWND hDlg);
-    EXPORT void SetJoinedGameTypeAndFragLimitText_51D0C0(s32 a1, s32 a2, HWND hDlg);
-    EXPORT void SetJoinedGameTimeLimitText_51D2F0(s32 a1, HWND hDlg);
-    EXPORT void SetGameTimeLimitTextBox_51D3B0(s32 a1, HWND hDlg);
+    EXPORT void SetJoinedGameTypeAndFragLimitText_51D0C0(s32 game_type, s32 frag_limit, HWND hDlg);
+    EXPORT void SetJoinedGameTimeLimitText_51D2F0(s32 gameTimeLimit, HWND hDlg);
+    EXPORT void SetGameTimeLimitTextBox_51D3B0(s32 timeLimitMins, HWND hDlg);
 
     //s32 field_0_vTable; // added by the compiler
     Network_Enumerated_Map field_4_maps[100];

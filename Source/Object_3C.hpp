@@ -26,16 +26,16 @@ class SpriteList_4
         field_0_p18 = 0;
     }
 
-    EXPORT AttachedSprite_18* GetSpriteForModel_5A6A50(s32 a2);
+    EXPORT AttachedSprite_18* GetSpriteForModel_5A6A50(s32 obj_type);
     EXPORT Object_2C* FindObject2CByModel_5A6A90(s32 obj_type);
     EXPORT AttachedSprite_18* FindFirstActiveObject_5A6AD0();
-    EXPORT void RemoveSprite_5A6B10(Sprite* a2);
-    EXPORT void RemoveSpriteSafe_5A6B60(Sprite* a2);
+    EXPORT void RemoveSprite_5A6B10(Sprite* toFind);
+    EXPORT void RemoveSpriteSafe_5A6B60(Sprite* toFind);
     EXPORT void sub_5A6BB0();
     EXPORT void sub_5A6BD0();
     EXPORT void DispatchCarImpactEvents_5A6BF0(Sprite* pSprite);
-    EXPORT char_type TagSpriteWithRng_5A6C10(Sprite* a2);
-    EXPORT void RemoveByRngValue_5A6C40(s32 a2);
+    EXPORT char_type TagSpriteWithRng_5A6C10(Sprite* toFind);
+    EXPORT void RemoveByRngValue_5A6C40(s32 toFind);
     EXPORT Sprite* FirstSpriteOfType_5A6CA0(s32 sprite_type);
     EXPORT void AddSprite_5A6CD0(Sprite* pSprite);
     EXPORT void PushImpactEvent_5A6D00(Sprite* pSprite1, Fix16 x, Fix16 y, Ang16 angle);
@@ -53,7 +53,7 @@ class SpriteList_4
     EXPORT void ClearGangIconSprite_5A7110();
     EXPORT s32 GetGangIdxFromSpriteIfAny_5A71A0();
     EXPORT void sub_5A71F0();
-    EXPORT void PruneNonCollidingSprites_5A7240(Sprite* a2);
+    EXPORT void PruneNonCollidingSprites_5A7240(Sprite* pSprite);
     EXPORT void PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bUnknown);
     EXPORT char_type sub_5A7310();
 

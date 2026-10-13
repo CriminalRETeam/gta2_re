@@ -93,7 +93,7 @@ class PublicTransport_181C
     EXPORT void InitTrainStations_579440();
     EXPORT void SetupTrainAndBusStops_5794B0();
     EXPORT TrainStation_34* GetBusStopOnScreen_5799B0();
-    EXPORT void OnBusStopMarkerHit_579A30(Car_BC* a2);
+    EXPORT void OnBusStopMarkerHit_579A30(Car_BC* pToFind);
     EXPORT bool is_bus_579AA0(Car_BC* pCar);
     EXPORT Car_BC* sub_579AD0();
     EXPORT bool is_bus_full_579AF0();
@@ -105,9 +105,9 @@ class PublicTransport_181C
     EXPORT void PublicTransportService_57A7A0();
     EXPORT TrainStation_34* TrainStationForZone_57B4B0(gmp_map_zone* pZone);
     EXPORT Car_BC* GetLeadTrainCar_57B540(Car_BC* a2);
-    EXPORT Train_58* GetTrainFromCar_57B5C0(Car_BC* a2);
-    EXPORT Train_58* GetTrainFromCarExcludingLeadCar_57B6A0(Car_BC* a2);
-    EXPORT bool AreCarsInDifferentTrains_57B740(Car_BC* a2, Car_BC* a3);
+    EXPORT Train_58* GetTrainFromCar_57B5C0(Car_BC* pToFind);
+    EXPORT Train_58* GetTrainFromCarExcludingLeadCar_57B6A0(Car_BC* pToFind);
+    EXPORT bool AreCarsInDifferentTrains_57B740(Car_BC* pCar1, Car_BC* pCar2);
     EXPORT PublicTransport_181C();
     EXPORT ~PublicTransport_181C();
 

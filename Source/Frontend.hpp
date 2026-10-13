@@ -322,7 +322,7 @@ struct Frontend
 
     EXPORT static void __stdcall destroy_4AD070();
 
-    EXPORT void ChangeMenuPage_4B3170(u16 arg0);
+    EXPORT void ChangeMenuPage_4B3170(u16 menu_page_idx);
 
     EXPORT void InitSound_4B8680();
 
@@ -364,7 +364,7 @@ struct Frontend
 
     EXPORT u8 GetPrevUnlockedStageIndex_4B77B0(PlySlot_A4* a2);
 
-    EXPORT u8 GetPrevUnlockedStageBonusCode_4B7800(PlySlot_A4* a2);
+    EXPORT u8 GetPrevUnlockedStageBonusCode_4B7800(PlySlot_A4* pStats);
 
     EXPORT void StripPasswordToCurrLength_4B8530();
 
@@ -425,13 +425,13 @@ struct Frontend
 
     EXPORT static void __stdcall SetInputEnabled_5E53C0(BYTE* a1);
 
-    EXPORT static s32 __stdcall GetMaxTextWidth_5D8990(wchar_t* pStr, u16 a2);
+    EXPORT static s32 __stdcall GetMaxTextWidth_5D8990(wchar_t* pStr, u16 font_type);
 
-    EXPORT u16 GetCenteredXPos_4B0190(wchar_t* a2, u16 fontType, s32 width);
+    EXPORT u16 GetCenteredXPos_4B0190(wchar_t* pText, u16 fontType, s32 width);
 
     EXPORT u8 GetPreviousUnlockedMainStage_4B7060(u8 a2);
 
-    EXPORT u8 GetNextUnlockedMainStage_4B7270(char_type a2);
+    EXPORT u8 GetNextUnlockedMainStage_4B7270(char_type main_stage_idx);
 
     EXPORT bool ExistsPreviousMainStage_4B7490();
 
@@ -496,7 +496,7 @@ class FreeLoader
     EXPORT static s32 __stdcall GetCityInstalled_4AE0F0();
     EXPORT static char_type __stdcall CheckCityInstalled_4AE1F0(u8 a1);
     EXPORT static void __cdecl MessageBox_4AE170(UINT uType, LPCSTR lpCaption, LPCSTR lpFormat, ...);
-    EXPORT static LPCSTR __stdcall GetRegDword_4AE010(HKEY a1, LPCSTR a2, LPCSTR a3);
+    EXPORT static LPCSTR __stdcall GetRegDword_4AE010(HKEY hKey, LPCSTR lpValueName, LPCSTR a3);
 };
 
 EXPORT s32 IsFullScreen_5D98D0();

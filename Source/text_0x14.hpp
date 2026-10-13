@@ -72,7 +72,7 @@ class text_0x14
 
     EXPORT void RemapExtendedCharsIfNotJapanese_5B5910(wchar_t* a2);
 
-    EXPORT void RemapExtendedChars_5B5930(wchar_t* a1);
+    EXPORT void RemapExtendedChars_5B5930(wchar_t* pStr);
 
     EXPORT void TKEY_Load_5B5960(u32 size);
 
@@ -92,7 +92,7 @@ class text_0x14
 
     EXPORT static char_type* __stdcall Wide2PesudoAscii_5B5D10(const wchar_t* a1);
 
-    EXPORT static wchar_t* __stdcall Ascii2Wide_5B5DF0(char_type* a1);
+    EXPORT static wchar_t* __stdcall Ascii2Wide_5B5DF0(char_type* pStr);
 
     EXPORT void load_chunk_5B5E20(const char_type* chunk_type, u32 chunk_len);
 

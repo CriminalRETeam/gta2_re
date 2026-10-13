@@ -35,7 +35,7 @@ struct font_base
 
 struct sprite_index
 {
-    EXPORT void ClearPixelsOfColour_5ABAA0(u8 a2);
+    EXPORT void ClearPixelsOfColour_5ABAA0(u8 clear_target);
     EXPORT void CopyPixels_5ABB00(u8* dst_x);
 
     BYTE* field_0_pData;
@@ -267,7 +267,7 @@ class gtx_0x106C
 
     EXPORT u16 GetSpriteTrueIndex_5AA460(s32 sprite_type, s16 sprite_pal);
 
-    EXPORT s16 GetSpriteBaseOfType_5AA4F0(s32 a2);
+    EXPORT s16 GetSpriteBaseOfType_5AA4F0(s32 sprite_type);
 
     EXPORT s16 GetPaletteBaseOfType_5AA560(s32 palette_type);
 
@@ -277,13 +277,13 @@ class gtx_0x106C
 
     EXPORT u16 get_phys_pal_5AA6F0(u16 palId);
 
-    EXPORT u16 GetSpriteIdxFromFont_5AA710(u16 a2, s16 a3);
+    EXPORT u16 GetSpriteIdxFromFont_5AA710(u16 font_type, s16 offset);
 
-    EXPORT u16 GetFontWidth_5AA760(u16* a2, wchar_t* a3);
+    EXPORT u16 GetFontWidth_5AA760(u16* font_type, wchar_t* pStr);
 
-    EXPORT u16 GetSpaceCharWidth_5AA7B0(u16* a2);
+    EXPORT u16 GetSpaceCharWidth_5AA7B0(u16* font_type);
 
-    EXPORT s16 GetLineSpacing_5AA800(u16* a2);
+    EXPORT s16 GetLineSpacing_5AA800(u16* font_type);
 
     EXPORT bool IsTileRemapped_5AA850(u16 tile_idx);
 
@@ -333,7 +333,7 @@ class gtx_0x106C
 
     EXPORT void load_sprite_index_5AAF80(u32 sprx_chunk_size);
 
-    EXPORT void InitFontTypes_5AAFE0(u16 a1);
+    EXPORT void InitFontTypes_5AAFE0(u16 fontCount);
 
     EXPORT void load_font_base_5AB0F0(u32 fonb_chunk_size);
 

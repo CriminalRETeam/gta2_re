@@ -76,11 +76,11 @@ class cSampleManager
 
     EXPORT void SetChannel3DPosition_58DEA0(s32 channel, f32 x, f32 y, f32 z);
 
-    EXPORT void SetChannel3DDistances_58DED0(s32 a2, f32 a3, f32 a4);
+    EXPORT void SetChannel3DDistances_58DED0(s32 channel, f32 maxDist, f32 minDist);
 
-    EXPORT void SetChannel3DFrequency_58DF00(s32 a2, s32 a3);
+    EXPORT void SetChannel3DFrequency_58DF00(s32 channel, s32 freq);
 
-    EXPORT void SetChannel3DLoopPoints_58DF20(s32 a2, s32 a3, s32 a4);
+    EXPORT void SetChannel3DLoopPoints_58DF20(s32 channel, s32 a3, s32 a4);
 
     EXPORT void SetChannel3DLoopCount_58DF50(s32 channel, s32 a3);
 
@@ -93,7 +93,7 @@ class cSampleManager
     EXPORT u8 Get3DSampleCount_58E000();
     EXPORT void SetEaxEnvironment_58E010(s32 env_idx);
 
-    EXPORT char_type Open3DProvider_58E140(s32 a2);
+    EXPORT char_type Open3DProvider_58E140(s32 envIdx);
 
     // todo order
     EXPORT void Close3DProvider_58E1C0();

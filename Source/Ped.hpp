@@ -186,8 +186,8 @@ class Ped
     EXPORT void RespawnPed_45C350(gmp_map_zone* pZone);
     EXPORT void ResetForPlayerRespawn_45C410();
     EXPORT void UpdatePositionFromCar_45C4B0();
-    EXPORT void ChangeNextPedState1_45C500(s32 a2);
-    EXPORT void ChangeNextPedState2_45C540(s32 a2);
+    EXPORT void ChangeNextPedState1_45C500(s32 new_state);
+    EXPORT void ChangeNextPedState2_45C540(s32 new_state);
     EXPORT void RestorePreviousPedState_45C5A0();
     EXPORT void CancelEnterCarObjective_45C5C0();
     EXPORT void SpawnDriverRunAway_45C650(Car_BC* pCar, Ped* pPed);

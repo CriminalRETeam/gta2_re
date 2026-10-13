@@ -17,14 +17,14 @@ class Weapon_8
         return weapon_kind >= 15;
     }
 
-    EXPORT Weapon_30* allocate_5E3C10(s32 a2, Ped* a3, u8 a4);
+    EXPORT Weapon_30* allocate_5E3C10(s32 weapon_kind, Ped* pPed, u8 ammo);
     EXPORT void deallocate_5E3CB0(Weapon_30* pWeapon);
-    EXPORT Weapon_30* allocate_5E3CE0(s32 a1, Car_BC* a2, u8 a3);
-    EXPORT Weapon_30* find_5E3D20(Car_BC* a2, s32 a3);
-    EXPORT char_type allocate_5E3D50(s32 a2, u8 a3, Car_BC* a4);
-    EXPORT void dealloc_car_weapon_5E3DF0(Car_BC* a1);
-    EXPORT u8 get_max_ammo_capacity_5E3E70(s32 a2);
-    EXPORT u8 get_defalt_ammo_5E3E80(s32 a2);
+    EXPORT Weapon_30* allocate_5E3CE0(s32 weapon_kind, Car_BC* pCar, u8 ammo);
+    EXPORT Weapon_30* find_5E3D20(Car_BC* pCar, s32 weapon_kind);
+    EXPORT char_type allocate_5E3D50(s32 weapon_kind, u8 ammo, Car_BC* pCar);
+    EXPORT void dealloc_car_weapon_5E3DF0(Car_BC* pCar);
+    EXPORT u8 get_max_ammo_capacity_5E3E70(s32 weapon_kind);
+    EXPORT u8 get_defalt_ammo_5E3E80(s32 weapon_kind);
     EXPORT Weapon_8();
     EXPORT ~Weapon_8();
     SpriteList_4 field_0;

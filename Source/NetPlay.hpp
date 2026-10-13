@@ -203,7 +203,7 @@ struct NetPlay
     EXPORT void NetworkTick_51ED00();
     EXPORT s32 SendPing_51EF60();
     EXPORT char_type Receive_51F010(s32* pOutData, s32* pOutDataLen, unsigned long* recvId, unsigned long* senderId);
-    EXPORT void SendOrReceivePacket_51F0D0(void* pPacket, s32 a3, s32 a4, s32 a5);
+    EXPORT void SendOrReceivePacket_51F0D0(void* pPacket, s32 a3, s32 a4, s32 bSendOrRecv);
     EXPORT void ProcessPingOrHandshakeSend_51F110(void* pPacket, s32 a3, s32 a4, s32 a5);
     EXPORT s32 CalcPacketLen_51F210(s32 pPacket, u32 packetLen); // Also converts enums back
     EXPORT void MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pDataLen); // Format data before using IDirectPlay3::Send
@@ -230,7 +230,7 @@ struct NetPlay
     EXPORT void Set21_5210D0(s32 a2, s32 a3);
     EXPORT void GetPlayerName_521100(wchar_t* Destination, u32 idx);
     EXPORT void Set24_521140(s32 a2, s32 a3);
-    EXPORT s32 SetGameSettings_521170(Network_8* a2);
+    EXPORT s32 SetGameSettings_521170(Network_8* pObj);
     EXPORT void Set27SavePlayerName_5211F0(s32 a2, s32 a3);
     EXPORT void DisableJoining_521220();
     EXPORT s32 IsUserHost_5212E0();
@@ -238,7 +238,7 @@ struct NetPlay
     EXPORT s32 GetMaxPlayers_521350();
     EXPORT void Send_521370();
     EXPORT bool WaitForPlayersSync_5213E0();
-    EXPORT s32 CopyConnection_5215B0(u32 a2, u32* a3, size_t* a4);
+    EXPORT s32 CopyConnection_5215B0(u32 idx, u32* ppConnection, size_t* pLen);
     EXPORT s32 SendToPlayer_521630(Network_8* pSendData, s32 player_idx, char_type delayed_ticks);
     EXPORT void Add_5216E0(Network_8* pData, s32 id, char_type game_tick);
     EXPORT u32 GetLatestPacket_521770(Network_8* pOut, char_type* pSeq, u32* pPlayerId);

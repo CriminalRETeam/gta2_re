@@ -44,17 +44,17 @@ class Crane_15C
     EXPORT bool IsDropTransporterTargetValid_47F450();
     EXPORT void UpdateCraneTargets_47F4C0();
     EXPORT bool ComputeHookPolar_47F6C0(Fix16_Point& pPoint, Fix16* pOutF16, Fix16* pOutAng);
-    EXPORT void TargetTransporter_47F7F0(Car_BC* a2);
-    EXPORT void PickUpCar_47F930(Car_BC* a2);
+    EXPORT void TargetTransporter_47F7F0(Car_BC* pCar);
+    EXPORT void PickUpCar_47F930(Car_BC* pCar);
     EXPORT void TryNextDropPosition_47FB40();
     EXPORT s32 MoveTowardsTargets_47FBA0();
     EXPORT void ReleaseHookedCar_47FD10();
     EXPORT void UpdateCraneTick_47FD50();
     EXPORT void UpdateCraneSprites_47FE10();
     EXPORT void Service_480310();
-    EXPORT void InitCrane_4803B0(Fix16 a2, Fix16 a3, char_type a4);
-    EXPORT void CraneTargetPickupCheck_480900(Fix16 a2, Fix16 a3, Ang16 a4);
-    EXPORT void ComputePickupAlignment_480B60(Fix16 a2, Fix16 a3, Ang16 a4);
+    EXPORT void InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4);
+    EXPORT void CraneTargetPickupCheck_480900(Fix16 xpos, Fix16 ypos, Ang16 ang);
+    EXPORT void ComputePickupAlignment_480B60(Fix16 xpos, Fix16 ypos, Ang16 ang);
     EXPORT Car_BC* GetCarFromCrane_480DA0();
 
     inline void SetHomeRotation_4768E0(Ang16 rotation)
@@ -172,7 +172,7 @@ class CranePool_D9C
   public:
     EXPORT void PickUpCar_480E00(Car_BC* a2, u8 a3);
     EXPORT void CranesService_480E50();
-    EXPORT Crane_15C* NewCrane_480EC0(Fix16 a2, Fix16 a3);
+    EXPORT Crane_15C* NewCrane_480EC0(Fix16 x_pos, Fix16 y_pos);
     EXPORT CranePool_D9C();
     EXPORT ~CranePool_D9C();
 

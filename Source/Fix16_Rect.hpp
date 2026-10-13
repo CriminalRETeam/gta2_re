@@ -136,7 +136,7 @@ class Fix16_Rect
     EXPORT bool IntersectsSpriteRenderingRect_59DDF0(Sprite* a2);
     EXPORT char_type CanRectEnterMovementRegion_59DE80();
     EXPORT void ExpandToIncludePoint_59DEE0(Fix16 a2, Fix16 a3);
-    EXPORT bool RectOverlapsZone_59DF20(u8 a2);
+    EXPORT bool RectOverlapsZone_59DF20(u8 zone_type);
     EXPORT bool EveryTileMatchesArrowType_59DFB0(s32 a2);
 
     // 9.6f 0x4B9FD0

@@ -353,15 +353,15 @@ class Char_B4
     EXPORT void UpdateAnimState_546360();
     EXPORT void ManageZCoordAndSlopes_548590();
     EXPORT void DispatchCollision_548670(char_type a2);
-    EXPORT void HandleObjectCollision_548840(Object_2C* a2);
-    EXPORT void HandlePedCollision_548BD0(Char_B4* a2);
+    EXPORT void HandleObjectCollision_548840(Object_2C* pObj);
+    EXPORT void HandlePedCollision_548BD0(Char_B4* pOther);
     EXPORT void HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_B4* pChar);
     EXPORT char_type ContinueMovementAfterCollision_54B8F0();
     EXPORT void sub_54C090();
     EXPORT char_type CanMoveOntoSlope_54C1A0(s32 path_direction);
     inline void SetTurnTarget_492400(Ang16 target_rotation);
     EXPORT void sub_54C3E0();
-    EXPORT char_type CanMoveToTile_54C500(char_type a2, char_type a3);
+    EXPORT char_type CanMoveToTile_54C500(char_type x, char_type y);
     EXPORT void SelectRandomIdleBehavior_54C580();
     EXPORT void ApplyRandomRotationJitter_54C6C0();
     EXPORT void TickMovementStateMachine_54C900();
@@ -374,7 +374,7 @@ class Char_B4
     EXPORT bool CanStepForward_54FEC0(s32 direction);
     EXPORT bool CanReachTile_550090(u8 xpos, u8 ypos);
     EXPORT void state_1_5504F0();
-    EXPORT Ang16 GetNextRotationToward_550F60(Ang16 a3);
+    EXPORT Ang16 GetNextRotationToward_550F60(Ang16 inputAng);
     EXPORT bool CanStepInDirection_551350(Ang16 angle);
     EXPORT void ChooseNextMovementTile_551400();
     EXPORT void SelectNextTileFast_5516F0();
@@ -393,7 +393,7 @@ class Char_B4
     EXPORT bool PhoneTouched_5535B0(Object_2C* p2c);
     EXPORT char_type OnObjectTouched_553640(Object_2C* p2c);
     EXPORT char_type HandlePedObjectHit_5537F0(Object_2C* p2c);
-    EXPORT void HandleCarImpact_5538A0(Car_BC* pCar, u8 a3, Fix16 a4, Fix16 a5);
+    EXPORT void HandleCarImpact_5538A0(Car_BC* pCar, u8 bUnknown, Fix16 x, Fix16 y);
     EXPORT void HandleGenericImpact_553E00(Ang16 ang, Fix16 a3, Fix16 a4, char_type a5);
 
     EXPORT void nullsub_28();

@@ -13,9 +13,9 @@ class Car_Door_10
         return field_8_pObj;
     }
 
-    EXPORT void AnimateOpening_439CD0(u32* a2);
+    EXPORT void AnimateOpening_439CD0(u32* pRet);
     EXPORT void AnimateClosing_439D40(u32* a3);
-    EXPORT void Service_439DA0(u32* a3);
+    EXPORT void Service_439DA0(u32* a3a);
     EXPORT void Init_439E40(u8 a2);
     EXPORT void Open_439E60();
     EXPORT void Close_439EA0();

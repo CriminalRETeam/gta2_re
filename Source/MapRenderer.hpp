@@ -46,7 +46,7 @@ class MapRenderer
         set_shading_lev_4E9DB0(15u);
     }
 
-    EXPORT void SetAmbientLevel_4E9D50(s32& a2, u16& a3);
+    EXPORT void SetAmbientLevel_4E9D50(s32& target_level, u16& cycles);
     EXPORT void set_shading_lev_4E9DB0(u8 shading_lev);
     EXPORT void draw_4E9EE0(u16& word_side, const bool& bUnk, u8 colour);
     EXPORT void ambient_light_tick_4E9EA0();
@@ -61,7 +61,7 @@ class MapRenderer
     EXPORT void DrawDiagonalUpRightFace_4EC7A0(u16& right_word);
     EXPORT void DrawDiagonalDownLeftFace_4ECAF0(u16& left_word);
     EXPORT void DrawDiagonalDownRightFace_4ECE40(u16& right_word);
-    EXPORT void draw_bottom_4ED290(u16& a2);
+    EXPORT void draw_bottom_4ED290(u16& bottom_word);
     EXPORT void draw_lid_4EE130();
 
     // Note: These are func chunks

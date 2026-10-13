@@ -13,7 +13,7 @@ class Generator_2C
     EXPORT s32 next_cycle_4C1AB0();
     EXPORT void SpawnObject_4C1B10();
     EXPORT void Service_4C1C50();
-    EXPORT void Init_4C1C70(Fix16 a2, Fix16 a3, Fix16 a4, Ang16 a5, s32 a6, s16 a7, s16 a8);
+    EXPORT void Init_4C1C70(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generator_type, s16 min_delay, s16 max_delay);
 
     s32 field_0_gen_type;
     Fix16 field_4_x;
@@ -39,7 +39,7 @@ class GeneratorPool_14AC
   public:
     EXPORT void sub_4C1CD0();
     EXPORT void GeneratorsService_4C1D70();
-    EXPORT Generator_2C* CreateGenerator_4C1DC0(Fix16 a2, Fix16 a3, Fix16 a4, Ang16 a5, s32 a6, s16 a7, s16 a8);
+    EXPORT Generator_2C* CreateGenerator_4C1DC0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 type, s16 min_delay, s16 max_delay);
     EXPORT GeneratorPool_14AC();
     Generator_2C field_0_pool[120];
     s32 field_14A0_count;

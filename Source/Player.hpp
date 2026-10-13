@@ -214,27 +214,27 @@ class Player
     EXPORT s32 ObjectTypeToWeaponType_443CB0(u8 object_type);
 
     EXPORT u8 GetIdx_4881E0();
-    EXPORT void AddCarToHistory_5645B0(Car_BC* a2);
+    EXPORT void AddCarToHistory_5645B0(Car_BC* pNewCar);
     EXPORT bool PromoteCarInHistory_564610(Car_BC* pCar, bool bDontModify);
-    EXPORT void PushCarInfo_564680(Car_BC* a2);
+    EXPORT void PushCarInfo_564680(Car_BC* pCar);
     EXPORT void SetKFCarWeapon_564710(Car_BC* pCar, s32 weapon_kind);
     EXPORT void SetKFWeapon_564790(s32 idx);
     EXPORT void ClearKFWeapon_5647D0();
     EXPORT Weapon_30* GetCurrPlayerWeapon_5648F0();
     EXPORT void SetWeapon_564910(Weapon_30* a2);
     EXPORT char_type HasAnyAmmo_564940();
-    EXPORT char_type AddWeaponWithAmmo_564960(s32 a2, u8 a3);
+    EXPORT char_type AddWeaponWithAmmo_564960(s32 weapon_kind, u8 ammo);
     EXPORT void SelectNextOrPrevWeapon_5649D0(char_type bFowards, char_type bBackwards);
-    EXPORT void LoadCarWeapons_564AD0(Car_BC* a2);
+    EXPORT void LoadCarWeapons_564AD0(Car_BC* pCar);
     EXPORT void ClearCarWeapons_564B60();
     EXPORT void CleanupEmptyAmmoWeapons_564B80();
     EXPORT void UnloadCarWeapons_564C00();
     EXPORT void RemovePlayerWeapons_564C50();
     EXPORT void ClearPowerUps_564CC0();
     EXPORT void ClearPowerUpsExceptJailCard_564CF0();
-    EXPORT char_type CollectPowerUp_564D60(s32 a2);
+    EXPORT char_type CollectPowerUp_564D60(s32 power_up_idx);
     EXPORT void tick_down_powerups_565070();
-    EXPORT void RestorePowerUpsFromSave_5651F0(SavedPlayerStats_90* a2);
+    EXPORT void RestorePowerUpsFromSave_5651F0(SavedPlayerStats_90* pSaveStats);
     EXPORT void TeleportToDebugCam_565310();
     EXPORT void DebugWatchNearestCar_5653E0();
     EXPORT void sub_565460();
@@ -243,13 +243,13 @@ class Player
     EXPORT void IncrementGangRespectFromDebugKeys_565770(u8 count);
     EXPORT void IncreaseWantedLevelFromDebugKeys_565860();
     EXPORT void Hud_Controls_565890(u16 action);
-    EXPORT void HandleKeyRelease_566380(u16 a2);
+    EXPORT void HandleKeyRelease_566380(u16 key);
     EXPORT void CharacterControls_566520();
     EXPORT void ControlInputs_566820();
-    EXPORT void HandleControls_5668D0(Ped* a2);
+    EXPORT void HandleControls_5668D0(Ped* pPed);
     EXPORT void DoCarControlInputs_566C30(Car_BC* pCar);
-    EXPORT void DoPedControlInputs_566C80(Ped* a2);
-    EXPORT void ShowDebugInfo_566EE0(char_type a2);
+    EXPORT void DoPedControlInputs_566C80(Ped* pPed);
+    EXPORT void ShowDebugInfo_566EE0(char_type bDoNothing);
     EXPORT void RespawnPlayer_5670B0();
     EXPORT void Wasted_567130();
     EXPORT void UpdateAuxPedDeath_567850();
@@ -265,10 +265,10 @@ class Player
     EXPORT void ResetAuxCamera_5695A0();
     EXPORT void StartRemoteControl_569600(Car_BC* pCar);
     EXPORT void WatchCar_5696D0(Car_BC* pCar);
-    EXPORT void GetPosU8_569840(u8& a2, u8& a3, u8& a4);
+    EXPORT void GetPosU8_569840(u8& x, u8& y, u8& z);
     EXPORT Car_BC* GetPlayerCar_5698E0();
-    EXPORT void get_pos_569920(Fix16* a2, Fix16* a3, Fix16* a4);
-    EXPORT void ChangeLifeCountByAmount_5699F0(s32 a2);
+    EXPORT void get_pos_569920(Fix16* pXPos, Fix16* pYPos, Fix16* pZPos);
+    EXPORT void ChangeLifeCountByAmount_5699F0(s32 amount);
     EXPORT void ColorScoreFromRemap_569A10();
     EXPORT void SetScoreTextColour_569C20();
     EXPORT void InitializePlayerState_569CB0();
@@ -283,12 +283,12 @@ class Player
     EXPORT void EnableEnterVehicles_56A040();
     EXPORT void RestoreCarsFromSave_56A0F0();
     EXPORT void CopyPlayerDataToSave_56A1A0(SavedPlayerStats_90* pSave);
-    EXPORT void UpdateGameFromSave_56A310(SavedPlayerStats_90* a2);
+    EXPORT void UpdateGameFromSave_56A310(SavedPlayerStats_90* pSave);
     EXPORT void ApplyCheats_56A490();
     EXPORT void ClearInputs_56A6D0();
 
     // 0x56A740
-    EXPORT Player(u8 a2);
+    EXPORT Player(u8 player_idx);
 
     // 0x56A940
     EXPORT ~Player();

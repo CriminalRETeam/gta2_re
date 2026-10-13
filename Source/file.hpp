@@ -10,19 +10,19 @@ class File
     // or static with explicit __stdcall
     EXPORT static s32 __stdcall GetFileSize_4A6B10(FILE* Stream);
 
-    EXPORT static bool __stdcall IsCdRomDrive_4A6BB0(char_type a1);
+    EXPORT static bool __stdcall IsCdRomDrive_4A6BB0(char_type driveLetter);
 
     EXPORT static void __stdcall CheckReadOnlyFile_4A6BE0(const char_type* FileName, s32 expectedSize);
-    EXPORT static void* __stdcall ReadFileToBuffer_4A6C80(const char_type* FileName, size_t* a2);
+    EXPORT static void* __stdcall ReadFileToBuffer_4A6C80(const char_type* FileName, size_t* pAllocatedBufferSize);
     EXPORT static size_t __stdcall ReadFileToFixedBuffer_4A6DB0(const char_type* FileName, void* pBuffer, size_t* pMaxSize);
 
     EXPORT static size_t __stdcall Read_4A6D90(void* Buffer, size_t ElementSize, size_t ElementCount, FILE* Stream);
 
-    EXPORT static void __stdcall WriteBufferToFile_4A6E80(const char_type* FileName, void* Buffer, size_t* a3);
+    EXPORT static void __stdcall WriteBufferToFile_4A6E80(const char_type* FileName, void* Buffer, size_t* pBufferSize);
 
     EXPORT static size_t __stdcall Write_4A6F30(void* Buffer, size_t ElementSize, size_t ElementCount, FILE* Stream);
 
-    EXPORT static void __stdcall AppendBufferToFile_4A6F50(const char_type* FileName, void* Buffer, size_t* a3);
+    EXPORT static void __stdcall AppendBufferToFile_4A6F50(const char_type* FileName, void* Buffer, size_t* pBufferSize);
 
     EXPORT static void __stdcall CreateFile_4A7000(const char_type* FileName);
 

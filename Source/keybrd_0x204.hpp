@@ -14,7 +14,7 @@ class keybrd_0x204
 
     EXPORT void LoadKbCfg_4D5E00();
 
-    EXPORT wchar_t GetKey_4D5F40(u16 a1);
+    EXPORT wchar_t GetKey_4D5F40(u16 key_idx);
 
     EXPORT static void __stdcall create_4D5F50();
 

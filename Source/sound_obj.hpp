@@ -273,7 +273,7 @@ class sound_obj
 
     EXPORT void null_412240();
     EXPORT void null_412250();
-    EXPORT char_type InitSampleForType_412260(sound_0x68* a1);
+    EXPORT char_type InitSampleForType_412260(sound_0x68* pObj);
     EXPORT void ProcessEntity_4123A0(s32 idx);
     EXPORT void ProcessType2_412490(s32 idx);
     EXPORT void ProcessType1_Sprite_412740(s32 idx);
@@ -305,7 +305,7 @@ class sound_obj
     EXPORT bool GetCar_4145E0(s32 idx, Car_BC** ppOut);
     EXPORT char_type Type_17_414690(sound_0x68* pObj);
     EXPORT void TrainCab_414710(Sound_Params_8* a2);
-    EXPORT char_type Type_19_4149D0(sound_0x68* a1);
+    EXPORT char_type Type_19_4149D0(sound_0x68* pObj);
     EXPORT void Tank_414A50(Sound_Params_8* a2);
     EXPORT char_type Type_12_414C90(sound_0x68* p68);
     EXPORT void Tank_414D30(Sound_Params_8* a2);
@@ -313,7 +313,7 @@ class sound_obj
     EXPORT void HandleCarBurningSound_414F90(Sound_Params_8* a2);
     EXPORT char_type Type_15_415100(sound_0x68* a1);
     EXPORT void Tank_415190(Sound_Params_8* a2);
-    EXPORT char_type Type_13_4153F0(sound_0x68* a1);
+    EXPORT char_type Type_13_4153F0(sound_0x68* pObj);
     EXPORT void HandleCarWeaponHitSound_415480(Sound_Params_8* a2);
     EXPORT void HandleCarAlarmSound_415570(Sound_Params_8* a2, SoundPosEntry_C* pAlloc);
     EXPORT char_type Type_5_InitEngineSoundProfile_415730(sound_0x68* a1);
@@ -324,36 +324,36 @@ class sound_obj
     EXPORT void HandleCarDamageSound_4177D0(Sound_Params_8* a2);
     EXPORT void HandleSirenActivationSound_4178C0(Sound_Params_8* a2);
     EXPORT char_type Type_4_417A00(sound_0x68* a2);
-    EXPORT s32 GetVehicleAudioClass_417BA0(s32 a1);
+    EXPORT s32 GetVehicleAudioClass_417BA0(s32 car_model);
     EXPORT s32 ConvertToPlayBackRate_417C60(s32 a1);
     EXPORT void HandleHeavyVehicleStopSound_417E30(Sound_Params_8* a2, SoundPosEntry_C* a3);
-    EXPORT s32 Type_7_417EF0(sound_0x68* a2);
+    EXPORT s32 Type_7_417EF0(sound_0x68* pObj);
     EXPORT char_type IsHeavyTruckOrBus_417F40(s32 a1);
     EXPORT void HandleTruckCorneringAudio_417FD0(Sound_Params_8* a2);
-    EXPORT char_type Type_8_418130(sound_0x68* a1);
+    EXPORT char_type Type_8_418130(sound_0x68* pObj);
     EXPORT void HandleAICarEngineSound_418190(Sound_Params_8* a2);
-    EXPORT char_type Type_2_4182A0(sound_0x68* a1);
+    EXPORT char_type Type_2_4182A0(sound_0x68* pObj);
     EXPORT void HandleCarDoorSounds_4182E0(Sound_Params_8* a2);
     EXPORT void UpdateCarSurfaceAudio_418610(Sound_Params_8* a2);
-    EXPORT char_type Type_9_4186D0(sound_0x68* a2);
+    EXPORT char_type Type_9_4186D0(sound_0x68* pObj);
     EXPORT void HandleCarTireScrubSound_418720(Sound_Params_8* a2);
     EXPORT char_type Type_10_HandleCarSkidSound_418940(sound_0x68* a2);
     EXPORT void ProcessType11_HudPager_418B60(s32 a2);
     EXPORT void AddVocalsEntity_418C20();
     EXPORT void RemoveVocalsEntity_418C60();
-    EXPORT void PlayVocal_418C80(s32 a2);
+    EXPORT void PlayVocal_418C80(s32 vocal_idx);
     EXPORT void ProcessType10_Vocals_418CA0();
     EXPORT char_type CalculateDistance_419020(Fix16 new_dist);
     EXPORT bool VolCalc_419070(u8 a2, Fix16 a3, char_type a4);
     EXPORT Fix16 ComputeEmitterDistanceSquared_4190B0();
-    EXPORT s32 AddSoundObject_419FA0(SoundObject_10* a2);
+    EXPORT s32 AddSoundObject_419FA0(SoundObject_10* pTuring);
 
-    EXPORT void FreeSoundEntry_41A090(u32 a2);
+    EXPORT void FreeSoundEntry_41A090(u32 idx);
     EXPORT char_type LoadStyle_41A1B0(const char_type* pStyleName);
     EXPORT const char_type* GetFileName_41A1E0(const char_type* Str);
     EXPORT void SetSfxVol_41A250(u8 sfxVol);
     EXPORT void SetCDVol_41A270(u8 cdVol);
-    EXPORT char_type Set3DSound_41A2F0(char_type a2);
+    EXPORT char_type Set3DSound_41A2F0(char_type b3dSound);
     EXPORT void ServiceSoundEffects_41A3A0();
     EXPORT char_type CalcVolume_41A3F0(u8 a1, Fix16 a2, Fix16 a3);
     EXPORT u8 ComputePan_41A4A0(Fix16 a1, Fix16 a2);
@@ -363,7 +363,7 @@ class sound_obj
     EXPORT void IncrementAudioEntitiesAge_41A6F0();
     EXPORT void InterrogateAudioEntities_41A730();
     EXPORT void AddSampleToRequestedQueue_41A850();
-    EXPORT void AddDetailsToRequestedOrderList_41A910(u8 a2);
+    EXPORT void AddDetailsToRequestedOrderList_41A910(u8 sample);
     EXPORT void AddReleasingSounds_41A9D0();
     EXPORT void ProcessActiveQueues_41AB80();
 
@@ -387,10 +387,10 @@ class sound_obj
     EXPORT void ResetRadioMessageState_426750();
     EXPORT void PoliceRadioMessageGeneration_426790();
     EXPORT void EnqueueRadioLocationPhrase_426E10(u8 xpos, u8 ypos);
-    EXPORT void GenerateRadioVehicleDescription_426F20(Car_BC* a2);
+    EXPORT void GenerateRadioVehicleDescription_426F20(Car_BC* pCar);
 
     EXPORT void Init_RadioMessageQueue_427180();
-    EXPORT void EnqueueRadioWord_4271B0(u32 a2);
+    EXPORT void EnqueueRadioWord_4271B0(u32 val);
     EXPORT void ProcessPoliceRadioWordsPlayback_427220();
     EXPORT u8 GetQueuedRadioWordCount_427310();
     EXPORT void EnqueueRadioCrimeCallout_427340(s32 word_base, u8 xpos, u8 ypos);
@@ -401,7 +401,7 @@ class sound_obj
     EXPORT void ProcessType7_Weapon_42A500(s32 idx);
 
     EXPORT void ProcessType3_CopRadioAndMusic_57DD50();
-    EXPORT void HandleVocalStreamSwitching_57DF10(char_type a2);
+    EXPORT void HandleVocalStreamSwitching_57DF10(char_type bFastForward);
     EXPORT void UpdateCarEngineAudio_57E220();
     EXPORT void UpdateVocalStream_57E510();
     EXPORT void Type3_CopRadioReport_57E680();
@@ -412,7 +412,7 @@ class sound_obj
     EXPORT char_type ComputeRadioEmitterVolume_57EB90(u8 emitterIndex, s32 bUseFarRadius);
     EXPORT void DeclareRadioStation_57ECB0(s32 station_idx, Fix16 xpos, Fix16 ypos);
     EXPORT void sub_57EDB0(sound_f16_pos_0x1C* pEmitter, s32 type);
-    EXPORT void RemoveSound_57EE30(Fix16 a2, Fix16 a3);
+    EXPORT void RemoveSound_57EE30(Fix16 xpos, Fix16 ypos);
     EXPORT void CycleRadioStation_57EEE0(char_type bPrev);
     EXPORT void SelectBestRadioEmitter_57EF60();
     EXPORT u8 FindEmitterByStatus_57F050(s32 status);

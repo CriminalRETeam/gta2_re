@@ -279,8 +279,8 @@ class Fix16_Point
     // Out-of-line copy of RotateByAngle_40F6B0, emitted in CarPhysics_B0.cpp
     EXPORT void RotateVelocity_562C20(const Ang16& angle);
 
-    EXPORT Fix16_Point Multiply_438FE0(Fix16& a1);
-    EXPORT Fix16_Point Divide_442CB0(Fix16& a1);
+    EXPORT Fix16_Point Multiply_438FE0(Fix16& in);
+    EXPORT Fix16_Point Divide_442CB0(Fix16& in);
 
     // Divide_442CB0 as a nothrow inline (see DivideInl_55F9E0; CarPhysics_B0::HandleObjectCollision_5606C0,
     // Car_BC::ApplyExplosionImpulse_443710)
