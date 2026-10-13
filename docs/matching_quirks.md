@@ -1387,7 +1387,7 @@ atan2 returns into, straight into the hidden return slot; a named local copies f
 (`Car_BC::GetCornerAngle_4403A0`: `return Ang16(atan2(...).rValue);`).
 
 **A temporary that only gets an `init` call is raw storage.** `GangPool_CA8::SwapGangSlots_4BF230` calls
-only `init_4BED70` on its swap temporary, with no Gang_144 ctor or dtor: a `u8` buffer plus a reference to
+only `Init_4BED70` on its swap temporary, with no Gang_144 ctor or dtor: a `u8` buffer plus a reference to
 it, with the init called explicitly.
 
 **Explicit `Fix16(113)` vs an implicit `113` argument.** In a big function the explicit form is built out of

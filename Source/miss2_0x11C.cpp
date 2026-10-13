@@ -825,16 +825,16 @@ void miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
 
     string_entry = gScriptManager_6F8060->FindStringById_503080(pCmd->field_8_gangname);
 
-    Gang_144* pZone = gGangPool_CA8_67E274->gang_by_name_4BF100((char*)&string_entry[1]);
-    pZone->set_field_101_4758A0(pCmd->field_A_remap);
+    Gang_144* pZone = gGangPool_CA8_67E274->FindGangByName_4BF100((char*)&string_entry[1]);
+    pZone->SetRemap_4758A0(pCmd->field_A_remap);
 
-    pZone->set_basic_weapon_4758B0(pCmd->field_B_weapon1);
-    pZone->set_angry_weapon_4758C0(pCmd->field_C_weapon2);
-    pZone->set_hate_weapon_4758D0(pCmd->field_D_weapon3);
+    pZone->SetBasicWeapon_4758B0(pCmd->field_B_weapon1);
+    pZone->SetAngryWeapon_4758C0(pCmd->field_C_weapon2);
+    pZone->SetHateWeapon_4758D0(pCmd->field_D_weapon3);
 
-    pZone->set_arrow_colour_475940(pCmd->field_E_arrow_id);
-    pZone->set_gang_car_model_4758E0(pCmd->field_1C_car_model);
-    pZone->set_gang_car_remap_4758F0(pCmd->field_1E_car_remap);
+    pZone->SetArrowColour_475940(pCmd->field_E_arrow_id);
+    pZone->SetGangCarModel_4758E0(pCmd->field_1C_car_model);
+    pZone->SetGangCarRemap_4758F0(pCmd->field_1E_car_remap);
 
     if (pCmd->field_10_pos.field_8_z == kFp255_6F7570)
     {
@@ -843,12 +843,12 @@ void miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
             gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_10_pos.field_0_x, pCmd->field_10_pos.field_4_y);
     }
 
-    pZone->set_info_phone_pos_475910(pCmd->field_10_pos.field_0_x, pCmd->field_10_pos.field_4_y, pCmd->field_10_pos.field_8_z);
+    pZone->SetInfoPhonePos_475910(pCmd->field_10_pos.field_0_x, pCmd->field_10_pos.field_4_y, pCmd->field_10_pos.field_8_z);
 
-    pZone->set_kill_respect_change_475950(pCmd->field_F_kill_respect_change);
+    pZone->SetKillRespectChange_475950(pCmd->field_F_kill_respect_change);
     gGangPool_CA8_67E274->SwapGangSlots_4BF230(pZone, gScriptManager_6F8060->field_354_next_gang_idx);
     ++gScriptManager_6F8060->field_354_next_gang_idx;
-    Gang_144* pGang = gGangPool_CA8_67E274->gang_by_name_4BF100((char*)&string_entry[1]);
+    Gang_144* pGang = gGangPool_CA8_67E274->FindGangByName_4BF100((char*)&string_entry[1]);
 
     if ((u8)pCmd->field_F_kill_respect_change > 0)
     {
@@ -3527,7 +3527,7 @@ void miss2_0x11C::SCRCMD_SET_GANG_KILL_REACTION_50AC20()
                           5217,
                           (u16)gBasePtr_6F8070->field_0_cmd_this);
     }
-    Gang_144* pGang_1 = gGangPool_CA8_67E274->gang_by_name_4BF100(gang_1_str->get_name());
+    Gang_144* pGang_1 = gGangPool_CA8_67E274->FindGangByName_4BF100(gang_1_str->get_name());
     str_table_entry* gang_2_str = gScriptManager_6F8060->FindStringById_503080(pCmd->field_C_unsigned_3);
     if (gang_2_str == NULL)
     {
@@ -3536,10 +3536,10 @@ void miss2_0x11C::SCRCMD_SET_GANG_KILL_REACTION_50AC20()
                           5223,
                           (u16)gBasePtr_6F8070->field_0_cmd_this);
     }
-    Gang_144* pGang_2 = gGangPool_CA8_67E274->gang_by_name_4BF100(gang_2_str->get_name());
+    Gang_144* pGang_2 = gGangPool_CA8_67E274->FindGangByName_4BF100(gang_2_str->get_name());
     pGang_1->SetGangKillReaction_4BEF50(pGang_2->field_1_gang_idx, pCmd->field_A_unsigned_2);
-    pGang_1->set_field_111_475900(1);
-    pGang_2->set_field_111_475900(1);
+    pGang_1->SetKillAffectsRespect_475900(1);
+    pGang_2->SetKillAffectsRespect_475900(1);
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -3551,7 +3551,7 @@ void miss2_0x11C::SCRCMD_CHANGE_RESPECT_50ACF0()
     str_table_entry* StringById_503080 = gScriptManager_6F8060->FindStringById_503080(gBasePtr_6F8070->field_8_index);
 
     char* gang_zone_name = (char*)&StringById_503080[1];
-    Gang_144* pGang = gGangPool_CA8_67E274->gang_by_name_4BF100(gang_zone_name);
+    Gang_144* pGang = gGangPool_CA8_67E274->FindGangByName_4BF100(gang_zone_name);
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_unsigned_3);
 
     // pCmd->field_A_signed_2 = respect parameter
@@ -3561,7 +3561,7 @@ void miss2_0x11C::SCRCMD_CHANGE_RESPECT_50ACF0()
         case SCRCMD_SET_CHAR_RESPECT:
 
             pGang->SetRespect_4BEE30(pPointer->field_8_char->field_15C_player->get_idx_4219D0(), 20 * ((u8)pCmd->field_A_signed_2));
-            pGang->set_field_111_475900(1);
+            pGang->SetKillAffectsRespect_475900(1);
             break;
         case SCRCMD_CHANGE_RESPECT:
             if (pCmd->field_A_signed_2 > 0)
@@ -3586,7 +3586,7 @@ void miss2_0x11C::RespectOperator_50AEF0()
     SCR_FOUR_PARAMS* pCmd = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_unsigned_1);
     str_table_entry* pStr = gScriptManager_6F8060->FindStringById_503080(pCmd->field_C_unsigned_3);
-    Gang_144* pGang = gGangPool_CA8_67E274->gang_by_name_4BF100(pStr->get_name());
+    Gang_144* pGang = gGangPool_CA8_67E274->FindGangByName_4BF100(pStr->get_name());
 
     switch (pCmd->field_2_type)
     {
@@ -3929,7 +3929,7 @@ void miss2_0x11C::SCRCMD_IS_CHAR_IN_GANG_50B7D0()
     SCR_POINTER* BasePointer_512770 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     str_table_entry* StringById_503080 = gScriptManager_6F8060->FindStringById_503080(pCmd->field_A_gang_idx);
     const char_type* GangName = (char*)&StringById_503080[1];
-    Gang_144* pGang = gGangPool_CA8_67E274->gang_by_name_4BF100(GangName);
+    Gang_144* pGang = gGangPool_CA8_67E274->FindGangByName_4BF100(GangName);
     Ped* pPed = BasePointer_512770->field_8_char;
     if (pPed->is_player_41B0A0())
     {
@@ -4487,7 +4487,7 @@ void miss2_0x11C::SCRCMD_ADD_CHAR_TO_GANG_50C540()
 
     char* gang_zone_name = (char*)&StringById_503080[1];
 
-    pPointer->field_8_char->field_17C_pGang = gGangPool_CA8_67E274->gang_by_name_4BF100(gang_zone_name);
+    pPointer->field_8_char->field_17C_pGang = gGangPool_CA8_67E274->FindGangByName_4BF100(gang_zone_name);
 
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -4949,7 +4949,7 @@ void miss2_0x11C::SCRCMD_PHONE_TEMPLATE_50CE90()
 
     str_table_entry* pGangNameEntry = gScriptManager_6F8060->FindStringById_503080(pCmd->field_18_gangname);
     char_type* gang_name = (char_type*)&pGangNameEntry[1];
-    Gang_144* pGang = gGangPool_CA8_67E274->gang_by_name_4BF100(gang_name);
+    Gang_144* pGang = gGangPool_CA8_67E274->FindGangByName_4BF100(gang_name);
 
     s8 player_idx1;
 
@@ -5432,7 +5432,7 @@ void miss2_0x11C::StartBonus_50DF10()
     {
         case 2:
         case 3:
-            gang_idx = gGangPool_CA8_67E274->get_gang_idx_by_name_4BF210(
+            gang_idx = gGangPool_CA8_67E274->GetGangIdxByName_4BF210(
                 gScriptManager_6F8060->FindStringById_503080(pCmd->field_E_id)->get_name());
             break;
         case 0:
@@ -5998,7 +5998,7 @@ void miss2_0x11C::SCRCMD_DO_EASY_PHONE_50EDC0() //  EASY_PHONE_TEMPLATE
     pParam5 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_16_counter5);
     str_table_entry* StringById = gScriptManager_6F8060->FindStringById_503080(pCmd->field_18_gangname);
     char_type* gang_name = (char_type*)&StringById[1];
-    Gang_144* pGang_zone = gGangPool_CA8_67E274->gang_by_name_4BF100(gang_name);
+    Gang_144* pGang_zone = gGangPool_CA8_67E274->FindGangByName_4BF100(gang_name);
     if (pParam3->field_8_counter == 1) //  flag_on_[gang1]_mission == 1
     {
         s32 briefId = pCmd->field_8_brief_id - 5;

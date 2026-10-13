@@ -260,7 +260,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                 gmp_map_zone* pMapZone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(xpos.ToInt(), ypos.ToInt(), 14u);
                 if (pMapZone)
                 {
-                    Gang_144* pGang = gGangPool_CA8_67E274->gang_by_name_4BF100(pMapZone->field_6_name);
+                    Gang_144* pGang = gGangPool_CA8_67E274->FindGangByName_4BF100(pMapZone->field_6_name);
                     if ((u8)gNumberArmedGangMembers_6787CE < 4u)
                     {
                         ++gNumberArmedGangMembers_6787CE;
@@ -277,11 +277,11 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                         }
                         pPed->field_26C_graphic_type = ped_graphic_type::character_1;
                         pPed->SetPedClass_433BC0(ped_class::gang_member_1);
-                        pPed->ForceWeapon_46F600(pPed->field_17C_pGang->GetGangCurrWeapon_4BF0C0());
+                        pPed->ForceWeapon_46F600(pPed->field_17C_pGang->GetCurrentWeapon_4BF0C0());
                         if (pPed->field_170_selected_weapon && pPed->field_170_selected_weapon->field_1C_idx)
                         {
                             pPed->field_21C_bf.bArmedGangMember = true;
-                            pGang->field_141_bAlwaysBasicWeapon = 1;
+                            pGang->field_141_always_basic_weapon = 1;
                         }
                         pPed->GiveWeapon_46F650(weapon_type::pistol);
                         pPed->field_270_fire_mode = ped_fire_mode::random_shots_0;
@@ -870,7 +870,7 @@ Ped* PedManager::SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang)
     pNewPed->field_26C_graphic_type = ped_graphic_type::character_1;
     pNewPed->SetPedClass_433BC0(ped_class::gang_member_1);
 
-    pNewPed->ForceWeapon_46F600(pNewPed->field_17C_pGang->GetGangCurrWeapon_4BF0C0());
+    pNewPed->ForceWeapon_46F600(pNewPed->field_17C_pGang->GetCurrentWeapon_4BF0C0());
     pNewPed->GiveWeapon_46F650(weapon_type::pistol);
 
     pNewPed->field_270_fire_mode = ped_fire_mode::random_shots_0;

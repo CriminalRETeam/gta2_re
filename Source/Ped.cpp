@@ -1789,7 +1789,7 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
                 return 1;
             }
 
-            if (pMyGang->field_110_high_respect != 0)
+            if (pMyGang->field_110_has_high_respect != 0)
             {
                 switch (pTargetPed->field_240_occupation)
                 {
@@ -2645,9 +2645,9 @@ void Ped::Deallocate_45EB60()
 
     if (field_17C_pGang)
     {
-        if (field_17C_pGang->field_141_bAlwaysBasicWeapon)
+        if (field_17C_pGang->field_141_always_basic_weapon)
         {
-            field_17C_pGang->field_141_bAlwaysBasicWeapon = 0;
+            field_17C_pGang->field_141_always_basic_weapon = 0;
         }
     }
     field_164_ped_group = field_164_ped_group;
@@ -6076,7 +6076,7 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
                 return 1;
             }
 
-            if (pMyGang->field_110_high_respect != 0)
+            if (pMyGang->field_110_has_high_respect != 0)
             {
                 switch (pTargetPed->field_240_occupation)
                 {
@@ -11486,7 +11486,7 @@ void Ped::ApplyGangRespectForKill_46F680(Ped* pPed)
 {
     if (field_17C_pGang)
     {
-        if (field_17C_pGang->get_field_111_433B30())
+        if (field_17C_pGang->DoesKillAffectRespect_433B30())
         {
             if (field_290_death_cause != ped_death_cause::run_over_by_stolen_car_3 && field_290_death_cause != ped_death_cause::run_over_1)
             {
@@ -11500,7 +11500,7 @@ void Ped::ApplyGangRespectForKill_46F680(Ped* pPed)
     }
     else
     {
-        if (field_19C_dummy_gang && field_19C_dummy_gang->field_111_bKillAffectsRespect)
+        if (field_19C_dummy_gang && field_19C_dummy_gang->field_111_kill_affects_respect)
         {
             if (field_290_death_cause != ped_death_cause::run_over_by_stolen_car_3 && field_290_death_cause != ped_death_cause::run_over_1)
             {

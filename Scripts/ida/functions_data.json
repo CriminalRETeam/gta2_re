@@ -7196,13 +7196,13 @@
         "v96f_auto": true
     },
     {
-        "name": "Gang_144::get_name_wide_4BED30",
+        "name": "Gang_144::GetNameWide_4BED30",
         "v96f_address": "0x45d920",
         "v105_address": "0x4bed30",
         "v96f_auto": true
     },
     {
-        "name": "Gang_144::init_4BED70",
+        "name": "Gang_144::Init_4BED70",
         "v96f_address": "0x45d960",
         "v105_address": "0x4bed70",
         "v96f_auto": true
@@ -7261,25 +7261,25 @@
         "v96f_auto": true
     },
     {
-        "name": "Gang_144::set_name_4BF090",
+        "name": "Gang_144::SetName_4BF090",
         "v96f_address": "0x45db40",
         "v105_address": "0x4bf090",
         "v96f_auto": true
     },
     {
-        "name": "Gang_144::GetGangCurrWeapon_4BF0C0",
+        "name": "Gang_144::GetCurrentWeapon_4BF0C0",
         "v96f_address": "0x45db70",
         "v105_address": "0x4bf0c0",
         "v96f_auto": true
     },
     {
-        "name": "GangPool_CA8::gang_by_name_4BF100",
+        "name": "GangPool_CA8::FindGangByName_4BF100",
         "v96f_address": "0x45dbb0",
         "v105_address": "0x4bf100",
         "v96f_auto": true
     },
     {
-        "name": "GangPool_CA8::next_free_gang_slot_4BF170",
+        "name": "GangPool_CA8::AllocGang_4BF170",
         "v96f_address": "0x45dc20",
         "v105_address": "0x4bf170",
         "v96f_auto": true
@@ -7291,13 +7291,13 @@
         "v96f_auto": true
     },
     {
-        "name": "GangPool_CA8::alloc_gang_for_map_zone_4BF1E0",
+        "name": "GangPool_CA8::AddGangForMapZone_4BF1E0",
         "v96f_address": "0x45dc90",
         "v105_address": "0x4bf1e0",
         "v96f_auto": true
     },
     {
-        "name": "GangPool_CA8::get_gang_idx_by_name_4BF210",
+        "name": "GangPool_CA8::GetGangIdxByName_4BF210",
         "v96f_address": "0x45dcc0",
         "v105_address": "0x4bf210",
         "v96f_auto": true

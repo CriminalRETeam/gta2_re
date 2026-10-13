@@ -251,7 +251,7 @@ void Hud_ShowCoords_1::ShowPlayerCoords_5CF970()
         wchar_t* pZoneName;
         if (pZone)
         {
-            pZoneName = pZone->get_name_wide_4BED30();
+            pZoneName = pZone->GetNameWide_4BED30();
         }
         else
         {
