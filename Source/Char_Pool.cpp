@@ -570,7 +570,7 @@ void PedManager::SpawnDummies_46EB60(Camera_0xBC* pCam)
                     pSprite->set_xyz_lazy_451950(xpos, ypos, (zpos + 1));
                     pSprite->set_ang_lazy_420690(gDummyPedAng_6787A8);
                     pSprite->AllocCollisionShape_59F950(gDummyW_678530, gDummyH_678584, gDummyZ_67841C);
-                    if (!gGame_0x40_67E008->is_point_on_screen_4B9A80(pSprite->field_14_xy.x, pSprite->field_14_xy.y))
+                    if (!gGame_0x40_67E008->IsPointOnScreen_4B9A80(pSprite->field_14_xy.x, pSprite->field_14_xy.y))
                     {
                         if (!gMap_0x370_6F6268->IsSlopeB4ToD0At_433430((u8)(xpos.ToInt()), (u8)(ypos.ToInt()), (u8)zpos + 1))
                         {
@@ -1004,14 +1004,14 @@ void PedManager::DoIanTest_471060(u16 key)
     switch (key)
     {
         case DIK_9:
-            gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->SetOnFire();
+            gGame_0x40_67E008->field_38_local_player->field_2C4_player_ped->SetOnFire();
             break;
         case DIK_8:
-            gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->SetVisible();
+            gGame_0x40_67E008->field_38_local_player->field_2C4_player_ped->SetVisible();
             break;
 
         case DIK_7:
-            gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->SetInvisible();
+            gGame_0x40_67E008->field_38_local_player->field_2C4_player_ped->SetInvisible();
             break;
     }
 }

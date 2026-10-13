@@ -6921,7 +6921,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Game_0x40::sub_4B9720",
+        "name": "Game_0x40::ReinitAfterVideoModeChange_4B9720",
         "v96f_address": "0x45a700",
         "v105_address": "0x4b9720",
         "v96f_auto": true
@@ -6975,7 +6975,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Game_0x40::is_point_on_screen_4B9A80",
+        "name": "Game_0x40::IsPointOnScreen_4B9A80",
         "v96f_address": "0x45BC10",
         "v105_address": "0x4b9a80"
     },

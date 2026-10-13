@@ -1727,7 +1727,7 @@ void Player::Wasted_567130()
 
         (&gTagGame_6F8450)
             ->UpdateFugitive_516740( //  tag mode death handler
-                gGame_0x40_67E008->get_player_4219E0(get_idx_4219D0()),
+                gGame_0x40_67E008->GetPlayer_4219E0(get_idx_4219D0()),
                 player_killer); //  if player_killer != NULL then 'player_killer' now is "IT"
     }
 
@@ -3008,7 +3008,7 @@ void UnknownDebugClass::DoTest_5B2640(u16 action)
             gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(3, "test3");
             break;
         case 6:
-            gGame_0x40_67E008->field_38_orf1->ChangeMultipliers_4766B0(1);
+            gGame_0x40_67E008->field_38_local_player->ChangeMultipliers_4766B0(1);
             break;
         case 7:
             gTestArrow_70416C = gHud_2B00_706620->field_1F18_arrows.AllocArrow_5D1050();
@@ -3016,7 +3016,7 @@ void UnknownDebugClass::DoTest_5B2640(u16 action)
             gTestArrow_70416C->SetArrowColour_5D0510(5);
             break;
         case 8:
-            gGame_0x40_67E008->field_38_orf1->DebugToggleRemoteControl_569E70();
+            gGame_0x40_67E008->field_38_local_player->DebugToggleRemoteControl_569E70();
             break;
         case 10:
             gTestTimer_7042D8 = gHud_2B00_706620->field_620_pagers.CreateTimer_5D31F0(40);

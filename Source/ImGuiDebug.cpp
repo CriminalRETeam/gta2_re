@@ -801,7 +801,7 @@ static Camera_0xBC* GetPlayerCam()
 {
     if (gGame_0x40_67E008)
     {
-        Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+        Player* pPlayer = gGame_0x40_67E008->field_38_local_player;
         if (pPlayer)
         {
             if (pPlayer->field_6C_in_debug_cam_mode)
@@ -2454,7 +2454,7 @@ void CC ImGuiDebugDraw()
         {
             if (ImGui::Button("DebugToggleRemoteControl_569E70"))
             {
-                gGame_0x40_67E008->field_38_orf1->DebugToggleRemoteControl_569E70();
+                gGame_0x40_67E008->field_38_local_player->DebugToggleRemoteControl_569E70();
             }
             ImGui::InputInt("Game State", &gGame_0x40_67E008->field_0_game_state, 1, 1);
 

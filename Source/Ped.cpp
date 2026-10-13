@@ -8915,7 +8915,7 @@ void Ped::FireAtPlayer_46A5E0()
         return;
     }
 
-    Ped* pPlayerPed = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped;
+    Ped* pPlayerPed = gGame_0x40_67E008->field_38_local_player->field_2C4_player_ped;
     if (!pPlayerPed->IsInvisibleOnFoot_433DA0())
     {
         Sprite* pSprite_148 = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(148)->field_0_pSprite;
@@ -11610,7 +11610,7 @@ void Ped::UpdateStatsForKiller_46F720()
                     pGroup = this->field_1A8_ped_killer->field_164_ped_group;
                     if (pGroup)
                     {
-                        Ped* pLocalPed = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped;
+                        Ped* pLocalPed = gGame_0x40_67E008->field_38_local_player->field_2C4_player_ped;
                         if (pLocalPed)
                         {
                             if (pGroup == pLocalPed->field_164_ped_group)

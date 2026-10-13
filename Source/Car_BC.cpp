@@ -791,7 +791,7 @@ char Car_BC::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, F
                     }
                 }
 
-                if (!gGame_0x40_67E008->is_point_on_screen_4B9A80(xpos, ypos))
+                if (!gGame_0x40_67E008->IsPointOnScreen_4B9A80(xpos, ypos))
                 {
                     Fix16 pos_z = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(xpos, ypos, zTmpInt);
                     car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
@@ -1072,7 +1072,7 @@ Car_BC* CarManager_6C::SpawnBusAtValidRoadPosition_4453E0(Fix16 x, Fix16 y, s32 
                     }
                 }
             }
-            if ((pBlock->field_B_slope_type & 3) == 1 && !gGame_0x40_67E008->is_point_on_screen_4B9A80(x, y))
+            if ((pBlock->field_B_slope_type & 3) == 1 && !gGame_0x40_67E008->IsPointOnScreen_4B9A80(x, y))
             {
                 Fix16 ground_z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(x, y);
                 car_info* car_info_5AA3B0 = gGtx_0x106C_703DD4->get_car_info_5AA3B0(car_model);
@@ -1270,7 +1270,7 @@ Car_BC* CarManager_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 
                     }
                 }
             }
-            if ((pBlock->field_B_slope_type & 3) == 1 && !gGame_0x40_67E008->is_point_on_screen_4B9A80(x, y))
+            if ((pBlock->field_B_slope_type & 3) == 1 && !gGame_0x40_67E008->IsPointOnScreen_4B9A80(x, y))
             {
                 Fix16 ground_z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(x, y);
                 car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(car_model_type);
@@ -5588,7 +5588,7 @@ void Car_BC::ManageDespawning_442310()
     {
         for (u8 i = 0; i < 6; i++)
         {
-            if (gGame_0x40_67E008->get_player_4219E0(i))
+            if (gGame_0x40_67E008->GetPlayer_4219E0(i))
             {
                 if (gGame_0x40_67E008->IsSpriteOnScreen_4B9950(field_50_car_sprite, i, kFpFive_6778D0))
                 {
@@ -5950,7 +5950,7 @@ char_type Car_BC::TrainUpdate_442D70()
     Fix16 player_z;
     if (GetCarLinearSpeed_43A240() > gFix16_6777CC)
     {
-        gGame_0x40_67E008->field_38_orf1->get_pos_569920(&player_x, &player_y, &player_z);
+        gGame_0x40_67E008->field_38_local_player->get_pos_569920(&player_x, &player_y, &player_z);
 
         if (Fix16::Abs_negate_out_of_line(field_50_car_sprite->field_14_xy.x - player_x) >= Fix16(0x28000, 0) ||
             Fix16::Abs(field_50_car_sprite->field_14_xy.y - player_y) >= Fix16(0x28000, 0))

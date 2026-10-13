@@ -27,7 +27,7 @@ MATCH_FUNC(0x502dc0)
 void Miss2_25C::MissionCleanUp_502DC0()
 {
     Miss2_C* pIter = &field_0_entries[0];
-    PedGroup* pGroup = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->field_164_ped_group;
+    PedGroup* pGroup = gGame_0x40_67E008->field_38_local_player->field_2C4_player_ped->field_164_ped_group;
     if (pGroup)
     {
         pGroup->DestroyGroup_4C93A0();
@@ -37,7 +37,7 @@ void Miss2_25C::MissionCleanUp_502DC0()
     {
         if (gStoredCar_6F7560->field_6C_car_id == gStoredCarId_6F78B4)
         {
-            gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
+            gGame_0x40_67E008->field_38_local_player->PushCarInfo_564680(gStoredCar_6F7560);
             gStoredCar_6F7560->SetDriverPedType_421560(ped_type::dummy_3);
             if (!gStoredCar_6F7560->IsDeactivated_4214D0())
             {
@@ -76,7 +76,7 @@ void Miss2_25C::MissionCleanUp_502DC0()
                 case 1:
                     if (pIter->field_0_car->field_6C_car_id == pIter->field_8_entity_id)
                     {
-                        gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(pIter->field_0_car);
+                        gGame_0x40_67E008->field_38_local_player->PushCarInfo_564680(pIter->field_0_car);
                         pIter->field_0_car->SetDriverPedType_421560(ped_type::dummy_3);
                         if (!pIter->field_0_car->IsDeactivated_4214D0())
                         {

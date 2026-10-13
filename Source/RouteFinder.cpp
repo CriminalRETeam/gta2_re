@@ -83,12 +83,12 @@ void RouteFinder::ShowJunctionIds_588620()
             break;
         }
 
-        if (gGame_0x40_67E008->field_38_orf1->field_14C_view_camera.IsPointInBoundaries_58CF10(pJunction->field_C_min_x,
+        if (gGame_0x40_67E008->field_38_local_player->field_14C_view_camera.IsPointInBoundaries_58CF10(pJunction->field_C_min_x,
                                                                                               (s32)pJunction->field_D_min_y))
         {
             Fix16 screen_x;
             Fix16 screen_y;
-            WorldToScreen_RouteFinder_40CFC0(&gGame_0x40_67E008->field_38_orf1->field_14C_view_camera,
+            WorldToScreen_RouteFinder_40CFC0(&gGame_0x40_67E008->field_38_local_player->field_14C_view_camera,
                                              Fix16(pJunction->field_C_min_x),
                                              Fix16(pJunction->field_D_min_y),
                                              gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(Fix16(pJunction->field_C_min_x),
@@ -911,10 +911,10 @@ MATCH_FUNC(0x589bb0)
 char_type RouteFinder::sub_589BB0(RouteFinder_10* pRoute, s32 arrow_type)
 {
     Junction_10* pJunction = &field_8_junctions[pRoute->field_0_idx];
-    if (!gGame_0x40_67E008->is_point_on_screen_4B9A80(pJunction->field_C_min_x, pJunction->field_D_min_y) &&
-        !gGame_0x40_67E008->is_point_on_screen_4B9A80(pJunction->field_E_max_x, pJunction->field_D_min_y) &&
-        !gGame_0x40_67E008->is_point_on_screen_4B9A80(pJunction->field_C_min_x, pJunction->field_F_max_y) &&
-        !gGame_0x40_67E008->is_point_on_screen_4B9A80(pJunction->field_E_max_x, pJunction->field_F_max_y))
+    if (!gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->field_C_min_x, pJunction->field_D_min_y) &&
+        !gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->field_E_max_x, pJunction->field_D_min_y) &&
+        !gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->field_C_min_x, pJunction->field_F_max_y) &&
+        !gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->field_E_max_x, pJunction->field_F_max_y))
     {
         return 1;
     }

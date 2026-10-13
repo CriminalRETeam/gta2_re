@@ -81,8 +81,8 @@ void miss2_0x11C::MissionFailOnArrest_503200()
     if (gScriptManager_6F8060->field_355_death_arr_state && gScriptManager_6F8060->field_344_mission_flag &&
         *gScriptManager_6F8060->field_344_mission_flag == 1)
     {
-        if (!gGame_0x40_67E008->field_38_orf1->IsBustedNotObjective54_476700() &&
-            !gGame_0x40_67E008->field_38_orf1->IsBustedObjective54_476730())
+        if (!gGame_0x40_67E008->field_38_local_player->IsBustedNotObjective54_476700() &&
+            !gGame_0x40_67E008->field_38_local_player->IsBustedObjective54_476730())
         {
             return;
         }
@@ -91,7 +91,7 @@ void miss2_0x11C::MissionFailOnArrest_503200()
         SCRCMD_RETURN_506B80();
 
         s32 v;
-        if (gGame_0x40_67E008->field_38_orf1->IsBustedNotObjective54_476700())
+        if (gGame_0x40_67E008->field_38_local_player->IsBustedNotObjective54_476700())
         {
             v = 0;
         }
@@ -129,7 +129,7 @@ void miss2_0x11C::MissionFailOnArrest_503200()
 
         *gScriptManager_6F8060->field_344_mission_flag = 0;
         gScriptManager_6F8060->field_C1E2E_death_arrest_flag = 1;
-        gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->field_26C_graphic_type = ped_graphic_type::character_1;
+        gGame_0x40_67E008->field_38_local_player->field_2C4_player_ped->field_26C_graphic_type = ped_graphic_type::character_1;
     }
 }
 
@@ -1439,7 +1439,7 @@ s16 miss2_0x11C::GetBonusResult_505EA0(u16 idx)
     s16 result = pPointer->field_8_counter;
     if (result != -3 && result != -4)
     {
-        result = gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_bonuses.GetBonusResult_432080(result);
+        result = gGame_0x40_67E008->field_38_local_player->field_2D4_scores.field_1A8_bonuses.GetBonusResult_432080(result);
         if (result == -3 || result == -4)
         {
             pPointer->field_8_counter = result;
@@ -2281,7 +2281,7 @@ void miss2_0x11C::SCRCMD_POINT_ARROW_AT_5086F0()
         {
             Ped* pChar = pEntityPtr->field_8_char;
 
-            if (!pChar->is_player_41B0A0() || pChar->field_15C_player->get_idx_4219D0() != gGame_0x40_67E008->get_cur_idx_476790())
+            if (!pChar->is_player_41B0A0() || pChar->field_15C_player->get_idx_4219D0() != gGame_0x40_67E008->GetLocalPlayerIdx_476790())
             {
                 pArrowPtr->field_8_arrow->SetArrowTargetPed_476850(pChar);
             }
@@ -2412,7 +2412,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                         if (gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::recycled_1))
                         {
                             gStoredCar_6F7560->ReassignAllocatedCarType_443EE0(car_kind::recycled_1);
-                            gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
+                            gGame_0x40_67E008->field_38_local_player->PushCarInfo_564680(gStoredCar_6F7560);
                             gStoredCar_6F7560->SetDriverPedType_421560(ped_type::dummy_3);
 
                             if (!gStoredCar_6F7560->IsDeactivated_4214D0())
@@ -2422,7 +2422,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                         }
                         else if (gCarManager_6C_677930->CanAllocateCarOfKindWithSpare_446870(car_kind::mission_car_8))
                         {
-                            gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
+                            gGame_0x40_67E008->field_38_local_player->PushCarInfo_564680(gStoredCar_6F7560);
                             gStoredCar_6F7560->SetDriverPedType_421560(ped_type::dummy_3);
 
                             if (!gStoredCar_6F7560->IsDeactivated_4214D0())
@@ -2432,7 +2432,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                         }
                         else
                         {
-                            gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
+                            gGame_0x40_67E008->field_38_local_player->PushCarInfo_564680(gStoredCar_6F7560);
                             gStoredCar_6F7560->SetDriverPedType_421560(ped_type::dummy_3);
 
                             gStoredCar_6F7560->DespawnSoon_421490();
@@ -4958,7 +4958,7 @@ void miss2_0x11C::SCRCMD_PHONE_TEMPLATE_50CE90()
         pOnMission2->field_8_counter == 0 && pOnMission3->field_8_counter == 0)
     {
         // If enough respect.
-        if ((player_idx1 = gGame_0x40_67E008->field_38_orf1->get_idx_4219D0(),
+        if ((player_idx1 = gGame_0x40_67E008->field_38_local_player->get_idx_4219D0(),
              pGang->GetRespectForPlayer_4BEEF0(player_idx1) / 20 >= pCmd->field_1A_respect))
         {
             gScriptManager_6F8060->field_C1E2E_death_arrest_flag = 0;
@@ -4983,7 +4983,7 @@ void miss2_0x11C::SCRCMD_PHONE_TEMPLATE_50CE90()
         pOnMission2->field_8_counter == 0 && pOnMission3->field_8_counter == 0)
     {
         // If enough respect.
-        if ((player_idx2 = gGame_0x40_67E008->field_38_orf1->get_idx_4219D0(),
+        if ((player_idx2 = gGame_0x40_67E008->field_38_local_player->get_idx_4219D0(),
              pGang->GetRespectForPlayer_4BEEF0(player_idx2) / 20 >= pCmd->field_1A_respect))
         {
             gScriptManager_6F8060->field_C1E2E_death_arrest_flag = 0;
@@ -5054,7 +5054,7 @@ void miss2_0x11C::SCRCMD_PHONE_TEMPLATE_50CE90()
     s8 player_idx3;
 
     // Start mission 1 if enough respect.
-    if ((player_idx3 = gGame_0x40_67E008->field_38_orf1->get_idx_4219D0(),
+    if ((player_idx3 = gGame_0x40_67E008->field_38_local_player->get_idx_4219D0(),
          pGang->GetRespectForPlayer_4BEEF0(player_idx3) / 20 >= pCmd->field_1A_respect))
     {
         gScriptManager_6F8060->field_C1E2E_death_arrest_flag = 0;
@@ -5067,7 +5067,7 @@ void miss2_0x11C::SCRCMD_PHONE_TEMPLATE_50CE90()
     s8 player_idx4;
 
     // If zero respect.
-    if ((player_idx4 = gGame_0x40_67E008->field_38_orf1->get_idx_4219D0(), (pGang->GetRespectForPlayer_4BEEF0(player_idx4) / 20) == 0))
+    if ((player_idx4 = gGame_0x40_67E008->field_38_local_player->get_idx_4219D0(), (pGang->GetRespectForPlayer_4BEEF0(player_idx4) / 20) == 0))
     {
         s32 brief_id = pCmd->field_8_brief_id - 6;
         sprintf(gTmpBuffer_67C598, "%d", brief_id);
@@ -5079,7 +5079,7 @@ void miss2_0x11C::SCRCMD_PHONE_TEMPLATE_50CE90()
     s8 player_idx5;
 
     // If negative respect.
-    if ((player_idx5 = gGame_0x40_67E008->field_38_orf1->get_idx_4219D0(), pGang->GetRespectForPlayer_4BEEF0(player_idx5) / 20 < 0))
+    if ((player_idx5 = gGame_0x40_67E008->field_38_local_player->get_idx_4219D0(), pGang->GetRespectForPlayer_4BEEF0(player_idx5) / 20 < 0))
     {
         s32 brief_id = pCmd->field_8_brief_id - 4;
         sprintf(gTmpBuffer_67C598, "%d", brief_id);
@@ -5140,13 +5140,13 @@ void miss2_0x11C::SCRCMD_DO_SAVE_GAME_50D3C0()
             }
             else
             {
-                Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+                Player* pPlayer = gGame_0x40_67E008->field_38_local_player;
 
                 if (pPlayer->GetScore_421980() >= 50000)
                 {
                     // Hallelluya! Another soul saved!
                     gRoot_sound_66B038.PlayVoice_40F090(voice_line::hallelujah_61);
-                    gGame_0x40_67E008->field_38_orf1->AddCash_421990(-50000);
+                    gGame_0x40_67E008->field_38_local_player->AddCash_421990(-50000);
                     gScriptManager_6F8060->SaveGame_511E10(gGameSession_67E8E0.GetDebugStr_4C5970());
                     sprintf(gTmpBuffer_67C598, "svdone");
                 }
@@ -5165,7 +5165,7 @@ void miss2_0x11C::SCRCMD_DO_SAVE_GAME_50D3C0()
     }
     else
     {
-        Ped* pPlayerPed = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped;
+        Ped* pPlayerPed = gGame_0x40_67E008->field_38_local_player->field_2C4_player_ped;
         SCR_DO_SAVE_GAME* pCmd = (SCR_DO_SAVE_GAME*)gBasePtr_6F8070;
 
         // This doesn't look right, but it matches. Might be a missing parens bug in the OG game?
@@ -5360,7 +5360,7 @@ MATCH_FUNC(0x50de00)
 void miss2_0x11C::SCRCMD_POINT_ONSCREEN_50DE00()
 {
     SCR_IS_POINT_ON_SCREEN* pCmd = (SCR_IS_POINT_ON_SCREEN*)gBasePtr_6F8070;
-    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(pCmd->field_8_xpos, pCmd->field_C_ypos))
+    if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(pCmd->field_8_xpos, pCmd->field_C_ypos))
     {
         field_8_cond_result = true;
     }
@@ -5475,7 +5475,7 @@ void miss2_0x11C::StartBonus_50DF10()
         gMap_0x370_6F6268->zone_by_name_4DEFD0(gScriptManager_6F8060->FindStringById_503080(pCmd->field_8_zone_str_id)->get_name());
     }
 
-    pPointer->field_8_counter = gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_bonuses.AllocRule_431FE0(flag,
+    pPointer->field_8_counter = gGame_0x40_67E008->field_38_local_player->field_2D4_scores.field_1A8_bonuses.AllocRule_431FE0(flag,
                                                                                                                    car_model,
                                                                                                                    occupation,
                                                                                                                    gang_idx,
@@ -6043,7 +6043,7 @@ void miss2_0x11C::SCRCMD_DO_EASY_PHONE_50EDC0() //  EASY_PHONE_TEMPLATE
     }
     s8 idx1;
     //  Check if the player has respect enough to launch the mission
-    if ((idx1 = gGame_0x40_67E008->field_38_orf1->get_idx_4219D0(),
+    if ((idx1 = gGame_0x40_67E008->field_38_local_player->get_idx_4219D0(),
          pGang_zone->GetRespectForPlayer_4BEEF0(idx1) / 20 >= pCmd->field_1A_respect))
     {
         str_table_entry* mission1_str_table = gScriptManager_6F8060->FindStringById_503080(pCmd->field_1C_mission1);
@@ -6053,7 +6053,7 @@ void miss2_0x11C::SCRCMD_DO_EASY_PHONE_50EDC0() //  EASY_PHONE_TEMPLATE
     }
     s8 idx2;
     //  Check if the player has respect = 0
-    if ((idx2 = gGame_0x40_67E008->field_38_orf1->get_idx_4219D0(), (pGang_zone->GetRespectForPlayer_4BEEF0(idx2) / 20) == 0))
+    if ((idx2 = gGame_0x40_67E008->field_38_local_player->get_idx_4219D0(), (pGang_zone->GetRespectForPlayer_4BEEF0(idx2) / 20) == 0))
     {
         s32 briefId = pCmd->field_8_brief_id - 6;
         sprintf(gTmpBuffer_67C598, "%d", briefId);
@@ -6063,7 +6063,7 @@ void miss2_0x11C::SCRCMD_DO_EASY_PHONE_50EDC0() //  EASY_PHONE_TEMPLATE
     }
     s8 idx3;
     //  Check if the player has negative respect
-    if ((idx3 = gGame_0x40_67E008->field_38_orf1->get_idx_4219D0(), pGang_zone->GetRespectForPlayer_4BEEF0(idx3) / 20 < 0))
+    if ((idx3 = gGame_0x40_67E008->field_38_local_player->get_idx_4219D0(), pGang_zone->GetRespectForPlayer_4BEEF0(idx3) / 20 < 0))
     {
         s32 briefId = pCmd->field_8_brief_id - 4;
         sprintf(gTmpBuffer_67C598, "%d", briefId);
@@ -6203,15 +6203,15 @@ void miss2_0x11C::SCRCMD_WARP_CHAR_50F270() // WARP_FROM_CAR_TO_POINT
         pPointer->field_8_char->SetRotation_433C00(rotation);
         pCar->ClearDriver_4407F0();
         pCar->field_54_driver = 0;
-        gGame_0x40_67E008->field_38_orf1->DisableInputs_569F40();
-        gGame_0x40_67E008->field_38_orf1->field_90_game_camera.UpdateFollowPedCamera_436540(pPointer->field_8_char);
+        gGame_0x40_67E008->field_38_local_player->DisableInputs_569F40();
+        gGame_0x40_67E008->field_38_local_player->field_90_game_camera.UpdateFollowPedCamera_436540(pPointer->field_8_char);
 
-        Camera_0xBC* p_game_camera = &(gGame_0x40_67E008->field_38_orf1->field_90_game_camera);
+        Camera_0xBC* p_game_camera = &(gGame_0x40_67E008->field_38_local_player->field_90_game_camera);
 
         p_game_camera->CommitCameraTarget_41E410();
 
-        gGame_0x40_67E008->field_38_orf1->field_90_game_camera.ResetCameraSmoothing_435DD0();
-        gGame_0x40_67E008->field_38_orf1->field_90_game_camera.inline_set_ped_id_to_1_475B60();
+        gGame_0x40_67E008->field_38_local_player->field_90_game_camera.ResetCameraSmoothing_435DD0();
+        gGame_0x40_67E008->field_38_local_player->field_90_game_camera.inline_set_ped_id_to_1_475B60();
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -6525,7 +6525,7 @@ void miss2_0x11C::SCRCMD_STORE_BONUS_50FAF0()
     if (bonus_unk != -3 && bonus_unk != -4)
     {
         pPointerCounter->field_8_counter =
-            gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_bonuses.field_0_bonuses[pPointerBonus->field_8_index].field_26_progress_count;
+            gGame_0x40_67E008->field_38_local_player->field_2D4_scores.field_1A8_bonuses.field_0_bonuses[pPointerBonus->field_8_index].field_26_progress_count;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -6544,20 +6544,20 @@ void miss2_0x11C::SCRCMD_SET_ENTER_STATUS_50FB60() // SCRCMD_SET_ENTER_STATUS an
     {
         if (gBasePtr_6F8070->field_2_type == SCRCMD_SET_ENTER_STATUS)
         {
-            gGame_0x40_67E008->field_38_orf1->EnableEnterVehicles_56A040(); // SET_ENTER_STATUS = ON
+            gGame_0x40_67E008->field_38_local_player->EnableEnterVehicles_56A040(); // SET_ENTER_STATUS = ON
         }
         else
         {
-            gGame_0x40_67E008->field_38_orf1->EnableAllControls_56A000(); // SET_ALL_CONTROLS = ON
+            gGame_0x40_67E008->field_38_local_player->EnableAllControls_56A000(); // SET_ALL_CONTROLS = ON
         }
     }
     else if (gBasePtr_6F8070->field_2_type == SCRCMD_SET_ENTER_STATUS)
     {
-        gGame_0x40_67E008->field_38_orf1->DisableEnterVehicles_56A030(); // SET_ENTER_STATUS = OFF
+        gGame_0x40_67E008->field_38_local_player->DisableEnterVehicles_56A030(); // SET_ENTER_STATUS = OFF
     }
     else
     {
-        gGame_0x40_67E008->field_38_orf1->DisableAllControls_569FF0(); // SET_ALL_CONTROLS = OFF
+        gGame_0x40_67E008->field_38_local_player->DisableAllControls_569FF0(); // SET_ALL_CONTROLS = OFF
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -6810,13 +6810,13 @@ void miss2_0x11C::SCRCMD_DO_BASIC_KF_510280()
             SCR_POINTER* pBonusType = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_bonusname);
             SCR_POINTER* pCounter = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_12_countername);
             pCounter->field_8_counter = pCmd->field_14_target_total -
-                gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_bonuses.GetProgressCount_476660(pBonusType->field_8_index);
+                gGame_0x40_67E008->field_38_local_player->field_2D4_scores.field_1A8_bonuses.GetProgressCount_476660(pBonusType->field_8_index);
 
             Ped* pPed = pPlayerPedCmdPointer->field_8_char;
 
             if (pPed->GetPedState_403990() == ped_state_1::dead_9 || pPed->field_21C_bf.bBusted != 0)
             {
-                gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_bonuses.DeactivateBonus_476680(pBonusType->field_8_index);
+                gGame_0x40_67E008->field_38_local_player->field_2D4_scores.field_1A8_bonuses.DeactivateBonus_476680(pBonusType->field_8_index);
                 pPlayerPedCmdPointer->field_8_char->field_15C_player->ClearKFWeapon_5647D0();
             }
         }

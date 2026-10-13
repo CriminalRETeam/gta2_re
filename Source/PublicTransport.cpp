@@ -1036,7 +1036,7 @@ TrainStation_34* PublicTransport_181C::GetBusStopOnScreen_5799B0()
             TrainStation_34* pStation = &field_0_stations[station_idx];
             if (pStation->field_0_station_type == 1)
             {
-                if (gGame_0x40_67E008->is_point_on_screen_4B9A80(pStation->field_10_pZone->field_1_x, pStation->field_10_pZone->field_2_y))
+                if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(pStation->field_10_pZone->field_1_x, pStation->field_10_pZone->field_2_y))
                 {
                     return pStation;
                 }

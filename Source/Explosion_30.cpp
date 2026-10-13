@@ -717,7 +717,7 @@ void Explosion_30::UpdateExplosion_18_19_20_32_33_542790()
     bool isOnScreen = true;
     if (this->field_1A_timer < 90u)
     {
-        if (!gGame_0x40_67E008->is_point_on_screen_4B9A80(this->field_14_pObj2C->field_4->field_14_xy.x, this->field_14_pObj2C->field_4->field_14_xy.y))
+        if (!gGame_0x40_67E008->IsPointOnScreen_4B9A80(this->field_14_pObj2C->field_4->field_14_xy.x, this->field_14_pObj2C->field_4->field_14_xy.y))
         {
             isOnScreen = false;
         }

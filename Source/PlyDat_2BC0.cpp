@@ -721,7 +721,7 @@ void PlyDat_2BC0::DoMuchCashCheat_56C250()
         PlySlot_A4* pStats = &this->field_26A0_plyr_stats[gGameSession_67E8E0.GetPlySlotIdx_4C59B0()];
         if (wcscmp(pStats->field_90_strPlayerName, L"MUCHCASH") == 0)
         {
-            Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+            Player* pPlayer = gGame_0x40_67E008->field_38_local_player;
             pPlayer->field_2D4_scores.AddCash_592620(pPlayer->field_6BC_multipliers.field_0_value * 500000);
         }
     }

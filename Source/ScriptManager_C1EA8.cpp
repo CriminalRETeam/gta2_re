@@ -202,7 +202,7 @@ void ScriptManager_C1EA8::SaveGame_511E10(char_type* pFileName)
 
     ScriptManager_C1EA8::SaveScriptCounters_511B90();
 
-    gGame_0x40_67E008->field_38_orf1->CopyPlayerDataToSave_56A1A0(&gGameSave_6F78C8.field_54_player_and_world_stats);
+    gGame_0x40_67E008->field_38_local_player->CopyPlayerDataToSave_56A1A0(&gGameSave_6F78C8.field_54_player_and_world_stats);
 
     gObject_5C_6F8F84->SaveObjects_52A500(&gGameSave_6F78C8.field_5E4_object_data);
 

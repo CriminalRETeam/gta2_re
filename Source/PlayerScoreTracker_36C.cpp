@@ -247,7 +247,7 @@ void PlayerScoreTracker_36C::Service_591C70()
             if (frags_or_points >= points_limit) // TODO: di vs edi
             {
                 gGameSession_67E8E0.SetWinnerIdx_4C5C00(player_idx);
-                if (gGame_0x40_67E008->field_28_timer == -1)
+                if (gGame_0x40_67E008->field_28_exit_timer == -1)
                 {
                     gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), hud_message_priority::important_3);
                 }

@@ -39,29 +39,29 @@ class Game_0x40
     // 9.6f 0x4A4750
     inline void ToggleLimitFramerate_4A4750()
     {
-        field_30_bLimitFramerate = field_30_bLimitFramerate == 0;
+        field_30_limit_framerate = field_30_limit_framerate == 0;
     }
 
     // 9.6f 0x416BC0
-    inline bool Is_game_state_Paused_2_416BC0()
+    inline bool IsPaused_416BC0()
     {
         return field_0_game_state == GameState::Paused_2;
     }
 
     // 9.6f 0x4B7590
-    inline bool Is_timer_not_minus1_4B7590()
+    inline bool IsExitTimerSet_4B7590()
     {
-        return field_28_timer != -1;
+        return field_28_exit_timer != -1;
     }
 
     // 9.6f 0x476790
-    inline u8 get_cur_idx_476790()
+    inline u8 GetLocalPlayerIdx_476790()
     {
-        return field_24_cur_idx;
+        return field_24_local_player_idx;
     }
 
     // 9.6f 0x4D09C0
-    inline s32 get_main_state_4D09C0()
+    inline s32 GetExitType_4D09C0()
     {
         return field_2C_game_exit_type;
     }
@@ -85,7 +85,7 @@ class Game_0x40
     EXPORT void Unpause_4B96C0();
     EXPORT void TogglePause_4B9700();
     EXPORT void SinglePlayerStepFrame_4B9710();
-    EXPORT void sub_4B9720();
+    EXPORT void ReinitAfterVideoModeChange_4B9720();
     EXPORT Player* GetFirstPlayerWithoutPed_4B9750();
     EXPORT void ShakeCamerasAtPos_4B9790(Fix16 amount, Fix16 x, Fix16 y);
     EXPORT s8 IsSpriteOnScreenForAnyPlayer_4B97E0(Sprite* pSprite, Fix16 margin);
@@ -94,7 +94,7 @@ class Game_0x40
     EXPORT bool IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 playerIdx, s32 margin);
     EXPORT s8 IsSpriteOnScreen_4B9950(Sprite* pCarSprite, u8 playerIdx, Fix16 margin);
     EXPORT bool IsSpriteCameraSubjectForPlayer_4B9A10(Sprite* pSprite, u8 playerIdx);
-    EXPORT bool is_point_on_screen_4B9A80(Fix16 a2_fp, Fix16 a3_fp);
+    EXPORT bool IsPointOnScreen_4B9A80(Fix16 x, Fix16 y);
     EXPORT s8 IsRectVisibleToAnyPlayer_4B9B10(Fix16_Rect* pBounds);
     EXPORT Camera_0xBC* IteratePlayerCamera_4B9BC0();
     EXPORT s8 IsCarInAnyPlayerHistory_4B9C10(Car_BC* pCar);
@@ -105,7 +105,7 @@ class Game_0x40
     EXPORT Game_0x40(u8 max_players, s8 player_idx); // 4B9DE0
     EXPORT ~Game_0x40(); // 4BAE30
 
-    Player* get_player_4219E0(u8 idx)
+    Player* GetPlayer_4219E0(u8 idx)
     {
         return field_4_players[idx];
     }
@@ -113,23 +113,23 @@ class Game_0x40
     s32 field_0_game_state;
     Player* field_4_players[MAX_PLAYERS];
     Player* field_1C_view_player;
-    u8 field_20_idx;
-    u8 field_21_player_camera_idx;
-    char_type field_22_bAuxCamIterated;
+    u8 field_20_player_iter_idx;
+    u8 field_21_camera_iter_idx;
+    bool field_22_aux_cam_iterated;
     u8 field_23_num_players;
-    u8 field_24_cur_idx;
+    u8 field_24_local_player_idx;
     char_type field_25_unused;
     char_type field_26_unused;
     char_type field_27_unused;
-    s32 field_28_timer;
+    s32 field_28_exit_timer;
     s32 field_2C_game_exit_type;
-    char_type field_30_bLimitFramerate;
+    bool field_30_limit_framerate;
     char_type field_31_unused;
     char_type field_32_unused;
     char_type field_33_unused;
     s32 field_34_network_frame_ms;
-    Player* field_38_orf1;
-    bool field_3C_bSkipPolice;
+    Player* field_38_local_player;
+    bool field_3C_skip_police;
     char_type field_3D_unused;
     char_type field_3E_unused;
     char_type field_3F_unused;

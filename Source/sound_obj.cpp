@@ -5513,7 +5513,7 @@ void sound_obj::ProcessPed_422B70(Sound_Params_8* pType3Entity)
     pB4 = pType3Entity->field_0_pObj->field_8_char_b4_ptr;
     if (pB4->field_7C_pPed)
     {
-        if (!gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0() && pB4->get_velocity_41B080() > kFpZero_675220)
+        if (!gGame_0x40_67E008->field_38_local_player->GetPlayerCar_5698E0() && pB4->get_velocity_41B080() > kFpZero_675220)
         {
             animation_state = pB4->field_6C_animation_state;
             if (animation_state == 4 || animation_state == 1 || animation_state == 0)
@@ -5994,7 +5994,7 @@ void sound_obj::ResetRadioMessageState_426750()
 MATCH_FUNC(0x426790)
 void sound_obj::PoliceRadioMessageGeneration_426790()
 {
-    Ped* pPed = gGame_0x40_67E008->field_38_orf1->GetPlayerPed_41D020();
+    Ped* pPed = gGame_0x40_67E008->field_38_local_player->GetPlayerPed_41D020();
     s32 crime_type;
     Fix16 crime_x;
     Fix16 crime_y;
@@ -6151,7 +6151,7 @@ void sound_obj::PoliceRadioMessageGeneration_426790()
             }
             else
             {
-                Car_BC* pCar = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
+                Car_BC* pCar = gGame_0x40_67E008->field_38_local_player->GetPlayerCar_5698E0();
                 nullsub_4();
                 switch (field_1454_anRandomTable[3] % 10)
                 {
@@ -6703,7 +6703,7 @@ void sound_obj::ProcessType3_CopRadioAndMusic_57DD50()
         gSoundSwitchRadioCoolDown_6FF539--;
     }
 
-    if (!gGame_0x40_67E008 || !gGame_0x40_67E008->field_38_orf1)
+    if (!gGame_0x40_67E008 || !gGame_0x40_67E008->field_38_local_player)
     {
         return;
     }
@@ -6727,7 +6727,7 @@ void sound_obj::ProcessType3_CopRadioAndMusic_57DD50()
     field_5500 = field_54FC;
     Type3_CopRadioReport_57E680();
 
-    Car_BC* pCar = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
+    Car_BC* pCar = gGame_0x40_67E008->field_38_local_player->GetPlayerCar_5698E0();
     if (pCar)
     {
         // An array keeps VC6 from folding the damage check into the branch: the original computes both
@@ -6964,7 +6964,7 @@ void sound_obj::HandleVocalStreamSwitching_57DF10(char_type bFastForward)
 MATCH_FUNC(0x57E220)
 void sound_obj::UpdateCarEngineAudio_57E220()
 {
-    Car_BC* pCar = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
+    Car_BC* pCar = gGame_0x40_67E008->field_38_local_player->GetPlayerCar_5698E0();
     u32 rate;
     if (!pCar)
     {
@@ -7160,7 +7160,7 @@ void sound_obj::Type3_CopRadioReport_57E680()
 MATCH_FUNC(0x57E6C0)
 void sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
 {
-    Car_BC* pCar = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
+    Car_BC* pCar = gGame_0x40_67E008->field_38_local_player->GetPlayerCar_5698E0();
     if (IsPoliceOrServiceVehicle_57F090(pCar) == true)
     {
         field_54FC = 0;
@@ -7425,7 +7425,7 @@ char_type sound_obj::ComputeRadioEmitterVolume_57EB90(u8 emitterIndex, s32 bUseF
         Fix16 xpos;
         Fix16 ypos;
         Fix16 zpos;
-        gGame_0x40_67E008->field_38_orf1->get_pos_569920(&xpos, &ypos, &zpos);
+        gGame_0x40_67E008->field_38_local_player->get_pos_569920(&xpos, &ypos, &zpos);
 
         u16 dist = abs((s16)(ypos.ToInt() - RadioEmitter(emitterIndex + 1).field_8_ypos.ToInt())) +
             abs((s16)(xpos.ToInt() - RadioEmitter(emitterIndex + 1).field_4_xpos.ToInt()));
@@ -7562,16 +7562,16 @@ void sound_obj::CycleRadioStation_57EEE0(char_type bPrev)
         gSoundSwitchRadioCoolDown_6FF539 = 10;
         if (gGame_0x40_67E008)
         {
-            Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+            Player* pPlayer = gGame_0x40_67E008->field_38_local_player;
             if (pPlayer)
             {
                 if (pPlayer->GetPlayerCar_5698E0())
                 {
-                    Car_BC* pCar = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
+                    Car_BC* pCar = gGame_0x40_67E008->field_38_local_player->GetPlayerCar_5698E0();
                     // can't change their sucky radio station ;)
                     if (!IsPoliceOrServiceVehicle_57F090(pCar))
                     {
-                        Car_BC* pCarAgain = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
+                        Car_BC* pCarAgain = gGame_0x40_67E008->field_38_local_player->GetPlayerCar_5698E0();
                         // nor trains, which makes sense
                         if (!IsTrainOrBoxcar_57F120(pCarAgain))
                         {
