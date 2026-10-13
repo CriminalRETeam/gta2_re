@@ -130,9 +130,9 @@ void ExplodingScore_50::PoolDeallocate()
 }
 
 MATCH_FUNC(0x596a70)
-void ExplodingScore_50::ClearNumbersArrayFrom_596A70(s32 a2)
+void ExplodingScore_50::ClearNumbersArrayFrom_596A70(s32 start_idx)
 {
-    for (u32 i = a2; i > 0; i--)
+    for (u32 i = start_idx; i > 0; i--)
     {
         field_4_digits[i] = 0;
     }

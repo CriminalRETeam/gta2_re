@@ -69,10 +69,10 @@ class Network_20324
     EXPORT static void __stdcall cb_AddPlayerToList_519E30(Network_20324* pNetUi, wchar_t* pName, s32 player_idx);
     EXPORT static void __stdcall OnPaint_519FD0(HWND hWnd);
     EXPORT static void __stdcall OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notify);
-    EXPORT static void __stdcall OnTimer_51A9D0(HWND hWnd, s32 a2);
+    EXPORT static void __stdcall OnTimer_51A9D0(HWND hWnd, s32 timer_id);
     EXPORT void CreateMainUi_51AA90(HWND hWndParent);
     EXPORT void ShowSpecificWindow_51ABF0(s32 showing_specific_window_idx);
-    EXPORT static s32 OnInitDialog_51AC60(HWND hWnd, s32 a2, Network_20324* thisPtr);
+    EXPORT static s32 OnInitDialog_51AC60(HWND hWnd, s32 lParam, Network_20324* thisPtr);
     EXPORT s32 Get_202D4_active_control_idx_51ACC0();
     EXPORT static void __stdcall cb_sub_51ACD0(Network_20324* pNetUi, wchar_t* Source);
     EXPORT static void _stdcall cb_Disconnect_51ADE0(Network_20324* pNetUi);
@@ -80,9 +80,9 @@ class Network_20324
     EXPORT static s32 __stdcall cb_SetPlayerPing_51AE50(Network_20324* pNetUi, Network_PlayerPing* pPing);
     EXPORT void PopulateMainUI_51AFA0();
     EXPORT static LRESULT __stdcall cb_AddChatMessage_51B2F0(Network_20324* pNetUi, Network_ChatMessage* pMsg);
-    EXPORT s32 AppendChatMessage_51B4F0(s32 a2, const char_type* pMsg);
+    EXPORT s32 AppendChatMessage_51B4F0(s32 player_idx, const char_type* pMsg);
     EXPORT void SetPlayerNameText_51B7C0();
-    EXPORT static void __stdcall cb_sub_51B7E0(Network_20324* a1, const char_type** a2);
+    EXPORT static void __stdcall cb_sub_51B7E0(Network_20324* pNetUi, const char_type** ppData);
     EXPORT void ApplyHostGameSettings_51B810(const char_type* pData);
     EXPORT void SetSetting_51B9C0(s32 setting, s32 value);
     EXPORT void IncCount_51BBC0();
@@ -95,7 +95,7 @@ class Network_20324
     EXPORT void LoadPlayerNameFromRegistry_51BC90();
     EXPORT void SetPlayNameAndSaveToRegistry_51BD40(const wchar_t* pPlayerNameW, const char* pPlayerNameA);
     EXPORT static LRESULT __stdcall subclass_proc_51BDD0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
-    EXPORT void OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 a3);
+    EXPORT void OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 player_idx);
     EXPORT void EnumerateMaps_51BFA0();
     EXPORT static void __stdcall OnWmHScroll_51C630(HWND hWnd, HWND hTrackBar, s32 code, s32 pos);
     EXPORT void CopyGameSettings_51C7F0(NetworkGameSettings* pSettings);

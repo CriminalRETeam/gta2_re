@@ -63,7 +63,7 @@ class CarAI_78
     EXPORT void UpdateDriving_453470();
     EXPORT void ChooseRandomTurn_4537D0();
     EXPORT void ClearSteeringIfTurning_4538B0();
-    EXPORT void RaiseSpeedTo_453990(Fix16 a2);
+    EXPORT void RaiseSpeedTo_453990(Fix16 target_speed);
     EXPORT void ClearTurnReady_4539B0();
     EXPORT void UpdateSpeedTowardTarget_4539D0();
     EXPORT void UpdateTrainMovement_453A40();

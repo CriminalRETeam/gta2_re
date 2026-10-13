@@ -45,29 +45,29 @@ char_type Fix16_Rect::CanRectEnterMovementRegion_59DE80()
 }
 
 MATCH_FUNC(0x59dee0)
-void Fix16_Rect::ExpandToIncludePoint_59DEE0(Fix16 a2, Fix16 a3)
+void Fix16_Rect::ExpandToIncludePoint_59DEE0(Fix16 x, Fix16 y)
 {
-    if (a2 < field_0_left)
+    if (x < field_0_left)
     {
-        field_0_left = a2;
+        field_0_left = x;
     }
     else
     {
-        if (a2 > field_4_right)
+        if (x > field_4_right)
         {
-            field_4_right = a2;
+            field_4_right = x;
         }
     }
 
-    if (a3 < field_8_top)
+    if (y < field_8_top)
     {
-        field_8_top = a3;
+        field_8_top = y;
     }
     else
     {
-        if (a3 > field_C_bottom)
+        if (y > field_C_bottom)
         {
-            field_C_bottom = a3;
+            field_C_bottom = y;
         }
     }
 }
@@ -95,7 +95,7 @@ bool Fix16_Rect::RectOverlapsZone_59DF20(u8 zone_type)
 }
 
 MATCH_FUNC(0x59dfb0)
-bool Fix16_Rect::EveryTileMatchesArrowType_59DFB0(s32 a2)
+bool Fix16_Rect::EveryTileMatchesArrowType_59DFB0(s32 arrow_type)
 {
     u8 y_pos = field_8_top.ToUInt8();
     u8 x_pos;
@@ -116,7 +116,7 @@ bool Fix16_Rect::EveryTileMatchesArrowType_59DFB0(s32 a2)
             if (block_4DFE10)
             {
                 
-                switch (a2)
+                switch (arrow_type)
                 {
                     case 1:
                         v3 = (block_4DFE10->field_A_arrows & 0xF) == 4;  //  green arrow up

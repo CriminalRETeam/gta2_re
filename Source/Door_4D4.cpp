@@ -80,14 +80,14 @@ void DoorData_10::Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
 }
 
 MATCH_FUNC(0x49c4e0)
-void DoorData_10::Open_49C4E0(u8 a1)
+void DoorData_10::Open_49C4E0(u8 bFlip)
 {
     DoorAnimInfo_A* tmp = &gDoorAnimInfo_67BB38[field_7_gr_id];
     if (field_0_state != 2)
     {
         field_0_state = 2;
         s16 tile_idx = tmp->field_6_open_internal_tile_idx | 0x1000;
-        if (a1)
+        if (bFlip)
         {
             tile_idx |= 0x2000;
         }
@@ -298,9 +298,9 @@ void Door_4D4::RegisterDoorInfo_49D2D0(s16 start_frame, s16 end_frame, char_type
 }
 
 MATCH_FUNC(0x49d340)
-void Door_4D4::TryOpenDoorForCar_49D340(Car_BC* pCar, u8 a3)
+void Door_4D4::TryOpenDoorForCar_49D340(Car_BC* pCar, u8 door_idx)
 {
-    field_0_doors[a3].TryOpenForCar_49C870(pCar);
+    field_0_doors[door_idx].TryOpenForCar_49C870(pCar);
 }
 
 MATCH_FUNC(0x49d370)

@@ -16,7 +16,7 @@ class DoorData_10 // Contains only position, face and DoorInfo id
   public:
     EXPORT void PoolAllocate();
     EXPORT void Init_49C340(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip);
-    EXPORT void Open_49C4E0(u8 a1);
+    EXPORT void Open_49C4E0(u8 bFlip);
     EXPORT void Close_49C590(u8 bDoFlip);
     EXPORT static s32 __stdcall GetOppositeFace_4DEEB0(s32 v);
 
@@ -128,7 +128,7 @@ class Door_4D4
                                               u8 flip,
                                               u8 reversed);
     EXPORT void RegisterDoorInfo_49D2D0(s16 start_frame, s16 end_frame, char_type speed);
-    EXPORT void TryOpenDoorForCar_49D340(Car_BC* pCar, u8 a3);
+    EXPORT void TryOpenDoorForCar_49D340(Car_BC* pCar, u8 door_idx);
     EXPORT void TryOpenDoorForPed_49D370(Ped* pPed, u8 idx);
     EXPORT Door_38* GetNextFreeDoor_49D3A0();
     EXPORT char_type CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx);

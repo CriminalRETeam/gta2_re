@@ -5117,11 +5117,11 @@ void CarAI_78::ClearSteeringIfTurning_4538B0()
 }
 
 MATCH_FUNC(0x453990)
-void CarAI_78::RaiseSpeedTo_453990(Fix16 a2)
+void CarAI_78::RaiseSpeedTo_453990(Fix16 target_speed)
 {
-    if (this->field_14_speed < a2)
+    if (this->field_14_speed < target_speed)
     {
-        this->field_14_speed = a2;
+        this->field_14_speed = target_speed;
     }
 }
 

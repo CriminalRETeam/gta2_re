@@ -11,7 +11,7 @@ class ExplodingScore_50
     EXPORT ~ExplodingScore_50();
     EXPORT void PoolAllocate();
     EXPORT void PoolDeallocate();
-    EXPORT void ClearNumbersArrayFrom_596A70(s32 a2);
+    EXPORT void ClearNumbersArrayFrom_596A70(s32 start_idx);
     EXPORT void InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score);
     EXPORT void DrawNumbers_596C90();
     EXPORT char_type PoolUpdate();

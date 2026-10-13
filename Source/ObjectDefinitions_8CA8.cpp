@@ -596,18 +596,18 @@ MapObjectOverride_54::MapObjectOverride_54(s32 param_1,
 }
 
 MATCH_FUNC(0x533060)
-void ObjectDefinition_74::SetDimensions_533060(Fix16 a2, Fix16 a3, Fix16 a4)
+void ObjectDefinition_74::SetDimensions_533060(Fix16 width, Fix16 height, Fix16 depth)
 {
-    field_0_width = a2;
-    field_4_height = a3;
-    field_8_depth = a4;
+    field_0_width = width;
+    field_4_height = height;
+    field_8_depth = depth;
     if (field_0_width < field_4_height)
     {
-        field_C_min_size = a2;
+        field_C_min_size = width;
     }
     else
     {
-        field_C_min_size = a3;
+        field_C_min_size = height;
     }
 }
 

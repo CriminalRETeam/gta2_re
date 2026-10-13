@@ -67,8 +67,8 @@ class Door_38
     EXPORT void TryOpenForPed_49C8A0(Ped* pPed);
     EXPORT void InitSingleNoCheck_49C8D0(u8 door_group, u8 gr_id, u8 x, u8 y, u8 z, s32 facing);
     EXPORT void AddDoorData_49CA50(u8 gr_id, char_type x, char_type y, char_type z, s32 face);
-    EXPORT void InitSingle_49CAC0(DoorData_10* a2, char_type a3, u8 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8, Fix16 a9);
-    EXPORT void InitDouble_49CC00(DoorData_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8);
+    EXPORT void InitSingle_49CAC0(DoorData_10* pDoorData, char_type bFlip, u8 obj_id, Fix16 trigger_x, Fix16 trigger_y, Fix16 trigger_z, Fix16 trigger_w, Fix16 trigger_h);
+    EXPORT void InitDouble_49CC00(DoorData_10* pDoorData, char_type bFlip, u8 obj_id, Fix16 trigger_x, Fix16 trigger_y, Fix16 trigger_z, Fix16 trigger_w, Fix16 trigger_h);
     EXPORT void UpdateAutoClose_49CD90();
     EXPORT char_type Service_49CE90();
     EXPORT void get_door_xyz_face_49CEE0(u8* pX, u8* pY, u8* pZ, u32* pFace);

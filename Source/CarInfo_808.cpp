@@ -88,14 +88,14 @@ char* __stdcall CarInfo_808::parse_gci_file_430A30(void* pGciData,
 }
 
 MATCH_FUNC(0x430AC0)
-char* __stdcall CarInfo_808::SetErr_430AC0(s32 a1)
+char* __stdcall CarInfo_808::SetErr_430AC0(s32 error_code)
 {
-    if (a1 > 0 || a1 < -GTA2_COUNTOF_S(error_table_61A6D4) - 1)
+    if (error_code > 0 || error_code < -GTA2_COUNTOF_S(error_table_61A6D4) - 1)
     {
-        a1 = -GTA2_COUNTOF(error_table_61A6D4);
+        error_code = -GTA2_COUNTOF(error_table_61A6D4);
     }
 
-    sprintf(Buffer_675FD4, "%s at line %d", error_table_61A6D4[-a1], line_number_676258);
+    sprintf(Buffer_675FD4, "%s at line %d", error_table_61A6D4[-error_code], line_number_676258);
     return Buffer_675FD4;
 }
 

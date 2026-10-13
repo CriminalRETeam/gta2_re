@@ -192,9 +192,9 @@ s16 gtx_0x106C::GetTruePalette_5AA5F0(s32 palette_type, s16 pal)
 }
 
 MATCH_FUNC(0x5AA6A0)
-BYTE* gtx_0x106C::GetPalData_5AA6A0(u16 a2)
+BYTE* gtx_0x106C::GetPalData_5AA6A0(u16 palette_idx)
 {
-    return (BYTE*)field_2C_physical_palettes + 4 * ((a2 & 63) + ((a2 & 0xFFFFC0) << 8));
+    return (BYTE*)field_2C_physical_palettes + 4 * ((palette_idx & 63) + ((palette_idx & 0xFFFFC0) << 8));
 }
 
 MATCH_FUNC(0x5AA6F0)
@@ -658,15 +658,15 @@ void gtx_0x106C::load_tiles_5AADF0(u32 tile_chunk_len)
 }
 
 MATCH_FUNC(0x5AAE20)
-void gtx_0x106C::skip_ovly_5AAE20(u32 a1)
+void gtx_0x106C::skip_ovly_5AAE20(u32 size)
 {
-    File::Global_Seek_4A7140(&a1);
+    File::Global_Seek_4A7140(&size);
 }
 
 MATCH_FUNC(0x5AAE30)
-void gtx_0x106C::skip_psxt_5AAE30(u32 a1)
+void gtx_0x106C::skip_psxt_5AAE30(u32 size)
 {
-    File::Global_Seek_4A7140(&a1);
+    File::Global_Seek_4A7140(&size);
 }
 
 MATCH_FUNC(0x5AAE40)

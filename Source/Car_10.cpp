@@ -41,11 +41,11 @@ void Car_Door_10::AnimateOpening_439CD0(u32* pRet)
 
 // 9.6f: the bit ops are BitSet32::clear_bit/set_bit (0x420DE0/0x420DC0) on a maybe_flags, here a u32*
 MATCH_FUNC(0x439D40)
-void Car_Door_10::AnimateClosing_439D40(u32* a3)
+void Car_Door_10::AnimateClosing_439D40(u32* pDeltaMask)
 {
     if (field_0_animation_frame)
     {
-        *a3 &= ~(1 << (field_2_first_delta_idx + field_0_animation_frame - 1));
+        *pDeltaMask &= ~(1 << (field_2_first_delta_idx + field_0_animation_frame - 1));
         field_0_animation_frame--;
     }
 
@@ -55,7 +55,7 @@ void Car_Door_10::AnimateClosing_439D40(u32* a3)
     }
     else
     {
-        *a3 |= 1 << (field_2_first_delta_idx + field_0_animation_frame - 1);
+        *pDeltaMask |= 1 << (field_2_first_delta_idx + field_0_animation_frame - 1);
     }
 }
 
@@ -105,11 +105,11 @@ void Car_Door_10::Service_439DA0(u32* a3a)
 }
 
 MATCH_FUNC(0x439E40)
-void Car_Door_10::Init_439E40(u8 a2)
+void Car_Door_10::Init_439E40(u8 door_idx)
 {
     field_4_state = 6;
     field_0_animation_frame = 0;
-    field_2_first_delta_idx = kDoorFirstDeltaIdx_61A808[a2];
+    field_2_first_delta_idx = kDoorFirstDeltaIdx_61A808[door_idx];
 }
 
 MATCH_FUNC(0x439E60)

@@ -273,7 +273,7 @@ class gtx_0x106C
 
     EXPORT s16 GetTruePalette_5AA5F0(s32 palette_type, s16 pal); // maybe "get virtual palette"?
 
-    EXPORT BYTE* GetPalData_5AA6A0(u16 a2);
+    EXPORT BYTE* GetPalData_5AA6A0(u16 palette_idx);
 
     EXPORT u16 get_phys_pal_5AA6F0(u16 palId);
 
@@ -319,9 +319,9 @@ class gtx_0x106C
 
     EXPORT void load_tiles_5AADF0(u32 tile_chunk_len);
 
-    EXPORT void skip_ovly_5AAE20(u32 a1);
+    EXPORT void skip_ovly_5AAE20(u32 size);
 
-    EXPORT void skip_psxt_5AAE30(u32 a1);
+    EXPORT void skip_psxt_5AAE30(u32 size);
 
     EXPORT void load_sprite_graphics_5AAE40(u32 sprg_chunk_len);
 

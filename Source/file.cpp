@@ -295,10 +295,10 @@ void __stdcall File::Global_Seek_4A7140(u32* pOffset)
 }
 
 MATCH_FUNC(0x4A7190)
-void __stdcall File::File_Error_4A7190(s32 Code, s32 a2, s32 a3)
+void __stdcall File::File_Error_4A7190(s32 Code, s32 arg1, s32 arg2)
 {
     Global_Close_UnChecked_4A7110();
-    FatalError_4A38C0(Code, "C:\\Splitting\\Gta2\\Source\\File.cpp", 398, a2, a3);
+    FatalError_4A38C0(Code, "C:\\Splitting\\Gta2\\Source\\File.cpp", 398, arg1, arg2);
 }
 
 MATCH_FUNC(0x4A71C0)

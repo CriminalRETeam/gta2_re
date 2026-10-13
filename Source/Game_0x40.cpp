@@ -683,14 +683,14 @@ Player* Game_0x40::GetFirstPlayerWithoutPed_4B9750()
 }
 
 MATCH_FUNC(0x4B9790)
-void Game_0x40::ShakeCamerasAtPos_4B9790(Fix16 a2, Fix16 a3, Fix16 a4)
+void Game_0x40::ShakeCamerasAtPos_4B9790(Fix16 amount, Fix16 x, Fix16 y)
 {
     Camera_0xBC* pCam = IteratePlayerCamera_4B9BC0();
     while (pCam)
     {
-        if (pCam->check_camera(a3, a4))
+        if (pCam->check_camera(x, y))
         {
-            pCam->SetShake_436120(a2);
+            pCam->SetShake_436120(amount);
         }
         pCam = IterateNextPlayerCamera_4B9C50();
     }
@@ -723,11 +723,11 @@ s8 Game_0x40::IsSpriteVisibleToAnyPlayer_4B9830(Sprite* pCarSprite, Fix16 margin
 }
 
 MATCH_FUNC(0x4B9890)
-s8 Game_0x40::IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 a3)
+s8 Game_0x40::IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 margin)
 {
     for (u8 i = 0; i < field_23_num_players; i++)
     {
-        if (IsSpriteInPlayerView_4B98E0(pSprite, i, a3))
+        if (IsSpriteInPlayerView_4B98E0(pSprite, i, margin))
         {
             return 1;
         }
@@ -736,15 +736,15 @@ s8 Game_0x40::IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 a3)
 }
 
 MATCH_FUNC(0x4B98E0)
-bool Game_0x40::IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 playerIdx, s32 a4)
+bool Game_0x40::IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 playerIdx, s32 margin)
 {
     if (field_4_players[playerIdx]->field_8E_bInUse)
     {
-        if (field_4_players[playerIdx]->field_90_game_camera.IsSpriteInView_435630(pSprite, a4))
+        if (field_4_players[playerIdx]->field_90_game_camera.IsSpriteInView_435630(pSprite, margin))
         {
             return true;
         }
-        return field_4_players[playerIdx]->field_2D0_bAuxCamActive && field_4_players[playerIdx]->field_208_aux_game_camera.IsSpriteInView_435630(pSprite, a4) ? true :
+        return field_4_players[playerIdx]->field_2D0_bAuxCamActive && field_4_players[playerIdx]->field_208_aux_game_camera.IsSpriteInView_435630(pSprite, margin) ? true :
                                                                                                                                    false;
     }
     return false;

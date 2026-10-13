@@ -1474,7 +1474,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
 }
 
 MATCH_FUNC(0x51a9d0)
-void __stdcall Network_20324::OnTimer_51A9D0(HWND hWnd, s32 a2)
+void __stdcall Network_20324::OnTimer_51A9D0(HWND hWnd, s32 timer_id)
 {
     Network_20324* pThis = (Network_20324*)GetWindowLongA(hWnd, 8);
     int hadSelection = 0;
@@ -1581,7 +1581,7 @@ void Network_20324::ShowSpecificWindow_51ABF0(s32 showing_specific_window_idx)
 }
 
 MATCH_FUNC(0x51ac60)
-s32 Network_20324::OnInitDialog_51AC60(HWND hWnd, s32 a2, Network_20324* thisPtr)
+s32 Network_20324::OnInitDialog_51AC60(HWND hWnd, s32 lParam, Network_20324* thisPtr)
 {
     SetWindowLongA(hWnd, 8, (LONG)thisPtr);
     gTimerId_6F8A18 = SetTimer(hWnd, 0xAu, 0xAu, 0);
@@ -1822,7 +1822,7 @@ LRESULT Network_20324::cb_AddChatMessage_51B2F0(Network_20324* pNetUi, Network_C
 #pragma warning(disable : 4715) // not all control paths return a value
 #pragma warning(disable : 4700) // name is never filled in, as in the original
 MATCH_FUNC(0x51b4f0)
-s32 Network_20324::AppendChatMessage_51B4F0(s32 a2, const char_type* pMsg)
+s32 Network_20324::AppendChatMessage_51B4F0(s32 player_idx, const char_type* pMsg)
 {
     char_type line[260];
     char_type name[260];
@@ -1918,12 +1918,12 @@ void Network_20324::SetPlayerNameText_51B7C0()
 }
 
 MATCH_FUNC(0x51b7e0)
-void Network_20324::cb_sub_51B7E0(Network_20324* a1, const char_type** a2)
+void Network_20324::cb_sub_51B7E0(Network_20324* pNetUi, const char_type** ppData)
 {
-    const char_type* v2 = *a2;
-    if (a1->Get_202D4_active_control_idx_51ACC0() == 2)
+    const char_type* v2 = *ppData;
+    if (pNetUi->Get_202D4_active_control_idx_51ACC0() == 2)
     {
-        a1->ApplyHostGameSettings_51B810(v2);
+        pNetUi->ApplyHostGameSettings_51B810(v2);
     }
 }
 
@@ -2208,7 +2208,7 @@ LRESULT __stdcall Network_20324::subclass_proc_51BDD0(HWND hWnd, UINT Msg, WPARA
 }
 
 MATCH_FUNC(0x51beb0)
-void Network_20324::OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 a3)
+void Network_20324::OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 player_idx)
 {
     char_type String[128];
     wchar_t Dest[260];
@@ -2216,7 +2216,7 @@ void Network_20324::OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 a3)
     Network_20324::GetString_519A50(Dest, String, 260);
     gNetPlay_7071E8.SendChatMessage_521060(Dest, -1);
     SetDlgItemTextA(field_202E0_dlg_hwnd, nIDDlgItem, "");
-    Network_20324::AppendChatMessage_51B4F0(a3, String);
+    Network_20324::AppendChatMessage_51B4F0(player_idx, String);
 }
 
 // https://decomp.me/scratch/tQkqa
