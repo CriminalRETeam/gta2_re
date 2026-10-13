@@ -59,9 +59,9 @@ class PathFinder_2FD4
     u8 field_11_xEnd;
     u8 field_12_yEnd;
     u8 field_13_zEnd;
-    u8 field_14;
-    u16 field_16;
-    char_type field_18;
+    u8 field_14_bExpanding;
+    u16 field_16_start_cost;
+    char_type field_18_bSearching;
     char_type field_19_unused;
     char_type field_1A_unused;
     u8 field_1B_direction;
@@ -75,9 +75,9 @@ class PathFinder_2FD4
     u8 field_25_xpos;
     u8 field_26_ypos;
     u8 field_27_zpos;
-    char_type field_28;
-    char_type field_29_unused;
-    char_type field_2A;
+    char_type field_28_grid_origin_x;
+    char_type field_29_grid_origin_y;
+    char_type field_2A_unused;
     char_type field_2B_unused;
     s16 field_2C_unused;
     u16 field_2E_iteration_budget;

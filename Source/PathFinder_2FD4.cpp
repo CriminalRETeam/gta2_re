@@ -366,7 +366,7 @@ void PathFinder_2FD4::AddGridCell_554710()
         }
         else
         {
-            v7 = field_16;
+            v7 = field_16_start_cost;
         }
         field_8_pNode->field_0_idx1 = field_23_grid_x;
         field_8_pNode->field_1_idx2 = field_24_grid_y;
@@ -452,7 +452,7 @@ bool PathFinder_2FD4::ProcessGridCell_5548C0()
     }
     else if (v2 == 2)
     {
-        field_18 = 0;
+        field_18_bSearching = 0;
         field_19_unused = 1;
         field_1A_unused = 1;
         return 1;
@@ -598,7 +598,7 @@ char_type PathFinder_2FD4::ComputePath_554AB0(s32 ped_id,
         field_40_grid[field_1C_grid_idx].field_6_cost = 0;
         field_2FD0_bTimedOut = 0;
         field_1E_current_cost = 0;
-        field_18 = 1;
+        field_18_bSearching = 1;
     }
     ++field_2FD1_time_out_counter;
     if (field_2FD1_time_out_counter > 200)
@@ -645,7 +645,7 @@ char_type PathFinder_2FD4::ComputePath_554AB0(s32 ped_id,
             field_27_zpos = gPathFinder_best_z_6FDECC;
             if (field_25_xpos == field_11_xEnd && field_26_ypos == field_12_yEnd && field_27_zpos == field_13_zEnd)
             {
-                field_18 = 0;
+                field_18_bSearching = 0;
                 field_19_unused = 1;
                 field_1A_unused = 1;
                 goto LABEL_35;
@@ -737,7 +737,7 @@ char_type PathFinder_2FD4::ComputePath_554AB0(s32 ped_id,
             }
             if (!field_C_node_count)
             {
-                field_18 = 0;
+                field_18_bSearching = 0;
                 field_19_unused = 1;
                 PathFinder_2FD4::RestoreSavedPosition_554920();
                 if (gPathFinder_best_x_6FDECA)
@@ -746,7 +746,7 @@ char_type PathFinder_2FD4::ComputePath_554AB0(s32 ped_id,
                 }
                 goto LABEL_61;
             }
-            field_14 = 1;
+            field_14_bExpanding = 1;
             if (field_2E_iteration_budget == 0)
             {
                 return 0;
@@ -756,7 +756,7 @@ char_type PathFinder_2FD4::ComputePath_554AB0(s32 ped_id,
             {
                 --field_2E_iteration_budget;
             }
-            if (!field_18)
+            if (!field_18_bSearching)
             {
                 goto LABEL_35;
             }
@@ -764,7 +764,7 @@ char_type PathFinder_2FD4::ComputePath_554AB0(s32 ped_id,
     }
 
 LABEL_35:
-    field_14 = 0;
+    field_14_bExpanding = 0;
     cur_x = field_25_xpos;
     yCoord = field_26_ypos;
     cur_z = field_27_zpos;
@@ -904,8 +904,8 @@ bool PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* 
     field_27_zpos = default_pos;
     field_26_ypos = default_pos;
     field_25_xpos = default_pos;
-    field_28 = *xpos - 16;
-    field_29_unused = *ypos - 16;
+    field_28_grid_origin_x = *xpos - 16;
+    field_29_grid_origin_y = *ypos - 16;
     PathFinder_2FD4::ClearGrid_5545C0();
     field_E_xStart = *xpos;
     field_F_yStart = *ypos;
@@ -916,7 +916,7 @@ bool PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* 
     {
         field_10_zStart = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(Fix16(field_E_xStart), Fix16(field_F_yStart), Fix16(field_10_zStart)).ToUInt8();
     }
-    field_16 = 0;
+    field_16_start_cost = 0;
     field_11_xEnd = 0;
     field_12_yEnd = 0;
     field_13_zEnd = 0;
@@ -932,9 +932,9 @@ bool PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* 
     PathFinder_2FD4::AddGridCell_554710();
     field_8_pNode = field_2350_nodes;
     field_1C_grid_idx = 560;
-    field_40_grid[field_1C_grid_idx].field_6_cost = field_16;
+    field_40_grid[field_1C_grid_idx].field_6_cost = field_16_start_cost;
     field_1E_current_cost = 0;
-    field_18 = 1;
+    field_18_bSearching = 1;
     bool bListWasEmpty = true;
     while (field_C_node_count)
     {
@@ -983,7 +983,7 @@ bool PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* 
                                                Fix16(field_26_ypos) + kFpHalf_6FDCA8,
                                                Fix16(field_27_zpos)))
             {
-                field_18 = 0;
+                field_18_bSearching = 0;
                 *xpos = field_25_xpos;
                 *ypos = field_26_ypos;
                 *zpos = field_27_zpos;
@@ -995,7 +995,7 @@ bool PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* 
             {
                 if ((gMap_0x370_6F6268->get_block_4DFE10(field_25_xpos, field_26_ypos, field_27_zpos - 1)->field_A_arrows & 0xF) != 0)
                 {
-                    field_18 = 0;
+                    field_18_bSearching = 0;
                     *xpos = field_25_xpos;
                     *ypos = field_26_ypos;
                     *zpos = field_27_zpos;
@@ -1004,7 +1004,7 @@ bool PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* 
             }
             else
             {
-                field_18 = 0;
+                field_18_bSearching = 0;
                 *xpos = field_25_xpos;
                 *ypos = field_26_ypos;
                 *zpos = field_27_zpos;
@@ -1042,10 +1042,10 @@ bool PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* 
                     field_1B_direction = 4;
                     if (!PathFinder_2FD4::ProcessGridCell_5548C0())
                     {
-                        ++field_16;
+                        ++field_16_start_cost;
                         if (++j <= 6 || maybe_timer != 0)
                         {
-                            if (!field_18)
+                            if (!field_18_bSearching)
                             {
                                 return 1;
                             }
