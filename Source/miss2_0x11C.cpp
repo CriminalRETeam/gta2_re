@@ -3971,7 +3971,7 @@ void miss2_0x11C::SCRCMD_SET_NO_COLLIDE_50B8B0()
         }
         else if (gBasePtr_6F8070->field_2_type == SCRCMD_CLEAR_NO_COLLIDE)
         {
-            pCar->field_78_flags &= 0xFFFD;
+            pCar->field_78_bf.bNoCollide = 0;
         }
     }
 

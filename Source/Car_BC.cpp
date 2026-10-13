@@ -2911,7 +2911,7 @@ MATCH_FUNC(0x43b850)
 bool Car_BC::IsImmuneToExplosionType_43B850(s32 explosion_type)
 {
     // Two separate bit tests: VC6 loads the u16 once into cx and merges them into 'test $6,%ch'
-    return (field_78_flags & 0x200 || field_78_flags & 0x400) && explosion_type != 20 ? true : false;
+    return (field_78_bf.bRocketproof || field_78_bf.bFlameproof) && explosion_type != 20 ? true : false;
 }
 
 // 9.6f 0x4226C0

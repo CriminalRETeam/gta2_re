@@ -805,7 +805,7 @@ class Car_BC
 
     inline bool AreEmergencyLightsOn_414F80()
     {
-        return HasEmergencyLights_414F20() && (field_A4_light_flags & 4) != 0;
+        return HasEmergencyLights_414F20() && field_A4_bf.bEmergencyLights;
     }
 
     // 9.6f 0x4119D0
