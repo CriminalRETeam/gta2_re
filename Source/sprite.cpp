@@ -372,7 +372,7 @@ void DamageAreaFlags::Delta_48F820(u16& sprite_idx, u8* pArray, u32& a3, u8& wid
 // 9.6f 0x4BA230
 inline u16 Sprite::GetTrueSpriteIdx_4BA230()
 {
-    return gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
+    return gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_type_sprite_idx);
 }
 
 MATCH_FUNC(0x48F8B0)
@@ -947,7 +947,7 @@ s16 Sprite::GetTruePalette_59EAA0()
 {
     if (field_34_palette_type == palette_types_enum::sprites_2)
     {
-        s16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
+        s16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_type_sprite_idx);
         return gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(palette_types_enum::sprites_2, sprite_idx);
     }
     return gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(field_34_palette_type, field_24_remap);
@@ -1104,7 +1104,7 @@ void Sprite::Draw_59EFF0()
     {
         sprite_idx = gGtx_0x106C_703DD4->field_4_sprite_index_count - 1;
         pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
-        converted_pal = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
+        converted_pal = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_type_sprite_idx);
         pSpriteIndex2 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(converted_pal);
         pSpriteIndex->field_4_width = pSpriteIndex2->field_4_width - 2 * field_38_zoom;
         pSpriteIndex->field_5_height = pSpriteIndex2->field_5_height - 2 * field_38_zoom;
@@ -1121,9 +1121,9 @@ void Sprite::Draw_59EFF0()
     }
     else
     {
-        sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
+        sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_type_sprite_idx);
         pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
-        pTexture = gTextureCache_15D8_705064->GetSpriteTexture_5B94F0(field_30_sprite_type_enum, field_22_sprite_id, field_34_palette_type, field_24_remap);
+        pTexture = gTextureCache_15D8_705064->GetSpriteTexture_5B94F0(field_30_sprite_type_enum, field_22_type_sprite_idx, field_34_palette_type, field_24_remap);
     }
 
     if (!field_4_pVisualShape->field_48_bbox_up_to_date)
@@ -2303,7 +2303,7 @@ void Sprite::PoolAllocate()
     this->field_1C_zpos = gFix16_7035C0;
     this->field_39_z_col = -1;
     this->field_0_rotation = gAng16_703804;
-    this->field_22_sprite_id = 0;
+    this->field_22_type_sprite_idx = 0;
     this->field_24_remap = 0;
     this->field_34_palette_type = palette_types_enum::sprites_2;
     this->field_C_pCollisionShape = 0;
@@ -2312,7 +2312,7 @@ void Sprite::PoolAllocate()
     this->field_10_sound = 0;
 
     // TODO: Probably an inline
-    this->field_20_id = gSpriteManager_703820->field_4_id_base++;
+    this->field_20_instance_id = gSpriteManager_703820->field_4_id_base++;
     if (!gSpriteManager_703820->field_4_id_base)
     {
         gSpriteManager_703820->field_4_id_base = 1;
@@ -2323,7 +2323,7 @@ MATCH_FUNC(0x5a3030)
 void Sprite::PoolDeallocate()
 {
     FreeShapes_59FAD0();
-    this->field_20_id = 0;
+    this->field_20_instance_id = 0;
     FreeSound_5A2A00();
 }
 
@@ -2721,10 +2721,10 @@ Sprite::Sprite() : field_0_rotation(gAng16_703804)
     field_14_xy.x = gFix16_7035C0;
     field_14_xy.y = gFix16_7035C0;
     field_1C_zpos = gFix16_7035C0;
-    field_20_id = 0;
-    field_22_sprite_id = 0;
+    field_20_instance_id = 0;
+    field_22_type_sprite_idx = 0;
     field_24_remap = 0;
-    field_28_draw_layer = NULL;
+    field_28_draw_layer = 0;
     field_2C_flags = 0;
     field_30_sprite_type_enum = 0;
     field_34_palette_type = 0;

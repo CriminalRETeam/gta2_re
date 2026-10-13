@@ -154,7 +154,7 @@ void force_link()
     maccies.sub_4C1CD0();
 
     Sprite car_3c;
-    car_3c.field_20_id = 5;
+    car_3c.field_20_instance_id = 5;
 
     CrusherPool_94 snooky;
     snooky.IsCarBeingCrushed_4887A0(0);

@@ -1236,11 +1236,11 @@ char_type Particle_4C::UpdateShortAnim_state_37_53B580()
     switch (field_46_sub_state)
     {
         case 1:
-            this->field_30_pNext->set_id_lazy_4206C0(field_30_pNext->field_22_sprite_id);
+            this->field_30_pNext->set_id_lazy_4206C0(field_30_pNext->field_22_type_sprite_idx);
             break;
 
         default:
-            this->field_30_pNext->set_id_4206E0(field_30_pNext->field_22_sprite_id + 4);
+            this->field_30_pNext->set_id_4206E0(field_30_pNext->field_22_type_sprite_idx + 4);
             break;
     }
 

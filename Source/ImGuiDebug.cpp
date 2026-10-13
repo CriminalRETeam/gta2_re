@@ -2058,7 +2058,7 @@ void CC ImGuiDebugDraw()
             {
                 ImGui::Text("Object spawned attributes:");
                 //ImGui::SliderU8("field_26_ped_ref_idx", &spawned_obj->field_26_ped_ref_idx, 0, 25);
-                static s32 sprt_lazy_idx = spawned_obj->field_4->field_22_sprite_id;
+                static s32 sprt_lazy_idx = spawned_obj->field_4->field_22_type_sprite_idx;
                 
                 if (ImGui::InputInt("Sprite Lazy Idx", &sprt_lazy_idx, 1, 1))
                 {

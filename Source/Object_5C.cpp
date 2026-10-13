@@ -2983,9 +2983,9 @@ void Object_2C::SetSpriteIdOffset_5290C0(u8 id_base)
 {
     s16 new_id = id_base + field_8->field_1E_sprite_palette;
     Sprite* pSprite = field_4;
-    if (pSprite->field_22_sprite_id != new_id)
+    if (pSprite->field_22_type_sprite_idx != new_id)
     {
-        pSprite->field_22_sprite_id = new_id;
+        pSprite->field_22_type_sprite_idx = new_id;
         pSprite->UpdateDimensionsFromSpriteIndex_59FA40();
     }
 }

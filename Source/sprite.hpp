@@ -289,10 +289,10 @@ class Sprite
         field_14_xy.x = kZero;
         field_14_xy.y = kZero;
         field_1C_zpos = kZero;
-        field_20_id = 0;
-        field_22_sprite_id = 0;
+        field_20_instance_id = 0;
+        field_22_type_sprite_idx = 0;
         field_24_remap = 0;
-        field_28_draw_layer = NULL;
+        field_28_draw_layer = 0;
         field_2C_flags = 0;
         field_30_sprite_type_enum = 0;
         field_34_palette_type = 0;
@@ -487,16 +487,16 @@ class Sprite
 
     void set_id_lazy_4206C0(s16 new_id)
     {
-        if (field_22_sprite_id != new_id)
+        if (field_22_type_sprite_idx != new_id)
         {
-            field_22_sprite_id = new_id;
+            field_22_type_sprite_idx = new_id;
             UpdateDimensionsFromSpriteIndex_59FA40();
         }
     }
 
     void set_id_4206E0(u16 a2)
     {
-        this->field_22_sprite_id = a2;
+        this->field_22_type_sprite_idx = a2;
     }
 
     void SetNoLighting_4337F0()
@@ -601,8 +601,8 @@ class Sprite
 
     Fix16_Point_POD field_14_xy;
     Fix16 field_1C_zpos;
-    s16 field_20_id;
-    s16 field_22_sprite_id;
+    s16 field_20_instance_id; // unique per live sprite (SpriteManager id_base counter)
+    s16 field_22_type_sprite_idx; // sprite number within its sprite type, looked up with GetSpriteTrueIndex_5AA460
     s16 field_24_remap;
     char_type field_26_pad;
     char_type field_27_pad;

@@ -852,7 +852,7 @@ void SpriteGrid_400::DebugLog_478950(s32 x_pos, s32 y_pos)
             {
                 if (j->field_0_pSprite)
                 {
-                    sprintf(gTmpBuffer_67C598, " %d", (u16)j->field_0_pSprite->field_20_id);
+                    sprintf(gTmpBuffer_67C598, " %d", (u16)j->field_0_pSprite->field_20_instance_id);
                     gFile_67C530.Write_Log_4D9650(gTmpBuffer_67C598);
                 }
             }
