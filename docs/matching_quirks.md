@@ -2863,6 +2863,39 @@ it ahead of the two angle blocks (4 picks each), which fixed an eax/edx swap in 
 blocks to the same place either way. When an extra pick can't be found in the blocks just before the rotated one, look
 for blocks that dupB moves.
 
+### Bit field writes and explicit tests count in the inline budget (`ManageTrafficCarDirection_448CE0`)
+
+A `field_24_bf.b4 = 0;` costs 13 front-end units, `field_24_flags &= ~0x10;` 7, and consecutive bit writes on one
+field give the same code as the combined mask (`b13 = 0; b16 = 0;` and `&= ~0x12000`). A brace pair costs 2, a
+`!= 0` 2..3. So when `inlsim.py` wants a bigger caller, look for flags the neighbours write as bit fields. Don't
+reach for `if (0) { ... }`: its size counts, but so do the inline sites inside it. `if (bf.bN == true)` is not
+neutral (VC6 compares the bit value). Bit writes of 1 at several sites can also keep the mask in a register
+(`mov $0x10,%ecx`, `or %ecx,%eax`).
+
+### `return`, `break` and the exit label's predecessor order (`ManageTrafficCarDirection_448CE0`)
+
+C2 binds `return` jumps to the exit label in IL order (`0x10733AEA`), so they sit behind everything added later.
+`break`s go to a temporary label first and are moved to the switch end head first, which reverses them. Label
+merges (`0x10705614`) move a label's jumps head first, so a merged label's jumps end up in source order. Which copy of
+identical return tails survives a cross-jump follows from that order; a C2 hook on `0x10704F8D` (logging the caller)
+shows which step added each jump. Two identical tails can also stay apart because the cross-jump size estimate
+(codegen order, before scheduling) is exactly 20: changing the statement order inside the tail changes it.
+
+### Which operand of `field + global` is loaded first (`ManageTrafficCarDirection_448CE0`)
+
+For a 16-bit `this->f + kGlobal`, VC6 loads the global and adds the field from memory when the field is referenced
+elsewhere on the path; otherwise it loads the field first. A reference that comes after an `__int64` operation (a
+`Fix16` division) doesn't count: `Ang16& heading = field_10_angle;` before the division in the
+`PolarToCartesian_41FC20` arguments was needed. In that function it also depended on keeping the arrow block in a
+second pointer (`pArrowBlock = pBlock`), unexplained.
+
+### File-local constants and 32-bit widening (`ManageTrafficCarDirection_448CE0`)
+
+A `static` global initialised in the TU and never written is copy propagated: `v = kAng180;` followed by `v - k`
+loads the constant and keeps a copy in a register. The pass that widens a 16-bit op on two globals to 32 bits only
+does it when both sit at 4-aligned `.bss` offsets, and the `.bss` order is derived from the names, so renaming a byte global can be
+what puts an `Ang16` at 2 mod 4 as in the original.
+
 ### `Ang16` operators, not explicit `Normalized_406C20()` calls, for angle sums
 
 A function that mixes inline normalizes with calls to `Normalize_406C20` usually wrote every site as

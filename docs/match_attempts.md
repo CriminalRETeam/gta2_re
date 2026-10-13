@@ -5612,3 +5612,23 @@ Base for all diagnostics: `pPrev = pBlock` after `sub_4E65A0(x, y, &z, 1, 1)` (t
 - Behaviour checked against 10.5.exe: original and ours run in unicorn on the same random memory (globals, door table,
   sprite, sin/cos tables; `get_car_remap_5AA3D0` stubbed), 100k cases, every original instruction covered, outputs equal.
   Mutants (one sign, one constant, `bFront = true` dropped) are all caught.
+
+## ManageTrafficCarDirection_448CE0 (Oct 13): matched
+
+- VC7 13.00 `/O2 /Ob0 /G5 /GX` compiles the source to 9.6f 0x430CC0 with only 4 jump targets different, which pinned
+  the shape (every inline call is visible there) before the VC6 work.
+- `kAng180/90/270` are `static` in CarAI_78.cpp: VC6 then propagates `target_angle = kAngX` into the first use of
+  each case head (`mov kAng180,%ax; mov %ax,%bx; sub a08,%ax`). `bOnGradientSlope_677C90` was renamed (from
+  `bIsOnGradientSlope`) so that `.bss` puts an even number of bytes before kAng180 (see the widening quirk).
+- `field_24_flags` is written through `field_24_bf` bit by bit, as in the other CarAI functions. This gives the
+  `mov $0x10,%ecx` / `or %ecx,%eax` of the first switch with no extra local, and +383 front-end units: with the
+  explicit tests (`!= 0`, `!= NULL`) and braced case bodies the function is 3935 units, inside the 3933..3941
+  window where `PolarToCartesian_41FC20` gets its first `operator*` inline and the east `Normalize` boundary falls
+  between the `off <= c8` and `off > c8` branches. Earlier, a `(void)0;` padding stood in for that size.
+- Stop blocks `b10 = false; b4 = true; maneuver = 0;`: with `maneuver = 0` first, the east tail is 20 bytes by the
+  cross-jump size estimate and doesn't merge into west's.
+- `Ang16& heading = field_10_angle;` before `PolarToCartesian_41FC20(heading, ...)`: see the operand order quirk.
+- The scattered `return;`/`break;` after single leaf calls are not noise: deleting any of them raises the VC6 or the
+  VC7 score (one-by-one check with both compilers). With the current source VC7 differs from 9.6f only in 2 `je`
+  targets (which `TurnAntiClockwise` + `ret` copy survives); no single exit change or pair of flips fixes them
+  without breaking VC6.
