@@ -295,7 +295,7 @@ bool Object_2C::ShouldCollideWith_5223C0(Sprite* pSprite)
             // Only objects?
             sprite_type = pSprite->GetType_416B40();
             if (sprite_type != sprite_types_enum::code_obj1_4 && sprite_type != sprite_types_enum::map_obj_5 &&
-                sprite_type != sprite_types_enum::unknown_1)
+                sprite_type != sprite_types_enum::object_1)
             {
                 return 1;
             }

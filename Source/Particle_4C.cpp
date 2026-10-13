@@ -1582,7 +1582,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
                     }
                     if (pHit->field_30_sprite_type_enum != sprite_types_enum::code_obj1_4 &&
                         pHit->field_30_sprite_type_enum != sprite_types_enum::map_obj_5 &&
-                        pHit->field_30_sprite_type_enum != sprite_types_enum::unknown_1)
+                        pHit->field_30_sprite_type_enum != sprite_types_enum::object_1)
                     {
                         gParticle_8_6FD5E8->field_0_fire_hit_obj->HandleObjectHit_528990(pHit);
                     }
@@ -1606,7 +1606,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
                     }
                     if (pHit->field_30_sprite_type_enum != sprite_types_enum::code_obj1_4 &&
                         (pHit->field_30_sprite_type_enum != sprite_types_enum::map_obj_5) &&
-                        pHit->field_30_sprite_type_enum != sprite_types_enum::unknown_1)
+                        pHit->field_30_sprite_type_enum != sprite_types_enum::object_1)
                     {
                         gParticle_8_6FD5E8->field_4->HandleObjectHit_528990(pHit);
                     }

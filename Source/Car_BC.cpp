@@ -2426,7 +2426,7 @@ char_type Car_BC::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
         }
 
         sprite_type = pSprite->field_30_sprite_type_enum;
-        if ((sprite_type == 4 || sprite_type == 5 || sprite_type == 1) && (o2c = pSprite->field_8_object_2C_ptr) != 0)
+        if ((sprite_type == sprite_types_enum::code_obj1_4 || sprite_type == sprite_types_enum::map_obj_5 || sprite_type == sprite_types_enum::object_1) && (o2c = pSprite->field_8_object_2C_ptr) != 0)
         {
             pDefinition = o2c->field_8;
             phi_type = pDefinition->field_34_behavior_type;
@@ -6238,7 +6238,7 @@ bool Car_BC::UpdateAttachedToSprite_443360(Sprite* pSprite, Fix16 x, Fix16 y, An
             field_50_car_sprite->SetDrawLayer_40F7B0(18);
             break;
 
-        case sprite_types_enum::unknown_1:
+        case sprite_types_enum::object_1:
         case sprite_types_enum::code_obj1_4:
         case sprite_types_enum::map_obj_5:
             field_50_car_sprite->SetDrawLayer_40F7B0(17);

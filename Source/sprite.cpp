@@ -797,7 +797,7 @@ char_type Sprite::ShouldCollideWithSprite_59E850(Sprite* pSprite)
 {
     switch (this->field_30_sprite_type_enum)
     {
-        case sprite_types_enum::unknown_1:
+        case sprite_types_enum::object_1:
         case sprite_types_enum::code_obj1_4:
         case sprite_types_enum::map_obj_5:
             return field_8_object_2C_ptr->ShouldCollideWithSprite_525370(pSprite);
@@ -815,11 +815,11 @@ void Sprite::HandleObjectCollision_59E8C0(Sprite* pSprite)
 {
     // 9.6f: AsObject2C_40FEC0 for both sprites and sub_484DD0 (inlined, using AsObject2C_40FEC0 changes the code)
     s32 sprite_type = this->field_30_sprite_type_enum;
-    if (sprite_type == sprite_types_enum::unknown_1 || sprite_type > sprite_types_enum::ped_3 && sprite_type <= sprite_types_enum::map_obj_5)
+    if (sprite_type == sprite_types_enum::object_1 || sprite_type > sprite_types_enum::ped_3 && sprite_type <= sprite_types_enum::map_obj_5)
     {
         field_8_object_2C_ptr->HandleImpact_528E50(pSprite);
         s32 type = pSprite->field_30_sprite_type_enum;
-        if (type == sprite_types_enum::code_obj1_4 || type == sprite_types_enum::map_obj_5 || type == sprite_types_enum::unknown_1)
+        if (type == sprite_types_enum::code_obj1_4 || type == sprite_types_enum::map_obj_5 || type == sprite_types_enum::object_1)
         {
             if (pSprite->field_8_object_2C_ptr)
             {
@@ -867,7 +867,7 @@ void Sprite::SetDefaultDrawLayerBySpriteType_59E960()
         case sprite_types_enum::unknown_0:
             this->field_28_draw_layer = 0;
             break;
-        case sprite_types_enum::unknown_1:
+        case sprite_types_enum::object_1:
             this->field_28_draw_layer = 0;
             break;
         default:
@@ -977,7 +977,7 @@ char_type Sprite::has_shadows_59EAE0()
             return field_8_char_b4_ptr->HasShadows_5451C0();
         case sprite_types_enum::car_2:
             return 1;
-        case sprite_types_enum::unknown_1:
+        case sprite_types_enum::object_1:
         case sprite_types_enum::code_obj1_4:
         case sprite_types_enum::map_obj_5:
             return field_8_object_2C_ptr->field_8->field_62_has_shadows;
@@ -2340,7 +2340,7 @@ void Sprite::DispatchCollisionEvent_5A3100(Sprite* pSprite, Fix16 x, Fix16 y, An
         case sprite_types_enum::car_2:
             field_8_car_bc_ptr->field_0_attachments.PushImpactEvent_5A6D00(pSprite, x, y, ang);
             break;
-        case sprite_types_enum::unknown_1: // sprite_type_1_Object_5C
+        case sprite_types_enum::object_1: // sprite_type_1_Object_5C
         case sprite_types_enum::code_obj1_4: // sprite_type_4_Object_5C
         case sprite_types_enum::map_obj_5: // sprite_type_5_Object_5C
             o2c = field_8_object_2C_ptr;
@@ -2359,7 +2359,7 @@ void Sprite::DispatchCollisionEvent_5A3100(Sprite* pSprite, Fix16 x, Fix16 y, An
         case sprite_types_enum::car_2:
             pSprite->field_8_car_bc_ptr->Deactivate_43AA60();
             break;
-        case sprite_types_enum::unknown_1: // sprite_type_1_Object_5C
+        case sprite_types_enum::object_1: // sprite_type_1_Object_5C
         case sprite_types_enum::code_obj1_4: // sprite_type_4_Object_5C
         case sprite_types_enum::map_obj_5: // sprite_type_5_Object_5C
             pSprite->field_8_object_2C_ptr->ReactivateObjectAfterImpact_52A6D0(this);

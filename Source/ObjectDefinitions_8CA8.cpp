@@ -614,7 +614,7 @@ void ObjectDefinition_74::SetDimensions_533060(Fix16 width, Fix16 height, Fix16 
 MATCH_FUNC(0x533090)
 void ObjectDefinition_74::SetDimensionsFromSprite_533090()
 {
-    if (field_28_sprite_type != sprite_types_enum::unknown_1)
+    if (field_28_sprite_type != sprite_types_enum::object_1)
     {
         u16 sprite_id = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_28_sprite_type, field_1E_base_sprite_idx);
         sprite_index * sprite = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_id);

@@ -4578,7 +4578,7 @@ void CarAI_78::ScanAheadForObstacles_452060()
         react:
             switch (this->field_70_nearest_entity->GetType_416B40())
             {
-                case sprite_types_enum::unknown_1:
+                case sprite_types_enum::object_1:
                 case sprite_types_enum::code_obj1_4:
                 case sprite_types_enum::map_obj_5:
                     ReactToNearbyObject_451FA0();
@@ -4987,7 +4987,7 @@ void CarAI_78::UpdateDrivingAI_452DF0()
     }
     else if (!byte_677BBC)
     {
-        if (field_70_nearest_entity && field_70_nearest_entity->GetType_416B40() == sprite_types_enum::unknown_1 &&
+        if (field_70_nearest_entity && field_70_nearest_entity->GetType_416B40() == sprite_types_enum::object_1 &&
             field_70_nearest_entity->AsObject2C_40FEC0()->field_18_model == objects::pedestrian_crossing_marker_122)
         {
             field_24_bf.bFlag4 = true;
