@@ -385,7 +385,7 @@ void Hud_PlayerNames_4::DrawPlayerNames_5CFE40()
 
         for (Player* pIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0(); pIter; pIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
         {
-            if (!pIter->field_0_bIsUser)
+            if (!pIter->field_0_is_user)
             {
                 Ped* pPlayerPed = pIter->field_2C4_player_ped;
                 if (!pPlayerPed || !pPlayerPed->field_21C_bf.bInvisible)
@@ -1282,7 +1282,7 @@ void Hud_Arrow_7C_Array::CreatePlayerArrows_5D1350()
             for (Player* pPlayerIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0(); pPlayerIter;
                  pPlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
             {
-                if (!pPlayerIter->field_0_bIsUser)
+                if (!pPlayerIter->field_0_is_user)
                 {
                     Hud_Arrow_7C* p7C = AllocArrow_5D1050();
                     p7C->field_18.field_18_primary_target.field_C_player = pPlayerIter;
@@ -1380,20 +1380,20 @@ bool Hud_ChatInput_1::IsTypingOnChat_5D15E0(s32 action, Player* pPlayer)
         }
         else if (action == DIK_BACK)
         {
-            if (pPlayer->field_838_f796_idx > 0)
+            if (pPlayer->field_838_chat_text_idx > 0)
             {
-                pPlayer->field_838_f796_idx--;
-                pPlayer->field_796_chat_text[pPlayer->field_838_f796_idx] = 0;
+                pPlayer->field_838_chat_text_idx--;
+                pPlayer->field_796_chat_text[pPlayer->field_838_chat_text_idx] = 0;
             }
             return true;
         }
         else if (action == DIK_SPACE)
         {
-            if (pPlayer->field_838_f796_idx < 79)
+            if (pPlayer->field_838_chat_text_idx < 79)
             {
-                pPlayer->field_796_chat_text[pPlayer->field_838_f796_idx] = ' ';
-                pPlayer->field_838_f796_idx++;
-                pPlayer->field_796_chat_text[pPlayer->field_838_f796_idx] = 0;
+                pPlayer->field_796_chat_text[pPlayer->field_838_chat_text_idx] = ' ';
+                pPlayer->field_838_chat_text_idx++;
+                pPlayer->field_796_chat_text[pPlayer->field_838_chat_text_idx] = 0;
             }
             return true;
         }
@@ -1402,11 +1402,11 @@ bool Hud_ChatInput_1::IsTypingOnChat_5D15E0(s32 action, Player* pPlayer)
             const u16 char_value = gText_0x14_704DFC->RemapExtendedChar_5B58D0(gKeybrd_0x204_6F52F4->GetKey_4D5F40(action));
             if (char_value)
             {
-                if (pPlayer->field_838_f796_idx < 79)
+                if (pPlayer->field_838_chat_text_idx < 79)
                 {
-                    pPlayer->field_796_chat_text[pPlayer->field_838_f796_idx] = char_value;
-                    pPlayer->field_838_f796_idx++;
-                    pPlayer->field_796_chat_text[pPlayer->field_838_f796_idx] = 0;
+                    pPlayer->field_796_chat_text[pPlayer->field_838_chat_text_idx] = char_value;
+                    pPlayer->field_838_chat_text_idx++;
+                    pPlayer->field_796_chat_text[pPlayer->field_838_chat_text_idx] = 0;
                 }
                 return true;
             }
@@ -1478,7 +1478,7 @@ MATCH_FUNC(0x5d1830)
 void Hud_ChatInput_1::StartChatting_5D1830(Player* pPlayer)
 {
     pPlayer->field_794_is_chatting = true;
-    pPlayer->field_838_f796_idx = 0;
+    pPlayer->field_838_chat_text_idx = 0;
     pPlayer->field_796_chat_text[0] = 0;
 }
 
@@ -2793,7 +2793,7 @@ void Hud_PlayerStats_4::DrawPlayerStats_5D5C80()
     }
     else
     {
-        if (pPlayer->field_60_bFinshScoreReached == 0)
+        if (pPlayer->field_60_finish_score_reached == 0)
         {
             DrawFigureScaled_5D7670(6, 16, dolar_sign_xpos - 8, 14, kAngZero_706610, 2, 0, 0, 0); // default color
         }
@@ -2858,7 +2858,7 @@ void Hud_PlayerStats_4::DrawPlayerStats_5D5C80()
         s32 lives_xpos = pPlayer->field_684_lives.DrawDigitsRightAligned_492260(523, 28);
         DrawFigureScaled_5D7670(6, 17, lives_xpos - 7, 32, kAngZero_706610, 2, 0, 0, 0);
 
-        s32 multiplier_xpos = pPlayer->field_6BC_multpliers.DrawDigitsRightAligned_492260(523, 11);
+        s32 multiplier_xpos = pPlayer->field_6BC_multipliers.DrawDigitsRightAligned_492260(523, 11);
         DrawFigureScaled_5D7670(6, 18, multiplier_xpos - 7, 18, kAngZero_706610, 2, 0, 0, 0);
     }
 }
@@ -2933,7 +2933,7 @@ void Hud_PlayerStats_4::UpdateRollingDigits_5D6290()
     Camera_0xBC* pCamera;
     Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
     pPlayer->field_684_lives.UpdateRollingDigits_4925E0();
-    pPlayer->field_6BC_multpliers.UpdateRollingDigits_4925E0();
+    pPlayer->field_6BC_multipliers.UpdateRollingDigits_4925E0();
 }
 
 // ----------------------------------------------------

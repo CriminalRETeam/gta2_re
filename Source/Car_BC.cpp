@@ -4496,7 +4496,7 @@ void Car_BC::ShowCarName_4406B0(Ped* pPed)
     Player* pPlayer = pPed->field_15C_player;
     if (pPlayer)
     {
-        if (pPlayer->field_0_bIsUser)
+        if (pPlayer->field_0_is_user)
         {
             gHud_2B00_706620->ShowCarName_5D5240(GetCarStr_439F80());
         }

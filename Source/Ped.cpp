@@ -4035,7 +4035,7 @@ char_type Ped::StateMachineTick_4626B0()
                 this->field_240_occupation = ped_ocupation_enum::player;
             }
             this->field_230_jump_over_mode = ped_jump_over_mode::can_jump_2;
-            this->field_15C_player->field_64_bJumping = 0;
+            this->field_15C_player->field_64_jumping = 0;
 
             if (this->field_168_game_object)
             {
@@ -4097,7 +4097,7 @@ char_type Ped::StateMachineTick_4626B0()
                 }
                 if (this->field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15)
                 {
-                    this->field_15C_player->field_64_bJumping = 1;
+                    this->field_15C_player->field_64_jumping = 1;
                 }
                 return 1;
             }

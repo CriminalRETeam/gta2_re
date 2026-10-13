@@ -5304,14 +5304,14 @@ void miss2_0x11C::GetSetLivesAndMultiplier_50DB70()
         case SCRCMD_ADD_MULTIPLIER:
             if (pPlayerPtr->field_8_char->field_15C_player)
             {
-                pPlayerPtr->field_8_char->field_15C_player->field_6BC_multpliers.ChangeStatByAmount_4921B0(pCmd->field_A_counter_idx);
+                pPlayerPtr->field_8_char->field_15C_player->field_6BC_multipliers.ChangeStatByAmount_4921B0(pCmd->field_A_counter_idx);
             }
 
             break;
         case SCRCMD_CHECK_MULT:
             if (pPlayerPtr->field_8_char->field_15C_player)
             {
-                if (pPlayerPtr->field_8_char->field_15C_player->field_6BC_multpliers.field_0_value > pCmd->field_A_counter_idx)
+                if (pPlayerPtr->field_8_char->field_15C_player->field_6BC_multipliers.field_0_value > pCmd->field_A_counter_idx)
                 {
                     field_8_cond_result = true;
                 }

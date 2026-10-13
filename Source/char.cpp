@@ -734,7 +734,7 @@ void Char_B4::UpdateAnimState_546360()
         {
             if ((field_7C_pPed->field_170_selected_weapon->field_1C_idx == weapon_type::molotov ||
                  field_7C_pPed->field_170_selected_weapon->field_1C_idx == weapon_type::grenade) &&
-                field_7C_pPed->field_15C_player->field_8D_bWasAttackPressed)
+                field_7C_pPed->field_15C_player->field_8D_was_attack_pressed)
             {
                 field_6C_animation_state = 4;
                 field_68_animation_frame = 0;

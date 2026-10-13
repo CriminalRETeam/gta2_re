@@ -804,7 +804,7 @@ static Camera_0xBC* GetPlayerCam()
         Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
         if (pPlayer)
         {
-            if (pPlayer->field_6C_bIn_debug_cam_mode)
+            if (pPlayer->field_6C_in_debug_cam_mode)
             {
                 return &pPlayer->field_14C_view_camera;
             }
@@ -2154,7 +2154,7 @@ void CC ImGuiDebugDraw()
                 if (pPlayer)
                 {
                     ImGui::SliderInt("Lives", &pPlayer->field_684_lives.field_0_value, 0, 99);
-                    ImGui::SliderInt("Multiplier", &pPlayer->field_6BC_multpliers.field_0_value, 0, 99);
+                    ImGui::SliderInt("Multiplier", &pPlayer->field_6BC_multipliers.field_0_value, 0, 99);
                     ImGui::SliderInt("Cash", &pPlayer->field_2D4_scores.field_0_money.field_0_value, 0, 999999999 - 50);
                     ImGui::SliderInt("??", &pPlayer->field_2D4_scores.field_38_multiplayer_frags.field_0_value, 0, 99);
 

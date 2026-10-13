@@ -417,7 +417,7 @@ void Game_0x40::UpdateAllPlayersControls_4B9380()
     u32 idx = 0;
     while (idx < field_23_num_players)
     {
-        if ((*ppPlayersIterator)->field_8E_bInUse)
+        if ((*ppPlayersIterator)->field_8E_in_use)
         {
             (*ppPlayersIterator)->ControlInputs_566820();
         }
@@ -450,7 +450,7 @@ void Game_0x40::UpdatePaused_4B93C0()
     u32 i = 0;
     while (i < field_23_num_players)
     {
-        if ((*pIter)->field_8E_bInUse)
+        if ((*pIter)->field_8E_in_use)
         {
             (*pIter)->UpdatePaused_569410();
         }
@@ -473,7 +473,7 @@ void Game_0x40::UpdateGame_4B9410()
     u32 i = 0;
     while (i < field_23_num_players)
     {
-        if ((*ppPlayerIter)->field_8E_bInUse)
+        if ((*ppPlayerIter)->field_8E_in_use)
         {
             (*ppPlayerIter)->Service_5687F0();
         }
@@ -674,7 +674,7 @@ Player* Game_0x40::GetFirstPlayerWithoutPed_4B9750()
 {
     for (s32 i = 0; i < field_23_num_players; i++)
     {
-        if (field_4_players[i]->field_8E_bInUse && !field_4_players[i]->has_player_ped_45B0C0())
+        if (field_4_players[i]->field_8E_in_use && !field_4_players[i]->has_player_ped_45B0C0())
         {
             return field_4_players[i];
         }
@@ -738,13 +738,13 @@ s8 Game_0x40::IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 margin)
 MATCH_FUNC(0x4B98E0)
 bool Game_0x40::IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 playerIdx, s32 margin)
 {
-    if (field_4_players[playerIdx]->field_8E_bInUse)
+    if (field_4_players[playerIdx]->field_8E_in_use)
     {
         if (field_4_players[playerIdx]->field_90_game_camera.IsSpriteInView_435630(pSprite, margin))
         {
             return true;
         }
-        return field_4_players[playerIdx]->field_2D0_bAuxCamActive && field_4_players[playerIdx]->field_208_aux_game_camera.IsSpriteInView_435630(pSprite, margin) ? true :
+        return field_4_players[playerIdx]->field_2D0_aux_cam_active && field_4_players[playerIdx]->field_208_aux_game_camera.IsSpriteInView_435630(pSprite, margin) ? true :
                                                                                                                                    false;
     }
     return false;
@@ -754,7 +754,7 @@ MATCH_FUNC(0x4B9950)
 s8 Game_0x40::IsSpriteOnScreen_4B9950(Sprite* pCarSprite, u8 playerIdx, Fix16 margin)
 {
     Player*& pPlayer = this->field_4_players[playerIdx]; // a reference: 9.6f keeps the slot address too
-    if (!pPlayer->field_8E_bInUse)
+    if (!pPlayer->field_8E_in_use)
     {
         return 0;
     }
@@ -764,7 +764,7 @@ s8 Game_0x40::IsSpriteOnScreen_4B9950(Sprite* pCarSprite, u8 playerIdx, Fix16 ma
         return 1;
     }
 
-    if (pPlayer->field_2D0_bAuxCamActive && pPlayer->field_208_aux_game_camera.IsSpriteInBounds_45AEA0(pCarSprite, margin))
+    if (pPlayer->field_2D0_aux_cam_active && pPlayer->field_208_aux_game_camera.IsSpriteInBounds_45AEA0(pCarSprite, margin))
     {
         return 1;
     }
@@ -775,13 +775,13 @@ s8 Game_0x40::IsSpriteOnScreen_4B9950(Sprite* pCarSprite, u8 playerIdx, Fix16 ma
 MATCH_FUNC(0x4B9A10)
 bool Game_0x40::IsSpriteCameraSubjectForPlayer_4B9A10(Sprite* pSprite, u8 playerIdx)
 {
-    if (field_4_players[playerIdx]->field_8E_bInUse)
+    if (field_4_players[playerIdx]->field_8E_in_use)
     {
         if (field_4_players[playerIdx]->field_90_game_camera.IsSpriteTheCameraSubject_4355D0(pSprite))
         {
             return true;
         }
-        return field_4_players[playerIdx]->field_2D0_bAuxCamActive && field_4_players[playerIdx]->field_208_aux_game_camera.IsSpriteTheCameraSubject_4355D0(pSprite) ? true : false;
+        return field_4_players[playerIdx]->field_2D0_aux_cam_active && field_4_players[playerIdx]->field_208_aux_game_camera.IsSpriteTheCameraSubject_4355D0(pSprite) ? true : false;
     }
     return false;
 }
@@ -795,13 +795,13 @@ bool Game_0x40::is_point_on_screen_4B9A80(Fix16 a2_fp, Fix16 a3_fp)
     for (i = 0; i < field_23_num_players; i++, ppPlayer++)
     {
         Player* pPlayer = *ppPlayer;
-        if (pPlayer->field_8E_bInUse)
+        if (pPlayer->field_8E_in_use)
         {
             if (pPlayer->field_90_game_camera.check_camera(a2_fp, a3_fp))
             {
                 return true;
             }
-            if (pPlayer->field_2D0_bAuxCamActive && pPlayer->field_208_aux_game_camera.check_camera(a2_fp, a3_fp))
+            if (pPlayer->field_2D0_aux_cam_active && pPlayer->field_208_aux_game_camera.check_camera(a2_fp, a3_fp))
             {
                 return true;
             }
@@ -818,13 +818,13 @@ s8 Game_0x40::IsRectVisibleToAnyPlayer_4B9B10(Fix16_Rect* pBounds)
     for (i = 0; i < field_23_num_players; i++, ppPlayer++)
     {
         Player* pCurPlayer = *ppPlayer;
-        if (pCurPlayer->field_8E_bInUse)
+        if (pCurPlayer->field_8E_in_use)
         {
             if (pCurPlayer->field_90_game_camera.IsRectInBounds_45AF40(pBounds))
             {
                 return 1;
             }
-            if (pCurPlayer->field_2D0_bAuxCamActive && pCurPlayer->field_208_aux_game_camera.IsRectInBounds_45AF40(pBounds))
+            if (pCurPlayer->field_2D0_aux_cam_active && pCurPlayer->field_208_aux_game_camera.IsRectInBounds_45AF40(pBounds))
             {
                 return 1;
             }
@@ -838,7 +838,7 @@ Camera_0xBC* Game_0x40::IteratePlayerCamera_4B9BC0()
 {
     for (field_21_player_camera_idx = 0; field_21_player_camera_idx < field_23_num_players; field_21_player_camera_idx++)
     {
-        if (field_4_players[field_21_player_camera_idx]->field_8E_bInUse)
+        if (field_4_players[field_21_player_camera_idx]->field_8E_in_use)
         {
             field_22_bAuxCamIterated = 0;
             return &field_4_players[field_21_player_camera_idx]->field_90_game_camera;
@@ -865,11 +865,11 @@ s8 Game_0x40::IsCarInAnyPlayerHistory_4B9C10(Car_BC* pCar)
 MATCH_FUNC(0x4B9C50)
 Camera_0xBC* Game_0x40::IterateNextPlayerCamera_4B9C50()
 {
-    if (!field_4_players[field_21_player_camera_idx]->field_2D0_bAuxCamActive || field_22_bAuxCamIterated)
+    if (!field_4_players[field_21_player_camera_idx]->field_2D0_aux_cam_active || field_22_bAuxCamIterated)
     {
         while (++field_21_player_camera_idx < field_23_num_players)
         {
-            if (field_4_players[field_21_player_camera_idx]->field_8E_bInUse)
+            if (field_4_players[field_21_player_camera_idx]->field_8E_in_use)
             {
                 field_22_bAuxCamIterated = 0;
                 return &field_4_players[field_21_player_camera_idx]->field_90_game_camera;
@@ -889,7 +889,7 @@ Player* Game_0x40::IterateFirstPlayer_4B9CD0()
 {
     for (field_20_idx = 0; field_20_idx < field_23_num_players; field_20_idx++)
     {
-        if (field_4_players[field_20_idx]->field_8E_bInUse)
+        if (field_4_players[field_20_idx]->field_8E_in_use)
         {
             return field_4_players[field_20_idx];
         }
@@ -902,7 +902,7 @@ Player* Game_0x40::IterateNextPlayer_4B9D10()
 {
     while (++field_20_idx < field_23_num_players)
     {
-        if (field_4_players[field_20_idx]->field_8E_bInUse)
+        if (field_4_players[field_20_idx]->field_8E_in_use)
         {
             return field_4_players[field_20_idx];
         }
@@ -959,7 +959,7 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
     }
     Player* pPlayer = field_4_players[field_24_cur_idx];
     field_38_orf1 = pPlayer;
-    pPlayer->field_0_bIsUser = 1;
+    pPlayer->field_0_is_user = 1;
     field_1C_view_player = field_38_orf1;
 
     gpRng_67AB34 = new rng(); // inline
