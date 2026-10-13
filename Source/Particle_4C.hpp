@@ -1,5 +1,6 @@
 #pragma once
 
+#include "particle_flags.hpp"
 #include "Function.hpp"
 #include "ang16.hpp"
 
@@ -32,7 +33,11 @@ class Particle_4C
     EXPORT void PoolDeallocate();
     
     s32 field_0_id;
-    s32 field_4_flags;
+    union
+    {
+        s32 field_4_flags;
+        ParticleFlags32 field_4_bf;
+    };
     Fix16 field_8_speed_x;
     Fix16 field_C_speed_y;
     Fix16 field_10;
