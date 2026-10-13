@@ -5097,11 +5097,11 @@ void CarAI_78::ChooseRandomTurn_4537D0()
     {
         if (gRng_6F6784.get_int_4F7AE0(2) > 0)
         {
-            field_0_car->field_A6_turn_flags |= 2;
+            field_0_car->field_A6_bf.bTurnLeft = true;
         }
         else
         {
-            field_0_car->field_A6_turn_flags |= 1;
+            field_0_car->field_A6_bf.bTurnRight = true;
         }
     }
 }
@@ -5111,8 +5111,8 @@ void CarAI_78::ClearSteeringIfTurning_4538B0()
 {
     if (this->field_24_bf.bFlag7)
     {
-        this->field_0_car->field_A6_turn_flags &= ~2u;
-        this->field_0_car->field_A6_turn_flags &= ~1u;
+        this->field_0_car->field_A6_bf.bTurnLeft = false;
+        this->field_0_car->field_A6_bf.bTurnRight = false;
     }
 }
 
@@ -5128,8 +5128,8 @@ void CarAI_78::RaiseSpeedTo_453990(Fix16 a2)
 MATCH_FUNC(0x4539b0)
 void CarAI_78::ClearTurnReady_4539B0()
 {
-    this->field_0_car->field_A6_turn_flags &= ~4u;
-    this->field_0_car->field_A6_turn_flags &= ~8u;
+    this->field_0_car->field_A6_bf.bTurnRightReady = false;
+    this->field_0_car->field_A6_bf.bTurnLeftReady = false;
 }
 
 MATCH_FUNC(0x4539d0)

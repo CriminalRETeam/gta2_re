@@ -4827,7 +4827,7 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_DRIVER_50CB70()
 
             if ((pInfo->info_flags & 2) == 2 || pCar->field_84_car_info_idx == car_model_enum::EDSELFBI)
             {
-                if ((pCar->field_A4_light_flags & 4) != 0)
+                if (pCar->field_A4_bf.bEmergencyLights)
                 {
                     field_8_cond_result = true;
                 }
@@ -6424,7 +6424,7 @@ void miss2_0x11C::SCRCMD_STOP_CAR_DRIVE_50F900()
 
     if (pCar)
     {
-        pCar->field_A6_turn_flags |= 0x20u;
+        pCar->field_A6_bf.bAIHalted = true;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }

@@ -8683,7 +8683,7 @@ void Ped::WaitInCurrentCar_469FC0()
     Car_BC* pBC = this->field_16C_car;
     if (pBC)
     {
-        pBC->field_A6_turn_flags |= 0x20u;
+        pBC->field_A6_bf.bAIHalted = true;
     }
     else
     {

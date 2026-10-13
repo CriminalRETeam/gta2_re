@@ -2252,7 +2252,7 @@ void Car_BC::SetDriver(Ped* pNewDriver)
 MATCH_FUNC(0x43a9f0)
 void Car_BC::ApplyVisualDamage_43A9F0()
 {
-    if (!field_54_driver && (field_78_bf.bCarAlarm) && field_7C_uni_num != 2 && (field_A4_light_flags & 8) == 0 && field_74_damage != 32001)
+    if (!field_54_driver && (field_78_bf.bCarAlarm) && field_7C_uni_num != 2 && !field_A4_bf.bLightFlashing && field_74_damage != 32001)
     {
         StartLightFlashing_43CAC0();
     }
@@ -2264,7 +2264,7 @@ void Car_BC::StartLightFlashing_43CAC0()
     if ((field_A4_light_flags & 0x1C) == 0)
     {
         field_A5_flash_phase_counter = 12;
-        field_A4_light_flags |= 8;
+        field_A4_bf.bLightFlashing = true;
 
         if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2))
         {
@@ -3093,7 +3093,7 @@ void Car_BC::FlashHeadlights_43BD40()
 {
     if ((field_A4_light_flags & 0x1C) == 0)
     {
-        if ((field_A4_light_flags & 2) != 0)
+        if (field_A4_bf.bHeadlights)
         {
             if (inline_check_0x2_info_421700())
             {
@@ -3149,14 +3149,14 @@ void Car_BC::FlashHeadlights_43BD40()
         }
 
         this->field_A5_flash_phase_counter = 6;
-        this->field_A4_light_flags |= 0x10;
+        this->field_A4_bf.bHeadlightFlash = true;
     }
 }
 
 MATCH_FUNC(0x43bf10)
 void Car_BC::BrakeLightsOn_43BF10()
 {
-    if ((this->field_A4_light_flags & 8) == 0)
+    if (!this->field_A4_bf.bLightFlashing)
     {
         if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1))
         {
@@ -3167,24 +3167,24 @@ void Car_BC::BrakeLightsOn_43BF10()
             this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BackLeftBrakeLight_22);
         }
     }
-    this->field_A4_light_flags |= 1u;
+    this->field_A4_bf.bBrakeLights = true;
 }
 
 MATCH_FUNC(0x43bf70)
 void Car_BC::BrakeLightsOff_43BF70()
 {
-    if ((this->field_A4_light_flags & 8) == 0)
+    if (!this->field_A4_bf.bLightFlashing)
     {
         this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BackRightBrakeLight_5);
         this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BackLeftBrakeLight_22);
     }
-    this->field_A4_light_flags &= ~1u;
+    this->field_A4_bf.bBrakeLights = false;
 }
 
 MATCH_FUNC(0x43bfe0)
 void Car_BC::HeadlightsOn_43BFE0()
 {
-    if ((this->field_A4_light_flags & 8) == 0)
+    if (!this->field_A4_bf.bLightFlashing)
     {
         if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2))
         {
@@ -3215,13 +3215,13 @@ void Car_BC::HeadlightsOn_43BFE0()
             this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
         }
     }
-    this->field_A4_light_flags |= 2u;
+    this->field_A4_bf.bHeadlights = true;
 }
 
 MATCH_FUNC(0x43c0c0)
 void Car_BC::HeadlightsOff_43C0C0()
 {
-    if ((field_A4_light_flags & 8) == 0) // bit 3
+    if (!field_A4_bf.bLightFlashing) // bit 3
     {
         if (inline_check_0x2_info_421700()) // bit 1
         {
@@ -3245,13 +3245,13 @@ void Car_BC::HeadlightsOff_43C0C0()
         }
     }
 
-    field_A4_light_flags &= ~2u; // bit 1
+    field_A4_bf.bHeadlights = false; // bit 1
 }
 
 MATCH_FUNC(0x43c1c0)
 void Car_BC::PrepareForExplosion_43C1C0()
 {
-    if ((this->field_A4_light_flags & 8) != 0)
+    if (this->field_A4_bf.bLightFlashing)
     {
         Car_BC::StopLightFlashing_43CBE0();
     }
@@ -3418,7 +3418,7 @@ void Car_BC::ActivateEmergencyLights_43C920()
         {
             field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopRightDoor1_11);
         }
-        field_A4_light_flags |= 4u;
+        field_A4_bf.bEmergencyLights = true;
         if (is_FBI_car_411920())
         {
             field_A5_flash_phase_counter = 8;
@@ -3437,7 +3437,7 @@ void Car_BC::DeactivateEmergencyLights_43C9D0()
     Car_BC::ResetBottomLeftRoofLight_43C840();
     Car_BC::ResetTopRightRoofLight_43C310();
     Car_BC::ResetTopLeftRoofLight_43C470();
-    field_A4_light_flags &= ~4u;
+    field_A4_bf.bEmergencyLights = false;
     if (is_FBI_car_411920() && !IsMaxDamage_40F890())
     {
         field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopRightDoor4_14);
@@ -3460,9 +3460,9 @@ void Car_BC::SyncEmergencyLightState_43CA80()
 MATCH_FUNC(0x43cbe0)
 void Car_BC::StopLightFlashing_43CBE0()
 {
-    field_A4_light_flags &= ~8;
+    field_A4_bf.bLightFlashing = false;
 
-    if ((field_A4_light_flags & 2) != 0)
+    if (field_A4_bf.bHeadlights)
     {
         if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2))
         {
@@ -3518,7 +3518,7 @@ void Car_BC::StopLightFlashing_43CBE0()
     }
 
     // Braking?
-    if ((this->field_A4_light_flags & 1) != 0)
+    if (this->field_A4_bf.bBrakeLights)
     {
         if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1))
         {
@@ -3675,7 +3675,7 @@ void Car_BC::RepairDamage_43D400()
     this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BottomLeftDamage_3);
     this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::WindshieldDamage_4);
 
-    if ((this->field_A4_light_flags & 2) != 0)
+    if (this->field_A4_bf.bHeadlights)
     {
         if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2))
         {
@@ -3707,7 +3707,7 @@ void Car_BC::RepairDamage_43D400()
         }
     }
 
-    if ((this->field_A4_light_flags & 1) != 0)
+    if (this->field_A4_bf.bBrakeLights)
     {
         if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1))
         {
@@ -5403,7 +5403,7 @@ void Car_BC::UpdateFbiPopupSiren_441D40()
 {
     if (!(gpRng_67AB34->get_cur_rng_41CFE0() % 3u))
     {
-        if ((this->field_A4_light_flags & 4) != 0)
+        if (this->field_A4_bf.bEmergencyLights)
         {
             if (field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDoor1_11))
             {
@@ -5451,11 +5451,11 @@ void Car_BC::UpdateFbiPopupSiren_441D40()
 MATCH_FUNC(0x441e70)
 void Car_BC::UpdateLights_441E70()
 {
-    if ((field_A4_light_flags & 4) != 0)
+    if (field_A4_bf.bEmergencyLights)
     {
         Car_BC::UpdateRoofLightFlasher_441B50();
     }
-    else if ((field_A4_light_flags & 8) != 0)
+    else if (field_A4_bf.bLightFlashing)
     {
         field_A5_flash_phase_counter--;
         if (field_A5_flash_phase_counter == 0)
@@ -5481,12 +5481,12 @@ void Car_BC::UpdateLights_441E70()
             }
         }
     }
-    else if ((field_A4_light_flags & 0x10) != 0)
+    else if (field_A4_bf.bHeadlightFlash)
     {
         field_A5_flash_phase_counter--;
         if (field_A5_flash_phase_counter == 0)
         {
-            if ((field_A4_light_flags & 2) != 0)
+            if (field_A4_bf.bHeadlights)
             {
                 SetHeadlightDeltas_425590();
             }
@@ -5494,7 +5494,7 @@ void Car_BC::UpdateLights_441E70()
             {
                 Car_BC::ClearHeadlightDeltas_447360();
             }
-            field_A4_light_flags &= ~0x10u;
+            field_A4_bf.bHeadlightFlash = false;
         }
     }
 
