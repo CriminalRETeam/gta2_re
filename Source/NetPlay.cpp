@@ -60,7 +60,7 @@ NetPlay::NetPlay()
     memset(byte_6F8A64, 0, sizeof(byte_6F8A64));
     field_5DC_handle = CreateEventA(NULL, FALSE, FALSE, NULL);
     field_8EC_unused = 0;
-    field_48 = 5;
+    field_48_net_state = 5;
 
     for (s32 j = 0; j < MAX_PLAYERS; j++)
     {
@@ -565,7 +565,7 @@ s32 NetPlay::InitializeConnection_51E5C0()
             if (field_4_bModem || EnumSessions_51E650() != -1)
             {
                 field_8E8_time = timeGetTime();
-                field_48 = 1;
+                field_48_net_state = 1;
                 return 1;
             }
         }
@@ -684,7 +684,7 @@ s32 NetPlay::HostSession_51E7A0(wchar_t* pSessionName, wchar_t* pPlayerName, Net
                                                    0) >= 0 &&
                     field_5E4_pDPlay3->AddPlayerToGroup(field_758_n2.field_0_group_id, field_5D8_player_id) >= 0)
                 {
-                    field_48 = 3;
+                    field_48_net_state = 3;
                     field_5CC_bIsHost = 1;
                     field_5C8_not_used = 1;
                     return 1;
@@ -801,7 +801,7 @@ void NetPlay::NetworkTick_51ED00()
     unsigned long recvId;
     unsigned long senderId;
 
-    switch (field_48)
+    switch (field_48_net_state)
     {
         case 4:
         {
@@ -988,7 +988,7 @@ void NetPlay::ProcessPingOrHandshakeSend_51F110(void* pPacket, s32 a3, s32 a4, s
             }
             case packet_subtype::DisableJoining_4:
                 ProcessIncomingPacket_520230(9, 0);
-                field_48 = 2;
+                field_48_net_state = 2;
                 break;
         }
     }
@@ -1224,7 +1224,7 @@ void NetPlay::MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pD
 MATCH_FUNC(0x51f870)
 void NetPlay::OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, s32 a5)
 {
-    switch (field_48)
+    switch (field_48_net_state)
     {
         case 1:
         case 3:
@@ -1614,7 +1614,7 @@ s32 NetPlay::JoinSession_520570(u32 session_idx, wchar_t* pPlayerName, Network_8
 
     field_5CC_bIsHost = 0;
     field_5C8_not_used = 1;
-    field_48 = 4;
+    field_48_net_state = 4;
     void* pGroupData = operator new(field_758_n2.field_11C_group_data_len);
     pOutGroupData->field_0_data = pGroupData;
     pOutGroupData->field_4_len = field_758_n2.field_11C_group_data_len;
@@ -1683,7 +1683,7 @@ void NetPlay::Disconnect_520D10()
     field_8E8_time = 0;
     field_5D4_player_idx = 0xEEEEEEEE;
     field_5D0_player_og_idx = 0xEEEEEEEE;
-    field_48 = 1;
+    field_48_net_state = 1;
 }
 
 MATCH_FUNC(0x520de0)
@@ -1901,7 +1901,7 @@ void NetPlay::DisableJoining_521220()
     field_758_n2.field_120_session_desc.dwFlags |= DPSESSION_JOINDISABLED;
     if (field_5E4_pDPlay3->SetSessionDesc(&field_758_n2.field_120_session_desc, 0) >= 0)
     {
-        field_48 = 2;
+        field_48_net_state = 2;
     }
 }
 
