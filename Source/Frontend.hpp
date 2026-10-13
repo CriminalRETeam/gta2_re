@@ -362,7 +362,7 @@ struct Frontend
 
     EXPORT void LoadCurrPlayerName_4B4280();
 
-    EXPORT u8 GetPrevUnlockedStageIndex_4B77B0(PlySlot_A4* a2);
+    EXPORT u8 GetPrevUnlockedStageIndex_4B77B0(PlySlot_A4* pStats);
 
     EXPORT u8 GetPrevUnlockedStageBonusCode_4B7800(PlySlot_A4* pStats);
 
@@ -389,7 +389,7 @@ struct Frontend
 
     EXPORT void DrawBackground_4B6E10();
 
-    EXPORT void GetTgaIdxsForMenuScreen_4B6B00(u8 a1, BYTE* pTgaIdx, BYTE* a3);
+    EXPORT void GetTgaIdxsForMenuScreen_4B6B00(u8 screen, BYTE* pTgaIdx, BYTE* pTgaIdx2);
 
     EXPORT void Load_tga_4B6520(u16 idx);
 
@@ -423,13 +423,13 @@ struct Frontend
 
     EXPORT char_type PlySlotSvgExists_4B5370(u8 idx);
 
-    EXPORT static void __stdcall SetInputEnabled_5E53C0(BYTE* a1);
+    EXPORT static void __stdcall SetInputEnabled_5E53C0(BYTE* pEnabled);
 
     EXPORT static s32 __stdcall GetMaxTextWidth_5D8990(wchar_t* pStr, u16 font_type);
 
     EXPORT u16 GetCenteredXPos_4B0190(wchar_t* pText, u16 fontType, s32 width);
 
-    EXPORT u8 GetPreviousUnlockedMainStage_4B7060(u8 a2);
+    EXPORT u8 GetPreviousUnlockedMainStage_4B7060(u8 stage_idx);
 
     EXPORT u8 GetNextUnlockedMainStage_4B7270(char_type main_stage_idx);
 
@@ -443,7 +443,7 @@ struct Frontend
 
     EXPORT void StripPlayerNameToCurrLength_4B42B0();
 
-    EXPORT char_type GetPreviousUnlockedBonusStage_4B7120(u8 a2);
+    EXPORT char_type GetPreviousUnlockedBonusStage_4B7120(u8 stage);
 
     EXPORT void UpdateBonusStageArrows_4B7610();
 
@@ -451,7 +451,7 @@ struct Frontend
 
     EXPORT bool ExistsPreviousBonusStage_4B74F0();
 
-    EXPORT char_type GetNextUnlockedBonusStage_4B7360(u8 a2);
+    EXPORT char_type GetNextUnlockedBonusStage_4B7360(u8 stage);
 
     EXPORT bool ExistsNextBonusStage_4B7520();
 
@@ -473,13 +473,13 @@ struct Frontend
 
     EXPORT char_type* pre_intro_bik_4B5F20();
 
-    EXPORT void GetElementText_4B3CC0(u16 a2, u16 a3, wchar_t** a4);
+    EXPORT void GetElementText_4B3CC0(u16 page_idx, u16 element_idx, wchar_t** ppText);
 
     EXPORT void DrawMultiplayerScores_4B55F0();
 
     EXPORT void DrawLastAndBestStats_4B57B0(u16 text_xpos, u16 text_ypos);
 
-    EXPORT void DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, u16 palette, u16 scale, u16 a7, u8 pStr);
+    EXPORT void DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, u16 palette, u16 scale, u16 char_width, u8 pStr);
 
     EXPORT void Frontend::DrawScoreTable_4B5430(ScoreTableLine_18* pStrings,
                            u16 text_xpos,
@@ -494,9 +494,9 @@ class FreeLoader
 {
   public:
     EXPORT static s32 __stdcall GetCityInstalled_4AE0F0();
-    EXPORT static char_type __stdcall CheckCityInstalled_4AE1F0(u8 a1);
+    EXPORT static char_type __stdcall CheckCityInstalled_4AE1F0(u8 city_idx);
     EXPORT static void __cdecl MessageBox_4AE170(UINT uType, LPCSTR lpCaption, LPCSTR lpFormat, ...);
-    EXPORT static LPCSTR __stdcall GetRegDword_4AE010(HKEY hKey, LPCSTR lpValueName, LPCSTR a3);
+    EXPORT static LPCSTR __stdcall GetRegDword_4AE010(HKEY hKey, LPCSTR lpValueName, LPCSTR default_value);
 };
 
 EXPORT s32 IsFullScreen_5D98D0();

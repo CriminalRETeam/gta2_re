@@ -81,12 +81,12 @@ DEFINE_GLOBAL(bool, gCheatMiniCars_67D6C8, 0x67D6C8);
 int sCheatHashSecret_61F0A8[8] = {829, 761, 23, 641, 43, 809, 677, 191};
 
 MATCH_FUNC(0x4AE010)
-LPCSTR __stdcall FreeLoader::GetRegDword_4AE010(HKEY hKey, LPCSTR lpValueName, LPCSTR a3)
+LPCSTR __stdcall FreeLoader::GetRegDword_4AE010(HKEY hKey, LPCSTR lpValueName, LPCSTR default_value)
 {
     DWORD Type = 4;
     if (!RegQueryValueExA(hKey, lpValueName, 0, &Type, (LPBYTE)&lpValueName, &Type) == 0)
     {
-        return a3;
+        return default_value;
     }
     else
     {
@@ -117,9 +117,9 @@ void __cdecl FreeLoader::MessageBox_4AE170(UINT uType, LPCSTR lpCaption, LPCSTR 
 }
 
 MATCH_FUNC(0x4AE1F0)
-EXPORT char_type __stdcall FreeLoader::CheckCityInstalled_4AE1F0(u8 a1)
+EXPORT char_type __stdcall FreeLoader::CheckCityInstalled_4AE1F0(u8 city_idx)
 {
-    if (a1 > FreeLoader::GetCityInstalled_4AE0F0())
+    if (city_idx > FreeLoader::GetCityInstalled_4AE0F0())
     {
         ShowWindow(gHwnd_707F04, SW_SHOWMINNOACTIVE);
         PostMessageA(gHwnd_707F04, WM_ACTIVATE, 0, 0);
@@ -2522,15 +2522,15 @@ void Frontend::SaveAndUpdatePlayerName_4B4230()
 }
 
 MATCH_FUNC(0x4B3CC0)
-void Frontend::GetElementText_4B3CC0(u16 a2, u16 a3, wchar_t** a4)
+void Frontend::GetElementText_4B3CC0(u16 page_idx, u16 element_idx, wchar_t** ppText)
 {
-    menu_element_0x6E* temp = &field_136_menu_pages_array[a2].field_518_elements_array[a3];
+    menu_element_0x6E* temp = &field_136_menu_pages_array[page_idx].field_518_elements_array[element_idx];
 
-    if (a2 == 14 && a3 == 4)
+    if (page_idx == 14 && element_idx == 4)
     {
         wcscpy(gTmpWideStr_67C7D8, field_C9B8_password);
     }
-    else if ((a2 == 14 && a3 != 4) || a2 != 5 || a3 != 1)
+    else if ((page_idx == 14 && element_idx != 4) || page_idx != 5 || element_idx != 1)
     {
         swprintf(gTmpWideStr_67C7D8, L"%s", temp->field_6_element_name_str);
     }
@@ -2542,7 +2542,7 @@ void Frontend::GetElementText_4B3CC0(u16 a2, u16 a3, wchar_t** a4)
     {
         swprintf(gTmpWideStr_67C7D8, L"%c", field_EE0D_hiscore_table_idx + 62);
     }
-    *a4 = (wchar_t*)&gTmpWideStr_67C7D8;
+    *ppText = (wchar_t*)&gTmpWideStr_67C7D8;
 }
 
 MATCH_FUNC(0x4B3DD0)
@@ -3129,98 +3129,98 @@ void Frontend::DrawBackground_4B6E10()
 }
 
 MATCH_FUNC(0x4B6B00)
-void Frontend::GetTgaIdxsForMenuScreen_4B6B00(u8 a1, BYTE* pTgaIdx, BYTE* a3)
+void Frontend::GetTgaIdxsForMenuScreen_4B6B00(u8 screen, BYTE* pTgaIdx, BYTE* pTgaIdx2)
 {
-    switch (a1)
+    switch (screen)
     {
         case Options_0:
             *pTgaIdx = 1;
-            *a3 = 0;
+            *pTgaIdx2 = 0;
             break;
 
         case Play_1:
             *pTgaIdx = 2;
-            *a3 = 0;
+            *pTgaIdx2 = 0;
             break;
 
         case Quit_2:
             *pTgaIdx = 3;
-            *a3 = 0;
+            *pTgaIdx2 = 0;
             break;
 
         case BonusAC_3:
             *pTgaIdx = 5;
-            *a3 = 4;
+            *pTgaIdx2 = 4;
             break;
 
         case BonusDF_4:
             *pTgaIdx = 6;
-            *a3 = 4;
+            *pTgaIdx2 = 4;
             break;
 
         case BonusGI_5:
             *pTgaIdx = 7;
-            *a3 = 4;
+            *pTgaIdx2 = 4;
             break;
 
         case ViewHiScore_6:
             *pTgaIdx = 8;
-            *a3 = 4;
+            *pTgaIdx2 = 4;
             break;
 
         case PlayArea1_7:
             *pTgaIdx = 9;
-            *a3 = 4;
+            *pTgaIdx2 = 4;
             break;
 
         case PlayArea2_8:
             *pTgaIdx = 10;
-            *a3 = 4;
+            *pTgaIdx2 = 4;
             break;
 
         case PlayArea3_9:
             *pTgaIdx = 11;
-            *a3 = 4;
+            *pTgaIdx2 = 4;
             break;
 
         case EnterPlayerName_10:
             *pTgaIdx = 12;
-            *a3 = 4;
+            *pTgaIdx2 = 4;
             break;
 
         case ResumeLoadSave_11:
             *pTgaIdx = 13;
-            *a3 = 4;
+            *pTgaIdx2 = 4;
             break;
 
         case HiScoresDisplay_12:
             *pTgaIdx = 15;
-            *a3 = 0;
+            *pTgaIdx2 = 0;
             break;
 
         case GameOver_13:
             *pTgaIdx = 19;
-            *a3 = 0;
+            *pTgaIdx2 = 0;
             break;
 
         case RedBar_16:
             *pTgaIdx = 17;
-            *a3 = 0;
+            *pTgaIdx2 = 0;
             break;
 
         case BlueBar_14:
             *pTgaIdx = 18;
-            *a3 = 0;
+            *pTgaIdx2 = 0;
             break;
 
         case Loading_15:
             *pTgaIdx = 16;
-            *a3 = 0;
+            *pTgaIdx2 = 0;
             break;
 
         case Credits_17:
             *pTgaIdx = 22;
-            *a3 = 0;
+            *pTgaIdx2 = 0;
             break;
 
         default:
@@ -4368,11 +4368,11 @@ char_type Frontend::PlySlotSvgExists_4B5370(u8 idx)
 }
 
 MATCH_FUNC(0x4B77B0)
-u8 Frontend::GetPrevUnlockedStageIndex_4B77B0(PlySlot_A4* a2)
+u8 Frontend::GetPrevUnlockedStageIndex_4B77B0(PlySlot_A4* pStats)
 {
     u8 result;
 
-    for (result = field_1EB50_num_main_stages - 1; !a2->field_0_plyr_stage_stats[result][0].field_0_is_stage_unlocked; --result)
+    for (result = field_1EB50_num_main_stages - 1; !pStats->field_0_plyr_stage_stats[result][0].field_0_is_stage_unlocked; --result)
     {
         if (result <= 0)
         {
@@ -4416,18 +4416,18 @@ u8 Frontend::GetPrevUnlockedStageBonusCode_4B7800(PlySlot_A4* pStats)
 EXTERN_GLOBAL(bool, bDoFrontEnd_626B68);
 
 MATCH_FUNC(0x5E53C0)
-void __stdcall Frontend::SetInputEnabled_5E53C0(BYTE* a1)
+void __stdcall Frontend::SetInputEnabled_5E53C0(BYTE* pEnabled)
 {
     if (bDoFrontEnd_626B68)
     {
         if (gFrontend_67DC84)
         {
-            gFrontend_67DC84->field_10D_bInputEnabled = *a1;
+            gFrontend_67DC84->field_10D_bInputEnabled = *pEnabled;
         }
     }
     else
     {
-        gInputRecorder_67F8B0.field_75344_bInputEnabled = *a1;
+        gInputRecorder_67F8B0.field_75344_bInputEnabled = *pEnabled;
     }
 }
 
@@ -4475,7 +4475,7 @@ s32 __stdcall Frontend::GetMaxTextWidth_5D8990(wchar_t* pStr, u16 font_type)
 }
 
 MATCH_FUNC(0x4B78B0)
-void Frontend::DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, u16 palette, u16 scale, u16 a7, u8 pStr)
+void Frontend::DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, u16 palette, u16 scale, u16 char_width, u8 pStr)
 {
     u16 text_xbase;
 
@@ -4486,7 +4486,7 @@ void Frontend::DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 te
         {
             ;
         }
-        text_xbase = text_xpos - a7 * (char_count - 1);
+        text_xbase = text_xpos - char_width * (char_count - 1);
     }
     else
     {
@@ -4499,7 +4499,7 @@ void Frontend::DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 te
     for (chr[0] = pString[0]; chr[0]; chr[0] = pString[++text_xposa])
     {
         u16 biggestLine = Frontend::GetMaxTextWidth_5D8990(chr, font_type);
-        u16 char_pad = (a7 - biggestLine) / 2;
+        u16 char_pad = (char_width - biggestLine) / 2;
         if ((u16)palette == 0xFFFF)
         {
             DrawText_4B87A0(chr, text_xbase + char_pad, text_ypos, font_type, scale);
@@ -4508,7 +4508,7 @@ void Frontend::DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 te
         {
             DrawText_5D8A10(chr, text_xbase + char_pad, text_ypos, font_type, scale, 8, palette, false, false);
         }
-        text_xbase += a7;
+        text_xbase += char_width;
     }
 }
 
@@ -4702,11 +4702,11 @@ u16 Frontend::GetCenteredXPos_4B0190(wchar_t* pText, u16 fontType, s32 width)
 }
 
 MATCH_FUNC(0x4B7060)
-u8 Frontend::GetPreviousUnlockedMainStage_4B7060(u8 a2)
+u8 Frontend::GetPreviousUnlockedMainStage_4B7060(u8 stage_idx)
 {
     PlySlot_A4* pStats = GetCurrPlayerStats_4B43E0();
-    u8 result = a2;
-    if (a2 == 0)
+    u8 result = stage_idx;
+    if (stage_idx == 0)
     {
         if (bIsLeftRightLoopEnabled_67DA80)
         {
@@ -4720,8 +4720,8 @@ u8 Frontend::GetPreviousUnlockedMainStage_4B7060(u8 a2)
     }
     else
     {
-        a2--;
-        return a2;
+        stage_idx--;
+        return stage_idx;
     }
 }
 
@@ -4827,13 +4827,13 @@ void Frontend::StripPlayerNameToCurrLength_4B42B0()
 
 // https://decomp.me/scratch/2DKTF
 MATCH_FUNC(0x4B7120)
-char_type Frontend::GetPreviousUnlockedBonusStage_4B7120(u8 a2)
+char_type Frontend::GetPreviousUnlockedBonusStage_4B7120(u8 stage)
 {
     PlySlot_A4* player_stats = Frontend::GetCurrPlayerStats_4B43E0();
 
     u8 main_stage_idx;
     u8 bonus_stage_idx;
-    gGameSession_67E8E0.DecodeStage_453A60(a2, &main_stage_idx, &bonus_stage_idx);
+    gGameSession_67E8E0.DecodeStage_453A60(stage, &main_stage_idx, &bonus_stage_idx);
 
     u8 main_og = main_stage_idx;
     u8 bonus_og = bonus_stage_idx;
@@ -4949,13 +4949,13 @@ bool Frontend::ExistsPreviousBonusStage_4B74F0()
 
 // https://decomp.me/scratch/kyxJQ
 MATCH_FUNC(0x4B7360)
-char_type Frontend::GetNextUnlockedBonusStage_4B7360(u8 a2)
+char_type Frontend::GetNextUnlockedBonusStage_4B7360(u8 stage)
 {
     PlySlot_A4* player_stats = GetCurrPlayerStats_4B43E0();
 
     u8 main_stage_idx;
     u8 bonus_stage_idx;
-    gGameSession_67E8E0.DecodeStage_453A60(a2, &main_stage_idx, &bonus_stage_idx);
+    gGameSession_67E8E0.DecodeStage_453A60(stage, &main_stage_idx, &bonus_stage_idx);
 
     u8 og_main_stage_idx = main_stage_idx;
     u8 og_bonus_stage_idx = bonus_stage_idx;

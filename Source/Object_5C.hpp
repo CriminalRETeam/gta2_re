@@ -44,7 +44,7 @@ class Object_2C
     EXPORT char_type ShouldCollideWith_5223C0(Sprite* pSprite);
     EXPORT bool ShouldStopAtTrafficLight_525290(Sprite* pSprite);
     EXPORT bool ShouldCollideWithSprite_522430(Sprite* pSprite);
-    EXPORT char_type SelectCollisionSprite_522460(Sprite* a2);
+    EXPORT char_type SelectCollisionSprite_522460(Sprite* pProbe);
     EXPORT void SetMovementVector_5224E0(Fix16_Point& speed);
     EXPORT void SetMovementVectorWithRandomState_522640(Fix16_Point& point);
     EXPORT void SetConveyorPush_5226A0(char_type conveyor_speed);
@@ -54,13 +54,13 @@ class Object_2C
     EXPORT void ResolveCollisionWithMapTile_522BE0(Fix16_Point* pPoint);
     EXPORT void ResolveCollisionWithMapTileHorizontal_522D00(Fix16_Point* pPoint);
     EXPORT void HandleCollision_522E10(Fix16_Point* pPoint);
-    EXPORT char_type sub_5233A0(Fix16 a2);
+    EXPORT char_type sub_5233A0(Fix16 value);
     EXPORT void HandleCollisionOutcome_523440(Fix16_Point point, char_type bUnknown1, char_type bUnknown2);
-    EXPORT char_type HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point* pPoint, u8* a4, Fix16 a5);
-    EXPORT char_type HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, u8* a4, u8* a5);
-    EXPORT char_type HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint, u8* a4, u8* a5, Fix16 a6);
+    EXPORT char_type HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, Fix16 found_z);
+    EXPORT char_type HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, u8* pHit2);
+    EXPORT char_type HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, u8* pHit2, Fix16 found_z);
     EXPORT void ComputeWallHitSide_524550();
-    EXPORT void IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 a3);
+    EXPORT void IntegrateHorizontalMovementAndCollisions_524630(Fix16 move_len, Ang16 move_angle);
     EXPORT void sub_525190(u8 ped_ref_idx);
     EXPORT void UpdateAninmation_5257D0();
     EXPORT bool DispatchFrameAction_525910();
@@ -73,7 +73,7 @@ class Object_2C
     EXPORT void Update_525F30();
     EXPORT bool PoolUpdate();
     EXPORT void TriggerCarExplosionIfApplicable_526790(Sprite* pSprite);
-    EXPORT static s32 __stdcall sub_526830(s32 a1);
+    EXPORT static s32 __stdcall sub_526830(s32 type);
     EXPORT void sub_526B40(Sprite* pSprite);
     EXPORT bool UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot);
     EXPORT void InitializeObject_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
@@ -86,7 +86,7 @@ class Object_2C
     EXPORT void TickObject_5283C0(s32 obj_type);
     EXPORT char_type OnObjectTouched_5288B0(Sprite* pSprite);
     EXPORT void HandleWaterDeath_528900();
-    EXPORT static s32 __stdcall GetExplosionTypeForWallSide_528E00(s32 a1); // TODO: Check if thiscall
+    EXPORT static s32 __stdcall GetExplosionTypeForWallSide_528E00(s32 wall_side); // TODO: Check if thiscall
     EXPORT char_type HandleObjectHitIfExplosive_528960(Object_2C* pOther);
     EXPORT char_type HandleObjectHit_528990(Sprite* pSprite);
     EXPORT void ProcessObjectExplosionImpact_528A20(Object_2C* pObj);
@@ -103,7 +103,7 @@ class Object_2C
     EXPORT void RequestRemovalWhenOffScreen_5290B0();
     EXPORT void Dealloc_5291B0();
     EXPORT void PoolGiveAndMarkDone_5291D0();
-    EXPORT void PoolGiveAndSetDone_5291E0(s32 a2);
+    EXPORT void PoolGiveAndSetDone_5291E0(s32 bDone);
     EXPORT bool IsNotModel_174_529200();
     EXPORT ~Object_2C();
     EXPORT void EnsureObject3C_52A650();
@@ -364,7 +364,7 @@ class Object_5C
     EXPORT Object_2C* NewFlashingLight_529B20(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity, u8 on_time, u8 off_time, u8 shape);
     EXPORT Object_2C* sub_529BC0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
     EXPORT Object_2C* New_529C00(s32 object_type, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6, char_type a7);
-    EXPORT char_type SetPendingDamageOwner_52A210(char_type a2);
+    EXPORT char_type SetPendingDamageOwner_52A210(char_type owner);
     EXPORT Object_2C* NewUnknown_52A240(s32 object_type,
                                         Fix16 maybe_x,
                                         Fix16 maybe_y,

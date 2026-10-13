@@ -322,11 +322,11 @@ bool Object_2C::ShouldCollideWithSprite_522430(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x522460)
-char_type Object_2C::SelectCollisionSprite_522460(Sprite* a2)
+char_type Object_2C::SelectCollisionSprite_522460(Sprite* pProbe)
 {
     gObject2C_HitWallOrDoor_6F8F94 = 0;
 
-    Sprite* pSprite = a2->QuerySpriteCollision_59E7D0(2);
+    Sprite* pSprite = pProbe->QuerySpriteCollision_59E7D0(2);
     if (pSprite && gObject2C_LastCollisionSprite_6F8F8C && pSprite->GetType_416B40() == sprite_types_enum::car_2 // IsCar
         || !ShouldCollideWithSprite_522430(pSprite) || pSprite == gObject2C_LastCollisionSprite_6F8F8C)
     {
@@ -664,7 +664,7 @@ void Object_2C::Sprite_UpdateZFromSlopeAndTile_522FA0(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5233a0)
-char_type Object_2C::sub_5233A0(Fix16 a2)
+char_type Object_2C::sub_5233A0(Fix16 value)
 {
     gObject2C_LastCollisionSprite_6F8F8C = 0;
 
@@ -678,7 +678,7 @@ char_type Object_2C::sub_5233A0(Fix16 a2)
         }
 
         gObject2C_LastCollisionSprite_6F8F8C = gCollisionTarget_679188.field_20_pHitSprite;
-        if (a2 > k_dword_6F8C58)
+        if (value > k_dword_6F8C58)
         {
             return 0;
         }
@@ -755,7 +755,7 @@ void Object_2C::HandleCollisionOutcome_523440(Fix16_Point point, char_type bUnkn
 }
 
 MATCH_FUNC(0x5235b0)
-char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point* pPoint, u8* a4, Fix16 a5)
+char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, Fix16 found_z)
 {
     Fix16 temp_z;
     bool bOnGround;
@@ -803,7 +803,7 @@ char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix1
     if (pSprite->CheckSpriteMovementRegion_5A2500())
     {
         *pPoint = pSprite->get_x_y();
-        *a4 = 1;
+        *pHit = 1;
         ComputeWallHitSide_524550();
         return 1;
     }
@@ -823,7 +823,7 @@ char_type Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix1
 
 // https://decomp.me/scratch/soZJL
 MATCH_FUNC(0x523770)
-char_type Object_2C::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, u8* a4, u8* a5)
+char_type Object_2C::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, u8* pHit2)
 {
     field_10_obj_3c->field_2A_bAirborne = 1;
 
@@ -837,7 +837,7 @@ char_type Object_2C::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite
 
     if (pSprite->CheckMapZCollision_5A21F0())
     {
-        *a5 = 1;
+        *pHit2 = 1;
         field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
         field_10_obj_3c->field_1C_z_accel = kFpZero_6F8E10;
         if (field_8->field_50 == 4)
@@ -850,7 +850,7 @@ char_type Object_2C::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite
     {
         field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed;
         *pPoint = pSprite->get_x_y();
-        *a4 = 1;
+        *pHit = 1;
         ComputeWallHitSide_524550();
         return 1;
     }
@@ -860,7 +860,7 @@ char_type Object_2C::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite
         {
             field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed;
             *pPoint = pSprite->get_x_y();
-            *a4 = 1;
+            *pHit = 1;
         }
         else
         {
@@ -877,7 +877,7 @@ char_type Object_2C::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite
 
 // https://decomp.me/scratch/1RN5H
 MATCH_FUNC(0x5238B0)
-char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint, u8* a4, u8* a5, Fix16 a6)
+char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, u8* pHit2, Fix16 found_z)
 {
     Fix16 ground_z;
     bool bOverGap = false;
@@ -921,9 +921,9 @@ char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point*
     }
     else
     {
-        if (a6 > pSprite->field_1C_zpos)
+        if (found_z > pSprite->field_1C_zpos)
         {
-            pSprite->set_xyz_lazy_420600(pSprite->field_14_xy.x, pSprite->field_14_xy.y, a6);
+            pSprite->set_xyz_lazy_420600(pSprite->field_14_xy.x, pSprite->field_14_xy.y, found_z);
             Object_2C::Sprite_UpdateZFromSlopeAndTile_522FA0(pSprite);
             field_10_obj_3c->field_2A_bAirborne = 0;
 
@@ -933,7 +933,7 @@ char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point*
                 {
                     if (field_10_obj_3c->field_10_z_speed >= -k_dword_6F8C58)
                     {
-                        *a5 = true;
+                        *pHit2 = true;
                         field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
                         field_10_obj_3c->field_C_speed = kFpZero_6F8E10;
                     }
@@ -946,7 +946,7 @@ char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point*
                 {
                     field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
                     pSprite->set_xyz_lazy_420600(pSprite->field_14_xy.x, pSprite->field_14_xy.y, field_4->field_1C_zpos);
-                    *a5 = true;
+                    *pHit2 = true;
                 }
             }
             else
@@ -967,7 +967,7 @@ char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point*
     {
         if (field_8->field_50 == 1)
         {
-            *a5 = true;
+            *pHit2 = true;
             field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
             field_10_obj_3c->field_C_speed = kFpZero_6F8E10;
         }
@@ -975,10 +975,10 @@ char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point*
         {
             if (field_8->field_50 == 4)
             {
-                *a5 = true;
+                *pHit2 = true;
                 return true;
             }
-            *a5 = true;
+            *pHit2 = true;
             field_10_obj_3c->field_10_z_speed = kObjectBounceRestitution_6F8DBC * (-field_10_obj_3c->field_10_z_speed);
         }
     }
@@ -989,13 +989,13 @@ char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point*
         field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
         field_10_obj_3c->field_2A_bAirborne = 0;
         *pPoint = pSprite->get_x_y();
-        *a4 = true;
+        *pHit = true;
         Object_2C::ComputeWallHitSide_524550();
         return true;
     }
     else if (Object_2C::SelectCollisionSprite_522460(pSprite))
     {
-        *a5 = true;
+        *pHit2 = true;
         if (field_8->field_50 == 4)
         {
             return true;
@@ -1004,7 +1004,7 @@ char_type Object_2C::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point*
         {
             field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed.mValue;
             *pPoint = pSprite->get_x_y();
-            *a4 = true;
+            *pHit = true;
             return true;
         }
         else
@@ -1232,15 +1232,15 @@ void Object_2C::ComputeWallHitSide_524550()
 }
 
 MATCH_FUNC(0x524630)
-void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 a3)
+void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 move_len, Ang16 move_angle)
 {
     bool bOnSlope = 0;
     Fix16_Point hitPoint;
-    //v4 = a2;
+    //v4 = move_len;
     Sprite* pProbe = gObject_5C_6F8F84->field_58_collision_probe_sprite;
     //v63 = 0;
     gObject2C_LastCollisionSprite_6F8F8C = 0;
-    if (a2 == kFpZero_6F8E10 && !this->field_10_obj_3c->field_2A_bAirborne)
+    if (move_len == kFpZero_6F8E10 && !this->field_10_obj_3c->field_2A_bAirborne)
     {
         return;
     }
@@ -1254,10 +1254,10 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
 
     Fix16 step_count;
     Fix16 step_len;
-    if (a2 != kFpZero_6F8E10)
+    if (move_len != kFpZero_6F8E10)
     {
-        step_count = (a2) / this->field_8->field_C_min_size;
-        step_len = (a2) / step_count;
+        step_count = (move_len) / this->field_8->field_C_min_size;
+        step_len = (move_len) / step_count;
     }
     else
     {
@@ -1268,7 +1268,7 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
     if (step_count < kFP16One_6F8E14)
     {
         step_count = kFP16One_6F8E14;
-        step_len = a2;
+        step_len = move_len;
     }
 
     Fix16 step_dx;
@@ -1276,8 +1276,8 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
     {
         // 9.6f: PolarToCartesian_41FC20 on a copy of the step
         Fix16 radius = step_len;
-        step_dx = Ang16::sine_40F500(a3) * radius;
-        step_dy = Ang16::cosine_40F520(a3).Multiply_408680(radius);
+        step_dx = Ang16::sine_40F500(move_angle) * radius;
+        step_dy = Ang16::cosine_40F520(move_angle).Multiply_408680(radius);
     } // 9.6f inlined: PolarToCartesian_41FC20
 
     Ang16 start_rotation;
@@ -1303,7 +1303,7 @@ void Object_2C::IntegrateHorizontalMovementAndCollisions_524630(Fix16 a2, Ang16 
             }
 
             pProbe->set_xy_lazy_447E20(pProbe->field_14_xy.x + step_dx, pProbe->field_14_xy.y + step_dy);
-            pProbe->set_ang_lazy_420690(a3);
+            pProbe->set_ang_lazy_420690(move_angle);
 
             if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(pProbe->field_14_xy.x.ToInt(), pProbe->field_14_xy.y.ToInt(), pProbe->field_1C_zpos.ToInt()))
             {
@@ -1371,10 +1371,10 @@ LABEL_48:
         Fix16 old_y = pProbe->field_14_xy.y;
         start_rotation = pProbe->field_0_rotation;
         step = step / 2;
-        step_dx = Ang16::sine_40F500(a3) * step;
-        step_dy = Ang16::cosine_40F520(a3) * step;
+        step_dx = Ang16::sine_40F500(move_angle) * step;
+        step_dy = Ang16::cosine_40F520(move_angle) * step;
         pProbe->set_xy_lazy_447E20(pProbe->field_14_xy.x + step_dx, pProbe->field_14_xy.y + step_dy);
-        pProbe->set_ang_lazy_420690(a3);
+        pProbe->set_ang_lazy_420690(move_angle);
 
         if (pProbe->CheckSpriteMovementRegion_5A2500() || SelectCollisionSprite_522460(pProbe))
         {
@@ -1995,9 +1995,9 @@ void Object_2C::TriggerCarExplosionIfApplicable_526790(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x526830)
-s32 __stdcall Object_2C::sub_526830(s32 a1)
+s32 __stdcall Object_2C::sub_526830(s32 type)
 {
-    switch (a1)
+    switch (type)
     {
         case 39:
             return 18;
@@ -2008,8 +2008,8 @@ s32 __stdcall Object_2C::sub_526830(s32 a1)
         case 42:
             return 20;
     }
-    // The original reloads a1 from its stack slot here instead of keeping it in a register
-    return *(volatile s32*)&a1;
+    // The original reloads type from its stack slot here instead of keeping it in a register
+    return *(volatile s32*)&type;
 }
 
 MATCH_FUNC(0x526b40)
@@ -2777,11 +2777,11 @@ void Object_2C::HandleImpactNoSprite_528BA0()
 }
 
 MATCH_FUNC(0x528E00)
-s32 __stdcall Object_2C::GetExplosionTypeForWallSide_528E00(s32 a1)
+s32 __stdcall Object_2C::GetExplosionTypeForWallSide_528E00(s32 wall_side)
 {
     int result; // eax
 
-    switch (a1)
+    switch (wall_side)
     {
         case 0:
             result = 18;
@@ -3038,10 +3038,10 @@ void Object_2C::PoolGiveAndMarkDone_5291D0()
 }
 
 MATCH_FUNC(0x5291E0)
-void Object_2C::PoolGiveAndSetDone_5291E0(s32 a2)
+void Object_2C::PoolGiveAndSetDone_5291E0(s32 bDone)
 {
     PoolGive_522340();
-    field_24_bDoneThisFrame = a2;
+    field_24_bDoneThisFrame = bDone;
 }
 
 MATCH_FUNC(0x529200)
@@ -3541,11 +3541,11 @@ Object_2C* Object_5C::New_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
 }
 
 MATCH_FUNC(0x52a210)
-char_type Object_5C::SetPendingDamageOwner_52A210(char_type a2)
+char_type Object_5C::SetPendingDamageOwner_52A210(char_type owner)
 {
     // TODO: Why is it a byte here? enum ??
-    *(u8*)&field_18_pending_damage_owner = a2;
-    return a2;
+    *(u8*)&field_18_pending_damage_owner = owner;
+    return owner;
 }
 
 MATCH_FUNC(0x52a240)

@@ -603,7 +603,7 @@ void Sprite::CopyVisualShapeToCollision_59E300()
 }
 
 MATCH_FUNC(0x59e320)
-void Sprite::IncreaseZoom_59E320(char_type a2)
+void Sprite::IncreaseZoom_59E320(char_type delta)
 {
     u16 sprite_idx = GetTrueSpriteIdx_4BA230();
     sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
@@ -619,7 +619,7 @@ void Sprite::IncreaseZoom_59E320(char_type a2)
     {
         result = field_5_height >> 1;
     }
-    field_38_zoom = a2 + field_38_zoom;
+    field_38_zoom = delta + field_38_zoom;
     if ((field_38_zoom & 0xFF) > result)
     {
         field_38_zoom = result;
@@ -755,7 +755,7 @@ static inline void __stdcall DrawTextScaled_4BA2C0(const wchar_t* pStr, Fix16 x,
 }
 
 MATCH_FUNC(0x59e7d0)
-Sprite* Sprite::QuerySpriteCollision_59E7D0(s32 a2)
+Sprite* Sprite::QuerySpriteCollision_59E7D0(s32 sprite_type)
 {
     Sprite* result;
 
@@ -766,7 +766,7 @@ Sprite* Sprite::QuerySpriteCollision_59E7D0(s32 a2)
     {
         return gCollisionTarget_679188.field_20_pHitSprite;
     }
-    result = gSpriteGrid_1_679208->FindNearestSpriteOfType_477E60(this, a2);
+    result = gSpriteGrid_1_679208->FindNearestSpriteOfType_477E60(this, sprite_type);
     if (result)
     {
         gCollisionTarget_679188.SetSprite_40FEE0(result);
@@ -1269,14 +1269,14 @@ void Sprite::Draw_59EFF0()
 }
 
 MATCH_FUNC(0x59f950)
-void Sprite::AllocCollisionShape_59F950(Fix16 a2, Fix16 a3, Fix16 a4)
+void Sprite::AllocCollisionShape_59F950(Fix16 width, Fix16 height, Fix16 depth)
 {
     if (field_C_pCollisionShape == NULL)
     {
         field_C_pCollisionShape = gSpriteShapePool_70381C->Allocate();
     }
 
-    field_C_pCollisionShape->SetDimensions_482980(a2, a3, a4);
+    field_C_pCollisionShape->SetDimensions_482980(width, height, depth);
 }
 
 MATCH_FUNC(0x59f990)
@@ -1747,15 +1747,15 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& 
 }
 
 MATCH_FUNC(0x5A0EF0)
-char_type Sprite::HitTestVerticalLine_5A0EF0(Fix16 a2, Fix16 a3, Fix16 a4)
+char_type Sprite::HitTestVerticalLine_5A0EF0(Fix16 x, Fix16 y1, Fix16 y2)
 {
     Fix16_Point* pBBox = this->field_C_pCollisionShape->field_C_corners;
-    if (ComputeScanlineIntersectionX_4F77D0(a2, a3, a4, pBBox[0], pBBox[1]) ||
-        ComputeScanlineIntersectionX_4F77D0(a2, a3, a4, pBBox[1], pBBox[2]) ||
-        ComputeScanlineIntersectionX_4F77D0(a2, a3, a4, pBBox[2], pBBox[3]) ||
-        ComputeScanlineIntersectionX_4F77D0(a2, a3, a4, pBBox[3], pBBox[0]))
+    if (ComputeScanlineIntersectionX_4F77D0(x, y1, y2, pBBox[0], pBBox[1]) ||
+        ComputeScanlineIntersectionX_4F77D0(x, y1, y2, pBBox[1], pBBox[2]) ||
+        ComputeScanlineIntersectionX_4F77D0(x, y1, y2, pBBox[2], pBBox[3]) ||
+        ComputeScanlineIntersectionX_4F77D0(x, y1, y2, pBBox[3], pBBox[0]))
     {
-        gCollisionTarget_679188.SetVerticalSegment_4BA280(a2, a3, a4);
+        gCollisionTarget_679188.SetVerticalSegment_4BA280(x, y1, y2);
         return 1;
     }
     return 0;

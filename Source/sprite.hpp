@@ -218,13 +218,13 @@ class Sprite
     EXPORT u8 GetWaterCornerMask_59E250();
     EXPORT void CopyCollisionShapeToVisual_59E2E0();
     EXPORT void CopyVisualShapeToCollision_59E300();
-    EXPORT void IncreaseZoom_59E320(char_type a2);
+    EXPORT void IncreaseZoom_59E320(char_type delta);
     EXPORT bool ShrinkSprite_59E390(Fix16 xoff, Fix16 yoff, s32 bUnknown);
     EXPORT void ApplyScaleToDimensions_59E4C0(Fix16 scale, s32 bScale_Field_C_4C);
     EXPORT char_type CollisionCheck_59E590(Sprite* pOther);
     EXPORT char_type CheckDirectionalSliceCollision_59E680(Fix16 sliceLen, Sprite* pSprite);
     EXPORT void ResetZCollisionAndDebugBoxes_59E7B0();
-    EXPORT Sprite* QuerySpriteCollision_59E7D0(s32 a2);
+    EXPORT Sprite* QuerySpriteCollision_59E7D0(s32 sprite_type);
     EXPORT char_type IsThreatToSearchingPed_59E830();
     EXPORT char_type ShouldCollideWithSprite_59E850(Sprite* pSprite);
     EXPORT void HandleObjectCollision_59E8C0(Sprite* pSprite);
@@ -237,7 +237,7 @@ class Sprite
     EXPORT void ShowId_59EB30(f32& x, f32& y);
     EXPORT void ShowHorn_59EE40(f32& x, f32& y);
     EXPORT void Draw_59EFF0();
-    EXPORT void AllocCollisionShape_59F950(Fix16 width, Fix16 height, Fix16 a4);
+    EXPORT void AllocCollisionShape_59F950(Fix16 width, Fix16 height, Fix16 depth);
     EXPORT void EnsureVisualShape_59F990();
     EXPORT void UpdateDimensionsFromSpriteIndex_59FA40();
     EXPORT void FreeShapes_59FAD0();
@@ -247,7 +247,7 @@ class Sprite
     EXPORT bool RotatedRectCollisionSAT_5A0380(Sprite* pOther);
     EXPORT char_type CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 scanXMax, Fix16 scanY);
     EXPORT bool GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& point, u8& a4);
-    EXPORT char_type HitTestVerticalLine_5A0EF0(Fix16 a2, Fix16 a3, Fix16 a4);
+    EXPORT char_type HitTestVerticalLine_5A0EF0(Fix16 x, Fix16 y1, Fix16 y2);
     EXPORT bool GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 a2, Fix16_Point& a3, u8& a4);
     EXPORT bool PointInsideRotatedBounds_5A1490(Fix16_Point& point1, Fix16_Point& point2);
     EXPORT char_type sub_5A19C0();

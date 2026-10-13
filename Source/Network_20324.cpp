@@ -1130,9 +1130,9 @@ s32 Network_20324::cb_FillSessionList_519D30(Network_20324* pThis, Network_NameL
 }
 
 MATCH_FUNC(0x519e10)
-void Network_20324::SetDlgHwnd_519E10(HWND a2)
+void Network_20324::SetDlgHwnd_519E10(HWND hDlg)
 {
-    field_202E0_dlg_hwnd = a2;
+    field_202E0_dlg_hwnd = hDlg;
 }
 
 MATCH_FUNC(0x519e20)
@@ -1142,7 +1142,7 @@ HWND Network_20324::Get_202E0_HWND_519E20()
 }
 
 MATCH_FUNC(0x519e30)
-void Network_20324::cb_AddPlayerToList_519E30(Network_20324* pNetUi, wchar_t* pName, s32 a3)
+void Network_20324::cb_AddPlayerToList_519E30(Network_20324* pNetUi, wchar_t* pName, s32 player_idx)
 {
     LVITEMA item;
     char_type name[260];
@@ -1200,7 +1200,7 @@ void Network_20324::cb_AddPlayerToList_519E30(Network_20324* pNetUi, wchar_t* pN
 }
 
 MATCH_FUNC(0x519fd0)
-void __stdcall Network_20324::OnPaint_519FD0(HWND a1)
+void __stdcall Network_20324::OnPaint_519FD0(HWND hWnd)
 {
     // Empty
 }
@@ -1930,13 +1930,13 @@ void Network_20324::cb_sub_51B7E0(Network_20324* a1, const char_type** a2)
 #pragma warning(push)
 #pragma warning(disable : 4701) // pSpeedText is used uninitialised for an unknown speed, as in the original
 MATCH_FUNC(0x51b810)
-void Network_20324::ApplyHostGameSettings_51B810(const char_type* a2)
+void Network_20324::ApplyHostGameSettings_51B810(const char_type* pData)
 {
     char_type msg[520];
     wchar_t wmsg[520];
     char_type* pSpeedText;
 
-    const NetworkGameSettings* pSettings = (const NetworkGameSettings*)a2;
+    const NetworkGameSettings* pSettings = (const NetworkGameSettings*)pData;
     if (pSettings)
     {
         field_20088_game_settings = *pSettings;
@@ -2108,9 +2108,9 @@ void Network_20324::cb_SavePlayerName_51BC00(Network_20324* pThis)
 }
 
 MATCH_FUNC(0x51bc70)
-void Network_20324::SetEndDialog_51BC70(s32 a2)
+void Network_20324::SetEndDialog_51BC70(s32 bEnd)
 {
-    field_1FD68_bEndDialog = a2;
+    field_1FD68_bEndDialog = bEnd;
 }
 
 MATCH_FUNC(0x51bc80)
@@ -2401,11 +2401,11 @@ void __stdcall Network_20324::ShowUnableToOpenFileError_51CAD0(const char_type* 
 }
 
 MATCH_FUNC(0x51cb30)
-void Network_20324::SetPlayerCountText_51CB30(s32 a1, HWND hDlg)
+void Network_20324::SetPlayerCountText_51CB30(s32 count, HWND hDlg)
 {
     char String[260];
     const char* pStr = GetString_519A00("netui13");
-    sprintf(String, "%s %d", pStr, a1);
+    sprintf(String, "%s %d", pStr, count);
     SetDlgItemTextA(hDlg, 1033, String);
 }
 
