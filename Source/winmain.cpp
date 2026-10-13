@@ -1015,14 +1015,14 @@ EXPORT void __stdcall ApplyChangedScreenSettings_5D9690()
 
 // TODO: order
 MATCH_FUNC(0x4DA780)
-EXPORT char ExecuteGame_4DA780()
+EXPORT bool ExecuteGame_4DA780()
 {
-    char exit_code = gGame_0x40_67E008->ExecuteGame_4B9640();
+    bool exit_requested = gGame_0x40_67E008->ExecuteGame_4B9640();
     if (gFpsCounter_7055D4)
     {
         gFpsCounter_7055D4->field_18_execute_game_timer.AccumulateElapsed_5BEBF0();
     }
-    return exit_code;
+    return exit_requested;
 }
 
 MATCH_FUNC(0x4DA7B0)
@@ -1457,19 +1457,19 @@ EXPORT void __stdcall do_network_and_local_inputs_4DAF30()
 
 // todo move to another file for ordering
 MATCH_FUNC(0x4DA850)
-EXPORT u8 RunGameFrame_4DA850()
+EXPORT bool RunGameFrame_4DA850()
 {
-    u8 unk_bl = 0;
-    u8 bContinue = false;
-    u8 a2 = 0;
-    u8 unk_0xc = 0;
+    u8 frame_due = 0;
+    bool exit_requested = false;
+    u8 drew_frame = 0;
+    u8 updated_logic = 0;
     DWORD Time = timeGetTime();
 
     if (bStartNetworkGame_7081F0)
     {
         if (Time >= gMatchStartTime_6F5A28)
         {
-            bContinue = ExecuteGame_4DA780();
+            exit_requested = ExecuteGame_4DA780();
             do_network_and_local_inputs_4DAF30();
             gMatchStartTime_6F5A28 = Time + gGame_0x40_67E008->GetFrameDurationMs_4B8BB0();
         }
@@ -1478,21 +1478,21 @@ EXPORT u8 RunGameFrame_4DA850()
     {
         if (!max_frame_rate_626A08 && !gFramesSinceDraw_6F58D8 || Time >= gMatchStartTime_6F5A28)
         {
-            unk_bl = 1;
-            unk_0xc = 1;
+            frame_due = 1;
+            updated_logic = 1;
         }
         if (gFramesSinceDraw_6F58D8 >= 8u || !min_frame_rate_706C50 && gFramesSinceDraw_6F58D8)
         {
-            unk_bl = 0;
-            unk_0xc = 0;
+            frame_due = 0;
+            updated_logic = 0;
         }
 
         if (bForceGameUpdate_6F5880 || bSkip_draw_67D4EA)
         {
-            unk_0xc = 1;
+            updated_logic = 1;
         }
 
-        if (unk_0xc)
+        if (updated_logic)
         {
             if (!min_frame_rate_706C50)
             {
@@ -1503,7 +1503,7 @@ EXPORT u8 RunGameFrame_4DA850()
                 do_network_and_local_inputs_4DAF30();
                 bInputsPending_6F5760 = 0;
             }
-            bContinue = ExecuteGame_4DA780();
+            exit_requested = ExecuteGame_4DA780();
             s32 frame_ms = gGame_0x40_67E008->GetFrameDurationMs_4B8BB0();
             bForceGameUpdate_6F5880 = 0;
             gMatchStartTime_6F5A28 += frame_ms;
@@ -1514,7 +1514,7 @@ EXPORT u8 RunGameFrame_4DA850()
         {
             Draw_4DA7B0();
             gFramesSinceDraw_6F58D8 = 0;
-            a2 = 1;
+            drew_frame = 1;
         }
         else if (bInputsPending_6F5760)
         {
@@ -1525,9 +1525,9 @@ EXPORT u8 RunGameFrame_4DA850()
 
     if (gFpsCounter_7055D4)
     {
-        gFpsCounter_7055D4->UpdateFpsCounters_5BECF0(a2, unk_0xc);
+        gFpsCounter_7055D4->UpdateFpsCounters_5BECF0(drew_frame, updated_logic);
     }
-    return bContinue;
+    return exit_requested;
 }
 
 GUID IID_DirectMusic = {1667997456u, 3197u, 4561u, {149u, 178u, 0u, 32u, 175u, 220u, 116u, 33u}};

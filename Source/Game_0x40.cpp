@@ -560,7 +560,7 @@ void Game_0x40::UpdateGame_4B9410()
 }
 
 MATCH_FUNC(0x4B9640)
-s8 Game_0x40::ExecuteGame_4B9640()
+bool Game_0x40::ExecuteGame_4B9640()
 {
     UpdateAllPlayersControls_4B9380();
 
