@@ -2338,7 +2338,7 @@ char_type Ped::HandlePickupCollision_45DE80(Object_2C* pPickUp)
 MATCH_FUNC(0x45e080)
 void Ped::SpawnWeaponOnDeath_45E080()
 {
-    Object_2C* v2; // eax
+    Object_2C* pWeaponObj; // eax
 
     if (this->field_224_bf.bDropsWeaponOnDeath && !this->field_16C_car)
     {
@@ -2349,55 +2349,55 @@ void Ped::SpawnWeaponOnDeath_45E080()
                 switch (this->field_170_selected_weapon->field_1C_idx)
                 {
                     case weapon_type::pistol:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(200, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
+                        pWeaponObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(200, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
                         break;
 
                     case weapon_type::smg:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(201, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
+                        pWeaponObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(201, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
                         break;
 
                     case weapon_type::rocket:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(202, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
+                        pWeaponObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(202, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
                         break;
 
                     case weapon_type::shocker:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(203, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
+                        pWeaponObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(203, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
                         break;
 
                     case weapon_type::molotov:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(204, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
+                        pWeaponObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(204, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
                         break;
 
                     case weapon_type::grenade:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(205, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
+                        pWeaponObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(205, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
                         break;
 
                     case weapon_type::shotgun:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(206, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
+                        pWeaponObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(206, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
                         break;
 
                     case weapon_type::electro_batton:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(200, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
+                        pWeaponObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(200, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
                         break;
 
                     case weapon_type::flamethrower:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(208, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
+                        pWeaponObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(208, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
                         break;
 
                     case weapon_type::silence_smg:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(209, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
+                        pWeaponObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(209, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
                         break;
 
                     case weapon_type::dual_pistol:
-                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(210, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
+                        pWeaponObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(210, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
                         break;
                     default:
                         return;
                 }
 
-                if (v2)
+                if (pWeaponObj)
                 {
-                    v2->SetO8Timer_434130(9);
+                    pWeaponObj->SetO8Timer_434130(9);
                 }
             }
         }
@@ -5081,12 +5081,12 @@ void Ped::ProcessInCarObjective_463FB0()
 
     if (field_25C_internal_objective && !field_226_internal_objective_status)
     {
-        Ped* v4 = this->field_14C_internal_target_ped;
-        if (v4)
+        Ped* pTargetPed = this->field_14C_internal_target_ped;
+        if (pTargetPed)
         {
-            this->field_1C4_move_target_x = v4->get_cam_x();
-            this->field_1C8_move_target_y = v4->get_cam_y();
-            this->field_1CC_move_target_z = v4->get_cam_z();
+            this->field_1C4_move_target_x = pTargetPed->get_cam_x();
+            this->field_1C8_move_target_y = pTargetPed->get_cam_y();
+            this->field_1CC_move_target_z = pTargetPed->get_cam_z();
             switch (field_25C_internal_objective)
             {
                 case objectives_enum::objective_11:
@@ -5100,7 +5100,7 @@ void Ped::ProcessInCarObjective_463FB0()
                     {
                         // Through a bool local with an early break: written directly, VC6 lays the
                         // clear after the call and doesn't share it with the case 11/18/20/23 block
-                        bool bStop = v4->field_168_game_object == NULL || this->field_278_ped_state_1 == ped_state_1::entering_car_3;
+                        bool bStop = pTargetPed->field_168_game_object == NULL || this->field_278_ped_state_1 == ped_state_1::entering_car_3;
                         if (bStop)
                         {
                             byte_6787C4 = 0;

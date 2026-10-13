@@ -434,8 +434,8 @@ void PathFinder_2FD4::AddGridCell_554710()
 MATCH_FUNC(0x5548c0)
 bool PathFinder_2FD4::ProcessGridCell_5548C0()
 {
-    char_type v2 = PathFinder_2FD4::EvaluateGridCell_554640();
-    if (v2 == 1)
+    char_type cell_result = PathFinder_2FD4::EvaluateGridCell_554640();
+    if (cell_result == 1)
     {
         if (PathFinder_2FD4::CanMoveDiagonally_554110(field_20_xpos, field_21_ypos))
         {
@@ -450,7 +450,7 @@ bool PathFinder_2FD4::ProcessGridCell_5548C0()
             }
         }
     }
-    else if (v2 == 2)
+    else if (cell_result == 2)
     {
         field_18_bSearching = 0;
         field_19_unused = 1;

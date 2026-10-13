@@ -323,12 +323,12 @@ void PoliceCrew_38::TryDespawnOffscreenCrew_571350()
     }
     else
     {
-        Ped* v6 = field_10_subObj->field_4_ped;
-        if (v6)
+        Ped* pPed = field_10_subObj->field_4_ped;
+        if (pPed)
         {
-            if (v6->GetOffscreenCounter_4039F0() >= 0x1Eu)
+            if (pPed->GetOffscreenCounter_4039F0() >= 0x1Eu)
             {
-                v6->Deallocate_45EB60();
+                pPed->Deallocate_45EB60();
                 field_10_subObj->field_28_state = crew_state::clean_up_5;
                 field_10_subObj->field_2C_ready = 1;
             }
@@ -1478,10 +1478,10 @@ void PoliceCrew_38::State1_Patrol_574F10()
             Car_BC* pCar = field_10_subObj->field_0_car;
             if (pCar)
             {
-                CarAI_78* v7 = pCar->field_5C_AI;
-                if (v7)
+                CarAI_78* pAI = pCar->field_5C_AI;
+                if (pAI)
                 {
-                    char field_28_junc_idx = v7->field_28_junc_idx;
+                    char field_28_junc_idx = pAI->field_28_junc_idx;
                     if (field_28_junc_idx > 0)
                     {
                         gRouteFinder_6FFDC8->CancelRoute_589930(field_28_junc_idx);
@@ -1515,7 +1515,7 @@ void PoliceCrew_38::State1_Patrol_574F10()
             {
                 gCurrentCrewPed_6FEDDC = field_10_subObj->field_4_ped;
                 gCurrentCrewPed_6FEDDC->ClearAttacking_403A40();
-                CarChaseTask_40* v13;
+                CarChaseTask_40* pChaseTask;
                 for (Ped* pPedIter = gCurrentCrewPed_6FEDDC; pPedIter; ++idx)
                 {
                     switch (pPedIter->get_objective_403A80())
@@ -1523,10 +1523,10 @@ void PoliceCrew_38::State1_Patrol_574F10()
                         case objectives_enum::goto_area_in_car_14:
                         case objectives_enum::objective_52:
                             byte_6FEB48 = 0;
-                            v13 = field_10_subObj->field_0_car->field_60_pChaseTask;
-                            if (v13)
+                            pChaseTask = field_10_subObj->field_0_car->field_60_pChaseTask;
+                            if (pChaseTask)
                             {
-                                gCarChaseTaskTable_678E30->FreeEntry_474CC0(v13);
+                                gCarChaseTaskTable_678E30->FreeEntry_474CC0(pChaseTask);
                                 field_10_subObj->field_0_car->field_60_pChaseTask = 0;
                             }
                             break;
@@ -2223,17 +2223,17 @@ void PoliceRoadblock_A4::Update_5757B0()
                 Fix16 fix_y = field_2C4_player_ped->get_cam_y();
                 Fix16 fix_x = field_2C4_player_ped->get_cam_x();
 
-                Fix16 v29 = Fix16(field_8_x) - fix_x;
-                Fix16 v30 = Fix16(field_9_y) - fix_y;
+                Fix16 dx = Fix16(field_8_x) - fix_x;
+                Fix16 dy = Fix16(field_9_y) - fix_y;
 
-                v30 = Fix16::Abs(v30);
-                v29 = Fix16::Abs(v29);
+                dy = Fix16::Abs(dy);
+                dx = Fix16::Abs(dx);
 
-                if (v29 <= v30)
+                if (dx <= dy)
                 {
-                    v29 = v30;
+                    dx = dy;
                 }
-                if (v29 > kFpTen_6FED54)
+                if (dx > kFpTen_6FED54)
                 {
                     PoliceRoadblock_A4::RemoveRoadblock_575CA0();
                     return;
