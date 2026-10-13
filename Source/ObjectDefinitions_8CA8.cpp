@@ -811,7 +811,7 @@ void ObjectDefinitions_8CA8::CloneAnimatedDefinitions_533420()
     CloneDefinition_534370(0x97, 6);
     pAVar1 = GetObjectDefinition_534360(0x97);
     pAVar1->OffsetBaseSpriteIdxAndSetAnimSpeed_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
-    pAVar1->field_34_behavior_type = object_behavior_type::behavior_2;
+    pAVar1->field_34_behavior_type = object_behavior_type::animated_2;
     pAVar1->field_64_next_frame_max = '\x05';
     pAVar1->field_38 = 0x98;
     pAVar1->field_3C_next_definition_idx = 0x98;
@@ -841,7 +841,7 @@ void ObjectDefinitions_8CA8::CloneAnimatedDefinitions_533420()
     CloneDefinition_534370(0x32, 0xc);
     pAVar1 = GetObjectDefinition_534360(0x32);
     pAVar1->OffsetBaseSpriteIdxAndSetAnimSpeed_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
-    pAVar1->field_34_behavior_type = object_behavior_type::behavior_2;
+    pAVar1->field_34_behavior_type = object_behavior_type::animated_2;
     pAVar1->field_64_next_frame_max = '\x03';
     pAVar1->field_38 = 0x33;
     pAVar1->field_3C_next_definition_idx = 0x33;
@@ -861,7 +861,7 @@ void ObjectDefinitions_8CA8::CloneAnimatedDefinitions_533420()
 
     pAVar1 = CloneDefinition_534370(0x9b, 3);
     pAVar1->OffsetBaseSpriteIdxAndSetAnimSpeed_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
-    pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
+    pAVar1->field_34_behavior_type = object_behavior_type::physics_animated_4;
     pAVar1->field_64_next_frame_max = 1;
     pAVar1->field_38 = 0x35;
     pAVar1->field_3C_next_definition_idx = 0x35;
@@ -880,7 +880,7 @@ void ObjectDefinitions_8CA8::CloneAnimatedDefinitions_533420()
 
     pAVar1 = CloneDefinition_534370(0x7b, 0xb);
     pAVar1->OffsetBaseSpriteIdxAndSetAnimSpeed_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
-    pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
+    pAVar1->field_34_behavior_type = object_behavior_type::physics_animated_4;
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x37;
     pAVar1->field_3C_next_definition_idx = 0x37;
@@ -899,7 +899,7 @@ void ObjectDefinitions_8CA8::CloneAnimatedDefinitions_533420()
 
     pAVar1 = CloneDefinition_534370(0x9c, 5);
     pAVar1->OffsetBaseSpriteIdxAndSetAnimSpeed_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
-    pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
+    pAVar1->field_34_behavior_type = object_behavior_type::physics_animated_4;
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x36;
     pAVar1->field_3C_next_definition_idx = 0x36;
@@ -918,7 +918,7 @@ void ObjectDefinitions_8CA8::CloneAnimatedDefinitions_533420()
 
     pAVar1 = CloneDefinition_534370(0x38, 0xd);
     pAVar1->OffsetBaseSpriteIdxAndSetAnimSpeed_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
-    pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
+    pAVar1->field_34_behavior_type = object_behavior_type::physics_animated_4;
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0xd;
     pAVar1->field_3C_next_definition_idx = 0xd;
@@ -934,7 +934,7 @@ void ObjectDefinitions_8CA8::CloneAnimatedDefinitions_533420()
 
     pAVar1 = CloneDefinition_534370(0x39, 0xe);
     pAVar1->OffsetBaseSpriteIdxAndSetAnimSpeed_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
-    pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
+    pAVar1->field_34_behavior_type = object_behavior_type::physics_animated_4;
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x3a;
     pAVar1->field_3C_next_definition_idx = 0x3a;
@@ -953,7 +953,7 @@ void ObjectDefinitions_8CA8::CloneAnimatedDefinitions_533420()
 
     pAVar1 = CloneDefinition_534370(0x3b, 0xf);
     pAVar1->OffsetBaseSpriteIdxAndSetAnimSpeed_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
-    pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
+    pAVar1->field_34_behavior_type = object_behavior_type::physics_animated_4;
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x3c;
     pAVar1->field_3C_next_definition_idx = 0x3c;
@@ -972,7 +972,7 @@ void ObjectDefinitions_8CA8::CloneAnimatedDefinitions_533420()
 
     pAVar1 = CloneDefinition_534370(0x3d, 0x10);
     pAVar1->OffsetBaseSpriteIdxAndSetAnimSpeed_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
-    pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
+    pAVar1->field_34_behavior_type = object_behavior_type::physics_animated_4;
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x3e;
     pAVar1->field_3C_next_definition_idx = 0x3e;
@@ -991,7 +991,7 @@ void ObjectDefinitions_8CA8::CloneAnimatedDefinitions_533420()
 
     pAVar1 = CloneDefinition_534370(0x31, 0x12);
     pAVar1->OffsetBaseSpriteIdxAndSetAnimSpeed_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
-    pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
+    pAVar1->field_34_behavior_type = object_behavior_type::physics_animated_4;
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x12;
     pAVar1->field_3C_next_definition_idx = 0x12;
@@ -1007,7 +1007,7 @@ void ObjectDefinitions_8CA8::CloneAnimatedDefinitions_533420()
 
     pAVar1 = CloneDefinition_534370(0x2d, 0x16);
     pAVar1->OffsetBaseSpriteIdxAndSetAnimSpeed_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
-    pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
+    pAVar1->field_34_behavior_type = object_behavior_type::physics_animated_4;
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x2e;
     pAVar1->field_3C_next_definition_idx = 0x2e;
@@ -1026,7 +1026,7 @@ void ObjectDefinitions_8CA8::CloneAnimatedDefinitions_533420()
 
     pAVar1 = CloneDefinition_534370(0x2f, 0x15);
     pAVar1->OffsetBaseSpriteIdxAndSetAnimSpeed_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
-    pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
+    pAVar1->field_34_behavior_type = object_behavior_type::physics_animated_4;
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x30;
     pAVar1->field_3C_next_definition_idx = 0x30;
@@ -1045,7 +1045,7 @@ void ObjectDefinitions_8CA8::CloneAnimatedDefinitions_533420()
 
     pAVar1 = CloneDefinition_534370(0x3f, 0x11);
     pAVar1->field_38 = 0x11;
-    pAVar1->field_34_behavior_type = object_behavior_type::bullet_type_3;
+    pAVar1->field_34_behavior_type = object_behavior_type::physics_3;
     pAVar1->field_3C_next_definition_idx = 0x11;
     pAVar1->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_1_region_4;
     pAVar1->field_44 = 0;
@@ -1058,7 +1058,7 @@ void ObjectDefinitions_8CA8::CloneAnimatedDefinitions_533420()
 
     pAVar1 = CloneDefinition_534370(0x2b, 0x17);
     pAVar1->OffsetBaseSpriteIdxAndSetAnimSpeed_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
-    pAVar1->field_34_behavior_type = object_behavior_type::maybe_moving_obj_4;
+    pAVar1->field_34_behavior_type = object_behavior_type::physics_animated_4;
     pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x2c;
     pAVar1->field_3C_next_definition_idx = 0x2c;
@@ -1077,7 +1077,7 @@ void ObjectDefinitions_8CA8::CloneAnimatedDefinitions_533420()
 
     pAVar1 = CloneDefinition_534370(0x9d, 7);
     pAVar1->field_4C = 2;
-    pAVar1->field_34_behavior_type = object_behavior_type::bullet_type_3;
+    pAVar1->field_34_behavior_type = object_behavior_type::physics_3;
     pAVar1->field_14_friction = -kFpPoint01_6FCDD8;
     pAVar1->field_38 = 7;
     pAVar1->field_3C_next_definition_idx = 7;
@@ -1087,7 +1087,7 @@ void ObjectDefinitions_8CA8::CloneAnimatedDefinitions_533420()
     pAVar1->field_58 = 1;
 
     pAVar1 = CloneDefinition_534370(0x9e, 1);
-    pAVar1->field_34_behavior_type = object_behavior_type::bullet_type_3;
+    pAVar1->field_34_behavior_type = object_behavior_type::physics_3;
     pAVar1->field_4C = 2;
     pAVar1->field_14_friction = -kFpPoint01_6FCDD8;
     pAVar1->field_38 = 1;
@@ -1254,7 +1254,7 @@ void ObjectDefinitions_8CA8::CloneRemappedDefinitions_533C90()
     tmp->field_3C_next_definition_idx = 0xa4;
     tmp->field_65 = 'd';
     tmp->field_61 = '\x01';
-    tmp->field_34_behavior_type = object_behavior_type::behavior_2;
+    tmp->field_34_behavior_type = object_behavior_type::animated_2;
     tmp->field_6C_sprite_anim_speed = '\x01';
     tmp->field_64_next_frame_max = '\x01';
     tmp->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_2_region_3;
@@ -1338,7 +1338,7 @@ void ObjectDefinitions_8CA8::CloneRemappedDefinitions_533C90()
 
     tmp = CloneDefinition_534370(0xb6, 0xb7);
     tmp->field_38 = 0xb7;
-    tmp->field_34_behavior_type = object_behavior_type::behavior_2;
+    tmp->field_34_behavior_type = object_behavior_type::animated_2;
     tmp->field_44 = 2;
 
     tmp->field_14_friction = kFpZero_6FCE08;
@@ -1352,7 +1352,7 @@ void ObjectDefinitions_8CA8::CloneRemappedDefinitions_533C90()
     {
         tmp = CloneDefinition_534370(def_idx - 0x88, def_idx);
         tmp->field_38 = def_idx;
-        tmp->field_34_behavior_type = tmp->field_34_behavior_type == object_behavior_type::behavior_6 ? object_behavior_type::behavior_7 : object_behavior_type::behavior_9;
+        tmp->field_34_behavior_type = tmp->field_34_behavior_type == object_behavior_type::pickup_6 ? object_behavior_type::pickup_physics_7 : object_behavior_type::pickup_physics_animated_9;
         tmp->field_14_friction = -kFpPoint01_6FCDD8;
         tmp->field_4C = 1;
         tmp->field_50 = 1;

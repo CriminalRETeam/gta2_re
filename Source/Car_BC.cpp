@@ -2430,7 +2430,8 @@ char_type Car_BC::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
         {
             pDefinition = o2c->field_8;
             phi_type = pDefinition->field_34_behavior_type;
-            if (phi_type == 6 || phi_type == 7 || phi_type == 8 || phi_type == 9 || phi_type == 10 || phi_type == 1 || phi_type == 12 ||
+            if (phi_type == object_behavior_type::pickup_6 || phi_type == object_behavior_type::pickup_physics_7 || phi_type == object_behavior_type::pickup_animated_8 ||
+            phi_type == object_behavior_type::pickup_physics_animated_9 || phi_type == object_behavior_type::shop_10 || phi_type == object_behavior_type::static_collision_check_1 || phi_type == object_behavior_type::effect_only_12 ||
                 (field_18_model = o2c->field_18_model, field_18_model == 182) || field_18_model == objects::grenade_obj_183)
             {
                 if (pDefinition->field_40_collision_bucket_category == 3)
@@ -4109,7 +4110,7 @@ Ped* Car_BC::GetEffectiveDriver_43E990()
 MATCH_FUNC(0x43ea60)
 char_type Car_BC::OnObjectTouched_43EA60(Object_2C* pObj)
 {
-    if (pObj->IsShop_421060() || pObj->field_18_model == objects::secret_token_266)
+    if (pObj->IsPickup_421060() || pObj->field_18_model == objects::secret_token_266)
     {
         Ped* pPed = Car_BC::GetEffectiveDriver_43E990();
         if (pPed)

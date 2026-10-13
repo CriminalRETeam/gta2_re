@@ -354,17 +354,17 @@ void miss2_0x11C::SCRCMD_OBJ_DECSET_5038D0(SCR_OBJ_DATA* pCmd, SCR_POINTER* pPoi
     {
         Object_2C* pObj;
 
-        if (pPointer->field_8_obj->IsBehavior1_475A70())
+        if (pPointer->field_8_obj->IsStaticCollisionCheck_475A70())
         {
             pPointer->field_8_obj->set_field_26(pCmd->field_1C_value_shop_type);
         }
-        else if (pObj = pPointer->field_8_obj, pObj->IsShop_421060())
+        else if (pObj = pPointer->field_8_obj, pObj->IsPickup_421060())
         {
             pObj->set_field_26(pCmd->field_1C_value_shop_type);
         }
         else
         {
-            if (pPointer->field_8_obj->IsBusyShop_475A60())
+            if (pPointer->field_8_obj->IsShop_475A60())
             {
                 pPointer->field_8_obj->set_field_26(pCmd->field_1C_value_shop_type);
             }
@@ -1328,7 +1328,7 @@ void miss2_0x11C::DisableThread_505790(u16 idx)
             SCR_POINTER* pParam1 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pThread->field_10);
             SCR_POINTER* pParam2 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pThread->field_12_car_or_phone_idx);
 
-            if (pParam2->field_8_obj->sub_475A80() && pParam2->field_8_obj->field_24_touched_result != 174)
+            if (pParam2->field_8_obj->IsAnimatedBehavior_475A80() && pParam2->field_8_obj->field_24_touched_result != 174)
             {
                 pParam2->field_8_obj->PoolGiveAndMarkDone_5291D0();
             }

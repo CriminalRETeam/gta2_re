@@ -68,7 +68,7 @@ EXPORT void Generator_2C::SpawnObject_4C1B10()
                     field_1E_kill_timer--;
                 }
 
-                if (pObj->IsShop_421060())
+                if (pObj->IsPickup_421060())
                 {
                     if (field_1C_ammo > 0)
                     {
@@ -91,7 +91,7 @@ EXPORT void Generator_2C::SpawnObject_4C1B10()
                 field_1E_kill_timer--;
             }
 
-            if (pObj->IsShop_421060())
+            if (pObj->IsPickup_421060())
             {
                 if (field_1C_ammo > 0)
                 {

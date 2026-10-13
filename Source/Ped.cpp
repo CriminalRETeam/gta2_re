@@ -10214,7 +10214,7 @@ void Ped::CrossRoad_46C9B0()
             {
                 field_226_internal_objective_status = 1;
             }
-            if (gTrafficLights_194_705958->field_192_phase == 7)
+            if (gTrafficLights_194_705958->field_192_phase == traffic_light_phase::peds_crossing_7)
             {
                 field_168_game_object->SetMaxSpeedByRef_433920(kFpOneThirtySecond_678434);
             }
@@ -10272,7 +10272,7 @@ MATCH_FUNC(0x46cb30)
 void Ped::StartPedCrossingAtTrafficLight_Y_Backward_46CB30()
 {
     Fix16 y_iter = field_1AC_cam.y;
-    if (field_278_ped_state_1 != ped_state_1::immobilized_8 && gTrafficLights_194_705958->is_phase_7_434960())
+    if (field_278_ped_state_1 != ped_state_1::immobilized_8 && gTrafficLights_194_705958->ArePedsCrossing_434960())
     {
         for (u8 i = 0; i < 6; i++)
         {
@@ -10297,7 +10297,7 @@ MATCH_FUNC(0x46cc70)
 void Ped::StartPedCrossingAtTrafficLight_X_Forwards_46CC70()
 {
     Fix16 x_iter = field_1AC_cam.x;
-    if (field_278_ped_state_1 != ped_state_1::immobilized_8 && gTrafficLights_194_705958->is_phase_7_434960())
+    if (field_278_ped_state_1 != ped_state_1::immobilized_8 && gTrafficLights_194_705958->ArePedsCrossing_434960())
     {
         for (u8 i = 0; i < 6; i++)
         {
@@ -10323,7 +10323,7 @@ MATCH_FUNC(0x46cdb0)
 void Ped::StartPedCrossingAtTrafficLight_Y_Forwards_46CDB0()
 {
     Fix16 y_iter = field_1AC_cam.y;
-    if (field_278_ped_state_1 != ped_state_1::immobilized_8 && gTrafficLights_194_705958->is_phase_7_434960())
+    if (field_278_ped_state_1 != ped_state_1::immobilized_8 && gTrafficLights_194_705958->ArePedsCrossing_434960())
     {
         for (u8 i = 0; i < 6; i++)
         {
@@ -10349,7 +10349,7 @@ MATCH_FUNC(0x46cef0)
 void Ped::StartPedCrossingAtTrafficLight_X_Backwards_46CEF0()
 {
     Fix16 x_iter = field_1AC_cam.x;
-    if (field_278_ped_state_1 != ped_state_1::immobilized_8 && gTrafficLights_194_705958->is_phase_7_434960())
+    if (field_278_ped_state_1 != ped_state_1::immobilized_8 && gTrafficLights_194_705958->ArePedsCrossing_434960())
     {
         for (u8 i = 0; i < 6; i++)
         {

@@ -134,22 +134,22 @@ class Object_2C
     EXPORT void Sprite_UpdateZFromSlopeAndTile_522FA0(Sprite* pSprite);
 
     // 9.6f 0x475A70
-    inline bool IsBehavior1_475A70()
+    inline bool IsStaticCollisionCheck_475A70()
     {
-        return field_8->field_34_behavior_type == object_behavior_type::behavior_1;
+        return field_8->field_34_behavior_type == object_behavior_type::static_collision_check_1;
     }
 
     // 9.6f 0x475A60
-    inline bool IsBusyShop_475A60()
+    inline bool IsShop_475A60()
     {
         s32 v1 = field_8->field_34_behavior_type;
-        return v1 == object_behavior_type::behavior_10;
+        return v1 == object_behavior_type::shop_10;
     }
 
-    bool sub_475A80()
+    bool IsAnimatedBehavior_475A80()
     {
         s32 t = this->field_8->field_34_behavior_type;
-        return t == 2 || t == 4 || t == 8 || t == 9;
+        return t == object_behavior_type::animated_2 || t == object_behavior_type::physics_animated_4 || t == object_behavior_type::pickup_animated_8 || t == object_behavior_type::pickup_physics_animated_9;
     }
 
     inline bool IsDestroyedPowergen_434140()
@@ -161,29 +161,30 @@ class Object_2C
         return false;
     }
 
-    bool sub_482C90() // matched
+    bool CanBePushed_482C90() // matched
     {
         s32 f34 = field_8->field_34_behavior_type;
-        if (f34 == 3 || f34 == 4 || ((f34 == 0 || f34 == 1 || f34 == 2) && field_8->field_44 == 2))
+        if (f34 == object_behavior_type::physics_3 || f34 == object_behavior_type::physics_animated_4 ||
+            ((f34 == object_behavior_type::static_object_0 || f34 == object_behavior_type::static_collision_check_1 || f34 == object_behavior_type::animated_2) && field_8->field_44 == 2))
         {
             return true;
         }
         return false;
     }
 
-    bool IsNotShopOrLightBehavior_421080()
+    bool UsesParamAsPedRef_421080()
     {
         s32 type = this->field_8->field_34_behavior_type;
-        return type != object_behavior_type::behavior_6 && type != object_behavior_type::behavior_7 &&
-            type != object_behavior_type::self_animated_8 && type != object_behavior_type::behavior_9 &&
-            type != object_behavior_type::behavior_10 && type != object_behavior_type::behavior_1 &&
-            type != object_behavior_type::behavior_12;
+        return type != object_behavior_type::pickup_6 && type != object_behavior_type::pickup_physics_7 &&
+            type != object_behavior_type::pickup_animated_8 && type != object_behavior_type::pickup_physics_animated_9 &&
+            type != object_behavior_type::shop_10 && type != object_behavior_type::static_collision_check_1 &&
+            type != object_behavior_type::effect_only_12;
     }
 
     // Sucky names but better than just "sub" for now
-    bool IsNotShopOrLightBehaviorAndParamMatches_4973E0(u8 a2)
+    bool IsOwnedByPedRef_4973E0(u8 a2)
     {
-        return IsNotShopOrLightBehavior_421080() && field_26_ped_ref_idx == a2;
+        return UsesParamAsPedRef_421080() && field_26_ped_ref_idx == a2;
     }
 
     bool IsSpriteGrid2Region3_4210B0()
@@ -228,12 +229,12 @@ class Object_2C
         return model == 176 || model == 177 || model == 178 || model == 179 || model == 180 || model == 181;
     }
 
-    bool IsShop_421060()
+    bool IsPickup_421060()
     {
-        return field_8->field_34_behavior_type == object_behavior_type::behavior_6 ||
-            field_8->field_34_behavior_type == object_behavior_type::behavior_7 ||
-            field_8->field_34_behavior_type == object_behavior_type::self_animated_8 ||
-            field_8->field_34_behavior_type == object_behavior_type::behavior_9;
+        return field_8->field_34_behavior_type == object_behavior_type::pickup_6 ||
+            field_8->field_34_behavior_type == object_behavior_type::pickup_physics_7 ||
+            field_8->field_34_behavior_type == object_behavior_type::pickup_animated_8 ||
+            field_8->field_34_behavior_type == object_behavior_type::pickup_physics_animated_9;
     }
 
     // 9.6f 0x482490

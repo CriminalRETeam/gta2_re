@@ -219,7 +219,7 @@ void TrafficLight_20::UpdateLightsFromPhase_5C27A0(u8 phase)
 {
     switch (phase)
     {
-        case 1u:
+        case traffic_light_phase::north_south_green_1:
             if (field_0_north_headlight_obj)
             {
                 field_0_north_headlight_obj->SetSpriteIdxOffset_5290C0(traffic_light_sprite_offset::green_1);
@@ -233,7 +233,7 @@ void TrafficLight_20::UpdateLightsFromPhase_5C27A0(u8 phase)
             }
             break;
 
-        case 2u:
+        case traffic_light_phase::north_south_amber_2:
             if (field_0_north_headlight_obj)
             {
                 field_0_north_headlight_obj->SetSpriteIdxOffset_5290C0(traffic_light_sprite_offset::amber_2);
@@ -247,7 +247,7 @@ void TrafficLight_20::UpdateLightsFromPhase_5C27A0(u8 phase)
             }
             break;
 
-        case 3u:
+        case traffic_light_phase::north_south_red_3:
             if (field_0_north_headlight_obj)
             {
                 field_0_north_headlight_obj->SetSpriteIdxOffset_5290C0(traffic_light_sprite_offset::red_0);
@@ -261,7 +261,7 @@ void TrafficLight_20::UpdateLightsFromPhase_5C27A0(u8 phase)
             }
             break;
 
-        case 4u:
+        case traffic_light_phase::east_west_green_4:
             if (field_C_east_headlight_obj)
             {
                 field_C_east_headlight_obj->SetSpriteIdxOffset_5290C0(traffic_light_sprite_offset::green_1);
@@ -275,7 +275,7 @@ void TrafficLight_20::UpdateLightsFromPhase_5C27A0(u8 phase)
             }
             break;
 
-        case 5u:
+        case traffic_light_phase::east_west_amber_5:
             if (field_C_east_headlight_obj)
             {
                 field_C_east_headlight_obj->SetSpriteIdxOffset_5290C0(traffic_light_sprite_offset::amber_2);
@@ -289,7 +289,7 @@ void TrafficLight_20::UpdateLightsFromPhase_5C27A0(u8 phase)
             }
             break;
 
-        case 6u:
+        case traffic_light_phase::east_west_red_6:
             if (field_C_east_headlight_obj)
             {
                 field_C_east_headlight_obj->SetSpriteIdxOffset_5290C0(traffic_light_sprite_offset::red_0);
@@ -323,16 +323,16 @@ void TrafficLights_194::TrafficLightsService_5C2950()
 
     if (field_193_timer == 0)
     {
-        if (field_192_phase == 5)
+        if (field_192_phase == traffic_light_phase::east_west_amber_5)
         {
             gCarManager_6C_677930->ToggleTrafficLightState_4C39F0();
         }
 
         field_192_phase++;
 
-        if (field_192_phase > 8) // TODO: Why is  GTA2_COUNTOF_S(traffic_light_phase_timers_626840) wrong?
+        if (field_192_phase > traffic_light_phase::all_red_8) // TODO: Why is  GTA2_COUNTOF_S(traffic_light_phase_timers_626840) wrong?
         {
-            field_192_phase = 1;
+            field_192_phase = traffic_light_phase::north_south_green_1;
         }
 
         field_193_timer = traffic_light_phase_timers_626840[field_192_phase];
@@ -358,7 +358,7 @@ void TrafficLights_194::ShowTrafficLightsInfo_5C2A10()
     swprintf(tmpBuff_67BD9C, L"phase: %d", field_192_phase);
     gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, -1, 16, gDebugFont_706600, 1);
 
-    if (field_192_phase == 7)
+    if (field_192_phase == traffic_light_phase::peds_crossing_7)
     {
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(L"peds crossing now!", -1, 32, gDebugFont_706600, 1);
     }
@@ -383,8 +383,8 @@ TrafficLights_194::TrafficLights_194()
     {
         field_0_traffic_lights[i] = 0;
     }
-    field_192_phase = 1;
-    field_193_timer = traffic_light_phase_timers_626840[1];
+    field_192_phase = traffic_light_phase::north_south_green_1;
+    field_193_timer = traffic_light_phase_timers_626840[traffic_light_phase::north_south_green_1];
 }
 
 MATCH_FUNC(0x5c2b30)

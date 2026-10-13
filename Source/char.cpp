@@ -1828,10 +1828,10 @@ void Char_B4::HandleObjectCollision_548840(Object_2C* pObj)
 
     s32 phi_type = pObj->field_8->field_34_behavior_type;
 
-    if (!pObj->IsNotShopOrLightBehavior_421080() || (pObj->get_field_26_420FF0()) == 0 ||
+    if (!pObj->UsesParamAsPedRef_421080() || (pObj->get_field_26_420FF0()) == 0 ||
         pObj->get_field_26_420FF0() != this->field_7C_pPed->field_267_ped_ref_idx)
     {
-        if (!pObj->sub_482C90())
+        if (!pObj->CanBePushed_482C90())
         {
             goto LABEL_28;
         }
@@ -6402,7 +6402,7 @@ bool Char_B4::ShouldCollideWithSprite_553340(Sprite* pSprite)
                 if (pObj)
                 {
                     u8 idx = field_7C_pPed->get_ped_ref_idx_420B50();
-                    if (pObj->IsNotShopOrLightBehaviorAndParamMatches_4973E0(idx))
+                    if (pObj->IsOwnedByPedRef_4973E0(idx))
                     {
                         return 0;
                     }
@@ -6486,7 +6486,7 @@ char_type Char_B4::OnObjectTouched_553640(Object_2C* p2c)
     s8 conveyor_x;
     s8 conveyor_y;
 
-    if (p2c->IsShop_421060())
+    if (p2c->IsPickup_421060())
     {
         return get_ped_433A20()->HandlePickupCollision_45DE80(p2c);
     }

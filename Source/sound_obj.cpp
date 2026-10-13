@@ -4582,7 +4582,7 @@ void sound_obj::GenerateIntegerRandomNumberTable_41BA90()
 MATCH_FUNC(0x41E820)
 void sound_obj::ProcessObject_41E820(Sound_Params_8* pEntity)
 {
-    if (pEntity->field_0_pObj->field_8_object_2C_ptr->field_8->field_34_behavior_type == 12)
+    if (pEntity->field_0_pObj->field_8_object_2C_ptr->field_8->field_34_behavior_type == object_behavior_type::effect_only_12)
     {
         sound_obj::ProcessObject_Type12_41E850(pEntity);
     }

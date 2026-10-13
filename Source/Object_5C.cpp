@@ -144,7 +144,7 @@ void Object_2C::PoolDeallocate()
 
     --dword_6F8F88;
 
-    if (IsNotShopOrLightBehavior_421080())
+    if (UsesParamAsPedRef_421080())
     {
         if (field_26_ped_ref_idx > 0)
         {
@@ -165,7 +165,7 @@ void Object_2C::PoolDeallocate()
 MATCH_FUNC(0x522250)
 bool Object_2C::CanCollideWithSpriteByOwnerRef_522250(Sprite* pSprite)
 {
-    if (IsNotShopOrLightBehavior_421080())
+    if (UsesParamAsPedRef_421080())
     {
         u8 ped_ref_idx = this->get_field_26_420FF0();
         if (ped_ref_idx > 0)
@@ -404,7 +404,7 @@ void Object_2C::ResolveCollisionWithObject_522710(Object_2C* pObj, Fix16_Point* 
     Ang16 impact_angle = 0;
     offset = (my_pos - *pPoint);
 
-    if (pObj->sub_482C90())
+    if (pObj->CanBePushed_482C90())
     {
         rel_velocity = (GetSpeedVector_52AE90() - pObj->GetSpeedVector_52AE90());
         impulse = ComputeLineLineIntersection_55F3B0(GetMass_482C80(),
@@ -1407,7 +1407,7 @@ MATCH_FUNC(0x525100)
 void Object_2C::OnAttachedSpriteDestroyed_525100()
 {
     const s32 behavior = field_8->field_34_behavior_type;
-    if (behavior >= 0 && behavior <= 1)
+    if (behavior >= object_behavior_type::static_object_0 && behavior <= object_behavior_type::static_collision_check_1)
     {
         if (field_18_model != objects::small_brown_skid_148)
         {
@@ -1454,8 +1454,8 @@ bool Object_2C::ShouldStopAtTrafficLight_525290(Sprite* pSprite)
     {
         if (byte_6771DC)
         {
-            if ((field_4->field_0_rotation != kZeroAng_6F8F68 || gTrafficLights_194_705958->field_192_phase != 1) &&
-                (field_4->field_0_rotation != kAng90_6F8C88 || gTrafficLights_194_705958->field_192_phase != 4))
+            if ((field_4->field_0_rotation != kZeroAng_6F8F68 || gTrafficLights_194_705958->field_192_phase != traffic_light_phase::north_south_green_1) &&
+                (field_4->field_0_rotation != kAng90_6F8C88 || gTrafficLights_194_705958->field_192_phase != traffic_light_phase::east_west_green_4))
             {
                 return true;
             }
@@ -1502,7 +1502,7 @@ char Object_2C::ShouldCollideWithSprite_525370(Sprite* pSprite)
         default:
             if (gCollisionCounters_6791FC->field_8_bUnknown == 1)
             {
-                if (sub_482C90())
+                if (CanBePushed_482C90())
                 {
                     return 0;
                 }
@@ -1567,7 +1567,7 @@ char Object_2C::ShouldCollideWithSprite_525370(Sprite* pSprite)
                     }
 
                     // Don't collide shops, I guess
-                    if (pObj2C->IsShop_421060() && !IsShop_421060())
+                    if (pObj2C->IsPickup_421060() && !IsPickup_421060())
                     {
                         return 0;
                     }
@@ -1773,7 +1773,7 @@ void Object_2C::UpdatePhysicsAndMovement_525B80()
             this->field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
 
             TickObject_5283C0(field_8->field_38);
-            if (IsNotShopOrLightBehavior_421080())
+            if (UsesParamAsPedRef_421080())
             {
                 if (get_field_26_420FF0() > 0)
                 {
@@ -1811,7 +1811,7 @@ void Object_2C::UpdatePhysicsMovementAndAnimation_525D90()
     field_10_obj_3c->field_C_speed = field_10_obj_3c->field_C_speed.ZeroIfNegligible_482730();
 
     ObjectDefinition_74* pDefinition = this->field_8;
-    if (pDefinition->field_65 != -1 || pDefinition->field_34_behavior_type == 9 || (field_4->field_14_xy.x != x_val) || field_4->field_14_xy.y != y_val ||
+    if (pDefinition->field_65 != -1 || pDefinition->field_34_behavior_type == object_behavior_type::pickup_physics_animated_9 || (field_4->field_14_xy.x != x_val) || field_4->field_14_xy.y != y_val ||
         field_4->field_1C_zpos != zpos)
     {
         if (!this->field_10_obj_3c->field_30_bSkipAnim)
@@ -1840,7 +1840,7 @@ void Object_2C::UpdatePhysicsMovementAndAnimation_525D90()
 
                 if (field_18_model != 183)
                 {
-                    if (IsNotShopOrLightBehavior_421080())
+                    if (UsesParamAsPedRef_421080())
                     {
                         // 9.6f: Object_2C::get_field_26_420FF0 (inlined, using it changes the code)
                         if (field_26_ped_ref_idx > 0)
@@ -1873,7 +1873,7 @@ void Object_2C::Update_525F30()
                     return;
                 }
                 return;
-            case object_behavior_type::behavior_1:
+            case object_behavior_type::static_collision_check_1:
                 if (!DispatchFrameAction_525910())
                 {
                     UpdateEffectPool_525B20();
@@ -1892,8 +1892,8 @@ void Object_2C::Update_525F30()
                 }
                 return;
 
-            case object_behavior_type::bullet_type_3:
-            case object_behavior_type::behavior_7:
+            case object_behavior_type::physics_3:
+            case object_behavior_type::pickup_physics_7:
                 RemoveFromCollisionBuckets_527D00();
                 byte_6F8C4C = 1;
                 UpdatePhysicsAndMovement_525B80();
@@ -1903,8 +1903,8 @@ void Object_2C::Update_525F30()
                 }
                 return;
 
-            case object_behavior_type::behavior_2:
-            case object_behavior_type::self_animated_8:
+            case object_behavior_type::animated_2:
+            case object_behavior_type::pickup_animated_8:
                 if (!DispatchFrameAction_525910())
                 {
                     UpdateEffectPool_525B20();
@@ -1912,8 +1912,8 @@ void Object_2C::Update_525F30()
                 }
                 return;
 
-            case object_behavior_type::maybe_moving_obj_4:
-            case object_behavior_type::behavior_9:
+            case object_behavior_type::physics_animated_4:
+            case object_behavior_type::pickup_physics_animated_9:
                 RemoveFromCollisionBuckets_527D00();
                 byte_6F8C4C = 1;
                 UpdatePhysicsMovementAndAnimation_525D90();
@@ -1923,14 +1923,14 @@ void Object_2C::Update_525F30()
                 }
                 return;
 
-            case object_behavior_type::behavior_6:
-            case object_behavior_type::behavior_10:
-            case object_behavior_type::light_type_11:
+            case object_behavior_type::pickup_6:
+            case object_behavior_type::shop_10:
+            case object_behavior_type::light_11:
                 DispatchFrameAction_525910();
                 UpdateEffectPool_525B20();
                 return;
 
-            case object_behavior_type::behavior_12:
+            case object_behavior_type::effect_only_12:
                 UpdateEffectPool_525B20();
                 return;
 
@@ -1966,7 +1966,7 @@ MATCH_FUNC(0x526790)
 void Object_2C::TriggerCarExplosionIfApplicable_526790(Sprite* pSprite)
 {
     ObjectDefinition_74* pDefinition = this->field_8;
-    if (sub_475A80())
+    if (IsAnimatedBehavior_475A80())
     {
         if (IsAnimFinished_482C10())
         {
@@ -2059,7 +2059,7 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
         InheritMotionFromSprite_526B40(pSprite);
     }
 
-    if (field_8->field_34_behavior_type != object_behavior_type::light_type_11)
+    if (field_8->field_34_behavior_type != object_behavior_type::light_11)
     {
         gSpriteGrid_3_679210->Remove_477B00(field_4);
     }
@@ -2089,7 +2089,7 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
 
         switch (field_8->field_34_behavior_type)
         {
-            case object_behavior_type::behavior_2:
+            case object_behavior_type::animated_2:
                 UpdateAnimation_5257D0();
                 break;
 
@@ -2139,7 +2139,7 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
                 break;
             }
 
-            case object_behavior_type::light_type_11:
+            case object_behavior_type::light_11:
                 field_C_pAny.pLight->SetPosition_482D30(field_4->field_14_xy.x, field_4->field_14_xy.y, field_4->field_1C_zpos);
                 break;
 
@@ -2152,7 +2152,7 @@ bool Object_2C::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 
             field_10_obj_3c->field_0.PoolUpdate_5A6F70(field_4);
         }
 
-        if (field_8->field_34_behavior_type != object_behavior_type::light_type_11)
+        if (field_8->field_34_behavior_type != object_behavior_type::light_11)
         {
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_4);
         }
@@ -2251,7 +2251,7 @@ void Object_2C::ReleaseSubObjects_527F10()
 
     if (field_C_pAny.o8)
     {
-        if (this->field_8->field_34_behavior_type == object_behavior_type::light_type_11)
+        if (this->field_8->field_34_behavior_type == object_behavior_type::light_11)
         {
             gLight_1D4CC_6F5520->DeallocLight_47F4F0(field_C_pAny.pLight);
             this->field_C_pAny.o8 = 0;
@@ -2408,8 +2408,8 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
 
                     switch (pDefinition->field_34_behavior_type)
                     {
-                        case object_behavior_type::bullet_type_3:
-                        case object_behavior_type::behavior_7:
+                        case object_behavior_type::physics_3:
+                        case object_behavior_type::pickup_physics_7:
                             if (!this->field_10_obj_3c)
                             {
                                 Object_3C* pNew3C_ = gObject_3C_Pool_6F8F7C->Allocate();
@@ -2434,8 +2434,8 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                                                                this->field_4->field_0_rotation);
                             break;
 
-                        case object_behavior_type::behavior_2:
-                        case object_behavior_type::self_animated_8:
+                        case object_behavior_type::animated_2:
+                        case object_behavior_type::pickup_animated_8:
                         {
                             if (field_10_obj_3c)
                             {
@@ -2477,8 +2477,8 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                             break;
                         }
 
-                        case object_behavior_type::maybe_moving_obj_4:
-                        case object_behavior_type::behavior_9:
+                        case object_behavior_type::physics_animated_4:
+                        case object_behavior_type::pickup_physics_animated_9:
                         {
                             if (!this->field_10_obj_3c)
                             {
@@ -2523,10 +2523,10 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                         }
 
                         case object_behavior_type::static_object_0:
-                        case object_behavior_type::behavior_1:
-                        case object_behavior_type::behavior_6:
-                        case object_behavior_type::behavior_10:
-                        case object_behavior_type::behavior_12:
+                        case object_behavior_type::static_collision_check_1:
+                        case object_behavior_type::pickup_6:
+                        case object_behavior_type::shop_10:
+                        case object_behavior_type::effect_only_12:
                             Object_2C::ReleaseSubObjects_527F10();
                             Object_2C::InitializeObject_527630(obj_type,
                                                                this->field_4->field_14_xy.x,
@@ -2908,7 +2908,7 @@ void Object_2C::HandleImpact_528E50(Sprite* pSprite)
         {
             if (pSprite)
             {
-                if (!IsShop_421060() || !pSprite->IsControlledByActivePlayer_59E170())
+                if (!IsPickup_421060() || !pSprite->IsControlledByActivePlayer_59E170())
                 {
                     gCollisionSoundQueue_66AFE0->AddSpriteCollision_40BDD0(field_4, pSprite);
                 }
@@ -3430,10 +3430,10 @@ Object_2C* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypo
     {
 
         case object_behavior_type::static_object_0:
-        case object_behavior_type::behavior_1:
-        case object_behavior_type::behavior_6:
-        case object_behavior_type::behavior_10:
-        case object_behavior_type::behavior_12:
+        case object_behavior_type::static_collision_check_1:
+        case object_behavior_type::pickup_6:
+        case object_behavior_type::shop_10:
+        case object_behavior_type::effect_only_12:
             pNew2C->field_C_pAny.o8 = 0;
             pNew2C->field_10_obj_3c = 0;
             break;
@@ -3455,8 +3455,8 @@ Object_2C* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypo
             break;
         }
 
-        case object_behavior_type::behavior_2:
-        case object_behavior_type::self_animated_8:
+        case object_behavior_type::animated_2:
+        case object_behavior_type::pickup_animated_8:
         {
             Object_8* pNew8; // eax
             pNew8 = gObject_8_Pool_6F8F78->Allocate();
@@ -3467,8 +3467,8 @@ Object_2C* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypo
             break;
         }
 
-        case object_behavior_type::bullet_type_3:
-        case object_behavior_type::behavior_7:
+        case object_behavior_type::physics_3:
+        case object_behavior_type::pickup_physics_7:
         {
             Object_3C* pNew3C; // eax
             pNew3C = gObject_3C_Pool_6F8F7C->Allocate();
@@ -3483,8 +3483,8 @@ Object_2C* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypo
             break;
         }
 
-        case object_behavior_type::maybe_moving_obj_4:
-        case object_behavior_type::behavior_9:
+        case object_behavior_type::physics_animated_4:
+        case object_behavior_type::pickup_physics_animated_9:
         {
             Object_3C* pNew3C; // eax
             pNew3C = gObject_3C_Pool_6F8F7C->Allocate();
@@ -3506,7 +3506,7 @@ Object_2C* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypo
             break;
         }
 
-        case object_behavior_type::light_type_11:
+        case object_behavior_type::light_11:
             pNew2C->field_C_pAny.pLight = gLight_1D4CC_6F5520->CreateLight_52B2A0(xpos, ypos, zpos, 0, 0, 0);
             break;
 
@@ -3516,7 +3516,7 @@ Object_2C* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypo
     ++dword_6F8F88;
 
     pNew2C->field_18_model = object_type;
-    if (pNew2C->IsShop_421060())
+    if (pNew2C->IsPickup_421060())
     {
         pNew2C->SetDefaultWeaponAmmo_5292D0();
     }
@@ -3681,7 +3681,7 @@ void Object_5C::SaveObjects_52A500(SavedObjectData_164* pData)
     Object_2C* pObj = gObject_2C_Pool_6F8F80->field_8_pool;
     for (u16 i = 0; i < 3825; pObj++, i++)
     {
-        if (pObj->field_18_model && pObj->IsShop_421060())
+        if (pObj->field_18_model && pObj->IsPickup_421060())
         {
             pData->field_0_obj_x[0][saved_count].field_0 = pObj->GetX_4340D0();
             pData->field_0_obj_x[1][saved_count].field_0 = pObj->GetY_4340E0();
@@ -3731,7 +3731,7 @@ void Object_5C::RestoreObjects_52A590(SavedObjectData_164* pData)
 MATCH_FUNC(0x52A610)
 void Object_5C::RemoveAndFree_52A610(Object_2C* p2C)
 {
-    if (p2C->field_8->field_34_behavior_type != 11)
+    if (p2C->field_8->field_34_behavior_type != object_behavior_type::light_11)
     {
         gSpriteGrid_3_679210->Remove_477B00(p2C->field_4);
     }
@@ -3757,7 +3757,7 @@ void Object_2C::ReactivateObjectAfterImpact_52A6D0(Sprite* pSprite)
 {
     RemoveFromCollisionBuckets_527D00();
 
-    if (field_8->field_34_behavior_type != 11)
+    if (field_8->field_34_behavior_type != object_behavior_type::light_11)
     {
         gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_4);
     }

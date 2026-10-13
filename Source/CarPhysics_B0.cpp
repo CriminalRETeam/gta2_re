@@ -2706,7 +2706,7 @@ void CarPhysics_B0::HandleObjectCollision_5606C0(Object_2C* p2C, char_type damag
     Fix16 CarMass = CalculateMass_559FF0();
     Fix16 ObjMass;
     stru_6FE1F0 = CoM - CollisionIntersectionPoint_6FE1A0;
-    if (p2C->sub_482C90())
+    if (p2C->CanBePushed_482C90())
     {
         ObjMass = p2C->GetMass_482C80();
         tmp = p2C->GetSpeedVector_52AE90();
@@ -2752,7 +2752,7 @@ void CarPhysics_B0::HandleObjectCollision_5606C0(Object_2C* p2C, char_type damag
         }
         arg0a = (CoM - ObjPos).NormalizeSafe_442AD0().DivideInl_55F9E0(10);
         AccumulateImpulse_55FC30(arg0a, 50);
-        if (p2C->sub_482C90())
+        if (p2C->CanBePushed_482C90())
         {
             p2C->SetMovementVectorWithRandomState_522640(arg0a.Negate_40ACB0());
         }

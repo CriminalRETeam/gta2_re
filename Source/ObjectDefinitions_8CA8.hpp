@@ -212,19 +212,19 @@ namespace object_behavior_type
 {
 enum
 {
-    static_object_0 = 0, // basic object: simple update + collision
-    behavior_1 = 1, // basic object + extra collision handling
-    behavior_2 = 2, // animated object (UpdateAnimation + collision)
-    bullet_type_3 = 3, // removed from buckets, special update routine
-    maybe_moving_obj_4 = 4, // removed from buckets, different special routine
+    static_object_0 = 0, // static prop: frame action + effect pool update only
+    static_collision_check_1 = 1, // static, also runs CheckCollisionForModel_139_And_141; takes a shop type from scripts
+    animated_2 = 2, // animated (UpdateAnimation, has an Object_8)
+    physics_3 = 3, // bullets/thrown things: removed from buckets, moves with UpdatePhysicsAndMovement (has an Object_3C)
+    physics_animated_4 = 4, // like physics_3 but also animates (UpdatePhysicsMovementAndAnimation)
     explosion_5 = 5, // Explosion_30 explosion / timed effect
-    behavior_6 = 6, // simple object, no special animation
-    behavior_7 = 7, // removed from buckets, special routine (like 3)
-    self_animated_8 = 8, // animated object (like 2)
-    behavior_9 = 9, // removed from buckets, special routine (like 4)
-    behavior_10 = 10, // simple object with special hit logic
-    light_type_11 = 11, // runs DispatchFrameAction_525910 + UpdateEffectPool_525B20 only
-    behavior_12 = 12 // runs UpdateEffectPool_525B20 only
+    pickup_6 = 6, // static pickup (weapons, health, ...): field_26 is the item parameter, not a ped ref
+    pickup_physics_7 = 7, // pickup that moves like physics_3 (dropped items)
+    pickup_animated_8 = 8, // animated pickup (like animated_2)
+    pickup_physics_animated_9 = 9, // pickup that moves and animates (like physics_animated_4)
+    shop_10 = 10, // simple object with special hit logic; takes a shop type from scripts
+    light_11 = 11, // runs DispatchFrameAction_525910 + UpdateEffectPool_525B20 only
+    effect_only_12 = 12 // runs UpdateEffectPool_525B20 only
 };
 } // namespace object_behavior_type
 
