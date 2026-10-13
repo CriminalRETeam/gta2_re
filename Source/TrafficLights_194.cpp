@@ -151,18 +151,15 @@ void TrafficLight_20::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
 
     if (field_0_north_headlight_obj)
     {
-        Fix16 xIter1(x);
-
         for (s32 i = 0; i < w; i++)
         {
-            gmp_block_info* pBlock1 = gMap_0x370_6F6268->get_block_4DFE10((xIter1 + kFpHalf_705714).ToInt(),
+            gmp_block_info* pBlock1 = gMap_0x370_6F6268->get_block_4DFE10((Fix16(x + i) + kFpHalf_705714).ToInt(),
                                                                           (Fix16(y) - dword_705660).ToInt(),
                                                                           (zpos - kFpOne_70580C).ToInt());
             if (pBlock1 && (pBlock1->field_A_arrows & block_arrow::green_down_8) != 0)
             {
-                gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pedestrian_crossing_marker_122, xIter1 + kFpHalf_705714, Fix16(y) - dword_705660, zpos, kAng0_705948);
+                gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pedestrian_crossing_marker_122, Fix16(x + i) + kFpHalf_705714, Fix16(y) - dword_705660, zpos, kAng0_705948);
             }
-            xIter1 += Fix16(1);
         }
     }
 
