@@ -376,29 +376,29 @@ void MapRenderer::SetAmbientLevel_4E9D50(s32& target_level, u16& cycles)
 MATCH_FUNC(0x4e9db0)
 void MapRenderer::set_shading_lev_4E9DB0(u8 shading_lev)
 {
-    u8 v6 = 2 * shading_lev / 3;
-    u8 v2 = 255 - 4 * shading_lev;
+    u8 mid_shade = 2 * shading_lev / 3;
+    u8 base_shade = 255 - 4 * shading_lev;
     u8 shading_leva = 5 * (51 - shading_lev);
-    u8 v7 = v2 + 2 * v6;
-    u8 v2_v6 = v6 + v2;
-    u8 lev_v6 = shading_leva - v6;
-    u8 lev_v6_2 = shading_leva - 2 * v6;
+    u8 top_shade = base_shade + 2 * mid_shade;
+    u8 v2_v6 = mid_shade + base_shade;
+    u8 lev_v6 = shading_leva - mid_shade;
+    u8 lev_v6_2 = shading_leva - 2 * mid_shade;
 
-    field_C_colour_t1 = v7;
-    field_D_right_colour = shading_leva - 3 * v6;
-    field_E_colour_t2 = v2;
+    field_C_colour_t1 = top_shade;
+    field_D_right_colour = shading_leva - 3 * mid_shade;
+    field_E_colour_t2 = base_shade;
     field_F_colour_t3 = lev_v6;
-    field_10_diag_up_left_colour = v2;
+    field_10_diag_up_left_colour = base_shade;
     field_11_diag_up_right_colour = lev_v6_2;
     field_12_diag_down_left_colour = v2_v6;
     field_13_diag_down_right_colour = lev_v6;
     field_14_dcolour = v2_v6;
     field_15_slope_south_colour = shading_leva;
     field_16_slope_west_colour = lev_v6_2;
-    field_17_slope_east_colour = v2 + 3 * v6;
+    field_17_slope_east_colour = base_shade + 3 * mid_shade;
     field_18_color = v2_v6;
     field_19_tri_diag_up_right_colour = lev_v6;
-    field_1A_tri_diag_down_left_colour = v7;
+    field_1A_tri_diag_down_left_colour = top_shade;
     field_1B_tri_diag_down_right_colour = shading_leva;
 }
 
@@ -3432,12 +3432,12 @@ void MapRenderer::RenderBlockAt_4F6880(s32& pXCoord, s32& pYCoord)
         gBlockTop_6F62F4 = pBlock->field_4_top;
         gBlockBottom_6F6468 = pBlock->field_6_bottom;
 
-        u16 v8 = pBlock->field_8_lid;
-        gLidType_6F6274 = v8;
+        u16 lid_idx = pBlock->field_8_lid;
+        gLidType_6F6274 = lid_idx;
 
         if (bShow_hidden_faces_67D5CD)
         {
-            if (!v8 && (pBlock->field_B_slope_type & 3) != 0)
+            if (!lid_idx && (pBlock->field_B_slope_type & 3) != 0)
             {
                 gLidType_6F6274 = 0x260;
             }
