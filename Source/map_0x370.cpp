@@ -330,8 +330,8 @@ gmp_map_zone* Map_0x370::first_zone_by_type_4DF1D0(u8 zone_type)
 MATCH_FUNC(0x4DF240)
 gmp_map_zone* Map_0x370::GetNearestZoneOfType_4DF240(u8 xpos, u8 ypos, u8 zone_type)
 {
-    Fix16 v21 = kFp255_6F5B8C;
-    Fix16 v5 = kFp255_6F5B8C;
+    Fix16 nearest_dist = kFp255_6F5B8C;
+    Fix16 second_dist = kFp255_6F5B8C;
 
     gmp_map_zone* pChosenZone = 0;
     gmp_map_zone* pOtherZone = 0;
@@ -350,30 +350,30 @@ gmp_map_zone* Map_0x370::GetNearestZoneOfType_4DF240(u8 xpos, u8 ypos, u8 zone_t
         if (pZone->field_0_zone_type == zone_type
             && !pZone->IsZoneVisibleToAnyPlayer_4DEF40())
         {
-            Fix16 v13;
-            v13 = Fix16::MaxAbsDistance_42A6B0(Fix16(pZone->field_1_x), Fix16(pZone->field_2_y), Fix16(xpos), Fix16(ypos));
+            Fix16 dist;
+            dist = Fix16::MaxAbsDistance_42A6B0(Fix16(pZone->field_1_x), Fix16(pZone->field_2_y), Fix16(xpos), Fix16(ypos));
 
-            if (v13 < v21)
+            if (dist < nearest_dist)
             {
-                if (v13 > kFpTen_6F6184) // v13 < 10.0
+                if (dist > kFpTen_6F6184) // dist < 10.0
                 {
                     if (pOtherZone) //  line 101
                     {
                         pChosenZone = pOtherZone;
-                        v5 = v21;
+                        second_dist = nearest_dist;
                     }
                     else
                     {
-                        v5 = v13;
+                        second_dist = dist;
                         pChosenZone = pZone;
                     }
-                    v21 = v13;
+                    nearest_dist = dist;
                     pOtherZone = pZone;
                 }
             }
-            else if (v13 < v5)
+            else if (dist < second_dist)
             {
-                v5 = v13;
+                second_dist = dist;
                 pChosenZone = pZone;
             }
         }
@@ -387,10 +387,10 @@ gmp_map_zone* Map_0x370::GetNearestZoneOfType_4DF240(u8 xpos, u8 ypos, u8 zone_t
     {
         for (zone_idx = 0; zone_idx < field_32C_pZones->field_0_num_zones; zone_idx++)
         {
-            gmp_map_zone* v15 = Map_0x370::get_zone_4DFB30(zone_idx);
-            if (v15->field_0_zone_type == zone_type)
+            gmp_map_zone* pZone2 = Map_0x370::get_zone_4DFB30(zone_idx);
+            if (pZone2->field_0_zone_type == zone_type)
             {
-                pOtherZone = v15;
+                pOtherZone = pZone2;
             }
         }
     }
@@ -2308,7 +2308,7 @@ char_type Map_0x370::sub_4E4630(Fix16 zpos_f16)
 {
     s32 zpos = zpos_f16.ToInt();
     bool bUnk = !!(zpos_f16.GetFracValue() != kFpZero_6F610C);
-    char_type v12 = 0;
+    char_type bFound = 0;
 
     for (s32 ypos = gSpriteGrid_top_6F6108; ypos <= gSpriteGrid_bottom_6F5F38; ypos++)
     {
@@ -2323,14 +2323,14 @@ char_type Map_0x370::sub_4E4630(Fix16 zpos_f16)
                 {
                     if (bUnk)
                     {
-                        v12 = 1;
+                        bFound = 1;
                     }
                     else
                     {
                         dword_6F5EC8 = &gGmpSlopes_6F5BA8[get_slope_idx(gBlockInfo0_6F5EB0->field_B_slope_type)];
                         if (dword_6F5EC8->field_2_gradient_level == dword_6F5EC8->field_1_gradient_size - 1)
                         {
-                            v12 = 1;
+                            bFound = 1;
                         }
                     }
                 }
@@ -2344,7 +2344,7 @@ char_type Map_0x370::sub_4E4630(Fix16 zpos_f16)
             }
         }
     }
-    return v12;
+    return bFound;
 }
 
 MATCH_FUNC(0x4E4770)

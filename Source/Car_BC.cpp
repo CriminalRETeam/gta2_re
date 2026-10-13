@@ -2634,9 +2634,9 @@ bool Car_BC::IsStoppedWithPavementAtDoor_43B140(u8 target_car_door)
         return 0;
     }
 
-    Fix16 v14;
-    Fix16 v13;
-    GetDoorWorldPosition_43B5A0(target_car_door, &v14, &v13);
+    Fix16 door_x;
+    Fix16 door_y;
+    GetDoorWorldPosition_43B5A0(target_car_door, &door_x, &door_y);
 
     if (remap != 3)
     {
@@ -2663,8 +2663,8 @@ bool Car_BC::IsStoppedWithPavementAtDoor_43B140(u8 target_car_door)
     Fix16 t2;
     Ang16::PolarToCartesian_41FC20(angToUse, kFpHalf_6778FC, t1, t2);
 
-    t1 += v14;
-    t2 += v13;
+    t1 += door_x;
+    t2 += door_y;
     if (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(t1.ToInt(), t2.ToInt(), field_50_car_sprite->field_1C_zpos.ToInt() - 1) != 2)
     {
         return false;
@@ -4962,20 +4962,20 @@ void Car_BC::UpdateTrainCarriagesOnTrack_4413B0(Fix16 xpos, Fix16 ypos, Fix16 zp
         newy = y;
         newz = z;
 
-        Ang16 v10;
+        Ang16 carriage_angle;
         if (bUnknown)
         {
             s32 track_dir_a = gMap_0x370_6F6268->sub_4E7190(&newx, &newy, &newz, k_dword_6777D4);
-            v10 = ReturnAngleFromRoadDirection_4F7940(&track_dir_a);
+            carriage_angle = ReturnAngleFromRoadDirection_4F7940(&track_dir_a);
         }
         else
         {
             s32 track_dir_b = gMap_0x370_6F6268->sub_4E6660(&newx, &newy, &newz, k_dword_6777D4);
-            v10 = ReturnAngleFromRoadDirection_4F7940(&track_dir_b);
+            carriage_angle = ReturnAngleFromRoadDirection_4F7940(&track_dir_b);
         }
 
         pTrainCarIter->field_50_car_sprite->set_xyz_lazy_420600(newx, newy, newz);
-        pTrainCarIter->field_50_car_sprite->set_ang_lazy_420690(v10);
+        pTrainCarIter->field_50_car_sprite->set_ang_lazy_420690(carriage_angle);
 
         // The next carriage follows on from this one
         x = newx;
@@ -5839,8 +5839,8 @@ void Car_BC::TryHitchTrailer_442810()
 
     Fix16_Point hitch_this;
     Fix16_Point hitch_car;
-    Fix16_Point v6;
-    Fix16_Point v16; // the original sets EH state 3 up front: 4 points constructed
+    Fix16_Point offset;
+    Fix16_Point hitch_point; // the original sets EH state 3 up front: 4 points constructed
 
     field_50_car_sprite->set_num_40F7B0(15);
 
@@ -5865,10 +5865,10 @@ void Car_BC::TryHitchTrailer_442810()
             Car_BC* pCar = pHitchSprite->AsCar_40FEB0();
             hitch_car = pCar->GetHitchPoint_439FB0();
             hitch_this = GetHitchPoint_439FB0();
-            v6 = hitch_this - hitch_car;
+            offset = hitch_this - hitch_car;
             // Declared, then assigned: keeps the length in eax (Abs results reloaded from their temp)
             Fix16 v6_len;
-            v6_len = v6.GetLength_41E260();
+            v6_len = offset.GetLength_41E260();
 
             Fix16 z_delta = Fix16::Abs(pHitchSprite->field_1C_zpos - field_50_car_sprite->field_1C_zpos);
 
@@ -5886,12 +5886,12 @@ void Car_BC::TryHitchTrailer_442810()
                         pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
                         if (!pCar->field_58_physics->IsRngBelowDamage_421130())
                         {
-                            v16 = pCar->field_50_car_sprite->get_x_y_443580().AddInl_40AC50(v6.NormalizeSafe_442AD0().MultiplyInl_438FE0(kFpOne64th_677888));
+                            hitch_point = pCar->field_50_car_sprite->get_x_y_443580().AddInl_40AC50(offset.NormalizeSafe_442AD0().MultiplyInl_438FE0(kFpOne64th_677888));
                             {
                                 s32 a5 = 1;
                                 pCar->field_58_physics->SetVelocityTowardTarget_55A1D0(
-                                    v16.x,
-                                    v16.y,
+                                    hitch_point.x,
+                                    hitch_point.y,
                                     Ang16::Ang16_to_Fix16(pCar->field_58_physics->get_theta_40F820()),
                                     &a5);
                             }
@@ -6318,34 +6318,34 @@ void Car_BC::UpdateSpriteNum_4435F0()
 MATCH_FUNC(0x443710)
 void Car_BC::ApplyExplosionImpulse_443710(Fix16_Point* xy)
 {
-    Fix16_Point v16;
-    Fix16_Point v4;
-    Fix16_Point v9;
+    Fix16_Point hitch_point;
+    Fix16_Point impulse_dir;
+    Fix16_Point impulse_pos;
 
     if (!IsDeactivated_4214D0())
     {
         SetupCarPhysicsAndSpriteBinding_43BCA0();
 
-        v16 = field_50_car_sprite->get_x_y();
-        v16.x += kFpQuarter_677208 * gCar_6C_677930->field_1C_explosion_offset_cycle - kFpHalf_6772D0;
-        v16.y += kFpQuarter_677208 * gCar_6C_677930->field_1C_explosion_offset_cycle - kFpHalf_6772D0;
+        hitch_point = field_50_car_sprite->get_x_y();
+        hitch_point.x += kFpQuarter_677208 * gCar_6C_677930->field_1C_explosion_offset_cycle - kFpHalf_6772D0;
+        hitch_point.y += kFpQuarter_677208 * gCar_6C_677930->field_1C_explosion_offset_cycle - kFpHalf_6772D0;
 
-        v4 = (v16 - *xy);
+        impulse_dir = (hitch_point - *xy);
         // vecLen's scope has to end before the ApplyImpactForcesAndDamage call: its result temp
         // reuses vecLen's slot (the dead xy param slot), in 9.6f too. Hence the goto: an inline
         // helper returning bool runs out of inline budget for GetLength_41E260, and a bool
         // flag tested twice isn't merged by VC6.
         {
-            Fix16 vecLen = v4.GetLength_41E260();
+            Fix16 vecLen = impulse_dir.GetLength_41E260();
             if (vecLen == gFix16_6777CC)
             {
                 goto done;
             }
             vecLen = vecLen * 4;
-            v9 = v4.NormalizeSafe_442AD0().DivideInl_442CB0(vecLen);
+            impulse_pos = impulse_dir.NormalizeSafe_442AD0().DivideInl_442CB0(vecLen);
         }
         field_58_physics->SetCurrentCarInfoAndModelPhysics_562EF0();
-        field_58_physics->ApplyImpactForcesAndDamage_55FA60(v16, v9, 10);
+        field_58_physics->ApplyImpactForcesAndDamage_55FA60(hitch_point, impulse_pos, 10);
     }
 
 done:

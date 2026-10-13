@@ -123,23 +123,23 @@ bool Camera_0xBC::IsSpriteTheCameraSubject_4355D0(Sprite* pSprite)
 MATCH_FUNC(0x435630)
 char_type Camera_0xBC::IsSpriteInView_435630(Sprite* pSprite, s32 bUnknown)
 {
-    Fix16 v5;
-    v5 = field_98_cam_pos2.field_8_z - pSprite->field_1C_zpos + dword_676840;
-    v5 = v5 / (field_98_cam_pos2.field_C_zoom * kTwo_676820);
+    Fix16 half_width;
+    half_width = field_98_cam_pos2.field_8_z - pSprite->field_1C_zpos + dword_676840;
+    half_width = half_width / (field_98_cam_pos2.field_C_zoom * kTwo_676820);
 
     if (bUnknown == 1)
     {
-        v5 = (v5 * dword_676684);
+        half_width = (half_width * dword_676684);
     }
 
-    Fix16 v6 = (v5 * dword_6766F4);
+    Fix16 half_height = (half_width * dword_6766F4);
 
     Fix16_Rect rect;
     rect.SetHiLowZ_41E370(pSprite->field_1C_zpos, pSprite->field_1C_zpos);
-    rect.SetRect_41E350(field_98_cam_pos2.field_0_x - v5,
-                        field_98_cam_pos2.field_0_x + v5,
-                        field_98_cam_pos2.field_4_y - v6,
-                        field_98_cam_pos2.field_4_y + v6);
+    rect.SetRect_41E350(field_98_cam_pos2.field_0_x - half_width,
+                        field_98_cam_pos2.field_0_x + half_width,
+                        field_98_cam_pos2.field_4_y - half_height,
+                        field_98_cam_pos2.field_4_y + half_height);
 
     Fix16_Rect* pBox = &pSprite->field_C_pCollisionShape->field_30_boundingBox;
     if (rect.field_0_left.IntervalIntersectsRange_438FB0_inline(rect.field_4_right, pBox->field_0_left, pBox->field_4_right) &&
@@ -500,7 +500,7 @@ MATCH_FUNC(0x435FF0)
 void Camera_0xBC::Update_435FF0()
 {
     Camera_0xBC::SavePrevCamPos_4357B0();
-    Fix16 v5 = field_98_cam_pos2.field_8_z * dword_676918;
+    Fix16 scale = field_98_cam_pos2.field_8_z * dword_676918;
 
     switch (field_3C_followed_ped_id)
     {
@@ -509,12 +509,12 @@ void Camera_0xBC::Update_435FF0()
                                   field_AC_cam_velocity.field_0_x,
                                   field_98_cam_pos2.field_0_x,
                                   dword_676740,
-                                  v5);
+                                  scale);
             SmoothApproach_4F7540(field_0_cam_pos_tgt1.field_4_y,
                                   field_AC_cam_velocity.field_4_y,
                                   field_98_cam_pos2.field_4_y,
                                   dword_676740,
-                                  v5);
+                                  scale);
             SmoothApproachClamped_4F75D0(&field_0_cam_pos_tgt1.field_8_z,
                                          &field_AC_cam_velocity.field_8_z,
                                          &field_98_cam_pos2.field_8_z,
@@ -747,9 +747,9 @@ void Camera_0xBC::ResetPanning_436830()
 MATCH_FUNC(0x436860)
 void Camera_0xBC::ApplyZOffsetToScreenPosition_436860(Ped* pPed, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos)
 {
-    Fix16 v5 = (z_pos - pPed->get_cam_z() + Fix16(8)) / field_60.y;
-    x_pos += field_48_pan_x * v5;
-    y_pos += field_4C_pan_y * v5;
+    Fix16 depth_scale = (z_pos - pPed->get_cam_z() + Fix16(8)) / field_60.y;
+    x_pos += field_48_pan_x * depth_scale;
+    y_pos += field_4C_pan_y * depth_scale;
 }
 
 MATCH_FUNC(0x4368E0)

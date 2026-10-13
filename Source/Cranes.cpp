@@ -391,10 +391,10 @@ bool Crane_15C::IsTransporterCargoTargetValid_47F350()
 MATCH_FUNC(0x47f3d0)
 bool Crane_15C::IsPickupCarTargetValid_47F3D0()
 {
-    Car_BC* v2 = field_68_pickup_car->AsCar_40FEB0();
-    if (!v2->IsDespawning_4215B0() && this->field_E0_pickup_car_x == field_68_pickup_car->field_14_xy.x && this->field_E4_pickup_car_y == field_68_pickup_car->field_14_xy.y &&
-        this->field_E8_pickup_car_z == field_68_pickup_car->field_1C_zpos && this->field_EC_pickup_car_rot == Ang16::Ang16_to_Fix16(field_68_pickup_car->field_0_rotation) && !v2->field_54_driver &&
-        v2->AreAllDoorsClosed_441A40())
+    Car_BC* pCar = field_68_pickup_car->AsCar_40FEB0();
+    if (!pCar->IsDespawning_4215B0() && this->field_E0_pickup_car_x == field_68_pickup_car->field_14_xy.x && this->field_E4_pickup_car_y == field_68_pickup_car->field_14_xy.y &&
+        this->field_E8_pickup_car_z == field_68_pickup_car->field_1C_zpos && this->field_EC_pickup_car_rot == Ang16::Ang16_to_Fix16(field_68_pickup_car->field_0_rotation) && !pCar->field_54_driver &&
+        pCar->AreAllDoorsClosed_441A40())
     {
         return true;
     }
@@ -511,13 +511,13 @@ void Crane_15C::UpdateCraneTargets_47F4C0()
 MATCH_FUNC(0x47f6c0)
 bool Crane_15C::ComputeHookPolar_47F6C0(Fix16_Point& pPoint, Fix16* pOutF16, Fix16* pOutAng)
 {
-    Fix16_Point v10 = (pPoint.Sub_40AC80(field_2C_rotor_obj->field_4->get_x_y()));
-    *pOutF16 = v10.GetLength_41E260();
+    Fix16_Point to_hook = (pPoint.Sub_40AC80(field_2C_rotor_obj->field_4->get_x_y()));
+    *pOutF16 = to_hook.GetLength_41E260();
 
     // TODO: 1st check is removed in 9.6f ??
     if (*pOutF16 <= kMaxHookRadius_679F68 && *pOutF16 >= kMinHookRadius_679C3C)
     {
-        *pOutAng = Ang16::Ang16_to_Fix16(v10.atan2_40F790());
+        *pOutAng = Ang16::Ang16_to_Fix16(to_hook.atan2_40F790());
         return true;
     }
     else
@@ -695,14 +695,14 @@ void Crane_15C::UpdateCraneTick_47FD50()
     Fix16 old_hook_axial_angle = field_A0_hook_axial_angle;
     Fix16 old_hook_depth = field_84_hook_depth;
 
-    u8 v6 = Crane_15C::MoveTowardsTargets_47FBA0();
+    u8 bMoved = Crane_15C::MoveTowardsTargets_47FBA0();
 
     if (old_crane_angle != field_8C_crane_angle || old_hook_radius != field_90_hook_radius ||
         old_hook_axial_angle != field_A0_hook_axial_angle || old_hook_depth != field_84_hook_depth)
     {
         Crane_15C::UpdateCraneSprites_47FE10();
     }
-    if (v6 != 0)
+    if (bMoved != 0)
     {
         if (field_6C_transporter_cargo)
         {
@@ -929,9 +929,9 @@ void Crane_15C::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type obj_id)
 MATCH_FUNC(0x480900)
 void Crane_15C::CraneTargetPickupCheck_480900(Fix16 xpos, Fix16 ypos, Ang16 ang)
 {
-    Fix16_Point v10(xpos, ypos);
+    Fix16_Point target_pos(xpos, ypos);
     Fix16_Point t;
-    ComputeHookPolar_47F6C0(v10, &field_120_target1_radius, &field_124_target1_angle);
+    ComputeHookPolar_47F6C0(target_pos, &field_120_target1_radius, &field_124_target1_angle);
 
     field_128_target1_rot = Ang16::Ang16_to_Fix16(ang);
 
@@ -946,7 +946,7 @@ void Crane_15C::CraneTargetPickupCheck_480900(Fix16 xpos, Fix16 ypos, Ang16 ang)
     }
 
     ComputeHookPos_47E620(field_120_target1_radius, Ang16::Fix16_To_Ang16_40F540(field_124_target1_angle), &t);
-    field_18_target1_offset = v10 - t;
+    field_18_target1_offset = target_pos - t;
 
     field_12C_target1_hook_depth = field_80_ground_z - gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(xpos, ypos);
 }
@@ -955,9 +955,9 @@ void Crane_15C::CraneTargetPickupCheck_480900(Fix16 xpos, Fix16 ypos, Ang16 ang)
 MATCH_FUNC(0x480b60)
 void Crane_15C::ComputePickupAlignment_480B60(Fix16 xpos, Fix16 ypos, Ang16 ang)
 {
-    Fix16_Point v10(xpos, ypos);
+    Fix16_Point target_pos(xpos, ypos);
     Fix16_Point t;
-    ComputeHookPolar_47F6C0(v10, &field_130_target2_radius, &field_134_target2_angle);
+    ComputeHookPolar_47F6C0(target_pos, &field_130_target2_radius, &field_134_target2_angle);
 
     field_138_target2_rot = Ang16::Ang16_to_Fix16(ang);
 
@@ -972,7 +972,7 @@ void Crane_15C::ComputePickupAlignment_480B60(Fix16 xpos, Fix16 ypos, Ang16 ang)
     }
 
     ComputeHookPos_47E620(field_130_target2_radius, Ang16::Fix16_To_Ang16_40F540(field_134_target2_angle), &t);
-    field_20_target2_offset = v10 - t;
+    field_20_target2_offset = target_pos - t;
 
     field_13C_target2_hook_depth = field_80_ground_z - gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(xpos, ypos);
 }
