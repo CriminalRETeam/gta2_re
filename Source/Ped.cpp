@@ -2794,14 +2794,14 @@ void Ped::EnterPublicTransport_45EE70()
             {
                 if (field_25C_internal_objective != objectives_enum::enter_train_37 && field_25C_internal_objective != objectives_enum::leave_train_38 && field_25C_internal_objective != objectives_enum::goto_area_on_foot_12)
                 {
-                    Train_58* pTrain = pTrainStation->field_18;
+                    Train_58* pTrain = pTrainStation->field_18_pStoppedTrain;
                     if (pTrain)
                     {
                         if (pTrain->field_C_carriages[1]->GetCarInfoIdx_411940() == car_model_enum::TRAIN)
                         {
                             SetOccupation_45EE00(ped_ocupation_enum::train_customer_9);
                             SetObjective2_463830(objectives_enum::objective_29);
-                            this->field_154_target_to_enter = pTrainStation->field_18->field_C_carriages[1];
+                            this->field_154_target_to_enter = pTrainStation->field_18_pStoppedTrain->field_C_carriages[1];
                         }
                     }
                 }
@@ -10378,7 +10378,7 @@ void Ped::WaitForTrain_46D030()
     {
         Train_58* pTrain = gPublicTransport_181C_6FF1D4->GetTrainFromCarExcludingLeadCar_57B6A0(field_154_target_to_enter);
         Car_BC* pOldTarget = field_154_target_to_enter;
-        if (pTrain->field_4C_maybe_train_station->field_1C == 2 &&
+        if (pTrain->field_4C_maybe_train_station->field_1C_bOccupied == 2 &&
             pTrain->field_C_carriages[1]->GetCarInfoIdx_411940() == car_model_enum::TRAIN)
         {
             Ped::SetObjective2_463830(objectives_enum::enter_train_37);

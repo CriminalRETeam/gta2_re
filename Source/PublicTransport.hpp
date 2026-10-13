@@ -25,10 +25,10 @@ class Train_58
     char_type field_1_unused;
     char_type field_2;
     char_type field_3_unused;
-    s16 field_4;
+    s16 field_4_wait_timer;
     char_type field_6_unused;
     char_type field_7_unused;
-    s32 field_8;
+    s32 field_8_alloc_state;
     Car_BC* field_C_carriages[11];
     char_type field_38_explosion_timers[11];
     u8 field_43_idx;
@@ -36,13 +36,13 @@ class Train_58
     char_type field_45_unused;
     char_type field_46_unused;
     char_type field_47_unused;
-    s32 field_48;
+    s32 field_48_stop_phase;
     TrainStation_34* field_4C_maybe_train_station;
     s32 field_50_state;
     char_type field_54_passenger_timer;
     char_type field_55_unused;
     char_type field_56_passenger_count;
-    char_type field_57;
+    char_type field_57_track_idx;
 };
 
 class TrainStation_34
@@ -62,8 +62,8 @@ class TrainStation_34
     gmp_map_zone* field_C_stop_point;
     gmp_map_zone* field_10_pZone;
     s32 field_14_used;
-    Train_58* field_18; // train stopped at the station?
-    s32 field_1C;
+    Train_58* field_18_pStoppedTrain; // train stopped at the station?
+    s32 field_1C_bOccupied;
     TrainStation_34* field_20_next_station;
     u8 field_24_train_wagons[10];
     char_type field_2E_wagons_number;
