@@ -56,11 +56,11 @@ Object_3C::Object_3C()
     this->field_4_angle = kZeroAng_6F8F68;
     this->field_28_next_definition_timer = 0;
     this->field_20_obj2c_id = 0;
-    this->field_2C = 0;
+    this->field_2C_unused = 0;
     this->field_2A_bAirborne = 0;
     this->field_38_conveyor_speed = 0;
     this->field_34 = 2;
-    this->field_2E = 0;
+    this->field_2E_unused = 0;
     this->field_2F_bOnSlope = 0;
 }
 

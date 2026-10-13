@@ -70,7 +70,7 @@ MATCH_FUNC(0x5408f0)
 Explosion_30::Explosion_30()
 {
     this->field_C_angle = 0;
-    this->field_20_unused = 0;
+    this->field_20 = 0;
     this->field_22_spawn_angle = 0;
     this->field_4_idx = 0;
     this->field_10_type = 0;
@@ -78,7 +78,7 @@ Explosion_30::Explosion_30()
     this->field_18_particle_cooldown = 0;
     this->field_1A_timer = 0;
     this->field_8_speed = kFP16Zero_6FD49C;
-    this->field_20_unused = kAngZero_6FD5D4;
+    this->field_20 = kAngZero_6FD5D4;
     this->field_22_spawn_angle = kAngZero_6FD5D4;
     this->field_24_particle_spread = kFP16Zero_6FD49C;
     this->field_28_blast_radius = kFP16Zero_6FD49C;
@@ -146,7 +146,7 @@ void Explosion_30::EmitRandomDiagonalParticle_540A40()
                 pParticle->field_20_speed = field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
                 pParticle->field_24_angle = field_14_pObj2C->field_4->field_8_object_2C_ptr->field_10_obj_3c->field_4_angle;
             }
-            pParticle->field_34 = 1;
+            pParticle->field_34_unused = 1;
             pParticle->field_38_state = 6;
             pParticle->field_2C_counter = 100;
             pParticle->field_2E = 100;
@@ -186,7 +186,7 @@ void Explosion_30::EmitFireTrail_3_12_540D30(Ang16 ang, Fix16 speed)
             pParticle->field_44 = this->field_6_id;
             pParticle->field_20_speed = speed;
             pParticle->field_24_angle = ang;
-            pParticle->field_34 = 0;
+            pParticle->field_34_unused = 0;
             pParticle->field_46_sub_state = 0;
             pParticle->field_2C_counter = 32;
             pParticle->field_2E = 32;
@@ -229,7 +229,7 @@ void Explosion_30::EmitFireTrail_4_540F90(Ang16 ang, Fix16 speed)
             pParticle->field_44 = this->field_6_id;
             pParticle->field_20_speed = speed;
             pParticle->field_24_angle = ang;
-            pParticle->field_34 = 0;
+            pParticle->field_34_unused = 0;
             pParticle->field_46_sub_state = 0;
             pParticle->field_2C_counter = 32;
             pParticle->field_2E = 32;
@@ -271,7 +271,7 @@ void Explosion_30::EmitFireTrail_13_14_5411E0(Ang16 ang, Fix16 speed)
             pParticle->field_44 = this->field_6_id;
             pParticle->field_20_speed = speed;
             pParticle->field_24_angle = ang;
-            pParticle->field_34 = 0;
+            pParticle->field_34_unused = 0;
             pParticle->field_46_sub_state = 0;
             pParticle->field_2C_counter = 32;
             pParticle->field_2E = 32;
@@ -316,7 +316,7 @@ void Explosion_30::EmitFireTrail_5_541430(Ang16 ang, Fix16 speed)
             pParticle->field_44 = field_6_id;
             pParticle->field_20_speed = speed;
             pParticle->field_24_angle = ang;
-            pParticle->field_34 = 0;
+            pParticle->field_34_unused = 0;
             pParticle->field_46_sub_state = 0;
             pParticle->field_2C_counter = 32;
             pParticle->field_2E = 32;

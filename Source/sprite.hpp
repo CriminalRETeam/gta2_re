@@ -178,7 +178,7 @@ class SpriteShape_4C
     Fix16_Rect field_30_boundingBox;
     bool field_48_bbox_up_to_date;
     char_type field_49_unused;
-    char_type field_4A;
+    char_type field_4A_unused;
     char_type field_4B_unused;
 };
 
@@ -614,7 +614,7 @@ class Sprite
     s32 field_34_palette_type; // remap type?
     char_type field_38_zoom;
     char_type field_39_z_col;
-    char_type field_3A;
+    char_type field_3A_unused;
     char_type field_3B_unused;
 };
 
@@ -649,7 +649,7 @@ class SpriteMask_14
 
     u8* field_0_pixels;
     s16 field_4_sprite_idx;
-    char_type field_6;
+    char_type field_6_unused;
     char_type field_7_unused;
     s32 field_8_delta_mask;
     s32 field_C_last_used;
@@ -687,7 +687,7 @@ class SpriteManager_8
     EXPORT ~SpriteManager_8();
     s32 field_0_drawn_sprite_count;
     s16 field_4_id_base;
-    s16 field_6;
+    s16 field_6_unused;
 };
 
 class AttachedSprite_18

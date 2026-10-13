@@ -43,7 +43,7 @@ struct vigilant_maxwell
 {
     char_type field_0_bUsed;
     u8 field_1_age;
-    char_type field_2;
+    char_type field_2_unused;
     char_type field_3;
     SoundObject_10* field_4_pObj;
     sound_unknown_0xC* field_8_pAlloc;
@@ -52,8 +52,8 @@ struct vigilant_maxwell
 struct sound_7
 {
     char_type field_0;
-    char_type field_1;
-    char_type field_2;
+    char_type field_1_unused;
+    char_type field_2_unused;
     char_type field_3;
     s32 field_4_fp;
     SoundObject_10 field_8;
@@ -63,8 +63,8 @@ struct sound_7
 struct sound_f16_pos_0x1C
 {
     u8 field_0_bUsed;
-    u8 field_1;
-    u8 field_2;
+    u8 field_1_unused;
+    u8 field_2_unused;
     u8 field_3;
     
     Fix16 field_4_xpos;
@@ -82,20 +82,20 @@ struct sound_0x68
     s32 field_0_EntityIndex;
     char_type field_4_SampleIndex;
     char_type field_5_unused;
-    char_type field_6;
+    char_type field_6_unused;
     char_type field_7_unused;
     serene_brattain field_8_obj;
     u32 field_14_samp_idx;
     char_type field_18_bIs2D;
-    char_type field_19;
-    char_type field_1A;
-    char_type field_1B;
+    char_type field_19_unused;
+    char_type field_1A_unused;
+    char_type field_1B_unused;
     u32 field_1C_ReleasingVolumeModificator;
     u32 field_20_rate;
     u8 field_24_nVolume;
     char_type field_25_unused;
     char_type field_26_unused;
-    char_type field_27;
+    char_type field_27_unused;
     Fix16 field_28_distance;
     char_type field_2C_bIsBeingPlayed;
     char_type field_2D_bIsPlayingFinished;
@@ -120,7 +120,7 @@ struct sound_0x68
     s32 field_58_type;
     sound_0x68* field_5C;
     u8 field_60_nEmittingVolume;
-    char_type field_61;
+    char_type field_61_unused;
     char_type field_62_unused;
     char_type field_63_unused;
     s32 field_64_max_distance;
@@ -132,7 +132,7 @@ struct Sound_Params_8
     char_type field_4_bDrivenByPlayer;
     char_type field_5_bHasSolidAbove;
     // pad?
-    char_type field_6;
+    char_type field_6_unused;
     char_type field_7_unused;
 };
 
@@ -145,7 +145,7 @@ class sound_obj
     char_type field_3;
     s32 field_4_speed_of_sound;
     u8 field_8_frames_per_second;
-    char_type field_9;
+    char_type field_9_unused;
     char_type field_A;
     char_type field_B_unused;
     s32 field_C;
@@ -155,9 +155,9 @@ class sound_obj
     char_type field_13_unused;
     s32 field_14_sample_rate;
     char_type field_18;
-    char_type field_19;
+    char_type field_19_unused;
     char_type field_1A_bDoubleVolume;
-    char_type field_1B;
+    char_type field_1B_unused;
     u8 field_1C_samp_count;
     char_type field_1D_b3d_sound;
     char_type field_1E_unused;
@@ -166,7 +166,7 @@ class sound_obj
     u8 field_24_sfx_vol;
     u8 field_25_cdVol;
     char_type field_26_unused;
-    char_type field_27;
+    char_type field_27_unused;
     Fix16 field_28_dist_related;
     char_type field_2C_distCalculated;
     char_type field_2D_unused;

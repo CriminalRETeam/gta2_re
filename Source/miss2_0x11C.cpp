@@ -4123,7 +4123,7 @@ void miss2_0x11C::SCRCMD_SET_MIN_ALIVE_50BCD0()
     SCR_CHAR_OBJECTIVE* pCmd = (SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070;
     SCR_POINTER* pPointer =
         (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070)->field_8_char_idx);
-    pPointer->field_8_char->field_164_ped_group->field_35 = pCmd->field_A_objective;
+    pPointer->field_8_char->field_164_ped_group->field_35_unused = pCmd->field_A_objective;
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 

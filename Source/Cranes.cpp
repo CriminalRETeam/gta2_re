@@ -850,7 +850,7 @@ void Crane_15C::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_78_maybe_homecrane = 0;
     field_94_hook_radius_speed = kZero_679E70;
     field_98_crane_angle_speed = kZero_679E70;
-    field_9C = kZero_679E70;
+    field_9C_unused = kZero_679E70;
     field_A8_home_angle = kZero_679E70;
     field_8C_crane_angle = kZero_679E70;
     field_90_hook_radius = kHomeHookRadius_679E58;

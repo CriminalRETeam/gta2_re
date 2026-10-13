@@ -29,7 +29,7 @@ class Weapon_8
     EXPORT ~Weapon_8();
     struct_4 field_0;
     s16 field_4_ref_count;
-    s16 field_6;
+    s16 field_6_unused;
 };
 
 class Weapon_30_Pool

@@ -19,7 +19,7 @@ void CarChaseTask_40::ResetEntry_4747B0()
     field_21_unused = 0;
     field_22_bFollowingRoute = 1;
     field_23_unused = 1;
-    field_24_unused = 0;
+    field_24 = 0;
     field_25_unused = 0;
     field_30_pTargetPed = 0;
     field_26_bRouteFinished = 0;

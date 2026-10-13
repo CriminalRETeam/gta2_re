@@ -191,8 +191,8 @@ struct SCR_THREAD : SCR_CMD_HEADER
 struct SCR_CHAR_AREA_ANY : SCR_CMD_HEADER
 {
     miss2_0x11C* field_8_script_thread;
-    s16 field_C;
-    u16 field_E;
+    s16 field_C_unused;
+    u16 field_E_unused;
     Fix16 field_10_x;
     Fix16 field_14_y;
     Fix16 field_18_z;
@@ -375,10 +375,10 @@ struct SCR_START_BONUS : SCR_CMD_HEADER
     u16 field_10_time_limit;
     s16 field_12_alt_car_model;
     u16 field_14_reward;
-    u16 field_16;
+    u16 field_16_unused;
     u16 field_18_ptr;
     u8 field_1A;
-    u8 field_1B;
+    u8 field_1B_unused;
 };
 
 struct SCR_LOWER_LEVEL : SCR_CMD_HEADER
@@ -390,7 +390,7 @@ struct SCR_LOWER_LEVEL : SCR_CMD_HEADER
 struct SCR_CHAR_INTO_CAR : SCR_CMD_HEADER
 {
     u16 field_8_char_idx;
-    u16 field_A;
+    u16 field_A_unused;
     u8 field_C_remap;
     u8 field_D_unused;
     s16 field_E_occupation;
@@ -505,7 +505,7 @@ struct SCR_WARP_FROM_CAR : SCR_CMD_HEADER
 
 struct SCR_SET_GROUP_TYPE : SCR_CMD_HEADER
 {
-    u32 field_8_unused;
+    u32 field_8;
     u32 field_C_group_type;
 };
 
@@ -518,7 +518,7 @@ struct SCR_CHECK_CURRENT_WEAPON : SCR_CMD_HEADER
 
 struct SCR_DECLARE_POLICELEVEL : SCR_CMD_HEADER
 {
-    u16 field_8_unused;
+    u16 field_8;
     u16 field_A_wanted_level;
 };
 
@@ -578,7 +578,7 @@ struct SCR_CHECK_WEAPONHIT : SCR_CMD_HEADER
 
 struct SCR_FINISH_LEVEL : SCR_CMD_HEADER
 {
-    u16 field_8_unused;
+    u16 field_8;
     s16 field_A_bonus_type;
 };
 
@@ -703,9 +703,9 @@ struct SCR_CREATE_LIGHT : SCR_CMD_HEADER
 struct SCR_ANSWER_PHONE : SCR_CMD_HEADER
 {
     u16 field_8_obj_idx;
-    u16 field_A;
+    u16 field_A_unused;
     u16 field_C_ped_idx;
-    u16 field_E;
+    u16 field_E_unused;
     s16 field_10_timer;
     u8 field_12_answered;
 };

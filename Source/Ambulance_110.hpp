@@ -11,7 +11,7 @@ class EmergencyCrew_30;
 class PatientSlot_8
 {
   public:
-    s32 field_0_unused;
+    s32 field_0;
     s32 field_4_unused;
 };
 
@@ -61,7 +61,7 @@ class Ambulance_110
     EXPORT void ProcessPatientQueue_4FA500();
     EXPORT void AmbulancesService_4FA790();
 
-    char_type field_0_unused; // set to 1 by init_4FA310, never read
+    char_type field_0; // set to 1 by init_4FA310, never read
     u8 field_1_corpse_count;   // bodies waiting in field_4_patient_queue (an index into the slots below, once)
     char_type field_2_pad;
     char_type field_3_pad;

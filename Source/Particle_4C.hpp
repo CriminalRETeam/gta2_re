@@ -46,7 +46,7 @@ class Particle_4C
     u16 field_2C_counter;
     u16 field_2E;
     Sprite* field_30_pNext;
-    s32 field_34;
+    s32 field_34_unused;
     s32 field_38_state;
     Particle_4C* mpNext; // 0x3C
     Explosion_30* field_40_pExplosion;
@@ -55,6 +55,6 @@ class Particle_4C
     char_type field_47_unused;
     u8 field_48_timer;
     char_type field_49_unused;
-    char_type field_4A;
+    char_type field_4A_unused;
     char_type field_4B_unused;
 };

@@ -89,7 +89,7 @@ class CarAI_78
     Fix16 field_14_speed;
     Fix16 field_18_target_speed;
     Fix16 field_1C_acceleration;
-    s32 field_20_unused;
+    s32 field_20;
 
     union
     {
@@ -109,7 +109,7 @@ class CarAI_78
     char_type field_31_pad;
     char_type field_32_pad;
     char_type field_33_pad;
-    s32 field_34;
+    s32 field_34_unused;
     s32 field_38_junction_turn_direction;
     s32 field_3C_seeking_road;
     s32 field_40_prev_target_direction;
@@ -122,7 +122,7 @@ class CarAI_78
     u16 field_58_off_road_timer;
     s16 field_5A_obstacle_timer;
     Fix16 field_5C_unused;
-    Fix16 field_60;
+    Fix16 field_60_unused;
     Fix16 field_64_unused;
     Car_BC* field_68_car_in_collision; // Car collided
     Car_BC* field_6C_yield_to_car;

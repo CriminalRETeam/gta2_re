@@ -28,7 +28,7 @@ struct svg_stru
     char_type field_4C_last_saved_bonus_stage_code;
     char_type field_4D_last_saved_is_bonus;
     short field_4E_unused;
-    s16 field_50;
+    s16 field_50_unused;
 };
 #pragma pack(pop)
 
@@ -108,9 +108,9 @@ struct kind_beaver_6
     EXPORT ~kind_beaver_6();
 
     s16 field_0;
-    s16 field_2;
+    s16 field_2_unused;
     char_type field_4_is_option_unlocked;   // this control if the menu selection will skip a option or not
-    char_type field_5;
+    char_type field_5_unused;
 };
 
 // todo: move
@@ -249,7 +249,7 @@ struct Frontend
     s16 field_12E_unused;
     s16 field_130;
     u16 field_132_f136_idx;
-    s16 field_134;
+    s16 field_134_unused;
     MenuPage_0xBCA field_136_menu_pages_array[17];
     wchar_t field_C9A0_curr_plyr_name[9];
     u8 field_C9B2_curr_plyr_name_length;

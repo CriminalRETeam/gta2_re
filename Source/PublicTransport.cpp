@@ -288,7 +288,7 @@ Train_58::Train_58()
 
     field_8 = 0;
     field_C_carriages[0] = NULL;
-    field_44 = 0;
+    field_44_unused = 0;
     field_4C_maybe_train_station = 0;
     field_4 = 0;
     field_0 = 0;
@@ -296,7 +296,7 @@ Train_58::Train_58()
     field_48 = 0;
     field_50_state = 2;
     field_54_passenger_timer = 0;
-    field_55 = 0;
+    field_55_unused = 0;
     field_56_passenger_count = 0;
     field_57 = 0;
     pcVar2 = field_38_explosion_timers;
@@ -312,7 +312,7 @@ Train_58::Train_58()
     } while (iVar3 != 0);
     field_38_explosion_timers[10] = -1;
     field_43_idx = 0;
-    field_1 = 0;
+    field_1_unused = 0;
 }
 
 MATCH_FUNC(0x5782c0)
@@ -345,7 +345,7 @@ void Train_58::Stop_578300()
     {
         if (this->field_50_state < 2)
         {
-            this->field_1 = 1;
+            this->field_1_unused = 1;
             ReassignTrainHead_578030();
         }
         this->field_50_state = 2;
@@ -813,7 +813,7 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
                         }
                     }
 
-                    pTrain->field_44 = 0;
+                    pTrain->field_44_unused = 0;
                     pTrain->field_48 = 4;
                     pTrain->field_4C_maybe_train_station = pStation;
                     pTrain->field_56_passenger_count = 6;

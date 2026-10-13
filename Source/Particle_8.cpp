@@ -128,7 +128,7 @@ void Particle_8::EmitBloodBurst_53E450(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
 
             if (pBloodParticle)
             {
-                pBloodParticle->field_34 = 1;
+                pBloodParticle->field_34_unused = 1;
                 pBloodParticle->field_38_state = 1;
                 pBloodParticle->field_2C_counter = 15;
                 pBloodParticle->field_2E = 15;
@@ -149,7 +149,7 @@ void Particle_8::SpawnBlood_53E880(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(xpos, ypos, 0, 0, 0, 0);
     if (pNew4C)
     {
-        pNew4C->field_34 = 1;
+        pNew4C->field_34_unused = 1;
         pNew4C->field_38_state = 39;
         pNew4C->field_2C_counter = 800;
         pNew4C->field_46_sub_state = 0;
@@ -193,7 +193,7 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
             pParticle->field_4_flags |= 1;
             pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 197);
-            pParticle->field_34 = 0;
+            pParticle->field_34_unused = 0;
             pParticle->field_38_state = 40;
             // PolarToCartesian_41FC20 (9.6f) with the results unused: the multiplies stay as calls
             Ang16::sine_40F500(a2->field_0_rotation).Multiply_408680(dword_6FD2E8);
@@ -224,7 +224,7 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
         pParticle->field_4_flags |= 1;
         pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
         pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 197);
-        pParticle->field_34 = 0;
+        pParticle->field_34_unused = 0;
         pParticle->field_38_state = 41;
         Ang16::sine_40F500(a2->field_0_rotation).Multiply_408680(dword_6FD2E8);
         Ang16::cosine_40F520(a2->field_0_rotation).Multiply_408680(dword_6FD2E8);
@@ -250,7 +250,7 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
         pParticle->field_4_flags |= 1;
         pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
         pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 197);
-        pParticle->field_34 = 0;
+        pParticle->field_34_unused = 0;
         pParticle->field_38_state = 40;
         Fix16 dx;
         Fix16 dy;
@@ -318,7 +318,7 @@ void Particle_8::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang1
 
             if (pWaterSplashParticle)
             {
-                pWaterSplashParticle->field_34 = 0;
+                pWaterSplashParticle->field_34_unused = 0;
                 pWaterSplashParticle->field_38_state = 35;
                 pWaterSplashParticle->field_2C_counter = 15;
                 pWaterSplashParticle->field_2E = 15;
@@ -371,7 +371,7 @@ void Particle_8::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
                 Particle_4C* tmp = pParticle;
                 tmp->field_30_pNext->AllocCollisionShape_59F950(dword_6FD554 * dword_6FD508, dword_6FD554 * dword_6FD508, kFP16Quarter_6FD2EC);
                 pParticle->field_38_state = 31;
-                pParticle->field_34 = 0;
+                pParticle->field_34_unused = 0;
                 Fix16 vec_x;
                 Fix16 vec_y;
                 Ang16::PolarToCartesian_41FC20(pSprt->field_0_rotation, dword_6FD2E8, vec_x, vec_y);
@@ -452,7 +452,7 @@ void Particle_8::EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite)
             pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 111);
             pParticle->field_30_pNext->AllocCollisionShape_59F950(dword_6FD554 * dword_6FD508, dword_6FD554 * dword_6FD508, kFP16Quarter_6FD2EC);
-            pParticle->field_34 = 0;
+            pParticle->field_34_unused = 0;
             pParticle->field_38_state = 34;
             Fix16 vec_x;
             Fix16 vec_y;
@@ -532,7 +532,7 @@ void Particle_8::EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16_Poi
         Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(t.x, t.y, dword_6FD330, t.x.DivideInt_53E860(15).Negate_4086A0(), t.y.DivideInt_53E860(15).Negate_4086A0(), 0);
         if (pNew4C)
         {
-            pNew4C->field_34 = 1;
+            pNew4C->field_34_unused = 1;
             pNew4C->field_38_state = 7;
             pNew4C->field_2C_counter = 7;
             pNew4C->field_2E = 7;
@@ -573,7 +573,7 @@ void Particle_8::EmitElectricArcParticle(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang
         Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(vector.x, vector.y, dword_6FD330, 0, 0, 0);
         if (pNew4C)
         {
-            pNew4C->field_34 = 0;
+            pNew4C->field_34_unused = 0;
             pNew4C->field_38_state = 37;
             pNew4C->field_46_sub_state = 0;
             pNew4C->field_2E = pNew4C->field_2C_counter;
@@ -598,7 +598,7 @@ void Particle_8::SpawnParticleSprite_5405D0(Sprite* pSprite)
         if (pNew4C)
         {
             pNew4C->field_28_pSprite = pSprite;
-            pNew4C->field_34 = 0;
+            pNew4C->field_34_unused = 0;
             pNew4C->field_46_sub_state = 0;
 
             pNew4C->field_30_pNext = gSpritePool_703818->get_new_sprite();
@@ -626,7 +626,7 @@ void Particle_8::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type bUnkn
         Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
         if (pNew4C)
         {
-            pNew4C->field_34 = 1;
+            pNew4C->field_34_unused = 1;
 
             if (bUnknown)
             {

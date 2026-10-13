@@ -2073,19 +2073,19 @@ void CC ImGuiDebugDraw()
                     if (obj_3c)
                     {
                         ImGui::SliderS16("Obj3C angle", &obj_3c->field_4_angle.rValue, 0, 1439);
-                        ImGui::InputS16("Obj3C field_6", &obj_3c->field_6, 0, 1439);
+                        ImGui::InputS16("Obj3C field_6_unused", &obj_3c->field_6_unused, 0, 1439);
                         ImGui::Value("Obj3C field_C", obj_3c->field_C_speed.mValue);
                         ImGui::Value("Obj3C field_10", obj_3c->field_10_z_speed.mValue);
                         ImGui::Value("Obj3C field_14", obj_3c->field_14.mValue);
                         ImGui::Value("Obj3C field_18", obj_3c->field_18_friction.mValue);
                         ImGui::Value("Obj3C field_1C", obj_3c->field_1C_z_accel.mValue);
 
-                        ImGui::Value("Obj3C field_2E", obj_3c->field_2E);
+                        ImGui::Value("Obj3C field_2E_unused", obj_3c->field_2E_unused);
                         ImGui::Value("Obj3C field_2F", obj_3c->field_2F_bOnSlope);
 
                         ImGui::Value("Obj3C field_38", obj_3c->field_38_conveyor_speed);
                         ImGui::Value("Obj3C field_39_unused", obj_3c->field_39_unused);
-                        ImGui::Value("Obj3C field_3A", obj_3c->field_3A);
+                        ImGui::Value("Obj3C field_3A_unused", obj_3c->field_3A_unused);
                         ImGui::Value("Obj3C field_3B_unused", obj_3c->field_3B_unused);
                     }
                     ImGui::TreePop();
@@ -2792,7 +2792,7 @@ void CC ImGuiDebugDraw()
                 for (i = 0; i < 25; i++)
                 {
                     PatientSlot_8& j8 = gAmbulance_110_6F70A8->field_8_unused_slots[i];
-                    ImGui::Value("field_0_unused", j8.field_0_unused);
+                    ImGui::Value("field_0", j8.field_0);
                     ImGui::Value("field_4_unused", j8.field_4_unused);
                 }
 
@@ -2835,7 +2835,7 @@ void CC ImGuiDebugDraw()
             if (gObjectDefinitions_6FCF00)
             {
                 ImGui::Value("field_0_next_idx", gObjectDefinitions_6FCF00->field_0_next_idx);
-                ImGui::Value("field_2", gObjectDefinitions_6FCF00->field_2);
+                ImGui::Value("field_2_unused", gObjectDefinitions_6FCF00->field_2_unused);
                 ImGui::Value("field_8CA4_def112_sprite_palette", gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette);
                 ImGui::Value("field_8CA6_unused", gObjectDefinitions_6FCF00->field_8CA6_unused);
 
@@ -3094,7 +3094,7 @@ void CC ImGuiDebugDraw()
 
                 if (pParticle)
                 {
-                    pParticle->field_34 = f_34;
+                    pParticle->field_34_unused = f_34;
                     pParticle->field_38_state = particle_type;
                     pParticle->field_2C_counter = counter;
                     pParticle->field_2E = f_2E;
@@ -3287,10 +3287,10 @@ void CC ImGuiDebugDraw()
                     kind_beaver_6* kind_beaver = &loving_borg->field_B8A[k_beaver_id];
 
                     ImGui::SliderS16("field_0", &kind_beaver->field_0, 0, 1000);
-                    ImGui::SliderS16("field_2", &kind_beaver->field_2, 0, 700);
+                    ImGui::SliderS16("field_2_unused", &kind_beaver->field_2_unused, 0, 700);
 
                     ImGui::Input_char_type("field_4_is_option_unlocked", &kind_beaver->field_4_is_option_unlocked, 1, 1);
-                    ImGui::Input_char_type("field_5", &kind_beaver->field_5, 1, 1);
+                    ImGui::Input_char_type("field_5_unused", &kind_beaver->field_5_unused, 1, 1);
 
                     ImGui::TreePop();
                 }

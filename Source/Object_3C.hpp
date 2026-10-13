@@ -111,7 +111,7 @@ class Object_3C
 
     struct_4 field_0;
     Ang16 field_4_angle;
-    s16 field_6;
+    s16 field_6_unused;
     Object_3C* mpNext;
     Fix16 field_C_speed;
     Fix16 field_10_z_speed;
@@ -122,8 +122,8 @@ class Object_3C
     s32 field_24;
     s16 field_28_next_definition_timer;
     s16 field_2A_bAirborne;
-    s16 field_2C;
-    char_type field_2E;
+    s16 field_2C_unused;
+    char_type field_2E_unused;
     char_type field_2F_bOnSlope;
     u8 field_30_bSkipAnim;
     u8 field_31_unused;
@@ -131,7 +131,7 @@ class Object_3C
     s32 field_34;
     char_type field_38_conveyor_speed;
     char_type field_39_unused;
-    char_type field_3A;
+    char_type field_3A_unused;
     char_type field_3B_unused;
 };
 

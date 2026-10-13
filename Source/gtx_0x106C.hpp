@@ -392,7 +392,7 @@ class gtx_0x106C
     s16 field_4_sprite_index_count;
     u16 field_6_map_object_info_len;
     s16 field_8_physical_palettes_len;
-    s16 field_A;
+    s16 field_A_unused;
     palette_base* field_C_palette_base2;
     palette_base* field_10_palette_base1;
     sprite_base* field_14_sprite_base2;

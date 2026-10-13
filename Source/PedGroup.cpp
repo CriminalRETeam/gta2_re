@@ -54,7 +54,7 @@ void PedGroup::ClearGroupData_4C8E90()
     field_0 = 1;
     field_1_wait_for_members = false;
     field_34_count = 0;
-    field_35 = 0;
+    field_35_unused = 0;
 
     for (int i = 0; i < 9; ++i)
     {
@@ -77,7 +77,7 @@ void PedGroup::Reset_4C8EF0()
     field_0 = 1;
     field_1_wait_for_members = false;
     field_34_count = 0;
-    field_35 = 0;
+    field_35_unused = 0;
     for (s32 i = 0; i < 9; i++)
     {
         field_4_ped_list[i] = 0;

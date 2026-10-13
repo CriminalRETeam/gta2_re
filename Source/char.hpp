@@ -74,9 +74,9 @@ class Char_B4
     }
 
     s32 field_0_id;
-    s8 field_4;
+    s8 field_4_unused;
     u8 field_5_remap;
-    s8 field_6;
+    s8 field_6_unused;
     s8 field_7_unused;
     s32 field_8_ped_state_1;
     s32 field_C_ped_state_2;
@@ -93,9 +93,9 @@ class Char_B4
     Ang16 field_2C_ang;
     s8 field_2E_unused;
     s8 field_2F_unused;
-    s32 field_30;
-    s16 field_34;
-    s8 field_36;
+    s32 field_30_unused;
+    s16 field_34_unused;
+    s8 field_36_unused;
     s8 field_37_unused;
     Fix16 field_38_velocity;
     Fix16 field_3C_run_or_jump_speed;
@@ -122,8 +122,8 @@ class Char_B4
     s8 field_5D_unused;
     s8 field_5E_unused;
     s8 field_5F_unused;
-    s32 field_60;
-    s32 field_64;
+    s32 field_60_unused;
+    s32 field_64_unused;
     u8 field_68_animation_frame;
     s8 field_69_is_colliding_with_sprite;
     u8 field_6A;

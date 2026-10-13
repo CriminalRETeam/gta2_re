@@ -42,17 +42,17 @@ void PoliceCrew_38::Init_5709C0()
     field_4_targ_z = 0;
     field_18 = 0;
     field_1C_used = 0;
-    field_1A = 0;
+    field_1A_unused = 0;
     field_10_subObj = 0;
     field_24_state = police_crew_state::none_0;
     field_28 = 0;
     field_8 = dword_6FECE8;
     field_C = dword_6FECE8;
     field_14_pPursuitTarget = 0;
-    field_1A = 0;
+    field_1A_unused = 0;
     field_29_bCountedInPoliceCount = 0;
     field_2A = 0;
-    field_2C = 0;
+    field_2C_unused = 0;
     field_30 = 0;
     field_34_is_dismissed = 0;
 }
@@ -671,7 +671,7 @@ void PoliceCrew_38::State3_AlertedSearch_572340()
                     break;
             }
             gCurrentCrewPed_6FEDDC = field_10_subObj->field_4_ped;
-            field_1A = 0;
+            field_1A_unused = 0;
         }
         else
         {
@@ -888,7 +888,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
                         break;
                 }
                 gCurrentCrewPed_6FEDDC = field_10_subObj->field_4_ped;
-                field_1A = 0;
+                field_1A_unused = 0;
             }
             else
             {
@@ -1832,10 +1832,10 @@ MATCH_FUNC(0x575710)
 void PoliceRoadblock_A4::Reset_575710()
 {
     field_0_bActive = 0;
-    field_4 = 0;
+    field_4_unused = 0;
     field_8_x = 0;
     field_9_y = 0;
-    field_A = 0;
+    field_A_unused = 0;
     field_C = 0;
     field_10_car_1 = 0;
     field_14_car_2 = 0;

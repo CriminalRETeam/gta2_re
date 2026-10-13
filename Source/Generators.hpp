@@ -22,7 +22,7 @@ class Generator_2C
     Ang16 field_10_rot;
     u16 field_12_min_delay;
     u16 field_14_max_delay;
-    s16 field_16;
+    s16 field_16_unused;
     u32 field_18_cycle;
     u16 field_1C_ammo;
     u16 field_1E_kill_timer;

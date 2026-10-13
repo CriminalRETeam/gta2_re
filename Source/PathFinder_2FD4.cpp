@@ -241,9 +241,9 @@ void PathFinder_2FD4::Init_5545E0()
 {
     memset(this->field_40_grid, 0, sizeof(this->field_40_grid));
     field_38_bComputePathInProgress = 0;
-    field_34 = 1;
-    field_36 = 0;
-    field_3A = 0;
+    field_34_unused = 1;
+    field_36_unused = 0;
+    field_3A_unused = 0;
     field_2FD0_bTimedOut = 1;
     field_2FD1_time_out_counter = 0;
 }
@@ -453,8 +453,8 @@ bool PathFinder_2FD4::ProcessGridCell_5548C0()
     else if (v2 == 2)
     {
         field_18 = 0;
-        field_19 = 1;
-        field_1A = 1;
+        field_19_unused = 1;
+        field_1A_unused = 1;
         return 1;
     }
     return 0;
@@ -646,8 +646,8 @@ char_type PathFinder_2FD4::ComputePath_554AB0(s32 ped_id,
             if (field_25_xpos == field_11_xEnd && field_26_ypos == field_12_yEnd && field_27_zpos == field_13_zEnd)
             {
                 field_18 = 0;
-                field_19 = 1;
-                field_1A = 1;
+                field_19_unused = 1;
+                field_1A_unused = 1;
                 goto LABEL_35;
             }
             field_20_xpos = gPathFinder_best_x_6FDECA;
@@ -738,7 +738,7 @@ char_type PathFinder_2FD4::ComputePath_554AB0(s32 ped_id,
             if (!field_C_node_count)
             {
                 field_18 = 0;
-                field_19 = 1;
+                field_19_unused = 1;
                 PathFinder_2FD4::RestoreSavedPosition_554920();
                 if (gPathFinder_best_x_6FDECA)
                 {
@@ -905,7 +905,7 @@ bool PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* 
     field_26_ypos = default_pos;
     field_25_xpos = default_pos;
     field_28 = *xpos - 16;
-    field_29 = *ypos - 16;
+    field_29_unused = *ypos - 16;
     PathFinder_2FD4::ClearGrid_5545C0();
     field_E_xStart = *xpos;
     field_F_yStart = *ypos;

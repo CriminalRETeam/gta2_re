@@ -3482,7 +3482,7 @@ sound_obj::sound_obj()
     GenerateIntegerRandomNumberTable_41BA90();
 
     field_1478_type5Idx = 0;
-    field_1B = 0;
+    field_1B_unused = 0;
     field_1C_samp_count = 0;
     field_10_nActiveSamples = 0;
     field_5444_unused = 0;
@@ -3490,7 +3490,7 @@ sound_obj::sound_obj()
     field_1D_b3d_sound = 0;
     field_14_sample_rate = 22050;
     field_18 = 1;
-    field_19 = 1;
+    field_19_unused = 1;
     field_1_isPaused = 0;
     field_1A_bDoubleVolume = 1;
 

@@ -29,7 +29,7 @@ Door_38::Door_38()
     field_20_state = 0;
     field_24_close_type = 0;
     field_10_model_id = 0;
-    field_18_unused = 0;
+    field_18 = 0;
     field_28_bClosing = 1;
     field_2C_bCanAutoOpen = 1;
     field_1C_close_delay = 0;

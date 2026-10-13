@@ -35,7 +35,7 @@ Police_7B8::~Police_7B8()
 MATCH_FUNC(0x56f400)
 void Police_7B8::Init_56F400()
 {
-    field_0_unused = 1;
+    field_0 = 1;
     for (s32 i = 0; i < MAX_PURSUIT_TARGETS; i++)
     {
         field_464_pursuit_targets[i].field_0_criminal_ped = NULL;
@@ -47,7 +47,7 @@ void Police_7B8::Init_56F400()
         field_464_pursuit_targets[i].field_72_num_swat_crews = 0;
         field_464_pursuit_targets[i].field_73_num_fbi_crews = 0;
         field_464_pursuit_targets[i].field_74_num_army_crews = 0;
-        field_464_pursuit_targets[i].field_76 = 0;
+        field_464_pursuit_targets[i].field_76_unused = 0;
 
         field_464_pursuit_targets[i].field_4_wanted_level = cop_level_enum::none_0;
         field_464_pursuit_targets[i].field_8_state = pursuit_state::idle_0;
@@ -750,7 +750,7 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
                 pPursuitTarget->field_70_num_police_crews = 0;
                 pPursuitTarget->field_71_target_police_crews = 0;
                 pPursuitTarget->field_75_num_crews = 0;
-                pPursuitTarget->field_76 = 0;
+                pPursuitTarget->field_76_unused = 0;
                 pPursuitTarget->field_E = 0;
                 bHaveCriminals_6FEE44--;
                 gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit = crew_type::police_3;

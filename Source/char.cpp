@@ -236,9 +236,9 @@ MATCH_FUNC(0x544ff0)
 Char_B4::Char_B4()
 {
     field_0_id = 0;
-    field_4 = 0;
+    field_4_unused = 0;
     field_5_remap = -1;
-    field_6 = 0;
+    field_6_unused = 0;
     field_8_ped_state_1 = 11;
     field_C_ped_state_2 = 28;
     field_10_char_state = 36;
@@ -251,8 +251,8 @@ Char_B4::Char_B4()
     field_28 = kAng0_6FDB34;
     field_2A = kAng0_6FDB34;
     field_2C_ang = kAng0_6FDB34;
-    field_30 = 4;
-    field_34 = 0;
+    field_30_unused = 4;
+    field_34_unused = 0;
     field_38_velocity = kZeroVelocity_6FD7C0;
     field_3C_run_or_jump_speed = gRunOrJumpSpeed_6FD7D0;
     field_40_rotation = kAng0_6FDB34;
@@ -323,9 +323,9 @@ void Char_B4::PoolAllocate()
 {
     field_0_id = gB4_id_6FDB4C++;
     Char_B4::InitSprite_5456A0();
-    field_4 = 1;
+    field_4_unused = 1;
     field_5_remap = -1;
-    field_6 = 0;
+    field_6_unused = 0;
     field_8_ped_state_1 = 11;
     field_C_ped_state_2 = 28;
     field_10_char_state = 36;
@@ -338,8 +338,8 @@ void Char_B4::PoolAllocate()
     field_28 = kAng0_6FDB34;
     field_2A = kAng0_6FDB34;
     field_2C_ang = kAng0_6FDB34;
-    field_30 = 4;
-    field_34 = 0;
+    field_30_unused = 4;
+    field_34_unused = 0;
     field_38_velocity = kZeroVelocity_6FD7C0;
     field_3C_run_or_jump_speed = gRunOrJumpSpeed_6FD7D0;
     field_40_rotation = kAng0_6FDB34;
@@ -381,8 +381,8 @@ void Char_B4::PoolAllocate()
     field_73_next_tile_y = kFP16Zero_6FD9E4.ToInt();
     field_58_flags_bf.b6 = 0;
     field_58_flags_bf.b7 = 0;
-    field_60 = 0;
-    field_64 = 0;
+    field_60_unused = 0;
+    field_64_unused = 0;
     field_55 = 0;
     field_A0 = 0;
     field_B0_scream_timer = -1;
@@ -5192,7 +5192,7 @@ void Char_B4::ChooseNextMovementTile_551400()
                 {
                     field_72_next_tile_x = gCharB4_Saved_TileX_6FDAD8 + 1;
                     field_73_next_tile_y = gCharB4_Saved_TileY_6FDAD9;
-                    field_60 = 3;
+                    field_60_unused = 3;
                     field_55 = 40;
                     return;
                 }
@@ -5203,7 +5203,7 @@ void Char_B4::ChooseNextMovementTile_551400()
                     {
                         field_72_next_tile_x = gCharB4_Saved_TileX_6FDAD8 - 1;
                         field_73_next_tile_y = gCharB4_Saved_TileY_6FDAD9;
-                        field_60 = 4;
+                        field_60_unused = 4;
                         field_55 = 40;
                         return;
                     }
@@ -5216,7 +5216,7 @@ void Char_B4::ChooseNextMovementTile_551400()
                 {
                     field_72_next_tile_x = gCharB4_Saved_TileX_6FDAD8 - 1;
                     field_73_next_tile_y = gCharB4_Saved_TileY_6FDAD9;
-                    field_60 = 4;
+                    field_60_unused = 4;
                     field_55 = 40;
                     return;
                 }
@@ -5227,7 +5227,7 @@ void Char_B4::ChooseNextMovementTile_551400()
                     {
                         field_72_next_tile_x = gCharB4_Saved_TileX_6FDAD8 + 1;
                         field_73_next_tile_y = gCharB4_Saved_TileY_6FDAD9;
-                        field_60 = 3;
+                        field_60_unused = 3;
                         field_55 = 40;
                         return;
                     }
@@ -6282,7 +6282,7 @@ void Char_B4::state_9_552E90()
             }
         }
 
-        field_34 = 0;
+        field_34_unused = 0;
         gSpriteGrid_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_80_sprite_ptr);
         Char_B4::ManageZCoordAndSlopes_548590();
         field_80_sprite_ptr->set_xyz_lazy_420600(field_4C_conveyor_dx + field_80_sprite_ptr->field_14_xy.x,

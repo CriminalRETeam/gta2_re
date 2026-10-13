@@ -17,7 +17,7 @@ class Miss2_C
     };
     u8 field_4_type; // determines what the union types are
     s8 field_5_unused;
-    s8 field_6;
+    s8 field_6_unused;
     s8 field_7_unused;
     s32 field_8_entity_id;
 };

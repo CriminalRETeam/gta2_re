@@ -30,7 +30,7 @@ class Standard_Packet
 {
   public:
     char_type field_0_std_packet_subtype;
-    s32 field_1;
+    s32 field_1_unused;
 };
 
 class Packet_SubType_3
@@ -64,7 +64,7 @@ struct Network_Data
 {
     u8 field_0;
     u8 field_1_tick;
-    u8 field_2;
+    u8 field_2_unused;
     u8 field_3_type;
     u8 field_4_length;
     void* field_5_data;
@@ -268,7 +268,7 @@ struct NetPlay
     //s32 field_0_vtbl;
     char field_4_bModem;
     char field_5_modem_num;
-    char field_6;
+    char field_6_unused;
     char field_7_unused;
     GUID field_8_ip_or_ipx_guid;
     s32 field_18;

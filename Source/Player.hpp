@@ -335,14 +335,14 @@ class Player
     }
 
     u8 field_0_bIsUser;
-    char_type field_1;
-    char_type field_2;
+    char_type field_1_unused;
+    char_type field_2_unused;
     char_type field_3_pad;
     u32 field_4_inputs;
     Ang16 field_8_turn_speed;
     Ang16 field_A_turn_accel;
     Fix16 field_C_move_direction;
-    s32 field_10_unused;
+    s32 field_10;
     s16 field_14_saved_ped_weapon_idx;
     s16 field_16_saved_car_weapon_idx;
 

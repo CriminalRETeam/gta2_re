@@ -82,7 +82,7 @@ class RouteFinder_10
     u16 field_0_idx;
     u16 field_2_cost;
     s16 field_4_expanded;
-    s16 field_6;
+    s16 field_6_unused;
     RouteFinder_10* field_8_pParent;
     RouteFinder_10* field_C_pNext;
 };
@@ -133,9 +133,9 @@ class RouteFinder
 
     u16 field_0_route_count;
     u8 field_2;
-    char_type field_3;
+    char_type field_3_unused;
     s16 field_4;
-    s16 field_6;
+    s16 field_6_unused;
     Junction_10 field_8_junctions[545];
     RouteFinder_200 field_2218_routes[50];
     u16 field_8618_idx;

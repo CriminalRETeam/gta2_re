@@ -120,7 +120,7 @@ class Game_0x40
     u8 field_24_cur_idx;
     char_type field_25_unused;
     char_type field_26_unused;
-    char_type field_27;
+    char_type field_27_unused;
     s32 field_28_timer;
     s32 field_2C_game_exit_type;
     char_type field_30_bLimitFramerate;
@@ -130,8 +130,8 @@ class Game_0x40
     s32 field_34_network_frame_ms;
     Player* field_38_orf1;
     bool field_3C_bSkipPolice;
-    char_type field_3D;
-    char_type field_3E;
+    char_type field_3D_unused;
+    char_type field_3E_unused;
     char_type field_3F_unused;
 };
 

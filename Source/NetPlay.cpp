@@ -2323,7 +2323,7 @@ s32 NetPlay::SendGiveUp_521DB0(s32 player_idx)
 {
     Standard_Packet payload;
     payload.field_0_std_packet_subtype = std_packet_subtype::GiveUp_1;
-    payload.field_1 = player_idx;
+    payload.field_1_unused = player_idx;
 
     u32 dataLen;
     s32 pData;

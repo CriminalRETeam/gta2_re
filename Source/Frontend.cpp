@@ -3519,7 +3519,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     // local_4 = (-(ushort)(cVar1 != 'j') & 0xfffc) + 0x10;
 
     s32 v2 = gText_0x14_704DFC->field_10_lang_code != 'j' ? 12 : 16;
-    field_134 = 16;
+    field_134_unused = 16;
 
     field_136_menu_pages_array[0].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[0].field_4_options_array[0].field_2_x_pos = 300; // ebx
@@ -3540,11 +3540,11 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     wcsncpy(field_136_menu_pages_array[0].field_4_options_array[2].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("quit"), 0x32u);
     field_136_menu_pages_array[0].field_4_options_array[2].field_80_menu_page_target = 9;
     field_136_menu_pages_array[0].field_B8A[0].field_0 = 280;
-    field_136_menu_pages_array[0].field_B8A[0].field_2 = 258;
+    field_136_menu_pages_array[0].field_B8A[0].field_2_unused = 258;
     field_136_menu_pages_array[0].field_B8A[1].field_0 = 280;
-    field_136_menu_pages_array[0].field_B8A[1].field_2 = 278;
+    field_136_menu_pages_array[0].field_B8A[1].field_2_unused = 278;
     field_136_menu_pages_array[0].field_B8A[2].field_0 = 280;
-    field_136_menu_pages_array[0].field_B8A[2].field_2 = 298;
+    field_136_menu_pages_array[0].field_B8A[2].field_2_unused = 298;
     field_136_menu_pages_array[0].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[0].field_BC8_default_option_idx = 0;
     field_136_menu_pages_array[1].field_0_number_of_options = 5;
@@ -3593,15 +3593,15 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[1].field_4_options_array[4].field_80_menu_page_target = 265;
     field_136_menu_pages_array[1].field_B8A[0].field_0 = 280;
-    field_136_menu_pages_array[1].field_B8A[0].field_2 = 218;
+    field_136_menu_pages_array[1].field_B8A[0].field_2_unused = 218;
     field_136_menu_pages_array[1].field_B8A[1].field_0 = 280;
-    field_136_menu_pages_array[1].field_B8A[1].field_2 = 238;
+    field_136_menu_pages_array[1].field_B8A[1].field_2_unused = 238;
     field_136_menu_pages_array[1].field_B8A[2].field_0 = 280;
-    field_136_menu_pages_array[1].field_B8A[2].field_2 = 258;
+    field_136_menu_pages_array[1].field_B8A[2].field_2_unused = 258;
     field_136_menu_pages_array[1].field_B8A[3].field_0 = 280;
-    field_136_menu_pages_array[1].field_B8A[3].field_2 = 278;
+    field_136_menu_pages_array[1].field_B8A[3].field_2_unused = 278;
     field_136_menu_pages_array[1].field_B8A[4].field_0 = 280;
-    field_136_menu_pages_array[1].field_B8A[4].field_2 = 358;
+    field_136_menu_pages_array[1].field_B8A[4].field_2_unused = 358;
     field_136_menu_pages_array[1].field_BC6_current_option_idx = 3;
     field_136_menu_pages_array[1].field_BC8_default_option_idx = 3;
     field_136_menu_pages_array[1].field_2_number_of_elements = 10;
@@ -3690,11 +3690,11 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
                              320);
     field_136_menu_pages_array[11].field_4_options_array[2].field_80_menu_page_target = 0;
     field_136_menu_pages_array[11].field_B8A[0].field_0 = 150;
-    field_136_menu_pages_array[11].field_B8A[0].field_2 = 400;
+    field_136_menu_pages_array[11].field_B8A[0].field_2_unused = 400;
     field_136_menu_pages_array[11].field_B8A[1].field_0 = 150;
-    field_136_menu_pages_array[11].field_B8A[1].field_2 = 420;
+    field_136_menu_pages_array[11].field_B8A[1].field_2_unused = 420;
     field_136_menu_pages_array[11].field_B8A[2].field_0 = 150;
-    field_136_menu_pages_array[11].field_B8A[2].field_2 = 440;
+    field_136_menu_pages_array[11].field_B8A[2].field_2_unused = 440;
     field_136_menu_pages_array[11].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[11].field_BC8_default_option_idx = 0;
     field_136_menu_pages_array[2].field_0_number_of_options = 3;
@@ -3738,11 +3738,11 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
                              320);
     field_136_menu_pages_array[2].field_4_options_array[2].field_80_menu_page_target = 0;
     field_136_menu_pages_array[2].field_B8A[0].field_0 = 150;
-    field_136_menu_pages_array[2].field_B8A[0].field_2 = 400;
+    field_136_menu_pages_array[2].field_B8A[0].field_2_unused = 400;
     field_136_menu_pages_array[2].field_B8A[1].field_0 = 150;
-    field_136_menu_pages_array[2].field_B8A[1].field_2 = 420;
+    field_136_menu_pages_array[2].field_B8A[1].field_2_unused = 420;
     field_136_menu_pages_array[2].field_B8A[2].field_0 = 150;
-    field_136_menu_pages_array[2].field_B8A[2].field_2 = 440;
+    field_136_menu_pages_array[2].field_B8A[2].field_2_unused = 440;
     field_136_menu_pages_array[2].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[2].field_BC8_default_option_idx = 0;
     field_136_menu_pages_array[3].field_0_number_of_options = 5;
@@ -3805,15 +3805,15 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
                              320);
     field_136_menu_pages_array[3].field_4_options_array[4].field_80_menu_page_target = 0;
     field_136_menu_pages_array[3].field_B8A[0].field_0 = 150;
-    field_136_menu_pages_array[3].field_B8A[0].field_2 = 373;
+    field_136_menu_pages_array[3].field_B8A[0].field_2_unused = 373;
     field_136_menu_pages_array[3].field_B8A[1].field_0 = 150;
-    field_136_menu_pages_array[3].field_B8A[1].field_2 = 393;
+    field_136_menu_pages_array[3].field_B8A[1].field_2_unused = 393;
     field_136_menu_pages_array[3].field_B8A[2].field_0 = 150;
-    field_136_menu_pages_array[3].field_B8A[2].field_2 = 413;
+    field_136_menu_pages_array[3].field_B8A[2].field_2_unused = 413;
     field_136_menu_pages_array[3].field_B8A[3].field_0 = 150;
-    field_136_menu_pages_array[3].field_B8A[3].field_2 = 433;
+    field_136_menu_pages_array[3].field_B8A[3].field_2_unused = 433;
     field_136_menu_pages_array[3].field_B8A[4].field_0 = 150;
-    field_136_menu_pages_array[3].field_B8A[4].field_2 = 453;
+    field_136_menu_pages_array[3].field_B8A[4].field_2_unused = 453;
     field_136_menu_pages_array[3].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[3].field_BC8_default_option_idx = 0;
     field_136_menu_pages_array[4].field_0_number_of_options = 1;
@@ -3836,7 +3836,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[4].field_4_options_array[0].field_80_menu_page_target = 0;
     field_136_menu_pages_array[4].field_B8A[0].field_0 = 160;
-    field_136_menu_pages_array[4].field_B8A[0].field_2 = 418;
+    field_136_menu_pages_array[4].field_B8A[0].field_2_unused = 418;
     field_136_menu_pages_array[4].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[4].field_BC8_default_option_idx = 0;
     field_136_menu_pages_array[5].field_0_number_of_options = 1;
@@ -3855,7 +3855,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     } while (v323 <= field_136_menu_pages_array[5].field_4_options_array[0].field_7E_horizontal_max_idx);
 
     field_136_menu_pages_array[5].field_B8A[0].field_0 = 280;
-    field_136_menu_pages_array[5].field_B8A[0].field_2 = 163;
+    field_136_menu_pages_array[5].field_B8A[0].field_2_unused = 163;
     field_136_menu_pages_array[5].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[5].field_BC8_default_option_idx = 0;
     field_136_menu_pages_array[5].field_518_elements_array[0].field_0_element_type = GEOMETRIC_SHAPE_3;
@@ -3934,11 +3934,11 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
                              320);
     field_136_menu_pages_array[6].field_4_options_array[2].field_80_menu_page_target = 0;
     field_136_menu_pages_array[6].field_B8A[0].field_0 = 150;
-    field_136_menu_pages_array[6].field_B8A[0].field_2 = 348;
+    field_136_menu_pages_array[6].field_B8A[0].field_2_unused = 348;
     field_136_menu_pages_array[6].field_B8A[1].field_0 = 150;
-    field_136_menu_pages_array[6].field_B8A[1].field_2 = 368;
+    field_136_menu_pages_array[6].field_B8A[1].field_2_unused = 368;
     field_136_menu_pages_array[6].field_B8A[2].field_0 = 150;
-    field_136_menu_pages_array[6].field_B8A[2].field_2 = 388;
+    field_136_menu_pages_array[6].field_B8A[2].field_2_unused = 388;
     field_136_menu_pages_array[6].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[6].field_BC8_default_option_idx = 0;
     field_136_menu_pages_array[7].field_0_number_of_options = 1;
@@ -4008,7 +4008,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
                    320);
     field_136_menu_pages_array[7].field_4_options_array[0].field_80_menu_page_target = 258;
     field_136_menu_pages_array[7].field_B8A[0].field_0 = 180;
-    field_136_menu_pages_array[7].field_B8A[0].field_2 = 438;
+    field_136_menu_pages_array[7].field_B8A[0].field_2_unused = 438;
     field_136_menu_pages_array[7].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[7].field_BC8_default_option_idx = 0;
     field_136_menu_pages_array[8].field_0_number_of_options = 1;
@@ -4021,7 +4021,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[8].field_4_options_array[0].field_80_menu_page_target = 0;
     field_136_menu_pages_array[8].field_B8A[0].field_0 = 180;
-    field_136_menu_pages_array[8].field_B8A[0].field_2 = 288;
+    field_136_menu_pages_array[8].field_B8A[0].field_2_unused = 288;
     field_136_menu_pages_array[8].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[8].field_BC8_default_option_idx = 0;
     field_136_menu_pages_array[10].field_0_number_of_options = 1;
@@ -4044,7 +4044,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     field_136_menu_pages_array[10].field_4_options_array[0].field_80_menu_page_target = 0;
     field_136_menu_pages_array[10].field_B8A[0].field_0 = 160;
-    field_136_menu_pages_array[10].field_B8A[0].field_2 = 418;
+    field_136_menu_pages_array[10].field_B8A[0].field_2_unused = 418;
     field_136_menu_pages_array[10].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[10].field_BC8_default_option_idx = 0;
     field_136_menu_pages_array[14].field_0_number_of_options = 1;
@@ -4082,7 +4082,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             gText_0x14_704DFC->Find_5B5F90("score"),
             0x32u);
     field_136_menu_pages_array[14].field_B8A[0].field_0 = 150;
-    field_136_menu_pages_array[14].field_B8A[0].field_2 = 348; //  TODO: check for wrong var
+    field_136_menu_pages_array[14].field_B8A[0].field_2_unused = 348; //  TODO: check for wrong var
     field_136_menu_pages_array[14].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[14].field_BC8_default_option_idx = 0;
     field_EE0E_credits.LoadCredits_483F20();
@@ -5304,7 +5304,7 @@ MATCH_FUNC(0x4B6260)
 kind_beaver_6::kind_beaver_6()
 {
     field_0 = 0;
-    field_2 = 0;
+    field_2_unused = 0;
     field_4_is_option_unlocked = 1;
 }
 
@@ -5312,7 +5312,7 @@ MATCH_FUNC(0x4B6280)
 kind_beaver_6::~kind_beaver_6()
 {
     field_0 = 0;
-    field_2 = 0;
+    field_2_unused = 0;
     field_4_is_option_unlocked = 1;
 }
 

@@ -340,7 +340,7 @@ class Object_2C
     u8 field_26_ped_ref_idx; // Seems to be a generic index. Sometimes it's the current idx of its object type. For many objects, it's unused (equal to 99).
     char_type field_27;
     char_type field_28;
-    char_type field_29;
+    char_type field_29_unused;
     char_type field_2A;
     char_type field_2B_unused;
 };
@@ -406,8 +406,8 @@ class Object_5C
     s32 field_10_rotation_counter;
     s32 field_14_sprites_in_list;
     u8 field_18_pending_damage_owner;
-    u8 field_19;
-    u16 field_1A;
+    u8 field_19_unused;
+    u16 field_1A_unused;
     struct_4 field_1C_sprite_list;
     u8 field_20_bUnCollectedTokens[50];
     u16 field_52_unused; // pad?

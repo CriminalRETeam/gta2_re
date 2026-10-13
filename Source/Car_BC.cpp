@@ -1709,7 +1709,7 @@ Car_6C::Car_6C()
 
     field_64_zpos = gFix16_6777CC;
     field_60 = 0;
-    field_4 = 0;
+    field_4_unused = 0;
     field_14_next_car_id = 1;
     field_9_good_car_idx = 0;
     field_8 = 0;
@@ -1796,7 +1796,7 @@ Car_6C::~Car_6C()
         gSprite_Unused_677938 = 0;
     }
 
-    field_4 = 0;
+    field_4_unused = 0;
 }
 
 MATCH_FUNC(0x4451E0)
@@ -7118,7 +7118,7 @@ MATCH_FUNC(0x582310)
 Car_14::Car_14()
 {
     field_9 = 0;
-    field_A = 0;
+    field_A_unused = 0;
     field_8 = 0;
     field_0_cam = NULL;
     field_C_player = NULL;
@@ -7225,7 +7225,7 @@ void Car_14::MakeTrafficForCurrCamera_5832C0()
         // dword_6FF7E8 (as in 9.6f) made VC6 compute the height first
         dword_6FF7E8 = (t)*wanted_related;
         this->field_9 = 1;
-        this->field_A = 1;
+        this->field_A_unused = 1;
 
         u8 rng_int = gRng_6F6784.get_uint8_4F7B70(5);
         bool maybe_vel = !!(field_0_cam->ReturnOwnerVelocity_435A20() > kFpZero_6FF580);

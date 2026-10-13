@@ -146,13 +146,13 @@ class Car_6C
     // 9.6f 0x421960
     inline Ped* GetSpareDriver_421960()
     {
-        return field_4;
+        return field_4_unused;
     }
 
     // 9.6f 0x421970
     inline void SetSpareDriver_421970(Ped* pPed)
     {
-        field_4 = pPed;
+        field_4_unused = pPed;
     }
 
     void sub_4C39F0()
@@ -276,8 +276,8 @@ class Car_6C
     }
 
     Car_2 field_0;
-    s16 field_2;
-    Ped* field_4;
+    s16 field_2_unused;
+    Ped* field_4_unused;
     char_type field_8;
     u8 field_9_good_car_idx;
     u8 field_A_bad_car_idx;
@@ -287,9 +287,9 @@ class Car_6C
     Car_2 field_12;
     s32 field_14_next_car_id;
     char_type field_18;
-    char_type field_19;
+    char_type field_19_unused;
     char_type field_1A_fire_effect_cycle;
-    char_type field_1B;
+    char_type field_1B_unused;
     s32 field_1C_explosion_offset_cycle;
     s32 field_20;
     s32 field_24;
@@ -316,7 +316,7 @@ class Car_6C
     Fix16 field_64_zpos;
     char_type field_68;
     char_type field_69_do_free_shopping;
-    char_type field_6A;
+    char_type field_6A_unused;
     char_type field_6B_unused;
 };
 
@@ -361,9 +361,9 @@ class Trailer
     }
 
     char_type field_0;
-    char_type field_1;
-    char_type field_2;
-    char_type field_3;
+    char_type field_1_unused;
+    char_type field_2_unused;
+    char_type field_3_unused;
     Trailer* mpNext;
     Car_BC* field_8_truck_cab;
     Car_BC* field_C_pCarOnTrailer;
@@ -1473,7 +1473,7 @@ struct Car_14
     Fix16_Rect* field_4_rect;
     s8 field_8;
     s8 field_9;
-    s8 field_A;
+    s8 field_A_unused;
     s8 field_B_unused;
     Player* field_C_player;
     gmp_zone_info* field_10_zone;

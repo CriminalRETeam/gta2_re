@@ -27,7 +27,7 @@ struct str_table_entry
 struct str_table_normalized
 {
     u16 field_0_string_count;
-    s16 field_2; // pad ?
+    s16 field_2_unused; // pad ?
     str_table_entry* field_4[999];
 };
 
@@ -495,7 +495,7 @@ class ThreadTrigger_C
     s32 field_0_ped_id;
     s32 field_4_obj_f14;
     u16 field_8_cmd_line;
-    u16 field_A;
+    u16 field_A_unused;
 };
 
 // Player/world info
@@ -564,7 +564,7 @@ struct SavedScriptCounter_4
 struct SavedCarAndScriptData_500
 {
     SavedCarInfo field_0; // 3x saved cars
-    s16 field_44; // pad ??
+    s16 field_44_unused; // pad ??
     s16 field_46_script_ptr_count; // count of populated array entries
     s32 field_48_flags;
     s32 field_4C; // never used ?
@@ -584,7 +584,7 @@ class SaveData_748
     char_type field_4D_bonus_stage;
     char_type field_4E_pad;
     char_type field_4F_pad;
-    s32 field_50; // never used ?
+    s32 field_50_unused; // never used ?
     SavedPlayerStats_90 field_54_player_and_world_stats;
     SavedCarAndScriptData_500 field_E4_car_and_script_data;
     SavedObjectData_164 field_5E4_object_data;
@@ -684,7 +684,7 @@ class ScriptManager_C1EA8
     EXPORT ~ScriptManager_C1EA8();
 
     s16 field_0_car_trigger_count;
-    s16 field_2;
+    s16 field_2_unused;
     ThreadTrigger_C field_4_car_triggers[32];
     s16 field_184_phone_trigger_count;
     s16 field_186_unused;

@@ -167,10 +167,10 @@ class Weapon_30
     u8 field_2_reload_speed;
     s8 field_3_unused;
     s32 field_4_bTargetHit;
-    s32 field_8_unused;
+    s32 field_8;
     s32 field_C_unused;
-    s16 field_10_unused;
-    s16 field_12_unused;
+    s16 field_10;
+    s16 field_12;
     Car_BC* field_14_car;
     Weapon_30* mpNext;
     s32 field_1C_idx; // weapon_type

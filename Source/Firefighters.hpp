@@ -42,7 +42,7 @@ class Firefighter_28
     EXPORT void Reset_4A85E0();
 
     s16 field_0_id;
-    s16 field_2;
+    s16 field_2_unused;
     s32 field_4_bActive;
     s32 field_8_state; // firefighter_state
     Car_BC* field_C_target_car;

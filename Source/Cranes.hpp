@@ -108,7 +108,7 @@ class Crane_15C
     Fix16 field_90_hook_radius; //  Radial distance
     Fix16 field_94_hook_radius_speed;
     Fix16 field_98_crane_angle_speed;
-    Fix16 field_9C;
+    Fix16 field_9C_unused;
     Fix16 field_A0_hook_axial_angle;  // The angle in its own rotation axis, e.g. the angle of the lifted car
     Fix16 field_A4_hook_axial_angle_speed;
     Fix16 field_A8_home_angle;

@@ -449,7 +449,7 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
                 Particle_4C* pSegment = gParticle_8_6FD5E8->New_53E3C0(0, 0, 0, 0, 0, 0);
                 if (pSegment)
                 {
-                    pSegment->field_34 = 0;
+                    pSegment->field_34_unused = 0;
                     pSegment->field_38_state = 43;
                     pSegment->field_2C_counter = 50;
                     pSegment->field_46_sub_state = 0;
@@ -849,7 +849,7 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
                 Particle_4C* pSmoke = gParticle_8_6FD5E8->New_53E3C0(0, 0, 0, 0, 0, 0);
                 if (pSmoke)
                 {
-                    pSmoke->field_34 = 1;
+                    pSmoke->field_34_unused = 1;
                     pSmoke->field_38_state = 6;
                     pSmoke->field_2C_counter = 100;
                     pSmoke->field_2E = 100;

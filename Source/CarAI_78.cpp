@@ -5277,7 +5277,7 @@ CarAI_78::CarAI_78()
     this->field_14_speed = kF16Zero_677B90;
     this->field_18_target_speed = kDefaultTargetSpeed_677CB4;
     this->field_1C_acceleration = kDefaultAcceleration_6779A4;
-    this->field_20_unused = 0;
+    this->field_20 = 0;
     this->field_56_route_pos = 0;
     this->field_28_junc_idx = -1;
     this->field_29_pad = 0;
@@ -5288,11 +5288,11 @@ CarAI_78::CarAI_78()
     this->field_2E_arrow_cur = 0;
     this->field_2F_arrow_end = 0;
     this->field_5C_unused = kF16Zero_677B90;
-    this->field_60 = kF16Zero_677B90;
+    this->field_60_unused = kF16Zero_677B90;
     this->field_64_unused = kF16Zero_677B90;
     this->field_68_car_in_collision = 0;
     this->field_6C_yield_to_car = 0;
-    this->field_34 = 0;
+    this->field_34_unused = 0;
     this->field_38_junction_turn_direction = 0;
     this->field_3C_seeking_road = 0;
     this->field_40_prev_target_direction = 0;
@@ -5322,7 +5322,7 @@ void CarAI_78::PoolAllocate()
     this->field_14_speed = kF16Zero_677B90;
     this->field_18_target_speed = kDefaultTargetSpeed_677CB4;
     this->field_1C_acceleration = kDefaultAcceleration_6779A4;
-    this->field_20_unused = 0;
+    this->field_20 = 0;
     this->field_56_route_pos = 0;
     this->field_28_junc_idx = -1;
     this->field_29_pad = 0;
@@ -5333,11 +5333,11 @@ void CarAI_78::PoolAllocate()
     this->field_2E_arrow_cur = 0;
     this->field_2F_arrow_end = 0;
     this->field_5C_unused = kF16Zero_677B90;
-    this->field_60 = kF16Zero_677B90;
+    this->field_60_unused = kF16Zero_677B90;
     this->field_64_unused = kF16Zero_677B90;
     this->field_68_car_in_collision = 0;
     this->field_6C_yield_to_car = 0;
-    this->field_34 = 0;
+    this->field_34_unused = 0;
     this->field_38_junction_turn_direction = 0;
     this->field_3C_seeking_road = 0;
     this->field_40_prev_target_direction = 0;

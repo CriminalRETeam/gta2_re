@@ -108,7 +108,7 @@ ExplodingScore_50::ExplodingScore_50()
     field_3C = 0;
     field_40 = 0;
     field_4C_score = 0;
-    field_48 = 0;
+    field_48_unused = 0;
     mpNext = 0;
     field_34_palette = 9;
 }
