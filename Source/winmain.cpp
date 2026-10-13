@@ -788,9 +788,9 @@ EXPORT void InitVideo_5D96C0()
 
     if (GetHwndDCDeviceCaps_5D9800() == 16) // 16 bpp?
     {
-        bool cVar1 = Vid_FindDevice_5D9290();
+        bool bDeviceFound = Vid_FindDevice_5D9290();
         bWindowedModeAvailable_706C5C = 1;
-        if (!cVar1)
+        if (!bDeviceFound)
         {
             bWindowedModeAvailable_706C5C = 0;
         }

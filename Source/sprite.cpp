@@ -280,19 +280,19 @@ MATCH_FUNC(0x48f710)
 void SpriteMaskCache_3CC::InvalidateAllMasks_48F710()
 {
     SpriteMask_14* psVar1 = field_0_masks;
-    s32 iVar2 = 0x30;
+    s32 remaining = 0x30;
     do
     {
         psVar1->Invalidate_44AF70();
         psVar1++;
-        iVar2--;
-    } while (iVar2 != 0);
+        remaining--;
+    } while (remaining != 0);
 }
 
 MATCH_FUNC(0x48f730)
 SpriteMaskCache_3CC::SpriteMaskCache_3CC()
 {
-    u32 iVar4;
+    u32 row;
     field_3C0_use_counter = 0;
     field_3C4_aligned_buffer = NULL;
     field_3C8_unaligned_alloc = NULL;
@@ -303,7 +303,7 @@ SpriteMaskCache_3CC::SpriteMaskCache_3CC()
     field_3C4_aligned_buffer = pvVar2;
 
     SpriteMask_14* tmp = field_0_masks;
-    for (iVar4 = 8; iVar4 != 0; iVar4--, pvVar2 += 0x4000, tmp += 4)
+    for (row = 8; row != 0; row--, pvVar2 += 0x4000, tmp += 4)
     {
         tmp[0].field_0_pixels = pvVar2;
         tmp[1].field_0_pixels = (pvVar2 + 0x40);
@@ -312,7 +312,7 @@ SpriteMaskCache_3CC::SpriteMaskCache_3CC()
     }
 
     tmp = field_0_masks + 33;
-    for (iVar4 = 4; iVar4 != 0; iVar4--, pvVar2 += 0x8000, tmp += 4)
+    for (row = 4; row != 0; row--, pvVar2 += 0x8000, tmp += 4)
     {
         // I don't know why this one starts at -1...
         // Maybe an artifact of the decompilation
@@ -322,9 +322,9 @@ SpriteMaskCache_3CC::SpriteMaskCache_3CC()
         tmp[2].field_0_pixels = (pvVar2 + 0xC0);
     }
 
-    for (u16 uVar1 = 0; uVar1 < 48; uVar1++)
+    for (u16 mask_idx = 0; mask_idx < 48; mask_idx++)
     {
-        field_0_masks[uVar1].field_10_idx = uVar1;
+        field_0_masks[mask_idx].field_10_idx = mask_idx;
     }
 }
 

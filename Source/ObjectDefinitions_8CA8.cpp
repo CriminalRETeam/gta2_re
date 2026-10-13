@@ -767,39 +767,39 @@ void ObjectDefinitions_8CA8::CreateMapObjectDefinitions_533300()
 MATCH_FUNC(0x533360)
 void ObjectDefinitions_8CA8::ApplyMapObjectOverrides_533360()
 {
-    int iVar4 = gMapObjectOverrides_length_623EEC;
+    int override_count = gMapObjectOverrides_length_623EEC;
 
-    if (0 < iVar4)
+    if (0 < override_count)
     {
-        MapObjectOverride_54* puVar3 = gMapObjectOverrides_6FC5F8;
+        MapObjectOverride_54* pOverride = gMapObjectOverrides_6FC5F8;
         do
         {
-            ObjectDefinition_74* pPVar2 = GetObjectDefinition_534360(puVar3->field_0_definition_idx);
-            pPVar2->field_34_behavior_type = puVar3->field_4_behavior_type;
-            pPVar2->field_38 = puVar3->field_8_next_definition_idx;
-            pPVar2->field_3C_next_definition_idx = puVar3->field_8_next_definition_idx;
-            pPVar2->field_61 = puVar3->field_C;
-            pPVar2->field_40_collision_bucket_category = puVar3->field_18_collision_bucket_category;
-            pPVar2->field_44 = puVar3->field_10;
-            pPVar2->field_48 = puVar3->field_14;
-            pPVar2->field_10_speed = puVar3->field_1C_speed;
-            pPVar2->field_65 = puVar3->field_24;
-            pPVar2->field_14_friction = puVar3->field_20_friction;
-            pPVar2->field_4C = puVar3->field_28;
-            pPVar2->field_64_next_frame_max = puVar3->field_30_next_frame_max;
-            pPVar2->field_58 = puVar3->field_34;
-            pPVar2->field_18_mass = puVar3->field_38_mass;
-            pPVar2->field_20_sprite_flags = puVar3->field_40_sprite_flags;
-            pPVar2->field_2C = puVar3->field_3C;
-            pPVar2->field_60 = 1;
-            pPVar2->field_5C = puVar3->field_4C;
-            pPVar2->field_68 = 0;
-            pPVar2->field_70_has_sound = puVar3->field_44_has_sound;
-            pPVar2->field_62_has_shadows = puVar3->field_48_has_shadows;
-            pPVar2->field_63 = puVar3->field_50;
-            pPVar2->field_54_react_to_collisions_with = CollisionReaction::Always_0;
-            puVar3++;
-        } while (--iVar4 != 0);
+            ObjectDefinition_74* pDef = GetObjectDefinition_534360(pOverride->field_0_definition_idx);
+            pDef->field_34_behavior_type = pOverride->field_4_behavior_type;
+            pDef->field_38 = pOverride->field_8_next_definition_idx;
+            pDef->field_3C_next_definition_idx = pOverride->field_8_next_definition_idx;
+            pDef->field_61 = pOverride->field_C;
+            pDef->field_40_collision_bucket_category = pOverride->field_18_collision_bucket_category;
+            pDef->field_44 = pOverride->field_10;
+            pDef->field_48 = pOverride->field_14;
+            pDef->field_10_speed = pOverride->field_1C_speed;
+            pDef->field_65 = pOverride->field_24;
+            pDef->field_14_friction = pOverride->field_20_friction;
+            pDef->field_4C = pOverride->field_28;
+            pDef->field_64_next_frame_max = pOverride->field_30_next_frame_max;
+            pDef->field_58 = pOverride->field_34;
+            pDef->field_18_mass = pOverride->field_38_mass;
+            pDef->field_20_sprite_flags = pOverride->field_40_sprite_flags;
+            pDef->field_2C = pOverride->field_3C;
+            pDef->field_60 = 1;
+            pDef->field_5C = pOverride->field_4C;
+            pDef->field_68 = 0;
+            pDef->field_70_has_sound = pOverride->field_44_has_sound;
+            pDef->field_62_has_shadows = pOverride->field_48_has_shadows;
+            pDef->field_63 = pOverride->field_50;
+            pDef->field_54_react_to_collisions_with = CollisionReaction::Always_0;
+            pOverride++;
+        } while (--override_count != 0);
     }
 }
 
@@ -1107,46 +1107,46 @@ void ObjectDefinitions_8CA8::CreateCodeObjectDefinitions_533B30()
     u16 sprite_base = 0;
     if (0 < gCodeObjectTemplates_length_623EF0)
     {
-        CodeObjectTemplate_6C* puVar2 = &gCodeObjectTemplates_6F9038[0];
-        for(s32 local_8 = gCodeObjectTemplates_length_623EF0; local_8 != 0; local_8--)
+        CodeObjectTemplate_6C* pTemplate = &gCodeObjectTemplates_6F9038[0];
+        for(s32 remaining = gCodeObjectTemplates_length_623EF0; remaining != 0; remaining--)
         {
-            ObjectDefinition_74* this_00 = AllocDefinitionWithSprite_5332D0(puVar2->field_0_definition_idx, 4, sprite_base, puVar2->field_4_num_sprites);
-            sprite_base += puVar2->field_4_num_sprites;
-            this_00->field_28_sprite_type = puVar2->field_38_sprite_type;
-            if (puVar2->field_48_width == kFpZero_6FCE08 && puVar2->field_4C_height == kFpZero_6FCE08 && puVar2->field_50_depth == kFpZero_6FCE08)
+            ObjectDefinition_74* pDef = AllocDefinitionWithSprite_5332D0(pTemplate->field_0_definition_idx, 4, sprite_base, pTemplate->field_4_num_sprites);
+            sprite_base += pTemplate->field_4_num_sprites;
+            pDef->field_28_sprite_type = pTemplate->field_38_sprite_type;
+            if (pTemplate->field_48_width == kFpZero_6FCE08 && pTemplate->field_4C_height == kFpZero_6FCE08 && pTemplate->field_50_depth == kFpZero_6FCE08)
             {
-                this_00->SetDimensionsFromSprite_533090();
+                pDef->SetDimensionsFromSprite_533090();
             }
             else
             {
-                this_00->SetDimensions_533060(puVar2->field_48_width, puVar2->field_4C_height, puVar2->field_50_depth);
+                pDef->SetDimensions_533060(pTemplate->field_48_width, pTemplate->field_4C_height, pTemplate->field_50_depth);
             }
 
-            this_00->field_34_behavior_type = puVar2->field_8_behavior_type;
-            this_00->field_38 = puVar2->field_C;
-            this_00->field_3C_next_definition_idx = puVar2->field_10_next_definition_idx;
-            this_00->field_61 = puVar2->field_14;
-            this_00->field_40_collision_bucket_category = puVar2->field_20_collision_bucket_category;
-            this_00->field_44 = puVar2->field_18;
-            this_00->field_48 = puVar2->field_1C;
-            this_00->field_10_speed = puVar2->field_24_speed;
-            this_00->field_65 = puVar2->field_2C;
-            this_00->field_14_friction = puVar2->field_28_friction;
-            this_00->field_4C = puVar2->field_30;
-            this_00->field_50 = puVar2->field_34;
-            this_00->field_64_next_frame_max = puVar2->field_3C_next_frame_max;
-            this_00->field_54_react_to_collisions_with = CollisionReaction::Always_0;
-            this_00->field_58 = puVar2->field_40;
-            this_00->field_18_mass = puVar2->field_44_mass;
-            this_00->field_2C = puVar2->field_54;
-            this_00->field_20_sprite_flags = puVar2->field_58_sprite_flags;
-            this_00->field_60 = puVar2->field_59;
-            this_00->field_5C = puVar2->field_5C;
-            this_00->field_68 = puVar2->field_60;
-            this_00->field_70_has_sound = puVar2->field_64_has_sound;
-            this_00->field_62_has_shadows = puVar2->field_68_has_shadows;
-            this_00->field_63 = puVar2->field_69;
-            puVar2++;
+            pDef->field_34_behavior_type = pTemplate->field_8_behavior_type;
+            pDef->field_38 = pTemplate->field_C;
+            pDef->field_3C_next_definition_idx = pTemplate->field_10_next_definition_idx;
+            pDef->field_61 = pTemplate->field_14;
+            pDef->field_40_collision_bucket_category = pTemplate->field_20_collision_bucket_category;
+            pDef->field_44 = pTemplate->field_18;
+            pDef->field_48 = pTemplate->field_1C;
+            pDef->field_10_speed = pTemplate->field_24_speed;
+            pDef->field_65 = pTemplate->field_2C;
+            pDef->field_14_friction = pTemplate->field_28_friction;
+            pDef->field_4C = pTemplate->field_30;
+            pDef->field_50 = pTemplate->field_34;
+            pDef->field_64_next_frame_max = pTemplate->field_3C_next_frame_max;
+            pDef->field_54_react_to_collisions_with = CollisionReaction::Always_0;
+            pDef->field_58 = pTemplate->field_40;
+            pDef->field_18_mass = pTemplate->field_44_mass;
+            pDef->field_2C = pTemplate->field_54;
+            pDef->field_20_sprite_flags = pTemplate->field_58_sprite_flags;
+            pDef->field_60 = pTemplate->field_59;
+            pDef->field_5C = pTemplate->field_5C;
+            pDef->field_68 = pTemplate->field_60;
+            pDef->field_70_has_sound = pTemplate->field_64_has_sound;
+            pDef->field_62_has_shadows = pTemplate->field_68_has_shadows;
+            pDef->field_63 = pTemplate->field_69;
+            pTemplate++;
         }
     }
 }
@@ -1348,10 +1348,10 @@ void ObjectDefinitions_8CA8::CloneRemappedDefinitions_533C90()
     tmp->field_64_next_frame_max = '\b';
     tmp->AddSpritePaletteAndSetAnimSpeed_533150(tmp->field_6C_sprite_anim_speed - 1, 1);
 
-    for(s32 iVar3 = 200; iVar3 - 200 <= 44; iVar3++)
+    for(s32 def_idx = 200; def_idx - 200 <= 44; def_idx++)
     {
-        tmp = CloneDefinition_534370(iVar3 - 0x88, iVar3);
-        tmp->field_38 = iVar3;
+        tmp = CloneDefinition_534370(def_idx - 0x88, def_idx);
+        tmp->field_38 = def_idx;
         tmp->field_34_behavior_type = tmp->field_34_behavior_type == object_behavior_type::behavior_6 ? object_behavior_type::behavior_7 : object_behavior_type::behavior_9;
         tmp->field_14_friction = -kFpPoint01_6FCDD8;
         tmp->field_4C = 1;

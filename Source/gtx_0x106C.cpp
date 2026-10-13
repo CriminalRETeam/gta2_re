@@ -1100,7 +1100,7 @@ gtx_0x106C::~gtx_0x106C()
     palette_index* local_field_28_palette_index; // ecx
     void* local_field_30_physical_palettes_size; // eax
     void* local_field_44_aligned_tiles_size; // eax
-    void* local_v12; // eax
+    void* pUnaligned; // eax
     delta_store_entry* local_field_48_delta_store; // eax
     void* local_field_50_delta_buffer; // eax
     void* local_field_58_car_info; // eax
@@ -1163,12 +1163,12 @@ gtx_0x106C::~gtx_0x106C()
     {
         crt::free(local_field_44_aligned_tiles_size);
     }
-    local_v12 = (void*)field_38_sprite_graphics_unaligned;
+    pUnaligned = (void*)field_38_sprite_graphics_unaligned;
     field_3C_tiles = 0;
     field_44_aligned_tiles_size = 0;
-    if (local_v12)
+    if (pUnaligned)
     {
-        crt::free(local_v12);
+        crt::free(pUnaligned);
     }
     local_field_48_delta_store = field_48_delta_store;
     field_34_sprite_graphics = 0;

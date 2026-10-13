@@ -90,13 +90,13 @@ void PedGroup::ResetGroupObjectives_4C8F20()
     field_2C_ped_leader->SetObjective(objectives_enum::no_obj_0);
     field_2C_ped_leader->SetObjective2_463830(objectives_enum::no_obj_0);
 
-    u8 bVar1 = 0;
+    u8 ped_idx = 0;
 
-    while (bVar1 < field_34_count)
+    while (ped_idx < field_34_count)
     {
-        field_4_ped_list[bVar1]->SetObjective(objectives_enum::no_obj_0);
-        field_4_ped_list[bVar1]->SetObjective2_463830(objectives_enum::no_obj_0);
-        bVar1++;
+        field_4_ped_list[ped_idx]->SetObjective(objectives_enum::no_obj_0);
+        field_4_ped_list[ped_idx]->SetObjective2_463830(objectives_enum::no_obj_0);
+        ped_idx++;
     }
 }
 
@@ -133,26 +133,26 @@ bool PedGroup::PurgeMembersInCars_4C9040()
         field_2C_ped_leader = NULL;
     }
 
-    u8 bVar2;
-    for (bVar2 = 0; bVar2 < field_34_count; bVar2++)
+    u8 ped_idx;
+    for (ped_idx = 0; ped_idx < field_34_count; ped_idx++)
     {
-        if (field_4_ped_list[bVar2]->field_16C_car != NULL)
+        if (field_4_ped_list[ped_idx]->field_16C_car != NULL)
         {
-            field_4_ped_list[bVar2]->Kill_46F9D0();
-            field_4_ped_list[bVar2] = NULL;
+            field_4_ped_list[ped_idx]->Kill_46F9D0();
+            field_4_ped_list[ped_idx] = NULL;
         }
     }
 
     // Compacting the ped_list
-    for (bVar2 = 0; bVar2 < field_34_count; bVar2++)
+    for (ped_idx = 0; ped_idx < field_34_count; ped_idx++)
     {
-        if (field_4_ped_list[bVar2] == NULL)
+        if (field_4_ped_list[ped_idx] == NULL)
         {
-            for (u8 i = bVar2; i < field_34_count; i++)
+            for (u8 i = ped_idx; i < field_34_count; i++)
             {
                 if (field_4_ped_list[i] != NULL)
                 {
-                    field_4_ped_list[bVar2] = field_4_ped_list[i];
+                    field_4_ped_list[ped_idx] = field_4_ped_list[i];
                     field_4_ped_list[i] = NULL;
                     break;
                 }
@@ -160,13 +160,13 @@ bool PedGroup::PurgeMembersInCars_4C9040()
         }
     }
 
-    bVar2 = 0;
-    while (field_4_ped_list[bVar2] != NULL)
+    ped_idx = 0;
+    while (field_4_ped_list[ped_idx] != NULL)
     {
-        bVar2++;
+        ped_idx++;
     }
 
-    if (bVar2 == 0)
+    if (ped_idx == 0)
     {
         return 0;
     }
@@ -254,31 +254,31 @@ void PedGroup::DisbandGroup_4C92A0()
     field_2C_ped_leader->ClearGroupAndGroupIdx_403A30();
     if (field_4_ped_list[0] != NULL)
     {
-        for (u8 bVar4 = 0; bVar4 < field_34_count; bVar4++)
+        for (u8 ped_idx = 0; ped_idx < field_34_count; ped_idx++)
         {
-            Ped* this_00 = field_4_ped_list[bVar4];
-            Ped** pppVar1 = field_4_ped_list + bVar4;
-            if ((this_00->GetPedState_403990() == ped_state1_enum::ped_wasted) ||
-                (this_00->field_280_stored_ped_state_1 == ped_state1_enum::ped_wasted))
+            Ped* pPed = field_4_ped_list[ped_idx];
+            Ped** ppSlot = field_4_ped_list + ped_idx;
+            if ((pPed->GetPedState_403990() == ped_state1_enum::ped_wasted) ||
+                (pPed->field_280_stored_ped_state_1 == ped_state1_enum::ped_wasted))
             {
-                this_00->ClearGroupAndGroupIdx_403A30();
+                pPed->ClearGroupAndGroupIdx_403A30();
             }
             else
             {
-                if (this_00->has_car_403B80())
+                if (pPed->has_car_403B80())
                 {
-                    this_00->SetObjective(objectives_enum::objective_34);
-                    (*pppVar1)->SetTargetObjectiveCar((*pppVar1)->field_16C_car);
+                    pPed->SetObjective(objectives_enum::objective_34);
+                    (*ppSlot)->SetTargetObjectiveCar((*ppSlot)->field_16C_car);
                 }
                 else
                 {
-                    this_00->SetObjective(objectives_enum::no_obj_0);
+                    pPed->SetObjective(objectives_enum::no_obj_0);
                 }
-                (*pppVar1)->SetObjective2_463830(objectives_enum::no_obj_0);
-                (*pppVar1)->ClearGroupAndGroupIdx_403A30();
-                (*pppVar1)->SetPedType_403920(ped_type_enum::New_Name_2);
+                (*ppSlot)->SetObjective2_463830(objectives_enum::no_obj_0);
+                (*ppSlot)->ClearGroupAndGroupIdx_403A30();
+                (*ppSlot)->SetPedType_403920(ped_type_enum::New_Name_2);
             }
-            (*pppVar1)->field_21C_bf.bScheduledForRemoval = true;
+            (*ppSlot)->field_21C_bf.bScheduledForRemoval = true;
         }
     }
     ClearGroupData_4C8E90();
@@ -292,41 +292,41 @@ void PedGroup::DestroyGroup_4C93A0()
         return;
     }
 
-    Ped* ppVar2 = field_2C_ped_leader;
-    if ((ppVar2->GetPedState_403990() != ped_state1_enum::ped_wasted) && (ppVar2->field_280_stored_ped_state_1 != ped_state1_enum::ped_wasted))
+    Ped* pPed = field_2C_ped_leader;
+    if ((pPed->GetPedState_403990() != ped_state1_enum::ped_wasted) && (pPed->field_280_stored_ped_state_1 != ped_state1_enum::ped_wasted))
     {
-        ppVar2->SetObjective(objectives_enum::no_obj_0);
+        pPed->SetObjective(objectives_enum::no_obj_0);
         field_2C_ped_leader->SetObjective2_463830(objectives_enum::no_obj_0);
     }
 
     field_2C_ped_leader->ClearGroupAndGroupIdx_403A30();
     if (field_4_ped_list[0] != NULL)
     {
-        for (u8 bVar5 = 0; bVar5 < field_34_count; bVar5++)
+        for (u8 ped_idx = 0; ped_idx < field_34_count; ped_idx++)
         {
-            ppVar2 = field_4_ped_list[bVar5];
-            Ped** pppVar1 = field_4_ped_list + bVar5;
-            if ((ppVar2->GetPedState_403990() == ped_state1_enum::ped_wasted) ||
-                (ppVar2->field_280_stored_ped_state_1 == ped_state1_enum::ped_wasted))
+            pPed = field_4_ped_list[ped_idx];
+            Ped** ppSlot = field_4_ped_list + ped_idx;
+            if ((pPed->GetPedState_403990() == ped_state1_enum::ped_wasted) ||
+                (pPed->field_280_stored_ped_state_1 == ped_state1_enum::ped_wasted))
             {
-                ppVar2->ClearGroupAndGroupIdx_403A30();
+                pPed->ClearGroupAndGroupIdx_403A30();
             }
             else
             {
-                if (ppVar2->has_car_403B80() == true)
+                if (pPed->has_car_403B80() == true)
                 {
-                    ppVar2->SetObjective2_463830(objectives_enum::no_obj_0);
-                    (*pppVar1)->SetObjective(objectives_enum::objective_34);
-                    (*pppVar1)->SetTargetObjectiveCar((*pppVar1)->field_16C_car);
-                    (*pppVar1)->ClearGroupAndGroupIdx_403A30();
-                    (*pppVar1)->SetPedType_403920(ped_type_enum::New_Name_2);
+                    pPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                    (*ppSlot)->SetObjective(objectives_enum::objective_34);
+                    (*ppSlot)->SetTargetObjectiveCar((*ppSlot)->field_16C_car);
+                    (*ppSlot)->ClearGroupAndGroupIdx_403A30();
+                    (*ppSlot)->SetPedType_403920(ped_type_enum::New_Name_2);
                 }
                 else
                 {
-                    ppVar2->SetObjective(objectives_enum::no_obj_0);
-                    (*pppVar1)->SetObjective2_463830(objectives_enum::no_obj_0);
-                    (*pppVar1)->ClearGroupAndGroupIdx_403A30();
-                    (*pppVar1)->SetPedType_403920(ped_type_enum::New_Name_2);
+                    pPed->SetObjective(objectives_enum::no_obj_0);
+                    (*ppSlot)->SetObjective2_463830(objectives_enum::no_obj_0);
+                    (*ppSlot)->ClearGroupAndGroupIdx_403A30();
+                    (*ppSlot)->SetPedType_403920(ped_type_enum::New_Name_2);
                 }
             }
         }

@@ -11048,18 +11048,18 @@ void Ped::SpawnPedGroupFollowers_46E200(u8 total)
 MATCH_FUNC(0x46ef00)
 u8 Ped::get_wanted_star_count_46EF00()
 {
-    short cVar1 = field_20A_wanted_points;
-    if (cVar1 < cop_level_ped_enum::cop_6_stars)
+    short wanted_points = field_20A_wanted_points;
+    if (wanted_points < cop_level_ped_enum::cop_6_stars)
     {
-        if (cVar1 < cop_level_ped_enum::cop_5_stars)
+        if (wanted_points < cop_level_ped_enum::cop_5_stars)
         {
-            if (cVar1 < cop_level_ped_enum::cop_4_stars)
+            if (wanted_points < cop_level_ped_enum::cop_4_stars)
             {
-                if (cVar1 < cop_level_ped_enum::cop_3_stars)
+                if (wanted_points < cop_level_ped_enum::cop_3_stars)
                 {
-                    if (cVar1 < cop_level_ped_enum::cop_2_stars)
+                    if (wanted_points < cop_level_ped_enum::cop_2_stars)
                     {
-                        if (cVar1 < cop_level_ped_enum::cop_1_stars)
+                        if (wanted_points < cop_level_ped_enum::cop_1_stars)
                         {
                             return cop_level_enum::none_0;
                         }

@@ -272,26 +272,26 @@ void RouteFinder::Load_RGEN_588B30()
 
     if (bLog_routefinder_67D6D1)
     {
-        int iVar2 = 0;
+        int junction_idx = 0;
         do
         {
             sprintf(gTmpBuffer_67C598,
                     "Junc: %d (%d, %d) n %d s %d w %d e %d",
-                    iVar2,
-                    field_8_junctions[iVar2].field_C_min_x,
-                    field_8_junctions[iVar2].field_D_min_y,
-                    field_8_junctions[iVar2].field_0_n.GetIndex_0040CE90(),
-                    field_8_junctions[iVar2].field_2_s.GetIndex_0040CE90(),
-                    field_8_junctions[iVar2].field_6_w.GetIndex_0040CE90(),
-                    field_8_junctions[iVar2].field_4_e.GetIndex_0040CE90());
+                    junction_idx,
+                    field_8_junctions[junction_idx].field_C_min_x,
+                    field_8_junctions[junction_idx].field_D_min_y,
+                    field_8_junctions[junction_idx].field_0_n.GetIndex_0040CE90(),
+                    field_8_junctions[junction_idx].field_2_s.GetIndex_0040CE90(),
+                    field_8_junctions[junction_idx].field_6_w.GetIndex_0040CE90(),
+                    field_8_junctions[junction_idx].field_4_e.GetIndex_0040CE90());
             gErrorLog_67C530.Write_4D9620(gTmpBuffer_67C598);
 
-            if (iVar2 > 0 && field_8_junctions[iVar2].field_C_min_x == 0 && field_8_junctions[iVar2].field_D_min_y == 0)
+            if (junction_idx > 0 && field_8_junctions[junction_idx].field_C_min_x == 0 && field_8_junctions[junction_idx].field_D_min_y == 0)
             {
                 break;
             }
-            iVar2++;
-        } while (iVar2 < 0x221);
+            junction_idx++;
+        } while (junction_idx < 0x221);
 
         gErrorLog_67C530.Write_4D9620("     ");
     }
@@ -851,14 +851,14 @@ void RouteFinder::CancelRoute_589930(s16 junc_idx)
 MATCH_FUNC(0x589960)
 s16 RouteFinder::GetFreeRouteIdx_589960()
 {
-    s16 sVar1 = 1;
+    s16 route_idx = 1;
     if (this->field_0_route_count < 50)
     {
-        while (sVar1 < 50)
+        while (route_idx < 50)
         {
-            if (field_2218_routes[sVar1++].field_0_junctions[0] == 0)
+            if (field_2218_routes[route_idx++].field_0_junctions[0] == 0)
             {
-                return sVar1 - 1;
+                return route_idx - 1;
             }
         }
     }
@@ -868,9 +868,9 @@ s16 RouteFinder::GetFreeRouteIdx_589960()
 MATCH_FUNC(0x589990)
 u16 RouteFinder::AddChildNode_589990(RouteFinder_10* pRoute, u16 a3, s16 a4)
 {
-    RouteFinder_10* puVar1 = NewChildNode_5892F0(pRoute, a3, a4);
-    InsertIntoOpenList_589420(puVar1);
-    return puVar1->field_0_idx;
+    RouteFinder_10* pChild = NewChildNode_5892F0(pRoute, a3, a4);
+    InsertIntoOpenList_589420(pChild);
+    return pChild->field_0_idx;
 }
 
 // Returns true if a neighbour of the node's junction that hasn't been visited yet completes the route
@@ -947,11 +947,11 @@ char_type RouteFinder::sub_589BB0(RouteFinder_10* pRoute, s32 a3)
 MATCH_FUNC(0x589e00)
 RouteFinder_10* RouteFinder::GetFirstUnexpandedNode_589E00()
 {
-    RouteFinder_10* pjVar1;
+    RouteFinder_10* pNode;
 
-    for (pjVar1 = field_A82C_open_list; pjVar1 != NULL && pjVar1->field_4_expanded != 0; pjVar1 = pjVar1->field_C_pNext)
+    for (pNode = field_A82C_open_list; pNode != NULL && pNode->field_4_expanded != 0; pNode = pNode->field_C_pNext)
         ;
-    return pjVar1;
+    return pNode;
 }
 
 MATCH_FUNC(0x589e20)
@@ -988,28 +988,28 @@ char_type RouteFinder::sub_589E20(s32 a2)
 MATCH_FUNC(0x589e70)
 char_type RouteFinder::sub_589E70(s32 a2)
 {
-    char cVar1;
-    RouteFinder_10* iVar2;
+    char result;
+    RouteFinder_10* pNode;
 
-    cVar1 = '\0';
+    result = '\0';
     if (this->field_A82C_open_list != 0)
     {
         while (true)
         {
-            if (cVar1 != '\0')
+            if (result != '\0')
             {
                 break;
             }
 
-            iVar2 = GetFirstUnexpandedNode_589E00();
-            if (iVar2 == NULL)
+            pNode = GetFirstUnexpandedNode_589E00();
+            if (pNode == NULL)
             {
                 break;
             }
-            cVar1 = sub_589BB0(iVar2, a2);
+            result = sub_589BB0(pNode, a2);
         }
     }
-    return cVar1;
+    return result;
 }
 
 MATCH_FUNC(0x589eb0)
@@ -1021,73 +1021,73 @@ s16 RouteFinder::sub_589EB0()
         return -1;
     }
 
-    RouteFinder_10* pjVar4 = &field_861C_nodes[field_CC66_545_count - 1];
-    s16 sVar2 = GetFreeRouteIdx_589960();
-    if (sVar2 == -1)
+    RouteFinder_10* pNode = &field_861C_nodes[field_CC66_545_count - 1];
+    s16 route_idx = GetFreeRouteIdx_589960();
+    if (route_idx == -1)
     {
         return -1;
     }
 
-    while (pjVar4 != NULL)
+    while (pNode != NULL)
     {
-        pjVar4 = pjVar4->field_8_pParent;
+        pNode = pNode->field_8_pParent;
         count++;
     }
     gLastRouteLength_6FFDCC = count;
 
-    pjVar4 = &field_861C_nodes[field_CC66_545_count - 1];
+    pNode = &field_861C_nodes[field_CC66_545_count - 1];
 
-    if (pjVar4 != NULL)
+    if (pNode != NULL)
     {
         do
         {
-            field_2218_routes[sVar2].field_0_junctions[--count] = pjVar4->field_0_idx;
-            pjVar4 = pjVar4->field_8_pParent;
-        } while (pjVar4 != NULL);
+            field_2218_routes[route_idx].field_0_junctions[--count] = pNode->field_0_idx;
+            pNode = pNode->field_8_pParent;
+        } while (pNode != NULL);
     }
-    field_2218_routes[sVar2].field_0_junctions[gLastRouteLength_6FFDCC] = 0;
+    field_2218_routes[route_idx].field_0_junctions[gLastRouteLength_6FFDCC] = 0;
     field_0_route_count++;
-    return sVar2;
+    return route_idx;
 }
 
 MATCH_FUNC(0x589f70)
 s16 RouteFinder::sub_589F70()
 {
-    s16 sVar1 = 0;
-    u8 uVar3 = 0;
+    s16 length = 0;
+    u8 out_idx = 0;
     if (field_CC66_545_count == 0)
     {
         return -1;
     }
 
-    RouteFinder_10* pjVar4 = &field_861C_nodes[field_CC66_545_count - 1];
-    s16 sVar2 = GetFreeRouteIdx_589960();
-    if (sVar2 == -1)
+    RouteFinder_10* pNode = &field_861C_nodes[field_CC66_545_count - 1];
+    s16 route_idx = GetFreeRouteIdx_589960();
+    if (route_idx == -1)
     {
         return -1;
     }
 
-    while (pjVar4 != NULL)
+    while (pNode != NULL)
     {
-        pjVar4 = pjVar4->field_8_pParent;
-        sVar1++;
+        pNode = pNode->field_8_pParent;
+        length++;
     }
-    gLastRouteLength_6FFDCC = sVar1;
+    gLastRouteLength_6FFDCC = length;
 
-    pjVar4 = &field_861C_nodes[field_CC66_545_count - 1];
+    pNode = &field_861C_nodes[field_CC66_545_count - 1];
 
-    if (pjVar4 != NULL)
+    if (pNode != NULL)
     {
         do
         {
-            field_2218_routes[sVar2].field_0_junctions[uVar3] = pjVar4->field_0_idx;
-            pjVar4 = pjVar4->field_8_pParent;
-            uVar3++;
+            field_2218_routes[route_idx].field_0_junctions[out_idx] = pNode->field_0_idx;
+            pNode = pNode->field_8_pParent;
+            out_idx++;
 
-        } while (pjVar4 != NULL);
+        } while (pNode != NULL);
     }
     field_0_route_count++;
-    return sVar2;
+    return route_idx;
 }
 
 MATCH_FUNC(0x58a020)

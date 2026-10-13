@@ -208,48 +208,48 @@ void Door_38::TryOpenForPed_49C8A0(Ped* pPed)
 }
 
 MATCH_FUNC(0x49c8d0)
-void Door_38::InitSingleNoCheck_49C8D0(u8 a1, u8 a2, u8 a3, u8 a4, u8 a5, s32 a6)
+void Door_38::InitSingleNoCheck_49C8D0(u8 door_group, u8 gr_id, u8 x, u8 y, u8 z, s32 facing)
 {
-    Fix16 iVar5;
-    Fix16 iVar8;
+    Fix16 trigger_x;
+    Fix16 trigger_y;
 
-    AddDoorData_49CA50(a2, a3, a4, a5, a6);
+    AddDoorData_49CA50(gr_id, x, y, z, facing);
 
-    Fix16 _param_4 = Fix16(a3) + kFpHalf_67BA20;
-    Fix16 iVar6 = Fix16(a4) + kFpHalf_67BA20;
+    Fix16 door_x = Fix16(x) + kFpHalf_67BA20;
+    Fix16 door_y = Fix16(y) + kFpHalf_67BA20;
 
-    switch (a6)
+    switch (facing)
     {
         case 1:
-            iVar5 = Fix16(a3) - kFpHalf_67BA20;
-            iVar8 = Fix16(a4) + kFpHalf_67BA20;
+            trigger_x = Fix16(x) - kFpHalf_67BA20;
+            trigger_y = Fix16(y) + kFpHalf_67BA20;
             if (this->field_2B_bReversed)
             {
-                _param_4 -= kFpOne_67BBE4;
+                door_x -= kFpOne_67BBE4;
             }
             break;
         case 2:
-            iVar5 = Fix16(a3) + kFpOne_67BBE4 + kFpHalf_67BA20;
-            iVar8 = Fix16(a4) + kFpHalf_67BA20;
+            trigger_x = Fix16(x) + kFpOne_67BBE4 + kFpHalf_67BA20;
+            trigger_y = Fix16(y) + kFpHalf_67BA20;
             if (this->field_2B_bReversed)
             {
-                _param_4 += kFpOne_67BBE4;
+                door_x += kFpOne_67BBE4;
             }
             break;
         case 3:
-            iVar5 = Fix16(a3) + kFpHalf_67BA20;
-            iVar8 = Fix16(a4) - kFpHalf_67BA20;
+            trigger_x = Fix16(x) + kFpHalf_67BA20;
+            trigger_y = Fix16(y) - kFpHalf_67BA20;
             if (this->field_2B_bReversed)
             {
-                iVar6 -= kFpOne_67BBE4;
+                door_y -= kFpOne_67BBE4;
             }
             break;
         case 4:
-            iVar5 = Fix16(a3) + kFpHalf_67BA20;
-            iVar8 = Fix16(a4) + kFpOne_67BBE4 + kFpHalf_67BA20;
+            trigger_x = Fix16(x) + kFpHalf_67BA20;
+            trigger_y = Fix16(y) + kFpOne_67BBE4 + kFpHalf_67BA20;
             if (this->field_2B_bReversed)
             {
-                iVar6 += kFpOne_67BBE4;
+                door_y += kFpOne_67BBE4;
             }
             break;
     }
@@ -257,15 +257,15 @@ void Door_38::InitSingleNoCheck_49C8D0(u8 a1, u8 a2, u8 a3, u8 a4, u8 a5, s32 a6
     field_28_bClosing = 1;
     field_2C_bCanAutoOpen = 1;
 
-    field_1E_close_timer = field_1C_close_delay = (gDoorAnimInfo_67BB38[a2].field_2_end_frame - gDoorAnimInfo_67BB38[a2].field_0_start_frame) * gDoorAnimInfo_67BB38[a2].field_8_speed;
+    field_1E_close_timer = field_1C_close_delay = (gDoorAnimInfo_67BB38[gr_id].field_2_end_frame - gDoorAnimInfo_67BB38[gr_id].field_0_start_frame) * gDoorAnimInfo_67BB38[gr_id].field_8_speed;
 
-    field_C_trigger_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(0xa7, iVar5, iVar8, a5, DAT_0067BD18);
-    field_C_trigger_obj->set_field_26(a1);
+    field_C_trigger_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(0xa7, trigger_x, trigger_y, z, DAT_0067BD18);
+    field_C_trigger_obj->set_field_26(door_group);
 
-    field_8_door_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(0xa9, _param_4, iVar6, a5, DAT_0067BD18);
-    field_8_door_obj->set_field_26(a1);
-    field_30_x = _param_4;
-    field_34_y = iVar6;
+    field_8_door_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(0xa9, door_x, door_y, z, DAT_0067BD18);
+    field_8_door_obj->set_field_26(door_group);
+    field_30_x = door_x;
+    field_34_y = door_y;
 }
 
 MATCH_FUNC(0x49ca50)
@@ -318,8 +318,8 @@ void Door_38::InitSingle_49CAC0(DoorData_10* a1, char_type a2, u8 a3, Fix16 a4, 
     }
     field_28_bClosing = 1;
     field_2C_bCanAutoOpen = 1;
-    u16 sVar1 = (gDoorAnimInfo_67BB38[a1->field_7_gr_id].field_2_end_frame - gDoorAnimInfo_67BB38[a1->field_7_gr_id].field_0_start_frame);
-    field_1E_close_timer = field_1C_close_delay = sVar1 * gDoorAnimInfo_67BB38[a1->field_7_gr_id].field_8_speed + 0x28;
+    u16 anim_frames = (gDoorAnimInfo_67BB38[a1->field_7_gr_id].field_2_end_frame - gDoorAnimInfo_67BB38[a1->field_7_gr_id].field_0_start_frame);
+    field_1E_close_timer = field_1C_close_delay = anim_frames * gDoorAnimInfo_67BB38[a1->field_7_gr_id].field_8_speed + 0x28;
     if (a2)
     {
         field_C_trigger_obj = gObject_5C_6F8F84->NewTouchPoint_529950(0xa7, a4, a5, a6, DAT_0067BD18, a7, a8, kFpOne_67BBE4);
@@ -334,7 +334,7 @@ void Door_38::InitSingle_49CAC0(DoorData_10* a1, char_type a2, u8 a3, Fix16 a4, 
 MATCH_FUNC(0x49cc00)
 void Door_38::InitDouble_49CC00(DoorData_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8)
 {
-    Ang16 local_c;
+    Ang16 door_angle;
     Fix16 z(a1->field_6_z);
     Fix16 x = Fix16(a1->field_4_x) + kFpHalf_67BA20;
     Fix16 y = Fix16(a1->field_5_y) + kFpHalf_67BA20;
@@ -343,7 +343,7 @@ void Door_38::InitDouble_49CC00(DoorData_10* a1, char_type a2, u8 a3, Fix16 a4, 
     {
         case 3:
             x += kFpHalf_67BA20;
-            local_c = kAng270_67BB2C;
+            door_angle = kAng270_67BB2C;
             if (this->field_2B_bReversed)
             {
                 y -= kFpOne_67BBE4;
@@ -351,7 +351,7 @@ void Door_38::InitDouble_49CC00(DoorData_10* a1, char_type a2, u8 a3, Fix16 a4, 
             break;
         case 1:
             y -= kFpHalf_67BA20;
-            local_c = DAT_0067BD18;
+            door_angle = DAT_0067BD18;
             if (this->field_2B_bReversed)
             {
                 x -= kFpOne_67BBE4;
@@ -359,7 +359,7 @@ void Door_38::InitDouble_49CC00(DoorData_10* a1, char_type a2, u8 a3, Fix16 a4, 
             break;
         case 2:
             y += kFpHalf_67BA20;
-            local_c = DAT_0067BD18;
+            door_angle = DAT_0067BD18;
             if (this->field_2B_bReversed)
             {
                 x += kFpOne_67BBE4;
@@ -367,7 +367,7 @@ void Door_38::InitDouble_49CC00(DoorData_10* a1, char_type a2, u8 a3, Fix16 a4, 
             break;
         case 4:
             x -= kFpHalf_67BA20;
-            local_c = kAng90_67BA38;
+            door_angle = kAng90_67BA38;
             if (this->field_2B_bReversed)
             {
                 y += kFpOne_67BBE4;
@@ -376,14 +376,14 @@ void Door_38::InitDouble_49CC00(DoorData_10* a1, char_type a2, u8 a3, Fix16 a4, 
     }
     field_28_bClosing = 1;
     field_2C_bCanAutoOpen = 1;
-    u16 sVar1 = (gDoorAnimInfo_67BB38[a1->field_7_gr_id].field_2_end_frame - gDoorAnimInfo_67BB38[a1->field_7_gr_id].field_0_start_frame);
-    field_1E_close_timer = field_1C_close_delay = sVar1 * gDoorAnimInfo_67BB38[a1->field_7_gr_id].field_8_speed + 0x28;
+    u16 anim_frames = (gDoorAnimInfo_67BB38[a1->field_7_gr_id].field_2_end_frame - gDoorAnimInfo_67BB38[a1->field_7_gr_id].field_0_start_frame);
+    field_1E_close_timer = field_1C_close_delay = anim_frames * gDoorAnimInfo_67BB38[a1->field_7_gr_id].field_8_speed + 0x28;
     if (a2)
     {
         field_C_trigger_obj = gObject_5C_6F8F84->NewTouchPoint_529950(0xa7, a4, a5, a6, DAT_0067BD18, a7, a8, kFpOne_67BBE4);
         field_C_trigger_obj->set_field_26(a3);
     }
-    field_8_door_obj = gObject_5C_6F8F84->NewTouchPoint_529950(0xa9, x, y, z, local_c, kFpOne_67BBE4, kFpTwo_67BBE8, kFpOne_67BBE4);
+    field_8_door_obj = gObject_5C_6F8F84->NewTouchPoint_529950(0xa9, x, y, z, door_angle, kFpOne_67BBE4, kFpTwo_67BBE8, kFpOne_67BBE4);
     field_8_door_obj->set_field_26(a3);
     field_30_x = x;
     field_34_y = y;

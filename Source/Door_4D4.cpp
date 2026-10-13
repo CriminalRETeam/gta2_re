@@ -86,12 +86,12 @@ void DoorData_10::Open_49C4E0(u8 a1)
     if (field_0_state != 2)
     {
         field_0_state = 2;
-        s16 uVar3 = tmp->field_6_open_internal_tile_idx | 0x1000;
+        s16 tile_idx = tmp->field_6_open_internal_tile_idx | 0x1000;
         if (a1)
         {
-            uVar3 |= 0x2000;
+            tile_idx |= 0x2000;
         }
-        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, field_8_face, uVar3);
+        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, field_8_face, tile_idx);
         gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, GetOppositeFace_4DEEB0(field_8_face), tmp->field_6_open_internal_tile_idx);
         gTileAnim_2_7052C4->AddAnim_5BC260(tmp->field_6_open_internal_tile_idx, tmp->field_0_start_frame, tmp->field_2_end_frame, tmp->field_8_speed, 1);
     }
@@ -276,7 +276,7 @@ MATCH_FUNC(0x49d2d0)
 void Door_4D4::RegisterDoorInfo_49D2D0(s16 start_frame, s16 end_frame, char_type speed)
 {
     DoorAnimInfo_A* psVar3 = &gDoorAnimInfo_67BB38[0];
-    u8 bVar1 = 0;
+    u8 idx = 0;
     do
     {
         if (psVar3->field_0_start_frame == 0 && psVar3->field_2_end_frame == 0)
@@ -284,8 +284,8 @@ void Door_4D4::RegisterDoorInfo_49D2D0(s16 start_frame, s16 end_frame, char_type
             break;
         }
         psVar3++;
-        bVar1++;
-    } while (bVar1 < 5);
+        idx++;
+    } while (idx < 5);
 
     psVar3->field_0_start_frame = start_frame;
     psVar3->field_2_end_frame = end_frame;

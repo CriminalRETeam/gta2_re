@@ -384,7 +384,7 @@ MATCH_FUNC(0x430EC0)
 s32 __stdcall CarInfo_808::HexStr2Int_430EC0(const char* pStr, s32* pOut)
 {
     *pOut = 0;
-    s32 iVar5 = 1;
+    s32 place_value = 1;
     s32 strLen = strlen(pStr);
 
     while (--strLen >= 0)
@@ -395,18 +395,18 @@ s32 __stdcall CarInfo_808::HexStr2Int_430EC0(const char* pStr, s32* pOut)
             return 0xfffffff6;
         }
 
-        s32 sVar2;
+        s32 digit_value;
         if (currentChar < '0' || '9' < currentChar)
         {
-            sVar2 = (currentChar - 0x37) * iVar5;
+            digit_value = (currentChar - 0x37) * place_value;
         }
         else
         {
-            sVar2 = (currentChar - 0x30) * iVar5;
+            digit_value = (currentChar - 0x30) * place_value;
         }
 
-        *pOut += sVar2;
-        iVar5 = iVar5 << 4;
+        *pOut += digit_value;
+        place_value = place_value << 4;
     }
 
     return 0;
@@ -416,7 +416,7 @@ MATCH_FUNC(0x430f30)
 s32 __stdcall CarInfo_808::HexStr2Int_430F30(const char* pStr, s16* pOut)
 {
     *pOut = 0;
-    s32 iVar5 = 1;
+    s32 place_value = 1;
     s32 strLen = strlen(pStr);
 
     while (--strLen >= 0)
@@ -427,18 +427,18 @@ s32 __stdcall CarInfo_808::HexStr2Int_430F30(const char* pStr, s16* pOut)
             return 0xfffffff7;
         }
 
-        s32 sVar2;
+        s32 digit_value;
         if (currentChar < '0' || '9' < currentChar)
         {
-            sVar2 = (currentChar - 0x37) * iVar5;
+            digit_value = (currentChar - 0x37) * place_value;
         }
         else
         {
-            sVar2 = (currentChar - 0x30) * iVar5;
+            digit_value = (currentChar - 0x30) * place_value;
         }
 
-        *pOut += sVar2;
-        iVar5 = iVar5 << 4;
+        *pOut += digit_value;
+        place_value = place_value << 4;
     }
 
     return 0;
@@ -448,7 +448,7 @@ MATCH_FUNC(0x430fa0)
 s32 __stdcall CarInfo_808::StrToInt_430FA0(const char* pStr, s32* pOut)
 {
     *pOut = 0;
-    s32 iVar5 = 1;
+    s32 place_value = 1;
     s32 strLen = strlen(pStr);
 
     while (--strLen >= 0)
@@ -459,9 +459,9 @@ s32 __stdcall CarInfo_808::StrToInt_430FA0(const char* pStr, s32* pOut)
             return 0xfffffff8;
         }
 
-        s32 sVar2 = (currentChar - 0x30) * iVar5;
-        *pOut += sVar2;
-        iVar5 = iVar5 * 10;
+        s32 digit_value = (currentChar - 0x30) * place_value;
+        *pOut += digit_value;
+        place_value = place_value * 10;
     }
 
     return 0;
@@ -471,8 +471,8 @@ MATCH_FUNC(0x431000)
 s32 __stdcall CarInfo_808::FloatStrToFix16_431000(char* pStr, Fix16& pOut)
 {
     pOut = kZero_6761A4;
-    bool bVar2 = false;
-    s32 iVar6 = 1;
+    bool bPastDecimalPoint = false;
+    s32 decimal_divisor = 1;
     s32 strLen = strlen(pStr);
 
     while (--strLen >= 0)
@@ -480,18 +480,18 @@ s32 __stdcall CarInfo_808::FloatStrToFix16_431000(char* pStr, Fix16& pOut)
         char currentChar = pStr[strLen];
         if (currentChar < '0' || '9' < currentChar)
         {
-            if (currentChar != '.' || bVar2)
+            if (currentChar != '.' || bPastDecimalPoint)
             {
                 return -11;
             }
-            pOut.mValue /= iVar6;
-            iVar6 = 1;
-            bVar2 = true;
+            pOut.mValue /= decimal_divisor;
+            decimal_divisor = 1;
+            bPastDecimalPoint = true;
         }
         else
         {
-            pOut.mValue += (currentChar - 0x30) * iVar6 * 0x4000;
-            iVar6 = iVar6 * 10;
+            pOut.mValue += (currentChar - 0x30) * decimal_divisor * 0x4000;
+            decimal_divisor = decimal_divisor * 10;
         }
     }
     return 0;
@@ -501,7 +501,7 @@ MATCH_FUNC(0x431080)
 s32 __stdcall CarInfo_808::StrToInt_431080(const char* pStr, s16* pOut)
 {
     *pOut = 0;
-    s32 iVar5 = 1;
+    s32 place_value = 1;
     s32 strLen = strlen(pStr);
 
     while (--strLen >= 0)
@@ -512,9 +512,9 @@ s32 __stdcall CarInfo_808::StrToInt_431080(const char* pStr, s16* pOut)
             return 0xffffffff;
         }
 
-        s32 sVar2 = (currentChar - 0x30) * iVar5;
-        *pOut += sVar2;
-        iVar5 = iVar5 * 10;
+        s32 digit_value = (currentChar - 0x30) * place_value;
+        *pOut += digit_value;
+        place_value = place_value * 10;
     }
 
     return 0;
@@ -624,7 +624,7 @@ MATCH_FUNC(0x4546d0)
 void CarInfo_808::LoadModelPhysics_4546D0()
 {
     u32 number_of_cars = gGtx_0x106C_703DD4->get_number_of_cars();
-    u32 local_1c;
+    u32 data_size;
     size_t file_size;
     void* file_content = File::ReadFileToBuffer_4A6C80(file_name_677EC4, &file_size);
 
@@ -634,7 +634,7 @@ void CarInfo_808::LoadModelPhysics_4546D0()
                                                          file_size,
                                                          field_804_raw_data,
                                                          number_of_cars * sizeof(ModelPhysics_48),
-                                                         &local_1c);
+                                                         &data_size);
 
     crt::free(file_content);
 
@@ -646,17 +646,17 @@ void CarInfo_808::LoadModelPhysics_4546D0()
         FatalError_4A38C0(Gta2Error::BinmakeError, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbc, gErrStr_67C29C, gErrStr2_67C3A8);
     }
 
-    if (local_1c % sizeof(ModelPhysics_48))
+    if (data_size % sizeof(ModelPhysics_48))
     {
-        FatalError_4A38C0(Gta2Error::InvalidSize, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbd, file_name_677EC4, local_1c);
+        FatalError_4A38C0(Gta2Error::InvalidSize, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbd, file_name_677EC4, data_size);
     }
 
-    if (local_1c != number_of_cars * sizeof(ModelPhysics_48))
+    if (data_size != number_of_cars * sizeof(ModelPhysics_48))
     {
         FatalError_4A38C0(Gta2Error::ModelCountMismatchInStyleFile,
                           "C:\\Splitting\\Gta2\\Source\\carinfo.cpp",
                           0xbe,
-                          local_1c / sizeof(ModelPhysics_48),
+                          data_size / sizeof(ModelPhysics_48),
                           file_name_677EC4,
                           number_of_cars);
     }

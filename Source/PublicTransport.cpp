@@ -283,8 +283,8 @@ MATCH_FUNC(0x578260)
 Train_58::Train_58()
 {
     Car_BC** ppCVar1;
-    char* pcVar2;
-    int iVar3;
+    char* pTimer;
+    int remaining;
 
     field_8_alloc_state = 0;
     field_C_carriages[0] = NULL;
@@ -299,17 +299,17 @@ Train_58::Train_58()
     field_55_unused = 0;
     field_56_passenger_count = 0;
     field_57_track_idx = 0;
-    pcVar2 = field_38_explosion_timers;
+    pTimer = field_38_explosion_timers;
     ppCVar1 = field_C_carriages + 1;
-    iVar3 = 10;
+    remaining = 10;
     do
     {
         *ppCVar1 = NULL;
-        *pcVar2 = -1;
+        *pTimer = -1;
         ppCVar1++;
-        pcVar2++;
-        iVar3--;
-    } while (iVar3 != 0);
+        pTimer++;
+        remaining--;
+    } while (remaining != 0);
     field_38_explosion_timers[10] = -1;
     field_43_idx = 0;
     field_1_unused = 0;
