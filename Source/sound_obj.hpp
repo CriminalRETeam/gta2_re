@@ -393,7 +393,7 @@ class sound_obj
     EXPORT void EnqueueRadioWord_4271B0(u32 val);
     EXPORT void ProcessPoliceRadioWordsPlayback_427220();
     EXPORT u8 GetQueuedRadioWordCount_427310();
-    EXPORT void EnqueueRadioCrimeCallout_427340(s32 word_base, u8 xpos, u8 ypos);
+    EXPORT void EnqueueRadioCrimeCallout_427340(s32 crime_word, u8 loc_a, u8 loc_b);
     EXPORT void AppendRadioMessageSuffix_4273B0();
     EXPORT void nullsub_4();
     EXPORT u32 GetCopRadioZoneIndex_427400(u8 x, u8 y, gmp_map_zone** ppZone);

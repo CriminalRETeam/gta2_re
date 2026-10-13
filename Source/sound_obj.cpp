@@ -6505,7 +6505,7 @@ BYTE sound_obj::GetQueuedRadioWordCount_427310()
 
 // TODO: Arg types ??
 MATCH_FUNC(0x427340)
-void sound_obj::EnqueueRadioCrimeCallout_427340(s32 a4, u8 a5, u8 a6)
+void sound_obj::EnqueueRadioCrimeCallout_427340(s32 crime_word, u8 loc_a, u8 loc_b)
 {
     if (GetQueuedRadioWordCount_427310() >= 8u)
     {
@@ -6519,9 +6519,9 @@ void sound_obj::EnqueueRadioCrimeCallout_427340(s32 a4, u8 a5, u8 a6)
             EnqueueRadioWord_4271B0(69u);
         }
         EnqueueRadioWord_4271B0(73u);
-        EnqueueRadioWord_4271B0(a4 + 73);
+        EnqueueRadioWord_4271B0(crime_word + 73);
         EnqueueRadioWord_4271B0(88u);
-        EnqueueRadioLocationPhrase_426E10(a5, a6); // TODO: Arg types ??
+        EnqueueRadioLocationPhrase_426E10(loc_a, loc_b); // TODO: Arg types ??
     }
 }
 

@@ -590,11 +590,11 @@ TrainStation_34* PublicTransport_181C::AllocateTrainStation_5787E0()
 }
 
 MATCH_FUNC(0x578820)
-void TrainStation_34::CalculateWagonCount_578820(u8* a2)
+void TrainStation_34::CalculateWagonCount_578820(u8* pWagons)
 {
     if (!bSkip_trains_67D550)
     {
-        memcpy(field_24_train_wagons, a2, sizeof(field_24_train_wagons));
+        memcpy(field_24_train_wagons, pWagons, sizeof(field_24_train_wagons));
 
         for (u8 i = 0; i < 10; i++)
         {

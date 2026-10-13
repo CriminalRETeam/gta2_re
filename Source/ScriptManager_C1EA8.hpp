@@ -657,13 +657,13 @@ class ScriptManager_C1EA8
     EXPORT void SaveMapInfo_511D40();
     EXPORT void SaveGame_511E10(char_type* FileName);
     EXPORT void LoadSave_511F80(char_type* FileName);
-    EXPORT miss2_0x11C* SpawnThread_5120C0(s16 start_cmd, char_type a2);
+    EXPORT miss2_0x11C* SpawnThread_5120C0(s16 start_cmd, char_type bFlag);
     EXPORT SCR_CMD_HEADER* FindCommandByType_512100(u16 toFind, u16 startOff);
     EXPORT void Update_512160();
     EXPORT void LoadStringTbl_5121E0(u16 tableSize);
     EXPORT void GetScrFileName_5122D0();
     EXPORT void Load_512330(const char_type* pScrName);
-    EXPORT u16 LoadMissionScript_512400(const char_type* String1, u16* a3);
+    EXPORT u16 LoadMissionScript_512400(const char_type* String1, u16* pStartCmd);
     EXPORT void LoadSubScripts_5125F0();
     EXPORT SCR_CMD_HEADER* GetBasePointer_512770(u16 idx);
     EXPORT void ExecuteScriptThreads_5127A0();

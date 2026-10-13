@@ -68,7 +68,7 @@ class text_0x14
     char_type field_10_lang_code;
     char_type field_11_pad[3];
 
-    EXPORT u16 RemapExtendedChar_5B58D0(u16 a2);
+    EXPORT u16 RemapExtendedChar_5B58D0(u16 ch);
 
     EXPORT void RemapExtendedCharsIfNotJapanese_5B5910(wchar_t* pText);
 
@@ -84,7 +84,7 @@ class text_0x14
 
     EXPORT wchar_t* TKeyFind_5B5A50(const char_type* pIdStr);
 
-    EXPORT u16 ToUpper_5B5AD0(wchar_t a2);
+    EXPORT u16 ToUpper_5B5AD0(wchar_t ch);
 
     EXPORT wchar_t* StrToUpper_5B5B80(wchar_t* pWideStr);
 

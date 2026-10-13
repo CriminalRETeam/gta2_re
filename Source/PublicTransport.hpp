@@ -54,7 +54,7 @@ class TrainStation_34
     EXPORT ~TrainStation_34();
 
     // NOTE: This function defined out of order for some reason
-    EXPORT void CalculateWagonCount_578820(u8* a2); //  Maybe 'a2' is the train wagon array of size 10 bytes
+    EXPORT void CalculateWagonCount_578820(u8* pWagons); //  Maybe 'a2' is the train wagon array of size 10 bytes
 
     s32 field_0_station_type;
     gmp_map_zone* field_4_entry_point;

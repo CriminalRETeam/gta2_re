@@ -199,12 +199,12 @@ EXPORT void SpriteMask_14::ClearMask_48F5C0(u8 xCount, u8 yCount)
 }
 
 MATCH_FUNC(0x48f600)
-SpriteMask_14* SpriteMaskCache_3CC::FindCachedMask_48F600(u16& sprite_idx, u32* a3, u32* a4, const u16* a5)
+SpriteMask_14* SpriteMaskCache_3CC::FindCachedMask_48F600(u16& sprite_idx, u32* pFlag, u32* pDeltaMask, const u16* pExtra)
 {
     s32 final_idx;
     s32 start_idx = 0;
     SpriteMask_14* pSprt = NULL;
-    if (!*a3)
+    if (!*pFlag)
     {
         final_idx = 32;
     }
@@ -218,13 +218,13 @@ SpriteMask_14* SpriteMaskCache_3CC::FindCachedMask_48F600(u16& sprite_idx, u32* 
     for (SpriteMask_14* pIter = &field_0_masks[start_idx]; count < final_idx; count++, ++pIter)
     {
         s32 sprite_idx_copy = sprite_idx;
-        if (pIter->field_4_sprite_idx == sprite_idx_copy && pIter->field_12 == *a5)
+        if (pIter->field_4_sprite_idx == sprite_idx_copy && pIter->field_12 == *pExtra)
         {
-            if (pIter->field_8_delta_mask == *a4)
+            if (pIter->field_8_delta_mask == *pDeltaMask)
             {
                 return pIter;
             }
-            if (pIter->field_8_delta_mask < *a4 && (pIter->field_8_delta_mask | (*a4 - pIter->field_8_delta_mask)) == *a4)
+            if (pIter->field_8_delta_mask < *pDeltaMask && (pIter->field_8_delta_mask | (*pDeltaMask - pIter->field_8_delta_mask)) == *pDeltaMask)
             {
                 pSprt = pIter;
             }
@@ -234,13 +234,13 @@ SpriteMask_14* SpriteMaskCache_3CC::FindCachedMask_48F600(u16& sprite_idx, u32* 
 }
 
 MATCH_FUNC(0x48f690)
-SpriteMask_14* SpriteMaskCache_3CC::FindLeastRecentlyUsed_48F690(u32* a2)
+SpriteMask_14* SpriteMaskCache_3CC::FindLeastRecentlyUsed_48F690(u32* pKey)
 {
     u32 min_value = -1;
     s32 start_idx;
     s32 final_idx;
     SpriteMask_14* pSprt = NULL;
-    if (!*a2)
+    if (!*pKey)
     {
         start_idx = 0;
         final_idx = 32;

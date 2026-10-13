@@ -297,10 +297,10 @@ void ScriptManager_C1EA8::LoadSave_511F80(char_type* pFileName)
 }
 
 MATCH_FUNC(0x5120C0)
-miss2_0x11C* ScriptManager_C1EA8::SpawnThread_5120C0(s16 start_cmd, char_type a2)
+miss2_0x11C* ScriptManager_C1EA8::SpawnThread_5120C0(s16 start_cmd, char_type bFlag)
 {
     miss2_0x11C* pThread = miss2_0x11C_Pool_6F8064->Allocate_4767A0();
-    pThread->InitThread_511930(a2, start_cmd);
+    pThread->InitThread_511930(bFlag, start_cmd);
     return pThread;
 }
 
@@ -438,7 +438,7 @@ void ScriptManager_C1EA8::Load_512330(const char_type* pScrName)
 }
 
 MATCH_FUNC(0x512400)
-u16 ScriptManager_C1EA8::LoadMissionScript_512400(const char_type* String1, u16* a3)
+u16 ScriptManager_C1EA8::LoadMissionScript_512400(const char_type* String1, u16* pStartCmd)
 {
     u16 Buffer = 0;
     if (gScriptManager_6F8060->field_2F4_bPreloadMissionScripts == 0)
@@ -449,7 +449,7 @@ u16 ScriptManager_C1EA8::LoadMissionScript_512400(const char_type* String1, u16*
         Error_SetName_4A0770(gTmpBuffer_67C598);
         File::Global_Open_4A7060(gTmpBuffer_67C598);
         File::Global_Read_4A71C0(&Buffer, 2);
-        File::Global_Read_4A71C0(a3, 2);
+        File::Global_Read_4A71C0(pStartCmd, 2);
         File::Global_Read_4A71C0(&remainder, 4);
         File::Global_Read_4A71C0(&field_46C_base_pointers[(u16)Buffer], 0xC00);
         File::GetRemainderSize_4A7250(&field_334C_script_data[field_46C_base_pointers[(u16)Buffer]], &remainder);
@@ -460,7 +460,7 @@ u16 ScriptManager_C1EA8::LoadMissionScript_512400(const char_type* String1, u16*
         str_table_entry* pStrEntry = gScriptManager_6F8060->StrEntryByString_5030B0((char_type*)String1);
         u16 field_2_zone_idx = pStrEntry->field_2_zone_idx;
         Buffer = gScriptManager_6F8060->field_C1D72_mission_base_ptr_idx[field_2_zone_idx];
-        *a3 = gScriptManager_6F8060->field_C1D34_mission_start_cmd[field_2_zone_idx];
+        *pStartCmd = gScriptManager_6F8060->field_C1D34_mission_start_cmd[field_2_zone_idx];
         memcpy(&gScriptManager_6F8060->field_46C_base_pointers[Buffer],
                &gScriptManager_6F8060->field_AA934_mission_base_pointers[3072 * field_2_zone_idx],
                0xC00u);

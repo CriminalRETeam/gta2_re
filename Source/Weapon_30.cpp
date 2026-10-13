@@ -148,9 +148,9 @@ void Weapon_30::PoolDeallocate()
 }
 
 MATCH_FUNC(0x5dce20)
-void Weapon_30::add_ammo_5DCE20(u8 a2)
+void Weapon_30::add_ammo_5DCE20(u8 clips)
 {
-    field_0_ammo = a2 * 10;
+    field_0_ammo = clips * 10;
 }
 
 MATCH_FUNC(0x5dce40)
@@ -571,12 +571,12 @@ void Weapon_30::smg_5DDD20()
 
 // https://decomp.me/scratch/OrmRn
 MATCH_FUNC(0x5ddfc0)
-void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
+void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_charge)
 {
     Fix16_Point vector;
     Object_2C* pProjectile;
 
-    if (a3)
+    if (throw_strength)
     {
         field_21 = 0;
         if (field_2_reload_speed == 0)
@@ -601,7 +601,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                 }
                 else
                 {
-                    if (obj_idx == objects::grenade_obj_183 && a4 == 96)
+                    if (obj_idx == objects::grenade_obj_183 && throw_charge == 96)
                     {
                         // maybe holding the grenade for too long
                         gObject_5C_6F8F84->CreateExplosion_52A3D0(field_24_pPed->get_cam_x(),
@@ -624,11 +624,11 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                         Fix16 speed;
                         if (obj_idx == objects::grenade_obj_183)
                         {
-                            speed = dword_706E74 + (Fix16(a3) / Fix16(60)) * (dword_706CF0 + dword_706E80);
+                            speed = dword_706E74 + (Fix16(throw_strength) / Fix16(60)) * (dword_706CF0 + dword_706E80);
                         }
                         else
                         {
-                            speed = dword_706E80 + (Fix16(a3) / Fix16(60)) * dword_706CF0;
+                            speed = dword_706E80 + (Fix16(throw_strength) / Fix16(60)) * dword_706CF0;
                         }
                         gObject_5C_6F8F84->SetPendingDamageOwner_52A210(field_24_pPed->get_ped_ref_idx_420B50());
 
@@ -667,7 +667,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4)
                             else
                             {
                                 // inline here: sub_434130
-                                pProjectile->SetO8Timer_434130((96 - a4) / 8);
+                                pProjectile->SetO8Timer_434130((96 - throw_charge) / 8);
                             }
 
                             if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2))
@@ -1152,7 +1152,7 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
 }
 
 MATCH_FUNC(0x5dfb60)
-void Weapon_30::sub_5DFB60(u8 a2, Sprite* pSprite, Ang16 a4)
+void Weapon_30::sub_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_angle)
 {
     SpriteList_4 hits;
     char_type bHit = 0;
@@ -1163,7 +1163,7 @@ void Weapon_30::sub_5DFB60(u8 a2, Sprite* pSprite, Ang16 a4)
     Fix16 right;
     Fix16 top;
     Fix16 bottom;
-    if (!a2)
+    if (!bFlag)
     {
         left = pSprite->field_14_xy.x - kFP16Two_706EC0;
         right = pSprite->field_14_xy.x + kFP16Two_706EC0;
@@ -1190,7 +1190,7 @@ void Weapon_30::sub_5DFB60(u8 a2, Sprite* pSprite, Ang16 a4)
         {
             Sprite* pHit = hits.PopFrontSprite_5A6DA0();
             // Declared here (9.6f constructs them at the top): both branches share the slots.
-            // The ped branch's `angle - a4` is past the inline budget, so its Normalize is the
+            // The ped branch's `angle - target_angle` is past the inline budget, so its Normalize is the
             // out-of-line Normalize_406C20 while the car branch's is inlined.
             Ang16 angle;
             Ang16 diff;
@@ -1202,7 +1202,7 @@ void Weapon_30::sub_5DFB60(u8 a2, Sprite* pSprite, Ang16 a4)
                         angle = Fix16::atan2_fixed_405320(pHit->field_14_xy.y - pSprite->field_14_xy.y, pHit->field_14_xy.x - pSprite->field_14_xy.x);
                         Fix16::MaxAbsDistance_42A6B0(pHit->field_14_xy.x, pHit->field_14_xy.y, pSprite->field_14_xy.x, pSprite->field_14_xy.y);
 
-                        diff = angle - a4;
+                        diff = angle - target_angle;
                         if (diff < word_706D6C || diff > word_706E28)
                         {
                             if (gMap_0x370_6F6268->sub_4E5640(dword_706CF0,
@@ -1215,14 +1215,14 @@ void Weapon_30::sub_5DFB60(u8 a2, Sprite* pSprite, Ang16 a4)
                                                               pHit->field_14_xy.y,
                                                               pHit->field_1C_zpos))
                             {
-                                byte_706C94 = a2;
+                                byte_706C94 = bFlag;
                                 sub_5DE910(pSprite->get_x_y(),
                                            pHit->get_x_y(),
                                            pHit->field_1C_zpos > pSprite->field_1C_zpos ? pHit->field_1C_zpos : pSprite->field_1C_zpos);
                                 gWeapon_8_707018->field_0.PushSprite_5A6D40(pHit);
-                                if (a2 < 1)
+                                if (bFlag < 1)
                                 {
-                                    sub_5DFB60(a2 + 1, pHit, angle);
+                                    sub_5DFB60(bFlag + 1, pHit, angle);
                                 }
                                 pHit->field_8_char_b4_ptr->field_7C_pPed->SetAttacker_433BF0(field_24_pPed);
                                 pHit->field_8_char_b4_ptr->field_7C_pPed->field_204_killer_id = field_24_pPed->field_200_id;
@@ -1247,7 +1247,7 @@ void Weapon_30::sub_5DFB60(u8 a2, Sprite* pSprite, Ang16 a4)
                         angle = Fix16::atan2_fixed_405320(pHit->field_14_xy.y - pSprite->field_14_xy.y, pHit->field_14_xy.x - pSprite->field_14_xy.x);
                         Fix16::MaxAbsDistance_42A6B0(pHit->field_14_xy.x, pHit->field_14_xy.y, pSprite->field_14_xy.x, pSprite->field_14_xy.y);
 
-                        diff = angle - a4;
+                        diff = angle - target_angle;
                         if (diff < word_706D6C || diff > word_706E28)
                         {
                             if (gMap_0x370_6F6268->sub_4E5640(dword_706CF0,
@@ -1260,14 +1260,14 @@ void Weapon_30::sub_5DFB60(u8 a2, Sprite* pSprite, Ang16 a4)
                                                               pHit->field_14_xy.y,
                                                               pHit->field_1C_zpos))
                             {
-                                byte_706C94 = a2;
+                                byte_706C94 = bFlag;
                                 sub_5DE910(pSprite->get_x_y(),
                                            pHit->get_x_y(),
                                            pHit->field_1C_zpos > pSprite->field_1C_zpos ? pHit->field_1C_zpos : pSprite->field_1C_zpos);
                                 gWeapon_8_707018->field_0.PushSprite_5A6D40(pHit);
-                                if (a2 < 1)
+                                if (bFlag < 1)
                                 {
-                                    sub_5DFB60(a2 + 1, pHit, angle);
+                                    sub_5DFB60(bFlag + 1, pHit, angle);
                                 }
                                 if (!pHit->field_8_car_bc_ptr->is_f78_0x400_425770())
                                 {
@@ -1295,7 +1295,7 @@ void Weapon_30::sub_5DFB60(u8 a2, Sprite* pSprite, Ang16 a4)
             }
         } while (hits.field_0_p18);
 
-        if (bHit && !a2)
+        if (bHit && !bFlag)
         {
             set_field_2C_4CCA80(1);
             if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2) && (gpRng_67AB34->get_cur_rng_41CFE0() & 1))

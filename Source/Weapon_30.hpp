@@ -52,7 +52,7 @@ class Weapon_30
     EXPORT ~Weapon_30();
     EXPORT void init_5DCD90();
     EXPORT void PoolDeallocate();
-    EXPORT void add_ammo_5DCE20(u8 a2);
+    EXPORT void add_ammo_5DCE20(u8 clips);
     EXPORT char_type add_ammo_capped_5DCE40(u8 to_add);
     EXPORT bool is_max_capacity_5DCEA0();
     EXPORT bool sub_5DCEF0();
@@ -63,9 +63,9 @@ class Weapon_30
     EXPORT void pistol_5DD860();
     EXPORT void dual_pistol_5DDA70();
     EXPORT void smg_5DDD20();
-    EXPORT void throwable_5DDFC0(s32 obj_idx, s32 a3, s32 a4);
+    EXPORT void throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_charge);
     EXPORT void sub_5DE4F0();
-    EXPORT void sub_5DFB60(u8 a2, Sprite* pSprite, Ang16 a4);
+    EXPORT void sub_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_angle);
     EXPORT void shocker_5E06B0();
     EXPORT void electro_batton_5E0740();
     EXPORT void car_bomb_5E0AB0(char_type instant_bomb);

@@ -655,10 +655,10 @@ void ObjectDefinition_74::SetRemap_533110(s16 remap)
 }
 
 MATCH_FUNC(0x533150)
-void ObjectDefinition_74::AddSpritePaletteAndSetAnimSpeed_533150(s16 a2, s16 a3)
+void ObjectDefinition_74::AddSpritePaletteAndSetAnimSpeed_533150(s16 palette_offset, s16 anim_speed)
 {
-    field_1E_sprite_palette += a2;
-    field_6C_sprite_anim_speed = a3;
+    field_1E_sprite_palette += palette_offset;
+    field_6C_sprite_anim_speed = anim_speed;
 }
 
 MATCH_FUNC(0x533170)
@@ -739,12 +739,12 @@ ObjectDefinition_74::ObjectDefinition_74()
 }
 
 MATCH_FUNC(0x5332d0)
-ObjectDefinition_74* ObjectDefinitions_8CA8::AllocDefinitionWithSprite_5332D0(s32 idx, s32 a3, s16 a4, u8 a5)
+ObjectDefinition_74* ObjectDefinitions_8CA8::AllocDefinitionWithSprite_5332D0(s32 idx, s32 sprite_type, s16 sprite_palette, u8 anim_speed)
 {
     ObjectDefinition_74* result = AllocDefinition_5343C0(idx);
-    result->field_28_sprite_type = a3;
-    result->field_1E_sprite_palette = a4;
-    result->field_6C_sprite_anim_speed = a5;
+    result->field_28_sprite_type = sprite_type;
+    result->field_1E_sprite_palette = sprite_palette;
+    result->field_6C_sprite_anim_speed = anim_speed;
     result->field_30 = 2;
     return result;
 }

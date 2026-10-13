@@ -15,7 +15,7 @@ class Object_2C;
 class Particle_8
 {
   public:
-    EXPORT Particle_4C* New_53E3C0(Fix16 speed_x, Fix16 speed_y, Fix16 a4, Fix16 additional_speed_x, Fix16 additional_speed_y, Fix16 a7);
+    EXPORT Particle_4C* New_53E3C0(Fix16 speed_x, Fix16 speed_y, Fix16 field_10_value, Fix16 additional_speed_x, Fix16 additional_speed_y, Fix16 field_1C_value);
 
     EXPORT void ParticlesService_53E320();
     EXPORT void EmitBloodBurst_53E450(Fix16 x, Fix16 y, Fix16 z, Ang16 ang);
