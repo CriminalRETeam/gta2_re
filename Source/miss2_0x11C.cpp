@@ -2420,7 +2420,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                                 gStoredCar_6F7560->MarkForDespawn_421470();
                             }
                         }
-                        else if (gCar_6C_677930->CanAlloc_446870(8))
+                        else if (gCar_6C_677930->CanAlloc_446870(car_kind::mission_car_8))
                         {
                             gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
                             gStoredCar_6F7560->SetUniNum_421560(3);

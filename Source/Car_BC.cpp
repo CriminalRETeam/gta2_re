@@ -1612,21 +1612,21 @@ bool Car_6C::CanAlloc_446870(s32 type)
 {
     switch (type)
     {
-        case 5:
+        case car_kind::firefighter_5:
             return this->field_30_firefighter_cars < 1;
-        case 4:
+        case car_kind::paramedic_car_4:
             return this->field_2C_paramedic_cars < 1;
-        case 6:
+        case car_kind::police_6:
             return this->field_34_unit_cars < 5;
-        case 7:
+        case car_kind::roadblock_car_7:
             return this->field_38_roadblock_cars < 11;
-        case 10:
+        case car_kind::Unknown_10:
             return this->field_48_kind10_cars < 11;
-        case 9:
+        case car_kind::parked_car_9:
             return this->field_44_parked_cars < 200;
-        case 1:
+        case car_kind::recycled_1:
             return gCar_6C_677930->field_28_recycled_cars + gCar_6C_677930->field_40_proto_recycled_cars < 15;
-        case 8:
+        case car_kind::mission_car_8:
             return this->field_3C_mission_cars < 23;
         default:
             return false;
