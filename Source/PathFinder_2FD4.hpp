@@ -16,7 +16,7 @@ class PathNode_8
     u8 field_2_xpos;
     u8 field_3_ypos;
     u8 field_4_zpos;
-    char_type field_5;
+    char_type field_5_unused;
     s16 field_6_cost;
 };
 #pragma pack(pop)
@@ -46,7 +46,16 @@ class PathFinder_2FD4
     EXPORT bool ProcessGridCell_5548C0();
     EXPORT void RestoreSavedPosition_554920();
     EXPORT s32 IsFirstPassenger_554A90(Ped* pPed);
-    EXPORT char_type ComputePath_554AB0(s32 ped_id, Ped* pPed, u8 x_start, u8 y_start, u8 z_start, u8 x_end, u8 y_end, u8 z_end, s32 angle_face, u8* pOutPathFailCount);
+    EXPORT char_type ComputePath_554AB0(s32 ped_id,
+                                        Ped* pPed,
+                                        u8 x_start,
+                                        u8 y_start,
+                                        u8 z_start,
+                                        u8 x_end,
+                                        u8 y_end,
+                                        u8 z_end,
+                                        s32 angle_face,
+                                        u8* pOutPathFailCount);
     EXPORT bool FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, u8* ypos, u8* zpos, char_type maybe_timer);
 
     s32 field_0_ped_id;
@@ -59,11 +68,11 @@ class PathFinder_2FD4
     u8 field_11_xEnd;
     u8 field_12_yEnd;
     u8 field_13_zEnd;
-    u8 field_14;
-    u16 field_16;
-    char_type field_18;
-    char_type field_19;
-    char_type field_1A;
+    u8 field_14_bExpanding;
+    u16 field_16_start_cost;
+    char_type field_18_bSearching;
+    char_type field_19_unused;
+    char_type field_1A_unused;
     u8 field_1B_direction;
     u16 field_1C_grid_idx;
     s16 field_1E_current_cost;
@@ -75,24 +84,24 @@ class PathFinder_2FD4
     u8 field_25_xpos;
     u8 field_26_ypos;
     u8 field_27_zpos;
-    char_type field_28;
-    char_type field_29;
-    char_type field_2A;
-    char_type field_2B;
-    s16 field_2C;
+    char_type field_28_grid_origin_x;
+    char_type field_29_grid_origin_y;
+    char_type field_2A_unused;
+    char_type field_2B_unused;
+    s16 field_2C_unused;
     u16 field_2E_iteration_budget;
-    s32 field_30;
-    s16 field_34;
-    s16 field_36;
+    s32 field_30_unused;
+    s16 field_34_unused;
+    s16 field_36_unused;
     char_type field_38_bComputePathInProgress;
-    s16 field_3A;
+    s16 field_3A_unused;
     Ped_List_4 field_3C_ped_list;
     PathNode_8 field_40_grid[1122];
     PathNode_8 field_2350_nodes[398];
-    s32 field_2FC0;
-    s32 field_2FC4;
-    s32 field_2FC8;
-    s32 field_2FCC;
+    s32 field_2FC0_unused;
+    s32 field_2FC4_unused;
+    s32 field_2FC8_unused;
+    s32 field_2FCC_unused;
     char_type field_2FD0_bTimedOut;
     u8 field_2FD1_time_out_counter;
 };

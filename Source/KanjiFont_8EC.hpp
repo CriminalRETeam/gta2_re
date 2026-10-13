@@ -21,7 +21,7 @@ struct KanjiGlyph_10
 struct kanji_0x2
 {
     char_type field_0;
-    char_type field_1;
+    char_type field_1_unused;
 };
 
 struct kanji_0x20

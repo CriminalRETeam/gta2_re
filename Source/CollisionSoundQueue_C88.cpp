@@ -52,7 +52,7 @@ void CollisionEvent_28::SetupForCar_40B890(Car_BC* pCar)
             }
             else
             {
-                Object_2C* p2C = gCollisionTarget_679188.field_20_pHitSprite->As2C_40FEC0();
+                Object_2C* p2C = gCollisionTarget_679188.field_20_pHitSprite->AsObject2C_40FEC0();
 
                 field_18_object_model = p2C->get_model_40FEF0();
                 if (field_18_object_model == objects::diagonal_wall_collision_obj_166)
@@ -101,7 +101,7 @@ void CollisionEvent_28::SetupForPed_40B980()
             }
             else
             {
-                Object_2C* p2C = gCollisionTarget_679188.field_20_pHitSprite->As2C_40FEC0();
+                Object_2C* p2C = gCollisionTarget_679188.field_20_pHitSprite->AsObject2C_40FEC0();
                 field_18_object_model = p2C->get_model_40FEF0();
                 if (field_18_object_model == objects::diagonal_wall_collision_obj_166)
                 {
@@ -160,7 +160,7 @@ bool CollisionEvent_28::SetupForObject_40BA60(Object_2C* pObj)
             }
             else
             {
-                Object_2C* o2c = gCollisionTarget_679188.field_20_pHitSprite->As2C_40FEC0();
+                Object_2C* o2c = gCollisionTarget_679188.field_20_pHitSprite->AsObject2C_40FEC0();
                 if (!o2c->GetDefField63_40FF00())
                 {
                     return 0;
@@ -209,7 +209,7 @@ void CollisionSoundQueue_C88::AddCollision_40BBA0(Sprite* pSprite, Fix16 impact_
         }
         else
         {
-            Object_2C* p2c = pSprite->As2C_40FEC0();
+            Object_2C* p2c = pSprite->AsObject2C_40FEC0();
             if (!pEvent->SetupForObject_40BA60(p2c))
             {
                 return;
@@ -243,7 +243,7 @@ void CollisionSoundQueue_C88::AddFloorCollision_40BC40(Sprite* pSprite)
         }
         else
         {
-            Object_2C* p2c = pSprite->As2C_40FEC0();
+            Object_2C* p2c = pSprite->AsObject2C_40FEC0();
             pEvent->field_0_type = collision_event_type::object_floor_1;
             pEvent->field_18_object_model = p2c->get_model_40FEF0();
         }
@@ -275,7 +275,7 @@ void CollisionSoundQueue_C88::AddBlockCollision_40BD10(Sprite* pSprite)
         }
         else
         {
-            Object_2C* p2c = pSprite->As2C_40FEC0();
+            Object_2C* p2c = pSprite->AsObject2C_40FEC0();
             pEvent->field_0_type = collision_event_type::object_floor_1;
             pEvent->field_18_object_model = p2c->get_model_40FEF0();
         }
@@ -322,7 +322,7 @@ bool CollisionTarget_28::IsObj2C_477A10()
 {
     if (field_0_type == collision_target_type::sprite_3)
     {
-        Object_2C* p2c = field_20_pHitSprite->As2C_40FEC0();
+        Object_2C* p2c = field_20_pHitSprite->AsObject2C_40FEC0();
         if (p2c)
         {
             if (p2c->field_8->field_4C == 3)

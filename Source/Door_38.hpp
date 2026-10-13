@@ -5,7 +5,7 @@
 
 class Object_2C;
 class DoorData_10;
-class Sprite_4C;
+class SpriteShape_4C;
 class Ped;
 class Car_BC;
 class Sprite;
@@ -45,7 +45,7 @@ struct DoorAnimInfo_A
     s16 field_4_internal_tile_idx;
     s16 field_6_open_internal_tile_idx;
     u8 field_8_speed;
-    s8 field_9;
+    s8 field_9_unused;
 };
 
 class Door_38
@@ -59,16 +59,16 @@ class Door_38
 
     EXPORT Door_38();
     EXPORT ~Door_38();
-    EXPORT bool IsSpriteClearOfDoorCollision_49C6A0(Sprite* a1);
-    EXPORT bool CanOpen_49C6D0(Car_BC* a2);
-    EXPORT bool CanOpenForPed_49C7F0(Ped* a2);
+    EXPORT bool IsSpriteClearOfDoorCollision_49C6A0(Sprite* pSprite);
+    EXPORT bool CanOpen_49C6D0(Car_BC* pCar);
+    EXPORT bool CanOpenForPed_49C7F0(Ped* pPed);
     EXPORT void Open_49C840();
-    EXPORT void TryOpenForCar_49C870(Car_BC* a2);
-    EXPORT void TryOpenForPed_49C8A0(Ped* a2);
-    EXPORT void InitSingleNoCheck_49C8D0(u8 arg0, u8 a1, u8 a2, u8 a3, u8 a4, s32 a5);
+    EXPORT void TryOpenForCar_49C870(Car_BC* pCar);
+    EXPORT void TryOpenForPed_49C8A0(Ped* pPed);
+    EXPORT void InitSingleNoCheck_49C8D0(u8 door_group, u8 gr_id, u8 x, u8 y, u8 z, s32 facing);
     EXPORT void AddDoorData_49CA50(u8 gr_id, char_type x, char_type y, char_type z, s32 face);
-    EXPORT void InitSingle_49CAC0(DoorData_10* a2, char_type a3, u8 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8, Fix16 a9);
-    EXPORT void InitDouble_49CC00(DoorData_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8);
+    EXPORT void InitSingle_49CAC0(DoorData_10* pDoorData, char_type bFlip, u8 obj_id, Fix16 trigger_x, Fix16 trigger_y, Fix16 trigger_z, Fix16 trigger_w, Fix16 trigger_h);
+    EXPORT void InitDouble_49CC00(DoorData_10* pDoorData, char_type bFlip, u8 obj_id, Fix16 trigger_x, Fix16 trigger_y, Fix16 trigger_z, Fix16 trigger_w, Fix16 trigger_h);
     EXPORT void UpdateAutoClose_49CD90();
     EXPORT char_type Service_49CE90();
     EXPORT void get_door_xyz_face_49CEE0(u8* pX, u8* pY, u8* pZ, u32* pFace);
@@ -82,7 +82,7 @@ class Door_38
     // 9.6f 0x4895F0
     inline void ClearF2C_4895F0()
     {
-        field_2C = 0;
+        field_2C_bCanAutoOpen = 0;
     }
 
     // 9.6f 0x489600
@@ -116,7 +116,7 @@ class Door_38
     {
         field_20_state = open;
         field_10_car_bc = car_bc_ptr;
-        field_2C = 1;
+        field_2C_bCanAutoOpen = 1;
     }
 
     // inlined in 0x4769a0
@@ -124,7 +124,7 @@ class Door_38
     {
         field_20_state = open;
         field_10_model_id = id;
-        field_2C = 1;
+        field_2C_bCanAutoOpen = 1;
     }
 
     // inlined in 0x4769c0
@@ -132,14 +132,14 @@ class Door_38
     {
         field_20_state = open;
         field_10_ped = ped_ptr;
-        field_2C = 1;
+        field_2C_bCanAutoOpen = 1;
     }
 
     // inlined in 0x476a00
     inline void set_target_id(s32 id)
     {
         field_14_target_id = id;
-        field_2C = 1;
+        field_2C_bCanAutoOpen = 1;
     }
 
     DoorData_10* field_0_primary_door_data;
@@ -158,14 +158,14 @@ class Door_38
     u16 field_1E_close_timer;
     s32 field_20_state;
     s32 field_24_close_type;
-    char_type field_28;
+    char_type field_28_bClosing;
     char_type field_29_bAuto;
     char_type field_2A_bDoFlip;
     char_type field_2B_bReversed;
-    char_type field_2C;
+    char_type field_2C_bCanAutoOpen;
     char_type field_2D_play_open_sound;
-    char_type field_2E;
-    char_type field_2F;
+    char_type field_2E_unused;
+    char_type field_2F_unused;
     Fix16 field_30_x;
     Fix16 field_34_y;
 };

@@ -68,11 +68,11 @@ class text_0x14
     char_type field_10_lang_code;
     char_type field_11_pad[3];
 
-    EXPORT u16 RemapExtendedChar_5B58D0(u16 a2);
+    EXPORT u16 RemapExtendedChar_5B58D0(u16 ch);
 
-    EXPORT void RemapExtendedCharsIfNotJapanese_5B5910(wchar_t* a2);
+    EXPORT void RemapExtendedCharsIfNotJapanese_5B5910(wchar_t* pText);
 
-    EXPORT void RemapExtendedChars_5B5930(wchar_t* a1);
+    EXPORT void RemapExtendedChars_5B5930(wchar_t* pStr);
 
     EXPORT void TKEY_Load_5B5960(u32 size);
 
@@ -84,15 +84,15 @@ class text_0x14
 
     EXPORT wchar_t* TKeyFind_5B5A50(const char_type* pIdStr);
 
-    EXPORT u16 ToUpper_5B5AD0(wchar_t a2);
+    EXPORT u16 ToUpper_5B5AD0(wchar_t ch);
 
     EXPORT wchar_t* StrToUpper_5B5B80(wchar_t* pWideStr);
 
     EXPORT static s32 __stdcall InsertLineBreaksAndGetNumLines_5B5BC0(wchar_t* pDestStr, const wchar_t* pSrcStr, s32 max_line_width, u16 font_type);
 
-    EXPORT static char_type* __stdcall Wide2PesudoAscii_5B5D10(const wchar_t* a1);
+    EXPORT static char_type* __stdcall Wide2PesudoAscii_5B5D10(const wchar_t* pText);
 
-    EXPORT static wchar_t* __stdcall Ascii2Wide_5B5DF0(char_type* a1);
+    EXPORT static wchar_t* __stdcall Ascii2Wide_5B5DF0(char_type* pStr);
 
     EXPORT void load_chunk_5B5E20(const char_type* chunk_type, u32 chunk_len);
 

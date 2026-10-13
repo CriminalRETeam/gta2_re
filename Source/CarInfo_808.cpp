@@ -66,20 +66,20 @@ char* __stdcall CarInfo_808::parse_gci_file_430A30(void* pGciData,
     processed_output_676250 = 0;
     modelPhyArrLen_675F90 = modelPhyArrLen;
 
-    s32 v6;
-    s32 v5 = 0;
-    while (v5 == 0)
+    s32 parse_result;
+    s32 token_result = 0;
+    while (token_result == 0)
     {
-        v5 = ReadToken_430B10(token_buffer_676024);
-        if (v5 < 0)
+        token_result = ReadToken_430B10(token_buffer_676024);
+        if (token_result < 0)
         {
-            return SetErr_430AC0(v5);
+            return SetErr_430AC0(token_result);
         }
 
-        v6 = ParseTokenAndPush_430C70(token_buffer_676024);
-        if (v6 < 0)
+        parse_result = ParseTokenAndPush_430C70(token_buffer_676024);
+        if (parse_result < 0)
         {
-            return SetErr_430AC0(v6);
+            return SetErr_430AC0(parse_result);
         }
     }
 
@@ -88,14 +88,14 @@ char* __stdcall CarInfo_808::parse_gci_file_430A30(void* pGciData,
 }
 
 MATCH_FUNC(0x430AC0)
-char* __stdcall CarInfo_808::SetErr_430AC0(s32 a1)
+char* __stdcall CarInfo_808::SetErr_430AC0(s32 error_code)
 {
-    if (a1 > 0 || a1 < -GTA2_COUNTOF_S(error_table_61A6D4) - 1)
+    if (error_code > 0 || error_code < -GTA2_COUNTOF_S(error_table_61A6D4) - 1)
     {
-        a1 = -GTA2_COUNTOF(error_table_61A6D4);
+        error_code = -GTA2_COUNTOF(error_table_61A6D4);
     }
 
-    sprintf(Buffer_675FD4, "%s at line %d", error_table_61A6D4[-a1], line_number_676258);
+    sprintf(Buffer_675FD4, "%s at line %d", error_table_61A6D4[-error_code], line_number_676258);
     return Buffer_675FD4;
 }
 
@@ -189,9 +189,9 @@ s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr)
     s32 type;
     s32 error_ret;
     s16 negated;
-    s32 v9;
+    s32 parsed_value;
     Fix16 fix16_num;
-    s32 v11;
+    s32 negated_value;
     s16 tmp;
 
     char_type* pCurr = pStr;
@@ -313,23 +313,23 @@ s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr)
                 case DataType::dword:
                     if (bHex == 1)
                     {
-                        error_ret = CarInfo_808::HexStr2Int_430EC0(pCurr, &v9);
+                        error_ret = CarInfo_808::HexStr2Int_430EC0(pCurr, &parsed_value);
                     }
                     else
                     {
-                        error_ret = CarInfo_808::StrToInt_430FA0(pCurr, &v9);
+                        error_ret = CarInfo_808::StrToInt_430FA0(pCurr, &parsed_value);
                     }
 
                     if (!error_ret)
                     {
                         if (bNegate)
                         {
-                            v11 = -(s16)v9;
-                            error_ret = CarInfo_808::PushData_430E60(&v11, sizeof(DWORD));
+                            negated_value = -(s16)parsed_value;
+                            error_ret = CarInfo_808::PushData_430E60(&negated_value, sizeof(DWORD));
                         }
                         else
                         {
-                            error_ret = CarInfo_808::PushData_430E60(&v9, sizeof(DWORD));
+                            error_ret = CarInfo_808::PushData_430E60(&parsed_value, sizeof(DWORD));
                         }
 
                         if (error_ret >= 0)
@@ -384,7 +384,7 @@ MATCH_FUNC(0x430EC0)
 s32 __stdcall CarInfo_808::HexStr2Int_430EC0(const char* pStr, s32* pOut)
 {
     *pOut = 0;
-    s32 iVar5 = 1;
+    s32 place_value = 1;
     s32 strLen = strlen(pStr);
 
     while (--strLen >= 0)
@@ -395,18 +395,18 @@ s32 __stdcall CarInfo_808::HexStr2Int_430EC0(const char* pStr, s32* pOut)
             return 0xfffffff6;
         }
 
-        s32 sVar2;
+        s32 digit_value;
         if (currentChar < '0' || '9' < currentChar)
         {
-            sVar2 = (currentChar - 0x37) * iVar5;
+            digit_value = (currentChar - 0x37) * place_value;
         }
         else
         {
-            sVar2 = (currentChar - 0x30) * iVar5;
+            digit_value = (currentChar - 0x30) * place_value;
         }
 
-        *pOut += sVar2;
-        iVar5 = iVar5 << 4;
+        *pOut += digit_value;
+        place_value = place_value << 4;
     }
 
     return 0;
@@ -416,7 +416,7 @@ MATCH_FUNC(0x430f30)
 s32 __stdcall CarInfo_808::HexStr2Int_430F30(const char* pStr, s16* pOut)
 {
     *pOut = 0;
-    s32 iVar5 = 1;
+    s32 place_value = 1;
     s32 strLen = strlen(pStr);
 
     while (--strLen >= 0)
@@ -427,18 +427,18 @@ s32 __stdcall CarInfo_808::HexStr2Int_430F30(const char* pStr, s16* pOut)
             return 0xfffffff7;
         }
 
-        s32 sVar2;
+        s32 digit_value;
         if (currentChar < '0' || '9' < currentChar)
         {
-            sVar2 = (currentChar - 0x37) * iVar5;
+            digit_value = (currentChar - 0x37) * place_value;
         }
         else
         {
-            sVar2 = (currentChar - 0x30) * iVar5;
+            digit_value = (currentChar - 0x30) * place_value;
         }
 
-        *pOut += sVar2;
-        iVar5 = iVar5 << 4;
+        *pOut += digit_value;
+        place_value = place_value << 4;
     }
 
     return 0;
@@ -448,7 +448,7 @@ MATCH_FUNC(0x430fa0)
 s32 __stdcall CarInfo_808::StrToInt_430FA0(const char* pStr, s32* pOut)
 {
     *pOut = 0;
-    s32 iVar5 = 1;
+    s32 place_value = 1;
     s32 strLen = strlen(pStr);
 
     while (--strLen >= 0)
@@ -459,9 +459,9 @@ s32 __stdcall CarInfo_808::StrToInt_430FA0(const char* pStr, s32* pOut)
             return 0xfffffff8;
         }
 
-        s32 sVar2 = (currentChar - 0x30) * iVar5;
-        *pOut += sVar2;
-        iVar5 = iVar5 * 10;
+        s32 digit_value = (currentChar - 0x30) * place_value;
+        *pOut += digit_value;
+        place_value = place_value * 10;
     }
 
     return 0;
@@ -471,8 +471,8 @@ MATCH_FUNC(0x431000)
 s32 __stdcall CarInfo_808::FloatStrToFix16_431000(char* pStr, Fix16& pOut)
 {
     pOut = kZero_6761A4;
-    bool bVar2 = false;
-    s32 iVar6 = 1;
+    bool bPastDecimalPoint = false;
+    s32 decimal_divisor = 1;
     s32 strLen = strlen(pStr);
 
     while (--strLen >= 0)
@@ -480,18 +480,18 @@ s32 __stdcall CarInfo_808::FloatStrToFix16_431000(char* pStr, Fix16& pOut)
         char currentChar = pStr[strLen];
         if (currentChar < '0' || '9' < currentChar)
         {
-            if (currentChar != '.' || bVar2)
+            if (currentChar != '.' || bPastDecimalPoint)
             {
                 return -11;
             }
-            pOut.mValue /= iVar6;
-            iVar6 = 1;
-            bVar2 = true;
+            pOut.mValue /= decimal_divisor;
+            decimal_divisor = 1;
+            bPastDecimalPoint = true;
         }
         else
         {
-            pOut.mValue += (currentChar - 0x30) * iVar6 * 0x4000;
-            iVar6 = iVar6 * 10;
+            pOut.mValue += (currentChar - 0x30) * decimal_divisor * 0x4000;
+            decimal_divisor = decimal_divisor * 10;
         }
     }
     return 0;
@@ -501,7 +501,7 @@ MATCH_FUNC(0x431080)
 s32 __stdcall CarInfo_808::StrToInt_431080(const char* pStr, s16* pOut)
 {
     *pOut = 0;
-    s32 iVar5 = 1;
+    s32 place_value = 1;
     s32 strLen = strlen(pStr);
 
     while (--strLen >= 0)
@@ -512,16 +512,16 @@ s32 __stdcall CarInfo_808::StrToInt_431080(const char* pStr, s16* pOut)
             return 0xffffffff;
         }
 
-        s32 sVar2 = (currentChar - 0x30) * iVar5;
-        *pOut += sVar2;
-        iVar5 = iVar5 * 10;
+        s32 digit_value = (currentChar - 0x30) * place_value;
+        *pOut += digit_value;
+        place_value = place_value * 10;
     }
 
     return 0;
 }
 
 MATCH_FUNC(0x440860)
-Fix16 UnknownList::SignedPixelsToFix16_440860(s8 var)
+Fix16 PixelsToFix16Table::SignedPixelsToFix16_440860(s8 var)
 {
     if (var < 0)
     {
@@ -624,7 +624,7 @@ MATCH_FUNC(0x4546d0)
 void CarInfo_808::LoadModelPhysics_4546D0()
 {
     u32 number_of_cars = gGtx_0x106C_703DD4->get_number_of_cars();
-    u32 local_1c;
+    u32 data_size;
     size_t file_size;
     void* file_content = File::ReadFileToBuffer_4A6C80(file_name_677EC4, &file_size);
 
@@ -634,7 +634,7 @@ void CarInfo_808::LoadModelPhysics_4546D0()
                                                          file_size,
                                                          field_804_raw_data,
                                                          number_of_cars * sizeof(ModelPhysics_48),
-                                                         &local_1c);
+                                                         &data_size);
 
     crt::free(file_content);
 
@@ -646,17 +646,17 @@ void CarInfo_808::LoadModelPhysics_4546D0()
         FatalError_4A38C0(Gta2Error::BinmakeError, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbc, gErrStr_67C29C, gErrStr2_67C3A8);
     }
 
-    if (local_1c % sizeof(ModelPhysics_48))
+    if (data_size % sizeof(ModelPhysics_48))
     {
-        FatalError_4A38C0(Gta2Error::InvalidSize, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbd, file_name_677EC4, local_1c);
+        FatalError_4A38C0(Gta2Error::InvalidSize, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbd, file_name_677EC4, data_size);
     }
 
-    if (local_1c != number_of_cars * sizeof(ModelPhysics_48))
+    if (data_size != number_of_cars * sizeof(ModelPhysics_48))
     {
         FatalError_4A38C0(Gta2Error::ModelCountMismatchInStyleFile,
                           "C:\\Splitting\\Gta2\\Source\\carinfo.cpp",
                           0xbe,
-                          local_1c / sizeof(ModelPhysics_48),
+                          data_size / sizeof(ModelPhysics_48),
                           file_name_677EC4,
                           number_of_cars);
     }
@@ -771,15 +771,15 @@ CarInfo_808::~CarInfo_808()
 MATCH_FUNC(0x5618F0)
 EXPORT Fix16 __stdcall ComputeThrustWithTurbo_5618F0(Fix16 half_thrust, Fix16 thrust_div5, s8 bTurbo)
 {
-    Fix16 v4;
+    Fix16 thrust;
     if (bTurbo)
     {
-        v4 = (k_dword_6FE210 + k_dword_6FDFEC) * ((thrust_div5 * k_dword_6FDEFC));
+        thrust = (k_dword_6FE210 + k_dword_6FDFEC) * ((thrust_div5 * k_dword_6FDEFC));
     }
     else
     {
-        v4 = thrust_div5 * k_dword_6FDEFC;
+        thrust = thrust_div5 * k_dword_6FDEFC;
     }
-    v4 = v4 + half_thrust;
-    return v4;
+    thrust = thrust + half_thrust;
+    return thrust;
 }

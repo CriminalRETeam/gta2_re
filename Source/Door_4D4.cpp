@@ -38,38 +38,38 @@ void DoorData_10::Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
     DoorAnimInfo_A* pInfo = &gDoorAnimInfo_67BB38[anim_id];
     gGtx_0x106C_703DD4->SetTileRemap_5AA930(pInfo->field_4_internal_tile_idx, pInfo->field_0_start_frame);
 
-    u16 v8 = pInfo->field_4_internal_tile_idx | 0x1C00; // wall, bullet wall and flat
+    u16 tile_word = pInfo->field_4_internal_tile_idx | 0x1C00; // wall, bullet wall and flat
     if (bDoFlip)
     {
-        v8 |= 0x2000; // flip
+        tile_word |= 0x2000; // flip
     }
 
     if (gMap_0x370_6F6268->get_block_4DFE10(this->field_4_x, this->field_5_y, this->field_6_z))
     {
-        gMap_0x370_6F6268->ChangeBlock_4E8620(this->field_4_x, this->field_5_y, this->field_6_z, this->field_8_face, v8);
+        gMap_0x370_6F6268->ChangeBlock_4E8620(this->field_4_x, this->field_5_y, this->field_6_z, this->field_8_face, tile_word);
         gMap_0x370_6F6268->ChangeBlock_4E8620(this->field_4_x, this->field_5_y, this->field_6_z, GetOppositeFace_4DEEB0(this->field_8_face), pInfo->field_4_internal_tile_idx);
     }
     else
     {
         blockData.init_44C840();
 
-        // Remaining diff: the original stores v8 before loading the tile idx in each case
+        // Remaining diff: the original stores tile_word before loading the tile idx in each case
         switch (field_8_face)
         {
             case 1:
-                blockData.field_0_left = v8;
+                blockData.field_0_left = tile_word;
                 blockData.field_2_right = pInfo->field_4_internal_tile_idx;
                 break;
             case 2:
-                blockData.field_2_right = v8;
+                blockData.field_2_right = tile_word;
                 blockData.field_0_left = pInfo->field_4_internal_tile_idx;
                 break;
             case 3:
-                blockData.field_4_top = v8;
+                blockData.field_4_top = tile_word;
                 blockData.field_6_bottom = pInfo->field_4_internal_tile_idx;
                 break;
             case 4:
-                blockData.field_6_bottom = v8;
+                blockData.field_6_bottom = tile_word;
                 blockData.field_4_top = pInfo->field_4_internal_tile_idx;
                 break;
             default:
@@ -80,18 +80,18 @@ void DoorData_10::Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
 }
 
 MATCH_FUNC(0x49c4e0)
-void DoorData_10::Open_49C4E0(u8 a1)
+void DoorData_10::Open_49C4E0(u8 bFlip)
 {
     DoorAnimInfo_A* tmp = &gDoorAnimInfo_67BB38[field_7_gr_id];
     if (field_0_state != 2)
     {
         field_0_state = 2;
-        s16 uVar3 = tmp->field_6_open_internal_tile_idx | 0x1000;
-        if (a1)
+        s16 tile_idx = tmp->field_6_open_internal_tile_idx | 0x1000;
+        if (bFlip)
         {
-            uVar3 |= 0x2000;
+            tile_idx |= 0x2000;
         }
-        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, field_8_face, uVar3);
+        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, field_8_face, tile_idx);
         gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, GetOppositeFace_4DEEB0(field_8_face), tmp->field_6_open_internal_tile_idx);
         gTileAnim_2_7052C4->AddAnim_5BC260(tmp->field_6_open_internal_tile_idx, tmp->field_0_start_frame, tmp->field_2_end_frame, tmp->field_8_speed, 1);
     }
@@ -276,7 +276,7 @@ MATCH_FUNC(0x49d2d0)
 void Door_4D4::RegisterDoorInfo_49D2D0(s16 start_frame, s16 end_frame, char_type speed)
 {
     DoorAnimInfo_A* psVar3 = &gDoorAnimInfo_67BB38[0];
-    u8 bVar1 = 0;
+    u8 idx = 0;
     do
     {
         if (psVar3->field_0_start_frame == 0 && psVar3->field_2_end_frame == 0)
@@ -284,8 +284,8 @@ void Door_4D4::RegisterDoorInfo_49D2D0(s16 start_frame, s16 end_frame, char_type
             break;
         }
         psVar3++;
-        bVar1++;
-    } while (bVar1 < 5);
+        idx++;
+    } while (idx < 5);
 
     psVar3->field_0_start_frame = start_frame;
     psVar3->field_2_end_frame = end_frame;
@@ -298,15 +298,15 @@ void Door_4D4::RegisterDoorInfo_49D2D0(s16 start_frame, s16 end_frame, char_type
 }
 
 MATCH_FUNC(0x49d340)
-void Door_4D4::TryOpenDoorForCar_49D340(Car_BC* a2, u8 a3)
+void Door_4D4::TryOpenDoorForCar_49D340(Car_BC* pCar, u8 door_idx)
 {
-    field_0_doors[a3].TryOpenForCar_49C870(a2);
+    field_0_doors[door_idx].TryOpenForCar_49C870(pCar);
 }
 
 MATCH_FUNC(0x49d370)
-void Door_4D4::TryOpenDoorForPed_49D370(Ped* a2, u8 idx)
+void Door_4D4::TryOpenDoorForPed_49D370(Ped* pPed, u8 idx)
 {
-    field_0_doors[idx].TryOpenForPed_49C8A0(a2);
+    field_0_doors[idx].TryOpenForPed_49C8A0(pPed);
 }
 
 MATCH_FUNC(0x49d3a0)
@@ -374,7 +374,7 @@ Door_4D4::Door_4D4()
     }
     memset(gDoorAnimInfo_67BB38, 0, sizeof(gDoorAnimInfo_67BB38));
     this->field_4D0_count = 0;
-    this->field_4D2 = 205;
+    this->field_4D2_unused = 205;
 }
 
 // The EH frame needs <new> kept out of the TU (see gbh_graphics.hpp)

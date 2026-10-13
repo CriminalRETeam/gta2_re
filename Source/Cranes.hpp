@@ -36,25 +36,25 @@ class Crane_15C
     EXPORT void HookTransporterCargo_47EDF0();
     EXPORT void HookPickupCar_47EF80();
     EXPORT void sub_47F170();
-    EXPORT void SetTransporterCargoTarget_47F220(Fix16 a2, Fix16 a3, Sprite* a4, Sprite* a5);
-    EXPORT void SetDropTransporterTarget_47F290(Fix16 a2, Fix16 a3, Sprite* a4);
-    EXPORT void SetPickupCarTarget_47F2F0(Fix16 a2, Fix16 a3, Sprite* a4);
+    EXPORT void SetTransporterCargoTarget_47F220(Fix16 radius, Fix16 angle, Sprite* pCargo, Sprite* pTransporter);
+    EXPORT void SetDropTransporterTarget_47F290(Fix16 radius, Fix16 angle, Sprite* pSprite);
+    EXPORT void SetPickupCarTarget_47F2F0(Fix16 radius, Fix16 angle, Sprite* pSprite);
     EXPORT bool IsTransporterCargoTargetValid_47F350();
     EXPORT bool IsPickupCarTargetValid_47F3D0();
     EXPORT bool IsDropTransporterTargetValid_47F450();
     EXPORT void UpdateCraneTargets_47F4C0();
     EXPORT bool ComputeHookPolar_47F6C0(Fix16_Point& pPoint, Fix16* pOutF16, Fix16* pOutAng);
-    EXPORT void TargetTransporter_47F7F0(Car_BC* a2);
-    EXPORT void PickUpCar_47F930(Car_BC* a2);
+    EXPORT void TargetTransporter_47F7F0(Car_BC* pCar);
+    EXPORT void PickUpCar_47F930(Car_BC* pCar);
     EXPORT void TryNextDropPosition_47FB40();
     EXPORT s32 MoveTowardsTargets_47FBA0();
     EXPORT void ReleaseHookedCar_47FD10();
     EXPORT void UpdateCraneTick_47FD50();
     EXPORT void UpdateCraneSprites_47FE10();
     EXPORT void Service_480310();
-    EXPORT void InitCrane_4803B0(Fix16 a2, Fix16 a3, char_type a4);
-    EXPORT void CraneTargetPickupCheck_480900(Fix16 a2, Fix16 a3, Ang16 a4);
-    EXPORT void ComputePickupAlignment_480B60(Fix16 a2, Fix16 a3, Ang16 a4);
+    EXPORT void InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type obj_id);
+    EXPORT void CraneTargetPickupCheck_480900(Fix16 xpos, Fix16 ypos, Ang16 ang);
+    EXPORT void ComputePickupAlignment_480B60(Fix16 xpos, Fix16 ypos, Ang16 ang);
     EXPORT Car_BC* GetCarFromCrane_480DA0();
 
     inline void SetHomeRotation_4768E0(Ang16 rotation)
@@ -79,17 +79,17 @@ class Crane_15C
     Fix16_Point field_10_hooked_sprite_offset;
     Fix16_Point field_18_target1_offset;
     Fix16_Point field_20_target2_offset;
-    struct_4 field_28_strct4;
+    SpriteList_4 field_28_strct4;
     Object_2C* field_2C_rotor_obj;
-    Object_2C* field_30;
-    Object_2C* field_34;
-    Object_2C* field_38;
-    Object_2C* field_3C;
-    Object_2C* field_40;
-    Object_2C* field_44;
-    Object_2C* field_48;
-    Object_2C* field_4C;
-    Object_2C* field_50;
+    Object_2C* field_30_part_obj_0;
+    Object_2C* field_34_part_obj_1;
+    Object_2C* field_38_part_obj_2;
+    Object_2C* field_3C_part_obj_3;
+    Object_2C* field_40_part_obj_4;
+    Object_2C* field_44_part_obj_5;
+    Object_2C* field_48_part_obj_6;
+    Object_2C* field_4C_part_obj_7;
+    Object_2C* field_50_part_obj_8;
     Object_2C* field_54_hook_obj;
     Object_2C* field_58_crane_base_obj;
     Object_2C* field_5C_counterweight_obj;
@@ -108,7 +108,7 @@ class Crane_15C
     Fix16 field_90_hook_radius; //  Radial distance
     Fix16 field_94_hook_radius_speed;
     Fix16 field_98_crane_angle_speed;
-    Fix16 field_9C;
+    Fix16 field_9C_unused;
     Fix16 field_A0_hook_axial_angle;  // The angle in its own rotation axis, e.g. the angle of the lifted car
     Fix16 field_A4_hook_axial_angle_speed;
     Fix16 field_A8_home_angle;
@@ -149,30 +149,30 @@ class Crane_15C
     Fix16 field_138_target2_rot;
     Fix16 field_13C_target2_hook_depth;
     s16 field_140_powerup_cmd;
-    s16 field_142;
-    s32 field_144;
+    s16 field_142_unused;
+    s32 field_144_crane_mode;
     s32 field_148_disabled;
     char_type field_14C_return_delay;
     char_type field_14D_is_busy;
-    char_type field_14E;
-    char_type field_14F;
-    s32 field_150;
-    char_type field_154;
-    char_type field_155;
+    char_type field_14E_unused;
+    char_type field_14F_unused;
+    s32 field_150_hook_job;
+    char_type field_154_unused;
+    char_type field_155_load_phase;
     char_type field_156_is_rotating;
     char_type field_157_is_radius_changing;
     char_type field_158_is_hook_depth_changing;
     char_type field_159_hooked_car_this_frame;
-    char_type field_15A;
-    char_type field_15B;
+    char_type field_15A_unused;
+    char_type field_15B_unused;
 };
 
 class CranePool_D9C
 {
   public:
-    EXPORT void PickUpCar_480E00(Car_BC* a2, u8 a3);
+    EXPORT void PickUpCar_480E00(Car_BC* pCar, u8 crane_idx);
     EXPORT void CranesService_480E50();
-    EXPORT Crane_15C* NewCrane_480EC0(Fix16 a2, Fix16 a3);
+    EXPORT Crane_15C* NewCrane_480EC0(Fix16 x_pos, Fix16 y_pos);
     EXPORT CranePool_D9C();
     EXPORT ~CranePool_D9C();
 

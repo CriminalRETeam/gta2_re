@@ -10,7 +10,7 @@ struct SyncCheckData_1F
     u8 field_0_type; // 5
     u32 field_1_flags; // 1: log random extra, 2: sync check, 4: log random
     s32 field_5_map_size;
-    s32 field_9; // not used
+    s32 field_9_unused; // not used
     s32 field_D_script_sum;
     s32 field_11_exe_a;
     s32 field_15_exe_b;

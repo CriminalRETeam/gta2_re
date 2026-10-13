@@ -567,7 +567,7 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_P
         pPointer->field_8_char->SetPedType_403920(ped_type::script_created_5);
         pPointer->field_8_char->set_occupation_403970(pCmd->field_1C_occupation);
         pPointer->field_8_char->field_26C_graphic_type = ped_graphic_type::character_1;
-        pPointer->field_8_char->SetObjective(objectives_enum::wait_on_foot_26, 9999);
+        pPointer->field_8_char->SetObjective(objectives_enum::wait_on_foot_26);
         pPointer->field_8_char->set_health_4039A0(100);
         Sprite* pSprite = pPointer->field_8_char->GetSprite_46DF50();
         pSprite->ResolveCollisionWithCarPedOrObject_5A2A30();
@@ -575,14 +575,10 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_P
 }
 
 MATCH_FUNC(0x504110)
-Ped* miss2_0x11C::SetCharObjective_504110(SCR_CHAR_OBJECTIVE* pCmd, SCR_POINTER* pPointer)
+void miss2_0x11C::SetCharObjective_504110(SCR_CHAR_OBJECTIVE* pCmd, SCR_POINTER* pPointer)
 {
-    (pPointer->field_8_char)->SetObjective(pCmd->field_A_objective, 9999);
-    Ped* pPed = pPointer->field_8_char;
-    BitSet32 flag = pPed->field_21C;
-    flag.clear_bit(ped_bit_index::scheduled_for_removal_10);
-    pPed->field_21C = flag.m_var;
-    return pPed;
+    pPointer->field_8_char->SetObjective(pCmd->field_A_objective);
+    pPointer->field_8_char->field_21C_bf.bScheduledForRemoval = false;
 }
 
 MATCH_FUNC(0x504150)
@@ -591,7 +587,7 @@ void miss2_0x11C::SCRCMD_MAP_ZONE_SET_504150(SCR_MAP_ZONE_SET* pCmd)
     str_table_entry* StringById_503080;
 
     StringById_503080 = gScriptManager_6F8060->FindStringById_503080(pCmd->field_0_cmd_this);
-    gMap_0x370_6F6268->set_nav_unknown_data_4DF8C0(StringById_503080->field_2_zone_idx,
+    gMap_0x370_6F6268->SetZoneInfo_4DF8C0(StringById_503080->field_2_zone_idx,
                                                    pCmd->field_8_car_density,
                                                    pCmd->field_A_goodcar_ratio,
                                                    pCmd->field_C_badcar_ratio,
@@ -2202,37 +2198,37 @@ void miss2_0x11C::SCRCMD_SET_DENSITY_508280()
     switch (gBasePtr_6F8070->field_2_type)
     {
         case SCRCMD_SET_CAR_DENSITY:
-            gMap_0x370_6F6268->set_nav_unknown_f0_4DF9D0(pStrTable->field_2_zone_idx, pCmd->field_C_value);
+            gMap_0x370_6F6268->SetZoneCarDensity_4DF9D0(pStrTable->field_2_zone_idx, pCmd->field_C_value);
             break;
         case SCRCMD_SET_GOOD_CAR:
-            gMap_0x370_6F6268->set_nav_unknown_f2_4DF9F0(pStrTable->field_2_zone_idx, pCmd->field_C_value);
+            gMap_0x370_6F6268->SetZoneGoodCarRatio_4DF9F0(pStrTable->field_2_zone_idx, pCmd->field_C_value);
             break;
         case SCRCMD_SET_BAD_CAR:
-            gMap_0x370_6F6268->set_nav_unknown_f4_4DFA10(pStrTable->field_2_zone_idx, pCmd->field_C_value);
+            gMap_0x370_6F6268->SetZoneBadCarRatio_4DFA10(pStrTable->field_2_zone_idx, pCmd->field_C_value);
             break;
         case SCRCMD_SET_POLICE_CAR:
-            gMap_0x370_6F6268->set_nav_unknown_f6_4DFA30(pStrTable->field_2_zone_idx, pCmd->field_C_value);
+            gMap_0x370_6F6268->SetZonePoliceCarRatio_4DFA30(pStrTable->field_2_zone_idx, pCmd->field_C_value);
             break;
         case SCRCMD_SET_PED_DENSITY:
-            gMap_0x370_6F6268->set_nav_unknown_fA_4DFA70(pStrTable->field_2_zone_idx, pCmd->field_C_value);
+            gMap_0x370_6F6268->SetZonePedDensity_4DFA70(pStrTable->field_2_zone_idx, pCmd->field_C_value);
             break;
         case SCRCMD_SET_MUGGER:
-            gMap_0x370_6F6268->set_nav_unknown_fC_4DFA90(pStrTable->field_2_zone_idx, pCmd->field_C_value);
+            gMap_0x370_6F6268->SetZoneMuggerRatio_4DFA90(pStrTable->field_2_zone_idx, pCmd->field_C_value);
             break;
         case SCRCMD_SET_CARTHIEF:
-            gMap_0x370_6F6268->set_nav_unknown_fE_4DFAB0(pStrTable->field_2_zone_idx, pCmd->field_C_value);
+            gMap_0x370_6F6268->SetZoneCarThiefRatio_4DFAB0(pStrTable->field_2_zone_idx, pCmd->field_C_value);
             break;
         case SCRCMD_SET_ELVIS:
-            gMap_0x370_6F6268->set_nav_unknown_f10_4DFAD0(pStrTable->field_2_zone_idx, pCmd->field_C_value);
+            gMap_0x370_6F6268->SetZoneElvisRatio_4DFAD0(pStrTable->field_2_zone_idx, pCmd->field_C_value);
             break;
         case SCRCMD_SET_GANG:
-            gMap_0x370_6F6268->set_nav_unknown_f12_4DFAF0(pStrTable->field_2_zone_idx, pCmd->field_C_value);
+            gMap_0x370_6F6268->SetZoneGangCharRatio_4DFAF0(pStrTable->field_2_zone_idx, pCmd->field_C_value);
             break;
         case SCRCMD_SET_POLICE_PED:
-            gMap_0x370_6F6268->set_nav_unknown_f14_4DFB10(pStrTable->field_2_zone_idx, pCmd->field_C_value);
+            gMap_0x370_6F6268->SetZonePolicePedRatio_4DFB10(pStrTable->field_2_zone_idx, pCmd->field_C_value);
             break;
         case SCRCMD_SET_GANGCARRATIO:
-            gMap_0x370_6F6268->set_nav_unknown_f8_4DFA50(pStrTable->field_2_zone_idx, pCmd->field_C_value);
+            gMap_0x370_6F6268->SetZoneGangCarRatio_4DFA50(pStrTable->field_2_zone_idx, pCmd->field_C_value);
         default:
             break;
     }
@@ -3154,7 +3150,7 @@ void miss2_0x11C::SCRCMD_SET_CHAR_OBJ2_50A200()
     }
 
     Ped* pPed = pPointer->field_8_char;
-    pPed->field_21C &= ~ped_flag_mask::k_ped_scheduled_for_removal;
+    pPed->field_21C_bf.bScheduledForRemoval = false;
 
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -3171,11 +3167,11 @@ void miss2_0x11C::SCRCMD_SET_CHAR_OBJ3_50A3E0()
 
     if (pPointer->field_8_char)
     {
-        (pPointer->field_8_char)->field_1DC_objective_target_x = pCmd->field_C_pos.field_0_x.mValue; //  TODO: May be Fix16 in cool_nash
+        (pPointer->field_8_char)->field_1DC_objective_target_x = pCmd->field_C_pos.field_0_x.mValue; //  TODO: May be Fix16 in the original
         (pPointer->field_8_char)->field_1E0_objective_target_y = pCmd->field_C_pos.field_4_y.mValue;
         (pPointer->field_8_char)->field_1E4_objective_target_z = pCmd->field_C_pos.field_8_z.mValue;
 
-        (pPointer->field_8_char)->field_21C &= ~ped_flag_mask::k_ped_scheduled_for_removal; // TODO: Maybe BitSet32
+        (pPointer->field_8_char)->field_21C_bf.bScheduledForRemoval = false; // TODO: Maybe BitSet32
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -3213,7 +3209,7 @@ void miss2_0x11C::SCRCMD_SET_CHAR_OBJ_FOLLOW_50A460()
 
         (pPointer->field_8_char)->field_132_follow_car_offset_angle = rotation.rValue;
         (pPointer->field_8_char)->field_1FC_follow_car_offset_distance = pCmd->field_12_offset;
-        (pPointer->field_8_char)->field_21C &= ~ped_flag_mask::k_ped_scheduled_for_removal; // TODO: Maybe BitSet32
+        (pPointer->field_8_char)->field_21C_bf.bScheduledForRemoval = false; // TODO: Maybe BitSet32
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -3654,7 +3650,7 @@ void miss2_0x11C::SCRCMD_ADD_PATROL_POINT_50B0E0()
     {
         if (pPed->get_objective_403A80() != objectives_enum::patrol_on_foot_42)
         {
-            pPed->SetObjective(objectives_enum::patrol_on_foot_42, 9999);
+            pPed->SetObjective(objectives_enum::patrol_on_foot_42);
         }
         pPointer->field_8_char->PushPatrolPoint_4702A0(pCmd->field_C_pos.field_0_x.ToInt(),
                                                        pCmd->field_C_pos.field_4_y.ToInt(),
@@ -3824,8 +3820,8 @@ void miss2_0x11C::SCRCMD_CHAR_TO_DRIVE_CAR_50B4F0()
     {
         if (gBasePtr_6F8070->field_2_type != SCRCMD_CHAR_TO_BACKDOOR)
         {
-            pPtrPed->field_8_char->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-            pPtrPed->field_8_char->SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
+            pPtrPed->field_8_char->SetObjective2_463830(objectives_enum::no_obj_0);
+            pPtrPed->field_8_char->SetObjective(objectives_enum::enter_car_as_driver_35);
             pPtrPed->field_8_char->SetTargetObjectiveCar(pPtrCar->field_8_car);
             pPtrPed->field_8_char->set_enter_car_as_passenger_4039B0(false);
         }
@@ -3843,8 +3839,8 @@ void miss2_0x11C::SCRCMD_DRIVER_OUT_CAR_50B5A0()
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     if (pPointer->field_8_char)
     {
-        pPointer->field_8_char->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-        pPointer->field_8_char->SetObjective(objectives_enum::leave_car_36, 9999);
+        pPointer->field_8_char->SetObjective2_463830(objectives_enum::no_obj_0);
+        pPointer->field_8_char->SetObjective(objectives_enum::leave_car_36);
         pPointer->field_8_char->field_150_target_objective_car = pPointer->field_8_char->field_16C_car;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -3990,9 +3986,7 @@ void miss2_0x11C::SCRCMD_IS_CHAR_FIRING_AREA_50B910()
 
     Ped* pPed = pPointer->field_8_char;
 
-    BitSet32 flag = pPointer->field_8_char->field_21C;
-
-    if (flag.check_bit(ped_bit_index::attacking_11) && pPed->IsWithinArea(&pCmd->field_C_rect))
+    if (pPed->GetAttacking_433CA0() && pPed->IsWithinArea(&pCmd->field_C_rect))
     {
         field_8_cond_result = true;
     }
@@ -4129,7 +4123,7 @@ void miss2_0x11C::SCRCMD_SET_MIN_ALIVE_50BCD0()
     SCR_CHAR_OBJECTIVE* pCmd = (SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070;
     SCR_POINTER* pPointer =
         (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070)->field_8_char_idx);
-    pPointer->field_8_char->field_164_ped_group->field_35 = pCmd->field_A_objective;
+    pPointer->field_8_char->field_164_ped_group->field_35_unused = pCmd->field_A_objective;
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -4388,9 +4382,7 @@ MATCH_FUNC(0x50c2f0)
 void miss2_0x11C::SCRCMD_SPOTTED_PLAYER_50C2F0()
 {
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    BitSet32 flag;
-    flag.m_var = pPointer->field_8_char->field_21C;
-    if (flag.check_bit(ped_bit_index::spotted_player_23))
+    if (pPointer->field_8_char->HasSpottedPlayer())
     {
         field_8_cond_result = true;
     }
@@ -4435,7 +4427,7 @@ MATCH_FUNC(0x50c410)
 void miss2_0x11C::SCRCMD_KILL_ALL_PASSENG_50C410()
 {
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    pPointer->field_8_car->field_4_passengers_list.KillAllPedsFromList_4715A0();
+    pPointer->field_8_car->field_4_passengers_list.KillAndClearAllPeds_4715A0();
 
     if (gPublicTransport_181C_6FF1D4->is_bus_579AA0(pPointer->field_8_car))
     {
@@ -4658,7 +4650,7 @@ void miss2_0x11C::SCRCMD_DOOR_50C8A0()
         {
             Door_38* door = pPointer->field_8_door;
 
-            if (!door->field_28)
+            if (!door->field_28_bClosing)
             {
                 break;
             }
@@ -4835,7 +4827,7 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_DRIVER_50CB70()
 
             if ((pInfo->info_flags & 2) == 2 || pCar->field_84_car_info_idx == car_model_enum::EDSELFBI)
             {
-                if ((pCar->field_A4_light_flags & 4) != 0)
+                if (pCar->field_A4_bf.bEmergencyLights)
                 {
                     field_8_cond_result = true;
                 }
@@ -4922,7 +4914,7 @@ void miss2_0x11C::SCRCMD_CAR_DAMAGE_POS_50CDB0()
 MATCH_FUNC(0x50ce10)
 void miss2_0x11C::SCRCMD_PARK_FINISHED_50CE10()
 {
-    if (gGarage_48_6FD26C->field_C == 3)
+    if (gGarage_48_6FD26C->field_C_state == 3)
     {
         field_8_cond_result = true;
     }
@@ -5630,7 +5622,7 @@ MATCH_FUNC(0x50e4a0)
 void miss2_0x11C::SCRCMD_CHAR_ARRESTED_50E4A0()
 {
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    if ((pPointer->field_8_char->field_21C & ped_flag_mask::k_ped_busted) != 0)
+    if (pPointer->field_8_char->field_21C_bf.bBusted)
     {
         field_8_cond_result = true;
     }
@@ -5733,7 +5725,7 @@ MATCH_FUNC(0x50e7f0)
 void miss2_0x11C::SCRCMD_GIVE_CAR_ALARM_50E7F0()
 {
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    pPointer->field_8_car->field_78_flags |= 0x80;
+    pPointer->field_8_car->field_78_bf.bCarAlarm = true;
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -5751,33 +5743,33 @@ void miss2_0x11C::SCRCMD_CAR_WEAPON_KIND_PROOF_50E820()
             pCar = pPointer->field_8_car;
             if (pCmd->field_A_status == 1)
             {
-                pCar->field_78_flags |= 0x100;
+                pCar->field_78_bf.bBulletproof = true;
             }
             else
             {
-                pCar->field_78_flags &= ~0x100;
+                pCar->field_78_bf.bBulletproof = false;
             }
             break;
         case SCRCMD_CAR_ROCKETPROOF:
             pCar = pPointer->field_8_car;
             if (pCmd->field_A_status == 1)
             {
-                pCar->field_78_flags |= 0x200;
+                pCar->field_78_bf.bRocketproof = true;
             }
             else
             {
-                pCar->field_78_flags &= ~0x200;
+                pCar->field_78_bf.bRocketproof = false;
             }
             break;
         case SCRCMD_CAR_FLAMEPROOF:
             pCar = pPointer->field_8_car;
             if (pCmd->field_A_status == 1)
             {
-                pCar->field_78_flags |= 0x400;
+                pCar->field_78_bf.bFlameproof = true;
             }
             else
             {
-                pCar->field_78_flags &= ~0x400;
+                pCar->field_78_bf.bFlameproof = false;
             }
             break;
     }
@@ -5950,14 +5942,11 @@ void miss2_0x11C::SCRCMD_WEAP_HIT_CAR_50EBD0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-// TODO: https://decomp.me/scratch/NMvtk trying to match this using CompilerBitField32 instead of BitSet32
 MATCH_FUNC(0x50ece0)
 void miss2_0x11C::SCRCMD_IS_CHAR_ON_FIRE_50ECE0()
 {
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    BitSet32 flag = pPointer->field_8_char->field_21C;
-
-    if (flag.check_bit(ped_bit_index::on_fire_24))
+    if (pPointer->field_8_char->IsOnFire_475B50())
     {
         field_8_cond_result = true;
     }
@@ -6333,22 +6322,22 @@ void miss2_0x11C::SCRCMD_SET_CHAR_FLAGS_50F5E0()
             case SCRCMD_SET_STAY_IN_CAR:
                 if (pCmd->field_A_status == 1)
                 {
-                    pPed->field_21C |= ped_flag_mask::k_ped_stay_in_car;
+                    pPed->field_21C_bf.bStayInCar = true;
                 }
                 else
                 {
-                    pPed->field_21C &= ~ped_flag_mask::k_ped_stay_in_car;
+                    pPed->field_21C_bf.bStayInCar = false;
                 }
 
                 break;
             case SCRCMD_SET_USE_CAR_WEAPON:
                 if (pCmd->field_A_status == 1)
                 {
-                    pPed->field_21C |= ped_flag_mask::k_ped_use_car_weapon;
+                    pPed->field_21C_bf.bUseCarWeapon = true;
                 }
                 else
                 {
-                    pPed->field_21C &= ~ped_flag_mask::k_ped_use_car_weapon;
+                    pPed->field_21C_bf.bUseCarWeapon = false;
                 }
 
                 break;
@@ -6435,7 +6424,7 @@ void miss2_0x11C::SCRCMD_STOP_CAR_DRIVE_50F900()
 
     if (pCar)
     {
-        pCar->field_A6_turn_flags |= 0x20u;
+        pCar->field_A6_bf.bAIHalted = true;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -6507,11 +6496,11 @@ void miss2_0x11C::SCRCMD_SET_CAR_JAMMED_50FA70()
     {
         if (pCmd->field_A_status == 1)
         {
-            pCar->field_78_flags |= 0x1000;
+            pCar->field_78_bf.bFlag12 = true;
         }
         else
         {
-            pCar->field_78_flags &= ~0x1000u;
+            pCar->field_78_bf.bFlag12 = false;
         }
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);

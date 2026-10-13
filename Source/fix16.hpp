@@ -339,7 +339,7 @@ class Fix16
     }
 
     EXPORT static Fix16 __stdcall Max_44E540(Fix16& pLhs, Fix16& pRhs);
-    // 9.6f 0x41E130, out-of-line copy Max_44E540. Small functions inline it (Ped_List_4::GetFromListClosestPedToPoint_471340),
+    // 9.6f 0x41E130, out-of-line copy Max_44E540. Small functions inline it (Ped_List_4::FindClosestActivePed_471340),
     // and as a site after the two Abs it sets their nested budget in MaxAbsDistance_42A6B0
     inline static Fix16 __stdcall Max_41E130(Fix16& a, Fix16& b)
     {
@@ -352,7 +352,7 @@ class Fix16
             return b;
         }
     }
-    EXPORT static Fix16 __stdcall Abs_436A50(Fix16& a2);
+    EXPORT static Fix16 __stdcall Abs_436A50(Fix16& input);
     EXPORT static Fix16 __stdcall SquareRoot_436A70(Fix16& a2) throw();
     // throw(): the original calls these out-of-line copies without an EH frame (their inline
     // bodies were visible there), see CarPhysics_B0::UpdateReferencePoint_563460
@@ -360,7 +360,7 @@ class Fix16
     EXPORT Fix16 Add_408660(const Fix16& rhs) const throw();
     EXPORT Fix16 Multiply_408680(const Fix16& in) const throw();
     // Out-of-line copies of operators, which big functions call once they run out of inline
-    // expansions (Sprite_4C::DrawCollisionBox_5A4DA0)
+    // expansions (SpriteShape_4C::DrawCollisionBox_5A4DA0)
     EXPORT Fix16 Subtract_436A00(const Fix16& in) const;
     EXPORT Fix16 Divide_436A20(const Fix16& in) const;
     EXPORT s32 IsLess_451670(const Fix16& other) const;
@@ -421,7 +421,7 @@ class Fix16
     }
 
     // https://decomp.me/scratch/MqQPJ
-    inline static Fix16 __stdcall MaxAbsDistance_42A6B0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
+    inline static Fix16 __stdcall MaxAbsDistance_42A6B0(const Fix16& x1, const Fix16& y1, const Fix16& x2, const Fix16& y2)
     {
         Fix16 diff_x;
         diff_x = x2 - x1;
@@ -503,7 +503,7 @@ EXPORT bool __stdcall IntervalIntersectsRange_438FB0(const Fix16& intervalStart,
 class Ang16;
 EXPORT Ang16 __stdcall ArcTanLookup_405500(const Fix16& targetTan);
 
-EXPORT void __stdcall FindMinMax_5A57E0(Fix16& minOut, Fix16& maxOut, const Fix16& v1, const Fix16& v2, const Fix16& v3, const Fix16& v4);
+EXPORT void __stdcall FindMinMax_5A57E0(Fix16& minOut, Fix16& maxOut, const Fix16& a, const Fix16& b, const Fix16& c, const Fix16& d);
 
 EXPORT Fix16 __stdcall sub_405DA0(Fix16 cur, Fix16* pTarget, Fix16* pSpeed);
 EXPORT s32 __stdcall sub_405E80(Fix16* pTarget, Fix16* pCur);

@@ -48,7 +48,7 @@ class Explosion_30
     s16 field_18_particle_cooldown;
     u16 field_1A_timer;
     Sprite* field_1C_pAttachedSprite;
-    Ang16 field_20_unused;
+    Ang16 field_20;
     Ang16 field_22_spawn_angle;
     Fix16 field_24_particle_spread;
     Fix16 field_28_blast_radius;

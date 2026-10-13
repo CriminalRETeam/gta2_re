@@ -10,13 +10,13 @@ EXTERN_GLOBAL(u32, gObj3C_dealloc_count_6F8F0C);
 EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
 
 class Sprite;
-class Sprite_18;
+class AttachedSprite_18;
 class Object_2C;
 
-class struct_4
+class SpriteList_4
 {
   public:
-    struct_4() // 424620 inline
+    SpriteList_4() // 424620 inline
     {
         ResetHead_4207E0();
     }
@@ -26,16 +26,16 @@ class struct_4
         field_0_p18 = 0;
     }
 
-    EXPORT Sprite_18* GetSpriteForModel_5A6A50(s32 a2);
+    EXPORT AttachedSprite_18* GetSpriteForModel_5A6A50(s32 obj_type);
     EXPORT Object_2C* FindObject2CByModel_5A6A90(s32 obj_type);
-    EXPORT Sprite_18* FindFirstActiveObject_5A6AD0();
-    EXPORT void RemoveSprite_5A6B10(Sprite* a2);
-    EXPORT void RemoveSpriteSafe_5A6B60(Sprite* a2);
+    EXPORT AttachedSprite_18* FindFirstActiveObject_5A6AD0();
+    EXPORT void RemoveSprite_5A6B10(Sprite* toFind);
+    EXPORT void RemoveSpriteSafe_5A6B60(Sprite* toFind);
     EXPORT void sub_5A6BB0();
     EXPORT void sub_5A6BD0();
     EXPORT void DispatchCarImpactEvents_5A6BF0(Sprite* pSprite);
-    EXPORT char_type TagSpriteWithRng_5A6C10(Sprite* a2);
-    EXPORT void RemoveByRngValue_5A6C40(s32 a2);
+    EXPORT char_type TagSpriteWithRng_5A6C10(Sprite* toFind);
+    EXPORT void RemoveByRngValue_5A6C40(s32 toFind);
     EXPORT Sprite* FirstSpriteOfType_5A6CA0(s32 sprite_type);
     EXPORT void AddSprite_5A6CD0(Sprite* pSprite);
     EXPORT void PushImpactEvent_5A6D00(Sprite* pSprite1, Fix16 x, Fix16 y, Ang16 angle);
@@ -43,22 +43,22 @@ class struct_4
     EXPORT char_type SpriteExists_5A6D80(Sprite* pToFind);
     EXPORT Sprite* PopFrontSprite_5A6DA0();
     EXPORT Sprite* PopBackSprite_5A6DC0();
-    EXPORT Sprite_18* ClearList_5A6E10();
+    EXPORT AttachedSprite_18* ClearList_5A6E10();
     EXPORT Sprite* FindClosestSprite_5A6E40(Fix16 xOff, Fix16 yOff);
     EXPORT Sprite* TakeClosestSprite_5A6EA0(Fix16 xpos, Fix16 ypos);
 
-    EXPORT void PoolUpdate_5A6F70(Sprite* a2);
+    EXPORT void PoolUpdate_5A6F70(Sprite* pSprite);
     EXPORT void DestroyAllSprites_5A7010();
     EXPORT void CleanupSpriteList_5A7080();
     EXPORT void ClearGangIconSprite_5A7110();
     EXPORT s32 GetGangIdxFromSpriteIfAny_5A71A0();
     EXPORT void sub_5A71F0();
-    EXPORT void PruneNonCollidingSprites_5A7240(Sprite* a2);
+    EXPORT void PruneNonCollidingSprites_5A7240(Sprite* pSprite);
     EXPORT void PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bUnknown);
     EXPORT char_type sub_5A7310();
 
   public:
-    Sprite_18* field_0_p18;
+    AttachedSprite_18* field_0_p18;
 };
 
 class Object_3C
@@ -109,9 +109,9 @@ class Object_3C
 
     EXPORT void GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle);
 
-    struct_4 field_0;
+    SpriteList_4 field_0;
     Ang16 field_4_angle;
-    s16 field_6;
+    s16 field_6_unused;
     Object_3C* mpNext;
     Fix16 field_C_speed;
     Fix16 field_10_z_speed;
@@ -122,17 +122,17 @@ class Object_3C
     s32 field_24;
     s16 field_28_next_definition_timer;
     s16 field_2A_bAirborne;
-    s16 field_2C;
-    char_type field_2E;
+    s16 field_2C_unused;
+    char_type field_2E_unused;
     char_type field_2F_bOnSlope;
     u8 field_30_bSkipAnim;
-    u8 field_31;
-    u16 field_32;
+    u8 field_31_unused;
+    u16 field_32_unused;
     s32 field_34;
     char_type field_38_conveyor_speed;
-    char_type field_39;
-    char_type field_3A;
-    char_type field_3B;
+    char_type field_39_unused;
+    char_type field_3A_unused;
+    char_type field_3B_unused;
 };
 
-EXTERN_GLOBAL(struct_4, stru_67727C);
+EXTERN_GLOBAL(SpriteList_4, stru_67727C);

@@ -20,7 +20,7 @@ class Hud_PlayerNames_4
 {
   public:
     EXPORT void DrawPlayerNames_5CFE40();
-    s32 field_0_unused;
+    s32 field_0;
 };
 
 class Hud_MpMessage_D0
@@ -119,7 +119,7 @@ class Hud_PlayerStats_4
   public:
     EXPORT void DrawPlayerStats_5D5C80();
     EXPORT void UpdateRollingDigits_5D6290();
-    s32 field_0_unused;
+    s32 field_0;
 };
 
 class Hud_UnderRoofArrowMarker_C
@@ -144,7 +144,7 @@ class Hud_Health_4
 {
   public:
     EXPORT void DrawHealth_5D0260();
-    s32 field_0_unused;
+    s32 field_0;
 };
 
 class Hud_PickupText_88
@@ -624,7 +624,7 @@ class Hud_Brief_704 // size 0x704
     EXPORT Hud_Brief_704();
 
     wchar_t field_0_str[640];
-    s16 field_500;
+    s16 field_500_unused;
     u8 field_502_face_idx;
     u16 field_504_tick_timer;
     s32 field_508_num_lines;

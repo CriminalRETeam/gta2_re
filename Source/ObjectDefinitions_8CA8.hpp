@@ -310,11 +310,11 @@ class ObjectDefinitions_8CA8
     EXPORT ObjectDefinitions_8CA8();
 
     u16 field_0_next_idx;
-    s16 field_2;
+    s16 field_2_unused;
     ObjectDefinition_74 field_4_definitions[k_max_definitions];
     ObjectDefinition_74* field_87F4_definition_by_idx[k_max_definitions];
     s16 field_8CA4_def112_sprite_palette;
-    s16 field_8CA6;
+    s16 field_8CA6_unused;
 };
 
 EXTERN_GLOBAL(ObjectDefinitions_8CA8*, gObjectDefinitions_6FCF00);

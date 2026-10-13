@@ -49,29 +49,29 @@ class Camera_0xBC
     EXPORT void DecreaseElevation_435810();
     EXPORT void ReturnToDefaultZoom_435830();
     EXPORT void ClampTargetZ_435840();
-    EXPORT void ApplyMovementDeltaFrom_435860(Camera_0xBC* a2);
+    EXPORT void ApplyMovementDeltaFrom_435860(Camera_0xBC* pCamera);
     EXPORT Ang16 ComputeTargetFacingAngle_4358D0();
     EXPORT Fix16 ReturnOwnerVelocity_435A20();
-    EXPORT s32 IsCoordsPosVisible_435A70(Fix16 a2, Fix16 a3, Fix16 a4);
+    EXPORT s32 IsCoordsPosVisible_435A70(Fix16 x, Fix16 y, Fix16 z);
     EXPORT void UpdateBoundaries_435B90();
-    EXPORT void MoveTarget_435D20(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7);
+    EXPORT void MoveTarget_435D20(char_type bMoveNorth, char_type bMoveSouth, char_type bMoveWest, char_type bMoveEast, char_type bZoomIn, char_type bZoomOut);
     EXPORT void ResetCameraSmoothing_435DD0();
-    EXPORT void AccumulateSuspicionOnDriver_435F90(Car_BC* a2);
+    EXPORT void AccumulateSuspicionOnDriver_435F90(Car_BC* pCar);
     EXPORT void Update_435FF0();
     EXPORT void RefreshBoundaries_436110();
-    EXPORT void SetShake_436120(Fix16 a2);
+    EXPORT void SetShake_436120(Fix16 amount);
     EXPORT void ApplyShake_436140();
-    EXPORT void SetScreenSize_4361B0(u32 a2, u32 a3);
-    EXPORT void ApplyCarVelocityCameraOffset_436200(Car_BC* a2, Fix16* a3, Fix16* a4, Fix16* a5);
+    EXPORT void SetScreenSize_4361B0(u32 x_pos, u32 y_pos);
+    EXPORT void ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, Fix16* pY, Fix16* pZ);
     EXPORT void UpdateFollowCarCamera_4364A0(Car_BC* pCar);
-    EXPORT void UpdateFollowPedCamera_436540(Ped* a2);
-    EXPORT void HandlePanning_436710(char_type a2, char_type a3, char_type a4, char_type a5);
+    EXPORT void UpdateFollowPedCamera_436540(Ped* pPed);
+    EXPORT void HandlePanning_436710(char_type bForwardGasOn, char_type bFootBrakeOn, char_type a4, char_type a5);
     EXPORT void ResetPanning_436830();
-    EXPORT void ApplyZOffsetToScreenPosition_436860(Ped* a2, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos);
+    EXPORT void ApplyZOffsetToScreenPosition_436860(Ped* pPed, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos);
     EXPORT Camera_0xBC(); // 4368E0
     EXPORT ~Camera_0xBC(); // empty 4369E0
-    EXPORT void SetTarget_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5);
-    EXPORT bool IsPointInBoundaries_58CF10(Fix16 a2, Fix16 a3);
+    EXPORT void SetTarget_4397D0(Fix16 x, Fix16 y, Fix16 z, Fix16 zoom);
+    EXPORT bool IsPointInBoundaries_58CF10(Fix16 x, Fix16 y);
 
     void ProjectWorldToScreen_4B90E0(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
     {
@@ -184,9 +184,9 @@ class Camera_0xBC
     s32 field_3C_followed_ped_id;
     Fix16 field_40_tgt_elevation;
     u8 field_44_suspicion;
-    char_type field_45;
-    char_type field_46;
-    char_type field_47;
+    char_type field_45_unused;
+    char_type field_46_unused;
+    char_type field_47_unused;
     Fix16 field_48_pan_x;
     Fix16 field_4C_pan_y;
     Fix16 field_50_pan_speed_up;

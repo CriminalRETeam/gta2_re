@@ -39,24 +39,24 @@ u8 Ang16::GetOctant_4056A0()
 }
 
 MATCH_FUNC(0x405B60)
-Fix16 __stdcall Ang16::NormalizeAngleDeltaScaled_405B60(Ang16& a2, Ang16& a3, Ang16& a4)
+Fix16 __stdcall Ang16::NormalizeAngleDeltaScaled_405B60(Ang16& from, Ang16& to, Ang16& divisor)
 {
-    Ang16 d = a3 - a2;
+    Ang16 d = to - from;
     if (d > kAng180_669156)
     {
         d = -d;
-        return d.divideBy_40E640(a4);
+        return d.divideBy_40E640(divisor);
     }
     else
     {
-        return d.divideBy_40E640(a4);
+        return d.divideBy_40E640(divisor);
     }
 }
 
 MATCH_FUNC(0x405C60)
-bool __stdcall Ang16::IsAngleAhead_405C60(Ang16* a1, Ang16* a2)
+bool __stdcall Ang16::IsAngleAhead_405C60(Ang16* pFrom, Ang16* pTo)
 {
-    if (*a2 - *a1 <= kAng180_669156)
+    if (*pTo - *pFrom <= kAng180_669156)
     {
         return true;
     }
@@ -99,21 +99,21 @@ void __stdcall Ang16::PolarToCartesian_451730(Ang16& angle, Fix16& radius, Fix16
 }
 
 MATCH_FUNC(0x482740)
-Ang16 Ang16::Fix16_To_Ang16_482740(Fix16& a2)
+Ang16 Ang16::Fix16_To_Ang16_482740(Fix16& value)
 {
-    return Ang16(a2.mValue / 71, 0);
+    return Ang16(value.mValue / 71, 0);
 }
 
 MATCH_FUNC(0x4F78F0)
-s32 __stdcall Ang16::GetAngleFace_4F78F0(Ang16& a1)
+s32 __stdcall Ang16::GetAngleFace_4F78F0(Ang16& angle)
 {
-    if (a1 <= kAng45_6F677C || a1 > kAng315_6F680C) //  45° and 315°
+    if (angle <= kAng45_6F677C || angle > kAng315_6F680C) //  45° and 315°
     {
         return 2; //  North
     }
-    if (a1 < kAng135_6F6800) // kAng135_6F6800 = 135°
+    if (angle < kAng135_6F6800) // kAng135_6F6800 = 135°
     {
         return 3; //  East
     }
-    return a1 < kAng225_6F67DC ? 1 : 4; // kAng225_6F67DC = 225°  ,  1 = South, 4 = West
+    return angle < kAng225_6F67DC ? 1 : 4; // kAng225_6F67DC = 225°  ,  1 = South, 4 = West
 }

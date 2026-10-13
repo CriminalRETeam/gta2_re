@@ -8,7 +8,7 @@ DEFINE_GLOBAL(Ped_List_4, gThreateningPedsList_678468, 0x678468);
 DEFINE_GLOBAL_INIT(Ang16, kAng0_678B40, Ang16(0), 0x678B40);
 
 MATCH_FUNC(0x471140)
-Char_8* Ped_List_4::AddPed_471140(Ped* pPed)
+Char_8* Ped_List_4::AddPedToFront_471140(Ped* pPed)
 {
     Char_8* pNew = gChar_8_Pool_678b50->Allocate_445EF0();
 
@@ -24,7 +24,7 @@ MATCH_FUNC(0x471160)
 void Ped_List_4::AddPedToBackIfMissing_471160(Ped* pPed)
 {
     Char_8* pIter = field_0_pFirstPed;
-    Char_8* pLast = NULL;
+    Char_8* pTail = NULL;
     if (pIter)
     {
         while (pIter)
@@ -35,7 +35,7 @@ void Ped_List_4::AddPedToBackIfMissing_471160(Ped* pPed)
                 return;
             }
 
-            pLast = pIter;
+            pTail = pIter;
             pIter = pIter->mpNext;
         }
     }
@@ -43,9 +43,9 @@ void Ped_List_4::AddPedToBackIfMissing_471160(Ped* pPed)
     Char_8* pNew = gChar_8_Pool_678b50->Allocate_445EF0();
     pNew->field_0_char_ped = pPed;
 
-    if (pLast)
+    if (pTail)
     {
-        pLast->mpNext = pNew;
+        pTail->mpNext = pNew;
         pNew->mpNext = 0;
     }
     else
@@ -60,7 +60,7 @@ MATCH_FUNC(0x4711B0)
 void Ped_List_4::AddPedToFrontIfMissing_4711B0(Ped* pPed)
 {
     Char_8* pIter = field_0_pFirstPed;
-    Char_8* pLast = NULL;
+    Char_8* pTail = NULL;
     if (pIter)
     {
         while (pIter)
@@ -71,7 +71,7 @@ void Ped_List_4::AddPedToFrontIfMissing_4711B0(Ped* pPed)
                 return;
             }
 
-            pLast = pIter;
+            pTail = pIter;
             pIter = pIter->mpNext;
         }
     }
@@ -87,14 +87,14 @@ MATCH_FUNC(0x4711f0)
 void Ped_List_4::RemovePed_4711F0(Ped* pPed)
 {
     Char_8* pIter = field_0_pFirstPed;
-    Char_8* pLast = NULL;
+    Char_8* pPrev = NULL;
     while (pIter)
     {
         if (pIter->field_0_char_ped == pPed)
         {
-            if (pLast)
+            if (pPrev)
             {
-                pLast->mpNext = pIter->mpNext;
+                pPrev->mpNext = pIter->mpNext;
             }
             else
             {
@@ -103,7 +103,7 @@ void Ped_List_4::RemovePed_4711F0(Ped* pPed)
             gChar_8_Pool_678b50->DeAllocate_445F00(pIter);
             break;
         }
-        pLast = pIter;
+        pPrev = pIter;
         pIter = pIter->mpNext;
     }
 }
@@ -112,14 +112,14 @@ MATCH_FUNC(0x471240)
 void Ped_List_4::RemovePed_471240(Ped* pPed)
 {
     Char_8* pIter = field_0_pFirstPed;
-    Char_8* pLast = NULL;
+    Char_8* pPrev = NULL;
     while (pIter)
     {
         if (pIter->field_0_char_ped == pPed)
         {
-            if (pLast)
+            if (pPrev)
             {
-                pLast->mpNext = pIter->mpNext;
+                pPrev->mpNext = pIter->mpNext;
             }
             else
             {
@@ -128,39 +128,39 @@ void Ped_List_4::RemovePed_471240(Ped* pPed)
             gChar_8_Pool_678b50->DeAllocate_445F00(pIter);
             break;
         }
-        pLast = pIter;
+        pPrev = pIter;
         pIter = pIter->mpNext;
     }
 }
 
 MATCH_FUNC(0x471290)
-char_type Ped_List_4::RemovePedsInSpecificState_471290()
+u8 Ped_List_4::RemoveNonCorpses_471290()
 {
-    Char_8* pLast = 0;
+    Char_8* pPrevKept = 0;
     Char_8* pIter = field_0_pFirstPed;
-    char_type removedCount = 0;
+    u8 removedCount = 0;
     while (pIter)
     {
         if (pIter->field_0_char_ped->IsActive_433B40() && pIter->field_0_char_ped->field_278_ped_state_1 == ped_state_1::dead_9)
         {
-            pLast = pIter;
+            pPrevKept = pIter;
             pIter = pIter->mpNext;
         }
         else
         {
-            if (pLast)
+            if (pPrevKept)
             {
-                pLast->mpNext = pIter->mpNext;
+                pPrevKept->mpNext = pIter->mpNext;
             }
             else
             {
                 field_0_pFirstPed = pIter->mpNext;
             }
 
-            Char_8* pIterOldNext = pIter->mpNext;
+            Char_8* pNext = pIter->mpNext;
 
             gChar_8_Pool_678b50->DeAllocate_445F00(pIter);
-            pIter = pIterOldNext;
+            pIter = pNext;
 
             ++removedCount;
         }
@@ -174,9 +174,9 @@ void Ped_List_4::ClearPeds_4712F0()
     Char_8* pIter = field_0_pFirstPed;
     while (pIter)
     {
-        Char_8* pLast = pIter;
+        Char_8* pFreed = pIter;
         pIter = pIter->mpNext;
-        gChar_8_Pool_678b50->field_0_pool.DeAllocate(pLast);
+        gChar_8_Pool_678b50->field_0_pool.DeAllocate(pFreed);
     }
 
     field_0_pFirstPed = 0;
@@ -201,91 +201,91 @@ Ped* Ped_List_4::RemoveFirstPed_471320()
 // 9.6f calls MaxAbsDistance_42A6B0 here. By value, with the y difference first, VC6 keeps
 // both differences and the max in registers as the original does.
 MATCH_FUNC(0x471340)
-Ped* Ped_List_4::GetFromListClosestPedToPoint_471340(Fix16 x, Fix16 y)
+Ped* Ped_List_4::FindClosestActivePed_471340(Fix16 x, Fix16 y)
 {
-    Fix16 smallest(99999);
+    Fix16 closestDistance(99999);
     Char_8* pIter = this->field_0_pFirstPed;
-    Ped* pNearest = 0;
+    Ped* pClosest = 0;
     while (pIter)
     {
         Ped* pPed = pIter->field_0_char_ped;
         if (pIter->field_0_char_ped->IsActive_433B40() == 1)
         {
-            Fix16 curr = Fix16::MaxAbsDistance_42A6B0(x, y, pPed->get_cam_x(), pPed->get_cam_y());
-            if (curr < smallest)
+            Fix16 distance = Fix16::MaxAbsDistance_42A6B0(x, y, pPed->get_cam_x(), pPed->get_cam_y());
+            if (distance < closestDistance)
             {
-                pNearest = pPed;
-                smallest = curr;
+                pClosest = pPed;
+                closestDistance = distance;
             }
         }
         pIter = pIter->mpNext;
     }
-    return pNearest;
+    return pClosest;
 }
 
 // https://decomp.me/scratch/GJ2JR
 MATCH_FUNC(0x4713C0)
-Ped* Ped_List_4::FindClosestPedInViewCone_4713C0(Fix16 x, Fix16 y, Ang16 ang1, Ang16 ang2)
+Ped* Ped_List_4::FindClosestPedInViewCone_4713C0(Fix16 x, Fix16 y, Ang16 facing, Ang16 half_cone)
 {
     Fix16 distance;
-    Ang16 ang_delta;
-    Ang16 v13;
+    Ang16 angle_diff;
+    Ang16 neg_half_cone;
 
-    Fix16 smallestValue = Fix16(99999);
+    Fix16 closestDistance = Fix16(99999);
     Char_8* pIter = field_0_pFirstPed;
-    Ped* pLastPed = 0;
+    Ped* pClosest = 0;
 
     for (; pIter; pIter = pIter->mpNext)
     {
-        if (((u8)pIter->field_0_char_ped->field_21C & ped_flag_mask::k_ped_active) == 1) // byte read: mov 0x21C,%cl; and $1,%cl
+        if (pIter->field_0_char_ped->IsActive_433B40() == 1)
         {
             bool withinCone = false;
             distance = Fix16::MaxAbsDistance_42A6B0(x, y, pIter->field_0_char_ped->get_cam_x(), pIter->field_0_char_ped->get_cam_y());
 
-            ang_delta = Fix16::atan2_fixed_405320(pIter->field_0_char_ped->get_cam_y() - y, pIter->field_0_char_ped->get_cam_x() - x) - ang1;
+            angle_diff = Fix16::atan2_fixed_405320(pIter->field_0_char_ped->get_cam_y() - y, pIter->field_0_char_ped->get_cam_x() - x) - facing;
 
-            v13 = kAng0_678B40 - ang2;
+            neg_half_cone = kAng0_678B40 - half_cone;
 
-            if (ang_delta < ang2 || ang_delta > v13)
+            if (angle_diff < half_cone || angle_diff > neg_half_cone)
             {
                 withinCone = true;
             }
-            if (distance < smallestValue && withinCone)
+            if (distance < closestDistance && withinCone)
             {
-                pLastPed = pIter->field_0_char_ped;
-                smallestValue = distance;
+                pClosest = pIter->field_0_char_ped;
+                closestDistance = distance;
             }
         }
     }
-    return pLastPed;
+    return pClosest;
 }
 
 MATCH_FUNC(0x4715a0)
-void Ped_List_4::KillAllPedsFromList_4715A0()
+void Ped_List_4::KillAndClearAllPeds_4715A0()
 {
     Char_8* pIter = field_0_pFirstPed;
     while (pIter)
     {
-        Char_8* pLast = pIter;
+        Char_8* pFreed = pIter;
         pIter->field_0_char_ped->Kill_46F9D0();
         pIter = pIter->mpNext;
-        gChar_8_Pool_678b50->DeAllocate_445F00(pLast);
+        gChar_8_Pool_678b50->DeAllocate_445F00(pFreed);
     }
 
     field_0_pFirstPed = 0;
 }
 
 MATCH_FUNC(0x4715e0)
-void Ped_List_4::KillAllPedsAndClearCarRef_4715E0()
+void Ped_List_4::KillAndClearAllPedsResetCarRef_4715E0()
 {
     Char_8* pIter = field_0_pFirstPed;
     while (pIter)
     {
-        Char_8* pLast = pIter;
+        Char_8* pFreed = pIter;
         pIter->field_0_char_ped->Kill_46F9D0();
         pIter->field_0_char_ped->field_16C_car = 0;
         pIter = pIter->mpNext;
-        gChar_8_Pool_678b50->DeAllocate_445F00(pLast);
+        gChar_8_Pool_678b50->DeAllocate_445F00(pFreed);
     }
 
     field_0_pFirstPed = 0;
@@ -298,8 +298,8 @@ void Ped_List_4::ApplyPassengerBusStopBehavior_471630()
     {
         if (pIter->field_0_char_ped->get_occupation_403980() == ped_ocupation_enum::bus_customer_8)
         {
-            pIter->field_0_char_ped->SetObjective2_463830(objectives_enum::no_obj_0, 9999);
-            pIter->field_0_char_ped->SetObjective(objectives_enum::objective_34, 9999);
+            pIter->field_0_char_ped->SetObjective2_463830(objectives_enum::no_obj_0);
+            pIter->field_0_char_ped->SetObjective(objectives_enum::objective_34);
             pIter->field_0_char_ped->SetTargetObjectiveCar(pIter->field_0_char_ped->field_16C_car);
         }
     }
@@ -312,7 +312,7 @@ void Ped_List_4::ForceTaxiPassengersToExit_471680()
     {
         if (pIter->field_0_char_ped->field_240_occupation == ped_ocupation_enum::taxi_customer_7)
         {
-            pIter->field_0_char_ped->field_21C |= ped_flag_mask::k_ped_forced_out_of_taxi;
+            pIter->field_0_char_ped->field_21C_bf.bForcedOutOfTaxi = true;
         }
     }
 }
@@ -341,16 +341,16 @@ void Ped_List_4::SyncPassengersWithCarState_4716D0(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x471710)
-char_type Ped_List_4::HasPassengerWith_F238_Is_5_471710()
+bool Ped_List_4::HasScriptCreatedPed_471710()
 {
     Char_8* pIter = field_0_pFirstPed;
     while (pIter)
     {
         if (pIter->field_0_char_ped->field_238_ped_type == ped_type::script_created_5)
         {
-            return 1;
+            return true;
         }
         pIter = pIter->mpNext;
     }
-    return 0;
+    return false;
 }

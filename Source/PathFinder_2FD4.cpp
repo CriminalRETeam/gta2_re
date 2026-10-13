@@ -241,9 +241,9 @@ void PathFinder_2FD4::Init_5545E0()
 {
     memset(this->field_40_grid, 0, sizeof(this->field_40_grid));
     field_38_bComputePathInProgress = 0;
-    field_34 = 1;
-    field_36 = 0;
-    field_3A = 0;
+    field_34_unused = 1;
+    field_36_unused = 0;
+    field_3A_unused = 0;
     field_2FD0_bTimedOut = 1;
     field_2FD1_time_out_counter = 0;
 }
@@ -323,7 +323,7 @@ char_type PathFinder_2FD4::EvaluateGridCell_554640()
 MATCH_FUNC(0x554710)
 void PathFinder_2FD4::AddGridCell_554710()
 {
-    u16 v12;
+    u16 cost_scale;
     // zpos assigned in both arms (not `zpos = field_22_zpos; if (..) zpos += ..;`): the extra
     // definition raises its priority above dx/dy so it is coloured first and keeps edx.
     u8 zpos;
@@ -338,11 +338,11 @@ void PathFinder_2FD4::AddGridCell_554710()
 
     if (zpos != field_13_zEnd)
     {
-        v12 = 2;
+        cost_scale = 2;
     }
     else
     {
-        v12 = 1;
+        cost_scale = 1;
     }
 
     field_1C_grid_idx = field_23_grid_x + 34 * field_24_grid_y;
@@ -353,27 +353,27 @@ void PathFinder_2FD4::AddGridCell_554710()
     }
     else
     {
-        u16 v7;
+        u16 heuristic;
         if (field_4_bFindTileMode == 0)
         {
-            // The sum assigned first and `*= v12` after (one expression keeps v12's multiply in the sum's
+            // The sum assigned first and `*= cost_scale` after (one expression keeps cost_scale's multiply in the sum's
             // register and pushes ebp at the top instead of inside this branch). The dx/dy locals give
             // the original's evaluation order (x difference first).
             u16 dx = field_20_xpos - field_11_xEnd;
             u16 dy = field_21_ypos - field_12_yEnd;
-            v7 = dy * dy + dx * dx;
-            v7 *= v12;
+            heuristic = dy * dy + dx * dx;
+            heuristic *= cost_scale;
         }
         else
         {
-            v7 = field_16;
+            heuristic = field_16_start_cost;
         }
         field_8_pNode->field_0_idx1 = field_23_grid_x;
         field_8_pNode->field_1_idx2 = field_24_grid_y;
         field_8_pNode->field_2_xpos = field_20_xpos;
         field_8_pNode->field_3_ypos = field_21_ypos;
         field_8_pNode->field_4_zpos = zpos;
-        field_8_pNode->field_6_cost = v7;
+        field_8_pNode->field_6_cost = heuristic;
         ++field_8_pNode;
         ++field_C_node_count;
 
@@ -434,8 +434,8 @@ void PathFinder_2FD4::AddGridCell_554710()
 MATCH_FUNC(0x5548c0)
 bool PathFinder_2FD4::ProcessGridCell_5548C0()
 {
-    char_type v2 = PathFinder_2FD4::EvaluateGridCell_554640();
-    if (v2 == 1)
+    char_type cell_result = PathFinder_2FD4::EvaluateGridCell_554640();
+    if (cell_result == 1)
     {
         if (PathFinder_2FD4::CanMoveDiagonally_554110(field_20_xpos, field_21_ypos))
         {
@@ -450,11 +450,11 @@ bool PathFinder_2FD4::ProcessGridCell_5548C0()
             }
         }
     }
-    else if (v2 == 2)
+    else if (cell_result == 2)
     {
-        field_18 = 0;
-        field_19 = 1;
-        field_1A = 1;
+        field_18_bSearching = 0;
+        field_19_unused = 1;
+        field_1A_unused = 1;
         return 1;
     }
     return 0;
@@ -529,8 +529,8 @@ char_type PathFinder_2FD4::ComputePath_554AB0(s32 ped_id,
                                         s32 angle_face,
                                         u8* pOutPathFailCount)
 {
-    PathNode_8* v23; // eax
-    PathNode_8* v40; // ecx
+    PathNode_8* pBestNode; // eax
+    PathNode_8* pCell; // ecx
     u8 yCoord;
     u8 idx1;
     u8 idx2;
@@ -598,7 +598,7 @@ char_type PathFinder_2FD4::ComputePath_554AB0(s32 ped_id,
         field_40_grid[field_1C_grid_idx].field_6_cost = 0;
         field_2FD0_bTimedOut = 0;
         field_1E_current_cost = 0;
-        field_18 = 1;
+        field_18_bSearching = 1;
     }
     ++field_2FD1_time_out_counter;
     if (field_2FD1_time_out_counter > 200)
@@ -614,40 +614,40 @@ char_type PathFinder_2FD4::ComputePath_554AB0(s32 ped_id,
             j = 0;
             field_38_bComputePathInProgress = 1;
             field_8_pNode = field_2350_nodes;
-            v23 = field_2350_nodes;
+            pBestNode = field_2350_nodes;
 
             for (j = 0; j < field_C_node_count - 1; j++)
             {
                 ++field_8_pNode;
-                if (field_8_pNode->field_6_cost < v23->field_6_cost)
+                if (field_8_pNode->field_6_cost < pBestNode->field_6_cost)
                 {
-                    v23 = field_8_pNode;
+                    pBestNode = field_8_pNode;
                 }
             }
 
-            gPathFinder_best_grid_x_6FDEC8 = v23->field_0_idx1;
-            gPathFinder_best_grid_y_6FDEC9 = v23->field_1_idx2;
-            gPathFinder_best_x_6FDECA = v23->field_2_xpos;
-            gPathFinder_best_y_6FDECB = v23->field_3_ypos;
-            gPathFinder_best_z_6FDECC = v23->field_4_zpos;
-            gPathFinder_best_cost_6FDECE = v23->field_6_cost;
+            gPathFinder_best_grid_x_6FDEC8 = pBestNode->field_0_idx1;
+            gPathFinder_best_grid_y_6FDEC9 = pBestNode->field_1_idx2;
+            gPathFinder_best_x_6FDECA = pBestNode->field_2_xpos;
+            gPathFinder_best_y_6FDECB = pBestNode->field_3_ypos;
+            gPathFinder_best_z_6FDECC = pBestNode->field_4_zpos;
+            gPathFinder_best_cost_6FDECE = pBestNode->field_6_cost;
             field_1C_grid_idx = gPathFinder_best_grid_x_6FDEC8 + 34 * gPathFinder_best_grid_y_6FDEC9;
             field_1E_current_cost = field_40_grid[field_1C_grid_idx].field_6_cost;
-            v23->field_0_idx1 = field_8_pNode->field_0_idx1;
-            v23->field_1_idx2 = field_8_pNode->field_1_idx2;
-            v23->field_2_xpos = field_8_pNode->field_2_xpos;
-            v23->field_3_ypos = field_8_pNode->field_3_ypos;
-            v23->field_4_zpos = field_8_pNode->field_4_zpos;
-            v23->field_6_cost = field_8_pNode->field_6_cost;
+            pBestNode->field_0_idx1 = field_8_pNode->field_0_idx1;
+            pBestNode->field_1_idx2 = field_8_pNode->field_1_idx2;
+            pBestNode->field_2_xpos = field_8_pNode->field_2_xpos;
+            pBestNode->field_3_ypos = field_8_pNode->field_3_ypos;
+            pBestNode->field_4_zpos = field_8_pNode->field_4_zpos;
+            pBestNode->field_6_cost = field_8_pNode->field_6_cost;
             --field_C_node_count;
             field_25_xpos = gPathFinder_best_x_6FDECA;
             field_26_ypos = gPathFinder_best_y_6FDECB;
             field_27_zpos = gPathFinder_best_z_6FDECC;
             if (field_25_xpos == field_11_xEnd && field_26_ypos == field_12_yEnd && field_27_zpos == field_13_zEnd)
             {
-                field_18 = 0;
-                field_19 = 1;
-                field_1A = 1;
+                field_18_bSearching = 0;
+                field_19_unused = 1;
+                field_1A_unused = 1;
                 goto LABEL_35;
             }
             field_20_xpos = gPathFinder_best_x_6FDECA;
@@ -737,8 +737,8 @@ char_type PathFinder_2FD4::ComputePath_554AB0(s32 ped_id,
             }
             if (!field_C_node_count)
             {
-                field_18 = 0;
-                field_19 = 1;
+                field_18_bSearching = 0;
+                field_19_unused = 1;
                 PathFinder_2FD4::RestoreSavedPosition_554920();
                 if (gPathFinder_best_x_6FDECA)
                 {
@@ -746,7 +746,7 @@ char_type PathFinder_2FD4::ComputePath_554AB0(s32 ped_id,
                 }
                 goto LABEL_61;
             }
-            field_14 = 1;
+            field_14_bExpanding = 1;
             if (field_2E_iteration_budget == 0)
             {
                 return 0;
@@ -756,7 +756,7 @@ char_type PathFinder_2FD4::ComputePath_554AB0(s32 ped_id,
             {
                 --field_2E_iteration_budget;
             }
-            if (!field_18)
+            if (!field_18_bSearching)
             {
                 goto LABEL_35;
             }
@@ -764,7 +764,7 @@ char_type PathFinder_2FD4::ComputePath_554AB0(s32 ped_id,
     }
 
 LABEL_35:
-    field_14 = 0;
+    field_14_bExpanding = 0;
     cur_x = field_25_xpos;
     yCoord = field_26_ypos;
     cur_z = field_27_zpos;
@@ -775,72 +775,72 @@ LABEL_35:
     field_8_pNode->field_3_ypos = yCoord;
     field_8_pNode->field_4_zpos = cur_z;
     field_C_node_count = 1;
-    v40 = &field_40_grid[(s16)(idx1 + 34 * idx2)];
+    pCell = &field_40_grid[(s16)(idx1 + 34 * idx2)];
     while (2)
     {
-        if (v40->field_0_idx1 == 1)
+        if (pCell->field_0_idx1 == 1)
         {
-            if (abs(cur_z - (u8)v40->field_4_zpos) < 1)
+            if (abs(cur_z - (u8)pCell->field_4_zpos) < 1)
             {
-                field_1B_direction = v40->field_3_ypos;
-                new_z = v40->field_4_zpos;
-                v40->field_0_idx1 = 0;
+                field_1B_direction = pCell->field_3_ypos;
+                new_z = pCell->field_4_zpos;
+                pCell->field_0_idx1 = 0;
             }
             else
             {
-                field_1B_direction = v40->field_1_idx2;
-                u8 t = v40->field_3_ypos;
-                new_z = v40->field_2_xpos;
-                v40->field_1_idx2 = t;
-                v40->field_0_idx1 = 0;
-                v40->field_2_xpos = v40->field_4_zpos;
+                field_1B_direction = pCell->field_1_idx2;
+                u8 t = pCell->field_3_ypos;
+                new_z = pCell->field_2_xpos;
+                pCell->field_1_idx2 = t;
+                pCell->field_0_idx1 = 0;
+                pCell->field_2_xpos = pCell->field_4_zpos;
             }
         }
         else
         {
-            field_1B_direction = v40->field_1_idx2;
-            new_z = v40->field_2_xpos;
-            v40->field_1_idx2 = 0;
+            field_1B_direction = pCell->field_1_idx2;
+            new_z = pCell->field_2_xpos;
+            pCell->field_1_idx2 = 0;
         }
         switch (field_1B_direction)
         {
             case 1:
-                v40 += 34; // 34
+                pCell += 34; // 34
                 ++yCoord;
                 goto LABEL_52;
             case 3:
-                v40 -= 34;
+                pCell -= 34;
                 --yCoord;
                 goto LABEL_52;
             case 2:
-                --v40;
+                --pCell;
                 cur_x--;
                 goto LABEL_52;
             case 4:
                 // ++cur_x written out in cases 4, 7 and 8 (VC6 tail-merges them after register allocation);
                 // a shared ++cur_x label gives new_z 2 more regalloc priority than the switch temp, so new_z
                 // took eax (al) instead of edx (dl)
-                ++v40;
+                ++pCell;
                 ++cur_x;
                 goto LABEL_52;
             case 5:
                 ++yCoord;
-                v40 += 33;
+                pCell += 33;
                 cur_x--;
                 goto LABEL_52;
             case 6:
                 --yCoord;
-                v40 -= 35;
+                pCell -= 35;
                 cur_x--;
                 goto LABEL_52;
             case 7:
                 --yCoord;
-                v40 -= 33;
+                pCell -= 33;
                 ++cur_x;
                 goto LABEL_52;
             case 8:
                 ++yCoord;
-                v40 += 35;
+                pCell += 35;
                 ++cur_x;
             LABEL_52:
                 field_8_pNode++;
@@ -904,8 +904,8 @@ bool PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* 
     field_27_zpos = default_pos;
     field_26_ypos = default_pos;
     field_25_xpos = default_pos;
-    field_28 = *xpos - 16;
-    field_29 = *ypos - 16;
+    field_28_grid_origin_x = *xpos - 16;
+    field_29_grid_origin_y = *ypos - 16;
     PathFinder_2FD4::ClearGrid_5545C0();
     field_E_xStart = *xpos;
     field_F_yStart = *ypos;
@@ -916,7 +916,7 @@ bool PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* 
     {
         field_10_zStart = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(Fix16(field_E_xStart), Fix16(field_F_yStart), Fix16(field_10_zStart)).ToUInt8();
     }
-    field_16 = 0;
+    field_16_start_cost = 0;
     field_11_xEnd = 0;
     field_12_yEnd = 0;
     field_13_zEnd = 0;
@@ -932,9 +932,9 @@ bool PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* 
     PathFinder_2FD4::AddGridCell_554710();
     field_8_pNode = field_2350_nodes;
     field_1C_grid_idx = 560;
-    field_40_grid[field_1C_grid_idx].field_6_cost = field_16;
+    field_40_grid[field_1C_grid_idx].field_6_cost = field_16_start_cost;
     field_1E_current_cost = 0;
-    field_18 = 1;
+    field_18_bSearching = 1;
     bool bListWasEmpty = true;
     while (field_C_node_count)
     {
@@ -983,7 +983,7 @@ bool PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* 
                                                Fix16(field_26_ypos) + kFpHalf_6FDCA8,
                                                Fix16(field_27_zpos)))
             {
-                field_18 = 0;
+                field_18_bSearching = 0;
                 *xpos = field_25_xpos;
                 *ypos = field_26_ypos;
                 *zpos = field_27_zpos;
@@ -995,7 +995,7 @@ bool PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* 
             {
                 if ((gMap_0x370_6F6268->get_block_4DFE10(field_25_xpos, field_26_ypos, field_27_zpos - 1)->field_A_arrows & 0xF) != 0)
                 {
-                    field_18 = 0;
+                    field_18_bSearching = 0;
                     *xpos = field_25_xpos;
                     *ypos = field_26_ypos;
                     *zpos = field_27_zpos;
@@ -1004,7 +1004,7 @@ bool PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* 
             }
             else
             {
-                field_18 = 0;
+                field_18_bSearching = 0;
                 *xpos = field_25_xpos;
                 *ypos = field_26_ypos;
                 *zpos = field_27_zpos;
@@ -1042,10 +1042,10 @@ bool PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* 
                     field_1B_direction = 4;
                     if (!PathFinder_2FD4::ProcessGridCell_5548C0())
                     {
-                        ++field_16;
+                        ++field_16_start_cost;
                         if (++j <= 6 || maybe_timer != 0)
                         {
-                            if (!field_18)
+                            if (!field_18_bSearching)
                             {
                                 return 1;
                             }

@@ -35,7 +35,7 @@ struct font_base
 
 struct sprite_index
 {
-    EXPORT void ClearPixelsOfColour_5ABAA0(u8 a2);
+    EXPORT void ClearPixelsOfColour_5ABAA0(u8 clear_target);
     EXPORT void CopyPixels_5ABB00(u8* dst_x);
 
     BYTE* field_0_pData;
@@ -267,23 +267,23 @@ class gtx_0x106C
 
     EXPORT u16 GetSpriteTrueIndex_5AA460(s32 sprite_type, s16 sprite_pal);
 
-    EXPORT s16 GetSpriteBaseOfType_5AA4F0(s32 a2);
+    EXPORT s16 GetSpriteBaseOfType_5AA4F0(s32 sprite_type);
 
     EXPORT s16 GetPaletteBaseOfType_5AA560(s32 palette_type);
 
     EXPORT s16 GetTruePalette_5AA5F0(s32 palette_type, s16 pal); // maybe "get virtual palette"?
 
-    EXPORT BYTE* GetPalData_5AA6A0(u16 a2);
+    EXPORT BYTE* GetPalData_5AA6A0(u16 palette_idx);
 
     EXPORT u16 get_phys_pal_5AA6F0(u16 palId);
 
-    EXPORT u16 GetSpriteIdxFromFont_5AA710(u16 a2, s16 a3);
+    EXPORT u16 GetSpriteIdxFromFont_5AA710(u16 font_type, s16 offset);
 
-    EXPORT u16 GetFontWidth_5AA760(u16* a2, wchar_t* a3);
+    EXPORT u16 GetFontWidth_5AA760(u16* font_type, wchar_t* pStr);
 
-    EXPORT u16 GetSpaceCharWidth_5AA7B0(u16* a2);
+    EXPORT u16 GetSpaceCharWidth_5AA7B0(u16* font_type);
 
-    EXPORT s16 GetLineSpacing_5AA800(u16* a2);
+    EXPORT s16 GetLineSpacing_5AA800(u16* font_type);
 
     EXPORT bool IsTileRemapped_5AA850(u16 tile_idx);
 
@@ -319,9 +319,9 @@ class gtx_0x106C
 
     EXPORT void load_tiles_5AADF0(u32 tile_chunk_len);
 
-    EXPORT void skip_ovly_5AAE20(u32 a1);
+    EXPORT void skip_ovly_5AAE20(u32 size);
 
-    EXPORT void skip_psxt_5AAE30(u32 a1);
+    EXPORT void skip_psxt_5AAE30(u32 size);
 
     EXPORT void load_sprite_graphics_5AAE40(u32 sprg_chunk_len);
 
@@ -333,7 +333,7 @@ class gtx_0x106C
 
     EXPORT void load_sprite_index_5AAF80(u32 sprx_chunk_size);
 
-    EXPORT void InitFontTypes_5AAFE0(u16 a1);
+    EXPORT void InitFontTypes_5AAFE0(u16 fontCount);
 
     EXPORT void load_font_base_5AB0F0(u32 fonb_chunk_size);
 
@@ -392,7 +392,7 @@ class gtx_0x106C
     s16 field_4_sprite_index_count;
     u16 field_6_map_object_info_len;
     s16 field_8_physical_palettes_len;
-    s16 field_A;
+    s16 field_A_unused;
     palette_base* field_C_palette_base2;
     palette_base* field_10_palette_base1;
     sprite_base* field_14_sprite_base2;
@@ -418,7 +418,7 @@ class gtx_0x106C
     u8* field_64_car_recycling_info;
     s16 field_68_recy_chunk_size;
     char_type field_6A_palettes_converted;
-    char_type field_6B;
+    char_type field_6B_unused;
     s32 field_6C_spec[1024];
 };
 

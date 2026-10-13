@@ -19,7 +19,7 @@ struct ScoreTableLine_18;
 
 #pragma pack(push)
 #pragma pack(1)
-struct svg_stru
+struct SaveSlotInfo_52
 {
     char_type field_0_map_name[25];
     char_type field_19_style_name[25];
@@ -27,22 +27,22 @@ struct svg_stru
     char_type field_4B_last_saved_stage;
     char_type field_4C_last_saved_bonus_stage_code;
     char_type field_4D_last_saved_is_bonus;
-    short field_4E;
-    s16 field_50;
+    short field_4E_unused;
+    s16 field_50_unused;
 };
 #pragma pack(pop)
 
 // todo: move
-struct admiring_euler_4
+struct SaveSlotSummary_4
 {
     char_type field_0_save_exists;
     char_type field_1_last_saved_stage;
     char_type field_2_last_saved_bonus_stage_code;
     char_type field_3_last_saved_is_bonus;
 
-    EXPORT admiring_euler_4();
+    EXPORT SaveSlotSummary_4();
 
-    EXPORT ~admiring_euler_4();
+    EXPORT ~SaveSlotSummary_4();
 
     EXPORT void LoadPlySlotSvg_4B6480(const char_type* FileName);
 };
@@ -100,17 +100,17 @@ struct menu_option_0x82
 #pragma pack(pop)
 
 // todo: move
-struct kind_beaver_6
+struct MenuOption_6
 {
   public:
-    EXPORT kind_beaver_6();
+    EXPORT MenuOption_6();
 
-    EXPORT ~kind_beaver_6();
+    EXPORT ~MenuOption_6();
 
     s16 field_0;
-    s16 field_2;
+    s16 field_2_unused;
     char_type field_4_is_option_unlocked;   // this control if the menu selection will skip a option or not
-    char_type field_5;
+    char_type field_5_unused;
 };
 
 // todo: move
@@ -128,7 +128,7 @@ struct MenuPage_0xBCA
     u16 field_2_number_of_elements;
     menu_option_0x82 field_4_options_array[10];
     menu_element_0x6E field_518_elements_array[15];
-    kind_beaver_6 field_B8A[10];
+    MenuOption_6 field_B8A[10];
     u16 field_BC6_current_option_idx;
     s16 field_BC8_default_option_idx;
 };
@@ -232,24 +232,24 @@ struct Frontend
     s32 field_108_winmain_next_state;
     char_type field_10C_bKeyboardAcquired;
     char_type field_10D_bInputEnabled;
-    char_type field_10E;
-    char_type field_10F;
+    char_type field_10E_unused;
+    char_type field_10F_unused;
     s32 field_110_state;
     s32 field_114_cursor_blink;
     s32 field_118_cursor_blink_timer;
     u16 field_11C_normal_font;
     s16 field_11E;
     s16 field_120_selected_font;
-    s16 field_122;
+    s16 field_122_unused;
     u16 field_124_font_type;
     s16 field_126;
     s16 field_128;
     s16 field_12A_score_font;
     s16 field_12C;
-    s16 field_12E;
+    s16 field_12E_unused;
     s16 field_130;
     u16 field_132_f136_idx;
-    s16 field_134;
+    s16 field_134_unused;
     MenuPage_0xBCA field_136_menu_pages_array[17];
     wchar_t field_C9A0_curr_plyr_name[9];
     u8 field_C9B2_curr_plyr_name_length;
@@ -275,24 +275,24 @@ struct Frontend
     char_type field_C9D7_return_key_down;
     char_type field_C9D8_escape_key_down;
     char_type field_C9D9_delete_key_down;
-    char_type field_C9DA;
-    char_type field_C9DB;
+    char_type field_C9DA_unused;
+    char_type field_C9DB_unused;
     s32 field_C9DC_next_frame_time;
     char_type field_C9E0_updates_since_render;
     char_type field_C9E1_bCheatsEnabled;
-    char_type field_C9E2;
-    char_type field_C9E3;
+    char_type field_C9E2_unused;
+    char_type field_C9E3_unused;
     s32 field_C9E4_last_input_time;
     MainBlockStrings field_C9E8_blocks[3][4];
-    admiring_euler_4 field_EDE8_plySlots[8];
+    SaveSlotSummary_4 field_EDE8_plySlots[8];
     char_type field_EE08_menu_screen;
-    char_type field_EE09;
+    char_type field_EE09_unused;
     u16 field_EE0A_dialog_cursor_ypos;
     u8 field_EE0C_dialog_type;
     u8 field_EE0D_hiscore_table_idx;
     CreditsText_FD22 field_EE0E_credits;
     u16 field_1EB30_credits_scroll_timer;
-    s16 field_1EB32;
+    s16 field_1EB32_unused;
     Fix16 field_1EB34_credits_ypos;
     u16 field_1EB38_credits_line_idx;
     u8 field_1EB3A_selected_main_stage[8];
@@ -322,7 +322,7 @@ struct Frontend
 
     EXPORT static void __stdcall destroy_4AD070();
 
-    EXPORT void ChangeMenuPage_4B3170(u16 arg0);
+    EXPORT void ChangeMenuPage_4B3170(u16 menu_page_idx);
 
     EXPORT void InitSound_4B8680();
 
@@ -362,9 +362,9 @@ struct Frontend
 
     EXPORT void LoadCurrPlayerName_4B4280();
 
-    EXPORT u8 GetPrevUnlockedStageIndex_4B77B0(PlySlot_A4* a2);
+    EXPORT u8 GetPrevUnlockedStageIndex_4B77B0(PlySlot_A4* pStats);
 
-    EXPORT u8 GetPrevUnlockedStageBonusCode_4B7800(PlySlot_A4* a2);
+    EXPORT u8 GetPrevUnlockedStageBonusCode_4B7800(PlySlot_A4* pStats);
 
     EXPORT void StripPasswordToCurrLength_4B8530();
 
@@ -389,7 +389,7 @@ struct Frontend
 
     EXPORT void DrawBackground_4B6E10();
 
-    EXPORT void GetTgaIdxsForMenuScreen_4B6B00(u8 a1, BYTE* pTgaIdx, BYTE* a3);
+    EXPORT void GetTgaIdxsForMenuScreen_4B6B00(u8 screen, BYTE* pTgaIdx, BYTE* pTgaIdx2);
 
     EXPORT void Load_tga_4B6520(u16 idx);
 
@@ -423,15 +423,15 @@ struct Frontend
 
     EXPORT char_type PlySlotSvgExists_4B5370(u8 idx);
 
-    EXPORT static void __stdcall SetInputEnabled_5E53C0(BYTE* a1);
+    EXPORT static void __stdcall SetInputEnabled_5E53C0(BYTE* pEnabled);
 
-    EXPORT static s32 __stdcall GetMaxTextWidth_5D8990(wchar_t* pStr, u16 a2);
+    EXPORT static s32 __stdcall GetMaxTextWidth_5D8990(wchar_t* pStr, u16 font_type);
 
-    EXPORT u16 GetCenteredXPos_4B0190(wchar_t* a2, u16 fontType, s32 width);
+    EXPORT u16 GetCenteredXPos_4B0190(wchar_t* pText, u16 fontType, s32 width);
 
-    EXPORT u8 GetPreviousUnlockedMainStage_4B7060(u8 a2);
+    EXPORT u8 GetPreviousUnlockedMainStage_4B7060(u8 stage_idx);
 
-    EXPORT u8 GetNextUnlockedMainStage_4B7270(char_type a2);
+    EXPORT u8 GetNextUnlockedMainStage_4B7270(char_type main_stage_idx);
 
     EXPORT bool ExistsPreviousMainStage_4B7490();
 
@@ -443,7 +443,7 @@ struct Frontend
 
     EXPORT void StripPlayerNameToCurrLength_4B42B0();
 
-    EXPORT char_type GetPreviousUnlockedBonusStage_4B7120(u8 a2);
+    EXPORT char_type GetPreviousUnlockedBonusStage_4B7120(u8 stage);
 
     EXPORT void UpdateBonusStageArrows_4B7610();
 
@@ -451,7 +451,7 @@ struct Frontend
 
     EXPORT bool ExistsPreviousBonusStage_4B74F0();
 
-    EXPORT char_type GetNextUnlockedBonusStage_4B7360(u8 a2);
+    EXPORT char_type GetNextUnlockedBonusStage_4B7360(u8 stage);
 
     EXPORT bool ExistsNextBonusStage_4B7520();
 
@@ -473,13 +473,13 @@ struct Frontend
 
     EXPORT char_type* pre_intro_bik_4B5F20();
 
-    EXPORT void GetElementText_4B3CC0(u16 a2, u16 a3, wchar_t** a4);
+    EXPORT void GetElementText_4B3CC0(u16 page_idx, u16 element_idx, wchar_t** ppText);
 
     EXPORT void DrawMultiplayerScores_4B55F0();
 
-    EXPORT void DrawLastAndBestStats_4B57B0(u16 a3, u16 a5);
+    EXPORT void DrawLastAndBestStats_4B57B0(u16 text_xpos, u16 text_ypos);
 
-    EXPORT void DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, u16 palette, u16 scale, u16 a7, u8 pStr);
+    EXPORT void DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, u16 palette, u16 scale, u16 char_width, u8 pStr);
 
     EXPORT void Frontend::DrawScoreTable_4B5430(ScoreTableLine_18* pStrings,
                            u16 text_xpos,
@@ -494,9 +494,9 @@ class FreeLoader
 {
   public:
     EXPORT static s32 __stdcall GetCityInstalled_4AE0F0();
-    EXPORT static char_type __stdcall CheckCityInstalled_4AE1F0(u8 a1);
+    EXPORT static char_type __stdcall CheckCityInstalled_4AE1F0(u8 city_idx);
     EXPORT static void __cdecl MessageBox_4AE170(UINT uType, LPCSTR lpCaption, LPCSTR lpFormat, ...);
-    EXPORT static LPCSTR __stdcall GetRegDword_4AE010(HKEY a1, LPCSTR a2, LPCSTR a3);
+    EXPORT static LPCSTR __stdcall GetRegDword_4AE010(HKEY hKey, LPCSTR lpValueName, LPCSTR default_value);
 };
 
 EXPORT s32 IsFullScreen_5D98D0();

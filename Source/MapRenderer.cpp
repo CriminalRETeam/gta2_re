@@ -376,29 +376,29 @@ void MapRenderer::SetAmbientLevel_4E9D50(s32& target_level, u16& cycles)
 MATCH_FUNC(0x4e9db0)
 void MapRenderer::set_shading_lev_4E9DB0(u8 shading_lev)
 {
-    u8 v6 = 2 * shading_lev / 3;
-    u8 v2 = 255 - 4 * shading_lev;
+    u8 mid_shade = 2 * shading_lev / 3;
+    u8 base_shade = 255 - 4 * shading_lev;
     u8 shading_leva = 5 * (51 - shading_lev);
-    u8 v7 = v2 + 2 * v6;
-    u8 v2_v6 = v6 + v2;
-    u8 lev_v6 = shading_leva - v6;
-    u8 lev_v6_2 = shading_leva - 2 * v6;
+    u8 top_shade = base_shade + 2 * mid_shade;
+    u8 v2_v6 = mid_shade + base_shade;
+    u8 lev_v6 = shading_leva - mid_shade;
+    u8 lev_v6_2 = shading_leva - 2 * mid_shade;
 
-    field_C_colour_t1 = v7;
-    field_D_right_colour = shading_leva - 3 * v6;
-    field_E_colour_t2 = v2;
+    field_C_colour_t1 = top_shade;
+    field_D_right_colour = shading_leva - 3 * mid_shade;
+    field_E_colour_t2 = base_shade;
     field_F_colour_t3 = lev_v6;
-    field_10_diag_up_left_colour = v2;
+    field_10_diag_up_left_colour = base_shade;
     field_11_diag_up_right_colour = lev_v6_2;
     field_12_diag_down_left_colour = v2_v6;
     field_13_diag_down_right_colour = lev_v6;
     field_14_dcolour = v2_v6;
     field_15_slope_south_colour = shading_leva;
     field_16_slope_west_colour = lev_v6_2;
-    field_17_slope_east_colour = v2 + 3 * v6;
+    field_17_slope_east_colour = base_shade + 3 * mid_shade;
     field_18_color = v2_v6;
     field_19_tri_diag_up_right_colour = lev_v6;
-    field_1A_tri_diag_down_left_colour = v7;
+    field_1A_tri_diag_down_left_colour = top_shade;
     field_1B_tri_diag_down_right_colour = shading_leva;
 }
 
@@ -2366,25 +2366,25 @@ void MapRenderer::DrawGradientSlopeEastwards_4F33B0()
 
 // https://decomp.me/scratch/zty5O
 MATCH_FUNC(0x4f3c00)
-void MapRenderer::draw_left_4F3C00(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
+void MapRenderer::draw_left_4F3C00(u16& side_word, Fix16& x_off, Fix16& y_off_a, Fix16& y_off_b)
 {
     if (!bSkip_left_67D6BF)
     {
-        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a3, &gTileVerts_6F65A8[0]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a3, &gTileVerts_6F65A8[1]);
+        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + x_off, gYCoord_6F63B8 + y_off_a, &gTileVerts_6F65A8[0]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_off, gYCoord_6F63B8 + y_off_a, &gTileVerts_6F65A8[1]);
         if (gTileVerts_6F65A8[0].x > gTileVerts_6F65A8[1].x)
         {
             return;
         }
-        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[3]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[2]);
+        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + x_off, gYCoord_6F63B8 + y_off_b, &gTileVerts_6F65A8[3]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_off, gYCoord_6F63B8 + y_off_b, &gTileVerts_6F65A8[2]);
 
         draw_4F3FB0(kLeftSideFlags_620F24[side_word >> 13]);
 
-        Set_UV_4F4190(kZeroOnePoint_6F6484.x, a3, 0);
-        Set_UV_4F4190(kZeroOnePoint_6F6484.y, a3, 1);
-        Set_UV_4F4190(kZeroOnePoint_6F6484.y, a4, 2);
-        Set_UV_4F4190(kZeroOnePoint_6F6484.x, a4, 3);
+        Set_UV_4F4190(kZeroOnePoint_6F6484.x, y_off_a, 0);
+        Set_UV_4F4190(kZeroOnePoint_6F6484.y, y_off_a, 1);
+        Set_UV_4F4190(kZeroOnePoint_6F6484.y, y_off_b, 2);
+        Set_UV_4F4190(kZeroOnePoint_6F6484.x, y_off_b, 3);
 
         gTileDrawFlags_6F6560 = 16389;
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(side_word & 0x3FF);
@@ -2473,25 +2473,25 @@ void __stdcall Set_UV_4F4190(Fix16& a1, Fix16& a2, const u32& pVertIdx)
 
 // https://decomp.me/scratch/dGqKl
 MATCH_FUNC(0x4f4250)
-void MapRenderer::draw_right_4F4250(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
+void MapRenderer::draw_right_4F4250(u16& side_word, Fix16& x_off, Fix16& y_off_a, Fix16& y_off_b)
 {
     if (!bSkip_right_67D4E4)
     {
-        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a3, &gTileVerts_6F65A8[1]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a3, &gTileVerts_6F65A8[0]);
+        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + x_off, gYCoord_6F63B8 + y_off_a, &gTileVerts_6F65A8[1]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_off, gYCoord_6F63B8 + y_off_a, &gTileVerts_6F65A8[0]);
         if (gTileVerts_6F65A8[0].x > gTileVerts_6F65A8[1].x)
         {
             return;
         }
-        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[2]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[3]);
+        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + x_off, gYCoord_6F63B8 + y_off_b, &gTileVerts_6F65A8[2]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_off, gYCoord_6F63B8 + y_off_b, &gTileVerts_6F65A8[3]);
 
         draw_4F3FB0(kRightSideFlags_620F44[side_word >> 13]);
 
-        Set_UV_4F4190(kZeroOnePoint_6F6484.x, a3, 0);
-        Set_UV_4F4190(kZeroOnePoint_6F6484.y, a3, 1);
-        Set_UV_4F4190(kZeroOnePoint_6F6484.y, a4, 2);
-        Set_UV_4F4190(kZeroOnePoint_6F6484.x, a4, 3);
+        Set_UV_4F4190(kZeroOnePoint_6F6484.x, y_off_a, 0);
+        Set_UV_4F4190(kZeroOnePoint_6F6484.y, y_off_a, 1);
+        Set_UV_4F4190(kZeroOnePoint_6F6484.y, y_off_b, 2);
+        Set_UV_4F4190(kZeroOnePoint_6F6484.x, y_off_b, 3);
 
         gTileDrawFlags_6F6560 = 16389;
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(side_word & 0x3FF);
@@ -2514,25 +2514,25 @@ void MapRenderer::draw_right_4F4250(u16& side_word, Fix16& a2, Fix16& a3, Fix16&
 
 // https://decomp.me/scratch/7xF8P
 MATCH_FUNC(0x4f4600)
-void MapRenderer::draw_top_4F4600(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
+void MapRenderer::draw_top_4F4600(u16& side_word, Fix16& x_off_a, Fix16& x_off_b, Fix16& y_off)
 {
     if (!bSkip_top_67D574)
     {
-        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[0]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[3]);
+        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + x_off_a, gYCoord_6F63B8 + y_off, &gTileVerts_6F65A8[0]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_off_a, gYCoord_6F63B8 + y_off, &gTileVerts_6F65A8[3]);
         if (gTileVerts_6F65A8[0].y > gTileVerts_6F65A8[3].y)
         {
             return;
         }
-        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + a3, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[1]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + a3, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[2]);
+        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + x_off_b, gYCoord_6F63B8 + y_off, &gTileVerts_6F65A8[1]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_off_b, gYCoord_6F63B8 + y_off, &gTileVerts_6F65A8[2]);
 
         draw_4F3FB0(kTopSideFlags_620F64[side_word >> 13]);
 
-        Set_UV_4F4190(a2, kZeroOnePoint_6F6484.x, 0);
-        Set_UV_4F4190(a3, kZeroOnePoint_6F6484.x, 1);
-        Set_UV_4F4190(a3, kZeroOnePoint_6F6484.y, 2);
-        Set_UV_4F4190(a2, kZeroOnePoint_6F6484.y, 3);
+        Set_UV_4F4190(x_off_a, kZeroOnePoint_6F6484.x, 0);
+        Set_UV_4F4190(x_off_b, kZeroOnePoint_6F6484.x, 1);
+        Set_UV_4F4190(x_off_b, kZeroOnePoint_6F6484.y, 2);
+        Set_UV_4F4190(x_off_a, kZeroOnePoint_6F6484.y, 3);
 
         gTileDrawFlags_6F6560 = 16389;
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(side_word & 0x3FF);
@@ -2555,25 +2555,25 @@ void MapRenderer::draw_top_4F4600(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a
 
 // https://decomp.me/scratch/QiYzx
 MATCH_FUNC(0x4f49b0)
-void MapRenderer::draw_bottom_4F49B0(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
+void MapRenderer::draw_bottom_4F49B0(u16& side_word, Fix16& x_off_a, Fix16& x_off_b, Fix16& y_off)
 {
     if (!bSkip_bottom_67D4E7)
     {
-        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[3]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[0]);
+        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + x_off_a, gYCoord_6F63B8 + y_off, &gTileVerts_6F65A8[3]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_off_a, gYCoord_6F63B8 + y_off, &gTileVerts_6F65A8[0]);
         if (gTileVerts_6F65A8[0].y > gTileVerts_6F65A8[3].y)
         {
             return;
         }
-        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + a3, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[2]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + a3, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[1]);
+        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + x_off_b, gYCoord_6F63B8 + y_off, &gTileVerts_6F65A8[2]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_off_b, gYCoord_6F63B8 + y_off, &gTileVerts_6F65A8[1]);
 
         draw_4F3FB0(kBottomSideFlags_620F84[side_word >> 13]);
 
-        Set_UV_4F4190(a2, kZeroOnePoint_6F6484.x, 0);
-        Set_UV_4F4190(a3, kZeroOnePoint_6F6484.x, 1);
-        Set_UV_4F4190(a3, kZeroOnePoint_6F6484.y, 2);
-        Set_UV_4F4190(a2, kZeroOnePoint_6F6484.y, 3);
+        Set_UV_4F4190(x_off_a, kZeroOnePoint_6F6484.x, 0);
+        Set_UV_4F4190(x_off_b, kZeroOnePoint_6F6484.x, 1);
+        Set_UV_4F4190(x_off_b, kZeroOnePoint_6F6484.y, 2);
+        Set_UV_4F4190(x_off_a, kZeroOnePoint_6F6484.y, 3);
 
         gTileDrawFlags_6F6560 = 16389;
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(side_word & 0x3FF);
@@ -3356,20 +3356,20 @@ void MapRenderer::DrawGradientSlope_4F6630()
 MATCH_FUNC(0x4f66c0)
 void MapRenderer::RenderFlatBlock_4F66C0()
 {
-    u16 v6;
+    u16 side_word;
     gCurrentSlope_6F646C.field_0_gradient_direction = 0;
 
     if (gBlockLeft_6F62F6 && gBlockRight_6F63C6)
     {
         if ((gBlockRight_6F63C6 & 0x1000) != 0)
         {
-            v6 = gBlockLeft_6F62F6 | 0x1000;
-            MapRenderer::draw_left_4F3C00(v6, kZeroOnePoint_6F6484.y, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.y);
+            side_word = gBlockLeft_6F62F6 | 0x1000;
+            MapRenderer::draw_left_4F3C00(side_word, kZeroOnePoint_6F6484.y, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.y);
         }
         if ((gBlockLeft_6F62F6 & 0x1000) != 0)
         {
-            v6 = gBlockRight_6F63C6 | 0x1000;
-            MapRenderer::draw_right_4F4250(v6, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.y);
+            side_word = gBlockRight_6F63C6 | 0x1000;
+            MapRenderer::draw_right_4F4250(side_word, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.y);
         }
     }
 
@@ -3377,13 +3377,13 @@ void MapRenderer::RenderFlatBlock_4F66C0()
     {
         if ((gBlockBottom_6F6468 & 0x1000) != 0)
         {
-            v6 = gBlockTop_6F62F4 | 0x1000;
-            MapRenderer::draw_top_4F4600(v6, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.y, kZeroOnePoint_6F6484.y);
+            side_word = gBlockTop_6F62F4 | 0x1000;
+            MapRenderer::draw_top_4F4600(side_word, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.y, kZeroOnePoint_6F6484.y);
         }
         if ((gBlockTop_6F62F4 & 0x1000) != 0)
         {
-            v6 = gBlockBottom_6F6468 | 0x1000;
-            MapRenderer::draw_bottom_4F49B0(v6, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.y, kZeroOnePoint_6F6484.x);
+            side_word = gBlockBottom_6F6468 | 0x1000;
+            MapRenderer::draw_bottom_4F49B0(side_word, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.y, kZeroOnePoint_6F6484.x);
         }
     }
     if (gBlockLeft_6F62F6) // line 103
@@ -3432,12 +3432,12 @@ void MapRenderer::RenderBlockAt_4F6880(s32& pXCoord, s32& pYCoord)
         gBlockTop_6F62F4 = pBlock->field_4_top;
         gBlockBottom_6F6468 = pBlock->field_6_bottom;
 
-        u16 v8 = pBlock->field_8_lid;
-        gLidType_6F6274 = v8;
+        u16 lid_idx = pBlock->field_8_lid;
+        gLidType_6F6274 = lid_idx;
 
         if (bShow_hidden_faces_67D5CD)
         {
-            if (!v8 && (pBlock->field_B_slope_type & 3) != 0)
+            if (!lid_idx && (pBlock->field_B_slope_type & 3) != 0)
             {
                 gLidType_6F6274 = 0x260;
             }

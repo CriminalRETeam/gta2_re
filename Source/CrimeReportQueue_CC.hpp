@@ -36,9 +36,9 @@ class CrimeReportQueue_CC
     EXPORT CrimeReportQueue_CC* ctor_484FC0();
     EXPORT void dtor_484FD0();
     EXPORT void ReportCrimeForPed(u32 crime_type, Ped* pPed);
-    EXPORT bool ShouldReportCarCrime_485090(Car_BC* a2, Player* a3);
-    EXPORT bool ShouldReportCharCrime_4850F0(Char_B4* a2, Player* a3);
-    EXPORT bool ShouldReportPedCrime_485140(Ped* a2, Player* a3);
+    EXPORT bool ShouldReportCarCrime_485090(Car_BC* pCar, Player* pPlayer);
+    EXPORT bool ShouldReportCharCrime_4850F0(Char_B4* pB4, Player* pPlayer);
+    EXPORT bool ShouldReportPedCrime_485140(Ped* pPed, Player* pPlayer);
 
     u16 field_0_write_idx;
     u16 field_2_read_idx;

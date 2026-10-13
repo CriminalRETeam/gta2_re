@@ -13,10 +13,10 @@ class Car_Door_10
         return field_8_pObj;
     }
 
-    EXPORT void AnimateOpening_439CD0(u32* a2);
-    EXPORT void AnimateClosing_439D40(u32* a3);
-    EXPORT void Service_439DA0(u32* a3);
-    EXPORT void Init_439E40(u8 a2);
+    EXPORT void AnimateOpening_439CD0(u32* pRet);
+    EXPORT void AnimateClosing_439D40(u32* pDeltaMask);
+    EXPORT void Service_439DA0(u32* a3a);
+    EXPORT void Init_439E40(u8 door_idx);
     EXPORT void Open_439E60();
     EXPORT void Close_439EA0();
     EXPORT Car_Door_10(); // 447330
@@ -55,12 +55,12 @@ class Car_Door_10
     s8 field_0_animation_frame;
     s8 field_1_frame_delay;
     s8 field_2_first_delta_idx;
-    s8 field_3;
+    s8 field_3_unused;
     s32 field_4_state;
     Ped* field_8_pObj;
     u8 field_C_stay_open_timer;
-    s8 field_D;
-    s8 field_E;
-    s8 field_F;
+    s8 field_D_unused;
+    s8 field_E_unused;
+    s8 field_F_unused;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Car_Door_10, 0x10)

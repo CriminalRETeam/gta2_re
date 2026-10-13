@@ -38,7 +38,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 6 | 52 | - | 0x442ad0 | `Fix16_Point::NormalizeSafe_442AD0` | Fix16_Point.cpp |
 | 0 | 6 | 58 | 184 | 0x436200 | `Camera_0xBC::ApplyCarVelocityCameraOffset_436200` | Camera.cpp |
 | 0 | 8 | 142 | - | 0x465d00 | `Ped::IsPedAThreat_465D00` | Ped.cpp |
-| 0 | 8 | 20 | 8 | 0x5a7080 | `struct_4::CleanupSpriteList_5A7080` | Object_3C.cpp |
+| 0 | 8 | 20 | 8 | 0x5a7080 | `SpriteList_4::CleanupSpriteList_5A7080` | Object_3C.cpp |
 | 0 | 8 | 30 | - | 0x5e13e0 | `Weapon_30::army_gun_jeep_5E13E0` | Weapon_30.cpp |
 | 0 | 8 | 34 | - | 0x5e10e0 | `Weapon_30::tank_main_gun_5E10E0` | Weapon_30.cpp |
 | 0 | 8 | 8 | 0 | 0x559430 | `CarPhysics_B0::ShowPhysicsDebug_559430` | CarPhysics_B0.cpp |
@@ -128,7 +128,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 2 | 189 | 395 | - | 0x4645b0 | `Ped::CalcApproachPointNearTargetPed_4645B0` | Ped.cpp |
 | 2 | 303 | 776 | 243 | 0x53e970 | `Particle_8::GunMuzzelFlash_53E970` | Particle_8.cpp |
 | 3 | 15 | 61 | 102 | 0x53b670 | `Particle_4C::UpdateAttachedEmitter_state_9_10_53B670` | Particle_4C.cpp |
-| 3 | 41 | 55 | 591 | 0x5a3550 | `Sprite_4C::UpdateRotatedBoundingBox_5A3550` | sprite.cpp |
+| 3 | 41 | 55 | 591 | 0x5a3550 | `SpriteShape_4C::UpdateRotatedBoundingBox_5A3550` | sprite.cpp |
 | 4 | 8 | 20 | 113 | 0x4b7ae0 | `Frontend::DrawCredits_4B7AE0` | Frontend.cpp |
 | 4 | 12 | 12 | - | 0x4c8e60 | `PedGroup::sub_4C8E60` | PedGroup.cpp |
 | 4 | 18 | 196 | 1240 | 0x4e7190 | `Map_0x370::sub_4E7190` | map_0x370.cpp |
