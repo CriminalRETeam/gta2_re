@@ -441,7 +441,7 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
         Ang16 rotation;
         rotation.ConvertAndMultiply(&kDegreesToAng16_6F8044, &pCmd->field_18_rot);
         rotation.Normalize_406C20();
-        pPointer->field_8_car = gCar_6C_677930->SpawnCar_426E10(pCmd->field_C_pos.field_0_x,
+        pPointer->field_8_car = gCarManager_6C_677930->SpawnCar_426E10(pCmd->field_C_pos.field_0_x,
                                                                 pCmd->field_C_pos.field_4_y,
                                                                 pCmd->field_C_pos.field_8_z,
                                                                 rotation,
@@ -452,7 +452,7 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
         Ang16 rotation;
         rotation.ConvertAndMultiply(&kDegreesToAng16_6F8044, &pCmd->field_18_rot);
         rotation.Normalize_406C20();
-        pPointer->field_8_car = gCar_6C_677930->SpawnCar_4764A0(pCmd->field_C_pos.field_0_x,
+        pPointer->field_8_car = gCarManager_6C_677930->SpawnCar_4764A0(pCmd->field_C_pos.field_0_x,
                                                                 pCmd->field_C_pos.field_4_y,
                                                                 pCmd->field_C_pos.field_8_z,
                                                                 rotation,
@@ -468,12 +468,12 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
     {
         if (pCmd->field_1C_car_id == car_model_enum::TRUKTRNS) // 66 = TRUKTRNS Truck Trailer, Flatbed
         {
-            Car_BC* pTrailerCar = gCar_6C_677930->SpawnCar_shortened(pCmd->field_1E_trailer_id);
+            Car_BC* pTrailerCar = gCarManager_6C_677930->SpawnCar_shortened(pCmd->field_1E_trailer_id);
             Ang16 rotation;
             rotation.ConvertAndMultiply(&kDegreesToAng16_6F8044, &pCmd->field_18_rot);
             rotation.Normalize();
 
-            pPointer->field_8_car = gCar_6C_677930->SpawnCar_426E10(pCmd->field_C_pos.field_0_x,
+            pPointer->field_8_car = gCarManager_6C_677930->SpawnCar_426E10(pCmd->field_C_pos.field_0_x,
                                                                     pCmd->field_C_pos.field_4_y,
                                                                     pCmd->field_C_pos.field_8_z,
                                                                     rotation,
@@ -490,7 +490,7 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
             rotation.ConvertAndMultiply(&kDegreesToAng16_6F8044, &pCmd->field_18_rot);
             rotation.Normalize();
 
-            Trailer* pTrailer = gCar_6C_677930->SpawnCabAndTrailer_446530(pCmd->field_C_pos.field_0_x,
+            Trailer* pTrailer = gCarManager_6C_677930->SpawnCabAndTrailer_446530(pCmd->field_C_pos.field_0_x,
                                                                           pCmd->field_C_pos.field_4_y,
                                                                           rotation,
                                                                           pCmd->field_1C_car_id,
@@ -757,7 +757,7 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE3_504660(SCR_THREAD* pThread)
 
     if (((SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_char_idx))->field_8_char)
     {
-        pCmd->field_15_trigger_idx = gCar_214_705F20->AddThreadTrigger_5C86C0(4,
+        pCmd->field_15_trigger_idx = gCarThreadTriggers_214_705F20->AddThreadTrigger_5C86C0(4,
                                                      2,
                                                      pCmd,
                                                      Fix16(pCmd->field_12_x) + kFpHalf_6F75F0,
@@ -779,7 +779,7 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE5_504710(SCR_CHAR_AREA_ANY* pCmd)
         switch (pCmd->field_2_type)
         {
             case SCRCMD_THREAD_DECLARE5:
-                pCmd->field_26_result = gCar_214_705F20->AddThreadTrigger_5C86C0(4,
+                pCmd->field_26_result = gCarThreadTriggers_214_705F20->AddThreadTrigger_5C86C0(4,
                                                                     2,
                                                                     (SCR_THREAD*)pCmd,
                                                                     pCmd->field_10_x,
@@ -790,7 +790,7 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE5_504710(SCR_CHAR_AREA_ANY* pCmd)
 
                 break;
             case SCRCMD_CHAR_AREA_ANY_MEANS:
-                pCmd->field_26_result = gCar_214_705F20->AddThreadTrigger_5C86C0(3,
+                pCmd->field_26_result = gCarThreadTriggers_214_705F20->AddThreadTrigger_5C86C0(3,
                                                                     2,
                                                                     (SCR_THREAD*)pCmd,
                                                                     pCmd->field_10_x,
@@ -1337,11 +1337,11 @@ void miss2_0x11C::DisableThread_505790(u16 idx)
             break;
         }
         case SCRCMD_THREAD_DECLARE3:
-            gCar_214_705F20->SetTriggerEnableState_4768C0(((SCR_THREAD*)pCmd)->field_15_trigger_idx, 2);
+            gCarThreadTriggers_214_705F20->SetTriggerEnableState_4768C0(((SCR_THREAD*)pCmd)->field_15_trigger_idx, 2);
             break;
         case SCRCMD_THREAD_DECLARE5:
         case SCRCMD_CHAR_AREA_ANY_MEANS:
-            gCar_214_705F20->SetTriggerEnableState_4768C0(((SCR_CHAR_AREA_ANY*)pCmd)->field_26_result, 2);
+            gCarThreadTriggers_214_705F20->SetTriggerEnableState_4768C0(((SCR_CHAR_AREA_ANY*)pCmd)->field_26_result, 2);
             break;
         case SCRCMD_THREAD_DECLARE2:
         {
@@ -1360,7 +1360,7 @@ void miss2_0x11C::DisableThread_505790(u16 idx)
                 --gScriptManager_6F8060->field_0_car_trigger_count;
             }
 
-            pParam2->field_8_car->field_8D_car_thread_flags &= ~1;
+            pParam2->field_8_car->ClearCarThreadPending_4218E0();
             break;
         }
     }
@@ -2409,7 +2409,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                 {
                     if (gStoredCar_6F7560->field_6C_car_id == gStoredCarId_6F78B4)
                     {
-                        if (gCar_6C_677930->CanAllocateCarOfKind_446930(car_kind::recycled_1))
+                        if (gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::recycled_1))
                         {
                             gStoredCar_6F7560->ReassignAllocatedCarType_443EE0(car_kind::recycled_1);
                             gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
@@ -2420,7 +2420,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                                 gStoredCar_6F7560->MarkForDespawn_421470();
                             }
                         }
-                        else if (gCar_6C_677930->CanAllocateCarOfKindWithSpare_446870(car_kind::mission_car_8))
+                        else if (gCarManager_6C_677930->CanAllocateCarOfKindWithSpare_446870(car_kind::mission_car_8))
                         {
                             gGame_0x40_67E008->field_38_orf1->PushCarInfo_564680(gStoredCar_6F7560);
                             gStoredCar_6F7560->SetDriverPedType_421560(ped_type::dummy_3);
@@ -3466,7 +3466,7 @@ void miss2_0x11C::EnableThread_50A9E0(u16 idx)
 
             if (pThread->field_16_flag)
             {
-                gCar_214_705F20->SetTriggerEnableState_4768C0(pThread->field_15_trigger_idx, 1);
+                gCarThreadTriggers_214_705F20->SetTriggerEnableState_4768C0(pThread->field_15_trigger_idx, 1);
             }
             else
             {
@@ -3485,7 +3485,7 @@ void miss2_0x11C::EnableThread_50A9E0(u16 idx)
 
             if (pAny->field_27_flag)
             {
-                gCar_214_705F20->SetTriggerEnableState_4768C0(pAny->field_26_result, 1);
+                gCarThreadTriggers_214_705F20->SetTriggerEnableState_4768C0(pAny->field_26_result, 1);
             }
             else
             {
@@ -5351,7 +5351,7 @@ void miss2_0x11C::SCRCMD_SET_DIR_OF_TVVAN_50DD90()
     SCR_SET_DIR_OF_TVVAN* pCmd = (SCR_SET_DIR_OF_TVVAN*)gBasePtr_6F8070;
 
     Fix16_Point point(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y);
-    gCar_6C_677930->field_4C_tv_van_dir = point;
+    gCarManager_6C_677930->field_4C_tv_van_dir = point;
 
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -5524,14 +5524,14 @@ void miss2_0x11C::SCRCMD_CHECK_BONUS_50E0B0()
 MATCH_FUNC(0x50e120)
 void miss2_0x11C::SCRCMD_SETUP_MODEL_CHECK_50E120()
 {
-    gCar_6C_677930->field_58_model_to_check_destroy = (u16)gBasePtr_6F8070->field_8_index;
+    gCarManager_6C_677930->field_58_model_to_check_destroy = (u16)gBasePtr_6F8070->field_8_index;
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50e150)
 void miss2_0x11C::SCRCMD_MODEL_CHECK_50E150()
 {
-    if (gCar_6C_677930->field_5C_model_check_destroyed)
+    if (gCarManager_6C_677930->field_5C_model_check_destroyed)
     {
         field_8_cond_result = true;
     }
@@ -6176,11 +6176,11 @@ void miss2_0x11C::SCRCMD_SUPPRESS_MODEL_50F220()
 {
     if ((u16)gBasePtr_6F8070->field_8_index == 0xFFFFu) //  TODO: fix gBasePtr_6F8070
     {
-        gCar_6C_677930->field_C_suppressed_model = car_model_enum::none; //  No model suppressed
+        gCarManager_6C_677930->field_C_suppressed_model = car_model_enum::none; //  No model suppressed
     }
     else
     {
-        gCar_6C_677930->field_C_suppressed_model = (u16)gBasePtr_6F8070->field_8_index;
+        gCarManager_6C_677930->field_C_suppressed_model = (u16)gBasePtr_6F8070->field_8_index;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }

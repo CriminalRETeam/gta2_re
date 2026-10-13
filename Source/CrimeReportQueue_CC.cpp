@@ -209,7 +209,7 @@ MATCH_FUNC(0x485090)
 bool CrimeReportQueue_CC::ShouldReportCarCrime_485090(Car_BC* pCar, Player* pPlayer)
 {
     bool bInRange = true;
-    if (gCar_6C_677930->field_68_object_hit_active)
+    if (gCarManager_6C_677930->field_68_object_hit_active)
     {
         if (gGame_0x40_67E008->IsSpriteOnScreen_4B9950(pCar->field_50_car_sprite, pPlayer->GetIdx_4881E0(), 0) == 0)
         {

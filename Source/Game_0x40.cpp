@@ -172,7 +172,7 @@ void Game_0x40::LoadGameFiles_4B8C40()
         gCarInfo_808_678098->LoadFromGciFile_454A00("data\\nyc.gci");
     }
 
-    gCar_6C_677930->DistributeCarsByRating_444980();
+    gCarManager_6C_677930->DistributeCarsByRating_444980();
 
     if (gKanjiFont_6F5168 != NULL)
     {
@@ -292,7 +292,7 @@ void Game_0x40::BootGame_4B8EB0()
     {
         gMike_A80_6F7328->Init_4FF1B0();
     }
-    gCar_214_705F20->Reset_5C8750();
+    gCarThreadTriggers_214_705F20->Reset_5C8750();
     gMap_0x370_6F6268->alloc_zones_4DFCA0();
     gHud_2B00_706620->Init_5D6BE0();
     gScriptManager_6F8060->Update_512160(); // script
@@ -322,16 +322,16 @@ void Game_0x40::BootGame_4B8EB0()
 MATCH_FUNC(0x4B8FF0)
 void Game_0x40::ShowCounters_4B8FF0()
 {
-    swprintf(tmpBuff_67BD9C, L"recycled cars : %d", gCar_6C_677930->field_28_recycled_cars);
+    swprintf(tmpBuff_67BD9C, L"recycled cars : %d", gCarManager_6C_677930->field_28_recycled_cars);
     gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 32, gDebugFont_706600, 1);
 
-    swprintf(tmpBuff_67BD9C, L"prot. recycled cars : %d", gCar_6C_677930->field_40_proto_recycled_cars);
+    swprintf(tmpBuff_67BD9C, L"prot. recycled cars : %d", gCarManager_6C_677930->field_40_proto_recycled_cars);
     gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 48, gDebugFont_706600, 1);
 
-    swprintf(tmpBuff_67BD9C, L"mission cars : %d", gCar_6C_677930->field_3C_mission_cars);
+    swprintf(tmpBuff_67BD9C, L"mission cars : %d", gCarManager_6C_677930->field_3C_mission_cars);
     gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 64, gDebugFont_706600, 1);
 
-    swprintf(tmpBuff_67BD9C, L"unit cars : %d", gCar_6C_677930->field_34_unit_cars);
+    swprintf(tmpBuff_67BD9C, L"unit cars : %d", gCarManager_6C_677930->field_34_unit_cars);
     gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 80, gDebugFont_706600, 1);
 
     swprintf(tmpBuff_67BD9C, L"cars:%d", gCar_BC_Pool_67792C->get_cars_count_45AD30());
@@ -495,7 +495,7 @@ void Game_0x40::UpdateGame_4B9410()
     gPedManager_6787BC->PedsService_4703F0();
     gPublicTransport_181C_6FF1D4->PublicTransportService_57A7A0(); // trains & buses
     gGarage_48_6FD26C->GaragesService_5349D0();
-    gCar_6C_677930->CarsService_446790();
+    gCarManager_6C_677930->CarsService_446790();
 
     if (bDo_mike_67D5CC)
     {
@@ -1004,14 +1004,14 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1824);
     }
 
-    gCar_6C_677930 = new Car_6C(); // ctor call
-    if (!gCar_6C_677930)
+    gCarManager_6C_677930 = new CarManager_6C(); // ctor call
+    if (!gCarManager_6C_677930)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1827);
     }
 
-    gCar_214_705F20 = new Car_214(); // no ctor
-    if (!gCar_214_705F20)
+    gCarThreadTriggers_214_705F20 = new CarThreadTriggers_214(); // no ctor
+    if (!gCarThreadTriggers_214_705F20)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1829);
     }
@@ -1294,8 +1294,8 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gSpriteRenderer_67B580);
     GTA2_DELETE_AND_NULL(gPedPool_6787B8);
 
-    GTA2_DELETE_AND_NULL(gCar_6C_677930);
-    GTA2_DELETE_AND_NULL(gCar_214_705F20);
+    GTA2_DELETE_AND_NULL(gCarManager_6C_677930);
+    GTA2_DELETE_AND_NULL(gCarThreadTriggers_214_705F20);
     GTA2_DELETE_AND_NULL(gScriptManager_6F8060);
     GTA2_DELETE_AND_NULL(gScriptStackFramePool_6F8068);
 

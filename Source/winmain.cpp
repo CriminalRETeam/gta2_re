@@ -1179,9 +1179,9 @@ EXPORT void __stdcall MakeInitialSyncData_4DB2E0(u8* pSyncData)
 
     memset(pData, 0, sizeof(SyncCheckData_1F));
     pData->field_0_type = std_packet_subtype::SyncCheckData_5;
-    if (gCar_6C_677930)
+    if (gCarManager_6C_677930)
     {
-        gCar_6C_677930->field_69_do_free_shopping = bDo_free_shopping_67D6CD;
+        gCarManager_6C_677930->field_69_do_free_shopping = bDo_free_shopping_67D6CD;
     }
 
     pData->field_1_flags = 0;

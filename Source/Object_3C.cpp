@@ -517,7 +517,7 @@ void SpriteList_4::DestroyAllSprites_5A7010()
         switch (p18Iter->field_0_pSprite->GetType_416B40())
         {
             case sprite_types_enum::car_2:
-                gCar_6C_677930->RemoveFromPoolAndCollision_446730(pSprite->field_8_car_bc_ptr);
+                gCarManager_6C_677930->RemoveFromPoolAndCollision_446730(pSprite->field_8_car_bc_ptr);
                 break;
             case sprite_types_enum::unknown_1:
             case sprite_types_enum::code_obj1_4:

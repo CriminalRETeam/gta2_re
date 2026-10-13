@@ -669,7 +669,7 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
                     {
                         for (j = 0; j < wagons; j++)
                         {
-                            pTrain->field_C_carriages[j + 1] = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(
+                            pTrain->field_C_carriages[j + 1] = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(
                                 Fix16(pStation->field_C_stop_point->field_1_x) + dword_6FF088 * Fix16(j + 1),
                                 Fix16(pStation->field_C_stop_point->field_2_y) + dword_6FEF88,
                                 word_6FEFFE,
@@ -686,7 +686,7 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
                             }
                         }
                         pTrain->field_C_carriages[0] =
-                            gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(pStation->field_C_stop_point->field_1_x),
+                            gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(pStation->field_C_stop_point->field_1_x),
                                                                       Fix16(pStation->field_C_stop_point->field_2_y) + dword_6FEF88,
                                                                       word_6FEFFE,
                                                                       car_model_enum::TRAINCAB,
@@ -696,7 +696,7 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
                     {
                         for (j = 0; j < wagons; j++)
                         {
-                            pTrain->field_C_carriages[j + 1] = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(
+                            pTrain->field_C_carriages[j + 1] = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(
                                 Fix16(pStation->field_C_stop_point->field_1_x) + dword_6FEF88,
                                 Fix16(pStation->field_C_stop_point->field_2_y) - dword_6FF080 * Fix16(j + 1),
                                 kAng0_6FF1BC,
@@ -713,7 +713,7 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
                             }
                         }
                         pTrain->field_C_carriages[0] =
-                            gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(pStation->field_C_stop_point->field_1_x) + dword_6FEF88,
+                            gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(pStation->field_C_stop_point->field_1_x) + dword_6FEF88,
                                                                       Fix16(pStation->field_C_stop_point->field_2_y),
                                                                       kAng0_6FF1BC,
                                                                       car_model_enum::TRAINCAB,
@@ -723,7 +723,7 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
                     {
                         for (j = 0; j < wagons; j++)
                         {
-                            pTrain->field_C_carriages[j + 1] = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(
+                            pTrain->field_C_carriages[j + 1] = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(
                                 Fix16(pStation->field_C_stop_point->field_1_x) - dword_6FF088 * Fix16(j + 1),
                                 Fix16(pStation->field_C_stop_point->field_2_y) + dword_6FEF88,
                                 word_6FEFFE,
@@ -740,7 +740,7 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
                             }
                         }
                         pTrain->field_C_carriages[0] =
-                            gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(pStation->field_C_stop_point->field_1_x),
+                            gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(pStation->field_C_stop_point->field_1_x),
                                                                       Fix16(pStation->field_C_stop_point->field_2_y) + dword_6FEF88,
                                                                       word_6FEF04,
                                                                       car_model_enum::TRAINCAB,
@@ -750,7 +750,7 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
                     {
                         for (j = 0; j < wagons; j++)
                         {
-                            pTrain->field_C_carriages[j + 1] = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(
+                            pTrain->field_C_carriages[j + 1] = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(
                                 Fix16(pStation->field_C_stop_point->field_1_x) + dword_6FEF88,
                                 Fix16(pStation->field_C_stop_point->field_2_y) + dword_6FF080 * Fix16(j + 1),
                                 word_6FEFD6,
@@ -767,7 +767,7 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
                             }
                         }
                         pTrain->field_C_carriages[0] =
-                            gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(pStation->field_C_stop_point->field_1_x) + dword_6FEF88,
+                            gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(pStation->field_C_stop_point->field_1_x) + dword_6FEF88,
                                                                       Fix16(pStation->field_C_stop_point->field_2_y),
                                                                       word_6FEFD6,
                                                                       car_model_enum::TRAINCAB,
@@ -1225,7 +1225,7 @@ void PublicTransport_181C::BusesService_579CA0()
     {
         u16 i;
         s32 found_z;
-        if (dword_6FF1D0 || byte_6FF1CD || !gCar_6C_677930->CanAllocateCarOfKind_446930(car_kind::recycled_1))
+        if (dword_6FF1D0 || byte_6FF1CD || !gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::recycled_1))
         {
             if (--dword_6FF1D0 < 0)
             {
@@ -1284,22 +1284,22 @@ void PublicTransport_181C::BusesService_579CA0()
                 if (HasBlockGreenArrowAtDirection_577E20(4, HighestBlockForCoord_4E4C30))
                 {
                     field_17C0_bus.field_C_carriages[0] =
-                        gCar_6C_677930->SpawnBusAtValidRoadPosition_4453E0(xpos, ypos + kFpHalf_6FEEE8, 4, car_model_enum::BUS);
+                        gCarManager_6C_677930->SpawnBusAtValidRoadPosition_4453E0(xpos, ypos + kFpHalf_6FEEE8, 4, car_model_enum::BUS);
                 }
                 if (HasBlockGreenArrowAtDirection_577E20(2, HighestBlockForCoord_4E4C30))
                 {
                     field_17C0_bus.field_C_carriages[0] =
-                        gCar_6C_677930->SpawnBusAtValidRoadPosition_4453E0(xpos + kFpHalf_6FEEE8, ypos, 2, car_model_enum::BUS);
+                        gCarManager_6C_677930->SpawnBusAtValidRoadPosition_4453E0(xpos + kFpHalf_6FEEE8, ypos, 2, car_model_enum::BUS);
                 }
                 if (HasBlockGreenArrowAtDirection_577E20(3, HighestBlockForCoord_4E4C30))
                 {
                     field_17C0_bus.field_C_carriages[0] =
-                        gCar_6C_677930->SpawnBusAtValidRoadPosition_4453E0(xpos, ypos, 3, car_model_enum::BUS);
+                        gCarManager_6C_677930->SpawnBusAtValidRoadPosition_4453E0(xpos, ypos, 3, car_model_enum::BUS);
                 }
                 if (HasBlockGreenArrowAtDirection_577E20(1, HighestBlockForCoord_4E4C30))
                 {
                     field_17C0_bus.field_C_carriages[0] =
-                        gCar_6C_677930->SpawnBusAtValidRoadPosition_4453E0(xpos, ypos, 1, car_model_enum::BUS);
+                        gCarManager_6C_677930->SpawnBusAtValidRoadPosition_4453E0(xpos, ypos, 1, car_model_enum::BUS);
                 }
                 pBusCar = field_17C0_bus.field_C_carriages[0];
                 if (pBusCar)

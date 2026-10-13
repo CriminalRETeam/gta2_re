@@ -95,7 +95,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 58 | 216 | 141 | 0x539480 | `Particle_4C::UpdateDirectedBurst_state_13_14_36_539480` | Particle_4C.cpp |
 | 0 | 60 | 246 | - | 0x53f060 | `Particle_8::EmitWaterSplash_53F060` | Particle_8.cpp |
 | 0 | 62 | 68 | - | 0x5d8470 | `DrawTexture_5D8470` | Draw.cpp |
-| 0 | 64 | 162 | 0 | 0x446530 | `Car_6C::SpawnCabAndTrailer_446530` | Car_BC.cpp |
+| 0 | 64 | 162 | 0 | 0x446530 | `CarManager_6C::SpawnCabAndTrailer_446530` | Car_BC.cpp |
 | 0 | 68 | 136 | 74 | 0x588620 | `RouteFinder::ShowJunctionIds_588620` | RouteFinder.cpp |
 | 0 | 68 | 252 | - | 0x542e30 | `Explosion_30::EmitBuildingDebris_22_23_24_25_542E30` | Explosion_30.cpp |
 | 0 | 72 | 104 | - | 0x59eff0 | `Sprite::Draw_59EFF0` | sprite.cpp |
@@ -144,7 +144,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 4 | 48 | 72 | 4 | 0x4b6e10 | `Frontend::DrawBackground_4B6E10` | Frontend.cpp |
 | 4 | 156 | 286 | 146 | 0x492260 | `RollingDigitCounter_38::DrawDigitsRightAligned_492260` | RollingDigitCounter_38.cpp |
 | 4 | 175 | 574 | - | 0x538ac0 | `Particle_4C::UpdateObjectBeamLink_state_38_538AC0` | Particle_4C.cpp |
-| 4 | 192 | 449 | 361 | 0x4458b0 | `Car_6C::SpawnCarOnRoadNetwork_4458B0` | Car_BC.cpp |
+| 4 | 192 | 449 | 361 | 0x4458b0 | `CarManager_6C::SpawnCarOnRoadNetwork_4458B0` | Car_BC.cpp |
 | 5 | 13 | 33 | - | 0x5615d0 | `CarPhysics_B0::ApplyDriveForce_5615D0` | CarPhysics_B0.cpp |
 | 6 | 14 | 16 | 32 | 0x51e030 | `NetPlay::EnumAddress_cb_51E030` | NetPlay.cpp |
 | 6 | 16 | 72 | 52 | 0x467090 | `Ped::FindUsableCarDoor_467090` | Ped.cpp |
@@ -197,7 +197,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 52 | 146 | 166 | 70 | 0x463830 | `Ped::SetObjective2_463830` | Ped.cpp |
 | 55 | 316 | 584 | 573 | 0x524630 | `Object_2C::IntegrateHorizontalMovementAndCollisions_524630` | Object_5C.cpp |
 | 55 | 876 | 1897 | 2397 | 0x448ce0 | `CarAI_78::ManageTrafficCarDirection_448CE0` | CarAI_78.cpp |
-| 60 | 172 | 376 | 358 | 0x5c8780 | `Car_214::sub_5C8780` | Car_BC.cpp |
+| 60 | 172 | 376 | 358 | 0x5c8780 | `CarThreadTriggers_214::sub_5C8780` | Car_BC.cpp |
 | 60 | 3734 | 5885 | 3175 | 0x44e560 | `CarAI_78::UpdateStateMachine_44E560` | CarAI_78.cpp |
 | 114 | 380 | 1580 | 380 | 0x5eb970 | `DMA_Video_LoadDll_5EB970` | dma_video.cpp |
 | 132 | 576 | 600 | - | 0x57df10 | `sound_obj::HandleVocalStreamSwitching_57DF10` | sound_obj.cpp |

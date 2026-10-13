@@ -1141,15 +1141,15 @@ void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 dt)
                                                                 field_5C_pCar->field_50_car_sprite->field_14_xy.y,
                                                                 zpos);
 
-        gCar_6C_677930->field_60_impact_mode = 2;
-        gCar_6C_677930->field_64_zpos = kFP16Zero_6FE20C;
+        gCarManager_6C_677930->field_60_impact_mode = 2;
+        gCarManager_6C_677930->field_64_zpos = kFP16Zero_6FE20C;
 
         gSpriteGrid_1_679208->CheckAndHandleAllCollisionsForSprite_477C30(field_5C_pCar->field_50_car_sprite, sprite_types_enum::car_2);
 
-        gCar_6C_677930->field_64_zpos += dword_6FDFD8;
-        if (gCar_6C_677930->field_64_zpos > zpos)
+        gCarManager_6C_677930->field_64_zpos += dword_6FDFD8;
+        if (gCarManager_6C_677930->field_64_zpos > zpos)
         {
-            zpos = gCar_6C_677930->field_64_zpos;
+            zpos = gCarManager_6C_677930->field_64_zpos;
         }
     }
 
@@ -1974,7 +1974,7 @@ char_type CarPhysics_B0::StepMovementAndCollisions_55E470()
 MATCH_FUNC(0x55eb80)
 char_type CarPhysics_B0::CheckAndHandleCarAndTrailerCollisions_55EB80()
 {
-    gCar_6C_677930->field_68_object_hit_active = 0;
+    gCarManager_6C_677930->field_68_object_hit_active = 0;
 
     char_type bCollision = gSpriteGrid_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_5C_pCar->field_50_car_sprite);
     Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
@@ -2203,7 +2203,7 @@ char_type CarPhysics_B0::CheckPendingCollision_55F360()
     // (inlined, using IsFlagSet_411930 here changes the code)
     if ((this->field_5C_pCar->field_78_flags & car_flag::Crushing))
     {
-        gCar_6C_677930->field_60_impact_mode = 1;
+        gCarManager_6C_677930->field_60_impact_mode = 1;
         if (gSpriteGrid_1_679208->CheckAndHandleAllCollisionsForSprite_477C30(field_5C_pCar->field_50_car_sprite, 2))
         {
             return 1;

@@ -6505,7 +6505,7 @@ char_type Char_B4::OnObjectTouched_553640(Object_2C* p2c)
             break;
 
         case objects::savepoint_161:
-            gCar_214_705F20->CheckThreadTrigger_5C8780(p2c->field_27, this->field_80_sprite_ptr);
+            gCarThreadTriggers_214_705F20->CheckThreadTrigger_5C8780(p2c->field_27, this->field_80_sprite_ptr);
             break;
 
         case objects::blue_phone_164:

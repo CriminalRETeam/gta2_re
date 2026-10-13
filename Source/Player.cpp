@@ -832,7 +832,7 @@ void Player::TeleportToDebugCam_565310()
 MATCH_FUNC(0x5653E0)
 void Player::DebugWatchNearestCar_5653E0()
 {
-    Car_BC* pCar = gCar_6C_677930->GetNearestEnterableCarFromCoord_444FA0(field_14C_view_camera.field_98_cam_pos2.field_0_x,
+    Car_BC* pCar = gCarManager_6C_677930->GetNearestEnterableCarFromCoord_444FA0(field_14C_view_camera.field_98_cam_pos2.field_0_x,
                                                                           field_14C_view_camera.field_98_cam_pos2.field_4_y,
                                                                           field_14C_view_camera.field_98_cam_pos2.field_8_z,
                                                                           0);
@@ -1370,7 +1370,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
         {
             if (pPed->get_objective_403A80() != objectives_enum::leave_car_36)
             {
-                Car_BC* pCar = gCar_6C_677930->GetNearestFrontVehicle_445210(pPed->field_168_game_object->field_80_sprite_ptr, 3u);
+                Car_BC* pCar = gCarManager_6C_677930->GetNearestFrontVehicle_445210(pPed->field_168_game_object->field_80_sprite_ptr, 3u);
                 if (pCar)
                 {
                     pPed->SetObjective2_463830(objectives_enum::no_obj_0);
@@ -2598,7 +2598,7 @@ void Player::DebugToggleRemoteControl_569E70()
         Fix16 ypos;
         Fix16 xpos;
         Player::get_pos_569920(&xpos, &ypos, &zpos);
-        Car_BC* pCar = gCar_6C_677930->GetNearestCarFromCoord_444F80(xpos, ypos, zpos, 0);
+        Car_BC* pCar = gCarManager_6C_677930->GetNearestCarFromCoord_444F80(xpos, ypos, zpos, 0);
         if (pCar)
         {
             Player::DisableInputs_569F40();
@@ -2723,7 +2723,7 @@ void Player::RestoreCarsFromSave_56A0F0()
         if (gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_0_x[i].field_0 > kZero_6FE610 &&
             gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_C_y[i].field_0 > kZero_6FE610)
         {
-            Car_BC* pNewCar = gCar_6C_677930->SpawnCar_426E10(gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_0_x[i].field_0,
+            Car_BC* pNewCar = gCarManager_6C_677930->SpawnCar_426E10(gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_0_x[i].field_0,
                                                                 gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_C_y[i].field_0,
                                                                 gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_18_z[i].field_0,
                                                                 gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_24_ang[i],

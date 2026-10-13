@@ -533,60 +533,60 @@ EXPORT void __stdcall NoRefs_sub_5B1170()
     gMap_0x370_6F6268->AddNewBlock_4E87C0(111, 141, 2, &block);
     block.field_B_slope_type = 199;
     gMap_0x370_6F6268->AddNewBlock_4E87C0(112, 152, 2, &block);
-    gTestCar1_704418 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(98), Fix16(180), word_70420C, 19, dword_7042A4);
+    gTestCar1_704418 = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(98), Fix16(180), word_70420C, 19, dword_7042A4);
     gTestCar1_704418->field_98_door_lock = Car_Door_Lock::locked_permanently_4;
     gTestCar1_704418->IncrementCarStats_443D70(8);
     gTestCar1_704418->field_78_flags |= 0x10;
     gTestCar1_704418->UpdateSpriteNum_4435F0();
     gWeapon_8_707018->allocate_5E3D50(23, 1, gTestCar1_704418);
     gTestCar1_704418->IsBeingCrushed_43DD50();
-    gTestTrailer_7041A8 = gCar_6C_677930->SpawnCabAndTrailer_446530(98, 179, word_70420C, 64, 66);
+    gTestTrailer_7041A8 = gCarManager_6C_677930->SpawnCabAndTrailer_446530(98, 179, word_70420C, 64, 66);
     gTestTrailer_7041A8->field_8_truck_cab->IncrementCarStats_443D70(8);
     gWeapon_8_707018->allocate_5E3D50(15, 1, gTestTrailer_7041A8->field_8_truck_cab);
-    gTestCar2_704410 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(92) + dword_704420, Fix16(175), word_70420C, 38, dword_7043AC);
+    gTestCar2_704410 = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(92) + dword_704420, Fix16(175), word_70420C, 38, dword_7043AC);
     gTestCar2_704410->IncrementCarStats_443D70(8);
-    gTestCar3_7043D4 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(97), Fix16(178), word_70420C, 84, dword_7043AC);
+    gTestCar3_7043D4 = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(97), Fix16(178), word_70420C, 84, dword_7043AC);
     gTestCar3_7043D4->IncrementCarStats_443D70(8);
     gWeapon_8_707018->allocate_5E3D50(18, 99, gTestCar3_7043D4);
     gWeapon_8_707018->allocate_5E3D50(15, 1, gTestCar3_7043D4);
     gWeapon_8_707018->allocate_5E3D50(16, 99, gTestCar3_7043D4);
     gWeapon_8_707018->allocate_5E3D50(17, 99, gTestCar3_7043D4);
-    gTestArrowCar_7043F0 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(95), Fix16(178), word_70420C, 54, dword_7043AC);
+    gTestArrowCar_7043F0 = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(95), Fix16(178), word_70420C, 54, dword_7043AC);
     gTestArrowCar_7043F0->IncrementCarStats_443D70(8);
-    gTestCar3_7043D4 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(95), Fix16(180), word_70420C, 37, dword_7043AC);
+    gTestCar3_7043D4 = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(95), Fix16(180), word_70420C, 37, dword_7043AC);
     gWeapon_8_707018->allocate_5E3D50(17, 99, gTestCar3_7043D4);
     gTestCar3_7043D4->field_50_car_sprite->SetRemap(14);
     gTestCar3_7043D4->AttachGangIcon_440660(2);
     gTestCar3_7043D4->IncrementCarStats_443D70(8);
-    gTestCar3_7043D4 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(95), Fix16(179), word_70420C, 46, dword_7043AC);
+    gTestCar3_7043D4 = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(95), Fix16(179), word_70420C, 46, dword_7043AC);
     gWeapon_8_707018->allocate_5E3D50(16, 99, gTestCar3_7043D4);
     gTestCar3_7043D4->field_50_car_sprite->SetRemap(2);
     gTestCar3_7043D4->AttachGangIcon_440660(3);
     gTestCar3_7043D4->IncrementCarStats_443D70(8);
-    gTestCar3_7043D4 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(93), Fix16(179), word_70420C, 29, dword_7043AC);
+    gTestCar3_7043D4 = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(93), Fix16(179), word_70420C, 29, dword_7043AC);
     gTestCar3_7043D4->field_50_car_sprite->SetRemap(5);
     gTestCar3_7043D4->AttachGangIcon_440660(1);
     gTestCar3_7043D4->IncrementCarStats_443D70(8);
-    gTestCar3_7043D4 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(93), Fix16(178), word_70420C, 86, dword_7043AC);
+    gTestCar3_7043D4 = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(93), Fix16(178), word_70420C, 86, dword_7043AC);
     gTestCar3_7043D4->AttachGangIcon_440660(6);
     gTestCar3_7043D4->IncrementCarStats_443D70(8);
-    gTestCar3_7043D4 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(98) + dword_704420, Fix16(178), word_70420C, 48, dword_7043AC);
+    gTestCar3_7043D4 = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(98) + dword_704420, Fix16(178), word_70420C, 48, dword_7043AC);
     gTestCar3_7043D4->field_50_car_sprite->SetRemap(10);
     gTestCar3_7043D4->AttachGangIcon_440660(5);
     gTestCar3_7043D4->IncrementCarStats_443D70(8);
-    gTestCar3_7043D4 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(100), Fix16(180), word_70420C, 83, dword_7043AC);
+    gTestCar3_7043D4 = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(100), Fix16(180), word_70420C, 83, dword_7043AC);
     gTestCar3_7043D4->IncrementCarStats_443D70(8);
-    gTestCar3_7043D4 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(101), Fix16(178), word_70420C, 10, dword_7043AC);
+    gTestCar3_7043D4 = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(101), Fix16(178), word_70420C, 10, dword_7043AC);
     gTestCar3_7043D4->field_50_car_sprite->SetRemap(28);
     gTestCar3_7043D4->AttachGangIcon_440660(7);
     gTestCar3_7043D4->IncrementCarStats_443D70(8);
-    gTestCar3_7043D4 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(102) + dword_7041F0, Fix16(178), word_70420C, 7, dword_7043AC);
+    gTestCar3_7043D4 = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(102) + dword_7041F0, Fix16(178), word_70420C, 7, dword_7043AC);
     gTestCar3_7043D4->IncrementCarStats_443D70(8);
-    gTestCar3_7043D4 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(104) + dword_7041F0, Fix16(178), word_70420C, 63, dword_7043AC);
+    gTestCar3_7043D4 = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(104) + dword_7041F0, Fix16(178), word_70420C, 63, dword_7043AC);
     gTestCar3_7043D4->IncrementCarStats_443D70(8);
-    gTestCar3_7043D4 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(106) + dword_7041F0, Fix16(178), word_70420C, 64, dword_7043AC);
+    gTestCar3_7043D4 = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(106) + dword_7041F0, Fix16(178), word_70420C, 64, dword_7043AC);
     gTestCar3_7043D4->IncrementCarStats_443D70(8);
-    gTestCar3_7043D4 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(108) + dword_7041F0, Fix16(178), word_70420C, 4, dword_7043AC);
+    gTestCar3_7043D4 = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(108) + dword_7041F0, Fix16(178), word_70420C, 4, dword_7043AC);
     gTestCar3_7043D4->IncrementCarStats_443D70(8);
     gObject_5C_6F8F84->NewPhysicsObj_5299B0(2, 97, 181, 2, word_704500);
     gObject_5C_6F8F84->NewPhysicsObj_5299B0(281, 98, 181, 2, word_704500);
@@ -1719,10 +1719,10 @@ void CC ImGuiDebugDraw()
             ImGui::TreePop();
         }
 
-        if (ImGui::TreeNode("gCar_6C_677930"))
+        if (ImGui::TreeNode("gCarManager_6C_677930"))
         {
             Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
-            if (gCar_6C_677930 && pPlayer && pPlayer->field_2C4_player_ped && pPlayer->field_2C4_player_ped->field_168_game_object)
+            if (gCarManager_6C_677930 && pPlayer && pPlayer->field_2C4_player_ped && pPlayer->field_2C4_player_ped->field_168_game_object)
             {
                 Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
 
@@ -1763,7 +1763,7 @@ void CC ImGuiDebugDraw()
                 if (ImGui::Button("Spawn car"))
                 {
 
-                    pNewCar = gCar_6C_677930->SpawnCarAt_446230(xpos + xOff, ypos, zpos, 0, currentCarModelIndex, scale);
+                    pNewCar = gCarManager_6C_677930->SpawnCarAt_446230(xpos + xOff, ypos, zpos, 0, currentCarModelIndex, scale);
 
                     pNewCar->IncrementCarStats_443D70(car_kind::recycled_1); // avoid crashes when entering the car
 
@@ -1777,12 +1777,12 @@ void CC ImGuiDebugDraw()
                 }
                 if (ImGui::Button("Spawn car with trailer"))
                 {
-                    pNewCar = gCar_6C_677930->SpawnCarAt_446230(xpos + xOff, ypos, zpos, 0, currentCarModelIndex, scale);
+                    pNewCar = gCarManager_6C_677930->SpawnCarAt_446230(xpos + xOff, ypos, zpos, 0, currentCarModelIndex, scale);
 
                     pNewCar->IncrementCarStats_443D70(car_kind::recycled_1); // avoid crashes when entering the car
 
                     // Spawns a cab and connected trailer, can spawn trains too apparently
-                    gCar_6C_677930->SpawnCabAndTrailer_446530(xpos + xOff, ypos, 0, car_model_enum::TRUKCAB1, car_model_enum::TRUKTRNS);
+                    gCarManager_6C_677930->SpawnCabAndTrailer_446530(xpos + xOff, ypos, 0, car_model_enum::TRUKCAB1, car_model_enum::TRUKTRNS);
 
                     pNewCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
                     if (!pNewCar->field_5C_AI)
@@ -1865,9 +1865,9 @@ void CC ImGuiDebugDraw()
                 }
             }
 
-            if (gCar_6C_677930)
+            if (gCarManager_6C_677930)
             {
-                ImGui::SliderInt("F1C", &gCar_6C_677930->field_1C_explosion_offset_cycle, -30, 30);
+                ImGui::SliderInt("F1C", &gCarManager_6C_677930->field_1C_explosion_offset_cycle, -30, 30);
 
                 if (ImGui::TreeNode("Draw debug stuff"))
                 {

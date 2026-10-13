@@ -100,7 +100,7 @@ char_type ScriptManager_C1EA8::AddCranePowerupTrigger_511B10(s16 idx)
 {
     SCR_DECLARE_CRANE_POWERUP* pCmd = (SCR_DECLARE_CRANE_POWERUP*)GetBasePointer_512770(idx);
     SCR_POINTER* pGenerator = (SCR_POINTER*)GetBasePointer_512770(pCmd->field_A_generator);
-    return gCar_214_705F20->AddThreadTrigger_5C86C0(1,
+    return gCarThreadTriggers_214_705F20->AddThreadTrigger_5C86C0(1,
                                        3,
                                        (SCR_THREAD*)pGenerator->field_8_generator,
                                        Fix16(pCmd->field_C_pos.field_0_x) + kFpHalf_6F75F0,
@@ -538,7 +538,7 @@ void ScriptManager_C1EA8::ExecuteScriptThreads_5127A0()
         }
         miss2_0x11C_Pool_6F8064->field_0_pool.UpdatePoolNoDeallocate();
     }
-    gCar_6C_677930->field_5C_model_check_destroyed = 0;
+    gCarManager_6C_677930->field_5C_model_check_destroyed = 0;
 }
 
 MATCH_FUNC(0x5128a0)

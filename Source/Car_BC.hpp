@@ -81,7 +81,7 @@ struct car_rng_list
     s32 values[256];
 };
 
-class Car_18
+class CarThreadTrigger_18
 {
   public:
     s32 field_0_pScriptCmd;
@@ -93,7 +93,7 @@ class Car_18
     s32 field_14_enable_state;
 };
 
-class Car_214
+class CarThreadTriggers_214
 {
   public:
     EXPORT void FreeTrigger_5C8680(u8 idx);
@@ -107,19 +107,19 @@ class Car_214
         field_0_triggers[idx].field_14_enable_state = state;
     }
 
-    Car_18 field_0_triggers[22];
+    CarThreadTrigger_18 field_0_triggers[22];
     s16 field_210_count;
     s16 field_212_unused;
 };
 
-EXTERN_GLOBAL(Car_214*, gCar_214_705F20);
+EXTERN_GLOBAL(CarThreadTriggers_214*, gCarThreadTriggers_214_705F20);
 EXTERN_GLOBAL_ARRAY(u16, gRngRemapTable_679320, 1000);
 
-class Car_2
+class CarRemapRng_2
 {
   public:
-    EXPORT Car_2();
-    ~Car_2() {}
+    EXPORT CarRemapRng_2();
+    ~CarRemapRng_2() {}
     EXPORT void IncNextRngRemapIdx_47BD90();
 
     u16 GetRngValue_4212D0()
@@ -142,7 +142,7 @@ EXTERN_GLOBAL(Fix16, kFpZero_6F77C0);
 EXTERN_GLOBAL(Fix16, kFpOne_6F77C4);
 EXTERN_GLOBAL(Fix16, kFpOne_679E74);
 
-class Car_6C
+class CarManager_6C
 {
   public:
     // 9.6f 0x421960
@@ -203,8 +203,8 @@ class Car_6C
     EXPORT void CarsService_446790();
     EXPORT bool CanAllocateCarOfKindWithSpare_446870(s32 type);
     EXPORT bool CanAllocateCarOfKind_446930(s32 type);
-    EXPORT Car_6C();
-    EXPORT ~Car_6C();
+    EXPORT CarManager_6C();
+    EXPORT ~CarManager_6C();
 
     // 9.6f inlined
     inline Car_BC* SpawnCar_426E10(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx)
@@ -277,7 +277,7 @@ class Car_6C
         }
     }
 
-    Car_2 field_0;
+    CarRemapRng_2 field_0;
     s16 field_2_unused;
     Ped* field_4_unused;
     char_type field_8_unused;
@@ -285,8 +285,8 @@ class Car_6C
     u8 field_A_bad_car_idx;
     u8 field_B_average_car_idx;
     s32 field_C_suppressed_model;
-    Car_2 field_10_remap_rng;
-    Car_2 field_12_unused;
+    CarRemapRng_2 field_10_remap_rng;
+    CarRemapRng_2 field_12_unused;
     s32 field_14_next_car_id;
     char_type field_18_unused;
     char_type field_19_unused;
@@ -322,7 +322,7 @@ class Car_6C
     char_type field_6B_unused;
 };
 
-EXTERN_GLOBAL(Car_6C*, gCar_6C_677930);
+EXTERN_GLOBAL(CarManager_6C*, gCarManager_6C_677930);
 
 class Trailer
 {
@@ -352,7 +352,7 @@ class Trailer
         return field_0_hitch_angle_clamped;
     }
 
-    //Inlined in Car_6C constructor 9.6f -> 0x4212d0
+    //Inlined in CarManager_6C constructor 9.6f -> 0x4212d0
     __forceinline Trailer()
     {
         mpNext = NULL;
@@ -1385,7 +1385,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Car_BC, 0xBC)
 
 struct Car_BC_Pool
 {
-    //Inlined in Car_6C constructor 9.6f -> 0x426db0
+    //Inlined in CarManager_6C constructor 9.6f -> 0x426db0
     Car_BC_Pool()
     {
     }
@@ -1425,7 +1425,7 @@ struct Car_BC_Pool
 class TrailerPool
 {
   public:
-    //Inlined in Car_6C constructor 9.6f -> 0x425500
+    //Inlined in CarManager_6C constructor 9.6f -> 0x425500
     TrailerPool()
     {
     }

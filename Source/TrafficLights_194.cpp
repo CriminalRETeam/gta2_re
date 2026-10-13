@@ -314,7 +314,7 @@ void TrafficLights_194::TrafficLightsService_5C2950()
     {
         if (field_192_phase == 5)
         {
-            gCar_6C_677930->ToggleTrafficLightState_4C39F0();
+            gCarManager_6C_677930->ToggleTrafficLightState_4C39F0();
         }
 
         field_192_phase++;

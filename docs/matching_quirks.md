@@ -258,7 +258,7 @@ gave the original's layout in both of its switches (150 -> 16). The same `goto` 
 `SetGoStraight(); return;` tails of `CarAI_78::FollowRoadDirection_44A1F0`, so it is not a general "keep the first copy" switch.
 
 Merging is of the final machine code, so a block that would merge can be kept apart by its exit. In
-`Car_214::CheckThreadTrigger_5C8780` case 7's ped body is byte for byte case 6's, but ours ends it with a copy of the 2-instruction
+`CarThreadTriggers_214::CheckThreadTrigger_5C8780` case 7's ped body is byte for byte case 6's, but ours ends it with a copy of the 2-instruction
 exit block (`mov pSprite,%edi; mov %ebp,0x14(%esi); jmp tail`) while case 6's arm falls into that exit block, and
 the two are then never merged; the original has case 7 as `cmp; jne exit; jmp <case 6 body>`. Changing the body's
 locals (a `pCmd` local in one copy only) moves the registers and only the matching suffix merges.
@@ -443,7 +443,7 @@ found item or NULL. Open-coded loops make VC6 send all the returns to one shared
 
 **`return a < N;` per case vs a bool local.** Returning the comparison in each case gives
 `xor eax; mov field,edx; cmp; setl`; setting a bool local gives `cmpl $N,mem; setl` with no `xor`
-(`Car_6C::CanAllocateCarOfKind_446930`, cases in the original block order).
+(`CarManager_6C::CanAllocateCarOfKind_446930`, cases in the original block order).
 
 **A pointer local can block cross-jumping.** In `ExplosionPool_7A8::Allocate_543800` a `p = &arr[idx]` local
 changed the registers of two identical init blocks so VC6 no longer merged them; indexing `arr[idx]`
@@ -1395,7 +1395,7 @@ line into a reused stack temporary and copied; the implicit conversion is built 
 One call can mix both (`Explosion_30::UpdateExplosion_18_19_20_32_33_542790`: explicit x and y, implicit z).
 
 **Which value you pass can decide the whole function's registers.** Passing the stored field
-(`pCar->field_68_scale`) instead of the parameter it was just set from fixed `Car_6C::SpawnCarAt_446230`.
+(`pCar->field_68_scale`) instead of the parameter it was just set from fixed `CarManager_6C::SpawnCarAt_446230`.
 A trivial getter instead of a direct field read does the same (`GetCarInfoIdx_411940()` in
 `sound_obj::HandleHeavyVehicleStopSound_417E30`).
 
@@ -1603,12 +1603,12 @@ the same TU, so define the destructor after them
 **Array construction: inline loop vs `??_H`.** For an array of objects with a constructor,
 VC6 calls `vector constructor iterator` (`??_H`) when the constructor is out of line, and
 writes an inline loop when the constructor is an inline function whose body it can see
-(calling it, or inlining it when it's small enough). `Car_6C::ctor_4469F0` has the inline
+(calling it, or inlining it when it's small enough). `CarManager_6C::ctor_4469F0` has the inline
 loop for `CarAI_78`.
 
 **Per-TU constants inside an inline ctor.** When the original's inline ctor reads constants of the
 caller's own TU (car.cpp's zero `Ang16`/`Fix16`), an inline overload that takes them as parameters
-reproduces it: `new Sprite(kAngZero_67791C, gFix16_6777CC)` matched `Car_6C::ctor_4469F0`.
+reproduces it: `new Sprite(kAngZero_67791C, gFix16_6777CC)` matched `CarManager_6C::ctor_4469F0`.
 
 **Inline `memset` of 12 bytes.** `lea X(%esi),%ecx; xor %eax,%eax; mov %eax,(%ecx); mov %eax,4(%ecx);
 mov %eax,8(%ecx)` with a second zero register is `memset(arr, 0, sizeof(arr))`, not three
@@ -1804,7 +1804,7 @@ Example: past the limit a call stays a real call, for example `call ??GFix16@@QB
 were written out by hand (score 825 -> 196). If a big function calls an inline that its
 smaller sibling inlines fine, count the inline helpers you added that the original may not have
 had. Writing a small check out
-by hand can free budget for a later expression (`Car_6C::DoGetNearestCarFromCoord_444FC0`: the train
+by hand can free budget for a later expression (`CarManager_6C::DoGetNearestCarFromCoord_444FC0`: the train
 check written out let `x + y` inline).
 
 **`__forceinline` on the innermost helper only.** Past the budget, a `Fix16` inline nested inside a
@@ -2401,7 +2401,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   `<< 6`), bit 16 for non-constants, larger key first. User locals and front-end temporaries are numbered 1..0x1F
   in order of first reference in the FE IL, globals 0x20.. by first reference, and locals that don't fit into
   1..0x1F overflow to 0xA0+ (inline expansion locals 0x1A0+). So a global usually goes first against a local, unless
-  more than 0x1F locals/temps were referenced before that local. `Car_6C::SpawnCarOnRoadNetwork_4458B0` matched by
+  more than 0x1F locals/temps were referenced before that local. `CarManager_6C::SpawnCarOnRoadNetwork_4458B0` matched by
   writing the earlier steps in the 9.6f shape `x = x + one` instead of `x += one`: each keeps an operator return
   temporary (same code), which pushed `ground_z` past 0x1F and gave `lea (ground_z, one)`. Single-use named locals
   are forwarded by the FE before numbering and don't count.
@@ -2626,7 +2626,7 @@ So for a late push in the original:
 - The register must not be used before the branch. A variable tested in the entry block and used later lives in
   its register from the test on, so test something else: the field or global instead of the local copy
   (`Hud_Brief_704::ClearAllBriefsWithPriority_5D4890`), or test the global and make the copy inside the `if`
-  (the inlined deletes in `Car_6C::~Car_6C` 0x446DC0 and `SpriteTree_4::~SpriteTree_4` 0x5C5F10).
+  (the inlined deletes in `CarManager_6C::~CarManager_6C` 0x446DC0 and `SpriteTree_4::~SpriteTree_4` 0x5C5F10).
 - The region that uses the register needs a single exit block: a statement after the loop inside the branch, or a
   separate `return value;` per path. Ending the branch with the loop itself, or a bare `return;` that shares the
   epilogue, keeps the push at entry.
@@ -2724,7 +2724,7 @@ tried are in the WIP status report.
   `SetDlgItemTextA` call where we share one tail. 200 permuter compiles found nothing.
 - An `s16` parameter returned with a 32-bit `mov` in `default` (`gtx_0x106C::GetSpriteTrueIndex_5AA460`).
 - Global load register choice in a run of similar statements (`Camera_0xBC::UpdateBoundaries_435B90`).
-- A dead parameter slot given to a different local. In `Car_6C::SpawnCarOnRoadNetwork_4458B0`
+- A dead parameter slot given to a different local. In `CarManager_6C::SpawnCarOnRoadNetwork_4458B0`
   the original puts an unused `u8` out byte in `xpos`'s slot and the y integer in `ypos`'s.
   Ours gives `found_z` the `xpos` slot, which shifts the frame (0x34 vs 0x30). Declaration
   order, passing `(u8*)&xpos` and the permuter didn't help.

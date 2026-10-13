@@ -2639,14 +2639,14 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                     angle = word_6FEE30;
                 }
 
-                if (gCar_6C_677930->CanAllocateCarOfKind_446930(car_kind::roadblock_car_7))
+                if (gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::roadblock_car_7))
                 {
                     switch (gCrewKind_6FEDB8)
                     {
                         default:
                             break;
                         case crew_kind::police_1:
-                            pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x) + dword_6FEBF4,
+                            pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x) + dword_6FEBF4,
                                                                              Fix16(y_start + lane) + dword_6FEBF4,
                                                                              angle,
                                                                              car_model_enum::COPCAR,
@@ -2655,7 +2655,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                             byte_624FBD = 1;
                             break;
                         case crew_kind::swat_2:
-                            pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x) + dword_6FEBF4,
+                            pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x) + dword_6FEBF4,
                                                                              Fix16(y_start + lane) + dword_6FEBF4,
                                                                              angle,
                                                                              car_model_enum::COPCAR,
@@ -2664,7 +2664,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                             byte_624FBD = 1;
                             break;
                         case crew_kind::fbi_3:
-                            pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x) + dword_6FEBF4,
+                            pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x) + dword_6FEBF4,
                                                                              Fix16(y_start + lane) + dword_6FEBF4,
                                                                              angle,
                                                                              car_model_enum::EDSELFBI,
@@ -2675,7 +2675,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                         case crew_kind::army_4:
                             if (lane != width - 1)
                             {
-                                pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x) + dword_6FEBF4,
+                                pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x) + dword_6FEBF4,
                                                                                  Fix16(y_start + lane) + dword_6FEBD0,
                                                                                  angle,
                                                                                  car_model_enum::TANK,
@@ -2940,14 +2940,14 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                     angle = word_6FEB74;
                 }
 
-                if (gCar_6C_677930->CanAllocateCarOfKind_446930(car_kind::roadblock_car_7))
+                if (gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::roadblock_car_7))
                 {
                     switch (gCrewKind_6FEDB8)
                     {
                         default:
                             break;
                         case crew_kind::police_1:
-                            pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start + lane) + dword_6FEBF4,
+                            pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start + lane) + dword_6FEBF4,
                                                                              Fix16(y) + dword_6FEBF4,
                                                                              angle,
                                                                              car_model_enum::COPCAR,
@@ -2955,7 +2955,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                             byte_624FBC = 1;
                             break;
                         case crew_kind::swat_2:
-                            pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start + lane) + dword_6FEBF4,
+                            pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start + lane) + dword_6FEBF4,
                                                                              Fix16(y) + dword_6FEBF4,
                                                                              angle,
                                                                              car_model_enum::COPCAR,
@@ -2963,7 +2963,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                             byte_624FBC = 1;
                             break;
                         case crew_kind::fbi_3:
-                            pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start + lane) + dword_6FEBF4,
+                            pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start + lane) + dword_6FEBF4,
                                                                              Fix16(y) + dword_6FEBF4,
                                                                              angle,
                                                                              car_model_enum::EDSELFBI,
@@ -2973,7 +2973,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                         case crew_kind::army_4:
                             if (lane != width - 1)
                             {
-                                pCar = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start + lane) + dword_6FEBD0,
+                                pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start + lane) + dword_6FEBD0,
                                                                                  Fix16(y) + dword_6FEBF4,
                                                                                  angle,
                                                                                  car_model_enum::TANK,
