@@ -940,20 +940,20 @@ char_type NetPlay::Receive_51F010(s32* pOutData, s32* pOutDataLen, unsigned long
 }
 
 MATCH_FUNC(0x51f0d0)
-void NetPlay::SendOrReceivePacket_51F0D0(void* pPacket, s32 a3, s32 a4, s32 bSendOrRecv)
+void NetPlay::SendOrReceivePacket_51F0D0(void* pPacket, s32 packetLen, s32 recvId, s32 bSendOrRecv)
 {
     if (bSendOrRecv == 0)
     {
-        NetPlay::OnPacketReceived_51F870(pPacket, a3, a4, 0);
+        NetPlay::OnPacketReceived_51F870(pPacket, packetLen, recvId, 0);
     }
     else
     {
-        NetPlay::ProcessPingOrHandshakeSend_51F110(pPacket, a3, a4, bSendOrRecv);
+        NetPlay::ProcessPingOrHandshakeSend_51F110(pPacket, packetLen, recvId, bSendOrRecv);
     }
 }
 
 MATCH_FUNC(0x51f110)
-void NetPlay::ProcessPingOrHandshakeSend_51F110(void* pPacket, s32 a3, s32 a4, s32 a5)
+void NetPlay::ProcessPingOrHandshakeSend_51F110(void* pPacket, s32 packetLen, s32 recvId, s32 sendFlag)
 {
     u32 dataLen;
     s32 pData;
@@ -1222,7 +1222,7 @@ void NetPlay::MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pD
 }
 
 MATCH_FUNC(0x51f870)
-void NetPlay::OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, s32 a5)
+void NetPlay::OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, s32 sendFlag)
 {
     switch (field_48_net_state)
     {
@@ -1624,22 +1624,22 @@ s32 NetPlay::JoinSession_520570(u32 session_idx, wchar_t* pPlayerName, Network_8
 }
 
 MATCH_FUNC(0x520c20)
-s32 __stdcall NetPlay::EnumGroups_cb_520C20(s32 a1, s32 a2, s32 a3, char_type a4, NetPlay* pContext)
+s32 __stdcall NetPlay::EnumGroups_cb_520C20(s32 group_id, s32 callback_type, s32 pName, char_type flags, NetPlay* pContext)
 {
-    if ((a4 & 1) != 0)
+    if ((flags & 1) != 0)
     {
         return 0;
     }
 
-    if (!a2)
+    if (!callback_type)
     {
-        pContext->SetGroupId_520D00(a1);
+        pContext->SetGroupId_520D00(group_id);
         return 1;
     }
 
-    if (a2 == 1)
+    if (callback_type == 1)
     {
-        return pContext->AddEnumeratedGroupPlayer_520CA0(a1, (DPNAME*)a3);
+        return pContext->AddEnumeratedGroupPlayer_520CA0(group_id, (DPNAME*)pName);
     }
 
     return 1;
@@ -1655,9 +1655,9 @@ s32 NetPlay::AddEnumeratedGroupPlayer_520CA0(s32 player_id, DPNAME* pName)
 }
 
 MATCH_FUNC(0x520d00)
-void NetPlay::SetGroupId_520D00(s32 a2)
+void NetPlay::SetGroupId_520D00(s32 group_id)
 {
-    field_758_n2.field_0_group_id = a2;
+    field_758_n2.field_0_group_id = group_id;
 }
 
 MATCH_FUNC(0x520d10)
@@ -1731,10 +1731,10 @@ void NetPlay::Set9_520E60(s32 pFunc, s32 pParam)
 }
 
 MATCH_FUNC(0x520e80)
-void NetPlay::Set3_Disconnect_520E80(s32 a2, s32 a3)
+void NetPlay::Set3_Disconnect_520E80(s32 pCallback, s32 pContext)
 {
-    this->field_4C_func_ptrs_and_params[1].field_0_param_fn_callback = (void*)a2;
-    this->field_4C_func_ptrs_and_params[1].field_4_param_context = (void*)a3;
+    this->field_4C_func_ptrs_and_params[1].field_0_param_fn_callback = (void*)pCallback;
+    this->field_4C_func_ptrs_and_params[1].field_4_param_context = (void*)pContext;
     this->field_4C_func_ptrs_and_params[1].field_8_fn_type = 1;
 }
 
@@ -1761,10 +1761,10 @@ void NetPlay::UpdatePlayerPing_520EB0(s32 player_id, s32 ping, Network_Game_Sess
 }
 
 MATCH_FUNC(0x520f50)
-void NetPlay::Set18_520F50(s32 a2, s32 a3)
+void NetPlay::Set18_520F50(s32 pCallback, s32 pContext)
 {
-    this->field_4C_func_ptrs_and_params[6].field_0_param_fn_callback = (void*)a2;
-    this->field_4C_func_ptrs_and_params[6].field_4_param_context = (void*)a3;
+    this->field_4C_func_ptrs_and_params[6].field_0_param_fn_callback = (void*)pCallback;
+    this->field_4C_func_ptrs_and_params[6].field_4_param_context = (void*)pContext;
     this->field_4C_func_ptrs_and_params[6].field_8_fn_type = 6;
 }
 
@@ -1825,10 +1825,10 @@ s32 NetPlay::SendChatMessage_521060(wchar_t* pMsg, s32 idx_always_m1)
 }
 
 MATCH_FUNC(0x5210d0)
-void NetPlay::Set21_5210D0(s32 a2, s32 a3)
+void NetPlay::Set21_5210D0(s32 pCallback, s32 pContext)
 {
-    this->field_4C_func_ptrs_and_params[7].field_0_param_fn_callback = (void*)a2;
-    this->field_4C_func_ptrs_and_params[7].field_4_param_context = (void*)a3;
+    this->field_4C_func_ptrs_and_params[7].field_0_param_fn_callback = (void*)pCallback;
+    this->field_4C_func_ptrs_and_params[7].field_4_param_context = (void*)pContext;
     this->field_4C_func_ptrs_and_params[7].field_8_fn_type = 7;
 }
 
@@ -1848,10 +1848,10 @@ void NetPlay::GetPlayerName_521100(wchar_t* Destination, u32 idx)
 }
 
 MATCH_FUNC(0x521140)
-void NetPlay::Set24_521140(s32 a2, s32 a3)
+void NetPlay::Set24_521140(s32 pCallback, s32 pContext)
 {
-    this->field_4C_func_ptrs_and_params[8].field_0_param_fn_callback = (void*)a2;
-    this->field_4C_func_ptrs_and_params[8].field_4_param_context = (void*)a3;
+    this->field_4C_func_ptrs_and_params[8].field_0_param_fn_callback = (void*)pCallback;
+    this->field_4C_func_ptrs_and_params[8].field_4_param_context = (void*)pContext;
     this->field_4C_func_ptrs_and_params[8].field_8_fn_type = 8;
 }
 
@@ -1874,10 +1874,10 @@ s32 NetPlay::SetGameSettings_521170(Network_8* pObj)
 }
 
 MATCH_FUNC(0x5211f0)
-void NetPlay::Set27SavePlayerName_5211F0(s32 a2, s32 a3)
+void NetPlay::Set27SavePlayerName_5211F0(s32 pCallback, s32 pContext)
 {
-    this->field_4C_func_ptrs_and_params[9].field_0_param_fn_callback = (void*)a2;
-    this->field_4C_func_ptrs_and_params[9].field_4_param_context = (void*)a3;
+    this->field_4C_func_ptrs_and_params[9].field_0_param_fn_callback = (void*)pCallback;
+    this->field_4C_func_ptrs_and_params[9].field_4_param_context = (void*)pContext;
     this->field_4C_func_ptrs_and_params[9].field_8_fn_type = 9;
 }
 
@@ -2113,9 +2113,9 @@ u32 NetPlay::GetLatestPacket_521770(Network_8* pOut, char_type* pSeq, u32* pPlay
 }
 
 MATCH_FUNC(0x521820)
-void NetPlay::sub_521820(s32** a2, s32 idx)
+void NetPlay::sub_521820(s32** ppData, s32 idx)
 {
-    s32* p = *a2;
+    s32* p = *ppData;
     if (*p == -1)
     {
         *p = dword_6F8A4C[idx];
@@ -2263,7 +2263,7 @@ void NetPlay::SendToAll_521B20(Network_8* pSendData)
 }
 
 MATCH_FUNC(0x521be0)
-s32 NetPlay::NoRefs_Send_521BE0(Network_8* pSendData, s32 a3)
+s32 NetPlay::NoRefs_Send_521BE0(Network_8* pSendData, s32 tick_delay)
 {
     u32 dataLen;
     s32 pData;
@@ -2272,7 +2272,7 @@ s32 NetPlay::NoRefs_Send_521BE0(Network_8* pSendData, s32 a3)
     memset(&pStru, 0, sizeof(pStru));
     pStru.header.field_4_sub_type = packet_subtype::PlayerInputs_3;
     pStru.header.field_0_type = 1;
-    pStru.field_8_seq = field_758_n2.field_8_packet_game_tick[GetPlayerIdx_409C40()] - (char_type)a3;
+    pStru.field_8_seq = field_758_n2.field_8_packet_game_tick[GetPlayerIdx_409C40()] - (char_type)tick_delay;
     pStru.field_9_bLoadData = 1;
     pStru.field_D_data = pSendData->field_0_data;
     pStru.field_11_len = pSendData->field_4_len;
