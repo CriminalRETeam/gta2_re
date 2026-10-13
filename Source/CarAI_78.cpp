@@ -4332,7 +4332,7 @@ void CarAI_78::ReactToNearbyObject_451FA0()
         {
             field_0_car->DoBrakeAndHandbrake_43A970();
             byte_677B3C = 0;
-            this->field_24_bf.b4 = 1;
+            this->field_24_bf.bFlag4 = 1;
         }
     }
 }
@@ -4340,7 +4340,7 @@ void CarAI_78::ReactToNearbyObject_451FA0()
 MATCH_FUNC(0x451ff0)
 void CarAI_78::ReactToNearbyPed_451FF0()
 {
-    if (!field_24_bf.b21)
+    if (!field_24_bf.bFlag21)
     {
         if (!byte_677BBC || (field_0_car->field_60_pChaseTask->field_8_task_type != car_task_type::kill_ped_5) ||
             field_0_car->field_60_pChaseTask->field_30_pTargetPed != field_70_nearest_entity->field_8_char_b4_ptr->field_7C_pPed)
@@ -4380,7 +4380,7 @@ void CarAI_78::ScanAheadForObstacles_452060()
 
     if (pCar->field_7C_uni_num == 2)
     {
-        this->field_24_bf.b4 = 0;
+        this->field_24_bf.bFlag4 = 0;
         v1 = gF16fOne_677B94;
     }
 
@@ -4450,7 +4450,7 @@ void CarAI_78::ScanAheadForObstacles_452060()
 
     char_type bCheckMovement;
 
-    if (field_24_bf.b6)
+    if (field_24_bf.bFlag6)
     {
         Ang16::PolarToCartesian_41FC20(this->field_10_angle, kFpHalf_677A84, v9, v10);
         field_0_car->field_50_car_sprite->set_xyz_lazy_420600(v9 + field_0_car->field_50_car_sprite->field_14_xy.x,
@@ -4495,12 +4495,12 @@ void CarAI_78::ScanAheadForObstacles_452060()
     Sprite* f70 = this->field_70_nearest_entity;
     if (!f70 && !bCheckMovement)
     {
-        if (field_24_bf.b6)
+        if (field_24_bf.bFlag6)
         {
             if (this->field_5A_obstacle_timer > 0xAu)
             {
                 this->field_5A_obstacle_timer = 0;
-                this->field_24_bf.b6 = 0;
+                this->field_24_bf.bFlag6 = 0;
             }
             else
             {
@@ -4589,7 +4589,7 @@ void CarAI_78::ScanAheadForObstacles_452060()
                     break;
 
                 case sprite_types_enum::ped_3:
-                    if (!field_24_bf.b7)
+                    if (!field_24_bf.bFlag7)
                     {
                         ReactToNearbyPed_451FF0();
                     }
@@ -4693,7 +4693,7 @@ void CarAI_78::ManageCollisions_452A20()
 {
     Fix16_Point v45;
 
-    if (field_24_bf.b12)
+    if (field_24_bf.bFlag12)
     {
         if (field_68_car_in_collision->IsDespawning_4215B0())
         {
@@ -4703,8 +4703,8 @@ void CarAI_78::ManageCollisions_452A20()
         if (field_3C_seeking_road == 1)
         {
             field_3C_seeking_road = 0;
-            field_24_bf.b6 = false;
-            field_24_bf.b7 = false;
+            field_24_bf.bFlag6 = false;
+            field_24_bf.bFlag7 = false;
         }
 
         if (byte_677BBC)
@@ -4759,14 +4759,14 @@ void CarAI_78::ManageCollisions_452A20()
 
         Ped* pDriver = field_68_car_in_collision->field_54_driver;
 
-        if (pDriver && pDriver->PedTypeIs_45EDE0(ped_type::player_2) && field_24_bf.b21 == false)
+        if (pDriver && pDriver->PedTypeIs_45EDE0(ped_type::player_2) && field_24_bf.bFlag21 == false)
         {
             field_0_car->field_58_physics->NeutralGear_42AC00();
             byte_677A5D = 0;
             return;
         }
 
-        if (field_24_bf.b21)
+        if (field_24_bf.bFlag21)
         {
             if (rotX > field_0_car->field_50_car_sprite->field_14_xy.x)
             {
@@ -4888,7 +4888,7 @@ void CarAI_78::UpdateDrivingAI_452DF0()
         byte_677C06 = 0;
     }
 
-    field_24_bf.b13 = true;
+    field_24_bf.bFlag13 = true;
     byte_677A5C = 0;
 
     field_4C_curr_direction = Ang16::GetAngleFace_4F78F0(field_10_angle);
@@ -4902,7 +4902,7 @@ void CarAI_78::UpdateDrivingAI_452DF0()
         if (!field_0_car->field_60_pChaseTask->field_22_bFollowingRoute)
         {
             bUpdateStateMachine = true;
-            field_24_bf.b21 = true;
+            field_24_bf.bFlag21 = true;
         }
     }
 
@@ -5013,7 +5013,7 @@ void CarAI_78::UpdateDrivingAI_452DF0()
 
     if (!byte_677A5D || field_54_accel_cooldown)
     {
-        field_24_bf.b13 = false;
+        field_24_bf.bFlag13 = false;
     }
     else
     {
@@ -5022,11 +5022,11 @@ void CarAI_78::UpdateDrivingAI_452DF0()
 
     if (byte_677A5C)
     {
-        field_24_bf.b13 = true;
+        field_24_bf.bFlag13 = true;
     }
 
     field_68_car_in_collision = 0;
-    field_24_bf.b12 = false;
+    field_24_bf.bFlag12 = false;
 }
 
 MATCH_FUNC(0x453470)
@@ -5057,7 +5057,7 @@ void CarAI_78::UpdateDriving_453470()
 
     if (this->field_0_car->IsAIHalted_42AC60()) // if the vehicle is forced to stop
     {
-        if (this->field_24_bf.b20)
+        if (this->field_24_bf.bAIHalted)
         {
             if (gCurrCarAI_Velocity_677B00 > dword_677B60)
             {
@@ -5068,7 +5068,7 @@ void CarAI_78::UpdateDriving_453470()
                 field_0_car->DoBreak_43A950();
             }
             this->field_68_car_in_collision = 0;
-            this->field_24_bf.b12 = 0;
+            this->field_24_bf.bFlag12 = 0;
         }
         else
         {
@@ -5081,7 +5081,7 @@ void CarAI_78::UpdateDriving_453470()
                 field_0_car->field_58_physics->NeutralGear_42AC00();
             }
             this->field_68_car_in_collision = 0;
-            this->field_24_bf.b12 = 0;
+            this->field_24_bf.bFlag12 = 0;
         }
     }
     else

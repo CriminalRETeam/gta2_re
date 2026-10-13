@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BitSet32.hpp"
+#include "car_ai_flags.hpp"
 #include "Fix16.hpp"
 #include "Function.hpp"
 #include "Pool.hpp"
@@ -94,7 +95,7 @@ class CarAI_78
     union
     {
         u32 field_24_flags;
-        CompilerBitField32 field_24_bf;
+        CarAIFlags32 field_24_bf;
     };
 
     char_type field_28_junc_idx;
