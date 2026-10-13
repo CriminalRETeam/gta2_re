@@ -2595,6 +2595,15 @@ same `mov field,%ecx; push %ecx` as a plain copy. `sound_obj::ProcessActiveQueue
 `reinterpret_cast<Fix16&>(sample.field_3C_speed_multiplier)` instead: the asm of that block is unchanged, but the
 `AdjustPlaybackRate` rate load after it moves from eax to edx, and so do the registers in the rest of the loop.
 
+**A `xor`/`test` that the direct form threads away: look for a compound condition, not a temp.** In
+`Map_0x370::sub_4E7190` the original keeps `mov %eax,%ebp; cmp $3,%ebp; je J; xor %ebp,%ebp; J: test %ebp,%ebp`.
+`v = Get(); if (v != 3) v = 0; if (!v)` lets VC6 thread both paths and drop the `xor`/`test`; a temp
+(`d = Get(); if (d != 3) d = 0; v = d;`) keeps them but `d` takes eax (`Scripts/regalloc/README.md`,
+"Preferences": a call result's eax preference is re-added at every priority pass, the copy's register once).
+The original tests `if (!pBlock || !v)` after `if (pBlock) { v = Get(pBlock); if (v != 3) v = 0; }`: the extra
+`!pBlock` term stops the threading, and VC7 compiles the same source to 9.6f's
+`cmp $3,%ebp; jne; test %ebp,%ebp; jne`, which none of the other forms gives.
+
 A byte compare against the zero register (`cmp %bl,%al`) where ours has `test %al,%al` means the original compared
 a symbol, not a call result. Assigning the call result to a local that reaches another block
 (`u8 bFound = 0; if (CanAllocate()) bFound = Find(); if (bFound)`) gives the `cmp`
@@ -2905,6 +2914,9 @@ A function that mixes inline normalizes with calls to `Normalize_406C20` usually
 nested `Normalize()` only fits the nested budget (`budget / sites_left`) at the later sites, so the early ones call
 the out-of-line copy (`CarDoorAlignmentSolver_545AF0`: 332 -> 60). Writing the out-of-line ones as
 `Ang16(x).Normalized_406C20()` gets the calls but not the `s16 value` locals or the budget of the others.
+The same code can come out of both spellings and still allocate differently: in `Map_0x370::sub_4E7190`
+(122 -> 38) the operator's locals are two more live ranges in the loop's turn block, which lifts that block's
+`to_edge` (N * bw * savings, 120 -> 144) above two `ToInt` CSE temps (132), so it takes ebp and `dist` gets ebx.
 
 ### Three threaded flags and a trailing `if` move the exit block (`Ped::UpdateMovementTowardsTarget_4672E0`)
 

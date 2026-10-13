@@ -9,12 +9,13 @@ live range's priority [lr+0x0C] (0x107203FD) and tie-break [lr+0x40] (0x1071A7EE
     @P add2 ...                           the same, other list
     @P sub lr=<lr> <d>                    live through the block but not referenced: prio -= n * bw
     @T lr=<lr> cnt=<n> line=<line>        a definition binds the live range: tie = n (see README.md)
+    @Q lr=<lr> rr=<reg rec> reg=<r> ret=<caller>  a register preference of the live range gets +1 (0x107210C1, see README.md)
 
 <lr> is the live range record ([lr] is ralog's l0); @R lines (ralog) give the final priority, tie and register.
 
     venv/bin/python3 Scripts/regalloc/patch_c2.py && venv/bin/python3 Scripts/regalloc/priolog.py
     X87_C2=priolog X87_OUT=/tmp/pl Scripts/x87_sched/sched.sh -l Scripts/regalloc/probe_loop.cpp
-    grep -a '^@[PTR]' /tmp/pl/last.log
+    grep -a '^@[PTRQ]' /tmp/pl/last.log
 """
 import os, sys, shutil
 import pefile
@@ -40,7 +41,8 @@ def main():
     strs = {}
     for k, s in [('E', b'@P enter\n'), ('B', b'@P blk N=%d bw=%d\n'), ('A', b'@P add lr=%x prio=%d +%d\n'),
                  ('A2', b'@P add2 lr=%x prio=%d +%d\n'), ('M', b'@P sub lr=%x %d\n'),
-                 ('W', b'@P ref lr=%x c=%d w=%d\n'), ('T', b'@T lr=%x cnt=%d line=%d\n')]:
+                 ('W', b'@P ref lr=%x c=%d w=%d\n'), ('T', b'@T lr=%x cnt=%d line=%d\n'),
+                 ('Q', b'@Q lr=%x rr=%x reg=%d ret=%x\n')]:
         strs[k] = sva; put(sva, s + b'\0'); sva += len(s) + 1
     assert sva < 0x10799000
     # (address, bytes replaced, pushes for the printf, format, nargs, replaced instructions, return address)
@@ -56,6 +58,9 @@ def main():
         # 0x1071A7EE: mov [edi+0x40],eax (eax = instruction counter, edi = live range, [esp+0x14] = instruction)
         (0x1071a7ee, 6, "mov ecx,[esp+0x24+0x14]\n movzx ecx, word ptr [ecx+0x10]\n push ecx\n push eax\n push edi",
          'T', 3, "mov [edi+0x40],eax\n mov eax,[ecx+4]", 0x1071a7f4),
+        # 0x107210C1(ecx = live range, edx = register record): adds 1 to the live range's preference for that register
+        (0x107210c1, 5, "push dword ptr [esp+0x24]\n mov eax,[edx+0x1c]\n push eax\n push edx\n push ecx", 'Q', 4,
+         "push ebx\n push esi\n mov esi,ecx\n push edi", 0x107210c6),
     ]
     va = CODE
     for at, n, pushes, k, na, orig, back in hooks:

@@ -217,8 +217,25 @@ comes after it in reverse order), `c |= ..` (14). So a, b, c are coloured in tha
 ```bash
 venv/bin/python3 Scripts/regalloc/patch_c2.py && venv/bin/python3 Scripts/regalloc/priolog.py
 X87_C2=priolog X87_OUT=/tmp/pl Scripts/x87_sched/sched.sh -l Source/Explosion_30.cpp
-grep -a '^@[PTR]' /tmp/pl/last.log      # @T ties, @P priority terms, @R colour decisions (ralog)
+grep -a '^@[PTRQ]' /tmp/pl/last.log     # @T ties, @P priority terms, @Q preferences, @R colour decisions (ralog)
 ```
+
+## Preferences (reversed Oct 13)
+
+The select step's `[lr+0x34]` list holds `{next, register record, weight}` entries; the register number is at
+`[record+0x1C]`. `0x107210C1(ecx = live range, edx = register record)` adds 1 to the entry for that register
+(or creates it with weight 1), unless the live range is already coloured. It is called from two places:
+
+- the priority pass `0x107203FD`, for a `mov` between the live range and a physical register (a call result
+  in eax, an argument register). The priority pass runs again after every live range split, and each run adds
+  the same preferences again, so a call result's eax weight is 1 + the number of splits before the live range
+  is coloured;
+- the colour pass, right after a live range gets its register (`0x10723646`): every live range related to it
+  by a copy gets +1 for that register, once.
+
+So a temp copied from a call result into a variable that is coloured first (`d = Get(); ...; nd = d;` with `nd`
+in ebp) scores eax -1 per priority pass and ebp -1, and takes eax. `priolog.py` prints each addition as an `@Q`
+line (`ret=1072079e` the priority pass, `ret=10723659` the colour pass), between the `@P enter` lines of the runs.
 
 ## Which values get colour live ranges (reversed)
 
