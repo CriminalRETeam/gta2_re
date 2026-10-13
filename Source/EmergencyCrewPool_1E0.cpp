@@ -251,9 +251,9 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
             if (field_0_car)
             {
                 field_0_car->field_76_last_seen_timer = 0;
-                if (field_0_car->field_7C_uni_num != 2)
+                if (field_0_car->field_7C_ped_type != ped_type::player_2)
                 {
-                    field_0_car->field_7C_uni_num = 3;
+                    field_0_car->field_7C_ped_type = ped_type::dummy_3;
                 }
                 if (field_0_car->field_60_pChaseTask)
                 {
@@ -383,7 +383,7 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
                 {
                     if (field_0_car)
                     {
-                        field_0_car->SetUniNum_421560(3);
+                        field_0_car->SetDriverPedType_421560(ped_type::dummy_3);
                         field_0_car->field_76_last_seen_timer = -200;
                     }
                 }
@@ -447,7 +447,7 @@ void EmergencyCrew_30::CleanupExpiredEntities_5CC1C0()
     {
         if (this->field_0_car && !field_0_car->IsDespawning_4215B0() && !field_0_car->IsMaxDamage_40F890())
         {
-            if (field_0_car->Get_F76_4A9AD0() > this->field_1A_idle_limit)
+            if (field_0_car->GetLastSeenTimer_4A9AD0() > this->field_1A_idle_limit)
             {
                 field_0_car->MarkForDespawn_421470();
                 bClearRouteAndTryClearOthers = 1;
@@ -632,9 +632,9 @@ bool EmergencyCrew_30::Service_5CC480()
     switch (field_20_crew_type)
     {
         case crew_type::paramedic_1:
-            if (gCar_6C_677930->CanAllocateOfType_446930(4))
+            if (gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::paramedic_car_4))
             {
-                this->field_0_car = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::MEDICAR,
+                this->field_0_car = gCarManager_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::MEDICAR,
                                                                                    this->field_C_spawn_x,
                                                                                    this->field_10_spawn_y,
                                                                                    this->field_14_spawn_z);
@@ -652,9 +652,9 @@ bool EmergencyCrew_30::Service_5CC480()
             break;
 
         case crew_type::police_3:
-            if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::police_6))
+            if (gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::police_6))
             {
-                this->field_0_car = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::COPCAR,
+                this->field_0_car = gCarManager_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::COPCAR,
                                                                                    this->field_C_spawn_x,
                                                                                    this->field_10_spawn_y,
                                                                                    this->field_14_spawn_z);
@@ -671,9 +671,9 @@ bool EmergencyCrew_30::Service_5CC480()
             break;
 
         case crew_type::swat_5:
-            if (gCar_6C_677930->CanAllocateOfType_446930(car_kind::police_6))
+            if (gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::police_6))
             {
-                this->field_0_car = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::SWATVAN,
+                this->field_0_car = gCarManager_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::SWATVAN,
                                                                                    this->field_C_spawn_x,
                                                                                    this->field_10_spawn_y,
                                                                                    this->field_14_spawn_z);

@@ -108,7 +108,7 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
         {
             if (field_40_pExplosion->field_14_pObj2C->field_4)
             {
-                field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
+                field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->GetEffectiveSpeed_5290F0();
                 field_24_angle = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->field_10_obj_3c->field_4_angle;
             }
             if (field_40_pExplosion->field_1A_timer == 1)
@@ -211,7 +211,7 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
         {
             if (field_40_pExplosion->field_14_pObj2C->field_4)
             {
-                field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
+                field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->GetEffectiveSpeed_5290F0();
                 field_24_angle = field_40_pExplosion->field_14_pObj2C->field_10_obj_3c->field_4_angle;
             }
             if (field_40_pExplosion->field_1A_timer == 1)
@@ -529,7 +529,7 @@ char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
             {
                 if (field_40_pExplosion->field_14_pObj2C->field_4)
                 {
-                    field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
+                    field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->GetEffectiveSpeed_5290F0();
                     field_24_angle = field_40_pExplosion->field_14_pObj2C->field_10_obj_3c->field_4_angle;
                 }
                 if (field_40_pExplosion->field_1A_timer == 1)
@@ -638,7 +638,7 @@ char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
             {
                 if (field_40_pExplosion->field_14_pObj2C->field_4)
                 {
-                    field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
+                    field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->GetEffectiveSpeed_5290F0();
                     field_24_angle = field_40_pExplosion->field_14_pObj2C->field_10_obj_3c->field_4_angle;
                 }
                 if (field_40_pExplosion->field_1A_timer == 1)
@@ -746,7 +746,7 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
         {
             if (field_40_pExplosion->field_14_pObj2C->field_4)
             {
-                field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
+                field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->GetEffectiveSpeed_5290F0();
                 field_24_angle = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->field_10_obj_3c->field_4_angle;
             }
             if (field_40_pExplosion->field_1A_timer == 1)
@@ -946,7 +946,7 @@ char_type Particle_4C::UpdateStaticAnim_state_39_53A180()
     return 0;
 }
 
-// 9.6f 0x48BEE0: the car box is read through get_car_width/get_car_height (puts this in edi)
+// 9.6f 0x48BEE0: the car box is read through GetCarWidth_48A930/GetCarHeight_48A950 (puts this in edi)
 MATCH_FUNC(0x53a280)
 char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
 {
@@ -980,13 +980,13 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
         Fix16 half_h;
         if (sub < 4)
         {
-            half_w = pCar->get_car_width() / 2 + dword_6FD3C0;
-            half_h = pCar->get_car_height() / 2 + dword_6FD5A8;
+            half_w = pCar->GetCarWidth_48A930() / 2 + dword_6FD3C0;
+            half_h = pCar->GetCarHeight_48A950() / 2 + dword_6FD5A8;
         }
         else
         {
-            half_w = pCar->get_car_width() / 2 + dword_6FD3C0;
-            half_h = pCar->get_car_height() / 2 + dword_6FD2E8 + dword_6FD554;
+            half_w = pCar->GetCarWidth_48A930() / 2 + dword_6FD3C0;
+            half_h = pCar->GetCarHeight_48A950() / 2 + dword_6FD2E8 + dword_6FD554;
         }
 
         // The rotations are written out (RotateByAngle_OOL_40F6B0 shape): with the helper in both
@@ -1236,11 +1236,11 @@ char_type Particle_4C::UpdateShortAnim_state_37_53B580()
     switch (field_46_sub_state)
     {
         case 1:
-            this->field_30_pNext->set_id_lazy_4206C0(field_30_pNext->field_22_sprite_id);
+            this->field_30_pNext->set_id_lazy_4206C0(field_30_pNext->field_22_type_sprite_idx);
             break;
 
         default:
-            this->field_30_pNext->set_id_4206E0(field_30_pNext->field_22_sprite_id + 4);
+            this->field_30_pNext->set_id_4206E0(field_30_pNext->field_22_type_sprite_idx + 4);
             break;
     }
 
@@ -1582,7 +1582,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
                     }
                     if (pHit->field_30_sprite_type_enum != sprite_types_enum::code_obj1_4 &&
                         pHit->field_30_sprite_type_enum != sprite_types_enum::map_obj_5 &&
-                        pHit->field_30_sprite_type_enum != sprite_types_enum::unknown_1)
+                        pHit->field_30_sprite_type_enum != sprite_types_enum::object_1)
                     {
                         gParticle_8_6FD5E8->field_0_fire_hit_obj->HandleObjectHit_528990(pHit);
                     }
@@ -1606,7 +1606,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
                     }
                     if (pHit->field_30_sprite_type_enum != sprite_types_enum::code_obj1_4 &&
                         (pHit->field_30_sprite_type_enum != sprite_types_enum::map_obj_5) &&
-                        pHit->field_30_sprite_type_enum != sprite_types_enum::unknown_1)
+                        pHit->field_30_sprite_type_enum != sprite_types_enum::object_1)
                     {
                         gParticle_8_6FD5E8->field_4->HandleObjectHit_528990(pHit);
                     }

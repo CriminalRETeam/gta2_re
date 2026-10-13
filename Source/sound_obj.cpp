@@ -559,7 +559,7 @@ void sound_obj::ProcessCar_412B80(Sound_Params_8* pParams)
     Car_BC* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
     if (pCar)
     {
-        pParams->field_4_bDrivenByPlayer = pCar->is_driven_by_player();
+        pParams->field_4_bDrivenByPlayer = pCar->IsDrivenByPlayer_4118D0();
 
         SoundPosEntry_C* pAlloc = field_147C_audio_entities[field_30_sQueueSample.field_0_EntityIndex].field_8_pAlloc;
         if (pAlloc)
@@ -1031,7 +1031,7 @@ char_type sound_obj::SelectObjectImpactSound_413120(CollisionEvent_28* pEvent, s
             {
                 case 3:
                     // 9.6f: Car_BC::sub_414F60 (field_78_flags & 0x100 via sub_411930, inlined, a bool helper changes the code)
-                    if (pEvent->field_10_car->field_78_bf.bBulletproof)
+                    if ((pEvent->field_10_car->field_78_flags & car_flag::Bulletproof))
                     {
                         samp_idx = field_1454_anRandomTable[1] % 3 + 46;
                     }
@@ -1821,7 +1821,7 @@ void sound_obj::Tank_415190(Sound_Params_8* pParams)
 {
 
     Car_BC* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
-    if (pCar->field_9C_engine_status == car_engine_status::on_3 && pCar->field_78_bf.bFlag13)
+    if (pCar->field_9C_engine_status == car_engine_status::on_3 && (pCar->field_78_flags & car_flag::Crushing))
     {
         if (CalculateDistance_419020(Fix16(921600, 0)))
         {
@@ -1922,7 +1922,7 @@ void sound_obj::HandleCarAlarmSound_415570(Sound_Params_8* pParams, SoundPosEntr
     Car_BC* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
     if (pCar->IsFireTruck_4118F0() || !pCar->HasEmergencyLights_414F20() || !pCar->AreEmergencyLightsOn_414F80())
     {
-        if (!pCar->IsFireTruck_4118F0() && !pCar->IsTank_411900() && !pCar->IsGunJeep_411910() || !pCar->get_B8_4119F0())
+        if (!pCar->IsFireTruck_4118F0() && !pCar->IsTank_411900() && !pCar->IsGunJeep_411910() || !pCar->IsTurretRotated_4119F0())
         {
             if (pParams->field_0_pObj->field_8_car_bc_ptr->IsEmittingHorn_411970())
             {
@@ -2303,7 +2303,7 @@ MATCH_FUNC(0x4177D0)
 void sound_obj::HandleCarDamageSound_4177D0(Sound_Params_8* pParams)
 {
     Car_BC* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
-    if (pCar->Is_engine_status_on_3_4118C0() && pCar->field_74_damage > 16000)
+    if (pCar->IsEngineOn_4118C0() && pCar->field_74_damage > 16000)
     {
         if (CalculateDistance_419020(Fix16(802816, 0)))
         {
@@ -2330,7 +2330,7 @@ MATCH_FUNC(0x4178C0)
 void sound_obj::HandleSirenActivationSound_4178C0(Sound_Params_8* pParams)
 {
     Car_BC* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
-    if ((pCar->inline_info_flags_bit2() || pCar->is_FBI_car_411920()) && (pCar->field_A4_bf.bEmergencyLights))
+    if ((pCar->HasEmergencyInfoFlag() || pCar->IsFbiCar_411920()) && (pCar->field_A4_bf.bEmergencyLights))
     {
         Car_BC* pCar_ = pParams->field_0_pObj->field_8_car_bc_ptr;
         if (pCar_->field_9C_engine_status == car_engine_status::on_3)
@@ -4001,7 +4001,7 @@ void sound_obj::InterrogateAudioEntities_41A730()
 
     if (field_1478_type5Idx != 0 && (pTmp = field_147C_audio_entities[field_1478_type5Idx].field_4_pObj->field_C_pAny.pCamera_0xBC) != NULL)
     {
-        Ped* pPed = pTmp->get_ped_416B70();
+        Ped* pPed = pTmp->GetFollowedPed_416B70();
 
         if (pPed != NULL)
         {
@@ -4009,7 +4009,7 @@ void sound_obj::InterrogateAudioEntities_41A730()
             if (field_16C_car != NULL)
             {
                 field_16C_car->GetXYZ_416B80(&field_1468_listener_x, &field_146C_listener_y, &field_1470_listener_z);
-                field_1474_rotation = field_16C_car->get_car_rotation_416BB0();
+                field_1474_rotation = field_16C_car->GetCarRotation_416BB0();
             }
             else
             {
@@ -4021,9 +4021,9 @@ void sound_obj::InterrogateAudioEntities_41A730()
         }
         else
         {
-            field_1468_listener_x = pTmp->field_98_cam_pos2.field_0_x;
-            field_146C_listener_y = pTmp->field_98_cam_pos2.field_4_y;
-            field_1470_listener_z = pTmp->field_98_cam_pos2.field_8_z;
+            field_1468_listener_x = pTmp->field_98_cur_pos.field_0_x;
+            field_146C_listener_y = pTmp->field_98_cur_pos.field_4_y;
+            field_1470_listener_z = pTmp->field_98_cur_pos.field_8_z;
         }
     }
     else
@@ -4582,7 +4582,7 @@ void sound_obj::GenerateIntegerRandomNumberTable_41BA90()
 MATCH_FUNC(0x41E820)
 void sound_obj::ProcessObject_41E820(Sound_Params_8* pEntity)
 {
-    if (pEntity->field_0_pObj->field_8_object_2C_ptr->field_8->field_34_behavior_type == 12)
+    if (pEntity->field_0_pObj->field_8_object_2C_ptr->field_8->field_34_behavior_type == object_behavior_type::effect_only_12)
     {
         sound_obj::ProcessObject_Type12_41E850(pEntity);
     }
@@ -5397,7 +5397,7 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* pParams)
             break;
         }
 
-        case 5:
+        case objects::blaster_5:
             samp_idx = 145;
             volume = 50;
             bLoop = 0;
@@ -5513,7 +5513,7 @@ void sound_obj::ProcessPed_422B70(Sound_Params_8* pType3Entity)
     pB4 = pType3Entity->field_0_pObj->field_8_char_b4_ptr;
     if (pB4->field_7C_pPed)
     {
-        if (!gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0() && pB4->get_velocity_41B080() > kFpZero_675220)
+        if (!gGame_0x40_67E008->field_38_local_player->GetPlayerCar_5698E0() && pB4->get_velocity_41B080() > kFpZero_675220)
         {
             animation_state = pB4->field_6C_animation_state;
             if (animation_state == 4 || animation_state == 1 || animation_state == 0)
@@ -5994,7 +5994,7 @@ void sound_obj::ResetRadioMessageState_426750()
 MATCH_FUNC(0x426790)
 void sound_obj::PoliceRadioMessageGeneration_426790()
 {
-    Ped* pPed = gGame_0x40_67E008->field_38_orf1->GetPlayerPed_41D020();
+    Ped* pPed = gGame_0x40_67E008->field_38_local_player->GetPlayerPed_41D020();
     s32 crime_type;
     Fix16 crime_x;
     Fix16 crime_y;
@@ -6151,7 +6151,7 @@ void sound_obj::PoliceRadioMessageGeneration_426790()
             }
             else
             {
-                Car_BC* pCar = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
+                Car_BC* pCar = gGame_0x40_67E008->field_38_local_player->GetPlayerCar_5698E0();
                 nullsub_4();
                 switch (field_1454_anRandomTable[3] % 10)
                 {
@@ -6703,7 +6703,7 @@ void sound_obj::ProcessType3_CopRadioAndMusic_57DD50()
         gSoundSwitchRadioCoolDown_6FF539--;
     }
 
-    if (!gGame_0x40_67E008 || !gGame_0x40_67E008->field_38_orf1)
+    if (!gGame_0x40_67E008 || !gGame_0x40_67E008->field_38_local_player)
     {
         return;
     }
@@ -6727,7 +6727,7 @@ void sound_obj::ProcessType3_CopRadioAndMusic_57DD50()
     field_5500 = field_54FC;
     Type3_CopRadioReport_57E680();
 
-    Car_BC* pCar = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
+    Car_BC* pCar = gGame_0x40_67E008->field_38_local_player->GetPlayerCar_5698E0();
     if (pCar)
     {
         // An array keeps VC6 from folding the damage check into the branch: the original computes both
@@ -6964,7 +6964,7 @@ void sound_obj::HandleVocalStreamSwitching_57DF10(char_type bFastForward)
 MATCH_FUNC(0x57E220)
 void sound_obj::UpdateCarEngineAudio_57E220()
 {
-    Car_BC* pCar = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
+    Car_BC* pCar = gGame_0x40_67E008->field_38_local_player->GetPlayerCar_5698E0();
     u32 rate;
     if (!pCar)
     {
@@ -7160,7 +7160,7 @@ void sound_obj::Type3_CopRadioReport_57E680()
 MATCH_FUNC(0x57E6C0)
 void sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
 {
-    Car_BC* pCar = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
+    Car_BC* pCar = gGame_0x40_67E008->field_38_local_player->GetPlayerCar_5698E0();
     if (IsPoliceOrServiceVehicle_57F090(pCar) == true)
     {
         field_54FC = 0;
@@ -7425,7 +7425,7 @@ char_type sound_obj::ComputeRadioEmitterVolume_57EB90(u8 emitterIndex, s32 bUseF
         Fix16 xpos;
         Fix16 ypos;
         Fix16 zpos;
-        gGame_0x40_67E008->field_38_orf1->get_pos_569920(&xpos, &ypos, &zpos);
+        gGame_0x40_67E008->field_38_local_player->get_pos_569920(&xpos, &ypos, &zpos);
 
         u16 dist = abs((s16)(ypos.ToInt() - RadioEmitter(emitterIndex + 1).field_8_ypos.ToInt())) +
             abs((s16)(xpos.ToInt() - RadioEmitter(emitterIndex + 1).field_4_xpos.ToInt()));
@@ -7562,16 +7562,16 @@ void sound_obj::CycleRadioStation_57EEE0(char_type bPrev)
         gSoundSwitchRadioCoolDown_6FF539 = 10;
         if (gGame_0x40_67E008)
         {
-            Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+            Player* pPlayer = gGame_0x40_67E008->field_38_local_player;
             if (pPlayer)
             {
                 if (pPlayer->GetPlayerCar_5698E0())
                 {
-                    Car_BC* pCar = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
+                    Car_BC* pCar = gGame_0x40_67E008->field_38_local_player->GetPlayerCar_5698E0();
                     // can't change their sucky radio station ;)
                     if (!IsPoliceOrServiceVehicle_57F090(pCar))
                     {
-                        Car_BC* pCarAgain = gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0();
+                        Car_BC* pCarAgain = gGame_0x40_67E008->field_38_local_player->GetPlayerCar_5698E0();
                         // nor trains, which makes sense
                         if (!IsTrainOrBoxcar_57F120(pCarAgain))
                         {

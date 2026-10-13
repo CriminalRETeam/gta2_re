@@ -143,7 +143,7 @@ void Explosion_30::EmitRandomDiagonalParticle_540A40()
             pParticle->field_44 = this->field_6_id;
             if (field_14_pObj2C->field_4)
             {
-                pParticle->field_20_speed = field_14_pObj2C->field_4->field_8_object_2C_ptr->sub_5290F0();
+                pParticle->field_20_speed = field_14_pObj2C->field_4->field_8_object_2C_ptr->GetEffectiveSpeed_5290F0();
                 pParticle->field_24_angle = field_14_pObj2C->field_4->field_8_object_2C_ptr->field_10_obj_3c->field_4_angle;
             }
             pParticle->field_34_unused = 1;
@@ -302,7 +302,7 @@ void Explosion_30::EmitFireTrail_5_541430(Ang16 ang, Fix16 speed)
     this->field_8_speed = speed;
     this->field_C_angle = ang;
 
-    if (field_14_pObj2C->sub_5290F0() == kFP16Zero_6FD49C && this->field_1A_timer == explosion_timer::forever_9999)
+    if (field_14_pObj2C->GetEffectiveSpeed_5290F0() == kFP16Zero_6FD49C && this->field_1A_timer == explosion_timer::forever_9999)
     {
         this->field_1A_timer = 20;
     }
@@ -553,7 +553,7 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
                     Object_2C* pObject = pSprite->AsObject2C_40FEC0();
                     if (timerVal > explosion_timer::damage_phase_50 && timerVal < 60u)
                     {
-                        pObject->sub_525190(this->field_14_pObj2C->field_26_ped_ref_idx);
+                        pObject->OnExplosionNearby_525190(this->field_14_pObj2C->field_26_ped_ref_idx);
                     }
                 }
             }
@@ -717,7 +717,7 @@ void Explosion_30::UpdateExplosion_18_19_20_32_33_542790()
     bool isOnScreen = true;
     if (this->field_1A_timer < 90u)
     {
-        if (!gGame_0x40_67E008->is_point_on_screen_4B9A80(this->field_14_pObj2C->field_4->field_14_xy.x, this->field_14_pObj2C->field_4->field_14_xy.y))
+        if (!gGame_0x40_67E008->IsPointOnScreen_4B9A80(this->field_14_pObj2C->field_4->field_14_xy.x, this->field_14_pObj2C->field_4->field_14_xy.y))
         {
             isOnScreen = false;
         }
@@ -755,7 +755,7 @@ void Explosion_30::UpdateExplosion_18_19_20_32_33_542790()
                 Object_2C* pExplosionObj = gObject_5C_6F8F84->CreateExplosion_52A3D0(Fix16(113), Fix16(145), 2, kAngZero_6FD5D4, explosion_type::molotov_fire_5, field_2C_owner_ped_id);
                 if (pExplosionObj)
                 {
-                    Object_2C* pDebris = gObject_5C_6F8F84->NewUnknown_52A240(127,
+                    Object_2C* pDebris = gObject_5C_6F8F84->NewMovingObj_52A240(127,
                                                                              field_14_pObj2C->field_4->field_14_xy.x,
                                                                              field_14_pObj2C->field_4->field_14_xy.y,
                                                                              field_14_pObj2C->field_4->field_1C_zpos,

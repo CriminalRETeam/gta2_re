@@ -251,7 +251,7 @@ Object_2C* Weapon_30::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypo
 
     if (bullet_type == objects::machine_gun_bullet_254 || bullet_type == objects::pistol_bullet_265)
     {
-        pNewBullet->SetSpriteIdOffset_5290C0(field_24_pPed->GetBulletSpriteOffset_45BE30());
+        pNewBullet->SetSpriteIdxOffset_5290C0(field_24_pPed->GetBulletSpriteOffset_45BE30());
     }
 
     if (p5CSprite->CheckSpriteMovementRegion_5A2500())
@@ -633,7 +633,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_char
                         gObject_5C_6F8F84->SetPendingDamageOwner_52A210(field_24_pPed->get_ped_ref_idx_420B50());
 
                         // field_24_pPed->GetAimAngle_4CCA90()
-                        pProjectile = gObject_5C_6F8F84->sub_52A280(obj_idx,
+                        pProjectile = gObject_5C_6F8F84->NewMovingObjUnlessBlocked_52A280(obj_idx,
                                                                                field_24_pPed->get_cam_x(),
                                                                                field_24_pPed->get_cam_y(),
                                                                                field_24_pPed->get_cam_z() + kFP16Half_706DA8,
@@ -1269,7 +1269,7 @@ void Weapon_30::sub_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_angle)
                                 {
                                     sub_5DFB60(bFlag + 1, pHit, angle);
                                 }
-                                if (!pHit->field_8_car_bc_ptr->is_f78_0x400_425770())
+                                if (!pHit->field_8_car_bc_ptr->IsFlameproof_425770())
                                 {
                                     pHit->field_8_car_bc_ptr->field_70_exploder_ped_id = field_24_pPed->field_200_id;
                                     pHit->field_8_car_bc_ptr->field_90_death_cause = ped_death_cause::rocket_18;
@@ -1382,13 +1382,13 @@ void Weapon_30::electro_batton_5E0740()
 MATCH_FUNC(0x5e0ab0)
 void Weapon_30::car_bomb_5E0AB0(char_type instant_bomb)
 {
-    field_24_pPed = field_14_car->get_driver_4118B0();
+    field_24_pPed = field_14_car->GetDriver_4118B0();
 
     set_field_2C_4CCA80(1);
 
     decrement_ammo_4CCA30();
 
-    if (field_14_car->is_trailer_cab_41E460())
+    if (field_14_car->IsTrailerCab_41E460())
     {
         field_14_car->field_64_pTrailer->field_C_pCarOnTrailer->FireCarBomb_440F90(instant_bomb);
         field_14_car->DetachTrailerAndUpdateDamage_4418B0();
@@ -1454,7 +1454,7 @@ void Weapon_30::fire_truck_flamethrower_5E0B10()
 // Both fire truck guns keep the EH state stores around their Fix16_Point add: once VC6 has compiled the
 // out-of-line copy of the inline operator+ it knows the call can't throw and drops them. So only this
 // function uses operator+, and fire_truck_flamethrower_5E0B10 above calls Add_40AC50. The inline getters
-// (get_driver_4118B0, IsTargetHit_41CC70) are free inline sites that set the inline budget split, so the
+// (GetDriver_4118B0, IsTargetHit_41CC70) are free inline sites that set the inline budget split, so the
 // second rotation calls Negate_4086A0 out of line as in 10.5.
 MATCH_FUNC(0x5e0e70)
 void Weapon_30::fire_truck_gun_5E0E70()
@@ -1464,7 +1464,7 @@ void Weapon_30::fire_truck_gun_5E0E70()
     Fix16_Point offset;
     Fix16_Point velocity;
 
-    field_24_pPed = field_14_car->get_driver_4118B0();
+    field_24_pPed = field_14_car->GetDriver_4118B0();
 
     AttachedSprite_18* pTurret = field_14_car->field_0_attachments.GetSpriteForModel_5A6A50(114);
     gun_ang = pTurret->field_0_pSprite->field_0_rotation + word_706DFA;
@@ -1529,7 +1529,7 @@ void Weapon_30::tank_main_gun_5E10E0()
 
     if (field_2_reload_speed == 0)
     {
-        field_24_pPed = field_14_car->get_driver_4118B0();
+        field_24_pPed = field_14_car->GetDriver_4118B0();
         cannon_angle = field_14_car->field_0_attachments.GetSpriteForModel_5A6A50(148)
                            ->field_0_pSprite->field_0_rotation;
         cannon_pos.SetXY_432860(Fix16(0), gTankCannonLength_706E20);
@@ -1604,7 +1604,7 @@ void Weapon_30::army_gun_jeep_5E13E0()
     Fix16_Point muzzle_vel;
     if (field_2_reload_speed == 0)
     {
-        field_24_pPed = field_14_car->get_driver_4118B0();
+        field_24_pPed = field_14_car->GetDriver_4118B0();
 
         gun_ang = field_14_car->field_0_attachments.GetSpriteForModel_5A6A50(248)->field_0_pSprite->field_0_rotation;
 
@@ -1699,7 +1699,7 @@ void Weapon_30::car_mine_5E2550()
 {
     Fix16_Point p;
 
-    field_24_pPed = field_14_car->get_driver_4118B0();
+    field_24_pPed = field_14_car->GetDriver_4118B0();
 
     Sprite* Sprite_440840 = field_14_car->GetSprite_440840();
 
@@ -1746,13 +1746,13 @@ void Weapon_30::car_smg_5E2940()
     Fix16_Point right_point_velocity;
     if (field_2_reload_speed == 0)
     {
-        field_24_pPed = field_14_car->get_driver_4118B0();
+        field_24_pPed = field_14_car->GetDriver_4118B0();
 
         Sprite* pCarSprite = field_14_car->field_50_car_sprite;
         sprite_ang = field_14_car->field_50_car_sprite->field_0_rotation;
 
-        Fix16 tmpx = dword_706DCC + field_14_car->get_car_width() / 2;
-        Fix16 tmpy = dword_706FD0 + field_14_car->get_car_height() / 2;
+        Fix16 tmpx = dword_706DCC + field_14_car->GetCarWidth_48A930() / 2;
+        Fix16 tmpy = dword_706FD0 + field_14_car->GetCarHeight_48A950() / 2;
 
         left.SetXY_432860(tmpx, tmpy);
         left.RotateByAngle_40F6B0(sprite_ang);

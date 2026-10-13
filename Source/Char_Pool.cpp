@@ -260,7 +260,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                 gmp_map_zone* pMapZone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(xpos.ToInt(), ypos.ToInt(), 14u);
                 if (pMapZone)
                 {
-                    Gang_144* pGang = gGangPool_CA8_67E274->gang_by_name_4BF100(pMapZone->field_6_name);
+                    Gang_144* pGang = gGangPool_CA8_67E274->FindGangByName_4BF100(pMapZone->field_6_name);
                     if ((u8)gNumberArmedGangMembers_6787CE < 4u)
                     {
                         ++gNumberArmedGangMembers_6787CE;
@@ -277,11 +277,11 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                         }
                         pPed->field_26C_graphic_type = ped_graphic_type::character_1;
                         pPed->SetPedClass_433BC0(ped_class::gang_member_1);
-                        pPed->ForceWeapon_46F600(pPed->field_17C_pGang->GetGangCurrWeapon_4BF0C0());
+                        pPed->ForceWeapon_46F600(pPed->field_17C_pGang->GetCurrentWeapon_4BF0C0());
                         if (pPed->field_170_selected_weapon && pPed->field_170_selected_weapon->field_1C_idx)
                         {
                             pPed->field_21C_bf.bArmedGangMember = true;
-                            pGang->field_141_bAlwaysBasicWeapon = 1;
+                            pGang->field_141_always_basic_weapon = 1;
                         }
                         pPed->GiveWeapon_46F650(weapon_type::pistol);
                         pPed->field_270_fire_mode = ped_fire_mode::random_shots_0;
@@ -475,10 +475,10 @@ void PedManager::SpawnDummies_46EB60(Camera_0xBC* pCam)
     s16 tileRight;
     s16 tileTop;
     s16 bottom;
-    tileLeft = (pCam->field_78_boundaries_non_neg.field_0_left - kFpHalf_67853C).ToInt();
-    tileRight = (pCam->field_78_boundaries_non_neg.field_4_right + kFpHalf_67853C).ToInt();
-    tileTop = (pCam->field_78_boundaries_non_neg.field_8_top - kFpHalf_67853C).ToInt();
-    bottom = (pCam->field_78_boundaries_non_neg.field_C_bottom + kFpHalf_67853C).ToInt();
+    tileLeft = (pCam->field_78_view_bounds.field_0_left - kFpHalf_67853C).ToInt();
+    tileRight = (pCam->field_78_view_bounds.field_4_right + kFpHalf_67853C).ToInt();
+    tileTop = (pCam->field_78_view_bounds.field_8_top - kFpHalf_67853C).ToInt();
+    bottom = (pCam->field_78_view_bounds.field_C_bottom + kFpHalf_67853C).ToInt();
 
     s16 bound_max = 0;
 
@@ -570,7 +570,7 @@ void PedManager::SpawnDummies_46EB60(Camera_0xBC* pCam)
                     pSprite->set_xyz_lazy_451950(xpos, ypos, (zpos + 1));
                     pSprite->set_ang_lazy_420690(gDummyPedAng_6787A8);
                     pSprite->AllocCollisionShape_59F950(gDummyW_678530, gDummyH_678584, gDummyZ_67841C);
-                    if (!gGame_0x40_67E008->is_point_on_screen_4B9A80(pSprite->field_14_xy.x, pSprite->field_14_xy.y))
+                    if (!gGame_0x40_67E008->IsPointOnScreen_4B9A80(pSprite->field_14_xy.x, pSprite->field_14_xy.y))
                     {
                         if (!gMap_0x370_6F6268->IsSlopeB4ToD0At_433430((u8)(xpos.ToInt()), (u8)(ypos.ToInt()), (u8)zpos + 1))
                         {
@@ -597,7 +597,7 @@ void PedManager::Dummies_470330()
         for (Camera_0xBC* pCam = gGame_0x40_67E008->IteratePlayerCamera_4B9BC0(); pCam; pCam = gGame_0x40_67E008->IterateNextPlayerCamera_4B9C50())
         {
             spawnSideLocked_6787D5 = 0;
-            if (pCam->has_camera_car_or_ped_433E90())
+            if (pCam->HasFollowTarget_433E90())
             {
                 if (pCam->ReturnOwnerVelocity_435A20() > kFpZero_678438)
                 {
@@ -870,7 +870,7 @@ Ped* PedManager::SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang)
     pNewPed->field_26C_graphic_type = ped_graphic_type::character_1;
     pNewPed->SetPedClass_433BC0(ped_class::gang_member_1);
 
-    pNewPed->ForceWeapon_46F600(pNewPed->field_17C_pGang->GetGangCurrWeapon_4BF0C0());
+    pNewPed->ForceWeapon_46F600(pNewPed->field_17C_pGang->GetCurrentWeapon_4BF0C0());
     pNewPed->GiveWeapon_46F650(weapon_type::pistol);
 
     pNewPed->field_270_fire_mode = ped_fire_mode::random_shots_0;
@@ -1004,14 +1004,14 @@ void PedManager::DoIanTest_471060(u16 key)
     switch (key)
     {
         case DIK_9:
-            gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->SetOnFire();
+            gGame_0x40_67E008->field_38_local_player->field_2C4_player_ped->SetOnFire();
             break;
         case DIK_8:
-            gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->SetVisible();
+            gGame_0x40_67E008->field_38_local_player->field_2C4_player_ped->SetVisible();
             break;
 
         case DIK_7:
-            gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->SetInvisible();
+            gGame_0x40_67E008->field_38_local_player->field_2C4_player_ped->SetInvisible();
             break;
     }
 }

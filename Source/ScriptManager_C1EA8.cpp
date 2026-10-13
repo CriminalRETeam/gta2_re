@@ -100,7 +100,7 @@ char_type ScriptManager_C1EA8::AddCranePowerupTrigger_511B10(s16 idx)
 {
     SCR_DECLARE_CRANE_POWERUP* pCmd = (SCR_DECLARE_CRANE_POWERUP*)GetBasePointer_512770(idx);
     SCR_POINTER* pGenerator = (SCR_POINTER*)GetBasePointer_512770(pCmd->field_A_generator);
-    return gCar_214_705F20->AddThreadTrigger_5C86C0(1,
+    return gCarThreadTriggers_214_705F20->AddThreadTrigger_5C86C0(1,
                                        3,
                                        (SCR_THREAD*)pGenerator->field_8_generator,
                                        Fix16(pCmd->field_C_pos.field_0_x) + kFpHalf_6F75F0,
@@ -202,12 +202,12 @@ void ScriptManager_C1EA8::SaveGame_511E10(char_type* pFileName)
 
     ScriptManager_C1EA8::SaveScriptCounters_511B90();
 
-    gGame_0x40_67E008->field_38_orf1->CopyPlayerDataToSave_56A1A0(&gGameSave_6F78C8.field_54_player_and_world_stats);
+    gGame_0x40_67E008->field_38_local_player->CopyPlayerDataToSave_56A1A0(&gGameSave_6F78C8.field_54_player_and_world_stats);
 
     gObject_5C_6F8F84->SaveObjects_52A500(&gGameSave_6F78C8.field_5E4_object_data);
 
     memcpy(gGameSave_6F78C8.field_5E4_object_data.field_12C_obj_5C_bUnCollectedTokens,
-           &gObject_5C_6F8F84->field_20_bUnCollectedTokens,
+           &gObject_5C_6F8F84->field_20_uncollected_tokens,
            50u);
 
     gGameSave_6F78C8.field_5E4_object_data.field_160_secret_tokens_collected = gGameSession_67E8E0.get_secret_tokens_collected_453A80();
@@ -288,9 +288,9 @@ void ScriptManager_C1EA8::LoadSave_511F80(char_type* pFileName)
 
     gObject_5C_6F8F84->RestoreObjects_52A590(&gGameSave_6F78C8.field_5E4_object_data);
 
-    memcpy(&gObject_5C_6F8F84->field_20_bUnCollectedTokens,
+    memcpy(&gObject_5C_6F8F84->field_20_uncollected_tokens,
            gGameSave_6F78C8.field_5E4_object_data.field_12C_obj_5C_bUnCollectedTokens,
-           sizeof(gObject_5C_6F8F84->field_20_bUnCollectedTokens));
+           sizeof(gObject_5C_6F8F84->field_20_uncollected_tokens));
 
     gGameSession_67E8E0.set_secret_tokens_collected_476B10(gGameSave_6F78C8.field_5E4_object_data.field_160_secret_tokens_collected);
     field_C1E2C_bLoadedFromSave = true;
@@ -538,7 +538,7 @@ void ScriptManager_C1EA8::ExecuteScriptThreads_5127A0()
         }
         miss2_0x11C_Pool_6F8064->field_0_pool.UpdatePoolNoDeallocate();
     }
-    gCar_6C_677930->field_5C_model_check_destroyed = 0;
+    gCarManager_6C_677930->field_5C_model_check_destroyed = 0;
 }
 
 MATCH_FUNC(0x5128a0)

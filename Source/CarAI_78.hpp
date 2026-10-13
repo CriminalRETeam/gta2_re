@@ -134,7 +134,7 @@ class CarAI_78
 class CarAI_78_Pool
 {
   public:
-    //Inlined in Car_6C constructor 9.6f -> 0x420eb0
+    //Inlined in CarManager_6C constructor 9.6f -> 0x420eb0
     CarAI_78_Pool()
     {
     }

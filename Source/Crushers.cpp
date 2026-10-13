@@ -48,11 +48,11 @@ Crusher_30::~Crusher_30()
 MATCH_FUNC(0x488310)
 void Crusher_30::CrushCar_488310(Car_BC* pCar)
 {
-    if (field_2C_state == CrusherStates::Idle_0 && !pCar->IsDespawning_4215B0() && !pCar->IsSpriteShrunk_43DC00() && !pCar->Is_F9_Eq7_447EB0())
+    if (field_2C_state == CrusherStates::Idle_0 && !pCar->IsDespawning_4215B0() && !pCar->IsSpriteShrunk_43DC00() && !pCar->IsEngineCrushed_447EB0())
     {
         field_14_pCarBeingCrushed = pCar;
         field_2C_state = CrusherStates::CrushW_1;
-        pCar->add_f78_bits_421890(2);
+        pCar->AddFlags_421890(car_flag::NoCollide);
     }
 }
 
@@ -75,14 +75,14 @@ void Crusher_30::Service_488350()
                     field_2C_state = CrusherStates::UnCrushW_2;
                     if (!bStartNetworkGame_7081F0)
                     {
-                        field_14_pCarBeingCrushed->field_70_exploder_ped_id = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->field_200_id;
+                        field_14_pCarBeingCrushed->field_70_exploder_ped_id = gGame_0x40_67E008->field_38_local_player->field_2C4_player_ped->field_200_id;
                         field_14_pCarBeingCrushed->field_90_death_cause = ped_death_cause::unknown_4;
                         field_14_pCarBeingCrushed->field_94_exploder_timer = 50;
                     }
                     field_14_pCarBeingCrushed->HandleCarExplosion_43D840(explosion_type::item_19);
                     field_14_pCarBeingCrushed->field_0_attachments.CleanupSpriteList_5A7080();
                 }
-                if (field_1C_w - kCrusher_67A810 <= field_14_pCarBeingCrushed->get_car_width() / 2)
+                if (field_1C_w - kCrusher_67A810 <= field_14_pCarBeingCrushed->GetCarWidth_48A930() / 2)
                 {
                     field_14_pCarBeingCrushed->CarShrinkSprite_43DC80(2, 0);
                 }
@@ -105,7 +105,7 @@ void Crusher_30::Service_488350()
                     field_2C_state = CrusherStates::UnCrushH_4;
                 }
 
-                if (field_20_h - kCrusher_67A810 <= (field_14_pCarBeingCrushed->get_car_height() / 2))
+                if (field_20_h - kCrusher_67A810 <= (field_14_pCarBeingCrushed->GetCarHeight_48A950() / 2))
                 {
                     field_14_pCarBeingCrushed->CarShrinkSprite_43DC80(0, 2);
                 }

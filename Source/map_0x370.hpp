@@ -18,6 +18,28 @@ struct gmp_col_info
     s32 field_4_blockd[2];
 };
 
+// gmp_block_info::field_A_arrows bits: the low nibble is the green arrows, the high nibble the red ones
+namespace block_arrow
+{
+enum
+{
+    green_left_1 = 0x1,
+    green_right_2 = 0x2,
+    green_up_4 = 0x4,
+    green_down_8 = 0x8,
+    red_left_10 = 0x10,
+    red_right_20 = 0x20,
+    red_up_40 = 0x40,
+    red_down_80 = 0x80,
+    green_mask = 0xF,
+    red_mask = 0xF0,
+    left_mask = 0x11, // green or red left
+    right_mask = 0x22,
+    horizontal_mask = 0x33, // left or right
+    vertical_mask = 0xCC, // up or down
+};
+} // namespace block_arrow
+
 struct gmp_block_info
 {
     // 9.6f 0x44C840

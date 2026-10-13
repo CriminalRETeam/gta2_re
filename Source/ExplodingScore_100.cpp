@@ -253,7 +253,7 @@ void ExplodingScore_50::DrawNumbers_596C90()
     Fix16 screen_y;
     Fix16 x_delta;
     Fix16 y_delta;
-    Camera_0xBC* pCamera = &gGame_0x40_67E008->field_38_orf1->field_14C_view_camera;
+    Camera_0xBC* pCamera = &gGame_0x40_67E008->field_38_local_player->field_14C_view_camera;
     pCamera->ProjectWorldToScreen_OutOfLine_4B90E0(field_28_x, field_2C_y, field_30_z, &a3, &screen_y);
     if (a3 < dword_702C6C)
     {
@@ -393,7 +393,7 @@ MATCH_FUNC(0x597100)
 void ExplodingScore_50::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub)
 {
 
-    Camera_0xBC* pCam = &gGame_0x40_67E008->field_38_orf1->field_14C_view_camera;
+    Camera_0xBC* pCam = &gGame_0x40_67E008->field_38_local_player->field_14C_view_camera;
 
     Fix16 proj_x;
     Fix16 proj_y;

@@ -105,9 +105,9 @@ void SpriteTree_4::AddSprite_5C5CF0(Sprite* pSprite)
     Fix16 node_z;
     Fix16 z_pos;
 
-    if (pSprite->field_28_num > 9)
+    if (pSprite->field_28_draw_layer > 9)
     {
-        if (pSprite->field_28_num == 34)
+        if (pSprite->field_28_draw_layer == 34)
         {
             z_pos = kFp96_705B80;
         }
@@ -126,7 +126,7 @@ void SpriteTree_4::AddSprite_5C5CF0(Sprite* pSprite)
     {
         Sprite* pSprt = pIter->field_0_pSprite;
         pParent = pIter;
-        s32 num = pIter->field_0_pSprite->field_28_num;
+        s32 num = pIter->field_0_pSprite->field_28_draw_layer;
         if (num > 9)
         {
             node_z = pSprt->field_1C_zpos;
@@ -144,7 +144,7 @@ void SpriteTree_4::AddSprite_5C5CF0(Sprite* pSprite)
         {
             if (z_pos == node_z)
             {
-                if (pSprite->field_28_num < num)
+                if (pSprite->field_28_draw_layer < num)
                 {
                     pIter = pIter->field_4_pLeft;
                 }
@@ -175,7 +175,7 @@ void SpriteTree_4::AddSprite_5C5CF0(Sprite* pSprite)
     }
     else
     {
-        if (z_pos < node_z || (z_pos == node_z && pSprite->field_28_num < pParent->field_0_pSprite->field_28_num))
+        if (z_pos < node_z || (z_pos == node_z && pSprite->field_28_draw_layer < pParent->field_0_pSprite->field_28_draw_layer))
         {
             pParent->field_4_pLeft = pAllocated;
         }

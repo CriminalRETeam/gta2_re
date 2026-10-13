@@ -1110,7 +1110,7 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
         case Live_0:
             if (field_75344_bInputEnabled)
             {
-                if (!gGame_0x40_67E008->Is_game_state_Paused_2_416BC0())
+                if (!gGame_0x40_67E008->IsPaused_416BC0())
                 {
                     gInputDevices_67B990->read_input_device_498DA0((s32*)control_status, 1);
                     InputRecorder_67F8B0::save_replay_inputs_4CED00(*control_status, saved_input);

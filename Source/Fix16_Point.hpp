@@ -380,7 +380,7 @@ class Fix16_Point
     }
 
     // MATCH_FUNC(0x40AC80)
-    Fix16_Point operator-(const Fix16_Point& rhs)
+    Fix16_Point operator-(const Fix16_Point& rhs) const
     {
         return Fix16_Point(x - rhs.x, y - rhs.y);
     }

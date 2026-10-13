@@ -69,9 +69,9 @@ bool Door_38::CanOpen_49C6D0(Car_BC* pCar)
     switch (field_20_state)
     {
         case door_open_type::any_player:
-            if (!pCar->is_driven_by_player())
+            if (!pCar->IsDrivenByPlayer_4118D0())
             {
-                if (ped_type_enum::ped_player != pCar->field_7C_uni_num)
+                if (ped_type::player_2 != pCar->field_7C_ped_type)
                 {
                     break;
                 }
@@ -109,9 +109,9 @@ bool Door_38::CanOpen_49C6D0(Car_BC* pCar)
                 break;
             }
 
-            if (IsSpriteClearOfDoorCollision_49C6A0(pCar->field_50_car_sprite) && (!pCar->is_driven_by_player() || gGarage_48_6FD26C->sub_44C870(pCar)))
+            if (IsSpriteClearOfDoorCollision_49C6A0(pCar->field_50_car_sprite) && (!pCar->IsDrivenByPlayer_4118D0() || gGarage_48_6FD26C->sub_44C870(pCar)))
             {
-                if (pCar->is_driven_by_player())
+                if (pCar->IsDrivenByPlayer_4118D0())
                 {
                     break;
                 }

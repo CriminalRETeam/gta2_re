@@ -154,7 +154,7 @@ void force_link()
     maccies.sub_4C1CD0();
 
     Sprite car_3c;
-    car_3c.field_20_id = 5;
+    car_3c.field_20_instance_id = 5;
 
     CrusherPool_94 snooky;
     snooky.IsCarBeingCrushed_4887A0(0);
@@ -909,7 +909,7 @@ void __stdcall ClearDebugFlags_4DB170()
 MATCH_FUNC(0x4DB070)
 EXPORT void __stdcall ShowPlayerLeftMessage_4DB070(u8 idx)
 {
-    Player* pPlayer = gGame_0x40_67E008->get_player_4219E0(idx);
+    Player* pPlayer = gGame_0x40_67E008->GetPlayer_4219E0(idx);
     pPlayer->Disconnect_568730();
     swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("comms1"), pPlayer->field_83C_player_name);
     gHud_2B00_706620->field_12F0_mp_message.ShowText_5D5730(tmpBuff_67BD9C);
@@ -1015,14 +1015,14 @@ EXPORT void __stdcall ApplyChangedScreenSettings_5D9690()
 
 // TODO: order
 MATCH_FUNC(0x4DA780)
-EXPORT char ExecuteGame_4DA780()
+EXPORT bool ExecuteGame_4DA780()
 {
-    char exit_code = gGame_0x40_67E008->ExecuteGame_4B9640();
+    bool exit_requested = gGame_0x40_67E008->ExecuteGame_4B9640();
     if (gFpsCounter_7055D4)
     {
         gFpsCounter_7055D4->field_18_execute_game_timer.AccumulateElapsed_5BEBF0();
     }
-    return exit_code;
+    return exit_requested;
 }
 
 MATCH_FUNC(0x4DA7B0)
@@ -1179,9 +1179,9 @@ EXPORT void __stdcall MakeInitialSyncData_4DB2E0(u8* pSyncData)
 
     memset(pData, 0, sizeof(SyncCheckData_1F));
     pData->field_0_type = std_packet_subtype::SyncCheckData_5;
-    if (gCar_6C_677930)
+    if (gCarManager_6C_677930)
     {
-        gCar_6C_677930->field_69_do_free_shopping = bDo_free_shopping_67D6CD;
+        gCarManager_6C_677930->field_69_do_free_shopping = bDo_free_shopping_67D6CD;
     }
 
     pData->field_1_flags = 0;
@@ -1304,7 +1304,7 @@ EXPORT void Net_Set_Local_Player_Inputs_4DAD50()
 {
     for (u32 player_idx = 0; player_idx < MAX_PLAYERS; player_idx++)
     {
-        Player* pPlayer = gGame_0x40_67E008->get_player_4219E0(player_idx);
+        Player* pPlayer = gGame_0x40_67E008->GetPlayer_4219E0(player_idx);
         if (pPlayer && pPlayer->GetInUse_461DB0())
         {
             pPlayer->SetInputs_565740(gPrevNetInputs_6F5B28.field_0_inputs[player_idx].field_0_Inputs);
@@ -1406,7 +1406,7 @@ EXPORT void __stdcall do_network_and_local_inputs_4DAF30()
                 {
                     if ((gNetInUsePlayerBits_6F56B8 & 1) != 0)
                     {
-                        Player* pPlayer = gGame_0x40_67E008->get_player_4219E0(player_idx);
+                        Player* pPlayer = gGame_0x40_67E008->GetPlayer_4219E0(player_idx);
                         if (pPlayer && pPlayer->GetInUse_461DB0())
                         {
                             gNetPlay_7071E8.DeletePlayerFromGroup_521000(player_idx);
@@ -1451,25 +1451,25 @@ EXPORT void __stdcall do_network_and_local_inputs_4DAF30()
     else
     {
         const u32 inputs = gInputRecorder_67F8B0.get_input_bits_4CEAC0();
-        gGame_0x40_67E008->field_38_orf1->SetInputs_565740(inputs);
+        gGame_0x40_67E008->field_38_local_player->SetInputs_565740(inputs);
     }
 }
 
 // todo move to another file for ordering
 MATCH_FUNC(0x4DA850)
-EXPORT u8 RunGameFrame_4DA850()
+EXPORT bool RunGameFrame_4DA850()
 {
-    u8 unk_bl = 0;
-    u8 bContinue = false;
-    u8 a2 = 0;
-    u8 unk_0xc = 0;
+    u8 frame_due = 0;
+    bool exit_requested = false;
+    u8 drew_frame = 0;
+    u8 updated_logic = 0;
     DWORD Time = timeGetTime();
 
     if (bStartNetworkGame_7081F0)
     {
         if (Time >= gMatchStartTime_6F5A28)
         {
-            bContinue = ExecuteGame_4DA780();
+            exit_requested = ExecuteGame_4DA780();
             do_network_and_local_inputs_4DAF30();
             gMatchStartTime_6F5A28 = Time + gGame_0x40_67E008->GetFrameDurationMs_4B8BB0();
         }
@@ -1478,21 +1478,21 @@ EXPORT u8 RunGameFrame_4DA850()
     {
         if (!max_frame_rate_626A08 && !gFramesSinceDraw_6F58D8 || Time >= gMatchStartTime_6F5A28)
         {
-            unk_bl = 1;
-            unk_0xc = 1;
+            frame_due = 1;
+            updated_logic = 1;
         }
         if (gFramesSinceDraw_6F58D8 >= 8u || !min_frame_rate_706C50 && gFramesSinceDraw_6F58D8)
         {
-            unk_bl = 0;
-            unk_0xc = 0;
+            frame_due = 0;
+            updated_logic = 0;
         }
 
         if (bForceGameUpdate_6F5880 || bSkip_draw_67D4EA)
         {
-            unk_0xc = 1;
+            updated_logic = 1;
         }
 
-        if (unk_0xc)
+        if (updated_logic)
         {
             if (!min_frame_rate_706C50)
             {
@@ -1503,7 +1503,7 @@ EXPORT u8 RunGameFrame_4DA850()
                 do_network_and_local_inputs_4DAF30();
                 bInputsPending_6F5760 = 0;
             }
-            bContinue = ExecuteGame_4DA780();
+            exit_requested = ExecuteGame_4DA780();
             s32 frame_ms = gGame_0x40_67E008->GetFrameDurationMs_4B8BB0();
             bForceGameUpdate_6F5880 = 0;
             gMatchStartTime_6F5A28 += frame_ms;
@@ -1514,7 +1514,7 @@ EXPORT u8 RunGameFrame_4DA850()
         {
             Draw_4DA7B0();
             gFramesSinceDraw_6F58D8 = 0;
-            a2 = 1;
+            drew_frame = 1;
         }
         else if (bInputsPending_6F5760)
         {
@@ -1525,9 +1525,9 @@ EXPORT u8 RunGameFrame_4DA850()
 
     if (gFpsCounter_7055D4)
     {
-        gFpsCounter_7055D4->UpdateFpsCounters_5BECF0(a2, unk_0xc);
+        gFpsCounter_7055D4->UpdateFpsCounters_5BECF0(drew_frame, updated_logic);
     }
-    return bContinue;
+    return exit_requested;
 }
 
 GUID IID_DirectMusic = {1667997456u, 3197u, 4561u, {149u, 178u, 0u, 32u, 175u, 220u, 116u, 33u}};
@@ -2042,7 +2042,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
 
                 if (gGame_0x40_67E008)
                 {
-                    gGame_0x40_67E008->sub_4B9720();
+                    gGame_0x40_67E008->ReinitAfterVideoModeChange_4B9720();
                 }
 
                 SetSavedGamma_5D98E0();
@@ -2434,7 +2434,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                         {
                             if (bStartNetworkGame_7081F0)
                             {
-                                switch (gGame_0x40_67E008->get_main_state_4D09C0())
+                                switch (gGame_0x40_67E008->GetExitType_4D09C0())
                                 {
                                     case 1:
                                         DestroyWindow(gHwnd_707F04);
@@ -2450,15 +2450,15 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                             }
                             else
                             {
-                                switch (gGame_0x40_67E008->get_main_state_4D09C0())
+                                switch (gGame_0x40_67E008->GetExitType_4D09C0())
                                 {
                                     case GameExitType::CloseGameImmediately_1:
                                         DestroyWindow(gHwnd_707F04);
                                         break;
 
                                     case GameExitType::PlayerQuit_2:
-                                        gGameSession_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_orf1);
-                                        gPlyDat_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_orf1);
+                                        gGameSession_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_local_player);
+                                        gPlyDat_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_local_player);
                                         gPlyDat_6FEAC0->UpdateHiScores_56C010();
 
                                         state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 11; // 11? prob 1
@@ -2467,8 +2467,8 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                                         break;
 
                                     case GameExitType::GameOverRIP_3:
-                                        gGameSession_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_orf1);
-                                        gPlyDat_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_orf1);
+                                        gGameSession_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_local_player);
+                                        gPlyDat_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_local_player);
                                         gPlyDat_6FEAC0->UpdateHiScores_56C010();
                                         state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 2;
                                         CleanUpInputAndOthers_4DA700();
@@ -2476,8 +2476,8 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                                         break;
 
                                     case GameExitType::AreaCompleted_4:
-                                        gGameSession_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_orf1);
-                                        gPlyDat_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_orf1);
+                                        gGameSession_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_local_player);
+                                        gPlyDat_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_local_player);
                                         gPlyDat_6FEAC0->UpdateHiScores_56C010();
                                         state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 3;
                                         CleanUpInputAndOthers_4DA700();

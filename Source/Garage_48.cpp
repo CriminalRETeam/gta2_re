@@ -212,9 +212,9 @@ void Garage_48::GaragesService_5349D0()
                 field_C_state = 3;
                 return;
             }
-            if (field_0_parking_car->get_driver_4118B0() && field_0_parking_car->field_54_driver != field_14_driver)
+            if (field_0_parking_car->GetDriver_4118B0() && field_0_parking_car->field_54_driver != field_14_driver)
             {
-                field_14_driver = field_0_parking_car->get_driver_4118B0();
+                field_14_driver = field_0_parking_car->GetDriver_4118B0();
             }
 
             u8 collision = field_0_parking_car->field_50_car_sprite->CollisionCheck_5A0320(&field_18_park_x_min, &field_20_park_x_max, &idx1, &idx2);
@@ -259,16 +259,16 @@ void Garage_48::GaragesService_5349D0()
             }
 
         park:
-            field_0_parking_car->set_f78_0x2_44A3E0();
-            field_0_parking_car->set_f78_0x8_4218A0();
-            if (field_0_parking_car->is_driven_by_player())
+            field_0_parking_car->SetNoCollide_44A3E0();
+            field_0_parking_car->SetFlag3_4218A0();
+            if (field_0_parking_car->IsDrivenByPlayer_4118D0())
             {
                 field_0_parking_car->GetDriverPlayer_421870()->DisableAllControls_569FF0();
             }
-            field_0_parking_car->SetF98To1IfNot4_475C10();
+            field_0_parking_car->LockUnlessPermanent_475C10();
             field_0_parking_car->field_58_physics->StopMoving_4895D0();
 
-            car_pos.SetXY_432860(field_0_parking_car->get_x_41E430(), field_0_parking_car->get_y_41E440());
+            car_pos.SetXY_432860(field_0_parking_car->GetX_41E430(), field_0_parking_car->GetY_41E440());
             SpriteShape_4C* pBox = field_0_parking_car->field_50_car_sprite->field_C_pCollisionShape;
             field_28_push_dir = (pBox->field_C_corners[idx1] + pBox->field_C_corners[idx2]).Divide_442CB0(kFpTwo_6FD128) - car_pos;
             if (field_28_push_dir.x == dword_6FD120 && field_28_push_dir.y == dword_6FD120)
@@ -296,9 +296,9 @@ void Garage_48::GaragesService_5349D0()
                 field_C_state = 3;
                 return;
             }
-            if (field_0_parking_car->get_driver_4118B0() && !field_0_parking_car->is_driven_by_player())
+            if (field_0_parking_car->GetDriver_4118B0() && !field_0_parking_car->IsDrivenByPlayer_4118D0())
             {
-                field_0_parking_car->get_driver_4118B0()->SetObjective(objectives_enum::wait_in_car_27);
+                field_0_parking_car->GetDriver_4118B0()->SetObjective(objectives_enum::wait_in_car_27);
             }
 
             if (field_0_parking_car->field_50_car_sprite->CollisionCheck_5A0320(&field_18_park_x_min, &field_20_park_x_max, &idx1, &idx2) != 4 && !field_3D_in_position)
@@ -324,23 +324,23 @@ void Garage_48::GaragesService_5349D0()
             if (field_0_parking_car->field_50_car_sprite)
             {
                 // 9.6f: Car_BC 0x476230/0x4895E0 (clear f78 bits 2 and 8, inlined)
-                field_0_parking_car->field_78_bf.bNoCollide = false;
-                field_0_parking_car->field_78_bf.bFlag3 = false;
+                field_0_parking_car->field_78_flags &= (u16)~car_flag::NoCollide;
+                field_0_parking_car->field_78_flags &= (u16)~car_flag::Flag3;
                 field_10_door->CloseDoors_476A30();
                 field_10_door->ClearF2C_4895F0();
-                field_0_parking_car->SetF98To4_475C30();
+                field_0_parking_car->LockPermanently_475C30();
                 field_0_parking_car->PrepareForExplosion_43C1C0();
                 field_0_parking_car->field_4_passengers_list.KillAndClearAllPeds_4715A0();
-                if (field_0_parking_car->is_driven_by_player())
+                if (field_0_parking_car->IsDrivenByPlayer_4118D0())
                 {
-                    field_0_parking_car->get_driver_4118B0()->field_15C_player->EnableAllControls_56A000();
+                    field_0_parking_car->GetDriver_4118B0()->field_15C_player->EnableAllControls_56A000();
                 }
                 if (!field_3F_no_respawn)
                 {
-                    Ped* pDriver = field_0_parking_car->get_driver_4118B0();
+                    Ped* pDriver = field_0_parking_car->GetDriver_4118B0();
                     if (pDriver)
                     {
-                        pDriver->StartPedWalking_470200(field_30_target_x, field_34_target_y, field_0_parking_car->get_z_41E450());
+                        pDriver->StartPedWalking_470200(field_30_target_x, field_34_target_y, field_0_parking_car->GetZ_41E450());
                         field_0_parking_car->ClearDriver_4407F0();
                         pDriver->SetRotation_433C00(sub_5345E0(field_38_door_face));
                         field_0_parking_car->field_54_driver = NULL;
@@ -349,7 +349,7 @@ void Garage_48::GaragesService_5349D0()
                     else if (field_14_driver && field_14_driver->get_cam_x() >= field_18_park_x_min && field_14_driver->get_cam_x() <= field_20_park_x_max &&
                              field_14_driver->get_cam_y() >= field_1C_park_y_min && field_14_driver->get_cam_y() <= field_24_park_y_max)
                     {
-                        field_14_driver->StartPedWalking_470200(field_30_target_x, field_34_target_y, field_0_parking_car->get_z_41E450());
+                        field_14_driver->StartPedWalking_470200(field_30_target_x, field_34_target_y, field_0_parking_car->GetZ_41E450());
                         field_14_driver->SetRotation_433C00(sub_5345E0(field_38_door_face));
                     }
                 }

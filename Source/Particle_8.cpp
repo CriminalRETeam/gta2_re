@@ -158,7 +158,7 @@ void Particle_8::SpawnBlood_53E880(Fix16 xpos, Fix16 ypos, Fix16 zpos)
         pNew4C->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
         pNew4C->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 191);
         pNew4C->field_30_pNext->set_xyz_lazy_420600(xpos, ypos, zpos);
-        pNew4C->field_30_pNext->set_num_40F7B0(2);
+        pNew4C->field_30_pNext->SetDrawLayer_40F7B0(2);
         gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
     }
 }
@@ -204,8 +204,8 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* pSprite)
             // One expression: the original loads the sprite's field_C once for both
             angle = pSprite->field_0_rotation;
             // Two statements: the original computes x before y (SetXY's by-ref arguments go right to left)
-            corner_1.x = pCar->get_car_width() / 2 + dword_6FD3C0;
-            corner_1.y = pCar->get_car_height() / 2 + dword_6FD5A8;
+            corner_1.x = pCar->GetCarWidth_48A930() / 2 + dword_6FD3C0;
+            corner_1.y = pCar->GetCarHeight_48A950() / 2 + dword_6FD5A8;
             corner_1.RotateByAngle_40F6B0(angle);
             corner_1 += pSprite->get_x_y();
 
@@ -232,7 +232,7 @@ void Particle_8::GunMuzzelFlash_53E970(Sprite* pSprite)
         pParticle->field_48_timer = 0;
 
         angle = pSprite->field_0_rotation;
-        corner_2.SetXY_432860(-(pCar->get_car_width() / 2 + dword_6FD3C0), pCar->get_car_height() / 2 + dword_6FD5A8);
+        corner_2.SetXY_432860(-(pCar->GetCarWidth_48A930() / 2 + dword_6FD3C0), pCar->GetCarHeight_48A950() / 2 + dword_6FD5A8);
         corner_2.RotateByAngle_40F6B0(angle);
         corner_2 += pSprite->get_x_y();
 

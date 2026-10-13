@@ -119,16 +119,16 @@ bool Fix16_Rect::EveryTileMatchesArrowType_59DFB0(s32 arrow_type)
                 switch (arrow_type)
                 {
                     case 1:
-                        bMatches = (block_4DFE10->field_A_arrows & 0xF) == 4;  //  green arrow up
+                        bMatches = (block_4DFE10->field_A_arrows & block_arrow::green_mask) == block_arrow::green_up_4;  //  green arrow up
                         break;
                     case 2:
-                        bMatches = (block_4DFE10->field_A_arrows & 0xF) == 8;  //  green arrow down
+                        bMatches = (block_4DFE10->field_A_arrows & block_arrow::green_mask) == block_arrow::green_down_8;  //  green arrow down
                         break;
                     case 3:
-                        bMatches = (block_4DFE10->field_A_arrows & 0xF) == 2;  //  green arrow right
+                        bMatches = (block_4DFE10->field_A_arrows & block_arrow::green_mask) == block_arrow::green_right_2;  //  green arrow right
                         break;
                     case 4:
-                        bMatches = (block_4DFE10->field_A_arrows & 0xF) == 1;  //  green arrow left
+                        bMatches = (block_4DFE10->field_A_arrows & block_arrow::green_mask) == block_arrow::green_left_1;  //  green arrow left
                         break;
                     default:
                         break;

@@ -93,10 +93,10 @@ static inline void DrawFigureScaled_4C71B0(s32 type, s16 pal, Fix16 x_pos, Fix16
 // with this file's copies of the 1 and 8 constants
 static inline void WorldToScreen_Hud_40CFC0(Camera_0xBC* pCam, Fix16 x, Fix16 y, Fix16 z, Fix16* pOutX, Fix16* pOutY)
 {
-    Fix16 u = pCam->field_98_cam_pos2.field_8_z - z;
+    Fix16 u = pCam->field_98_cur_pos.field_8_z - z;
     Fix16 t(kFpOne_7064C4 / Fix16(u.mValue + kFpEight_7064E8.mValue, 0));
-    *pOutX = (((x - pCam->field_98_cam_pos2.field_0_x) * pCam->field_60.y) * t) + Fix16(320);
-    *pOutY = (((y - pCam->field_98_cam_pos2.field_4_y) * pCam->field_60.y) * t) + Fix16(240);
+    *pOutX = (((x - pCam->field_98_cur_pos.field_0_x) * pCam->field_60_screen_scale.y) * t) + Fix16(320);
+    *pOutY = (((y - pCam->field_98_cur_pos.field_4_y) * pCam->field_60_screen_scale.y) * t) + Fix16(240);
 }
 
 // 9.6f 0x4C7280: DrawText_5D8A10 at a position and size scaled by the UI scale
@@ -117,9 +117,9 @@ static inline void DrawTextScaled_4C7280(const wchar_t* pStr, Fix16 x, Fix16 y, 
 // 1 and 8 constants
 static inline void ProjectWorldToScreen_Hud_4B90E0(Camera_0xBC* pCam, Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
 {
-    Fix16 scale = kFpOne_7064C4 / ((kFpEight_7064E8 - z) + pCam->field_98_cam_pos2.field_8_z);
-    *pOut1 = (((x - pCam->field_98_cam_pos2.field_0_x) * pCam->field_60.x) * scale) + Fix16(pCam->field_70_screen_px_center_x);
-    *pOut2 = (((y - pCam->field_98_cam_pos2.field_4_y) * pCam->field_60.x) * scale) + Fix16(pCam->field_74_screen_px_center_y);
+    Fix16 scale = kFpOne_7064C4 / ((kFpEight_7064E8 - z) + pCam->field_98_cur_pos.field_8_z);
+    *pOut1 = (((x - pCam->field_98_cur_pos.field_0_x) * pCam->field_60_screen_scale.x) * scale) + Fix16(pCam->field_70_screen_px_center_x);
+    *pOut2 = (((y - pCam->field_98_cur_pos.field_4_y) * pCam->field_60_screen_scale.x) * scale) + Fix16(pCam->field_74_screen_px_center_y);
 }
 
 MATCH_FUNC(0x4bbbb0)
@@ -194,7 +194,7 @@ void Hud_BriefSelector_4::ShowPrevNumberedBrief_5CF6B0()
 MATCH_FUNC(0x5cf730)
 void Hud_UnderRoofArrowMarker_C::Update_5CF730()
 {
-    Ped* pPed = gGame_0x40_67E008->field_38_orf1->GetCameraModePed();
+    Ped* pPed = gGame_0x40_67E008->field_38_local_player->GetCameraModePed();
 
     if (!pPed || (u8)pPed->IsInTrain_470F00())
     {
@@ -212,7 +212,7 @@ void Hud_UnderRoofArrowMarker_C::Update_5CF730()
             Fix16 camy = pPed->field_1AC_cam.y;
             Fix16 camx = pPed->field_1AC_cam.x;
 
-            Camera_0xBC* pCam = gGame_0x40_67E008->field_38_orf1->get_camera_434900();
+            Camera_0xBC* pCam = gGame_0x40_67E008->field_38_local_player->get_camera_434900();
             ProjectWorldToScreen_Hud_4B90E0(pCam, camx, camy, camz, &field_0_screen_x, &field_4_screen_y);
         }
     }
@@ -227,7 +227,7 @@ void Hud_UnderRoofArrowMarker_C::Draw_5CF910()
         // get_camera_434900 written out: as an inline call it shifts the inline budget and the projection's
     // operators no longer go out of line as in the original
     Camera_0xBC* pCamera;
-    Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+    Player* pPlayer = gGame_0x40_67E008->field_38_local_player;
         Camera_0xBC* pCam;
         pCam = pPlayer->get_camera_434900();
 
@@ -243,7 +243,7 @@ void Hud_ShowCoords_1::ShowPlayerCoords_5CF970()
         // get_camera_434900 written out: as an inline call it shifts the inline budget and the projection's
     // operators no longer go out of line as in the original
     Camera_0xBC* pCamera;
-    Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+    Player* pPlayer = gGame_0x40_67E008->field_38_local_player;
 
         Ped* pPed = pPlayer->GetActivePed_4A5150();
 
@@ -251,7 +251,7 @@ void Hud_ShowCoords_1::ShowPlayerCoords_5CF970()
         wchar_t* pZoneName;
         if (pZone)
         {
-            pZoneName = pZone->get_name_wide_4BED30();
+            pZoneName = pZone->GetNameWide_4BED30();
         }
         else
         {
@@ -288,7 +288,7 @@ MATCH_FUNC(0x5cfa70)
 void Hud_GangRespectBars_1::DrawGangRespectBars_5CFA70()
 {
     u32 random_num = gpRng_67AB34->get_cur_rng_41CFE0() & 0xF;
-    u8 PlayerIdx = gGame_0x40_67E008->field_38_orf1->get_idx_4219D0();
+    u8 PlayerIdx = gGame_0x40_67E008->field_38_local_player->get_idx_4219D0();
     bool bPlusSignDark = random_num > 7u;
 
     // 64 and the bar x go through the Fix16(u32) constructor (out-of-line copy 0x4926F0)
@@ -381,11 +381,11 @@ void Hud_PlayerNames_4::DrawPlayerNames_5CFE40()
 {
     if (bStartNetworkGame_7081F0 && bShow_player_names_67D54C)
     {
-        Camera_0xBC* pCam = gGame_0x40_67E008->field_38_orf1->get_camera_434900();
+        Camera_0xBC* pCam = gGame_0x40_67E008->field_38_local_player->get_camera_434900();
 
         for (Player* pIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0(); pIter; pIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
         {
-            if (!pIter->field_0_bIsUser)
+            if (!pIter->field_0_is_user)
             {
                 Ped* pPlayerPed = pIter->field_2C4_player_ped;
                 if (!pPlayerPed || !pPlayerPed->field_21C_bf.bInvisible)
@@ -449,7 +449,7 @@ void Hud_CopHead_C::UpdateHead_5D0050(bool bShakeHead)
 MATCH_FUNC(0x5d00b0)
 void Hud_CopHead_C_Array::UpdateWantedLevel_5D00B0()
 {
-    Ped* pPed = gGame_0x40_67E008->field_38_orf1->GetPlayerPed_41D020();
+    Ped* pPed = gGame_0x40_67E008->field_38_local_player->GetPlayerPed_41D020();
     field_48_cop_level = pPed->get_wanted_star_count_46EF00();
 
     const bool bShakeHead = gPolice_7B8_6FEE40->IsBeingPursued_56F800(pPed);
@@ -501,7 +501,7 @@ void Hud_Health_4::DrawHealth_5D0260()
 {
     s32 half_hearts;
     s32 xpos = 551;
-    s32 health = gGame_0x40_67E008->field_38_orf1->GetPlayerPed_41D020()->get_health_433B70();
+    s32 health = gGame_0x40_67E008->field_38_local_player->GetPlayerPed_41D020()->get_health_433B70();
 
     if (health == 100)
     {
@@ -616,8 +616,8 @@ void ArrowTrace_24::UpdateAimCoordinates_5D03F0()
             break;
     }
 
-    Player* field_38_orf1 = gGame_0x40_67E008->field_38_orf1;
-    pCam = field_38_orf1->get_camera_434900();
+    Player* pLocalPlayer = gGame_0x40_67E008->field_38_local_player;
+    pCam = pLocalPlayer->get_camera_434900();
 
     field_20_bIsTargetVisible = pCam->IsCoordsPosVisible_435A70(field_14_aim_x, field_18_aim_y, field_1C_aim_z);
 }
@@ -650,7 +650,7 @@ bool Hud_Arrow_7C::CheckVisibility_5D0530()
             // get_camera_434900 written out: as an inline call it shifts the inline budget and the projection's
     // operators no longer go out of line as in the original
     Camera_0xBC* pCamera;
-    Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+    Player* pPlayer = gGame_0x40_67E008->field_38_local_player;
             Gang_144* pCurrLocationGang = pPlayer->get_gang_curr_location_4766D0();
             if (pCurrLocationGang)
             {
@@ -723,7 +723,7 @@ bool Hud_Arrow_7C::UpdateTargets_5D0620()
         Fix16 xpos;
         Fix16 ypos;
         Fix16 zpos;
-        gGame_0x40_67E008->field_38_orf1->get_pos_569920(&xpos, &ypos, &zpos);
+        gGame_0x40_67E008->field_38_local_player->get_pos_569920(&xpos, &ypos, &zpos);
 
         diff.SetXY_432860(xpos - field_18.field_60_curr_target->field_14_aim_x, ypos - field_18.field_60_curr_target->field_18_aim_y);
         Fix16 distance_1 = diff.GetLength_41E260() - field_10_radius_pos;
@@ -747,7 +747,7 @@ void Hud_Arrow_7C::UpdateScreenPos_5D0850()
     Fix16 player_ypos;
     Fix16 player_zpos;
 
-    gGame_0x40_67E008->field_38_orf1->get_pos_569920(&player_xpos, &player_ypos, &player_zpos);
+    gGame_0x40_67E008->field_38_local_player->get_pos_569920(&player_xpos, &player_ypos, &player_zpos);
     displacement.SetXY_432860(player_xpos - field_18.field_60_curr_target->field_14_aim_x,
                               player_ypos - field_18.field_60_curr_target->field_18_aim_y);
 
@@ -769,7 +769,7 @@ void Hud_Arrow_7C::UpdateScreenPos_5D0850()
     else
     {
         intended_radius = field_C_min_radius_pos;
-        if (gGame_0x40_67E008->field_38_orf1->GetPlayerCar_5698E0())
+        if (gGame_0x40_67E008->field_38_local_player->GetPlayerCar_5698E0())
         {
             intended_radius += kArrowRadiusOffset_7065B4; // increment a little when in a car
         }
@@ -809,7 +809,7 @@ void Hud_Arrow_7C::UpdateScreenPos_5D0850()
     // get_camera_434900 written out: as an inline call it shifts the inline budget and the projection's
     // operators no longer go out of line as in the original
     Camera_0xBC* pCamera;
-    Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+    Player* pPlayer = gGame_0x40_67E008->field_38_local_player;
     if (pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3)
     {
         pCamera = &pPlayer->field_208_aux_game_camera;
@@ -820,10 +820,10 @@ void Hud_Arrow_7C::UpdateScreenPos_5D0850()
     }
 
     Fix16 factor;
-    factor = kFpOne_7064C4 / ((kFpEight_7064E8 - field_18.field_60_curr_target->field_1C_aim_z) + pCamera->field_98_cam_pos2.field_8_z);
+    factor = kFpOne_7064C4 / ((kFpEight_7064E8 - field_18.field_60_curr_target->field_1C_aim_z) + pCamera->field_98_cur_pos.field_8_z);
     // multiply by 64
     Fix16& radius = field_10_radius_pos;
-    Fix16 projected_radius = ((radius * 64) / (pCamera->field_60.x * factor)) * pCamera->field_A8_ui_scale;
+    Fix16 projected_radius = ((radius * 64) / (pCamera->field_60_screen_scale.x * factor)) * pCamera->field_A8_ui_scale;
 
     Fix16 zpos_2;
     if (distance != kFpZero_7064C0 && !field_18.field_60_curr_target->field_20_bIsTargetVisible)
@@ -876,7 +876,7 @@ void Hud_Arrow_7C::DrawArrow_5D0C90()
             {
                 drawKind_ = 7;
             }
-            pPlayer = gGame_0x40_67E008->field_38_orf1;
+            pPlayer = gGame_0x40_67E008->field_38_local_player;
             pCam = pPlayer->get_camera_434900();
 
             DrawFigure_5D7EC0(6,
@@ -913,7 +913,7 @@ void Hud_Arrow_7C::DrawArrow_5D0C90()
             }
 
             const s32 drawKind = 2;
-            pPlayer = gGame_0x40_67E008->field_38_orf1;
+            pPlayer = gGame_0x40_67E008->field_38_local_player;
             pCam = pPlayer->get_camera_434900();
 
             DrawFigure_5D7EC0(6,
@@ -1282,7 +1282,7 @@ void Hud_Arrow_7C_Array::CreatePlayerArrows_5D1350()
             for (Player* pPlayerIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0(); pPlayerIter;
                  pPlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
             {
-                if (!pPlayerIter->field_0_bIsUser)
+                if (!pPlayerIter->field_0_is_user)
                 {
                     Hud_Arrow_7C* p7C = AllocArrow_5D1050();
                     p7C->field_18.field_18_primary_target.field_C_player = pPlayerIter;
@@ -1332,7 +1332,7 @@ bool Hud_QuitMessage_1::IsOnQuitMessage_5D13C0(s32 action, Player* pPlayer)
 MATCH_FUNC(0x5d1430)
 void Hud_QuitMessage_1::DrawQuitMessage_5D1430()
 {
-    if (gGame_0x40_67E008->field_38_orf1->field_78A_show_quit_message)
+    if (gGame_0x40_67E008->field_38_local_player->field_78A_show_quit_message)
     {
         wchar_t* pQuitText = gText_0x14_704DFC->Find_5B5F90("quit1");
 
@@ -1357,7 +1357,7 @@ void Hud_QuitMessage_1::DrawQuitMessage_5D1430()
 MATCH_FUNC(0x5d15a0)
 bool Hud_QuitMessage_1::IsQuitMessageKey_5D15A0(s32 action)
 {
-    return gGame_0x40_67E008->field_38_orf1->field_78A_show_quit_message && (action == DIK_RETURN || action == DIK_ESCAPE);
+    return gGame_0x40_67E008->field_38_local_player->field_78A_show_quit_message && (action == DIK_RETURN || action == DIK_ESCAPE);
 }
 
 MATCH_FUNC(0x5d15d0)
@@ -1380,20 +1380,20 @@ bool Hud_ChatInput_1::IsTypingOnChat_5D15E0(s32 action, Player* pPlayer)
         }
         else if (action == DIK_BACK)
         {
-            if (pPlayer->field_838_f796_idx > 0)
+            if (pPlayer->field_838_chat_text_idx > 0)
             {
-                pPlayer->field_838_f796_idx--;
-                pPlayer->field_796_chat_text[pPlayer->field_838_f796_idx] = 0;
+                pPlayer->field_838_chat_text_idx--;
+                pPlayer->field_796_chat_text[pPlayer->field_838_chat_text_idx] = 0;
             }
             return true;
         }
         else if (action == DIK_SPACE)
         {
-            if (pPlayer->field_838_f796_idx < 79)
+            if (pPlayer->field_838_chat_text_idx < 79)
             {
-                pPlayer->field_796_chat_text[pPlayer->field_838_f796_idx] = ' ';
-                pPlayer->field_838_f796_idx++;
-                pPlayer->field_796_chat_text[pPlayer->field_838_f796_idx] = 0;
+                pPlayer->field_796_chat_text[pPlayer->field_838_chat_text_idx] = ' ';
+                pPlayer->field_838_chat_text_idx++;
+                pPlayer->field_796_chat_text[pPlayer->field_838_chat_text_idx] = 0;
             }
             return true;
         }
@@ -1402,11 +1402,11 @@ bool Hud_ChatInput_1::IsTypingOnChat_5D15E0(s32 action, Player* pPlayer)
             const u16 char_value = gText_0x14_704DFC->RemapExtendedChar_5B58D0(gKeybrd_0x204_6F52F4->GetKey_4D5F40(action));
             if (char_value)
             {
-                if (pPlayer->field_838_f796_idx < 79)
+                if (pPlayer->field_838_chat_text_idx < 79)
                 {
-                    pPlayer->field_796_chat_text[pPlayer->field_838_f796_idx] = char_value;
-                    pPlayer->field_838_f796_idx++;
-                    pPlayer->field_796_chat_text[pPlayer->field_838_f796_idx] = 0;
+                    pPlayer->field_796_chat_text[pPlayer->field_838_chat_text_idx] = char_value;
+                    pPlayer->field_838_chat_text_idx++;
+                    pPlayer->field_796_chat_text[pPlayer->field_838_chat_text_idx] = 0;
                 }
                 return true;
             }
@@ -1458,7 +1458,7 @@ bool Hud_ChatInput_1::IsChatInputKey_5D17D0(s32 key_idx)
 {
     if (bStartNetworkGame_7081F0)
     {
-        if (gGame_0x40_67E008->field_38_orf1->field_794_is_chatting)
+        if (gGame_0x40_67E008->field_38_local_player->field_794_is_chatting)
         {
             if (key_idx == DIK_RETURN || key_idx == DIK_BACK || key_idx == DIK_SPACE)
             {
@@ -1478,7 +1478,7 @@ MATCH_FUNC(0x5d1830)
 void Hud_ChatInput_1::StartChatting_5D1830(Player* pPlayer)
 {
     pPlayer->field_794_is_chatting = true;
-    pPlayer->field_838_f796_idx = 0;
+    pPlayer->field_838_chat_text_idx = 0;
     pPlayer->field_796_chat_text[0] = 0;
 }
 
@@ -2693,7 +2693,7 @@ void Hud_MapZone_98::UpdateZoneName_5D5B60()
     u8 y;
     u8 z;
 
-    gGame_0x40_67E008->field_38_orf1->GetPosU8_569840(x, y, z);
+    gGame_0x40_67E008->field_38_local_player->GetPosU8_569840(x, y, z);
     gmp_map_zone* navigation_zone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(x, y, Navigation_1);
     gmp_map_zone* local_navigation_zone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(x, y, Local_Navigation_15);
 
@@ -2759,7 +2759,7 @@ void Hud_PlayerStats_4::DrawPlayerStats_5D5C80()
     // get_camera_434900 written out: as an inline call it shifts the inline budget and the projection's
     // operators no longer go out of line as in the original
     Camera_0xBC* pCamera;
-    Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+    Player* pPlayer = gGame_0x40_67E008->field_38_local_player;
 
     s16 ammo_idx = pPlayer->field_788_curr_weapon_idx;
     if (ammo_idx == -1)
@@ -2793,7 +2793,7 @@ void Hud_PlayerStats_4::DrawPlayerStats_5D5C80()
     }
     else
     {
-        if (pPlayer->field_60_bFinshScoreReached == 0)
+        if (pPlayer->field_60_finish_score_reached == 0)
         {
             DrawFigureScaled_5D7670(6, 16, dolar_sign_xpos - 8, 14, kAngZero_706610, 2, 0, 0, 0); // default color
         }
@@ -2858,7 +2858,7 @@ void Hud_PlayerStats_4::DrawPlayerStats_5D5C80()
         s32 lives_xpos = pPlayer->field_684_lives.DrawDigitsRightAligned_492260(523, 28);
         DrawFigureScaled_5D7670(6, 17, lives_xpos - 7, 32, kAngZero_706610, 2, 0, 0, 0);
 
-        s32 multiplier_xpos = pPlayer->field_6BC_multpliers.DrawDigitsRightAligned_492260(523, 11);
+        s32 multiplier_xpos = pPlayer->field_6BC_multipliers.DrawDigitsRightAligned_492260(523, 11);
         DrawFigureScaled_5D7670(6, 18, multiplier_xpos - 7, 18, kAngZero_706610, 2, 0, 0, 0);
     }
 }
@@ -2931,9 +2931,9 @@ void Hud_PlayerStats_4::UpdateRollingDigits_5D6290()
     // get_camera_434900 written out: as an inline call it shifts the inline budget and the projection's
     // operators no longer go out of line as in the original
     Camera_0xBC* pCamera;
-    Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+    Player* pPlayer = gGame_0x40_67E008->field_38_local_player;
     pPlayer->field_684_lives.UpdateRollingDigits_4925E0();
-    pPlayer->field_6BC_multpliers.UpdateRollingDigits_4925E0();
+    pPlayer->field_6BC_multipliers.UpdateRollingDigits_4925E0();
 }
 
 // ----------------------------------------------------
@@ -2995,7 +2995,7 @@ void Hud_PauseScreen_2::DrawPause_5D63B0()
 
     u32 sprite_type;
     u16 sprite_pal = 0;
-    if (gGame_0x40_67E008->Is_game_state_Paused_2_416BC0() && !gGame_0x40_67E008->field_38_orf1->field_78A_show_quit_message)
+    if (gGame_0x40_67E008->IsPaused_416BC0() && !gGame_0x40_67E008->field_38_local_player->field_78A_show_quit_message)
     {
         DrawFigureScaled_5D7670(6, 134, 227, 180, kAngZero_706610, 2, 0, 0, 0);
         DrawFigureScaled_5D7670(6, 136, 320, 180, kAngZero_706610, 2, 0, 0, 0);

@@ -74,7 +74,7 @@ class MapObjectOverride_54
     s8 field_30_next_frame_max;
     s32 field_34;
     Fix16 field_38_mass;
-    s32 field_3C;
+    s32 field_3C_draw_layer;
     s8 field_40_sprite_flags;
     s32 field_44_has_sound;
     s8 field_48_has_shadows;
@@ -172,7 +172,7 @@ class CodeObjectTemplate_6C
     Fix16 field_48_width;
     Fix16 field_4C_height;
     Fix16 field_50_depth;
-    s32 field_54;
+    s32 field_54_draw_layer;
     s8 field_58_sprite_flags;
     s8 field_59;
     s32 field_5C;
@@ -212,19 +212,19 @@ namespace object_behavior_type
 {
 enum
 {
-    static_object_0 = 0, // basic object: simple update + collision
-    behavior_1 = 1, // basic object + extra collision handling
-    behavior_2 = 2, // animated object (UpdateAnimation + collision)
-    bullet_type_3 = 3, // removed from buckets, special update routine
-    maybe_moving_obj_4 = 4, // removed from buckets, different special routine
+    static_object_0 = 0, // static prop: frame action + effect pool update only
+    static_collision_check_1 = 1, // static, also runs CheckCollisionForModel_139_And_141; takes a shop type from scripts
+    animated_2 = 2, // animated (UpdateAnimation, has an Object_8)
+    physics_3 = 3, // bullets/thrown things: removed from buckets, moves with UpdatePhysicsAndMovement (has an Object_3C)
+    physics_animated_4 = 4, // like physics_3 but also animates (UpdatePhysicsMovementAndAnimation)
     explosion_5 = 5, // Explosion_30 explosion / timed effect
-    behavior_6 = 6, // simple object, no special animation
-    behavior_7 = 7, // removed from buckets, special routine (like 3)
-    self_animated_8 = 8, // animated object (like 2)
-    behavior_9 = 9, // removed from buckets, special routine (like 4)
-    behavior_10 = 10, // simple object with special hit logic
-    light_type_11 = 11, // runs DispatchFrameAction_525910 + UpdateEffectPool_525B20 only
-    behavior_12 = 12 // runs UpdateEffectPool_525B20 only
+    pickup_6 = 6, // static pickup (weapons, health, ...): field_26 is the item parameter, not a ped ref
+    pickup_physics_7 = 7, // pickup that moves like physics_3 (dropped items)
+    pickup_animated_8 = 8, // animated pickup (like animated_2)
+    pickup_physics_animated_9 = 9, // pickup that moves and animates (like physics_animated_4)
+    shop_10 = 10, // simple object with special hit logic; takes a shop type from scripts
+    light_11 = 11, // runs DispatchFrameAction_525910 + UpdateEffectPool_525B20 only
+    effect_only_12 = 12 // runs UpdateEffectPool_525B20 only
 };
 } // namespace object_behavior_type
 
@@ -236,7 +236,7 @@ class ObjectDefinition_74
     EXPORT void SetDimensions_533060(Fix16 width, Fix16 height, Fix16 depth);
     EXPORT void SetDimensionsFromSprite_533090();
     EXPORT void SetRemap_533110(s16 remap);
-    EXPORT void AddSpritePaletteAndSetAnimSpeed_533150(s16 palette_offset, s16 anim_speed);
+    EXPORT void OffsetBaseSpriteIdxAndSetAnimSpeed_533150(s16 sprite_idx_offset, s16 anim_speed);
     EXPORT Sprite* CreateSpriteFromDefinition_533170();
     EXPORT void ApplyDefinitionToSprite_5331A0(Sprite* pSprite);
     EXPORT ObjectDefinition_74();
@@ -250,11 +250,11 @@ class ObjectDefinition_74
     Fix16 field_14_friction;
     Fix16 field_18_mass;
     s16 field_1C_remap;
-    s16 field_1E_sprite_palette;
+    s16 field_1E_base_sprite_idx;
     char_type field_20_sprite_flags;
     s32 field_24_object_idx;
     s32 field_28_sprite_type;
-    s32 field_2C;
+    s32 field_2C_draw_layer;
     s32 field_30;
     s32 field_34_behavior_type; // One of object_behavior_type
     s32 field_38;
@@ -303,7 +303,7 @@ class ObjectDefinitions_8CA8
     // 9.6f 0x4C6E30
     inline s16 GetObjectPalette_4C6E30(s32 idx)
     {
-        return GetObjectDefinition_534360(idx)->field_1E_sprite_palette;
+        return GetObjectDefinition_534360(idx)->field_1E_base_sprite_idx;
     }
     EXPORT ObjectDefinition_74* CloneDefinition_534370(s32 dst_idx, s32 src_idx);
     EXPORT ObjectDefinition_74* AllocDefinition_5343C0(s32 idx);

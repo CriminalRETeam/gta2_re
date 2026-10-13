@@ -92,13 +92,13 @@ bool Firefighter_28::sub_4A7FC0()
             {
                 if (field_20_ped)
                 {
-                    if (field_C_target_car->get_x_41E430().ToUInt8() != field_20_ped->field_1DC_objective_target_x.ToUInt8() ||
-                        field_C_target_car->get_y_41E440().ToUInt8() != field_20_ped->field_1E0_objective_target_y.ToUInt8())
+                    if (field_C_target_car->GetX_41E430().ToUInt8() != field_20_ped->field_1DC_objective_target_x.ToUInt8() ||
+                        field_C_target_car->GetY_41E440().ToUInt8() != field_20_ped->field_1E0_objective_target_y.ToUInt8())
                     {
                         field_20_ped->SetObjective(objectives_enum::goto_area_in_car_14);
-                        field_20_ped->field_1DC_objective_target_x = Fix16(field_C_target_car->get_x_41E430().ToUInt8());
-                        field_20_ped->field_1E0_objective_target_y = Fix16(field_C_target_car->get_y_41E440().ToUInt8());
-                        field_20_ped->field_1E4_objective_target_z = Fix16(field_C_target_car->get_z_41E450().ToUInt8());
+                        field_20_ped->field_1DC_objective_target_x = Fix16(field_C_target_car->GetX_41E430().ToUInt8());
+                        field_20_ped->field_1E0_objective_target_y = Fix16(field_C_target_car->GetY_41E440().ToUInt8());
+                        field_20_ped->field_1E4_objective_target_z = Fix16(field_C_target_car->GetZ_41E450().ToUInt8());
                     }
                 }
             }
@@ -151,13 +151,13 @@ void Firefighter_28::Update_4A81F0()
     {
         case firefighter_state::spawn_truck_1:
             if (field_C_target_car && field_C_target_car->field_88_despawn_status != car_despawn_status::despawned_6 &&
-                !field_C_target_car->IsDespawning_4215B0() && gCar_6C_677930->CanAllocateOfType_446930(5))
+                !field_C_target_car->IsDespawning_4215B0() && gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::firefighter_5))
             {
-                field_1C_car = gCar_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::FIRETRUK, field_10_xpos, field_14_ypos, field_18_zpos);
+                field_1C_car = gCarManager_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::FIRETRUK, field_10_xpos, field_14_ypos, field_18_zpos);
                 if (field_1C_car)
                 {
                     field_1C_car->IncrementCarStats_443D70(5);
-                    field_1C_car->SetUniNum_421560(4);
+                    field_1C_car->SetDriverPedType_421560(ped_type::special_ped_4);
                     Car_BC* pCar = field_1C_car;
                     if (!pCar->field_5C_AI)
                     {
@@ -170,13 +170,13 @@ void Firefighter_28::Update_4A81F0()
                     field_20_ped->set_occupation_403970(ped_ocupation_enum::fireman);
                     field_20_ped->SpawnPedInCar_45C730(field_1C_car);
                     field_20_ped->SetObjective(objectives_enum::goto_area_in_car_14);
-                    field_20_ped->field_1DC_objective_target_x = Fix16(field_C_target_car->get_x_41E430().ToUInt8());
-                    field_20_ped->field_1E0_objective_target_y = Fix16(field_C_target_car->get_y_41E440().ToUInt8());
-                    field_20_ped->field_1E4_objective_target_z = Fix16(field_C_target_car->get_z_41E450().ToUInt8());
+                    field_20_ped->field_1DC_objective_target_x = Fix16(field_C_target_car->GetX_41E430().ToUInt8());
+                    field_20_ped->field_1E0_objective_target_y = Fix16(field_C_target_car->GetY_41E440().ToUInt8());
+                    field_20_ped->field_1E4_objective_target_z = Fix16(field_C_target_car->GetZ_41E450().ToUInt8());
                     field_20_ped->field_21C_bf.bUseCarWeapon = 1;
                     field_1C_car->ActivateEmergencyLights_43C920();
                     field_1C_car->SetupCarPhysicsAndSpriteBinding_43BCA0();
-                    field_20_ped = field_1C_car->get_driver_4118B0();
+                    field_20_ped = field_1C_car->GetDriver_4118B0();
                     field_24_next_state_timer = 0;
                     field_8_state = firefighter_state::drive_to_fire_2;
                     break;
@@ -198,10 +198,10 @@ void Firefighter_28::Update_4A81F0()
             }
             else if (sub_4A7FC0())
             {
-                if (Fix16::MaxAbsDistance_42A6B0(field_1C_car->get_x_41E430(),
-                                          field_1C_car->get_y_41E440(),
-                                          field_C_target_car->get_x_41E430(),
-                                          field_C_target_car->get_y_41E440()) < dword_67D384 &&
+                if (Fix16::MaxAbsDistance_42A6B0(field_1C_car->GetX_41E430(),
+                                          field_1C_car->GetY_41E440(),
+                                          field_C_target_car->GetX_41E430(),
+                                          field_C_target_car->GetY_41E440()) < dword_67D384 &&
                     field_24_next_state_timer > 100)
                 {
                     field_8_state = firefighter_state::arrived_3;
@@ -260,7 +260,7 @@ void Firefighter_28::Update_4A81F0()
                 {
                     field_1C_car->field_54_driver->field_21C_bf.bDriveAggressively = 1;
                 }
-                field_1C_car->SetUniNum_421560(3);
+                field_1C_car->SetDriverPedType_421560(ped_type::dummy_3);
                 field_1C_car->InitCarAIControl_440590();
                 field_1C_car->ResumeAIDriving_43AF40();
                 field_1C_car->DeactivateEmergencyLights_43C9D0();

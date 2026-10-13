@@ -520,7 +520,7 @@ class CarPhysics_B0
 class CarPhyisicsPool : public PoolBasic<CarPhysics_B0, 306>
 {
   public:
-    //Inlined in Car_6C constructor 9.6f -> 0x420f8
+    //Inlined in CarManager_6C constructor 9.6f -> 0x420f8
     CarPhyisicsPool()
     {
 

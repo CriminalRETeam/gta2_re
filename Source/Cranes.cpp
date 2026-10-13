@@ -168,7 +168,7 @@ void Crane_15C::DropHookedCar_47ECC0()
     pCar->UpdateSpriteNum_4435F0();
     pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
     gCar_BC_Pool_67792C->UpdateNextPrev(pCar);
-    pCar->SetF_88_447ea0();
+    pCar->ResetDespawnStatus_447EA0();
 
     if (field_150_hook_job != 3)
     {
@@ -199,7 +199,7 @@ void Crane_15C::DropHookedCarOnTransporter_47ED60()
 {
     Car_BC* pCar = field_74_pSprite_on_hook->AsCar_40FEB0();
     gCar_BC_Pool_67792C->UpdateNextPrev(pCar);
-    pCar->SetF_88_447ea0();
+    pCar->ResetDespawnStatus_447EA0();
     gSpriteGrid_1_679208->AddToRegionBuckets_477B20(field_74_pSprite_on_hook);
     field_64_drop_transporter->DispatchCollisionEvent_5A3100(field_74_pSprite_on_hook, kZero_679E70, kZero_679E70, kAngZero_679FC4);
     field_28_strct4.AddSprite_5A6CD0(field_64_drop_transporter);
@@ -278,7 +278,7 @@ void Crane_15C::HookPickupCar_47EF80()
 
     this->field_68_pickup_car = 0;
 
-    if ((this->field_144_crane_mode == 2 || this->field_144_crane_mode == 3) && pCar->Is_F9_Eq7_447EB0())
+    if ((this->field_144_crane_mode == 2 || this->field_144_crane_mode == 3) && pCar->IsEngineCrushed_447EB0())
     {
         this->field_114_drop_radius = this->field_130_target2_radius;
         this->field_110_drop_angle = this->field_134_target2_angle;
@@ -570,12 +570,12 @@ void Crane_15C::PickUpCar_47F930(Car_BC* pCar)
 
     if (!pCar->IsDespawning_4215B0() && !field_28_strct4.TagSpriteWithRng_5A6C10(pCar->field_50_car_sprite))
     {
-        if (pCar->Is_TRUKTRNS_447EC0())
+        if (pCar->IsTruckTransport_447EC0())
         {
             TargetTransporter_47F7F0(pCar);
         }
-        else if (field_64_drop_transporter || (field_144_crane_mode == 1) || (field_144_crane_mode == 2 || field_144_crane_mode == 3) && field_155_load_phase == 1 && !pCar->Is_F9_Eq7_447EB0() ||
-                 field_155_load_phase == 2 && pCar->Is_F9_Eq7_447EB0())
+        else if (field_64_drop_transporter || (field_144_crane_mode == 1) || (field_144_crane_mode == 2 || field_144_crane_mode == 3) && field_155_load_phase == 1 && !pCar->IsEngineCrushed_447EB0() ||
+                 field_155_load_phase == 2 && pCar->IsEngineCrushed_447EB0())
         {
             if (!field_150_hook_job && !pCar->field_54_driver)
             {
@@ -600,7 +600,7 @@ void Crane_15C::PickUpCar_47F930(Car_BC* pCar)
                     else
                     {
                         Trailer* pTrailer = pCar->field_64_pTrailer;
-                        if (!pTrailer || pTrailer->field_C_pCarOnTrailer == 0 || !pTrailer->field_C_pCarOnTrailer->Is_TRUKTRNS_447EC0())
+                        if (!pTrailer || pTrailer->field_C_pCarOnTrailer == 0 || !pTrailer->field_C_pCarOnTrailer->IsTruckTransport_447EC0())
                         {
                             gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, "nespray");
                             field_28_strct4.AddSprite_5A6CD0(pCar->field_50_car_sprite);

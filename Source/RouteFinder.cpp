@@ -83,12 +83,12 @@ void RouteFinder::ShowJunctionIds_588620()
             break;
         }
 
-        if (gGame_0x40_67E008->field_38_orf1->field_14C_view_camera.IsPointInBoundaries_58CF10(pJunction->field_C_min_x,
+        if (gGame_0x40_67E008->field_38_local_player->field_14C_view_camera.IsPointInBoundaries_58CF10(pJunction->field_C_min_x,
                                                                                               (s32)pJunction->field_D_min_y))
         {
             Fix16 screen_x;
             Fix16 screen_y;
-            WorldToScreen_RouteFinder_40CFC0(&gGame_0x40_67E008->field_38_orf1->field_14C_view_camera,
+            WorldToScreen_RouteFinder_40CFC0(&gGame_0x40_67E008->field_38_local_player->field_14C_view_camera,
                                              Fix16(pJunction->field_C_min_x),
                                              Fix16(pJunction->field_D_min_y),
                                              gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(Fix16(pJunction->field_C_min_x),
@@ -107,10 +107,10 @@ void RouteFinder::ShowJunctionIds_588620()
 // be used here
 static inline void WorldToScreen_RouteFinder_40CFC0(Camera_0xBC* pCam, Fix16 x, Fix16 y, Fix16 z, Fix16* pOutX, Fix16* pOutY)
 {
-    Fix16 u = pCam->field_98_cam_pos2.field_8_z - z;
+    Fix16 u = pCam->field_98_cur_pos.field_8_z - z;
     Fix16 t(dword_6FFC7C / Fix16(u.mValue + dword_6FFC9C.mValue, 0));
-    *pOutX = (((x - pCam->field_98_cam_pos2.field_0_x) * pCam->field_60.y) * t) + Fix16(320);
-    *pOutY = (((y - pCam->field_98_cam_pos2.field_4_y) * pCam->field_60.y) * t) + Fix16(240);
+    *pOutX = (((x - pCam->field_98_cur_pos.field_0_x) * pCam->field_60_screen_scale.y) * t) + Fix16(320);
+    *pOutY = (((y - pCam->field_98_cur_pos.field_4_y) * pCam->field_60_screen_scale.y) * t) + Fix16(240);
 }
 
 MATCH_FUNC(0x588810)
@@ -315,13 +315,13 @@ bool RouteFinder::HasBlockDesiredArrow_588CA0(gmp_block_info* block, s32 arrow_t
             switch (arrow_type)
             {
                 case green_1:
-                    if ((block->field_A_arrows & 4) != 0) // green up
+                    if ((block->field_A_arrows & block_arrow::green_up_4) != 0) // green up
                     {
                         return true;
                     }
                     break;
                 case red_2:
-                    if ((block->field_A_arrows & 0x40) != 0) // red up
+                    if ((block->field_A_arrows & block_arrow::red_up_40) != 0) // red up
                     {
                         return true;
                     }
@@ -339,13 +339,13 @@ bool RouteFinder::HasBlockDesiredArrow_588CA0(gmp_block_info* block, s32 arrow_t
             switch (arrow_type)
             {
                 case green_1:
-                    if ((block->field_A_arrows & 8) != 0) // green down
+                    if ((block->field_A_arrows & block_arrow::green_down_8) != 0) // green down
                     {
                         return true;
                     }
                     break;
                 case red_2:
-                    if ((block->field_A_arrows & 0x80) != 0) // red down
+                    if ((block->field_A_arrows & block_arrow::red_down_80) != 0) // red down
                     {
                         return true;
                     }
@@ -363,19 +363,19 @@ bool RouteFinder::HasBlockDesiredArrow_588CA0(gmp_block_info* block, s32 arrow_t
             switch (arrow_type)
             {
                 case green_1:
-                    if ((block->field_A_arrows & 1) != 0) // green left
+                    if ((block->field_A_arrows & block_arrow::green_left_1) != 0) // green left
                     {
                         return true;
                     }
                     break;
                 case red_2:
-                    if ((block->field_A_arrows & 0x10) != 0) // red left
+                    if ((block->field_A_arrows & block_arrow::red_left_10) != 0) // red left
                     {
                         return true;
                     }
                     break;
                 case green_or_red_3:
-                    if ((block->field_A_arrows & 0x11) != 0) // green or red left
+                    if ((block->field_A_arrows & block_arrow::left_mask) != 0) // green or red left
                     {
                         return true;
                     }
@@ -387,19 +387,19 @@ bool RouteFinder::HasBlockDesiredArrow_588CA0(gmp_block_info* block, s32 arrow_t
             switch (arrow_type)
             {
                 case green_1:
-                    if ((block->field_A_arrows & 2) != 0) // green right
+                    if ((block->field_A_arrows & block_arrow::green_right_2) != 0) // green right
                     {
                         return true;
                     }
                     break;
                 case red_2:
-                    if ((block->field_A_arrows & 0x20) != 0) // red right
+                    if ((block->field_A_arrows & block_arrow::red_right_20) != 0) // red right
                     {
                         return true;
                     }
                     break;
                 case green_or_red_3:
-                    if ((block->field_A_arrows & 0x22) != 0) // green or red right
+                    if ((block->field_A_arrows & block_arrow::right_mask) != 0) // green or red right
                     {
                         return true;
                     }
@@ -911,10 +911,10 @@ MATCH_FUNC(0x589bb0)
 char_type RouteFinder::sub_589BB0(RouteFinder_10* pRoute, s32 arrow_type)
 {
     Junction_10* pJunction = &field_8_junctions[pRoute->field_0_idx];
-    if (!gGame_0x40_67E008->is_point_on_screen_4B9A80(pJunction->field_C_min_x, pJunction->field_D_min_y) &&
-        !gGame_0x40_67E008->is_point_on_screen_4B9A80(pJunction->field_E_max_x, pJunction->field_D_min_y) &&
-        !gGame_0x40_67E008->is_point_on_screen_4B9A80(pJunction->field_C_min_x, pJunction->field_F_max_y) &&
-        !gGame_0x40_67E008->is_point_on_screen_4B9A80(pJunction->field_E_max_x, pJunction->field_F_max_y))
+    if (!gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->field_C_min_x, pJunction->field_D_min_y) &&
+        !gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->field_E_max_x, pJunction->field_D_min_y) &&
+        !gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->field_C_min_x, pJunction->field_F_max_y) &&
+        !gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->field_E_max_x, pJunction->field_F_max_y))
     {
         return 1;
     }

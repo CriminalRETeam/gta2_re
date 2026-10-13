@@ -229,7 +229,7 @@ class Sprite
     EXPORT char_type ShouldCollideWithSprite_59E850(Sprite* pSprite);
     EXPORT void HandleObjectCollision_59E8C0(Sprite* pSprite);
     EXPORT void ProcessCarToCarImpactIfCar_59E910(Sprite* pSprite);
-    EXPORT void SetDefaultNumBySpriteType_59E960();
+    EXPORT void SetDefaultDrawLayerBySpriteType_59E960();
     EXPORT void UpdateCollisionBoundsIfNeeded_59E9C0();
     EXPORT void SetRemap(s16 remap);
     EXPORT s16 GetTruePalette_59EAA0();
@@ -289,10 +289,10 @@ class Sprite
         field_14_xy.x = kZero;
         field_14_xy.y = kZero;
         field_1C_zpos = kZero;
-        field_20_id = 0;
-        field_22_sprite_id = 0;
+        field_20_instance_id = 0;
+        field_22_type_sprite_idx = 0;
         field_24_remap = 0;
-        field_28_num = NULL;
+        field_28_draw_layer = 0;
         field_2C_flags = 0;
         field_30_sprite_type_enum = 0;
         field_34_palette_type = 0;
@@ -373,12 +373,12 @@ class Sprite
     // 9.6f 0x446950
     bool IsTypeAbove1_446950()
     {
-        return field_30_sprite_type_enum > sprite_types_enum::unknown_1;
+        return field_30_sprite_type_enum > sprite_types_enum::object_1;
     }
 
     bool IsObject2CType_40FE80()
     {
-        return field_30_sprite_type_enum == sprite_types_enum::code_obj1_4 || field_30_sprite_type_enum == sprite_types_enum::map_obj_5 || field_30_sprite_type_enum == sprite_types_enum::unknown_1;
+        return field_30_sprite_type_enum == sprite_types_enum::code_obj1_4 || field_30_sprite_type_enum == sprite_types_enum::map_obj_5 || field_30_sprite_type_enum == sprite_types_enum::object_1;
     }
 
     Object_2C* AsObject2C_40FEC0()
@@ -472,7 +472,7 @@ class Sprite
     void SetType_4206F0(s32 sprite_type)
     {
         field_30_sprite_type_enum = sprite_type;
-        SetDefaultNumBySpriteType_59E960(); // Update field_28
+        SetDefaultDrawLayerBySpriteType_59E960(); // Update field_28
     }
 
     void SetObject2C_482A30(Object_2C* a2)
@@ -487,16 +487,16 @@ class Sprite
 
     void set_id_lazy_4206C0(s16 new_id)
     {
-        if (field_22_sprite_id != new_id)
+        if (field_22_type_sprite_idx != new_id)
         {
-            field_22_sprite_id = new_id;
+            field_22_type_sprite_idx = new_id;
             UpdateDimensionsFromSpriteIndex_59FA40();
         }
     }
 
     void set_id_4206E0(u16 a2)
     {
-        this->field_22_sprite_id = a2;
+        this->field_22_type_sprite_idx = a2;
     }
 
     void SetNoLighting_4337F0()
@@ -594,19 +594,19 @@ class Sprite
         return field_1C_zpos;
     }
 
-    inline void set_num_40F7B0(s32 new_num)
+    inline void SetDrawLayer_40F7B0(s32 new_layer)
     {
-        field_28_num = new_num;
+        field_28_draw_layer = new_layer;
     }
 
     Fix16_Point_POD field_14_xy;
     Fix16 field_1C_zpos;
-    s16 field_20_id;
-    s16 field_22_sprite_id;
+    s16 field_20_instance_id; // unique per live sprite (SpriteManager id_base counter)
+    s16 field_22_type_sprite_idx; // sprite number within its sprite type, looked up with GetSpriteTrueIndex_5AA460
     s16 field_24_remap;
     char_type field_26_pad;
     char_type field_27_pad;
-    s32 field_28_num;
+    s32 field_28_draw_layer; // draw order tie-break among sprites at the same z (SpriteTree_4::AddSprite_5C5CF0); > 9 sorts by z
     union
     {
         u8 field_2C_flags;
