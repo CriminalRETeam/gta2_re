@@ -6816,7 +6816,7 @@ Car_BC::Car_BC()
     field_8C_damage_level = 0;
     field_98_door_lock = 0;
     field_9C_engine_status = 0;
-    field_7C_ped_type = 0;
+    field_7C_ped_type = ped_type::unknown_0;
     field_76_last_seen_timer = 0;
     field_A4_light_flags = 0;
     field_A5_flash_phase_counter = 0;

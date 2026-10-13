@@ -1492,7 +1492,7 @@ void PublicTransport_181C::PublicTransportService_57A7A0()
             {
                 if (!pTrain->field_C_carriages[0]->field_54_driver)
                 {
-                    pCar->SetDriverPedType_421560(1);
+                    pCar->SetDriverPedType_421560(ped_type::unknown_1);
                     pTrain->field_0 = 0;
                 }
                 else
