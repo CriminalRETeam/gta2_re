@@ -334,17 +334,6 @@ extern Fix16 kFpOne_6F6110;
 EXTERN_GLOBAL(Ang16, word_6F603E);
 EXPORT Ang16 __stdcall ReturnAngleFromRoadDirection_4F7940(s32& road_direction);
 
-static inline u8 get_slope_bits(u8& slope_byte) // slope_byte but with its first 2 bits cleared
-{
-    return slope_byte & 0xFCu;
-}
-
-// Slope index 63 (bits == 0xFC): the real slope is in the block above (GMP format: ground type must be air)
-static inline bool is_slope_in_block_above(u8& slope_byte)
-{
-    return get_slope_bits(slope_byte) == 0xFCu;
-}
-
 struct gmp_zone_list
 {
     u16 field_0_num_zones;
@@ -478,11 +467,11 @@ class Map_0x370
     EXPORT Fix16 GetLateralOffsetInBlock_4E5D70(Fix16 x, Fix16 y, Ang16 angle);
     EXPORT Fix16 GetForwardOffsetInBlock_4E5E00(Fix16 x, Fix16 y, Ang16 angle);
 
-    // The block under (x, y, z), or the one at z when the one under only marks that its slope is in the block above
+    // The block under (x, y, z), or the one at z when the one under has slope index 63 (0xFC: its slope is in the block above, GMP format)
     inline gmp_block_info* GetRoadBlockAt_4E6660(Fix16& x, Fix16& y, Fix16& z)
     {
         gmp_block_info* pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
-        if (is_slope_in_block_above(pBlock->field_B_slope_type))
+        if ((pBlock->field_B_slope_type & 0xFC) == 0xFC)
         {
             pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
         }
@@ -494,7 +483,7 @@ class Map_0x370
     inline void SetRoadBlockAt_4E6660(gmp_block_info*& pBlock, Fix16& x, Fix16& y, Fix16& z)
     {
         pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
-        if (is_slope_in_block_above(pBlock->field_B_slope_type))
+        if ((pBlock->field_B_slope_type & 0xFC) == 0xFC)
         {
             pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
         }
@@ -504,7 +493,7 @@ class Map_0x370
     inline void SetRoadBlockAtOrNull_4E7190(gmp_block_info*& pBlock, Fix16& x, Fix16& y, Fix16& z)
     {
         pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
-        if (pBlock && is_slope_in_block_above(pBlock->field_B_slope_type))
+        if (pBlock && (pBlock->field_B_slope_type & 0xFC) == 0xFC)
         {
             pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
         }
@@ -514,7 +503,7 @@ class Map_0x370
     inline gmp_block_info* GetRoadBlockAtOrNull_4E7190(Fix16& x, Fix16& y, Fix16& z)
     {
         gmp_block_info* pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
-        if (pBlock && is_slope_in_block_above(pBlock->field_B_slope_type))
+        if (pBlock && (pBlock->field_B_slope_type & 0xFC) == 0xFC)
         {
             pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
         }
@@ -836,6 +825,11 @@ EXTERN_GLOBAL(s32, gSpriteGrid_left_6F5FD4);
 EXTERN_GLOBAL(s32, gSpriteGrid_right_6F5B80);
 
 EXPORT void Init_gmp_slopes_array();
+
+static inline u8 get_slope_bits(u8& slope_byte) // slope_byte but with its first 2 bits cleared
+{
+    return slope_byte & 0xFCu;
+}
 
 static inline u8 get_slope_idx(u8& slope_byte) // 0 to 63
 {
