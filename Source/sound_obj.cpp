@@ -1031,7 +1031,7 @@ char_type sound_obj::SelectObjectImpactSound_413120(CollisionEvent_28* pEvent, s
             {
                 case 3:
                     // 9.6f: Car_BC::sub_414F60 (field_78_flags & 0x100 via sub_411930, inlined, a bool helper changes the code)
-                    if (pEvent->field_10_car->field_78_bf.bBulletproof)
+                    if ((pEvent->field_10_car->field_78_flags & car_flag::Bulletproof))
                     {
                         samp_idx = field_1454_anRandomTable[1] % 3 + 46;
                     }
@@ -1821,7 +1821,7 @@ void sound_obj::Tank_415190(Sound_Params_8* pParams)
 {
 
     Car_BC* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
-    if (pCar->field_9C_engine_status == car_engine_status::on_3 && pCar->field_78_bf.bFlag13)
+    if (pCar->field_9C_engine_status == car_engine_status::on_3 && (pCar->field_78_flags & car_flag::Flag13))
     {
         if (CalculateDistance_419020(Fix16(921600, 0)))
         {

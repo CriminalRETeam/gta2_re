@@ -1351,11 +1351,7 @@ class Car_BC
     0x200 = rocket proof
     0x400 = flame proof
     */
-    union
-    {
-        u16 field_78_flags;
-        CarFlags16 field_78_bf;
-    };
+    u16 field_78_flags;
     s16 field_7A_pad;
     s32 field_7C_ped_type;
     char_type field_80_bAbandoned;

@@ -2,28 +2,30 @@
 
 #include "types.hpp"
 
-// Car_BC::field_78_bf (aliases field_78_flags). Bits named bFlagN are used but their meaning is not understood yet.
-// The mask helpers (IsFlagSet_411930, add_f78_bits_421890, ...) are 9.6f inlines and must stay: a bit field form of
-// them changes the code.
-struct CarFlags16
+// Car_BC::field_78_flags masks. Flags named FlagN are used but their meaning is not understood yet. Car_BC::IsFlagSet_411930
+// and AddFlags_421890 (9.6f inlines) take the mask as an argument, so the original treats this as a plain flag word.
+namespace car_flag
 {
-    u16 bTrailerDetached : 1; // bit 0
-    u16 bNoCollide : 1; // bit 1
-    u16 bNoPassengers : 1; // bit 2
-    u16 bFlag3 : 1; // bit 3
-    u16 bFlag4 : 1; // bit 4
-    u16 bFlag5 : 1; // bit 5
-    u16 bFlag6 : 1; // bit 6
-    u16 bCarAlarm : 1; // bit 7
-    u16 bBulletproof : 1; // bit 8
-    u16 bRocketproof : 1; // bit 9
-    u16 bFlameproof : 1; // bit 10
-    u16 bJammed : 1; // bit 11
-    u16 bFlag12 : 1; // bit 12
-    u16 bFlag13 : 1; // bit 13
-    u16 bFlag14 : 1; // bit 14
-    u16 bFlag15 : 1; // bit 15
+enum
+{
+    TrailerDetached = 0x1,
+    NoCollide = 0x2,
+    NoPassengers = 0x4,
+    Flag3 = 0x8,
+    Flag4 = 0x10,
+    Flag5 = 0x20,
+    Flag6 = 0x40,
+    CarAlarm = 0x80,
+    Bulletproof = 0x100,
+    Rocketproof = 0x200,
+    Flameproof = 0x400,
+    Jammed = 0x800,
+    Flag12 = 0x1000,
+    Flag13 = 0x2000,
+    Flag14 = 0x4000,
+    Flag15 = 0x8000,
 };
+} // namespace car_flag
 
 
 // Car_BC::field_A6_bf (aliases field_A6_turn_flags).
@@ -60,5 +62,20 @@ enum
     kCarFlagsNameCount1,
     kCarFlagsNameCount2,
     kCarFlagsNameCount3,
-    kCarFlagsNameCount4
+    kCarFlagsNameCount4,
+    kCarFlagsNameCount5,
+    kCarFlagsNameCount6,
+    kCarFlagsNameCount7,
+    kCarFlagsNameCount8,
+    kCarFlagsNameCount9,
+    kCarFlagsNameCount10,
+    kCarFlagsNameCount11,
+    kCarFlagsNameCount12,
+    kCarFlagsNameCount13,
+    kCarFlagsNameCount14,
+    kCarFlagsNameCount15,
+    kCarFlagsNameCount16,
+    kCarFlagsNameCount17,
+    kCarFlagsNameCount18,
+    kCarFlagsNameCount19
 };

@@ -1836,7 +1836,7 @@ EXPORT s16 Car_BC::ApplyImpactDamage_43D5D0(Fix16 damage)
         field_4_passengers_list.ForceTaxiPassengersToExit_471680();
     }
 
-    if (!this->field_78_bf.bFlag3)
+    if (!(this->field_78_flags & car_flag::Flag3))
     {
 
         return AccumulateDamage_43DA90((damage * 200).ToInt(), &kZeroPoint_6778A8);
@@ -2252,7 +2252,7 @@ void Car_BC::SetDriver(Ped* pNewDriver)
 MATCH_FUNC(0x43a9f0)
 void Car_BC::ApplyVisualDamage_43A9F0()
 {
-    if (!field_54_driver && (field_78_bf.bCarAlarm) && field_7C_ped_type != ped_type::player_2 && !field_A4_bf.bLightFlashing && field_74_damage != 32001)
+    if (!field_54_driver && ((field_78_flags & car_flag::CarAlarm)) && field_7C_ped_type != ped_type::player_2 && !field_A4_bf.bLightFlashing && field_74_damage != 32001)
     {
         StartLightFlashing_43CAC0();
     }
@@ -2389,7 +2389,7 @@ char_type Car_BC::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
                     return 0;
                 }
                 if ((their_flags & 0x2000) != 0 && (gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->info_flags_2 & 1) != 1 ||
-                    this->field_78_bf.bFlag13 &&
+                    (this->field_78_flags & car_flag::Flag13) &&
                         (gGtx_0x106C_703DD4->get_car_info_5AA3B0(cBC->field_84_car_info_idx)->info_flags_2 & 1) != 1)
                 {
                     return 0;
@@ -2911,7 +2911,7 @@ MATCH_FUNC(0x43b850)
 bool Car_BC::IsImmuneToExplosionType_43B850(s32 explosion_type)
 {
     // Two separate bit tests: VC6 loads the u16 once into cx and merges them into 'test $6,%ch'
-    return (field_78_bf.bRocketproof || field_78_bf.bFlameproof) && explosion_type != 20 ? true : false;
+    return ((field_78_flags & car_flag::Rocketproof) || (field_78_flags & car_flag::Flameproof)) && explosion_type != 20 ? true : false;
 }
 
 // 9.6f 0x4226C0
@@ -3641,7 +3641,7 @@ bool Car_BC::IsAreaDamaged_43D1C0(s32 damage_area)
 MATCH_FUNC(0x43d2c0)
 void Car_BC::TryDamageArea_43D2C0(u8 damage_area, s32 damageAmount)
 {
-    if (!IsMaxDamage_40F890() && !field_78_bf.bFlag3 && (get_anti_strngth_43A1D0() * Fix16(damageAmount, 0)) >= kFP16One_6777D0)
+    if (!IsMaxDamage_40F890() && !(field_78_flags & car_flag::Flag3) && (get_anti_strngth_43A1D0() * Fix16(damageAmount, 0)) >= kFP16One_6777D0)
     {
         switch (damage_area)
         {
@@ -4429,7 +4429,7 @@ Fix16 Car_BC::GetMaxTurnRate_440510()
 MATCH_FUNC(0x440570)
 char_type Car_BC::GetPassengersCount_440570()
 {
-    if (field_78_bf.bNoPassengers)
+    if ((field_78_flags & car_flag::NoPassengers))
     {
         return 0;
     }
@@ -5213,7 +5213,7 @@ void Car_BC::HandleUserInput_4418D0(char_type bForwardGasOn,
     }
 
     // 9.6f: Car_BC::sub_425780 (field_78_flags & 0x1000 through sub_411930), as a bool helper it changes the code
-    if (this->field_78_bf.bFlag12)
+    if ((this->field_78_flags & car_flag::Flag12))
     {
         bForwardGasOn = 1;
     }
@@ -5852,7 +5852,7 @@ void Car_BC::TryHitchTrailer_442810()
         if (!pHitchSprite)
         {
             //goto LABEL_28;
-            this->field_78_bf.bTrailerDetached = false;
+            this->field_78_flags &= (u16)~car_flag::TrailerDetached;
         }
         else
         {
@@ -6148,7 +6148,7 @@ char_type Car_BC::PoolUpdate()
         ServicePhysics_442190();
     }
 
-    if (this->field_78_bf.bFlag13)
+    if ((this->field_78_flags & car_flag::Flag13))
     {
         stru_67737C.PropagateMaxZLayer_5A72B0(this->field_50_car_sprite, 1);
         stru_67737C.ClearList_5A6E10();
@@ -6269,12 +6269,12 @@ void Car_BC::InitDoors_4435A0()
 MATCH_FUNC(0x4435b0)
 s32 Car_BC::GetCrashSoundCategory_4435B0()
 {
-    if (field_78_bf.bFlag4)
+    if ((field_78_flags & car_flag::Flag4))
     {
         return 14;
     }
 
-    if (field_78_bf.bFlag6)
+    if ((field_78_flags & car_flag::Flag6))
     {
         return 20;
     }
@@ -6295,11 +6295,11 @@ void Car_BC::UpdateSpriteNum_4435F0()
     }
     else
     {
-        if (field_78_bf.bFlag4)
+        if ((field_78_flags & car_flag::Flag4))
         {
             this->field_50_car_sprite->set_num_40F7B0(13);
         }
-        else if (field_78_bf.bFlag6)
+        else if ((field_78_flags & car_flag::Flag6))
         {
             this->field_50_car_sprite->set_num_40F7B0(19);
         }
