@@ -53,7 +53,7 @@ class Object_2C
     EXPORT void ResolveCollisionWithWorld_522B20(Fix16_Point* f18, Fix16_Point* pPoint, Fix16_Point* speed);
     EXPORT void ResolveCollisionWithMapTile_522BE0(Fix16_Point* pPoint);
     EXPORT void ResolveCollisionWithMapTileHorizontal_522D00(Fix16_Point* pPoint);
-    EXPORT void HandleCollision_522E10(Fix16_Point* a2);
+    EXPORT void HandleCollision_522E10(Fix16_Point* pPoint);
     EXPORT char_type sub_5233A0(Fix16 a2);
     EXPORT void HandleCollisionOutcome_523440(Fix16_Point point, char_type bUnknown1, char_type bUnknown2);
     EXPORT char_type HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point* pPoint, u8* a4, Fix16 a5);
@@ -130,7 +130,7 @@ class Object_2C
     EXPORT void UpdateLight_527A30();
     EXPORT void sub_525100();
 
-    EXPORT void IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 a);
+    EXPORT void IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 angle);
     EXPORT void Sprite_UpdateZFromSlopeAndTile_522FA0(Sprite* pSprite);
 
     // 9.6f 0x475A70
