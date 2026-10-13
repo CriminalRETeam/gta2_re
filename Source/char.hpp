@@ -1,5 +1,6 @@
 #pragma once
 
+#include "char_b4_flags.hpp"
 #include "BitSet32.hpp"
 #include "Function.hpp"
 #include "Object_3C.hpp"
@@ -115,8 +116,8 @@ class Char_B4
     s8 field_57;
     union
     {
-        u32 field_58_flags; // TODO: Only use CompilerBitField32
-        CompilerBitField32 field_58_flags_bf;
+        u32 field_58_flags;
+        CharB4Flags32 field_58_flags_bf;
     };
     u8 field_5C;
     s8 field_5D_unused;
